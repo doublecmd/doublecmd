@@ -2383,6 +2383,10 @@ msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "Избриши"
 
+#: tfrmmain.actdeleteactivegroup.caption
+msgid "Delete active group"
+msgstr ""
+
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2584,9 +2588,17 @@ msgstr "Прекини мрежну &везу"
 msgid "Network &Quick Connect..."
 msgstr "&Брза мрежна веза..."
 
+#: tfrmmain.actnewgroup.caption
+msgid "New Group"
+msgstr ""
+
 #: tfrmmain.actnewtab.caption
 msgid "&New Tab"
 msgstr "&Нови лист"
+
+#: tfrmmain.actnextgroup.caption
+msgid "Switch to next group"
+msgstr ""
 
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
@@ -2634,6 +2646,10 @@ msgstr "Подесите положај деобе"
 msgid "&Paste"
 msgstr "&Прилепи"
 
+#: tfrmmain.actprevgroup.caption
+msgid "Switch to previous group"
+msgstr ""
+
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "Пређи на &претходни лист"
@@ -2673,6 +2689,10 @@ msgstr "Преименуј"
 msgid "&Rename Tab"
 msgstr "&Преименуј лист"
 
+#: tfrmmain.actrestoreactivegroup.caption
+msgid "Restore Active Group"
+msgstr ""
+
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
 msgstr "&Поврати избор"
@@ -2680,6 +2700,10 @@ msgstr "&Поврати избор"
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "&Обрнути редослед"
+
+#: tfrmmain.actrewriteactivegroup.caption
+msgid "actRewriteActiveGroup"
+msgstr ""
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -3207,6 +3231,12 @@ msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.milinestartgroups.caption
+#, fuzzy
+msgctxt "tfrmmain.milinestartgroups.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.milogclear.caption
 msgid "Clear"
 msgstr "Очисти"
@@ -3290,6 +3320,10 @@ msgstr "-"
 msgid "&Files"
 msgstr "Датотеке&"
 
+#: tfrmmain.mnugroups.caption
+msgid "Groups"
+msgstr ""
+
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -3303,6 +3337,10 @@ msgstr "Ознака&"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "Мрежа"
+
+#: tfrmmain.mnurewriteactivegroup.caption
+msgid "Rewrite Active Group"
+msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -9271,6 +9309,26 @@ msgstr "Величина"
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Врста"
+
+#: ulng.rsgroupalreadyexists
+msgid "Group with entered name already exist, overwrite?"
+msgstr ""
+
+#: ulng.rsgroupdeleteactive
+msgid "Sure want to remove Active group from menu?"
+msgstr ""
+
+#: ulng.rsgroupnewgroup
+msgid "Creating new group"
+msgstr ""
+
+#: ulng.rsgroupnewgroupname
+msgid "Group name:"
+msgstr ""
+
+#: ulng.rsgrouprewriteactive
+msgid "Sure want to rewrite Active group with current tabs?"
+msgstr ""
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."

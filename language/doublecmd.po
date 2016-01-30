@@ -2361,6 +2361,10 @@ msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr ""
 
+#: tfrmmain.actdeleteactivegroup.caption
+msgid "Delete active group"
+msgstr ""
+
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2562,8 +2566,16 @@ msgstr ""
 msgid "Network &Quick Connect..."
 msgstr ""
 
+#: tfrmmain.actnewgroup.caption
+msgid "New Group"
+msgstr ""
+
 #: tfrmmain.actnewtab.caption
 msgid "&New Tab"
+msgstr ""
+
+#: tfrmmain.actnextgroup.caption
+msgid "Switch to next group"
 msgstr ""
 
 #: tfrmmain.actnexttab.caption
@@ -2612,6 +2624,10 @@ msgstr ""
 msgid "&Paste"
 msgstr ""
 
+#: tfrmmain.actprevgroup.caption
+msgid "Switch to previous group"
+msgstr ""
+
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr ""
@@ -2651,12 +2667,20 @@ msgstr ""
 msgid "&Rename Tab"
 msgstr ""
 
+#: tfrmmain.actrestoreactivegroup.caption
+msgid "Restore Active Group"
+msgstr ""
+
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
 msgstr ""
 
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
+msgstr ""
+
+#: tfrmmain.actrewriteactivegroup.caption
+msgid "actRewriteActiveGroup"
 msgstr ""
 
 #: tfrmmain.actrightbriefview.caption
@@ -3182,6 +3206,11 @@ msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr ""
 
+#: tfrmmain.milinestartgroups.caption
+msgctxt "TFRMMAIN.MILINESTARTGROUPS.CAPTION"
+msgid "-"
+msgstr ""
+
 #: tfrmmain.milogclear.caption
 msgid "Clear"
 msgstr ""
@@ -3264,6 +3293,10 @@ msgstr ""
 msgid "&Files"
 msgstr ""
 
+#: tfrmmain.mnugroups.caption
+msgid "Groups"
+msgstr ""
+
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -3276,6 +3309,10 @@ msgstr ""
 #: tfrmmain.mnunetwork.caption
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
+msgstr ""
+
+#: tfrmmain.mnurewriteactivegroup.caption
+msgid "Rewrite Active Group"
 msgstr ""
 
 #: tfrmmain.mnushow.caption
@@ -9145,6 +9182,26 @@ msgstr ""
 
 #: ulng.rsfunctype
 msgid "Type"
+msgstr ""
+
+#: ulng.rsgroupalreadyexists
+msgid "Group with entered name already exist, overwrite?"
+msgstr ""
+
+#: ulng.rsgroupdeleteactive
+msgid "Sure want to remove Active group from menu?"
+msgstr ""
+
+#: ulng.rsgroupnewgroup
+msgid "Creating new group"
+msgstr ""
+
+#: ulng.rsgroupnewgroupname
+msgid "Group name:"
+msgstr ""
+
+#: ulng.rsgrouprewriteactive
+msgid "Sure want to rewrite Active group with current tabs?"
 msgstr ""
 
 #: ulng.rsharderrcreate

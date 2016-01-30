@@ -2574,6 +2574,10 @@ msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "삭제"
 
+#: tfrmmain.actdeleteactivegroup.caption
+msgid "Delete active group"
+msgstr ""
+
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2798,10 +2802,18 @@ msgstr "네트워크 연결 해제(&D)"
 msgid "Network &Quick Connect..."
 msgstr "네트워크 빠른 연결(&Q)..."
 
+#: tfrmmain.actnewgroup.caption
+msgid "New Group"
+msgstr ""
+
 #: tfrmmain.actnewtab.caption
 #, fuzzy
 msgid "&New Tab"
 msgstr "새 탭(&N)"
+
+#: tfrmmain.actnextgroup.caption
+msgid "Switch to next group"
+msgstr ""
 
 #: tfrmmain.actnexttab.caption
 #, fuzzy
@@ -2854,6 +2866,10 @@ msgstr "자르기 위치 설정"
 msgid "&Paste"
 msgstr "붙여넣기(&P)"
 
+#: tfrmmain.actprevgroup.caption
+msgid "Switch to previous group"
+msgstr ""
+
 #: tfrmmain.actprevtab.caption
 #, fuzzy
 msgid "Switch to &Previous Tab"
@@ -2898,6 +2914,10 @@ msgstr "이름 바꾸기"
 msgid "&Rename Tab"
 msgstr "탭이름 변경(&N)"
 
+#: tfrmmain.actrestoreactivegroup.caption
+msgid "Restore Active Group"
+msgstr ""
+
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
 msgstr "선택목록 복원(&R)"
@@ -2906,6 +2926,10 @@ msgstr "선택목록 복원(&R)"
 #, fuzzy
 msgid "Re&verse Order"
 msgstr "역순 정렬(&V)"
+
+#: tfrmmain.actrewriteactivegroup.caption
+msgid "actRewriteActiveGroup"
+msgstr ""
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -3457,6 +3481,12 @@ msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.milinestartgroups.caption
+#, fuzzy
+msgctxt "tfrmmain.milinestartgroups.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.milogclear.caption
 msgid "Clear"
 msgstr "비우기"
@@ -3542,6 +3572,10 @@ msgstr "-"
 msgid "&Files"
 msgstr "파일(&F)"
 
+#: tfrmmain.mnugroups.caption
+msgid "Groups"
+msgstr ""
+
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -3555,6 +3589,10 @@ msgstr "선택(&M)"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "네트워크"
+
+#: tfrmmain.mnurewriteactivegroup.caption
+msgid "Rewrite Active Group"
+msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -10189,6 +10227,26 @@ msgstr "크기"
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "형식"
+
+#: ulng.rsgroupalreadyexists
+msgid "Group with entered name already exist, overwrite?"
+msgstr ""
+
+#: ulng.rsgroupdeleteactive
+msgid "Sure want to remove Active group from menu?"
+msgstr ""
+
+#: ulng.rsgroupnewgroup
+msgid "Creating new group"
+msgstr ""
+
+#: ulng.rsgroupnewgroupname
+msgid "Group name:"
+msgstr ""
+
+#: ulng.rsgrouprewriteactive
+msgid "Sure want to rewrite Active group with current tabs?"
+msgstr ""
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."

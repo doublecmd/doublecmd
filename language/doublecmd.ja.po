@@ -2363,6 +2363,10 @@ msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "削除"
 
+#: tfrmmain.actdeleteactivegroup.caption
+msgid "Delete active group"
+msgstr ""
+
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2564,9 +2568,17 @@ msgstr "ネットワーク切断(&D)…"
 msgid "Network &Quick Connect..."
 msgstr "ネットワークへの（お急ぎ）接続(&Q)…"
 
+#: tfrmmain.actnewgroup.caption
+msgid "New Group"
+msgstr ""
+
 #: tfrmmain.actnewtab.caption
 msgid "&New Tab"
 msgstr "新しいタブ(&N)"
+
+#: tfrmmain.actnextgroup.caption
+msgid "Switch to next group"
+msgstr ""
 
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
@@ -2614,6 +2626,10 @@ msgstr "分割位置を設定"
 msgid "&Paste"
 msgstr "貼り付け(&P)"
 
+#: tfrmmain.actprevgroup.caption
+msgid "Switch to previous group"
+msgstr ""
+
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "前のタブに切り替え(&P)"
@@ -2653,6 +2669,10 @@ msgstr "名前の変更"
 msgid "&Rename Tab"
 msgstr "タブの名前を変更(&R)"
 
+#: tfrmmain.actrestoreactivegroup.caption
+msgid "Restore Active Group"
+msgstr ""
+
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
 msgstr "選択を元に戻す(&R)"
@@ -2660,6 +2680,10 @@ msgstr "選択を元に戻す(&R)"
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "順序を逆転(&v)"
+
+#: tfrmmain.actrewriteactivegroup.caption
+msgid "actRewriteActiveGroup"
+msgstr ""
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -3184,6 +3208,12 @@ msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.milinestartgroups.caption
+#, fuzzy
+msgctxt "tfrmmain.milinestartgroups.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.milogclear.caption
 msgid "Clear"
 msgstr "クリア"
@@ -3266,6 +3296,10 @@ msgstr "-"
 msgid "&Files"
 msgstr "ファイル(&F)"
 
+#: tfrmmain.mnugroups.caption
+msgid "Groups"
+msgstr ""
+
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -3279,6 +3313,10 @@ msgstr "マーク(&M)"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "ネットワーク(&N)"
+
+#: tfrmmain.mnurewriteactivegroup.caption
+msgid "Rewrite Active Group"
+msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -9167,6 +9205,26 @@ msgstr "サイズ"
 msgid "Type"
 msgstr "種類"
 
+#: ulng.rsgroupalreadyexists
+msgid "Group with entered name already exist, overwrite?"
+msgstr ""
+
+#: ulng.rsgroupdeleteactive
+msgid "Sure want to remove Active group from menu?"
+msgstr ""
+
+#: ulng.rsgroupnewgroup
+msgid "Creating new group"
+msgstr ""
+
+#: ulng.rsgroupnewgroupname
+msgid "Group name:"
+msgstr ""
+
+#: ulng.rsgrouprewriteactive
+msgid "Sure want to rewrite Active group with current tabs?"
+msgstr ""
+
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "ハードリンク作成時エラーが発生しました。"
@@ -11478,3 +11536,4 @@ msgstr "置換の回数：%d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "置換は起こりませんでした。"
+

@@ -2379,6 +2379,10 @@ msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "Șterge"
 
+#: tfrmmain.actdeleteactivegroup.caption
+msgid "Delete active group"
+msgstr ""
+
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2580,9 +2584,17 @@ msgstr "&Deconectare Rețea"
 msgid "Network &Quick Connect..."
 msgstr "Conexiunea Rapidă (&q) Rețea..."
 
+#: tfrmmain.actnewgroup.caption
+msgid "New Group"
+msgstr ""
+
 #: tfrmmain.actnewtab.caption
 msgid "&New Tab"
 msgstr "Filă &Nouă"
+
+#: tfrmmain.actnextgroup.caption
+msgid "Switch to next group"
+msgstr ""
 
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
@@ -2630,6 +2642,10 @@ msgstr "Determină poziția separatorului"
 msgid "&Paste"
 msgstr "Li&pește"
 
+#: tfrmmain.actprevgroup.caption
+msgid "Switch to previous group"
+msgstr ""
+
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "Comută la Fila &precedentă"
@@ -2669,6 +2685,10 @@ msgstr "Redenumește"
 msgid "&Rename Tab"
 msgstr "&Redenumește Fila"
 
+#: tfrmmain.actrestoreactivegroup.caption
+msgid "Restore Active Group"
+msgstr ""
+
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
 msgstr "&Restaurează Selecția"
@@ -2676,6 +2696,10 @@ msgstr "&Restaurează Selecția"
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "In&versează Ordinea"
+
+#: tfrmmain.actrewriteactivegroup.caption
+msgid "actRewriteActiveGroup"
+msgstr ""
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -3203,6 +3227,12 @@ msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.milinestartgroups.caption
+#, fuzzy
+msgctxt "tfrmmain.milinestartgroups.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.milogclear.caption
 msgid "Clear"
 msgstr "Golește"
@@ -3286,6 +3316,10 @@ msgstr "-"
 msgid "&Files"
 msgstr "&Fișiere"
 
+#: tfrmmain.mnugroups.caption
+msgid "Groups"
+msgstr ""
+
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -3299,6 +3333,10 @@ msgstr "&Marchează"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "Rețea"
+
+#: tfrmmain.mnurewriteactivegroup.caption
+msgid "Rewrite Active Group"
+msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -9264,6 +9302,26 @@ msgstr "Mărime"
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Tip"
+
+#: ulng.rsgroupalreadyexists
+msgid "Group with entered name already exist, overwrite?"
+msgstr ""
+
+#: ulng.rsgroupdeleteactive
+msgid "Sure want to remove Active group from menu?"
+msgstr ""
+
+#: ulng.rsgroupnewgroup
+msgid "Creating new group"
+msgstr ""
+
+#: ulng.rsgroupnewgroupname
+msgid "Group name:"
+msgstr ""
+
+#: ulng.rsgrouprewriteactive
+msgid "Sure want to rewrite Active group with current tabs?"
+msgstr ""
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
