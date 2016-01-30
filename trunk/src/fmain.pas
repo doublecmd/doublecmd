@@ -2,7 +2,7 @@
    Double Commander
    -------------------------------------------------------------------------
    Licence  : GNU GPL v 2.0
-   Copyright (C) 2006-2015 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (Alexx2000@mail.ru)
 
    Main Dialog window
 
@@ -40,7 +40,7 @@ unit fMain;
 interface
 
 uses
-  Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
+  Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList, ShellCtrls,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls, LResources,
   KASToolBar, KASComboBox, uCmdBox, uFilePanelSelect, uBriefFileView,
   uFileView, uFileSource, uFileViewNotebook, uFile, LCLVersion,
@@ -212,7 +212,6 @@ type
     mnuDeleteActiveGroup: TMenuItem;
     mnuRewriteActiveGroup: TMenuItem;
     miLineStartGroups: TMenuItem;
-
     mnuRestoreActiveGroup: TMenuItem;
     mnuNewGroup: TMenuItem;
     mnuGroups: TMenuItem;
@@ -473,7 +472,49 @@ type
     TreePanel: TPanel;
     TreeSplitter: TSplitter;
     ShellTreeView: TCustomTreeView;
-
+    miLine10: TMenuItem;
+    miLine11: TMenuItem;
+    miLine21: TMenuItem;
+    miLine23: TMenuItem;
+    miLine26: TMenuItem;
+    miLine39: TMenuItem;
+    miLine40: TMenuItem;
+    actSetAllTabsOptionNormal: TAction;
+    actSetAllTabsOptionPathLocked: TAction;
+    actSetAllTabsOptionPathResets: TAction;
+    actSetAllTabsOptionDirsInNewTab: TAction;
+    actConfigFolderTabs: TAction;
+    actLoadFavoriteTabs: TAction;
+    actConfigFavoriteTabs: TAction;
+    actSaveFavoriteTabs: TAction;
+    actReloadFavoriteTabs: TAction;
+    actNextFavoriteTabs: TAction;
+    actPreviousFavoriteTabs: TAction;
+    pmFavoriteTabs: TPopupMenu;
+    mnuRenameTab: TMenuItem;
+    mnuConfigFolderTabs: TMenuItem;
+    mnuConfigFavoriteTabs: TMenuItem;
+    mnuConfigurationFavoriteTabs: TMenuItem;
+    mnuSaveFavoriteTabs: TMenuItem;
+    mnuLoadFavoriteTabs: TMenuItem;
+    mnuConfigurationFolderTabs: TMenuItem;
+    mnuSetAllTabsOptionNormal: TMenuItem;
+    mnuSetAllTabsOptionPathLocked: TMenuItem;
+    mnuSetAllTabsOptionPathResets: TMenuItem;
+    mnuSetAllTabsOptionDirsInNewTab: TMenuItem;
+    miConfigFolderTabs: TMenuItem;
+    miConfigFavoriteTabs: TMenuItem;
+    miNextTab: TMenuItem;
+    miPrevTab: TMenuItem;
+    miSaveTabs: TMenuItem;
+    miLoadTabs: TMenuItem;
+    miSaveFavoriteTabs: TMenuItem;
+    miLoadFavoriteTabs: TMenuItem;
+    miSetAllTabsOptionNormal: TMenuItem;
+    miSetAllTabsOptionPathLocked: TMenuItem;
+    miSetAllTabsOptionPathResets: TMenuItem;
+    miSetAllTabsOptionDirsInNewTab: TMenuItem;
+    miOpenDirInNewTab: TMenuItem;
     procedure actExecute(Sender: TObject);
     procedure btnF8MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -734,16 +775,14 @@ type
     function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer): TFileView;
     function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TXmlConfig; ANode: TXmlNode): TFileView;
     procedure AssignEvents(AFileView: TFileView);
-    function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer; CloseLocked: Boolean = True): LongInt;
+    function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer; CloseLocked: Boolean = True; ConfirmCloseLocked: integer = 0; ShowButtonAll: Boolean = False): LongInt;
     procedure LoadTabsIni(ANoteBook: TFileViewNotebook);
-    procedure LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook);
-    procedure SaveTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook);
-
+    procedure LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook; TabSectionName: string);
+    procedure SaveTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook; ASaveHistory: boolean);
     procedure LoadGroupXml(AConfig: TXmlConfig; AGroupName: string);
     procedure SaveGroupXml(AConfig: TXmlConfig; AGroupName: string);
     procedure DeleteGroupXml(AConfig: TXmlConfig; AGroupName: string);
     procedure UpdateGroupsMainMenuItems; // add menu items on FormCreate if file 'groups.xml' is exists
-
     procedure ToggleConsole;
     procedure UpdateWindowView;
     procedure MinimizeWindow;
@@ -774,6 +813,7 @@ type
     }
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   var DropParams: TDropParams);
+
 
     property Commands: TMainCommands read FCommands implements IFormCommands;
     property SelectedPanel: TFilePanelSelect read PanelSelected write SetPanelSelected;
@@ -2034,6 +2074,12 @@ begin
   // Process all queued asynchronous events before closing
   // (frmMainAfterShow, nbPageAfterMouseDown, etc.).
   Application.ProcessMessages;
+
+  if tb_close_duplicate_when_closing in gDirTabOptions then
+  begin
+    Commands.cm_CloseDuplicateTabs(['LeftTabs']);
+    Commands.cm_CloseDuplicateTabs(['RightTabs']);
+  end;
 
   if gSaveConfiguration then
   try
@@ -3636,7 +3682,33 @@ begin
     if FileViewNotebook.DoubleClickPageIndex < 0 then
       Commands.DoNewTab(FileViewNotebook)
     else
-      Commands.DoCloseTab(FileViewNotebook, FileViewNotebook.DoubleClickPageIndex);
+    begin
+      case gDirTabActionOnDoubleClick of
+        tadc_Nothing: begin end;
+        tadc_CloseTab: Commands.DoCloseTab(FileViewNotebook, FileViewNotebook.DoubleClickPageIndex);
+        tadc_FavoriteTabs: Commands.cm_LoadFavoriteTabs([]);
+        tadc_TabsPopup:
+          begin
+            if FileViewNotebook.DoubleClickPageIndex<>-1 then
+            begin
+              // Check tab options items.
+              case FileViewNotebook.Page[FileViewNotebook.DoubleClickPageIndex].LockState of
+                tlsNormal:
+                  miTabOptionNormal.Checked := True;
+                tlsPathLocked:
+                  miTabOptionPathLocked.Checked := True;
+                tlsDirsInNewTab:
+                  miTabOptionDirsInNewTab.Checked := True;
+                tlsPathResets:
+                  miTabOptionPathResets.Checked := True;
+              end;
+              pmTabMenu.Parent := FileViewNotebook;
+              pmTabMenu.Tag := FileViewNotebook.DoubleClickPageIndex;
+              pmTabMenu.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+            end;
+          end;
+      end;
+    end;
   end;
 end;
 
@@ -3746,13 +3818,19 @@ var
   Page, NewPage: TFileViewPage;
   PageAlreadyExists: Boolean = False;
   i: Integer;
+  tlsLockStateToEvaluate: TTabLockState;
 begin
   Result:= True;
   if FileView.NotebookPage is TFileViewPage then
   begin
     Page := FileView.NotebookPage as TFileViewPage;
 
-    case Page.LockState of
+    tlsLockStateToEvaluate:=Page.LockState;
+    if tlsLockStateToEvaluate=tlsPathLocked then
+      if MsgBox(Format(rsMsgTabForOpeningInNewTab,[Page.Caption]), [msmbYes, msmbCancel], msmbCancel, msmbCancel) = mmrYes then
+        tlsLockStateToEvaluate:=tlsDirsInNewTab;
+
+    case tlsLockStateToEvaluate of
       tlsPathLocked:
         Result := False;  // do not change directory in this tab
 
@@ -3764,14 +3842,16 @@ begin
           begin
             ANoteBook := Page.Notebook;
 
-            { TODO -oVG : add option to turn on/off this feature }
-            for i := 0 to ANotebook.PageCount - 1 do
+            if tb_reusing_tab_when_possible in gDirTabOptions then
             begin
-              NewPage := ANotebook.Page[i];
-              PageAlreadyExists := Assigned(NewPage.FileView) and
-                mbCompareFileNames(NewPage.FileView.CurrentPath, NewPath);
-              if PageAlreadyExists then
-                Break;
+              for i := 0 to ANotebook.PageCount - 1 do
+              begin
+                NewPage := ANotebook.Page[i];
+                PageAlreadyExists := Assigned(NewPage.FileView) and
+                  mbCompareFileNames(NewPage.FileView.CurrentPath, NewPath);
+                if PageAlreadyExists then
+                  Break;
+              end;
             end;
 
             if not PageAlreadyExists then
@@ -4120,28 +4200,42 @@ begin
   end;
 end;
 
-function TfrmMain.RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer; CloseLocked: Boolean): LongInt;
+//                         We ask the closing locked tab confirmation according to...
+// ConfirmCloseLocked = 0  ...option "tb_confirm_close_locked_tab".
+// ConfirmCloseLocked = 1  ...no matter the option, we ask confirmation
+// ConfirmCloseLocked = 2  ...no matter the option, we do not ask confirmation
+function TfrmMain.RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer; CloseLocked: Boolean = True; ConfirmCloseLocked: integer = 0; ShowButtonAll: Boolean = False): LongInt;
+var
+  UserAnswer: TMyMsgResult;
 begin
   Result:= -1;
   if (ANoteBook.PageCount > 1) and
      (iPageIndex >= 0) and
      (iPageIndex < ANoteBook.PageCount) then
   begin
-    if ANoteBook.Page[iPageIndex].LockState <> tlsNormal then
+    if (ANoteBook.Page[iPageIndex].LockState <> tlsNormal) AND (((ConfirmCloseLocked=0) AND (tb_confirm_close_locked_tab in gDirTabOptions)) OR (ConfirmCloseLocked=1)) then
     begin
        if CloseLocked then
-         case msgYesNoCancel(Format(rsMsgCloseLockedTab, [ANoteBook.Page[iPageIndex].Caption])) of
+       begin
+         if ShowButtonAll then
+           UserAnswer := MsgBox(Format(rsMsgCloseLockedTab, [ANoteBook.Page[iPageIndex].Caption]), [msmbYes, msmbAll, msmbNo, msmbCancel], msmbYes, msmbCancel)
+         else
+           UserAnswer := MsgBox(Format(rsMsgCloseLockedTab, [ANoteBook.Page[iPageIndex].Caption]), [msmbYes, msmbNo, msmbCancel], msmbYes, msmbCancel);
+
+         case UserAnswer of
           mmrNo:
             Exit(1);
           mmrCancel, mmrNone:
             Exit(2);
          end
+       end
        else
          Exit(1);
     end;
     if Assigned(QuickViewPanel) then QuickViewClose;
     ANoteBook.RemovePage(iPageIndex);
-    Result:= 0;
+
+    if UserAnswer=mmrAll then Result:=3 else Result:= 0;
   end;
 end;
 
@@ -4221,9 +4315,7 @@ begin
     ANoteBook.PageIndex := iActiveTab;
 end;
 
-
-
-procedure TfrmMain.LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook);
+procedure TfrmMain.LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook; TabSectionName:string);
 // default was ABrunch: 'Tabs/OpenedTabs/'
 var
   sPath, sViewType: String;
@@ -4235,9 +4327,9 @@ var
   RootNode, TabNode, ViewNode: TXmlNode;
 begin
   if ANoteBook = nbLeft then
-    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch+ 'Left')
+    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch+'/'+TabSectionName)
   else
-    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch+ 'Right');
+    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch+'/'+TabSectionName);
 
   if Assigned(RootNode) then
   begin
@@ -4324,8 +4416,8 @@ begin
 end;
 
 
-procedure TfrmMain.SaveTabsXml(AConfig: TXmlConfig;ABrunch:string; ANoteBook: TFileViewNotebook);
-// brunch was: 'Tabs/OpenedTabs'
+procedure TfrmMain.SaveTabsXml(AConfig: TXmlConfig;ABrunch:string; ANoteBook: TFileViewNotebook; ASaveHistory:boolean);
+// default was: 'Tabs/OpenedTabs'
 var
   I: Integer;
   TabsSection: String;
@@ -4349,10 +4441,9 @@ begin
 
       Page := ANoteBook.Page[I];
       Page.SaveConfiguration(AConfig, TabNode);
-      Page.FileView.SaveConfiguration(AConfig, ViewNode);
+      Page.FileView.SaveConfiguration(AConfig, ViewNode, ASaveHistory);
     end;
 end;
-
 
 procedure TfrmMain.UpdateGroupsMainMenuItems;
 var
@@ -4410,7 +4501,6 @@ begin
 
 end;
 
-
 procedure TfrmMain.LoadGroupXml(AConfig: TXmlConfig;
   AGroupName: string);
 var
@@ -4418,10 +4508,7 @@ var
   s:string;
   aParentNode,cNode: TXmlNode;
 begin
-
   // 1) Verify - is the AGroupName exist in brunch GroupsNameBank?
-
-
   aParentNode:=AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank');
   for i:=0 to aParentNode.ChildNodes.Count do
   begin
@@ -4435,11 +4522,10 @@ begin
   // 2) Save current active group data to brunch 'Groups/<AGroupName>'
 
   LeftTabs.DestroyAllPages;
-  LoadTabsXml(AConfig,'Groups/'+AGroupName,nbLeft);
+  LoadTabsXml(AConfig,'Groups/'+AGroupName,nbLeft, 'Left');
 
   RightTabs.DestroyAllPages;
-  LoadTabsXml(AConfig,'Groups/'+AGroupName,nbRight);
-
+  LoadTabsXml(AConfig,'Groups/'+AGroupName,nbRight, 'Right');
 end;
 
 procedure TfrmMain.SaveGroupXml(AConfig: TXmlConfig;
@@ -4454,8 +4540,9 @@ begin
 
   // 2) Save current active group data to brunch 'Groups/<AGroupName>'
 
-  SaveTabsXml(AConfig,'Groups/'+AGroupName,nbLeft);
-  SaveTabsXml(AConfig,'Groups/'+AGroupName,nbRight);
+  SaveTabsXml(AConfig, 'Groups/'+AGroupName, nbLeft, gSaveDirHistory);
+  SaveTabsXml(AConfig, 'Groups/'+AGroupName, nbRight, gSaveDirHistory);
+
 end;
 
 procedure TfrmMain.DeleteGroupXml(AConfig: TXmlConfig; AGroupName: string);
@@ -5208,8 +5295,8 @@ begin
   end
   else
   begin
-    LoadTabsXml(gConfig,'Tabs/OpenedTabs/', nbLeft);
-    LoadTabsXml(gConfig,'Tabs/OpenedTabs/', nbRight);
+    LoadTabsXml(gConfig,'Tabs/OpenedTabs', nbLeft, 'Left');
+    LoadTabsXml(gConfig,'Tabs/OpenedTabs', nbRight, 'Right');
   end;
 
   LoadTabsCommandLine(CommandLineParams);
@@ -5321,8 +5408,8 @@ var
   ANode: TXmlNode;
 begin
   (* Save all tabs *)
-  SaveTabsXml(gConfig,'Tabs/OpenedTabs/', nbLeft);
-  SaveTabsXml(gConfig,'Tabs/OpenedTabs/', nbRight);
+  SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
+  SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbRight, gSaveDirHistory);
 
   (* Save window bounds and state *)
   ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);

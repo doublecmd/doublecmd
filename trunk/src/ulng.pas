@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Localization core unit
 
-   Copyright (C) 2007-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -62,6 +62,7 @@ resourcestring
   rsMsgPopUpHotAdd = '&Add %s';
   rsMsgPopUpHotCnf = '&Configure';
   rsMsgCloseLockedTab = 'This tab (%s) is locked! Close anyway?';
+  rsMsgTabForOpeningInNewTab = 'This tab (%s) is locked! Open directory in another tab?';
   rsSpaceMsg = 'Files: %d, Dirs: %d, Size: %s (%s bytes)';
   rsSelectDir = 'Select a directory';
   rsMarkPlus = 'Select mask';
@@ -221,6 +222,26 @@ resourcestring
   rsMsgSpecialDirGotoTC = 'Go to Windows special folder (TC)...';
   rsMsgSpecialDirGotoOther = 'Go to other Windows special folder...';
   rsMsgSpecialDirGotoEnvVar = 'Go to environment variable...';
+
+  //Favorite Tabs related
+  rsMsgFavoriteTabsModifiedWantToSave = 'Favorite Tabs have been modified. Do you want to save before to exit?';
+  rsMsgFavoriteTabsEnterName = 'Enter a name this Favorite Tabs entry';
+  rsMsgFavoriteTabsEnterNameTitle = 'Saving a new Favorite Tabs entry';
+  rsMsgFavoriteTabsSubMenuName = 'Submenu name';
+  rsMsgFavoriteTabsDragHereEntry = 'Drag here other entries';
+  rsMsgFavoriteTabsName = 'Name';
+  rsMsgFavoriteTabsSimpleSeparator = '(separator)';
+  rsMsgFavoriteTabsSimpleMenu = 'Menu name:';
+  rsMsgFavoriteTabsEndOfMenu = '(end of sub menu)';
+  rsMsgFavortieTabsSaveOverExisting = 'Save current tabs over existing Favorite Tabs entry';
+  rsMsgFavoriteTabsSaveLastLoadOver = 'Save to Favorite Tabs over last loaded entry (%s)';
+  rsOptFavoriteTabsWhereToAddInList = 'Add at beginning;Add at the end;Alphabetical sort';
+  rsMsgFavoriteTabsNameSample = 'This will load your Favorites Tabs entry setup called %s';
+  rsMsgFavoriteTabsThisWillLoadTabFile = 'The file with tabs info is: "%s"';
+  rsMsgFavoriteTabsHasBeenAdded = 'Favorite Tabs have been added in memory!'; //Don't write "Saved" since it will be saved only when quiting.
+  rsMsgFavoriteTabsDeleteAllEntries = 'Are you sure you want to remove all entries of your Favorite Tabs? (There is no "undo" to this action!)';
+  rsMsgFavoriteTabsErrorLoading = 'Error loading Favorite Tabs...';
+  rsMsgFavoriteTabsErrorSaving = 'Error saving Favorite Tabs...';
 
   //Total Commander related message
   rsMsgLocateTCExecutable = 'Locate TC executable file (totalcmd.exe or totalcmd64.exe)';
@@ -555,6 +576,7 @@ resourcestring
   rsOptionsEditorFileAssoc = 'File associations';
   rsOptionsEditorFileAssicExtra = 'File associations extra';
   rsOptionsEditorDirectoryHotlist = 'Directory Hotlist';
+  rsOptionsEditorFavoriteTabs = 'Favorite Tabs';
   //-------------------------------
   rsOptConfigSortOrder = 'Classic, legacy order;Alphabetic order (but language still first)';
   rsOptDifferFramePosition = 'Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right';
@@ -630,6 +652,8 @@ resourcestring
   rsSimpleWordResult = 'Result';
   rsSimpleWordPreview = 'Preview';
   rsSimpleWordColumnSingular = 'Column';
+  rsSimpleWordSaved = 'Saved!';
+  
   // Plugins
   rsOptPluginsActive = 'Active';
   rsOptPluginsName = 'Name';
@@ -666,6 +690,8 @@ resourcestring
   rsExecuteViaTerminalClose = 'Execute via terminal and close';
   rsExecuteViaTerminalStayOpen = 'Execute via terminal and stay open';
   rsConfigurationFileAssociation = 'Configure file association';
+  //Folder tab
+  rsMsgTabsOptionsModifiedWantToSave = 'Options regarding folder tabs have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
   //Variables
   rsConfirmExecution = 'Confirming command line and parameters';
   rsVarHelpWith = 'Help with "%" variables';

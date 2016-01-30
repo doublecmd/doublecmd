@@ -1,3 +1,25 @@
+{
+   Double Commander
+   -------------------------------------------------------------------------
+   This unit contains TFileViewPage and TFileViewNotebook objects.
+
+   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+}
+
 unit uFileViewNotebook; 
 
 {$mode objfpc}{$H+}
@@ -270,6 +292,18 @@ begin
 end;
 
 procedure TFileViewPage.UpdateTitle;
+  {$IFDEF MSWINDOWS}
+  function LocalGetDriveName(A:string):string;
+  begin
+    result:=LowerCase(ExtractFileDrive(A));
+    if length(result)>2 then // Server path name are shown simply like \: in TC so let's do the same for those who get used to that.
+      result:='\:'
+    else
+      if Lowercase(A) = (result+DirectorySeparator) then
+        result:=''; //To avoid to get "c:C:" :-)
+  end;
+ {$ENDIF}
+
 var
   NewCaption: String;
 begin
@@ -296,6 +330,16 @@ begin
         end;
       FCurrentTitle := NewCaption;
     end;
+
+    {$IFDEF MSWINDOWS}
+    if tb_show_drive_letter in gDirTabOptions then
+    begin
+      if (FileView.FileSource is TArchiveFileSource) then
+        with (FileView.FileSource as TArchiveFileSource) do NewCaption := LocalGetDriveName(ArchiveFileName) + NewCaption
+      else
+        NewCaption := LocalGetDriveName(FileView.CurrentPath) + NewCaption;
+    end;
+    {$ENDIF}
 
     if (FLockState in [tlsPathLocked, tlsPathResets, tlsDirsInNewTab]) and
        (tb_show_asterisk_for_locked in gDirTabOptions) then
@@ -358,7 +402,8 @@ begin
   else
     begin
       LockPath := '';
-      FPermanentTitle := '';
+      if not (tb_keep_renamed_when_back_normal in gDirTabOptions) then
+        FPermanentTitle := '';
     end;
   FLockState := NewLockState;
   UpdateTitle;

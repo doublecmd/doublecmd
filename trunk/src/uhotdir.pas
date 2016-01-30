@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Load/Save/WorkingWith HotDir
 
-   Copyright (C) 2009-2014  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2016  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ const
   ICONINDEX_DIRECTORYNOTPRESENTHERE = 1;
   ICONINDEX_SUBMENUWITHMISSING = 2;
   ICONINDEX_NEWADDEDDIRECTORY = 3;
-  ICONINDEXNAME:array[0..3] of string = ('submenu','dirmissing','submenuwithmissing','newaddition');
+  ICONINDEXNAME:array[0..5] of string = ('submenu','dirmissing','submenuwithmissing','newaddition','newadditionfavtabs','submenufavtabs');
 
   HOTLIST_SEPARATORSTRING:string='···························';
   TERMINATORNOTPRESENT = ':-<#/?*+*?\#>-:';

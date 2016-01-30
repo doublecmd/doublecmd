@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Log options page
 
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -160,7 +160,7 @@ begin
   FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
 end;
 
-{ TfrmOptionsFileAssoc.CanWeClose }
+{ TfrmOptionsLog.CanWeClose }
 function TfrmOptionsLog.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
 var
   Answer: TMyMsgResult;

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Compute signature of a form, frame, etc. based on current options set
 
-   Copyright (C) 2015  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,85 +28,102 @@ interface
 
 uses
   Classes, EditBtn;
-
 function ComputeSignatureBasedOnComponent(aComponent: TComponent; seed: dword): dword;
+function ComputeSignatureSingleComponent(aComponent: TComponent; seed: dword): dword;
 
 implementation
 
 uses
+  //uDebug,
   Graphics, ComCtrls, ColorBox, ExtCtrls, Spin, StdCtrls, Math, Dialogs,
   SysUtils, crc;
-
 const
   SAMPLEBYTES: array[0..1] of byte = ($23, $35);
 
-function ComputeSignatureBasedOnComponent(aComponent: TComponent; seed: dword): dword;
+{ ComputeSignatureSingleComponent }
+function ComputeSignatureSingleComponent(aComponent: TComponent; seed: dword): dword;
 var
-  iComponent: integer;
   SampleValue: dword;
   iSampleValue: integer;
   ColorSampleValue: TColor;
 begin
   Result := seed;
 
+  case aComponent.ClassName of
+    'TCheckBox':
+      Result := crc32(Result, @SAMPLEBYTES[ifthen(TCheckBox(aComponent).Checked, 1, 0)], 1);
+
+    'TRadioGroup':
+    begin
+      SampleValue := TRadioGroup(aComponent).ItemIndex;
+      Result := crc32(Result, @SampleValue, sizeof(SampleValue));
+    end;
+
+    //'TRadioButton': 2016-01-20:DB-With LAZ 1.4.4 and FPC 2.6.4 and in Windows 7 64-bits, it looks like after the .LOAD, the RadioButton are all "false"... That's why we'll check the "itemIndex" of the TRadioGroup instead.
+
+    'TEdit':
+      if length(TEdit(aComponent).Text) > 0 then
+        Result := crc32(Result, @TEdit(aComponent).Text[1], length(TEdit(aComponent).Text));
+
+    'TLabeledEdit':
+    begin
+      if length(TLabeledEdit(aComponent).Text) > 0 then
+        Result := crc32(Result, @TLabeledEdit(aComponent).Text[1], length(TLabeledEdit(aComponent).Text));
+    end;
+
+    'TFileNameEdit':
+      if length(TFileNameEdit(aComponent).FileName) > 0 then
+        Result := crc32(Result, @TFileNameEdit(aComponent).FileName[1], length(TFileNameEdit(aComponent).FileName));
+
+    'TComboBox':
+    begin
+      SampleValue := TComboBox(aComponent).ItemIndex;
+      Result := crc32(Result, @SampleValue, sizeof(SampleValue));
+
+      if length(TComboBox(aComponent).Text) > 0 then
+        Result := crc32(Result, @TComboBox(aComponent).Text[1], length(TComboBox(aComponent).Text));
+    end;
+
+    'TSpinEdit':
+    begin
+      SampleValue := TSpinEdit(aComponent).Value;
+      Result := crc32(Result, @SampleValue, sizeof(SampleValue));
+    end;
+
+    'TColorBox':
+    begin
+      ColorSampleValue := TColorBox(aComponent).Selected;
+      Result := crc32(Result, @ColorSampleValue, 4);
+    end;
+
+    'TTrackBar':
+    begin
+      iSampleValue := TTrackBar(aComponent).Position;
+      Result := crc32(Result, @iSampleValue, 4);
+    end;
+  end;
+end;
+
+{ ComputeSignatureBasedOnComponent }
+function ComputeSignatureBasedOnComponent(aComponent: TComponent; seed: dword): dword;
+var
+  iComponent: integer;
+begin
+  Result := seed;
+
   for iComponent := 0 to pred(aComponent.ComponentCount) do
   begin
     if aComponent.Components[iComponent].ComponentCount > 0 then
-      Result := ComputeSignatureBasedOnComponent(aComponent.Components[iComponent], Result);
-
-    case aComponent.Components[iComponent].ClassName of
-      'TCheckBox':
-        Result := crc32(Result, @SAMPLEBYTES[ifthen(TCheckBox(aComponent.Components[iComponent]).Checked, 1, 0)], 1);
-
-      'TRadioButton':
-        Result := crc32(Result, @SAMPLEBYTES[ifthen(TRadioButton(aComponent.Components[iComponent]).Checked, 1, 0)], 1);
-
-      'TEdit':
-        if length(TEdit(aComponent.Components[iComponent]).Text) > 0 then
-          Result := crc32(Result, @TEdit(aComponent.Components[iComponent]).Text[1], length(TEdit(aComponent.Components[iComponent]).Text));
-
-      'TLabeledEdit':
-      begin
-        if length(TLabeledEdit(aComponent.Components[iComponent]).Text) > 0 then
-          Result := crc32(Result, @TLabeledEdit(aComponent.Components[iComponent]).Text[1], length(TLabeledEdit(aComponent.Components[iComponent]).Text));
-      end;
-
-      'TFileNameEdit':
-        if length(TFileNameEdit(aComponent.Components[iComponent]).FileName) > 0 then
-          Result := crc32(Result, @TFileNameEdit(aComponent.Components[iComponent]).FileName[1], length(TFileNameEdit(aComponent.Components[iComponent]).FileName));
-
-      'TComboBox':
-      begin
-        SampleValue := TComboBox(aComponent.Components[iComponent]).ItemIndex;
-        Result := crc32(Result, @SampleValue, sizeof(SampleValue));
-
-        if length(TComboBox(aComponent.Components[iComponent]).Text) > 0 then
-          Result := crc32(Result, @TComboBox(aComponent.Components[iComponent]).Text[1], length(TComboBox(aComponent.Components[iComponent]).Text));
-      end;
-
-      'TSpinEdit':
-      begin
-        SampleValue := TSpinEdit(aComponent.Components[iComponent]).Value;
-        Result := crc32(Result, @SampleValue, sizeof(SampleValue));
-      end;
-
-      'TColorBox':
-      begin
-        ColorSampleValue := TColorBox(aComponent.Components[iComponent]).Selected;
-        Result := crc32(Result, @ColorSampleValue, 4);
-      end;
-
-      'TTrackBar':
-      begin
-        iSampleValue := TTrackBar(aComponent.Components[iComponent]).Position;
-        Result := crc32(Result, @iSampleValue, 4);
-      end;
-    end;
+      Result := ComputeSignatureBasedOnComponent(aComponent.Components[iComponent], Result)
+    else
+      Result := ComputeSignatureSingleComponent(aComponent.Components[iComponent], Result);
   end;
 end;
 
 
 end.
+
+
 
 
 
