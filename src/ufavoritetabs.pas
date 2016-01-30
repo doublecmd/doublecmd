@@ -333,8 +333,8 @@ begin
       FavoriteTabsSavedDirectory := IncludeTrailingPathDelimiter(EnvVarConfigPath) + 'FavoriteTabs';
       if mbForceDirectory(mbExpandFileName(FavoriteTabsSavedDirectory)) then
       begin
-        sBaseFilename:=RemoveInvalidCharsFromFileName(SuggestedFavoriteTabsName);
-        if length(sBaseFilename)=0 then sBaseFilename:='GenericTabFile';
+        sBaseFilename := RemoveInvalidCharsFromFileName(SuggestedFavoriteTabsName);
+        if length(sBaseFilename) = 0 then sBaseFilename := 'GenericTabFile';
         SuggestedFavoriteTabsSavedFilename := FavoriteTabsSavedDirectory + DirectorySeparator + sBaseFilename + '.tab';
         iIndexInCaseFound := 1;
         while mbFileExists(mbExpandFileName(SuggestedFavoriteTabsSavedFilename)) do
@@ -470,7 +470,32 @@ begin
   case KindFavoriteTabMenuPopulation of
     ftmp_FAVTABSWITHCONFIG:
     begin
-      // 3.1. Add a delimiter, a simple line to separate.
+      // 3.1. Add the reload/resave items.
+      if (Count > 0) and (gFavoriteTabsList.GetIndexLastFavoriteTabsLoaded <> -1) then
+      begin
+        miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+        miMainTree.Caption := ('-');
+        if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then
+          TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+        else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then
+          TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+
+        miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+        miMainTree.Action := frmMain.actReloadFavoriteTabs;
+        if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then
+          TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+        else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then
+          TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+
+        miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+        miMainTree.Action := frmMain.actResaveFavoriteTabs;
+        if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then
+          TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+        else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then
+          TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+      end;
+
+      // 3.2. Add a delimiter, a simple line to separate.
       if Count > 0 then
       begin
         miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
@@ -481,16 +506,16 @@ begin
           TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
       end;
 
-      // 3.2 Now add "Add current tabs to Favorite Tabs".
+      // 3.3 Now add "Add current tabs to Favorite Tabs".
       miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
       miMainTree.Action := frmMain.actSaveFavoriteTabs;
       if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
       else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
 
-      // 3.3. If we have at least one entry, let's create the "Save Over Existing.." items.
+      // 3.4. If we have at least one entry, let's create the "Save Over Existing.." items.
       if Count > 0 then
       begin
-        // 3.3.1. Add the "Save current tabs over existing Favorite Tabs entry" in a submenu.
+        // 3.4.1. Add the "Save current tabs over existing Favorite Tabs entry" in a submenu.
         //        It's placed in a sub menu since when it's time to saved since it's less frequent then keeping accessing...
         //        ...and to avoid to click on it by accident and overwring existing stuff.
         miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
@@ -501,27 +526,11 @@ begin
         else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then
           TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
 
-        // 3.3.3. Add "Save over existing entry in Favorite Tabs (%s)", name of *last loaded*
-        //        The loast loaded one has a special treatment to maybe speed up user's eyes to view it and click on it.
-        LocalIndexOfLast := GetIndexLastFavoriteTabsLoaded; //Let's have a temp local value so we won't have "LastFavoriteTabsIndexLoaded2015" who search 3 times...
-        if LocalIndexOfLast <> -1 then
-        begin
-          miSubElement := TMenuItem.Create(mncmpMenuComponentToPopulate);
-          miSubElement.Caption := Format(rsMsgFavoriteTabsSaveLastLoadOver, [FavoriteTabs[LocalIndexOfLast].FavoriteTabsName]);;
-          miSubElement.Tag := LocalIndexOfLast + TAGOFFSET_FAVTABS_FORSAVEOVEREXISTING;
-          miSubElement.OnClick := ProcedureWhenFavoriteTabItemClicked;
-          miMainTree.Add(miSubElement);
-
-          miSubElement := TMenuItem.Create(mncmpMenuComponentToPopulate);
-          miSubElement.Caption := '-';
-          miMainTree.Add(miSubElement);
-        end;
-
-        // 3.3.4. And then add our favorite tabs again BUT with the "TAGOFFSET_FAVTABS_FORSAVEOVEREXISTING" offset in the tag.
+        // 3.4.1. And then add our favorite tabs again BUT with the "TAGOFFSET_FAVTABS_FORSAVEOVEREXISTING" offset in the tag.
         I := 0;
         CompleteMenu(miMainTree, TAGOFFSET_FAVTABS_FORSAVEOVEREXISTING);
 
-        // 3.3.5. Then another separator.
+        // 3.4.2. Then another separator.
         //       Intentionnally there is no separator when user has no favorite tabs and there is one when there is at least one...
         //       It seems stupid to have a single separator when there is only two items...
         //       ... and when we have many items, it looks good to have the "Save's" enclose between separators.
@@ -533,7 +542,13 @@ begin
           TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
       end;
 
-      // 3.4 Now add "Configure Favorite Tabs".
+      // 3.5 Now add "Configure Folder tab".
+      miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
+      miMainTree.Action := frmMain.actConfigFolderTabs;
+      if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
+      else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then  TMenuItem(mncmpMenuComponentToPopulate).Add(miMainTree);
+
+      // 3.6 Now add "Configure Favorite Tabs".
       miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
       miMainTree.Action := frmMain.actConfigFavoriteTabs;
       if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)

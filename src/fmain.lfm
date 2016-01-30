@@ -1904,42 +1904,6 @@ object frmMain: TfrmMain
       Caption = 'Close &All Tabs'
       OnExecute = actExecute
     end
-    object actLoadTabs: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = '&Load Tabs from File'
-      OnExecute = actExecute
-    end
-    object actSaveTabs: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = '&Save Tabs to File'
-      OnExecute = actExecute
-    end
-    object actSetTabOptionNormal: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = '&Normal'
-      OnExecute = actExecute
-    end
-    object actSetTabOptionPathLocked: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = '&Locked'
-      OnExecute = actExecute
-    end
-    object actSetTabOptionPathResets: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = 'Locked with &Directory Changes Allowed'
-      OnExecute = actExecute
-    end
-    object actSetTabOptionDirsInNewTab: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = 'Locked with Directories Opened in New &Tabs'
-      OnExecute = actExecute
-    end
     object actLeftBriefView: TAction
       Tag = 2
       Category = 'Left Panel'
@@ -2454,6 +2418,42 @@ object frmMain: TfrmMain
       Caption = 'Close Duplicate Tabs'
       OnExecute = actExecute
     end
+    object actLoadTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = '&Load Tabs from File'
+      OnExecute = actExecute
+    end
+    object actSaveTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = '&Save Tabs to File'
+      OnExecute = actExecute
+    end
+    object actSetTabOptionNormal: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = '&Normal'
+      OnExecute = actExecute
+    end
+    object actSetTabOptionPathLocked: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = '&Locked'
+      OnExecute = actExecute
+    end
+    object actSetTabOptionPathResets: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Locked with &Directory Changes Allowed'
+      OnExecute = actExecute
+    end
+    object actSetTabOptionDirsInNewTab: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Locked with Directories Opened in New &Tabs'
+      OnExecute = actExecute
+    end
     object actNewGroup: TAction
       Tag = 7
       Category = 'Groups'
@@ -2490,44 +2490,17 @@ object frmMain: TfrmMain
       Caption = 'Switch to previous group'
       OnExecute = actExecute
     end
-    object actConfigFavoriteTabs: TAction
-      Tag = 5
-      Category = 'Configuration'
-      Caption = 'Configuration of Favorite Tabs'
-      OnExecute = actExecute
-    end
     object actConfigFolderTabs: TAction
       Tag = 5
       Category = 'Configuration'
       Caption = 'Configuration of folder tabs'
       OnExecute = actExecute
     end
-    object actLoadFavoriteTabs: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = 'Load tabs from Favorite Tabs'
+    object actConfigFavoriteTabs: TAction
+      Tag = 5
+      Category = 'Configuration'
+      Caption = 'Configuration of Favorite Tabs'
       OnExecute = actExecute
-    end
-    object actSaveFavoriteTabs: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = 'Save current tabs to a New Favorite Tabs'
-      OnExecute = actExecute
-    end
-    object actReloadFavoriteTabs: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = 'Reload the last Favorite Tabs loaded'
-    end
-    object actPreviousFavoriteTabs: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = 'Load the Previous Favorite Tabs in the list'
-    end
-    object actNextFavoriteTabs: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = 'Load the Next Favorite Tabs in the list'
     end
     object actSetAllTabsOptionNormal: TAction
       Tag = 21
@@ -2551,6 +2524,42 @@ object frmMain: TfrmMain
       Tag = 21
       Category = 'Tabs'
       Caption = 'All tabs Locked with Dir Opened in New Tabs'
+      OnExecute = actExecute
+    end
+    object actLoadFavoriteTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Load tabs from Favorite Tabs'
+      OnExecute = actExecute
+    end
+    object actSaveFavoriteTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Save current tabs to a New Favorite Tabs'
+      OnExecute = actExecute
+    end
+    object actReloadFavoriteTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Reload the last Favorite Tabs loaded'
+      OnExecute = actExecute
+    end
+    object actResaveFavoriteTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Resave on the last Favorite Tabs loaded'
+      OnExecute = actExecute
+    end
+    object actPreviousFavoriteTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Load the Previous Favorite Tabs in the list'
+      OnExecute = actExecute
+    end
+    object actNextFavoriteTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Load the Next Favorite Tabs in the list'
       OnExecute = actExecute
     end
   end
