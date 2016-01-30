@@ -2381,10 +2381,6 @@ msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "Apagar"
 
-#: tfrmmain.actdeleteactivegroup.caption
-msgid "Delete active group"
-msgstr ""
-
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2588,17 +2584,9 @@ msgstr "Desl&igar de rede"
 msgid "Network &Quick Connect..."
 msgstr "Ligação &rápida a rede"
 
-#: tfrmmain.actnewgroup.caption
-msgid "New Group"
-msgstr ""
-
 #: tfrmmain.actnewtab.caption
 msgid "&New Tab"
 msgstr "&Novo separador"
-
-#: tfrmmain.actnextgroup.caption
-msgid "Switch to next group"
-msgstr ""
 
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
@@ -2646,10 +2634,6 @@ msgstr "Definir posição do divisor"
 msgid "&Paste"
 msgstr "Co&lar"
 
-#: tfrmmain.actprevgroup.caption
-msgid "Switch to previous group"
-msgstr ""
-
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "Mudar para o se&parador anterior"
@@ -2689,10 +2673,6 @@ msgstr "Renomear"
 msgid "&Rename Tab"
 msgstr "&Renomear separador"
 
-#: tfrmmain.actrestoreactivegroup.caption
-msgid "Restore Active Group"
-msgstr ""
-
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
 msgstr "R&estaurar seleção"
@@ -2700,10 +2680,6 @@ msgstr "R&estaurar seleção"
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "&Inverter ordem"
-
-#: tfrmmain.actrewriteactivegroup.caption
-msgid "actRewriteActiveGroup"
-msgstr ""
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -3231,12 +3207,6 @@ msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmmain.milinestartgroups.caption
-#, fuzzy
-msgctxt "tfrmmain.milinestartgroups.caption"
-msgid "-"
-msgstr "-"
-
 #: tfrmmain.milogclear.caption
 msgid "Clear"
 msgstr "Limpar"
@@ -3320,10 +3290,6 @@ msgstr "-"
 msgid "&Files"
 msgstr "&Ficheiros"
 
-#: tfrmmain.mnugroups.caption
-msgid "Groups"
-msgstr ""
-
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -3337,10 +3303,6 @@ msgstr "&Marcar"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "Rede"
-
-#: tfrmmain.mnurewriteactivegroup.caption
-msgid "Rewrite Active Group"
-msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -9291,26 +9253,6 @@ msgstr "Tamanho"
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Tipo"
-
-#: ulng.rsgroupalreadyexists
-msgid "Group with entered name already exist, overwrite?"
-msgstr ""
-
-#: ulng.rsgroupdeleteactive
-msgid "Sure want to remove Active group from menu?"
-msgstr ""
-
-#: ulng.rsgroupnewgroup
-msgid "Creating new group"
-msgstr ""
-
-#: ulng.rsgroupnewgroupname
-msgid "Group name:"
-msgstr ""
-
-#: ulng.rsgrouprewriteactive
-msgid "Sure want to rewrite Active group with current tabs?"
-msgstr ""
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."

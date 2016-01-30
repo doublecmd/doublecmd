@@ -2556,10 +2556,6 @@ msgctxt "tfrmmain.actdelete.caption"
 msgid "Delete"
 msgstr "Esborra"
 
-#: tfrmmain.actdeleteactivegroup.caption
-msgid "Delete active group"
-msgstr ""
-
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2789,19 +2785,11 @@ msgstr "&Desconnectant xarxa..."
 msgid "Network &Quick Connect..."
 msgstr "Connexió &ràpida de xarxa..."
 
-#: tfrmmain.actnewgroup.caption
-msgid "New Group"
-msgstr ""
-
 #: tfrmmain.actnewtab.caption
 #, fuzzy
 #| msgid "&New tab"
 msgid "&New Tab"
 msgstr "&Nova pestanya"
-
-#: tfrmmain.actnextgroup.caption
-msgid "Switch to next group"
-msgstr ""
 
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
@@ -2855,10 +2843,6 @@ msgstr "Fixar posició de separació"
 msgid "&Paste"
 msgstr "&Enganxa"
 
-#: tfrmmain.actprevgroup.caption
-msgid "Switch to previous group"
-msgstr ""
-
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "Canvia a la pestanya &prèvia"
@@ -2902,10 +2886,6 @@ msgstr "Reanomena"
 msgid "&Rename Tab"
 msgstr "Re&anomena pestanya"
 
-#: tfrmmain.actrestoreactivegroup.caption
-msgid "Restore Active Group"
-msgstr ""
-
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
 msgstr "&Restaura selecció"
@@ -2915,10 +2895,6 @@ msgstr "&Restaura selecció"
 #| msgid "Reverse order"
 msgid "Re&verse Order"
 msgstr "Ordre in&vers"
-
-#: tfrmmain.actrewriteactivegroup.caption
-msgid "actRewriteActiveGroup"
-msgstr ""
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -3467,11 +3443,6 @@ msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr ""
 
-#: tfrmmain.milinestartgroups.caption
-msgctxt "tfrmmain.milinestartgroups.caption"
-msgid "-"
-msgstr ""
-
 #: tfrmmain.milogclear.caption
 msgid "Clear"
 msgstr "Neteja"
@@ -3557,10 +3528,6 @@ msgstr ""
 msgid "&Files"
 msgstr "&Fitxers"
 
-#: tfrmmain.mnugroups.caption
-msgid "Groups"
-msgstr ""
-
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -3574,10 +3541,6 @@ msgstr "&Selecció"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "Xarxa"
-
-#: tfrmmain.mnurewriteactivegroup.caption
-msgid "Rewrite Active Group"
-msgstr ""
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -10003,26 +9966,6 @@ msgstr "Mida"
 #: ulng.rsfunctype
 msgid "Type"
 msgstr "Tipus"
-
-#: ulng.rsgroupalreadyexists
-msgid "Group with entered name already exist, overwrite?"
-msgstr ""
-
-#: ulng.rsgroupdeleteactive
-msgid "Sure want to remove Active group from menu?"
-msgstr ""
-
-#: ulng.rsgroupnewgroup
-msgid "Creating new group"
-msgstr ""
-
-#: ulng.rsgroupnewgroupname
-msgid "Group name:"
-msgstr ""
-
-#: ulng.rsgrouprewriteactive
-msgid "Sure want to rewrite Active group with current tabs?"
-msgstr ""
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
