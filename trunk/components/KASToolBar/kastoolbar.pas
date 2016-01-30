@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Toolbar panel class
 
-   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2016  Koblov Alexander (Alexx2000@mail.ru)
    
    contributors:
      2012 Przemyslaw Nagay (cobines@gmail.com)
@@ -576,7 +576,7 @@ var
         sText := Item.GetEffectiveText;
         if sText = '' then
           sText := Item.GetEffectiveHint;
-        PopupMenuItem.Caption := sText;
+        PopupMenuItem.Caption := StringReplace(StringReplace(sText, #$0A, ' | ', [rfReplaceAll]), ' | ----', '', [rfReplaceAll]);
 
         if Item is TKASNormalItem then
         begin
