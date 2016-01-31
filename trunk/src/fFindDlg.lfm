@@ -978,7 +978,7 @@ object frmFindDlg: TfrmFindDlg
           OnDblClick = lbSearchTemplatesDblClick
           OnSelectionChange = lbSearchTemplatesSelectionChange
           ScrollWidth = 713
-          TabOrder = 0
+          TabOrder = 2
         end
         object lblSearchContents: TPanel
           Left = 3
@@ -993,7 +993,7 @@ object frmFindDlg: TfrmFindDlg
           BorderSpacing.Around = 3
           BevelOuter = bvLowered
           Constraints.MinHeight = 21
-          TabOrder = 1
+          TabOrder = 0
         end
         object pnlLoadSaveBottom: TPanel
           Left = 3
@@ -1006,7 +1006,7 @@ object frmFindDlg: TfrmFindDlg
           BevelOuter = bvNone
           ClientHeight = 30
           ClientWidth = 710
-          TabOrder = 2
+          TabOrder = 1
           object pnlLoadSaveBottomButtons: TPanel
             Left = 300
             Height = 30
@@ -1214,7 +1214,7 @@ object frmFindDlg: TfrmFindDlg
                 Caption = '&Go to file'
                 Constraints.MinWidth = 50
                 OnClick = btnGoToPathClick
-                TabOrder = 1
+                TabOrder = 3
               end
               object btnView: TButton
                 Left = 0
@@ -1228,7 +1228,7 @@ object frmFindDlg: TfrmFindDlg
                 Caption = '&View'
                 Constraints.MinWidth = 50
                 OnClick = btnViewClick
-                TabOrder = 3
+                TabOrder = 1
               end
               object btnEdit: TButton
                 Left = 62
@@ -1278,6 +1278,7 @@ object frmFindDlg: TfrmFindDlg
         BorderSpacing.InnerBorder = 4
         Caption = 'Use template'
         ModalResult = 1
+        OnKeyDown = btnNewSearchKeyDown
         TabOrder = 0
         Visible = False
       end
@@ -1292,6 +1293,7 @@ object frmFindDlg: TfrmFindDlg
         Caption = '&Save'
         ModalResult = 1
         OnClick = btnSearchSaveClick
+        OnKeyDown = btnNewSearchKeyDown
         TabOrder = 1
         Visible = False
       end
@@ -1304,6 +1306,7 @@ object frmFindDlg: TfrmFindDlg
         BorderSpacing.InnerBorder = 4
         Caption = '&Start'
         OnClick = btnStartClick
+        OnKeyDown = btnNewSearchKeyDown
         TabOrder = 2
       end
       object btnStop: TButton
@@ -1316,6 +1319,7 @@ object frmFindDlg: TfrmFindDlg
         Caption = 'C&ancel'
         Enabled = False
         OnClick = btnStopClick
+        OnKeyDown = btnNewSearchKeyDown
         TabOrder = 3
       end
       object btnClose: TButton
@@ -1327,6 +1331,7 @@ object frmFindDlg: TfrmFindDlg
         BorderSpacing.InnerBorder = 4
         Caption = '&Close'
         OnClick = btnCloseClick
+        OnKeyDown = btnNewSearchKeyDown
         TabOrder = 4
       end
       object btnNewSearch: TButton
@@ -1339,6 +1344,7 @@ object frmFindDlg: TfrmFindDlg
         BorderSpacing.InnerBorder = 4
         Caption = '&New search'
         OnClick = btnNewSearchClick
+        OnKeyDown = btnNewSearchKeyDown
         TabOrder = 5
       end
       object btnLastSearch: TButton
@@ -1350,6 +1356,7 @@ object frmFindDlg: TfrmFindDlg
         BorderSpacing.InnerBorder = 4
         Caption = '&Last search'
         OnClick = btnLastSearchClick
+        OnKeyDown = btnNewSearchKeyDown
         TabOrder = 6
       end
     end
