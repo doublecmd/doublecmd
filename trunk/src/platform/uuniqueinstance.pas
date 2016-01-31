@@ -73,6 +73,12 @@ uses
   {$ENDIF}
   Forms, StrUtils, FileUtil, uGlobs, uDebug;
 
+{$IF DEFINED(DARWIN)}
+const
+  SEM_GETVAL = 5; // Return the value of semval (READ)
+  SEM_SETVAL = 8; // Set the value of semval to arg.val (ALTER)
+{$ENDIF}
+
 { TUniqueInstance }
 
 procedure TUniqueInstance.OnNative(Sender: TObject);
