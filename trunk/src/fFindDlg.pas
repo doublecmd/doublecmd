@@ -165,7 +165,6 @@ type
     procedure btnStartClick(Sender: TObject);
     procedure btnViewClick(Sender: TObject);
     procedure btnWorkWithFoundClick(Sender: TObject);
-    procedure cbDirectoryChange(Sender: TObject);
     procedure cbFileSizeFromChange(Sender: TObject);
     procedure cbFileSizeToChange(Sender: TObject);
     procedure cbNotOlderThanChange(Sender: TObject);
