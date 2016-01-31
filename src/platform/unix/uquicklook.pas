@@ -34,7 +34,11 @@ implementation
 
 uses
   DynLibs, FileUtil, Types, Graphics, MacOSAll, CocoaAll, uThumbnails, uDebug,
-  uClassesEx, uGraphics;
+  uClassesEx, uGraphics
+  {$IF (FPC_FULLVERSION >= 30000)}
+  , CGImage
+  {$ENDIF}
+  ;
 
 const
   libQuickLook = '/System/Library/Frameworks/QuickLook.framework/Versions/Current/QuickLook';
