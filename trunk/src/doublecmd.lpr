@@ -61,7 +61,9 @@ uses
   {$ENDIF}
   ;
 
+{$IF NOT (DEFINED(DARWIN) AND DEFINED(LCLQT))}
 {$R *.res}
+{$ENDIF}
 
 {$IF DEFINED(MSWINDOWS)}
 {$R doublecmd.manifest.rc}
