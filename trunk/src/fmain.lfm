@@ -975,16 +975,16 @@ object frmMain: TfrmMain
       Left = 568
       Height = 20
       Top = 0
-      Width = 111
+      Width = 110
       Action = actRunTerm
       Caption = 'Terminal'
       Flat = True
     end
     object btnF10: TSpeedButton
-      Left = 679
+      Left = 678
       Height = 20
       Top = 0
-      Width = 81
+      Width = 82
       Action = actExit
       Caption = 'Exit'
       Flat = True
@@ -1528,7 +1528,7 @@ object frmMain: TfrmMain
     object actFileAssoc: TAction
       Tag = 5
       Category = 'Configuration'
-      Caption = 'Configurationof File &Associations'
+      Caption = 'Configuration of File &Associations'
       OnExecute = actExecute
     end
     object actCompareContents: TAction
@@ -1889,19 +1889,6 @@ object frmMain: TfrmMain
       Tag = 21
       Category = 'Tabs'
       Caption = '&Rename Tab'
-      OnExecute = actExecute
-    end
-    object actCloseTab: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = '&Close Tab'
-      HelpType = htKeyword
-      OnExecute = actExecute
-    end
-    object actCloseAllTabs: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = 'Close &All Tabs'
       OnExecute = actExecute
     end
     object actLeftBriefView: TAction
@@ -2412,48 +2399,6 @@ object frmMain: TfrmMain
       Caption = '&Tree View Panel'
       OnExecute = actExecute
     end
-    object actCloseDuplicateTabs: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = 'Close Duplicate Tabs'
-      OnExecute = actExecute
-    end
-    object actLoadTabs: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = '&Load Tabs from File'
-      OnExecute = actExecute
-    end
-    object actSaveTabs: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = '&Save Tabs to File'
-      OnExecute = actExecute
-    end
-    object actSetTabOptionNormal: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = '&Normal'
-      OnExecute = actExecute
-    end
-    object actSetTabOptionPathLocked: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = '&Locked'
-      OnExecute = actExecute
-    end
-    object actSetTabOptionPathResets: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = 'Locked with &Directory Changes Allowed'
-      OnExecute = actExecute
-    end
-    object actSetTabOptionDirsInNewTab: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = 'Locked with Directories Opened in New &Tabs'
-      OnExecute = actExecute
-    end
     object actNewGroup: TAction
       Tag = 7
       Category = 'Groups'
@@ -2500,6 +2445,67 @@ object frmMain: TfrmMain
       Tag = 5
       Category = 'Configuration'
       Caption = 'Configuration of Favorite Tabs'
+      OnExecute = actExecute
+    end
+    object actCopyAllTabsToOpposite: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Copy all tabs to opposite side'
+      OnExecute = actExecute
+    end
+    object actCloseTab: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = '&Close Tab'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actCloseAllTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Close &All Tabs'
+      OnExecute = actExecute
+    end
+    object actCloseDuplicateTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Close Duplicate Tabs'
+      OnExecute = actExecute
+    end
+    object actLoadTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = '&Load Tabs from File'
+      OnExecute = actExecute
+    end
+    object actSaveTabs: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = '&Save Tabs to File'
+      OnExecute = actExecute
+    end
+    object actSetTabOptionNormal: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = '&Normal'
+      OnExecute = actExecute
+    end
+    object actSetTabOptionPathLocked: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = '&Locked'
+      OnExecute = actExecute
+    end
+    object actSetTabOptionPathResets: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Locked with &Directory Changes Allowed'
+      OnExecute = actExecute
+    end
+    object actSetTabOptionDirsInNewTab: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Locked with Directories Opened in New &Tabs'
       OnExecute = actExecute
     end
     object actSetAllTabsOptionNormal: TAction
