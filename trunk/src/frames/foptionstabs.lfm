@@ -229,7 +229,7 @@ inherited frmOptionsTabs: TfrmOptionsTabs
     end
     object rgTabsActionOnDoubleClick: TRadioGroup
       AnchorSideTop.Control = gbTabs
-      Left = 350
+      Left = 400
       Height = 108
       Top = 6
       Width = 175
