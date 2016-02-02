@@ -43,6 +43,9 @@ type
 
      Currently can only use a single file source with a single file list.
   }
+
+  { TMultiListFileSource }
+
   TMultiListFileSource = class(TFileSource, IMultiListFileSource)
   private
     {en
@@ -77,6 +80,10 @@ type
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetOperationsTypes: TFileSourceOperationTypes; override;
     function GetProperties: TFileSourceProperties; override;
+
+    function GetRetrievableFileProperties: TFilePropertiesTypes; override;
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes); override;
+    function CanRetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes): Boolean; override;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
     function CreateCopyOutOperation(TargetFileSource: IFileSource;
@@ -156,6 +163,23 @@ function TMultiListFileSource.GetProperties: TFileSourceProperties;
 begin
   // Flags depend on the underlying file source.
   Result := FFileSource.GetProperties;
+end;
+
+function TMultiListFileSource.GetRetrievableFileProperties: TFilePropertiesTypes;
+begin
+  Result:= FFileSource.GetRetrievableFileProperties;
+end;
+
+procedure TMultiListFileSource.RetrieveProperties(AFile: TFile;
+  PropertiesToSet: TFilePropertiesTypes);
+begin
+  FFileSource.RetrieveProperties(AFile, PropertiesToSet);
+end;
+
+function TMultiListFileSource.CanRetrieveProperties(AFile: TFile;
+  PropertiesToSet: TFilePropertiesTypes): Boolean;
+begin
+  Result:= FFileSource.CanRetrieveProperties(AFile, PropertiesToSet);
 end;
 
 function TMultiListFileSource.GetFileList: TFileTree;
