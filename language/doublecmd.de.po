@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2015-11-04 18:12+0100\n"
+"PO-Revision-Date: 2016-01-30 18:12+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2177,7 +2177,7 @@ msgstr "&Vorherige Suche(n)"
 
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
-msgstr "In einem neuen Tab(s) öffnen"
+msgstr "In (einem) neuen Tab(s) öffnen"
 
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
@@ -2189,7 +2189,7 @@ msgstr "Alle gefundenen Einträge anzeigen"
 
 #: tfrmfinddlg.mishowineditor.caption
 msgid "Show In Editor"
-msgstr "Anzeigen Redakteur"
+msgstr "Im Editor öffnen"
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -2442,7 +2442,7 @@ msgstr "Alle Reiter ent&fernen"
 
 #: tfrmmain.actcloseduplicatetabs.caption
 msgid "Close Duplicate Tabs"
-msgstr ""
+msgstr "Doppelte Tabs schließen"
 
 #: tfrmmain.actclosetab.caption
 #, fuzzy
@@ -2497,7 +2497,7 @@ msgstr "Konfiguration der Verzeichnis-Hotlist"
 
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Configure toolbar"
-msgstr ""
+msgstr "Toolbar konfigurieren"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -3154,7 +3154,7 @@ msgstr "Bewege &markierten Ordner in das rechte Fenster"
 
 #: tfrmmain.acttreeview.caption
 msgid "&Tree View Panel"
-msgstr ""
+msgstr "Baumansich&t-Panel"
 
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
@@ -3669,7 +3669,7 @@ msgstr "&OK"
 
 #: tfrmmaincommandsdlg.caption
 msgid "Select your internal command"
-msgstr ""
+msgstr "Internen Befehl auswählen"
 
 #: tfrmmaincommandsdlg.cbcategorysortornot.text
 msgctxt "tfrmmaincommandsdlg.cbcategorysortornot.text"
@@ -3683,19 +3683,19 @@ msgstr ""
 
 #: tfrmmaincommandsdlg.cbselectallcategorydefault.caption
 msgid "Select all categories by default"
-msgstr ""
+msgstr "Alle Kategorien nach Standard sortieren"
 
 #: tfrmmaincommandsdlg.gbselection.caption
 msgid "Selection:"
-msgstr ""
+msgstr "Auswahl:"
 
 #: tfrmmaincommandsdlg.lblcategory.caption
 msgid "&Categories:"
-msgstr ""
+msgstr "Kategorien:"
 
 #: tfrmmaincommandsdlg.lblcommandname.caption
 msgid "Command &name:"
-msgstr ""
+msgstr "Befehls&name:"
 
 #: tfrmmaincommandsdlg.lbledtfilter.editlabel.caption
 msgid "&Filter:"
@@ -3703,7 +3703,7 @@ msgstr ""
 
 #: tfrmmaincommandsdlg.lblhint.caption
 msgid "Hint:"
-msgstr ""
+msgstr "Hinweis:"
 
 #: tfrmmaincommandsdlg.lblhotkey.caption
 msgid "Hotkey:"
@@ -3727,7 +3727,7 @@ msgstr "Hilfe"
 
 #: tfrmmaincommandsdlg.lblselectedcommandhint.caption
 msgid "Hint"
-msgstr ""
+msgstr "Hinweis"
 
 #: tfrmmaincommandsdlg.lblselectedcommandhotkey.caption
 #, fuzzy
@@ -4489,7 +4489,7 @@ msgstr "A&usschlussliste für Laufwerke"
 
 #: tfrmoptionsbriefview.gbcolumns.caption
 msgid "Columns size"
-msgstr ""
+msgstr "Spaltenweite"
 
 #: tfrmoptionsbriefview.gbshowfileext.caption
 msgid "Show file extensions"
@@ -4509,11 +4509,11 @@ msgstr ""
 
 #: tfrmoptionsbriefview.rbusefixedcount.caption
 msgid "Fixed columns count"
-msgstr ""
+msgstr "Feste Anzahl von Spalten"
 
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
-msgstr ""
+msgstr "Feste Spaltenweite"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 #, fuzzy
@@ -4649,7 +4649,7 @@ msgstr "Alle"
 #: tfrmoptionscustomcolumns.btnallallowovercolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallallowovercolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Änderung für alle Spalten übernehmen"
 
 #: tfrmoptionscustomcolumns.btnallbackcolor.caption
 #, fuzzy
@@ -4660,7 +4660,7 @@ msgstr "Alle"
 #: tfrmoptionscustomcolumns.btnallbackcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallbackcolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Änderung für alle Spalten übernehmen"
 
 #: tfrmoptionscustomcolumns.btnallbackcolor2.caption
 #, fuzzy
@@ -4671,7 +4671,7 @@ msgstr "Alle"
 #: tfrmoptionscustomcolumns.btnallbackcolor2.hint
 msgctxt "tfrmoptionscustomcolumns.btnallbackcolor2.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Änderung für alle Spalten übernehmen"
 
 #: tfrmoptionscustomcolumns.btnallcursorcolor.caption
 #, fuzzy
@@ -4682,7 +4682,7 @@ msgstr "Alle"
 #: tfrmoptionscustomcolumns.btnallcursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallcursorcolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Änderung für alle Spalten übernehmen"
 
 #: tfrmoptionscustomcolumns.btnallcursortext.caption
 #, fuzzy
@@ -4693,7 +4693,7 @@ msgstr "Alle"
 #: tfrmoptionscustomcolumns.btnallcursortext.hint
 msgctxt "tfrmoptionscustomcolumns.btnallcursortext.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Änderung für alle Spalten übernehmen"
 
 #: tfrmoptionscustomcolumns.btnallfont.caption
 #, fuzzy
@@ -4704,7 +4704,7 @@ msgstr "Alle"
 #: tfrmoptionscustomcolumns.btnallfont.hint
 msgctxt "tfrmoptionscustomcolumns.btnallfont.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Änderung für alle Spalten übernehmen"
 
 #: tfrmoptionscustomcolumns.btnallforecolor.caption
 #, fuzzy
@@ -4715,7 +4715,7 @@ msgstr "Alle"
 #: tfrmoptionscustomcolumns.btnallforecolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallforecolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Änderung für alle Spalten übernehmen"
 
 #: tfrmoptionscustomcolumns.btnallinactivecursorcolor.caption
 #, fuzzy
@@ -4726,7 +4726,7 @@ msgstr "Alle"
 #: tfrmoptionscustomcolumns.btnallinactivecursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallinactivecursorcolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Änderung für alle Spalten übernehmen"
 
 #: tfrmoptionscustomcolumns.btnallinactivemarkcolor.caption
 #, fuzzy
@@ -4737,7 +4737,7 @@ msgstr "Alle"
 #: tfrmoptionscustomcolumns.btnallinactivemarkcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallinactivemarkcolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Änderung für alle Spalten übernehmen"
 
 #: tfrmoptionscustomcolumns.btnallmarkcolor.caption
 #, fuzzy
@@ -4748,7 +4748,7 @@ msgstr "Alle"
 #: tfrmoptionscustomcolumns.btnallmarkcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnallmarkcolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Änderung für alle Spalten übernehmen"
 
 #: tfrmoptionscustomcolumns.btnalluseinactiveselcolor.caption
 #, fuzzy
@@ -4759,7 +4759,7 @@ msgstr "Alle"
 #: tfrmoptionscustomcolumns.btnalluseinactiveselcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnalluseinactiveselcolor.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Änderung für alle Spalten übernehmen"
 
 #: tfrmoptionscustomcolumns.btnalluseinvertedselection.caption
 #, fuzzy
@@ -4770,7 +4770,7 @@ msgstr "Alle"
 #: tfrmoptionscustomcolumns.btnalluseinvertedselection.hint
 msgctxt "tfrmoptionscustomcolumns.btnalluseinvertedselection.hint"
 msgid "Apply modification to all columns"
-msgstr ""
+msgstr "Änderung für alle Spalten übernehmen"
 
 #: tfrmoptionscustomcolumns.btnbackcolor.caption
 #, fuzzy
@@ -4822,12 +4822,12 @@ msgstr ">>"
 
 #: tfrmoptionscustomcolumns.btngotosetdefault.caption
 msgid "Go to set default"
-msgstr ""
+msgstr "Standard für Gehe zu"
 
 #: tfrmoptionscustomcolumns.btngotosetdefault.hint
 msgctxt "tfrmoptionscustomcolumns.btngotosetdefault.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btninactivecursorcolor.caption
 #, fuzzy
@@ -4855,11 +4855,11 @@ msgstr "Neu"
 
 #: tfrmoptionscustomcolumns.btnnext.caption
 msgid "Next"
-msgstr ""
+msgstr "Nächstes"
 
 #: tfrmoptionscustomcolumns.btnprev.caption
 msgid "Previous"
-msgstr ""
+msgstr "Vorheriges"
 
 #: tfrmoptionscustomcolumns.btnrenameconfigcolumns.caption
 #, fuzzy
@@ -4876,7 +4876,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetallowovercolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetallowovercolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetbackcolor.caption
 #, fuzzy
@@ -4887,7 +4887,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetbackcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetbackcolor2.caption
 #, fuzzy
@@ -4898,7 +4898,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetbackcolor2.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetbackcolor2.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetcursorborder.caption
 #, fuzzy
@@ -4909,7 +4909,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetcursorborder.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorborder.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetcursorcolor.caption
 #, fuzzy
@@ -4920,7 +4920,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetcursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursorcolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetcursortext.caption
 #, fuzzy
@@ -4931,7 +4931,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetcursortext.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetcursortext.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetfont.caption
 #, fuzzy
@@ -4942,7 +4942,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetfont.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetfont.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetforecolor.caption
 #, fuzzy
@@ -4953,7 +4953,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetforecolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetforecolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetframecursor.caption
 #, fuzzy
@@ -4964,7 +4964,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetframecursor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetframecursor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.caption
 #, fuzzy
@@ -4975,7 +4975,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivecursorcolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.caption
 #, fuzzy
@@ -4986,7 +4986,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetinactivemarkcolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetmarkcolor.caption
 #, fuzzy
@@ -4997,7 +4997,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetmarkcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetmarkcolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.caption
 #, fuzzy
@@ -5008,7 +5008,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinactiveselcolor.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnresetuseinvertedselection.caption
 #, fuzzy
@@ -5019,7 +5019,7 @@ msgstr "R"
 #: tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint
 msgctxt "tfrmoptionscustomcolumns.btnresetuseinvertedselection.hint"
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standard zurücksetzen"
 
 #: tfrmoptionscustomcolumns.btnsaveasconfigcolumns.caption
 #, fuzzy
@@ -5057,19 +5057,19 @@ msgstr "Cursor Begrenzung"
 
 #: tfrmoptionscustomcolumns.cbuseframecursor.caption
 msgid "Use Frame Cursor"
-msgstr ""
+msgstr "Nutze Frame-Cursor"
 
 #: tfrmoptionscustomcolumns.cbuseinactiveselcolor.caption
 msgid "Use Inactive Selection Color"
-msgstr ""
+msgstr "Farbe der inaktiven Auswahl nutzen"
 
 #: tfrmoptionscustomcolumns.cbuseinvertedselection.caption
 msgid "Use Inverted Selection"
-msgstr ""
+msgstr "Umgekehrte Auswahl nutzen"
 
 #: tfrmoptionscustomcolumns.chkusecustomview.caption
 msgid "Use custom font and color for this view"
-msgstr ""
+msgstr "Angepasste Schriftart und -farbe für diese Ansicht nutzen"
 
 #: tfrmoptionscustomcolumns.lblbackcolor.caption
 #, fuzzy
@@ -5127,12 +5127,12 @@ msgstr "Textfarbe"
 #: tfrmoptionscustomcolumns.lblinactivecursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblinactivecursorcolor.caption"
 msgid "Inactive Cursor Color:"
-msgstr ""
+msgstr "Farbe für inaktiven Cursor:"
 
 #: tfrmoptionscustomcolumns.lblinactivemarkcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblinactivemarkcolor.caption"
 msgid "Inactive Mark Color:"
-msgstr ""
+msgstr "Farbe für inaktive Markierung:"
 
 #: tfrmoptionscustomcolumns.lblmarkcolor.caption
 #, fuzzy
@@ -5143,11 +5143,11 @@ msgstr "Markierungsfarbe"
 #: tfrmoptionscustomcolumns.lblpreviewtop.caption
 msgctxt "tfrmoptionscustomcolumns.lblpreviewtop.caption"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr ""
+msgstr "Unten ist eine Vorschau. Sie kann für eine sofortige Überprüfung er Einstellungen genutzt werden."
 
 #: tfrmoptionscustomcolumns.lblworkingcolumn.caption
 msgid "Settings for column:"
-msgstr ""
+msgstr "Einstellungen für Spalten:"
 
 #: tfrmoptionscustomcolumns.miaddcolumn.caption
 #, fuzzy
@@ -5603,15 +5603,15 @@ msgstr "Laufwerksliste"
 
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
-msgstr ""
+msgstr "Caret nach dem Ende der Zeile"
 
 #: tfrmoptionseditor.chkshowspecialchars.caption
 msgid "Show special characters"
-msgstr ""
+msgstr "Zeige besondere Zeichen"
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
-msgstr ""
+msgstr "Optionen des internen Editors"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 #, fuzzy
@@ -5817,12 +5817,12 @@ msgstr "Bea&rbeiten"
 #: tfrmoptionsfileassoc.btninsertact.caption
 msgctxt "tfrmoptionsfileassoc.btninsertact.caption"
 msgid "Insert"
-msgstr ""
+msgstr "Einfügen"
 
 #: tfrmoptionsfileassoc.btninsertext.caption
 msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
 msgid "Insert"
-msgstr ""
+msgstr "Einfügen"
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
 #, fuzzy
@@ -5936,7 +5936,7 @@ msgstr "&Parameter:"
 
 #: tfrmoptionsfileassoc.lblexternalparameters1.caption
 msgid "Start path:"
-msgstr ""
+msgstr "Startpfad:"
 
 #: tfrmoptionsfileassoc.lblstartpath.caption
 #, fuzzy
@@ -5953,11 +5953,11 @@ msgstr "-"
 
 #: tfrmoptionsfileassoc.menuitem3.caption
 msgid "Custom with..."
-msgstr ""
+msgstr "Angepasst mit..."
 
 #: tfrmoptionsfileassoc.micustom.caption
 msgid "Custom"
-msgstr ""
+msgstr "Angepasst"
 
 #: tfrmoptionsfileassoc.miedit.caption
 msgctxt "tfrmoptionsfileassoc.miedit.caption"
@@ -8006,19 +8006,19 @@ msgstr "-"
 
 #: tfrmoptionstoolbar.misrcrplcommands.caption
 msgid "in all commands..."
-msgstr ""
+msgstr "in allen Befehlen..."
 
 #: tfrmoptionstoolbar.misrcrpliconnames.caption
 msgid "in all icon names..."
-msgstr ""
+msgstr "in alle Icon-Bezeichnungen..."
 
 #: tfrmoptionstoolbar.misrcrplparameters.caption
 msgid "in all parameters..."
-msgstr ""
+msgstr "in allen Parametern.."
 
 #: tfrmoptionstoolbar.misrcrplstartpath.caption
 msgid "in all start path..."
-msgstr ""
+msgstr "in allen Startpfaden..."
 
 #: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
 msgctxt "tfrmoptionstoolbar.misubtoolbaraftercurrent.caption"
@@ -9340,7 +9340,7 @@ msgstr "Bin&är anzeigen"
 
 #: tfrmviewer.micenter.caption
 msgid "Center"
-msgstr ""
+msgstr "Zentrieren"
 
 #: tfrmviewer.micopytoclipboard.caption
 msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
@@ -9483,7 +9483,7 @@ msgstr "Strecken"
 
 #: tfrmviewer.mistretchonlylarge.caption
 msgid "Stretch only large"
-msgstr ""
+msgstr "Nur große strecken"
 
 #: tfrmviewer.mitext.caption
 msgid "Show as &Text"
@@ -10334,7 +10334,7 @@ msgstr "Aktionen"
 
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
-msgstr ""
+msgstr "Netzwerklaufwerk trennen"
 
 #: ulng.rsmnuedit
 msgctxt "ulng.rsmnuedit"
@@ -10347,11 +10347,11 @@ msgstr "Auswerfen"
 
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
-msgstr ""
+msgstr "Archiv hierher entpacken..."
 
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
-msgstr ""
+msgstr "Netzwerklaufwerk mappen..."
 
 #: ulng.rsmnumount
 msgid "Mount"
@@ -10385,7 +10385,7 @@ msgstr "Andere..."
 
 #: ulng.rsmnupackhere
 msgid "Pack here..."
-msgstr ""
+msgstr "Archiv hier erstellen..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -10469,7 +10469,7 @@ msgstr "Soll DoubleCommander wirklich beendet werden?"
 
 #: ulng.rsmsgcopybackward
 msgid "The file %s has changed. Do you want to copy it backward?"
-msgstr ""
+msgstr "Die Datei %s wurde verändert. Soll sie zurückkopiert werden?"
 
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
@@ -11062,11 +11062,11 @@ msgstr "Fehler:"
 
 #: ulng.rsmsglogextcmdlaunch
 msgid "Launch external"
-msgstr ""
+msgstr "Externen laden"
 
 #: ulng.rsmsglogextcmdresult
 msgid "Result external"
-msgstr ""
+msgstr "Externes Ergebnis"
 
 #: ulng.rsmsglogextract
 msgid "Extract file %s"
@@ -11093,7 +11093,9 @@ msgid ""
 "Options regarding log have been modified.\n"
 "\n"
 "Do you want to save them before to exit?\n"
-msgstr ""
+msgstr "Optionen die Log-Datei betreffend wurden verändert.\n"
+"\n"
+"Soll vor dem Beenden gespeichert werden?\n"
 
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
@@ -11211,7 +11213,7 @@ msgstr "Voreinstellung \"%s\" besteht bereits. Überschreiben?"
 
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
-msgstr ""
+msgstr "Problem beim Ausführen des Befehls (%s)"
 
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
@@ -11243,7 +11245,7 @@ msgstr "Ausgewählt: %s von %s, Dateien: %d von %d, Verzeichnisse: %d von %d"
 
 #: ulng.rsmsgselectexecutablefile
 msgid "Select executable file for"
-msgstr ""
+msgstr "Ausführbare Datei auswählen"
 
 #: ulng.rsmsgselectonlychecksumfiles
 #, fuzzy
@@ -11355,23 +11357,24 @@ msgstr ""
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s\n"
-msgstr ""
+msgstr "Fehler! Die ausführbare Datei für die TC-Konfiguration kann nicht gefunden werden:"
 
 #: ulng.rsmsgtcisrunning
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
-msgstr ""
+msgstr "Bitte schließen und OK klicken oder ABBRUCH zum abbrechen.\n"
 
 #: ulng.rsmsgtctoolbarnotfound
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
-msgstr ""
+msgstr "Fehler Der gewünschte TC-Toolbar-Ordner kann nicht gefunden werden:\n
+"%s\n"
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
-msgstr ""
+msgstr "Speicherort und Datinamen angeben unter dem die TC-Toolbar-Datei gespeichert werden soll"
 
 #: ulng.rsmsgterminaloptionsmodifiedwanttosave
 #, fuzzy
@@ -11394,33 +11397,34 @@ msgstr "\"%s\" ist jetzt in der Zwischenablage"
 
 #: ulng.rsmsgtitleextnotinfiletype
 msgid "Extension of selected file is not in any recognized file types"
-msgstr ""
+msgstr "Endung der gewählten Datei gehört nicht zu den bekannten Dateitypen"
 
 #: ulng.rsmsgtoolbarerrornotsaved
 msgid "Error! Problem saving toolbar!"
-msgstr ""
+msgstr "Fehler! Problem beim Speichern der Toolbar!"
 
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
-msgstr ""
+msgstr "Speicherort der \".toolbar\"-Datei angeben"
 
 #: ulng.rsmsgtoolbarlocatetctoolbarfile
 msgid "Locate \".BAR\" file to import"
-msgstr ""
+msgstr "Speicherort der \".Bar\"-Datei angeben"
 
 #: ulng.rsmsgtoolbarmodifiedwanttosave
 msgid "Toolbar has been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Toolbar wurde verändert. Sollen die Veränderungen gespeichert werden?"
 
 #: ulng.rsmsgtoolbarrestorewhat
 msgid "Enter location and filename of Toolbar to restore"
-msgstr ""
+msgstr "Speicherort und Dateinamen der Toolbar angeben, die wiederhergestellt werden soll"
 
 #: ulng.rsmsgtoolbarsaved
 msgid ""
 "Saved!\n"
 "Toolbar filename: %s\n"
-msgstr ""
+msgstr "Gespeichert!\n"
+"Toolbar-Name: %s\n
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -11468,7 +11472,7 @@ msgstr "Markierte \"%s\" sicher löschen?"
 
 #: ulng.rsmsgwithactionwith
 msgid "with"
-msgstr ""
+msgstr "mit"
 
 #: ulng.rsmulrenfilenamestylelist
 #, fuzzy
@@ -11976,12 +11980,12 @@ msgstr "Schalter für das Laufwerks-Drop-down-Menü"
 
 #: ulng.rsoptionseditorfileassicextra
 msgid "File associations extra"
-msgstr ""
+msgstr "Extra Optionen für Dateiverknüpfungen"
 
 #: ulng.rsoptionseditorfileassoc
 msgctxt "ulng.rsoptionseditorfileassoc"
 msgid "File associations"
-msgstr "Datei-Verknüpfungen"
+msgstr "Dateiverknüpfungen"
 
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
@@ -12029,7 +12033,7 @@ msgstr ""
 #: ulng.rsoptionseditorignorelist
 msgctxt "ulng.rsoptionseditorignorelist"
 msgid "Ignore list"
-msgstr "Ausschluss-Liste"
+msgstr "Ausschlussliste"
 
 #: ulng.rsoptionseditorkeyboard
 msgid "Keys"
@@ -12262,7 +12266,7 @@ msgstr "Kategorie"
 
 #: ulng.rssimplewordcolumnsingular
 msgid "Column"
-msgstr ""
+msgstr "Spalte"
 
 #: ulng.rssimplewordcommand
 #, fuzzy
@@ -12272,15 +12276,15 @@ msgstr "Befehle"
 
 #: ulng.rssimplewordfilename
 msgid "Filename"
-msgstr ""
+msgstr "Dateiname"
 
 #: ulng.rssimplewordfiles
 msgid "files"
-msgstr ""
+msgstr "Dateien"
 
 #: ulng.rssimplewordparameter
 msgid "Param"
-msgstr ""
+msgstr "Parameter"
 
 #: ulng.rssimplewordpreview
 #, fuzzy
@@ -12290,11 +12294,11 @@ msgstr "Vorschau"
 
 #: ulng.rssimplewordresult
 msgid "Result"
-msgstr ""
+msgstr "Ergebnis"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
-msgstr ""
+msgstr "Arbeitsverzeichnis"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
@@ -12428,143 +12432,143 @@ msgstr "Bitte diesen Fehler im Bug-Tracker melden, mit einer Beschreibung was Si
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
-msgstr ""
+msgstr "Beide Panels, von aktiv zu inaktiv"
 
 #: ulng.rsvarbothpanellefttoright
 msgid "Both panels, from left to right"
-msgstr ""
+msgstr "Beide Panels, von links nach rechts"
 
 #: ulng.rsvarcurrentpath
 msgid "Path of panel"
-msgstr ""
+msgstr "Pfad des Panels"
 
 #: ulng.rsvarencloseelement
 msgid "Enclose each name in brackets or what you want"
-msgstr ""
+msgstr "Jeden Namen in Klammern schließen, oder nach Belieben"
 
 #: ulng.rsvarfilenamenoext
 msgid "Just filename, no extension"
-msgstr ""
+msgstr "Nur Dateinamen, keine Endung"
 
 #: ulng.rsvarfullpath
 msgid "Complete filename (path+filename)"
-msgstr ""
+msgstr "Kompletten Dateinamen (mit Pfad)"
 
 #: ulng.rsvarhelpwith
 msgid "Help with \"%\" variables"
-msgstr ""
+msgstr "Hilfe mit \"%\" Variablen"
 
 #: ulng.rsvarinputparam
 msgid "Will request request user to enter a parameter with a default suggested value"
-msgstr ""
+msgstr "Fordert Nutzer auf einen Parameter einzugeben, mit einem vorgeschlagenen Standardwert"
 
 #: ulng.rsvarleftpanel
 msgid "Left panel"
-msgstr ""
+msgstr "Linkes Panel"
 
 #: ulng.rsvarlistfilename
 msgid "Temporary filename of list of filenames"
-msgstr ""
+msgstr "Temporärer Dateiname aus Liste mit Dateinamen"
 
 #: ulng.rsvarlistfullfilename
 msgid "Temporary filename of list of complete filenames (path+filename)"
-msgstr ""
+msgstr "Temporärer Dateiname aus Liste mit kompletten Dateinamen (Pfad und Dateiname)"
 
 #: ulng.rsvarlistrelativefilename
 msgid "Temporary filename of list of filenames with relative path"
-msgstr ""
+msgstr "Temporärer Dateiname aus Liste mit Dateinamen mit relativem Pfad"
 
 #: ulng.rsvaronlyextension
 msgid "Only file extension"
-msgstr ""
+msgstr "Nur Dateiendung"
 
 #: ulng.rsvaronlyfilename
 msgid "Only filename"
-msgstr ""
+msgstr "Nur Dateiname"
 
 #: ulng.rsvarotherexamples
 msgid "Other example of what's possible"
-msgstr ""
+msgstr "Anderes Beispiel für Möglichkeiten"
 
 #: ulng.rsvarpath
 msgid "Path, with ending delimiter"
-msgstr ""
+msgstr "Pfad, mit Trennzeichen am Ende"
 
 #: ulng.rsvarpercentchangetopound
 msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
-msgstr ""
+msgstr "Von hier bis zum Ende der Zeile; die Prozent-Anzeige ist das \"#\" Zeichen"
 
 #: ulng.rsvarpercentsign
 msgid "Return the percent sign"
-msgstr ""
+msgstr "Setze das Prozentzeichen zurück"
 
 #: ulng.rsvarpoundchangetopercent
 msgid "From here to the end of the line, the percent-variable indicator is back the \"%\" sign"
-msgstr ""
+msgstr "Von hier bis zum Ende der Zeile; die Prozent-Anzeige ist hinter dem \"%\" Zeichen "
 
 #: ulng.rsvarprependelement
 msgid "Prepend each name with \"-a \" or what you want"
-msgstr ""
+msgstr "Stelle jedem Namen \"-a\" voran, oder was auch immer"
 
 #: ulng.rsvarpromptuserforparam
 msgid "%[Prompt user for param;Default value proposed]"
-msgstr ""
+msgstr "% [Frage den Nutzer nach Parameter;Standardwert wird vorgeschlagen"
 
 #: ulng.rsvarrelativepathandfilename
 msgid "Filename with relative path"
-msgstr ""
+msgstr "Dateiname mit relativem Pfad"
 
 #: ulng.rsvarrightpanel
 msgid "Right panel"
-msgstr ""
+msgstr "Rechtes Panel"
 
 #: ulng.rsvarsecondelementrightpanel
 msgid "Full path of second selected file in right panel"
-msgstr ""
+msgstr "Voller Pfad der zweiten gewählten Datei im rehten Panel"
 
 #: ulng.rsvarshowcommandprior
 msgid "Show command prior execute"
-msgstr ""
+msgstr "Zeige Befehl vor der Ausführung"
 
 #: ulng.rsvarsimplemessage
 msgid "%[Simple message]"
-msgstr ""
+msgstr "% [Einfache Nachricht]"
 
 #: ulng.rsvarsimpleshowmessage
 msgid "Will show a simple message"
-msgstr ""
+msgstr "Zeigt eine einfache Nachricht"
 
 #: ulng.rsvarsourcepanel
 msgid "Active panel (source)"
-msgstr ""
+msgstr "Aktives Panel (Quelle)"
 
 #: ulng.rsvartargetpanel
 msgid "Inactive panel (target)"
-msgstr ""
+msgstr "Inaktives Panel (Ziel)"
 
 #: ulng.rsvarwillbequoted
 msgid "Filenames will be quoted from here (default)"
-msgstr ""
+msgstr "Dateinamen werden von hier aus zitiert (Standard)."
 
 #: ulng.rsvarwilldointerminal
 msgid "Command will be done in terminal, remaining opened at the end"
-msgstr ""
+msgstr "Befehle werden im Terminal ausgeführt. Dies bleibt am Ende geöffnet."
 
 #: ulng.rsvarwillhaveendingdelimiter
 msgid "Paths will have ending delimiter"
-msgstr ""
+msgstr "Pfade werden ein trennendes Zeichen am Ende haben"
 
 #: ulng.rsvarwillnotbequoted
 msgid "Filenames will not be quoted from here"
-msgstr ""
+msgstr "Dateinamen werden von hier aus nicht zitiert"
 
 #: ulng.rsvarwillnotdointerminal
 msgid "Command will be done in terminal, closed at the end"
-msgstr ""
+msgstr "Befehl wird im Terminal ausgeführt. Dies wird anch der Ausführung geschlossen"
 
 #: ulng.rsvarwillnothaveendingdelimiter
 msgid "Paths will not have ending delimiter (default)"
-msgstr ""
+msgstr "Pfade werden am Ende kein trennendes Zeichen haben (Standard)"
 
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
@@ -12577,7 +12581,7 @@ msgstr "Interner Betrachter des Double Commander"
 
 #: ulng.rsviewbadquality
 msgid "Bad Quality"
-msgstr ""
+msgstr "Schlechte Qualität"
 
 #: ulng.rsviewencoding
 msgctxt "ulng.rsviewencoding"
@@ -12586,7 +12590,7 @@ msgstr "Codierung"
 
 #: ulng.rsviewimagetype
 msgid "Image Type"
-msgstr ""
+msgstr "Bildtyp"
 
 #: ulng.rsviewnewsize
 #, fuzzy
@@ -12600,11 +12604,11 @@ msgstr "%s nicht gefunden!"
 
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
-msgstr ""
+msgstr "Mit externem Betrachter"
 
 #: ulng.rsviewwithinternalviewer
 msgid "with internal viewer"
-msgstr ""
+msgstr "Mit internem Betrachter"
 
 #: ulng.rsxreplacements
 msgid "Number of replacement: %d"
