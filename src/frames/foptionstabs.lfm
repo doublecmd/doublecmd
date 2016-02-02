@@ -228,6 +228,7 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       TabOrder = 9
     end
     object rgTabsActionOnDoubleClick: TRadioGroup
+      AnchorSideLeft.Control = gbTabs
       AnchorSideTop.Control = gbTabs
       Left = 400
       Height = 108
@@ -235,7 +236,7 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       Width = 175
       AutoFill = True
       AutoSize = True
-      BorderSpacing.Left = 20
+      BorderSpacing.Left = 400
       Caption = 'What to do after double click:'
       ChildSizing.LeftRightSpacing = 6
       ChildSizing.TopBottomSpacing = 6
