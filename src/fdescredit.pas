@@ -97,7 +97,7 @@ begin
     begin
       FDescr.WriteDescription(sFileName, StringReplace(memDescr.Lines.Text, LineEnding, nbsp, [rfReplaceAll]));
       FDescr.SaveDescription;
-      if FileSystem then FileView.Reload(True);
+      FileView.Reload(True);
       Result:= True;
     end;
     if not FileSystem then FDescr.Free;

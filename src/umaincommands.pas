@@ -3622,7 +3622,7 @@ begin
         if Assigned(aFile) then
           try
             if aFile.IsNameValid then
-              ShowDescrEditDlg(CurrentPath + aFile.Name, frmMain.ActiveFrame)
+              ShowDescrEditDlg(aFile.FullPath, frmMain.ActiveFrame)
             else
               msgWarning(rsMsgNoFilesSelected);
           finally
