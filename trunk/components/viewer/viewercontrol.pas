@@ -851,7 +851,7 @@ function TViewerControl.GetStartOfLine(aPosition: PtrInt): PtrInt;
       Dec(tmpPos, CharLenInBytes);
     end;
 
-    // Previous end of line not found and there are no more lines to check.
+    // Previous end of line not found and there are no more data to check.
     if (not (prevChar in [10, 13])) and (tmpPos <= FLowLimit) then
       Exit(FLowLimit);
 
