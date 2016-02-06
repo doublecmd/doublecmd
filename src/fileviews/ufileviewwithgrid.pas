@@ -108,19 +108,24 @@ uses
 
 function FitFileName(const AFileName: String; ACanvas: TCanvas; AFile: TFile; ATargetWidth: Integer): String;
 var
+  S: String;
   Index: Integer;
+  AMaxWidth: Integer;
 begin
-  Result:= AFileName;
-  if ACanvas.TextWidth(AFileName) > ATargetWidth then
-  begin
-    if gDirBrackets and (AFile.IsDirectory or AFile.IsLinkToDirectory) then
-      Result:= Result + '..]'
-    else
-      Result:= Result + '...';
-    repeat
-      Index:= UTF8Length(Result) - 3;
-      UTF8Delete(Result, Index, 1);
-    until (ACanvas.TextWidth(Result) <= ATargetWidth) or (Index = 0);
+  Index:= UTF8Length(AFileName);
+  AMaxWidth:= ACanvas.TextFitInfo(AFileName, ATargetWidth);
+
+  if Index <= AMaxWidth then
+    Result:= AFileName
+  else
+    begin
+      if gDirBrackets and (AFile.IsDirectory or AFile.IsLinkToDirectory) then
+        S:= '..]'
+      else begin
+        S:= '...';
+      end;
+      Index:= ACanvas.TextFitInfo(AFileName, ATargetWidth - ACanvas.TextWidth(S));
+      Result:= UTF8Copy(AFileName, 1, Index) + S;
   end;
 end;
 
