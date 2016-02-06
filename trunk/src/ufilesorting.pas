@@ -683,8 +683,11 @@ begin
       fsfNameNoExtension:
         Result := ICompareByNameNoExt(File1, File2, bNegative);
       fsfType:
-        Result := mbCompareText(File1.TypeProperty.Value,
-                                File2.TypeProperty.Value);
+        begin
+          Result := mbCompareText(File1.TypeProperty.Value,
+                                  File2.TypeProperty.Value);
+          if bNegative then Result := -Result;
+        end;
     end;
 
     if Result <> 0 then
