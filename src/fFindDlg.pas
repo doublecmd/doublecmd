@@ -1485,7 +1485,8 @@ begin
       begin
         if not FSearchingActive then
         begin
-          (FLPanelSender as TButton).SetFocus;
+          if FLPanelSender<>nil then (FLPanelSender as TButton).SetFocus
+          else btnNewSearch.SetFocus;
 //          btnNewSearch.SetFocus;
           Key := 0;
         end;
