@@ -1526,7 +1526,7 @@ var
             frmMain.LeftTabs.DestroyAllPages;
             bLeftTabsAlreadyDestroyed := True; // To don't delete it twice in case both target are left.
           end;
-          LoadTabsXml(Config, 'Tabs/OpenedTabs', LeftTabs, sSourceSectionName);
+          LoadTabsXml(Config, 'Tabs/OpenedTabs/'+sSourceSectionName, LeftTabs);
         end;
 
         if (Destination=tclRight) OR (Destination=tclBoth) then
@@ -1536,7 +1536,7 @@ var
             frmMain.RightTabs.DestroyAllPages;
             bRightTabsAlreadyDestroyed := True; // To don't delete it twice in case both target are right.
           end;
-          LoadTabsXml(Config, 'Tabs/OpenedTabs', RightTabs, sSourceSectionName);
+          LoadTabsXml(Config, 'Tabs/OpenedTabs/'+sSourceSectionName, RightTabs );
         end;
 
         // 4. Refresh content of tabs.
