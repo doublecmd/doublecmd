@@ -1761,6 +1761,7 @@ end;
 
 procedure TfrmMain.FormWindowStateChange(Sender: TObject);
 begin
+
   if FUpdateDiskCount and (WindowState <> wsMinimized) then
   begin
     UpdateDiskCount;
@@ -1783,7 +1784,6 @@ begin
 
     SaveTabsXml(gConfig,'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
     SaveTabsXml(gConfig,'Tabs/OpenedTabs/', nbRight,gSaveDirHistory);
-
 
     MainToolBar.Top:= 0; // restore toolbar position
     if not HiddenToTray then
@@ -1810,14 +1810,21 @@ begin
   begin  // Not minimized
     // save window state before minimize for
     // future loading after restore from tray
-    lastWindowState:=WindowState;
     HiddenToTray := False;
 
-    (* Load all tabs *)
-    LoadTabsXml(gConfig,'Tabs/OpenedTabs/Left', nbLeft);
-    LoadTabsXml(gConfig,'Tabs/OpenedTabs/Right', nbRight);
+    if lastWindowState=wsMinimized then
+    begin
+      (* Load all tabs *)
+      LeftTabs.DestroyAllPages;
+      LoadTabsXml(gConfig,'Tabs/OpenedTabs/Left', nbLeft);
+      RightTabs.DestroyAllPages;
+      LoadTabsXml(gConfig,'Tabs/OpenedTabs/Right', nbRight);
+
+    end;
 
   end;
+
+  lastWindowState:=WindowState;
 end;
 
 procedure TfrmMain.MainSplitterDblClick(Sender: TObject);
