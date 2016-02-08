@@ -778,7 +778,7 @@ type
     procedure AssignEvents(AFileView: TFileView);
     function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer; CloseLocked: Boolean = True; ConfirmCloseLocked: integer = 0; ShowButtonAll: Boolean = False): LongInt;
     procedure LoadTabsIni(ANoteBook: TFileViewNotebook);
-    procedure LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook; TabSectionName: string);
+    procedure LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook);
     procedure SaveTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook; ASaveHistory: boolean);
     procedure LoadGroupXml(AConfig: TXmlConfig; AGroupName: string);
     procedure SaveGroupXml(AConfig: TXmlConfig; AGroupName: string);
@@ -1778,6 +1778,13 @@ begin
 
   if WindowState = wsMinimized then
   begin  // Minimized
+
+    (* Save all tabs *)
+
+    SaveTabsXml(gConfig,'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
+    SaveTabsXml(gConfig,'Tabs/OpenedTabs/', nbRight,gSaveDirHistory);
+
+
     MainToolBar.Top:= 0; // restore toolbar position
     if not HiddenToTray then
     begin
@@ -1805,6 +1812,11 @@ begin
     // future loading after restore from tray
     lastWindowState:=WindowState;
     HiddenToTray := False;
+
+    (* Load all tabs *)
+    LoadTabsXml(gConfig,'Tabs/OpenedTabs/Left', nbLeft);
+    LoadTabsXml(gConfig,'Tabs/OpenedTabs/Right', nbRight);
+
   end;
 end;
 
@@ -4316,7 +4328,7 @@ begin
     ANoteBook.PageIndex := iActiveTab;
 end;
 
-procedure TfrmMain.LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook; TabSectionName:string);
+procedure TfrmMain.LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook);
 // default was ABrunch: 'Tabs/OpenedTabs/'
 var
   sPath, sViewType: String;
@@ -4328,9 +4340,9 @@ var
   RootNode, TabNode, ViewNode: TXmlNode;
 begin
   if ANoteBook = nbLeft then
-    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch+'/'+TabSectionName)
+    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch)
   else
-    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch+'/'+TabSectionName);
+    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch);
 
   if Assigned(RootNode) then
   begin
@@ -4523,10 +4535,10 @@ begin
   // 2) Save current active group data to brunch 'Groups/<AGroupName>'
 
   LeftTabs.DestroyAllPages;
-  LoadTabsXml(AConfig,'Groups/'+AGroupName,nbLeft, 'Left');
+  LoadTabsXml(AConfig,'Groups/Left'+AGroupName,nbLeft);
 
   RightTabs.DestroyAllPages;
-  LoadTabsXml(AConfig,'Groups/'+AGroupName,nbRight, 'Right');
+  LoadTabsXml(AConfig,'Groups/Right'+AGroupName,nbRight);
 end;
 
 procedure TfrmMain.SaveGroupXml(AConfig: TXmlConfig;
@@ -5296,8 +5308,8 @@ begin
   end
   else
   begin
-    LoadTabsXml(gConfig,'Tabs/OpenedTabs', nbLeft, 'Left');
-    LoadTabsXml(gConfig,'Tabs/OpenedTabs', nbRight, 'Right');
+    LoadTabsXml(gConfig,'Tabs/OpenedTabs/Left', nbLeft);
+    LoadTabsXml(gConfig,'Tabs/OpenedTabs/Right', nbRight);
   end;
 
   LoadTabsCommandLine(CommandLineParams);
