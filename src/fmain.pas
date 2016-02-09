@@ -1754,10 +1754,6 @@ begin
 
   if WindowState = wsMinimized then
   begin  // Minimized
-    (* Save all tabs *)
-    SaveTabsXml(gConfig,'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
-    SaveTabsXml(gConfig,'Tabs/OpenedTabs/', nbRight,gSaveDirHistory);
-
     MainToolBar.Top:= 0; // restore toolbar position
     if not HiddenToTray then
     begin
@@ -1783,30 +1779,9 @@ begin
   begin  // Not minimized
     // save window state before minimize for
     // future loading after restore from tray
+    lastWindowState:=WindowState;
     HiddenToTray := False;
-
-    if lastWindowState=wsMinimized then
-    begin
-      (* Load all tabs *)
-      LeftTabs.DestroyAllPages;
-      LoadTabsXml(gConfig,'Tabs/OpenedTabs/Left', nbLeft);
-      RightTabs.DestroyAllPages;
-      LoadTabsXml(gConfig,'Tabs/OpenedTabs/Right', nbRight);
-
-      // 2016-02-08:Message to Alexx/meteu from Denis Bisson:
-      // ====================================================
-      // I don't know for sure the purpose of the modification done around here today. I guess it was a temporary guess.
-      // No matter what, I needed to added the following code to have my tabs refresh 'cause they were not and remain blank.
-      // Some users, like me, have the following option checked if file view: "Don't load file list until a tab is activated".
-	  // I'll check with you later.
-      if gDelayLoadingTabs then
-      begin
-        FrameLeft.Flags  := FrameLeft.Flags  - [fvfDelayLoadingFiles];
-        FrameRight.Flags := FrameRight.Flags - [fvfDelayLoadingFiles];
-      end;
-    end;
   end;
-  lastWindowState:=WindowState;
 end;
 
 procedure TfrmMain.MainSplitterDblClick(Sender: TObject);
