@@ -9758,6 +9758,108 @@ msgstr "Надто багато файлів для запакування"
 msgid "Archive format unknown"
 msgstr "Архів пошкоджено або має невідомий формат"
 
+#: ulng.rsmsgfavoritetabsdeleteallentries
+msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsdraghereentry
+msgid "Drag here other entries"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsendofmenu
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabsendofmenu"
+msgid "(end of sub menu)"
+msgstr "(кінець підменю)"
+
+#: ulng.rsmsgfavoritetabsentername
+msgid "Enter a name this Favorite Tabs entry"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsenternametitle
+msgid "Saving a new Favorite Tabs entry"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabserrorloading
+msgid "Error loading Favorite Tabs..."
+msgstr ""
+
+#: ulng.rsmsgfavoritetabserrorsaving
+msgid "Error saving Favorite Tabs..."
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsexportedsuccessfully
+msgid "Number of Favorite Tabs exported successfully: %d on %d"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsextramode
+msgid "Default extra setting for save dir history for new Favorite Tabs:"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabshasbeenadded
+msgid "Favorite Tabs have been added in memory!"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsimportedsuccessfully
+msgid "Number of file(s) imported successfully: %d on %d"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsimportsubmenuname
+msgid "Legacy tabs imported"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsmodifiednoimport
+msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsmodifiedwanttosave
+msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsname
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabsname"
+msgid "Name"
+msgstr "Ім'я"
+
+#: ulng.rsmsgfavoritetabsnamesample
+msgid "This will load your Favorites Tabs entry setup called %s"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabssavelastloadover
+msgid "Save to Favorite Tabs over last loaded entry (%s)"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabssimplemenu
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabssimplemenu"
+msgid "Menu name:"
+msgstr "Назва меню:"
+
+#: ulng.rsmsgfavoritetabssimplemode
+msgid "Keep saving dir history with Favorite Tabs:"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabssimpleseparator
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
+msgid "(separator)"
+msgstr "(роздільник)"
+
+#: ulng.rsmsgfavoritetabssubmenuname
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabssubmenuname"
+msgid "Submenu name"
+msgstr "Назва підменю"
+
+#: ulng.rsmsgfavoritetabsthiswillloadfavtabs
+msgid "This will load the Favorite Tabs: \"%s\""
+msgstr ""
+
+#: ulng.rsmsgfavortietabssaveoverexisting
+msgid "Save current tabs over existing Favorite Tabs entry"
+msgstr ""
+
 #: ulng.rsmsgfileassociationsextramodifiedwanttosave
 #, fuzzy
 #| msgid ""
@@ -9989,10 +10091,12 @@ msgid "Command:"
 msgstr "Команди:"
 
 #: ulng.rsmsghotdirsimpleendofmenu
+msgctxt "ulng.rsmsghotdirsimpleendofmenu"
 msgid "(end of sub menu)"
 msgstr "(кінець підменю)"
 
 #: ulng.rsmsghotdirsimplemenu
+msgctxt "ulng.rsmsghotdirsimplemenu"
 msgid "Menu name:"
 msgstr "Назва меню:"
 
@@ -10002,10 +10106,12 @@ msgid "Name:"
 msgstr "Назва:"
 
 #: ulng.rsmsghotdirsimpleseparator
+msgctxt "ulng.rsmsghotdirsimpleseparator"
 msgid "(separator)"
 msgstr "(роздільник)"
 
 #: ulng.rsmsghotdirsubmenuname
+msgctxt "ulng.rsmsghotdirsubmenuname"
 msgid "Submenu name"
 msgstr "Назва підменю"
 
@@ -10317,6 +10423,14 @@ msgstr "Ім’я файла для перетягнутого тексту:"
 msgid "Please, make this file available. Retry?"
 msgstr "Будь ласка, переконайтеся у доступності файла. Спробувати ще раз?"
 
+#: ulng.rsmsgrenamefavtabs
+msgid "Enter new friendly name for this Favorite Tabs"
+msgstr ""
+
+#: ulng.rsmsgrenamefavtabsmenu
+msgid "Enter new name for this menu"
+msgstr ""
+
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
 msgstr "Перейменувати/перемістити %d вибраних файлів/каталогів?"
@@ -10421,6 +10535,10 @@ msgstr "Використовувати іншу спеціальну папку 
 msgid "Use Windows special folder (TC)..."
 msgstr "Використовувати спеціальну теку Windows (ТС)..."
 
+#: ulng.rsmsgtabforopeninginnewtab
+msgid "This tab (%s) is locked! Open directory in another tab?"
+msgstr ""
+
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
 msgstr "Перейменування вкладки"
@@ -10428,6 +10546,20 @@ msgstr "Перейменування вкладки"
 #: ulng.rsmsgtabrenameprompt
 msgid "New tab name:"
 msgstr "Нове ім’я вкладки"
+
+#: ulng.rsmsgtabsextraoptionsmodifiedwanttosave
+msgid ""
+"Options regarding folder tabs extra have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
+
+#: ulng.rsmsgtabsoptionsmodifiedwanttosave
+msgid ""
+"Options regarding folder tabs have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
@@ -10916,6 +11048,10 @@ msgstr "Відмітка + Курсор"
 msgid "Text"
 msgstr "Текст"
 
+#: ulng.rsoptfavoritetabswheretoaddinlist
+msgid "Add at beginning;Add at the end;Alphabetical sort"
+msgstr ""
+
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
 msgstr "в окремому вікні; мінімізувати в окремому вікні; панель операції"
@@ -11080,6 +11216,10 @@ msgstr "Перетягування"
 msgid "Drives list button"
 msgstr "Кнопки дисків"
 
+#: ulng.rsoptionseditorfavoritetabs
+msgid "Favorite Tabs"
+msgstr ""
+
 #: ulng.rsoptionseditorfileassicextra
 msgid "File associations extra"
 msgstr "Додаткові асоціації файлу"
@@ -11112,6 +11252,10 @@ msgstr "Типи файлів"
 msgctxt "ulng.rsoptionseditorfoldertabs"
 msgid "Folder tabs"
 msgstr "Вкладки тек"
+
+#: ulng.rsoptionseditorfoldertabsextra
+msgid "Folder tabs extra"
+msgstr ""
 
 #: ulng.rsoptionseditorfonts
 msgctxt "ulng.rsoptionseditorfonts"
@@ -11388,6 +11532,10 @@ msgstr "Попередній перегляд"
 msgid "Result"
 msgstr "Результат"
 
+#: ulng.rssimplewordsaved
+msgid "Saved!"
+msgstr ""
+
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
 msgstr "РобТека"
@@ -11481,6 +11629,14 @@ msgstr "Тижнів"
 #: ulng.rstimeunityear
 msgid "Year(s)"
 msgstr "Років"
+
+#: ulng.rstitlerenamefavtabs
+msgid "Rename Favorite Tabs"
+msgstr ""
+
+#: ulng.rstitlerenamefavtabsmenu
+msgid "Rename Favorite Tabs sub-menu"
+msgstr ""
 
 #: ulng.rstooldiffer
 msgctxt "ulng.rstooldiffer"

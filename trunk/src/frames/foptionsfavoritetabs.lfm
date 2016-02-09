@@ -1,31 +1,32 @@
 inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
-  Height = 651
-  Width = 630
+  Height = 604
+  Width = 584
   AutoSize = True
-  ClientHeight = 651
-  ClientWidth = 630
-  Constraints.MinHeight = 520
+  ClientHeight = 604
+  ClientWidth = 584
+  Constraints.MinHeight = 400
   Constraints.MinWidth = 500
+  OnEnter = FrameEnter
   ParentShowHint = False
   PopupMenu = pmTreeView
   ShowHint = True
-  DesignLeft = 696
-  DesignTop = 148
+  DesignLeft = 190
+  DesignTop = 277
   object gbFavoriteTabs: TGroupBox[0]
     Left = 6
-    Height = 639
+    Height = 592
     Top = 6
-    Width = 618
+    Width = 572
     Align = alClient
     AutoSize = True
     BorderSpacing.Around = 6
     Caption = 'Favorite Tabs list (reorder by drag && drop)'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 619
-    ClientWidth = 614
+    ClientHeight = 572
+    ClientWidth = 568
     Color = clForm
-    Constraints.MinHeight = 460
+    Constraints.MinHeight = 200
     Constraints.MinWidth = 548
     ParentColor = False
     TabOrder = 0
@@ -34,15 +35,15 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
       AnchorSideTop.Control = gbFavoriteTabs
       AnchorSideRight.Control = gbFavoriteTabs
       AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = pnlBottom
+      AnchorSideBottom.Control = gpSavedTabsRestorationAction
       Left = 6
-      Height = 488
+      Height = 418
       Top = 6
-      Width = 602
+      Width = 556
       Anchors = [akTop, akLeft, akRight, akBottom]
       BevelOuter = bvNone
-      ClientHeight = 488
-      ClientWidth = 602
+      ClientHeight = 418
+      ClientWidth = 556
       TabOrder = 0
       object tvFavoriteTabs: TTreeView
         AnchorSideLeft.Control = pnlClient
@@ -51,9 +52,9 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
         AnchorSideBottom.Control = pnlClient
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 488
+        Height = 418
         Top = 0
-        Width = 376
+        Width = 330
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Right = 6
         DefaultItemHeight = 18
@@ -68,6 +69,7 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
         SelectionColor = clBtnShadow
         TabOrder = 0
         ToolTips = False
+        OnDblClick = btnRenameClick
         OnDragDrop = tvFavoriteTabsDragDrop
         OnDragOver = tvFavoriteTabsDragOver
         OnEnter = tvFavoriteTabsEnter
@@ -80,8 +82,8 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
         AnchorSideTop.Control = pnlClient
         AnchorSideRight.Control = pnlClient
         AnchorSideRight.Side = asrBottom
-        Left = 382
-        Height = 161
+        Left = 336
+        Height = 192
         Top = 0
         Width = 220
         Anchors = [akTop, akLeft, akRight]
@@ -89,7 +91,7 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
         BevelOuter = bvNone
         ChildSizing.LeftRightSpacing = 6
         ChildSizing.TopBottomSpacing = 6
-        ClientHeight = 161
+        ClientHeight = 192
         ClientWidth = 220
         Color = clForm
         ParentColor = False
@@ -97,17 +99,19 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
         object btnInsert: TBitBtn
           Tag = 1
           AnchorSideLeft.Control = pnlButtons
-          AnchorSideTop.Control = pnlButtons
+          AnchorSideTop.Control = btnRename
+          AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = pnlButtons
           AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 25
-          Top = 6
+          Top = 37
           Width = 208
           Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Top = 6
           Caption = 'Insert...'
           OnClick = btnActionClick
-          TabOrder = 0
+          TabOrder = 1
         end
         object btnDelete: TBitBtn
           Tag = 3
@@ -118,15 +122,15 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
           AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 25
-          Top = 68
+          Top = 99
           Width = 208
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'Delete...'
           OnClick = btnActionClick
-          TabOrder = 2
+          TabOrder = 3
         end
-        object btnMiscellaneous: TBitBtn
+        object btnImportExport: TBitBtn
           Tag = 7
           AnchorSideLeft.Control = pnlButtons
           AnchorSideTop.Control = btnSort
@@ -135,13 +139,13 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
           AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 25
-          Top = 130
+          Top = 161
           Width = 208
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
-          Caption = 'Miscellaneous...'
+          Caption = 'Import/Export'
           OnClick = btnActionClick
-          TabOrder = 4
+          TabOrder = 5
         end
         object btnAdd: TBitBtn
           Tag = 2
@@ -152,13 +156,13 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
           AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 25
-          Top = 37
+          Top = 68
           Width = 208
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'Add...'
           OnClick = btnActionClick
-          TabOrder = 1
+          TabOrder = 2
         end
         object btnSort: TBitBtn
           Tag = 8
@@ -169,56 +173,39 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
           AnchorSideRight.Side = asrBottom
           Left = 6
           Height = 25
-          Top = 99
+          Top = 130
           Width = 208
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'Sort...'
           OnClick = btnActionClick
-          TabOrder = 3
+          TabOrder = 4
+        end
+        object btnRename: TBitBtn
+          Tag = 1
+          AnchorSideLeft.Control = pnlButtons
+          AnchorSideTop.Control = pnlButtons
+          AnchorSideRight.Control = pnlButtons
+          AnchorSideRight.Side = asrBottom
+          Left = 6
+          Height = 25
+          Top = 6
+          Width = 208
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Rename'
+          OnClick = btnRenameClick
+          TabOrder = 0
         end
       end
-      object rgWhereToAdd: TRadioGroup
-        AnchorSideLeft.Control = gbFavoriteTabsOtherOptions
+      object gbFavoriteTabsOtherOptions: TGroupBox
         AnchorSideTop.Control = pnlButtons
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = pnlClient
         AnchorSideRight.Side = asrBottom
-        Left = 382
-        Height = 89
-        Top = 165
-        Width = 220
-        Anchors = [akTop, akLeft, akRight]
-        AutoFill = True
-        BorderSpacing.Top = 4
-        Caption = 'Default addition from main panel:'
-        ChildSizing.LeftRightSpacing = 6
-        ChildSizing.TopBottomSpacing = 6
-        ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-        ChildSizing.EnlargeVertical = crsHomogenousChildResize
-        ChildSizing.ShrinkHorizontal = crsScaleChilds
-        ChildSizing.ShrinkVertical = crsScaleChilds
-        ChildSizing.Layout = cclLeftToRightThenTopToBottom
-        ChildSizing.ControlsPerLine = 1
-        ClientHeight = 69
-        ClientWidth = 216
-        Constraints.MinWidth = 200
-        Items.Strings = (
-          'Add at beginning'
-          'Add at the end'
-          'Alphabetical order'
-        )
-        TabOrder = 2
-      end
-      object gbFavoriteTabsOtherOptions: TGroupBox
-        AnchorSideTop.Control = rgWhereToAdd
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = pnlClient
-        AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 382
-        Height = 211
-        Top = 258
+        Left = 336
+        Height = 51
+        Top = 196
         Width = 220
         Anchors = [akTop, akRight]
         AutoSize = True
@@ -226,10 +213,10 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
         Caption = 'Other options'
         ChildSizing.LeftRightSpacing = 6
         ChildSizing.TopBottomSpacing = 6
-        ClientHeight = 191
+        ClientHeight = 31
         ClientWidth = 216
         Constraints.MinWidth = 220
-        TabOrder = 3
+        TabOrder = 2
         object cbFullExpandTree: TCheckBox
           AnchorSideLeft.Control = gbFavoriteTabsOtherOptions
           AnchorSideTop.Control = gbFavoriteTabsOtherOptions
@@ -241,321 +228,74 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
           OnChange = cbFullExpandTreeChange
           TabOrder = 0
         end
-        object cbSaveDirHistory: TCheckBox
-          AnchorSideLeft.Control = cbFullExpandTree
-          AnchorSideTop.Control = cbFullExpandTree
-          AnchorSideTop.Side = asrBottom
-          Left = 6
-          Height = 19
-          Top = 25
-          Width = 166
-          Caption = 'Save dir history for each tab'
-          TabOrder = 1
-        end
-        object cbNoNeedToConfigAfterSave: TCheckBox
-          AnchorSideLeft.Control = cbFullExpandTree
-          AnchorSideTop.Control = cbSaveDirHistory
-          AnchorSideTop.Side = asrBottom
-          AnchorSideBottom.Side = asrBottom
-          Left = 6
-          Height = 19
-          Top = 44
-          Width = 190
-          Caption = 'Don''t come here after saving 1st'
-          TabOrder = 2
-        end
-        object lblDefaultTargetPanelSavedTabs: TLabel
-          AnchorSideLeft.Control = gbFavoriteTabsOtherOptions
-          AnchorSideLeft.Side = asrCenter
-          AnchorSideTop.Control = cbNoNeedToConfigAfterReSave
-          AnchorSideTop.Side = asrBottom
-          Left = 29
-          Height = 15
-          Top = 88
-          Width = 158
-          BorderSpacing.Top = 6
-          Caption = 'Default saved tabs destination'
-          ParentColor = False
-        end
-        object lblDefaultTargetPanelLeftSaved: TLabel
-          AnchorSideLeft.Control = gbFavoriteTabsOtherOptions
-          AnchorSideTop.Control = lblDefaultTargetPanelSavedTabs
-          AnchorSideTop.Side = asrBottom
-          Left = 6
-          Height = 15
-          Top = 103
-          Width = 79
-          Caption = 'Left tabs go to:'
-          ParentColor = False
-        end
-        object lblDefaultTargetPanelRightSaved: TLabel
-          AnchorSideLeft.Control = cbDefaultTargetPanelRightSaved
-          AnchorSideTop.Control = lblDefaultTargetPanelSavedTabs
-          AnchorSideTop.Side = asrBottom
-          Left = 112
-          Height = 15
-          Top = 103
-          Width = 87
-          Caption = 'Right tabs go to:'
-          ParentColor = False
-        end
-        object cbDefaultTargetPanelLeftSaved: TComboBox
-          AnchorSideLeft.Control = gbFavoriteTabsOtherOptions
-          AnchorSideTop.Control = lblDefaultTargetPanelLeftSaved
-          AnchorSideTop.Side = asrBottom
-          Left = 6
-          Height = 23
-          Top = 118
-          Width = 100
-          ItemHeight = 15
-          ItemIndex = 0
-          Items.Strings = (
-            'Left'
-            'Right'
-            'Active'
-            'Inactive'
-            'Both'
-            'None'
-          )
-          Style = csDropDownList
-          TabOrder = 4
-          Text = 'Left'
-        end
-        object cbDefaultTargetPanelRightSaved: TComboBox
-          AnchorSideLeft.Control = cbDefaultTargetPanelLeftSaved
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = lblDefaultTargetPanelLeftSaved
-          AnchorSideTop.Side = asrBottom
-          Left = 112
-          Height = 23
-          Top = 118
-          Width = 98
-          BorderSpacing.Left = 6
-          ItemHeight = 15
-          ItemIndex = 1
-          Items.Strings = (
-            'Left'
-            'Right'
-            'Active'
-            'Inactive'
-            'Both'
-            'None'
-          )
-          Style = csDropDownList
-          TabOrder = 5
-          Text = 'Right'
-        end
-        object lblDefaultExistingTabsToKeep: TLabel
-          AnchorSideLeft.Control = gbFavoriteTabsOtherOptions
-          AnchorSideTop.Control = cbDefaultTargetPanelRightSaved
-          AnchorSideTop.Side = asrBottom
-          Left = 6
-          Height = 15
-          Top = 147
-          Width = 151
-          BorderSpacing.Top = 6
-          Caption = 'Default existing tabs to keep:'
-          ParentColor = False
-        end
-        object cbDefaultExistingTabsToKeep: TComboBox
-          AnchorSideLeft.Control = gbFavoriteTabsOtherOptions
-          AnchorSideTop.Control = lblDefaultExistingTabsToKeep
-          AnchorSideTop.Side = asrBottom
-          Left = 6
-          Height = 23
-          Top = 162
-          Width = 100
-          ItemHeight = 15
-          ItemIndex = 5
-          Items.Strings = (
-            'Left'
-            'Right'
-            'Active'
-            'Inactive'
-            'Both'
-            'None'
-          )
-          Style = csDropDownList
-          TabOrder = 6
-          Text = 'None'
-        end
-        object cbNoNeedToConfigAfterReSave: TCheckBox
-          AnchorSideLeft.Control = cbFullExpandTree
-          AnchorSideTop.Control = cbNoNeedToConfigAfterSave
-          AnchorSideTop.Side = asrBottom
-          AnchorSideBottom.Side = asrBottom
-          Left = 6
-          Height = 19
-          Top = 63
-          Width = 187
-          Caption = 'Don''t come here after re-saving'
-          TabOrder = 3
-        end
       end
     end
-    object pnlBottom: TPanel
+    object gpSavedTabsRestorationAction: TGroupBox
+      AnchorSideLeft.Control = gbFavoriteTabs
+      AnchorSideRight.Control = gbFavoriteTabs
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = gbFavoriteTabs
       AnchorSideBottom.Side = asrBottom
       Left = 6
-      Height = 119
-      Top = 494
-      Width = 602
+      Height = 142
+      Top = 424
+      Width = 556
       Anchors = [akLeft, akRight, akBottom]
       AutoSize = True
-      BevelOuter = bvNone
-      ClientHeight = 119
-      ClientWidth = 602
+      Caption = 'What to restore where for the selected entry:'
+      ChildSizing.TopBottomSpacing = 6
+      ClientHeight = 122
+      ClientWidth = 552
       TabOrder = 1
-      object lbleditFavoriteTabsName: TLabeledEdit
-        Tag = 1
-        AnchorSideTop.Control = pnlBottom
-        AnchorSideRight.Control = pnlBottom
-        AnchorSideRight.Side = asrBottom
-        Left = 136
-        Height = 23
-        Top = 9
-        Width = 466
-        Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Top = 9
-        BorderSpacing.Bottom = 6
-        EditLabel.AnchorSideTop.Control = lbleditFavoriteTabsName
-        EditLabel.AnchorSideTop.Side = asrCenter
-        EditLabel.AnchorSideRight.Control = lbleditFavoriteTabsName
-        EditLabel.AnchorSideBottom.Side = asrBottom
-        EditLabel.Left = 98
-        EditLabel.Height = 15
-        EditLabel.Top = 13
-        EditLabel.Width = 35
-        EditLabel.Caption = 'Name:'
-        EditLabel.ParentColor = False
-        EditLabel.ParentFont = False
-        LabelPosition = lpLeft
-        ParentFont = False
-        TabOrder = 0
-        OnEnter = lbleditFavoriteTabsEnter
-        OnExit = lbleditFavoriteTabsExit
-        OnKeyPress = lbleditFavoriteTabsKeyPress
-      end
-      object lbleditFavoriteTabsSavedFilename: TLabeledEdit
-        Tag = 2
-        AnchorSideLeft.Control = lbleditFavoriteTabsName
-        AnchorSideTop.Control = lbleditFavoriteTabsName
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = pnlBottom
-        AnchorSideRight.Side = asrBottom
-        Left = 136
-        Height = 23
-        Top = 38
-        Width = 466
-        Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Top = 6
-        BorderSpacing.Bottom = 6
-        EditLabel.AnchorSideTop.Control = lbleditFavoriteTabsSavedFilename
-        EditLabel.AnchorSideTop.Side = asrCenter
-        EditLabel.AnchorSideRight.Control = lbleditFavoriteTabsSavedFilename
-        EditLabel.AnchorSideBottom.Side = asrBottom
-        EditLabel.Left = 50
-        EditLabel.Height = 15
-        EditLabel.Top = 42
-        EditLabel.Width = 83
-        EditLabel.Caption = 'Saved filename:'
-        EditLabel.ParentColor = False
-        EditLabel.ParentFont = False
-        LabelPosition = lpLeft
-        ParentFont = False
-        TabOrder = 1
-        OnEnter = lbleditFavoriteTabsEnter
-        OnExit = lbleditFavoriteTabsExit
-        OnKeyPress = lbleditFavoriteTabsKeyPress
-      end
-      object cbTargetPanelLeftSavedTabs: TComboBox
-        Tag = 1
-        AnchorSideLeft.Control = lbleditFavoriteTabsName
-        AnchorSideTop.Control = lbleditFavoriteTabsSavedFilename
-        AnchorSideTop.Side = asrBottom
-        Left = 136
-        Height = 23
-        Top = 67
-        Width = 120
-        BorderSpacing.Top = 6
-        ItemHeight = 15
-        ItemIndex = 0
-        Items.Strings = (
-          'Left'
-          'Right'
-          'Active'
-          'Inactive'
-          'Both'
-          'None'
-        )
-        OnChange = cbTabsConfigChange
-        Style = csDropDownList
-        TabOrder = 2
-        Text = 'Left'
-      end
       object lblTargetPanelLeftSavedTabs: TLabel
         AnchorSideTop.Control = cbTargetPanelLeftSavedTabs
         AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = cbTargetPanelLeftSavedTabs
-        Left = 20
+        AnchorSideRight.Control = lblTargetPanelRightSavedTabs
+        AnchorSideRight.Side = asrBottom
+        Left = 109
         Height = 15
-        Top = 71
-        Width = 112
+        Top = 10
+        Width = 187
         Anchors = [akTop, akRight]
-        BorderSpacing.Right = 4
-        Caption = 'Left saved tabs go to:'
+        Caption = 'Tabs saved on left to be restored to:'
         ParentColor = False
       end
       object lblTargetPanelRightSavedTabs: TLabel
-        AnchorSideLeft.Control = cbTargetPanelLeftSavedTabs
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbTargetPanelLeftSavedTabs
+        AnchorSideTop.Control = cbTargetPanelRightSavedTabs
         AnchorSideTop.Side = asrCenter
-        Left = 286
+        AnchorSideRight.Control = cbTargetPanelRightSavedTabs
+        Left = 101
         Height = 15
-        Top = 71
-        Width = 120
-        BorderSpacing.Left = 30
-        Caption = 'Right saved tabs go to:'
+        Top = 39
+        Width = 195
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 4
+        Caption = 'Tabs saved on right to be restored to:'
         ParentColor = False
       end
-      object cbTargetPanelRightSavedTabs: TComboBox
-        Tag = 2
-        AnchorSideLeft.Control = lblTargetPanelRightSavedTabs
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbTargetPanelLeftSavedTabs
+      object lblExistingTabsToKeep: TLabel
+        AnchorSideTop.Control = cbExistingTabsToKeep
         AnchorSideTop.Side = asrCenter
-        Left = 410
-        Height = 23
-        Top = 67
-        Width = 120
-        BorderSpacing.Left = 4
-        ItemHeight = 15
-        ItemIndex = 1
-        Items.Strings = (
-          'Left'
-          'Right'
-          'Active'
-          'Inactive'
-          'Both'
-          'None'
-        )
-        OnChange = cbTabsConfigChange
-        Style = csDropDownList
-        TabOrder = 3
-        Text = 'Right'
+        AnchorSideRight.Control = cbExistingTabsToKeep
+        Left = 186
+        Height = 15
+        Top = 68
+        Width = 110
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 4
+        Caption = 'Existing tabs to keep:'
+        ParentColor = False
       end
       object cbExistingTabsToKeep: TComboBox
         Tag = 3
-        AnchorSideLeft.Control = lbleditFavoriteTabsName
-        AnchorSideTop.Control = cbTargetPanelLeftSavedTabs
+        AnchorSideLeft.Control = cbTargetPanelLeftSavedTabs
+        AnchorSideTop.Control = cbTargetPanelRightSavedTabs
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = cbTargetPanelLeftSavedTabs
         AnchorSideRight.Side = asrBottom
-        Left = 136
+        Left = 300
         Height = 23
-        Top = 96
+        Top = 64
         Width = 120
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
@@ -571,47 +311,139 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
         )
         OnChange = cbTabsConfigChange
         Style = csDropDownList
-        TabOrder = 4
+        TabOrder = 2
         Text = 'None'
       end
-      object lblExistingTabsToKeep: TLabel
-        AnchorSideTop.Control = cbExistingTabsToKeep
-        AnchorSideTop.Side = asrCenter
+      object cbTargetPanelRightSavedTabs: TComboBox
+        Tag = 2
+        AnchorSideLeft.Control = cbTargetPanelLeftSavedTabs
+        AnchorSideTop.Control = cbTargetPanelLeftSavedTabs
+        AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = cbTargetPanelLeftSavedTabs
-        Left = 22
+        AnchorSideRight.Side = asrBottom
+        Left = 300
+        Height = 23
+        Top = 35
+        Width = 120
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 6
+        ItemHeight = 15
+        ItemIndex = 1
+        Items.Strings = (
+          'Left'
+          'Right'
+          'Active'
+          'Inactive'
+          'Both'
+          'None'
+        )
+        OnChange = cbTabsConfigChange
+        Style = csDropDownList
+        TabOrder = 1
+        Text = 'Right'
+      end
+      object cbTargetPanelLeftSavedTabs: TComboBox
+        Tag = 1
+        AnchorSideLeft.Control = gpSavedTabsRestorationAction
+        AnchorSideTop.Control = gpSavedTabsRestorationAction
+        AnchorSideRight.Side = asrBottom
+        Left = 300
+        Height = 23
+        Top = 6
+        Width = 120
+        BorderSpacing.Left = 300
+        BorderSpacing.Top = 6
+        ItemHeight = 15
+        ItemIndex = 0
+        Items.Strings = (
+          'Left'
+          'Right'
+          'Active'
+          'Inactive'
+          'Both'
+          'None'
+        )
+        OnChange = cbTabsConfigChange
+        Style = csDropDownList
+        TabOrder = 0
+        Text = 'Left'
+      end
+      object cbSaveDirHistory: TComboBox
+        Tag = 4
+        AnchorSideLeft.Control = cbTargetPanelLeftSavedTabs
+        AnchorSideTop.Control = cbExistingTabsToKeep
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = cbTargetPanelLeftSavedTabs
+        AnchorSideRight.Side = asrBottom
+        Left = 300
+        Height = 23
+        Top = 93
+        Width = 120
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 6
+        ItemHeight = 15
+        ItemIndex = 0
+        Items.Strings = (
+          'No'
+          'Yes'
+        )
+        OnChange = cbTabsConfigChange
+        Style = csDropDownList
+        TabOrder = 3
+        Text = 'No'
+      end
+      object lblSaveDirHistory: TLabel
+        AnchorSideTop.Control = cbSaveDirHistory
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = cbExistingTabsToKeep
+        Left = 213
         Height = 15
-        Top = 100
-        Width = 110
+        Top = 97
+        Width = 83
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 4
-        Caption = 'Existing tabs to keep:'
+        Caption = 'Save dir history:'
         ParentColor = False
       end
     end
   end
   object pmFavoriteTabsTestMenu: TPopupMenu[1]
-    left = 208
-    top = 368
+    left = 96
+    top = 336
     object miFavoriteTabsTestMenu: TMenuItem
       Caption = 'FavoriteTabsTestMenu'
     end
   end
   object pmTreeView: TPopupMenu[2]
     left = 96
-    top = 368
-    object miAddCopyOfSelected2: TMenuItem
-      Tag = 256
-      Caption = 'Add a copy of the selected entry'
-      ShortCut = 116
-      OnClick = miInsertAddFavoriteTabsClick
+    top = 272
+    object miRename: TMenuItem
+      Caption = 'Rename'
+      ShortCut = 117
+      OnClick = btnRenameClick
     end
-    object miSeparator6: TMenuItem
+    object MenuItem1: TMenuItem
       Caption = '-'
+    end
+    object miInsertSeparator: TMenuItem
+      Tag = 17
+      Caption = 'Insert separator'
+      ShortCut = 8313
+      OnClick = miInsertAddFavoriteTabsClick
     end
     object miAddSeparator2: TMenuItem
       Tag = 33
-      Caption = 'Add a separator'
+      Caption = 'Add separator'
       ShortCut = 121
+      OnClick = miInsertAddFavoriteTabsClick
+    end
+    object MenuItem2: TMenuItem
+      Caption = '-'
+    end
+    object miInsertSubMenu: TMenuItem
+      Tag = 18
+      Caption = 'Insert sub-menu'
+      ShortCut = 8310
       OnClick = miInsertAddFavoriteTabsClick
     end
     object miAddSubmenu2: TMenuItem
@@ -626,7 +458,7 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
     object miDeleteSelectedEntry2: TMenuItem
       Tag = 1
       Caption = 'Delete selected item'
-      ShortCut = 119
+      ShortCut = 46
       OnClick = miDeleteSelectedEntryClick
     end
     object miSeparator8: TMenuItem
@@ -652,8 +484,16 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
       ShortCut = 16470
       OnClick = miPasteSelectionClick
     end
+    object miSeparator1: TMenuItem
+      Caption = '-'
+    end
+    object miImportLegacyTabFilesAtPos1: TMenuItem
+      Tag = 1
+      Caption = 'Import legacy .tab file(s) at selected position'
+      OnClick = miImportLegacyTabFilesClick
+    end
   end
-  object pmAddToFavoriteTabs: TPopupMenu[3]
+  object pmInsertAddToFavoriteTabs: TPopupMenu[3]
     left = 96
     top = 40
     object miAddSeparator: TMenuItem
@@ -699,14 +539,35 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
       OnClick = miDeleteAllFavoriteTabsClick
     end
   end
-  object pmMiscellaneousFavoriteTabs: TPopupMenu[5]
-    left = 104
+  object pmImportExport: TPopupMenu[5]
+    left = 96
     top = 216
-    object miTestResultingHotlistMenu: TMenuItem
-      Caption = 'Test resulting menu'
-      OnClick = miTestResultingHotlistMenuClick
+    object miImportLegacyTabFilesAtPos: TMenuItem
+      Tag = 1
+      Caption = 'Import legacy .tab file(s) at selected position'
+      OnClick = miImportLegacyTabFilesClick
+    end
+    object miImportLegacyTabFilesAccSetting: TMenuItem
+      Caption = 'Import legacy .tab file(s) according to default setting'
+      OnClick = miImportLegacyTabFilesClick
+    end
+    object miImportLegacyTabFilesInSubAtPos: TMenuItem
+      Tag = 2
+      Caption = 'Import legacy .tab file(s) at selected position in a sub menu'
+      OnClick = miImportLegacyTabFilesClick
+    end
+    object miExportToLegacyTabsFile: TMenuItem
+      Caption = 'Export selection to legacy .tab file(s)'
+      OnClick = miExportToLegacyTabsFileClick
     end
     object miSeparator10: TMenuItem
+      Caption = '-'
+    end
+    object miTestResultingFavoriteTabsMenu: TMenuItem
+      Caption = 'Test resulting menu'
+      OnClick = miTestResultingFavoriteTabsMenuClick
+    end
+    object miSeparator11: TMenuItem
       Caption = '-'
     end
     object miOpenAllBranches: TMenuItem
@@ -746,5 +607,12 @@ inherited frmOptionsFavoriteTabs: TfrmOptionsFavoriteTabs
       Caption = '...everything, from A to Z!'
       OnClick = miSortFavoriteTabsClick
     end
+  end
+  object OpenDialog: TOpenDialog[7]
+    Filter = 'Legacy DC .tab files|*.tab|Any files|*.*'
+    FilterIndex = 0
+    Options = [ofAllowMultiSelect, ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
+    left = 96
+    top = 392
   end
 end

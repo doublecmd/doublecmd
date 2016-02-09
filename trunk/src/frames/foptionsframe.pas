@@ -72,7 +72,7 @@ type
     procedure Init(AParent: TWinControl;
                    AOptionsDialog: IOptionsDialog;
                    Flags: TOptionsEditorInitFlags);
-    function CanWeClose(var WillNeedUpdateWindowView:boolean):boolean; virtual;
+    function CanWeClose(var {%H-}WillNeedUpdateWindowView:boolean):boolean; virtual;
   end;
 
   { TOptionsEditorRec }
@@ -136,6 +136,7 @@ uses
   fOptionsQuickSearchFilter,
   fOptionsTabs,
   fOptionsFavoriteTabs,
+  fOptionsTabsExtra,
   fOptionsTerminal,
   fOptionsToolbar,
   fOptionsTools,
@@ -296,6 +297,7 @@ begin
   Main.Add(TfrmOptionsFileOperations);
   FolderTabs := Main.Add(TfrmOptionsTabs);
   FolderTabs.Add(TfrmOptionsFavoriteTabs);
+  FolderTabs.Add(TfrmOptionsTabsExtra);
   Main.Add(TfrmOptionsLog);
   Main.Add(TfrmOptionsConfiguration);
   Main.Add(TfrmOptionsQuickSearchFilter);

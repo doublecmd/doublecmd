@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementing of Options dialog
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2016  Koblov Alexander (Alexx2000@mail.ru)
 
    contributors:
 
@@ -90,6 +90,7 @@ type
   function ShowOptions(EditorClassName: String): IOptionsDialog;
   procedure SortConfigurationOptionsOnLeftTree; //If the var "frmOptions" would be in the interface section, we could have called directly "frmOptions.tvTreeView.CustomSort(@frmOptions.CompareTwoNodeOfConfigurationOptionTree);"
                                                 //But it's not the case... Let's create this routine and respect the wish of original authors to have it there. Maybe there is a raison why so let's play safe.
+                                                function GetOptionsForm: TfrmOptions;
 
 implementation
 
@@ -101,6 +102,14 @@ uses
 var
   LastOpenedEditor: TOptionsEditorClass = nil;
   frmOptions: TfrmOptions = nil;
+
+{ GetOptionsForm }
+// To get a point on the frmOptions.
+// Could have been simple to place "frmOptions" in the "interface" section but not sure why original author hide it under. Let's play safe.
+function GetOptionsForm: TfrmOptions;
+begin
+  result := frmOptions;
+end;
 
 function ShowOptions(EditorClass: TOptionsEditorClass): IOptionsDialog;
 begin

@@ -270,7 +270,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="227">
+    <Units Count="228">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1200,6 +1200,7 @@ end;"/>
       <Unit147>
         <Filename Value="filesources\filesystem\ufilesystemsetfilepropertyoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemSetFilePropertyOperation"/>
       </Unit147>
       <Unit148>
         <Filename Value="filesources\filesystem\ufilesystemsplitoperation.pas"/>
@@ -1613,6 +1614,14 @@ end;"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsToolsEditor"/>
       </Unit226>
+      <Unit227>
+        <Filename Value="frames\foptionstabsextra.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsTabsExtra"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsTabsExtra"/>
+      </Unit227>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

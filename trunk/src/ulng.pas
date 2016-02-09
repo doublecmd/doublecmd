@@ -228,6 +228,7 @@ resourcestring
   rsMsgFavoriteTabsEnterName = 'Enter a name this Favorite Tabs entry';
   rsMsgFavoriteTabsEnterNameTitle = 'Saving a new Favorite Tabs entry';
   rsMsgFavoriteTabsSubMenuName = 'Submenu name';
+  rsMsgFavoriteTabsImportSubMenuName = 'Legacy tabs imported';
   rsMsgFavoriteTabsDragHereEntry = 'Drag here other entries';
   rsMsgFavoriteTabsName = 'Name';
   rsMsgFavoriteTabsSimpleSeparator = '(separator)';
@@ -237,11 +238,20 @@ resourcestring
   rsMsgFavoriteTabsSaveLastLoadOver = 'Save to Favorite Tabs over last loaded entry (%s)';
   rsOptFavoriteTabsWhereToAddInList = 'Add at beginning;Add at the end;Alphabetical sort';
   rsMsgFavoriteTabsNameSample = 'This will load your Favorites Tabs entry setup called %s';
-  rsMsgFavoriteTabsThisWillLoadTabFile = 'The file with tabs info is: "%s"';
+  rsMsgFavoriteTabsThisWillLoadFavTabs = 'This will load the Favorite Tabs: "%s"';
   rsMsgFavoriteTabsHasBeenAdded = 'Favorite Tabs have been added in memory!'; //Don't write "Saved" since it will be saved only when quiting.
   rsMsgFavoriteTabsDeleteAllEntries = 'Are you sure you want to remove all entries of your Favorite Tabs? (There is no "undo" to this action!)';
   rsMsgFavoriteTabsErrorLoading = 'Error loading Favorite Tabs...';
   rsMsgFavoriteTabsErrorSaving = 'Error saving Favorite Tabs...';
+  rsTitleRenameFavTabs = 'Rename Favorite Tabs';
+  rsMsgRenameFavTabs = 'Enter new friendly name for this Favorite Tabs';
+  rsTitleRenameFavTabsMenu = 'Rename Favorite Tabs sub-menu';
+  rsMsgRenameFavTabsMenu = 'Enter new name for this menu';
+  rsMsgFavoriteTabsImportedSuccessfully = 'Number of file(s) imported successfully: %d on %d';
+  rsMsgFavoriteTabsExportedSuccessfully = 'Number of Favorite Tabs exported successfully: %d on %d';
+  rsMsgFavoriteTabsModifiedNoImport = 'Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?';
+  rsMsgFavoriteTabsSimpleMode = 'Keep saving dir history with Favorite Tabs:';
+  rsMsgFavoriteTabsExtraMode = 'Default extra setting for save dir history for new Favorite Tabs:';
 
   //Total Commander related message
   rsMsgLocateTCExecutable = 'Locate TC executable file (totalcmd.exe or totalcmd64.exe)';
@@ -530,15 +540,6 @@ resourcestring
   rsZeroReplacement = 'No replacement took place.';
   rsXReplacements = 'Number of replacement: %d';
 
-  // Groups
-  rsGroupNewGroup = 'Creating new group';
-  rsGroupNewGroupName  = 'Group name:';
-  rsGroupAlreadyExists = 'Group with entered name already exist, overwrite?';
-  rsGroupDeleteActive = 'Sure want to remove Active group from menu?';
-  rsGroupRewriteActive = 'Sure want to rewrite Active group with current tabs?';
-
-
-
   // Options editors
   rsOptionsEditorArchivers = 'Archivers';
   rsOptionsEditorAutoRefresh = 'Auto refresh';
@@ -555,6 +556,7 @@ resourcestring
   rsOptionsEditorFileTypes = 'File types';
   rsOptionsEditorFilesViews = 'Files views';
   rsOptionsEditorFolderTabs = 'Folder tabs';
+  rsOptionsEditorFolderTabsExtra = 'Folder tabs extra';
   rsOptionsEditorFonts = 'Fonts';
   rsOptionsEditorHighlighters = 'Highlighters';
   rsOptionsEditorHotKeys = 'Hot keys';
@@ -692,6 +694,7 @@ resourcestring
   rsConfigurationFileAssociation = 'Configure file association';
   //Folder tab
   rsMsgTabsOptionsModifiedWantToSave = 'Options regarding folder tabs have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
+  rsMsgTabsExtraOptionsModifiedWantToSave = 'Options regarding folder tabs extra have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
   //Variables
   rsConfirmExecution = 'Confirming command line and parameters';
   rsVarHelpWith = 'Help with "%" variables';
@@ -885,7 +888,8 @@ const
   );
 var
   UserLang, LCLLngDir: String;
-  Lang, FallbackLang: String;
+  Lang: String =  '';
+  FallbackLang: string = '';
 begin
   LCLLngDir:= gpLngDir + PathDelim + 'lcl' + PathDelim;
   if NumCountChars('.', poFileName) >= 2 then
@@ -907,7 +911,8 @@ end;
 
 procedure lngLoadLng(const sFileName:String);
 var
-  Lang, FallbackLang : String;
+  Lang: String = '';
+  FallbackLang: String = '';
 begin
   { Localization }
   if sFileName = 'doublecmd.po' then Exit;  // default english interface

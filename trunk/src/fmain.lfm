@@ -1277,23 +1277,19 @@ object frmMain: TfrmMain
         Action = actConfigFavoriteTabs
       end
     end
-    object mnuGroups: TMenuItem
-      Caption = 'Groups'
-      object mnuRewriteActiveGroup: TMenuItem
-        Action = actRewriteActiveGroup
-        Caption = 'Rewrite Active Group'
+    object mnuFavoriteTabs: TMenuItem
+      Caption = 'Favorites'
+      object mnuCreateNewFavoriteTabs: TMenuItem
+        Action = actSaveFavoriteTabs
       end
-      object mnuNewGroup: TMenuItem
-        Action = actNewGroup
+      object mnuRewriteFavoriteTabs: TMenuItem
+        Action = actResaveFavoriteTabs
       end
-      object mnuRestoreActiveGroup: TMenuItem
-        Action = actRestoreActiveGroup
+      object mnuReloadActiveFavoriteTabs: TMenuItem
+        Action = actReloadFavoriteTabs
       end
-      object mnuDeleteActiveGroup: TMenuItem
-        Action = actDeleteActiveGroup
-      end
-      object miLineStartGroups: TMenuItem
-        Caption = '-'
+      object mnuConfigureFavoriteTabs: TMenuItem
+        Action = actConfigFavoriteTabs
       end
     end
     object mnuShow: TMenuItem
@@ -2397,42 +2393,6 @@ object frmMain: TfrmMain
       Tag = 16
       Category = 'Window'
       Caption = '&Tree View Panel'
-      OnExecute = actExecute
-    end
-    object actNewGroup: TAction
-      Tag = 7
-      Category = 'Groups'
-      Caption = 'New Group'
-      OnExecute = actExecute
-    end
-    object actRestoreActiveGroup: TAction
-      Tag = 7
-      Category = 'Groups'
-      Caption = 'Restore Active Group'
-      OnExecute = actExecute
-    end
-    object actNextGroup: TAction
-      Tag = 7
-      Category = 'Groups'
-      Caption = 'Switch to next group'
-      OnExecute = actExecute
-    end
-    object actDeleteActiveGroup: TAction
-      Tag = 7
-      Category = 'Groups'
-      Caption = 'Delete active group'
-      OnExecute = actExecute
-    end
-    object actRewriteActiveGroup: TAction
-      Tag = 7
-      Category = 'Groups'
-      Caption = 'actRewriteActiveGroup'
-      OnExecute = actExecute
-    end
-    object actPrevGroup: TAction
-      Tag = 7
-      Category = 'Groups'
-      Caption = 'Switch to previous group'
       OnExecute = actExecute
     end
     object actConfigFolderTabs: TAction

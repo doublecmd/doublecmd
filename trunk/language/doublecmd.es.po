@@ -10555,6 +10555,108 @@ msgstr "Demasiados archivos para comprimir"
 msgid "Archive format unknown"
 msgstr "Formato de archivo comprimido desconocido"
 
+#: ulng.rsmsgfavoritetabsdeleteallentries
+msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsdraghereentry
+msgid "Drag here other entries"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsendofmenu
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabsendofmenu"
+msgid "(end of sub menu)"
+msgstr "(fin de sub-menú)"
+
+#: ulng.rsmsgfavoritetabsentername
+msgid "Enter a name this Favorite Tabs entry"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsenternametitle
+msgid "Saving a new Favorite Tabs entry"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabserrorloading
+msgid "Error loading Favorite Tabs..."
+msgstr ""
+
+#: ulng.rsmsgfavoritetabserrorsaving
+msgid "Error saving Favorite Tabs..."
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsexportedsuccessfully
+msgid "Number of Favorite Tabs exported successfully: %d on %d"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsextramode
+msgid "Default extra setting for save dir history for new Favorite Tabs:"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabshasbeenadded
+msgid "Favorite Tabs have been added in memory!"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsimportedsuccessfully
+msgid "Number of file(s) imported successfully: %d on %d"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsimportsubmenuname
+msgid "Legacy tabs imported"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsmodifiednoimport
+msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsmodifiedwanttosave
+msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsname
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabsname"
+msgid "Name"
+msgstr "Nombre"
+
+#: ulng.rsmsgfavoritetabsnamesample
+msgid "This will load your Favorites Tabs entry setup called %s"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabssavelastloadover
+msgid "Save to Favorite Tabs over last loaded entry (%s)"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabssimplemenu
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabssimplemenu"
+msgid "Menu name:"
+msgstr "Nombre menú:"
+
+#: ulng.rsmsgfavoritetabssimplemode
+msgid "Keep saving dir history with Favorite Tabs:"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabssimpleseparator
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
+msgid "(separator)"
+msgstr "(separador)"
+
+#: ulng.rsmsgfavoritetabssubmenuname
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabssubmenuname"
+msgid "Submenu name"
+msgstr "Nombre sub-menú"
+
+#: ulng.rsmsgfavoritetabsthiswillloadfavtabs
+msgid "This will load the Favorite Tabs: \"%s\""
+msgstr ""
+
+#: ulng.rsmsgfavortietabssaveoverexisting
+msgid "Save current tabs over existing Favorite Tabs entry"
+msgstr ""
+
 #: ulng.rsmsgfileassociationsextramodifiedwanttosave
 msgid ""
 "File extension associations extra options have been modified.\n"
@@ -10762,10 +10864,12 @@ msgid "Command:"
 msgstr "Comando:"
 
 #: ulng.rsmsghotdirsimpleendofmenu
+msgctxt "ulng.rsmsghotdirsimpleendofmenu"
 msgid "(end of sub menu)"
 msgstr "(fin de sub-menú)"
 
 #: ulng.rsmsghotdirsimplemenu
+msgctxt "ulng.rsmsghotdirsimplemenu"
 msgid "Menu name:"
 msgstr "Nombre menú:"
 
@@ -10775,10 +10879,12 @@ msgid "Name:"
 msgstr "Nombre:"
 
 #: ulng.rsmsghotdirsimpleseparator
+msgctxt "ulng.rsmsghotdirsimpleseparator"
 msgid "(separator)"
 msgstr "(separador)"
 
 #: ulng.rsmsghotdirsubmenuname
+msgctxt "ulng.rsmsghotdirsubmenuname"
 msgid "Submenu name"
 msgstr "Nombre sub-menú"
 
@@ -11082,6 +11188,14 @@ msgstr "Achivo para texto soltado:"
 msgid "Please, make this file available. Retry?"
 msgstr "Por favor, haga este archivo disponible. Reintentar?"
 
+#: ulng.rsmsgrenamefavtabs
+msgid "Enter new friendly name for this Favorite Tabs"
+msgstr ""
+
+#: ulng.rsmsgrenamefavtabsmenu
+msgid "Enter new name for this menu"
+msgstr ""
+
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
 msgstr "Renombrar/mover %d archivos/directorios seleccionados a:"
@@ -11188,6 +11302,10 @@ msgstr "Usar otra carpeta especial de Windows..."
 msgid "Use Windows special folder (TC)..."
 msgstr "Usar carpeta especial de Windows (TC)..."
 
+#: ulng.rsmsgtabforopeninginnewtab
+msgid "This tab (%s) is locked! Open directory in another tab?"
+msgstr ""
+
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
 msgstr "Renombrar pestaña"
@@ -11195,6 +11313,20 @@ msgstr "Renombrar pestaña"
 #: ulng.rsmsgtabrenameprompt
 msgid "New tab name:"
 msgstr "Nombre de la nueva pestaña:"
+
+#: ulng.rsmsgtabsextraoptionsmodifiedwanttosave
+msgid ""
+"Options regarding folder tabs extra have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
+
+#: ulng.rsmsgtabsoptionsmodifiedwanttosave
+msgid ""
+"Options regarding folder tabs have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
@@ -11688,6 +11820,10 @@ msgstr "Marca + Cursor"
 msgid "Text"
 msgstr "Texto"
 
+#: ulng.rsoptfavoritetabswheretoaddinlist
+msgid "Add at beginning;Add at the end;Alphabetical sort"
+msgstr ""
+
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
 msgstr "ventana separada;ventana separada minimizada;panel de operaciones"
@@ -11849,6 +11985,10 @@ msgstr "Arrastrar y soltar"
 msgid "Drives list button"
 msgstr "Botón de lista de unidades"
 
+#: ulng.rsoptionseditorfavoritetabs
+msgid "Favorite Tabs"
+msgstr ""
+
 #: ulng.rsoptionseditorfileassicextra
 msgid "File associations extra"
 msgstr ""
@@ -11881,6 +12021,10 @@ msgstr "Tipos de archivos"
 msgctxt "ulng.rsoptionseditorfoldertabs"
 msgid "Folder tabs"
 msgstr "Pestañas de carpeta"
+
+#: ulng.rsoptionseditorfoldertabsextra
+msgid "Folder tabs extra"
+msgstr ""
 
 #: ulng.rsoptionseditorfonts
 msgctxt "ulng.rsoptionseditorfonts"
@@ -12167,6 +12311,10 @@ msgstr "Vista previa"
 msgid "Result"
 msgstr ""
 
+#: ulng.rssimplewordsaved
+msgid "Saved!"
+msgstr ""
+
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
 msgstr ""
@@ -12260,6 +12408,14 @@ msgstr "Semana(s)"
 #: ulng.rstimeunityear
 msgid "Year(s)"
 msgstr "Año(s)"
+
+#: ulng.rstitlerenamefavtabs
+msgid "Rename Favorite Tabs"
+msgstr ""
+
+#: ulng.rstitlerenamefavtabsmenu
+msgid "Rename Favorite Tabs sub-menu"
+msgstr ""
 
 #: ulng.rstooldiffer
 msgctxt "ulng.rstooldiffer"
