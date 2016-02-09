@@ -55,7 +55,7 @@ const
   ICONINDEX_DIRECTORYNOTPRESENTHERE = 1;
   ICONINDEX_SUBMENUWITHMISSING = 2;
   ICONINDEX_NEWADDEDDIRECTORY = 3;
-  ICONINDEXNAME:array[0..5] of string = ('submenu','dirmissing','submenuwithmissing','newaddition','newadditionfavtabs','submenufavtabs');
+  ICONINDEXNAME:array[0..3] of string = ('submenu','dirmissing','submenuwithmissing','newaddition');
 
   HOTLIST_SEPARATORSTRING:string='···························';
   TERMINATORNOTPRESENT = ':-<#/?*+*?\#>-:';

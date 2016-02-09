@@ -34,15 +34,7 @@ uses
 
   //DC
   DCXmlConfig;
-
 const
-  cSectionOfFavoriteTab = 'FavoriteTabsList';
-
-  // These has to match with the "ICONINDEXNAME" sequence in "uHotDir.pas" since loaded in "imgLstDirectoryHotlist" in "fMain".
-  // (Did not want to createa new image list just for this :-/ )
-  ICONINDEX_NEWADDEDFAVTABS = 4;
-  ICONINDEX_SUBMENUFAVTABS = 5;
-
   FAVORITETABS_SEPARATORSTRING: string = '···························';
 
   // In "uMainCommands", the procedure "DoOnClickMenuJobFavoriteTabs" is called when a menu item of "FavoriteTabs" popup menu item is clicked.
@@ -58,6 +50,7 @@ type
   // These must match with the order of "gsConfigLocationName"
   // Note: NEVER CHANGE THE ORDER OF THESE CONSTANTS SINCE SETTINGS SAVED ASSUMED THIS ORDER FOREVER.
   TTabsConfigLocation = (tclLeft, tclRight, tclActive, tclInactive, tclBoth, tclNone);
+  TTabsFlagsAlreadyDestroyed = set of (tfadLeft, tfadRight);
 
   { TKindOfFavoriteTabsEntry }
   TKindOfFavoriteTabsEntry = (fte_NULL, fte_ACTUALFAVTABS, fte_SEPARATOR, fte_STARTMENU, fte_ENDMENU);
@@ -76,21 +69,23 @@ type
   private
     FDispatcher: TKindOfFavoriteTabsEntry;
     FFavoriteTabsName: string; // Friendly name, what the user decides, see, use, breath!
-    FFavoriteTabsSavedFilename: string;
-    FDestinationForSavedLeftTabs: TTabsConfigLocation;
-    FDestinationForSavedRightTabs: TTabsConfigLocation;
-    FExistingTabsToKeep: TTabsConfigLocation;
-    FUniqueID: TGUID;
+    FDestinationForSavedLeftTabs: TTabsConfigLocation; // Configured restoration destination side for what was saved from left panel.
+    FDestinationForSavedRightTabs: TTabsConfigLocation; // Configured restoration destination side for what was saved from right panel.
+    FExistingTabsToKeep: TTabsConfigLocation; // Useful when we restore tabs, to determine if we keep or not the existing ones.
+    FSaveDirHistory: boolean; // Indicate if we save the dir history or not for that setup.
+    FUniqueID: TGUID; // Key info! This is the unique number identifying the FactoriteTabs.
     FGroupNumber: integer; // We won't save in the XML. Just useful run-time with the tree.
   public
     constructor Create;
     procedure CopyToFavoriteTabs(DestinationFavoriteTabs: TFavoriteTabs; bExactCopyWanted: boolean = True);
+    function GuidToXMLString: string;
+    procedure SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode);
     property Dispatcher: TKindOfFavoriteTabsEntry read FDispatcher write FDispatcher;
     property FavoriteTabsName: string read FFavoriteTabsName write FFavoriteTabsName;
-    property FavoriteTabsSavedFilename: string read FFavoriteTabsSavedFilename write FFavoriteTabsSavedFilename;
     property DestinationForSavedLeftTabs: TTabsConfigLocation read FDestinationForSavedLeftTabs write FDestinationForSavedLeftTabs;
     property DestinationForSavedRightTabs: TTabsConfigLocation read FDestinationForSavedRightTabs write FDestinationForSavedRightTabs;
     property ExistingTabsToKeep: TTabsConfigLocation read FExistingTabsToKeep write FExistingTabsToKeep;
+    property SaveDirHistory: boolean read FSaveDirHistory write FSaveDirHistory;
     property UniqueID: TGUID read FUniqueID write FUniqueID;
     property GroupNumber: integer read FGroupNumber write FGroupNumber;
   end;
@@ -99,26 +94,42 @@ type
   TFavoriteTabsList = class(TList)
   private
     FLastFavoriteTabsLoadedUniqueId: TGUID;
+    FLastImportationStringUniqueId: TStringList;
+    FAssociatedMainMenuItem: TMenuItem;
     function GetFavoriteTabs(Index: integer): TFavoriteTabs;
+    function GetBestIndexForAlphabeticalNewFavoriteTabs(sFavoriteTabsNameToFindAPlaceFor: string): integer;
+    function GetIndexForSuchFavoriteTabsName(sSearchedFavoriteTabsName: string): integer;
+    procedure AddToListAndToXmlFileHeader(paramFavoriteTabs: TFavoriteTabs; AConfig: TXmlConfig; SpecifiedIndex: integer = -1);
+    function ActualDumpFavoriteTabsListInXml(AConfig: TXmlConfig): boolean;
   public
     constructor Create;
+    destructor Destroy; override;
     procedure Clear; override;
     function Add(FavoriteTabs: TFavoriteTabs): integer;
     procedure DeleteFavoriteTabs(Index: integer);
     procedure CopyFavoriteTabsListToFavoriteTabsList(var DestinationFavoriteTabsList: TFavoriteTabsList);
-    function ComputeSignature: dword;
     function GetIndexLastFavoriteTabsLoaded: integer;
     function GetIndexPreviousLastFavoriteTabsLoaded: integer;
     function GetIndexNextLastFavoriteTabsLoaded: integer;
-    function GetSuggestedParamsForFavoriteTabs(sAttemptedName: string; var SuggestedFavoriteTabsName: string; var SuggestedFavoriteTabsSavedFilename: string): boolean;
-    function GetIndexForSuchFavoriteTabsName(sSearchedFavoriteTabsName: string): integer;
+    function GetIndexForSuchUniqueID(SearchedGUID: TGUID): integer;
+    function GetSuggestedParamsForFavoriteTabs(sAttemptedName: string; var SuggestedFavoriteTabsName: string): boolean;
+    function ComputeSignature: dword;
+    procedure LoadAllListFromXml;
+    function LoadTabsFromXmlEntry(paramIndexToLoad: integer): boolean;
+    function SaveNewEntryFavoriteTabs(paramFavoriteTabsEntryName: string): boolean;
+    function ReSaveTabsToXMLEntry(paramIndexToSave: integer): boolean;
+    function SaveCurrentFavoriteTabsIfAnyPriorToChange: boolean;
+    function RefreshXmlFavoriteTabsListSection: boolean;
     procedure PopulateMenuWithFavoriteTabs(mncmpMenuComponentToPopulate: TComponent; ProcedureWhenFavoriteTabItemClicked: TProcedureWhenClickOnMenuItem; KindFavoriteTabMenuPopulation: TKindFavoriteTabsMenuPopulation);
-    function LoadTTreeView(ParamTreeView: TTreeView; FavoriteTabsIndexToSelectIfAny: longint): TTreeNode;
+    procedure RefreshAssociatedMainMenu;
+    procedure LoadTTreeView(ParamTreeView: TTreeView);
     procedure RefreshFromTTreeView(ParamTreeView: TTreeView);
-    procedure LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
-    procedure SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode; FlagEraseOriginalOnes: boolean);
+    function ImportFromLegacyTabsFile(paramFilename: string; SpecifiedIndex: integer = -1): boolean;
+    function ExportToLegacyTabsFile(index: integer; OutputDirectory: string): boolean;
     property FavoriteTabs[Index: integer]: TFavoriteTabs read GetFavoriteTabs;
     property LastFavoriteTabsLoadedUniqueId: TGUID read FLastFavoriteTabsLoadedUniqueId write FLastFavoriteTabsLoadedUniqueId;
+    property AssociatedMainMenuItem: TMenuItem read FAssociatedMainMenuItem write FAssociatedMainMenuItem;
+    property LastImportationStringUniqueId: TStringList read FLastImportationStringUniqueId write FLastImportationStringUniqueId;
   end;
 
 { GetNewUniqueID }
@@ -128,11 +139,17 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  crc, Graphics, Forms, lazutf8, Dialogs,
+  LCLProc, crc, Graphics, Forms, lazutf8, Dialogs,
 
   //DC
-  fMain, DCFileAttributes, uDebug, uDCUtils, uLng, DCOSUtils, uGlobs,
-  uFileProcs, DCStrUtils;
+  fMain, DCFileAttributes, uDebug, uDCUtils, uLng, DCOSUtils, uGlobs, uShowMsg,
+  uFilePanelSelect, DCStrUtils;
+
+{ GetSingleXmlFavoriteTabsFilename }
+function GetSingleXmlFavoriteTabsFilename: string;
+begin
+  Result := mbExpandFileName(IncludeTrailingPathDelimiter(EnvVarConfigPath) + 'favoritetabs.xml');
+end;
 
 { GetNewUniqueID }
 function GetNewUniqueID: TGUID;
@@ -148,16 +165,26 @@ begin
   end;
 end;
 
+{ XmlStringToGuid }
+function XmlStringToGuid(sXmlString: string): TGUID;
+begin
+  sXmlString := '{' + copy(sXmlString, 5, (length(sXmlString) - 4)) + '}';
+  Result := StringToGuid(sXmlString);
+end;
+
+
+{ TFavoriteTabs }
+
 { TFavoriteTabs.Create }
 constructor TFavoriteTabs.Create;
 begin
   inherited Create;
   FDispatcher := fte_NULL;
   FFavoriteTabsName := '';
-  FFavoriteTabsSavedFilename := '';
   FDestinationForSavedLeftTabs := tclLeft;
   FDestinationForSavedRightTabs := tclRight;
   FExistingTabsToKeep := tclNone;
+  FSaveDirHistory := False;
   FUniqueID := GetNewUniqueID;
   FGroupNumber := 0;
 end;
@@ -167,19 +194,75 @@ procedure TFavoriteTabs.CopyToFavoriteTabs(DestinationFavoriteTabs: TFavoriteTab
 begin
   DestinationFavoriteTabs.Dispatcher := FDispatcher;
   DestinationFavoriteTabs.FavoriteTabsName := FFavoriteTabsName;
-  DestinationFavoriteTabs.FavoriteTabsSavedFilename := FFavoriteTabsSavedFilename;
   DestinationFavoriteTabs.DestinationForSavedLeftTabs := FDestinationForSavedLeftTabs;
   DestinationFavoriteTabs.DestinationForSavedRightTabs := FDestinationForSavedRightTabs;
   DestinationFavoriteTabs.ExistingTabsToKeep := FExistingTabsToKeep;
+  DestinationFavoriteTabs.SaveDirHistory := FSaveDirHistory;
   if bExactCopyWanted then DestinationFavoriteTabs.UniqueID := FUniqueId else DestinationFavoriteTabs.UniqueID := GetNewUniqueID;
   DestinationFavoriteTabs.GroupNumber := FGroupNumber;
 end;
+
+{TFavoriteTabs.GuidToXMLString }
+function TFavoriteTabs.GuidToXMLString: string;
+begin
+  Result := GuidToString(FUniqueID);
+  Result := 'GUID' + copy(Result, 2, (length(Result) - 2));
+end;
+
+{ TFavoriteTabs.SaveToXml }
+procedure TFavoriteTabs.SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode);
+begin
+  AConfig.SetAttr(ANode, 'UniqueID', GuidToString(FUniqueID));
+
+  case Dispatcher of
+    fte_NULL:
+    begin
+      AConfig.SetAttr(ANode, 'Name', '');
+    end;
+
+    fte_ACTUALFAVTABS:
+    begin
+      AConfig.SetAttr(ANode, 'Name', FFavoriteTabsName);
+      AConfig.SetAttr(ANode, 'DestLeft', integer(FDestinationForSavedLeftTabs));
+      AConfig.SetAttr(ANode, 'DestRight', integer(FDestinationForSavedRightTabs));
+      AConfig.SetAttr(ANode, 'ExistingKeep', integer(FExistingTabsToKeep));
+      AConfig.SetAttr(ANode, 'SaveDirHistory', FSaveDirHistory);
+    end;
+
+    fte_SEPARATOR:
+    begin
+      AConfig.SetAttr(ANode, 'Name', '-');
+    end;
+
+    fte_STARTMENU:
+    begin
+      AConfig.SetAttr(ANode, 'Name', '-' + FFavoriteTabsName);
+    end;
+
+    fte_ENDMENU:
+    begin
+      AConfig.SetAttr(ANode, 'Name', '--');
+    end;
+  end;
+end;
+
+
+{ TFavoriteTabsList }
 
 { TFavoriteTabsList.Create }
 constructor TFavoriteTabsList.Create;
 begin
   inherited Create;
-  LastFavoriteTabsLoadedUniqueId := GetNewUniqueID;
+  FLastFavoriteTabsLoadedUniqueId := GetNewUniqueID;
+  FLastImportationStringUniqueId := TStringList.Create;
+  FAssociatedMainMenuItem := nil;
+end;
+
+{ TFavoriteTabsList.Destroy }
+destructor TFavoriteTabsList.Destroy;
+begin
+  if Assigned(FLastImportationStringUniqueId) then FreeAndNil(FLastImportationStringUniqueId);
+  inherited;
 end;
 
 { TFavoriteTabsList.Clear }
@@ -205,6 +288,52 @@ begin
   Delete(Index);
 end;
 
+{ TFavoriteTabsList.GetFavoriteTabs }
+function TFavoriteTabsList.GetFavoriteTabs(Index: integer): TFavoriteTabs;
+begin
+  Result := TFavoriteTabs(Items[Index]);
+end;
+
+{ GenericCopierProcessNode }
+// Will copy a given Xml structure from a certain node to another one.
+// Maybe this function should be located elsewhere but for now it's here.
+// WARNING: "GenericCopierProcessNode" is recursive and may call itself!
+procedure GenericCopierProcessNode(paramInputNode: TXmlNode; paramOutputConfig: TXmlConfig; paramOutputNode: TXmlNode);
+var
+  InnerInputNode, InnerOutputNode: TXmlNode;
+  iAttribute: integer;
+begin
+  if paramInputNode = nil then Exit; // Stoppe si on a atteint une feuille
+
+  if paramInputNode.NodeName <> '#text' then
+  begin
+    if paramOutputNode <> nil then
+      InnerOutputNode := paramOutputConfig.AddNode(paramOutputNode, paramInputNode.NodeName)
+    else
+      InnerOutputNode := paramOutputConfig.FindNode(paramOutputConfig.RootNode, paramInputNode.NodeName, True);
+  end
+  else
+  begin
+    paramOutputConfig.SetValue(paramOutputNode, '', UTF16ToUTF8(paramInputNode.NodeValue));
+  end;
+
+  // Ajoute un nœud à l'arbre s'il existe
+  if paramInputNode.HasAttributes and (paramInputNode.Attributes.Length > 0) then
+    for iAttribute := 0 to pred(paramInputNode.Attributes.Length) do
+      paramOutputConfig.SetAttr(InnerOutputNode, paramInputNode.Attributes[iAttribute].NodeName, UTF16ToUTF8(paramInputNode.Attributes[iAttribute].NodeValue));
+
+  // Va au nœud enfant
+  InnerInputNode := paramInputNode.ChildNodes.Item[0];
+
+  // Traite tous les nœuds enfants
+  while InnerInputNode <> nil do
+  begin
+    GenericCopierProcessNode(InnerInputNode, paramOutputConfig, InnerOutputNode);
+    InnerInputNode := InnerInputNode.NextSibling;
+  end;
+end;
+
+
 { TFavoriteTabsList.CopyFavoriteTabsListToFavoriteTabsList }
 procedure TFavoriteTabsList.CopyFavoriteTabsListToFavoriteTabsList(var DestinationFavoriteTabsList: TFavoriteTabsList);
 var
@@ -224,34 +353,8 @@ begin
     DestinationFavoriteTabsList.Add(LocalFavoriteTabs);
   end;
 
-  // Next line is useful for when calling "cm_ConfigFavoriteTabs-SubmitToAddOrConfigToFavoriteTabsDlg with ftaaocJustShowFavoriteTabsConfig" so the last favorite tabs setup loaded will be selected in the tree when we enter in the config screen.
+  // So when we go in the editor, we know which one was the latest one.
   DestinationFavoriteTabsList.LastFavoriteTabsLoadedUniqueId := FLastFavoriteTabsLoadedUniqueId;
-end;
-
-{ TFavoriteTabsList.ComputeSignature }
-// Routine tries to pickup all char chain from element of favorite tabs list to compute a unique CRC32.
-// This CRC32 will be a kind of signature of the favorite tabs list.
-// We compute the CRC32 at the start of edition (TfrmOptionsFavoriteTabs.Load) and
-// at the end (TfrmOptionsFavoriteTabs.CanWeClose).
-// If they are different, it's a sign that favorite tabs list have been modified.
-// It's not "perfect" since it might happen that two different combinaisons will
-// give the same CRC32 but odds are very good that it will be a different one.
-function TFavoriteTabsList.ComputeSignature: dword;
-var
-  Index: integer;
-begin
-  Result := $000000002;
-  for Index := 0 to pred(Count) do
-  begin
-    Result := crc32(Result, @FavoriteTabs[Index].Dispatcher, 1);
-    if length(FavoriteTabs[Index].FavoriteTabsName) > 0 then
-      Result := crc32(Result, @FavoriteTabs[Index].FavoriteTabsName[1], length(FavoriteTabs[Index].FavoriteTabsName));
-    if length(FavoriteTabs[Index].FavoriteTabsSavedFilename) > 0 then
-      Result := crc32(Result, @FavoriteTabs[Index].FavoriteTabsSavedFilename[1], length(FavoriteTabs[Index].FavoriteTabsSavedFilename));
-    Result := crc32(Result, @FavoriteTabs[Index].DestinationForSavedLeftTabs, sizeof(TTabsConfigLocation));
-    Result := crc32(Result, @FavoriteTabs[Index].DestinationForSavedRightTabs, sizeof(TTabsConfigLocation));
-    Result := crc32(Result, @FavoriteTabs[Index].ExistingTabsToKeep, sizeof(TTabsConfigLocation));
-  end;
 end;
 
 { TFavoriteTabsList.GetIndexLastFavoriteTabsLoaded }
@@ -304,48 +407,19 @@ begin
   end;
 end;
 
-{ TFavoriteTabsList.GetSuggestedParamsForFavoriteTabs }
-// It won't hurt anything here if user want to use more than once the SAME name...
-// By adding the (1), (2), etc. between parenthesis, it's a kind of friendly indication the same name already exists.
-// But we do not blocked this. If he ever decides to specifically rename with the same name. This was a kind of friendly reminder.
-// But regarding the filename, obviously we attempt to force a valid one.
-function TFavoriteTabsList.GetSuggestedParamsForFavoriteTabs(sAttemptedName: string; var SuggestedFavoriteTabsName: string; var SuggestedFavoriteTabsSavedFilename: string): boolean;
+{ TFavoriteTabsList.GetIndexForSuchUniqueID }
+function TFavoriteTabsList.GetIndexForSuchUniqueID(SearchedGUID: TGUID): integer;
 var
-  iIndexInCaseFound: integer;
-  FavoriteTabsSavedDirectory, sBaseFilename: string;
+  iSearchedIndex: integer;
 begin
-  Result := False;
-
-  sAttemptedName := RemoveInvalidCharsFromFileName(sAttemptedName);
-  SuggestedFavoriteTabsName := sAttemptedName;
-  iIndexInCaseFound := 1;
-  while GetIndexForSuchFavoriteTabsName(SuggestedFavoriteTabsName) <> -1 do
+  Result := -1;
+  iSearchedIndex := 0;
+  while (Result = -1) and (iSearchedIndex < Count) do
   begin
-    SuggestedFavoriteTabsName := Format('%s(%d)', [sAttemptedName, iIndexInCaseFound]);
-    Inc(iIndexInCaseFound);
-  end;
-
-  if InputQuery(rsMsgFavoriteTabsEnterName, rsMsgFavoriteTabsEnterNameTitle, SuggestedFavoriteTabsName) then
-  begin
-    sAttemptedName := RemoveInvalidCharsFromFileName(sAttemptedName);
-    if length(SuggestedFavoriteTabsName) > 0 then
-    begin
-      FavoriteTabsSavedDirectory := IncludeTrailingPathDelimiter(EnvVarConfigPath) + 'FavoriteTabs';
-      if mbForceDirectory(mbExpandFileName(FavoriteTabsSavedDirectory)) then
-      begin
-        sBaseFilename := RemoveInvalidCharsFromFileName(SuggestedFavoriteTabsName);
-        if length(sBaseFilename) = 0 then sBaseFilename := 'GenericTabFile';
-        SuggestedFavoriteTabsSavedFilename := FavoriteTabsSavedDirectory + DirectorySeparator + sBaseFilename + '.tab';
-        iIndexInCaseFound := 1;
-        while mbFileExists(mbExpandFileName(SuggestedFavoriteTabsSavedFilename)) do
-        begin
-          SuggestedFavoriteTabsSavedFilename := FavoriteTabsSavedDirectory + DirectorySeparator + sBaseFilename + '(' + IntToStr(iIndexInCaseFound) + ').tab';
-          Inc(iIndexInCaseFound);
-        end;
-
-        Result := True;
-      end;
-    end;
+    if IsEqualGUID(SearchedGUID, FavoriteTabs[iSearchedIndex].UniqueID) then
+      Result := iSearchedIndex
+    else
+      Inc(iSearchedIndex);
   end;
 end;
 
@@ -365,14 +439,531 @@ begin
   end;
 end;
 
+{ TFavoriteTabsList.GetSuggestedParamsForFavoriteTabs }
+// It won't hurt anything here if user want to use more than once the SAME name...
+// By adding the (1), (2), etc. between parenthesis, it's a kind of friendly indication the same name already exists.
+// But we do not blocked this. If he ever decides to specifically rename with the same name. This was a kind of friendly reminder.
+function TFavoriteTabsList.GetSuggestedParamsForFavoriteTabs(sAttemptedName: string; var SuggestedFavoriteTabsName: string): boolean;
+var
+  iIndexInCaseFound: integer;
+begin
+  Result := False;
+
+  if length(sAttemptedName) > 0 then sAttemptedName := UTF8UpperCase(LeftStr(sAttemptedName, 1)) + RightStr(sAttemptedName, length(sAttemptedName) - 1);
+  SuggestedFavoriteTabsName := sAttemptedName;
+  iIndexInCaseFound := 1;
+  while GetIndexForSuchFavoriteTabsName(SuggestedFavoriteTabsName) <> -1 do
+  begin
+    SuggestedFavoriteTabsName := Format('%s(%d)', [sAttemptedName, iIndexInCaseFound]);
+    Inc(iIndexInCaseFound);
+  end;
+
+  if InputQuery(rsMsgFavoriteTabsEnterName, rsMsgFavoriteTabsEnterNameTitle, SuggestedFavoriteTabsName) then
+    Result := (length(SuggestedFavoriteTabsName) > 0);
+end;
+
+{ TFavoriteTabsList.ComputeSignature }
+// Routine tries to pickup all char chain from element of favorite tabs list to compute a unique CRC32.
+// This CRC32 will be a kind of signature of the favorite tabs list.
+// We compute the CRC32 at the start of edition (TfrmOptionsFavoriteTabs.Load) and
+// at the end (TfrmOptionsFavoriteTabs.CanWeClose).
+// If they are different, it's a sign that favorite tabs list have been modified.
+// It's not "perfect" since it might happen that two different combinaisons will
+// give the same CRC32 but odds are very good that it will be a different one.
+function TFavoriteTabsList.ComputeSignature: dword;
+var
+  Index: integer;
+begin
+  Result := $000000002;
+  for Index := 0 to pred(Count) do
+  begin
+    Result := crc32(Result, @FavoriteTabs[Index].Dispatcher, 1);
+    if length(FavoriteTabs[Index].FavoriteTabsName) > 0 then Result := crc32(Result, @FavoriteTabs[Index].FavoriteTabsName[1], length(FavoriteTabs[Index].FavoriteTabsName));
+    Result := crc32(Result, @FavoriteTabs[Index].DestinationForSavedLeftTabs, sizeof(TTabsConfigLocation));
+    Result := crc32(Result, @FavoriteTabs[Index].DestinationForSavedRightTabs, sizeof(TTabsConfigLocation));
+    Result := crc32(Result, @FavoriteTabs[Index].ExistingTabsToKeep, sizeof(TTabsConfigLocation));
+  end;
+end;
+
+{ TFavoriteTabsList.LoadAllListFromXml}
+procedure TFavoriteTabsList.LoadAllListFromXml;
+var
+  ANode: TXmlNode;
+  AConfig: TXmlConfig;
+  LocalFavoriteTabs: TFavoriteTabs;
+  sName: string;
+  CurrentMenuLevel: integer;
+  FlagAvortInsertion: boolean;
+begin
+  Clear;
+  CurrentMenuLevel := 0;
+
+  // We don't add it to the list UNTIL a new entry has been added to the XML file.
+  AConfig := TXmlConfig.Create(GetSingleXmlFavoriteTabsFilename, True);
+  try
+    ANode := AConfig.FindNode(AConfig.RootNode, 'FavoriteTabsList');
+    if Assigned(ANode) then
+    begin
+      ANode := ANode.FirstChild;
+      while Assigned(ANode) do
+      begin
+        if ANode.CompareName('FavoriteTabs') = 0 then
+        begin
+          if AConfig.TryGetAttr(ANode, 'Name', sName) then
+          begin
+            FlagAvortInsertion := False;
+            LocalFavoriteTabs := TFavoriteTabs.Create;
+
+            if sName = '-' then
+            begin
+              LocalFavoriteTabs.Dispatcher := fte_SEPARATOR;
+            end
+            else
+            begin
+              if sName = '--' then
+              begin
+                LocalFavoriteTabs.Dispatcher := fte_ENDMENU;
+                if CurrentMenuLevel > 0 then
+                  Dec(CurrentMenuLevel)
+                else
+                  FlagAvortInsertion := True; // Sanity correction in case we got corrupted from any ways
+              end
+              else
+              begin
+                if (UTF8Length(sName) > 1) then
+                begin
+                  if (sName[1] = '-') and (sName[2] <> '-') then
+                  begin
+                    Inc(CurrentMenuLevel);
+                    LocalFavoriteTabs.Dispatcher := fte_STARTMENU;
+                    LocalFavoriteTabs.FavoriteTabsName := UTF8RightStr(sName, UTF8Length(sName) - 1);
+                  end;
+                end;
+
+                if LocalFavoriteTabs.Dispatcher = fte_NULL then
+                begin
+                  LocalFavoriteTabs.FavoriteTabsName := sName;
+                  LocalFavoriteTabs.Dispatcher := fte_ACTUALFAVTABS;
+                  LocalFavoriteTabs.DestinationForSavedLeftTabs := TTabsConfigLocation(AConfig.GetAttr(Anode, 'DestLeft', integer(tclLeft)));
+                  LocalFavoriteTabs.DestinationForSavedRightTabs := TTabsConfigLocation(AConfig.GetAttr(Anode, 'DestRight', integer(tclRight)));
+                  LocalFavoriteTabs.ExistingTabsToKeep := TTabsConfigLocation(AConfig.GetAttr(Anode, 'ExistingKeep', integer(tclNone)));
+                  LocalFavoriteTabs.SaveDirHistory := AConfig.GetAttr(Anode, 'SaveDirHistory', False);
+                  LocalFavoriteTabs.UniqueID := StringToGuid(AConfig.GetAttr(Anode, 'UniqueID', GuidToString(GetNewUniqueID)));
+                end;
+              end;
+            end;
+
+            if not FlagAvortInsertion then
+            begin
+              Add(LocalFavoriteTabs);
+            end
+            else
+            begin
+              LocalFavoriteTabs.Free;
+            end;
+          end;
+        end;
+        ANode := ANode.NextSibling;
+      end;
+      while CurrentMenuLevel > 0 do
+      begin
+        Dec(CurrentMenuLevel);
+        LocalFavoriteTabs := TFavoriteTabs.Create;
+        LocalFavoriteTabs.Dispatcher := fte_ENDMENU;
+        Add(LocalFavoriteTabs);
+      end;
+    end;
+
+  finally
+    FreeAndNil(AConfig);
+  end;
+
+  RefreshAssociatedMainMenu;
+end;
+
+{ TFavoriteTabsList.LoadTabsFromXmlEntry }
+function TFavoriteTabsList.LoadTabsFromXmlEntry(paramIndexToLoad: integer): boolean;
+var
+  AConfig: TXmlConfig;
+  sActualTabSection: string;
+  TestNode: TXmlNode; // Use just to validate there will be something to load from file.
+  originalFilePanel: TFilePanelSelect;
+  // Following variables are "pre-initialized" to default values AND are values used when not using the possibility to configure redirection of tabs in our setups.
+  TargetDestinationForLeft: TTabsConfigLocation = tclLeft;
+  TargetDestinationForRight: TTabsConfigLocation = tclRight;
+  DestinationToKeep: TTabsConfigLocation = tclNone;
+  TabsAlreadyDestroyedFlags: TTabsFlagsAlreadyDestroyed = [];
+begin
+  Result := False;
+
+  if (paramIndexToLoad >= 0) and (paramIndexToLoad < Count) then
+  begin
+    if FavoriteTabs[paramIndexToLoad].Dispatcher = fte_ACTUALFAVTABS then
+    begin
+      // 1. We remember to restore later the current selected panel.
+      originalFilePanel := frmMain.SelectedPanel;
+
+      // 2. We set the section-path to our wanted setup. (Don't forget the trailing slash at the end because "LoadTheseTabsWithThisConfig" requires it for the "ABrunch" parameter.
+      sActualTabSection := 'ActualTabs/' + FavoriteTabs[paramIndexToLoad].GuidToXMLString + '/';
+
+      // 3. We set the location where to restore tabs according to our setup IF we're configure for it.
+      if gFavoriteTabsUseRestoreExtraOptions then
+      begin
+        TargetDestinationForLeft := FavoriteTabs[paramIndexToLoad].DestinationForSavedLeftTabs;
+        TargetDestinationForRight := FavoriteTabs[paramIndexToLoad].DestinationForSavedRightTabs;
+        DestinationToKeep := FavoriteTabs[paramIndexToLoad].ExistingTabsToKeep;
+      end;
+
+      // 4. We're ready to open the config files and actually load the stored tabs to the correct target side.
+      AConfig := TXmlConfig.Create(GetSingleXmlFavoriteTabsFilename, True);
+      if Assigned(AConfig) then
+      begin
+        try
+          // 5.1. We load the left tabs (We check before to make sure there is a "Left" section to don't possibly destroy existing tabs and later realize there is no section to load (But it should not happen...)).
+          TestNode := AConfig.FindNode(AConfig.RootNode, sActualTabSection + 'Left/Tab');
+          if Assigned(TestNode) then
+            frmMain.LoadTheseTabsWithThisConfig(AConfig, sActualTabSection, tclLeft, TargetDestinationForLeft, DestinationToKeep, TabsAlreadyDestroyedFlags);
+
+          // 5.2. We load the right tabs (We check before to make sure there is a "Right" section to don't possibly destroy existing tabs and later realize there is no section to load (But it should not happen...)).
+          TestNode := AConfig.FindNode(AConfig.RootNode, sActualTabSection + 'Right/Tab');
+          if Assigned(TestNode) then
+            frmMain.LoadTheseTabsWithThisConfig(AConfig, sActualTabSection, tclRight, TargetDestinationForRight, DestinationToKeep, TabsAlreadyDestroyedFlags);
+
+          // 6. We've loaded a setup, let's remember it.
+          FLastFavoriteTabsLoadedUniqueId := FavoriteTabs[paramIndexToLoad].FUniqueID;
+
+          // 7. We need to refresh main menu so the check will be on the right setup. The "Reload" and "Resave" will be enabled also.
+          RefreshAssociatedMainMenu;
+
+          // 8. If we reach that point, we deserve to return True!
+          Result := True;
+        finally
+          FreeAndNil(AConfig);
+        end;
+      end;
+
+      // 9. We restore focuse to what was our active panel, ready to play in it.
+      frmMain.SelectedPanel := originalFilePanel;
+      frmMain.ActiveFrame.SetFocus;
+    end;
+  end;
+end;
+
+{ TFavoriteTabsList.GetBestIndexForAlphabeticalNewFavoriteTabs }
+// We take the whole list of "FavoriteTabsName" seen as one single alphabetical sorted list.
+// We find the exact place where our string to add could fit.
+// We insert it right in front of the one its is closed to go.
+// If we have the last one, we placed it last!
+function TFavoriteTabsList.GetBestIndexForAlphabeticalNewFavoriteTabs(sFavoriteTabsNameToFindAPlaceFor: string): integer;
+var
+  I, iPosInserted: integer;
+  localFavoriteTabsNameToFindAPlaceFor: string;
+  MagickSortedList: TStringList;
+begin
+  Result := -1;
+  localFavoriteTabsNameToFindAPlaceFor := UTF8LowerCase(sFavoriteTabsNameToFindAPlaceFor);
+
+  MagickSortedList := TStringList.Create;
+  try
+    MagickSortedList.Sorted := True;
+    MagickSortedList.Duplicates := dupAccept;
+
+    // 1. We add in the list only the actual FavoriteTabsName.
+    for I := 0 to pred(Count) do
+      if FavoriteTabs[I].Dispatcher = fte_ACTUALFAVTABS then
+        MagickSortedList.Add(UTF8LowerCase(FavoriteTabs[I].FavoriteTabsName) + DirectorySeparator + IntToStr(I));
+
+    // 2. Add to list our string.
+    iPosInserted := MagickSortedList.Add(localFavoriteTabsNameToFindAPlaceFor);
+
+    // 3. We now know the best place to insert our entry (unless it's last one).
+    if MagickSortedList.Count > 1 then
+    begin
+      if iPosInserted < pred(MagickSortedList.Count) then
+      begin
+        Result := StrToInt(GetLastDir(MagickSortedList.Strings[iPosInserted + 1]));
+      end
+      else
+      begin
+        Result := (StrToInt(GetLastDir(MagickSortedList.Strings[iPosInserted - 1]))) + 1;
+        if Result >= Count then Result := -1;
+      end;
+    end;
+
+  finally
+    MagickSortedList.Free;
+  end;
+end;
+
+{ TFavoriteTabsList.AddToListAndToXmlFileHeader }
+procedure TFavoriteTabsList.AddToListAndToXmlFileHeader(paramFavoriteTabs: TFavoriteTabs; AConfig: TXmlConfig; SpecifiedIndex: integer = -1);
+var
+  SubNode, RootNode: TXmlNode;
+  iIndexToInsert: integer;
+begin
+  if SpecifiedIndex = -1 then
+  begin
+    case gWhereToAddNewFavoriteTabs of
+      afte_Last:
+      begin
+        // The simplest case: We add the node, we add it at the end of the list, that's it!
+        RootNode := AConfig.FindNode(AConfig.RootNode, 'FavoriteTabsList', True);
+        SubNode := AConfig.AddNode(RootNode, 'FavoriteTabs');
+        paramFavoriteTabs.SaveToXml(AConfig, SubNode);
+        Add(paramFavoriteTabs);
+      end;
+
+      afte_First:
+      begin
+        // A bit more complicated: we will "insert" at position 0 our Favorites Tabs in our list and then we'll recreate the index at the beginning of our Xml file.
+        Insert(0, paramFavoriteTabs);
+        ActualDumpFavoriteTabsListInXml(AConfig);
+      end;
+
+      afte_Alphabetical:
+      begin
+        //A medium bit more complicated: we will
+        iIndexToInsert := GetBestIndexForAlphabeticalNewFavoriteTabs(paramFavoriteTabs.FavoriteTabsName);
+        if (iIndexToInsert >= 0) and (Count > 0) then
+          Insert(iIndexToInsert, paramFavoriteTabs)
+        else
+          Add(paramFavoriteTabs);
+        ActualDumpFavoriteTabsListInXml(AConfig);
+      end;
+    end;
+  end
+  else
+  begin
+    if SpecifiedIndex < pred(Count) then
+      Insert(SpecifiedIndex, paramFavoriteTabs)
+    else
+      Add(paramFavoriteTabs);
+    ActualDumpFavoriteTabsListInXml(AConfig);
+  end;
+end;
+
+{ TFavoriteTabsList.SaveNewEntryFavoriteTabs }
+function TFavoriteTabsList.SaveNewEntryFavoriteTabs(paramFavoriteTabsEntryName: string): boolean;
+var
+  AConfig: TXmlConfig;
+  sActualTabSection: string;
+  LocalFavoriteTabs: TFavoriteTabs;
+  bFlagToSaveHistoryOrNot: boolean;
+begin
+  try
+    LocalFavoriteTabs := TFavoriteTabs.Create;
+    LocalFavoriteTabs.Dispatcher := fte_ACTUALFAVTABS;
+    LocalFavoriteTabs.FavoriteTabsName := paramFavoriteTabsEntryName;
+    LocalFavoriteTabs.DestinationForSavedLeftTabs := gDefaultTargetPanelLeftSaved;
+    LocalFavoriteTabs.DestinationForSavedRightTabs := gDefaultTargetPanelRightSaved;
+    LocalFavoriteTabs.ExistingTabsToKeep := gDefaultExistingTabsToKeep;
+    LocalFavoriteTabs.SaveDirHistory := gFavoriteTabsSaveDirHistory;
+    //The UniqueID is not assigned here because it has already been set when "LocalFavoriteTabs" has been created.
+
+    if gFavoriteTabsUseRestoreExtraOptions then
+      bFlagToSaveHistoryOrNot := LocalFavoriteTabs.SaveDirHistory
+    else
+      bFlagToSaveHistoryOrNot := gFavoriteTabsSaveDirHistory;
+
+    AConfig := TXmlConfig.Create(GetSingleXmlFavoriteTabsFilename, True);
+    try
+      AddToListAndToXmlFileHeader(LocalFavoriteTabs, AConfig);
+
+      sActualTabSection := 'ActualTabs/' + LocalFavoriteTabs.GuidToXMLString;
+      frmMain.SaveTabsXml(AConfig, sActualTabSection, frmMain.LeftTabs, bFlagToSaveHistoryOrNot);
+      frmMain.SaveTabsXml(AConfig, sActualTabSection, frmMain.RightTabs, bFlagToSaveHistoryOrNot);
+
+      AConfig.Save;
+
+      FLastFavoriteTabsLoadedUniqueId := LocalFavoriteTabs.UniqueID;
+      RefreshAssociatedMainMenu; // To possibly enable the action for the "ReLoad" and "ReSave".
+    finally
+      FreeAndNil(AConfig);
+    end;
+
+    Result := True; // If we get here, we'll assumed Favorite Tabs has been saved!
+  except
+    Result := False;
+  end;
+end;
+
+{ TFavoriteTabsList.ReSaveTabsToXMLEntry }
+// When "ReSaving", we must first find in the Xml the previous entry to write over it.
+function TFavoriteTabsList.ReSaveTabsToXMLEntry(paramIndexToSave: integer): boolean;
+var
+  ANode: TXmlNode;
+  AConfig: TXmlConfig;
+  sActualTabSection, sGUIDTemp: string;
+  bFlagSaved: boolean = False;
+  bFlagToSaveHistoryOrNot: boolean;
+begin
+  Result := False;
+  if (paramIndexToSave >= 0) and (paramIndexToSave < Count) then
+  begin
+    if FavoriteTabs[paramIndexToSave].Dispatcher = fte_ACTUALFAVTABS then
+    begin
+      AConfig := TXmlConfig.Create(GetSingleXmlFavoriteTabsFilename, True);
+      try
+        ANode := AConfig.FindNode(AConfig.RootNode, 'FavoriteTabsList');
+        if Assigned(ANode) then
+        begin
+          ANode := ANode.FirstChild;
+          while Assigned(ANode) and (not bFlagSaved) do
+          begin
+            if ANode.CompareName('FavoriteTabs') = 0 then
+            begin
+              if AConfig.TryGetAttr(ANode, 'UniqueID', sGUIDTemp) then
+              begin
+                if IsEqualGUID(FavoriteTabs[paramIndexToSave].UniqueID, StringToGuid(sGUIDTemp)) then
+                begin
+                  FavoriteTabs[paramIndexToSave].SaveToXml(AConfig, ANode);
+                  bFlagSaved := True;
+                  FLastFavoriteTabsLoadedUniqueId := FavoriteTabs[paramIndexToSave].UniqueID;
+                end;
+              end;
+            end;
+            ANode := ANode.NextSibling;
+          end;
+        end;
+
+        if bFlagSaved then
+        begin
+          if gFavoriteTabsUseRestoreExtraOptions then
+            bFlagToSaveHistoryOrNot := FavoriteTabs[paramIndexToSave].SaveDirHistory
+          else
+            bFlagToSaveHistoryOrNot := gFavoriteTabsSaveDirHistory;
+
+          sActualTabSection := 'ActualTabs/' + FavoriteTabs[paramIndexToSave].GuidToXMLString;
+          frmMain.SaveTabsXml(AConfig, sActualTabSection, frmMain.LeftTabs, bFlagToSaveHistoryOrNot);
+          frmMain.SaveTabsXml(AConfig, sActualTabSection, frmMain.RightTabs, bFlagToSaveHistoryOrNot);
+          AConfig.Save;
+
+          Result := True;
+        end;
+      finally
+        FreeAndNil(AConfig);
+      end;
+    end;
+  end;
+end;
+
+{ TFavoriteTabsList.SaveCurrentFavoriteTabsIfAnyPriorToChange }
+function TFavoriteTabsList.SaveCurrentFavoriteTabsIfAnyPriorToChange: boolean;
+var
+  iIndex: integer;
+  bFlagToSaveHistoryOrNot: boolean;
+begin
+  Result := True;
+  iIndex := GetIndexLastFavoriteTabsLoaded;
+  if iIndex <> -1 then
+  begin
+    if gFavoriteTabsUseRestoreExtraOptions then
+      bFlagToSaveHistoryOrNot := FavoriteTabs[iIndex].SaveDirHistory
+    else
+      bFlagToSaveHistoryOrNot := gFavoriteTabsSaveDirHistory;
+
+    if bFlagToSaveHistoryOrNot then
+      Result := ReSaveTabsToXMLEntry(iIndex);
+  end;
+end;
+
+{ TFavoriteTabsList.ActualDumpFavoriteTabsListInXml }
+// Since we save everything, we will will flush the current "FavoriteTabsList" header section to restore it.
+// We need to do in case we would delete entries.
+// Also, certainly we could have done something like "AConfig.DeleteNode(ListNode)" and then rewrite completely our table after.
+// BUT, doing that would place our list at the end. That's fine and functional. But it's nice for human to see it on top when debugging.
+// So that's why we delete item one by one without deleting the initial node.
+// Also, we need to do a kind of purge of the subsequent node regarding actual tab setup.
+// To do that, we check each node to see if we have a correspondant entry in the header.
+// If not, we flush that node!
+function TFavoriteTabsList.ActualDumpFavoriteTabsListInXml(AConfig: TXmlConfig): boolean;
+var
+  SubNode, ListNode, ANode, BNode: TXmlNode;
+  iIndex: integer;
+begin
+  ListNode := AConfig.FindNode(AConfig.RootNode, 'FavoriteTabsList', True);
+  if Assigned(ListNode) then
+  begin
+    ANode := ListNode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      BNode := ANode.NextSibling;
+      AConfig.DeleteNode(ANode);
+      ANode := BNode;
+    end;
+  end;
+
+  // 1. Write the kind of "Table" of Favorite Tabs
+  iIndex := 0;
+  while iIndex < Count do
+  begin
+    case FavoriteTabs[iIndex].Dispatcher of
+      fte_ACTUALFAVTABS, fte_SEPARATOR, fte_STARTMENU, fte_ENDMENU:
+      begin
+        SubNode := AConfig.AddNode(ListNode, 'FavoriteTabs');
+        FavoriteTabs[iIndex].SaveToXml(AConfig, SubNode);
+      end;
+    end;
+    Inc(iIndex);
+  end;
+
+  // 2. Validate if bare data for actual tabs have a matching entry in our table.
+  //    If not, flush it.
+  ListNode := AConfig.FindNode(AConfig.RootNode, 'ActualTabs');
+  if Assigned(ListNode) then
+  begin
+    ANode := ListNode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      BNode := ANode.NextSibling;
+      if GetIndexForSuchUniqueID(XmlStringToGuid(ANode.NodeName)) = -1 then
+        AConfig.DeleteNode(ANode);
+      ANode := BNode;
+    end;
+  end;
+end;
+
+{ TFavoriteTabsList.RefreshXmlFavoriteTabsListSection }
+function TFavoriteTabsList.RefreshXmlFavoriteTabsListSection: boolean;
+var
+  AConfig: TXmlConfig;
+begin
+  Result := False;
+  try
+    AConfig := TXmlConfig.Create(GetSingleXmlFavoriteTabsFilename, True);
+    try
+      ActualDumpFavoriteTabsListInXml(AConfig);
+      AConfig.Save;
+    finally
+      FreeAndNil(AConfig);
+    end;
+    Result := True;
+  except
+    on E: Exception do
+      msgError(E.Message);
+  end;
+end;
+
 { TFavoriteTabsList.PopulateMenuWithFavoriteTabs }
 procedure TFavoriteTabsList.PopulateMenuWithFavoriteTabs(mncmpMenuComponentToPopulate: TComponent; ProcedureWhenFavoriteTabItemClicked: TProcedureWhenClickOnMenuItem; KindFavoriteTabMenuPopulation: TKindFavoriteTabsMenuPopulation);
 var
   I: longint; //Same variable for main and local routine
-  LocalIndexOfLast: integer;
 
-  // WARNING: "CompleteMenu" is recursive and calls itself!
+  // WARNING: "CompleteMenu" is recursive and may call itself!
   function CompleteMenu(ParamMenuItem: TComponent; TagOffset: integer = 0): longint;
+
+    // WARNING: "DoCheckedBackToTop" is recursive and may call itself!
+    procedure DoCheckedBackToTop(paramTMenuItem: TComponent);
+    begin
+      if (paramTMenuItem.ClassType = TMenuItem) and (TMenuItem(paramTMenuItem).Caption <> rsMsgFavortieTabsSaveOverExisting) then
+        if TMenuItem(paramTMenuItem).Parent <> nil then
+          if (TMenuItem(paramTMenuItem).Parent.ClassType <> TMainMenu) then
+          begin
+            TMenuItem(paramTMenuItem).Checked := True;
+            DoCheckedBackToTop(TMenuItem(paramTMenuItem).Parent);
+          end;
+    end;
+
   var
     localmi: TMenuItem;
     LocalLastAdditionIsASeparator: boolean;
@@ -394,7 +985,11 @@ var
           if ParamMenuItem.ClassType = TPopupMenu then
             TPopupMenu(ParamMenuItem).Items.Add(localmi)
           else if ParamMenuItem.ClassType = TMenuItem then
+          begin
             TMenuItem(ParamMenuItem).Add(localmi);
+            if localmi.Checked then DoCheckedBackToTop(localmi);
+          end;
+
           LocalLastAdditionIsASeparator := False;
           Inc(Result);
         end;
@@ -418,8 +1013,8 @@ var
         begin
           localmi := TMenuItem.Create(ParamMenuItem);
           localmi.Caption := FavoriteTabs[I - 1].FavoriteTabsName;
-          if gIconsInMenus then
-            localmi.ImageIndex := frmMain.miLoadFavoriteTabs.ImageIndex;
+          //if gIconsInMenus then
+          //  localmi.ImageIndex := frmMain.miLoadFavoriteTabs.ImageIndex;
           if ParamMenuItem.ClassType = TPopupMenu then
             TPopupMenu(ParamMenuItem).Items.Add(localmi)
           else if ParamMenuItem.ClassType = TMenuItem then
@@ -453,7 +1048,7 @@ var
   end;
 
 var
-  miMainTree, miSubElement: TMenuItem;
+  miMainTree: TMenuItem;
 begin
   // 1. Let's clear possible previous items in the menu to create a fresh new one.
   if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then
@@ -471,7 +1066,7 @@ begin
     ftmp_FAVTABSWITHCONFIG:
     begin
       // 3.1. Add the reload/resave items.
-      if (Count > 0) and (gFavoriteTabsList.GetIndexLastFavoriteTabsLoaded <> -1) then
+      if (Count > 0) and (GetIndexLastFavoriteTabsLoaded <> -1) then
       begin
         miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
         miMainTree.Caption := ('-');
@@ -520,7 +1115,7 @@ begin
         //        ...and to avoid to click on it by accident and overwring existing stuff.
         miMainTree := TMenuItem.Create(mncmpMenuComponentToPopulate);
         miMainTree.Caption := rsMsgFavortieTabsSaveOverExisting;
-        miMainTree.ImageIndex := frmMain.actSaveFavoriteTabs.ImageIndex;
+        miMainTree.ImageIndex := frmMain.actResaveFavoriteTabs.ImageIndex;
         if mncmpMenuComponentToPopulate.ClassType = TPopupMenu then
           TPopupMenu(mncmpMenuComponentToPopulate).Items.Add(miMainTree)
         else if mncmpMenuComponentToPopulate.ClassType = TMenuItem then
@@ -565,8 +1160,52 @@ begin
       TMenuItem(mncmpMenuComponentToPopulate).GetParentMenu.Images := frmMain.imgLstActions;
 end;
 
+{ TFavoriteTabsList.RefreshAssociatedMainMenu }
+procedure TFavoriteTabsList.RefreshAssociatedMainMenu;
+var
+  iIndex: integer;
+  miMainTree: TMenuItem;
+begin
+  if FAssociatedMainMenuItem <> nil then
+  begin
+    if FAssociatedMainMenuItem <> nil then
+    begin
+      if FAssociatedMainMenuItem.Count > 4 then
+      begin
+        iIndex := pred(FAssociatedMainMenuItem.Count);
+        while iIndex > 3 do
+        begin
+          FAssociatedMainMenuItem.Delete(iIndex);
+          Dec(iIndex);
+        end;
+      end;
+
+      if Count > 0 then
+      begin
+        miMainTree := TMenuItem.Create(FAssociatedMainMenuItem);
+        miMainTree.Caption := '-';
+        FAssociatedMainMenuItem.Add(miMainTree);
+      end;
+
+      if GetIndexLastFavoriteTabsLoaded = -1 then
+      begin
+        frmMain.actReloadFavoriteTabs.Enabled := False;
+        frmMain.actResaveFavoriteTabs.Enabled := False;
+      end
+      else
+      begin
+        frmMain.actReloadFavoriteTabs.Enabled := True;
+        frmMain.actResaveFavoriteTabs.Enabled := True;
+      end;
+    end;
+
+    PopulateMenuWithFavoriteTabs(FAssociatedMainMenuItem, @frmMain.Commands.DoOnClickMenuJobFavoriteTabs, ftmp_JUSTFAVTABS);
+  end;
+end;
+
 { TFavoriteTabsList.LoadTTreeView }
-function TFavoriteTabsList.LoadTTreeView(ParamTreeView: TTreeView; FavoriteTabsIndexToSelectIfAny: longint): TTreeNode;
+// We'll try to restore what was selected prior the reload for the situation where it's pertinent.
+procedure TFavoriteTabsList.LoadTTreeView(ParamTreeView: TTreeView);
 var
   Index: longint;
 
@@ -582,8 +1221,6 @@ var
         begin
           LocalNode := ParamTreeView.Items.AddChildObject(WorkingNode, FavoriteTabs[Index].FavoriteTabsName, FavoriteTabs[Index]);
           LocalNode.Data := FavoriteTabs[Index];
-          if FavoriteTabsIndexToSelectIfAny = Index then
-            Result := LocalNode;
           Inc(Index);
           RecursivAddElements(LocalNode);
         end;
@@ -598,16 +1235,12 @@ var
         begin
           LocalNode := ParamTreeView.Items.AddChildObject(WorkingNode, FAVORITETABS_SEPARATORSTRING, FavoriteTabs[Index]);
           LocalNode.Data := FavoriteTabs[Index];
-          if FavoriteTabsIndexToSelectIfAny = Index then
-            Result := LocalNode;
           Inc(Index);
         end
 
         else // ...but should not happened.
         begin
           LocalNode := ParamTreeView.Items.AddChildObject(WorkingNode, FavoriteTabs[Index].FavoriteTabsName, FavoriteTabs[Index]);
-          if FavoriteTabsIndexToSelectIfAny = Index then
-            Result := LocalNode;
           Inc(Index);
         end;
       end;
@@ -615,7 +1248,6 @@ var
   end;
 
 begin
-  Result := nil;
   ParamTreeView.Items.Clear;
   Index := 0;
   RecursivAddElements(nil);
@@ -625,12 +1257,12 @@ end;
 // The routine will recreate the complete TFavoriteTabsList from a TTreeView.
 // It cannot erase or replace immediately the current list because the TTreeView refer to it!
 // So it create it into the "TransitFavoriteTabsList" and then, it will copy it to self one.
-
+// It will remember what was selected before based on the unique ID and then restore what is possible to restored after.
 procedure TFavoriteTabsList.RefreshFromTTreeView(ParamTreeView: TTreeView);
 var
   TransitFavoriteTabsList: TFavoriteTabsList;
-  IndexToTryToRestore: longint = -1;
-  MaybeTTreeNodeToSelect: TTreeNode;
+  iIndex: integer;
+  slRememberCurrentSelections: TStringList;
 
   procedure RecursiveEncapsulateSubMenu(WorkingTreeNode: TTreeNode);
   var
@@ -639,9 +1271,6 @@ var
   begin
     while WorkingTreeNode <> nil do
     begin
-      if WorkingTreeNode = ParamTreeView.Selected then
-        IndexToTryToRestore := TransitFavoriteTabsList.Count;
-
       MaybeChildNode := WorkingTreeNode.GetFirstChild;
       if MaybeChildNode <> nil then
       begin
@@ -673,197 +1302,136 @@ var
 begin
   if ParamTreeView.Items.Count > 0 then
   begin
+    slRememberCurrentSelections := TStringList.Create;
     TransitFavoriteTabsList := TFavoriteTabsList.Create;
     try
+      //Saving a trace of what is selected right now.
+      for iIndex := 0 to pred(ParamTreeView.Items.Count) do
+        if ParamTreeView.Items[iIndex].Selected then
+          if TFavoriteTabs(ParamTreeView.Items[iIndex].Data).Dispatcher = fte_ACTUALFAVTABS then
+            slRememberCurrentSelections.Add(GUIDtoString(TFavoriteTabs(ParamTreeView.Items[iIndex].Data).UniqueID));
+
       TransitFavoriteTabsList.LastFavoriteTabsLoadedUniqueId := FLastFavoriteTabsLoadedUniqueId;
       RecursiveEncapsulateSubMenu(ParamTreeView.Items.Item[0]);
       TransitFavoriteTabsList.CopyFavoriteTabsListToFavoriteTabsList(self);
-      MaybeTTreeNodeToSelect := LoadTTreeView(ParamTreeView, IndexToTryToRestore);
-      if MaybeTTreeNodeToSelect <> nil then
-        MaybeTTreeNodeToSelect.Selected := True
-      else if ParamTreeView.Items.Count > 0 then
-        ParamTreeView.Items.Item[0].Selected := True;
+      LoadTTreeView(ParamTreeView);
+
+      // Restoring what was selected.
+      ParamTreeView.ClearSelection(False);
+      for iIndex := 0 to pred(ParamTreeView.Items.Count) do
+        if TFavoriteTabs(ParamTreeView.Items[iIndex].Data).Dispatcher = fte_ACTUALFAVTABS then
+          ParamTreeView.Items[iIndex].Selected := (slRememberCurrentSelections.IndexOf(GUIDtoString(TFavoriteTabs(ParamTreeView.Items[iIndex].Data).UniqueID)) <> -1);
     finally
       TransitFavoriteTabsList.Clear;
       TransitFavoriteTabsList.Free;
+      FreeAndNil(slRememberCurrentSelections);
     end;
   end
   else
   begin
     Self.Clear;
+    mbDeleteFile(GetSingleXmlFavoriteTabsFilename);
   end;
 end;
 
-{ TFavoriteTabsList.LoadFromXml }
-// Information are stored in similar way to "hotdir", which was similar to TC.
-// It's enclosed in try/except to keep the flow *after* in an unexpected error happened.
-procedure TFavoriteTabsList.LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
+{ TFavoriteTabsList.ImportFromLegacyTabsFile }
+function TFavoriteTabsList.ImportFromLegacyTabsFile(paramFilename: string; SpecifiedIndex: integer = -1): boolean;
 var
-  sName, sMaybeId: string;
+  iNode, oNode: TXmlNode;
+  InputXmlConfig: TXmlConfig;
+  OutputXmlConfig: TXmlConfig;
   LocalFavoriteTabs: TFavoriteTabs;
-  CurrentMenuLevel: integer;
-  FlagAvortInsertion: boolean;
+
 begin
+  Result := False;
   try
-    Clear;
-    CurrentMenuLevel := 0;
+    LocalFavoriteTabs := TFavoriteTabs.Create;
+    LocalFavoriteTabs.Dispatcher := fte_ACTUALFAVTABS;
+    LocalFavoriteTabs.FavoriteTabsName := ExtractOnlyFileName(paramFilename);
+    LocalFavoriteTabs.DestinationForSavedLeftTabs := tclLeft;
+    LocalFavoriteTabs.DestinationForSavedRightTabs := tclRight;
+    LocalFavoriteTabs.ExistingTabsToKeep := tclNone;
+    //The UniqueID is not assigned here because it has already been set when "LocalFavoriteTabs" has been created.
 
-    ANode := ANode.FindNode(cSectionOfFavoriteTab);
-    if Assigned(ANode) then
-    begin
-      // First item is the last Favorite Tabs ID that was loaded on previous session, let's attempt load it!
-      ANode := ANode.FirstChild;
-      if Assigned(ANode) then
+    InputXmlConfig := TXmlConfig.Create(paramFilename, True);
+    OutputXmlConfig := TXmlConfig.Create(GetSingleXmlFavoriteTabsFilename, True);
+
+    try
+      AddToListAndToXmlFileHeader(LocalFavoriteTabs, OutputXmlConfig, SpecifiedIndex);
+
+      iNode := InputXmlConfig.FindNode(InputXmlConfig.RootNode, 'Tabs/OpenedTabs/Left');
+      oNode := OutputXmlConfig.FindNode(OutputXmlConfig.RootNode, 'ActualTabs/' + LocalFavoriteTabs.GuidToXMLString, True);
+
+      while iNode <> nil do
       begin
-        if ANode.CompareName('FavoriteTabs') = 0 then
-        begin
-          if AConfig.TryGetAttr(ANode, 'LastUniqueID', sMaybeId) then
-          begin
-            LastFavoriteTabsLoadedUniqueId := StringToGuid(sMaybeId);
-          end;
-        end;
-        ANode := ANode.NextSibling;
+        GenericCopierProcessNode(iNode, OutputXmlConfig, oNode); // Procédure récursive
+        iNode := iNode.NextSibling;
       end;
 
-      while Assigned(ANode) do
-      begin
-        if ANode.CompareName('FavoriteTabs') = 0 then
-        begin
-          if AConfig.TryGetAttr(ANode, 'Name', sName) then
-          begin
-            FlagAvortInsertion := False;
-            LocalFavoriteTabs := TFavoriteTabs.Create;
-
-            if sName = '-' then
-            begin
-              LocalFavoriteTabs.Dispatcher := fte_SEPARATOR;
-            end
-            else
-            begin
-              if sName = '--' then
-              begin
-                LocalFavoriteTabs.Dispatcher := fte_ENDMENU;
-                if CurrentMenuLevel > 0 then
-                  Dec(CurrentMenuLevel)
-                else
-                  FlagAvortInsertion := True; // Sanity correction in case we got corrupted from any ways
-              end
-              else
-              begin
-                if (UTF8Length(sName) > 1) then
-                begin
-                  if (sName[1] = '-') and (sName[2] <> '-') then
-                  begin
-                    Inc(CurrentMenuLevel);
-                    LocalFavoriteTabs.Dispatcher := fte_STARTMENU;
-                    LocalFavoriteTabs.FavoriteTabsName := UTF8RightStr(sName, UTF8Length(sName) - 1);
-                  end;
-                end;
-
-                if LocalFavoriteTabs.Dispatcher = fte_NULL then
-                begin
-                  LocalFavoriteTabs.FavoriteTabsName := sName;
-                  LocalFavoriteTabs.FavoriteTabsSavedFilename := AConfig.GetAttr(Anode, 'Filename', '');
-                  LocalFavoriteTabs.Dispatcher := fte_ACTUALFAVTABS;
-                  LocalFavoriteTabs.DestinationForSavedLeftTabs := TTabsConfigLocation(AConfig.GetAttr(Anode, 'DestLeft', integer(tclLeft)));
-                  LocalFavoriteTabs.DestinationForSavedRightTabs := TTabsConfigLocation(AConfig.GetAttr(Anode, 'DestRight', integer(tclRight)));
-                  LocalFavoriteTabs.ExistingTabsToKeep := TTabsConfigLocation(AConfig.GetAttr(Anode, 'ExistingKeep', integer(tclNone)));
-                  LocalFavoriteTabs.UniqueID := StringToGuid(AConfig.GetAttr(Anode, 'UniqueID', GuidToString(GetNewUniqueID)));
-                end;
-              end;
-            end;
-
-            if not FlagAvortInsertion then
-            begin
-              Add(LocalFavoriteTabs);
-            end
-            else
-            begin
-              LocalFavoriteTabs.Free;
-            end;
-          end;
-        end;
-
-        ANode := ANode.NextSibling;
-      end;
-
-      //Try to fix possible problem if the LAST MENU is not ending correctly...
-      while CurrentMenuLevel > 0 do
-      begin
-        Dec(CurrentMenuLevel);
-        LocalFavoriteTabs := TFavoriteTabs.Create;
-        LocalFavoriteTabs.Dispatcher := fte_ENDMENU;
-        Add(LocalFavoriteTabs);
-      end;
-
+      OutputXmlConfig.Save;
+      gFavoriteTabsList.LastImportationStringUniqueId.Add(GUIDToString(LocalFavoriteTabs.UniqueID));
+      Result := True;
+    finally
+      FreeAndNil(OutputXmlConfig);
+      FreeAndNil(InputXmlConfig);
     end;
   except
-    MessageDlg(rsMsgFavoriteTabsErrorLoading, mtError, [mbOK], 0);
+    on E: Exception do
+      msgError(E.Message);
   end;
 end;
 
-{ TFavoriteTabsList.SaveToXml }
-// Information are stored in similar way to "hotdir", which was similar to TC.}
-// It's enclosed in try/except to keep the flow *after* in an unexpected error happened.
-procedure TFavoriteTabsList.SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode; FlagEraseOriginalOnes: boolean);
+{ TFavoriteTabsList.ExportToLegacyTabsFile }
+function TFavoriteTabsList.ExportToLegacyTabsFile(index: integer; OutputDirectory: string): boolean;
 var
-  Index: integer;
-  SubNode: TXmlNode;
+  iNode, oNode: TXmlNode;
+  InputXmlConfig: TXmlConfig;
+  OutputXmlConfig: TXmlConfig;
+  sBasicOutputFilename, sConfigFilename: string;
+  iAttempt: integer;
 begin
+  Result := False;
   try
-    ANode := AConfig.FindNode(ANode, cSectionOfFavoriteTab, True);
-    if FlagEraseOriginalOnes then
-      AConfig.ClearNode(ANode);
-
-    SubNode := AConfig.AddNode(ANode, 'FavoriteTabs');
-    AConfig.SetAttr(SubNode, 'LastUniqueID', GuidToString(LastFavoriteTabsLoadedUniqueId));
-
-    for Index := 0 to pred(Count) do
+    // 1. Let's try to give an exported filename based of the Favorite Tabs friendly name.
+    //    If a filename like that already exists, add "(x)" to the name and increase "x" until the file does not already exists!
+    sBasicOutputFilename := RemoveInvalidCharsFromFileName(FavoriteTabs[index].FavoriteTabsName);
+    if sBasicOutputFilename = '' then sBasicOutputFilename := 'TabsExported';
+    sBasicOutputFilename := IncludeTrailingPathDelimiter(OutputDirectory) + sBasicOutputFilename;
+    sConfigFilename := sBasicOutputFilename + '.tab';
+    iAttempt := 1;
+    while FileExists(sConfigFilename) do
     begin
-      SubNode := AConfig.AddNode(ANode, 'FavoriteTabs');
+      sConfigFilename := sBasicOutputFilename + '(' + IntToStr(iAttempt) + ').tab';
+      Inc(iAttempt);
+    end;
 
-      case TFavoriteTabs(FavoriteTabs[Index]).Dispatcher of
-        fte_NULL:
+    // 2. Ok. Let's start our exportatation. Basically we start from the section of the source setup and write it to a new single isolated one.
+    InputXmlConfig := TXmlConfig.Create(GetSingleXmlFavoriteTabsFilename, True);
+    OutputXmlConfig := TXmlConfig.Create(sConfigFilename);
+
+    try
+      iNode := InputXmlConfig.FindNode(InputXmlConfig.RootNode, 'ActualTabs/' + FavoriteTabs[index].GuidToXMLString + '/Left');
+      if iNode <> nil then
+      begin
+        oNode := OutputXmlConfig.FindNode(OutputXmlConfig.RootNode, 'Tabs/OpenedTabs', True);
+        while iNode <> nil do
         begin
-          AConfig.SetAttr(SubNode, 'Name', '');
-          AConfig.SetAttr(SubNode, 'Filename', '');
+          GenericCopierProcessNode(iNode, OutputXmlConfig, oNode); // Procédure récursive
+          iNode := iNode.NextSibling;
         end;
 
-        fte_ACTUALFAVTABS:
-        begin
-          AConfig.SetAttr(SubNode, 'Name', FavoriteTabs[Index].FavoriteTabsName);
-          AConfig.SetAttr(SubNode, 'Filename', FavoriteTabs[Index].FavoriteTabsSavedFilename);
-          AConfig.SetAttr(SubNode, 'DestLeft', integer(FavoriteTabs[Index].DestinationForSavedLeftTabs));
-          AConfig.SetAttr(SubNode, 'DestRight', integer(FavoriteTabs[Index].DestinationForSavedRightTabs));
-          AConfig.SetAttr(SubNode, 'ExistingKeep', integer(FavoriteTabs[Index].ExistingTabsToKeep));
-          AConfig.SetAttr(SubNode, 'UniqueID', GuidToString(FavoriteTabs[Index].UniqueID));
-        end;
-
-        fte_SEPARATOR:
-        begin
-          AConfig.SetAttr(SubNode, 'Name', '-');
-        end;
-
-        fte_STARTMENU:
-        begin
-          AConfig.SetAttr(SubNode, 'Name', '-' + FavoriteTabs[Index].FavoriteTabsName);
-        end;
-
-        fte_ENDMENU:
-        begin
-          AConfig.SetAttr(SubNode, 'Name', '--');
-        end;
+        OutputXmlConfig.Save;
+        gFavoriteTabsList.LastImportationStringUniqueId.Add(sConfigFilename);
+        Result := True;
       end;
+    finally
+      FreeAndNil(OutputXmlConfig);
+      FreeAndNil(InputXmlConfig);
     end;
   except
-    MessageDlg(rsMsgFavoriteTabsErrorSaving, mtError, [mbOK], 0);
+    on E: Exception do
+      msgError(E.Message);
   end;
-end;
-
-{ TFavoriteTabsList.GetFavoriteTabs }
-function TFavoriteTabsList.GetFavoriteTabs(Index: integer): TFavoriteTabs;
-begin
-  Result := TFavoriteTabs(Items[Index]);
 end;
 
 end.

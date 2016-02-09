@@ -280,15 +280,16 @@ var
   gLastDoAnyCommand: String;
 
   { Favorite Tabs }
-  gFavoriteTabsList:TFavoriteTabsList;
+  gFavoriteTabsUseRestoreExtraOptions: boolean;
+  gFavoriteTabsList: TFavoriteTabsList;
   gWhereToAddNewFavoriteTabs: TPositionWhereToAddFavoriteTabs;
   gFavoriteTabsFullExpandOrNot: boolean;
-  gFavoriteTabsSaveDirHistory: boolean;
-  gFavoriteTabsNoNeedToConfigAfterSave: boolean;
-  gFavoriteTabsNoNeedToConfigAfterReSave: boolean;
+  gFavoriteTabsGoToConfigAfterSave: boolean;
+  gFavoriteTabsGoToConfigAfterReSave: boolean;
   gDefaultTargetPanelLeftSaved: TTabsConfigLocation;
   gDefaultTargetPanelRightSaved: TTabsConfigLocation;
   gDefaultExistingTabsToKeep: TTabsConfigLocation;
+  gFavoriteTabsSaveDirHistory: boolean;
 
   { Brief view page }
   gBriefViewFixedWidth: Integer;
@@ -1109,7 +1110,7 @@ end;
 function GetPathNameIfItMatch(SpecialConstant:integer; FilenameSearched:string):string;
 var
   MaybePath:string;
-  FilePath: array [0..Pred(MAX_PATH)] of WideChar;
+  FilePath: array [0..Pred(MAX_PATH)] of WideChar = '';
 begin
   result:='';
 
@@ -1331,14 +1332,15 @@ begin
   gDirTabPosition := tbpos_top;
 
   { Favorite Tabs}
+  gFavoriteTabsUseRestoreExtraOptions := False;
   gWhereToAddNewFavoriteTabs := afte_Last;
   gFavoriteTabsFullExpandOrNot := True;
-  gFavoriteTabsSaveDirHistory := False;
-  gFavoriteTabsNoNeedToConfigAfterSave := False;
-  gFavoriteTabsNoNeedToConfigAfterReSave := False;
+  gFavoriteTabsGoToConfigAfterSave := False;
+  gFavoriteTabsGoToConfigAfterReSave := False;
   gDefaultTargetPanelLeftSaved := tclLeft;
   gDefaultTargetPanelRightSaved := tclRight;
   gDefaultExistingTabsToKeep := tclNone;
+  gFavoriteTabsSaveDirHistory := False;
 
   { Log page }
   gLogFile := False;
@@ -1661,6 +1663,9 @@ begin
     DCDebug('Error: No config created.');
     Exit(False);
   end;
+
+  { Favorite Tabs }
+  gFavoriteTabsList.LoadAllListFromXml;
 
   // Update plugins if DC version is changed
   if (gPreviousVersion <> dcVersion) then UpdatePlugins;
@@ -2497,9 +2502,6 @@ begin
     { Directories HotList }
     gDirectoryHotlist.LoadFromXML(gConfig, Root);
 
-    { Favorite Tabs }
-    gFavoriteTabsList.LoadFromXml(gConfig, Root);
-
     { Viewer }
     Node := Root.FindNode('Viewer');
     if Assigned(Node) then
@@ -2567,14 +2569,16 @@ begin
     Node := Root.FindNode('FavoriteTabsOptions');
     if Assigned(Node) then
     begin
+      gFavoriteTabsUseRestoreExtraOptions := GetValue(Node, 'FavoriteTabsUseRestoreExtraOptions', gFavoriteTabsUseRestoreExtraOptions);
       gWhereToAddNewFavoriteTabs := TPositionWhereToAddFavoriteTabs(GetValue(Node, 'WhereToAdd', Integer(gWhereToAddNewFavoriteTabs)));
       gFavoriteTabsFullExpandOrNot := GetValue(Node, 'Expand', gFavoriteTabsFullExpandOrNot);
-      gFavoriteTabsSaveDirHistory := GetValue(Node, 'DirHistory', gFavoriteTabsSaveDirHistory);
-      gFavoriteTabsNoNeedToConfigAfterSave := GetValue(Node, 'NoCfgAfterAdd', gFavoriteTabsNoNeedToConfigAfterSave);
-      gFavoriteTabsNoNeedToConfigAfterReSave := GetValue(Node, 'NoCfgAfterReAdd', gFavoriteTabsNoNeedToConfigAfterReSave);
+      gFavoriteTabsGoToConfigAfterSave := GetValue(Node, 'GotoConfigAftSav', gFavoriteTabsGoToConfigAfterSave);
+      gFavoriteTabsGoToConfigAfterReSave := GetValue(Node, 'GotoConfigAftReSav', gFavoriteTabsGoToConfigAfterReSave);
       gDefaultTargetPanelLeftSaved := TTabsConfigLocation(GetValue(Node, 'DfltLeftGoTo', Integer(gDefaultTargetPanelLeftSaved)));
       gDefaultTargetPanelRightSaved := TTabsConfigLocation(GetValue(Node, 'DfltRightGoTo', Integer(gDefaultTargetPanelRightSaved)));
       gDefaultExistingTabsToKeep := TTabsConfigLocation(GetValue(Node, 'DfltKeep', Integer(gDefaultExistingTabsToKeep)));
+      gFavoriteTabsSaveDirHistory := GetValue(Node, 'DfltSaveDirHistory', gFavoriteTabsSaveDirHistory);
+      gFavoriteTabsList.LastFavoriteTabsLoadedUniqueId := StringToGUID(GetValue(Node,'FavTabsLastUniqueID',GUIDtoString(GetNewUniqueID)));
     end;
 
     { - Other - }
@@ -2912,9 +2916,6 @@ begin
     { Directories HotList }
     gDirectoryHotlist.SaveToXml(gConfig, Root, TRUE);
 
-    { Favorite Tabs }
-    gFavoriteTabsList.SaveToXml(gConfig, Root, TRUE);
-
     { Viewer }
     Node := FindNode(Root, 'Viewer',True);
     SetValue(Node, 'PreviewVisible',gPreviewVisible);
@@ -2964,14 +2965,16 @@ begin
 
     { Favorite Tabs }
     Node := FindNode(Root, 'FavoriteTabsOptions', True);
+    SetValue(Node, 'FavoriteTabsUseRestoreExtraOptions', gFavoriteTabsUseRestoreExtraOptions);
     SetValue(Node, 'WhereToAdd', Integer(gWhereToAddNewFavoriteTabs));
     SetValue(Node, 'Expand', gFavoriteTabsFullExpandOrNot);
-    SetValue(Node, 'DirHistory', gFavoriteTabsSaveDirHistory);
-    SetValue(Node, 'NoCfgAfterAdd', gFavoriteTabsNoNeedToConfigAfterSave);
-    SetValue(Node, 'NoCfgAfterReAdd', gFavoriteTabsNoNeedToConfigAfterReSave);
+    SetValue(Node, 'GotoConfigAftSav', gFavoriteTabsGoToConfigAfterSave);
+    SetValue(Node, 'GotoConfigAftReSav', gFavoriteTabsGoToConfigAfterReSave);
     SetValue(Node, 'DfltLeftGoTo', Integer(gDefaultTargetPanelLeftSaved));
     SetValue(Node, 'DfltRightGoTo', Integer(gDefaultTargetPanelRightSaved));
     SetValue(Node, 'DfltKeep', Integer(gDefaultExistingTabsToKeep));
+    SetValue(Node, 'DfltSaveDirHistory', gFavoriteTabsSaveDirHistory);
+    SetValue(Node, 'FavTabsLastUniqueID',GUIDtoString(gFavoriteTabsList.LastFavoriteTabsLoadedUniqueId));
 
     { - Other - }
     SetValue(Root, 'Lua/PathToLibrary', gLuaLib);

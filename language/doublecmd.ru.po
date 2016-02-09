@@ -2365,10 +2365,6 @@ msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "Удалить"
 
-#: tfrmmain.actdeleteactivegroup.caption
-msgid "Delete active group"
-msgstr "Удалить текущую группу"
-
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2570,17 +2566,9 @@ msgstr "Ра&зорвать соединение"
 msgid "Network &Quick Connect..."
 msgstr "&Новое соединение..."
 
-#: tfrmmain.actnewgroup.caption
-msgid "New Group"
-msgstr "Новая группа"
-
 #: tfrmmain.actnewtab.caption
 msgid "&New Tab"
 msgstr "Н&овая вкладка"
-
-#: tfrmmain.actnextgroup.caption
-msgid "Switch to next group"
-msgstr "Переключиться на следующую группу"
 
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
@@ -2628,10 +2616,6 @@ msgstr "Установить позицию разделителя"
 msgid "&Paste"
 msgstr "&Вставить"
 
-#: tfrmmain.actprevgroup.caption
-msgid "Switch to previous group"
-msgstr ""
-
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "Переключиться на &предыдущую вкладку"
@@ -2671,10 +2655,6 @@ msgstr "Переименовать"
 msgid "&Rename Tab"
 msgstr "Переи&меновать вкладку"
 
-#: tfrmmain.actrestoreactivegroup.caption
-msgid "Restore Active Group"
-msgstr "Восстановить текущую группу"
-
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
 msgstr "Восс&тановить выделение"
@@ -2682,10 +2662,6 @@ msgstr "Восс&тановить выделение"
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "Обра&тный п&орядок"
-
-#: tfrmmain.actrewriteactivegroup.caption
-msgid "actRewriteActiveGroup"
-msgstr "Перезаписать текущую группу"
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -3207,12 +3183,6 @@ msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmmain.milinestartgroups.caption
-#, fuzzy
-msgctxt "tfrmmain.milinestartgroups.caption"
-msgid "-"
-msgstr "-"
-
 #: tfrmmain.milogclear.caption
 msgid "Clear"
 msgstr "Очистить"
@@ -3295,10 +3265,6 @@ msgstr "-"
 msgid "&Files"
 msgstr "&Файлы"
 
-#: tfrmmain.mnugroups.caption
-msgid "Groups"
-msgstr "Группы"
-
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -3312,10 +3278,6 @@ msgstr "&Выделение"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "Сеть"
-
-#: tfrmmain.mnurewriteactivegroup.caption
-msgid "Rewrite Active Group"
-msgstr "Перезаписать текущую группу"
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -9254,26 +9216,6 @@ msgstr "Размер"
 msgid "Type"
 msgstr "Тип"
 
-#: ulng.rsgroupalreadyexists
-msgid "Group with entered name already exist, overwrite?"
-msgstr "Группа с таким именем уже существует, перезаписать ее?"
-
-#: ulng.rsgroupdeleteactive
-msgid "Sure want to remove Active group from menu?"
-msgstr "Уверены что хотите удалить активную группу из меню?"
-
-#: ulng.rsgroupnewgroup
-msgid "Creating new group"
-msgstr "Создание новой группы"
-
-#: ulng.rsgroupnewgroupname
-msgid "Group name:"
-msgstr "Имя группы:"
-
-#: ulng.rsgrouprewriteactive
-msgid "Sure want to rewrite Active group with current tabs?"
-msgstr "Уверены что хотите перезаписать активную группу текущими табами?"
-
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Ошибка создания жёсткой ссылки."
@@ -9679,6 +9621,108 @@ msgstr "Слишком много файлов"
 msgid "Archive format unknown"
 msgstr "Архив повреждён или имеет неизвестный формат."
 
+#: ulng.rsmsgfavoritetabsdeleteallentries
+msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsdraghereentry
+msgid "Drag here other entries"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsendofmenu
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabsendofmenu"
+msgid "(end of sub menu)"
+msgstr "(конец подменю)"
+
+#: ulng.rsmsgfavoritetabsentername
+msgid "Enter a name this Favorite Tabs entry"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsenternametitle
+msgid "Saving a new Favorite Tabs entry"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabserrorloading
+msgid "Error loading Favorite Tabs..."
+msgstr ""
+
+#: ulng.rsmsgfavoritetabserrorsaving
+msgid "Error saving Favorite Tabs..."
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsexportedsuccessfully
+msgid "Number of Favorite Tabs exported successfully: %d on %d"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsextramode
+msgid "Default extra setting for save dir history for new Favorite Tabs:"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabshasbeenadded
+msgid "Favorite Tabs have been added in memory!"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsimportedsuccessfully
+msgid "Number of file(s) imported successfully: %d on %d"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsimportsubmenuname
+msgid "Legacy tabs imported"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsmodifiednoimport
+msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsmodifiedwanttosave
+msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsname
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabsname"
+msgid "Name"
+msgstr "Имя"
+
+#: ulng.rsmsgfavoritetabsnamesample
+msgid "This will load your Favorites Tabs entry setup called %s"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabssavelastloadover
+msgid "Save to Favorite Tabs over last loaded entry (%s)"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabssimplemenu
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabssimplemenu"
+msgid "Menu name:"
+msgstr "Имя меню:"
+
+#: ulng.rsmsgfavoritetabssimplemode
+msgid "Keep saving dir history with Favorite Tabs:"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabssimpleseparator
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
+msgid "(separator)"
+msgstr "(разделитель)"
+
+#: ulng.rsmsgfavoritetabssubmenuname
+#, fuzzy
+msgctxt "ulng.rsmsgfavoritetabssubmenuname"
+msgid "Submenu name"
+msgstr "Имя подменю"
+
+#: ulng.rsmsgfavoritetabsthiswillloadfavtabs
+msgid "This will load the Favorite Tabs: \"%s\""
+msgstr ""
+
+#: ulng.rsmsgfavortietabssaveoverexisting
+msgid "Save current tabs over existing Favorite Tabs entry"
+msgstr ""
+
 #: ulng.rsmsgfileassociationsextramodifiedwanttosave
 msgid ""
 "File extension associations extra options have been modified.\n"
@@ -9886,10 +9930,12 @@ msgid "Command:"
 msgstr "Команда:"
 
 #: ulng.rsmsghotdirsimpleendofmenu
+msgctxt "ulng.rsmsghotdirsimpleendofmenu"
 msgid "(end of sub menu)"
 msgstr "(конец подменю)"
 
 #: ulng.rsmsghotdirsimplemenu
+msgctxt "ulng.rsmsghotdirsimplemenu"
 msgid "Menu name:"
 msgstr "Имя меню:"
 
@@ -9899,10 +9945,12 @@ msgid "Name:"
 msgstr "Имя:"
 
 #: ulng.rsmsghotdirsimpleseparator
+msgctxt "ulng.rsmsghotdirsimpleseparator"
 msgid "(separator)"
 msgstr "(разделитель)"
 
 #: ulng.rsmsghotdirsubmenuname
+msgctxt "ulng.rsmsghotdirsubmenuname"
 msgid "Submenu name"
 msgstr "Имя подменю"
 
@@ -10189,6 +10237,14 @@ msgstr "Имя файла для перетащенного файла:"
 msgid "Please, make this file available. Retry?"
 msgstr "Пожалуйста, сделайте этот файл доступным. Повторить?"
 
+#: ulng.rsmsgrenamefavtabs
+msgid "Enter new friendly name for this Favorite Tabs"
+msgstr ""
+
+#: ulng.rsmsgrenamefavtabsmenu
+msgid "Enter new name for this menu"
+msgstr ""
+
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
 msgstr "Переименовать/переместить %d выбранных файлов/каталогов?"
@@ -10293,6 +10349,10 @@ msgstr "Использовать другую специальную папку 
 msgid "Use Windows special folder (TC)..."
 msgstr "Использовать специальную папку винды (TC)..."
 
+#: ulng.rsmsgtabforopeninginnewtab
+msgid "This tab (%s) is locked! Open directory in another tab?"
+msgstr ""
+
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
 msgstr "Переименовать вкладку"
@@ -10300,6 +10360,20 @@ msgstr "Переименовать вкладку"
 #: ulng.rsmsgtabrenameprompt
 msgid "New tab name:"
 msgstr "Новое имя вкладки:"
+
+#: ulng.rsmsgtabsextraoptionsmodifiedwanttosave
+msgid ""
+"Options regarding folder tabs extra have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
+
+#: ulng.rsmsgtabsoptionsmodifiedwanttosave
+msgid ""
+"Options regarding folder tabs have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
@@ -10759,6 +10833,10 @@ msgstr "Выделение + Курсор"
 msgid "Text"
 msgstr "Текст"
 
+#: ulng.rsoptfavoritetabswheretoaddinlist
+msgid "Add at beginning;Add at the end;Alphabetical sort"
+msgstr ""
+
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
 msgstr "отдельное окно;минимизировать отдельное окно;панель операций"
@@ -10916,6 +10994,10 @@ msgstr "Перетаскивание"
 msgid "Drives list button"
 msgstr "Кнопка списка дисков"
 
+#: ulng.rsoptionseditorfavoritetabs
+msgid "Favorite Tabs"
+msgstr ""
+
 #: ulng.rsoptionseditorfileassicextra
 msgid "File associations extra"
 msgstr "Файловые ассоциации (дополнительно)"
@@ -10948,6 +11030,10 @@ msgstr "Типы файлов"
 msgctxt "ulng.rsoptionseditorfoldertabs"
 msgid "Folder tabs"
 msgstr "Вкладки каталогов"
+
+#: ulng.rsoptionseditorfoldertabsextra
+msgid "Folder tabs extra"
+msgstr ""
 
 #: ulng.rsoptionseditorfonts
 msgctxt "ulng.rsoptionseditorfonts"
@@ -11224,6 +11310,10 @@ msgstr "Предварительный просмотр"
 msgid "Result"
 msgstr ""
 
+#: ulng.rssimplewordsaved
+msgid "Saved!"
+msgstr ""
+
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
 msgstr ""
@@ -11317,6 +11407,14 @@ msgstr "Недели (недель)"
 #: ulng.rstimeunityear
 msgid "Year(s)"
 msgstr "Года (лет)"
+
+#: ulng.rstitlerenamefavtabs
+msgid "Rename Favorite Tabs"
+msgstr ""
+
+#: ulng.rstitlerenamefavtabsmenu
+msgid "Rename Favorite Tabs sub-menu"
+msgstr ""
 
 #: ulng.rstooldiffer
 msgctxt "ulng.rstooldiffer"

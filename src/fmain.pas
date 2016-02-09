@@ -40,7 +40,7 @@ unit fMain;
 interface
 
 uses
-  Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
+  ufavoritetabs, Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls, LResources,
   KASToolBar, KASComboBox, uCmdBox, uFilePanelSelect, uBriefFileView,
   uFileView, uFileSource, uFileViewNotebook, uFile, LCLVersion,
@@ -98,12 +98,7 @@ type
     actCopyPathNoSepOfFilesToClip: TAction;
     actDoAnyCmCommand: TAction;
     actCloseDuplicateTabs: TAction;
-    actDeleteActiveGroup: TAction;
-    actPrevGroup: TAction;
-    actRewriteActiveGroup: TAction;
-    actNextGroup: TAction;
-    actNewGroup: TAction;
-    actRestoreActiveGroup: TAction;
+    actCopyAllTabsToOpposite: TAction;
     actTreeView: TAction;
     actToggleFullscreenConsole: TAction;
     actSrcOpenDrives: TAction;
@@ -209,12 +204,11 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
-    mnuDeleteActiveGroup: TMenuItem;
-    mnuRewriteActiveGroup: TMenuItem;
-    miLineStartGroups: TMenuItem;
-    mnuRestoreActiveGroup: TMenuItem;
-    mnuNewGroup: TMenuItem;
-    mnuGroups: TMenuItem;
+    mnuConfigureFavoriteTabs: TMenuItem;
+    mnuRewriteFavoriteTabs: TMenuItem;
+    mnuCreateNewFavoriteTabs: TMenuItem;
+    mnuReloadActiveFavoriteTabs: TMenuItem;
+    mnuFavoriteTabs: TMenuItem;
     mnuCloseDuplicateTabs: TMenuItem;
     miCloseDuplicateTabs: TMenuItem;
     mnuTreeView: TMenuItem;
@@ -521,7 +515,6 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure FormKeyUp( Sender: TObject; var Key: Word; Shift: TShiftState) ;
     function MainToolBarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
-    procedure mnuGroupNameTabsClick(Sender: TObject);
     procedure mnuAllOperStartClick(Sender: TObject);
     procedure mnuAllOperStopClick(Sender: TObject);
     procedure mnuAllOperPauseClick(Sender: TObject);
@@ -714,8 +707,6 @@ type
     procedure SetDragCursor(Shift: TShiftState);
 
   public
-    LastActiveGroup:string; // name of groups user last clicked
-
     constructor Create(TheOwner: TComponent); override;
     Function ActiveFrame: TFileView;  // get Active frame
     Function NotActiveFrame: TFileView; // get NotActive frame :)
@@ -780,10 +771,7 @@ type
     procedure LoadTabsIni(ANoteBook: TFileViewNotebook);
     procedure LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook);
     procedure SaveTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook; ASaveHistory: boolean);
-    procedure LoadGroupXml(AConfig: TXmlConfig; AGroupName: string);
-    procedure SaveGroupXml(AConfig: TXmlConfig; AGroupName: string);
-    procedure DeleteGroupXml(AConfig: TXmlConfig; AGroupName: string);
-    procedure UpdateGroupsMainMenuItems; // add menu items on FormCreate if file 'groups.xml' is exists
+    procedure LoadTheseTabsWithThisConfig(Config: TXmlConfig; ABrunch:string; Source, Destination:TTabsConfigLocation; DestinationToKeep : TTabsConfigLocation; var TabsAlreadyDestroyedFlags:TTabsFlagsAlreadyDestroyed);
     procedure ToggleConsole;
     procedure UpdateWindowView;
     procedure MinimizeWindow;
@@ -1045,9 +1033,8 @@ begin
 {$ENDIF}
 
   LoadTabs;
-
-  LastActiveGroup:='';
-  UpdateGroupsMainMenuItems;
+  gFavoriteTabsList.AssociatedMainMenuItem := mnuFavoriteTabs;
+  gFavoriteTabsList.RefreshAssociatedMainMenu;
 
   // Update selected drive and free space before main form is shown,
   // otherwise there is a bit of delay.
@@ -1395,17 +1382,6 @@ function TfrmMain.MainToolBarToolItemShortcutsHint(ToolItem: TKASNormalItem): St
 begin
   Result := ShortcutsToText(TfrmOptionsToolbar.GetShortcuts(ToolItem));
 end;
-
-procedure TfrmMain.mnuGroupNameTabsClick(Sender: TObject);
-var
-  AConfig:TXmlConfig;
-  AGroupName: string;
-begin
-  AGroupName := (Sender as TMenuItem).Name;
-  LastActiveGroup := Copy(AGroupName, 11, Length(AGroupName) - 4);
-  Commands.Commands.ExecuteCommand('cm_RestoreActiveGroup', []);
-end;
-
 
 procedure TfrmMain.miLogMenuClick(Sender: TObject);
 begin
@@ -1761,7 +1737,6 @@ end;
 
 procedure TfrmMain.FormWindowStateChange(Sender: TObject);
 begin
-
   if FUpdateDiskCount and (WindowState <> wsMinimized) then
   begin
     UpdateDiskCount;
@@ -1779,9 +1754,7 @@ begin
 
   if WindowState = wsMinimized then
   begin  // Minimized
-
     (* Save all tabs *)
-
     SaveTabsXml(gConfig,'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
     SaveTabsXml(gConfig,'Tabs/OpenedTabs/', nbRight,gSaveDirHistory);
 
@@ -1820,10 +1793,19 @@ begin
       RightTabs.DestroyAllPages;
       LoadTabsXml(gConfig,'Tabs/OpenedTabs/Right', nbRight);
 
+      // 2016-02-08:Message to Alexx/meteu from Denis Bisson:
+      // ====================================================
+      // I don't know for sure the purpose of the modification done around here today. I guess it was a temporary guess.
+      // No matter what, I needed to added the following code to have my tabs refresh 'cause they were not and remain blank.
+      // Some users, like me, have the following option checked if file view: "Don't load file list until a tab is activated".
+	  // I'll check with you later.
+      if gDelayLoadingTabs then
+      begin
+        FrameLeft.Flags  := FrameLeft.Flags  - [fvfDelayLoadingFiles];
+        FrameRight.Flags := FrameRight.Flags - [fvfDelayLoadingFiles];
+      end;
     end;
-
   end;
-
   lastWindowState:=WindowState;
 end;
 
@@ -4346,10 +4328,7 @@ var
   aFileSource: IFileSource;
   RootNode, TabNode, ViewNode: TXmlNode;
 begin
-  if ANoteBook = nbLeft then
-    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch)
-  else
-    RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch);
+  RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch);
 
   if Assigned(RootNode) then
   begin
@@ -4465,121 +4444,68 @@ begin
     end;
 end;
 
-procedure TfrmMain.UpdateGroupsMainMenuItems;
+{ TfrmMain.LoadTheseTabsWithThisConfig }
+// Will have tabs section from Xml from either left or right and store it back on actual form on left, right, active, inactive, both or none, with setting keep or not etc.
+// The "ABrunch" *must* include the trailing slash when calling here.
+procedure TfrmMain.LoadTheseTabsWithThisConfig(Config: TXmlConfig; ABrunch:string; Source, Destination:TTabsConfigLocation; DestinationToKeep : TTabsConfigLocation; var TabsAlreadyDestroyedFlags:TTabsFlagsAlreadyDestroyed);
 var
-  i,iBeg,iEnd,cnt:integer;
-  mitNewGroup:TMenuItem;
-  AConfig: TXmlConfig;
-  sNewGroup:string;
-  cNode, aParentNode:TXmlNode;
+  sSourceSectionName: string;
+  CheckNode: TXmlNode;
 begin
-
-  // Clear menu items if exist
-  iBeg:=mnuGroups.IndexOfCaption('-');
-  while mnuGroups.Count>(iBeg+1) do
+  if Destination<>tclNone then
   begin
-    sNewGroup:=mnuGroups.Items[iBeg+1].Caption;
-    mnuGroups.Items[iBeg+1].Free;
-  end;
+    // 1. Normalize our destination side and destination to keep in case params specified active/inactive
+    if ((Destination=tclActive) and (ActiveFrame=FrameLeft)) OR ((Destination=tclInactive) and (NotActiveFrame=FrameLeft)) then Destination:=tclLeft;
+    if ((Destination=tclActive) and (ActiveFrame=FrameRight)) OR ((Destination=tclInactive) and (NotActiveFrame=FrameRight)) then Destination:=tclRight;
+    if ((DestinationToKeep=tclActive) and (ActiveFrame=FrameLeft)) OR ((DestinationToKeep=tclInactive) and (NotActiveFrame=FrameLeft)) then DestinationToKeep:=tclLeft;
+    if ((DestinationToKeep=tclActive) and (ActiveFrame=FrameRight)) OR ((DestinationToKeep=tclInactive) and (NotActiveFrame=FrameRight)) then DestinationToKeep:=tclRight;
 
-  // Create and add menu items
-
-  if not FileExists('groups.xml') then exit;
-
-  try
-    AConfig:= TXmlConfig.Create('groups.xml',True);
-
-    try
-      AConfig.Load;
-      aParentNode:=AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank/');
-      if aParentNode=nil then begin ShowMessage('"groups.xml" are corrupted');exit;end;
-
-      i:=0;
-      cnt:=aParentNode.ChildNodes.Count;
-      while(i<cnt)do
-      begin
-        cNode:=aParentNode.ChildNodes.Item[i];
-        sNewGroup:=AConfig.GetContent(cNode);
-
-        mitNewGroup:=TMenuItem.Create(frmMain.mnuMain);
-        mitNewGroup.Caption:=sNewGroup;
-        mitNewGroup.Name:='miGrpName_'+sNewGroup;
-        mitNewGroup.OnClick:=@mnuGroupNameTabsClick;
-
-        if sNewGroup=LastActiveGroup then mitNewGroup.Checked:=True else mitNewGroup.Checked:=False;
-        mnuGroups.Add(mitNewGroup);
-      inc(i);
-      end;
-
-    finally
-      AConfig.Free;
+    // 2. Setup our source section name.
+    case Source of
+      tclLeft: sSourceSectionName := 'Left';
+      tclRight: sSourceSectionName := 'Right';
     end;
-  except
-    on E: Exception do
-      msgError(E.Message);
-  end;
 
-end;
+    // 3. Actual load infos from config file.
+    if (Destination=tclLeft) OR (Destination=tclBoth) then
+    begin
+      CheckNode := Config.FindNode(Config.RootNode, ABrunch + sSourceSectionName);
+      if Assigned(CheckNode) then
+      begin
+        if (DestinationToKeep<>tclLeft) AND (DestinationToKeep<>tclBoth) AND (not(tfadLeft in TabsAlreadyDestroyedFlags)) then
+        begin
+          frmMain.LeftTabs.DestroyAllPages;
+          TabsAlreadyDestroyedFlags := TabsAlreadyDestroyedFlags + [tfadLeft]; // To don't delete it twice in case both target are left.
+        end;
+      end;
+      LoadTabsXml(Config, ABrunch + sSourceSectionName, LeftTabs);
+    end;
 
-procedure TfrmMain.LoadGroupXml(AConfig: TXmlConfig;
-  AGroupName: string);
-var
-  i:integer;
-  s:string;
-  aParentNode,cNode: TXmlNode;
-begin
-  // 1) Verify - is the AGroupName exist in brunch GroupsNameBank?
-  aParentNode:=AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank');
-  for i:=0 to aParentNode.ChildNodes.Count do
-  begin
-    cNode:=aParentNode.ChildNodes.Item[i];
-    s:=AConfig.GetContent(cNode);
-    if s=AGroupName then break;
-  end;
+    if (Destination=tclRight) OR (Destination=tclBoth) then
+    begin
+      CheckNode := Config.FindNode(Config.RootNode, ABrunch + sSourceSectionName);
+      if Assigned(CheckNode) then
+      begin
+        if (DestinationToKeep<>tclRight) AND (DestinationToKeep<>tclBoth) AND (not(tfadRight in TabsAlreadyDestroyedFlags)) then
+          begin
+            frmMain.RightTabs.DestroyAllPages;
+            TabsAlreadyDestroyedFlags := TabsAlreadyDestroyedFlags + [tfadRight]; // To don't delete it twice in case both target are right.
+          end;
+        LoadTabsXml(Config, ABrunch + sSourceSectionName, RightTabs);
+      end;
+    end;
 
-  if s='' then exit; // if group with it name not found - exit
-
-  // 2) Save current active group data to brunch 'Groups/<AGroupName>'
-
-  LeftTabs.DestroyAllPages;
-  LoadTabsXml(AConfig,'Groups/Left'+AGroupName,nbLeft);
-
-  RightTabs.DestroyAllPages;
-  LoadTabsXml(AConfig,'Groups/Right'+AGroupName,nbRight);
-end;
-
-procedure TfrmMain.SaveGroupXml(AConfig: TXmlConfig;
-  AGroupName: string);
-var
-  ParentNode,cNode: TXmlNode;
-begin
-  // 1) Write New group name to brunch GroupsNameBank
-
-  ParentNode := AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank', True);
-  AConfig.AddValue(ParentNode, 'G', AGroupName);  // add new value
-
-  // 2) Save current active group data to brunch 'Groups/<AGroupName>'
-
-  SaveTabsXml(AConfig, 'Groups/'+AGroupName, nbLeft, gSaveDirHistory);
-  SaveTabsXml(AConfig, 'Groups/'+AGroupName, nbRight, gSaveDirHistory);
-
-end;
-
-procedure TfrmMain.DeleteGroupXml(AConfig: TXmlConfig; AGroupName: string);
-var
-  ParentNode: TXmlNode;
-begin
-  ParentNode := AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank', True);
-
-  ParentNode:=AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank/'+AGroupName);
-  if ParentNode=nil then exit;
-  AConfig.DeleteNode(ParentNode);
-
-  ParentNode:=AConfig.FindNode(AConfig.RootNode, 'GroupsNameBank/'+AGroupName);
-
-  ParentNode:=AConfig.FindNode(AConfig.RootNode, 'Groups/'+AGroupName);
-  if ParentNode=nil then exit;
-  AConfig.DeleteNode(ParentNode);
+    // 4. Refresh content of tabs.
+    case Destination of
+      tclLeft: FrameLeft.Flags := FrameLeft.Flags - [fvfDelayLoadingFiles];
+      tclRight: FrameRight.Flags := FrameRight.Flags - [fvfDelayLoadingFiles];
+      tclBoth:
+        begin
+          FrameLeft.Flags := FrameLeft.Flags - [fvfDelayLoadingFiles];
+          FrameRight.Flags := FrameRight.Flags - [fvfDelayLoadingFiles];
+        end;
+    end;
+  end; // if Destination<>tclNone then
 end;
 
 procedure TfrmMain.ToggleConsole;
