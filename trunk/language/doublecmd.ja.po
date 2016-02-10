@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-02-02 20:38+0900\n"
+"PO-Revision-Date: 2016-02-09 21:10+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 日本語\n"
 "Language: ja\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -2301,10 +2301,16 @@ msgctxt "tfrmmain.actconfigdirhotlist.caption"
 msgid "Configuration of Directory Hotlist"
 msgstr "「ディレクトリ・ホットリスト」の構成"
 
+#: tfrmmain.actconfigfavoritetabs.caption
+msgid "Configuration of Favorite Tabs"
+msgstr "お気に入りタブの構成"
+
+#: tfrmmain.actconfigfoldertabs.caption
+msgid "Configuration of folder tabs"
+msgstr "フォルダー タブの構成"
+
 #: tfrmmain.actconfigtoolbars.caption
-#, fuzzy
-#| msgid "Toolbar..."
-msgid "Configure toolbar"
+msgid "Toolbar..."
 msgstr "ツールバー…"
 
 #: tfrmmain.actcontextmenu.caption
@@ -2315,6 +2321,10 @@ msgstr "コンテキストメニューを表示"
 msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "コピー"
+
+#: tfrmmain.actcopyalltabstoopposite.caption
+msgid "Copy all tabs to opposite side"
+msgstr "全てのタブを反対側にコピー"
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
@@ -2365,6 +2375,10 @@ msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "削除"
 
+#: tfrmmain.actdeleteactivegroup.caption
+msgid "Delete active group"
+msgstr "アクティブなグループを削除"
+
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2409,9 +2423,7 @@ msgid "&Extract Files..."
 msgstr "ファイルを解凍・抽出(&E)…"
 
 #: tfrmmain.actfileassoc.caption
-#, fuzzy
-#| msgid "Configuration of File &Associations"
-msgid "File &Associations..."
+msgid "Configuration of File &Associations"
 msgstr "ファイルの関連づけの設定(&A)"
 
 #: tfrmmain.actfilelinker.caption
@@ -2508,6 +2520,10 @@ msgstr "左側パネルをサイズでソート(&S)"
 msgid "Thumbnails view on left panel"
 msgstr "左側パネルのサムネール表示"
 
+#: tfrmmain.actloadfavoritetabs.caption
+msgid "Load tabs from Favorite Tabs"
+msgstr "お気に入りのタブからタブをロード"
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "クリップボードから選択した項目を開く(&b)"
@@ -2568,9 +2584,21 @@ msgstr "ネットワーク切断(&D)…"
 msgid "Network &Quick Connect..."
 msgstr "ネットワークへの（お急ぎ）接続(&Q)…"
 
+#: tfrmmain.actnewgroup.caption
+msgid "New Group"
+msgstr "新規グループ"
+
 #: tfrmmain.actnewtab.caption
 msgid "&New Tab"
 msgstr "新しいタブ(&N)"
+
+#: tfrmmain.actnextfavoritetabs.caption
+msgid "Load the Next Favorite Tabs in the list"
+msgstr "リストから次のお気に入りタブを読み込む"
+
+#: tfrmmain.actnextgroup.caption
+msgid "Switch to next group"
+msgstr "次のグループに切り替え"
 
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
@@ -2618,6 +2646,14 @@ msgstr "分割位置を設定"
 msgid "&Paste"
 msgstr "貼り付け(&P)"
 
+#: tfrmmain.actprevgroup.caption
+msgid "Switch to previous group"
+msgstr "前のグループに切り替え"
+
+#: tfrmmain.actpreviousfavoritetabs.caption
+msgid "Load the Previous Favorite Tabs in the list"
+msgstr "リストから前のお気に入りタブを読み込む"
+
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "前のタブに切り替え(&P)"
@@ -2639,6 +2675,10 @@ msgstr "クイック ビュー パネル(&Q)"
 msgid "&Refresh"
 msgstr "リフレッシュ(&R)"
 
+#: tfrmmain.actreloadfavoritetabs.caption
+msgid "Reload the last Favorite Tabs loaded"
+msgstr "最後に読み込まれたお気に入りタブを再読み込み"
+
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
@@ -2657,6 +2697,14 @@ msgstr "名前の変更"
 msgid "&Rename Tab"
 msgstr "タブの名前を変更(&R)"
 
+#: tfrmmain.actresavefavoritetabs.caption
+msgid "Resave on the last Favorite Tabs loaded"
+msgstr "最後に読み込まれたお気に入りタブに再保存"
+
+#: tfrmmain.actrestoreactivegroup.caption
+msgid "Restore Active Group"
+msgstr "アクティブなグループを復元"
+
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
 msgstr "選択を元に戻す(&R)"
@@ -2664,6 +2712,11 @@ msgstr "選択を元に戻す(&R)"
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "順序を逆転(&v)"
+
+# 翻訳無用なテキストと思われる
+#: tfrmmain.actrewriteactivegroup.caption
+msgid "actRewriteActiveGroup"
+msgstr "actRewriteActiveGroup"
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -2717,6 +2770,10 @@ msgstr "右側パネルのサムネール表示"
 msgid "Run &Terminal"
 msgstr "端末をこのディレクトリで実行(&T)"
 
+#: tfrmmain.actsavefavoritetabs.caption
+msgid "Save current tabs to a New Favorite Tabs"
+msgstr "現在のタブを新しいお気に入りタブに保存"
+
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
 msgstr "選択し項目を保存(&v)"
@@ -2732,6 +2789,22 @@ msgstr "タブをファイルに保存(&S)"
 #: tfrmmain.actsearch.caption
 msgid "&Search..."
 msgstr "検索(&S)…"
+
+#: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
+msgid "All tabs Locked with Dir Opened in New Tabs"
+msgstr "全てのタブをロックしディレクトリの変更は新しいタブで開く"
+
+#: tfrmmain.actsetalltabsoptionnormal.caption
+msgid "Set all tabs to Normal"
+msgstr "全てのタブを通常状態にする"
+
+#: tfrmmain.actsetalltabsoptionpathlocked.caption
+msgid "Set all tabs to Locked"
+msgstr "全てのタブをロック状態にする"
+
+#: tfrmmain.actsetalltabsoptionpathresets.caption
+msgid "All tabs Locked with Dir Changes Allowed"
+msgstr "全てのタブをロックするがディレクトリの移動を許可する"
 
 #: tfrmmain.actsetfileproperties.caption
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
@@ -3058,6 +3131,16 @@ msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline10.caption
+msgctxt "tfrmmain.miline10.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline11.caption
+msgctxt "tfrmmain.miline11.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline12.caption
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
@@ -3108,8 +3191,18 @@ msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline21.caption
+msgctxt "tfrmmain.miline21.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline22.caption
 msgctxt "TFRMMAIN.MILINE22.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline23.caption
+msgctxt "tfrmmain.miline23.caption"
 msgid "-"
 msgstr "-"
 
@@ -3120,6 +3213,11 @@ msgstr "-"
 
 #: tfrmmain.miline25.caption
 msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline26.caption
+msgctxt "tfrmmain.miline26.caption"
 msgid "-"
 msgstr "-"
 
@@ -3148,8 +3246,18 @@ msgctxt "TFRMMAIN.MILINE38.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline39.caption
+msgctxt "tfrmmain.miline39.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline4.caption
 msgctxt "TFRMMAIN.MILINE4.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline40.caption
+msgctxt "tfrmmain.miline40.caption"
 msgid "-"
 msgstr "-"
 
@@ -3185,6 +3293,11 @@ msgstr "-"
 
 #: tfrmmain.miline9.caption
 msgctxt "TFRMMAIN.MILINE9.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.milinestartgroups.caption
+msgctxt "tfrmmain.milinestartgroups.caption"
 msgid "-"
 msgstr "-"
 
@@ -3247,12 +3360,6 @@ msgstr "キャンセル"
 msgid "&Commands"
 msgstr "コマンド(&C)"
 
-#: tfrmmain.mnucmdconfigdirhotlist.caption
-#, fuzzy
-msgctxt "tfrmmain.mnucmdconfigdirhotlist.caption"
-msgid "Directory Hotlist"
-msgstr "ディレクトリ・ホットリスト"
-
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "構成設定(&o)"
@@ -3271,6 +3378,10 @@ msgstr "-"
 msgid "&Files"
 msgstr "ファイル(&F)"
 
+#: tfrmmain.mnugroups.caption
+msgid "Groups"
+msgstr "グループ"
+
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -3285,15 +3396,17 @@ msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "ネットワーク(&N)"
 
+#: tfrmmain.mnurewriteactivegroup.caption
+msgid "Rewrite Active Group"
+msgstr "アクティブなグループを書き換え"
+
 #: tfrmmain.mnushow.caption
 msgid "&Show"
 msgstr "表示(&S)"
 
 #: tfrmmain.mnutaboptions.caption
-#, fuzzy
-#| msgid "Tab &Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
-msgid "&Options"
+msgid "Tab &Options"
 msgstr "タブのオプション(&O)"
 
 #: tfrmmain.mnutabs.caption
@@ -4708,7 +4821,7 @@ msgstr "名前、a ~ z"
 
 #: tfrmoptionsdirectoryhotlist.gbdirectoryhotlist.caption
 msgid "Directory Hotlist (reorder by drag && drop)"
-msgstr "「ディレクトリ・ホットリスト」（ドラッグ&&ドロップによって並べ替え"
+msgstr "「ディレクトリ・ホットリスト」（ドラッグ&ドロップで並べ替え）"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
 msgctxt "tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption"
@@ -5203,6 +5316,272 @@ msgstr "オフ(&f)"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "O&n"
 msgstr "オン(&n)"
+
+#: tfrmoptionsfavoritetabs.btnadd.caption
+msgctxt "tfrmoptionsfavoritetabs.btnadd.caption"
+msgid "Add..."
+msgstr "追加…"
+
+#: tfrmoptionsfavoritetabs.btndelete.caption
+msgctxt "tfrmoptionsfavoritetabs.btndelete.caption"
+msgid "Delete..."
+msgstr "削除…"
+
+#: tfrmoptionsfavoritetabs.btninsert.caption
+msgctxt "tfrmoptionsfavoritetabs.btninsert.caption"
+msgid "Insert..."
+msgstr "挿入…"
+
+#: tfrmoptionsfavoritetabs.btnmiscellaneous.caption
+msgctxt "tfrmoptionsfavoritetabs.btnmiscellaneous.caption"
+msgid "Miscellaneous..."
+msgstr "その他…"
+
+#: tfrmoptionsfavoritetabs.btnsort.caption
+msgctxt "tfrmoptionsfavoritetabs.btnsort.caption"
+msgid "Sort..."
+msgstr "ソート…"
+
+#: tfrmoptionsfavoritetabs.cbdefaultexistingtabstokeep.text
+msgctxt "tfrmoptionsfavoritetabs.cbdefaultexistingtabstokeep.text"
+msgid "None"
+msgstr "なし"
+
+#: tfrmoptionsfavoritetabs.cbdefaulttargetpanelleftsaved.text
+msgctxt "tfrmoptionsfavoritetabs.cbdefaulttargetpanelleftsaved.text"
+msgid "Left"
+msgstr "左"
+
+#: tfrmoptionsfavoritetabs.cbdefaulttargetpanelrightsaved.text
+msgctxt "tfrmoptionsfavoritetabs.cbdefaulttargetpanelrightsaved.text"
+msgid "Right"
+msgstr "右"
+
+#: tfrmoptionsfavoritetabs.cbexistingtabstokeep.text
+msgctxt "tfrmoptionsfavoritetabs.cbexistingtabstokeep.text"
+msgid "None"
+msgstr "なし"
+
+#: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
+msgctxt "tfrmoptionsfavoritetabs.cbfullexpandtree.caption"
+msgid "Always expand tree"
+msgstr "ツリーを常に展開"
+
+#: tfrmoptionsfavoritetabs.cbnoneedtoconfigafterresave.caption
+msgid "Don't come here after re-saving"
+msgstr "再保存した後ここに来ることはありません"
+
+#: tfrmoptionsfavoritetabs.cbnoneedtoconfigaftersave.caption
+msgid "Don't come here after saving 1st"
+msgstr "最初に保存した後ここに来ることはありません"
+
+#: tfrmoptionsfavoritetabs.cbsavedirhistory.caption
+msgid "Save dir history for each tab"
+msgstr "各タブのディレクトリ訪問履歴を保存"
+
+#: tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text
+msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text"
+msgid "Left"
+msgstr "左"
+
+#: tfrmoptionsfavoritetabs.cbtargetpanelrightsavedtabs.text
+msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelrightsavedtabs.text"
+msgid "Right"
+msgstr "右"
+
+#: tfrmoptionsfavoritetabs.gbfavoritetabs.caption
+msgid "Favorite Tabs list (reorder by drag && drop)"
+msgstr "お気に入りタブ リスト (ドラッグ＆ドロップで並び替え)"
+
+#: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
+msgctxt "tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption"
+msgid "Other options"
+msgstr "その他のオプション"
+
+#: tfrmoptionsfavoritetabs.lbldefaultexistingtabstokeep.caption
+msgid "Default existing tabs to keep:"
+msgstr "キープするデフォルトのタブ："
+
+#: tfrmoptionsfavoritetabs.lbldefaulttargetpanelleftsaved.caption
+msgid "Left tabs go to:"
+msgstr "左のタブの行き先："
+
+#: tfrmoptionsfavoritetabs.lbldefaulttargetpanelrightsaved.caption
+msgid "Right tabs go to:"
+msgstr "右のタブを行き先："
+
+#: tfrmoptionsfavoritetabs.lbldefaulttargetpanelsavedtabs.caption
+msgid "Default saved tabs destination"
+msgstr "保存したデフォルトのタブの出力先"
+
+#: tfrmoptionsfavoritetabs.lbleditfavoritetabsname.editlabel.caption
+msgctxt "tfrmoptionsfavoritetabs.lbleditfavoritetabsname.editlabel.caption"
+msgid "Name:"
+msgstr "名前："
+
+#: tfrmoptionsfavoritetabs.lbleditfavoritetabssavedfilename.editlabel.caption
+msgid "Saved filename:"
+msgstr "保存されたファイル名："
+
+#: tfrmoptionsfavoritetabs.lblexistingtabstokeep.caption
+msgid "Existing tabs to keep:"
+msgstr "キープする既存タブ："
+
+#: tfrmoptionsfavoritetabs.lbltargetpanelleftsavedtabs.caption
+msgid "Left saved tabs go to:"
+msgstr "左の保存したタブの行き先："
+
+#: tfrmoptionsfavoritetabs.lbltargetpanelrightsavedtabs.caption
+msgid "Right saved tabs go to:"
+msgstr "右の保存したタブの行き先："
+
+#: tfrmoptionsfavoritetabs.miaddcopyofselected2.caption
+msgctxt "tfrmoptionsfavoritetabs.miaddcopyofselected2.caption"
+msgid "Add a copy of the selected entry"
+msgstr "選択した項目のコピーを追加"
+
+#: tfrmoptionsfavoritetabs.miaddseparator.caption
+msgctxt "tfrmoptionsfavoritetabs.miaddseparator.caption"
+msgid "a separator"
+msgstr "セパレータ"
+
+#: tfrmoptionsfavoritetabs.miaddseparator2.caption
+msgctxt "tfrmoptionsfavoritetabs.miaddseparator2.caption"
+msgid "Add a separator"
+msgstr "セパレータを追加"
+
+#: tfrmoptionsfavoritetabs.miaddsubmenu.caption
+msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu.caption"
+msgid "sub-menu"
+msgstr "サブメニュー"
+
+#: tfrmoptionsfavoritetabs.miaddsubmenu2.caption
+msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu2.caption"
+msgid "Add sub-menu"
+msgstr "サブメニューを追加"
+
+#: tfrmoptionsfavoritetabs.micollapseall.caption
+msgctxt "tfrmoptionsfavoritetabs.micollapseall.caption"
+msgid "Collapse all"
+msgstr "すべて折畳む"
+
+#: tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption
+msgctxt "tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption"
+msgid "...current level of item(s) selected only"
+msgstr "…選択されている要素の現在のレベルのみ"
+
+#: tfrmoptionsfavoritetabs.micutselection.caption
+msgctxt "tfrmoptionsfavoritetabs.micutselection.caption"
+msgid "Cut"
+msgstr "切り取り"
+
+#: tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption
+msgctxt "tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption"
+msgid "delete all!"
+msgstr "すべてを削除!"
+
+#: tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption
+msgctxt "tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption"
+msgid "sub-menu and all its elements"
+msgstr "サブメニューとすべての要素"
+
+#: tfrmoptionsfavoritetabs.mideletejustsubmenu.caption
+msgctxt "tfrmoptionsfavoritetabs.mideletejustsubmenu.caption"
+msgid "just sub-menu but keep elements"
+msgstr "サブメニューのみ（要素は維持）"
+
+#: tfrmoptionsfavoritetabs.mideleteselectedentry.caption
+msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry.caption"
+msgid "selected item"
+msgstr "選択した項目"
+
+#: tfrmoptionsfavoritetabs.mideleteselectedentry2.caption
+msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry2.caption"
+msgid "Delete selected item"
+msgstr "選択した項目の削除"
+
+#: tfrmoptionsfavoritetabs.mifavoritetabstestmenu.caption
+msgid "FavoriteTabsTestMenu"
+msgstr "お気に入りのタブ  テストメニュー"
+
+#: tfrmoptionsfavoritetabs.miopenallbranches.caption
+msgctxt "tfrmoptionsfavoritetabs.miopenallbranches.caption"
+msgid "Open all branches"
+msgstr "全てのブランチを開く"
+
+#: tfrmoptionsfavoritetabs.mipasteselection.caption
+msgctxt "tfrmoptionsfavoritetabs.mipasteselection.caption"
+msgid "Paste"
+msgstr "貼り付け"
+
+#: tfrmoptionsfavoritetabs.miseparator10.caption
+msgctxt "tfrmoptionsfavoritetabs.miseparator10.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator2.caption
+msgctxt "tfrmoptionsfavoritetabs.miseparator2.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator3.caption
+msgctxt "tfrmoptionsfavoritetabs.miseparator3.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator6.caption
+msgctxt "tfrmoptionsfavoritetabs.miseparator6.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator7.caption
+msgctxt "tfrmoptionsfavoritetabs.miseparator7.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator8.caption
+msgctxt "tfrmoptionsfavoritetabs.miseparator8.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator9.caption
+msgctxt "tfrmoptionsfavoritetabs.miseparator9.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.misorteverything.caption
+msgctxt "tfrmoptionsfavoritetabs.misorteverything.caption"
+msgid "...everything, from A to Z!"
+msgstr "…全て、A~Z!"
+
+#: tfrmoptionsfavoritetabs.misortsinglegroup.caption
+msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup.caption"
+msgid "...single group of item(s) only"
+msgstr "…項目の1グループのみ"
+
+#: tfrmoptionsfavoritetabs.misortsinglegroup2.caption
+msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup2.caption"
+msgid "Sort single group of item(s) only"
+msgstr "項目の1グループのみをソート"
+
+#: tfrmoptionsfavoritetabs.misortsinglesubmenu.caption
+msgctxt "tfrmoptionsfavoritetabs.misortsinglesubmenu.caption"
+msgid "...content of submenu(s) selected, no sublevel"
+msgstr "…選択されたサブメニューの内容（サブレベルではない）"
+
+#: tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption
+msgctxt "tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption"
+msgid "...content of submenu(s) selected and all sublevels"
+msgstr "…選択されたサブメニューと全てのサブレベルの内容"
+
+#: tfrmoptionsfavoritetabs.mitestresultinghotlistmenu.caption
+msgctxt "tfrmoptionsfavoritetabs.mitestresultinghotlistmenu.caption"
+msgid "Test resulting menu"
+msgstr "結果のメニューをテスト"
+
+#: tfrmoptionsfavoritetabs.rgwheretoadd.caption
+msgid "Default addition from main panel:"
+msgstr "メインパネルからのデフォルトの追加："
 
 #: tfrmoptionsfileassoc.btnaddact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNADDACT.CAPTION"
@@ -6480,6 +6859,10 @@ msgstr "検索ケース"
 msgid "Search for these items"
 msgstr "これらの項目を検索"
 
+#: tfrmoptionstabs.cbkeeprenamednamebacktonormal.caption
+msgid "Keep renamed name when unlocking a tab"
+msgstr "タブのロックを解除するとき変更した名前をそのままにする"
+
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
 msgid "Activate target &panel when clicking on one of its Tabs"
@@ -6490,10 +6873,18 @@ msgctxt "TFRMOPTIONSTABS.CBTABSALWAYSVISIBLE.CAPTION"
 msgid "&Show tab header also when there is only one tab"
 msgstr "タブが１つしかなくてもタブヘッダを表示する(&S)"
 
+#: tfrmoptionstabs.cbtabscloseduplicatewhenclosing.caption
+msgid "Close duplicate tabs when closing application"
+msgstr "アプリケーションを閉じる際、重複したタブを閉じる"
+
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
 msgid "Con&firm close all tabs"
 msgstr "全てのタブを閉じてもよいか確認(&f)"
+
+#: tfrmoptionstabs.cbtabsconfirmcloselocked.caption
+msgid "Confirm close locked tabs"
+msgstr "ロックしたタブを閉じる際、確認する"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
@@ -6520,10 +6911,18 @@ msgctxt "TFRMOPTIONSTABS.CBTABSOPENNEARCURRENT.CAPTION"
 msgid "Open &new tabs near current tab"
 msgstr "新しいタブを現在のタブの近くに開く(&n)"
 
+#: tfrmoptionstabs.cbtabsreusetabwhenpossible.caption
+msgid "Reuse existing tab when possible"
+msgstr "可能であれば既存のタブを再利用する"
+
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
 msgid "Show ta&b close button"
 msgstr "タブの「閉じる」ボタンを表示(&b)"
+
+#: tfrmoptionstabs.cbtabsshowdriveletter.caption
+msgid "Always show drive letter in tab title"
+msgstr "タブのタイトルにドライブ文字を常に表示"
 
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
@@ -6539,6 +6938,10 @@ msgstr "文字列"
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Ta&bs position"
 msgstr "タブの位置(&b)"
+
+#: tfrmoptionstabs.rgtabsactionondoubleclick.caption
+msgid "What to do after double click:"
+msgstr "ダブルクリックの後どうするか："
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -9631,11 +10034,11 @@ msgstr "お気に入りのタブの保存エラー…"
 
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
-msgstr ""
+msgstr "正常にエクスポートされたお気に入りのタブの数： %d個（%d中）"
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr ""
+msgstr "デフォルトの追加設定（新しいお気に入りのタブのディレクトリ履歴の保存）："
 
 #: ulng.rsmsgfavoritetabshasbeenadded
 msgid "Favorite Tabs have been added in memory!"
@@ -9643,15 +10046,17 @@ msgstr "お気に入りのタブがメモリに追加されました！"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
 msgid "Number of file(s) imported successfully: %d on %d"
-msgstr ""
+msgstr "正常にインポートされたファイルの数：%d個（%d個中）"
 
 #: ulng.rsmsgfavoritetabsimportsubmenuname
 msgid "Legacy tabs imported"
-msgstr ""
+msgstr "インポートされたレガシーなタブ"
 
+# 英語がおかしい。
+# have not been saved yet.
 #: ulng.rsmsgfavoritetabsmodifiednoimport
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
-msgstr ""
+msgstr "お気に入りのタブへの最終変更がまだ保存されていません。続行する前に保存しますか？"
 
 #: ulng.rsmsgfavoritetabsmodifiedwanttosave
 msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
@@ -9677,7 +10082,7 @@ msgstr "メニューの名前："
 
 #: ulng.rsmsgfavoritetabssimplemode
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr ""
+msgstr "お気に入りのタブのディレクトリ履歴を必ず保存："
 
 #: ulng.rsmsgfavoritetabssimpleseparator
 msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
@@ -9691,7 +10096,7 @@ msgstr "サブメニューの名前"
 
 #: ulng.rsmsgfavoritetabsthiswillloadfavtabs
 msgid "This will load the Favorite Tabs: \"%s\""
-msgstr ""
+msgstr "お気に入りのタブをロード：<%s>"
 
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
@@ -10231,11 +10636,11 @@ msgstr "このファイルを使用可能にして下さい。もう一度やり
 
 #: ulng.rsmsgrenamefavtabs
 msgid "Enter new friendly name for this Favorite Tabs"
-msgstr ""
+msgstr "このお気に入りのタブの分かりやすい名前を入力"
 
 #: ulng.rsmsgrenamefavtabsmenu
 msgid "Enter new name for this menu"
-msgstr ""
+msgstr "このメニューの新しい名前を入力"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
@@ -10359,6 +10764,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"フォルダー・タブの追加に関するオプションが変更されています。\n"
+"\n"
+"終了前に保存しますか？\n"
 
 #: ulng.rsmsgtabsoptionsmodifiedwanttosave
 msgid ""
@@ -11045,7 +11453,7 @@ msgstr "フォルダのタブ"
 
 #: ulng.rsoptionseditorfoldertabsextra
 msgid "Folder tabs extra"
-msgstr ""
+msgstr "フォルダー タブの追加"
 
 #: ulng.rsoptionseditorfonts
 msgctxt "ulng.rsoptionseditorfonts"
@@ -11422,11 +11830,11 @@ msgstr "年"
 
 #: ulng.rstitlerenamefavtabs
 msgid "Rename Favorite Tabs"
-msgstr ""
+msgstr "お気に入りのタブの名前を変更"
 
 #: ulng.rstitlerenamefavtabsmenu
 msgid "Rename Favorite Tabs sub-menu"
-msgstr ""
+msgstr "お気に入りのタブのサブメニューの名前を変更"
 
 #: ulng.rstooldiffer
 msgctxt "ulng.rstooldiffer"
@@ -11654,4 +12062,3 @@ msgstr "置換の回数：%d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "置換は起こりませんでした。"
-
