@@ -1288,7 +1288,7 @@ end;
 
 function mbSysErrorMessage(ErrorCode: Integer): String;
 begin
-  Result := SysToUTF8(SysErrorMessage(ErrorCode));
+  Result := CeSysToUtf8(SysErrorMessage(ErrorCode));
 end;
 
 function mbLoadLibrary(const Name: String): TLibHandle;
