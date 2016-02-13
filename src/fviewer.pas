@@ -500,7 +500,7 @@ begin
         end;
       '1':
         begin
-          miTextClick(Sender);
+          miTextClick(miText);
           Key := #0;
         end;
       '2':
@@ -516,6 +516,16 @@ begin
       '4':
         begin
           miTextClick(miWrapText);
+          Key := #0;
+        end;
+      '6':
+        begin
+          miGraphicsClick(miGraphics);
+          Key := #0;
+        end;
+      '7':
+        begin
+          miPluginsClick(miPlugins);
           Key := #0;
         end;
     end;
