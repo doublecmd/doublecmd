@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-01-24 00:30+0300\n"
+"PO-Revision-Date: 2016-02-14 16:50+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Русский\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.5\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -2305,11 +2305,11 @@ msgstr "Настройка Избранных каталогов"
 
 #: tfrmmain.actconfigfavoritetabs.caption
 msgid "Configuration of Favorite Tabs"
-msgstr ""
+msgstr "Настройка избранных вкладок"
 
 #: tfrmmain.actconfigfoldertabs.caption
 msgid "Configuration of folder tabs"
-msgstr ""
+msgstr "Настройка вкладок каталогов"
 
 #: tfrmmain.actconfigtoolbars.caption
 #, fuzzy
@@ -2328,7 +2328,7 @@ msgstr "Копировать"
 
 #: tfrmmain.actcopyalltabstoopposite.caption
 msgid "Copy all tabs to opposite side"
-msgstr ""
+msgstr "Скопировать все вкладки на противоположную панель"
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
@@ -2524,7 +2524,7 @@ msgstr "Просмотр эскизов в левой панели"
 
 #: tfrmmain.actloadfavoritetabs.caption
 msgid "Load tabs from Favorite Tabs"
-msgstr ""
+msgstr "Загрузить вкладки из избранных вкладок"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -3356,7 +3356,7 @@ msgstr "-"
 
 #: tfrmmain.mnufavoritetabs.caption
 msgid "Favorites"
-msgstr ""
+msgstr "Избранное"
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"
@@ -6662,15 +6662,15 @@ msgstr "Положение &вкладок:"
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
-msgstr ""
+msgstr "Команда запуска терминала:"
 
 #: tfrmoptionsterminal.gbruninterminalclose.caption
 msgid "Command for running a command in terminal and close after:"
-msgstr ""
+msgstr "Команда для запуска команды в терминале (окно будет закрыто):"
 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
-msgstr ""
+msgstr "Команда для запуска команды в терминале (окно останется открытым):"
 
 #: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
 msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"
@@ -11095,7 +11095,7 @@ msgstr "Кнопка списка дисков"
 
 #: ulng.rsoptionseditorfavoritetabs
 msgid "Favorite Tabs"
-msgstr ""
+msgstr "Избранные вкладки"
 
 #: ulng.rsoptionseditorfileassicextra
 msgid "File associations extra"
