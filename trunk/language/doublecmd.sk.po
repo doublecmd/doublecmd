@@ -5222,6 +5222,7 @@ msgid "Position of frame panel after the comparison:"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnadd.caption"
 msgid "Add..."
 msgstr ""
 
@@ -5231,6 +5232,7 @@ msgid "Backup..."
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btndelete.caption"
 msgid "Delete..."
 msgstr ""
 
@@ -5250,6 +5252,7 @@ msgid "Import..."
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btninsert.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btninsert.caption"
 msgid "Insert..."
 msgstr ""
 
@@ -5267,6 +5270,7 @@ msgid "Some functions to select appropriate target"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.btnsort.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnsort.caption"
 msgid "Sort..."
 msgstr ""
 
@@ -5275,6 +5279,7 @@ msgid "When adding directory, add also target"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
+msgctxt "tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption"
 msgid "Always expand tree"
 msgstr ""
 
@@ -5301,6 +5306,7 @@ msgid "Directory Hotlist (reorder by drag && drop)"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
+msgctxt "tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption"
 msgid "Other options"
 msgstr ""
 
@@ -5343,6 +5349,7 @@ msgid "Add a copy of the selected entry"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miaddseparator.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miaddseparator.caption"
 msgid "a separator"
 msgstr ""
 
@@ -5351,10 +5358,12 @@ msgid "Add a separator"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miaddsubmenu.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miaddsubmenu.caption"
 msgid "sub-menu"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miaddsubmenu2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miaddsubmenu2.caption"
 msgid "Add sub-menu"
 msgstr ""
 
@@ -5363,10 +5372,12 @@ msgid "directory I will browse to"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.micollapseall.caption
+msgctxt "tfrmoptionsdirectoryhotlist.micollapseall.caption"
 msgid "Collapse all"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
+msgctxt "tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption"
 msgid "...current level of item(s) selected only"
 msgstr ""
 
@@ -5380,22 +5391,27 @@ msgid "Cut"
 msgstr "Vystrihnúť"
 
 #: tfrmoptionsdirectoryhotlist.mideleteallhotdirs.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mideleteallhotdirs.caption"
 msgid "delete all!"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mideletecompletesubmenu.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mideletecompletesubmenu.caption"
 msgid "sub-menu and all its elements"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mideletejustsubmenu.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mideletejustsubmenu.caption"
 msgid "just sub-menu but keep elements"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mideleteselectedentry.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mideleteselectedentry.caption"
 msgid "selected item"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mideleteselectedentry2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mideleteselectedentry2.caption"
 msgid "Delete selected item"
 msgstr ""
 
@@ -5444,6 +5460,7 @@ msgid "from \"wincmd.ini\" of TC"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miopenallbranches.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miopenallbranches.caption"
 msgid "Open all branches"
 msgstr ""
 
@@ -5543,26 +5560,32 @@ msgid "-"
 msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.misorteverything.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misorteverything.caption"
 msgid "...everything, from A to Z!"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup.caption"
 msgid "...single group of item(s) only"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption"
 msgid "Sort single group of item(s) only"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption"
 msgid "...content of submenu(s) selected, no sublevel"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption"
 msgid "...content of submenu(s) selected and all sublevels"
 msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption
+msgctxt "tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption"
 msgid "Test resulting menu"
 msgstr ""
 
@@ -5762,6 +5785,292 @@ msgstr "Vyp"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "O&n"
 msgstr "Zap"
+
+#: tfrmoptionsfavoritetabs.btnadd.caption
+msgctxt "tfrmoptionsfavoritetabs.btnadd.caption"
+msgid "Add..."
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.btndelete.caption
+msgctxt "tfrmoptionsfavoritetabs.btndelete.caption"
+msgid "Delete..."
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.btnimportexport.caption
+msgid "Import/Export"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.btninsert.caption
+msgctxt "tfrmoptionsfavoritetabs.btninsert.caption"
+msgid "Insert..."
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.btnrename.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.btnrename.caption"
+msgid "Rename"
+msgstr "Premenovať"
+
+#: tfrmoptionsfavoritetabs.btnsort.caption
+msgctxt "tfrmoptionsfavoritetabs.btnsort.caption"
+msgid "Sort..."
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.cbexistingtabstokeep.text
+msgctxt "tfrmoptionsfavoritetabs.cbexistingtabstokeep.text"
+msgid "None"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
+msgctxt "tfrmoptionsfavoritetabs.cbfullexpandtree.caption"
+msgid "Always expand tree"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.cbsavedirhistory.text
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.cbsavedirhistory.text"
+msgid "No"
+msgstr "Nie"
+
+#: tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text
+msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text"
+msgid "Left"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.cbtargetpanelrightsavedtabs.text
+msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelrightsavedtabs.text"
+msgid "Right"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.gbfavoritetabs.caption
+msgid "Favorite Tabs list (reorder by drag && drop)"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
+msgctxt "tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption"
+msgid "Other options"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.gpsavedtabsrestorationaction.caption
+msgid "What to restore where for the selected entry:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.lblexistingtabstokeep.caption
+msgid "Existing tabs to keep:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.lblsavedirhistory.caption
+msgid "Save dir history:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.lbltargetpanelleftsavedtabs.caption
+msgid "Tabs saved on left to be restored to:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.lbltargetpanelrightsavedtabs.caption
+msgid "Tabs saved on right to be restored to:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.menuitem1.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.menuitem1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.menuitem2.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.menuitem2.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miaddseparator.caption
+msgctxt "tfrmoptionsfavoritetabs.miaddseparator.caption"
+msgid "a separator"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miaddseparator2.caption
+msgid "Add separator"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miaddsubmenu.caption
+msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu.caption"
+msgid "sub-menu"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miaddsubmenu2.caption
+msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu2.caption"
+msgid "Add sub-menu"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.micollapseall.caption
+msgctxt "tfrmoptionsfavoritetabs.micollapseall.caption"
+msgid "Collapse all"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption
+msgctxt "tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption"
+msgid "...current level of item(s) selected only"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.micutselection.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.micutselection.caption"
+msgid "Cut"
+msgstr "Vystrihnúť"
+
+#: tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption
+msgctxt "tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption"
+msgid "delete all!"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption
+msgctxt "tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption"
+msgid "sub-menu and all its elements"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.mideletejustsubmenu.caption
+msgctxt "tfrmoptionsfavoritetabs.mideletejustsubmenu.caption"
+msgid "just sub-menu but keep elements"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.mideleteselectedentry.caption
+msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry.caption"
+msgid "selected item"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.mideleteselectedentry2.caption
+msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry2.caption"
+msgid "Delete selected item"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miexporttolegacytabsfile.caption
+msgid "Export selection to legacy .tab file(s)"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.mifavoritetabstestmenu.caption
+msgid "FavoriteTabsTestMenu"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miimportlegacytabfilesaccsetting.caption
+msgid "Import legacy .tab file(s) according to default setting"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption
+msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption"
+msgid "Import legacy .tab file(s) at selected position"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos1.caption
+msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos1.caption"
+msgid "Import legacy .tab file(s) at selected position"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miimportlegacytabfilesinsubatpos.caption
+msgid "Import legacy .tab file(s) at selected position in a sub menu"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miinsertseparator.caption
+msgid "Insert separator"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miinsertsubmenu.caption
+msgid "Insert sub-menu"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miopenallbranches.caption
+msgctxt "tfrmoptionsfavoritetabs.miopenallbranches.caption"
+msgid "Open all branches"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.mipasteselection.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mipasteselection.caption"
+msgid "Paste"
+msgstr "Vložiť"
+
+#: tfrmoptionsfavoritetabs.mirename.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mirename.caption"
+msgid "Rename"
+msgstr "Premenovať"
+
+#: tfrmoptionsfavoritetabs.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator10.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator10.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator11.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator11.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator2.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator2.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator3.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator3.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator7.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator7.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator8.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator8.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator9.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator9.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.misorteverything.caption
+msgctxt "tfrmoptionsfavoritetabs.misorteverything.caption"
+msgid "...everything, from A to Z!"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.misortsinglegroup.caption
+msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup.caption"
+msgid "...single group of item(s) only"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.misortsinglegroup2.caption
+msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup2.caption"
+msgid "Sort single group of item(s) only"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.misortsinglesubmenu.caption
+msgctxt "tfrmoptionsfavoritetabs.misortsinglesubmenu.caption"
+msgid "...content of submenu(s) selected, no sublevel"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption
+msgctxt "tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption"
+msgid "...content of submenu(s) selected and all sublevels"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.mitestresultingfavoritetabsmenu.caption
+msgctxt "tfrmoptionsfavoritetabs.mitestresultingfavoritetabsmenu.caption"
+msgid "Test resulting menu"
+msgstr ""
 
 #: tfrmoptionsfileassoc.btnaddact.caption
 #, fuzzy
@@ -7267,6 +7576,10 @@ msgstr "Hľadaj písmeno"
 msgid "Search for these items"
 msgstr "Vyhľadať tieto položky"
 
+#: tfrmoptionstabs.cbkeeprenamednamebacktonormal.caption
+msgid "Keep renamed name when unlocking a tab"
+msgstr ""
+
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "tfrmoptionstabs.cbtabsactivateonclick.caption"
 msgid "Activate target &panel when clicking on one of its Tabs"
@@ -7277,12 +7590,20 @@ msgctxt "tfrmoptionstabs.cbtabsalwaysvisible.caption"
 msgid "&Show tab header also when there is only one tab"
 msgstr "&Zobraziť záložku, aj keď existuje len jedna"
 
+#: tfrmoptionstabs.cbtabscloseduplicatewhenclosing.caption
+msgid "Close duplicate tabs when closing application"
+msgstr ""
+
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
 #, fuzzy
 #| msgid "&Confirm close all tabs"
 msgctxt "tfrmoptionstabs.cbtabsconfirmcloseall.caption"
 msgid "Con&firm close all tabs"
 msgstr "&Potvrdiť uzatvorenie všetkých záložiek"
+
+#: tfrmoptionstabs.cbtabsconfirmcloselocked.caption
+msgid "Confirm close locked tabs"
+msgstr ""
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 msgid "&Limit tab title length to"
@@ -7308,12 +7629,20 @@ msgctxt "tfrmoptionstabs.cbtabsopennearcurrent.caption"
 msgid "Open &new tabs near current tab"
 msgstr "Otvárať &nové záložky vedľa aktuálnej záložky"
 
+#: tfrmoptionstabs.cbtabsreusetabwhenpossible.caption
+msgid "Reuse existing tab when possible"
+msgstr ""
+
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
 #, fuzzy
 #| msgid "Show tab close button"
 msgctxt "tfrmoptionstabs.cbtabsshowclosebutton.caption"
 msgid "Show ta&b close button"
 msgstr "Na záložkách aj tlačítko zavrieť"
+
+#: tfrmoptionstabs.cbtabsshowdriveletter.caption
+msgid "Always show drive letter in tab title"
+msgstr ""
 
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "tfrmoptionstabs.gbtabs.caption"
@@ -7325,9 +7654,75 @@ msgctxt "tfrmoptionstabs.lblchar.caption"
 msgid "characters"
 msgstr "znakov"
 
+#: tfrmoptionstabs.lbltabsactionondoubleclick.caption
+msgid "Action to do when double click on a tab:"
+msgstr ""
+
 #: tfrmoptionstabs.lbltabsposition.caption
 msgid "Ta&bs position"
 msgstr "Umiestnenie záložky"
+
+#: tfrmoptionstabsextra.cbdefaultexistingtabstokeep.text
+msgctxt "tfrmoptionstabsextra.cbdefaultexistingtabstokeep.text"
+msgid "None"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbdefaultsavedirhistory.text
+#, fuzzy
+msgctxt "tfrmoptionstabsextra.cbdefaultsavedirhistory.text"
+msgid "No"
+msgstr "Nie"
+
+#: tfrmoptionstabsextra.cbdefaulttargetpanelleftsaved.text
+msgctxt "tfrmoptionstabsextra.cbdefaulttargetpanelleftsaved.text"
+msgid "Left"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbdefaulttargetpanelrightsaved.text
+msgctxt "tfrmoptionstabsextra.cbdefaulttargetpanelrightsaved.text"
+msgid "Right"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbgotoconfigafterresave.caption
+msgid "Goto to Favorite Tabs Configuration after resaving"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbgotoconfigaftersave.caption
+msgid "Goto to Favorite Tabs Configuration after saving a new one"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
+msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
+msgstr ""
+
+#: tfrmoptionstabsextra.gbdefaulttabsavedrestoration.caption
+msgid "Default extra settings when saving new Favorite Tabs:"
+msgstr ""
+
+#: tfrmoptionstabsextra.gbtabs.caption
+msgid "Folder tabs headers extra"
+msgstr ""
+
+#: tfrmoptionstabsextra.lbldefaultexistingtabstokeep.caption
+msgid "When restoring tab, existing tabs to keep:"
+msgstr ""
+
+#: tfrmoptionstabsextra.lbldefaulttargetpanelleftsaved.caption
+msgid "Tabs saved on left will be restored to:"
+msgstr ""
+
+#: tfrmoptionstabsextra.lbldefaulttargetpanelrightsaved.caption
+msgid "Tabs saved on right will be restored to:"
+msgstr ""
+
+#: tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption
+msgctxt "tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption"
+msgid "Keep saving dir history with Favorite Tabs:"
+msgstr ""
+
+#: tfrmoptionstabsextra.rgwheretoadd.caption
+msgid "Default position in menu when saving a new Favorite Tabs:"
+msgstr ""
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -7353,7 +7748,7 @@ msgstr ""
 
 #: tfrmoptionsterminal.ledtrunintermcloseparams.hint
 msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
-msgid "{command} should normally present here to releft the command to be run in terminal"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
 #: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
@@ -7368,7 +7763,7 @@ msgstr ""
 
 #: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
 msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
-msgid "{command} should normally present here to releft the command to be run in terminal"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
 #: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
@@ -7383,7 +7778,7 @@ msgstr ""
 
 #: tfrmoptionsterminal.ledtruntermparams.hint
 msgctxt "tfrmoptionsterminal.ledtruntermparams.hint"
-msgid "{command} should normally present here to releft the command to be run in terminal"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
@@ -9958,6 +10353,14 @@ msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr ""
 
+#: ulng.rsfavtabspanelsideselection
+msgid "Left;Right;Active;Inactive;Both;None"
+msgstr ""
+
+#: ulng.rsfavtabssavedirhistory
+msgid "No;Yes"
+msgstr ""
+
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
 msgstr ""
@@ -10108,6 +10511,10 @@ msgstr "Typ"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Chyba pri vytváraní hardlinku."
+
+#: ulng.rshotdirforcesortingorderchoices
+msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
+msgstr ""
 
 #: ulng.rshotdirnothingtoimport
 msgid "Sorry, nothing detected to import!"
@@ -10586,6 +10993,7 @@ msgid "Menu name:"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabssimplemode
+msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
 msgstr ""
 
@@ -10770,10 +11178,6 @@ msgstr "Cesta"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
-msgstr ""
-
-#: ulng.rsmsghotdirlocateprevioussave
-msgid "Select location and filename of previously saved Directory Hotlist file"
 msgstr ""
 
 #: ulng.rsmsghotdirmodifiedwanttosave
@@ -12118,6 +12522,7 @@ msgid "Named pipe"
 msgstr "Pomenovaná rúra"
 
 #: ulng.rspropsno
+msgctxt "ulng.rspropsno"
 msgid "No"
 msgstr "Nie"
 
@@ -12273,6 +12678,10 @@ msgstr "Predvolený text"
 #: ulng.rssynlangplaintext
 msgid "Plain text"
 msgstr "Prostý text"
+
+#: ulng.rstabsactionondoubleclickchoices
+msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
+msgstr ""
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"

@@ -4803,6 +4803,7 @@ msgid "Position of frame panel after the comparison:"
 msgstr "Позиція панелі після порівняння:"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnadd.caption"
 msgid "Add..."
 msgstr "Додати..."
 
@@ -4812,6 +4813,7 @@ msgid "Backup..."
 msgstr "Резервн копіювання..."
 
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btndelete.caption"
 msgid "Delete..."
 msgstr "Видалити..."
 
@@ -4831,6 +4833,7 @@ msgid "Import..."
 msgstr "Імпорт..."
 
 #: tfrmoptionsdirectoryhotlist.btninsert.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btninsert.caption"
 msgid "Insert..."
 msgstr "Вставити..."
 
@@ -4849,6 +4852,7 @@ msgid "Some functions to select appropriate target"
 msgstr "Кілька функцій для вибору відповідного місця призначення"
 
 #: tfrmoptionsdirectoryhotlist.btnsort.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnsort.caption"
 msgid "Sort..."
 msgstr "Сортувати..."
 
@@ -4857,6 +4861,7 @@ msgid "When adding directory, add also target"
 msgstr "Додаючи каталог, додавати каталог призначення"
 
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
+msgctxt "tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption"
 msgid "Always expand tree"
 msgstr "Завжди розгортати дерево"
 
@@ -4883,6 +4888,7 @@ msgid "Directory Hotlist (reorder by drag && drop)"
 msgstr "Вибрані теки (можна сортувати перетягуванням)"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
+msgctxt "tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption"
 msgid "Other options"
 msgstr "Інші налаштування"
 
@@ -4957,10 +4963,12 @@ msgid "directory I will browse to"
 msgstr "теку до якої я перейду"
 
 #: tfrmoptionsdirectoryhotlist.micollapseall.caption
+msgctxt "tfrmoptionsdirectoryhotlist.micollapseall.caption"
 msgid "Collapse all"
 msgstr "Згорнути все"
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
+msgctxt "tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption"
 msgid "...current level of item(s) selected only"
 msgstr "...поточний рівень виділених елементів"
 
@@ -5046,6 +5054,7 @@ msgid "from \"wincmd.ini\" of TC"
 msgstr "з файла \"wincmd.ini\" від TC"
 
 #: tfrmoptionsdirectoryhotlist.miopenallbranches.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miopenallbranches.caption"
 msgid "Open all branches"
 msgstr "Відкрити всі гілки"
 
@@ -5145,22 +5154,27 @@ msgid "-"
 msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.misorteverything.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misorteverything.caption"
 msgid "...everything, from A to Z!"
 msgstr "...все, від А до Я!"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup.caption"
 msgid "...single group of item(s) only"
 msgstr "...тільки одну групу елементів"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption"
 msgid "Sort single group of item(s) only"
 msgstr "Сортувати тількиодну групу елементів"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption"
 msgid "...content of submenu(s) selected, no sublevel"
 msgstr "...вміст підменю виділено, без підрівнів"
 
 #: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption"
 msgid "...content of submenu(s) selected and all sublevels"
 msgstr "...вміст підменю виділено разом з підрівнями"
 
@@ -5367,6 +5381,315 @@ msgstr "&Вимк"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "O&n"
 msgstr "&Увімк."
+
+#: tfrmoptionsfavoritetabs.btnadd.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.btnadd.caption"
+msgid "Add..."
+msgstr "Додати..."
+
+#: tfrmoptionsfavoritetabs.btndelete.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.btndelete.caption"
+msgid "Delete..."
+msgstr "Видалити..."
+
+#: tfrmoptionsfavoritetabs.btnimportexport.caption
+msgid "Import/Export"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.btninsert.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.btninsert.caption"
+msgid "Insert..."
+msgstr "Вставити..."
+
+#: tfrmoptionsfavoritetabs.btnrename.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.btnrename.caption"
+msgid "Rename"
+msgstr "Перейменувати"
+
+#: tfrmoptionsfavoritetabs.btnsort.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.btnsort.caption"
+msgid "Sort..."
+msgstr "Сортувати..."
+
+#: tfrmoptionsfavoritetabs.cbexistingtabstokeep.text
+msgctxt "tfrmoptionsfavoritetabs.cbexistingtabstokeep.text"
+msgid "None"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.cbfullexpandtree.caption"
+msgid "Always expand tree"
+msgstr "Завжди розгортати дерево"
+
+#: tfrmoptionsfavoritetabs.cbsavedirhistory.text
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.cbsavedirhistory.text"
+msgid "No"
+msgstr "Ні"
+
+#: tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text
+msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text"
+msgid "Left"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.cbtargetpanelrightsavedtabs.text
+msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelrightsavedtabs.text"
+msgid "Right"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.gbfavoritetabs.caption
+msgid "Favorite Tabs list (reorder by drag && drop)"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption"
+msgid "Other options"
+msgstr "Інші налаштування"
+
+#: tfrmoptionsfavoritetabs.gpsavedtabsrestorationaction.caption
+msgid "What to restore where for the selected entry:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.lblexistingtabstokeep.caption
+msgid "Existing tabs to keep:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.lblsavedirhistory.caption
+msgid "Save dir history:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.lbltargetpanelleftsavedtabs.caption
+msgid "Tabs saved on left to be restored to:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.lbltargetpanelrightsavedtabs.caption
+msgid "Tabs saved on right to be restored to:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.menuitem1.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.menuitem1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.menuitem2.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.menuitem2.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miaddseparator.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miaddseparator.caption"
+msgid "a separator"
+msgstr "роздільник"
+
+#: tfrmoptionsfavoritetabs.miaddseparator2.caption
+msgid "Add separator"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miaddsubmenu.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu.caption"
+msgid "sub-menu"
+msgstr "підменю"
+
+#: tfrmoptionsfavoritetabs.miaddsubmenu2.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu2.caption"
+msgid "Add sub-menu"
+msgstr "Додати підменю"
+
+#: tfrmoptionsfavoritetabs.micollapseall.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.micollapseall.caption"
+msgid "Collapse all"
+msgstr "Згорнути все"
+
+#: tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption"
+msgid "...current level of item(s) selected only"
+msgstr "...поточний рівень виділених елементів"
+
+#: tfrmoptionsfavoritetabs.micutselection.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.micutselection.caption"
+msgid "Cut"
+msgstr "Вирізати"
+
+#: tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption"
+msgid "delete all!"
+msgstr "видалити все!"
+
+#: tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption"
+msgid "sub-menu and all its elements"
+msgstr "підменю і всі його елементи"
+
+#: tfrmoptionsfavoritetabs.mideletejustsubmenu.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mideletejustsubmenu.caption"
+msgid "just sub-menu but keep elements"
+msgstr "тільки підменю без елементів"
+
+#: tfrmoptionsfavoritetabs.mideleteselectedentry.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry.caption"
+msgid "selected item"
+msgstr "виділений елемент"
+
+#: tfrmoptionsfavoritetabs.mideleteselectedentry2.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry2.caption"
+msgid "Delete selected item"
+msgstr "Видалити виділений елемент"
+
+#: tfrmoptionsfavoritetabs.miexporttolegacytabsfile.caption
+msgid "Export selection to legacy .tab file(s)"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.mifavoritetabstestmenu.caption
+msgid "FavoriteTabsTestMenu"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miimportlegacytabfilesaccsetting.caption
+msgid "Import legacy .tab file(s) according to default setting"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption
+msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption"
+msgid "Import legacy .tab file(s) at selected position"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos1.caption
+msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos1.caption"
+msgid "Import legacy .tab file(s) at selected position"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miimportlegacytabfilesinsubatpos.caption
+msgid "Import legacy .tab file(s) at selected position in a sub menu"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miinsertseparator.caption
+msgid "Insert separator"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miinsertsubmenu.caption
+msgid "Insert sub-menu"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miopenallbranches.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miopenallbranches.caption"
+msgid "Open all branches"
+msgstr "Відкрити всі гілки"
+
+#: tfrmoptionsfavoritetabs.mipasteselection.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mipasteselection.caption"
+msgid "Paste"
+msgstr "Вставити"
+
+#: tfrmoptionsfavoritetabs.mirename.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mirename.caption"
+msgid "Rename"
+msgstr "Перейменувати"
+
+#: tfrmoptionsfavoritetabs.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator10.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator10.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator11.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator11.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator2.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator2.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator3.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator3.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator7.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator7.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator8.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator8.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator9.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator9.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.misorteverything.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.misorteverything.caption"
+msgid "...everything, from A to Z!"
+msgstr "...все, від А до Я!"
+
+#: tfrmoptionsfavoritetabs.misortsinglegroup.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup.caption"
+msgid "...single group of item(s) only"
+msgstr "...тільки одну групу елементів"
+
+#: tfrmoptionsfavoritetabs.misortsinglegroup2.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup2.caption"
+msgid "Sort single group of item(s) only"
+msgstr "Сортувати тількиодну групу елементів"
+
+#: tfrmoptionsfavoritetabs.misortsinglesubmenu.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.misortsinglesubmenu.caption"
+msgid "...content of submenu(s) selected, no sublevel"
+msgstr "...вміст підменю виділено, без підрівнів"
+
+#: tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption"
+msgid "...content of submenu(s) selected and all sublevels"
+msgstr "...вміст підменю виділено разом з підрівнями"
+
+#: tfrmoptionsfavoritetabs.mitestresultingfavoritetabsmenu.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mitestresultingfavoritetabsmenu.caption"
+msgid "Test resulting menu"
+msgstr "Перевірити меню"
 
 #: tfrmoptionsfileassoc.btnaddact.caption
 msgctxt "tfrmoptionsfileassoc.btnaddact.caption"
@@ -6689,6 +7012,10 @@ msgstr "Регістр при пошуку"
 msgid "Search for these items"
 msgstr "Критерії пошуку"
 
+#: tfrmoptionstabs.cbkeeprenamednamebacktonormal.caption
+msgid "Keep renamed name when unlocking a tab"
+msgstr ""
+
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
 msgid "Activate target &panel when clicking on one of its Tabs"
@@ -6699,10 +7026,18 @@ msgctxt "TFRMOPTIONSTABS.CBTABSALWAYSVISIBLE.CAPTION"
 msgid "&Show tab header also when there is only one tab"
 msgstr "Показувати заголовок вкладки, нав&іть якщо вона одна"
 
+#: tfrmoptionstabs.cbtabscloseduplicatewhenclosing.caption
+msgid "Close duplicate tabs when closing application"
+msgstr ""
+
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
 msgid "Con&firm close all tabs"
 msgstr "Підтверд&жувати закриття всіх вкладок"
+
+#: tfrmoptionstabs.cbtabsconfirmcloselocked.caption
+msgid "Confirm close locked tabs"
+msgstr ""
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
@@ -6729,10 +7064,18 @@ msgctxt "TFRMOPTIONSTABS.CBTABSOPENNEARCURRENT.CAPTION"
 msgid "Open &new tabs near current tab"
 msgstr "Відкривати &нову вкладку поряд з поточною"
 
+#: tfrmoptionstabs.cbtabsreusetabwhenpossible.caption
+msgid "Reuse existing tab when possible"
+msgstr ""
+
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
 msgid "Show ta&b close button"
 msgstr "Показувати кнопку закриття &вкладки"
+
+#: tfrmoptionstabs.cbtabsshowdriveletter.caption
+msgid "Always show drive letter in tab title"
+msgstr ""
 
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
@@ -6744,10 +7087,76 @@ msgctxt "TFRMOPTIONSTABS.LBLCHAR.CAPTION"
 msgid "characters"
 msgstr "символів"
 
+#: tfrmoptionstabs.lbltabsactionondoubleclick.caption
+msgid "Action to do when double click on a tab:"
+msgstr ""
+
 #: tfrmoptionstabs.lbltabsposition.caption
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Ta&bs position"
 msgstr "Поло&ження вкладок"
+
+#: tfrmoptionstabsextra.cbdefaultexistingtabstokeep.text
+msgctxt "tfrmoptionstabsextra.cbdefaultexistingtabstokeep.text"
+msgid "None"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbdefaultsavedirhistory.text
+#, fuzzy
+msgctxt "tfrmoptionstabsextra.cbdefaultsavedirhistory.text"
+msgid "No"
+msgstr "Ні"
+
+#: tfrmoptionstabsextra.cbdefaulttargetpanelleftsaved.text
+msgctxt "tfrmoptionstabsextra.cbdefaulttargetpanelleftsaved.text"
+msgid "Left"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbdefaulttargetpanelrightsaved.text
+msgctxt "tfrmoptionstabsextra.cbdefaulttargetpanelrightsaved.text"
+msgid "Right"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbgotoconfigafterresave.caption
+msgid "Goto to Favorite Tabs Configuration after resaving"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbgotoconfigaftersave.caption
+msgid "Goto to Favorite Tabs Configuration after saving a new one"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
+msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
+msgstr ""
+
+#: tfrmoptionstabsextra.gbdefaulttabsavedrestoration.caption
+msgid "Default extra settings when saving new Favorite Tabs:"
+msgstr ""
+
+#: tfrmoptionstabsextra.gbtabs.caption
+msgid "Folder tabs headers extra"
+msgstr ""
+
+#: tfrmoptionstabsextra.lbldefaultexistingtabstokeep.caption
+msgid "When restoring tab, existing tabs to keep:"
+msgstr ""
+
+#: tfrmoptionstabsextra.lbldefaulttargetpanelleftsaved.caption
+msgid "Tabs saved on left will be restored to:"
+msgstr ""
+
+#: tfrmoptionstabsextra.lbldefaulttargetpanelrightsaved.caption
+msgid "Tabs saved on right will be restored to:"
+msgstr ""
+
+#: tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption
+msgctxt "tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption"
+msgid "Keep saving dir history with Favorite Tabs:"
+msgstr ""
+
+#: tfrmoptionstabsextra.rgwheretoadd.caption
+msgid "Default position in menu when saving a new Favorite Tabs:"
+msgstr ""
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -6774,11 +7183,10 @@ msgstr ""
 
 #: tfrmoptionsterminal.ledtrunintermcloseparams.hint
 msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
-msgid "{command} should normally present here to releft the command to be run in terminal"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
 #: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
-#, fuzzy
 msgctxt "tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption"
 msgid "Command:"
 msgstr "Команди:"
@@ -6790,7 +7198,7 @@ msgstr ""
 
 #: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
 msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
-msgid "{command} should normally present here to releft the command to be run in terminal"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
 #: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
@@ -6806,7 +7214,7 @@ msgstr ""
 
 #: tfrmoptionsterminal.ledtruntermparams.hint
 msgctxt "tfrmoptionsterminal.ledtruntermparams.hint"
-msgid "{command} should normally present here to releft the command to be run in terminal"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
@@ -9277,6 +9685,14 @@ msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr "Виконати через термінал і лишити відкритим"
 
+#: ulng.rsfavtabspanelsideselection
+msgid "Left;Right;Active;Inactive;Both;None"
+msgstr ""
+
+#: ulng.rsfavtabssavedirhistory
+msgid "No;Yes"
+msgstr ""
+
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
 msgstr "Експортувати_з_DC"
@@ -9431,6 +9847,10 @@ msgstr "Тип"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Помилка створення жорсткого посилання."
+
+#: ulng.rshotdirforcesortingorderchoices
+msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
+msgstr ""
 
 #: ulng.rshotdirnothingtoimport
 msgid "Sorry, nothing detected to import!"
@@ -9933,6 +10353,7 @@ msgid "Menu name:"
 msgstr "Назва меню:"
 
 #: ulng.rsmsgfavoritetabssimplemode
+msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
 msgstr ""
 
@@ -10144,10 +10565,6 @@ msgstr "Шлях"
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
 msgstr "Знайдіть файл  \".hotlist\"  для імпорту"
-
-#: ulng.rsmsghotdirlocateprevioussave
-msgid "Select location and filename of previously saved Directory Hotlist file"
-msgstr "Виберіть розташування і ім’я раніше збереженого файла Обраних каталогів"
 
 #: ulng.rsmsghotdirmodifiedwanttosave
 msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
@@ -11541,6 +11958,7 @@ msgid "Named pipe"
 msgstr "Іменований канал"
 
 #: ulng.rspropsno
+msgctxt "ulng.rspropsno"
 msgid "No"
 msgstr "Ні"
 
@@ -11696,6 +12114,10 @@ msgstr "Типовий текст"
 msgctxt "ulng.rssynlangplaintext"
 msgid "Plain text"
 msgstr "Простий текст"
+
+#: ulng.rstabsactionondoubleclickchoices
+msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
+msgstr ""
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
