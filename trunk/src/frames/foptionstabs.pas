@@ -168,7 +168,7 @@ begin
   if cbTabsShowCloseButton.Checked then
     gDirTabOptions := gDirTabOptions + [tb_show_close_button];
 
-  gDirTabActionOnDoubleClick := TTabsOptionsDoubleClick(cbTabsActionOnDoubleClick);
+  gDirTabActionOnDoubleClick := TTabsOptionsDoubleClick(cbTabsActionOnDoubleClick.ItemIndex);
 
   gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
 
