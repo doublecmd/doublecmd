@@ -186,12 +186,12 @@ implementation
 
 uses
 {$IF DEFINED(MSWINDOWS)}
-  Windows, JwaWinNetWk, DCDateTimeUtils, DCWindows, DCConvertEncoding,
+  Windows, JwaWinNetWk, DCDateTimeUtils, DCWindows,
 {$ENDIF}
 {$IF DEFINED(UNIX)}
   BaseUnix, Unix, dl, DCUnix,
 {$ENDIF}
-  DCStrUtils, LazUTF8;
+  DCConvertEncoding, DCStrUtils, LazUTF8;
 
 {$IFDEF UNIX}
 function SetModeReadOnly(mode: TMode; ReadOnly: Boolean): TMode;
