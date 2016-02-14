@@ -769,9 +769,9 @@ type
     procedure AssignEvents(AFileView: TFileView);
     function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer; CloseLocked: Boolean = True; ConfirmCloseLocked: integer = 0; ShowButtonAll: Boolean = False): LongInt;
     procedure LoadTabsIni(ANoteBook: TFileViewNotebook);
-    procedure LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook);
-    procedure SaveTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook; ASaveHistory: boolean);
-    procedure LoadTheseTabsWithThisConfig(Config: TXmlConfig; ABrunch:string; Source, Destination:TTabsConfigLocation; DestinationToKeep : TTabsConfigLocation; var TabsAlreadyDestroyedFlags:TTabsFlagsAlreadyDestroyed);
+    procedure LoadTabsXml(AConfig: TXmlConfig; ABranch:string; ANoteBook: TFileViewNotebook);
+    procedure SaveTabsXml(AConfig: TXmlConfig; ABranch:string; ANoteBook: TFileViewNotebook; ASaveHistory: boolean);
+    procedure LoadTheseTabsWithThisConfig(Config: TXmlConfig; ABranch:string; Source, Destination:TTabsConfigLocation; DestinationToKeep : TTabsConfigLocation; var TabsAlreadyDestroyedFlags:TTabsFlagsAlreadyDestroyed);
     procedure ToggleConsole;
     procedure UpdateWindowView;
     procedure MinimizeWindow;
@@ -4292,8 +4292,8 @@ begin
     ANoteBook.PageIndex := iActiveTab;
 end;
 
-procedure TfrmMain.LoadTabsXml(AConfig: TXmlConfig; ABrunch:string; ANoteBook: TFileViewNotebook);
-// default was ABrunch: 'Tabs/OpenedTabs/'
+procedure TfrmMain.LoadTabsXml(AConfig: TXmlConfig; ABranch:string; ANoteBook: TFileViewNotebook);
+// default was ABranch: 'Tabs/OpenedTabs/'
 var
   sPath, sViewType: String;
   iActiveTab: Integer;
@@ -4303,7 +4303,7 @@ var
   aFileSource: IFileSource;
   RootNode, TabNode, ViewNode: TXmlNode;
 begin
-  RootNode := AConfig.FindNode(AConfig.RootNode,ABrunch);
+  RootNode := AConfig.FindNode(AConfig.RootNode,ABranch);
 
   if Assigned(RootNode) then
   begin
@@ -4390,7 +4390,7 @@ begin
 end;
 
 
-procedure TfrmMain.SaveTabsXml(AConfig: TXmlConfig;ABrunch:string; ANoteBook: TFileViewNotebook; ASaveHistory:boolean);
+procedure TfrmMain.SaveTabsXml(AConfig: TXmlConfig;ABranch:string; ANoteBook: TFileViewNotebook; ASaveHistory:boolean);
 // default was: 'Tabs/OpenedTabs'
 var
   I: Integer;
@@ -4398,7 +4398,7 @@ var
   Page: TFileViewPage;
   RootNode, TabNode, ViewNode: TXmlNode;
 begin
-  RootNode := AConfig.FindNode(AConfig.RootNode, ABrunch, True);
+  RootNode := AConfig.FindNode(AConfig.RootNode, ABranch, True);
   if ANoteBook = nbLeft then
     TabsSection := 'Left'
   else
@@ -4421,8 +4421,8 @@ end;
 
 { TfrmMain.LoadTheseTabsWithThisConfig }
 // Will have tabs section from Xml from either left or right and store it back on actual form on left, right, active, inactive, both or none, with setting keep or not etc.
-// The "ABrunch" *must* include the trailing slash when calling here.
-procedure TfrmMain.LoadTheseTabsWithThisConfig(Config: TXmlConfig; ABrunch:string; Source, Destination:TTabsConfigLocation; DestinationToKeep : TTabsConfigLocation; var TabsAlreadyDestroyedFlags:TTabsFlagsAlreadyDestroyed);
+// The "ABranch" *must* include the trailing slash when calling here.
+procedure TfrmMain.LoadTheseTabsWithThisConfig(Config: TXmlConfig; ABranch:string; Source, Destination:TTabsConfigLocation; DestinationToKeep : TTabsConfigLocation; var TabsAlreadyDestroyedFlags:TTabsFlagsAlreadyDestroyed);
 var
   sSourceSectionName: string;
   CheckNode: TXmlNode;
@@ -4444,7 +4444,7 @@ begin
     // 3. Actual load infos from config file.
     if (Destination=tclLeft) OR (Destination=tclBoth) then
     begin
-      CheckNode := Config.FindNode(Config.RootNode, ABrunch + sSourceSectionName);
+      CheckNode := Config.FindNode(Config.RootNode, ABranch + sSourceSectionName);
       if Assigned(CheckNode) then
       begin
         if (DestinationToKeep<>tclLeft) AND (DestinationToKeep<>tclBoth) AND (not(tfadLeft in TabsAlreadyDestroyedFlags)) then
@@ -4453,12 +4453,12 @@ begin
           TabsAlreadyDestroyedFlags := TabsAlreadyDestroyedFlags + [tfadLeft]; // To don't delete it twice in case both target are left.
         end;
       end;
-      LoadTabsXml(Config, ABrunch + sSourceSectionName, LeftTabs);
+      LoadTabsXml(Config, ABranch + sSourceSectionName, LeftTabs);
     end;
 
     if (Destination=tclRight) OR (Destination=tclBoth) then
     begin
-      CheckNode := Config.FindNode(Config.RootNode, ABrunch + sSourceSectionName);
+      CheckNode := Config.FindNode(Config.RootNode, ABranch + sSourceSectionName);
       if Assigned(CheckNode) then
       begin
         if (DestinationToKeep<>tclRight) AND (DestinationToKeep<>tclBoth) AND (not(tfadRight in TabsAlreadyDestroyedFlags)) then
@@ -4466,7 +4466,7 @@ begin
             frmMain.RightTabs.DestroyAllPages;
             TabsAlreadyDestroyedFlags := TabsAlreadyDestroyedFlags + [tfadRight]; // To don't delete it twice in case both target are right.
           end;
-        LoadTabsXml(Config, ABrunch + sSourceSectionName, RightTabs);
+        LoadTabsXml(Config, ABranch + sSourceSectionName, RightTabs);
       end;
     end;
 
