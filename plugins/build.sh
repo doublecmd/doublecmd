@@ -4,8 +4,8 @@ set -e
 
 # Build all plugins
 
-# This script run from main build.sh script
-# If you run it direct, set up $lazbuild first
+# Do not execute this script directly.
+# This script is called from ../build.sh.
 
 # CD to plugins directory
 basedir=$(pwd)
