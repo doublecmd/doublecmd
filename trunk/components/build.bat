@@ -2,9 +2,8 @@
 
 rem Compiling components
 
-rem This script is run from build.bat.
-rem If you run it directly set %lazpath% first
-rem or have lazbuild in your PATH.
+rem Do not execute this script directly.
+rem This script is called from ..\build.bat.
 
 pushd components
 lazbuild chsdet\chsdet.lpk %DC_ARCH%

@@ -4,8 +4,8 @@ set -e
 
 # Compiling components
 
-# This script run from main build.sh script
-# If you run it direct, set up $lazbuild first
+# Do not execute this script directly.
+# This script is called from ../build.sh.
 
 # Get processor architecture
 if [ -z $CPU_TARGET ] ; then
