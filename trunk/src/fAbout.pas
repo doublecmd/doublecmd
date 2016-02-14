@@ -74,13 +74,13 @@ const
   cAboutMsg =
     'This program is free software under GNU GPL 2 license, see COPYING.txt file.' + LineEnding + LineEnding +
     'Active developers: '+ cIndention +
-    'Alexander Koblov (Alexx2000@mail.ru) - author, core developer' + cIndention +
-    'Przemysław Nagay (cobines@gmail.com) - core developer' + LineEnding + LineEnding +
+    'Alexander Koblov (alexx2000@mail.ru) - author, core developer' + cIndention +
+    'Denis Bisson (denis.bisson@denisbisson.org) - developer' + LineEnding + LineEnding +
     'Recent developers: ' + cIndention +
+    'Przemysław Nagay (cobines@gmail.com) - core developer' + cIndention +
     'Dmitry Kolomiets (B4rr4cuda@rambler.ru) - developer' + cIndention +
     'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander' + LineEnding + LineEnding +
     'Contributors:' + cIndention +
-    'Denis Bisson (denis.bisson@denisbisson.org)' + cIndention +
     'Tolstov Igor (attid@yandex.ru)' + cIndention +
     'Anton Panferov (ast.a_s@mail.ru)' + cIndention +
     'Rustem Rakhimov (dok_rust@bk.ru)' + cIndention +
