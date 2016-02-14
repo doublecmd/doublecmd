@@ -4717,6 +4717,7 @@ msgid "Position of frame panel after the comparison:"
 msgstr "Θέση του πάνελ πλαισίου μετά την σύγκριση:"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnadd.caption"
 msgid "Add..."
 msgstr "Προσθήκη..."
 
@@ -4726,6 +4727,7 @@ msgid "Backup..."
 msgstr "Αντίγραφο Ασφαλείας..."
 
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btndelete.caption"
 msgid "Delete..."
 msgstr "Διαγραφή..."
 
@@ -4745,6 +4747,7 @@ msgid "Import..."
 msgstr "Εισαγωγή..."
 
 #: tfrmoptionsdirectoryhotlist.btninsert.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btninsert.caption"
 msgid "Insert..."
 msgstr "Εισάγετε..."
 
@@ -4763,6 +4766,7 @@ msgid "Some functions to select appropriate target"
 msgstr "Κάποιες λειτουργίες για την επιλογή κατάλληλου στόχου"
 
 #: tfrmoptionsdirectoryhotlist.btnsort.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnsort.caption"
 msgid "Sort..."
 msgstr "Ταξινόμηση..."
 
@@ -4771,6 +4775,7 @@ msgid "When adding directory, add also target"
 msgstr "Κατά την προσθήκη καταλόγου, προσθήκη επίσης στόχου"
 
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
+msgctxt "tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption"
 msgid "Always expand tree"
 msgstr "Ανάπτυξη Δέντρου Πάντα"
 
@@ -4797,6 +4802,7 @@ msgid "Directory Hotlist (reorder by drag && drop)"
 msgstr "Κατάλογος Hotlist (αναδιάταξη με μεταφορά && απόθεση)"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
+msgctxt "tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption"
 msgid "Other options"
 msgstr "Άλλες Επιλογές"
 
@@ -4871,10 +4877,12 @@ msgid "directory I will browse to"
 msgstr "κατάλογος στον οποίο θα κάνω περιήγηση"
 
 #: tfrmoptionsdirectoryhotlist.micollapseall.caption
+msgctxt "tfrmoptionsdirectoryhotlist.micollapseall.caption"
 msgid "Collapse all"
 msgstr "Σύμπτυξη όλων"
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
+msgctxt "tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption"
 msgid "...current level of item(s) selected only"
 msgstr "...τρέχον επίπεδο του επιλεγμένου αρχείου(ων) μόνο"
 
@@ -4959,6 +4967,7 @@ msgid "from \"wincmd.ini\" of TC"
 msgstr "Από \"wincmd.ini\" του TC"
 
 #: tfrmoptionsdirectoryhotlist.miopenallbranches.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miopenallbranches.caption"
 msgid "Open all branches"
 msgstr "Άνοιγμα όλων των κλάδων"
 
@@ -5058,22 +5067,27 @@ msgid "-"
 msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.misorteverything.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misorteverything.caption"
 msgid "...everything, from A to Z!"
 msgstr "...όλα, από το Α ως το Ω!"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup.caption"
 msgid "...single group of item(s) only"
 msgstr "...μονό γκρουπ από αντικείμενο(α) μόνο"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption"
 msgid "Sort single group of item(s) only"
 msgstr "Ταξινόμηση μονού γκρουπ από αντικείμενο(α) μόνο"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption"
 msgid "...content of submenu(s) selected, no sublevel"
 msgstr "...περιεχόμενα ενός ( ή πολλών) υπομενού επιλεγμένα, όχι δευτερεύοντα επίπεδα"
 
 #: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption"
 msgid "...content of submenu(s) selected and all sublevels"
 msgstr "...περιεχόμενα του(των) υπομενού επιλεγμένα και όλων των δευτερευόντων επιπέδων"
 
@@ -5280,6 +5294,315 @@ msgstr "Κλειστό"
 msgctxt "tfrmoptionseditorcolors.textunderlineradioon.caption"
 msgid "O&n"
 msgstr "Ανοικτό"
+
+#: tfrmoptionsfavoritetabs.btnadd.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.btnadd.caption"
+msgid "Add..."
+msgstr "Προσθήκη..."
+
+#: tfrmoptionsfavoritetabs.btndelete.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.btndelete.caption"
+msgid "Delete..."
+msgstr "Διαγραφή..."
+
+#: tfrmoptionsfavoritetabs.btnimportexport.caption
+msgid "Import/Export"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.btninsert.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.btninsert.caption"
+msgid "Insert..."
+msgstr "Εισάγετε..."
+
+#: tfrmoptionsfavoritetabs.btnrename.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.btnrename.caption"
+msgid "Rename"
+msgstr "Μετονομασία"
+
+#: tfrmoptionsfavoritetabs.btnsort.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.btnsort.caption"
+msgid "Sort..."
+msgstr "Ταξινόμηση..."
+
+#: tfrmoptionsfavoritetabs.cbexistingtabstokeep.text
+msgctxt "tfrmoptionsfavoritetabs.cbexistingtabstokeep.text"
+msgid "None"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.cbfullexpandtree.caption"
+msgid "Always expand tree"
+msgstr "Ανάπτυξη Δέντρου Πάντα"
+
+#: tfrmoptionsfavoritetabs.cbsavedirhistory.text
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.cbsavedirhistory.text"
+msgid "No"
+msgstr "Όχι"
+
+#: tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text
+msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text"
+msgid "Left"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.cbtargetpanelrightsavedtabs.text
+msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelrightsavedtabs.text"
+msgid "Right"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.gbfavoritetabs.caption
+msgid "Favorite Tabs list (reorder by drag && drop)"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption"
+msgid "Other options"
+msgstr "Άλλες Επιλογές"
+
+#: tfrmoptionsfavoritetabs.gpsavedtabsrestorationaction.caption
+msgid "What to restore where for the selected entry:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.lblexistingtabstokeep.caption
+msgid "Existing tabs to keep:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.lblsavedirhistory.caption
+msgid "Save dir history:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.lbltargetpanelleftsavedtabs.caption
+msgid "Tabs saved on left to be restored to:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.lbltargetpanelrightsavedtabs.caption
+msgid "Tabs saved on right to be restored to:"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.menuitem1.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.menuitem1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.menuitem2.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.menuitem2.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miaddseparator.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miaddseparator.caption"
+msgid "a separator"
+msgstr "ένα διαχωριστικό"
+
+#: tfrmoptionsfavoritetabs.miaddseparator2.caption
+msgid "Add separator"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miaddsubmenu.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu.caption"
+msgid "sub-menu"
+msgstr "υπομενού"
+
+#: tfrmoptionsfavoritetabs.miaddsubmenu2.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu2.caption"
+msgid "Add sub-menu"
+msgstr "Προσθήκη υπο-μενού"
+
+#: tfrmoptionsfavoritetabs.micollapseall.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.micollapseall.caption"
+msgid "Collapse all"
+msgstr "Σύμπτυξη όλων"
+
+#: tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption"
+msgid "...current level of item(s) selected only"
+msgstr "...τρέχον επίπεδο του επιλεγμένου αρχείου(ων) μόνο"
+
+#: tfrmoptionsfavoritetabs.micutselection.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.micutselection.caption"
+msgid "Cut"
+msgstr "Αποκοπή"
+
+#: tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption"
+msgid "delete all!"
+msgstr "Διαγραφή Όλων!"
+
+#: tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption"
+msgid "sub-menu and all its elements"
+msgstr "Υπομενού με όλα του τα στοιχεία"
+
+#: tfrmoptionsfavoritetabs.mideletejustsubmenu.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mideletejustsubmenu.caption"
+msgid "just sub-menu but keep elements"
+msgstr "μόνο υπομενού αλλά διατήρηση των στοιχείων"
+
+#: tfrmoptionsfavoritetabs.mideleteselectedentry.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry.caption"
+msgid "selected item"
+msgstr "επιλεγμένο αντικείμενο"
+
+#: tfrmoptionsfavoritetabs.mideleteselectedentry2.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry2.caption"
+msgid "Delete selected item"
+msgstr "Διαγραφή επιλεγμένου αντικειμένου"
+
+#: tfrmoptionsfavoritetabs.miexporttolegacytabsfile.caption
+msgid "Export selection to legacy .tab file(s)"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.mifavoritetabstestmenu.caption
+msgid "FavoriteTabsTestMenu"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miimportlegacytabfilesaccsetting.caption
+msgid "Import legacy .tab file(s) according to default setting"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption
+msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption"
+msgid "Import legacy .tab file(s) at selected position"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos1.caption
+msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos1.caption"
+msgid "Import legacy .tab file(s) at selected position"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miimportlegacytabfilesinsubatpos.caption
+msgid "Import legacy .tab file(s) at selected position in a sub menu"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miinsertseparator.caption
+msgid "Insert separator"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miinsertsubmenu.caption
+msgid "Insert sub-menu"
+msgstr ""
+
+#: tfrmoptionsfavoritetabs.miopenallbranches.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miopenallbranches.caption"
+msgid "Open all branches"
+msgstr "Άνοιγμα όλων των κλάδων"
+
+#: tfrmoptionsfavoritetabs.mipasteselection.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mipasteselection.caption"
+msgid "Paste"
+msgstr "Επικόλληση"
+
+#: tfrmoptionsfavoritetabs.mirename.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mirename.caption"
+msgid "Rename"
+msgstr "Μετονομασία"
+
+#: tfrmoptionsfavoritetabs.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator10.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator10.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator11.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator11.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator2.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator2.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator3.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator3.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator7.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator7.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator8.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator8.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.miseparator9.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.miseparator9.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmoptionsfavoritetabs.misorteverything.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.misorteverything.caption"
+msgid "...everything, from A to Z!"
+msgstr "...όλα, από το Α ως το Ω!"
+
+#: tfrmoptionsfavoritetabs.misortsinglegroup.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup.caption"
+msgid "...single group of item(s) only"
+msgstr "...μονό γκρουπ από αντικείμενο(α) μόνο"
+
+#: tfrmoptionsfavoritetabs.misortsinglegroup2.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup2.caption"
+msgid "Sort single group of item(s) only"
+msgstr "Ταξινόμηση μονού γκρουπ από αντικείμενο(α) μόνο"
+
+#: tfrmoptionsfavoritetabs.misortsinglesubmenu.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.misortsinglesubmenu.caption"
+msgid "...content of submenu(s) selected, no sublevel"
+msgstr "...περιεχόμενα ενός ( ή πολλών) υπομενού επιλεγμένα, όχι δευτερεύοντα επίπεδα"
+
+#: tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption"
+msgid "...content of submenu(s) selected and all sublevels"
+msgstr "...περιεχόμενα του(των) υπομενού επιλεγμένα και όλων των δευτερευόντων επιπέδων"
+
+#: tfrmoptionsfavoritetabs.mitestresultingfavoritetabsmenu.caption
+#, fuzzy
+msgctxt "tfrmoptionsfavoritetabs.mitestresultingfavoritetabsmenu.caption"
+msgid "Test resulting menu"
+msgstr "Μενού αποτελεσμάτων Δοκιμών"
 
 #: tfrmoptionsfileassoc.btnaddact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNADDACT.CAPTION"
@@ -6557,6 +6880,10 @@ msgstr "Αναζήτηση Κεφαλαίων"
 msgid "Search for these items"
 msgstr "Αναζήτηση για αυτά τα αντικείμενα"
 
+#: tfrmoptionstabs.cbkeeprenamednamebacktonormal.caption
+msgid "Keep renamed name when unlocking a tab"
+msgstr ""
+
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
 msgid "Activate target &panel when clicking on one of its Tabs"
@@ -6567,10 +6894,18 @@ msgctxt "TFRMOPTIONSTABS.CBTABSALWAYSVISIBLE.CAPTION"
 msgid "&Show tab header also when there is only one tab"
 msgstr "Εμφάνιση επικεφαλίδας καρτέλας ακόμη και όταν υπάρχει μόνο μία καρτέλα"
 
+#: tfrmoptionstabs.cbtabscloseduplicatewhenclosing.caption
+msgid "Close duplicate tabs when closing application"
+msgstr ""
+
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
 msgid "Con&firm close all tabs"
 msgstr "Επιβεβαίωση κλεισίματος όλων των καρτελών"
+
+#: tfrmoptionstabs.cbtabsconfirmcloselocked.caption
+msgid "Confirm close locked tabs"
+msgstr ""
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
@@ -6597,10 +6932,18 @@ msgctxt "TFRMOPTIONSTABS.CBTABSOPENNEARCURRENT.CAPTION"
 msgid "Open &new tabs near current tab"
 msgstr "Άνοιγμα νέων καρτελών δίπλα στην τρέχουσα καρτέλα"
 
+#: tfrmoptionstabs.cbtabsreusetabwhenpossible.caption
+msgid "Reuse existing tab when possible"
+msgstr ""
+
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
 msgid "Show ta&b close button"
 msgstr "Εμφάνιση κουμπιού κλεισίματος καρτελών"
+
+#: tfrmoptionstabs.cbtabsshowdriveletter.caption
+msgid "Always show drive letter in tab title"
+msgstr ""
 
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
@@ -6612,10 +6955,76 @@ msgctxt "TFRMOPTIONSTABS.LBLCHAR.CAPTION"
 msgid "characters"
 msgstr "χαρακτήρες"
 
+#: tfrmoptionstabs.lbltabsactionondoubleclick.caption
+msgid "Action to do when double click on a tab:"
+msgstr ""
+
 #: tfrmoptionstabs.lbltabsposition.caption
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Ta&bs position"
 msgstr "Θέση Καρτελών"
+
+#: tfrmoptionstabsextra.cbdefaultexistingtabstokeep.text
+msgctxt "tfrmoptionstabsextra.cbdefaultexistingtabstokeep.text"
+msgid "None"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbdefaultsavedirhistory.text
+#, fuzzy
+msgctxt "tfrmoptionstabsextra.cbdefaultsavedirhistory.text"
+msgid "No"
+msgstr "Όχι"
+
+#: tfrmoptionstabsextra.cbdefaulttargetpanelleftsaved.text
+msgctxt "tfrmoptionstabsextra.cbdefaulttargetpanelleftsaved.text"
+msgid "Left"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbdefaulttargetpanelrightsaved.text
+msgctxt "tfrmoptionstabsextra.cbdefaulttargetpanelrightsaved.text"
+msgid "Right"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbgotoconfigafterresave.caption
+msgid "Goto to Favorite Tabs Configuration after resaving"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbgotoconfigaftersave.caption
+msgid "Goto to Favorite Tabs Configuration after saving a new one"
+msgstr ""
+
+#: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
+msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
+msgstr ""
+
+#: tfrmoptionstabsextra.gbdefaulttabsavedrestoration.caption
+msgid "Default extra settings when saving new Favorite Tabs:"
+msgstr ""
+
+#: tfrmoptionstabsextra.gbtabs.caption
+msgid "Folder tabs headers extra"
+msgstr ""
+
+#: tfrmoptionstabsextra.lbldefaultexistingtabstokeep.caption
+msgid "When restoring tab, existing tabs to keep:"
+msgstr ""
+
+#: tfrmoptionstabsextra.lbldefaulttargetpanelleftsaved.caption
+msgid "Tabs saved on left will be restored to:"
+msgstr ""
+
+#: tfrmoptionstabsextra.lbldefaulttargetpanelrightsaved.caption
+msgid "Tabs saved on right will be restored to:"
+msgstr ""
+
+#: tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption
+msgctxt "tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption"
+msgid "Keep saving dir history with Favorite Tabs:"
+msgstr ""
+
+#: tfrmoptionstabsextra.rgwheretoadd.caption
+msgid "Default position in menu when saving a new Favorite Tabs:"
+msgstr ""
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -6640,8 +7049,10 @@ msgid "Parameters:"
 msgstr "Παράμετροι:"
 
 #: tfrmoptionsterminal.ledtrunintermcloseparams.hint
+#, fuzzy
+#| msgid "{command} should normally present here to releft the command to be run in terminal"
 msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
-msgid "{command} should normally present here to releft the command to be run in terminal"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{εντολή} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
 
 #: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
@@ -6655,8 +7066,10 @@ msgid "Parameters:"
 msgstr "Παράμετροι:"
 
 #: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
+#, fuzzy
+#| msgid "{command} should normally present here to releft the command to be run in terminal"
 msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.HINT"
-msgid "{command} should normally present here to releft the command to be run in terminal"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{εντολή} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
 
 #: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
@@ -6670,8 +7083,10 @@ msgid "Parameters:"
 msgstr "Παράμετροι:"
 
 #: tfrmoptionsterminal.ledtruntermparams.hint
+#, fuzzy
+#| msgid "{command} should normally present here to releft the command to be run in terminal"
 msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.HINT"
-msgid "{command} should normally present here to releft the command to be run in terminal"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{εντολή} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
@@ -9102,6 +9517,14 @@ msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr "Εκτέλεση μέσω τερματικού και παραμονή αυτού ανοικτό"
 
+#: ulng.rsfavtabspanelsideselection
+msgid "Left;Right;Active;Inactive;Both;None"
+msgstr ""
+
+#: ulng.rsfavtabssavedirhistory
+msgid "No;Yes"
+msgstr ""
+
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
 msgstr "Έχει_Εξαχθεί_από_DC"
@@ -9256,6 +9679,10 @@ msgstr "Τύπος"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Λάθος στη δημιουργία δεσμού τύπου hardlink."
+
+#: ulng.rshotdirforcesortingorderchoices
+msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
+msgstr ""
 
 #: ulng.rshotdirnothingtoimport
 msgid "Sorry, nothing detected to import!"
@@ -9740,6 +10167,7 @@ msgid "Menu name:"
 msgstr "Ονομασία Μενού:"
 
 #: ulng.rsmsgfavoritetabssimplemode
+msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
 msgstr ""
 
@@ -9936,10 +10364,6 @@ msgstr "Διαδρομή"
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
 msgstr "Εντοπισμός \".hotlist\" αρχείου προς εισαγωγή"
-
-#: ulng.rsmsghotdirlocateprevioussave
-msgid "Select location and filename of previously saved Directory Hotlist file"
-msgstr "Επιλογή τοποθεσίας και ονόματος αρχείου από προηγουμένως αποθηκευμένου καταλόγου Hotlist"
 
 #: ulng.rsmsghotdirmodifiedwanttosave
 msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
@@ -11279,6 +11703,7 @@ msgid "Named pipe"
 msgstr "Ονομασμένο pipe"
 
 #: ulng.rspropsno
+msgctxt "ulng.rspropsno"
 msgid "No"
 msgstr "Όχι"
 
@@ -11434,6 +11859,10 @@ msgstr "Προκαθορισμένο Κείμενο"
 msgctxt "ulng.rssynlangplaintext"
 msgid "Plain text"
 msgstr "Απλό Κείμενο"
+
+#: ulng.rstabsactionondoubleclickchoices
+msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
+msgstr ""
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
