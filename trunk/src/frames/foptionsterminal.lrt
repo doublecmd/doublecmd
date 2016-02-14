@@ -1,12 +1,12 @@
 TFRMOPTIONSTERMINAL.GBRUNINTERMINALCLOSE.CAPTION=Command for running a command in terminal and close after:
 TFRMOPTIONSTERMINAL.LEDTRUNINTERMCLOSECMD.EDITLABEL.CAPTION=Command:
-TFRMOPTIONSTERMINAL.LEDTRUNINTERMCLOSEPARAMS.HINT={command} should normally present here to releft the command to be run in terminal
+TFRMOPTIONSTERMINAL.LEDTRUNINTERMCLOSEPARAMS.HINT={command} should normally be present here to reflect the command to be run in terminal
 TFRMOPTIONSTERMINAL.LEDTRUNINTERMCLOSEPARAMS.EDITLABEL.CAPTION=Parameters:
 TFRMOPTIONSTERMINAL.GBRUNINTERMINALSTAYOPEN.CAPTION=Command for running a command in terminal and stay open:
 TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENCMD.EDITLABEL.CAPTION=Command:
-TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.HINT={command} should normally present here to releft the command to be run in terminal
+TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.HINT={command} should normally be present here to reflect the command to be run in terminal
 TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.EDITLABEL.CAPTION=Parameters:
 TFRMOPTIONSTERMINAL.GBJUSTRUNTERMINAL.CAPTION=Command for just running terminal:
 TFRMOPTIONSTERMINAL.LEDTRUNTERMCMD.EDITLABEL.CAPTION=Command:
-TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.HINT={command} should normally present here to releft the command to be run in terminal
+TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.HINT={command} should normally be present here to reflect the command to be run in terminal
 TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.EDITLABEL.CAPTION=Parameters:

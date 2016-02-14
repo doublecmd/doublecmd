@@ -1,19 +1,19 @@
 inherited frmOptionsTabs: TfrmOptionsTabs
-  Height = 418
-  Width = 720
-  ClientHeight = 418
-  ClientWidth = 720
-  DesignLeft = 383
-  DesignTop = 373
+  Height = 492
+  Width = 731
+  ClientHeight = 492
+  ClientWidth = 731
+  DesignLeft = 147
+  DesignTop = 342
   object gbTabs: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 405
+    Height = 434
     Top = 6
-    Width = 708
+    Width = 719
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Left = 6
@@ -22,8 +22,8 @@ inherited frmOptionsTabs: TfrmOptionsTabs
     BorderSpacing.Bottom = 6
     Caption = 'Folder tabs headers'
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 385
-    ClientWidth = 704
+    ClientHeight = 414
+    ClientWidth = 715
     TabOrder = 0
     object lblChar: TLabel
       AnchorSideLeft.Control = edtTabsLimitLength
@@ -227,36 +227,6 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       Caption = 'Reuse existing tab when possible'
       TabOrder = 9
     end
-    object rgTabsActionOnDoubleClick: TRadioGroup
-      AnchorSideLeft.Control = gbTabs
-      AnchorSideTop.Control = gbTabs
-      Left = 400
-      Height = 108
-      Top = 6
-      Width = 175
-      AutoFill = True
-      AutoSize = True
-      BorderSpacing.Left = 400
-      Caption = 'What to do after double click:'
-      ChildSizing.LeftRightSpacing = 6
-      ChildSizing.TopBottomSpacing = 6
-      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-      ChildSizing.EnlargeVertical = crsHomogenousChildResize
-      ChildSizing.ShrinkHorizontal = crsScaleChilds
-      ChildSizing.ShrinkVertical = crsScaleChilds
-      ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ChildSizing.ControlsPerLine = 1
-      ClientHeight = 88
-      ClientWidth = 171
-      ItemIndex = 0
-      Items.Strings = (
-        'Nothing'
-        'Close tab'
-        'Access Favorite Tabs'
-        'Tabs popup menu'
-      )
-      TabOrder = 16
-    end
     object cbTabsConfirmCloseLocked: TCheckBox
       AnchorSideLeft.Control = cbTabsAlwaysVisible
       AnchorSideTop.Control = cbTabsLimitOption
@@ -280,6 +250,43 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       BorderSpacing.Top = 6
       Caption = 'Keep renamed name when unlocking a tab'
       TabOrder = 12
+    end
+    object lblTabsActionOnDoubleClick: TLabel
+      AnchorSideLeft.Control = cbTabsAlwaysVisible
+      AnchorSideTop.Control = cbTabsActionOnDoubleClick
+      AnchorSideTop.Side = asrCenter
+      Left = 12
+      Height = 15
+      Top = 389
+      Width = 214
+      Caption = 'Action to do when double click on a tab:'
+      ParentColor = False
+    end
+    object cbTabsActionOnDoubleClick: TComboBox
+      AnchorSideLeft.Control = lblTabsActionOnDoubleClick
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cmbTabsPosition
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbTabs
+      AnchorSideRight.Side = asrBottom
+      Left = 232
+      Height = 23
+      Top = 385
+      Width = 477
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 6
+      BorderSpacing.Bottom = 6
+      ItemHeight = 15
+      Items.Strings = (
+        'Do nothing'
+        'Close tab'
+        'Access Favorite Tabs'
+        'Tabs popup menu'
+      )
+      Style = csDropDownList
+      TabOrder = 16
     end
   end
 end

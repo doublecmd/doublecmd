@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File panels colors options page
 
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -140,11 +140,11 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  Types, Forms,
+  Forms,
 
   //DC
   uSampleForConfigFileSource, fOptions, uShowMsg, uComponentsSignature,
-  uFileFunctions, DCOSUtils, fMain, uFileSystemFileSource, uLng, uGlobs,
+  uFileFunctions, DCOSUtils, fMain, uLng, uGlobs,
   uDCUtils;
 
 { TfrmOptionsFilePanelsColors }

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Configuration of HotDir
 
-   Copyright (C) 2009-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ uses
   {$IFDEF MSWINDOWS}
   uTotalCommander,
   {$ENDIF}
-  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, EditBtn, ExtCtrls,
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls,
   Menus, Dialogs, ComCtrls, uHotDir, types, fOptionsFrame, uFile;
 
 type
@@ -200,7 +200,7 @@ type
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     destructor Destroy; override;
-    function CanWeClose(var WillNeedUpdateWindowView:boolean): boolean; override;
+    function CanWeClose(var {%H-}WillNeedUpdateWindowView:boolean): boolean; override;
     procedure SubmitToAddOrConfigToHotDirDlg(paramActionDispatcher: integer; paramPath,paramTarget:string; paramOptionalIndex: integer);
   end;
 
@@ -427,7 +427,8 @@ var
 
 var
   Index, ActionDispatcher: integer;
-  EditSearchOptionToOffer,EditSearchOptionReturned:TEditSearchDialogOption;
+  EditSearchOptionToOffer: TEditSearchDialogOption;
+  EditSearchOptionReturned: TEditSearchDialogOption = [];
 begin
   with Sender as TComponent do ActionDispatcher:=tag;
 
@@ -2027,6 +2028,8 @@ procedure TfrmOptionsDirectoryHotlist.Init;
 begin
   pnlBottom.Constraints.MinHeight := pnlBottom.Height;
   ParseLineToList(rsOptAddFromMainPanel, rgWhereToAdd.Items);
+  ParseLineToList(rsHotDirForceSortingOrderChoices, cbSortHotDirPath.Items);
+  ParseLineToList(rsHotDirForceSortingOrderChoices, cbSortHotDirTarget.Items);
 end;
 
 { TODO -oDB : Would be nice if directory does not exist to offer immediately to re-configure it. }
