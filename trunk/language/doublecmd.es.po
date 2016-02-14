@@ -2510,8 +2510,16 @@ msgctxt "tfrmmain.actconfigdirhotlist.caption"
 msgid "Configuration of Directory Hotlist"
 msgstr "Configuración de Lista rápida de Directorios"
 
+#: tfrmmain.actconfigfavoritetabs.caption
+msgid "Configuration of Favorite Tabs"
+msgstr ""
+
+#: tfrmmain.actconfigfoldertabs.caption
+msgid "Configuration of folder tabs"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
-msgid "Configure toolbar"
+msgid "Toolbar..."
 msgstr ""
 
 #: tfrmmain.actcontextmenu.caption
@@ -2524,6 +2532,10 @@ msgstr "Mostrar menú contextual"
 msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Copiar"
+
+#: tfrmmain.actcopyalltabstoopposite.caption
+msgid "Copy all tabs to opposite side"
+msgstr ""
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
@@ -2627,8 +2639,8 @@ msgstr "&Extraer archivos..."
 
 #: tfrmmain.actfileassoc.caption
 #, fuzzy
-#| msgid "File &associations..."
-msgid "File &Associations..."
+#| msgid "File &Associations..."
+msgid "Configuration of File &Associations"
 msgstr "&Asociaciones de archivos..."
 
 #: tfrmmain.actfilelinker.caption
@@ -2733,6 +2745,10 @@ msgstr ""
 msgid "Thumbnails view on left panel"
 msgstr ""
 
+#: tfrmmain.actloadfavoritetabs.caption
+msgid "Load tabs from Favorite Tabs"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Car&gar selección desde portapapeles"
@@ -2811,6 +2827,10 @@ msgstr "Conexión &rápida de red..."
 msgid "&New Tab"
 msgstr "&Nueva pestaña"
 
+#: tfrmmain.actnextfavoritetabs.caption
+msgid "Load the Next Favorite Tabs in the list"
+msgstr ""
+
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
 msgstr "Cambiar a la siguien&te pestaña"
@@ -2863,6 +2883,10 @@ msgstr "Fijar posición de separación"
 msgid "&Paste"
 msgstr "&Pegar"
 
+#: tfrmmain.actpreviousfavoritetabs.caption
+msgid "Load the Previous Favorite Tabs in the list"
+msgstr ""
+
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "Intercambiar a pestaña &previa"
@@ -2883,6 +2907,10 @@ msgstr "Panel de vista rápida"
 #: tfrmmain.actrefresh.caption
 msgid "&Refresh"
 msgstr "Actualiza&r"
+
+#: tfrmmain.actreloadfavoritetabs.caption
+msgid "Reload the last Favorite Tabs loaded"
+msgstr ""
 
 #: tfrmmain.actrename.caption
 #, fuzzy
@@ -2905,6 +2933,10 @@ msgstr "Renombrar"
 #| msgid "Re&name Tab"
 msgid "&Rename Tab"
 msgstr "&Renombrar pestaña"
+
+#: tfrmmain.actresavefavoritetabs.caption
+msgid "Resave on the last Favorite Tabs loaded"
+msgstr ""
 
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
@@ -2970,6 +3002,10 @@ msgstr ""
 msgid "Run &Terminal"
 msgstr "Ejecutar &terminal"
 
+#: tfrmmain.actsavefavoritetabs.caption
+msgid "Save current tabs to a New Favorite Tabs"
+msgstr ""
+
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
 msgstr "&Guardar selección"
@@ -2987,6 +3023,22 @@ msgstr "&Guardar Pestañas a Archivo"
 #| msgid "&Search"
 msgid "&Search..."
 msgstr "&Buscar..."
+
+#: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
+msgid "All tabs Locked with Dir Opened in New Tabs"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionnormal.caption
+msgid "Set all tabs to Normal"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionpathlocked.caption
+msgid "Set all tabs to Locked"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionpathresets.caption
+msgid "All tabs Locked with Dir Changes Allowed"
+msgstr ""
 
 #: tfrmmain.actsetfileproperties.caption
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
@@ -3335,6 +3387,16 @@ msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
 msgstr ""
 
+#: tfrmmain.miline10.caption
+msgctxt "tfrmmain.miline10.caption"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline11.caption
+msgctxt "tfrmmain.miline11.caption"
+msgid "-"
+msgstr ""
+
 #: tfrmmain.miline12.caption
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
@@ -3385,8 +3447,18 @@ msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
 msgstr ""
 
+#: tfrmmain.miline21.caption
+msgctxt "tfrmmain.miline21.caption"
+msgid "-"
+msgstr ""
+
 #: tfrmmain.miline22.caption
 msgctxt "TFRMMAIN.MILINE22.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline23.caption
+msgctxt "tfrmmain.miline23.caption"
 msgid "-"
 msgstr ""
 
@@ -3397,6 +3469,11 @@ msgstr ""
 
 #: tfrmmain.miline25.caption
 msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline26.caption
+msgctxt "tfrmmain.miline26.caption"
 msgid "-"
 msgstr ""
 
@@ -3425,8 +3502,18 @@ msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr ""
 
+#: tfrmmain.miline39.caption
+msgctxt "tfrmmain.miline39.caption"
+msgid "-"
+msgstr ""
+
 #: tfrmmain.miline4.caption
 msgctxt "TFRMMAIN.MILINE4.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline40.caption
+msgctxt "tfrmmain.miline40.caption"
 msgid "-"
 msgstr ""
 
@@ -3524,12 +3611,6 @@ msgstr "Cancelar"
 msgid "&Commands"
 msgstr "&Comandos"
 
-#: tfrmmain.mnucmdconfigdirhotlist.caption
-#, fuzzy
-msgctxt "tfrmmain.mnucmdconfigdirhotlist.caption"
-msgid "Directory Hotlist"
-msgstr "Carpetas frecuentes"
-
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "C&onfiguración"
@@ -3542,6 +3623,10 @@ msgstr ""
 #: tfrmmain.mnucontextline2.caption
 msgctxt "tfrmmain.mnucontextline2.caption"
 msgid "-"
+msgstr ""
+
+#: tfrmmain.mnufavoritetabs.caption
+msgid "Favorites"
 msgstr ""
 
 #: tfrmmain.mnufiles.caption
@@ -3570,9 +3655,9 @@ msgstr "Mo&strar"
 
 #: tfrmmain.mnutaboptions.caption
 #, fuzzy
-#| msgid "Options"
+#| msgid "&Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
-msgid "&Options"
+msgid "Tab &Options"
 msgstr "&Opciones"
 
 #: tfrmmain.mnutabs.caption

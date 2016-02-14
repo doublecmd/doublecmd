@@ -2320,8 +2320,16 @@ msgctxt "tfrmmain.actconfigdirhotlist.caption"
 msgid "Configuration of Directory Hotlist"
 msgstr "Postavke brzog spiska fascikli"
 
+#: tfrmmain.actconfigfavoritetabs.caption
+msgid "Configuration of Favorite Tabs"
+msgstr ""
+
+#: tfrmmain.actconfigfoldertabs.caption
+msgid "Configuration of folder tabs"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
-msgid "Configure toolbar"
+msgid "Toolbar..."
 msgstr ""
 
 #: tfrmmain.actcontextmenu.caption
@@ -2332,6 +2340,10 @@ msgstr "Prikaži priručni izbornik"
 msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Umnoži"
+
+#: tfrmmain.actcopyalltabstoopposite.caption
+msgid "Copy all tabs to opposite side"
+msgstr ""
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
@@ -2426,7 +2438,9 @@ msgid "&Extract Files..."
 msgstr "&Izvuci datoteke..."
 
 #: tfrmmain.actfileassoc.caption
-msgid "File &Associations..."
+#, fuzzy
+#| msgid "File &Associations..."
+msgid "Configuration of File &Associations"
 msgstr "Pridruživanje &datoteka..."
 
 #: tfrmmain.actfilelinker.caption
@@ -2523,6 +2537,10 @@ msgstr ""
 msgid "Thumbnails view on left panel"
 msgstr ""
 
+#: tfrmmain.actloadfavoritetabs.caption
+msgid "Load tabs from Favorite Tabs"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Učitaj sadržaj ostave isečaka"
@@ -2587,6 +2605,10 @@ msgstr "&Brza mrežna veza..."
 msgid "&New Tab"
 msgstr "&Novi list"
 
+#: tfrmmain.actnextfavoritetabs.caption
+msgid "Load the Next Favorite Tabs in the list"
+msgstr ""
+
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
 msgstr "Pređi na &sledeći list"
@@ -2633,6 +2655,10 @@ msgstr "Podesite položaj deobe"
 msgid "&Paste"
 msgstr "&Prilepi"
 
+#: tfrmmain.actpreviousfavoritetabs.caption
+msgid "Load the Previous Favorite Tabs in the list"
+msgstr ""
+
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "Pređi na &prethodni list"
@@ -2654,6 +2680,10 @@ msgstr "&Površ za brzi pregled"
 msgid "&Refresh"
 msgstr "&Osveži"
 
+#: tfrmmain.actreloadfavoritetabs.caption
+msgid "Reload the last Favorite Tabs loaded"
+msgstr ""
+
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
@@ -2671,6 +2701,10 @@ msgstr "Preimenuj"
 #: tfrmmain.actrenametab.caption
 msgid "&Rename Tab"
 msgstr "&Preimenuj list"
+
+#: tfrmmain.actresavefavoritetabs.caption
+msgid "Resave on the last Favorite Tabs loaded"
+msgstr ""
 
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
@@ -2732,6 +2766,10 @@ msgstr ""
 msgid "Run &Terminal"
 msgstr "Pokreni u &terminalu"
 
+#: tfrmmain.actsavefavoritetabs.caption
+msgid "Save current tabs to a New Favorite Tabs"
+msgstr ""
+
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
 msgstr "&Sačuvaj izbor"
@@ -2747,6 +2785,22 @@ msgstr "&Sačuvaj kartice u datoteku"
 #: tfrmmain.actsearch.caption
 msgid "&Search..."
 msgstr "&Traži..."
+
+#: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
+msgid "All tabs Locked with Dir Opened in New Tabs"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionnormal.caption
+msgid "Set all tabs to Normal"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionpathlocked.caption
+msgid "Set all tabs to Locked"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionpathresets.caption
+msgid "All tabs Locked with Dir Changes Allowed"
+msgstr ""
 
 #: tfrmmain.actsetfileproperties.caption
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
@@ -3076,6 +3130,18 @@ msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline10.caption
+#, fuzzy
+msgctxt "tfrmmain.miline10.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline11.caption
+#, fuzzy
+msgctxt "tfrmmain.miline11.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline12.caption
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
@@ -3126,8 +3192,20 @@ msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline21.caption
+#, fuzzy
+msgctxt "tfrmmain.miline21.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline22.caption
 msgctxt "TFRMMAIN.MILINE22.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline23.caption
+#, fuzzy
+msgctxt "tfrmmain.miline23.caption"
 msgid "-"
 msgstr "-"
 
@@ -3138,6 +3216,12 @@ msgstr "-"
 
 #: tfrmmain.miline25.caption
 msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline26.caption
+#, fuzzy
+msgctxt "tfrmmain.miline26.caption"
 msgid "-"
 msgstr "-"
 
@@ -3166,8 +3250,20 @@ msgctxt "TFRMMAIN.MILINE38.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline39.caption
+#, fuzzy
+msgctxt "tfrmmain.miline39.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline4.caption
 msgctxt "TFRMMAIN.MILINE4.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline40.caption
+#, fuzzy
+msgctxt "tfrmmain.miline40.caption"
 msgid "-"
 msgstr "-"
 
@@ -3265,12 +3361,6 @@ msgstr "Otkaži"
 msgid "&Commands"
 msgstr "&Naredbe"
 
-#: tfrmmain.mnucmdconfigdirhotlist.caption
-#, fuzzy
-msgctxt "tfrmmain.mnucmdconfigdirhotlist.caption"
-msgid "Directory Hotlist"
-msgstr "Brzi spisak fascikli"
-
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "&Postavke"
@@ -3284,6 +3374,10 @@ msgstr "-"
 msgctxt "TFRMMAIN.MNUCONTEXTLINE2.CAPTION"
 msgid "-"
 msgstr "-"
+
+#: tfrmmain.mnufavoritetabs.caption
+msgid "Favorites"
+msgstr ""
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"
@@ -3308,8 +3402,10 @@ msgid "&Show"
 msgstr "Prikaži&"
 
 #: tfrmmain.mnutaboptions.caption
+#, fuzzy
+#| msgid "&Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
-msgid "&Options"
+msgid "Tab &Options"
 msgstr "&Mogućnosti"
 
 #: tfrmmain.mnutabs.caption
