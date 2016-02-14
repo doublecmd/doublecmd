@@ -2437,8 +2437,16 @@ msgctxt "tfrmmain.actconfigdirhotlist.caption"
 msgid "Configuration of Directory Hotlist"
 msgstr "Configuratie van directory hotlist"
 
+#: tfrmmain.actconfigfavoritetabs.caption
+msgid "Configuration of Favorite Tabs"
+msgstr ""
+
+#: tfrmmain.actconfigfoldertabs.caption
+msgid "Configuration of folder tabs"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
-msgid "Configure toolbar"
+msgid "Toolbar..."
 msgstr ""
 
 #: tfrmmain.actcontextmenu.caption
@@ -2451,6 +2459,10 @@ msgstr "Toon context menu"
 msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Kopiëer"
+
+#: tfrmmain.actcopyalltabstoopposite.caption
+msgid "Copy all tabs to opposite side"
+msgstr ""
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
@@ -2558,8 +2570,8 @@ msgstr "Uitpakken bestanden..."
 
 #: tfrmmain.actfileassoc.caption
 #, fuzzy
-#| msgid "File &associations..."
-msgid "File &Associations..."
+#| msgid "File &Associations..."
+msgid "Configuration of File &Associations"
 msgstr "Bestand verwantschappen..."
 
 #: tfrmmain.actfilelinker.caption
@@ -2668,6 +2680,10 @@ msgstr ""
 msgid "Thumbnails view on left panel"
 msgstr ""
 
+#: tfrmmain.actloadfavoritetabs.caption
+msgid "Load tabs from Favorite Tabs"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Laad selectie van klembord"
@@ -2748,6 +2764,10 @@ msgstr "Netwerk snel verbinden"
 msgid "&New Tab"
 msgstr "&Nieuwe tab"
 
+#: tfrmmain.actnextfavoritetabs.caption
+msgid "Load the Next Favorite Tabs in the list"
+msgstr ""
+
 #: tfrmmain.actnexttab.caption
 #, fuzzy
 #| msgid "Switch to nex&t tab"
@@ -2804,6 +2824,10 @@ msgstr "Instellen splits positie"
 msgid "&Paste"
 msgstr "&Plak"
 
+#: tfrmmain.actpreviousfavoritetabs.caption
+msgid "Load the Previous Favorite Tabs in the list"
+msgstr ""
+
 #: tfrmmain.actprevtab.caption
 #, fuzzy
 #| msgid "Switch to &previous tab"
@@ -2827,6 +2851,10 @@ msgstr "&Snel overzicht panel"
 msgid "&Refresh"
 msgstr "&Ververs"
 
+#: tfrmmain.actreloadfavoritetabs.caption
+msgid "Reload the last Favorite Tabs loaded"
+msgstr ""
+
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
@@ -2846,6 +2874,10 @@ msgstr "Hernoem"
 #: tfrmmain.actrenametab.caption
 msgid "&Rename Tab"
 msgstr "&Hernoem tab"
+
+#: tfrmmain.actresavefavoritetabs.caption
+msgid "Resave on the last Favorite Tabs loaded"
+msgstr ""
 
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
@@ -2911,6 +2943,10 @@ msgstr ""
 msgid "Run &Terminal"
 msgstr "Start terminal"
 
+#: tfrmmain.actsavefavoritetabs.caption
+msgid "Save current tabs to a New Favorite Tabs"
+msgstr ""
+
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
 msgstr "Opslaan selectie"
@@ -2928,6 +2964,22 @@ msgstr "&Sla tabs op naar bestand"
 #| msgid "&Search"
 msgid "&Search..."
 msgstr "&Zoek"
+
+#: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
+msgid "All tabs Locked with Dir Opened in New Tabs"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionnormal.caption
+msgid "Set all tabs to Normal"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionpathlocked.caption
+msgid "Set all tabs to Locked"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionpathresets.caption
+msgid "All tabs Locked with Dir Changes Allowed"
+msgstr ""
 
 #: tfrmmain.actsetfileproperties.caption
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
@@ -3282,6 +3334,18 @@ msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline10.caption
+#, fuzzy
+msgctxt "tfrmmain.miline10.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline11.caption
+#, fuzzy
+msgctxt "tfrmmain.miline11.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline12.caption
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
@@ -3332,8 +3396,20 @@ msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline21.caption
+#, fuzzy
+msgctxt "tfrmmain.miline21.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline22.caption
 msgctxt "TFRMMAIN.MILINE22.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline23.caption
+#, fuzzy
+msgctxt "tfrmmain.miline23.caption"
 msgid "-"
 msgstr "-"
 
@@ -3344,6 +3420,12 @@ msgstr "-"
 
 #: tfrmmain.miline25.caption
 msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline26.caption
+#, fuzzy
+msgctxt "tfrmmain.miline26.caption"
 msgid "-"
 msgstr "-"
 
@@ -3372,8 +3454,20 @@ msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline39.caption
+#, fuzzy
+msgctxt "tfrmmain.miline39.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline4.caption
 msgctxt "TFRMMAIN.MILINE4.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline40.caption
+#, fuzzy
+msgctxt "tfrmmain.miline40.caption"
 msgid "-"
 msgstr "-"
 
@@ -3473,12 +3567,6 @@ msgstr "Annuleer"
 msgid "&Commands"
 msgstr "&Opdrachten"
 
-#: tfrmmain.mnucmdconfigdirhotlist.caption
-#, fuzzy
-msgctxt "tfrmmain.mnucmdconfigdirhotlist.caption"
-msgid "Directory Hotlist"
-msgstr "Map hotlist"
-
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "C&onfiguratie"
@@ -3492,6 +3580,10 @@ msgstr "-"
 msgctxt "tfrmmain.mnucontextline2.caption"
 msgid "-"
 msgstr "-"
+
+#: tfrmmain.mnufavoritetabs.caption
+msgid "Favorites"
+msgstr ""
 
 #: tfrmmain.mnufiles.caption
 #, fuzzy
@@ -3519,9 +3611,9 @@ msgstr "Toon"
 
 #: tfrmmain.mnutaboptions.caption
 #, fuzzy
-#| msgid "Options"
+#| msgid "&Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
-msgid "&Options"
+msgid "Tab &Options"
 msgstr "Opties"
 
 #: tfrmmain.mnutabs.caption

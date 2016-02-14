@@ -2507,8 +2507,16 @@ msgctxt "tfrmmain.actconfigdirhotlist.caption"
 msgid "Configuration of Directory Hotlist"
 msgstr ""
 
+#: tfrmmain.actconfigfavoritetabs.caption
+msgid "Configuration of Favorite Tabs"
+msgstr ""
+
+#: tfrmmain.actconfigfoldertabs.caption
+msgid "Configuration of folder tabs"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
-msgid "Configure toolbar"
+msgid "Toolbar..."
 msgstr ""
 
 #: tfrmmain.actcontextmenu.caption
@@ -2521,6 +2529,10 @@ msgstr "컨텍스트 메뉴 보이기"
 msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr " 복사"
+
+#: tfrmmain.actcopyalltabstoopposite.caption
+msgid "Copy all tabs to opposite side"
+msgstr ""
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
@@ -2625,7 +2637,8 @@ msgstr "압축 해제(&U)..."
 
 #: tfrmmain.actfileassoc.caption
 #, fuzzy
-msgid "File &Associations..."
+#| msgid "File &Associations..."
+msgid "Configuration of File &Associations"
 msgstr "파일 연결(&A)..."
 
 #: tfrmmain.actfilelinker.caption
@@ -2730,6 +2743,10 @@ msgstr ""
 msgid "Thumbnails view on left panel"
 msgstr ""
 
+#: tfrmmain.actloadfavoritetabs.caption
+msgid "Load tabs from Favorite Tabs"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "선택목록 클립보드에서 불러오기(&B)"
@@ -2803,6 +2820,10 @@ msgstr "네트워크 빠른 연결(&Q)..."
 msgid "&New Tab"
 msgstr "새 탭(&N)"
 
+#: tfrmmain.actnextfavoritetabs.caption
+msgid "Load the Next Favorite Tabs in the list"
+msgstr ""
+
 #: tfrmmain.actnexttab.caption
 #, fuzzy
 msgid "Switch to Nex&t Tab"
@@ -2854,6 +2875,10 @@ msgstr "자르기 위치 설정"
 msgid "&Paste"
 msgstr "붙여넣기(&P)"
 
+#: tfrmmain.actpreviousfavoritetabs.caption
+msgid "Load the Previous Favorite Tabs in the list"
+msgstr ""
+
 #: tfrmmain.actprevtab.caption
 #, fuzzy
 msgid "Switch to &Previous Tab"
@@ -2876,6 +2901,10 @@ msgstr "미리 보기(&Q)"
 msgid "&Refresh"
 msgstr "새로 고침(&R)"
 
+#: tfrmmain.actreloadfavoritetabs.caption
+msgid "Reload the last Favorite Tabs loaded"
+msgstr ""
+
 #: tfrmmain.actrename.caption
 #, fuzzy
 #| msgid "Move"
@@ -2897,6 +2926,10 @@ msgstr "이름 바꾸기"
 #| msgid "Re&name Tab"
 msgid "&Rename Tab"
 msgstr "탭이름 변경(&N)"
+
+#: tfrmmain.actresavefavoritetabs.caption
+msgid "Resave on the last Favorite Tabs loaded"
+msgstr ""
 
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
@@ -2961,6 +2994,10 @@ msgstr ""
 msgid "Run &Terminal"
 msgstr "명령 프롬프트 실행(&T)"
 
+#: tfrmmain.actsavefavoritetabs.caption
+msgid "Save current tabs to a New Favorite Tabs"
+msgstr ""
+
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
 msgstr "선택목록 저장(&S)"
@@ -2977,6 +3014,22 @@ msgstr ""
 #, fuzzy
 msgid "&Search..."
 msgstr "파일 찾기(&S)..."
+
+#: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
+msgid "All tabs Locked with Dir Opened in New Tabs"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionnormal.caption
+msgid "Set all tabs to Normal"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionpathlocked.caption
+msgid "Set all tabs to Locked"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionpathresets.caption
+msgid "All tabs Locked with Dir Changes Allowed"
+msgstr ""
 
 #: tfrmmain.actsetfileproperties.caption
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
@@ -3327,6 +3380,18 @@ msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline10.caption
+#, fuzzy
+msgctxt "tfrmmain.miline10.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline11.caption
+#, fuzzy
+msgctxt "tfrmmain.miline11.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline12.caption
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
@@ -3377,8 +3442,20 @@ msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline21.caption
+#, fuzzy
+msgctxt "tfrmmain.miline21.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline22.caption
 msgctxt "TFRMMAIN.MILINE22.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline23.caption
+#, fuzzy
+msgctxt "tfrmmain.miline23.caption"
 msgid "-"
 msgstr "-"
 
@@ -3389,6 +3466,12 @@ msgstr "-"
 
 #: tfrmmain.miline25.caption
 msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline26.caption
+#, fuzzy
+msgctxt "tfrmmain.miline26.caption"
 msgid "-"
 msgstr "-"
 
@@ -3417,8 +3500,20 @@ msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline39.caption
+#, fuzzy
+msgctxt "tfrmmain.miline39.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline4.caption
 msgctxt "TFRMMAIN.MILINE4.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline40.caption
+#, fuzzy
+msgctxt "tfrmmain.miline40.caption"
 msgid "-"
 msgstr "-"
 
@@ -3517,12 +3612,6 @@ msgstr "취소"
 msgid "&Commands"
 msgstr "명령(&C)"
 
-#: tfrmmain.mnucmdconfigdirhotlist.caption
-#, fuzzy
-msgctxt "tfrmmain.mnucmdconfigdirhotlist.caption"
-msgid "Directory Hotlist"
-msgstr "폴더 즐겨찾기"
-
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "설정(&O)"
@@ -3536,6 +3625,10 @@ msgstr "-"
 msgctxt "tfrmmain.mnucontextline2.caption"
 msgid "-"
 msgstr "-"
+
+#: tfrmmain.mnufavoritetabs.caption
+msgid "Favorites"
+msgstr ""
 
 #: tfrmmain.mnufiles.caption
 #, fuzzy
@@ -3561,8 +3654,10 @@ msgid "&Show"
 msgstr "보기(&W)"
 
 #: tfrmmain.mnutaboptions.caption
+#, fuzzy
+#| msgid "&Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
-msgid "&Options"
+msgid "Tab &Options"
 msgstr "옵션(&O)"
 
 #: tfrmmain.mnutabs.caption

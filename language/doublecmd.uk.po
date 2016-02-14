@@ -2307,8 +2307,16 @@ msgctxt "tfrmmain.actconfigdirhotlist.caption"
 msgid "Configuration of Directory Hotlist"
 msgstr "Налаштування обраних каталогів"
 
+#: tfrmmain.actconfigfavoritetabs.caption
+msgid "Configuration of Favorite Tabs"
+msgstr ""
+
+#: tfrmmain.actconfigfoldertabs.caption
+msgid "Configuration of folder tabs"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
-msgid "Configure toolbar"
+msgid "Toolbar..."
 msgstr ""
 
 #: tfrmmain.actcontextmenu.caption
@@ -2319,6 +2327,10 @@ msgstr "Показати контекстне меню"
 msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Копіювати"
+
+#: tfrmmain.actcopyalltabstoopposite.caption
+msgid "Copy all tabs to opposite side"
+msgstr ""
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
@@ -2413,7 +2425,9 @@ msgid "&Extract Files..."
 msgstr "Розпак&увати файли..."
 
 #: tfrmmain.actfileassoc.caption
-msgid "File &Associations..."
+#, fuzzy
+#| msgid "File &Associations..."
+msgid "Configuration of File &Associations"
 msgstr "Асоціаці&ї з файлами..."
 
 #: tfrmmain.actfilelinker.caption
@@ -2510,6 +2524,10 @@ msgstr ""
 msgid "Thumbnails view on left panel"
 msgstr ""
 
+#: tfrmmain.actloadfavoritetabs.caption
+msgid "Load tabs from Favorite Tabs"
+msgstr ""
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Завантажити виділенння з б&уферу"
@@ -2574,6 +2592,10 @@ msgstr "Н&ове з'єднання..."
 msgid "&New Tab"
 msgstr "Н&ова вкладка"
 
+#: tfrmmain.actnextfavoritetabs.caption
+msgid "Load the Next Favorite Tabs in the list"
+msgstr ""
+
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
 msgstr "Перейти до нас&тупної вкладки"
@@ -2620,6 +2642,10 @@ msgstr "Встановити позицію роздільника"
 msgid "&Paste"
 msgstr "&Вставити"
 
+#: tfrmmain.actpreviousfavoritetabs.caption
+msgid "Load the Previous Favorite Tabs in the list"
+msgstr ""
+
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "Перейти до &попередньої вкладки"
@@ -2641,6 +2667,10 @@ msgstr "&Панель швидкого перегляду"
 msgid "&Refresh"
 msgstr "&Оновити"
 
+#: tfrmmain.actreloadfavoritetabs.caption
+msgid "Reload the last Favorite Tabs loaded"
+msgstr ""
+
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
@@ -2658,6 +2688,10 @@ msgstr "Перейменувати"
 #: tfrmmain.actrenametab.caption
 msgid "&Rename Tab"
 msgstr "Перей&менувати вкладку"
+
+#: tfrmmain.actresavefavoritetabs.caption
+msgid "Resave on the last Favorite Tabs loaded"
+msgstr ""
 
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
@@ -2719,6 +2753,10 @@ msgstr ""
 msgid "Run &Terminal"
 msgstr "Запуск &терміналу"
 
+#: tfrmmain.actsavefavoritetabs.caption
+msgid "Save current tabs to a New Favorite Tabs"
+msgstr ""
+
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
 msgstr "&Зберегти виділенння"
@@ -2734,6 +2772,22 @@ msgstr "Зберегти вкладки &до файлу"
 #: tfrmmain.actsearch.caption
 msgid "&Search..."
 msgstr "По&шук..."
+
+#: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
+msgid "All tabs Locked with Dir Opened in New Tabs"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionnormal.caption
+msgid "Set all tabs to Normal"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionpathlocked.caption
+msgid "Set all tabs to Locked"
+msgstr ""
+
+#: tfrmmain.actsetalltabsoptionpathresets.caption
+msgid "All tabs Locked with Dir Changes Allowed"
+msgstr ""
 
 #: tfrmmain.actsetfileproperties.caption
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
@@ -3063,6 +3117,18 @@ msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline10.caption
+#, fuzzy
+msgctxt "tfrmmain.miline10.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline11.caption
+#, fuzzy
+msgctxt "tfrmmain.miline11.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline12.caption
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
@@ -3113,8 +3179,20 @@ msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline21.caption
+#, fuzzy
+msgctxt "tfrmmain.miline21.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline22.caption
 msgctxt "TFRMMAIN.MILINE22.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline23.caption
+#, fuzzy
+msgctxt "tfrmmain.miline23.caption"
 msgid "-"
 msgstr "-"
 
@@ -3125,6 +3203,12 @@ msgstr "-"
 
 #: tfrmmain.miline25.caption
 msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline26.caption
+#, fuzzy
+msgctxt "tfrmmain.miline26.caption"
 msgid "-"
 msgstr "-"
 
@@ -3153,8 +3237,20 @@ msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline39.caption
+#, fuzzy
+msgctxt "tfrmmain.miline39.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline4.caption
 msgctxt "TFRMMAIN.MILINE4.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline40.caption
+#, fuzzy
+msgctxt "tfrmmain.miline40.caption"
 msgid "-"
 msgstr "-"
 
@@ -3252,12 +3348,6 @@ msgstr "Скасувати"
 msgid "&Commands"
 msgstr "&Команди"
 
-#: tfrmmain.mnucmdconfigdirhotlist.caption
-#, fuzzy
-msgctxt "tfrmmain.mnucmdconfigdirhotlist.caption"
-msgid "Directory Hotlist"
-msgstr "Вибрані каталоги"
-
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "&Налаштування"
@@ -3271,6 +3361,10 @@ msgstr "-"
 msgctxt "tfrmmain.mnucontextline2.caption"
 msgid "-"
 msgstr "-"
+
+#: tfrmmain.mnufavoritetabs.caption
+msgid "Favorites"
+msgstr ""
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"
@@ -3295,8 +3389,10 @@ msgid "&Show"
 msgstr "Ви&гляд"
 
 #: tfrmmain.mnutaboptions.caption
+#, fuzzy
+#| msgid "&Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
-msgid "&Options"
+msgid "Tab &Options"
 msgstr "&Налаштування"
 
 #: tfrmmain.mnutabs.caption
