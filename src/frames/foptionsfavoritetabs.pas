@@ -36,10 +36,12 @@ type
   TfrmOptionsFavoriteTabs = class(TOptionsEditor)
     btnRename: TBitBtn;
     cbExistingTabsToKeep: TComboBox;
+    cbFullExpandTree: TCheckBox;
     cbSaveDirHistory: TComboBox;
     cbTargetPanelLeftSavedTabs: TComboBox;
     cbTargetPanelRightSavedTabs: TComboBox;
     gbFavoriteTabs: TGroupBox;
+    gbFavoriteTabsOtherOptions: TGroupBox;
     gpSavedTabsRestorationAction: TGroupBox;
     lblExistingTabsToKeep: TLabel;
     lblSaveDirHistory: TLabel;
@@ -66,8 +68,6 @@ type
     btnImportExport: TBitBtn;
     btnAdd: TBitBtn;
     btnSort: TBitBtn;
-    gbFavoriteTabsOtherOptions: TGroupBox;
-    cbFullExpandTree: TCheckBox;
     pmFavoriteTabsTestMenu: TPopupMenu;
     miFavoriteTabsTestMenu: TMenuItem;
     pmTreeView: TPopupMenu;
@@ -136,6 +136,7 @@ type
     procedure miCutSelectionClick(Sender: TObject);
     procedure miPasteSelectionClick(Sender: TObject);
   protected
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   private
@@ -162,8 +163,17 @@ uses
   Graphics, LCLType, LCLProc, LCLIntf,
 
   //DC
-  uGlobs, uLng, uDCUtils, uDebug, fmain, uShowMsg, DCOSUtils, fOptions,
-  uComponentsSignature;
+  DCStrUtils, uGlobs, uLng, uDCUtils, uDebug, fmain, uShowMsg, DCOSUtils,
+  fOptions, uComponentsSignature;
+
+{ TfrmOptionsFavoriteTabs.Init }
+procedure TfrmOptionsFavoriteTabs.Init;
+begin
+  ParseLineToList(rsFavTabsPanelSideSelection, cbTargetPanelLeftSavedTabs.Items);
+  ParseLineToList(rsFavTabsPanelSideSelection, cbTargetPanelRightSavedTabs.Items);
+  ParseLineToList(rsFavTabsPanelSideSelection, cbExistingTabsToKeep.Items);
+  ParseLineToList(rsFavTabsSaveDirHistory, cbSaveDirHistory.Items);
+end;
 
 { TfrmOptionsFavoriteTabs.Load }
 procedure TfrmOptionsFavoriteTabs.Load;

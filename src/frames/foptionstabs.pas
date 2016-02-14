@@ -44,8 +44,10 @@ type
     cbTabsOpenNearCurrent: TCheckBox;
     cbTabsShowCloseButton: TCheckBox;
     cmbTabsPosition: TComboBox;
+    cbTabsActionOnDoubleClick: TComboBox;
     edtTabsLimitLength: TEdit;
     gbTabs: TGroupBox;
+    lblTabsActionOnDoubleClick: TLabel;
     lblChar: TLabel;
     lblTabsPosition: TLabel;
     cbKeepRenamedNameBackToNormal: TCheckBox;
@@ -53,7 +55,6 @@ type
     cbTabsReuseTabWhenPossible: TCheckBox;
     cbTabsShowDriveLetter: TCheckBox;
     cbTabsCloseDuplicateWhenClosing: TCheckBox;
-    rgTabsActionOnDoubleClick: TRadioGroup;
   private
     FPageControl: TPageControl; // For checking Tabs capabilities
     FLastLoadedOptionSignature: dword;
@@ -79,6 +80,7 @@ uses
 procedure TfrmOptionsTabs.Init;
 begin
   ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
+  ParseLineToList(rsTabsActionOnDoubleClickChoices, cbTabsActionOnDoubleClick.Items);
   FPageControl := TPageControl.Create(Self);
 end;
 
@@ -109,8 +111,8 @@ begin
   cbKeepRenamedNameBackToNormal.Checked := tb_keep_renamed_when_back_normal in gDirTabOptions;
   cbTabsActivateOnClick.Checked := tb_activate_panel_on_click in gDirTabOptions;
   cbTabsShowDriveLetter.Checked := tb_show_drive_letter in gDirTabOptions;
-  rgTabsActionOnDoubleClick.ItemIndex := Integer(gDirTabActionOnDoubleClick);
-  rgTabsActionOnDoubleClick.Refresh;
+  cbTabsActionOnDoubleClick.ItemIndex := Integer(gDirTabActionOnDoubleClick);
+  cbTabsActionOnDoubleClick.Refresh;
 
   cbTabsMultiLines.Visible := (nbcMultiline in FPageControl.GetCapabilities);
   if cbTabsMultiLines.Visible then
@@ -166,7 +168,7 @@ begin
   if cbTabsShowCloseButton.Checked then
     gDirTabOptions := gDirTabOptions + [tb_show_close_button];
 
-  gDirTabActionOnDoubleClick := TTabsOptionsDoubleClick(rgTabsActionOnDoubleClick.ItemIndex);
+  gDirTabActionOnDoubleClick := TTabsOptionsDoubleClick(cbTabsActionOnDoubleClick);
 
   gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
 

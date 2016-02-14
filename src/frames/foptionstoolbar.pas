@@ -197,21 +197,21 @@ type
     procedure miAddAllCmdsClick(Sender: TObject);
     procedure miInsertButtonClick(Sender: TObject);
     procedure miSrcRplClick(Sender: TObject);
-    procedure ToolbarDragOver(Sender, Source: TObject; X, Y: Integer;
-      State: TDragState; var Accept: Boolean);
-    procedure ToolbarDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure ToolbarDragOver(Sender, Source: TObject; {%H-}X, {%H-}Y: Integer;
+      {%H-}State: TDragState; var Accept: Boolean);
+    procedure ToolbarDragDrop(Sender, Source: TObject; {%H-}X, {%H-}Y: Integer);
     function ToolbarLoadButtonGlyph(ToolItem: TKASToolItem; iIconSize: Integer;
       clBackColor: TColor): TBitmap;
     procedure ToolbarToolButtonClick(Sender: TObject);
-    procedure ToolbarToolButtonDragDrop(Sender, Source: TObject; X, Y: Integer);
-    procedure ToolbarToolButtonDragOver(Sender, Source: TObject; X, Y: Integer;
-      State: TDragState; var Accept: Boolean; NumberOfButton: Integer);
-    procedure ToolbarToolButtonMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    procedure ToolbarToolButtonDragDrop(Sender, Source: TObject; {%H-}X, {%H-}Y: Integer);
+    procedure ToolbarToolButtonDragOver(Sender, Source: TObject; {%H-}X, {%H-}Y: Integer;
+      {%H-}State: TDragState; var Accept: Boolean; {%H-}NumberOfButton: Integer);
+    procedure ToolbarToolButtonMouseDown(Sender: TObject; {%H-}Button: TMouseButton;
+      {%H-}Shift: TShiftState; X, Y: Integer);
     procedure ToolbarToolButtonMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer; NumberOfButton: Integer);
-    procedure ToolbarToolButtonMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    procedure ToolbarToolButtonMouseUp(Sender: TObject; {%H-}Button: TMouseButton;
+      {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);
     procedure btnOpenIconClick(Sender: TObject);
     function ToolbarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
     procedure rgToolItemTypeSelectionChanged(Sender: TObject);
@@ -297,7 +297,6 @@ const
   MASK_FLUSHORNOT_EXISTING = $80;
   ACTION_FLUSH_EXISTING = $80;
   MASK_IMPORT_DESTIONATION = $30;
-  ACTION_ERASEEXISTING = $80;
 
 { TfrmOptionsToolbar }
 
@@ -691,7 +690,7 @@ end;
 { TfrmOptionsToolbar.btnOpenCmdDlgClick }
 procedure TfrmOptionsToolbar.btnOpenCmdDlgClick(Sender: TObject);
 var
-  WantedCommand:String;
+  WantedCommand: String = '';
   IndexMaybe:longint;
 begin
   if cbInternalCommand.ItemIndex=-1 then
@@ -1517,8 +1516,11 @@ end;
 procedure TfrmOptionsToolbar.miAddAllCmdsClick(Sender: TObject);
 var
   IndexCommand: integer;
-  FlagCategoryTitle:boolean;
-  sCmdName,sHintName,sHotKey,sCategory:string;
+  FlagCategoryTitle: boolean = False;
+  sCmdName: string = '';
+  sHintName: string = '';
+  sHotKey: string = '';
+  sCategory: string = '';
   ToolBar: TKASToolBar;
   CategorySubToolBar: TKASToolBar = nil;
   LocalKASMenuItem: TKASMenuItem;

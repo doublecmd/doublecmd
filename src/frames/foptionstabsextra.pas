@@ -100,6 +100,10 @@ procedure TfrmOptionsTabsExtra.Init;
 begin
   FPageControl := TPageControl.Create(Self);
   ParseLineToList(rsOptFavoriteTabsWhereToAddInList, rgWhereToAdd.Items);
+  ParseLineToList(rsFavTabsPanelSideSelection,cbDefaultTargetPanelLeftSaved.Items);
+  ParseLineToList(rsFavTabsPanelSideSelection,cbDefaultTargetPanelRightSaved.Items);
+  ParseLineToList(rsFavTabsPanelSideSelection,cbDefaultExistingTabsToKeep.Items);
+  ParseLineToList(rsFavTabsSaveDirHistory,cbDefaultSaveDirHistory.Items);
 end;
 
 class function TfrmOptionsTabsExtra.GetIconIndex: integer;

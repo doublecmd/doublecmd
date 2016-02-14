@@ -1062,6 +1062,7 @@ end;"/>
       <Unit117>
         <Filename Value="filesources\ufilesourcelistoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceListOperation"/>
       </Unit117>
       <Unit118>
         <Filename Value="filesources\ufilesourcemoveoperation.pas"/>
@@ -1504,7 +1505,9 @@ end;"/>
       <Unit210>
         <Filename Value="fstartingsplash.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmStartingSplash"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit210>
       <Unit211>
         <Filename Value="frames\foptionsdirectoryhotlist.pas"/>

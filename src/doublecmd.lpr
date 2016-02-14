@@ -191,7 +191,7 @@ begin
 
       if not CommandLineParams.NoSplash then
       begin
-        // We may now remove the starting splash screen, mot of the application has been started now
+        // We may now remove the starting splash screen, most of the application has been started now
         frmStartingSplash.Close;
         frmStartingSplash.Release;
       end;

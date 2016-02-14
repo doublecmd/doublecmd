@@ -23,9 +23,10 @@ type
     lblTitle: TLabel;
     lblVersion: TLabel;
     lblWidgetsetVer: TLabel;
+    pnlVersionInfos: TPanel;
     pnlInfo: TPanel;
-    pnlLogo: TPanel;
     procedure FormCreate(Sender: TObject);
+    procedure imgLogoClick(Sender: TObject);
     procedure pnlInfoClick(Sender: TObject);
   private
     { private declarations }
@@ -55,6 +56,11 @@ begin
   lblPlatform.Caption        := TargetCPU + '-' + TargetOS + '-' + TargetWS;
   lblOperatingSystem.Caption := OSVersion;
   lblWidgetsetVer.Caption    := WSVersion;
+end;
+
+procedure TfrmStartingSplash.imgLogoClick(Sender: TObject);
+begin
+
 end;
 
 procedure TfrmStartingSplash.pnlInfoClick(Sender: TObject);

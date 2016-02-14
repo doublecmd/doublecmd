@@ -181,7 +181,6 @@ resourcestring
   rsMsgHotDirDemoCommand = 'This will execute the following command:';
   rsMsgHotDirDemoTarget = 'And inactive frame would change to the following path:';
   rsMsgHotDirLocateHotlistFile = 'Locate ".hotlist" file to import';
-  rsMsgHotDirLocatePreviousSave = 'Select location and filename of previously saved Directory Hotlist file';
   rsMsgHotDirWhereToSave = 'Enter location and filename where to save a Directory Hotlist file';
   rsMsgHotDirRestoreWhat = 'Enter location and filename of Directory Hotlist to restore';
   rsMsgHotDirImportall = 'Import all!';
@@ -202,6 +201,7 @@ resourcestring
   rsHotDirWarningAbortRestoreBackup = 'Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.'+#$0A+#$0A+
                                       'Are you sure you want to proceed?';
   rsHotDirNothingToImport = 'Sorry, nothing detected to import!';
+  rsHotDirForceSortingOrderChoices = 'none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9';
 
   //Special dir related
   rsMsgSpecialDirUseDC = 'Use Double Commander special path...';
@@ -252,6 +252,9 @@ resourcestring
   rsMsgFavoriteTabsModifiedNoImport = 'Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?';
   rsMsgFavoriteTabsSimpleMode = 'Keep saving dir history with Favorite Tabs:';
   rsMsgFavoriteTabsExtraMode = 'Default extra setting for save dir history for new Favorite Tabs:';
+  rsTabsActionOnDoubleClickChoices = 'Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu';
+  rsFavTabsPanelSideSelection = 'Left;Right;Active;Inactive;Both;None';
+  rsFavTabsSaveDirHistory = 'No;Yes';
 
   //Total Commander related message
   rsMsgLocateTCExecutable = 'Locate TC executable file (totalcmd.exe or totalcmd64.exe)';

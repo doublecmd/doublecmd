@@ -438,13 +438,13 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
   end
   object lblInactivePanelBrightness: TLabel[28]
     AnchorSideLeft.Control = cbbUseFrameCursor
-    AnchorSideTop.Control = cbbUseFrameCursor
+    AnchorSideTop.Control = btnResetToDCDefault
     AnchorSideTop.Side = asrBottom
     Left = 433
     Height = 15
-    Top = 77
+    Top = 94
     Width = 172
-    BorderSpacing.Top = 20
+    BorderSpacing.Top = 6
     Caption = '&Brightness level of inactive panel'
     FocusControl = tbInactivePanelBrightness
     ParentColor = False
@@ -457,7 +457,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     AnchorSideRight.Side = asrBottom
     Left = 433
     Height = 26
-    Top = 98
+    Top = 115
     Width = 377
     Max = 100
     OnChange = tbInactivePanelBrightnessChange
@@ -730,10 +730,11 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     AnchorSideRight.Side = asrBottom
     Left = 683
     Height = 25
-    Top = 57
+    Top = 63
     Width = 127
     Anchors = [akTop, akRight]
     AutoSize = True
+    BorderSpacing.Top = 6
     Caption = 'Reset to DC default'
     OnClick = btnResetToDCDefaultClick
     TabOrder = 29

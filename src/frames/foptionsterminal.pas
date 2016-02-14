@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Terminal options page
 
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ type
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
-    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
+    function CanWeClose(var {%H-}WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
