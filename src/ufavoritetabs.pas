@@ -603,7 +603,7 @@ begin
       // 1. We remember to restore later the current selected panel.
       originalFilePanel := frmMain.SelectedPanel;
 
-      // 2. We set the section-path to our wanted setup. (Don't forget the trailing slash at the end because "LoadTheseTabsWithThisConfig" requires it for the "ABrunch" parameter.
+      // 2. We set the section-path to our wanted setup. (Don't forget the trailing slash at the end because "LoadTheseTabsWithThisConfig" requires it for the "ABranch" parameter.
       sActualTabSection := 'ActualTabs/' + FavoriteTabs[paramIndexToLoad].GuidToXMLString + '/';
 
       // 3. We set the location where to restore tabs according to our setup IF we're configure for it.

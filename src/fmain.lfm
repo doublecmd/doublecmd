@@ -2407,12 +2407,6 @@ object frmMain: TfrmMain
       Caption = 'Configuration of Favorite Tabs'
       OnExecute = actExecute
     end
-    object actCopyAllTabsToOpposite: TAction
-      Tag = 21
-      Category = 'Tabs'
-      Caption = 'Copy all tabs to opposite side'
-      OnExecute = actExecute
-    end
     object actCloseTab: TAction
       Tag = 21
       Category = 'Tabs'
@@ -2430,6 +2424,12 @@ object frmMain: TfrmMain
       Tag = 21
       Category = 'Tabs'
       Caption = 'Close Duplicate Tabs'
+      OnExecute = actExecute
+    end
+    object actCopyAllTabsToOpposite: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Copy all tabs to opposite side'
       OnExecute = actExecute
     end
     object actLoadTabs: TAction
