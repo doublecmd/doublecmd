@@ -283,6 +283,10 @@ begin
 
   if not InitializeOperation then
     CloseDialog;
+
+  // Workaround: TWinControl.WMSize loop detected
+  Constraints.MaxWidth:= Screen.Width;
+  Constraints.MaxHeight:= Screen.Height;
 end;
 
 function TfrmFileOp.GetFirstOperationHandle(QueueIdentifier: TOperationsManagerQueueIdentifier): TOperationHandle;
