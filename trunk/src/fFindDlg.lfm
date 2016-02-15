@@ -35,9 +35,9 @@ object frmFindDlg: TfrmFindDlg
       Height = 391
       Top = 0
       Width = 724
-      ActivePage = tsResults
+      ActivePage = tsStandard
       Align = alClient
-      TabIndex = 4
+      TabIndex = 0
       TabOrder = 0
       OnChange = pgcSearchChange
       object tsStandard: TTabSheet

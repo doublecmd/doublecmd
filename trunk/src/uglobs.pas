@@ -86,7 +86,7 @@ type
   TExternalToolsOptions = array[TExternalTool] of TExternalToolOptions;
   TResultingFramePositionAfterCompare = (rfpacActiveOnLeft, rfpacLeftOnLeft);
 
-  TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog, dcfViewerBook, dcfConsole, dcfFileSearchResults, dcFileViewHeader);
+  TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog, dcfViewerBook, dcfConsole, dcfFileSearchResults, dcfPathEdit);
   TDCFontOptions = record
     Name: String;
     Size: Integer;
@@ -159,8 +159,8 @@ const
   MAX_FONT_SIZE_FILE_SEARCH_RESULTS=70;
   MIN_FONT_SIZE_FILE_SEARCH_RESULTS=6;
 
-  MAX_FONT_SIZE_FILEVIEWHEADER=20;
-  MIN_FONT_SIZE_FILEVIEWHEADER=8;
+  MAX_FONT_SIZE_PATHEDIT=20;
+  MIN_FONT_SIZE_PATHEDIT=8;
 
 
 
@@ -1207,6 +1207,17 @@ begin
   gFonts[dcfViewer].Size := 14;
   gFonts[dcfViewer].Style := [];
   gFonts[dcfViewer].Quality := fqDefault;
+
+  gFonts[dcfFileSearchResults].Name := 'default';
+  gFonts[dcfFileSearchResults].Size := 14;
+  gFonts[dcfFileSearchResults].Style := [];
+  gFonts[dcfFileSearchResults].Quality := fqDefault;
+  gFonts[dcfPathEdit].Name := 'default';
+  gFonts[dcfPathEdit].Size := 8;
+  gFonts[dcfPathEdit].Style := [];
+  gFonts[dcfPathEdit].Quality := fqDefault;
+
+
   gFonts[dcfLog].Name := MonoSpaceFont;
   gFonts[dcfLog].Size := 12;
   gFonts[dcfLog].Style := [];
@@ -1899,9 +1910,17 @@ begin
   gFonts[dcfMain].Name:=gIni.ReadString('Configuration', 'Font.Name', 'default');
   gFonts[dcfEditor].Name:=gIni.ReadString('Editor', 'Font.Name', MonoSpaceFont);
   gFonts[dcfViewer].Name:=gIni.ReadString('Viewer', 'Font.Name', MonoSpaceFont);
+
+  gFonts[dcfFileSearchResults].Name:=gIni.ReadString('SearchResults', 'Font.Name', MonoSpaceFont);
+  gFonts[dcfPathEdit].Name:=gIni.ReadString('PathEdit', 'Font.Name', MonoSpaceFont);
+
   gFonts[dcfMain].Size:=gIni.ReadInteger('Configuration', 'Font.Size', 10);
   gFonts[dcfEditor].Size:=gIni.ReadInteger('Editor', 'Font.Size', 14);
   gFonts[dcfViewer].Size:=gIni.ReadInteger('Viewer', 'Font.Size', 14);
+
+  gFonts[dcfFileSearchResults].Size:=gIni.ReadInteger('SearchResults', 'Font.Size', 12);
+  gFonts[dcfPathEdit].Size:=gIni.ReadInteger('PathEdit', 'Font.Size', 8);
+
   gFonts[dcfMain].Style := TFontStyles(gIni.ReadInteger('Configuration', 'Font.Style', 1));
   gFonts[dcfEditor].Style := TFontStyles(gIni.ReadInteger('Editor', 'Font.Style', 0));
   gFonts[dcfViewer].Style := TFontStyles(gIni.ReadInteger('Viewer', 'Font.Style', 0));
@@ -2188,9 +2207,14 @@ begin
     gResultingFramePositionAfterCompare := TResultingFramePositionAfterCompare(GetValue(SubNode, 'FramePosAfterComp', Integer(gResultingFramePositionAfterCompare)));
 
     { Fonts page }
+
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Main'), gFonts[dcfMain]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Editor'), gFonts[dcfEditor]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Viewer'), gFonts[dcfViewer]);
+
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/SearchResults'), gFonts[dcfFileSearchResults]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/PathEdit'), gFonts[dcfPathEdit]);
+
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Log'), gFonts[dcfLog]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/ViewerBook'), gFonts[dcfViewerBook]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Console'), gFonts[dcfConsole]);
@@ -2706,6 +2730,8 @@ begin
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Main', True), gFonts[dcfMain]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Editor', True), gFonts[dcfEditor]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Viewer', True), gFonts[dcfViewer]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/SearchResults',True), gFonts[dcfFileSearchResults]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/PathEdit',True), gFonts[dcfPathEdit]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Log', True), gFonts[dcfLog]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/ViewerBook', True), gFonts[dcfViewerBook]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Console', True), gFonts[dcfConsole]);
