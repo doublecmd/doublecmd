@@ -202,6 +202,7 @@ type
     procedure seFileSizeToChange(Sender: TObject);
     procedure seNotOlderThanChange(Sender: TObject);
     procedure tsLoadSaveShow(Sender: TObject);
+    procedure tsStandardEnter(Sender: TObject);
     procedure ZVDateFromChange(Sender: TObject);
     procedure ZVDateToChange(Sender: TObject);
     procedure ZVTimeFromChange(Sender: TObject);
@@ -209,6 +210,7 @@ type
   private
     FSelectedFiles: TStringList;
     FFindThread:TFindThread;
+    FTimeSearch:string;
     DsxPlugins: TDSXModuleList;
     FSearchingActive: Boolean;
     FFrmAttributesEdit: TfrmAttributesEdit;
@@ -218,11 +220,12 @@ type
     FUpdating: Boolean;
 
 
-    FLPanelSender:TObject; // last focused button on Left Panel (pnlButtons)
+    FRButtonPanelSender:TObject; // last focused button on Right Panel (pnlButtons)
 
     procedure DisableControlsForTemplate;
     procedure StopSearch;
-    procedure AfterSearchStopped;
+    procedure AfterSearchStopped;  //update button states after stop search
+
     procedure FillFindOptions(out FindOptions: TSearchTemplateRec; SetStartPath: Boolean);
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
                                         out SRec: TDsxSearchRecord);
@@ -248,7 +251,7 @@ type
 
     procedure ThreadTerminate(Sender:TObject);
 
-    procedure FocusOnResults(Sender:TObject); // if press VK_LEFT or VK_RIGHT when on any button on left panel  - focus on results and remember button in FLPanelSender
+    procedure FocusOnResults(Sender:TObject); // if press VK_LEFT or VK_RIGHT when on any button on left panel  - focus on results and remember button in FRButtonPanelSender
   end;
 
 var
@@ -303,6 +306,9 @@ begin
   if s='' then
     begin
       TfrmFindDlg.Instance.AfterSearchStopped;
+      {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+        TfrmFindDlg.Instance.btnStart.Default := True;
+      {$ENDIF}
     end
   else
     begin
@@ -316,7 +322,7 @@ var
   sCurrentFile: String;
 begin
   sCurrentFile := String(CurrentFile);
-  TfrmFindDlg.Instance.lblStatus.Caption:=Format(rsFindScanned,[FilesScanned]);
+  TfrmFindDlg.Instance.lblStatus.Caption:=Format(rsFindScanned,[FilesScanned])+TfrmFindDlg.Instance.FTimeSearch;
   if sCurrentFile = '' then
     TfrmFindDlg.Instance.lblCurrent.Caption := ''
   else
@@ -775,6 +781,12 @@ begin
   lblFound.Caption:= EmptyStr;
   if pgcSearch.ActivePage = tsStandard then
     cmbFindFileMask.SetFocus;
+
+  AfterSearchStopped;
+
+  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+    btnStart.Default := True;
+  {$ENDIF}
 end;
 
 procedure TfrmFindDlg.btnGoToPathClick(Sender: TObject);
@@ -952,11 +964,12 @@ begin
   if FSearchingActive then
   begin
     if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex<>-1) then
-      begin
-        DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStopSearch;
-        DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallFinalize;
-        AfterSearchStopped;
-      end;
+    begin
+      DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStopSearch;
+      DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallFinalize;
+      AfterSearchStopped;
+      btnNewSearch.SetFocus;
+    end;
 
     if Assigned(FFindThread) then
     begin
@@ -985,7 +998,7 @@ begin
   btnClose.Enabled:= True;
   btnNewSearch.Enabled:= True;
   FSearchingActive := False;
-  btnNewSearch.SetFocus;
+//  btnNewSearch.SetFocus;
 end;
 
 procedure TfrmFindDlg.btnStartClick(Sender: TObject);
@@ -1083,6 +1096,8 @@ begin
           Items := FoundedStringCopy;
           OnTerminate := @ThreadTerminate; // will update the buttons after search is finished
         end;
+
+        FTimeSearch:='';
         FFindThread.Start;
         FUpdateTimer.Enabled := True;
         FUpdateTimer.OnTimer(FUpdateTimer);
@@ -1204,33 +1219,49 @@ end;
 procedure TfrmFindDlg.ThreadTerminate(Sender:TObject);
 begin
   FFindThread := TFindThread(Sender);
+  if FFindThread.TimeOfScan<>0 then FTimeSearch:=' , '+rsFindTimeOfScan+formatdatetime('hh:nn:ss.zzz', FFindThread.TimeOfScan);
   FUpdateTimer.OnTimer(FUpdateTimer);
   FUpdateTimer.Enabled := False;
   FFindThread := nil;
   AfterSearchStopped;
+  btnNewSearch.SetFocus;
 end;
 
 procedure TfrmFindDlg.FocusOnResults(Sender: TObject);
 begin
-  FLPanelSender:=Sender;
+  FRButtonPanelSender:=Sender;
 
-  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-    btnStart.Default:= False;
-  {$ENDIF}
+  if pgcSearch.ActivePage=tsResults then
+  begin
+    {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+      btnStart.Default:= False;
+    {$ENDIF}
+    if lsFoundedFiles.SelCount=0 then lsFoundedFiles.ItemIndex:=0;
+    lsFoundedFiles.SetFocus;
+    lsFoundedFiles.Selected[lsFoundedFiles.ItemIndex]:=True;
 
-  if lsFoundedFiles.SelCount=0 then lsFoundedFiles.ItemIndex:=0;
-  lsFoundedFiles.SetFocus;
-  lsFoundedFiles.Selected[lsFoundedFiles.ItemIndex]:=True;
+  end;
 end;
 
 procedure TfrmFindDlg.btnStopClick(Sender: TObject);
 begin
   StopSearch;
+  AfterSearchStopped;
+  btnNewSearch.SetFocus;
 end;
 
 procedure TfrmFindDlg.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 begin
+  if FFindThread<>nil then
+  begin
+    FFindThread.OnTerminate:=nil;
+    FFindThread.Terminate;
+    FUpdateTimer.OnTimer(FUpdateTimer);
+    FUpdateTimer.Enabled := False;
+    FFindThread := nil;
+  end;
+
   CanClose:= not Assigned(FFindThread);
 end;
 
@@ -1275,6 +1306,7 @@ begin
             Key := 0;
           end;
       end;
+
     VK_TAB:
       begin
         if Shift * KeyModifiersShortcut = [ssCtrl] then
@@ -1286,6 +1318,37 @@ begin
         begin
           pgcSearch.SelectNextPage(False);
           Key := 0;
+        end;
+      end;
+
+    VK_F7 :
+      begin
+        if FFindThread<>nil then
+        begin
+          FFindThread.OnTerminate:=nil;
+          FFindThread.Terminate;
+          FUpdateTimer.OnTimer(FUpdateTimer);
+          FUpdateTimer.Enabled := False;
+          FFindThread := nil;
+        end;
+
+        AfterSearchStopped;
+        {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+          btnStart.Default := True;
+        {$ENDIF}
+
+        if cmbFindText.Focused then // if F7 on already focused textSearch field- disable text search and set focun on file mask
+        begin
+          cbFindText.Checked:=False;
+          cmbFindFileMask.SetFocus;
+          cmbFindFileMask.SelectAll;
+          exit;
+        end else
+        begin
+          pgcSearch.PageIndex:= 0;
+          cbFindText.Checked:=True;
+          cmbFindText.SetFocus;
+          cmbFindText.SelectAll;
         end;
       end;
   end;
@@ -1309,9 +1372,6 @@ procedure TfrmFindDlg.frmFindDlgShow(Sender: TObject);
 var
   I: Integer;
 begin
-  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-    btnStart.Default:= True;
-  {$ENDIF}
 
   pgcSearch.PageIndex:= 0;
 
@@ -1485,7 +1545,7 @@ begin
       begin
         if not FSearchingActive then
         begin
-          if FLPanelSender<>nil then (FLPanelSender as TButton).SetFocus
+          if FRButtonPanelSender<>nil then (FRButtonPanelSender as TButton).SetFocus
           else btnNewSearch.SetFocus;
 //          btnNewSearch.SetFocus;
           Key := 0;
@@ -1720,6 +1780,13 @@ begin
     lbSearchTemplates.ItemIndex := 0;
 end;
 
+procedure TfrmFindDlg.tsStandardEnter(Sender: TObject);
+begin
+  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+    btnStart.Default:= True;
+  {$ENDIF}
+end;
+
 procedure TfrmFindDlg.UpdateTemplatesList;
 var
   OldIndex: Integer;
@@ -1734,7 +1801,7 @@ procedure TfrmFindDlg.OnUpdateTimer(Sender: TObject);
 begin
   if Assigned(FFindThread) then
   begin
-    lblStatus.Caption := Format(rsFindScanned, [FFindThread.FilesScanned]);
+    lblStatus.Caption := Format(rsFindScanned, [FFindThread.FilesScanned])+FTimeSearch;
     lblFound.Caption := Format(rsFindFound, [FFindThread.FilesFound]);
     lblCurrent.Caption := rsFindScanning + ': ' + FFindThread.CurrentDir;
   end;

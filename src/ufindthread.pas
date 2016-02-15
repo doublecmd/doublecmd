@@ -51,13 +51,20 @@ type
     FFilesMasks: TMaskList;
     FExcludeFiles: TMaskList;
     FExcludeDirectories: TMaskList;
+
+    FTimeSearchStart:TTime;
+    FTimeSearchEnd:TTime;
+    FTimeOfScan:TTime;
+
+    function GetTimeOfScan:TTime;
     procedure FindInArchive(const FileName: String);
     function CheckFileName(const FileName: String) : Boolean;
     function CheckDirectoryName(const DirectoryName: String) : Boolean;
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function CheckDirectory(const CurrentDir, FolderName : String) : Boolean;
-    function FindInFile(const sFileName: String;
-                        sData: String; bCase, bRegExp: Boolean): Boolean;
+    function FindInFile(const sFileName: String;sData: String; bCase, bRegExp: Boolean): Boolean;
+    function FindInFile2(const sFileName: String; sData: String;bCase, bRegExp: Boolean): Boolean;
+
   protected
     procedure Execute; override;
   public
@@ -72,6 +79,7 @@ type
     property FilesScanned: Integer read FFilesScanned;
     property FilesFound: Integer read FFilesFound;
     property CurrentDir: String read FCurrentDir;
+    property TimeOfScan:TTime read GetTimeOfScan;
 
     property Items:TStrings write FItems;
   end;
@@ -112,6 +120,12 @@ begin
     FExcludeFiles := TMaskList.Create(ExcludeFiles);
     FExcludeDirectories := TMaskList.Create(ExcludeDirectories);
   end;
+
+
+  FTimeSearchStart:=0;
+  FTimeSearchEnd:=0;
+  FTimeOfScan:=0;
+
 end;
 
 destructor TFindThread.Destroy;
@@ -129,6 +143,8 @@ var
   sr: TSearchRecEx;
   sTemp, sPath: String;
 begin
+  FTimeSearchStart:=Now;
+
   FreeOnTerminate := True;
 
   try
@@ -165,6 +181,9 @@ begin
     on E:Exception do
       msgError(Self, E.Message);
   end;
+
+  FTimeSearchEnd:=Now;
+  FTimeOfScan:=FTimeSearchEnd-FTimeSearchStart;
 end;
 
 procedure TFindThread.AddFile;
@@ -188,8 +207,9 @@ begin
   end;
 end;
 
-function TFindThread.FindInFile(const sFileName: String; sData: String;
-                                bCase, bRegExp: Boolean): Boolean;
+function TFindThread.FindInFile(const sFileName: String; sData: String;  bCase, bRegExp: Boolean): Boolean;
+// this method is NOT used and placed here for possible comparing with FindInFile2
+// in future plans to remove it and rename FindInFile2 to FindInFile
 var
   fs: TFileStreamEx;
 
@@ -213,6 +233,9 @@ var
   Buffer: PAnsiChar = nil;
   BufferSize: Integer;
   S: String;
+
+  t1,t2,dt:integer;
+  label ext;
 begin
   Result := False;
   if sData = '' then Exit;
@@ -273,10 +296,14 @@ begin
             if DataRead = 0 then
               Break;
 
+
             for lastPos := 0 to DataRead - 1 do
             begin
               if PosMem(@Buffer[lastPos], sDataLength, 0, sData, bCase, False) <> Pointer(-1) then
-                Exit(True); // found
+              begin
+                Result:=True; // found
+                goto ext;
+              end;
             end;
 
             // Copy last 'sDataLength-1' bytes to the beginning of the buffer
@@ -285,6 +312,10 @@ begin
             Move(Buffer[DataRead], Buffer^, sDataLength-1);
           end;
         end;
+
+ext:
+
+
       except
       end;
 
@@ -296,6 +327,158 @@ begin
       Buffer := nil;
     end;
   end;
+
+
+end;
+
+
+
+
+function TFindThread.FindInFile2(const sFileName: String; sData: String;bCase, bRegExp: Boolean): Boolean;
+var
+  fs: TFileStreamEx;
+
+  lastPos,i,c,
+  subStrLength,
+  DataRead: Longint;
+  Buffer: PAnsiChar = nil;
+  BufferSize: Integer;
+  S,subStr: String;
+
+//  debug vars
+  ch1,ch2:Char;
+  pch:PChar;
+
+  label ext,agn1,agn2;
+begin
+  Result := False;
+  if sData = '' then Exit;
+
+  if not bCase then subStr:=UpCase(sData)
+  else              subStr:=sData;
+
+  // Simple regular expression search (don't work for very big files)
+  if bRegExp then
+  begin
+    fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
+    try
+      if fs.Size = 0 then Exit;
+      {$PUSH}{$R-}
+      SetLength(S, fs.Size);
+      {$POP}
+      if Length(S) = 0 then
+        raise EFOpenError.Create(EmptyStr);
+      fs.ReadBuffer(S[1], fs.Size);
+    finally
+      fs.Free;
+    end;
+    Exit(ExecRegExpr(subStr, S));
+  end;
+
+  if gUseMmapInSearch then
+    begin
+      // memory mapping should be slightly faster and use less memory
+      case FindMmapBM(sFileName, subStr, RecodeTable, @IsAborting) of
+        0 : Exit(False);
+        1 : Exit(True);
+        // else fall back to searching via stream reading
+      end;
+    end;
+
+  BufferSize := gCopyBlockSize;
+  subStrLength := Length(subStr);
+
+  if subStrLength > BufferSize then
+    raise Exception.Create(rsMsgErrSmallBuf);
+
+  fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
+  try
+    if subStrLength > fs.Size then // string longer than file, cannot search
+      Exit;
+
+    GetMem(Buffer, BufferSize + subStrLength - 1);
+    if Assigned(Buffer) then
+      try
+        if bCase then
+        begin
+          while not Terminated do
+          begin
+            DataRead := fs.Read(Buffer[0], BufferSize);
+            if DataRead <subStrLength then Break;
+
+            for lastPos := 0 to DataRead - 1 do
+            begin
+              i:=0;
+agn1:
+              if i<subStrLength then
+              begin
+                if Buffer[lastPos+i]<>subStr[i+1] then continue;
+              end else  // founded
+              begin
+                Result:=True;
+                goto ext;
+              end;
+              inc(i);
+              goto agn1;
+            end;
+            i:=fs.Size;c:=fs.Position; // debug watch
+            if fs.Position>=fs.Size-1 then break;
+            fs.Seek(fs.Position-subStrLength+1,soBeginning); // little backward stream seeker for to found on boundaries
+          end;
+
+        end else
+        begin
+          while not Terminated do
+          begin
+            DataRead := fs.Read(Buffer[0], BufferSize);
+            if DataRead <subStrLength then Break;
+
+            for lastPos := 0 to DataRead - 1 do
+            begin
+              i:=0;
+agn2:
+              if i<subStrLength then
+              begin
+{
+//-------------------------------------
+                // Debug block
+                  Ch1:=UpCase(Buffer[lastPos+i]);
+                  Ch2:=UpCase(Char(sData[i+1]));
+                  Ch2:=subStr[i+1];
+                  if Ch1<>Ch2 then Continue;  // subStr already in upper case
+//-------------------------------------
+}
+                if UpCase(Buffer[lastPos+i])<>subStr[i+1] then continue;
+              end else  // founded
+              begin
+                Result:=True;
+                goto ext;
+              end;
+              inc(i);
+              goto agn2;
+            end;
+            i:=fs.Size;c:=fs.Position; // debug watch
+            if fs.Position>=fs.Size-1 then break;
+            fs.Seek(fs.Position-subStrLength+1,soBeginning); // little backward stream seeker for to found on boundaries
+          end;
+        end;
+
+ext:
+
+
+      except
+      end;
+
+  finally
+    FreeAndNil(fs);
+    if Assigned(Buffer) then
+    begin
+      FreeMem(Buffer);
+      Buffer := nil;
+    end;
+  end;
+
+
 end;
 
 
@@ -333,6 +516,12 @@ begin
   finally
     fs.Free;
   end;
+end;
+
+function TFindThread.GetTimeOfScan: TTime;
+begin
+  FTimeOfScan:=Now-FTimeSearchStart;
+  Result:=FTimeOfScan;
 end;
 
 procedure TFindThread.FindInArchive(const FileName: String);
@@ -419,7 +608,7 @@ begin
           begin
             if Result and IsFindText then
             begin
-              Result:= FindInFile(TargetFileName, FindText, CaseSensitive, TextRegExp);
+              Result:= FindInFile2(TargetFileName, FindText, CaseSensitive, TextRegExp);
               if NotContainingText then Result:= not Result;
               mbDeleteFile(TargetFileName);
             end;
@@ -489,7 +678,7 @@ begin
            Exit(False);
 
          try
-           Result := FindInFile(Folder + PathDelim + sr.Name, FindText, CaseSensitive, TextRegExp);
+           Result := FindInFile2(Folder + PathDelim + sr.Name, FindText, CaseSensitive, TextRegExp);
 
            if (Result and IsReplaceText) then
              FileReplaceString(Folder + PathDelim + sr.Name, FindText, ReplaceText, CaseSensitive, TextRegExp);

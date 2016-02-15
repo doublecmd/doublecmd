@@ -477,6 +477,7 @@ resourcestring
   rsFindScanning = 'Scanning';
   rsFindScanned = 'Scanned: %d';
   rsFindFound = 'Found: %d';
+  rsFindTimeOfScan = 'Time of scan: ';
   rsFindWhereBeg = 'Begin at';
   rsFindDirNoEx = 'Directory %s does not exist!';
   rsFindDepthAll = 'all (unlimited depth)';
