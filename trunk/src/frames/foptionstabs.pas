@@ -27,8 +27,7 @@ unit fOptionsTabs;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, ComCtrls, ExtCtrls, fOptionsFrame;
-
+  Classes, SysUtils, StdCtrls, ComCtrls, ExtCtrls, fOptionsFrame, uDebug;
 type
 
   { TfrmOptionsTabs }
@@ -63,8 +62,8 @@ type
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
-    class function GetIconIndex: Integer; override;
-    class function GetTitle: String; override;
+    class function GetIconIndex: integer; override;
+    class function GetTitle: string; override;
     function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
@@ -79,17 +78,20 @@ uses
 
 procedure TfrmOptionsTabs.Init;
 begin
+  DCdebug('Init in');
   ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
   ParseLineToList(rsTabsActionOnDoubleClickChoices, cbTabsActionOnDoubleClick.Items);
   FPageControl := TPageControl.Create(Self);
+  DCdebug('Init out');
+  DCdebug('Count: ' + IntToStr(cbTabsActionOnDoubleClick.Items.Count));
 end;
 
-class function TfrmOptionsTabs.GetIconIndex: Integer;
+class function TfrmOptionsTabs.GetIconIndex: integer;
 begin
   Result := 9;
 end;
 
-class function TfrmOptionsTabs.GetTitle: String;
+class function TfrmOptionsTabs.GetTitle: string;
 begin
   Result := rsOptionsEditorFolderTabs;
 end;
@@ -97,7 +99,7 @@ end;
 procedure TfrmOptionsTabs.Load;
 begin
   {$IFDEF MSWINDOWS}
-  cbTabsShowDriveLetter.Visible:=True;
+  cbTabsShowDriveLetter.Visible := True;
   {$ENDIF}
   cbTabsAlwaysVisible.Checked := (tb_always_visible in gDirTabOptions) and gDirectoryTabs;
   cbTabsLimitOption.Checked := tb_text_length_limit in gDirTabOptions;
@@ -111,23 +113,25 @@ begin
   cbKeepRenamedNameBackToNormal.Checked := tb_keep_renamed_when_back_normal in gDirTabOptions;
   cbTabsActivateOnClick.Checked := tb_activate_panel_on_click in gDirTabOptions;
   cbTabsShowDriveLetter.Checked := tb_show_drive_letter in gDirTabOptions;
-  cbTabsActionOnDoubleClick.ItemIndex := Integer(gDirTabActionOnDoubleClick);
+  cbTabsActionOnDoubleClick.ItemIndex := integer(gDirTabActionOnDoubleClick);
+  if cbTabsActionOnDoubleClick.ItemIndex = -1 then cbTabsActionOnDoubleClick.ItemIndex := 1; // Because with r6597 to r6599 we saved incorrect value for "gDirTabActionOnDoubleClick"...
   cbTabsActionOnDoubleClick.Refresh;
 
   cbTabsMultiLines.Visible := (nbcMultiline in FPageControl.GetCapabilities);
   if cbTabsMultiLines.Visible then
-     cbTabsMultiLines.Checked:= tb_multiple_lines in gDirTabOptions;
+    cbTabsMultiLines.Checked := tb_multiple_lines in gDirTabOptions;
 
-  cbTabsShowCloseButton.Visible:= (nbcShowCloseButtons in FPageControl.GetCapabilities);
+  cbTabsShowCloseButton.Visible := (nbcShowCloseButtons in FPageControl.GetCapabilities);
   if cbTabsShowCloseButton.Visible then
-    cbTabsShowCloseButton.Checked:= tb_show_close_button in gDirTabOptions;
+    cbTabsShowCloseButton.Checked := tb_show_close_button in gDirTabOptions;
 
-  edtTabsLimitLength.Text:= IntToStr(gDirTabLimit);
+  edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
 
   case gDirTabPosition of
-    tbpos_top:    cmbTabsPosition.ItemIndex := 0;
+    tbpos_top: cmbTabsPosition.ItemIndex := 0;
     tbpos_bottom: cmbTabsPosition.ItemIndex := 1;
-    else          cmbTabsPosition.ItemIndex := 0;
+    else
+      cmbTabsPosition.ItemIndex := 0;
   end;
 
   Application.ProcessMessages;
