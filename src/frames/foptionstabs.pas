@@ -27,7 +27,7 @@ unit fOptionsTabs;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, ComCtrls, ExtCtrls, fOptionsFrame, uDebug;
+  Classes, SysUtils, StdCtrls, ComCtrls, ExtCtrls, fOptionsFrame;
 type
 
   { TfrmOptionsTabs }
@@ -78,12 +78,9 @@ uses
 
 procedure TfrmOptionsTabs.Init;
 begin
-  DCdebug('Init in');
   ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
   ParseLineToList(rsTabsActionOnDoubleClickChoices, cbTabsActionOnDoubleClick.Items);
   FPageControl := TPageControl.Create(Self);
-  DCdebug('Init out');
-  DCdebug('Count: ' + IntToStr(cbTabsActionOnDoubleClick.Items.Count));
 end;
 
 class function TfrmOptionsTabs.GetIconIndex: integer;
