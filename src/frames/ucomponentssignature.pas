@@ -77,8 +77,11 @@ begin
 
     'TComboBox':
     begin
-      SampleValue := TComboBox(aComponent).ItemIndex;
-      Result := crc32(Result, @SampleValue, sizeof(SampleValue));
+      if TComboBox(aComponent).ItemIndex <> -1 then
+      begin
+        SampleValue := TComboBox(aComponent).ItemIndex;
+        Result := crc32(Result, @SampleValue, sizeof(SampleValue));
+      end;
 
       if length(TComboBox(aComponent).Text) > 0 then
         Result := crc32(Result, @TComboBox(aComponent).Text[1], length(TComboBox(aComponent).Text));
