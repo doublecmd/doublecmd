@@ -1253,7 +1253,7 @@ end;
 procedure TfrmFindDlg.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 begin
-  if FFindThread<>nil then
+  if FFindThread<>nil then  // we can't call StopSearch because it method will set focus on unavailable field
   begin
     FFindThread.OnTerminate:=nil;
     FFindThread.Terminate;
@@ -1262,6 +1262,10 @@ begin
     FFindThread := nil;
   end;
 
+  AfterSearchStopped;
+  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+    btnStart.Default := True;
+  {$ENDIF}
   CanClose:= not Assigned(FFindThread);
 end;
 
