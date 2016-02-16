@@ -406,7 +406,7 @@ begin
             DataRead := fs.Read(Buffer[0], BufferSize);
             if DataRead <subStrLength then Break;
 
-            for lastPos := 0 to DataRead - 1 do
+            for lastPos := 0 to DataRead-subStrLength do
             begin
               i:=0;
 agn1:
@@ -433,7 +433,7 @@ agn1:
             DataRead := fs.Read(Buffer[0], BufferSize);
             if DataRead <subStrLength then Break;
 
-            for lastPos := 0 to DataRead - 1 do
+            for lastPos := 0 to DataRead-subStrLength do
             begin
               i:=0;
 agn2:
