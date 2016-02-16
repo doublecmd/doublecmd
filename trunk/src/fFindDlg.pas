@@ -1224,7 +1224,8 @@ begin
   FUpdateTimer.Enabled := False;
   FFindThread := nil;
   AfterSearchStopped;
-  btnNewSearch.SetFocus;
+  if Assigned(Self) and Visible then btnNewSearch.SetFocus;
+//  if Self.Instance;
 end;
 
 procedure TfrmFindDlg.FocusOnResults(Sender: TObject);
@@ -1509,7 +1510,8 @@ end;
 
 procedure TfrmFindDlg.lsFoundedFilesDblClick(Sender: TObject);
 begin
-  if not FSearchingActive then btnGoToPathClick(Sender);
+//  if not FSearchingActive then btnGoToPathClick(Sender);
+  btnGoToPathClick(Sender);
 end;
 
 procedure TfrmFindDlg.lsFoundedFilesKeyDown(Sender: TObject;
