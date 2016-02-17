@@ -1397,10 +1397,7 @@ var
     s := AFile.DisplayStrings.Strings[ACol];
 
     if gCutTextToColWidth then
-    begin
-      while Canvas.TextWidth(s) - (aRect.Right - aRect.Left) - 4 > 0 do
-        Delete(s, Length(s), 1);
-    end;
+      s := FitOtherCellText(s, Canvas, ((ARect.Right-ARect.Left)-4));
 
     case ColumnsSet.GetColumnAlign(ACol) of
 

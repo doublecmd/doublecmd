@@ -97,6 +97,7 @@ type
   end;
 
   function FitFileName(const AFileName: String; ACanvas: TCanvas; AFile: TFile; ATargetWidth: Integer): String;
+  function FitOtherCellText(const sStringToFit:String; ACanvas:TCanvas; ATargetWidth: Integer): String;
 
 implementation
 
@@ -127,6 +128,26 @@ begin
       Index:= ACanvas.TextFitInfo(AFileName, ATargetWidth - ACanvas.TextWidth(S));
       Result:= UTF8Copy(AFileName, 1, Index) + S;
   end;
+end;
+
+{ FitOtherCellText }
+function FitOtherCellText(const sStringToFit:String; ACanvas:TCanvas; ATargetWidth: Integer): String;
+const
+  ELLIPSIS = '...';
+var
+  Index: Integer;
+  AMaxWidth: Integer;
+begin
+  Index:= UTF8Length(sStringToFit);
+  AMaxWidth:= ACanvas.TextFitInfo(sStringToFit, ATargetWidth);
+
+  if Index <= AMaxWidth then
+    Result:= sStringToFit
+  else
+    begin
+      Index:= ACanvas.TextFitInfo(sStringToFit, ATargetWidth - ACanvas.TextWidth(ELLIPSIS));
+      Result:= UTF8Copy(sStringToFit, 1, Index) + ELLIPSIS;
+    end;
 end;
 
 { TFileViewGrid }
