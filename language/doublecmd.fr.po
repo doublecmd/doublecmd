@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-02-14 10:59-0500\n"
+"PO-Revision-Date: 2016-02-16 22:01-0500\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -2322,9 +2322,17 @@ msgctxt "tfrmmain.actconfigdirhotlist.caption"
 msgid "Configuration of Directory Hotlist"
 msgstr "Configuration de la liste des dossiers favoris"
 
+#: tfrmmain.actconfigfavoritetabs.caption
+msgid "Configuration of Favorite Tabs"
+msgstr "Configuration des groupes d'onglets favoris"
+
+#: tfrmmain.actconfigfoldertabs.caption
+msgid "Configuration of folder tabs"
+msgstr "Configuration des options reliées aux onlgets"
+
 #: tfrmmain.actconfigtoolbars.caption
-msgid "Configure toolbar"
-msgstr "Configuation de la barre d'outil"
+msgid "Toolbar..."
+msgstr "Configuation de la barre d'outils"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -2334,6 +2342,10 @@ msgstr "Afficher le menu contextuel"
 msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Copier"
+
+#: tfrmmain.actcopyalltabstoopposite.caption
+msgid "Copy all tabs to opposite side"
+msgstr "Copier tous les onglets sur le panneau opposé"
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
@@ -2428,8 +2440,8 @@ msgid "&Extract Files..."
 msgstr "&Extraire les fichiers..."
 
 #: tfrmmain.actfileassoc.caption
-msgid "File &Associations..."
-msgstr "&Associations de fichiers..."
+msgid "Configuration of File &Associations"
+msgstr "Configuration des  associations d'extension de fichiers"
 
 #: tfrmmain.actfilelinker.caption
 msgid "Com&bine Files..."
@@ -2525,6 +2537,10 @@ msgstr "Trier le panneau de gauche par taille"
 msgid "Thumbnails view on left panel"
 msgstr "Vue vignette sur le panneau gauche"
 
+#: tfrmmain.actloadfavoritetabs.caption
+msgid "Load tabs from Favorite Tabs"
+msgstr "Charger un groupe d'onglets favoris"
+
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
 msgstr "Charger la sélection depuis le &presse-papier"
@@ -2589,6 +2605,10 @@ msgstr "Connexion &rapide au réseau..."
 msgid "&New Tab"
 msgstr "&Nouvel onglet"
 
+#: tfrmmain.actnextfavoritetabs.caption
+msgid "Load the Next Favorite Tabs in the list"
+msgstr "Charger le groupe suivant d'onglets favoris"
+
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
 msgstr "Onglet &suivant"
@@ -2635,6 +2655,10 @@ msgstr "Définir la position du séparateur de panneau"
 msgid "&Paste"
 msgstr "Co&ller"
 
+#: tfrmmain.actpreviousfavoritetabs.caption
+msgid "Load the Previous Favorite Tabs in the list"
+msgstr "Charger le groupe précédent d'onglets favoris"
+
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
 msgstr "Onglet &précédent"
@@ -2656,6 +2680,10 @@ msgstr "&Panneau de visualisation rapide"
 msgid "&Refresh"
 msgstr "&Rafraichir"
 
+#: tfrmmain.actreloadfavoritetabs.caption
+msgid "Reload the last Favorite Tabs loaded"
+msgstr "Recharger le groupe courant d'onglets favoris"
+
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
 msgid "Move"
@@ -2673,6 +2701,10 @@ msgstr "Renommer"
 #: tfrmmain.actrenametab.caption
 msgid "&Rename Tab"
 msgstr "Re&nommer l'onglet"
+
+#: tfrmmain.actresavefavoritetabs.caption
+msgid "Resave on the last Favorite Tabs loaded"
+msgstr "Resauvegarder les onglets courants dans un groupe d'onglets favoris"
 
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
@@ -2734,6 +2766,10 @@ msgstr "Vue \"Vignette\" dans le panneau de droite"
 msgid "Run &Terminal"
 msgstr "Ouvrir un &terminal"
 
+#: tfrmmain.actsavefavoritetabs.caption
+msgid "Save current tabs to a New Favorite Tabs"
+msgstr "Sauvegarder les onglets courants dans un groupe d'onglets favoris"
+
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
 msgstr "Sau&vegarder la sélection"
@@ -2750,6 +2786,22 @@ msgstr "Sauvegarde des onglets dans un fichier"
 msgid "&Search..."
 msgstr "&Chercher..."
 
+#: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
+msgid "All tabs Locked with Dir Opened in New Tabs"
+msgstr "Tous les onglets verrouillés avec les dossiers ouverts dans des nouveaux onglets"
+
+#: tfrmmain.actsetalltabsoptionnormal.caption
+msgid "Set all tabs to Normal"
+msgstr "Tous les onglets déverrouillés"
+
+#: tfrmmain.actsetalltabsoptionpathlocked.caption
+msgid "Set all tabs to Locked"
+msgstr "Tous les onglets verrouillés"
+
+#: tfrmmain.actsetalltabsoptionpathresets.caption
+msgid "All tabs Locked with Dir Changes Allowed"
+msgstr "Tous les onglets verrouillés avec les changements de &dossiers autorisés"
+
 #: tfrmmain.actsetfileproperties.caption
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
@@ -2757,7 +2809,7 @@ msgstr "Changer les &attributs..."
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
-msgstr "Verrouillé avec les dossiers ouvert dans des nouveaux &onglets"
+msgstr "Verrouillé avec les dossiers ouverts dans des nouveaux &onglets"
 
 #: tfrmmain.actsettaboptionnormal.caption
 msgid "&Normal"
@@ -3076,6 +3128,16 @@ msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline10.caption
+msgctxt "tfrmmain.miline10.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline11.caption
+msgctxt "tfrmmain.miline11.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline12.caption
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
@@ -3126,8 +3188,18 @@ msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline21.caption
+msgctxt "tfrmmain.miline21.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline22.caption
 msgctxt "TFRMMAIN.MILINE22.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline23.caption
+msgctxt "tfrmmain.miline23.caption"
 msgid "-"
 msgstr "-"
 
@@ -3138,6 +3210,11 @@ msgstr "-"
 
 #: tfrmmain.miline25.caption
 msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline26.caption
+msgctxt "tfrmmain.miline26.caption"
 msgid "-"
 msgstr "-"
 
@@ -3166,8 +3243,18 @@ msgctxt "tfrmmain.miline38.caption"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.miline39.caption
+msgctxt "tfrmmain.miline39.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.miline4.caption
 msgctxt "TFRMMAIN.MILINE4.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline40.caption
+msgctxt "tfrmmain.miline40.caption"
 msgid "-"
 msgstr "-"
 
@@ -3265,11 +3352,6 @@ msgstr "Annuler"
 msgid "&Commands"
 msgstr "&Commandes"
 
-#: tfrmmain.mnucmdconfigdirhotlist.caption
-msgctxt "tfrmmain.mnucmdconfigdirhotlist.caption"
-msgid "Directory Hotlist"
-msgstr "Dossiers favoris"
-
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
 msgstr "Confi&guration"
@@ -3283,6 +3365,10 @@ msgstr "-"
 msgctxt "tfrmmain.mnucontextline2.caption"
 msgid "-"
 msgstr "-"
+
+#: tfrmmain.mnufavoritetabs.caption
+msgid "Favorites"
+msgstr "Onglets favoris"
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"
@@ -3308,8 +3394,8 @@ msgstr "&Affichage"
 
 #: tfrmmain.mnutaboptions.caption
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
-msgid "&Options"
-msgstr "&Options"
+msgid "Tab &Options"
+msgstr "Options des onglets"
 
 #: tfrmmain.mnutabs.caption
 msgid "&Tabs"
@@ -9539,6 +9625,10 @@ msgstr "Analyse"
 msgctxt "ulng.rsfindsearchfiles"
 msgid "Find files"
 msgstr "Rechercher les fichiers"
+
+#: ulng.rsfindtimeofscan
+msgid "Time of scan: "
+msgstr "Durée du balayage:"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
