@@ -960,6 +960,7 @@ begin
   {$IF DEFINED(LCLGTK2)}
   // Workaround: "Layout and line"
   // http://doublecmd.sourceforge.net/mantisbt/view.php?id=573
+  TreePanel.Visible := False;
   pnlLeftTools.Visible := False;
   pnlRightTools.Visible := False;
   PanelAllProgress.Visible := False;
