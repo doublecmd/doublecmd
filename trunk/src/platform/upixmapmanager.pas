@@ -1664,13 +1664,16 @@ begin
           if LoadIcon then
             Result := GetIconByDesktopFile(Path + Name + '/.directory', FiDirIconID)
           else
-            Result := FiDirIconID;
+            Result := -1;
           Exit;
         end
         else if (FHomeFolder = Path) then
         begin
-          Result := CheckAddThemePixmap(GioFileGetIcon(FullPath));
-          if Result < 0 then Exit(FiDirIconID);
+          if LoadIcon then
+            Result := CheckAddThemePixmap(GioFileGetIcon(FullPath))
+          else
+            Result := -1;
+          Exit;
         end
         else Exit(FiDirIconID);
       end
