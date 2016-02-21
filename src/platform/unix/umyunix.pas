@@ -307,23 +307,30 @@ end;
 
 function GetDesktopEnvironment: TDesktopEnvironment;
 var
+  I: Integer;
   DesktopSession: String;
+const
+  EnvVariable: array[0..1] of String = ('XDG_CURRENT_DESKTOP', 'DESKTOP_SESSION');
 begin
   Result:= DE_UNKNOWN;
-  DesktopSession:= GetEnvironmentVariable('DESKTOP_SESSION');
-  DesktopSession:= LowerCase(DesktopSession);
-  if Pos('kde', DesktopSession) <> 0 then
-    Exit(DE_KDE);
-  if Pos('gnome', DesktopSession) <> 0 then
-    Exit(DE_GNOME);
-  if Pos('xfce', DesktopSession) <> 0 then
-    Exit(DE_XFCE);
-  if Pos('lxde', DesktopSession) <> 0 then
-    Exit(DE_LXDE);
-  if Pos('mate', DesktopSession) <> 0 then
-    Exit(DE_MATE);
-  if Pos('cinnamon', DesktopSession) <> 0 then
-    Exit(DE_CINNAMON);
+  for I:= Low(EnvVariable) to High(EnvVariable) do
+  begin
+    DesktopSession:= GetEnvironmentVariable(EnvVariable[I]);
+    if Length(DesktopSession) = 0 then Continue;
+    DesktopSession:= LowerCase(DesktopSession);
+    if Pos('kde', DesktopSession) <> 0 then
+      Exit(DE_KDE);
+    if Pos('gnome', DesktopSession) <> 0 then
+      Exit(DE_GNOME);
+    if Pos('xfce', DesktopSession) <> 0 then
+      Exit(DE_XFCE);
+    if Pos('lxde', DesktopSession) <> 0 then
+      Exit(DE_LXDE);
+    if Pos('mate', DesktopSession) <> 0 then
+      Exit(DE_MATE);
+    if Pos('cinnamon', DesktopSession) <> 0 then
+      Exit(DE_CINNAMON);
+  end;
   if GetEnvironmentVariable('KDE_FULL_SESSION') <> '' then
     Exit(DE_KDE);
   if GetEnvironmentVariable('GNOME_DESKTOP_SESSION_ID') <> '' then
