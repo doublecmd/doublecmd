@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.6.0 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2016-01-30 18:12+0100\n"
+"PO-Revision-Date: 2016-02-22 18:12+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2497,11 +2497,11 @@ msgstr "Konfiguration der Verzeichnis-Hotlist"
 
 #: tfrmmain.actconfigfavoritetabs.caption
 msgid "Configuration of Favorite Tabs"
-msgstr ""
+msgstr "Konfiguration der Favoriten-Tabs"
 
 #: tfrmmain.actconfigfoldertabs.caption
 msgid "Configuration of folder tabs"
-msgstr ""
+msgstr "Konfiguration der Verzeichnis-Tabs"
 
 #: tfrmmain.actconfigtoolbars.caption
 #, fuzzy
@@ -2522,7 +2522,7 @@ msgstr "Kopieren"
 
 #: tfrmmain.actcopyalltabstoopposite.caption
 msgid "Copy all tabs to opposite side"
-msgstr ""
+msgstr "Alle Tabs auf die gegenüberliegende Seite kopieren"
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
@@ -2634,7 +2634,7 @@ msgstr "E&ntpacke Dateien"
 #, fuzzy
 #| msgid "File &Associations..."
 msgid "Configuration of File &Associations"
-msgstr "Dateiverkn&üpfungen"
+msgstr "Konfiguration von Dateiverkn&üpfungen"
 
 #: tfrmmain.actfilelinker.caption
 #, fuzzy
@@ -2746,7 +2746,7 @@ msgstr "Thumbnails-Ansicht im linken Panel"
 
 #: tfrmmain.actloadfavoritetabs.caption
 msgid "Load tabs from Favorite Tabs"
-msgstr ""
+msgstr "Tabs aus den Favoriten-Tabs laden"
 
 #: tfrmmain.actloadselectionfromclip.caption
 #, fuzzy
@@ -2840,7 +2840,7 @@ msgstr "Ne&uer Reiter"
 
 #: tfrmmain.actnextfavoritetabs.caption
 msgid "Load the Next Favorite Tabs in the list"
-msgstr ""
+msgstr "Nächsten Tab aus der Liste laden"
 
 #: tfrmmain.actnexttab.caption
 #, fuzzy
@@ -2900,7 +2900,7 @@ msgstr "Einf&ügen"
 
 #: tfrmmain.actpreviousfavoritetabs.caption
 msgid "Load the Previous Favorite Tabs in the list"
-msgstr ""
+msgstr "Vorherigen Tab aus der Liste laden"
 
 #: tfrmmain.actprevtab.caption
 #, fuzzy
@@ -2929,7 +2929,7 @@ msgstr "A&ktualisieren"
 
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
-msgstr ""
+msgstr "Zuletzt geladenen Tab erneut öffnen"
 
 #: tfrmmain.actrename.caption
 #, fuzzy
@@ -2955,7 +2955,7 @@ msgstr "&Reiter umbenennen"
 
 #: tfrmmain.actresavefavoritetabs.caption
 msgid "Resave on the last Favorite Tabs loaded"
-msgstr ""
+msgstr "Neu im letzten geladenen Favoriten-Tab speichern"
 
 #: tfrmmain.actrestoreselection.caption
 #, fuzzy
@@ -3025,7 +3025,7 @@ msgstr "Konsolen-Fens&ter öffnen"
 
 #: tfrmmain.actsavefavoritetabs.caption
 msgid "Save current tabs to a New Favorite Tabs"
-msgstr ""
+msgstr "Aktuellen Tab in neuen Favoriten-Tab speichern"
 
 #: tfrmmain.actsaveselection.caption
 #, fuzzy
@@ -3051,19 +3051,19 @@ msgstr "&Suchen..."
 
 #: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
 msgid "All tabs Locked with Dir Opened in New Tabs"
-msgstr ""
+msgstr "Alle gesperrten Tabs, in denen Verzeichnisse in neuen Tabs geöffnet werden"
 
 #: tfrmmain.actsetalltabsoptionnormal.caption
 msgid "Set all tabs to Normal"
-msgstr ""
+msgstr "Alle Tabs in 'Normal' umwandeln"
 
 #: tfrmmain.actsetalltabsoptionpathlocked.caption
 msgid "Set all tabs to Locked"
-msgstr ""
+msgstr "Alle Tabs in 'Gesperrt' umwandeln"
 
 #: tfrmmain.actsetalltabsoptionpathresets.caption
 msgid "All tabs Locked with Dir Changes Allowed"
-msgstr ""
+msgstr "Alle gesperrten Tabs, in denen Verzeichniswechsel erlaubt sind"
 
 #: tfrmmain.actsetfileproperties.caption
 #, fuzzy
@@ -3677,7 +3677,7 @@ msgstr "-"
 
 #: tfrmmain.mnufavoritetabs.caption
 msgid "Favorites"
-msgstr ""
+msgstr "Favoriten"
 
 #: tfrmmain.mnufiles.caption
 #, fuzzy
@@ -3708,7 +3708,7 @@ msgstr "&Zeigen"
 #| msgid "&Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
 msgid "Tab &Options"
-msgstr "&Optionen"
+msgstr "Tab &Optionen"
 
 #: tfrmmain.mnutabs.caption
 msgid "&Tabs"
@@ -5925,7 +5925,7 @@ msgstr "Sortieren..."
 #: tfrmoptionsfavoritetabs.cbexistingtabstokeep.text
 msgctxt "tfrmoptionsfavoritetabs.cbexistingtabstokeep.text"
 msgid "None"
-msgstr ""
+msgstr "Nichts"
 
 #: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
 #, fuzzy
@@ -5942,16 +5942,16 @@ msgstr "Nein"
 #: tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text
 msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text"
 msgid "Left"
-msgstr ""
+msgstr "Links"
 
 #: tfrmoptionsfavoritetabs.cbtargetpanelrightsavedtabs.text
 msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelrightsavedtabs.text"
 msgid "Right"
-msgstr ""
+msgstr "Rechts"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabs.caption
 msgid "Favorite Tabs list (reorder by drag && drop)"
-msgstr ""
+msgstr "Liste der Favoriten-Tab (umsortieren durch Drag && Drop"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
 #, fuzzy
@@ -5961,23 +5961,23 @@ msgstr "Andere Optionen"
 
 #: tfrmoptionsfavoritetabs.gpsavedtabsrestorationaction.caption
 msgid "What to restore where for the selected entry:"
-msgstr ""
+msgstr "Was wo wiederhergestellt werden soll für den gewählten Eintrag:"
 
 #: tfrmoptionsfavoritetabs.lblexistingtabstokeep.caption
 msgid "Existing tabs to keep:"
-msgstr ""
+msgstr "Existierende Tabs die erhalten bleiben sollen:"
 
 #: tfrmoptionsfavoritetabs.lblsavedirhistory.caption
 msgid "Save dir history:"
-msgstr ""
+msgstr "Verzeichnisverlauf speichern:"
 
 #: tfrmoptionsfavoritetabs.lbltargetpanelleftsavedtabs.caption
 msgid "Tabs saved on left to be restored to:"
-msgstr ""
+msgstr "Links gespeicherte Tabs dort wiederherstellen:"
 
 #: tfrmoptionsfavoritetabs.lbltargetpanelrightsavedtabs.caption
 msgid "Tabs saved on right to be restored to:"
-msgstr ""
+msgstr "Rechts gespeicherte Tabs dort wiederherstellen:"
 
 #: tfrmoptionsfavoritetabs.menuitem1.caption
 #, fuzzy
@@ -5999,7 +5999,7 @@ msgstr "Ein Trennzeichen"
 
 #: tfrmoptionsfavoritetabs.miaddseparator2.caption
 msgid "Add separator"
-msgstr ""
+msgstr "Trennzeichen hinzufügen"
 
 #: tfrmoptionsfavoritetabs.miaddsubmenu.caption
 #, fuzzy
@@ -6063,7 +6063,7 @@ msgstr "Lösche gewählte Einträge"
 
 #: tfrmoptionsfavoritetabs.miexporttolegacytabsfile.caption
 msgid "Export selection to legacy .tab file(s)"
-msgstr ""
+msgstr "Auswahl in veraltete .tab Datei(en) exportieren"
 
 #: tfrmoptionsfavoritetabs.mifavoritetabstestmenu.caption
 msgid "FavoriteTabsTestMenu"
@@ -6071,29 +6071,29 @@ msgstr ""
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesaccsetting.caption
 msgid "Import legacy .tab file(s) according to default setting"
-msgstr ""
+msgstr "Veraltete .tab Datei nach Standardart importieren"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption
 msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption"
 msgid "Import legacy .tab file(s) at selected position"
-msgstr ""
+msgstr "Veraltete .tab Datei(en) an gewählte Position importieren"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos1.caption
 msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos1.caption"
 msgid "Import legacy .tab file(s) at selected position"
-msgstr ""
+msgstr "Veraltete .tab Datei(en) an gewählte Position importieren"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesinsubatpos.caption
 msgid "Import legacy .tab file(s) at selected position in a sub menu"
-msgstr ""
+msgstr "Veraltete .tab Datei(en) an gewählte Position in ein Untermenü importieren"
 
 #: tfrmoptionsfavoritetabs.miinsertseparator.caption
 msgid "Insert separator"
-msgstr ""
+msgstr "Trennzeichen einfügen"
 
 #: tfrmoptionsfavoritetabs.miinsertsubmenu.caption
 msgid "Insert sub-menu"
-msgstr ""
+msgstr "Untermenü einfügen"
 
 #: tfrmoptionsfavoritetabs.miopenallbranches.caption
 #, fuzzy
@@ -7768,7 +7768,7 @@ msgstr "Suche nach diesen Einträgen"
 
 #: tfrmoptionstabs.cbkeeprenamednamebacktonormal.caption
 msgid "Keep renamed name when unlocking a tab"
-msgstr ""
+msgstr "Umbennung erhalten, wenn ein Tab entsperrt wird"
 
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
@@ -7782,7 +7782,7 @@ msgstr "&Reiter-Titel auch zeigen wenn nur einer vorhanden"
 
 #: tfrmoptionstabs.cbtabscloseduplicatewhenclosing.caption
 msgid "Close duplicate tabs when closing application"
-msgstr ""
+msgstr "Doppelte Tabs schließen wenn DC geschlossen wird"
 
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
 #, fuzzy
@@ -7793,7 +7793,7 @@ msgstr "&Schließen aller Reiter bestätigen"
 
 #: tfrmoptionstabs.cbtabsconfirmcloselocked.caption
 msgid "Confirm close locked tabs"
-msgstr ""
+msgstr "Schließen von gesperrten Tabs bestätigen"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 #, fuzzy
@@ -7824,7 +7824,7 @@ msgstr "&Neuen Reiter neben aktuellem Reiter einfügen"
 
 #: tfrmoptionstabs.cbtabsreusetabwhenpossible.caption
 msgid "Reuse existing tab when possible"
-msgstr ""
+msgstr "Bestehenden Tab erneut nutze, wenn möglich"
 
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
 #, fuzzy
@@ -7835,7 +7835,7 @@ msgstr "Zeige Schalter um Ta&bs zu schließen"
 
 #: tfrmoptionstabs.cbtabsshowdriveletter.caption
 msgid "Always show drive letter in tab title"
-msgstr ""
+msgstr "Laufwerksbuchstaben im Tab-Titel immer zeigen"
 
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
@@ -7849,7 +7849,7 @@ msgstr "Bu&chstaben"
 
 #: tfrmoptionstabs.lbltabsactionondoubleclick.caption
 msgid "Action to do when double click on a tab:"
-msgstr ""
+msgstr "Aktion festlegen, wenn auf den Tab-Titel doppel-geklickt wird"
 
 #: tfrmoptionstabs.lbltabsposition.caption
 #, fuzzy
@@ -7861,7 +7861,7 @@ msgstr "Rei&ter-Position"
 #: tfrmoptionstabsextra.cbdefaultexistingtabstokeep.text
 msgctxt "tfrmoptionstabsextra.cbdefaultexistingtabstokeep.text"
 msgid "None"
-msgstr ""
+msgstr "Nichts"
 
 #: tfrmoptionstabsextra.cbdefaultsavedirhistory.text
 #, fuzzy
@@ -7872,53 +7872,53 @@ msgstr "Nein"
 #: tfrmoptionstabsextra.cbdefaulttargetpanelleftsaved.text
 msgctxt "tfrmoptionstabsextra.cbdefaulttargetpanelleftsaved.text"
 msgid "Left"
-msgstr ""
+msgstr "Links"
 
 #: tfrmoptionstabsextra.cbdefaulttargetpanelrightsaved.text
 msgctxt "tfrmoptionstabsextra.cbdefaulttargetpanelrightsaved.text"
 msgid "Right"
-msgstr ""
+msgstr "Rechts"
 
 #: tfrmoptionstabsextra.cbgotoconfigafterresave.caption
 msgid "Goto to Favorite Tabs Configuration after resaving"
-msgstr ""
+msgstr "Nach dem erneuten Speichern zur-Tab-Konfiguration wechseln"
 
 #: tfrmoptionstabsextra.cbgotoconfigaftersave.caption
 msgid "Goto to Favorite Tabs Configuration after saving a new one"
-msgstr ""
+msgstr "Nach dem Speichern eines neuen Tab zur-Tab-Konfiguration wechseln"
 
 #: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
 msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
-msgstr ""
+msgstr "Extra-Optionen für Favoriten-Tabs ermöglichen (Zielseite beim Wiederherstellen auswählen, etc.)"
 
 #: tfrmoptionstabsextra.gbdefaulttabsavedrestoration.caption
 msgid "Default extra settings when saving new Favorite Tabs:"
-msgstr ""
+msgstr "Standard-Extra-Einstellungen zum Speichern neuer Favoriten-Tabs:"
 
 #: tfrmoptionstabsextra.gbtabs.caption
 msgid "Folder tabs headers extra"
-msgstr ""
+msgstr "Etras für Tabs-Header"
 
 #: tfrmoptionstabsextra.lbldefaultexistingtabstokeep.caption
 msgid "When restoring tab, existing tabs to keep:"
-msgstr ""
+msgstr "Wenn Tabs wiederhergestellt werden, diese erhalten:"
 
 #: tfrmoptionstabsextra.lbldefaulttargetpanelleftsaved.caption
 msgid "Tabs saved on left will be restored to:"
-msgstr ""
+msgstr "Links gespeicherte Tabs sollen hier wiederhergestellt werden:"
 
 #: tfrmoptionstabsextra.lbldefaulttargetpanelrightsaved.caption
 msgid "Tabs saved on right will be restored to:"
-msgstr ""
+msgstr "Rechts gespeicherte Tabs sollen hier wiederhergestellt werden:"
 
 #: tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption
 msgctxt "tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr ""
+msgstr "Verzeichnis-Verlauf weiter speichern bei diesen Favoriten-Tabs:"
 
 #: tfrmoptionstabsextra.rgwheretoadd.caption
 msgid "Default position in menu when saving a new Favorite Tabs:"
-msgstr ""
+msgstr "Standardposition im Menü beim Speicherneines neuen Favoriten-Tabs:"
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -10602,11 +10602,11 @@ msgstr "Im Terminal ausführen und offen lassen"
 
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
-msgstr ""
+msgstr "Links;Rechts;Aktiv;Inaktiv;Beide;Nichts"
 
 #: ulng.rsfavtabssavedirhistory
 msgid "No;Yes"
-msgstr ""
+msgstr "Ja;Nein"
 
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
@@ -10765,7 +10765,7 @@ msgstr "Fehler beim Erstellen des Hardlink."
 
 #: ulng.rshotdirforcesortingorderchoices
 msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
-msgstr ""
+msgstr "nichts;Name a-z;Name, z-a;Endung, a-z;Endung, z-a;Größe 9-0;Größe 0-9;Datum 9-0;Datum 0-9"
 
 #: ulng.rshotdirnothingtoimport
 msgid "Sorry, nothing detected to import!"
@@ -11193,11 +11193,11 @@ msgstr "Archivformat unbekannt"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
-msgstr ""
+msgstr "Wirklich alle Einträge vom Favoriten-Tab entfernen? (Es gibt keine Möglichkeit dies \"rückgängig\" zu machen!)"
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
-msgstr ""
+msgstr "Andere Einträge hierher ziehen"
 
 #: ulng.rsmsgfavoritetabsendofmenu
 #, fuzzy
@@ -11272,7 +11272,7 @@ msgstr "Name des Menüs"
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr ""
+msgstr "Verlauf weiter speichern mit Favoriten-Tabs:"
 
 #: ulng.rsmsgfavoritetabssimpleseparator
 #, fuzzy
@@ -11849,11 +11849,11 @@ msgstr "Bitte diese Datei zur Verfügung stellen. Nochmal versuchen?"
 
 #: ulng.rsmsgrenamefavtabs
 msgid "Enter new friendly name for this Favorite Tabs"
-msgstr ""
+msgstr "Neuen guten Namen für diesen Favoriten-Tab eingeben"
 
 #: ulng.rsmsgrenamefavtabsmenu
 msgid "Enter new name for this menu"
-msgstr ""
+msgstr "Neuen Namen für dieses Menü eingeben"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
@@ -11963,7 +11963,7 @@ msgstr "Nutze besonderes Windows-Verzeichnis (TC)..."
 
 #: ulng.rsmsgtabforopeninginnewtab
 msgid "This tab (%s) is locked! Open directory in another tab?"
-msgstr ""
+msgstr "Dieser Tab (%s) ist gesperrt! Verzeichnis in anderem Tab öffnen?"
 
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
@@ -11978,14 +11978,18 @@ msgid ""
 "Options regarding folder tabs extra have been modified.\n"
 "\n"
 "Do you want to save them before to exit?\n"
-msgstr ""
+msgstr "Optionen veränderte Verzeichnis-Tabs extra betreffend.\n"
+"\n"
+"Vor dem Beenden speichern?"
 
 #: ulng.rsmsgtabsoptionsmodifiedwanttosave
 msgid ""
 "Options regarding folder tabs have been modified.\n"
 "\n"
 "Do you want to save them before to exit?\n"
-msgstr ""
+msgstr "Optionen veränderte Verzeichnis-Tabs betreffend.\n"
+"\n"
+"Vor dem Beenden speichern?"
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
@@ -12013,7 +12017,8 @@ msgstr "Fehler! Die ausführbare Datei für die TC-Konfiguration kann nicht gefu
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
-msgstr "Bitte schließen und OK klicken oder ABBRUCH zum abbrechen."
+msgstr "Fehler! TC läuft noch, sollte aber für diese Aktion geschlossen werden.\n"
+"Bitte schließen und OK klicken oder ABBRUCH zum abbrechen."
 
 #: ulng.rsmsgtctoolbarnotfound
 msgid ""
@@ -12471,7 +12476,7 @@ msgstr ""
 
 #: ulng.rsoptfavoritetabswheretoaddinlist
 msgid "Add at beginning;Add at the end;Alphabetical sort"
-msgstr ""
+msgstr "Am Anfang hinzufügen;Am Ende hinzufügen;Alphabetisch sortieren"
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
@@ -12636,7 +12641,7 @@ msgstr "Schalter für das Laufwerks-Drop-down-Menü"
 
 #: ulng.rsoptionseditorfavoritetabs
 msgid "Favorite Tabs"
-msgstr ""
+msgstr "Favoriten-Tabs"
 
 #: ulng.rsoptionseditorfileassicextra
 msgid "File associations extra"
@@ -12673,7 +12678,7 @@ msgstr "Verzeichnisreiter"
 
 #: ulng.rsoptionseditorfoldertabsextra
 msgid "Folder tabs extra"
-msgstr ""
+msgstr "Favoriten-Tabs extra"
 
 #: ulng.rsoptionseditorfonts
 msgctxt "ulng.rsoptionseditorfonts"
@@ -12963,7 +12968,7 @@ msgstr "Ergebnis"
 
 #: ulng.rssimplewordsaved
 msgid "Saved!"
-msgstr ""
+msgstr "Gespeichert!"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
@@ -13032,7 +13037,7 @@ msgstr "Reiner Text"
 
 #: ulng.rstabsactionondoubleclickchoices
 msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
-msgstr ""
+msgstr "Nichts tun;Tab schließen;Favoriten-Tabs;Tabs Popup-Menü"
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
@@ -13065,11 +13070,11 @@ msgstr "Jahr(e)"
 
 #: ulng.rstitlerenamefavtabs
 msgid "Rename Favorite Tabs"
-msgstr ""
+msgstr "Favoriten-Tabs umbenennen"
 
 #: ulng.rstitlerenamefavtabsmenu
 msgid "Rename Favorite Tabs sub-menu"
-msgstr ""
+msgstr "Untermenü der Favoriten-Tabs umbenennen"
 
 #: ulng.rstooldiffer
 msgctxt "ulng.rstooldiffer"
