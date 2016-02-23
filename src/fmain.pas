@@ -691,6 +691,8 @@ type
     procedure SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
     procedure OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
     procedure AppActivate(Sender: TObject);
+    procedure AppEndSession(Sender: TObject);
+    procedure AppQueryEndSession(var Cancel: Boolean);
     procedure AppException(Sender: TObject; E: Exception);
     procedure AppShowHint(var HintStr: string; var CanShow: Boolean; var HintInfo: THintInfo);
     {en
@@ -927,6 +929,8 @@ begin
   Application.OnException := @AppException;
   Application.OnActivate := @AppActivate;
   Application.OnShowHint := @AppShowHint;
+  Application.OnEndSession := @AppEndSession;
+  Application.OnQueryEndSession := @AppQueryEndSession;
 
   // Use LCL's method of dropping files from external
   // applications if we don't support it ourselves.
@@ -5905,6 +5909,21 @@ begin
     FrameLeft.ReloadIfNeeded;
   if Assigned(FrameRight) then
     FrameRight.ReloadIfNeeded;
+end;
+
+procedure TfrmMain.AppEndSession(Sender: TObject);
+var
+  CloseAction: TCloseAction;
+begin
+  frmMainClose(Sender, CloseAction);
+end;
+
+procedure TfrmMain.AppQueryEndSession(var Cancel: Boolean);
+var
+  CanClose: Boolean = True;
+begin
+  FormCloseQuery(Self, CanClose);
+  Cancel := not CanClose;
 end;
 
 {$IFDEF LCLQT}
