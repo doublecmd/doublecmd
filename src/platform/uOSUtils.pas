@@ -92,7 +92,7 @@ function FileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boo
 function ExecCmdFork(sCmd: String): Boolean;
 {en
    Execute external commands
-   @param(sCmd The executable or command itself)
+   @param(sCmd The executable)
    @param(sParams The optional paramters)
    @param(sStartPath The initial working directory)
    @param(bShowCommandLinePriorToExecute Flag indicating if we want the user to be prompted at the very last
@@ -277,7 +277,7 @@ begin
 
     if sCmd = EmptyStr then Exit(False);
 
-    sCmd := RemoveQuotation(UTF8ToSys(sCmd));
+    sCmd := UTF8ToSys(sCmd);
     SplitCommandArgs(UTF8ToSys(sParams), Args);
 
     Result := ExecuteCommand(sCmd, Args, sStartPath);
