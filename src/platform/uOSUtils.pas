@@ -58,7 +58,7 @@ const
   RunTermParams = '';
   RunInTerm = ''; // default run in terminal command
   RunInTermStayOpenCmd = '%COMMANDER_PATH%/scripts/terminal.sh'; // default run in terminal command AND Stay open after command
-  RunInTermStayOpenParams = '{command}';
+  RunInTermStayOpenParams = '''{command}''';
   RunInTermCloseCmd = ''; // default run in terminal command AND Close after command
   RunInTermCloseParams = '';
   MonoSpaceFont = 'Monaco';
