@@ -22,7 +22,7 @@ unit uMasks;
 interface
 
 uses
-  Classes, SysUtils, Contnrs;
+  Classes, SysUtils, Contnrs, DCStrUtils;
 
 type
   TMaskCharType = (mcChar, mcAnyChar, mcAnyText);
@@ -66,7 +66,7 @@ type
     function GetCount: Integer;
     function GetItem(Index: Integer): TMask;
   public
-    constructor Create(const AValue: String; ASeparator: Char = ';');
+    constructor Create(const AValue: String; ASeparatorCharset: string = ';, ';ACaseSence:boolean = True;AAnyPrefix:boolean=True;AAnyPostfix:boolean = True);
     destructor Destroy; override;
 
     function Matches(const AFileName: String): Boolean;
@@ -76,7 +76,7 @@ type
   end;
 
 function MatchesMask(const FileName, Mask: String; CaseSensitive: Boolean = False): Boolean;
-function MatchesMaskList(const FileName, Mask: String; Separator: Char = ';'): Boolean;
+function MatchesMaskList(const FileName, Mask: String; ASeparatorCharset: string = ';, '): Boolean;
 
 implementation
 
@@ -100,13 +100,13 @@ begin
     Result := False;
 end;
 
-function MatchesMaskList(const FileName, Mask: String; Separator: Char): Boolean;
+function MatchesMaskList(const FileName, Mask: String; ASeparatorCharset: string): Boolean;
 var
   AMaskList: TMaskList;
 begin
   if Mask <> '' then
   begin
-    AMaskList := TMaskList.Create(Mask, Separator);
+    AMaskList := TMaskList.Create(Mask, ASeparatorCharset);
     try
       Result := AMaskList.Matches(FileName);
     finally
@@ -297,19 +297,43 @@ begin
   Result := FMasks.Count;
 end;
 
-constructor TMaskList.Create(const AValue: String; ASeparator: Char);
+constructor TMaskList.Create(const AValue: String; ASeparatorCharset: string; ACaseSence:boolean;AAnyPrefix,AAnyPostfix:boolean);
 var
   L: String;
   I: Integer;
   S: TParseStringList;
+
+  sSearchName,sSearchExt,sSearchNameNoExt:string;
+  nMask:TMask;
 begin
   FMasks := TObjectList.Create(True);
+  if AValue='' then exit;
 
-  L := UTF8LowerCase(AValue);
-  S := TParseStringList.Create(L, ASeparator);
+  if not ACaseSence then L := UTF8LowerCase(AValue) else L := AValue;
+  S := TParseStringList.Create(L, ASeparatorCharset);
   try
     for I := 0 to S.Count - 1 do
-      FMasks.Add(TMask.Create(S[I], True));
+    begin
+
+      sSearchName:=S[i];
+
+      if Pos('.', sSearchName) <> 0 then
+      begin
+        sSearchNameNoExt := ExtractOnlyFileName(sSearchName);
+        sSearchExt := ExtractFileExt(sSearchName);
+        if AAnyPrefix  then sSearchNameNoExt := '*' + sSearchNameNoExt;
+        if AAnyPostfix then sSearchNameNoExt := sSearchNameNoExt + '*';
+        sSearchName := sSearchNameNoExt + sSearchExt;
+      end
+      else
+      begin
+        if AAnyPrefix then sSearchName := '*' + sSearchName;
+        sSearchName := sSearchName + '*';
+      end;
+
+      nMask:=TMask.Create(sSearchName, ACaseSence);
+      FMasks.Add(nMask);
+    end;
   finally
     S.Free;
   end;
