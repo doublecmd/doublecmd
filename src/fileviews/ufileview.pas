@@ -349,6 +349,8 @@ type
     function Clone(NewParent: TWinControl): TFileView; virtual;
     procedure CloneTo(AFileView: TFileView); virtual;
 
+    procedure EachViewUpdateHeader(AFileView: TFileView; UserData: Pointer);
+
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); virtual;
     procedure RemoveCurrentFileSource; virtual;
     procedure RemoveAllFileSources; virtual;
@@ -563,7 +565,7 @@ uses
   uShellExecute, fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils,
   uDCUtils, uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
-  fMain, uSearchResultFileSource, uFileSourceProperty, uVfsModule;
+  fMain, uSearchResultFileSource, uFileSourceProperty, uVfsModule, uFileViewWithPanels;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -2082,6 +2084,15 @@ begin
     if Assigned(ThisFileViewPage) and Assigned(OtherFileViewPage) then
       AFileView.SetActive(ThisFileViewPage.Notebook = OtherFileViewPage.Notebook, False);
   end;
+end;
+
+procedure TFileView.EachViewUpdateHeader(AFileView: TFileView; UserData: Pointer);
+begin
+
+//  (Self as TFileViewWithPanels).Header.UpdateFontSizes;
+  TFileViewWithPanels(AFileView).pnlHeader.UpdateFontSizes;
+//  UpdateView;
+
 end;
 
 function TFileView.GetCurrentWorkType: TFileViewWorkType;

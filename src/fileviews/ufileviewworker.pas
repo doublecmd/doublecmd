@@ -9,7 +9,7 @@ uses
   uDisplayFile, uFile, uFileSource, uFileSorting, uFileProperty,
   uFileSourceOperation,
   uFileSourceListOperation,
-  fQuickSearch;
+  fQuickSearch,uMasks;
 
 type
   TFileViewWorkType = (fvwtNone,
@@ -103,7 +103,13 @@ type
 
     class function InternalMatchesFilter(aFile: TFile;
                                          const aFileFilter: String;
-                                         const aFilterOptions: TQuickSearchOptions): Boolean;
+                                         const aFilterOptions: TQuickSearchOptions): Boolean;overload;
+
+    class function InternalMatchesFilter(aFile: TFile;
+                                         const aMasks:TMaskList;
+                                         const aFilterOptions: TQuickSearchOptions): Boolean;overload;
+
+
     {en
        Prepare filter string based on options.
     }
@@ -230,7 +236,7 @@ uses
   {$IFDEF timeFileView} uDebug, {$ENDIF}
   LCLProc, Graphics, DCFileAttributes,
   uFileSourceOperationTypes, uOSUtils, DCStrUtils, uDCUtils, uExceptions,
-  uGlobs, uMasks, uPixMapManager, uFileSourceProperty,
+  uGlobs, uPixMapManager, uFileSourceProperty,
   uFileSourceCalcStatisticsOperation,
   uFileSourceOperationOptions;
 
@@ -581,6 +587,48 @@ begin
     Result := False;
 end;
 
+class function TFileListBuilder.InternalMatchesFilter(aFile: TFile;
+  const aMasks: TMaskList; const aFilterOptions: TQuickSearchOptions): Boolean;
+begin
+  if (gShowSystemFiles = False) and AFile.IsSysFile and (AFile.Name <> '..') then
+    Result := True
+
+  // Ignore list
+  else if gIgnoreListFileEnabled and MatchesMaskListEx(AFile, glsIgnoreList) then
+    Result := True
+
+  // Filter files.
+  else if aMasks.Count <> 0 then
+  begin
+    Result := True;
+
+    if (AFile.Name = '..') or (AFile.Name = '.') then
+      Result := False
+    else
+    if (aFilterOptions.Items = qsiFiles) and
+       (AFile.IsDirectory or AFile.IsLinkToDirectory) then
+      Result := False
+    else
+    if (aFilterOptions.Items = qsiDirectories) and
+       not AFile.IsDirectory and not AFile.IsLinkToDirectory then
+      Result := False
+    else
+    begin
+      if aMasks.Matches(AFile.Name) then
+         Result:=False;
+      {
+      if MatchesMask(AFile.Name,
+                     aFileFilter,
+                     aFilterOptions.SearchCase = qscSensitive)
+      then
+        Result := False;
+      }
+    end;
+  end
+  else
+    Result := False;
+end;
+
 class function TFileListBuilder.PrepareFilter(const aFileFilter: String;
                                               const aFilterOptions: TQuickSearchOptions): String;
 var
@@ -616,26 +664,36 @@ var
   i: Integer;
   AFile: TFile;
   filter: Boolean;
+  Masks:TMaskList;  // filters
 begin
   filteredDisplayFiles.Clear;
 
-  if Assigned(allDisplayFiles) then
-  begin
-    aFileFilter := PrepareFilter(aFileFilter, aFilterOptions);
-    for i := 0 to allDisplayFiles.Count - 1 do
+  try
+  Masks:=TMaskList.Create(aFileFilter,';,', qscSensitive in [aFilterOptions.SearchCase], not (qsmBeginning in aFilterOptions.Match) , not (qsmEnding in aFilterOptions.Match));
+
+    if Assigned(allDisplayFiles) then
     begin
-      AFile := allDisplayFiles[i].FSFile;
+//      aFileFilter := PrepareFilter(aFileFilter, aFilterOptions);
+      for i := 0 to allDisplayFiles.Count - 1 do
+      begin
+        AFile := allDisplayFiles[i].FSFile;
 
-      try
-        filter := InternalMatchesFilter(AFile, aFileFilter, aFilterOptions);
-      except
-        on EConvertError do
-          aFileFilter := EmptyStr;
+        try
+//          filter := InternalMatchesFilter(AFile, aFileFilter, aFilterOptions);
+          filter := InternalMatchesFilter(AFile, Masks, aFilterOptions);
+        except
+          on EConvertError do
+            aFileFilter := EmptyStr;
+        end;
+
+        if not filter then
+          filteredDisplayFiles.Add(allDisplayFiles[i]);
       end;
-
-      if not filter then
-        filteredDisplayFiles.Add(allDisplayFiles[i]);
     end;
+
+  finally
+    Masks.Free;
+    Masks:=nil;
   end;
 end;
 

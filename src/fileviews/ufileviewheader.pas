@@ -39,6 +39,7 @@ type
 
     procedure UpdateAddressLabel;
     procedure UpdatePathLabel;
+    procedure UpdateFontSizes;
 
     procedure ShowPathEdit;
     procedure SetActive(bActive: Boolean);
@@ -160,50 +161,22 @@ end;
 procedure TFileViewHeader.PathLabelMouseWheelUp(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint;var Handled:Boolean);
 begin
-  if ssCtrl in Shift then
-  begin
-{
-if (ssCtrl in Shift)and(gFonts[dcfFileViewHeader].Size<MAX_FONT_FILEVIEWHEADER) then
-     gFonts[dcfFileViewHeader].Size:=gFonts[dcfFileViewHeader].Size+1;
-     FAddressLabel.Font.Size:=gFonts[dcfFileViewHeader].Size;
-     FPathLabel.Font.Size:=FAddressLabel.Font.Size;
-     FPathEdit.Font.Size:=FAddressLabel.Font.Size;;
-}
+    if (ssCtrl in Shift)and(gFonts[dcfPathEdit].Size<MAX_FONT_SIZE_PATHEDIT) then
+        gFonts[dcfPathEdit].Size:=gFonts[dcfPathEdit].Size+1;
 
-     FAddressLabel.Font.Size:=FAddressLabel.Font.Size+1;
-     if FAddressLabel.Font.Size<9 then FAddressLabel.Font.Size:=9;
-     FPathLabel.Font.Size:=FAddressLabel.Font.Size;
-     FPathEdit.Font.Size:=FAddressLabel.Font.Size;;
-
-     frmMain.FrameLeft.Repaint;
-     frmMain.FrameRight.Repaint;
-  end;
+    frmMain.ForEachView(@frmMain.ActiveFrame.EachViewUpdateHeader,nil);
 end;
 
 procedure TFileViewHeader.PathLabelMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint;var Handled:Boolean);
 begin
-  if ssCtrl in Shift then
-  begin
+    if (ssCtrl in Shift)and(gFonts[dcfPathEdit].Size>MIN_FONT_SIZE_PATHEDIT) then
+       gFonts[dcfPathEdit].Size:=gFonts[dcfPathEdit].Size-1;
 
-{
-if (ssCtrl in Shift)and(gFonts[dcfFileViewHeader].Size>MIN_FONT_FILEVIEWHEADER) then
-     gFonts[dcfFileViewHeader].Size:=gFonts[dcfFileViewHeader].Size+1;
-     FAddressLabel.Font.Size:=gFonts[dcfFileViewHeader].Size;
-     FPathLabel.Font.Size:=FAddressLabel.Font.Size;
-     FPathEdit.Font.Size:=FAddressLabel.Font.Size;;
-}
-
-    FAddressLabel.Font.Size:=FAddressLabel.Font.Size-1;
-    if FAddressLabel.Font.Size<9 then FAddressLabel.Font.Size:=9;
-
-    FPathLabel.Font.Size:=FAddressLabel.Font.Size;
-    FPathEdit.Font.Size:=FAddressLabel.Font.Size;;
-
-    frmMain.FrameLeft.Repaint;
-    frmMain.FrameRight.Repaint;
-  end;
+    frmMain.ForEachView(@frmMain.ActiveFrame.EachViewUpdateHeader,nil);
 end;
+
+
 
 { TFileViewHeader.PathLabelDblClick }
 { -If we double-click on the the path label, it shows the Hot Dir popup menu at the cursor position.
@@ -310,6 +283,10 @@ begin
   tmViewHistoryMenu.Enabled  := False;
   tmViewHistoryMenu.Interval := 250;
   tmViewHistoryMenu.OnTimer  := @tmViewHistoryMenuTimer;
+
+  FAddressLabel.Font.Size:=gFonts[dcfPathEdit].Size;
+  FPathLabel.Font.Size:=FAddressLabel.Font.Size;
+  FPathEdit.Font.Size:=FAddressLabel.Font.Size;
 end;
 
 procedure TFileViewHeader.HeaderResize(Sender: TObject);
@@ -320,6 +297,8 @@ end;
 
 procedure TFileViewHeader.UpdateAddressLabel;
 begin
+  FAddressLabel.Font.Size:=gFonts[dcfPathEdit].Size;
+
   if FFileView.CurrentAddress = '' then
   begin
     FAddressLabel.Visible := False;
@@ -327,15 +306,27 @@ begin
   else
   begin
     FAddressLabel.Top:= 0;
-    FAddressLabel.Visible := True;
     FAddressLabel.Caption := FFileView.CurrentAddress;
+    FAddressLabel.Visible := True;
   end;
 end;
 
 procedure TFileViewHeader.UpdatePathLabel;
 begin
+  FAddressLabel.Font.Size:=gFonts[dcfPathEdit].Size;
+  FPathEdit.Font.Size:=FAddressLabel.Font.Size;
+
   FPathLabel.Caption := MinimizeFilePath(FFileView.CurrentPath, FPathLabel.Canvas, FPathLabel.Width);
 end;
+
+procedure TFileViewHeader.UpdateFontSizes;
+begin
+  FAddressLabel.Font.Size:=gFonts[dcfPathEdit].Size;
+  FPathLabel.Font.Size:=FAddressLabel.Font.Size;
+  FPathEdit.Font.Size:=FAddressLabel.Font.Size;
+end;
+
+
 
 procedure TFileViewHeader.ShowPathEdit;
 begin
@@ -343,6 +334,8 @@ begin
   begin
     FPathEdit.SetBounds(Left, Top, Width, Height);
     FPathEdit.Text := FFileView.CurrentPath;
+    FAddressLabel.Font.Size:=gFonts[dcfPathEdit].Size;
+    FPathEdit.Font.Size:=FAddressLabel.Font.Size;
     FPathEdit.Visible := True;
     FPathEdit.SetFocus;
   end;

@@ -84,7 +84,7 @@ type
        Search and position in a file that matches name taking into account
        passed options.
     }
-    procedure SearchFile(SearchTerm: String; SearchOptions: TQuickSearchOptions);
+    procedure SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions);
     procedure Selection(Key: Word; CurIndex: PtrInt);
     procedure SelectRange(FileIndex: PtrInt);
     procedure SetActiveFile(FileIndex: PtrInt); overload; virtual; abstract;
@@ -458,7 +458,7 @@ begin
 
   // position in file before filtering, otherwise position could be lost if
   // current file is filtered out causing jumps
-  SearchFile(AFilterText, AFilterOptions);
+  SearchFile(AFilterText,';,', AFilterOptions);
 
   SetFileFilter(AFilterText, AFilterOptions);
 
@@ -472,7 +472,7 @@ var
 begin
   Index:=GetActiveFileIndex;
   Active := True;
-  SearchFile(ASearchText, ASearchOptions);
+  SearchFile(ASearchText,';, ', ASearchOptions);
   MaybeFoundIndex:=GetActiveFileIndex;
 
   if (MaybeFoundIndex <= Index) AND (ASearchOptions.CancelSearchMode=qscmCancelIfNoFound) then
@@ -499,7 +499,7 @@ begin
     SetFocus;
 end;
 
-procedure TOrderedFileView.SearchFile(SearchTerm: String; SearchOptions: TQuickSearchOptions);
+procedure TOrderedFileView.SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions);
 var
   StartIndex, Index: PtrInt;
   Result: Boolean;
@@ -510,7 +510,7 @@ var
   AFile: TFile;
   uFileName: UnicodeString;
   sPy: String;
-  Mask: TMask;
+  Masks: TMaskList;
 
   function NextIndexWrap(Index: PtrInt): PtrInt;
   begin
@@ -530,6 +530,7 @@ begin
   if IsEmpty then
     Exit;
 
+  {
   sSearchName := SearchTerm;
 
   if Pos('.', sSearchName) <> 0 then
@@ -548,6 +549,7 @@ begin
       sSearchName := '*' + sSearchName;
     sSearchName := sSearchName + '*';
   end;
+  }
 
   Index := GetActiveFileIndex; // start search from current position
   if not IsFileIndexInRange(Index) then
@@ -565,7 +567,8 @@ begin
 
   StartIndex := Index;
   try
-    Mask := TMask.Create(sSearchName, SearchOptions.SearchCase = qscSensitive);
+    // Mask := TMask.Create(sSearchName, SearchOptions.SearchCase = qscSensitive);
+    Masks:=TMaskList.Create(SearchTerm,';,', SearchOptions.SearchCase = qscSensitive, not (qsmBeginning in SearchOptions.Match) , not (qsmEnding in SearchOptions.Match));
     try
       repeat
         Result := True;
@@ -588,7 +591,7 @@ begin
         sPy := uIMCode.MakeSpellCode(uFileName);
 
         // Match the filename and pinyin letter
-        if not (Mask.Matches(sFileName) or (MatchesMask(sPy, sSearchName))) then
+        if not (Masks.Matches(sFileName) or (MatchesMaskList(sPy, sSearchName))) then
           Result := False;
 
         if Result then
@@ -605,7 +608,8 @@ begin
 
       until Index = StartIndex;
     finally
-      Mask.Free;
+      Masks.Free;
+      Masks:=nil;
     end;
   except
     on EConvertError do; // bypass

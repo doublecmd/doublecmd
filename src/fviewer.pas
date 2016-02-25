@@ -192,6 +192,8 @@ type
       );
     procedure ImageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure ImageMouseWheelUp(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
     procedure miPreviewClick(Sender: TObject);
     procedure miSaveAsClick(Sender: TObject);
     procedure miSaveClick(Sender: TObject);
@@ -205,8 +207,6 @@ type
     procedure PanelEditImageMouseEnter(Sender: TObject);
     procedure pnlImageResize(Sender: TObject);
 
-    procedure pnlTextMouseWheelDown(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);
     procedure pnlTextMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure sboxImageMouseEnter(Sender: TObject);
@@ -788,6 +788,19 @@ begin
   Image.Cursor:=crDefault;
 end;
 
+procedure TfrmViewer.ImageMouseWheelUp(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+begin
+  Image.Stretch:=false;
+  Image.Proportional:=true;
+  Image.Autosize:=True;
+//  Image.Width:=Image.Width+10;
+//  Image.Picture.Bitmap.Width:=Image.Picture.Bitmap.Width+10;
+//  Image.Picture.Width:=Image.Picture.Width+10;
+//  image.picture.bitmap.setsize(Image.Picture.Bitmap.Width+10,Image.Height);
+  Image.Refresh;
+end;
+
 procedure TfrmViewer.CreatePreview(FullPathToFile: String; index: integer; delete: Boolean = false);
 var
   bmpThumb : TBitmap = nil;
@@ -1199,12 +1212,6 @@ begin
   if bImage then AdjustImageSize;
 end;
 
-
-procedure TfrmViewer.pnlTextMouseWheelDown(Sender: TObject; Shift: TShiftState;
-  MousePos: TPoint; var Handled: Boolean);
-begin
-
-end;
 
 procedure TfrmViewer.pnlTextMouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
