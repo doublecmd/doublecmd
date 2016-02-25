@@ -2090,7 +2090,7 @@ procedure TFileView.EachViewUpdateHeader(AFileView: TFileView; UserData: Pointer
 begin
 
 //  (Self as TFileViewWithPanels).Header.UpdateFontSizes;
-  TFileViewWithPanels(AFileView).pnlHeader.UpdateFontSizes;
+  TFileViewWithPanels(AFileView).Header.UpdateFontSizes;
 //  UpdateView;
 
 end;

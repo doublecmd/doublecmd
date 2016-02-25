@@ -40,8 +40,9 @@ type
   protected
     FSelectedCount: Integer;
     lblInfo: TLabel;
-    pnlHeader: TFileViewHeader;
+
     pnlFooter: TPanel;
+    pnlHeader: TFileViewHeader;
 
     procedure AfterChangePath; override;
     procedure CreateDefault(AOwner: TWinControl); override;
@@ -54,6 +55,8 @@ type
     procedure UpdateInfoPanel; virtual;
 
   public
+    property Header:TFileViewHeader read pnlHeader;
+
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
     procedure RemoveCurrentFileSource; override;
 
