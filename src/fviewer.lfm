@@ -1,7 +1,7 @@
 object frmViewer: TfrmViewer
-  Left = 275
+  Left = 411
   Height = 480
-  Top = 46
+  Top = 200
   Width = 640
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
@@ -59,7 +59,7 @@ object frmViewer: TfrmViewer
   OnShow = FormShow
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.4.4.0'
+  LCLVersion = '1.7'
   object pnlFolder: TPanel
     Left = 179
     Height = 457
@@ -104,7 +104,6 @@ object frmViewer: TfrmViewer
     ClientWidth = 461
     TabOrder = 2
     Visible = False
-    OnMouseWheelDown = pnlTextMouseWheelDown
     OnMouseWheelUp = pnlTextMouseWheelUp
     object ViewerControl: TViewerControl
       Left = 0
@@ -138,21 +137,21 @@ object frmViewer: TfrmViewer
       Height = 407
       Top = 50
       Width = 461
-      HorzScrollBar.Page = 440
-      VertScrollBar.Page = 386
+      HorzScrollBar.Page = 432
+      VertScrollBar.Page = 384
       Align = alClient
-      ClientHeight = 386
-      ClientWidth = 440
+      ClientHeight = 403
+      ClientWidth = 457
       Color = clWhite
       ParentColor = False
       TabOrder = 0
       OnMouseEnter = sboxImageMouseEnter
       OnMouseLeave = sboxImageMouseLeave
       object Image: TImage
-        Left = 85
-        Height = 434
-        Top = 76
-        Width = 1037
+        Left = 56
+        Height = 288
+        Top = 96
+        Width = 376
         Align = alCustom
         BorderSpacing.CellAlignHorizontal = ccaCenter
         BorderSpacing.CellAlignVertical = ccaCenter
@@ -161,6 +160,7 @@ object frmViewer: TfrmViewer
         OnMouseLeave = ImageMouseLeave
         OnMouseMove = ImageMouseMove
         OnMouseUp = ImageMouseUp
+        OnMouseWheelUp = ImageMouseWheelUp
         Proportional = True
       end
       object GifAnim: TGifAnim
@@ -2462,7 +2462,7 @@ object frmViewer: TfrmViewer
     top = 64
   end
   object actionList: TActionList
-    left = 376
+    left = 384
     top = 64
     object actAbout: TAction
       Category = 'Help'
