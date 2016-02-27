@@ -937,6 +937,8 @@ object frmMain: TfrmMain
       Width = 84
       Action = actEdit
       Flat = True
+      OnMouseWheelDown = btnF3MouseWheelDown
+      OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF5: TSpeedButton
       Left = 173
@@ -945,6 +947,8 @@ object frmMain: TfrmMain
       Width = 92
       Action = actCopy
       Flat = True
+      OnMouseWheelDown = btnF3MouseWheelDown
+      OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF6: TSpeedButton
       Left = 265
@@ -953,6 +957,8 @@ object frmMain: TfrmMain
       Width = 94
       Action = actRename
       Flat = True
+      OnMouseWheelDown = btnF3MouseWheelDown
+      OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF7: TSpeedButton
       Left = 359
@@ -962,6 +968,8 @@ object frmMain: TfrmMain
       Action = actMakeDir
       Caption = 'Directory'
       Flat = True
+      OnMouseWheelDown = btnF3MouseWheelDown
+      OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF8: TSpeedButton
       Left = 471
@@ -972,6 +980,8 @@ object frmMain: TfrmMain
       Flat = True
       OnClick = btnF8Click
       OnMouseDown = btnF8MouseDown
+      OnMouseWheelDown = btnF3MouseWheelDown
+      OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF9: TSpeedButton
       Left = 568
@@ -981,6 +991,8 @@ object frmMain: TfrmMain
       Action = actRunTerm
       Caption = 'Terminal'
       Flat = True
+      OnMouseWheelDown = btnF3MouseWheelDown
+      OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF10: TSpeedButton
       Left = 678
@@ -990,6 +1002,8 @@ object frmMain: TfrmMain
       Action = actExit
       Caption = 'Exit'
       Flat = True
+      OnMouseWheelDown = btnF3MouseWheelDown
+      OnMouseWheelUp = btnF3MouseWheelUp
     end
   end
   object mnuMain: TMainMenu
