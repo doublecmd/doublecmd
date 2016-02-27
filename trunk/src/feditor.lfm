@@ -1,7 +1,7 @@
 object frmEditor: TfrmEditor
-  Left = 255
+  Left = 566
   Height = 480
-  Top = 163
+  Top = 271
   Width = 640
   ActiveControl = Editor
   Caption = 'Editor'
@@ -48,14 +48,11 @@ object frmEditor: TfrmEditor
   }
   KeyPreview = True
   Menu = MainMenu1
-  OnClose = frmEditorClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  OnMouseWheelDown = FormMouseWheelDown
-  OnMouseWheelUp = FormMouseWheelUp
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.4.4.0'
+  LCLVersion = '1.7'
   object StatusBar: TStatusBar
     Left = 0
     Height = 23
@@ -736,7 +733,9 @@ object frmEditor: TfrmEditor
           81FF818181FF818181FF818181FF818181FF818181FF818181FF818181FF7C8C
           8CFF729F9FFF6AAEAFFF36E4EDFF000000000000000000000000
         }
-        OnClick = actFileNewExecute
+      end
+      object MenuItem1: TMenuItem
+        Caption = '-'
       end
       object Open1: TMenuItem
         Action = actFileOpen
@@ -776,7 +775,6 @@ object frmEditor: TfrmEditor
           6DFF6B6F6DFF6B6F6DFF6B6F6DFF6B6F6DFF656967FF656967FF000000000000
           0000000000000000000000000000000000000000000000000000
         }
-        OnClick = actFileOpenExecute
       end
       object Save1: TMenuItem
         Action = actFileSave
@@ -816,7 +814,6 @@ object frmEditor: TfrmEditor
           0000000000008B6738FF8B6738FF8B6738FF8A693DFF80714AFF7A7858FF0000
           0000000000000000000000000000000000000000000000000000
         }
-        OnClick = actFileSaveExecute
       end
       object SaveAs1: TMenuItem
         Action = actFileSaveAs
@@ -857,7 +854,6 @@ object frmEditor: TfrmEditor
           0000000000000000000000000000000000000000000000000000
         }
         ImageIndex = 8
-        OnClick = actFileSaveAsExecute
       end
       object miDiv: TMenuItem
         Caption = '-'
@@ -900,7 +896,6 @@ object frmEditor: TfrmEditor
           99FF818181FF818181FF818181FF818181FF818181FF818181FF818181FF8181
           81FF818181FF818181FF818181FF818181FF0000000000000000
         }
-        OnClick = actConfHighExecute
       end
       object N1: TMenuItem
         Caption = '-'
@@ -943,7 +938,6 @@ object frmEditor: TfrmEditor
           55FF535755FF535755FF535755FF535755FF535755FF535755FF545856FF5A5E
           5CFF626564FF666968FF676A68FF636765FF6B6E6DFF00000000
         }
-        OnClick = actFileExitExecute
       end
     end
     object miEdit: TMenuItem
@@ -986,7 +980,6 @@ object frmEditor: TfrmEditor
           00000000000000000000000000000000000000A0C4FF00000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
-        OnClick = actEditUndoExecute
       end
       object miRedo: TMenuItem
         Action = actEditRedo
@@ -1026,7 +1019,6 @@ object frmEditor: TfrmEditor
           000000000000000000000000000000000000000000000000000000000000069A
           4EFF000000000000000000000000000000000000000000000000
         }
-        OnClick = actEditRedoExecute
       end
       object N3: TMenuItem
         Caption = '-'
@@ -1069,7 +1061,6 @@ object frmEditor: TfrmEditor
           00000000000000000000888D8BFF909593FF0000000000000000000000000000
           0000888D8BFF8C918FFF00000000000000000000000000000000
         }
-        OnClick = actEditCutExecute
       end
       object miCopy: TMenuItem
         Action = actEditCopy
@@ -1109,7 +1100,6 @@ object frmEditor: TfrmEditor
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
-        OnClick = actEditCopyExecute
       end
       object miPaste: TMenuItem
         Action = actEditPaste
@@ -1149,7 +1139,6 @@ object frmEditor: TfrmEditor
           00000000000000000000000000005E5F5FFF5C5C5CFF5C5C5CFF5C5C5CFF5C5C
           5CFF5E5F5FFF0000000000000000000000000000000000000000
         }
-        OnClick = actEditPasteExecute
       end
       object miDelete: TMenuItem
         Action = actEditDelete
@@ -1189,7 +1178,6 @@ object frmEditor: TfrmEditor
           00008F9391FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A
           88FF858A88FF858A88FF858A88FF8F9391FF0000000000000000
         }
-        OnClick = actEditDeleteExecute
       end
       object miSelectAll: TMenuItem
         Action = actEditSelectAll
@@ -1229,7 +1217,6 @@ object frmEditor: TfrmEditor
           8BFF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A
           88FF858A88FF858A88FF858A88FF858A88FF898E8CFF00000000
         }
-        OnClick = actEditSelectAllExecute
       end
       object N4: TMenuItem
         Caption = '-'
@@ -1272,11 +1259,9 @@ object frmEditor: TfrmEditor
           88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A
           88FF858A88FF8A8F8DFF00000000000000000000000000000000
         }
-        OnClick = actEditFindExecute
       end
       object miFindNext: TMenuItem
         Action = actEditFindNext
-        OnClick = actEditFindNextExecute
       end
       object miReplace: TMenuItem
         Action = actEditRplc
@@ -1316,7 +1301,6 @@ object frmEditor: TfrmEditor
           00000000000000000000808381FF808381FF808381FF00000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
-        OnClick = actEditRplcExecute
       end
       object miGotoLine: TMenuItem
         Action = actEditGotoLine
@@ -1381,9 +1365,11 @@ object frmEditor: TfrmEditor
       Caption = 'En&coding'
       object miEncodingIn: TMenuItem
         Caption = 'Open as'
+        OnClick = actExecute
       end
       object miEncodingOut: TMenuItem
         Caption = 'Save as'
+        OnClick = actExecute
       end
     end
     object miHighlight: TMenuItem
@@ -1429,13 +1415,12 @@ object frmEditor: TfrmEditor
           0000000000000000000000000000874A20FF874A20FF874A20FF874A20FF874A
           20FF874A20FF0000000000000000000000000000000000000000
         }
-        OnClick = actAboutExecute
       end
     end
   end
   object ActListEdit: TActionList
     Images = ilImageList
-    left = 96
+    left = 112
     top = 32
     object actAbout: TAction
       Category = 'Help'
@@ -1443,7 +1428,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'About'
       ImageIndex = 13
-      OnExecute = actAboutExecute
+      OnExecute = actExecute
     end
     object actFileOpen: TAction
       Category = 'File'
@@ -1451,7 +1436,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'Open'
       ImageIndex = 1
-      OnExecute = actFileOpenExecute
+      OnExecute = actExecute
       ShortCut = 16463
     end
     object actFileClose: TAction
@@ -1459,6 +1444,7 @@ object frmEditor: TfrmEditor
       Caption = '&Close'
       HelpType = htKeyword
       Hint = 'Close'
+      OnExecute = actExecute
     end
     object actFileSave: TAction
       Category = 'File'
@@ -1466,7 +1452,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'Save'
       ImageIndex = 2
-      OnExecute = actFileSaveExecute
+      OnExecute = actExecute
       SecondaryShortCuts.Strings = (
         'Ctrl+S'
       )
@@ -1478,7 +1464,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'Save As'
       ImageIndex = 3
-      OnExecute = actFileSaveAsExecute
+      OnExecute = actExecute
     end
     object actFileNew: TAction
       Category = 'File'
@@ -1486,7 +1472,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'New'
       ImageIndex = 0
-      OnExecute = actFileNewExecute
+      OnExecute = actExecute
       ShortCut = 16462
     end
     object actFileExit: TAction
@@ -1495,7 +1481,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'Exit'
       ImageIndex = 12
-      OnExecute = actFileExitExecute
+      OnExecute = actExecute
       ShortCut = 32856
     end
     object actSaveAll: TAction
@@ -1503,15 +1489,16 @@ object frmEditor: TfrmEditor
       Caption = 'Sa&ve All'
       HelpType = htKeyword
       Hint = 'Save All'
+      OnExecute = actExecute
       ShortCut = 24659
     end
     object actEditFind: TAction
       Category = 'Edit'
-      Caption = '&Find'
+      Caption = '&Find '
       HelpType = htKeyword
       Hint = 'Find'
       ImageIndex = 10
-      OnExecute = actEditFindExecute
+      OnExecute = actExecute
       ShortCut = 16454
     end
     object actEditRplc: TAction
@@ -1520,7 +1507,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'Replace'
       ImageIndex = 11
-      OnExecute = actEditRplcExecute
+      OnExecute = actExecute
       ShortCut = 16466
     end
     object actConfHigh: TAction
@@ -1529,7 +1516,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'Configuration'
       ImageIndex = 4
-      OnExecute = actConfHighExecute
+      OnExecute = actExecute
     end
     object actEditCut: TAction
       Category = 'Edit'
@@ -1537,7 +1524,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'Cut'
       ImageIndex = 5
-      OnExecute = actEditCutExecute
+      OnExecute = actExecute
       ShortCut = 16472
     end
     object actEditCopy: TAction
@@ -1546,7 +1533,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'Copy'
       ImageIndex = 6
-      OnExecute = actEditCopyExecute
+      OnExecute = actExecute
       ShortCut = 16451
     end
     object actEditPaste: TAction
@@ -1555,7 +1542,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'Paste'
       ImageIndex = 7
-      OnExecute = actEditPasteExecute
+      OnExecute = actExecute
       ShortCut = 16470
     end
     object actEditUndo: TAction
@@ -1564,7 +1551,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'Undo'
       ImageIndex = 8
-      OnExecute = actEditUndoExecute
+      OnExecute = actExecute
       ShortCut = 16474
     end
     object actEditRedo: TAction
@@ -1573,7 +1560,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'Redo'
       ImageIndex = 9
-      OnExecute = actEditRedoExecute
+      OnExecute = actExecute
       ShortCut = 24666
     end
     object actEditSelectAll: TAction
@@ -1582,7 +1569,7 @@ object frmEditor: TfrmEditor
       HelpType = htKeyword
       Hint = 'Select All'
       ImageIndex = 15
-      OnExecute = actEditSelectAllExecute
+      OnExecute = actExecute
       ShortCut = 16449
     end
     object actEditDelete: TAction
@@ -1590,14 +1577,14 @@ object frmEditor: TfrmEditor
       Caption = 'Delete'
       Hint = 'Delete'
       ImageIndex = 14
-      OnExecute = actEditDeleteExecute
+      OnExecute = actExecute
       ShortCut = 46
     end
     object actEditFindNext: TAction
       Category = 'Edit'
       Caption = 'Find next'
       Hint = 'Find next'
-      OnExecute = actEditFindNextExecute
+      OnExecute = actExecute
       ShortCut = 114
     end
     object actEditLineEndCr: TAction
@@ -1606,7 +1593,7 @@ object frmEditor: TfrmEditor
       Caption = 'Mac (CR)'
       GroupIndex = 1
       Hint = 'Mac (CR)'
-      OnExecute = actEditLineEndCrExecute
+      OnExecute = actExecute
     end
     object actEditLineEndLf: TAction
       Category = 'Edit'
@@ -1614,7 +1601,7 @@ object frmEditor: TfrmEditor
       Caption = 'Unix (LF)'
       GroupIndex = 1
       Hint = 'Unix (LF)'
-      OnExecute = actEditLineEndLfExecute
+      OnExecute = actExecute
     end
     object actEditLineEndCrLf: TAction
       Category = 'Edit'
@@ -1622,18 +1609,18 @@ object frmEditor: TfrmEditor
       Caption = 'Windows (CRLF)'
       GroupIndex = 1
       Hint = 'Windows (CRLF)'
-      OnExecute = actEditLineEndCrLfExecute
+      OnExecute = actExecute
     end
     object actEditGotoLine: TAction
       Category = 'Edit'
       Caption = 'Goto Line...'
-      OnExecute = actEditGotoLineExecute
+      OnExecute = actExecute
       ShortCut = 16455
     end
   end
   object pmContextMenu: TPopupMenu
     Images = ilImageList
-    left = 144
+    left = 208
     top = 32
     object miUndoContext: TMenuItem
       Action = actEditUndo
@@ -1673,7 +1660,6 @@ object frmEditor: TfrmEditor
         00000000000000000000000000000000000000A0C4FF00000000000000000000
         0000000000000000000000000000000000000000000000000000
       }
-      OnClick = actEditUndoExecute
     end
     object miSeparator1: TMenuItem
       Caption = '-'
@@ -1716,7 +1702,6 @@ object frmEditor: TfrmEditor
         00000000000000000000888D8BFF909593FF0000000000000000000000000000
         0000888D8BFF8C918FFF00000000000000000000000000000000
       }
-      OnClick = actEditCutExecute
     end
     object miCopyContext: TMenuItem
       Action = actEditCopy
@@ -1756,7 +1741,6 @@ object frmEditor: TfrmEditor
         0000000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000
       }
-      OnClick = actEditCopyExecute
     end
     object miPasteContext: TMenuItem
       Action = actEditPaste
@@ -1796,7 +1780,6 @@ object frmEditor: TfrmEditor
         00000000000000000000000000005E5F5FFF5C5C5CFF5C5C5CFF5C5C5CFF5C5C
         5CFF5E5F5FFF0000000000000000000000000000000000000000
       }
-      OnClick = actEditPasteExecute
     end
     object miDeleteContext: TMenuItem
       Action = actEditDelete
@@ -1836,7 +1819,6 @@ object frmEditor: TfrmEditor
         00008F9391FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A
         88FF858A88FF858A88FF858A88FF8F9391FF0000000000000000
       }
-      OnClick = actEditDeleteExecute
     end
     object miSeparator2: TMenuItem
       Caption = '-'
@@ -1879,11 +1861,10 @@ object frmEditor: TfrmEditor
         8BFF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A
         88FF858A88FF858A88FF858A88FF858A88FF898E8CFF00000000
       }
-      OnClick = actEditSelectAllExecute
     end
   end
   object ilImageList: TImageList
-    left = 192
+    left = 304
     top = 32
     Bitmap = {
       4C691100000010000000100000009E9E9EFF818181FF818181FF818181FF8181

@@ -33,14 +33,35 @@ uses
   Graphics, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
   ExtCtrls, Menus, EditBtn, Spin, Buttons, ZVDateTimePicker, KASComboBox,
   fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
-  uSearchTemplate, fSearchPlugin, uFileView, types, DCStrUtils,ShellCtrls,
-  uOSForms,uShellContextMenu,uExceptions,uFileSystemFileSource;
+  uSearchTemplate, fSearchPlugin, uFileView, types, DCStrUtils, ShellCtrls,
+  ActnList, uOSForms, uShellContextMenu, uExceptions, uFileSystemFileSource,
+  uFormCommands, uHotkeyManager;
+
+const
+  HotkeysCategory = 'Find files';
+
 
 type
 
   { TfrmFindDlg }
 
-  TfrmFindDlg = class(TForm)
+  TfrmFindDlg = class(TForm,IFormCommands)
+    actIntelliFocus: TAction;
+    actCancel: TAction;
+    actClose: TAction;
+    actEdit: TAction;
+    actGoToFile: TAction;
+    actFeedToListbox: TAction;
+    actPageResults: TAction;
+    actPageLoadSave: TAction;
+    actPagePlugins: TAction;
+    actPageAdvanced: TAction;
+    actPageStandard: TAction;
+    actView: TAction;
+    actLastSearch: TAction;
+    actNewSearch: TAction;
+    actStart: TAction;
+    actList: TActionList;
     Bevel2: TBevel;
     btnAddAttribute: TButton;
     btnAttrsHelp: TButton;
@@ -137,6 +158,7 @@ type
     ZVTimeFrom: TZVDateTimePicker;
     ZVTimeTo: TZVDateTimePicker;
 
+    procedure actExecute(Sender: TObject);
     procedure btnAddAttributeClick(Sender: TObject);
     procedure btnAttrsHelpClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
@@ -221,6 +243,9 @@ type
 
 
     FRButtonPanelSender:TObject; // last focused button on Right Panel (pnlButtons)
+    FCommands: TFormCommands;
+
+    property Commands: TFormCommands read FCommands implements IFormCommands;
 
     procedure DisableControlsForTemplate;
     procedure StopSearch;
@@ -252,6 +277,27 @@ type
     procedure ThreadTerminate(Sender:TObject);
 
     procedure FocusOnResults(Sender:TObject); // if press VK_LEFT or VK_RIGHT when on any button on left panel  - focus on results and remember button in FRButtonPanelSender
+
+  published
+    procedure cm_IntelliFocus(const Params: array of string);
+    procedure cm_Start(const Params: array of string);
+    procedure cm_CancelClose(const Params: array of string);
+    procedure cm_Cancel(const Params: array of string);
+    procedure cm_Close(const Params: array of string);
+    procedure cm_NewSearch(const Params: array of string);
+    procedure cm_LastSearch(const Params: array of string);
+    procedure cm_View(const Params: array of string);
+    procedure cm_Edit(const Params: array of string);
+    procedure cm_GoToFile(const Params: array of string);
+    procedure cm_FeedToListbox(const Params: array of string);
+
+    procedure cm_PageStandard(const Params: array of string);
+    procedure cm_PageAdvanced(const Params: array of string);
+    procedure cm_PagePlugins(const Params: array of string);
+    procedure cm_PageLoadSave(const Params: array of string);
+    procedure cm_PageResults(const Params: array of string);
+
+
   end;
 
 var
@@ -458,6 +504,7 @@ end;
 procedure TfrmFindDlg.FormCreate(Sender: TObject);
 var
   I: Integer;
+  HMFindFiles: THMForm;
 begin
   Height:= pnlFindFile.Height + 22;
   DsxPlugins := TDSXModuleList.Create;
@@ -517,6 +564,9 @@ begin
   cbPartialNameSearch.Checked:= gPartialNameSearch;
 
   InitPropStorage(Self);
+
+  HMFindFiles := HotMan.Register(Self, HotkeysCategory);
+  HMFindFiles.RegisterActionList(actList);
 end;
 
 procedure TfrmFindDlg.cbUsePluginChange(Sender: TObject);
@@ -556,6 +606,8 @@ begin
   FUpdateTimer.Interval := 100;
   FUpdateTimer.Enabled := False;
   FUpdateTimer.OnTimer := @OnUpdateTimer;
+
+  FCommands := TFormCommands.Create(Self, actList);
 end;
 
 destructor TfrmFindDlg.Destroy;
@@ -694,6 +746,16 @@ begin
   if lsFoundedFiles.ItemIndex <> -1 then
     ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
 end;
+
+procedure TfrmFindDlg.actExecute(Sender: TObject);
+var
+  cmd: string;
+begin
+  cmd := (Sender as TAction).Name;
+  cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
+  Commands.ExecuteCommand(cmd, []);
+end;
+
 
 procedure TfrmFindDlg.btnAddAttributeClick(Sender: TObject);
 begin
@@ -1244,6 +1306,115 @@ begin
   end;
 end;
 
+procedure TfrmFindDlg.cm_IntelliFocus(const Params: array of string);
+begin
+    if FFindThread<>nil then
+    begin
+      FFindThread.OnTerminate:=nil;
+      FFindThread.Terminate;
+      FUpdateTimer.OnTimer(FUpdateTimer);
+      FUpdateTimer.Enabled := False;
+      FFindThread := nil;
+    end;
+
+    AfterSearchStopped;
+    {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+      btnStart.Default := True;
+    {$ENDIF}
+
+    if cmbFindText.Focused then // if F7 on already focused textSearch field- disable text search and set focun on file mask
+    begin
+      cbFindText.Checked:=False;
+      cmbFindFileMask.SetFocus;
+      cmbFindFileMask.SelectAll;
+      exit;
+    end else
+    begin
+      pgcSearch.PageIndex:= 0;
+      cbFindText.Checked:=True;
+      cmbFindText.SetFocus;
+      cmbFindText.SelectAll;
+    end;
+end;
+
+procedure TfrmFindDlg.cm_Start(const Params: array of string);
+begin
+  btnStart.Click;
+end;
+
+procedure TfrmFindDlg.cm_CancelClose(const Params: array of string);
+begin
+  if FSearchingActive then
+    StopSearch
+  else
+    Close;
+end;
+
+procedure TfrmFindDlg.cm_Cancel(const Params: array of string);
+begin
+  btnStop.Click;
+end;
+
+procedure TfrmFindDlg.cm_Close(const Params: array of string);
+begin
+  btnClose.Click;
+end;
+
+procedure TfrmFindDlg.cm_NewSearch(const Params: array of string);
+begin
+  btnNewSearch.Click;
+end;
+
+procedure TfrmFindDlg.cm_LastSearch(const Params: array of string);
+begin
+  btnLastSearch.Click;
+end;
+
+procedure TfrmFindDlg.cm_View(const Params: array of string);
+begin
+  btnView.Click;
+end;
+
+procedure TfrmFindDlg.cm_Edit(const Params: array of string);
+begin
+  btnEdit.Click;
+end;
+
+procedure TfrmFindDlg.cm_GoToFile(const Params: array of string);
+begin
+  btnGoToPath.Click;
+end;
+
+procedure TfrmFindDlg.cm_FeedToListbox(const Params: array of string);
+begin
+  btnWorkWithFound.Click;
+end;
+
+procedure TfrmFindDlg.cm_PageStandard(const Params: array of string);
+begin
+  pgcSearch.PageIndex:=0;
+end;
+
+procedure TfrmFindDlg.cm_PageAdvanced(const Params: array of string);
+begin
+  pgcSearch.PageIndex:=1;
+end;
+
+procedure TfrmFindDlg.cm_PagePlugins(const Params: array of string);
+begin
+  pgcSearch.PageIndex:=2;
+end;
+
+procedure TfrmFindDlg.cm_PageLoadSave(const Params: array of string);
+begin
+  pgcSearch.PageIndex:=3;
+end;
+
+procedure TfrmFindDlg.cm_PageResults(const Params: array of string);
+begin
+  pgcSearch.PageIndex:=4;
+end;
+
 procedure TfrmFindDlg.btnStopClick(Sender: TObject);
 begin
   StopSearch;
@@ -1251,8 +1422,8 @@ begin
   btnNewSearch.SetFocus;
 end;
 
-procedure TfrmFindDlg.FormCloseQuery(Sender: TObject;
-  var CanClose: Boolean);
+procedure TfrmFindDlg.FormCloseQuery(Sender: TObject;var CanClose: Boolean);
+// was on F7
 begin
   if FFindThread<>nil then  // we can't call StopSearch because it method will set focus on unavailable field
   begin
@@ -1283,6 +1454,7 @@ end;
 
 procedure TfrmFindDlg.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
+  {
   case Key of
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
     // On LCLGTK2 default button on Enter does not work.
@@ -1357,6 +1529,7 @@ begin
         end;
       end;
   end;
+  }
 end;
 
 procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
@@ -1917,6 +2090,12 @@ begin
   UpdateTemplatesList;
   SelectTemplate(FLastTemplateName);
 end;
+
+
+initialization
+  TFormCommands.RegisterCommandsForm(TfrmFindDlg, HotkeysCategory, @rsHotkeyCategoryFindFiles);
+
+
 
 finalization
   FreeAndNil(GfrmFindDlgInstance);

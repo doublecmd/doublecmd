@@ -116,6 +116,7 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     RowCount = 1
     TabOrder = 3
     TitleStyle = tsNative
+    OnDblClick = stgCommandsDblClick
     OnDrawCell = stgCommandsDrawCell
     OnResize = stgCommandsResize
     OnSelectCell = stgCommandsSelectCell

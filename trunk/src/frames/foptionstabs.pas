@@ -79,7 +79,7 @@ uses
 procedure TfrmOptionsTabs.Init;
 begin
   ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
-  ParseLineToList(rsTabsActionOnDoubleClickChoices, cbTabsActionOnDoubleClick.Items);
+//  ParseLineToList(rsTabsActionOnDoubleClickChoices, cbTabsActionOnDoubleClick.Items);
   FPageControl := TPageControl.Create(Self);
 end;
 

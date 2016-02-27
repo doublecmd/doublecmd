@@ -643,6 +643,8 @@ resourcestring
   rsOptHotkeysEditHotkey = 'Edit hotkey for %s';
   rsHotkeyCategoryMain = 'Main';
   rsHotkeyCategoryViewer = 'Viewer';
+  rsHotkeyCategoryEditor = 'Editor';
+  rsHotkeyCategoryFindFiles = 'Find files';
   rsHotkeyCategoryDiffer = 'Differ';
   rsHotkeyCategoryCopyMoveDialog = 'Copy/Move Dialog';
   rsHotkeyCategoryEditCommentDialog = 'Edit Comment Dialog';
