@@ -54,6 +54,7 @@ type
     procedure edtFilterChange(Sender: TObject);
     procedure lbSCFilesListChange(Sender: TObject);
     procedure lbxCategoriesChange(Sender: TObject);
+    procedure stgCommandsDblClick(Sender: TObject);
     procedure stgCommandsDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
     procedure stgCommandsResize(Sender: TObject);
@@ -247,6 +248,12 @@ begin
 
   edtFilter.Clear;
   FillCommandList('');
+end;
+
+procedure TfrmOptionsHotkeys.stgCommandsDblClick(Sender: TObject);
+begin
+  // add hot key
+  ShowEditHotkeyForm(False, GetSelectedForm, GetSelectedCommand, nil, nil);
 end;
 
 procedure TfrmOptionsHotkeys.stgCommandsDrawCell(Sender: TObject; aCol,

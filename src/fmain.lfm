@@ -20,7 +20,7 @@ object frmMain: TfrmMain
   SessionProperties = 'nbConsole.Height;seLogWindow.Height;TreePanel.Width'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '1.4.4.0'
+  LCLVersion = '1.7'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
@@ -927,6 +927,8 @@ object frmMain: TfrmMain
       Width = 89
       Action = actView
       Flat = True
+      OnMouseWheelDown = btnF3MouseWheelDown
+      OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF4: TSpeedButton
       Left = 89

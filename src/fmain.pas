@@ -52,7 +52,7 @@ uses
   {$ELSEIF DEFINED(LCLGTK2)}
   , Glib2, Gtk2
   {$ENDIF}
-  ;
+  , Types;
 
 type
 
@@ -511,6 +511,10 @@ type
     miOpenDirInNewTab: TMenuItem;
     actResaveFavoriteTabs: TAction;
     procedure actExecute(Sender: TObject);
+    procedure btnF3MouseWheelDown(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
+    procedure btnF3MouseWheelUp(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
     procedure btnF8MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormKeyUp( Sender: TObject; var Key: Word; Shift: TShiftState) ;
@@ -765,6 +769,7 @@ type
     procedure UpdateTreeView;
     procedure UpdateDiskCount;
     procedure UpdateSelectedDrives;
+    procedure UpdateGUIFunctionKeys;
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
     function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer): TFileView;
     function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TXmlConfig; ANode: TXmlNode): TFileView;
@@ -1062,6 +1067,28 @@ begin
   cmd := (Sender as TAction).Name;
   cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
   Commands.Commands.ExecuteCommand(cmd, []);
+end;
+
+procedure TfrmMain.btnF3MouseWheelDown(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+begin
+  if (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size>MIN_FONT_SIZE_FUNCTION_BUTTONS) then
+  begin
+    dec(gFonts[dcfFunctionButtons].Size);
+    pnlKeys.Height:=pnlKeys.Height-1;
+  end;
+  UpdateGUIFunctionKeys;
+end;
+
+procedure TfrmMain.btnF3MouseWheelUp(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+begin
+  if (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size<MAX_FONT_SIZE_FUNCTION_BUTTONS) then
+  begin
+    inc(gFonts[dcfFunctionButtons].Size);
+    pnlKeys.Height:=pnlKeys.Height+1;
+  end;
+  UpdateGUIFunctionKeys;
 end;
 
 procedure TfrmMain.btnF8MouseDown(Sender: TObject; Button: TMouseButton;
@@ -5502,6 +5529,23 @@ begin
   end;
   UpdateDriveButtonSelection(btnLeftDrive, FrameLeft);
   UpdateDriveButtonSelection(btnRightDrive, FrameRight);
+end;
+
+procedure TfrmMain.UpdateGUIFunctionKeys;
+var
+  i,c1,c2:integer;
+begin
+  i:=0;
+  c1:=pnlKeys.ControlCount;
+  c2:=pnlKeys.ComponentCount;
+  while(i<pnlKeys.ControlCount)do
+  begin
+      if pnlKeys.Controls[i] is TSpeedButton then
+      begin
+        TSpeedButton(pnlKeys.Controls[i]).Font.Size:=gFonts[dcfFunctionButtons].Size;
+      end;
+  inc(i);
+  end;
 end;
 
 procedure TfrmMain.ShowDrivesList(APanel: TFilePanelSelect);

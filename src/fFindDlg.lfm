@@ -1,7 +1,7 @@
 object frmFindDlg: TfrmFindDlg
-  Left = 413
+  Left = 275
   Height = 397
-  Top = 226
+  Top = 176
   Width = 839
   Caption = 'Find files'
   ClientHeight = 397
@@ -18,7 +18,7 @@ object frmFindDlg: TfrmFindDlg
   Position = poScreenCenter
   SessionProperties = 'Height;Left;Top;Width;WindowState'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.4.4.0'
+  LCLVersion = '1.7'
   object pnlFindFile: TPanel
     Left = 3
     Height = 391
@@ -46,6 +46,7 @@ object frmFindDlg: TfrmFindDlg
         ChildSizing.TopBottomSpacing = 3
         ClientHeight = 363
         ClientWidth = 716
+        OnEnter = tsStandardEnter
         object gbDirectories: TGroupBox
           AnchorSideLeft.Control = tsStandard
           AnchorSideTop.Control = tsStandard
@@ -1383,6 +1384,60 @@ object frmFindDlg: TfrmFindDlg
       Caption = 'Show all found items'
       Enabled = False
       OnClick = miShowAllFoundClick
+    end
+  end
+  object actList: TActionList
+    left = 424
+    object actIntelliFocus: TAction
+      Caption = 'actIntelliFocus'
+      OnExecute = actExecute
+    end
+    object actStart: TAction
+      Caption = 'actStart'
+      OnExecute = actExecute
+    end
+    object actCancel: TAction
+      Caption = 'actCancel'
+      OnExecute = actExecute
+    end
+    object actClose: TAction
+      Caption = 'actClose'
+      OnExecute = actExecute
+    end
+    object actNewSearch: TAction
+      Caption = 'actNewSearch'
+      OnExecute = actExecute
+    end
+    object actLastSearch: TAction
+      Caption = 'actLastSearch'
+      OnExecute = actExecute
+    end
+    object actView: TAction
+      Caption = 'actView'
+    end
+    object actEdit: TAction
+      Caption = 'actEdit'
+    end
+    object actGoToFile: TAction
+      Caption = 'actGoToFile'
+    end
+    object actFeedToListbox: TAction
+      Caption = 'actFeedToListbox'
+    end
+    object actPageStandard: TAction
+      Caption = 'actPageStandard'
+    end
+    object actPageAdvanced: TAction
+      Caption = 'actPageAdvanced'
+    end
+    object actPagePlugins: TAction
+      Caption = 'actPagePlugins'
+    end
+    object actPageLoadSave: TAction
+      Caption = 'actPageLoadSave'
+    end
+    object actPageResults: TAction
+      Caption = 'actPageResults'
     end
   end
 end
