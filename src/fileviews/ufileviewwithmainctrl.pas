@@ -37,6 +37,19 @@ uses
 
 type
 
+  TRenameFileActionType=(rfatName,rfatExt,rfatFull,rfatToSeparators,rfatNextSeparated);
+
+  TRenameFileEditInfo=record
+    LenNam:integer;    // length of renaming file name
+    LenExt:integer;    // length of renaming file ext
+    LenFul:integer;    // full length of renaming file name with ext and dot
+
+    CylceFinished:boolean;
+    UserManualEdit:boolean; // true if user press a key or click/select part of filename, false - if pressed F2(or assigned key)
+
+    LastAction:TRenameFileActionType;  // need for organize correct cycle Name-FullName-Ext (or FullName-Name-Ext)
+  end;
+
   { TFileViewWithMainCtrl }
 
   TFileViewWithMainCtrl = class(TOrderedFileView)
@@ -65,9 +78,13 @@ type
     procedure edtRenameEnter(Sender: TObject);
     procedure edtRenameExit(Sender: TObject);
     procedure edtRenameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtRenameMouseDown(Sender: TObject; Button: TMouseButton;Shift: TShiftState; X, Y: Integer);
 
   protected
     edtRename: TEdit;
+    FRenFile:TRenameFileEditInfo;
+    FRenTags:string;  // rename separators
+
     FWindowProc: TWndMethod;
     // Used to register as a drag and drop source and target.
     FDragDropSource: uDragDropEx.TDragDropSource;
@@ -139,7 +156,11 @@ type
     procedure SetDropFileIndex(NewFileIndex: PtrInt);
     procedure WorkerStarting(const Worker: TFileViewWorker); override;
     procedure WorkerFinished(const Worker: TFileViewWorker); override;
+
+//    procedure ShowRenameFileEdit(AFile: TFile); virtual;
     procedure ShowRenameFileEdit(AFile: TFile); virtual;
+    procedure RenameSelectPart(AActionType:TRenameFileActionType); virtual;
+
     property MainControl: TWinControl read FMainControl write SetMainControl;
 
 {$IFDEF LCLGTK2}
@@ -158,6 +179,18 @@ type
     procedure cm_RenameOnly(const Params: array of string);
     procedure cm_ContextMenu(const Params: array of string);
   end;
+
+
+// in future this function will moved to DCStrUtils
+{en
+   Return position of first founded tag in string begun from start position
+   @param(T String set of tags)
+   @param(S String)
+   @param(StartPos Start position)
+   @returns(Position of first founded tag in string)
+}
+function TagPos(T:string; const S: string; StartPos: Integer = 1; SearchBackward:boolean=False): Integer;
+
 
 implementation
 
@@ -225,6 +258,7 @@ begin
   edtRename.TabStop := False;
   edtRename.AutoSize := False;
   edtRename.OnKeyDown := @edtRenameKeyDown;
+  edtRename.OnMouseDown:=@edtRenameMouseDown;
   edtRename.OnEnter := @edtRenameEnter;
   edtRename.OnExit := @edtRenameExit;
 
@@ -1215,6 +1249,7 @@ var
   OldFileNameAbsolute: String;
   aFile: TFile = nil;
 begin
+
   case Key of
     VK_ESCAPE:
       begin
@@ -1262,15 +1297,28 @@ begin
 {$IFDEF LCLWIN32}
     // Workaround for Win32 - right arrow must clear selection at first move.
     VK_RIGHT:
-      if (Shift = []) and (edtRename.SelLength > 0) then
       begin
-        Key := edtRename.CaretPos.X;
-        edtRename.SelLength := 0;
-        edtRename.CaretPos := Classes.Point(Key, 0);
-        Key := 0;
+        if (Shift = []) and (edtRename.SelLength > 0) then
+        begin
+          Key := edtRename.CaretPos.X;
+          edtRename.SelLength := 0;
+          edtRename.CaretPos := Classes.Point(Key, 0);
+          Key := 0;
+        end;
+        FRenFile.UserManualEdit:=True; // user begin manual edit - no need cycle Name,Ext,FullName selection
       end;
+     VK_LEFT:
+        FRenFile.UserManualEdit:=True; // user begin manual edit - no need cycle Name,Ext,FullName selection
+
 {$ENDIF}
   end;
+end;
+
+
+procedure TFileViewWithMainCtrl.edtRenameMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  FRenFile.UserManualEdit:=True; // user begin manual edit - no need cycle Name,Ext,FullName selection
 end;
 
 procedure TFileViewWithMainCtrl.AfterChangePath;
@@ -1298,6 +1346,7 @@ begin
   if not (csDestroying in ComponentState) then UpdateInfoPanel;
 end;
 
+   {
 procedure TFileViewWithMainCtrl.ShowRenameFileEdit(AFile: TFile);
 var
   lenEdtText, lenEdtTextExt, i: Integer;
@@ -1370,12 +1419,197 @@ begin
         edtRename.SelectAll;
     end;
 end;
+}
+
+procedure TFileViewWithMainCtrl.ShowRenameFileEdit(AFile: TFile);
+var
+  lenEdtText, lenEdtTextExt, i: Integer;
+  seperatorSet: set of AnsiChar;
+  ca:char;
+begin
+  FRenFile.LenFul := UTF8Length(edtRename.Text);
+  FRenFile.LenExt := UTF8Length(ExtractFileExt(edtRename.Text));
+  FRenFile.LenNam := FRenFile.LenFul-FRenFile.LenExt;
+
+
+  if edtRename.Visible then
+  begin
+
+    if FRenFile.UserManualEdit then FRenFile.CylceFinished:=True;
+
+    if not FRenFile.CylceFinished then
+    begin
+      if gRenameSelOnlyName then
+      begin
+        if FRenFile.LastAction=rfatName then
+           RenameSelectPart(rfatFull)
+        else begin
+           RenameSelectPart(rfatExt);
+           FRenFile.CylceFinished:=True;
+           exit;
+        end;
+      end else
+      begin
+        if FRenFile.LastAction=rfatFull then
+           RenameSelectPart(rfatName)
+        else begin
+           RenameSelectPart(rfatExt);
+           FRenFile.CylceFinished:=True;
+           exit;
+        end;
+      end;
+      exit;
+    end;
+
+    // if Cycle not finished - below code wil never execute, so cycle finished:
+
+    if FRenFile.UserManualEdit then            // if user do something(selecting by mouse or press key) and then press F2 - extend to nearest separators
+    begin
+       RenameSelectPart(rfatToSeparators);
+       FRenFile.UserManualEdit:=False;
+    end else                                         // else - select next sepoarated part of file
+       RenameSelectPart(rfatNextSeparated);
+
+  end else
+  begin
+    edtRename.Hint := aFile.FullPath;
+    edtRename.Text := aFile.Name;
+    edtRename.Visible := True;
+    edtRename.SetFocus;
+
+    FRenTags:=' -_.';  // separator set
+    i:=length(FRenTags);
+
+    FRenFile.CylceFinished:=False; // cycle of selection Name-FullName-Ext of FullName-Name-Ext, after finish this cycle will be part selection mechanism
+    if FRenFile.LenExt=0 then FRenFile.CylceFinished:=True;  // don't need cycle if no extension
+
+    if gRenameSelOnlyName then
+       RenameSelectPart(rfatName)
+    else
+       RenameSelectPart(rfatFull);
+  end;
+end;
+
+procedure TFileViewWithMainCtrl.RenameSelectPart(AActionType: TRenameFileActionType);
+var
+  ib,ie,a:integer;
+  s:string;
+begin
+  FRenFile.LastAction:=AActionType;
+
+  case AActionType of   // get current selection action type
+    rfatName:
+      begin
+        {$IFDEF LCLGTK2}
+        edtRename.SelStart:=1;
+        {$ENDIF}
+        edtRename.SelStart:=0;
+        edtRename.SelLength:=FRenFile.LenNam;
+      end;
+    rfatExt :
+      begin
+        edtRename.SelStart:=FRenFile.LenNam+1;
+        edtRename.SelLength:=FRenFile.LenExt;
+      end;
+    rfatFull:
+      begin
+        {$IFDEF LCLGTK2}
+        edtRename.SelStart:=1;
+        {$ENDIF}
+        edtRename.SelStart:=0;
+        edtRename.SelLength:=FRenFile.LenFul;
+      end;
+    rfatToSeparators:
+      begin
+        // search backward the separator to set begin of selection
+        ib:=TagPos(FRenTags,edtRename.Text,edtRename.SelStart,True);                       // begin
+
+        // skip next separators if exist
+        while (ib>0)and(ib<FRenFile.LenFul)and(Pos(edtRename.Text[ib+1],FRenTags)>0)do inc(ib);
+
+        if ib>=FRenFile.LenFul then ib:=0;
+
+        if ib>=edtRename.SelStart+edtRename.SelLength+1 then  // if new position index higher of the same - search end index from it
+           ie:=TagPos(FRenTags,edtRename.Text,ib+1,False)
+        else                                                 // else search of end begin from last start index+selectionLength+1
+           ie:=TagPos(FRenTags,edtRename.Text,edtRename.SelStart+edtRename.SelLength+1,False);  // end
+
+        edtRename.SelStart:=ib;
+        edtRename.SelLength:=ie-ib-1;
+
+      end;
+    rfatNextSeparated:
+      begin
+        ib:=TagPos(FRenTags,edtRename.Text,edtRename.SelStart+edtRename.SelLength+1,False);
+
+        // skip next separators if exist
+        //try
+        while (ib>0)and(ib<FRenFile.LenFul)and(Pos(edtRename.Text[ib+1],FRenTags)>0)do inc(ib);
+        {
+        except
+          a:=ib;
+          s:=edtRename.Text[ib];
+        end;
+        }
+
+        //UTF8FindNearestCharStart();
+        if ib>=FRenFile.LenFul then
+           edtRename.SelStart:=0
+        else
+           edtRename.SelStart:=ib;
+
+        ie:=TagPos(FRenTags,edtRename.Text,edtRename.SelStart+1,False)-1;  // end
+        if ie<0 then ie:=FRenFile.LenFul;
+
+        edtRename.SelLength:=ie-edtRename.SelStart;
+      end;
+  end;
+end;
+
 
 procedure TFileViewWithMainCtrl.WorkerStarting(const Worker: TFileViewWorker);
 begin
   inherited WorkerStarting(Worker);
   MainControl.Cursor := crHourGlass;
   UpdateInfoPanel; // Update status line only
+end;
+
+function TagPos(T: string; const S: string; StartPos: Integer;
+  SearchBackward: boolean): Integer;
+// in future this function will moved to DCStrUtils
+var
+  i,cnt:integer;
+  ch:char;
+begin
+  Result:=0;
+  i:=StartPos;
+  if i=0 then i:=1;
+
+  cnt:=UTF8Length(S);
+
+  if SearchBackward then
+  begin
+     while (i>0)do
+     begin
+       ch:=S[UTF8CharToByteIndex(PChar(S), length(S), i)];
+       if Pos(ch,T)=0 then
+          dec(i)
+       else
+          break;
+     end;
+  end
+  else
+     while (i<=cnt)do
+     begin
+       ch:=S[UTF8CharToByteIndex(PChar(S), length(S), i)];
+       if Pos(ch,T)=0 then
+          inc(i)
+       else
+          break;
+     end;
+
+
+  Result:=i;
 end;
 
 end.
