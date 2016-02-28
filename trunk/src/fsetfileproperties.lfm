@@ -99,7 +99,7 @@ object frmSetFileProperties: TfrmSetFileProperties
       ClientHeight = 81
       ClientWidth = 193
       TabOrder = 1
-      object ZVCreationDateTime: TZVDateTimePicker
+      object ZVCreationDateTime: TDateTimePicker
         AnchorSideLeft.Control = DatesPanel
         AnchorSideTop.Control = DatesPanel
         AnchorSideRight.Control = DatesPanel
@@ -125,7 +125,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         UseDefaultSeparators = True
         OnChange = ZVCreationDateTimeChange
       end
-      object ZVLastWriteDateTime: TZVDateTimePicker
+      object ZVLastWriteDateTime: TDateTimePicker
         AnchorSideLeft.Control = DatesPanel
         AnchorSideTop.Control = ZVCreationDateTime
         AnchorSideTop.Side = asrBottom
@@ -153,7 +153,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         UseDefaultSeparators = True
         OnChange = ZVLastWriteDateTimeChange
       end
-      object ZVLastAccessDateTime: TZVDateTimePicker
+      object ZVLastAccessDateTime: TDateTimePicker
         AnchorSideLeft.Control = DatesPanel
         AnchorSideTop.Control = ZVLastWriteDateTime
         AnchorSideTop.Side = asrBottom

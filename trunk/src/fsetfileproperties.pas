@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, ExtCtrls, StdCtrls, Buttons,
-  uFileSourceSetFilePropertyOperation, DCBasicTypes, ZVDateTimePicker;
+  uFileSourceSetFilePropertyOperation, DCBasicTypes, DateTimePicker;
 
 type
 
@@ -80,13 +80,13 @@ type
     lblWrite: TLabel;
     DatesPanel: TPanel;
     ChecksPanel: TPanel;
-    ZVCreationDateTime: TZVDateTimePicker;
-    ZVLastWriteDateTime: TZVDateTimePicker;
-    ZVLastAccessDateTime: TZVDateTimePicker;
+    ZVCreationDateTime: TDateTimePicker;
+    ZVLastWriteDateTime: TDateTimePicker;
+    ZVLastAccessDateTime: TDateTimePicker;
     procedure btnCreationTimeClick(Sender: TObject);
     procedure btnLastAccessTimeClick(Sender: TObject);
     procedure btnLastWriteTimeClick(Sender: TObject);
-    procedure SetOtherDateLikeThis(ReferenceZVDateTimePicker:TZVDateTimePicker);
+    procedure SetOtherDateLikeThis(ReferenceZVDateTimePicker:TDateTimePicker);
     procedure btnOKClick(Sender: TObject);
     procedure cbChangeModeClick(Sender: TObject);
     procedure chkChangeAttrClick(Sender: TObject);
@@ -419,7 +419,7 @@ begin
   if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVLastAccessDateTime);
 end;
 
-procedure TfrmSetFileProperties.SetOtherDateLikeThis(ReferenceZVDateTimePicker:TZVDateTimePicker);
+procedure TfrmSetFileProperties.SetOtherDateLikeThis(ReferenceZVDateTimePicker:TDateTimePicker);
 begin
   if ReferenceZVDateTimePicker<>ZVCreationDateTime then
   begin

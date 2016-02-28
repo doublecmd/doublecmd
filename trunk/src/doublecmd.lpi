@@ -230,18 +230,17 @@ end;"/>
     </RunParams>
     <RequiredPackages Count="11">
       <Item1>
-        <PackageName Value="dcpcrypt"/>
+        <PackageName Value="DateTimeCtrls"/>
       </Item1>
       <Item2>
-        <PackageName Value="chsdet"/>
+        <PackageName Value="dcpcrypt"/>
       </Item2>
       <Item3>
-        <PackageName Value="LazControls"/>
-        <MinVersion Valid="True"/>
+        <PackageName Value="chsdet"/>
       </Item3>
       <Item4>
-        <PackageName Value="ZVDateTimeCtrls"/>
-        <MinVersion Major="1" Minor="2" Valid="True"/>
+        <PackageName Value="LazControls"/>
+        <MinVersion Valid="True"/>
       </Item4>
       <Item5>
         <PackageName Value="pkg_gifanim"/>

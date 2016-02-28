@@ -14,5 +14,4 @@ lazbuild doublecmd\doublecmd_common.lpk %DC_ARCH%
 lazbuild KASToolBar\kascomp.lpk %DC_ARCH%
 lazbuild viewer\viewerpackage.lpk %DC_ARCH%
 lazbuild gifanim\pkg_gifanim.lpk %DC_ARCH%
-lazbuild ZVDateTimeCtrls\zvdatetimectrls.lpk %DC_ARCH%
 popd
