@@ -1,17 +1,19 @@
+# Lukáš Novotný <lenochod@tiscali.cz>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2015-10-29 13:43+0100\n"
+"PO-Revision-Date: 2016-02-27 11:35+0100\n"
 "Last-Translator: Lukáš Novotný <lenochod@tiscali.cz>\n"
-"Language-Team: pestasoft.com <info@pestasoft.com>\n"
+"Language-Team: čeština <info@pestasoft.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: čeština\n"
 "Language: cs\n"
-"X-Generator: Poedit 1.8.1\n"
+"X-Generator: Gtranslator 2.91.7\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -1970,7 +1972,7 @@ msgstr "Ve&likost do:"
 
 #: tfrmfinddlg.cbfindinarchive.caption
 msgid "Search in &archives"
-msgstr ""
+msgstr "&Hledat v archivech"
 
 #: tfrmfinddlg.cbfindtext.caption
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
@@ -2319,7 +2321,7 @@ msgstr "Zavřít &všechny záložky"
 
 #: tfrmmain.actcloseduplicatetabs.caption
 msgid "Close Duplicate Tabs"
-msgstr ""
+msgstr "Zavřít duplicitní záložky"
 
 #: tfrmmain.actclosetab.caption
 msgctxt "TFRMMAIN.ACTCLOSETAB.CAPTION"
@@ -2371,17 +2373,15 @@ msgstr "Nastavení rychlého adresáře"
 
 #: tfrmmain.actconfigfavoritetabs.caption
 msgid "Configuration of Favorite Tabs"
-msgstr ""
+msgstr "Nastavení oblíbených záložek"
 
 #: tfrmmain.actconfigfoldertabs.caption
 msgid "Configuration of folder tabs"
-msgstr ""
+msgstr "Nastavení adresářů záložek"
 
 #: tfrmmain.actconfigtoolbars.caption
-#, fuzzy
-#| msgid "Configure toolbar"
 msgid "Toolbar..."
-msgstr "Konfigurace nástrojové lišty"
+msgstr "Nástrojová lišta"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -2394,7 +2394,7 @@ msgstr "Kopírovat"
 
 #: tfrmmain.actcopyalltabstoopposite.caption
 msgid "Copy all tabs to opposite side"
-msgstr ""
+msgstr "Kopírovat všechny záložky na druhou stranu"
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
@@ -2489,10 +2489,8 @@ msgid "&Extract Files..."
 msgstr "&Rozbalit soubory..."
 
 #: tfrmmain.actfileassoc.caption
-#, fuzzy
-#| msgid "File &Associations..."
 msgid "Configuration of File &Associations"
-msgstr "Přidružení &souborů..."
+msgstr "Konfigurov&at přidružení souboru"
 
 #: tfrmmain.actfilelinker.caption
 msgid "Com&bine Files..."
@@ -2590,7 +2588,7 @@ msgstr "Zobrazit miniatury v levé záložce"
 
 #: tfrmmain.actloadfavoritetabs.caption
 msgid "Load tabs from Favorite Tabs"
-msgstr ""
+msgstr "Načíst záložku z oblíbených"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2658,11 +2656,11 @@ msgstr "&Nová záložka"
 
 #: tfrmmain.actnextfavoritetabs.caption
 msgid "Load the Next Favorite Tabs in the list"
-msgstr ""
+msgstr "Načíst následující oblíbenou záložku v seznamu"
 
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
-msgstr "Přepnout do nové &záložky"
+msgstr "Přepnou&t do nové záložky"
 
 #: tfrmmain.actopen.caption
 msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
@@ -2688,7 +2686,7 @@ msgstr "Otevřít &VFS seznam"
 
 #: tfrmmain.actoperationsviewer.caption
 msgid "Operations &Viewer"
-msgstr "&Prohlížeč operací"
+msgstr "P&rohlížeč operací"
 
 #: tfrmmain.actoptions.caption
 msgid "&Options..."
@@ -2708,11 +2706,11 @@ msgstr "Vložit"
 
 #: tfrmmain.actpreviousfavoritetabs.caption
 msgid "Load the Previous Favorite Tabs in the list"
-msgstr ""
+msgstr "Načíst předchozí oblíbenou záložku v seznamu"
 
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
-msgstr "Přepnout do &předešlé záložky"
+msgstr "Přepno&ut do předešlé záložky"
 
 #: tfrmmain.actquickfilter.caption
 msgid "Quick filter"
@@ -2733,7 +2731,7 @@ msgstr "&Obnovit"
 
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
-msgstr ""
+msgstr "Znovu načíst posledně načtené oblíbené záložky"
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2755,7 +2753,7 @@ msgstr "&Přejmenovat záložku"
 
 #: tfrmmain.actresavefavoritetabs.caption
 msgid "Resave on the last Favorite Tabs loaded"
-msgstr ""
+msgstr "Znovu uložit do posledně načtené oblíbené záložky"
 
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
@@ -2763,7 +2761,7 @@ msgstr "&Obnovit výběr"
 
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
-msgstr "Obrácené &pořadí"
+msgstr "O&brácené pořadí"
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -2819,7 +2817,7 @@ msgstr "Spustit &terminál"
 
 #: tfrmmain.actsavefavoritetabs.caption
 msgid "Save current tabs to a New Favorite Tabs"
-msgstr ""
+msgstr "Uložit aktuální záložku mezi oblíbené"
 
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
@@ -2839,19 +2837,19 @@ msgstr "&Hledat..."
 
 #: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
 msgid "All tabs Locked with Dir Opened in New Tabs"
-msgstr ""
+msgstr "Uzamknout všechny záložky s otevřením adresáře v nové záložce "
 
 #: tfrmmain.actsetalltabsoptionnormal.caption
 msgid "Set all tabs to Normal"
-msgstr ""
+msgstr "Nastavit všechny záložky na Normální"
 
 #: tfrmmain.actsetalltabsoptionpathlocked.caption
 msgid "Set all tabs to Locked"
-msgstr ""
+msgstr "Nastavit všechny záložky na Uzamčeno"
 
 #: tfrmmain.actsetalltabsoptionpathresets.caption
 msgid "All tabs Locked with Dir Changes Allowed"
-msgstr ""
+msgstr "Uzamknout všechny záložky s povolením změny adresáře"
 
 #: tfrmmain.actsetfileproperties.caption
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
@@ -2860,7 +2858,7 @@ msgstr "Změnit &atributy..."
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
-msgstr "Uzamčeno s otevřenými adresáři v nové &záložce"
+msgstr "Uzamčeno s otevřením adresáře v nové &záložce"
 
 #: tfrmmain.actsettaboptionnormal.caption
 msgid "&Normal"
@@ -2900,7 +2898,7 @@ msgstr "Nabídka"
 #: tfrmmain.actshowsysfiles.caption
 msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
 msgid "Show &Hidden/System Files"
-msgstr "Zobrazit &skryté/systémové soubory"
+msgstr "&Zobrazit skryté/systémové soubory"
 
 #: tfrmmain.actsortbyattr.caption
 msgid "Sort by &Attributes"
@@ -2970,7 +2968,7 @@ msgstr "Přenést adresář pod kurzorem do pravého okna"
 
 #: tfrmmain.acttreeview.caption
 msgid "&Tree View Panel"
-msgstr ""
+msgstr "S&tromové zobrazení"
 
 #: tfrmmain.actuniversalsingledirectsort.caption
 msgid "Sort according to parameters"
@@ -3179,13 +3177,11 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmain.miline10.caption
-#, fuzzy
 msgctxt "tfrmmain.miline10.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmmain.miline11.caption
-#, fuzzy
 msgctxt "tfrmmain.miline11.caption"
 msgid "-"
 msgstr "-"
@@ -3425,7 +3421,7 @@ msgstr "-"
 
 #: tfrmmain.mnufavoritetabs.caption
 msgid "Favorites"
-msgstr ""
+msgstr "Oblíbené"
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"
@@ -3450,11 +3446,9 @@ msgid "&Show"
 msgstr "&Zobrazit"
 
 #: tfrmmain.mnutaboptions.caption
-#, fuzzy
-#| msgid "&Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
 msgid "Tab &Options"
-msgstr "M&ožnosti"
+msgstr "M&ožnosti záložky"
 
 #: tfrmmain.mnutabs.caption
 msgid "&Tabs"
@@ -4932,7 +4926,7 @@ msgstr "Přidat oddělovač"
 #: tfrmoptionsdirectoryhotlist.miaddsubmenu.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIADDSUBMENU.CAPTION"
 msgid "sub-menu"
-msgstr "podnabídka"
+msgstr "podnabídku"
 
 #: tfrmoptionsdirectoryhotlist.miaddsubmenu2.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIADDSUBMENU2.CAPTION"
@@ -5232,15 +5226,15 @@ msgstr "Seznam disků"
 
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
-msgstr ""
+msgstr "Stříšku podél konci řádku"
 
 #: tfrmoptionseditor.chkshowspecialchars.caption
 msgid "Show special characters"
-msgstr ""
+msgstr "Zobrazit speciální znaky"
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
-msgstr ""
+msgstr "Možnosti interního editoru"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -5364,35 +5358,30 @@ msgid "O&n"
 msgstr "Za&pnout"
 
 #: tfrmoptionsfavoritetabs.btnadd.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.btnadd.caption"
 msgid "Add..."
 msgstr "Přidat..."
 
 #: tfrmoptionsfavoritetabs.btndelete.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.btndelete.caption"
 msgid "Delete..."
 msgstr "Vymazat..."
 
 #: tfrmoptionsfavoritetabs.btnimportexport.caption
 msgid "Import/Export"
-msgstr ""
+msgstr "Importovat/Exportovat"
 
 #: tfrmoptionsfavoritetabs.btninsert.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.btninsert.caption"
 msgid "Insert..."
 msgstr "Vložit..."
 
 #: tfrmoptionsfavoritetabs.btnrename.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.btnrename.caption"
 msgid "Rename"
 msgstr "Přejmenovat"
 
 #: tfrmoptionsfavoritetabs.btnsort.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.btnsort.caption"
 msgid "Sort..."
 msgstr "Seřadit..."
@@ -5400,16 +5389,14 @@ msgstr "Seřadit..."
 #: tfrmoptionsfavoritetabs.cbexistingtabstokeep.text
 msgctxt "tfrmoptionsfavoritetabs.cbexistingtabstokeep.text"
 msgid "None"
-msgstr ""
+msgstr "Žádná"
 
 #: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.cbfullexpandtree.caption"
 msgid "Always expand tree"
 msgstr "Vždy rozbalit strom"
 
 #: tfrmoptionsfavoritetabs.cbsavedirhistory.text
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.cbsavedirhistory.text"
 msgid "No"
 msgstr "Ne"
@@ -5426,79 +5413,71 @@ msgstr ""
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabs.caption
 msgid "Favorite Tabs list (reorder by drag && drop)"
-msgstr ""
+msgstr "Seznam oblíbených záložek (lze přeskupit přetáhnutím)"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption"
 msgid "Other options"
 msgstr "Další možnosti"
 
 #: tfrmoptionsfavoritetabs.gpsavedtabsrestorationaction.caption
 msgid "What to restore where for the selected entry:"
-msgstr ""
+msgstr "Co kam obnovit pro vybranou položku:"
 
 #: tfrmoptionsfavoritetabs.lblexistingtabstokeep.caption
 msgid "Existing tabs to keep:"
-msgstr ""
+msgstr "Zachovat existující záložku:"
 
 #: tfrmoptionsfavoritetabs.lblsavedirhistory.caption
 msgid "Save dir history:"
-msgstr ""
+msgstr "Uložit historii adresáře:"
 
 #: tfrmoptionsfavoritetabs.lbltargetpanelleftsavedtabs.caption
 msgid "Tabs saved on left to be restored to:"
-msgstr ""
+msgstr "Záložky uložené vlevo budou obnoveny do:"
 
 #: tfrmoptionsfavoritetabs.lbltargetpanelrightsavedtabs.caption
 msgid "Tabs saved on right to be restored to:"
-msgstr ""
+msgstr "Záložky uložené vpravo budou obnoveny do:"
 
 #: tfrmoptionsfavoritetabs.menuitem1.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.menuitem1.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.menuitem2.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.menuitem2.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miaddseparator.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miaddseparator.caption"
 msgid "a separator"
 msgstr "oddělovač"
 
 #: tfrmoptionsfavoritetabs.miaddseparator2.caption
 msgid "Add separator"
-msgstr ""
+msgstr "Přidat oddělovač"
 
 #: tfrmoptionsfavoritetabs.miaddsubmenu.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu.caption"
 msgid "sub-menu"
-msgstr "podnabídka"
+msgstr "podnabídku"
 
 #: tfrmoptionsfavoritetabs.miaddsubmenu2.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu2.caption"
 msgid "Add sub-menu"
 msgstr "Přidat podnabídku"
 
 #: tfrmoptionsfavoritetabs.micollapseall.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.micollapseall.caption"
 msgid "Collapse all"
 msgstr "Sbalit vše"
 
 #: tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption"
 msgid "...current level of item(s) selected only"
-msgstr "...pouze aktuální úroveň z vybraných položek "
+msgstr "...pouze aktuální úroveň z vybraných položek"
 
 #: tfrmoptionsfavoritetabs.micutselection.caption
 #, fuzzy
@@ -5507,38 +5486,33 @@ msgid "Cut"
 msgstr "Vyjmout"
 
 #: tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption"
 msgid "delete all!"
 msgstr "vymazat vše!"
 
 #: tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption"
 msgid "sub-menu and all its elements"
 msgstr "podnabídku a všechny její prvky"
 
 #: tfrmoptionsfavoritetabs.mideletejustsubmenu.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mideletejustsubmenu.caption"
 msgid "just sub-menu but keep elements"
 msgstr "jen podnabídky, prvky zůstanou"
 
 #: tfrmoptionsfavoritetabs.mideleteselectedentry.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry.caption"
 msgid "selected item"
 msgstr "vybranou položku"
 
 #: tfrmoptionsfavoritetabs.mideleteselectedentry2.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry2.caption"
 msgid "Delete selected item"
 msgstr "Smazat vybranou položku"
 
 #: tfrmoptionsfavoritetabs.miexporttolegacytabsfile.caption
 msgid "Export selection to legacy .tab file(s)"
-msgstr ""
+msgstr "Exportovat zvolené do starších souborů .tab"
 
 #: tfrmoptionsfavoritetabs.mifavoritetabstestmenu.caption
 msgid "FavoriteTabsTestMenu"
@@ -5546,32 +5520,31 @@ msgstr ""
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesaccsetting.caption
 msgid "Import legacy .tab file(s) according to default setting"
-msgstr ""
+msgstr "Importovat starší .tab soubor(y) podle výchozího nastavení"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption
 msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption"
 msgid "Import legacy .tab file(s) at selected position"
-msgstr ""
+msgstr "Importovat starší .tab soubor(y) na vybranou pozici"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos1.caption
 msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos1.caption"
 msgid "Import legacy .tab file(s) at selected position"
-msgstr ""
+msgstr "Importovat starší .tab soubor(y) na vybranou pozici"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesinsubatpos.caption
 msgid "Import legacy .tab file(s) at selected position in a sub menu"
-msgstr ""
+msgstr "Importovat starší .tab soubor(y) na vybranou pozici v podnabídce"
 
 #: tfrmoptionsfavoritetabs.miinsertseparator.caption
 msgid "Insert separator"
-msgstr ""
+msgstr "Vložit oddělovač"
 
 #: tfrmoptionsfavoritetabs.miinsertsubmenu.caption
 msgid "Insert sub-menu"
-msgstr ""
+msgstr "Vložit podnabídku"
 
 #: tfrmoptionsfavoritetabs.miopenallbranches.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miopenallbranches.caption"
 msgid "Open all branches"
 msgstr "Otevřít všechny položky"
@@ -5583,19 +5556,16 @@ msgid "Paste"
 msgstr "Vložit"
 
 #: tfrmoptionsfavoritetabs.mirename.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mirename.caption"
 msgid "Rename"
 msgstr "Přejmenovat"
 
 #: tfrmoptionsfavoritetabs.miseparator1.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miseparator1.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator10.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miseparator10.caption"
 msgid "-"
 msgstr "-"
@@ -5625,25 +5595,21 @@ msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator8.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miseparator8.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator9.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miseparator9.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.misorteverything.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.misorteverything.caption"
 msgid "...everything, from A to Z!"
 msgstr "...vše, od A do Z!"
 
 #: tfrmoptionsfavoritetabs.misortsinglegroup.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup.caption"
 msgid "...single group of item(s) only"
 msgstr "...pouze jednu skupinu položek"
@@ -5655,19 +5621,16 @@ msgid "Sort single group of item(s) only"
 msgstr "Seřadit pouze jednu skupinu položek"
 
 #: tfrmoptionsfavoritetabs.misortsinglesubmenu.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.misortsinglesubmenu.caption"
 msgid "...content of submenu(s) selected, no sublevel"
 msgstr "...obsah vybrané podnabídky, ne podúrovně"
 
 #: tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption"
 msgid "...content of submenu(s) selected and all sublevels"
 msgstr "...obsah vybrané podnabídky, a všech podúrovní"
 
 #: tfrmoptionsfavoritetabs.mitestresultingfavoritetabsmenu.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mitestresultingfavoritetabsmenu.caption"
 msgid "Test resulting menu"
 msgstr "Otestovat výsledné zobrazení nabídky"
@@ -6951,7 +6914,7 @@ msgstr "Hledání těchto položek"
 
 #: tfrmoptionstabs.cbkeeprenamednamebacktonormal.caption
 msgid "Keep renamed name when unlocking a tab"
-msgstr ""
+msgstr "Neměnit přejmenovaný název pokud odemkneme záložku"
 
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
@@ -6965,7 +6928,7 @@ msgstr "&Zobrazit záložku, i když bude pouze 1"
 
 #: tfrmoptionstabs.cbtabscloseduplicatewhenclosing.caption
 msgid "Close duplicate tabs when closing application"
-msgstr ""
+msgstr "Zavřít stejné záložky při ukončování aplikace"
 
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
@@ -6974,7 +6937,7 @@ msgstr "Potv&rdit uzavření všech záložek"
 
 #: tfrmoptionstabs.cbtabsconfirmcloselocked.caption
 msgid "Confirm close locked tabs"
-msgstr ""
+msgstr "Potvrdit zavření uzamčené záložky"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
@@ -7003,7 +6966,7 @@ msgstr "Otevřít &novou záložku vedle aktuální"
 
 #: tfrmoptionstabs.cbtabsreusetabwhenpossible.caption
 msgid "Reuse existing tab when possible"
-msgstr ""
+msgstr "Znovu použít existující záložku, pokud je to možné"
 
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
@@ -7026,7 +6989,7 @@ msgstr "znaky"
 
 #: tfrmoptionstabs.lbltabsactionondoubleclick.caption
 msgid "Action to do when double click on a tab:"
-msgstr ""
+msgstr "Akce k provedení když poklikáme na záložku:"
 
 #: tfrmoptionstabs.lbltabsposition.caption
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
@@ -7036,10 +6999,9 @@ msgstr "Pozice zá&ložek"
 #: tfrmoptionstabsextra.cbdefaultexistingtabstokeep.text
 msgctxt "tfrmoptionstabsextra.cbdefaultexistingtabstokeep.text"
 msgid "None"
-msgstr ""
+msgstr "Žádná"
 
 #: tfrmoptionstabsextra.cbdefaultsavedirhistory.text
-#, fuzzy
 msgctxt "tfrmoptionstabsextra.cbdefaultsavedirhistory.text"
 msgid "No"
 msgstr "Ne"
@@ -7056,35 +7018,35 @@ msgstr ""
 
 #: tfrmoptionstabsextra.cbgotoconfigafterresave.caption
 msgid "Goto to Favorite Tabs Configuration after resaving"
-msgstr ""
+msgstr "Jít na konfiguraci oblíbených záložek po znovuuložení"
 
 #: tfrmoptionstabsextra.cbgotoconfigaftersave.caption
 msgid "Goto to Favorite Tabs Configuration after saving a new one"
-msgstr ""
+msgstr "Jít na konfiguraci oblíbených záložek po uložení nové"
 
 #: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
 msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
-msgstr ""
+msgstr "Povolit další možnosti oblíbených záložek (volba cílové strany při obnově, atd.)"
 
 #: tfrmoptionstabsextra.gbdefaulttabsavedrestoration.caption
 msgid "Default extra settings when saving new Favorite Tabs:"
-msgstr ""
+msgstr "Další možnosti pro ukládání nových oblíbených záložek:"
 
 #: tfrmoptionstabsextra.gbtabs.caption
 msgid "Folder tabs headers extra"
-msgstr ""
+msgstr "Záhlaví záložek adresářů"
 
 #: tfrmoptionstabsextra.lbldefaultexistingtabstokeep.caption
 msgid "When restoring tab, existing tabs to keep:"
-msgstr ""
+msgstr "Při obnově záložek, zachovat stávající záložky:"
 
 #: tfrmoptionstabsextra.lbldefaulttargetpanelleftsaved.caption
 msgid "Tabs saved on left will be restored to:"
-msgstr ""
+msgstr "Záložky uložené vlevo budou obnoveny:"
 
 #: tfrmoptionstabsextra.lbldefaulttargetpanelrightsaved.caption
 msgid "Tabs saved on right will be restored to:"
-msgstr ""
+msgstr "Záložky uložené vpravo budou obnoveny:"
 
 #: tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption
 msgctxt "tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption"
@@ -7093,7 +7055,7 @@ msgstr ""
 
 #: tfrmoptionstabsextra.rgwheretoadd.caption
 msgid "Default position in menu when saving a new Favorite Tabs:"
-msgstr ""
+msgstr "Výchozí umístění v menu při ukládání nové oblíbené záložky:"
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -9148,13 +9110,6 @@ msgid "When file exists"
 msgstr "Pokud soubor existuje"
 
 #: ulng.msgtrytolocatecrcfile
-#, fuzzy
-#| msgid ""
-#| "This file cannot be found and could help to validate final combination of files:\n"
-#| "%s\n"
-#| "\n"
-#| "Could you make it available and press \"OK\" when ready,\n"
-#| "or press \"CANCEL\" to continue without it?\n"
 msgid ""
 "This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
@@ -9165,7 +9120,7 @@ msgstr ""
 "Tento soubor nelze nalézt, a mohl by pomoci ověřit konečné kombinace souborů:\n"
 "%s\n"
 "\n"
-"Mohl byste ho dát je k dispozici, a kliknout tlačítko \"OK\", pokud jste připraveni,\n"
+"Mohl byste ho dát jen k dispozici, a kliknout tlačítko \"OK\", pokud jste připraveni,\n"
 "nebo pokračovat bez něj kliknutím na \"ZRUŠIT\"?\n"
 
 #: ulng.rscancelfilter
@@ -9597,11 +9552,11 @@ msgstr "Spustit přes terminál a ponechat otevřené"
 
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
-msgstr ""
+msgstr "Vlevo;Vpravo;V aktivním;V neaktivním;V obojím;V žádným"
 
 #: ulng.rsfavtabssavedirhistory
 msgid "No;Yes"
-msgstr ""
+msgstr "Ne;Ano"
 
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
@@ -9720,7 +9675,7 @@ msgstr "Skupina"
 
 #: ulng.rsfunchtime
 msgid "Change date/time"
-msgstr ""
+msgstr "Datum/čas změny"
 
 #: ulng.rsfunclinkto
 msgid "Link to"
@@ -9764,18 +9719,13 @@ msgstr "Chyba při vytváření hardlinku."
 
 #: ulng.rshotdirforcesortingorderchoices
 msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
-msgstr ""
+msgstr "Žádná;Název, a-z;Název, z-a;Přípona, a-z;Přípona, z-a;Velikost 9-0;Velikost 0-9;Datum 9-0;Datum 0-9"
 
 #: ulng.rshotdirnothingtoimport
 msgid "Sorry, nothing detected to import!"
 msgstr "Bohužel, není nic detekováno pro import!"
 
 #: ulng.rshotdirwarningabortrestorebackup
-#, fuzzy
-#| msgid ""
-#| "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
-#| "\n"
-#| "Are you sure you want to proceed?\n"
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
@@ -9879,7 +9829,7 @@ msgstr "Vysunout"
 
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
-msgstr ""
+msgstr "Rozbalit zde..."
 
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
@@ -9914,7 +9864,7 @@ msgstr "Ostatní..."
 
 #: ulng.rsmnupackhere
 msgid "Pack here..."
-msgstr ""
+msgstr "Zabalit zde..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -9938,12 +9888,6 @@ msgid "Additional parameters for archiver command-line:"
 msgstr "Doplňující parametry pro archivátor příkazové řádky:"
 
 #: ulng.rsmsgbadcrc32
-#, fuzzy
-#| msgid ""
-#| "Bad CRC32 for resulting file:\n"
-#| "\"%s\"\n"
-#| "\n"
-#| "Do you want to keep the resulting corrupted file anyway?\n"
 msgid ""
 "Bad CRC32 for resulting file:\n"
 "\"%s\"\n"
@@ -9953,7 +9897,7 @@ msgstr ""
 "Špatný výsledek CRC32 pro soubor:\n"
 "\"%s\"\n"
 "\n"
-"Přejete si obdržet výsledný poškozený soubor?\n"
+"Přejete si ponechat výsledný poškozený soubor?\n"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -9976,11 +9920,6 @@ msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Záložka (%s) je uzamčena! Přesto zavřít?"
 
 #: ulng.rsmsgcolumnsmodifiedwanttosave
-#, fuzzy
-#| msgid ""
-#| "Options regarding columns view have been modified.\n"
-#| "\n"
-#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding columns view have been modified.\n"
 "\n"
@@ -10200,49 +10139,48 @@ msgstr "Neznámý formát archívu"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
-msgstr ""
+msgstr "Jste si jisti že chcete vymazat všechny položky oblíbených záložek? (Neexistuje krok \"zpět\" pro tuto akci!)"
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
-msgstr ""
+msgstr "Přetáhněte sem další položky"
 
 #: ulng.rsmsgfavoritetabsendofmenu
-#, fuzzy
 msgctxt "ulng.rsmsgfavoritetabsendofmenu"
 msgid "(end of sub menu)"
-msgstr "(konec v podnabídce)"
+msgstr "(konec v podnabídce) "
 
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name this Favorite Tabs entry"
-msgstr ""
+msgstr "Zadání názvu záložky mezi oblíbené"
 
 #: ulng.rsmsgfavoritetabsenternametitle
 msgid "Saving a new Favorite Tabs entry"
-msgstr ""
+msgstr "Uloží novou záložku mezi oblíbené"
 
 #: ulng.rsmsgfavoritetabserrorloading
 msgid "Error loading Favorite Tabs..."
-msgstr ""
+msgstr "Chyba načítání oblíbených záložek..."
 
 #: ulng.rsmsgfavoritetabserrorsaving
 msgid "Error saving Favorite Tabs..."
-msgstr ""
+msgstr "Chyba ukládání oblíbených záložek..."
 
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
-msgstr ""
+msgstr "Počet úspěšně exportovaných oblíbených záložek: %d z %d"
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr ""
+msgstr "Další nastavení u uložení historii složek pro nové oblíbené záložky:"
 
 #: ulng.rsmsgfavoritetabshasbeenadded
 msgid "Favorite Tabs have been added in memory!"
-msgstr ""
+msgstr "Oblíbené záložky byly přidány do paměti!"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
 msgid "Number of file(s) imported successfully: %d on %d"
-msgstr ""
+msgstr "Počet úspěšně importovaných souborů: %d z %d"
 
 #: ulng.rsmsgfavoritetabsimportsubmenuname
 msgid "Legacy tabs imported"
@@ -10254,14 +10192,13 @@ msgstr ""
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
-msgstr ""
+msgstr "Poslední změny oblíbených záložek dosud nebyly uloženy. Chcete je před pokračováním uložit?"
 
 #: ulng.rsmsgfavoritetabsmodifiedwanttosave
 msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Možnosti týkající se oblíbených záložek byly upraveny. Chcete je před ukončením uložit?"
 
 #: ulng.rsmsgfavoritetabsname
-#, fuzzy
 msgctxt "ulng.rsmsgfavoritetabsname"
 msgid "Name"
 msgstr "Název"
@@ -10286,13 +10223,11 @@ msgid "Keep saving dir history with Favorite Tabs:"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabssimpleseparator
-#, fuzzy
 msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
 msgid "(separator)"
 msgstr "(oddělovač)"
 
 #: ulng.rsmsgfavoritetabssubmenuname
-#, fuzzy
 msgctxt "ulng.rsmsgfavoritetabssubmenuname"
 msgid "Submenu name"
 msgstr "Název podnabídky"
@@ -10303,29 +10238,19 @@ msgstr ""
 
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
-msgstr ""
+msgstr "Uložit aktuální záložku do existující oblíbené záložky"
 
 #: ulng.rsmsgfileassociationsextramodifiedwanttosave
-#, fuzzy
-#| msgid ""
-#| "File extension associations extra options have been modified.\n"
-#| "\n"
-#| "Do you want to save before to exit?\n"
 msgid ""
 "File extension associations extra options have been modified.\n"
 "\n"
 "Do you want to save before to exit?\n"
 msgstr ""
-"Soubor týkající se nastavení přidružení souborů byl změněn.\n"
+"Soubor týkající se dalšího přidružení souborů byl změněn.\n"
 "\n"
 "Chcete ho před ukončením uložit?\n"
 
 #: ulng.rsmsgfileassociationsmodifiedwanttosave
-#, fuzzy
-#| msgid ""
-#| "File extension associations have been modified.\n"
-#| "\n"
-#| "Do you want to save before to exit?\n"
 msgid ""
 "File extension associations have been modified.\n"
 "\n"
@@ -10372,11 +10297,6 @@ msgid "Options regarding file operations have been modified. Do you want to save
 msgstr "Možnosti týkající se činnosti souborů byly upraveny. Chcete je před ukončením uložit?"
 
 #: ulng.rsmsgfilepanelcolormodifiedwanttosave
-#, fuzzy
-#| msgid ""
-#| "Options regarding panel color have been modified.\n"
-#| "\n"
-#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding panel color have been modified.\n"
 "\n"
@@ -10573,11 +10493,6 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Některé funkce pro výběr příslušné relativní nebo absolutní cesty, speciální složky Windows, atd."
 
 #: ulng.rsmsghotdirtotalbackuped
-#, fuzzy
-#| msgid ""
-#| "Total entries saved: %d\n"
-#| "\n"
-#| "Backup filename: %s\n"
 msgid ""
 "Total entries saved: %d\n"
 "\n"
@@ -10592,10 +10507,6 @@ msgid "Total entries exported: "
 msgstr "Celkem exportovaných položek: "
 
 #: ulng.rsmsghotdirwhattodelete
-#, fuzzy
-#| msgid ""
-#| "Do you want to delete all elements inside the sub-menu [%s]?\n"
-#| "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
@@ -10612,14 +10523,6 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Neplatný výsledek délky souboru pro soubor: \"%s\""
 
 #: ulng.rsmsginsertnextdisk
-#, fuzzy
-#| msgid ""
-#| "Please insert next disk or something similar.\n"
-#| "\n"
-#| "It is to allow writing this file:\n"
-#| "\"%s\"\n"
-#| "\n"
-#| "Number of bytes still to write: %d\n"
 msgid ""
 "Please insert next disk or something similar.\n"
 "\n"
@@ -10633,7 +10536,7 @@ msgstr ""
 "To umožní zapsání tohoto souboru:\n"
 "\"%s\"\n"
 "\n"
-"Počet bajtů stále potřebných zapsat: %d\n"
+"Počet bytů stále potřebných zapsat: %d\n"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
@@ -10724,11 +10627,6 @@ msgid "Move file %s"
 msgstr "Přesunout soubor %s"
 
 #: ulng.rsmsglogoptionsmodifiedwanttosave
-#, fuzzy
-#| msgid ""
-#| "Options regarding log have been modified.\n"
-#| "\n"
-#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding log have been modified.\n"
 "\n"
@@ -10866,11 +10764,11 @@ msgstr "Prosím, vytvořte tento soubor dostupný. Zopakovat?"
 
 #: ulng.rsmsgrenamefavtabs
 msgid "Enter new friendly name for this Favorite Tabs"
-msgstr ""
+msgstr "Vložte nový název pro tuto oblíbenou záložku"
 
 #: ulng.rsmsgrenamefavtabsmenu
 msgid "Enter new name for this menu"
-msgstr ""
+msgstr "Vložte nový název pro tuto nabídku"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
@@ -10986,7 +10884,7 @@ msgstr "Použít speciální složku Windows (TC)..."
 
 #: ulng.rsmsgtabforopeninginnewtab
 msgid "This tab (%s) is locked! Open directory in another tab?"
-msgstr ""
+msgstr "Záložka (%s) je uzamčena! Otevřít adresář v jiné záložce?"
 
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
@@ -11002,6 +10900,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"Možnosti týkající se dalších záložek adresářů byly změněny.\n"
+"\n"
+"Chcete je před ukončením uložit?\n"
 
 #: ulng.rsmsgtabsoptionsmodifiedwanttosave
 msgid ""
@@ -11009,16 +10910,15 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"Možnosti týkající se oblíbených záložek byly změněny.\n"
+"\n"
+"Chcete je před ukončením uložit?\n"
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "Cílová cesta:"
 
 #: ulng.rsmsgtcconfignotfound
-#, fuzzy
-#| msgid ""
-#| "Error! Cannot find the TC configuration file:\n"
-#| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration file:\n"
 "%s\n"
@@ -11027,10 +10927,6 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
-#, fuzzy
-#| msgid ""
-#| "Error! Cannot find the TC configuration executable:\n"
-#| "%s\n"
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s\n"
@@ -11039,22 +10935,14 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcisrunning
-#, fuzzy
-#| msgid ""
-#| "Error! TC is still running but it should be closed for this operation.\n"
-#| "Close it and press OK or press CANCEL to abort.\n"
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
 msgstr ""
-"Chyba! TC je spuštěn, ale může být pro tuto činnost uzavřen.\n"
+"Chyba! TC je stále spuštěn, ale může být pro tuto činnost uzavřen.\n"
 "Ukončete ho a klikněte na OK nebo kliknutím na ZRUŠIT akci přerušte.\n"
 
 #: ulng.rsmsgtctoolbarnotfound
-#, fuzzy
-#| msgid ""
-#| "Error! Cannot find the desired wanted TC toolbar output folder:\n"
-#| "%s\n"
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
@@ -11067,11 +10955,6 @@ msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Zadání umístění a názvu souboru pro uložení souboru nástrojové lišty TC"
 
 #: ulng.rsmsgterminaloptionsmodifiedwanttosave
-#, fuzzy
-#| msgid ""
-#| "Options regarding terminal have been modified.\n"
-#| "\n"
-#| "Do you want to save them before to exit?\n"
 msgid ""
 "Options regarding terminal have been modified.\n"
 "\n"
@@ -11110,10 +10993,6 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr "Zadání umístění a názvu souboru pro obnovení nástrojové lišty"
 
 #: ulng.rsmsgtoolbarsaved
-#, fuzzy
-#| msgid ""
-#| "Saved!\n"
-#| "Toolbar filename: %s\n"
 msgid ""
 "Saved!\n"
 "Toolbar filename: %s\n"
@@ -11498,7 +11377,7 @@ msgstr "Text"
 
 #: ulng.rsoptfavoritetabswheretoaddinlist
 msgid "Add at beginning;Add at the end;Alphabetical sort"
-msgstr ""
+msgstr "Přidat na začátek;Přidat na konec;Abecedně seřadit"
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
@@ -11660,7 +11539,7 @@ msgstr "Tlačítko seznamu disků"
 
 #: ulng.rsoptionseditorfavoritetabs
 msgid "Favorite Tabs"
-msgstr ""
+msgstr "Oblíbené záložky"
 
 #: ulng.rsoptionseditorfileassicextra
 msgid "File associations extra"
@@ -11697,7 +11576,7 @@ msgstr "Záložky adresářů"
 
 #: ulng.rsoptionseditorfoldertabsextra
 msgid "Folder tabs extra"
-msgstr ""
+msgstr "Další záložky adresářů"
 
 #: ulng.rsoptionseditorfonts
 msgctxt "ulng.rsoptionseditorfonts"
@@ -11977,7 +11856,7 @@ msgstr "Výsledek"
 
 #: ulng.rssimplewordsaved
 msgid "Saved!"
-msgstr ""
+msgstr "Uloženo!"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
@@ -12046,7 +11925,7 @@ msgstr "Prostý text"
 
 #: ulng.rstabsactionondoubleclickchoices
 msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
-msgstr ""
+msgstr "Žádná;Zavřít záložku;Přístup k oblíbeným záložkám;Roletovou nabídku záložek"
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
@@ -12079,11 +11958,11 @@ msgstr "Rok(y)"
 
 #: ulng.rstitlerenamefavtabs
 msgid "Rename Favorite Tabs"
-msgstr ""
+msgstr "Přejmenování oblíbených záložek"
 
 #: ulng.rstitlerenamefavtabsmenu
 msgid "Rename Favorite Tabs sub-menu"
-msgstr ""
+msgstr "Přejmenování podnabídky oblíbených záložek"
 
 #: ulng.rstooldiffer
 msgctxt "ulng.rstooldiffer"
