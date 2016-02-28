@@ -1070,8 +1070,10 @@ msgid "Delete"
 msgstr "Обриши"
 
 #: tfrmeditor.acteditfind.caption
+#, fuzzy
+#| msgid "&Find"
 msgctxt "tfrmeditor.acteditfind.caption"
-msgid "&Find"
+msgid "&Find "
 msgstr "&Пронађи"
 
 #: tfrmeditor.acteditfind.hint
@@ -1246,6 +1248,12 @@ msgstr "Уређивач"
 msgctxt "TFRMEDITOR.HELP1.CAPTION"
 msgid "&Help"
 msgstr "По&моћ"
+
+#: tfrmeditor.menuitem1.caption
+#, fuzzy
+msgctxt "tfrmeditor.menuitem1.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmeditor.midiv.caption
 msgctxt "TFRMEDITOR.MIDIV.CAPTION"
@@ -1807,6 +1815,66 @@ msgstr "Својства"
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
 msgid "Properties"
 msgstr "Својства"
+
+#: tfrmfinddlg.actcancel.caption
+msgid "actCancel"
+msgstr ""
+
+#: tfrmfinddlg.actclose.caption
+msgid "actClose"
+msgstr ""
+
+#: tfrmfinddlg.actedit.caption
+msgid "actEdit"
+msgstr ""
+
+#: tfrmfinddlg.actfeedtolistbox.caption
+msgid "actFeedToListbox"
+msgstr ""
+
+#: tfrmfinddlg.actgotofile.caption
+msgid "actGoToFile"
+msgstr ""
+
+#: tfrmfinddlg.actintellifocus.caption
+msgid "actIntelliFocus"
+msgstr ""
+
+#: tfrmfinddlg.actlastsearch.caption
+msgid "actLastSearch"
+msgstr ""
+
+#: tfrmfinddlg.actnewsearch.caption
+msgid "actNewSearch"
+msgstr ""
+
+#: tfrmfinddlg.actpageadvanced.caption
+msgid "actPageAdvanced"
+msgstr ""
+
+#: tfrmfinddlg.actpageloadsave.caption
+msgid "actPageLoadSave"
+msgstr ""
+
+#: tfrmfinddlg.actpageplugins.caption
+msgid "actPagePlugins"
+msgstr ""
+
+#: tfrmfinddlg.actpageresults.caption
+msgid "actPageResults"
+msgstr ""
+
+#: tfrmfinddlg.actpagestandard.caption
+msgid "actPageStandard"
+msgstr ""
+
+#: tfrmfinddlg.actstart.caption
+msgid "actStart"
+msgstr ""
+
+#: tfrmfinddlg.actview.caption
+msgid "actView"
+msgstr ""
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -9701,6 +9769,10 @@ msgctxt "ulng.rsfindsearchfiles"
 msgid "Find files"
 msgstr "Нађи датотеке"
 
+#: ulng.rsfindtimeofscan
+msgid "Time of scan: "
+msgstr ""
+
 #: ulng.rsfindwherebeg
 msgid "Begin at"
 msgstr "Почни са"
@@ -9823,6 +9895,18 @@ msgstr "Програм за разлике"
 #: ulng.rshotkeycategoryeditcommentdialog
 msgid "Edit Comment Dialog"
 msgstr "Уредите напомену"
+
+#: ulng.rshotkeycategoryeditor
+#, fuzzy
+msgctxt "ulng.rshotkeycategoryeditor"
+msgid "Editor"
+msgstr "Уређивач"
+
+#: ulng.rshotkeycategoryfindfiles
+#, fuzzy
+msgctxt "ulng.rshotkeycategoryfindfiles"
+msgid "Find files"
+msgstr "Нађи датотеке"
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
@@ -10253,6 +10337,10 @@ msgstr ""
 
 #: ulng.rsmsgfavoritetabsimportsubmenuname
 msgid "Legacy tabs imported"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsimporttitle
+msgid "Select .tab file(s) to import (could be more than one at the time!)"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
@@ -10915,6 +11003,10 @@ msgstr "Иди на другу нарочиту фасциклу Виндоуз�
 msgid "Go to Windows special folder (TC)..."
 msgstr "Иди на нарочиту фасциклу Виндоуза (ТЦ)..."
 
+#: ulng.rsmsgspecialdirmakereltohotdir
+msgid "Make relative to hotdir path"
+msgstr ""
+
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
 msgstr "Учини путању апсолутном"
@@ -10938,6 +11030,10 @@ msgstr "Учини односном на другу нарочиту фасци�
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
 msgstr "Користи нарочиту путању Двоструког наредника..."
+
+#: ulng.rsmsgspecialdirusehotdir
+msgid "Use hotdir path"
+msgstr ""
 
 #: ulng.rsmsgspecialdiruseother
 msgid "Use other Windows special folder..."

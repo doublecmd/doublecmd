@@ -1139,8 +1139,10 @@ msgid "Delete"
 msgstr "&Löschen"
 
 #: tfrmeditor.acteditfind.caption
+#, fuzzy
+#| msgid "&Find"
 msgctxt "tfrmeditor.acteditfind.caption"
-msgid "&Find"
+msgid "&Find "
 msgstr "&Suchen"
 
 #: tfrmeditor.acteditfind.hint
@@ -1315,6 +1317,12 @@ msgstr "Text-Editor"
 msgctxt "TFRMEDITOR.HELP1.CAPTION"
 msgid "&Help"
 msgstr "&Hilfe"
+
+#: tfrmeditor.menuitem1.caption
+#, fuzzy
+msgctxt "tfrmeditor.menuitem1.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmeditor.midiv.caption
 msgctxt "TFRMEDITOR.MIDIV.CAPTION"
@@ -1911,6 +1919,66 @@ msgstr "Attribute"
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
 msgid "Properties"
 msgstr "Eigenschaften"
+
+#: tfrmfinddlg.actcancel.caption
+msgid "actCancel"
+msgstr ""
+
+#: tfrmfinddlg.actclose.caption
+msgid "actClose"
+msgstr ""
+
+#: tfrmfinddlg.actedit.caption
+msgid "actEdit"
+msgstr ""
+
+#: tfrmfinddlg.actfeedtolistbox.caption
+msgid "actFeedToListbox"
+msgstr ""
+
+#: tfrmfinddlg.actgotofile.caption
+msgid "actGoToFile"
+msgstr ""
+
+#: tfrmfinddlg.actintellifocus.caption
+msgid "actIntelliFocus"
+msgstr ""
+
+#: tfrmfinddlg.actlastsearch.caption
+msgid "actLastSearch"
+msgstr ""
+
+#: tfrmfinddlg.actnewsearch.caption
+msgid "actNewSearch"
+msgstr ""
+
+#: tfrmfinddlg.actpageadvanced.caption
+msgid "actPageAdvanced"
+msgstr ""
+
+#: tfrmfinddlg.actpageloadsave.caption
+msgid "actPageLoadSave"
+msgstr ""
+
+#: tfrmfinddlg.actpageplugins.caption
+msgid "actPagePlugins"
+msgstr ""
+
+#: tfrmfinddlg.actpageresults.caption
+msgid "actPageResults"
+msgstr ""
+
+#: tfrmfinddlg.actpagestandard.caption
+msgid "actPageStandard"
+msgstr ""
+
+#: tfrmfinddlg.actstart.caption
+msgid "actStart"
+msgstr ""
+
+#: tfrmfinddlg.actview.caption
+msgid "actView"
+msgstr ""
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -10676,6 +10744,10 @@ msgctxt "ulng.rsfindsearchfiles"
 msgid "Find files"
 msgstr "Suche Datei(en)"
 
+#: ulng.rsfindtimeofscan
+msgid "Time of scan: "
+msgstr ""
+
 #: ulng.rsfindwherebeg
 msgid "Begin at"
 msgstr "Starte bei"
@@ -10797,6 +10869,18 @@ msgstr "Vergleichsprogramm"
 #: ulng.rshotkeycategoryeditcommentdialog
 msgid "Edit Comment Dialog"
 msgstr "Bearbeite Kommentar-Dialog"
+
+#: ulng.rshotkeycategoryeditor
+#, fuzzy
+msgctxt "ulng.rshotkeycategoryeditor"
+msgid "Editor"
+msgstr "Text-Editor"
+
+#: ulng.rshotkeycategoryfindfiles
+#, fuzzy
+msgctxt "ulng.rshotkeycategoryfindfiles"
+msgid "Find files"
+msgstr "Suche Datei(en)"
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
@@ -11239,6 +11323,10 @@ msgstr ""
 
 #: ulng.rsmsgfavoritetabsimportsubmenuname
 msgid "Legacy tabs imported"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsimporttitle
+msgid "Select .tab file(s) to import (could be more than one at the time!)"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
@@ -11929,6 +12017,10 @@ msgstr "Gehe zu anderem besonderen Windows-Pfad..."
 msgid "Go to Windows special folder (TC)..."
 msgstr "Gehe zu besonderem Windows-Verzeichnis (TC)"
 
+#: ulng.rsmsgspecialdirmakereltohotdir
+msgid "Make relative to hotdir path"
+msgstr ""
+
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
 msgstr "Mache Pfad absolut"
@@ -11952,6 +12044,10 @@ msgstr "Mache Pfda relativ zu anderem besonderen Windows-Verzeichnis..."
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
 msgstr "Nutze besonderen Double Commander-Pfad"
+
+#: ulng.rsmsgspecialdirusehotdir
+msgid "Use hotdir path"
+msgstr ""
 
 #: ulng.rsmsgspecialdiruseother
 msgid "Use other Windows special folder..."
@@ -11978,18 +12074,20 @@ msgid ""
 "Options regarding folder tabs extra have been modified.\n"
 "\n"
 "Do you want to save them before to exit?\n"
-msgstr "Optionen veränderte Verzeichnis-Tabs extra betreffend.\n"
+msgstr ""
+"Optionen veränderte Verzeichnis-Tabs extra betreffend.\n"
 "\n"
-"Vor dem Beenden speichern?"
+"Vor dem Beenden speichern?\n"
 
 #: ulng.rsmsgtabsoptionsmodifiedwanttosave
 msgid ""
 "Options regarding folder tabs have been modified.\n"
 "\n"
 "Do you want to save them before to exit?\n"
-msgstr "Optionen veränderte Verzeichnis-Tabs betreffend.\n"
+msgstr ""
+"Optionen veränderte Verzeichnis-Tabs betreffend.\n"
 "\n"
-"Vor dem Beenden speichern?"
+"Vor dem Beenden speichern?\n"
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
@@ -12017,8 +12115,9 @@ msgstr "Fehler! Die ausführbare Datei für die TC-Konfiguration kann nicht gefu
 msgid ""
 "Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
-msgstr "Fehler! TC läuft noch, sollte aber für diese Aktion geschlossen werden.\n"
-"Bitte schließen und OK klicken oder ABBRUCH zum abbrechen."
+msgstr ""
+"Fehler! TC läuft noch, sollte aber für diese Aktion geschlossen werden.\n"
+"Bitte schließen und OK klicken oder ABBRUCH zum abbrechen.\n"
 
 #: ulng.rsmsgtctoolbarnotfound
 msgid ""
