@@ -222,6 +222,8 @@ resourcestring
   rsMsgSpecialDirGotoTC = 'Go to Windows special folder (TC)...';
   rsMsgSpecialDirGotoOther = 'Go to other Windows special folder...';
   rsMsgSpecialDirGotoEnvVar = 'Go to environment variable...';
+  rsMsgSpecialDirUseHotDir = 'Use hotdir path';
+  rsMsgSpecialDirMakeRelToHotDir = 'Make relative to hotdir path';
 
   //Favorite Tabs related
   rsMsgFavoriteTabsModifiedWantToSave = 'Favorite Tabs have been modified. Do you want to save before to exit?';
@@ -255,6 +257,7 @@ resourcestring
   rsTabsActionOnDoubleClickChoices = 'Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu';
   rsFavTabsPanelSideSelection = 'Left;Right;Active;Inactive;Both;None';
   rsFavTabsSaveDirHistory = 'No;Yes';
+  rsMsgFavoriteTabsImportTitle = 'Select .tab file(s) to import (could be more than one at the time!)';
 
   //Total Commander related message
   rsMsgLocateTCExecutable = 'Locate TC executable file (totalcmd.exe or totalcmd64.exe)';

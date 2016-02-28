@@ -1074,8 +1074,10 @@ msgid "Delete"
 msgstr "Supprimer"
 
 #: tfrmeditor.acteditfind.caption
+#, fuzzy
+#| msgid "&Find"
 msgctxt "tfrmeditor.acteditfind.caption"
-msgid "&Find"
+msgid "&Find "
 msgstr "&Rechercher"
 
 #: tfrmeditor.acteditfind.hint
@@ -1250,6 +1252,12 @@ msgstr "Éditeur"
 msgctxt "TFRMEDITOR.HELP1.CAPTION"
 msgid "&Help"
 msgstr "Ai&de"
+
+#: tfrmeditor.menuitem1.caption
+#, fuzzy
+msgctxt "tfrmeditor.menuitem1.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmeditor.midiv.caption
 msgctxt "TFRMEDITOR.MIDIV.CAPTION"
@@ -1812,6 +1820,66 @@ msgstr "Attributs"
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
 msgid "Properties"
 msgstr "Propriétés"
+
+#: tfrmfinddlg.actcancel.caption
+msgid "actCancel"
+msgstr ""
+
+#: tfrmfinddlg.actclose.caption
+msgid "actClose"
+msgstr ""
+
+#: tfrmfinddlg.actedit.caption
+msgid "actEdit"
+msgstr ""
+
+#: tfrmfinddlg.actfeedtolistbox.caption
+msgid "actFeedToListbox"
+msgstr ""
+
+#: tfrmfinddlg.actgotofile.caption
+msgid "actGoToFile"
+msgstr ""
+
+#: tfrmfinddlg.actintellifocus.caption
+msgid "actIntelliFocus"
+msgstr ""
+
+#: tfrmfinddlg.actlastsearch.caption
+msgid "actLastSearch"
+msgstr ""
+
+#: tfrmfinddlg.actnewsearch.caption
+msgid "actNewSearch"
+msgstr ""
+
+#: tfrmfinddlg.actpageadvanced.caption
+msgid "actPageAdvanced"
+msgstr ""
+
+#: tfrmfinddlg.actpageloadsave.caption
+msgid "actPageLoadSave"
+msgstr ""
+
+#: tfrmfinddlg.actpageplugins.caption
+msgid "actPagePlugins"
+msgstr ""
+
+#: tfrmfinddlg.actpageresults.caption
+msgid "actPageResults"
+msgstr ""
+
+#: tfrmfinddlg.actpagestandard.caption
+msgid "actPageStandard"
+msgstr ""
+
+#: tfrmfinddlg.actstart.caption
+msgid "actStart"
+msgstr ""
+
+#: tfrmfinddlg.actview.caption
+msgid "actView"
+msgstr ""
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -9747,6 +9815,18 @@ msgstr "Différences"
 msgid "Edit Comment Dialog"
 msgstr "Fenêtre d'édition du commentaire"
 
+#: ulng.rshotkeycategoryeditor
+#, fuzzy
+msgctxt "ulng.rshotkeycategoryeditor"
+msgid "Editor"
+msgstr "Éditeur"
+
+#: ulng.rshotkeycategoryfindfiles
+#, fuzzy
+msgctxt "ulng.rshotkeycategoryfindfiles"
+msgid "Find files"
+msgstr "Rechercher les fichiers"
+
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr "Principal"
@@ -10172,6 +10252,10 @@ msgstr "Nombre de fichiers importés avec succès: %d sur %d"
 #: ulng.rsmsgfavoritetabsimportsubmenuname
 msgid "Legacy tabs imported"
 msgstr "Les .tab favoris ont été importés"
+
+#: ulng.rsmsgfavoritetabsimporttitle
+msgid "Select .tab file(s) to import (could be more than one at the time!)"
+msgstr ""
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
@@ -10824,6 +10908,10 @@ msgstr "Aller aux dossiers spéciaux de Windows..."
 msgid "Go to Windows special folder (TC)..."
 msgstr "Aller aux dossiers spéciaux de Windows (TC)..."
 
+#: ulng.rsmsgspecialdirmakereltohotdir
+msgid "Make relative to hotdir path"
+msgstr ""
+
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
 msgstr "Transforme le chemin en absolu"
@@ -10847,6 +10935,10 @@ msgstr "Transforme le chemin en relatif par rapport à un autre dossier spécial
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
 msgstr "Utilise un chemin spécial de Double Commander..."
+
+#: ulng.rsmsgspecialdirusehotdir
+msgid "Use hotdir path"
+msgstr ""
 
 #: ulng.rsmsgspecialdiruseother
 msgid "Use other Windows special folder..."
@@ -12163,3 +12255,4 @@ msgstr "Nombre de remplacements: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
+

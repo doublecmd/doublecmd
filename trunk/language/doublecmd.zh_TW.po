@@ -1119,8 +1119,10 @@ msgid "Delete"
 msgstr "刪除"
 
 #: tfrmeditor.acteditfind.caption
+#, fuzzy
+#| msgid "&Find"
 msgctxt "tfrmeditor.acteditfind.caption"
-msgid "&Find"
+msgid "&Find "
 msgstr "尋找 (&F)"
 
 #: tfrmeditor.acteditfind.hint
@@ -1296,6 +1298,12 @@ msgstr "編輯器"
 msgctxt "TFRMEDITOR.HELP1.CAPTION"
 msgid "&Help"
 msgstr "說明 (&H)"
+
+#: tfrmeditor.menuitem1.caption
+#, fuzzy
+msgctxt "tfrmeditor.menuitem1.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmeditor.midiv.caption
 msgctxt "TFRMEDITOR.MIDIV.CAPTION"
@@ -1894,6 +1902,66 @@ msgstr "屬性"
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
 msgid "Properties"
 msgstr "內容"
+
+#: tfrmfinddlg.actcancel.caption
+msgid "actCancel"
+msgstr ""
+
+#: tfrmfinddlg.actclose.caption
+msgid "actClose"
+msgstr ""
+
+#: tfrmfinddlg.actedit.caption
+msgid "actEdit"
+msgstr ""
+
+#: tfrmfinddlg.actfeedtolistbox.caption
+msgid "actFeedToListbox"
+msgstr ""
+
+#: tfrmfinddlg.actgotofile.caption
+msgid "actGoToFile"
+msgstr ""
+
+#: tfrmfinddlg.actintellifocus.caption
+msgid "actIntelliFocus"
+msgstr ""
+
+#: tfrmfinddlg.actlastsearch.caption
+msgid "actLastSearch"
+msgstr ""
+
+#: tfrmfinddlg.actnewsearch.caption
+msgid "actNewSearch"
+msgstr ""
+
+#: tfrmfinddlg.actpageadvanced.caption
+msgid "actPageAdvanced"
+msgstr ""
+
+#: tfrmfinddlg.actpageloadsave.caption
+msgid "actPageLoadSave"
+msgstr ""
+
+#: tfrmfinddlg.actpageplugins.caption
+msgid "actPagePlugins"
+msgstr ""
+
+#: tfrmfinddlg.actpageresults.caption
+msgid "actPageResults"
+msgstr ""
+
+#: tfrmfinddlg.actpagestandard.caption
+msgid "actPageStandard"
+msgstr ""
+
+#: tfrmfinddlg.actstart.caption
+msgid "actStart"
+msgstr ""
+
+#: tfrmfinddlg.actview.caption
+msgid "actView"
+msgstr ""
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -10353,6 +10421,10 @@ msgctxt "ulng.rsfindsearchfiles"
 msgid "Find files"
 msgstr "尋找檔案"
 
+#: ulng.rsfindtimeofscan
+msgid "Time of scan: "
+msgstr ""
+
 #: ulng.rsfindwherebeg
 msgid "Begin at"
 msgstr "開始"
@@ -10467,6 +10539,18 @@ msgstr "比對器"
 #: ulng.rshotkeycategoryeditcommentdialog
 msgid "Edit Comment Dialog"
 msgstr ""
+
+#: ulng.rshotkeycategoryeditor
+#, fuzzy
+msgctxt "ulng.rshotkeycategoryeditor"
+msgid "Editor"
+msgstr "編輯器"
+
+#: ulng.rshotkeycategoryfindfiles
+#, fuzzy
+msgctxt "ulng.rshotkeycategoryfindfiles"
+msgid "Find files"
+msgstr "尋找檔案"
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
@@ -10889,6 +10973,10 @@ msgstr ""
 
 #: ulng.rsmsgfavoritetabsimportsubmenuname
 msgid "Legacy tabs imported"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsimporttitle
+msgid "Select .tab file(s) to import (could be more than one at the time!)"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
@@ -11522,6 +11610,10 @@ msgstr ""
 msgid "Go to Windows special folder (TC)..."
 msgstr ""
 
+#: ulng.rsmsgspecialdirmakereltohotdir
+msgid "Make relative to hotdir path"
+msgstr ""
+
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
 msgstr ""
@@ -11544,6 +11636,10 @@ msgstr ""
 
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
+msgstr ""
+
+#: ulng.rsmsgspecialdirusehotdir
+msgid "Use hotdir path"
 msgstr ""
 
 #: ulng.rsmsgspecialdiruseother

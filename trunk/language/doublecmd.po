@@ -1054,7 +1054,7 @@ msgstr ""
 
 #: tfrmeditor.acteditfind.caption
 msgctxt "tfrmeditor.acteditfind.caption"
-msgid "&Find"
+msgid "&Find "
 msgstr ""
 
 #: tfrmeditor.acteditfind.hint
@@ -1228,6 +1228,11 @@ msgstr ""
 #: tfrmeditor.help1.caption
 msgctxt "TFRMEDITOR.HELP1.CAPTION"
 msgid "&Help"
+msgstr ""
+
+#: tfrmeditor.menuitem1.caption
+msgctxt "TFRMEDITOR.MENUITEM1.CAPTION"
+msgid "-"
 msgstr ""
 
 #: tfrmeditor.midiv.caption
@@ -1789,6 +1794,66 @@ msgstr ""
 #: tfrmfileproperties.tsproperties.caption
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
 msgid "Properties"
+msgstr ""
+
+#: tfrmfinddlg.actcancel.caption
+msgid "actCancel"
+msgstr ""
+
+#: tfrmfinddlg.actclose.caption
+msgid "actClose"
+msgstr ""
+
+#: tfrmfinddlg.actedit.caption
+msgid "actEdit"
+msgstr ""
+
+#: tfrmfinddlg.actfeedtolistbox.caption
+msgid "actFeedToListbox"
+msgstr ""
+
+#: tfrmfinddlg.actgotofile.caption
+msgid "actGoToFile"
+msgstr ""
+
+#: tfrmfinddlg.actintellifocus.caption
+msgid "actIntelliFocus"
+msgstr ""
+
+#: tfrmfinddlg.actlastsearch.caption
+msgid "actLastSearch"
+msgstr ""
+
+#: tfrmfinddlg.actnewsearch.caption
+msgid "actNewSearch"
+msgstr ""
+
+#: tfrmfinddlg.actpageadvanced.caption
+msgid "actPageAdvanced"
+msgstr ""
+
+#: tfrmfinddlg.actpageloadsave.caption
+msgid "actPageLoadSave"
+msgstr ""
+
+#: tfrmfinddlg.actpageplugins.caption
+msgid "actPagePlugins"
+msgstr ""
+
+#: tfrmfinddlg.actpageresults.caption
+msgid "actPageResults"
+msgstr ""
+
+#: tfrmfinddlg.actpagestandard.caption
+msgid "actPageStandard"
+msgstr ""
+
+#: tfrmfinddlg.actstart.caption
+msgid "actStart"
+msgstr ""
+
+#: tfrmfinddlg.actview.caption
+msgid "actView"
 msgstr ""
 
 #: tfrmfinddlg.btnaddattribute.caption
@@ -9528,6 +9593,10 @@ msgctxt "ulng.rsfindsearchfiles"
 msgid "Find files"
 msgstr ""
 
+#: ulng.rsfindtimeofscan
+msgid "Time of scan: "
+msgstr ""
+
 #: ulng.rsfindwherebeg
 msgid "Begin at"
 msgstr ""
@@ -9641,6 +9710,16 @@ msgstr ""
 
 #: ulng.rshotkeycategoryeditcommentdialog
 msgid "Edit Comment Dialog"
+msgstr ""
+
+#: ulng.rshotkeycategoryeditor
+msgctxt "ulng.rshotkeycategoryeditor"
+msgid "Editor"
+msgstr ""
+
+#: ulng.rshotkeycategoryfindfiles
+msgctxt "ulng.rshotkeycategoryfindfiles"
+msgid "Find files"
 msgstr ""
 
 #: ulng.rshotkeycategorymain
@@ -10060,6 +10139,10 @@ msgstr ""
 
 #: ulng.rsmsgfavoritetabsimportsubmenuname
 msgid "Legacy tabs imported"
+msgstr ""
+
+#: ulng.rsmsgfavoritetabsimporttitle
+msgid "Select .tab file(s) to import (could be more than one at the time!)"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
@@ -10690,6 +10773,10 @@ msgstr ""
 msgid "Go to Windows special folder (TC)..."
 msgstr ""
 
+#: ulng.rsmsgspecialdirmakereltohotdir
+msgid "Make relative to hotdir path"
+msgstr ""
+
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
 msgstr ""
@@ -10712,6 +10799,10 @@ msgstr ""
 
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
+msgstr ""
+
+#: ulng.rsmsgspecialdirusehotdir
+msgid "Use hotdir path"
 msgstr ""
 
 #: ulng.rsmsgspecialdiruseother

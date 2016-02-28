@@ -997,7 +997,7 @@ begin
 
     // 3. Prompt user for which file to import.
     OpenDialog.FilterIndex := 1;
-    OpenDialog.Title := 'Select .tab file(s) to import (could be more than one at the time!)';
+    OpenDialog.Title := rsMsgFavoriteTabsImportTitle;
     if OpenDialog.Execute then
     begin
       // 4. Now let's import them one by one.

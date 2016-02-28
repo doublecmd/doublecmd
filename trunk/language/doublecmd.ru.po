@@ -1055,8 +1055,10 @@ msgid "Delete"
 msgstr "Удалить"
 
 #: tfrmeditor.acteditfind.caption
+#, fuzzy
+#| msgid "&Find"
 msgctxt "tfrmeditor.acteditfind.caption"
-msgid "&Find"
+msgid "&Find "
 msgstr "&Найти..."
 
 #: tfrmeditor.acteditfind.hint
@@ -1231,6 +1233,12 @@ msgstr "Редактор"
 msgctxt "TFRMEDITOR.HELP1.CAPTION"
 msgid "&Help"
 msgstr "Помощ&ь"
+
+#: tfrmeditor.menuitem1.caption
+#, fuzzy
+msgctxt "tfrmeditor.menuitem1.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmeditor.midiv.caption
 msgctxt "TFRMEDITOR.MIDIV.CAPTION"
@@ -1792,6 +1800,66 @@ msgstr "Атрибуты"
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
 msgid "Properties"
 msgstr "Свойства"
+
+#: tfrmfinddlg.actcancel.caption
+msgid "actCancel"
+msgstr ""
+
+#: tfrmfinddlg.actclose.caption
+msgid "actClose"
+msgstr ""
+
+#: tfrmfinddlg.actedit.caption
+msgid "actEdit"
+msgstr ""
+
+#: tfrmfinddlg.actfeedtolistbox.caption
+msgid "actFeedToListbox"
+msgstr ""
+
+#: tfrmfinddlg.actgotofile.caption
+msgid "actGoToFile"
+msgstr ""
+
+#: tfrmfinddlg.actintellifocus.caption
+msgid "actIntelliFocus"
+msgstr ""
+
+#: tfrmfinddlg.actlastsearch.caption
+msgid "actLastSearch"
+msgstr ""
+
+#: tfrmfinddlg.actnewsearch.caption
+msgid "actNewSearch"
+msgstr ""
+
+#: tfrmfinddlg.actpageadvanced.caption
+msgid "actPageAdvanced"
+msgstr ""
+
+#: tfrmfinddlg.actpageloadsave.caption
+msgid "actPageLoadSave"
+msgstr ""
+
+#: tfrmfinddlg.actpageplugins.caption
+msgid "actPagePlugins"
+msgstr ""
+
+#: tfrmfinddlg.actpageresults.caption
+msgid "actPageResults"
+msgstr ""
+
+#: tfrmfinddlg.actpagestandard.caption
+msgid "actPageStandard"
+msgstr ""
+
+#: tfrmfinddlg.actstart.caption
+msgid "actStart"
+msgstr ""
+
+#: tfrmfinddlg.actview.caption
+msgid "actView"
+msgstr ""
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -9605,6 +9673,10 @@ msgctxt "ulng.rsfindsearchfiles"
 msgid "Find files"
 msgstr "Поиск файлов"
 
+#: ulng.rsfindtimeofscan
+msgid "Time of scan: "
+msgstr ""
+
 #: ulng.rsfindwherebeg
 msgid "Begin at"
 msgstr "Начинать у"
@@ -9722,6 +9794,18 @@ msgstr "Поиск различий"
 #: ulng.rshotkeycategoryeditcommentdialog
 msgid "Edit Comment Dialog"
 msgstr "Диалог редактирования комментария"
+
+#: ulng.rshotkeycategoryeditor
+#, fuzzy
+msgctxt "ulng.rshotkeycategoryeditor"
+msgid "Editor"
+msgstr "Редактор"
+
+#: ulng.rshotkeycategoryfindfiles
+#, fuzzy
+msgctxt "ulng.rshotkeycategoryfindfiles"
+msgid "Find files"
+msgstr "Поиск файлов"
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
@@ -10148,6 +10232,10 @@ msgstr "Количество успешно импортированных фа�
 #: ulng.rsmsgfavoritetabsimportsubmenuname
 msgid "Legacy tabs imported"
 msgstr "Вкладки по умолчанию импортированы"
+
+#: ulng.rsmsgfavoritetabsimporttitle
+msgid "Select .tab file(s) to import (could be more than one at the time!)"
+msgstr ""
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
@@ -10800,6 +10888,10 @@ msgstr "Перейти в другие специальные папки Windows
 msgid "Go to Windows special folder (TC)..."
 msgstr "Перейти в специальные папки Windows (TC)..."
 
+#: ulng.rsmsgspecialdirmakereltohotdir
+msgid "Make relative to hotdir path"
+msgstr ""
+
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
 msgstr "Сделать путь абсолютным"
@@ -10823,6 +10915,10 @@ msgstr "Сделать путь относительным к другой сп�
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
 msgstr "Использовать специальные пути DC..."
+
+#: ulng.rsmsgspecialdirusehotdir
+msgid "Use hotdir path"
+msgstr ""
 
 #: ulng.rsmsgspecialdiruseother
 msgid "Use other Windows special folder..."
@@ -12139,3 +12235,4 @@ msgstr "Число замен: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Замена не состоялась."
+
