@@ -249,7 +249,8 @@ type
 
     procedure DisableControlsForTemplate;
     procedure StopSearch;
-    procedure AfterSearchStopped;  //update button states after stop search
+    procedure AfterSearchStopped;  //update button states after stop search(ThreadTerminate call this method)
+    procedure AfterSearchFocus;     //set correct focus after search stopped
 
     procedure FillFindOptions(out FindOptions: TSearchTemplateRec; SetStartPath: Boolean);
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
@@ -844,7 +845,7 @@ begin
   if pgcSearch.ActivePage = tsStandard then
     cmbFindFileMask.SetFocus;
 
-  AfterSearchStopped;
+//  AfterSearchStopped;
 
   {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
     btnStart.Default := True;
@@ -1030,7 +1031,8 @@ begin
       DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStopSearch;
       DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallFinalize;
       AfterSearchStopped;
-      btnNewSearch.SetFocus;
+      AfterSearchFocus;
+//      btnNewSearch.SetFocus;
     end;
 
     if Assigned(FFindThread) then
@@ -1060,7 +1062,34 @@ begin
   btnClose.Enabled:= True;
   btnNewSearch.Enabled:= True;
   FSearchingActive := False;
+
 //  btnNewSearch.SetFocus;
+end;
+
+procedure TfrmFindDlg.AfterSearchFocus;
+var
+  LastButton:TButton;
+begin
+
+  if Assigned(Self) and Visible then
+  begin
+    if FRButtonPanelSender<>nil then  // if user press a keys while search - keep focus on it
+    begin
+        LastButton:=(FRButtonPanelSender as TButton);
+        if LastButton.Enabled then LastButton.SetFocus else btnNewSearch.SetFocus;
+    end else
+    begin                             // if user don't press anything - focus on results
+      if lsFoundedFiles.Count>0 then
+      begin
+        lsFoundedFiles.SetFocus;
+        lsFoundedFiles.Selected[lsFoundedFiles.ItemIndex]:=True;
+      end else
+      begin
+        if btnNewSearch.Enabled then btnNewSearch.SetFocus else btnStart.SetFocus;
+      end;
+    end;
+  end;
+
 end;
 
 procedure TfrmFindDlg.btnStartClick(Sender: TObject);
@@ -1286,7 +1315,24 @@ begin
   FUpdateTimer.Enabled := False;
   FFindThread := nil;
   AfterSearchStopped;
-  if Assigned(Self) and Visible then btnNewSearch.SetFocus;
+  AfterSearchFocus;
+
+  {
+  if Assigned(Self) and Visible then
+  begin
+    if FRButtonPanelSender<>nil then  // if user press a keys while search - keep focus on it
+    begin
+        LastButton:=(FRButtonPanelSender as TButton);
+        if LastButton.Enabled then LastButton.SetFocus else btnNewSearch.SetFocus;
+    end else
+    begin// if user don't press anything - focus on results
+        lsFoundedFiles.SetFocus;
+        if lsFoundedFiles.Count>0 then lsFoundedFiles.Selected[lsFoundedFiles.ItemIndex]:=True;
+    end;
+  end;
+  }
+
+//  if Assigned(Self) and Visible then btnNewSearch.SetFocus;
 //  if Self.Instance;
 end;
 
@@ -1418,8 +1464,8 @@ end;
 procedure TfrmFindDlg.btnStopClick(Sender: TObject);
 begin
   StopSearch;
-  AfterSearchStopped;
-  btnNewSearch.SetFocus;
+//  AfterSearchStopped;
+//  btnNewSearch.SetFocus;
 end;
 
 procedure TfrmFindDlg.FormCloseQuery(Sender: TObject;var CanClose: Boolean);
@@ -1728,6 +1774,10 @@ begin
           else btnNewSearch.SetFocus;
 //          btnNewSearch.SetFocus;
           Key := 0;
+        end else
+        begin
+          Key := 0;
+          btnStop.SetFocus;
         end;
       end;
 
