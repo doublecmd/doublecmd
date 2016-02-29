@@ -501,7 +501,8 @@ end;
 
 procedure TOrderedFileView.SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions);
 var
-  StartIndex, Index: PtrInt;
+  i, StartIndex, Index: PtrInt;
+  s :string;
   Result: Boolean;
   sFileName,
   sSearchName,
@@ -511,6 +512,7 @@ var
   uFileName: UnicodeString;
   sPy: String;
   Masks: TMaskList;
+  Mask : TMask;
 
   function NextIndexWrap(Index: PtrInt): PtrInt;
   begin
@@ -530,9 +532,9 @@ begin
   if IsEmpty then
     Exit;
 
-  {
-  sSearchName := SearchTerm;
 
+  sSearchName := SearchTerm;
+  {
   if Pos('.', sSearchName) <> 0 then
   begin
     sSearchNameNoExt := ExtractOnlyFileName(sSearchName);
@@ -565,10 +567,21 @@ begin
       Index := PrevIndexWrap(Index);   // begin search from previous file
   end;
 
+
   StartIndex := Index;
   try
-    // Mask := TMask.Create(sSearchName, SearchOptions.SearchCase = qscSensitive);
-    Masks:=TMaskList.Create(SearchTerm,';,', SearchOptions.SearchCase = qscSensitive, not (qsmBeginning in SearchOptions.Match) , not (qsmEnding in SearchOptions.Match));
+//    Mask := TMask.Create(sSearchName, SearchOptions.SearchCase = qscSensitive);
+    Masks:=TMaskList.Create(SearchTerm,';,', SearchOptions.SearchCase = qscSensitive);
+
+    i:=0;
+    while(i<Masks.Count)do
+    begin
+      s:=Masks.Items[i].Template;
+      s:=TFileListBuilder.PrepareFilter(s, SearchOptions);
+      Masks.Items[i].Template:=s;
+    inc(i);
+    end;
+
     try
       repeat
         Result := True;
@@ -608,6 +621,7 @@ begin
 
       until Index = StartIndex;
     finally
+//      Mask.Free;
       Masks.Free;
       Masks:=nil;
     end;

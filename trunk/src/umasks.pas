@@ -43,12 +43,20 @@ type
 
   TMask = class
   private
+    FTemplate:string;
     FMask: TMaskString;
     FCaseSensitive: Boolean;
+
+    procedure SetCaseSence(ACaseSence:boolean);
+    procedure SetTemplate(AValue: String);
+    procedure Update;
+//    procedure SetTo(AValue: string);
   public
     constructor Create(const AValue: String; CaseSensitive: Boolean = False);
-
     function Matches(const AFileName: String): Boolean;
+
+    property CaseSensitive:boolean read FCaseSensitive write SetCaseSence;
+    property Template:string read FTemplate write SetTemplate;
   end;
 
   { TParseStringList }
@@ -66,7 +74,7 @@ type
     function GetCount: Integer;
     function GetItem(Index: Integer): TMask;
   public
-    constructor Create(const AValue: String; ASeparatorCharset: string = ';, ';ACaseSence:boolean = True;AAnyPrefix:boolean=True;AAnyPostfix:boolean = True);
+    constructor Create(const AValue: String; ASeparatorCharset: string=';,'; ACaseSence:boolean=True);
     destructor Destroy; override;
 
     function Matches(const AFileName: String): Boolean;
@@ -76,7 +84,7 @@ type
   end;
 
 function MatchesMask(const FileName, Mask: String; CaseSensitive: Boolean = False): Boolean;
-function MatchesMaskList(const FileName, Mask: String; ASeparatorCharset: string = ';, '): Boolean;
+function MatchesMaskList(const FileName, Mask: String; ASeparatorCharset: string = ';, ';ACaseSens: Boolean = False): Boolean;
 
 implementation
 
@@ -100,13 +108,13 @@ begin
     Result := False;
 end;
 
-function MatchesMaskList(const FileName, Mask: String; ASeparatorCharset: string): Boolean;
+function MatchesMaskList(const FileName, Mask: String; ASeparatorCharset: string;ACaseSens: Boolean = False): Boolean;
 var
   AMaskList: TMaskList;
 begin
   if Mask <> '' then
   begin
-    AMaskList := TMaskList.Create(Mask, ASeparatorCharset);
+    AMaskList := TMaskList.Create(Mask, ASeparatorCharset,ACaseSens);
     try
       Result := AMaskList.Matches(FileName);
     finally
@@ -120,10 +128,49 @@ end;
 { TMask }
 
 constructor TMask.Create(const AValue: String; CaseSensitive: Boolean = False);
+begin
+  FTemplate:=AValue;
+  FCaseSensitive:=CaseSensitive;
+  Update;
+  {
+  FCaseSensitive := CaseSensitive;
+
+  if FCaseSensitive then
+    S := UTF8Decode(AValue)
+  else begin
+    S := UTF8Decode(UTF8LowerCase(AValue));
+  end;
+
+  I := 1;
+  while I <= Length(S) do
+  begin
+    case S[I] of
+      '*': AddAnyText;
+      '?': AddAnyChar;
+      else AddChar;
+    end;
+  end;
+  }
+end;
+
+procedure TMask.SetCaseSence(ACaseSence:boolean);
+begin
+  FCaseSensitive:=ACaseSence;
+  Update;
+end;
+
+procedure TMask.SetTemplate(AValue: String);
+begin
+  FTemplate:=AValue;
+  Update;
+end;
+
+procedure TMask.Update;
 var
   I: Integer;
   S: UnicodeString;
   SkipAnyText: Boolean;
+  AValue:string;
 
   procedure AddAnyText;
   begin
@@ -172,12 +219,13 @@ var
   end;
 
 begin
+//  FTemplate:=AValue;
+  AValue:=FTemplate;
+
   SetLength(FMask.Chars, 0);
   FMask.MinLength := 0;
   FMask.MaxLength := 0;
   SkipAnyText := False;
-
-  FCaseSensitive := CaseSensitive;
 
   if FCaseSensitive then
     S := UTF8Decode(AValue)
@@ -297,7 +345,7 @@ begin
   Result := FMasks.Count;
 end;
 
-constructor TMaskList.Create(const AValue: String; ASeparatorCharset: string; ACaseSence:boolean;AAnyPrefix,AAnyPostfix:boolean);
+constructor TMaskList.Create(const AValue: String; ASeparatorCharset: string; ACaseSence:boolean);
 var
   L: String;
   I: Integer;
@@ -309,8 +357,17 @@ begin
   FMasks := TObjectList.Create(True);
   if AValue='' then exit;
 
-  if not ACaseSence then L := UTF8LowerCase(AValue) else L := AValue;
+//  if not ACaseSence then L := UTF8LowerCase(AValue) else L := AValue;
+  L := UTF8LowerCase(AValue);
   S := TParseStringList.Create(L, ASeparatorCharset);
+  try
+    for I := 0 to S.Count - 1 do
+      FMasks.Add(TMask.Create(S[I], True));
+  finally
+    S.Free;
+  end;
+  {
+
   try
     for I := 0 to S.Count - 1 do
     begin
@@ -337,6 +394,7 @@ begin
   finally
     S.Free;
   end;
+  }
 end;
 
 destructor TMaskList.Destroy;

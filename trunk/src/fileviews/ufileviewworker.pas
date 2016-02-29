@@ -105,16 +105,10 @@ type
                                          const aFileFilter: String;
                                          const aFilterOptions: TQuickSearchOptions): Boolean;overload;
 
+
     class function InternalMatchesFilter(aFile: TFile;
-                                         const aMasks:TMaskList;
-                                         const aFilterOptions: TQuickSearchOptions): Boolean;overload;
+      const aMasks: TMaskList; const aFilterOptions: TQuickSearchOptions): Boolean;overload;
 
-
-    {en
-       Prepare filter string based on options.
-    }
-    class function PrepareFilter(const aFileFilter: String;
-                                 const aFilterOptions: TQuickSearchOptions): String;
 
   protected
     {en
@@ -138,6 +132,13 @@ type
                        var ExistingDisplayFilesHashed: TStringHashList); reintroduce;
     destructor Destroy; override;
     procedure Abort; override;
+
+    {en
+       Prepare filter string based on options.
+    }
+    class function PrepareFilter(const aFileFilter: String;
+                                 const aFilterOptions: TQuickSearchOptions): String;
+
 
     {en
        Fills aFiles with files from aFileSourceFiles.
@@ -644,7 +645,7 @@ begin
           sFilterNameNoExt := '*' + sFilterNameNoExt;
         if not (qsmEnding in aFilterOptions.Match) then
           sFilterNameNoExt := sFilterNameNoExt + '*';
-        Result := sFilterNameNoExt + ExtractFileExt(Result) + '*';
+        Result := sFilterNameNoExt + ExtractFileExt(Result);
       end
     else
       begin
@@ -655,21 +656,62 @@ begin
   end;
 end;
 
+
 class procedure TFileListBuilder.MakeDisplayFileList(
   allDisplayFiles: TDisplayFiles;
   filteredDisplayFiles: TDisplayFiles;
   aFileFilter: String;
   const aFilterOptions: TQuickSearchOptions);
-var
+{var
   i: Integer;
   AFile: TFile;
   filter: Boolean;
-  Masks:TMaskList;  // filters
 begin
   filteredDisplayFiles.Clear;
 
+  if Assigned(allDisplayFiles) then
+  begin
+    aFileFilter := PrepareFilter(aFileFilter, aFilterOptions);
+    for i := 0 to allDisplayFiles.Count - 1 do
+    begin
+      AFile := allDisplayFiles[i].FSFile;
+
+      try
+        filter := InternalMatchesFilter(AFile, aFileFilter, aFilterOptions);
+      except
+        on EConvertError do
+          aFileFilter := EmptyStr;
+      end;
+
+      if not filter then
+        filteredDisplayFiles.Add(allDisplayFiles[i]);
+    end;
+  end;
+end;
+}
+
+var
+  i: Integer;
+  s :string;
+  AFile: TFile;
+  filter: Boolean;
+  CaseSence:boolean;
+  Masks:TMaskList;  // filters
+begin
+  filteredDisplayFiles.Clear;
+  CaseSence:=qscSensitive in [aFilterOptions.SearchCase];
+
   try
-  Masks:=TMaskList.Create(aFileFilter,';,', qscSensitive in [aFilterOptions.SearchCase], not (qsmBeginning in aFilterOptions.Match) , not (qsmEnding in aFilterOptions.Match));
+    Masks:=TMaskList.Create(aFileFilter,';,', CaseSence);
+
+    i:=0;
+    while(i<Masks.Count)do
+    begin
+      s:=Masks.Items[i].Template;
+      s:=PrepareFilter(s, aFilterOptions);
+      Masks.Items[i].Template:=s;
+    inc(i);
+    end;
 
     if Assigned(allDisplayFiles) then
     begin
