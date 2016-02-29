@@ -50,6 +50,19 @@ type
     actAbout: TAction;
     actCopyFile: TAction;
     actDeleteFile: TAction;
+    actCopyToClipboard: TAction;
+    acrSearchNext: TAction;
+    actGraphics: TAction;
+    actPlugins: TAction;
+    actShowAsBook: TAction;
+    actShowAsWrapText: TAction;
+    actShowAsHex: TAction;
+    actShowAsBin: TAction;
+    actShowAsText: TAction;
+    actPreview: TAction;
+    actSearchPrev: TAction;
+    actSearch: TAction;
+    actSelectAll: TAction;
     actMirror: TAction;
     actRotate270: TAction;
     actRotate180: TAction;
@@ -317,6 +330,20 @@ type
     procedure cm_Rotate180(const Params: array of string);
     procedure cm_Rotate270(const Params: array of string);
     procedure cm_Mirror(const Params: array of string);
+
+
+    procedure cm_CopyToClipboard (const Params: array of string);
+    procedure cm_SelectAll       (const Params: array of string);
+    procedure cm_Search          (const Params: array of string);
+    procedure cm_SearchNext      (const Params: array of string);
+    procedure cm_SearchPrev      (const Params: array of string);
+
+    procedure cm_Preview         (const Params: array of string);
+    procedure cm_ShowAsText      (const Params: array of string);
+    procedure cm_ShowAsBin       (const Params: array of string);
+    procedure cm_ShowAsHex       (const Params: array of string);
+    procedure cm_ShowAsWrapText  (const Params: array of string);
+    procedure cm_ShowAsBook      (const Params: array of string);
   end;
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource = nil);
@@ -801,7 +828,8 @@ begin
   Image.Refresh;
 end;
 
-procedure TfrmViewer.CreatePreview(FullPathToFile: String; index: integer; delete: Boolean = false);
+procedure TfrmViewer.CreatePreview(FullPathToFile: string; index: integer;
+  delete: boolean);
 var
   bmpThumb : TBitmap = nil;
 begin
@@ -2337,6 +2365,61 @@ end;
 procedure TfrmViewer.cm_Mirror(const Params: array of string);
 begin
   if bImage then miRotateClick(miMirror);
+end;
+
+procedure TfrmViewer.cm_CopyToClipboard(const Params: array of string);
+begin
+  miCopyToClipboardClick(miCopyToClipboard);
+end;
+
+procedure TfrmViewer.cm_SelectAll(const Params: array of string);
+begin
+  miSelectAllClick(miSelectAll);
+end;
+
+procedure TfrmViewer.cm_Search(const Params: array of string);
+begin
+  miSearchClick(miSearch);
+end;
+
+procedure TfrmViewer.cm_SearchNext(const Params: array of string);
+begin
+  miSearchNextClick(miSearchNext);
+end;
+
+procedure TfrmViewer.cm_SearchPrev(const Params: array of string);
+begin
+  miSearchPrevClick(miSearchPrev);
+end;
+
+procedure TfrmViewer.cm_Preview(const Params: array of string);
+begin
+  miPreviewClick(miPreview);
+end;
+
+procedure TfrmViewer.cm_ShowAsText(const Params: array of string);
+begin
+  miTextClick(miText);
+end;
+
+procedure TfrmViewer.cm_ShowAsBin(const Params: array of string);
+begin
+  miTextClick(miBin);
+end;
+
+procedure TfrmViewer.cm_ShowAsHex(const Params: array of string);
+begin
+  miTextClick(miHex);
+end;
+
+procedure TfrmViewer.cm_ShowAsWrapText(const Params: array of string);
+begin
+  miTextClick(miWrapText);
+end;
+
+procedure TfrmViewer.cm_ShowAsBook(const Params: array of string);
+begin
+  miTextClick(miLookBook);
 end;
 
 initialization

@@ -2347,6 +2347,7 @@ object frmViewer: TfrmViewer
       object miLookBook: TMenuItem
         AutoCheck = True
         Caption = 'Show as B&ook'
+        Checked = True
         GroupIndex = 1
         RadioItem = True
         ShortCut = 32781
@@ -2541,6 +2542,59 @@ object frmViewer: TfrmViewer
       Caption = 'Mirror'
       Hint = 'Mirror'
       OnExecute = actExecute
+    end
+    object actCopyToClipboard: TAction
+      Category = 'Edit'
+      Caption = 'actCopyToClipboard'
+      OnExecute = actExecute
+    end
+    object actSelectAll: TAction
+      Category = 'Edit'
+      Caption = 'actSelectAll'
+    end
+    object actSearch: TAction
+      Category = 'Edit'
+      Caption = 'actSearch'
+    end
+    object acrSearchNext: TAction
+      Category = 'Edit'
+      Caption = 'acrSearchNext'
+    end
+    object actSearchPrev: TAction
+      Category = 'Edit'
+      Caption = 'actSearchPrev'
+    end
+    object actPreview: TAction
+      Category = 'View'
+      Caption = 'actPreview'
+    end
+    object actShowAsText: TAction
+      Category = 'View'
+      Caption = 'actShowAsText'
+    end
+    object actShowAsBin: TAction
+      Category = 'View'
+      Caption = 'actShowAsBin'
+    end
+    object actShowAsHex: TAction
+      Category = 'View'
+      Caption = 'actShowAsHex'
+    end
+    object actShowAsWrapText: TAction
+      Category = 'View'
+      Caption = 'actShowAsWrapText'
+    end
+    object actShowAsBook: TAction
+      Category = 'View'
+      Caption = 'actShowAsBook'
+    end
+    object actGraphics: TAction
+      Category = 'View'
+      Caption = 'actGraphics'
+    end
+    object actPlugins: TAction
+      Category = 'View'
+      Caption = 'actPlugins'
     end
   end
 end
