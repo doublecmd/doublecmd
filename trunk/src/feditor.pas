@@ -45,6 +45,7 @@ type
     actEditLineEndCr: TAction;
     actEditLineEndLf: TAction;
     actEditGotoLine: TAction;
+    actEditFindPrevious: TAction;
     ilImageList: TImageList;
     MainMenu1: TMainMenu;
     ActListEdit: TActionList;
@@ -55,6 +56,8 @@ type
     actFileSaveAs: TAction;
     actFileNew: TAction;
     actFileExit: TAction;
+    MenuItem1: TMenuItem;
+    miFindPrevious: TMenuItem;
     miGotoLine: TMenuItem;
     miEditLineEndCr: TMenuItem;
     miEditLineEndLf: TMenuItem;
@@ -195,6 +198,7 @@ type
 
 
      procedure cm_EditFindNext(const Params:array of string);
+     procedure cm_EditFindPrevious(const Params:array of string);
      procedure cm_EditGotoLine(const Params:array of string);
      procedure cm_EditLineEndCr(const Params:array of string);
      procedure cm_EditLineEndCrLf(const Params:array of string);
@@ -326,8 +330,6 @@ begin
   cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
   Commands.ExecuteCommand(cmd, []);
 end;
-
-
 
 procedure TfrmEditor.EditorMouseWheelDown(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
@@ -877,6 +879,21 @@ begin
     end;
 end;
 
+procedure TfrmEditor.cm_EditFindPrevious(const Params: array of string);
+begin
+  if gFirstTextSearch then
+    begin
+      bSearchBackwards:=True;
+      ShowSearchReplaceDialog(False);
+      Exit;
+    end;
+  if sSearchText <> '' then
+    begin
+      Editor.SelEnd:=Editor.SelStart;
+      DoSearchReplaceText(False, True);
+      bSearchFromCaret:= True;
+    end;
+end;
 
 
 procedure TfrmEditor.cm_EditGotoLine(const Params:array of string);
