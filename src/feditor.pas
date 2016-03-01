@@ -215,6 +215,8 @@ type
 //     procedure cm_Save2(const Params:array of string);
      procedure cm_ConfHigh(const Params:array of string);
 
+     procedure cm_EditRplc(const Params:array of string);
+
   end;
 
   procedure ShowEditor(WaitData: TEditorWaitData);
@@ -1020,6 +1022,11 @@ end;
 procedure TfrmEditor.cm_ConfHigh(const Params:array of string);
 begin
   ShowOptions(TfrmOptionsEditor);
+end;
+
+procedure TfrmEditor.cm_EditRplc(const Params: array of string);
+begin
+  ShowSearchReplaceDialog(True);
 end;
 
 
