@@ -1263,6 +1263,9 @@ object frmEditor: TfrmEditor
       object miFindNext: TMenuItem
         Action = actEditFindNext
       end
+      object miFindPrevious: TMenuItem
+        Action = actEditFindPrevious
+      end
       object miReplace: TMenuItem
         Action = actEditRplc
         Bitmap.Data = {
@@ -1616,6 +1619,11 @@ object frmEditor: TfrmEditor
       Caption = 'Goto Line...'
       OnExecute = actExecute
       ShortCut = 16455
+    end
+    object actEditFindPrevious: TAction
+      Category = 'Edit'
+      Caption = 'Find previous'
+      OnExecute = actExecute
     end
   end
   object pmContextMenu: TPopupMenu

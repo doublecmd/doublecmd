@@ -915,6 +915,7 @@ begin
       AddIfNotExists(['Ctrl+F'],[],'cm_EditFind');
       AddIfNotExists(['F2'],[],'cm_FileSave');
       AddIfNotExists(['F3'],[],'cm_EditFindNext');
+      AddIfNotExists(['Shift+F3'],[],'cm_EditFindPrevious');
       AddIfNotExists(['Ctrl+N'],[],'cm_FileNew');
       AddIfNotExists(['Ctrl+S'],[],'cm_FileSave');
       AddIfNotExists(['Esc'],[],'cm_FileExit');
