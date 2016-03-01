@@ -39,7 +39,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       Top = 25
       Width = 98
       BorderSpacing.Top = 2
-      Caption = 'Show &button bar'
+      Caption = 'Show toolbar'
       OnChange = cbShowMainToolBarChange
       TabOrder = 1
     end
