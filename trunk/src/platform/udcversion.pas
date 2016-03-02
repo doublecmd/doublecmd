@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Version information about DC, building tools and running environment.
 
-   Copyright (C) 2006-2015  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -251,24 +251,13 @@ end;
 {$IFDEF DARWIN}
 function GetMacOSXVersion: String;
 var
-  systemVersion, versionMajor,
+  versionMajor,
   versionMinor, versionBugFix: SInt32;
 begin
-  Result := EmptyStr;
-  if (Gestalt(gestaltSystemVersion, systemVersion) <> noErr) then Exit;
-  if (systemVersion < $1040) then
-    begin
-      versionMajor :=  ((systemVersion and $F000) shr 12) * 10 +
-                       ((systemVersion and $0F00) shr 8);
-      versionMinor :=  (systemVersion and $00F0) shr 4;
-      versionBugFix := (systemVersion and $000F);
-    end
-  else
-    begin
-      if (Gestalt(gestaltSystemVersionMajor, versionMajor) <> noErr) then Exit;
-      if (Gestalt(gestaltSystemVersionMinor, versionMinor) <> noErr) then Exit;
-      if (Gestalt(gestaltSystemVersionBugFix, versionBugFix) <> noErr) then Exit;
-    end;
+  Result:= EmptyStr;
+  if (Gestalt(gestaltSystemVersionMajor, versionMajor) <> noErr) then Exit;
+  if (Gestalt(gestaltSystemVersionMinor, versionMinor) <> noErr) then Exit;
+  if (Gestalt(gestaltSystemVersionBugFix, versionBugFix) <> noErr) then Exit;
   Result:= Format('Mac OS X %d.%d.%d', [versionMajor, versionMinor, versionBugFix]);
 end;
 {$ENDIF}
