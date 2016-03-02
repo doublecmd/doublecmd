@@ -1209,7 +1209,7 @@ msgid "Save"
 msgstr "Сохранить"
 
 #: tfrmeditor.actfilesaveas.caption
-msgid "Save &As.."
+msgid "Save &As..."
 msgstr "Сохранить &как..."
 
 #: tfrmeditor.actfilesaveas.hint
@@ -1802,64 +1802,74 @@ msgid "Properties"
 msgstr "Свойства"
 
 #: tfrmfinddlg.actcancel.caption
-msgid "actCancel"
-msgstr ""
+msgctxt "tfrmfinddlg.actcancel.caption"
+msgid "Cancel"
+msgstr "Отмена"
+
+#: tfrmfinddlg.actcancelclose.caption
+msgid "Cancel search and close window"
+msgstr "Отменить поиск и зыкрыть окно поиска"
 
 #: tfrmfinddlg.actclose.caption
-msgid "actClose"
-msgstr ""
+msgctxt "tfrmfinddlg.actclose.caption"
+msgid "Close"
+msgstr "Закрыть"
 
 #: tfrmfinddlg.actedit.caption
-msgid "actEdit"
-msgstr ""
+msgctxt "tfrmfinddlg.actedit.caption"
+msgid "Edit"
+msgstr "Редактровать"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "actFeedToListbox"
-msgstr ""
+msgid "Feed to listbox"
+msgstr "Файлы на панель"
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "actGoToFile"
-msgstr ""
+msgid "Go to file"
+msgstr "Перейти к файлу"
 
 #: tfrmfinddlg.actintellifocus.caption
-msgid "actIntelliFocus"
+msgctxt "tfrmfinddlg.actintellifocus.caption"
+msgid "Find Data"
 msgstr ""
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "actLastSearch"
-msgstr ""
+msgid "Last search"
+msgstr "Последний поиск"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "actNewSearch"
-msgstr ""
+msgid "New search"
+msgstr "Новый поиск"
 
 #: tfrmfinddlg.actpageadvanced.caption
-msgid "actPageAdvanced"
-msgstr ""
+msgid "Go to page \"Advanced\""
+msgstr "Перейти к вкладке \"Расширенный\""
 
 #: tfrmfinddlg.actpageloadsave.caption
-msgid "actPageLoadSave"
-msgstr ""
+msgid "Go to page \"Load/Save\""
+msgstr "Перейти к вкладке \"Загрузить/Сохранить\""
 
 #: tfrmfinddlg.actpageplugins.caption
-msgid "actPagePlugins"
-msgstr ""
+msgid "Go to page \"Plugins\""
+msgstr "Перейти к вкладке \"Плагины\""
 
 #: tfrmfinddlg.actpageresults.caption
-msgid "actPageResults"
-msgstr ""
+msgid "Go to page \"Results\""
+msgstr "Перейти к вкладке \"Загрузить/Сохранить\""
 
 #: tfrmfinddlg.actpagestandard.caption
-msgid "actPageStandard"
-msgstr ""
+msgid "Go to page \"Standard\""
+msgstr "Перейти к вкладке \"Стандартный\""
 
 #: tfrmfinddlg.actstart.caption
-msgid "actStart"
-msgstr ""
+msgctxt "tfrmfinddlg.actstart.caption"
+msgid "Start"
+msgstr "Старт"
 
 #: tfrmfinddlg.actview.caption
-msgid "actView"
-msgstr ""
+msgctxt "tfrmfinddlg.actview.caption"
+msgid "View"
+msgstr "Просмотр"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -1991,6 +2001,10 @@ msgstr "Файлы, &НЕ содержащие этот текст"
 msgid "N&ot older than:"
 msgstr "Н&е старше чем:"
 
+#: tfrmfinddlg.cbopenedtabs.caption
+msgid "Opened tabs"
+msgstr "В открытых вкладках"
+
 #: tfrmfinddlg.cbpartialnamesearch.caption
 msgid "Searc&h for part of file name"
 msgstr "Поис&к по части имени"
@@ -2052,6 +2066,7 @@ msgid "Files"
 msgstr "Файлы"
 
 #: tfrmfinddlg.gbfinddata.caption
+msgctxt "tfrmfinddlg.gbfinddata.caption"
 msgid "Find Data"
 msgstr "С текстом"
 
@@ -6609,7 +6624,7 @@ msgstr "&Главное меню"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
-msgid "Show &button bar"
+msgid "Show tool&bar"
 msgstr "П&анель инструментов"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
@@ -9796,13 +9811,11 @@ msgid "Edit Comment Dialog"
 msgstr "Диалог редактирования комментария"
 
 #: ulng.rshotkeycategoryeditor
-#, fuzzy
 msgctxt "ulng.rshotkeycategoryeditor"
 msgid "Editor"
 msgstr "Редактор"
 
 #: ulng.rshotkeycategoryfindfiles
-#, fuzzy
 msgctxt "ulng.rshotkeycategoryfindfiles"
 msgid "Find files"
 msgstr "Поиск файлов"
