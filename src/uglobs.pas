@@ -1364,7 +1364,7 @@ begin
   gOperationOptionCheckFreeSpace := True;
   gOperationOptionCopyAttributes := True;
   gOperationOptionCopyTime := True;
-  gOperationOptionCopyOwnership := True;
+  gOperationOptionCopyOwnership := False;
   gOperationOptionCopyPermissions := False;
 
 
