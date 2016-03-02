@@ -1180,8 +1180,7 @@ begin
   FPixmapList := TFPList.Create;
 
   {$IF DEFINED(DARWIN)}
-  FUseSystemTheme:= (Gestalt(gestaltSystemVersion, systemVersion) <> noErr);
-  if not FUseSystemTheme then FUseSystemTheme:= not (systemVersion < $1060);
+  FUseSystemTheme:= NSAppKitVersionNumber >= 1038;
   {$ELSEIF DEFINED(UNIX)}
   FExtToMimeIconName := TFPDataHashTable.Create;
   FHomeFolder := IncludeTrailingBackslash(GetHomeDir);
