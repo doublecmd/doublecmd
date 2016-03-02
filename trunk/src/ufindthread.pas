@@ -130,6 +130,7 @@ end;
 
 destructor TFindThread.Destroy;
 begin
+//  FItems.Add('End');
   FreeAndNil(FFilesMasks);
   FreeAndNil(FExcludeFiles);
   FreeThenNil(FLinkTargets);
@@ -166,12 +167,22 @@ begin
       // Search only selected directories.
       for I := 0 to FSelectedFiles.Count - 1 do
       begin
-        if FindFirstEx(FSelectedFiles[I], faAnyFile, sr) = 0 then
+
+        sTemp:=FSelectedFiles[I];
+        while sTemp <> EmptyStr do
         begin
-          if FPS_ISDIR(sr.Attr) then
-            WalkAdr(FSelectedFiles[I])
-          else
-            DoFile(ExtractFileDir(FSelectedFiles[I]), sr);
+          sPath:= Copy2SymbDel(sTemp, ';');
+          sPath:= ExcludeBackPathDelimiter(sPath);
+
+          if FindFirstEx(sPath, faAnyFile, sr) = 0 then
+          begin
+            if FPS_ISDIR(sr.Attr) then
+              WalkAdr(FSelectedFiles[I])
+            else
+              DoFile(ExtractFileDir(FSelectedFiles[I]), sr);
+          end;
+
+//          WalkAdr(sPath);
         end;
         FindCloseEx(sr);
       end;
@@ -714,6 +725,28 @@ begin
   begin
     FFoundFile := sNewDir + PathDelim + sr.Name;
     Synchronize(@AddFile);
+
+{
+    Move(sNewDir[1]  ,FPool[FPoolOfs],length(sNewDir));
+    inc(FPoolOfs,length(sNewDir));
+
+    FPool[FPoolOfs]:=PathDelim;
+    inc(FPoolOfs,length(PathDelim));
+
+    Move(sr.Name[1],FPool[FPoolOfs],length(sr.Name));
+    inc(FPoolOfs,length(sr.Name));
+
+    FPool[FPoolOfs]:=',';
+    inc(FPoolOfs,1);
+
+//    FPool[FPoolOfs]:=#10;
+//    inc(FPoolOfs,1);
+
+
+
+    if FPoolOfs>970000 then FPoolOfs:=1;
+}
+
     Inc(FFilesFound);
   end;
 
