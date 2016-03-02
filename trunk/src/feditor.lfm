@@ -1463,7 +1463,7 @@ object frmEditor: TfrmEditor
     end
     object actFileSaveAs: TAction
       Category = 'File'
-      Caption = 'Save &As..'
+      Caption = 'Save &As...'
       HelpType = htKeyword
       Hint = 'Save As'
       ImageIndex = 3
@@ -1497,7 +1497,7 @@ object frmEditor: TfrmEditor
     end
     object actEditFind: TAction
       Category = 'Edit'
-      Caption = '&Find '
+      Caption = '&Find'
       HelpType = htKeyword
       Hint = 'Find'
       ImageIndex = 10
