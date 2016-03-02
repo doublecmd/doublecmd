@@ -52,6 +52,7 @@ type
     actEdit: TAction;
     actGoToFile: TAction;
     actFeedToListbox: TAction;
+    actCancelClose: TAction;
     actPageResults: TAction;
     actPageLoadSave: TAction;
     actPagePlugins: TAction;
@@ -96,6 +97,7 @@ type
     cbSelectedFiles: TCheckBox;
     cbTextRegExp: TCheckBox;
     cbFindInArchive: TCheckBox;
+    cbOpenedTabs: TCheckBox;
     cmbExcludeDirectories: TComboBoxWithDelItems;
     cmbNotOlderThanUnit: TComboBox;
     cmbFileSizeUnit: TComboBox;
@@ -173,6 +175,7 @@ type
     procedure cbDateFromChange(Sender: TObject);
     procedure cbDateToChange(Sender: TObject);
     procedure cbFindInArchiveChange(Sender: TObject);
+    procedure cbOpenedTabsChange(Sender: TObject);
     procedure cbPartialNameSearchChange(Sender: TObject);
     procedure cbRegExpChange(Sender: TObject);
     procedure cbTextRegExpChange(Sender: TObject);
@@ -803,6 +806,13 @@ begin
   cbReplaceTextChange(cbReplaceText);
 end;
 
+procedure TfrmFindDlg.cbOpenedTabsChange(Sender: TObject);
+begin
+  cbSelectedFiles.Enabled:=not cbOpenedTabs.Checked;
+  cbFollowSymLinks.Enabled:=not cbOpenedTabs.Checked;
+  edtFindPathStart.Enabled:=not cbOpenedTabs.Checked;
+end;
+
 procedure TfrmFindDlg.cbPartialNameSearchChange(Sender: TObject);
 begin
   if cbPartialNameSearch.Checked then cbRegExp.Checked:=False;
@@ -1179,8 +1189,14 @@ begin
       end
     else
       begin
-        if cbSelectedFiles.Checked then
+        if cbSelectedFiles.Checked then PassedSelectedFiles := FSelectedFiles;
+
+        if cbOpenedTabs.Checked then
+        begin
+          frmMain.GetListOpenedPaths(FSelectedFiles);
           PassedSelectedFiles := FSelectedFiles;
+        end;
+
         FFindThread := TFindThread.Create(SearchTemplate, PassedSelectedFiles);
         with FFindThread do
         begin
@@ -1192,6 +1208,8 @@ begin
         FFindThread.Start;
         FUpdateTimer.Enabled := True;
         FUpdateTimer.OnTimer(FUpdateTimer);
+
+        FRButtonPanelSender:=nil;
       end;
   except
     StopSearch;

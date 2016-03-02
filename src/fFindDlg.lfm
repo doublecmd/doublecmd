@@ -2,10 +2,10 @@ object frmFindDlg: TfrmFindDlg
   Left = 275
   Height = 397
   Top = 176
-  Width = 839
+  Width = 875
   Caption = 'Find files'
   ClientHeight = 397
-  ClientWidth = 839
+  ClientWidth = 875
   Constraints.MinHeight = 360
   Constraints.MinWidth = 585
   KeyPreview = True
@@ -23,18 +23,18 @@ object frmFindDlg: TfrmFindDlg
     Left = 3
     Height = 391
     Top = 3
-    Width = 833
+    Width = 869
     Align = alClient
     BorderSpacing.Around = 3
     BevelOuter = bvNone
     ClientHeight = 391
-    ClientWidth = 833
+    ClientWidth = 869
     TabOrder = 0
     object pgcSearch: TPageControl
       Left = 0
       Height = 391
       Top = 0
-      Width = 724
+      Width = 760
       ActivePage = tsStandard
       Align = alClient
       TabIndex = 0
@@ -45,7 +45,7 @@ object frmFindDlg: TfrmFindDlg
         ChildSizing.LeftRightSpacing = 3
         ChildSizing.TopBottomSpacing = 3
         ClientHeight = 363
-        ClientWidth = 716
+        ClientWidth = 752
         OnEnter = tsStandardEnter
         object gbDirectories: TGroupBox
           AnchorSideLeft.Control = tsStandard
@@ -55,13 +55,13 @@ object frmFindDlg: TfrmFindDlg
           Left = 3
           Height = 116
           Top = 3
-          Width = 710
+          Width = 746
           Anchors = [akTop, akLeft, akRight]
           AutoSize = True
           Caption = 'Directories'
           ChildSizing.LeftRightSpacing = 5
           ClientHeight = 96
-          ClientWidth = 706
+          ClientWidth = 742
           TabOrder = 0
           OnResize = gbDirectoriesResize
           object lblFindPathStart: TLabel
@@ -81,7 +81,7 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideTop.Control = gbDirectories
             AnchorSideRight.Control = gbDirectories
             AnchorSideRight.Side = asrBottom
-            Left = 597
+            Left = 633
             Height = 19
             Top = 0
             Width = 104
@@ -97,7 +97,7 @@ object frmFindDlg: TfrmFindDlg
             Left = 5
             Height = 23
             Top = 19
-            Width = 670
+            Width = 706
             ShowHidden = False
             ButtonWidth = 23
             NumGlyphs = 1
@@ -127,7 +127,7 @@ object frmFindDlg: TfrmFindDlg
             Height = 23
             Hint = 'Enter directories names that should be excluded from search separated with ";"'
             Top = 60
-            Width = 491
+            Width = 527
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Right = 5
             BorderSpacing.Bottom = 5
@@ -140,7 +140,7 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideTop.Control = lblExcludeDirectories
             AnchorSideRight.Control = gbDirectories
             AnchorSideRight.Side = asrBottom
-            Left = 501
+            Left = 537
             Height = 51
             Top = 45
             Width = 200
@@ -176,7 +176,7 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideRight.Control = cbFollowSymLinks
             AnchorSideBottom.Control = cbFollowSymLinks
             AnchorSideBottom.Side = asrBottom
-            Left = 422
+            Left = 458
             Height = 19
             Top = 0
             Width = 169
@@ -185,6 +185,20 @@ object frmFindDlg: TfrmFindDlg
             Caption = 'Selected directories and &files'
             OnChange = cbSelectedFilesChange
             TabOrder = 4
+          end
+          object cbOpenedTabs: TCheckBox
+            AnchorSideRight.Control = cbSelectedFiles
+            AnchorSideBottom.Control = cbSelectedFiles
+            AnchorSideBottom.Side = asrBottom
+            Left = 365
+            Height = 19
+            Top = 0
+            Width = 87
+            Anchors = [akRight, akBottom]
+            BorderSpacing.Right = 6
+            Caption = 'Opened tabs'
+            OnChange = cbOpenedTabsChange
+            TabOrder = 5
           end
         end
         object gbFiles: TGroupBox
@@ -196,13 +210,13 @@ object frmFindDlg: TfrmFindDlg
           Left = 3
           Height = 108
           Top = 119
-          Width = 710
+          Width = 746
           Anchors = [akTop, akLeft, akRight]
           AutoSize = True
           Caption = 'Files'
           ChildSizing.LeftRightSpacing = 5
           ClientHeight = 88
-          ClientWidth = 706
+          ClientWidth = 742
           TabOrder = 1
           object lblFindFileMask: TLabel
             AnchorSideLeft.Control = gbFiles
@@ -229,7 +243,7 @@ object frmFindDlg: TfrmFindDlg
             Height = 23
             Hint = 'Enter files names separated with ";"'
             Top = 19
-            Width = 696
+            Width = 732
             Anchors = [akTop, akLeft, akRight]
             ItemHeight = 15
             ParentShowHint = False
@@ -260,7 +274,7 @@ object frmFindDlg: TfrmFindDlg
             Height = 23
             Hint = 'Enter files names that should be excluded from search separated with ";"'
             Top = 60
-            Width = 696
+            Width = 732
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Bottom = 5
             ItemHeight = 15
@@ -272,7 +286,7 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideRight.Control = cbRegExp
             AnchorSideBottom.Control = cbRegExp
             AnchorSideBottom.Side = asrBottom
-            Left = 414
+            Left = 450
             Height = 19
             Top = 0
             Width = 163
@@ -288,7 +302,7 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideTop.Control = gbFiles
             AnchorSideRight.Control = gbFiles
             AnchorSideRight.Side = asrBottom
-            Left = 583
+            Left = 619
             Height = 19
             Top = 0
             Width = 118
@@ -301,7 +315,7 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideRight.Control = cbPartialNameSearch
             AnchorSideBottom.Control = cbPartialNameSearch
             AnchorSideBottom.Side = asrBottom
-            Left = 294
+            Left = 330
             Height = 19
             Top = 0
             Width = 114
@@ -321,13 +335,13 @@ object frmFindDlg: TfrmFindDlg
           Left = 3
           Height = 123
           Top = 227
-          Width = 710
+          Width = 746
           Anchors = [akTop, akLeft, akRight]
           AutoSize = True
           Caption = 'Find Data'
           ChildSizing.TopBottomSpacing = 2
           ClientHeight = 103
-          ClientWidth = 706
+          ClientWidth = 742
           TabOrder = 2
           object lblEncoding: TLabel
             AnchorSideLeft.Control = gbFindData
@@ -398,7 +412,7 @@ object frmFindDlg: TfrmFindDlg
             Left = 112
             Height = 23
             Top = 2
-            Width = 591
+            Width = 627
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 3
             BorderSpacing.Right = 3
@@ -414,7 +428,7 @@ object frmFindDlg: TfrmFindDlg
             Left = 112
             Height = 23
             Top = 28
-            Width = 591
+            Width = 627
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 3
             BorderSpacing.Right = 3
@@ -706,6 +720,8 @@ object frmFindDlg: TfrmFindDlg
           Date = 40598
           Time = 0.925837488422985
           UseDefaultSeparators = True
+          HideDateTimeParts = []
+          MonthNames = 'Long'
           OnChange = ZVDateFromChange
         end
         object ZVDateTo: TDateTimePicker
@@ -732,6 +748,8 @@ object frmFindDlg: TfrmFindDlg
           Date = 40598
           Time = 0.927234872688132
           UseDefaultSeparators = True
+          HideDateTimeParts = []
+          MonthNames = 'Long'
           OnChange = ZVDateToChange
         end
         object ZVTimeFrom: TDateTimePicker
@@ -760,6 +778,8 @@ object frmFindDlg: TfrmFindDlg
           Date = 40598
           Time = 0.930765335644537
           UseDefaultSeparators = True
+          HideDateTimeParts = []
+          MonthNames = 'Long'
           OnChange = ZVTimeFromChange
         end
         object ZVTimeTo: TDateTimePicker
@@ -788,6 +808,8 @@ object frmFindDlg: TfrmFindDlg
           Date = 40598
           Time = 0.930765335644537
           UseDefaultSeparators = True
+          HideDateTimeParts = []
+          MonthNames = 'Long'
           OnChange = ZVTimeToChange
         end
         object lblAttributes: TLabel
@@ -1251,7 +1273,7 @@ object frmFindDlg: TfrmFindDlg
       end
     end
     object pnlButtons: TPanel
-      Left = 730
+      Left = 766
       Height = 351
       Top = 40
       Width = 103
@@ -1389,55 +1411,68 @@ object frmFindDlg: TfrmFindDlg
   object actList: TActionList
     left = 424
     object actIntelliFocus: TAction
-      Caption = 'actIntelliFocus'
+      Caption = 'Find Data'
       OnExecute = actExecute
     end
     object actStart: TAction
-      Caption = 'actStart'
+      Caption = 'Start'
       OnExecute = actExecute
     end
     object actCancel: TAction
-      Caption = 'actCancel'
+      Caption = 'Cancel'
       OnExecute = actExecute
     end
     object actClose: TAction
-      Caption = 'actClose'
+      Caption = 'Close'
       OnExecute = actExecute
     end
     object actNewSearch: TAction
-      Caption = 'actNewSearch'
+      Caption = 'New search'
       OnExecute = actExecute
     end
     object actLastSearch: TAction
-      Caption = 'actLastSearch'
+      Caption = 'Last search'
       OnExecute = actExecute
     end
     object actView: TAction
-      Caption = 'actView'
+      Caption = 'View'
+      OnExecute = actExecute
     end
     object actEdit: TAction
-      Caption = 'actEdit'
+      Caption = 'Edit'
+      OnExecute = actExecute
     end
     object actGoToFile: TAction
-      Caption = 'actGoToFile'
+      Caption = 'Go to file'
+      OnExecute = actExecute
     end
     object actFeedToListbox: TAction
-      Caption = 'actFeedToListbox'
+      Caption = 'Feed to listbox'
+      OnExecute = actExecute
     end
     object actPageStandard: TAction
-      Caption = 'actPageStandard'
+      Caption = 'Go to page "Standard"'
+      OnExecute = actExecute
     end
     object actPageAdvanced: TAction
-      Caption = 'actPageAdvanced'
+      Caption = 'Go to page "Advanced"'
+      OnExecute = actExecute
     end
     object actPagePlugins: TAction
-      Caption = 'actPagePlugins'
+      Caption = 'Go to page "Plugins"'
+      OnExecute = actExecute
     end
     object actPageLoadSave: TAction
-      Caption = 'actPageLoadSave'
+      Caption = 'Go to page "Load/Save"'
+      OnExecute = actExecute
     end
     object actPageResults: TAction
-      Caption = 'actPageResults'
+      Caption = 'Go to page "Results"'
+      OnExecute = actExecute
+    end
+    object actCancelClose: TAction
+      Caption = 'Cancel search and close window'
+      OnExecute = actExecute
     end
   end
 end
