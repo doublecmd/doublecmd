@@ -1426,9 +1426,11 @@ var
   lenEdtText, lenEdtTextExt, i: Integer;
   seperatorSet: set of AnsiChar;
   ca:char;
+  s:string;
 begin
-  FRenFile.LenFul := UTF8Length(edtRename.Text);
-  FRenFile.LenExt := UTF8Length(ExtractFileExt(edtRename.Text));
+  s:=AFile.Name;
+  FRenFile.LenFul := UTF8Length(s);
+  FRenFile.LenExt := UTF8Length(ExtractFileExt(s));
   FRenFile.LenNam := FRenFile.LenFul-FRenFile.LenExt;
 
 
