@@ -2298,7 +2298,7 @@ object frmViewer: TfrmViewer
         OnClick = miSearchNextClick
       end
       object miSearchPrev: TMenuItem
-        Caption = 'Search prev'
+        Caption = 'Search previous'
         ShortCut = 8306
         OnClick = miSearchPrevClick
       end
@@ -2545,56 +2545,68 @@ object frmViewer: TfrmViewer
     end
     object actCopyToClipboard: TAction
       Category = 'Edit'
-      Caption = 'actCopyToClipboard'
+      Caption = 'Copy To Clipboard'
       OnExecute = actExecute
     end
     object actSelectAll: TAction
       Category = 'Edit'
-      Caption = 'actSelectAll'
+      Caption = 'Select All'
+      OnExecute = actExecute
     end
     object actSearch: TAction
       Category = 'Edit'
-      Caption = 'actSearch'
+      Caption = 'Search'
+      OnExecute = actExecute
     end
     object acrSearchNext: TAction
       Category = 'Edit'
-      Caption = 'acrSearchNext'
+      Caption = 'Search next'
+      OnExecute = actExecute
     end
     object actSearchPrev: TAction
       Category = 'Edit'
-      Caption = 'actSearchPrev'
+      Caption = 'Search previous'
+      OnExecute = actExecute
     end
     object actPreview: TAction
       Category = 'View'
-      Caption = 'actPreview'
+      Caption = 'Preview'
+      OnExecute = actExecute
     end
     object actShowAsText: TAction
       Category = 'View'
-      Caption = 'actShowAsText'
+      Caption = 'Show as Text'
+      OnExecute = actExecute
     end
     object actShowAsBin: TAction
       Category = 'View'
-      Caption = 'actShowAsBin'
+      Caption = 'Show as Bin'
+      OnExecute = actExecute
     end
     object actShowAsHex: TAction
       Category = 'View'
-      Caption = 'actShowAsHex'
+      Caption = 'Show as Hex'
+      OnExecute = actExecute
     end
     object actShowAsWrapText: TAction
       Category = 'View'
-      Caption = 'actShowAsWrapText'
+      Caption = 'Show as Wrap text'
+      OnExecute = actExecute
     end
     object actShowAsBook: TAction
       Category = 'View'
-      Caption = 'actShowAsBook'
+      Caption = 'Show as Book'
+      OnExecute = actExecute
     end
     object actGraphics: TAction
       Category = 'View'
-      Caption = 'actGraphics'
+      Caption = 'Graphics'
+      OnExecute = actExecute
     end
     object actPlugins: TAction
       Category = 'View'
-      Caption = 'actPlugins'
+      Caption = 'Plugins'
+      OnExecute = actExecute
     end
   end
 end

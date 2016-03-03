@@ -344,6 +344,10 @@ type
     procedure cm_ShowAsHex       (const Params: array of string);
     procedure cm_ShowAsWrapText  (const Params: array of string);
     procedure cm_ShowAsBook      (const Params: array of string);
+
+    procedure cm_ShowGraphics    (const Params: array of string);
+    procedure cm_ShowPlugins     (const Params: array of string);
+
   end;
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource = nil);
@@ -2420,6 +2424,16 @@ end;
 procedure TfrmViewer.cm_ShowAsBook(const Params: array of string);
 begin
   miTextClick(miLookBook);
+end;
+
+procedure TfrmViewer.cm_ShowGraphics(const Params: array of string);
+begin
+  miGraphicsClick(miGraphics);
+end;
+
+procedure TfrmViewer.cm_ShowPlugins(const Params: array of string);
+begin
+  miPluginsClick(miPlugins);
 end;
 
 initialization
