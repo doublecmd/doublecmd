@@ -1368,11 +1368,9 @@ object frmEditor: TfrmEditor
       Caption = 'En&coding'
       object miEncodingIn: TMenuItem
         Caption = 'Open as'
-        OnClick = actExecute
       end
       object miEncodingOut: TMenuItem
         Caption = 'Save as'
-        OnClick = actExecute
       end
     end
     object miHighlight: TMenuItem
