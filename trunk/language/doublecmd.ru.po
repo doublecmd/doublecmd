@@ -1055,10 +1055,8 @@ msgid "Delete"
 msgstr "Удалить"
 
 #: tfrmeditor.acteditfind.caption
-#, fuzzy
-#| msgid "&Find"
 msgctxt "tfrmeditor.acteditfind.caption"
-msgid "&Find "
+msgid "&Find"
 msgstr "&Найти..."
 
 #: tfrmeditor.acteditfind.hint
@@ -1075,6 +1073,10 @@ msgstr "Найти далее"
 msgctxt "tfrmeditor.acteditfindnext.hint"
 msgid "Find next"
 msgstr "Найти далее"
+
+#: tfrmeditor.acteditfindprevious.caption
+msgid "Find previous"
+msgstr "Найти ранее"
 
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
@@ -2008,6 +2010,10 @@ msgstr "В открытых вкладках"
 #: tfrmfinddlg.cbpartialnamesearch.caption
 msgid "Searc&h for part of file name"
 msgstr "Поис&к по части имени"
+
+#: tfrmfinddlg.cbquote.caption
+msgid "Quote"
+msgstr ""
 
 #: tfrmfinddlg.cbregexp.caption
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
@@ -6321,6 +6327,12 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION"
 msgid "Category &name:"
 msgstr "&Наименование:"
 
+#: tfrmoptionsfonts.btnpatheditfnt.caption
+#, fuzzy
+msgctxt "tfrmoptionsfonts.btnpatheditfnt.caption"
+msgid "..."
+msgstr "..."
+
 #: tfrmoptionsfonts.btnselconsolefnt.caption
 msgctxt "tfrmoptionsfonts.btnselconsolefnt.caption"
 msgid "..."
@@ -6351,6 +6363,10 @@ msgctxt "TFRMOPTIONSFONTS.BTNSELVIEWFNT.CAPTION"
 msgid "..."
 msgstr "..."
 
+#: tfrmoptionsfonts.label1.caption
+msgid "Function keys font"
+msgstr ""
+
 #: tfrmoptionsfonts.lblconsolefont.caption
 msgid "&Console font"
 msgstr "&Консоли"
@@ -6369,6 +6385,10 @@ msgstr "Протоко&ла"
 msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
 msgid "Main &font"
 msgstr "О&сновной"
+
+#: tfrmoptionsfonts.lblpatheditfont.caption
+msgid "Path font"
+msgstr ""
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
@@ -8587,6 +8607,11 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "&Plugin:"
 msgstr "&Плагин:"
 
+#: tfrmviewer.acrsearchnext.caption
+msgctxt "tfrmviewer.acrsearchnext.caption"
+msgid "Search next"
+msgstr "Найти далее"
+
 #: tfrmviewer.actabout.caption
 msgctxt "TFRMVIEWER.ACTABOUT.CAPTION"
 msgid "About Viewer..."
@@ -8606,6 +8631,11 @@ msgctxt "TFRMVIEWER.ACTCOPYFILE.HINT"
 msgid "Copy File"
 msgstr "Копировать файл"
 
+#: tfrmviewer.actcopytoclipboard.caption
+msgctxt "tfrmviewer.actcopytoclipboard.caption"
+msgid "Copy To Clipboard"
+msgstr "&Копировать в буфер"
+
 #: tfrmviewer.actdeletefile.caption
 msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
 msgid "Delete File"
@@ -8615,6 +8645,11 @@ msgstr "Удалить файл"
 msgctxt "TFRMVIEWER.ACTDELETEFILE.HINT"
 msgid "Delete File"
 msgstr "Удалить файл"
+
+#: tfrmviewer.actgraphics.caption
+msgctxt "tfrmviewer.actgraphics.caption"
+msgid "Graphics"
+msgstr "&Графика"
 
 #: tfrmviewer.actloadnextfile.caption
 msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
@@ -8653,6 +8688,16 @@ msgstr "Переместить файл"
 msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
 msgid "Move File"
 msgstr "Переместить файл"
+
+#: tfrmviewer.actplugins.caption
+msgctxt "tfrmviewer.actplugins.caption"
+msgid "Plugins"
+msgstr "Плагины"
+
+#: tfrmviewer.actpreview.caption
+msgctxt "tfrmviewer.actpreview.caption"
+msgid "Preview"
+msgstr "Предварительный просмотр"
 
 #: tfrmviewer.actreload.caption
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
@@ -8701,6 +8746,41 @@ msgstr "Сохранить как..."
 #: tfrmviewer.actsaveas.hint
 msgid "Save File As..."
 msgstr "Сохранить файл как..."
+
+#: tfrmviewer.actsearch.caption
+msgctxt "tfrmviewer.actsearch.caption"
+msgid "Search"
+msgstr "Найти..."
+
+#: tfrmviewer.actsearchprev.caption
+msgctxt "tfrmviewer.actsearchprev.caption"
+msgid "Search previous"
+msgstr "Найти предыдущий"
+
+#: tfrmviewer.actselectall.caption
+msgctxt "tfrmviewer.actselectall.caption"
+msgid "Select All"
+msgstr "Выделить &всё"
+
+#: tfrmviewer.actshowasbin.caption
+msgid "Show as Bin"
+msgstr "Показать в двоичном виде"
+
+#: tfrmviewer.actshowasbook.caption
+msgid "Show as Book"
+msgstr "Показать в виде текста с колонками"
+
+#: tfrmviewer.actshowashex.caption
+msgid "Show as Hex"
+msgstr "Показать в шестнадцатеричном виде"
+
+#: tfrmviewer.actshowastext.caption
+msgid "Show as Text"
+msgstr "Показать как текст"
+
+#: tfrmviewer.actshowaswraptext.caption
+msgid "Show as Wrap text"
+msgstr "Показать как текст с разрывами строк"
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -8943,6 +9023,7 @@ msgid "Full Screen"
 msgstr "На весь экран"
 
 #: tfrmviewer.migraphics.caption
+msgctxt "tfrmviewer.migraphics.caption"
 msgid "Graphics"
 msgstr "&Графика"
 
@@ -9002,11 +9083,15 @@ msgid "Search"
 msgstr "&Найти..."
 
 #: tfrmviewer.misearchnext.caption
+msgctxt "tfrmviewer.misearchnext.caption"
 msgid "Search next"
 msgstr "Найти далее"
 
 #: tfrmviewer.misearchprev.caption
-msgid "Search prev"
+#, fuzzy
+#| msgid "Search prev"
+msgctxt "tfrmviewer.misearchprev.caption"
+msgid "Search previous"
 msgstr "Найти предыдущий"
 
 #: tfrmviewer.miselectall.caption
