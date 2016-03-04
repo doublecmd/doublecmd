@@ -1,13 +1,13 @@
 object frmViewer: TfrmViewer
-  Left = 411
+  Left = 249
   Height = 480
-  Top = 200
-  Width = 640
+  Top = 149
+  Width = 651
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
   Caption = 'Viewer'
   ClientHeight = 480
-  ClientWidth = 640
+  ClientWidth = 651
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
   Icon.Data = {
@@ -64,7 +64,7 @@ object frmViewer: TfrmViewer
     Left = 179
     Height = 457
     Top = 0
-    Width = 461
+    Width = 472
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
@@ -74,7 +74,7 @@ object frmViewer: TfrmViewer
     Left = 0
     Height = 23
     Top = 457
-    Width = 640
+    Width = 651
     Panels = <    
       item
         Width = 200
@@ -97,11 +97,11 @@ object frmViewer: TfrmViewer
     Left = 179
     Height = 457
     Top = 0
-    Width = 461
+    Width = 472
     Align = alClient
     BevelOuter = bvNone
     ClientHeight = 457
-    ClientWidth = 461
+    ClientWidth = 472
     TabOrder = 2
     Visible = False
     OnMouseWheelUp = pnlTextMouseWheelUp
@@ -109,7 +109,7 @@ object frmViewer: TfrmViewer
       Left = 0
       Height = 457
       Top = 0
-      Width = 461
+      Width = 472
       ViewerMode = vmText
       OnPositionChanged = ViewerPositionChanged
       OnMouseUp = ViewerControlMouseUp
@@ -124,11 +124,11 @@ object frmViewer: TfrmViewer
     Left = 179
     Height = 457
     Top = 0
-    Width = 461
+    Width = 472
     Align = alClient
     BevelOuter = bvNone
     ClientHeight = 457
-    ClientWidth = 461
+    ClientWidth = 472
     TabOrder = 3
     Visible = False
     OnResize = pnlImageResize
@@ -136,12 +136,12 @@ object frmViewer: TfrmViewer
       Left = 0
       Height = 407
       Top = 50
-      Width = 461
+      Width = 472
       HorzScrollBar.Page = 432
       VertScrollBar.Page = 384
       Align = alClient
       ClientHeight = 403
-      ClientWidth = 457
+      ClientWidth = 468
       Color = clWhite
       ParentColor = False
       TabOrder = 0
@@ -160,6 +160,7 @@ object frmViewer: TfrmViewer
         OnMouseLeave = ImageMouseLeave
         OnMouseMove = ImageMouseMove
         OnMouseUp = ImageMouseUp
+        OnMouseWheelDown = ImageMouseWheelDown
         OnMouseWheelUp = ImageMouseWheelUp
         Proportional = True
       end
@@ -179,11 +180,11 @@ object frmViewer: TfrmViewer
       Left = 0
       Height = 50
       Top = 0
-      Width = 461
+      Width = 472
       Align = alTop
       Alignment = taLeftJustify
       ClientHeight = 50
-      ClientWidth = 461
+      ClientWidth = 472
       ParentShowHint = False
       ShowHint = True
       TabOrder = 1
@@ -314,7 +315,7 @@ object frmViewer: TfrmViewer
         end
       end
       object gboxPaint: TGroupBox
-        Left = 462
+        Left = 473
         Height = 47
         Top = 1
         Width = 203
@@ -833,7 +834,7 @@ object frmViewer: TfrmViewer
       end
       object btnResize: TSpeedButton
         AnchorSideLeft.Side = asrBottom
-        Left = 433
+        Left = 444
         Height = 46
         Hint = 'Resize'
         Top = 1
@@ -1008,7 +1009,7 @@ object frmViewer: TfrmViewer
         ShowCaption = False
       end
       object btnPaint: TSpeedButton
-        Left = 462
+        Left = 473
         Height = 46
         Hint = 'Paint'
         Top = 1
@@ -1096,7 +1097,7 @@ object frmViewer: TfrmViewer
       end
       object btnFullScreen: TSpeedButton
         AnchorSideRight.Control = btnResize
-        Left = 430
+        Left = 441
         Height = 45
         Hint = 'Full Screen'
         Top = 1
@@ -1185,7 +1186,7 @@ object frmViewer: TfrmViewer
       end
       object gboxSlideShow: TGroupBox
         AnchorSideRight.Control = btnFullScreen
-        Left = 323
+        Left = 334
         Height = 48
         Top = 1
         Width = 132
@@ -2248,8 +2249,7 @@ object frmViewer: TfrmViewer
         Action = actLoadNextFile
       end
       object miSave: TMenuItem
-        Caption = 'Save'
-        OnClick = miSaveClick
+        Action = actSave
       end
       object miSaveAs: TMenuItem
         Caption = 'Save As...'
@@ -2268,112 +2268,74 @@ object frmViewer: TfrmViewer
         Caption = '-'
       end
       object miExit: TMenuItem
-        Caption = 'E&xit'
-        OnClick = miExitClick
+        Action = actExit
       end
     end
     object miEdit: TMenuItem
       Caption = '&Edit'
       object miCopyToClipboard: TMenuItem
-        Caption = 'Copy To Clipboard'
-        ShortCut = 16451
-        OnClick = miCopyToClipboardClick
+        Action = actCopyToClipboard
       end
       object miSelectAll: TMenuItem
-        Caption = 'Select All'
-        ShortCut = 16449
-        OnClick = miSelectAllClick
+        Action = actSelectAll
       end
       object miDiv3: TMenuItem
         Caption = '-'
       end
       object miSearch: TMenuItem
-        Caption = 'Search'
-        ShortCut = 16454
-        OnClick = miSearchClick
+        Action = actSearch
       end
       object miSearchNext: TMenuItem
-        Caption = 'Search next'
-        ShortCut = 114
-        OnClick = miSearchNextClick
+        Action = actSearchNext
       end
       object miSearchPrev: TMenuItem
-        Caption = 'Search previous'
-        ShortCut = 8306
-        OnClick = miSearchPrevClick
+        Action = actSearchPrev
       end
     end
     object miView: TMenuItem
       Caption = '&View'
       object miPreview: TMenuItem
-        Caption = 'Preview'
-        OnClick = miPreviewClick
+        Action = actPreview
       end
       object miDiv4: TMenuItem
         Caption = '-'
       end
       object miText: TMenuItem
-        AutoCheck = True
-        Caption = 'Show as &Text'
-        GroupIndex = 1
+        Action = actShowAsText
         RadioItem = True
-        ShortCut = 49
-        OnClick = miTextClick
       end
       object miBin: TMenuItem
-        AutoCheck = True
-        Caption = 'Show as &Bin'
-        GroupIndex = 1
+        Action = actShowAsBin
         RadioItem = True
-        ShortCut = 50
-        OnClick = miTextClick
       end
       object miHex: TMenuItem
-        AutoCheck = True
-        Caption = 'Show as &Hex'
-        GroupIndex = 1
+        Action = actShowAsHex
         RadioItem = True
-        ShortCut = 51
-        OnClick = miTextClick
       end
       object miWrapText: TMenuItem
-        AutoCheck = True
-        Caption = 'Show as &Wrap text'
-        GroupIndex = 1
+        Action = actShowAsWrapText
         RadioItem = True
-        ShortCut = 52
-        OnClick = miTextClick
+      end
+      object MenuItem1: TMenuItem
+        Caption = '-'
       end
       object miLookBook: TMenuItem
-        AutoCheck = True
-        Caption = 'Show as B&ook'
-        Checked = True
-        GroupIndex = 1
+        Action = actShowAsBook
         RadioItem = True
-        ShortCut = 32781
-        OnClick = miTextClick
       end
       object miDiv2: TMenuItem
         Caption = '-'
       end
       object miGraphics: TMenuItem
-        AutoCheck = True
-        Caption = 'Graphics'
-        GroupIndex = 1
+        Action = actGraphics
         RadioItem = True
-        ShortCut = 54
-        OnClick = miGraphicsClick
       end
       object miDiv1: TMenuItem
         Caption = '-'
       end
       object miPlugins: TMenuItem
-        AutoCheck = True
-        Caption = 'Plugins'
-        GroupIndex = 1
+        Action = actPlugins
         RadioItem = True
-        ShortCut = 55
-        OnClick = miPluginsClick
       end
     end
     object miEncoding: TMenuItem
@@ -2382,43 +2344,37 @@ object frmViewer: TfrmViewer
     object miImage: TMenuItem
       Caption = '&Image'
       object miStretch: TMenuItem
-        Caption = 'Stretch'
-        OnClick = miStretchClick
+        Action = actStretchImage
       end
       object miStretchOnlyLarge: TMenuItem
-        Caption = 'Stretch only large'
-        OnClick = miStretchOnlyLargeClick
+        Action = actStretchOnlyLarge
       end
       object miCenter: TMenuItem
-        Caption = 'Center'
-        OnClick = miCenterClick
+        Action = actImageCenter
       end
       object miRotate: TMenuItem
         Caption = 'Rotate'
         object mi90: TMenuItem
-          Caption = '+ 90'
-          OnClick = miRotateClick
+          Action = actRotate90
         end
         object mi180: TMenuItem
-          Caption = '+ 180'
-          OnClick = miRotateClick
+          Action = actRotate180
         end
         object mi270: TMenuItem
-          Caption = '- 90'
-          OnClick = miRotateClick
+          Action = actRotate270
         end
         object miMirror: TMenuItem
-          Caption = 'Mirror'
-          OnClick = miRotateClick
+          Action = actMirrorHorz
+        end
+        object MenuItem2: TMenuItem
+          Action = actMirrorVert
         end
       end
       object miZoomIn: TMenuItem
-        Caption = 'Zoom In'
-        OnClick = miZoomClick
+        Action = actZoomIn
       end
       object miZoomOut: TMenuItem
-        Caption = 'Zoom Out'
-        OnClick = miZoomClick
+        Action = actZoomOut
       end
       object miFullScreen: TMenuItem
         Caption = 'Full Screen'
@@ -2426,7 +2382,15 @@ object frmViewer: TfrmViewer
       end
       object miScreenshot: TMenuItem
         Caption = 'Screenshot'
-        OnClick = miScreenshotClick
+        object miScreenshotImmediately: TMenuItem
+          Action = actScreenshot
+        end
+        object miScreenshot3sec: TMenuItem
+          Action = actScreenShotDelay3Sec
+        end
+        object miScreenshot5sec: TMenuItem
+          Action = actScreenShotDelay5sec
+        end
       end
     end
     object miAbout: TMenuItem
@@ -2521,25 +2485,25 @@ object frmViewer: TfrmViewer
     end
     object actRotate90: TAction
       Category = 'Image'
-      Caption = 'Rotate 90'
+      Caption = '+ 90'
       Hint = 'Rotate 90'
       OnExecute = actExecute
     end
     object actRotate180: TAction
       Category = 'Image'
-      Caption = 'Rotate 180'
+      Caption = '+ 180'
       Hint = 'Rotate 180'
       OnExecute = actExecute
     end
     object actRotate270: TAction
       Category = 'Image'
-      Caption = 'Rotate 270'
+      Caption = '- 90'
       Hint = 'Rotate 270'
       OnExecute = actExecute
     end
-    object actMirror: TAction
+    object actMirrorHorz: TAction
       Category = 'Image'
-      Caption = 'Mirror'
+      Caption = 'Mirror Horizontally'
       Hint = 'Mirror'
       OnExecute = actExecute
     end
@@ -2558,7 +2522,7 @@ object frmViewer: TfrmViewer
       Caption = 'Search'
       OnExecute = actExecute
     end
-    object acrSearchNext: TAction
+    object actSearchNext: TAction
       Category = 'Edit'
       Caption = 'Search next'
       OnExecute = actExecute
@@ -2608,5 +2572,67 @@ object frmViewer: TfrmViewer
       Caption = 'Plugins'
       OnExecute = actExecute
     end
+    object actSave: TAction
+      Category = 'File'
+      Caption = 'Save'
+    end
+    object actMirrorVert: TAction
+      Category = 'Image'
+      Caption = 'Mirror Vertically'
+      OnExecute = actExecute
+    end
+    object actExit: TAction
+      Category = 'File'
+      Caption = 'Exit'
+    end
+    object actStretchOnlyLarge: TAction
+      Category = 'Image'
+      Caption = 'Stretch only large'
+      OnExecute = actExecute
+    end
+    object actImageCenter: TAction
+      Category = 'Image'
+      Caption = 'Center'
+      OnExecute = actExecute
+    end
+    object actZoom: TAction
+      Category = 'Image'
+      Caption = 'Zoom'
+    end
+    object actZoomIn: TAction
+      Category = 'Image'
+      Caption = 'Zoom In'
+      OnExecute = actExecute
+    end
+    object actZoomOut: TAction
+      Category = 'Image'
+      Caption = 'Zoom Out'
+      OnExecute = actExecute
+    end
+    object actFullscreen: TAction
+      Category = 'Image'
+      Caption = 'Full Screen'
+    end
+    object actScreenshot: TAction
+      Category = 'Image'
+      Caption = 'Screenshot'
+      OnExecute = actExecute
+    end
+    object actScreenShotDelay3Sec: TAction
+      Category = 'Image'
+      Caption = 'Delay 3 sec'
+      OnExecute = actExecute
+    end
+    object actScreenShotDelay5sec: TAction
+      Category = 'Image'
+      Caption = 'Delay 5 sec'
+      OnExecute = actExecute
+    end
+  end
+  object TimerScreenshot: TTimer
+    Enabled = False
+    OnTimer = TimerScreenshotTimer
+    left = 196
+    top = 165
   end
 end
