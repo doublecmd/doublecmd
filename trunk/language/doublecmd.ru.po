@@ -999,7 +999,7 @@ msgstr "Только для этих элементов"
 
 #: tfrmedithotkey.lblparameters.caption
 msgid "&Parameters (each in a separate line):"
-msgstr "&Только для этих элементов"
+msgstr "&Параметры (каждый в отдельной строке)"
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
