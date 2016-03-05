@@ -165,6 +165,7 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     TabOrder = 4
     TitleStyle = tsNative
     OnDblClick = stgHotkeysDblClick
+    OnKeyDown = stgHotkeysKeyDown
     OnResize = stgHotkeysResize
     OnSelectCell = stgHotkeysSelectCell
     ColWidths = (
