@@ -3361,7 +3361,7 @@ begin
 
     SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
     ActiveFile := ActiveFrame.CloneActiveFile;
-    if Assigned(ActiveFile) then
+    if Assigned(ActiveFile) and (SelectedFiles.Count > 0) then
       begin
         if fspDirectAccess in ActiveFrame.FileSource.Properties then
         begin
@@ -3399,12 +3399,9 @@ begin
           end;
       end;
   finally
-    if Assigned(SelectedFiles) then
-      FreeAndNil(SelectedFiles);
-    if Assigned(ActiveFile) then
-      FreeAndNil(ActiveFile);
-    if Assigned(Operation) then
-      FreeAndNil(Operation);
+    FreeAndNil(SelectedFiles);
+    FreeAndNil(ActiveFile);
+    FreeAndNil(Operation);
   end;
 end;
 
