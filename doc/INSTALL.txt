@@ -2,24 +2,71 @@ Compiling Double Commander
 
 1) What you need?
 
-At first must download FreePascal. I use FPC 2.4.0  (or higher).
-
-After this download Lazarus. I use Lazarus 0.9.30 (or higher).
+Double Commander is developed with Free Pascal and Lazarus.
+Current version requires at least FPC 2.6.4 and Lazarus 1.4.2.
 
 2) Using the IDE to develop and build DC.
 
-If you want to use Lazarus IDE to develop Double Commander, first you have to install a few additional components all of which reside in components directory of DC sources. You must open each .lpk package file (cmdbox.lpk, kascomp.lpk, viewerpackage.lpk, pkg_gifanim.lpk, zvdatetimectrls.lpk) and install it into Lazarus. Choose "No" when asked for rebuilding Lazarus after each package, and only rebuild when you have installed all of them.
+If you want to use Lazarus IDE to develop Double Commander, first you have to install
+a few additional components all of which reside in components directory of DC sources.
+You must open each .lpk package file:
 
-After rebuilding Lazarus open the project file doublecmd.lpi (in directory src).
+- chsdet/chsdet.lpk
+- CmdLine/cmdbox.lpk
+- multithreadprocs/multithreadprocslaz.lpk
+- dcpcrypt/dcpcrypt.lpk
+- doublecmd/doublecmd_common.lpk
+- KASToolBar/kascomp.lpk
+- gifanim/pkg_gifanim.lpk
+- viewer/viewerpackage.lpk
+
+and install it into Lazarus (menu: Package -> Open package file (.lpk) -> Browse to
+needed .lpk file -> Press "Install", if "Install" disabled then press "Compile" instead).
+Choose "No" when asked for rebuilding Lazarus after each package then rebuild Lazarus
+when you have installed all of them.
+
+After rebuilding Lazarus open the project file src/doublecmd.lpi.
 
 Compile.
 
 3) Building DC from command line.
 
-There are two scripts that you can use to build DC from command line: build.bat for Windows and build.sh for Linux. First you need to edit the chosen script file and correct the path to your Lazarus installation (variable lazpath).
+From command line (Windows)
 
-To build DC without using the IDE you need a working lazbuild and lazres utilities (both are a part of Lazarus). Lazbuild should be in Lazarus directory set by <lazpath> and lazres should be in <lazpath>/tools. On Linux you may choose the target widgetset (GTK2 or QT4) by setting $LCL environment variable before executing the script to either gtk2 or qt, for example:
+Use build.bat script to build DC on Windows.
 
-    # LCL=qt ./build.sh
+First you need the lazbuild utility of Lazarus to be somewhere in your PATH or
+you need to edit the build script and change the lazpath variable to point to it.
 
-Execute the script to start the build process. Make sure you use all parameter if you're building for the first time, so that also components and plugins are built.
+Execute the script to start the build process. Make sure you use all parameter
+if you're building for the first time, so that also components and plugins are built:
+
+> build.bat all
+
+or alternatively without plugins
+
+> build.bat components
+> build.bat
+
+From command line (Linux)
+
+Use build.sh script to build DC on Windows.
+
+First you need the lazbuild utility of Lazarus to be somewhere in your PATH and
+if you installed a Lazarus package it should already be there. Otherwise you need
+to edit the build script and change the lazbuild variable to point to it.
+
+On Linux two widgetsets are supported: GTK2 or QT4. You can choose one by setting
+lcl environment variable before executing the script to either gtk2 or qt, for example:
+
+$ lcl=qt ./build.sh
+
+Execute the script to start the build process. Make sure you use all parameter if
+you're building for the first time, so that also components and plugins are built:
+
+$ ./build.sh all
+
+or alternatively without plugins
+
+$ ./build.sh components
+$ ./build.sh

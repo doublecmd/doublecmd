@@ -1,5 +1,15 @@
+********************************************************************************
 
 Double Commander
+
+********************************************************************************
+
+Double Commander is a cross platform open source file manager with two panels
+side by side. It is inspired by Total Commander and features some new ideas.
+
+********************************************************************************
+
+For details of compiling see the file INSTALL.txt.
 
 ********************************************************************************
 **  This program is free software; you can redistribute it and/or modify      **
@@ -13,21 +23,10 @@ Double Commander
 **  GNU General Public License for more details.                              **
 **                                                                            **
 **  You should have received a copy of the GNU General Public License         **
-**  along with this program; if not, write to the Free Software               ** 
+**  along with this program; if not, write to the Free Software               **
 **  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA **
 ********************************************************************************
 **                                                                            **
-**  For more details about license see the file COPYING.                      **
+**  For more details about license see the file COPYING.txt.                  **
 **                                                                            **
 ********************************************************************************
-
-Double Commander is a cross platform open source file manager with two panels side by side.
-It is inspired by Total Commander and features some new ideas.
-
-********************************************************************************
-
-For details of compiling see the file INSTALL.
-
-
-
-
