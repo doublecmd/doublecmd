@@ -7,8 +7,8 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
   ClientWidth = 911
   ParentShowHint = False
   ShowHint = True
-  DesignLeft = 173
-  DesignTop = 175
+  DesignLeft = 241
+  DesignTop = 65
   object pnlConfigColumns: TPanel[0]
     Left = 4
     Height = 31
@@ -530,10 +530,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = cbForeColor
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = cbForeColor
-        Left = 109
+        Left = 110
         Height = 15
         Top = 59
-        Width = 57
+        Width = 56
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 1
         Caption = 'Text Color:'
@@ -877,10 +877,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = lblCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 566
+        Left = 567
         Height = 15
         Top = 83
-        Width = 63
+        Width = 62
         Anchors = [akTop, akRight]
         Caption = 'Cursor Text:'
         ParentColor = False
@@ -1080,11 +1080,13 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         Tag = 5
         AnchorSideTop.Control = cbForeColor
         AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Side = asrBottom
         Left = 844
         Height = 22
         Hint = 'Apply modification to all columns'
         Top = 55
         Width = 40
+        Anchors = [akTop, akRight]
         Caption = 'All'
         OnClick = btnAllForeColorClick
         TabOrder = 27
@@ -1316,10 +1318,12 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         TabOrder = 44
       end
       object cbApplyChangeForAllColumns: TCheckBox
+        AnchorSideLeft.Control = sneFontSize
+        AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = btnPrev
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Side = asrBottom
-        Left = 520
+        Left = 497
         Height = 19
         Top = 3
         Width = 338
