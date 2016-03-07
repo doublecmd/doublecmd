@@ -6801,7 +6801,7 @@ msgstr "Исполняемый файл TC:"
 
 #: tfrmoptionsmisc.lbltcpathfortool.caption
 msgid "Toolbar output path:"
-msgstr "Путь к папке с панелями инструментов:"
+msgstr "Каталог с панелями инструментов:"
 
 #: tfrmoptionsmisc.lblthumbpixels.caption
 msgid "pixels"
@@ -7081,7 +7081,7 @@ msgstr "Перейти к настройкам Избранных Вкладок
 
 #: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
 msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
-msgstr "Включить дополнительные параметры избранных Вкладок (выбор целевой стороны при восстановлении и т.д.)"
+msgstr "Включить дополнительные параметры Избранных Вкладок (выбор целевой стороны при восстановлении и т.д.)"
 
 #: tfrmoptionstabsextra.gbdefaulttabsavedrestoration.caption
 msgid "Default extra settings when saving new Favorite Tabs:"
