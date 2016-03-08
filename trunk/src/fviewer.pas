@@ -103,6 +103,7 @@ type
     gboxView: TGroupBox;
     gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
+    memFolder: TMemo;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     miScreenshot5sec: TMenuItem;
@@ -230,16 +231,6 @@ type
     procedure ImageMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure miLookBookClick(Sender: TObject);
-    procedure miPreviewClick(Sender: TObject);
-    procedure miSaveAsClick(Sender: TObject);
-    procedure miSaveClick(Sender: TObject);
-    procedure miScreenShotClick(Sender: TObject);
-    procedure miFullScreenClick(Sender: TObject);
-    procedure miPluginsClick(Sender: TObject);
-    procedure miPrintClick(Sender: TObject);
-    procedure miSearchNextClick(Sender: TObject);
-    procedure miSearchPrevClick(Sender: TObject);
-    procedure miZoomClick(Sender: TObject);
     procedure PanelEditImageMouseEnter(Sender: TObject);
     procedure pnlImageResize(Sender: TObject);
 
@@ -258,24 +249,15 @@ type
     procedure frmViewerClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmViewerKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure miExitClick(Sender: TObject);
-    procedure miStretchClick(Sender: TObject);
     procedure miStretchOnlyLargeClick(Sender: TObject);
     procedure miCenterClick(Sender: TObject);
-    procedure miTextClick(Sender: TObject);
-    procedure miAbout2Click(Sender: TObject);
-    procedure miSearchClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure miGraphicsClick(Sender: TObject);
-    procedure miCopyToClipboardClick(Sender: TObject);
-    procedure miSelectAllClick(Sender: TObject);
     procedure miChangeEncodingClick(Sender:TObject);
     procedure ViewerControlMouseWheelDown(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure ViewerControlMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure ViewerPositionChanged(Sender:TObject);
-    procedure miRotateClick(Sender: TObject);
     function  PluginShowFlags : Integer;
     procedure UpdateImagePlacement;
 
@@ -442,7 +424,8 @@ begin
   if Viewer.miPreview.Checked then
     begin
       Viewer.miPreview.Checked := not(Viewer.miPreview.Checked);
-      Viewer.miPreviewClick(Viewer);
+      Viewer.cm_Preview(['']);
+//      Viewer.miPreviewClick(Viewer);
     end;
 end;
 
@@ -458,6 +441,10 @@ begin
   if not bQuickView then Menu:= MainMenu;
   FBitmapList:= TBitmapList.Create(True);
   FCommands := TFormCommands.Create(Self, actionList);
+
+  FontOptionsToFont(gFonts[dcfMain],memFolder.Font);
+  memFolder.Color:=gBackColor;
+
 end;
 
 constructor TfrmViewer.Create(TheOwner: TComponent);
@@ -514,7 +501,12 @@ begin
     else if FPS_ISDIR(dwFileAttributes) then
       begin
         ActivatePanel(pnlFolder);
-        pnlFolder.Caption:= rsPropsFolder + ': ' + aFileName;
+//        pnlFolder.Caption:= rsPropsFolder + ': ' + aFileName;    // QuickView info
+        memFolder.Clear;
+        memFolder.Lines.Add(rsPropsFolder + ': ');
+        memFolder.Lines.Add(aFileName);
+        memFolder.Lines.Add('');
+
       end
     else if CheckGraphics(aFileName) and LoadGraphics(aFileName) then
       ActivatePanel(pnlImage)
@@ -574,32 +566,38 @@ begin
         end;
       '1':
         begin
-          miTextClick(miText);
+          cm_ShowAsText(['']);
+//          miTextClick(miText);
           Key := #0;
         end;
       '2':
         begin
-          miTextClick(miBin);
+          cm_ShowAsBin(['']);
+//          miTextClick(miBin);
           Key := #0;
         end;
       '3':
         begin
-          miTextClick(miHex);
+          cm_ShowAsHex(['']);
+//          miTextClick(miHex);
           Key := #0;
         end;
       '4':
         begin
-          miTextClick(miWrapText);
+          cm_ShowAsWrapText(['']);
+//          miTextClick(miWrapText);
           Key := #0;
         end;
       '6':
         begin
-          miGraphicsClick(miGraphics);
+          cm_ShowGraphics(['']);
+//          miGraphicsClick(miGraphics);
           Key := #0;
         end;
       '7':
         begin
-          miPluginsClick(miPlugins);
+          cm_ShowPlugins(['']);
+//          miPluginsClick(miPlugins);
           Key := #0;
         end;
     end;
@@ -905,101 +903,6 @@ end;
 procedure TfrmViewer.WMSetFocus(var Message: TLMSetFocus);
 begin
   if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).SetFocus;
-end;
-
-procedure TfrmViewer.miPreviewClick(Sender: TObject);
-var
-  i: integer;
-begin
-  miPreview.Checked:= not (miPreview.Checked);
-  pnlPreview.Visible := miPreview.Checked;
-  Splitter.Visible := pnlPreview.Visible;
-  if not pnlPreview.Visible then
-    FBitmapList.Clear;
-  Application.ProcessMessages;
-  if miPreview.Checked then
-   begin
-     for i:=0 to FileList.Count-1 do
-     CreatePreview(FileList.Strings[i], i);
-     DrawPreview.FixedRows:= 0;
-     DrawPreview.FixedCols:= 0;
-     DrawPreview.Refresh;
-   end;
-  if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(GetListerRect);
-end;
-
-procedure TfrmViewer.miSaveAsClick(Sender: TObject);
-begin
-  FModSizeDialog:= TfrmModView.Create(Application);
-  try
-    FModSizeDialog.pnlSize.Visible:=false;
-    FModSizeDialog.pnlCopyMoveFile.Visible :=false;
-    FModSizeDialog.pnlQuality.Visible:=true;
-    FModSizeDialog.Caption:= rsViewImageType;
-    if FModSizeDialog.ShowModal = mrOk then
-    begin
-      if StrToInt(FModSizeDialog.teQuality.Text)<=100 then
-        SaveImageAs(FModSizeDialog.sExt,false,StrToInt(FModSizeDialog.teQuality.Text))
-      else
-        msgError(rsViewBadQuality);
-    end
-  finally
-    FreeAndNil(FModSizeDialog);
-  end;
-end;
-
-procedure TfrmViewer.miSaveClick(Sender: TObject);
-var
-  sExt: String;
-begin
-  DrawPreview.BeginUpdate;
-  try
-    CreatePreview(FileList.Strings[iActiveFile], iActiveFile, True);
-    sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
-    SaveImageAs(sExt, True, 80);
-    CreatePreview(FileList.Strings[iActiveFile], iActiveFile);
-  finally
-    DrawPreview.EndUpdate;
-  end;
-end;
-
-procedure TfrmViewer.miFullScreenClick(Sender: TObject);
-begin
-  miFullScreen.Checked:= not (miFullScreen.Checked);
-  if miFullScreen.Checked then
-    begin
-      WindowState:= wsMaximized;
-      BorderStyle:= bsNone;
-      MainMenu.Items.Visible:=false;
-      gboxPaint.Visible:= false;
-      gboxHightlight.Visible:=false;
-      miStretch.Checked:= miFullScreen.Checked;
-      if miPreview.Checked then
-        miPreviewClick(Sender);
-    end
-  else
-    begin
-      WindowState:= wsNormal;
-      BorderStyle:= bsSizeable;
-      //Viewer.MainMenu.Items.Visible:=true;            // why it work ???
-      PanelEditImage.Height:= 50;
-      Height:= Height div 2;
-      Width:= Width div 2;
-    end;
-  if ExtractOnlyFileExt(FileList.Strings[iActiveFile]) <> 'gif' then
-    begin
-      btnHightlight.Visible:=not(miFullScreen.Checked);
-      btnPaint.Visible:=not(miFullScreen.Checked);
-      btnResize.Visible:=not(miFullScreen.Checked);
-    end;
-  sboxImage.HorzScrollBar.Visible:= not(miFullScreen.Checked);
-  sboxImage.VertScrollBar.Visible:= not(miFullScreen.Checked);
-  TimerViewer.Enabled:=miFullScreen.Checked;
-  btnReload.Visible:=not(miFullScreen.Checked);
-  Status.Visible:=not(miFullScreen.Checked);
-  gboxSlideShow.Visible:=miFullScreen.Checked;
-  AdjustImageSize;
-  ShowOnTop;
 end;
 
 procedure TfrmViewer.RedEyes;
@@ -1347,26 +1250,6 @@ begin
 end;
 
 
-procedure TfrmViewer.miPluginsClick(Sender: TObject);
-begin
-  bPlugin:= CheckPlugins(FileList.Strings[iActiveFile], True);
-  if bPlugin then
-    ActivatePanel(nil)
-  else
-    ViewerControl.FileName := FileList.Strings[iActiveFile];
-end;
-
-procedure TfrmViewer.miPrintClick(Sender: TObject);
-var
-  aRect: TRect;
-begin
-  if bPlugin then
-  begin
-    aRect:= GetListerRect;
-    WlxPlugins.GetWlxModule(ActivePlugin).CallListPrint(FileList[iActiveFile], EmptyStr, 0, aRect);
-  end;
-end;
-
 procedure TfrmViewer.SaveImageAs(var sExt: String; senderSave: boolean; Quality: integer);
 var
   sFileName: string;
@@ -1423,29 +1306,6 @@ begin
   finally
     FreeThenNil(fsFileStream);
   end;
-end;
-
-procedure TfrmViewer.miSearchNextClick(Sender: TObject);
-begin
-  DoSearch(True, False);
-end;
-
-procedure TfrmViewer.miSearchPrevClick(Sender: TObject);
-begin
-  DoSearch(True, True);
-end;
-
-procedure TfrmViewer.miZoomClick(Sender: TObject);
-begin
-  miStretch.Checked := False;
-  FZoomFactor := Min(Image.ClientWidth / Image.Picture.Width,
-                     Image.ClientHeight / Image.Picture.Height);
-  if (Sender = miZoomIn) or (Sender = btnZoomIn) then
-    FZoomFactor := FZoomFactor * 1.1
-  else begin
-    FZoomFactor := FZoomFactor / 1.1;
-  end;
-  AdjustImageSize;
 end;
 
 procedure TfrmViewer.PanelEditImageMouseEnter(Sender: TObject);
@@ -1630,7 +1490,7 @@ end;
 procedure TfrmViewer.frmViewerKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (not bQuickView) and (Key in [VK_Q, VK_ESCAPE]) then
+  if (not bQuickView) and (Key in [VK_ESCAPE]) then  // also VK_Q by default
   begin
     Key := 0;
     Close;
@@ -1657,11 +1517,6 @@ begin
     end;
 end;
 
-procedure TfrmViewer.miExitClick(Sender: TObject);
-begin
-  Close;
-end;
-
 procedure TfrmViewer.UpdateImagePlacement;
 begin
   if bImage then
@@ -1679,69 +1534,16 @@ begin
     WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_newparams , PluginShowFlags)
 end;
 
-procedure TfrmViewer.miStretchClick(Sender: TObject);
-begin
-  FZoomFactor:= 1.0;
-  miStretch.Checked:= not miStretch.Checked;
-  UpdateImagePlacement;
-end;
-
 procedure TfrmViewer.miCenterClick(Sender: TObject);
 begin
-   miCenter.Checked:= not miCenter.Checked;
-   UpdateImagePlacement;
+//   miCenter.Checked:= not miCenter.Checked;
+//   UpdateImagePlacement;
 end;
 
 procedure TfrmViewer.miStretchOnlyLargeClick(Sender: TObject);
 begin
-  miStretchOnlyLarge.Checked:= not miStretchOnlyLarge.Checked;
-  UpdateImagePlacement;
-end;
-
-procedure TfrmViewer.miTextClick(Sender: TObject);
-begin
-  ExitPluginMode;
-  ReopenAsTextIfNeeded;
-  (Sender as TMenuItem).Checked:= True;
-  if Sender = miText then ViewerControl.ViewerMode := vmText
-  else if Sender = miBin then ViewerControl.ViewerMode := vmBin
-  else if Sender = miHex then ViewerControl.ViewerMode := vmHex
-  else if Sender = miWrapText then ViewerControl.ViewerMode := vmWrap;
-  if Sender = miLookBook then
-    begin
-      with ViewerControl do
-        begin
-          ViewerMode := vmBook;
-          Color:= gBookBackgroundColor;
-          Font.Color:= gBookFontColor;
-          Font.Quality:= fqAntialiased;
-          ColCount:= gColCount;
-          Position:= gTextPosition;
-        end;
-      FontOptionsToFont(gFonts[dcfViewerBook], ViewerControl.Font);
-    end
-  else
-    begin
-      with ViewerControl do
-        begin
-          Color:= clWindow;
-          Font.Color:= clWindowText;
-          Font.Quality:= fqDefault;
-          ColCount:= 1;
-        end;
-      FontOptionsToFont(gFonts[dcfViewer], ViewerControl.Font);
-    end;
-end;
-
-procedure TfrmViewer.miAbout2Click(Sender: TObject);
-begin
-  MsgOK(rsViewAboutText);
-end;
-
-procedure TfrmViewer.miSearchClick(Sender: TObject);
-begin
-  FLastSearchPos := -1;
-  DoSearch(False, False);
+//  miStretchOnlyLarge.Checked:= not miStretchOnlyLarge.Checked;
+//  UpdateImagePlacement;
 end;
 
 procedure TfrmViewer.FormCreate(Sender: TObject);
@@ -1856,7 +1658,7 @@ end;
 
 procedure TfrmViewer.btnFullScreenClick(Sender: TObject);
 begin
-  miFullScreenClick(Sender);
+  cm_Fullscreen(['']);
 end;
 
 procedure TfrmViewer.btnGifMoveClick(Sender: TObject);
@@ -1874,7 +1676,8 @@ begin
   Image.Picture.Bitmap.Width := GifAnim.Width;
   Image.Picture.Bitmap.Height := GifAnim.Height;
   Image.Picture.Bitmap.Canvas.CopyRect(Rect(0,0,GifAnim.Width,GifAnim.Height),GifAnim.Canvas,Rect(0,0,GifAnim.Width,GifAnim.Height));
-  miSaveAsClick(sender);
+//  miSaveAsClick(sender);
+  cm_SaveAs(['']);
 end;
 
 procedure TfrmViewer.btnPaintHightlight(Sender: TObject);
@@ -1979,37 +1782,6 @@ begin
   end;
 end;
 
-procedure TfrmViewer.miGraphicsClick(Sender: TObject);
-begin
-  if CheckGraphics(FileList.Strings[iActiveFile]) then
-    begin
-      ViewerControl.FileName := ''; // unload current file if any is loaded
-      if LoadGraphics(FileList.Strings[iActiveFile]) then
-        ActivatePanel(pnlImage)
-      else
-        begin
-          ViewerControl.FileName := FileList.Strings[iActiveFile];
-          ActivatePanel(pnlText);
-        end;
-    end;
-end;
-
-procedure TfrmViewer.miCopyToClipboardClick(Sender: TObject);
-begin
-  if bPlugin then
-    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_copy, 0)
-  else
-    ViewerControl.CopyToClipboard;
-end;
-
-procedure TfrmViewer.miSelectAllClick(Sender: TObject);
-begin
-  if bPlugin then
-    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_selectall, 0)
-  else
-    ViewerControl.SelectAll;
-end;
-
 procedure TfrmViewer.miChangeEncodingClick(Sender: TObject);
 begin
   ViewerControl.EncodingName := (Sender as TMenuItem).Caption;
@@ -2111,77 +1883,6 @@ begin
   Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [Image.Picture.Width,Image.Picture.Height, 100.0]);
 end;
 
-// Try to rotate image
-procedure TfrmViewer.miRotateClick(Sender: TObject);
-var
-  x, y: Integer;
-  xWidth,
-  yHeight: Integer;
-  SourceImg: TLazIntfImage = nil;
-  TargetImg: TLazIntfImage = nil;
-begin
-  TargetImg:= TLazIntfImage.Create(0, 0);
-  SourceImg:= Image.Picture.Bitmap.CreateIntfImage;
-  TargetImg.DataDescription:= SourceImg.DataDescription; // use the same image format
-  xWidth:= Image.Picture.Bitmap.Width - 1;
-  yHeight:= Image.Picture.Bitmap.Height - 1;
-  if Sender = mi180 then
-      begin
-        TargetImg.SetSize(xWidth + 1, yHeight + 1);
-        for y:= 0 to yHeight do
-        begin
-          for x:= 0 to xWidth do
-          begin
-            TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - x, yHeight - y];
-          end;
-        end;
-      end;
-    if (Sender = mi270) or (Sender =btn270)then
-      begin
-        TargetImg.SetSize(yHeight + 1, xWidth + 1);
-        for y:= 0 to xWidth do
-        begin
-          for x:= 0 to yHeight do
-          begin
-            TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - y, x];
-          end;
-        end;
-        x:= Image.Width;
-        Image.Width:= Image.Height;
-        Image.Height:= x;
-      end;
-    if (Sender = mi90) or (Sender=btn90) then
-      begin
-        TargetImg.SetSize(yHeight + 1, xWidth + 1);
-        for y:= 0 to xWidth do
-        begin
-          for x:= 0 to yHeight do
-          begin
-            TargetImg.Colors[x, y]:= SourceImg.Colors[y, yHeight - x];
-          end;
-        end;
-        x:= Image.Width;
-        Image.Width:= Image.Height;
-        Image.Height:= x;
-      end;
-    if (Sender = miMirror) or (Sender = btnMirror)then
-      begin
-        TargetImg.SetSize(xWidth + 1, yHeight + 1);
-        for y:= 0 to yHeight do
-        begin
-          for x:= 0 to xWidth do
-          begin
-            TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - x, y];
-          end;
-        end;
-      end;
-  Image.Picture.Bitmap.LoadFromIntfImage(TargetImg);
-  FreeThenNil(SourceImg);
-  FreeThenNil(TargetImg);
-  AdjustImageSize;
-  CreateTmp;
-end;
-
 function TfrmViewer.GetListerRect: TRect;
 begin
   Result:= ClientRect;
@@ -2190,26 +1891,6 @@ begin
   begin
     Inc(Result.Left, Splitter.Left + Splitter.Width);
   end;
-end;
-
-procedure TfrmViewer.miScreenShotClick(Sender: TObject);
-var
-  ScreenDC: HDC;
-  bmp: TCustomBitmap;
-begin
-  Visible:= False;
-  Application.ProcessMessages; // Hide viewer window
-  bmp := TBitmap.Create;
-  ScreenDC := GetDC(0);
-  bmp.LoadFromDevice(ScreenDC);
-  ReleaseDC(0, ScreenDC);
-  Image.Picture.Bitmap.Height:= bmp.Height;
-  Image.Picture.Bitmap.Width:= bmp.Width;
-  Image.Picture.Bitmap.Canvas.Draw(0, 0, bmp);
-  CreateTmp;
-  bmp.Free;
-  Visible:= True;
-  ImgEdit:= True;
 end;
 
 function TfrmViewer.LoadGraphics(const sFileName:String): Boolean;
@@ -2254,7 +1935,8 @@ begin
           FreeAndNil(fsFileStream);
         end;
         miStretch.Checked:= not miStretch.Checked;
-        miStretchClick(nil);
+//        miStretchClick(nil);
+        cm_StretchImage(['']);
       except
         Exit(False);
       end;
@@ -2622,17 +2304,17 @@ end;
 
 procedure TfrmViewer.cm_Rotate90(const Params: array of string);
 begin
-  if bImage then miRotateClick(mi90);
+  if bImage then RotateImage(90);
 end;
 
 procedure TfrmViewer.cm_Rotate180(const Params: array of string);
 begin
-  if bImage then miRotateClick(mi180);
+  if bImage then RotateImage(180);
 end;
 
 procedure TfrmViewer.cm_Rotate270(const Params: array of string);
 begin
-  if bImage then miRotateClick(mi270);
+  if bImage then RotateImage(270);
 end;
 
 procedure TfrmViewer.cm_MirrorHorz(const Params: array of string);
