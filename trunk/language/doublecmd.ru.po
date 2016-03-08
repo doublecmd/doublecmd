@@ -11826,7 +11826,7 @@ msgstr "&Файлы;Катало&ги;Ф&айлы и каталоги"
 
 #: ulng.rsoptsearchopt
 msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "Ск&рывать панель фильтра, когда она не в фокусе;Сохранять настройки, измененные через панель фильтра"
+msgstr "Ск&рывать панель фильтра, когда она не в фокусе;Сохранять настройки, изменённые через панель фильтра"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
