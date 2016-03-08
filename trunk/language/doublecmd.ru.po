@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-03-03 17:10+0400\n"
+"PO-Revision-Date: 2016-03-08 21:28+0400\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -4290,17 +4290,17 @@ msgstr "Р&едактировать"
 #: tfrmoptionsconfiguration.cbcmdlinehistory.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CBCMDLINEHISTORY.CAPTION"
 msgid "Co&mmand line history"
-msgstr "&История командной строки"
+msgstr "&Историю командной строки"
 
 #: tfrmoptionsconfiguration.cbdirhistory.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CBDIRHISTORY.CAPTION"
 msgid "&Directory history"
-msgstr "И&стория каталогов"
+msgstr "И&сторию каталогов"
 
 #: tfrmoptionsconfiguration.cbfilemaskhistory.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CBFILEMASKHISTORY.CAPTION"
 msgid "&File mask history"
-msgstr "История &масок файлов"
+msgstr "Историю &масок файлов"
 
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSAVECONFIGURATION.CAPTION"
@@ -4310,7 +4310,7 @@ msgstr "Со&хранять конфигурацию"
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
 msgid "Searc&h/Replace history"
-msgstr "Истори&я поиска/замены"
+msgstr "Истори&ю поиска/замены"
 
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.GBLOCCONFIGFILES.CAPTION"
@@ -6019,12 +6019,12 @@ msgstr "Число перезаписе&й при стирании (Wipe):"
 #: tfrmoptionsfileoperations.rbusemmapinsearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSEMMAPINSEARCH.CAPTION"
 msgid "Use memory mapping for search te&xt in files"
-msgstr "Использовать отобра&жение в память, при поиске текста в файлах"
+msgstr "Использовать отобра&жение в память"
 
 #: tfrmoptionsfileoperations.rbusestreaminsearch.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSESTREAMINSEARCH.CAPTION"
 msgid "&Use stream for search text in files"
-msgstr "Использовать поток, при поиске текста в &файлах"
+msgstr "Испо&льзовать поток"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -6712,7 +6712,7 @@ msgstr "&Информационные сообщения"
 
 #: tfrmoptionslog.cblogstartshutdown.caption
 msgid "Start/shutdown"
-msgstr "Пуск/выключение"
+msgstr "Запуск / завершение"
 
 #: tfrmoptionslog.cblogsuccess.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGSUCCESS.CAPTION"
@@ -10596,7 +10596,7 @@ msgstr "Имя подменю"
 
 #: ulng.rsmsghotdirtarget
 msgid "Hotdir target"
-msgstr "Назначение избранного каталога"
+msgstr "Путь избранного целевого каталога"
 
 #: ulng.rsmsghotdirtiporderpath
 msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
