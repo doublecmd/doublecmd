@@ -1078,28 +1078,27 @@ end;
 
 procedure TfrmFindDlg.AfterSearchFocus;
 var
-  LastButton:TButton;
+  LastButton: TButton;
 begin
-
   if Assigned(Self) and Visible then
   begin
-    if FRButtonPanelSender<>nil then  // if user press a keys while search - keep focus on it
+    if FRButtonPanelSender <> nil then  // if user press a keys while search - keep focus on it
     begin
-        LastButton:=(FRButtonPanelSender as TButton);
+        LastButton:= (FRButtonPanelSender as TButton);
         if LastButton.Enabled then LastButton.SetFocus else btnNewSearch.SetFocus;
-    end else
-    begin                             // if user don't press anything - focus on results
-      if lsFoundedFiles.Count>0 then
+    end
+    else begin                          // if user don't press anything - focus on results
+      if (lsFoundedFiles.Count > 0) then
       begin
         lsFoundedFiles.SetFocus;
-        lsFoundedFiles.Selected[lsFoundedFiles.ItemIndex]:=True;
+        if (lsFoundedFiles.ItemIndex <> -1) then
+          lsFoundedFiles.Selected[lsFoundedFiles.ItemIndex]:= True;
       end else
       begin
         if btnNewSearch.Enabled then btnNewSearch.SetFocus else btnStart.SetFocus;
       end;
     end;
   end;
-
 end;
 
 procedure TfrmFindDlg.btnStartClick(Sender: TObject);
