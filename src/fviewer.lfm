@@ -67,8 +67,19 @@ object frmViewer: TfrmViewer
     Width = 472
     Align = alClient
     BevelOuter = bvNone
+    ClientHeight = 457
+    ClientWidth = 472
     TabOrder = 0
     Visible = False
+    object memFolder: TMemo
+      Left = 0
+      Height = 457
+      Top = 0
+      Width = 472
+      Align = alClient
+      ReadOnly = True
+      TabOrder = 0
+    end
   end
   object Status: TStatusBar
     Left = 0
@@ -601,7 +612,6 @@ object frmViewer: TfrmViewer
             FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
             FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
           }
-          OnClick = miRotateClick
         end
         object btn90: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -649,7 +659,6 @@ object frmViewer: TfrmViewer
             FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
             FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
           }
-          OnClick = miRotateClick
         end
         object btnMirror: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -698,7 +707,6 @@ object frmViewer: TfrmViewer
             0000000000000000000000000000000000000000000000000000000000000000
             0000000000000000000000000000000000000000000000000000
           }
-          OnClick = miRotateClick
         end
         object btnZoomIn: TSpeedButton
           Left = 4
@@ -745,7 +753,6 @@ object frmViewer: TfrmViewer
             000005050500B4B3B224CCCACA6FCECDCC88CBCAC96FB3B2B224000000000000
             0000000000000000000000000000000000000000000000000000
           }
-          OnClick = miZoomClick
         end
         object btnZoomOut: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -793,7 +800,6 @@ object frmViewer: TfrmViewer
             000005050500B4B3B224CCCACA6FCECDCC88CBCAC96FB3B2B224000000000000
             0000000000000000000000000000000000000000000000000000
           }
-          OnClick = miZoomClick
         end
         object btnGifMove: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -2253,13 +2259,11 @@ object frmViewer: TfrmViewer
       end
       object miSaveAs: TMenuItem
         Caption = 'Save As...'
-        OnClick = miSaveAsClick
       end
       object miPrint: TMenuItem
         Caption = 'Print...'
         Enabled = False
         ShortCut = 16464
-        OnClick = miPrintClick
       end
       object miReload: TMenuItem
         Action = actReload
@@ -2378,7 +2382,6 @@ object frmViewer: TfrmViewer
       end
       object miFullScreen: TMenuItem
         Caption = 'Full Screen'
-        OnClick = miFullScreenClick
       end
       object miScreenshot: TMenuItem
         Caption = 'Screenshot'
@@ -2405,14 +2408,12 @@ object frmViewer: TfrmViewer
     top = 64
     object pmiCopy: TMenuItem
       Caption = 'Copy To Clipboard'
-      OnClick = miCopyToClipboardClick
     end
     object miDiv5: TMenuItem
       Caption = '-'
     end
     object pmiSelectAll: TMenuItem
       Caption = 'Select All'
-      OnClick = miSelectAllClick
     end
   end
   object SavePictureDialog: TSavePictureDialog
@@ -2433,7 +2434,6 @@ object frmViewer: TfrmViewer
       Category = 'Help'
       Caption = 'About Viewer...'
       Hint = 'Displays the About message'
-      OnExecute = miAbout2Click
     end
     object actReload: TAction
       Category = 'File'
@@ -2486,19 +2486,19 @@ object frmViewer: TfrmViewer
     object actRotate90: TAction
       Category = 'Image'
       Caption = '+ 90'
-      Hint = 'Rotate 90'
+      Hint = 'Rotate +90 degrees'
       OnExecute = actExecute
     end
     object actRotate180: TAction
       Category = 'Image'
       Caption = '+ 180'
-      Hint = 'Rotate 180'
+      Hint = 'Rotate 180 degrees'
       OnExecute = actExecute
     end
     object actRotate270: TAction
       Category = 'Image'
       Caption = '- 90'
-      Hint = 'Rotate 270'
+      Hint = 'Rotate -90 degrees'
       OnExecute = actExecute
     end
     object actMirrorHorz: TAction
