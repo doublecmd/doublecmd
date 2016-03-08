@@ -1,9 +1,11 @@
 inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
   Height = 356
   Width = 759
+  AutoSize = True
   ClientHeight = 356
   ClientWidth = 759
-  DesignTop = 20
+  DesignLeft = 378
+  DesignTop = 92
   object gbFileTypesColors: TGroupBox[0]
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
@@ -18,16 +20,17 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 8
     Caption = 'File types colors (sort by drag&&drop)'
-    ClientHeight = 324
+    ChildSizing.LeftRightSpacing = 8
+    ClientHeight = 322
     ClientWidth = 739
     TabOrder = 0
     object lblCategoryName: TLabel
       AnchorSideTop.Control = edtCategoryName
       AnchorSideTop.Side = asrCenter
-      Left = 12
-      Height = 13
-      Top = 142
-      Width = 77
+      Left = 8
+      Height = 15
+      Top = 141
+      Width = 84
       Caption = 'Category &name:'
       FocusControl = edtCategoryName
       ParentColor = False
@@ -35,10 +38,10 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
     object lblCategoryMask: TLabel
       AnchorSideTop.Control = edtCategoryMask
       AnchorSideTop.Side = asrCenter
-      Left = 12
-      Height = 13
-      Top = 173
-      Width = 76
+      Left = 8
+      Height = 15
+      Top = 172
+      Width = 82
       Caption = 'Category &mask:'
       FocusControl = edtCategoryMask
       ParentColor = False
@@ -46,10 +49,10 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
     object lblCategoryColor: TLabel
       AnchorSideTop.Control = cbCategoryColor
       AnchorSideTop.Side = asrCenter
-      Left = 12
-      Height = 13
-      Top = 236
-      Width = 75
+      Left = 8
+      Height = 15
+      Top = 234
+      Width = 81
       Caption = 'Category co&lor:'
       FocusControl = cbCategoryColor
       ParentColor = False
@@ -57,10 +60,10 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
     object lblCategoryAttr: TLabel
       AnchorSideTop.Control = edtCategoryAttr
       AnchorSideTop.Side = asrCenter
-      Left = 12
-      Height = 13
-      Top = 204
-      Width = 97
+      Left = 8
+      Height = 15
+      Top = 203
+      Width = 104
       Caption = 'Category a&ttributes:'
       FocusControl = edtCategoryAttr
       ParentColor = False
@@ -70,10 +73,10 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = lbCategories
       AnchorSideRight.Side = asrBottom
-      Left = 174
+      Left = 170
       Height = 23
       Top = 137
-      Width = 557
+      Width = 561
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 12
       TabOrder = 1
@@ -82,10 +85,10 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Control = edtCategoryName
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnSearchTemplate
-      Left = 174
+      Left = 170
       Height = 23
       Top = 168
-      Width = 528
+      Width = 532
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 8
       BorderSpacing.Right = 6
@@ -95,10 +98,10 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Control = edtCategoryAttr
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnCategoryColor
-      Left = 174
-      Height = 25
+      Left = 170
+      Height = 22
       Top = 230
-      Width = 523
+      Width = 527
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 8
@@ -112,7 +115,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideRight.Control = btnDeleteCategory
       Left = 389
       Height = 32
-      Top = 267
+      Top = 264
       Width = 110
       Anchors = [akTop, akRight]
       BorderSpacing.Left = 6
@@ -128,7 +131,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideRight.Control = btnApplyCategory
       Left = 505
       Height = 32
-      Top = 267
+      Top = 264
       Width = 110
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 12
@@ -145,7 +148,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideBottom.Control = cbCategoryColor
       AnchorSideBottom.Side = asrBottom
       Left = 703
-      Height = 25
+      Height = 22
       Top = 230
       Width = 28
       Anchors = [akTop, akRight, akBottom]
@@ -158,10 +161,11 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Control = gbFileTypesColors
       AnchorSideRight.Control = gbFileTypesColors
       AnchorSideRight.Side = asrBottom
-      Left = 12
+      AnchorSideBottom.Side = asrBottom
+      Left = 8
       Height = 119
       Top = 6
-      Width = 719
+      Width = 723
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Top = 6
       BorderSpacing.Right = 8
@@ -174,7 +178,6 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       ScrollWidth = 717
       Style = lbOwnerDrawFixed
       TabOrder = 0
-      TopIndex = -1
     end
     object btnApplyCategory: TBitBtn
       AnchorSideTop.Control = cbCategoryColor
@@ -183,7 +186,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideRight.Side = asrBottom
       Left = 621
       Height = 32
-      Top = 267
+      Top = 264
       Width = 110
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 12
@@ -196,10 +199,10 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = lbCategories
       AnchorSideRight.Side = asrBottom
-      Left = 174
+      Left = 170
       Height = 23
       Top = 199
-      Width = 557
+      Width = 561
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 8
       TabOrder = 4
@@ -283,7 +286,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 544
-    top = 256
+    left = 184
+    top = 288
   end
 end
