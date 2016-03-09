@@ -47,7 +47,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  LCLProc, crc,
+  LCLProc, LazUTF8, crc,
 
   //DC
   uOSUtils, DCOSUtils, uLng, uFileSystemUtil, uFileSystemFileSource,
