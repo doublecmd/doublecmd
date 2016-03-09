@@ -41,7 +41,12 @@ type
     btnSelMainFnt: TButton;
     btnSelViewerBookFnt: TButton;
     btnSelViewFnt: TButton;
+    btnPathEditFnt: TButton;
+    btnSearchResultsFnt: TButton;
     dlgFnt: TFontDialog;
+    edtSearchResultsFont: TEdit;
+    edtPathEditFont: TEdit;
+    edtConsoleFontSize1: TSpinEdit;
     edtEditorFont: TEdit;
     edtEditorFontSize: TSpinEdit;
     edtLogFont: TEdit;
@@ -54,12 +59,17 @@ type
     edtViewerBookFontSize: TSpinEdit;
     edtViewerFont: TEdit;
     edtViewerFontSize: TSpinEdit;
+    lblSearchResultsFont: TLabel;
+    lblPathEditFont: TLabel;
     lblEditorFont: TLabel;
     lblLogFont: TLabel;
     lblConsoleFont: TLabel;
     lblMainFont: TLabel;
     lblViewerBookFont: TLabel;
     lblViewerFont: TLabel;
+    edtPathEditFontSize: TSpinEdit;
+    edtSearchresultsFontSize: TSpinEdit;
+    procedure btnPathEditFntClick(Sender: TObject);
     procedure btnSelConsoleFntClick(Sender: TObject);
     procedure btnSelEditFntClick(Sender: TObject);
     procedure btnSelMainFntClick(Sender: TObject);
@@ -72,6 +82,7 @@ type
     procedure edtLogFontExit(Sender: TObject);
     procedure edtMainFontExit(Sender: TObject);
     procedure edtMainFontSizeChange(Sender: TObject);
+    procedure edtPathEditFontSizeChange(Sender: TObject);
     procedure edtViewerBookFontExit(Sender: TObject);
     procedure edtViewerFontExit(Sender: TObject);
     procedure edtViewerFontSizeChange(Sender: TObject);
@@ -117,6 +128,11 @@ end;
 procedure TfrmOptionsFonts.btnSelConsoleFntClick(Sender: TObject);
 begin
   RunDialogFont(dcfConsole);
+end;
+
+procedure TfrmOptionsFonts.btnPathEditFntClick(Sender: TObject);
+begin
+  RunDialogFont(dcfPathEdit);
 end;
 
 procedure TfrmOptionsFonts.btnSelViewFntClick(Sender: TObject);
@@ -169,6 +185,11 @@ begin
   SetFontSize(dcfMain, TSpinEdit(Sender).Value);
 end;
 
+procedure TfrmOptionsFonts.edtPathEditFontSizeChange(Sender: TObject);
+begin
+  SetFontSize(dcfPathEdit, TSpinEdit(Sender).Value);
+end;
+
 procedure TfrmOptionsFonts.edtEditorFontSizeChange(Sender: TObject);
 begin
   SetFontSize(dcfEditor, TSpinEdit(Sender).Value);
@@ -207,6 +228,8 @@ begin
   LoadFont(dcfLog);
   LoadFont(dcfViewerBook);
   LoadFont(dcfConsole);
+  LoadFont(dcfPathEdit);
+  LoadFont(dcfSearchResults);
 end;
 
 function TfrmOptionsFonts.Save: TOptionsEditorSaveFlags;
@@ -218,6 +241,8 @@ begin
   SaveFont(dcfLog);
   SaveFont(dcfViewerBook);
   SaveFont(dcfConsole);
+  SaveFont(dcfPathEdit);
+  SaveFont(dcfSearchResults);
 end;
 
 procedure TfrmOptionsFonts.LoadFont(aDCFont: TDCFont);
@@ -270,6 +295,18 @@ begin
       edtConsoleFont.Text := aFont.Name;
       edtConsoleFontSize.Value := aFont.Size;
     end;
+
+    dcfSearchResults: begin
+      edtSearchResultsFont.Font := aFont;
+      edtSearchResultsFont.Text := aFont.Name;
+      edtSearchResultsFontSize.Value := aFont.Size;
+    end;
+    dcfPathEdit: begin
+      edtPathEditFont.Font := aFont;
+      edtPathEditFont.Text := aFont.Name;
+      edtPathEditFontSize.Value := aFont.Size;
+    end;
+
   end;
 end;
 
@@ -292,6 +329,9 @@ begin
     dcfLog       : Result := edtLogFont.Font;
     dcfViewerBook: Result := edtViewerBookFont.Font;
     dcfConsole   : Result := edtConsoleFont.Font;
+    dcfSearchResults: Result := edtSearchResultsFont.Font;
+    dcfPathEdit     : Result := edtPathEditFont.Font;
+
     else Result  := nil; // TODO: show error for programmer
   end;
 end;
