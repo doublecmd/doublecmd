@@ -1,10 +1,10 @@
 inherited frmOptionsFonts: TfrmOptionsFonts
-  Height = 480
-  Width = 703
-  ClientHeight = 480
-  ClientWidth = 703
-  DesignLeft = 397
-  DesignTop = 90
+  Height = 465
+  Width = 741
+  ClientHeight = 465
+  ClientWidth = 741
+  DesignLeft = 101
+  DesignTop = 155
   object lblMainFont: TLabel[0]
     Left = 6
     Height = 15
@@ -44,7 +44,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = edtMainFontSize
     AnchorSideBottom.Side = asrBottom
-    Left = 655
+    Left = 693
     Height = 23
     Top = 29
     Width = 40
@@ -58,7 +58,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Control = edtMainFont
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelMainFnt
-    Left = 596
+    Left = 634
     Height = 23
     Top = 29
     Width = 55
@@ -78,7 +78,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Left = 6
     Height = 23
     Top = 29
-    Width = 586
+    Width = 624
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
@@ -91,7 +91,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = edtEditorFontSize
     AnchorSideBottom.Side = asrBottom
-    Left = 655
+    Left = 693
     Height = 23
     Top = 83
     Width = 40
@@ -109,7 +109,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Left = 6
     Height = 23
     Top = 83
-    Width = 586
+    Width = 624
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
@@ -120,7 +120,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Control = edtEditorFont
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelEditFnt
-    Left = 596
+    Left = 634
     Height = 23
     Top = 83
     Width = 55
@@ -138,7 +138,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = edtViewerFontSize
     AnchorSideBottom.Side = asrBottom
-    Left = 655
+    Left = 693
     Height = 23
     Top = 137
     Width = 40
@@ -156,7 +156,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Left = 6
     Height = 23
     Top = 137
-    Width = 585
+    Width = 623
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
@@ -167,7 +167,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Control = edtViewerFont
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelViewFnt
-    Left = 595
+    Left = 633
     Height = 23
     Top = 137
     Width = 56
@@ -200,7 +200,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Left = 6
     Height = 23
     Top = 245
-    Width = 585
+    Width = 623
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
@@ -213,7 +213,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = edtLogFontSize
     AnchorSideBottom.Side = asrBottom
-    Left = 655
+    Left = 693
     Height = 23
     Top = 245
     Width = 40
@@ -227,7 +227,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Control = edtLogFont
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelLogFnt
-    Left = 595
+    Left = 633
     Height = 23
     Top = 245
     Width = 56
@@ -260,7 +260,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Left = 6
     Height = 23
     Top = 191
-    Width = 585
+    Width = 623
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
@@ -271,7 +271,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideTop.Control = edtViewerBookFont
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelViewerBookFnt
-    Left = 595
+    Left = 633
     Height = 23
     Top = 191
     Width = 56
@@ -289,7 +289,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = edtViewerBookFontSize
     AnchorSideBottom.Side = asrBottom
-    Left = 655
+    Left = 693
     Height = 23
     Top = 191
     Width = 40
@@ -304,7 +304,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = edtConsoleFontSize
     AnchorSideBottom.Side = asrBottom
-    Left = 655
+    Left = 693
     Height = 23
     Top = 299
     Width = 40
@@ -312,13 +312,13 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     BorderSpacing.InnerBorder = 4
     Caption = '...'
     OnClick = btnSelConsoleFntClick
-    TabOrder = 15
+    TabOrder = 17
   end
   object edtConsoleFontSize: TSpinEdit[21]
     AnchorSideTop.Control = edtConsoleFont
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelConsoleFnt
-    Left = 595
+    Left = 633
     Height = 23
     Top = 299
     Width = 56
@@ -327,7 +327,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     MaxValue = 99
     MinValue = 6
     OnChange = edtConsoleFontSizeChange
-    TabOrder = 16
+    TabOrder = 21
     Value = 14
   end
   object edtConsoleFont: TEdit[22]
@@ -338,12 +338,12 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Left = 6
     Height = 23
     Top = 299
-    Width = 585
+    Width = 623
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
     OnExit = edtLogFontExit
-    TabOrder = 17
+    TabOrder = 15
   end
   object lblConsoleFont: TLabel[23]
     AnchorSideLeft.Control = edtViewerFont
@@ -358,7 +358,132 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     FocusControl = edtConsoleFont
     ParentColor = False
   end
-  object dlgFnt: TFontDialog[24]
+  object lblPathEditFont: TLabel[24]
+    AnchorSideLeft.Control = edtViewerFont
+    AnchorSideTop.Control = edtConsoleFont
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 15
+    Top = 332
+    Width = 49
+    BorderSpacing.Top = 10
+    Caption = 'Path font'
+    FocusControl = edtPathEditFont
+    ParentColor = False
+  end
+  object edtPathEditFont: TEdit[25]
+    AnchorSideLeft.Control = lblPathEditFont
+    AnchorSideTop.Control = lblPathEditFont
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtPathEditFontSize
+    Left = 6
+    Height = 23
+    Top = 353
+    Width = 623
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 4
+    TabOrder = 18
+  end
+  object edtConsoleFontSize1: TSpinEdit[26]
+    AnchorSideTop.Control = edtConsoleFont
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = btnSelConsoleFnt
+    Left = 633
+    Height = 23
+    Top = 299
+    Width = 56
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 4
+    MaxValue = 99
+    MinValue = 6
+    OnChange = edtConsoleFontSizeChange
+    TabOrder = 16
+    Value = 14
+  end
+  object edtPathEditFontSize: TSpinEdit[27]
+    AnchorSideTop.Control = edtPathEditFont
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = btnSelMainFnt
+    Left = 633
+    Height = 23
+    Top = 353
+    Width = 56
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 4
+    MaxValue = 99
+    MinValue = 6
+    OnChange = edtPathEditFontSizeChange
+    TabOrder = 19
+    Value = 12
+  end
+  object btnPathEditFnt: TButton[28]
+    AnchorSideTop.Control = edtPathEditFontSize
+    AnchorSideRight.Control = btnSelViewerBookFnt
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = edtPathEditFontSize
+    AnchorSideBottom.Side = asrBottom
+    Left = 693
+    Height = 23
+    Top = 353
+    Width = 40
+    Anchors = [akTop, akRight, akBottom]
+    Caption = '...'
+    OnClick = btnPathEditFntClick
+    TabOrder = 20
+  end
+  object lblSearchResultsFont: TLabel[29]
+    AnchorSideLeft.Control = edtViewerFont
+    AnchorSideTop.Control = edtPathEditFont
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 15
+    Top = 386
+    Width = 97
+    BorderSpacing.Top = 10
+    Caption = 'Search results font'
+    ParentColor = False
+    Visible = False
+  end
+  object edtSearchResultsFont: TEdit[30]
+    AnchorSideTop.Control = lblSearchResultsFont
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 23
+    Top = 407
+    Width = 622
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 4
+    TabOrder = 22
+    Visible = False
+  end
+  object edtSearchresultsFontSize: TSpinEdit[31]
+    AnchorSideTop.Control = edtSearchResultsFont
+    AnchorSideTop.Side = asrCenter
+    Left = 632
+    Height = 23
+    Top = 407
+    Width = 57
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Right = 4
+    TabOrder = 23
+    Value = 12
+    Visible = False
+  end
+  object btnSearchResultsFnt: TButton[32]
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Side = asrBottom
+    Left = 689
+    Height = 25
+    Top = 409
+    Width = 40
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    Caption = '...'
+    TabOrder = 24
+    Visible = False
+  end
+  object dlgFnt: TFontDialog[33]
     MinFontSize = 0
     MaxFontSize = 0
     Options = [fdNoStyleSel]
