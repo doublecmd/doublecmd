@@ -241,7 +241,7 @@ var
 implementation
 
 uses
-  URIParser, Unix, FileUtil, DCOSUtils, DCClassesUtf8, DCStrUtils, uDCUtils, uOSUtils
+  URIParser, Unix, LazUTF8, DCOSUtils, DCClassesUtf8, DCStrUtils, uDCUtils, uOSUtils
 {$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
 {$ENDIF}

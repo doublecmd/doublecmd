@@ -228,9 +228,9 @@ implementation
 
 uses
   StrUtils, uFileProcs, FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng,
-  fConfirmCommandLine, uLog, DCConvertEncoding
+  fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8
   {$IF DEFINED(MSWINDOWS)}
-  , JwaWinCon, Windows, LazUTF8, uNTFSLinks, uMyWindows, JwaWinNetWk,
+  , JwaWinCon, Windows, uNTFSLinks, uMyWindows, JwaWinNetWk,
     uShlObjAdditional, shlobj
   {$ENDIF}
   {$IF DEFINED(UNIX)}
