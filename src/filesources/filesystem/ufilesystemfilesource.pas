@@ -128,7 +128,7 @@ uses
   uMyWindows, Windows,
 {$ENDIF}
 {$IFDEF UNIX}
-  BaseUnix, uUsersGroups, FileUtil, uMyUnix,
+  BaseUnix, uUsersGroups, LazUTF8, uMyUnix,
 {$ENDIF}
   uFileSystemListOperation,
   uFileSystemCopyOperation,
@@ -233,7 +233,7 @@ begin
     begin
       LinkProperty.LinkTo := ReadSymLink(AFilePath);
       // Stat (as opposed to Lstat) will take info of the file that the link points to (recursively).
-      LinkProperty.IsValid := fpStat(PChar(UTF8ToSys(AFilePath)), LinkStatInfo) = 0;
+      LinkProperty.IsValid := fpStat(UTF8ToSys(AFilePath), LinkStatInfo) = 0;
       if LinkProperty.IsValid then
       begin
         LinkProperty.IsLinkToDirectory := FPS_ISDIR(LinkStatInfo.st_mode);
@@ -570,7 +570,7 @@ begin
       begin
         LinkProperty.LinkTo := ReadSymLink(sFullPath);
         // Stat (as opposed to Lstat) will take info of the file that the link points to (recursively).
-        LinkProperty.IsValid := fpStat(PChar(UTF8ToSys(sFullPath)), LinkInfo) = 0;
+        LinkProperty.IsValid := fpStat(UTF8ToSys(sFullPath), LinkInfo) = 0;
         if LinkProperty.IsValid then
         begin
           LinkProperty.IsLinkToDirectory := FPS_ISDIR(LinkInfo.st_mode);

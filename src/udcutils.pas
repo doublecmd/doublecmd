@@ -254,7 +254,7 @@ implementation
 
 uses
   LCLProc, LCLType, uMasks, FileUtil, StrUtils, uOSUtils, uGlobs, uGlobsPaths,
-  DCStrUtils, DCOSUtils;
+  DCStrUtils, DCOSUtils, LazUTF8;
 
 var
   dtLastDateSubstitutionCheck:TDateTime=0;
