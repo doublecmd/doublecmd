@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-02-15 21:55+0900\n"
+"PO-Revision-Date: 2016-03-06 07:33+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -1055,10 +1055,8 @@ msgid "Delete"
 msgstr "削除"
 
 #: tfrmeditor.acteditfind.caption
-#, fuzzy
-#| msgid "&Find"
 msgctxt "tfrmeditor.acteditfind.caption"
-msgid "&Find "
+msgid "&Find"
 msgstr "検索(&F)"
 
 #: tfrmeditor.acteditfind.hint
@@ -1075,6 +1073,10 @@ msgstr "次を検索"
 msgctxt "TFRMEDITOR.ACTEDITFINDNEXT.HINT"
 msgid "Find next"
 msgstr "次を検索"
+
+#: tfrmeditor.acteditfindprevious.caption
+msgid "Find previous"
+msgstr "前を検索"
 
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
@@ -1209,7 +1211,7 @@ msgid "Save"
 msgstr "保存"
 
 #: tfrmeditor.actfilesaveas.caption
-msgid "Save &As.."
+msgid "Save &As..."
 msgstr "名前を付けて保存(&A)…"
 
 #: tfrmeditor.actfilesaveas.hint
@@ -1235,7 +1237,6 @@ msgid "&Help"
 msgstr "ヘルプ(&H)"
 
 #: tfrmeditor.menuitem1.caption
-#, fuzzy
 msgctxt "tfrmeditor.menuitem1.caption"
 msgid "-"
 msgstr "-"
@@ -1802,64 +1803,74 @@ msgid "Properties"
 msgstr "属性"
 
 #: tfrmfinddlg.actcancel.caption
-msgid "actCancel"
-msgstr ""
+msgctxt "tfrmfinddlg.actcancel.caption"
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: tfrmfinddlg.actcancelclose.caption
+msgid "Cancel search and close window"
+msgstr "検索をキャンセルしてウィンドウを閉じる"
 
 #: tfrmfinddlg.actclose.caption
-msgid "actClose"
-msgstr ""
+msgctxt "tfrmfinddlg.actclose.caption"
+msgid "Close"
+msgstr "閉じる"
 
 #: tfrmfinddlg.actedit.caption
-msgid "actEdit"
-msgstr ""
+msgctxt "tfrmfinddlg.actedit.caption"
+msgid "Edit"
+msgstr "編集"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "actFeedToListbox"
-msgstr ""
+msgid "Feed to listbox"
+msgstr "リストボックスへ送付(&l)"
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "actGoToFile"
-msgstr ""
+msgid "Go to file"
+msgstr "ファイルに移動"
 
 #: tfrmfinddlg.actintellifocus.caption
-msgid "actIntelliFocus"
-msgstr ""
+msgctxt "tfrmfinddlg.actintellifocus.caption"
+msgid "Find Data"
+msgstr "データを検索"
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "actLastSearch"
-msgstr ""
+msgid "Last search"
+msgstr "最後の検索"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "actNewSearch"
-msgstr ""
+msgid "New search"
+msgstr "新しい検索"
 
 #: tfrmfinddlg.actpageadvanced.caption
-msgid "actPageAdvanced"
-msgstr ""
+msgid "Go to page \"Advanced\""
+msgstr "「詳細設定」のページへ"
 
 #: tfrmfinddlg.actpageloadsave.caption
-msgid "actPageLoadSave"
-msgstr ""
+msgid "Go to page \"Load/Save\""
+msgstr "「読み込み/保存」のページへ"
 
 #: tfrmfinddlg.actpageplugins.caption
-msgid "actPagePlugins"
-msgstr ""
+msgid "Go to page \"Plugins\""
+msgstr "「プラグイン」のページへ"
 
 #: tfrmfinddlg.actpageresults.caption
-msgid "actPageResults"
-msgstr ""
+msgid "Go to page \"Results\""
+msgstr "「結果」のページへ"
 
 #: tfrmfinddlg.actpagestandard.caption
-msgid "actPageStandard"
-msgstr ""
+msgid "Go to page \"Standard\""
+msgstr "「標準」のページへ"
 
 #: tfrmfinddlg.actstart.caption
-msgid "actStart"
-msgstr ""
+msgctxt "tfrmfinddlg.actstart.caption"
+msgid "Start"
+msgstr "開始"
 
 #: tfrmfinddlg.actview.caption
-msgid "actView"
-msgstr ""
+msgctxt "tfrmfinddlg.actview.caption"
+msgid "View"
+msgstr "表示"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -1991,6 +2002,10 @@ msgstr "指定したテキストを含まないファイルを検索(&O)"
 msgid "N&ot older than:"
 msgstr "これより古くない(&o)："
 
+#: tfrmfinddlg.cbopenedtabs.caption
+msgid "Opened tabs"
+msgstr "開いているタブ"
+
 #: tfrmfinddlg.cbpartialnamesearch.caption
 msgid "Searc&h for part of file name"
 msgstr "ファイル名の一部を検索(&h)"
@@ -2052,6 +2067,7 @@ msgid "Files"
 msgstr "ファイル"
 
 #: tfrmfinddlg.gbfinddata.caption
+msgctxt "tfrmfinddlg.gbfinddata.caption"
 msgid "Find Data"
 msgstr "データを検索"
 
@@ -2443,6 +2459,10 @@ msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "削除"
 
+#: tfrmmain.actdeleteactivegroup.caption
+msgid "Delete active group"
+msgstr "アクティブなグループを削除"
+
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2648,6 +2668,10 @@ msgstr "ネットワーク切断(&D)…"
 msgid "Network &Quick Connect..."
 msgstr "ネットワークへの（お急ぎ）接続(&Q)…"
 
+#: tfrmmain.actnewgroup.caption
+msgid "New Group"
+msgstr "新規グループ"
+
 #: tfrmmain.actnewtab.caption
 msgid "&New Tab"
 msgstr "新しいタブ(&N)"
@@ -2760,6 +2784,10 @@ msgstr "選択を元に戻す(&R)"
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
 msgstr "順序を逆転(&v)"
+
+#: tfrmmain.actrewriteactivegroup.caption
+msgid "actRewriteActiveGroup"
+msgstr ""
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -3339,6 +3367,11 @@ msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: tfrmmain.milinestartgroups.caption
+msgctxt "tfrmmain.milinestartgroups.caption"
+msgid "-"
+msgstr "-"
+
 #: tfrmmain.milogclear.caption
 msgid "Clear"
 msgstr "クリア"
@@ -3420,6 +3453,10 @@ msgstr "お気に入り"
 msgid "&Files"
 msgstr "ファイル(&F)"
 
+#: tfrmmain.mnugroups.caption
+msgid "Groups"
+msgstr "グループ"
+
 #: tfrmmain.mnuhelp.caption
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -3433,6 +3470,10 @@ msgstr "マーク(&M)"
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "ネットワーク(&N)"
+
+#: tfrmmain.mnurewriteactivegroup.caption
+msgid "Rewrite Active Group"
+msgstr "アクティブなグループを書き換え"
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
@@ -6554,8 +6595,8 @@ msgstr "メインメニューを表示(&m)"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
-msgid "Show &button bar"
-msgstr "ボタンバーを表示(&b)"
+msgid "Show tool&bar"
+msgstr "ツールバーを表示(&b)"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
 msgid "Show short free space &label"
@@ -8520,6 +8561,10 @@ msgctxt "TFRMVIEWER.ACTCOPYFILE.HINT"
 msgid "Copy File"
 msgstr "ファイルをコピー"
 
+#: tfrmviewer.actcopytoclipboard.caption
+msgid "Copy To Clipboard"
+msgstr "クリップボードにコピー"
+
 #: tfrmviewer.actdeletefile.caption
 msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
 msgid "Delete File"
@@ -8529,6 +8574,25 @@ msgstr "ファイルを削除"
 msgctxt "TFRMVIEWER.ACTDELETEFILE.HINT"
 msgid "Delete File"
 msgstr "ファイルを削除"
+
+#: tfrmviewer.actexit.caption
+msgctxt "tfrmviewer.actexit.caption"
+msgid "Exit"
+msgstr "終了"
+
+#: tfrmviewer.actfullscreen.caption
+msgctxt "tfrmviewer.actfullscreen.caption"
+msgid "Full Screen"
+msgstr "全画面"
+
+#: tfrmviewer.actgraphics.caption
+msgid "Graphics"
+msgstr "グラフィックス"
+
+#: tfrmviewer.actimagecenter.caption
+msgctxt "tfrmviewer.actimagecenter.caption"
+msgid "Center"
+msgstr "センター"
 
 #: tfrmviewer.actloadnextfile.caption
 msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
@@ -8549,15 +8613,18 @@ msgstr "前(&P)"
 msgid "Load Previous File"
 msgstr "前のファイルをロード"
 
-#: tfrmviewer.actmirror.caption
-msgctxt "TFRMVIEWER.ACTMIRROR.CAPTION"
+#: tfrmviewer.actmirrorhorz.caption
+msgid "Mirror Horizontally"
+msgstr "左右反転"
+
+#: tfrmviewer.actmirrorhorz.hint
+msgctxt "tfrmviewer.actmirrorhorz.hint"
 msgid "Mirror"
 msgstr "ミラーリング"
 
-#: tfrmviewer.actmirror.hint
-msgctxt "TFRMVIEWER.ACTMIRROR.HINT"
-msgid "Mirror"
-msgstr "ミラーリング"
+#: tfrmviewer.actmirrorvert.caption
+msgid "Mirror Vertically"
+msgstr "上下反転"
 
 #: tfrmviewer.actmovefile.caption
 msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
@@ -8568,6 +8635,14 @@ msgstr "ファイルを移動"
 msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
 msgid "Move File"
 msgstr "ファイルを移動"
+
+#: tfrmviewer.actplugins.caption
+msgid "Plugins"
+msgstr "プラグイン"
+
+#: tfrmviewer.actpreview.caption
+msgid "Preview"
+msgstr "プレビュー"
 
 #: tfrmviewer.actreload.caption
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
@@ -8580,7 +8655,7 @@ msgstr "現在のファイルを再ロード"
 
 #: tfrmviewer.actrotate180.caption
 msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
-msgid "Rotate 180"
+msgid "+ 180"
 msgstr "180°回転"
 
 #: tfrmviewer.actrotate180.hint
@@ -8590,7 +8665,7 @@ msgstr "180°回転"
 
 #: tfrmviewer.actrotate270.caption
 msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
-msgid "Rotate 270"
+msgid "- 90"
 msgstr "270°回転"
 
 #: tfrmviewer.actrotate270.hint
@@ -8600,13 +8675,18 @@ msgstr "270°回転"
 
 #: tfrmviewer.actrotate90.caption
 msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
-msgid "Rotate 90"
+msgid "+ 90"
 msgstr "90°回転"
 
 #: tfrmviewer.actrotate90.hint
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
 msgid "Rotate 90"
 msgstr "90°回転"
+
+#: tfrmviewer.actsave.caption
+msgctxt "tfrmviewer.actsave.caption"
+msgid "Save"
+msgstr "保存"
 
 #: tfrmviewer.actsaveas.caption
 msgctxt "TFRMVIEWER.ACTSAVEAS.CAPTION"
@@ -8617,6 +8697,56 @@ msgstr "名前を付けて保存…"
 msgid "Save File As..."
 msgstr "名前を付けてファイルを保存…"
 
+#: tfrmviewer.actscreenshot.caption
+msgctxt "tfrmviewer.actscreenshot.caption"
+msgid "Screenshot"
+msgstr "スクリーンショット"
+
+#: tfrmviewer.actscreenshotdelay3sec.caption
+msgid "Delay 3 sec"
+msgstr "3秒遅延"
+
+#: tfrmviewer.actscreenshotdelay5sec.caption
+msgid "Delay 5 sec"
+msgstr "5秒遅延"
+
+#: tfrmviewer.actsearch.caption
+msgid "Search"
+msgstr "検索"
+
+#: tfrmviewer.actsearchnext.caption
+msgctxt "tfrmviewer.actsearchnext.caption"
+msgid "Search next"
+msgstr "次を検索"
+
+#: tfrmviewer.actsearchprev.caption
+msgid "Search previous"
+msgstr "前を検索"
+
+#: tfrmviewer.actselectall.caption
+msgid "Select All"
+msgstr "全て選択"
+
+#: tfrmviewer.actshowasbin.caption
+msgid "Show as Bin"
+msgstr "バイナリーとして表示"
+
+#: tfrmviewer.actshowasbook.caption
+msgid "Show as Book"
+msgstr "ブックとして表示"
+
+#: tfrmviewer.actshowashex.caption
+msgid "Show as Hex"
+msgstr "16進数として表示"
+
+#: tfrmviewer.actshowastext.caption
+msgid "Show as Text"
+msgstr "テキストとして表示"
+
+#: tfrmviewer.actshowaswraptext.caption
+msgid "Show as Wrap text"
+msgstr "ラップテキストとして表示"
+
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
 msgid "Stretch"
@@ -8625,6 +8755,25 @@ msgstr "引き延ばし"
 #: tfrmviewer.actstretchimage.hint
 msgid "Stretch Image"
 msgstr "画像を引き伸ばし"
+
+#: tfrmviewer.actstretchonlylarge.caption
+msgctxt "tfrmviewer.actstretchonlylarge.caption"
+msgid "Stretch only large"
+msgstr "引き延ばしだけ"
+
+#: tfrmviewer.actzoom.caption
+msgid "Zoom"
+msgstr "ズーム"
+
+#: tfrmviewer.actzoomin.caption
+msgctxt "tfrmviewer.actzoomin.caption"
+msgid "Zoom In"
+msgstr "ズームイン"
+
+#: tfrmviewer.actzoomout.caption
+msgctxt "tfrmviewer.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "ズームアウト"
 
 #: tfrmviewer.btn270.hint
 msgctxt "TFRMVIEWER.BTN270.HINT"
@@ -8775,37 +8924,15 @@ msgstr "表示"
 msgid "0x0"
 msgstr "0x0"
 
-#: tfrmviewer.mi180.caption
-msgid "+ 180"
-msgstr "+ 180"
-
-#: tfrmviewer.mi270.caption
-msgctxt "TFRMVIEWER.MI270.CAPTION"
-msgid "- 90"
-msgstr "- 90"
-
-#: tfrmviewer.mi90.caption
-msgctxt "TFRMVIEWER.MI90.CAPTION"
-msgid "+ 90"
-msgstr "+ 90"
+#: tfrmviewer.menuitem1.caption
+msgctxt "tfrmviewer.menuitem1.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmviewer.miabout.caption
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "本製品について"
-
-#: tfrmviewer.mibin.caption
-msgid "Show as &Bin"
-msgstr "ゴミ箱として表示(&B)"
-
-#: tfrmviewer.micenter.caption
-msgid "Center"
-msgstr "センター"
-
-#: tfrmviewer.micopytoclipboard.caption
-msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
-msgid "Copy To Clipboard"
-msgstr "クリップボードにコピー"
 
 #: tfrmviewer.midiv1.caption
 msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
@@ -8842,11 +8969,6 @@ msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr "エンコード(&c)"
 
-#: tfrmviewer.miexit.caption
-msgctxt "TFRMVIEWER.MIEXIT.CAPTION"
-msgid "E&xit"
-msgstr "終了(&x)"
-
 #: tfrmviewer.mifile.caption
 msgctxt "TFRMVIEWER.MIFILE.CAPTION"
 msgid "&File"
@@ -8857,36 +8979,9 @@ msgctxt "TFRMVIEWER.MIFULLSCREEN.CAPTION"
 msgid "Full Screen"
 msgstr "全画面"
 
-#: tfrmviewer.migraphics.caption
-msgid "Graphics"
-msgstr "グラフィックス"
-
-#: tfrmviewer.mihex.caption
-msgid "Show as &Hex"
-msgstr "16進数で表示(&H)"
-
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "画像(&I)"
-
-#: tfrmviewer.milookbook.caption
-msgid "Show as B&ook"
-msgstr "Bookとして表示(&o)"
-
-#: tfrmviewer.mimirror.caption
-msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
-msgid "Mirror"
-msgstr "ミラーリング"
-
-#: tfrmviewer.miplugins.caption
-msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
-msgid "Plugins"
-msgstr "プラグイン"
-
-#: tfrmviewer.mipreview.caption
-msgctxt "TFRMVIEWER.MIPREVIEW.CAPTION"
-msgid "Preview"
-msgstr "プレビュー"
 
 #: tfrmviewer.miprint.caption
 msgid "Print..."
@@ -8896,11 +8991,6 @@ msgstr "印刷…"
 msgctxt "TFRMVIEWER.MIROTATE.CAPTION"
 msgid "Rotate"
 msgstr "回転"
-
-#: tfrmviewer.misave.caption
-msgctxt "TFRMVIEWER.MISAVE.CAPTION"
-msgid "Save"
-msgstr "保存"
 
 #: tfrmviewer.misaveas.caption
 msgctxt "TFRMVIEWER.MISAVEAS.CAPTION"
@@ -8912,60 +9002,15 @@ msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
 msgid "Screenshot"
 msgstr "スクリーンショット"
 
-#: tfrmviewer.misearch.caption
-msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
-msgid "Search"
-msgstr "検索"
-
-#: tfrmviewer.misearchnext.caption
-msgid "Search next"
-msgstr "次を検索"
-
-#: tfrmviewer.misearchprev.caption
-msgid "Search prev"
-msgstr "前を検索"
-
-#: tfrmviewer.miselectall.caption
-msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
-msgid "Select All"
-msgstr "すべて選択"
-
 #: tfrmviewer.miseparator.caption
 msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmviewer.mistretch.caption
-msgctxt "TFRMVIEWER.MISTRETCH.CAPTION"
-msgid "Stretch"
-msgstr "引き延ばし"
-
-#: tfrmviewer.mistretchonlylarge.caption
-msgid "Stretch only large"
-msgstr "引き延ばしだけ"
-
-#: tfrmviewer.mitext.caption
-msgid "Show as &Text"
-msgstr "テキストとして表示(&T)"
-
 #: tfrmviewer.miview.caption
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "表示(&V)"
-
-#: tfrmviewer.miwraptext.caption
-msgid "Show as &Wrap text"
-msgstr "ラップテキストとして表示(&W)"
-
-#: tfrmviewer.mizoomin.caption
-msgctxt "TFRMVIEWER.MIZOOMIN.CAPTION"
-msgid "Zoom In"
-msgstr "ズームイン"
-
-#: tfrmviewer.mizoomout.caption
-msgctxt "TFRMVIEWER.MIZOOMOUT.CAPTION"
-msgid "Zoom Out"
-msgstr "ズームアウト"
 
 #: tfrmviewer.pmicopy.caption
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
@@ -9553,18 +9598,18 @@ msgstr "DCからエクスポート済み"
 # どの文脈か不明
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Overwrite;Copy into;Skip"
-msgstr "質問;上書き;コピー;スキップ"
+msgstr "尋ねる;上書き;コピー;スキップ"
 
 # どの文脈か不明
 #: ulng.rsfileopfileexistsoptions
 msgid "Ask;Overwrite;Overwrite Older;Skip"
-msgstr "質問;上書き;古い項目を上書き;スキップ"
+msgstr "尋ねる;上書き;古い項目を上書き;スキップ"
 
 # どの文脈か不明
 #: ulng.rsfileopsetpropertyerroroptions
 msgctxt "ulng.rsfileopsetpropertyerroroptions"
 msgid "Ask;Don't set anymore;Ignore errors"
-msgstr "質問;これ以上設定しない;エラーを無視"
+msgstr "尋ねる;これ以上設定しない;エラーを無視"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -9619,7 +9664,7 @@ msgstr "ファイルの検索"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
-msgstr ""
+msgstr "スキャンの時刻："
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -9741,13 +9786,11 @@ msgid "Edit Comment Dialog"
 msgstr "コメントダイアログの編集"
 
 #: ulng.rshotkeycategoryeditor
-#, fuzzy
 msgctxt "ulng.rshotkeycategoryeditor"
 msgid "Editor"
 msgstr "エディタ"
 
 #: ulng.rshotkeycategoryfindfiles
-#, fuzzy
 msgctxt "ulng.rshotkeycategoryfindfiles"
 msgid "Find files"
 msgstr "ファイルの検索"
@@ -10182,7 +10225,7 @@ msgstr "インポートされたレガシーなタブ"
 
 #: ulng.rsmsgfavoritetabsimporttitle
 msgid "Select .tab file(s) to import (could be more than one at the time!)"
-msgstr ""
+msgstr "インポートする.tabファイル（複数可）を選択します（一度に複数かもしれません！）"
 
 # 英語がおかしい。
 # have not been saved yet.
@@ -10845,7 +10888,7 @@ msgstr "Windowsの特別なフォルダ(TC)に移動…"
 
 #: ulng.rsmsgspecialdirmakereltohotdir
 msgid "Make relative to hotdir path"
-msgstr ""
+msgstr "ホットディレクトリパスに対して相対にする"
 
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
@@ -10873,7 +10916,7 @@ msgstr "ダブル・コマンダーの特別パスを使用…"
 
 #: ulng.rsmsgspecialdirusehotdir
 msgid "Use hotdir path"
-msgstr ""
+msgstr "ホットディレクトリパスを使用します"
 
 #: ulng.rsmsgspecialdiruseother
 msgid "Use other Windows special folder..."
@@ -12204,4 +12247,3 @@ msgstr "置換の回数：%d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "置換は起こりませんでした。"
-
