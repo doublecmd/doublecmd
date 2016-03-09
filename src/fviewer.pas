@@ -63,11 +63,11 @@ type
     actZoom: TAction;
     actStretchOnlyLarge: TAction;
     actSearchNext: TAction;
-    actGraphics: TAction;
+    actShowGraphics: TAction;
     actExit: TAction;
     actMirrorVert: TAction;
     actSave: TAction;
-    actPlugins: TAction;
+    actShowPlugins: TAction;
     actShowAsBook: TAction;
     actShowAsWrapText: TAction;
     actShowAsHex: TAction;
@@ -214,7 +214,6 @@ type
     procedure DrawPreviewSelection(Sender: TObject; aCol, aRow: Integer);
     procedure DrawPreviewTopleftChanged(Sender: TObject);
     procedure FormCreate(Sender : TObject);
-    procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure GifAnimMouseEnter(Sender: TObject);
@@ -247,10 +246,6 @@ type
     procedure ViewerControlMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure frmViewerClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure frmViewerKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure miStretchOnlyLargeClick(Sender: TObject);
-    procedure miCenterClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure miChangeEncodingClick(Sender:TObject);
     procedure ViewerControlMouseWheelDown(Sender: TObject; Shift: TShiftState;
@@ -354,7 +349,10 @@ type
     procedure cm_ScreenshotDelay3sec(const Params: array of string);
     procedure cm_ScreenshotDelay5sec(const Params: array of string);
 
-
+    procedure cm_ChangeEncoding(const Params: array of string);
+    procedure cm_HotEncoding1(const Params: array of string);
+    procedure cm_HotEncoding2(const Params: array of string);
+    procedure cm_HotEncoding3(const Params: array of string);
     procedure cm_CopyToClipboard (const Params: array of string);
     procedure cm_SelectAll       (const Params: array of string);
     procedure cm_Search          (const Params: array of string);
@@ -425,7 +423,6 @@ begin
     begin
       Viewer.miPreview.Checked := not(Viewer.miPreview.Checked);
       Viewer.cm_Preview(['']);
-//      Viewer.miPreviewClick(Viewer);
     end;
 end;
 
@@ -444,6 +441,25 @@ begin
 
   FontOptionsToFont(gFonts[dcfMain],memFolder.Font);
   memFolder.Color:=gBackColor;
+
+
+//  This temporary code is for debug
+  StartX:=0;
+  StartY:=0;
+  EndX:=Image.Width-1;
+  EndY:=Image.Height-1;
+//  CutToImage;
+
+
+{
+  tmp_all:= TBitmap.Create;
+  tmp_all.Assign(Image.Picture.Graphic);
+
+  Image.Picture.Bitmap.Canvas.Clear;
+  Image.Picture.Bitmap.Canvas.Draw(0,0,tmp_all);
+  UndoTmp;
+}
+//-----------------------------------
 
 end;
 
@@ -501,7 +517,6 @@ begin
     else if FPS_ISDIR(dwFileAttributes) then
       begin
         ActivatePanel(pnlFolder);
-//        pnlFolder.Caption:= rsPropsFolder + ': ' + aFileName;    // QuickView info
         memFolder.Clear;
         memFolder.Lines.Add(rsPropsFolder + ': ');
         memFolder.Lines.Add(aFileName);
@@ -545,62 +560,6 @@ begin
   gboxPaint.Visible:=false;
   gboxHightlight.Visible:=false;
   Status.Panels[sbpFileNr].Text:=Format('%d/%d',[iIndex+1,FileList.Count]);
-end;
-
-procedure TfrmViewer.FormKeyPress(Sender: TObject; var Key: Char);
-begin
-  // The following keys work only in QuickView mode because there is no menu there.
-  // Otherwise this function is never called for those keys
-  // because the menu shortcuts are automatically used.
-  if bQuickView then
-    case Key of
-      'N', 'n':
-        begin
-          cm_LoadNextFile([]);
-          Key := #0;
-        end;
-      'P', 'p':
-        begin
-          cm_LoadPrevFile([]);
-          Key := #0;
-        end;
-      '1':
-        begin
-          cm_ShowAsText(['']);
-//          miTextClick(miText);
-          Key := #0;
-        end;
-      '2':
-        begin
-          cm_ShowAsBin(['']);
-//          miTextClick(miBin);
-          Key := #0;
-        end;
-      '3':
-        begin
-          cm_ShowAsHex(['']);
-//          miTextClick(miHex);
-          Key := #0;
-        end;
-      '4':
-        begin
-          cm_ShowAsWrapText(['']);
-//          miTextClick(miWrapText);
-          Key := #0;
-        end;
-      '6':
-        begin
-          cm_ShowGraphics(['']);
-//          miGraphicsClick(miGraphics);
-          Key := #0;
-        end;
-      '7':
-        begin
-          cm_ShowPlugins(['']);
-//          miPluginsClick(miPlugins);
-          Key := #0;
-        end;
-    end;
 end;
 
 procedure TfrmViewer.FormResize(Sender: TObject);
@@ -1487,36 +1446,6 @@ begin
      end;
 end;
 
-procedure TfrmViewer.frmViewerKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if (not bQuickView) and (Key in [VK_ESCAPE]) then  // also VK_Q by default
-  begin
-    Key := 0;
-    Close;
-    Exit;
-  end;
-
-  if (not (bImage or bAnimation)) then
-    case Key of
-      VK_F:
-        if Shift = [ssCtrl] then
-        begin
-          DoSearch(False, False);
-          Key:= 0;
-          Exit;
-        end;
-
-      VK_F3:
-        if Shift - [ssShift] = [] then
-        begin
-          DoSearch(True, Shift = [ssShift]);
-          Key:= 0;
-          Exit;
-        end;
-    end;
-end;
-
 procedure TfrmViewer.UpdateImagePlacement;
 begin
   if bImage then
@@ -1532,18 +1461,6 @@ begin
   end
   else if bPlugin then
     WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_newparams , PluginShowFlags)
-end;
-
-procedure TfrmViewer.miCenterClick(Sender: TObject);
-begin
-//   miCenter.Checked:= not miCenter.Checked;
-//   UpdateImagePlacement;
-end;
-
-procedure TfrmViewer.miStretchOnlyLargeClick(Sender: TObject);
-begin
-//  miStretchOnlyLarge.Checked:= not miStretchOnlyLarge.Checked;
-//  UpdateImagePlacement;
 end;
 
 procedure TfrmViewer.FormCreate(Sender: TObject);
@@ -1676,7 +1593,6 @@ begin
   Image.Picture.Bitmap.Width := GifAnim.Width;
   Image.Picture.Bitmap.Height := GifAnim.Height;
   Image.Picture.Bitmap.Canvas.CopyRect(Rect(0,0,GifAnim.Width,GifAnim.Height),GifAnim.Canvas,Rect(0,0,GifAnim.Width,GifAnim.Height));
-//  miSaveAsClick(sender);
   cm_SaveAs(['']);
 end;
 
@@ -1784,8 +1700,7 @@ end;
 
 procedure TfrmViewer.miChangeEncodingClick(Sender: TObject);
 begin
-  ViewerControl.EncodingName := (Sender as TMenuItem).Caption;
-  Status.Panels[4].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+  cm_ChangeEncoding([(Sender as TMenuItem).Caption]);
 end;
 
 procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
@@ -2432,6 +2347,34 @@ begin
   cm_ScreenshotWithDelay(['5']);
 end;
 
+procedure TfrmViewer.cm_ChangeEncoding(const Params: array of string);
+begin
+  ViewerControl.EncodingName := Params[0];
+  Status.Panels[4].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+  miEncoding.Find(ViewerControl.EncodingName).Checked:=True;
+end;
+
+procedure TfrmViewer.cm_HotEncoding1(const Params: array of string);
+begin
+  ViewerControl.EncodingName := Params[0];
+  Status.Panels[4].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+  miEncoding.Find(ViewerControl.EncodingName).Checked:=True;
+end;
+
+procedure TfrmViewer.cm_HotEncoding2(const Params: array of string);
+begin
+  ViewerControl.EncodingName := Params[0];
+  Status.Panels[4].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+  miEncoding.Find(ViewerControl.EncodingName).Checked:=True;
+end;
+
+procedure TfrmViewer.cm_HotEncoding3(const Params: array of string);
+begin
+  ViewerControl.EncodingName := Params[0];
+  Status.Panels[4].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+  miEncoding.Find(ViewerControl.EncodingName).Checked:=True;
+end;
+
 procedure TfrmViewer.cm_CopyToClipboard(const Params: array of string);
 begin
   if bPlugin then
@@ -2450,8 +2393,11 @@ end;
 
 procedure TfrmViewer.cm_Search(const Params: array of string);
 begin
-  FLastSearchPos := -1;
-  DoSearch(False, False);
+  if (not (bImage or bAnimation)) then
+  begin
+    FLastSearchPos := -1;
+    DoSearch(False, False);
+  end;
 end;
 
 procedure TfrmViewer.cm_SearchNext(const Params: array of string);
@@ -2551,7 +2497,7 @@ end;
 
 procedure TfrmViewer.cm_ExitViewer(const Params: array of string);
 begin
-  Close;
+     Close;
 end;
 
 initialization
