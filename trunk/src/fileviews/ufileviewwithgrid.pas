@@ -102,7 +102,7 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, LCLVersion, LCLProc, math,
+  LCLIntf, LCLType, LCLVersion, LCLProc, LazUTF8, math,
   DCStrUtils, uGlobs, uPixmapManager, uKeyboard,
   uDCUtils, fMain,
   uFileFunctions;

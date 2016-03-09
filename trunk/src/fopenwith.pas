@@ -79,8 +79,8 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, DCStrUtils, uOSUtils, uPixMapManager, uGlobs, uKeyFile, uMimeActions,
-  uMimeType, uLng;
+  LCLProc, DCStrUtils, uOSUtils, uPixMapManager, uGlobs, uMimeActions,
+  uMimeType, uLng, LazUTF8;
 
 procedure ShowOpenWithDlg(const FileList: TStringList);
 begin
