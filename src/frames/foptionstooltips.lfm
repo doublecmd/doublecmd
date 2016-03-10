@@ -1,22 +1,35 @@
 inherited frmOptionsToolTips: TfrmOptionsToolTips
-  Height = 501
+  Height = 366
   Width = 599
   AutoSize = True
-  ClientHeight = 501
+  ClientHeight = 366
   ClientWidth = 599
   DesignLeft = 345
   DesignTop = 69
-  object gbCustomFields: TGroupBox[0]
+  object chkShowToolTip: TCheckBox[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 6
+    Height = 19
+    Top = 6
+    Width = 213
+    BorderSpacing.Around = 6
+    Caption = '&Show tooltip for files in the file panel'
+    OnChange = chkShowToolTipChange
+    TabOrder = 0
+  end
+  object gbCustomFields: TGroupBox[1]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = chkShowToolTip
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Side = asrBottom
     Left = 6
     Height = 327
     Top = 31
     Width = 587
-    Anchors = [akTop, akLeft, akRight]
+    Anchors = [akTop, akLeft, akRight, akBottom]
     AutoSize = True
     BorderSpacing.Around = 6
     Caption = 'Custom fields by file type'
@@ -59,7 +72,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       Height = 142
       Top = 6
       Width = 563
-      Anchors = [akTop, akLeft, akRight]
+      Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Top = 6
       BorderSpacing.Right = 8
       ItemHeight = 0
@@ -245,18 +258,6 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         TabOrder = 4
       end
     end
-  end
-  object chkShowToolTip: TCheckBox[1]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
-    Left = 6
-    Height = 19
-    Top = 6
-    Width = 213
-    BorderSpacing.Around = 6
-    Caption = '&Show tooltip for files in the file panel'
-    OnChange = chkShowToolTipChange
-    TabOrder = 0
   end
   object pmFields: TPopupMenu[2]
     left = 120
