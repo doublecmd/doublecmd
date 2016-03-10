@@ -49,8 +49,8 @@ type
     procedure DisplayFileListChanged; override;
     procedure DoActiveChanged; override;
     procedure DoSelectionChanged; override;
-    procedure DoUpdateView; override;
     procedure ShowPathEdit;
+    procedure DoUpdateView; override;
     procedure UpdateFlatFileName; virtual;
     procedure UpdateInfoPanel; virtual;
 
@@ -147,6 +147,7 @@ begin
   pnlFooter.Visible := gStatusBar;  // Status bar
   pnlHeader.UpdateAddressLabel;
   pnlHeader.UpdatePathLabel;
+  pnlHeader.UpdateFontSizes;
 end;
 
 procedure TFileViewWithPanels.RemoveCurrentFileSource;
