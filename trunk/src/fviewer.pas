@@ -350,9 +350,6 @@ type
     procedure cm_ScreenshotDelay5sec(const Params: array of string);
 
     procedure cm_ChangeEncoding(const Params: array of string);
-    procedure cm_HotEncoding1(const Params: array of string);
-    procedure cm_HotEncoding2(const Params: array of string);
-    procedure cm_HotEncoding3(const Params: array of string);
     procedure cm_CopyToClipboard (const Params: array of string);
     procedure cm_SelectAll       (const Params: array of string);
     procedure cm_Search          (const Params: array of string);
@@ -2348,27 +2345,6 @@ begin
 end;
 
 procedure TfrmViewer.cm_ChangeEncoding(const Params: array of string);
-begin
-  ViewerControl.EncodingName := Params[0];
-  Status.Panels[4].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
-  miEncoding.Find(ViewerControl.EncodingName).Checked:=True;
-end;
-
-procedure TfrmViewer.cm_HotEncoding1(const Params: array of string);
-begin
-  ViewerControl.EncodingName := Params[0];
-  Status.Panels[4].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
-  miEncoding.Find(ViewerControl.EncodingName).Checked:=True;
-end;
-
-procedure TfrmViewer.cm_HotEncoding2(const Params: array of string);
-begin
-  ViewerControl.EncodingName := Params[0];
-  Status.Panels[4].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
-  miEncoding.Find(ViewerControl.EncodingName).Checked:=True;
-end;
-
-procedure TfrmViewer.cm_HotEncoding3(const Params: array of string);
 begin
   ViewerControl.EncodingName := Params[0];
   Status.Panels[4].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
