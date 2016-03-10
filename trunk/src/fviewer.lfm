@@ -2275,7 +2275,7 @@ object frmViewer: TfrmViewer
         Caption = '-'
       end
       object miExit: TMenuItem
-        Action = actExit
+        Action = actExitViewer
       end
     end
     object miEdit: TMenuItem
@@ -2542,27 +2542,27 @@ object frmViewer: TfrmViewer
     end
     object actShowAsText: TAction
       Category = 'View'
-      Caption = 'Show as Text'
+      Caption = 'Show as &Text'
       OnExecute = actExecute
     end
     object actShowAsBin: TAction
       Category = 'View'
-      Caption = 'Show as Bin'
+      Caption = 'Show as &Bin'
       OnExecute = actExecute
     end
     object actShowAsHex: TAction
       Category = 'View'
-      Caption = 'Show as Hex'
+      Caption = 'Show as &Hex'
       OnExecute = actExecute
     end
     object actShowAsWrapText: TAction
       Category = 'View'
-      Caption = 'Show as Wrap text'
+      Caption = 'Show as &Wrap text'
       OnExecute = actExecute
     end
     object actShowAsBook: TAction
       Category = 'View'
-      Caption = 'Show as Book'
+      Caption = 'Show as B&ook'
       OnExecute = actExecute
     end
     object actShowGraphics: TAction
@@ -2578,15 +2578,17 @@ object frmViewer: TfrmViewer
     object actSave: TAction
       Category = 'File'
       Caption = 'Save'
+      OnExecute = actExecute
     end
     object actMirrorVert: TAction
       Category = 'Image'
       Caption = 'Mirror Vertically'
       OnExecute = actExecute
     end
-    object actExit: TAction
+    object actExitViewer: TAction
       Category = 'File'
-      Caption = 'Exit'
+      Caption = 'E&xit'
+      OnExecute = actExecute
     end
     object actStretchOnlyLarge: TAction
       Category = 'Image'

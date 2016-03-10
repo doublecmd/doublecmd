@@ -64,7 +64,7 @@ type
     actStretchOnlyLarge: TAction;
     actSearchNext: TAction;
     actShowGraphics: TAction;
-    actExit: TAction;
+    actExitViewer: TAction;
     actMirrorVert: TAction;
     actSave: TAction;
     actShowPlugins: TAction;
@@ -308,6 +308,8 @@ type
     procedure WMSetFocus(var Message: TLMSetFocus); message LM_SETFOCUS;
 
   public
+    BeforeFullscreen :TRect;
+
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource; aQuickView: Boolean = False); overload;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -439,6 +441,10 @@ begin
   FontOptionsToFont(gFonts[dcfMain],memFolder.Font);
   memFolder.Color:=gBackColor;
 
+  BeforeFullscreen.Left:=Left;
+  BeforeFullscreen.Top:=Top;
+  BeforeFullscreen.Right:=Width;
+  BeforeFullscreen.Bottom:=Height;
 
 //  This temporary code is for debug
   StartX:=0;
@@ -2249,7 +2255,12 @@ procedure TfrmViewer.cm_Zoom(const Params: array of string);
 var
   k:double;
 begin
-  k:=StrToFloat(Params[0]);
+  try
+    k:=StrToFloat(Params[0]);
+  except
+    exit;
+  end;
+
   miStretch.Checked := False;
   FZoomFactor := FZoomFactor * k;
   AdjustImageSize;
@@ -2270,6 +2281,10 @@ begin
   miFullScreen.Checked:= not (miFullScreen.Checked);
   if miFullScreen.Checked then
     begin
+      BeforeFullscreen.Left:=Left;
+      BeforeFullscreen.Top:=Top;
+      BeforeFullscreen.Right:=Width;
+      BeforeFullscreen.Bottom:=Height;
       WindowState:= wsMaximized;
       BorderStyle:= bsNone;
       MainMenu.Items.Visible:=false;
@@ -2284,9 +2299,20 @@ begin
       WindowState:= wsNormal;
       BorderStyle:= bsSizeable;
       //Viewer.MainMenu.Items.Visible:=true;            // why it work ???
+
+      Left  :=BeforeFullscreen.Left  ;
+      Top   :=BeforeFullscreen.Top   ;
+      Width :=BeforeFullscreen.Right ;
+      Height:=BeforeFullscreen.Bottom;
+
+
       PanelEditImage.Height:= 50;
-      Height:= Height div 2;
-      Width:= Width div 2;
+      if (Left+Width>Screen.Width)or(Top+Height>Screen.Height) then  // if looks bad - correct size
+      begin
+        Width :=Screen.Width -Left-10;
+        Height:=Screen.Height-Top -10;
+      end;
+
     end;
   if ExtractOnlyFileExt(FileList.Strings[iActiveFile]) <> 'gif' then
     begin

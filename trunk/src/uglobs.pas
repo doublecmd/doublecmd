@@ -117,7 +117,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 24;
+  hkVersion     = 25;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -854,9 +854,9 @@ begin
   HMControl := HMForm.Controls.FindOrCreate('Files Panel');
   with HMControl.Hotkeys do
     begin
-      AddIfNotExists(['Del','','',
+      AddIfNotExists(['Del'      ,'','',
                       'Shift+Del','','trashcan=reversesetting',''], 'cm_Delete');
-      AddIfNotExists(['Ctrl+A','','',
+      AddIfNotExists(['Ctrl+A'   ,'','',
                       'Ctrl+Num+','',''],'cm_MarkMarkAll', ['Ctrl+A'], []);
       AddIfNotExists(['Num+'],[],'cm_MarkPlus');
       AddIfNotExists(['Shift+Num+'],[],'cm_MarkCurrentExtension');
@@ -878,22 +878,45 @@ begin
     begin
       AddIfNotExists(['F1'],[],'cm_About');
       AddIfNotExists(['F2'],[],'cm_Reload');
-      AddIfNotExists(['N'],[],'cm_LoadNextFile');
-      AddIfNotExists(['P'],[],'cm_LoadPrevFile');
+
+      AddIfNotExists(['N'   ,'','',
+                      'Right','',''],'cm_LoadNextFile', ['N'], []);
+
+      AddIfNotExists(['P'   ,'','',
+                      'Left','',''],'cm_LoadPrevFile', ['P'], []);
+
       AddIfNotExists(['1'],[],'cm_ShowAsText');
       AddIfNotExists(['2'],[],'cm_ShowAsBin');
       AddIfNotExists(['3'],[],'cm_ShowAsHex');
       AddIfNotExists(['4'],[],'cm_ShowAsWrapText');
+      AddIfNotExists(['5'],[],'cm_ShowAsBook');
       AddIfNotExists(['6'],[],'cm_ShowGraphics');
       AddIfNotExists(['7'],[],'cm_ShowPlugins');
 
-      AddIfNotExists(['Esc'],[],'cm_Close');
-      AddIfNotExists(['Q'],[],'cm_Close');
+      AddIfNotExists(['Esc'],[],'cm_ExitViewer');
+      AddIfNotExists(['Q'],[],'cm_ExitViewer');
 
-      AddIfNotExists(['F'],[],'cm_Close');
-      AddIfNotExists(['F3'],[],'cm_Close');
+      AddIfNotExists(['F'],[],'cm_Search');
+      AddIfNotExists(['Ctrl+F'],[],'cm_Search');
+      AddIfNotExists(['F7'],[],'cm_Search');
 
+      AddIfNotExists(['F3'],[],'cm_SearchNext');
+      AddIfNotExists(['Shift+F3'],[],'cm_SearchPrev');
+
+      AddIfNotExists(['Ctrl+C'],[],'cm_CopyToClipboard');
+      AddIfNotExists(['Ctrl+A'],[],'cm_SelectAll');
+
+      AddIfNotExists(['`'],[],'cm_Preview');  // til'da on preview mode
+
+      AddIfNotExists(['Num+'],[],'cm_ZoomIn');
+      AddIfNotExists(['Num-'],[],'cm_ZoomOut');
+
+      AddIfNotExists(['Alt+Enter'],[],'cm_Fullscreen');
+
+      AddIfNotExists(['Up'],[],'cm_Rotate270');
+      AddIfNotExists(['Down'],[],'cm_Rotate90');
     end;
+
 
   HMForm := HotMan.Forms.FindOrCreate('Differ');
   with HMForm.Hotkeys do
@@ -1575,6 +1598,7 @@ begin
   gFirstTextSearch := True;
   gErrorFile := gpCfgDir + ExtractOnlyFileName(Application.ExeName) + '.err';
   DefaultDateTimeFormat := FormatSettings.ShortDateFormat + ' hh:nn:ss';
+  FormatSettings.DecimalSeparator:='.';
 end;
 
 function OpenConfig(var ErrorMessage: String): Boolean;
