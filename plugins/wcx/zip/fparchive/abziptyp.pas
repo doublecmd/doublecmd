@@ -206,6 +206,7 @@ type
     FCompressedSize   : Int64;
     FUncompressedSize : Int64;
   public {methods}
+    procedure LoadFromStream( Stream : TStream );
     procedure SaveToStream( Stream : TStream );
   public {properties}
     property CRC32 : Longint
@@ -911,6 +912,17 @@ begin
 end;         
 {============================================================================}
 { TAbZipDataDescriptor implementation ====================================== }
+procedure TAbZipDataDescriptor.LoadFromStream(Stream: TStream);
+var
+  Signature: LongInt = 0;
+begin
+  Stream.Read(Signature, SizeOf(Ab_ZipDataDescriptorSignature));
+  if (Signature <> Ab_ZipDataDescriptorSignature) then Exit;
+  Stream.Read(FCRC32, SizeOf(FCRC32));
+  Stream.Read(FCompressedSize, SizeOf(LongWord));
+  Stream.Read(FUncompressedSize, SizeOf(LongWord));
+end;
+{ -------------------------------------------------------------------------- }
 procedure TAbZipDataDescriptor.SaveToStream( Stream : TStream );
 begin
   Stream.Write( Ab_ZipDataDescriptorSignature, sizeof( Ab_ZipDataDescriptorSignature ) );

@@ -1169,6 +1169,7 @@ var
   LFH        : TAbZipLocalFileHeader;
   Zip64Field : PZip64LocalHeaderRec;
   ZipArchive : TAbZipArchive;
+  DD         : TAbZipDataDescriptor = nil;
 begin
   ZipArchive := TAbZipArchive(Sender);
 
@@ -1190,6 +1191,12 @@ begin
       {get the item's local file header}
     ZipArchive.FStream.Seek(Item.RelativeOffset, soBeginning);
     LFH.LoadFromStream(ZipArchive.FStream);
+    if LFH.HasDataDescriptor then
+    begin
+      DD := TAbZipDataDescriptor.Create;
+      ZipArchive.FStream.Seek(Item.CompressedSize, soCurrent);
+      DD.LoadFromStream(ZipArchive.FStream);
+    end;
     ZipArchive.FStream.Seek(Item.RelativeOffset, soBeginning);
 
       {currently a single exception is raised for any LFH error}
@@ -1201,12 +1208,26 @@ begin
       raise EAbZipInvalidLFH.Create;
     if (LFH.LastModFileDate <> Item.LastModFileDate) then
       raise EAbZipInvalidLFH.Create;
-    if (LFH.CRC32 <> Item.CRC32) then
-      raise EAbZipInvalidLFH.Create;
+    if Assigned(DD) then
+    begin
+      if (DD.CRC32 <> Item.CRC32) then
+        raise EAbZipInvalidLFH.Create;
+    end
+    else begin
+      if (LFH.CRC32 <> Item.CRC32) then
+        raise EAbZipInvalidLFH.Create;
+    end;
     if LFH.ExtraField.Get(Ab_Zip64SubfieldID, Pointer(Zip64Field), FieldSize) then begin
       if (Zip64Field.CompressedSize <> Item.CompressedSize) then
         raise EAbZipInvalidLFH.Create;
       if (Zip64Field.UncompressedSize <> Item.UncompressedSize) then
+        raise EAbZipInvalidLFH.Create;
+    end
+    else if Assigned(DD) then
+    begin
+      if (DD.CompressedSize <> Item.CompressedSize) then
+        raise EAbZipInvalidLFH.Create;
+      if (DD.UncompressedSize <> Item.UncompressedSize) then
         raise EAbZipInvalidLFH.Create;
     end
     else begin
@@ -1223,6 +1244,7 @@ begin
   finally
     BitBucket.Free;
     LFH.Free;
+    DD.Free;
   end;
 
 end;
