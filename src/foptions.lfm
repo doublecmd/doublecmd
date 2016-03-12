@@ -1,12 +1,12 @@
 object frmOptions: TfrmOptions
-  Left = 599
-  Height = 203
-  Top = 308
-  Width = 517
+  Left = 372
+  Height = 480
+  Top = 55
+  Width = 640
   ActiveControl = tvTreeView
   Caption = 'Options'
-  ClientHeight = 203
-  ClientWidth = 517
+  ClientHeight = 480
+  ClientWidth = 640
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
@@ -14,10 +14,10 @@ object frmOptions: TfrmOptions
   Position = poScreenCenter
   SessionProperties = 'Height;Left;Top;Width;WindowState;tvTreeView.Width'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.4.4.0'
+  LCLVersion = '1.6.0.4'
   object tvTreeView: TTreeView
     Left = 0
-    Height = 160
+    Height = 437
     Top = 0
     Width = 193
     Align = alLeft
@@ -32,19 +32,19 @@ object frmOptions: TfrmOptions
   end
   object Panel3: TPanel
     Left = 196
-    Height = 160
+    Height = 437
     Top = 0
-    Width = 321
+    Width = 444
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 160
-    ClientWidth = 321
+    ClientHeight = 437
+    ClientWidth = 444
     TabOrder = 1
     object pnlCaption: TPanel
       Left = 0
       Height = 23
       Top = 0
-      Width = 321
+      Width = 444
       Align = alTop
       Color = clActiveCaption
       Font.Color = clCaptionText
@@ -55,11 +55,11 @@ object frmOptions: TfrmOptions
     end
     object sboxOptionsEditor: TScrollBox
       Left = 0
-      Height = 137
+      Height = 414
       Top = 23
-      Width = 321
-      HorzScrollBar.Increment = 32
-      HorzScrollBar.Page = 321
+      Width = 444
+      HorzScrollBar.Increment = 40
+      HorzScrollBar.Page = 401
       HorzScrollBar.Smooth = True
       HorzScrollBar.Tracking = True
       VertScrollBar.Increment = 2
@@ -68,8 +68,8 @@ object frmOptions: TfrmOptions
       VertScrollBar.Tracking = True
       Align = alClient
       BorderStyle = bsNone
-      ClientHeight = 120
-      ClientWidth = 321
+      ClientHeight = 414
+      ClientWidth = 444
       TabOrder = 1
       object lblEmptyEditor: TLabel
         AnchorSideLeft.Control = sboxOptionsEditor
@@ -88,23 +88,23 @@ object frmOptions: TfrmOptions
   end
   object splOptionsSplitter: TSplitter
     Left = 193
-    Height = 160
+    Height = 437
     Top = 0
     Width = 3
   end
   object Panel1: TPanel
     Left = 0
     Height = 43
-    Top = 160
-    Width = 517
+    Top = 437
+    Width = 640
     Align = alBottom
     ClientHeight = 43
-    ClientWidth = 517
+    ClientWidth = 640
     FullRepaint = False
     TabOrder = 2
     object btnOK: TBitBtn
       AnchorSideRight.Control = btnCancel
-      Left = 198
+      Left = 321
       Height = 31
       Top = 5
       Width = 98
@@ -120,7 +120,7 @@ object frmOptions: TfrmOptions
     end
     object btnCancel: TBitBtn
       AnchorSideRight.Control = btnApply
-      Left = 304
+      Left = 427
       Height = 31
       Top = 5
       Width = 98
@@ -137,7 +137,7 @@ object frmOptions: TfrmOptions
     object btnApply: TBitBtn
       AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
-      Left = 410
+      Left = 533
       Height = 31
       Top = 5
       Width = 98
