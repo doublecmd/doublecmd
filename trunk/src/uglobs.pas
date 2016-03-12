@@ -86,7 +86,7 @@ type
   TExternalToolsOptions = array[TExternalTool] of TExternalToolOptions;
   TResultingFramePositionAfterCompare = (rfpacActiveOnLeft, rfpacLeftOnLeft);
 
-  TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog, dcfViewerBook, dcfConsole, dcfSearchResults, dcfPathEdit, dcfFunctionButtons);
+  TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog, dcfViewerBook, dcfConsole, dcfSearchResults, dcfPathEdit, dcfFunctionButtons, dcfOptionsTree, dcfOptionsMain);
   TDCFontOptions = record
     Name: String;
     Size: Integer;
@@ -117,7 +117,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 25;
+  hkVersion     = 37;  // 26
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -164,6 +164,13 @@ const
 
   MAX_FONT_SIZE_FUNCTION_BUTTONS=20;
   MIN_FONT_SIZE_FUNCTION_BUTTONS=8;
+
+  MAX_FONT_SIZE_OPTIONS_TREE=14;
+  MIN_FONT_SIZE_OPTIONS_TREE=10;
+
+  MAX_FONT_SIZE_OPTIONS_MAIN=12;
+  MIN_FONT_SIZE_OPTIONS_MAIN=8;
+
 
 var
   { For localization }
@@ -876,14 +883,15 @@ begin
   HMForm := HotMan.Forms.FindOrCreate('Viewer');
   with HMForm.Hotkeys do
     begin
+
       AddIfNotExists(['F1'],[],'cm_About');
       AddIfNotExists(['F2'],[],'cm_Reload');
 
       AddIfNotExists(['N'   ,'','',
-                      'Right','',''],'cm_LoadNextFile', ['N'], []);
+                      'Right','',''],'cm_LoadNextFile'); //, ['N'], []);
 
       AddIfNotExists(['P'   ,'','',
-                      'Left','',''],'cm_LoadPrevFile', ['P'], []);
+                      'Left','',''],'cm_LoadPrevFile'); //, ['P'], []);
 
       AddIfNotExists(['1'],[],'cm_ShowAsText');
       AddIfNotExists(['2'],[],'cm_ShowAsBin');
@@ -893,15 +901,17 @@ begin
       AddIfNotExists(['6'],[],'cm_ShowGraphics');
       AddIfNotExists(['7'],[],'cm_ShowPlugins');
 
-      AddIfNotExists(['Esc'],[],'cm_ExitViewer');
-      AddIfNotExists(['Q'],[],'cm_ExitViewer');
 
-      AddIfNotExists(['F'],[],'cm_Search');
-      AddIfNotExists(['Ctrl+F'],[],'cm_Search');
-      AddIfNotExists(['F7'],[],'cm_Search');
+      AddIfNotExists(['Q'   ,'','',
+                      'Esc','',''],'cm_ExitViewer');
 
-      AddIfNotExists(['F3'],[],'cm_SearchNext');
-      AddIfNotExists(['Shift+F3'],[],'cm_SearchPrev');
+
+      AddIfNotExists(['F'        ,'','',
+                      'Ctrl+F'   ,'','',
+                      'F7'       ,'',''],'cm_Find'); // , ['F'], []);
+
+      AddIfNotExists(['F3'],[],'cm_FindNext');
+      AddIfNotExists(['Shift+F3'],[],'cm_FindPrev');
 
       AddIfNotExists(['Ctrl+C'],[],'cm_CopyToClipboard');
       AddIfNotExists(['Ctrl+A'],[],'cm_SelectAll');
@@ -913,8 +923,9 @@ begin
 
       AddIfNotExists(['Alt+Enter'],[],'cm_Fullscreen');
 
-      AddIfNotExists(['Up'],[],'cm_Rotate270');
-      AddIfNotExists(['Down'],[],'cm_Rotate90');
+      //AddIfNotExists(['Up'],[],'cm_Rotate270');  // how at once add this keys only to Image control?
+      //AddIfNotExists(['Down'],[],'cm_Rotate90');
+
     end;
 
 
@@ -1268,10 +1279,12 @@ begin
   gFonts[dcfMain].Size := 10;
   gFonts[dcfMain].Style := [fsBold];
   gFonts[dcfMain].Quality := fqDefault;
+
   gFonts[dcfEditor].Name := MonoSpaceFont;
   gFonts[dcfEditor].Size := 14;
   gFonts[dcfEditor].Style := [];
   gFonts[dcfEditor].Quality := fqDefault;
+
   gFonts[dcfViewer].Name := MonoSpaceFont;
   gFonts[dcfViewer].Size := 14;
   gFonts[dcfViewer].Style := [];
@@ -1292,14 +1305,25 @@ begin
   gFonts[dcfFunctionButtons].Style := [];
   gFonts[dcfFunctionButtons].Quality := fqDefault;
 
+  gFonts[dcfOptionsTree].Name := 'default';
+  gFonts[dcfOptionsTree].Size := 10;
+  gFonts[dcfOptionsTree].Style := [];
+  gFonts[dcfOptionsTree].Quality := fqDefault;
+                             gFonts[dcfOptionsMain].Name := 'default';
+  gFonts[dcfOptionsMain].Size := 10;
+  gFonts[dcfOptionsMain].Style := [];
+  gFonts[dcfOptionsMain].Quality := fqDefault;
+
   gFonts[dcfLog].Name := MonoSpaceFont;
   gFonts[dcfLog].Size := 12;
   gFonts[dcfLog].Style := [];
   gFonts[dcfLog].Quality := fqDefault;
+
   gFonts[dcfViewerBook].Name := 'default';
   gFonts[dcfViewerBook].Size := 16;
   gFonts[dcfViewerBook].Style := [fsBold];
   gFonts[dcfViewerBook].Quality := fqDefault;
+
   gFonts[dcfConsole].Name := MonoSpaceFont;
   gFonts[dcfConsole].Size := 12;
   gFonts[dcfConsole].Style := [];
@@ -1985,22 +2009,30 @@ begin
   gFonts[dcfMain].Name:=gIni.ReadString('Configuration', 'Font.Name', 'default');
   gFonts[dcfEditor].Name:=gIni.ReadString('Editor', 'Font.Name', MonoSpaceFont);
   gFonts[dcfViewer].Name:=gIni.ReadString('Viewer', 'Font.Name', MonoSpaceFont);
+  gFonts[dcfOptionsTree].Name:=gIni.ReadString('OptionsTree', 'Font.Name', 'default');
+  gFonts[dcfOptionsMain].Name:=gIni.ReadString('OptionsMain', 'Font.Name', 'default');
 
   gFonts[dcfSearchResults].Name:=gIni.ReadString('SearchResults', 'Font.Name', MonoSpaceFont);
   gFonts[dcfPathEdit].Name:=gIni.ReadString('PathEdit', 'Font.Name', MonoSpaceFont);
   gFonts[dcfFunctionButtons].Name:=gIni.ReadString('FunctionButtons', 'Font.Name', MonoSpaceFont);
 
+
   gFonts[dcfMain].Size:=gIni.ReadInteger('Configuration', 'Font.Size', 10);
   gFonts[dcfEditor].Size:=gIni.ReadInteger('Editor', 'Font.Size', 14);
   gFonts[dcfViewer].Size:=gIni.ReadInteger('Viewer', 'Font.Size', 14);
+  gFonts[dcfOptionsTree].Size:=gIni.ReadInteger('OptionsTree', 'Font.Size', 10);
+  gFonts[dcfOptionsMain].Size:=gIni.ReadInteger('OptionsMain', 'Font.Size', 10);
+
 
   gFonts[dcfSearchResults].Size:=gIni.ReadInteger('SearchResults', 'Font.Size', 12);
   gFonts[dcfPathEdit].Size:=gIni.ReadInteger('PathEdit', 'Font.Size', 8);
-  gFonts[dcfFunctionButtons].Size:=gIni.ReadInteger('FunctionButtons', 'Font.Name', 8);
+  gFonts[dcfFunctionButtons].Size:=gIni.ReadInteger('FunctionButtons', 'Font.Size', 8);
 
   gFonts[dcfMain].Style := TFontStyles(gIni.ReadInteger('Configuration', 'Font.Style', 1));
   gFonts[dcfEditor].Style := TFontStyles(gIni.ReadInteger('Editor', 'Font.Style', 0));
   gFonts[dcfViewer].Style := TFontStyles(gIni.ReadInteger('Viewer', 'Font.Style', 0));
+  gFonts[dcfOptionsTree].Style:=TFontStyles(gIni.ReadInteger('OptionsTree', 'Font.Style', 10));
+  gFonts[dcfOptionsMain].Style:=TFontStyles(gIni.ReadInteger('OptionsMain', 'Font.Style', 10));
 
   { Colors }
   gUseCursorBorder := gIni.ReadBool('(Colors', 'UseCursorBorder', gUseCursorBorder);
@@ -2288,6 +2320,8 @@ begin
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Main'), gFonts[dcfMain]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Editor'), gFonts[dcfEditor]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Viewer'), gFonts[dcfViewer]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/OptionsTree'), gFonts[dcfOptionsTree]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/OptionsMain'), gFonts[dcfOptionsMain]);
 
     GetDCFont(gConfig.FindNode(Root, 'Fonts/SearchResults'), gFonts[dcfSearchResults]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/PathEdit'), gFonts[dcfPathEdit]);
@@ -2808,6 +2842,8 @@ begin
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Main', True), gFonts[dcfMain]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Editor', True), gFonts[dcfEditor]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Viewer', True), gFonts[dcfViewer]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/OptionsTree', True), gFonts[dcfOptionsTree]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/OptionsMain', True), gFonts[dcfOptionsMain]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/SearchResults',True), gFonts[dcfSearchResults]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/PathEdit',True), gFonts[dcfPathEdit]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/FunctionButtons',True), gFonts[dcfFunctionButtons]);

@@ -40,7 +40,7 @@ uses
   SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls, LMessages,
   LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
   Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
-  uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms;
+  uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd;
 
 type
 
@@ -62,7 +62,7 @@ type
     actZoomIn: TAction;
     actZoom: TAction;
     actStretchOnlyLarge: TAction;
-    actSearchNext: TAction;
+    actFindNext: TAction;
     actShowGraphics: TAction;
     actExitViewer: TAction;
     actMirrorVert: TAction;
@@ -74,8 +74,8 @@ type
     actShowAsBin: TAction;
     actShowAsText: TAction;
     actPreview: TAction;
-    actSearchPrev: TAction;
-    actSearch: TAction;
+    actFindPrev: TAction;
+    actFind: TAction;
     actSelectAll: TAction;
     actMirrorHorz: TAction;
     actRotate270: TAction;
@@ -104,7 +104,6 @@ type
     gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
     memFolder: TMemo;
-    MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     miScreenshot5sec: TMenuItem;
     miScreenshot3sec: TMenuItem;
@@ -354,9 +353,9 @@ type
     procedure cm_ChangeEncoding(const Params: array of string);
     procedure cm_CopyToClipboard (const Params: array of string);
     procedure cm_SelectAll       (const Params: array of string);
-    procedure cm_Search          (const Params: array of string);
-    procedure cm_SearchNext      (const Params: array of string);
-    procedure cm_SearchPrev      (const Params: array of string);
+    procedure cm_Find          (const Params: array of string);
+    procedure cm_FindNext      (const Params: array of string);
+    procedure cm_FindPrev      (const Params: array of string);
 
     procedure cm_Preview         (const Params: array of string);
     procedure cm_ShowAsText      (const Params: array of string);
@@ -836,7 +835,8 @@ end;
 
 procedure TfrmViewer.miLookBookClick(Sender: TObject);
 begin
-  miLookBook.Checked:=not miLookBook.Checked;
+  cm_ShowAsBook(['']);
+//  miLookBook.Checked:=not miLookBook.Checked;
 end;
 
 procedure TfrmViewer.CreatePreview(FullPathToFile: string; index: integer;
@@ -1047,7 +1047,7 @@ end;
 
 procedure TfrmViewer.SetNormalViewerFont;
 begin
-  if miLookBook.Checked then
+  if ViewerControl.ViewerMode=vmBook then
   begin
     with ViewerControl do
       begin
@@ -1513,6 +1513,11 @@ begin
   ViewerPositionChanged(Self);
 
   FixFormIcon(Handle);
+
+  GifAnim.Align:=alClient;
+
+  HotMan.Register(pnlText ,'Text files');
+  HotMan.Register(pnlImage,'Image files');
 end;
 
 procedure TfrmViewer.btnCutTuImageClick(Sender: TObject);
@@ -1686,6 +1691,13 @@ end;
 
 procedure TfrmViewer.FormDestroy(Sender: TObject);
 begin
+  if Assigned(HotMan) then
+  begin
+    HotMan.UnRegister(pnlText);
+    HotMan.UnRegister(pnlImage);
+  end;
+
+
   FreeAndNil(FFindDialog);
   FreeAndNil(FBitmapList);
   HotMan.UnRegister(Self);
@@ -1765,6 +1777,9 @@ var
   dScaleFactor : Double;
   iLeft, iTop, iWidth, iHeight : Integer;
 begin
+  if (Image.Picture=nil) then exit;
+  if (Image.Picture.Width=0)or(Image.Picture.Height=0)then exit;
+
   dScaleFactor:= FZoomFactor;
 
   // Place and resize image
@@ -1852,9 +1867,7 @@ begin
         finally
           FreeAndNil(fsFileStream);
         end;
-        miStretch.Checked:= not miStretch.Checked;
-//        miStretchClick(nil);
-        cm_StretchImage(['']);
+          AdjustImageSize;
       except
         Exit(False);
       end;
@@ -1864,7 +1877,7 @@ begin
       GifAnim.Visible:= True;
       Image.Visible:= False;
       try
-        GifAnim.FileName:= UTF8ToSys(sFileName);
+        GifAnim.FileName:= sFileName;
         btnHightlight.Visible:= False;
         btnPaint.Visible:= False;
         btnResize.Visible:= False;
@@ -2035,6 +2048,9 @@ begin
 end;
 
 procedure TfrmViewer.ActivatePanel(Panel: TPanel);
+var
+  i:integer;
+  b :boolean;
 begin
   pnlFolder.Hide;
   pnlImage.Hide;
@@ -2065,7 +2081,7 @@ begin
   else if Panel = pnlText then
   begin
     if (not bQuickView) and CanFocus and ViewerControl.CanFocus then
-      ViewerControl.SetFocus;
+       ViewerControl.SetFocus;
 
     case ViewerControl.ViewerMode of
       vmText: miText.Checked := True;
@@ -2081,6 +2097,13 @@ begin
   else if Panel = pnlImage then
   begin
     PanelEditImage.Visible:= not bQuickView;
+    pnlImage.TabStop:=True;
+    {
+    b:=pnlImage.TabStop;
+    b:=pnlImage.CanFocus;
+    pnlImage.SetFocus;
+    }
+    Self.ActiveControl:=pnlImage;
   end;
 end;
 
@@ -2168,11 +2191,17 @@ end;
 
 procedure TfrmViewer.cm_StretchImage(const Params: array of string);
 begin
+  miStretch.Checked:=not miStretch.Checked;
   if bImage then
   begin
-    FZoomFactor:= 1.0;
-    miStretch.Checked:= not miStretch.Checked;
-    UpdateImagePlacement;
+    if miStretch.Checked then
+    begin
+      FZoomFactor:= 1.0;
+      UpdateImagePlacement;
+    end else
+    begin
+      UpdateImagePlacement;
+    end;
   end;
 end;
 
@@ -2268,12 +2297,27 @@ end;
 
 procedure TfrmViewer.cm_ZoomIn(const Params: array of string);
 begin
-  cm_Zoom(['1.1']);
+  if miGraphics.Checked then
+     cm_Zoom(['1.1'])
+  else
+  begin
+    gFonts[dcfViewer].Size:=gFonts[dcfViewer].Size+1;
+    ViewerControl.Font.Size:=gFonts[dcfViewer].Size;
+    ViewerControl.Repaint;
+  end;
+
 end;
 
 procedure TfrmViewer.cm_ZoomOut(const Params: array of string);
 begin
-  cm_Zoom(['0.9']);
+  if miGraphics.Checked then
+     cm_Zoom(['0.9'])
+  else
+  begin
+    gFonts[dcfViewer].Size:=gFonts[dcfViewer].Size-1;
+    ViewerControl.Font.Size:=gFonts[dcfViewer].Size;
+    ViewerControl.Repaint;
+  end;
 end;
 
 procedure TfrmViewer.cm_Fullscreen(const Params: array of string);
@@ -2287,7 +2331,8 @@ begin
       BeforeFullscreen.Bottom:=Height;
       WindowState:= wsMaximized;
       BorderStyle:= bsNone;
-      MainMenu.Items.Visible:=false;
+      MainMenu.Items.Visible:=false;       // it sometime not work by unknown reason
+      MainMenu.Parent:=nil;                // so now we have no choice and workaround it by this trick
       gboxPaint.Visible:= false;
       gboxHightlight.Visible:=false;
       miStretch.Checked:= miFullScreen.Checked;
@@ -2296,6 +2341,7 @@ begin
     end
   else
     begin
+      MainMenu.Parent:=Self;            // workaround code to attach detached menu
       WindowState:= wsNormal;
       BorderStyle:= bsSizeable;
       //Viewer.MainMenu.Items.Visible:=true;            // why it work ???
@@ -2304,7 +2350,6 @@ begin
       Top   :=BeforeFullscreen.Top   ;
       Width :=BeforeFullscreen.Right ;
       Height:=BeforeFullscreen.Bottom;
-
 
       PanelEditImage.Height:= 50;
       if (Left+Width>Screen.Width)or(Top+Height>Screen.Height) then  // if looks bad - correct size
@@ -2381,8 +2426,13 @@ procedure TfrmViewer.cm_CopyToClipboard(const Params: array of string);
 begin
   if bPlugin then
    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_copy, 0)
-  else
-    ViewerControl.CopyToClipboard;
+  else begin
+    if (miGraphics.Checked)and(Image.Picture<>nil)and(Image.Picture.Bitmap<>nil)then
+       Clipboard.Assign(Image.Picture)
+    else
+       ViewerControl.CopyToClipboard;
+  end;
+
 end;
 
 procedure TfrmViewer.cm_SelectAll(const Params: array of string);
@@ -2393,21 +2443,22 @@ begin
       ViewerControl.SelectAll;
 end;
 
-procedure TfrmViewer.cm_Search(const Params: array of string);
+procedure TfrmViewer.cm_Find(const Params: array of string);
 begin
-  if (not (bImage or bAnimation)) then
+  //if (not (bImage or bAnimation)) then
+  if not miGraphics.Checked then
   begin
     FLastSearchPos := -1;
     DoSearch(False, False);
   end;
 end;
 
-procedure TfrmViewer.cm_SearchNext(const Params: array of string);
+procedure TfrmViewer.cm_FindNext(const Params: array of string);
 begin
   DoSearch(True, False);
 end;
 
-procedure TfrmViewer.cm_SearchPrev(const Params: array of string);
+procedure TfrmViewer.cm_FindPrev(const Params: array of string);
 begin
   DoSearch(True, True);
 end;
@@ -2435,42 +2486,47 @@ end;
 
 procedure TfrmViewer.cm_ShowAsText(const Params: array of string);
 begin
+  ViewerControl.ViewerMode := vmText;
   SetNormalViewerFont;
   ExitPluginMode;
   ReopenAsTextIfNeeded;
-  ViewerControl.ViewerMode := vmText;
+  ActivatePanel(pnlText);
 end;
 
 procedure TfrmViewer.cm_ShowAsBin(const Params: array of string);
 begin
+  ViewerControl.ViewerMode := vmBin;
   SetNormalViewerFont;
   ExitPluginMode;
   ReopenAsTextIfNeeded;
-  ViewerControl.ViewerMode := vmBin;
+  ActivatePanel(pnlText);
 end;
 
 procedure TfrmViewer.cm_ShowAsHex(const Params: array of string);
 begin
+  ViewerControl.ViewerMode := vmHex;
   SetNormalViewerFont;
   ExitPluginMode;
   ReopenAsTextIfNeeded;
-  ViewerControl.ViewerMode := vmHex;
+  ActivatePanel(pnlText);
 end;
 
 procedure TfrmViewer.cm_ShowAsWrapText(const Params: array of string);
 begin
+  ViewerControl.ViewerMode := vmWrap;
   SetNormalViewerFont;
   ExitPluginMode;
   ReopenAsTextIfNeeded;
-  ViewerControl.ViewerMode := vmWrap;
+  ActivatePanel(pnlText);
 end;
 
 procedure TfrmViewer.cm_ShowAsBook(const Params: array of string);
 begin
-  miLookBook.Checked:=not miLookBook.Checked;
+  ViewerControl.ViewerMode := vmBook;
   SetNormalViewerFont;
   ExitPluginMode;
   ReopenAsTextIfNeeded;
+  ActivatePanel(pnlText);
 end;
 
 procedure TfrmViewer.cm_ShowGraphics(const Params: array of string);
