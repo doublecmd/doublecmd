@@ -21,16 +21,16 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
     BorderSpacing.Bottom = 8
     Caption = 'File types colors (sort by drag&&drop)'
     ChildSizing.LeftRightSpacing = 8
-    ClientHeight = 326
+    ClientHeight = 328
     ClientWidth = 739
     TabOrder = 0
     object lblCategoryName: TLabel
       AnchorSideTop.Control = edtCategoryName
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 15
-      Top = 161
-      Width = 84
+      Height = 14
+      Top = 175
+      Width = 99
       Caption = 'Category &name:'
       FocusControl = edtCategoryName
       ParentColor = False
@@ -39,9 +39,9 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Control = edtCategoryMask
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 15
-      Top = 192
-      Width = 82
+      Height = 14
+      Top = 203
+      Width = 97
       Caption = 'Category &mask:'
       FocusControl = edtCategoryMask
       ParentColor = False
@@ -50,9 +50,9 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Control = cbCategoryColor
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 15
-      Top = 254
-      Width = 81
+      Height = 14
+      Top = 259
+      Width = 95
       Caption = 'Category co&lor:'
       FocusControl = cbCategoryColor
       ParentColor = False
@@ -61,80 +61,80 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Control = edtCategoryAttr
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 15
-      Top = 223
-      Width = 104
+      Height = 14
+      Top = 231
+      Width = 126
       Caption = 'Category a&ttributes:'
       FocusControl = edtCategoryAttr
       ParentColor = False
     end
     object edtCategoryName: TEdit
-      AnchorSideTop.Control = lbCategories
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = lbCategories
       AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = edtCategoryMask
       Left = 170
-      Height = 23
-      Top = 157
+      Height = 20
+      Top = 172
       Width = 561
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Top = 12
+      Anchors = [akLeft, akRight, akBottom]
+      BorderSpacing.Bottom = 8
       TabOrder = 1
     end
     object edtCategoryMask: TEdit
-      AnchorSideTop.Control = edtCategoryName
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnSearchTemplate
+      AnchorSideBottom.Control = edtCategoryAttr
       Left = 170
-      Height = 23
-      Top = 188
+      Height = 20
+      Top = 200
       Width = 532
-      Anchors = [akTop, akLeft, akRight]
+      Anchors = [akLeft, akRight, akBottom]
       BorderSpacing.Top = 8
       BorderSpacing.Right = 6
+      BorderSpacing.Bottom = 8
       TabOrder = 2
     end
     object cbCategoryColor: TColorBox
-      AnchorSideTop.Control = edtCategoryAttr
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnCategoryColor
+      AnchorSideBottom.Control = btnApplyCategory
       Left = 170
-      Height = 22
-      Top = 250
+      Height = 20
+      Top = 256
       Width = 527
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Top = 8
+      Anchors = [akLeft, akRight, akBottom]
       BorderSpacing.Right = 6
+      BorderSpacing.Bottom = 12
       ItemHeight = 16
       TabOrder = 5
     end
     object btnAddCategory: TBitBtn
-      AnchorSideTop.Control = cbCategoryColor
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnDeleteCategory
+      AnchorSideBottom.Control = btnApplyCategory
+      AnchorSideBottom.Side = asrBottom
       Left = 389
       Height = 32
-      Top = 284
+      Top = 288
       Width = 110
-      Anchors = [akTop, akRight]
-      BorderSpacing.Left = 6
-      BorderSpacing.Top = 12
+      Anchors = [akRight, akBottom]
       BorderSpacing.Right = 6
       Caption = 'A&dd'
       OnClick = btnAddCategoryClick
       TabOrder = 7
     end
     object btnDeleteCategory: TBitBtn
-      AnchorSideTop.Control = cbCategoryColor
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnApplyCategory
+      AnchorSideBottom.Control = btnApplyCategory
+      AnchorSideBottom.Side = asrBottom
       Left = 505
       Height = 32
-      Top = 284
+      Top = 288
       Width = 110
-      Anchors = [akTop, akRight]
-      BorderSpacing.Top = 12
+      Anchors = [akRight, akBottom]
       BorderSpacing.Right = 6
       Caption = 'D&elete'
       OnClick = btnDeleteCategoryClick
@@ -148,8 +148,8 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideBottom.Control = cbCategoryColor
       AnchorSideBottom.Side = asrBottom
       Left = 703
-      Height = 22
-      Top = 250
+      Height = 20
+      Top = 256
       Width = 28
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.InnerBorder = 4
@@ -161,50 +161,51 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideTop.Control = gbFileTypesColors
       AnchorSideRight.Control = gbFileTypesColors
       AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Side = asrBottom
+      AnchorSideBottom.Control = edtCategoryName
       Left = 8
-      Height = 139
+      Height = 154
       Top = 6
       Width = 723
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Top = 6
       BorderSpacing.Right = 8
+      BorderSpacing.Bottom = 12
       DragMode = dmAutomatic
       ItemHeight = 0
       OnClick = lbCategoriesClick
       OnDragDrop = lbCategoriesDragDrop
       OnDragOver = lbCategoriesDragOver
       OnDrawItem = lbCategoriesDrawItem
-      ScrollWidth = 717
       Style = lbOwnerDrawFixed
       TabOrder = 0
     end
     object btnApplyCategory: TBitBtn
-      AnchorSideTop.Control = cbCategoryColor
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = lbCategories
       AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = gbFileTypesColors
+      AnchorSideBottom.Side = asrBottom
       Left = 621
       Height = 32
-      Top = 284
+      Top = 288
       Width = 110
-      Anchors = [akTop, akRight]
-      BorderSpacing.Top = 12
+      Anchors = [akRight, akBottom]
+      BorderSpacing.Bottom = 8
       Caption = 'A&pply'
       OnClick = btnApplyCategoryClick
       TabOrder = 9
     end
     object edtCategoryAttr: TEdit
-      AnchorSideTop.Control = edtCategoryMask
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = lbCategories
       AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = cbCategoryColor
       Left = 170
-      Height = 23
-      Top = 219
+      Height = 20
+      Top = 228
       Width = 561
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Top = 8
+      Anchors = [akLeft, akRight, akBottom]
+      BorderSpacing.Bottom = 8
       TabOrder = 4
     end
     object btnSearchTemplate: TBitBtn
@@ -214,9 +215,9 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       AnchorSideBottom.Control = edtCategoryMask
       AnchorSideBottom.Side = asrBottom
       Left = 708
-      Height = 23
+      Height = 20
       Hint = 'Template...'
-      Top = 188
+      Top = 200
       Width = 23
       Anchors = [akTop, akRight, akBottom]
       Glyph.Data = {
