@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-03-08 21:28+0400\n"
+"PO-Revision-Date: 2016-03-12 20:10+0400\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -9447,11 +9447,11 @@ msgstr "&Все"
 
 #: ulng.rsdlgbuttonappend
 msgid "A&ppend"
-msgstr "&Добавить"
+msgstr "&Дописать"
 
 #: ulng.rsdlgbuttonautorenamesource
 msgid "A&uto-rename source files"
-msgstr "Автоматически переименовывать исходные файлы"
+msgstr "&Автоматически переименовывать копируемые файлы"
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
@@ -9518,7 +9518,7 @@ msgstr "Заменить &меньшие"
 #: ulng.rsdlgbuttonrename
 msgctxt "ulng.rsdlgbuttonrename"
 msgid "R&ename"
-msgstr "Пе&реименовать"
+msgstr "Пере&именовать"
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
@@ -9530,11 +9530,11 @@ msgstr "Пов&торить"
 
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
-msgstr "&Пропустить"
+msgstr "Пр&опустить"
 
 #: ulng.rsdlgbuttonskipall
 msgid "S&kip All"
-msgstr "Проп&устить Все"
+msgstr "Проп&устить все"
 
 #: ulng.rsdlgbuttonyes
 msgid "&Yes"

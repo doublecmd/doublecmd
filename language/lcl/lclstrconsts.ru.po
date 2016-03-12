@@ -5,9 +5,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-07-23 03:03+0300\n"
+"PO-Revision-Date: 2016-03-10 21:11+0400\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
+"Language: ru\n"
+"X-Generator: Poedit 1.7.4\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 msgid "Browser %s%s%s not executable."
@@ -27,7 +29,7 @@ msgstr "Невозможно найти браузер HTML."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
-msgstr ""
+msgstr "Браузер HTML не найден.%sПожалуйста, установите один в Tools -> Options -> Help -> Help Options"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
@@ -55,7 +57,7 @@ msgstr "Клавиша Application"
 
 #: lclstrconsts.ifsvk_back
 msgid "Backspace"
-msgstr "Забой"
+msgstr "Backspace"
 
 #: lclstrconsts.ifsvk_cancel
 msgctxt "lclstrconsts.ifsvk_cancel"
@@ -72,7 +74,7 @@ msgstr "Clear"
 
 #: lclstrconsts.ifsvk_cmd
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: lclstrconsts.ifsvk_control
 msgid "Control"
@@ -159,7 +161,7 @@ msgstr "Menu"
 
 #: lclstrconsts.ifsvk_meta
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: lclstrconsts.ifsvk_modechange
 msgid "Mode Change"
@@ -234,7 +236,7 @@ msgstr "Пробел"
 
 #: lclstrconsts.ifsvk_super
 msgid "Super"
-msgstr ""
+msgstr "Super"
 
 #: lclstrconsts.ifsvk_tab
 msgctxt "lclstrconsts.ifsvk_tab"
@@ -256,7 +258,7 @@ msgstr "Запустить %s невозможно"
 
 #: lclstrconsts.liscefilter
 msgid "(filter)"
-msgstr ""
+msgstr "(фильтр)"
 
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
@@ -375,7 +377,7 @@ msgstr "Элемент управления '%s' не имеет родител�
 
 #: lclstrconsts.rscontrolisnotaparent
 msgid "'%s' is not a parent of '%s'"
-msgstr ""
+msgstr "'%s' не родитель '%s'"
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
@@ -549,7 +551,7 @@ msgstr "Форма"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
-msgstr ""
+msgstr "Ресуры формы %s не найдены. Для форм без ресурсов должен быть использован конструктор CreateNew. См. глобальную переменную RequireDerivedFormResource."
 
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
@@ -665,13 +667,11 @@ msgid "%s: Already registered"
 msgstr "%s: уже зарегистрирован"
 
 #: lclstrconsts.rshelpcontextnotfound
-#, fuzzy
 #| msgid "Help Context not found"
 msgid "A help database was found for this topic, but this topic was not found"
 msgstr "Контекст справки не найден"
 
 #: lclstrconsts.rshelpdatabasenotfound
-#, fuzzy
 #| msgid "Help Database not found"
 msgid "There is no help database installed for this topic"
 msgstr "База данных справки не найдена"
@@ -698,11 +698,11 @@ msgstr "База данных справки %s%s%s не найдена"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
 msgid "Help for directive %s%s%s not found."
-msgstr ""
+msgstr "Директива справки %s%s%s не найдена."
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
 msgid "Help for directive %s%s%s not found in Database %s%s%s."
-msgstr ""
+msgstr "Директива справки %s%s%s не найдена в базе данных %s%s%s."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
 msgid "Help keyword %s%s%s not found."
@@ -721,13 +721,11 @@ msgid "No help found for line %d, column %d of %s."
 msgstr "Не найдено справки для строки %d, столбца %d из %s."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-#, fuzzy
 #| msgid "No help nodes available"
 msgid "No help entries available for this topic"
 msgstr "Доступные узлы справки отсутствуют"
 
 #: lclstrconsts.rshelpnotfound
-#, fuzzy
 #| msgid "Help not found"
 msgid "No help found for this topic"
 msgstr "Справка не найдена"
@@ -749,7 +747,6 @@ msgid "Help Viewer Error"
 msgstr "Ошибка программы просмотра справки"
 
 #: lclstrconsts.rshelpviewernotfound
-#, fuzzy
 #| msgid "Help Viewer not found"
 msgid "No viewer was found for this type of help content"
 msgstr "Программа просмотра справки не найдена"
@@ -767,7 +764,6 @@ msgid "Hot Light"
 msgstr "Выделение"
 
 #: lclstrconsts.rsicns
-#, fuzzy
 #| msgid "OSX Icon Resource"
 msgid "Mac OS X Icon"
 msgstr "Ресурс значков OSX"
@@ -1063,7 +1059,7 @@ msgstr "Предыдущая"
 
 #: lclstrconsts.rspromptonreplace
 msgid "Prompt on replace"
-msgstr ""
+msgstr "Подсказка замены"
 
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
@@ -1232,7 +1228,7 @@ msgstr "Голубой"
 
 #: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
 msgid "A control with tabs"
-msgstr ""
+msgstr "Элемент управления вкладками"
 
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
@@ -1248,19 +1244,19 @@ msgstr "Формат Tagged Image File"
 
 #: lclstrconsts.rstpanelaccessibilitydescription
 msgid "Panel"
-msgstr ""
+msgstr "Панель"
 
 #: lclstrconsts.rstsplitteraccessibilitydescription
 msgid "A grip to control how much size to give two parts of an area"
-msgstr ""
+msgstr "Захватите, чтобы управлять размером двух частей области."
 
 #: lclstrconsts.rsttreeviewaccessibilitydescription
 msgid "A tree of items"
-msgstr ""
+msgstr "Дерево элементов"
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
-msgstr "Не могу загрузить шрифт по умолчанию"
+msgstr "Невозможно загрузить шрифт по умолчанию"
 
 #: lclstrconsts.rsunknownerrorpleasereportthisbug
 msgid "Unknown Error, please report this bug"
@@ -1372,7 +1368,7 @@ msgstr "Неверный индекс ImageList"
 
 #: lclstrconsts.smaskeditnomatch
 msgid "The current text does not match the specified mask."
-msgstr ""
+msgstr "Текущий текст не совпадает с указанной маской."
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
@@ -1392,7 +1388,7 @@ msgstr "Alt+"
 
 #: lclstrconsts.smkcbksp
 msgid "BkSp"
-msgstr "Забой"
+msgstr "BkSp"
 
 #: lclstrconsts.smkcctrl
 msgid "Ctrl+"
@@ -1414,7 +1410,7 @@ msgstr "End"
 
 #: lclstrconsts.smkcenter
 msgid "Enter"
-msgstr "Ввод"
+msgstr "Enter"
 
 #: lclstrconsts.smkcesc
 msgid "Esc"
@@ -1462,7 +1458,7 @@ msgstr "Пробел"
 #: lclstrconsts.smkctab
 msgctxt "lclstrconsts.smkctab"
 msgid "Tab"
-msgstr "Таб"
+msgstr "Tab"
 
 #: lclstrconsts.smkcup
 msgctxt "lclstrconsts.smkcup"
@@ -1490,7 +1486,6 @@ msgid "Invalid integer number: %s"
 msgstr "Неверное целое число: %s"
 
 #: lclstrconsts.sparlocinfo
-#, fuzzy
 #| msgid " (at %d,%d, stream offset %.8x)"
 msgid " (at %d,%d, stream offset %d)"
 msgstr " (на %d,%d, смещение потока %.8x)"
@@ -1510,4 +1505,3 @@ msgstr "Неверный символ лексемы: ожидался %s, но 
 #: lclstrconsts.sparwrongtokentype
 msgid "Wrong token type: %s expected but %s found"
 msgstr "Неверный тип лексемы: ожидался %s, но найден %s"
-
