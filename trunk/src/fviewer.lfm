@@ -177,7 +177,8 @@ object frmViewer: TfrmViewer
         Left = 0
         Height = 90
         Top = 0
-        Width = 90
+        Width = 106
+        AutoSize = False
         OnMouseEnter = GifAnimMouseEnter
       end
     end
@@ -2290,13 +2291,13 @@ object frmViewer: TfrmViewer
         Caption = '-'
       end
       object miSearch: TMenuItem
-        Action = actSearch
+        Action = actFind
       end
       object miSearchNext: TMenuItem
-        Action = actSearchNext
+        Action = actFindNext
       end
       object miSearchPrev: TMenuItem
-        Action = actSearchPrev
+        Action = actFindPrev
       end
     end
     object miView: TMenuItem
@@ -2322,9 +2323,6 @@ object frmViewer: TfrmViewer
       object miWrapText: TMenuItem
         Action = actShowAsWrapText
         RadioItem = True
-      end
-      object MenuItem1: TMenuItem
-        Caption = '-'
       end
       object miLookBook: TMenuItem
         Action = actShowAsBook
@@ -2437,6 +2435,7 @@ object frmViewer: TfrmViewer
       Category = 'Help'
       Caption = 'About Viewer...'
       Hint = 'Displays the About message'
+      OnExecute = actExecute
     end
     object actReload: TAction
       Category = 'File'
@@ -2520,19 +2519,19 @@ object frmViewer: TfrmViewer
       Caption = 'Select All'
       OnExecute = actExecute
     end
-    object actSearch: TAction
+    object actFind: TAction
       Category = 'Edit'
-      Caption = 'Search'
+      Caption = 'Find'
       OnExecute = actExecute
     end
-    object actSearchNext: TAction
+    object actFindNext: TAction
       Category = 'Edit'
-      Caption = 'Search next'
+      Caption = 'Find next'
       OnExecute = actExecute
     end
-    object actSearchPrev: TAction
+    object actFindPrev: TAction
       Category = 'Edit'
-      Caption = 'Search previous'
+      Caption = 'Find previous'
       OnExecute = actExecute
     end
     object actPreview: TAction
