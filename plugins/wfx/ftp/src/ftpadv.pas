@@ -30,34 +30,8 @@ uses
   Classes, SysUtils, WfxPlugin, FtpSend, LazUTF8Classes, LConvEncoding,
   DCConvertEncoding;
 
-{$IF NOT DECLARED(TConvertUTF8ToEncodingFunc)}
-const
-  EncodingCP1250 = 'cp1250';
-  EncodingCP1251 = 'cp1251';
-  EncodingCP1252 = 'cp1252';
-  EncodingCP1253 = 'cp1253';
-  EncodingCP1254 = 'cp1254';
-  EncodingCP1255 = 'cp1255';
-  EncodingCP1256 = 'cp1256';
-  EncodingCP1257 = 'cp1257';
-  EncodingCP1258 = 'cp1258';
-  EncodingCP437 = 'cp437';
-  EncodingCP850 = 'cp850';
-  EncodingCP852 = 'cp852';
-  EncodingCP866 = 'cp866';
-  EncodingCP874 = 'cp874';
-  EncodingCP932 = 'cp932';
-  EncodingCP936 = 'cp936';
-  EncodingCP949 = 'cp949';
-  EncodingCP950 = 'cp950';
-  EncodingCPKOI8 = 'koi8';
-  EncodingCPIso1 = 'iso88591';
-  EncodingCPIso2 = 'iso88592';
-  EncodingCPIso15 = 'iso885915';
-
 type
   TConvertUTF8ToEncodingFunc = function(const S: String {$IFDEF FPC_HAS_CPSTRING}; SetTargetCodePage: Boolean = False{$ENDIF}): RawByteString;
-{$ENDIF}
 
 type
 
@@ -127,6 +101,32 @@ implementation
 
 uses
   LazUTF8, LazFileUtils, FtpFunc, FtpUtils;
+
+{$IF NOT DECLARED(EncodingCP1250)}
+const
+  EncodingCP1250 = 'cp1250';
+  EncodingCP1251 = 'cp1251';
+  EncodingCP1252 = 'cp1252';
+  EncodingCP1253 = 'cp1253';
+  EncodingCP1254 = 'cp1254';
+  EncodingCP1255 = 'cp1255';
+  EncodingCP1256 = 'cp1256';
+  EncodingCP1257 = 'cp1257';
+  EncodingCP1258 = 'cp1258';
+  EncodingCP437 = 'cp437';
+  EncodingCP850 = 'cp850';
+  EncodingCP852 = 'cp852';
+  EncodingCP866 = 'cp866';
+  EncodingCP874 = 'cp874';
+  EncodingCP932 = 'cp932';
+  EncodingCP936 = 'cp936';
+  EncodingCP949 = 'cp949';
+  EncodingCP950 = 'cp950';
+  EncodingCPKOI8 = 'koi8';
+  EncodingCPIso1 = 'iso88591';
+  EncodingCPIso2 = 'iso88592';
+  EncodingCPIso15 = 'iso885915';
+{$ENDIF}
 
 function Dummy(const S: String): String;
 begin
