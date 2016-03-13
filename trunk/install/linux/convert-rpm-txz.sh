@@ -71,8 +71,6 @@ popd
 
 # Copy script for execute portable version
 install -m 755 $DC_SOURCE_DIR/doublecmd.sh       $DC_ROOT_DIR/
-# Copy help files
-cp -r $DC_SOURCE_DIR/doc/en                      $DC_ROOT_DIR/doc
 
 # Make portable config file
 sed -i -e 's/<UseConfigInProgramDir>False/<UseConfigInProgramDir>True/' $DC_ROOT_DIR/doublecmd.xml

@@ -23,9 +23,9 @@ rem WFX plugins directories
 mkdir  %DC_INSTALL_DIR%\plugins\wfx
 mkdir  %DC_INSTALL_DIR%\plugins\wfx\ftp
 
+mkdir  %DC_INSTALL_DIR%\doc
 rem Copy directories
 xcopy /E language %DC_INSTALL_DIR%\language\
-xcopy /E doc\en   %DC_INSTALL_DIR%\doc\en\
 xcopy /E pixmaps  %DC_INSTALL_DIR%\pixmaps\
 rem Copy files
 copy doc\*.txt                      %DC_INSTALL_DIR%\doc\

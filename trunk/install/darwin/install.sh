@@ -54,7 +54,6 @@ install -m 644 plugins/wfx/ftp/lib/ftp.wfx          $DC_INSTALL_DIR/plugins/wfx/
 
 # Copy documentation
 mkdir -p $DC_INSTALL_DIR/doc
-cp -r doc/en    $DC_INSTALL_DIR/doc/
 cp -a doc/*.txt $DC_INSTALL_DIR/doc/
 
 # Copy scripts

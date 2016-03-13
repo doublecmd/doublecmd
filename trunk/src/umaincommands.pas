@@ -2435,6 +2435,7 @@ begin
 end;
 
 procedure TMainCommands.cm_SwitchIgnoreList(const Params: array of string);
+{$OPTIMIZATION OFF}
 var
   WantedIgnoreList, BoolValue:boolean;
 begin
@@ -2463,6 +2464,7 @@ begin
     end;
   end;
 end;
+{$OPTIMIZATION DEFAULT}
 
 // Parameter is name of TOptionsEditorClass.
 procedure TMainCommands.cm_Options(const Params: array of string);
@@ -2621,6 +2623,7 @@ begin
 end;
 
 procedure TMainCommands.cm_ShowMainMenu(const Params: array of string);
+{$OPTIMIZATION OFF}
 var
   WantedMainMenu, BoolValue:boolean;
 begin
@@ -2644,6 +2647,7 @@ begin
     DoShowMainMenu(gMainMenu);
   end;
 end;
+{$OPTIMIZATION DEFAULT}
 
 procedure TMainCommands.cm_Refresh(const Params: array of string);
 begin
