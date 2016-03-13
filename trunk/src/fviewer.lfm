@@ -2382,7 +2382,7 @@ object frmViewer: TfrmViewer
         Action = actZoomOut
       end
       object miFullScreen: TMenuItem
-        Caption = 'Full Screen'
+        Action = actFullscreen
       end
       object miScreenshot: TMenuItem
         Caption = 'Screenshot'
@@ -2616,6 +2616,7 @@ object frmViewer: TfrmViewer
     object actFullscreen: TAction
       Category = 'Image'
       Caption = 'Full Screen'
+      OnExecute = actExecute
     end
     object actScreenshot: TAction
       Category = 'Image'
