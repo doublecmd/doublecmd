@@ -305,10 +305,9 @@ type
 
   protected
     procedure WMSetFocus(var Message: TLMSetFocus); message LM_SETFOCUS;
+    procedure UpdateGlobals;
 
   public
-    BeforeFullscreen :TRect;
-
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource; aQuickView: Boolean = False); overload;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -380,7 +379,8 @@ implementation
 uses
   FileUtil, IntfGraphics, Math, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding,
   DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
-  uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr;
+  uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr,
+  fMain;
 
 const
   HotkeysCategory = 'Viewer';
@@ -439,11 +439,6 @@ begin
 
   FontOptionsToFont(gFonts[dcfMain],memFolder.Font);
   memFolder.Color:=gBackColor;
-
-  BeforeFullscreen.Left:=Left;
-  BeforeFullscreen.Top:=Top;
-  BeforeFullscreen.Right:=Width;
-  BeforeFullscreen.Bottom:=Height;
 
 //  This temporary code is for debug
   StartX:=0;
@@ -866,6 +861,16 @@ procedure TfrmViewer.WMSetFocus(var Message: TLMSetFocus);
 begin
   if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).SetFocus;
 end;
+
+procedure TfrmViewer.UpdateGlobals;
+begin
+  gViewerTop:=Top;
+  gViewerLeft:=Left;
+  gViewerWidth:=Width;
+  gViewerHeight:=Height;
+end;
+
+
 
 procedure TfrmViewer.RedEyes;
 var
@@ -1426,6 +1431,7 @@ end;
 procedure TfrmViewer.frmViewerClose(Sender: TObject;
                                     var CloseAction: TCloseAction);
 begin
+  if not miFullScreen.Checked then UpdateGlobals;
   CloseAction:=caFree;
   gImageStretch:= miStretch.Checked;
   gImageStretchOnlyLarge:= miStretchOnlyLarge.Checked;
@@ -2098,13 +2104,15 @@ begin
   begin
     PanelEditImage.Visible:= not bQuickView;
     pnlImage.TabStop:=True;
-    {
-    b:=pnlImage.TabStop;
-    b:=pnlImage.CanFocus;
-    pnlImage.SetFocus;
-    }
     Self.ActiveControl:=pnlImage;
   end;
+
+  WindowState:=wsNormal;
+  Top   :=gViewerTop;
+  Left  :=gViewerLeft;
+  Width :=gViewerWidth;
+  Height:=gViewerHeight;
+
 end;
 
 procedure TfrmViewer.cm_About(const Params: array of string);
@@ -2325,10 +2333,7 @@ begin
   miFullScreen.Checked:= not (miFullScreen.Checked);
   if miFullScreen.Checked then
     begin
-      BeforeFullscreen.Left:=Left;
-      BeforeFullscreen.Top:=Top;
-      BeforeFullscreen.Right:=Width;
-      BeforeFullscreen.Bottom:=Height;
+      UpdateGlobals;
       WindowState:= wsMaximized;
       BorderStyle:= bsNone;
       MainMenu.Items.Visible:=false;       // it sometime not work by unknown reason
@@ -2342,20 +2347,23 @@ begin
   else
     begin
       MainMenu.Parent:=Self;            // workaround code to attach detached menu
+
       WindowState:= wsNormal;
       BorderStyle:= bsSizeable;
       //Viewer.MainMenu.Items.Visible:=true;            // why it work ???
 
-      Left  :=BeforeFullscreen.Left  ;
-      Top   :=BeforeFullscreen.Top   ;
-      Width :=BeforeFullscreen.Right ;
-      Height:=BeforeFullscreen.Bottom;
+      Left  :=gViewerLeft;
+      Top   :=gViewerTop;
+      Width :=gViewerWidth;
+      Height:=gViewerHeight;
 
       PanelEditImage.Height:= 50;
       if (Left+Width>Screen.Width)or(Top+Height>Screen.Height) then  // if looks bad - correct size
       begin
         Width :=Screen.Width -Left-10;
         Height:=Screen.Height-Top -10;
+        gViewerWidth:=Width;
+        gViewerHeight:=Height;
       end;
 
     end;

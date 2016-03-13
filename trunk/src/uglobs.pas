@@ -459,7 +459,11 @@ var
   gImagePaintMode: String;
   gImagePaintWidth,
   gColCount,
-  gViewerMode: Integer;
+  gViewerMode,
+  gViewerTop,
+  gViewerLeft,
+  gViewerWidth,
+  gViewerHeight: Integer;
   gImagePaintColor,
   gBookBackgroundColor,
   gBookFontColor: TColor;
@@ -1531,6 +1535,10 @@ begin
   gBookFontColor := clWhite;
   gTextPosition:= 0;
   gViewerMode:= 0;
+  gViewerTop:=0;
+  gViewerLeft:=0;
+  gViewerWidth:=Screen.WorkAreaWidth;
+  gViewerHeight:=Screen.WorkAreaHeight;
 
   { Editor }
   gEditorSynEditOptions := SYNEDIT_DEFAULT_OPTIONS;
@@ -2653,8 +2661,14 @@ begin
       gCopyMovePath5 := GetValue(Node, 'CopyMovePath5', gCopyMovePath5);
       gImagePaintMode := GetValue(Node, 'PaintMode', gImagePaintMode);
       gImagePaintWidth := GetValue(Node, 'PaintWidth', gImagePaintWidth);
-      gColCount := GetValue(Node, 'NumberOfColumns', gColCount);
-      gViewerMode := GetValue(Node, 'ViewerMode', gViewerMode);
+      gColCount    := GetValue(Node, 'NumberOfColumns', gColCount);
+      gViewerMode  := GetValue(Node, 'ViewerMode'  , gViewerMode);
+      gViewerTop   := GetValue(Node, 'ViewerTop'   , gViewerTop);
+      gViewerLeft  := GetValue(Node, 'ViewerLeft'  , gViewerLeft);
+      gViewerWidth := GetValue(Node, 'ViewerWidth' , gViewerWidth);
+      gViewerHeight:= GetValue(Node, 'ViewerHeight', gViewerHeight);
+
+
       gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
       gBookBackgroundColor := GetValue(Node, 'BackgroundColor', gBookBackgroundColor);
       gBookFontColor := GetValue(Node, 'FontColor', gBookFontColor);
@@ -3071,7 +3085,12 @@ begin
     SetValue(Node, 'PaintMode', gImagePaintMode);
     SetValue(Node, 'PaintWidth', gImagePaintWidth);
     SetValue(Node, 'NumberOfColumns', gColCount);
-    SetValue(Node, 'ViewerMode', gViewerMode);
+    SetValue(Node, 'ViewerMode' , gViewerMode);
+    SetValue(Node, 'ViewerTop'  , gViewerTop);
+    SetValue(Node, 'ViewerLeft' , gViewerLeft);
+    SetValue(Node, 'ViewerWidth' , gViewerWidth);
+    SetValue(Node, 'ViewerHeight', gViewerHeight);
+
     SetValue(Node, 'PaintColor', gImagePaintColor);
     SetValue(Node, 'BackgroundColor', gBookBackgroundColor);
     SetValue(Node, 'FontColor', gBookFontColor);
