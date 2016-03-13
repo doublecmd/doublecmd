@@ -145,6 +145,7 @@ begin
 end;
 
 function TKeyFile.ReadBool(const Section, Ident: String; Default: Boolean): Boolean;
+{$OPTIMIZATION OFF}
 var
   AError: PGError = nil;
 begin
@@ -155,6 +156,7 @@ begin
     g_error_free(AError);
   end;
 end;
+{$OPTIMIZATION DEFAULT}
 
 function TKeyFile.ReadString(const Section, Ident, Default: String): String;
 var

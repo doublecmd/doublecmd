@@ -5,7 +5,7 @@
 # Set Double Commander version
 DC_VER=0.8.0
 # Set Ubuntu series
-DISTRO=( trusty vivid wily )
+DISTRO=( wily xenial )
 
 # Temp directory
 DC_TEMP_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
@@ -25,11 +25,6 @@ update_doublecmd()
 
   # Save revision number
   DC_REVISION=`$(pwd)/update-revision.sh ../../ $DC_SOURCE_DIR`
-
-  # Remove help files
-  rm -rf $DC_SOURCE_DIR/doc/en
-  rm -rf $DC_SOURCE_DIR/doc/ru
-  rm -rf $DC_SOURCE_DIR/doc/uk
 
   # Create doublecmd-x.x.x.orig.tar.gz
   pushd $DC_SOURCE_DIR/..
@@ -68,11 +63,6 @@ update_doublecmd_svn()
   # Save revision number
   DC_REVISION=`$(pwd)/update-revision.sh ../../ $DC_SOURCE_DIR`
 
-  # Remove help files
-  rm -rf $DC_SOURCE_DIR/doc/en
-  rm -rf $DC_SOURCE_DIR/doc/ru
-  rm -rf $DC_SOURCE_DIR/doc/uk
-
   # Prepare debian directory
   mkdir -p $DC_SOURCE_DIR/debian
   cp -r $DC_SOURCE_DIR/install/linux/deb/doublecmd/* $DC_SOURCE_DIR/debian
@@ -105,11 +95,16 @@ update_doublecmd_svn()
 
 update_doublecmd_help()
 {
-  # Export from SVN
-  svn export ../../doc $DC_HELP_DIR
+  # Create output folder
+  mkdir -p $DC_HELP_DIR
 
-  # Remove text files
-  rm -f $DC_HELP_DIR/*.txt
+  # Save revision number
+  DC_REVISION=`$(pwd)/update-revision.sh ../../ $DC_SOURCE_DIR`
+
+  # Copy help files
+  cp -r ../../doc/en $DC_HELP_DIR/
+  cp -r ../../doc/ru $DC_HELP_DIR/
+  cp -r ../../doc/uk $DC_HELP_DIR/
 
   # Create doublecmd-help-x.x.x.orig.tar.gz
   pushd $DC_HELP_DIR/..
