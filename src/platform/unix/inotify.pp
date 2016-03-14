@@ -1,22 +1,20 @@
 unit inotify;
 
+{$mode delphi}
+{$packrecords c}
+
 interface
 
 uses
-  SysCall, UnixType;
-
-{$IFDEF FPC}
-{$PACKRECORDS C}
-{$ENDIF}
+  InitC, CTypes;
 
 type
-  uint32_t = cuint32;
   {en Structure describing an inotify event. }
   inotify_event = record
     wd:     cint32;      //en< Watch descriptor.
-    mask:   uint32_t;    //en< Watch mask.
-    cookie: uint32_t;    //en< Cookie to synchronize two events.
-    len:    uint32_t;    //en< Length (including NULs) of name.
+    mask:   cuint32;     //en< Watch mask.
+    cookie: cuint32;     //en< Cookie to synchronize two events.
+    len:    cuint32;     //en< Length (including NULs) of name.
     name:   record end;  //en< Stub for possible name (doesn't add to event size).
   end;
   {en Pointer to structure describing an inotify event. }
@@ -42,9 +40,6 @@ const
   IN_UNMOUNT   = $00002000;     {en< Backing fs was unmounted. }
   IN_Q_OVERFLOW = $00004000;    {en< Event queued overflowed. }
   IN_IGNORED   = $00008000;     {en< File was ignored. }
-  { Helper events. }
-//  IN_CLOSE     = (IN_CLOSE_WRITE or IN_CLOSE_NOWRITE); {en< Close.}
-//  IN_MOVE      = (IN_MOVED_FROM or IN_MOVED_TO);       {en< Moves.}
   { Special flags. }
   IN_ONLYDIR   = $01000000;     {en< Only watch the path if it is a directory. }
   IN_DONT_FOLLOW = $02000000;   {en< Do not follow a sym link. }
@@ -60,68 +55,42 @@ const
 {en
    Create and initialize inotify instance.
  }
-function inotify_init: LongInt;
+function fpinotify_init: cint;
 {en
-   Add watch of object NAME to inotify instance FD.  Notify about events specified by MASK.
+   Add watch of object NAME to inotify instance FD. Notify about events specified by MASK.
 }
-function inotify_add_watch(__fd: LongInt; __name: PChar; __mask: uint32_t): LongInt;
+function fpinotify_add_watch(fd: cint; pathname: string; mask: cuint32): cint;
 {en
    Remove the watch specified by WD from the inotify instance FD.
 }
-function inotify_rm_watch(__fd: LongInt; __wd: uint32_t): LongInt;
+function fpinotify_rm_watch(fd: cint; wd: cuint32): cint;
 
 implementation
 
 uses
-  SysUtils, BaseUnix, StrUtils;
+  BaseUnix, DCConvertEncoding;
 
-var
-  IsGoodKernelVersion: Boolean = False;
+function inotify_init: cint; cdecl; external clib;
+function inotify_rm_watch(__fd: cint; __wd: cuint32): cint; cdecl; external clib;
+function inotify_add_watch(__fd: cint; __name: pansichar; __mask: cuint32): cint; cdecl; external clib;
 
-function CheckKernelVersion: Boolean;
-var
-  KernelName: TUtsName;
-  sRelease: String;
-  I, iVersion,
-  iRelease, iPatch: Integer;
+function fpinotify_init: cint;
 begin
-  fpUname(KernelName);
-  sRelease:= KernelName.Release;
-  iVersion:= StrToIntDef(Copy2SymbDel(sRelease, '.'), 0);
-  iRelease:= StrToIntDef(Copy2SymbDel(sRelease, '.'), 0);
-  I := 1;
-  while I <= Length(sRelease) do
-  begin
-    if not (sRelease[I] in ['0'..'9']) then Break;
-    I := I + 1;
-  end;
-  iPatch:= StrToIntDef(LeftStr(sRelease, I-1), 0);
-  Result:= (iVersion > 2) or ((iVersion = 2) and (iRelease >= 6) and (iPatch >= 13));
+  Result:= inotify_init;
+  if Result = -1 then fpseterrno(fpgetCerrno);
 end;
 
-function inotify_init: LongInt;
+function fpinotify_add_watch(fd: cint; pathname: string; mask: cuint32): cint;
 begin
-  inotify_init := -1;
-  if IsGoodKernelVersion then
-    inotify_init := do_syscall(syscall_nr_inotify_init);
+  Result:= inotify_add_watch(fd, PAnsiChar(CeUtf8ToSys(pathname)), mask);
+  if Result = -1 then fpseterrno(fpgetCerrno);
 end;
 
-function inotify_add_watch(__fd: LongInt; __name: PChar; __mask: uint32_t): LongInt;
+function fpinotify_rm_watch(fd: cint; wd: cuint32): cint;
 begin
-  inotify_add_watch := -1;
-  if IsGoodKernelVersion then
-    inotify_add_watch := do_syscall(syscall_nr_inotify_add_watch, TSysParam(__fd), TSysParam(__name), TSysParam(__mask));
+  Result:= inotify_rm_watch(fd, wd);
+  if Result = -1 then fpseterrno(fpgetCerrno);
 end;
-
-function inotify_rm_watch(__fd: LongInt; __wd: uint32_t): LongInt;
-begin
-  inotify_rm_watch := -1;
-  if IsGoodKernelVersion then
-    inotify_rm_watch := do_syscall(syscall_nr_inotify_rm_watch, TSysParam(__fd), TSysParam(__wd));
-end;
-
-initialization
-  IsGoodKernelVersion:= CheckKernelVersion;
 
 end.
 
