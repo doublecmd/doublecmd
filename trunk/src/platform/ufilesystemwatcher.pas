@@ -888,7 +888,7 @@ begin
   end;
   {$ELSEIF DEFINED(LINUX)}
   // create inotify instance
-  FNotifyHandle := inotify_init();
+  FNotifyHandle := fpinotify_init();
   if FNotifyHandle < 0 then
     ShowError('inotify_init() failed');
 
@@ -1313,14 +1313,14 @@ begin
 end;
 {$ELSEIF DEFINED(LINUX)}
 var
-  hNotifyFilter: uint32_t = 0;
+  hNotifyFilter: cuint32 = 0;
 begin
   if wfFileNameChange in FWatchFilter then
     hNotifyFilter := hNotifyFilter or IN_CREATE or IN_DELETE or IN_DELETE_SELF or IN_MOVE or IN_MOVE_SELF;
   if wfAttributesChange in FWatchFilter then
     hNotifyFilter := hNotifyFilter or IN_ATTRIB or IN_MODIFY;
 
-  FHandle := inotify_add_watch(FNotifyHandle, PChar(CeUtf8ToSys(FWatchPath)), hNotifyFilter);
+  FHandle := fpinotify_add_watch(FNotifyHandle, FWatchPath, hNotifyFilter);
   if FHandle < 0 then
   begin
     FHandle := feInvalidHandle;
@@ -1369,7 +1369,7 @@ begin
   if FHandle <> feInvalidHandle then
   begin
     {$IF DEFINED(LINUX)}
-    inotify_rm_watch(FNotifyHandle, FHandle);
+    fpinotify_rm_watch(FNotifyHandle, FHandle);
     {$ENDIF}
     {$IF DEFINED(BSD)}
     FpClose(FHandle);
