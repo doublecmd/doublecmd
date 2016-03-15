@@ -939,10 +939,21 @@ begin
 end;
 
 procedure TfrmViewer.CutToImage;
+var
+  w,h:integer;
 begin
   UndoTmp;
-  Image.Picture.Bitmap.Canvas.CopyRect(rect(0,0,EndX-StartX,EndY-StartY), Image.Picture.Bitmap.Canvas, rect(startX,StartY,EndX,EndY));
-  Image.Picture.Bitmap.SetSize (EndX-StartX,EndY-StartY);
+
+  with Image.Picture.Bitmap do
+  begin
+    w:=EndX-StartX;
+    h:=EndY-StartY;
+    Canvas.CopyRect(rect(0,0,w,h), Image.Picture.Bitmap.Canvas, rect(startX,StartY,EndX,EndY));
+    SetSize (w,h);
+  end;
+  Image.Width:=w;
+  Image.Height:=h;
+
   CreateTmp;
   StartX:=0;StartY:=0;EndX:=0;EndY:=0;
 end;
