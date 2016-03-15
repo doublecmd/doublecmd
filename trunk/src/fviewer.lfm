@@ -2262,7 +2262,7 @@ object frmViewer: TfrmViewer
         Action = actSave
       end
       object miSaveAs: TMenuItem
-        Caption = 'Save As...'
+        Action = actSaveAs
       end
       object miPrint: TMenuItem
         Caption = 'Print...'
