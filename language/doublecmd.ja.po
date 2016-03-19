@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-03-06 07:33+0900\n"
+"PO-Revision-Date: 2016-03-11 06:37+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -6292,6 +6292,16 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION"
 msgid "Category &name:"
 msgstr "カテゴリーの名前(&n)："
 
+#: tfrmoptionsfonts.btnpatheditfnt.caption
+msgctxt "tfrmoptionsfonts.btnpatheditfnt.caption"
+msgid "..."
+msgstr "…"
+
+#: tfrmoptionsfonts.btnsearchresultsfnt.caption
+msgctxt "tfrmoptionsfonts.btnsearchresultsfnt.caption"
+msgid "..."
+msgstr "…"
+
 #: tfrmoptionsfonts.btnselconsolefnt.caption
 msgctxt "tfrmoptionsfonts.btnselconsolefnt.caption"
 msgid "..."
@@ -6340,6 +6350,14 @@ msgstr "ログのフォント(&L)"
 msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
 msgid "Main &font"
 msgstr "メインフォント(&f)"
+
+#: tfrmoptionsfonts.lblpatheditfont.caption
+msgid "Path font"
+msgstr "パスのフォント"
+
+#: tfrmoptionsfonts.lblsearchresultsfont.caption
+msgid "Search results font"
+msgstr "検索結果のフォント"
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
@@ -8562,6 +8580,7 @@ msgid "Copy File"
 msgstr "ファイルをコピー"
 
 #: tfrmviewer.actcopytoclipboard.caption
+msgctxt "tfrmviewer.actcopytoclipboard.caption"
 msgid "Copy To Clipboard"
 msgstr "クリップボードにコピー"
 
@@ -8575,19 +8594,15 @@ msgctxt "TFRMVIEWER.ACTDELETEFILE.HINT"
 msgid "Delete File"
 msgstr "ファイルを削除"
 
-#: tfrmviewer.actexit.caption
-msgctxt "tfrmviewer.actexit.caption"
-msgid "Exit"
-msgstr "終了"
+#: tfrmviewer.actexitviewer.caption
+msgctxt "tfrmviewer.actexitviewer.caption"
+msgid "E&xit"
+msgstr "終了(&x)"
 
 #: tfrmviewer.actfullscreen.caption
 msgctxt "tfrmviewer.actfullscreen.caption"
 msgid "Full Screen"
 msgstr "全画面"
-
-#: tfrmviewer.actgraphics.caption
-msgid "Graphics"
-msgstr "グラフィックス"
 
 #: tfrmviewer.actimagecenter.caption
 msgctxt "tfrmviewer.actimagecenter.caption"
@@ -8636,11 +8651,8 @@ msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
 msgid "Move File"
 msgstr "ファイルを移動"
 
-#: tfrmviewer.actplugins.caption
-msgid "Plugins"
-msgstr "プラグイン"
-
 #: tfrmviewer.actpreview.caption
+msgctxt "tfrmviewer.actpreview.caption"
 msgid "Preview"
 msgstr "プレビュー"
 
@@ -8660,7 +8672,7 @@ msgstr "180°回転"
 
 #: tfrmviewer.actrotate180.hint
 msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
-msgid "Rotate 180"
+msgid "Rotate 180 degrees"
 msgstr "180°回転"
 
 #: tfrmviewer.actrotate270.caption
@@ -8670,8 +8682,8 @@ msgstr "270°回転"
 
 #: tfrmviewer.actrotate270.hint
 msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
-msgid "Rotate 270"
-msgstr "270°回転"
+msgid "Rotate -90 degrees"
+msgstr "-90°回転"
 
 #: tfrmviewer.actrotate90.caption
 msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
@@ -8680,8 +8692,8 @@ msgstr "90°回転"
 
 #: tfrmviewer.actrotate90.hint
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
-msgid "Rotate 90"
-msgstr "90°回転"
+msgid "Rotate +90 degrees"
+msgstr "+90°回転"
 
 #: tfrmviewer.actsave.caption
 msgctxt "tfrmviewer.actsave.caption"
@@ -8711,6 +8723,7 @@ msgid "Delay 5 sec"
 msgstr "5秒遅延"
 
 #: tfrmviewer.actsearch.caption
+msgctxt "tfrmviewer.actsearch.caption"
 msgid "Search"
 msgstr "検索"
 
@@ -8724,28 +8737,39 @@ msgid "Search previous"
 msgstr "前を検索"
 
 #: tfrmviewer.actselectall.caption
+msgctxt "tfrmviewer.actselectall.caption"
 msgid "Select All"
 msgstr "全て選択"
 
 #: tfrmviewer.actshowasbin.caption
-msgid "Show as Bin"
-msgstr "バイナリーとして表示"
+msgid "Show as &Bin"
+msgstr "バイナリーとして表示(&B)"
 
 #: tfrmviewer.actshowasbook.caption
-msgid "Show as Book"
-msgstr "ブックとして表示"
+msgid "Show as B&ook"
+msgstr "ブックとして表示(&o)"
 
 #: tfrmviewer.actshowashex.caption
-msgid "Show as Hex"
-msgstr "16進数として表示"
+msgid "Show as &Hex"
+msgstr "16進数として表示(&H)"
 
 #: tfrmviewer.actshowastext.caption
-msgid "Show as Text"
-msgstr "テキストとして表示"
+msgid "Show as &Text"
+msgstr "テキストとして表示(&T)"
 
 #: tfrmviewer.actshowaswraptext.caption
-msgid "Show as Wrap text"
-msgstr "ラップテキストとして表示"
+msgid "Show as &Wrap text"
+msgstr "ラップテキストとして表示(&W)"
+
+#: tfrmviewer.actshowgraphics.caption
+msgctxt "tfrmviewer.actshowgraphics.caption"
+msgid "Graphics"
+msgstr "グラフィックス"
+
+#: tfrmviewer.actshowplugins.caption
+msgctxt "tfrmviewer.actshowplugins.caption"
+msgid "Plugins"
+msgstr "プラグイン"
 
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -8774,16 +8798,6 @@ msgstr "ズームイン"
 msgctxt "tfrmviewer.actzoomout.caption"
 msgid "Zoom Out"
 msgstr "ズームアウト"
-
-#: tfrmviewer.btn270.hint
-msgctxt "TFRMVIEWER.BTN270.HINT"
-msgid "- 90"
-msgstr "- 90"
-
-#: tfrmviewer.btn90.hint
-msgctxt "TFRMVIEWER.BTN90.HINT"
-msgid "+ 90"
-msgstr "+ 90"
 
 #: tfrmviewer.btncopyfile.hint
 msgctxt "TFRMVIEWER.BTNCOPYFILE.HINT"
@@ -8829,11 +8843,6 @@ msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "強調表示"
 
-#: tfrmviewer.btnmirror.hint
-msgctxt "TFRMVIEWER.BTNMIRROR.HINT"
-msgid "Mirror"
-msgstr "ミラーリング"
-
 #: tfrmviewer.btnmovefile.hint
 msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
 msgid "Move"
@@ -8870,16 +8879,6 @@ msgstr "サイズ変更"
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
 msgid "Undo"
 msgstr "元に戻す"
-
-#: tfrmviewer.btnzoomin.hint
-msgctxt "TFRMVIEWER.BTNZOOMIN.HINT"
-msgid "Zoom In"
-msgstr "ズームイン"
-
-#: tfrmviewer.btnzoomout.hint
-msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
-msgid "Zoom Out"
-msgstr "ズームアウト"
 
 #: tfrmviewer.caption
 msgctxt "TFRMVIEWER.CAPTION"
