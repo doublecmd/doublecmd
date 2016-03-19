@@ -1,0 +1,1486 @@
+﻿msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: lclstrconsts.hhshelpbrowsernotexecutable
+msgid "Browser %s%s%s not executable."
+msgstr "Browser %s%s%s kan ikke åbnes."
+
+#: lclstrconsts.hhshelpbrowsernotfound
+msgid "Browser %s%s%s not found."
+msgstr "Browser %s%s%s kan ikke findes."
+
+#: lclstrconsts.hhshelperrorwhileexecuting
+msgid "Error while executing %s%s%s:%s%s"
+msgstr "Fejl under udførsel %s%s%s:%s%s"
+
+#: lclstrconsts.hhshelpnohtmlbrowserfound
+msgid "Unable to find a HTML browser."
+msgstr "Kan ikke finde en HTML-browser."
+
+#: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgstr "Ingen HTML-browser fundet. Definer venligst en under Værktøjer -> Indstillinger -> Hjælp -> Hjælp - indstillinger"
+
+#: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
+msgid "The help database %s%s%s was unable to find file %s%s%s."
+msgstr "Hjælpedatabasen %s%s%s kunne ikke finde filen %s%s%s."
+
+#: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
+msgid "The macro %s in BrowserParams will be replaced by the URL."
+msgstr "Makroen %s i BrowserParams vil blive erstattet med URL'en."
+
+#: lclstrconsts.ifsalt
+msgid "Alt"
+msgstr ""
+
+#: lclstrconsts.ifsctrl
+msgid "Ctrl"
+msgstr ""
+
+#: lclstrconsts.ifsvk_accept
+msgid "Accept"
+msgstr "OK"
+
+#: lclstrconsts.ifsvk_apps
+msgid "application key"
+msgstr "programtast"
+
+#: lclstrconsts.ifsvk_back
+msgid "Backspace"
+msgstr ""
+
+#: lclstrconsts.ifsvk_cancel
+msgctxt "lclstrconsts.ifsvk_cancel"
+msgid "Cancel"
+msgstr "Annuller"
+
+#: lclstrconsts.ifsvk_capital
+msgid "Capital"
+msgstr "Store"
+
+#: lclstrconsts.ifsvk_clear
+msgid "Clear"
+msgstr "Ryd"
+
+#: lclstrconsts.ifsvk_cmd
+msgid "Cmd"
+msgstr "Cmd"
+
+#: lclstrconsts.ifsvk_control
+msgid "Control"
+msgstr "Kontrol"
+
+#: lclstrconsts.ifsvk_convert
+msgid "Convert"
+msgstr "Konveter"
+
+#: lclstrconsts.ifsvk_delete
+msgctxt "lclstrconsts.ifsvk_delete"
+msgid "Delete"
+msgstr "Slet"
+
+#: lclstrconsts.ifsvk_down
+msgctxt "lclstrconsts.ifsvk_down"
+msgid "Down"
+msgstr "Ned"
+
+#: lclstrconsts.ifsvk_end
+msgctxt "lclstrconsts.ifsvk_end"
+msgid "End"
+msgstr ""
+
+#: lclstrconsts.ifsvk_escape
+msgid "Escape"
+msgstr ""
+
+#: lclstrconsts.ifsvk_execute
+msgid "Execute"
+msgstr "Udfør"
+
+#: lclstrconsts.ifsvk_final
+msgid "Final"
+msgstr "Endelig"
+
+#: lclstrconsts.ifsvk_hanja
+msgid "Hanja"
+msgstr ""
+
+#: lclstrconsts.ifsvk_help
+msgid "Help"
+msgstr "Hjælp"
+
+#: lclstrconsts.ifsvk_home
+msgctxt "lclstrconsts.ifsvk_home"
+msgid "Home"
+msgstr ""
+
+#: lclstrconsts.ifsvk_insert
+msgctxt "lclstrconsts.ifsvk_insert"
+msgid "Insert"
+msgstr "Indsæt"
+
+#: lclstrconsts.ifsvk_junja
+msgid "Junja"
+msgstr ""
+
+#: lclstrconsts.ifsvk_kana
+msgid "Kana"
+msgstr ""
+
+#: lclstrconsts.ifsvk_lbutton
+msgid "Mouse Button Left"
+msgstr "Ventre musetast"
+
+#: lclstrconsts.ifsvk_left
+msgctxt "lclstrconsts.ifsvk_left"
+msgid "Left"
+msgstr "Venstre"
+
+#: lclstrconsts.ifsvk_lwin
+msgid "left windows key"
+msgstr "venstre windowstast"
+
+#: lclstrconsts.ifsvk_mbutton
+msgid "Mouse Button Middle"
+msgstr "Miderste musetast"
+
+#: lclstrconsts.ifsvk_menu
+msgctxt "lclstrconsts.ifsvk_menu"
+msgid "Menu"
+msgstr "Menu"
+
+#: lclstrconsts.ifsvk_meta
+msgid "Meta"
+msgstr "Meta"
+
+#: lclstrconsts.ifsvk_modechange
+msgid "Mode Change"
+msgstr "Tilstandsændring"
+
+#: lclstrconsts.ifsvk_next
+msgctxt "lclstrconsts.ifsvk_next"
+msgid "Next"
+msgstr "Næste"
+
+#: lclstrconsts.ifsvk_nonconvert
+msgid "Nonconvert"
+msgstr "Ikke-konverteret"
+
+#: lclstrconsts.ifsvk_numlock
+msgid "Numlock"
+msgstr ""
+
+#: lclstrconsts.ifsvk_numpad
+msgid "Numpad %d"
+msgstr "Numerisk tastatur %d"
+
+#: lclstrconsts.ifsvk_pause
+msgid "Pause key"
+msgstr "Pause-tast"
+
+#: lclstrconsts.ifsvk_print
+msgid "Print"
+msgstr ""
+
+#: lclstrconsts.ifsvk_prior
+msgctxt "lclstrconsts.ifsvk_prior"
+msgid "Prior"
+msgstr "Tilbage"
+
+#: lclstrconsts.ifsvk_rbutton
+msgid "Mouse Button Right"
+msgstr "Højre musetast"
+
+#: lclstrconsts.ifsvk_return
+msgid "Return"
+msgstr ""
+
+#: lclstrconsts.ifsvk_right
+msgctxt "lclstrconsts.ifsvk_right"
+msgid "Right"
+msgstr "Højre"
+
+#: lclstrconsts.ifsvk_rwin
+msgid "right windows key"
+msgstr "højre windowstast"
+
+#: lclstrconsts.ifsvk_scroll
+msgid "Scroll"
+msgstr "Rul"
+
+#: lclstrconsts.ifsvk_select
+msgid "Select"
+msgstr "Markér"
+
+#: lclstrconsts.ifsvk_shift
+msgid "Shift"
+msgstr ""
+
+#: lclstrconsts.ifsvk_snapshot
+msgid "Snapshot"
+msgstr ""
+
+#: lclstrconsts.ifsvk_space
+msgid "Space key"
+msgstr "Mellemrumtast"
+
+#: lclstrconsts.ifsvk_super
+msgid "Super"
+msgstr ""
+
+#: lclstrconsts.ifsvk_tab
+msgctxt "lclstrconsts.ifsvk_tab"
+msgid "Tab"
+msgstr ""
+
+#: lclstrconsts.ifsvk_unknown
+msgid "Unknown"
+msgstr "Ukendt"
+
+#: lclstrconsts.ifsvk_up
+msgctxt "lclstrconsts.ifsvk_up"
+msgid "Up"
+msgstr "Op"
+
+#: lclstrconsts.liscannotexecute
+msgid "can not execute %s"
+msgstr "kan ikke udføre %s"
+
+#: lclstrconsts.liscefilter
+msgid "(filter)"
+msgstr ""
+
+#: lclstrconsts.lislclresourcesnotfound
+msgctxt "lclstrconsts.lislclresourcesnotfound"
+msgid "Resource %s not found"
+msgstr "Ressource %s ikke fundet"
+
+#: lclstrconsts.lisprogramfilenotfound
+msgid "program file not found %s"
+msgstr "programfil ikke fundet %s"
+
+#: lclstrconsts.rs3ddkshadowcolorcaption
+msgid "3D Dark Shadow"
+msgstr "Mørk 3D-skygge"
+
+#: lclstrconsts.rs3dlightcolorcaption
+msgid "3D Light"
+msgstr "Lys 3D"
+
+#: lclstrconsts.rsacontrolcannothaveitselfasparent
+msgid "A control can't have itself as a parent"
+msgstr "En kontrol kan ikke have sig selv som overordnet"
+
+#: lclstrconsts.rsactivebordercolorcaption
+msgid "Active Border"
+msgstr "Aktiv kant"
+
+#: lclstrconsts.rsactivecaptioncolorcaption
+msgid "Active Caption"
+msgstr "Aktiv titelliste"
+
+#: lclstrconsts.rsallfiles
+msgid "All files (%s)|%s|%s"
+msgstr "Alle filer (%s)|%s|%s"
+
+#: lclstrconsts.rsappworkspacecolorcaption
+msgid "Application Workspace"
+msgstr "Arbejdsområde"
+
+#: lclstrconsts.rsaquacolorcaption
+msgid "Aqua"
+msgstr "Akvamarin"
+
+#: lclstrconsts.rsbackgroundcolorcaption
+msgid "Desktop"
+msgstr "Skrivebord"
+
+#: lclstrconsts.rsbackward
+msgid "Backward"
+msgstr "Tilbage"
+
+#: lclstrconsts.rsbitmaps
+msgid "Bitmaps"
+msgstr ""
+
+#: lclstrconsts.rsblackcolorcaption
+msgid "Black"
+msgstr "Sort"
+
+#: lclstrconsts.rsblank
+msgid "Blank"
+msgstr "Tomt"
+
+#: lclstrconsts.rsbluecolorcaption
+msgid "Blue"
+msgstr "Blå"
+
+#: lclstrconsts.rsbtnfacecolorcaption
+msgid "Button Face"
+msgstr "Knapflade"
+
+#: lclstrconsts.rsbtnhighlightcolorcaption
+msgid "Button Highlight"
+msgstr "Knap fremhævet"
+
+#: lclstrconsts.rsbtnshadowcolorcaption
+msgid "Button Shadow"
+msgstr "Knapskygge"
+
+#: lclstrconsts.rsbtntextcolorcaption
+msgid "Button Text"
+msgstr "Knaptekst"
+
+#: lclstrconsts.rscalculator
+msgid "Calculator"
+msgstr "Regnemaskine"
+
+#: lclstrconsts.rscancelrecordhint
+msgctxt "lclstrconsts.rscancelrecordhint"
+msgid "Cancel"
+msgstr "Annuller"
+
+#: lclstrconsts.rscannotfocus
+msgid "Can not focus"
+msgstr "Kan ikke fokusere"
+
+#: lclstrconsts.rscanvasdoesnotallowdrawing
+msgid "Canvas does not allow drawing"
+msgstr "Lærred tillader ikke tegning"
+
+#: lclstrconsts.rscaptiontextcolorcaption
+msgid "Caption Text"
+msgstr "Titellistetekst"
+
+#: lclstrconsts.rscasesensitive
+msgid "Case sensitive"
+msgstr "Forskel på store og små bogstaver"
+
+#: lclstrconsts.rscontrolclasscantcontainchildclass
+msgid "Control of class '%s' can't have control of class '%s' as a child"
+msgstr "Kontrol over class '%s' kan ikke have kontrol over class '%s', da den er underordnet"
+
+#: lclstrconsts.rscontrolhasnoparentwindow
+msgid "Control '%s' has no parent window"
+msgstr "Kontrol '%s' har ikke et overordnet vindue"
+
+#: lclstrconsts.rscontrolisnotaparent
+msgid "'%s' is not a parent of '%s'"
+msgstr "'%s' er ikke overordnet for '%s'"
+
+#: lclstrconsts.rscreamcolorcaption
+msgid "Cream"
+msgstr "Creme-farvet"
+
+#: lclstrconsts.rscreatinggdbcatchableerror
+msgid "Creating gdb catchable error:"
+msgstr "Opretter en GDB-fangbar fejl:"
+
+#: lclstrconsts.rscursor
+msgid "Cursor"
+msgstr "Markør"
+
+#: lclstrconsts.rscustomcolorcaption
+msgid "Custom ..."
+msgstr "Brugerdefineret ..."
+
+#: lclstrconsts.rsdefaultcolorcaption
+msgid "Default"
+msgstr "Standard"
+
+#: lclstrconsts.rsdefaultfileinfovalue
+msgid "permissions user group size date time"
+msgstr "tilladelser brugergruppe størrelse dato tid"
+
+#: lclstrconsts.rsdeleterecord
+msgid "Delete record?"
+msgstr "Slet optegnelse"
+
+#: lclstrconsts.rsdeleterecordhint
+msgctxt "lclstrconsts.rsdeleterecordhint"
+msgid "Delete"
+msgstr "Slet"
+
+#: lclstrconsts.rsdirection
+msgid "Direction"
+msgstr "Retning"
+
+#: lclstrconsts.rsdirectory
+msgid "&Directory"
+msgstr "&Mappe"
+
+#: lclstrconsts.rsdocking
+msgid "Docking"
+msgstr ""
+
+#: lclstrconsts.rsduplicateiconformat
+msgid "Duplicate icon format."
+msgstr "Dobbelt ikon-format"
+
+#: lclstrconsts.rseditrecordhint
+msgid "Edit"
+msgstr "Redigere"
+
+#: lclstrconsts.rsentirescope
+msgid "Search entire file"
+msgstr "Søg hele filen"
+
+#: lclstrconsts.rserror
+msgctxt "lclstrconsts.rserror"
+msgid "Error"
+msgstr "Fejl"
+
+#: lclstrconsts.rserrorcreatingdevicecontext
+msgid "Error creating device context for %s.%s"
+msgstr "Kunne ikke oprette kontekst for enhed %s.%s"
+
+#: lclstrconsts.rserrorinlcl
+msgid "ERROR in LCL: "
+msgstr "FEJL i LCL"
+
+#: lclstrconsts.rserroroccurredinataddressframe
+msgid "Error occurred in %s at %sAddress %s%s Frame %s"
+msgstr "Fejl i %s på %sAdresse %s%s Frame %s"
+
+#: lclstrconsts.rserrorreadingproperty
+msgid "Error reading %s%s%s: %s"
+msgstr "Kunne ikke læse %s%s%s: %s"
+
+#: lclstrconsts.rserrorwhilesavingbitmap
+msgid "Error while saving bitmap."
+msgstr "Kunne ikke gemme bitmap."
+
+#: lclstrconsts.rsexception
+msgid "Exception"
+msgstr "Undtagelse"
+
+#: lclstrconsts.rsfddirectorymustexist
+msgid "Directory must exist"
+msgstr "Mappen skal eksistere"
+
+#: lclstrconsts.rsfddirectorynotexist
+msgid "The directory \"%s\" does not exist."
+msgstr "Mappen \"%s\" findes ikke."
+
+#: lclstrconsts.rsfdfilealreadyexists
+msgid "The file \"%s\" already exists. Overwrite ?"
+msgstr "Filen \"%s\" findes allerede. Skal den overskrives ?"
+
+#: lclstrconsts.rsfdfilemustexist
+msgid "File must exist"
+msgstr "Filen skal eksistere"
+
+#: lclstrconsts.rsfdfilenotexist
+msgid "The file \"%s\" does not exist."
+msgstr "Filen \"%s\" findes ikke."
+
+#: lclstrconsts.rsfdfilereadonly
+msgid "The file \"%s\" is not writable."
+msgstr "Filen \"%s\" er skrivebeskyttet."
+
+#: lclstrconsts.rsfdfilereadonlytitle
+msgid "File is not writable"
+msgstr "Filen er skrivebeskyttet"
+
+#: lclstrconsts.rsfdfilesaveas
+msgid "Save file as"
+msgstr "Gem som"
+
+#: lclstrconsts.rsfdopenfile
+msgid "Open existing file"
+msgstr "Åbn eksisterende fil"
+
+#: lclstrconsts.rsfdoverwritefile
+msgid "Overwrite file ?"
+msgstr "Overskriv fil ?"
+
+#: lclstrconsts.rsfdpathmustexist
+msgid "Path must exist"
+msgstr "Stien skal eksistere"
+
+#: lclstrconsts.rsfdpathnoexist
+msgid "The path \"%s\" does not exist."
+msgstr "Stien \"%s\" findes ikke."
+
+#: lclstrconsts.rsfdselectdirectory
+msgid "Select Directory"
+msgstr "Slet mappe"
+
+#: lclstrconsts.rsfileinfofilenotfound
+msgid "(file not found: \"%s\")"
+msgstr "(fil ikke fundet: \"%s\")"
+
+#: lclstrconsts.rsfileinformation
+msgid "File information"
+msgstr "Filinformation"
+
+#: lclstrconsts.rsfind
+msgid "Find"
+msgstr "Søg"
+
+#: lclstrconsts.rsfindmore
+msgid "Find more"
+msgstr "Søg igen"
+
+#: lclstrconsts.rsfirstrecordhint
+msgid "First"
+msgstr "Første"
+
+#: lclstrconsts.rsfixedcolstoobig
+msgid "FixedCols can't be >= ColCount"
+msgstr "FixedCols kan ikke være >=ColCount"
+
+#: lclstrconsts.rsfixedrowstoobig
+msgid "FixedRows can't be >= RowCount"
+msgstr "FixedRows kan ikke være >=RowCount"
+
+#: lclstrconsts.rsformcolorcaption
+msgid "Form"
+msgstr ""
+
+#: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
+msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
+msgstr "Formressourcen %s kan ikke findes. Til ressourceløse forms skal CreateNew constructor anvendes. Se den globale variable RequireDerivedFormResource."
+
+#: lclstrconsts.rsformstreamingerror
+msgid "Form streaming \"%s\" error: %s"
+msgstr "Form-streaming \"%s\" fejl: %s"
+
+#: lclstrconsts.rsforward
+msgid "Forward"
+msgstr "Frem"
+
+#: lclstrconsts.rsfuchsiacolorcaption
+msgid "Fuchsia"
+msgstr "Purpur"
+
+#: lclstrconsts.rsgdkoptiondebug
+msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
+msgstr "--gdk-debug flags      Tænd for særlig GDK trace/debug meddelelser."
+
+#: lclstrconsts.rsgdkoptionnodebug
+msgid "--gdk-no-debug flags  Turn off specific GDK trace/debug messages."
+msgstr "--gdk-no-debug flags   Sluk for særlig GDK trace/debug meddelelser."
+
+#: lclstrconsts.rsgif
+msgid "Graphics Interchange Format"
+msgstr "GIF (Graphics Interchange Format)"
+
+#: lclstrconsts.rsgoptionfatalwarnings
+msgid "--g-fatal-warnings    Warnings and errors generated by Gtk+/GDK will halt the application."
+msgstr "--g-fatal-warnings     Advarsler og fejl genereret af Gtk+/GDK vil standse programmet"
+
+#: lclstrconsts.rsgradientactivecaptioncolorcaption
+msgid "Gradient Active Caption"
+msgstr "Gradient af den aktive titelliste"
+
+#: lclstrconsts.rsgradientinactivecaptioncolorcaption
+msgid "Gradient Inactive Caption"
+msgstr "Gradient af den inaktive titelliste"
+
+#: lclstrconsts.rsgraphic
+msgid "Graphic"
+msgstr "Grafik"
+
+#: lclstrconsts.rsgraycolorcaption
+msgid "Gray"
+msgstr "Grå"
+
+#: lclstrconsts.rsgraytextcolorcaption
+msgid "Gray Text"
+msgstr "Grå tekst"
+
+#: lclstrconsts.rsgreencolorcaption
+msgid "Green"
+msgstr "Grøn"
+
+#: lclstrconsts.rsgridfiledoesnotexists
+msgid "Grid file doesn't exists"
+msgstr "Mønsterfil findes ikke"
+
+#: lclstrconsts.rsgridindexoutofrange
+msgid "Grid index out of range."
+msgstr "Mønsterindeks uden for interval"
+
+#: lclstrconsts.rsgroupindexcannotbelessthanprevious
+msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
+msgstr "GroupIndex må ikke være mindre end forrige menus GroupIndex"
+
+#: lclstrconsts.rsgtkfilter
+msgid "Filter:"
+msgstr "Filter:"
+
+#: lclstrconsts.rsgtkhistory
+msgid "History:"
+msgstr "Historik:"
+
+#: lclstrconsts.rsgtkoptionclass
+msgid "--class classname     Following Xt conventions, the class of a program is the program name with the initial character capitalized. For example, the classname for gimp is \"Gimp\". If --class is specified, the class of the program will be set to \"classname\"."
+msgstr "--class classname     Ifølge Xt-konventionerne, er et programs class dets navn med det første tegn med stort. F.eks. er class-navnet for gimp: \"Gimp\". Hvis --class er specificeret, bliver programmets class til \"classname\"."
+
+#: lclstrconsts.rsgtkoptiondebug
+msgid "--gtk-debug flags     Turn on specific Gtk+ trace/debug messages."
+msgstr "--gtk-debug flags     Tænd for særlig Gtk+ trace/debug meddelelser."
+
+#: lclstrconsts.rsgtkoptiondisplay
+msgid "--display h:s:d       Connect to the specified X server, where \"h\" is the hostname, \"s\" is the server number (usually 0), and \"d\" is the display number (typically omitted). If --display is not specified, the DISPLAY environment variable is used."
+msgstr "--display h:s:d       Forbind til den valgte X server, hvor \"h\" er værtsnavnet, \"s\" er serveres nummer (normalt 0), og \"d" er displayets nummer (typisk udeladt). Hvis --display ikke er specificeret, bliver DISPLAY miljøvariablen anvendt."
+
+#: lclstrconsts.rsgtkoptionmodule
+msgid "--gtk-module module   Load the specified module at startup."
+msgstr "--gtk-module module   Indlæs det specificerede modul ved start."
+
+#: lclstrconsts.rsgtkoptionname
+msgid "--name programe       Set program name to \"progname\". If not specified, program name will be set to ParamStrUTF8(0)."
+msgstr "--name programe       Indstil programmets navn til \"progname\". Hvis ikke specificeret, bliver programmets navn sat til ParamStrUTF8(0)."
+
+#: lclstrconsts.rsgtkoptionnodebug
+msgid "--gtk-no-debug flags  Turn off specific Gtk+ trace/debug messages."
+msgstr "--gtk-no-debug flags  Sluk for særlig Gtk+ trace/debug meddelelser."
+
+#: lclstrconsts.rsgtkoptionnotransient
+msgid "--lcl-no-transient    Do not set transient order for modal forms"
+msgstr "--lcl-no-transient    Indstil ikke midlertidig rækkefølge for modalformer"
+
+#: lclstrconsts.rsgtkoptionnoxshm
+msgid "--no-xshm             Disable use of the X Shared Memory Extension."
+msgstr "--no-xshm             Deaktiver brugen af X Delt Memory-udvidelse."
+
+#: lclstrconsts.rsgtkoptionsync
+msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
+msgstr "--sync                Kald XSynchronize (display, True) efter Xserver-forbindelsen er etableret. Det gør det nemmere at fejlfinde X protokolfejl, fordi X forespørgsels-buffering bliver deaktiveret og X fejl bliver modtaget umiddelbart efter protokolanmodningen, som genererede fejlen, er blevet behandlet af X serveren."
+
+#: lclstrconsts.rshelpalreadyregistered
+msgid "%s: Already registered"
+msgstr "%s: Allerede registreret"
+
+#: lclstrconsts.rshelpcontextnotfound
+msgid "A help database was found for this topic, but this topic was not found"
+msgstr "Der blev fundet en hjælpedatabase til emnet, men emnet blev ikke fundet"
+
+#: lclstrconsts.rshelpdatabasenotfound
+msgid "There is no help database installed for this topic"
+msgstr "Der er ingen hjælpedatabase installeret til emnet"
+
+#: lclstrconsts.rshelperror
+msgid "Help Error"
+msgstr "Hjælpefejl"
+
+#: lclstrconsts.rshelphelpcontextnotfound
+msgid "Help context %s not found."
+msgstr "Hjælpekontekst %s ikke fundet."
+
+#: lclstrconsts.rshelphelpcontextnotfoundindatabase
+msgid "Help context %s not found in Database %s%s%s."
+msgstr "Hjælpekontekst %s ikke fundet i Database %s%s%s."
+
+#: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
+msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
+msgstr "Hjælpedatabase %s%s%s fandt ikke en fremviser til en hjælpeside af typen %s"
+
+#: lclstrconsts.rshelphelpdatabasenotfound
+msgid "Help Database %s%s%s not found"
+msgstr "Hjælpedatabase %s%s%s ikke fundet"
+
+#: lclstrconsts.rshelphelpfordirectivenotfound
+msgid "Help for directive %s%s%s not found."
+msgstr "Hjælp til direktivet %s%s%s blev ikke fundet."
+
+#: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
+msgid "Help for directive %s%s%s not found in Database %s%s%s."
+msgstr "Hjælp til direktivet %s%s%s blev ikke fundet i database %s%s%s."
+
+#: lclstrconsts.rshelphelpkeywordnotfound
+msgid "Help keyword %s%s%s not found."
+msgstr "Søgeord %s%s%s ikke fundet."
+
+#: lclstrconsts.rshelphelpkeywordnotfoundindatabase
+msgid "Help keyword %s%s%s not found in Database %s%s%s."
+msgstr "Søgeord %s%s%s ikke fundet i Database %s%s%s."
+
+#: lclstrconsts.rshelphelpnodehasnohelpdatabase
+msgid "Help node %s%s%s has no Help Database"
+msgstr "Hjælpeknude %s%s%s har ingen hjælpedatabase tillknyttet"
+
+#: lclstrconsts.rshelpnohelpfoundforsource
+msgid "No help found for line %d, column %d of %s."
+msgstr "Ingen hjælp til linje %d, kolonne %d af %s."
+
+#: lclstrconsts.rshelpnohelpnodesavailable
+msgid "No help entries available for this topic"
+msgstr "Ingen opslag tilgængelige for emnet"
+
+#: lclstrconsts.rshelpnotfound
+msgid "No help found for this topic"
+msgstr "Ingen hjælp fundet for emnet"
+
+#: lclstrconsts.rshelpnotregistered
+msgid "%s: Not registered"
+msgstr "%s: Ikke registreret"
+
+#: lclstrconsts.rshelpselectorerror
+msgid "Help Selector Error"
+msgstr "Hjælpeudvælgerfejl"
+
+#: lclstrconsts.rshelpthereisnoviewerforhelptype
+msgid "There is no viewer for help type %s%s%s"
+msgstr "Der er ingen fremviser for hjælpetype %s%s%s"
+
+#: lclstrconsts.rshelpviewererror
+msgid "Help Viewer Error"
+msgstr "Hjælpefremviserfejl"
+
+#: lclstrconsts.rshelpviewernotfound
+msgid "No viewer was found for this type of help content"
+msgstr "Der blev ikke fundet en fremviser til denne type af hjælpeindhold"
+
+#: lclstrconsts.rshighlightcolorcaption
+msgid "Highlight"
+msgstr "Fremhævelse"
+
+#: lclstrconsts.rshighlighttextcolorcaption
+msgid "Highlight Text"
+msgstr "Fremhæv tekst"
+
+#: lclstrconsts.rshotlightcolorcaption
+msgid "Hot Light"
+msgstr "Kraftigt fremhævet"
+
+#: lclstrconsts.rsicns
+msgid "Mac OS X Icon"
+msgstr "Mac OS ikon"
+
+#: lclstrconsts.rsicon
+msgid "Icon"
+msgstr "Ikon"
+
+#: lclstrconsts.rsiconimageempty
+msgid "Icon image cannot be empty"
+msgstr "Ikonbillede kan ikke være tomt"
+
+#: lclstrconsts.rsiconimageformat
+msgid "Icon image must have the same format"
+msgstr "Ikonbillede skal have samme format"
+
+#: lclstrconsts.rsiconimageformatchange
+msgid "Cannot change format of icon image"
+msgstr "Kan ikke ændre ikonbilledets format"
+
+#: lclstrconsts.rsiconimagesize
+msgid "Icon image must have the same size"
+msgstr "Ikonbillede skal have samme størrelse"
+
+#: lclstrconsts.rsiconimagesizechange
+msgid "Cannot change size of icon image"
+msgstr "Kan ikke ændre ikonbilledets størrelse"
+
+#: lclstrconsts.rsiconnocurrent
+msgid "Icon has no current image"
+msgstr "Ikon har intet gyldigt billede"
+
+#: lclstrconsts.rsinactivebordercolorcaption
+msgid "Inactive Border"
+msgstr "Inaktiv kant"
+
+#: lclstrconsts.rsinactivecaptioncolorcaption
+msgctxt "lclstrconsts.rsinactivecaptioncolorcaption"
+msgid "Inactive Caption"
+msgstr "Inaktiv titelliste"
+
+#: lclstrconsts.rsinactivecaptiontext
+msgctxt "lclstrconsts.rsinactivecaptiontext"
+msgid "Inactive Caption"
+msgstr "Inaktiv titelliste"
+
+#: lclstrconsts.rsindexoutofbounds
+msgid "%s Index %d out of bounds 0 .. %d"
+msgstr "%s Indeks %d udenfor intervallet 0 .. %d"
+
+#: lclstrconsts.rsindexoutofrange
+msgid "Index Out of range Cell[Col=%d Row=%d]"
+msgstr "Indeks udenfor celleintervallet [Col=%d Row=%d]"
+
+#: lclstrconsts.rsinfobkcolorcaption
+msgid "Info Background"
+msgstr "Baggrundsinformation"
+
+#: lclstrconsts.rsinfotextcolorcaption
+msgid "Info Text"
+msgstr "Informationstekst"
+
+#: lclstrconsts.rsinsertrecordhint
+msgctxt "lclstrconsts.rsinsertrecordhint"
+msgid "Insert"
+msgstr "Indsæt"
+
+#: lclstrconsts.rsinvaliddate
+msgid "Invalid Date : %s"
+msgstr "Ugyldig dato : %s"
+
+#: lclstrconsts.rsinvaliddaterangehint
+msgid "Invalid Date: %s. Must be between %s and %s"
+msgstr "Ugyldig dato: %s. Skal være mellem %s og %s"
+
+#: lclstrconsts.rsinvalidformobjectstream
+msgid "invalid Form object stream"
+msgstr "ugyldigt formularobjekt-Stream "
+
+#: lclstrconsts.rsinvalidpropertyvalue
+msgid "Invalid property value"
+msgstr "Ugyldig egenskabsværdi"
+
+#: lclstrconsts.rsinvalidstreamformat
+msgid "Invalid stream format"
+msgstr "Ugyldigt streamformat"
+
+#: lclstrconsts.rsisalreadyassociatedwith
+msgid "%s is already associated with %s"
+msgstr "%s er allerede associeret med %s"
+
+#: lclstrconsts.rsjpeg
+msgid "Joint Picture Expert Group"
+msgstr "JPEG (Joint Picture Expert Group)"
+
+#: lclstrconsts.rslastrecordhint
+msgid "Last"
+msgstr "Sidste"
+
+#: lclstrconsts.rslimecolorcaption
+msgid "Lime"
+msgstr "Limegrøn"
+
+#: lclstrconsts.rslistindexexceedsbounds
+msgid "List index exceeds bounds (%d)"
+msgstr "Listeindekset overskrider grænser (%d)"
+
+#: lclstrconsts.rslistmustbeempty
+msgid "List must be empty"
+msgstr "Listen skal være tom"
+
+#: lclstrconsts.rsmarooncolorcaption
+msgid "Maroon"
+msgstr "Rødbrun"
+
+#: lclstrconsts.rsmbabort
+msgid "Abort"
+msgstr "Afbryd"
+
+#: lclstrconsts.rsmball
+msgid "&All"
+msgstr "%Alle"
+
+#: lclstrconsts.rsmbcancel
+msgctxt "lclstrconsts.rsmbcancel"
+msgid "Cancel"
+msgstr "Annuller"
+
+#: lclstrconsts.rsmbclose
+msgid "&Close"
+msgstr "&Luk"
+
+#: lclstrconsts.rsmbhelp
+msgid "&Help"
+msgstr "&Hjælp"
+
+#: lclstrconsts.rsmbignore
+msgid "&Ignore"
+msgstr "&Ignorer"
+
+#: lclstrconsts.rsmbno
+msgid "&No"
+msgstr "&Nej"
+
+#: lclstrconsts.rsmbnotoall
+msgid "No to all"
+msgstr "Nej til alt"
+
+#: lclstrconsts.rsmbok
+msgid "&OK"
+msgstr ""
+
+#: lclstrconsts.rsmbopen
+msgid "&Open"
+msgstr "&Åbn"
+
+#: lclstrconsts.rsmbretry
+msgid "&Retry"
+msgstr "&Forsøg igen"
+
+#: lclstrconsts.rsmbsave
+msgid "&Save"
+msgstr "&Gem"
+
+#: lclstrconsts.rsmbunlock
+msgid "&Unlock"
+msgstr "&Lås op"
+
+#: lclstrconsts.rsmbyes
+msgid "&Yes"
+msgstr "&Ja"
+
+#: lclstrconsts.rsmbyestoall
+msgid "Yes to &All"
+msgstr "Ja til alt"
+
+#: lclstrconsts.rsmedgraycolorcaption
+msgid "Medium Gray"
+msgstr "Mellemgrå"
+
+#: lclstrconsts.rsmenubarcolorcaption
+msgid "Menu Bar"
+msgstr "Menubar"
+
+#: lclstrconsts.rsmenucolorcaption
+msgctxt "lclstrconsts.rsmenucolorcaption"
+msgid "Menu"
+msgstr ""
+
+#: lclstrconsts.rsmenuhighlightcolorcaption
+msgid "Menu Highlight"
+msgstr "Menu fremhævet"
+
+#: lclstrconsts.rsmenutextcolorcaption
+msgid "Menu Text"
+msgstr "Menutekst"
+
+#: lclstrconsts.rsmodified
+msgid "  modified "
+msgstr "  ændret"
+
+#: lclstrconsts.rsmoneygreencolorcaption
+msgid "Money Green"
+msgstr "Pengegrøn"
+
+#: lclstrconsts.rsmtauthentication
+msgid "Authentication"
+msgstr "Godkendelse"
+
+#: lclstrconsts.rsmtconfirmation
+msgid "Confirmation"
+msgstr "Bekræftelse"
+
+#: lclstrconsts.rsmtcustom
+msgid "Custom"
+msgstr "Brugerdef."
+
+#: lclstrconsts.rsmterror
+msgctxt "lclstrconsts.rsmterror"
+msgid "Error"
+msgstr "Fejl"
+
+#: lclstrconsts.rsmtinformation
+msgid "Information"
+msgstr ""
+
+#: lclstrconsts.rsmtwarning
+msgid "Warning"
+msgstr "Advarsel"
+
+#: lclstrconsts.rsnavycolorcaption
+msgid "Navy"
+msgstr "Marineblå"
+
+#: lclstrconsts.rsnextrecordhint
+msgctxt "lclstrconsts.rsnextrecordhint"
+msgid "Next"
+msgstr "Næste"
+
+#: lclstrconsts.rsnonecolorcaption
+msgid "None"
+msgstr "Ingen"
+
+#: lclstrconsts.rsnotavalidgridfile
+msgid "Not a valid grid file"
+msgstr "Ikke en gyldig mønsterfil"
+
+#: lclstrconsts.rsnowidgetset
+msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
+msgstr "Intet widgetset-objekt. Kontroller venligst om enheden \"interfaces\" blev tilføjet til programmerne brugerbetingelser."
+
+#: lclstrconsts.rsolivecolorcaption
+msgid "Olive"
+msgstr "Olivengrøn"
+
+#: lclstrconsts.rspickdate
+msgid "Select a date"
+msgstr "Vælg en dato"
+
+#: lclstrconsts.rspixmap
+msgid "Pixmap"
+msgstr ""
+
+#: lclstrconsts.rsportablebitmap
+msgid "Portable BitMap"
+msgstr ""
+
+#: lclstrconsts.rsportablegraymap
+msgid "Portable GrayMap"
+msgstr ""
+
+#: lclstrconsts.rsportablenetworkgraphic
+msgid "Portable Network Graphic"
+msgstr "PNG (Portable Network Graphic)"
+
+#: lclstrconsts.rsportablepixmap
+msgid "Portable PixMap"
+msgstr ""
+
+#: lclstrconsts.rspostrecordhint
+msgid "Post"
+msgstr ""
+
+#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
+msgstr "%s%sTryk OK for at ignorere og risikere ødelagt data.%sTryk Annuller for at afslutte programmet."
+
+#: lclstrconsts.rspriorrecordhint
+msgctxt "lclstrconsts.rspriorrecordhint"
+msgid "Prior"
+msgstr "Tilbage"
+
+#: lclstrconsts.rspromptonreplace
+msgid "Prompt on replace"
+msgstr "Prompt, hvis flyttes"
+
+#: lclstrconsts.rspropertydoesnotexist
+msgid "Property %s does not exist"
+msgstr "Egenskab %s findes ikke"
+
+#: lclstrconsts.rspurplecolorcaption
+msgid "Purple"
+msgstr "Purpur"
+
+#: lclstrconsts.rsqtoptiondograb
+msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
+msgstr "-dograb (kun under X11), kørt under en debugger kan det forårsage en implicit -nograb. Brug -dograb for at tilsidesætte. Skal bruge QT_DEBUG."
+
+#: lclstrconsts.rsqtoptiongraphicsstyle
+msgid "-graphicssystem param, sets the backend to be used for on-screen widgets and QPixmaps. Available options are native, raster and opengl. OpenGL is still unstable."
+msgstr "-graphicssystem param, indstiller backenden til at blive brugt til widgets og QPixmaps på skærmen. Tilgængelige muligheder er lokale, raster og OpenGL. OpenGL er stadig ustabil."
+
+#: lclstrconsts.rsqtoptionnograb
+msgid "-nograb, tells Qt that it must never grab the mouse or the keyboard. Need QT_DEBUG."
+msgstr "-nograb, fortæller Qt at det aldrig skal gribe musen eller tastaturet. Skal bruge QT_DEBUG."
+
+#: lclstrconsts.rsqtoptionreverse
+msgid "-reverse, sets the application's layout direction to Qt::RightToLeft."
+msgstr "-reverse, indstiller programmets layoutretning for Qt::HøjreTilVenstre. "
+
+#: lclstrconsts.rsqtoptionsession
+msgid "-session session, restores the application from an earlier session."
+msgstr "-session session, genopretter programmet fra en tidligere session."
+
+#: lclstrconsts.rsqtoptionstyle
+msgid "-style style or -style=style, sets the application GUI style. Possible values are motif, windows, and platinum. If you compiled Qt with additional styles or have additional styles as plugins these will be available to the -style  command line option. NOTE: Not all styles are available on all platforms. If style param does not exist Qt will start an application with default common style (windows)."
+msgstr "-style style eller-style=style, indstiller programmets brugergrænsefladestil. Mulige værdier er motiv, vinduer og platin. Hvis du har kompileret Qt med yderligere stilarter eller har yderligere stilarter plugins, vil disse være til rådighed for -style kommandolinjeindstillingen. BEMÆRK: Ikke alle stilarter er tilgængelige på alle platforme. Hvis style param ikke eksisterer, vil Qt starte et program med standardstil (Windows)."
+
+#: lclstrconsts.rsqtoptionstylesheet
+msgid "-stylesheet stylesheet or -stylesheet=stylesheet, sets the application Style Sheet. The value must be a path to a file that contains the Style Sheet. Note: Relative URLs in the Style Sheet file are relative to the Style Sheet file's path."
+msgstr "-stylesheet stylesheet eller-stylesheet=stylesheet, indstiller programmets stilart. Værdien skal være en sti til en fil, der indeholder stilarten. Bemærk: Relative URL'er i stilart-filen er relative i forhold til stilart-filens sti."
+
+#: lclstrconsts.rsqtoptionsync
+msgid "-sync (only under X11), switches to synchronous mode for debugging."
+msgstr "-sync (kun under X11), skifter til synkronoserngstilstand for fejlsøgning."
+
+#: lclstrconsts.rsqtoptionwidgetcount
+msgid "-widgetcount, prints debug message at the end about number of widgets left undestroyed and maximum number of widgets existed at the same time."
+msgstr "-widgetcount, udskriver fejlsøgningsmeddelelse i slutningen om antallet af ikke-ødelagte widgets og det maksimale antal widgets, som eksisterede på samme tid."
+
+#: lclstrconsts.rsqtoptionx11bgcolor
+msgid "-bg or -background color, sets the default background color and an application palette (light and dark shades are calculated)."
+msgstr "-bg eller-background color, indstiller standardbaggrundsfarven og et programs farvepalette (lyse og mørke nuancer bliver beregnet)."
+
+#: lclstrconsts.rsqtoptionx11btncolor
+msgid "-btn or -button color, sets the default button color."
+msgstr "-btn eller -button color, indstiller knappers standardfarve."
+
+#: lclstrconsts.rsqtoptionx11cmap
+msgid "-cmap, causes the application to install a private color map on an 8-bit display."
+msgstr "-cmap, får programmet til at installere et privat farveskema på en 8-bit skærm."
+
+#: lclstrconsts.rsqtoptionx11display
+msgid "-display display, sets the X display (default is $DISPLAY)."
+msgstr "-display display, indstiller X skærmen (standard er $DISPLAY)."
+
+#: lclstrconsts.rsqtoptionx11fgcolor
+msgid "-fg or -foreground color, sets the default foreground color."
+msgstr "-fg eller -foreground color, indstiller forgrundens standardfarver."
+
+#: lclstrconsts.rsqtoptionx11font
+msgid "-fn or -font font, defines the application font. The font should be specified using an X logical font description."
+msgstr "-fn eller -font font, definerer programmets skrifttype. Skrifttypen defineres med en X logisk skrifttype-beskrivelse."
+
+#: lclstrconsts.rsqtoptionx11geometry
+msgid "-geometry geometry, sets the client geometry of the first window that is shown."
+msgstr "-geometry geometry, indstiller geometrien af det første vindue, som vises på klienten."
+
+#: lclstrconsts.rsqtoptionx11im
+msgid "-im, sets the input method server (equivalent to setting the XMODIFIERS environment variable)."
+msgstr "-im, indstiller input-metoden på serveren (svarer til indstilling af XMODIFIERS miljøvariablen)."
+
+#: lclstrconsts.rsqtoptionx11inputstyle
+msgid "-inputstyle, defines how the input is inserted into the given widget, e.g. onTheSpot makes the input appear directly in the widget, while overTheSpot makes the input appear in a box floating over the widget and is not inserted until the editing is done."
+msgstr "-inputstyle, definerer, hvordan input indsættes i den givne widget, fx onTheSpot
+viser input direkte i widget, mens overTheSpot viser input i en boks flydende over widget og indsættes ikke før redigeringen er færdig."
+
+#: lclstrconsts.rsqtoptionx11name
+msgid "-name name, sets the application name."
+msgstr "-name name, indstiller programmets navn."
+
+#: lclstrconsts.rsqtoptionx11ncols
+msgid "-ncols count, limits the number of colors allocated in the color cube on an 8-bit display, if the application is using the QApplication::ManyColor color specification. If count is 216 then a 6x6x6 color cube is used (i.e. 6 levels of red, 6 of green, and 6 of blue); for other values, a cube approximately proportional to a 2x3x1 cube is used."
+msgstr "-ncols count, begrænser antallet af farver tildelt i farveterningen på en 8-bit skærm, hvis programmet bruger QApplication::ManyColor farvespecifikation. Hvis count er 216 så anvendes en 6x6x6 farveterning (dvs. 6 niveauer af rød, 6 grønne og 6 blå); for andre værdier, anvendes en terning omtrent proportional med en 2x3x1 terning."
+
+#: lclstrconsts.rsqtoptionx11title
+msgid "-title title, sets the application title."
+msgstr "-title title, indstiller programmets titel."
+
+#: lclstrconsts.rsqtoptionx11visual
+msgid "-visual TrueColor, forces the application to use a TrueColor visual on an 8-bit display."
+msgstr "-visual TrueColor, tvinger programmet til at bruge en visuel TrueColor på en 8-bit skærm."
+
+#: lclstrconsts.rsrasterimageendupdate
+msgid "Endupdate while no update in progress"
+msgstr "Afslut opdatering, når ingen opdatering er i gang "
+
+#: lclstrconsts.rsrasterimagesaveinupdate
+msgid "Cannot save image while update in progress"
+msgstr "Kan ikke gemme billede, mens opdatering er i gang."
+
+#: lclstrconsts.rsrasterimageupdateall
+msgid "Cannot begin update all when canvas only update in progress"
+msgstr "Kan ikke begynde 'opdater alt', mens 'opdater kun mønster' er i gang"
+
+#: lclstrconsts.rsredcolorcaption
+msgid "Red"
+msgstr "Rød"
+
+#: lclstrconsts.rsrefreshrecordshint
+msgid "Refresh"
+msgstr "Genindlæs"
+
+#: lclstrconsts.rsreplace
+msgid "Replace"
+msgstr "Erstat"
+
+#: lclstrconsts.rsreplaceall
+msgid "Replace all"
+msgstr "Erstat alt"
+
+#: lclstrconsts.rsresourcenotfound
+msgctxt "lclstrconsts.rsresourcenotfound"
+msgid "Resource %s not found"
+msgstr "Ressource %s ikke fundet"
+
+#: lclstrconsts.rsscrollbarcolorcaption
+msgid "ScrollBar"
+msgstr "Rullebjælke"
+
+#: lclstrconsts.rsscrollbaroutofrange
+msgid "ScrollBar property out of range"
+msgstr "Rullebarens egenskaber er uden for intervallet"
+
+#: lclstrconsts.rsselectcolortitle
+msgid "Select color"
+msgstr "Vælg farve"
+
+#: lclstrconsts.rsselectfonttitle
+msgid "Select a font"
+msgstr "Vælg en skrifttype"
+
+#: lclstrconsts.rssilvercolorcaption
+msgid "Silver"
+msgstr "Sølv"
+
+#: lclstrconsts.rssize
+msgid "  size "
+msgstr "  størrelse "
+
+#: lclstrconsts.rsskybluecolorcaption
+msgid "Sky Blue"
+msgstr "Himmelblå"
+
+#: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
+msgid "A control with tabs"
+msgstr "En kontrol med tabulator"
+
+#: lclstrconsts.rstealcolorcaption
+msgid "Teal"
+msgstr "Blågrøn"
+
+#: lclstrconsts.rstext
+msgid "Text"
+msgstr "Tekst"
+
+#: lclstrconsts.rstiff
+msgid "Tagged Image File Format"
+msgstr "TIFF (Tagged Image File Format)"
+
+#: lclstrconsts.rstpanelaccessibilitydescription
+msgctxt "lclstrconsts.rstpanelaccessibilitydescription"
+msgid "Panel"
+msgstr ""
+
+#: lclstrconsts.rstsplitteraccessibilitydescription
+msgctxt "lclstrconsts.rstsplitteraccessibilitydescription"
+msgid "A grip to control how much size to give two parts of an area"
+msgstr "En greb til at styre, hvor store de to dele af et område skal være"
+
+#: lclstrconsts.rsttreeviewaccessibilitydescription
+msgctxt "lclstrconsts.rsttreeviewaccessibilitydescription"
+msgid "A tree of items"
+msgstr "En træstruktur af elementer"
+
+#: lclstrconsts.rsunabletoloaddefaultfont
+msgid "Unable to load default font"
+msgstr "Kunne ikke indlæse skrifttypen"
+
+#: lclstrconsts.rsunknownerrorpleasereportthisbug
+msgid "Unknown Error, please report this bug"
+msgstr "Ukendt fejl, rapporter venligst fejlen"
+
+#: lclstrconsts.rsunknownpictureextension
+msgid "Unknown picture extension"
+msgstr "Ukendt filendelse på billedet"
+
+#: lclstrconsts.rsunknownpictureformat
+msgid "Unknown picture format"
+msgstr "Ukendt billedformat"
+
+#: lclstrconsts.rsunsupportedbitmapformat
+msgid "Unsupported bitmap format."
+msgstr "Ikke-understøttet bitmapformat."
+
+#: lclstrconsts.rsunsupportedclipboardformat
+msgid "Unsupported clipboard format: %s"
+msgstr "Ikke-understøttet udklipsholder-format: %s"
+
+#: lclstrconsts.rswarningunreleaseddcsdump
+msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
+msgstr " ADVARSEL: Der er %d ikke-frigivne DC'er, et detaljeret dump følger:"
+
+#: lclstrconsts.rswarningunreleasedgdiobjectsdump
+msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
+msgstr " ADVARSEL: Der er %d ikke-frigivne GDI-objekter, et detaljeret dump følger:"
+
+#: lclstrconsts.rswarningunreleasedmessagesinqueue
+msgid " WARNING: There are %d messages left in the queue! I'll free them"
+msgstr " ADVARSEL: Der er stadig %d meddelelser i køen! De frigives nu"
+
+#: lclstrconsts.rswarningunreleasedtimerinfos
+msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
+msgstr " ADVARSEL: Der er stadig %d TimerInfo strukturer. De frigives nu"
+
+#: lclstrconsts.rswarningunremovedpaintmessages
+msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
+msgstr " ADVARSEL: Der er stadig %s LM_PAINT/LM_GtkPAINT meddelelser tilbage."
+
+#: lclstrconsts.rswhitecolorcaption
+msgid "White"
+msgstr "Hvid"
+
+#: lclstrconsts.rswholewordsonly
+msgid "Whole words only"
+msgstr "Kun hele ord"
+
+#: lclstrconsts.rswin32error
+msgid "Error:"
+msgstr "Fejl:"
+
+#: lclstrconsts.rswin32warning
+msgid "Warning:"
+msgstr "Advarsel:"
+
+#: lclstrconsts.rswindowcolorcaption
+msgid "Window"
+msgstr "Vindue"
+
+#: lclstrconsts.rswindowframecolorcaption
+msgid "Window Frame"
+msgstr "Vinduesramme"
+
+#: lclstrconsts.rswindowtextcolorcaption
+msgid "Window Text"
+msgstr "Vinduestekst"
+
+#: lclstrconsts.rsyellowcolorcaption
+msgid "Yellow"
+msgstr "Gul"
+
+#: lclstrconsts.scannotfocus
+msgid "Cannot focus a disabled or invisible window"
+msgstr "Kan ikke fokusere på et deaktiveret eller usynligt vindue"
+
+#: lclstrconsts.sduplicatemenus
+msgid "Duplicate menus"
+msgstr "Dublet-menuer"
+
+#: lclstrconsts.sinvalidactioncreation
+msgid "Invalid action creation"
+msgstr "Ugyldig aktion oprettelse"
+
+#: lclstrconsts.sinvalidactionenumeration
+msgid "Invalid action enumeration"
+msgstr "Ugyldig aktion nummerering"
+
+#: lclstrconsts.sinvalidactionregistration
+msgid "Invalid action registration"
+msgstr "Ugyldig aktion registrering"
+
+#: lclstrconsts.sinvalidactionunregistration
+msgid "Invalid action unregistration"
+msgstr "Ugyldig aktion afregistrering"
+
+#: lclstrconsts.sinvalidcharset
+msgid "The char set in mask \"%s\" is not valid!"
+msgstr "Tegnsettet i mønster \"%s\" er ikke gyldigt!"
+
+#: lclstrconsts.sinvalidimagesize
+msgid "Invalid image size"
+msgstr "Ugyldig billedstørrelse"
+
+#: lclstrconsts.sinvalidindex
+msgid "Invalid ImageList Index"
+msgstr "Ugyldig billedliste-indeks"
+
+#: lclstrconsts.smaskeditnomatch
+msgid "The current text does not match the specified mask."
+msgstr "Den aktuelle tekst matcher ikke den valgte maske."
+
+#: lclstrconsts.smenuindexerror
+msgid "Menu index out of range"
+msgstr "Menuindekset er uden for intervallet"
+
+#: lclstrconsts.smenuitemisnil
+msgid "MenuItem is nil"
+msgstr "Menuelementet er NIL"
+
+#: lclstrconsts.smenunotfound
+msgid "Sub-menu is not in menu"
+msgstr "Undermenu er ikke i menu"
+
+#: lclstrconsts.smkcalt
+msgid "Alt+"
+msgstr ""
+
+#: lclstrconsts.smkcbksp
+msgid "BkSp"
+msgstr ""
+
+#: lclstrconsts.smkcctrl
+msgid "Ctrl+"
+msgstr ""
+
+#: lclstrconsts.smkcdel
+msgid "Del"
+msgstr ""
+
+#: lclstrconsts.smkcdown
+msgctxt "lclstrconsts.smkcdown"
+msgid "Down"
+msgstr "Ned"
+
+#: lclstrconsts.smkcend
+msgctxt "lclstrconsts.smkcend"
+msgid "End"
+msgstr ""
+
+#: lclstrconsts.smkcenter
+msgid "Enter"
+msgstr ""
+
+#: lclstrconsts.smkcesc
+msgid "Esc"
+msgstr ""
+
+#: lclstrconsts.smkchome
+msgctxt "lclstrconsts.smkchome"
+msgid "Home"
+msgstr ""
+
+#: lclstrconsts.smkcins
+msgid "Ins"
+msgstr ""
+
+#: lclstrconsts.smkcleft
+msgctxt "lclstrconsts.smkcleft"
+msgid "Left"
+msgstr "Venstre"
+
+#: lclstrconsts.smkcmeta
+msgid "Meta+"
+msgstr ""
+
+#: lclstrconsts.smkcpgdn
+msgid "PgDn"
+msgstr ""
+
+#: lclstrconsts.smkcpgup
+msgid "PgUp"
+msgstr ""
+
+#: lclstrconsts.smkcright
+msgctxt "lclstrconsts.smkcright"
+msgid "Right"
+msgstr "Højre"
+
+#: lclstrconsts.smkcshift
+msgid "Shift+"
+msgstr ""
+
+#: lclstrconsts.smkcspace
+msgid "Space"
+msgstr "Mellemrum"
+
+#: lclstrconsts.smkctab
+msgctxt "lclstrconsts.smkctab"
+msgid "Tab"
+msgstr ""
+
+#: lclstrconsts.smkcup
+msgctxt "lclstrconsts.smkcup"
+msgid "Up"
+msgstr "Op"
+
+#: lclstrconsts.snomdiform
+msgid "No MDI form present."
+msgstr "Ingen MDI-formular til stede"
+
+#: lclstrconsts.snotimers
+msgid "No timers available"
+msgstr "Ingen timer til rådighed"
+
+#: lclstrconsts.sparexpected
+msgid "Wrong token type: %s expected"
+msgstr "Forkert symboltype: %s var forventet"
+
+#: lclstrconsts.sparinvalidfloat
+msgid "Invalid floating point number: %s"
+msgstr "Ugyldigt kommatal: %s"
+
+#: lclstrconsts.sparinvalidinteger
+msgid "Invalid integer number: %s"
+msgstr "Ugyldigt heltal: %s"
+
+#: lclstrconsts.sparlocinfo
+msgid " (at %d,%d, stream offset %.8x)"
+msgstr " (ved %d,%d, stream offset %.8x)"
+
+#: lclstrconsts.sparunterminatedbinvalue
+msgid "Unterminated byte value"
+msgstr "Uafsluttet byte-værdi"
+
+#: lclstrconsts.sparunterminatedstring
+msgid "Unterminated string"
+msgstr "Uafsluttet streng"
+
+#: lclstrconsts.sparwrongtokensymbol
+msgid "Wrong token symbol: %s expected but %s found"
+msgstr "Forkert symbol: %s var forventet, men %s blev fundet"
+
+#: lclstrconsts.sparwrongtokentype
+msgid "Wrong token type: %s expected but %s found"
+msgstr "Forkert symboltype: %s var forventet, men %s blev fundet"
