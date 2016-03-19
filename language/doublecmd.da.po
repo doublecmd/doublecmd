@@ -31,220 +31,6 @@ msgstr "Venstre til højre: Kopiér %d fil(er), totalt: %d bytes"
 msgid "Right to Left: Copy %d files, total size: %d bytes"
 msgstr "Højre til venstre: Kopiér %d fil(er), totalt: %d bytes"
 
-#: tfcolumnssetconf.btnallback.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
-msgid "All"
-msgstr "Alle"
-
-#: tfcolumnssetconf.btnallback2.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLBACK2.CAPTION"
-msgid "All"
-msgstr "Alle"
-
-#: tfcolumnssetconf.btnallcurcol.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLCURCOL.CAPTION"
-msgid "All"
-msgstr "Alle"
-
-#: tfcolumnssetconf.btnallcurtext.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLCURTEXT.CAPTION"
-msgid "All"
-msgstr "Alle"
-
-#: tfcolumnssetconf.btnallfont.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLFONT.CAPTION"
-msgid "All"
-msgstr "Alle"
-
-#: tfcolumnssetconf.btnallmarc.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLMARC.CAPTION"
-msgid "All"
-msgstr "Alle"
-
-#: tfcolumnssetconf.btnalltext.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION"
-msgid "All"
-msgstr "Alle"
-
-#: tfcolumnssetconf.btnbackcolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnbackcolor2.caption
-msgctxt "TFCOLUMNSSETCONF.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btncancel.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "&Annuller"
-
-#: tfcolumnssetconf.btncursorbordercolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCURSORBORDERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btncursorcolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btncursortext.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnfontselect.caption
-msgctxt "TFCOLUMNSSETCONF.BTNFONTSELECT.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: tfcolumnssetconf.btnforecolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnmarkcolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnnext.caption
-msgid "->"
-msgstr "->"
-
-#: tfcolumnssetconf.btnok.caption
-msgctxt "TFCOLUMNSSETCONF.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
-#: tfcolumnssetconf.btnprev.caption
-msgid "<-"
-msgstr "<-"
-
-#: tfcolumnssetconf.caption
-msgid "Configure custom columns view"
-msgstr "Brugerbestemt visning"
-
-#: tfcolumnssetconf.cbackgrndlabel.caption
-msgctxt "TFCOLUMNSSETCONF.CBACKGRNDLABEL.CAPTION"
-msgid "BackGround:"
-msgstr "&Baggrund:"
-
-#: tfcolumnssetconf.cbcursorborder.caption
-msgctxt "tfcolumnssetconf.cbcursorborder.caption"
-msgid "Cursor border"
-msgstr "Markør-grænser"
-
-#: tfcolumnssetconf.cbovercolor.caption
-msgctxt "tfcolumnssetconf.cbovercolor.caption"
-msgid "Allow Overcolor"
-msgstr "Tillad farveoverlapning"
-
-#: tfcolumnssetconf.chkusecustomview.caption
-msgid "Use custom font and color"
-msgstr "Brug brugerdefinerede skrifttyper og farver"
-
-#: tfcolumnssetconf.ctextlabel.caption
-msgctxt "TFCOLUMNSSETCONF.CTEXTLABEL.CAPTION"
-msgid "Text Color:"
-msgstr "&Skriftfarve:"
-
-#: tfcolumnssetconf.label3.caption
-msgctxt "tfcolumnssetconf.label3.caption"
-msgid "Font:"
-msgstr "Skrifttype"
-
-#: tfcolumnssetconf.label4.caption
-msgctxt "TFCOLUMNSSETCONF.LABEL4.CAPTION"
-msgid "Size:"
-msgstr "Størrelse"
-
-#: tfcolumnssetconf.lblbackground2.caption
-msgctxt "TFCOLUMNSSETCONF.LBLBACKGROUND2.CAPTION"
-msgid "Background 2:"
-msgstr "Baggrund &2:"
-
-#: tfcolumnssetconf.lblconfigviewnr.caption
-msgid "Configure view nr:"
-msgstr "&Konfigurér visning nummer:"
-
-#: tfcolumnssetconf.lblcursorcolor.caption
-msgctxt "TFCOLUMNSSETCONF.LBLCURSORCOLOR.CAPTION"
-msgid "Cursor Color:"
-msgstr "&Markørfarve:"
-
-#: tfcolumnssetconf.lblcursortext.caption
-msgctxt "TFCOLUMNSSETCONF.LBLCURSORTEXT.CAPTION"
-msgid "Cursor Text:"
-msgstr "Mar&kørskrift:"
-
-#: tfcolumnssetconf.lblmarkcolor.caption
-msgctxt "TFCOLUMNSSETCONF.LBLMARKCOLOR.CAPTION"
-msgid "Mark Color:"
-msgstr "&Valgt farve:"
-
-#: tfcolumnssetconf.lblname.caption
-msgctxt "TFCOLUMNSSETCONF.LBLNAME.CAPTION"
-msgid "Name:"
-msgstr "Navn:"
-
-#: tfcolumnssetconf.lbnrofcolumnsset.caption
-msgctxt "TFCOLUMNSSETCONF.LBNROFCOLUMNSSET.CAPTION"
-msgid "0"
-msgstr "0"
-
-#: tfcolumnssetconf.miaddcolumn.caption
-msgctxt "tfcolumnssetconf.miaddcolumn.caption"
-msgid "Add column"
-msgstr "Tilføj kolonne"
-
-#: tfcolumnssetconf.pnlcusthead.caption
-msgid "Customize column:"
-msgstr "Tilpas kolonne"
-
-#: tfcolumnssetconf.pnlpreviewhead.caption
-msgctxt "TFCOLUMNSSETCONF.PNLPREVIEWHEAD.CAPTION"
-msgid "Preview"
-msgstr "Preview"
-
-#: tfcolumnssetconf.resback.caption
-msgctxt "TFCOLUMNSSETCONF.RESBACK.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.resback2.caption
-msgctxt "TFCOLUMNSSETCONF.RESBACK2.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.rescurcol.caption
-msgctxt "TFCOLUMNSSETCONF.RESCURCOL.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.rescurtext.caption
-msgctxt "TFCOLUMNSSETCONF.RESCURTEXT.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.resfont.caption
-msgctxt "TFCOLUMNSSETCONF.RESFONT.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.resmark.caption
-msgctxt "TFCOLUMNSSETCONF.RESMARK.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.restext.caption
-msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
-msgid "R"
-msgstr "R"
-
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
 msgstr "Vælg skabelon..."
@@ -1070,9 +856,9 @@ msgstr "Slet"
 
 #: tfrmeditor.acteditfind.caption
 #, fuzzy
-#| msgid "&Find"
+#| msgid "&Find "
 msgctxt "tfrmeditor.acteditfind.caption"
-msgid "&Find "
+msgid "&Find"
 msgstr "S&øg..."
 
 #: tfrmeditor.acteditfind.hint
@@ -1089,6 +875,11 @@ msgstr "&Find næste"
 msgctxt "tfrmeditor.acteditfindnext.hint"
 msgid "Find next"
 msgstr "&Find næste"
+
+#: tfrmeditor.acteditfindprevious.caption
+msgctxt "tfrmeditor.acteditfindprevious.caption"
+msgid "Find previous"
+msgstr ""
 
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
@@ -1223,7 +1014,9 @@ msgid "Save"
 msgstr "&Gem"
 
 #: tfrmeditor.actfilesaveas.caption
-msgid "Save &As.."
+#, fuzzy
+#| msgid "Save &As.."
+msgid "Save &As..."
 msgstr "Gem &som..."
 
 #: tfrmeditor.actfilesaveas.hint
@@ -1413,156 +1206,6 @@ msgstr "Fil(er), der skal &pakkes ud: "
 #: tfrmextractdlg.lblpassword.caption
 msgid "&Password for encrypted files:"
 msgstr "Adgangskode for krypterede filer:"
-
-#: tfrmfileassoc.btnaddact.caption
-msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
-msgid "Add"
-msgstr "Tilføj"
-
-#: tfrmfileassoc.btnaddext.caption
-msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
-msgid "&Add"
-msgstr "Tilføj"
-
-#: tfrmfileassoc.btnaddnewtype.caption
-msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
-msgid "A&dd"
-msgstr "Tilføj"
-
-#: tfrmfileassoc.btncancel.caption
-msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Annuller"
-
-#: tfrmfileassoc.btndownact.caption
-msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
-msgid "&Down"
-msgstr "Ned"
-
-#: tfrmfileassoc.btnok.caption
-msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
-#: tfrmfileassoc.btnremoveact.caption
-msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
-msgid "Remo&ve"
-msgstr "Fjern"
-
-#: tfrmfileassoc.btnremoveext.caption
-msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
-msgid "Re&move"
-msgstr "Fjern"
-
-#: tfrmfileassoc.btnremoveicon.caption
-msgctxt "TFRMFILEASSOC.BTNREMOVEICON.CAPTION"
-msgid "X"
-msgstr "X"
-
-#: tfrmfileassoc.btnremovetype.caption
-msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
-msgid "&Remove"
-msgstr "Fjern"
-
-#: tfrmfileassoc.btnrenametype.caption
-msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
-msgid "R&ename"
-msgstr "Omdøb"
-
-#: tfrmfileassoc.btnupact.caption
-msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
-msgid "&Up"
-msgstr "Op"
-
-#: tfrmfileassoc.caption
-msgctxt "tfrmfileassoc.caption"
-msgid "File associations"
-msgstr "Filassociationer"
-
-#: tfrmfileassoc.gbactions.caption
-msgctxt "TFRMFILEASSOC.GBACTIONS.CAPTION"
-msgid "Actions"
-msgstr "Handlinger"
-
-#: tfrmfileassoc.gbexts.caption
-msgctxt "tfrmfileassoc.gbexts.caption"
-msgid "Extensions"
-msgstr "Filendelser"
-
-#: tfrmfileassoc.gbfiletypes.caption
-msgctxt "TFRMFILEASSOC.GBFILETYPES.CAPTION"
-msgid "File types"
-msgstr "Filtyper"
-
-#: tfrmfileassoc.gbicon.caption
-msgctxt "tfrmfileassoc.gbicon.caption"
-msgid "Icon"
-msgstr "Ikon"
-
-#: tfrmfileassoc.lblaction.caption
-msgctxt "tfrmfileassoc.lblaction.caption"
-msgid "Action:"
-msgstr "Handling:"
-
-#: tfrmfileassoc.lblcommand.caption
-msgctxt "TFRMFILEASSOC.LBLCOMMAND.CAPTION"
-msgid "&Command:"
-msgstr "&Kommando:"
-
-#: tfrmfileassoc.miedit.caption
-msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
-msgid "Edit"
-msgstr "Rediger"
-
-#: tfrmfileassoc.mieditor.caption
-msgctxt "tfrmfileassoc.mieditor.caption"
-msgid "Open in Editor"
-msgstr "Åbn i editor"
-
-#: tfrmfileassoc.mifilename.caption
-msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
-msgid "File name"
-msgstr "Filnavn"
-
-#: tfrmfileassoc.mifilepath.caption
-msgctxt "tfrmfileassoc.mifilepath.caption"
-msgid "File path"
-msgstr "Filens sti"
-
-#: tfrmfileassoc.mifullpath.caption
-msgctxt "tfrmfileassoc.mifullpath.caption"
-msgid "Full path"
-msgstr "Hele sti"
-
-#: tfrmfileassoc.migetoutputfromcommand.caption
-msgctxt "tfrmfileassoc.migetoutputfromcommand.caption"
-msgid "Get output from command"
-msgstr "Få output fra kommandovindue"
-
-#: tfrmfileassoc.miopen.caption
-msgctxt "TFRMFILEASSOC.MIOPEN.CAPTION"
-msgid "Open"
-msgstr "Åbn"
-
-#: tfrmfileassoc.mishell.caption
-msgctxt "tfrmfileassoc.mishell.caption"
-msgid "Run in terminal"
-msgstr "Kør i terminalvindue"
-
-#: tfrmfileassoc.mivfs.caption
-msgctxt "tfrmfileassoc.mivfs.caption"
-msgid "Open in VFS"
-msgstr "Åbn i VFS"
-
-#: tfrmfileassoc.miview.caption
-msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
-msgid "View"
-msgstr "Vis"
-
-#: tfrmfileassoc.miviewer.caption
-msgctxt "tfrmfileassoc.miviewer.caption"
-msgid "Open in Viewer"
-msgstr "Åbn i fremviser"
 
 #: tfrmfileexecuteyourself.btnclose.caption
 msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
@@ -1827,63 +1470,67 @@ msgid "Properties"
 msgstr "Egenskaber"
 
 #: tfrmfinddlg.actcancel.caption
-msgid "actCancel"
+msgid "Cancel"
+msgstr ""
+
+#: tfrmfinddlg.actcancelclose.caption
+msgid "Cancel search and close window"
 msgstr ""
 
 #: tfrmfinddlg.actclose.caption
-msgid "actClose"
+msgid "Close"
 msgstr ""
 
 #: tfrmfinddlg.actedit.caption
-msgid "actEdit"
+msgid "Edit"
 msgstr ""
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "actFeedToListbox"
+msgid "Feed to listbox"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "actGoToFile"
+msgid "Go to file"
 msgstr ""
 
 #: tfrmfinddlg.actintellifocus.caption
-msgid "actIntelliFocus"
+msgid "Find Data"
 msgstr ""
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "actLastSearch"
+msgid "Last search"
 msgstr ""
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "actNewSearch"
+msgid "New search"
 msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
-msgid "actPageAdvanced"
+msgid "Go to page \"Advanced\""
 msgstr ""
 
 #: tfrmfinddlg.actpageloadsave.caption
-msgid "actPageLoadSave"
+msgid "Go to page \"Load/Save\""
 msgstr ""
 
 #: tfrmfinddlg.actpageplugins.caption
-msgid "actPagePlugins"
+msgid "Go to page \"Plugins\""
 msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
-msgid "actPageResults"
+msgid "Go to page \"Results\""
 msgstr ""
 
 #: tfrmfinddlg.actpagestandard.caption
-msgid "actPageStandard"
+msgid "Go to page \"Standard\""
 msgstr ""
 
 #: tfrmfinddlg.actstart.caption
-msgid "actStart"
+msgid "Start"
 msgstr ""
 
 #: tfrmfinddlg.actview.caption
-msgid "actView"
+msgid "View"
 msgstr ""
 
 #: tfrmfinddlg.btnaddattribute.caption
@@ -2017,6 +1664,10 @@ msgstr "Find filer, der IKKE indeholder &teksten"
 #: tfrmfinddlg.cbnotolderthan.caption
 msgid "N&ot older than:"
 msgstr "Ikke &ældre end:"
+
+#: tfrmfinddlg.cbopenedtabs.caption
+msgid "Opened tabs"
+msgstr ""
 
 #: tfrmfinddlg.cbpartialnamesearch.caption
 msgid "Searc&h for part of file name"
@@ -2175,6 +1826,10 @@ msgstr "Find"
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "STORE og små bogstaver"
+
+#: tfrmhackform.groupbox1.caption
+msgid "GroupBox1"
+msgstr ""
 
 #: tfrmhardlink.btncancel.caption
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
@@ -3748,6 +3403,10 @@ msgstr "80"
 msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
 msgid "Width"
 msgstr "Bredde"
+
+#: tfrmmsg.lblmsg.caption
+msgid "456456465465465"
+msgstr ""
 
 #: tfrmmultirename.btnclose.caption
 msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
@@ -6440,6 +6099,18 @@ msgctxt "tfrmoptionsfiletypescolors.lblcategoryname.caption"
 msgid "Category &name:"
 msgstr "Kategori-&navn:"
 
+#: tfrmoptionsfonts.btnpatheditfnt.caption
+#, fuzzy
+msgctxt "tfrmoptionsfonts.btnpatheditfnt.caption"
+msgid "..."
+msgstr "..."
+
+#: tfrmoptionsfonts.btnsearchresultsfnt.caption
+#, fuzzy
+msgctxt "tfrmoptionsfonts.btnsearchresultsfnt.caption"
+msgid "..."
+msgstr "..."
+
 #: tfrmoptionsfonts.btnselconsolefnt.caption
 #, fuzzy
 msgctxt "tfrmoptionsfonts.btnselconsolefnt.caption"
@@ -6489,6 +6160,14 @@ msgstr "&Log-skrifttype:"
 msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
 msgid "Main &font"
 msgstr "&Fillister:"
+
+#: tfrmoptionsfonts.lblpatheditfont.caption
+msgid "Path font"
+msgstr ""
+
+#: tfrmoptionsfonts.lblsearchresultsfont.caption
+msgid "Search results font"
+msgstr ""
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
@@ -6747,8 +6426,10 @@ msgid "Show &main menu"
 msgstr "Vis &menulinje"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
+#, fuzzy
+#| msgid "Show &button bar"
 msgctxt "tfrmoptionslayout.cbshowmaintoolbar.caption"
-msgid "Show &button bar"
+msgid "Show tool&bar"
 msgstr "Vis &knappanel"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
@@ -8763,6 +8444,12 @@ msgctxt "tfrmviewer.actcopyfile.hint"
 msgid "Copy File"
 msgstr "Kopier fil"
 
+#: tfrmviewer.actcopytoclipboard.caption
+#, fuzzy
+msgctxt "tfrmviewer.actcopytoclipboard.caption"
+msgid "Copy To Clipboard"
+msgstr "Kopier til Udklipsholder"
+
 #: tfrmviewer.actdeletefile.caption
 msgctxt "tfrmviewer.actdeletefile.caption"
 msgid "Delete File"
@@ -8772,6 +8459,40 @@ msgstr "Slet fil"
 msgctxt "tfrmviewer.actdeletefile.hint"
 msgid "Delete File"
 msgstr "Slet fil"
+
+#: tfrmviewer.actexitviewer.caption
+#, fuzzy
+msgctxt "tfrmviewer.actexitviewer.caption"
+msgid "E&xit"
+msgstr "Afslut"
+
+#: tfrmviewer.actfind.caption
+#, fuzzy
+msgctxt "tfrmviewer.actfind.caption"
+msgid "Find"
+msgstr "Find"
+
+#: tfrmviewer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmviewer.actfindnext.caption"
+msgid "Find next"
+msgstr "&Find næste"
+
+#: tfrmviewer.actfindprev.caption
+msgctxt "tfrmviewer.actfindprev.caption"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmviewer.actfullscreen.caption
+#, fuzzy
+msgctxt "tfrmviewer.actfullscreen.caption"
+msgid "Full Screen"
+msgstr "Fuldskærm"
+
+#: tfrmviewer.actimagecenter.caption
+msgctxt "tfrmviewer.actimagecenter.caption"
+msgid "Center"
+msgstr ""
 
 #: tfrmviewer.actloadnextfile.caption
 msgctxt "tfrmviewer.actloadnextfile.caption"
@@ -8792,15 +8513,19 @@ msgstr "&Forrige"
 msgid "Load Previous File"
 msgstr "Indlæs forrige fil"
 
-#: tfrmviewer.actmirror.caption
-msgctxt "tfrmviewer.actmirror.caption"
+#: tfrmviewer.actmirrorhorz.caption
+msgid "Mirror Horizontally"
+msgstr ""
+
+#: tfrmviewer.actmirrorhorz.hint
+#, fuzzy
+msgctxt "tfrmviewer.actmirrorhorz.hint"
 msgid "Mirror"
 msgstr "Spejlvend"
 
-#: tfrmviewer.actmirror.hint
-msgctxt "tfrmviewer.actmirror.hint"
-msgid "Mirror"
-msgstr "Spejlvend"
+#: tfrmviewer.actmirrorvert.caption
+msgid "Mirror Vertically"
+msgstr ""
 
 #: tfrmviewer.actmovefile.caption
 msgctxt "tfrmviewer.actmovefile.caption"
@@ -8812,6 +8537,12 @@ msgctxt "tfrmviewer.actmovefile.hint"
 msgid "Move File"
 msgstr "Flyt fil"
 
+#: tfrmviewer.actpreview.caption
+#, fuzzy
+msgctxt "tfrmviewer.actpreview.caption"
+msgid "Preview"
+msgstr "Preview"
+
 #: tfrmviewer.actreload.caption
 msgctxt "tfrmviewer.actreload.caption"
 msgid "Reload"
@@ -8822,34 +8553,52 @@ msgid "Reload current file"
 msgstr "Genindlæs aktuel fil"
 
 #: tfrmviewer.actrotate180.caption
+#, fuzzy
+#| msgid "Rotate 180"
 msgctxt "tfrmviewer.actrotate180.caption"
-msgid "Rotate 180"
+msgid "+ 180"
 msgstr "Rotér 180°"
 
 #: tfrmviewer.actrotate180.hint
+#, fuzzy
+#| msgid "Rotate 180"
 msgctxt "tfrmviewer.actrotate180.hint"
-msgid "Rotate 180"
+msgid "Rotate 180 degrees"
 msgstr "Rotér 180°"
 
 #: tfrmviewer.actrotate270.caption
+#, fuzzy
+#| msgid "Rotate 270"
 msgctxt "tfrmviewer.actrotate270.caption"
-msgid "Rotate 270"
+msgid "- 90"
 msgstr "Rotér 270°"
 
 #: tfrmviewer.actrotate270.hint
+#, fuzzy
+#| msgid "Rotate 270"
 msgctxt "tfrmviewer.actrotate270.hint"
-msgid "Rotate 270"
+msgid "Rotate -90 degrees"
 msgstr "Rotér 270°"
 
 #: tfrmviewer.actrotate90.caption
+#, fuzzy
+#| msgid "Rotate 90"
 msgctxt "tfrmviewer.actrotate90.caption"
-msgid "Rotate 90"
+msgid "+ 90"
 msgstr "Rotér 90°"
 
 #: tfrmviewer.actrotate90.hint
+#, fuzzy
+#| msgid "Rotate 90"
 msgctxt "tfrmviewer.actrotate90.hint"
-msgid "Rotate 90"
+msgid "Rotate +90 degrees"
 msgstr "Rotér 90°"
+
+#: tfrmviewer.actsave.caption
+#, fuzzy
+msgctxt "tfrmviewer.actsave.caption"
+msgid "Save"
+msgstr "&Gem"
 
 #: tfrmviewer.actsaveas.caption
 msgctxt "tfrmviewer.actsaveas.caption"
@@ -8860,6 +8609,68 @@ msgstr "Gem &som..."
 msgid "Save File As..."
 msgstr "Gemmer filen som..."
 
+#: tfrmviewer.actscreenshot.caption
+#, fuzzy
+msgctxt "tfrmviewer.actscreenshot.caption"
+msgid "Screenshot"
+msgstr "Tag et skærmbillede"
+
+#: tfrmviewer.actscreenshotdelay3sec.caption
+msgid "Delay 3 sec"
+msgstr ""
+
+#: tfrmviewer.actscreenshotdelay5sec.caption
+msgid "Delay 5 sec"
+msgstr ""
+
+#: tfrmviewer.actselectall.caption
+#, fuzzy
+msgctxt "tfrmviewer.actselectall.caption"
+msgid "Select All"
+msgstr "Vælg &alt"
+
+#: tfrmviewer.actshowasbin.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowasbin.caption"
+msgid "Show as &Bin"
+msgstr "Binær (fast linjelængde)"
+
+#: tfrmviewer.actshowasbook.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowasbook.caption"
+msgid "Show as B&ook"
+msgstr "B&og"
+
+#: tfrmviewer.actshowashex.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowashex.caption"
+msgid "Show as &Hex"
+msgstr "Hex"
+
+#: tfrmviewer.actshowastext.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowastext.caption"
+msgid "Show as &Text"
+msgstr "Kun tekst"
+
+#: tfrmviewer.actshowaswraptext.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowaswraptext.caption"
+msgid "Show as &Wrap text"
+msgstr "Ombryd tekst"
+
+#: tfrmviewer.actshowgraphics.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowgraphics.caption"
+msgid "Graphics"
+msgstr "Billede/multimedie"
+
+#: tfrmviewer.actshowplugins.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowplugins.caption"
+msgid "Plugins"
+msgstr "Plugin"
+
 #: tfrmviewer.actstretchimage.caption
 msgctxt "tfrmviewer.actstretchimage.caption"
 msgid "Stretch"
@@ -8869,15 +8680,26 @@ msgstr "Stræk"
 msgid "Stretch Image"
 msgstr "Strækker billedet"
 
-#: tfrmviewer.btn270.hint
-msgctxt "TFRMVIEWER.BTN270.HINT"
-msgid "- 90"
+#: tfrmviewer.actstretchonlylarge.caption
+msgctxt "tfrmviewer.actstretchonlylarge.caption"
+msgid "Stretch only large"
 msgstr ""
 
-#: tfrmviewer.btn90.hint
-msgctxt "TFRMVIEWER.BTN90.HINT"
-msgid "+ 90"
+#: tfrmviewer.actzoom.caption
+msgid "Zoom"
 msgstr ""
+
+#: tfrmviewer.actzoomin.caption
+#, fuzzy
+msgctxt "tfrmviewer.actzoomin.caption"
+msgid "Zoom In"
+msgstr "Zoom ind"
+
+#: tfrmviewer.actzoomout.caption
+#, fuzzy
+msgctxt "tfrmviewer.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Zoom ud"
 
 #: tfrmviewer.btncopyfile.hint
 msgctxt "TFRMVIEWER.BTNCOPYFILE.HINT"
@@ -8923,11 +8745,6 @@ msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "Markér"
 
-#: tfrmviewer.btnmirror.hint
-msgctxt "TFRMVIEWER.BTNMIRROR.HINT"
-msgid "Mirror"
-msgstr "Spejlvend"
-
 #: tfrmviewer.btnmovefile.hint
 msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
 msgid "Move"
@@ -8964,16 +8781,6 @@ msgstr "Tilpas størrelse"
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
 msgid "Undo"
 msgstr "Fortryd"
-
-#: tfrmviewer.btnzoomin.hint
-msgctxt "TFRMVIEWER.BTNZOOMIN.HINT"
-msgid "Zoom In"
-msgstr "Zoom ind"
-
-#: tfrmviewer.btnzoomout.hint
-msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
-msgid "Zoom Out"
-msgstr "Zoom ud"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"
@@ -9018,37 +8825,10 @@ msgstr "Visning"
 msgid "0x0"
 msgstr ""
 
-#: tfrmviewer.mi180.caption
-msgid "+ 180"
-msgstr ""
-
-#: tfrmviewer.mi270.caption
-msgctxt "TFRMVIEWER.MI270.CAPTION"
-msgid "- 90"
-msgstr ""
-
-#: tfrmviewer.mi90.caption
-msgctxt "TFRMVIEWER.MI90.CAPTION"
-msgid "+ 90"
-msgstr ""
-
 #: tfrmviewer.miabout.caption
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "&Om"
-
-#: tfrmviewer.mibin.caption
-msgid "Show as &Bin"
-msgstr "Binær (fast linjelængde)"
-
-#: tfrmviewer.micenter.caption
-msgid "Center"
-msgstr ""
-
-#: tfrmviewer.micopytoclipboard.caption
-msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
-msgid "Copy To Clipboard"
-msgstr "&Kopier som tekst"
 
 #: tfrmviewer.midiv1.caption
 msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
@@ -9085,51 +8865,14 @@ msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr "&Kodning"
 
-#: tfrmviewer.miexit.caption
-msgctxt "TFRMVIEWER.MIEXIT.CAPTION"
-msgid "E&xit"
-msgstr "&Luk"
-
 #: tfrmviewer.mifile.caption
 msgctxt "TFRMVIEWER.MIFILE.CAPTION"
 msgid "&File"
 msgstr "&Fil"
 
-#: tfrmviewer.mifullscreen.caption
-msgctxt "TFRMVIEWER.MIFULLSCREEN.CAPTION"
-msgid "Full Screen"
-msgstr "Fuldskærm"
-
-#: tfrmviewer.migraphics.caption
-msgid "Graphics"
-msgstr "Billede/multimedie"
-
-#: tfrmviewer.mihex.caption
-msgid "Show as &Hex"
-msgstr "Hex"
-
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "B&illede"
-
-#: tfrmviewer.milookbook.caption
-msgid "Show as B&ook"
-msgstr "B&og"
-
-#: tfrmviewer.mimirror.caption
-msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
-msgid "Mirror"
-msgstr "Spejlvend"
-
-#: tfrmviewer.miplugins.caption
-msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
-msgid "Plugins"
-msgstr "Plugin"
-
-#: tfrmviewer.mipreview.caption
-msgctxt "TFRMVIEWER.MIPREVIEW.CAPTION"
-msgid "Preview"
-msgstr "Preview"
 
 #: tfrmviewer.miprint.caption
 msgid "Print..."
@@ -9140,75 +8883,20 @@ msgctxt "TFRMVIEWER.MIROTATE.CAPTION"
 msgid "Rotate"
 msgstr "Rotér"
 
-#: tfrmviewer.misave.caption
-msgctxt "TFRMVIEWER.MISAVE.CAPTION"
-msgid "Save"
-msgstr "&Gem"
-
-#: tfrmviewer.misaveas.caption
-msgctxt "tfrmviewer.misaveas.caption"
-msgid "Save As..."
-msgstr "Gem &som..."
-
 #: tfrmviewer.miscreenshot.caption
 msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
 msgid "Screenshot"
 msgstr "Tag et skærmbillede"
-
-#: tfrmviewer.misearch.caption
-msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
-msgid "Search"
-msgstr "&Find"
-
-#: tfrmviewer.misearchnext.caption
-msgid "Search next"
-msgstr "Find &næste"
-
-#: tfrmviewer.misearchprev.caption
-msgid "Search prev"
-msgstr "Søg &forrige"
-
-#: tfrmviewer.miselectall.caption
-msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
-msgid "Select All"
-msgstr "Vælg &alt"
 
 #: tfrmviewer.miseparator.caption
 msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmviewer.mistretch.caption
-msgctxt "tfrmviewer.mistretch.caption"
-msgid "Stretch"
-msgstr "Stræk"
-
-#: tfrmviewer.mistretchonlylarge.caption
-msgid "Stretch only large"
-msgstr ""
-
-#: tfrmviewer.mitext.caption
-msgid "Show as &Text"
-msgstr "Kun tekst"
-
 #: tfrmviewer.miview.caption
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "&Vis"
-
-#: tfrmviewer.miwraptext.caption
-msgid "Show as &Wrap text"
-msgstr "Ombryd tekst"
-
-#: tfrmviewer.mizoomin.caption
-msgctxt "TFRMVIEWER.MIZOOMIN.CAPTION"
-msgid "Zoom In"
-msgstr "Zomm ind"
-
-#: tfrmviewer.mizoomout.caption
-msgctxt "TFRMVIEWER.MIZOOMOUT.CAPTION"
-msgid "Zoom Out"
-msgstr "Zomm ud"
 
 #: tfrmviewer.pmicopy.caption
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
@@ -9219,99 +8907,6 @@ msgstr "Kopier til Udklipsholder"
 msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Vælg alle"
-
-#: tfrmviewoperations.btnstartpause.caption
-msgctxt "tfrmviewoperations.btnstartpause.caption"
-msgid "&Start"
-msgstr "&Start"
-
-#: tfrmviewoperations.btnstop.caption
-msgid "S&top"
-msgstr ""
-
-#: tfrmviewoperations.caption
-msgctxt "tfrmviewoperations.caption"
-msgid "File operations"
-msgstr "Filhandlinger"
-
-#: tfrmviewoperations.cbalwaysontop.caption
-msgid "Always on top"
-msgstr "&Altid øverst"
-
-#: tfrmviewoperations.lblusedragdrop.caption
-msgid "Use \"drag && drop\" to move operations between queues"
-msgstr "Brug \"træk && slip\" for at flytte handlinger mellem køerne"
-
-#: tfrmviewoperations.mnucanceloperation.caption
-msgctxt "tfrmviewoperations.mnucanceloperation.caption"
-msgid "Cancel"
-msgstr "&Annuller"
-
-#: tfrmviewoperations.mnucancelqueue.caption
-msgctxt "tfrmviewoperations.mnucancelqueue.caption"
-msgid "Cancel"
-msgstr "&Annuller"
-
-#: tfrmviewoperations.mnunewqueue.caption
-msgctxt "tfrmviewoperations.mnunewqueue.caption"
-msgid "New queue"
-msgstr "Ny kø"
-
-#: tfrmviewoperations.mnuoperationshowdetached.caption
-msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
-msgid "Show in detached window"
-msgstr "Vis i eget vindue"
-
-#: tfrmviewoperations.mnuputfirstinqueue.caption
-msgid "Put first in queue"
-msgstr "Sæt først i køen"
-
-#: tfrmviewoperations.mnuputlastinqueue.caption
-msgid "Put last in queue"
-msgstr "Sæt sidst i køen"
-
-#: tfrmviewoperations.mnuqueue.caption
-msgctxt "tfrmviewoperations.mnuqueue.caption"
-msgid "Queue"
-msgstr "Kø"
-
-#: tfrmviewoperations.mnuqueue0.caption
-msgid "Out of queue"
-msgstr "Fjern fra køen"
-
-#: tfrmviewoperations.mnuqueue1.caption
-msgctxt "tfrmviewoperations.mnuqueue1.caption"
-msgid "Queue 1"
-msgstr "Kø 1"
-
-#: tfrmviewoperations.mnuqueue2.caption
-msgctxt "tfrmviewoperations.mnuqueue2.caption"
-msgid "Queue 2"
-msgstr "Kø 2"
-
-#: tfrmviewoperations.mnuqueue3.caption
-msgctxt "tfrmviewoperations.mnuqueue3.caption"
-msgid "Queue 3"
-msgstr "Kø 3"
-
-#: tfrmviewoperations.mnuqueue4.caption
-msgctxt "tfrmviewoperations.mnuqueue4.caption"
-msgid "Queue 4"
-msgstr "Kø 4"
-
-#: tfrmviewoperations.mnuqueue5.caption
-msgctxt "tfrmviewoperations.mnuqueue5.caption"
-msgid "Queue 5"
-msgstr "Kø 5"
-
-#: tfrmviewoperations.mnuqueueshowdetached.caption
-msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
-msgid "Show in detached window"
-msgstr "Vis i eget vindue"
-
-#: tfrmviewoperations.tbpauseall.caption
-msgid "&Pause all"
-msgstr "Sæt alt på &pause"
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"

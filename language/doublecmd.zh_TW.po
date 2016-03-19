@@ -31,220 +31,6 @@ msgstr ""
 msgid "Right to Left: Copy %d files, total size: %d bytes"
 msgstr ""
 
-#: tfcolumnssetconf.btnallback.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
-msgid "All"
-msgstr "全部"
-
-#: tfcolumnssetconf.btnallback2.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLBACK2.CAPTION"
-msgid "All"
-msgstr "全部"
-
-#: tfcolumnssetconf.btnallcurcol.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLCURCOL.CAPTION"
-msgid "All"
-msgstr "全部"
-
-#: tfcolumnssetconf.btnallcurtext.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLCURTEXT.CAPTION"
-msgid "All"
-msgstr "全部"
-
-#: tfcolumnssetconf.btnallfont.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLFONT.CAPTION"
-msgid "All"
-msgstr "全部"
-
-#: tfcolumnssetconf.btnallmarc.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLMARC.CAPTION"
-msgid "All"
-msgstr "全部"
-
-#: tfcolumnssetconf.btnalltext.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION"
-msgid "All"
-msgstr "全部"
-
-#: tfcolumnssetconf.btnbackcolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnbackcolor2.caption
-msgctxt "TFCOLUMNSSETCONF.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btncancel.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "取消"
-
-#: tfcolumnssetconf.btncursorbordercolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCURSORBORDERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btncursorcolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btncursortext.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnfontselect.caption
-msgctxt "TFCOLUMNSSETCONF.BTNFONTSELECT.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: tfcolumnssetconf.btnforecolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnmarkcolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnnext.caption
-msgid "->"
-msgstr "->"
-
-#: tfcolumnssetconf.btnok.caption
-msgctxt "TFCOLUMNSSETCONF.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "確定 (&O)"
-
-#: tfcolumnssetconf.btnprev.caption
-msgid "<-"
-msgstr "<-"
-
-#: tfcolumnssetconf.caption
-msgid "Configure custom columns view"
-msgstr "設置自訂欄位檢視"
-
-#: tfcolumnssetconf.cbackgrndlabel.caption
-msgctxt "TFCOLUMNSSETCONF.CBACKGRNDLABEL.CAPTION"
-msgid "BackGround:"
-msgstr "背景色彩:"
-
-#: tfcolumnssetconf.cbcursorborder.caption
-msgctxt "tfcolumnssetconf.cbcursorborder.caption"
-msgid "Cursor border"
-msgstr "指標外框"
-
-#: tfcolumnssetconf.cbovercolor.caption
-msgctxt "tfcolumnssetconf.cbovercolor.caption"
-msgid "Allow Overcolor"
-msgstr "允許顏色覆蓋"
-
-#: tfcolumnssetconf.chkusecustomview.caption
-msgid "Use custom font and color"
-msgstr "使用自訂字型和色彩"
-
-#: tfcolumnssetconf.ctextlabel.caption
-msgctxt "TFCOLUMNSSETCONF.CTEXTLABEL.CAPTION"
-msgid "Text Color:"
-msgstr "文字色彩:"
-
-#: tfcolumnssetconf.label3.caption
-msgctxt "tfcolumnssetconf.label3.caption"
-msgid "Font:"
-msgstr "字型:"
-
-#: tfcolumnssetconf.label4.caption
-msgctxt "TFCOLUMNSSETCONF.LABEL4.CAPTION"
-msgid "Size:"
-msgstr "大小:"
-
-#: tfcolumnssetconf.lblbackground2.caption
-msgctxt "TFCOLUMNSSETCONF.LBLBACKGROUND2.CAPTION"
-msgid "Background 2:"
-msgstr "背景色彩2:"
-
-#: tfcolumnssetconf.lblconfigviewnr.caption
-msgid "Configure view nr:"
-msgstr "設置檢視:"
-
-#: tfcolumnssetconf.lblcursorcolor.caption
-msgctxt "TFCOLUMNSSETCONF.LBLCURSORCOLOR.CAPTION"
-msgid "Cursor Color:"
-msgstr "指標行背景色彩:"
-
-#: tfcolumnssetconf.lblcursortext.caption
-msgctxt "TFCOLUMNSSETCONF.LBLCURSORTEXT.CAPTION"
-msgid "Cursor Text:"
-msgstr "指標行文字色彩:"
-
-#: tfcolumnssetconf.lblmarkcolor.caption
-msgctxt "TFCOLUMNSSETCONF.LBLMARKCOLOR.CAPTION"
-msgid "Mark Color:"
-msgstr "標記行色彩:"
-
-#: tfcolumnssetconf.lblname.caption
-msgctxt "TFCOLUMNSSETCONF.LBLNAME.CAPTION"
-msgid "Name:"
-msgstr "名稱:"
-
-#: tfcolumnssetconf.lbnrofcolumnsset.caption
-msgctxt "TFCOLUMNSSETCONF.LBNROFCOLUMNSSET.CAPTION"
-msgid "0"
-msgstr "0"
-
-#: tfcolumnssetconf.miaddcolumn.caption
-msgctxt "tfcolumnssetconf.miaddcolumn.caption"
-msgid "Add column"
-msgstr "新增欄位"
-
-#: tfcolumnssetconf.pnlcusthead.caption
-msgid "Customize column:"
-msgstr "自訂欄位:"
-
-#: tfcolumnssetconf.pnlpreviewhead.caption
-msgctxt "TFCOLUMNSSETCONF.PNLPREVIEWHEAD.CAPTION"
-msgid "Preview"
-msgstr "預覽"
-
-#: tfcolumnssetconf.resback.caption
-msgctxt "TFCOLUMNSSETCONF.RESBACK.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.resback2.caption
-msgctxt "TFCOLUMNSSETCONF.RESBACK2.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.rescurcol.caption
-msgctxt "TFCOLUMNSSETCONF.RESCURCOL.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.rescurtext.caption
-msgctxt "TFCOLUMNSSETCONF.RESCURTEXT.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.resfont.caption
-msgctxt "TFCOLUMNSSETCONF.RESFONT.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.resmark.caption
-msgctxt "TFCOLUMNSSETCONF.RESMARK.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.restext.caption
-msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
-msgid "R"
-msgstr "R"
-
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
 msgstr "選擇範本..."
@@ -1120,9 +906,9 @@ msgstr "刪除"
 
 #: tfrmeditor.acteditfind.caption
 #, fuzzy
-#| msgid "&Find"
+#| msgid "&Find "
 msgctxt "tfrmeditor.acteditfind.caption"
-msgid "&Find "
+msgid "&Find"
 msgstr "尋找 (&F)"
 
 #: tfrmeditor.acteditfind.hint
@@ -1139,6 +925,11 @@ msgstr "找下一個"
 msgctxt "tfrmeditor.acteditfindnext.hint"
 msgid "Find next"
 msgstr "找下一個"
+
+#: tfrmeditor.acteditfindprevious.caption
+msgctxt "tfrmeditor.acteditfindprevious.caption"
+msgid "Find previous"
+msgstr ""
 
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
@@ -1274,7 +1065,9 @@ msgid "Save"
 msgstr "儲存"
 
 #: tfrmeditor.actfilesaveas.caption
-msgid "Save &As.."
+#, fuzzy
+#| msgid "Save &As.."
+msgid "Save &As..."
 msgstr "另存新檔 (&A)..."
 
 #: tfrmeditor.actfilesaveas.hint
@@ -1472,174 +1265,6 @@ msgstr "解壓檔案遮罩 (&E):"
 #| msgid "Password for encrypted files:"
 msgid "&Password for encrypted files:"
 msgstr "加密檔案的密碼 (&P):"
-
-#: tfrmfileassoc.btnaddact.caption
-msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
-msgid "Add"
-msgstr "新增"
-
-#: tfrmfileassoc.btnaddext.caption
-#, fuzzy
-#| msgid "Add"
-msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
-msgid "&Add"
-msgstr "新增 (&A)"
-
-#: tfrmfileassoc.btnaddnewtype.caption
-#, fuzzy
-#| msgid "Add"
-msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
-msgid "A&dd"
-msgstr "新增 (&D)"
-
-#: tfrmfileassoc.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "取消 (&C)"
-
-#: tfrmfileassoc.btndownact.caption
-#, fuzzy
-#| msgid "Down"
-msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
-msgid "&Down"
-msgstr "下移 (&D)"
-
-#: tfrmfileassoc.btnok.caption
-msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "確定 (&O)"
-
-#: tfrmfileassoc.btnremoveact.caption
-#, fuzzy
-#| msgid "Remove"
-msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
-msgid "Remo&ve"
-msgstr "移除 (&V)"
-
-#: tfrmfileassoc.btnremoveext.caption
-#, fuzzy
-#| msgid "Remove"
-msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
-msgid "Re&move"
-msgstr "移除 (&M)"
-
-#: tfrmfileassoc.btnremoveicon.caption
-msgctxt "TFRMFILEASSOC.BTNREMOVEICON.CAPTION"
-msgid "X"
-msgstr "X"
-
-#: tfrmfileassoc.btnremovetype.caption
-#, fuzzy
-#| msgid "Remove"
-msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
-msgid "&Remove"
-msgstr "移除 (&R)"
-
-#: tfrmfileassoc.btnrenametype.caption
-#, fuzzy
-#| msgid "Rename"
-msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
-msgid "R&ename"
-msgstr "重新命名 (&E)"
-
-#: tfrmfileassoc.btnupact.caption
-#, fuzzy
-#| msgid "Up"
-msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
-msgid "&Up"
-msgstr "上移 (&U)"
-
-#: tfrmfileassoc.caption
-msgctxt "tfrmfileassoc.caption"
-msgid "File associations"
-msgstr "檔案關聯"
-
-#: tfrmfileassoc.gbactions.caption
-msgctxt "TFRMFILEASSOC.GBACTIONS.CAPTION"
-msgid "Actions"
-msgstr "動作"
-
-#: tfrmfileassoc.gbexts.caption
-msgctxt "tfrmfileassoc.gbexts.caption"
-msgid "Extensions"
-msgstr "副檔名"
-
-#: tfrmfileassoc.gbfiletypes.caption
-msgctxt "TFRMFILEASSOC.GBFILETYPES.CAPTION"
-msgid "File types"
-msgstr "檔案類型"
-
-#: tfrmfileassoc.gbicon.caption
-msgctxt "tfrmfileassoc.gbicon.caption"
-msgid "Icon"
-msgstr "圖示"
-
-#: tfrmfileassoc.lblaction.caption
-msgctxt "tfrmfileassoc.lblaction.caption"
-msgid "Action:"
-msgstr "動作:"
-
-#: tfrmfileassoc.lblcommand.caption
-msgctxt "TFRMFILEASSOC.LBLCOMMAND.CAPTION"
-msgid "&Command:"
-msgstr "指令 (&C):"
-
-#: tfrmfileassoc.miedit.caption
-msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
-msgid "Edit"
-msgstr "編輯"
-
-#: tfrmfileassoc.mieditor.caption
-msgctxt "tfrmfileassoc.mieditor.caption"
-msgid "Open in Editor"
-msgstr "在編輯器開啟"
-
-#: tfrmfileassoc.mifilename.caption
-msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
-msgid "File name"
-msgstr "檔案名稱"
-
-#: tfrmfileassoc.mifilepath.caption
-msgctxt "tfrmfileassoc.mifilepath.caption"
-msgid "File path"
-msgstr "檔案路徑"
-
-#: tfrmfileassoc.mifullpath.caption
-msgctxt "tfrmfileassoc.mifullpath.caption"
-msgid "Full path"
-msgstr "完整路徑"
-
-#: tfrmfileassoc.migetoutputfromcommand.caption
-msgctxt "tfrmfileassoc.migetoutputfromcommand.caption"
-msgid "Get output from command"
-msgstr "從命令行取得輸出"
-
-#: tfrmfileassoc.miopen.caption
-msgctxt "TFRMFILEASSOC.MIOPEN.CAPTION"
-msgid "Open"
-msgstr "開啟"
-
-#: tfrmfileassoc.mishell.caption
-msgctxt "tfrmfileassoc.mishell.caption"
-msgid "Run in terminal"
-msgstr "使用終端機執行"
-
-#: tfrmfileassoc.mivfs.caption
-msgctxt "tfrmfileassoc.mivfs.caption"
-msgid "Open in VFS"
-msgstr "在虛擬檔案系統開啟"
-
-#: tfrmfileassoc.miview.caption
-msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
-msgid "View"
-msgstr "檢視"
-
-#: tfrmfileassoc.miviewer.caption
-msgctxt "tfrmfileassoc.miviewer.caption"
-msgid "Open in Viewer"
-msgstr "在檢視器開啟"
 
 #: tfrmfileexecuteyourself.btnclose.caption
 msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
@@ -1904,63 +1529,67 @@ msgid "Properties"
 msgstr "內容"
 
 #: tfrmfinddlg.actcancel.caption
-msgid "actCancel"
+msgid "Cancel"
+msgstr ""
+
+#: tfrmfinddlg.actcancelclose.caption
+msgid "Cancel search and close window"
 msgstr ""
 
 #: tfrmfinddlg.actclose.caption
-msgid "actClose"
+msgid "Close"
 msgstr ""
 
 #: tfrmfinddlg.actedit.caption
-msgid "actEdit"
+msgid "Edit"
 msgstr ""
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "actFeedToListbox"
+msgid "Feed to listbox"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "actGoToFile"
+msgid "Go to file"
 msgstr ""
 
 #: tfrmfinddlg.actintellifocus.caption
-msgid "actIntelliFocus"
+msgid "Find Data"
 msgstr ""
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "actLastSearch"
+msgid "Last search"
 msgstr ""
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "actNewSearch"
+msgid "New search"
 msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
-msgid "actPageAdvanced"
+msgid "Go to page \"Advanced\""
 msgstr ""
 
 #: tfrmfinddlg.actpageloadsave.caption
-msgid "actPageLoadSave"
+msgid "Go to page \"Load/Save\""
 msgstr ""
 
 #: tfrmfinddlg.actpageplugins.caption
-msgid "actPagePlugins"
+msgid "Go to page \"Plugins\""
 msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
-msgid "actPageResults"
+msgid "Go to page \"Results\""
 msgstr ""
 
 #: tfrmfinddlg.actpagestandard.caption
-msgid "actPageStandard"
+msgid "Go to page \"Standard\""
 msgstr ""
 
 #: tfrmfinddlg.actstart.caption
-msgid "actStart"
+msgid "Start"
 msgstr ""
 
 #: tfrmfinddlg.actview.caption
-msgid "actView"
+msgid "View"
 msgstr ""
 
 #: tfrmfinddlg.btnaddattribute.caption
@@ -2110,6 +1739,10 @@ msgstr "尋找不包含這些文字的檔案 (&O)"
 #| msgid "Not older than:"
 msgid "N&ot older than:"
 msgstr "不早於 (&O):"
+
+#: tfrmfinddlg.cbopenedtabs.caption
+msgid "Opened tabs"
+msgstr ""
 
 #: tfrmfinddlg.cbpartialnamesearch.caption
 #, fuzzy
@@ -2285,6 +1918,10 @@ msgstr "尋找"
 #| msgid "Case sensitive"
 msgid "C&ase sensitive"
 msgstr "大小寫視為相異 (&A)"
+
+#: tfrmhackform.groupbox1.caption
+msgid "GroupBox1"
+msgstr ""
 
 #: tfrmhardlink.btncancel.caption
 #, fuzzy
@@ -3898,6 +3535,10 @@ msgstr "&20/80"
 msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
 msgid "Width"
 msgstr "寬度"
+
+#: tfrmmsg.lblmsg.caption
+msgid "456456465465465"
+msgstr ""
 
 #: tfrmmultirename.btnclose.caption
 msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
@@ -6786,6 +6427,18 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION"
 msgid "Category &name:"
 msgstr "類別名稱 (&N):"
 
+#: tfrmoptionsfonts.btnpatheditfnt.caption
+#, fuzzy
+msgctxt "tfrmoptionsfonts.btnpatheditfnt.caption"
+msgid "..."
+msgstr "..."
+
+#: tfrmoptionsfonts.btnsearchresultsfnt.caption
+#, fuzzy
+msgctxt "tfrmoptionsfonts.btnsearchresultsfnt.caption"
+msgid "..."
+msgstr "..."
+
 #: tfrmoptionsfonts.btnselconsolefnt.caption
 #, fuzzy
 msgctxt "tfrmoptionsfonts.btnselconsolefnt.caption"
@@ -6841,6 +6494,14 @@ msgstr "記錄器字型 (&L)"
 msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
 msgid "Main &font"
 msgstr "主要字型 (&F)"
+
+#: tfrmoptionsfonts.lblpatheditfont.caption
+msgid "Path font"
+msgstr ""
+
+#: tfrmoptionsfonts.lblsearchresultsfont.caption
+msgid "Search results font"
+msgstr ""
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
 #, fuzzy
@@ -7150,8 +6811,10 @@ msgid "Show &main menu"
 msgstr "顯示主要選單 (&M)"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
+#, fuzzy
+#| msgid "Show &button bar"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
-msgid "Show &button bar"
+msgid "Show tool&bar"
 msgstr "顯示工具列 (&B)"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
@@ -9337,6 +9000,12 @@ msgctxt "TFRMVIEWER.ACTCOPYFILE.HINT"
 msgid "Copy File"
 msgstr "複製檔案"
 
+#: tfrmviewer.actcopytoclipboard.caption
+#, fuzzy
+msgctxt "tfrmviewer.actcopytoclipboard.caption"
+msgid "Copy To Clipboard"
+msgstr "複製到剪貼簿"
+
 #: tfrmviewer.actdeletefile.caption
 msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
 msgid "Delete File"
@@ -9346,6 +9015,40 @@ msgstr "刪除檔案"
 msgctxt "TFRMVIEWER.ACTDELETEFILE.HINT"
 msgid "Delete File"
 msgstr "刪除檔案"
+
+#: tfrmviewer.actexitviewer.caption
+#, fuzzy
+msgctxt "tfrmviewer.actexitviewer.caption"
+msgid "E&xit"
+msgstr "離開 (&X)"
+
+#: tfrmviewer.actfind.caption
+#, fuzzy
+msgctxt "tfrmviewer.actfind.caption"
+msgid "Find"
+msgstr "尋找"
+
+#: tfrmviewer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmviewer.actfindnext.caption"
+msgid "Find next"
+msgstr "找下一個"
+
+#: tfrmviewer.actfindprev.caption
+msgctxt "tfrmviewer.actfindprev.caption"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmviewer.actfullscreen.caption
+#, fuzzy
+msgctxt "tfrmviewer.actfullscreen.caption"
+msgid "Full Screen"
+msgstr "全螢幕"
+
+#: tfrmviewer.actimagecenter.caption
+msgctxt "tfrmviewer.actimagecenter.caption"
+msgid "Center"
+msgstr ""
 
 #: tfrmviewer.actloadnextfile.caption
 msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
@@ -9365,15 +9068,19 @@ msgstr "上一個 (&P)"
 msgid "Load Previous File"
 msgstr "載入上一個檔案"
 
-#: tfrmviewer.actmirror.caption
-msgctxt "TFRMVIEWER.ACTMIRROR.CAPTION"
+#: tfrmviewer.actmirrorhorz.caption
+msgid "Mirror Horizontally"
+msgstr ""
+
+#: tfrmviewer.actmirrorhorz.hint
+#, fuzzy
+msgctxt "tfrmviewer.actmirrorhorz.hint"
 msgid "Mirror"
 msgstr "水平翻轉"
 
-#: tfrmviewer.actmirror.hint
-msgctxt "TFRMVIEWER.ACTMIRROR.HINT"
-msgid "Mirror"
-msgstr "水平翻轉"
+#: tfrmviewer.actmirrorvert.caption
+msgid "Mirror Vertically"
+msgstr ""
 
 #: tfrmviewer.actmovefile.caption
 msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
@@ -9385,6 +9092,12 @@ msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
 msgid "Move File"
 msgstr "移動檔案"
 
+#: tfrmviewer.actpreview.caption
+#, fuzzy
+msgctxt "tfrmviewer.actpreview.caption"
+msgid "Preview"
+msgstr "預覽"
+
 #: tfrmviewer.actreload.caption
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
 msgid "Reload"
@@ -9395,34 +9108,52 @@ msgid "Reload current file"
 msgstr "重新載入目前檔案"
 
 #: tfrmviewer.actrotate180.caption
+#, fuzzy
+#| msgid "Rotate 180"
 msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
-msgid "Rotate 180"
+msgid "+ 180"
 msgstr "旋轉180度"
 
 #: tfrmviewer.actrotate180.hint
+#, fuzzy
+#| msgid "Rotate 180"
 msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
-msgid "Rotate 180"
+msgid "Rotate 180 degrees"
 msgstr "旋轉180度"
 
 #: tfrmviewer.actrotate270.caption
+#, fuzzy
+#| msgid "Rotate 270"
 msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
-msgid "Rotate 270"
+msgid "- 90"
 msgstr "旋轉270度"
 
 #: tfrmviewer.actrotate270.hint
+#, fuzzy
+#| msgid "Rotate 270"
 msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
-msgid "Rotate 270"
+msgid "Rotate -90 degrees"
 msgstr "旋轉270度"
 
 #: tfrmviewer.actrotate90.caption
+#, fuzzy
+#| msgid "Rotate 90"
 msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
-msgid "Rotate 90"
+msgid "+ 90"
 msgstr "旋轉90度"
 
 #: tfrmviewer.actrotate90.hint
+#, fuzzy
+#| msgid "Rotate 90"
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
-msgid "Rotate 90"
+msgid "Rotate +90 degrees"
 msgstr "旋轉90度"
+
+#: tfrmviewer.actsave.caption
+#, fuzzy
+msgctxt "tfrmviewer.actsave.caption"
+msgid "Save"
+msgstr "儲存"
 
 #: tfrmviewer.actsaveas.caption
 msgctxt "TFRMVIEWER.ACTSAVEAS.CAPTION"
@@ -9433,6 +9164,68 @@ msgstr "另存新檔..."
 msgid "Save File As..."
 msgstr "另存新檔..."
 
+#: tfrmviewer.actscreenshot.caption
+#, fuzzy
+msgctxt "tfrmviewer.actscreenshot.caption"
+msgid "Screenshot"
+msgstr "截圖"
+
+#: tfrmviewer.actscreenshotdelay3sec.caption
+msgid "Delay 3 sec"
+msgstr ""
+
+#: tfrmviewer.actscreenshotdelay5sec.caption
+msgid "Delay 5 sec"
+msgstr ""
+
+#: tfrmviewer.actselectall.caption
+#, fuzzy
+msgctxt "tfrmviewer.actselectall.caption"
+msgid "Select All"
+msgstr "全選"
+
+#: tfrmviewer.actshowasbin.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowasbin.caption"
+msgid "Show as &Bin"
+msgstr "顯示為二進制 (&B)"
+
+#: tfrmviewer.actshowasbook.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowasbook.caption"
+msgid "Show as B&ook"
+msgstr "顯示為閱讀模式 (&O)"
+
+#: tfrmviewer.actshowashex.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowashex.caption"
+msgid "Show as &Hex"
+msgstr "顯示為十六進制 (&H)"
+
+#: tfrmviewer.actshowastext.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowastext.caption"
+msgid "Show as &Text"
+msgstr "顯示為文字 (&T)"
+
+#: tfrmviewer.actshowaswraptext.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowaswraptext.caption"
+msgid "Show as &Wrap text"
+msgstr "顯示為自動換行文字 (&W)"
+
+#: tfrmviewer.actshowgraphics.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowgraphics.caption"
+msgid "Graphics"
+msgstr "圖像"
+
+#: tfrmviewer.actshowplugins.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowplugins.caption"
+msgid "Plugins"
+msgstr "插件"
+
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
 msgid "Stretch"
@@ -9442,15 +9235,26 @@ msgstr "延展"
 msgid "Stretch Image"
 msgstr "延展圖片"
 
-#: tfrmviewer.btn270.hint
-msgctxt "TFRMVIEWER.BTN270.HINT"
-msgid "- 90"
-msgstr "- 90"
+#: tfrmviewer.actstretchonlylarge.caption
+msgctxt "tfrmviewer.actstretchonlylarge.caption"
+msgid "Stretch only large"
+msgstr ""
 
-#: tfrmviewer.btn90.hint
-msgctxt "TFRMVIEWER.BTN90.HINT"
-msgid "+ 90"
-msgstr "+ 90"
+#: tfrmviewer.actzoom.caption
+msgid "Zoom"
+msgstr ""
+
+#: tfrmviewer.actzoomin.caption
+#, fuzzy
+msgctxt "tfrmviewer.actzoomin.caption"
+msgid "Zoom In"
+msgstr "放大"
+
+#: tfrmviewer.actzoomout.caption
+#, fuzzy
+msgctxt "tfrmviewer.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "縮小"
 
 #: tfrmviewer.btncopyfile.hint
 msgctxt "TFRMVIEWER.BTNCOPYFILE.HINT"
@@ -9496,11 +9300,6 @@ msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "高亮"
 
-#: tfrmviewer.btnmirror.hint
-msgctxt "TFRMVIEWER.BTNMIRROR.HINT"
-msgid "Mirror"
-msgstr "水平翻轉"
-
 #: tfrmviewer.btnmovefile.hint
 msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
 msgid "Move"
@@ -9536,16 +9335,6 @@ msgstr "調整大小"
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
 msgid "Undo"
 msgstr "復原"
-
-#: tfrmviewer.btnzoomin.hint
-msgctxt "TFRMVIEWER.BTNZOOMIN.HINT"
-msgid "Zoom In"
-msgstr "放大"
-
-#: tfrmviewer.btnzoomout.hint
-msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
-msgid "Zoom Out"
-msgstr "縮小"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"
@@ -9591,37 +9380,10 @@ msgstr "檢視"
 msgid "0x0"
 msgstr "0x0"
 
-#: tfrmviewer.mi180.caption
-msgid "+ 180"
-msgstr "+ 180"
-
-#: tfrmviewer.mi270.caption
-msgctxt "TFRMVIEWER.MI270.CAPTION"
-msgid "- 90"
-msgstr "- 90"
-
-#: tfrmviewer.mi90.caption
-msgctxt "TFRMVIEWER.MI90.CAPTION"
-msgid "+ 90"
-msgstr "+ 90"
-
 #: tfrmviewer.miabout.caption
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "關於"
-
-#: tfrmviewer.mibin.caption
-msgid "Show as &Bin"
-msgstr "顯示為二進制 (&B)"
-
-#: tfrmviewer.micenter.caption
-msgid "Center"
-msgstr ""
-
-#: tfrmviewer.micopytoclipboard.caption
-msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
-msgid "Copy To Clipboard"
-msgstr "複製到剪貼簿"
 
 #: tfrmviewer.midiv1.caption
 msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
@@ -9658,51 +9420,14 @@ msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr "編碼 (&C)"
 
-#: tfrmviewer.miexit.caption
-msgctxt "TFRMVIEWER.MIEXIT.CAPTION"
-msgid "E&xit"
-msgstr "離開 (&X)"
-
 #: tfrmviewer.mifile.caption
 msgctxt "TFRMVIEWER.MIFILE.CAPTION"
 msgid "&File"
 msgstr "檔案 (&F)"
 
-#: tfrmviewer.mifullscreen.caption
-msgctxt "TFRMVIEWER.MIFULLSCREEN.CAPTION"
-msgid "Full Screen"
-msgstr "全螢幕"
-
-#: tfrmviewer.migraphics.caption
-msgid "Graphics"
-msgstr "圖像"
-
-#: tfrmviewer.mihex.caption
-msgid "Show as &Hex"
-msgstr "顯示為十六進制 (&H)"
-
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "圖片(&I)"
-
-#: tfrmviewer.milookbook.caption
-msgid "Show as B&ook"
-msgstr "顯示為閱讀模式 (&O)"
-
-#: tfrmviewer.mimirror.caption
-msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
-msgid "Mirror"
-msgstr "水平翻轉"
-
-#: tfrmviewer.miplugins.caption
-msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
-msgid "Plugins"
-msgstr "插件"
-
-#: tfrmviewer.mipreview.caption
-msgctxt "TFRMVIEWER.MIPREVIEW.CAPTION"
-msgid "Preview"
-msgstr "預覽"
 
 #: tfrmviewer.miprint.caption
 msgid "Print..."
@@ -9713,74 +9438,20 @@ msgstr "列印..."
 msgid "Rotate"
 msgstr "旋轉"
 
-#: tfrmviewer.misave.caption
-msgctxt "TFRMVIEWER.MISAVE.CAPTION"
-msgid "Save"
-msgstr "儲存"
-
-#: tfrmviewer.misaveas.caption
-msgctxt "TFRMVIEWER.MISAVEAS.CAPTION"
-msgid "Save As..."
-msgstr "另存新檔..."
-
 #: tfrmviewer.miscreenshot.caption
+msgctxt "tfrmviewer.miscreenshot.caption"
 msgid "Screenshot"
 msgstr "截圖"
-
-#: tfrmviewer.misearch.caption
-msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
-msgid "Search"
-msgstr "搜尋"
-
-#: tfrmviewer.misearchnext.caption
-msgid "Search next"
-msgstr "搜尋下一個"
-
-#: tfrmviewer.misearchprev.caption
-msgid "Search prev"
-msgstr "搜尋上一個"
-
-#: tfrmviewer.miselectall.caption
-msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
-msgid "Select All"
-msgstr "全選"
 
 #: tfrmviewer.miseparator.caption
 msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmviewer.mistretch.caption
-msgctxt "TFRMVIEWER.MISTRETCH.CAPTION"
-msgid "Stretch"
-msgstr "延展"
-
-#: tfrmviewer.mistretchonlylarge.caption
-msgid "Stretch only large"
-msgstr ""
-
-#: tfrmviewer.mitext.caption
-msgid "Show as &Text"
-msgstr "顯示為文字 (&T)"
-
 #: tfrmviewer.miview.caption
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "檢視 (&V)"
-
-#: tfrmviewer.miwraptext.caption
-msgid "Show as &Wrap text"
-msgstr "顯示為自動換行文字 (&W)"
-
-#: tfrmviewer.mizoomin.caption
-msgctxt "TFRMVIEWER.MIZOOMIN.CAPTION"
-msgid "Zoom In"
-msgstr "放大"
-
-#: tfrmviewer.mizoomout.caption
-msgctxt "TFRMVIEWER.MIZOOMOUT.CAPTION"
-msgid "Zoom Out"
-msgstr "縮小"
 
 #: tfrmviewer.pmicopy.caption
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
@@ -9791,99 +9462,6 @@ msgstr "複製到剪貼簿"
 msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "全選"
-
-#: tfrmviewoperations.btnstartpause.caption
-msgctxt "tfrmviewoperations.btnstartpause.caption"
-msgid "&Start"
-msgstr "開始 (&S)"
-
-#: tfrmviewoperations.btnstop.caption
-msgid "S&top"
-msgstr "停止 (&T)"
-
-#: tfrmviewoperations.caption
-msgctxt "TFRMVIEWOPERATIONS.CAPTION"
-msgid "File operations"
-msgstr "檔案操作"
-
-#: tfrmviewoperations.cbalwaysontop.caption
-msgid "Always on top"
-msgstr "總是顯示在最上層"
-
-#: tfrmviewoperations.lblusedragdrop.caption
-msgid "Use \"drag && drop\" to move operations between queues"
-msgstr "可使用\"拖曳\"來改變操作的佇列順序"
-
-#: tfrmviewoperations.mnucanceloperation.caption
-msgctxt "tfrmviewoperations.mnucanceloperation.caption"
-msgid "Cancel"
-msgstr "取消"
-
-#: tfrmviewoperations.mnucancelqueue.caption
-msgctxt "tfrmviewoperations.mnucancelqueue.caption"
-msgid "Cancel"
-msgstr "取消"
-
-#: tfrmviewoperations.mnunewqueue.caption
-msgctxt "tfrmviewoperations.mnunewqueue.caption"
-msgid "New queue"
-msgstr "新增佇列"
-
-#: tfrmviewoperations.mnuoperationshowdetached.caption
-msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
-msgid "Show in detached window"
-msgstr "顯示在分離視窗"
-
-#: tfrmviewoperations.mnuputfirstinqueue.caption
-msgid "Put first in queue"
-msgstr "移到佇列頂端"
-
-#: tfrmviewoperations.mnuputlastinqueue.caption
-msgid "Put last in queue"
-msgstr "移到佇列底部"
-
-#: tfrmviewoperations.mnuqueue.caption
-msgctxt "tfrmviewoperations.mnuqueue.caption"
-msgid "Queue"
-msgstr "佇列"
-
-#: tfrmviewoperations.mnuqueue0.caption
-msgid "Out of queue"
-msgstr "移出佇列"
-
-#: tfrmviewoperations.mnuqueue1.caption
-msgctxt "tfrmviewoperations.mnuqueue1.caption"
-msgid "Queue 1"
-msgstr "佇列 1"
-
-#: tfrmviewoperations.mnuqueue2.caption
-msgctxt "tfrmviewoperations.mnuqueue2.caption"
-msgid "Queue 2"
-msgstr "佇列 2"
-
-#: tfrmviewoperations.mnuqueue3.caption
-msgctxt "tfrmviewoperations.mnuqueue3.caption"
-msgid "Queue 3"
-msgstr "佇列 3"
-
-#: tfrmviewoperations.mnuqueue4.caption
-msgctxt "tfrmviewoperations.mnuqueue4.caption"
-msgid "Queue 4"
-msgstr "佇列 4"
-
-#: tfrmviewoperations.mnuqueue5.caption
-msgctxt "tfrmviewoperations.mnuqueue5.caption"
-msgid "Queue 5"
-msgstr "佇列 5"
-
-#: tfrmviewoperations.mnuqueueshowdetached.caption
-msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
-msgid "Show in detached window"
-msgstr "顯示在分離視窗"
-
-#: tfrmviewoperations.tbpauseall.caption
-msgid "&Pause all"
-msgstr "暫停全部 (&P)"
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"

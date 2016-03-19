@@ -31,220 +31,6 @@ msgstr ""
 msgid "Right to Left: Copy %d files, total size: %d bytes"
 msgstr ""
 
-#: tfcolumnssetconf.btnallback.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
-msgid "All"
-msgstr "Tüm"
-
-#: tfcolumnssetconf.btnallback2.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLBACK2.CAPTION"
-msgid "All"
-msgstr "Tüm"
-
-#: tfcolumnssetconf.btnallcurcol.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLCURCOL.CAPTION"
-msgid "All"
-msgstr "Tüm"
-
-#: tfcolumnssetconf.btnallcurtext.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLCURTEXT.CAPTION"
-msgid "All"
-msgstr "Tüm"
-
-#: tfcolumnssetconf.btnallfont.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLFONT.CAPTION"
-msgid "All"
-msgstr "Tüm"
-
-#: tfcolumnssetconf.btnallmarc.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLMARC.CAPTION"
-msgid "All"
-msgstr "Tüm"
-
-#: tfcolumnssetconf.btnalltext.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION"
-msgid "All"
-msgstr "Tüm"
-
-#: tfcolumnssetconf.btnbackcolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnbackcolor2.caption
-msgctxt "TFCOLUMNSSETCONF.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btncancel.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "İptal"
-
-#: tfcolumnssetconf.btncursorbordercolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCURSORBORDERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btncursorcolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btncursortext.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnfontselect.caption
-msgctxt "TFCOLUMNSSETCONF.BTNFONTSELECT.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: tfcolumnssetconf.btnforecolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnmarkcolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnnext.caption
-msgid "->"
-msgstr "->"
-
-#: tfcolumnssetconf.btnok.caption
-msgctxt "TFCOLUMNSSETCONF.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&TAMAM"
-
-#: tfcolumnssetconf.btnprev.caption
-msgid "<-"
-msgstr "<-"
-
-#: tfcolumnssetconf.caption
-msgid "Configure custom columns view"
-msgstr "Özel sütun görünümlerini düzenle"
-
-#: tfcolumnssetconf.cbackgrndlabel.caption
-msgctxt "TFCOLUMNSSETCONF.CBACKGRNDLABEL.CAPTION"
-msgid "BackGround:"
-msgstr "Arka plan:"
-
-#: tfcolumnssetconf.cbcursorborder.caption
-msgctxt "tfcolumnssetconf.cbcursorborder.caption"
-msgid "Cursor border"
-msgstr "Gösterge sınırı"
-
-#: tfcolumnssetconf.cbovercolor.caption
-msgctxt "tfcolumnssetconf.cbovercolor.caption"
-msgid "Allow Overcolor"
-msgstr "Fazla renge izin ver"
-
-#: tfcolumnssetconf.chkusecustomview.caption
-msgid "Use custom font and color"
-msgstr "Kullanıcı tanımlı yazı tipi ve renk kullanın"
-
-#: tfcolumnssetconf.ctextlabel.caption
-msgctxt "TFCOLUMNSSETCONF.CTEXTLABEL.CAPTION"
-msgid "Text Color:"
-msgstr "Metin rengi"
-
-#: tfcolumnssetconf.label3.caption
-msgctxt "tfcolumnssetconf.label3.caption"
-msgid "Font:"
-msgstr "Yazı karakteri:"
-
-#: tfcolumnssetconf.label4.caption
-msgctxt "TFCOLUMNSSETCONF.LABEL4.CAPTION"
-msgid "Size:"
-msgstr "Boyut:"
-
-#: tfcolumnssetconf.lblbackground2.caption
-msgctxt "TFCOLUMNSSETCONF.LBLBACKGROUND2.CAPTION"
-msgid "Background 2:"
-msgstr "Arka plan 2:"
-
-#: tfcolumnssetconf.lblconfigviewnr.caption
-msgid "Configure view nr:"
-msgstr "Görünümünü yapılandır Nr:"
-
-#: tfcolumnssetconf.lblcursorcolor.caption
-msgctxt "TFCOLUMNSSETCONF.LBLCURSORCOLOR.CAPTION"
-msgid "Cursor Color:"
-msgstr "Gösterge rengi:"
-
-#: tfcolumnssetconf.lblcursortext.caption
-msgctxt "TFCOLUMNSSETCONF.LBLCURSORTEXT.CAPTION"
-msgid "Cursor Text:"
-msgstr "Metin İmleci:"
-
-#: tfcolumnssetconf.lblmarkcolor.caption
-msgctxt "TFCOLUMNSSETCONF.LBLMARKCOLOR.CAPTION"
-msgid "Mark Color:"
-msgstr "İşaret rengi:"
-
-#: tfcolumnssetconf.lblname.caption
-msgctxt "TFCOLUMNSSETCONF.LBLNAME.CAPTION"
-msgid "Name:"
-msgstr "İsim:"
-
-#: tfcolumnssetconf.lbnrofcolumnsset.caption
-msgctxt "TFCOLUMNSSETCONF.LBNROFCOLUMNSSET.CAPTION"
-msgid "0"
-msgstr "0"
-
-#: tfcolumnssetconf.miaddcolumn.caption
-msgctxt "tfcolumnssetconf.miaddcolumn.caption"
-msgid "Add column"
-msgstr "Sütun Ekle"
-
-#: tfcolumnssetconf.pnlcusthead.caption
-msgid "Customize column:"
-msgstr "Sütunları Düzenle"
-
-#: tfcolumnssetconf.pnlpreviewhead.caption
-msgctxt "TFCOLUMNSSETCONF.PNLPREVIEWHEAD.CAPTION"
-msgid "Preview"
-msgstr "Önizleme"
-
-#: tfcolumnssetconf.resback.caption
-msgctxt "TFCOLUMNSSETCONF.RESBACK.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.resback2.caption
-msgctxt "TFCOLUMNSSETCONF.RESBACK2.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.rescurcol.caption
-msgctxt "TFCOLUMNSSETCONF.RESCURCOL.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.rescurtext.caption
-msgctxt "TFCOLUMNSSETCONF.RESCURTEXT.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.resfont.caption
-msgctxt "TFCOLUMNSSETCONF.RESFONT.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.resmark.caption
-msgctxt "TFCOLUMNSSETCONF.RESMARK.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.restext.caption
-msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
-msgid "R"
-msgstr "R"
-
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
 msgstr ""
@@ -1133,9 +919,9 @@ msgstr "&Sil"
 
 #: tfrmeditor.acteditfind.caption
 #, fuzzy
-#| msgid "&Find"
+#| msgid "&Find "
 msgctxt "tfrmeditor.acteditfind.caption"
-msgid "&Find "
+msgid "&Find"
 msgstr "&Bul"
 
 #: tfrmeditor.acteditfind.hint
@@ -1152,6 +938,11 @@ msgstr "Sonrakini Bul"
 msgctxt "tfrmeditor.acteditfindnext.hint"
 msgid "Find next"
 msgstr "Sonrakini Bul"
+
+#: tfrmeditor.acteditfindprevious.caption
+msgctxt "tfrmeditor.acteditfindprevious.caption"
+msgid "Find previous"
+msgstr ""
 
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
@@ -1286,7 +1077,9 @@ msgid "Save"
 msgstr "Kaydet"
 
 #: tfrmeditor.actfilesaveas.caption
-msgid "Save &As.."
+#, fuzzy
+#| msgid "Save &As.."
+msgid "Save &As..."
 msgstr "Farklı &Kaydet..."
 
 #: tfrmeditor.actfilesaveas.hint
@@ -1476,174 +1269,6 @@ msgstr "Dosya maskesi eşleşen dosyaları ayıkla:"
 #| msgid "Password for encrypted files:"
 msgid "&Password for encrypted files:"
 msgstr "Şifrelenmiş Dosya için şifre"
-
-#: tfrmfileassoc.btnaddact.caption
-msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
-msgid "Add"
-msgstr "Ekle"
-
-#: tfrmfileassoc.btnaddext.caption
-#, fuzzy
-#| msgid "Add"
-msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
-msgid "&Add"
-msgstr "Ekle"
-
-#: tfrmfileassoc.btnaddnewtype.caption
-#, fuzzy
-#| msgid "Add"
-msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
-msgid "A&dd"
-msgstr "Ekle"
-
-#: tfrmfileassoc.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "İptal"
-
-#: tfrmfileassoc.btndownact.caption
-#, fuzzy
-#| msgid "Down"
-msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
-msgid "&Down"
-msgstr "Aşağı"
-
-#: tfrmfileassoc.btnok.caption
-msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&TAMAM"
-
-#: tfrmfileassoc.btnremoveact.caption
-#, fuzzy
-#| msgid "Remove"
-msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
-msgid "Remo&ve"
-msgstr "Kaldır"
-
-#: tfrmfileassoc.btnremoveext.caption
-#, fuzzy
-#| msgid "Remove"
-msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
-msgid "Re&move"
-msgstr "Kaldır"
-
-#: tfrmfileassoc.btnremoveicon.caption
-msgctxt "TFRMFILEASSOC.BTNREMOVEICON.CAPTION"
-msgid "X"
-msgstr "X"
-
-#: tfrmfileassoc.btnremovetype.caption
-#, fuzzy
-#| msgid "Remove"
-msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
-msgid "&Remove"
-msgstr "Kaldır"
-
-#: tfrmfileassoc.btnrenametype.caption
-#, fuzzy
-#| msgid "Rename"
-msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
-msgid "R&ename"
-msgstr "Yeniden Adlandır"
-
-#: tfrmfileassoc.btnupact.caption
-#, fuzzy
-#| msgid "Up"
-msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
-msgid "&Up"
-msgstr "Yukarı"
-
-#: tfrmfileassoc.caption
-msgctxt "tfrmfileassoc.caption"
-msgid "File associations"
-msgstr "Dosya ilişkileri"
-
-#: tfrmfileassoc.gbactions.caption
-msgctxt "TFRMFILEASSOC.GBACTIONS.CAPTION"
-msgid "Actions"
-msgstr "Eylemler"
-
-#: tfrmfileassoc.gbexts.caption
-msgctxt "tfrmfileassoc.gbexts.caption"
-msgid "Extensions"
-msgstr "Uzantıları"
-
-#: tfrmfileassoc.gbfiletypes.caption
-msgctxt "TFRMFILEASSOC.GBFILETYPES.CAPTION"
-msgid "File types"
-msgstr "Dosya türü"
-
-#: tfrmfileassoc.gbicon.caption
-msgctxt "tfrmfileassoc.gbicon.caption"
-msgid "Icon"
-msgstr "Simge"
-
-#: tfrmfileassoc.lblaction.caption
-msgctxt "tfrmfileassoc.lblaction.caption"
-msgid "Action:"
-msgstr "Eylem:"
-
-#: tfrmfileassoc.lblcommand.caption
-msgctxt "TFRMFILEASSOC.LBLCOMMAND.CAPTION"
-msgid "&Command:"
-msgstr "&Komut"
-
-#: tfrmfileassoc.miedit.caption
-msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
-msgid "Edit"
-msgstr "Düzenle"
-
-#: tfrmfileassoc.mieditor.caption
-msgctxt "tfrmfileassoc.mieditor.caption"
-msgid "Open in Editor"
-msgstr "Düzenleyici´de aç"
-
-#: tfrmfileassoc.mifilename.caption
-msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
-msgid "File name"
-msgstr "Dosya adı"
-
-#: tfrmfileassoc.mifilepath.caption
-msgctxt "tfrmfileassoc.mifilepath.caption"
-msgid "File path"
-msgstr "Dosya yolu"
-
-#: tfrmfileassoc.mifullpath.caption
-msgctxt "tfrmfileassoc.mifullpath.caption"
-msgid "Full path"
-msgstr "Tam yol"
-
-#: tfrmfileassoc.migetoutputfromcommand.caption
-msgctxt "tfrmfileassoc.migetoutputfromcommand.caption"
-msgid "Get output from command"
-msgstr "Çıkış komutu Alın"
-
-#: tfrmfileassoc.miopen.caption
-msgctxt "TFRMFILEASSOC.MIOPEN.CAPTION"
-msgid "Open"
-msgstr "Açık"
-
-#: tfrmfileassoc.mishell.caption
-msgctxt "tfrmfileassoc.mishell.caption"
-msgid "Run in terminal"
-msgstr "Konsol penceresinde çalıştırın"
-
-#: tfrmfileassoc.mivfs.caption
-msgctxt "tfrmfileassoc.mivfs.caption"
-msgid "Open in VFS"
-msgstr "VFS Aç"
-
-#: tfrmfileassoc.miview.caption
-msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
-msgid "View"
-msgstr "Göster"
-
-#: tfrmfileassoc.miviewer.caption
-msgctxt "tfrmfileassoc.miviewer.caption"
-msgid "Open in Viewer"
-msgstr "Görüntüleyicide açık"
 
 #: tfrmfileexecuteyourself.btnclose.caption
 msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
@@ -1909,63 +1534,67 @@ msgid "Properties"
 msgstr "Özellikleri"
 
 #: tfrmfinddlg.actcancel.caption
-msgid "actCancel"
+msgid "Cancel"
+msgstr ""
+
+#: tfrmfinddlg.actcancelclose.caption
+msgid "Cancel search and close window"
 msgstr ""
 
 #: tfrmfinddlg.actclose.caption
-msgid "actClose"
+msgid "Close"
 msgstr ""
 
 #: tfrmfinddlg.actedit.caption
-msgid "actEdit"
+msgid "Edit"
 msgstr ""
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "actFeedToListbox"
+msgid "Feed to listbox"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "actGoToFile"
+msgid "Go to file"
 msgstr ""
 
 #: tfrmfinddlg.actintellifocus.caption
-msgid "actIntelliFocus"
+msgid "Find Data"
 msgstr ""
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "actLastSearch"
+msgid "Last search"
 msgstr ""
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "actNewSearch"
+msgid "New search"
 msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
-msgid "actPageAdvanced"
+msgid "Go to page \"Advanced\""
 msgstr ""
 
 #: tfrmfinddlg.actpageloadsave.caption
-msgid "actPageLoadSave"
+msgid "Go to page \"Load/Save\""
 msgstr ""
 
 #: tfrmfinddlg.actpageplugins.caption
-msgid "actPagePlugins"
+msgid "Go to page \"Plugins\""
 msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
-msgid "actPageResults"
+msgid "Go to page \"Results\""
 msgstr ""
 
 #: tfrmfinddlg.actpagestandard.caption
-msgid "actPageStandard"
+msgid "Go to page \"Standard\""
 msgstr ""
 
 #: tfrmfinddlg.actstart.caption
-msgid "actStart"
+msgid "Start"
 msgstr ""
 
 #: tfrmfinddlg.actview.caption
-msgid "actView"
+msgid "View"
 msgstr ""
 
 #: tfrmfinddlg.btnaddattribute.caption
@@ -2109,6 +1738,10 @@ msgstr "Metin içermeyen dosyaları bul"
 #| msgid "Not older than:"
 msgid "N&ot older than:"
 msgstr "Daha eski değil:"
+
+#: tfrmfinddlg.cbopenedtabs.caption
+msgid "Opened tabs"
+msgstr ""
 
 #: tfrmfinddlg.cbpartialnamesearch.caption
 #, fuzzy
@@ -2284,6 +1917,10 @@ msgstr "Bul"
 #| msgid "Case sensitive"
 msgid "C&ase sensitive"
 msgstr "Büyük/küçük harf duyarlı"
+
+#: tfrmhackform.groupbox1.caption
+msgid "GroupBox1"
+msgstr ""
 
 #: tfrmhardlink.btncancel.caption
 #, fuzzy
@@ -3885,6 +3522,10 @@ msgstr "80"
 msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
 msgid "Width"
 msgstr "Genişlik"
+
+#: tfrmmsg.lblmsg.caption
+msgid "456456465465465"
+msgstr ""
 
 #: tfrmmultirename.btnclose.caption
 msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
@@ -6534,6 +6175,18 @@ msgctxt "tfrmoptionsfiletypescolors.lblcategoryname.caption"
 msgid "Category &name:"
 msgstr ""
 
+#: tfrmoptionsfonts.btnpatheditfnt.caption
+#, fuzzy
+msgctxt "tfrmoptionsfonts.btnpatheditfnt.caption"
+msgid "..."
+msgstr "..."
+
+#: tfrmoptionsfonts.btnsearchresultsfnt.caption
+#, fuzzy
+msgctxt "tfrmoptionsfonts.btnsearchresultsfnt.caption"
+msgid "..."
+msgstr "..."
+
 #: tfrmoptionsfonts.btnselconsolefnt.caption
 #, fuzzy
 msgctxt "tfrmoptionsfonts.btnselconsolefnt.caption"
@@ -6579,6 +6232,14 @@ msgstr ""
 
 #: tfrmoptionsfonts.lblmainfont.caption
 msgid "Main &font"
+msgstr ""
+
+#: tfrmoptionsfonts.lblpatheditfont.caption
+msgid "Path font"
+msgstr ""
+
+#: tfrmoptionsfonts.lblsearchresultsfont.caption
+msgid "Search results font"
 msgstr ""
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
@@ -6812,8 +6473,10 @@ msgid "Show &main menu"
 msgstr ""
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
+#, fuzzy
+#| msgid "Show &button bar"
 msgctxt "tfrmoptionslayout.cbshowmaintoolbar.caption"
-msgid "Show &button bar"
+msgid "Show tool&bar"
 msgstr "Düğme çubuğunu &göster"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
@@ -8894,6 +8557,12 @@ msgctxt "tfrmviewer.actcopyfile.hint"
 msgid "Copy File"
 msgstr ""
 
+#: tfrmviewer.actcopytoclipboard.caption
+#, fuzzy
+msgctxt "tfrmviewer.actcopytoclipboard.caption"
+msgid "Copy To Clipboard"
+msgstr "Panoya kopyala"
+
 #: tfrmviewer.actdeletefile.caption
 msgctxt "tfrmviewer.actdeletefile.caption"
 msgid "Delete File"
@@ -8902,6 +8571,40 @@ msgstr ""
 #: tfrmviewer.actdeletefile.hint
 msgctxt "tfrmviewer.actdeletefile.hint"
 msgid "Delete File"
+msgstr ""
+
+#: tfrmviewer.actexitviewer.caption
+#, fuzzy
+msgctxt "tfrmviewer.actexitviewer.caption"
+msgid "E&xit"
+msgstr "Çıkış"
+
+#: tfrmviewer.actfind.caption
+#, fuzzy
+msgctxt "tfrmviewer.actfind.caption"
+msgid "Find"
+msgstr "Bul"
+
+#: tfrmviewer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmviewer.actfindnext.caption"
+msgid "Find next"
+msgstr "Sonrakini Bul"
+
+#: tfrmviewer.actfindprev.caption
+msgctxt "tfrmviewer.actfindprev.caption"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmviewer.actfullscreen.caption
+#, fuzzy
+msgctxt "tfrmviewer.actfullscreen.caption"
+msgid "Full Screen"
+msgstr "Tam Ekran"
+
+#: tfrmviewer.actimagecenter.caption
+msgctxt "tfrmviewer.actimagecenter.caption"
+msgid "Center"
 msgstr ""
 
 #: tfrmviewer.actloadnextfile.caption
@@ -8922,15 +8625,19 @@ msgstr "&Önceki"
 msgid "Load Previous File"
 msgstr ""
 
-#: tfrmviewer.actmirror.caption
-msgctxt "tfrmviewer.actmirror.caption"
+#: tfrmviewer.actmirrorhorz.caption
+msgid "Mirror Horizontally"
+msgstr ""
+
+#: tfrmviewer.actmirrorhorz.hint
+#, fuzzy
+msgctxt "tfrmviewer.actmirrorhorz.hint"
 msgid "Mirror"
 msgstr "Yansıt(Aynala)"
 
-#: tfrmviewer.actmirror.hint
-msgctxt "tfrmviewer.actmirror.hint"
-msgid "Mirror"
-msgstr "Yansıt(Aynala)"
+#: tfrmviewer.actmirrorvert.caption
+msgid "Mirror Vertically"
+msgstr ""
 
 #: tfrmviewer.actmovefile.caption
 msgctxt "tfrmviewer.actmovefile.caption"
@@ -8941,6 +8648,12 @@ msgstr ""
 msgctxt "tfrmviewer.actmovefile.hint"
 msgid "Move File"
 msgstr ""
+
+#: tfrmviewer.actpreview.caption
+#, fuzzy
+msgctxt "tfrmviewer.actpreview.caption"
+msgid "Preview"
+msgstr "Önizleme"
 
 #: tfrmviewer.actreload.caption
 msgctxt "tfrmviewer.actreload.caption"
@@ -8953,33 +8666,39 @@ msgstr ""
 
 #: tfrmviewer.actrotate180.caption
 msgctxt "tfrmviewer.actrotate180.caption"
-msgid "Rotate 180"
+msgid "+ 180"
 msgstr ""
 
 #: tfrmviewer.actrotate180.hint
 msgctxt "tfrmviewer.actrotate180.hint"
-msgid "Rotate 180"
+msgid "Rotate 180 degrees"
 msgstr ""
 
 #: tfrmviewer.actrotate270.caption
 msgctxt "tfrmviewer.actrotate270.caption"
-msgid "Rotate 270"
+msgid "- 90"
 msgstr ""
 
 #: tfrmviewer.actrotate270.hint
 msgctxt "tfrmviewer.actrotate270.hint"
-msgid "Rotate 270"
+msgid "Rotate -90 degrees"
 msgstr ""
 
 #: tfrmviewer.actrotate90.caption
 msgctxt "tfrmviewer.actrotate90.caption"
-msgid "Rotate 90"
+msgid "+ 90"
 msgstr ""
 
 #: tfrmviewer.actrotate90.hint
 msgctxt "tfrmviewer.actrotate90.hint"
-msgid "Rotate 90"
+msgid "Rotate +90 degrees"
 msgstr ""
+
+#: tfrmviewer.actsave.caption
+#, fuzzy
+msgctxt "tfrmviewer.actsave.caption"
+msgid "Save"
+msgstr "Kaydet"
 
 #: tfrmviewer.actsaveas.caption
 msgctxt "tfrmviewer.actsaveas.caption"
@@ -8990,6 +8709,68 @@ msgstr "Farklı Kaydet ..."
 msgid "Save File As..."
 msgstr ""
 
+#: tfrmviewer.actscreenshot.caption
+#, fuzzy
+msgctxt "tfrmviewer.actscreenshot.caption"
+msgid "Screenshot"
+msgstr "Ekran görüntüsü"
+
+#: tfrmviewer.actscreenshotdelay3sec.caption
+msgid "Delay 3 sec"
+msgstr ""
+
+#: tfrmviewer.actscreenshotdelay5sec.caption
+msgid "Delay 5 sec"
+msgstr ""
+
+#: tfrmviewer.actselectall.caption
+#, fuzzy
+msgctxt "tfrmviewer.actselectall.caption"
+msgid "Select All"
+msgstr "Tümünü Seç"
+
+#: tfrmviewer.actshowasbin.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowasbin.caption"
+msgid "Show as &Bin"
+msgstr "Ikili olarak göster&Bin dosyaları[0,1]"
+
+#: tfrmviewer.actshowasbook.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowasbook.caption"
+msgid "Show as B&ook"
+msgstr "Kitap olarak &göster"
+
+#: tfrmviewer.actshowashex.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowashex.caption"
+msgid "Show as &Hex"
+msgstr "&Hex olarak göster(onaltılı sayı sistemi)"
+
+#: tfrmviewer.actshowastext.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowastext.caption"
+msgid "Show as &Text"
+msgstr "Metin olarak &göster"
+
+#: tfrmviewer.actshowaswraptext.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowaswraptext.caption"
+msgid "Show as &Wrap text"
+msgstr "Kaydırma metin &olarak göster"
+
+#: tfrmviewer.actshowgraphics.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowgraphics.caption"
+msgid "Graphics"
+msgstr "Teknik çizim"
+
+#: tfrmviewer.actshowplugins.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowplugins.caption"
+msgid "Plugins"
+msgstr "Eklentiler"
+
 #: tfrmviewer.actstretchimage.caption
 msgctxt "tfrmviewer.actstretchimage.caption"
 msgid "Stretch"
@@ -8999,15 +8780,26 @@ msgstr "Çek-Düzelt"
 msgid "Stretch Image"
 msgstr ""
 
-#: tfrmviewer.btn270.hint
-msgctxt "TFRMVIEWER.BTN270.HINT"
-msgid "- 90"
-msgstr "- 90"
+#: tfrmviewer.actstretchonlylarge.caption
+msgctxt "tfrmviewer.actstretchonlylarge.caption"
+msgid "Stretch only large"
+msgstr ""
 
-#: tfrmviewer.btn90.hint
-msgctxt "TFRMVIEWER.BTN90.HINT"
-msgid "+ 90"
-msgstr "+ 90"
+#: tfrmviewer.actzoom.caption
+msgid "Zoom"
+msgstr ""
+
+#: tfrmviewer.actzoomin.caption
+#, fuzzy
+msgctxt "tfrmviewer.actzoomin.caption"
+msgid "Zoom In"
+msgstr "Yakınlaştır"
+
+#: tfrmviewer.actzoomout.caption
+#, fuzzy
+msgctxt "tfrmviewer.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Uzaklaştır"
 
 #: tfrmviewer.btncopyfile.hint
 msgctxt "TFRMVIEWER.BTNCOPYFILE.HINT"
@@ -9053,11 +8845,6 @@ msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "Vurgula"
 
-#: tfrmviewer.btnmirror.hint
-msgctxt "TFRMVIEWER.BTNMIRROR.HINT"
-msgid "Mirror"
-msgstr "Yansıt(Aynala)"
-
 #: tfrmviewer.btnmovefile.hint
 msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
 msgid "Move"
@@ -9094,16 +8881,6 @@ msgstr "Yeniden boyutlandır"
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
 msgid "Undo"
 msgstr "Geri al"
-
-#: tfrmviewer.btnzoomin.hint
-msgctxt "TFRMVIEWER.BTNZOOMIN.HINT"
-msgid "Zoom In"
-msgstr "Yakınlaştır"
-
-#: tfrmviewer.btnzoomout.hint
-msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
-msgid "Zoom Out"
-msgstr "Uzaklaştır"
 
 #: tfrmviewer.caption
 msgctxt "tfrmviewer.caption"
@@ -9148,37 +8925,10 @@ msgstr "Göster"
 msgid "0x0"
 msgstr "0x0"
 
-#: tfrmviewer.mi180.caption
-msgid "+ 180"
-msgstr "+ 180"
-
-#: tfrmviewer.mi270.caption
-msgctxt "TFRMVIEWER.MI270.CAPTION"
-msgid "- 90"
-msgstr "- 90"
-
-#: tfrmviewer.mi90.caption
-msgctxt "TFRMVIEWER.MI90.CAPTION"
-msgid "+ 90"
-msgstr "+ 90"
-
 #: tfrmviewer.miabout.caption
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "Hakkında"
-
-#: tfrmviewer.mibin.caption
-msgid "Show as &Bin"
-msgstr "Ikili olarak göster&Bin dosyaları[0,1]"
-
-#: tfrmviewer.micenter.caption
-msgid "Center"
-msgstr ""
-
-#: tfrmviewer.micopytoclipboard.caption
-msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
-msgid "Copy To Clipboard"
-msgstr "Panoya Kopyala"
 
 #: tfrmviewer.midiv1.caption
 msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
@@ -9215,51 +8965,14 @@ msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr "&Kodlama"
 
-#: tfrmviewer.miexit.caption
-msgctxt "TFRMVIEWER.MIEXIT.CAPTION"
-msgid "E&xit"
-msgstr "Çık&ış"
-
 #: tfrmviewer.mifile.caption
 msgctxt "TFRMVIEWER.MIFILE.CAPTION"
 msgid "&File"
 msgstr "&Dosya"
 
-#: tfrmviewer.mifullscreen.caption
-msgctxt "TFRMVIEWER.MIFULLSCREEN.CAPTION"
-msgid "Full Screen"
-msgstr "Tam Ekran"
-
-#: tfrmviewer.migraphics.caption
-msgid "Graphics"
-msgstr "Teknik çizim"
-
-#: tfrmviewer.mihex.caption
-msgid "Show as &Hex"
-msgstr "&Hex olarak göster(onaltılı sayı sistemi)"
-
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "&Resim"
-
-#: tfrmviewer.milookbook.caption
-msgid "Show as B&ook"
-msgstr "Kitap olarak &göster"
-
-#: tfrmviewer.mimirror.caption
-msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
-msgid "Mirror"
-msgstr "Yansıt(Aynala)"
-
-#: tfrmviewer.miplugins.caption
-msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
-msgid "Plugins"
-msgstr "Eklentiler"
-
-#: tfrmviewer.mipreview.caption
-msgctxt "TFRMVIEWER.MIPREVIEW.CAPTION"
-msgid "Preview"
-msgstr "Önizleme"
 
 #: tfrmviewer.miprint.caption
 msgid "Print..."
@@ -9269,75 +8982,20 @@ msgstr "Yazdır..."
 msgid "Rotate"
 msgstr "Döndür"
 
-#: tfrmviewer.misave.caption
-msgctxt "TFRMVIEWER.MISAVE.CAPTION"
-msgid "Save"
-msgstr "Kaydet"
-
-#: tfrmviewer.misaveas.caption
-msgctxt "tfrmviewer.misaveas.caption"
-msgid "Save As..."
-msgstr "Farklı Kaydet ..."
-
 #: tfrmviewer.miscreenshot.caption
 msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
 msgid "Screenshot"
 msgstr "Ekran görüntüsü"
-
-#: tfrmviewer.misearch.caption
-msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
-msgid "Search"
-msgstr "Ara"
-
-#: tfrmviewer.misearchnext.caption
-msgid "Search next"
-msgstr "Sonrakini ara"
-
-#: tfrmviewer.misearchprev.caption
-msgid "Search prev"
-msgstr "Öncekini ara"
-
-#: tfrmviewer.miselectall.caption
-msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
-msgid "Select All"
-msgstr "Tümünü Seç"
 
 #: tfrmviewer.miseparator.caption
 msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmviewer.mistretch.caption
-msgctxt "tfrmviewer.mistretch.caption"
-msgid "Stretch"
-msgstr "Çek-Düzelt"
-
-#: tfrmviewer.mistretchonlylarge.caption
-msgid "Stretch only large"
-msgstr ""
-
-#: tfrmviewer.mitext.caption
-msgid "Show as &Text"
-msgstr "Metin olarak &göster"
-
 #: tfrmviewer.miview.caption
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "&Göster"
-
-#: tfrmviewer.miwraptext.caption
-msgid "Show as &Wrap text"
-msgstr "Kaydırma metin &olarak göster"
-
-#: tfrmviewer.mizoomin.caption
-msgctxt "TFRMVIEWER.MIZOOMIN.CAPTION"
-msgid "Zoom In"
-msgstr "Yakınlaştır"
-
-#: tfrmviewer.mizoomout.caption
-msgctxt "TFRMVIEWER.MIZOOMOUT.CAPTION"
-msgid "Zoom Out"
-msgstr "Uzaklaştır"
 
 #: tfrmviewer.pmicopy.caption
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
@@ -9348,103 +9006,6 @@ msgstr "Panoya kopyala"
 msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Tümünü Seç"
-
-#: tfrmviewoperations.btnstartpause.caption
-msgctxt "tfrmviewoperations.btnstartpause.caption"
-msgid "&Start"
-msgstr "&Başlat"
-
-#: tfrmviewoperations.btnstop.caption
-msgid "S&top"
-msgstr ""
-
-#: tfrmviewoperations.caption
-msgctxt "tfrmviewoperations.caption"
-msgid "File operations"
-msgstr "Dosya işlemleri"
-
-#: tfrmviewoperations.cbalwaysontop.caption
-msgid "Always on top"
-msgstr ""
-
-#: tfrmviewoperations.lblusedragdrop.caption
-msgid "Use \"drag && drop\" to move operations between queues"
-msgstr ""
-
-#: tfrmviewoperations.mnucanceloperation.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "tfrmviewoperations.mnucanceloperation.caption"
-msgid "Cancel"
-msgstr "İptal"
-
-#: tfrmviewoperations.mnucancelqueue.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "tfrmviewoperations.mnucancelqueue.caption"
-msgid "Cancel"
-msgstr "İptal"
-
-#: tfrmviewoperations.mnunewqueue.caption
-msgctxt "tfrmviewoperations.mnunewqueue.caption"
-msgid "New queue"
-msgstr ""
-
-#: tfrmviewoperations.mnuoperationshowdetached.caption
-msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
-msgid "Show in detached window"
-msgstr ""
-
-#: tfrmviewoperations.mnuputfirstinqueue.caption
-msgid "Put first in queue"
-msgstr ""
-
-#: tfrmviewoperations.mnuputlastinqueue.caption
-msgid "Put last in queue"
-msgstr ""
-
-#: tfrmviewoperations.mnuqueue.caption
-msgctxt "tfrmviewoperations.mnuqueue.caption"
-msgid "Queue"
-msgstr ""
-
-#: tfrmviewoperations.mnuqueue0.caption
-msgid "Out of queue"
-msgstr ""
-
-#: tfrmviewoperations.mnuqueue1.caption
-msgctxt "tfrmviewoperations.mnuqueue1.caption"
-msgid "Queue 1"
-msgstr ""
-
-#: tfrmviewoperations.mnuqueue2.caption
-msgctxt "tfrmviewoperations.mnuqueue2.caption"
-msgid "Queue 2"
-msgstr ""
-
-#: tfrmviewoperations.mnuqueue3.caption
-msgctxt "tfrmviewoperations.mnuqueue3.caption"
-msgid "Queue 3"
-msgstr ""
-
-#: tfrmviewoperations.mnuqueue4.caption
-msgctxt "tfrmviewoperations.mnuqueue4.caption"
-msgid "Queue 4"
-msgstr ""
-
-#: tfrmviewoperations.mnuqueue5.caption
-msgctxt "tfrmviewoperations.mnuqueue5.caption"
-msgid "Queue 5"
-msgstr ""
-
-#: tfrmviewoperations.mnuqueueshowdetached.caption
-msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
-msgid "Show in detached window"
-msgstr ""
-
-#: tfrmviewoperations.tbpauseall.caption
-msgid "&Pause all"
-msgstr ""
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 #, fuzzy

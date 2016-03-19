@@ -35,220 +35,6 @@ msgstr "Zleva doprva: Kopírované soubory %d, Celková velikost: %d bajtů"
 msgid "Right to Left: Copy %d files, total size: %d bytes"
 msgstr "Zprava doleva: Kopírované soubory %d, Celková velikost: %d byjtů"
 
-#: tfcolumnssetconf.btnallback.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
-msgid "All"
-msgstr "Vše"
-
-#: tfcolumnssetconf.btnallback2.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLBACK2.CAPTION"
-msgid "All"
-msgstr "Vše"
-
-#: tfcolumnssetconf.btnallcurcol.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLCURCOL.CAPTION"
-msgid "All"
-msgstr "Vše"
-
-#: tfcolumnssetconf.btnallcurtext.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLCURTEXT.CAPTION"
-msgid "All"
-msgstr "Vše"
-
-#: tfcolumnssetconf.btnallfont.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLFONT.CAPTION"
-msgid "All"
-msgstr "Vše"
-
-#: tfcolumnssetconf.btnallmarc.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLMARC.CAPTION"
-msgid "All"
-msgstr "Vše"
-
-#: tfcolumnssetconf.btnalltext.caption
-msgctxt "TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION"
-msgid "All"
-msgstr "Vše"
-
-#: tfcolumnssetconf.btnbackcolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnbackcolor2.caption
-msgctxt "TFCOLUMNSSETCONF.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btncancel.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Zrušit"
-
-#: tfcolumnssetconf.btncursorbordercolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCURSORBORDERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btncursorcolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btncursortext.caption
-msgctxt "TFCOLUMNSSETCONF.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnfontselect.caption
-msgctxt "TFCOLUMNSSETCONF.BTNFONTSELECT.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: tfcolumnssetconf.btnforecolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnmarkcolor.caption
-msgctxt "TFCOLUMNSSETCONF.BTNMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfcolumnssetconf.btnnext.caption
-msgid "->"
-msgstr "->"
-
-#: tfcolumnssetconf.btnok.caption
-msgctxt "TFCOLUMNSSETCONF.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
-#: tfcolumnssetconf.btnprev.caption
-msgid "<-"
-msgstr "<-"
-
-#: tfcolumnssetconf.caption
-msgid "Configure custom columns view"
-msgstr "Nastavit vlastní sloupcové zobrazení"
-
-#: tfcolumnssetconf.cbackgrndlabel.caption
-msgctxt "TFCOLUMNSSETCONF.CBACKGRNDLABEL.CAPTION"
-msgid "BackGround:"
-msgstr "Pozadí:"
-
-#: tfcolumnssetconf.cbcursorborder.caption
-msgctxt "tfcolumnssetconf.cbcursorborder.caption"
-msgid "Cursor border"
-msgstr "Ohraničení kurzoru"
-
-#: tfcolumnssetconf.cbovercolor.caption
-msgctxt "tfcolumnssetconf.cbovercolor.caption"
-msgid "Allow Overcolor"
-msgstr "Povolit barvu přes"
-
-#: tfcolumnssetconf.chkusecustomview.caption
-msgid "Use custom font and color"
-msgstr "Použít vlastní písmo a barvu"
-
-#: tfcolumnssetconf.ctextlabel.caption
-msgctxt "TFCOLUMNSSETCONF.CTEXTLABEL.CAPTION"
-msgid "Text Color:"
-msgstr "Barva písma:"
-
-#: tfcolumnssetconf.label3.caption
-msgctxt "tfcolumnssetconf.label3.caption"
-msgid "Font:"
-msgstr "Písmo:"
-
-#: tfcolumnssetconf.label4.caption
-msgctxt "TFCOLUMNSSETCONF.LABEL4.CAPTION"
-msgid "Size:"
-msgstr "Velikost:"
-
-#: tfcolumnssetconf.lblbackground2.caption
-msgctxt "TFCOLUMNSSETCONF.LBLBACKGROUND2.CAPTION"
-msgid "Background 2:"
-msgstr "Pozadí 2:"
-
-#: tfcolumnssetconf.lblconfigviewnr.caption
-msgid "Configure view nr:"
-msgstr "Nastavení pohledu č.:"
-
-#: tfcolumnssetconf.lblcursorcolor.caption
-msgctxt "TFCOLUMNSSETCONF.LBLCURSORCOLOR.CAPTION"
-msgid "Cursor Color:"
-msgstr "Barva kurzoru:"
-
-#: tfcolumnssetconf.lblcursortext.caption
-msgctxt "TFCOLUMNSSETCONF.LBLCURSORTEXT.CAPTION"
-msgid "Cursor Text:"
-msgstr "Text kurzoru:"
-
-#: tfcolumnssetconf.lblmarkcolor.caption
-msgctxt "TFCOLUMNSSETCONF.LBLMARKCOLOR.CAPTION"
-msgid "Mark Color:"
-msgstr "Barva označených:"
-
-#: tfcolumnssetconf.lblname.caption
-msgctxt "TFCOLUMNSSETCONF.LBLNAME.CAPTION"
-msgid "Name:"
-msgstr "Název:"
-
-#: tfcolumnssetconf.lbnrofcolumnsset.caption
-msgctxt "TFCOLUMNSSETCONF.LBNROFCOLUMNSSET.CAPTION"
-msgid "0"
-msgstr "0"
-
-#: tfcolumnssetconf.miaddcolumn.caption
-msgctxt "tfcolumnssetconf.miaddcolumn.caption"
-msgid "Add column"
-msgstr "Přidat sloupec"
-
-#: tfcolumnssetconf.pnlcusthead.caption
-msgid "Customize column:"
-msgstr "Nastavení sloupců:"
-
-#: tfcolumnssetconf.pnlpreviewhead.caption
-msgctxt "TFCOLUMNSSETCONF.PNLPREVIEWHEAD.CAPTION"
-msgid "Preview"
-msgstr "Náhled"
-
-#: tfcolumnssetconf.resback.caption
-msgctxt "TFCOLUMNSSETCONF.RESBACK.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.resback2.caption
-msgctxt "TFCOLUMNSSETCONF.RESBACK2.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.rescurcol.caption
-msgctxt "TFCOLUMNSSETCONF.RESCURCOL.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.rescurtext.caption
-msgctxt "TFCOLUMNSSETCONF.RESCURTEXT.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.resfont.caption
-msgctxt "TFCOLUMNSSETCONF.RESFONT.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.resmark.caption
-msgctxt "TFCOLUMNSSETCONF.RESMARK.CAPTION"
-msgid "R"
-msgstr "R"
-
-#: tfcolumnssetconf.restext.caption
-msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
-msgid "R"
-msgstr "R"
-
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."
 msgstr "Vybrat šablonu..."
@@ -1058,9 +844,9 @@ msgstr "Vymazat"
 
 #: tfrmeditor.acteditfind.caption
 #, fuzzy
-#| msgid "&Find"
+#| msgid "&Find "
 msgctxt "tfrmeditor.acteditfind.caption"
-msgid "&Find "
+msgid "&Find"
 msgstr "&Hledat"
 
 #: tfrmeditor.acteditfind.hint
@@ -1077,6 +863,11 @@ msgstr "Hledat další"
 msgctxt "TFRMEDITOR.ACTEDITFINDNEXT.HINT"
 msgid "Find next"
 msgstr "Hledat další"
+
+#: tfrmeditor.acteditfindprevious.caption
+msgctxt "tfrmeditor.acteditfindprevious.caption"
+msgid "Find previous"
+msgstr ""
 
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
@@ -1211,7 +1002,9 @@ msgid "Save"
 msgstr "Uložit"
 
 #: tfrmeditor.actfilesaveas.caption
-msgid "Save &As.."
+#, fuzzy
+#| msgid "Save &As.."
+msgid "Save &As..."
 msgstr "Uložit &jako.."
 
 #: tfrmeditor.actfilesaveas.hint
@@ -1397,156 +1190,6 @@ msgstr "Rozbalit soubory odpovídající masc&e souborů:"
 #: tfrmextractdlg.lblpassword.caption
 msgid "&Password for encrypted files:"
 msgstr "&Heslo pro šifrované soubory:"
-
-#: tfrmfileassoc.btnaddact.caption
-msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
-msgid "Add"
-msgstr "Přidat"
-
-#: tfrmfileassoc.btnaddext.caption
-msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
-msgid "&Add"
-msgstr "&Přidat"
-
-#: tfrmfileassoc.btnaddnewtype.caption
-msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
-msgid "A&dd"
-msgstr "P&řidat"
-
-#: tfrmfileassoc.btncancel.caption
-msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Zrušit"
-
-#: tfrmfileassoc.btndownact.caption
-msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
-msgid "&Down"
-msgstr "&Dolů"
-
-#: tfrmfileassoc.btnok.caption
-msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
-#: tfrmfileassoc.btnremoveact.caption
-msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
-msgid "Remo&ve"
-msgstr "Sma&zat"
-
-#: tfrmfileassoc.btnremoveext.caption
-msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
-msgid "Re&move"
-msgstr "Sm&azat"
-
-#: tfrmfileassoc.btnremoveicon.caption
-msgctxt "TFRMFILEASSOC.BTNREMOVEICON.CAPTION"
-msgid "X"
-msgstr "X"
-
-#: tfrmfileassoc.btnremovetype.caption
-msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
-msgid "&Remove"
-msgstr "&Smazat"
-
-#: tfrmfileassoc.btnrenametype.caption
-msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
-msgid "R&ename"
-msgstr "Přejm&enovat"
-
-#: tfrmfileassoc.btnupact.caption
-msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
-msgid "&Up"
-msgstr "&Nahoru"
-
-#: tfrmfileassoc.caption
-msgctxt "tfrmfileassoc.caption"
-msgid "File associations"
-msgstr "Přidružení souborů"
-
-#: tfrmfileassoc.gbactions.caption
-msgctxt "TFRMFILEASSOC.GBACTIONS.CAPTION"
-msgid "Actions"
-msgstr "Akce"
-
-#: tfrmfileassoc.gbexts.caption
-msgctxt "tfrmfileassoc.gbexts.caption"
-msgid "Extensions"
-msgstr "Přípony"
-
-#: tfrmfileassoc.gbfiletypes.caption
-msgctxt "TFRMFILEASSOC.GBFILETYPES.CAPTION"
-msgid "File types"
-msgstr "Typy souborů"
-
-#: tfrmfileassoc.gbicon.caption
-msgctxt "tfrmfileassoc.gbicon.caption"
-msgid "Icon"
-msgstr "Ikona"
-
-#: tfrmfileassoc.lblaction.caption
-msgctxt "tfrmfileassoc.lblaction.caption"
-msgid "Action:"
-msgstr "Akce:"
-
-#: tfrmfileassoc.lblcommand.caption
-msgctxt "TFRMFILEASSOC.LBLCOMMAND.CAPTION"
-msgid "&Command:"
-msgstr "&Příkaz:"
-
-#: tfrmfileassoc.miedit.caption
-msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
-msgid "Edit"
-msgstr "Edit"
-
-#: tfrmfileassoc.mieditor.caption
-msgctxt "tfrmfileassoc.mieditor.caption"
-msgid "Open in Editor"
-msgstr "Otevřít v editoru"
-
-#: tfrmfileassoc.mifilename.caption
-msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
-msgid "File name"
-msgstr "Název souboru"
-
-#: tfrmfileassoc.mifilepath.caption
-msgctxt "tfrmfileassoc.mifilepath.caption"
-msgid "File path"
-msgstr "Cesta k souboru"
-
-#: tfrmfileassoc.mifullpath.caption
-msgctxt "tfrmfileassoc.mifullpath.caption"
-msgid "Full path"
-msgstr "Úplná cesta"
-
-#: tfrmfileassoc.migetoutputfromcommand.caption
-msgctxt "tfrmfileassoc.migetoutputfromcommand.caption"
-msgid "Get output from command"
-msgstr "Získat výstup příkazu"
-
-#: tfrmfileassoc.miopen.caption
-msgctxt "TFRMFILEASSOC.MIOPEN.CAPTION"
-msgid "Open"
-msgstr "Otevřít"
-
-#: tfrmfileassoc.mishell.caption
-msgctxt "tfrmfileassoc.mishell.caption"
-msgid "Run in terminal"
-msgstr "Spustit v terminálu"
-
-#: tfrmfileassoc.mivfs.caption
-msgctxt "tfrmfileassoc.mivfs.caption"
-msgid "Open in VFS"
-msgstr "Otevřít v VFS"
-
-#: tfrmfileassoc.miview.caption
-msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
-msgid "View"
-msgstr "Zobrazit"
-
-#: tfrmfileassoc.miviewer.caption
-msgctxt "tfrmfileassoc.miviewer.caption"
-msgid "Open in Viewer"
-msgstr "Otevřít v prohlížeči"
 
 #: tfrmfileexecuteyourself.btnclose.caption
 msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
@@ -1804,63 +1447,67 @@ msgid "Properties"
 msgstr "Vlastnosti"
 
 #: tfrmfinddlg.actcancel.caption
-msgid "actCancel"
+msgid "Cancel"
+msgstr ""
+
+#: tfrmfinddlg.actcancelclose.caption
+msgid "Cancel search and close window"
 msgstr ""
 
 #: tfrmfinddlg.actclose.caption
-msgid "actClose"
+msgid "Close"
 msgstr ""
 
 #: tfrmfinddlg.actedit.caption
-msgid "actEdit"
+msgid "Edit"
 msgstr ""
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "actFeedToListbox"
+msgid "Feed to listbox"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "actGoToFile"
+msgid "Go to file"
 msgstr ""
 
 #: tfrmfinddlg.actintellifocus.caption
-msgid "actIntelliFocus"
+msgid "Find Data"
 msgstr ""
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "actLastSearch"
+msgid "Last search"
 msgstr ""
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "actNewSearch"
+msgid "New search"
 msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
-msgid "actPageAdvanced"
+msgid "Go to page \"Advanced\""
 msgstr ""
 
 #: tfrmfinddlg.actpageloadsave.caption
-msgid "actPageLoadSave"
+msgid "Go to page \"Load/Save\""
 msgstr ""
 
 #: tfrmfinddlg.actpageplugins.caption
-msgid "actPagePlugins"
+msgid "Go to page \"Plugins\""
 msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
-msgid "actPageResults"
+msgid "Go to page \"Results\""
 msgstr ""
 
 #: tfrmfinddlg.actpagestandard.caption
-msgid "actPageStandard"
+msgid "Go to page \"Standard\""
 msgstr ""
 
 #: tfrmfinddlg.actstart.caption
-msgid "actStart"
+msgid "Start"
 msgstr ""
 
 #: tfrmfinddlg.actview.caption
-msgid "actView"
+msgid "View"
 msgstr ""
 
 #: tfrmfinddlg.btnaddattribute.caption
@@ -1992,6 +1639,10 @@ msgstr "Hledat soubory NEobsahující text"
 #: tfrmfinddlg.cbnotolderthan.caption
 msgid "N&ot older than:"
 msgstr "N&ení starší, než:"
+
+#: tfrmfinddlg.cbopenedtabs.caption
+msgid "Opened tabs"
+msgstr ""
 
 #: tfrmfinddlg.cbpartialnamesearch.caption
 msgid "Searc&h for part of file name"
@@ -2150,6 +1801,10 @@ msgstr "Hledat"
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "C&itlivé na velikost znaků"
+
+#: tfrmhackform.groupbox1.caption
+msgid "GroupBox1"
+msgstr ""
 
 #: tfrmhardlink.btncancel.caption
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
@@ -3696,6 +3351,10 @@ msgstr "80"
 msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
 msgid "Width"
 msgstr "Šířka"
+
+#: tfrmmsg.lblmsg.caption
+msgid "456456465465465"
+msgstr ""
 
 #: tfrmmultirename.btnclose.caption
 msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
@@ -6265,6 +5924,18 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION"
 msgid "Category &name:"
 msgstr "&Název kategorie:"
 
+#: tfrmoptionsfonts.btnpatheditfnt.caption
+#, fuzzy
+msgctxt "tfrmoptionsfonts.btnpatheditfnt.caption"
+msgid "..."
+msgstr "..."
+
+#: tfrmoptionsfonts.btnsearchresultsfnt.caption
+#, fuzzy
+msgctxt "tfrmoptionsfonts.btnsearchresultsfnt.caption"
+msgid "..."
+msgstr "..."
+
 #: tfrmoptionsfonts.btnselconsolefnt.caption
 msgctxt "TFRMOPTIONSFONTS.BTNSELCONSOLEFNT.CAPTION"
 msgid "..."
@@ -6313,6 +5984,14 @@ msgstr "&Písmo protokolu"
 msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
 msgid "Main &font"
 msgstr "Hlavní &písmo"
+
+#: tfrmoptionsfonts.lblpatheditfont.caption
+msgid "Path font"
+msgstr ""
+
+#: tfrmoptionsfonts.lblsearchresultsfont.caption
+msgid "Search results font"
+msgstr ""
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
@@ -6567,8 +6246,10 @@ msgid "Show &main menu"
 msgstr "Zobrazit &hlavní nabídku"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
+#, fuzzy
+#| msgid "Show &button bar"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
-msgid "Show &button bar"
+msgid "Show tool&bar"
 msgstr "Zobrazit &tlačítkovou lištu"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
@@ -8540,6 +8221,12 @@ msgctxt "TFRMVIEWER.ACTCOPYFILE.HINT"
 msgid "Copy File"
 msgstr "Kopírovat soubor"
 
+#: tfrmviewer.actcopytoclipboard.caption
+#, fuzzy
+msgctxt "tfrmviewer.actcopytoclipboard.caption"
+msgid "Copy To Clipboard"
+msgstr "Kopírovat do schránky"
+
 #: tfrmviewer.actdeletefile.caption
 msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
 msgid "Delete File"
@@ -8549,6 +8236,40 @@ msgstr "Vymazat soubor"
 msgctxt "TFRMVIEWER.ACTDELETEFILE.HINT"
 msgid "Delete File"
 msgstr "Vymazat soubor"
+
+#: tfrmviewer.actexitviewer.caption
+#, fuzzy
+msgctxt "tfrmviewer.actexitviewer.caption"
+msgid "E&xit"
+msgstr "&Konec"
+
+#: tfrmviewer.actfind.caption
+#, fuzzy
+msgctxt "tfrmviewer.actfind.caption"
+msgid "Find"
+msgstr "Hledat"
+
+#: tfrmviewer.actfindnext.caption
+#, fuzzy
+msgctxt "tfrmviewer.actfindnext.caption"
+msgid "Find next"
+msgstr "Hledat další"
+
+#: tfrmviewer.actfindprev.caption
+msgctxt "tfrmviewer.actfindprev.caption"
+msgid "Find previous"
+msgstr ""
+
+#: tfrmviewer.actfullscreen.caption
+#, fuzzy
+msgctxt "tfrmviewer.actfullscreen.caption"
+msgid "Full Screen"
+msgstr "Celá obrazovka"
+
+#: tfrmviewer.actimagecenter.caption
+msgctxt "tfrmviewer.actimagecenter.caption"
+msgid "Center"
+msgstr ""
 
 #: tfrmviewer.actloadnextfile.caption
 msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
@@ -8569,15 +8290,19 @@ msgstr "&Předešlý"
 msgid "Load Previous File"
 msgstr "Načíst předchozí soubor"
 
-#: tfrmviewer.actmirror.caption
-msgctxt "TFRMVIEWER.ACTMIRROR.CAPTION"
+#: tfrmviewer.actmirrorhorz.caption
+msgid "Mirror Horizontally"
+msgstr ""
+
+#: tfrmviewer.actmirrorhorz.hint
+#, fuzzy
+msgctxt "tfrmviewer.actmirrorhorz.hint"
 msgid "Mirror"
 msgstr "Zrcadlit"
 
-#: tfrmviewer.actmirror.hint
-msgctxt "TFRMVIEWER.ACTMIRROR.HINT"
-msgid "Mirror"
-msgstr "Zrcadlit"
+#: tfrmviewer.actmirrorvert.caption
+msgid "Mirror Vertically"
+msgstr ""
 
 #: tfrmviewer.actmovefile.caption
 msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
@@ -8589,6 +8314,12 @@ msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
 msgid "Move File"
 msgstr "Přesunout soubor"
 
+#: tfrmviewer.actpreview.caption
+#, fuzzy
+msgctxt "tfrmviewer.actpreview.caption"
+msgid "Preview"
+msgstr "Náhled"
+
 #: tfrmviewer.actreload.caption
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
 msgid "Reload"
@@ -8599,34 +8330,52 @@ msgid "Reload current file"
 msgstr "Znovu načíst aktuální soubor"
 
 #: tfrmviewer.actrotate180.caption
+#, fuzzy
+#| msgid "Rotate 180"
 msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
-msgid "Rotate 180"
+msgid "+ 180"
 msgstr "Otočit 180"
 
 #: tfrmviewer.actrotate180.hint
+#, fuzzy
+#| msgid "Rotate 180"
 msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
-msgid "Rotate 180"
+msgid "Rotate 180 degrees"
 msgstr "Otočit 180"
 
 #: tfrmviewer.actrotate270.caption
+#, fuzzy
+#| msgid "Rotate 270"
 msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
-msgid "Rotate 270"
+msgid "- 90"
 msgstr "Otočit 270"
 
 #: tfrmviewer.actrotate270.hint
+#, fuzzy
+#| msgid "Rotate 270"
 msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
-msgid "Rotate 270"
+msgid "Rotate -90 degrees"
 msgstr "Otočit 270"
 
 #: tfrmviewer.actrotate90.caption
+#, fuzzy
+#| msgid "Rotate 90"
 msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
-msgid "Rotate 90"
+msgid "+ 90"
 msgstr "Otočit 90"
 
 #: tfrmviewer.actrotate90.hint
+#, fuzzy
+#| msgid "Rotate 90"
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
-msgid "Rotate 90"
+msgid "Rotate +90 degrees"
 msgstr "Otočit 90"
+
+#: tfrmviewer.actsave.caption
+#, fuzzy
+msgctxt "tfrmviewer.actsave.caption"
+msgid "Save"
+msgstr "Uložit"
 
 #: tfrmviewer.actsaveas.caption
 msgctxt "TFRMVIEWER.ACTSAVEAS.CAPTION"
@@ -8637,6 +8386,68 @@ msgstr "Uložit jako..."
 msgid "Save File As..."
 msgstr "Uložit soubor jako..."
 
+#: tfrmviewer.actscreenshot.caption
+#, fuzzy
+msgctxt "tfrmviewer.actscreenshot.caption"
+msgid "Screenshot"
+msgstr "Snímek obrazovky"
+
+#: tfrmviewer.actscreenshotdelay3sec.caption
+msgid "Delay 3 sec"
+msgstr ""
+
+#: tfrmviewer.actscreenshotdelay5sec.caption
+msgid "Delay 5 sec"
+msgstr ""
+
+#: tfrmviewer.actselectall.caption
+#, fuzzy
+msgctxt "tfrmviewer.actselectall.caption"
+msgid "Select All"
+msgstr "Vybrat vše"
+
+#: tfrmviewer.actshowasbin.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowasbin.caption"
+msgid "Show as &Bin"
+msgstr "Zobrazit &binárně"
+
+#: tfrmviewer.actshowasbook.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowasbook.caption"
+msgid "Show as B&ook"
+msgstr "Zobrazit jako &knížku"
+
+#: tfrmviewer.actshowashex.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowashex.caption"
+msgid "Show as &Hex"
+msgstr "Zobrazit &hexadecimálně"
+
+#: tfrmviewer.actshowastext.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowastext.caption"
+msgid "Show as &Text"
+msgstr "Zobrazit jako &text"
+
+#: tfrmviewer.actshowaswraptext.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowaswraptext.caption"
+msgid "Show as &Wrap text"
+msgstr "Zobrazit &jako zalamovaný text"
+
+#: tfrmviewer.actshowgraphics.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowgraphics.caption"
+msgid "Graphics"
+msgstr "Grafika"
+
+#: tfrmviewer.actshowplugins.caption
+#, fuzzy
+msgctxt "tfrmviewer.actshowplugins.caption"
+msgid "Plugins"
+msgstr "Doplňky"
+
 #: tfrmviewer.actstretchimage.caption
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
 msgid "Stretch"
@@ -8646,15 +8457,26 @@ msgstr "Přizpůsobit"
 msgid "Stretch Image"
 msgstr "Roztáhnout obrázek"
 
-#: tfrmviewer.btn270.hint
-msgctxt "TFRMVIEWER.BTN270.HINT"
-msgid "- 90"
-msgstr "- 90"
+#: tfrmviewer.actstretchonlylarge.caption
+msgctxt "tfrmviewer.actstretchonlylarge.caption"
+msgid "Stretch only large"
+msgstr ""
 
-#: tfrmviewer.btn90.hint
-msgctxt "TFRMVIEWER.BTN90.HINT"
-msgid "+ 90"
-msgstr "+ 90"
+#: tfrmviewer.actzoom.caption
+msgid "Zoom"
+msgstr ""
+
+#: tfrmviewer.actzoomin.caption
+#, fuzzy
+msgctxt "tfrmviewer.actzoomin.caption"
+msgid "Zoom In"
+msgstr "Přiblížit"
+
+#: tfrmviewer.actzoomout.caption
+#, fuzzy
+msgctxt "tfrmviewer.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Oddálit"
 
 #: tfrmviewer.btncopyfile.hint
 msgctxt "TFRMVIEWER.BTNCOPYFILE.HINT"
@@ -8700,11 +8522,6 @@ msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "Zvýraznění"
 
-#: tfrmviewer.btnmirror.hint
-msgctxt "TFRMVIEWER.BTNMIRROR.HINT"
-msgid "Mirror"
-msgstr "Zrcadlit"
-
 #: tfrmviewer.btnmovefile.hint
 msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
 msgid "Move"
@@ -8741,16 +8558,6 @@ msgstr "Změnit velikost"
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
 msgid "Undo"
 msgstr "Zpět"
-
-#: tfrmviewer.btnzoomin.hint
-msgctxt "TFRMVIEWER.BTNZOOMIN.HINT"
-msgid "Zoom In"
-msgstr "Přiblížit"
-
-#: tfrmviewer.btnzoomout.hint
-msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
-msgid "Zoom Out"
-msgstr "Oddálit"
 
 #: tfrmviewer.caption
 msgctxt "TFRMVIEWER.CAPTION"
@@ -8795,37 +8602,10 @@ msgstr "Zobrazit"
 msgid "0x0"
 msgstr "0x0"
 
-#: tfrmviewer.mi180.caption
-msgid "+ 180"
-msgstr "+ 180"
-
-#: tfrmviewer.mi270.caption
-msgctxt "TFRMVIEWER.MI270.CAPTION"
-msgid "- 90"
-msgstr "- 90"
-
-#: tfrmviewer.mi90.caption
-msgctxt "TFRMVIEWER.MI90.CAPTION"
-msgid "+ 90"
-msgstr "+ 90"
-
 #: tfrmviewer.miabout.caption
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "O programu"
-
-#: tfrmviewer.mibin.caption
-msgid "Show as &Bin"
-msgstr "Zobrazit &binárně"
-
-#: tfrmviewer.micenter.caption
-msgid "Center"
-msgstr ""
-
-#: tfrmviewer.micopytoclipboard.caption
-msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
-msgid "Copy To Clipboard"
-msgstr "Kopírovat do schránky"
 
 #: tfrmviewer.midiv1.caption
 msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
@@ -8862,51 +8642,14 @@ msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr "Kó&dování"
 
-#: tfrmviewer.miexit.caption
-msgctxt "TFRMVIEWER.MIEXIT.CAPTION"
-msgid "E&xit"
-msgstr "&Konec"
-
 #: tfrmviewer.mifile.caption
 msgctxt "TFRMVIEWER.MIFILE.CAPTION"
 msgid "&File"
 msgstr "&Soubor"
 
-#: tfrmviewer.mifullscreen.caption
-msgctxt "TFRMVIEWER.MIFULLSCREEN.CAPTION"
-msgid "Full Screen"
-msgstr "Celá obrazovka"
-
-#: tfrmviewer.migraphics.caption
-msgid "Graphics"
-msgstr "Grafika"
-
-#: tfrmviewer.mihex.caption
-msgid "Show as &Hex"
-msgstr "Zobrazit &hexadecimálně"
-
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "&Obrázek"
-
-#: tfrmviewer.milookbook.caption
-msgid "Show as B&ook"
-msgstr "Zobrazit jako &knížku"
-
-#: tfrmviewer.mimirror.caption
-msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
-msgid "Mirror"
-msgstr "Zrcadlit"
-
-#: tfrmviewer.miplugins.caption
-msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
-msgid "Plugins"
-msgstr "Doplňky"
-
-#: tfrmviewer.mipreview.caption
-msgctxt "TFRMVIEWER.MIPREVIEW.CAPTION"
-msgid "Preview"
-msgstr "Náhled"
 
 #: tfrmviewer.miprint.caption
 msgid "Print..."
@@ -8917,75 +8660,20 @@ msgctxt "TFRMVIEWER.MIROTATE.CAPTION"
 msgid "Rotate"
 msgstr "Otočit"
 
-#: tfrmviewer.misave.caption
-msgctxt "TFRMVIEWER.MISAVE.CAPTION"
-msgid "Save"
-msgstr "Uložit"
-
-#: tfrmviewer.misaveas.caption
-msgctxt "TFRMVIEWER.MISAVEAS.CAPTION"
-msgid "Save As..."
-msgstr "Uložit jako..."
-
 #: tfrmviewer.miscreenshot.caption
 msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
 msgid "Screenshot"
 msgstr "Snímek obrazovky"
-
-#: tfrmviewer.misearch.caption
-msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
-msgid "Search"
-msgstr "Hledat"
-
-#: tfrmviewer.misearchnext.caption
-msgid "Search next"
-msgstr "Hledat další"
-
-#: tfrmviewer.misearchprev.caption
-msgid "Search prev"
-msgstr "Hledat předchozí"
-
-#: tfrmviewer.miselectall.caption
-msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
-msgid "Select All"
-msgstr "Vybrat vše"
 
 #: tfrmviewer.miseparator.caption
 msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmviewer.mistretch.caption
-msgctxt "TFRMVIEWER.MISTRETCH.CAPTION"
-msgid "Stretch"
-msgstr "Přizpůsobit"
-
-#: tfrmviewer.mistretchonlylarge.caption
-msgid "Stretch only large"
-msgstr ""
-
-#: tfrmviewer.mitext.caption
-msgid "Show as &Text"
-msgstr "Zobrazit jako &text"
-
 #: tfrmviewer.miview.caption
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "&Zobrazit"
-
-#: tfrmviewer.miwraptext.caption
-msgid "Show as &Wrap text"
-msgstr "Zobrazit &jako zalamovaný text"
-
-#: tfrmviewer.mizoomin.caption
-msgctxt "TFRMVIEWER.MIZOOMIN.CAPTION"
-msgid "Zoom In"
-msgstr "Přiblížit"
-
-#: tfrmviewer.mizoomout.caption
-msgctxt "TFRMVIEWER.MIZOOMOUT.CAPTION"
-msgid "Zoom Out"
-msgstr "Oddálit"
 
 #: tfrmviewer.pmicopy.caption
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
@@ -8996,99 +8684,6 @@ msgstr "Kopírovat do schránky"
 msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Vybrat vše"
-
-#: tfrmviewoperations.btnstartpause.caption
-msgctxt "TFRMVIEWOPERATIONS.BTNSTARTPAUSE.CAPTION"
-msgid "&Start"
-msgstr "&Začít"
-
-#: tfrmviewoperations.btnstop.caption
-msgid "S&top"
-msgstr "S&top"
-
-#: tfrmviewoperations.caption
-msgctxt "TFRMVIEWOPERATIONS.CAPTION"
-msgid "File operations"
-msgstr "Souborové operace"
-
-#: tfrmviewoperations.cbalwaysontop.caption
-msgid "Always on top"
-msgstr "Vždy navrchu"
-
-#: tfrmviewoperations.lblusedragdrop.caption
-msgid "Use \"drag && drop\" to move operations between queues"
-msgstr "Použijte \"přetáhnutí\" pro přesunutí operací mezi frontami"
-
-#: tfrmviewoperations.mnucanceloperation.caption
-msgctxt "TFRMVIEWOPERATIONS.MNUCANCELOPERATION.CAPTION"
-msgid "Cancel"
-msgstr "Zrušit"
-
-#: tfrmviewoperations.mnucancelqueue.caption
-msgctxt "TFRMVIEWOPERATIONS.MNUCANCELQUEUE.CAPTION"
-msgid "Cancel"
-msgstr "Zrušit"
-
-#: tfrmviewoperations.mnunewqueue.caption
-msgctxt "tfrmviewoperations.mnunewqueue.caption"
-msgid "New queue"
-msgstr "Nová fronta"
-
-#: tfrmviewoperations.mnuoperationshowdetached.caption
-msgctxt "TFRMVIEWOPERATIONS.MNUOPERATIONSHOWDETACHED.CAPTION"
-msgid "Show in detached window"
-msgstr "Zobrazit v samostatném okně"
-
-#: tfrmviewoperations.mnuputfirstinqueue.caption
-msgid "Put first in queue"
-msgstr "Vložit první ve frontě"
-
-#: tfrmviewoperations.mnuputlastinqueue.caption
-msgid "Put last in queue"
-msgstr "Vložit poslední ve frontě"
-
-#: tfrmviewoperations.mnuqueue.caption
-msgctxt "TFRMVIEWOPERATIONS.MNUQUEUE.CAPTION"
-msgid "Queue"
-msgstr "Fronta"
-
-#: tfrmviewoperations.mnuqueue0.caption
-msgid "Out of queue"
-msgstr "Mimo frontu"
-
-#: tfrmviewoperations.mnuqueue1.caption
-msgctxt "tfrmviewoperations.mnuqueue1.caption"
-msgid "Queue 1"
-msgstr "Fronta 1"
-
-#: tfrmviewoperations.mnuqueue2.caption
-msgctxt "tfrmviewoperations.mnuqueue2.caption"
-msgid "Queue 2"
-msgstr "Fronta 2"
-
-#: tfrmviewoperations.mnuqueue3.caption
-msgctxt "tfrmviewoperations.mnuqueue3.caption"
-msgid "Queue 3"
-msgstr "Fronta 3"
-
-#: tfrmviewoperations.mnuqueue4.caption
-msgctxt "tfrmviewoperations.mnuqueue4.caption"
-msgid "Queue 4"
-msgstr "Fronta 4"
-
-#: tfrmviewoperations.mnuqueue5.caption
-msgctxt "tfrmviewoperations.mnuqueue5.caption"
-msgid "Queue 5"
-msgstr "Fronta 5"
-
-#: tfrmviewoperations.mnuqueueshowdetached.caption
-msgctxt "TFRMVIEWOPERATIONS.MNUQUEUESHOWDETACHED.CAPTION"
-msgid "Show in detached window"
-msgstr "Zobrazit v samostatném okně"
-
-#: tfrmviewoperations.tbpauseall.caption
-msgid "&Pause all"
-msgstr "&Pozastavit vše"
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TMULTIARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
