@@ -340,7 +340,10 @@ var
 begin
   Constraints.MinWidth := Width;
   pnlSelector.Visible := gShowCopyTabSelectPanel;
+
+  btnOK.Caption := rsDlgOpStart;
   if FQueueIdentifier <= FreeOperationsQueueId then FQueueIdentifier:= SingleQueueId;
+  btnAddToQueue.Caption:= btnAddToQueue.Caption + ' #' + IntToStr(FQueueIdentifier);
 
   // Fix align of options panel and dialog size at start.
   if not pnlSelector.Visible then
@@ -359,9 +362,6 @@ begin
   else
     btnOptions.Visible := False;
   ShowOptions(False);
-
-  btnOK.Caption := rsDlgOpStart;
-  btnAddToQueue.Caption:= btnAddToQueue.Caption + ' #' + IntToStr(FQueueIdentifier);
 
   HMForm := HotMan.Register(Self, HotkeysCategory);
   Hotkey := HMForm.Hotkeys.FindByCommand('cm_AddToQueue');

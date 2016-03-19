@@ -613,10 +613,20 @@ end;
 
 function TWfxPluginFileSource.GetProperties: TFileSourceProperties;
 begin
-  Result := [fspUsesConnections, fspListInMainThread];
+  Result := [fspUsesConnections, fspListOnMainThread];
   with FWfxModule do
-  if Assigned(FsLinksToLocalFiles) and FsLinksToLocalFiles() then
-    Result:= Result + [fspLinksToLocalFiles];
+  begin
+    if Assigned(FsLinksToLocalFiles) and FsLinksToLocalFiles() then
+      Result:= Result + [fspLinksToLocalFiles];
+    if (BackgroundFlags = 0) or (BackgroundFlags and BG_ASK_USER <> 0) then
+      Result:= Result + [fspCopyInOnMainThread, fspCopyOutOnMainThread]
+    else begin
+      if (BackgroundFlags and BG_UPLOAD = 0) then
+        Result:= Result + [fspCopyInOnMainThread];
+      if (BackgroundFlags and BG_DOWNLOAD = 0) then
+        Result:= Result + [fspCopyOutOnMainThread];
+    end;
+  end;
 end;
 
 function TWfxPluginFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
