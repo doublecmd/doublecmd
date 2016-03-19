@@ -3145,8 +3145,8 @@ begin
     end
     else if (fsoCopyOut in SourceFileSource.GetOperationsTypes) and
             (fsoCopyIn in TargetFileSource.GetOperationsTypes) and
-            (not (fspListInMainThread in SourceFileSource.Properties)) and
-            (not (fspListInMainThread in TargetFileSource.Properties)) then
+            (not (fspCopyOutOnMainThread in SourceFileSource.Properties)) and
+            (not (fspCopyInOnMainThread in TargetFileSource.Properties)) then
     begin
       OperationTemp := True;
       OperationType := fsoCopyOut;

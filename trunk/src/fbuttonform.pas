@@ -104,7 +104,7 @@ begin
   if FQueueIdentifier <= FreeOperationsQueueId then FQueueIdentifier:= SingleQueueId;
   btnAddToQueue.Caption:= btnAddToQueue.Caption + ' #' + IntToStr(FQueueIdentifier);
 
-  if Assigned(FileSource) and (fspListInMainThread in FileSource.Properties) then
+  if Assigned(FileSource) and (fspListOnMainThread in FileSource.Properties) then
   begin
     btnAddToQueue.Visible:= False;
     FQueueIdentifier:= ModalQueueId;

@@ -620,7 +620,7 @@ end;
 
 function TOperationsManager.AddOperation(Operation: TFileSourceOperation; ShowProgress: Boolean): TOperationHandle;
 begin
-  if fspListInMainThread in (Operation.FileSource as IFileSource).Properties then
+  if fspListOnMainThread in (Operation.FileSource as IFileSource).Properties then
     Result := AddOperationModal(Operation)
   else begin
     Result := AddOperation(Operation, FreeOperationsQueueId, False, ShowProgress);

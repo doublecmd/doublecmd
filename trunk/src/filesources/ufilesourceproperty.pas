@@ -42,9 +42,17 @@ type
     }
     fspUsesConnections,
     {en
-       Set, if the file source supports file listing in main thread only.
+       Set, if the file source supports file listing on main thread only.
     }
-    fspListInMainThread,
+    fspListOnMainThread,
+    {en
+       Set, if the file source supports copy in on the main thread only.
+    }
+    fspCopyInOnMainThread,
+    {en
+       Set, if the file source supports copy out on the main thread only.
+    }
+    fspCopyOutOnMainThread,
     {en
        Set, if the file source supports flat listing mode.
     }

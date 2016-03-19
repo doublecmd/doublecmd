@@ -1909,7 +1909,7 @@ begin
 
   StopWorkers;
 
-  if gListFilesInThread and not (fspListInMainThread in FileSource.GetProperties) then
+  if gListFilesInThread and not (fspListOnMainThread in FileSource.GetProperties) then
     AThread := GetWorkersThread;
 
   if FileSource.Equals(FLastLoadedFileSource) and
@@ -1947,7 +1947,7 @@ begin
 
   ClearPendingFilesChanges;
 
-  if gListFilesInThread and not (fspListInMainThread in FileSource.GetProperties) then
+  if gListFilesInThread and not (fspListOnMainThread in FileSource.GetProperties) then
   begin
     ClearRecentlyUpdatedFiles;
     BeforeMakeFileList;
