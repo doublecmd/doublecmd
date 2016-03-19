@@ -316,6 +316,8 @@ begin
     Canvas.Pen.Color := gCursorColor;
     Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
     Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
+    Canvas.Line(aRect.Left, aRect.Top, aRect.Left, aRect.Bottom-1);
+    Canvas.Line(aRect.Right-1, aRect.Top, aRect.Right-1, aRect.Bottom-1);
   end;
 
   // Draw drop selection.
@@ -324,6 +326,8 @@ begin
     Canvas.Pen.Color := gForeColor;
     Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
     Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
+    Canvas.Line(aRect.Left, aRect.Top, aRect.Left, aRect.Bottom-1);
+    Canvas.Line(aRect.Right-1, aRect.Top, aRect.Right-1, aRect.Bottom-1);
   end;
 end;
 
