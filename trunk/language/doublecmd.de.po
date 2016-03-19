@@ -1922,55 +1922,55 @@ msgstr "Eigenschaften"
 
 #: tfrmfinddlg.actcancel.caption
 msgid "actCancel"
-msgstr ""
+msgstr "actAbbrechen"
 
 #: tfrmfinddlg.actclose.caption
 msgid "actClose"
-msgstr ""
+msgstr "actSchließen"
 
 #: tfrmfinddlg.actedit.caption
 msgid "actEdit"
-msgstr ""
+msgstr "actBearbeiten"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "actFeedToListbox"
-msgstr ""
+msgstr "actInListboxEeinfügen"
 
 #: tfrmfinddlg.actgotofile.caption
 msgid "actGoToFile"
-msgstr ""
+msgstr "actGeheZuDatei"
 
 #: tfrmfinddlg.actintellifocus.caption
 msgid "actIntelliFocus"
-msgstr ""
+msgstr "actIntelligenterFokus"
 
 #: tfrmfinddlg.actlastsearch.caption
 msgid "actLastSearch"
-msgstr ""
+msgstr "actLetzteSuche"
 
 #: tfrmfinddlg.actnewsearch.caption
 msgid "actNewSearch"
-msgstr ""
+msgstr "actNeueSuche"
 
 #: tfrmfinddlg.actpageadvanced.caption
 msgid "actPageAdvanced"
-msgstr ""
+msgstr "actSeiteFortgeschritten"
 
 #: tfrmfinddlg.actpageloadsave.caption
 msgid "actPageLoadSave"
-msgstr ""
+msgstr "actSeiteLadenSpeichern"
 
 #: tfrmfinddlg.actpageplugins.caption
 msgid "actPagePlugins"
-msgstr ""
+msgstr "actSeitePlugins"
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "actPageResults"
-msgstr ""
+msgstr "actSeiteErgebnisse"
 
 #: tfrmfinddlg.actpagestandard.caption
 msgid "actPageStandard"
-msgstr ""
+msgstr "actSeiteStandard"
 
 #: tfrmfinddlg.actstart.caption
 msgid "actStart"
@@ -1978,7 +1978,7 @@ msgstr ""
 
 #: tfrmfinddlg.actview.caption
 msgid "actView"
-msgstr ""
+msgstr "actBetrachten"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -3836,12 +3836,12 @@ msgstr "Internen Befehl auswählen"
 #: tfrmmaincommandsdlg.cbcategorysortornot.text
 msgctxt "tfrmmaincommandsdlg.cbcategorysortornot.text"
 msgid "Legacy sorted"
-msgstr ""
+msgstr "Auf alte Art sortiert"
 
 #: tfrmmaincommandsdlg.cbcommandssortornot.text
 msgctxt "tfrmmaincommandsdlg.cbcommandssortornot.text"
 msgid "Legacy sorted"
-msgstr ""
+msgstr "Auf alte Art sortiert"
 
 #: tfrmmaincommandsdlg.cbselectallcategorydefault.caption
 msgid "Select all categories by default"
@@ -3971,7 +3971,7 @@ msgstr "..."
 #: tfrmmodview.caption
 msgctxt "TFRMMODVIEW.CAPTION"
 msgid "New Size"
-msgstr "Neue Grösse"
+msgstr "Neue Größe"
 
 #: tfrmmodview.lblheight.caption
 msgid "Height :"
@@ -4663,7 +4663,7 @@ msgstr "Ausgerichtet (mit TAB)"
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
-msgstr "Unmittelbar hinter dem Dateinamen"
+msgstr "Unmittelba&r hinter dem Dateinamen"
 
 #: tfrmoptionsbriefview.rbuseautosize.caption
 msgid "Auto"
@@ -7965,7 +7965,7 @@ msgstr "Standard-Extra-Einstellungen zum Speichern neuer Favoriten-Tabs:"
 
 #: tfrmoptionstabsextra.gbtabs.caption
 msgid "Folder tabs headers extra"
-msgstr "Etras für Tabs-Header"
+msgstr "Extras für Tabs-Header"
 
 #: tfrmoptionstabsextra.lbldefaultexistingtabstokeep.caption
 msgid "When restoring tab, existing tabs to keep:"
@@ -8586,7 +8586,7 @@ msgstr "in allen Befehlen..."
 
 #: tfrmoptionstoolbar.misrcrpliconnames.caption
 msgid "in all icon names..."
-msgstr "in alle Icon-Bezeichnungen..."
+msgstr "in allen Icon-Bezeichnungen..."
 
 #: tfrmoptionstoolbar.misrcrplparameters.caption
 msgid "in all parameters..."
@@ -10287,7 +10287,7 @@ msgstr "Alle;aktives Panel;Linkes Panel;rechtes Panel;Datei-Operationen;Konfigur
 
 #: ulng.rscmdkindofsort
 msgid "Legacy sorted;A-Z sorted"
-msgstr "Ablauf sorrtiert;A-Z sortiert"
+msgstr "Ablauf sortiert;A-Z sortiert"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -10746,7 +10746,7 @@ msgstr "Suche Datei(en)"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
-msgstr ""
+msgstr "Zeit des Scans:"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -10874,7 +10874,7 @@ msgstr "Bearbeite Kommentar-Dialog"
 #, fuzzy
 msgctxt "ulng.rshotkeycategoryeditor"
 msgid "Editor"
-msgstr "Text-Editor"
+msgstr "Editor"
 
 #: ulng.rshotkeycategoryfindfiles
 #, fuzzy
@@ -11291,51 +11291,51 @@ msgstr "(Ende des Untermenüs)"
 
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name this Favorite Tabs entry"
-msgstr ""
+msgstr "Namen für diesen Favoriten-Tab-Eintrag eingeben"
 
 #: ulng.rsmsgfavoritetabsenternametitle
 msgid "Saving a new Favorite Tabs entry"
-msgstr ""
+msgstr "Speichere einen Favoriten-Tab-Eintrag"
 
 #: ulng.rsmsgfavoritetabserrorloading
 msgid "Error loading Favorite Tabs..."
-msgstr ""
+msgstr "Fehler beim Laden von Favoriten-Tabs..."
 
 #: ulng.rsmsgfavoritetabserrorsaving
 msgid "Error saving Favorite Tabs..."
-msgstr ""
+msgstr "Fehler beim Speichern von Favoriten-Tabs..."
 
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
-msgstr ""
+msgstr "Anzahl der exportierten Favoriten-Tabs erfolgreich: %d in %d"
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr ""
+msgstr "Standard extra Einstellung für Verzeichnisverlauf für neue Favoriten-Tabs:"
 
 #: ulng.rsmsgfavoritetabshasbeenadded
 msgid "Favorite Tabs have been added in memory!"
-msgstr ""
+msgstr "Favoriten-Tabs wurden dem Speicher hinzugefügt!"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
 msgid "Number of file(s) imported successfully: %d on %d"
-msgstr ""
+msgstr "Anzahl der erfolgreich importierten Datei(en): %d auf %d"
 
 #: ulng.rsmsgfavoritetabsimportsubmenuname
 msgid "Legacy tabs imported"
-msgstr ""
+msgstr "Veraltete importierte Tabs"
 
 #: ulng.rsmsgfavoritetabsimporttitle
 msgid "Select .tab file(s) to import (could be more than one at the time!)"
-msgstr ""
+msgstr ".tab-Datei(en) zum Importieren auswählen (kann mehr als eine gleichzeitig sein!)"
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
-msgstr ""
+msgstr "Letzte Änderung der Favoriten-Tabs wurde noch nicht geändert. Vor dem Fortsetzen speichern?"
 
 #: ulng.rsmsgfavoritetabsmodifiedwanttosave
 msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Favoriten-Tabs wurden geändert. Vor dem Beenden speichern?"
 
 #: ulng.rsmsgfavoritetabsname
 #, fuzzy
@@ -11345,11 +11345,11 @@ msgstr "Name"
 
 #: ulng.rsmsgfavoritetabsnamesample
 msgid "This will load your Favorites Tabs entry setup called %s"
-msgstr ""
+msgstr "Dies wird die Favoriten-Tab-Einträge namens %s laden"
 
 #: ulng.rsmsgfavoritetabssavelastloadover
 msgid "Save to Favorite Tabs over last loaded entry (%s)"
-msgstr ""
+msgstr "In die Favoriten-Tabs-Liste oberhalb von (%s) speichern"
 
 #: ulng.rsmsgfavoritetabssimplemenu
 #, fuzzy
@@ -11376,11 +11376,11 @@ msgstr "Name des Untermenüs"
 
 #: ulng.rsmsgfavoritetabsthiswillloadfavtabs
 msgid "This will load the Favorite Tabs: \"%s\""
-msgstr ""
+msgstr "Dies wird die Favoriten-Tabs \"%s\" laden"
 
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
-msgstr ""
+msgstr "Aktuellen Tab oberhalb des bestehenden Favoriten-Tabs speichern"
 
 #: ulng.rsmsgfileassociationsextramodifiedwanttosave
 #, fuzzy
@@ -12019,7 +12019,7 @@ msgstr "Gehe zu besonderem Windows-Verzeichnis (TC)"
 
 #: ulng.rsmsgspecialdirmakereltohotdir
 msgid "Make relative to hotdir path"
-msgstr ""
+msgstr "Relativ zum HotDir-Pfad machen"
 
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
@@ -12047,7 +12047,7 @@ msgstr "Nutze besonderen Double Commander-Pfad"
 
 #: ulng.rsmsgspecialdirusehotdir
 msgid "Use hotdir path"
-msgstr ""
+msgstr "Nutze HotDir-Pfad"
 
 #: ulng.rsmsgspecialdiruseother
 msgid "Use other Windows special folder..."
@@ -12106,6 +12106,7 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
+#, fuzzy,badformat
 msgid ""
 "Error! Cannot find the TC configuration executable:\n"
 "%s\n"

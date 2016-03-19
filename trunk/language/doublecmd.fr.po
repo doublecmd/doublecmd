@@ -1327,7 +1327,6 @@ msgid "-"
 msgstr "-"
 
 #: tfrmeditsearchreplace.btncancel.caption
-#| msgid "Cancel"
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "Annuler"
@@ -2998,7 +2997,6 @@ msgid "Unselect All with the Same Ex&tension"
 msgstr "Désélectionner tous les fichiers avec la &même extension"
 
 #: tfrmmain.actview.caption
-#| msgid "View"
 msgctxt "tfrmmain.actview.caption"
 msgid "View"
 msgstr "Voir"
@@ -5934,7 +5932,6 @@ msgid "&Delete operation"
 msgstr "Opération d'effacement"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
-#| msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
 msgid "Dele&te to recycle bin (Shift key reverses this setting)"
 msgstr "Utiliser la corbeille lors des suppressions. (L'utilisation des touches Maj+Del permet la suppression sans passer par la corbeille.)"
@@ -6537,31 +6534,26 @@ msgid "&Letters"
 msgstr "Lettres"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
-#| msgid "Flat buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
 msgid "&Flat buttons"
 msgstr "Boutons plats"
 
 #: tfrmoptionslayout.cbflatinterface.caption
-#| msgid "Flat interface"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATINTERFACE.CAPTION"
 msgid "Flat i&nterface"
 msgstr "Interface simple"
 
 #: tfrmoptionslayout.cbflattoolbar.caption
-#| msgid "Flat buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATTOOLBAR.CAPTION"
 msgid "Flat b&uttons"
 msgstr "Boutons plats"
 
 #: tfrmoptionslayout.cbfreespaceind.caption
-#| msgid "Show free space indicator on drive label"
 msgctxt "TFRMOPTIONSLAYOUT.CBFREESPACEIND.CAPTION"
 msgid "Show fr&ee space indicator on drive label"
 msgstr "Afficher l'espace disponible sur l'étiquette des volumes/disques"
 
 #: tfrmoptionslayout.cblogwindow.caption
-#| msgid "Show log window"
 msgctxt "TFRMOPTIONSLAYOUT.CBLOGWINDOW.CAPTION"
 msgid "Show lo&g window"
 msgstr "Afficher la fenêtre du journal"
@@ -6577,13 +6569,11 @@ msgid "Show common progress in menu bar"
 msgstr "Afficher la barre de progression dans le menu"
 
 #: tfrmoptionslayout.cbshowcmdline.caption
-#| msgid "Show command &line"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCMDLINE.CAPTION"
 msgid "Show command l&ine"
 msgstr "Afficher la ligne de commande"
 
 #: tfrmoptionslayout.cbshowcurdir.caption
-#| msgid "Show &current directory"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCURDIR.CAPTION"
 msgid "Show current director&y"
 msgstr "Afficher le dossier courant"
@@ -6603,13 +6593,11 @@ msgid "Show drives list bu&tton"
 msgstr "Afficher les boutons de lecteur"
 
 #: tfrmoptionslayout.cbshowkeyspanel.caption
-#| msgid "Show &function key buttons"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION"
 msgid "Show function &key buttons"
 msgstr "Afficher les boutons des touches de &fonction (F3 à F10)"
 
 #: tfrmoptionslayout.cbshowmainmenu.caption
-#| msgid "Show main menu"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINMENU.CAPTION"
 msgid "Show &main menu"
 msgstr "Afficher le menu principal"
@@ -6629,7 +6617,6 @@ msgid "Show &status bar"
 msgstr "Afficher la barre de statut"
 
 #: tfrmoptionslayout.cbshowtabheader.caption
-#| msgid "Show &tabstop header"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABHEADER.CAPTION"
 msgid "S&how tabstop header"
 msgstr "Afficher la ligne de titre dans les onglets"
@@ -6640,13 +6627,11 @@ msgid "Sho&w folder tabs"
 msgstr "Afficher les &onglets de dossiers"
 
 #: tfrmoptionslayout.cbtermwindow.caption
-#| msgid "Show terminal window"
 msgctxt "TFRMOPTIONSLAYOUT.CBTERMWINDOW.CAPTION"
 msgid "Show te&rminal window"
 msgstr "Afficher la fenêtre de terminal"
 
 #: tfrmoptionslayout.cbtwodiskpanels.caption
-#| msgid "Show two drive button bars (fixed width, above file windows)"
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Afficher deux barres de boutons avec les volumes/disques (largeur fixe, au dessus de la fenêtre des fichiers)"
@@ -6671,7 +6656,6 @@ msgid "Include date in log filename"
 msgstr "Inclure la date dans le nom du fichier-journal"
 
 #: tfrmoptionslog.cblogarcop.caption
-#| msgid "Pack/Unpack"
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
 msgid "&Pack/Unpack"
 msgstr "Archivage/extraction des données des archives compressées"
@@ -7181,13 +7165,11 @@ msgid "&Delete"
 msgstr "&Supprimer"
 
 #: tfrmoptionstoolbar.btnedithotkey.caption
-#| msgid "Edit hotkey"
 msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
 msgid "Edit hot&key"
 msgstr "Éditer raccourci clavier"
 
 #: tfrmoptionstoolbar.btninsertbutton.caption
-#| msgid "&Insert new buttonX"
 msgctxt "tfrmoptionstoolbar.btninsertbutton.caption"
 msgid "&Insert new button"
 msgstr "&Insérer un nouveau bouton"
@@ -7212,7 +7194,6 @@ msgid "Other..."
 msgstr "Autre..."
 
 #: tfrmoptionstoolbar.btnremovehotkey.caption
-#| msgid "Remove hotkey"
 msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
 msgid "Remove hotke&y"
 msgstr "Retire raccourci clavier"
@@ -7273,13 +7254,11 @@ msgid "Hot key:"
 msgstr "Raccourci clavier"
 
 #: tfrmoptionstoolbar.lbliconfile.caption
-#| msgid "Icon:"
 msgctxt "tfrmoptionstoolbar.lbliconfile.caption"
 msgid "Ico&n:"
 msgstr "Icône :"
 
 #: tfrmoptionstoolbar.lbliconsize.caption
-#| msgid "Ic&on size:"
 msgctxt "tfrmoptionstoolbar.lbliconsize.caption"
 msgid "Icon si&ze:"
 msgstr "T&aille de l'icône :"
@@ -7295,7 +7274,6 @@ msgid "&Parameters:"
 msgstr "Paramètres:"
 
 #: tfrmoptionstoolbar.lblstartpath.caption
-#| msgid "Start path:"
 msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "&Chemin de démarrage"
@@ -9983,6 +9961,7 @@ msgid "Remove all inactive tabs?"
 msgstr "Fermer tous les onglets inactifs?"
 
 #: ulng.rsmsgcloselockedtab
+#, fuzzy,badformat
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Cet onglet est verrouillé! Forcer sa fermeture tout de même?"
 
@@ -10275,6 +10254,7 @@ msgid "This will load your Favorites Tabs entry setup called %s"
 msgstr "Cela va restituer le groupe d'onglets favoris sauvegardé sous le nom \"%s\""
 
 #: ulng.rsmsgfavoritetabssavelastloadover
+#, fuzzy,badformat
 msgid "Save to Favorite Tabs over last loaded entry (%s)"
 msgstr "Réécrire la dernière configuration d'onglets favoris avec les onglets courants"
 
@@ -10813,6 +10793,7 @@ msgid "&Delete %s"
 msgstr "&Supprimer %s"
 
 #: ulng.rsmsgpresetalreadyexists
+#, fuzzy,badformat
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Écraser la configuration existante ?"
 
@@ -11031,6 +11012,7 @@ msgstr ""
 "Voulez vous les sauvegarder avant de quitter?\n"
 
 #: ulng.rsmsgthisisnowinclipboard
+#, fuzzy,badformat
 msgid "\"%s\" is now in the clipboard"
 msgstr "\"%\" est maintenant dans le presse-papier"
 

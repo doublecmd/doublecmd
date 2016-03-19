@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-02-09 11:38+0200\n"
+"PO-Revision-Date: 2016-03-15 23:50+0200\n"
 "Last-Translator: Anastasios Kazakis <orca.surfshark@gmail.com>\n"
 "Language-Team: Anastasios Kazakis <orca.surfshark@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,7 @@ msgid "Right: Delete %d file(s)"
 msgstr "Δεξιά: Διαγραφή %d αρχείο(α)"
 
 #: fsyncdirsdlg.rsfilesfound
+#, fuzzy,badformat
 msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
 msgstr "Ευρεθέντα αρχεία: %d  (Όμοιο: %d, : %d, Διαφορετικό: %d, Μοναδικό αριστερά: %d, Μοναδικό δεξιά: %d)"
 
@@ -128,7 +129,7 @@ msgstr "<-"
 
 #: tfcolumnssetconf.caption
 msgid "Configure custom columns view"
-msgstr " Διαμόρφωση προσαρμοσμένης προβολής στηλών"
+msgstr "Διαμόρφωση προσαρμοσμένης προβολής στηλών"
 
 #: tfcolumnssetconf.cbackgrndlabel.caption
 msgctxt "TFCOLUMNSSETCONF.CBACKGRNDLABEL.CAPTION"
@@ -635,7 +636,7 @@ msgstr "Κωδικοποίηση:"
 #: tfrmdescredit.lblfilename.caption
 msgctxt "TFRMDESCREDIT.LBLFILENAME.CAPTION"
 msgid "???"
-msgstr "???"
+msgstr ";;;"
 
 #: tfrmdiffer.actabout.caption
 msgctxt "TFRMDIFFER.ACTABOUT.CAPTION"
@@ -1055,11 +1056,9 @@ msgid "Delete"
 msgstr "Διαγραφή"
 
 #: tfrmeditor.acteditfind.caption
-#, fuzzy
-#| msgid "&Find"
 msgctxt "tfrmeditor.acteditfind.caption"
 msgid "&Find "
-msgstr "Εύρεση"
+msgstr "&Εύρεση"
 
 #: tfrmeditor.acteditfind.hint
 msgctxt "TFRMEDITOR.ACTEDITFIND.HINT"
@@ -1235,7 +1234,6 @@ msgid "&Help"
 msgstr "Βοήθεια"
 
 #: tfrmeditor.menuitem1.caption
-#, fuzzy
 msgctxt "tfrmeditor.menuitem1.caption"
 msgid "-"
 msgstr "-"
@@ -1670,7 +1668,7 @@ msgstr "Κείμενο:"
 #: tfrmfileproperties.lblcontains.caption
 msgctxt "TFRMFILEPROPERTIES.LBLCONTAINS.CAPTION"
 msgid "???"
-msgstr "???"
+msgstr ";;;"
 
 #: tfrmfileproperties.lblcontainsstr.caption
 msgid "Contains:"
@@ -1689,7 +1687,7 @@ msgstr "Όνομα Αρχείου"
 #: tfrmfileproperties.lblfilename.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
 msgid "???"
-msgstr "???"
+msgstr ";;;"
 
 #: tfrmfileproperties.lblfilenamestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION"
@@ -1704,7 +1702,7 @@ msgstr "Όνομα Αρχείου"
 #: tfrmfileproperties.lblfolder.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFOLDER.CAPTION"
 msgid "???"
-msgstr "???"
+msgstr ";;;"
 
 #: tfrmfileproperties.lblfolderstr.caption
 msgctxt "tfrmfileproperties.lblfolderstr.caption"
@@ -1719,7 +1717,7 @@ msgstr "Γκρουπ"
 #: tfrmfileproperties.lbllastaccess.caption
 msgctxt "TFRMFILEPROPERTIES.LBLLASTACCESS.CAPTION"
 msgid "???"
-msgstr "???"
+msgstr ";;;"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
 msgid "Last access:"
@@ -1728,7 +1726,7 @@ msgstr "Τελευταία προσπέλαση:"
 #: tfrmfileproperties.lbllastmodif.caption
 msgctxt "TFRMFILEPROPERTIES.LBLLASTMODIF.CAPTION"
 msgid "???"
-msgstr "???"
+msgstr ";;;"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
 msgid "Last modification:"
@@ -1737,7 +1735,7 @@ msgstr "Τελευταία διαμόρφωση:"
 #: tfrmfileproperties.lbllaststchange.caption
 msgctxt "TFRMFILEPROPERTIES.LBLLASTSTCHANGE.CAPTION"
 msgid "???"
-msgstr "???"
+msgstr ";;;"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
 msgid "Last status change:"
@@ -1761,7 +1759,7 @@ msgstr "Ανάγνωση"
 #: tfrmfileproperties.lblsize.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSIZE.CAPTION"
 msgid "???"
-msgstr "???"
+msgstr ";;;"
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
@@ -1771,7 +1769,7 @@ msgstr "Μέγεθος:"
 #: tfrmfileproperties.lblsymlink.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSYMLINK.CAPTION"
 msgid "???"
-msgstr "???"
+msgstr ";;;"
 
 #: tfrmfileproperties.lblsymlinkstr.caption
 msgid "Symlink to:"
@@ -1780,7 +1778,7 @@ msgstr "Συμβολοδεσμός στο:"
 #: tfrmfileproperties.lbltype.caption
 msgctxt "TFRMFILEPROPERTIES.LBLTYPE.CAPTION"
 msgid "???"
-msgstr "???"
+msgstr ";;;"
 
 #: tfrmfileproperties.lbltypestr.caption
 msgid "Type:"
@@ -1803,63 +1801,63 @@ msgstr "Ιδιότητες"
 
 #: tfrmfinddlg.actcancel.caption
 msgid "actCancel"
-msgstr ""
+msgstr "ενεργΜαταίωση"
 
 #: tfrmfinddlg.actclose.caption
 msgid "actClose"
-msgstr ""
+msgstr "ενεργΚλείσιμο"
 
 #: tfrmfinddlg.actedit.caption
 msgid "actEdit"
-msgstr ""
+msgstr "ενεργΔιαμόρφωση"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "actFeedToListbox"
-msgstr ""
+msgstr "ενεργΤροφοδοσίαΣτοΚουτίΛίστας"
 
 #: tfrmfinddlg.actgotofile.caption
 msgid "actGoToFile"
-msgstr ""
+msgstr "ενεργΜετάβασηΣτοΑρχείο"
 
 #: tfrmfinddlg.actintellifocus.caption
 msgid "actIntelliFocus"
-msgstr ""
+msgstr "ενεργΈξυπνηΕπικέντρωση"
 
 #: tfrmfinddlg.actlastsearch.caption
 msgid "actLastSearch"
-msgstr ""
+msgstr "ενεργΤελευταίαΑναζήτηση"
 
 #: tfrmfinddlg.actnewsearch.caption
 msgid "actNewSearch"
-msgstr ""
+msgstr "ενεργΝέαΑναζήτηση"
 
 #: tfrmfinddlg.actpageadvanced.caption
 msgid "actPageAdvanced"
-msgstr ""
+msgstr "ενεργΣελίδαΠροχωρημένα"
 
 #: tfrmfinddlg.actpageloadsave.caption
 msgid "actPageLoadSave"
-msgstr ""
+msgstr "ενεργΣελίδαΦόρτωσηΑποθήκευση"
 
 #: tfrmfinddlg.actpageplugins.caption
 msgid "actPagePlugins"
-msgstr ""
+msgstr "ενεργΠρόσθεταΣελίδας"
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "actPageResults"
-msgstr ""
+msgstr "ενεργΑποτελέσματαΣελίδας"
 
 #: tfrmfinddlg.actpagestandard.caption
 msgid "actPageStandard"
-msgstr ""
+msgstr "ενεργΠροκαθορισμέναΣελίδας"
 
 #: tfrmfinddlg.actstart.caption
 msgid "actStart"
-msgstr ""
+msgstr "ενεργΕκκίνηση"
 
 #: tfrmfinddlg.actview.caption
 msgid "actView"
-msgstr ""
+msgstr "ενεργΠροβολή"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -2091,7 +2089,7 @@ msgstr "Προηγούμενες αναζητήσεις:"
 
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
-msgstr ""
+msgstr "Άνοιγμα σε Νέα Καρτέλα(ες)"
 
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
@@ -2103,7 +2101,7 @@ msgstr "Εμφάνιση όλων των ευρεθέντων αντικειμέ
 
 #: tfrmfinddlg.mishowineditor.caption
 msgid "Show In Editor"
-msgstr ""
+msgstr "Εμφάνιση στον Επεξεργαστή"
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
@@ -2371,17 +2369,15 @@ msgstr "Διαμόρφωση του καταλόγου Hotlist"
 
 #: tfrmmain.actconfigfavoritetabs.caption
 msgid "Configuration of Favorite Tabs"
-msgstr ""
+msgstr "Διαμόρφωση των Αγαπημένων Καρτελών"
 
 #: tfrmmain.actconfigfoldertabs.caption
 msgid "Configuration of folder tabs"
-msgstr ""
+msgstr "Διαμόρφωση των Καρτελών Φακέλων"
 
 #: tfrmmain.actconfigtoolbars.caption
-#, fuzzy
-#| msgid "Configure toolbar"
 msgid "Toolbar..."
-msgstr "Διαμόρφωση  γραμμής εργαλείων"
+msgstr "Γραμμή εργαλείων"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -2394,7 +2390,7 @@ msgstr "Αντιγραφή"
 
 #: tfrmmain.actcopyalltabstoopposite.caption
 msgid "Copy all tabs to opposite side"
-msgstr ""
+msgstr "Αντιγραφή όλων των καρτελών στην απέναντι πλευρά"
 
 #: tfrmmain.actcopyfiledetailstoclip.caption
 msgid "Copy all shown &columns"
@@ -2489,10 +2485,8 @@ msgid "&Extract Files..."
 msgstr "Εξαγωγή Αρχείων..."
 
 #: tfrmmain.actfileassoc.caption
-#, fuzzy
-#| msgid "File &Associations..."
 msgid "Configuration of File &Associations"
-msgstr "Συσχετισμοί Αρχείων..."
+msgstr "Διαμόρφωση Συσχετισμών Αρχείων..."
 
 #: tfrmmain.actfilelinker.caption
 msgid "Com&bine Files..."
@@ -2590,7 +2584,7 @@ msgstr "Προβολή μικρογραφιών στο αριστερό πάνε
 
 #: tfrmmain.actloadfavoritetabs.caption
 msgid "Load tabs from Favorite Tabs"
-msgstr ""
+msgstr "Φόρτωση καρτελών από Αγαπημένες Καρτέλες"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
@@ -2658,7 +2652,7 @@ msgstr "Νέα Καρτέλα"
 
 #: tfrmmain.actnextfavoritetabs.caption
 msgid "Load the Next Favorite Tabs in the list"
-msgstr ""
+msgstr "Φόρτωση της Επόμενης Αγαπημένης Καρτέλας στη λίστα"
 
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
@@ -2708,7 +2702,7 @@ msgstr "Επικόλληση"
 
 #: tfrmmain.actpreviousfavoritetabs.caption
 msgid "Load the Previous Favorite Tabs in the list"
-msgstr ""
+msgstr "Φόρτωση της Προηγούμενης Αγαπημένης Καρτέλας στη λίστα"
 
 #: tfrmmain.actprevtab.caption
 msgid "Switch to &Previous Tab"
@@ -2733,7 +2727,7 @@ msgstr "Ανανέωση"
 
 #: tfrmmain.actreloadfavoritetabs.caption
 msgid "Reload the last Favorite Tabs loaded"
-msgstr ""
+msgstr "Επαναφόρτωση της τελευταίας φορτωμένης Αγαπημένης Καρτέλας "
 
 #: tfrmmain.actrename.caption
 msgctxt "tfrmmain.actrename.caption"
@@ -2755,7 +2749,7 @@ msgstr "Μετονομασία Καρτέλας"
 
 #: tfrmmain.actresavefavoritetabs.caption
 msgid "Resave on the last Favorite Tabs loaded"
-msgstr ""
+msgstr "Επαναποθήκευση στη τελευταία φορτωμένη Αγαπημένη Καρτέλα"
 
 #: tfrmmain.actrestoreselection.caption
 msgid "&Restore Selection"
@@ -2819,7 +2813,7 @@ msgstr "Εκτέλεση Τερματικού"
 
 #: tfrmmain.actsavefavoritetabs.caption
 msgid "Save current tabs to a New Favorite Tabs"
-msgstr ""
+msgstr "Αποθήκευση τρέχουσας καρτέλας σε μία Νέα Αγαπημένη Καρτέλα"
 
 #: tfrmmain.actsaveselection.caption
 msgid "Sa&ve Selection"
@@ -2839,19 +2833,19 @@ msgstr "Αναζήτηση..."
 
 #: tfrmmain.actsetalltabsoptiondirsinnewtab.caption
 msgid "All tabs Locked with Dir Opened in New Tabs"
-msgstr ""
+msgstr "Όλες οι καρτέλες κλειδωμένες με Κατάλογο ανοικτό σε Νέες Καρτέλες"
 
 #: tfrmmain.actsetalltabsoptionnormal.caption
 msgid "Set all tabs to Normal"
-msgstr ""
+msgstr "Ορισμός όλων των καρτελών σε Κανονικές"
 
 #: tfrmmain.actsetalltabsoptionpathlocked.caption
 msgid "Set all tabs to Locked"
-msgstr ""
+msgstr "Ορισμός όλων των καρτελών σε Κλειδωμένες"
 
 #: tfrmmain.actsetalltabsoptionpathresets.caption
 msgid "All tabs Locked with Dir Changes Allowed"
-msgstr ""
+msgstr "Όλες οι καρτέλες Κλειδωμένες με ελέυθερες τις Αλλαγές Καταλόγου"
 
 #: tfrmmain.actsetfileproperties.caption
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
@@ -3179,13 +3173,11 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmain.miline10.caption
-#, fuzzy
 msgctxt "tfrmmain.miline10.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmmain.miline11.caption
-#, fuzzy
 msgctxt "tfrmmain.miline11.caption"
 msgid "-"
 msgstr "-"
@@ -3241,7 +3233,6 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmain.miline21.caption
-#, fuzzy
 msgctxt "tfrmmain.miline21.caption"
 msgid "-"
 msgstr "-"
@@ -3252,7 +3243,6 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmain.miline23.caption
-#, fuzzy
 msgctxt "tfrmmain.miline23.caption"
 msgid "-"
 msgstr "-"
@@ -3268,7 +3258,6 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmain.miline26.caption
-#, fuzzy
 msgctxt "tfrmmain.miline26.caption"
 msgid "-"
 msgstr "-"
@@ -3299,7 +3288,6 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmain.miline39.caption
-#, fuzzy
 msgctxt "tfrmmain.miline39.caption"
 msgid "-"
 msgstr "-"
@@ -3310,7 +3298,6 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmain.miline40.caption
-#, fuzzy
 msgctxt "tfrmmain.miline40.caption"
 msgid "-"
 msgstr "-"
@@ -3425,7 +3412,7 @@ msgstr "-"
 
 #: tfrmmain.mnufavoritetabs.caption
 msgid "Favorites"
-msgstr ""
+msgstr "Αγαπημένα"
 
 #: tfrmmain.mnufiles.caption
 msgid "&Files"
@@ -3450,11 +3437,9 @@ msgid "&Show"
 msgstr "Εμφάνιση "
 
 #: tfrmmain.mnutaboptions.caption
-#, fuzzy
-#| msgid "&Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
 msgid "Tab &Options"
-msgstr "Επιλογές"
+msgstr "Επιλογές Καρτελών"
 
 #: tfrmmain.mnutabs.caption
 msgid "&Tabs"
@@ -4720,7 +4705,7 @@ msgstr "Παρασκήνιο 2:"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
 msgid "Con&figure columns view:"
-msgstr "Ρυθμείστε την προβολή στηλών:"
+msgstr "Ρυθμίστε την προβολή στηλών:"
 
 #: tfrmoptionscustomcolumns.lblcurrentcolumn.caption
 msgid "[Current Column Name]"
@@ -5232,15 +5217,15 @@ msgstr "Λίστα Οδηγών"
 
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
-msgstr ""
+msgstr "Κέρσορας μετά το τέλος γραμμής"
 
 #: tfrmoptionseditor.chkshowspecialchars.caption
 msgid "Show special characters"
-msgstr ""
+msgstr "Εμφάνιση ειδικών χαρακτήρων"
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
-msgstr ""
+msgstr "Ιδιότητες Εσωτερικού επεξεργαστή"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -5364,35 +5349,30 @@ msgid "O&n"
 msgstr "Ανοικτό"
 
 #: tfrmoptionsfavoritetabs.btnadd.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.btnadd.caption"
 msgid "Add..."
 msgstr "Προσθήκη..."
 
 #: tfrmoptionsfavoritetabs.btndelete.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.btndelete.caption"
 msgid "Delete..."
 msgstr "Διαγραφή..."
 
 #: tfrmoptionsfavoritetabs.btnimportexport.caption
 msgid "Import/Export"
-msgstr ""
+msgstr "Εισαγωγή/Εξαγωγή"
 
 #: tfrmoptionsfavoritetabs.btninsert.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.btninsert.caption"
 msgid "Insert..."
 msgstr "Εισάγετε..."
 
 #: tfrmoptionsfavoritetabs.btnrename.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.btnrename.caption"
 msgid "Rename"
 msgstr "Μετονομασία"
 
 #: tfrmoptionsfavoritetabs.btnsort.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.btnsort.caption"
 msgid "Sort..."
 msgstr "Ταξινόμηση..."
@@ -5400,16 +5380,14 @@ msgstr "Ταξινόμηση..."
 #: tfrmoptionsfavoritetabs.cbexistingtabstokeep.text
 msgctxt "tfrmoptionsfavoritetabs.cbexistingtabstokeep.text"
 msgid "None"
-msgstr ""
+msgstr "Κανένα"
 
 #: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.cbfullexpandtree.caption"
 msgid "Always expand tree"
 msgstr "Ανάπτυξη Δέντρου Πάντα"
 
 #: tfrmoptionsfavoritetabs.cbsavedirhistory.text
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.cbsavedirhistory.text"
 msgid "No"
 msgstr "Όχι"
@@ -5417,257 +5395,226 @@ msgstr "Όχι"
 #: tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text
 msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelleftsavedtabs.text"
 msgid "Left"
-msgstr ""
+msgstr "Αριστερά"
 
 #: tfrmoptionsfavoritetabs.cbtargetpanelrightsavedtabs.text
 msgctxt "tfrmoptionsfavoritetabs.cbtargetpanelrightsavedtabs.text"
 msgid "Right"
-msgstr ""
+msgstr "Δεξιά"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabs.caption
 msgid "Favorite Tabs list (reorder by drag && drop)"
-msgstr ""
+msgstr "Λίστα Αγαπημένων Καρτελών (αναδιάταξη με μεταφορά && απόθεση)"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption"
 msgid "Other options"
 msgstr "Άλλες Επιλογές"
 
 #: tfrmoptionsfavoritetabs.gpsavedtabsrestorationaction.caption
 msgid "What to restore where for the selected entry:"
-msgstr ""
+msgstr "Τι να αποκατασταθεί που για την επιλεγμένη καταχώρηση:"
 
 #: tfrmoptionsfavoritetabs.lblexistingtabstokeep.caption
 msgid "Existing tabs to keep:"
-msgstr ""
+msgstr "Υπάρχουσες καρτέλες προς φύλαξη:"
 
 #: tfrmoptionsfavoritetabs.lblsavedirhistory.caption
 msgid "Save dir history:"
-msgstr ""
+msgstr "Αποθήκευση ιστορικού καταλόγου:"
 
 #: tfrmoptionsfavoritetabs.lbltargetpanelleftsavedtabs.caption
 msgid "Tabs saved on left to be restored to:"
-msgstr ""
+msgstr "Καρτέλες αποθηκευμένες αριστερά να αποκατασταθούν σε :"
 
 #: tfrmoptionsfavoritetabs.lbltargetpanelrightsavedtabs.caption
 msgid "Tabs saved on right to be restored to:"
-msgstr ""
+msgstr "Καρτέλες αποθηκευμένες δεξιά να αποκατασταθούν σε :"
 
 #: tfrmoptionsfavoritetabs.menuitem1.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.menuitem1.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.menuitem2.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.menuitem2.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miaddseparator.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miaddseparator.caption"
 msgid "a separator"
 msgstr "ένα διαχωριστικό"
 
 #: tfrmoptionsfavoritetabs.miaddseparator2.caption
 msgid "Add separator"
-msgstr ""
+msgstr "Προσθήκη διαχωριστικού"
 
 #: tfrmoptionsfavoritetabs.miaddsubmenu.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu.caption"
 msgid "sub-menu"
 msgstr "υπομενού"
 
 #: tfrmoptionsfavoritetabs.miaddsubmenu2.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miaddsubmenu2.caption"
 msgid "Add sub-menu"
 msgstr "Προσθήκη υπο-μενού"
 
 #: tfrmoptionsfavoritetabs.micollapseall.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.micollapseall.caption"
 msgid "Collapse all"
 msgstr "Σύμπτυξη όλων"
 
 #: tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption"
 msgid "...current level of item(s) selected only"
 msgstr "...τρέχον επίπεδο του επιλεγμένου αρχείου(ων) μόνο"
 
 #: tfrmoptionsfavoritetabs.micutselection.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.micutselection.caption"
 msgid "Cut"
 msgstr "Αποκοπή"
 
 #: tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mideleteallfavoritetabs.caption"
 msgid "delete all!"
 msgstr "Διαγραφή Όλων!"
 
 #: tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mideletecompletesubmenu.caption"
 msgid "sub-menu and all its elements"
 msgstr "Υπομενού με όλα του τα στοιχεία"
 
 #: tfrmoptionsfavoritetabs.mideletejustsubmenu.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mideletejustsubmenu.caption"
 msgid "just sub-menu but keep elements"
 msgstr "μόνο υπομενού αλλά διατήρηση των στοιχείων"
 
 #: tfrmoptionsfavoritetabs.mideleteselectedentry.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry.caption"
 msgid "selected item"
 msgstr "επιλεγμένο αντικείμενο"
 
 #: tfrmoptionsfavoritetabs.mideleteselectedentry2.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mideleteselectedentry2.caption"
 msgid "Delete selected item"
 msgstr "Διαγραφή επιλεγμένου αντικειμένου"
 
 #: tfrmoptionsfavoritetabs.miexporttolegacytabsfile.caption
 msgid "Export selection to legacy .tab file(s)"
-msgstr ""
+msgstr "Εξαγωγή επιλογής στο legacy .tab αρχείο(α)"
 
 #: tfrmoptionsfavoritetabs.mifavoritetabstestmenu.caption
 msgid "FavoriteTabsTestMenu"
-msgstr ""
+msgstr "ΑγαπημένεςΚαρτέλεςΤεστΜενού"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesaccsetting.caption
 msgid "Import legacy .tab file(s) according to default setting"
-msgstr ""
+msgstr "Εισαγωγή legacy .tab αρχείου(ων) βάσει της προκαθορισμένης ρύθμισης"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption
 msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption"
 msgid "Import legacy .tab file(s) at selected position"
-msgstr ""
+msgstr "Εισαγωγή legacy .tab αρχείου(ων) στην επιλεγμένη θέση"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos1.caption
 msgctxt "tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos1.caption"
 msgid "Import legacy .tab file(s) at selected position"
-msgstr ""
+msgstr "Εισαγωγή legacy .tab αρχείου(ων) στην επιλεγμένη θέση"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesinsubatpos.caption
 msgid "Import legacy .tab file(s) at selected position in a sub menu"
-msgstr ""
+msgstr "Εισαγωγή legacy .tab αρχείου(ων) στην επιλεγμένη θέση σε ένα υπομενού"
 
 #: tfrmoptionsfavoritetabs.miinsertseparator.caption
 msgid "Insert separator"
-msgstr ""
+msgstr "Εισαγωγή διαχωριστικού"
 
 #: tfrmoptionsfavoritetabs.miinsertsubmenu.caption
 msgid "Insert sub-menu"
-msgstr ""
+msgstr "Εισαγωγή υπο-μενού"
 
 #: tfrmoptionsfavoritetabs.miopenallbranches.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miopenallbranches.caption"
 msgid "Open all branches"
 msgstr "Άνοιγμα όλων των κλάδων"
 
 #: tfrmoptionsfavoritetabs.mipasteselection.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mipasteselection.caption"
 msgid "Paste"
 msgstr "Επικόλληση"
 
 #: tfrmoptionsfavoritetabs.mirename.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mirename.caption"
 msgid "Rename"
 msgstr "Μετονομασία"
 
 #: tfrmoptionsfavoritetabs.miseparator1.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miseparator1.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator10.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miseparator10.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator11.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miseparator11.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator2.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miseparator2.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator3.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miseparator3.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator7.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miseparator7.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator8.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miseparator8.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator9.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.miseparator9.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionsfavoritetabs.misorteverything.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.misorteverything.caption"
 msgid "...everything, from A to Z!"
 msgstr "...όλα, από το Α ως το Ω!"
 
 #: tfrmoptionsfavoritetabs.misortsinglegroup.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup.caption"
 msgid "...single group of item(s) only"
 msgstr "...μονό γκρουπ από αντικείμενο(α) μόνο"
 
 #: tfrmoptionsfavoritetabs.misortsinglegroup2.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.misortsinglegroup2.caption"
 msgid "Sort single group of item(s) only"
 msgstr "Ταξινόμηση μονού γκρουπ από αντικείμενο(α) μόνο"
 
 #: tfrmoptionsfavoritetabs.misortsinglesubmenu.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.misortsinglesubmenu.caption"
 msgid "...content of submenu(s) selected, no sublevel"
 msgstr "...περιεχόμενα ενός ( ή πολλών) υπομενού επιλεγμένα, όχι δευτερεύοντα επίπεδα"
 
 #: tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.misortsubmenuandsublevel.caption"
 msgid "...content of submenu(s) selected and all sublevels"
 msgstr "...περιεχόμενα του(των) υπομενού επιλεγμένα και όλων των δευτερευόντων επιπέδων"
 
 #: tfrmoptionsfavoritetabs.mitestresultingfavoritetabsmenu.caption
-#, fuzzy
 msgctxt "tfrmoptionsfavoritetabs.mitestresultingfavoritetabsmenu.caption"
 msgid "Test resulting menu"
 msgstr "Μενού αποτελεσμάτων Δοκιμών"
@@ -6950,7 +6897,7 @@ msgstr "Αναζήτηση για αυτά τα αντικείμενα"
 
 #: tfrmoptionstabs.cbkeeprenamednamebacktonormal.caption
 msgid "Keep renamed name when unlocking a tab"
-msgstr ""
+msgstr "Διατήρηση μετονομασμένου ονόματος όταν ξεκλειδώνεται μια καρτέλα"
 
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
@@ -6964,7 +6911,7 @@ msgstr "Εμφάνιση επικεφαλίδας καρτέλας ακόμη κ
 
 #: tfrmoptionstabs.cbtabscloseduplicatewhenclosing.caption
 msgid "Close duplicate tabs when closing application"
-msgstr ""
+msgstr "Κλείσιμο διπλασιασμένων καρτελών όταν κλείσει η εφαρμογή"
 
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
@@ -6973,7 +6920,7 @@ msgstr "Επιβεβαίωση κλεισίματος όλων των καρτε
 
 #: tfrmoptionstabs.cbtabsconfirmcloselocked.caption
 msgid "Confirm close locked tabs"
-msgstr ""
+msgstr "Επιβεβαίωση κλεισίματος κλειδωμένων καρτελών"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
@@ -7002,7 +6949,7 @@ msgstr "Άνοιγμα νέων καρτελών δίπλα στην τρέχο�
 
 #: tfrmoptionstabs.cbtabsreusetabwhenpossible.caption
 msgid "Reuse existing tab when possible"
-msgstr ""
+msgstr "Επαναχρησιμοποίηση υπάρχουσας καρτέλας όταν αυτό είναι δυνατό"
 
 #: tfrmoptionstabs.cbtabsshowclosebutton.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
@@ -7011,7 +6958,7 @@ msgstr "Εμφάνιση κουμπιού κλεισίματος καρτελώ�
 
 #: tfrmoptionstabs.cbtabsshowdriveletter.caption
 msgid "Always show drive letter in tab title"
-msgstr ""
+msgstr "Εμφάνιση πάντοτε γράμματος οδηγού στον τίτλο καρτέλας"
 
 #: tfrmoptionstabs.gbtabs.caption
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
@@ -7025,7 +6972,7 @@ msgstr "χαρακτήρες"
 
 #: tfrmoptionstabs.lbltabsactionondoubleclick.caption
 msgid "Action to do when double click on a tab:"
-msgstr ""
+msgstr "Ενέργεια που θα εκτελεστεί όταν γίνει διπλό κλικ σε μια καρτέλα:"
 
 #: tfrmoptionstabs.lbltabsposition.caption
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
@@ -7035,10 +6982,9 @@ msgstr "Θέση Καρτελών"
 #: tfrmoptionstabsextra.cbdefaultexistingtabstokeep.text
 msgctxt "tfrmoptionstabsextra.cbdefaultexistingtabstokeep.text"
 msgid "None"
-msgstr ""
+msgstr "Κανένα"
 
 #: tfrmoptionstabsextra.cbdefaultsavedirhistory.text
-#, fuzzy
 msgctxt "tfrmoptionstabsextra.cbdefaultsavedirhistory.text"
 msgid "No"
 msgstr "Όχι"
@@ -7046,53 +6992,53 @@ msgstr "Όχι"
 #: tfrmoptionstabsextra.cbdefaulttargetpanelleftsaved.text
 msgctxt "tfrmoptionstabsextra.cbdefaulttargetpanelleftsaved.text"
 msgid "Left"
-msgstr ""
+msgstr "Αριστερά"
 
 #: tfrmoptionstabsextra.cbdefaulttargetpanelrightsaved.text
 msgctxt "tfrmoptionstabsextra.cbdefaulttargetpanelrightsaved.text"
 msgid "Right"
-msgstr ""
+msgstr "Δεξιά"
 
 #: tfrmoptionstabsextra.cbgotoconfigafterresave.caption
 msgid "Goto to Favorite Tabs Configuration after resaving"
-msgstr ""
+msgstr "Μετάβαση στη Διαμόρφωση Αγαπημένων Καρτελών μετά την επαναποθήκευση"
 
 #: tfrmoptionstabsextra.cbgotoconfigaftersave.caption
 msgid "Goto to Favorite Tabs Configuration after saving a new one"
-msgstr ""
+msgstr "Μετάβαση στη Διαμόρφωση Αγαπημένων Καρτελών μετά την αποθήκευση μίας νέας"
 
 #: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
 msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
-msgstr ""
+msgstr "Ενεργοποίηση επιπλέον ιδιοτήτων Αγαπημένων Καρτελών (επιλογή πλευρά στόχου όταν γίνεται αποκατάσταση, κ.λ.π.)"
 
 #: tfrmoptionstabsextra.gbdefaulttabsavedrestoration.caption
 msgid "Default extra settings when saving new Favorite Tabs:"
-msgstr ""
+msgstr "Προκαθορισμένες επιπλέον ιδιότητες όταν αποθηκεύεται νέα Αγαπημένη Καρτέλα:"
 
 #: tfrmoptionstabsextra.gbtabs.caption
 msgid "Folder tabs headers extra"
-msgstr ""
+msgstr "Extra Επικεφαλίδων Καρτελών Φακέλων"
 
 #: tfrmoptionstabsextra.lbldefaultexistingtabstokeep.caption
 msgid "When restoring tab, existing tabs to keep:"
-msgstr ""
+msgstr "όταν αποκαθίσταται καρτέλα, υπάρχουσες καρτέλες προς φύλαξη:"
 
 #: tfrmoptionstabsextra.lbldefaulttargetpanelleftsaved.caption
 msgid "Tabs saved on left will be restored to:"
-msgstr ""
+msgstr "Καρτέλες αποθηκευμένες αριστερά να αποκατασταθούν σε :"
 
 #: tfrmoptionstabsextra.lbldefaulttargetpanelrightsaved.caption
 msgid "Tabs saved on right will be restored to:"
-msgstr ""
+msgstr "Καρτέλες αποθηκευμένες δεξιά να αποκατασταθούν σε :"
 
 #: tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption
 msgctxt "tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr ""
+msgstr "Διατήρηση αποθήκευσης ιστορικού καταλόγου με Αγαπημένες Καρτέλες:"
 
 #: tfrmoptionstabsextra.rgwheretoadd.caption
 msgid "Default position in menu when saving a new Favorite Tabs:"
-msgstr ""
+msgstr "Προκαθορισμένη θέση στο μενού όταν αποθηκεύεται μια νέα Αγαπημένη Καρτέλα:"
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -7117,8 +7063,6 @@ msgid "Parameters:"
 msgstr "Παράμετροι:"
 
 #: tfrmoptionsterminal.ledtrunintermcloseparams.hint
-#, fuzzy
-#| msgid "{command} should normally present here to releft the command to be run in terminal"
 msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{εντολή} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
@@ -7134,8 +7078,6 @@ msgid "Parameters:"
 msgstr "Παράμετροι:"
 
 #: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
-#, fuzzy
-#| msgid "{command} should normally present here to releft the command to be run in terminal"
 msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.HINT"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{εντολή} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
@@ -7151,8 +7093,6 @@ msgid "Parameters:"
 msgstr "Παράμετροι:"
 
 #: tfrmoptionsterminal.ledtruntermparams.hint
-#, fuzzy
-#| msgid "{command} should normally present here to releft the command to be run in terminal"
 msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.HINT"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{εντολή} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
@@ -9156,7 +9096,7 @@ msgstr ""
 "%s\n"
 "\n"
 "Θα μπορούσατε να το κάνετε διαθέσιμο πιέζοντας \"ΟΚ\"όταν είστε έτοιμοι,\n"
-"ή πιέστε \"Ακύρωση\" για να συνεχίσετε χωρίς αυτό?\n"
+"ή πιέστε \"Ακύρωση\" για να συνεχίσετε χωρίς αυτό;\n"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
@@ -9587,11 +9527,11 @@ msgstr "Εκτέλεση μέσω τερματικού και παραμονή �
 
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
-msgstr ""
+msgstr "Αριστερά;Δεξιά;Ενεργό;Ανενεργό;Και τα δύο;Κανένα"
 
 #: ulng.rsfavtabssavedirhistory
 msgid "No;Yes"
-msgstr ""
+msgstr "Όχι;Ναι"
 
 #: ulng.rsfilenameexportedtcbarprefix
 msgid "Exported_from_DC"
@@ -9663,7 +9603,7 @@ msgstr "Εύρεση αρχείων"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
-msgstr ""
+msgstr "Ώρα σάρωσης:"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -9754,7 +9694,7 @@ msgstr "Λάθος στη δημιουργία δεσμού τύπου hardlink.
 
 #: ulng.rshotdirforcesortingorderchoices
 msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
-msgstr ""
+msgstr "κανένα;Όνομα, α-ω;Όνομα, ω-α;Εξωτ, α-ω;Εξωτ, ω-α;Μέγεθος 9-0;Μέγεθος 0-9;Ημέρα 9-0;Ημέρα 0-9"
 
 #: ulng.rshotdirnothingtoimport
 msgid "Sorry, nothing detected to import!"
@@ -9768,7 +9708,7 @@ msgid ""
 msgstr ""
 "Προσοχή! Κατά την αποκατάσταση ενός .hotlist αντιγράφου, θα διαγραφεί η υπάρχουσα λίστα για να αντικατασταθεί από την σημαντική.\n"
 "\n"
-"Είστε σίγουροι οτι επιθυμείτε να συνεχίσετε?\n"
+"Είστε σίγουροι οτι επιθυμείτε να συνεχίσετε;\n"
 
 #: ulng.rshotkeycategorycopymovedialog
 msgid "Copy/Move Dialog"
@@ -9784,13 +9724,11 @@ msgid "Edit Comment Dialog"
 msgstr "Επεξεργασία Διαλόγου Σχολίου"
 
 #: ulng.rshotkeycategoryeditor
-#, fuzzy
 msgctxt "ulng.rshotkeycategoryeditor"
 msgid "Editor"
 msgstr "Επεξεργαστής"
 
 #: ulng.rshotkeycategoryfindfiles
-#, fuzzy
 msgctxt "ulng.rshotkeycategoryfindfiles"
 msgid "Find files"
 msgstr "Εύρεση αρχείων"
@@ -9864,7 +9802,7 @@ msgstr "Εξαγωγή"
 
 #: ulng.rsmnuextracthere
 msgid "Extract here..."
-msgstr ""
+msgstr "Εξαγωγή εδώ..."
 
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
@@ -9899,7 +9837,7 @@ msgstr "Άλλα..."
 
 #: ulng.rsmnupackhere
 msgid "Pack here..."
-msgstr ""
+msgstr "Πακετάρισμα εδώ..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -9932,7 +9870,7 @@ msgstr ""
 "Κακό CRC32 για τελικό αρχείο:\n"
 "\"%s\"\n"
 "\n"
-"Επιθυμείτε να κρατήσετε το κατεστραμμένο τελικό αρχείο ως έχει?\n"
+"Επιθυμείτε να κρατήσετε το κατεστραμμένο τελικό αρχείο ως έχει;\n"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -9948,11 +9886,11 @@ msgstr "ChDir σε [%s] απέτυχε!"
 
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
-msgstr "Αφαίρεση όλων των ανενεργών καρτελών?"
+msgstr "Αφαίρεση όλων των ανενεργών καρτελών;"
 
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
-msgstr "Αυτή η καρτέλα (%s) είναι κλειδωμένη! Κλείσιμο ως έχει?"
+msgstr "Αυτή η καρτέλα (%s) είναι κλειδωμένη! Κλείσιμο ως έχει;"
 
 #: ulng.rsmsgcolumnsmodifiedwanttosave
 msgid ""
@@ -9962,27 +9900,27 @@ msgid ""
 msgstr ""
 "Ιδιότητες που αφορούν την προβολή στηλών έχουν μεταβληθεί.\n"
 "\n"
-"Επιθυμείτε αποθήκευση πριν την έξοδο?\n"
+"Επιθυμείτε αποθήκευση πριν την έξοδο;\n"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
-msgstr "Είστε σίγουροι οτι επιθυμείτε έξοδο?"
+msgstr "Είστε σίγουροι οτι επιθυμείτε έξοδο;"
 
 #: ulng.rsmsgcopybackward
 msgid "The file %s has changed. Do you want to copy it backward?"
-msgstr "Το αρχείο %s έχει αλλάξει. Επιθυμείτε να το αντιγράψετε αντίστροφα?"
+msgstr "Το αρχείο %s έχει αλλάξει. Επιθυμείτε να το αντιγράψετε αντίστροφα;"
 
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
-msgstr "Αδυναμία αντίστροφης αντιγραφής - επιθυμείτε να διατηρήσετε το αλλαγμένο αρχείο?"
+msgstr "Αδυναμία αντίστροφης αντιγραφής - επιθυμείτε να διατηρήσετε το αλλαγμένο αρχείο;"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
-msgstr "Αντιγραφή %d επιλεγμένων αρχείων/καταλόγων?"
+msgstr "Αντιγραφή %d επιλεγμένων αρχείων/καταλόγων;"
 
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
-msgstr "Αντιγραφή επιλεγμένου \"%s\"?"
+msgstr "Αντιγραφή επιλεγμένου \"%s\";"
 
 #: ulng.rsmsgcreateanewfiletype
 msgid "< Create a new file type \"%s files\" >"
@@ -10002,23 +9940,23 @@ msgstr "Διαγραφή μερικώς αντιγραμμένου αρχείο�
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
-msgstr "Διαγραφή %d επιλεγμένων αρχείων/καταλόγων?"
+msgstr "Διαγραφή %d επιλεγμένων αρχείων/καταλόγων;"
 
 #: ulng.rsmsgdelfldrt
 msgid "Delete %d selected files/directories into trash can?"
-msgstr "Διαγραφή %d επιλεγμένων αρχείων/καταλόγων στο κάδο αχρήστων"
+msgstr "Διαγραφή %d επιλεγμένων αρχείων/καταλόγων στο κάδο αχρήστων;"
 
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
-msgstr "Διαγραφή επιλεγμένων \"%s\"?"
+msgstr "Διαγραφή επιλεγμένων \"%s\";"
 
 #: ulng.rsmsgdelselt
 msgid "Delete selected \"%s\" into trash can?"
-msgstr "Διαγραφή επιλεγμένων \"%s\" στο κάδο αχρήστων?"
+msgstr "Διαγραφή επιλεγμένων \"%s\" στο κάδο αχρήστων;"
 
 #: ulng.rsmsgdeltotrashforce
 msgid "Can not delete \"%s\" to trash! Delete directly?"
-msgstr "Αδυναμία διαγραφής \"%s\" στα απορρίματα! Διαγραφή άμεσα?"
+msgstr "Αδυναμία διαγραφής \"%s\" στα απορρίμματα! Διαγραφή άμεσα;"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -10026,7 +9964,7 @@ msgstr "Ο Δίσκος δεν είναι διαθέσιμος"
 
 #: ulng.rsmsgdraganddropmodifiedwanttosave
 msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
-msgstr "Οι ρυθμίσεις που αφορούν τη μεταφορά και απόθεση με ποντίκι έχουν μεταβληθεί. Επιθυμείτε αποθήκευση πριν την έξοδο?"
+msgstr "Οι ρυθμίσεις που αφορούν τη μεταφορά και απόθεση με ποντίκι έχουν μεταβληθεί. Επιθυμείτε αποθήκευση πριν την έξοδο;"
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
@@ -10174,82 +10112,79 @@ msgstr "Άγνωστη μορφή Αρχειοθήκης"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
-msgstr ""
+msgstr "Είστε βέβαιοι οτι επιθυμείτε να αφαιρέσετε όλες τις καταχωρήσεις των Αγαπημένων Καρτελών σας; (Δεν υπάρχει \"αναίρεση\" σε αυτή την ενέργεια!)"
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
-msgstr ""
+msgstr "Μεταφορά με το ποντίκι εδώ άλλων καταχωρήσεων"
 
 #: ulng.rsmsgfavoritetabsendofmenu
-#, fuzzy
 msgctxt "ulng.rsmsgfavoritetabsendofmenu"
 msgid "(end of sub menu)"
 msgstr "(τέλος του υπομενού)"
 
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name this Favorite Tabs entry"
-msgstr ""
+msgstr "Εισαγωγή ενός ονόματος για αυτή τη καταχώρηση Αγαπημένης Καρτέλας"
 
 #: ulng.rsmsgfavoritetabsenternametitle
 msgid "Saving a new Favorite Tabs entry"
-msgstr ""
+msgstr "Αποθήκευση μίας νέας καταχώρησης Αγαπημένων Καρτελών"
 
 #: ulng.rsmsgfavoritetabserrorloading
 msgid "Error loading Favorite Tabs..."
-msgstr ""
+msgstr "Λάθος κατά τη φόρτωση Αγαπημένων Καρτελών..."
 
 #: ulng.rsmsgfavoritetabserrorsaving
 msgid "Error saving Favorite Tabs..."
-msgstr ""
+msgstr "Λάθος κατά την αποθήκευση Αγαπημένων Καρτελών..."
 
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
-msgstr ""
+msgstr "Αριθμός Αγαπημένων Καρτελών που έχουν εξαχθεί επιτυχώς: %d στις %d"
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr ""
+msgstr "Προκαθορισμένη επιπλέον ρύθμιση για αποθήκευση ιστορικού καταλόγου για νέες Αγαπημένες Καρτέλες:"
 
 #: ulng.rsmsgfavoritetabshasbeenadded
 msgid "Favorite Tabs have been added in memory!"
-msgstr ""
+msgstr "Αγαπημένες Καρτέλες έχουν προστεθεί στη μνήμη!"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
 msgid "Number of file(s) imported successfully: %d on %d"
-msgstr ""
+msgstr "Αριθμός αρχείου(ων) που έχουν εισαχθεί επιτυχώς: %d στα %d"
 
 #: ulng.rsmsgfavoritetabsimportsubmenuname
 msgid "Legacy tabs imported"
-msgstr ""
+msgstr "Εισήχθησαν καρτέλες Legacy"
 
 #: ulng.rsmsgfavoritetabsimporttitle
 msgid "Select .tab file(s) to import (could be more than one at the time!)"
-msgstr ""
+msgstr "Επιλέξτε .tab αρχείο(α) για εισαγωγή (μπορούν να είναι και περισσότερα από ένα κάθε φορά!)"
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
-msgstr ""
+msgstr "Η τελευταία προσαρμογή Αγαπημένων Καρτελών δεν έχει αποθηκευθεί ακόμη. Επιθυμείτε να αποθηκεύσετε πριν να συνεχίσετε;"
 
 #: ulng.rsmsgfavoritetabsmodifiedwanttosave
 msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
-msgstr ""
+msgstr "Αγαπημένες Καρτέλες έχουν μεταβληθεί. Επιθυμείτε αποθήκευση πριν την έξοδο;"
 
 #: ulng.rsmsgfavoritetabsname
-#, fuzzy
 msgctxt "ulng.rsmsgfavoritetabsname"
 msgid "Name"
 msgstr "Όνομα"
 
 #: ulng.rsmsgfavoritetabsnamesample
 msgid "This will load your Favorites Tabs entry setup called %s"
-msgstr ""
+msgstr "Αυτό θα φορτώσει την ρύθμιση καταχώρησης Αγαπημένων Καρτελών με την ονομασία %s"
 
 #: ulng.rsmsgfavoritetabssavelastloadover
 msgid "Save to Favorite Tabs over last loaded entry (%s)"
-msgstr ""
+msgstr "Αποθήκευση σε Αγαπημένες Καρτέλες πάνω στην τελευταία φορτωμένη καταχώρηση (%s)"
 
 #: ulng.rsmsgfavoritetabssimplemenu
-#, fuzzy
 msgctxt "ulng.rsmsgfavoritetabssimplemenu"
 msgid "Menu name:"
 msgstr "Ονομασία Μενού:"
@@ -10257,27 +10192,25 @@ msgstr "Ονομασία Μενού:"
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr ""
+msgstr "Διατήρηση αποθήκευσης ιστορικού καταλόγου με Αγαπημένες Καρτέλες:"
 
 #: ulng.rsmsgfavoritetabssimpleseparator
-#, fuzzy
 msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
 msgid "(separator)"
 msgstr "(διαχωριστικό)"
 
 #: ulng.rsmsgfavoritetabssubmenuname
-#, fuzzy
 msgctxt "ulng.rsmsgfavoritetabssubmenuname"
 msgid "Submenu name"
 msgstr "Ονομασία υπομενού"
 
 #: ulng.rsmsgfavoritetabsthiswillloadfavtabs
 msgid "This will load the Favorite Tabs: \"%s\""
-msgstr ""
+msgstr "Αυτό θα φορτώσει τις Αγαπημένες Καρτέλες: \"%s\""
 
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
-msgstr ""
+msgstr "Αποθήκευση τρεχουσών καρτελών πάνω σε υπάρχουσα καταχώρηση Αγαπημένων Καρτελών"
 
 #: ulng.rsmsgfileassociationsextramodifiedwanttosave
 msgid ""
@@ -10287,7 +10220,7 @@ msgid ""
 msgstr ""
 "Οι έξτρα ιδιότητες των συσχετισμών επεκτάσεων αρχείου έχουν αλλάξει.\n"
 "\n"
-"Επιθυμείτε να αποθηκεύσετε πριν την έξοδο?\n"
+"Επιθυμείτε να αποθηκεύσετε πριν την έξοδο;\n"
 
 #: ulng.rsmsgfileassociationsmodifiedwanttosave
 msgid ""
@@ -10297,11 +10230,11 @@ msgid ""
 msgstr ""
 "Οι συσχετισμοί επεκτάσεων αρχείου έχουν αλλάξει.\n"
 "\n"
-"Επιθυμείτε να αποθηκεύσετε πριν την έξοδο?\n"
+"Επιθυμείτε να αποθηκεύσετε πριν την έξοδο;\n"
 
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
-msgstr "Το αρχείο %s έχει αλλάξει, αποθήκευση?"
+msgstr "Το αρχείο %s έχει αλλάξει, αποθήκευση;"
 
 #: ulng.rsmsgfileexistsfileinfo
 msgid "%s bytes, %s"
@@ -10313,7 +10246,7 @@ msgstr "Αντικατάσταση:"
 
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
-msgstr "Το Αρχείο %s υπάρχει, αντικατάσταση?"
+msgstr "Το Αρχείο %s υπάρχει, αντικατάσταση;"
 
 #: ulng.rsmsgfileexistswithfile
 msgid "With file:"
@@ -10333,7 +10266,7 @@ msgstr "Κάποιες εργασίες αρχείου δεν έχουν ακό�
 
 #: ulng.rsmsgfileoperationsmodifiedwanttosave
 msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
-msgstr "Ιδιότητες που αφορούν εργασίες αρχείου έχουν μεταβληθεί. Επιθυμείτε αποθήκευση πριν την έξοδο?"
+msgstr "Ιδιότητες που αφορούν εργασίες αρχείου έχουν μεταβληθεί. Επιθυμείτε αποθήκευση πριν την έξοδο;"
 
 #: ulng.rsmsgfilepanelcolormodifiedwanttosave
 msgid ""
@@ -10343,11 +10276,11 @@ msgid ""
 msgstr ""
 "Ιδιότητες που αφορούν το χρώμα του πάνελ έχουν μεταβληθεί.\n"
 "\n"
-"Επιθυμείτε να αποθηκεύσετε πριν την έξοδο?\n"
+"Επιθυμείτε να αποθηκεύσετε πριν την έξοδο;\n"
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
-msgstr "Το Αρχείο %s έχει σημανθεί για ανάγνωση μόνο. Διαγραφή?"
+msgstr "Το Αρχείο %s έχει σημανθεί για ανάγνωση μόνο. Διαγραφή;"
 
 #: ulng.rsmsgfilesizetoobig
 msgid "The file size of \"%s\" is too big for destination file system!"
@@ -10355,11 +10288,11 @@ msgstr "Το μέγεθος αρχείου του \"%s\" είναι πολύ μ�
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
-msgstr "Ο Φάκελος %s υπάρχει, αντικατάσταση?"
+msgstr "Ο Φάκελος %s υπάρχει, αντικατάσταση;"
 
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
-msgstr "Ακολουθείστε Συμβολοδεσμό \"%s\"?"
+msgstr "Ακολουθείστε Συμβολοδεσμό \"%s\";"
 
 #: ulng.rsmsgfortextformattoimport
 msgid "Select the text format to import"
@@ -10392,7 +10325,7 @@ msgstr "Ρυθμίσεις του Καταλόγου Hotlist"
 
 #: ulng.rsmsghotdirdeleteallentries
 msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
-msgstr "Είστε σίγουροι οτι επιθυμείτε να αφαιρέσετε όλες τις καταχωρήσεις από τον κατάλογο Hotlist? (Δεν υπάρχει \"Αναίρεση\" σε αυτή την ενέργεια!)"
+msgstr "Είστε σίγουροι οτι επιθυμείτε να αφαιρέσετε όλες τις καταχωρήσεις από τον κατάλογο Hotlist; (Δεν υπάρχει \"Αναίρεση\" σε αυτή την ενέργεια!)"
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
@@ -10455,7 +10388,7 @@ msgstr "Εντοπισμός \".hotlist\" αρχείου προς εισαγωγ
 
 #: ulng.rsmsghotdirmodifiedwanttosave
 msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
-msgstr "Ο κατάλογος Hotlist έχει μεταβληθεί. Επιθυμείτε να αποθηκεύσετε πριν την έξοδο?"
+msgstr "Ο κατάλογος Hotlist έχει μεταβληθεί. Επιθυμείτε να αποθηκεύσετε πριν την έξοδο;"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
@@ -10550,8 +10483,8 @@ msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgstr ""
-"Επιθυμείτε να διαγράψετε όλα τα στοιχεία εντός του υπο-μενού [%s]?\n"
-"Απαντώντας ΟΧΙ θα διαγράψετε μόνο τους οριοθέτες του μενού αλλά θα διατηρηθεί το στοιχείο μέσα στο υπο-μενού.\n"
+"Επιθυμείτε να διαγράψετε όλα τα στοιχεία εντός του υπομενού [%s];\n"
+"Απαντώντας ΟΧΙ θα διαγράψετε μόνο τους οριοθέτες του μενού αλλά θα διατηρηθεί το στοιχείο μέσα στο υπομενού.\n"
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
@@ -10673,7 +10606,7 @@ msgid ""
 msgstr ""
 "Ιδιότητες που αφορούν την καταγραφή έχουν μεταβληθεί.\n"
 "\n"
-"Επιθυμείτε να τις αποθηκεύσετε πριν την έξοδο?\n"
+"Επιθυμείτε να τις αποθηκεύσετε πριν την έξοδο;\n"
 
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
@@ -10713,7 +10646,7 @@ msgstr "Παρακαλώ εισάγετε το κύριο συνθηματικό
 
 #: ulng.rsmsgmiscellaneousmodifiedwanttosave
 msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
-msgstr "Διάφορες ρυθμίσεις έχουν αλλάξει. Επιθυμείτε να αποθηκεύσετε πριν την έξοδο?"
+msgstr "Διάφορες ρυθμίσεις έχουν αλλάξει. Επιθυμείτε να αποθηκεύσετε πριν την έξοδο;"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -10733,11 +10666,11 @@ msgstr "Δεν έχουν επιλεχθεί αρχεία."
 
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
-msgstr "Όχι αρκετός ελεύθερος χώρος στον στοχευμένο οδηγό, Συνέχιση?"
+msgstr "Όχι αρκετός ελεύθερος χώρος στον στοχευμένο οδηγό, Συνέχιση;"
 
 #: ulng.rsmsgnofreespaceretry
 msgid "No enough free space on target drive, Retry?"
-msgstr "Όχι αρκετός ελεύθερος χώρος στον στοχευμένο οδηγό, Δοκιμή Ξανά?"
+msgstr "Όχι αρκετός ελεύθερος χώρος στον στοχευμένο οδηγό, Δοκιμή Ξανά;"
 
 #: ulng.rsmsgnotdelete
 msgid "Can not delete file %s"
@@ -10782,12 +10715,13 @@ msgid "&Configure"
 msgstr "Διαμόρφωση"
 
 #: ulng.rsmsgpopuphotdelete
+#, fuzzy,badformat
 msgid "&Delete %s"
 msgstr "%Διαγραφή %s"
 
 #: ulng.rsmsgpresetalreadyexists
 msgid "Preset \"%s\" already exists. Overwrite?"
-msgstr "Τα προκαθορισμένα \"%s\" ήδη υπάρχουν. Αντικατάσταση?"
+msgstr "Τα προκαθορισμένα \"%s\" ήδη υπάρχουν. Αντικατάσταση;"
 
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
@@ -10799,23 +10733,23 @@ msgstr "Όνομα Αρχείου για εναποθετημένο κείμεν
 
 #: ulng.rsmsgprovidethisfile
 msgid "Please, make this file available. Retry?"
-msgstr "Παρακαλώ, κάντε αυτό το αρχείο διαθέσιμο. Δοκιμή ξανά?"
+msgstr "Παρακαλώ, κάντε αυτό το αρχείο διαθέσιμο. Δοκιμή ξανά;"
 
 #: ulng.rsmsgrenamefavtabs
 msgid "Enter new friendly name for this Favorite Tabs"
-msgstr ""
+msgstr "Εισαγωγή νέου φιλικού ονόματος για αυτή την Αγαπημένη Καρτέλα"
 
 #: ulng.rsmsgrenamefavtabsmenu
 msgid "Enter new name for this menu"
-msgstr ""
+msgstr "Εισαγωγή νέου ονόματος για αυτό το μενού"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
-msgstr "Μετονομασία/μετακίνηση %d επιλεγμένων αρχείων/καταλόγων?"
+msgstr "Μετονομασία/μετακίνηση %d επιλεγμένων αρχείων/καταλόγων;"
 
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
-msgstr "Μετονομασία/μετακίνηση επιλεγμένων \"%s\"?"
+msgstr "Μετονομασία/μετακίνηση επιλεγμένων \"%s\";"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
@@ -10883,7 +10817,7 @@ msgstr "Μετάβαση στον ειδικό φάκελο των Windows (TC).
 
 #: ulng.rsmsgspecialdirmakereltohotdir
 msgid "Make relative to hotdir path"
-msgstr ""
+msgstr "Δημιουργία σχετικής διαδρομής για την hotdir"
 
 #: ulng.rsmsgspecialdirmkabso
 msgid "Make path absolute"
@@ -10911,7 +10845,7 @@ msgstr "Χρήση της ειδικής διαδρομής του Double Comman
 
 #: ulng.rsmsgspecialdirusehotdir
 msgid "Use hotdir path"
-msgstr ""
+msgstr "Χρήση διαδρομής hotdir"
 
 #: ulng.rsmsgspecialdiruseother
 msgid "Use other Windows special folder..."
@@ -10923,7 +10857,7 @@ msgstr "Χρήση του ειδικού φακέλου των Windows (TC)..."
 
 #: ulng.rsmsgtabforopeninginnewtab
 msgid "This tab (%s) is locked! Open directory in another tab?"
-msgstr ""
+msgstr "Αυτή η καρτέλα (%s) είναι κλειδωμένη! Άνοιγμα καταλόγου σε άλλη καρτέλα;"
 
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
@@ -10939,6 +10873,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"Ιδιότητες σχετικά με τα extra καρτελών φακέλων έχουν αλλάξει.\n"
+"\n"
+"Επιθυμείτε αποθήκευση πριν την έξοδο;\n"
 
 #: ulng.rsmsgtabsoptionsmodifiedwanttosave
 msgid ""
@@ -10946,6 +10883,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"Ιδιότητες σχετικά με τις καρτέλες φακέλων έχουν αλλάξει.\n"
+"\n"
+"Επιθυμείτε αποθήκευση πριν την έξοδο;\n"
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
@@ -10995,7 +10935,7 @@ msgid ""
 msgstr ""
 "Ιδιότητες που αφορούν το τερματικό έχουν μεταβληθεί.\n"
 "\n"
-"Επιθυμείτε αποθήκευση πριν την έξοδο?\n"
+"Επιθυμείτε αποθήκευση πριν την έξοδο;\n"
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
@@ -11019,7 +10959,7 @@ msgstr "Εντοπισμός \".BAR\" αρχείο για εισαγωγή"
 
 #: ulng.rsmsgtoolbarmodifiedwanttosave
 msgid "Toolbar has been modified. Do you want to save before to exit?"
-msgstr "Η Γραμμή Εργαλείων έχει αλλάξει. Επιθυμείτε την αποθήκευση πριν την έξοδο?"
+msgstr "Η Γραμμή Εργαλείων έχει αλλάξει. Επιθυμείτε την αποθήκευση πριν την έξοδο;"
 
 #: ulng.rsmsgtoolbarrestorewhat
 msgid "Enter location and filename of Toolbar to restore"
@@ -11071,11 +11011,11 @@ msgstr "Παρακαλώ εισαγάγετε το μέγεθος τόμου:"
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
-msgstr "Ασφαλής Διαγραφή %d επιλεγμένων αρχείων/καταλόγων?"
+msgstr "Ασφαλής Διαγραφή %d επιλεγμένων αρχείων/καταλόγων;"
 
 #: ulng.rsmsgwipesel
 msgid "Wipe selected \"%s\"?"
-msgstr "Ασφαλής Διαγραφή επιλεγμένων \"%s\"?"
+msgstr "Ασφαλής Διαγραφή επιλεγμένων \"%s\";"
 
 #: ulng.rsmsgwithactionwith
 msgid "with"
@@ -11233,6 +11173,7 @@ msgid "Setting property in \"%s\""
 msgstr "Καθορισμός ιδιότητας σε \"%s\""
 
 #: ulng.rsopersettingpropertyof
+#, fuzzy,badformat
 msgid "Setting property of \"%s\""
 msgstr "Καθορισμός ιδιότητας των"
 
@@ -11410,7 +11351,7 @@ msgstr "Κείμενο"
 
 #: ulng.rsoptfavoritetabswheretoaddinlist
 msgid "Add at beginning;Add at the end;Alphabetical sort"
-msgstr ""
+msgstr "Προσθήκη στην αρχή;Προσθήκη στο τέλος;Με Αλφαβητική σειρά"
 
 #: ulng.rsoptfileoperationsprogresskind
 msgid "separate window;minimized separate window;operations panel"
@@ -11448,12 +11389,12 @@ msgstr "Εντολή"
 #: ulng.rsopthotkeysdeletetrashcanoverrides
 msgctxt "ulng.rsopthotkeysdeletetrashcanoverrides"
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
-msgstr "Η συντόμευση %s για το cm_Delete έχει μία παράμετρο που αντικαθιστά αυτή τη ρύθμιση. Επιθυμείτε να αλλάξετε αυτή τη παράμετρο και να κάνετε χρήση των γενικών ρυθμίσεων?"
+msgstr "Η συντόμευση %s για το cm_Delete έχει μία παράμετρο που αντικαθιστά αυτή τη ρύθμιση. Επιθυμείτε να αλλάξετε αυτή τη παράμετρο και να κάνετε χρήση των γενικών ρυθμίσεων;"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
 msgctxt "ulng.rsopthotkeysdeletetrashcanparameterexists"
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
-msgstr "Η συντόμευση %s για το cm_Delete πρέπει να έχει μία παράμετρο που να ταιριάζει με τη συντόμευση %s. Επιθυμείτε να την αλλάξετε?"
+msgstr "Η συντόμευση %s για το cm_Delete πρέπει να έχει μία παράμετρο που να ταιριάζει με τη συντόμευση %s. Επιθυμείτε να την αλλάξετε;"
 
 #: ulng.rsopthotkeysdescription
 msgctxt "ulng.rsopthotkeysdescription"
@@ -11493,7 +11434,7 @@ msgstr "Καθορισμός συντόμευσης για διαγραφή αρ
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr "Για να λειτουργήσει αυτή η ρύθμιση με τη συντόμευση %s, η συντόμευση %s πρέπει να κατοχυρωθεί στο cm_Delete αλλά είναι ήδη εκχωρημένη στο %s. Επιθυμείτε να την αλλάξετε?"
+msgstr "Για να λειτουργήσει αυτή η ρύθμιση με τη συντόμευση %s, η συντόμευση %s πρέπει να κατοχυρωθεί στο cm_Delete αλλά είναι ήδη εκχωρημένη στο %s. Επιθυμείτε να την αλλάξετε;"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
@@ -11509,7 +11450,7 @@ msgstr "Συντόμευση %s έχει ήδη χρησιμοποιηθεί."
 
 #: ulng.rsopthotkeysshortcutusedtext2
 msgid "Change it to %s?"
-msgstr "Αλλαγή σε %s?"
+msgstr "Αλλαγή σε %s;"
 
 #: ulng.rsopthotkeysusedby
 msgid "used for %s in %s"
@@ -11572,7 +11513,7 @@ msgstr "Κουμπιά Λίστας Οδηγών"
 
 #: ulng.rsoptionseditorfavoritetabs
 msgid "Favorite Tabs"
-msgstr ""
+msgstr "Αγαπημένες Καρτέλες"
 
 #: ulng.rsoptionseditorfileassicextra
 msgid "File associations extra"
@@ -11609,7 +11550,7 @@ msgstr "Καρτέλες Φακέλων"
 
 #: ulng.rsoptionseditorfoldertabsextra
 msgid "Folder tabs extra"
-msgstr ""
+msgstr "Extra καρτελών φακέλων"
 
 #: ulng.rsoptionseditorfonts
 msgctxt "ulng.rsoptionseditorfonts"
@@ -11758,7 +11699,7 @@ msgstr "Αλφαβητικά, σε σχέση με τον τονισμό;φυσ�
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
-msgstr "Κορυφή;Πάτος;"
+msgstr "Κορυφή;Κάτω;"
 
 #: ulng.rsopttoolbarbuttontype
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
@@ -11889,7 +11830,7 @@ msgstr "Αποτέλεσμα"
 
 #: ulng.rssimplewordsaved
 msgid "Saved!"
-msgstr ""
+msgstr "Αποθηκεύτηκε!"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
@@ -11936,7 +11877,7 @@ msgstr "Αδυναμία διαμερισμού του Αρχείου!"
 
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
-msgstr "Ο αριθμός τμημάτων είναι παραπάνω από 100! Συνέχιση?"
+msgstr "Ο αριθμός τμημάτων είναι παραπάνω από 100! Συνέχιση;"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
@@ -11958,7 +11899,7 @@ msgstr "Απλό Κείμενο"
 
 #: ulng.rstabsactionondoubleclickchoices
 msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
-msgstr ""
+msgstr "Να μη γίνει τίποτα;Κλείσιμο καρτέλας;Πρόσβαση Αγαπημένων Καρτελών;Αναδυόμενο μενού Καρτελών"
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
@@ -11991,11 +11932,11 @@ msgstr "Χρόνος(ια)"
 
 #: ulng.rstitlerenamefavtabs
 msgid "Rename Favorite Tabs"
-msgstr ""
+msgstr "Μετονομασία Αγαπημένων Καρτελών"
 
 #: ulng.rstitlerenamefavtabsmenu
 msgid "Rename Favorite Tabs sub-menu"
-msgstr ""
+msgstr "Μετονομασία υπο-μενού Αγαπημένων Καρτελών"
 
 #: ulng.rstooldiffer
 msgctxt "ulng.rstooldiffer"
