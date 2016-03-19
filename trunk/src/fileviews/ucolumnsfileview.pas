@@ -709,7 +709,7 @@ begin
   SetColumns;
   SetColumnsSortDirections;
 
-  dgPanel.FocusRectVisible := ColumnsClass.UseCursorBorder and not ColumnsClass.UseFrameCursor;
+  dgPanel.FocusRectVisible := ColumnsClass.UseCursorBorder and not gUseFrameCursor;
   dgPanel.FocusColor := ColumnsClass.CursorBorderColor;
   dgPanel.UpdateView;
 
@@ -1438,8 +1438,8 @@ var
     Canvas.Font.Style   := ColumnsSet.GetColumnFontStyle(ACol);
     Canvas.Font.Quality := ColumnsSet.GetColumnFontQuality(ACol);
 
-    IsCursor := (gdSelected in aState) and ColumnsView.Active and (not ColumnsSet.UseFrameCursor);
-    IsCursorInactive := (gdSelected in aState) and (not ColumnsView.Active) and (not ColumnsSet.UseFrameCursor);
+    IsCursor := (gdSelected in aState) and ColumnsView.Active and (not gUseFrameCursor);
+    IsCursorInactive := (gdSelected in aState) and (not ColumnsView.Active) and (not gUseFrameCursor);
     // Set up default background color first.
     if IsCursor then
       BackgroundColor := ColumnsSet.GetColumnCursorColor(ACol)
@@ -1510,7 +1510,7 @@ var
   procedure DrawLines;
   begin
     // Draw frame cursor.
-    if ColumnsSet.UseFrameCursor and (gdSelected in aState) and (ColumnsView.Active OR ColumnsSet.GetColumnUseInactiveSelColor(Acol)) then
+    if gUseFrameCursor and (gdSelected in aState) and (ColumnsView.Active OR ColumnsSet.GetColumnUseInactiveSelColor(Acol)) then
     begin
       if ColumnsView.Active then
         Canvas.Pen.Color := ColumnsSet.GetColumnCursorColor(ACol)
