@@ -175,24 +175,16 @@ begin
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
     begin
-      WFXmodule := TWFXmodule.Create;
-      DCDebug('TWFXmodule created');
-      try
-        if WFXmodule.LoadModule(PluginFileName) then
-         begin
-           DCDebug('WFXModule Loaded');
-           WfxModule.VFSInit(0);
-           WFXmodule.VFSConfigure(stgPlugins.Handle);
-           DCDebug('Dialog executed');
-           WFXModule.UnloadModule;
-           DCDebug('WFX Module Unloaded');
-         end
-         else
-           msgError(rsMsgErrEOpen + ': ' + PluginFileName);
-      finally
-        WFXmodule.Free;
-        DCDebug('WFX Freed');
-      end;
+      WFXmodule := gWFXPlugins.LoadModule(PluginFileName);
+      if Assigned(WFXmodule) then
+       begin
+         DCDebug('WFXModule Loaded');
+         WfxModule.VFSInit;
+         WFXmodule.VFSConfigure(stgPlugins.Handle);
+         DCDebug('Dialog executed');
+       end
+       else
+         msgError(rsMsgErrEOpen + ': ' + PluginFileName);
     end;
 end;
 
@@ -567,10 +559,9 @@ begin
     DCDebug('Dialog executed');
     if not CheckPlugin(sFileName) then Exit;
 
-    WfxModule:= TWfxModule.Create;
-    DCDebug('TWFXmodule created');
+    WfxModule:= gWFXPlugins.LoadModule(sFileName);
     try
-      if not WfxModule.LoadModule(sFileName) then
+      if not Assigned(WfxModule) then
       begin
         DCDebug('Module not loaded');
         MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
@@ -585,9 +576,6 @@ begin
         sRootName:= ExtractOnlyFileName(sFileName);
       end;
       sPluginName:= sRootName + '=' + SetCmdDirAsEnvVar(sFileName);
-
-      WFXModule.UnloadModule;
-      DCDebug('WFX Module Unloaded');
 
       DCDebug('WFX sPluginName=' + sPluginName);
       I:= tmpWFXPlugins.AddObject(sPluginName, TObject(True));

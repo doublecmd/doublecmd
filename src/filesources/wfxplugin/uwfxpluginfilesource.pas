@@ -486,24 +486,31 @@ begin
   FCallbackDataClass:= nil;
   FModuleFileName:= aModuleFileName;
   FPluginRootName:= aPluginRootName;
-  FWfxModule:= TWfxModule.Create;
+  FWfxModule:= gWFXPlugins.LoadModule(FModuleFileName);
 
-  if not FWfxModule.LoadModule(FModuleFileName) then
+  if not Assigned(FWfxModule) then
     raise EFileSourceException.Create('Cannot load WFX module ' + FModuleFileName);
 
   with FWfxModule do
   begin
-    FCallbackDataClass:= TCallbackDataClass.Create(Self);
-    FPluginNumber:= WfxOperationList.AddObject(FPluginRootName, FCallbackDataClass);
-    if Assigned(FsInit) then
-      FsInit(FPluginNumber, @MainProgressProcA, @MainLogProcA, @MainRequestProcA);
-    if Assigned(FsInitW) then
-      FsInitW(FPluginNumber, @MainProgressProcW, @MainLogProcW, @MainRequestProcW);
-    if Assigned(FsSetCryptCallback) then
-      FsSetCryptCallback(@CryptProcA, FPluginNumber, 0);
-    if Assigned(FsSetCryptCallbackW) then
-      FsSetCryptCallbackW(@CryptProcW, FPluginNumber, 0);
-    VFSInit(0);
+    FPluginNumber:= WfxOperationList.IndexOf(FPluginRootName);
+    if FPluginNumber >= 0 then
+      WfxOperationList.Objects[FPluginNumber]:= TCallbackDataClass.Create(Self)
+    else begin
+      FCallbackDataClass:= TCallbackDataClass.Create(Self);
+      FPluginNumber:= WfxOperationList.AddObject(FPluginRootName, FCallbackDataClass);
+      if Assigned(FsInit) then
+        FsInit(FPluginNumber, @MainProgressProcA, @MainLogProcA, @MainRequestProcA);
+      if Assigned(FsInitW) then
+        FsInitW(FPluginNumber, @MainProgressProcW, @MainLogProcW, @MainRequestProcW);
+
+      VFSInit;
+
+      if Assigned(FsSetCryptCallbackW) then
+        FsSetCryptCallbackW(@CryptProcW, FPluginNumber, 0);
+      if Assigned(FsSetCryptCallback) then
+        FsSetCryptCallback(@CryptProcA, FPluginNumber, 0);
+    end;
   end;
 
   FOperationsClasses[fsoList]            := TWfxPluginListOperation.GetOperationClass;
@@ -872,20 +879,22 @@ end;
 
 class function TWfxPluginFileSource.CreateByRootName(aRootName: String): IWfxPluginFileSource;
 var
+  Index: Integer;
   sModuleFileName: String;
 begin
   Result:= nil;
 
   if gWFXPlugins.Count = 0 then Exit;
-  // Check if there is a registered plugin for the name of the file system plugin.
-  sModuleFileName:= gWFXPlugins.Values[aRootName];
-  if sModuleFileName <> EmptyStr then
-    begin
-      sModuleFileName:= GetCmdDirFromEnvVar(sModuleFileName);
-      Result:= TWfxPluginFileSource.Create(sModuleFileName, aRootName);
 
-      DCDebug('Found registered plugin ' + sModuleFileName + ' for file system ' + aRootName);
-    end;
+  // Check if there is a registered plugin for the name of the file system plugin.
+  Index:= gWFXPlugins.FindFirstEnabledByName(aRootName);
+  if Index >= 0 then
+  begin
+    sModuleFileName:= GetCmdDirFromEnvVar(gWFXPlugins.FileName[Index]);
+    Result:= TWfxPluginFileSource.Create(sModuleFileName, aRootName);
+
+    DCDebug('Found registered plugin ' + sModuleFileName + ' for file system ' + aRootName);
+  end;
 end;
 
 procedure TWfxPluginFileSource.AddToConnectionQueue(Operation: TFileSourceOperation);

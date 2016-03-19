@@ -40,7 +40,7 @@ type
 implementation
 
 uses
-  uWfxModule, uDCUtils;
+  uWfxModule, uDCUtils, uGlobs;
 
 constructor TVfsExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -59,29 +59,26 @@ end;
 
 procedure TVfsExecuteOperation.MainExecute;
 var
+  Index: Integer;
   sFileName: String;
-  WfxModule: TWfxModule = nil;
+  WfxModule: TWfxModule;
 begin
   FExecuteOperationResult:= fseorSuccess;
   if SameText(Verb, 'properties') then
-    with FVfsFileSource do
+  with FVfsFileSource do
+  begin
+    Index:= VfsFileList.FindFirstEnabledByName(RelativePath);
+    if Index >= 0 then
     begin
-      sFileName:= VfsFileList.Values[RelativePath];
-      if sFileName <> EmptyStr then
-        try
-          sFileName:= GetCmdDirFromEnvVar(sFileName);
-          WfxModule:= TWfxModule.Create;
-          if WfxModule.LoadModule(sFileName) then
-            begin
-              WfxModule.VFSInit(0);
-              WfxModule.VFSConfigure(0);
-              WfxModule.UnloadModule;
-            end;
-        finally
-          if Assigned(WfxModule) then
-            FreeAndNil(WfxModule);
-        end;
+      sFileName:= GetCmdDirFromEnvVar(VfsFileList.FileName[Index]);
+      WfxModule:= gWFXPlugins.LoadModule(sFileName);
+      if Assigned(WfxModule) then
+      begin
+        WfxModule.VFSInit;
+        WfxModule.VFSConfigure(0);
+      end;
     end;
+  end;
 end;
 
 procedure TVfsExecuteOperation.Finalize;
