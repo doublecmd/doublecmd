@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Virtual File System - class for manage WFX plugins (Version 1.3)
  
-   Copyright (C) 2007-2013  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2016 Alexander Koblov (alexx2000@mail.ru)
  
    Callback functions based on:
      Total Commander filesystem plugins debugger
@@ -32,7 +32,7 @@ unit uWFXmodule;
 interface
 
 uses
-  SysUtils, Classes, WfxPlugin, uWFXprototypes,
+  SysUtils, Classes, WfxPlugin, uWFXprototypes, LazUTF8Classes,
   dynlibs, DCClassesUtf8, Extension, DCBasicTypes, DCXmlConfig;
 
 const
@@ -151,14 +151,16 @@ type
     function WfxDeleteFile(const sFileName: String): Boolean;
     function WfxGetLocalName(var sFileName: String): Boolean;
     function WfxDisconnect(const DisconnectRoot: String): Boolean;
+  private
+    function LoadModule(const sName: String):Boolean; {Load plugin}
+    procedure UnloadModule;
   public
     constructor Create;
     destructor Destroy; override;
-    function LoadModule(const sName: String):Boolean; {Load plugin}
-    procedure UnloadModule;
-    procedure VFSInit(Data: PtrInt);
 
-    function VFSConfigure(Parent: THandle):Boolean;
+    procedure VFSInit;
+
+    function VFSConfigure(Parent: HWND):Boolean;
     function VFSRootName: String;
 
     function IsLoaded: Boolean;
@@ -170,6 +172,8 @@ type
 
   TWFXModuleList = class(TStringList)
   private
+    FModuleList: TStringListUTF8;
+  private
     function GetAEnabled(Index: Integer): Boolean;
     function GetAFileName(Index: Integer): String;
     function GetAName(Index: Integer): String;
@@ -177,12 +181,16 @@ type
     procedure SetAFileName(Index: Integer; const AValue: String);
     procedure SetAName(Index: Integer; const AValue: String);
   public
+    constructor Create; reintroduce;
+    destructor Destroy; override;
+  public
     procedure Load(Ini: TIniFileEx); overload;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure Save(Ini: TIniFileEx); overload;
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     function Add(Ext: String; FileName: String): Integer; reintroduce;
     function FindFirstEnabledByName(Name: String): Integer;
+    function LoadModule(const FileName: String): TWfxModule;
 
     property Name[Index: Integer]: String read GetAName write SetAName;
     property FileName[Index: Integer]: String read GetAFileName write SetAFileName;
@@ -469,7 +477,11 @@ end;
 function TWFXModule.LoadModule(const sName: String): Boolean;
 begin
   FModuleHandle := mbLoadLibrary(sName);
-  if FModuleHandle = 0 then Exit(False);
+  if FModuleHandle = 0 then
+  begin
+    DCDebug(GetLoadErrorStr);
+    Exit(False);
+  end;
 
   DCDebug('WFX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
 
@@ -624,7 +636,7 @@ begin
   ExtensionFinalize:= nil;
 end;
 
-procedure TWFXModule.VFSInit(Data: PtrInt);
+procedure TWFXModule.VFSInit;
 var
   dps: tFsDefaultParamStruct;
   StartupInfo: TExtensionStartupInfo;
@@ -665,7 +677,7 @@ begin
     end;
 end;
 
-function TWFXModule.VFSConfigure(Parent: THandle): Boolean;
+function TWFXModule.VFSConfigure(Parent: HWND): Boolean;
 var
   RemoteName: String;
 begin
@@ -703,7 +715,7 @@ end;
 
 function TWFXModule.IsLoaded: Boolean;
 begin
-Result := (FModuleHandle <> 0);
+  Result := (FModuleHandle <> 0);
 end;
 
 { TWFXModuleList }
@@ -739,6 +751,24 @@ var
 begin
   sValue:= ValueFromIndex[Index];
   Self[Index]:= AValue + '=' + sValue;
+end;
+
+constructor TWFXModuleList.Create;
+begin
+  FModuleList:= TStringListUTF8.Create;
+  FModuleList.Sorted:= True;
+end;
+
+destructor TWFXModuleList.Destroy;
+var
+  I: Integer;
+begin
+  for I:= 0 to FModuleList.Count - 1 do
+  begin
+    TWfxModule(FModuleList.Objects[I]).Free;
+  end;
+  FreeAndNil(FModuleList);
+  inherited Destroy;
 end;
 
 procedure TWFXModuleList.Load(Ini: TIniFileEx);
@@ -834,6 +864,22 @@ begin
     if Enabled[Result] and (DoCompareText(Names[Result], Name) = 0) then
       Exit;
   Result := -1;
+end;
+
+function TWFXModuleList.LoadModule(const FileName: String): TWfxModule;
+var
+  Index: Integer;
+begin
+  if FModuleList.Find(FileName, Index) then
+    Result := TWfxModule(FModuleList.Objects[Index])
+  else begin
+    Result := TWfxModule.Create;
+    if not Result.LoadModule(FileName) then
+      FreeAndNil(Result)
+    else begin
+      FModuleList.AddObject(FileName, Result);
+    end;
+  end;
 end;
 
 end.
