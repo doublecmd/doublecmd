@@ -1,7 +1,7 @@
 Description: Change default terminal command to 'x-terminal-emulator'
-Author: Graham Inggs <graham@nerve.org.za>
+Author: Graham Inggs <ginggs@debian.org>
 Forwarded: not-needed
-Last-Update: 2016-03-13
+Last-Update: 2016-03-14
 --- a/src/platform/uOSUtils.pas
 +++ b/src/platform/uOSUtils.pas
 @@ -63,11 +63,11 @@
