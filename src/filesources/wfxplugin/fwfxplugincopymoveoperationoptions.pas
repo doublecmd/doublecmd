@@ -175,6 +175,7 @@ begin
     else
       cbWorkInBackground.Checked:= (WfxModule.BackgroundFlags and BG_UPLOAD <> 0);
   end;
+  cbWorkInBackgroundChange(cbWorkInBackground);
 end;
 
 { TWfxPluginCopyOutOperationOptionsUI }
@@ -193,6 +194,7 @@ begin
     else
       cbWorkInBackground.Checked:= (WfxModule.BackgroundFlags and BG_DOWNLOAD <> 0);
   end;
+  cbWorkInBackgroundChange(cbWorkInBackground);
 end;
 
 end.

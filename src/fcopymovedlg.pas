@@ -340,6 +340,7 @@ var
 begin
   Constraints.MinWidth := Width;
   pnlSelector.Visible := gShowCopyTabSelectPanel;
+  if FQueueIdentifier <= FreeOperationsQueueId then FQueueIdentifier:= SingleQueueId;
 
   // Fix align of options panel and dialog size at start.
   if not pnlSelector.Visible then
@@ -360,7 +361,6 @@ begin
   ShowOptions(False);
 
   btnOK.Caption := rsDlgOpStart;
-  if FQueueIdentifier <= FreeOperationsQueueId then FQueueIdentifier:= SingleQueueId;
   btnAddToQueue.Caption:= btnAddToQueue.Caption + ' #' + IntToStr(FQueueIdentifier);
 
   HMForm := HotMan.Register(Self, HotkeysCategory);
@@ -368,13 +368,6 @@ begin
 
   if Assigned(Hotkey) then
     btnAddToQueue.Caption := btnAddToQueue.Caption + ' (' + ShortcutsToText(Hotkey.Shortcuts) + ')';
-
-  if Assigned(FFileSource) and (fspListInMainThread in FFileSource.Properties) then
-  begin
-    btnAddToQueue.Visible:= False;
-    FQueueIdentifier:= ModalQueueId;
-    btnCreateSpecialQueue.Visible:= btnAddToQueue.Visible;
-  end;
 end;
 
 procedure TfrmCopyDlg.FormDestroy(Sender: TObject);
