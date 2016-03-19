@@ -6,5 +6,6 @@ Icon=doublecmd
 Exec=doublecmd %F
 Type=Application
 MimeType=inode/directory;
-Categories=Application;Utility;FileManager;
+Categories=Utility;FileTools;FileManager;
 Keywords=folder;manager;explore;disk;filesystem;orthodox;copy;queue;queuing;operations;
+Comment[ru]=Double Commander — это кроссплатформенный двухпанельный файловый менеджер с открытым кодом.
