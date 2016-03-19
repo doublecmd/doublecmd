@@ -61,4 +61,18 @@ override_dh_clean:
 		if [ -f doublecmd.en.po ] ; then mv doublecmd.en.po doublecmd.po; fi ;
 	# Clean up temporary HOME
 	rm -rf $(CURDIR)/tmphome
+	# Remove generated changelog
+	rm -f $(CURDIR)/changelog.txt
 	dh_clean
+
+override_dh_installchangelogs:
+	html2text -o $(CURDIR)/changelog.txt $(CURDIR)/doc/changelog.htm
+	# Remove header up until first changelog entry
+	sed -i '0,/Double_Commander/{//!d}' $(CURDIR)/changelog.txt
+	# Remove [ View_Issues ] links
+	sed -i 's/ \[ View_Issues \]//' $(CURDIR)/changelog.txt
+	# Remove lines with number of issues fixed ([5 issues], etc.)
+	sed -i '/\[[0-9]* issue[s]*\]/d' $(CURDIR)/changelog.txt
+	# Remove [Get_Double_Commander...] link and footer
+	sed -i '/Get_Double_Commander/,$$d' $(CURDIR)/changelog.txt
+	dh_installchangelogs $(CURDIR)/changelog.txt

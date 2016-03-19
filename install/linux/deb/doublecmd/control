@@ -2,10 +2,11 @@ Source: doublecmd
 Section: utils
 Priority: optional
 Maintainer: Pascal Packaging Team <pkg-pascal-devel@lists.alioth.debian.org>
-Uploaders: Graham Inggs <graham@nerve.org.za>
+Uploaders: Graham Inggs <ginggs@debian.org>
 Build-Depends: debhelper (>= 9),
                fp-utils (>= 2.6.2),
                fpc (>= 2.6.2),
+               html2text,
                lcl (>= 1.4),
                lcl-gtk2,
                lcl-qt4,
@@ -14,9 +15,9 @@ Build-Depends: debhelper (>= 9),
                libglib2.0-dev,
                libgtk2.0-dev,
                libqt4pas-dev (>= 2.1)
-Standards-Version: 3.9.6
-Vcs-Git: git://anonscm.debian.org/pkg-pascal/doublecmd.git
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-pascal/doublecmd.git
+Standards-Version: 3.9.7
+Vcs-Git: https://anonscm.debian.org/git/pkg-pascal/doublecmd.git
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-pascal/doublecmd.git
 Homepage: http://doublecmd.sourceforge.net/
 
 Package: doublecmd-gtk

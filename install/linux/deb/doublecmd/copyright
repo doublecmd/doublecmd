@@ -4,7 +4,7 @@ Upstream-Contact: Alexander Koblov <alexx2000@mail.ru>
 Source: http://doublecmd.sourceforge.net/
 
 Files: *
-Copyright: 2006-2015 Alexander Koblov <alexx2000@mail.ru>
+Copyright: 2006-2016 Alexander Koblov <alexx2000@mail.ru>
            2008 Dmitry Kolomiets <B4rr4cuda@rambler.ru>
            2009-2013 Przemysław Nagay <cobines@gmail.com>
 License: GPL-2.0+
@@ -20,6 +20,10 @@ License: LGPL-2.0+
 Files: components/dcpcrypt/*
 Copyright: 1999-2002 David Barton <crypto@cityinthesky.co.uk>
 License: X11
+
+Files: components/multithreadprocs/*
+Copyright: 2008 Mattias Gaertner <mattias@freepascal.org>
+License: LGPL-2.1+
 
 Files: components/gifanim/*
 Copyright: 2009 Laurent Jacques
@@ -70,7 +74,7 @@ Files: plugins/wfx/ftp/src/*
        src/platform/unix/upython.pas
        src/platform/win/uNTFSLinks.pas
        src/platform/win/uthumbnailprovider.pas
-Copyright: 2009-2015 Alexander Koblov <alexx2000@mail.ru>
+Copyright: 2009-2016 Alexander Koblov <alexx2000@mail.ru>
 License: LGPL-2.1+
 
 Files: plugins/wdx/deb_wdx/src/minigzip.pas
@@ -167,10 +171,6 @@ Copyright: 2004 Flavio Etrusco
            2011 Alexander Koblov <alexx2000@mail.ru>
 License: BSD-2-clause
 
-Files: src/usyneditfiler.pas
-Copyright: 1999-2007 Lazarus development team
-License: MPL-1.1 or GPL-2.0+
-
 Files: src/ufindthread.pas
        src/ffileproperties.pas
        src/uColorExt.pas
@@ -223,7 +223,7 @@ License: other~uresample
 
 Files: debian/*
 Copyright: 2010-2013 Alexander Koblov <alexx2000@mail.ru>
-           2013-2015 Graham Inggs <graham@nerve.org.za>
+           2013-2016 Graham Inggs <ginggs@debian.org>
 License: GPL-2.0+
 
 License: GPL-2.0+

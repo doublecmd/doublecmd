@@ -1,3 +1,71 @@
+doublecmd (0.7.0-1) unstable; urgency=medium
+
+  * New upstream release:
+    - add inode/directory MimeType to doublecmd.desktop (Closes: #807570)
+    - fix scrolling through files with long names is slow (Closes: #807257)
+    - fix FTBFS with FPC 3.0 and Lazarus 1.6 (Closes: #818123)
+  * Fix FTBFS on arm64, thanks Edmund Grimley Evans
+    and Alexander Koblov (Closes: #803984)
+  * Remove doublecmd-common.menu, as per #741573.
+  * Use secure URIs for VCS fields.
+  * Update d/copyright.
+  * Update Lintian overrides for doublecmd-plugins.
+  * Bump Standards-Version to 3.9.7, no further changes.
+
+ -- Graham Inggs <ginggs@debian.org>  Tue, 15 Mar 2016 13:48:55 +0200
+
+doublecmd (0.6.6-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Let doublecmd-common suggest libffmpegthumbnailer4 (per upstream).
+  * Do not display splash screen at startup.
+
+ -- Graham Inggs <ginggs@debian.org>  Tue, 13 Oct 2015 16:27:23 +0200
+
+doublecmd (0.6.5-2) unstable; urgency=medium
+
+  * Let doublecmd-common recommend doublecmd-gtk | doublecmd-qt
+    for users who install the -common package by mistake.
+
+ -- Graham Inggs <ginggs@debian.org>  Wed, 07 Oct 2015 16:58:38 +0200
+
+doublecmd (0.6.5-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update my email address.
+
+ -- Graham Inggs <ginggs@debian.org>  Tue, 08 Sep 2015 11:47:54 +0200
+
+doublecmd (0.6.4-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Convert upstream HTML changelog to text and ship it,
+    add Build-Depends on html2text.
+
+ -- Graham Inggs <graham@nerve.org.za>  Mon, 20 Jul 2015 11:51:00 +0200
+
+doublecmd (0.6.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Upload to unstable.
+  * Refresh d/patches/hide-build-info.patch.
+  * Add comments to Lintian overrides.
+  * Update d/copyright with some missed files,
+    fix some spelling and capitalization errors.
+
+ -- Graham Inggs <graham@nerve.org.za>  Tue, 19 May 2015 16:56:20 +0200
+
+doublecmd (0.6.1-1) experimental; urgency=medium
+
+  * New upstream release.
+  * Drop patches included upstream:
+    - d/patches/clean-plugins-static-libs.patch
+    - d/patches/disable-pic-on-arm.patch
+    - d/patches/fpc-arm-workaround.patch
+  * Update d/copyright for renamed and new files src/udiff*.pas.
+
+ -- Graham Inggs <graham@nerve.org.za>  Tue, 31 Mar 2015 12:07:48 +0200
+
 doublecmd (0.6.0-3) experimental; urgency=medium
 
   * Revert patch to not generate debug line info on
