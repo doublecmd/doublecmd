@@ -38,9 +38,9 @@ type
 
 const
   InvalidOperationHandle = TOperationHandle(0);
-  ModalQueueId = Low(TOperationsManagerQueueIdentifier);
   FreeOperationsQueueId = 0;
-  SingleQueueId = 1; // TODO: Hard-coded for now
+  ModalQueueId = Pred(FreeOperationsQueueId);
+  SingleQueueId = Succ(FreeOperationsQueueId);
 
 type
   TOperationsManagerQueue = class;
@@ -514,7 +514,7 @@ end;
 
 function TOperationsManagerQueue.IsFree: Boolean;
 begin
-  Result := FIdentifier = FreeOperationsQueueId;
+  Result := (FIdentifier = FreeOperationsQueueId) or (FIdentifier = ModalQueueId);
 end;
 
 procedure TOperationsManagerQueue.Pause;
@@ -701,7 +701,7 @@ begin
 
         Result := Item.Handle;
 
-        Item.SetQueue(GetOrCreateQueue(FreeOperationsQueueId), False);
+        Item.SetQueue(GetOrCreateQueue(ModalQueueId), False);
 
         NotifyEvents(Item, [omevOperationAdded]);
 
