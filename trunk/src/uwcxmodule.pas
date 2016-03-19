@@ -621,6 +621,7 @@ end;
 constructor TWCXModuleList.Create;
 begin
   FModuleList:= TStringListUTF8.Create;
+  FModuleList.Sorted:= True;
 end;
 
 destructor TWCXModuleList.Destroy;
