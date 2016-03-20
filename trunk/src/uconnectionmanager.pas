@@ -9,6 +9,7 @@ uses
 
 type
   TFileSourceRecord = record
+    Count: Integer;
     Name, Path: String;
     FileSource: IFileSource;
   end;
@@ -42,6 +43,7 @@ end;
 function NewFileSourceRecord(FileSource: IFileSource; const Name, Path: String): PFileSourceRecord;
 begin
   New(Result);
+  Result^.Count:= 1;
   Result^.Name:= Name;
   Result^.Path:= Path;
   Result^.FileSource:= FileSource;
@@ -58,6 +60,7 @@ var
   Connection: TFileSourceRecord;
   FileSource: IWfxPluginFileSource;
 begin
+  PFileSourceRecord(WfxConnectionList.Objects[Index]).Count:= 1;
   Connection:= PFileSourceRecord(WfxConnectionList.Objects[Index])^;
   FileSource:= Connection.FileSource as IWfxPluginFileSource;
   FileSource.WfxModule.WfxDisconnect(Connection.Path);
@@ -145,17 +148,24 @@ end;
 
 procedure AddNetworkConnection(const Name, Path: String; FileSource: IFileSource);
 var
+  Index: Integer;
   ConnectionName: String;
   FileSourceRecord: PFileSourceRecord;
 begin
   ConnectionName:= GetConnectionName(Name, Path);
-  if WfxConnectionList.IndexOf(ConnectionName) >= 0 then Exit;
-  FileSourceRecord:= NewFileSourceRecord(FileSource, Name, Path);
-  WfxConnectionList.AddObject(ConnectionName, TObject(FileSourceRecord));
-  with frmMain do
-  begin
-    miNetworkDisconnect.Enabled:= WfxConnectionList.Count > 0;
-    UpdateDiskCount;
+  Index:= WfxConnectionList.IndexOf(ConnectionName);
+  if Index >= 0 then begin
+    FileSourceRecord:= PFileSourceRecord(WfxConnectionList.Objects[Index]);
+    FileSourceRecord.Count:= FileSourceRecord.Count + 1;
+  end
+  else begin
+    FileSourceRecord:= NewFileSourceRecord(FileSource, Name, Path);
+    WfxConnectionList.AddObject(ConnectionName, TObject(FileSourceRecord));
+    with frmMain do
+    begin
+      miNetworkDisconnect.Enabled:= WfxConnectionList.Count > 0;
+      UpdateDiskCount;
+    end;
   end;
 end;
 
@@ -163,12 +173,16 @@ procedure RemoveNetworkConnection(const Name, Path: String);
 var
   Index: Integer;
   ConnectionName: String;
+  FileSourceRecord: PFileSourceRecord;
 begin
   ConnectionName:= GetConnectionName(Name, Path);
   Index:= WfxConnectionList.IndexOf(ConnectionName);
   if Index >= 0 then
   with frmMain do
   begin
+    FileSourceRecord:= PFileSourceRecord(WfxConnectionList.Objects[Index]);
+    FileSourceRecord^.Count:= FileSourceRecord^.Count - 1;
+    if FileSourceRecord^.Count > 0 then Exit;
     DisposeFileSourceRecord(PFileSourceRecord(WfxConnectionList.Objects[Index]));
     WfxConnectionList.Delete(Index);
     miNetworkDisconnect.Enabled:= WfxConnectionList.Count > 0;
