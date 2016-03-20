@@ -382,6 +382,10 @@ begin
   btnViewOperations.Visible:= False;
   btnMinimizeToPanel.Visible:= False;
   Result:= inherited ShowModal;
+  // Workaround http://doublecmd.sourceforge.net/mantisbt/view.php?id=1323
+{$IF DEFINED(DARWIN) and DEFINED(LCLQT)}
+  Visible:= True; Visible:= False;
+{$ENDIF}
 end;
 
 procedure TfrmFileOp.FinalizeOperation;
