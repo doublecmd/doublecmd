@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-03-20 15:41+0300\n"
+"PO-Revision-Date: 2016-03-19 20:35+0400\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Русский\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.7.4\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -1469,7 +1469,7 @@ msgstr "Перейти к файлу"
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
 msgid "Find Data"
-msgstr ""
+msgstr "С текстом"
 
 #: tfrmfinddlg.actlastsearch.caption
 msgid "Last search"
@@ -4386,7 +4386,7 @@ msgstr "&Настроить набор:"
 
 #: tfrmoptionscustomcolumns.lblcurrentcolumn.caption
 msgid "[Current Column Name]"
-msgstr ""
+msgstr "[Имя текущей колонки]"
 
 #: tfrmoptionscustomcolumns.lblcursorcolor.caption
 msgctxt "tfrmoptionscustomcolumns.lblcursorcolor.caption"
@@ -6006,11 +6006,11 @@ msgstr "О&сновной"
 
 #: tfrmoptionsfonts.lblpatheditfont.caption
 msgid "Path font"
-msgstr ""
+msgstr "Имени текущего каталога"
 
 #: tfrmoptionsfonts.lblsearchresultsfont.caption
 msgid "Search results font"
-msgstr ""
+msgstr "Результатов поиска"
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
@@ -8356,7 +8356,7 @@ msgstr "Повернуть на 180°"
 #: tfrmviewer.actrotate180.hint
 msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
 msgid "Rotate 180 degrees"
-msgstr "Повернуть на 180°"
+msgstr "Повернуть на 180 градусов"
 
 #: tfrmviewer.actrotate270.caption
 msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
@@ -8366,7 +8366,7 @@ msgstr "Повернуть на 270°"
 #: tfrmviewer.actrotate270.hint
 msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
 msgid "Rotate -90 degrees"
-msgstr "Повернуть на 270°"
+msgstr "Повернуть на -90 градусов"
 
 #: tfrmviewer.actrotate90.caption
 msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
@@ -8376,7 +8376,7 @@ msgstr "Повернуть на 90°"
 #: tfrmviewer.actrotate90.hint
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
 msgid "Rotate +90 degrees"
-msgstr "Повернуть на 90°"
+msgstr "Повернуть на +90 градусов"
 
 #: tfrmviewer.actsave.caption
 msgctxt "tfrmviewer.actsave.caption"
@@ -8399,11 +8399,11 @@ msgstr "Скриншот"
 
 #: tfrmviewer.actscreenshotdelay3sec.caption
 msgid "Delay 3 sec"
-msgstr ""
+msgstr "Задержка 3 секунды"
 
 #: tfrmviewer.actscreenshotdelay5sec.caption
 msgid "Delay 5 sec"
-msgstr ""
+msgstr "Задержка 5 секунд"
 
 #: tfrmviewer.actselectall.caption
 msgctxt "tfrmviewer.actselectall.caption"
@@ -8412,23 +8412,23 @@ msgstr "Выделить &всё"
 
 #: tfrmviewer.actshowasbin.caption
 msgid "Show as &Bin"
-msgstr "Показать в двоичном виде"
+msgstr "Показать в &двоичном виде"
 
 #: tfrmviewer.actshowasbook.caption
 msgid "Show as B&ook"
-msgstr "Показать в режиме \"Книга\" (текст с колонками)"
+msgstr "Показать в режиме \"&Книга\" (текст с колонками)"
 
 #: tfrmviewer.actshowashex.caption
 msgid "Show as &Hex"
-msgstr "Показать в шестнадцатеричном виде"
+msgstr "Показать в &шестнадцатеричном виде"
 
 #: tfrmviewer.actshowastext.caption
 msgid "Show as &Text"
-msgstr "Показать как текст"
+msgstr "Показать как &текст"
 
 #: tfrmviewer.actshowaswraptext.caption
 msgid "Show as &Wrap text"
-msgstr "Показать как текст с разрывами строк"
+msgstr "Показать как текст с &разрывами строк"
 
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
@@ -8456,7 +8456,7 @@ msgstr "Растягивать только большие"
 
 #: tfrmviewer.actzoom.caption
 msgid "Zoom"
-msgstr ""
+msgstr "Увеличение"
 
 #: tfrmviewer.actzoomin.caption
 msgctxt "tfrmviewer.actzoomin.caption"
@@ -9785,11 +9785,11 @@ msgstr "Имя"
 
 #: ulng.rsmsgfavoritetabsnamesample
 msgid "This will load your Favorites Tabs entry setup called %s"
-msgstr ""
+msgstr "Это позволит загрузить Избранные Вкладки %s"
 
 #: ulng.rsmsgfavoritetabssavelastloadover
 msgid "Save to Favorite Tabs over last loaded entry (%s)"
-msgstr ""
+msgstr "Сохранить Избранные Вкладки выше последних загруженных (%s)"
 
 #: ulng.rsmsgfavoritetabssimplemenu
 msgctxt "ulng.rsmsgfavoritetabssimplemenu"
