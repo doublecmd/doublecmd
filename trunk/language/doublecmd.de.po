@@ -949,7 +949,7 @@ msgstr "Finde nächste"
 #: tfrmeditor.acteditfindprevious.caption
 msgctxt "tfrmeditor.acteditfindprevious.caption"
 msgid "Find previous"
-msgstr ""
+msgstr "Finde vorherige"
 
 #: tfrmeditor.acteditgotoline.caption
 msgctxt "tfrmeditor.acteditgotoline.caption"
@@ -1549,83 +1549,83 @@ msgstr "Eigenschaften"
 #, fuzzy
 #| msgid "actCancel"
 msgid "Cancel"
-msgstr "actAbbrechen"
+msgstr "Abbrechen"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr ""
+msgstr "Suche abbrechen und Fenster schließen"
 
 #: tfrmfinddlg.actclose.caption
 #, fuzzy
 #| msgid "actClose"
 msgid "Close"
-msgstr "actSchließen"
+msgstr "Schließen"
 
 #: tfrmfinddlg.actedit.caption
 #, fuzzy
 #| msgid "actEdit"
 msgid "Edit"
-msgstr "actBearbeiten"
+msgstr "Bearbeiten"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
 #, fuzzy
 #| msgid "actFeedToListbox"
 msgid "Feed to listbox"
-msgstr "actInListboxEeinfügen"
+msgstr "In Listbox einfügen"
 
 #: tfrmfinddlg.actgotofile.caption
 #, fuzzy
 #| msgid "actGoToFile"
 msgid "Go to file"
-msgstr "actGeheZuDatei"
+msgstr "Gehe zu Datei"
 
 #: tfrmfinddlg.actintellifocus.caption
 #, fuzzy
 #| msgid "actIntelliFocus"
 msgid "Find Data"
-msgstr "actIntelligenterFokus"
+msgstr "Finde Daten"
 
 #: tfrmfinddlg.actlastsearch.caption
 #, fuzzy
 #| msgid "actLastSearch"
 msgid "Last search"
-msgstr "actLetzteSuche"
+msgstr "Letzte Suche"
 
 #: tfrmfinddlg.actnewsearch.caption
 #, fuzzy
 #| msgid "actNewSearch"
 msgid "New search"
-msgstr "actNeueSuche"
+msgstr "Neue Suche"
 
 #: tfrmfinddlg.actpageadvanced.caption
 #, fuzzy
 #| msgid "actPageAdvanced"
 msgid "Go to page \"Advanced\""
-msgstr "actSeiteFortgeschritten"
+msgstr "Gehe zu Seite \"Fortgeschritten\""
 
 #: tfrmfinddlg.actpageloadsave.caption
 #, fuzzy
 #| msgid "actPageLoadSave"
 msgid "Go to page \"Load/Save\""
-msgstr "actSeiteLadenSpeichern"
+msgstr "Gehe zu Seite \"Laden/Speichern\""
 
 #: tfrmfinddlg.actpageplugins.caption
 #, fuzzy
 #| msgid "actPagePlugins"
 msgid "Go to page \"Plugins\""
-msgstr "actSeitePlugins"
+msgstr "Gehe zu Seite \"Plugins\""
 
 #: tfrmfinddlg.actpageresults.caption
 #, fuzzy
 #| msgid "actPageResults"
 msgid "Go to page \"Results\""
-msgstr "actSeiteErgebnisse"
+msgstr "Gehe zu Seite \"Ergebnisse\""
 
 #: tfrmfinddlg.actpagestandard.caption
 #, fuzzy
 #| msgid "actPageStandard"
 msgid "Go to page \"Standard\""
-msgstr "actSeiteStandard"
+msgstr "Gehe zu Seite \"Standard\""
 
 #: tfrmfinddlg.actstart.caption
 msgid "Start"
@@ -1635,7 +1635,7 @@ msgstr ""
 #, fuzzy
 #| msgid "actView"
 msgid "View"
-msgstr "actBetrachten"
+msgstr "Betrachten"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -1791,7 +1791,7 @@ msgstr "Nicht &älter als:"
 
 #: tfrmfinddlg.cbopenedtabs.caption
 msgid "Opened tabs"
-msgstr ""
+msgstr "Geöffnete Tabs"
 
 #: tfrmfinddlg.cbpartialnamesearch.caption
 #, fuzzy
@@ -6785,11 +6785,11 @@ msgstr "Hauptschri&ftart"
 
 #: tfrmoptionsfonts.lblpatheditfont.caption
 msgid "Path font"
-msgstr ""
+msgstr "Pfad zur Schrift"
 
 #: tfrmoptionsfonts.lblsearchresultsfont.caption
 msgid "Search results font"
-msgstr ""
+msgstr "Schriftart für Suchergebnisse"
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
 #, fuzzy
@@ -7107,7 +7107,7 @@ msgstr "Zeige Haupt&menü"
 #| msgid "Show &button bar"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
 msgid "Show tool&bar"
-msgstr "Zeige &Schalterleiste"
+msgstr "Zeige Tool&bar"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
 #, fuzzy
@@ -9353,7 +9353,7 @@ msgstr "&Beenden"
 #, fuzzy
 msgctxt "tfrmviewer.actfind.caption"
 msgid "Find"
-msgstr "Suchen"
+msgstr "Finde"
 
 #: tfrmviewer.actfindnext.caption
 #, fuzzy
@@ -9364,7 +9364,7 @@ msgstr "Finde nächste"
 #: tfrmviewer.actfindprev.caption
 msgctxt "tfrmviewer.actfindprev.caption"
 msgid "Find previous"
-msgstr ""
+msgstr "Finde vorherige"
 
 #: tfrmviewer.actfullscreen.caption
 #, fuzzy
@@ -9398,7 +9398,7 @@ msgstr "Vorherige Datei laden"
 
 #: tfrmviewer.actmirrorhorz.caption
 msgid "Mirror Horizontally"
-msgstr ""
+msgstr "Horizontal spiegeln"
 
 #: tfrmviewer.actmirrorhorz.hint
 #, fuzzy
@@ -9408,7 +9408,7 @@ msgstr "Spiegeln"
 
 #: tfrmviewer.actmirrorvert.caption
 msgid "Mirror Vertically"
-msgstr ""
+msgstr "Vertikal spiegeln"
 
 #: tfrmviewer.actmovefile.caption
 msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
@@ -9440,7 +9440,7 @@ msgstr "Aktuelle Datei neu laden"
 #| msgid "Rotate 180"
 msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
 msgid "+ 180"
-msgstr "Um 180 Grad drehen"
+msgstr "+ 180"
 
 #: tfrmviewer.actrotate180.hint
 #, fuzzy
@@ -9454,14 +9454,14 @@ msgstr "Um 180 Grad drehen"
 #| msgid "Rotate 270"
 msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
 msgid "- 90"
-msgstr "Um 270 Grad drehen"
+msgstr "- 90"
 
 #: tfrmviewer.actrotate270.hint
 #, fuzzy
 #| msgid "Rotate 270"
 msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
 msgid "Rotate -90 degrees"
-msgstr "Um 270 Grad drhen"
+msgstr "-90 Grad drehen"
 
 #: tfrmviewer.actrotate90.caption
 #, fuzzy
@@ -9475,7 +9475,7 @@ msgstr "Um 90 Grad drehen"
 #| msgid "Rotate 90"
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
 msgid "Rotate +90 degrees"
-msgstr "Um 90 Grad drehen"
+msgstr "Um +90 Grad drehen"
 
 #: tfrmviewer.actsave.caption
 #, fuzzy
@@ -9502,11 +9502,11 @@ msgstr ""
 
 #: tfrmviewer.actscreenshotdelay3sec.caption
 msgid "Delay 3 sec"
-msgstr ""
+msgstr "3 Sekunden verzögern"
 
 #: tfrmviewer.actscreenshotdelay5sec.caption
 msgid "Delay 5 sec"
-msgstr ""
+msgstr "5 Sekunden verzögern"
 
 #: tfrmviewer.actselectall.caption
 #, fuzzy
@@ -10935,7 +10935,7 @@ msgstr "Veraltete importierte Tabs"
 
 #: ulng.rsmsgfavoritetabsimporttitle
 msgid "Select .tab file(s) to import (could be more than one at the time!)"
-msgstr ".tab-Datei(en) zum Importieren auswählen (kann mehr als eine gleichzeitig sein!)"
+msgstr "Wähle .tab-Datei(en) zum Importieren (kann mehr als eine gleichzeitig sein!)"
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
