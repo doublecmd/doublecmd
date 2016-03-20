@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-03-12 20:10+0400\n"
+"PO-Revision-Date: 2016-03-20 15:41+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Русский\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.8.5\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -5951,7 +5951,6 @@ msgid "..."
 msgstr "..."
 
 #: tfrmoptionsfonts.btnsearchresultsfnt.caption
-#, fuzzy
 msgctxt "tfrmoptionsfonts.btnsearchresultsfnt.caption"
 msgid "..."
 msgstr "..."
@@ -8265,37 +8264,31 @@ msgid "Delete File"
 msgstr "Удалить файл"
 
 #: tfrmviewer.actexitviewer.caption
-#, fuzzy
 msgctxt "tfrmviewer.actexitviewer.caption"
 msgid "E&xit"
 msgstr "Выход"
 
 #: tfrmviewer.actfind.caption
-#, fuzzy
 msgctxt "tfrmviewer.actfind.caption"
 msgid "Find"
 msgstr "Найти"
 
 #: tfrmviewer.actfindnext.caption
-#, fuzzy
 msgctxt "tfrmviewer.actfindnext.caption"
 msgid "Find next"
 msgstr "Найти далее"
 
 #: tfrmviewer.actfindprev.caption
-#, fuzzy
 msgctxt "tfrmviewer.actfindprev.caption"
 msgid "Find previous"
 msgstr "Найти предыдущее"
 
 #: tfrmviewer.actfullscreen.caption
-#, fuzzy
 msgctxt "tfrmviewer.actfullscreen.caption"
 msgid "Full Screen"
 msgstr "Развернуть на весь экран"
 
 #: tfrmviewer.actimagecenter.caption
-#, fuzzy
 msgctxt "tfrmviewer.actimagecenter.caption"
 msgid "Center"
 msgstr "По центру окна"
@@ -8320,17 +8313,16 @@ msgstr "Загрузить предыдущий файл"
 
 #: tfrmviewer.actmirrorhorz.caption
 msgid "Mirror Horizontally"
-msgstr ""
+msgstr "Отразить по горизонтали"
 
 #: tfrmviewer.actmirrorhorz.hint
-#, fuzzy
 msgctxt "tfrmviewer.actmirrorhorz.hint"
 msgid "Mirror"
 msgstr "Зеркально"
 
 #: tfrmviewer.actmirrorvert.caption
 msgid "Mirror Vertically"
-msgstr ""
+msgstr "Отразить по вертикали"
 
 #: tfrmviewer.actmovefile.caption
 msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
@@ -8357,49 +8349,36 @@ msgid "Reload current file"
 msgstr "Перезагрузить текущий файл"
 
 #: tfrmviewer.actrotate180.caption
-#, fuzzy
-#| msgid "Rotate 180"
 msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
 msgid "+ 180"
-msgstr "Повернуть на 180"
+msgstr "Повернуть на 180°"
 
 #: tfrmviewer.actrotate180.hint
-#, fuzzy
-#| msgid "Rotate 180"
 msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
 msgid "Rotate 180 degrees"
-msgstr "Повернуть на 180"
+msgstr "Повернуть на 180°"
 
 #: tfrmviewer.actrotate270.caption
-#, fuzzy
-#| msgid "Rotate 270"
 msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
 msgid "- 90"
-msgstr "Повернуть на 270"
+msgstr "Повернуть на 270°"
 
 #: tfrmviewer.actrotate270.hint
-#, fuzzy
-#| msgid "Rotate 270"
 msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
 msgid "Rotate -90 degrees"
-msgstr "Повернуть на 270"
+msgstr "Повернуть на 270°"
 
 #: tfrmviewer.actrotate90.caption
-#, fuzzy
-#| msgid "Rotate 90"
 msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
 msgid "+ 90"
-msgstr "Повернуть на 90"
+msgstr "Повернуть на 90°"
 
 #: tfrmviewer.actrotate90.hint
-#, fuzzy
-#| msgid "Rotate 90"
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
 msgid "Rotate +90 degrees"
-msgstr "Повернуть на 90"
+msgstr "Повернуть на 90°"
 
 #: tfrmviewer.actsave.caption
-#, fuzzy
 msgctxt "tfrmviewer.actsave.caption"
 msgid "Save"
 msgstr "Сохранить"
@@ -8414,7 +8393,6 @@ msgid "Save File As..."
 msgstr "Сохранить файл как..."
 
 #: tfrmviewer.actscreenshot.caption
-#, fuzzy
 msgctxt "tfrmviewer.actscreenshot.caption"
 msgid "Screenshot"
 msgstr "Скриншот"
@@ -8433,43 +8411,31 @@ msgid "Select All"
 msgstr "Выделить &всё"
 
 #: tfrmviewer.actshowasbin.caption
-#, fuzzy
-#| msgid "Show as Bin"
 msgid "Show as &Bin"
 msgstr "Показать в двоичном виде"
 
 #: tfrmviewer.actshowasbook.caption
-#, fuzzy
-#| msgid "Show as Book"
 msgid "Show as B&ook"
 msgstr "Показать в режиме \"Книга\" (текст с колонками)"
 
 #: tfrmviewer.actshowashex.caption
-#, fuzzy
-#| msgid "Show as Hex"
 msgid "Show as &Hex"
 msgstr "Показать в шестнадцатеричном виде"
 
 #: tfrmviewer.actshowastext.caption
-#, fuzzy
-#| msgid "Show as Text"
 msgid "Show as &Text"
 msgstr "Показать как текст"
 
 #: tfrmviewer.actshowaswraptext.caption
-#, fuzzy
-#| msgid "Show as Wrap text"
 msgid "Show as &Wrap text"
 msgstr "Показать как текст с разрывами строк"
 
 #: tfrmviewer.actshowgraphics.caption
-#, fuzzy
 msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "&Графика"
 
 #: tfrmviewer.actshowplugins.caption
-#, fuzzy
 msgctxt "tfrmviewer.actshowplugins.caption"
 msgid "Plugins"
 msgstr "Плагины"
@@ -8484,7 +8450,6 @@ msgid "Stretch Image"
 msgstr "Растянуть изображение"
 
 #: tfrmviewer.actstretchonlylarge.caption
-#, fuzzy
 msgctxt "tfrmviewer.actstretchonlylarge.caption"
 msgid "Stretch only large"
 msgstr "Растягивать только большие"
@@ -8494,13 +8459,11 @@ msgid "Zoom"
 msgstr ""
 
 #: tfrmviewer.actzoomin.caption
-#, fuzzy
 msgctxt "tfrmviewer.actzoomin.caption"
 msgid "Zoom In"
 msgstr "Увеличить"
 
 #: tfrmviewer.actzoomout.caption
-#, fuzzy
 msgctxt "tfrmviewer.actzoomout.caption"
 msgid "Zoom Out"
 msgstr "Уменьшить"
@@ -11805,4 +11768,3 @@ msgstr "Число замен: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Замена не состоялась."
-
