@@ -5871,7 +5871,7 @@ var
   FoundPath: Boolean = False;
   aFileView, OtherFileView: TFileView;
 begin
-  if (Drive^.DriveType = dtVirtual) or IsAvailable(Drive, Drive^.AutoMount) then
+  if (Drive^.DriveType in [dtSpecial, dtVirtual]) or IsAvailable(Drive, Drive^.AutoMount) then
   begin
     case aPanel of
       fpLeft:
@@ -5884,6 +5884,15 @@ begin
           aFileView := FrameRight;
           OtherFileView := FrameLeft;
         end;
+    end;
+
+    // Special case for special drive
+    if Drive^.DriveType = dtSpecial then
+    begin
+      ChooseFileSource(aFileView, Drive^.Path);
+      if ActivateIfNeeded and (tb_activate_panel_on_click in gDirTabOptions) then
+        SetActiveFrame(aPanel);
+      Exit;
     end;
 
     // Special case for virtual drive
