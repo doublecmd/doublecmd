@@ -161,7 +161,6 @@ var
   GVolume: PGVolume;
   VolumeList: PGList;
   VolumeTemp: PGList;
-  Index: Integer = 0;
 begin
   VolumeList:= g_volume_monitor_get_volumes(VolumeMonitor);
   Result:= Assigned(VolumeList);
@@ -178,7 +177,6 @@ begin
 
       g_object_unref(PGObject(GVolume));
       VolumeTemp:= VolumeTemp^.next;
-      Inc(Index);
     end;
     g_list_free(VolumeList);
   end;
