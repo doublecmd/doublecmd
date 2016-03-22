@@ -57,7 +57,7 @@ begin
   WriteLn('GVolumeMonitor: ', Message);
 end;
 
-function ReadString(Volume: PGVolume; const Kind: Pgchar): UTF8String;
+function ReadString(Volume: PGVolume; const Kind: Pgchar): String;
 var
   Value: PAnsiChar;
 begin
