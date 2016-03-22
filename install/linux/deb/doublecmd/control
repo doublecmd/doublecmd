@@ -6,7 +6,6 @@ Uploaders: Graham Inggs <ginggs@debian.org>
 Build-Depends: debhelper (>= 9),
                fp-utils (>= 2.6.2),
                fpc (>= 2.6.2),
-               html2text,
                lcl (>= 1.4),
                lcl-gtk2,
                lcl-qt4,
