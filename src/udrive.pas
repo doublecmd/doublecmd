@@ -40,7 +40,8 @@ type
                 dtRamDisk,       // Ram-disk
                 dtRemovable,     // Drive with removable media
                 dtRemovableUsb,  // Drive connected via USB
-                dtVirtual);      // Virtual drive
+                dtVirtual,       // Virtual drive
+                dtSpecial);      // Special drive
 
   { TDrive }
 

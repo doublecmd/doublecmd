@@ -535,7 +535,8 @@ end;
 begin
   if ADrive.DriveType = dtVirtual then
     ShowVirtualDriveMenu(ADrive, X, Y, CloseEvent)
-  else begin
+  else if ADrive.DriveType <> dtSpecial then
+  begin
     // Free previous created menu
     FreeThenNil(ShellContextMenu);
     // Create new context menu

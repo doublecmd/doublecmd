@@ -57,7 +57,7 @@ uses
    , BSD, BaseUnix, StrUtils, FileUtil
    {$ENDIF}
    {$IFDEF LINUX}
-   , uUDisks, uUDev, uMountWatcher, DCStrUtils, uOSUtils, FileUtil
+   , uUDisks, uUDev, uMountWatcher, DCStrUtils, uOSUtils, FileUtil, uGVolume
    {$ENDIF}
   {$ENDIF}
   {$IFDEF MSWINDOWS}
@@ -73,6 +73,7 @@ type
   TFakeClass = class
   public
     procedure OnMountWatcherNotify(Sender: TObject);
+    procedure OnGVolumeNotify(Event: TUDisksMethod; ADrive: PDrive);
     procedure OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: String);
   end;
 {$ENDIF}
@@ -241,6 +242,9 @@ begin
     MountWatcher.OnMountEvent:= @FakeClass.OnMountWatcherNotify;
     MountWatcher.Start;
   end;
+
+  uGVolume.Initialize;
+  uGVolume.AddObserver(@FakeClass.OnGVolumeNotify);
   {$ENDIF}
 
   {$IFDEF MSWINDOWS}
@@ -273,6 +277,8 @@ begin
     uUDev.RemoveObserver(@FakeClass.OnUDisksNotify);
     uUDev.Finalize;
   end;
+  uGVolume.RemoveObserver(@FakeClass.OnGVolumeNotify);
+  uGVolume.Finalize;
   FreeAndNil(MountWatcher);
   if Assigned(FakeClass) then
     FreeAndNil(FakeClass);
@@ -891,7 +897,7 @@ begin
         end;
       end;
     end;
-
+    EnumerateVolumes(Result);
   finally
     if Assigned(AddedDevices) then
       AddedDevices.Free;
@@ -1085,6 +1091,23 @@ var
   ADrive: PDrive = nil;
 begin
   DoDriveChanged(ADrive);
+end;
+
+procedure TFakeClass.OnGVolumeNotify(Event: TUDisksMethod; ADrive: PDrive);
+begin
+  try
+    case Event of
+      UDisks_DeviceAdded:
+        DoDriveAdded(ADrive);
+      UDisks_DeviceRemoved:
+        DoDriveRemoved(ADrive);
+      UDisks_DeviceChanged:
+        DoDriveChanged(ADrive);
+    end;
+  finally
+    if Assigned(ADrive) then
+      Dispose(ADrive);
+  end;
 end;
 
 procedure TFakeClass.OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: String);
