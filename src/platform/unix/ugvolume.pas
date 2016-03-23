@@ -27,10 +27,11 @@ unit uGVolume;
 interface
 
 uses
-  Classes, SysUtils, uDrive, uUDisks;
+  Classes, SysUtils, uDrive;
 
 type
-  TGVolumeNotify = procedure(Event: TUDisksMethod; Drive: PDrive) of object;
+  TGVolumeSignal = (GVolume_Added, GVolume_Removed, GVolume_Changed);
+  TGVolumeNotify = procedure(Signal: TGVolumeSignal; Drive: PDrive) of object;
 
 function Initialize: Boolean;
 procedure Finalize;
@@ -79,25 +80,62 @@ begin
   GFile:= g_volume_get_activation_root(Volume);
   if Assigned(GFile) then
   begin
-    Path:= g_file_get_uri(GFile);
-    if Assigned(Path) then
+    if not g_file_has_uri_scheme(GFile, 'file') then
     begin
-      New(Result);
-      Result^.IsMounted:= True;
-      Result^.Path:= StrPas(Path);
-      Result^.DriveType:= dtSpecial;
-      Result^.IsMediaEjectable:= g_volume_can_eject(Volume);
-      Result^.DeviceId:= ReadString(Volume, VOLUME_IDENTIFIER_KIND_UNIX_DEVICE);
-      Result^.DriveLabel:= ReadString(Volume, VOLUME_IDENTIFIER_KIND_LABEL);
-      Name:= g_volume_get_name(Volume);
-      if (Name = nil) then
-        Result^.DisplayName:= ExtractFileName(Result^.DeviceId)
-      else
+      Path:= g_file_get_uri(GFile);
+      if Assigned(Path) then
       begin
-        Result^.DisplayName := StrPas(Name);
-        g_free(Name);
+        New(Result);
+        Result^.IsMounted:= True;
+        Result^.Path:= StrPas(Path);
+        Result^.DriveType:= dtSpecial;
+        Result^.IsMediaEjectable:= g_volume_can_eject(Volume);
+        Result^.DeviceId:= ReadString(Volume, VOLUME_IDENTIFIER_KIND_UNIX_DEVICE);
+        Result^.DriveLabel:= ReadString(Volume, VOLUME_IDENTIFIER_KIND_LABEL);
+        Name:= g_volume_get_name(Volume);
+        if (Name = nil) then
+          Result^.DisplayName:= ExtractFileName(Result^.DeviceId)
+        else
+        begin
+          Result^.DisplayName := StrPas(Name);
+          g_free(Name);
+        end;
+        g_free(Path);
       end;
-      g_free(Path);
+    end;
+    g_object_unref(PGObject(GFile));
+  end;
+end;
+
+function MountToDrive(Mount: PGMount): PDrive;
+var
+  GFile: PGFile;
+  Name, Path: Pgchar;
+begin
+  Result:= nil;
+  GFile:= g_mount_get_root(Mount);
+  if Assigned(GFile) then
+  begin
+    if not g_file_has_uri_scheme(GFile, 'file') then
+    begin
+      Path:= g_file_get_uri(GFile);
+      if Assigned(Path) then
+      begin
+        New(Result);
+        Result^.IsMounted:= True;
+        Result^.Path:= StrPas(Path);
+        Result^.DriveType:= dtSpecial;
+        Result^.IsMediaEjectable:= g_mount_can_eject(Mount);
+        Name:= g_mount_get_name(Mount);
+        if (Name = nil) then
+          Result^.DisplayName:= ExtractFileName(Result^.Path)
+        else
+        begin
+          Result^.DisplayName := StrPas(Name);
+          g_free(Name);
+        end;
+        g_free(Path);
+      end;
     end;
     g_object_unref(PGObject(GFile));
   end;
@@ -107,12 +145,27 @@ procedure VolumeEvent(volume_monitor: PGVolumeMonitor; volume: PGVolume; user_da
 var
   Drive: PDrive;
   Index: Integer;
-  VolumeEvent: TUDisksMethod absolute user_data;
+  VolumeEvent: TGVolumeSignal absolute user_data;
 begin
   Drive:= VolumeToDrive(volume);
   if Assigned(Drive) then
   begin
-    Print(GetEnumName(TypeInfo(TUDisksMethod), PtrInt(VolumeEvent)) + ': ' + Drive^.Path);
+    Print(GetEnumName(TypeInfo(TGVolumeSignal), PtrInt(VolumeEvent)) + ': ' + Drive^.Path);
+    for Index:= 0 to Observers.Count - 1 do
+      Observers[Index](VolumeEvent, Drive);
+  end;
+end;
+
+procedure MountEvent(volume_monitor: PGVolumeMonitor; mount: PGMount; user_data: gpointer); cdecl;
+var
+  Drive: PDrive;
+  Index: Integer;
+  VolumeEvent: TGVolumeSignal absolute user_data;
+begin
+  Drive:= MountToDrive(mount);
+  if Assigned(Drive) then
+  begin
+    Print(GetEnumName(TypeInfo(TGVolumeSignal), PtrInt(VolumeEvent)) + ': ' + Drive^.Path);
     for Index:= 0 to Observers.Count - 1 do
       Observers[Index](VolumeEvent, Drive);
   end;
@@ -136,12 +189,20 @@ begin
   if Result then
   begin
     Observers:= TGVolumeObserverList.Create;
+
     g_signal_connect_data(VolumeMonitor, 'volume-added', TGCallback(@VolumeEvent),
-                          gpointer(PtrInt(UDisks_DeviceAdded)), nil, G_CONNECT_AFTER);
+                          gpointer(PtrInt(GVolume_Added)), nil, G_CONNECT_AFTER);
     g_signal_connect_data(VolumeMonitor, 'volume-changed', TGCallback(@VolumeEvent),
-                          gpointer(PtrInt(UDisks_DeviceChanged)), nil, G_CONNECT_AFTER);
+                          gpointer(PtrInt(GVolume_Changed)), nil, G_CONNECT_AFTER);
     g_signal_connect_data(VolumeMonitor, 'volume-removed', TGCallback(@VolumeEvent),
-                          gpointer(PtrInt(UDisks_DeviceRemoved)), nil, G_CONNECT_AFTER);
+                          gpointer(PtrInt(GVolume_Removed)), nil, G_CONNECT_AFTER);
+
+    g_signal_connect_data(VolumeMonitor, 'mount-added', TGCallback(@MountEvent),
+                          gpointer(PtrInt(GVolume_Added)), nil, G_CONNECT_AFTER);
+    g_signal_connect_data(VolumeMonitor, 'mount-changed', TGCallback(@MountEvent),
+                          gpointer(PtrInt(GVolume_Changed)), nil, G_CONNECT_AFTER);
+    g_signal_connect_data(VolumeMonitor, 'mount-removed', TGCallback(@MountEvent),
+                          gpointer(PtrInt(GVolume_Removed)), nil, G_CONNECT_AFTER);
   end;
 end;
 
@@ -158,14 +219,16 @@ end;
 function EnumerateVolumes(DrivesList: TDrivesList): Boolean;
 var
   Drive: PDrive;
+  GMount: PGMount;
   GVolume: PGVolume;
   VolumeList: PGList;
   VolumeTemp: PGList;
 begin
+  Result:= False;
   VolumeList:= g_volume_monitor_get_volumes(VolumeMonitor);
-  Result:= Assigned(VolumeList);
-  if Result then
+  if Assigned(VolumeList) then
   begin
+    Result:= True;
     VolumeTemp:= VolumeList;
     while Assigned(VolumeTemp) do
     begin
@@ -176,6 +239,25 @@ begin
         DrivesList.Add(Drive);
 
       g_object_unref(PGObject(GVolume));
+      VolumeTemp:= VolumeTemp^.next;
+    end;
+    g_list_free(VolumeList);
+  end;
+
+  VolumeList:= g_volume_monitor_get_mounts(VolumeMonitor);
+  if Assigned(VolumeList) then
+  begin
+    Result:= True;
+    VolumeTemp:= VolumeList;
+    while Assigned(VolumeTemp) do
+    begin
+      GMount:= VolumeTemp^.data;
+      Drive:= MountToDrive(GMount);
+
+      if (Assigned(Drive)) then
+        DrivesList.Add(Drive);
+
+      g_object_unref(PGObject(GMount));
       VolumeTemp:= VolumeTemp^.next;
     end;
     g_list_free(VolumeList);
