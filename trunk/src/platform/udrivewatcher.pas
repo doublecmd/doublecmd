@@ -73,7 +73,7 @@ type
   TFakeClass = class
   public
     procedure OnMountWatcherNotify(Sender: TObject);
-    procedure OnGVolumeNotify(Event: TUDisksMethod; ADrive: PDrive);
+    procedure OnGVolumeNotify(Signal: TGVolumeSignal; ADrive: PDrive);
     procedure OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: String);
   end;
 {$ENDIF}
@@ -1093,15 +1093,15 @@ begin
   DoDriveChanged(ADrive);
 end;
 
-procedure TFakeClass.OnGVolumeNotify(Event: TUDisksMethod; ADrive: PDrive);
+procedure TFakeClass.OnGVolumeNotify(Signal: TGVolumeSignal; ADrive: PDrive);
 begin
   try
-    case Event of
-      UDisks_DeviceAdded:
+    case Signal of
+      GVolume_Added:
         DoDriveAdded(ADrive);
-      UDisks_DeviceRemoved:
+      GVolume_Removed:
         DoDriveRemoved(ADrive);
-      UDisks_DeviceChanged:
+      GVolume_Changed:
         DoDriveChanged(ADrive);
     end;
   finally
