@@ -1,54 +1,15 @@
 object frmViewer: TfrmViewer
-  Left = 249
-  Height = 480
-  Top = 149
+  Left = 930
+  Height = 458
+  Top = 427
   Width = 651
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
   Caption = 'Viewer'
-  ClientHeight = 480
+  ClientHeight = 458
   ClientWidth = 651
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
-  Icon.Data = {
-    7E04000000000100010010100000010020006804000016000000280000001000
-    0000200000000100200000000000000000000000000000000000000000000000
-    0000000000000000000000000000000000000000000000000000000000000000
-    0000000000000000000000000000000000000000000000000000000000000000
-    0000959595B4818181FF818181FF818181FF818181FF818181FF818181FF8181
-    81FF818181FF818181FF818181FF818181FF818181FF959595A8000000000000
-    0000818181FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF818181FF000000000000
-    0000818181FFFFFFFFFFEDEDEDFFEDEDEDFFEEEEEEFFEFEFEFFFEFEFEFFFF0F0
-    F0FFF0F0F0FFF1F1F1FFF2F2F2FFF2F2F2FFFFFFFFFF818181FF000000000000
-    0000818181FFFFFFFFFFEDEDEDFFCF9F72FFCF9F72FFCF9F72FFCF9F72FFCF9F
-    72FFCF9F72FFCF9F72FFCF9F72FFF2F2F2FFFFFFFFFF818181FF000000000000
-    0000818181FFFFFFFFFFECECECFFCF9F72FF927A6DFF927B6EFF937B6EFF8F79
-    6DFF867469FF847368FFCF9F72FFF1F1F1FFFFFFFFFF818181FF000000000000
-    0000818181FFFFFFFFFFECECECFFCF9F72FFAD9889FFAE9989FFAF9A8AFF948C
-    86FF948C86FFA29489FFCF9F72FFF0F0F0FFFFFFFFFF818181FF000000000000
-    0000818181FFFFFFFFFFECECECFFCF9F72FFCCC2A8FFD6F1EDFFC4D4C0FFD8B8
-    9AFFD8B89AFFD8B89AFFCF9F72FFF0F0F0FFFFFFFFFF818181FF000000000000
-    0000818181FFFFFFFFFFEBEBEBFFCF9F72FFCF9F72FFCF9F72FFCF9F72FFCF9F
-    72FFCF9F72FFCF9F72FFCF9F72FFF0F0F0FFFFFFFFFF818181FF000000000000
-    0000818181FFFFFFFFFFEBEBEBFFEBEBEBFFECECECFFECECECFFEDEDEDFFEDED
-    EDFFE5EDEDFFECECECFFEEEEEEFFF0F0F0FFFFFFFFFF818181FF000000000000
-    0000818181FFFFFFFFFFEBEBEBFFC5C5C5FFC6C6C6FFC6C6C6FFC6C6C6FFC6C6
-    C6FFC6C6C6FFC6C6C6FFC7C7C7FFF0F0F0FFFFFFFFFF818181FF000000000000
-    0000818181FFFFFFFFFFEAEAEAFFEBEBEBFFEBEBEBFFECECECFFECECECFFECEC
-    ECFFEDEDEDFFEDEDEDFFEEEEEEFFF0F0F0FFFFFFFFFF818181FF000000000000
-    0000818181FFFFFFFFFFEAEAEAFFC4C4C4FFC5C5C5FFC5C5C5FFC6C6C6FFC6C6
-    C6FFC6C6C6FFC6C6C6FFC7C7C7FFF0F0F0FFFFFFFFFF818181FF000000000000
-    0000818181FFFFFFFFFFECECECFFEAEAEAFFEAEAEAFFEBEBEBFFEBEBEBFFEBEB
-    EBFFECECECFFECECECFFEDEDEDFFF0F0F0FFFFFFFFFF818181FF000000000000
-    0000818181FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF818181FF000000000000
-    0000999999AC818181FF818181FF818181FF818181FF818181FF818181FF8181
-    81FF818181FF818181FF818181FF818181FF818181FF81818156000000000000
-    0000FFFF00000003000000030000000300000003000000030000000300000003
-    0000000300000003000000030000000300000003000000030000000300000007
-    0000
-  }
   KeyPreview = True
   OnClose = frmViewerClose
   OnCreate = FormCreate
@@ -60,18 +21,18 @@ object frmViewer: TfrmViewer
   LCLVersion = '1.7'
   object pnlFolder: TPanel
     Left = 179
-    Height = 457
+    Height = 435
     Top = 0
     Width = 472
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 457
+    ClientHeight = 435
     ClientWidth = 472
     TabOrder = 0
     Visible = False
     object memFolder: TMemo
       Left = 0
-      Height = 457
+      Height = 435
       Top = 0
       Width = 472
       Align = alClient
@@ -82,7 +43,7 @@ object frmViewer: TfrmViewer
   object Status: TStatusBar
     Left = 0
     Height = 23
-    Top = 457
+    Top = 435
     Width = 651
     Panels = <    
       item
@@ -104,22 +65,21 @@ object frmViewer: TfrmViewer
   end
   object pnlText: TPanel
     Left = 179
-    Height = 457
+    Height = 435
     Top = 0
     Width = 472
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 457
+    ClientHeight = 435
     ClientWidth = 472
     TabOrder = 2
     Visible = False
     OnMouseWheelUp = pnlTextMouseWheelUp
     object ViewerControl: TViewerControl
       Left = 0
-      Height = 457
+      Height = 435
       Top = 0
       Width = 472
-      ViewerMode = vmText
       OnPositionChanged = ViewerPositionChanged
       OnMouseUp = ViewerControlMouseUp
       OnMouseWheelUp = ViewerControlMouseWheelUp
@@ -131,26 +91,26 @@ object frmViewer: TfrmViewer
   end
   object pnlImage: TPanel
     Left = 179
-    Height = 457
+    Height = 435
     Top = 0
     Width = 472
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 457
+    ClientHeight = 435
     ClientWidth = 472
     TabOrder = 3
     Visible = False
     OnResize = pnlImageResize
     object sboxImage: TScrollBox
       Left = 0
-      Height = 407
+      Height = 385
       Top = 50
       Width = 472
       HorzScrollBar.Page = 432
-      VertScrollBar.Page = 384
+      VertScrollBar.Page = 381
       Align = alClient
-      ClientHeight = 403
-      ClientWidth = 468
+      ClientHeight = 381
+      ClientWidth = 451
       Color = clWhite
       ParentColor = False
       TabOrder = 0
@@ -179,6 +139,7 @@ object frmViewer: TfrmViewer
         Top = 0
         Width = 106
         AutoSize = False
+        OnMouseDown = GifAnimMouseDown
         OnMouseEnter = GifAnimMouseEnter
       end
     end
@@ -1670,7 +1631,7 @@ object frmViewer: TfrmViewer
   end
   object Splitter: TSplitter
     Left = 170
-    Height = 457
+    Height = 435
     Top = 0
     Width = 9
     AutoSnap = False
@@ -1680,12 +1641,12 @@ object frmViewer: TfrmViewer
   end
   object pnlPreview: TPanel
     Left = 0
-    Height = 457
+    Height = 435
     Top = 0
     Width = 170
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 457
+    ClientHeight = 435
     ClientWidth = 170
     TabOrder = 5
     Visible = False
@@ -2213,7 +2174,7 @@ object frmViewer: TfrmViewer
     end
     object DrawPreview: TDrawGrid
       Left = 0
-      Height = 427
+      Height = 405
       Top = 30
       Width = 170
       Align = alClient
@@ -2320,6 +2281,10 @@ object frmViewer: TfrmViewer
         Action = actShowAsHex
         RadioItem = True
       end
+      object miDec: TMenuItem
+        Action = actShowAsDec
+        RadioItem = True
+      end
       object miWrapText: TMenuItem
         Action = actShowAsWrapText
         RadioItem = True
@@ -2408,7 +2373,10 @@ object frmViewer: TfrmViewer
     left = 152
     top = 64
     object pmiCopy: TMenuItem
-      Caption = 'Copy To Clipboard'
+      Action = actCopyToClipboard
+    end
+    object pmiCopyFormatted: TMenuItem
+      Action = actCopyToClipboardFormatted
     end
     object miDiv5: TMenuItem
       Caption = '-'
@@ -2509,31 +2477,6 @@ object frmViewer: TfrmViewer
       Hint = 'Mirror'
       OnExecute = actExecute
     end
-    object actCopyToClipboard: TAction
-      Category = 'Edit'
-      Caption = 'Copy To Clipboard'
-      OnExecute = actExecute
-    end
-    object actSelectAll: TAction
-      Category = 'Edit'
-      Caption = 'Select All'
-      OnExecute = actExecute
-    end
-    object actFind: TAction
-      Category = 'Edit'
-      Caption = 'Find'
-      OnExecute = actExecute
-    end
-    object actFindNext: TAction
-      Category = 'Edit'
-      Caption = 'Find next'
-      OnExecute = actExecute
-    end
-    object actFindPrev: TAction
-      Category = 'Edit'
-      Caption = 'Find previous'
-      OnExecute = actExecute
-    end
     object actPreview: TAction
       Category = 'View'
       Caption = 'Preview'
@@ -2552,26 +2495,6 @@ object frmViewer: TfrmViewer
     object actShowAsHex: TAction
       Category = 'View'
       Caption = 'Show as &Hex'
-      OnExecute = actExecute
-    end
-    object actShowAsWrapText: TAction
-      Category = 'View'
-      Caption = 'Show as &Wrap text'
-      OnExecute = actExecute
-    end
-    object actShowAsBook: TAction
-      Category = 'View'
-      Caption = 'Show as B&ook'
-      OnExecute = actExecute
-    end
-    object actShowGraphics: TAction
-      Category = 'View'
-      Caption = 'Graphics'
-      OnExecute = actExecute
-    end
-    object actShowPlugins: TAction
-      Category = 'View'
-      Caption = 'Plugins'
       OnExecute = actExecute
     end
     object actSave: TAction
@@ -2631,6 +2554,61 @@ object frmViewer: TfrmViewer
     object actScreenShotDelay5sec: TAction
       Category = 'Image'
       Caption = 'Delay 5 sec'
+      OnExecute = actExecute
+    end
+    object actShowAsDec: TAction
+      Category = 'View'
+      Caption = 'Show as &Dec'
+      OnExecute = actExecute
+    end
+    object actShowAsWrapText: TAction
+      Category = 'View'
+      Caption = 'Show as &Wrap text'
+      OnExecute = actExecute
+    end
+    object actShowAsBook: TAction
+      Category = 'View'
+      Caption = 'Show as B&ook'
+      OnExecute = actExecute
+    end
+    object actShowGraphics: TAction
+      Category = 'View'
+      Caption = 'Graphics'
+      OnExecute = actExecute
+    end
+    object actShowPlugins: TAction
+      Category = 'View'
+      Caption = 'Plugins'
+      OnExecute = actExecute
+    end
+    object actCopyToClipboard: TAction
+      Category = 'Edit'
+      Caption = 'Copy To Clipboard'
+      OnExecute = actExecute
+    end
+    object actCopyToClipboardFormatted: TAction
+      Category = 'Edit'
+      Caption = 'Copy To Clipboard Formatted'
+      OnExecute = actExecute
+    end
+    object actSelectAll: TAction
+      Category = 'Edit'
+      Caption = 'Select All'
+      OnExecute = actExecute
+    end
+    object actFind: TAction
+      Category = 'Edit'
+      Caption = 'Find'
+      OnExecute = actExecute
+    end
+    object actFindNext: TAction
+      Category = 'Edit'
+      Caption = 'Find next'
+      OnExecute = actExecute
+    end
+    object actFindPrev: TAction
+      Category = 'Edit'
+      Caption = 'Find previous'
       OnExecute = actExecute
     end
   end

@@ -166,7 +166,7 @@ end;
 constructor TBinaryDiffViewer.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  ViewerMode:= vmHex;
+  Mode:= vcmHex;
 end;
 
 { TBinaryCompare }
