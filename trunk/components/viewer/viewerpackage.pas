@@ -1,9 +1,10 @@
-{ This file was automatically created by Lazarus. do not edit ! 
+{ This file was automatically created by Lazarus. Do not edit!
   This source is only used to compile and install the package.
  }
 
-unit viewerpackage; 
+unit viewerpackage;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
@@ -11,11 +12,11 @@ uses
 
 implementation
 
-procedure Register; 
+procedure Register;
 begin
-  RegisterUnit('ViewerControl', @ViewerControl.Register); 
-end; 
+  RegisterUnit('ViewerControl', @ViewerControl.Register);
+end;
 
 initialization
-  RegisterPackage('viewerpackage', @Register); 
+  RegisterPackage('viewerpackage', @Register);
 end.

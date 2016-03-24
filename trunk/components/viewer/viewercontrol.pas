@@ -11,6 +11,16 @@
    author Radek Cervinka (radek.cervinka@centrum.cz)
 
    changes:
+   5.8
+     - customizable view area of transformed text(transformed Values per Line)
+     - customizable separators
+     - added view as decimal
+     - added class TCharToCustomValueTransformProc to handle parameters of customizable modes(at this time - Hex and Dec)
+     - Hex and Dec mode handled by the same mechanism(potentially can be added any additionsl custom mode)
+       so added properties FHex and FDec
+     - added property FCustom which is nil if current mode - not custom, or is equal to current customizable mode
+     - Added CopyToClipboardF which copy transformed text to clipboard
+
    5.7. (RC)
      - selecting text with mouse
      - CopyToclipBoard, SelectAll
@@ -66,13 +76,48 @@ const
   MaxMemSize = $400000; // 4 Mb
 
 type
-  TViewerMode = (vmBin, vmHex, vmText, vmWrap, vmBook);
+  TViewerControlMode = (vcmBin, vcmHex, vcmText, vcmWrap, vcmBook, vcmDec);
   TDataAccess = (dtMmap, dtNothing);
   TCharSide = (csBefore, csLeft, csRight, csAfter);
 
   TPtrIntList = specialize TFPGList<PtrInt>;
 
   TGuessEncodingEvent = function(const s: string): string;
+
+  TCustomCharsPresentation = class;
+  TCharToCustomValueTransformProc = function(AChar:AnsiChar;AMaxDigitsCount:integer):AnsiString of object;
+
+  { TCustomCharsPresentation }
+
+  {
+    Presentation one char is called Value
+    Function for convert char to Value is ChrToValueProc
+  }
+
+  TCustomCharsPresentation = class
+  public
+    ValuesPerLine  :integer;  // = 16 for Hex by default
+    MaxValueDigits :integer;  // the max width of present  char (255) - 3 symbols
+
+    MaxAddrDigits  :integer;  // = 8;
+    StartOfs       :integer;  // = OffsetWidth + 2;  // ': '
+    EndOfs         :integer;  // = StartOfs + (ValuesPerLine * (ValueMaxDigits+SpaceCount));
+    StartAscii     :integer;  // = StartOfs + (ValuesPerLine * (ValueMaxDigits+SpaceCount)) + 2;  // '  '
+
+    SpaceCount     :integer;  // = 1 - one spacebar between Values
+    SeparatorSpace :AnsiString;  // spacebar * SpaceCount
+
+    SeparatorChar  :AnsiChar; //  '|'
+    CountSeperate  :integer;  // insert SeparatorChar after every CountSeperate values
+
+    ChrToValueProc   :TCharToCustomValueTransformProc; // procedure which return presentation of one char
+
+    constructor Create(APresentValuesPerLine,ACharMaxPresentWidth,AOffsetWidth,ACountSeparate:integer;AChrToValueProc:TCharToCustomValueTransformProc);
+    destructor  Destroy();override;
+  end;
+
+
+
 
 type
   // If additional encodings are added they should be also supported by:
@@ -156,12 +201,13 @@ const
 
 type
 
+
   { TViewerControl }
 
   TViewerControl = class(TCustomControl)
   protected
     FEncoding:           TViewerEncoding;
-    FViewerMode:         TViewerMode;
+    FViewerControlMode:  TViewerControlMode;
     FFileName:           String;
     FFileHandle:         THandle;
     FFileSize:           Int64;
@@ -191,6 +237,10 @@ type
     FColCount:           Integer;
     FOnGuessEncoding:    TGuessEncodingEvent;
 
+    FHex:TCustomCharsPresentation;
+    FDec:TCustomCharsPresentation;
+    FCustom:TCustomCharsPresentation;
+
     function GetPercent: Integer;
     procedure SetPercent(const AValue: Integer);
     procedure SetBlockBegin(const AValue: PtrInt);
@@ -202,7 +252,7 @@ type
     procedure SetEncoding(AEncoding: TViewerEncoding);
     function GetEncodingName: string;
     procedure SetEncodingName(AEncodingName: string);
-    procedure SetViewerMode(Value: TViewerMode);
+    procedure SetViewerMode(Value: TViewerControlMode);
     procedure SetColCount(const AValue: Integer);
 
     {en
@@ -212,7 +262,7 @@ type
 
     {en
        Calculates how many lines can be displayed from given position.
-       @param(FromPosition
+       param(FromPosition
               Position from which to check. It should point to a start of a line.)
        @param(LastLineReached
               If it is set to @true when the function returns, then the last
@@ -274,16 +324,25 @@ type
     function XYPos2Adr(x, y: Integer; out CharSide: TCharSide): PtrInt;
 
     procedure OutText(x, y: Integer; StartPos: PtrInt; DataLength: Integer);
-    procedure OutHex(x, y: Integer; sText: string; StartPos: PtrInt; DataLength: Integer);
     procedure OutBin(x, y: Integer; sText: string; StartPos: PtrInt; DataLength: Integer);
+
+    procedure OutCustom(x, y: Integer; sText: string;StartPos: PtrInt; DataLength: Integer);  // render one line
+    procedure WriteCustom;
+    function  TransformCustom(var APosition: PtrInt; ALimit: PtrInt;AWithAdditionalData:boolean=True): AnsiString;
+    function  TransformCustomBlock(var APosition: PtrInt; DataLength: integer ; ASeparatorsOn, AAlignData:boolean; out AChars:AnsiString): AnsiString;
+
+    function HexToValueProc(AChar:AnsiChar;AMaxDigitsCount:integer):AnsiString;
+    function DecToValueProc(AChar:AnsiChar;AMaxDigitsCount:integer):AnsiString;
+
     procedure WriteText;
     procedure WriteHex; virtual;
+    procedure WriteDec; virtual;
     procedure WriteBin;
-    function TransformText(const sText: String; const Xoffset: Integer): String;
-    function TransformHex(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
-    function TransformBin(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
+    function  TransformText(const sText: String; const Xoffset: Integer): String;
+    function  TransformBin(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
+    function  TransformHex(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;virtual;
 
-    procedure AddLineOffset(iOffset: PtrInt); inline;
+    procedure AddLineOffset(const iOffset: PtrInt); inline;
 
     function MapFile(const sFileName: String): Boolean;
     procedure UnMapFile;
@@ -394,6 +453,7 @@ type
     procedure SelectAll;
     procedure SelectText(AStart, AEnd: PtrInt);
     procedure CopyToClipboard;
+    procedure CopyToClipboardF;
 
     function IsVisible(const aPosition: PtrInt): Boolean; overload;
     procedure MakeVisible(const aPosition: PtrInt);
@@ -417,7 +477,7 @@ type
     property OnGuessEncoding: TGuessEncodingEvent Read FOnGuessEncoding Write FOnGuessEncoding;
 
   published
-    property ViewerMode: TViewerMode Read FViewerMode Write SetViewerMode default vmWrap;
+    property Mode: TViewerControlMode Read FViewerControlMode Write SetViewerMode default vcmWrap;
     property FileName: String Read FFileName Write SetFileName;
     property Encoding: TViewerEncoding Read FEncoding Write SetEncoding default veAutoDetect;
     property OnPositionChanged: TNotifyEvent Read FOnPositionChanged Write FOnPositionChanged;
@@ -451,20 +511,42 @@ uses
   , Windows
   {$ENDIF};
 
+
 const
   //cTextWidth      = 80;  // wrap on 80 chars
   cBinWidth       = 80;
   cMaxTextWidth   = 65535; // maximum of chars on one line unwrapped text
-  cHexWidth       = 16;
   cTabSpaces      = 8;   // tab stop - allow to set in settings
-  cHexOffsetWidth = 8;
-  cHexStartHex    = cHexOffsetWidth + 2;  // ': '
-  cHexEndHex      = cHexStartHex + (cHexWidth * 3);
-  cHexStartAscii  = cHexStartHex + (cHexWidth * 3) + 2;  // '  '
 
   // These strings must be Ascii only.
   sNonCharacter: string = ' !"#$%&''()*+,-./:;<=>?@[\]^`{|}~'#13#10#9;
   sWhiteSpace  : string = ' '#13#10#9#8;
+
+{ TCustomCharsPresentation }
+
+constructor TCustomCharsPresentation.Create(APresentValuesPerLine,
+  ACharMaxPresentWidth, AOffsetWidth, ACountSeparate: integer;AChrToValueProc:TCharToCustomValueTransformProc);
+begin
+  SpaceCount:=1;                             // count of spacebars between values, =1
+  ValuesPerLine := APresentValuesPerLine;    // default for hex: 16 values
+  MaxAddrDigits   := AOffsetWidth;             // = 8 , count of symbols for display caret offset
+  StartOfs      := AOffsetWidth + 2;         // ': '
+  MaxValueDigits    := ACharMaxPresentWidth; // hex char (FF) - 2 symbols,  dec char (255) - 3 symbols
+  EndOfs        := StartOfs + (ValuesPerLine * (MaxValueDigits+SpaceCount));      // +1 - take in spacebar
+  StartAscii    := StartOfs + (ValuesPerLine * (MaxValueDigits+SpaceCount)) + 2;  // '  '
+
+  SeparatorChar:='|';
+  CountSeperate:=ACountSeparate;
+
+  SeparatorSpace:=' ';
+
+  ChrToValueProc:=AChrToValueProc;           // method for convert char to Value
+end;
+
+destructor TCustomCharsPresentation.Destroy;
+begin
+  inherited;
+end;
 
 // ----------------------------------------------------------------------------
 
@@ -477,20 +559,21 @@ begin
   ControlStyle := ControlStyle + [csTripleClicks, csOpaque];
   TabStop := True; // so that it can get keyboard focus
 
-  FEncoding := veAutoDetect;
-  FViewerMode := vmText;
-  FFileName := '';
+  FEncoding   := veAutoDetect;
+  FViewerControlMode := vcmText;
+  FCustom     := nil;
+  FFileName   := '';
   FMappedFile := nil;
   FFileHandle := 0;
   FMappingHandle := 0;
-  FPosition := 0;
+  FPosition  := 0;
   FHPosition := 0;
-  FHLowEnd := 0;
-  FLowLimit := 0;
+  FHLowEnd   := 0;
+  FLowLimit  := 0;
   FHighLimit := 0;
   FBOMLength := 0;
-  FTextHeight := 14; // dummy value
-  FColCount := 1;
+  FTextHeight:= 14; // dummy value
+  FColCount  := 1;
 
   FLineList := TPtrIntList.Create;
 
@@ -518,10 +601,21 @@ begin
   FOnGuessEncoding   := nil;
 
   OnResize := @ViewerResize;
+
+  FHex:=TCustomCharsPresentation.Create(16,2,8,8,@HexToValueProc);
+  FDec:=TCustomCharsPresentation.Create(15,3,8,5,@DecToValueProc);  // for set bigger ValuePerLine need to improve method GetEndOfLine
+
 end;
 
 destructor TViewerControl.Destroy;
 begin
+  FHex.Free;
+  FDec.Free;
+
+  FHex:=nil;
+  FDec:=nil;
+  FCustom:=nil;
+
   UnMapFile;
 
   if Assigned(FLineList) then
@@ -544,23 +638,24 @@ begin
   Canvas.Brush.Style := bsClear;
   FTextHeight := Canvas.TextHeight('Wg') + 2;
 
-  if FViewerMode = vmBook then
+  if FViewerControlMode = vcmBook then
     FTextWidth := ((ClientWidth - (Canvas.TextWidth('W') * FColCount)) div FColCount)
   else
     FTextWidth := ClientWidth  div Canvas.TextWidth('W') - 2;
 
   FLineList.Clear;
 
-  case FViewerMode of
-    vmBin : WriteBin;
-    vmHex : WriteHex;
-    vmText: WriteText;
-    vmWrap: WriteText;
-    vmBook: WriteText;
+  case FViewerControlMode of
+    vcmBin : WriteBin;
+    vcmText: WriteText;
+    vcmWrap: WriteText;
+    vcmBook: WriteText;
+    vcmDec,vcmHex : WriteCustom;
+
   end;
 end;
 
-procedure TViewerControl.SetViewerMode(Value: TViewerMode);
+procedure TViewerControl.SetViewerMode(Value: TViewerControlMode);
 begin
   if not (csDesigning in ComponentState) then
   begin
@@ -570,7 +665,15 @@ begin
     FBlockBeg := FBlockBeg + (GetDataAdr - FMappedFile);
     FBlockEnd := FBlockEnd + (GetDataAdr - FMappedFile);
 
-    FViewerMode := Value;
+    FViewerControlMode := Value;
+    case FViewerControlMode of
+      vcmHex: FCustom:=FHex;
+      vcmDec: FCustom:=FDec;
+    else
+      FCustom:=nil;
+    end;
+
+
 
     FHPosition := 0;
     FBOMLength := GetBomLength;
@@ -590,7 +693,7 @@ begin
     Invalidate;
   end
   else
-    FViewerMode := Value;
+    FViewerControlMode := Value;
 end;
 
 procedure TViewerControl.SetColCount(const AValue: Integer);
@@ -696,10 +799,10 @@ begin
 
     iStartPos := iStartPos + CharLenInBytes;
     DataLength := iStartPos - OldPos;
-    case FViewerMode of
-    vmText:   MaxLineLength := Result < cMaxTextWidth;
-    vmWrap:   MaxLineLength := Result < FTextWidth;
-    vmBook:   MaxLineLength := Canvas.TextWidth(GetText(OldPos, DataLength, 0)) < FTextWidth;
+    case FViewerControlMode of
+    vcmText:   MaxLineLength := Result < cMaxTextWidth;
+    vcmWrap:   MaxLineLength := Result < FTextWidth;
+    vcmBook:   MaxLineLength := Canvas.TextWidth(GetText(OldPos, DataLength, 0)) < FTextWidth;
     else
       Exit;
     end;
@@ -738,51 +841,6 @@ begin
   end;
 end;
 
-function TViewerControl.TransformHex(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
-
-  function LineFormat(const sHex, sAscii: AnsiString; iOffset: PtrInt): AnsiString;
-  begin
-    Result := Format('%s: %s', [IntToHex(iOffset, cHexOffsetWidth), sHex]);
-    if Length(sHex) < cHexWidth * 3 then
-      Result := Result + StringOfChar(' ', cHexWidth * 3 - Length(sHex));
-    Result := Result + '  ';
-    Result := Result + sAscii;
-  end;
-
-var
-  c: AnsiChar;
-  i: Integer;
-  sStr: string = '';
-  sHex: string = '';
-  aStartOffset: PtrInt;
-begin
-  if aPosition >= aLimit then
-    Exit('');
-
-  aStartOffset := aPosition;
-  for i := 0 to cHexWidth - 1 do
-  begin
-    if aPosition >= aLimit then
-      Break;
-    c := PAnsiChar(GetDataAdr)[aPosition];
-    if c < ' ' then
-      sStr := sStr + '.'
-    else if c > #127 then
-      sStr := sStr + '.'
-    else
-      sStr := sStr + c;
-
-    sHex := sHex + IntToHex(Ord(c), 2);
-    if ((i and 7) = 7) and (i <> cHexWidth - 1) then
-      sHex := sHex + '|'
-    else
-      sHex := sHex + ' ';
-
-    Inc(aPosition);
-  end;
-
-  Result := LineFormat(sHex, sStr, aStartOffset)
-end;
 
 function TViewerControl.TransformBin(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
 var
@@ -805,6 +863,110 @@ begin
     Inc(aPosition);
   end;
 end;
+
+function TViewerControl.TransformHex(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
+begin
+  Result:=TransformCustom(aPosition,aLimit);
+end;
+
+
+function TViewerControl.TransformCustom(var APosition: PtrInt; aLimit:PtrInt; AWithAdditionalData: boolean=True): AnsiString;
+var
+  sAscii: string = '';
+  sRez  : string = '';
+  tPos  : integer;
+begin
+
+  tPos:=APosition;
+  sRez:=TransformCustomBlock(APosition,FCustom.ValuesPerLine,True,True,sAscii);
+
+//  Result := LineFormat(sRez, sStr, aStartOffset) else
+
+  if AWithAdditionalData then
+  begin
+    sRez := Format('%s: %s', [IntToHex(tPos, FCustom.MaxAddrDigits), sRez]);
+
+    if Length(sRez) < FCustom.ValuesPerLine * (FCustom.SpaceCount+FCustom.MaxValueDigits) then
+      sRez := sRez + StringOfChar(' ', FCustom.ValuesPerLine * (FCustom.SpaceCount+FCustom.MaxValueDigits) - Length(sRez));
+    sRez := sRez + '  ';
+    sRez := sRez + sAscii;
+  end;
+
+  Result:=sRez;
+end;
+
+function TViewerControl.TransformCustomBlock(var APosition: PtrInt; DataLength: integer ; ASeparatorsOn, AAlignData:boolean; out AChars:AnsiString): AnsiString;
+var
+  c: AnsiChar;
+  i: Integer;
+  iSep,Len :integer;
+  sStr: string = '';
+  sRez: string = '';
+  sEmpty:string;
+  aStartOffset: PtrInt;
+begin
+  if (APosition+DataLength)>FHighLimit then Len:=FHighLimit-APosition else
+     Len:=DataLength;
+
+  iSep:=1;                      // counter for set separator
+  aStartOffset := APosition;
+  for i := 0 to Len - 1 do
+  begin
+    c := PAnsiChar(GetDataAdr)[aPosition];
+    if c < ' ' then
+      AChars := AChars + '.'
+    else if c > #127 then
+      AChars := AChars + '.'
+    else
+      AChars := AChars + c;
+
+    sRez := sRez + FCustom.ChrToValueProc(c, FCustom.MaxValueDigits);
+    if ( iSep  =  FCustom.CountSeperate) and ASeparatorsOn and
+       ( i     < (FCustom.ValuesPerLine - 1))then
+    begin
+      sRez := sRez + FCustom.SeparatorChar;
+      iSep:=0;
+    end else
+    begin
+      sRez := sRez + FCustom.SeparatorSpace;
+    end;
+
+    Inc(aPosition);
+    inc(iSep);
+  end;
+
+  if AAlignData then
+  begin
+    setlength(sEmpty,FCustom.MaxValueDigits);
+    FillChar(sEmpty[1],FCustom.MaxValueDigits,chr(VK_SPACE));
+
+    while (i<FCustom.ValuesPerLine-1) do
+    begin
+      sRez := sRez + sEmpty + FCustom.SeparatorSpace;
+      inc(i);
+    end;
+
+    setlength(sEmpty,0);
+  end;
+
+  Result:=sRez;
+end;
+
+
+function TViewerControl.DecToValueProc(AChar:AnsiChar;AMaxDigitsCount:integer):AnsiString;
+begin
+  Result:=IntToStr(ord(AChar));
+  while length(Result)<AMaxDigitsCount do
+        Result:=' '+Result;
+end;
+
+function TViewerControl.HexToValueProc(AChar:AnsiChar;AMaxDigitsCount:integer):AnsiString;
+begin
+  Result:=IntToHex(Ord(AChar), AMaxDigitsCount);
+  while length(Result)<AMaxDigitsCount do
+        Result:=' '+Result;
+end;
+
 
 function TViewerControl.GetStartOfLine(aPosition: PtrInt): PtrInt;
 
@@ -899,12 +1061,13 @@ begin
         Exit(FLineList.Items[i]);
   end;
 
-  case FViewerMode of
-    vmBin:
+  case FViewerControlMode of
+    vcmBin:
       Result := GetStartOfLineFixed(cBinWidth);
-    vmHex:
-      Result := GetStartOfLineFixed(cHexWidth);
-    vmText, vmWrap, vmBook:
+    vcmHex, vcmDec:
+      Result := GetStartOfLineFixed(FCustom.ValuesPerLine);
+
+    vcmText, vcmWrap, vcmBook:
       Result := GetStartOfLineText;
     else
       Result := aPosition;
@@ -932,12 +1095,12 @@ function TViewerControl.GetEndOfLine(aPosition: PtrInt): PtrInt;
   end;
 
 begin
-  case FViewerMode of
-    vmBin:
+  case FViewerControlMode of
+    vcmBin:
       Result := GetEndOfLineFixed(cBinWidth);
-    vmHex:
-      Result := GetEndOfLineFixed(cHexWidth);
-    vmText, vmWrap, vmBook:
+    vcmHex,vcmDec:
+      Result := GetEndOfLineFixed(FCustom.ValuesPerLine);
+    vcmText, vcmWrap, vcmBook:
       Result := GetEndOfLineText;
     else
       Result := aPosition;
@@ -1042,12 +1205,12 @@ begin
         Exit(FLineList.Items[i]);
   end;
 
-  case FViewerMode of
-    vmBin:
+  case FViewerControlMode of
+    vcmBin:
       Result := GetPrevLineFixed(cBinWidth);
-    vmHex:
-      Result := GetPrevLineFixed(cHexWidth);
-    vmText, vmWrap, vmBook:
+    vcmHex,vcmDec:
+      Result := GetPrevLineFixed(FCustom.ValuesPerLine);
+    vcmText, vcmWrap, vcmBook:
       Result := GetPrevLineText;
     else
       Result := aPosition;
@@ -1113,12 +1276,12 @@ begin
         Exit(FLineList.Items[i]);
   end;
 
-  case FViewerMode of
-    vmBin:
+  case FViewerControlMode of
+    vcmBin:
       Result := GetNextLineFixed(cBinWidth);
-    vmHex:
-      Result := GetNextLineFixed(cHexWidth);
-    vmText, vmWrap, vmBook:
+    vcmHex,vcmDec:
+      Result := GetNextLineFixed(FCustom.ValuesPerLine);
+    vcmText, vcmWrap, vcmBook:
       Result := GetNextLineText;
     else
       Result := aPosition;
@@ -1367,11 +1530,11 @@ var
   DataLength: PtrInt;
 begin
   iPos := FPosition;
-  if ViewerMode = vmBook then
+  if Mode = vcmBook then
      w := Width div FColCount
   else
      w := 0;
-  if (ViewerMode = vmText) and (FHPosition>0) then
+  if (Mode = vcmText) and (FHPosition>0) then
     scrollTab := -FHPosition * Canvas.TextWidth('W')
   else
     scrollTab :=0;
@@ -1391,7 +1554,8 @@ begin
     end;
 end;
 
-procedure TViewerControl.WriteHex;
+procedure TViewerControl.WriteCustom;
+// this method render visible page of text
 var
   yIndex: Integer;
   iPos, LineStart: PtrInt;
@@ -1404,11 +1568,13 @@ begin
       Break;
     LineStart := iPos;
     AddLineOffset(iPos);
-    s := TransformHex(iPos, FHighLimit);
+    s := TransformCustom(iPos, FHighLimit);  // get line text for render
+
     if s <> '' then
-      OutHex(0, yIndex * FTextHeight, s, LineStart, iPos - LineStart);
+      OutCustom(0, yIndex * FTextHeight, s, LineStart, iPos - LineStart);  // render line to canvas
   end;
 end;
+
 
 procedure TViewerControl.WriteBin;
 var
@@ -1429,10 +1595,23 @@ begin
   end;
 end;
 
+
+
+procedure TViewerControl.WriteHex;
+begin
+  WriteCustom;
+end;
+
+
+procedure TViewerControl.WriteDec;
+begin
+  WriteCustom;
+end;
+
 function TViewerControl.GetDataAdr: Pointer;
 begin
-  case FViewerMode of
-    vmText, vmWrap, vmBook:
+  case FViewerControlMode of
+    vcmText, vcmWrap, vcmBook:
       Result := FMappedFile + FBOMLength;
     else
       Result := FMappedFile;
@@ -1572,7 +1751,7 @@ end;
 
 function TViewerControl.GetClientHeightInLines: Integer;
 begin
-  if FViewerMode <> vmText then
+  if FViewerControlMode <> vcmText then
     Result:= 0
   else // Take horizontal scrollbar into account
     Result:= GetSystemMetrics(SM_CYHSCROLL);
@@ -1598,12 +1777,12 @@ begin
     if iPos >= FHighLimit then
       Break;
     Inc(Result, 1);
-    case ViewerMode of
-      vmBin:
+    case Mode of
+      vcmBin:
         iPos := iPos + cBinWidth;
-      vmHex:
-        iPos := iPos + cHexWidth;
-      vmText, vmWrap, vmBook:
+      vcmHex,vcmDec:
+        iPos := iPos + FCustom.ValuesPerLine;
+      vcmText, vcmWrap, vcmBook:
         CalcTextLineLength(iPos, FHighLimit, DataLength);
     end;
   end;
@@ -1726,13 +1905,15 @@ begin
   end;
 end;
 
-procedure TViewerControl.OutHex(x, y: Integer; sText: string;
+
+procedure TViewerControl.OutCustom(x, y: Integer; sText: string;
   StartPos: PtrInt; DataLength: Integer);
 var
   pBegLine, pEndLine: PtrInt;
   iBegDrawIndex, iEndDrawIndex: PtrInt;
   sNextText: String = '';
   sTmpText: String;
+
 begin
   pBegLine := StartPos;
   pEndLine := pBegLine + DataLength;
@@ -1757,14 +1938,14 @@ begin
     iEndDrawIndex := pEndLine;
 
   // Text before selection (offset and hex part).
-  sTmpText := Copy(sText, 1, cHexStartHex + (iBegDrawIndex - pBegLine) * 3);
+  sTmpText := Copy(sText, 1, FCustom.StartOfs + (iBegDrawIndex - pBegLine) * (FCustom.MaxValueDigits+FCustom.SpaceCount));
   Canvas.Font.Color := Font.Color;
   Canvas.TextOut(x, y, sTmpText);
   x := x + Canvas.TextWidth(sTmpText);
 
   // Selected text (hex part).
-  sTmpText := Copy(sText, 1 + cHexStartHex + (iBegDrawIndex - pBegLine) * 3,
-                                             (iEndDrawIndex - iBegDrawIndex) * 3);
+  sTmpText := Copy(sText, 1 + FCustom.StartOfs + (iBegDrawIndex - pBegLine) * (FCustom.MaxValueDigits+FCustom.SpaceCount),
+                                             (iEndDrawIndex - iBegDrawIndex)* (FCustom.MaxValueDigits+FCustom.SpaceCount));
 
   // Move last character from selection to not selected text.
   sNextText := Copy(sTmpText, Length(sTmpText), 1);
@@ -1787,17 +1968,17 @@ begin
   if pEndLine - iEndDrawIndex > 0 then
   begin
     sTmpText := sNextText +
-      Copy(sText, 1 + cHexStartHex + (iEndDrawIndex - pBegLine) * 3,
-                                     (pEndLine - iEndDrawIndex) * 3);
+      Copy(sText, 1 + FCustom.StartOfs + (iEndDrawIndex - pBegLine) * (FCustom.MaxValueDigits+FCustom.SpaceCount),
+                                     (pEndLine - iEndDrawIndex) * (FCustom.MaxValueDigits+FCustom.SpaceCount));
     sNextText := '';
     Canvas.TextOut(x, y, sTmpText);
     x := x + Canvas.TextWidth(sTmpText);
   end;
 
   // Space after hex if data doesn't span full line.
-  if DataLength < cHexWidth then
-    sNextText := sNextText + Copy(sText, 1 + cHexStartHex + DataLength * 3,
-                                         (cHexWidth - DataLength) * 3);
+  if DataLength < FHex.ValuesPerLine then
+    sNextText := sNextText + Copy(sText, 1 + FCustom.StartOfs + DataLength * (FCustom.MaxValueDigits+FCustom.SpaceCount),
+                                              (FCustom.ValuesPerLine - DataLength) * (FCustom.MaxValueDigits+FCustom.SpaceCount));
 
   // Space between hex and ascii.
   sTmpText := sNextText + '  ';
@@ -1807,13 +1988,13 @@ begin
   // Text before selection (ascii part).
   if iBegDrawIndex - pBegLine > 0 then
   begin
-    sTmpText := Copy(sText, 1 + cHexStartAscii, iBegDrawIndex - pBegLine);
+    sTmpText := Copy(sText, 1 + FCustom.StartAscii, iBegDrawIndex - pBegLine);
     Canvas.TextOut(x, y, sTmpText);
     x := x + Canvas.TextWidth(sTmpText);
   end;
 
   // Selected text (ascii part).
-  sTmpText := Copy(sText, 1 + cHexStartAscii + iBegDrawIndex - pBegLine,
+  sTmpText := Copy(sText, 1 + FCustom.StartAscii + iBegDrawIndex - pBegLine,
                                                iEndDrawIndex - iBegDrawIndex);
   Canvas.Brush.Color := clHighlight;
   Canvas.Font.Color  := clHighlightText;
@@ -1830,7 +2011,7 @@ begin
   // Text after selection.
   if pEndLine - iEndDrawIndex > 0 then
   begin
-    sTmpText := Copy(sText, 1 + cHexStartAscii + iEndDrawIndex - pBegLine,
+    sTmpText := Copy(sText, 1 + FCustom.StartAscii + iEndDrawIndex - pBegLine,
                                                  pEndLine - iEndDrawIndex);
     Canvas.TextOut(x, y, sTmpText);
   end;
@@ -1897,7 +2078,7 @@ begin
   end;
 end;
 
-procedure TViewerControl.AddLineOffset(iOffset: PtrInt);
+procedure TViewerControl.AddLineOffset(const iOffset: PtrInt);
 begin
   FLineList.Add(iOffset);
 end;
@@ -2270,7 +2451,11 @@ var
     Result := EndLine;
   end;
 
-  function XYPos2AdrHex: PtrInt;
+
+  function XYPos2AdrCustom: PtrInt;
+  //    | offset part  | custom part  | native part |
+  //    |     0000AAAA: | FF AA CC AE | djfjks       |
+
   var
     i:  Integer;
     px: Integer = 0;
@@ -2279,10 +2464,11 @@ var
     tmpPosition: PtrInt;
   begin
     tmpPosition  := StartLine;
-    sText := TransformHex(tmpPosition, EndLine);
+    sText := TransformCustom(tmpPosition, EndLine);
+    if sText='' then exit;
 
-    // Clicked on offset.
-    sPartialText := Copy(sText, 1, cHexStartHex);
+    // Clicked on offset part
+    sPartialText := Copy(sText, 1, FCustom.StartOfs);
     charWidth := Canvas.TextWidth(sPartialText);
     px := px + charWidth;
     if px > x then
@@ -2291,10 +2477,10 @@ var
       Exit(StartLine);
     end;
 
-    // Clicked on hex part.
-    for i := 0 to cHexWidth - 1 do
+    // Clicked on custom part
+    for i := 0 to FCustom.ValuesPerLine - 1 do
     begin
-      sPartialText := Copy(sText, 1 + cHexStartHex + i * 3, 2);
+      sPartialText := Copy(sText, 1 + FCustom.StartOfs + i * (FCustom.MaxValueDigits+FCustom.SpaceCount), FCustom.MaxValueDigits);
       charWidth := Canvas.TextWidth(sPartialText);
       if px + charWidth > x then
       begin
@@ -2315,7 +2501,7 @@ var
 
       // Space after hex number.
       charWidth := charWidth +
-                   Canvas.TextWidth(string(sText[1 + cHexStartHex + i * 3 + 2]));
+                   Canvas.TextWidth(string(sText[1 + FCustom.StartOfs + i * (FCustom.MaxValueDigits+1) + FCustom.MaxValueDigits]));
 
       if px + charWidth > x then
       begin
@@ -2327,7 +2513,7 @@ var
     end;
 
     // Clicked between hex and ascii.
-    sPartialText := Copy(sText, 1 + cHexEndHex, cHexStartAscii - cHexEndHex);
+    sPartialText := Copy(sText, 1 + FCustom.StartOfs, FCustom.StartAscii - FCustom.EndOfs);
     charWidth := Canvas.TextWidth(sPartialText);
     if px + charWidth > x then
     begin
@@ -2336,9 +2522,9 @@ var
     px := px + charWidth;
 
     // Clicked on ascii part.
-    for i := 0 to cHexWidth - 1 do
+    for i := 0 to FCustom.ValuesPerLine - 1 do
     begin
-      charWidth := Canvas.TextWidth(string(sText[1 + cHexStartAscii + i]));
+      charWidth := Canvas.TextWidth(string(sText[1 + FCustom.StartAscii + i]));
       if px + charWidth > x then
       begin
         // Check if we're not after end of data.
@@ -2439,16 +2625,17 @@ begin
     Exit(StartLine);
   end;
 
-  case ViewerMode of
-    vmBin:
+  case Mode of
+    vcmBin:
       Result := XYPos2AdrBin;
-    vmHex:
-      Result := XYPos2AdrHex;
-    vmText, vmWrap, vmBook:
+    vcmHex,vcmDec:
+      Result := XYPos2AdrCustom;  // XYPos2AdrHex;
+    vcmText, vcmWrap, vcmBook:
       Result := XYPos2AdrText;
     else
       raise Exception.Create('Invalid viewer mode');
   end;
+
 end;
 
 procedure TViewerControl.SelectAll;
@@ -2488,6 +2675,25 @@ begin
   {$ELSE}
   Clipboard.AsText := utf8Text;
   {$ENDIF}
+end;
+
+procedure TViewerControl.CopyToClipboardF;
+var
+  s,sText, utf8Text: string;
+  len: Integer;
+begin
+   len:=FBlockEnd-FBlockBeg;
+   if len=0 then exit;
+   sText:=TransformCustomBlock(FBlockBeg,len,False,False,s);
+
+   utf8Text := ConvertToUTF8(sText);
+   {$IFDEF LCLGTK2}
+   // Workaround for Lazarus bug #0021453. LCL adds trailing zero to clipboard in Clipboard.AsText.
+   Clipboard.Clear;
+   Clipboard.AddFormat(PredefinedClipboardFormat(pcfText), utf8Text[1], Length(utf8Text));
+   {$ELSE}
+   Clipboard.AsText := utf8Text;
+   {$ENDIF}
 end;
 
 function TViewerControl.GetNextCharAsAscii(const iPosition: PtrInt; out CharLenInBytes: Integer): Cardinal;
@@ -2951,8 +3157,8 @@ end;
 procedure TViewerControl.UpdateScrollbars;
 begin
   FScrollBarVert.LargeChange := GetClientHeightInLines - 1;
-  case ViewerMode of
-    vmBin, vmHex:
+  case Mode of
+    vcmBin, vcmHex:
     begin
       //FScrollBarVert.PageSize :=
       //  ((FHighLimit div cHexWidth - GetClientHeightInLines) div 100);
@@ -2960,7 +3166,7 @@ begin
     else
       FScrollBarVert.PageSize := 1;
   end;
-  FScrollBarHorz.Visible:= (FViewerMode = vmText);
+  FScrollBarHorz.Visible:= (FViewerControlMode = vcmText);
 end;
 
 procedure TViewerControl.ViewerResize(Sender: TObject);
@@ -3101,8 +3307,8 @@ begin
 
   FBOMLength := GetBomLength;
 
-  case FViewerMode of
-    vmText, vmWrap, vmBook:
+  case FViewerControlMode of
+    vcmText, vcmWrap, vcmBook:
       begin
         FLowLimit  := 0;
         FHighLimit := FFileSize - FBOMLength;
@@ -3173,8 +3379,8 @@ begin
   end
   else
   begin
-    case FViewerMode of
-      vmText, vmWrap, vmBook:
+    case FViewerControlMode of
+      vcmText, vcmWrap, vcmBook:
         begin
           Check(FBlockBeg, False);
           Check(FBlockEnd, True);

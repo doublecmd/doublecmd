@@ -55,6 +55,8 @@ type
     actCopyToClipboard: TAction;
     actImageCenter: TAction;
     actFullscreen: TAction;
+    actCopyToClipboardFormatted: TAction;
+    actShowAsDec: TAction;
     actScreenShotDelay5sec: TAction;
     actScreenShotDelay3Sec: TAction;
     actScreenshot: TAction;
@@ -104,6 +106,8 @@ type
     gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
     memFolder: TMemo;
+    pmiCopyFormatted: TMenuItem;
+    miDec: TMenuItem;
     MenuItem2: TMenuItem;
     miScreenshot5sec: TMenuItem;
     miScreenshot3sec: TMenuItem;
@@ -215,6 +219,8 @@ type
     procedure FormCreate(Sender : TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure GifAnimMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure GifAnimMouseEnter(Sender: TObject);
     procedure ImageMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -351,6 +357,7 @@ type
 
     procedure cm_ChangeEncoding(const Params: array of string);
     procedure cm_CopyToClipboard (const Params: array of string);
+    procedure cm_CopyToClipboardFormatted (const Params: array of string);
     procedure cm_SelectAll       (const Params: array of string);
     procedure cm_Find          (const Params: array of string);
     procedure cm_FindNext      (const Params: array of string);
@@ -360,6 +367,7 @@ type
     procedure cm_ShowAsText      (const Params: array of string);
     procedure cm_ShowAsBin       (const Params: array of string);
     procedure cm_ShowAsHex       (const Params: array of string);
+    procedure cm_ShowAsDec       (const Params: array of string);
     procedure cm_ShowAsWrapText  (const Params: array of string);
     procedure cm_ShowAsBook      (const Params: array of string);
 
@@ -408,11 +416,11 @@ begin
   Viewer.DrawPreview.RowCount:= Viewer.FileList.Count;
   with Viewer.ViewerControl do
   case gViewerMode of
-    1: ViewerMode:= vmText;
-    2: ViewerMode:= vmBin;
-    3: ViewerMode:= vmHex;
-    4: ViewerMode:= vmWrap;
-    //5: ViewerMode:= vmBook;
+    1: Mode:= vcmText;
+    2: Mode:= vcmBin;
+    3: Mode:= vcmHex;
+    4: Mode:= vcmWrap;
+    //5: Mode:= vcmBook;
   end;
   Viewer.LoadFile(0);
   Viewer.Show;
@@ -575,6 +583,15 @@ begin
 {$ENDIF}
 end;
 
+procedure TfrmViewer.GifAnimMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  if Button=mbRight then
+  begin
+    pmEditMenu.PopUp;
+  end;
+end;
+
 procedure TfrmViewer.GifAnimMouseEnter(Sender: TObject);
 begin
   if miFullScreen.Checked then TimerViewer.Enabled:=true;
@@ -644,6 +661,11 @@ begin
             end;
          if (X<StartX) or (X>EndX) then cas:=0;
         end;
+    if Button=mbRight then
+      begin
+        pmEditMenu.PopUp;
+      end;
+
     if cas=0 then
          begin
            StartX := X;
@@ -1063,11 +1085,11 @@ end;
 
 procedure TfrmViewer.SetNormalViewerFont;
 begin
-  if ViewerControl.ViewerMode=vmBook then
+  if ViewerControl.Mode=vcmBook then
   begin
     with ViewerControl do
       begin
-        ViewerMode := vmBook;
+        Mode := vcmBook;
         Color:= gBookBackgroundColor;
         Font.Color:= gBookFontColor;
         Font.Quality:= fqAntialiased;
@@ -1452,12 +1474,12 @@ begin
   gImagePaintWidth := StrToInt(ComboBoxWidth.Text) ;
   gImagePaintColor := ColorBoxPaint.Selected;
   gTextPosition := ViewerControl.Position;
-  case ViewerControl.ViewerMode of
-    vmText: gViewerMode := 1;
-    vmBin : gViewerMode := 2;
-    vmHex : gViewerMode := 3;
-    vmWrap: gViewerMode := 4;
-    vmBook: gViewerMode := 4;
+  case ViewerControl.Mode of
+    vcmText: gViewerMode := 1;
+    vcmBin : gViewerMode := 2;
+    vcmHex : gViewerMode := 3;
+    vcmWrap: gViewerMode := 4;
+    vcmBook: gViewerMode := 4;
   end;
 
   if Assigned(WlxPlugins) then
@@ -2075,6 +2097,35 @@ begin
 
   if Assigned(Panel) then Panel.Visible := True;
 
+  if Panel = nil then
+  begin
+    Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
+  end
+  else if Panel = pnlText then
+  begin
+    if (not bQuickView) and CanFocus and ViewerControl.CanFocus then
+       ViewerControl.SetFocus;
+
+    case ViewerControl.Mode of
+      vcmText: miText.Checked := True;
+      vcmWrap: miWrapText.Checked := True;
+      vcmBin:  miBin.Checked := True;
+      vcmHex:  miHex.Checked := True;
+      vcmDec:  miDec.Checked := True;
+      vcmBook: miLookBook.Checked := True;
+    end;
+
+    Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
+    Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+  end
+  else if Panel = pnlImage then
+  begin
+    PanelEditImage.Visible:= not bQuickView;
+    pnlImage.TabStop:=True;
+    Self.ActiveControl:=pnlImage;
+  end;
+
+
   bAnimation           := (GifAnim.Visible);
   bImage               := (Panel = pnlImage) and (bAnimation = False);
   bPlugin              := (Panel = nil);
@@ -2091,32 +2142,11 @@ begin
   miSave.Visible       := bImage;
   miSaveAs.Visible     := bImage;
 
-  if Panel = nil then
-  begin
-    Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
-  end
-  else if Panel = pnlText then
-  begin
-    if (not bQuickView) and CanFocus and ViewerControl.CanFocus then
-       ViewerControl.SetFocus;
+  pmiSelectAll.Visible     := (Panel = pnlText);
+  pmiCopyFormatted.Visible := (Panel = pnlText);
 
-    case ViewerControl.ViewerMode of
-      vmText: miText.Checked := True;
-      vmWrap: miWrapText.Checked := True;
-      vmBin:  miBin.Checked := True;
-      vmHex:  miHex.Checked := True;
-      vmBook: miLookBook.Checked := True;
-    end;
 
-    Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
-    Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
-  end
-  else if Panel = pnlImage then
-  begin
-    PanelEditImage.Visible:= not bQuickView;
-    pnlImage.TabStop:=True;
-    Self.ActiveControl:=pnlImage;
-  end;
+
 
   WindowState:=wsNormal;
   Top   :=gViewerTop;
@@ -2447,11 +2477,21 @@ begin
    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_copy, 0)
   else begin
     if (miGraphics.Checked)and(Image.Picture<>nil)and(Image.Picture.Bitmap<>nil)then
-       Clipboard.Assign(Image.Picture)
-    else
+    begin
+      if not bAnimation then
+        Clipboard.Assign(Image.Picture)
+      else
+        Clipboard.Assign(GifAnim.GifBitmaps[GifAnim.GifIndex].Bitmap);
+    end else
        ViewerControl.CopyToClipboard;
+
   end;
 
+end;
+
+procedure TfrmViewer.cm_CopyToClipboardFormatted(const Params: array of string);
+begin
+  ViewerControl.CopyToClipboardF;
 end;
 
 procedure TfrmViewer.cm_SelectAll(const Params: array of string);
@@ -2505,7 +2545,7 @@ end;
 
 procedure TfrmViewer.cm_ShowAsText(const Params: array of string);
 begin
-  ViewerControl.ViewerMode := vmText;
+  ViewerControl.Mode := vcmText;
   SetNormalViewerFont;
   ExitPluginMode;
   ReopenAsTextIfNeeded;
@@ -2514,7 +2554,7 @@ end;
 
 procedure TfrmViewer.cm_ShowAsBin(const Params: array of string);
 begin
-  ViewerControl.ViewerMode := vmBin;
+  ViewerControl.Mode := vcmBin;
   SetNormalViewerFont;
   ExitPluginMode;
   ReopenAsTextIfNeeded;
@@ -2523,7 +2563,16 @@ end;
 
 procedure TfrmViewer.cm_ShowAsHex(const Params: array of string);
 begin
-  ViewerControl.ViewerMode := vmHex;
+  ViewerControl.Mode := vcmHex;
+  SetNormalViewerFont;
+  ExitPluginMode;
+  ReopenAsTextIfNeeded;
+  ActivatePanel(pnlText);
+end;
+
+procedure TfrmViewer.cm_ShowAsDec(const Params: array of string);
+begin
+  ViewerControl.Mode := vcmDec;
   SetNormalViewerFont;
   ExitPluginMode;
   ReopenAsTextIfNeeded;
@@ -2532,7 +2581,7 @@ end;
 
 procedure TfrmViewer.cm_ShowAsWrapText(const Params: array of string);
 begin
-  ViewerControl.ViewerMode := vmWrap;
+  ViewerControl.Mode := vcmWrap;
   SetNormalViewerFont;
   ExitPluginMode;
   ReopenAsTextIfNeeded;
@@ -2541,7 +2590,7 @@ end;
 
 procedure TfrmViewer.cm_ShowAsBook(const Params: array of string);
 begin
-  ViewerControl.ViewerMode := vmBook;
+  ViewerControl.Mode := vcmBook;
   SetNormalViewerFont;
   ExitPluginMode;
   ReopenAsTextIfNeeded;
