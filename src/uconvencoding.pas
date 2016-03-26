@@ -27,7 +27,8 @@ unit uConvEncoding;
 interface
 
 function TextIsASCII(const S: String): Boolean;
-function DetectEncoding(const s: string): string;
+function DetectEncoding(const S: String): String;
+function SingleByteEncoding(TextEncoding: String): Boolean;
 
 implementation
 
@@ -426,6 +427,13 @@ begin
 
   // Try to detect encoding
   Result:= MyDetectCodePageType(s);
+end;
+
+function SingleByteEncoding(TextEncoding: String): Boolean;
+begin
+  TextEncoding := NormalizeEncoding(TextEncoding);
+  Result := (TextEncoding <> EncodingUTF8) and (TextEncoding <> EncodingUTF8BOM) and
+            (TextEncoding <> EncodingUCS2LE) and (TextEncoding <> EncodingUCS2BE);
 end;
 
 function TextIsASCII(const S: String): Boolean; inline;

@@ -89,7 +89,7 @@ implementation
 uses
   LCLProc, StrUtils, LConvEncoding, SynRegExpr, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
-  uLog, uWCXmodule, WcxPlugin, Math, uDCUtils;
+  uLog, uWCXmodule, WcxPlugin, Math, uDCUtils, uConvEncoding;
 
 { TFindThread }
 
@@ -108,7 +108,7 @@ begin
 
     FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
     ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
-    if IsFindText then
+    if IsFindText and SingleByteEncoding(TextEncoding) then
       RecodeTable := InitRecodeTable(TextEncoding, CaseSensitive);
   end;
 
@@ -270,14 +270,19 @@ begin
   end;
 
   if gUseMmapInSearch then
-    begin
-      // memory mapping should be slightly faster and use less memory
-      case FindMmapBM(sFileName, sData, RecodeTable, @IsAborting) of
-        0 : Exit(False);
-        1 : Exit(True);
-        // else fall back to searching via stream reading
-      end;
+  begin
+    // Memory mapping should be slightly faster and use less memory
+    if SingleByteEncoding(FSearchTemplate.TextEncoding) then
+      lastPos:= FindMmapBM(sFileName, sData, RecodeTable, @IsAborting)
+    else begin
+      lastPos:= FindMmap(sFileName, sData, bCase, @IsAborting);
     end;
+    case lastPos of
+      0 : Exit(False);
+      1 : Exit(True);
+      // else fall back to searching via stream reading
+    end;
+  end;
 
   BufferSize := gCopyBlockSize;
   sDataLength := Length(sData);
