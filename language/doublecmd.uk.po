@@ -10645,7 +10645,7 @@ msgstr "Виберіть тип файлу до якого треба додат
 
 #: ulng.rsmsgselectedinfo
 msgid "Selected: %s of %s, files: %d of %d, folders: %d of %d"
-msgstr "Виділено: %s з %s, фалів: %d з %d, папок: %d з %d"
+msgstr "Виділено: %s з %s, файлів: %d з %d, папок: %d з %d"
 
 #: ulng.rsmsgselectexecutablefile
 msgid "Select executable file for"
