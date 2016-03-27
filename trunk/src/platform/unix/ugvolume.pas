@@ -74,36 +74,42 @@ end;
 function VolumeToDrive(Volume: PGVolume): PDrive;
 var
   GFile: PGFile;
+  GMount: PGMount;
   Name, Path: Pgchar;
 begin
   Result:= nil;
-  GFile:= g_volume_get_activation_root(Volume);
-  if Assigned(GFile) then
-  begin
-    if not g_file_has_uri_scheme(GFile, 'file') then
+  GMount:= g_volume_get_mount(Volume);
+  if Assigned(GMount) then
+    g_object_unref(PGObject(GMount))
+  else begin
+    GFile:= g_volume_get_activation_root(Volume);
+    if Assigned(GFile) then
     begin
-      Path:= g_file_get_uri(GFile);
-      if Assigned(Path) then
+      if not g_file_has_uri_scheme(GFile, 'file') then
       begin
-        New(Result);
-        Result^.IsMounted:= True;
-        Result^.Path:= StrPas(Path);
-        Result^.DriveType:= dtSpecial;
-        Result^.IsMediaEjectable:= g_volume_can_eject(Volume);
-        Result^.DeviceId:= ReadString(Volume, VOLUME_IDENTIFIER_KIND_UNIX_DEVICE);
-        Result^.DriveLabel:= ReadString(Volume, VOLUME_IDENTIFIER_KIND_LABEL);
-        Name:= g_volume_get_name(Volume);
-        if (Name = nil) then
-          Result^.DisplayName:= ExtractFileName(Result^.DeviceId)
-        else
+        Path:= g_file_get_uri(GFile);
+        if Assigned(Path) then
         begin
-          Result^.DisplayName := StrPas(Name);
-          g_free(Name);
+          New(Result);
+          Result^.IsMounted:= True;
+          Result^.Path:= StrPas(Path);
+          Result^.DriveType:= dtSpecial;
+          Result^.IsMediaEjectable:= g_volume_can_eject(Volume);
+          Result^.DeviceId:= ReadString(Volume, VOLUME_IDENTIFIER_KIND_UNIX_DEVICE);
+          Result^.DriveLabel:= ReadString(Volume, VOLUME_IDENTIFIER_KIND_LABEL);
+          Name:= g_volume_get_name(Volume);
+          if (Name = nil) then
+            Result^.DisplayName:= ExtractFileName(Result^.DeviceId)
+          else
+          begin
+            Result^.DisplayName := StrPas(Name);
+            g_free(Name);
+          end;
+          g_free(Path);
         end;
-        g_free(Path);
       end;
+      g_object_unref(PGObject(GFile));
     end;
-    g_object_unref(PGObject(GFile));
   end;
 end;
 
@@ -113,31 +119,34 @@ var
   Name, Path: Pgchar;
 begin
   Result:= nil;
-  GFile:= g_mount_get_root(Mount);
-  if Assigned(GFile) then
+  if not g_mount_is_shadowed(Mount) then
   begin
-    if not g_file_has_uri_scheme(GFile, 'file') then
+    GFile:= g_mount_get_root(Mount);
+    if Assigned(GFile) then
     begin
-      Path:= g_file_get_uri(GFile);
-      if Assigned(Path) then
+      if not g_file_has_uri_scheme(GFile, 'file') then
       begin
-        New(Result);
-        Result^.IsMounted:= True;
-        Result^.Path:= StrPas(Path);
-        Result^.DriveType:= dtSpecial;
-        Result^.IsMediaEjectable:= g_mount_can_eject(Mount);
-        Name:= g_mount_get_name(Mount);
-        if (Name = nil) then
-          Result^.DisplayName:= ExtractFileName(Result^.Path)
-        else
+        Path:= g_file_get_uri(GFile);
+        if Assigned(Path) then
         begin
-          Result^.DisplayName := StrPas(Name);
-          g_free(Name);
+          New(Result);
+          Result^.IsMounted:= True;
+          Result^.Path:= StrPas(Path);
+          Result^.DriveType:= dtSpecial;
+          Result^.IsMediaEjectable:= g_mount_can_eject(Mount);
+          Name:= g_mount_get_name(Mount);
+          if (Name = nil) then
+            Result^.DisplayName:= ExtractFileName(Result^.Path)
+          else
+          begin
+            Result^.DisplayName := StrPas(Name);
+            g_free(Name);
+          end;
+          g_free(Path);
         end;
-        g_free(Path);
       end;
+      g_object_unref(PGObject(GFile));
     end;
-    g_object_unref(PGObject(GFile));
   end;
 end;
 
@@ -236,7 +245,10 @@ begin
       Drive:= VolumeToDrive(GVolume);
 
       if (Assigned(Drive)) then
+      begin
         DrivesList.Add(Drive);
+        // WriteLn('GVolume: ', Drive^.Path);
+      end;
 
       g_object_unref(PGObject(GVolume));
       VolumeTemp:= VolumeTemp^.next;
@@ -255,7 +267,10 @@ begin
       Drive:= MountToDrive(GMount);
 
       if (Assigned(Drive)) then
+      begin
         DrivesList.Add(Drive);
+        // WriteLn('GMount: ', Drive^.Path);
+      end;
 
       g_object_unref(PGObject(GMount));
       VolumeTemp:= VolumeTemp^.next;
