@@ -5972,8 +5972,9 @@ begin
     FUpdateDiskCount:= True
   else begin
     UpdateDiskCount;
-    UpdateSelectedDrives;
   end;
+
+  if (FrameLeft = nil) or (FrameRight = nil) then Exit;
 
   if (EventType = dweDriveRemoved) and Assigned(ADrive) then
   begin
@@ -5982,6 +5983,8 @@ begin
     else if IsInPath(ADrive^.Path, NotActiveFrame.CurrentPath, True, True) then
       NotActiveFrame.CurrentPath:= gpExePath;
   end;
+
+  UpdateSelectedDrives;
 end;
 
 procedure TfrmMain.AppActivate(Sender: TObject);
