@@ -94,6 +94,7 @@ begin
           Result^.IsMounted:= True;
           Result^.Path:= StrPas(Path);
           Result^.DriveType:= dtSpecial;
+          Result^.IsMediaAvailable:= True;
           Result^.IsMediaEjectable:= g_volume_can_eject(Volume);
           Result^.DeviceId:= ReadString(Volume, VOLUME_IDENTIFIER_KIND_UNIX_DEVICE);
           Result^.DriveLabel:= ReadString(Volume, VOLUME_IDENTIFIER_KIND_LABEL);
@@ -133,6 +134,7 @@ begin
           Result^.IsMounted:= True;
           Result^.Path:= StrPas(Path);
           Result^.DriveType:= dtSpecial;
+          Result^.IsMediaAvailable:= True;
           Result^.IsMediaEjectable:= g_mount_can_eject(Mount);
           Name:= g_mount_get_name(Mount);
           if (Name = nil) then
