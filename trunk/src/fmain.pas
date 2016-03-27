@@ -688,7 +688,7 @@ type
     procedure DriveListDriveSelected(Sender: TObject; ADriveIndex: Integer;
       APanel: TFilePanelSelect);
     procedure DriveListClose(Sender: TObject);
-    function  FindMatchingDrive(Path: String): Integer;
+    function  FindMatchingDrive(Address, Path: String): Integer;
     procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
     procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
     procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
@@ -830,7 +830,7 @@ implementation
 uses
   uFileProcs, uShellContextMenu,
   Math, LCLIntf, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
-  uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager,
+  uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager, LazUTF8,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
@@ -5430,12 +5430,12 @@ begin
   Result := (edtCommand.Visible and pnlCommand.Visible);
 end;
 
-function TfrmMain.FindMatchingDrive(Path: String): Integer;
+function TfrmMain.FindMatchingDrive(Address, Path: String): Integer;
 var
-  i : Integer;
-  LongestPathLen: Integer = 0;
+  I : Integer;
   DrivePath: String;
   DrivePathLen: PtrInt;
+  LongestPathLen: Integer = 0;
 begin
   Result := -1;
 
@@ -5443,14 +5443,21 @@ begin
   begin
     Path := UTF8UpperCase(Path);
 
-    for i := 0 to DrivesList.Count - 1 do
+    for I := 0 to DrivesList.Count - 1 do
     begin
-      DrivePath := UTF8UpperCase(DrivesList[i]^.Path);
-      DrivePathLen := UTF8Length(DrivePath);
-      if (DrivePathLen > LongestPathLen) and IsInPath(DrivePath, Path, True, True) then
+      if DrivesList[I]^.DriveType = dtSpecial then
       begin
-        LongestPathLen := DrivePathLen;
-        Result := i;
+        if Pos(Address, DrivesList[I]^.Path) = 1 then
+          Exit(I);
+      end
+      else begin
+        DrivePath := UTF8UpperCase(DrivesList[I]^.Path);
+        DrivePathLen := UTF8Length(DrivePath);
+        if (DrivePathLen > LongestPathLen) and IsInPath(DrivePath, Path, True, True) then
+        begin
+          LongestPathLen := DrivePathLen;
+          Result := I;
+        end;
       end;
     end;
   end;
@@ -5460,7 +5467,7 @@ procedure TfrmMain.UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileVi
 var
   DriveIndex: Integer;
 begin
-  DriveIndex := FindMatchingDrive(FileView.CurrentPath);
+  DriveIndex := FindMatchingDrive(FileView.CurrentAddress, FileView.CurrentPath);
   if (DriveIndex >= 0) and (DriveIndex < DriveToolbar.ButtonCount) then
     DriveToolbar.Buttons[DriveIndex].Down := True
   else
@@ -5477,7 +5484,7 @@ begin
   if not gDrivesListButton then
     Exit;
 
-  DriveIndex := FindMatchingDrive(FileView.CurrentPath);
+  DriveIndex := FindMatchingDrive(FileView.CurrentAddress, FileView.CurrentPath);
   if DriveIndex >= 0 then
   begin
     Drive := DrivesList[DriveIndex];
@@ -5919,7 +5926,7 @@ begin
     begin
       for Index:= 0 to glsDirHistory.Count - 1 do
       begin
-        DriveIndex:= FindMatchingDrive(glsDirHistory[Index]);
+        DriveIndex:= FindMatchingDrive(EmptyStr, glsDirHistory[Index]);
         if (DriveIndex >= 0) and (DriveIndex < DrivesList.Count) then
         begin
           if mbCompareFileNames(Drive^.Path, DrivesList[DriveIndex]^.Path) then
@@ -5965,6 +5972,7 @@ begin
     FUpdateDiskCount:= True
   else begin
     UpdateDiskCount;
+    UpdateSelectedDrives;
   end;
 
   if (EventType = dweDriveRemoved) and Assigned(ADrive) then
