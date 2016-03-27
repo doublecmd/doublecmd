@@ -633,19 +633,23 @@ end;
 class function TFileListBuilder.PrepareFilter(const aFileFilter: String;
                                               const aFilterOptions: TQuickSearchOptions): String;
 var
+  sFileExt,
   sFilterNameNoExt: String;
 begin
   Result := aFileFilter;
   if Result <> EmptyStr then
   begin
-    if Pos('.', Result) <> 0 then
+    if (Pos('.', Result) > 0) then
       begin
         sFilterNameNoExt := ExtractOnlyFileName(Result);
-        if not (qsmBeginning in aFilterOptions.Match) then
+         if not (qsmBeginning in aFilterOptions.Match) then
           sFilterNameNoExt := '*' + sFilterNameNoExt;
         if not (qsmEnding in aFilterOptions.Match) then
           sFilterNameNoExt := sFilterNameNoExt + '*';
-        Result := sFilterNameNoExt + ExtractFileExt(Result);
+        sFileExt := ExtractFileExt(Result);
+        if sFileExt = EmptyStr then
+          sFileExt := Result + '*';
+        Result := sFilterNameNoExt + sFileExt;
       end
     else
       begin
