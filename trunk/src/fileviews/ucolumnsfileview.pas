@@ -1508,24 +1508,102 @@ var
   end;// of PrepareColors;
 
   procedure DrawLines;
+  var
+    delta:integer;
   begin
     // Draw frame cursor.
+    Canvas.Pen.Width := ColumnsSet.GetColumnBorderFrameWidth(ACol);
+
+    if Canvas.Pen.Width<=1 then
+    begin
+      delta:=0;
+    end else
+    begin
+      if odd(Canvas.Pen.Width) then
+        delta:=Canvas.Pen.Width shr 1
+      else
+        delta:=(Canvas.Pen.Width shr 1)+1;
+    end;
+
+
     if gUseFrameCursor and (gdSelected in aState) and (ColumnsView.Active OR ColumnsSet.GetColumnUseInactiveSelColor(Acol)) then
     begin
       if ColumnsView.Active then
         Canvas.Pen.Color := ColumnsSet.GetColumnCursorColor(ACol)
       else
         Canvas.Pen.Color := ColumnsSet.GetColumnInactiveCursorColor(ACol);
-      Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
-      Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
+
+
+
+      if ACol=0 then
+      begin
+        Canvas.Line(aRect.Left + 1, aRect.Top + delta , aRect.Right , aRect.Top + delta );
+        Canvas.Line(aRect.Left + 1, aRect.Bottom - 1 - delta, aRect.Right, aRect.Bottom - 1 - delta);
+
+        Canvas.Line(aRect.Left + delta, aRect.Top + delta , aRect.Left + delta, aRect.Bottom - delta - 1);
+      end else
+      if ACol<ColCount-1 then
+      begin
+        Canvas.Line(aRect.Left, aRect.Top + delta , aRect.Right , aRect.Top + delta );
+        Canvas.Line(aRect.Left, aRect.Bottom - 1 - delta, aRect.Right, aRect.Bottom - 1 - delta);
+      end else
+      begin
+        Canvas.Line(aRect.Left, aRect.Top + delta , aRect.Right - delta - 1, aRect.Top + delta );
+        Canvas.Line(aRect.Left, aRect.Bottom - 1 - delta, aRect.Right - delta -1, aRect.Bottom - 1 - delta);
+
+        Canvas.Line(aRect.Right - delta - 1, aRect.Top + delta , aRect.Right - delta - 1, aRect.Bottom - delta - 1);
+      end;
+
+
+      {
+      Canvas.Pen.Color:=clred;
+      Canvas.Brush.Style:=bsClear;
+//      Canvas.Rectangle(Rect(aRect.Left + delta , aRect.Top + delta , aRect.Right - delta,aRect.Bottom - delta));
+      }
     end;
 
     // Draw drop selection.
     if ARow - FixedRows = ColumnsView.FDropFileIndex then
     begin
       Canvas.Pen.Color := ColumnsSet.GetColumnTextColor(ACol);
-      Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
-      Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
+
+
+    if ACol=0 then
+    begin
+      Canvas.Line(aRect.Left + 1, aRect.Top + delta , aRect.Right , aRect.Top + delta );
+      Canvas.Line(aRect.Left + 1, aRect.Bottom - 1 - delta, aRect.Right, aRect.Bottom - 1 - delta);
+
+      Canvas.Line(aRect.Left + delta, aRect.Top + delta , aRect.Left + delta, aRect.Bottom - delta - 1);
+    end else
+    if ACol<ColCount-1 then
+    begin
+      Canvas.Line(aRect.Left, aRect.Top + delta , aRect.Right , aRect.Top + delta );
+      Canvas.Line(aRect.Left, aRect.Bottom - 1 - delta, aRect.Right, aRect.Bottom - 1 - delta);
+    end else
+    begin
+      Canvas.Line(aRect.Left, aRect.Top + delta , aRect.Right - delta - 1, aRect.Top + delta );
+      Canvas.Line(aRect.Left, aRect.Bottom - 1 - delta, aRect.Right - delta -1, aRect.Bottom - 1 - delta);
+
+      Canvas.Line(aRect.Right - delta - 1, aRect.Top + delta , aRect.Right - delta - 1, aRect.Bottom - delta - 1);
+    end;
+
+      {
+//      Canvas.Rectangle(aRect);
+      Canvas.Line(aRect.Left, aRect.Top + delta , aRect.Right - delta, aRect.Top + delta );
+      Canvas.Line(aRect.Left, aRect.Bottom - 1 - delta, aRect.Right - delta, aRect.Bottom - 1 - delta);
+
+      if ACol=0 then
+         Canvas.Line(aRect.Left + delta, aRect.Top + delta , aRect.Left + delta, aRect.Bottom - delta - 1);
+
+
+      if ACol=ColCount-1 then
+      Canvas.Line(aRect.Right - delta - 1, aRect.Top + delta , aRect.Right - delta - 1, aRect.Bottom - delta - 1);
+        }
+        {
+        Canvas.Pen.Color:=clred;
+        Canvas.Brush.Style:=bsClear;
+        Canvas.Rectangle(Rect(aRect.Left {+ delta} , aRect.Top {+ delta} , aRect.Right - delta,aRect.Bottom - delta));
+        }
     end;
   end;
   //------------------------------------------------------

@@ -28,7 +28,7 @@ unit DCStrUtils;
 interface
 
 uses
-  Classes, SysUtils, DCBasicTypes;
+  Classes, SysUtils, DCBasicTypes,LazUtf8;
 
 type
   TPathType = (ptNone, ptRelative, ptAbsolute);
@@ -180,6 +180,27 @@ function ExcludeBackPathDelimiter(const Path: String): String;
    @returns(Position of character in string)
 }
 function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
+
+
+
+{en
+  Return position of any of tag-characters in string T in string S begun from start position
+  @param(T set of characters)
+  @param(S String)
+  @param(StartPos Start position)
+  @param(SearchBackward set @True if need search backwards)
+  @returns(Position of character in string)
+
+}
+function TagPos(T: string; const S: string; StartPos: Integer;SearchBackward: boolean=False): Integer;
+
+
+{en
+
+}
+function scopy(IndexBegin,IndexEnd:integer;str:string):string;
+
+
 {en
    Split file name on name and extension
    @param(sFileName File name)
@@ -647,6 +668,7 @@ begin
     Result:= Path;
 end;
 
+
 procedure DivFileName(const sFileName:String; out n,e:String);
 var
   i:Integer;
@@ -735,6 +757,57 @@ if StartPos <> 1 then
 else
   Result := Pos(C, S);
 end;
+
+
+
+function TagPos(T: string; const S: string; StartPos: Integer;
+  SearchBackward: boolean): Integer;
+// in future this function will moved to DCStrUtils
+var
+  i,cnt:integer;
+  ch:char;
+begin
+  Result:=0;
+  i:=StartPos;
+  if i=0 then i:=1;
+
+  cnt:=UTF8Length(S);
+
+  if SearchBackward then
+  begin
+     while (i>0)do
+     begin
+       ch:=S[UTF8CharToByteIndex(PChar(S), length(S), i)];
+       if Pos(ch,T)=0 then
+          dec(i)
+       else
+          break;
+     end;
+  end
+  else
+     while (i<=cnt)do
+     begin
+       ch:=S[UTF8CharToByteIndex(PChar(S), length(S), i)];
+       if Pos(ch,T)=0 then
+          inc(i)
+       else
+          break;
+     end;
+
+
+  Result:=i;
+end;
+
+
+function scopy(IndexBegin,IndexEnd:integer;str:string):string;
+begin
+    if (IndexBegin<=IndexEnd) then
+        Result:=copy(str,IndexBegin,(IndexEnd-IndexBegin+1))
+    else
+        Result:='';
+end;
+
+
 
 function NumCountChars(const Char: char; const S: String): Integer;
 var
@@ -1086,6 +1159,9 @@ begin
   DecodeTime(DateTime, MyHour, MyMin, MySec, MyMilSec);
   result:=Format('%d-%2.2d-%2.2d@%2.2d-%2.2d-%2.2d', [MyYear, MyMonth, MyDay, MyHour, MyMin, MySec]);
 end;
+
+
+
 
 end.
 

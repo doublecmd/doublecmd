@@ -1,21 +1,22 @@
-{ Diese Datei wurde automatisch von Lazarus erzeugt. Sie darf nicht bearbeitet werden!
-Dieser Quelltext dient nur dem Übersetzen und Installieren des Packages.
+{ This file was automatically created by Lazarus. Do not edit!
+  This source is only used to compile and install the package.
  }
 
-unit cmdbox; 
+unit cmdbox;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  uCmdBox, LazarusPackageIntf; 
+  uCmdBox, LazarusPackageIntf;
 
 implementation
 
-procedure Register; 
+procedure Register;
 begin
-  RegisterUnit('uCmdBox', @uCmdBox.Register); 
-end; 
+  RegisterUnit('uCmdBox', @uCmdBox.Register);
+end;
 
 initialization
-  RegisterPackage('cmdbox', @Register); 
+  RegisterPackage('cmdbox', @Register);
 end.
