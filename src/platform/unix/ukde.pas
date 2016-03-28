@@ -55,7 +55,8 @@ end;
 
 function FileTrash(const FileName: String): Boolean;
 begin
-  Result:= fpSystemStatus('kioclient move ' + QuoteStr(FileName) + ' trash:/') = 0;
+  Result:= fpSystemStatus('kioclient --noninteractive move ' +
+                          QuoteStr(FileName) + ' trash:/') = 0;
 end;
 
 procedure Initialize;
