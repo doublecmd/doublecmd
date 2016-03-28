@@ -309,26 +309,28 @@ end;
 
 procedure TFileViewGrid.DrawLines(aIdx, aCol, aRow: Integer; aRect: TRect;
   aState: TGridDrawState);
+var
+  delta:integer;
 begin
+  //Canvas.Pen.Width := ColumnsSet.GetColumnBorderFrameWidth(ACol);
+  Canvas.Pen.Width := gBorderFrameWidth;
+  delta := Canvas.Pen.Width shr 1;
+  Canvas.Brush.Style:=bsClear;
+
   // Draw frame cursor.
   if gUseFrameCursor and (gdSelected in aState) and FFileView.Active then
   begin
     Canvas.Pen.Color := gCursorColor;
-    Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
-    Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
-    Canvas.Line(aRect.Left, aRect.Top, aRect.Left, aRect.Bottom-1);
-    Canvas.Line(aRect.Right-1, aRect.Top, aRect.Right-1, aRect.Bottom-1);
+    Canvas.Rectangle(Rect(aRect.Left+delta, aRect.Top+delta , aRect.Right - delta, aRect.Bottom - delta));
   end;
 
   // Draw drop selection.
   if (FFileView.FDropFileIndex >= 0) and (aIdx = FFileView.FDropFileIndex) then
   begin
     Canvas.Pen.Color := gForeColor;
-    Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
-    Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
-    Canvas.Line(aRect.Left, aRect.Top, aRect.Left, aRect.Bottom-1);
-    Canvas.Line(aRect.Right-1, aRect.Top, aRect.Right-1, aRect.Bottom-1);
+    Canvas.Rectangle(Rect(aRect.Left+delta, aRect.Top+delta , aRect.Right - delta, aRect.Bottom - delta));
   end;
+  Canvas.Brush.Style:=bsSolid;
 end;
 
 procedure TFileViewGrid.PrepareColors(aFile: TDisplayFile; aCol, aRow: Integer;

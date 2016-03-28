@@ -1,20 +1,21 @@
-{ This file was automatically created by Lazarus. do not edit!
+{ This file was automatically created by Lazarus. Do not edit!
   This source is only used to compile and install the package.
  }
 
-unit MultiThreadProcsLaz; 
+unit MultiThreadProcsLaz;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
-MTProcs, MTPUtils, MTPCPU, LazarusPackageIntf;
+  MTProcs, MTPUtils, MTPCPU, LazarusPackageIntf;
 
 implementation
 
-procedure Register; 
+procedure Register;
 begin
-end; 
+end;
 
 initialization
-  RegisterPackage('MultiThreadProcsLaz', @Register); 
+  RegisterPackage('MultiThreadProcsLaz', @Register);
 end.

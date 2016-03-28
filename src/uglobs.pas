@@ -332,6 +332,7 @@ var
   gUseInvertedSelection: Boolean;
   gUseInactiveSelColor: Boolean;
   gAllowOverColor: Boolean;
+  gBorderFrameWidth :integer;
 
   gInactivePanelBrightness: Integer; // 0 .. 100 (black .. full color)
   gIndUseGradient : Boolean; // use gradient on drive label
@@ -1348,6 +1349,7 @@ begin
   gUseInvertedSelection := False;
   gUseInactiveSelColor := False;
   gAllowOverColor := True;
+  gBorderFrameWidth:=1;
 
   gInactivePanelBrightness := 100; // Full brightness
   gIndUseGradient := True;
@@ -2056,7 +2058,8 @@ begin
   gInactiveMarkColor := gIni.ReadInteger('Colors', 'InactiveMarkColor', gInactiveMarkColor);
   gUseInvertedSelection := gIni.ReadBool('Colors', 'UseInvertedSelection', gUseInvertedSelection);
   gUseInactiveSelColor := gIni.ReadBool('Colors', 'UseInactiveSelColor', gUseInactiveSelColor);
-  gAllowOverColor := gIni.ReadBool('Colors', 'AllowOverColor', gAllowOverColor);
+  gAllowOverColor   := gIni.ReadBool('Colors', 'AllowOverColor', gAllowOverColor);
+  gBorderFrameWidth := gIni.ReadInteger('Colors', 'gBorderFrameWidth', gBorderFrameWidth);
   gInactivePanelBrightness := gIni.ReadInteger('Colors', 'InactivePanelBrightness', gInactivePanelBrightness);
 
   { File operations }
@@ -2356,7 +2359,8 @@ begin
       gInactiveMarkColor := GetValue(Node, 'InactiveMark', gInactiveMarkColor);
       gUseInvertedSelection := GetValue(Node, 'UseInvertedSelection', gUseInvertedSelection);
       gUseInactiveSelColor := GetValue(Node, 'UseInactiveSelColor', gUseInactiveSelColor);
-      gAllowOverColor := GetValue(Node, 'AllowOverColor', gAllowOverColor);
+      gAllowOverColor   := GetValue(Node, 'AllowOverColor', gAllowOverColor);
+      gBorderFrameWidth := GetValue(Node, 'gBorderFrameWidth', gBorderFrameWidth);
 
       gInactivePanelBrightness := GetValue(Node, 'InactivePanelBrightness', gInactivePanelBrightness);
       gIndUseGradient := GetValue(Node, 'FreeSpaceIndicator/UseGradient', gIndUseGradient);
@@ -2881,6 +2885,7 @@ begin
     SetValue(Node, 'UseInvertedSelection', gUseInvertedSelection);
     SetValue(Node, 'UseInactiveSelColor', gUseInactiveSelColor);
     SetValue(Node, 'AllowOverColor', gAllowOverColor);
+    SetValue(Node, 'gBorderFrameWidth', gBorderFrameWidth);
 
     SetValue(Node, 'InactivePanelBrightness', gInactivePanelBrightness);
     SetValue(Node, 'FreeSpaceIndicator/UseGradient', gIndUseGradient);

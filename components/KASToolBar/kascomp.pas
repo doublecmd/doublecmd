@@ -4,11 +4,12 @@
 
 unit KASComp;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  KASToolBar, KASProgressBar, KASPathEdit, KASToolItems, 
-  KASComboBox, LazarusPackageIntf;
+  KASToolBar, KASProgressBar, KASPathEdit, KASToolItems, KASComboBox, 
+  LazarusPackageIntf;
 
 implementation
 
