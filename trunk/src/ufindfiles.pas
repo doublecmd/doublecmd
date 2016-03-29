@@ -337,15 +337,15 @@ begin
   with SearchTemplate do
   begin
     Module := gWDXPlugins.GetWdxModule(ContentPlugins[I].Plugin);
-    if Module = nil then Continue;
+    if (Module = nil) or (not Module.IsLoaded) then Continue;
     Value:= Module.CallContentGetValueV(FileName, ContentPlugins[I].Field, '', 0);
     case ContentPlugins[I].Compare of
       poEqual: Work:= (ContentPlugins[I].Value = Value);
       poNotEqual: Work:= (ContentPlugins[I].Value <> Value);
-      poMore: Work := (ContentPlugins[I].Value > Value);
-      poLess: Work := (ContentPlugins[I].Value < Value);
-      poMoreEqual: Work := (ContentPlugins[I].Value >= Value);
-      poLessEqual: Work := (ContentPlugins[I].Value <= Value);
+      poMore: Work := (Value > ContentPlugins[I].Value);
+      poLess: Work := (Value < ContentPlugins[I].Value);
+      poMoreEqual: Work := (Value >= ContentPlugins[I].Value);
+      poLessEqual: Work := (Value <= ContentPlugins[I].Value);
       poEqualCase: Work:= UTF8CompareText(Value, ContentPlugins[I].Value) = 0;
       poNotEqualCase: Work:= UTF8CompareText(Value, ContentPlugins[I].Value) <> 0;
       poContains: Work := UTF8Pos(ContentPlugins[I].Value, Value) > 0;
@@ -468,6 +468,11 @@ begin
 
     if Result and (fpAttributes in AFile.SupportedProperties) then
       Result:= CheckFileAttributes(FileChecks, AFile.Attributes);
+
+    if Result and ContentPlugin then
+    begin
+      Result:= CheckPlugin(SearchTemplate, AFile.FullPath);
+    end;
   end;
 end;
 
