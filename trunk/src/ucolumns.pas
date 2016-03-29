@@ -85,6 +85,7 @@ type
     CursorText,
     InactiveCursorColor,
     InactiveMarkColor: TColor;
+    BorderFrameWidth :integer;
     UseInvertedSelection: Boolean;
     UseInactiveSelColor: Boolean;
     Overcolor: Boolean;
@@ -145,6 +146,8 @@ type
     function GetColumnUseInvertedSelection(const Index: Integer): Boolean;
     function GetColumnUseInactiveSelColor(const Index: Integer): Boolean;
     function GetColumnOvercolor(const Index: Integer): Boolean;
+    function GetColumnBorderFrameWidth(const Index: Integer):integer;
+
     //---------------------
     function GetColumnPrm(const Index: Integer): TColPrm;
     //---------------------
@@ -415,6 +418,14 @@ begin
     Result := TPanelColumn(Flist[Index]).Overcolor
   else
     Result := gAllowOverColor;
+end;
+
+function TPanelColumnsClass.GetColumnBorderFrameWidth(const Index: Integer): integer;
+begin
+  if FCustomView and (Index < Flist.Count) then
+    Result := TPanelColumn(Flist[Index]).BorderFrameWidth
+  else
+    Result := gBorderFrameWidth;
 end;
 
 function TPanelColumnsClass.GetColumnPrm(const Index: Integer): TColPrm;
