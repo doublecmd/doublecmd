@@ -633,7 +633,6 @@ begin
   btnLastSearch.Visible := False;
   btnSearchSaveWithStartingPath.Visible := False;
   gbFindData.Visible := False;
-  tsPlugins.TabVisible := False;
   tsResults.TabVisible := False;
 end;
 

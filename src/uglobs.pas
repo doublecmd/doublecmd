@@ -540,7 +540,7 @@ implementation
 
 uses
    LCLProc, Dialogs, XMLRead,
-   uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
+   uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils
    {$IF DEFINED(MSWINDOWS)}
@@ -2159,6 +2159,30 @@ begin
   gWLXPlugins.Load(gIni);
 end;
 
+procedure LoadContentPlugins;
+var
+  I: Integer;
+  Module: TWdxModule;
+  Template: TSearchTemplate;
+  Content: TPluginSearchRec;
+begin
+  for I:= 0 to gSearchTemplateList.Count - 1 do
+  begin
+    Template:= gSearchTemplateList.Templates[I];
+    if Template.SearchRecord.ContentPlugin then
+    begin
+      for Content in Template.SearchRecord.ContentPlugins do
+      begin
+        Module:= gWDXPlugins.GetWdxModule(Content.Plugin);
+        if Assigned(Module) and (Module.IsLoaded = False) then
+        begin
+          Module.LoadModule;
+        end;
+      end;
+    end;
+  end;
+end;
+
 procedure LoadXmlConfig;
 
   procedure GetExtTool(Node: TXmlNode; var ExternalToolOptions: TExternalToolOptions);
@@ -2770,6 +2794,9 @@ begin
     gWFXPlugins.Load(gConfig, Node);
     gWLXPlugins.Load(gConfig, Node);
   end;
+
+  { Load content plugins used in search templates }
+  LoadContentPlugins;
 end;
 
 procedure SaveXmlConfig;
