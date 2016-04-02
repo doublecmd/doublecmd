@@ -42,6 +42,7 @@ type
     MasterPassword: Boolean;
     PassiveMode: Boolean;
     AutoTLS: Boolean;
+    FullSSL: Boolean;
     Encoding: AnsiString;
     InitCommands: AnsiString;
     PasswordChanged: Boolean;
@@ -146,6 +147,7 @@ begin
     Connection.Encoding := IniFile.ReadString('FTP', 'Connection' + sIndex + 'Encoding', EmptyStr);
     Connection.PassiveMode:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'PassiveMode', True);
     Connection.AutoTLS:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'AutoTLS', False);
+    Connection.FullSSL:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'FullSSL', False);
     Connection.InitCommands := IniFile.ReadString('FTP', 'Connection' + sIndex + 'InitCommands', EmptyStr);
     // add connection to connection list
     ConnectionList.AddObject(Connection.ConnectionName, Connection);
@@ -178,6 +180,7 @@ begin
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'Encoding', Connection.Encoding);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'PassiveMode', Connection.PassiveMode);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'AutoTLS', Connection.AutoTLS);
+    IniFile.WriteBool('FTP', 'Connection' + sIndex + 'FullSSL', Connection.FullSSL);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'InitCommands', Connection.InitCommands);
   end;
 end;
@@ -287,8 +290,11 @@ begin
         FtpSend.TargetHost := Connection.Host;
         FtpSend.PassiveMode:= Connection.PassiveMode;
         FtpSend.AutoTLS:= Connection.AutoTLS;
+        FtpSend.FullSSL:= Connection.FullSSL;
         if Connection.Port <> EmptyStr then
-          FtpSend.TargetPort := Connection.Port;
+          FtpSend.TargetPort := Connection.Port
+        else if Connection.FullSSL then
+          FtpSend.TargetPort := cFtpsPort;
         if Connection.UserName <> EmptyStr then
           FtpSend.UserName := Connection.UserName;
         if Connection.MasterPassword then
