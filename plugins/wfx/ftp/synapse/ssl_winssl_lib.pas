@@ -851,7 +851,7 @@ end;
 
 function SSLv23_method(): PSSL_METHOD; cdecl;
 begin
-  Result:= PSSL_METHOD(SP_PROT_SSL2 or SP_PROT_SSL3 or SP_PROT_TLS1);
+  Result:= PSSL_METHOD(SP_PROT_SSL3 or SP_PROT_TLS1 or SP_PROT_TLS1_1);
 end;
 
 function SSLv2_method(): PSSL_METHOD; cdecl;
