@@ -2035,7 +2035,13 @@ begin
 
     ActiveFile := ActiveFrame.CloneActiveFile;
     if Assigned(ActiveFile) and ActiveFile.IsNameValid then
-      sPath := ExtractOnlyFileName(ActiveFile.Name) // 21.05.2009 - pass name from cursor to makedir form
+    begin
+      if ActiveFile.IsDirectory or ActiveFile.IsLinkToDirectory then
+        sPath := ActiveFile.Name
+      else begin
+        sPath := ActiveFile.NameNoExt;
+      end;
+    end
     else
       sPath := EmptyStr;
 
