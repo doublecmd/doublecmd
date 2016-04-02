@@ -427,7 +427,7 @@ begin
   if Assigned(Result) then
   begin
     Result^.connend := GNUTLS_CLIENT;
-    Result^.priorities := 'NONE:+VERS-TLS1.0:+VERS-SSL3.0:+CIPHER-ALL:+COMP-ALL:+RSA:+DHE-RSA:+DHE-DSS:+MAC-ALL';
+    Result^.priorities := 'NONE:+VERS-TLS-ALL:+VERS-SSL3.0:+CIPHER-ALL:+COMP-ALL:+RSA:+DHE-RSA:+DHE-DSS:+MAC-ALL';
   end;
 end;
 
