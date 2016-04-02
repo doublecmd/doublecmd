@@ -39,6 +39,18 @@ implementation
 uses
   LazUTF8, FtpFunc, FtpUtils, blcksock, ssl_openssl_lib;
 
+procedure ShowWarningSSL;
+begin
+  with gStartupInfo do
+  begin
+    MessageBox(PAnsiChar('OpenSSL library not found!' + LineEnding +
+               'To use SSL connections, please install the OpenSSL ' +
+               'libraries (' + DLLSSLName + ' and ' + DLLUtilName + ')!'),
+               'OpenSSL', MB_OK or MB_ICONERROR
+               );
+  end;
+end;
+
 function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
   Data: PtrInt;
@@ -58,6 +70,8 @@ begin
           Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtName', DM_SETTEXT, Data, 0);
           Text:= gConnection.Host;
+          if gConnection.FullSSL then
+            Text:= 'ftps://' + Text;
           if gConnection.Port <> EmptyStr then
             Text:= Text + ':' + gConnection.Port;
           Data:= PtrInt(PAnsiChar(Text));
@@ -106,11 +120,7 @@ begin
             begin
               if not InitSSLInterface then
               begin
-                MessageBox(PAnsiChar('OpenSSL library not found!' + LineEnding +
-                           'To use SSL connections, please install the OpenSSL ' +
-                           'libraries (' + DLLSSLName + ' and ' + DLLUtilName + ')!'),
-                           'OpenSSL', MB_OK or MB_ICONERROR
-                           );
+                ShowWarningSSL;
                 gConnection.AutoTLS:= False;
                 Data:= PtrInt(gConnection.AutoTLS);
                 SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, Data, 0);
@@ -153,6 +163,7 @@ begin
             Text:= PAnsiChar(Data);
             gConnection.Host:= ExtractConnectionHost(Text);
             gConnection.Port:= ExtractConnectionPort(Text);
+            gConnection.FullSSL:= ExtractConnectionProt(Text) = 'ftps';
             Data:= SendDlgMsg(pDlg, 'edtUserName', DM_GETTEXT, 0, 0);
             Text:= PAnsiChar(Data);
             gConnection.UserName:= Text;
@@ -171,6 +182,10 @@ begin
             gConnection.PassiveMode:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkAutoTLS', DM_GETCHECK, 0, 0);
             gConnection.AutoTLS:= Boolean(Data);
+            if gConnection.FullSSL and (InitSSLInterface = False) then
+            begin;
+              ShowWarningSSL;
+            end;
             // close dialog
             SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 1, 0);
           end

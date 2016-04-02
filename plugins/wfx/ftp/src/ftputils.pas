@@ -70,7 +70,7 @@ const
   S_ISVTX  = $0200;
 
 const
-  ftpProtocol = 'ftp://';
+  cFtpsPort = '990';
 
 function IsIpPrivate(Value: String): Boolean;
 
@@ -82,6 +82,7 @@ function DecodeBase64(Data: AnsiString): AnsiString;
 function RepairConnectionName(Connection: AnsiString): AnsiString;
 function ExtractConnectionHost(Connection: AnsiString): AnsiString;
 function ExtractConnectionPort(Connection: AnsiString): AnsiString;
+function ExtractConnectionProt(Connection: AnsiString): AnsiString;
 
 function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): LongBool;
 function LocalFileTimeToFileTimeEx(const lpLocalFileTime: TFileTime; var lpFileTime: TFileTime): LongBool;
@@ -243,8 +244,8 @@ function ExtractConnectionHost(Connection: AnsiString): AnsiString;
 var
   I: Integer;
 begin
-  if Pos(ftpProtocol, LowerCase(Connection)) <> 0 then
-    Delete(Connection, 1, 6);
+  I:= Pos('://', Connection);
+  if I > 0 then Delete(Connection, 1, I + 2);
   I:= Pos(':', Connection);
   if I > 0 then
     Result:= Copy(Connection, 1, I - 1)
@@ -257,15 +258,28 @@ var
   I, J: Integer;
 begin
   Result:= EmptyStr;
-  if Pos(ftpProtocol, LowerCase(Connection)) <> 0 then
-    Delete(Connection, 1, 6);
+  I:= Pos('://', Connection);
+  if I > 0 then Delete(Connection, 1, I + 2);
   I:= Pos(':', Connection);
   if I > 0 then
-    begin
-      J:= Pos('/', Connection);
-      if J = 0 then J:= MaxInt;
-      Result:= Trim(Copy(Connection, I + 1, J));
-    end;
+  begin
+    J:= Pos('/', Connection);
+    if J = 0 then J:= MaxInt;
+    Result:= Trim(Copy(Connection, I + 1, J - I - 1));
+  end;
+end;
+
+function ExtractConnectionProt(Connection: AnsiString): AnsiString;
+var
+  I: Integer;
+begin
+ Result:= LowerCase(Connection);
+ I:= Pos('://', Result);
+ if I = 0 then
+   Result:= EmptyStr
+ else begin
+   Result:= Copy(Result, 1, I - 1);
+ end;
 end;
 
 function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): LongBool;
