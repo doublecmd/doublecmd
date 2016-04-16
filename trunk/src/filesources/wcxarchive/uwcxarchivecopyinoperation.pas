@@ -73,7 +73,7 @@ implementation
 uses
   LazUTF8, FileUtil, StrUtils, DCStrUtils, uLng, uShowMsg, fWcxArchiveCopyOperationOptions,
   uFileSystemFileSource, uFileSourceOperationUI, uFileSystemUtil, DCOSUtils, uTarWriter,
-  DCConvertEncoding;
+  DCConvertEncoding, uArchiveFileSourceUtil;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -236,7 +236,7 @@ begin
   FStatistics.CurrentFileDoneBytes := -1;
 
   // Gets full list of files (recursive)
-  FillAndCount(SourceFiles, False, False,
+  FillAndCount(SourceFiles,
                FFullFilesTree,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);
