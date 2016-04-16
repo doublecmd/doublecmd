@@ -20,9 +20,13 @@ procedure TestArchive(aFileView: TFileView; aFiles: TFiles);
 
 function FileIsArchive(const FileName: String): Boolean;
 
+procedure FillAndCount(Files: TFiles; out NewFiles: TFiles;
+                              out FilesCount: Int64; out FilesSize: Int64);
+
 implementation
 
 uses
+  uFindEx,
   uShowMsg,
   uLng,
   DCStrUtils,
@@ -254,6 +258,77 @@ begin
   ArchiveType:= ExtractOnlyFileExt(FileName);
   Result:= TWcxArchiveFileSource.CheckPluginByExt(ArchiveType) or
            TMultiArchiveFileSource.CheckAddonByExt(ArchiveType);
+end;
+
+procedure FillAndCount(Files: TFiles; out NewFiles: TFiles;
+                              out FilesCount: Int64; out FilesSize: Int64);
+
+  procedure FillAndCountRec(const srcPath: String);
+  var
+    J: Integer;
+    aFile: TFile;
+    sr: TSearchRecEx;
+    aFolders: TStringList;
+  begin
+    aFolders:= TStringList.Create;
+    if FindFirstEx(srcPath + '*', faAnyFile, sr) = 0 then
+    begin
+      repeat
+        if (sr.Name='.') or (sr.Name='..') then Continue;
+        aFile := TFileSystemFileSource.CreateFile(srcPath, @sr);
+
+        if aFile.IsDirectory and (not aFile.IsLinkToDirectory) then
+        begin
+          aFolders.AddObject(srcPath + sr.Name + DirectorySeparator, aFile);
+        end
+        else
+        begin
+          Inc(FilesCount);
+          NewFiles.Add(aFile);
+          FilesSize:= FilesSize + aFile.Size;
+        end;
+      until FindNextEx(sr) <> 0;
+    end;
+    // Process directories
+    for J := 0 to aFolders.Count - 1 do
+    begin
+      NewFiles.Add(TFile(aFolders.Objects[J]));
+      FillAndCountRec(aFolders[J]);  // go down to directory
+    end;
+    FindCloseEx(sr);
+    aFolders.Free;
+  end;
+
+var
+  I: Integer;
+  aFile: TFile;
+  aFolderList: TStringList;
+begin
+  FilesSize:= 0;
+  FilesCount:= 0;
+  aFolderList:= TStringList.Create;
+  NewFiles := TFiles.Create(Files.Path);
+  for I := 0 to Files.Count - 1 do
+  begin
+    aFile := Files[I];
+    if aFile.IsDirectory and (not aFile.IsLinkToDirectory) then
+    begin
+      aFolderList.AddObject(aFile.Path + aFile.Name + DirectorySeparator, aFile.Clone);
+    end
+    else
+    begin
+      Inc(FilesCount);
+      NewFiles.Add(aFile.Clone);
+      FilesSize:= FilesSize + aFile.Size; // in first level we know file size -> use it
+    end;
+  end;
+  // Process directories
+  for I := 0 to aFolderList.Count - 1 do
+  begin
+    NewFiles.Add(TFile(aFolderList.Objects[I]));
+    FillAndCountRec(aFolderList[I]);  // recursive browse child dir
+  end;
+  aFolderList.Free;
 end;
 
 end.
