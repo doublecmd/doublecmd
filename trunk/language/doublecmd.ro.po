@@ -1455,18 +1455,23 @@ msgid "Properties"
 msgstr "Proprietăți"
 
 #: tfrmfinddlg.actcancel.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.actcancel.caption"
 msgid "Cancel"
-msgstr ""
+msgstr "Renunță"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
 msgstr ""
 
 #: tfrmfinddlg.actclose.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.actclose.caption"
 msgid "Close"
-msgstr ""
+msgstr "Închide"
 
 #: tfrmfinddlg.actedit.caption
+msgctxt "tfrmfinddlg.actedit.caption"
 msgid "Edit"
 msgstr ""
 
@@ -1479,6 +1484,7 @@ msgid "Go to file"
 msgstr ""
 
 #: tfrmfinddlg.actintellifocus.caption
+msgctxt "tfrmfinddlg.actintellifocus.caption"
 msgid "Find Data"
 msgstr ""
 
@@ -1511,10 +1517,12 @@ msgid "Go to page \"Standard\""
 msgstr ""
 
 #: tfrmfinddlg.actstart.caption
+msgctxt "tfrmfinddlg.actstart.caption"
 msgid "Start"
 msgstr ""
 
 #: tfrmfinddlg.actview.caption
+msgctxt "tfrmfinddlg.actview.caption"
 msgid "View"
 msgstr ""
 
@@ -1713,6 +1721,7 @@ msgid "Files"
 msgstr "Fișiere"
 
 #: tfrmfinddlg.gbfinddata.caption
+msgctxt "tfrmfinddlg.gbfinddata.caption"
 msgid "Find Data"
 msgstr "Găsește Date"
 
@@ -1809,10 +1818,6 @@ msgstr "Caută"
 #: tfrmfindview.cbcasesens.caption
 msgid "C&ase sensitive"
 msgstr "Sensibilitate la m&ajuscule"
-
-#: tfrmhackform.groupbox1.caption
-msgid "GroupBox1"
-msgstr ""
 
 #: tfrmhardlink.btncancel.caption
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
@@ -7543,6 +7548,76 @@ msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
 msgid "Category &name:"
 msgstr "&Nume categorie:"
 
+#: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfromdoubleclick.caption
+msgid "With double-click on the bar on top of a file panel"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption
+msgctxt "tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption"
+msgid "With the menu and internal command"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.ckbdoubleclickselect.caption
+msgid "Double click in tree select and exit"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption
+msgctxt "tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption"
+msgid "With the menu and internal command"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.ckbfavoritetabsfromdoubleclick.caption
+msgid "With double-click on a tab (if configured for it)"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.ckbshortcutselectandclose.caption
+msgid "When using the keyboard shortcut, it will exit the window returning the current choice"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.ckbsingleclickselect.caption
+msgid "Single mouse click in tree select and exit"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.ckbuseforcommandlinehistory.caption
+msgid "Use it for Command Line History"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.ckbusefordirhistory.caption
+msgid "Use it for the Dir History"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.ckbuseforviewhistory.caption
+msgid "Use it for the View History (Visited paths for active view)"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.gbbehavior.caption
+msgid "Behavior regarding selection:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.gbtreeviewmenusettings.caption
+msgid "Tree View Menus related options:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.gbwheretousetreeviewmenu.caption
+msgid "Where to use Tree View Menus:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.lblnote.caption
+msgid "*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another."
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
+msgid "With Directory Hotlist:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.lblusewithfavoritetabs.caption
+msgid "With Favorite Tabs:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenu.lblusewithhistory.caption
+msgid "With History:"
+msgstr ""
+
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
 msgid ">>"
@@ -8369,6 +8444,10 @@ msgctxt "tfrmviewer.actcopytoclipboard.caption"
 msgid "Copy To Clipboard"
 msgstr "Copiază în Clipboard"
 
+#: tfrmviewer.actcopytoclipboardformatted.caption
+msgid "Copy To Clipboard Formatted"
+msgstr ""
+
 #: tfrmviewer.actdeletefile.caption
 msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
 msgid "Delete File"
@@ -8559,6 +8638,10 @@ msgstr "Arată ca &Bin"
 msgctxt "tfrmviewer.actshowasbook.caption"
 msgid "Show as B&ook"
 msgstr "Arată ca și Carte (&o)"
+
+#: tfrmviewer.actshowasdec.caption
+msgid "Show as &Dec"
+msgstr ""
 
 #: tfrmviewer.actshowashex.caption
 #, fuzzy
@@ -8816,11 +8899,6 @@ msgstr "-"
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
 msgstr "&Vizualizează"
-
-#: tfrmviewer.pmicopy.caption
-msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
-msgid "Copy To Clipboard"
-msgstr "Copiază în Clipboard"
 
 #: tfrmviewer.pmiselectall.caption
 msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
@@ -9500,6 +9578,10 @@ msgstr "Vizualizator"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
+msgstr ""
+
+#: ulng.rskeyboardshortcutcomplement
+msgid "Press \"[ALT] + [Shortcut]\" keys and it will select the item"
 msgstr ""
 
 #: ulng.rslinkmsgok
@@ -10687,8 +10769,26 @@ msgstr ""
 msgid "Too many files selected."
 msgstr "Prea multe fișiere selectate."
 
+#: ulng.rsmsgtreeviewmenucolorsmodifiedwanttosave
+msgid ""
+"Options regarding Tree View Menu Colors have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
+
+#: ulng.rsmsgtreeviewmenumodifiedwanttosave
+msgid ""
+"Options regarding Tree View Menu have been modified.\n"
+"\n"
+"Do you want to save them before to exit?\n"
+msgstr ""
+
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
+msgstr ""
+
+#: ulng.rsmsgunexpectedusagetreeviewmenu
+msgid "ERROR: Unexpected Tree View Menu usage!"
 msgstr ""
 
 #: ulng.rsmsgurl
@@ -11346,6 +11446,14 @@ msgctxt "ulng.rsoptionseditortooltips"
 msgid "Tooltips"
 msgstr "Trucuri"
 
+#: ulng.rsoptionseditortreeviewmenu
+msgid "Tree View Menu"
+msgstr ""
+
+#: ulng.rsoptionseditortreeviewmenucolors
+msgid "Tree View Menu Colors"
+msgstr ""
+
 #: ulng.rsoptletters
 msgid "None;Command Line;Quick Search;Quick Filter"
 msgstr "Nimic;Linie de Comandă;Căutare Rapidă;Filtrare Rapidă"
@@ -11413,6 +11521,10 @@ msgstr "Vârf;Bază;"
 #: ulng.rsopttoolbarbuttontype
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "S&eparator;Comandă inte&rnă;Comandă e&xternă;Meni&u"
+
+#: ulng.rsopttreeviewmenudirectoryhotlistusage
+msgid "Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel"
+msgstr ""
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
@@ -11593,6 +11705,86 @@ msgstr "Numărul de părți e mai mare de 100! Continuați?"
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Selectați directorul:"
+
+#: ulng.rsstraccents
+msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
+msgstr ""
+
+#: ulng.rsstraccentsstripped
+msgid "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
+msgstr ""
+
+#: ulng.rsstrpreviewjustpreview
+msgid "Just preview"
+msgstr ""
+
+#: ulng.rsstrpreviewothers
+msgid "Others"
+msgstr ""
+
+#: ulng.rsstrpreviewsearchingletters
+msgid "OU"
+msgstr ""
+
+#: ulng.rsstrpreviewsidenote
+msgid "Side note"
+msgstr ""
+
+#: ulng.rsstrpreviewwordwithoutsearched1
+msgid "Flat"
+msgstr ""
+
+#: ulng.rsstrpreviewwordwithoutsearched2
+msgid "Limited"
+msgstr ""
+
+#: ulng.rsstrpreviewwordwithoutsearched3
+msgid "Simple"
+msgstr ""
+
+#: ulng.rsstrpreviewwordwithsearched1
+msgid "Fabulous"
+msgstr ""
+
+#: ulng.rsstrpreviewwordwithsearched2
+msgid "Marvelous"
+msgstr ""
+
+#: ulng.rsstrpreviewwordwithsearched3
+msgid "Tremendous"
+msgstr ""
+
+#: ulng.rsstrtvmchoosedirhistory
+msgid "Choose your directory from Dir History"
+msgstr ""
+
+#: ulng.rsstrtvmchoosefavoritetabs
+msgid "Choose you Favorite Tabs:"
+msgstr ""
+
+#: ulng.rsstrtvmchoosefromcmdlinehistory
+msgid "Choose your command from Command Line History"
+msgstr ""
+
+#: ulng.rsstrtvmchoosefrommainmenu
+msgid "Choose your action from Main Menu"
+msgstr ""
+
+#: ulng.rsstrtvmchoosefromtoolbar
+msgid "Choose your action from Maintool bar"
+msgstr ""
+
+#: ulng.rsstrtvmchoosehotdirectory
+msgid "Choose your directory from Hot Directory:"
+msgstr ""
+
+#: ulng.rsstrtvmchooseviewhistory
+msgid "Choose your directory from File View History"
+msgstr ""
+
+#: ulng.rsstrtvmchooseyourfileordir
+msgid "Choose your file or your directory"
+msgstr ""
 
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
