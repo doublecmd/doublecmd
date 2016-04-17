@@ -54,6 +54,7 @@ function ContentGetValueW(FileName: PWideChar; FieldIndex, UnitIndex: Integer;
 var
   Value: String;
   Index: Integer;
+  FileAttr: Integer;
   FileNameU: String;
   Stream: TFileStreamEx;
   Reader: TStreamReader;
@@ -64,6 +65,12 @@ begin
     Exit;
   end;
   FileNameU:= UTF16ToUTF8(UnicodeString(FileName));
+  FileAttr:= FileGetAttr(FileNameU);
+  if (FileAttr < 0) or (FileAttr and faSysFile <> 0) then
+  begin
+    Result:= ft_fileerror;
+    Exit;
+  end;
   if Length(FExtensions) > 0 then
   begin
     Value:= ExtractOnlyFileExt(FileNameU);
