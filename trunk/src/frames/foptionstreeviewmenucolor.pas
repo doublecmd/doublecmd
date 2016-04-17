@@ -1,0 +1,309 @@
+{
+   Double Commander
+   -------------------------------------------------------------------------
+   Configuration of Tree View Menu Color and Layout.
+
+   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+   -This unit has been added in 2016.
+}
+
+unit fOptionsTreeViewMenuColor;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  //Lazarus, Free-Pascal, etc.
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus,
+  Dialogs, ComCtrls, ColorBox, types,
+
+  //DC
+  fOptionsFrame, fTreeViewMenu;
+type
+  { TfrmOptionsTreeViewMenuColor }
+  TfrmOptionsTreeViewMenuColor = class(TOptionsEditor)
+    gbLayoutAndColors: TGroupBox;
+    cbkUsageKeyboardShortcut: TCheckBox;
+    lblBackgroundColor: TLabel;
+    cbBackgroundColor: TColorBox;
+    btnBackgroundColor: TButton;
+    lblShortcutColor: TLabel;
+    cbShortcutColor: TColorBox;
+    btnShortcutColor: TButton;
+    lblNormalTextColor: TLabel;
+    cbNormalTextColor: TColorBox;
+    btnNormalTextColor: TButton;
+    lblSecondaryTextColor: TLabel;
+    cbSecondaryTextColor: TColorBox;
+    btnSecondaryTextColor: TButton;
+    lblFoundTextColor: TLabel;
+    cbFoundTextColor: TColorBox;
+    btnFoundTextColor: TButton;
+    lblUnselectableTextColor: TLabel;
+    cbUnselectableTextColor: TColorBox;
+    btnUnselectableTextColor: TButton;
+    lblCursorColor: TLabel;
+    cbCursorColor: TColorBox;
+    btnCursorColor: TButton;
+    lblShortcutUnderCursor: TLabel;
+    cbShortcutUnderCursor: TColorBox;
+    btnShortcutUnderCursor: TButton;
+    lblNormalTextUnderCursor: TLabel;
+    cbNormalTextUnderCursor: TColorBox;
+    btnNormalTextUnderCursor: TButton;
+    lblSecondaryTextUnderCursor: TLabel;
+    cbSecondaryTextUnderCursor: TColorBox;
+    btnSecondaryTextUnderCursor: TButton;
+    lblFoundTextUnderCursor: TLabel;
+    cbFoundTextUnderCursor: TColorBox;
+    btnFoundTextUnderCursor: TButton;
+    lblUnselectableUnderCursor: TLabel;
+    cbUnselectableUnderCursor: TColorBox;
+    btnUnselectableUnderCursor: TButton;
+    lblPreview: TLabel;
+    TreeViewMenuSample: TTreeView;
+    optColorDialog: TColorDialog;  procedure btnChooseColorClick(Sender: TObject);
+    procedure RefreshColorOfOurSampleClick(Sender: TObject);
+  protected
+    procedure Init; override;
+    procedure Load; override;
+    function Save: TOptionsEditorSaveFlags; override;
+  private
+    { Private declarations }
+    FLastSignature: dword;
+    TreeViewMenuGenericRoutineAndVarHolder: TTreeViewMenuGenericRoutineAndVarHolder;
+    ColorBoxPointer: array[1..12] of TColorBox;
+  public
+    { Public declarations }
+    class function GetIconIndex: integer; override;
+    class function GetTitle: string; override;
+    destructor Destroy; override;
+    function CanWeClose(var {%H-}WillNeedUpdateWindowView: boolean): boolean; override;
+  end;
+
+implementation
+
+{$R *.lfm}
+
+uses
+  //Lazarus, Free-Pascal, etc.
+  Graphics, LCLType, LCLProc, LCLIntf,
+
+  //DC
+  uGlobs, uLng, uDCUtils, fmain, uShowMsg, DCOSUtils, fOptions,
+  uComponentsSignature;
+
+{ TfrmOptionsTreeViewMenuColor.Init }
+procedure TfrmOptionsTreeViewMenuColor.Init;
+var
+  iLonguestName: integer = 150;
+  BaseLevelNode, SubLevelNode: TTreeNode;
+
+  procedure ProcessLabelLength(ALabel: TLabel);
+  begin
+    if ALabel.Canvas.TextWidth(ALabel.Caption) > iLonguestName then iLonguestName := ALabel.Canvas.TextWidth(ALabel.Caption);
+  end;
+
+begin
+  // All the combobox are referenced to "cbNormalTextColor".
+  // Let's determine the longuest label and then we'll set the "cbNormalTextColor" to a location far enough on left so all labels will be visible correctly.
+  ProcessLabelLength(lblBackgroundColor);
+  ProcessLabelLength(lblShortcutColor);
+  ProcessLabelLength(lblNormalTextColor);
+  ProcessLabelLength(lblSecondaryTextColor);
+  ProcessLabelLength(lblFoundTextColor);
+  ProcessLabelLength(lblUnselectableTextColor);
+  ProcessLabelLength(lblCursorColor);
+  ProcessLabelLength(lblShortcutUnderCursor);
+  ProcessLabelLength(lblNormalTextUnderCursor);
+  ProcessLabelLength(lblSecondaryTextUnderCursor);
+  ProcessLabelLength(lblFoundTextUnderCursor);
+  ProcessLabelLength(lblUnselectableUnderCursor);
+  cbBackgroundColor.Left := 10 + iLonguestName + 6 + 10;
+  cbBackgroundColor.BorderSpacing.Left:=10 + iLonguestName + 6 + 10;
+
+  ColorBoxPointer[1] := cbBackgroundColor;
+  ColorBoxPointer[2] := cbShortcutColor;
+  ColorBoxPointer[3] := cbNormalTextColor;
+  ColorBoxPointer[4] := cbSecondaryTextColor;
+  ColorBoxPointer[5] := cbFoundTextColor;
+  ColorBoxPointer[6] := cbUnselectableTextColor;
+  ColorBoxPointer[7] := cbCursorColor;
+  ColorBoxPointer[8] := cbShortcutUnderCursor;
+  ColorBoxPointer[9] := cbNormalTextUnderCursor;
+  ColorBoxPointer[10] := cbSecondaryTextUnderCursor;
+  ColorBoxPointer[11] := cbFoundTextUnderCursor;
+  ColorBoxPointer[12] := cbUnselectableUnderCursor;
+
+  TreeViewMenuGenericRoutineAndVarHolder := TTreeViewMenuGenericRoutineAndVarHolder.Create;
+  TreeViewMenuGenericRoutineAndVarHolder.SearchingText := rsStrPreviewSearchingLetters;
+  TreeViewMenuGenericRoutineAndVarHolder.CaseSensitive := False;
+  TreeViewMenuGenericRoutineAndVarHolder.IgnoreAccents := True;
+  TreeViewMenuGenericRoutineAndVarHolder.ShowWholeBranchIfMatch := True;
+  TreeViewMenuGenericRoutineAndVarHolder.MayStopOnNode := False;
+  TreeViewMenuGenericRoutineAndVarHolder.ShowShortcut := gTreeViewMenuUseKeyboardShortcut;
+  TreeViewMenuGenericRoutineAndVarHolder.BackgroundColor := gTVMBackgroundColor;
+  TreeViewMenuGenericRoutineAndVarHolder.ShortcutColor := gTVMShortcutColor;
+  TreeViewMenuGenericRoutineAndVarHolder.NormalTextColor := gTVMNormalTextColor;
+  TreeViewMenuGenericRoutineAndVarHolder.SecondaryTextColor := gTVMSecondaryTextColor;
+  TreeViewMenuGenericRoutineAndVarHolder.FoundTextColor := gTVMFoundTextColor;
+  TreeViewMenuGenericRoutineAndVarHolder.UnselectableTextColor := gTVMUnselectableTextColor;
+  TreeViewMenuGenericRoutineAndVarHolder.CursorColor := gTVMCursorColor;
+  TreeViewMenuGenericRoutineAndVarHolder.ShortcutUnderCursor := gTVMShortcutUnderCursor;
+  TreeViewMenuGenericRoutineAndVarHolder.NormalTextUnderCursor := gTVMNormalTextUnderCursor;
+  TreeViewMenuGenericRoutineAndVarHolder.SecondaryTextUnderCursor := gTVMSecondaryTextUnderCursor;
+  TreeViewMenuGenericRoutineAndVarHolder.FoundTextUnderCursor := gTVMFoundTextUnderCursor;
+  TreeViewMenuGenericRoutineAndVarHolder.UnselectableUnderCursor := gTVMUnselectableUnderCursor;
+  TreeViewMenuSample.OnAdvancedCustomDrawItem := @TreeViewMenuGenericRoutineAndVarHolder.TreeViewMenuAdvancedCustomDrawItem;
+
+  // Let's populate our treeview sample with at least an example of each.
+  TreeViewMenuGenericRoutineAndVarHolder.AddTreeViewMenuItem(TreeViewMenuSample, nil, rsStrPreviewJustPreview);
+  BaseLevelNode := TreeViewMenuGenericRoutineAndVarHolder.AddTreeViewMenuItem(TreeViewMenuSample, nil, 'Double Commander');
+  SubLevelNode := TreeViewMenuGenericRoutineAndVarHolder.AddTreeViewMenuItem(TreeViewMenuSample, BaseLevelNode, rsStrPreviewWordWithSearched1, rsStrPreviewSideNote);
+  TTreeMenuItem(SubLevelNode.Data).KeyboardShortcut := '1';
+  SubLevelNode := TreeViewMenuGenericRoutineAndVarHolder.AddTreeViewMenuItem(TreeViewMenuSample, BaseLevelNode, rsStrPreviewWordWithSearched2, rsStrPreviewSideNote);
+  TTreeMenuItem(SubLevelNode.Data).KeyboardShortcut := '2';
+  SubLevelNode := TreeViewMenuGenericRoutineAndVarHolder.AddTreeViewMenuItem(TreeViewMenuSample, BaseLevelNode, rsStrPreviewWordWithSearched3, rsStrPreviewSideNote);
+  TTreeMenuItem(SubLevelNode.Data).KeyboardShortcut := '3';
+  BaseLevelNode := TreeViewMenuGenericRoutineAndVarHolder.AddTreeViewMenuItem(TreeViewMenuSample, nil, rsStrPreviewOthers);
+  TreeViewMenuGenericRoutineAndVarHolder.AddTreeViewMenuItem(TreeViewMenuSample, BaseLevelNode, rsStrPreviewWordWithoutSearched1);
+  TreeViewMenuGenericRoutineAndVarHolder.AddTreeViewMenuItem(TreeViewMenuSample, BaseLevelNode, rsStrPreviewWordWithoutSearched2);
+  TreeViewMenuGenericRoutineAndVarHolder.AddTreeViewMenuItem(TreeViewMenuSample, BaseLevelNode, rsStrPreviewWordWithoutSearched3);
+  TreeViewMenuSample.FullExpand;
+  TreeViewMenuSample.Items[0].Selected := True;
+end;
+
+{ TfrmOptionsTreeViewMenuColor.Load }
+procedure TfrmOptionsTreeViewMenuColor.Load;
+begin
+  cbkUsageKeyboardShortcut.Checked := gTreeViewMenuUseKeyboardShortcut;
+  SetColorInColorBox(cbBackgroundColor, gTVMBackgroundColor);
+  SetColorInColorBox(cbShortcutColor, gTVMShortcutColor);
+  SetColorInColorBox(cbNormalTextColor, gTVMNormalTextColor);
+  SetColorInColorBox(cbSecondaryTextColor, gTVMSecondaryTextColor);
+  SetColorInColorBox(cbFoundTextColor, gTVMFoundTextColor);
+  SetColorInColorBox(cbUnselectableTextColor, gTVMUnselectableTextColor);
+  SetColorInColorBox(cbCursorColor, gTVMCursorColor);
+  SetColorInColorBox(cbShortcutUnderCursor, gTVMShortcutUnderCursor);
+  SetColorInColorBox(cbNormalTextUnderCursor, gTVMNormalTextUnderCursor);
+  SetColorInColorBox(cbSecondaryTextUnderCursor, gTVMSecondaryTextUnderCursor);
+  SetColorInColorBox(cbFoundTextUnderCursor, gTVMFoundTextUnderCursor);
+  SetColorInColorBox(cbUnselectableUnderCursor, gTVMUnselectableUnderCursor);
+  FLastSignature := ComputeSignatureBasedOnComponent(self, $00000000);
+end;
+
+{ TfrmOptionsTreeViewMenuColor.Save }
+function TfrmOptionsTreeViewMenuColor.Save: TOptionsEditorSaveFlags;
+begin
+  Result := [];
+  gTreeViewMenuUseKeyboardShortcut := cbkUsageKeyboardShortcut.Checked;
+  gTVMBackgroundColor := cbBackgroundColor.Selected;
+  gTVMShortcutColor := cbShortcutColor.Selected;
+  gTVMNormalTextColor := cbNormalTextColor.Selected;
+  gTVMSecondaryTextColor := cbSecondaryTextColor.Selected;
+  gTVMFoundTextColor := cbFoundTextColor.Selected;
+  gTVMUnselectableTextColor := cbUnselectableTextColor.Selected;
+  gTVMCursorColor := cbCursorColor.Selected;
+  gTVMShortcutUnderCursor := cbShortcutUnderCursor.Selected;
+  gTVMNormalTextUnderCursor := cbNormalTextUnderCursor.Selected;
+  gTVMSecondaryTextUnderCursor := cbSecondaryTextUnderCursor.Selected;
+  gTVMFoundTextUnderCursor := cbFoundTextUnderCursor.Selected;
+  gTVMUnselectableUnderCursor := cbUnselectableUnderCursor.Selected;
+  FLastSignature := ComputeSignatureBasedOnComponent(self, $00000000);
+end;
+
+{ TfrmOptionsTreeViewMenuColor.GetIconIndex }
+class function TfrmOptionsTreeViewMenuColor.GetIconIndex: integer;
+begin
+  Result := 40;
+end;
+
+{ TfrmOptionsTreeViewMenuColor.GetTitle }
+class function TfrmOptionsTreeViewMenuColor.GetTitle: string;
+begin
+  Result := rsOptionsEditorTreeViewMenuColors;
+end;
+
+{ TfrmOptionsTreeViewMenuColor.Destroy }
+destructor TfrmOptionsTreeViewMenuColor.Destroy;
+begin
+  FreeAndNil(TreeViewMenuGenericRoutineAndVarHolder);
+  inherited Destroy;
+end;
+
+{ TfrmOptionsTreeViewMenuColor.CanWeClose }
+function TfrmOptionsTreeViewMenuColor.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
+var
+  Answer: TMyMsgResult;
+begin
+  Result := (FLastSignature = ComputeSignatureBasedOnComponent(self, $00000000));
+  if not Result then
+  begin
+    ShowOptions(TfrmOptionsTreeViewMenuColor);
+    Answer := MsgBox(rsMsgTreeViewMenuColorsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
+    case Answer of
+      mmrYes:
+      begin
+        Save;
+        Result := True;
+      end;
+
+      mmrNo: Result := True;
+      else
+        Result := False;
+    end;
+  end;
+end;
+
+{ TfrmOptionsTreeViewMenuColor.RefreshColorOfOurSampleClick }
+procedure TfrmOptionsTreeViewMenuColor.RefreshColorOfOurSampleClick(Sender: TObject);
+begin
+  TreeViewMenuGenericRoutineAndVarHolder.ShowShortcut := cbkUsageKeyboardShortcut.Checked;
+  TreeViewMenuGenericRoutineAndVarHolder.BackgroundColor := cbBackgroundColor.Selected;
+  TreeViewMenuGenericRoutineAndVarHolder.ShortcutColor := cbShortcutColor.Selected;
+  TreeViewMenuGenericRoutineAndVarHolder.NormalTextColor := cbNormalTextColor.Selected;
+  TreeViewMenuGenericRoutineAndVarHolder.SecondaryTextColor := cbSecondaryTextColor.Selected;
+  TreeViewMenuGenericRoutineAndVarHolder.FoundTextColor := cbFoundTextColor.Selected;
+  TreeViewMenuGenericRoutineAndVarHolder.UnselectableTextColor := cbUnselectableTextColor.Selected;
+  TreeViewMenuGenericRoutineAndVarHolder.CursorColor := cbCursorColor.Selected;
+  TreeViewMenuGenericRoutineAndVarHolder.ShortcutUnderCursor := cbShortcutUnderCursor.Selected;
+  TreeViewMenuGenericRoutineAndVarHolder.NormalTextUnderCursor := cbNormalTextUnderCursor.Selected;
+  TreeViewMenuGenericRoutineAndVarHolder.SecondaryTextUnderCursor := cbSecondaryTextUnderCursor.Selected;
+  TreeViewMenuGenericRoutineAndVarHolder.FoundTextUnderCursor := cbFoundTextUnderCursor.Selected;
+  TreeViewMenuGenericRoutineAndVarHolder.UnselectableUnderCursor := cbUnselectableUnderCursor.Selected;
+  TreeViewMenuSample.Refresh;
+end;
+
+{ TfrmOptionsTreeViewMenuColor.btnChooseColorClick }
+procedure TfrmOptionsTreeViewMenuColor.btnChooseColorClick(Sender: TObject);
+begin
+  with Sender as TButton do
+  begin
+    optColorDialog.Color := ColorBoxPointer[tag].Selected;
+    if optColorDialog.Execute then
+    begin
+      SetColorInColorBox(ColorBoxPointer[tag], optColorDialog.Color);
+      RefreshColorOfOurSampleClick(ColorBoxPointer[tag]);
+    end;
+  end;
+end;
+
+
+
+end.

@@ -117,6 +117,8 @@ uses
   fOptionsCustomColumns,
   fOptionsDragDrop,
   fOptionsDrivesListButton,
+  fOptionsTreeViewMenu,
+  fOptionsTreeViewMenuColor,
   fOptionsFileOperations,
   fOptionsFilePanelsColors,
   fOptionsFileTypesColors,
@@ -293,6 +295,8 @@ begin
   Main.Add(TfrmOptionsPlugins);
   Layout := Main.Add(TfrmOptionsLayout);
   Layout.Add(TfrmOptionsDrivesListButton);
+  Layout.Add(TfrmOptionsTreeViewMenu);
+  Layout.Add(TfrmOptionsTreeViewMenuColor);
   Main.Add(TfrmOptionsToolbar);
   Main.Add(TfrmOptionsFileOperations);
   FolderTabs := Main.Add(TfrmOptionsTabs);

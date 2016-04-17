@@ -1,0 +1,238 @@
+inherited frmOptionsTreeViewMenu: TfrmOptionsTreeViewMenu
+  Height = 415
+  Width = 590
+  AutoSize = True
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
+  ClientHeight = 415
+  ClientWidth = 590
+  Constraints.MinHeight = 400
+  Constraints.MinWidth = 500
+  ParentShowHint = False
+  ShowHint = True
+  DesignLeft = 289
+  DesignTop = 231
+  object gbTreeViewMenuSettings: TGroupBox[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 403
+    Top = 6
+    Width = 578
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    AutoSize = True
+    Caption = 'Tree View Menus related options:'
+    ChildSizing.LeftRightSpacing = 10
+    ChildSizing.TopBottomSpacing = 6
+    ClientHeight = 383
+    ClientWidth = 574
+    TabOrder = 0
+    object gbWhereToUseTreeViewMenu: TGroupBox
+      AnchorSideLeft.Control = gbTreeViewMenuSettings
+      AnchorSideTop.Control = gbTreeViewMenuSettings
+      AnchorSideRight.Control = gbTreeViewMenuSettings
+      AnchorSideRight.Side = asrBottom
+      Left = 10
+      Height = 230
+      Top = 6
+      Width = 554
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      Caption = 'Where to use Tree View Menus:'
+      ChildSizing.LeftRightSpacing = 10
+      ChildSizing.TopBottomSpacing = 6
+      ClientHeight = 210
+      ClientWidth = 550
+      TabOrder = 0
+      object lblUseInDirectoryHotlist: TLabel
+        AnchorSideLeft.Control = gbWhereToUseTreeViewMenu
+        AnchorSideTop.Control = gbWhereToUseTreeViewMenu
+        Left = 10
+        Height = 15
+        Top = 6
+        Width = 117
+        Caption = 'With Directory Hotlist:'
+        ParentColor = False
+      end
+      object ckbDirectoryHotlistFromMenuCommand: TCheckBox
+        AnchorSideLeft.Control = lblUseInDirectoryHotlist
+        AnchorSideTop.Control = lblUseInDirectoryHotlist
+        AnchorSideTop.Side = asrBottom
+        Left = 16
+        Height = 19
+        Top = 21
+        Width = 223
+        BorderSpacing.Left = 6
+        Caption = 'With the menu and internal command'
+        TabOrder = 0
+      end
+      object ckbDirectoryHotlistFromDoubleClick: TCheckBox
+        AnchorSideLeft.Control = ckbDirectoryHotlistFromMenuCommand
+        AnchorSideTop.Control = ckbDirectoryHotlistFromMenuCommand
+        AnchorSideTop.Side = asrBottom
+        Left = 16
+        Height = 19
+        Top = 40
+        Width = 283
+        Caption = 'With double-click on the bar on top of a file panel'
+        TabOrder = 1
+      end
+      object lblUseWithFavoriteTabs: TLabel
+        AnchorSideLeft.Control = gbWhereToUseTreeViewMenu
+        AnchorSideTop.Control = ckbDirectoryHotlistFromDoubleClick
+        AnchorSideTop.Side = asrBottom
+        Left = 10
+        Height = 15
+        Top = 69
+        Width = 100
+        BorderSpacing.Top = 10
+        Caption = 'With Favorite Tabs:'
+        ParentColor = False
+      end
+      object ckbFavoritaTabsFromMenuCommand: TCheckBox
+        AnchorSideLeft.Control = lblUseInDirectoryHotlist
+        AnchorSideTop.Control = lblUseWithFavoriteTabs
+        AnchorSideTop.Side = asrBottom
+        Left = 16
+        Height = 19
+        Top = 84
+        Width = 223
+        BorderSpacing.Left = 6
+        Caption = 'With the menu and internal command'
+        TabOrder = 2
+      end
+      object ckbFavoriteTabsFromDoubleClick: TCheckBox
+        AnchorSideLeft.Control = ckbDirectoryHotlistFromMenuCommand
+        AnchorSideTop.Control = ckbFavoritaTabsFromMenuCommand
+        AnchorSideTop.Side = asrBottom
+        Left = 16
+        Height = 19
+        Top = 103
+        Width = 267
+        Caption = 'With double-click on a tab (if configured for it)'
+        TabOrder = 3
+      end
+      object lblUseWithHistory: TLabel
+        AnchorSideLeft.Control = gbWhereToUseTreeViewMenu
+        AnchorSideTop.Control = ckbFavoriteTabsFromDoubleClick
+        AnchorSideTop.Side = asrBottom
+        Left = 10
+        Height = 15
+        Top = 132
+        Width = 69
+        BorderSpacing.Top = 10
+        Caption = 'With History:'
+        ParentColor = False
+      end
+      object ckbUseForDirHistory: TCheckBox
+        AnchorSideLeft.Control = lblUseInDirectoryHotlist
+        AnchorSideTop.Control = lblUseWithHistory
+        AnchorSideTop.Side = asrBottom
+        Left = 16
+        Height = 19
+        Top = 147
+        Width = 146
+        BorderSpacing.Left = 6
+        Caption = 'Use it for the Dir History'
+        TabOrder = 4
+      end
+      object ckbUseForViewHistory: TCheckBox
+        AnchorSideLeft.Control = lblUseInDirectoryHotlist
+        AnchorSideTop.Control = ckbUseForDirHistory
+        AnchorSideTop.Side = asrBottom
+        Left = 16
+        Height = 19
+        Top = 166
+        Width = 313
+        BorderSpacing.Left = 6
+        Caption = 'Use it for the View History (Visited paths for active view)'
+        TabOrder = 5
+      end
+      object ckbUseForCommandLineHistory: TCheckBox
+        AnchorSideLeft.Control = lblUseInDirectoryHotlist
+        AnchorSideTop.Control = ckbUseForViewHistory
+        AnchorSideTop.Side = asrBottom
+        Left = 16
+        Height = 19
+        Top = 185
+        Width = 193
+        BorderSpacing.Left = 6
+        Caption = 'Use it for Command Line History'
+        TabOrder = 6
+      end
+    end
+    object gbBehavior: TGroupBox
+      AnchorSideLeft.Control = gbWhereToUseTreeViewMenu
+      AnchorSideTop.Control = gbWhereToUseTreeViewMenu
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbTreeViewMenuSettings
+      AnchorSideRight.Side = asrBottom
+      Left = 10
+      Height = 89
+      Top = 246
+      Width = 554
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      BorderSpacing.Top = 10
+      Caption = 'Behavior regarding selection:'
+      ChildSizing.LeftRightSpacing = 10
+      ChildSizing.TopBottomSpacing = 6
+      ClientHeight = 69
+      ClientWidth = 550
+      TabOrder = 1
+      object ckbShortcutSelectAndClose: TCheckBox
+        AnchorSideLeft.Control = gbBehavior
+        AnchorSideTop.Control = gbBehavior
+        Left = 10
+        Height = 19
+        Top = 6
+        Width = 473
+        Caption = 'When using the keyboard shortcut, it will exit the window returning the current choice'
+        TabOrder = 0
+      end
+      object ckbSingleClickSelect: TCheckBox
+        AnchorSideLeft.Control = ckbShortcutSelectAndClose
+        AnchorSideTop.Control = ckbShortcutSelectAndClose
+        AnchorSideTop.Side = asrBottom
+        Left = 10
+        Height = 19
+        Top = 25
+        Width = 231
+        Caption = 'Single mouse click in tree select and exit'
+        TabOrder = 1
+      end
+      object ckbDoubleClickSelect: TCheckBox
+        AnchorSideLeft.Control = ckbShortcutSelectAndClose
+        AnchorSideTop.Control = ckbSingleClickSelect
+        AnchorSideTop.Side = asrBottom
+        Left = 10
+        Height = 19
+        Top = 44
+        Width = 198
+        Caption = 'Double click in tree select and exit'
+        TabOrder = 2
+      end
+    end
+    object lblNote: TLabel
+      AnchorSideLeft.Control = gbTreeViewMenuSettings
+      AnchorSideTop.Control = gbBehavior
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbTreeViewMenuSettings
+      AnchorSideRight.Side = asrBottom
+      Left = 10
+      Height = 30
+      Top = 345
+      Width = 550
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 10
+      Caption = '*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another.'
+      Constraints.MaxWidth = 550
+      ParentColor = False
+      WordWrap = True
+    end
+  end
+end

@@ -91,6 +91,8 @@ type
    procedure DoOnClickMenuJobFavoriteTabs(Sender: TObject);
    procedure DoCopyAllTabsToOppositeSide(ANotebook: TFileViewNotebook; var {%H-}bAbort: boolean; {%H-}bDoLocked: boolean; var {%H-}iAskForLocked: integer);
    procedure DoShowFavoriteTabsOptions;
+    procedure DoParseParametersForPossibleTreeViewMenu(const Params: array of string; gDefaultConfigWithCommand, gDefaultConfigWithDoubleClick:boolean; var bUseTreeViewMenu:boolean; var bUsePanel:boolean; var p: TPoint);
+    procedure DoComputeSizeAndPosForWindowInMiddle(var iPosX:integer; var iPosY:integer; var iWidth:integer; var iHeight:integer);
 
    //---------------------
 
@@ -239,7 +241,7 @@ type
    procedure cm_Refresh(const Params: array of string);
    procedure cm_ShowMainMenu(const Params: array of string);
    procedure cm_DirHotList(const Params: array of string);
-   procedure cm_ConfigDirHotList(const Params: array of string);
+   procedure cm_ConfigDirHotList(const {%H-}Params: array of string);
    procedure cm_WorkWithDirectoryHotlist(const Params: array of string);
    procedure cm_MarkInvert(const Params: array of string);
    procedure cm_MarkMarkAll(const Params: array of string);
@@ -280,8 +282,8 @@ type
    procedure cm_CopySamePanel(const Params: array of string);
    procedure cm_DirHistory(const Params: array of string);
    procedure cm_ViewHistory(const Params: array of string);
-   procedure cm_ViewHistoryPrev(const Params: array of string);
-   procedure cm_ViewHistoryNext(const Params: array of string);
+   procedure cm_ViewHistoryPrev(const {%H-}Params: array of string);
+   procedure cm_ViewHistoryNext(const {%H-}Params: array of string);
    procedure cm_EditNew(const Params: array of string);
    procedure cm_RenameOnly(const Params: array of string);
    procedure cm_RunTerm(const Params: array of string);
@@ -328,6 +330,8 @@ type
    procedure cm_NextFavoriteTabs(const {%H-}Params: array of string);
    procedure cm_ResaveFavoriteTabs(const {%H-}Params: array of string);
     procedure cm_CopyAllTabsToOpposite(const {%H-}Params: array of string);
+    procedure cm_ConfigTreeViewMenus(const {%H-}Params: array of string);
+    procedure cm_ConfigTreeViewMenusColors(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -336,7 +340,7 @@ type
 implementation
 
 uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHashList,
-     dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, DCDateTimeUtils,
+     dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, DCDateTimeUtils, KASToolBar, KASToolItems,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView,
@@ -352,7 +356,8 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions, uFileProcs,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
-     fOptionsToolbar, fMainCommandsDlg, uConnectionManager, fOptionsTabs, fOptionsFavoriteTabs
+     fOptionsToolbar, fMainCommandsDlg, uConnectionManager, fOptionsTabs, fOptionsFavoriteTabs,
+     fTreeViewMenu, fOptionsTreeViewMenu, fOptionsTreeViewMenuColor
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ELSE}
@@ -773,7 +778,7 @@ begin
       begin
         if aFile.Name = '..' then
         begin
-          NewPath := GetParentDir(SourcePage.FileView.CurrentPath)
+          NewPath := GetParentDir(SourcePage.FileView.CurrentPath);
         end
         else
         begin
@@ -986,7 +991,7 @@ procedure TMainCommands.cm_FlatView(const Params: array of string);
 begin
   if not (fspListFlatView in frmMain.ActiveFrame.FileSource.GetProperties) then
   begin
-    msgWarning(rsMsgErrNotSupported)
+    msgWarning(rsMsgErrNotSupported);
   end
   else
   begin
@@ -999,7 +1004,7 @@ procedure TMainCommands.cm_LeftFlatView(const Params: array of string);
 begin
   if not (fspListFlatView in frmMain.FrameLeft.FileSource.GetProperties) then
   begin
-    msgWarning(rsMsgErrNotSupported)
+    msgWarning(rsMsgErrNotSupported);
   end
   else
   begin
@@ -1012,7 +1017,7 @@ procedure TMainCommands.cm_RightFlatView(const Params: array of string);
 begin
   if not (fspListFlatView in frmMain.FrameRight.FileSource.GetProperties) then
   begin
-    msgWarning(rsMsgErrNotSupported)
+    msgWarning(rsMsgErrNotSupported);
   end
   else
   begin
@@ -1271,9 +1276,74 @@ begin
   // Deprecated.
 end;
 
-procedure TMainCommands.cm_ShowButtonMenu(const Params: array of string);
+{ TMainCommands.DoComputeSizeAndPosForWindowInMiddle }
+procedure TMainCommands.DoComputeSizeAndPosForWindowInMiddle(var iPosX:integer; var iPosY:integer; var iWidth:integer; var iHeight:integer);
+var
+  pl,pr: TPoint;
 begin
-  // Deprecated.
+  pl := frmMain.FrameLeft.ClientToScreen(Classes.Point(0,0));
+  pr := frmMain.FrameRight.ClientToScreen(Classes.Point(0,0));
+  iWidth := (((pr.x+frmMain.FrameRight.Width)- pl.x) * 68) div 100;
+  iHeight := frmMain.FrameLeft.Height;
+  iPosX := pl.x + (((frmMain.FrameLeft.Width+frmMain.FrameRight.Width) - iWidth) div 2);
+  iPosY := pl.y;
+end;
+
+{ TMainCommands.cm_ShowButtonMenu }
+procedure TMainCommands.cm_ShowButtonMenu(const Params: array of string);
+var
+  WantedButtonMenu, BoolValue: boolean;
+  bWantedTreeViewButtonMenu : boolean = False;
+  Param : string;
+  iWantedPosX: integer = 0;
+  iWantedPosY: integer = 0;
+  iWantedWidth: integer = 800;
+  iWantedHeight: integer = 600;
+  APointer: Pointer;
+  iTypeDispatcher: integer = 0;
+  maybeKASToolButton: TKASToolButton;
+  maybeKASToolItem: TKASToolItem;
+begin
+  WantedButtonMenu := gButtonBar;
+  if Length(Params) > 0 then
+  begin
+    for Param in Params do
+      if GetParamBoolValue(Param, 'toolbar', BoolValue) then WantedButtonMenu := BoolValue
+      else if GetParamBoolValue(Param, 'treeview', BoolValue) then bWantedTreeViewButtonMenu := BoolValue
+      else WantedButtonMenu := not WantedButtonMenu;
+  end
+  else
+  begin
+    WantedButtonMenu := not WantedButtonMenu;
+  end;
+  if not bWantedTreeViewButtonMenu then
+  begin
+    if WantedButtonMenu <> gButtonBar then
+    begin
+      gButtonBar := WantedButtonMenu;
+      frmMain.UpdateWindowView;
+    end;
+  end
+  else
+  begin
+    DoComputeSizeAndPosForWindowInMiddle(iWantedPosX, iWantedPosY, iWantedWidth, iWantedHeight);
+    APointer := GetUserChoiceFromKASToolBar(frmMain.MainToolBar, tvmcKASToolBar, iWantedPosX, iWantedPosY, iWantedWidth, iWantedHeight, iTypeDispatcher);
+    if APointer<>nil then
+    begin
+      case iTypeDispatcher of
+        1:
+        begin
+          maybeKASToolButton := TKASToolButton(APointer);
+          maybeKASToolButton.OnClick(maybeKASToolButton);
+        end;
+        2:
+        begin
+          maybeKASToolItem := TKASToolItem(APointer);
+          frmMain.MainToolBar.PublicExecuteToolItem(maybeKASToolItem);
+        end;
+      end;
+    end;
+  end;
 end;
 
 procedure TMainCommands.cm_TransferLeft(const Params: array of string);
@@ -2352,7 +2422,7 @@ begin
           else begin
             if not ShowCalcVerifyCheckSum(Hash, Algorithm) then
               Exit;
-          end
+          end;
         end;
 
       Operation := ActiveFrame.FileSource.CreateCalcChecksumOperation(
@@ -2598,7 +2668,7 @@ begin
       or ((FilesToCompare.Count = 1) or (DirsToCompare.Count = 1)) then
       begin
          // Either files or directories must be selected and more than one.
-         MsgWarning(rsMsgInvalidSelection)
+         MsgWarning(rsMsgInvalidSelection);
       end
       else if FilesToCompare.Count > 0 then
       begin
@@ -2628,29 +2698,56 @@ begin
   end;
 end;
 
+{ TMainCommands.cm_ShowMainMenu }
 procedure TMainCommands.cm_ShowMainMenu(const Params: array of string);
 {$OPTIMIZATION OFF}
 var
-  WantedMainMenu, BoolValue:boolean;
+  WantedMainMenu, BoolValue: boolean;
+  bWantedTreeViewMenu: boolean = False;
+  Param: string;
+  sMaybeMenuItem: TMenuItem;
+  iWantedPosX: integer = 0;
+  iWantedPosY: integer = 0;
+  iWantedWidth: integer = 800;
+  iWantedHeight: integer = 600;
 begin
   WantedMainMenu:=gMainMenu;
 
   if Length(Params)>0 then
   begin
-    if GetParamBoolValue(Params[0], 'menu', BoolValue) then
-      WantedMainMenu:=BoolValue
-    else
-      WantedMainMenu := not WantedMainMenu;
+    for Param in Params do
+      if GetParamBoolValue(Param, 'menu', BoolValue) then WantedMainMenu := BoolValue
+      else if GetParamBoolValue(Param, 'treeview', BoolValue) then bWantedTreeViewMenu := BoolValue
+      else WantedMainMenu := not WantedMainMenu;
   end
   else
   begin
     WantedMainMenu := not WantedMainMenu;
   end;
 
+  if not bWantedTreeViewMenu then
+  begin
   if WantedMainMenu<>gMainMenu then
   begin
     gMainMenu:=WantedMainMenu;
     DoShowMainMenu(gMainMenu);
+    end;
+  end
+  else
+  begin
+    DoComputeSizeAndPosForWindowInMiddle(iWantedPosX, iWantedPosY, iWantedWidth, iWantedHeight);
+    sMaybeMenuItem := GetUserChoiceFromTreeViewMenuLoadedFromPopupMenu(frmMain.mnuMain, tvmcMainMenu, iWantedPosX, iWantedPosY, iWantedWidth, iWantedHeight);
+    if sMaybeMenuItem <> nil then
+    begin
+      if sMaybeMenuItem.Action <> nil then
+      begin
+        if sMaybeMenuItem.Action.OnExecute<>nil then
+          sMaybeMenuItem.Action.OnExecute(sMaybeMenuItem.Action)
+      end
+      else
+        if sMaybeMenuItem.OnClick<>nil then
+          sMaybeMenuItem.OnClick(sMaybeMenuItem);
+    end;
   end;
 end;
 {$OPTIMIZATION DEFAULT}
@@ -2731,7 +2828,42 @@ begin
   frmMain.ActiveFrame.LoadSelectionFromClipboard;
 end;
 
-//------------------------------------------------------
+{ TMainCommands.DoParseParametersForPossibleTreeViewMenu }
+procedure TMainCommands.DoParseParametersForPossibleTreeViewMenu(const Params: array of string; gDefaultConfigWithCommand, gDefaultConfigWithDoubleClick:boolean; var bUseTreeViewMenu:boolean; var bUsePanel:boolean; var p: TPoint);
+var
+  Param, sValue: string;
+  bSpecifiedPopup: boolean = false;
+  bSpecifiedTreeView: boolean = false;
+  bSpecifiedPanel: boolean = false;
+  bSpecifiedMouse: boolean = false;
+begin
+  for Param in Params do
+  begin
+    if GetParamValue(Param, 'menutype', sValue) then
+    begin
+      if (sValue = 'popup') OR (sValue = 'combobox') then bSpecifiedPopup := True else
+      if sValue = 'treeview' then bSpecifiedTreeView := True;
+    end
+    else if GetParamValue(Param, 'position', sValue) then
+    begin
+      if sValue = 'panel' then bSpecifiedPanel:=true else
+      if sValue = 'cursor' then bSpecifiedMouse:=true;
+    end;
+  end;
+
+  if (not bSpecifiedPopup) AND (bSpecifiedTreeView OR (not bSpecifiedMouse AND gDefaultConfigWithCommand) OR (bSpecifiedMouse AND gDefaultConfigWithDoubleClick)) then
+    bUseTreeViewMenu:=True;
+  if bSpecifiedPanel OR (not bSpecifiedMouse AND bUsePanel) then
+  begin
+    p := frmMain.ActiveFrame.ClientToScreen(Classes.Point(0, 0));
+    bUsePanel := True;
+  end
+  else
+  begin
+    p := Mouse.CursorPos;
+    bUsePanel := False;
+  end;
+end;
 
 { TMainCommands.cm_DirHotList }
 // Command to SHOW the Directory Hotlist popup menu
@@ -2740,21 +2872,38 @@ end;
 //
 procedure TMainCommands.cm_DirHotList(const Params: array of string);
 var
-  p:TPoint;
+  bUseTreeViewMenu: boolean = false;
+  bUsePanel: boolean = true;
+  p: TPoint = (x:0; y:0);
+  iWantedWidth: integer = 0;
+  iWantedHeight: integer = 0;
+  sMaybeMenuItem: TMenuItem = nil;
 begin
+  // 1. Let's parse our parameters.
+  DoParseParametersForPossibleTreeViewMenu(Params, gUseTreeViewMenuWithDirectoryHotlistFromMenuCommand, gUseTreeViewMenuWithDirectoryHotlistFromDoubleClick, bUseTreeViewMenu, bUsePanel, p);
+
+  // 2. No matter what, we need to fill in the popup menu structure.
   gDirectoryHotlist.PopulateMenuWithHotDir(frmMain.pmHotList,@frmMain.HotDirSelected,@frmMain.miHotAddOrConfigClick,mpHOTDIRSWITHCONFIG,0); // TODO: i thing in future this must call on create or change
-  if length(Params)=0 then
-  begin
-    p:=frmMain.ActiveFrame.ClientToScreen(Classes.Point(0,0));
     Application.ProcessMessages; //TODO: Same thing as with "cm_DirHotList", in Windows, Not sure why, but on all system I tried, this eliminate a "beep" when the popup is shown.
+
+  // 3. Show the appropriate menu.
+  if bUseTreeViewMenu then
+  begin
+    if not bUsePanel then
+      iWantedHeight := ((frmMain.ActiveFrame.ClientToScreen(Classes.Point(0, 0)).y + frmMain.ActiveFrame.Height) - p.y)
+  else
+  begin
+      iWantedWidth := frmMain.ActiveFrame.Width;
+      iWantedHeight := frmMain.ActiveFrame.Height;
+  end;
+
+    sMaybeMenuItem := GetUserChoiceFromTreeViewMenuLoadedFromPopupMenu(frmMain.pmHotList, tvmcHotDirectory, p.X, p.Y, iWantedWidth, iWantedHeight);
+    if sMaybeMenuItem <> nil then sMaybeMenuItem.OnClick(sMaybeMenuItem);
   end
   else
   begin
-    p:=Mouse.CursorPos;
-  end;
-
   frmMain.pmHotList.Popup(p.X,p.Y);
-  Application.ProcessMessages;
+  end;
 end;
 
 { TMainCommands.cm_ConfigDirHotList }
@@ -2880,7 +3029,7 @@ begin
           if NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
             sLinkToCreate := NotActiveFrame.CurrentPath
           else
-            sLinkToCreate := ActiveFrame.CurrentPath
+            sLinkToCreate := ActiveFrame.CurrentPath;
         end;
 
         sLinkToCreate := sLinkToCreate + SelectedFiles[0].Name;
@@ -2930,7 +3079,7 @@ begin
           if NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
             sLinkToCreate := NotActiveFrame.CurrentPath
           else
-            sLinkToCreate := ActiveFrame.CurrentPath
+            sLinkToCreate := ActiveFrame.CurrentPath;
         end;
 
         sLinkToCreate := sLinkToCreate + SelectedFiles[0].Name;
@@ -3243,21 +3392,45 @@ begin
     msgWarning(rsMsgNotImplemented);
 end;
 
+{ TMainCommands.cm_DirHistory }
 // Shows recently visited directories (global).
 procedure TMainCommands.cm_DirHistory(const Params: array of string);
 var
-  p:TPoint;
+  bUseTreeViewMenu: boolean = false;
+  bUsePanel: boolean = true;
+  p: TPoint = (x:0; y:0);
+  iWantedWidth: integer = 0;
+  iWantedHeight: integer = 0;
+  sMaybeMenuItem: TMenuItem = nil;
 begin
+  // 1. Let's parse our parameters.
+  DoParseParametersForPossibleTreeViewMenu(Params, gUseTreeViewMenuWithDirHistory, gUseTreeViewMenuWithDirHistory, bUseTreeViewMenu, bUsePanel, p);
+
   frmMain.CreatePopUpDirHistory;
-  p:=frmMain.ActiveFrame.ClientToScreen(Classes.Point(0,0));
   Application.ProcessMessages; //TODO: In Windows, Not sure why, but on all systems tried, this eliminate a "beep" when the popup is shown.
-  frmMain.pmDirHistory.Popup(p.X,p.Y);
+
+  if bUseTreeViewMenu then
+  begin
+    if not bUsePanel then
+      iWantedHeight := ((frmMain.ActiveFrame.ClientToScreen(Classes.Point(0, 0)).y + frmMain.ActiveFrame.Height) - p.y)
+    else
+    begin
+      iWantedWidth := frmMain.ActiveFrame.Width;
+      iWantedHeight := frmMain.ActiveFrame.Height;
+    end;
+    sMaybeMenuItem := GetUserChoiceFromTreeViewMenuLoadedFromPopupMenu(frmMain.pmDirHistory, tvmcDirHistory, p.X, p.Y, iWantedWidth, iWantedHeight);
+    if sMaybeMenuItem <> nil then sMaybeMenuItem.OnClick(sMaybeMenuItem);
+  end
+  else
+  begin
+    frmMain.pmDirHistory.Popup(p.X,p.Y);
+  end;
 end;
 
 // Shows browser-like history for active file view.
 procedure TMainCommands.cm_ViewHistory(const Params: array of string);
 begin
-  frmMain.ShowFileViewHistory;
+  frmMain.ShowFileViewHistory(Params);
 end;
 
 procedure TMainCommands.cm_ViewHistoryPrev(const Params: array of string);
@@ -3276,16 +3449,51 @@ begin
   end;
 end;
 
+{ TMainCommands.cm_ShowCmdLineHistory }
 procedure TMainCommands.cm_ShowCmdLineHistory(const Params: array of string);
+var
+  p: TPoint = (x:0; y:0);
+  sUserChoice:string;
+  bUseTreeViewMenu: boolean = false;
+  bUsePanel: boolean = true;
+  iWantedWidth: integer = 0;
+  iWantedHeight: integer = 0;
 begin
   with frmMain do
   begin
     if IsCommandLineVisible then
     begin
+      // 1. Let's parse our parameters.
+      DoParseParametersForPossibleTreeViewMenu(Params, gUseTreeViewMenuWithCommandLineHistory, gUseTreeViewMenuWithCommandLineHistory, bUseTreeViewMenu, bUsePanel, p);
+
+      // 2. No matter what, we need to fill in the popup menu structure.
+      gFavoriteTabsList.PopulateMenuWithFavoriteTabs(frmMain.pmFavoriteTabs, @DoOnClickMenuJobFavoriteTabs, ftmp_FAVTABSWITHCONFIG);
+      Application.ProcessMessages;
+
+      // 3. Show the appropriate menu.
+      if bUseTreeViewMenu then
+      begin
+        iWantedWidth := frmMain.edtCommand.Width;
+        iWantedHeight := frmMain.ActiveFrame.Height;
+        p := frmMain.edtCommand.ClientToScreen(Classes.Point(0, 0));
+        p.y := p.y - iWantedHeight;
+
+        sUserChoice := GetUserChoiceFromTStrings(edtCommand.Items, tvmcCommandLineHistory, p.x, p.y, iWantedWidth, iWantedHeight);
+        if sUserChoice<>'' then
+        begin
+          edtCommand.ItemIndex:=edtCommand.Items.IndexOf(sUserChoice);
       edtCommand.SetFocus;
+        end;
+
+      end
+      else
+      begin
+        edtCommand.SetFocus;
       if edtCommand.Items.Count>0 then
         edtCommand.DroppedDown:=True;
+      end;
     end;
+
   end;
 end;
 
@@ -3487,7 +3695,7 @@ begin
 
       if aSelectedFiles.Count > 1 then
       begin
-        ShowLinkerFilesForm(FileSource, aSelectedFiles, NotActiveFrame.CurrentPath)
+        ShowLinkerFilesForm(FileSource, aSelectedFiles, NotActiveFrame.CurrentPath);
       end
       else
       begin
@@ -3499,7 +3707,7 @@ begin
               aFirstFilenameOfSeries:='1';
               while length(aFirstFilenameOfSeries)<length(aSelectedFiles[0].Extension) do aFirstFilenameOfSeries:='0'+aFirstFilenameOfSeries;
               aFirstFilenameOfSeries:=aSelectedFiles[0].Path + aSelectedFiles[0].NameNoExt + ExtensionSeparator + aFirstFilenameOfSeries;
-              DoDynamicFilesLinking(FileSource, aSelectedFiles, NotActiveFrame.CurrentPath, aFirstFilenameOfSeries)
+              DoDynamicFilesLinking(FileSource, aSelectedFiles, NotActiveFrame.CurrentPath, aFirstFilenameOfSeries);
             end
             else
             begin
@@ -4355,12 +4563,38 @@ end;
 { TMainCommands.cm_LoadFavoriteTabs }
 procedure TMainCommands.cm_LoadFavoriteTabs(const Params: array of string);
 var
-  p: TPoint;
+  bUseTreeViewMenu: boolean = false;
+  bUsePanel: boolean = true;
+  p: TPoint = (x:0; y:0);
+  iWantedWidth: integer = 0;
+  iWantedHeight: integer = 0;
+  sMaybeMenuItem: TMenuItem = nil;
 begin
+  // 1. Let's parse our parameters.
+  DoParseParametersForPossibleTreeViewMenu(Params, gUseTreeViewMenuWithFavoriteTabsFromMenuCommand, gUseTreeViewMenuWithFavoriteTabsFromDoubleClick, bUseTreeViewMenu, bUsePanel, p);
+
+  // 2. No matter what, we need to fill in the popup menu structure.
   gFavoriteTabsList.PopulateMenuWithFavoriteTabs(frmMain.pmFavoriteTabs, @DoOnClickMenuJobFavoriteTabs, ftmp_FAVTABSWITHCONFIG);
-  p := Mouse.CursorPos;
-  frmMain.pmFavoriteTabs.Popup(p.X, p.Y);
   Application.ProcessMessages;
+
+  // 3. Show the appropriate menu.
+  if bUseTreeViewMenu then
+  begin
+    if not bUsePanel then
+      iWantedHeight := ((frmMain.ActiveFrame.ClientToScreen(Classes.Point(0, 0)).y + frmMain.ActiveFrame.Height) - p.y)
+    else
+    begin
+      iWantedWidth := frmMain.ActiveFrame.Width;
+      iWantedHeight := frmMain.ActiveFrame.Height;
+    end;
+
+    sMaybeMenuItem := GetUserChoiceFromTreeViewMenuLoadedFromPopupMenu(frmMain.pmFavoriteTabs, tvmcFavoriteTabs, p.X, p.Y, iWantedWidth, iWantedHeight);
+    if sMaybeMenuItem <> nil then sMaybeMenuItem.OnClick(sMaybeMenuItem);
+  end
+  else
+  begin
+    frmMain.pmFavoriteTabs.Popup(p.X, p.Y);
+  end;
 end;
 
 { TMainCommands.DoCopyAllTabsToOppositeSide }
@@ -4393,49 +4627,49 @@ begin
   DoActionOnMultipleTabs(Params, @DoCopyAllTabsToOppositeSide);
 end;
 
+{ TMainCommands.cm_ConfigTreeViewMenus }
+procedure TMainCommands.cm_ConfigTreeViewMenus(const {%H-}Params: array of string);
+var
+  Options: IOptionsDialog;
+  Editor: TOptionsEditor;
+begin
+  Options := ShowOptions(TfrmOptionsTreeViewMenu);
+  Editor := Options.GetEditor(TfrmOptionsTreeViewMenu);
+  Application.ProcessMessages;
+  if Editor.CanFocus then  Editor.SetFocus;
+end;
+
+
+procedure TMainCommands.cm_ConfigTreeViewMenusColors(const {%H-}Params: array of string);
+var
+  Options: IOptionsDialog;
+  Editor: TOptionsEditor;
+begin
+  Options := ShowOptions(TfrmOptionsTreeViewMenuColor);
+  Editor := Options.GetEditor(TfrmOptionsTreeViewMenuColor);
+  Application.ProcessMessages;
+  if Editor.CanFocus then  Editor.SetFocus;
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 end.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

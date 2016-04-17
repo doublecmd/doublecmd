@@ -119,8 +119,8 @@ type
     procedure InsertButton(InsertAt: Integer; ToolButton: TKASToolButton);
     procedure SetButtonHeight(const AValue: Integer);
     procedure SetButtonWidth(const AValue: Integer);
-    procedure SetChangePath(const AValue: String);
-    procedure SetEnvVar(const AValue: String);
+    procedure SetChangePath(const {%H-}AValue: String);
+    procedure SetEnvVar(const {%H-}AValue: String);
     procedure SetFlat(const AValue: Boolean);
     procedure SetGlyphSize(const AValue: Integer);
     procedure ShowMenu(ToolButton: TKASToolButton);
@@ -169,6 +169,7 @@ type
     procedure BeginUpdate; override;
     procedure EndUpdate; override;
     procedure SetButtonSize(NewButtonWidth, NewButtonHeight: Integer);
+    function PublicExecuteToolItem(Item: TKASToolItem): Boolean;
 
     property Buttons[Index: Integer]: TKASToolButton read GetButton;
     property RowHeight: Integer read FRowHeight;
@@ -553,8 +554,6 @@ begin
 end;
 
 procedure TKASToolBar.ShowMenu(ToolButton: TKASToolButton);
-var
-  Depth: Integer = 0;
   procedure MakeMenu(PopupMenu: TMenuItem; MenuItem: TKASMenuItem);
   var
     I: Integer;
@@ -688,7 +687,6 @@ end;
 procedure TKASToolBar.MoveButton(SourceButton: TKASToolButton; TargetToolBar: TKASToolBar; InsertAt: TKASToolButton);
 var
   Index: Integer;
-  ToolItem: TKASToolItem;
 begin
   Index := FindButton(SourceButton);
   if (Index <> -1) and (FToolItems[Index] = SourceButton.ToolItem) then
@@ -902,6 +900,12 @@ begin
   Result := Assigned(BestMatch);
   if Result then
     BestMatch^.ToolItemExecute(Item);
+end;
+
+{ TKASToolBar.PublicExecuteToolItem }
+function TKASToolBar.PublicExecuteToolItem(Item: TKASToolItem): Boolean;
+begin
+  result:=ExecuteToolItem(Item);
 end;
 
 procedure TKASToolBar.BeginUpdate;
