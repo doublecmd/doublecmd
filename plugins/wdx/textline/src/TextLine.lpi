@@ -103,6 +103,20 @@ end;"/>
       <OtherUnitFiles Value="../../../../sdk"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
+    <Conditionals Value="if (TargetCPU &lt;> 'arm') then
+begin
+  CustomOptions += '-fPIC';
+end;
+
+if (TargetOS = 'linux') then
+begin
+  LinkerOptions += ' -z relro';
+end;
+
+if (TargetOS = 'darwin') then
+begin
+  LinkerOptions += ' -no_order_inits';
+end;"/>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>
       <RelocatableUnit Value="True"/>
