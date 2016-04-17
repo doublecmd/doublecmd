@@ -8,13 +8,11 @@ You can select line number and text encoding, you can replace one substring
 by another.
 
 Settings are stored in textline.ini.
-Without settings file plugin handles all files, and doesn't replace anything.
+Without settings file plugin don't skip empty lines and doesn't replace anything.
 
 textline.ini example:
 
 [Options]
-;list of supported extensions, separated by a space, if empty - all files
-Extensions=txt ini inf
 ;skip empty lines
 SkipEmpty=0
 

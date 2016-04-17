@@ -26,13 +26,15 @@ library TextLine;
 {$include calling.inc}
 
 uses
-  SysUtils, Classes, StreamEx, WdxPlugin, LazUTF8,
-  DCClassesUtf8, DCConvertEncoding, DCStrUtils, DCBasicTypes;
+  SysUtils, Classes, StreamEx, LazUTF8,
+  WdxPlugin, DCClassesUtf8, DCConvertEncoding;
+
+const
+  DETECT_STRING = '(EXT="TXT") | (EXT="LOG") | (EXT="INI") | (EXT="XML")';
 
 var
   FReplace: Boolean = False;
   FSkipEmpty: Boolean = False;
-  FExtensions: TDynamicStringArray;
   FReplaces: array[1..10, 1..2] of String;
 
 function ContentGetSupportedField(FieldIndex: Integer;
@@ -70,11 +72,6 @@ begin
   begin
     Result:= ft_fileerror;
     Exit;
-  end;
-  if Length(FExtensions) > 0 then
-  begin
-    Value:= ExtractOnlyFileExt(FileNameU);
-    if not Contains(FExtensions, Value) then Exit(ft_fileerror);
   end;
   Result:= ft_fieldempty;
   try
@@ -132,7 +129,6 @@ begin
   try
     Ini:= TIniFileEx.Create(FileName, fmOpenRead);
     try
-      FExtensions:= SplitString(Ini.ReadString('Options', 'Extensions', EmptyStr), ' ');
       FSkipEmpty:= Ini.ReadBool('Options', 'SkipEmpty', FSkipEmpty);
       for Index:= Low(FReplaces) to High(FReplaces) do
       begin
@@ -149,9 +145,15 @@ begin
   end;
 end;
 
+procedure ContentGetDetectString(DetectString: PAnsiChar; MaxLen: Integer); dcpcall;
+begin
+  StrPLCopy(DetectString, DETECT_STRING, MaxLen - 1);
+end;
+
 exports
   ContentGetSupportedField,
   ContentGetValueW,
+  ContentGetDetectString,
   ContentSetDefaultParams;
 
 begin
