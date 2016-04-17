@@ -76,6 +76,7 @@ begin
       Index:= -1;
       Reader:= TStreamReader.Create(Stream, BUFFER_SIZE, True);
       repeat
+        Value:= EmptyStr;
         if Reader.IsEof then Break;
         Value:= Trim(Reader.ReadLine);
         if (Length(Value) = 0) and FSkipEmpty then
