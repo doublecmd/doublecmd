@@ -27,7 +27,8 @@ uses
   DCClassesUtf8, uMultiArc, uColumns, uHotkeyManager, uSearchTemplate,
   uFileSourceOperationOptions, uWFXModule, uWCXModule, uWDXModule, uwlxmodule,
   udsxmodule, DCXmlConfig, uInfoToolTip, fQuickSearch, uTypes, uClassesEx,
-  uHotDir, uSpecialDir, uVariableMenuSupport, SynEdit, uFavoriteTabs;
+  uHotDir, uSpecialDir, uVariableMenuSupport, SynEdit, uFavoriteTabs,
+  fTreeViewMenu;
 
 type
   { Configuration options }
@@ -495,6 +496,32 @@ var
   gExecuteViaTerminalStayOpen: boolean;
   gIncludeFileAssociation: boolean;
 
+  { TreeViewMenu }
+  gslAccents, gslAccentsStripped: TStringList;
+  gUseTreeViewMenuWithDirectoryHotlistFromMenuCommand: boolean;
+  gUseTreeViewMenuWithDirectoryHotlistFromDoubleClick: boolean;
+  gUseTreeViewMenuWithFavoriteTabsFromMenuCommand: boolean;
+  gUseTreeViewMenuWithFavoriteTabsFromDoubleClick: boolean;
+  gUseTreeViewMenuWithDirHistory: boolean;
+  gUseTreeViewMenuWithViewHistory: boolean;
+  gUseTreeViewMenuWithCommandLineHistory: boolean;
+  gTreeViewMenuUseKeyboardShortcut: boolean;
+  gTVMBackgroundColor: TColor;
+  gTVMShortcutColor: TColor;
+  gTVMNormalTextColor: TColor;
+  gTVMSecondaryTextColor: TColor;
+  gTVMFoundTextColor: TColor;
+  gTVMUnselectableTextColor: TColor;
+  gTVMCursorColor: TColor;
+  gTVMShortcutUnderCursor: TColor;
+  gTVMNormalTextUnderCursor: TColor;
+  gTVMSecondaryTextUnderCursor: TColor;
+  gTVMFoundTextUnderCursor: TColor;
+  gTVMUnselectableUnderCursor: TColor;
+  gTreeViewMenuOptions: array [0..(ord(tvmcLASTONE)-2)] of TTreeViewMenuOptions;
+  gTreeViewMenuShortcutExit: boolean;
+  gTreeViewMenuSingleClickExit: boolean;
+  gTreeViewMenuDoubleClickExit: boolean;
   crArrowCopy: Integer = 1;
   crArrowMove: Integer = 2;
   crArrowLink: Integer = 3;
@@ -1223,6 +1250,9 @@ procedure SetDefaultConfigGlobs;
     end;
   end;
 
+var
+  iIndexContextMode:integer;
+
 begin
   { Language page }
   gPOFileName := '';
@@ -1565,6 +1595,37 @@ begin
   gExecuteViaTerminalClose := False;
   gExecuteViaTerminalStayOpen := False;
   gIncludeFileAssociation := False;
+
+  { Tree View Menu }
+  gUseTreeViewMenuWithDirectoryHotlistFromMenuCommand := False;
+  gUseTreeViewMenuWithDirectoryHotlistFromDoubleClick := False;
+  gUseTreeViewMenuWithFavoriteTabsFromMenuCommand := False;
+  gUseTreeViewMenuWithFavoriteTabsFromDoubleClick := False;
+  gUseTreeViewMenuWithDirHistory := False;
+  gUseTreeViewMenuWithViewHistory := False;
+  gUseTreeViewMenuWithCommandLineHistory := False;
+  gTreeViewMenuShortcutExit := True;
+  gTreeViewMenuSingleClickExit := True;
+  gTreeViewMenuDoubleClickExit := True;
+  for iIndexContextMode:=0 to (ord(tvmcLASTONE)-2) do
+  begin
+    gTreeViewMenuOptions[iIndexContextMode].CaseSensitive := False;
+    gTreeViewMenuOptions[iIndexContextMode].IgnoreAccents := True;
+    gTreeViewMenuOptions[iIndexContextMode].ShowWholeBranchIfMatch := False;
+  end;
+  gTreeViewMenuUseKeyboardShortcut := True;
+  gTVMBackgroundColor := clForm;
+  gTVMShortcutColor := clRed;
+  gTVMNormalTextColor := clWindowText;
+  gTVMSecondaryTextColor := clWindowFrame;
+  gTVMFoundTextColor := clHighLight;
+  gTVMUnselectableTextColor := clGrayText;
+  gTVMCursorColor := clHighlight;
+  gTVMShortcutUnderCursor := clHighlightText;
+  gTVMNormalTextUnderCursor := clHighlightText;
+  gTVMSecondaryTextUnderCursor := clBtnHighlight;
+  gTVMFoundTextUnderCursor := clYellow;
+  gTVMUnselectableUnderCursor := clGrayText;
 
   { - Other - }
   gGoToRoot := False;
@@ -2217,7 +2278,7 @@ procedure LoadXmlConfig;
   end;
 var
   Root, Node, SubNode: TXmlNode;
-  LoadedConfigVersion: Integer;
+  LoadedConfigVersion, iIndexContextMode: Integer;
   oldQuickSearch: Boolean = True;
   oldQuickFilter: Boolean = False;
   oldQuickSearchMode: TShiftState = [ssCtrl, ssAlt];
@@ -2743,6 +2804,42 @@ begin
       gIncludeFileAssociation := GetValue(Node,'IncludeFileAssociation',gIncludeFileAssociation);
     end;
 
+    { Tree View Menu }
+    Node := Root.FindNode('TreeViewMenu');
+    if Assigned(Node) then
+    begin
+      gUseTreeViewMenuWithDirectoryHotlistFromMenuCommand := GetValue(Node, 'UseTVMDirectoryHotlistFMC', gUseTreeViewMenuWithDirectoryHotlistFromMenuCommand);
+      gUseTreeViewMenuWithDirectoryHotlistFromDoubleClick := GetValue(Node, 'UseTVMDirectoryHotlistFDC', gUseTreeViewMenuWithDirectoryHotlistFromDoubleClick);
+      gUseTreeViewMenuWithFavoriteTabsFromMenuCommand := GetValue(Node, 'UseTVMFavoriteTabsFMC', gUseTreeViewMenuWithFavoriteTabsFromMenuCommand);
+      gUseTreeViewMenuWithFavoriteTabsFromDoubleClick := GetValue(Node, 'UseTVMFavoriteTabsFDC', gUseTreeViewMenuWithFavoriteTabsFromDoubleClick);
+      gUseTreeViewMenuWithDirHistory := GetValue(Node, 'UseTVMDirHistory', gUseTreeViewMenuWithDirHistory);
+      gUseTreeViewMenuWithViewHistory := GetValue(Node, 'UseTVMViewHistory', gUseTreeViewMenuWithViewHistory);
+      gUseTreeViewMenuWithCommandLineHistory := GetValue(Node, 'UseTVMCommandLineHistory', gUseTreeViewMenuWithCommandLineHistory);
+      gTreeViewMenuShortcutExit := GetValue(Node, 'TreeViewMenuShortcutExit', gTreeViewMenuShortcutExit);
+      gTreeViewMenuSingleClickExit := GetValue(Node, 'TreeViewMenuSingleClickExit', gTreeViewMenuSingleClickExit);
+      gTreeViewMenuDoubleClickExit := GetValue(Node, 'TreeViewMenuDoubleClickExit', gTreeViewMenuDoubleClickExit);
+      for iIndexContextMode:=0 to (ord(tvmcLASTONE)-2) do
+      begin
+        SubNode := Node.FindNode(Format('Context%.2d',[iIndexContextMode]));
+        gTreeViewMenuOptions[iIndexContextMode].CaseSensitive := GetValue(SubNode, 'CaseSensitive', gTreeViewMenuOptions[iIndexContextMode].CaseSensitive);
+        gTreeViewMenuOptions[iIndexContextMode].IgnoreAccents := GetValue(SubNode, 'IgnoreAccents', gTreeViewMenuOptions[iIndexContextMode].IgnoreAccents);
+        gTreeViewMenuOptions[iIndexContextMode].ShowWholeBranchIfMatch := GetValue(SubNode, 'ShowWholeBranchIfMatch', gTreeViewMenuOptions[iIndexContextMode].ShowWholeBranchIfMatch);
+      end;
+      gTreeViewMenuUseKeyboardShortcut := GetValue(Node, 'TreeViewMenuUseKeyboardShortcut', gTreeViewMenuUseKeyboardShortcut);
+      gTVMBackgroundColor := GetValue(Node, 'BackgroundColor', gTVMBackgroundColor);
+      gTVMShortcutColor := GetValue(Node, 'ShortcutColor', gTVMShortcutColor);
+      gTVMNormalTextColor := GetValue(Node, 'NormalTextColor', gTVMNormalTextColor);
+      gTVMSecondaryTextColor := GetValue(Node, 'SecondaryTextColor', gTVMSecondaryTextColor);
+      gTVMFoundTextColor := GetValue(Node, 'FoundTextColor', gTVMFoundTextColor);
+      gTVMUnselectableTextColor := GetValue(Node, 'UnselectableTextColor', gTVMUnselectableTextColor);
+      gTVMCursorColor := GetValue(Node, 'CursorColor', gTVMCursorColor);
+      gTVMShortcutUnderCursor := GetValue(Node, 'ShortcutUnderCursor', gTVMShortcutUnderCursor);
+      gTVMNormalTextUnderCursor := GetValue(Node, 'NormalTextUnderCursor', gTVMNormalTextUnderCursor);
+      gTVMSecondaryTextUnderCursor := GetValue(Node, 'SecondaryTextUnderCursor', gTVMSecondaryTextUnderCursor);
+      gTVMFoundTextUnderCursor := GetValue(Node, 'FoundTextUnderCursor', gTVMFoundTextUnderCursor);
+      gTVMUnselectableUnderCursor := GetValue(Node, 'UnselectableUnderCursor', gTVMUnselectableUnderCursor);
+    end;
+
     { Favorite Tabs }
     Node := Root.FindNode('FavoriteTabsOptions');
     if Assigned(Node) then
@@ -2821,6 +2918,7 @@ procedure SaveXmlConfig;
 var
   Root, Node, SubNode: TXmlNode;
   KeyTypingModifier: TKeyTypingModifier;
+  iIndexContextMode: integer;
 begin
   with gConfig do
   begin
@@ -3154,6 +3252,39 @@ begin
     SetValue(Node, 'OpenSystemWithTerminalClose', gExecuteViaTerminalClose);
     SetValue(Node, 'OpenSystemWithTerminalStayOpen', gExecuteViaTerminalStayOpen);
     SetValue(Node, 'IncludeFileAssociation', gIncludeFileAssociation);
+
+    { Tree View Menu }
+    Node := FindNode(Root, 'TreeViewMenu', True);
+    SetValue(Node, 'UseTVMDirectoryHotlistFMC', gUseTreeViewMenuWithDirectoryHotlistFromMenuCommand);
+    SetValue(Node, 'UseTVMDirectoryHotlistFDC', gUseTreeViewMenuWithDirectoryHotlistFromDoubleClick);
+    SetValue(Node, 'UseTVMFavoriteTabsFMC', gUseTreeViewMenuWithFavoriteTabsFromMenuCommand);
+    SetValue(Node, 'UseTVMFavoriteTabsFDC', gUseTreeViewMenuWithFavoriteTabsFromDoubleClick);
+    SetValue(Node, 'UseTVMDirHistory', gUseTreeViewMenuWithDirHistory);
+    SetValue(Node, 'UseTVMViewHistory', gUseTreeViewMenuWithViewHistory);
+    SetValue(Node, 'UseTVMCommandLineHistory', gUseTreeViewMenuWithCommandLineHistory);
+    SetValue(Node, 'TreeViewMenuShortcutExit', gTreeViewMenuShortcutExit);
+    SetValue(Node, 'TreeViewMenuSingleClickExit', gTreeViewMenuSingleClickExit);
+    SetValue(Node, 'TreeViewMenuDoubleClickExit', gTreeViewMenuDoubleClickExit);
+    for iIndexContextMode:=0 to (ord(tvmcLASTONE)-2) do
+    begin
+      SubNode := FindNode(Node, Format('Context%.2d',[iIndexContextMode]), True);
+      SetValue(SubNode, 'CaseSensitive', gTreeViewMenuOptions[iIndexContextMode].CaseSensitive);
+      SetValue(SubNode, 'IgnoreAccents', gTreeViewMenuOptions[iIndexContextMode].IgnoreAccents);
+      SetValue(SubNode, 'ShowWholeBranchIfMatch', gTreeViewMenuOptions[iIndexContextMode].ShowWholeBranchIfMatch);
+    end;
+    SetValue(Node, 'TreeViewMenuUseKeyboardShortcut', gTreeViewMenuUseKeyboardShortcut);
+    SetValue(Node, 'BackgroundColor', gTVMBackgroundColor);
+    SetValue(Node, 'ShortcutColor', gTVMShortcutColor);
+    SetValue(Node, 'NormalTextColor', gTVMNormalTextColor);
+    SetValue(Node, 'SecondaryTextColor', gTVMSecondaryTextColor);
+    SetValue(Node, 'FoundTextColor', gTVMFoundTextColor);
+    SetValue(Node, 'UnselectableTextColor', gTVMUnselectableTextColor);
+    SetValue(Node, 'CursorColor', gTVMCursorColor);
+    SetValue(Node, 'ShortcutUnderCursor', gTVMShortcutUnderCursor);
+    SetValue(Node, 'NormalTextUnderCursor', gTVMNormalTextUnderCursor);
+    SetValue(Node, 'SecondaryTextUnderCursor', gTVMSecondaryTextUnderCursor);
+    SetValue(Node, 'FoundTextUnderCursor', gTVMFoundTextUnderCursor);
+    SetValue(Node,'UnselectableUnderCursor', gTVMUnselectableUnderCursor);
 
     { Favorite Tabs }
     Node := FindNode(Root, 'FavoriteTabsOptions', True);

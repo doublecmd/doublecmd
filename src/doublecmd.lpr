@@ -38,6 +38,7 @@ uses
   uGlobs,
   fHackForm,
   fMain,
+  uAccentsUtils,
   fMkDir,
   dmHigh, dmHelpManager, dmCommonData,
   uShowMsg,
@@ -154,6 +155,7 @@ begin
     frmStartingSplash.Show;
   end;
 
+  LoadInMemoryOurAccentLookupTableList; // Used for conversion of string to remove accents.
   LoadPaths; // before loading config
   LoadWindowsSpecialDir; // Load the list with special path. *Must* be located AFTER "LoadPaths" and BEFORE "InitGlobs"
   LoadVariableMenuSupport; //Load support for the popup menu with variable
@@ -200,6 +202,8 @@ begin
 
       if not UniqueInstance.isAnotherDCRunningWhileIamRunning then
         DeleteTempFolderDeletableAtTheEnd;
+
+      FreeMemoryFromOurAccentLookupTableList;
 
       if (log_start_shutdown in gLogOptions) then logWrite('Program shutdown ('+GetCurrentUserName+'/'+GetComputerNetName+')');
     end

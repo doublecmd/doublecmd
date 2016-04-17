@@ -2544,6 +2544,18 @@ object frmMain: TfrmMain
       Caption = 'Load the Next Favorite Tabs in the list'
       OnExecute = actExecute
     end
+    object actConfigTreeViewMenus: TAction
+      Tag = 5
+      Category = 'Configuration'
+      Caption = 'Configuration of Tree View Menu'
+      OnExecute = actExecute
+    end
+    object actConfigTreeViewMenusColors: TAction
+      Tag = 5
+      Category = 'Configuration'
+      Caption = 'Configuration of Tree View Menu Colors'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

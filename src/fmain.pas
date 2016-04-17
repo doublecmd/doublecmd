@@ -99,6 +99,8 @@ type
     actDoAnyCmCommand: TAction;
     actCloseDuplicateTabs: TAction;
     actCopyAllTabsToOpposite: TAction;
+    actConfigTreeViewMenus: TAction;
+    actConfigTreeViewMenusColors: TAction;
     actTreeView: TAction;
     actToggleFullscreenConsole: TAction;
     actSrcOpenDrives: TAction;
@@ -695,6 +697,7 @@ type
     procedure SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
     procedure OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
     procedure AppActivate(Sender: TObject);
+    procedure AppDeActivate(Sender: TObject);
     procedure AppEndSession(Sender: TObject);
     procedure AppQueryEndSession(var Cancel: Boolean);
     procedure AppException(Sender: TObject; E: Exception);
@@ -731,9 +734,8 @@ type
     procedure ViewHistoryPrevSelected(Sender:TObject);
     procedure ViewHistoryNextSelected(Sender:TObject);
     procedure CreatePopUpDirHistory;
-    procedure ShowFileViewHistory;
-    procedure ShowFileViewHistory(FromFileSourceIndex, FromPathIndex,
-                                  ToFileSourceIndex, ToPathIndex: Integer);
+    procedure ShowFileViewHistory(const Params: array of string);
+    procedure ShowFileViewHistory(const Params: array of string; FromFileSourceIndex, FromPathIndex, ToFileSourceIndex, ToPathIndex: Integer);
     procedure miHotAddOrConfigClick(Sender: TObject);
 
     {en
@@ -828,7 +830,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uFileProcs, uShellContextMenu,
+  uFileProcs, uShellContextMenu, fTreeViewMenu,
   Math, LCLIntf, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager, LazUTF8,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
@@ -934,6 +936,7 @@ var
 begin
   Application.OnException := @AppException;
   Application.OnActivate := @AppActivate;
+  Application.OnDeActivate := @AppDeActivate;
   Application.OnShowHint := @AppShowHint;
   Application.OnEndSession := @AppEndSession;
   Application.OnQueryEndSession := @AppQueryEndSession;
@@ -1959,7 +1962,7 @@ begin
     else if Sender = lblLeftDriveInfo then
       SetActiveFrame(fpLeft);
   end;
-  Commands.cm_DirHotList(['MousePos']);
+  Commands.cm_DirHotList(['position=cursor']);
 end;
 
 procedure TfrmMain.LeftDriveBarExecuteDrive(ToolItem: TKASToolItem);
@@ -2736,13 +2739,12 @@ begin
   end;
 end;
 
-procedure TfrmMain.ShowFileViewHistory;
+procedure TfrmMain.ShowFileViewHistory(const Params: array of string);
 begin
-  ShowFileViewHistory(-1, -1, -1, -1);
+  ShowFileViewHistory(Params, -1, -1, -1, -1);
 end;
 
-procedure TfrmMain.ShowFileViewHistory(FromFileSourceIndex, FromPathIndex,
-                                       ToFileSourceIndex, ToPathIndex: Integer);
+procedure TfrmMain.ShowFileViewHistory(const Params: array of string; FromFileSourceIndex, FromPathIndex, ToFileSourceIndex, ToPathIndex: Integer);
 const
   MaxItemsShown = 20;
 var
@@ -2862,9 +2864,14 @@ var
   end;
 
 var
+  bUseTreeViewMenu: boolean = false;
+  bUsePanel: boolean = false; // As opposed as the other popup, for that one, by legacy, the position of the popup is the cursor position instead of top left corner of active panel.
+  p: TPoint;
+  iWantedWidth: integer = 0;
+  iWantedHeight: integer = 0;
+  sMaybeMenuItem: TMenuItem = nil;
   I: Integer;
   mi: TMenuItem;
-  p: TPoint;
 begin
   pmDirHistory.Items.Clear;
 
@@ -2919,9 +2926,29 @@ begin
     pmDirHistory.Items.Add(mi);
   end;
 
-  //Let's show the popup right where is the current cursor instead of being on top left like previous version
-  p:=Mouse.CursorPos;
-  pmDirHistory.Popup(p.X, p.Y);
+  Application.ProcessMessages;
+
+  // 1. Let's parse our parameters.
+  Commands.DoParseParametersForPossibleTreeViewMenu(Params, gUseTreeViewMenuWithViewHistory, gUseTreeViewMenuWithViewHistory, bUseTreeViewMenu, bUsePanel, p);
+
+  // 2. Show the appropriate menu.
+  if bUseTreeViewMenu then
+  begin
+    if not bUsePanel then
+      iWantedHeight := ((frmMain.ActiveFrame.ClientToScreen(Classes.Point(0, 0)).y + frmMain.ActiveFrame.Height) - p.y)
+    else
+    begin
+      iWantedWidth := frmMain.ActiveFrame.Width;
+      iWantedHeight := frmMain.ActiveFrame.Height;
+    end;
+
+    sMaybeMenuItem := GetUserChoiceFromTreeViewMenuLoadedFromPopupMenu(pmDirHistory, tvmcViewHistory, p.X, p.Y, iWantedWidth, iWantedHeight);
+    if sMaybeMenuItem <> nil then sMaybeMenuItem.OnClick(sMaybeMenuItem);
+  end
+  else
+  begin
+    pmDirHistory.Popup(p.X, p.Y);
+  end;
 end;
 
 { TfrmMain.HotDirActualSwitchToDir }
@@ -3064,7 +3091,7 @@ begin
   if Sender is TMenuItem then
   begin
     HistoryIndexesFromTag((Sender as TMenuItem).Tag, FileSourceIndex, PathIndex);
-    ShowFileViewHistory(-1, -1, FileSourceIndex, PathIndex);
+    ShowFileViewHistory([], -1, -1, FileSourceIndex, PathIndex);
   end;
 end;
 
@@ -3075,7 +3102,7 @@ begin
   if Sender is TMenuItem then
   begin
     HistoryIndexesFromTag((Sender as TMenuItem).Tag, FileSourceIndex, PathIndex);
-    ShowFileViewHistory(FileSourceIndex, PathIndex, -1, -1);
+    ShowFileViewHistory([], FileSourceIndex, PathIndex, -1, -1);
   end;
 end;
 
@@ -3715,21 +3742,17 @@ begin
       case gDirTabActionOnDoubleClick of
         tadc_Nothing: begin end;
         tadc_CloseTab: Commands.DoCloseTab(FileViewNotebook, FileViewNotebook.DoubleClickPageIndex);
-        tadc_FavoriteTabs: Commands.cm_LoadFavoriteTabs([]);
+        tadc_FavoriteTabs: Commands.cm_LoadFavoriteTabs(['position=cursor']);
         tadc_TabsPopup:
           begin
             if FileViewNotebook.DoubleClickPageIndex<>-1 then
             begin
               // Check tab options items.
               case FileViewNotebook.Page[FileViewNotebook.DoubleClickPageIndex].LockState of
-                tlsNormal:
-                  miTabOptionNormal.Checked := True;
-                tlsPathLocked:
-                  miTabOptionPathLocked.Checked := True;
-                tlsDirsInNewTab:
-                  miTabOptionDirsInNewTab.Checked := True;
-                tlsPathResets:
-                  miTabOptionPathResets.Checked := True;
+                tlsNormal: miTabOptionNormal.Checked := True;
+                tlsPathLocked: miTabOptionPathLocked.Checked := True;
+                tlsDirsInNewTab: miTabOptionDirsInNewTab.Checked := True;
+                tlsPathResets: miTabOptionPathResets.Checked := True;
               end;
               pmTabMenu.Parent := FileViewNotebook;
               pmTabMenu.Tag := FileViewNotebook.DoubleClickPageIndex;
@@ -5993,6 +6016,14 @@ begin
     FrameLeft.ReloadIfNeeded;
   if Assigned(FrameRight) then
     FrameRight.ReloadIfNeeded;
+end;
+
+procedure TfrmMain.AppDeActivate(Sender: TObject);
+begin
+  if Assigned(frmTreeViewMenu) then
+  begin
+    frmTreeViewMenu.Close;
+  end;
 end;
 
 procedure TfrmMain.AppEndSession(Sender: TObject);

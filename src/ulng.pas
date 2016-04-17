@@ -832,6 +832,35 @@ resourcestring
   rsOperWipingSomething = 'Wiping "%s"';
   rsOperWorking = 'Working'; // Generic description for unknown operation
 
+  //TreeViewMenu
+  rsKeyboardShortcutComplement = 'Press "[ALT] + [Shortcut]" keys and it will select the item';
+  rsStrAccents = 'á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ';
+  rsStrAccentsStripped = 'a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE';
+  rsOptTreeViewMenuDirectoryHotListUsage = 'Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel';
+  rsOptionsEditorTreeViewMenu = 'Tree View Menu';
+  rsOptionsEditorTreeViewMenuColors = 'Tree View Menu Colors';
+  rsMsgTreeViewMenuModifiedWantToSave = 'Options regarding Tree View Menu have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
+  rsMsgTreeViewMenuColorsModifiedWantToSave = 'Options regarding Tree View Menu Colors have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
+  rsStrPreviewSearchingLetters = 'OU';
+  rsStrPreviewJustPreview = 'Just preview';
+  rsStrPreviewWordWithSearched1 = 'Fabulous';
+  rsStrPreviewWordWithSearched2 = 'Marvelous';
+  rsStrPreviewWordWithSearched3 = 'Tremendous';
+  rsStrPreviewSideNote = 'Side note';
+  rsStrPreviewOthers = 'Others';
+  rsStrPreviewWordWithoutSearched1 = 'Flat';
+  rsStrPreviewWordWithoutSearched2 = 'Limited';
+  rsStrPreviewWordWithoutSearched3 = 'Simple';
+  rsMsgUnexpectedUsageTreeViewMenu = 'ERROR: Unexpected Tree View Menu usage!';
+  rsStrTVMChooseHotDirectory = 'Choose your directory from Hot Directory:';
+  rsStrTVMChooseFavoriteTabs = 'Choose you Favorite Tabs:';
+  rsStrTVMChooseDirHistory = 'Choose your directory from Dir History';
+  rsStrTVMChooseViewHistory = 'Choose your directory from File View History';
+  rsStrTVMChooseFromToolbar = 'Choose your action from Maintool bar';
+  rsStrTVMChooseFromMainMenu = 'Choose your action from Main Menu';
+  rsStrTVMChooseFromCmdLineHistory = 'Choose your command from Command Line History';
+  rsStrTVMChooseYourFileOrDir = 'Choose your file or your directory';
+
   //Split/Combine operation special message
   rsMsgBadCRC32 = 'Bad CRC32 for resulting file:'+#$0A+'"%s"'+#$0A+#$0A+'Do you want to keep the resulting corrupted file anyway?';
   rsMsgProvideThisFile = 'Please, make this file available. Retry?';

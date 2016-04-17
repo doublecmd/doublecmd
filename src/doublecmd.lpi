@@ -269,7 +269,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="228">
+    <Units Count="231">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1624,6 +1624,27 @@ end;"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsTabsExtra"/>
       </Unit227>
+      <Unit228>
+        <Filename Value="uaccentsutils.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uAccentsUtils"/>
+      </Unit228>
+      <Unit229>
+        <Filename Value="frames\foptionstreeviewmenu.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsTreeViewMenu"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsTreeViewMenu"/>
+      </Unit229>
+      <Unit230>
+        <Filename Value="frames\foptionstreeviewmenucolor.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsTreeViewMenuColor"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsTreeViewMenuColor"/>
+      </Unit230>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -22,8 +22,7 @@ type
     procedure PathEditExit(Sender: TObject);
     procedure PathEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure PathLabelClick(Sender: TObject);
-    procedure PathLabelMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    procedure PathLabelMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure AddressLabelClick(Sender: TObject);
     procedure AddressLabelMouseEnter(Sender: TObject);
     procedure PathLabelDblClick(Sender: TObject);
@@ -59,11 +58,11 @@ type
     procedure SectionClick(Section: THeaderSection); override;
     procedure MouseEnter; override;
     procedure MouseLeave; override;
-    procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
+    procedure MouseDown({%H-}Button: TMouseButton; {%H-}Shift: TShiftState;
                         X, Y: Integer); override;
-    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
-    procedure MouseUp(Button: TMouseButton; Shift: TShiftState;
-                      X, Y: Integer); override;
+    procedure MouseMove({%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer); override;
+    procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState;
+                      {%H-}X, {%H-}Y: Integer); override;
   public
     constructor Create(AOwner: TFileView; AParent: TWinControl); reintroduce;
     destructor Destroy; override;
@@ -186,7 +185,7 @@ procedure TFileViewHeader.PathLabelDblClick(Sender: TObject);
 begin
   tmViewHistoryMenu.Enabled:=FALSE; //Cancel the possibility of a left click
   FFileView.SetFocus;
-  frmMain.Commands.cm_DirHotList(['MousePos']);
+  frmMain.Commands.cm_DirHotList(['position=cursor']);
 end;
 
 procedure TFileViewHeader.PathLabelMouseUp(Sender: TObject; Button: TMouseButton;
@@ -196,7 +195,7 @@ begin
     mbMiddle:
       begin
         FFileView.SetFocus;
-        frmMain.Commands.cm_DirHotList(['MousePos']);
+        frmMain.Commands.cm_DirHotList(['position=cursor']);
       end;
 
     mbRight:

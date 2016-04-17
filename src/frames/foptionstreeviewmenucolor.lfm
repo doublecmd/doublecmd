@@ -1,0 +1,721 @@
+inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
+  Height = 402
+  Width = 577
+  AutoSize = True
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
+  ClientHeight = 402
+  ClientWidth = 577
+  Constraints.MinHeight = 400
+  Constraints.MinWidth = 500
+  ParentShowHint = False
+  ShowHint = True
+  DesignLeft = 418
+  DesignTop = 264
+  object gbLayoutAndColors: TGroupBox[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 371
+    Top = 10
+    Width = 565
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 10
+    Caption = 'Layout and colors options:'
+    ChildSizing.LeftRightSpacing = 10
+    ChildSizing.TopBottomSpacing = 6
+    ClientHeight = 351
+    ClientWidth = 561
+    TabOrder = 0
+    object cbkUsageKeyboardShortcut: TCheckBox
+      AnchorSideLeft.Control = gbLayoutAndColors
+      AnchorSideTop.Control = gbLayoutAndColors
+      Left = 10
+      Height = 19
+      Top = 6
+      Width = 303
+      Caption = 'Use and display keyboard shortcut for choosing items'
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 0
+    end
+    object lblBackgroundColor: TLabel
+      Tag = 1
+      AnchorSideTop.Control = cbBackgroundColor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblShortcutColor
+      AnchorSideRight.Side = asrBottom
+      Left = 59
+      Height = 15
+      Top = 33
+      Width = 97
+      Anchors = [akTop, akRight]
+      Caption = 'Background color:'
+      FocusControl = cbBackgroundColor
+      ParentColor = False
+    end
+    object cbBackgroundColor: TColorBox
+      Tag = 1
+      AnchorSideLeft.Control = gbLayoutAndColors
+      AnchorSideTop.Control = cbkUsageKeyboardShortcut
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      Left = 160
+      Height = 22
+      Top = 29
+      Width = 200
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      BorderSpacing.Left = 160
+      BorderSpacing.Top = 4
+      ItemHeight = 16
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 1
+    end
+    object btnBackgroundColor: TButton
+      Tag = 1
+      AnchorSideLeft.Control = btnNormalTextColor
+      AnchorSideTop.Control = cbBackgroundColor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideBottom.Side = asrBottom
+      Left = 366
+      Height = 22
+      Top = 29
+      Width = 28
+      BorderSpacing.Right = 10
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnChooseColorClick
+      TabOrder = 2
+    end
+    object lblShortcutColor: TLabel
+      Tag = 2
+      AnchorSideTop.Control = cbShortcutColor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = cbShortcutColor
+      Left = 78
+      Height = 15
+      Top = 61
+      Width = 78
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 4
+      Caption = 'Shortcut color:'
+      FocusControl = cbShortcutColor
+      ParentColor = False
+    end
+    object cbShortcutColor: TColorBox
+      Tag = 2
+      AnchorSideLeft.Control = cbBackgroundColor
+      AnchorSideTop.Control = cbBackgroundColor
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = cbBackgroundColor
+      AnchorSideRight.Side = asrBottom
+      Left = 160
+      Height = 22
+      Top = 57
+      Width = 200
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 6
+      ItemHeight = 16
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 3
+    end
+    object btnShortcutColor: TButton
+      Tag = 2
+      AnchorSideLeft.Control = btnNormalTextColor
+      AnchorSideTop.Control = cbShortcutColor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideBottom.Side = asrBottom
+      Left = 366
+      Height = 22
+      Top = 57
+      Width = 28
+      BorderSpacing.Right = 10
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnChooseColorClick
+      TabOrder = 4
+    end
+    object lblNormalTextColor: TLabel
+      Tag = 3
+      AnchorSideTop.Control = cbNormalTextColor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblShortcutColor
+      AnchorSideRight.Side = asrBottom
+      Left = 61
+      Height = 15
+      Top = 89
+      Width = 95
+      Anchors = [akTop, akRight]
+      Caption = 'Normal text color:'
+      FocusControl = cbNormalTextColor
+      ParentColor = False
+    end
+    object cbNormalTextColor: TColorBox
+      Tag = 3
+      AnchorSideLeft.Control = cbBackgroundColor
+      AnchorSideTop.Control = cbShortcutColor
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = cbBackgroundColor
+      AnchorSideRight.Side = asrBottom
+      Left = 160
+      Height = 22
+      Top = 85
+      Width = 200
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 6
+      Constraints.MinWidth = 100
+      ItemHeight = 16
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 5
+    end
+    object btnNormalTextColor: TButton
+      Tag = 3
+      AnchorSideLeft.Control = cbNormalTextColor
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbNormalTextColor
+      AnchorSideBottom.Control = cbNormalTextColor
+      AnchorSideBottom.Side = asrBottom
+      Left = 366
+      Height = 22
+      Top = 85
+      Width = 28
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Left = 6
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnChooseColorClick
+      TabOrder = 6
+    end
+    object lblSecondaryTextColor: TLabel
+      Tag = 4
+      AnchorSideTop.Control = cbSecondaryTextColor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblShortcutColor
+      AnchorSideRight.Side = asrBottom
+      Left = 46
+      Height = 15
+      Top = 117
+      Width = 110
+      Anchors = [akTop, akRight]
+      Caption = 'Secondary text color:'
+      FocusControl = cbSecondaryTextColor
+      ParentColor = False
+    end
+    object cbSecondaryTextColor: TColorBox
+      Tag = 4
+      AnchorSideLeft.Control = cbBackgroundColor
+      AnchorSideTop.Control = cbNormalTextColor
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = cbBackgroundColor
+      AnchorSideRight.Side = asrBottom
+      Left = 160
+      Height = 22
+      Top = 113
+      Width = 200
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 6
+      Constraints.MinWidth = 100
+      ItemHeight = 16
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 7
+    end
+    object btnSecondaryTextColor: TButton
+      Tag = 4
+      AnchorSideLeft.Control = cbSecondaryTextColor
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbSecondaryTextColor
+      AnchorSideBottom.Control = cbSecondaryTextColor
+      AnchorSideBottom.Side = asrBottom
+      Left = 366
+      Height = 22
+      Top = 113
+      Width = 28
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Left = 6
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnChooseColorClick
+      TabOrder = 8
+    end
+    object lblFoundTextColor: TLabel
+      Tag = 5
+      AnchorSideTop.Control = cbFoundTextColor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblShortcutColor
+      AnchorSideRight.Side = asrBottom
+      Left = 67
+      Height = 15
+      Top = 143
+      Width = 89
+      Anchors = [akTop, akRight]
+      Caption = 'Found text color:'
+      FocusControl = cbFoundTextColor
+      ParentColor = False
+    end
+    object cbFoundTextColor: TColorBox
+      Tag = 5
+      AnchorSideLeft.Control = cbBackgroundColor
+      AnchorSideTop.Control = cbSecondaryTextColor
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = cbBackgroundColor
+      AnchorSideRight.Side = asrBottom
+      Left = 160
+      Height = 22
+      Top = 139
+      Width = 200
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 4
+      ItemHeight = 16
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 9
+    end
+    object btnFoundTextColor: TButton
+      Tag = 5
+      AnchorSideLeft.Control = btnNormalTextColor
+      AnchorSideTop.Control = cbFoundTextColor
+      AnchorSideBottom.Control = cbFoundTextColor
+      AnchorSideBottom.Side = asrBottom
+      Left = 366
+      Height = 22
+      Top = 139
+      Width = 28
+      Anchors = [akLeft, akBottom]
+      BorderSpacing.Right = 10
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnChooseColorClick
+      TabOrder = 10
+    end
+    object lblUnselectableTextColor: TLabel
+      Tag = 6
+      AnchorSideTop.Control = cbUnselectableTextColor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblShortcutColor
+      AnchorSideRight.Side = asrBottom
+      Left = 34
+      Height = 15
+      Top = 169
+      Width = 122
+      Anchors = [akTop, akRight]
+      Caption = 'Unselectable text color:'
+      FocusControl = cbUnselectableTextColor
+      ParentColor = False
+    end
+    object cbUnselectableTextColor: TColorBox
+      Tag = 6
+      AnchorSideLeft.Control = cbBackgroundColor
+      AnchorSideTop.Control = cbFoundTextColor
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = cbBackgroundColor
+      AnchorSideRight.Side = asrBottom
+      Left = 160
+      Height = 22
+      Top = 165
+      Width = 200
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 4
+      ItemHeight = 16
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 11
+    end
+    object btnUnselectableTextColor: TButton
+      Tag = 6
+      AnchorSideLeft.Control = btnNormalTextColor
+      AnchorSideTop.Control = cbUnselectableTextColor
+      AnchorSideBottom.Control = cbUnselectableTextColor
+      AnchorSideBottom.Side = asrBottom
+      Left = 366
+      Height = 22
+      Top = 165
+      Width = 28
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Right = 10
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnChooseColorClick
+      TabOrder = 12
+    end
+    object lblCursorColor: TLabel
+      Tag = 7
+      AnchorSideTop.Control = cbCursorColor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblShortcutColor
+      AnchorSideRight.Side = asrBottom
+      Left = 88
+      Height = 15
+      Top = 195
+      Width = 68
+      Anchors = [akTop, akRight]
+      Caption = 'Cursor color:'
+      FocusControl = cbCursorColor
+      ParentColor = False
+    end
+    object cbCursorColor: TColorBox
+      Tag = 7
+      AnchorSideLeft.Control = cbBackgroundColor
+      AnchorSideTop.Control = cbUnselectableTextColor
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = cbBackgroundColor
+      AnchorSideRight.Side = asrBottom
+      Left = 160
+      Height = 22
+      Top = 191
+      Width = 200
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 4
+      ItemHeight = 16
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 13
+    end
+    object btnCursorColor: TButton
+      Tag = 7
+      AnchorSideLeft.Control = btnNormalTextColor
+      AnchorSideTop.Control = cbCursorColor
+      AnchorSideBottom.Control = cbCursorColor
+      AnchorSideBottom.Side = asrBottom
+      Left = 366
+      Height = 22
+      Top = 191
+      Width = 28
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Right = 10
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnChooseColorClick
+      TabOrder = 14
+    end
+    object lblShortcutUnderCursor: TLabel
+      Tag = 8
+      AnchorSideTop.Control = cbShortcutUnderCursor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblShortcutColor
+      AnchorSideRight.Side = asrBottom
+      Left = 38
+      Height = 15
+      Top = 221
+      Width = 118
+      Anchors = [akTop, akRight]
+      Caption = 'Shortcut under cursor:'
+      FocusControl = cbShortcutUnderCursor
+      ParentColor = False
+    end
+    object cbShortcutUnderCursor: TColorBox
+      Tag = 8
+      AnchorSideLeft.Control = cbBackgroundColor
+      AnchorSideTop.Control = cbCursorColor
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = cbBackgroundColor
+      AnchorSideRight.Side = asrBottom
+      Left = 160
+      Height = 22
+      Top = 217
+      Width = 200
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 4
+      ItemHeight = 16
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 15
+    end
+    object btnShortcutUnderCursor: TButton
+      Tag = 8
+      AnchorSideLeft.Control = cbShortcutUnderCursor
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbShortcutUnderCursor
+      AnchorSideBottom.Control = cbShortcutUnderCursor
+      AnchorSideBottom.Side = asrBottom
+      Left = 366
+      Height = 22
+      Top = 217
+      Width = 28
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Left = 6
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnChooseColorClick
+      TabOrder = 16
+    end
+    object lblNormalTextUnderCursor: TLabel
+      Tag = 9
+      AnchorSideTop.Control = cbNormalTextUnderCursor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblShortcutColor
+      AnchorSideRight.Side = asrBottom
+      Left = 21
+      Height = 15
+      Top = 247
+      Width = 135
+      Anchors = [akTop, akRight]
+      Caption = 'Normal text under cursor:'
+      FocusControl = cbNormalTextUnderCursor
+      ParentColor = False
+    end
+    object cbNormalTextUnderCursor: TColorBox
+      Tag = 9
+      AnchorSideLeft.Control = cbBackgroundColor
+      AnchorSideTop.Control = cbShortcutUnderCursor
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = cbBackgroundColor
+      AnchorSideRight.Side = asrBottom
+      Left = 160
+      Height = 22
+      Top = 243
+      Width = 200
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 4
+      ItemHeight = 16
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 17
+    end
+    object btnNormalTextUnderCursor: TButton
+      Tag = 9
+      AnchorSideLeft.Control = cbNormalTextUnderCursor
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbNormalTextUnderCursor
+      AnchorSideBottom.Control = cbNormalTextUnderCursor
+      AnchorSideBottom.Side = asrBottom
+      Left = 366
+      Height = 22
+      Top = 243
+      Width = 28
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Left = 6
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnChooseColorClick
+      TabOrder = 18
+    end
+    object lblSecondaryTextUnderCursor: TLabel
+      Tag = 10
+      AnchorSideTop.Control = cbSecondaryTextUnderCursor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblShortcutColor
+      AnchorSideRight.Side = asrBottom
+      Left = 6
+      Height = 15
+      Top = 275
+      Width = 150
+      Anchors = [akTop, akRight]
+      Caption = 'Secondary text under cursor:'
+      FocusControl = cbSecondaryTextUnderCursor
+      ParentColor = False
+    end
+    object cbSecondaryTextUnderCursor: TColorBox
+      Tag = 10
+      AnchorSideLeft.Control = cbBackgroundColor
+      AnchorSideTop.Control = cbNormalTextUnderCursor
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = cbBackgroundColor
+      AnchorSideRight.Side = asrBottom
+      Left = 160
+      Height = 22
+      Top = 271
+      Width = 200
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 6
+      Constraints.MinWidth = 100
+      ItemHeight = 16
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 19
+    end
+    object btnSecondaryTextUnderCursor: TButton
+      Tag = 10
+      AnchorSideLeft.Control = cbSecondaryTextUnderCursor
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbSecondaryTextUnderCursor
+      AnchorSideBottom.Control = cbSecondaryTextUnderCursor
+      AnchorSideBottom.Side = asrBottom
+      Left = 366
+      Height = 22
+      Top = 271
+      Width = 28
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Left = 6
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnChooseColorClick
+      TabOrder = 20
+    end
+    object lblFoundTextUnderCursor: TLabel
+      Tag = 11
+      AnchorSideTop.Control = cbFoundTextUnderCursor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblShortcutColor
+      AnchorSideRight.Side = asrBottom
+      Left = 27
+      Height = 15
+      Top = 301
+      Width = 129
+      Anchors = [akTop, akRight]
+      Caption = 'Found text under cursor:'
+      FocusControl = cbFoundTextUnderCursor
+      ParentColor = False
+    end
+    object cbFoundTextUnderCursor: TColorBox
+      Tag = 11
+      AnchorSideLeft.Control = cbBackgroundColor
+      AnchorSideTop.Control = cbSecondaryTextUnderCursor
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = cbBackgroundColor
+      AnchorSideRight.Side = asrBottom
+      Left = 160
+      Height = 22
+      Top = 297
+      Width = 200
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 4
+      ItemHeight = 16
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 21
+    end
+    object btnFoundTextUnderCursor: TButton
+      Tag = 11
+      AnchorSideLeft.Control = cbFoundTextUnderCursor
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbFoundTextUnderCursor
+      AnchorSideBottom.Control = cbFoundTextUnderCursor
+      AnchorSideBottom.Side = asrBottom
+      Left = 366
+      Height = 22
+      Top = 297
+      Width = 28
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Left = 6
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnChooseColorClick
+      TabOrder = 22
+    end
+    object lblUnselectableUnderCursor: TLabel
+      Tag = 12
+      AnchorSideTop.Control = cbUnselectableUnderCursor
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblShortcutColor
+      AnchorSideRight.Side = asrBottom
+      Left = 16
+      Height = 15
+      Top = 327
+      Width = 140
+      Anchors = [akTop, akRight]
+      Caption = 'Unselectable under cursor:'
+      FocusControl = cbUnselectableUnderCursor
+      ParentColor = False
+    end
+    object cbUnselectableUnderCursor: TColorBox
+      Tag = 12
+      AnchorSideLeft.Control = cbBackgroundColor
+      AnchorSideTop.Control = cbFoundTextUnderCursor
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = cbBackgroundColor
+      AnchorSideRight.Side = asrBottom
+      Left = 160
+      Height = 22
+      Top = 323
+      Width = 200
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 4
+      ItemHeight = 16
+      OnChange = RefreshColorOfOurSampleClick
+      TabOrder = 23
+    end
+    object btnUnselectableUnderCursor: TButton
+      Tag = 12
+      AnchorSideLeft.Control = cbUnselectableUnderCursor
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbUnselectableUnderCursor
+      AnchorSideBottom.Control = cbUnselectableUnderCursor
+      AnchorSideBottom.Side = asrBottom
+      Left = 366
+      Height = 22
+      Top = 323
+      Width = 28
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Left = 6
+      BorderSpacing.InnerBorder = 4
+      Caption = '>>'
+      OnClick = btnChooseColorClick
+      TabOrder = 24
+    end
+    object lblPreview: TLabel
+      AnchorSideLeft.Control = TreeViewMenuSample
+      AnchorSideTop.Control = cbkUsageKeyboardShortcut
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = TreeViewMenuSample
+      AnchorSideRight.Side = asrBottom
+      Left = 404
+      Height = 15
+      Top = 8
+      Width = 147
+      Alignment = taCenter
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'Tree View Menu Preview:'
+      Color = clInactiveCaption
+      ParentColor = False
+      Transparent = False
+    end
+    object TreeViewMenuSample: TTreeView
+      AnchorSideLeft.Control = btnNormalTextColor
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblPreview
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbLayoutAndColors
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = gbLayoutAndColors
+      AnchorSideBottom.Side = asrBottom
+      Left = 404
+      Height = 322
+      Hint = 'Change color on left and you''ll see here a preview of what your Tree View Menus will look likes with this sample.'
+      Top = 23
+      Width = 147
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Left = 10
+      BackgroundColor = clBtnFace
+      Color = clBtnFace
+      DefaultItemHeight = 18
+      ReadOnly = True
+      ScrollBars = ssNone
+      TabOrder = 25
+      Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+    end
+  end
+  object optColorDialog: TColorDialog[1]
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    left = 488
+    top = 288
+  end
+end
