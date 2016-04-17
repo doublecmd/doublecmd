@@ -49,7 +49,7 @@ interface
 
 uses
   Classes, SysUtils, StrUtils, ID3v2,
-  LazUTF8, DCClassesUtf8, DCBasicTypes, DCOSUtils;
+  DCClassesUtf8, DCBasicTypes, DCOSUtils;
 
 const
   META_STREAMINFO      = 0;
@@ -77,7 +77,7 @@ type
   private
 
     FHeader: TFlacHeader;
-    FFileName: UnicodeString;
+    FFileName: String;
     FPaddingIndex: integer;
     FPaddingLast: boolean;
     FPaddingFragments: boolean;
@@ -109,10 +109,10 @@ type
     function FGetRatio: Double;
     function FGetChannelMode: string;
 
-    function GetInfo( sFile: UnicodeString; bSetTags: boolean ): boolean;
+    function GetInfo( sFile: String; bSetTags: boolean ): boolean;
     procedure AddMetaDataOther( aMetaHeader: array of Byte; stream: TFileStreamEx; const iBlocklength,iIndex: integer );
     procedure ReadTag( Source: TFileStreamEx; bSetTagFields: boolean );
-    function RebuildFile( const sFile: UnicodeString; VorbisBlock: TStringStream ): Boolean;
+    function RebuildFile( const sFile: String; VorbisBlock: TStringStream ): Boolean;
 
   public
 
@@ -152,9 +152,9 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    function ReadFromFile( const sFile: UnicodeString ): boolean;
-    function SaveToFile( const sFile: UnicodeString; const bBasicOnly: boolean = false ): boolean;
-    function RemoveFromFile( const sFile: UnicodeString ):boolean;
+    function ReadFromFile( const sFile: String ): boolean;
+    function SaveToFile( const sFile: String; const bBasicOnly: boolean = false ): boolean;
+    function RemoveFromFile( const sFile: String ):boolean;
     procedure AddExtraField(const sID, sValue: string);
 
     property Channels: Byte read FChannels;                     // Number of channels
@@ -169,7 +169,7 @@ type
     property ChannelMode: string read FGetChannelMode;
     property Exists: boolean read FExists;
     property Vendor: string read FVendor;
-    property FileName: UnicodeString read FFileName;
+    property FileName: String read FFileName;
     property AudioOffset: integer read FAudioOffset;           //offset of audio data
     property HasLyrics: boolean read FGetHasLyrics;
   end;
@@ -319,7 +319,7 @@ end;
 
 (* -------------------------------------------------------------------------- *)
 
-function TFLACfile.ReadFromFile( const sFile: UnicodeString ): boolean;
+function TFLACfile.ReadFromFile( const sFile: String ): boolean;
 begin
   FResetData( false, true );
   result := GetInfo( sFile, true );
@@ -327,7 +327,7 @@ end;
 
 (* -------------------------------------------------------------------------- *)
 
-function TFLACfile.GetInfo( sFile: UnicodeString; bSetTags: boolean ): boolean;
+function TFLACfile.GetInfo( sFile: String; bSetTags: boolean ): boolean;
 var
   SourceFile: TFileStreamEx;
   aMetaDataBlockHeader: array[1..4] of byte;
@@ -343,7 +343,7 @@ begin
     FID3v2.ReadFromFile(sFile);
 
     // Set read-access and open file
-    SourceFile := TFileStreamEx.Create(UTF16ToUTF8(sFile), fmOpenRead or fmShareDenyWrite);
+    SourceFile := TFileStreamEx.Create(sFile, fmOpenRead or fmShareDenyWrite);
     FFileLength := SourceFile.Size;
     FFileName := sFile;
 
@@ -549,7 +549,7 @@ end;
 
 (* -------------------------------------------------------------------------- *)
 
-function TFLACfile.SaveToFile( const sFile: UnicodeString; const bBasicOnly: boolean = false ): boolean;
+function TFLACfile.SaveToFile( const sFile: String; const bBasicOnly: boolean = false ): boolean;
 var
   i, iFieldCount, iSize: Integer;
   VorbisBlock, Tag: TStringStream;
@@ -640,7 +640,7 @@ end;
 
 (* -------------------------------------------------------------------------- *)
 
-function TFLACfile.RemoveFromFile( const sFile: UnicodeString ):boolean;
+function TFLACfile.RemoveFromFile( const sFile: String ):boolean;
 begin
   FResetData( false, true );
   result := SaveToFile( sFile );
@@ -650,10 +650,9 @@ end;
 (* -------------------------------------------------------------------------- *)
 // saves metablocks back to the file
 // always tries to rebuild header so padding exists after comment block and no more than 1 padding block exists
-function TFLACfile.RebuildFile( const sFile: UnicodeString; VorbisBlock: TStringStream ): Boolean;
+function TFLACfile.RebuildFile( const sFile: String; VorbisBlock: TStringStream ): Boolean;
 var
   iFileAge: TFileTime;
-  FileNameUtf8: String;
   Source, Destination: TFileStreamEx;
   i, iNewPadding, iMetaCount, iExtraPadding: Integer;
   BufferName, sTmp: string;
@@ -666,12 +665,11 @@ begin
   result := false;
   bRearange := false;
   iExtraPadding := 0;
-  FileNameUtf8:= UTF16ToUTF8(sFile);
-  if (not mbFileExists(FileNameUtf8)) or (mbFileSetAttr(FileNameUtf8, 0) <> 0) then exit;
+  if (not mbFileExists(FileName)) or (mbFileSetAttr(FileName, 0) <> 0) then exit;
 
   try
     iFileAge := 0;
-    if bTAG_PreserveDate then iFileAge := mbFileAge( FileNameUtf8 );
+    if bTAG_PreserveDate then iFileAge := mbFileAge( FileName );
 
     // re arrange other metadata in case of
     // 1. padding block is not aligned after vorbis comment
@@ -699,8 +697,8 @@ begin
     // set up file
     if (FPadding <= VorbisBlock.Size - FTagSize ) then begin // no room rebuild the file from scratch
        bRebuild := true;
-       BufferName := FileNameUtf8 + '~';
-       Source := TFileStreamEx.Create( FileNameUtf8, fmOpenRead ); // Set read-only and open old file, and create new
+       BufferName := FileName + '~';
+       Source := TFileStreamEx.Create( FileName, fmOpenRead ); // Set read-only and open old file, and create new
        Destination := TFileStreamEx.Create( BufferName, fmCreate );
        Source.Read( oldHeader, sizeof( oldHeader ) );
        oldHeader.MetaDataBlockHeader[ 1 ] := (oldHeader.MetaDataBlockHeader[ 1 ] and $7f ); //just in case no metadata existed
@@ -709,7 +707,7 @@ begin
     end else begin
        bRebuild := false;
        Source := nil;
-       Destination := TFileStreamEx.Create( FileNameUtf8, fmOpenWrite); // Set write-access and open file
+       Destination := TFileStreamEx.Create( FileName, fmOpenWrite); // Set write-access and open file
        if bRearange then begin
           Destination.Seek( SizeOf( FHeader ), soFromBeginning );
           Destination.CopyFrom( MetaBlocks, 0 );
@@ -756,7 +754,7 @@ begin
        Destination.CopyFrom( Source, Source.Size - FAudioOffset );
        Source.Free;
        Destination.Free;
-       if ( mbDeleteFile( FileNameUtf8 ) ) and ( mbRenameFile( BufferName, FileNameUtf8 ) ) then begin //Replace old file and delete temporary file
+       if ( mbDeleteFile( FileName ) ) and ( mbRenameFile( BufferName, FileName ) ) then begin //Replace old file and delete temporary file
           result := true
        end else begin
           raise Exception.Create('');
@@ -767,7 +765,7 @@ begin
     end;
 
     // post save tasks
-    if bTAG_PreserveDate then mbFileSetTime( FileNameUtf8, iFileAge );
+    if bTAG_PreserveDate then mbFileSetTime( FileName, iFileAge );
     if bRearange then FreeAndNil( MetaBlocks );
 
   except
