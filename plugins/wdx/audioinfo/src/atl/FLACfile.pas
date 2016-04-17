@@ -665,7 +665,7 @@ begin
   result := false;
   bRearange := false;
   iExtraPadding := 0;
-  if (not mbFileExists(FileName)) or (mbFileSetAttr(FileName, 0) <> 0) then exit;
+  if (not mbFileExists(FileName)) or (not mbFileSetReadOnly(FileName, False)) then exit;
 
   try
     iFileAge := 0;

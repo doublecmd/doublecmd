@@ -35,7 +35,7 @@ unit WMAfile;
 interface
 
 uses
-  Classes, SysUtils, LazUTF8, DCClassesUtf8;
+  Classes, SysUtils, DCClassesUtf8;
 
 const
   { Channel modes }
@@ -69,7 +69,7 @@ type
     public
       { Public declarations }
       constructor Create;                                     { Create object }
-      function ReadFromFile(const FileName: UnicodeString): Boolean;     { Load data }
+      function ReadFromFile(const FileName: String): Boolean;     { Load data }
       property Valid: Boolean read FValid;               { True if valid data }
       property FileSize: Integer read FFileSize;          { File size (bytes) }
       property ChannelModeID: Byte read FChannelModeID;   { Channel mode code }
@@ -237,7 +237,7 @@ end;
 
 { --------------------------------------------------------------------------- }
 
-function ReadData(const FileName: UnicodeString; var Data: FileData): Boolean;
+function ReadData(const FileName: String; var Data: FileData): Boolean;
 var
   Source: TFileStreamEx;
   ID: ObjectID;
@@ -245,7 +245,7 @@ var
 begin
   { Read file data }
   try
-    Source := TFileStreamEx.Create(UTF16ToUTF8(FileName), fmOpenRead or fmShareDenyWrite);
+    Source := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyWrite);
     Data.FileSize := Source.Size;
     { Check for existing header }
     Source.ReadBuffer(ID, SizeOf(ID));
@@ -334,7 +334,7 @@ end;
 
 { --------------------------------------------------------------------------- }
 
-function TWMAfile.ReadFromFile(const FileName: UnicodeString): Boolean;
+function TWMAfile.ReadFromFile(const FileName: String): Boolean;
 var
   Data: FileData;
 begin

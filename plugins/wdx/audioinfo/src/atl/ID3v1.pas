@@ -447,7 +447,7 @@ begin
     if bTAG_PreserveDate then iFileAge := mbFileAge(FileName);
 
     // Allow write-access and open file
-    mbFileSetAttr(FileName, 0);
+    mbFileSetReadOnly(FileName, False);
     SourceFile := TFileStreamEx.Create(FileName, fmOpenReadWrite or fmShareDenyWrite);
 
     // Write lyrics2
@@ -585,7 +585,7 @@ begin
 
        Result := true;
        // Allow write-access and open file
-       mbFileSetAttr(FileName, 0);
+       mbFileSetReadOnly(FileName, False);
        SourceFile := TFileStreamEx.Create(FileName, fmOpenReadWrite or fmShareDenyWrite);
 
        // Delete id3v1

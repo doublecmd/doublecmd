@@ -452,7 +452,7 @@ var
 begin
   { Replace old tag with new tag data }
   Result := false;
-  if (not mbFileExists(FileName)) or (mbFileSetAttr(FileName, 0) <> 0) then exit;
+  if (not mbFileExists(FileName)) or (not mbFileSetReadOnly(FileName, False)) then exit;
   try
     TagData.Position := 0;
     Destination := TFileStreamEx.Create(FileName, fmOpenReadWrite);
@@ -474,7 +474,7 @@ var
 begin
   { Rebuild file with old file data and new tag data (optional) }
   Result := false;
-  if (not mbFileExists(FileName)) or (mbFileSetAttr(FileName, 0) <> 0) then exit;
+  if (not mbFileExists(FileName)) or (not mbFileSetReadOnly(FileName, False)) then exit;
   if not ReadHeader(FileName, Tag) then exit;
   if (TagData = nil) and (Tag.ID <> ID3V2_ID) then exit;
   try
