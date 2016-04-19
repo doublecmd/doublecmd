@@ -2259,10 +2259,9 @@ begin
 
     if Assigned(theFilesToDelete) then
     try
+      if (theFilesToDelete.Count = 0) then Exit;
       Message:= frmMain.GetFileDlgStr(MsgDelSel,MsgDelFlDr,theFilesToDelete);
-      if (theFilesToDelete.Count > 0) and
-         ((not bConfirmation) or
-         (ShowDeleteDialog(Message, FileSource, QueueId))) then
+      if (bConfirmation = False) or (ShowDeleteDialog(Message, FileSource, QueueId)) then
       begin
         if FileSource.IsClass(TFileSystemFileSource) and
            frmMain.NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
@@ -2300,8 +2299,7 @@ begin
       end;
 
     finally
-      if Assigned(theFilesToDelete) then
-        FreeAndNil(theFilesToDelete);
+      FreeAndNil(theFilesToDelete);
     end;
   end;
 end;
