@@ -1,8 +1,9 @@
 library Zip;
 
-
-
 uses
+{$IFDEF UNIX}
+  cthreads,
+{$ENDIF}
   FPCAdds,
   SysUtils,
   Classes,
@@ -34,6 +35,6 @@ exports
 
 begin
 {$IFDEF UNIX}
-WriteLN('Zip plugin is loaded');
+  WriteLn('Zip plugin is loaded');
 {$ENDIF}
 end.
