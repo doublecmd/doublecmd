@@ -46,7 +46,7 @@ unit APEtag;
 interface
 
 uses
-  Dialogs, Classes, SysUtils, DCClassesUtf8;
+  Classes, SysUtils, DCClassesUtf8;
 
 const
   { Tag ID }
