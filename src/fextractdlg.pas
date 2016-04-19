@@ -95,11 +95,11 @@ end;
 procedure ShowExtractDlg(SourceFileSource: IFileSource; var SourceFiles: TFiles;
                          TargetFileSource: IFileSource; sDestPath: String);
 var
-  I: integer;
+  Result: Boolean;
+  I, Count: Integer;
+  extractDialog: TfrmExtractDlg;
   Operation: TFileSourceOperation;
   ArchiveFileSource: IArchiveFileSource;
-  extractDialog: TfrmExtractDlg;
-  Result: boolean;
 begin
   if not TargetFileSource.IsClass(TFileSystemFileSource) then
   begin
@@ -112,6 +112,7 @@ begin
     try
       with extractDialog do
       begin
+        Count := SourceFiles.Count;
         edtExtractTo.Text := sDestPath;
 
         if SourceFileSource.IsClass(TArchiveFileSource) then
@@ -120,7 +121,7 @@ begin
         EnableControl(edtPassword, False);
 
         // If one archive is selected
-        if (SourceFiles.Count = 1) then
+        if (Count = 1) then
         begin
           FArcType:= SourceFiles[0].Extension;
           SwitchOptions;
@@ -160,14 +161,14 @@ begin
           // if filesystem
           if SourceFileSource.IsClass(TFileSystemFileSource) then
           begin
-            for I := 0 to SourceFiles.Count - 1 do // extract all selected archives
+            for I := 0 to Count - 1 do // extract all selected archives
             begin
               try
                 // Check if there is a ArchiveFileSource for possible archive.
                 ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i]);
 
                 // Extract current item, if files count > 1 then put to queue
-                if (I > 0) and (QueueIdentifier = FreeOperationsQueueId) then
+                if (Count > 1) and (QueueIdentifier = FreeOperationsQueueId) then
                   ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath, SingleQueueId)
                 else
                   ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath, QueueIdentifier);
