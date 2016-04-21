@@ -100,6 +100,7 @@ var
   extractDialog: TfrmExtractDlg;
   Operation: TFileSourceOperation;
   ArchiveFileSource: IArchiveFileSource;
+  QueueId: TOperationsManagerQueueIdentifier;
 begin
   if not TargetFileSource.IsClass(TFileSystemFileSource) then
   begin
@@ -161,18 +162,21 @@ begin
           // if filesystem
           if SourceFileSource.IsClass(TFileSystemFileSource) then
           begin
-            for I := 0 to Count - 1 do // extract all selected archives
+            // if archives count > 1 then put to queue
+            if (Count > 1) and (QueueIdentifier = FreeOperationsQueueId) then
+              QueueId := OperationsManager.GetNewQueueIdentifier
+            else begin
+              QueueId := QueueIdentifier;
+            end;
+            // extract all selected archives
+            for I := 0 to Count - 1 do
             begin
               try
                 // Check if there is a ArchiveFileSource for possible archive.
                 ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i]);
 
-                // Extract current item, if files count > 1 then put to queue
-                if (Count > 1) and (QueueIdentifier = FreeOperationsQueueId) then
-                  ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath, SingleQueueId)
-                else
-                  ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath, QueueIdentifier);
-
+                // Extract current item
+                ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath, QueueId);
               except
                 on E: Exception do
                 begin
