@@ -28,9 +28,9 @@ Depends: doublecmd-common (= ${source:Version}),
 Provides: doublecmd
 Conflicts: doublecmd
 Replaces: doublecmd,
-          doublecmd-gtk-dbg (<< 0.7.1-2~),
-          doublecmd-qt-dbg (<< 0.7.1-2~)
-Breaks: doublecmd-gtk-dbg (<< 0.7.1-2~), doublecmd-qt-dbg (<< 0.7.1-2~)
+          doublecmd-gtk-dbg (<< 0.8.0~0+svn6771),
+          doublecmd-qt-dbg (<< 0.8.0~0+svn6771)
+Breaks: doublecmd-gtk-dbg (<< 0.8.0~0+svn6771), doublecmd-qt-dbg (<< 0.8.0~0+svn6771)
 Description: twin-panel (commander-style) file manager (GTK2)
  Double Commander is a cross platform open source file manager
  with two panels side by side. It is inspired by Total Commander
@@ -50,9 +50,9 @@ Depends: doublecmd-common (= ${source:Version}),
 Provides: doublecmd
 Conflicts: doublecmd
 Replaces: doublecmd,
-          doublecmd-gtk-dbg (<< 0.7.1-2~),
-          doublecmd-qt-dbg (<< 0.7.1-2~)
-Breaks: doublecmd-gtk-dbg (<< 0.7.1-2~), doublecmd-qt-dbg (<< 0.7.1-2~)
+          doublecmd-gtk-dbg (<< 0.8.0~0+svn6771),
+          doublecmd-qt-dbg (<< 0.8.0~0+svn6771)
+Breaks: doublecmd-gtk-dbg (<< 0.8.0~0+svn6771), doublecmd-qt-dbg (<< 0.8.0~0+svn6771)
 Description: twin-panel (commander-style) file manager (Qt4)
  Double Commander is a cross platform open source file manager
  with two panels side by side. It is inspired by Total Commander
