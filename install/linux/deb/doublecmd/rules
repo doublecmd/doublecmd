@@ -27,15 +27,13 @@ override_dh_install:
 	mkdir -p $(CURDIR)/debian/doublecmd-gtk/usr/lib/doublecmd/plugins
 	mv $(CURDIR)/debian/doublecmd-common/usr/lib/doublecmd/doublecmd $(CURDIR)/debian/doublecmd-gtk/usr/lib/doublecmd/
 	mv $(CURDIR)/debian/doublecmd-common/usr/lib/doublecmd/plugins/wlx $(CURDIR)/debian/doublecmd-gtk/usr/lib/doublecmd/plugins/
-	mkdir -p $(CURDIR)/debian/doublecmd-gtk-dbg/usr/lib/doublecmd
-	mv $(CURDIR)/debian/doublecmd-common/usr/lib/doublecmd/doublecmd.zdli $(CURDIR)/debian/doublecmd-gtk-dbg/usr/lib/doublecmd/
+	mv $(CURDIR)/debian/doublecmd-common/usr/lib/doublecmd/doublecmd.zdli $(CURDIR)/debian/doublecmd-gtk/usr/lib/doublecmd/
 
 	# Separate Qt4-specific files
 	mkdir -p $(CURDIR)/debian/doublecmd-qt/usr/lib/doublecmd/plugins
 	mv $(CURDIR)/debian/doublecmd-qt-temp/usr/lib/doublecmd/doublecmd $(CURDIR)/debian/doublecmd-qt/usr/lib/doublecmd/
 	mv $(CURDIR)/debian/doublecmd-qt-temp/usr/lib/doublecmd/plugins/wlx $(CURDIR)/debian/doublecmd-qt/usr/lib/doublecmd/plugins/
-	mkdir -p $(CURDIR)/debian/doublecmd-qt-dbg/usr/lib/doublecmd
-	mv $(CURDIR)/debian/doublecmd-qt-temp/usr/lib/doublecmd/doublecmd.zdli $(CURDIR)/debian/doublecmd-qt-dbg/usr/lib/doublecmd/
+	mv $(CURDIR)/debian/doublecmd-qt-temp/usr/lib/doublecmd/doublecmd.zdli $(CURDIR)/debian/doublecmd-qt/usr/lib/doublecmd/
 	rm -rf $(CURDIR)/debian/doublecmd-qt-temp/
 
 	# Separate plugins
