@@ -1,3 +1,21 @@
+doublecmd (0.7.1-2) unstable; urgency=medium
+
+  * Remove doublecmd-*-dbg packages, they contained no debug symbols.
+  * Move doublecmd.zdli files from doublecmd-*-dbg packages.
+  * Add breaks/replaces against old doublecmd-*-dbg packages.
+  * Add plugins/wcx/zip/lib/abresstring.rsj to debian/clean.
+  * Update Lintian overrides.
+  * Fix various spelling and grammar errors reported by Lintian.
+
+ -- Graham Inggs <ginggs@debian.org>  Thu, 07 Apr 2016 13:04:12 +0200
+
+doublecmd (0.7.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Drop upstream-fix-arm64-ftbfs.patch, included upstream.
+
+ -- Graham Inggs <ginggs@debian.org>  Tue, 29 Mar 2016 14:56:00 +0200
+
 doublecmd (0.7.0-1) unstable; urgency=medium
 
   * New upstream release:
