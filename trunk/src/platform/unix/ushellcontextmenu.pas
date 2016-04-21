@@ -46,6 +46,7 @@ type
     procedure PackHereSelect(Sender: TObject);
     procedure ExtractHereSelect(Sender: TObject);
     procedure ContextMenuSelect(Sender: TObject);
+    procedure StandardContextMenuSelect(Sender: TObject);
     procedure TemplateContextMenuSelect(Sender: TObject);
     procedure DriveMountSelect(Sender: TObject);
     procedure DriveUnmountSelect(Sender: TObject);
@@ -219,10 +220,6 @@ begin
     UserSelectedCommand := ContextMenuActionList.ExtActionCommand[tag].CloneExtAction;
 
   try
-    (*
-    if SameText(sCmd, sCmdVerbProperties) then
-      ShowFileProperties(FileSource, FFiles);
-    *)
 
     try
       //For the %-Variable replacement that follows it might sounds incorrect to do it with "nil" instead of "aFile",
@@ -235,8 +232,18 @@ begin
     end;
 
   finally
-    if Assigned(UserSelectedCommand) then
-      FreeAndNil(UserSelectedCommand);
+    FreeAndNil(UserSelectedCommand);
+  end;
+end;
+
+procedure TShellContextMenu.StandardContextMenuSelect(Sender: TObject);
+var
+  MenuItem: TMenuItem absolute Sender;
+begin
+  with frmMain.ActiveFrame do
+  begin
+    if SameText(MenuItem.Hint, sCmdVerbProperties) then
+      ShowFileProperties(FileSource, FFiles);
   end;
 end;
 
@@ -634,10 +641,9 @@ end;
 
 constructor TShellContextMenu.Create(Owner: TWinControl; var Files: TFiles; Background: Boolean; UserWishForContextMenu: TUserWishForContextMenu);
 var
+  I: Integer;
   aFile: TFile = nil;
   sl: TStringList = nil;
-  I, iDummy: Integer;
-  sAct, sCmd: String;
   mi, miActions, miSortBy: TMenuItem;
   AddActionsMenu: Boolean = False;
   AddOpenWithMenu: Boolean = False;
@@ -758,8 +764,11 @@ begin
         Self.Items.Add(mi);
 
         // Add "Show file properties"
-        mi:=TMenuItem.Create(Self);
-        mi.Action := frmMain.actFileProperties;
+        mi:= TMenuItem.Create(Self);
+        mi.Hint:= sCmdVerbProperties;
+        mi.Caption:= frmMain.actFileProperties.Caption;
+        mi.ShortCut:= frmMain.actFileProperties.ShortCut;
+        mi.OnClick:= Self.StandardContextMenuSelect;
         Self.Items.Add(mi);
       end;
     end
@@ -842,10 +851,11 @@ begin
       mi.Caption:='-';
       Self.Items.Add(mi);
 
-      mi:=TMenuItem.Create(Self);
-      mi.Caption:= frmMain.actFileProperties.Caption;
+      mi:= TMenuItem.Create(Self);
       mi.Hint:= sCmdVerbProperties;
-      mi.OnClick:= Self.ContextMenuSelect;
+      mi.Caption:= frmMain.actFileProperties.Caption;
+      mi.ShortCut:= frmMain.actFileProperties.ShortCut;
+      mi.OnClick:= Self.StandardContextMenuSelect;
       Self.Items.Add(mi);
     end;
   finally
