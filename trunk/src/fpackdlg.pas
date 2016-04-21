@@ -178,6 +178,8 @@ var
     end;
   end;
 
+var
+  QueueId: TOperationsManagerQueueIdentifier;
 begin
   PackDialog := TfrmPackDlg.Create(nil);
 {$IF DEFINED(LCLGTK2)}
@@ -238,6 +240,13 @@ begin
               // If create separate archives, one per selected file/dir
               if cbCreateSeparateArchives.Checked then
                 try
+                  // If files count > 1 then put to queue
+                  if (Files.Count > 1) and (QueueIdentifier = FreeOperationsQueueId) then
+                    QueueId := OperationsManager.GetNewQueueIdentifier
+                  else begin
+                    QueueId := QueueIdentifier;
+                  end;
+                  // Pack all selected files
                   for I:= 0 to Files.Count - 1 do
                   begin
                     // Fill files to pack
@@ -258,11 +267,8 @@ begin
                           end;
                       end;
 
-                      // Pack current item, if files count > 1 then put to queue
-                      if (I > 0) and (QueueIdentifier = FreeOperationsQueueId) then
-                        Pack(aFiles, SingleQueueId)
-                      else
-                        Pack(aFiles, QueueIdentifier);
+                      // Pack current item
+                      Pack(aFiles, QueueId);
                     finally
                       FreeAndNil(aFile);
                     end;
@@ -298,10 +304,8 @@ begin
 
   finally
     FreeAndNil(PackDialog);
-    if Assigned(Files) then
-      FreeAndNil(Files);
-    if Assigned(aFile) then
-      FreeAndNil(aFile);
+    FreeAndNil(Files);
+    FreeAndNil(aFile);
   end;
 end;
 
