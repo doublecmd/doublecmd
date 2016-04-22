@@ -185,12 +185,13 @@ begin
     for i:=0 to tc-1 do
       begin
         btnS:= TButton.Create(Self);
+        btnS.TabOrder:= i;
         btns.Parent:=pnlSelector;
         btns.Tag:=PtrInt(st.Objects[i]);
-        if i<9 then
-          btns.Caption := '&' + IntToStr(i+1) + ' - ' + noteb.Page[PtrInt(st.Objects[i])].Caption
+        if i < 9 then
+          btns.Caption := IntToStr(i+1) + ' - ' + noteb.Page[PtrInt(st.Objects[i])].Caption
         else
-          btns.Caption := '&0 - ' + noteb.Page[PtrInt(st.Objects[i])].Caption;
+          btns.Caption := '0 - ' + noteb.Page[PtrInt(st.Objects[i])].Caption;
 
         btnS.OnClick := @TabsSelector;
         btnS.OnMouseDown := @TabsSelectorMouseDown;
@@ -273,14 +274,23 @@ end;
 procedure TfrmCopyDlg.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if gShowCopyTabSelectPanel and (edtDst.Focused=false) and (key-49<pnlSelector.ControlCount) then
+  if gShowCopyTabSelectPanel and (Integer(Key) - VK_1 < pnlSelector.ControlCount) then
+  begin
+    if (ssAlt in Shift) or (edtDst.Focused = False) then
     begin
-      if (key>=VK_1) and (Key<=VK_9) then
-         TButton(pnlSelector.Controls[key-49]).Click;
+      if (Key >= VK_1) and (Key <= VK_9) then
+      begin
+        TButton(pnlSelector.Controls[Key - VK_1]).Click;
+        Key := 0;
+      end;
 
-      if key=vk_0 then
+      if (Key = VK_0) and (pnlSelector.ControlCount = 10) then
+      begin
         TButton(pnlSelector.Controls[9]).Click;
+        Key := 0;
+      end;
     end;
+  end;
 
   {$IF lcl_fullversion < 093100}
   case Key of
