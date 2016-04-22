@@ -5,6 +5,9 @@ library ftp;
 {$ENDIF}
 
 uses
+{$IFDEF UNIX}
+  cthreads,
+{$ENDIF}
   FPCAdds, Classes, FtpFunc, FtpUtils, FtpConfDlg
   , ssl_openssl
 {$IF DEFINED(UNIX)}
@@ -50,5 +53,5 @@ exports
 {$R *.res}
 
 begin
-end.
 
+end.
