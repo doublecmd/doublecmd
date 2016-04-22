@@ -113,6 +113,7 @@ type
     procedure FResetData;
 
     function FGetRatio: Double;
+    function FGetChannelMode: string;
 
   public
     { Public declarations }
@@ -122,24 +123,25 @@ type
     function ReadFromFile(const FileName: String): Boolean; { Load header }
 
     property FileSize 	      : int64		read FFileSize;
-		property Valid     	      : boolean	read FValid;
+    property Valid     	      : boolean	read FValid;
     property Version           : integer   read FVersion;
     property VersionStr        : string    read FVersionStr;
-		property Channels  	      : integer	read FChannels;
-		property SampleRate	      : integer	read FSamplerate;
-		property Bits      	      : integer	read FBits;
-		property Bitrate  	      : double		read FBitrate;
-		property Duration		      : double		read FDuration;
-		property PeakLevel 	      : longword	read FPeakLevel;
-		property PeakLevelRatio    : double 	read FPeakLevelRatio;
-		property TotalSamples 	   : int64	   read FTotalSamples;
-		property CompressionMode 	: integer	read FCompressionMode;
-		property CompressionModeStr: string 	read FCompressionModeStr;
+    property Channels  	      : integer	read FChannels;
+    property SampleRate	      : integer	read FSamplerate;
+    property Bits      	      : integer	read FBits;
+    property Bitrate  	      : double		read FBitrate;
+    property Duration		      : double		read FDuration;
+    property PeakLevel 	      : longword	read FPeakLevel;
+    property PeakLevelRatio    : double 	read FPeakLevelRatio;
+    property TotalSamples 	   : int64	   read FTotalSamples;
+    property CompressionMode 	: integer	read FCompressionMode;
+    property CompressionModeStr: string 	read FCompressionModeStr;
+    property ChannelMode: string read FGetChannelMode;  { Channel mode name }
     // FormatFlags, only used with Monkey's <= 3.97
-		property FormatFlags 	   : integer	read FFormatFlags;
-		property HasPeakLevel 	   : boolean	read FHasPeakLevel;
-		property HasSeekElements 	: boolean	read FHasSeekElements;
-		property WavNotStored 	   : boolean	read FWavNotStored;
+    property FormatFlags 	   : integer	read FFormatFlags;
+    property HasPeakLevel 	   : boolean	read FHasPeakLevel;
+    property HasSeekElements 	: boolean	read FHasSeekElements;
+    property WavNotStored 	   : boolean	read FWavNotStored;
     // Tagging
     property ID3v1: TID3v1 read FID3v1;                    { ID3v1 tag data }
     property ID3v2: TID3v2 read FID3v2;                    { ID3v2 tag data }
@@ -375,6 +377,17 @@ begin
     Result := FFileSize / (FTotalSamples * (FChannels * FBits / 8) + 44) * 100
   else
     Result := 0;
+end;
+
+{ --------------------------------------------------------------------------- }
+
+function TMonkey.FGetChannelMode: string;
+begin
+  if FChannels < Length(MONKEY_MODE) then
+    Result:= MONKEY_MODE[FChannels]
+  else begin
+    Result:= EmptyStr;
+  end;
 end;
       
 { --------------------------------------------------------------------------- }
