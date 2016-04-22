@@ -83,6 +83,8 @@ type
   end;
   AField = array of RField;
 
+  { TAPETag }
+
   TAPETag = class
     private
       pField: Afield;
@@ -91,6 +93,16 @@ type
       pSize: Integer;
       function  ReadFooter(sFile: String; var footer: RTagHeader): boolean;
       procedure ReadFields(sFile: String; footer: RTagHeader);
+    private
+      function GetTrack: Word;
+      function GetYear: String;
+      function GetGenre: String;
+      function GetTitle: String;
+      function GetAlbum: String;
+      function GetArtist: String;
+      function GetComment: String;
+      function GetComposer: String;
+      function GetCopyright: String;
     public
       property Exists: Boolean read pExists;              { True if tag found }
       property Version: Integer read pVersion;                  { Tag version }
@@ -106,7 +118,17 @@ type
       procedure   AppendField(name: string ; value: String);
       procedure   SwapFields(pos1, pos2: integer);
       function    SeekField(Field: string): String;
-      procedure ResetData;      
+      procedure ResetData;
+
+      property Title: String read GetTitle;                      { Song title }
+      property Artist: String read GetArtist;                   { Artist name }
+      property Album: String read GetAlbum;                     { Album title }
+      property Track: Word read GetTrack;                      { Track number }
+      property Year: String read GetYear;                      { Release year }
+      property Genre: String read GetGenre;                      { Genre name }
+      property Comment: String read GetComment;                     { Comment }
+      property Composer: String read GetComposer;                  { Composer }
+      property Copyright: String read GetCopyright;               { Copyright }
   end;
 
 implementation
@@ -172,6 +194,60 @@ begin
   end;
 end;
 
+function TAPETag.GetAlbum: String;
+begin
+  Result := SeekField('Album');
+end;
+
+function TAPETag.GetArtist: String;
+begin
+  Result := SeekField('Artist');
+end;
+
+function TAPETag.GetComment: String;
+begin
+  Result := SeekField('Comment');
+end;
+
+function TAPETag.GetComposer: String;
+begin
+  Result := SeekField('Composer');
+end;
+
+function TAPETag.GetCopyright: String;
+begin
+  Result := SeekField('Copyright');
+end;
+
+function TAPETag.GetYear: String;
+begin
+  Result := SeekField('Year');
+end;
+
+function TAPETag.GetGenre: String;
+begin
+  Result := SeekField('Genre');
+end;
+
+function TAPETag.GetTitle: String;
+begin
+  Result := SeekField('Title');
+end;
+
+function TAPETag.GetTrack: Word;
+var
+  TrackString: String;
+  Index, Value, Code: Integer;
+begin
+  { Extract track from string }
+  TrackString := SeekField('Track');
+  Index := Pos('/', TrackString);
+  if Index = 0 then Val(TrackString, Value, Code)
+  else Val(Copy(TrackString, 1, Index - 1), Value, Code);
+  if Code = 0 then Result := Value
+  else Result := 0;
+end;
+
 // ----------------------------------------------------------------------------
 
 procedure TAPETag.ReadFields(sFile: String; footer: RTagHeader);
@@ -208,7 +284,6 @@ try
 except
   end;
 end;
-
 
 //----------------------------------------------------------------------------//
 //                             Public stuff                                   //

@@ -131,6 +131,9 @@ type
 
 implementation
 
+uses
+  LazUTF8, DCConvertEncoding;
+
 const
   { ID3v2 tag ID }
   ID3V2_ID = 'ID3';
@@ -152,7 +155,8 @@ const
   ID3V2_MAX_SIZE = 4096;
 
   { Unicode ID }
-  UNICODE_ID = #1;
+  UTF16_ID = #01;
+  UTF8_ID = #03;
 
 type
   { Frame header (ID3v2.3.x & ID3v2.4.x) }
@@ -235,7 +239,7 @@ begin
       FrameID := ID3V2_FRAME_NEW[Iterator]
     else
       FrameID := ID3V2_FRAME_OLD[Iterator];
-    if (FrameID = ID) and (Data[1] <= UNICODE_ID) then
+    if (FrameID = ID) and (Data[1] <= UTF16_ID) then
       Tag.Frame[Iterator] := Data;
   end;
 end;
@@ -325,28 +329,31 @@ end;
 
 { --------------------------------------------------------------------------- }
 
-function GetANSI(const Source: string): string;
+function GetStringUtf8(const Source: string): string;
 var
   Index: Integer;
-  FirstByte, SecondByte: Byte;
   UnicodeChar: WideChar;
+  WideResult: UnicodeString;
+  FirstByte, SecondByte: Byte;
 begin
   { Convert string from unicode if needed and trim spaces }
-  if (Length(Source) > 0) and (Source[1] = UNICODE_ID) then
+  if (Length(Source) > 0) and (Source[1] = UTF16_ID) then
   begin
-    Result := '';
+    WideResult := '';
     for Index := 1 to ((Length(Source) - 1) div 2) do
     begin
       FirstByte := Ord(Source[Index * 2]);
       SecondByte := Ord(Source[Index * 2 + 1]);
       UnicodeChar := WideChar(FirstByte or (SecondByte shl 8));
       if UnicodeChar = #0 then break;
-      if FirstByte < $FF then Result := Result + AnsiChar(UnicodeChar);
+      if FirstByte < $FF then WideResult := WideResult + UnicodeChar;
     end;
-    Result := Trim(Result);
+    Result := UTF16ToUTF8(Trim(WideResult));
   end
+  else if (Length(Source) > 0) and (Source[1] = UTF8_ID) then
+    Result := Trim(Copy(Source, 2, MaxInt))
   else
-    Result := Trim(Source);
+    Result := CeAnsiToUtf8(Trim(Source));
 end;
 
 { --------------------------------------------------------------------------- }
@@ -354,8 +361,8 @@ end;
 function GetContent(const Content1, Content2: string): string;
 begin
   { Get content preferring the first content }
-  Result := GetANSI(Content1);
-  if Result = '' then Result := GetANSI(Content2);
+  Result := GetStringUtf8(Content1);
+  if Result = '' then Result := GetStringUtf8(Content2);
 end;
 
 { --------------------------------------------------------------------------- }
@@ -366,7 +373,7 @@ var
   Index, Value, Code: Integer;
 begin
   { Extract track from string }
-  Track := GetANSI(TrackString);
+  Track := GetStringUtf8(TrackString);
   Index := Pos('/', Track);
   if Index = 0 then Val(Track, Value, Code)
   else Val(Copy(Track, 1, Index - 1), Value, Code);
@@ -379,8 +386,8 @@ end;
 function ExtractYear(const YearString, DateString: string): string;
 begin
   { Extract year from strings }
-  Result := GetANSI(YearString);
-  if Result = '' then Result := Copy(GetANSI(DateString), 1, 4);
+  Result := GetStringUtf8(YearString);
+  if Result = '' then Result := Copy(GetStringUtf8(DateString), 1, 4);
 end;
 
 { --------------------------------------------------------------------------- }
@@ -388,7 +395,7 @@ end;
 function ExtractGenre(const GenreString: string): string;
 begin
   { Extract genre from string }
-  Result := GetANSI(GenreString);
+  Result := GetStringUtf8(GenreString);
   if Pos(')', Result) > 0 then Delete(Result, 1, LastDelimiter(')', Result));
 end;
 
@@ -405,12 +412,12 @@ begin
   if Length(Source) > 0 then
   begin
     EncodingID := Source[1];
-    if EncodingID = UNICODE_ID then Separator := #0#0
+    if EncodingID = UTF16_ID then Separator := #0#0
     else Separator := #0;
     if LanguageID then  Delete(Source, 1, 4)
     else Delete(Source, 1, 1);
     Delete(Source, 1, Pos(Separator, Source) + Length(Separator) - 1);
-    Result := GetANSI(EncodingID + Source);
+    Result := GetStringUtf8(EncodingID + Source);
   end;
 end;
 
@@ -683,16 +690,16 @@ begin
       FArtist := GetContent(Tag.Frame[2], Tag.Frame[14]);
       FAlbum := GetContent(Tag.Frame[3], Tag.Frame[16]);
       FTrack := ExtractTrack(Tag.Frame[4]);
-      FTrackString := GetANSI(Tag.Frame[4]);
+      FTrackString := GetStringUtf8(Tag.Frame[4]);
       FYear := ExtractYear(Tag.Frame[5], Tag.Frame[13]);
       FGenre := ExtractGenre(Tag.Frame[6]);
       FComment := ExtractText(Tag.Frame[7], true);
-      FComposer := GetANSI(Tag.Frame[8]);
-      FEncoder := GetANSI(Tag.Frame[9]);
-      FCopyright := GetANSI(Tag.Frame[10]);
-      FLanguage := GetANSI(Tag.Frame[11]);
+      FComposer := GetStringUtf8(Tag.Frame[8]);
+      FEncoder := GetStringUtf8(Tag.Frame[9]);
+      FCopyright := GetStringUtf8(Tag.Frame[10]);
+      FLanguage := GetStringUtf8(Tag.Frame[11]);
       FLink := ExtractText(Tag.Frame[12], false);
-      FTSIZ := GetANSI(Tag.Frame[17]);
+      FTSIZ := GetStringUtf8(Tag.Frame[17]);
     end;
   end;
 end;
