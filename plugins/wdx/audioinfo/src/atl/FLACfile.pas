@@ -73,6 +73,8 @@ type
   end;
 
 
+  { TFLACfile }
+
   TFLACfile = class(TObject)
   private
 
@@ -106,6 +108,7 @@ type
     procedure FResetData( const bHeaderInfo, bTagFields :boolean );
     function FIsValid: Boolean;
     function FGetDuration: Double;
+    function FGetTrack: Word;
     function FGetRatio: Double;
     function FGetChannelMode: string;
 
@@ -165,6 +168,7 @@ type
     property Valid: Boolean read FIsValid;                      // True if header valid
     property Duration: Double read FGetDuration;                // Duration (seconds)
     property Ratio: Double read FGetRatio;                      // Compression ratio (%)
+    property Track: Word read FGetTrack;                        // Track number
     property Bitrate: integer read FBitrate;
     property ChannelMode: string read FGetChannelMode;
     property Exists: boolean read FExists;
@@ -267,6 +271,20 @@ begin
   end else begin
      result := 0;
   end;
+end;
+
+(* -------------------------------------------------------------------------- *)
+
+function TFLACfile.FGetTrack: Word;
+var
+  Index, Value, Code: Integer;
+begin
+  { Extract track from string }
+  Index := Pos('/', TrackString);
+  if Index = 0 then Val(TrackString, Value, Code)
+  else Val(Copy(TrackString, 1, Index - 1), Value, Code);
+  if Code = 0 then Result := Value
+  else Result := 0;
 end;
 
 (* -------------------------------------------------------------------------- *)
