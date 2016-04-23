@@ -50,7 +50,9 @@ type
     FTitle,
     FAlbum,
     FArtist,
-    FComment: String;
+    FEncoder,
+    FComment,
+    FComposer: String;
   protected
     procedure ResetData;
     procedure ReadMovieHeader;
@@ -73,6 +75,8 @@ type
     property Artist: String read FArtist;                      { Artist name }
     property Album: String read FAlbum;                        { Album title }
     property Comment: String read FComment;                        { Comment }
+    property Encoder: String read FEncoder;                        { Encoder }
+    property Composer: String read FComposer;                     { Composer }
     property Valid: Boolean read GetValid;              { True if data valid }
   end;
 
@@ -205,16 +209,20 @@ begin
       while FStream.Position < AtomFinish do
       begin
         LoadAtomHeader(AtomName, AtomSize);
-        if SameText(#169'ART', AtomName) then
+        if SameText(#169'art', AtomName) then
           FArtist:= ReadAtomData
-        else if SameText(#169'ALB', AtomName) then
+        else if SameText(#169'alb', AtomName) then
           FAlbum:= ReadAtomData
-        else if SameText(#169'CMT', AtomName) then
+        else if SameText(#169'cmt', AtomName) then
           FComment:= ReadAtomData
-        else if SameText(#169'DAY', AtomName) then
+        else if SameText(#169'day', AtomName) then
           FYear:= ReadAtomData
-        else if SameText(#169'NAM', AtomName) then
+        else if SameText(#169'nam', AtomName) then
           FTitle:= ReadAtomData
+        else if SameText(#169'too', AtomName) then
+          FEncoder:= ReadAtomData
+        else if SameText(#169'wrt', AtomName) then
+          FComposer:= ReadAtomData
         else FStream.Seek(AtomSize, soCurrent);
       end;
     end;

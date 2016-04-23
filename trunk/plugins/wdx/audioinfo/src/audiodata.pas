@@ -316,6 +316,8 @@ begin
     Album:= FMP4file.Album;
     Artist:= FMP4file.Artist;
     Comment:= FMP4file.Comment;
+    Encoder:= FMP4file.Encoder;
+    Composer:= FMP4file.Composer;
   end;
 end;
 
