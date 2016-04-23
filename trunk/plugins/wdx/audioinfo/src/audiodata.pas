@@ -57,6 +57,7 @@ type
     procedure ReadID3v1(ID3v1: TID3v1);
     procedure ReadID3v2(ID3v2: TID3v2);
     procedure ReadAPEtag(APEtag: TAPEtag);
+    function FormatChannels(AChannels: Integer): String;
     function FormatDuration(ADuration: Integer): String;
     procedure UpdateValue(var AValue: Integer; AData: Integer);
     procedure UpdateValue(var AValue: String; const AData: String);
@@ -168,6 +169,16 @@ begin
   end;
 end;
 
+function TAudioData.FormatChannels(AChannels: Integer): String;
+begin
+  case AChannels of
+    0: Result:= 'Unknown';
+    1: Result:= 'Mono';
+    2: Result:= 'Stereo'
+    else Result:= IntToStr(AChannels) + ' ch';
+  end;
+end;
+
 function TAudioData.FormatDuration(ADuration: Integer): String;
 var
   AHour, AMinute, ASecond: Integer;
@@ -194,9 +205,9 @@ begin
   if Result then
   begin
     BitRate:= FDTS.BitRate;
-    // Channels:= FDTS.ChannelMode;
     Duration:= Round(FDTS.Duration);
     DurationHMS:= FormatDuration(Duration);
+    Channels:= FormatChannels(FDTS.Channels);
     SampleRate:= FDTS.SampleRate;
   end;
 end;
@@ -207,9 +218,9 @@ begin
   if Result then
   begin
     BitRate:= FAC3.BitRate;
-    // Channels:= FAC3.ChannelMode;
     Duration:= Round(FAC3.Duration);
     DurationHMS:= FormatDuration(Duration);
+    Channels:= FormatChannels(FAC3.Channels);
     SampleRate:= FAC3.SampleRate;
   end;
 end;
@@ -219,10 +230,10 @@ begin
   Result:= FTTA.ReadFromFile(FFileName) and FTTA.Valid;
   if Result then
   begin
-    // Channels:= FTTA.ChannelMode;
     BitRate:= Round(FTTA.BitRate);
     Duration:= Round(FTTA.Duration);
     DurationHMS:= FormatDuration(Duration);
+    Channels:= FormatChannels(FTTA.Channels);
     SampleRate:= FTTA.SampleRate;
     ReadAPEtag(FTTA.APEtag);
     ReadID3v2(FTTA.ID3v2);
@@ -271,9 +282,9 @@ begin
   begin
     BitRate:= FAACfile.BitRate;
     BitRateType:= FAACfile.BitRateType;
-    // Channels:= FAACfile.ChannelMode;
     Duration:= Round(FAACfile.Duration);
     DurationHMS:= FormatDuration(Duration);
+    Channels:= FormatChannels(FAACfile.Channels);
     SampleRate:= FAACfile.SampleRate;
     ReadID3v2(FAACfile.ID3v2);
     ReadID3v1(FAACfile.ID3v1);
