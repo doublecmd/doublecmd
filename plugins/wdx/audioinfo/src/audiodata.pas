@@ -219,7 +219,7 @@ begin
   if Result then
   begin
     Channels:= FMonkey.ChannelMode;
-    BitRate:= Round(FMonkey.BitRate);
+    BitRate:= Round(FMonkey.BitRate) div 1000000;
     Duration:= Round(FMonkey.Duration);
     DurationHMS:= FormatDuration(Duration);
     SampleRate:= FMonkey.SampleRate;
