@@ -608,7 +608,7 @@ begin
   begin
     Result:= ReadOptimFrog;
   end
-  else if (FileExt = 'm4a') then
+  else if (FileExt = 'mp4') or (FileExt = 'm4a') then
   begin
     Result:= ReadMP4file;
   end

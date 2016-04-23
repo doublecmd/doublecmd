@@ -10,7 +10,8 @@ const
   DETECT_STRING: String = '(EXT="MP3") | (EXT="MP2") | (EXT="MP1") | (EXT="OGG") | (EXT="WMA") | ' +
                           '(EXT="WAV") | (EXT="VQF") | (EXT="AAC") | (EXT="APE") | (EXT="MPC") | ' +
                           '(EXT="FLAC") | (EXT="CDA") | (EXT="TTA") | (EXT="AC3") | (EXT="DTS") | ' +
-                          '(EXT="WV") | (EXT="WVC") | (EXT="OFR") | (EXT="OFS") | (EXT="M4A")';
+                          '(EXT="WV") | (EXT="WVC") | (EXT="OFR") | (EXT="OFS") | (EXT="M4A") | ' +
+                          '(EXT="MP4")';
 
 const
   FIELD_COUNT = 20;
