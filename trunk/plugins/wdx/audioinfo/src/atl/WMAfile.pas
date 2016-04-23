@@ -35,7 +35,7 @@ unit WMAfile;
 interface
 
 uses
-  Classes, SysUtils, DCClassesUtf8;
+  Classes, SysUtils, LazUTF8, DCClassesUtf8;
 
 const
   { Channel modes }
@@ -57,13 +57,13 @@ type
       FSampleRate: Integer;
       FDuration: Double;
       FBitRate: Integer;
-      FTitle: UnicodeString;
-      FArtist: UnicodeString;
-      FAlbum: UnicodeString;
+      FTitle: String;
+      FArtist: String;
+      FAlbum: String;
       FTrack: Integer;
-      FYear: UnicodeString;
-      FGenre: UnicodeString;
-      FComment: UnicodeString;
+      FYear: String;
+      FGenre: String;
+      FComment: String;
       procedure FResetData;
       function FGetChannelMode: string;
     public
@@ -77,13 +77,13 @@ type
       property SampleRate: Integer read FSampleRate;       { Sample rate (hz) }
       property Duration: Double read FDuration;          { Duration (seconds) }
       property BitRate: Integer read FBitRate;              { Bit rate (kbit) }
-      property Title: UnicodeString read FTitle;                    { Song title }
-      property Artist: UnicodeString read FArtist;                 { Artist name }
-      property Album: UnicodeString read FAlbum;                    { Album name }
+      property Title: String read FTitle;                        { Song title }
+      property Artist: String read FArtist;                     { Artist name }
+      property Album: String read FAlbum;                        { Album name }
       property Track: Integer read FTrack;                     { Track number }
-      property Year: UnicodeString read FYear;                            { Year }
-      property Genre: UnicodeString read FGenre;                    { Genre name }
-      property Comment: UnicodeString read FComment;                   { Comment }
+      property Year: String read FYear;                                { Year }
+      property Genre: String read FGenre;                        { Genre name }
+      property Comment: String read FComment;                       { Comment }
   end;
 
 implementation
@@ -352,13 +352,13 @@ begin
     FSampleRate := Data.SampleRate;
     FDuration := Data.FileSize * 8 / Data.MaxBitRate;
     FBitRate := Data.ByteRate * 8 div 1000;
-    FTitle := Trim(Data.Tag[1]);
-    FArtist := Trim(Data.Tag[2]);
-    FAlbum := Trim(Data.Tag[3]);
+    FTitle := UTF16ToUTF8(Trim(Data.Tag[1]));
+    FArtist := UTF16ToUTF8(Trim(Data.Tag[2]));
+    FAlbum := UTF16ToUTF8(Trim(Data.Tag[3]));
     FTrack := ExtractTrack(Trim(Data.Tag[4]));
-    FYear := Trim(Data.Tag[5]);
-    FGenre := Trim(Data.Tag[6]);
-    FComment := Trim(Data.Tag[7]);
+    FYear := UTF16ToUTF8(Trim(Data.Tag[5]));
+    FGenre := UTF16ToUTF8(Trim(Data.Tag[6]));
+    FComment := UTF16ToUTF8(Trim(Data.Tag[7]));
   end;
 end;
 
