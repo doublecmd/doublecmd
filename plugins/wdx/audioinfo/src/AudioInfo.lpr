@@ -144,6 +144,7 @@ begin
    15: Value:= DataAudio.Copyright;
    16: Value:= DataAudio.URL;
    17: Value:= DataAudio.Encoder;
+   18: Value:= DataAudio.Tags;
    19:
      begin
        if UnitIndex = -1 then

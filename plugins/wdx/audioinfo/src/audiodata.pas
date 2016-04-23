@@ -57,6 +57,7 @@ type
     procedure ReadID3v1(ID3v1: TID3v1);
     procedure ReadID3v2(ID3v2: TID3v2);
     procedure ReadAPEtag(APEtag: TAPEtag);
+    procedure AppendTag(const ATag: String);
     function FormatChannels(AChannels: Integer): String;
     function FormatDuration(ADuration: Integer): String;
     procedure UpdateValue(var AValue: Integer; AData: Integer);
@@ -87,7 +88,7 @@ type
     DurationHMS,
     BitRateType,
     Channels,
-    Date, Genre, Comment,
+    Date, Genre, Comment, Tags,
     Encoder, Composer, Copyright, URL, FullText: String;
   public
     constructor Create;
@@ -106,6 +107,7 @@ begin
   Duration:= 0;
   SampleRate:= 0;
   URL:= EmptyStr;
+  Tags:= EmptyStr;
   Date:= EmptyStr;
   Genre:= EmptyStr;
   Title:= EmptyStr;
@@ -132,6 +134,11 @@ begin
     UpdateValue(Genre, ID3v1.Genre);
     UpdateValue(Artist, ID3v1.Artist);
     UpdateValue(Comment, ID3v1.Comment);
+    case ID3v1.VersionID of
+      TAG_VERSION_1_0: AppendTag('ID3v1.0');
+      TAG_VERSION_1_1: AppendTag('ID3v1.1');
+      else AppendTag('ID3v1');
+    end;
   end;
 end;
 
@@ -150,6 +157,12 @@ begin
     UpdateValue(Encoder, ID3v2.Encoder);
     UpdateValue(Composer, ID3v2.Composer);
     UpdateValue(Copyright, ID3v2.Copyright);
+    case ID3v2.VersionID of
+      TAG_VERSION_2_2: AppendTag('ID3v2.2');
+      TAG_VERSION_2_3: AppendTag('ID3v2.3');
+      TAG_VERSION_2_4: AppendTag('ID3v2.4');
+      else AppendTag('ID3v2');
+    end;
   end;
 end;
 
@@ -166,6 +179,16 @@ begin
     UpdateValue(Comment, APEtag.Comment);
     UpdateValue(Composer, APEtag.Composer);
     UpdateValue(Copyright, APEtag.Copyright);
+    AppendTag('APEv' + IntToStr(APEtag.Version div 1000));
+  end;
+end;
+
+procedure TAudioData.AppendTag(const ATag: String);
+begin
+  if Length(Tags) = 0 then
+    Tags:= ATag
+  else begin
+    Tags:= Tags + ' ' + ATag;
   end;
 end;
 
