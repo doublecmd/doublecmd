@@ -310,6 +310,12 @@ begin
     Duration:= Round(FMP4file.Duration);
     DurationHMS:= FormatDuration(Duration);
     Channels:= FormatChannels(FMP4file.Channels);
+
+    Date:= FMP4file.Year;
+    Title:= FMP4file.Title;
+    Album:= FMP4file.Album;
+    Artist:= FMP4file.Artist;
+    Comment:= FMP4file.Comment;
   end;
 end;
 
