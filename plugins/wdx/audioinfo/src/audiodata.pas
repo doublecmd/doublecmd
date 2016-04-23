@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, DCStrUtils, MPEGaudio, Musepack, OggVorbis, ID3v1, ID3v2,
   APEtag, FLACfile, Monkey, AACfile, CDAtrack, WMAfile, WAVfile, TTA, TwinVQ,
-  AC3, DTS, WAVPackfile, OptimFROG;
+  AC3, DTS, WAVPackfile, OptimFROG, MP4file;
 
 type
 
@@ -42,6 +42,7 @@ type
     FTTA: TTTA;
     FTwinVQ: TTwinVQ;
     FMonkey: TMonkey;
+    FMP4file: TMP4file;
     FAACfile: TAACfile;
     FWMAfile: TWMAfile;
     FWAVfile: TWAVfile;
@@ -69,6 +70,7 @@ type
     function ReadTTA: Boolean;
     function ReadTwinVQ: Boolean;
     function ReadMonkey: Boolean;
+    function ReadMP4file: Boolean;
     function ReadAACfile: Boolean;
     function ReadWMAfile: Boolean;
     function ReadWAVfile: Boolean;
@@ -298,6 +300,19 @@ begin
   end;
 end;
 
+function TAudioData.ReadMP4file: Boolean;
+begin
+  Result:= FMP4file.ReadFromFile(FFileName) and FMP4file.Valid;
+  if Result then
+  begin
+    SampleRate:= FMP4file.SampleRate;
+    BitRate:= Round(FMP4file.BitRate);
+    Duration:= Round(FMP4file.Duration);
+    DurationHMS:= FormatDuration(Duration);
+    Channels:= FormatChannels(FMP4file.Channels);
+  end;
+end;
+
 function TAudioData.ReadAACfile: Boolean;
 begin
   Result:= FAACfile.ReadFromFile(FFileName) and FAACfile.Valid;
@@ -484,6 +499,7 @@ begin
   FTTA:= TTTA.Create;
   FTwinVQ:= TTwinVQ.Create;
   FMonkey:= TMonkey.Create;
+  FMP4file:= TMP4file.Create;
   FAACfile:= TAACfile.Create;
   FWMAfile:= TWMAfile.Create;
   FWAVfile:= TWAVfile.Create;
@@ -503,6 +519,7 @@ begin
   FTTA.Free;
   FTwinVQ.Free;
   FMonkey.Free;
+  FMP4file.Free;
   FAACfile.Free;
   FWMAfile.Free;
   FWAVfile.Free;
@@ -584,6 +601,10 @@ begin
   else if (FileExt = 'ofr') or (FileExt = 'ofs') then
   begin
     Result:= ReadOptimFrog;
+  end
+  else if (FileExt = 'm4a') then
+  begin
+    Result:= ReadMP4file;
   end
   else Result:= False;
 
