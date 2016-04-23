@@ -159,13 +159,15 @@ type
 
 implementation
 
+uses
+  DCConvertEncoding;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 // Private functions & procedures
 //-----------------------------------------------------------------------------------------------------------------------------------
 procedure TID3v1.FSetTitle(const NewTitle: String);
 begin
-  FTitle := TrimRight(NewTitle);
+  FTitle := CeUtf8ToAnsi(TrimRight(NewTitle));
   if Length( FTitle ) > 30 then begin
      FTitle2 := FTitle;
   end else begin
@@ -176,7 +178,7 @@ end;
 //-----------------------------------------------------------------------------------------------------------------------------------
 procedure TID3v1.FSetArtist(const NewArtist: String);
 begin
-  FArtist := TrimRight(NewArtist);
+  FArtist := CeUtf8ToAnsi(TrimRight(NewArtist));
   if Length( FArtist ) > 30 then begin
      FArtist2 := FArtist;
   end else begin
@@ -186,7 +188,7 @@ end;
 //-----------------------------------------------------------------------------------------------------------------------------------
 procedure TID3v1.FSetAlbum(const NewAlbum: string);
 begin
-  FAlbum := TrimRight(NewAlbum);
+  FAlbum := CeUtf8ToAnsi(TrimRight(NewAlbum));
   if Length( FAlbum ) > 30 then begin
      FAlbum2 := FAlbum;
   end else begin
@@ -201,7 +203,7 @@ end;
 //-----------------------------------------------------------------------------------------------------------------------------------
 procedure TID3v1.FSetComment(const NewComment: string);
 begin
-  FComment := TrimRight(NewComment);
+  FComment := CeUtf8ToAnsi(TrimRight(NewComment));
   if Length( FComment ) > 30 then begin
      FComment2 := FComment;
   end else begin
@@ -250,6 +252,7 @@ begin
   end else begin
      result := FTitle;
   end;
+  Result:= CeAnsiToUtf8(Result);
 end;
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------
 function TID3v1.FGetArtist: string;
@@ -259,6 +262,7 @@ begin
   end else begin
      result := FArtist;
   end;
+  Result:= CeAnsiToUtf8(Result);
 end;
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------
 function TID3v1.FGetAlbum: string;
@@ -268,6 +272,7 @@ begin
   end else begin
      result := FAlbum;
   end;
+  Result:= CeAnsiToUtf8(Result);
 end;
 //-----------------------------------------------------------------------------------------------------------------------------------
 function TID3v1.FGetComment: string;
@@ -277,6 +282,7 @@ begin
   end else begin
      result := FComment;
   end;
+  Result:= CeAnsiToUtf8(Result);
 end;
 //-----------------------------------------------------------------------------------------------------------------------------------
 function TID3v1.FGetGenre: string;
@@ -335,15 +341,15 @@ begin
              FVersionID := TAG_VERSION_1_0;
           end;
 
-          Title  := TrimRight( TagData.Title );
-          Artist := TrimRight( TagData.Artist );
-          Album  := TrimRight( TagData.Album );
-          Year   := TrimRight( TagData.Year );
+          FTitle  := TrimRight( TagData.Title );
+          FArtist := TrimRight( TagData.Artist );
+          FAlbum  := TrimRight( TagData.Album );
+          FYear   := TrimRight( TagData.Year );
 
           if FVersionID = TAG_VERSION_1_0 then begin
-             Comment := TrimRight( TagData.Comment )
+             FComment := TrimRight( TagData.Comment )
           end else begin
-             Comment := TrimRight( Copy( TagData.Comment, 1, 28 ) );
+             FComment := TrimRight( Copy( TagData.Comment, 1, 28 ) );
              FTrack := Ord( TagData.Comment[30] );
           end;
 
@@ -383,15 +389,15 @@ begin
                       Lyrics := StringReplace( Lyrics, #13, #13#10, [rfReplaceAll] );
                       Lyrics := StringReplace( Lyrics, #13#10#10, #13#10, [rfReplaceAll] );
                    end else if Field.ID = 'INF' then begin
-                      Comment := Trim( String( aBuff ) );
+                      FComment2 := Trim( String( aBuff ) );
                    end else if Field.ID = 'AUT' then begin
                       Writer := Trim( String( aBuff ) );
                    end else if Field.ID = 'EAL' then begin
-                      Album := Trim( String( aBuff ) );
+                      FAlbum2 := Trim( String( aBuff ) );
                    end else if Field.ID = 'EAR' then begin
-                      Artist := Trim( String( aBuff ) );
+                      FArtist2 := Trim( String( aBuff ) );
                    end else if Field.ID = 'ETT' then begin
-                      Title := Trim( String( aBuff ) );
+                      FTitle2 := Trim( String( aBuff ) );
                    end else if Field.ID = 'IMG' then begin
                       FIMG := String( aBuff );
                    end else begin
