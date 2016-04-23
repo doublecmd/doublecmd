@@ -137,7 +137,7 @@ procedure TMP4file.ReadMovieHeader;
 var
   AVersion: Byte;
   MediaSize: Int64;
-  ADuration: QWord;
+  ADuration: QWord = 0;
   TimeScale: LongWord = 0;
 begin
   FStream.Seek(0, soBeginning);
@@ -172,6 +172,7 @@ var
   DataType: LongWord;
   Buffer: array[Byte] of AnsiChar;
 begin
+  Result:= EmptyStr;
   if FindAtomHeader('data', @AtomSize) then
   begin
     if AtomSize - 8 > High(Byte) then Exit;
