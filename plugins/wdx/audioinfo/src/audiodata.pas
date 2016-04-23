@@ -28,7 +28,8 @@ interface
 
 uses
   Classes, SysUtils, DCStrUtils, MPEGaudio, Musepack, OggVorbis, ID3v1, ID3v2,
-  APEtag, FLACfile, Monkey, AACfile, CDAtrack, WMAfile, WAVfile, TTA, TwinVQ;
+  APEtag, FLACfile, Monkey, AACfile, CDAtrack, WMAfile, WAVfile, TTA, TwinVQ,
+  AC3, DTS, WAVPackfile, OptimFROG;
 
 type
 
@@ -36,6 +37,8 @@ type
 
   TAudioData = class
   private
+    FDTS: TDTS;
+    FAC3: TAC3;
     FTTA: TTTA;
     FTwinVQ: TTwinVQ;
     FMonkey: TMonkey;
@@ -47,6 +50,8 @@ type
     FCDAtrack: TCDAtrack;
     FMPEGaudio: TMPEGaudio;
     FOggVorbis: TOggVorbis;
+    FOptimFrog: TOptimFrog;
+    FWAVPackfile: TWAVPackfile;
   private
     procedure Clear;
     procedure ReadID3v1(ID3v1: TID3v1);
@@ -57,6 +62,8 @@ type
     procedure UpdateValue(var AValue: String; const AData: String);
   protected
     FFileName: String;
+    function ReadDTS: Boolean;
+    function ReadAC3: Boolean;
     function ReadTTA: Boolean;
     function ReadTwinVQ: Boolean;
     function ReadMonkey: Boolean;
@@ -68,6 +75,8 @@ type
     function ReadCDAtrack: Boolean;
     function ReadMPEGaudio: Boolean;
     function ReadOggVorbis: Boolean;
+    function ReadOptimFrog: Boolean;
+    function ReadWAVPackfile: Boolean;
   public
     Album, Artist, Title: String;
     Track,
@@ -177,6 +186,32 @@ end;
 procedure TAudioData.UpdateValue(var AValue: String; const AData: String);
 begin
   if Length(AValue) = 0 then AValue:= AData;
+end;
+
+function TAudioData.ReadDTS: Boolean;
+begin
+  Result:= FDTS.ReadFromFile(FFileName) and FDTS.Valid;
+  if Result then
+  begin
+    BitRate:= FDTS.BitRate;
+    // Channels:= FDTS.ChannelMode;
+    Duration:= Round(FDTS.Duration);
+    DurationHMS:= FormatDuration(Duration);
+    SampleRate:= FDTS.SampleRate;
+  end;
+end;
+
+function TAudioData.ReadAC3: Boolean;
+begin
+  Result:= FAC3.ReadFromFile(FFileName) and FAC3.Valid;
+  if Result then
+  begin
+    BitRate:= FAC3.BitRate;
+    // Channels:= FAC3.ChannelMode;
+    Duration:= Round(FAC3.Duration);
+    DurationHMS:= FormatDuration(Duration);
+    SampleRate:= FAC3.SampleRate;
+  end;
 end;
 
 function TAudioData.ReadTTA: Boolean;
@@ -377,8 +412,41 @@ begin
   end;
 end;
 
+function TAudioData.ReadOptimFrog: Boolean;
+begin
+  Result:= FOptimFrog.ReadFromFile(FFileName) and FOptimFrog.Valid;
+  if Result then
+  begin
+    BitRate:= FOptimFrog.BitRate;
+    Channels:= FOptimFrog.ChannelMode;
+    Duration:= Round(FOptimFrog.Duration);
+    DurationHMS:= FormatDuration(Duration);
+    SampleRate:= FOptimFrog.SampleRate;
+    ReadID3v2(FOptimFrog.ID3v2);
+    ReadID3v1(FOptimFrog.ID3v1);
+    ReadAPEtag(FOptimFrog.APEtag);
+  end;
+end;
+
+function TAudioData.ReadWAVPackfile: Boolean;
+begin
+  Result:= FWAVPackfile.ReadFromFile(FFileName) and FWAVPackfile.Valid;
+  if Result then
+  begin
+    Encoder:= FWAVPackfile.Encoder;
+    Channels:= FWAVPackfile.ChannelMode;
+    BitRate:= Round(FWAVPackfile.BitRate);
+    Duration:= Round(FWAVPackfile.Duration);
+    DurationHMS:= FormatDuration(Duration);
+    SampleRate:= FWAVPackfile.SampleRate;
+    ReadAPEtag(FWAVPackfile.APEtag);
+  end;
+end;
+
 constructor TAudioData.Create;
 begin
+  FDTS:= TDTS.Create;
+  FAC3:= TAC3.Create;
   FTTA:= TTTA.Create;
   FTwinVQ:= TTwinVQ.Create;
   FMonkey:= TMonkey.Create;
@@ -390,10 +458,14 @@ begin
   FFLACfile:= TFLACfile.Create;
   FMPEGaudio:= TMPEGaudio.Create;
   FOggVorbis:= TOggVorbis.Create;
+  FOptimFrog:= TOptimFrog.Create;
+  FWAVPackfile:= TWAVPackfile.Create;
 end;
 
 destructor TAudioData.Destroy;
 begin
+  FDTS.Free;
+  FAC3.Free;
   FTTA.Free;
   FTwinVQ.Free;
   FMonkey.Free;
@@ -405,6 +477,8 @@ begin
   FFLACfile.Free;
   FMPEGaudio.Free;
   FOggVorbis.Free;
+  FOptimFrog.Free;
+  FWAVPackfile.Free;
   inherited Destroy;
 end;
 
@@ -460,6 +534,22 @@ begin
   else if (FileExt = 'vqf') then
   begin
     Result:= ReadTwinVQ;
+  end
+  else if (FileExt = 'ac3') then
+  begin
+    Result:= ReadAC3;
+  end
+  else if (FileExt = 'dts') then
+  begin
+    Result:= ReadDTS;
+  end
+  else if (FileExt = 'wv') or (FileExt = 'wvc') then
+  begin
+    Result:= ReadWAVPackfile;
+  end
+  else if (FileExt = 'ofr') or (FileExt = 'ofs') then
+  begin
+    Result:= ReadOptimFrog;
   end
   else Result:= False;
 
