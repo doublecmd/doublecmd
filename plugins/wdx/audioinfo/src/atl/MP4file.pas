@@ -30,7 +30,7 @@ uses
   Classes, SysUtils, DCClassesUtf8;
 
 type
-  TAtomName = Array [0..3] of AnsiChar;
+  TAtomName = array [0..3] of AnsiChar;
 
   { TMP4file }
 
@@ -45,10 +45,18 @@ type
     FDuration: Double;
     FSampleSize: Word;
     FSampleRate: LongWord;
+  private
+    FYear,
+    FTitle,
+    FAlbum,
+    FArtist,
+    FComment: String;
   protected
     procedure ResetData;
     procedure ReadMovieHeader;
+    procedure ReadMetaDataItemList;
     procedure ReadSampleDescription;
+    function ReadAtomData: String; overload;
     function FindAtomHeader(const AName: TAtomName; ASize: PInt64 = nil): Boolean;
     function LoadAtomHeader(out AtomName: TAtomName; out AtomSize: Int64): Boolean;
   public
@@ -60,6 +68,11 @@ type
     property SampleRate: LongWord read FSampleRate;       { Sample rate (hz) }
     property BitRate: Double read FBitRate;               { Bit rate (bit/s) }
     property Duration: Double read FDuration;           { Duration (seconds) }
+    property Year: String read FYear;                         { Release year }
+    property Title: String read FTitle;                         { Song title }
+    property Artist: String read FArtist;                      { Artist name }
+    property Album: String read FAlbum;                        { Album title }
+    property Comment: String read FComment;                        { Comment }
     property Valid: Boolean read GetValid;              { True if data valid }
   end;
 
@@ -113,6 +126,11 @@ begin
   FDuration:= 0.0;
   FSampleSize:= 0;
   FSampleRate:= 0;
+  FYear:= EmptyStr;
+  FTitle:= EmptyStr;
+  FAlbum:= EmptyStr;
+  FArtist:= EmptyStr;
+  FComment:= EmptyStr;
 end;
 
 procedure TMP4file.ReadMovieHeader;
@@ -145,6 +163,60 @@ begin
   if (FDuration > 0) and FindAtomHeader('mdat', @MediaSize) then
   begin
     FBitRate:= MediaSize * 8 / FDuration / 1000;
+  end;
+end;
+
+function TMP4file.ReadAtomData: String;
+var
+  AtomSize: Int64;
+  DataType: LongWord;
+  Buffer: array[Byte] of AnsiChar;
+begin
+  if FindAtomHeader('data', @AtomSize) then
+  begin
+    if AtomSize - 8 > High(Byte) then Exit;
+    DataType:= SwapEndian(FStream.ReadDWord);
+    if DataType = 1 then
+    begin
+      FStream.Seek(4, soCurrent);
+      FStream.Read(Buffer, AtomSize - 8);
+      SetString(Result, Buffer, AtomSize - 8);
+    end;
+  end;
+end;
+
+procedure TMP4file.ReadMetaDataItemList;
+var
+  AtomSize: Int64;
+  AtomFinish: Int64;
+  AtomName: TAtomName;
+begin
+  FStream.Seek(0, soBeginning);
+  if not FindAtomHeader('moov') then Exit;
+  if not FindAtomHeader('udta') then Exit;
+
+  if FindAtomHeader('meta') then
+  begin
+    FStream.Seek(4, soCurrent);
+    if FindAtomHeader('ilst', @AtomSize) then
+    begin
+      AtomFinish := FStream.Position + AtomSize;
+      while FStream.Position < AtomFinish do
+      begin
+        LoadAtomHeader(AtomName, AtomSize);
+        if SameText(#169'ART', AtomName) then
+          FArtist:= ReadAtomData
+        else if SameText(#169'ALB', AtomName) then
+          FAlbum:= ReadAtomData
+        else if SameText(#169'CMT', AtomName) then
+          FComment:= ReadAtomData
+        else if SameText(#169'DAY', AtomName) then
+          FYear:= ReadAtomData
+        else if SameText(#169'NAM', AtomName) then
+          FTitle:= ReadAtomData
+        else FStream.Seek(AtomSize, soCurrent);
+      end;
+    end;
   end;
 end;
 
@@ -201,6 +273,7 @@ begin
       FStream.Seek(AtomSize, soCurrent);
       ReadSampleDescription;
       ReadMovieHeader;
+      ReadMetaDataItemList;
     end;
   finally
     FreeAndNil(FStream);
