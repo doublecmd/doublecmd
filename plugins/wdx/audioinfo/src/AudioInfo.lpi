@@ -25,7 +25,7 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="AudioInfo"/>
+            <Filename Value="../audioinfo.wdx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="../../../../sdk;$(ProjOutDir)"/>
@@ -45,12 +45,12 @@
               <OverflowChecks Value="True"/>
               <StackChecks Value="True"/>
             </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
           </CodeGeneration>
           <Linking>
             <Debugging>
               <DebugInfoType Value="dsDwarf2Set"/>
               <UseHeaptrc Value="True"/>
-              <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <Options>
               <ExecutableType Value="Library"/>
