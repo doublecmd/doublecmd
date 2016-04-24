@@ -136,16 +136,21 @@ end;
 
 procedure TMP4file.ResetData;
 begin
+  FTrack:= 0;
   FBitRate:= 0;
   FChannels:= 0;
   FDuration:= 0.0;
   FSampleSize:= 0;
   FSampleRate:= 0;
   FYear:= EmptyStr;
+  FGenre:= EmptyStr;
   FTitle:= EmptyStr;
   FAlbum:= EmptyStr;
   FArtist:= EmptyStr;
+  FEncoder:= EmptyStr;
   FComment:= EmptyStr;
+  FComposer:= EmptyStr;
+  FCopyright:= EmptyStr;
 end;
 
 procedure TMP4file.ReadMovieHeader;
