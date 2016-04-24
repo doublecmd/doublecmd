@@ -758,19 +758,16 @@ begin
 end;
 
 function TPluginWDX.CallContentGetDetectString: String;
-var
-  pacDetectString: PAnsiChar;
+const
+  MAX_LEN = 2048; // See contentplugin.hlp for details
 begin
-  if Assigned(ContentGetDetectString) then
-  begin
-    GetMem(pacDetectString, MAX_PATH);
-    FillChar(pacDetectString^, MAX_PATH, #0);
-    ContentGetDetectString(pacDetectString, MAX_PATH);
-    Result := StrPas(pacDetectString);
-    FreeMem(pacDetectString);
-  end
-  else
-    Result := '';
+  if not Assigned(ContentGetDetectString) then
+    Result := EmptyStr
+  else begin
+    Result := StringOfChar(#0, MAX_LEN);
+    ContentGetDetectString(PAnsiChar(Result), MAX_LEN);
+    Result := PAnsiChar(Result);
+  end;
 end;
 
 function TPluginWDX.CallContentGetValueV(FileName: String; FieldName: String;

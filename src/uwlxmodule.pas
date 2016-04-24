@@ -337,18 +337,15 @@ end;
 
 function TWlxModule.CallListGetDetectString: String;
 const
-  MAX_LEN = 2048; // See listplugin.hlp fo details
+  MAX_LEN = 2048; // See listplugin.hlp for details
 begin
-  //  DCDebug('GetDetectstr Entered');
-  if Assigned(ListGetDetectString) then
-  begin
-    SetLength(Result, MAX_LEN); Result[1] := #0;
+  if not Assigned(ListGetDetectString) then
+    Result := EmptyStr
+  else begin
+    Result := StringOfChar(#0, MAX_LEN);
     ListGetDetectString(PAnsiChar(Result), MAX_LEN);
     Result := PAnsiChar(Result);
-  end
-  else
-    Result := EmptyStr;
-  //  DCDebug('GetDetectStr Leaved');
+  end;
 end;
 
 function TWlxModule.CallListSearchText(SearchString: String; SearchParameter: Integer): Integer;
