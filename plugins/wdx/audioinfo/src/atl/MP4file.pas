@@ -203,8 +203,8 @@ end;
 
 function TMP4file.ReadGenreData: String;
 var
-  AGenre: Word;
   AtomSize: Int64;
+  AGenre: Word = 0;
 begin
   Result:= EmptyStr;
   if FindAtomHeader('data', @AtomSize) then
@@ -223,6 +223,7 @@ function TMP4file.ReadTrackData: LongWord;
 var
   AtomSize: Int64;
 begin
+  Result:= 0;
   if FindAtomHeader('data', @AtomSize) then
   begin
     FStream.Seek(8, soCurrent);
