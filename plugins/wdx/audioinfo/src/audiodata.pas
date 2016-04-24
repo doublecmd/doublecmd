@@ -312,12 +312,15 @@ begin
     Channels:= FormatChannels(FMP4file.Channels);
 
     Date:= FMP4file.Year;
+    Track:= FMP4file.Track;
+    Genre:= FMP4file.Genre;
     Title:= FMP4file.Title;
     Album:= FMP4file.Album;
     Artist:= FMP4file.Artist;
     Comment:= FMP4file.Comment;
     Encoder:= FMP4file.Encoder;
     Composer:= FMP4file.Composer;
+    Copyright:= FMP4file.Copyright;
   end;
 end;
 

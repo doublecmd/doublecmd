@@ -47,18 +47,23 @@ type
     FSampleRate: LongWord;
   private
     FYear,
+    FGenre,
     FTitle,
     FAlbum,
     FArtist,
     FEncoder,
     FComment,
-    FComposer: String;
+    FComposer,
+    FCopyright: String;
+    FTrack: LongWord;
   protected
     procedure ResetData;
     procedure ReadMovieHeader;
     procedure ReadMetaDataItemList;
     procedure ReadSampleDescription;
-    function ReadAtomData: String; overload;
+    function ReadAtomData: String;
+    function ReadGenreData: String;
+    function ReadTrackData: LongWord;
     function FindAtomHeader(const AName: TAtomName; ASize: PInt64 = nil): Boolean;
     function LoadAtomHeader(out AtomName: TAtomName; out AtomSize: Int64): Boolean;
   public
@@ -71,16 +76,22 @@ type
     property BitRate: Double read FBitRate;               { Bit rate (bit/s) }
     property Duration: Double read FDuration;           { Duration (seconds) }
     property Year: String read FYear;                         { Release year }
+    property Genre: String read FGenre;                         { Genre name }
+    property Track: LongWord read FTrack;                     { Track number }
     property Title: String read FTitle;                         { Song title }
-    property Artist: String read FArtist;                      { Artist name }
     property Album: String read FAlbum;                        { Album title }
+    property Artist: String read FArtist;                      { Artist name }
     property Comment: String read FComment;                        { Comment }
     property Encoder: String read FEncoder;                        { Encoder }
     property Composer: String read FComposer;                     { Composer }
+    property Copyright: String read FCopyright;                  { Copyright }
     property Valid: Boolean read GetValid;              { True if data valid }
   end;
 
 implementation
+
+uses
+  ID3v1;
 
 { TMP4file }
 
@@ -113,7 +124,7 @@ end;
 function TMP4file.LoadAtomHeader(out AtomName: TAtomName; out AtomSize: Int64): Boolean;
 begin
   AtomSize:= SwapEndian(FStream.ReadDWord);
-  FillChar(AtomName, SizeOf(TAtomName), #0);
+  FillChar({%H-}AtomName, SizeOf(TAtomName), #0);
   FStream.Read(AtomName, SizeOf(TAtomName));
   if AtomSize <> 1 then
     AtomSize:= AtomSize - 8
@@ -184,9 +195,39 @@ begin
     if DataType = 1 then
     begin
       FStream.Seek(4, soCurrent);
-      FStream.Read(Buffer, AtomSize - 8);
+      FStream.Read({%H-}Buffer, AtomSize - 8);
       SetString(Result, Buffer, AtomSize - 8);
     end;
+  end;
+end;
+
+function TMP4file.ReadGenreData: String;
+var
+  AGenre: Word;
+  AtomSize: Int64;
+begin
+  Result:= EmptyStr;
+  if FindAtomHeader('data', @AtomSize) then
+  begin
+    FStream.Seek(8, soCurrent);
+    AGenre:= SwapEndian(FStream.ReadWord);
+    FStream.Seek(AtomSize - 10, soCurrent);
+  end;
+  if (AGenre > 0) and (AGenre < MAX_MUSIC_GENRES) then
+  begin
+    Result:= aTAG_MusicGenre[AGenre - 1];
+  end;
+end;
+
+function TMP4file.ReadTrackData: LongWord;
+var
+  AtomSize: Int64;
+begin
+  if FindAtomHeader('data', @AtomSize) then
+  begin
+    FStream.Seek(8, soCurrent);
+    Result:= SwapEndian(FStream.ReadDWord);
+    FStream.Seek(AtomSize - 12, soCurrent);
   end;
 end;
 
@@ -209,7 +250,13 @@ begin
       while FStream.Position < AtomFinish do
       begin
         LoadAtomHeader(AtomName, AtomSize);
-        if SameText(#169'art', AtomName) then
+        if SameText('trkn', AtomName) then
+          FTrack:= ReadTrackData
+        else if SameText('gnre', AtomName) then
+          FGenre:= ReadGenreData
+        else if SameText('cprt', AtomName) then
+          FCopyright:= ReadAtomData
+        else if SameText(#169'art', AtomName) then
           FArtist:= ReadAtomData
         else if SameText(#169'alb', AtomName) then
           FAlbum:= ReadAtomData
@@ -223,6 +270,8 @@ begin
           FEncoder:= ReadAtomData
         else if SameText(#169'wrt', AtomName) then
           FComposer:= ReadAtomData
+        else if SameText(#169'gen', AtomName) then
+          FGenre:= ReadAtomData
         else FStream.Seek(AtomSize, soCurrent);
       end;
     end;
