@@ -403,7 +403,7 @@ Header.ID[7] := 'X';
 Header.Version := 2000;
 Header.Size := TagSize;
 Header.Fields := Length(pField);
-Header.Flags := 0 or (1 shl 29) or (1 shl 31);       // tag contains a header and this is the header
+Header.Flags := Integer(0 or (1 shl 29) or (1 shl 31)); // tag contains a header and this is the header
 //ShowMessage(IntToSTr(Header.Flags));
 TagData.Write(Header,APE_TAG_HEADER_SIZE);
 for i:=0 to high(pField) do
@@ -426,8 +426,8 @@ Footer.ID[7] := 'X';
 Footer.Version := 2000;
 Footer.Size := TagSize;
 Footer.Fields := Length(pField);
-Footer.Flags := 0 or (1 shl 31);                     // tag contains a header and this is the footer
-TagData.Write(Footer,APE_TAG_FOOTER_SIZE) ;
+Footer.Flags := Integer(0 or (1 shl 31)); // tag contains a header and this is the footer
+TagData.Write(Footer,APE_TAG_FOOTER_SIZE);
 if (RefFooter.DataShift = ID3V1_TAG_SIZE) and Assigned(ID3)then
 begin
   TagData.Write(ID3^,ID3V1_TAG_SIZE);

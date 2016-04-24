@@ -28,7 +28,8 @@
             <Filename Value="AudioInfo"/>
           </Target>
           <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
+            <IncludeFiles Value="../../../../sdk;$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../../../../sdk;atl"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
