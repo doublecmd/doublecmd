@@ -58,6 +58,7 @@ const
   META_SEEKTABLE       = 3;
   META_VORBIS_COMMENT  = 4;
   META_CUESHEET        = 5;
+  META_PICTURE         = 6;
 
 type
   TFlacHeader = record
@@ -408,14 +409,14 @@ begin
              bPaddingFound := true;
              SourceFile.Seek(FPadding, soCurrent); // advance into file till next block or audio data start
           end else begin // all other
-             if iMetaType <= 5 then begin // is it a valid metablock ?
+             if iMetaType <= META_PICTURE then begin // is it a valid metablock ?
                 if (iMetaType = META_PADDING) then begin // set flag for fragmented padding blocks
                    FPaddingFragments := true;
                 end;
                 AddMetaDataOther(aMetaDataBlockHeader, SourceFile, iBlocklength, iIndex);
              end else begin
-                FSamples := 0; //ops...
-                exit;
+                FSamples := 0; // ops...
+                Exit;
              end;
           end;
 
@@ -459,13 +460,12 @@ end;
 procedure TFLACfile.ReadTag( Source: TFileStreamEx; bSetTagFields: boolean );
 var
   i, iCount, iSize, iSepPos: Integer;
-  Data: array of Char;
-  sFieldID, sFieldData: string;
+  Data, sFieldID, sFieldData: String;
 begin
 
   Source.Read( iSize, SizeOf( iSize ) ); // vendor
   SetLength( Data, iSize );
-  Source.Read( Data[ 0 ], iSize );
+  Source.Read( Data[ 1 ], iSize );
   FVendor := String( Data );
 
   Source.Read( iCount, SizeOf( iCount ) ); //fieldcount
@@ -475,7 +475,7 @@ begin
   for i := 0 to iCount - 1 do begin
       Source.Read( iSize, SizeOf( iSize ) );
       SetLength( Data , iSize );
-      Source.Read( Data[ 0], iSize );
+      Source.Read( Data[ 1 ], iSize );
 
       if not bSetTagFields then Continue; // if we don't want to re asign fields we skip
       
