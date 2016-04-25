@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-03-11 06:37+0900\n"
+"PO-Revision-Date: 2016-04-24 08:21+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -2033,6 +2033,14 @@ msgstr "フォルダー タブの構成"
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "ツールバー…"
+
+#: tfrmmain.actconfigtreeviewmenus.caption
+msgid "Configuration of Tree View Menu"
+msgstr "ツリー ビューのメニューの構成"
+
+#: tfrmmain.actconfigtreeviewmenuscolors.caption
+msgid "Configuration of Tree View Menu Colors"
+msgstr "ツリー ビューのメニューの色の構成"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -7379,73 +7387,197 @@ msgstr "カテゴリーの名前(&n)："
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfromdoubleclick.caption
 msgid "With double-click on the bar on top of a file panel"
-msgstr ""
+msgstr "ファイルパネルの上のバーをダブルクリックして"
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption
 msgctxt "tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption"
 msgid "With the menu and internal command"
-msgstr ""
+msgstr "メニューと内部コマンド付きで"
 
 #: tfrmoptionstreeviewmenu.ckbdoubleclickselect.caption
 msgid "Double click in tree select and exit"
-msgstr ""
+msgstr "ツリー選択でダブルクリックして終了"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption
 msgctxt "tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption"
 msgid "With the menu and internal command"
-msgstr ""
+msgstr "メニューと内部コマンド付きで"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritetabsfromdoubleclick.caption
 msgid "With double-click on a tab (if configured for it)"
-msgstr ""
+msgstr "タブをクリックして（そのように構成されていれば）"
 
 #: tfrmoptionstreeviewmenu.ckbshortcutselectandclose.caption
 msgid "When using the keyboard shortcut, it will exit the window returning the current choice"
-msgstr ""
+msgstr "キーボードショートカットを使っている場合、現在の選択を返してそのウィンドウを閉じる"
 
 #: tfrmoptionstreeviewmenu.ckbsingleclickselect.caption
 msgid "Single mouse click in tree select and exit"
-msgstr ""
+msgstr "ツリー選択でシングルクリックして終了"
 
 #: tfrmoptionstreeviewmenu.ckbuseforcommandlinehistory.caption
 msgid "Use it for Command Line History"
-msgstr ""
+msgstr "コマンド ライン ヒストリに使用"
 
 #: tfrmoptionstreeviewmenu.ckbusefordirhistory.caption
 msgid "Use it for the Dir History"
-msgstr ""
+msgstr "ディレクトリの訪問履歴に使用"
 
 #: tfrmoptionstreeviewmenu.ckbuseforviewhistory.caption
 msgid "Use it for the View History (Visited paths for active view)"
-msgstr ""
+msgstr "内容閲覧履歴に使用"
 
 #: tfrmoptionstreeviewmenu.gbbehavior.caption
 msgid "Behavior regarding selection:"
-msgstr ""
+msgstr "選択に関係する挙動："
 
 #: tfrmoptionstreeviewmenu.gbtreeviewmenusettings.caption
 msgid "Tree View Menus related options:"
-msgstr ""
+msgstr "ツリー表示メニューに関係するオプション："
 
 #: tfrmoptionstreeviewmenu.gbwheretousetreeviewmenu.caption
 msgid "Where to use Tree View Menus:"
-msgstr ""
+msgstr "ツリー表示メニューをどこで使用するか："
 
 #: tfrmoptionstreeviewmenu.lblnote.caption
 msgid "*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another."
-msgstr ""
+msgstr "＊注：大文字小文字の区別、アクセントを無視する・無視しないと入ったオプションは、使用される文脈毎、ならびにセッション毎に個別に保存されまた復元されます。"
 
 #: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
 msgid "With Directory Hotlist:"
-msgstr ""
+msgstr "ディレクトリ・ホットリストと共に："
 
 #: tfrmoptionstreeviewmenu.lblusewithfavoritetabs.caption
 msgid "With Favorite Tabs:"
-msgstr ""
+msgstr "お気に入りとタブと共に："
 
 #: tfrmoptionstreeviewmenu.lblusewithhistory.caption
 msgid "With History:"
-msgstr ""
+msgstr "履歴と共に："
+
+#: tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btncursorcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btncursorcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
+msgid "Use and display keyboard shortcut for choosing items"
+msgstr "項目の選択のため、キーボードショートカットを使用・表示する"
+
+#: tfrmoptionstreeviewmenucolor.gblayoutandcolors.caption
+msgid "Layout and colors options:"
+msgstr "レイアウトと色のオプション："
+
+#: tfrmoptionstreeviewmenucolor.lblbackgroundcolor.caption
+msgid "Background color:"
+msgstr "背景色："
+
+#: tfrmoptionstreeviewmenucolor.lblcursorcolor.caption
+msgid "Cursor color:"
+msgstr "カーソルの色："
+
+#: tfrmoptionstreeviewmenucolor.lblfoundtextcolor.caption
+msgid "Found text color:"
+msgstr "見つかったテキストの色："
+
+#: tfrmoptionstreeviewmenucolor.lblfoundtextundercursor.caption
+msgid "Found text under cursor:"
+msgstr "カーソルが被った見つかったテキスト："
+
+#: tfrmoptionstreeviewmenucolor.lblnormaltextcolor.caption
+msgid "Normal text color:"
+msgstr "通常のテキストの色："
+
+#: tfrmoptionstreeviewmenucolor.lblnormaltextundercursor.caption
+msgid "Normal text under cursor:"
+msgstr "カーソルが被った通常のテキスト："
+
+#: tfrmoptionstreeviewmenucolor.lblpreview.caption
+msgid "Tree View Menu Preview:"
+msgstr "ツリー表示メニューのプレビュー："
+
+#: tfrmoptionstreeviewmenucolor.lblsecondarytextcolor.caption
+msgid "Secondary text color:"
+msgstr "第二のテキストの色："
+
+#: tfrmoptionstreeviewmenucolor.lblsecondarytextundercursor.caption
+msgid "Secondary text under cursor:"
+msgstr "カーソルが被った第二のテキスト："
+
+#: tfrmoptionstreeviewmenucolor.lblshortcutcolor.caption
+msgid "Shortcut color:"
+msgstr "ショートカットの色："
+
+#: tfrmoptionstreeviewmenucolor.lblshortcutundercursor.caption
+msgid "Shortcut under cursor:"
+msgstr "カーソルが被ったショートカット："
+
+#: tfrmoptionstreeviewmenucolor.lblunselectabletextcolor.caption
+msgid "Unselectable text color:"
+msgstr "選択不可能なテキストの色："
+
+#: tfrmoptionstreeviewmenucolor.lblunselectableundercursor.caption
+msgid "Unselectable under cursor:"
+msgstr "カーソルが被った選択不可能要素："
+
+#: tfrmoptionstreeviewmenucolor.treeviewmenusample.hint
+msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
+msgstr "左側の色を変更すると、ツリー表示メニューがこのサンプルでどのように見えるかをこの場所でプレビューとして見ることができます"
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
@@ -8272,7 +8404,7 @@ msgstr "クリップボードにコピー"
 
 #: tfrmviewer.actcopytoclipboardformatted.caption
 msgid "Copy To Clipboard Formatted"
-msgstr ""
+msgstr "クリップボードにフォーマット付きでコピー"
 
 #: tfrmviewer.actdeletefile.caption
 msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
@@ -8290,19 +8422,16 @@ msgid "E&xit"
 msgstr "終了(&x)"
 
 #: tfrmviewer.actfind.caption
-#, fuzzy
 msgctxt "tfrmviewer.actfind.caption"
 msgid "Find"
 msgstr "検索"
 
 #: tfrmviewer.actfindnext.caption
-#, fuzzy
 msgctxt "tfrmviewer.actfindnext.caption"
 msgid "Find next"
 msgstr "次を検索"
 
 #: tfrmviewer.actfindprev.caption
-#, fuzzy
 msgctxt "tfrmviewer.actfindprev.caption"
 msgid "Find previous"
 msgstr "前を検索"
@@ -8445,7 +8574,7 @@ msgstr "ブックとして表示(&o)"
 
 #: tfrmviewer.actshowasdec.caption
 msgid "Show as &Dec"
-msgstr ""
+msgstr "十進数として表示（&D）"
 
 #: tfrmviewer.actshowashex.caption
 msgid "Show as &Hex"
@@ -9394,7 +9523,7 @@ msgstr "デフォルトのバーファイルへの参照を見つけることが
 
 #: ulng.rskeyboardshortcutcomplement
 msgid "Press \"[ALT] + [Shortcut]\" keys and it will select the item"
-msgstr ""
+msgstr "”[ALT] + [ショートカット]”キーを押して項目を選択"
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
@@ -10651,6 +10780,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"ツリー表示メニューの色が変更されました。\n"
+"\n"
+"終了前に変更を保存しますか？\n"
 
 #: ulng.rsmsgtreeviewmenumodifiedwanttosave
 msgid ""
@@ -10658,6 +10790,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"ツリー表示メニューが変更されました。\n"
+"\n"
+"終了前に変更を保存しますか？\n"
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
@@ -10665,7 +10800,7 @@ msgstr "特定不能"
 
 #: ulng.rsmsgunexpectedusagetreeviewmenu
 msgid "ERROR: Unexpected Tree View Menu usage!"
-msgstr ""
+msgstr "エラー：予期しないツリー表示メニューの使用方法！"
 
 #: ulng.rsmsgurl
 msgid "URL:"
@@ -11328,11 +11463,11 @@ msgstr "ツールのヒント"
 
 #: ulng.rsoptionseditortreeviewmenu
 msgid "Tree View Menu"
-msgstr ""
+msgstr "ツリー表示メニュー"
 
 #: ulng.rsoptionseditortreeviewmenucolors
 msgid "Tree View Menu Colors"
-msgstr ""
+msgstr "ツリー表示メニューの色"
 
 #: ulng.rsoptletters
 msgid "None;Command Line;Quick Search;Quick Filter"
@@ -11404,7 +11539,7 @@ msgstr "区切り;内部コマンド;外部コマンド;メニュー(&e)"
 
 #: ulng.rsopttreeviewmenudirectoryhotlistusage
 msgid "Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel"
-msgstr ""
+msgstr "なし;必ず;毎回確認;キーボードショートカット;パネルトップバーのダブルクリック"
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
@@ -11585,7 +11720,7 @@ msgid "Select directory:"
 msgstr "ディレクトリを選択："
 
 #: ulng.rsstraccents
-msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
+msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;#195;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
 msgstr ""
 
 #: ulng.rsstraccentsstripped
@@ -11594,11 +11729,11 @@ msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
-msgstr ""
+msgstr "プレビューだけ"
 
 #: ulng.rsstrpreviewothers
 msgid "Others"
-msgstr ""
+msgstr "その他"
 
 #: ulng.rsstrpreviewsearchingletters
 msgid "OU"
@@ -11606,63 +11741,63 @@ msgstr ""
 
 #: ulng.rsstrpreviewsidenote
 msgid "Side note"
-msgstr ""
+msgstr "備考"
 
 #: ulng.rsstrpreviewwordwithoutsearched1
 msgid "Flat"
-msgstr ""
+msgstr "平らな表示"
 
 #: ulng.rsstrpreviewwordwithoutsearched2
 msgid "Limited"
-msgstr ""
+msgstr "限定的"
 
 #: ulng.rsstrpreviewwordwithoutsearched3
 msgid "Simple"
-msgstr ""
+msgstr "単純"
 
 #: ulng.rsstrpreviewwordwithsearched1
 msgid "Fabulous"
-msgstr ""
+msgstr "すばらしい"
 
 #: ulng.rsstrpreviewwordwithsearched2
 msgid "Marvelous"
-msgstr ""
+msgstr "驚異的"
 
 #: ulng.rsstrpreviewwordwithsearched3
 msgid "Tremendous"
-msgstr ""
+msgstr "途方もない"
 
 #: ulng.rsstrtvmchoosedirhistory
 msgid "Choose your directory from Dir History"
-msgstr ""
+msgstr "ディレクトリ訪問履歴からディレクトリを選択"
 
 #: ulng.rsstrtvmchoosefavoritetabs
 msgid "Choose you Favorite Tabs:"
-msgstr ""
+msgstr "お気に入りタブを選択："
 
 #: ulng.rsstrtvmchoosefromcmdlinehistory
 msgid "Choose your command from Command Line History"
-msgstr ""
+msgstr "コマンドライン履歴からコマンドを選択"
 
 #: ulng.rsstrtvmchoosefrommainmenu
 msgid "Choose your action from Main Menu"
-msgstr ""
+msgstr "メインメニューからアクションを選択"
 
 #: ulng.rsstrtvmchoosefromtoolbar
 msgid "Choose your action from Maintool bar"
-msgstr ""
+msgstr "メインツールバーからアクションを選択"
 
 #: ulng.rsstrtvmchoosehotdirectory
 msgid "Choose your directory from Hot Directory:"
-msgstr ""
+msgstr "ホットディレクトリからディレクトリを選択："
 
 #: ulng.rsstrtvmchooseviewhistory
 msgid "Choose your directory from File View History"
-msgstr ""
+msgstr "ファイル表示履歴からディレクトリを選択"
 
 #: ulng.rsstrtvmchooseyourfileordir
 msgid "Choose your file or your directory"
-msgstr ""
+msgstr "ファイルまたはディレクトリを選択"
 
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
@@ -11945,4 +12080,3 @@ msgstr "置換の回数：%d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "置換は起こりませんでした。"
-
