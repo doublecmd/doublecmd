@@ -1,0 +1,51 @@
+# Based on AUR doublecmd-qt-svn package
+# https://aur.archlinux.org/packages/doublecmd-qt-svn
+#
+# Maintainer: ValHue <vhuelamo at gmail dot com>
+# https://github.com/ValHue/AUR-PKGBUILDs
+#
+# Contributor: Stanislav GE <ginermail at gmail dot com>
+
+_pkgname="doublecmd"
+pkgname=("${_pkgname}-qt-svn")
+pkgver=r6754
+pkgrel=1
+pkgdesc="Twin-panel (commander-style) file manager (Qt)"
+url="http://doublecmd.sourceforge.net/"
+arch=('i686' 'x86_64')
+license=('GPL2')
+depends=('qt4pas')
+install="${_pkgname}-svn.install"
+makedepends=('lazarus' 'fpc' 'subversion')
+optdepends=(
+    'lua51: scripting'
+    'p7zip: support for 7zip archives'
+    'libunrar: support for rar archives'
+)
+options=('!strip')
+provides=(${_pkgname}-qt)
+conflicts=('doublecmd-qt' 'doublecmd-gtk2' 'doublecmd-gtk2-svn' 'doublecmd-gtk2-alpha-bin')
+
+pkgver() {
+    cd "${srcdir}"
+    local ver="$(cat revision.txt)"
+    printf "r%s" "${ver//[[:alpha:]]}"
+}
+
+prepare() {
+    cd "${srcdir}"
+    sed -e 's/LIB_SUFFIX=.*/LIB_SUFFIX=/g' -i install/linux/install.sh
+}
+
+build() {
+    msg 'Build Qt'
+    cd "${srcdir}"
+    ./build.sh beta qt
+}
+
+package() {
+    cd "${srcdir}"
+    install/linux/install.sh --install-prefix="${pkgdir}"
+}
+
+# vim:set ts=4 sw=2 ft=sh et:
