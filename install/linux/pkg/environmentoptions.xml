@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <EnvironmentOptions>
+    <CompilerFilename Value="fpc"/>
+    <LazarusDirectory Value="/usr/lib/lazarus"/>
+    <FPCSourceDirectory Value="/usr/lib/fpc/src"/>
+  </EnvironmentOptions>
+</CONFIG>
