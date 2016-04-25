@@ -1,0 +1,36 @@
+# doublecmd-svn.install
+
+update_icons() {
+
+	# Setup Menus
+	if which update-desktop-database
+	then
+		update-desktop-database -q /usr/share/applications > /dev/null 2>&1
+	fi
+
+	# Setup MIME types
+	if which update-mime-database
+	then
+		update-mime-database /usr/share/mime > /dev/null 2>&1
+	fi
+
+	# Setup Icons
+	touch -c /usr/share/icons/hicolor
+	if which gtk-update-icon-cache
+	then
+		gtk-update-icon-cache -tq /usr/share/icons/hicolor > /dev/null 2>&1
+	fi
+
+}
+
+post_install() {
+	update_icons
+}
+
+post_upgrade() {
+	update_icons
+}
+
+post_remove() {
+	update_icons
+}

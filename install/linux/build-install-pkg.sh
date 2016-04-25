@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# This script build and install Double Commander Arch Linux package
+
+# Temp directory
+DC_TEMP_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
+# Directory for DC source code
+DC_SOURCE_DIR=$DC_TEMP_DIR/src
+# Widgetset library (gtk2 or qt)
+LCL_PLATFORM=$1
+
+# Set widgetset
+if [ -z $LCL_PLATFORM ]; then
+  export LCL_PLATFORM=gtk2
+fi
+
+# Recreate temp directory
+rm -rf $DC_TEMP_DIR
+mkdir -p $DC_TEMP_DIR
+
+# Export from SVN
+svn export ../../ $DC_SOURCE_DIR
+
+# Save revision number
+DC_REVISION=`$(pwd)/update-revision.sh ../../ $DC_SOURCE_DIR`
+
+# Prepare PKGBUILD file
+cp -a pkg/doublecmd-svn.install $DC_TEMP_DIR
+echo "$DC_REVISION" > $DC_SOURCE_DIR/revision.txt
+cp -a pkg/doublecmd-$LCL_PLATFORM.pkgbuild $DC_TEMP_DIR/PKGBUILD
+
+pushd $DC_TEMP_DIR
+
+# Build and install
+makepkg --install
+
+popd
+
+# Clean
+rm -rf $DC_TEMP_DIR
