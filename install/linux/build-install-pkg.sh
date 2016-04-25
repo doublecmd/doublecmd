@@ -30,9 +30,9 @@ echo "$DC_REVISION" > $DC_SOURCE_DIR/revision.txt
 cp -a pkg/doublecmd-$LCL_PLATFORM.pkgbuild $DC_TEMP_DIR/PKGBUILD
 
 # Set temporary HOME for lazarus primary config directory
+export HOME=$DC_TEMP_DIR
 mkdir -p $DC_TEMP_DIR/.lazarus
 cp -a pkg/environmentoptions.xml $DC_TEMP_DIR/.lazarus
-export HOME=$DC_TEMP_DIR
 
 pushd $DC_TEMP_DIR
 
