@@ -5,7 +5,7 @@ unit uMultiArchiveCopyOutOperation;
 interface
 
 uses
-  Classes, SysUtils, StringHashList, uLog, uGlobs, un_process,
+  LazFileUtils,LazUtf8,Classes, SysUtils, StringHashList, uLog, uGlobs, un_process,
   uFileSourceOperation,
   uFileSourceCopyOperation,
   uFileSourceOperationOptions,

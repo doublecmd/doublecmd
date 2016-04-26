@@ -269,7 +269,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="231">
+    <Units Count="232">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1259,6 +1259,7 @@ end;"/>
       <Unit160>
         <Filename Value="filesources\multiarchive\umultiarchiveutil.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uMultiArchiveUtil"/>
       </Unit160>
       <Unit161>
         <Filename Value="filesources\multilist\umultilistfilesource.pas"/>
@@ -1645,6 +1646,11 @@ end;"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsTreeViewMenuColor"/>
       </Unit230>
+      <Unit231>
+        <Filename Value="uglobs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGlobs"/>
+      </Unit231>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -27,7 +27,7 @@ unit uTrash;
 interface
 
 uses
-  Classes, SysUtils; 
+  LazUtf8,Classes, SysUtils; 
 
 // 30.04.2009 - this function move files and folders to trash can.
 function mbDeleteToTrash(const FileName: String): Boolean;

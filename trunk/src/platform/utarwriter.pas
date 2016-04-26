@@ -29,7 +29,7 @@ unit uTarWriter;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils,LazUtf8,
   uGlobs, uWcxModule, WcxPlugin, DCClassesUtf8,
   uFile,
   uFileSource,

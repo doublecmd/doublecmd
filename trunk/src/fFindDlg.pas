@@ -1401,6 +1401,9 @@ end;
 
 procedure TfrmFindDlg.cm_Start(const Params: array of string);
 begin
+  btnStop.Click;
+  Self.Repaint;
+  Application.ProcessMessages;
   btnStart.Click;
 end;
 

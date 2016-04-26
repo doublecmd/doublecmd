@@ -6,7 +6,7 @@ unit uWcxArchiveCopyOutOperation;
 interface
 
 uses
-  Classes, SysUtils, StringHashList, WcxPlugin, uLog, uGlobs,
+  Classes, LazFileUtils,SysUtils, StringHashList, WcxPlugin, uLog, uGlobs,
   uFileSourceCopyOperation,
   uFileSource,
   uFileSourceOperation,
