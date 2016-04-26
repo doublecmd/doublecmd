@@ -7,7 +7,7 @@ unit uMultiArchiveUtil;
 interface
 
 uses
-  Classes, SysUtils, uMultiArc, un_process, uFile, DCBasicTypes;
+  LazUtf8,Classes, SysUtils, uMultiArc, un_process, uFile, DCBasicTypes;
 
 const
   MAF_UNIX_PATH        = 1; // Use Unix path delimiter (/)

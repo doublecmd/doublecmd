@@ -30,7 +30,7 @@ unit fFileProperties;
 interface
 
 uses
-  LResources, SysUtils, Classes, Graphics, Forms, StdCtrls, Buttons, ComCtrls,
+  LazUtf8,LResources, SysUtils, Classes, Graphics, Forms, StdCtrls, Buttons, ComCtrls,
   Dialogs, Controls, ExtCtrls, DCBasicTypes, uFile, uFileProperty, uFileSource,
   uFileSourceOperation, uFileSourceCalcStatisticsOperation;
 

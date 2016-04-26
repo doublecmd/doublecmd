@@ -5,7 +5,7 @@ unit uFileSystemSetFilePropertyOperation;
 interface
 
 uses
-  Classes, SysUtils,
+  LazUtf8,Classes, SysUtils,
   uFileSourceSetFilePropertyOperation,
   uFileSource,
   uFileSourceOperationOptions,

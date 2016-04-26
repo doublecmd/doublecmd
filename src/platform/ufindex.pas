@@ -29,7 +29,7 @@ interface
 uses
   SysUtils, DCBasicTypes
   {$IFDEF UNIX}
-  , BaseUnix, uMasks
+  , BaseUnix, uMasks, LazUtf8
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   , Windows

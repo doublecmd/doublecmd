@@ -1004,8 +1004,8 @@ begin
   HMForm := HotMan.Forms.FindOrCreate('Find Files');
   with HMForm.Hotkeys do
     begin
-      AddIfNotExists(['F7'],[],'cm_IntelliFocus');   // F7
-//      AddIfNotExists(['Ctrl+F'],[],'cm_Start');
+      AddIfNotExists(['F7'],[],'cm_IntelliFocus');
+      AddIfNotExists(['Enter'],[],'cm_Start');
       AddIfNotExists(['Esc'],[],'cm_CancelClose');
 //      AddIfNotExists(['Esc'],[],'cm_Close');
       AddIfNotExists(['Ctrl+N'],[],'cm_NewSearch');
