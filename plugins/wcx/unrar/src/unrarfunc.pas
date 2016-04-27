@@ -133,9 +133,9 @@ type
 
   {$IFDEF MSWINDOWS}{$CALLING STDCALL}{$ELSE}{$CALLING CDECL}{$ENDIF}
 
-  TUnrarCallback = function(Msg: LongWord; UserData, P1, P2: PtrInt) : Integer;
   TUnrarChangeVolProc = function(ArcName: PChar; Mode: Integer): Integer;
   TUnrarProcessDataProc = function(BufAddr: Pointer; BufSize: Integer): Integer;
+  TUnrarCallback = function(Msg: LongWord; UserData, P1: Pointer; P2: PtrInt): Integer;
 
   RAROpenArchiveDataEx = packed record
     ArcName: PAnsiChar;
@@ -337,22 +337,22 @@ begin
 {$ENDIF}
 end;
 
-function UnrarCallback(Msg: LongWord; UserData, P1, P2: PtrInt) : Integer; dcpcall;
+function UnrarCallback(Msg: LongWord; UserData, P1: Pointer; P2: PtrInt) : Integer; dcpcall;
 begin
   Result := 0;
   case Msg of
   UCM_CHANGEVOLUME:
     begin
-      if Assigned(ChangeVolProcW) then
+      if Assigned(ChangeVolProc) then
       begin
-        if ChangeVolProcW(PWideChar(UTF8Decode(AnsiToUtf8(PChar(P1)))), LongInt(P2)) = 0 then
-          Result := -1;
+        if ChangeVolProc(PAnsiChar(P1), LongInt(P2)) = 0 then
+          Result := -1
+        else
+          Result :=  1;
       end
-      else if Assigned(ChangeVolProc) then
-      begin
-        if ChangeVolProc(PChar(P1), LongInt(P2)) = 0 then
-          Result := -1;
-      end
+      else begin
+        Result := -1;
+      end;
     end;
   UCM_PROCESSDATA:
     begin
@@ -380,7 +380,9 @@ begin
       // here.
       // P2 - contains the size of password buffer.
       if not gStartupInfo.InputBox('Unrar', 'Please enter the password:', True, PAnsiChar(P1), P2) then
-        Result := -1;
+        Result := -1
+      else
+        Result :=  1;
     end;
   end;
 end;

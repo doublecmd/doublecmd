@@ -42,7 +42,6 @@ type
 
   protected
     function Tar: Boolean;
-    procedure SetChangeVolProc(hArcData: TArcHandle);
     procedure SetProcessDataProc(hArcData: TArcHandle);
 
     function FileExistsMessage(aSourceFile: TFile; aTargetHeader: TWcxHeader): String;
@@ -87,42 +86,6 @@ threadvar
   // This thread variable is used to store currently running operation
   // for plugins that supports background operations (see GetBackgroundFlags)
   WcxCopyInOperationT: TWcxArchiveCopyInOperation;
-
-function ChangeVolProc(var ArcName : String; Mode: LongInt): LongInt;
-begin
-  Result:= 1;
-  case Mode of
-  PK_VOL_ASK:
-    begin
-      // Use operation UI for this?
-      if not ShowInputQuery('Double Commander', rsMsgSelLocNextVol, ArcName) then
-        Result := 0; // Abort operation
-    end;
-  PK_VOL_NOTIFY:
-    if log_arc_op in gLogOptions then
-      LogWrite(rsMsgNextVolUnpack + #32 + ArcName);
-  end;
-end;
-
-function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; dcpcall;
-var
-  sArcName: String;
-begin
-  sArcName:= CeSysToUtf8(StrPas(ArcName));
-  Result:= ChangeVolProc(sArcName, Mode);
-  if Result <> 0 then
-    StrPLCopy(ArcName, CeUtf8ToSys(sArcName), MAX_PATH);
-end;
-
-function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; dcpcall;
-var
-  sArcName: String;
-begin
-  sArcName:= UTF16ToUTF8(UnicodeString(ArcName));
-  Result:= ChangeVolProc(sArcName, Mode);
-  if Result <> 0 then
-    StrPLCopyW(ArcName, UTF8Decode(sArcName), MAX_PATH);
-end;
 
 function ProcessDataProc(WcxCopyInOperation: TWcxArchiveCopyInOperation;
                          FileName: String; Size: LongInt): LongInt;
@@ -276,8 +239,8 @@ begin
     UpdateStatistics(FStatistics);
   end;
 
-  SetChangeVolProc(wcxInvalidHandle);
   SetProcessDataProc(wcxInvalidHandle);
+  FWcxArchiveFileSource.SetChangeVolProc(wcxInvalidHandle);
 
   // Convert TFiles into String;
   sFileList:= GetFileList(FFullFilesTree);
@@ -430,12 +393,6 @@ begin
     else
       mbDeleteFile(aFile.FullPath);
   end;
-end;
-
-procedure TWcxArchiveCopyInOperation.SetChangeVolProc(hArcData: TArcHandle);
-begin
-  with FWcxArchiveFileSource.WcxModule do
-  WcxSetChangeVolProc(hArcData, @ChangeVolProcA, @ChangeVolProcW);
 end;
 
 procedure TWcxArchiveCopyInOperation.SetProcessDataProc(hArcData: TArcHandle);
