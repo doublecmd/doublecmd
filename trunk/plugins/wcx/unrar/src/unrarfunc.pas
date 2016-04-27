@@ -74,7 +74,7 @@ type
 
 {$IFDEF WINDOWS}
   TRarUnicodeChar = WideChar;         // assuming 2 byte WideChar
-  TRarUnicodeString = WideString;
+  TRarUnicodeString = UnicodeString;
 {$ENDIF}
 
   PRarUnicodeChar = ^TRarUnicodeChar;
@@ -248,7 +248,7 @@ begin
   pDst[MaxDstLength] := AnsiChar(0);
 end;
 
-procedure StringToArrayW(src: WideString;
+procedure StringToArrayW(src: UnicodeString;
                          pDst: PWideChar;
                          MaxDstLength: Integer);
 begin
@@ -262,19 +262,19 @@ begin
   pDst[MaxDstLength] := WideChar(0);
 end;
 
-function RarUnicodeStringToWideString(src: TRarUnicodeString): WideString;
+function RarUnicodeStringToWideString(src: TRarUnicodeString): UnicodeString;
 begin
 {$IFDEF UNIX}
-  Result := UCS4StringToWideString(src);
+  Result := UCS4StringToUnicodeString(src);
 {$ELSE}
   Result := src;
 {$ENDIF}
 end;
 
-function WideStringToRarUnicodeString(src: WideString): TRarUnicodeString;
+function WideStringToRarUnicodeString(src: UnicodeString): TRarUnicodeString;
 begin
 {$IFDEF UNIX}
-  Result := WideStringToUCS4String(src);
+  Result := UnicodeStringToUCS4String(src);
 {$ELSE}
   Result := src;
 {$ENDIF}
@@ -338,6 +338,10 @@ begin
 end;
 
 function UnrarCallback(Msg: LongWord; UserData, P1: Pointer; P2: PtrInt) : Integer; dcpcall;
+var
+  VolumeNameA: TRarUnicodeArray;
+  VolumeNameU: TRarUnicodeString;
+  VolumeNameW: array [0..1023] of WideChar;
 begin
   Result := 0;
   case Msg of
@@ -349,6 +353,27 @@ begin
           Result := -1
         else
           Result :=  1;
+      end
+      else begin
+        Result := -1;
+      end;
+    end;
+  UCM_CHANGEVOLUMEW:
+    begin
+      if Assigned(ChangeVolProcW) then
+      begin
+        Move(PRarUnicodeChar(P1)^, VolumeNameA[0], SizeOf(TRarUnicodeArray));
+        VolumeNameW := RarUnicodeStringToWideString(VolumeNameA);
+        if ChangeVolProcW(VolumeNameW, LongInt(P2)) = 0 then
+          Result := -1
+        else begin
+          Result :=  1;
+          if (P2 = PK_VOL_ASK) then
+          begin
+            VolumeNameU := WideStringToRarUnicodeString(VolumeNameW);
+            Move(PRarUnicodeChar(VolumeNameU)^, P1^, SizeOf(TRarUnicodeArray));
+          end;
+        end;
       end
       else begin
         Result := -1;
