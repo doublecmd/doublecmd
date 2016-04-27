@@ -62,42 +62,6 @@ var
   // (There may be other running concurrently, but only one may report progress.)
   WcxDeleteOperation: TWcxArchiveDeleteOperation = nil;
 
-function ChangeVolProc(var ArcName : String; Mode: LongInt): LongInt;
-begin
-  Result:= 1;
-  case Mode of
-  PK_VOL_ASK:
-    begin
-      // Use operation UI for this?
-      if not ShowInputQuery('Double Commander', rsMsgSelLocNextVol, ArcName) then
-        Result := 0; // Abort operation
-    end;
-  PK_VOL_NOTIFY:
-    if log_arc_op in gLogOptions then
-      LogWrite(rsMsgNextVolUnpack + #32 + ArcName);
-  end;
-end;
-
-function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; dcpcall;
-var
-  sArcName: String;
-begin
-  sArcName:= CeSysToUtf8(StrPas(ArcName));
-  Result:= ChangeVolProc(sArcName, Mode);
-  if Result <> 0 then
-    StrPLCopy(ArcName, CeUtf8ToSys(sArcName), MAX_PATH);
-end;
-
-function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; dcpcall;
-var
-  sArcName: String;
-begin
-  sArcName:= UTF16ToUTF8(UnicodeString(ArcName));
-  Result:= ChangeVolProc(sArcName, Mode);
-  if Result <> 0 then
-    StrPLCopyW(ArcName, UTF8Decode(sArcName), MAX_PATH);
-end;
-
 function ProcessDataProc(FileName: String; Size: LongInt): LongInt;
 begin
   //DCDebug('Working ' + FileName + ' Size = ' + IntToStr(Size));
@@ -183,7 +147,7 @@ var
 begin
   WcxModule := FWcxArchiveFileSource.WcxModule;
 
-  WcxModule.WcxSetChangeVolProc(wcxInvalidHandle, @ChangeVolProcA, @ChangeVolProcW);
+  FWcxArchiveFileSource.SetChangeVolProc(wcxInvalidHandle);
   WcxModule.WcxSetProcessDataProc(wcxInvalidHandle, @ProcessDataProcA, @ProcessDataProcW);
 
   iResult := WcxModule.WcxDeleteFiles(FWcxArchiveFileSource.ArchiveFileName,
