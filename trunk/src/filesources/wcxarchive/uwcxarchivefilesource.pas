@@ -272,7 +272,7 @@ var
 begin
   sArcName:= CeSysToUtf8(StrPas(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
-  if Result <> 0 then
+  if (Mode = PK_VOL_ASK) and (Result <> 0) then
     StrPLCopy(ArcName, CeUtf8ToSys(sArcName), MAX_PATH);
 end;
 
@@ -282,7 +282,7 @@ var
 begin
   sArcName:= UTF16ToUTF8(UnicodeString(ArcName));
   Result:= ChangeVolProc(sArcName, Mode);
-  if Result <> 0 then
+  if (Mode = PK_VOL_ASK) and (Result <> 0) then
     StrPLCopyW(ArcName, UTF8Decode(sArcName), MAX_PATH);
 end;
 
