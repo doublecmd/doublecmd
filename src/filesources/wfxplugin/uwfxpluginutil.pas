@@ -5,7 +5,7 @@ unit uWfxPluginUtil;
 interface
 
 uses
-  Classes, SysUtils, LCLProc, uLog, uGlobs,
+  Classes, SysUtils, LCLProc, DCOSUtils, uLog, uGlobs,
   WfxPlugin,
   uFile,
   uFileSource,
@@ -36,6 +36,7 @@ type
     FRenamingFiles,
     FRenamingRootDir,
     FInternal: Boolean;
+    FCopyAttributesOptions: TCopyAttributesOptions;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
 
     AskQuestion: TAskQuestionFunction;
@@ -52,6 +53,8 @@ type
     function FileExists(aFile: TFile;
                         AbsoluteTargetFileName: String;
                         AllowResume: Boolean): TFileSourceOperationOptionFileExists;
+
+    procedure CopyProperties(SourceFile: TFile; const TargetFileName: String);
 
   public
     constructor Create(FileSource: IFileSource;
@@ -70,6 +73,7 @@ type
     procedure ProcessFiles(aFiles: TFiles; var Statistics: TFileSourceCopyOperationStatistics);
 
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
+    property CopyAttributesOptions: TCopyAttributesOptions read FCopyAttributesOptions write FCopyAttributesOptions;
     property RenameMask: String read FRenameMask write FRenameMask;
   end;
 
@@ -278,6 +282,21 @@ begin
   end;
 end;
 
+procedure TWfxPluginOperationHelper.CopyProperties(SourceFile: TFile;
+  const TargetFileName: String);
+var
+  FileTime: TWfxFileTime;
+begin
+  if caoCopyTime in FCopyAttributesOptions then
+  begin
+    FileTime := DateTimeToWfxFileTime(SourceFile.ModificationTime);
+    if (FMode = wpohmCopyOut) then
+      mbFileSetTime(TargetFileName, DCBasicTypes.TFileTime(FileTime))
+    else begin
+      FWfxPluginFileSource.WfxModule.WfxSetTime(TargetFileName, nil, nil, @FileTime);
+    end;
+  end;
+end;
 
 constructor TWfxPluginOperationHelper.Create(FileSource: IFileSource;
                                              AskQuestionFunction: TAskQuestionFunction;
@@ -378,6 +397,8 @@ begin
         iResult := ProcessFile(aFile, sTargetFile, Statistics)
       else
         iResult := ProcessDirectory(aFile, sTargetFile);
+
+      if iResult = FS_FILE_OK then CopyProperties(aFile, sTargetFile);
 
       if iResult = FS_FILE_OK then
         begin

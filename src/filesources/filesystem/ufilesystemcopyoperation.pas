@@ -33,7 +33,6 @@ type
     // Options.
     FReserveSpace,
     FCheckFreeSpace: Boolean;
-    FCopyAttributesOptions: TCopyAttributesOptions;
     FSkipAllBigFiles: Boolean;
     FAutoRenameItSelf: Boolean;
     FSymLinkOption: TFileSourceOperationOptionSymLink;
@@ -56,7 +55,6 @@ type
 
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
     property ReserveSpace: Boolean read FReserveSpace write FReserveSpace;
-    property CopyAttributesOptions: TCopyAttributesOptions read FCopyAttributesOptions write FCopyAttributesOptions;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property AutoRenameItSelf: Boolean read FAutoRenameItSelf write FAutoRenameItSelf;
     property SymLinkOption: TFileSourceOperationOptionSymLink read FSymLinkOption write FSymLinkOption;
@@ -105,19 +103,8 @@ constructor TFileSystemCopyOperation.Create(aSourceFileSource: IFileSource;
                                             var theSourceFiles: TFiles;
                                             aTargetPath: String);
 begin
-  // Here we can read global settings if there are any.
-  FCopyAttributesOptions := [];
-  if gOperationOptionCopyAttributes then
-    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyAttributes];
-  if gOperationOptionCopyTime then
-    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyTime];
-  if gOperationOptionCopyOwnership then
-    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyOwnership];
-  if gDropReadOnlyFlag then
-    FCopyAttributesOptions := FCopyAttributesOptions + [caoRemoveReadOnlyAttr];
+  // Here we can read global settings if there are any
   FSymLinkOption := gOperationOptionSymLinks;
-  FFileExistsOption := gOperationOptionFileExists;
-  FDirExistsOption := gOperationOptionDirectoryExists;
   FSetPropertyError := gOperationOptionSetPropertyError;
   FReserveSpace := gOperationOptionReserveSpace;
   FCheckFreeSpace := gOperationOptionCheckFreeSpace;
@@ -127,6 +114,19 @@ begin
   FExcludeEmptyTemplateDirectories := True;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
+
+  // Here we can read global settings if there are any
+  FFileExistsOption := gOperationOptionFileExists;
+  FDirExistsOption := gOperationOptionDirectoryExists;
+
+  if gOperationOptionCopyAttributes then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyAttributes];
+  if gOperationOptionCopyTime then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyTime];
+  if gOperationOptionCopyOwnership then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyOwnership];
+  if gDropReadOnlyFlag then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoRemoveReadOnlyAttr];
 end;
 
 destructor TFileSystemCopyOperation.Destroy;

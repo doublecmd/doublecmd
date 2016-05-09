@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils, syncobjs,
+  DCOSUtils,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSourceOperationOptions,
@@ -47,6 +48,7 @@ type
     FRenameMask: String;
 
   protected
+    FCopyAttributesOptions: TCopyAttributesOptions;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
 
@@ -86,6 +88,7 @@ type
 
     property RenameMask: String read FRenameMask write FRenameMask;
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
+    property CopyAttributesOptions: TCopyAttributesOptions read FCopyAttributesOptions write FCopyAttributesOptions;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
   end;
 
@@ -132,7 +135,7 @@ type
 implementation
 
 uses
-  uDCUtils, uLng;
+  uDCUtils, uLng, uGlobs;
 
 // -- TFileSourceCopyOperation ------------------------------------------------
 
@@ -177,6 +180,9 @@ begin
   FTargetPath := IncludeTrailingPathDelimiter(aTargetPath);
 
   FRenameMask := '';
+
+  if gOperationOptionCopyTime then
+    FCopyAttributesOptions := FCopyAttributesOptions + [caoCopyTime];
 end;
 
 destructor TFileSourceCopyOperation.Destroy;

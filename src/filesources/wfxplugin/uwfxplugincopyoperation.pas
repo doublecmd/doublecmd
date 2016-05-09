@@ -136,6 +136,7 @@ begin
 
   FOperationHelper.RenameMask := RenameMask;
   FOperationHelper.FileExistsOption := FileExistsOption;
+  FOperationHelper.CopyAttributesOptions := CopyAttributesOptions;
 
   FOperationHelper.Initialize;
 end;
