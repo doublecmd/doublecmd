@@ -7,6 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, StdCtrls, ExtCtrls,
   uFileSourceOperationOptionsUI,
+  uFileSourceCopyOperation,
   uWfxPluginCopyOperation,
   uWfxPluginMoveOperation,
   uWfxPluginCopyInOperation,
@@ -17,6 +18,7 @@ type
   { TWfxPluginCopyMoveOperationOptionsUI }
 
   TWfxPluginCopyMoveOperationOptionsUI = class(TFileSourceOperationOptionsUI)
+    cbCopyTime: TCheckBox;
     cbWorkInBackground: TCheckBox;
     cmbFileExists: TComboBox;
     grpOptions: TGroupBox;
@@ -25,6 +27,7 @@ type
     pnlComboBoxes: TPanel;
     procedure cbWorkInBackgroundChange(Sender: TObject);
   private
+    procedure SetCopyOptions(CopyOperation: TFileSourceCopyOperation);
     procedure SetOperationOptions(CopyOperation: TWfxPluginCopyOperation); overload;
     procedure SetOperationOptions(MoveOperation: TWfxPluginMoveOperation); overload;
     procedure SetOperationOptions(CopyInOperation: TWfxPluginCopyInOperation); overload;
@@ -60,7 +63,7 @@ implementation
 {$R *.lfm}
 
 uses
-  WfxPlugin, fCopyMoveDlg, uGlobs, uWfxPluginFileSource,
+  DCOSUtils, WfxPlugin, fCopyMoveDlg, uGlobs, uWfxPluginFileSource,
   uFileSourceOperationOptions, uOperationsManager;
 
 { TWfxPluginCopyMoveOperationOptionsUI }
@@ -74,6 +77,12 @@ begin
     fsoofeNone     : cmbFileExists.ItemIndex := 0;
     fsoofeOverwrite: cmbFileExists.ItemIndex := 1;
     fsoofeSkip     : cmbFileExists.ItemIndex := 2;
+  end;
+
+  with (AFileSource as IWfxPluginFileSource).WfxModule do
+  begin
+    cbCopyTime.Visible := Assigned(FsSetTime) or Assigned(FsSetTimeW);
+    cbCopyTime.Checked := cbCopyTime.Visible and gOperationOptionCopyTime;
   end;
 end;
 
@@ -109,6 +118,18 @@ begin
   end;
 end;
 
+procedure TWfxPluginCopyMoveOperationOptionsUI.SetCopyOptions(CopyOperation: TFileSourceCopyOperation);
+begin
+  with CopyOperation do
+  begin
+    if cbCopyTime.Checked then
+      CopyAttributesOptions := CopyAttributesOptions + [caoCopyTime]
+    else begin
+      CopyAttributesOptions := CopyAttributesOptions - [caoCopyTime];
+    end;
+  end;
+end;
+
 procedure TWfxPluginCopyMoveOperationOptionsUI.SetOperationOptions(CopyOperation: TWfxPluginCopyOperation);
 begin
   with CopyOperation do
@@ -118,6 +139,7 @@ begin
       1: FileExistsOption := fsoofeOverwrite;
       2: FileExistsOption := fsoofeSkip;
     end;
+    SetCopyOptions(CopyOperation);
   end;
 end;
 
@@ -143,6 +165,7 @@ begin
       1: FileExistsOption := fsoofeOverwrite;
       2: FileExistsOption := fsoofeSkip;
     end;
+    SetCopyOptions(CopyInOperation);
   end;
 end;
 
@@ -156,6 +179,7 @@ begin
       1: FileExistsOption := fsoofeOverwrite;
       2: FileExistsOption := fsoofeSkip;
     end;
+    SetCopyOptions(CopyOutOperation);
   end;
 end;
 
