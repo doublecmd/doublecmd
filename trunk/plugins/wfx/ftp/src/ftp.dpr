@@ -38,6 +38,7 @@ exports
   FsDeleteFileW,
   FsMkDirW,
   FsRemoveDirW,
+  FsSetTimeW,
   FsDisconnectW,
   FsSetCryptCallbackW,
   FsGetDefRootName,

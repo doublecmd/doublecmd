@@ -84,6 +84,7 @@ function ExtractConnectionHost(Connection: AnsiString): AnsiString;
 function ExtractConnectionPort(Connection: AnsiString): AnsiString;
 function ExtractConnectionProt(Connection: AnsiString): AnsiString;
 
+function FormatMachineTime(const Time: TFileTime): String;
 function DecodeMachineTime(const Time: String): TDateTime;
 function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): LongBool;
 function LocalFileTimeToFileTimeEx(const lpLocalFileTime: TFileTime; var lpFileTime: TFileTime): LongBool;
@@ -281,6 +282,14 @@ begin
  else begin
    Result:= Copy(Result, 1, I - 1);
  end;
+end;
+
+function FormatMachineTime(const Time: TFileTime): String;
+var
+  FileTime: TDateTime;
+begin
+  FileTime:= (Int64(Time) / 864000000000.0) - 109205.0;
+  Result:= FormatDateTime('yyyymmddhhnnss', FileTime);
 end;
 
 function DecodeMachineTime(const Time: String): TDateTime;

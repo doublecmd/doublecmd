@@ -93,7 +93,7 @@ type
     function Login: Boolean; override;
     procedure ParseRemote(Value: string); override;
     function List(Directory: String; NameList: Boolean): Boolean; override;
-    function SetTime(const FileName: String; FileTime: TDateTime): Boolean;
+    function SetTime(const FileName: String; FileTime: TFileTime): Boolean;
     function StoreFile(const FileName: string; Restore: Boolean): Boolean; override;
     function RetrieveFile(const FileName: string; FileSize: Int64; Restore: Boolean): Boolean; overload;
     function NetworkError(): Boolean;
@@ -497,12 +497,12 @@ begin
   end;
 end;
 
-function TFTPSendEx.SetTime(const FileName: String; FileTime: TDateTime): Boolean;
+function TFTPSendEx.SetTime(const FileName: String; FileTime: TFileTime): Boolean;
 var
   Time: String;
 begin
   if not FSetTime then Exit(False);
-  Time:= FormatDateTime('yyyymmddhhnnss', FileTime);
+  Time:= FormatMachineTime(FileTime);
   Result:= FTPCommand('MFMT ' + Time + ' ' + FileName) = 213;
 end;
 

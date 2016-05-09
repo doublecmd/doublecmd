@@ -67,6 +67,9 @@ function FsDeleteFileW(RemoteName: PWideChar): BOOL; dcpcall;
 function FsMkDirW(RemoteDir: PWideChar): BOOL; dcpcall;
 function FsRemoveDirW(RemoteName: PWideChar): BOOL; dcpcall;
 
+function FsSetTimeW(RemoteName: PWideChar; CreationTime, LastAccessTime,
+                    LastWriteTime: PFileTime): BOOL; dcpcall;
+
 function FsDisconnectW(DisconnectRoot: PWideChar): BOOL; dcpcall;
 
 procedure FsSetCryptCallbackW(pCryptProc: TCryptProcW; CryptoNr, Flags: Integer); dcpcall;
@@ -860,6 +863,20 @@ begin
   Result := False;
   if GetConnectionByPath(RemoteName, FtpSend, sPath) then
     Result := FtpSend.DeleteDir(sPath);
+end;
+
+function FsSetTimeW(RemoteName: PWideChar; CreationTime, LastAccessTime,
+  LastWriteTime: PFileTime): BOOL; dcpcall;
+var
+  sPath: AnsiString;
+  FtpSend: TFTPSendEx;
+begin
+  Result := False;
+  if Assigned(LastWriteTime) then
+  begin
+    if GetConnectionByPath(RemoteName, FtpSend, sPath) then
+      Result := FtpSend.SetTime(sPath, LastWriteTime^);
+  end;
 end;
 
 function FsDisconnectW(DisconnectRoot: PWideChar): BOOL; dcpcall;
