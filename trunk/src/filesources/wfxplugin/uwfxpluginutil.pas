@@ -285,15 +285,15 @@ end;
 procedure TWfxPluginOperationHelper.CopyProperties(SourceFile: TFile;
   const TargetFileName: String);
 var
-  FileTime: TWfxFileTime;
+  WfxFileTime: TWfxFileTime;
 begin
   if caoCopyTime in FCopyAttributesOptions then
   begin
-    FileTime := DateTimeToWfxFileTime(SourceFile.ModificationTime);
     if (FMode = wpohmCopyOut) then
-      mbFileSetTime(TargetFileName, DCBasicTypes.TFileTime(FileTime))
+      mbFileSetTime(TargetFileName, DateTimeToFileTime(SourceFile.ModificationTime))
     else begin
-      FWfxPluginFileSource.WfxModule.WfxSetTime(TargetFileName, nil, nil, @FileTime);
+      WfxFileTime := DateTimeToWfxFileTime(SourceFile.ModificationTime);
+      FWfxPluginFileSource.WfxModule.WfxSetTime(TargetFileName, nil, nil, @WfxFileTime);
     end;
   end;
 end;
