@@ -60,7 +60,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uWdxModule, uSearchContent;
+  uSearchContent;
 
 { TfrmSearchPlugin }
 
@@ -92,6 +92,7 @@ var
 begin
   chkUsePlugins.Checked:= SearchTemplate.ContentPlugin;
   rbAnd.Checked:= SearchTemplate.ContentPluginCombine;
+  for I:= pnlTable.ControlCount - 1 downto 0 do pnlTable.Controls[I].Free;
   for I:= Low(SearchTemplate.ContentPlugins) to High(SearchTemplate.ContentPlugins) do
   begin
     Panel:= TPluginPanel.Create(pnlTable);
