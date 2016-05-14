@@ -110,7 +110,8 @@ begin
 
   if Length(Value) > 0 then
   begin
-    StrPLCopy(FieldValue, UTF8ToUTF16(Value), MaxLen - 2);
+    MaxLen:= MaxLen div SizeOf(WideChar) - 1;
+    StrPLCopy(FieldValue, UTF8ToUTF16(Value), MaxLen);
     Result:= ft_stringw;
   end;
 end;
