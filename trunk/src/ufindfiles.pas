@@ -4,7 +4,7 @@
    Structures and functions for searching files.   
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2013 Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010 Przemys³aw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -41,6 +41,7 @@ type
   TPluginSearchRec = record
     Plugin: String;
     Field: String;
+    UnitName: String;
     FieldType: Integer;
     Compare: TPluginOperator;
     Value: Variant;
@@ -338,7 +339,7 @@ begin
   begin
     Module := gWDXPlugins.GetWdxModule(ContentPlugins[I].Plugin);
     if (Module = nil) or (not Module.IsLoaded) then Continue;
-    Value:= Module.CallContentGetValueV(FileName, ContentPlugins[I].Field, '', 0);
+    Value:= Module.CallContentGetValueV(FileName, ContentPlugins[I].Field, ContentPlugins[I].UnitName, 0);
     case ContentPlugins[I].Compare of
       poEqual: Work:= (ContentPlugins[I].Value = Value);
       poNotEqual: Work:= (ContentPlugins[I].Value <> Value);
