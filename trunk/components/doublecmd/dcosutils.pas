@@ -182,7 +182,7 @@ function mbSysErrorMessage(ErrorCode: Integer): String;
 {en
    Get current module name
 }
-function mbGetModuleName(): String;
+function mbGetModuleName(Address: Pointer = nil): String;
 function mbLoadLibrary(const Name: String): TLibHandle;
 function SafeGetProcAddress(Lib: TLibHandle; const ProcName: AnsiString): Pointer;
 
@@ -1295,30 +1295,28 @@ begin
   Result := CeSysToUtf8(SysErrorMessage(ErrorCode));
 end;
 
-function mbGetModuleName: String;
+function mbGetModuleName(Address: Pointer): String;
+const
+  Dummy: Boolean = False;
 {$IFDEF UNIX}
-label
-  address;
 var
   dlinfo: dl_info;
 begin
-  address:
+  if Address = nil then Address:= @Dummy;
   FillChar({%H-}dlinfo, SizeOf(dlinfo), #0);
-  if dladdr(@address, @dlinfo) = 0 then
+  if dladdr(Address, @dlinfo) = 0 then
     Result:= EmptyStr
   else begin
     Result:= CeSysToUtf8(dlinfo.dli_fname);
   end;
 end;
 {$ELSE}
-label
-  Address;
 var
   ModuleName: UnicodeString;
   lpBuffer: TMemoryBasicInformation;
 begin
-  Address:
-  if VirtualQuery(@Address, @lpBuffer, SizeOf(lpBuffer)) <> SizeOf(lpBuffer) then
+  if Address = nil then Address:= @Dummy;
+  if VirtualQuery(Address, @lpBuffer, SizeOf(lpBuffer)) <> SizeOf(lpBuffer) then
     Result:= EmptyStr
   else begin
     SetLength(ModuleName, MAX_PATH + 1);
