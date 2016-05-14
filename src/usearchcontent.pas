@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Content plugin search control
 
-   Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,18 +38,21 @@ type
    FPlugin,
    FField,
    FOperator,
-   FValue: TComboBox;
+   FValue,
+   FUnit: TComboBox;
   private
     function GetCompare: TPluginOperator;
     function GetField: String;
     function GetFieldType: Integer;
     function GetPlugin: String;
+    function GetUnitName: String;
     function GetValue: Variant;
     procedure PluginChange(Sender: TObject);
     procedure FieldChange(Sender: TObject);
     procedure SetCompare(AValue: TPluginOperator);
     procedure SetField(AValue: String);
     procedure SetPlugin(AValue: String);
+    procedure SetUnitName(AValue: String);
     procedure SetValue(AValue: Variant);
     procedure SetComboBox(ComboBox: TComboBox; const Value, Error: String);
   public
@@ -58,6 +61,7 @@ type
   public
     property Plugin: String read GetPlugin write SetPlugin;
     property Field: String read GetField write SetField;
+    property UnitName: String read GetUnitName write SetUnitName;
     property FieldType: Integer read GetFieldType;
     property Compare: TPluginOperator read GetCompare write SetCompare;
     property Value: Variant read GetValue write SetValue;
@@ -88,6 +92,11 @@ end;
 function TPluginPanel.GetPlugin: String;
 begin
   Result:= FPlugin.Text;
+end;
+
+function TPluginPanel.GetUnitName: String;
+begin
+  Result:= FUnit.Text;
 end;
 
 function TPluginPanel.GetValue: Variant;
@@ -122,12 +131,23 @@ var
   sUnits: String;
   Module: TWDXModule;
 begin
+  FUnit.Items.Clear;
   FValue.Items.Clear;
   FOperator.Items.Clear;
   Module:= gWdxPlugins.GetWdxModule(FPlugin.Text);
   J:= Module.GetFieldIndex(FField.Text);
   if J < 0 then Exit;
   I:= TWdxField(Module.FieldList.Objects[J]).FType;
+  if (I <> FT_MULTIPLECHOICE) then
+  begin
+    sUnits:= TWdxField(Module.FieldList.Objects[J]).FUnits;
+    while sUnits <> EmptyStr do
+    begin
+      FUnit.Items.Add(Copy2SymbDel(sUnits, '|'));
+    end;
+    FUnit.Enabled:= FUnit.Items.Count > 0;
+    if FUnit.Enabled then FUnit.ItemIndex:= 0;
+  end;
   case I of
   FT_NUMERIC_32,
   FT_NUMERIC_64,
@@ -202,6 +222,11 @@ begin
   SetComboBox(FPlugin, AValue, Format('Plugin %s not found!', [AValue]));
 end;
 
+procedure TPluginPanel.SetUnitName(AValue: String);
+begin
+  SetComboBox(FUnit, AValue, Format('Unit %s not found!', [AValue]));
+end;
+
 procedure TPluginPanel.SetValue(AValue: Variant);
 begin
   FValue.Text:= VarToStr(AValue)
@@ -228,7 +253,7 @@ begin
   inherited Create(TheOwner);
   AutoSize:= True;
   BevelOuter:= bvNone;
-  ChildSizing.ControlsPerLine:= 4;
+  ChildSizing.ControlsPerLine:= 5;
   ChildSizing.Layout:= cclLeftToRightThenTopToBottom;
   ChildSizing.EnlargeHorizontal:= crsScaleChilds;
 
@@ -248,6 +273,10 @@ begin
 
   FValue:= TComboBox.Create(Self);
   FValue.Parent:= Self;
+
+  FUnit:= TComboBox.Create(Self);
+  FUnit.Style:= csDropDownList;
+  FUnit.Parent:= Self;
 
   for I:= 0 to gWDXPlugins.Count - 1do
   begin
@@ -269,6 +298,7 @@ begin
   FField.Free;
   FOperator.Free;
   FValue.Free;
+  FUnit.Free;
   inherited Destroy;
 end;
 

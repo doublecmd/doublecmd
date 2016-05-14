@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Content plugins search frame
 
-   Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ unit fSearchPlugin;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Grids, ExtCtrls, StdCtrls,
+  Classes, SysUtils, FileUtil, Forms, Controls, ExtCtrls, StdCtrls,
   ComCtrls, Buttons, uFindFiles;
 
 type
@@ -60,15 +60,13 @@ implementation
 {$R *.lfm}
 
 uses
-  StrUtils, WdxPlugin, uGlobs, uWDXModule, uSearchContent;
+  uWdxModule, uSearchContent;
 
 { TfrmSearchPlugin }
 
 procedure TfrmSearchPlugin.Save(var SearchTemplate: TSearchTemplateRec);
 var
-  I, J: Integer;
-  Value: Variant;
-  Module: TWDXModule;
+  I: Integer;
   Plugin: TPluginPanel;
 begin
   SearchTemplate.ContentPlugin:= chkUsePlugins.Checked;
@@ -80,6 +78,7 @@ begin
     Plugin:= TPluginPanel(pnlTable.Controls[I]);
     SearchTemplate.ContentPlugins[I].Plugin:= Plugin.Plugin;
     SearchTemplate.ContentPlugins[I].Field:= Plugin.Field;
+    SearchTemplate.ContentPlugins[I].UnitName:= Plugin.UnitName;
     SearchTemplate.ContentPlugins[I].Compare:= Plugin.Compare;
     SearchTemplate.ContentPlugins[I].FieldType:= Plugin.FieldType;
     SearchTemplate.ContentPlugins[I].Value:= Plugin.Value;
@@ -99,6 +98,7 @@ begin
     Panel.Parent:= pnlTable;
     Panel.Plugin:= SearchTemplate.ContentPlugins[I].Plugin;
     Panel.Field:= SearchTemplate.ContentPlugins[I].Field;
+    Panel.UnitName:= SearchTemplate.ContentPlugins[I].UnitName;
     Panel.Compare:= SearchTemplate.ContentPlugins[I].Compare;
     Panel.Value:= SearchTemplate.ContentPlugins[I].Value;
   end;

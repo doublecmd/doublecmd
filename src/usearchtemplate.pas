@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Load/Save search templates
 
-   Copyright (C) 2009-2013  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -317,6 +317,7 @@ begin
                 SetLength(ContentPlugins, Index + 1);
                 ContentPlugins[Index].Plugin:= AConfig.GetValue(Node, 'Name', EmptyStr);
                 ContentPlugins[Index].Field:= AConfig.GetValue(Node, 'Field', EmptyStr);
+                ContentPlugins[Index].UnitName:= AConfig.GetValue(Node, 'Unit', EmptyStr);
                 ContentPlugins[Index].FieldType:= AConfig.GetValue(Node, 'FieldType', ft_string);
                 ContentPlugins[Index].Compare:= TPluginOperator(AConfig.GetValue(Node, 'Compare', 0));
                 ContentPlugins[Index].Value:= StrToVar(AConfig.GetValue(Node, 'Value', EmptyStr), ContentPlugins[Index].FieldType);
@@ -456,6 +457,7 @@ begin
           SubNode := AConfig.AddNode(Node, 'Plugin');
           AConfig.SetValue(SubNode, 'Name', ContentPlugins[J].Plugin);
           AConfig.SetValue(SubNode, 'Field', ContentPlugins[J].Field);
+          AConfig.SetValue(SubNode, 'Unit', ContentPlugins[J].UnitName);
           AConfig.SetValue(SubNode, 'FieldType', ContentPlugins[J].FieldType);
           AConfig.SetValue(SubNode, 'Compare', Integer(ContentPlugins[J].Compare));
           AConfig.SetValue(SubNode, 'Value', VarToStr(ContentPlugins[J].Value));
