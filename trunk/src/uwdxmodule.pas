@@ -266,7 +266,7 @@ implementation
 
 uses
   StrUtils, LazUTF8, uGlobs, uGlobsPaths, FileUtil, uDebug, uDCUtils, uOSUtils,
-  DCBasicTypes, DCOSUtils, DCDateTimeUtils, DCConvertEncoding;
+  DCBasicTypes, DCOSUtils, DCDateTimeUtils, DCConvertEncoding, uLuaPas;
 
 const
   WdxIniFileName = 'wdx.ini';
@@ -980,6 +980,8 @@ begin
     exit;
 
   luaL_openlibs(L);
+
+  RegisterPackages(L);
 
   if DoScript(Self.FFileName) = 0 then
     Result := True
