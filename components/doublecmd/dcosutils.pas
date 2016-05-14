@@ -179,6 +179,10 @@ function mbGetEnvironmentString(Index : Integer) : String;
 }
 function mbExpandEnvironmentStrings(const FileName: String): String;
 function mbSysErrorMessage(ErrorCode: Integer): String;
+{en
+   Get current module name
+}
+function mbGetModuleName(): String;
 function mbLoadLibrary(const Name: String): TLibHandle;
 function SafeGetProcAddress(Lib: TLibHandle; const ProcName: AnsiString): Pointer;
 
@@ -1290,6 +1294,40 @@ function mbSysErrorMessage(ErrorCode: Integer): String;
 begin
   Result := CeSysToUtf8(SysErrorMessage(ErrorCode));
 end;
+
+function mbGetModuleName: String;
+{$IFDEF UNIX}
+label
+  address;
+var
+  dlinfo: dl_info;
+begin
+  address:
+  FillChar({%H-}dlinfo, SizeOf(dlinfo), #0);
+  if dladdr(@address, @dlinfo) = 0 then
+    Result:= EmptyStr
+  else begin
+    Result:= CeSysToUtf8(dlinfo.dli_fname);
+  end;
+end;
+{$ELSE}
+label
+  Address;
+var
+  ModuleName: UnicodeString;
+  lpBuffer: TMemoryBasicInformation;
+begin
+  Address:
+  if VirtualQuery(@Address, @lpBuffer, SizeOf(lpBuffer)) <> SizeOf(lpBuffer) then
+    Result:= EmptyStr
+  else begin
+    SetLength(ModuleName, MAX_PATH + 1);
+    SetLength(ModuleName, GetModuleFileNameW({%H-}THandle(lpBuffer.AllocationBase),
+                                             PWideChar(ModuleName), MAX_PATH));
+    Result:= UTF16ToUTF8(ModuleName);
+  end;
+end;
+{$ENDIF}
 
 function mbLoadLibrary(const Name: String): TLibHandle;
 {$IFDEF MSWINDOWS}
