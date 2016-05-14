@@ -63,7 +63,10 @@ begin
   PFileSourceRecord(WfxConnectionList.Objects[Index]).Count:= 1;
   Connection:= PFileSourceRecord(WfxConnectionList.Objects[Index])^;
   FileSource:= Connection.FileSource as IWfxPluginFileSource;
-  FileSource.WfxModule.WfxDisconnect(Connection.Path);
+  if FileSource.WfxModule.WfxDisconnect(Connection.Path) then
+  begin
+    RemoveNetworkConnection(Connection.Name, Connection.Path);
+  end;
   with frmMain do
   begin
     if ActiveFrame.FileSource.Equals(FileSource) and
