@@ -4,7 +4,7 @@ library AudioInfo;
 {$include calling.inc}
 
 uses
-  SysUtils, Classes, LazUTF8, WdxPlugin, AudioData;
+  SysUtils, Classes, LazUTF8, WdxPlugin, AudioData, DCOSUtils;
 
 const
   DETECT_STRING: String = '(EXT="MP3") | (EXT="MP2") | (EXT="MP1") | (EXT="OGG") | (EXT="WMA") | ' +
@@ -88,7 +88,6 @@ function ContentGetValueW(FileName: PWideChar; FieldIndex, UnitIndex: Integer;
   FieldValue: PByte; MaxLen, Flags: Integer): Integer; dcpcall;
 var
   Value: String;
-  FileAttr: Integer;
   FileNameU: String;
   ValueI: PInteger absolute FieldValue;
   Time: ptimeformat absolute FieldValue;
@@ -100,8 +99,8 @@ begin
   end;
 
   FileNameU:= UTF16ToUTF8(UnicodeString(FileName));
-  FileAttr:= FileGetAttr(FileNameU);
-  if (FileAttr < 0) or (FileAttr and faSysFile <> 0) then
+
+  if not mbFileExists(FileNameU) then
   begin
     Result:= ft_fileerror;
     Exit;
@@ -166,8 +165,10 @@ begin
         else begin
           if Result <> ft_stringw then
             StrPLCopy(PAnsiChar(FieldValue), Value, MaxLen - 1)
-          else
-            StrPLCopy(PWideChar(FieldValue), UTF8ToUTF16(Value), MaxLen - SizeOf(WideChar));
+          else begin
+            MaxLen:= MaxLen div SizeOf(WideChar) - 1;
+            StrPLCopy(PWideChar(FieldValue), UTF8ToUTF16(Value), MaxLen);
+          end;
         end;
       end;
     ft_numeric_32:
