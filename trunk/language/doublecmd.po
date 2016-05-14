@@ -52,6 +52,7 @@ msgid "Copy &permissions"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
+msgctxt "tfilesystemcopymoveoperationoptionsui.cbcopytime.caption"
 msgid "Copy d&ate/time"
 msgstr ""
 
@@ -7430,6 +7431,10 @@ msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr ""
 
+#: tfrmsearchplugin.headercontrol.sections[4].text
+msgid "Unit"
+msgstr ""
+
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr ""
@@ -7796,17 +7801,17 @@ msgid "Show:"
 msgstr ""
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
-msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
+msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[0].TITLE.CAPTION"
 msgid "Name"
 msgstr ""
 
 #: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
-msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
+msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[1].TITLE.CAPTION"
 msgid "Size"
 msgstr ""
 
 #: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
-msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
+msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[2].TITLE.CAPTION"
 msgid "Date"
 msgstr ""
 
@@ -8423,6 +8428,11 @@ msgstr ""
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
+msgstr ""
+
+#: twfxplugincopymoveoperationoptionsui.cbcopytime.caption
+msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.CBCOPYTIME.CAPTION"
+msgid "Copy d&ate/time"
 msgstr ""
 
 #: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption

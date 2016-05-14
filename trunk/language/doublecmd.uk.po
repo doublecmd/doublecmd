@@ -52,6 +52,7 @@ msgid "Copy &permissions"
 msgstr "Копіювати &права"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
+msgctxt "tfilesystemcopymoveoperationoptionsui.cbcopytime.caption"
 msgid "Copy d&ate/time"
 msgstr "Копіювати &дату/час"
 
@@ -7895,6 +7896,10 @@ msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "Значення"
 
+#: tfrmsearchplugin.headercontrol.sections[4].text
+msgid "Unit"
+msgstr ""
+
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr "&AND (всі правила)"
@@ -8273,35 +8278,41 @@ msgid "Show:"
 msgstr "Показати:"
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
 msgid "Name"
 msgstr "Ім'я"
 
 #: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
 msgid "Size"
 msgstr "Розмір"
 
 #: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
 msgid "Date"
 msgstr "Дата"
 
 #: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
 msgid "<=>"
-msgstr "<=>"
+msgstr ""
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
 msgid "Date"
 msgstr "Дата"
 
 #: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
 msgid "Size"
 msgstr "Розмір"
 
 #: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
 msgid "Name"
 msgstr "Ім'я"
@@ -8961,6 +8972,12 @@ msgstr "Якщо файл існує"
 msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Якщо файл існує"
+
+#: twfxplugincopymoveoperationoptionsui.cbcopytime.caption
+#, fuzzy
+msgctxt "twfxplugincopymoveoperationoptionsui.cbcopytime.caption"
+msgid "Copy d&ate/time"
+msgstr "Копіювати &дату/час"
 
 #: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
 msgid "Work in background (separate connection)"

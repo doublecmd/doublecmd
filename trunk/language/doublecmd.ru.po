@@ -53,6 +53,7 @@ msgid "Copy &permissions"
 msgstr "Копировать права доступа"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
+msgctxt "tfilesystemcopymoveoperationoptionsui.cbcopytime.caption"
 msgid "Copy d&ate/time"
 msgstr "Копировать дат&у/время"
 
@@ -7725,6 +7726,10 @@ msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "Значение"
 
+#: tfrmsearchplugin.headercontrol.sections[4].text
+msgid "Unit"
+msgstr ""
+
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr "И (все правила)"
@@ -8101,35 +8106,41 @@ msgid "Show:"
 msgstr "Показывать:"
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
 msgid "Name"
 msgstr "Имя"
 
 #: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
 msgid "Size"
 msgstr "Размер"
 
 #: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
 msgid "Date"
 msgstr "Дата"
 
 #: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
 msgid "<=>"
-msgstr "<=>"
+msgstr ""
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
 msgid "Date"
 msgstr "Дата"
 
 #: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
 msgid "Size"
 msgstr "Размер"
 
 #: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
 msgid "Name"
 msgstr "Имя"
@@ -8752,6 +8763,12 @@ msgstr "Если файл существует"
 msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Если файл существует"
+
+#: twfxplugincopymoveoperationoptionsui.cbcopytime.caption
+#, fuzzy
+msgctxt "twfxplugincopymoveoperationoptionsui.cbcopytime.caption"
+msgid "Copy d&ate/time"
+msgstr "Копировать дат&у/время"
 
 #: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
 msgid "Work in background (separate connection)"

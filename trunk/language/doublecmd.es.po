@@ -61,6 +61,7 @@ msgstr ""
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
 #, fuzzy
 #| msgid "Copy date/time"
+msgctxt "tfilesystemcopymoveoperationoptionsui.cbcopytime.caption"
 msgid "Copy d&ate/time"
 msgstr "Copiar fech&a/hora"
 
@@ -8583,6 +8584,10 @@ msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "Valor"
 
+#: tfrmsearchplugin.headercontrol.sections[4].text
+msgid "Unit"
+msgstr ""
+
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr "&AND (toda coincidencia)"
@@ -8984,16 +8989,19 @@ msgid "Show:"
 msgstr "Mostrar:"
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
 msgid "Name"
 msgstr "Nombre"
 
 #: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
 msgid "Size"
 msgstr "Tamaño"
 
 #: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
 msgid "Date"
 msgstr "Fecha"
@@ -9003,16 +9011,19 @@ msgid "<=>"
 msgstr ""
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
 msgid "Date"
 msgstr "Fecha"
 
 #: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
 msgid "Size"
 msgstr "Tamaño"
 
 #: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
 msgid "Name"
 msgstr "Nombre"
@@ -9715,6 +9726,13 @@ msgstr "Cuando el archivo existe"
 msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Cuando el archivo existe"
+
+#: twfxplugincopymoveoperationoptionsui.cbcopytime.caption
+#, fuzzy
+#| msgid "Copy date/time"
+msgctxt "twfxplugincopymoveoperationoptionsui.cbcopytime.caption"
+msgid "Copy d&ate/time"
+msgstr "Copiar fech&a/hora"
 
 #: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
 msgid "Work in background (separate connection)"

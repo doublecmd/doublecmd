@@ -56,6 +56,7 @@ msgid "Copy &permissions"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
+msgctxt "tfilesystemcopymoveoperationoptionsui.cbcopytime.caption"
 msgid "Copy d&ate/time"
 msgstr "Umnoži v&reme i datum"
 
@@ -7841,6 +7842,10 @@ msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "Vrednost"
 
+#: tfrmsearchplugin.headercontrol.sections[4].text
+msgid "Unit"
+msgstr ""
+
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr ""
@@ -8218,36 +8223,42 @@ msgid "Show:"
 msgstr "Prikazuj:"
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
-msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[0].TITLE.CAPTION"
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
 msgid "Name"
 msgstr "Ime"
 
 #: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
-msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[1].TITLE.CAPTION"
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
 msgid "Size"
 msgstr "Veličina"
 
 #: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
-msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[2].TITLE.CAPTION"
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
 msgid "Date"
 msgstr "Datum"
 
 #: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
 msgid "<=>"
-msgstr "<=>"
+msgstr ""
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
-msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[4].TITLE.CAPTION"
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
 msgid "Date"
 msgstr "Datum"
 
 #: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
-msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[5].TITLE.CAPTION"
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
 msgid "Size"
 msgstr "Veličina"
 
 #: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
-msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[6].TITLE.CAPTION"
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
 msgid "Name"
 msgstr "Ime"
 
@@ -8907,6 +8918,12 @@ msgstr "Kada datoteka postoji"
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Kada datoteka postoji"
+
+#: twfxplugincopymoveoperationoptionsui.cbcopytime.caption
+#, fuzzy
+msgctxt "twfxplugincopymoveoperationoptionsui.cbcopytime.caption"
+msgid "Copy d&ate/time"
+msgstr "Umnoži v&reme i datum"
 
 #: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
 msgid "Work in background (separate connection)"

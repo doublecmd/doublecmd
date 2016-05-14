@@ -54,6 +54,7 @@ msgid "Copy &permissions"
 msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
+msgctxt "tfilesystemcopymoveoperationoptionsui.cbcopytime.caption"
 msgid "Copy d&ate/time"
 msgstr "Kopiuj d&atę/czas"
 
@@ -7809,6 +7810,10 @@ msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "Wartość"
 
+#: tfrmsearchplugin.headercontrol.sections[4].text
+msgid "Unit"
+msgstr ""
+
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr ""
@@ -8186,36 +8191,42 @@ msgid "Show:"
 msgstr "Pokaż:"
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
-msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[0].TITLE.CAPTION"
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
 msgid "Name"
 msgstr "Nazwa"
 
 #: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
-msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[1].TITLE.CAPTION"
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
 msgid "Size"
 msgstr "Rozmiar"
 
 #: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
-msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[2].TITLE.CAPTION"
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
 msgid "Date"
 msgstr "Data"
 
 #: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
 msgid "<=>"
-msgstr "<=>"
+msgstr ""
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
-msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[4].TITLE.CAPTION"
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
 msgid "Date"
 msgstr "Data"
 
 #: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
-msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[5].TITLE.CAPTION"
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
 msgid "Size"
 msgstr "Rozmiar"
 
 #: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
-msgctxt "TFRMSYNCDIRSDLG.HEADERDG.COLUMNS[6].TITLE.CAPTION"
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
 msgid "Name"
 msgstr "Nazwa"
 
@@ -8875,6 +8886,12 @@ msgstr "Gdy plik istnieje"
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Gdy plik istnieje"
+
+#: twfxplugincopymoveoperationoptionsui.cbcopytime.caption
+#, fuzzy
+msgctxt "twfxplugincopymoveoperationoptionsui.cbcopytime.caption"
+msgid "Copy d&ate/time"
+msgstr "Kopiuj d&atę/czas"
 
 #: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
 msgid "Work in background (separate connection)"
