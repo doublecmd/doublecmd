@@ -27,7 +27,7 @@ library TextLine;
 
 uses
   SysUtils, Classes, StreamEx, LazUTF8,
-  WdxPlugin, DCClassesUtf8, DCConvertEncoding;
+  WdxPlugin, DCClassesUtf8, DCConvertEncoding, DCOSUtils;
 
 const
   DETECT_STRING = '(EXT="TXT") | (EXT="LOG") | (EXT="INI") | (EXT="XML")';
@@ -56,7 +56,6 @@ function ContentGetValueW(FileName: PWideChar; FieldIndex, UnitIndex: Integer;
 var
   Value: String;
   Index: Integer;
-  FileAttr: Integer;
   FileNameU: String;
   Stream: TFileStreamEx;
   Reader: TStreamReader;
@@ -67,8 +66,7 @@ begin
     Exit;
   end;
   FileNameU:= UTF16ToUTF8(UnicodeString(FileName));
-  FileAttr:= FileGetAttr(FileNameU);
-  if (FileAttr < 0) or (FileAttr and faSysFile <> 0) then
+  if not mbFileExists(FileNameU) then
   begin
     Result:= ft_fileerror;
     Exit;
