@@ -2696,7 +2696,7 @@ msgid "Wipe"
 msgstr "Neobnovljivo izbriši"
 
 #: tfrmmain.actworkwithdirectoryhotlist.caption
-msgid "Work with Directory Hotlist and paramters"
+msgid "Work with Directory Hotlist and parameters"
 msgstr "Delo s seznamom  hitrih map in parametri"
 
 #: tfrmmain.btnf10.caption
@@ -6520,7 +6520,7 @@ msgstr "&Prilagodi"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Vstavki &iskalnikov omogočajo uporabo dodatnih načinov iskanja oziroma uporabo zunanjih orodij (ukaz \"locate\" in podobno)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
@@ -8244,7 +8244,7 @@ msgid "Supports pac&king in memory"
 msgstr "Podpira pakiranje datotek v &pomnilniku"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
-msgid "Can &modify exisiting archives"
+msgid "Can &modify existing archives"
 msgstr "Dovoljeno je spreminjati &obstoječe arhive"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption

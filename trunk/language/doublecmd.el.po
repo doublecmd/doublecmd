@@ -2695,7 +2695,7 @@ msgid "Wipe"
 msgstr "Ασφαλής Διαγραφή"
 
 #: tfrmmain.actworkwithdirectoryhotlist.caption
-msgid "Work with Directory Hotlist and paramters"
+msgid "Work with Directory Hotlist and parameters"
 msgstr "Εργασία με Κατάλογο Hotlist και παραμέτρους"
 
 #: tfrmmain.btnf10.caption
@@ -6517,7 +6517,7 @@ msgstr "Τροποποίηση"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Τα πρόσθετα αναζήτησης επιτρέπουν τη χρήση εναλλακτικών αλγορίθμων αναζήτησης ή εξωτερικά εργαλεία (όπως \"locate\", κ.λ.π.)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
@@ -8241,7 +8241,7 @@ msgid "Supports pac&king in memory"
 msgstr "Υποστήριξη πακεταρίσματος στη μνήμη"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
-msgid "Can &modify exisiting archives"
+msgid "Can &modify existing archives"
 msgstr "Δυνατότητα τροποποίησης υπάρχοντων αρχείων"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption

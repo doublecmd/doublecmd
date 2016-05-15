@@ -2682,7 +2682,7 @@ msgid "Wipe"
 msgstr "Effacement Sécurisé"
 
 #: tfrmmain.actworkwithdirectoryhotlist.caption
-msgid "Work with Directory Hotlist and paramters"
+msgid "Work with Directory Hotlist and parameters"
 msgstr "Travail avec la liste des dossiers favoris et ses paramètres"
 
 #: tfrmmain.btnf10.caption
@@ -6551,7 +6551,7 @@ msgstr "Raffiner"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Les \"plugins\" de recherche permettent d'utiliser des algorithmes de recherche alternatifs ou des outils externes (comme \"locate\", etc)."
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
@@ -8294,7 +8294,7 @@ msgid "Supports pac&king in memory"
 msgstr "Supporte les opérations d'archivage en mémoire"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
-msgid "Can &modify exisiting archives"
+msgid "Can &modify existing archives"
 msgstr "Impossible de modifier l'archive existante"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption

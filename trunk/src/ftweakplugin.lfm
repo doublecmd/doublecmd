@@ -192,7 +192,7 @@ object frmTweakPlugin: TfrmTweakPlugin
             Height = 23
             Top = 23
             Width = 276
-            Caption = 'Can &modify exisiting archives'
+            Caption = 'Can &modify existing archives'
             OnClick = cbPackerFlagsClick
             TabOrder = 1
           end

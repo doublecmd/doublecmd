@@ -144,7 +144,7 @@ object DialogBox: TDialogBox
     Width = 294
     BorderSpacing.Left = 12
     BorderSpacing.Top = 18
-    Caption = 'Use passive mode for transfers (like a WWW brower)'
+    Caption = 'Use passive mode for transfers (like a WWW browser)'
     Checked = True
     State = cbChecked
     TabOrder = 10
