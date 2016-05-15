@@ -2662,7 +2662,7 @@ msgid "Wipe"
 msgstr "Стереть"
 
 #: tfrmmain.actworkwithdirectoryhotlist.caption
-msgid "Work with Directory Hotlist and paramters"
+msgid "Work with Directory Hotlist and parameters"
 msgstr "Работа с Избранными каталогами и параметрами"
 
 #: tfrmmain.btnf10.caption
@@ -6514,7 +6514,7 @@ msgstr "Параметр&ы"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Поз&воляют использовать в поиске альтернативные алгоритмы или внешние инструменты (например \"locate\", и т.п.)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
@@ -8254,7 +8254,7 @@ msgid "Supports pac&king in memory"
 msgstr "Поддерживает упа&ковку в памяти"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
-msgid "Can &modify exisiting archives"
+msgid "Can &modify existing archives"
 msgstr "Может &модифицировать архивы"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption

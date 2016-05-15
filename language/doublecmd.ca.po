@@ -2903,7 +2903,7 @@ msgid "Wipe"
 msgstr "Destrueix"
 
 #: tfrmmain.actworkwithdirectoryhotlist.caption
-msgid "Work with Directory Hotlist and paramters"
+msgid "Work with Directory Hotlist and parameters"
 msgstr ""
 
 #: tfrmmain.btnf10.caption
@@ -7131,9 +7131,9 @@ msgstr "&Ajusta"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
 #, fuzzy
-#| msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+#| msgid "Search plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Permet als complements de cerca l'us d'algoritmes de cerca alternatius o eines externes (com \"locate\", etc.)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
@@ -8984,8 +8984,8 @@ msgstr "Suporta compressió en memòria"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
 #, fuzzy
-#| msgid "Can modify exisiting archives"
-msgid "Can &modify exisiting archives"
+#| msgid "Can modify existing archives"
+msgid "Can &modify existing archives"
 msgstr "Podeu modificar els fitxers existents"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption

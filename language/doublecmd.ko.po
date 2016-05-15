@@ -2911,7 +2911,7 @@ msgid "Wipe"
 msgstr "반복하여 지우기"
 
 #: tfrmmain.actworkwithdirectoryhotlist.caption
-msgid "Work with Directory Hotlist and paramters"
+msgid "Work with Directory Hotlist and parameters"
 msgstr ""
 
 #: tfrmmain.btnf10.caption
@@ -7282,9 +7282,9 @@ msgstr "트윅"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
 #, fuzzy
-#| msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+#| msgid "Search plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "검색 플러그인으로 다른 검색 알고리듬 또는 외부 도구(\"locate\" 처럼)를 사용할 수 있습니다."
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
@@ -9185,8 +9185,8 @@ msgstr "메모리 압축 지원"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
 #, fuzzy
-#| msgid "Can modify exisiting archives"
-msgid "Can &modify exisiting archives"
+#| msgid "Can modify existing archives"
+msgid "Can &modify existing archives"
 msgstr "존재하는 압축 파일 변경 가능"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption

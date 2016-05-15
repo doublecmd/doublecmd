@@ -105,7 +105,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
         BorderSpacing.Left = 10
         BorderSpacing.Top = 12
         BorderSpacing.Right = 10
-        Caption = 'Searc&h plugins allow to use alternative search algorithms or external tools (like "locate", etc.)'
+        Caption = 'Searc&h plugins allow one to use alternative search algorithms or external tools (like "locate", etc.)'
         FocusControl = stgPlugins
         ParentColor = False
         WordWrap = True
