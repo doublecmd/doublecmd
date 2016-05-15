@@ -934,9 +934,11 @@ end;
 function TLuaWdx.DoScript(AName: String): Integer;
 begin
   Result := LUA_ERRRUN;
-  if not assigned(L) then
-    exit;
+  if not Assigned(L) then Exit;
   Result := luaL_dofile(L, PChar(AName));
+  if Result <> 0 then begin
+    DCDebug('TLuaWdx.DoScript: ', lua_tostring(L, -1));
+  end;
 end;
 
 constructor TLuaWdx.Create;
