@@ -1136,13 +1136,13 @@ end;
 function TLuaWdx.CallContentGetValueV(FileName: String; FieldName: String;
   UnitName: String; flags: Integer): Variant;
 begin
-  Result := Unassigned;
+  Result := CallContentGetValue(FileName, FieldName, UnitName, flags);
 end;
 
 function TLuaWdx.CallContentGetValueV(FileName: String; FieldIndex,
   UnitIndex: Integer; flags: Integer): Variant;
 begin
-  Result := Unassigned;
+  Result := CallContentGetValue(FileName, FieldIndex, UnitIndex, flags);
 end;
 
 function TLuaWdx.CallContentGetValue(FileName: String; FieldName: String; UnitName: String; flags: Integer): String;
