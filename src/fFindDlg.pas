@@ -1087,7 +1087,7 @@ begin
         if LastButton.Enabled then LastButton.SetFocus else btnNewSearch.SetFocus;
     end
     else begin                          // if user don't press anything - focus on results
-      if (lsFoundedFiles.Count > 0) then
+      if (pgcSearch.ActivePage=tsResults)and(lsFoundedFiles.Count > 0) then
       begin
         lsFoundedFiles.SetFocus;
         if (lsFoundedFiles.ItemIndex <> -1) then
@@ -1483,7 +1483,8 @@ end;
 procedure TfrmFindDlg.btnStopClick(Sender: TObject);
 begin
   StopSearch;
-//  AfterSearchStopped;
+  AfterSearchStopped;
+  AfterSearchFocus;
 //  btnNewSearch.SetFocus;
 end;
 
