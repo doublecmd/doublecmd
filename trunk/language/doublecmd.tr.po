@@ -2809,15 +2809,16 @@ msgstr "Git önceki giriş tarihi"
 msgid "View log file"
 msgstr ""
 
-#: tfrmmain.actvisithomeHotlist and parameters&Visit Double Commander Website"
-msgstr "&Double Commander Web Sitesini ziyaret edin"
+#: tfrmmain.actvisithomepage.caption
+msgid "&Visit Double Commander Website"
+msgstr ""
 
 #: tfrmmain.actwipe.caption
 msgid "Wipe"
 msgstr "Temizle"
 
 #: tfrmmain.actworkwithdirectoryhotlist.caption
-msgid "Work with Directory Hotlist and paramters"
+msgid "Work with Directory Hotlist and parameters"
 msgstr ""
 
 #: tfrmmain.btnf10.caption
@@ -6714,23 +6715,24 @@ msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
 msgid "E&nable"
 msgstr "Etkinleştir"
 
-#: tfrmoptionsplugins.btnremoveplugplugins allow one to use
+#: tfrmoptionsplugins.btnremoveplugin.caption
+#, fuzzy
 #| msgid "Remove"
-msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnremoveplugin.caption"
 msgid "&Remove"
 msgstr "Kaldır"
 
-#: tfrmoptionsplugins.btntweakplugplugins allow one to use
-#| msgid "Tweak"
-msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
+#: tfrmoptionsplugins.btntweakplugin.caption
+#, fuzzy
+msgctxt "tfrmoptionsplugins.btntweakplugin.caption"
 msgid "&Tweak"
 msgstr "Ayarla"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
 #, fuzzy
-#| msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+#| msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
-msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Alternatif arama algoritmaları kullanmak için arama eklentilerine veya harici araçlara izin ver(\"yerini belirle\",vb.gibi)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
@@ -7965,10 +7967,6 @@ msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "Değer"
 
-#: tfrmsearchplugin.headercontrol.sections[4].text
-msgid "Unit"
-msgstr ""
-
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr ""
@@ -8532,71 +8530,77 @@ msgstr "Dosyaları silebilirsiniz"
 #, fuzzy
 #| msgid "Supports encryption"
 msgid "Supports e&ncryption"
-msgstr "Şifrelemeyexisting archives tfrmtweakplugin.cbpk_existing archives
+msgstr "Şifrelemeyexisting archives tfrmtweakplugin.cbpk_existing archive"
+
+#: tfrmtweakplugin.cbpk_caps_hide.caption
 #, fuzzy
 #| msgid "Show as normal files (hide packer icon)"
+msgctxt "tfrmtweakplugin.cbpk_caps_hide.caption"
 msgid "Sho&w as normal files (hide packer icon)"
 msgstr "Normal dosyalar olarak göster(Sıkıştırıcı simgesini gizle)"
 
 #: tfrmtweakplugin.cbpk_caps_mempack.caption
 #, fuzzy
-#| msgid "Supports packing in memory"
+#| msgid "Sho&w as normal files (hide packer icon)"
+msgctxt "tfrmtweakplugin.cbpk_caps_mempack.caption"
 msgid "Supports pac&king in memory"
-msgstr "Bellek içi sıkıştırmayı destekler"
+msgstr "Normal dosyalar olarak göster(Sıkıştırıcı simgesini gizle)"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
 #, fuzzy
-#| msgid "Can modify exisiting archives"
-msgid "Can &modify exisiting archives"
-msgstr "Var olan arşivi değiştirebilirsiniz"
+#| msgid "Supports pac&king in memory"
+msgid "Can &modify existing archives"
+msgstr "Bellek içi sıkıştırmayı destekler"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption
 #, fuzzy
-#| msgid "Archive can contain multiple files"
+#| msgid "Can &modify exisiting archives"
 msgid "&Archive can contain multiple files"
-msgstr "Arşiv birden fazla dosya içerebilir"
+msgstr "Var olan arşivi değiştirebilirsiniz"
 
 #: tfrmtweakplugin.cbpk_caps_new.caption
 #, fuzzy
-#| msgid "Can create new archives"
+#| msgid "&Archive can contain multiple files"
 msgid "Can create new archi&ves"
-msgstr "Yeni arşivler oluşturabilirsiniz"
+msgstr "Arşiv birden fazla dosya içerebilir"
 
 #: tfrmtweakplugin.cbpk_caps_options.caption
 #, fuzzy
-#| msgid "Supports the options dialogbox"
+#| msgid "Can create new archi&ves"
 msgid "S&upports the options dialogbox"
-msgstr "Seçenekler iletişim kutusunu destekler"
+msgstr "Yeni arşivler oluşturabilirsiniz"
 
 #: tfrmtweakplugin.cbpk_caps_searchtext.caption
 #, fuzzy
-#| msgid "Allow searching for text in archives"
+#| msgid "S&upports the options dialogbox"
 msgid "Allow searchin&g for text in archives"
-msgstr "Metin arşivlerinde arama izni verir"
+msgstr "Seçenekler iletişim kutusunu destekler"
 
 #: tfrmtweakplugin.lbldescription.caption
 #, fuzzy
-#| msgid "Description:"
-msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
+#| msgid "Allow searchin&g for text in archives"
 msgid "&Description:"
-msgstr "Tanım:"
+msgstr "Metin arşivlerinde arama izni verir"
 
 #: tfrmtweakplugin.lbldetectstr.caption
 #, fuzzy
-#| msgid "Detect string:"
+#| msgid "&Description:"
+msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
 msgid "D&etect string:"
-msgstr "Dizi algıla:"
+msgstr "Tanım:"
 
 #: tfrmtweakplugin.lblextension.caption
 #, fuzzy
-#| msgid "Extension:"
-msgctxt "TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION"
+#| msgid "D&etect string:"
 msgid "&Extension:"
-msgstr "Uzantı:"
+msgstr "Dizi algıla:"
 
 #: tfrmtweakplugin.lblflags.caption
+#, fuzzy
+#| msgid "&Extension:Flags:"
+msgctxt "TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION"
 msgid "Flags:"
-msgstr "Etiketler"
+msgstr "Uzantı:Etiketler"
 
 #: tfrmtweakplugin.lblname.caption
 #, fuzzy
