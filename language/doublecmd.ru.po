@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.7.0 alpha\n"
+"Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-03-19 20:35+0400\n"
+"PO-Revision-Date: 2016-05-16 03:19+0400\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2148,7 +2148,7 @@ msgstr "Настройка файловых &ассоциаций"
 
 #: tfrmmain.actfilelinker.caption
 msgid "Com&bine Files..."
-msgstr "&Склеить файлы..."
+msgstr "Объединить &файлы..."
 
 #: tfrmmain.actfileproperties.caption
 msgid "Show &File Properties"
@@ -3102,7 +3102,7 @@ msgstr "Вк&ладки"
 
 #: tfrmmain.tbchangedir.caption
 msgid "CD"
-msgstr ""
+msgstr "cd"
 
 #: tfrmmain.tbcopy.caption
 msgctxt "TFRMMAIN.TBCOPY.CAPTION"
@@ -6308,11 +6308,11 @@ msgstr "Некоторые функции для выбора подходяще
 #: tfrmoptionslog.btnviewlogfile.hint
 msgctxt "tfrmoptionslog.btnviewlogfile.hint"
 msgid "View log file content"
-msgstr "Просмотреть содержимое файла журнала"
+msgstr "Просмотреть содержимое файла отчёта"
 
 #: tfrmoptionslog.cbincludedateinlogfilename.caption
 msgid "Include date in log filename"
-msgstr "Добавлять дату в имя файла журнала"
+msgstr "Добавлять дату в имя файла отчёта"
 
 #: tfrmoptionslog.cblogarcop.caption
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
@@ -6409,7 +6409,7 @@ msgstr "&Удалить эскизы для отсутствующих файл�
 #: tfrmoptionsmisc.btnviewconfigfile.hint
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
 msgid "View log file content"
-msgstr "Просмотреть содержимое файла журнала"
+msgstr "Просмотреть содержимое файла отчёта"
 
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
@@ -7425,73 +7425,73 @@ msgstr "&Наименование:"
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfromdoubleclick.caption
 msgid "With double-click on the bar on top of a file panel"
-msgstr ""
+msgstr "Двойной клик по верхней полосе файловой панели"
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption
 msgctxt "tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption"
 msgid "With the menu and internal command"
-msgstr ""
+msgstr "С помощью меню и внутренней команды"
 
 #: tfrmoptionstreeviewmenu.ckbdoubleclickselect.caption
 msgid "Double click in tree select and exit"
-msgstr ""
+msgstr "Двойной клик по выбранному в дереве и выход"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption
 msgctxt "tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption"
 msgid "With the menu and internal command"
-msgstr ""
+msgstr "С помощью меню и внутренней команды"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritetabsfromdoubleclick.caption
 msgid "With double-click on a tab (if configured for it)"
-msgstr ""
+msgstr "Двойной клик по вкладке"
 
 #: tfrmoptionstreeviewmenu.ckbshortcutselectandclose.caption
 msgid "When using the keyboard shortcut, it will exit the window returning the current choice"
-msgstr ""
+msgstr "Если используется комбинация клавиш - выбор и закрытие окна"
 
 #: tfrmoptionstreeviewmenu.ckbsingleclickselect.caption
 msgid "Single mouse click in tree select and exit"
-msgstr ""
+msgstr "Клик мыши по выбранному в дереве и выход"
 
 #: tfrmoptionstreeviewmenu.ckbuseforcommandlinehistory.caption
 msgid "Use it for Command Line History"
-msgstr ""
+msgstr "Использовать историю командной строки"
 
 #: tfrmoptionstreeviewmenu.ckbusefordirhistory.caption
 msgid "Use it for the Dir History"
-msgstr ""
+msgstr "Использовать историю каталогов"
 
 #: tfrmoptionstreeviewmenu.ckbuseforviewhistory.caption
 msgid "Use it for the View History (Visited paths for active view)"
-msgstr ""
+msgstr "Использовать историю просмотра (посещённые каталоги)"
 
 #: tfrmoptionstreeviewmenu.gbbehavior.caption
 msgid "Behavior regarding selection:"
-msgstr ""
+msgstr "Поведение при выборе:"
 
 #: tfrmoptionstreeviewmenu.gbtreeviewmenusettings.caption
 msgid "Tree View Menus related options:"
-msgstr ""
+msgstr "Настройки Древовидного Меню:"
 
 #: tfrmoptionstreeviewmenu.gbwheretousetreeviewmenu.caption
 msgid "Where to use Tree View Menus:"
-msgstr ""
+msgstr "Где использовать Древовидное Меню:"
 
 #: tfrmoptionstreeviewmenu.lblnote.caption
 msgid "*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another."
-msgstr ""
+msgstr "*ПРИМЕЧАНИЕ: Состояние таких опций, как чувствительность к регистру и игнорирование акцентов, сохраняется для последующих вызовов меню."
 
 #: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
 msgid "With Directory Hotlist:"
-msgstr ""
+msgstr "С Избранными каталогами:"
 
 #: tfrmoptionstreeviewmenu.lblusewithfavoritetabs.caption
 msgid "With Favorite Tabs:"
-msgstr ""
+msgstr "С Избранными Вкладками:"
 
 #: tfrmoptionstreeviewmenu.lblusewithhistory.caption
 msgid "With History:"
-msgstr ""
+msgstr "С Историей:"
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
@@ -8035,7 +8035,7 @@ msgstr "&ОК"
 
 #: tfrmsymlink.caption
 msgid "Create symbolic link"
-msgstr "Создать симв. ссылку"
+msgstr "Создать символьную ссылку"
 
 #: tfrmsymlink.lblexistingfile.caption
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
@@ -8106,19 +8106,16 @@ msgid "Show:"
 msgstr "Показывать:"
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
 msgid "Name"
 msgstr "Имя"
 
 #: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
 msgid "Size"
 msgstr "Размер"
 
 #: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
 msgid "Date"
 msgstr "Дата"
@@ -8128,19 +8125,16 @@ msgid "<=>"
 msgstr ""
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
 msgid "Date"
 msgstr "Дата"
 
 #: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
 msgid "Size"
 msgstr "Размер"
 
 #: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
 msgid "Name"
 msgstr "Имя"
@@ -8332,7 +8326,7 @@ msgstr "&Копировать в буфер"
 
 #: tfrmviewer.actcopytoclipboardformatted.caption
 msgid "Copy To Clipboard Formatted"
-msgstr ""
+msgstr "Копировать в буфер с &форматированием"
 
 #: tfrmviewer.actdeletefile.caption
 msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
@@ -8501,7 +8495,7 @@ msgstr "Показать в режиме \"&Книга\" (текст с коло
 
 #: tfrmviewer.actshowasdec.caption
 msgid "Show as &Dec"
-msgstr ""
+msgstr "Показать в д&есятеричном виде"
 
 #: tfrmviewer.actshowashex.caption
 msgid "Show as &Hex"
@@ -8765,7 +8759,6 @@ msgid "When file exists"
 msgstr "Если файл существует"
 
 #: twfxplugincopymoveoperationoptionsui.cbcopytime.caption
-#, fuzzy
 msgctxt "twfxplugincopymoveoperationoptionsui.cbcopytime.caption"
 msgid "Copy d&ate/time"
 msgstr "Копировать дат&у/время"
@@ -8787,11 +8780,11 @@ msgid ""
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?\n"
 msgstr ""
-"Этот файл не может быть найден и можно помочь принять окончательную комбинацию файлов:\n"
+"Файл с контрольной суммой поможет объединить файлы, но не был найден:\n"
 "%s\n"
 "\n"
-"Можете ли вы сделать это доступным и нажать \"OK\" когда будете готовы,\n"
-"или нажать \"ОТМЕНА\" чтобы продолжить без этого?\n"
+"Вы можете сделать его доступным и нажать \"OK\", когда будете готовы,\n"
+"или нажать \"ОТМЕНА\" чтобы продолжить объединение без него.\n"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
@@ -9399,7 +9392,7 @@ msgid ""
 "\n"
 "Are you sure you want to proceed?\n"
 msgstr ""
-"Внимание! Когда восстановите из резервного файла .hotlist, очистится существующий список и заменится импортированным.\n"
+"Внимание! Восстановление из резервного файла .hotlist очистит существующий список и заменит его импортированным.\n"
 "\n"
 "Вы уверены что хотите продолжить?\n"
 
@@ -10679,6 +10672,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"Настройки Древовидного Меню были изменены.\n"
+"\n"
+"Хотите сохранить настройки перед тем как выйти?\n"
 
 #: ulng.rsmsgtreeviewmenumodifiedwanttosave
 msgid ""
@@ -10686,6 +10682,9 @@ msgid ""
 "\n"
 "Do you want to save them before to exit?\n"
 msgstr ""
+"Настройки цветов Древовидного Меню были изменены.\n"
+"\n"
+"Хотите сохранить настройки перед тем как выйти?\n"
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
@@ -10693,7 +10692,7 @@ msgstr "Неопределённый"
 
 #: ulng.rsmsgunexpectedusagetreeviewmenu
 msgid "ERROR: Unexpected Tree View Menu usage!"
-msgstr ""
+msgstr "ОШИБКА: Неожиданное использование Древовидного Меню!"
 
 #: ulng.rsmsgurl
 msgid "URL:"
@@ -11351,11 +11350,11 @@ msgstr "Подсказки"
 
 #: ulng.rsoptionseditortreeviewmenu
 msgid "Tree View Menu"
-msgstr ""
+msgstr "Древовидное Меню"
 
 #: ulng.rsoptionseditortreeviewmenucolors
 msgid "Tree View Menu Colors"
-msgstr ""
+msgstr "Цвета Древовидного Меню"
 
 #: ulng.rsoptletters
 msgid "None;Command Line;Quick Search;Quick Filter"
@@ -11617,11 +11616,11 @@ msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
-msgstr ""
+msgstr "Только просмотр"
 
 #: ulng.rsstrpreviewothers
 msgid "Others"
-msgstr ""
+msgstr "Другие"
 
 #: ulng.rsstrpreviewsearchingletters
 msgid "OU"
@@ -11629,67 +11628,67 @@ msgstr ""
 
 #: ulng.rsstrpreviewsidenote
 msgid "Side note"
-msgstr ""
+msgstr "Примечание"
 
 #: ulng.rsstrpreviewwordwithoutsearched1
 msgid "Flat"
-msgstr ""
+msgstr "Плоский"
 
 #: ulng.rsstrpreviewwordwithoutsearched2
 msgid "Limited"
-msgstr ""
+msgstr "Ограниченный"
 
 #: ulng.rsstrpreviewwordwithoutsearched3
 msgid "Simple"
-msgstr ""
+msgstr "Простой"
 
 #: ulng.rsstrpreviewwordwithsearched1
 msgid "Fabulous"
-msgstr ""
+msgstr "Невероятное"
 
 #: ulng.rsstrpreviewwordwithsearched2
 msgid "Marvelous"
-msgstr ""
+msgstr "Чудесное"
 
 #: ulng.rsstrpreviewwordwithsearched3
 msgid "Tremendous"
-msgstr ""
+msgstr "Потрясающее"
 
 #: ulng.rsstrtvmchoosedirhistory
 msgid "Choose your directory from Dir History"
-msgstr ""
+msgstr "Выберите каталог из истории каталогов"
 
 #: ulng.rsstrtvmchoosefavoritetabs
 msgid "Choose you Favorite Tabs:"
-msgstr ""
+msgstr "Выберите Избранные Вкладки:"
 
 #: ulng.rsstrtvmchoosefromcmdlinehistory
 msgid "Choose your command from Command Line History"
-msgstr ""
+msgstr "Выберите команду из истории командной строки"
 
 #: ulng.rsstrtvmchoosefrommainmenu
 msgid "Choose your action from Main Menu"
-msgstr ""
+msgstr "Выберите действие из главного меню"
 
 #: ulng.rsstrtvmchoosefromtoolbar
 msgid "Choose your action from Maintool bar"
-msgstr ""
+msgstr "Выберите действие из панели инструментов"
 
 #: ulng.rsstrtvmchoosehotdirectory
 msgid "Choose your directory from Hot Directory:"
-msgstr ""
+msgstr "Выберите каталог из Избранных каталогов:"
 
 #: ulng.rsstrtvmchooseviewhistory
 msgid "Choose your directory from File View History"
-msgstr ""
+msgstr "Выберите каталог из истории просмотренных файлов"
 
 #: ulng.rsstrtvmchooseyourfileordir
 msgid "Choose your file or your directory"
-msgstr ""
+msgstr "Выберите ваш файл или каталог"
 
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
-msgstr "Ошибка создания симв. ссылки."
+msgstr "Ошибка создания символьной ссылки."
 
 #: ulng.rssyndefaulttext
 msgctxt "ulng.rssyndefaulttext"
