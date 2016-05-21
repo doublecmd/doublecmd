@@ -7206,6 +7206,130 @@ msgstr ""
 msgid "With History:"
 msgstr ""
 
+#: tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption
+msgctxt "TFRMOPTIONSTREEVIEWMENUCOLOR.BTNBACKGROUNDCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.btncursorcolor.caption
+msgctxt "TFRMOPTIONSTREEVIEWMENUCOLOR.BTNCURSORCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption
+msgctxt "TFRMOPTIONSTREEVIEWMENUCOLOR.BTNFOUNDTEXTCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption
+msgctxt "TFRMOPTIONSTREEVIEWMENUCOLOR.BTNFOUNDTEXTUNDERCURSOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption
+msgctxt "TFRMOPTIONSTREEVIEWMENUCOLOR.BTNNORMALTEXTCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption
+msgctxt "TFRMOPTIONSTREEVIEWMENUCOLOR.BTNNORMALTEXTUNDERCURSOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption
+msgctxt "TFRMOPTIONSTREEVIEWMENUCOLOR.BTNSECONDARYTEXTCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption
+msgctxt "TFRMOPTIONSTREEVIEWMENUCOLOR.BTNSECONDARYTEXTUNDERCURSOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption
+msgctxt "TFRMOPTIONSTREEVIEWMENUCOLOR.BTNSHORTCUTCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption
+msgctxt "TFRMOPTIONSTREEVIEWMENUCOLOR.BTNSHORTCUTUNDERCURSOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption
+msgctxt "TFRMOPTIONSTREEVIEWMENUCOLOR.BTNUNSELECTABLETEXTCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption
+msgctxt "TFRMOPTIONSTREEVIEWMENUCOLOR.BTNUNSELECTABLEUNDERCURSOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
+msgid "Use and display keyboard shortcut for choosing items"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.gblayoutandcolors.caption
+msgid "Layout and colors options:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblbackgroundcolor.caption
+msgid "Background color:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblcursorcolor.caption
+msgid "Cursor color:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblfoundtextcolor.caption
+msgid "Found text color:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblfoundtextundercursor.caption
+msgid "Found text under cursor:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblnormaltextcolor.caption
+msgid "Normal text color:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblnormaltextundercursor.caption
+msgid "Normal text under cursor:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblpreview.caption
+msgid "Tree View Menu Preview:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblsecondarytextcolor.caption
+msgid "Secondary text color:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblsecondarytextundercursor.caption
+msgid "Secondary text under cursor:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblshortcutcolor.caption
+msgid "Shortcut color:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblshortcutundercursor.caption
+msgid "Shortcut under cursor:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblunselectabletextcolor.caption
+msgid "Unselectable text color:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.lblunselectableundercursor.caption
+msgid "Unselectable under cursor:"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.treeviewmenusample.hint
+msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
+msgstr ""
+
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
 msgid ">>"
