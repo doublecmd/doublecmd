@@ -7809,10 +7809,6 @@ msgctxt "TFRMSEARCHPLUGIN.HEADERCONTROL.SECTIONS[3].TEXT"
 msgid "Value"
 msgstr "値"
 
-#: tfrmsearchplugin.headercontrol.sections[4].text
-msgid "Unit"
-msgstr "単位"
-
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr "AND (完全一致)(&A)"
