@@ -2087,9 +2087,6 @@ begin
 end;
 
 procedure TfrmViewer.ActivatePanel(Panel: TPanel);
-var
-  i:integer;
-  b :boolean;
 begin
   pnlFolder.Hide;
   pnlImage.Hide;
@@ -2120,9 +2117,9 @@ begin
   end
   else if Panel = pnlImage then
   begin
+    pnlImage.TabStop:= True;
     PanelEditImage.Visible:= not bQuickView;
-    pnlImage.TabStop:=True;
-    Self.ActiveControl:=pnlImage;
+    if CanFocus and pnlImage.CanFocus then pnlImage.SetFocus;
   end;
 
 
@@ -2219,9 +2216,6 @@ begin
     end
   else LoadFile(I);
 end;
-
-
-
 
 procedure TfrmViewer.cm_MoveFile(const Params: array of string);
 begin
@@ -2484,9 +2478,7 @@ begin
         Clipboard.Assign(GifAnim.GifBitmaps[GifAnim.GifIndex].Bitmap);
     end else
        ViewerControl.CopyToClipboard;
-
   end;
-
 end;
 
 procedure TfrmViewer.cm_CopyToClipboardFormatted(const Params: array of string);
@@ -2623,7 +2615,7 @@ end;
 
 procedure TfrmViewer.cm_ExitViewer(const Params: array of string);
 begin
-     Close;
+  Close;
 end;
 
 initialization
