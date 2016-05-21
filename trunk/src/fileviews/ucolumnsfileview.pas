@@ -343,10 +343,10 @@ begin
       SortingDirection := GetSortDirection(NewSorting, SortFunctions);
       if SortingDirection = sdNone then
         begin
-          //If there is no direction currently, sort "sdDescending" for size and date.
-		  //Commonly, we search seek more often for most recent files then older any others.
-		  //When sorting by size, often it is to find larger file to make room.
-		  //Anyway, it makes DC like TC, and also, Windows Explorer do the same.
+          // If there is no direction currently, sort "sdDescending" for size and date.
+          // Commonly, we search seek more often for most recent files then older any others.
+          // When sorting by size, often it is to find larger file to make room.
+          // Anyway, it makes DC like TC, and also, Windows Explorer do the same.
           case SortFunctions[0] of
             fsfSize, fsfModificationTime, fsfCreationTime, fsfLastAccessTime: SortingDirection:=sdDescending;
             else SortingDirection:=sdAscending;
@@ -360,7 +360,7 @@ begin
     end
     else
     begin
-      //If there is no direction currently, sort "sdDescending" for size and date (see previous comment).
+      // If there is no direction currently, sort "sdDescending" for size and date (see previous comment).
       case SortFunctions[0] of
         fsfSize, fsfModificationTime, fsfCreationTime, fsfLastAccessTime: SortingDirection:=sdDescending;
         else SortingDirection:=sdAscending;
