@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-04-24 08:21+0900\n"
+"PO-Revision-Date: 2016-05-19 06:50+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -2034,6 +2034,14 @@ msgstr "フォルダー タブの構成"
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "ツールバー…"
+
+#: tfrmmain.actconfigtreeviewmenus.caption
+msgid "Configuration of Tree View Menu"
+msgstr "ツリー ビューのメニューの構成"
+
+#: tfrmmain.actconfigtreeviewmenuscolors.caption
+msgid "Configuration of Tree View Menu Colors"
+msgstr "ツリー ビューメニューの色の構成"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -7448,6 +7456,130 @@ msgstr "お気に入りとタブと共に："
 msgid "With History:"
 msgstr "履歴と共に："
 
+#: tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btncursorcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btncursorcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption
+msgctxt "tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption"
+msgid ">>"
+msgstr ">>"
+
+#: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
+msgid "Use and display keyboard shortcut for choosing items"
+msgstr "項目の選択のため、キーボードショートカットを使用・表示する"
+
+#: tfrmoptionstreeviewmenucolor.gblayoutandcolors.caption
+msgid "Layout and colors options:"
+msgstr "レイアウトと色のオプション："
+
+#: tfrmoptionstreeviewmenucolor.lblbackgroundcolor.caption
+msgid "Background color:"
+msgstr "背景色："
+
+#: tfrmoptionstreeviewmenucolor.lblcursorcolor.caption
+msgid "Cursor color:"
+msgstr "カーソルの色："
+
+#: tfrmoptionstreeviewmenucolor.lblfoundtextcolor.caption
+msgid "Found text color:"
+msgstr "見つかったテキストの色："
+
+#: tfrmoptionstreeviewmenucolor.lblfoundtextundercursor.caption
+msgid "Found text under cursor:"
+msgstr "カーソルが被った見つかったテキスト："
+
+#: tfrmoptionstreeviewmenucolor.lblnormaltextcolor.caption
+msgid "Normal text color:"
+msgstr "通常のテキストの色："
+
+#: tfrmoptionstreeviewmenucolor.lblnormaltextundercursor.caption
+msgid "Normal text under cursor:"
+msgstr "カーソルが被った通常のテキスト："
+
+#: tfrmoptionstreeviewmenucolor.lblpreview.caption
+msgid "Tree View Menu Preview:"
+msgstr "ツリー表示メニューのプレビュー："
+
+#: tfrmoptionstreeviewmenucolor.lblsecondarytextcolor.caption
+msgid "Secondary text color:"
+msgstr "第二のテキストの色："
+
+#: tfrmoptionstreeviewmenucolor.lblsecondarytextundercursor.caption
+msgid "Secondary text under cursor:"
+msgstr "カーソルが被った第二のテキスト："
+
+#: tfrmoptionstreeviewmenucolor.lblshortcutcolor.caption
+msgid "Shortcut color:"
+msgstr "ショートカットの色："
+
+#: tfrmoptionstreeviewmenucolor.lblshortcutundercursor.caption
+msgid "Shortcut under cursor:"
+msgstr "カーソルが被ったショートカット："
+
+#: tfrmoptionstreeviewmenucolor.lblunselectabletextcolor.caption
+msgid "Unselectable text color:"
+msgstr "選択不可能なテキストの色："
+
+#: tfrmoptionstreeviewmenucolor.lblunselectableundercursor.caption
+msgid "Unselectable under cursor:"
+msgstr "カーソルが被った選択不可能要素："
+
+#: tfrmoptionstreeviewmenucolor.treeviewmenusample.hint
+msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
+msgstr "左側の色を変更すると、ツリー表示メニューがこのサンプルでどのように見えるかをこの場所でプレビューとして見ることができます"
+
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
 msgid ">>"
@@ -7679,7 +7811,7 @@ msgstr "値"
 
 #: tfrmsearchplugin.headercontrol.sections[4].text
 msgid "Unit"
-msgstr ""
+msgstr "単位"
 
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
@@ -8057,41 +8189,35 @@ msgid "Show:"
 msgstr "表示："
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
 msgid "Name"
 msgstr "名前"
 
 #: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
 msgid "Size"
 msgstr "サイズ"
 
 #: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
 msgid "Date"
 msgstr "日付"
 
 #: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
 msgid "<=>"
-msgstr ""
+msgstr "<=>"
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
 msgid "Date"
 msgstr "日付"
 
 #: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
 msgid "Size"
 msgstr "サイズ"
 
 #: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
 msgid "Name"
 msgstr "名前"
@@ -8718,7 +8844,6 @@ msgid "When file exists"
 msgstr "ファイルが存在する場合"
 
 #: twfxplugincopymoveoperationoptionsui.cbcopytime.caption
-#, fuzzy
 msgctxt "twfxplugincopymoveoperationoptionsui.cbcopytime.caption"
 msgid "Copy d&ate/time"
 msgstr "日付/時間をコピー(&a)"
