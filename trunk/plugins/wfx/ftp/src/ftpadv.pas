@@ -485,15 +485,19 @@ function TFTPSendEx.List(Directory: String; NameList: Boolean): Boolean;
 var
   Message: UnicodeString;
 begin
-  if FMachine then
-    Result:= ListMachine(Directory)
-  else begin
-    Result:= inherited List(Directory, NameList);
-  end;
-  if (Result = False) and (FSock.WaitingData > 0) then
+  Result:= ChangeWorkingDir(Directory);
+  if Result then
   begin
-    Message:= UnicodeString(FSock.RecvPacket(1000));
-    LogProc(PluginNumber, msgtype_importanterror, PWideChar(Message));
+    if FMachine then
+      Result:= ListMachine(EmptyStr)
+    else begin
+      Result:= inherited List(EmptyStr, NameList);
+    end;
+    if (Result = False) and (FSock.WaitingData > 0) then
+    begin
+      Message:= UnicodeString(FSock.RecvPacket(1000));
+      LogProc(PluginNumber, msgtype_importanterror, PWideChar(Message));
+    end;
   end;
 end;
 

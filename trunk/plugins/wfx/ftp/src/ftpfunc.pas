@@ -586,6 +586,7 @@ var
   ListRec: PListRec;
   sPath: AnsiString;
   FtpSend: TFTPSendEx;
+  Directory: UnicodeString;
 begin
   New(ListRec);
   ListRec.Path := Path;
@@ -602,7 +603,10 @@ begin
     begin
       ListLock.Acquire;
       try
-        if GetConnectionByPath(Path + PathDelim, FtpSend, sPath) then
+        Directory:= Path;
+        if Directory[Length(Directory)] <> PathDelim then
+          Directory:= Directory + PathDelim;
+        if GetConnectionByPath(Directory, FtpSend, sPath) then
         begin
           ListRec.FtpSend := FtpSend;
           // Get directory listing
