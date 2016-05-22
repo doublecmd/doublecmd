@@ -41,7 +41,7 @@ resourcestring
   rsMsgFileExistsRwrt = 'File %s exists, overwrite?';
   rsMsgFileChangedSave = 'File %s changed, save?';
   rsMsgFolderExistsRwrt = 'Folder %s exists, overwrite?';
-  rsMsgFileReadOnly = 'File %s is marked as read-only. Delete it?';
+  rsMsgFileReadOnly = 'File %s is marked as read-only/hidden/system. Delete it?';
   rsMsgNewFile = 'New file';
   rsMsgDelFlDr = 'Delete %d selected files/directories?';
   rsMsgDelSel = 'Delete selected "%s"?';
