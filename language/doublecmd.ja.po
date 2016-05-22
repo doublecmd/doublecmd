@@ -2035,14 +2035,6 @@ msgstr "フォルダー タブの構成"
 msgid "Toolbar..."
 msgstr "ツールバー…"
 
-#: tfrmmain.actconfigtreeviewmenus.caption
-msgid "Configuration of Tree View Menu"
-msgstr "ツリー ビューのメニューの構成"
-
-#: tfrmmain.actconfigtreeviewmenuscolors.caption
-msgid "Configuration of Tree View Menu Colors"
-msgstr "ツリー ビューメニューの色の構成"
-
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
 msgstr "コンテキストメニューを表示"
@@ -10071,7 +10063,9 @@ msgstr ""
 " \n"
 
 #: ulng.rsmsgfilereadonly
-msgid "File %s is marked as read-only. Delete it?"
+#, fuzzy
+#| msgid "File %s is marked as read-only. Delete it?"
+msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "ファイル＜%s＞は読み込み専用です。それでも削除しますか？"
 
 #: ulng.rsmsgfilesizetoobig

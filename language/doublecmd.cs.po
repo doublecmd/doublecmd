@@ -10133,7 +10133,9 @@ msgstr ""
 "Chcete je před ukončením uložit?\n"
 
 #: ulng.rsmsgfilereadonly
-msgid "File %s is marked as read-only. Delete it?"
+#, fuzzy
+#| msgid "File %s is marked as read-only. Delete it?"
+msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "Soubor %s je pouze ke čtení! Přesto vymazat?"
 
 #: ulng.rsmsgfilesizetoobig

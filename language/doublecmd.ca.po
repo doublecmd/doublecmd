@@ -10891,7 +10891,9 @@ msgid ""
 msgstr ""
 
 #: ulng.rsmsgfilereadonly
-msgid "File %s is marked as read-only. Delete it?"
+#, fuzzy
+#| msgid "File %s is marked as read-only. Delete it?"
+msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "El fitxer %s s'ha marcat com de només lectura, l'esborro?"
 
 #: ulng.rsmsgfilesizetoobig
