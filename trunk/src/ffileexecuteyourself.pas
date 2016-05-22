@@ -43,6 +43,7 @@ type
     lblFileNameValue: TLabel;
     lblPrompt: TLabel;
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
   private
     FFileSource: IFileSource;
   public
@@ -114,6 +115,14 @@ procedure TfrmFileExecuteYourSelf.FormClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
+end;
+
+procedure TfrmFileExecuteYourSelf.FormCreate(Sender: TObject);
+begin
+  // Workaround: TWinControl.WMSize loop detected
+  // http://doublecmd.sourceforge.net/mantisbt/view.php?id=1378
+  Constraints.MaxWidth:= Screen.Width;
+  Constraints.MaxHeight:= Screen.Height;
 end;
 
 constructor TfrmFileExecuteYourSelf.Create(TheOwner: TComponent;
