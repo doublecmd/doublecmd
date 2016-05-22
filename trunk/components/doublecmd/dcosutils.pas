@@ -293,7 +293,7 @@ end;
 function FileIsReadOnly(iAttr: TFileAttrs): Boolean;
 {$IFDEF MSWINDOWS}
 begin
-  Result:= (iAttr and faReadOnly) <> 0;
+  Result:= (iAttr and (faReadOnly or faHidden or faSysFile)) <> 0;
 end;
 {$ELSE}
 begin
@@ -900,7 +900,7 @@ begin
   if ReadOnly then
     iAttr:= iAttr or faReadOnly
   else
-    iAttr:= iAttr and not faReadOnly;
+    iAttr:= iAttr and not (faReadOnly or faHidden or faSysFile);
   Result:= SetFileAttributesW(PWideChar(wFileName), iAttr) = True;
 end;
 {$ELSE}
