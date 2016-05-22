@@ -11126,7 +11126,9 @@ msgid ""
 msgstr ""
 
 #: ulng.rsmsgfilereadonly
-msgid "File %s is marked as read-only. Delete it?"
+#, fuzzy
+#| msgid "File %s is marked as read-only. Delete it?"
+msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "%s 는 읽기전용 파일입니다. 삭제할까요?"
 
 #: ulng.rsmsgfilesizetoobig

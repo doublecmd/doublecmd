@@ -10373,7 +10373,9 @@ msgstr ""
 "Зберегти зміни перед виходом?\n"
 
 #: ulng.rsmsgfilereadonly
-msgid "File %s is marked as read-only. Delete it?"
+#, fuzzy
+#| msgid "File %s is marked as read-only. Delete it?"
+msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "Файл %s помічений як доступний лише для читання. Видалити?"
 
 #: ulng.rsmsgfilesizetoobig

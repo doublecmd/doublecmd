@@ -11302,7 +11302,9 @@ msgstr ""
 "Sollen sie vor dem Beenden gespeichert werden?\n"
 
 #: ulng.rsmsgfilereadonly
-msgid "File %s is marked as read-only. Delete it?"
+#, fuzzy
+#| msgid "File %s is marked as read-only. Delete it?"
+msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "Datei %s ist als schreibgeschützt markiert. Soll sie gelöscht werden?"
 
 #: ulng.rsmsgfilesizetoobig
