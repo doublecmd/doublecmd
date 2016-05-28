@@ -2005,12 +2005,20 @@ begin
       end;
 
       sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU);
-      // Using standard search algorithm if case insensitive and multibyte
+      // Using standard search algorithm if case sensitive and multibyte
       if FFindDialog.cbCaseSens.Checked and (ViewerControl.Encoding in ViewerEncodingMultiByte) then
       begin
         PAnsiAddr := PosMem(ViewerControl.GetDataAdr, ViewerControl.FileSize,
                             FLastSearchPos, sSearchTextA,
                             FFindDialog.cbCaseSens.Checked, bSearchBackwards);
+        bTextFound := (PAnsiAddr <> Pointer(-1));
+        if bTextFound then FLastSearchPos := PAnsiAddr - ViewerControl.GetDataAdr;
+      end
+      // Using special case insensitive UTF-8 search algorithm
+      else if (ViewerControl.Encoding in [veUtf8, veUtf8bom]) then
+      begin
+        PAnsiAddr := PosMemU(ViewerControl.GetDataAdr, ViewerControl.FileSize,
+                             FLastSearchPos, sSearchTextA);
         bTextFound := (PAnsiAddr <> Pointer(-1));
         if bTextFound then FLastSearchPos := PAnsiAddr - ViewerControl.GetDataAdr;
       end
