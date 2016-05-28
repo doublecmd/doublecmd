@@ -129,6 +129,9 @@ uses
 {$ENDIF}
 {$IFDEF UNIX}
   BaseUnix, uUsersGroups, LazUTF8, uMyUnix,
+  {$IFDEF DARWIN}
+  uMyDarwin,
+  {$ENDIF}
 {$ENDIF}
   uFileSystemListOperation,
   uFileSystemCopyOperation,
@@ -590,7 +593,11 @@ begin
     if fpType in PropertiesToSet then
     begin
       TypeProperty := TFileTypeProperty.Create;
+      {$IF DEFINED(DARWIN)}
+      TypeProperty.Value:= GetFileDescription(sFullPath);
+      {$ELSE}
       TypeProperty.Value:= GetFileMimeType(sFullPath);
+      {$ENDIF}
     end;
 
 {$ELSE}
