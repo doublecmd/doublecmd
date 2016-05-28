@@ -749,6 +749,7 @@ begin
 
     AFileView.FHistory.Assign(Self.FHistory);
     AFileView.FSortings := CloneSortings(Self.FSortings);
+    AFileView.FSortingProperties := GetSortingProperties;
     AFileView.FLastActiveFile := Self.FLastActiveFile;
     AFileView.FRequestedActiveFile := Self.FRequestedActiveFile;
     AFileView.FReloadNeeded := Self.FReloadNeeded;
