@@ -440,6 +440,10 @@ begin
     ConvertToUtf8:= @KOI8ToUTF8;
     ConvertFromUtf8:= @UTF8ToKOI8;
   end;
+
+  // Windows CE 5.1
+  FFtpList.Masks.Add('MM DD YY  hh mm !S* n*');
+  FFtpList.Masks.Add('MM DD YY  hh mm $ d!n*');
 end;
 
 function TFTPSendEx.Login: Boolean;
