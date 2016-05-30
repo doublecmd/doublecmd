@@ -83,8 +83,11 @@ begin
         Result := crc32(Result, @SampleValue, sizeof(SampleValue));
       end;
 
-      if length(TComboBox(aComponent).Text) > 0 then
-        Result := crc32(Result, @TComboBox(aComponent).Text[1], length(TComboBox(aComponent).Text));
+      if TComboBox(aComponent).Style <> csDropDownList then
+      begin
+        if length(TComboBox(aComponent).Text) > 0 then
+          Result := crc32(Result, @TComboBox(aComponent).Text[1], length(TComboBox(aComponent).Text));
+      end;
     end;
 
     'TSpinEdit':
