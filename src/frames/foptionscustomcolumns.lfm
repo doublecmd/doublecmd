@@ -1,35 +1,35 @@
 inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
   Height = 596
-  Width = 911
+  Width = 1070
   ChildSizing.LeftRightSpacing = 4
   ChildSizing.TopBottomSpacing = 4
   ClientHeight = 596
-  ClientWidth = 911
+  ClientWidth = 1070
   ParentShowHint = False
   ShowHint = True
   DesignLeft = 241
   DesignTop = 65
   object pnlConfigColumns: TPanel[0]
     Left = 4
-    Height = 31
+    Height = 28
     Top = 4
-    Width = 903
+    Width = 1062
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
     ChildSizing.LeftRightSpacing = 4
     ChildSizing.TopBottomSpacing = 4
-    ClientHeight = 31
-    ClientWidth = 903
+    ClientHeight = 28
+    ClientWidth = 1062
     TabOrder = 0
     object lblConfigColumns: TLabel
       AnchorSideLeft.Control = pnlConfigColumns
       AnchorSideTop.Control = cbConfigColumns
       AnchorSideTop.Side = asrCenter
       Left = 4
-      Height = 15
-      Top = 8
-      Width = 132
+      Height = 14
+      Top = 7
+      Width = 149
       BorderSpacing.Right = 2
       Caption = 'Con&figure columns view:'
       FocusControl = cbConfigColumns
@@ -40,15 +40,15 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = pnlConfigColumns
       AnchorSideRight.Side = asrBottom
-      Left = 138
-      Height = 23
+      Left = 155
+      Height = 20
       Top = 4
-      Width = 367
+      Width = 440
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 4
       Constraints.MaxWidth = 440
       Font.Style = [fsBold]
-      ItemHeight = 15
+      ItemHeight = 14
       ItemIndex = 0
       Items.Strings = (
         'General'
@@ -67,10 +67,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       AnchorSideRight.Control = btnRenameConfigColumns
       AnchorSideBottom.Control = cbConfigColumns
       AnchorSideBottom.Side = asrBottom
-      Left = 509
-      Height = 23
+      Left = 599
+      Height = 20
       Top = 4
-      Width = 50
+      Width = 42
       Anchors = [akTop, akLeft, akBottom]
       AutoSize = True
       BorderSpacing.Left = 4
@@ -85,10 +85,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       AnchorSideTop.Control = cbConfigColumns
       AnchorSideBottom.Control = cbConfigColumns
       AnchorSideBottom.Side = asrBottom
-      Left = 685
-      Height = 23
+      Left = 752
+      Height = 20
       Top = 4
-      Width = 69
+      Width = 62
       Anchors = [akTop, akLeft, akBottom]
       AutoSize = True
       BorderSpacing.Left = 4
@@ -103,10 +103,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       AnchorSideTop.Control = cbConfigColumns
       AnchorSideBottom.Control = cbConfigColumns
       AnchorSideBottom.Side = asrBottom
-      Left = 563
-      Height = 23
+      Left = 645
+      Height = 20
       Top = 4
-      Width = 64
+      Width = 61
       Anchors = [akTop, akLeft, akBottom]
       AutoSize = True
       BorderSpacing.Left = 4
@@ -121,10 +121,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = cbConfigColumns
       AnchorSideBottom.Side = asrBottom
-      Left = 758
-      Height = 23
+      Left = 818
+      Height = 20
       Top = 4
-      Width = 59
+      Width = 63
       Anchors = [akTop, akLeft, akBottom]
       AutoSize = True
       BorderSpacing.Left = 4
@@ -140,10 +140,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = cbConfigColumns
       AnchorSideBottom.Side = asrBottom
-      Left = 631
-      Height = 23
+      Left = 710
+      Height = 20
       Top = 4
-      Width = 50
+      Width = 38
       Anchors = [akTop, akLeft, akBottom]
       AutoSize = True
       BorderSpacing.Left = 4
@@ -154,159 +154,168 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
   end
   object pnlActualCont: TPanel[1]
     Left = 4
-    Height = 557
-    Top = 35
-    Width = 903
+    Height = 560
+    Top = 32
+    Width = 1062
     Align = alClient
     Anchors = [akTop, akLeft, akBottom]
-    ClientHeight = 557
-    ClientWidth = 903
+    ClientHeight = 560
+    ClientWidth = 1062
     TabOrder = 1
     object pnlGeneralColumnsViewSettings: TPanel
       Left = 1
-      Height = 30
+      Height = 34
       Top = 156
-      Width = 901
+      Width = 1060
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.LeftRightSpacing = 8
       ChildSizing.TopBottomSpacing = 4
-      ClientHeight = 30
-      ClientWidth = 901
+      ClientHeight = 34
+      ClientWidth = 1060
       TabOrder = 2
       object chkUseCustomView: TCheckBox
         AnchorSideLeft.Control = pnlGeneralColumnsViewSettings
-        AnchorSideTop.Control = cbCursorBorderColor
+        AnchorSideTop.Control = pnlCommon
         AnchorSideTop.Side = asrCenter
         Left = 8
         Height = 19
-        Top = 6
-        Width = 239
+        Top = 8
+        Width = 301
         Caption = 'Use custom font and color for this view'
         Font.Style = [fsBold]
         OnChange = chkUseCustomViewChange
         ParentFont = False
         TabOrder = 0
       end
-      object cbCursorBorder: TCheckBox
-        AnchorSideLeft.Control = chkUseCustomView
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbCursorBorderColor
-        AnchorSideTop.Side = asrCenter
-        Left = 282
-        Height = 19
-        Top = 6
-        Width = 93
-        BorderSpacing.Left = 35
-        Caption = 'Cursor border'
-        OnChange = cbCursorBorderChange
-        TabOrder = 1
-      end
-      object cbCursorBorderColor: TColorBox
-        AnchorSideLeft.Control = cbCursorBorder
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = pnlGeneralColumnsViewSettings
-        Left = 375
-        Height = 22
-        Top = 4
-        Width = 144
-        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-        ItemHeight = 16
-        OnChange = cbCursorBorderColorChange
-        TabOrder = 2
-      end
-      object btnCursorBorderColor: TButton
-        AnchorSideLeft.Control = cbCursorBorderColor
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbCursorBorderColor
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = cbCursorBorderColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 520
-        Height = 22
-        Top = 4
-        Width = 28
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 1
-        BorderSpacing.InnerBorder = 4
-        Caption = '>>'
-        OnClick = btnCursorBorderColorClick
-        TabOrder = 3
-      end
-      object cbUseFrameCursor: TCheckBox
-        AnchorSideLeft.Control = btnResetCursorBorder
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbCursorBorderColor
-        AnchorSideTop.Side = asrCenter
-        Left = 617
-        Height = 19
-        Top = 6
-        Width = 113
-        BorderSpacing.Left = 35
-        Caption = 'Use Frame Cursor'
-        OnChange = cbUseFrameCursorChange
-        TabOrder = 5
-      end
-      object btnResetCursorBorder: TButton
-        AnchorSideLeft.Control = btnCursorBorderColor
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = btnCursorBorderColor
-        AnchorSideBottom.Control = btnCursorBorderColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 549
-        Height = 22
-        Hint = 'Reset to default'
-        Top = 4
-        Width = 33
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 1
-        Caption = 'R'
-        OnClick = btnResetCursorBorderClick
-        TabOrder = 4
-      end
-      object btnResetFrameCursor: TButton
-        AnchorSideLeft.Control = cbUseFrameCursor
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = btnCursorBorderColor
-        AnchorSideBottom.Control = btnCursorBorderColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 731
-        Height = 22
-        Hint = 'Reset to default'
-        Top = 4
-        Width = 33
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 1
-        Caption = 'R'
-        OnClick = btnResetFrameCursorClick
-        TabOrder = 6
-      end
       object btnGotoSetDefault: TButton
-        AnchorSideLeft.Control = btnResetFrameCursor
+        AnchorSideLeft.Control = pnlCommon
         AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = btnCursorBorderColor
-        AnchorSideBottom.Control = btnCursorBorderColor
         AnchorSideBottom.Side = asrBottom
-        Left = 771
-        Height = 22
+        Left = 910
+        Height = 26
         Hint = 'Reset to default'
         Top = 4
-        Width = 113
-        Anchors = [akTop, akLeft, akBottom]
+        Width = 118
         AutoSize = True
         BorderSpacing.Left = 7
         Caption = 'Go to set default'
         OnClick = btnGotoSetDefaultClick
-        TabOrder = 7
+        TabOrder = 1
         Visible = False
+      end
+      object pnlCommon: TPanel
+        AnchorSideLeft.Control = chkUseCustomView
+        AnchorSideLeft.Side = asrBottom
+        Left = 344
+        Height = 20
+        Top = 7
+        Width = 559
+        AutoSize = True
+        BorderSpacing.Left = 35
+        BevelOuter = bvNone
+        ClientHeight = 20
+        ClientWidth = 559
+        TabOrder = 2
+        object cbCursorBorder: TCheckBox
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbCursorBorderColor
+          AnchorSideTop.Side = asrCenter
+          Left = 35
+          Height = 19
+          Top = 1
+          Width = 112
+          BorderSpacing.Left = 35
+          Caption = 'Cursor border'
+          OnChange = cbCursorBorderChange
+          TabOrder = 0
+        end
+        object cbCursorBorderColor: TColorBox
+          AnchorSideLeft.Control = cbCursorBorder
+          AnchorSideLeft.Side = asrBottom
+          Left = 147
+          Height = 20
+          Top = 0
+          Width = 144
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          ItemHeight = 16
+          OnChange = cbCursorBorderColorChange
+          TabOrder = 1
+        end
+        object btnCursorBorderColor: TButton
+          AnchorSideLeft.Control = cbCursorBorderColor
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbCursorBorderColor
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = cbCursorBorderColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 292
+          Height = 20
+          Top = 0
+          Width = 28
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 1
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = btnCursorBorderColorClick
+          TabOrder = 2
+        end
+        object btnResetCursorBorder: TButton
+          AnchorSideLeft.Control = btnCursorBorderColor
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnCursorBorderColor
+          AnchorSideBottom.Control = btnCursorBorderColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 321
+          Height = 20
+          Hint = 'Reset to default'
+          Top = 0
+          Width = 33
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 1
+          Caption = 'R'
+          OnClick = btnResetCursorBorderClick
+          TabOrder = 3
+        end
+        object cbUseFrameCursor: TCheckBox
+          AnchorSideLeft.Control = btnResetCursorBorder
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbCursorBorderColor
+          AnchorSideTop.Side = asrCenter
+          Left = 389
+          Height = 19
+          Top = 1
+          Width = 136
+          BorderSpacing.Left = 35
+          Caption = 'Use Frame Cursor'
+          OnChange = cbUseFrameCursorChange
+          TabOrder = 4
+        end
+        object btnResetFrameCursor: TButton
+          AnchorSideLeft.Control = cbUseFrameCursor
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnCursorBorderColor
+          AnchorSideBottom.Control = btnCursorBorderColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 526
+          Height = 20
+          Hint = 'Reset to default'
+          Top = 0
+          Width = 33
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 1
+          Caption = 'R'
+          OnClick = btnResetFrameCursorClick
+          TabOrder = 5
+        end
       end
     end
     object stgColumns: TStringGrid
       Left = 1
       Height = 140
       Top = 1
-      Width = 901
+      Width = 1060
       Align = alTop
       ColCount = 7
       Constraints.MinHeight = 80
@@ -359,7 +368,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       Left = 1
       Height = 15
       Top = 141
-      Width = 901
+      Width = 1060
       Align = alTop
       Beveled = True
       MinSize = 15
@@ -367,15 +376,15 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
     end
     object pnlCustomColumnsViewSettings: TPanel
       Left = 1
-      Height = 179
-      Top = 186
-      Width = 901
+      Height = 169
+      Top = 190
+      Width = 1060
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.LeftRightSpacing = 8
-      ClientHeight = 179
-      ClientWidth = 901
+      ClientHeight = 169
+      ClientWidth = 1060
       TabOrder = 3
       object btnPrev: TButton
         AnchorSideLeft.Control = pnlCustomColumnsViewSettings
@@ -399,9 +408,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
         Left = 79
-        Height = 25
-        Top = 0
-        Width = 50
+        Height = 26
+        Top = -1
+        Width = 40
         AutoSize = True
         Caption = 'Next'
         OnClick = btnNextClick
@@ -411,10 +420,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = edtFont
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = edtFont
-        Left = 51
-        Height = 15
-        Top = 34
-        Width = 27
+        Left = 46
+        Height = 14
+        Top = 33
+        Width = 32
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 1
         Caption = 'Font:'
@@ -426,7 +435,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = btnFont
         Left = 79
-        Height = 23
+        Height = 20
         Top = 30
         Width = 301
         BorderSpacing.Top = 5
@@ -442,7 +451,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideBottom.Side = asrBottom
         Left = 381
         Height = 22
-        Top = 30
+        Top = 29
         Width = 40
         BorderSpacing.Bottom = 2
         Caption = '...'
@@ -455,9 +464,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = btnFont
         AnchorSideTop.Side = asrCenter
         Left = 425
-        Height = 15
-        Top = 34
-        Width = 23
+        Height = 14
+        Top = 33
+        Width = 28
         BorderSpacing.Left = 4
         Caption = 'Size:'
         ParentColor = False
@@ -468,9 +477,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = edtFont
         AnchorSideTop.Side = asrCenter
         AnchorSideBottom.Side = asrBottom
-        Left = 452
-        Height = 23
-        Top = 30
+        Left = 457
+        Height = 19
+        Top = 31
         Width = 48
         BorderSpacing.Left = 4
         MaxValue = 25
@@ -485,10 +494,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = edtFont
         AnchorSideTop.Side = asrCenter
         AnchorSideBottom.Side = asrBottom
-        Left = 501
+        Left = 506
         Height = 22
         Hint = 'Reset to default'
-        Top = 30
+        Top = 29
         Width = 33
         BorderSpacing.Left = 1
         Caption = 'R'
@@ -500,10 +509,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = edtFont
         AnchorSideTop.Side = asrCenter
-        Left = 535
+        Left = 540
         Height = 22
         Hint = 'Apply modification to all columns'
-        Top = 30
+        Top = 29
         Width = 40
         BorderSpacing.Left = 1
         Caption = 'All'
@@ -515,10 +524,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = btnAllAllowOverColor
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnResetAllowOverColor
-        Left = 704
+        Left = 849
         Height = 19
-        Top = 153
-        Width = 105
+        Top = 143
+        Width = 119
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 1
         Caption = 'Allow Overcolor'
@@ -530,10 +539,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = cbForeColor
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = cbForeColor
-        Left = 105
-        Height = 15
-        Top = 59
-        Width = 56
+        Left = 97
+        Height = 14
+        Top = 55
+        Width = 64
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 6
         Caption = 'Text Color:'
@@ -545,10 +554,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = lblForeColor
         AnchorSideRight.Side = asrBottom
-        Left = 93
-        Height = 15
-        Top = 83
-        Width = 68
+        Left = 81
+        Height = 14
+        Top = 77
+        Width = 80
         Anchors = [akTop, akRight]
         Caption = 'BackGround:'
         ParentColor = False
@@ -559,10 +568,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = lblForeColor
         AnchorSideRight.Side = asrBottom
-        Left = 85
-        Height = 15
-        Top = 107
-        Width = 76
+        Left = 70
+        Height = 14
+        Top = 99
+        Width = 91
         Anchors = [akTop, akRight]
         Caption = 'Background 2:'
         ParentColor = False
@@ -573,10 +582,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = lblForeColor
         AnchorSideRight.Side = asrBottom
-        Left = 99
-        Height = 15
-        Top = 131
-        Width = 62
+        Left = 91
+        Height = 14
+        Top = 121
+        Width = 70
         Anchors = [akTop, akRight]
         Caption = 'Mark Color:'
         ParentColor = False
@@ -588,8 +597,8 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideRight.Control = cbForeColor
         AnchorSideRight.Side = asrBottom
         Left = 167
-        Height = 22
-        Top = 127
+        Height = 20
+        Top = 118
         Width = 150
         Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         Anchors = [akTop, akRight]
@@ -605,8 +614,8 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideRight.Control = cbForeColor
         AnchorSideRight.Side = asrBottom
         Left = 167
-        Height = 22
-        Top = 103
+        Height = 20
+        Top = 96
         Width = 150
         Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         Anchors = [akTop, akRight]
@@ -622,8 +631,8 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideRight.Control = cbForeColor
         AnchorSideRight.Side = asrBottom
         Left = 167
-        Height = 22
-        Top = 79
+        Height = 20
+        Top = 74
         Width = 150
         Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         Anchors = [akTop, akRight]
@@ -638,8 +647,8 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = btnForeColor
         Left = 167
-        Height = 22
-        Top = 55
+        Height = 20
+        Top = 52
         Width = 150
         Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         Anchors = [akTop, akRight]
@@ -657,7 +666,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideRight.Control = btnResetForeColor
         Left = 318
         Height = 22
-        Top = 55
+        Top = 51
         Width = 28
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 1
@@ -674,7 +683,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideRight.Side = asrBottom
         Left = 318
         Height = 22
-        Top = 79
+        Top = 73
         Width = 28
         Anchors = [akTop, akRight]
         BorderSpacing.InnerBorder = 4
@@ -690,7 +699,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideRight.Side = asrBottom
         Left = 318
         Height = 22
-        Top = 103
+        Top = 95
         Width = 28
         Anchors = [akTop, akRight]
         BorderSpacing.InnerBorder = 4
@@ -706,7 +715,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideRight.Side = asrBottom
         Left = 318
         Height = 22
-        Top = 127
+        Top = 117
         Width = 28
         Anchors = [akTop, akRight]
         BorderSpacing.InnerBorder = 4
@@ -723,7 +732,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         Left = 347
         Height = 22
         Hint = 'Reset to default'
-        Top = 127
+        Top = 117
         Width = 33
         Anchors = [akTop, akRight]
         Caption = 'R'
@@ -738,7 +747,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         Left = 347
         Height = 22
         Hint = 'Reset to default'
-        Top = 103
+        Top = 96
         Width = 33
         Anchors = [akTop, akRight]
         Caption = 'R'
@@ -754,7 +763,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         Left = 347
         Height = 22
         Hint = 'Reset to default'
-        Top = 79
+        Top = 73
         Width = 33
         Anchors = [akTop, akRight]
         Caption = 'R'
@@ -770,7 +779,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         Left = 347
         Height = 22
         Hint = 'Reset to default'
-        Top = 55
+        Top = 51
         Width = 33
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 1
@@ -787,7 +796,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         Left = 381
         Height = 22
         Hint = 'Apply modification to all columns'
-        Top = 55
+        Top = 51
         Width = 40
         Anchors = [akTop, akRight]
         Caption = 'All'
@@ -803,7 +812,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         Left = 381
         Height = 22
         Hint = 'Apply modification to all columns'
-        Top = 79
+        Top = 73
         Width = 40
         Anchors = [akTop, akRight]
         Caption = 'All'
@@ -819,7 +828,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         Left = 381
         Height = 22
         Hint = 'Apply modification to all columns'
-        Top = 103
+        Top = 95
         Width = 40
         Anchors = [akTop, akRight]
         Caption = 'All'
@@ -835,7 +844,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         Left = 381
         Height = 22
         Hint = 'Apply modification to all columns'
-        Top = 127
+        Top = 117
         Width = 40
         Anchors = [akTop, akRight]
         Caption = 'All'
@@ -848,10 +857,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = lblCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 517
-        Height = 15
-        Top = 131
-        Width = 106
+        Left = 660
+        Height = 14
+        Top = 121
+        Width = 122
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 1
         Caption = 'Inactive Mark Color:'
@@ -863,10 +872,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = lblCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 510
-        Height = 15
-        Top = 107
-        Width = 114
+        Left = 650
+        Height = 14
+        Top = 99
+        Width = 133
         Anchors = [akTop, akRight]
         Caption = 'Inactive Cursor Color:'
         ParentColor = False
@@ -877,10 +886,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = lblCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 562
-        Height = 15
-        Top = 83
-        Width = 62
+        Left = 710
+        Height = 14
+        Top = 77
+        Width = 73
         Anchors = [akTop, akRight]
         Caption = 'Cursor Text:'
         ParentColor = False
@@ -890,10 +899,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = cbForeColor
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = cbCursorColor
-        Left = 554
-        Height = 15
-        Top = 59
-        Width = 70
+        Left = 702
+        Height = 14
+        Top = 55
+        Width = 81
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 6
         Caption = 'Cursor Color:'
@@ -905,9 +914,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = cbForeColor
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnCursorColor
-        Left = 630
-        Height = 22
-        Top = 55
+        Left = 789
+        Height = 20
+        Top = 52
         Width = 150
         Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         Anchors = [akTop, akRight]
@@ -922,9 +931,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = cbCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 630
-        Height = 22
-        Top = 79
+        Left = 789
+        Height = 20
+        Top = 74
         Width = 150
         Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         Anchors = [akTop, akRight]
@@ -938,9 +947,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = cbCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 630
-        Height = 22
-        Top = 103
+        Left = 789
+        Height = 20
+        Top = 96
         Width = 150
         Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         Anchors = [akTop, akRight]
@@ -954,9 +963,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = cbCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 630
-        Height = 22
-        Top = 127
+        Left = 789
+        Height = 20
+        Top = 118
         Width = 150
         Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         Anchors = [akTop, akRight]
@@ -970,9 +979,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 781
+        Left = 940
         Height = 22
-        Top = 127
+        Top = 117
         Width = 28
         Anchors = [akTop, akRight]
         BorderSpacing.InnerBorder = 4
@@ -986,9 +995,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 781
+        Left = 940
         Height = 22
-        Top = 103
+        Top = 95
         Width = 28
         Anchors = [akTop, akRight]
         BorderSpacing.InnerBorder = 4
@@ -1002,9 +1011,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 781
+        Left = 940
         Height = 22
-        Top = 79
+        Top = 73
         Width = 28
         Anchors = [akTop, akRight]
         BorderSpacing.InnerBorder = 4
@@ -1017,9 +1026,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = cbForeColor
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnResetCursorColor
-        Left = 781
+        Left = 940
         Height = 22
-        Top = 55
+        Top = 51
         Width = 28
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 1
@@ -1034,10 +1043,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnResetCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 810
+        Left = 969
         Height = 22
         Hint = 'Reset to default'
-        Top = 103
+        Top = 95
         Width = 33
         Anchors = [akTop, akRight]
         Caption = 'R'
@@ -1050,10 +1059,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnResetCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 810
+        Left = 969
         Height = 22
         Hint = 'Reset to default'
-        Top = 79
+        Top = 73
         Width = 33
         Anchors = [akTop, akRight]
         Caption = 'R'
@@ -1065,10 +1074,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = cbForeColor
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnAllCursorColor
-        Left = 810
+        Left = 969
         Height = 22
         Hint = 'Reset to default'
-        Top = 55
+        Top = 51
         Width = 33
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 1
@@ -1081,10 +1090,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = cbForeColor
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Side = asrBottom
-        Left = 844
+        Left = 1003
         Height = 22
         Hint = 'Apply modification to all columns'
-        Top = 55
+        Top = 51
         Width = 40
         Anchors = [akTop, akRight]
         Caption = 'All'
@@ -1098,10 +1107,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideRight.Control = btnAllCursorColor
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 844
+        Left = 1003
         Height = 22
         Hint = 'Apply modification to all columns'
-        Top = 79
+        Top = 73
         Width = 40
         Anchors = [akTop, akRight]
         Caption = 'All'
@@ -1114,10 +1123,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnAllCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 844
+        Left = 1003
         Height = 22
         Hint = 'Apply modification to all columns'
-        Top = 103
+        Top = 95
         Width = 40
         Anchors = [akTop, akRight]
         Caption = 'All'
@@ -1130,10 +1139,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnAllCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 844
+        Left = 1003
         Height = 22
         Hint = 'Apply modification to all columns'
-        Top = 127
+        Top = 117
         Width = 40
         Anchors = [akTop, akRight]
         Caption = 'All'
@@ -1146,10 +1155,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnResetCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 810
+        Left = 969
         Height = 22
         Hint = 'Reset to default'
-        Top = 127
+        Top = 117
         Width = 33
         Anchors = [akTop, akRight]
         Caption = 'R'
@@ -1161,10 +1170,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = btnAllAllowOverColor
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnResetUseInvertedSelection
-        Left = 111
+        Left = 82
         Height = 19
-        Top = 153
-        Width = 136
+        Top = 143
+        Width = 165
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 1
         Caption = 'Use Inverted Selection'
@@ -1176,10 +1185,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = btnAllAllowOverColor
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnResetUseInactiveSelColor
-        Left = 382
+        Left = 508
         Height = 19
-        Top = 153
-        Width = 166
+        Top = 143
+        Width = 199
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 1
         Caption = 'Use Inactive Selection Color'
@@ -1195,7 +1204,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         Left = 282
         Height = 22
         Hint = 'Apply modification to all columns'
-        Top = 151
+        Top = 141
         Width = 35
         Anchors = [akTop, akRight]
         Caption = 'All'
@@ -1208,10 +1217,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = lblInactiveMarkColor
         AnchorSideRight.Side = asrBottom
-        Left = 583
+        Left = 742
         Height = 22
         Hint = 'Apply modification to all columns'
-        Top = 151
+        Top = 141
         Width = 40
         Anchors = [akTop, akRight]
         Caption = 'All'
@@ -1224,10 +1233,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = btnAllCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 844
+        Left = 1003
         Height = 22
         Hint = 'Apply modification to all columns'
-        Top = 151
+        Top = 141
         Width = 40
         Anchors = [akTop, akRight]
         BorderSpacing.Top = 2
@@ -1241,10 +1250,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = btnPrev
         AnchorSideTop.Side = asrCenter
-        Left = 134
-        Height = 15
+        Left = 124
+        Height = 14
         Top = 5
-        Width = 113
+        Width = 143
         BorderSpacing.Left = 5
         Caption = 'Settings for column:'
         Font.Style = [fsBold]
@@ -1256,10 +1265,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = btnPrev
         AnchorSideTop.Side = asrCenter
-        Left = 250
-        Height = 15
+        Left = 270
+        Height = 14
         Top = 5
-        Width = 132
+        Width = 164
         BorderSpacing.Left = 3
         Caption = '[Current Column Name]'
         Font.Style = [fsBold]
@@ -1272,10 +1281,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnResetCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 810
+        Left = 969
         Height = 22
         Hint = 'Reset to default'
-        Top = 151
+        Top = 141
         Width = 33
         Anchors = [akTop, akRight]
         Caption = 'R'
@@ -1291,7 +1300,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         Left = 248
         Height = 22
         Hint = 'Reset to default'
-        Top = 151
+        Top = 141
         Width = 33
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 1
@@ -1306,10 +1315,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = btnAllAllowOverColor
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = btnAllUseInactiveSelColor
-        Left = 549
+        Left = 708
         Height = 22
         Hint = 'Reset to default'
-        Top = 151
+        Top = 141
         Width = 33
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 1
@@ -1323,10 +1332,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = btnPrev
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Side = asrBottom
-        Left = 500
+        Left = 505
         Height = 19
         Top = 3
-        Width = 338
+        Width = 398
         Caption = 'When clicking to change something, change for all columns'
         OnChange = cbApplyChangeForAllColumnsChange
         TabOrder = 2
@@ -1334,23 +1343,23 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
     end
     object pnlPreviewCont: TPanel
       Left = 1
-      Height = 191
-      Top = 365
-      Width = 901
+      Height = 200
+      Top = 359
+      Width = 1060
       Align = alClient
       BevelOuter = bvNone
       ChildSizing.LeftRightSpacing = 8
-      ClientHeight = 191
-      ClientWidth = 901
+      ClientHeight = 200
+      ClientWidth = 1060
       Color = clInactiveCaption
       Constraints.MinHeight = 125
       ParentColor = False
       TabOrder = 4
       object lblPreviewTop: TLabel
         Left = 8
-        Height = 15
+        Height = 14
         Top = 0
-        Width = 885
+        Width = 1044
         Align = alTop
         Alignment = taCenter
         Caption = 'Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings.'
@@ -1360,8 +1369,8 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       end
       object pnlLeft: TPanel
         Left = 8
-        Height = 168
-        Top = 15
+        Height = 178
+        Top = 14
         Width = 437
         Align = alLeft
         BorderSpacing.Bottom = 8
@@ -1373,9 +1382,9 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       end
       object pnlRight: TPanel
         Left = 456
-        Height = 168
-        Top = 15
-        Width = 437
+        Height = 178
+        Top = 14
+        Width = 596
         Align = alClient
         BorderSpacing.Bottom = 8
         BevelOuter = bvNone
@@ -1386,8 +1395,8 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       end
       object spltBetweenPanels: TSplitter
         Left = 445
-        Height = 176
-        Top = 15
+        Height = 186
+        Top = 14
         Width = 11
       end
     end
