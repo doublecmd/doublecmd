@@ -58,9 +58,11 @@ type
     btnAllUseInvertedSelection: TButton;
     btnBackColor: TButton;
     btnBackColor2: TButton;
-    btnGotoSetDefault: TButton;
-    btnSaveAsConfigColumns: TButton;
     btnCursorBorderColor: TButton;
+    btnGotoSetDefault: TButton;
+    btnResetCursorBorder: TButton;
+    btnResetFrameCursor: TButton;
+    btnSaveAsConfigColumns: TButton;
     btnCursorColor: TButton;
     btnCursorText: TButton;
     btnDeleteConfigColumns: TButton;
@@ -76,11 +78,9 @@ type
     btnResetAllowOverColor: TButton;
     btnResetBackColor: TButton;
     btnResetBackColor2: TButton;
-    btnResetFrameCursor: TButton;
     btnResetCursorColor: TButton;
     btnResetCursorText: TButton;
     btnResetFont: TButton;
-    btnResetCursorBorder: TButton;
     btnResetForeColor: TButton;
     btnResetInactiveCursorColor: TButton;
     btnResetInactiveMarkColor: TButton;
@@ -101,9 +101,9 @@ type
     cbInactiveCursorColor: TColorBox;
     cbInactiveMarkColor: TColorBox;
     cbMarkColor: TColorBox;
+    cbUseFrameCursor: TCheckBox;
     cbUseInactiveSelColor: TCheckBox;
     cbUseInvertedSelection: TCheckBox;
-    cbUseFrameCursor: TCheckBox;
     chkUseCustomView: TCheckBox;
     dlgcolor: TColorDialog;
     dlgfont: TFontDialog;
@@ -123,6 +123,7 @@ type
     lblPreviewTop: TLabel;
     lblWorkingColumn: TLabel;
     miAddColumn: TMenuItem;
+    pnlCommon: TPanel;
     pnlCustomColumnsViewSettings: TPanel;
     pmFields: TPopupMenu;
     pmStringGrid: TPopupMenu;
@@ -1049,18 +1050,28 @@ end;
 { TfrmOptionsCustomColumns.chkUseCustomViewChange }
 procedure TfrmOptionsCustomColumns.chkUseCustomViewChange(Sender: TObject);
 begin
+  pnlCommon.Visible:= chkUseCustomView.Checked;
   pnlCustomColumnsViewSettings.Visible := chkUseCustomView.Checked;
   btnGotoSetDefault.Visible := not chkUseCustomView.Checked;
   EditorSaveResult(nil);
   if chkUsecustomView.Checked then
+  begin
     LoadCustColumn(0);
+
+    cbCursorBorder.Checked:= gUseCursorBorder;
+    cbCursorBorderChange(cbCursorBorder);
+    SetColorInColorBox(cbCursorBorderColor, gCursorBorderColor);
+    cbUseFrameCursor.Checked:= gUseFrameCursor;
+    cbUseFrameCursorChange(cbUseFrameCursor);
+  end;
 end;
 
 { TfrmOptionsCustomColumns.cbCursorBorderChange }
 procedure TfrmOptionsCustomColumns.cbCursorBorderChange(Sender: TObject);
 begin
   cbCursorBorderColor.Enabled := cbCursorBorder.Checked and cbCursorBorder.Enabled;
-  btnCursorBorderColor.Enabled := cbCursorBorder.Checked and cbCursorBorder.Enabled;
+  btnCursorBorderColor.Enabled := cbCursorBorderColor.Enabled;
+  btnResetCursorBorder.Enabled:= cbCursorBorderColor.Enabled;
   if cbCursorBorder.Checked and cbCursorBorder.Enabled then
     cbCursorBorderColor.Font.Color := clDefault
   else
@@ -1099,6 +1110,7 @@ end;
 { TfrmOptionsCustomColumns.cbUseFrameCursorChange }
 procedure TfrmOptionsCustomColumns.cbUseFrameCursorChange(Sender: TObject);
 begin
+  btnResetFrameCursor.Enabled := cbUseFrameCursor.Checked;
   cbCursorBorder.Enabled := not cbUseFrameCursor.Checked;
   lblCursorText.Enabled := not cbUseFrameCursor.Checked;
   cbCursorText.Enabled := not cbUseFrameCursor.Checked;

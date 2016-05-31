@@ -120,6 +120,9 @@ type
     FCursorBorderColor: TColor;
     FUseFrameCursor: Boolean;
     //------------------------------------------------------
+    function GetCursorBorder: boolean;
+    function GetCursorBorderColor: TColor;
+    function GetUseFrameCursor: Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -198,9 +201,9 @@ type
     property CurrentColumnsSetName: String read fSetName write fSetName;
     property SetName: String read fSetName write fSetName;
     property Name: String read fSetName write fSetName;
-    property UseCursorBorder: boolean read FCursorBorder write FCursorBorder;
-    property CursorBorderColor: TColor read FCursorBorderColor write FCursorBorderColor;
-    property UseFrameCursor: boolean read FUseFrameCursor write FUseFrameCursor;
+    property UseCursorBorder: boolean read GetCursorBorder write FCursorBorder;
+    property CursorBorderColor: TColor read GetCursorBorderColor write FCursorBorderColor;
+    property UseFrameCursor: boolean read GetUseFrameCursor write FUseFrameCursor;
     //------------------------------------------------------
   end;
 
@@ -463,6 +466,30 @@ begin
   if Index >= Flist.Count then
     Exit(EmptyStr);
   Result := TPanelColumn(Flist[Index]).GetColumnResultString(AFile, AFileSource);
+end;
+
+function TPanelColumnsClass.GetUseFrameCursor: Boolean;
+begin
+  if FCustomView then
+    Result := FUseFrameCursor
+  else
+    Result := gUseFrameCursor;
+end;
+
+function TPanelColumnsClass.GetCursorBorder: boolean;
+begin
+  if FCustomView then
+    Result := FCursorBorder
+  else
+    Result := gUseCursorBorder;
+end;
+
+function TPanelColumnsClass.GetCursorBorderColor: TColor;
+begin
+  if FCustomView then
+    Result := FCursorBorderColor
+  else
+    Result := gCursorBorderColor;
 end;
 
 constructor TPanelColumnsClass.Create;
