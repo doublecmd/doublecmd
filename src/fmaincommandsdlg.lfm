@@ -106,7 +106,7 @@ object frmMainCommandsDlg: TfrmMainCommandsDlg
     Left = 161
     Height = 23
     Top = 6
-    Width = 136
+    Width = 250
     BorderSpacing.Bottom = 5
     EditLabel.AnchorSideTop.Control = lbledtFilter
     EditLabel.AnchorSideTop.Side = asrCenter
