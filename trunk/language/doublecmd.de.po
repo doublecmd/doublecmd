@@ -2246,6 +2246,14 @@ msgstr "Konfiguration der Verzeichnis-Tabs"
 msgid "Toolbar..."
 msgstr "Toolbar konfigurieren"
 
+#: tfrmmain.actconfigtreeviewmenus.caption
+msgid "Configuration of Tree View Menu"
+msgstr ""
+
+#: tfrmmain.actconfigtreeviewmenuscolors.caption
+msgid "Configuration of Tree View Menu Colors"
+msgstr ""
+
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
 msgstr "&Zeige Kontextmenü"
@@ -13209,6 +13217,22 @@ msgstr "Temporärer Dateiname aus Liste mit Dateinamen"
 #: ulng.rsvarlistfullfilename
 msgid "Temporary filename of list of complete filenames (path+filename)"
 msgstr "Temporärer Dateiname aus Liste mit kompletten Dateinamen (Pfad und Dateiname)"
+
+#: ulng.rsvarlistinutf16
+msgid "Filenames in list in UTF-16 with BOM"
+msgstr ""
+
+#: ulng.rsvarlistinutf16quoted
+msgid "Filenames in list in UTF-16 with BOM, inside double quotes"
+msgstr ""
+
+#: ulng.rsvarlistinutf8
+msgid "Filenames in list in UTF-8"
+msgstr ""
+
+#: ulng.rsvarlistinutf8quoted
+msgid "Filenames in list in UTF-8, inside double quotes"
+msgstr ""
 
 #: ulng.rsvarlistrelativefilename
 msgid "Temporary filename of list of filenames with relative path"

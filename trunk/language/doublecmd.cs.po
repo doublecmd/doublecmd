@@ -2044,6 +2044,14 @@ msgstr "Nastavení adresářů záložek"
 msgid "Toolbar..."
 msgstr "Nástrojová lišta"
 
+#: tfrmmain.actconfigtreeviewmenus.caption
+msgid "Configuration of Tree View Menu"
+msgstr ""
+
+#: tfrmmain.actconfigtreeviewmenuscolors.caption
+msgid "Configuration of Tree View Menu Colors"
+msgstr ""
+
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
 msgstr "Zobrazit místní nabídku"
@@ -11985,6 +11993,22 @@ msgstr "dočasný seznam názvů souborů"
 #: ulng.rsvarlistfullfilename
 msgid "Temporary filename of list of complete filenames (path+filename)"
 msgstr "dočasný seznam úplných názvů souborů (cesta+název souboru)"
+
+#: ulng.rsvarlistinutf16
+msgid "Filenames in list in UTF-16 with BOM"
+msgstr ""
+
+#: ulng.rsvarlistinutf16quoted
+msgid "Filenames in list in UTF-16 with BOM, inside double quotes"
+msgstr ""
+
+#: ulng.rsvarlistinutf8
+msgid "Filenames in list in UTF-8"
+msgstr ""
+
+#: ulng.rsvarlistinutf8quoted
+msgid "Filenames in list in UTF-8, inside double quotes"
+msgstr ""
 
 #: ulng.rsvarlistrelativefilename
 msgid "Temporary filename of list of filenames with relative path"

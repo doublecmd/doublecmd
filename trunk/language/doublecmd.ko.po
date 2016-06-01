@@ -2227,6 +2227,14 @@ msgstr ""
 msgid "Toolbar..."
 msgstr ""
 
+#: tfrmmain.actconfigtreeviewmenus.caption
+msgid "Configuration of Tree View Menu"
+msgstr ""
+
+#: tfrmmain.actconfigtreeviewmenuscolors.caption
+msgid "Configuration of Tree View Menu Colors"
+msgstr ""
+
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
 msgstr "컨텍스트 메뉴 보이기"
@@ -13001,6 +13009,22 @@ msgstr ""
 
 #: ulng.rsvarlistfullfilename
 msgid "Temporary filename of list of complete filenames (path+filename)"
+msgstr ""
+
+#: ulng.rsvarlistinutf16
+msgid "Filenames in list in UTF-16 with BOM"
+msgstr ""
+
+#: ulng.rsvarlistinutf16quoted
+msgid "Filenames in list in UTF-16 with BOM, inside double quotes"
+msgstr ""
+
+#: ulng.rsvarlistinutf8
+msgid "Filenames in list in UTF-8"
+msgstr ""
+
+#: ulng.rsvarlistinutf8quoted
+msgid "Filenames in list in UTF-8, inside double quotes"
 msgstr ""
 
 #: ulng.rsvarlistrelativefilename
