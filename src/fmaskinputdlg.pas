@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File mask input dialog
 
-   Copyright (C) 2010-2014 Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,11 +30,14 @@ uses
   Classes, Forms, Controls, StdCtrls, Buttons;
 
 type
+  { TMaskInputDlgStyle }
+  TMaskInputDlgStyle = (midsLegacy, midsFull);
 
   { TfrmMaskInputDlg }
-
   TfrmMaskInputDlg = class(TForm)
     btnDefineTemplate: TBitBtn;
+    chkIgnoreAccentsAndLigatures: TCheckBox;
+    chkCaseSensitive: TCheckBox;
     lblPrompt: TLabel;
     lblSearchTemplate: TLabel;
     cmbMask: TComboBox;
@@ -49,9 +52,11 @@ type
     { private declarations }
   public
     { public declarations }
-  end; 
+  end;
 
-function ShowMaskInputDlg(const sCaption, sPrompt: String; slValueList: TStringList; var sValue: String): Boolean;
+function ShowMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string): boolean;
+function ShowExtendedMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string; AMaskInputDlgStyle: TMaskInputDlgStyle; var bCaseSensitive: boolean;
+  var bIgnoreAccents: boolean): boolean;
 
 implementation
 
@@ -60,34 +65,68 @@ implementation
 uses
   fFindDlg, uGlobs, uSearchTemplate;
 
-function ShowMaskInputDlg(const sCaption, sPrompt: String;
-                                slValueList: TStringList; var sValue: String): Boolean;
+{ ShowMaskInputDlg }
+function ShowMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string): boolean;
 var
-  Index: Integer;
+  dummybCaseSensitive: boolean = False;
+  dummybIgnoreAccents: boolean = False;
 begin
-  Result:= False;
+  Result := ShowExtendedMaskInputDlg(sCaption, sPrompt, slValueList, sValue, midsLegacy, dummybCaseSensitive, dummybIgnoreAccents);
+end;
+
+{ ShowExtendedMaskInputDlg }
+function ShowExtendedMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string; AMaskInputDlgStyle: TMaskInputDlgStyle; var bCaseSensitive: boolean;
+  var bIgnoreAccents: boolean): boolean;
+var
+  Index, iCurrentPos: integer;
+begin
+  Result := False;
   with TfrmMaskInputDlg.Create(Application) do
-  try
-    Caption:= sCaption;
-    lblPrompt.Caption:= sPrompt;
-    cmbMask.Items.Assign(slValueList);
-    cmbMask.Text:= sValue;
-    if IsMaskSearchTemplate(sValue) then
-    begin
-      Index:= lbxSearchTemplate.Items.IndexOf(PAnsiChar(sValue) + 1);
-      if Index >= 0 then lbxSearchTemplate.ItemIndex:= Index;
-    end;
-    if ShowModal = mrOK then
+    try
+      Caption := sCaption;
+      lblPrompt.Caption := sPrompt;
+      cmbMask.Items.Assign(slValueList);
+      cmbMask.Text := sValue;
+
+      case AMaskInputDlgStyle of
+        midsFull:
+        begin
+          chkCaseSensitive.Checked := bCaseSensitive;
+          chkIgnoreAccentsAndLigatures.Checked := bIgnoreAccents;
+        end;
+
+        midsLegacy:
+        begin
+          chkIgnoreAccentsAndLigatures.Visible := False;
+          chkCaseSensitive.Visible := False;
+        end;
+      end;
+
+      if IsMaskSearchTemplate(sValue) then
+      begin
+        Index := lbxSearchTemplate.Items.IndexOf(PAnsiChar(sValue) + 1);
+        if Index >= 0 then lbxSearchTemplate.ItemIndex := Index;
+      end;
+
+      if ShowModal = mrOk then
       begin
         if not IsMaskSearchTemplate(cmbMask.Text) then
-          if slValueList.IndexOf(cmbMask.Text) < 0 then
-            slValueList.Add(cmbMask.Text);
-        sValue:= cmbMask.Text;
-        Result:= True;
+        begin
+          iCurrentPos := slValueList.IndexOf(cmbMask.Text);
+          if iCurrentPos <> -1 then slValueList.Delete(iCurrentPos);
+          if slValueList.Count = 0 then
+            slValueList.Add(cmbMask.Text)
+          else
+            slValueList.Insert(0, cmbMask.Text);
+        end;
+        sValue := cmbMask.Text;
+        bCaseSensitive := chkCaseSensitive.Checked;
+        bIgnoreAccents := chkIgnoreAccentsAndLigatures.Checked;
+        Result := True;
       end;
-  finally
-    Free;
-  end;
+    finally
+      Free;
+    end;
 end;
 
 { TfrmMaskInputDlg }
@@ -95,38 +134,37 @@ end;
 procedure TfrmMaskInputDlg.lbxSearchTemplateClick(Sender: TObject);
 begin
   if lbxSearchTemplate.ItemIndex < 0 then Exit;
-  cmbMask.Text:= cTemplateSign + lbxSearchTemplate.Items[lbxSearchTemplate.ItemIndex];
+  cmbMask.Text := cTemplateSign + lbxSearchTemplate.Items[lbxSearchTemplate.ItemIndex];
 end;
 
 procedure TfrmMaskInputDlg.lbxSearchTemplateDblClick(Sender: TObject);
 begin
   if lbxSearchTemplate.ItemIndex < 0 then Exit;
-  cmbMask.Text:= cTemplateSign + lbxSearchTemplate.Items[lbxSearchTemplate.ItemIndex];
+  cmbMask.Text := cTemplateSign + lbxSearchTemplate.Items[lbxSearchTemplate.ItemIndex];
   Close;
-  ModalResult:= mrOK;
+  ModalResult := mrOk;
 end;
 
 procedure TfrmMaskInputDlg.FormCreate(Sender: TObject);
 var
-  I: Integer;
+  I: integer;
 begin
   InitPropStorage(Self);
-  for I:= 0 to gSearchTemplateList.Count - 1 do
+  for I := 0 to gSearchTemplateList.Count - 1 do
     lbxSearchTemplate.Items.Add(gSearchTemplateList.Templates[I].TemplateName);
 end;
 
 procedure TfrmMaskInputDlg.btnDefineTemplateClick(Sender: TObject);
 var
-  sTemplateName: String;
+  sTemplateName: string;
 begin
   if lbxSearchTemplate.ItemIndex >= 0 then
-    sTemplateName:= lbxSearchTemplate.Items[lbxSearchTemplate.ItemIndex];
+    sTemplateName := lbxSearchTemplate.Items[lbxSearchTemplate.ItemIndex];
   if ShowDefineTemplateDlg(sTemplateName) then
   begin
-    lbxSearchTemplate.ItemIndex:= lbxSearchTemplate.Items.Add(sTemplateName);
-    cmbMask.Text:= cTemplateSign + sTemplateName;
+    lbxSearchTemplate.ItemIndex := lbxSearchTemplate.Items.Add(sTemplateName);
+    cmbMask.Text := cTemplateSign + sTemplateName;
   end;
 end;
 
 end.
-

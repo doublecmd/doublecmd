@@ -287,6 +287,9 @@ var
   gHighlightUpdatedFiles: Boolean;
   gLastUsedPacker: String;
   gLastDoAnyCommand: String;
+  gbMarkMaskCaseSensitive: boolean;
+  gbMarkMaskIgnoreAccents: boolean;
+  gMarkMaskFilterWindows: boolean;
 
   { Favorite Tabs }
   gFavoriteTabsUseRestoreExtraOptions: boolean;
@@ -1635,6 +1638,9 @@ begin
   gUseShellForFileOperations :=
     {$IF DEFINED(MSWINDOWS)}WindowsVersion >= wvVista{$ELSE}False{$ENDIF};
   gLastDoAnyCommand := 'cm_Refresh';
+  gbMarkMaskCaseSensitive := False;
+  gbMarkMaskIgnoreAccents := False;
+  gMarkMaskFilterWindows := False;
 
   { TotalCommander Import/Export }
   //Will search minimally where TC could be installed so the default value would have some chances to be correct.
@@ -2862,6 +2868,9 @@ begin
     gLastUsedPacker:= GetValue(Root, 'LastUsedPacker', gLastUsedPacker);
     gUseShellForFileOperations:= GetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
     gLastDoAnyCommand:=GetValue(Root, 'LastDoAnyCommand', gLastDoAnyCommand);
+    gbMarkMaskCaseSensitive := GetValue(Root, 'MarkMaskCaseSensitive', gbMarkMaskCaseSensitive);
+    gbMarkMaskIgnoreAccents := GetValue(Root, 'MarkMaskIgnoreAccents', gbMarkMaskIgnoreAccents);
+    gMarkMaskFilterWindows := GetValue(Root, 'MarkMaskFilterWindows', gMarkMaskFilterWindows);
 
     { TotalCommander Import/Export }
     {$IFDEF MSWINDOWS}
@@ -3305,6 +3314,9 @@ begin
     SetValue(Root, 'LastUsedPacker', gLastUsedPacker);
     SetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
     SetValue(Root, 'LastDoAnyCommand', gLastDoAnyCommand);
+    SetValue(Root, 'MarkMaskCaseSensitive', gbMarkMaskCaseSensitive);
+    SetValue(Root, 'MarkMaskIgnoreAccents', gbMarkMaskIgnoreAccents);
+    SetValue(Root, 'MarkMaskFilterWindows', gMarkMaskFilterWindows);
 
     {$IFDEF MSWINDOWS}
     { TotalCommander Import/Export }

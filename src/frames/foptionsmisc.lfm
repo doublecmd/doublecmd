@@ -1,10 +1,10 @@
 inherited frmOptionsMisc: TfrmOptionsMisc
-  Height = 336
+  Height = 341
   Width = 719
   HorzScrollBar.Page = 1
   VertScrollBar.Page = 1
   AutoScroll = True
-  ClientHeight = 336
+  ClientHeight = 341
   ClientWidth = 719
   DesignLeft = 113
   DesignTop = 219
@@ -14,7 +14,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 182
+    Height = 207
     Top = 6
     Width = 707
     Anchors = [akTop, akLeft, akRight]
@@ -22,7 +22,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     BorderSpacing.Around = 6
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 164
+    ClientHeight = 187
     ClientWidth = 703
     TabOrder = 0
     object chkShowWarningMessages: TCheckBox
@@ -39,7 +39,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 19
-      Top = 79
+      Top = 102
       Width = 154
       BorderSpacing.Top = 4
       Caption = '&Save thumbnails in cache'
@@ -51,7 +51,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Side = asrCenter
       Left = 12
       Height = 15
-      Top = 108
+      Top = 131
       Width = 83
       Caption = '&Thumbnail size:'
       FocusControl = speThumbWidth
@@ -59,13 +59,13 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     end
     object dblThumbnails: TDividerBevel
       AnchorSideLeft.Control = gbExtended
-      AnchorSideTop.Control = chkGoToRoot
+      AnchorSideTop.Control = chkMarkMaskFilterWindows
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = gbExtended
       AnchorSideRight.Side = asrBottom
       Left = 12
       Height = 15
-      Top = 60
+      Top = 83
       Width = 679
       Caption = 'Thumbnails'
       Anchors = [akTop, akLeft, akRight]
@@ -79,7 +79,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Side = asrBottom
       Left = 101
       Height = 23
-      Top = 104
+      Top = 127
       Width = 50
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
@@ -95,7 +95,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Control = speThumbWidth
       Left = 170
       Height = 23
-      Top = 104
+      Top = 127
       Width = 50
       BorderSpacing.Left = 6
       MaxValue = 512
@@ -111,7 +111,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Side = asrCenter
       Left = 157
       Height = 15
-      Top = 108
+      Top = 131
       Width = 7
       BorderSpacing.Left = 6
       Caption = 'X'
@@ -124,7 +124,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Side = asrCenter
       Left = 226
       Height = 15
-      Top = 108
+      Top = 131
       Width = 29
       BorderSpacing.Left = 6
       Caption = 'pixels'
@@ -135,7 +135,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideTop.Side = asrBottom
       Left = 12
       Height = 25
-      Top = 133
+      Top = 156
       Width = 271
       AutoSize = True
       BorderSpacing.Top = 6
@@ -155,6 +155,18 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       OnClick = GenericSomethingChanged
       TabOrder = 1
     end
+    object chkMarkMaskFilterWindows: TCheckBox
+      AnchorSideTop.Control = chkGoToRoot
+      AnchorSideTop.Side = asrBottom
+      Left = 12
+      Height = 19
+      Top = 52
+      Width = 463
+      BorderSpacing.Top = 4
+      Caption = 'Windows style filter when marking files ("*.*" also select files without extension, etc.)'
+      OnClick = GenericSomethingChanged
+      TabOrder = 6
+    end
   end
   object gbTCExportImport: TGroupBox[1]
     AnchorSideLeft.Control = gbExtended
@@ -164,7 +176,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 103
-    Top = 200
+    Top = 225
     Width = 707
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
