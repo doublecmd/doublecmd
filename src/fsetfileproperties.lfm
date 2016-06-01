@@ -124,6 +124,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         Time = 0.0684693287039408
         UseDefaultSeparators = True
         OnChange = ZVCreationDateTimeChange
+        OnClick = ZVCreationDateTimeClick
       end
       object ZVLastWriteDateTime: TDateTimePicker
         AnchorSideLeft.Control = DatesPanel
@@ -152,6 +153,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         Time = 0.0684693287039408
         UseDefaultSeparators = True
         OnChange = ZVLastWriteDateTimeChange
+        OnClick = ZVLastWriteDateTimeClick
       end
       object ZVLastAccessDateTime: TDateTimePicker
         AnchorSideLeft.Control = DatesPanel
@@ -179,6 +181,7 @@ object frmSetFileProperties: TfrmSetFileProperties
         Time = 0.0684693287039408
         UseDefaultSeparators = True
         OnChange = ZVLastAccessDateTimeChange
+        OnClick = ZVLastAccessDateTimeClick
       end
       object btnLastWriteTime: TSpeedButton
         AnchorSideLeft.Control = ZVLastWriteDateTime
