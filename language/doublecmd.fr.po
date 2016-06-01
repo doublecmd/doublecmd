@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-04-17 19:29-0400\n"
+"PO-Revision-Date: 2016-05-31 08:24-0400\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -2056,6 +2056,14 @@ msgstr "Configuration des options reliées aux onlgets"
 msgid "Toolbar..."
 msgstr "Configuation de la barre d'outils"
 
+#: tfrmmain.actconfigtreeviewmenus.caption
+msgid "Configuration of Tree View Menu"
+msgstr "Configuration du menu en arbre"
+
+#: tfrmmain.actconfigtreeviewmenuscolors.caption
+msgid "Configuration of Tree View Menu Colors"
+msgstr "Configuration des couleurs du menu en arbre"
+
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
 msgstr "Afficher le menu contextuel"
@@ -2682,8 +2690,9 @@ msgid "Wipe"
 msgstr "Effacement Sécurisé"
 
 #: tfrmmain.actworkwithdirectoryhotlist.caption
+#| msgid "Work with Directory Hotlist and paramters"
 msgid "Work with Directory Hotlist and parameters"
-msgstr "Travail avec la liste des dossiers favoris et ses paramètres"
+msgstr "Work with Directory Hotlist and parameters"
 
 #: tfrmmain.btnf10.caption
 msgctxt "tfrmmain.btnf10.caption"
@@ -6550,9 +6559,10 @@ msgid "&Tweak"
 msgstr "Raffiner"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
+#| msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
 msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "Les \"plugins\" de recherche permettent d'utiliser des algorithmes de recherche alternatifs ou des outils externes (comme \"locate\", etc)."
+msgstr "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
@@ -7534,140 +7544,128 @@ msgid "With History:"
 msgstr "Avec l'historique:"
 
 #: tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btncursorcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btncursorcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
 msgid "Use and display keyboard shortcut for choosing items"
-msgstr ""
+msgstr "Afficher et utiliser les raccourcis"
 
 #: tfrmoptionstreeviewmenucolor.gblayoutandcolors.caption
 msgid "Layout and colors options:"
-msgstr ""
+msgstr "Options de disposition et de couleur:"
 
 #: tfrmoptionstreeviewmenucolor.lblbackgroundcolor.caption
 msgid "Background color:"
-msgstr ""
+msgstr "Couleur de fond:"
 
 #: tfrmoptionstreeviewmenucolor.lblcursorcolor.caption
 msgid "Cursor color:"
-msgstr ""
+msgstr "Couleur du curseur:"
 
 #: tfrmoptionstreeviewmenucolor.lblfoundtextcolor.caption
 msgid "Found text color:"
-msgstr ""
+msgstr "Texte trouvé:"
 
 #: tfrmoptionstreeviewmenucolor.lblfoundtextundercursor.caption
 msgid "Found text under cursor:"
-msgstr ""
+msgstr "Texte trouvé sous le curseur:"
 
 #: tfrmoptionstreeviewmenucolor.lblnormaltextcolor.caption
 msgid "Normal text color:"
-msgstr ""
+msgstr "Texte normal:"
 
 #: tfrmoptionstreeviewmenucolor.lblnormaltextundercursor.caption
 msgid "Normal text under cursor:"
-msgstr ""
+msgstr "Texte normal sous le curseur:"
 
 #: tfrmoptionstreeviewmenucolor.lblpreview.caption
 msgid "Tree View Menu Preview:"
-msgstr ""
+msgstr "Avant-goût du menu en arbre:"
 
 #: tfrmoptionstreeviewmenucolor.lblsecondarytextcolor.caption
 msgid "Secondary text color:"
-msgstr ""
+msgstr "Texte secondaire:"
 
 #: tfrmoptionstreeviewmenucolor.lblsecondarytextundercursor.caption
 msgid "Secondary text under cursor:"
-msgstr ""
+msgstr "Texte secondaire sous le curseur:"
 
 #: tfrmoptionstreeviewmenucolor.lblshortcutcolor.caption
 msgid "Shortcut color:"
-msgstr ""
+msgstr "Raccourci:"
 
 #: tfrmoptionstreeviewmenucolor.lblshortcutundercursor.caption
 msgid "Shortcut under cursor:"
-msgstr ""
+msgstr "Raccourci sous le curseur:"
 
 #: tfrmoptionstreeviewmenucolor.lblunselectabletextcolor.caption
 msgid "Unselectable text color:"
-msgstr ""
+msgstr "Texte non sélectionnable:"
 
 #: tfrmoptionstreeviewmenucolor.lblunselectableundercursor.caption
 msgid "Unselectable under cursor:"
-msgstr ""
+msgstr "Texte non sélectionnable sous le curseur:"
 
 #: tfrmoptionstreeviewmenucolor.treeviewmenusample.hint
 msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
-msgstr ""
+msgstr "Changer la couleur à gauche et vous observer un avant-goût du résultat à droite."
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
@@ -8278,41 +8276,35 @@ msgid "Show:"
 msgstr "Montre:"
 
 #: tfrmsyncdirsdlg.headerdg.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[0].title.caption"
 msgid "Name"
 msgstr "Nom"
 
 #: tfrmsyncdirsdlg.headerdg.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[1].title.caption"
 msgid "Size"
 msgstr "Taille"
 
 #: tfrmsyncdirsdlg.headerdg.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[2].title.caption"
 msgid "Date"
 msgstr "Date"
 
 #: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
 msgid "<=>"
-msgstr ""
+msgstr "<=>"
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
 msgid "Date"
 msgstr "Date"
 
 #: tfrmsyncdirsdlg.headerdg.columns[5].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[5].title.caption"
 msgid "Size"
 msgstr "Taille"
 
 #: tfrmsyncdirsdlg.headerdg.columns[6].title.caption
-#, fuzzy
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[6].title.caption"
 msgid "Name"
 msgstr "Nom"
@@ -8411,7 +8403,7 @@ msgstr "Détecter le type des archives par le contenu"
 
 #: tfrmtweakplugin.cbpk_caps_delete.caption
 msgid "Can de&lete files"
-msgstr "Impossible de supprimer le(s) fichier(s)"
+msgstr "Peut supprimer des fichiers"
 
 #: tfrmtweakplugin.cbpk_caps_encrypt.caption
 msgid "Supports e&ncryption"
@@ -8427,7 +8419,7 @@ msgstr "Supporte les opérations d'archivage en mémoire"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
 msgid "Can &modify existing archives"
-msgstr "Impossible de modifier l'archive existante"
+msgstr "Peut modifier une archive existante"
 
 #: tfrmtweakplugin.cbpk_caps_multiple.caption
 msgid "&Archive can contain multiple files"
@@ -8435,7 +8427,7 @@ msgstr "L'archive peut contenir plusieurs fichiers"
 
 #: tfrmtweakplugin.cbpk_caps_new.caption
 msgid "Can create new archi&ves"
-msgstr "Impossible de créer une(des) nouvelle(s) archive(s)"
+msgstr "Peut créer de nouvelles archives"
 
 #: tfrmtweakplugin.cbpk_caps_options.caption
 msgid "S&upports the options dialogbox"
@@ -8938,10 +8930,9 @@ msgid "When file exists"
 msgstr "Quand le fichier existe"
 
 #: twfxplugincopymoveoperationoptionsui.cbcopytime.caption
-#, fuzzy
 msgctxt "twfxplugincopymoveoperationoptionsui.cbcopytime.caption"
 msgid "Copy d&ate/time"
-msgstr "Copier date et heure"
+msgstr "Copy d&ate/time"
 
 #: twfxplugincopymoveoperationoptionsui.cbworkinbackground.caption
 msgid "Work in background (separate connection)"
@@ -9631,7 +9622,7 @@ msgstr "Choisissez le masque"
 
 #: ulng.rsmaskinput
 msgid "Input mask:"
-msgstr "Masque de saisie :"
+msgstr "Masque de saisie:"
 
 #: ulng.rsmenuconfigurecolumnsalreadyexists
 msgid "A columns view with that name already exists."
@@ -10150,10 +10141,8 @@ msgstr ""
 "Voulez vous les sauvegarder avant de quitter?\n"
 
 #: ulng.rsmsgfilereadonly
-#, fuzzy
-#| msgid "File %s is marked as read-only. Delete it?"
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
-msgstr "Le fichier %s est en lecture seule. Le supprimer quand même ?"
+msgstr "Le fichier %s est en lecture seule. Le supprimer quand même?"
 
 #: ulng.rsmsgfilesizetoobig
 msgid "The file size of \"%s\" is too big for destination file system!"
@@ -12007,6 +11996,22 @@ msgstr "Nom de fichier temporaire de la liste des noms de fichiers"
 #: ulng.rsvarlistfullfilename
 msgid "Temporary filename of list of complete filenames (path+filename)"
 msgstr "Nom de fichier temporaire de la liste des noms complets de fichier (chemin+nom de fichier)"
+
+#: ulng.rsvarlistinutf16
+msgid "Filenames in list in UTF-16 with BOM"
+msgstr "Liste de fichiers en UTF-16"
+
+#: ulng.rsvarlistinutf16quoted
+msgid "Filenames in list in UTF-16 with BOM, inside double quotes"
+msgstr "Liste de fichiers en UTF-16 avec BOM, entre guillemets"
+
+#: ulng.rsvarlistinutf8
+msgid "Filenames in list in UTF-8"
+msgstr "Liste de fichiers en UTF-8"
+
+#: ulng.rsvarlistinutf8quoted
+msgid "Filenames in list in UTF-8, inside double quotes"
+msgstr "Liste de fichiers en UTF-8, entre guillemets"
 
 #: ulng.rsvarlistrelativefilename
 msgid "Temporary filename of list of filenames with relative path"
