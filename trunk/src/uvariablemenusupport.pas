@@ -117,62 +117,71 @@ end;
 { TSupportForVariableHelperMenu.PopulateMenuWithVariableHelper }
 procedure TSupportForVariableHelperMenu.PopulateMenuWithVariableHelper(pmToPopulate: TComponent; ParamAssociatedComponent: TComponent);
 type
+  tHelperMenuDispatcher = set of (hmdNothing, hmdSeparator, hmdListLevel);
+
   tFunctionHelper = record
     sLetter: string;
     sDescription: string;
-    bAddSeparator: boolean;
+    HelperMenuDispatcher: tHelperMenuDispatcher;
   end;
 
   tFirstSubLevelHelper = record
     sLetter: string;
     sDescription: string;
-    bAddSeparator: boolean;
+    HelperMenuDispatcher: tHelperMenuDispatcher;
   end;
 
 const
   NbOfFunctions = 10;
   FunctionHelper: array[1..NbOfFunctions] of tFunctionHelper = (
-    (sLetter: 'f'; sDescription: rsVarOnlyFilename; bAddSeparator: False),
-    (sLetter: 'd'; sDescription: rsVarPath; bAddSeparator: False),
-    (sLetter: 'p'; sDescription: rsVarFullPath; bAddSeparator: False),
-    (sLetter: 'o'; sDescription: rsVarFilenameNoExt; bAddSeparator: False),
-    (sLetter: 'e'; sDescription: rsVarOnlyExtension; bAddSeparator: False),
-    (sLetter: 'v'; sDescription: rsVarRelativePathAndFilename; bAddSeparator: True),
-    (sLetter: 'D'; sDescription: rsVarCurrentPath; bAddSeparator: True),
-    (sLetter: 'L'; sDescription: rsVarListFullFilename; bAddSeparator: False),
-    (sLetter: 'F'; sDescription: rsVarListFilename; bAddSeparator: False),
-    (sLetter: 'R'; sDescription: rsVarListRelativeFilename; bAddSeparator: False));
+    (sLetter: 'f'; sDescription: rsVarOnlyFilename; HelperMenuDispatcher: []),
+    (sLetter: 'd'; sDescription: rsVarPath; HelperMenuDispatcher: []),
+    (sLetter: 'p'; sDescription: rsVarFullPath; HelperMenuDispatcher: []),
+    (sLetter: 'o'; sDescription: rsVarFilenameNoExt; HelperMenuDispatcher: []),
+    (sLetter: 'e'; sDescription: rsVarOnlyExtension; HelperMenuDispatcher: []),
+    (sLetter: 'v'; sDescription: rsVarRelativePathAndFilename; HelperMenuDispatcher: [hmdSeparator]),
+    (sLetter: 'D'; sDescription: rsVarCurrentPath; HelperMenuDispatcher: [hmdSeparator]),
+    (sLetter: 'L'; sDescription: rsVarListFullFilename; HelperMenuDispatcher: [hmdListLevel]),
+    (sLetter: 'F'; sDescription: rsVarListFilename; HelperMenuDispatcher: [hmdListLevel]),
+    (sLetter: 'R'; sDescription: rsVarListRelativeFilename; HelperMenuDispatcher: [hmdListLevel,hmdSeparator]));
+
+  NbOfSubListLevel = 4;
+  SubListLevelHelper: array[1..NbOfSubListLevel] of tFirstSubLevelHelper = (
+  (sLetter: 'U'; sDescription: rsVarListInUTF8; HelperMenuDispatcher: []),
+  (sLetter: 'W'; sDescription: rsVarListInUTF16; HelperMenuDispatcher: []),
+  (sLetter: 'UQ'; sDescription: rsVarListInUTF8Quoted; HelperMenuDispatcher: []),
+  (sLetter: 'WQ'; sDescription: rsVarListInUTF16Quoted; HelperMenuDispatcher: []));
 
   NbOfSubLevel = 6;
   SubLevelHelper: array[1..NbOfSubLevel] of tFirstSubLevelHelper = (
-    (sLetter: 's'; sDescription: rsVarSourcePanel; bAddSeparator: False),
-    (sLetter: 't'; sDescription: rsVarTargetPanel; bAddSeparator: True),
-    (sLetter: 'l'; sDescription: rsVarLeftPanel; bAddSeparator: False),
-    (sLetter: 'r'; sDescription: rsVarRightPanel; bAddSeparator: True),
-    (sLetter: 'b'; sDescription: rsVarBothPanelLeftToRight; bAddSeparator: False),
-    (sLetter: 'p'; sDescription: rsVarBothPanelActiveToInactive; bAddSeparator: False));
+    (sLetter: 's'; sDescription: rsVarSourcePanel; HelperMenuDispatcher: []),
+    (sLetter: 't'; sDescription: rsVarTargetPanel; HelperMenuDispatcher: [hmdSeparator]),
+    (sLetter: 'l'; sDescription: rsVarLeftPanel; HelperMenuDispatcher: []),
+    (sLetter: 'r'; sDescription: rsVarRightPanel; HelperMenuDispatcher: [hmdSeparator]),
+    (sLetter: 'b'; sDescription: rsVarBothPanelLeftToRight; HelperMenuDispatcher: []),
+    (sLetter: 'p'; sDescription: rsVarBothPanelActiveToInactive; HelperMenuDispatcher: []));
 
   NbOfSubLevelExamples = 15;
   SubLevelHelperExamples: array[1..NbOfSubLevelExamples] of tFirstSubLevelHelper = (
-    (sLetter: '%?'; sDescription: rsVarShowCommandPrior; bAddSeparator: False),
-    (sLetter: '%%'; sDescription: rsVarPercentSign; bAddSeparator: False),
-    (sLetter: '%#'; sDescription: rsVarPercentChangeToPound; bAddSeparator: False),
-    (sLetter: '#%'; sDescription: rsVarPoundChangeToPercent; bAddSeparator: True),
-    (sLetter: '%"0'; sDescription: rsVarWillNotBeQuoted; bAddSeparator: False),
-    (sLetter: '%"1'; sDescription: rsVarWillBeQuoted; bAddSeparator: False),
-    (sLetter: '%/0'; sDescription: rsVarWillNotHaveEndingDelimiter; bAddSeparator: False),
-    (sLetter: '%/1'; sDescription: rsVarWillHaveEndingDelimiter; bAddSeparator: False),
-    (sLetter: '%t0'; sDescription: rsVarWillNotDoInTerminal; bAddSeparator: False),
-    (sLetter: '%t1'; sDescription: rsVarWillDoInTerminal; bAddSeparator: True),
-    (sLetter: rsVarSimpleMessage; sDescription: rsVarSimpleShowMessage; bAddSeparator: False),
-    (sLetter: rsVarPromptUserForParam; sDescription: rsVarInputParam; bAddSeparator: True),
-    (sLetter: '%f{-a }'; sDescription: rsVarPrependElement; bAddSeparator: False),
-    (sLetter: '%f{[}{]} '; sDescription: rsVarEncloseElement; bAddSeparator: False),
-    (sLetter: '%pr2'; sDescription: rsVarSecondElementRightPanel; bAddSeparator: False));
+    (sLetter: '%?'; sDescription: rsVarShowCommandPrior; HelperMenuDispatcher: []),
+    (sLetter: '%%'; sDescription: rsVarPercentSign; HelperMenuDispatcher: []),
+    (sLetter: '%#'; sDescription: rsVarPercentChangeToPound; HelperMenuDispatcher: []),
+    (sLetter: '#%'; sDescription: rsVarPoundChangeToPercent; HelperMenuDispatcher: [hmdSeparator]),
+    (sLetter: '%"0'; sDescription: rsVarWillNotBeQuoted; HelperMenuDispatcher: []),
+    (sLetter: '%"1'; sDescription: rsVarWillBeQuoted; HelperMenuDispatcher: []),
+    (sLetter: '%/0'; sDescription: rsVarWillNotHaveEndingDelimiter; HelperMenuDispatcher: []),
+    (sLetter: '%/1'; sDescription: rsVarWillHaveEndingDelimiter; HelperMenuDispatcher: []),
+    (sLetter: '%t0'; sDescription: rsVarWillNotDoInTerminal; HelperMenuDispatcher: []),
+    (sLetter: '%t1'; sDescription: rsVarWillDoInTerminal; HelperMenuDispatcher: [hmdSeparator]),
+    (sLetter: rsVarSimpleMessage; sDescription: rsVarSimpleShowMessage; HelperMenuDispatcher: []),
+    (sLetter: rsVarPromptUserForParam; sDescription: rsVarInputParam; HelperMenuDispatcher: [hmdSeparator]),
+    (sLetter: '%f{-a }'; sDescription: rsVarPrependElement; HelperMenuDispatcher: []),
+    (sLetter: '%f{[}{]} '; sDescription: rsVarEncloseElement; HelperMenuDispatcher: []),
+    (sLetter: '%pr2'; sDescription: rsVarSecondElementRightPanel; HelperMenuDispatcher: []));
 
 var
-  miMainTree, miSubTree: TVariableMenuItem;
-  iFunction, iSubLevel: integer;
+  miMainTree, miSubTree, miSubListTree: TVariableMenuItem;
+  iFunction, iSubLevel, iSubListLevel: integer;
 
   procedure InsertSeparatorInMainMenu;
   begin
@@ -186,6 +195,13 @@ var
     miMainTree.Add(miSubTree);
   end;
 
+  procedure InsertSeparatorInSubListMenu;
+  begin
+    miSubTree := TVariableMenuItem.MyCreate(miSubListTree, nil, '-', '');
+    miSubListTree.Add(miSubTree);
+  end;
+
+
 begin
   //Add the automatic helper
   for iFunction := 1 to NbOfFunctions do
@@ -195,19 +211,38 @@ begin
 
     miSubTree := TVariableMenuItem.MyCreate(miMainTree, ParamAssociatedComponent, '%' + FunctionHelper[iFunction].sLetter + ' - ' + FunctionHelper[iFunction].sDescription, '%' + FunctionHelper[iFunction].sLetter);
     miMainTree.Add(miSubTree);
-
     InsertSeparatorInSubMenu;
 
     for iSubLevel := 1 to NbOfSubLevel do
     begin
       miSubTree := TVariableMenuItem.MyCreate(miMainTree, ParamAssociatedComponent, '%' + FunctionHelper[iFunction].sLetter + SubLevelHelper[iSubLevel].sLetter + ' - ' + '...' + SubLevelHelper[iSubLevel].sDescription, '%' + FunctionHelper[iFunction].sLetter + SubLevelHelper[iSubLevel].sLetter);
       miMainTree.Add(miSubTree);
-      if SubLevelHelper[iSubLevel].bAddSeparator then
-        InsertSeparatorInSubMenu;
+      if hmdSeparator in SubLevelHelper[iSubLevel].HelperMenuDispatcher then InsertSeparatorInSubMenu;
     end;
 
-    if (FunctionHelper[iFunction].bAddSeparator) then
-      InsertSeparatorInMainMenu;
+    if hmdListLevel in FunctionHelper[iFunction].HelperMenuDispatcher then
+    begin
+      InsertSeparatorInSubMenu;
+
+      for iSubListLevel:=1 to NbOfSubListLevel do
+      begin
+        miSubListTree := TVariableMenuItem.MyCreate(miMainTree, ParamAssociatedComponent, '%' +FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter + ' - ' + '...' + SubListLevelHelper[iSubListLevel].sDescription + '...', '');
+        miMainTree.Add(miSubListTree);
+
+        miSubTree := TVariableMenuItem.MyCreate(miSubListTree, ParamAssociatedComponent, '%' +FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter + ' - ' + SubListLevelHelper[iSubListLevel].sDescription, '%' +FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter);
+        miSubListTree.Add(miSubTree);
+        InsertSeparatorInSubListMenu;
+
+        for iSubLevel := 1 to NbOfSubLevel do
+        begin
+          miSubTree := TVariableMenuItem.MyCreate(miSubListTree, ParamAssociatedComponent, '%' +FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter + SubLevelHelper[iSubLevel].sLetter + ' - ' + '...' + SubLevelHelper[iSubLevel].sDescription, '%' +FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter + SubLevelHelper[iSubLevel].sLetter);
+          miSubListTree.Add(miSubTree);
+          if hmdSeparator in SubLevelHelper[iSubLevel].HelperMenuDispatcher then InsertSeparatorInSubListMenu;
+        end;
+      end;
+    end;
+
+    if hmdSeparator in FunctionHelper[iFunction].HelperMenuDispatcher then InsertSeparatorInMainMenu;
   end;
 
   //Add the more complex-not-so-complex other examples
@@ -217,9 +252,7 @@ begin
   begin
     miSubTree := TVariableMenuItem.MyCreate(miMainTree, ParamAssociatedComponent, SubLevelHelperExamples[iSubLevel].sLetter + ' - ' + SubLevelHelperExamples[iSubLevel].sDescription, SubLevelHelperExamples[iSubLevel].sLetter);
     miMainTree.Add(miSubTree);
-
-    if SubLevelHelperExamples[iSubLevel].bAddSeparator then
-      InsertSeparatorInSubMenu;
+    if hmdSeparator in SubLevelHelperExamples[iSubLevel].HelperMenuDispatcher then InsertSeparatorInSubMenu;
   end;
 
   //Add link for the help at the end
