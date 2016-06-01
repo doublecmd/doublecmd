@@ -94,11 +94,14 @@ type
     procedure chkLastAccessTimeChange(Sender: TObject);
     procedure chkLastWriteTimeChange(Sender: TObject);
     procedure edtOctalKeyPress(Sender: TObject; var Key: char);
-    procedure edtOctalKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtOctalKeyUp(Sender: TObject; var {%H-}Key: Word; {%H-}Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure ZVCreationDateTimeChange(Sender: TObject);
     procedure ZVLastAccessDateTimeChange(Sender: TObject);
     procedure ZVLastWriteDateTimeChange(Sender: TObject);
+    procedure ZVCreationDateTimeClick(Sender: TObject);
+    procedure ZVLastWriteDateTimeClick(Sender: TObject);
+    procedure ZVLastAccessDateTimeClick(Sender: TObject);
   private
     FOperation: TFileSourceSetFilePropertyOperation;
     FChangeTriggersEnabled: Boolean;
@@ -463,19 +466,31 @@ end;
 procedure TfrmSetFileProperties.ZVCreationDateTimeChange(Sender: TObject);
 begin
   chkCreationTime.Checked:=True;
-  if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVCreationDateTime);
 end;
 
 procedure TfrmSetFileProperties.ZVLastAccessDateTimeChange(Sender: TObject);
 begin
   chkLastAccessTime.Checked:=True;
-  if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVLastAccessDateTime);
 end;
 
 procedure TfrmSetFileProperties.ZVLastWriteDateTimeChange(Sender: TObject);
 begin
   chkLastWriteTime.Checked:=True;
+end;
+
+procedure TfrmSetFileProperties.ZVCreationDateTimeClick(Sender: TObject);
+begin
+  if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVCreationDateTime);
+end;
+
+procedure TfrmSetFileProperties.ZVLastWriteDateTimeClick(Sender: TObject);
+begin
   if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVLastWriteDateTime);
+end;
+
+procedure TfrmSetFileProperties.ZVLastAccessDateTimeClick(Sender: TObject);
+begin
+  if ssCtrl in GetKeyShiftStateEx then SetOtherDateLikeThis(ZVLastAccessDateTime);
 end;
 
 end.
