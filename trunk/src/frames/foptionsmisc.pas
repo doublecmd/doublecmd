@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Miscellaneous options page
 
-   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2016  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@ type
   TfrmOptionsMisc = class(TOptionsEditor)
     btnThumbCompactCache: TButton;
     chkGoToRoot: TCheckBox;
+    chkMarkMaskFilterWindows: TCheckBox;
     chkThumbSave: TCheckBox;
     chkShowWarningMessages: TCheckBox;
     dblThumbnails: TDividerBevel;
@@ -74,7 +75,7 @@ type
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
-    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
+    function CanWeClose(var {%H-}WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 procedure BringUsToTCConfigurationPage;
@@ -111,6 +112,7 @@ begin
   speThumbWidth.Value            := gThumbSize.cx;
   speThumbHeight.Value           := gThumbSize.cy;
   chkGoToRoot.Checked            := gGoToRoot;
+  chkMarkMaskFilterWindows.Checked := gMarkMaskFilterWindows;
 
   {$IFDEF MSWINDOWS}
   gbTCExportImport.Visible:=True;
@@ -132,6 +134,7 @@ begin
   gThumbSize.cx        := speThumbWidth.Value;
   gThumbSize.cy        := speThumbHeight.Value;
   gGoToRoot            := chkGoToRoot.Checked;
+  gMarkMaskFilterWindows := chkMarkMaskFilterWindows.Checked;
   {$IFDEF MSWINDOWS}
   gTotalCommanderExecutableFilename := fneTCExecutableFilename.FileName;
   gTotalCommanderConfigFilename := fneTCConfigFilename.FileName;

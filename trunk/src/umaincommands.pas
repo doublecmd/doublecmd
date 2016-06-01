@@ -91,8 +91,9 @@ type
    procedure DoOnClickMenuJobFavoriteTabs(Sender: TObject);
    procedure DoCopyAllTabsToOppositeSide(ANotebook: TFileViewNotebook; var {%H-}bAbort: boolean; {%H-}bDoLocked: boolean; var {%H-}iAskForLocked: integer);
    procedure DoShowFavoriteTabsOptions;
-    procedure DoParseParametersForPossibleTreeViewMenu(const Params: array of string; gDefaultConfigWithCommand, gDefaultConfigWithDoubleClick:boolean; var bUseTreeViewMenu:boolean; var bUsePanel:boolean; var p: TPoint);
-    procedure DoComputeSizeAndPosForWindowInMiddle(var iPosX:integer; var iPosY:integer; var iWidth:integer; var iHeight:integer);
+   procedure DoParseParametersForPossibleTreeViewMenu(const Params: array of string; gDefaultConfigWithCommand, gDefaultConfigWithDoubleClick:boolean; var bUseTreeViewMenu:boolean; var bUsePanel:boolean; var p: TPoint);
+   procedure DoComputeSizeAndPosForWindowInMiddle(var iPosX:integer; var iPosY:integer; var iWidth:integer; var iHeight:integer);
+   procedure DoActualMarkUnMark(const Params: array of string; bSelect: boolean);
 
    //---------------------
 
@@ -155,17 +156,17 @@ type
    // 34. Make sure it's present there, under the appropriate category, sorted at the classic logical place.
    // 35. Make sure we see the shortcut if any and that the description is correct.
    // 36. Test the help for the command from there to make sure it links to the correct place in the help file.
-   procedure cm_AddPathToCmdLine(const Params: array of string);
-   procedure cm_AddFilenameToCmdLine(const Params: array of string);
-   procedure cm_AddPathAndFilenameToCmdLine(const Params: array of string);
-   procedure cm_CmdLineNext(const Params: array of string);
-   procedure cm_CmdLinePrev(const Params: array of string);
+   procedure cm_AddPathToCmdLine(const {%H-}Params: array of string);
+   procedure cm_AddFilenameToCmdLine(const {%H-}Params: array of string);
+   procedure cm_AddPathAndFilenameToCmdLine(const {%H-}Params: array of string);
+   procedure cm_CmdLineNext(const {%H-}Params: array of string);
+   procedure cm_CmdLinePrev(const {%H-}Params: array of string);
    procedure cm_ContextMenu(const Params: array of string);
-   procedure cm_CopyFullNamesToClip(const Params: array of string);
-   procedure cm_CopyFileDetailsToClip(const Params: array of string);
-   procedure cm_Exchange(const Params: array of string);
-   procedure cm_FlatView(const Params: array of string);
-   procedure cm_LeftFlatView(const Params: array of string);
+   procedure cm_CopyFullNamesToClip(const {%H-}Params: array of string);
+   procedure cm_CopyFileDetailsToClip(const {%H-}Params: array of string);
+   procedure cm_Exchange(const {%H-}Params: array of string);
+   procedure cm_FlatView(const {%H-}Params: array of string);
+   procedure cm_LeftFlatView(const {%H-}Params: array of string);
    procedure cm_RightFlatView(const Params: array of string);
    procedure cm_OpenArchive(const Params: array of string);
    procedure cm_TestArchive(const Params: array of string);
@@ -2781,14 +2782,43 @@ begin
   frmMain.ActiveFrame.MarkFiles(False);
 end;
 
-procedure TMainCommands.cm_MarkPlus(const Params: array of string);
+{ TMainCommands.DoActualMarkUnMark }
+procedure TMainCommands.DoActualMarkUnMark(const Params: array of string; bSelect: boolean);
+var
+  iParameter: integer;
+  sWantedMask, sParamValue: string;
+  bWantedCaseSensitive, bWantedIgnoreAccents, bWantedWindowsInterpretation, bParamValue: boolean;
+  pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation: PBoolean;
 begin
-  frmMain.ActiveFrame.MarkGroup(True);
+  sWantedMask := '';
+  pbWantedCaseSensitive := nil;
+  pbWantedIgnoreAccents := nil;
+  pbWantedWindowsInterpretation := nil;
+
+  for iParameter:=0 to pred(Length(Params)) do
+  begin
+    if GetParamValue(Params[iParameter], 'mask', sParamValue) then sWantedMask := sParamValue
+    else if GetParamBoolValue(Params[iParameter], 'casesensitive', bWantedCaseSensitive) then pbWantedCaseSensitive := @bWantedCaseSensitive
+    else if GetParamBoolValue(Params[iParameter], 'ignoreaccents', bWantedIgnoreAccents) then pbWantedIgnoreAccents := @bWantedIgnoreAccents
+    else if GetParamBoolValue(Params[iParameter], 'windowsinterpretation', bWantedWindowsInterpretation) then pbWantedWindowsInterpretation := @bWantedWindowsInterpretation;
+  end;
+
+  if sWantedMask<>'' then
+    frmMain.ActiveFrame.MarkGroup(sWantedMask, bSelect, pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation)
+  else
+    frmMain.ActiveFrame.MarkGroup(bSelect, pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation)
 end;
 
+{ TMainCommands.cm_MarkPlus }
+procedure TMainCommands.cm_MarkPlus(const Params: array of string);
+begin
+  DoActualMarkUnMark(Params, True);
+end;
+
+{ TMainCommands.cm_MarkMinus }
 procedure TMainCommands.cm_MarkMinus(const Params: array of string);
 begin
-  frmMain.ActiveFrame.MarkGroup(False);
+  DoActualMarkUnMark(Params, False);
 end;
 
 procedure TMainCommands.cm_MarkCurrentExtension(const Params: array of string);

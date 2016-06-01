@@ -1,9 +1,9 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   Modified version of standart Masks unit
+   Modified version of standard Masks unit
 
-   Copyright (C) 2010-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2010-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This file is based on masks.pas from the Lazarus Component Library (LCL)
 
@@ -22,7 +22,7 @@ unit uMasks;
 interface
 
 uses
-  Classes, SysUtils, Contnrs, DCStrUtils;
+  Classes, SysUtils, Contnrs;
 
 type
   TMaskCharType = (mcChar, mcAnyChar, mcAnyText);
@@ -40,41 +40,40 @@ type
   end;
 
   { TMask }
-
   TMask = class
   private
     FTemplate:string;
     FMask: TMaskString;
     FCaseSensitive: Boolean;
+    fIgnoreAccents: Boolean;
+    fWindowsInterpretation: boolean;
 
     procedure SetCaseSence(ACaseSence:boolean);
     procedure SetTemplate(AValue: String);
     procedure Update;
-//    procedure SetTo(AValue: string);
   public
-    constructor Create(const AValue: String; CaseSensitive: Boolean = False);
-    function Matches(const AFileName: String): Boolean;
-
+    constructor Create(const AValue: string; bCaseSensitive: boolean = False; bIgnoreAccents: boolean = False; bWindowsInterpretation: boolean = False);
+    function Matches(const AFileName: string): boolean;
+    function LegacyMatches(const AFileName: string): boolean;
+    function WindowsMatches(const AFileName: string): boolean;
     property CaseSensitive:boolean read FCaseSensitive write SetCaseSence;
     property Template:string read FTemplate write SetTemplate;
   end;
 
   { TParseStringList }
-
   TParseStringList = class(TStringList)
   public
     constructor Create(const AText, ASeparators: String);
   end;
 
   { TMaskList }
-
   TMaskList = class
   private
     FMasks: TObjectList;
     function GetCount: Integer;
     function GetItem(Index: Integer): TMask;
   public
-    constructor Create(const AValue: String; ASeparatorCharset: string=';,'; ACaseSence:boolean=True);
+    constructor Create(const AValue: string; ASeparatorCharset: string = ';,'; bCaseSensitive: boolean = False; bIgnoreAccents: boolean = False; bWindowsInterpretation: boolean = False);
     destructor Destroy; override;
 
     function Matches(const AFileName: String): Boolean;
@@ -84,13 +83,20 @@ type
   end;
 
 function MatchesMask(const FileName, Mask: String; CaseSensitive: Boolean = False): Boolean;
-function MatchesMaskList(const FileName, Mask: String; ASeparatorCharset: string = ';, ';ACaseSens: Boolean = False): Boolean;
+function MatchesMaskList(const FileName, Mask: string; ASeparatorCharset: string = ';, '; ACaseSensitive: boolean = False; AIgnoreAccents: boolean = False; AWindowsInterpretation: boolean = False): boolean;
+
 
 implementation
 
 uses
-  LazUTF8;
+  //Lazarus, Free-Pascal, etc.
+  LazUTF8,
 
+  //DC
+  uAccentsUtils, uGlobs;
+
+
+{ MatchesMask }
 function MatchesMask(const FileName, Mask: String; CaseSensitive: Boolean = False): Boolean;
 var
   AMask: TMask;
@@ -108,13 +114,14 @@ begin
     Result := False;
 end;
 
-function MatchesMaskList(const FileName, Mask: String; ASeparatorCharset: string;ACaseSens: Boolean = False): Boolean;
+{ MatchesMaskList }
+function MatchesMaskList(const FileName, Mask: string; ASeparatorCharset: string = ';, '; ACaseSensitive: boolean = False; AIgnoreAccents: boolean = False; AWindowsInterpretation: boolean = False): boolean;
 var
   AMaskList: TMaskList;
 begin
   if Mask <> '' then
   begin
-    AMaskList := TMaskList.Create(Mask, ASeparatorCharset,ACaseSens);
+    AMaskList := TMaskList.Create(Mask, ASeparatorCharset, ACaseSensitive, AIgnoreAccents, AWindowsInterpretation);
     try
       Result := AMaskList.Matches(FileName);
     finally
@@ -125,46 +132,36 @@ begin
     Result := False;
 end;
 
+
 { TMask }
 
-constructor TMask.Create(const AValue: String; CaseSensitive: Boolean = False);
+{ TMask.Create }
+constructor TMask.Create(const AValue: string; bCaseSensitive: boolean = False; bIgnoreAccents: boolean = False; bWindowsInterpretation: boolean = False);
 begin
   FTemplate:=AValue;
-  FCaseSensitive:=CaseSensitive;
+  FCaseSensitive := bCaseSensitive;
+  fIgnoreAccents := bIgnoreAccents;
+  fWindowsInterpretation := bWindowsInterpretation;
+  if bIgnoreAccents then FTemplate := NormalizeAccentedChar(FTemplate); //Let's set the mask early in straight letters if match attempt has to be with accent and ligature removed.
+  if not bCaseSensitive then FTemplate := UTF8LowerCase(FTemplate); //Let's set the mask early in lowercase if match attempt has to be case insensitive.
   Update;
-  {
-  FCaseSensitive := CaseSensitive;
-
-  if FCaseSensitive then
-    S := UTF8Decode(AValue)
-  else begin
-    S := UTF8Decode(UTF8LowerCase(AValue));
-  end;
-
-  I := 1;
-  while I <= Length(S) do
-  begin
-    case S[I] of
-      '*': AddAnyText;
-      '?': AddAnyChar;
-      else AddChar;
-    end;
-  end;
-  }
 end;
 
+{ TMask.SetCaseSence }
 procedure TMask.SetCaseSence(ACaseSence:boolean);
 begin
   FCaseSensitive:=ACaseSence;
   Update;
 end;
 
+{ TMask.SetTemplate }
 procedure TMask.SetTemplate(AValue: String);
 begin
   FTemplate:=AValue;
   Update;
 end;
 
+{ TMask.Update }
 procedure TMask.Update;
 var
   I: Integer;
@@ -219,19 +216,13 @@ var
   end;
 
 begin
-//  FTemplate:=AValue;
   AValue:=FTemplate;
 
   SetLength(FMask.Chars, 0);
   FMask.MinLength := 0;
   FMask.MaxLength := 0;
   SkipAnyText := False;
-
-  if FCaseSensitive then
-    S := UTF8Decode(AValue)
-  else begin
-    S := UTF8Decode(UTF8LowerCase(AValue));
-  end;
+  S := UTF8Decode(AValue);
 
   I := 1;
   while I <= Length(S) do
@@ -244,7 +235,29 @@ begin
   end;
 end;
 
-function TMask.Matches(const AFileName: String): Boolean;
+{ TMask.Matches }
+function TMask.Matches(const AFileName: string): boolean;
+var
+  sFilename: string;
+begin
+  //Let's set the AFileName in straight letters if match attempt has to be with accent and ligature removed.
+  if FIgnoreAccents then
+    sFilename := NormalizeAccentedChar(AFileName)
+  else
+    sFilename := AFileName;
+
+  //Let's set our AFileName is lowercase early if not case-sensitive
+  if not FCaseSensitive then
+    sFilename := UTF8LowerCase(sFilename);
+
+  if not fWindowsInterpretation then
+    Result := LegacyMatches(sFileName)
+  else
+    Result := WindowsMatches(sFileName);
+end;
+
+{ TMask.LegacyMatches }
+function TMask.LegacyMatches(const AFileName: string): boolean;
 var
   L: Integer;
   S: UnicodeString;
@@ -293,13 +306,7 @@ var
 
 begin
   Result := False;
-
-  if FCaseSensitive then
-    S := UTF8Decode(AFileName)
-  else begin
-    S := UTF8Decode(UTF8LowerCase(AFileName));
-  end;
-
+  S := UTF8Decode(AFileName);
   L := Length(S);
   if L = 0 then
   begin
@@ -312,8 +319,63 @@ begin
   Result := MatchToEnd(0, 1);
 end;
 
-{ TParseStringList }
+{ TMask.WindowsMatches }
+// treat initial mask differently for special cases:
+// foo*.* -> foo*
+// foo*. -> match foo*, but muts not have an extension
+// *. -> any file without extension ( .foo is a filename without extension according to Windows)
+// foo. matches only foo but not foo.txt
+// foo.* -> match either foo or foo.*
+function TMask.WindowsMatches(const AFileName: string): boolean;
+var
+  Ext, sInitialTemplate: string;
+  sInitialMask: UnicodeString;
 
+begin
+  sInitialMask := UTF8Decode(FTemplate);
+
+  if (Length(sInitialMask) > 2) and (RightStr(sInitialMask, 3) = '*.*') then // foo*.*
+  begin
+    sInitialTemplate := FTemplate; //Preserve initial state of FTemplate
+    FTemplate := Copy(sInitialMask, 1, Length(sInitialMask) - 2);
+    Update;
+    Result := LegacyMatches(AFileName);
+    FTemplate := sInitialTemplate; //Restore initial state of FTemplate
+    Update;
+  end
+  else if (Length(sInitialMask) > 1) and (RightStr(sInitialMask, 1) = '.') then //foo*. or *. or foo.
+  begin
+    //if AFileName has an extension then Result is False, otherwise see if it LegacyMatches foo*/foo
+    //a filename like .foo under Windows is considered to be a file without an extension
+    Ext := ExtractFileExt(AFileName);
+    if (Ext = '') or (Ext = AFileName) then
+    begin
+      sInitialTemplate := FTemplate; //Preserve initial state of FTemplate
+      FTemplate := Copy(sInitialMask, 1, Length(sInitialMask) - 1);
+      Update;
+      Result := LegacyMatches(AFileName);
+      FTemplate := sInitialTemplate; //Restore initial state of FTemplate
+      Update;
+    end
+    else
+    begin
+      Result := False;
+    end;
+  end
+  else if (Length(sInitialMask) > 2) and (RightStr(sInitialMask, 2) = '.*') then //foo.*  (but not '.*')
+  begin
+    //First see if we have 'foo'
+    Result := (AFileName = Copy(sInitialMask, 1, Length(sInitialMask) - 2));
+    if not Result then Result := LegacyMatches(AFileName);
+  end
+  else
+  begin
+    Result := LegacyMatches(AFileName); //all other cases just call LegacyMatches()
+  end;
+end;
+
+{ TParseStringList }
+{ TParseStringList.Create }
 constructor TParseStringList.Create(const AText, ASeparators: String);
 var
   I, S: Integer;
@@ -333,6 +395,7 @@ begin
   if Length(AText) >= S then Add(Copy(AText, S, Length(AText) - S + 1));
 end;
 
+
 { TMaskList }
 
 function TMaskList.GetItem(Index: Integer): TMask;
@@ -340,63 +403,31 @@ begin
   Result := TMask(FMasks.Items[Index]);
 end;
 
+{ TMaskList.GetCount }
 function TMaskList.GetCount: Integer;
 begin
   Result := FMasks.Count;
 end;
 
-constructor TMaskList.Create(const AValue: String; ASeparatorCharset: string; ACaseSence:boolean);
+{ TMaskList.Create }
+constructor TMaskList.Create(const AValue: string; ASeparatorCharset: string; bCaseSensitive: boolean = False; bIgnoreAccents: boolean = False; bWindowsInterpretation: boolean = False);
 var
-  L: String;
   I: Integer;
   S: TParseStringList;
-
-  sSearchName,sSearchExt,sSearchNameNoExt:string;
-  nMask:TMask;
 begin
   FMasks := TObjectList.Create(True);
-  if AValue='' then exit;
+  if AValue = '' then exit;
 
-//  if not ACaseSence then L := UTF8LowerCase(AValue) else L := AValue;
-  L := UTF8LowerCase(AValue);
-  S := TParseStringList.Create(L, ASeparatorCharset);
+  S := TParseStringList.Create(AValue, ASeparatorCharset);
   try
     for I := 0 to S.Count - 1 do
-      FMasks.Add(TMask.Create(S[I], True));
+      FMasks.Add(TMask.Create(S[I], bCaseSensitive, bIgnoreAccents, bWindowsInterpretation));
   finally
     S.Free;
   end;
-  {
-
-  try
-    for I := 0 to S.Count - 1 do
-    begin
-
-      sSearchName:=S[i];
-
-      if Pos('.', sSearchName) <> 0 then
-      begin
-        sSearchNameNoExt := ExtractOnlyFileName(sSearchName);
-        sSearchExt := ExtractFileExt(sSearchName);
-        if AAnyPrefix  then sSearchNameNoExt := '*' + sSearchNameNoExt;
-        if AAnyPostfix then sSearchNameNoExt := sSearchNameNoExt + '*';
-        sSearchName := sSearchNameNoExt + sSearchExt;
-      end
-      else
-      begin
-        if AAnyPrefix then sSearchName := '*' + sSearchName;
-        sSearchName := sSearchName + '*';
-      end;
-
-      nMask:=TMask.Create(sSearchName, ACaseSence);
-      FMasks.Add(nMask);
-    end;
-  finally
-    S.Free;
-  end;
-  }
 end;
 
+{ TMaskList.Destroy }
 destructor TMaskList.Destroy;
 begin
   FMasks.Free;
@@ -404,17 +435,16 @@ begin
   inherited Destroy;
 end;
 
-function TMaskList.Matches(const AFileName: String): Boolean;
+{ TMaskList.Matches }
+function TMaskList.Matches(const AFileName: string): boolean;
 var
-  S: String;
-  I: Integer;
+  I: integer;
 begin
   Result := False;
 
-  S := UTF8LowerCase(AFileName);
   for I := 0 to FMasks.Count - 1 do
   begin
-    if TMask(FMasks.Items[I]).Matches(S) then
+    if TMask(FMasks.Items[I]).Matches(AFileName) then
     begin
       Result := True;
       Exit;
