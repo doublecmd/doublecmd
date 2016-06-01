@@ -719,6 +719,10 @@ resourcestring
   rsVarListFilename = 'Temporary filename of list of filenames';
   rsVarListFullFilename = 'Temporary filename of list of complete filenames (path+filename)';
   rsVarListRelativeFilename = 'Temporary filename of list of filenames with relative path';
+  rsVarListInUTF8 = 'Filenames in list in UTF-8';
+  rsVarListInUTF16 = 'Filenames in list in UTF-16 with BOM';
+  rsVarListInUTF8Quoted = 'Filenames in list in UTF-8, inside double quotes';
+  rsVarListInUTF16Quoted = 'Filenames in list in UTF-16 with BOM, inside double quotes';
 
   rsVarSourcePanel = 'Active panel (source)';
   rsVarTargetPanel = 'Inactive panel (target)';
