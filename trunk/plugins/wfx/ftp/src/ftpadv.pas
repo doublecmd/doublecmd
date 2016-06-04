@@ -441,9 +441,9 @@ begin
     ConvertFromUtf8:= @UTF8ToKOI8;
   end;
 
-  // Windows CE 5.1
-  FFtpList.Masks.Add('MM DD YY  hh mm !S* n*');
-  FFtpList.Masks.Add('MM DD YY  hh mm $ d!n*');
+  // Windows CE 5.1 (insert before BullGCOS7)
+  FFtpList.Masks.Insert(35, 'MM DD YY  hh mm !S* n*');
+  FFtpList.Masks.Insert(36, 'MM DD YY  hh mm $ d!n*');
 end;
 
 function TFTPSendEx.Login: Boolean;
