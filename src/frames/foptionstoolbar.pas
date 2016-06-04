@@ -4,7 +4,7 @@
    Toolbar configuration options page
 
    Copyright (C) 2012      Przemyslaw Nagay (cobines@gmail.com)
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -267,14 +267,14 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  crc, LCLProc, LCLVersion, Toolwin,
+  crc, LazUTF8, LCLVersion, Toolwin,
 
   //DC
   {$IFDEF MSWINDOWS}
-  uOSUtils, uTotalCommander,
+  uTotalCommander,
   {$ENDIF}
-  uShellExecute, fEditSearch, fMainCommandsDlg, uFileProcs, uDebug, DCOSUtils,
-  uShowMsg, DCClassesUtf8, fOptions, DCStrUtils, uGlobs, uLng, uOSForms,
+  fEditSearch, fMainCommandsDlg, uFileProcs, uDebug, DCOSUtils,
+  uShowMsg, fOptions, DCStrUtils, uGlobs, uLng, uOSForms,
   uDCUtils, uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir,
   dmHelpManager, uGlobsPaths;
 
@@ -830,7 +830,8 @@ var
   //Placed intentionnally *AFTER* above routine to make sure these variable names are not used in above possibly recursive routines.
   IndexButton: integer;
   Toolbar: TKASToolbar;
-  EditSearchOptionToOffer,EditSearchOptionReturned:TEditSearchDialogOption;
+  EditSearchOptionToOffer: TEditSearchDialogOption = [];
+  EditSearchOptionReturned: TEditSearchDialogOption = [];
 begin
   with Sender as TComponent do ActionDispatcher:=tag;
 
@@ -845,7 +846,6 @@ begin
             sSearchText:='';
   sReplaceText:=sSearchText;
 
-  EditSearchOptionToOffer:=[];
   {$IFDEF MSWINDOWS}
   EditSearchOptionToOffer:=EditSearchOptionToOffer+[eswoCaseSensitiveUnchecked];
   {$ELSE}
@@ -1052,7 +1052,7 @@ end;
 { TfrmOptionsToolbar.btnSuggestionTooltipClick }
 procedure TfrmOptionsToolbar.btnSuggestionTooltipClick(Sender: TObject);
 var
-  sSuggestion, sWorkingString : string;
+  sSuggestion : string;
   iLineIndex, pOriginalSuggestion : integer;
 begin
   sSuggestion:=EmptyStr;
@@ -1060,7 +1060,6 @@ begin
   case rgToolItemType.ItemIndex of
     1: //Internal command: Idea is to keep the existing one for the single first line, then add systematically the parameters.
     begin
-      sWorkingString:=edtToolTip.Text;
       pOriginalSuggestion:=pos('\n',edtToolTip.Text);
       if pOriginalSuggestion<>0 then
         sSuggestion:=leftstr(edtToolTip.Text,pred(pOriginalSuggestion))+'\n----'
@@ -1076,7 +1075,6 @@ begin
 
     2://External command: Idea is to keep the existing one for the first line, then add systematically command, parameters and start path, one per line.
     begin
-      sWorkingString:=edtToolTip.Text;
       pOriginalSuggestion:=pos(('\n----\n'+StringReplace(lblExternalCommand.Caption, '&', '', [rfReplaceAll])),edtToolTip.Text);
       if pOriginalSuggestion<>0 then
         sSuggestion:=leftstr(edtToolTip.Text,pred(pOriginalSuggestion))+'\n----\n'

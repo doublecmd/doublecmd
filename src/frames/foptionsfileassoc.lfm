@@ -181,6 +181,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
         Anchors = [akTop, akLeft, akRight]
         AutoSize = True
         Caption = 'Icon'
+        ChildSizing.LeftRightSpacing = 6
         ClientHeight = 44
         ClientWidth = 288
         TabOrder = 2
@@ -192,7 +193,6 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Hint = 'Click me to change icon!'
           Top = 2
           Width = 38
-          BorderSpacing.Left = 6
           BorderSpacing.Top = 2
           BorderSpacing.Bottom = 4
           OnClick = sbtnIconClick
@@ -206,7 +206,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Left = 44
           Height = 23
           Top = 10
-          Width = 197
+          Width = 215
           DialogKind = dkPictureOpen
           FilterIndex = 0
           HideDirectories = False
@@ -223,12 +223,11 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideRight.Control = gbIcon
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Side = asrBottom
-          Left = 265
+          Left = 259
           Height = 23
           Top = 10
           Width = 23
           Anchors = [akTop, akRight]
-          BorderSpacing.Left = 24
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
             20000000000000040000640000006400000000000000000000002C86D8702D88
@@ -498,18 +497,19 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
         BorderSpacing.Top = 2
         BorderSpacing.Bottom = 2
         Caption = 'Action description:'
+        ChildSizing.LeftRightSpacing = 6
         ClientHeight = 113
         ClientWidth = 544
         TabOrder = 0
         object edbActionName: TEditButton
           AnchorSideTop.Control = gbActionDescription
-          AnchorSideRight.Control = btnCommands
+          AnchorSideRight.Control = gbActionDescription
           AnchorSideRight.Side = asrBottom
           Left = 103
           Height = 23
           Hint = 'Name of the action. It is never passed to the system, it''s just a mnemonic name chosen by you, for you'
           Top = 4
-          Width = 418
+          Width = 435
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 4
           ButtonWidth = 23
@@ -579,7 +579,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Height = 23
           Hint = 'Command to execute. Long filename with space should be quoted.'
           Top = 31
-          Width = 371
+          Width = 389
           DialogOptions = []
           FilterIndex = 0
           HideDirectories = False
@@ -596,12 +596,11 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideRight.Control = btnRelativeCommand
           AnchorSideBottom.Control = fneCommand
           AnchorSideBottom.Side = asrBottom
-          Left = 498
+          Left = 492
           Height = 23
           Top = 31
           Width = 23
           Anchors = [akTop, akRight, akBottom]
-          BorderSpacing.Left = 24
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
             2000000000000004000064000000640000000000000000000000000000000000
@@ -646,7 +645,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = fneCommand
           AnchorSideBottom.Side = asrBottom
-          Left = 521
+          Left = 515
           Height = 23
           Top = 31
           Width = 23
@@ -695,7 +694,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = edtParams
           AnchorSideBottom.Side = asrBottom
-          Left = 521
+          Left = 515
           Height = 23
           Top = 58
           Width = 23
@@ -760,7 +759,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Height = 23
           Hint = 'Parameter to pass to the command. Long filename with spaces should be quoted.'
           Top = 58
-          Width = 418
+          Width = 412
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Top = 4
           MaxLength = 259
@@ -781,18 +780,6 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           FocusControl = edtParams
           ParentColor = False
         end
-        object lblStartPath: TLabel
-          AnchorSideTop.Side = asrCenter
-          Left = 25
-          Height = 15
-          Top = -1368
-          Width = 54
-          Alignment = taRightJustify
-          Anchors = [akTop, akRight]
-          Caption = 'Start pat&h:'
-          ParentColor = False
-          Visible = False
-        end
         object deStartPath: TDirectoryEdit
           AnchorSideLeft.Control = edbActionName
           AnchorSideRight.Control = btnStartPathPathHelper
@@ -802,7 +789,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Height = 23
           Hint = 'Starting path of the command. Never quote this string.'
           Top = 85
-          Width = 371
+          Width = 389
           ShowHidden = False
           ButtonWidth = 23
           NumGlyphs = 1
@@ -819,7 +806,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = deStartPath
           AnchorSideBottom.Side = asrBottom
-          Left = 521
+          Left = 515
           Height = 23
           Top = 85
           Width = 23
@@ -867,12 +854,11 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideRight.Control = btnStartPathVarHelper
           AnchorSideBottom.Control = deStartPath
           AnchorSideBottom.Side = asrBottom
-          Left = 498
+          Left = 492
           Height = 23
           Top = 85
           Width = 23
           Anchors = [akTop, akRight, akBottom]
-          BorderSpacing.Left = 24
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
             20000000000000040000640000006400000000000000000000002C86D8702D88
@@ -911,7 +897,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           }
           OnClick = btnStartPathPathHelperClick
         end
-        object lblExternalParameters1: TLabel
+        object lblStartPath: TLabel
           AnchorSideTop.Control = deStartPath
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = deStartPath
@@ -921,7 +907,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Width = 54
           Alignment = taRightJustify
           Anchors = [akTop, akRight]
-          Caption = 'Start path:'
+          Caption = 'Start pat&h:'
           FocusControl = edtParams
           ParentColor = False
         end
@@ -1016,7 +1002,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
     end
   end
   object OpenDialog: TOpenDialog[4]
-    Filter = 'Exceutables|*.exe;*.com;*.bat|Any files|*.*'
+    Filter = 'Executables|*.exe;*.com;*.bat|Any files|*.*'
     Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
     left = 65
     top = 60

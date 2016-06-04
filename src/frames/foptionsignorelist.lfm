@@ -10,9 +10,9 @@ inherited frmOptionsIgnoreList: TfrmOptionsIgnoreList
     AnchorSideTop.Control = fneSaveIn
     AnchorSideTop.Side = asrCenter
     Left = 10
-    Height = 13
-    Top = 258
-    Width = 39
+    Height = 15
+    Top = 256
+    Width = 40
     Caption = '&Save in:'
     FocusControl = fneSaveIn
     ParentColor = False
@@ -24,7 +24,7 @@ inherited frmOptionsIgnoreList: TfrmOptionsIgnoreList
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 10
-    Height = 17
+    Height = 19
     Top = 8
     Width = 624
     Anchors = [akTop, akLeft, akRight]
@@ -43,8 +43,8 @@ inherited frmOptionsIgnoreList: TfrmOptionsIgnoreList
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = fneSaveIn
     Left = 10
-    Height = 213
-    Top = 31
+    Height = 209
+    Top = 33
     Width = 624
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Top = 6
@@ -63,10 +63,10 @@ inherited frmOptionsIgnoreList: TfrmOptionsIgnoreList
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 512
+    Left = 502
     Height = 30
     Top = 285
-    Width = 122
+    Width = 132
     Anchors = [akRight, akBottom]
     AutoSize = True
     BorderSpacing.Bottom = 10
@@ -84,7 +84,7 @@ inherited frmOptionsIgnoreList: TfrmOptionsIgnoreList
     Left = 10
     Height = 30
     Top = 285
-    Width = 187
+    Width = 205
     Anchors = [akLeft, akBottom]
     AutoSize = True
     BorderSpacing.Bottom = 10
@@ -99,10 +99,10 @@ inherited frmOptionsIgnoreList: TfrmOptionsIgnoreList
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnRelativeSaveIn
     AnchorSideBottom.Control = btnAddSel
-    Left = 57
-    Height = 21
-    Top = 254
-    Width = 524
+    Left = 58
+    Height = 23
+    Top = 252
+    Width = 549
     DialogOptions = []
     FilterIndex = 0
     HideDirectories = False
@@ -127,7 +127,6 @@ inherited frmOptionsIgnoreList: TfrmOptionsIgnoreList
     Top = 252
     Width = 27
     Anchors = [akTop, akRight, akBottom]
-    BorderSpacing.Left = 24
     Glyph.Data = {
       36040000424D3604000000000000360000002800000010000000100000000100
       20000000000000040000640000006400000000000000000000002C86D8702D88
@@ -164,7 +163,6 @@ inherited frmOptionsIgnoreList: TfrmOptionsIgnoreList
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
     }
-    NumGlyphs = 0
     OnClick = btnRelativeSaveInClick
   end
   object pmPathHelper: TPopupMenu[7]

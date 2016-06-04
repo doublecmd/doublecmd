@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Tools options page for the differ tool
 
-   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2016  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@ unit fOptionsToolsDiffer;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, Spin, ExtCtrls, ColorBox, Dialogs, EditBtn,
-  Buttons, Menus, Types, fOptionsFrame, fOptionsToolBase;
+  Classes, SysUtils, ExtCtrls, Dialogs,
+  Buttons, Menus, fOptionsFrame, fOptionsToolBase;
 
 type
 
@@ -50,7 +50,7 @@ implementation
 {$R *.lfm}
 
 uses
-  DCStrUtils, uDCUtils, uGlobs, uLng;
+  DCStrUtils, uGlobs, uLng;
 
 { TfrmOptionsDiffer }
 

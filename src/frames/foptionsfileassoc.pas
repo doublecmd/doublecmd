@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     File associations configuration
 
-    Copyright (C) 2008-2015  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2016  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -69,7 +69,6 @@ type
     lblAction: TLabel;
     lblCommand: TLabel;
     lblExternalParameters: TLabel;
-    lblExternalParameters1: TLabel;
     lblStartPath: TLabel;
     MenuItem1: TMenuItem;
     miInternalViewer: TMenuItem;
@@ -128,14 +127,14 @@ type
     procedure btnRenameTypeClick(Sender: TObject);
     procedure btnRenameTypeResize(Sender: TObject);
     procedure btnUpActClick(Sender: TObject);
-    procedure lbActionsDragDrop(Sender, Source: TObject; X, Y: integer);
-    procedure lbActionsSelectionChange(Sender: TObject; User: boolean);
-    procedure lbExtsDragDrop(Sender, Source: TObject; X, Y: integer);
-    procedure lbExtsSelectionChange(Sender: TObject; User: boolean);
-    procedure lbFileTypesDragDrop(Sender, Source: TObject; X, Y: integer);
-    procedure lbGenericDragOver(Sender, Source: TObject; X, Y: integer; State: TDragState; var Accept: boolean);
+    procedure lbActionsDragDrop(Sender, {%H-}Source: TObject; {%H-}X, Y: integer);
+    procedure lbActionsSelectionChange(Sender: TObject; {%H-}User: boolean);
+    procedure lbExtsDragDrop(Sender, {%H-}Source: TObject; X, Y: integer);
+    procedure lbExtsSelectionChange(Sender: TObject; {%H-}User: boolean);
+    procedure lbFileTypesDragDrop(Sender, {%H-}Source: TObject; {%H-}X, Y: integer);
+    procedure lbGenericDragOver(Sender, Source: TObject; {%H-}X, Y: integer; {%H-}State: TDragState; var Accept: boolean);
     procedure lbFileTypesDrawItem(Control: TWinControl; Index: integer; ARect: TRect; State: TOwnerDrawState);
-    procedure lbFileTypesSelectionChange(Sender: TObject; User: boolean);
+    procedure lbFileTypesSelectionChange(Sender: TObject; {%H-}User: boolean);
     procedure edbActionNameChange(Sender: TObject);
     procedure fneCommandChange(Sender: TObject);
     procedure miActionsClick(Sender: TObject);
@@ -174,11 +173,12 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  LCLProc, Math, LCLType,
+  LCLProc, Math, LCLType, LazUTF8,
 
   //DC
-  DCClassesUtf8, uOSForms, fMain, fOptions, uFile, uGlobsPaths, uGlobs,
-  uPixMapManager, uLng, uDCUtils, DCOSUtils, DCStrUtils, uShowMsg, uSpecialDir;
+  uOSForms, fMain, fOptions, uFile, uGlobs, uPixMapManager, uLng, uDCUtils,
+  DCOSUtils, uShowMsg, uSpecialDir;
+
 const
   ACTUAL_ADD_ACTION = 1;
   SET_ACTION_WORD = 2;
@@ -755,8 +755,6 @@ end;
 
 { TfrmOptionsFileAssoc.miCommandsClick }
 procedure TfrmOptionsFileAssoc.miCommandsClick(Sender: TObject);
-var
-  miMenuItem: TMenuItem absolute Sender;
 begin
   with Sender as TComponent do
   begin
@@ -1202,7 +1200,8 @@ var
   IndexOfFirstPossibleFileType: integer;
   sFileType, sDummy: string;
   ExtAction: TExtAction;
-  iInsertPosition, iSelectedFileType: integer;
+  iInsertPosition: integer;
+  iSelectedFileType: integer = -1;
   InnerFileTypeNameList: TStringList;
 begin
   aFile := frmMain.ActiveFrame.CloneActiveFile;

@@ -5,36 +5,8 @@ inherited frmOptionsDiffer: TfrmOptionsDiffer
   ClientWidth = 586
   DesignLeft = 377
   DesignTop = 160
-  inherited edtToolsParameters: TEdit
-    Height = 20
-    Top = 108
-  end
-  inherited fneToolsPath: TFileNameEdit
-    Height = 20
-    Top = 60
-  end
-  inherited lblToolsPath: TLabel
-    Height = 14
-    Width = 173
-  end
-  inherited lblToolsParameters: TLabel
-    Height = 14
-    Top = 90
-    Width = 140
-  end
-  inherited cbToolsKeepTerminalOpen: TCheckBox
-    Top = 161
-    Width = 350
-  end
-  inherited cbToolsRunInTerminal: TCheckBox
-    Top = 140
-    Width = 144
-  end
-  inherited cbToolsUseExternalProgram: TCheckBox
-    Width = 160
-  end
   inherited btnRelativeToolPath: TSpeedButton
-    Top = 60
+    Anchors = [akTop, akRight, akBottom]
   end
   object rgResultingFramePositionAfterCompare: TRadioGroup[8]
     AnchorSideLeft.Control = edtToolsParameters
@@ -44,7 +16,7 @@ inherited frmOptionsDiffer: TfrmOptionsDiffer
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 58
-    Top = 192
+    Top = 200
     Width = 571
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
@@ -58,7 +30,7 @@ inherited frmOptionsDiffer: TfrmOptionsDiffer
     ChildSizing.ShrinkVertical = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 40
+    ClientHeight = 38
     ClientWidth = 567
     ItemIndex = 0
     Items.Strings = (

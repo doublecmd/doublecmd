@@ -121,8 +121,8 @@ var
   end;
 
 begin
-  // All the combobox are referenced to "cbNormalTextColor".
-  // Let's determine the longuest label and then we'll set the "cbNormalTextColor" to a location far enough on left so all labels will be visible correctly.
+  // All the combobox are referenced to "cbBackgroundColor".
+  // Let's determine the longuest label and then we'll set the "cbBackgroundColor" to a location far enough on right so all labels will be visible correctly.
   ProcessLabelLength(lblBackgroundColor);
   ProcessLabelLength(lblShortcutColor);
   ProcessLabelLength(lblNormalTextColor);

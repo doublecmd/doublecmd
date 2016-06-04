@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Archivers options page
 
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -79,9 +79,9 @@ type
     procedure btnMultiArcRenameClick(Sender: TObject);
     procedure btnRelativeArchiverClick(Sender: TObject);
     procedure chkMultiArcEnabledChange(Sender: TObject);
-    procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
-    procedure stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol,
-      aRow: Integer; aState: TGridDrawState);
+    procedure lbxMultiArcSelectionChange(Sender: TObject; {%H-}User: boolean);
+    procedure stgArchiverCommandsPrepareCanvas(Sender: TObject; {%H-}aCol,
+      aRow: Integer; {%H-}aState: TGridDrawState);
     procedure tbArchiverAdditionalShow(Sender: TObject);
   private
     procedure FillArchiverList;
