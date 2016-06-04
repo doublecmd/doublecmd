@@ -5,6 +5,8 @@ inherited frmOptionsLog: TfrmOptionsLog
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 369
   ClientWidth = 394
+  ParentShowHint = False
+  ShowHint = True
   DesignLeft = 666
   DesignTop = 236
   object gbLogFile: TGroupBox[0]
@@ -13,12 +15,13 @@ inherited frmOptionsLog: TfrmOptionsLog
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 72
+    Height = 74
     Top = 6
     Width = 382
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     Caption = 'File operation log file'
+    ChildSizing.LeftRightSpacing = 10
     ClientHeight = 54
     ClientWidth = 378
     TabOrder = 0
@@ -37,17 +40,18 @@ inherited frmOptionsLog: TfrmOptionsLog
       AnchorSideLeft.Control = cbLogFile
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbLogFile
-      Left = 121
+      AnchorSideRight.Control = btnRelativeLogFile
+      Left = 119
       Height = 23
       Top = 4
-      Width = 178
+      Width = 201
       DialogOptions = []
       FilterIndex = 0
       HideDirectories = False
       ButtonWidth = 23
       NumGlyphs = 1
       Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Left = 6
+      BorderSpacing.Left = 4
       BorderSpacing.Top = 4
       BorderSpacing.Bottom = 4
       MaxLength = 0
@@ -66,16 +70,17 @@ inherited frmOptionsLog: TfrmOptionsLog
       TabOrder = 2
     end
     object btnRelativeLogFile: TSpeedButton
-      AnchorSideLeft.Control = fneLogFileName
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = fneLogFileName
-      AnchorSideTop.Side = asrCenter
-      Left = 323
-      Height = 24
+      AnchorSideRight.Control = btnViewLogFile
+      AnchorSideBottom.Control = fneLogFileName
+      AnchorSideBottom.Side = asrBottom
+      Left = 320
+      Height = 23
       Hint = 'Some functions to select appropriate path'
-      Top = 3
+      Top = 4
       Width = 24
-      BorderSpacing.Left = 24
+      Anchors = [akTop, akRight, akBottom]
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         20000000000000040000640000006400000000000000000000002C86D8702D88
@@ -115,16 +120,17 @@ inherited frmOptionsLog: TfrmOptionsLog
       OnClick = btnRelativeLogFileClick
     end
     object btnViewLogFile: TSpeedButton
-      AnchorSideLeft.Control = btnRelativeLogFile
-      AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = fneLogFileName
-      AnchorSideTop.Side = asrCenter
-      Left = 348
-      Height = 24
+      AnchorSideRight.Control = gbLogFile
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = fneLogFileName
+      AnchorSideBottom.Side = asrBottom
+      Left = 344
+      Height = 23
       Hint = 'View log file content'
-      Top = 3
+      Top = 4
       Width = 24
-      BorderSpacing.Left = 1
+      Anchors = [akTop, akRight, akBottom]
       Glyph.Data = {
         36030000424D3603000000000000360000002800000010000000100000000100
         18000000000000030000130B0000130B00000000000000000000000000000000
@@ -163,8 +169,8 @@ inherited frmOptionsLog: TfrmOptionsLog
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 170
-    Top = 82
+    Height = 172
+    Top = 84
     Width = 382
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -262,8 +268,8 @@ inherited frmOptionsLog: TfrmOptionsLog
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 87
-    Top = 256
+    Height = 89
+    Top = 260
     Width = 382
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True

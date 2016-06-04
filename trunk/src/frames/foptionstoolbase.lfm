@@ -14,7 +14,7 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 23
-    Top = 115
+    Top = 113
     Width = 571
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 4
@@ -28,8 +28,8 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
     AnchorSideRight.Control = btnRelativeToolPath
     Left = 8
     Height = 23
-    Top = 62
-    Width = 525
+    Top = 61
+    Width = 547
     OnAcceptFileName = fneToolsPathAcceptFileName
     DialogOptions = []
     FilterIndex = 0
@@ -47,9 +47,9 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
     AnchorSideTop.Control = cbToolsUseExternalProgram
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 16
+    Height = 15
     Top = 42
-    Width = 145
+    Width = 144
     BorderSpacing.Top = 15
     Caption = '&Path to program to execute'
     FocusControl = fneToolsPath
@@ -60,9 +60,9 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
     AnchorSideTop.Control = fneToolsPath
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 16
-    Top = 95
-    Width = 118
+    Height = 15
+    Top = 94
+    Width = 117
     BorderSpacing.Top = 10
     Caption = 'A&dditional parameters'
     FocusControl = edtToolsParameters
@@ -74,7 +74,7 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
     AnchorSideTop.Side = asrBottom
     Left = 23
     Height = 19
-    Top = 171
+    Top = 169
     Width = 298
     BorderSpacing.Left = 15
     BorderSpacing.Top = 2
@@ -88,7 +88,7 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 19
-    Top = 150
+    Top = 148
     Width = 120
     BorderSpacing.Top = 12
     Caption = '&Execute in terminal'
@@ -108,15 +108,15 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
   object btnRelativeToolPath: TSpeedButton[7]
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = fneToolsPath
+    AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = fneToolsPath
     AnchorSideBottom.Side = asrBottom
     Left = 555
-    Height = 24
+    Height = 23
     Hint = 'Some functions to select appropriate path'
-    Top = 62
+    Top = 61
     Width = 24
-    Anchors = [akTop, akRight]
-    BorderSpacing.Left = 22
+    Anchors = [akTop, akRight, akBottom]
     Glyph.Data = {
       36040000424D3604000000000000360000002800000010000000100000000100
       20000000000000040000640000006400000000000000000000002C86D8702D88
@@ -153,7 +153,6 @@ inherited frmOptionsToolBase: TfrmOptionsToolBase
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
     }
-    NumGlyphs = 0
     OnClick = btnRelativeToolPathClick
   end
   object pmPathHelper: TPopupMenu[8]

@@ -807,16 +807,16 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         Visible = False
       end
       object btnParametersHelper: TSpeedButton
-        AnchorSideTop.Control = lblExternalParameters
-        AnchorSideTop.Side = asrCenter
+        AnchorSideTop.Control = edtExternalParameters
         AnchorSideRight.Control = pnlEditControls
         AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtExternalParameters
         AnchorSideBottom.Side = asrBottom
         Left = 713
         Height = 23
         Top = 212
         Width = 32
-        Anchors = [akTop, akRight]
+        Anchors = [akTop, akRight, akBottom]
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
           2000000000000004000064000000640000000000000000000000FFFFFF000000

@@ -9,10 +9,10 @@ object frmOpenWith: TfrmOpenWith
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.2.4.0'
+  LCLVersion = '1.6.0.4'
   object lblMimeType: TLabel
     Left = 6
-    Height = 17
+    Height = 15
     Top = 6
     Width = 404
     Align = alTop
@@ -23,13 +23,13 @@ object frmOpenWith: TfrmOpenWith
   end
   object pnlOpenWith: TPanel
     Left = 0
-    Height = 39
-    Top = 341
+    Height = 35
+    Top = 355
     Width = 410
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 39
+    ClientHeight = 35
     ClientWidth = 410
     Color = clForm
     Enabled = False
@@ -41,9 +41,9 @@ object frmOpenWith: TfrmOpenWith
       AnchorSideRight.Control = btnCommands
       AnchorSideBottom.Side = asrBottom
       Left = 6
-      Height = 27
-      Top = 7
-      Width = 354
+      Height = 23
+      Top = 6
+      Width = 378
       DialogOptions = []
       FilterIndex = 0
       HideDirectories = False
@@ -64,12 +64,11 @@ object frmOpenWith: TfrmOpenWith
       AnchorSideBottom.Control = fneCommand
       AnchorSideBottom.Side = asrBottom
       Left = 384
-      Height = 27
-      Top = 7
+      Height = 23
+      Top = 6
       Width = 20
       Anchors = [akTop, akRight, akBottom]
       AutoSize = True
-      BorderSpacing.Left = 24
       BorderSpacing.Right = 6
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
@@ -113,8 +112,8 @@ object frmOpenWith: TfrmOpenWith
   end
   object ButtonPanel: TButtonPanel
     Left = 6
-    Height = 40
-    Top = 428
+    Height = 34
+    Top = 434
     Width = 398
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -131,11 +130,12 @@ object frmOpenWith: TfrmOpenWith
   end
   object tvApplications: TTreeView
     Left = 0
-    Height = 252
-    Top = 29
+    Height = 274
+    Top = 27
     Width = 410
     Align = alClient
     BorderSpacing.Top = 6
+    DefaultItemHeight = 18
     Images = ImageList
     ReadOnly = True
     ScrollBars = ssAutoBoth
@@ -147,8 +147,8 @@ object frmOpenWith: TfrmOpenWith
   object chkUseAsDefault: TCheckBox
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 21
-    Top = 401
+    Height = 19
+    Top = 409
     Width = 404
     Align = alBottom
     BorderSpacing.Left = 6
@@ -162,8 +162,8 @@ object frmOpenWith: TfrmOpenWith
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 21
-    Top = 320
+    Height = 19
+    Top = 336
     Width = 398
     Align = alBottom
     Anchors = [akLeft, akRight]
@@ -175,8 +175,8 @@ object frmOpenWith: TfrmOpenWith
   end
   object chkSaveAssociation: TCheckBox
     Left = 6
-    Height = 21
-    Top = 380
+    Height = 19
+    Top = 390
     Width = 404
     Align = alBottom
     BorderSpacing.Left = 6
@@ -186,14 +186,14 @@ object frmOpenWith: TfrmOpenWith
   end
   object pnlFilter: TPanel
     Left = 0
-    Height = 39
-    Top = 281
+    Height = 35
+    Top = 301
     Width = 410
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 39
+    ClientHeight = 35
     ClientWidth = 410
     Color = clForm
     ParentColor = False
@@ -201,15 +201,17 @@ object frmOpenWith: TfrmOpenWith
     object tfeApplications: TTreeFilterEdit
       AnchorSideLeft.Control = pnlFilter
       AnchorSideTop.Control = pnlFilter
+      AnchorSideRight.Control = pnlFilter
       AnchorSideRight.Side = asrBottom
       Left = 6
-      Height = 27
+      Height = 23
       Top = 6
-      Width = 375
+      Width = 398
       ButtonWidth = 23
       NumGlyphs = 1
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 6
+      BorderSpacing.Right = 6
       MaxLength = 0
       TabOrder = 0
       FilteredTreeview = tvApplications

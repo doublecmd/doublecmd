@@ -71,8 +71,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fOptions, uShowMsg, uComponentsSignature, fMain, uGlobs, uLng, uSpecialDir,
-  uShowForm, uDCUtils;
+  fOptions, uShowMsg, uComponentsSignature, fMain, uGlobs, uLng, uSpecialDir;
 
 { TfrmOptionsLog }
 

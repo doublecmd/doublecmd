@@ -52,7 +52,7 @@ type
   public
     class function GetTitle: string; override;
     class function GetIconIndex: integer; override;
-    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
+    function CanWeClose(var {%H-}WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -60,7 +60,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fOptions, uShowMsg, uComponentsSignature, DCStrUtils, uGlobs, uLng;
+  fOptions, uShowMsg, uComponentsSignature, uGlobs, uLng;
 
 {TfrmOptionsFileAssocExtra}
 
