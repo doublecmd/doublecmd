@@ -2379,6 +2379,7 @@ var
   SortDirection: TSortDirection;
   SortFunctions: TFileFunctions;
   SortFunctionInt: Integer;
+  APage: TFileViewPage;
 begin
   RemoveAllFileSources;
 
@@ -2450,12 +2451,6 @@ begin
                   begin
                     sPath := AConfig.GetContent(PathsNode);
 
-                    // Go to upper directory if it doesn't exist (filesystem only for now).
-                    if TFileSystemFileSource.ClassNameIs(aFileSource.ClassName) then
-                    begin
-                      sPath := GetDeepestExistingPath(sPath);
-                    end;
-
                     if sPath <> EmptyStr then
                     begin
                       FHistory.AddPath(sPath);
@@ -2504,7 +2499,25 @@ begin
     ActivePathIndex := -1;
   FHistory.SetIndexes(ActiveFSIndex, ActivePathIndex);
 
-  if Assigned(FileSource) then
+  aFileSource:= GetCurrentFileSource;
+
+  if Assigned(aFileSource) and TFileSystemFileSource.ClassNameIs(aFileSource.ClassName) then
+  begin
+    APage := TFileViewPage(NotebookPage);
+    // Go to lock path if tab is locked
+    if Assigned(APage) and (APage.LockState <> tlsNormal) then
+    begin
+      if not mbCompareFileNames(FHistory.CurrentPath, APage.LockPath) then
+        FHistory.Add(aFileSource, APage.LockPath);
+    end;
+    // Go to upper directory if current doesn't exist
+    sPath := GetDeepestExistingPath(FHistory.CurrentPath);
+    if Length(sPath) = 0 then sPath := mbGetCurrentDir;
+    if not mbCompareFileNames(sPath, FHistory.CurrentPath) then
+      FHistory.Add(aFileSource, sPath);
+  end;
+
+  if Assigned(aFileSource) then
   begin
     FSortingProperties := GetSortingProperties;
     FileSource.AddReloadEventListener(@ReloadEvent);
