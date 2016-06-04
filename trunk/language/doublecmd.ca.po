@@ -5880,10 +5880,6 @@ msgctxt "tfrmoptionsfileassoc.lblexternalparameters.caption"
 msgid "Parameter&s:"
 msgstr "Paràmetres"
 
-#: tfrmoptionsfileassoc.lblexternalparameters1.caption
-msgid "Start path:"
-msgstr ""
-
 #: tfrmoptionsfileassoc.lblstartpath.caption
 #, fuzzy
 msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
@@ -7009,6 +7005,10 @@ msgstr ""
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Sempre va a l'arrel de la unitat quan es canvia d'unitat"
+
+#: tfrmoptionsmisc.chkmarkmaskfilterwindows.caption
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 #, fuzzy

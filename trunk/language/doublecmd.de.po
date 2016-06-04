@@ -6100,10 +6100,6 @@ msgctxt "tfrmoptionsfileassoc.lblexternalparameters.caption"
 msgid "Parameter&s:"
 msgstr "&Parameter:"
 
-#: tfrmoptionsfileassoc.lblexternalparameters1.caption
-msgid "Start path:"
-msgstr "Startpfad:"
-
 #: tfrmoptionsfileassoc.lblstartpath.caption
 #, fuzzy
 #| msgid "Start path:"
@@ -7295,6 +7291,10 @@ msgstr "Inhalt der Log-Datei betrachten"
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Beim Wechsel des Laufwerkes immer zur &obersten Ebenen des Laufwerkes wechseln"
+
+#: tfrmoptionsmisc.chkmarkmaskfilterwindows.caption
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 #, fuzzy
