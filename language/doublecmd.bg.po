@@ -5897,10 +5897,6 @@ msgctxt "tfrmoptionsfileassoc.lblexternalparameters.caption"
 msgid "Parameter&s:"
 msgstr "Клю&чове:"
 
-#: tfrmoptionsfileassoc.lblexternalparameters1.caption
-msgid "Start path:"
-msgstr ""
-
 #: tfrmoptionsfileassoc.lblstartpath.caption
 #, fuzzy
 #| msgid "Start path:"
@@ -7032,6 +7028,10 @@ msgstr "Преглед на дневника на файловото съдър�
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "При смяна на устройството, да се отива в &основната папка"
+
+#: tfrmoptionsmisc.chkmarkmaskfilterwindows.caption
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 #, fuzzy
