@@ -568,7 +568,9 @@ end;
 function TfrmOptionsFilePanelsColors.JustForConfigDim(AColor: TColor): TColor;
 begin
   if (tbInactivePanelBrightness.Position < 100) then
-    Result := ModColor(AColor, tbInactivePanelBrightness.Position);
+    Result := ModColor(AColor, tbInactivePanelBrightness.Position)
+  else
+    Result := AColor;
 end;
 
 { TfrmOptionsFilePanelsColors.JustForConfigNoDim }
