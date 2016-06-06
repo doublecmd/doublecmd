@@ -189,7 +189,7 @@ type
 
     procedure LoadConfiguration(Section: String; TabIndex: Integer); override;
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
-    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
+    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory: Boolean); override;
 
     procedure UpdateColumnsView;
     procedure SetGridFunctionDim(ExternalDimFunction: TFunctionDime);
@@ -316,9 +316,10 @@ begin
   end;
 end;
 
-procedure TColumnsFileViewVTV.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
+procedure TColumnsFileViewVTV.SaveConfiguration(AConfig: TXmlConfig;
+  ANode: TXmlNode; ASaveHistory: Boolean);
 begin
-  inherited SaveConfiguration(AConfig, ANode);
+  inherited SaveConfiguration(AConfig, ANode, ASaveHistory);
 
   AConfig.SetAttr(ANode, 'Type', 'columns');
 
