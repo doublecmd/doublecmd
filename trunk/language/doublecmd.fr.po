@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-06-04 11:45-0400\n"
+"PO-Revision-Date: 2016-06-07 21:26-0400\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -2057,10 +2057,12 @@ msgid "Toolbar..."
 msgstr "Configuation de la barre d'outils"
 
 #: tfrmmain.actconfigtreeviewmenus.caption
+msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
 msgid "Configuration of Tree View Menu"
 msgstr "Configuration du menu en arbre"
 
 #: tfrmmain.actconfigtreeviewmenuscolors.caption
+msgctxt "tfrmmain.actconfigtreeviewmenuscolors.caption"
 msgid "Configuration of Tree View Menu Colors"
 msgstr "Configuration des couleurs du menu en arbre"
 
@@ -5086,7 +5088,7 @@ msgstr "Trier..."
 #: tfrmoptionsfavoritetabs.cbexistingtabstokeep.text
 msgctxt "tfrmoptionsfavoritetabs.cbexistingtabstokeep.text"
 msgid "None"
-msgstr "Aucun."
+msgstr "Aucun"
 
 #: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
 msgctxt "tfrmoptionsfavoritetabs.cbfullexpandtree.caption"
@@ -8365,6 +8367,61 @@ msgstr "Synchronise"
 msgid "Confirm overwrites"
 msgstr "Confirmer l'écrasement"
 
+#: tfrmtreeviewmenu.caption
+msgctxt "tfrmtreeviewmenu.caption"
+msgid "Tree View Menu"
+msgstr "Menu en arbre"
+
+#: tfrmtreeviewmenu.lblsearchingentry.caption
+msgid "Select your hot directory:"
+msgstr "Choisissez votre dossier favori:"
+
+#: tfrmtreeviewmenu.pmicasesensitive.caption
+msgid "Search is case sensitive"
+msgstr "Recherche stricte respectant majuscules/minuscules"
+
+#: tfrmtreeviewmenu.pmifullcollapse.caption
+msgid "Full collapse"
+msgstr "Replier toutes les branches"
+
+#: tfrmtreeviewmenu.pmifullexpand.caption
+msgid "Full expand"
+msgstr "Déployer les branchess"
+
+#: tfrmtreeviewmenu.pmiignoreaccents.caption
+msgid "Search ignore accents and ligatures"
+msgstr "Ignorer les accents et ligatures durant la recherche"
+
+#: tfrmtreeviewmenu.pminotcasesensitive.caption
+msgid "Search is not case sensitive"
+msgstr "Recherche en ignorant majuscules/minuscules"
+
+#: tfrmtreeviewmenu.pminotignoreaccents.caption
+msgid "Search is strict regarding accents and ligatures"
+msgstr "Recherche stricte respectant les accents et ligatures"
+
+#: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
+msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
+msgstr "Ne pas montrer la branche si la chaîne recherchée ne se trouve que dans le nom de cette branche"
+
+#: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
+msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
+msgstr "Si la chaîne recherché se trouve dans le nom de la branche, afficher cette branche même si rien à l'intérieur de correspond"
+
+#: tfrmtreeviewmenu.tbcancelandquit.hint
+msgid "Close Tree View Menu"
+msgstr "Fermer le menu en arbre"
+
+#: tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint
+msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint"
+msgid "Configuration of Tree View Menu"
+msgstr "Configuration du menu en arbre"
+
+#: tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint
+msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint"
+msgid "Configuration of Tree View Menu Colors"
+msgstr "Configuration des couleurs du menu en arbre"
+
 #: tfrmtweakplugin.btnadd.caption
 msgid "A&dd new"
 msgstr "Ajouter un nouveau"
@@ -11521,6 +11578,7 @@ msgid "Tooltips"
 msgstr "Info-bulles"
 
 #: ulng.rsoptionseditortreeviewmenu
+msgctxt "ulng.rsoptionseditortreeviewmenu"
 msgid "Tree View Menu"
 msgstr "Menu en arbre"
 
@@ -12155,4 +12213,3 @@ msgstr "Nombre de remplacements: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
-
