@@ -269,7 +269,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="232">
+    <Units Count="233">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1651,6 +1651,14 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uGlobs"/>
       </Unit231>
+      <Unit232>
+        <Filename Value="ftreeviewmenu.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmTreeViewMenu"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fTreeViewMenu"/>
+      </Unit232>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
