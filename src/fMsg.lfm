@@ -42,6 +42,7 @@ object frmMsg: TfrmMsg
     BorderSpacing.Right = 12
     BorderSpacing.Bottom = 12
     BevelOuter = bvNone
+    ChildSizing.LeftRightSpacing = 12
     ChildSizing.HorizontalSpacing = 12
     ChildSizing.VerticalSpacing = 4
     ChildSizing.EnlargeHorizontal = crsHomogenousSpaceResize
