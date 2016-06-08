@@ -2062,10 +2062,12 @@ msgid "Toolbar..."
 msgstr ""
 
 #: tfrmmain.actconfigtreeviewmenus.caption
+msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
 msgid "Configuration of Tree View Menu"
 msgstr ""
 
 #: tfrmmain.actconfigtreeviewmenuscolors.caption
+msgctxt "tfrmmain.actconfigtreeviewmenuscolors.caption"
 msgid "Configuration of Tree View Menu Colors"
 msgstr ""
 
@@ -8458,6 +8460,61 @@ msgstr "Uskladi"
 msgid "Confirm overwrites"
 msgstr "Potvrdi prepisivanje"
 
+#: tfrmtreeviewmenu.caption
+msgctxt "tfrmtreeviewmenu.caption"
+msgid "Tree View Menu"
+msgstr ""
+
+#: tfrmtreeviewmenu.lblsearchingentry.caption
+msgid "Select your hot directory:"
+msgstr ""
+
+#: tfrmtreeviewmenu.pmicasesensitive.caption
+msgid "Search is case sensitive"
+msgstr ""
+
+#: tfrmtreeviewmenu.pmifullcollapse.caption
+msgid "Full collapse"
+msgstr ""
+
+#: tfrmtreeviewmenu.pmifullexpand.caption
+msgid "Full expand"
+msgstr ""
+
+#: tfrmtreeviewmenu.pmiignoreaccents.caption
+msgid "Search ignore accents and ligatures"
+msgstr ""
+
+#: tfrmtreeviewmenu.pminotcasesensitive.caption
+msgid "Search is not case sensitive"
+msgstr ""
+
+#: tfrmtreeviewmenu.pminotignoreaccents.caption
+msgid "Search is strict regarding accents and ligatures"
+msgstr ""
+
+#: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
+msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
+msgstr ""
+
+#: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
+msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
+msgstr ""
+
+#: tfrmtreeviewmenu.tbcancelandquit.hint
+msgid "Close Tree View Menu"
+msgstr ""
+
+#: tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint
+msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint"
+msgid "Configuration of Tree View Menu"
+msgstr ""
+
+#: tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint
+msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint"
+msgid "Configuration of Tree View Menu Colors"
+msgstr ""
+
 #: tfrmtweakplugin.btnadd.caption
 msgid "A&dd new"
 msgstr "&Dodaj novo"
@@ -11661,6 +11718,7 @@ msgid "Tooltips"
 msgstr "Napomene"
 
 #: ulng.rsoptionseditortreeviewmenu
+msgctxt "ulng.rsoptionseditortreeviewmenu"
 msgid "Tree View Menu"
 msgstr ""
 

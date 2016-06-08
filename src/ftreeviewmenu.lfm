@@ -4,7 +4,7 @@ object frmTreeViewMenu: TfrmTreeViewMenu
   Top = 184
   Width = 524
   BorderIcons = [biSystemMenu]
-  Caption = 'frmTreeViewMenu'
+  Caption = 'Tree View Menu'
   ClientHeight = 787
   ClientWidth = 524
   Font.CharSet = ANSI_CHARSET
@@ -123,14 +123,12 @@ object frmTreeViewMenu: TfrmTreeViewMenu
       Anchors = [akTop, akLeft, akRight]
       ButtonHeight = 20
       ButtonWidth = 20
-      Caption = 'tbOptions'
       EdgeBorders = []
       Images = imgListButton
       TabOrder = 2
       object tbCaseSensitive: TToolButton
         Left = 1
         Top = 0
-        Caption = 'tbCaseSensitive'
         DropdownMenu = pmCaseSensitiveOrNot
         ImageIndex = 0
         OnClick = tbCaseSensitiveClick
@@ -139,7 +137,6 @@ object frmTreeViewMenu: TfrmTreeViewMenu
       object tbShowWholeBranchOrNot: TToolButton
         Left = 70
         Top = 0
-        Caption = 'tbShowBranchOrNot'
         DropdownMenu = pmShowWholeBranchIfMatchOrNot
         ImageIndex = 5
         OnClick = tbShowWholeBranchOrNotClick
@@ -150,13 +147,11 @@ object frmTreeViewMenu: TfrmTreeViewMenu
         Height = 20
         Top = 0
         Width = 5
-        Caption = 'tbDivider1'
         Style = tbsDivider
       end
       object tbIgnoreAccents: TToolButton
         Left = 33
         Top = 0
-        Caption = 'tbIgnoreAccents'
         DropdownMenu = pmIgnoreAccentsOrNot
         ImageIndex = 2
         OnClick = tbIgnoreAccentsClick
@@ -165,7 +160,6 @@ object frmTreeViewMenu: TfrmTreeViewMenu
       object tbFullExpandOrNot: TToolButton
         Left = 102
         Top = 0
-        Caption = 'tbFullExpandOrNot'
         DropdownMenu = pmFullExpandOrNot
         ImageIndex = 9
         OnClick = tbFullExpandOrNotClick
@@ -186,28 +180,27 @@ object frmTreeViewMenu: TfrmTreeViewMenu
       AutoSize = True
       ButtonHeight = 20
       ButtonWidth = 20
-      Caption = 'tbClose'
       EdgeBorders = []
       Images = imgListButton
       TabOrder = 3
       object tbCancelAndQuit: TToolButton
         Left = 41
+        Hint = 'Close Tree View Menu'
         Top = 0
-        Caption = 'tbCancelAndQuit'
         ImageIndex = 6
         OnClick = tbCancelAndQuitClick
       end
       object tbConfigurationTreeViewMenus: TToolButton
         Left = 1
+        Hint = 'Configuration of Tree View Menu'
         Top = 0
-        Caption = 'tbConfigurationTreeViewMenus'
         ImageIndex = 7
         OnClick = tbConfigurationTreeViewMenusClick
       end
       object tbConfigurationTreeViewMenusColors: TToolButton
         Left = 21
+        Hint = 'Configuration of Tree View Menu Colors'
         Top = 0
-        Caption = 'tbConfigurationTreeViewMenusColors'
         ImageIndex = 8
         OnClick = tbConfigurationTreeViewMenusColorsClick
       end
