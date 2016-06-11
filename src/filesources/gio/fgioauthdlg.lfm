@@ -9,9 +9,10 @@ object frmGioAuthDialog: TfrmGioAuthDialog
   ChildSizing.TopBottomSpacing = 8
   ClientHeight = 215
   ClientWidth = 375
-  Constraints.MaxHeight = 215
+  Constraints.MinHeight = 215
   Constraints.MinWidth = 375
-  LCLVersion = '1.4.2.0'
+  Position = poScreenCenter
+  LCLVersion = '1.6.0.4'
   object imgAuth: TImage
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -131,7 +132,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
     AnchorSideTop.Side = asrBottom
     Left = 72
     Height = 72
-    Top = 83
+    Top = 79
     Width = 290
     AutoSize = True
     BorderSpacing.Top = 10
@@ -221,12 +222,16 @@ object frmGioAuthDialog: TfrmGioAuthDialog
     AnchorSideLeft.Control = imgAuth
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = imgAuth
+    AnchorSideRight.Control = pnlUser
+    AnchorSideRight.Side = asrBottom
     Left = 72
     Height = 1
     Top = 8
-    Width = 1
+    Width = 290
+    Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 16
     ParentColor = False
+    WordWrap = True
   end
   object pnlConnect: TPanel
     AnchorSideLeft.Control = imgAuth
@@ -235,11 +240,11 @@ object frmGioAuthDialog: TfrmGioAuthDialog
     AnchorSideTop.Side = asrBottom
     Left = 72
     Height = 40
-    Top = 33
+    Top = 29
     Width = 163
     AutoSize = True
     BorderSpacing.Left = 16
-    BorderSpacing.Top = 24
+    BorderSpacing.Top = 20
     BevelOuter = bvNone
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
@@ -271,9 +276,11 @@ object frmGioAuthDialog: TfrmGioAuthDialog
   object ButtonPanel: TButtonPanel
     AnchorSideTop.Control = pnlUser
     AnchorSideTop.Side = asrBottom
-    Left = 193
+    AnchorSideRight.Control = pnlUser
+    AnchorSideRight.Side = asrBottom
+    Left = 188
     Height = 28
-    Top = 171
+    Top = 167
     Width = 174
     Align = alNone
     Anchors = [akTop, akRight]
