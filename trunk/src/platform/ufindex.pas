@@ -65,15 +65,6 @@ type
 {$if defined(Win32) or defined(WinCE) or defined(Win64)}
     FindData : Windows.TWin32FindDataW;
 {$endif}
-{$ifdef netware_clib}
-    FindData : TNetwareFindData;
-{$endif}
-{$ifdef netware_libc}
-    FindData : TNetwareLibcFindData;
-{$endif}
-{$ifdef MacOS}
-    FindData : TMacOSFindData;
-{$endif}
   end;
 
 function FindFirstEx (const Path : String; Attr : TFileAttrs; out SearchRec : TSearchRecEx) : Longint;
@@ -89,7 +80,7 @@ uses
   , uMyWindows
   {$ENDIF}
   {$IFDEF UNIX}
-  , uMyUnix, Unix, FileUtil, DCOSUtils, DCFileAttributes, DCConvertEncoding
+  , Unix, DCOSUtils, DCFileAttributes, DCConvertEncoding, uMyUnix
   {$ENDIF};
 
 const
