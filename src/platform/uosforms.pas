@@ -141,6 +141,12 @@ uses
     {$IF NOT DEFINED(DARWIN)}
     , fOpenWith, uKde
     {$ENDIF}
+    {$IF DEFINED(LCLQT) and not DEFINED(DARWIN)}
+    , qt4, qtwidgets
+    {$ENDIF}
+    {$IF DEFINED(LCLGTK2)}
+    , gtk2
+    {$ENDIF}
   {$ENDIF};
 
 { TAloneForm }
@@ -410,6 +416,27 @@ begin
 end;
 {$ENDIF}
 
+{$IF DEFINED(LCLGTK2) or (DEFINED(LCLQT) and not DEFINED(DARWIN))}
+
+procedure ScreenFormEvent(Self, Sender: TObject; Form: TCustomForm);
+{$IF DEFINED(LCLGTK2)}
+var
+  ClassName: String;
+begin
+  ClassName:= Form.ClassName;
+  gtk_window_set_role(PGtkWindow(Form.Handle), PAnsiChar(ClassName));
+end;
+{$ELSEIF DEFINED(LCLQT)}
+var
+  ClassName: WideString;
+begin
+  ClassName:= Form.ClassName;
+  QWidget_setWindowRole(QWidget_window(TQtWidget(Form.Handle).GetContainerWidget), @ClassName);
+end;
+{$ENDIF}
+
+{$ENDIF}
+
 procedure MainFormCreate(MainForm : TCustomForm);
 {$IFDEF MSWINDOWS}
 var
@@ -453,7 +480,7 @@ begin
   end;
 end;
 {$ELSE}
-{$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
+{$IF DEFINED(LCLQT) or DEFINED(LCLGTK2)}
 var
   Handler: TMethod;
 {$ENDIF}
@@ -470,6 +497,11 @@ begin
   Handler.Data:= MainForm;
   Handler.Code:= @ActiveFormChangedHandler;
   Screen.AddHandlerActiveFormChanged(TScreenFormEvent(Handler), True);
+  {$ELSEIF DEFINED(LCLGTK2) or DEFINED(LCLQT)}
+  Handler.Data:= MainForm;
+  Handler.Code:= @ScreenFormEvent;
+  ScreenFormEvent(MainForm, MainForm, MainForm);
+  Screen.AddHandlerFormAdded(TScreenFormEvent(Handler), True);
   {$ENDIF}
 end;
 {$ENDIF}
