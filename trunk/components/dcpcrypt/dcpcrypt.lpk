@@ -6,7 +6,7 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <OtherUnitFiles Value="Ciphers;Hashes;$(PkgOutDir)"/>
+        <OtherUnitFiles Value="Ciphers;Hashes;Hashes/Keccak;$(PkgOutDir)"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -33,7 +33,7 @@
 www.cityinthesky.co.uk/cryptography.html
 "/>
     <Version Major="2" Release="4" Build="1"/>
-    <Files Count="21">
+    <Files Count="22">
       <Item1>
         <Filename Value="dcpbase64.pas"/>
         <UnitName Value="DCPbase64"/>
@@ -118,6 +118,10 @@ www.cityinthesky.co.uk/cryptography.html
         <Filename Value="Hashes/dcpblake2.pas"/>
         <UnitName Value="DCPblake2"/>
       </Item21>
+      <Item22>
+        <Filename Value="Hashes/dcpsha3.pas"/>
+        <UnitName Value="DCPsha3"/>
+      </Item22>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
