@@ -16,6 +16,7 @@ const ft_nomorefields=0;
       ft_fulltext=9;
       ft_datetime=10;
       ft_stringw=11;
+      ft_fulltextw=12;
 
 // for ContentGetValue
       ft_nosuchfield=-1;
