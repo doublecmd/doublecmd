@@ -117,6 +117,7 @@ uses
   uFileSourceProperty,
   uPixMapManager,
   uFileViewWorker,
+  uFileProperty,
   uFileSource,
   uFile;
 
@@ -322,15 +323,33 @@ var
   AFile: TDisplayFile;
   HaveIcons: Boolean;
   DirectAccess: Boolean;
+  AFilePropertiesNeeded: TFilePropertiesTypes;
 begin
   if (csDestroying in ComponentState) or
      (GetCurrentWorkType = fvwtCreate) or
      IsEmpty then
     Exit;
 
-  VisibleFiles := GetVisibleFilesIndexes;
   HaveIcons := gShowIcons <> sim_none;
+  VisibleFiles := GetVisibleFilesIndexes;
+  AFilePropertiesNeeded := FilePropertiesNeeded;
   DirectAccess := fspDirectAccess in FileSource.Properties;
+
+  // Property fpComment should be retrieved in main thread
+  if gListFilesInThread and (fpComment in AFilePropertiesNeeded) then
+  begin
+    for i := VisibleFiles.First to VisibleFiles.Last do
+    begin
+      AFile := FFiles[i];
+      if FileSource.CanRetrieveProperties(AFile.FSFile, [fpComment]) then
+      try
+        FileSource.RetrieveProperties(AFile.FSFile, [fpComment]);
+      except
+        on EFileNotFound do;
+      end;
+    end;
+    AFilePropertiesNeeded := AFilePropertiesNeeded - [fpComment];
+  end;
 
   if not gListFilesInThread then
   begin
@@ -374,7 +393,7 @@ begin
       begin
         AFile := FFiles[i];
         if (AFile.FSFile.Name <> '..') and
-           (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) or
+           (FileSource.CanRetrieveProperties(AFile.FSFile, AFilePropertiesNeeded) or
            (AFile.TextColor = clNone) or
            (HaveIcons and ((AFile.IconID < 0)
              {$IF DEFINED(MSWINDOWS)}
@@ -393,7 +412,7 @@ begin
         Worker := TFilePropertiesRetriever.Create(
           FileSource,
           WorkersThread,
-          FilePropertiesNeeded,
+          AFilePropertiesNeeded,
           @PropertiesRetrieverOnUpdate,
           AFileList);
 
