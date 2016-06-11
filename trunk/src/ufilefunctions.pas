@@ -358,6 +358,7 @@ var
   sUnits: String;
   Module: TWDXModule;
   Mi, mi2: TMenuItem;
+  WdxField: TWdxField;
 begin
   MenuItem.Clear;
 
@@ -390,24 +391,27 @@ begin
     // Load fields list
     for J:= 0 to Module.FieldList.Count - 1 do
     begin
-      MI:= TMenuItem.Create(MenuItem);
-      MI.Tag:= 1;
-      MI.Caption:= Module.FieldList[J];
-      MenuItem.Items[1].Items[MenuItem.Items[1].Count - 1].Add(MI);
-      with TWdxField(Module.FieldList.Objects[J]) do
-      if FType <> ft_multiplechoice then
+      WdxField:= TWdxField(Module.FieldList.Objects[J]);
+      if not (WdxField.FType in [ft_fulltext, ft_fulltextw]) then
       begin
-        sUnits:= FUnits;
-        while sUnits <> EmptyStr do
+        MI:= TMenuItem.Create(MenuItem);
+        MI.Tag:= 1;
+        MI.Caption:= Module.FieldList[J];
+        MenuItem.Items[1].Items[MenuItem.Items[1].Count - 1].Add(MI);
+        if WdxField.FType <> ft_multiplechoice then
         begin
-          MI2:=TMenuItem.Create(MenuItem);
-          MI2.Tag:= 2;
-          MI2.Caption:= Copy2SymbDel(sUnits, '|');
-          MI2.OnClick:= OnMenuItemClick;
-          MI.Add(MI2);
+          sUnits:= WdxField.FUnits;
+          while sUnits <> EmptyStr do
+          begin
+            MI2:=TMenuItem.Create(MenuItem);
+            MI2.Tag:= 2;
+            MI2.Caption:= Copy2SymbDel(sUnits, '|');
+            MI2.OnClick:= OnMenuItemClick;
+            MI.Add(MI2);
+          end;
         end;
+        if MI.Count = 0 then MI.OnClick:= OnMenuItemClick;
       end;
-      if MI.Count = 0 then MI.OnClick:= OnMenuItemClick;
     end;
   end;
 end;
