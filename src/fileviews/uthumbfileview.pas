@@ -395,6 +395,7 @@ begin
   inherited Create(AOwner, AParent);
   // Fix horizontal bar flash
   ScrollBars := ssAutoVertical;
+  Options := Options + [goDontScrollPartCell];
 end;
 
 procedure TThumbDrawGrid.DrawCell(aCol, aRow: Integer; aRect: TRect;
