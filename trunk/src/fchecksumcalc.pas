@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Calculate checksum dialog
 
-   Copyright (C) 2009-2013  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -146,9 +146,9 @@ procedure TfrmCheckSumCalc.FormCreate(Sender: TObject);
 var
   I: THashAlgorithm;
 begin
-  for I:= Low(HashFileExt) to High(HashFileExt) do
+  for I:= Low(HashName) to High(HashName) do
   begin
-    lbHashAlgorithm.Items.Add(UpperCase(HashFileExt[I]));
+    lbHashAlgorithm.Items.Add(UpperCase(HashName[I]));
   end;
   InitPropStorage(Self); // Must be *after* lbHashAlgorithm.Items has been loaded so index is restored correctly.
   if (lbHashAlgorithm.ItemIndex=-1) AND (lbHashAlgorithm.Count>0) then lbHashAlgorithm.ItemIndex:= 0;

@@ -271,6 +271,7 @@ procedure TFileSystemCalcChecksumOperation.InitializeLeftToRight(const Path: Str
 var
   I: Integer;
   FileName: String;
+  HashType: Boolean = False;
 begin
   for I := 0 to FCheckSumFile.Count - 1 do
   begin
@@ -278,6 +279,18 @@ begin
     if (Length(FCheckSumFile[I]) = 0) then Continue;
     // Skip comments
     if (FCheckSumFile[I][1] = ';') then Continue;
+
+    // Determine hash type by length
+    if (HashType = False) and (Algorithm = HASH_SHA3_224) then
+    begin
+      HashType := True;
+      case Length(FCheckSumFile.Names[I]) of
+        56:  ; // HASH_SHA3_224
+        64:  Algorithm := HASH_SHA3_256;
+        96:  Algorithm := HASH_SHA3_384;
+        128: Algorithm := HASH_SHA3_512;
+      end;
+    end;
 
     FileName := Copy(FCheckSumFile.ValueFromIndex[I], 2, MaxInt);
 
