@@ -29,7 +29,7 @@ interface
 uses
   SysUtils, DCBasicTypes
   {$IFDEF UNIX}
-  , BaseUnix, uMasks, LazUtf8
+  , BaseUnix, uMasks
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   , Windows
@@ -84,12 +84,12 @@ function CheckAttrMask(DefaultAttr : TFileAttrs; sAttr : String; Attr : TFileAtt
 implementation
 
 uses
-  LCLProc, uDebug
+  LazUTF8, uDebug
   {$IFDEF MSWINDOWS}
-  , LazUTF8, uMyWindows
+  , uMyWindows
   {$ENDIF}
   {$IFDEF UNIX}
-  , uMyUnix, Unix, FileUtil, DCOSUtils, DCFileAttributes
+  , uMyUnix, Unix, FileUtil, DCOSUtils, DCFileAttributes, DCConvertEncoding
   {$ENDIF};
 
 const
@@ -188,7 +188,7 @@ begin
         Mask := TMask.Create(SearchRec.Name);
       end;
 
-    DirPtr:= fpOpenDir(PChar(UTF8ToSys(sPath)));
+    DirPtr:= fpOpenDir(PChar(CeUtf8ToSys(sPath)));
   end;
   Result:= FindNextEx(SearchRec);
 end;
@@ -215,7 +215,7 @@ begin
   PtrDirEnt:= fpReadDir(UnixFindData^.DirPtr);
   while PtrDirEnt <> nil do
   begin
-    SearchRec.Name:= SysToUTF8(PtrDirEnt^.d_name);
+    SearchRec.Name:= CeSysToUtf8(PtrDirEnt^.d_name);
     Result:= mbFindMatchingFile(SearchRec);
     if Result = 0 then // if found then exit
       Exit
