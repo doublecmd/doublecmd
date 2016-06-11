@@ -84,6 +84,12 @@ begin
   StrPLCopy(FieldName, FIELD_NAME[FieldIndex], MaxLen - 1);
 end;
 
+function ContentGetValue(FileName: PAnsiChar; FieldIndex, UnitIndex: Integer;
+  FieldValue: PByte; MaxLen, Flags: Integer): Integer; dcpcall;
+begin
+  Result:= ft_nosuchfield;
+end;
+
 function ContentGetValueW(FileName: PWideChar; FieldIndex, UnitIndex: Integer;
   FieldValue: PByte; MaxLen, Flags: Integer): Integer; dcpcall;
 var
@@ -193,6 +199,7 @@ end;
 
 exports
   ContentGetSupportedField,
+  ContentGetValue,
   ContentGetValueW,
   ContentGetDetectString,
   ContentSetDefaultParams,
