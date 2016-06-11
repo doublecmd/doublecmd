@@ -103,10 +103,10 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  Clipbrd, LCLType, Graphics,
+  Clipbrd, LCLType, Graphics, LazUTF8, LCLIntf,
 
   //DC
-  DCStrUtils, dmHelpManager, uLng, uPixMapManager, uGlobs, fMain, uDebug, LazUTF8, LCLIntf;
+  DCStrUtils, dmHelpManager, uLng, uPixMapManager, uGlobs, fMain, uDebug, uClipboard;
 
 function ShowMainCommandDlgForm(DefaultCmd: string; var ReturnedCmd: string): boolean;
 var
@@ -460,7 +460,7 @@ end;
 procedure TfrmMainCommandsDlg.lblPlaceCaptionInClipClick(Sender: TObject);
 begin
   with Sender as TLabel do
-    Clipboard.AsText := Caption;
+    ClipboardSetText(Caption);
   ShowMessage(Format(rsMsgThisIsNowInClipboard, [Clipboard.AsText]));
 end;
 

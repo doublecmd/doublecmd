@@ -23,6 +23,7 @@ uses
   function FormatTextPlain(FileNames: TStringList): String;
 
   procedure ClearClipboard;
+  procedure ClipboardSetText(AText: String);
 
 const
   // General MIME
@@ -88,11 +89,13 @@ var
 implementation
 
 uses
+  Clipbrd
 {$IFDEF MSWINDOWS}
-  Windows, ActiveX, uOleDragDrop, fMain;
+  , Windows, ActiveX, uOleDragDrop, fMain
 {$ELSE IFDEF UNIX}
-  LCLIntf, Clipbrd;
+  , LCLIntf
 {$ENDIF}
+  ;
 
 
 procedure RegisterUserFormats;
@@ -706,6 +709,22 @@ begin
   Clipboard.AsText := '';
   Clipboard.Close;
 end;
+
+procedure ClipboardSetText(AText: String);
+begin
+{$IFNDEF LCLGTK2}
+  Clipboard.AsText := AText;
+{$ELSE}
+  // Workaround for Lazarus bug #0021453. LCL adds trailing zero to clipboard in Clipboard.AsText.
+  if Length(AText) = 0 then
+    Clipboard.AsText := ''
+  else begin
+    Clipboard.Clear;
+    Clipboard.AddFormat(PredefinedClipboardFormat(pcfText), AText[1], Length(AText));
+  end;
+{$ENDIF}
+end;
+
 {$ENDIF}
 
 initialization

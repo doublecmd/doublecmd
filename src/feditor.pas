@@ -231,9 +231,9 @@ implementation
 {$R *.lfm}
 
 uses
-  dmCommonData, dmHigh, SynEditTypes, LCLType, LConvEncoding,
+  Clipbrd, dmCommonData, dmHigh, SynEditTypes, LCLType, LConvEncoding,
   uLng, uShowMsg, fEditSearch, uGlobs, fOptions, DCClassesUtf8,
-  uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils;
+  uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard;
 
 function ShowEditor(const sFileName: String): TfrmEditor;
 begin
@@ -939,11 +939,13 @@ end;
 procedure TfrmEditor.cm_EditCopy(const Params:array of string);
 begin
   editor.CopyToClipboard;
+  ClipboardSetText(Clipboard.AsText);
 end;
 
 procedure TfrmEditor.cm_EditCut(const Params:array of string);
 begin
   Editor.CutToClipboard;
+  ClipboardSetText(Clipboard.AsText);
 end;
 
 procedure TfrmEditor.cm_EditPaste(const Params:array of string);
