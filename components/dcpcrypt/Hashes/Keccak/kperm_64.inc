@@ -33,10 +33,14 @@ const
 
 
 {---------------------------------------------------------------------------}
+{$IFDEF FPC}
+  {$MACRO ON} {$DEFINE RotL:= RolQWord}
+{$ELSE}
 function RotL(x: u64bit; c: integer): u64bit; {$ifdef HAS_INLINE} inline; {$endif}
 begin
   RotL := (x shl c) or (x shr (64-c));
 end;
+{$ENDIF}
 
 
 {---------------------------------------------------------------------------}

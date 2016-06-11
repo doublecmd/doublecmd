@@ -6,6 +6,15 @@ interface
 
 {$i STD.INC}
 
+{$ifdef FPC}
+  {$ifdef CPUI386}
+    {$define USE_MMXCODE}
+  {$endif}
+  {$ifdef CPU64}
+    {$define USE_64BITCODE}
+  {$endif}
+{$endif}
+
 {.$define USE_64BITCODE}   {Use 64-bit for Keccak permutation}
 {.$define USE_MMXCODE  }   {Use MMX for Keccak permutation, contributed by Eric Grange}
 {.$define USE_MMX_AKP  }   {Use MMX for Keccak permutation, contributed by Anna Kaliszewicz / payl}
