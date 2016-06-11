@@ -121,7 +121,7 @@ begin
   // Get a file's type (whether it is a regular file, symlink, etc).
   AFileType:= g_file_info_get_file_type (AFileInfo);
 
-  if AFileType = G_FILE_TYPE_DIRECTORY then
+  if AFileType in [G_FILE_TYPE_DIRECTORY, G_FILE_TYPE_SHORTCUT, G_FILE_TYPE_MOUNTABLE] then
     begin
       Result.Attributes:= Result.Attributes or S_IFDIR;
     end
