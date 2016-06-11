@@ -197,7 +197,7 @@ implementation
 
 uses
   LCLProc, Buttons, Clipbrd, DCStrUtils, uLng, uGlobs, uPixmapManager, uDebug,
-  uDCUtils, math, fMain, fOptions,
+  uDCUtils, math, fMain, fOptions, uClipboard,
   uOrderedFileView,
   uFileSourceProperty,
   uKeyboard,
@@ -1125,7 +1125,7 @@ begin
       end;
 
       Clipboard.Clear;   // prevent multiple formats in Clipboard
-      Clipboard.AsText:= TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle);
+      ClipboardSetText(TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle));
     finally
       FreeAndNil(sl);
     end;

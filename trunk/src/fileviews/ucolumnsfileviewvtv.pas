@@ -206,7 +206,7 @@ implementation
 
 uses
   LazUTF8, Clipbrd, uLng, uGlobs, uPixmapManager, uDebug,
-  DCStrUtils, uDCUtils, math, fMain, fOptions,
+  DCStrUtils, uDCUtils, math, fMain, fOptions, uClipboard,
   uFileViewNotebook,
   uOrderedFileView,
   uFileSourceProperty,
@@ -894,7 +894,7 @@ begin
       end;
 
       Clipboard.Clear;   // prevent multiple formats in Clipboard
-      Clipboard.AsText:= TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle);
+      ClipboardSetText(TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle));
     finally
       FreeAndNil(sl);
     end;

@@ -67,7 +67,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Clipbrd, dmHelpManager, uDCVersion;
+  Clipbrd, dmHelpManager, uDCVersion, uClipboard;
 
 const
   cIndention = LineEnding + #32#32;
@@ -164,7 +164,7 @@ begin
                     OSVersion]);
   if WSVersion <> EmptyStr then
     StrInfo := StrInfo + LineEnding + 'Widgetset library: ' + WSVersion;
-  Clipboard.AsText := StrInfo;
+  ClipboardSetText(StrInfo);
 end;
 
 procedure TfrmAbout.FormKeyDown(Sender: TObject; var Key: Word;
