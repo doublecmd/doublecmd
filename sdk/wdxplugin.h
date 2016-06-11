@@ -14,6 +14,7 @@
 #define ft_fulltext 9
 #define ft_datetime 10
 #define ft_stringw 11
+#define ft_fulltextw 12
 
 // for ContentGetValue
 #define ft_nosuchfield -1   // error, invalid field number given
