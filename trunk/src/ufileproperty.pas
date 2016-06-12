@@ -398,7 +398,7 @@ type
 implementation
 
 uses
-  DCOSUtils, DCFileAttributes, uDefaultFilePropertyFormatter;
+  DCOSUtils, DCFileAttributes, uDefaultFilePropertyFormatter, uDebug;
 
 resourcestring
   rsSizeDescription = 'Size';
@@ -481,7 +481,10 @@ var
 begin
   for i := 1 to Length(NewName) do
     if NewName[i] in AllowDirectorySeparators then
-      raise EInvalidFileProperty.CreateFmt('Name cannot have directory separators: "%s"', [NewName]);
+    begin
+      DCDebug('Name cannot have directory separators: "%s"', [NewName]);
+      Break;
+    end;
 
   FName := NewName;
 end;
