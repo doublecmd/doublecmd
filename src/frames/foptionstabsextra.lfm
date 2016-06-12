@@ -12,7 +12,7 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 344
+    Height = 474
     Top = 6
     Width = 708
     Anchors = [akTop, akLeft, akRight]
@@ -23,16 +23,16 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
     BorderSpacing.Bottom = 6
     Caption = 'Folder tabs headers extra'
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 324
+    ClientHeight = 444
     ClientWidth = 704
     TabOrder = 0
     object cbUseFavoriteTabsExtraOptions: TCheckBox
       AnchorSideLeft.Control = gbTabs
       AnchorSideTop.Control = gbTabs
       Left = 12
-      Height = 19
+      Height = 29
       Top = 6
-      Width = 394
+      Width = 592
       BorderSpacing.Left = 12
       BorderSpacing.Top = 6
       Caption = 'Enable Favorite Tabs extra options (select target side when restore, etc.)'
@@ -44,27 +44,27 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
       AnchorSideTop.Control = cbUseFavoriteTabsExtraOptions
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 113
-      Top = 35
-      Width = 337
+      Height = 153
+      Top = 45
+      Width = 450
       AutoSize = True
       BorderSpacing.Top = 10
       Caption = 'Default extra settings when saving new Favorite Tabs:'
       ChildSizing.LeftRightSpacing = 6
       ChildSizing.TopBottomSpacing = 6
-      ClientHeight = 93
-      ClientWidth = 333
+      ClientHeight = 123
+      ClientWidth = 446
       TabOrder = 1
       object cbDefaultTargetPanelLeftSaved: TComboBox
         AnchorSideTop.Control = gbDefaultTabSavedRestoration
         AnchorSideRight.Control = gbDefaultTabSavedRestoration
         AnchorSideRight.Side = asrBottom
-        Left = 227
-        Height = 23
+        Left = 340
+        Height = 33
         Top = 6
         Width = 100
         Anchors = [akTop, akRight]
-        ItemHeight = 15
+        ItemHeight = 25
         ItemIndex = 0
         Items.Strings = (
           'Left'
@@ -82,10 +82,10 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
         AnchorSideTop.Control = cbDefaultTargetPanelLeftSaved
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = cbDefaultTargetPanelLeftSaved
-        Left = 29
-        Height = 15
+        Left = 42
+        Height = 25
         Top = 10
-        Width = 194
+        Width = 294
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 4
         Caption = 'Tabs saved on left will be restored to:'
@@ -96,13 +96,13 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = cbDefaultTargetPanelLeftSaved
         AnchorSideRight.Side = asrBottom
-        Left = 227
-        Height = 23
-        Top = 35
+        Left = 340
+        Height = 33
+        Top = 45
         Width = 100
         Anchors = [akTop, akRight]
         BorderSpacing.Top = 6
-        ItemHeight = 15
+        ItemHeight = 25
         ItemIndex = 1
         Items.Strings = (
           'Left'
@@ -120,10 +120,10 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
         AnchorSideTop.Control = cbDefaultTargetPanelRightSaved
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = cbDefaultTargetPanelRightSaved
-        Left = 21
-        Height = 15
-        Top = 39
-        Width = 202
+        Left = 30
+        Height = 25
+        Top = 49
+        Width = 306
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 4
         Caption = 'Tabs saved on right will be restored to:'
@@ -134,13 +134,13 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = cbDefaultTargetPanelRightSaved
         AnchorSideRight.Side = asrBottom
-        Left = 227
-        Height = 23
-        Top = 64
+        Left = 340
+        Height = 33
+        Top = 84
         Width = 100
         Anchors = [akTop, akRight]
         BorderSpacing.Top = 6
-        ItemHeight = 15
+        ItemHeight = 25
         ItemIndex = 5
         Items.Strings = (
           'Left'
@@ -159,9 +159,9 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = cbDefaultExistingTabsToKeep
         Left = 6
-        Height = 15
-        Top = 68
-        Width = 217
+        Height = 25
+        Top = 88
+        Width = 330
         Anchors = [akTop, akRight]
         BorderSpacing.Top = 6
         BorderSpacing.Right = 4
@@ -175,9 +175,9 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
       AnchorSideTop.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
       Left = 12
-      Height = 19
-      Top = 280
-      Width = 331
+      Height = 29
+      Top = 380
+      Width = 499
       BorderSpacing.Top = 10
       Caption = 'Goto to Favorite Tabs Configuration after saving a new one'
       TabOrder = 2
@@ -188,9 +188,9 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
       AnchorSideTop.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
       Left = 12
-      Height = 19
-      Top = 299
-      Width = 284
+      Height = 29
+      Top = 409
+      Width = 428
       Caption = 'Goto to Favorite Tabs Configuration after resaving'
       TabOrder = 3
     end
@@ -201,11 +201,12 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
       AnchorSideRight.Control = gbDefaultTabSavedRestoration
       AnchorSideRight.Side = asrBottom
       Left = 12
-      Height = 89
-      Top = 181
-      Width = 337
+      Height = 129
+      Top = 241
+      Width = 450
       Anchors = [akTop, akLeft, akRight]
       AutoFill = True
+      AutoSize = True
       BorderSpacing.Top = 4
       Caption = 'Default position in menu when saving a new Favorite Tabs:'
       ChildSizing.LeftRightSpacing = 6
@@ -216,8 +217,8 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
       ChildSizing.ShrinkVertical = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 1
-      ClientHeight = 69
-      ClientWidth = 333
+      ClientHeight = 99
+      ClientWidth = 446
       Constraints.MinWidth = 200
       Items.Strings = (
         'Add at beginning'
@@ -231,12 +232,12 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbDefaultTabSavedRestoration
       AnchorSideTop.Side = asrBottom
-      Left = 236
-      Height = 23
-      Top = 154
+      Left = 345
+      Height = 33
+      Top = 204
       Width = 100
       BorderSpacing.Top = 6
-      ItemHeight = 15
+      ItemHeight = 25
       ItemIndex = 0
       Items.Strings = (
         'No'
@@ -251,9 +252,9 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
       AnchorSideTop.Control = cbDefaultSaveDirHistory
       AnchorSideTop.Side = asrCenter
       Left = 12
-      Height = 15
-      Top = 158
-      Width = 220
+      Height = 25
+      Top = 208
+      Width = 329
       BorderSpacing.Top = 6
       BorderSpacing.Right = 4
       Caption = 'Keep saving dir history with Favorite Tabs:'
