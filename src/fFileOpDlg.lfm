@@ -82,6 +82,7 @@ object frmFileOp: TfrmFileOp
         Width = 476
         Align = alClient
         ParentColor = False
+        ShowAccelChar = False
       end
     end
     object pnlTo: TPanel
@@ -104,6 +105,7 @@ object frmFileOp: TfrmFileOp
         Width = 476
         Align = alClient
         ParentColor = False
+        ShowAccelChar = False
       end
       object lblTo: TLabel
         Left = 0

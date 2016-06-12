@@ -37,6 +37,7 @@ object frmCopyDlg: TfrmCopyDlg
     BorderSpacing.Top = 8
     BorderSpacing.Right = 8
     ParentColor = False
+    ShowAccelChar = False
   end
   object edtDst: TKASPathEdit
     AnchorSideLeft.Control = Owner

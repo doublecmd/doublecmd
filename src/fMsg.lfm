@@ -28,6 +28,7 @@ object frmMsg: TfrmMsg
     BorderSpacing.Right = 12
     Caption = '456456465465465'
     ParentColor = False
+    ShowAccelChar = False
   end
   object pnlButtons: TPanel
     AnchorSideBottom.Side = asrBottom

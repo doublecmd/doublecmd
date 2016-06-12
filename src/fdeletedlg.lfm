@@ -25,6 +25,7 @@ inherited frmDeleteDlg: TfrmDeleteDlg
       Width = 399
       Anchors = [akTop, akLeft, akRight]
       ParentColor = False
+      ShowAccelChar = False
       WordWrap = True
     end
   end
