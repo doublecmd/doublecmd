@@ -6417,6 +6417,11 @@ msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
 msgid "View log file content"
 msgstr "Просмотреть содержимое файла отчёта"
 
+#: tfrmoptionsmisc.chkdesccreateunicode.caption
+msgctxt "tfrmoptionsmisc.chkdesccreateunicode.caption"
+msgid "Create new with the encoding:"
+msgstr "Создавать новые с кодировкой:"
+
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "При смене диска всегда пере&ходить в корневой каталог"
@@ -6440,9 +6445,18 @@ msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
 msgid "Thumbnails"
 msgstr "Эскизы"
 
+#: tfrmoptionsmisc.gbfilecomments.caption
+msgid "File comments (descript.ion)"
+msgstr "Комментарии к файлам (descript.ion)"
+
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
 msgstr "Касательно TC экспорта/импорта:"
+
+#: tfrmoptionsmisc.lbldescrdefaultencoding.caption
+msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
+msgid "Default encoding:"
+msgstr "Кодировка по умолчанию:"
 
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"

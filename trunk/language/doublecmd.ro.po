@@ -6542,6 +6542,11 @@ msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
 msgid "View log file content"
 msgstr ""
 
+#: tfrmoptionsmisc.chkdesccreateunicode.caption
+msgctxt "tfrmoptionsmisc.chkdesccreateunicode.caption"
+msgid "Create new with the encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Mer&gi întotdeauna la rădăcina discului când schimbi dispozitivele"
@@ -6565,8 +6570,17 @@ msgctxt "TFRMOPTIONSMISC.DBLTHUMBNAILS.CAPTION"
 msgid "Thumbnails"
 msgstr "Miniaturi"
 
+#: tfrmoptionsmisc.gbfilecomments.caption
+msgid "File comments (descript.ion)"
+msgstr ""
+
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
+msgstr ""
+
+#: tfrmoptionsmisc.lbldescrdefaultencoding.caption
+msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
+msgid "Default encoding:"
 msgstr ""
 
 #: tfrmoptionsmisc.lbltcconfig.caption

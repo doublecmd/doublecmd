@@ -6449,6 +6449,11 @@ msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
 msgid "View log file content"
 msgstr "Voir le contenu du fichier-journal"
 
+#: tfrmoptionsmisc.chkdesccreateunicode.caption
+msgctxt "tfrmoptionsmisc.chkdesccreateunicode.caption"
+msgid "Create new with the encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Toujours aller à la racine du lecteur lorsqu'on change de lecteur"
@@ -6472,9 +6477,18 @@ msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
 msgid "Thumbnails"
 msgstr "Vignettes"
 
+#: tfrmoptionsmisc.gbfilecomments.caption
+msgid "File comments (descript.ion)"
+msgstr ""
+
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
 msgstr "Concernant les importation/exportation avec TC:"
+
+#: tfrmoptionsmisc.lbldescrdefaultencoding.caption
+msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
+msgid "Default encoding:"
+msgstr ""
 
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
@@ -12213,3 +12227,4 @@ msgstr "Nombre de remplacements: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
+

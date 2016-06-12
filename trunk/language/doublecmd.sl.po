@@ -6422,6 +6422,11 @@ msgctxt "TFRMOPTIONSMISC.BTNVIEWCONFIGFILE.HINT"
 msgid "View log file content"
 msgstr "Preglej vsebino datoteke dnevnika"
 
+#: tfrmoptionsmisc.chkdesccreateunicode.caption
+msgctxt "tfrmoptionsmisc.chkdesccreateunicode.caption"
+msgid "Create new with the encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Med menjanjem pogonov vedno začni na &korenski mapi"
@@ -6445,10 +6450,19 @@ msgctxt "TFRMOPTIONSMISC.DBLTHUMBNAILS.CAPTION"
 msgid "Thumbnails"
 msgstr "Sličice"
 
+#: tfrmoptionsmisc.gbfilecomments.caption
+msgid "File comments (descript.ion)"
+msgstr ""
+
 #: tfrmoptionsmisc.gbtcexportimport.caption
 #, fuzzy
 msgid "Regarding TC export/import:"
 msgstr "Uvoz Izvoz"
+
+#: tfrmoptionsmisc.lbldescrdefaultencoding.caption
+msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
+msgid "Default encoding:"
+msgstr ""
 
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"

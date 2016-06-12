@@ -54,6 +54,7 @@ msgid "Copy &permissions"
 msgstr "Berechtigungen ko&pieren"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopytime.caption
+msgctxt "tfilesystemcopymoveoperationoptionsui.cbcopytime.caption"
 msgid "Copy d&ate/time"
 msgstr "D&atum/Zeit kopieren"
 
@@ -316,6 +317,7 @@ msgid "C&onnect"
 msgstr "Ve&rbinden"
 
 #: tfrmconnectionmanager.btndelete.caption
+msgctxt "tfrmconnectionmanager.btndelete.caption"
 msgid "&Delete"
 msgstr "&Löschen"
 
@@ -493,6 +495,7 @@ msgid "Undo"
 msgstr "Rückgängig machen"
 
 #: tfrmdiffer.actexit.caption
+msgctxt "tfrmdiffer.actexit.caption"
 msgid "E&xit"
 msgstr "&Beenden"
 
@@ -736,10 +739,12 @@ msgid "&Edit"
 msgstr "Bea&rbeiten"
 
 #: tfrmdiffer.mnuencoding.caption
+msgctxt "tfrmdiffer.mnuencoding.caption"
 msgid "En&coding"
 msgstr "&Kodierung"
 
 #: tfrmdiffer.mnufile.caption
+msgctxt "tfrmdiffer.mnufile.caption"
 msgid "&File"
 msgstr "&Datei"
 
@@ -1035,6 +1040,7 @@ msgid "Open as"
 msgstr "Öffnen als..."
 
 #: tfrmeditor.miencodingout.caption
+msgctxt "tfrmeditor.miencodingout.caption"
 msgid "Save as"
 msgstr "Speichern unter..."
 
@@ -1080,6 +1086,12 @@ msgstr "-"
 msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
+
+#: tfrmeditsearchreplace.btncancel.caption
+#, fuzzy
+msgctxt "tfrmeditsearchreplace.btncancel.caption"
+msgid "&Cancel"
+msgstr "Abbru&ch"
 
 #: tfrmeditsearchreplace.btnok.caption
 msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
@@ -1207,6 +1219,7 @@ msgid "To:"
 msgstr "Nach:"
 
 #: tfrmfileproperties.btnclose.caption
+msgctxt "tfrmfileproperties.btnclose.caption"
 msgid "&Close"
 msgstr "S&chließen"
 
@@ -1273,6 +1286,7 @@ msgid "-----------"
 msgstr "-----------"
 
 #: tfrmfileproperties.lblattrtextstr.caption
+msgctxt "tfrmfileproperties.lblattrtextstr.caption"
 msgid "Text:"
 msgstr "Text:"
 
@@ -1512,6 +1526,7 @@ msgid "&New search"
 msgstr "&Neue Suche"
 
 #: tfrmfinddlg.btnsavetemplate.caption
+msgctxt "tfrmfinddlg.btnsavetemplate.caption"
 msgid "&Save"
 msgstr "&Speichern"
 
@@ -1670,6 +1685,7 @@ msgid "Files"
 msgstr "Dateien"
 
 #: tfrmfinddlg.gbfinddata.caption
+msgctxt "tfrmfinddlg.gbfinddata.caption"
 msgid "Find Data"
 msgstr "Suche Daten"
 
@@ -1780,6 +1796,7 @@ msgid "Create hard link"
 msgstr "Erstelle Hardlink"
 
 #: tfrmhardlink.lblexistingfile.caption
+msgctxt "tfrmhardlink.lblexistingfile.caption"
 msgid "&Destination that the link will point to"
 msgstr "Bestehen&des Ziel (auf das der Hardlink zeigt)"
 
@@ -2011,6 +2028,7 @@ msgid "Show context menu"
 msgstr "&Zeige Kontextmenü"
 
 #: tfrmmain.actcopy.caption
+msgctxt "tfrmmain.actcopy.caption"
 msgid "Copy"
 msgstr "Kopieren"
 
@@ -2081,6 +2099,7 @@ msgid "Select any command and execute it"
 msgstr "Einen Befehl wählen und ausführen"
 
 #: tfrmmain.actedit.caption
+msgctxt "tfrmmain.actedit.caption"
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -2597,6 +2616,7 @@ msgid "Unselect All with the Same Ex&tension"
 msgstr "Alle mit der gleichen E&ndung abwählen"
 
 #: tfrmmain.actview.caption
+msgctxt "tfrmmain.actview.caption"
 msgid "View"
 msgstr "Betrachten"
 
@@ -2629,6 +2649,7 @@ msgid "Work with Directory Hotlist and parameters"
 msgstr "Mit der Verzeichnis-Hotlist und Parametern arbeiten"
 
 #: tfrmmain.btnf10.caption
+msgctxt "tfrmmain.btnf10.caption"
 msgid "Exit"
 msgstr "Beenden"
 
@@ -2653,6 +2674,7 @@ msgid "*"
 msgstr "*"
 
 #: tfrmmain.btnleftdirectoryhotlist.hint
+msgctxt "tfrmmain.btnleftdirectoryhotlist.hint"
 msgid "Directory Hotlist"
 msgstr "Favoriten für Verzeichnisse"
 
@@ -3152,6 +3174,7 @@ msgid "cm_name"
 msgstr ""
 
 #: tfrmmaincommandsdlg.lblselectedcommandcategory.caption
+msgctxt "tfrmmaincommandsdlg.lblselectedcommandcategory.caption"
 msgid "Category"
 msgstr "Kategorie"
 
@@ -3165,6 +3188,7 @@ msgid "Hint"
 msgstr "Hinweis"
 
 #: tfrmmaincommandsdlg.lblselectedcommandhotkey.caption
+msgctxt "tfrmmaincommandsdlg.lblselectedcommandhotkey.caption"
 msgid "Hotkey"
 msgstr "Tastaturkürzel"
 
@@ -4070,6 +4094,7 @@ msgid "&Delete"
 msgstr "L&öschen"
 
 #: tfrmoptionscustomcolumns.btnfont.caption
+msgctxt "tfrmoptionscustomcolumns.btnfont.caption"
 msgid "..."
 msgstr "..."
 
@@ -4382,6 +4407,7 @@ msgid "Position of frame panel after the comparison:"
 msgstr "Position des Frame-Panel nach dem Vergleich:"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnadd.caption"
 msgid "Add..."
 msgstr "Füge hinzu..."
 
@@ -4391,6 +4417,7 @@ msgid "Backup..."
 msgstr "Backup..."
 
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btndelete.caption"
 msgid "Delete..."
 msgstr "Lösche..."
 
@@ -4410,6 +4437,7 @@ msgid "Import..."
 msgstr "Importieren..."
 
 #: tfrmoptionsdirectoryhotlist.btninsert.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btninsert.caption"
 msgid "Insert..."
 msgstr "Einfügen..."
 
@@ -4428,6 +4456,7 @@ msgid "Some functions to select appropriate target"
 msgstr "Einige Funktionen um angemessene Ziele zu wählen"
 
 #: tfrmoptionsdirectoryhotlist.btnsort.caption
+msgctxt "tfrmoptionsdirectoryhotlist.btnsort.caption"
 msgid "Sort..."
 msgstr "Sortieren..."
 
@@ -4436,6 +4465,7 @@ msgid "When adding directory, add also target"
 msgstr "Beim Hinzufügen eines Verzeichnisses, auch das Ziel hinzufügen"
 
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
+msgctxt "tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption"
 msgid "Always expand tree"
 msgstr "Struktur immer aufklappen"
 
@@ -4462,6 +4492,7 @@ msgid "Directory Hotlist (reorder by drag && drop)"
 msgstr "Verzeichnis hotlist (Umsortieren durch Drag&&Drop"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
+msgctxt "tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption"
 msgid "Other options"
 msgstr "Andere Optionen"
 
@@ -4536,10 +4567,12 @@ msgid "directory I will browse to"
 msgstr "Verzeichnis zu dem gewechselt wird"
 
 #: tfrmoptionsdirectoryhotlist.micollapseall.caption
+msgctxt "tfrmoptionsdirectoryhotlist.micollapseall.caption"
 msgid "Collapse all"
 msgstr "Alle zusammenfalten"
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
+msgctxt "tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption"
 msgid "...current level of item(s) selected only"
 msgstr "...aktuelles Level an markierten Einträgen"
 
@@ -4624,6 +4657,7 @@ msgid "from \"wincmd.ini\" of TC"
 msgstr "aus einer \"wincmd.ini\" des TotalCommander"
 
 #: tfrmoptionsdirectoryhotlist.miopenallbranches.caption
+msgctxt "tfrmoptionsdirectoryhotlist.miopenallbranches.caption"
 msgid "Open all branches"
 msgstr "Alle Zweige öffnen"
 
@@ -4723,22 +4757,27 @@ msgid "-"
 msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.misorteverything.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misorteverything.caption"
 msgid "...everything, from A to Z!"
 msgstr "...alles von A bis Z"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup.caption"
 msgid "...single group of item(s) only"
 msgstr "...nur einzelne Gruppe von Einträgen"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup2.caption"
 msgid "Sort single group of item(s) only"
 msgstr "Sortiere nur einzelne Gruppe von Einträgen"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption"
 msgid "...content of submenu(s) selected, no sublevel"
 msgstr "...Inhalt von Untermenüs gewählt, aber keine tieferen Level"
 
 #: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
+msgctxt "tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption"
 msgid "...content of submenu(s) selected and all sublevels"
 msgstr "Inhalt von Untermenüs ausgewählt, auch alle tiferen Level"
 
@@ -5857,6 +5896,7 @@ msgid "Category &mask:"
 msgstr "Kategorie&maske"
 
 #: tfrmoptionsfiletypescolors.lblcategoryname.caption
+msgctxt "tfrmoptionsfiletypescolors.lblcategoryname.caption"
 msgid "Category &name:"
 msgstr "Kategorie&name"
 
@@ -6108,6 +6148,7 @@ msgid "&Letters"
 msgstr "&Buchstaben"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
+msgctxt "tfrmoptionslayout.cbflatdiskpanel.caption"
 msgid "&Flat buttons"
 msgstr "&Flache Buttons"
 
@@ -6316,6 +6357,11 @@ msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
 msgid "View log file content"
 msgstr "Inhalt der Log-Datei betrachten"
 
+#: tfrmoptionsmisc.chkdesccreateunicode.caption
+msgctxt "tfrmoptionsmisc.chkdesccreateunicode.caption"
+msgid "Create new with the encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Beim Wechsel des Laufwerkes immer zur &obersten Ebenen des Laufwerkes wechseln"
@@ -6337,9 +6383,18 @@ msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
 msgid "Thumbnails"
 msgstr "Vorschaubilder"
 
+#: tfrmoptionsmisc.gbfilecomments.caption
+msgid "File comments (descript.ion)"
+msgstr ""
+
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
 msgstr "In Bezug auf TC Import/Export:"
+
+#: tfrmoptionsmisc.lbldescrdefaultencoding.caption
+msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
+msgid "Default encoding:"
+msgstr ""
 
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
@@ -6692,6 +6747,7 @@ msgid "Parameters:"
 msgstr "Parameter:"
 
 #: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
+msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "{Befehl} sollte normalerweise hier angezeigt werden um den Befehl im Terminal auszuführen"
 
@@ -7235,6 +7291,7 @@ msgid "Button type"
 msgstr "Button-Typ"
 
 #: tfrmoptionstoolbase.btnrelativetoolpath.hint
+msgctxt "tfrmoptionstoolbase.btnrelativetoolpath.hint"
 msgid "Some functions to select appropriate path"
 msgstr "Einige Funktionen um angemessene Pfade zu wählen"
 
@@ -7883,6 +7940,7 @@ msgid "Execute"
 msgstr "Ausführen"
 
 #: tfrmsetfileproperties.lblmodeinfo.caption
+msgctxt "tfrmsetfileproperties.lblmodeinfo.caption"
 msgid "(gray field means unchanged value)"
 msgstr "(Ein graues Feld bedeutet, dass ein Wert unverändert bleibt)"
 
@@ -8271,6 +8329,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmtweakplugin.btnremove.caption
+msgctxt "tfrmtweakplugin.btnremove.caption"
 msgid "&Remove"
 msgstr "Entfe&rnen"
 
@@ -9142,6 +9201,7 @@ msgid "Calculate files and folders"
 msgstr "Berechne Dateien und Verzeichnisse"
 
 #: ulng.rsdlgchecksumcalc
+msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate checksum..."
 msgstr "Berechne Prüfsumme..."
 
@@ -9567,6 +9627,7 @@ msgid "No media available"
 msgstr "Kein Datenträger verfügbar"
 
 #: ulng.rsmnuopen
+msgctxt "ulng.rsmnuopen"
 msgid "Open"
 msgstr "Öffnen"
 
@@ -10662,7 +10723,7 @@ msgstr ""
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
-msgstr "Fehler! Kann den angegebenen gewünschten TC-Toolbar Ausgabeordner nicht finden:\n"
+msgstr "Fehler! Kann den angegebenen gewünschten TC-Toolbar Ausgabeordner nicht finden:"
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
@@ -11508,6 +11569,7 @@ msgid "Named pipe"
 msgstr "Benannte Pipe"
 
 #: ulng.rspropsno
+msgctxt "ulng.rspropsno"
 msgid "No"
 msgstr "Nein"
 
@@ -11995,6 +12057,7 @@ msgid "Bad Quality"
 msgstr "Schlechte Qualität"
 
 #: ulng.rsviewencoding
+msgctxt "ulng.rsviewencoding"
 msgid "Encoding"
 msgstr "Kodierung"
 
@@ -12026,3 +12089,4 @@ msgstr "Anzahl der Ersetzungen: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Nichts wurde ersetzt."
+
