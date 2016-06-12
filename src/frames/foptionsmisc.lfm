@@ -170,13 +170,13 @@ inherited frmOptionsMisc: TfrmOptionsMisc
   end
   object gbTCExportImport: TGroupBox[1]
     AnchorSideLeft.Control = gbExtended
-    AnchorSideTop.Control = gbExtended
+    AnchorSideTop.Control = gbFileComments
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = gbExtended
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 164
-    Top = 225
+    Top = 292
     Width = 707
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -187,7 +187,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     ChildSizing.VerticalSpacing = 2
     ClientHeight = 144
     ClientWidth = 703
-    TabOrder = 1
+    TabOrder = 2
     TabStop = True
     Visible = False
     object fneTCExecutableFilename: TFileNameEdit
@@ -492,13 +492,13 @@ inherited frmOptionsMisc: TfrmOptionsMisc
   end
   object gbFileComments: TGroupBox[2]
     AnchorSideLeft.Control = gbExtended
-    AnchorSideTop.Control = gbTCExportImport
+    AnchorSideTop.Control = gbExtended
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = gbExtended
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 55
-    Top = 401
+    Top = 225
     Width = 707
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -511,7 +511,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
     ChildSizing.ControlsPerLine = 4
     ClientHeight = 35
     ClientWidth = 703
-    TabOrder = 2
+    TabOrder = 1
     object lblDescrDefaultEncoding: TLabel
       Left = 6
       Height = 23
