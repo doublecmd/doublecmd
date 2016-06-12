@@ -333,7 +333,7 @@ begin
     fsFileStream.Free;
   end;
   // Try to guess encoding
-  FEncoding:= DetectEncoding(S, FEncoding);
+  FEncoding:= DetectEncoding(S, FEncoding, True);
   // If need convert encoding
   case FEncoding of
     meUTF8:    Text:= S;

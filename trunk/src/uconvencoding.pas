@@ -32,7 +32,7 @@ type
 function TextIsASCII(const S: String): Boolean;
 function DetectEncoding(const S: String): String; overload;
 function SingleByteEncoding(TextEncoding: String): Boolean;
-function DetectEncoding(const S: String; ADefault: TMacroEncoding): TMacroEncoding; overload;
+function DetectEncoding(const S: String; ADefault: TMacroEncoding; AStrict: Boolean): TMacroEncoding; overload;
 
 implementation
 
@@ -380,7 +380,7 @@ begin
   end;
 
   // Try detect Unicode
-  case DetectEncoding(S, meOEM) of
+  case DetectEncoding(S, meOEM, False) of
     meUTF8:    Exit(EncodingUTF8);
     meUTF8BOM: Exit(EncodingUTF8BOM);
     meUTF16LE: Exit(EncodingUCS2LE);
@@ -409,7 +409,8 @@ begin
             (TextEncoding <> EncodingUCS2LE) and (TextEncoding <> EncodingUCS2BE);
 end;
 
-function DetectEncoding(const S: String; ADefault: TMacroEncoding): TMacroEncoding;
+function DetectEncoding(const S: String; ADefault: TMacroEncoding;
+  AStrict: Boolean): TMacroEncoding;
 var
   L, P, I: Integer;
 begin
@@ -439,6 +440,7 @@ begin
 
   // Try UTF-8 (this includes ASCII)
   P:= 1;
+  I:= Ord(not AStrict);
   while (P <= L) do
   begin
     if Ord(S[P]) < 128 then
@@ -452,13 +454,11 @@ begin
       Inc(P, I);
     end;
   end;
-  if P > L then
-  begin
-    Result:= meUTF8;
-    Exit;
+  if I <> 0 then
+    Result:= meUTF8
+  else begin
+    Result:= ADefault;
   end;
-
-  Result:= ADefault;
 end;
 
 function TextIsASCII(const S: String): Boolean; inline;
