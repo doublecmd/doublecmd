@@ -448,7 +448,7 @@ begin
     end
     else begin
       I:= UTF8CharacterStrictLength(@S[P]);
-      if I = 0 then Break;
+      if I = 0 then Exit(ADefault);
       Inc(P, I);
     end;
   end;
