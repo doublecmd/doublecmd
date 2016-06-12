@@ -6589,6 +6589,11 @@ msgctxt "TFRMOPTIONSMISC.BTNVIEWCONFIGFILE.HINT"
 msgid "View log file content"
 msgstr "Vis logfilens indhold"
 
+#: tfrmoptionsmisc.chkdesccreateunicode.caption
+msgctxt "tfrmoptionsmisc.chkdesccreateunicode.caption"
+msgid "Create new with the encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Gå &altid til drevets rod ved skift af drev"
@@ -6612,9 +6617,18 @@ msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
 msgid "Thumbnails"
 msgstr "Miniaturebilleder"
 
+#: tfrmoptionsmisc.gbfilecomments.caption
+msgid "File comments (descript.ion)"
+msgstr ""
+
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
 msgstr "Angående TC-eksport/-import"
+
+#: tfrmoptionsmisc.lbldescrdefaultencoding.caption
+msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
+msgid "Default encoding:"
+msgstr ""
 
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"

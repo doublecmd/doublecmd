@@ -7143,6 +7143,11 @@ msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
 msgid "View log file content"
 msgstr "Ver contenido de archivo registro"
 
+#: tfrmoptionsmisc.chkdesccreateunicode.caption
+msgctxt "tfrmoptionsmisc.chkdesccreateunicode.caption"
+msgid "Create new with the encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Ir siempre a directorio raíz de la unidad al cambiar la misma"
@@ -7170,9 +7175,18 @@ msgctxt "tfrmoptionsmisc.dblthumbnails.caption"
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
+#: tfrmoptionsmisc.gbfilecomments.caption
+msgid "File comments (descript.ion)"
+msgstr ""
+
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
 msgstr "Relacionado a TC exportar/importar:"
+
+#: tfrmoptionsmisc.lbldescrdefaultencoding.caption
+msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
+msgid "Default encoding:"
+msgstr ""
 
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"

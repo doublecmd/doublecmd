@@ -6382,6 +6382,11 @@ msgctxt "TFRMOPTIONSMISC.BTNVIEWCONFIGFILE.HINT"
 msgid "View log file content"
 msgstr "ログファイルの内容を表示"
 
+#: tfrmoptionsmisc.chkdesccreateunicode.caption
+msgctxt "tfrmoptionsmisc.chkdesccreateunicode.caption"
+msgid "Create new with the encoding:"
+msgstr ""
+
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "ドライブを変更する場合は必ずドライブのルートに移動(&g)"
@@ -6405,9 +6410,18 @@ msgctxt "TFRMOPTIONSMISC.DBLTHUMBNAILS.CAPTION"
 msgid "Thumbnails"
 msgstr "サムネイル"
 
+#: tfrmoptionsmisc.gbfilecomments.caption
+msgid "File comments (descript.ion)"
+msgstr ""
+
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
 msgstr "TCのエクスポート/インポートについて："
+
+#: tfrmoptionsmisc.lbldescrdefaultencoding.caption
+msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
+msgid "Default encoding:"
+msgstr ""
 
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
