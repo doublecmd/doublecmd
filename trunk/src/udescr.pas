@@ -150,7 +150,11 @@ begin
       // load description file if exists
       FLastDescrFile:= sDescrFile;
       if not mbFileExists(FLastDescrFile) then
-        FEncoding:= FNewEncoding // use new encoding if new file
+      begin
+        Clear;
+        // use new encoding if new file
+        FEncoding:= FNewEncoding;
+      end
       else begin
         FEncoding:= gDescReadEncoding;
         LoadFromFile(FLastDescrFile);
