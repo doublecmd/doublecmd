@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Encoding conversion and related stuff
 
-   Copyright (C) 2011 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2011-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit uConvEncoding;
@@ -26,9 +26,13 @@ unit uConvEncoding;
 
 interface
 
+type
+  TMacroEncoding = (meOEM, meANSI, meUTF8, meUTF8BOM, meUTF16LE, meUTF16BE);
+
 function TextIsASCII(const S: String): Boolean;
-function DetectEncoding(const S: String): String;
+function DetectEncoding(const S: String): String; overload;
 function SingleByteEncoding(TextEncoding: String): Boolean;
+function DetectEncoding(const S: String; ADefault: TMacroEncoding): TMacroEncoding; overload;
 
 implementation
 
@@ -341,7 +345,7 @@ begin
   end;
 end;
 
-function DetectEncoding(const s: string): string;
+function DetectEncoding(const S: String): String;
 
   function CompareI(p1, p2: PChar; Count: integer): boolean;
   var
@@ -366,67 +370,36 @@ function DetectEncoding(const s: string): string;
   end;
 
 var
-  l: Integer;
-  p: Integer;
-  EndPos: LongInt;
-  i: LongInt;
+  L, P: Integer;
+  EndPos: Integer;
 begin
-  l:= Length(s);
-  if l = 0 then begin
+  L:= Length(S);
+  if L = 0 then begin
     Result:= GetDefaultTextEncoding;
     Exit;
   end;
 
-  // try UTF-8 BOM (Byte Order Mark)
-  if CompareI(@s[1],#$EF#$BB#$BF,3) then begin
-    Result:=EncodingUTF8BOM;
-    exit;
+  // Try detect Unicode
+  case DetectEncoding(S, meOEM) of
+    meUTF8:    Exit(EncodingUTF8);
+    meUTF8BOM: Exit(EncodingUTF8BOM);
+    meUTF16LE: Exit(EncodingUCS2LE);
+    meUTF16BE: Exit(EncodingUCS2BE);
   end;
 
-  // try ucs-2le BOM FF FE
-  if (length(s)>=2) and (s[1]=#$FF) and (s[2]=#$FE) then begin
-    Result:=EncodingUCS2LE;
-    exit;
-  end;
-
-  // try ucs-2be BOM FE FF
-  if (length(s)>=2) and (s[1]=#$FE) and (s[2]=#$FF) then begin
-    Result:=EncodingUCS2BE;
-    exit;
-  end;
-
-  // try {%encoding eee}
-  if CompareI(@s[1],'{%encoding ',11) then begin
-    p:=12;
-    while (p<=l) and (s[p] in [' ',#9]) do inc(p);
-    EndPos:=p;
-    while (EndPos<=l) and (not (s[EndPos] in ['}',' ',#9])) do inc(EndPos);
-    Result:=NormalizeEncoding(copy(s,p,EndPos-p));
-    exit;
-  end;
-
-  // try UTF-8 (this includes ASCII)
-  p:=1;
-  while (p<=l) do begin
-    if ord(s[p])<128 then begin
-      // ASCII
-      inc(p);
-    end else begin
-      i:=UTF8CharacterStrictLength(@s[p]);
-      //DebugLn(['GuessEncoding ',i,' ',DbgStr(s[p])]);
-      if i=0 then begin
-        break;
-      end;
-      inc(p,i);
-    end;
-  end;
-  if p>l then begin
-    Result:=EncodingUTF8;
-    exit;
+  // Try {%encoding eee}
+  if (L >= 11) and CompareI(@S[1], '{%encoding ', 11) then
+  begin
+    P:= 12;
+    while (P <= L) and (S[P] in [' ', #9]) do Inc(P);
+    EndPos:= P;
+    while (EndPos <= L) and (not (S[EndPos] in ['}', ' ', #9])) do Inc(EndPos);
+    Result:= NormalizeEncoding(Copy(S, P, EndPos - P));
+    Exit;
   end;
 
   // Try to detect encoding
-  Result:= MyDetectCodePageType(s);
+  Result:= MyDetectCodePageType(S);
 end;
 
 function SingleByteEncoding(TextEncoding: String): Boolean;
@@ -434,6 +407,58 @@ begin
   TextEncoding := NormalizeEncoding(TextEncoding);
   Result := (TextEncoding <> EncodingUTF8) and (TextEncoding <> EncodingUTF8BOM) and
             (TextEncoding <> EncodingUCS2LE) and (TextEncoding <> EncodingUCS2BE);
+end;
+
+function DetectEncoding(const S: String; ADefault: TMacroEncoding): TMacroEncoding;
+var
+  L, P, I: Integer;
+begin
+  L:= Length(S);
+  if L = 0 then Exit(ADefault);
+
+  // Try UTF-8 BOM (Byte Order Mark)
+  if (L >= 3) and (S[1] = #$EF) and (S[2] = #$BB ) and (S[3] = #$BF) then
+  begin
+    Result:= meUTF8BOM;
+    Exit;
+  end;
+
+  // Try ucs-2le BOM FF FE
+  if (L >= 2) and (S[1] = #$FF) and (S[2] = #$FE) then
+  begin
+    Result:= meUTF16LE;
+    Exit;
+  end;
+
+  // Try ucs-2be BOM FE FF
+  if (L >= 2) and (S[1] = #$FE) and (S[2] = #$FF) then
+  begin
+    Result:= meUTF16BE;
+    Exit;
+  end;
+
+  // Try UTF-8 (this includes ASCII)
+  P:= 1;
+  while (P <= L) do
+  begin
+    if Ord(S[P]) < 128 then
+    begin
+      // ASCII
+      Inc(P);
+    end
+    else begin
+      I:= UTF8CharacterStrictLength(@S[P]);
+      if I = 0 then Break;
+      Inc(P, I);
+    end;
+  end;
+  if P > L then
+  begin
+    Result:= meUTF8;
+    Exit;
+  end;
+
+  Result:= ADefault;
 end;
 
 function TextIsASCII(const S: String): Boolean; inline;
