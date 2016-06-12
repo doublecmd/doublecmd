@@ -28,7 +28,7 @@ uses
   uFileSourceOperationOptions, uWFXModule, uWCXModule, uWDXModule, uwlxmodule,
   udsxmodule, DCXmlConfig, uInfoToolTip, fQuickSearch, uTypes, uClassesEx,
   uHotDir, uSpecialDir, uVariableMenuSupport, SynEdit, uFavoriteTabs,
-  fTreeViewMenu;
+  fTreeViewMenu, uConvEncoding;
 
 type
   { Configuration options }
@@ -421,6 +421,9 @@ var
   gThumbSave: Boolean;
   gSearchDefaultTemplate: String;
   gSearchTemplateList: TSearchTemplateList;
+  gDescCreateUnicode: Boolean;
+  gDescReadEncoding: TMacroEncoding;
+  gDescWriteEncoding: TMacroEncoding;
 
   { Auto refresh page }
   gWatchDirs: TWatchOptions;
@@ -1529,6 +1532,9 @@ begin
   gThumbSize.cx := 128;
   gThumbSize.cy := 128;
   gSearchDefaultTemplate := EmptyStr;
+  gDescReadEncoding:= meUTF8;
+  gDescWriteEncoding:= meUTF8BOM;
+  gDescCreateUnicode:= True;
 
   { Auto refresh page }
   gWatchDirs := [watch_file_name_change, watch_attributes_change];
@@ -2707,6 +2713,15 @@ begin
       gThumbSize.cy := GetValue(Node, 'Height', gThumbSize.cy);
     end;
 
+    { Description }
+    Node := Root.FindNode('Description');
+    if Assigned(Node) then
+    begin
+      gDescCreateUnicode := GetValue(Node, 'CreateNewUnicode', gDescCreateUnicode);
+      gDescReadEncoding  := TMacroEncoding(GetValue(Node, 'DefaultEncoding', Integer(gDescReadEncoding)));
+      gDescWriteEncoding := TMacroEncoding(GetValue(Node, 'CreateNewEncoding', Integer(gDescWriteEncoding)));
+    end;
+
     { Auto refresh page }
     Node := Root.FindNode('AutoRefresh');
     if Assigned(Node) then
@@ -3184,6 +3199,12 @@ begin
     SetAttr(Node, 'Save', gThumbSave);
     SetValue(Node, 'Width', gThumbSize.cx);
     SetValue(Node, 'Height', gThumbSize.cy);
+
+    { Description }
+    Node := FindNode(Root, 'Description', True);
+    SetValue(Node, 'CreateNewUnicode', gDescCreateUnicode);
+    SetValue(Node, 'DefaultEncoding', Integer(gDescReadEncoding));
+    SetValue(Node, 'CreateNewEncoding', Integer(gDescWriteEncoding));
 
     { Auto refresh page }
     Node := FindNode(Root, 'AutoRefresh', True);

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains class for working with file comments.
 
-   Copyright (C) 2008-2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit uDescr;
@@ -27,7 +27,7 @@ unit uDescr;
 interface
 
 uses
-  Classes, SysUtils, DCClassesUtf8;
+  Classes, SysUtils, DCClassesUtf8, uConvEncoding;
 
 const
   DESCRIPT_ION = 'descript.ion';
@@ -38,17 +38,17 @@ type
 
   TDescription = class(TStringListEx)
   private
-    FLastDescrFile,
-    FEncoding: String;
     FModified: Boolean;
-    FNewEncoding: String;
+    FLastDescrFile: String;
     FDestDescr: TDescription;
+    FEncoding: TMacroEncoding;
+    FNewEncoding: TMacroEncoding;
     procedure PrepareDescrFile(FileName: String);
     function GetDescription(Index: Integer): String;
     function GetDescription(const FileName: String): String;
     procedure SetDescription(Index: Integer; const AValue: String);
     procedure SetDescription(const FileName: String; const AValue: String);
-    procedure SetEncoding(const AValue: String);
+    procedure SetEncoding(const AValue: TMacroEncoding);
   public
     {en
        Create TDescription class
@@ -115,15 +115,11 @@ type
     }
     procedure Reset;
 
-    {$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5)) or ((FPC_VERSION = 2) and (FPC_RELEASE = 4) and (FPC_PATCH >= 4))}
     function Find(const S: string; out Index: Integer): Boolean; override;
-    {$ELSE}
-    function Find(const S: string; var Index: Integer): Boolean; override;
-    {$ENDIF}
     {en
        File description encoding
     }
-    property Encoding: String read FEncoding write SetEncoding;
+    property Encoding: TMacroEncoding read FEncoding write SetEncoding;
     {en
        Get description by file name
     }
@@ -137,7 +133,7 @@ type
 implementation
 
 uses
-  LConvEncoding, uDebug, DCOSUtils, uConvEncoding;
+  LConvEncoding, uDebug, DCOSUtils, DCConvertEncoding, UnicodeUtils, uGlobs;
 
 { TDescription }
 
@@ -156,14 +152,12 @@ begin
       if not mbFileExists(FLastDescrFile) then
         FEncoding:= FNewEncoding // use new encoding if new file
       else begin
+        FEncoding:= gDescReadEncoding;
         LoadFromFile(FLastDescrFile);
-        // try to guess encoding
-        FEncoding:= DetectEncoding(Text);
         // set target encoding
-        if Assigned(FDestDescr) then
+        if Assigned(FDestDescr) then begin
           FDestDescr.FNewEncoding:= FEncoding;
-        if FEncoding <> EncodingUTF8 then
-          Text:= ConvertEncoding(Text, FEncoding, EncodingUTF8);
+        end;
       end;
     except
       on E: Exception do
@@ -171,11 +165,7 @@ begin
     end;
 end;
 
-{$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5)) or ((FPC_VERSION = 2) and (FPC_RELEASE = 4) and (FPC_PATCH >= 4))}
 function TDescription.Find(const S: string; out Index: Integer): Boolean;
-{$ELSE}
-function TDescription.Find(const S: string; var Index: Integer): Boolean;
-{$ENDIF}
 var
   iIndex, iPosOfDivider, iLength, iFirstStringPos: Integer;
   sFileName, sIndexString: String;
@@ -254,9 +244,11 @@ function TDescription.GetDescription(const FileName: String): String;
 var
   I: Integer;
 begin
-  Result:= '';
   if Find(FileName, I) then
-    Result:= GetDescription(I);
+    Result:= GetDescription(I)
+  else begin
+    Result:= EmptyStr;
+  end;
 end;
 
 procedure TDescription.SetDescription(Index: Integer; const AValue: String);
@@ -292,49 +284,83 @@ begin
     AddDescription(FileName, AValue);
 end;
 
-procedure TDescription.SetEncoding(const AValue: String);
+procedure TDescription.SetEncoding(const AValue: TMacroEncoding);
 begin
   if FEncoding <> AValue then
-    begin
-      FEncoding:= AValue;
-      if mbFileExists(FLastDescrFile) then
-        LoadFromFile(FLastDescrFile);
-    end;
+  begin
+    FEncoding:= AValue;
+    if mbFileExists(FLastDescrFile) then
+      LoadFromFile(FLastDescrFile);
+  end;
 end;
 
 constructor TDescription.Create(UseSubDescr: Boolean);
 begin
   FModified:= False;
-  FEncoding:= EncodingUTF8; // by default
-  FNewEncoding:= EncodingUTF8;
-  if UseSubDescr then
+  FEncoding:= gDescReadEncoding;
+  if gDescCreateUnicode then
+    FNewEncoding:= gDescWriteEncoding
+  else begin
+    FNewEncoding:= gDescReadEncoding;
+  end;
+  if UseSubDescr then begin
     FDestDescr:= TDescription.Create(False)
-  else
-    FDestDescr:= nil;
+  end;
   inherited Create;
 end;
 
 destructor TDescription.Destroy;
 begin
-  if Assigned(FDestDescr) then
-    FreeAndNil(FDestDescr);
+  FreeAndNil(FDestDescr);
   inherited Destroy;
 end;
 
 procedure TDescription.LoadFromFile(const FileName: String);
+var
+  S: String;
+  fsFileStream: TFileStreamEx;
 begin
   FModified:= False;
-  inherited LoadFromFile(FileName);
-  if FEncoding <> EncodingUTF8 then
-    Text:= ConvertEncoding(Text, FEncoding, EncodingUTF8);
+  fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
+  try
+    SetLength(S, fsFileStream.Size);
+    fsFileStream.Read(S[1], Length(S));
+  finally
+    fsFileStream.Free;
+  end;
+  // Try to guess encoding
+  FEncoding:= DetectEncoding(S, FEncoding);
+  // If need convert encoding
+  case FEncoding of
+    meUTF8:    Text:= S;
+    meOEM:     Text:= CeOemToUtf8(S);
+    meANSI:    Text:= CeAnsiToUtf8(Text);
+    meUTF8BOM: Text:= Copy(S, 4, MaxInt);
+    meUTF16LE: Text:= Utf16LEToUtf8(Copy(S, 3, MaxInt));
+    meUTF16BE: Text:= Utf16BEToUtf8(Copy(S, 3, MaxInt));
+  end;
 end;
 
 procedure TDescription.SaveToFile(const FileName: String);
+var
+  S: String;
+  fsFileStream: TFileStreamEx;
 begin
   FModified:= False;
-  if FEncoding <> EncodingUTF8 then
-    Text:= ConvertEncoding(Text, EncodingUTF8, FEncoding);
-  inherited SaveToFile(FileName);
+  case FEncoding of
+    meUTF8:    S:= Text;
+    meANSI:    S:= CeUtf8ToAnsi(Text);
+    meOem:     S:= CeUtf8ToOem(Text);
+    meUTF8BOM: S:= UTF8BOM + Text;
+    meUTF16LE: S:= UTF16LEBOM + Utf8ToUtf16LE(Text);
+    meUTF16BE: S:= UTF16BEBOM + Utf8ToUtf16BE(Text);
+  end;
+  fsFileStream:= TFileStreamEx.Create(FileName, fmCreate or fmShareDenyWrite);
+  try
+    fsFileStream.Write(S[1], Length(S));
+  finally
+    fsFileStream.Free;
+  end;
 end;
 
 function TDescription.AddDescription(FileName, Descr: String): Integer;
@@ -366,11 +392,11 @@ begin
   Result:= False;
   PrepareDescrFile(FileName);
   if Find(FileName, I) then
-    begin
-      Delete(I);
-      FModified:= True;
-      Result:= True;
-    end;
+  begin
+    Delete(I);
+    FModified:= True;
+    Result:= True;
+  end;
 end;
 
 function TDescription.CopyDescription(const FileNameFrom, FileNameTo: String): Boolean;
@@ -380,11 +406,11 @@ begin
   Result:= False;
   PrepareDescrFile(FileNameFrom);
   if Find(FileNameFrom, I) then
-    begin
-      DCDebug(FileNameFrom, '=', DescrByIndex[I]);
-      FDestDescr.WriteDescription(FileNameTo, DescrByIndex[I]);
-      Result:= True;
-    end;
+  begin
+    DCDebug(FileNameFrom, '=', DescrByIndex[I]);
+    FDestDescr.WriteDescription(FileNameTo, DescrByIndex[I]);
+    Result:= True;
+  end;
 end;
 
 function TDescription.MoveDescription(const FileNameFrom, FileNameTo: String): Boolean;
@@ -394,13 +420,13 @@ begin
   Result:= False;
   PrepareDescrFile(FileNameFrom);
   if Find(FileNameFrom, I) then
-    begin
-      DCDebug(FileNameFrom, '=', DescrByIndex[I]);
-      FDestDescr.WriteDescription(FileNameTo, DescrByIndex[I]);
-      Delete(I);
-      FModified:= True;
-      Result:= True;
-    end;
+  begin
+    DCDebug(FileNameFrom, '=', DescrByIndex[I]);
+    FDestDescr.WriteDescription(FileNameTo, DescrByIndex[I]);
+    Delete(I);
+    FModified:= True;
+    Result:= True;
+  end;
 end;
 
 procedure TDescription.SaveDescription;
@@ -412,10 +438,10 @@ begin
       mbDeleteFile(FLastDescrFile);
     if Assigned(FDestDescr) then
       FDestDescr.SaveDescription;
-    except
-      on E: Exception do
-        DCDebug('TDescription.SaveDescription - ' + E.Message);
-    end;
+  except
+    on E: Exception do
+      DCDebug('TDescription.SaveDescription - ' + E.Message);
+  end;
 end;
 
 procedure TDescription.Reset;

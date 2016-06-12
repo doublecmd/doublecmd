@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Miscellaneous options page
 
-   Copyright (C) 2006-2016  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsMisc;
@@ -28,7 +28,7 @@ interface
 
 uses
   EditBtn, Buttons, Menus,
-  Classes, SysUtils, StdCtrls, Spin, DividerBevel, fOptionsFrame;
+  Classes, SysUtils, StdCtrls, Spin, ExtCtrls, DividerBevel, fOptionsFrame;
 
 type
 
@@ -36,12 +36,17 @@ type
 
   TfrmOptionsMisc = class(TOptionsEditor)
     btnThumbCompactCache: TButton;
+    chkDescCreateUnicode: TCheckBox;
     chkGoToRoot: TCheckBox;
     chkMarkMaskFilterWindows: TCheckBox;
     chkThumbSave: TCheckBox;
     chkShowWarningMessages: TCheckBox;
+    cmbDescDefaultEncoding: TComboBox;
+    cmbDescCreateEncoding: TComboBox;
     dblThumbnails: TDividerBevel;
     gbExtended: TGroupBox;
+    gbFileComments: TGroupBox;
+    lblDescrDefaultEncoding: TLabel;
     lblThumbPixels: TLabel;
     lblThumbSize: TLabel;
     lblThumbSeparator: TLabel;
@@ -66,6 +71,7 @@ type
     procedure btnViewConfigFileClick(Sender: TObject);
     procedure btnOutputPathForToolbarClick(Sender: TObject);
     procedure btnRelativeOutputPathForToolbarClick(Sender: TObject);
+    procedure chkDescCreateUnicodeChange(Sender: TObject);
     procedure GenericSomethingChanged(Sender: TObject);
   private
     FModificationTookPlace: Boolean;
@@ -86,7 +92,7 @@ implementation
 
 uses
   uShowMsg, fOptions, Forms, Dialogs, fMain, Controls, uSpecialDir, uShowForm,
-  uGlobs, uLng, uThumbnails;
+  uGlobs, uLng, uThumbnails, uConvEncoding;
 
 { TfrmOptionsMisc }
 
@@ -123,6 +129,24 @@ begin
   fneTCConfigFilename.DialogTitle := rsMsgLocateTCConfiguation;
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper, mp_PATHHELPER, nil);
   {$ENDIF}
+
+  case gDescReadEncoding of
+    meOEM:  cmbDescDefaultEncoding.ItemIndex:= 0;
+    meANSI: cmbDescDefaultEncoding.ItemIndex:= 1;
+    meUTF8: cmbDescDefaultEncoding.ItemIndex:= 2;
+    else    cmbDescDefaultEncoding.ItemIndex:= 2;
+  end;
+
+  case gDescWriteEncoding of
+    meUTF8BOM: cmbDescCreateEncoding.ItemIndex:= 0;
+    meUTF16LE: cmbDescCreateEncoding.ItemIndex:= 1;
+    meUTF16BE: cmbDescCreateEncoding.ItemIndex:= 2;
+    else       cmbDescCreateEncoding.ItemIndex:= 0;
+  end;
+
+  chkDescCreateUnicode.Checked:= gDescCreateUnicode;
+  chkDescCreateUnicodeChange(chkDescCreateUnicode);
+
   FModificationTookPlace := False;
 end;
 
@@ -140,6 +164,21 @@ begin
   gTotalCommanderConfigFilename := fneTCConfigFilename.FileName;
   gTotalCommanderToolbarPath := edOutputPathForToolbar.Text;
   {$ENDIF}
+
+  case cmbDescDefaultEncoding.ItemIndex of
+    0: gDescReadEncoding:= meOEM;
+    1: gDescReadEncoding:= meANSI;
+    2: gDescReadEncoding:= meUTF8;
+  end;
+
+  case cmbDescCreateEncoding.ItemIndex of
+    0: gDescWriteEncoding:= meUTF8BOM;
+    1: gDescWriteEncoding:= meUTF16LE;
+    2: gDescWriteEncoding:= meUTF16BE;
+  end;
+
+  gDescCreateUnicode:= chkDescCreateUnicode.Checked;
+
   FModificationTookPlace := False;
 end;
 
@@ -183,6 +222,11 @@ begin
   edOutputPathForToolbar.SetFocus;
   gSpecialDirList.SetSpecialDirRecipientAndItsType(edOutputPathForToolbar, pfPATH);
   pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+procedure TfrmOptionsMisc.chkDescCreateUnicodeChange(Sender: TObject);
+begin
+  cmbDescCreateEncoding.Enabled:= chkDescCreateUnicode.Checked;
 end;
 
 { TfrmOptionsMisc.GenericSomethingChanged }

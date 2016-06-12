@@ -39,13 +39,12 @@ type
     ActionList: TActionList;
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
-    cbEncoding: TComboBox;
+    cbEncoding: TStaticText;
     lblFileName: TLabel;
     lblEncoding: TLabel;
     lblEditCommentFor: TLabel;
     memDescr: TMemo;
     procedure actExecute(Sender: TObject);
-    procedure cbEncodingChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure memDescrKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -67,8 +66,8 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, LConvEncoding, DCStrUtils, uHotkeyManager, uLng, uGlobs,
-  uFileSystemFileSource;
+  TypInfo, LCLType, LConvEncoding, DCStrUtils, uHotkeyManager, uLng, uGlobs,
+  uFileSystemFileSource, uConvEncoding;
 
 const
   HotkeysCategory = 'Edit Comment Dialog';
@@ -113,10 +112,6 @@ var
   HMForm: THMForm;
   Hotkey: THotkey;
 begin
-  // fill encoding combobox
-  cbEncoding.Clear;
-  GetSupportedEncodings(cbEncoding.Items);
-
   HMForm := HotMan.Register(Self, HotkeysCategory);
   Hotkey := HMForm.Hotkeys.FindByCommand('cm_SaveDescription');
 
@@ -136,15 +131,8 @@ begin
 end;
 
 procedure TfrmDescrEdit.DisplayEncoding;
-var
-  I: Integer;
 begin
-  for I:= 0 to cbEncoding.Items.Count - 1 do
-    if SameText(NormalizeEncoding(cbEncoding.Items.Strings[I]), FDescr.Encoding) then
-      begin
-        cbEncoding.ItemIndex:= I;
-        Break;
-      end;
+  cbEncoding.Caption:= Copy(GetEnumName(System.TypeInfo(TMacroEncoding), Ord(FDescr.Encoding)), 3 , MaxInt);
 end;
 
 constructor TfrmDescrEdit.Create(TheOwner: TComponent);
@@ -156,12 +144,6 @@ end;
 procedure TfrmDescrEdit.cm_SaveDescription(const Params: array of string);
 begin
   ModalResult:= btnOK.ModalResult;
-end;
-
-procedure TfrmDescrEdit.cbEncodingChange(Sender: TObject);
-begin
-  FDescr.Encoding:= cbEncoding.Text;
-  memDescr.Lines.Text:= FDescr.ReadDescription(lblFileName.Caption);
 end;
 
 procedure TfrmDescrEdit.actExecute(Sender: TObject);
