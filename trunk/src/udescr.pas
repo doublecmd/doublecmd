@@ -338,7 +338,7 @@ begin
   case FEncoding of
     meUTF8:    Text:= S;
     meOEM:     Text:= CeOemToUtf8(S);
-    meANSI:    Text:= CeAnsiToUtf8(Text);
+    meANSI:    Text:= CeAnsiToUtf8(S);
     meUTF8BOM: Text:= Copy(S, 4, MaxInt);
     meUTF16LE: Text:= Utf16LEToUtf8(Copy(S, 3, MaxInt));
     meUTF16BE: Text:= Utf16BEToUtf8(Copy(S, 3, MaxInt));
