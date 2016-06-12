@@ -11,21 +11,24 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 105
-    Top = 82
+    Height = 114
+    Top = 118
     Width = 647
     Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
     BorderSpacing.Around = 6
     Caption = 'Auto-size columns'
-    ClientHeight = 87
+    ChildSizing.LeftRightSpacing = 12
+    ChildSizing.TopBottomSpacing = 6
+    ClientHeight = 84
     ClientWidth = 643
     TabOrder = 1
     object chkAutoFillColumns: TCheckBox
       AnchorSideTop.Side = asrBottom
-      Left = 8
-      Height = 17
-      Top = 8
-      Width = 95
+      Left = 12
+      Height = 29
+      Top = 6
+      Width = 164
       Caption = 'A&uto fill columns'
       TabOrder = 0
     end
@@ -33,10 +36,10 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
       AnchorSideLeft.Control = chkAutoFillColumns
       AnchorSideTop.Control = cmbAutoSizeColumn
       AnchorSideTop.Side = asrCenter
-      Left = 8
-      Height = 13
-      Top = 39
-      Width = 84
+      Left = 12
+      Height = 25
+      Top = 49
+      Width = 141
       Caption = 'Auto si&ze column:'
       FocusControl = cmbAutoSizeColumn
       ParentColor = False
@@ -48,15 +51,15 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = grpAutosizeColumns
       AnchorSideRight.Side = asrBottom
-      Left = 104
-      Height = 21
-      Top = 35
-      Width = 529
+      Left = 165
+      Height = 33
+      Top = 45
+      Width = 466
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 12
       BorderSpacing.Top = 10
       BorderSpacing.Right = 10
-      ItemHeight = 13
+      ItemHeight = 25
       Items.Strings = (
         'First'
         'Last'
@@ -71,7 +74,7 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 70
+    Height = 106
     Top = 6
     Width = 647
     Anchors = [akTop, akLeft, akRight]
@@ -80,16 +83,16 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
     Caption = 'Show grid'
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 52
+    ClientHeight = 76
     ClientWidth = 643
     TabOrder = 0
     object cbGridVertLine: TCheckBox
       AnchorSideLeft.Control = gbShowGrid
       AnchorSideTop.Control = gbShowGrid
       Left = 12
-      Height = 17
+      Height = 29
       Top = 6
-      Width = 77
+      Width = 127
       Caption = '&Vertical lines'
       TabOrder = 0
     end
@@ -98,9 +101,9 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
       AnchorSideTop.Control = cbGridVertLine
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 17
-      Top = 29
-      Width = 90
+      Height = 29
+      Top = 41
+      Width = 152
       BorderSpacing.Top = 6
       Caption = '&Horizontal lines'
       TabOrder = 1
@@ -113,24 +116,24 @@ inherited frmOptionsColumnsView: TfrmOptionsColumnsView
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 47
-    Top = 193
+    Height = 71
+    Top = 238
     Width = 647
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Around = 6
-    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 29
+    ClientHeight = 41
     ClientWidth = 643
     TabOrder = 2
     object cbCutTextToColWidth: TCheckBox
-      Left = 6
-      Height = 17
+      Left = 12
+      Height = 29
       Top = 6
-      Width = 136
+      Width = 226
       Caption = 'Cut &text to column width'
       TabOrder = 0
     end
