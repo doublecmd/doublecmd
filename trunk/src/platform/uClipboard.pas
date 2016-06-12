@@ -709,6 +709,7 @@ begin
   Clipboard.AsText := '';
   Clipboard.Close;
 end;
+{$ENDIF}
 
 procedure ClipboardSetText(AText: String);
 begin
@@ -724,8 +725,6 @@ begin
   end;
 {$ENDIF}
 end;
-
-{$ENDIF}
 
 initialization
 
