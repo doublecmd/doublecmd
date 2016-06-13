@@ -310,6 +310,7 @@ var
   Written: Int64;
   FileSize: Int64;
   Percent: LongInt;
+  Flags: cint = O_CREAT or O_RDWR or O_TRUNC;
 begin
   OldFileName:= BuildNetworkPath(OldName);
   NewFileName:= BuildNetworkPath(NewName);
@@ -320,6 +321,10 @@ begin
     end
   else
     begin
+      if OverWrite = False then
+      begin
+        Flags:= Flags or O_EXCL;
+      end;
       BufferSize:= SMB_BUFFER_SIZE;
       Buffer:= GetMem(BufferSize);
       try
@@ -327,8 +332,14 @@ begin
         fdOldFile:= smbc_open(PChar(OldFileName), O_RDONLY, 0);
         if (fdOldFile < 0) then Exit(FS_FILE_READERROR);
         // Open target file
-        fdNewFile:= smbc_open(PChar(NewFileName), O_CREAT or O_RDWR or O_TRUNC, RemoteInfo^.Attr);
-        if (fdNewFile < 0) then Exit(FS_FILE_WRITEERROR);
+        fdNewFile:= smbc_open(PChar(NewFileName), Flags, RemoteInfo^.Attr);
+        if (fdNewFile < 0) then
+        begin
+          if cerrno = ESysEEXIST then
+            Exit(FS_FILE_EXISTS)
+          else
+            Exit(FS_FILE_WRITEERROR);
+        end;
         // Get source file size
         FileSize:= smbc_lseek(fdOldFile, 0, SEEK_END);
         smbc_lseek(fdOldFile, 0, SEEK_SET);
