@@ -373,8 +373,13 @@ var
   Written: Int64;
   FileSize: Int64;
   Percent: LongInt;
+  Flags: cint = O_CREAT or O_RDWR or O_TRUNC;
 begin
   OldFileName:= BuildNetworkPath(RemoteName);
+  if (CopyFlags and FS_COPYFLAGS_OVERWRITE) = 0 then
+  begin
+    Flags:= Flags or O_EXCL;
+  end;
   BufferSize:= SMB_BUFFER_SIZE;
   Buffer:= GetMem(BufferSize);
   try
@@ -382,8 +387,14 @@ begin
     fdOldFile:= smbc_open(PChar(OldFileName), O_RDONLY, 0);
     if (fdOldFile < 0) then Exit(FS_FILE_READERROR);
     // Open target file
-    fdNewFile:= fpOpen(PChar(LocalName), O_CREAT or O_RDWR or O_TRUNC, $1A4); // $1A4 = &644
-    if (fdNewFile < 0) then Exit(FS_FILE_WRITEERROR);
+    fdNewFile:= fpOpen(PChar(LocalName), Flags, $1A4); // $1A4 = &644
+    if (fdNewFile < 0) then
+    begin
+      if errno = ESysEEXIST then
+        Exit(FS_FILE_EXISTS)
+      else
+        Exit(FS_FILE_WRITEERROR);
+    end;
     // Get source file size
     FileSize:= smbc_lseek(fdOldFile, 0, SEEK_END);
     smbc_lseek(fdOldFile, 0, SEEK_SET);
@@ -426,47 +437,56 @@ var
   Written: Int64;
   FileSize: Int64;
   Percent: LongInt;
+  Flags: cint = O_CREAT or O_RDWR or O_TRUNC;
 begin
   NewFileName:= BuildNetworkPath(RemoteName);
+  if (CopyFlags and FS_COPYFLAGS_OVERWRITE) = 0 then
+  begin
+    Flags:= Flags or O_EXCL;
+  end;
+  BufferSize:= SMB_BUFFER_SIZE;
+  Buffer:= GetMem(BufferSize);
+  try
+    // Open source file
+    fdOldFile:= fpOpen(LocalName, O_RDONLY, 0);
+    if (fdOldFile < 0) then Exit(FS_FILE_READERROR);
+    // Open target file
+    fdNewFile:= smbc_open(PChar(NewFileName), Flags, 0);
+    if (fdNewFile < 0) then
     begin
-      BufferSize:= SMB_BUFFER_SIZE;
-      Buffer:= GetMem(BufferSize);
-      try
-        // Open source file
-        fdOldFile:= fpOpen(LocalName, O_RDONLY, 0);
-        if (fdOldFile < 0) then Exit(FS_FILE_READERROR);
-        // Open target file
-        fdNewFile:= smbc_open(PChar(NewFileName), O_CREAT or O_RDWR or O_TRUNC, 0);
-        if (fdNewFile < 0) then Exit(FS_FILE_WRITEERROR);
-        // Get source file size
-        FileSize:= fpLseek(fdOldFile, 0, SEEK_END);
-        fpLseek(fdOldFile, 0, SEEK_SET);
-        Written:= 0;
-        // Copy data
-        repeat
-          dwRead:= fpRead(fdOldFile, Buffer^, BufferSize);
-          if (dwRead < 0) then Exit(FS_FILE_READERROR);
-          if (dwRead > 0) then
-          begin
-            if smbc_write(fdNewFile, Buffer, dwRead) <> dwRead then
-              Exit(FS_FILE_WRITEERROR);
-            Written:= Written + dwRead;
-            // Calculate percent
-            Percent:= (Written * 100) div FileSize;
-            // Update statistics
-            if ProgressProc(PluginNumber, LocalName, PChar(NewFileName), Percent) = 1 then
-              Exit(FS_FILE_USERABORT);
-          end;
-        until (dwRead = 0);
-      finally
-        if Assigned(Buffer) then
-          FreeMem(Buffer);
-        if not (fdOldFile < 0) then
-          fpClose(fdOldFile);
-        if not (fdNewFile < 0) then
-          smbc_close(fdNewFile);
-      end;
+      if cerrno = ESysEEXIST then
+        Exit(FS_FILE_EXISTS)
+      else
+        Exit(FS_FILE_WRITEERROR);
     end;
+    // Get source file size
+    FileSize:= fpLseek(fdOldFile, 0, SEEK_END);
+    fpLseek(fdOldFile, 0, SEEK_SET);
+    Written:= 0;
+    // Copy data
+    repeat
+      dwRead:= fpRead(fdOldFile, Buffer^, BufferSize);
+      if (dwRead < 0) then Exit(FS_FILE_READERROR);
+      if (dwRead > 0) then
+      begin
+        if smbc_write(fdNewFile, Buffer, dwRead) <> dwRead then
+          Exit(FS_FILE_WRITEERROR);
+        Written:= Written + dwRead;
+        // Calculate percent
+        Percent:= (Written * 100) div FileSize;
+        // Update statistics
+        if ProgressProc(PluginNumber, LocalName, PChar(NewFileName), Percent) = 1 then
+          Exit(FS_FILE_USERABORT);
+      end;
+    until (dwRead = 0);
+  finally
+    if Assigned(Buffer) then
+      FreeMem(Buffer);
+    if not (fdOldFile < 0) then
+      fpClose(fdOldFile);
+    if not (fdNewFile < 0) then
+      smbc_close(fdNewFile);
+  end;
   Result:= FS_FILE_OK;
 end;
 
