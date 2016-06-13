@@ -6645,7 +6645,7 @@ msgstr "I plugin dei compr&essori sono usati per aprire archivi non supportati i
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "I plu&gin di contenuto permettono di visualizzare dettagli estesi sui file come tag mp3 o attributi di immagine nella lista file, o di usarli negli strumenti di ricerca e nello strumento Multi-Rinomina."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -6655,7 +6655,7 @@ msgstr "I plugin del Fi&le system permettono l'accesso a dischi altrimenti inacc
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "I plugin del visualizzatore consentono di aprire formati di file come immagini, fogli elettronici, database ecc. in Visualizza/Mostra (F3, Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption

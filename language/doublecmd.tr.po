@@ -6759,12 +6759,12 @@ msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
 msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Alternatif arama algoritmaları kullanmak için arama eklentilerine veya harici araçlara izin ver(\"yerini belirle\",vb.gibi)"
 
-#: tfrmoptionsplugins.lblwcxdescription.caption
+#: tfrmoptionsplugins.lblwcallow one to displaytion
 #, fuzzy
 #| msgid "Packer plugins are used to work with archives."
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
 msgid "Pack&er plugins are used to work with archives"
-msgstr "Arşivler ile çalışmak için sıkıştırma eklentileri kullanılabilir."
+msgstr "Ar�allow one to display�şmak için sıkıştırma eklentileri kullanılabilir."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 #, fuzzy
@@ -6776,9 +6776,9 @@ msgstr "İçerik eklentilerine izin ver, genişletilmiş dosya ayrıntıları gi
 #: tfrmoptionsplugins.lblwfxdescription.caption
 #, fuzzy
 #| msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
+msgctxt "TFRMOPTIONSPLUGINS.LBLallow one to displayAPTION"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Dosya sistemi eklentileri işletim sistemi tarafından ulaşılmaz disklere veya (Palm/PocketPC) gibi harici cihazlara erişim sağlar"
+msgstr "Dosya sistemi eklentileri işletim sistemi tarafından ulaşılmaz disklere veya allow one to displaygibi harici cihazlara erişim sağlar"
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 #, fuzzy

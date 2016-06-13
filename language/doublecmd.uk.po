@@ -6705,7 +6705,7 @@ msgstr "Ар&хіваторні плагіни дозволяють працюв
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "&Інформаційні плагіни дозволяють відображати розширені відомості про файли, такі як mp3 теги або атрибути зображення, або використовувати їх для пошуку або у інструменті масового перейменування."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -6715,7 +6715,7 @@ msgstr "Плагіни &файлових систем дозволяють зв�
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "&Плагіни перегляду дозволяють відобразити різні формати файлів, такі як: зображення, бази даних, таблиці та інші у Переглядачі (F3, Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption

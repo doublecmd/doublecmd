@@ -6551,7 +6551,7 @@ msgstr "Πρόσθετα πακεταρίσματος χρησιμοποιούν
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Τα πρόσθετα περιεχομένου επιτρέπουν την εμφάνιση επιπλέον λεπτομερειών του αρχείου όπως mp3 tags ή ιδιότητες εικόνας στις λίστες αρχείων, ή χρήση τους στην αναζήτηση και στο εργαλείο μετονομασίας πολλών"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -6561,7 +6561,7 @@ msgstr "Τα πρόσθετα αρχείων συστήματος επιτρέπ
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Τα πρόσθετα προβολέα επιτρέπουν την εμφάνιση τύπων αρχείων όπως εικόνες, υπολογιστικά φύλλα, βάσεις δεδομένων κ.λ.π στον Προβολέα (F3, Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption

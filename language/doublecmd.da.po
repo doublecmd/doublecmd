@@ -6721,7 +6721,7 @@ msgstr "Pakke-plugins bruges til at åbne arkivtyper, som ikke er understøttet 
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Indholds-plugins tillader at vise udvidede fildetaljer f.eks. mp3-tags eller fotooplysninger i fillister. Kan bruges i søgning og multi-omdøbning."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -6731,7 +6731,7 @@ msgstr "Filsystem-plugins giver adgang til diske, som er utilgængelige for oper
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Lister-pluins giver mulighed for at vise dataformater som f.eks. billeder, regneark, databaser etc. i Vis (F3, Ctrl+Q)."
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption

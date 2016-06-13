@@ -6513,7 +6513,7 @@ msgstr "圧縮プラグインはアーカイブの操作に使われます(&e)�
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "コンテンツ・プラグインは、ファイルリストにおいて、MP3のタグのようなファイルの拡張情報や画像属性の表示を可能にします。またこれは、検索と複数リネームツールで使用します(&g)。"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -6523,7 +6523,7 @@ msgstr "ファイルシステム・プラグインは、OSによってアクセ�
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "ビューア・プラグインは、ビューアの中で、画像、スプレッドシート、データベース等のフォーマットを表示します(&w)。（F3, Ctrl+Q）"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption

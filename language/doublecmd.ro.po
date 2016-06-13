@@ -6673,7 +6673,7 @@ msgstr "Module pack&er sunt utilizate pentru a lucra cu arhivele"
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Modulele de conținut permit afișarea extinsă a detaliilor fișierelor, precum etichete mp3 sau atributele ima&ginii în listele de fișiere, sau utilizarea lor în căutare sau în unealta de redenumire multiplă"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -6683,7 +6683,7 @@ msgstr "Modulele pentru fișiere&le de sistem permit accesul la discurile inacce
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Modulele de vizualizare (&w) permit afișarea formatelor de fișier cum ar fi imagini, foi de calcul, baze de date etc. în Vizualizator (F3, Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption

@@ -6484,7 +6484,7 @@ msgstr "Pack&er-PlugIns werden benutzt um mit Archiven zu arbeiten."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Inhalt-Plu&gins erlauben es, weitere Details (wie z.B. MP3-Tags) in Dateilisten anzuzeigen, oder sie zur Suche oder Umbenennung zu nutzen"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -6494,7 +6494,7 @@ msgstr "Dateisystem-P&lugins erlauben auf Dateisysteme oder externe Laufwerke zu
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Be&trachter-Plugins erlauben die Anzeige von Bilder, Tabellen, Datenbanken o.ä. mit dem Betrachter (F3 oder Strg+Q)."
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption

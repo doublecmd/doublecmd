@@ -7302,9 +7302,9 @@ msgstr "Compl&ementos de compresión son usados para trabajar con archivos compr
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 #, fuzzy
-#| msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+#| msgid "Content plugins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Complementos de contenido permiten mostrar detalles extendidos de archivos: etiquetas mp3, atributos de imagen (en lista de archivo); o pueden usarse con las herramientas de búsqueda o de renombrado múltiple"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -7316,9 +7316,9 @@ msgstr "Los complementos 'Sistema de archivos' permiten acceder a discos inacces
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 #, fuzzy
-#| msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+#| msgid "Viewer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Complementos de visualización permiten mostrar formatos de archivos como imágenes, base de datos, etc. en Visor (F3, Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption

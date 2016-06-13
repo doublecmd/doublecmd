@@ -7161,9 +7161,9 @@ msgstr "壓縮插件用於支援特定壓縮格式的處理"
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 #, fuzzy
-#| msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+#| msgid "Content plugins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "內容插件可允許在檔案清單顯示 MP3 標籤或圖片屬性等延伸的檔案詳細資料, 或是在搜尋和多重命名工具中使用"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -7175,9 +7175,9 @@ msgstr "檔案系統插件可允許存取一些作業系統上罕見的檔案系
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 #, fuzzy
-#| msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+#| msgid "Viewer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "檢視器插件可允許顯示圖片,試算表,資料庫等檔案格式在檢視器"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption

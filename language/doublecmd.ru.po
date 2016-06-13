@@ -6548,7 +6548,7 @@ msgstr "Позволяют р&аботать с архивами."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Позвол&яют использовать расширенные сведения о файлах (теги mp3, атрибуты изображений и т.д.) в панелях или при поиске/переименовании."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -6558,7 +6558,7 @@ msgstr "Позволя&ют обращаться к дискам, недосту
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Позволяют ото&бражать во внутреннем просмотрщике (F3, Ctrl+Q) файлы различных форматов, таких как рисунки, таблицы, базы данных и т.д."
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption

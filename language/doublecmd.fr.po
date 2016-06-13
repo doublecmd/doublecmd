@@ -6587,7 +6587,7 @@ msgstr "Les \"plugins\" de compresseur sont utilisés pour travailler avec les a
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Les \"plugins\" de contenu permettent d'afficher la liste des métadonnées des fichiers comme les tags mp3 ou les attributs des images. Ils permettent aussi d'utiliser ces métadonnées dans les recherches ou l'outil de renommage en lots."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -6597,7 +6597,7 @@ msgstr "Les \"plugins\" de dystème de fichier permettent d'accéder à des syst
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Les \"plugins\" de visualisation permettent d'afficher différents formats de fichiers comme les images, les tableurs, les bases de données, etc, dans une visionneuse intégrée. (F3, Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
