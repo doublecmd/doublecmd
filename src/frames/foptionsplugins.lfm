@@ -81,7 +81,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
         BorderSpacing.Left = 10
         BorderSpacing.Top = 12
         BorderSpacing.Right = 10
-        Caption = 'Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool'
+        Caption = 'Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool'
         FocusControl = stgPlugins
         ParentColor = False
         WordWrap = True
@@ -129,7 +129,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
         BorderSpacing.Left = 10
         BorderSpacing.Top = 12
         BorderSpacing.Right = 10
-        Caption = 'Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)'
+        Caption = 'Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)'
         FocusControl = stgPlugins
         ParentColor = False
         WordWrap = True
