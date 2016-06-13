@@ -6674,7 +6674,7 @@ msgstr "Priključci za sažimanje se upotrebljavaju za rad sa arhivama"
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Priključci za sadržaje se upotrebljavaju za proširenje prikaza pojedinosti datoteka kao što su mp3 oznake ili svojstva slika u spiskovima datoteka, ili se koriste u priključcima pretrage i alatima za višestruko preimanovanje"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -6684,7 +6684,7 @@ msgstr "Priključci sistema datoteka& omogućavaju pristup radnjama sa diskovima
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Priključci za pregled omogućavaju prikaz oblika datoteka kao što su slike, tabele, baze podataka itd. u pregledniku (F3, Ktrl+Ku)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption

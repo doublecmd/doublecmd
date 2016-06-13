@@ -7169,9 +7169,9 @@ msgstr "Els complements de compresors són utilitzats per treballar amb Fitxers.
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 #, fuzzy
-#| msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+#| msgid "Content plugins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Permet als complements de contingut mostrar detalls extesos del fitxer com les etiquetes mp3 o en llista de fitxer els atributs d'imatge, o usar-los amb les eines de cerca o de reanomenat múltiple"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -7183,9 +7183,9 @@ msgstr "Permet als complements de sistema de fitxers accedir a discos inaccessib
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 #, fuzzy
-#| msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+#| msgid "Viewer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Permet als complements de visionat mostrar fomats de fitxer com imatges, fulles de càlcul, bases de dades, etc. en Visualitza (F3, Ctrl+A)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
