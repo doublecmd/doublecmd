@@ -6759,18 +6759,18 @@ msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
 msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Alternatif arama algoritmalarÄ± kullanmak iÃ§in arama eklentilerine veya harici araÃ§lara izin ver(\"yerini belirle\",vb.gibi)"
 
-#: tfrmoptionsplugins.lblwcallow one to displaytion
+#: tfrmoptionsplugins.lblwcxdescription.caption
 #, fuzzy
 #| msgid "Packer plugins are used to work with archives."
-msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwcxdescription.caption"
 msgid "Pack&er plugins are used to work with archives"
 msgstr "ArÅallow one to display±ÅŸmak iÃ§in sÄ±kÄ±ÅŸtÄ±rma eklentileri kullanÄ±labilir."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 #, fuzzy
-#| msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+#| msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
-msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Ä°Ã§erik eklentilerine izin ver, geniÅŸletilmiÅŸ dosya ayrÄ±ntÄ±larÄ± gibi mp3 etiketleri veya resim Ã¶zniteliklerini dosya listelerinde gÃ¶rÃ¼ntÃ¼lemek iÃ§in veya onlarÄ± aramada kullan ve Ã§oklu-yeniden adlandÄ±rma aracÄ±"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
@@ -6782,9 +6782,9 @@ msgstr "Dosya sistemi eklentileri iÅŸletim sistemi tarafÄ±ndan ulaÅŸÄ±lmaz diskl
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
 #, fuzzy
-#| msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+#| msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"dosya tipi imgeleri ÄŸibigÃ¶rÃ¼ntÃ¼lemek iÃ§in izin verresimlerin"
-msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "GÃ¶rÃ¼ntÃ¼leyici eklentilerine izin ver, dosya tipleri,resimler,elektronik tablolar, veritabanlarÄ± vb. gibi.gÃ¶sterilmesini saÄŸlar(F3, Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
@@ -12154,7 +12154,7 @@ msgid "Select directory:"
 msgstr "Dizin SeÃ§:"
 
 #: ulng.rsstraccents
-msgid "Ã¡;Ã¢;Ã ;Ã¥;Ã£;Ã¤;Ã§;Ã©;Ãª;Ã¨;Ã«;Ã­;Ã®;Ã¬;Ã¯;Ã±;Ã³;Ã´;Ã²;Ã¸;Ãµ;Ã¶;Ãº;Ã»;Ã¹;Ã¼;Ã¿;Ã;Ã‚;Ã€;Ã…;Ãƒ;Ã„;Ã‡;Ã‰;ÃŠ;Ãˆ;Ã‹;Ã;Ã;ÃŒ;Ã;Ã‘;Ã“;Ã”;Ã˜;Ã•;Ã–;ÃŸ;Ãš;Ã›;Ã™;Ãœ;Å¸;Â¿;Â¡;Å“;Ã¦;Ã†;Å’"
+msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;?;¿;¡;?;æ;Æ;?"
 msgstr ""
 
 #: ulng.rsstraccentsstripped
