@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-05-22 14:24+0300\n"
+"PO-Revision-Date: 2016-06-14 14:24+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2040,12 +2040,12 @@ msgstr "Панель инструментов..."
 #: tfrmmain.actconfigtreeviewmenus.caption
 msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
 msgid "Configuration of Tree View Menu"
-msgstr ""
+msgstr "Настройка Древовидного Меню"
 
 #: tfrmmain.actconfigtreeviewmenuscolors.caption
 msgctxt "tfrmmain.actconfigtreeviewmenuscolors.caption"
 msgid "Configuration of Tree View Menu Colors"
-msgstr ""
+msgstr "Настройка цветов Древовидного Меню"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -5990,17 +5990,17 @@ msgstr "..."
 
 #: tfrmoptionsfonts.lblconsolefont.caption
 msgid "&Console font"
-msgstr "&Консоли"
+msgstr "&Консоль"
 
 #: tfrmoptionsfonts.lbleditorfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION"
 msgid "&Editor font"
-msgstr "&Редактора"
+msgstr "&Редактор"
 
 #: tfrmoptionsfonts.lbllogfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLLOGFONT.CAPTION"
 msgid "&Log font"
-msgstr "Протоко&ла"
+msgstr "Протоко&л"
 
 #: tfrmoptionsfonts.lblmainfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
@@ -6009,21 +6009,21 @@ msgstr "О&сновной"
 
 #: tfrmoptionsfonts.lblpatheditfont.caption
 msgid "Path font"
-msgstr "Имени текущего каталога"
+msgstr "Имя текущего &каталога"
 
 #: tfrmoptionsfonts.lblsearchresultsfont.caption
 msgid "Search results font"
-msgstr "Результатов поиска"
+msgstr "Результаты поиска"
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
 msgid "Viewer&Book Font"
-msgstr "Просмотрщика (режим \"&Книга\")"
+msgstr "Просмотрщик в режиме \"&Книга\""
 
 #: tfrmoptionsfonts.lblviewerfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERFONT.CAPTION"
 msgid "&Viewer font"
-msgstr "Прос&мотрщика"
+msgstr "Прос&мотрщик"
 
 #: tfrmoptionshotkeys.btnaddhotkey.caption
 msgid "Add &hotkey"
@@ -6201,7 +6201,7 @@ msgstr "&Буквы"
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
 msgid "&Flat buttons"
-msgstr "П&лоские"
+msgstr "П&лоские кнопки"
 
 #: tfrmoptionslayout.cbflatinterface.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATINTERFACE.CAPTION"
@@ -6211,7 +6211,7 @@ msgstr "Плоский инт&ерфейс"
 #: tfrmoptionslayout.cbflattoolbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATTOOLBAR.CAPTION"
 msgid "Flat b&uttons"
-msgstr "Пло&ские"
+msgstr "Пло&ские кнопки"
 
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFREESPACEIND.CAPTION"
@@ -6428,7 +6428,7 @@ msgstr "При смене диска всегда пере&ходить в ко�
 
 #: tfrmoptionsmisc.chkmarkmaskfilterwindows.caption
 msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
+msgstr "Фильтр для файлов в стиле Windows (\"*.*\" выделяет также файлы без расширения и т.д.)"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
@@ -7518,140 +7518,128 @@ msgid "With History:"
 msgstr "С Историей:"
 
 #: tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btncursorcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btncursorcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnfoundtextundercursor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnnormaltextundercursor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnsecondarytextundercursor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnshortcutundercursor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnunselectabletextcolor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnunselectableundercursor.caption"
 msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
 msgid "Use and display keyboard shortcut for choosing items"
-msgstr ""
+msgstr "Использовать и показывать сочетания клавиш для выбора пунктов"
 
 #: tfrmoptionstreeviewmenucolor.gblayoutandcolors.caption
 msgid "Layout and colors options:"
-msgstr ""
+msgstr "Настройки цвета и макет:"
 
 #: tfrmoptionstreeviewmenucolor.lblbackgroundcolor.caption
 msgid "Background color:"
-msgstr ""
+msgstr "Фон:"
 
 #: tfrmoptionstreeviewmenucolor.lblcursorcolor.caption
 msgid "Cursor color:"
-msgstr ""
+msgstr "Курсор:"
 
 #: tfrmoptionstreeviewmenucolor.lblfoundtextcolor.caption
 msgid "Found text color:"
-msgstr ""
+msgstr "Найденный текст:"
 
 #: tfrmoptionstreeviewmenucolor.lblfoundtextundercursor.caption
 msgid "Found text under cursor:"
-msgstr ""
+msgstr "Найденный текст под курсором:"
 
 #: tfrmoptionstreeviewmenucolor.lblnormaltextcolor.caption
 msgid "Normal text color:"
-msgstr ""
+msgstr "Нормальный текст:"
 
 #: tfrmoptionstreeviewmenucolor.lblnormaltextundercursor.caption
 msgid "Normal text under cursor:"
-msgstr ""
+msgstr "Нормальный текст под курсором:"
 
 #: tfrmoptionstreeviewmenucolor.lblpreview.caption
 msgid "Tree View Menu Preview:"
-msgstr ""
+msgstr "Предварительный просмотр:"
 
 #: tfrmoptionstreeviewmenucolor.lblsecondarytextcolor.caption
 msgid "Secondary text color:"
-msgstr ""
+msgstr "Дополнительный текст:"
 
 #: tfrmoptionstreeviewmenucolor.lblsecondarytextundercursor.caption
 msgid "Secondary text under cursor:"
-msgstr ""
+msgstr "Дополнительный текст под курсором:"
 
 #: tfrmoptionstreeviewmenucolor.lblshortcutcolor.caption
 msgid "Shortcut color:"
-msgstr ""
+msgstr "Горячая клавиша:"
 
 #: tfrmoptionstreeviewmenucolor.lblshortcutundercursor.caption
 msgid "Shortcut under cursor:"
-msgstr ""
+msgstr "Горячая клавиша под курсором:"
 
 #: tfrmoptionstreeviewmenucolor.lblunselectabletextcolor.caption
 msgid "Unselectable text color:"
-msgstr ""
+msgstr "Невыделяемый текст:"
 
 #: tfrmoptionstreeviewmenucolor.lblunselectableundercursor.caption
 msgid "Unselectable under cursor:"
-msgstr ""
+msgstr "Невыделяемый текст под курсором:"
 
 #: tfrmoptionstreeviewmenucolor.treeviewmenusample.hint
 msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
-msgstr ""
+msgstr "Измените цвета слева, и вы увидите, как будет выглядеть ваше Древовидное Меню."
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
@@ -8354,57 +8342,57 @@ msgstr "Подтвердить замену"
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"
-msgstr ""
+msgstr "Древовидное Меню"
 
 #: tfrmtreeviewmenu.lblsearchingentry.caption
 msgid "Select your hot directory:"
-msgstr ""
+msgstr "Выберите ваш избранный каталог:"
 
 #: tfrmtreeviewmenu.pmicasesensitive.caption
 msgid "Search is case sensitive"
-msgstr ""
+msgstr "Поиск чувствителен к регистру"
 
 #: tfrmtreeviewmenu.pmifullcollapse.caption
 msgid "Full collapse"
-msgstr ""
+msgstr "Свернуть все"
 
 #: tfrmtreeviewmenu.pmifullexpand.caption
 msgid "Full expand"
-msgstr ""
+msgstr "Развернуть все"
 
 #: tfrmtreeviewmenu.pmiignoreaccents.caption
 msgid "Search ignore accents and ligatures"
-msgstr ""
+msgstr "Игнорировать акценты и лигатуры"
 
 #: tfrmtreeviewmenu.pminotcasesensitive.caption
 msgid "Search is not case sensitive"
-msgstr ""
+msgstr "Поиск не чувствителен к регистру"
 
 #: tfrmtreeviewmenu.pminotignoreaccents.caption
 msgid "Search is strict regarding accents and ligatures"
-msgstr ""
+msgstr "Поиск с акцентами и лагитурами"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
 msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
-msgstr ""
+msgstr "Если строка найдена в имени ветви, то не показывать содержимое ветви"
 
 #: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
 msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
-msgstr ""
+msgstr "Если строка найдена в имени ветви, то показать всю ветвь, даже если элементы не соответствуют"
 
 #: tfrmtreeviewmenu.tbcancelandquit.hint
 msgid "Close Tree View Menu"
-msgstr ""
+msgstr "Закрыть Древовидное Меню"
 
 #: tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint
 msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint"
 msgid "Configuration of Tree View Menu"
-msgstr ""
+msgstr "Настроить Древовидное Меню"
 
 #: tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint
 msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint"
 msgid "Configuration of Tree View Menu Colors"
-msgstr ""
+msgstr "Настроить цвета Древовидного Меню"
 
 #: tfrmtweakplugin.btnadd.caption
 msgid "A&dd new"
@@ -9645,7 +9633,7 @@ msgstr "Не могу найти ссылку на файл панели инс�
 
 #: ulng.rskeyboardshortcutcomplement
 msgid "Press \"[ALT] + [Shortcut]\" keys and it will select the item"
-msgstr ""
+msgstr "Для выбора пункта нажмите кнопки \"[ALT] + [Shortcut]\""
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
@@ -11638,7 +11626,7 @@ msgstr "Разд&елитель;Внутрення&я команда;Вне&шн
 
 #: ulng.rsopttreeviewmenudirectoryhotlistusage
 msgid "Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel"
-msgstr ""
+msgstr "Никогда;Всегда;Подтверждать каждый раз;Горячими клавишами;Двойным кликом в верхней части панели"
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
@@ -12039,19 +12027,19 @@ msgstr "Временный файл со списком полных имён ф
 
 #: ulng.rsvarlistinutf16
 msgid "Filenames in list in UTF-16 with BOM"
-msgstr ""
+msgstr "Список в UTF-16LE с BOM"
 
 #: ulng.rsvarlistinutf16quoted
 msgid "Filenames in list in UTF-16 with BOM, inside double quotes"
-msgstr ""
+msgstr "Список в UTF-16LE с BOM, имена заключены в кавычки"
 
 #: ulng.rsvarlistinutf8
 msgid "Filenames in list in UTF-8"
-msgstr ""
+msgstr "Список в UTF-8"
 
 #: ulng.rsvarlistinutf8quoted
 msgid "Filenames in list in UTF-8, inside double quotes"
-msgstr ""
+msgstr "Список в UTF-8, имена заключены в кавычки"
 
 #: ulng.rsvarlistrelativefilename
 msgid "Temporary filename of list of filenames with relative path"
