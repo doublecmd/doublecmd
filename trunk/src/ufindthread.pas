@@ -775,7 +775,7 @@ begin
 
   if FindFirstEx(Path, faAnyFile, sr) = 0 then
   repeat
-    if not FPS_ISDIR(sr.Attr) then
+    if not (FPS_ISDIR(sr.Attr) or FileIsLinkToDirectory(sNewDir + PathDelim + sr.Name, sr.Attr)) then
       DoFile(sNewDir, sr)
     else if (sr.Name <> '.') and (sr.Name <> '..') then
       begin
