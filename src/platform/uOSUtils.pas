@@ -86,6 +86,7 @@ type
 
 function NtfsHourTimeDelay(const SourceName, TargetName: String): Boolean;
 function FileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boolean;
+function FileIsLinkToDirectory(const FileName: String; Attr: TFileAttrs): Boolean;
 {en
    Execute command line
 }
@@ -344,6 +345,19 @@ begin
   begin
     result:=True; //User abort, so let's fake all things completed.
   end;
+end;
+{$ENDIF}
+
+function FileIsLinkToDirectory(const FileName: String; Attr: TFileAttrs): Boolean;
+{$IFDEF UNIX}
+var
+  Info: BaseUnix.Stat;
+begin
+  Result:= FPS_ISLNK(Attr) and (fpStat(UTF8ToSys(FileName), Info) >= 0) and FPS_ISDIR(Info.st_mode);
+end;
+{$ELSE}
+begin
+  Result:= FPS_ISLNK(Attr) and FPS_ISDIR(Attr);
 end;
 {$ENDIF}
 
