@@ -430,8 +430,11 @@ end;
 var
   ClassName: WideString;
 begin
-  ClassName:= Form.ClassName;
-  QWidget_setWindowRole(QWidget_window(TQtWidget(Form.Handle).GetContainerWidget), @ClassName);
+  if not (Form is THintWindow) then
+  begin
+    ClassName:= Form.ClassName;
+    QWidget_setWindowRole(QWidget_window(TQtWidget(Form.Handle).GetContainerWidget), @ClassName);
+  end;
 end;
 {$ENDIF}
 
