@@ -48,6 +48,7 @@ object frmEditor: TfrmEditor
   }
   KeyPreview = True
   Menu = MainMenu1
+  OnClose = frmEditorClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   SessionProperties = 'Height;Width;WindowState;Left;Top'
