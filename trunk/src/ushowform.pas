@@ -54,12 +54,12 @@ procedure ShowViewerByGlobList(const FilesToView: TStringList;
 implementation
 
 uses
-  SysUtils, Process, DCProcessUtf8, Dialogs,
+  SysUtils, Process, DCProcessUtf8, Dialogs, LCLIntf,
   uShellExecute, uGlobs, uOSUtils, fEditor, fViewer, uDCUtils,
   uTempFileSystemFileSource, uLng, fDiffer, uDebug, DCOSUtils, uShowMsg,
   uFile, uFileSourceCopyOperation, uFileSystemFileSource,
   uFileSourceOperationOptions, uOperationsManager, uFileSourceOperationTypes,
-  uWcxArchiveFileSource, uWfxPluginFileSource;
+  uWcxArchiveFileSource, uWfxPluginFileSource, fFileExecuteYourSelf;
 
 type
 
@@ -81,6 +81,8 @@ type
   TEditorWaitThread = class(TThread)
   private
     FWaitData: TEditorWaitData;
+  private
+    procedure ShowWaitForm;
   protected
     procedure Execute; override;
   public
@@ -295,8 +297,14 @@ end;
 
 { TEditorWaitThread }
 
+procedure TEditorWaitThread.ShowWaitForm;
+begin
+  ShowFileEditExternal(FWaitData);
+end;
+
 procedure TEditorWaitThread.Execute;
 var
+  StartTime: QWord;
   Process : TProcessUTF8;
   sCmd, sSecureEmptyStr: String;
 begin
@@ -326,10 +334,17 @@ begin
 
   Process.CommandLine := sCmd;
   Process.Options := [poWaitOnExit];
+  StartTime:= GetTickCount64;
   Process.Execute;
   Process.Free;
 
-  EditDone(FWaitData);
+  if GetTickCount64 - StartTime < 800 then
+  begin
+    Synchronize(@ShowWaitForm);
+  end
+  else begin
+    EditDone(FWaitData);
+  end;
 end;
 
 constructor TEditorWaitThread.Create(WaitData: TEditorWaitData);
@@ -368,7 +383,6 @@ end;
 
 procedure TViewerWaitThread.Execute;
 var
-  I : Integer;
   Process : TProcessUTF8;
   sCmd, sSecureEmptyStr: String;
 begin
