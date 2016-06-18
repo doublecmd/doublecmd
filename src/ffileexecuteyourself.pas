@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Copy out, execute and delete files from non FileSystemFileSource
 
-   Copyright (C) 2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, StdCtrls, Buttons,
-  uFile, uFileSource, uFileView, uOSForms;
+  uFile, uFileSource, uFileView, uOSForms, uShowForm;
 
 type
 
@@ -46,12 +46,14 @@ type
     procedure FormCreate(Sender: TObject);
   private
     FFileSource: IFileSource;
+    FWaitData: TEditorWaitData;
   public
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource; const FileName, FromPath: String); reintroduce;
     destructor Destroy; override;
   end; 
 
-function ShowFileExecuteYourSelf(aFileView: TFileView; aFile: TFile; bWithAll: Boolean): Boolean;
+  procedure ShowFileEditExternal(aWaitData: TEditorWaitData);
+  function ShowFileExecuteYourSelf(aFileView: TFileView; aFile: TFile; bWithAll: Boolean): Boolean;
 
 implementation
 
@@ -59,6 +61,20 @@ implementation
 
 uses
   LCLProc, uTempFileSystemFileSource, uFileSourceOperation, uShellExecute, DCOSUtils;
+
+procedure ShowFileEditExternal(aWaitData: TEditorWaitData);
+var
+  APath: String;
+begin
+  APath:= aWaitData.TargetFileSource.CurrentAddress + aWaitData.TargetPath;
+  // Create wait window
+  with TfrmFileExecuteYourSelf.Create(Application, nil, ExtractFileName(aWaitData.FileName), APath) do
+  begin
+    FWaitData:= aWaitData;
+    // Show wait window
+    Show;
+  end;
+end;
 
 function ShowFileExecuteYourSelf(aFileView: TFileView; aFile: TFile; bWithAll: Boolean): Boolean;
 var
@@ -115,6 +131,7 @@ procedure TfrmFileExecuteYourSelf.FormClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
+  if Assigned(FWaitData) then EditDone(FWaitData);
 end;
 
 procedure TfrmFileExecuteYourSelf.FormCreate(Sender: TObject);
