@@ -152,6 +152,7 @@ begin
       if not mbFileExists(FLastDescrFile) then
       begin
         Clear;
+        FModified:= False;
         // use new encoding if new file
         FEncoding:= FNewEncoding;
       end
