@@ -72,7 +72,7 @@ begin
   begin
     FWaitData:= aWaitData;
     // Show wait window
-    Show;
+    Visible := True;
   end;
 end;
 
@@ -131,7 +131,6 @@ procedure TfrmFileExecuteYourSelf.FormClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
-  if Assigned(FWaitData) then EditDone(FWaitData);
 end;
 
 procedure TfrmFileExecuteYourSelf.FormCreate(Sender: TObject);
@@ -156,6 +155,7 @@ begin
   // Delete the temporary file source and all files inside.
   FFileSource:= nil;
   inherited Destroy;
+  if Assigned(FWaitData) then EditDone(FWaitData);
 end;
 
 end.

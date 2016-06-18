@@ -338,7 +338,7 @@ begin
   Process.Execute;
   Process.Free;
 
-  if GetTickCount64 - StartTime < 800 then
+  if GetTickCount64 - StartTime < gEditWaitTime then
   begin
     Synchronize(@ShowWaitForm);
   end
