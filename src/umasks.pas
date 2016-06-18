@@ -73,7 +73,7 @@ type
     function GetCount: Integer;
     function GetItem(Index: Integer): TMask;
   public
-    constructor Create(const AValue: string; ASeparatorCharset: string = ';,'; bCaseSensitive: boolean = False; bIgnoreAccents: boolean = False; bWindowsInterpretation: boolean = False);
+    constructor Create(const AValue: string; ASeparatorCharset: string = ';'; bCaseSensitive: boolean = False; bIgnoreAccents: boolean = False; bWindowsInterpretation: boolean = False);
     destructor Destroy; override;
 
     function Matches(const AFileName: String): Boolean;
@@ -83,7 +83,7 @@ type
   end;
 
 function MatchesMask(const FileName, Mask: String; CaseSensitive: Boolean = False): Boolean;
-function MatchesMaskList(const FileName, Mask: string; ASeparatorCharset: string = ';, '; ACaseSensitive: boolean = False; AIgnoreAccents: boolean = False; AWindowsInterpretation: boolean = False): boolean;
+function MatchesMaskList(const FileName, Mask: string; ASeparatorCharset: string = ';'; ACaseSensitive: boolean = False; AIgnoreAccents: boolean = False; AWindowsInterpretation: boolean = False): boolean;
 
 
 implementation
@@ -115,7 +115,7 @@ begin
 end;
 
 { MatchesMaskList }
-function MatchesMaskList(const FileName, Mask: string; ASeparatorCharset: string = ';, '; ACaseSensitive: boolean = False; AIgnoreAccents: boolean = False; AWindowsInterpretation: boolean = False): boolean;
+function MatchesMaskList(const FileName, Mask: string; ASeparatorCharset: string; ACaseSensitive: boolean = False; AIgnoreAccents: boolean = False; AWindowsInterpretation: boolean = False): boolean;
 var
   AMaskList: TMaskList;
 begin
