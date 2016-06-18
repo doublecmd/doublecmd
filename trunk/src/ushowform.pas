@@ -338,6 +338,9 @@ begin
   Process.Execute;
   Process.Free;
 
+  // If an editor closes within gEditWaitTime amount of milliseconds,
+  // assume that it's a multiple document editor and show dialog where
+  // user can confirm when editing has ended.
   if GetTickCount64 - StartTime < gEditWaitTime then
   begin
     Synchronize(@ShowWaitForm);
