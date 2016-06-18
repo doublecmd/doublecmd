@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-05-19 06:50+0900\n"
+"PO-Revision-Date: 2016-06-16 06:35+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 日本語\n"
 "Language: ja\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -2038,12 +2038,12 @@ msgstr "ツールバー…"
 #: tfrmmain.actconfigtreeviewmenus.caption
 msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
 msgid "Configuration of Tree View Menu"
-msgstr ""
+msgstr "ツリー表示のメニューの構成"
 
 #: tfrmmain.actconfigtreeviewmenuscolors.caption
 msgctxt "tfrmmain.actconfigtreeviewmenuscolors.caption"
 msgid "Configuration of Tree View Menu Colors"
-msgstr ""
+msgstr "ツリー表示メニューの色の構成"
 
 #: tfrmmain.actcontextmenu.caption
 msgid "Show context menu"
@@ -3233,6 +3233,18 @@ msgstr "定義(&D)…"
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "OK(&O)"
+
+#: tfrmmaskinputdlg.chkcasesensitive.caption
+msgid "Case sensitive"
+msgstr "大文字/小文字を区別"
+
+#: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
+msgid "Ignore accents and ligatures"
+msgstr "アクセントと合字を無視します。"
+
+#: tfrmmaskinputdlg.lblprompt.caption
+msgid "Input Mask:"
+msgstr "入力マスク："
 
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 msgid "O&r select predefined selection type:"
@@ -6385,7 +6397,7 @@ msgstr "ログファイルの内容を表示"
 #: tfrmoptionsmisc.chkdesccreateunicode.caption
 msgctxt "tfrmoptionsmisc.chkdesccreateunicode.caption"
 msgid "Create new with the encoding:"
-msgstr ""
+msgstr "このエンコーディングで新規作成："
 
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
@@ -6393,7 +6405,7 @@ msgstr "ドライブを変更する場合は必ずドライブのルートに移
 
 #: tfrmoptionsmisc.chkmarkmaskfilterwindows.caption
 msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
+msgstr "ファイル作成時にWindowsスタイルのフィルタを使用（「*.*」で拡張子なしのファイルを選択、等）"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
@@ -6412,7 +6424,7 @@ msgstr "サムネイル"
 
 #: tfrmoptionsmisc.gbfilecomments.caption
 msgid "File comments (descript.ion)"
-msgstr ""
+msgstr "ファイルコメント（説明"
 
 #: tfrmoptionsmisc.gbtcexportimport.caption
 msgid "Regarding TC export/import:"
@@ -6421,7 +6433,7 @@ msgstr "TCのエクスポート/インポートについて："
 #: tfrmoptionsmisc.lbldescrdefaultencoding.caption
 msgctxt "tfrmoptionsmisc.lbldescrdefaultencoding.caption"
 msgid "Default encoding:"
-msgstr ""
+msgstr "デフォルトのエンコーディング："
 
 #: tfrmoptionsmisc.lbltcconfig.caption
 msgid "Configuration file:"
@@ -8293,57 +8305,57 @@ msgstr "上書きを確認"
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
 msgid "Tree View Menu"
-msgstr ""
+msgstr "ツリー表示メニュー"
 
 #: tfrmtreeviewmenu.lblsearchingentry.caption
 msgid "Select your hot directory:"
-msgstr ""
+msgstr "ホットのディレクトリの選択："
 
 #: tfrmtreeviewmenu.pmicasesensitive.caption
 msgid "Search is case sensitive"
-msgstr ""
+msgstr "検索は大文字小文字を区別する"
 
 #: tfrmtreeviewmenu.pmifullcollapse.caption
 msgid "Full collapse"
-msgstr ""
+msgstr "すべて折りたたむ"
 
 #: tfrmtreeviewmenu.pmifullexpand.caption
 msgid "Full expand"
-msgstr ""
+msgstr "すべて展開する"
 
 #: tfrmtreeviewmenu.pmiignoreaccents.caption
 msgid "Search ignore accents and ligatures"
-msgstr ""
+msgstr "検索はアクセントや合字を無視する"
 
 #: tfrmtreeviewmenu.pminotcasesensitive.caption
 msgid "Search is not case sensitive"
-msgstr ""
+msgstr "検索は大文字小文字を区別しない"
 
 #: tfrmtreeviewmenu.pminotignoreaccents.caption
 msgid "Search is strict regarding accents and ligatures"
-msgstr ""
+msgstr "検索はアクセントや合字を厳密に扱う"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
 msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
-msgstr ""
+msgstr "検索した文字列がブランチ名に見つかった場合は、分岐の内容を表示しない"
 
 #: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
 msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
-msgstr ""
+msgstr "検索文字列が分岐名に見つかった場合、要素が一致しなくても分岐全体を表示する"
 
 #: tfrmtreeviewmenu.tbcancelandquit.hint
 msgid "Close Tree View Menu"
-msgstr ""
+msgstr "ツリー表示メニューを閉じる"
 
 #: tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint
 msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenus.hint"
 msgid "Configuration of Tree View Menu"
-msgstr ""
+msgstr "ツリー表示のメニューの構成"
 
 #: tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint
 msgctxt "tfrmtreeviewmenu.tbconfigurationtreeviewmenuscolors.hint"
 msgid "Configuration of Tree View Menu Colors"
-msgstr ""
+msgstr "ツリー表示メニューの色の構成"
 
 #: tfrmtweakplugin.btnadd.caption
 msgid "A&dd new"
@@ -10142,10 +10154,8 @@ msgstr ""
 " \n"
 
 #: ulng.rsmsgfilereadonly
-#, fuzzy
-#| msgid "File %s is marked as read-only. Delete it?"
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
-msgstr "ファイル＜%s＞は読み込み専用です。それでも削除しますか？"
+msgstr "ファイル %s は読み取り専用/非表示/システムとしてマークされます。それでも削除しますか。"
 
 #: ulng.rsmsgfilesizetoobig
 msgid "The file size of \"%s\" is too big for destination file system!"
@@ -11800,7 +11810,7 @@ msgid "Select directory:"
 msgstr "ディレクトリを選択："
 
 #: ulng.rsstraccents
-msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
+msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;#195;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
 msgstr ""
 
 #: ulng.rsstraccentsstripped
@@ -12020,19 +12030,19 @@ msgstr "完全なファイル名（パス＋ファイル名）のリストを保
 
 #: ulng.rsvarlistinutf16
 msgid "Filenames in list in UTF-16 with BOM"
-msgstr ""
+msgstr "リスト中のファイル名はBOM付きUTF-16 エンコーディング"
 
 #: ulng.rsvarlistinutf16quoted
 msgid "Filenames in list in UTF-16 with BOM, inside double quotes"
-msgstr ""
+msgstr "リスト中のファイル名はBOM付きUTF-16エンコーディング（二重引用符の中）"
 
 #: ulng.rsvarlistinutf8
 msgid "Filenames in list in UTF-8"
-msgstr ""
+msgstr "リスト中のファイル名はUTF-8エンコーディング"
 
 #: ulng.rsvarlistinutf8quoted
 msgid "Filenames in list in UTF-8, inside double quotes"
-msgstr ""
+msgstr "リスト中のファイル名はUTF-8エンコーディング（二重引用符の中）"
 
 #: ulng.rsvarlistrelativefilename
 msgid "Temporary filename of list of filenames with relative path"
@@ -12176,4 +12186,3 @@ msgstr "置換の回数：%d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "置換は起こりませんでした。"
-
