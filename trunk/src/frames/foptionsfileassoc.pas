@@ -45,6 +45,7 @@ type
     btnEditExt: TButton;
     btnParametersHelper: TSpeedButton;
     btnRelativePathIcon: TSpeedButton;
+    btnIconSelectFilename: TSpeedButton;
     btnStartPathVarHelper: TSpeedButton;
     btnRelativeCommand: TSpeedButton;
     btnStartPathPathHelper: TSpeedButton;
@@ -55,8 +56,8 @@ type
     btnRenameType: TButton;
     deStartPath: TDirectoryEdit;
     edbActionName: TEditButton;
+    edIconFileName: TEdit;
     edtParams: TEdit;
-    fneIconFileName: TFileNameEdit;
     fneCommand: TFileNameEdit;
     gbActionDescription: TGroupBox;
     gbFileTypes: TGroupBox;
@@ -112,7 +113,7 @@ type
     procedure btnStartPathVarHelperClick(Sender: TObject);
     procedure deStartPathChange(Sender: TObject);
     procedure edtParamsChange(Sender: TObject);
-    procedure fneIconFileNameChange(Sender: TObject);
+    procedure edIconFileNameChange(Sender: TObject);
     procedure FrameResize(Sender: TObject);
     function InsertAddSingleExtensionToLists(sExt: string; iInsertPosition: integer): boolean;
     procedure InsertAddExtensionToLists(sParamExt: string; iPositionToInsert: integer);
@@ -191,6 +192,7 @@ begin
   inherited Init;
   Exts := TExts.Create;
   FUpdatingControls := False;
+  btnIconSelectFilename.Hint := sbtnIcon.Hint;
 end;
 
 { TfrmOptionsFileAssoc.Done }
@@ -567,8 +569,7 @@ begin
     end;
 
     FUpdatingControls := True; // Don't trigger OnChange
-    fneIconFileName.Text := ExtCommand.Icon;
-    fneIconFileName.InitialDir := ExtractFilePath(ExtCommand.Icon);
+    edIconFileName.Text := ExtCommand.Icon;
     FUpdatingControls := False;
   end
   else
@@ -576,7 +577,7 @@ begin
     lbExts.Items.Clear;
     lbActions.Items.Clear;
     sbtnIcon.Glyph.Clear;
-    fneIconFileName.Text := '';
+    edIconFileName.Text := '';
   end;
 
   UpdateEnabledButtons;
@@ -715,7 +716,7 @@ begin
 
       // Update icon if possible, if necessary
       case (iDispatcher and $10) of
-        $10: if Exts.Items[lbFileTypes.ItemIndex].Icon = '' then fneIconFileName.Text := OpenDialog.FileName; //No quote required here! So "sCommandFilename" is not used.
+        $10: if Exts.Items[lbFileTypes.ItemIndex].Icon = '' then edIconFileName.Text := OpenDialog.FileName; //No quote required here! So "sCommandFilename" is not used.
       end;
 
       UpdateEnabledButtons;
@@ -790,9 +791,9 @@ procedure TfrmOptionsFileAssoc.sbtnIconClick(Sender: TObject);
 var
   sFileName: string;
 begin
-  sFileName := GetCmdDirFromEnvVar(fneIconFileName.Text);
+  sFileName := mbExpandFileName(edIconFileName.Text);
   if ShowOpenIconDialog(Self, sFileName) then
-    fneIconFileName.Text := sFileName;
+    edIconFileName.Text := sFileName;
 end;
 
 { TfrmOptionsFileAssoc.InsertAddSingleExtensionToLists }
@@ -871,8 +872,8 @@ end;
 { TfrmOptionsFileAssoc.btnRelativePathIconClick }
 procedure TfrmOptionsFileAssoc.btnRelativePathIconClick(Sender: TObject);
 begin
-  fneIconFileName.SetFocus;
-  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneIconFileName, pfFILE);
+  edIconFileName.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(edIconFileName, pfFILE);
   pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
 
@@ -890,14 +891,11 @@ begin
   pmVariableStartPathHelper.PopUp;
 end;
 
-{ TfrmOptionsFileAssoc.fneIconFileNameChange }
-procedure TfrmOptionsFileAssoc.fneIconFileNameChange(Sender: TObject);
+{ TfrmOptionsFileAssoc.edIconFileNameChange }
+procedure TfrmOptionsFileAssoc.edIconFileNameChange(Sender: TObject);
 begin
   if not FUpdatingControls then
-    SetIconFileName(fneIconFileName.Text);
-
-  if fneIconFileName.InitialDir <> ExtractFilePath(fneIconFileName.Text) then
-    fneIconFileName.InitialDir := ExtractFilePath(fneIconFileName.Text);
+    SetIconFileName(edIconFileName.Text);
 end;
 
 { TfrmOptionsFileAssoc.FrameResize }
