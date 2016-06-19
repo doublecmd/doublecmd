@@ -29,7 +29,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = pnlBottomSettings
       Left = 266
-      Height = 430
+      Height = 437
       Top = 6
       Width = 292
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -37,7 +37,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
       BorderSpacing.Right = 4
       BorderSpacing.Around = 6
       BevelOuter = bvNone
-      ClientHeight = 430
+      ClientHeight = 437
       ClientWidth = 292
       Constraints.MinWidth = 200
       TabOrder = 1
@@ -51,17 +51,17 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
         AnchorSideBottom.Control = pnlRightSettings
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 206
+        Height = 213
         Top = 224
         Width = 292
         Anchors = [akTop, akLeft, akRight, akBottom]
         Caption = 'Actions'
-        ClientHeight = 186
+        ClientHeight = 193
         ClientWidth = 288
         TabOrder = 1
         object lbActions: TListBox
           Left = 6
-          Height = 174
+          Height = 181
           Hint = 'Actions may be sorted by drag & drop'
           Top = 6
           Width = 197
@@ -77,7 +77,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
         end
         object pnlActsButtons: TPanel
           Left = 209
-          Height = 174
+          Height = 181
           Top = 6
           Width = 73
           Align = alRight
@@ -85,7 +85,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           BorderSpacing.Around = 6
           BevelOuter = bvNone
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
-          ClientHeight = 174
+          ClientHeight = 181
           ClientWidth = 73
           TabOrder = 1
           object btnUpAct: TButton
@@ -159,7 +159,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
         object pnlActsEdits: TPanel
           Left = 0
           Height = 0
-          Top = 186
+          Top = 193
           Width = 288
           Align = alBottom
           AutoSize = True
@@ -367,24 +367,24 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
       AnchorSideTop.Control = pnlSettings
       AnchorSideBottom.Control = pnlBottomSettings
       Left = 6
-      Height = 430
+      Height = 437
       Top = 6
       Width = 250
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Around = 6
       BevelOuter = bvNone
-      ClientHeight = 430
+      ClientHeight = 437
       ClientWidth = 250
       TabOrder = 0
       object gbFileTypes: TGroupBox
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 430
+        Height = 437
         Top = 0
         Width = 250
         Align = alClient
         Caption = 'File types'
-        ClientHeight = 410
+        ClientHeight = 417
         ClientWidth = 246
         TabOrder = 0
         object lbFileTypes: TListBox
@@ -394,7 +394,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = btnAddNewType
           Left = 6
-          Height = 332
+          Height = 339
           Hint = 'File types may be sorted by drag & drop'
           Top = 6
           Width = 234
@@ -419,7 +419,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideBottom.Control = btnRemoveType
           Left = 6
           Height = 29
-          Top = 344
+          Top = 351
           Width = 234
           Anchors = [akLeft, akRight, akBottom]
           AutoSize = True
@@ -435,7 +435,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideLeft.Control = btnAddNewType
           Left = 6
           Height = 29
-          Top = 375
+          Top = 382
           Width = 73
           Anchors = [akLeft, akBottom]
           AutoSize = True
@@ -450,7 +450,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideRight.Side = asrBottom
           Left = 167
           Height = 29
-          Top = 375
+          Top = 382
           Width = 73
           Anchors = [akRight, akBottom]
           AutoSize = True
@@ -469,8 +469,8 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
       AnchorSideBottom.Control = pnlSettings
       AnchorSideBottom.Side = asrBottom
       Left = 10
-      Height = 137
-      Top = 442
+      Height = 130
+      Top = 449
       Width = 548
       Anchors = [akLeft, akRight, akBottom]
       AutoSize = True
@@ -478,7 +478,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
       BorderSpacing.Right = 4
       BorderSpacing.Around = 6
       BevelOuter = bvNone
-      ClientHeight = 137
+      ClientHeight = 130
       ClientWidth = 548
       TabOrder = 2
       object gbActionDescription: TGroupBox
@@ -489,7 +489,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
         AnchorSideBottom.Control = pnlBottomSettings
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 133
+        Height = 126
         Top = 2
         Width = 548
         Anchors = [akTop, akLeft, akRight, akBottom]
@@ -498,20 +498,27 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
         BorderSpacing.Bottom = 2
         Caption = 'Action description:'
         ChildSizing.LeftRightSpacing = 6
-        ClientHeight = 113
+        ChildSizing.TopBottomSpacing = 6
+        ChildSizing.VerticalSpacing = 10
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 1
+        ClientHeight = 106
         ClientWidth = 544
         TabOrder = 0
         object edbActionName: TEditButton
-          AnchorSideTop.Control = gbActionDescription
+          AnchorSideLeft.Control = lblAction
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = lblAction
+          AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = gbActionDescription
           AnchorSideRight.Side = asrBottom
-          Left = 103
+          Left = 79
           Height = 23
           Hint = 'Name of the action. It is never passed to the system, it''s just a mnemonic name chosen by you, for you'
-          Top = 4
-          Width = 435
+          Top = 2
+          Width = 459
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 4
+          BorderSpacing.Left = 2
           ButtonWidth = 23
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
@@ -557,36 +564,34 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           TabOrder = 0
         end
         object lblAction: TLabel
-          AnchorSideTop.Control = edbActionName
           AnchorSideTop.Side = asrCenter
-          AnchorSideRight.Control = edbActionName
-          Left = 32
+          Left = 6
           Height = 15
-          Top = 8
+          Top = 6
           Width = 71
-          Anchors = [akTop, akRight]
+          Alignment = taRightJustify
           Caption = 'Action name:'
           FocusControl = edbActionName
           ParentColor = False
         end
         object fneCommand: TFileNameEdit
-          AnchorSideLeft.Control = edbActionName
-          AnchorSideTop.Control = edbActionName
-          AnchorSideTop.Side = asrBottom
+          AnchorSideLeft.Control = lblCommand
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = lblCommand
+          AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = btnCommands
-          AnchorSideBottom.Side = asrBottom
-          Left = 103
+          Left = 79
           Height = 23
           Hint = 'Command to execute. Long filename with space should be quoted.'
-          Top = 31
-          Width = 389
+          Top = 27
+          Width = 413
           DialogOptions = []
           FilterIndex = 0
           HideDirectories = False
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 4
+          BorderSpacing.Left = 2
           MaxLength = 0
           TabOrder = 1
           OnChange = fneCommandChange
@@ -598,7 +603,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideBottom.Side = asrBottom
           Left = 492
           Height = 23
-          Top = 31
+          Top = 27
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           Glyph.Data = {
@@ -647,7 +652,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideBottom.Side = asrBottom
           Left = 515
           Height = 23
-          Top = 31
+          Top = 27
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           Glyph.Data = {
@@ -696,7 +701,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideBottom.Side = asrBottom
           Left = 515
           Height = 23
-          Top = 58
+          Top = 52
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           Glyph.Data = {
@@ -738,64 +743,60 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           OnClick = btnParametersHelperClick
         end
         object lblCommand: TLabel
-          AnchorSideTop.Control = fneCommand
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = fneCommand
-          Left = 43
+          Left = 6
           Height = 15
-          Top = 35
-          Width = 60
-          Anchors = [akTop, akRight]
+          Top = 31
+          Width = 71
+          Alignment = taRightJustify
           Caption = '&Command:'
           ParentColor = False
         end
         object edtParams: TEdit
-          AnchorSideLeft.Control = edbActionName
-          AnchorSideTop.Control = fneCommand
-          AnchorSideTop.Side = asrBottom
+          AnchorSideLeft.Control = lblExternalParameters
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = lblExternalParameters
+          AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = btnParametersHelper
-          AnchorSideBottom.Control = deStartPath
-          Left = 103
+          Left = 79
           Height = 23
           Hint = 'Parameter to pass to the command. Long filename with spaces should be quoted.'
-          Top = 58
-          Width = 412
-          Anchors = [akTop, akLeft, akRight, akBottom]
-          BorderSpacing.Top = 4
+          Top = 52
+          Width = 436
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 2
           MaxLength = 259
           OnChange = edtParamsChange
           TabOrder = 2
         end
         object lblExternalParameters: TLabel
-          AnchorSideTop.Control = edtParams
           AnchorSideTop.Side = asrCenter
-          AnchorSideRight.Control = edtParams
-          Left = 41
+          Left = 6
           Height = 15
-          Top = 62
-          Width = 62
+          Top = 56
+          Width = 71
           Alignment = taRightJustify
-          Anchors = [akTop, akRight]
           Caption = 'Parameter&s:'
           FocusControl = edtParams
           ParentColor = False
         end
         object deStartPath: TDirectoryEdit
-          AnchorSideLeft.Control = edbActionName
+          AnchorSideLeft.Control = lblStartPath
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = lblStartPath
+          AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = btnStartPathPathHelper
-          AnchorSideBottom.Control = gbActionDescription
-          AnchorSideBottom.Side = asrBottom
-          Left = 103
+          Left = 79
           Height = 23
           Hint = 'Starting path of the command. Never quote this string.'
-          Top = 85
-          Width = 389
+          Top = 77
+          Width = 413
           ShowHidden = False
           ButtonWidth = 23
           NumGlyphs = 1
-          Anchors = [akLeft, akRight, akBottom]
-          BorderSpacing.Top = 4
-          BorderSpacing.Bottom = 5
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 2
           MaxLength = 0
           TabOrder = 3
           OnChange = deStartPathChange
@@ -808,7 +809,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideBottom.Side = asrBottom
           Left = 515
           Height = 23
-          Top = 85
+          Top = 77
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           Glyph.Data = {
@@ -856,7 +857,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideBottom.Side = asrBottom
           Left = 492
           Height = 23
-          Top = 85
+          Top = 77
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           Glyph.Data = {
@@ -898,15 +899,12 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           OnClick = btnStartPathPathHelperClick
         end
         object lblStartPath: TLabel
-          AnchorSideTop.Control = deStartPath
           AnchorSideTop.Side = asrCenter
-          AnchorSideRight.Control = deStartPath
-          Left = 49
+          Left = 6
           Height = 15
-          Top = 89
-          Width = 54
+          Top = 81
+          Width = 71
           Alignment = taRightJustify
-          Anchors = [akTop, akRight]
           Caption = 'Start pat&h:'
           FocusControl = edtParams
           ParentColor = False
