@@ -145,7 +145,7 @@ begin
 
   MaskItem := TMaskItem.Create;
   try
-   edtCategoryName.Text := 'New';
+   edtCategoryName.Text := rsOptionsEditorFileNewFileTypes;
    edtCategoryMask.Text := '*';
    edtCategoryAttr.Text := '';
    cbCategoryColor.ItemIndex := -1;

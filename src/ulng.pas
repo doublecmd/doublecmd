@@ -563,6 +563,7 @@ resourcestring
   rsOptionsEditorFileOperations = 'File operations';
   rsOptionsEditorFilePanels = 'File panels';
   rsOptionsEditorFileTypes = 'File types';
+  rsOptionsEditorFileNewFileTypes = 'New';
   rsOptionsEditorFilesViews = 'Files views';
   rsOptionsEditorFolderTabs = 'Folder tabs';
   rsOptionsEditorFolderTabsExtra = 'Folder tabs extra';
