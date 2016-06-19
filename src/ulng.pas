@@ -141,6 +141,7 @@ resourcestring
   rsDefaultSuffixDroppedTextUnicodeUTF16Filename = '_DroppedUnicodeUTF16text';
   rsDefaultSuffixDroppedTextUnicodeUTF8Filename = '_DroppedUnicodeUTF8text';
   rsDefaultSuffixDroppedTextSimpleFilename = '_DroppedSimpleText';
+  rsDragAndDropTextFormat = 'Rich Text Format;HTML Format;Unicode Format;Simple Text Format';
   rsCaptionForAskingFilename = 'Enter filename, with extension, for dropped text';
   rsMsgPromptAskingFilename = 'Filename for dropped text:';
   rsCaptionForTextFormatToImport = 'Text format to import';
