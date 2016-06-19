@@ -2561,10 +2561,11 @@ var
   end;
 
 var
-  i : Integer;
-  ActiveSelectedFiles: TFiles = nil;
-  NotActiveSelectedFiles: TFiles = nil;
+  I : Integer;
   Param: String;
+  LeftSelectedFiles: TFiles = nil;
+  RightSelectedFiles: TFiles = nil;
+  ActiveSelectedFiles: TFiles = nil;
   FrameThatWillBeOnLeftAfterCompare, FrameThatWillBeOnRightAfterCompare: TFileView;
 begin
   with frmMain do
@@ -2606,27 +2607,35 @@ begin
         end;
 
         try
-          ActiveSelectedFiles := FrameThatWillBeOnLeftAfterCompare.CloneSelectedOrActiveFiles;
+          ActiveSelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
+          LeftSelectedFiles := FrameThatWillBeOnLeftAfterCompare.CloneSelectedOrActiveFiles;
 
-          if ActiveSelectedFiles.Count = 1 then
+          if ActiveSelectedFiles.Count > 1 then
+          begin
+            { compare all selected files in active frame }
+
+            for I := 0 to ActiveSelectedFiles.Count - 1 do
+              AddItem(ActiveSelectedFiles[I]);
+          end
+          else if LeftSelectedFiles.Count = 1 then
           begin
             // If no files selected in the opposite panel and panels have
             // different path then try to get file with the same name.
             if (not FrameThatWillBeOnRightAfterCompare.HasSelectedFiles) and (not mbCompareFileNames(FrameThatWillBeOnRightAfterCompare.CurrentPath, FrameThatWillBeOnLeftAfterCompare.CurrentPath)) then
             begin
-              for i := 0 to FrameThatWillBeOnRightAfterCompare.DisplayFiles.Count - 1 do
-                if FrameThatWillBeOnRightAfterCompare.DisplayFiles[i].FSFile.Name = ActiveSelectedFiles[0].Name then
+              for I := 0 to FrameThatWillBeOnRightAfterCompare.DisplayFiles.Count - 1 do
+                if FrameThatWillBeOnRightAfterCompare.DisplayFiles[I].FSFile.Name = LeftSelectedFiles[0].Name then
                 begin
-                  NotActiveSelectedFiles := TFiles.Create(FrameThatWillBeOnRightAfterCompare.CurrentPath);
-                  NotActiveSelectedFiles.Add(FrameThatWillBeOnRightAfterCompare.DisplayFiles[i].FSFile.Clone);
+                  RightSelectedFiles := TFiles.Create(FrameThatWillBeOnRightAfterCompare.CurrentPath);
+                  RightSelectedFiles.Add(FrameThatWillBeOnRightAfterCompare.DisplayFiles[I].FSFile.Clone);
                   Break;
                 end;
             end;
 
-            if not Assigned(NotActiveSelectedFiles) then
-              NotActiveSelectedFiles := FrameThatWillBeOnRightAfterCompare.CloneSelectedOrActiveFiles;
+            if not Assigned(RightSelectedFiles) then
+              RightSelectedFiles := FrameThatWillBeOnRightAfterCompare.CloneSelectedOrActiveFiles;
 
-            if NotActiveSelectedFiles.Count = 1 then
+            if RightSelectedFiles.Count = 1 then
             begin
               // For now work only for filesystem.
               if not (FrameThatWillBeOnRightAfterCompare.FileSource.IsClass(TFileSystemFileSource)) then
@@ -2637,8 +2646,8 @@ begin
 
               { compare single selected files in both panels }
 
-              AddItem(ActiveSelectedFiles[0]);
-              AddItem(NotActiveSelectedFiles[0]);
+              AddItem(LeftSelectedFiles[0]);
+              AddItem(RightSelectedFiles[0]);
             end
             else
             begin
@@ -2646,20 +2655,12 @@ begin
               MsgWarning(rsMsgInvalidSelection);
               Exit;
             end;
-          end
-          else if ActiveSelectedFiles.Count > 1 then
-          begin
-            { compare all selected files in active frame }
-
-            for i := 0 to ActiveSelectedFiles.Count - 1 do
-              AddItem(ActiveSelectedFiles[i]);
           end;
 
         finally
-          if Assigned(ActiveSelectedFiles) then
-            FreeAndNil(ActiveSelectedFiles);
-          if Assigned(NotActiveSelectedFiles) then
-            FreeAndNil(NotActiveSelectedFiles);
+          FreeAndNil(LeftSelectedFiles);
+          FreeAndNil(RightSelectedFiles);
+          FreeAndNil(ActiveSelectedFiles);
         end;
       end;
 
@@ -2689,10 +2690,8 @@ begin
         msgWarning(rsMsgNoFilesSelected);
 
     finally
-      if Assigned(FilesToCompare) then
-        FreeAndNil(FilesToCompare);
-      if Assigned(DirsToCompare) then
-        FreeAndNil(DirsToCompare);
+      FreeAndNil(FilesToCompare);
+      FreeAndNil(DirsToCompare);
     end;
   end;
 end;
