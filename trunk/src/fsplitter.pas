@@ -76,8 +76,8 @@ uses
   //Lazarus, Free-Pascal, etc.
   LCLType, LCLProc,
   //DC
-  uLng, uFileProcs, uOperationsManager, uFileSourceSplitOperation, uShowMsg,
-  DCOSUtils, uGlobs, uSpecialDir, uDCUtils;
+  DCStrUtils, uLng, uFileProcs, uOperationsManager, uFileSourceSplitOperation,
+  uShowMsg, DCOSUtils, uGlobs, uSpecialDir, uDCUtils;
 
 
 { ShowSplitterFileForm:
@@ -225,6 +225,7 @@ begin
   rbtnGigaB.Enabled:= False;
   MyModalResult:=mrCancel;
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
+  ParseLineToList(rsSplitPreDefinedSizes, cmbxSize.Items);
 end;
 
 { TfrmSplitter.rbtnByteChange }
