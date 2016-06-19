@@ -33,15 +33,15 @@ uses
   ExtCtrls,
 
   //DC
-  uFormCommands, types;
+  KASComboBox, uFormCommands, types;
 
 type
   { TfrmMainCommandsDlg }
   TfrmMainCommandsDlg = class(TForm)
     btnCancel: TBitBtn;
     btnOK: TBitBtn;
-    cbCategorySortOrNot: TComboBox;
-    cbCommandsSortOrNot: TComboBox;
+    cbCategorySortOrNot: TComboBoxAutoWidth;
+    cbCommandsSortOrNot: TComboBoxAutoWidth;
     cbSelectAllCategoryDefault: TCheckBox;
     gbSelection: TGroupBox;
     imgCommandIcon: TImage;
