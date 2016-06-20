@@ -58,8 +58,6 @@ resourcestring
   rsMsgRenSel = 'Rename/move selected "%s"?';
   rsMsgErrForceDir = 'Can not create directory %s!';
   rsMsgSelectedInfo = 'Selected: %s of %s, files: %d of %d, folders: %d of %d';
-  rsMsgPopUpHotAdd = '&Add %s';
-  rsMsgPopUpHotCnf = '&Configure';
   rsMsgCloseLockedTab = 'This tab (%s) is locked! Close anyway?';
   rsMsgTabForOpeningInNewTab = 'This tab (%s) is locked! Open directory in another tab?';
   rsSpaceMsg = 'Files: %d, Dirs: %d, Size: %s (%s bytes)';
@@ -145,9 +143,6 @@ resourcestring
   rsMsgPromptAskingFilename = 'Filename for dropped text:';
   rsCaptionForTextFormatToImport = 'Text format to import';
   rsMsgForTextFormatToImport = 'Select the text format to import';
-  rsMsgDragAndDropModifiedWantToSave = 'Options regarding mouse drag && drop have been modified. Do you want to save before to exit?';
-  rsMsgFileOperationsModifiedWantToSave = 'Options regarding file operations have been modified. Do you want to save before to exit?';
-  rsMsgMiscellaneousModifiedWantToSave = 'Miscellaneous options have been modified. Do you want to save before to exit?';
   rsMsgUserDidNotSetExtension = '<NO EXT>';
   rsMsgUserDidNotSetName = '<NO NAME>';
   rsMsgProblemExecutingCommand = 'Problem executing command (%s)';
@@ -168,7 +163,6 @@ resourcestring
   rsMsgHotDirJustPath = 'Path';
   rsMsgHotDirTarget = 'Hotdir target';
   rsMsgHotDirSubMenuName = 'Submenu name';
-  rsMsgHotDirModifiedWantToSave = 'Directory Hotlist has been modified. Do you want to save before to exit?';
   rsMsgHotDirSimpleName = 'Name:';
   rsMsgHotDirSimpleSeparator = '(separator)';
   rsMsgHotDirSimpleMenu = 'Menu name:';
@@ -200,7 +194,6 @@ resourcestring
   rsMsgHotDirErrorBackuping = 'Error backuping entries...';
   rsHotDirWarningAbortRestoreBackup = 'Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.'+#$0A+#$0A+
                                       'Are you sure you want to proceed?';
-  rsHotDirNothingToImport = 'Sorry, nothing detected to import!';
   rsHotDirForceSortingOrderChoices = 'none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9';
 
   //Special dir related
@@ -226,25 +219,15 @@ resourcestring
   rsMsgSpecialDirMakeRelToHotDir = 'Make relative to hotdir path';
 
   //Favorite Tabs related
-  rsMsgFavoriteTabsModifiedWantToSave = 'Favorite Tabs have been modified. Do you want to save before to exit?';
   rsMsgFavoriteTabsEnterName = 'Enter a name this Favorite Tabs entry';
   rsMsgFavoriteTabsEnterNameTitle = 'Saving a new Favorite Tabs entry';
   rsMsgFavoriteTabsSubMenuName = 'Submenu name';
   rsMsgFavoriteTabsImportSubMenuName = 'Legacy tabs imported';
   rsMsgFavoriteTabsDragHereEntry = 'Drag here other entries';
-  rsMsgFavoriteTabsName = 'Name';
-  rsMsgFavoriteTabsSimpleSeparator = '(separator)';
-  rsMsgFavoriteTabsSimpleMenu = 'Menu name:';
-  rsMsgFavoriteTabsEndOfMenu = '(end of sub menu)';
   rsMsgFavortieTabsSaveOverExisting = 'Save current tabs over existing Favorite Tabs entry';
-  rsMsgFavoriteTabsSaveLastLoadOver = 'Save to Favorite Tabs over last loaded entry (%s)';
   rsOptFavoriteTabsWhereToAddInList = 'Add at beginning;Add at the end;Alphabetical sort';
-  rsMsgFavoriteTabsNameSample = 'This will load your Favorites Tabs entry setup called %s';
   rsMsgFavoriteTabsThisWillLoadFavTabs = 'This will load the Favorite Tabs: "%s"';
-  rsMsgFavoriteTabsHasBeenAdded = 'Favorite Tabs have been added in memory!'; //Don't write "Saved" since it will be saved only when quiting.
   rsMsgFavoriteTabsDeleteAllEntries = 'Are you sure you want to remove all entries of your Favorite Tabs? (There is no "undo" to this action!)';
-  rsMsgFavoriteTabsErrorLoading = 'Error loading Favorite Tabs...';
-  rsMsgFavoriteTabsErrorSaving = 'Error saving Favorite Tabs...';
   rsTitleRenameFavTabs = 'Rename Favorite Tabs';
   rsMsgRenameFavTabs = 'Enter new friendly name for this Favorite Tabs';
   rsTitleRenameFavTabsMenu = 'Rename Favorite Tabs sub-menu';
@@ -353,35 +336,22 @@ resourcestring
   rsMsgLogTest = 'Test file integrity %s';
   rsMsgLogExtCmdLaunch = 'Launch external';
   rsMsgLogExtCmdResult = 'Result external';
-  rsMsgLogOptionsModifiedWantToSave = 'Options regarding log have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
 
   rsSearchResult = 'Search result';
   rsShowHelpFor = '&Show help for %s';
   rsClipboardContainsInvalidToolbarData = 'Clipboard doesn''t contain any valid toolbar data.';
 
-  //Terminal
-  rsMsgTerminalOptionsModifiedWantToSave = 'Options regarding terminal have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
-
   //Panel Color Configuration
-  rsMsgFilePanelColorModifiedWantToSave = 'Options regarding panel color have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
   rsMsgPanelPreview = 'Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings.';
 
   // File operations dialog
-  rsDlgAllOpComplete = 'All operations completed';
-  rsDlgAllOpProgress = 'Progress of all operations %d %%';
-  rsDlgCalcStatistics = 'Calculate files and folders';
-  rsDlgCheckSumCalc = 'Calculate checksum...';
-  rsDlgCheckSumVerify = 'Verify checksum...';
   rsDlgCp = 'Copy file(s)';
-  rsDlgDel = 'Delete file(s)';
   rsDlgMv = 'Move file(s)';
   rsDlgOpPause = 'Pau&se';
   rsDlgOpStart = '&Start';
   rsDlgQueue = 'Queue';
   rsDlgSpeed = 'Speed %s/s';
   rsDlgSpeedTime = 'Speed %s/s, time remaining %s';
-  rsDlgSplit = 'Split';
-  rsDlgWipe = 'Wipe file(s)';
 
   // File operations
   rsFileOpFileExistsOptions = 'Ask;Overwrite;Overwrite Older;Skip';
@@ -452,11 +422,8 @@ resourcestring
   rsConfColAlign = 'Align';
   rsConfColFieldCont = 'Field contents';
   rsConfColMove='Move';
-  rsConfColConfig='Config';
   rsConfCustHeader='Customize column';
   // File properties dialog
-  rsPropsYes = 'Yes (%s)';
-  rsPropsNo = 'No';
   rsPropsFolder = 'Directory';
   rsPropsFile = 'File';
   rsPropsSpChrDev = 'Special character device';
@@ -509,8 +476,6 @@ resourcestring
   rsSymErrCreate = 'Error creating symlink.';
   // Hardlink dialog
   rsHardErrCreate = 'Error creating hardlink.';
-  // Linker dialog
-  rsLinkMsgOK = 'Linker complete';
   // Splitter dialog
   rsSplitSelDir = 'Select directory:';
   rsSplitErrFileSize = 'Incorrect file size format!';
@@ -581,7 +546,6 @@ resourcestring
   rsOptionsEditorQuickSearch = 'Quick search/filter';
   rsOptionsEditorTerminal = 'Terminal';
   rsOptionsEditorToolbar = 'Toolbar';
-  rsOptionsEditorToolbarComplement = 'Complements';
   rsOptionsEditorTools = 'Tools';
   rsOptionsEditorTooltips = 'Tooltips';
   rsOptionsEditorFileAssoc = 'File associations';
@@ -614,10 +578,6 @@ resourcestring
   rsOptTabsPosition = 'Top;Bottom;';
   rsOptArchiveTypeName = 'Archive type name:';
   //-------------------------------
-  rsOptExampleMark = 'Mark';
-  rsOptExampleText = 'Text';
-  rsOptExampleCursor = 'Cursor';
-  rsOptExampleMarkCursor = 'Mark + Cursor';
   // Hotkeys
   rsOptHotkeysAddDeleteShortcutLong =
     'Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting.';
@@ -664,10 +624,8 @@ resourcestring
   rsSimpleWordParameter = 'Param';
   rsSimpleWordWorkDir = 'WorkDir';
   rsSimpleWordResult = 'Result';
-  rsSimpleWordPreview = 'Preview';
   rsSimpleWordColumnSingular = 'Column';
-  rsSimpleWordSaved = 'Saved!';
-  
+
   // Plugins
   rsOptPluginsActive = 'Active';
   rsOptPluginsName = 'Name';
@@ -694,8 +652,6 @@ resourcestring
   rsMsgEnterNewFileTypeName = 'Enter name of new file type to create for extension "%s"';
   rsMsgEnterCustomAction = 'Enter custom action name:';
   rsSimpleWordFiles = 'files';
-  rsMsgFileAssociationsModifiedWantToSave = 'File extension associations have been modified.'+#$0A+#$0A+'Do you want to save before to exit?';
-  rsMsgFileAssociationsExtraModifiedWantToSave = 'File extension associations extra options have been modified.'+#$0A+#$0A+'Do you want to save before to exit?';
   rsViewWithInternalViewer = 'with internal viewer';
   rsEditWithInternalEditor = 'with internal editor';
   rsViewWithExternalViewer = 'with external viewer';
@@ -704,9 +660,6 @@ resourcestring
   rsExecuteViaTerminalClose = 'Execute via terminal and close';
   rsExecuteViaTerminalStayOpen = 'Execute via terminal and stay open';
   rsConfigurationFileAssociation = 'Configure file association';
-  //Folder tab
-  rsMsgTabsOptionsModifiedWantToSave = 'Options regarding folder tabs have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
-  rsMsgTabsExtraOptionsModifiedWantToSave = 'Options regarding folder tabs extra have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
   //Variables
   rsConfirmExecution = 'Confirming command line and parameters';
   rsVarHelpWith = 'Help with "%" variables';
@@ -761,7 +714,6 @@ resourcestring
   rsOptToolbarButtonType = 'S&eparator;Inte&rnal command;E&xternal command;Men&u';
   rsImportToolbarProblem = 'Cannot find reference to default bar file';
   rsMsgToolbarSaved = 'Saved!'+#$0A+'Toolbar filename: %s';
-  rsMsgToolbarErrorNotSaved = 'Error! Problem saving toolbar!';
   rsMsgTCToolbarWhereToSave = 'Enter location and filename where to save a TC Toolbar file';
   rsMsgDCToolbarWhereToSave = 'Enter location and filename where to save a DC Toolbar file';
   rsMsgToolbarRestoreWhat = 'Enter location and filename of Toolbar to restore';
@@ -771,15 +723,12 @@ resourcestring
   rsMsgTCConfigNotFound = 'Error! Cannot find the TC configuration file:'+#$0A+'%s';
   rsMsgTCExecutableNotFound = 'Error! Cannot find the TC configuration executable:'+#$0A+'%s';
   rsMsgTCisRunning = 'Error! TC is still running but it should be closed for this operation.'+#$0A+'Close it and press OK or press CANCEL to abort.';
-  rsMsgToolbarModifiedWantToSave = 'Toolbar has been modified. Do you want to save before to exit?';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
-  rsMenuConfigureThisCustomColumn= 'Configure this custom columns view';
   rsMenuConfigureEnterCustomColumnName = 'Enter new custom columns name';
   rsMenuConfigureColumnsSaveToChange = 'To change current editing colmuns view, either SAVE, COPY or DELETE current editing one';
   rsMenuConfigureColumnsAlreadyExists = 'A columns view with that name already exists.';
-  rsMsgColumnsModifiedWantToSave = 'Options regarding columns view have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
 
   // Operation states.
   rsOperNotStarted = 'Not started';
@@ -793,7 +742,6 @@ resourcestring
   rsOperStopped = 'Stopped';
   rsOperFinished = 'Finished';
   rsOperAborted = 'Aborted';
-  rsOperQueued = 'Queued';
 
   // Operations descriptions.
   rsOperCalculatingCheckSum = 'Calculating checksum';
@@ -840,14 +788,10 @@ resourcestring
   rsOperWorking = 'Working'; // Generic description for unknown operation
 
   //TreeViewMenu
-  rsKeyboardShortcutComplement = 'Press "[ALT] + [Shortcut]" keys and it will select the item';
   rsStrAccents = 'á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ';
   rsStrAccentsStripped = 'a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE';
-  rsOptTreeViewMenuDirectoryHotListUsage = 'Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel';
   rsOptionsEditorTreeViewMenu = 'Tree View Menu';
   rsOptionsEditorTreeViewMenuColors = 'Tree View Menu Colors';
-  rsMsgTreeViewMenuModifiedWantToSave = 'Options regarding Tree View Menu have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
-  rsMsgTreeViewMenuColorsModifiedWantToSave = 'Options regarding Tree View Menu Colors have been modified.'+#$0A+#$0A+'Do you want to save them before to exit?';
   rsStrPreviewSearchingLetters = 'OU';
   rsStrPreviewJustPreview = 'Just preview';
   rsStrPreviewWordWithSearched1 = 'Fabulous';
