@@ -3270,6 +3270,18 @@ msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&V redu"
 
+#: tfrmmaskinputdlg.chkcasesensitive.caption
+msgid "Case sensitive"
+msgstr ""
+
+#: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
+msgid "Ignore accents and ligatures"
+msgstr ""
+
+#: tfrmmaskinputdlg.lblprompt.caption
+msgid "Input Mask:"
+msgstr ""
+
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 msgid "O&r select predefined selection type:"
 msgstr "Ali pa izberi &shranjeno masko izbire:"
@@ -5889,7 +5901,7 @@ msgid "File si&ze format:"
 msgstr "Zapis velikosti datoteke:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
-msgid "&Insert new files"
+msgid "&Insert new files:"
 msgstr "Vstavi &nove datoteke:"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
@@ -5901,7 +5913,7 @@ msgid "&Sort method:"
 msgstr "&Način razvrščanja:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
-msgid "&Move updated files"
+msgid "&Move updated files:"
 msgstr "&Premakni posodobljene datoteke:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
@@ -6190,18 +6202,18 @@ msgstr "Dejanja pritiskov tipk na tipkovnici"
 
 #: tfrmoptionskeyboard.lblalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
-msgid "Alt+L&etters"
-msgstr "Alt+Č&rke"
+msgid "Alt+L&etters:"
+msgstr "Alt+Č&rke:"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
-msgid "Ctrl+Alt+Le&tters"
-msgstr "Ctrl+Alt+Čr&ke"
+msgid "Ctrl+Alt+Le&tters:"
+msgstr "Ctrl+Alt+Čr&ke:"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
-msgid "&Letters"
-msgstr "&Črke"
+msgid "&Letters:"
+msgstr "&Črke:"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
@@ -6866,11 +6878,6 @@ msgstr "Izbor"
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstoolbar.btnopenicon.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENICON.CAPTION"
 msgid ">>"
 msgstr ">>"
 
@@ -9125,10 +9132,6 @@ msgstr "Poravnava"
 msgid "Caption"
 msgstr "Naslov"
 
-#: ulng.rsconfcolconfig
-msgid "Config"
-msgstr "Nastavitev"
-
 #: ulng.rsconfcoldelete
 msgctxt "ulng.rsconfcoldelete"
 msgid "Delete"
@@ -9215,14 +9218,6 @@ msgstr "Zadetki:"
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Spremeni:"
-
-#: ulng.rsdlgallopcomplete
-msgid "All operations completed"
-msgstr "Vsa opravila so končana."
-
-#: ulng.rsdlgallopprogress
-msgid "Progress of all operations %d %%"
-msgstr "Napredek vseh opravil %d %%"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -9328,28 +9323,10 @@ msgstr "Pres&koči vse"
 msgid "&Yes"
 msgstr "&Da"
 
-#: ulng.rsdlgcalcstatistics
-msgid "Calculate files and folders"
-msgstr "Preračunaj velikost datotek in map"
-
-#: ulng.rsdlgchecksumcalc
-msgctxt "ulng.rsdlgchecksumcalc"
-msgid "Calculate checksum..."
-msgstr "Izračunaj nadzorno vsoto ..."
-
-#: ulng.rsdlgchecksumverify
-msgctxt "ulng.rsdlgchecksumverify"
-msgid "Verify checksum..."
-msgstr "Preveri nadzorno vsoto"
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
 msgstr "Kopiraj datoteke"
-
-#: ulng.rsdlgdel
-msgid "Delete file(s)"
-msgstr "Izbriši datoteke"
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -9378,14 +9355,9 @@ msgstr "Hitrost %s/s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "Pri hitrosti %s/s bo opravilo trajalo še %s"
 
-#: ulng.rsdlgsplit
-msgctxt "ulng.rsdlgsplit"
-msgid "Split"
-msgstr "Razdeli"
-
-#: ulng.rsdlgwipe
-msgid "Wipe file(s)"
-msgstr "Neobnovljivo izbriši datoteke"
+#: ulng.rsdraganddroptextformat
+msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
+msgstr ""
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -9632,10 +9604,6 @@ msgstr "Napaka med ustvarjanjem trde povezave."
 msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
 msgstr "brez;ime, a-z;ime, z-a;pripona, a-z;pripona, z-a;velikost 9-0;velikost 0-9;datum 9-0;datum 0-9"
 
-#: ulng.rshotdirnothingtoimport
-msgid "Sorry, nothing detected to import!"
-msgstr "Ni navedenih predmetov za uvoz!"
-
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
@@ -9679,14 +9647,6 @@ msgstr "Pregledovalnik"
 msgid "Cannot find reference to default bar file"
 msgstr "Ni mogoče najti sklica na privzeto datoteko orodne vrstice"
 
-#: ulng.rskeyboardshortcutcomplement
-msgid "Press \"[ALT] + [Shortcut]\" keys and it will select the item"
-msgstr ""
-
-#: ulng.rslinkmsgok
-msgid "Linker complete"
-msgstr "Povezovalnik je končan"
-
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Maska odstranitve izbire"
@@ -9714,10 +9674,6 @@ msgstr "Nastavitev stolpcev po meri"
 #: ulng.rsmenuconfigureentercustomcolumnname
 msgid "Enter new custom columns name"
 msgstr "Vpis novega imena stolpca po meri"
-
-#: ulng.rsmenuconfigurethiscustomcolumn
-msgid "Configure this custom columns view"
-msgstr "Prilagodi pogled stolpcev po meri"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -9825,13 +9781,6 @@ msgstr "Ali naj se odstranijo vsi nedejavni zavihki?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Zavihek (%s) je zaklenjen! Ali naj se vseeno zapre?"
 
-#: ulng.rsmsgcolumnsmodifiedwanttosave
-msgid ""
-"Options regarding columns view have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Ali ste prepričani, da želite končati?"
@@ -9891,10 +9840,6 @@ msgstr "Predmeta \"%s\" ni mogoče premakniti v smeti. Ali naj se izbriše trajn
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Disk ni na voljo"
-
-#: ulng.rsmsgdraganddropmodifiedwanttosave
-msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
-msgstr ""
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
@@ -10048,11 +9993,6 @@ msgstr "Ali ste prepričani, da želite odstraniti vse vnose priljubljenih zavih
 msgid "Drag here other entries"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabsendofmenu
-msgctxt "ulng.rsmsgfavoritetabsendofmenu"
-msgid "(end of sub menu)"
-msgstr "(konec podrejenega menija)"
-
 #: ulng.rsmsgfavoritetabsentername
 #, fuzzy
 msgid "Enter a name this Favorite Tabs entry"
@@ -10062,24 +10002,12 @@ msgstr "Vnos imena novega priljubljenega  predmeta"
 msgid "Saving a new Favorite Tabs entry"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabserrorloading
-msgid "Error loading Favorite Tabs..."
-msgstr "Napaka nalaganja priljubljenih zavihkov ..."
-
-#: ulng.rsmsgfavoritetabserrorsaving
-msgid "Error saving Favorite Tabs..."
-msgstr "Napaka shranjevanja priljubljenih zavihkov ..."
-
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabshasbeenadded
-msgid "Favorite Tabs have been added in memory!"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
@@ -10099,37 +10027,10 @@ msgstr ""
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabsmodifiedwanttosave
-msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabsname
-msgctxt "ulng.rsmsgfavoritetabsname"
-msgid "Name"
-msgstr "Ime"
-
-#: ulng.rsmsgfavoritetabsnamesample
-msgid "This will load your Favorites Tabs entry setup called %s"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssavelastloadover
-msgid "Save to Favorite Tabs over last loaded entry (%s)"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssimplemenu
-msgctxt "ulng.rsmsgfavoritetabssimplemenu"
-msgid "Menu name:"
-msgstr "Ime menija:"
-
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
 msgstr ""
-
-#: ulng.rsmsgfavoritetabssimpleseparator
-msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
-msgid "(separator)"
-msgstr "(ločilnik)"
 
 #: ulng.rsmsgfavoritetabssubmenuname
 msgctxt "ulng.rsmsgfavoritetabssubmenuname"
@@ -10143,20 +10044,6 @@ msgstr "Nastavitev priljubljenih zavihkov"
 
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
-msgstr ""
-
-#: ulng.rsmsgfileassociationsextramodifiedwanttosave
-msgid ""
-"File extension associations extra options have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgfileassociationsmodifiedwanttosave
-msgid ""
-"File extension associations have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
 msgstr ""
 
 #: ulng.rsmsgfilechangedsave
@@ -10190,17 +10077,6 @@ msgstr "Zaznana so dejavna datotečna opravila"
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "Nekatera opravila datotek še niso končana. S predčasnim končanjem programa lahko pride do izgube podatkov."
-
-#: ulng.rsmsgfileoperationsmodifiedwanttosave
-msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
-msgstr ""
-
-#: ulng.rsmsgfilepanelcolormodifiedwanttosave
-msgid ""
-"Options regarding panel color have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
 
 #: ulng.rsmsgfilereadonly
 #, fuzzy
@@ -10312,10 +10188,6 @@ msgstr "Pot"
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
 msgstr "Najdi datoteko \".htlist\" za uvoz"
-
-#: ulng.rsmsghotdirmodifiedwanttosave
-msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
-msgstr "Seznam hitrih map je spremenjen. Ali želite seznam shraniti pred končanjem?"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
@@ -10515,13 +10387,6 @@ msgstr "Ustvari mapo %s"
 msgid "Move file %s"
 msgstr "Premakni datoteko %s"
 
-#: ulng.rsmsglogoptionsmodifiedwanttosave
-msgid ""
-"Options regarding log have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "Zapakiraj v datoteko %s"
@@ -10557,10 +10422,6 @@ msgstr "Glavno geslo"
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
 msgstr "Vnesite glavno geslo:"
-
-#: ulng.rsmsgmiscellaneousmodifiedwanttosave
-msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
-msgstr ""
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -10618,15 +10479,6 @@ msgstr "Geslo (požarni zid):"
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
 msgstr "Ponovno vnesite geslo za overitev:"
-
-#: ulng.rsmsgpopuphotadd
-msgid "&Add %s"
-msgstr "&Dodaj %s"
-
-#: ulng.rsmsgpopuphotcnf
-msgctxt "ulng.rsmsgpopuphotcnf"
-msgid "&Configure"
-msgstr "&Nastavitve"
 
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
@@ -10783,20 +10635,6 @@ msgstr "Preimenuj zavihek"
 msgid "New tab name:"
 msgstr "Novo ime zavihka:"
 
-#: ulng.rsmsgtabsextraoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs extra have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgtabsoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "Ciljna pot:"
@@ -10836,13 +10674,6 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Vpis mesta in imena datoteke, kamor naj se shrani seznam hitrih map"
 
-#: ulng.rsmsgterminaloptionsmodifiedwanttosave
-msgid ""
-"Options regarding terminal have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
 msgstr "\"%s\" je kopirano v odložišče"
@@ -10851,10 +10682,6 @@ msgstr "\"%s\" je kopirano v odložišče"
 msgid "Extension of selected file is not in any recognized file types"
 msgstr ""
 
-#: ulng.rsmsgtoolbarerrornotsaved
-msgid "Error! Problem saving toolbar!"
-msgstr "Prišlo je do napake med shranjevanjem orodne vrstice!"
-
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
 msgstr "Najdi datoteko \"*.toolbar\" za uvoz"
@@ -10862,10 +10689,6 @@ msgstr "Najdi datoteko \"*.toolbar\" za uvoz"
 #: ulng.rsmsgtoolbarlocatetctoolbarfile
 msgid "Locate \".BAR\" file to import"
 msgstr "Najdi datoteko \"*.bar\" za uvoz"
-
-#: ulng.rsmsgtoolbarmodifiedwanttosave
-msgid "Toolbar has been modified. Do you want to save before to exit?"
-msgstr "Orodna vrstica je spremenjena. Ali želite podatke shraniti pred končanjem?"
 
 #: ulng.rsmsgtoolbarrestorewhat
 msgid "Enter location and filename of Toolbar to restore"
@@ -10882,20 +10705,6 @@ msgstr ""
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Izbranih je preveč datotek."
-
-#: ulng.rsmsgtreeviewmenucolorsmodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu Colors have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgtreeviewmenumodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
@@ -11080,11 +10889,6 @@ msgstr "V premoru"
 msgid "Pausing"
 msgstr "V premoru"
 
-#: ulng.rsoperqueued
-msgctxt "ulng.rsoperqueued"
-msgid "Queued"
-msgstr "V vrsti"
-
 #: ulng.rsoperrunning
 msgid "Running"
 msgstr "Zagnano"
@@ -11257,22 +11061,6 @@ msgstr "Omogoči"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Vnos pripone"
-
-#: ulng.rsoptexamplecursor
-msgid "Cursor"
-msgstr "Kazalka"
-
-#: ulng.rsoptexamplemark
-msgid "Mark"
-msgstr "Označeno"
-
-#: ulng.rsoptexamplemarkcursor
-msgid "Mark + Cursor"
-msgstr "Označeno in v žarišču"
-
-#: ulng.rsoptexampletext
-msgid "Text"
-msgstr "Besedilo"
 
 #: ulng.rsoptfavoritetabswheretoaddinlist
 #, fuzzy
@@ -11451,6 +11239,12 @@ msgctxt "ulng.rsoptionseditorfileassoc"
 msgid "File associations"
 msgstr "Programske vezi"
 
+#: ulng.rsoptionseditorfilenewfiletypes
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilenewfiletypes"
+msgid "New"
+msgstr "Novo"
+
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
 msgid "File operations"
@@ -11532,6 +11326,13 @@ msgstr "Različne možnosti"
 msgid "Mouse"
 msgstr "Miška"
 
+#: ulng.rsoptionseditoroptionschanged
+msgid ""
+"Options have changed in \"%s\"\n"
+"\n"
+"Do you want to save modifications?\n"
+msgstr ""
+
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
 msgid "Plugins"
@@ -11550,11 +11351,6 @@ msgstr "Terminal"
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
 msgstr "Orodna vrstica"
-
-#: ulng.rsoptionseditortoolbarcomplement
-#, fuzzy
-msgid "Complements"
-msgstr "Opomba"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -11643,10 +11439,6 @@ msgstr "zgoraj;spodaj;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "&Ločilnik;&Notranji ukaz;&Zunanji ukaz;&Meni"
 
-#: ulng.rsopttreeviewmenudirectoryhotlistusage
-msgid "Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel"
-msgstr ""
-
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
 msgstr "DC opuščen slog - Kopija (x) ime_datoteke.pri;Windows - ime_datoteke(x).pri;Skrčeno - ime_datoteke(x).pri"
@@ -11681,11 +11473,6 @@ msgstr "Mapa"
 msgid "Named pipe"
 msgstr "Imenovan cevovod"
 
-#: ulng.rspropsno
-msgctxt "ulng.rspropsno"
-msgid "No"
-msgstr "Ne"
-
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "Vtič"
@@ -11705,10 +11492,6 @@ msgstr "Simbolna povezava"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "neznana vrsta"
-
-#: ulng.rspropsyes
-msgid "Yes (%s)"
-msgstr "Da (%s)"
 
 #: ulng.rssearchresult
 msgid "Search result"
@@ -11761,18 +11544,9 @@ msgstr "datoteke"
 msgid "Param"
 msgstr "Parametri"
 
-#: ulng.rssimplewordpreview
-msgctxt "ulng.rssimplewordpreview"
-msgid "Preview"
-msgstr "Predogled"
-
 #: ulng.rssimplewordresult
 msgid "Result"
 msgstr "Rezultat"
-
-#: ulng.rssimplewordsaved
-msgid "Saved!"
-msgstr "Shranjeno!"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
@@ -11820,6 +11594,10 @@ msgstr "Ni mogoče razdeliti datoteke!"
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "Število delov presega vrednost 100! Ali naj se opravilo veeno izvede?"
+
+#: ulng.rssplitpredefinedsizes
+msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgstr ""
 
 #: ulng.rssplitseldir
 msgid "Select directory:"

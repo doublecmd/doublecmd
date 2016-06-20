@@ -3266,6 +3266,18 @@ msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Гаразд"
 
+#: tfrmmaskinputdlg.chkcasesensitive.caption
+msgid "Case sensitive"
+msgstr ""
+
+#: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
+msgid "Ignore accents and ligatures"
+msgstr ""
+
+#: tfrmmaskinputdlg.lblprompt.caption
+msgid "Input Mask:"
+msgstr ""
+
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 msgid "O&r select predefined selection type:"
 msgstr "Або вибе&ріть тип виділення за шаблоном:"
@@ -6030,8 +6042,8 @@ msgid "File si&ze format:"
 msgstr "&Формат розміру файла:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
-msgid "&Insert new files"
-msgstr "Вставити нов&і файли"
+msgid "&Insert new files:"
+msgstr "Вставити нов&і файли:"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -6043,8 +6055,8 @@ msgid "&Sort method:"
 msgstr "&Метод сортування:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
-msgid "&Move updated files"
-msgstr "Перемістити оновлені фай&ли"
+msgid "&Move updated files:"
+msgstr "Перемістити оновлені фай&ли:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -6340,18 +6352,18 @@ msgstr "Введення"
 
 #: tfrmoptionskeyboard.lblalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
-msgid "Alt+L&etters"
-msgstr "Alt+Літ&ери"
+msgid "Alt+L&etters:"
+msgstr "Alt+Літ&ери:"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
-msgid "Ctrl+Alt+Le&tters"
-msgstr "Ctrl+Alt+Лі&тери"
+msgid "Ctrl+Alt+Le&tters:"
+msgstr "Ctrl+Alt+Лі&тери:"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
-msgid "&Letters"
-msgstr "&Літери"
+msgid "&Letters:"
+msgstr "&Літери:"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
@@ -7023,11 +7035,6 @@ msgstr "Виділення"
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstoolbar.btnopenicon.caption
-msgctxt "tfrmoptionstoolbar.btnopenicon.caption"
 msgid ">>"
 msgstr ">>"
 
@@ -9311,10 +9318,6 @@ msgstr "Вирівн"
 msgid "Caption"
 msgstr "Заголовок"
 
-#: ulng.rsconfcolconfig
-msgid "Config"
-msgstr "Налаштувати"
-
 #: ulng.rsconfcoldelete
 msgctxt "ulng.rsconfcoldelete"
 msgid "Delete"
@@ -9407,14 +9410,6 @@ msgstr "Співпадінь:"
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr "Змінено:"
-
-#: ulng.rsdlgallopcomplete
-msgid "All operations completed"
-msgstr "Всі операції завершено"
-
-#: ulng.rsdlgallopprogress
-msgid "Progress of all operations %d %%"
-msgstr "Прогрес всіх операцій %d %%"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -9520,28 +9515,10 @@ msgstr "Проп&устити все"
 msgid "&Yes"
 msgstr "&Так"
 
-#: ulng.rsdlgcalcstatistics
-msgid "Calculate files and folders"
-msgstr "Підрахувати файли і теки"
-
-#: ulng.rsdlgchecksumcalc
-msgctxt "ulng.rsdlgchecksumcalc"
-msgid "Calculate checksum..."
-msgstr "Розрахувати контрольну суму..."
-
-#: ulng.rsdlgchecksumverify
-msgctxt "ulng.rsdlgchecksumverify"
-msgid "Verify checksum..."
-msgstr "Перевірити контрольну суму..."
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
 msgstr "Копіювання файлу(ів)"
-
-#: ulng.rsdlgdel
-msgid "Delete file(s)"
-msgstr "Видалити файл(и)"
 
 #: ulng.rsdlgmv
 msgctxt "ulng.rsdlgmv"
@@ -9571,14 +9548,9 @@ msgstr "Швидкість %s/s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "Швидкість %s/с, залишилось часу %s"
 
-#: ulng.rsdlgsplit
-msgctxt "ulng.rsdlgsplit"
-msgid "Split"
-msgstr "Розрізати"
-
-#: ulng.rsdlgwipe
-msgid "Wipe file(s)"
-msgstr "Стерти файл(и)"
+#: ulng.rsdraganddroptextformat
+msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
+msgstr ""
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -9825,10 +9797,6 @@ msgstr "Помилка створення жорсткого посилання.
 msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
 msgstr ""
 
-#: ulng.rshotdirnothingtoimport
-msgid "Sorry, nothing detected to import!"
-msgstr "Вибачте, нічого імпортувати!"
-
 #: ulng.rshotdirwarningabortrestorebackup
 #, fuzzy
 #| msgid ""
@@ -9882,14 +9850,6 @@ msgstr "Переглядач"
 msgid "Cannot find reference to default bar file"
 msgstr "Не вдається знати файл типової панелі інструментів"
 
-#: ulng.rskeyboardshortcutcomplement
-msgid "Press \"[ALT] + [Shortcut]\" keys and it will select the item"
-msgstr ""
-
-#: ulng.rslinkmsgok
-msgid "Linker complete"
-msgstr "Компонування завершено"
-
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Маска зняття вибору"
@@ -9919,10 +9879,6 @@ msgstr "Налаштувати набір колонок"
 #: ulng.rsmenuconfigureentercustomcolumnname
 msgid "Enter new custom columns name"
 msgstr "Введіть нове ім’я набору колонок"
-
-#: ulng.rsmenuconfigurethiscustomcolumn
-msgid "Configure this custom columns view"
-msgstr "Налаштувати поточний набір колонок"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -10040,21 +9996,6 @@ msgstr "Видалити всі неактивні вкладки?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Закладка (%s) заблокована. Закрити?"
 
-#: ulng.rsmsgcolumnsmodifiedwanttosave
-#, fuzzy
-#| msgid ""
-#| "Options regarding columns view have been modified.\n"
-#| "\n"
-#| "Do you want to save them before to exit?\n"
-msgid ""
-"Options regarding columns view have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Опції відносно набору колонок було змінено.\n"
-"\n"
-"Зберегти зміни перед виходом?\n"
-
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Ви впевнені, що хочете вийти?"
@@ -10114,10 +10055,6 @@ msgstr "Неможливо видалити \"%s\" у смітник! Видал
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Диск не доступний"
-
-#: ulng.rsmsgdraganddropmodifiedwanttosave
-msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
-msgstr "Опції відноски перетягування мишею були змінені. Зберегти зміни перед виходом?"
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
@@ -10271,12 +10208,6 @@ msgstr ""
 msgid "Drag here other entries"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabsendofmenu
-#, fuzzy
-msgctxt "ulng.rsmsgfavoritetabsendofmenu"
-msgid "(end of sub menu)"
-msgstr "(кінець підменю)"
-
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name this Favorite Tabs entry"
 msgstr ""
@@ -10285,24 +10216,12 @@ msgstr ""
 msgid "Saving a new Favorite Tabs entry"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabserrorloading
-msgid "Error loading Favorite Tabs..."
-msgstr ""
-
-#: ulng.rsmsgfavoritetabserrorsaving
-msgid "Error saving Favorite Tabs..."
-msgstr ""
-
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabshasbeenadded
-msgid "Favorite Tabs have been added in memory!"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
@@ -10321,40 +10240,10 @@ msgstr ""
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabsmodifiedwanttosave
-msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabsname
-#, fuzzy
-msgctxt "ulng.rsmsgfavoritetabsname"
-msgid "Name"
-msgstr "Ім'я"
-
-#: ulng.rsmsgfavoritetabsnamesample
-msgid "This will load your Favorites Tabs entry setup called %s"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssavelastloadover
-msgid "Save to Favorite Tabs over last loaded entry (%s)"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssimplemenu
-#, fuzzy
-msgctxt "ulng.rsmsgfavoritetabssimplemenu"
-msgid "Menu name:"
-msgstr "Назва меню:"
-
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
 msgstr ""
-
-#: ulng.rsmsgfavoritetabssimpleseparator
-#, fuzzy
-msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
-msgid "(separator)"
-msgstr "(роздільник)"
 
 #: ulng.rsmsgfavoritetabssubmenuname
 #, fuzzy
@@ -10369,36 +10258,6 @@ msgstr ""
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
 msgstr ""
-
-#: ulng.rsmsgfileassociationsextramodifiedwanttosave
-#, fuzzy
-#| msgid ""
-#| "File extension associations extra options have been modified.\n"
-#| "\n"
-#| "Do you want to save before to exit?\n"
-msgid ""
-"File extension associations extra options have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
-msgstr ""
-"Додаткові опції асоціації розширення файлів було змінено.\n"
-"\n"
-"Зберегти зміни перед виходом?\n"
-
-#: ulng.rsmsgfileassociationsmodifiedwanttosave
-#, fuzzy
-#| msgid ""
-#| "File extension associations have been modified.\n"
-#| "\n"
-#| "Do you want to save before to exit?\n"
-msgid ""
-"File extension associations have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
-msgstr ""
-"Асоціації розширеня файлів було змінено.\n"
-"\n"
-"Зберегти зміни перед виходом?\n"
 
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
@@ -10431,25 +10290,6 @@ msgstr "Активні операції з файлами"
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "Деякі операції з файлами ще не завершені. Закриття Double Commander може призвести до втрати даних."
-
-#: ulng.rsmsgfileoperationsmodifiedwanttosave
-msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
-msgstr "Опції операцій з файлами було змінено. Збеергти зміни перед виходом?"
-
-#: ulng.rsmsgfilepanelcolormodifiedwanttosave
-#, fuzzy
-#| msgid ""
-#| "Options regarding panel color have been modified.\n"
-#| "\n"
-#| "Do you want to save them before to exit?\n"
-msgid ""
-"Options regarding panel color have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Опції відносно кольору панелі були змінені.\n"
-"\n"
-"Зберегти зміни перед виходом?\n"
 
 #: ulng.rsmsgfilereadonly
 #, fuzzy
@@ -10560,10 +10400,6 @@ msgstr "Шлях"
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
 msgstr "Знайдіть файл  \".hotlist\"  для імпорту"
-
-#: ulng.rsmsghotdirmodifiedwanttosave
-msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
-msgstr "Список обраних каталогів було змінено, зберегти перш ніж вийти?"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
@@ -10790,21 +10626,6 @@ msgstr "Створення каталогу %s"
 msgid "Move file %s"
 msgstr "Переміщення файлу %s"
 
-#: ulng.rsmsglogoptionsmodifiedwanttosave
-#, fuzzy
-#| msgid ""
-#| "Options regarding log have been modified.\n"
-#| "\n"
-#| "Do you want to save them before to exit?\n"
-msgid ""
-"Options regarding log have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Опції відносно звіту було змінено.\n"
-"\n"
-"Зберегти зміни перед виходом?\n"
-
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "Упакування в файл %s"
@@ -10840,10 +10661,6 @@ msgstr "Суперпароль"
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
 msgstr "Будь ласка, введіть суперпароль:"
-
-#: ulng.rsmsgmiscellaneousmodifiedwanttosave
-msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
-msgstr "Налаштування \"Різне\" змінено. Бажаєте зберегти налаштуваня перед виходом?"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -10901,15 +10718,6 @@ msgstr "Пароль (Фаєрвол):"
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
 msgstr "Будь ласка, ще раз введіть пароль для перевірки:"
-
-#: ulng.rsmsgpopuphotadd
-msgid "&Add %s"
-msgstr "&Додати %s"
-
-#: ulng.rsmsgpopuphotcnf
-msgctxt "ulng.rsmsgpopuphotcnf"
-msgid "&Configure"
-msgstr "&Налаштувати"
 
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
@@ -11063,20 +10871,6 @@ msgstr "Перейменування вкладки"
 msgid "New tab name:"
 msgstr "Нове ім’я вкладки"
 
-#: ulng.rsmsgtabsextraoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs extra have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgtabsoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "Шлях призначення:"
@@ -11133,21 +10927,6 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Введіть розташування і ім'я файлу, куди зберегти файл панелі інструментів ТС"
 
-#: ulng.rsmsgterminaloptionsmodifiedwanttosave
-#, fuzzy
-#| msgid ""
-#| "Options regarding terminal have been modified.\n"
-#| "\n"
-#| "Do you want to save them before to exit?\n"
-msgid ""
-"Options regarding terminal have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Опції відносно термінала було змінено.\n"
-"\n"
-"Зберегти зміни перед виходом?\n"
-
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
 msgstr "\"%s\" тепер в буфері обміну"
@@ -11156,10 +10935,6 @@ msgstr "\"%s\" тепер в буфері обміну"
 msgid "Extension of selected file is not in any recognized file types"
 msgstr "Розширення вибраного файлу немає у визнаних типах файлів"
 
-#: ulng.rsmsgtoolbarerrornotsaved
-msgid "Error! Problem saving toolbar!"
-msgstr "Помилка! Проблеми збереження панелі інструментів!"
-
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
 msgstr "Знайдіть файл \".toolbar\" для імпорту"
@@ -11167,10 +10942,6 @@ msgstr "Знайдіть файл \".toolbar\" для імпорту"
 #: ulng.rsmsgtoolbarlocatetctoolbarfile
 msgid "Locate \".BAR\" file to import"
 msgstr "Знайдіть файл \".BAR\" для імпорту"
-
-#: ulng.rsmsgtoolbarmodifiedwanttosave
-msgid "Toolbar has been modified. Do you want to save before to exit?"
-msgstr "Панель інструментів було змінено. Зберегти перед виходом?"
 
 #: ulng.rsmsgtoolbarrestorewhat
 msgid "Enter location and filename of Toolbar to restore"
@@ -11191,20 +10962,6 @@ msgstr ""
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Виділено надто багато файлів."
-
-#: ulng.rsmsgtreeviewmenucolorsmodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu Colors have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgtreeviewmenumodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
@@ -11389,11 +11146,6 @@ msgstr "Призупинено"
 msgid "Pausing"
 msgstr "Призупинення"
 
-#: ulng.rsoperqueued
-msgctxt "ulng.rsoperqueued"
-msgid "Queued"
-msgstr "У черзі"
-
 #: ulng.rsoperrunning
 msgid "Running"
 msgstr "Виконується"
@@ -11565,22 +11317,6 @@ msgstr "Увімкнути"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Введіть розширення"
-
-#: ulng.rsoptexamplecursor
-msgid "Cursor"
-msgstr "Курсор"
-
-#: ulng.rsoptexamplemark
-msgid "Mark"
-msgstr "Відмітка"
-
-#: ulng.rsoptexamplemarkcursor
-msgid "Mark + Cursor"
-msgstr "Відмітка + Курсор"
-
-#: ulng.rsoptexampletext
-msgid "Text"
-msgstr "Текст"
 
 #: ulng.rsoptfavoritetabswheretoaddinlist
 msgid "Add at beginning;Add at the end;Alphabetical sort"
@@ -11763,6 +11499,12 @@ msgctxt "ulng.rsoptionseditorfileassoc"
 msgid "File associations"
 msgstr "Асоціації з файлами"
 
+#: ulng.rsoptionseditorfilenewfiletypes
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilenewfiletypes"
+msgid "New"
+msgstr "Створити"
+
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
 msgid "File operations"
@@ -11843,6 +11585,13 @@ msgstr "Різне"
 msgid "Mouse"
 msgstr "Миша"
 
+#: ulng.rsoptionseditoroptionschanged
+msgid ""
+"Options have changed in \"%s\"\n"
+"\n"
+"Do you want to save modifications?\n"
+msgstr ""
+
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
 msgid "Plugins"
@@ -11861,10 +11610,6 @@ msgstr "Термінал"
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
 msgstr "Панель інструментів"
-
-#: ulng.rsoptionseditortoolbarcomplement
-msgid "Complements"
-msgstr "Доповнення"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -11953,10 +11698,6 @@ msgstr "Зверху;Знизу"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "&Роздільник;&Внутрішні команди;&Зовнішні команди;&Меню"
 
-#: ulng.rsopttreeviewmenudirectoryhotlistusage
-msgid "Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel"
-msgstr ""
-
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
 msgstr "Класичний DC - Copy (x) filename.ext;Windows - filename (x).ext;Інший - filename(x).ext"
@@ -11991,11 +11732,6 @@ msgstr "Каталог"
 msgid "Named pipe"
 msgstr "Іменований канал"
 
-#: ulng.rspropsno
-msgctxt "ulng.rspropsno"
-msgid "No"
-msgstr "Ні"
-
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "Сокет"
@@ -12015,10 +11751,6 @@ msgstr "Символьне посилання"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "Невідомий тип"
-
-#: ulng.rspropsyes
-msgid "Yes (%s)"
-msgstr "Так (%s)"
 
 #: ulng.rssearchresult
 msgid "Search result"
@@ -12071,18 +11803,9 @@ msgstr "файли"
 msgid "Param"
 msgstr "Параметр"
 
-#: ulng.rssimplewordpreview
-msgctxt "ulng.rssimplewordpreview"
-msgid "Preview"
-msgstr "Попередній перегляд"
-
 #: ulng.rssimplewordresult
 msgid "Result"
 msgstr "Результат"
-
-#: ulng.rssimplewordsaved
-msgid "Saved!"
-msgstr ""
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
@@ -12130,6 +11853,10 @@ msgstr "Не можу розрізати файл!"
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "Кількість частин більше 100! Продовжити?"
+
+#: ulng.rssplitpredefinedsizes
+msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgstr ""
 
 #: ulng.rssplitseldir
 msgid "Select directory:"

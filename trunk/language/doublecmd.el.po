@@ -3269,6 +3269,18 @@ msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "OK"
 
+#: tfrmmaskinputdlg.chkcasesensitive.caption
+msgid "Case sensitive"
+msgstr ""
+
+#: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
+msgid "Ignore accents and ligatures"
+msgstr ""
+
+#: tfrmmaskinputdlg.lblprompt.caption
+msgid "Input Mask:"
+msgstr ""
+
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 msgid "O&r select predefined selection type:"
 msgstr "Ή επιλέξτε τον προκαθορισμένο τύπο επιλογής:"
@@ -5887,8 +5899,8 @@ msgid "File si&ze format:"
 msgstr "Μορφή μεγέθους Αρχείου:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
-msgid "&Insert new files"
-msgstr "Εισαγωγή νέων αρχείων"
+msgid "&Insert new files:"
+msgstr "Εισαγωγή νέων αρχείων:"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -5899,8 +5911,8 @@ msgid "&Sort method:"
 msgstr "Μέθοδος Ταξινόμησης:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
-msgid "&Move updated files"
-msgstr "Μετακίνηση ενημερωμένων αρχείων"
+msgid "&Move updated files:"
+msgstr "Μετακίνηση ενημερωμένων αρχείων:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -6188,18 +6200,18 @@ msgstr "Πληκτρολόγηση"
 
 #: tfrmoptionskeyboard.lblalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
-msgid "Alt+L&etters"
-msgstr "Alt+Γράμματα"
+msgid "Alt+L&etters:"
+msgstr "Alt+Γράμματα:"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
-msgid "Ctrl+Alt+Le&tters"
-msgstr "Ctrl+Alt+Γράμματα"
+msgid "Ctrl+Alt+Le&tters:"
+msgstr "Ctrl+Alt+Γράμματα:"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
-msgid "&Letters"
-msgstr "Γράμματα"
+msgid "&Letters:"
+msgstr "Γράμματα:"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
@@ -6863,11 +6875,6 @@ msgstr "Επιλέξτε"
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstoolbar.btnopenicon.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENICON.CAPTION"
 msgid ">>"
 msgstr ">>"
 
@@ -9122,10 +9129,6 @@ msgstr "Ευθυγράμμιση"
 msgid "Caption"
 msgstr "Σύλληψη"
 
-#: ulng.rsconfcolconfig
-msgid "Config"
-msgstr "Διαμόρφωση"
-
 #: ulng.rsconfcoldelete
 msgctxt "ulng.rsconfcoldelete"
 msgid "Delete"
@@ -9212,14 +9215,6 @@ msgstr "Αντιστοιχίσεις:"
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr "Μεταβολές:"
-
-#: ulng.rsdlgallopcomplete
-msgid "All operations completed"
-msgstr "Όλες οι εργασίες ολοκληρώθηκαν"
-
-#: ulng.rsdlgallopprogress
-msgid "Progress of all operations %d %%"
-msgstr "Πρόοδος όλων των εργασιών %d %%"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -9325,28 +9320,10 @@ msgstr "Παράβλεψη Όλων"
 msgid "&Yes"
 msgstr "Ναι"
 
-#: ulng.rsdlgcalcstatistics
-msgid "Calculate files and folders"
-msgstr "Υπολογισμός αρχείων και φακέλων"
-
-#: ulng.rsdlgchecksumcalc
-msgctxt "ulng.rsdlgchecksumcalc"
-msgid "Calculate checksum..."
-msgstr "Υπολογισμός αθροίσματος ελέγχου..."
-
-#: ulng.rsdlgchecksumverify
-msgctxt "ulng.rsdlgchecksumverify"
-msgid "Verify checksum..."
-msgstr "Επιβεβαίωση αθροίσματος ελέγχου..."
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
 msgstr "Αντιγραφή αρχείου(ων)"
-
-#: ulng.rsdlgdel
-msgid "Delete file(s)"
-msgstr "Διαγραφή αρχείου(ων)"
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -9375,14 +9352,9 @@ msgstr "Ταχύτητα %s/s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "Ταχύτητα %s/s, εναπομένων χρόνος %s"
 
-#: ulng.rsdlgsplit
-msgctxt "ulng.rsdlgsplit"
-msgid "Split"
-msgstr "Διαμοιρασμός"
-
-#: ulng.rsdlgwipe
-msgid "Wipe file(s)"
-msgstr "Ασφαλής Διαγραφή αρχείου(ων)"
+#: ulng.rsdraganddroptextformat
+msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
+msgstr ""
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -9629,10 +9601,6 @@ msgstr "Λάθος στη δημιουργία δεσμού τύπου hardlink.
 msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
 msgstr "κανένα;Όνομα, α-ω;Όνομα, ω-α;Εξωτ, α-ω;Εξωτ, ω-α;Μέγεθος 9-0;Μέγεθος 0-9;Ημέρα 9-0;Ημέρα 0-9"
 
-#: ulng.rshotdirnothingtoimport
-msgid "Sorry, nothing detected to import!"
-msgstr "Λυπούμαστε, δεν βρέθηκε τίποτα προς εισαγωγή!"
-
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
@@ -9679,14 +9647,6 @@ msgstr "Προβολέας"
 msgid "Cannot find reference to default bar file"
 msgstr "Αδυναμία εύρεσης αναφοράς στο προκαθορισμένο αρχείο σειράς εργαλείων"
 
-#: ulng.rskeyboardshortcutcomplement
-msgid "Press \"[ALT] + [Shortcut]\" keys and it will select the item"
-msgstr ""
-
-#: ulng.rslinkmsgok
-msgid "Linker complete"
-msgstr "Ο Linker ολοκλήρωσε"
-
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Αποεπιλογή Μάσκας"
@@ -9714,10 +9674,6 @@ msgstr "Διαμόρφωση εξατομικευμένων στηλών"
 #: ulng.rsmenuconfigureentercustomcolumnname
 msgid "Enter new custom columns name"
 msgstr "Εισάγετε νέα προσαρμοσμένα χρώματα στηλών"
-
-#: ulng.rsmenuconfigurethiscustomcolumn
-msgid "Configure this custom columns view"
-msgstr "Διαμόρφωση αυτής της εξατομικευμένης προβολής στηλών"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -9829,16 +9785,6 @@ msgstr "Αφαίρεση όλων των ανενεργών καρτελών;"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Αυτή η καρτέλα (%s) είναι κλειδωμένη! Κλείσιμο ως έχει;"
 
-#: ulng.rsmsgcolumnsmodifiedwanttosave
-msgid ""
-"Options regarding columns view have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Ιδιότητες που αφορούν την προβολή στηλών έχουν μεταβληθεί.\n"
-"\n"
-"Επιθυμείτε αποθήκευση πριν την έξοδο;\n"
-
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Είστε σίγουροι οτι επιθυμείτε έξοδο;"
@@ -9898,10 +9844,6 @@ msgstr "Αδυναμία διαγραφής \"%s\" στα απορρίμματα
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Ο Δίσκος δεν είναι διαθέσιμος"
-
-#: ulng.rsmsgdraganddropmodifiedwanttosave
-msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
-msgstr "Οι ρυθμίσεις που αφορούν τη μεταφορά και απόθεση με ποντίκι έχουν μεταβληθεί. Επιθυμείτε αποθήκευση πριν την έξοδο;"
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
@@ -10055,11 +9997,6 @@ msgstr "Είστε βέβαιοι οτι επιθυμείτε να αφαιρέ�
 msgid "Drag here other entries"
 msgstr "Μεταφορά με το ποντίκι εδώ άλλων καταχωρήσεων"
 
-#: ulng.rsmsgfavoritetabsendofmenu
-msgctxt "ulng.rsmsgfavoritetabsendofmenu"
-msgid "(end of sub menu)"
-msgstr "(τέλος του υπομενού)"
-
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name this Favorite Tabs entry"
 msgstr "Εισαγωγή ενός ονόματος για αυτή τη καταχώρηση Αγαπημένης Καρτέλας"
@@ -10068,14 +10005,6 @@ msgstr "Εισαγωγή ενός ονόματος για αυτή τη κατα
 msgid "Saving a new Favorite Tabs entry"
 msgstr "Αποθήκευση μίας νέας καταχώρησης Αγαπημένων Καρτελών"
 
-#: ulng.rsmsgfavoritetabserrorloading
-msgid "Error loading Favorite Tabs..."
-msgstr "Λάθος κατά τη φόρτωση Αγαπημένων Καρτελών..."
-
-#: ulng.rsmsgfavoritetabserrorsaving
-msgid "Error saving Favorite Tabs..."
-msgstr "Λάθος κατά την αποθήκευση Αγαπημένων Καρτελών..."
-
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr "Αριθμός Αγαπημένων Καρτελών που έχουν εξαχθεί επιτυχώς: %d στις %d"
@@ -10083,10 +10012,6 @@ msgstr "Αριθμός Αγαπημένων Καρτελών που έχουν �
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
 msgstr "Προκαθορισμένη επιπλέον ρύθμιση για αποθήκευση ιστορικού καταλόγου για νέες Αγαπημένες Καρτέλες:"
-
-#: ulng.rsmsgfavoritetabshasbeenadded
-msgid "Favorite Tabs have been added in memory!"
-msgstr "Αγαπημένες Καρτέλες έχουν προστεθεί στη μνήμη!"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
 msgid "Number of file(s) imported successfully: %d on %d"
@@ -10104,37 +10029,10 @@ msgstr "Επιλέξτε .tab αρχείο(α) για εισαγωγή (μπορ
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
 msgstr "Η τελευταία προσαρμογή Αγαπημένων Καρτελών δεν έχει αποθηκευθεί ακόμη. Επιθυμείτε να αποθηκεύσετε πριν να συνεχίσετε;"
 
-#: ulng.rsmsgfavoritetabsmodifiedwanttosave
-msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
-msgstr "Αγαπημένες Καρτέλες έχουν μεταβληθεί. Επιθυμείτε αποθήκευση πριν την έξοδο;"
-
-#: ulng.rsmsgfavoritetabsname
-msgctxt "ulng.rsmsgfavoritetabsname"
-msgid "Name"
-msgstr "Όνομα"
-
-#: ulng.rsmsgfavoritetabsnamesample
-msgid "This will load your Favorites Tabs entry setup called %s"
-msgstr "Αυτό θα φορτώσει την ρύθμιση καταχώρησης Αγαπημένων Καρτελών με την ονομασία %s"
-
-#: ulng.rsmsgfavoritetabssavelastloadover
-msgid "Save to Favorite Tabs over last loaded entry (%s)"
-msgstr "Αποθήκευση σε Αγαπημένες Καρτέλες πάνω στην τελευταία φορτωμένη καταχώρηση (%s)"
-
-#: ulng.rsmsgfavoritetabssimplemenu
-msgctxt "ulng.rsmsgfavoritetabssimplemenu"
-msgid "Menu name:"
-msgstr "Ονομασία Μενού:"
-
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
 msgstr "Διατήρηση αποθήκευσης ιστορικού καταλόγου με Αγαπημένες Καρτέλες:"
-
-#: ulng.rsmsgfavoritetabssimpleseparator
-msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
-msgid "(separator)"
-msgstr "(διαχωριστικό)"
 
 #: ulng.rsmsgfavoritetabssubmenuname
 msgctxt "ulng.rsmsgfavoritetabssubmenuname"
@@ -10148,26 +10046,6 @@ msgstr "Αυτό θα φορτώσει τις Αγαπημένες Καρτέλ�
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
 msgstr "Αποθήκευση τρεχουσών καρτελών πάνω σε υπάρχουσα καταχώρηση Αγαπημένων Καρτελών"
-
-#: ulng.rsmsgfileassociationsextramodifiedwanttosave
-msgid ""
-"File extension associations extra options have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
-msgstr ""
-"Οι έξτρα ιδιότητες των συσχετισμών επεκτάσεων αρχείου έχουν αλλάξει.\n"
-"\n"
-"Επιθυμείτε να αποθηκεύσετε πριν την έξοδο;\n"
-
-#: ulng.rsmsgfileassociationsmodifiedwanttosave
-msgid ""
-"File extension associations have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
-msgstr ""
-"Οι συσχετισμοί επεκτάσεων αρχείου έχουν αλλάξει.\n"
-"\n"
-"Επιθυμείτε να αποθηκεύσετε πριν την έξοδο;\n"
 
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
@@ -10200,20 +10078,6 @@ msgstr "Εργασίες Αρχείου ενεργές"
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "Κάποιες εργασίες αρχείου δεν έχουν ακόμη τελειώσει. Κλείνοντας τον Double Commander ίσως προκληθεί απώλεια δεδομένων."
-
-#: ulng.rsmsgfileoperationsmodifiedwanttosave
-msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
-msgstr "Ιδιότητες που αφορούν εργασίες αρχείου έχουν μεταβληθεί. Επιθυμείτε αποθήκευση πριν την έξοδο;"
-
-#: ulng.rsmsgfilepanelcolormodifiedwanttosave
-msgid ""
-"Options regarding panel color have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Ιδιότητες που αφορούν το χρώμα του πάνελ έχουν μεταβληθεί.\n"
-"\n"
-"Επιθυμείτε να αποθηκεύσετε πριν την έξοδο;\n"
 
 #: ulng.rsmsgfilereadonly
 #, fuzzy
@@ -10324,10 +10188,6 @@ msgstr "Διαδρομή"
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
 msgstr "Εντοπισμός \".hotlist\" αρχείου προς εισαγωγή"
-
-#: ulng.rsmsghotdirmodifiedwanttosave
-msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
-msgstr "Ο κατάλογος Hotlist έχει μεταβληθεί. Επιθυμείτε να αποθηκεύσετε πριν την έξοδο;"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
@@ -10537,16 +10397,6 @@ msgstr "Δημιουργία καταλόγου %s"
 msgid "Move file %s"
 msgstr "Μετακίνηση αρχείου %s"
 
-#: ulng.rsmsglogoptionsmodifiedwanttosave
-msgid ""
-"Options regarding log have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Ιδιότητες που αφορούν την καταγραφή έχουν μεταβληθεί.\n"
-"\n"
-"Επιθυμείτε να τις αποθηκεύσετε πριν την έξοδο;\n"
-
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "Πακετάρισμα στο αρχείο %s"
@@ -10582,10 +10432,6 @@ msgstr "Κύριο Συνθηματικό"
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
 msgstr "Παρακαλώ εισάγετε το κύριο συνθηματικό:"
-
-#: ulng.rsmsgmiscellaneousmodifiedwanttosave
-msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
-msgstr "Διάφορες ρυθμίσεις έχουν αλλάξει. Επιθυμείτε να αποθηκεύσετε πριν την έξοδο;"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -10643,15 +10489,6 @@ msgstr "Συνθηματικό (Τείχος Προστασίας):"
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
 msgstr "Παρακαλώ επανεισάγετε το συνθηματικό για ταυτοποίηση:"
-
-#: ulng.rsmsgpopuphotadd
-msgid "&Add %s"
-msgstr "Προσθήκη %s"
-
-#: ulng.rsmsgpopuphotcnf
-msgctxt "ulng.rsmsgpopuphotcnf"
-msgid "&Configure"
-msgstr "Διαμόρφωση"
 
 #: ulng.rsmsgpopuphotdelete
 #, fuzzy,badformat
@@ -10806,26 +10643,6 @@ msgstr "Μετονομασία καρτέλας"
 msgid "New tab name:"
 msgstr "Όνομα νέας καρτέλας:"
 
-#: ulng.rsmsgtabsextraoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs extra have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Ιδιότητες σχετικά με τα extra καρτελών φακέλων έχουν αλλάξει.\n"
-"\n"
-"Επιθυμείτε αποθήκευση πριν την έξοδο;\n"
-
-#: ulng.rsmsgtabsoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Ιδιότητες σχετικά με τις καρτέλες φακέλων έχουν αλλάξει.\n"
-"\n"
-"Επιθυμείτε αποθήκευση πριν την έξοδο;\n"
-
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "Διαδρομή στόχου:"
@@ -10866,16 +10683,6 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Εισαγωγή τοποθεσίας και ονόματος αρχείου που θα αποθηκευθεί ένα αρχείο γραμμής εργαλείων του TC"
 
-#: ulng.rsmsgterminaloptionsmodifiedwanttosave
-msgid ""
-"Options regarding terminal have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Ιδιότητες που αφορούν το τερματικό έχουν μεταβληθεί.\n"
-"\n"
-"Επιθυμείτε αποθήκευση πριν την έξοδο;\n"
-
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
 msgstr "\"%s\" είναι τώρα στο πρόχειρο"
@@ -10884,10 +10691,6 @@ msgstr "\"%s\" είναι τώρα στο πρόχειρο"
 msgid "Extension of selected file is not in any recognized file types"
 msgstr "Η Επέκταση του επιλεγμένου αρχείου δεν είναι κάποιος γνωστός τύπος αρχείου"
 
-#: ulng.rsmsgtoolbarerrornotsaved
-msgid "Error! Problem saving toolbar!"
-msgstr "Λάθος!Πρόβλημα αποθήκευσης γραμμής εργαλείων!"
-
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
 msgstr "Εντοπισμός \".toolbar\" αρχείο για εισαγωγή"
@@ -10895,10 +10698,6 @@ msgstr "Εντοπισμός \".toolbar\" αρχείο για εισαγωγή"
 #: ulng.rsmsgtoolbarlocatetctoolbarfile
 msgid "Locate \".BAR\" file to import"
 msgstr "Εντοπισμός \".BAR\" αρχείο για εισαγωγή"
-
-#: ulng.rsmsgtoolbarmodifiedwanttosave
-msgid "Toolbar has been modified. Do you want to save before to exit?"
-msgstr "Η Γραμμή Εργαλείων έχει αλλάξει. Επιθυμείτε την αποθήκευση πριν την έξοδο;"
 
 #: ulng.rsmsgtoolbarrestorewhat
 msgid "Enter location and filename of Toolbar to restore"
@@ -10915,20 +10714,6 @@ msgstr ""
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Έχουν επιλεχθεί πάρα πολλά αρχεία."
-
-#: ulng.rsmsgtreeviewmenucolorsmodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu Colors have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgtreeviewmenumodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
@@ -11112,11 +10897,6 @@ msgstr "Έχει παυθεί"
 msgid "Pausing"
 msgstr "Παύση"
 
-#: ulng.rsoperqueued
-msgctxt "ulng.rsoperqueued"
-msgid "Queued"
-msgstr "Στην Ουρά"
-
 #: ulng.rsoperrunning
 msgid "Running"
 msgstr "Εκτέλεση"
@@ -11289,22 +11069,6 @@ msgstr "Ενεργοποίηση"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Εισάγετε επέκταση"
-
-#: ulng.rsoptexamplecursor
-msgid "Cursor"
-msgstr "Κέρσορας"
-
-#: ulng.rsoptexamplemark
-msgid "Mark"
-msgstr "Επιλογή"
-
-#: ulng.rsoptexamplemarkcursor
-msgid "Mark + Cursor"
-msgstr "Επιλογέας + Κέρσορας"
-
-#: ulng.rsoptexampletext
-msgid "Text"
-msgstr "Κείμενο"
 
 #: ulng.rsoptfavoritetabswheretoaddinlist
 msgid "Add at beginning;Add at the end;Alphabetical sort"
@@ -11481,6 +11245,12 @@ msgctxt "ulng.rsoptionseditorfileassoc"
 msgid "File associations"
 msgstr "Συσχετισμοί Αρχείου"
 
+#: ulng.rsoptionseditorfilenewfiletypes
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilenewfiletypes"
+msgid "New"
+msgstr "Νέο"
+
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
 msgid "File operations"
@@ -11561,6 +11331,13 @@ msgstr "Διάφορα"
 msgid "Mouse"
 msgstr "Ποντίκι"
 
+#: ulng.rsoptionseditoroptionschanged
+msgid ""
+"Options have changed in \"%s\"\n"
+"\n"
+"Do you want to save modifications?\n"
+msgstr ""
+
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
 msgid "Plugins"
@@ -11579,10 +11356,6 @@ msgstr "Τερματικό"
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
 msgstr "Γραμμή εργαλείων"
-
-#: ulng.rsoptionseditortoolbarcomplement
-msgid "Complements"
-msgstr "Συμπληρώματα"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -11671,10 +11444,6 @@ msgstr "Κορυφή;Κάτω;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "Διαχωριστικό;Εσωτερική εντολή;Εξωτερική εντολή;Μενού"
 
-#: ulng.rsopttreeviewmenudirectoryhotlistusage
-msgid "Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel"
-msgstr ""
-
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
 msgstr "DC legacy - Αντιγραφή (x) όνομα_αρχείου.επέκταση;Windows - όνομα_αρχείου (x).επέκταση;Άλλα - όνομα_αρχείου(x).επέκταση"
@@ -11709,11 +11478,6 @@ msgstr "Κατάλογος"
 msgid "Named pipe"
 msgstr "Ονομασμένο pipe"
 
-#: ulng.rspropsno
-msgctxt "ulng.rspropsno"
-msgid "No"
-msgstr "Όχι"
-
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "Socket"
@@ -11733,10 +11497,6 @@ msgstr "Συμβολoδεσμός"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "Άγνωστος τύπος"
-
-#: ulng.rspropsyes
-msgid "Yes (%s)"
-msgstr "Ναι (%s)"
 
 #: ulng.rssearchresult
 msgid "Search result"
@@ -11789,18 +11549,9 @@ msgstr "Αρχεία"
 msgid "Param"
 msgstr "Παράμετρος"
 
-#: ulng.rssimplewordpreview
-msgctxt "ulng.rssimplewordpreview"
-msgid "Preview"
-msgstr "Προεπισκόπηση"
-
 #: ulng.rssimplewordresult
 msgid "Result"
 msgstr "Αποτέλεσμα"
-
-#: ulng.rssimplewordsaved
-msgid "Saved!"
-msgstr "Αποθηκεύτηκε!"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
@@ -11848,6 +11599,10 @@ msgstr "Αδυναμία διαμερισμού του Αρχείου!"
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "Ο αριθμός τμημάτων είναι παραπάνω από 100! Συνέχιση;"
+
+#: ulng.rssplitpredefinedsizes
+msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgstr ""
 
 #: ulng.rssplitseldir
 msgid "Select directory:"

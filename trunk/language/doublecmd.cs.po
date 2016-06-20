@@ -3248,6 +3248,18 @@ msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
+#: tfrmmaskinputdlg.chkcasesensitive.caption
+msgid "Case sensitive"
+msgstr ""
+
+#: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
+msgid "Ignore accents and ligatures"
+msgstr ""
+
+#: tfrmmaskinputdlg.lblprompt.caption
+msgid "Input Mask:"
+msgstr ""
+
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 msgid "O&r select predefined selection type:"
 msgstr "Ne&bo vyberte předdefinovaný typ výběru:"
@@ -5874,8 +5886,8 @@ msgid "File si&ze format:"
 msgstr "Formát veli&kosti souboru:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
-msgid "&Insert new files"
-msgstr "&Vložit nové soubory"
+msgid "&Insert new files:"
+msgstr "&Vložit nové soubory:"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -5886,8 +5898,8 @@ msgid "&Sort method:"
 msgstr "&Metoda řazení"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
-msgid "&Move updated files"
-msgstr "&Přesun aktualizovaných souborů"
+msgid "&Move updated files:"
+msgstr "&Přesun aktualizovaných souborů:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -6175,18 +6187,18 @@ msgstr "Psaní"
 
 #: tfrmoptionskeyboard.lblalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
-msgid "Alt+L&etters"
-msgstr "Alt+P&ísmena"
+msgid "Alt+L&etters:"
+msgstr "Alt+P&ísmena:"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
-msgid "Ctrl+Alt+Le&tters"
-msgstr "Ctrl+Alt+Pís&mena"
+msgid "Ctrl+Alt+Le&tters:"
+msgstr "Ctrl+Alt+Pís&mena:"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
-msgid "&Letters"
-msgstr "&Písmena"
+msgid "&Letters:"
+msgstr "&Písmena:"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
@@ -6856,11 +6868,6 @@ msgstr "Vybrat"
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstoolbar.btnopenicon.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENICON.CAPTION"
 msgid ">>"
 msgstr ">>"
 
@@ -9115,10 +9122,6 @@ msgstr "Zarovnat"
 msgid "Caption"
 msgstr "Nadpis"
 
-#: ulng.rsconfcolconfig
-msgid "Config"
-msgstr "Nastavit"
-
 #: ulng.rsconfcoldelete
 msgctxt "ulng.rsconfcoldelete"
 msgid "Delete"
@@ -9205,14 +9208,6 @@ msgstr " Shodných: "
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr " Upravených: "
-
-#: ulng.rsdlgallopcomplete
-msgid "All operations completed"
-msgstr "Všechny operace dokončeny"
-
-#: ulng.rsdlgallopprogress
-msgid "Progress of all operations %d %%"
-msgstr "Průběh všech operací %d %%"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -9318,28 +9313,10 @@ msgstr "Přes&kočit vše"
 msgid "&Yes"
 msgstr "&Ano"
 
-#: ulng.rsdlgcalcstatistics
-msgid "Calculate files and folders"
-msgstr "Spočítat soubory a adresáře"
-
-#: ulng.rsdlgchecksumcalc
-msgctxt "ulng.rsdlgchecksumcalc"
-msgid "Calculate checksum..."
-msgstr "Výpočet kontrolního součtu..."
-
-#: ulng.rsdlgchecksumverify
-msgctxt "ulng.rsdlgchecksumverify"
-msgid "Verify checksum..."
-msgstr "Kontrola kontrolního součtu..."
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
 msgstr "Kopírovat soubor(y)"
-
-#: ulng.rsdlgdel
-msgid "Delete file(s)"
-msgstr "Smazat soubor(y)"
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -9368,14 +9345,9 @@ msgstr "Rychlost %s/s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "Rychlost %s/s, zbývající čas %s"
 
-#: ulng.rsdlgsplit
-msgctxt "ulng.rsdlgsplit"
-msgid "Split"
-msgstr "Dělení"
-
-#: ulng.rsdlgwipe
-msgid "Wipe file(s)"
-msgstr "Nevratně smazat soubor(y)"
+#: ulng.rsdraganddroptextformat
+msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
+msgstr ""
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -9622,10 +9594,6 @@ msgstr "Chyba při vytváření hardlinku."
 msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
 msgstr "Žádná;Název, a-z;Název, z-a;Přípona, a-z;Přípona, z-a;Velikost 9-0;Velikost 0-9;Datum 9-0;Datum 0-9"
 
-#: ulng.rshotdirnothingtoimport
-msgid "Sorry, nothing detected to import!"
-msgstr "Bohužel, není nic detekováno pro import!"
-
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
@@ -9674,14 +9642,6 @@ msgstr "Prohlížeč"
 msgid "Cannot find reference to default bar file"
 msgstr "Nemohu najít odkaz na výchozí BAR soubor"
 
-#: ulng.rskeyboardshortcutcomplement
-msgid "Press \"[ALT] + [Shortcut]\" keys and it will select the item"
-msgstr ""
-
-#: ulng.rslinkmsgok
-msgid "Linker complete"
-msgstr "Spojování dokončeno"
-
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Maska zrušení výběru"
@@ -9709,10 +9669,6 @@ msgstr "Nastavit uživatelské sloupce"
 #: ulng.rsmenuconfigureentercustomcolumnname
 msgid "Enter new custom columns name"
 msgstr "Zadejte nový název vlastních sloupců"
-
-#: ulng.rsmenuconfigurethiscustomcolumn
-msgid "Configure this custom columns view"
-msgstr "Nastavit vlastní sloupcové zobrazení"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -9824,16 +9780,6 @@ msgstr "Odstranit všechny neaktivní záložky?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Záložka (%s) je uzamčena! Přesto zavřít?"
 
-#: ulng.rsmsgcolumnsmodifiedwanttosave
-msgid ""
-"Options regarding columns view have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Možnosti týkající se sloupcového zobrazení byly změněny.\n"
-"\n"
-"Chcete je před ukončením uložit?\n"
-
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Opravdu chcete skončit?"
@@ -9893,10 +9839,6 @@ msgstr "Nelze odstranit \"%s\" do koše! Odstranit přímo?"
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Disk není dostupný"
-
-#: ulng.rsmsgdraganddropmodifiedwanttosave
-msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
-msgstr "Možnosti týkající se přetáhnutí myší byly změněny. Chcete je před ukončením uložit?"
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
@@ -10050,11 +9992,6 @@ msgstr "Jste si jisti že chcete vymazat všechny položky oblíbených zálože
 msgid "Drag here other entries"
 msgstr "Přetáhněte sem další položky"
 
-#: ulng.rsmsgfavoritetabsendofmenu
-msgctxt "ulng.rsmsgfavoritetabsendofmenu"
-msgid "(end of sub menu)"
-msgstr "(konec v podnabídce) "
-
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name this Favorite Tabs entry"
 msgstr "Zadání názvu záložky mezi oblíbené"
@@ -10063,14 +10000,6 @@ msgstr "Zadání názvu záložky mezi oblíbené"
 msgid "Saving a new Favorite Tabs entry"
 msgstr "Uloží novou záložku mezi oblíbené"
 
-#: ulng.rsmsgfavoritetabserrorloading
-msgid "Error loading Favorite Tabs..."
-msgstr "Chyba načítání oblíbených záložek..."
-
-#: ulng.rsmsgfavoritetabserrorsaving
-msgid "Error saving Favorite Tabs..."
-msgstr "Chyba ukládání oblíbených záložek..."
-
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr "Počet úspěšně exportovaných oblíbených záložek: %d z %d"
@@ -10078,10 +10007,6 @@ msgstr "Počet úspěšně exportovaných oblíbených záložek: %d z %d"
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
 msgstr "Další nastavení u uložení historii složek pro nové oblíbené záložky:"
-
-#: ulng.rsmsgfavoritetabshasbeenadded
-msgid "Favorite Tabs have been added in memory!"
-msgstr "Oblíbené záložky byly přidány do paměti!"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
 msgid "Number of file(s) imported successfully: %d on %d"
@@ -10099,38 +10024,10 @@ msgstr ""
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
 msgstr "Poslední změny oblíbených záložek dosud nebyly uloženy. Chcete je před pokračováním uložit?"
 
-#: ulng.rsmsgfavoritetabsmodifiedwanttosave
-msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
-msgstr "Možnosti týkající se oblíbených záložek byly upraveny. Chcete je před ukončením uložit?"
-
-#: ulng.rsmsgfavoritetabsname
-msgctxt "ulng.rsmsgfavoritetabsname"
-msgid "Name"
-msgstr "Název"
-
-#: ulng.rsmsgfavoritetabsnamesample
-msgid "This will load your Favorites Tabs entry setup called %s"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssavelastloadover
-msgid "Save to Favorite Tabs over last loaded entry (%s)"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssimplemenu
-#, fuzzy
-msgctxt "ulng.rsmsgfavoritetabssimplemenu"
-msgid "Menu name:"
-msgstr "Název nabídky:"
-
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
 msgstr ""
-
-#: ulng.rsmsgfavoritetabssimpleseparator
-msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
-msgid "(separator)"
-msgstr "(oddělovač)"
 
 #: ulng.rsmsgfavoritetabssubmenuname
 msgctxt "ulng.rsmsgfavoritetabssubmenuname"
@@ -10144,26 +10041,6 @@ msgstr ""
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
 msgstr "Uložit aktuální záložku do existující oblíbené záložky"
-
-#: ulng.rsmsgfileassociationsextramodifiedwanttosave
-msgid ""
-"File extension associations extra options have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
-msgstr ""
-"Soubor týkající se dalšího přidružení souborů byl změněn.\n"
-"\n"
-"Chcete ho před ukončením uložit?\n"
-
-#: ulng.rsmsgfileassociationsmodifiedwanttosave
-msgid ""
-"File extension associations have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
-msgstr ""
-"Soubor týkající se přidružení souborů byl změněn.\n"
-"\n"
-"Chcete je před ukončením uložit?\n"
 
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
@@ -10196,20 +10073,6 @@ msgstr "Aktivní souborové operace)"
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "Některé souborové operace nejsou dokončeny. Uzavření Double Commanderu může vést ke ztrátě dat."
-
-#: ulng.rsmsgfileoperationsmodifiedwanttosave
-msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
-msgstr "Možnosti týkající se činnosti souborů byly upraveny. Chcete je před ukončením uložit?"
-
-#: ulng.rsmsgfilepanelcolormodifiedwanttosave
-msgid ""
-"Options regarding panel color have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Možnosti týkající se barvy panelu byly změněny.\n"
-"\n"
-"Chcete je před ukončením uložit?\n"
 
 #: ulng.rsmsgfilereadonly
 #, fuzzy
@@ -10320,10 +10183,6 @@ msgstr "Cesta"
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
 msgstr "Nalezení souboru \".hotlist\" pro import"
-
-#: ulng.rsmsghotdirmodifiedwanttosave
-msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
-msgstr "Rychlé adresáře byly upraveny, Chcete je před uzavřením uložit?"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
@@ -10533,16 +10392,6 @@ msgstr "Vytvořit adresář %s"
 msgid "Move file %s"
 msgstr "Přesunout soubor %s"
 
-#: ulng.rsmsglogoptionsmodifiedwanttosave
-msgid ""
-"Options regarding log have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Možnosti týkající se protokolu byly změněny.\n"
-"\n"
-"Chcete je před ukončením uložit?\n"
-
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "Komprimovat do souboru %s"
@@ -10578,10 +10427,6 @@ msgstr "Hlavní heslo"
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
 msgstr "Prosíme zadejte hlavní heslo:"
-
-#: ulng.rsmsgmiscellaneousmodifiedwanttosave
-msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
-msgstr "Různé možnosti byly upraveny. Chcete je před ukončením uložit?"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -10639,15 +10484,6 @@ msgstr "Heslo (Firewall):"
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
 msgstr "Prosíme zopakujte heslo pro ověření:"
-
-#: ulng.rsmsgpopuphotadd
-msgid "&Add %s"
-msgstr "&Přidat %s"
-
-#: ulng.rsmsgpopuphotcnf
-msgctxt "ulng.rsmsgpopuphotcnf"
-msgid "&Configure"
-msgstr "&Nastavit"
 
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
@@ -10801,26 +10637,6 @@ msgstr "Přejmenovat záložku"
 msgid "New tab name:"
 msgstr "Název nové záložky:"
 
-#: ulng.rsmsgtabsextraoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs extra have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Možnosti týkající se dalších záložek adresářů byly změněny.\n"
-"\n"
-"Chcete je před ukončením uložit?\n"
-
-#: ulng.rsmsgtabsoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Možnosti týkající se oblíbených záložek byly změněny.\n"
-"\n"
-"Chcete je před ukončením uložit?\n"
-
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "Cílová cesta:"
@@ -10861,16 +10677,6 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Zadání umístění a názvu souboru pro uložení souboru nástrojové lišty TC"
 
-#: ulng.rsmsgterminaloptionsmodifiedwanttosave
-msgid ""
-"Options regarding terminal have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"Možnosti týkající se terminálu byly změněny.\n"
-"\n"
-"Chcete je před ukončením uložit?\n"
-
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
 msgstr "\"%s\" je nyní ve schránce"
@@ -10879,10 +10685,6 @@ msgstr "\"%s\" je nyní ve schránce"
 msgid "Extension of selected file is not in any recognized file types"
 msgstr "Přípona souboru není v žádném z rozpoznaných typů"
 
-#: ulng.rsmsgtoolbarerrornotsaved
-msgid "Error! Problem saving toolbar!"
-msgstr "Chyba! Problém s uložením nástrojové lišty!"
-
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
 msgstr "Nalezení souboru \".toolbar\" pro import"
@@ -10890,10 +10692,6 @@ msgstr "Nalezení souboru \".toolbar\" pro import"
 #: ulng.rsmsgtoolbarlocatetctoolbarfile
 msgid "Locate \".BAR\" file to import"
 msgstr "Nalezení souboru \".BAR\" pro import"
-
-#: ulng.rsmsgtoolbarmodifiedwanttosave
-msgid "Toolbar has been modified. Do you want to save before to exit?"
-msgstr "Nástrojová lišta byla upravena. Chcete ji před ukončením uložit?"
 
 #: ulng.rsmsgtoolbarrestorewhat
 msgid "Enter location and filename of Toolbar to restore"
@@ -10910,20 +10708,6 @@ msgstr ""
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Vybráno příliš mnoho souborů."
-
-#: ulng.rsmsgtreeviewmenucolorsmodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu Colors have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgtreeviewmenumodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
@@ -11107,11 +10891,6 @@ msgstr "Pozastaveno"
 msgid "Pausing"
 msgstr "Pozastavuji"
 
-#: ulng.rsoperqueued
-msgctxt "ulng.rsoperqueued"
-msgid "Queued"
-msgstr "Ve frontě"
-
 #: ulng.rsoperrunning
 msgid "Running"
 msgstr "Běží"
@@ -11283,22 +11062,6 @@ msgstr "Povolit"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Zadejte příponu"
-
-#: ulng.rsoptexamplecursor
-msgid "Cursor"
-msgstr "Kurzor"
-
-#: ulng.rsoptexamplemark
-msgid "Mark"
-msgstr "Označit"
-
-#: ulng.rsoptexamplemarkcursor
-msgid "Mark + Cursor"
-msgstr "Značka + Kurzor"
-
-#: ulng.rsoptexampletext
-msgid "Text"
-msgstr "Text"
 
 #: ulng.rsoptfavoritetabswheretoaddinlist
 msgid "Add at beginning;Add at the end;Alphabetical sort"
@@ -11475,6 +11238,12 @@ msgctxt "ulng.rsoptionseditorfileassoc"
 msgid "File associations"
 msgstr "Přidružení souborů"
 
+#: ulng.rsoptionseditorfilenewfiletypes
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilenewfiletypes"
+msgid "New"
+msgstr "Nový"
+
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
 msgid "File operations"
@@ -11555,6 +11324,13 @@ msgstr "Různé"
 msgid "Mouse"
 msgstr "Myš"
 
+#: ulng.rsoptionseditoroptionschanged
+msgid ""
+"Options have changed in \"%s\"\n"
+"\n"
+"Do you want to save modifications?\n"
+msgstr ""
+
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
 msgid "Plugins"
@@ -11573,10 +11349,6 @@ msgstr "Terminál"
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
 msgstr "Nástrojová lišta"
-
-#: ulng.rsoptionseditortoolbarcomplement
-msgid "Complements"
-msgstr ""
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -11665,10 +11437,6 @@ msgstr "Nahoře;Dole;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "O&ddělovač;Vni&třní příkaz;V&nější příkaz;Nabíd&ka"
 
-#: ulng.rsopttreeviewmenudirectoryhotlistusage
-msgid "Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel"
-msgstr ""
-
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
 msgstr "Starší DC - kopie (x) názevsouboru.ext;Windows - názevsouboru (x).ext;Ostatní - názevsouboru(x).ext"
@@ -11703,11 +11471,6 @@ msgstr "Adresář"
 msgid "Named pipe"
 msgstr "Pojmenované roury"
 
-#: ulng.rspropsno
-msgctxt "ulng.rspropsno"
-msgid "No"
-msgstr "Ne"
-
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "Zásuvka"
@@ -11727,10 +11490,6 @@ msgstr "Symbolický odkaz"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "Neznámý typ"
-
-#: ulng.rspropsyes
-msgid "Yes (%s)"
-msgstr "Ano (%s)"
 
 #: ulng.rssearchresult
 msgid "Search result"
@@ -11783,18 +11542,9 @@ msgstr "soubory"
 msgid "Param"
 msgstr "Parametr"
 
-#: ulng.rssimplewordpreview
-msgctxt "ulng.rssimplewordpreview"
-msgid "Preview"
-msgstr "Náhled"
-
 #: ulng.rssimplewordresult
 msgid "Result"
 msgstr "Výsledek"
-
-#: ulng.rssimplewordsaved
-msgid "Saved!"
-msgstr "Uloženo!"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
@@ -11842,6 +11592,10 @@ msgstr "Nelze rozdělit soubor!"
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "Počet částí je větší než 100! Pokračovat?"
+
+#: ulng.rssplitpredefinedsizes
+msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgstr ""
 
 #: ulng.rssplitseldir
 msgid "Select directory:"

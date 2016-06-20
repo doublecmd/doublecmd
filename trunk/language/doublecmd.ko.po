@@ -3513,6 +3513,18 @@ msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "확인(&O)"
 
+#: tfrmmaskinputdlg.chkcasesensitive.caption
+msgid "Case sensitive"
+msgstr ""
+
+#: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
+msgid "Ignore accents and ligatures"
+msgstr ""
+
+#: tfrmmaskinputdlg.lblprompt.caption
+msgid "Input Mask:"
+msgstr ""
+
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 #, fuzzy
 #| msgid "Or select predefined selection type:"
@@ -6482,8 +6494,8 @@ msgstr ""
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 #, fuzzy
-#| msgid "Insert new files"
-msgid "&Insert new files"
+#| msgid "&Insert new files"
+msgid "&Insert new files:"
 msgstr "새 파일 삽입"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
@@ -6500,8 +6512,8 @@ msgstr "정렬 방식"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 #, fuzzy
-#| msgid "Move updated files"
-msgid "&Move updated files"
+#| msgid "&Move updated files"
+msgid "&Move updated files:"
 msgstr "갱신된 파일 이동"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
@@ -6865,23 +6877,23 @@ msgstr "입력"
 
 #: tfrmoptionskeyboard.lblalt.caption
 #, fuzzy
-#| msgid "Alt+Letters"
+#| msgid "Alt+L&etters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
-msgid "Alt+L&etters"
+msgid "Alt+L&etters:"
 msgstr "Alt+문자"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
 #, fuzzy
-#| msgid "Ctrl+Alt+Letters"
+#| msgid "Ctrl+Alt+Le&tters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
-msgid "Ctrl+Alt+Le&tters"
+msgid "Ctrl+Alt+Le&tters:"
 msgstr "Ctrl+Alt+문자"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
 #, fuzzy
-#| msgid "Letters"
+#| msgid "&Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
-msgid "&Letters"
+msgid "&Letters:"
 msgstr "문자"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
@@ -7682,12 +7694,6 @@ msgstr ""
 #: tfrmoptionstoolbar.btnopenfile.caption
 #, fuzzy
 msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstoolbar.btnopenicon.caption
-#, fuzzy
-msgctxt "tfrmoptionstoolbar.btnopenicon.caption"
 msgid ">>"
 msgstr ">>"
 
@@ -10098,10 +10104,6 @@ msgstr "정렬"
 msgid "Caption"
 msgstr "캡션"
 
-#: ulng.rsconfcolconfig
-msgid "Config"
-msgstr "환경설정"
-
 #: ulng.rsconfcoldelete
 msgctxt "ulng.rsconfcoldelete"
 msgid "Delete"
@@ -10188,16 +10190,6 @@ msgstr ""
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr ""
-
-#: ulng.rsdlgallopcomplete
-#, fuzzy
-#| msgid "All operations is complete"
-msgid "All operations completed"
-msgstr "모든 작업이 완료되었습니다."
-
-#: ulng.rsdlgallopprogress
-msgid "Progress of all operations %d %%"
-msgstr "모든 작업의 처리 %d %%"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -10307,32 +10299,10 @@ msgstr "전부 건너뛰기(&K)"
 msgid "&Yes"
 msgstr "예(&Y)"
 
-#: ulng.rsdlgcalcstatistics
-msgid "Calculate files and folders"
-msgstr "파일과 폴더 계산하기"
-
-#: ulng.rsdlgchecksumcalc
-#, fuzzy
-#| msgid "Calculate check sum..."
-msgctxt "ulng.rsdlgchecksumcalc"
-msgid "Calculate checksum..."
-msgstr "CRC 체크섬 생성..."
-
-#: ulng.rsdlgchecksumverify
-#, fuzzy
-#| msgid "Verify check sum..."
-msgctxt "ulng.rsdlgchecksumverify"
-msgid "Verify checksum..."
-msgstr "CRC 체크섬 검사..."
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
 msgstr "파일 복사"
-
-#: ulng.rsdlgdel
-msgid "Delete file(s)"
-msgstr "파일 삭제"
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -10366,15 +10336,9 @@ msgstr "속도 %s/s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "속도 %s/s, 남은 시간 %s"
 
-#: ulng.rsdlgsplit
-#, fuzzy
-msgctxt "ulng.rsdlgsplit"
-msgid "Split"
-msgstr "파일 분할(&S)"
-
-#: ulng.rsdlgwipe
-msgid "Wipe file(s)"
-msgstr "반복해서 파일 삭제"
+#: ulng.rsdraganddroptextformat
+msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
+msgstr ""
 
 #: ulng.rsdrivenolabel
 #, fuzzy
@@ -10625,10 +10589,6 @@ msgstr "하드 링크 생성 오류"
 msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
 msgstr ""
 
-#: ulng.rshotdirnothingtoimport
-msgid "Sorry, nothing detected to import!"
-msgstr ""
-
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
@@ -10676,14 +10636,6 @@ msgstr "뷰어"
 msgid "Cannot find reference to default bar file"
 msgstr ""
 
-#: ulng.rskeyboardshortcutcomplement
-msgid "Press \"[ALT] + [Shortcut]\" keys and it will select the item"
-msgstr ""
-
-#: ulng.rslinkmsgok
-msgid "Linker complete"
-msgstr "링커 완료"
-
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "마스크 선택 해제"
@@ -10711,10 +10663,6 @@ msgstr "사용자 열 설정"
 #: ulng.rsmenuconfigureentercustomcolumnname
 msgid "Enter new custom columns name"
 msgstr ""
-
-#: ulng.rsmenuconfigurethiscustomcolumn
-msgid "Configure this custom columns view"
-msgstr "사용자 열 보기 설정"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -10828,13 +10776,6 @@ msgstr "모든 비활성 탭을 제거할까요?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "이 탭(%s)은 잠겼습니다. 닫을까요?"
 
-#: ulng.rsmsgcolumnsmodifiedwanttosave
-msgid ""
-"Options regarding columns view have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "정말 끝내시겠습니까?"
@@ -10894,10 +10835,6 @@ msgstr "\"%s\" 삭제 불가! 직접 삭제할까요?"
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "디스크를 사용할 수 없습니다"
-
-#: ulng.rsmsgdraganddropmodifiedwanttosave
-msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
-msgstr ""
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
@@ -11052,11 +10989,6 @@ msgstr ""
 msgid "Drag here other entries"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabsendofmenu
-msgctxt "ulng.rsmsgfavoritetabsendofmenu"
-msgid "(end of sub menu)"
-msgstr ""
-
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name this Favorite Tabs entry"
 msgstr ""
@@ -11065,24 +10997,12 @@ msgstr ""
 msgid "Saving a new Favorite Tabs entry"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabserrorloading
-msgid "Error loading Favorite Tabs..."
-msgstr ""
-
-#: ulng.rsmsgfavoritetabserrorsaving
-msgid "Error saving Favorite Tabs..."
-msgstr ""
-
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabshasbeenadded
-msgid "Favorite Tabs have been added in memory!"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
@@ -11101,37 +11021,9 @@ msgstr ""
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabsmodifiedwanttosave
-msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabsname
-#, fuzzy
-msgctxt "ulng.rsmsgfavoritetabsname"
-msgid "Name"
-msgstr "이름"
-
-#: ulng.rsmsgfavoritetabsnamesample
-msgid "This will load your Favorites Tabs entry setup called %s"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssavelastloadover
-msgid "Save to Favorite Tabs over last loaded entry (%s)"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssimplemenu
-msgctxt "ulng.rsmsgfavoritetabssimplemenu"
-msgid "Menu name:"
-msgstr ""
-
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssimpleseparator
-msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
-msgid "(separator)"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabssubmenuname
@@ -11145,20 +11037,6 @@ msgstr ""
 
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
-msgstr ""
-
-#: ulng.rsmsgfileassociationsextramodifiedwanttosave
-msgid ""
-"File extension associations extra options have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgfileassociationsmodifiedwanttosave
-msgid ""
-"File extension associations have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
 msgstr ""
 
 #: ulng.rsmsgfilechangedsave
@@ -11192,17 +11070,6 @@ msgstr "파일 작업 활성화"
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "어떤 파일 작업이 아직 끝나지 않았습니다. 더블 커멘더를 종료시 자료를 소실할 수 있습니다."
-
-#: ulng.rsmsgfileoperationsmodifiedwanttosave
-msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
-msgstr ""
-
-#: ulng.rsmsgfilepanelcolormodifiedwanttosave
-msgid ""
-"Options regarding panel color have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
 
 #: ulng.rsmsgfilereadonly
 #, fuzzy
@@ -11312,10 +11179,6 @@ msgstr "경로"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
-msgstr ""
-
-#: ulng.rsmsghotdirmodifiedwanttosave
-msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
 msgstr ""
 
 #: ulng.rsmsghotdirname
@@ -11518,13 +11381,6 @@ msgstr "폴더 %s 생성"
 msgid "Move file %s"
 msgstr "파일 %s 이동"
 
-#: ulng.rsmsglogoptionsmodifiedwanttosave
-msgid ""
-"Options regarding log have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "파일 %s 압축"
@@ -11561,10 +11417,6 @@ msgstr "주 암호"
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
 msgstr "주 암호를 입력하시오:"
-
-#: ulng.rsmsgmiscellaneousmodifiedwanttosave
-msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
-msgstr ""
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -11623,15 +11475,6 @@ msgstr "암호 (방화벽):"
 #, fuzzy
 msgid "Please re-enter the password for verification:"
 msgstr "암호를 확인하기 위해 다시 입력하세요:"
-
-#: ulng.rsmsgpopuphotadd
-msgid "&Add %s"
-msgstr "%s 추가(&A)"
-
-#: ulng.rsmsgpopuphotcnf
-msgctxt "ulng.rsmsgpopuphotcnf"
-msgid "&Configure"
-msgstr "설정(&C)"
 
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
@@ -11788,20 +11631,6 @@ msgstr "탭이름 바꾸기"
 msgid "New tab name:"
 msgstr "새 탭 이름:"
 
-#: ulng.rsmsgtabsextraoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs extra have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgtabsoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "대상 경로:"
@@ -11834,13 +11663,6 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr ""
 
-#: ulng.rsmsgterminaloptionsmodifiedwanttosave
-msgid ""
-"Options regarding terminal have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
 msgstr ""
@@ -11849,20 +11671,12 @@ msgstr ""
 msgid "Extension of selected file is not in any recognized file types"
 msgstr ""
 
-#: ulng.rsmsgtoolbarerrornotsaved
-msgid "Error! Problem saving toolbar!"
-msgstr ""
-
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
 msgstr ""
 
 #: ulng.rsmsgtoolbarlocatetctoolbarfile
 msgid "Locate \".BAR\" file to import"
-msgstr ""
-
-#: ulng.rsmsgtoolbarmodifiedwanttosave
-msgid "Toolbar has been modified. Do you want to save before to exit?"
 msgstr ""
 
 #: ulng.rsmsgtoolbarrestorewhat
@@ -11878,20 +11692,6 @@ msgstr ""
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "너무 많은 파일을 선택했습니다."
-
-#: ulng.rsmsgtreeviewmenucolorsmodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu Colors have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgtreeviewmenumodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
@@ -12081,11 +11881,6 @@ msgstr "중지됨"
 msgid "Pausing"
 msgstr "중지중"
 
-#: ulng.rsoperqueued
-msgctxt "ulng.rsoperqueued"
-msgid "Queued"
-msgstr "대기중"
-
 #: ulng.rsoperrunning
 msgid "Running"
 msgstr "실행중"
@@ -12263,22 +12058,6 @@ msgstr "사용하기"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "확장자 입력"
-
-#: ulng.rsoptexamplecursor
-msgid "Cursor"
-msgstr "커서"
-
-#: ulng.rsoptexamplemark
-msgid "Mark"
-msgstr "선택"
-
-#: ulng.rsoptexamplemarkcursor
-msgid "Mark + Cursor"
-msgstr "선택 + 커서"
-
-#: ulng.rsoptexampletext
-msgid "Text"
-msgstr "텍스트"
 
 #: ulng.rsoptfavoritetabswheretoaddinlist
 msgid "Add at beginning;Add at the end;Alphabetical sort"
@@ -12463,6 +12242,12 @@ msgctxt "ulng.rsoptionseditorfileassoc"
 msgid "File associations"
 msgstr "파일 연결"
 
+#: ulng.rsoptionseditorfilenewfiletypes
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilenewfiletypes"
+msgid "New"
+msgstr "새 파일"
+
 #: ulng.rsoptionseditorfileoperations
 #, fuzzy
 msgctxt "ulng.rsoptionseditorfileoperations"
@@ -12558,6 +12343,13 @@ msgstr "기타"
 msgid "Mouse"
 msgstr "마우스"
 
+#: ulng.rsoptionseditoroptionschanged
+msgid ""
+"Options have changed in \"%s\"\n"
+"\n"
+"Do you want to save modifications?\n"
+msgstr ""
+
 #: ulng.rsoptionseditorplugins
 #, fuzzy
 msgctxt "ulng.rsoptionseditorplugins"
@@ -12578,10 +12370,6 @@ msgstr "명령 프롬프트"
 
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
-msgstr ""
-
-#: ulng.rsoptionseditortoolbarcomplement
-msgid "Complements"
 msgstr ""
 
 #: ulng.rsoptionseditortools
@@ -12673,10 +12461,6 @@ msgstr "위;아래;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr ""
 
-#: ulng.rsopttreeviewmenudirectoryhotlistusage
-msgid "Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel"
-msgstr ""
-
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
 msgstr ""
@@ -12711,11 +12495,6 @@ msgstr "폴더"
 msgid "Named pipe"
 msgstr "이름이 있는 파이프"
 
-#: ulng.rspropsno
-msgctxt "ulng.rspropsno"
-msgid "No"
-msgstr "아니오"
-
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "소켓"
@@ -12735,10 +12514,6 @@ msgstr "심볼릭 링크"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "알 수 없는 형식"
-
-#: ulng.rspropsyes
-msgid "Yes (%s)"
-msgstr "예 (%s)"
 
 #: ulng.rssearchresult
 msgid "Search result"
@@ -12792,18 +12567,8 @@ msgstr ""
 msgid "Param"
 msgstr ""
 
-#: ulng.rssimplewordpreview
-#, fuzzy
-msgctxt "ulng.rssimplewordpreview"
-msgid "Preview"
-msgstr "미리보기"
-
 #: ulng.rssimplewordresult
 msgid "Result"
-msgstr ""
-
-#: ulng.rssimplewordsaved
-msgid "Saved!"
 msgstr ""
 
 #: ulng.rssimplewordworkdir
@@ -12852,6 +12617,10 @@ msgstr "파일을 자를 수 없습니다"
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "100 개 이상의 부분으로 되어 있습니다! 계속할까요?"
+
+#: ulng.rssplitpredefinedsizes
+msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgstr ""
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
