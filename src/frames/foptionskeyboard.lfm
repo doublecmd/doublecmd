@@ -12,7 +12,7 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 103
+    Height = 109
     Top = 6
     Width = 417
     Anchors = [akTop, akLeft, akRight]
@@ -23,15 +23,16 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
     ChildSizing.VerticalSpacing = 12
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 85
+    ClientHeight = 89
     ClientWidth = 413
     TabOrder = 0
     object lblNoModifier: TLabel
       Left = 8
-      Height = 13
+      Height = 15
       Top = 8
-      Width = 84
-      Caption = '&Letters'
+      Width = 88
+      Alignment = taRightJustify
+      Caption = '&Letters:'
       FocusControl = cbNoModifier
       ParentColor = False
     end
@@ -42,13 +43,13 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbTyping
       AnchorSideRight.Side = asrBottom
-      Left = 102
-      Height = 24
-      Top = 2
-      Width = 303
+      Left = 106
+      Height = 23
+      Top = 4
+      Width = 299
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
-      ItemHeight = 0
+      ItemHeight = 15
       Items.Strings = (
         'None'
         'Command Line'
@@ -60,19 +61,21 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
     end
     object lblAlt: TLabel
       Left = 8
-      Height = 13
-      Top = 33
-      Width = 84
-      Caption = 'Alt+L&etters'
+      Height = 15
+      Top = 35
+      Width = 88
+      Alignment = taRightJustify
+      Caption = 'Alt+L&etters:'
       FocusControl = cbAlt
       ParentColor = False
     end
     object lblCtrlAlt: TLabel
       Left = 8
-      Height = 13
-      Top = 58
-      Width = 84
-      Caption = 'Ctrl+Alt+Le&tters'
+      Height = 15
+      Top = 62
+      Width = 88
+      Alignment = taRightJustify
+      Caption = 'Ctrl+Alt+Le&tters:'
       FocusControl = cbCtrlAlt
       ParentColor = False
     end
@@ -83,13 +86,13 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbTyping
       AnchorSideRight.Side = asrBottom
-      Left = 102
-      Height = 25
-      Top = 27
-      Width = 303
+      Left = 106
+      Height = 23
+      Top = 31
+      Width = 299
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
-      ItemHeight = 0
+      ItemHeight = 15
       Style = csDropDownList
       TabOrder = 1
     end
@@ -100,13 +103,13 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbTyping
       AnchorSideRight.Side = asrBottom
-      Left = 102
-      Height = 25
-      Top = 52
-      Width = 303
+      Left = 106
+      Height = 23
+      Top = 58
+      Width = 299
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
-      ItemHeight = 0
+      ItemHeight = 15
       Style = csDropDownList
       TabOrder = 2
     end
@@ -117,9 +120,9 @@ inherited frmOptionsKeyboard: TfrmOptionsKeyboard
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 20
-    Top = 117
-    Width = 302
+    Height = 19
+    Top = 123
+    Width = 323
     BorderSpacing.Top = 8
     Caption = 'Le&ft, Right arrows change directory (Lynx-like movement)'
     TabOrder = 1

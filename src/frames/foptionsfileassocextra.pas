@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Extra File Associations Configuration
 
-	Copyright (C) 2016  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 
@@ -47,12 +47,9 @@ type
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
-  private
-    FLastLoadedOptionSignature: dword;
   public
     class function GetTitle: string; override;
     class function GetIconIndex: integer; override;
-    function CanWeClose(var {%H-}WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -60,7 +57,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fOptions, uShowMsg, uComponentsSignature, uGlobs, uLng;
+  uGlobs, uLng;
 
 {TfrmOptionsFileAssocExtra}
 
@@ -76,6 +73,7 @@ begin
   Result := 36;
 end;
 
+{ TfrmOptionsFileAssocExtra.cbExtendedContextMenuChange }
 procedure TfrmOptionsFileAssocExtra.cbExtendedContextMenuChange(Sender: TObject);
 begin
   gbExtendedContextMenuOptions.Enabled := TCheckbox(Sender).Checked;
@@ -91,7 +89,6 @@ begin
   cbExecuteViaShell.Checked := gOpenExecuteViaShell;
   cbIncludeConfigFileAssoc.Checked := gIncludeFileAssociation;
   cbExtendedContextMenuChange(cbExtendedContextMenu);
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
 end;
 
 { TfrmOptionsFileAssocExtra.Save }
@@ -103,34 +100,7 @@ begin
   gExecuteViaTerminalClose := cbOpenSystemWithTerminalClose.Checked;
   gOpenExecuteViaShell := cbExecuteViaShell.Checked;
   gIncludeFileAssociation := cbIncludeConfigFileAssoc.Checked;
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
   Result := [];
 end;
-
-{ TfrmOptionsFileAssocExtra.CanWeClose }
-function TfrmOptionsFileAssocExtra.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := (FLastLoadedOptionSignature = ComputeSignatureBasedOnComponent(Self, $00000000));
-
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsFileAssocExtra);
-    Answer := MsgBox(rsMsgFileAssociationsExtraModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
-  end;
-end;
-
 
 end.

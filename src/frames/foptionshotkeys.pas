@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Hotkeys options page
 
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsHotkeys;
@@ -56,15 +56,15 @@ type
     procedure lbxCategoriesChange(Sender: TObject);
     procedure stgCommandsDblClick(Sender: TObject);
     procedure stgCommandsDrawCell(Sender: TObject; aCol, aRow: Integer;
-      aRect: TRect; aState: TGridDrawState);
+      aRect: TRect; {%H-}aState: TGridDrawState);
     procedure stgCommandsResize(Sender: TObject);
-    procedure stgCommandsSelectCell(Sender: TObject; aCol, aRow: Integer;
-      var CanSelect: Boolean);
+    procedure stgCommandsSelectCell(Sender: TObject; {%H-}aCol, aRow: Integer;
+      var {%H-}CanSelect: Boolean);
     procedure stgHotkeysDblClick(Sender: TObject);
     procedure stgHotkeysKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+      {%H-}Shift: TShiftState);
     procedure stgHotkeysResize(Sender: TObject);
-    procedure stgHotkeysSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
+    procedure stgHotkeysSelectCell(Sender: TObject; {%H-}aCol, aRow: Integer; var {%H-}CanSelect: Boolean);
   private
     FEditForm: TfrmEditHotkey;
     FHotkeysAutoColWidths: array of Integer;
@@ -118,7 +118,7 @@ type
     procedure AddDeleteWithShiftHotkey(UseTrash: Boolean);
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
-
+    function IsSignatureComputedFromAllWindowComponents: boolean; override;
     procedure DeleteHotkey;
   end;
 
@@ -690,6 +690,12 @@ begin
   Result := rsOptionsEditorHotKeys;
 end;
 
+{ TfrmOptionsHotkeys.IsSignatureComputedFromAllWindowComponents }
+function TfrmOptionsHotkeys.IsSignatureComputedFromAllWindowComponents: boolean;
+begin
+  result := False;
+end;
+
 procedure TfrmOptionsHotkeys.DeleteHotkey;
 var
   i: Integer;
@@ -845,7 +851,7 @@ procedure TfrmOptionsHotkeys.AddDeleteWithShiftHotkey(UseTrash: Boolean);
     ShortCut := KeyToShortCutEx(Shortcut, ShiftState);
     TextShortcut := ShortCutToTextEx(Shortcut);
   end;
-  function ConfirmFix(Hotkey: THotkey; const Msg: String): Boolean;
+  function ConfirmFix({%H-}Hotkey: THotkey; const Msg: String): Boolean;
   begin
     Result := QuestionDlg(rsOptHotkeysCannotSetShortcut, Msg,
                           mtConfirmation, [mrYes, rsOptHotkeysFixParameter, 'isdefault', mrCancel], 0) = mrYes;

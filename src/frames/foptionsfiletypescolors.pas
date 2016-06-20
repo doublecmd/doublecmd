@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File types colors options page
 
-   Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsFileTypesColors;
@@ -58,11 +58,11 @@ type
     procedure btnApplyCategoryClick(Sender: TObject);
     procedure btnDeleteCategoryClick(Sender: TObject);
     procedure btnCategoryColorClick(Sender: TObject);
-    procedure lbCategoriesDragDrop(Sender, Source: TObject; X, Y: Integer);
-    procedure lbCategoriesDragOver(Sender, Source: TObject; X, Y: Integer;
-      State: TDragState; var Accept: Boolean);
+    procedure lbCategoriesDragDrop(Sender, {%H-}Source: TObject; {%H-}X, Y: Integer);
+    procedure lbCategoriesDragOver(Sender, Source: TObject; {%H-}X, {%H-}Y: Integer;
+      {%H-}State: TDragState; var Accept: Boolean);
     procedure lbCategoriesDrawItem(Control: TWinControl; Index: Integer;
-      ARect: TRect; State: TOwnerDrawState);
+      ARect: TRect; {%H-}State: TOwnerDrawState);
 
     procedure Clear;
   protected
@@ -71,9 +71,9 @@ type
     function Save: TOptionsEditorSaveFlags; override;
   public
     destructor Destroy; override;
-
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
+    function IsSignatureComputedFromAllWindowComponents: Boolean; override;
   end;
 
 implementation
@@ -267,6 +267,11 @@ end;
 class function TfrmOptionsFileTypesColors.GetTitle: String;
 begin
   Result := rsOptionsEditorFileTypes;
+end;
+
+function TfrmOptionsFileTypesColors.IsSignatureComputedFromAllWindowComponents: Boolean;
+begin
+  Result := False;
 end;
 
 procedure TfrmOptionsFileTypesColors.Load;

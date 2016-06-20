@@ -72,16 +72,12 @@ type
     procedure btnOutputPathForToolbarClick(Sender: TObject);
     procedure btnRelativeOutputPathForToolbarClick(Sender: TObject);
     procedure chkDescCreateUnicodeChange(Sender: TObject);
-    procedure GenericSomethingChanged(Sender: TObject);
-  private
-    FModificationTookPlace: Boolean;
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
-    function CanWeClose(var {%H-}WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 procedure BringUsToTCConfigurationPage;
@@ -91,7 +87,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uShowMsg, fOptions, Forms, Dialogs, fMain, Controls, uSpecialDir, uShowForm,
+  fOptions, Forms, Dialogs, fMain, Controls, uSpecialDir, uShowForm,
   uGlobs, uLng, uThumbnails, uConvEncoding;
 
 { TfrmOptionsMisc }
@@ -146,8 +142,6 @@ begin
 
   chkDescCreateUnicode.Checked:= gDescCreateUnicode;
   chkDescCreateUnicodeChange(chkDescCreateUnicode);
-
-  FModificationTookPlace := False;
 end;
 
 function TfrmOptionsMisc.Save: TOptionsEditorSaveFlags;
@@ -178,8 +172,6 @@ begin
   end;
 
   gDescCreateUnicode:= chkDescCreateUnicode.Checked;
-
-  FModificationTookPlace := False;
 end;
 
 { TfrmOptionsMisc.btnRelativeTCExecutableFileClick }
@@ -228,40 +220,6 @@ procedure TfrmOptionsMisc.chkDescCreateUnicodeChange(Sender: TObject);
 begin
   cmbDescCreateEncoding.Enabled:= chkDescCreateUnicode.Checked;
 end;
-
-{ TfrmOptionsMisc.GenericSomethingChanged }
-procedure TfrmOptionsMisc.GenericSomethingChanged(Sender: TObject);
-begin
-  FModificationTookPlace := True;
-end;
-
-{ TfrmOptionsMisc.CanWeClose }
-function TfrmOptionsMisc.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := not FModificationTookPlace;
-
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsMisc);
-    Answer := MsgBox(rsMsgMiscellaneousModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
-  end;
-end;
-
-
-
 procedure BringUsToTCConfigurationPage;
 var
   Editor: TOptionsEditor;

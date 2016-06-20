@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsTabs;
@@ -56,7 +56,6 @@ type
     cbTabsCloseDuplicateWhenClosing: TCheckBox;
   private
     FPageControl: TPageControl; // For checking Tabs capabilities
-    FLastLoadedOptionSignature: dword;
   protected
     procedure Init; override;
     procedure Load; override;
@@ -64,7 +63,6 @@ type
   public
     class function GetIconIndex: integer; override;
     class function GetTitle: string; override;
-    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -72,7 +70,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Forms, fOptions, uShowMsg, uComponentsSignature, DCStrUtils, uLng, uGlobs;
+  Forms, DCStrUtils, uLng, uGlobs;
 
 { TfrmOptionsTabs }
 
@@ -132,7 +130,6 @@ begin
   end;
 
   Application.ProcessMessages;
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
 end;
 
 function TfrmOptionsTabs.Save: TOptionsEditorSaveFlags;
@@ -176,34 +173,6 @@ begin
   case cmbTabsPosition.ItemIndex of
     0: gDirTabPosition := tbpos_top;
     1: gDirTabPosition := tbpos_bottom;
-  end;
-
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
-end;
-
-{ TfrmOptionsTabs.CanWeClose }
-function TfrmOptionsTabs.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := (FLastLoadedOptionSignature = ComputeSignatureBasedOnComponent(Self, $00000000));
-
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsTabs);
-    Answer := MsgBox(rsMsgTabsOptionsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        WillNeedUpdateWindowView := True;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
   end;
 end;
 

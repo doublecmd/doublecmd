@@ -9,11 +9,10 @@ inherited frmOptionsDragDrop: TfrmOptionsDragDrop
   DesignTop = 245
   object cbShowConfirmationDialog: TCheckBox[0]
     Left = 8
-    Height = 24
+    Height = 19
     Top = 8
-    Width = 270
+    Width = 212
     Caption = '&Show confirmation dialog after drop'
-    OnChange = GenericSomethingChanged
     TabOrder = 0
   end
   object gbTextDragAndDropRelatedOptions: TGroupBox[1]
@@ -21,23 +20,23 @@ inherited frmOptionsDragDrop: TfrmOptionsDragDrop
     AnchorSideTop.Control = cbShowConfirmationDialog
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 238
-    Top = 44
-    Width = 617
+    Height = 218
+    Top = 39
+    Width = 488
     AutoSize = True
     BorderSpacing.Top = 12
     Caption = 'When drag && dropping text into panels:'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 219
-    ClientWidth = 613
+    ClientHeight = 198
+    ClientWidth = 484
     TabOrder = 1
     Visible = False
     object lblMostDesiredTextFormat1: TLabel
       Left = 6
-      Height = 17
+      Height = 15
       Top = 6
-      Width = 410
+      Width = 324
       Caption = 'Place the most desired format on top of list (use dag && drop):'
       ParentColor = False
     end
@@ -46,9 +45,9 @@ inherited frmOptionsDragDrop: TfrmOptionsDragDrop
       AnchorSideTop.Control = lblMostDesiredTextFormat1
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 17
-      Top = 23
-      Width = 449
+      Height = 15
+      Top = 21
+      Width = 354
       Caption = '(if the most desired is not present, we''ll take second one and so on)'
       ParentColor = False
     end
@@ -58,7 +57,7 @@ inherited frmOptionsDragDrop: TfrmOptionsDragDrop
       AnchorSideTop.Side = asrBottom
       Left = 6
       Height = 72
-      Top = 40
+      Top = 36
       Width = 208
       DragMode = dmAutomatic
       Items.Strings = (
@@ -67,7 +66,7 @@ inherited frmOptionsDragDrop: TfrmOptionsDragDrop
         'Unicode text'
         'ANSI text'
       )
-      ItemHeight = 23
+      ItemHeight = 15
       OnDragDrop = lbMostDesiredTextFormatDragDrop
       OnDragOver = lbMostDesiredTextFormatDragOver
       ScrollWidth = 190
@@ -78,11 +77,10 @@ inherited frmOptionsDragDrop: TfrmOptionsDragDrop
       AnchorSideTop.Control = lbMostDesiredTextFormat
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 24
-      Top = 112
-      Width = 454
+      Height = 19
+      Top = 108
+      Width = 358
       Caption = 'From all the supported formats, ask which one to use every time'
-      OnChange = GenericSomethingChanged
       TabOrder = 1
     end
     object cbDragAndDropTextAutoFilename: TCheckBox
@@ -90,12 +88,11 @@ inherited frmOptionsDragDrop: TfrmOptionsDragDrop
       AnchorSideTop.Control = lblWarningForAskFormat
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 24
-      Top = 165
-      Width = 601
+      Height = 19
+      Top = 154
+      Width = 472
       BorderSpacing.Top = 12
       Caption = 'When dropping text, generate filename automatically (otherwise will prompt the user)'
-      OnChange = GenericSomethingChanged
       TabOrder = 2
     end
     object cbDragAndDropSaveUnicodeTextInUFT8: TCheckBox
@@ -103,11 +100,10 @@ inherited frmOptionsDragDrop: TfrmOptionsDragDrop
       AnchorSideTop.Control = cbDragAndDropTextAutoFilename
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 24
-      Top = 189
-      Width = 522
+      Height = 19
+      Top = 173
+      Width = 413
       Caption = 'When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)'
-      OnChange = GenericSomethingChanged
       TabOrder = 3
     end
     object lblWarningForAskFormat: TLabel
@@ -115,9 +111,9 @@ inherited frmOptionsDragDrop: TfrmOptionsDragDrop
       AnchorSideTop.Control = cbDragAndDropAskFormatEachTime
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 17
-      Top = 136
-      Width = 489
+      Height = 15
+      Top = 127
+      Width = 389
       Caption = '(will not work with some source application, so try to uncheck if problem)'
       ParentColor = False
     end

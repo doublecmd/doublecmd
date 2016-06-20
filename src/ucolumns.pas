@@ -16,10 +16,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 
@@ -194,7 +193,7 @@ type
     //---------------------
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     //---------------------
-    function GetSignature:dword;
+    function GetSignature(Seed:dword=$000000):dword;
     property ColumnsCount: Integer read GetCount;
     property Count: Integer read GetCount;
     property CustomView: Boolean read FCustomView write FCustomView;
@@ -943,7 +942,7 @@ begin
   FList.Delete(Index);
 end;
 
-function TPanelColumnsClass.GetSignature:dword;
+function TPanelColumnsClass.GetSignature(Seed:dword=$000000):dword;
   procedure ProgressSignatureWithThisString(sSomething:string);
   begin
     if length(sSomething) > 0 then
@@ -954,7 +953,7 @@ var
   iPanelColumnIndex: integer;
   iFunction: integer;
 begin
-  result:=$00000000;
+  result:=Seed;
 
   for iPanelColumnIndex := 0 to pred(Count) do
   begin
@@ -1142,13 +1141,15 @@ procedure TPanelColumnsList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   AName: String;
   AnObject: TPanelColumnsClass;
+  iTemp: int64;
 begin
   Clear;
 
   ANode := ANode.FindNode('ColumnsSets');
   if Assigned(ANode) then
   begin
-    DefaultTitleHash := AConfig.GetAttr(ANode, 'DefaultTitleHash', 0);
+    iTemp := AConfig.GetAttr(ANode, 'DefaultTitleHash', 0);
+    DefaultTitleHash := dword(iTemp);
     ANode := ANode.FirstChild;
     while Assigned(ANode) do
     begin

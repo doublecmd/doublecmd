@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Load/Save/WorkingWith HotDir
 
-   Copyright (C) 2009-2016  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2016  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,12 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-   -This unit has been added in 2014.
-   -Inspired a lot from "usearchtemplate"
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit uHotDir;
@@ -130,7 +127,7 @@ type
     function LoadTTreeView(ParamTreeView:TTreeView; DirectoryHotlistIndexToSelectIfAny:longint):TTreeNode;
     procedure RefreshFromTTreeView(ParamTreeView:TTreeView);
     function AddFromAnotherTTreeViewTheSelected(ParamWorkingTreeView, ParamTreeViewToImport:TTreeView; FlagAddThemAll: boolean): longint;
-    function ComputeSignature:dword;
+    function ComputeSignature(Seed:dword=$00000000):dword;
     property HotDir[Index: integer]: THotDir read GetHotDir;
     {$IFDEF MSWINDOWS}
     function ImportTotalCommander(TotalCommanderFilename: String): integer;
@@ -913,16 +910,11 @@ end;
 { TDirectoryHotlist.ComputeSignature }
 // Routine tries to pickup all char chain from element of directory hotlist and compute a unique CRC32.
 // This CRC32 will bea kind of signature of the directory hotlist.
-// We compute the CRC32 at the start of edition (TfrmOptionsDirectoryHotlist.Load) and
-// at the end (TfrmOptionsDirectoryHotlist.CanWeClose).
-// If they are different, it's a sign that directory hotlist have been modified.
-// It's not "perfect" since it might happen that two different combinaisons will
-// give the same CRC32 but odds are very good that it will be a different one.
-function TDirectoryHotlist.ComputeSignature:dword;
+function TDirectoryHotlist.ComputeSignature(Seed:dword):dword;
 var
   Index:integer;
 begin
-  result:=$000000002;
+  result:=Seed;
   for Index := 0 to pred(Count) do
   begin
     Result := crc32(Result,@HotDir[Index].Dispatcher,1);

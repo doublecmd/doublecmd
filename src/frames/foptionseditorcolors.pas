@@ -3,24 +3,23 @@
     -------------------------------------------------------------------------
     Internal editor highlighters configuration frame
 
-    Copyright (C) 2012  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2012-2016 Alexander Koblov (alexx2000@mail.ru)
 
     Based on Lazarus IDE editor configuration frame (Editor/Display/Colors)
 
-    This source is free software; you can redistribute it and/or modify
+    This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    This code is distributed in the hope that it will be useful, but
-    WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-    A copy of the GNU General Public License is available on the World
-    Wide Web at <http://www.gnu.org/copyleft/gpl.html>. You can also
-    obtain it by writing to the Free Software Foundation,
-    Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsEditorColors;
@@ -93,14 +92,14 @@ type
     procedure btnResetMaskClick(Sender: TObject);
     procedure btnSaveMaskClick(Sender: TObject);
     procedure FrameStyleBoxDrawItem(Control: TWinControl; Index: Integer;
-      ARect: TRect; State: TOwnerDrawState);
+      ARect: TRect; {%H-}State: TOwnerDrawState);
     procedure cmbLanguageChange(Sender: TObject);
     procedure ForegroundColorBoxChange(Sender: TObject);
     procedure FrameEdgesBoxDrawItem(Control: TWinControl; Index: Integer;
-      ARect: TRect; State: TOwnerDrawState);
-    procedure ColorElementTreeDrawItem(Control: TWinControl; Index: Integer;
+      ARect: TRect; {%H-}State: TOwnerDrawState);
+    procedure ColorElementTreeDrawItem({%H-}Control: TWinControl; Index: Integer;
       NodeRect: TRect; State: TOwnerDrawState);
-    procedure ColorElementTreeSelectionChange(Sender: TObject; User: boolean);
+    procedure ColorElementTreeSelectionChange(Sender: TObject; {%H-}User: boolean);
     procedure GeneralCheckBoxOnChange(Sender: TObject);
     procedure pnlElementAttributesResize(Sender: TObject);
     procedure tbtnGlobalClick(Sender: TObject);
@@ -122,6 +121,7 @@ type
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
+    function IsSignatureComputedFromAllWindowComponents: Boolean; override;
   end;
 
 implementation
@@ -648,7 +648,9 @@ var
   MinWidth: Integer;
 
   procedure CheckControl(Other: TControl);
-  var w,h: Integer;
+  var
+    w: Integer = 0;
+    h: Integer = 0;
   begin
     if not Other.Visible then exit;
     Other.GetPreferredSize(w,h);
@@ -792,6 +794,12 @@ end;
 class function TfrmOptionsEditorColors.GetTitle: String;
 begin
   Result:= rsOptionsEditorHighlighters;
+end;
+
+{ TfrmOptionsEditorColors.IsSignatureComputedFromAllWindowComponents }
+function TfrmOptionsEditorColors.IsSignatureComputedFromAllWindowComponents: Boolean;
+begin
+  Result := False;
 end;
 
 end.

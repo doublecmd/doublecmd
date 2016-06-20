@@ -15,11 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-   -This unit has been added in 2016, inspired a lot from "uhotdir".
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit ufavoritetabs;
@@ -113,7 +111,7 @@ type
     function GetIndexNextLastFavoriteTabsLoaded: integer;
     function GetIndexForSuchUniqueID(SearchedGUID: TGUID): integer;
     function GetSuggestedParamsForFavoriteTabs(sAttemptedName: string; var SuggestedFavoriteTabsName: string): boolean;
-    function ComputeSignature: dword;
+    function ComputeSignature(Seed:dword=$00000000): dword;
     procedure LoadAllListFromXml;
     function LoadTabsFromXmlEntry(paramIndexToLoad: integer): boolean;
     function SaveNewEntryFavoriteTabs(paramFavoriteTabsEntryName: string): boolean;
@@ -465,16 +463,11 @@ end;
 { TFavoriteTabsList.ComputeSignature }
 // Routine tries to pickup all char chain from element of favorite tabs list to compute a unique CRC32.
 // This CRC32 will be a kind of signature of the favorite tabs list.
-// We compute the CRC32 at the start of edition (TfrmOptionsFavoriteTabs.Load) and
-// at the end (TfrmOptionsFavoriteTabs.CanWeClose).
-// If they are different, it's a sign that favorite tabs list have been modified.
-// It's not "perfect" since it might happen that two different combinaisons will
-// give the same CRC32 but odds are very good that it will be a different one.
-function TFavoriteTabsList.ComputeSignature: dword;
+function TFavoriteTabsList.ComputeSignature(Seed:dword): dword;
 var
   Index: integer;
 begin
-  Result := $000000002;
+  Result := Seed;
   for Index := 0 to pred(Count) do
   begin
     Result := crc32(Result, @FavoriteTabs[Index].Dispatcher, 1);

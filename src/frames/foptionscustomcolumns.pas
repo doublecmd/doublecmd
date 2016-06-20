@@ -4,7 +4,7 @@
    Custom columns options page
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -145,11 +145,11 @@ type
     procedure UpdatePageInfoFromColumnClass;
     procedure UpdateColumnClass;
     procedure stgColumnsSelectEditor(Sender: TObject; aCol, aRow: integer; var Editor: TWinControl);
-    procedure stgColumnsKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
-    procedure stgColumnsMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
-    procedure stgColumnsMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
+    procedure stgColumnsKeyDown(Sender: TObject; var Key: word; {%H-}Shift: TShiftState);
+    procedure stgColumnsMouseDown(Sender: TObject; {%H-}Button: TMouseButton; {%H-}Shift: TShiftState; X, Y: integer);
+    procedure stgColumnsMouseMove(Sender: TObject; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: integer);
     procedure CreateEditingControls;
-    procedure EditorKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure EditorKeyDown(Sender: TObject; var Key: word; {%H-}Shift: TShiftState);
     procedure AddNewField;
     procedure miAddColumnClick(Sender: TObject);
     procedure stgSetSelectionAsHintToUser;
@@ -213,13 +213,12 @@ type
     procedure BitBtnDeleteFieldClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure ComboBoxXSelect(Sender: TObject);
-    procedure UpDownXClick(Sender: TObject; Button: TUDBtnType);
-    procedure UpDownXChanging(Sender: TObject; var AllowChange: boolean);
+    procedure UpDownXClick(Sender: TObject; {%H-}Button: TUDBtnType);
+    procedure UpDownXChanging(Sender: TObject; var {%H-}AllowChange: boolean);
 
   private
     ColPrm: TColPrm;
     ColumnClass: TPanelColumnsClass;
-    FLastLoadedOptionSignature: dword;
     PreviewLeftPanel: TColumnsFileView;
     PreviewRightPanel: TColumnsFileView;
 
@@ -243,7 +242,8 @@ type
   public
     class function GetIconIndex: integer; override;
     class function GetTitle: string; override;
-    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
+    function IsSignatureComputedFromAllWindowComponents: Boolean; override;
+    function ExtraOptionsSignature(CurrentSignature:dword):dword; override;
   end;
 
 implementation
@@ -354,29 +354,16 @@ begin
   Result := rsOptionsEditorCustomColumns;
 end;
 
-{ TfrmOptionsCustomColumns.CanWeClose }
-function TfrmOptionsCustomColumns.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
+{ TfrmOptionsCustomColumns.IsSignatureComputedFromAllWindowComponents }
+function TfrmOptionsCustomColumns.IsSignatureComputedFromAllWindowComponents: Boolean;
 begin
-  Result := (FLastLoadedOptionSignature = ColumnClass.GetSignature);
+  result := False;
+end;
 
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsCustomColumns);
-    Answer := MsgBox(rsMsgColumnsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
-  end;
+{ TfrmOptionsCustomColumns.ExtraOptionsSignature }
+function TfrmOptionsCustomColumns.ExtraOptionsSignature(CurrentSignature:dword):dword;
+begin
+  result := ColumnClass.GetSignature(CurrentSignature);
 end;
 
 { TfrmOptionsCustomColumns.FillColumnsList }
@@ -399,7 +386,7 @@ begin
   if bColumnConfigLoaded then
   begin
     ColumnClass.Assign(ColSet.GetColumnSet(cbConfigColumns.ItemIndex));
-    FLastLoadedOptionSignature := ColumnClass.GetSignature;
+    LastLoadedOptionSignature := ComputeCompleteOptionsSignature;
     cbConfigColumns.Enabled := True;
     btnSaveConfigColumns.Enabled := False;
     btnRenameConfigColumns.Enabled := True;
@@ -554,7 +541,6 @@ var
   Tit, FuncString: string;
   Wid: integer;
   Ali: TAlignment;
-  CurrentSignature: dword;
 begin
   // Save fields
   ColumnClass.Clear;
@@ -579,8 +565,7 @@ begin
   ColumnClass.UseFrameCursor := cbUseFrameCursor.Checked;
   ColumnClass.Name := cbConfigColumns.Items.Strings[cbConfigColumns.ItemIndex];
 
-  CurrentSignature := ColumnClass.GetSignature;
-  if FLastLoadedOptionSignature = CurrentSignature then
+  if LastLoadedOptionSignature = ComputeCompleteOptionsSignature then
   begin
     cbConfigColumns.Enabled := True;
     cbConfigColumns.Hint := '';
@@ -723,7 +708,8 @@ end;
 { TfrmOptionsCustomColumns.stgColumnsMouseDown }
 procedure TfrmOptionsCustomColumns.stgColumnsMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
 var
-  Col, Row: integer;
+  Col: integer = 0;
+  Row: integer = 0;
 begin
   if Y < stgColumns.GridHeight then
   begin

@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsLog;
@@ -55,15 +55,12 @@ type
     procedure btnRelativeLogFileClick(Sender: TObject);
     procedure cbLogFileChange(Sender: TObject);
     procedure btnViewLogFileClick(Sender: TObject);
-  private
-    FLastLoadedOptionSignature: dword;
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
     class function GetIconIndex: integer; override;
     class function GetTitle: string; override;
-    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -71,7 +68,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fOptions, uShowMsg, uComponentsSignature, fMain, uGlobs, uLng, uSpecialDir;
+  fMain, uGlobs, uLng, uSpecialDir;
 
 { TfrmOptionsLog }
 
@@ -121,7 +118,6 @@ begin
   cbLogErrors.Checked := (log_errors in gLogOptions);
   cbLogInfo.Checked := (log_info in gLogOptions);
 
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper, mp_PATHHELPER, nil);
 end;
 
@@ -155,34 +151,6 @@ begin
     Include(gLogOptions, log_errors);
   if cbLogInfo.Checked then
     Include(gLogOptions, log_info);
-
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
-end;
-
-{ TfrmOptionsLog.CanWeClose }
-function TfrmOptionsLog.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := (FLastLoadedOptionSignature = ComputeSignatureBasedOnComponent(Self, $00000000));
-
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsLog);
-    Answer := MsgBox(rsMsgLogOptionsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        WillNeedUpdateWindowView := True;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
-  end;
 end;
 
 end.

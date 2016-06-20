@@ -139,7 +139,6 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       Width = 177
       BorderSpacing.Left = 12
       Caption = 'Report errors with commands'
-      OnChange = GenericSomethingChanged
       TabOrder = 3
     end
   end
@@ -316,7 +315,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         TabOrder = 0
         Visible = False
       end
-      object btnOpenIcon: TButton
+      object btnOpenIcon: TSpeedButton
         AnchorSideTop.Control = edtIconFileName
         AnchorSideRight.Control = btnRelativeIconFileName
         AnchorSideBottom.Control = edtIconFileName
@@ -326,10 +325,44 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         Top = 2
         Width = 32
         Anchors = [akTop, akRight, akBottom]
-        Caption = '>>'
-        OnClick = btnOpenIconClick
-        TabOrder = 1
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          200000000000000400006400000064000000000000000000000000000000328B
+          D83F328BD83F328BD83F328BD83F328BD83F328BD83F328BD83F328BD83F328B
+          D83F328BD83F328BD83F328BD83F328BD83F328BD83F000000004994D7FF328B
+          D8FF328AD8FF328BD8FF328BD8FF328BD8FF328BD8FF328BD8FF328BD8FF328B
+          D8FF328BD8FF328AD8FF328BD8FF4994D7FF328BD83F00000000358FD8FFDCF0
+          FAFF98E1F6FF95E0F6FF92DFF6FF8EDEF5FF89DCF5FF85DAF4FF80D9F4FF79D7
+          F3FF73D5F3FF6FD3F2FFC2EAF8FF3494DAFF328BD83F000000003A96DAFFEFFA
+          FEFF93E5F8FF8FE4F8FF89E3F8FF82E1F7FF79DFF7FF70DEF6FF66DBF5FF5AD8
+          F4FF4CD4F3FF3FD1F2FFCAF2FBFF3494DAFF328BD83F000000003A9CDAFFF2FA
+          FDFF94E6F8FF92E5F8FF90E5F8FF8BE3F8FF86E2F7FF7EE1F7FF76DEF6FF6BDC
+          F6FF5DD9F4FF4ED5F3FFCCF2FBFF3494DAFF328BD83F0000000039A2DAFFF6FC
+          FEFF94E5F8FF93E5F8FF93E5F8FF91E5F8FF86E2F7FF7EE1F7FF76DEF6FF6BDC
+          F6FF5DD9F4FF4ED5F3FFCCF2FBFF3494DAFF328BD83F0000000039A7D9FFFEFF
+          FFFFF8FDFFFFF6FDFFFFF5FCFFFFF3FCFEFF9AE4F4FF9AE6F7FF9BE6F6FF3176
+          B3FF2F72B1FF2D71B2FF2B72B6FF2C73B9FF1C476DFF0000000037ABD9FFE8F6
+          FBFF6FBCE7FF54AAE2FF4CA5E0FF91C9EBFFFDFEFDFFFDFEFDFFFFFDFCFF2F72
+          B1FF6FD1F6FF6ACEF8FF84BFB3FFA0AC64FF3684C7FF193D5EFF3EACDAFFF1FA
+          FDFF94DEF5FF93DCF4FF63BCE9FF3494DAFF3494DAFF3494DAFF3494DAFF2E70
+          AFFF65C4EDFF5FBFF1FF9DA461FFDD8A00FF5BBCF3FF2E6FAEFF3FB3DBFFF7FC
+          FEFF8EE4F8FF91DEF5FF9FE0F5FFACE1F6FF1E486EFF3075B1FF3075AFFF4492
+          C6FF5FBAE6FF5DB5E9FF40C0D7FF20CCBFFF66BDF1FF2E72B2FF3AB4DAFFFDFE
+          FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFF2F74B2FF6EC1E5FF2F6EEDFF4791
+          E5FF5CB0DEFF5CABE1FF24C3B0FF00DF7CFF83C3F0FF2D71B1FF56BFDDFF60C3
+          E1FF62C4E2FF62C4E2FF62C4E2FF61C4E2FF2C72B0FFA2DAEDFF001AF4FF126C
+          F1FF24B9EEFF3DBAE4FF22D3F3FF58A2DFFFACD4F0FF2C71B1FF000000000000
+          0000000000000000000000000000000000002C71AEFFA4CFE7FF87ACEEFF25B0
+          F5FF00C5FFFF2AD6EEFF00FFFFFFB8D5F0FF73A7D2FF1E4D77FF000000000000
+          000000000000000000000000000000000000000000003378B3FF84B5D8FFBCDB
+          EFFFBDD8EDFFBDD6EEFFABCAE7FF699CCCFF27659FFF00000000000000000000
+          0000000000000000000000000000000000000000000000000000215583FF2A70
+          B0FF2A6FAFFF2A6FB0FF2B70B0FF1F4D77FF0000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000
+        }
         Visible = False
+        OnClick = btnOpenIconClick
       end
       object lblToolTip: TLabel
         AnchorSideTop.Side = asrCenter
@@ -356,7 +389,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
         MaxLength = 259
-        TabOrder = 2
+        TabOrder = 1
         Visible = False
       end
       object lblInternalCommand: TLabel
@@ -388,7 +421,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         ItemHeight = 15
         OnSelect = cbInternalCommandSelect
         Style = csDropDownList
-        TabOrder = 3
+        TabOrder = 2
         Visible = False
       end
       object lblInternalParameters: TLabel
@@ -422,7 +455,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         ParentShowHint = False
         ScrollBars = ssAutoBoth
         ShowHint = True
-        TabOrder = 4
+        TabOrder = 3
         Visible = False
         WordWrap = False
       end
@@ -451,7 +484,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
         MaxLength = 259
-        TabOrder = 5
+        TabOrder = 4
         Visible = False
       end
       object btnOpenFile: TButton
@@ -467,7 +500,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         BorderSpacing.InnerBorder = 4
         Caption = '>>'
         OnClick = btnOpenFileClick
-        TabOrder = 6
+        TabOrder = 5
         Visible = False
       end
       object lblExternalParameters: TLabel
@@ -495,7 +528,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
         MaxLength = 259
-        TabOrder = 7
+        TabOrder = 6
         Visible = False
       end
       object lblStartPath: TLabel
@@ -523,7 +556,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 2
         MaxLength = 259
-        TabOrder = 8
+        TabOrder = 7
         Visible = False
       end
       object lblHotkey: TLabel
@@ -563,7 +596,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         BorderSpacing.Left = 2
         Caption = 'Edit hot&key'
         OnClick = btnEditHotkeyClick
-        TabOrder = 9
+        TabOrder = 8
         Visible = False
       end
       object btnRemoveHotkey: TButton
@@ -579,7 +612,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         BorderSpacing.Left = 2
         Caption = 'Remove hotke&y'
         OnClick = btnRemoveHotKeyClick
-        TabOrder = 10
+        TabOrder = 9
         Visible = False
       end
       object btnRelativeExternalCommand: TSpeedButton
@@ -695,7 +728,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         BorderSpacing.InnerBorder = 4
         Caption = '>>'
         OnClick = btnStartPathClick
-        TabOrder = 11
+        TabOrder = 10
         Visible = False
       end
       object btnRelativeStartPath: TSpeedButton
@@ -803,7 +836,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         BorderSpacing.InnerBorder = 4
         Caption = 'Suggest'
         OnClick = btnSuggestionTooltipClick
-        TabOrder = 13
+        TabOrder = 11
         Visible = False
       end
       object btnParametersHelper: TSpeedButton
@@ -882,7 +915,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
   end
   object pmPathHelper: TPopupMenu[5]
     left = 784
-    top = 232
+    top = 216
   end
   object pmInsertButtonMenu: TPopupMenu[6]
     left = 256
