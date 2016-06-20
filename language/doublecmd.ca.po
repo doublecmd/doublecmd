@@ -3491,6 +3491,18 @@ msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Accepta"
 
+#: tfrmmaskinputdlg.chkcasesensitive.caption
+msgid "Case sensitive"
+msgstr ""
+
+#: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
+msgid "Ignore accents and ligatures"
+msgstr ""
+
+#: tfrmmaskinputdlg.lblprompt.caption
+msgid "Input Mask:"
+msgstr ""
+
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 #, fuzzy
 #| msgid "Or select predefined selection type:"
@@ -6362,7 +6374,7 @@ msgstr "Ordenant"
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"
-msgstr "Sensibilitat a les Majúscules"
+msgstr "Sensibilitat a les Majúscules:"
 
 #: tfrmoptionsfilesviews.lbldatetimeexample.caption
 msgid "Incorrect format"
@@ -6377,15 +6389,15 @@ msgstr "Format de data i hora:"
 
 #: tfrmoptionsfilesviews.lblfilesizeformat.caption
 msgid "File si&ze format:"
-msgstr "Format de mida de fitxer"
+msgstr "Format de mida de fitxer:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
-msgid "&Insert new files"
-msgstr "Insereix nou fitxer"
+msgid "&Insert new files:"
+msgstr "Insereix nou fitxer:"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
-msgstr "Ordena carpetes"
+msgstr "Ordena carpetes:"
 
 #: tfrmoptionsfilesviews.lblsortmethod.caption
 #, fuzzy
@@ -6395,8 +6407,8 @@ msgid "&Sort method:"
 msgstr "Mètode d'ordenament:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
-msgid "&Move updated files"
-msgstr "Mou fitxers actualitzats"
+msgid "&Move updated files:"
+msgstr "Mou fitxers actualitzats:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 #, fuzzy
@@ -6729,21 +6741,21 @@ msgstr "Escrivint"
 
 #: tfrmoptionskeyboard.lblalt.caption
 #, fuzzy
-#| msgid "Alt+Letters"
+#| msgid "Alt+L&etters"
 msgctxt "tfrmoptionskeyboard.lblalt.caption"
-msgid "Alt+L&etters"
-msgstr "Al&t+Lletres"
+msgid "Alt+L&etters:"
+msgstr "Al&t+Lletres:"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
 #, fuzzy
-#| msgid "Ctrl+Alt+Letters"
+#| msgid "Ctrl+Alt+Le&tters"
 msgctxt "tfrmoptionskeyboard.lblctrlalt.caption"
-msgid "Ctrl+Alt+Le&tters"
-msgstr "&Ctrl+Alt+Lletres"
+msgid "Ctrl+Alt+Le&tters:"
+msgstr "&Ctrl+Alt+Lletres:"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
-msgid "&Letters"
-msgstr "&Lletres"
+msgid "&Letters:"
+msgstr "&Lletres:"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 #, fuzzy
@@ -7501,11 +7513,6 @@ msgstr ""
 #: tfrmoptionstoolbar.btnopenfile.caption
 #, fuzzy
 msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstoolbar.btnopenicon.caption
-msgctxt "tfrmoptionstoolbar.btnopenicon.caption"
 msgid ">>"
 msgstr ">>"
 
@@ -9877,10 +9884,6 @@ msgstr "Alinia"
 msgid "Caption"
 msgstr "Text"
 
-#: ulng.rsconfcolconfig
-msgid "Config"
-msgstr "Config"
-
 #: ulng.rsconfcoldelete
 msgctxt "ulng.rsconfcoldelete"
 msgid "Delete"
@@ -9967,16 +9970,6 @@ msgstr ""
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr ""
-
-#: ulng.rsdlgallopcomplete
-#, fuzzy
-#| msgid "All operations is complete"
-msgid "All operations completed"
-msgstr "S'han completat totes les operacions"
-
-#: ulng.rsdlgallopprogress
-msgid "Progress of all operations %d %%"
-msgstr "Progrès de totes les operacions %d %%"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -10084,32 +10077,10 @@ msgstr "Omet Tots"
 msgid "&Yes"
 msgstr "&Si"
 
-#: ulng.rsdlgcalcstatistics
-msgid "Calculate files and folders"
-msgstr "Calcula fitxers i carpetes"
-
-#: ulng.rsdlgchecksumcalc
-#, fuzzy
-#| msgid "Calculate check sum..."
-msgctxt "ulng.rsdlgchecksumcalc"
-msgid "Calculate checksum..."
-msgstr "Calcula suma de comprovació"
-
-#: ulng.rsdlgchecksumverify
-#, fuzzy
-#| msgid "Verify check sum..."
-msgctxt "ulng.rsdlgchecksumverify"
-msgid "Verify checksum..."
-msgstr "Verifica suma de comprovació"
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
 msgstr "Copia fitxer(s)"
-
-#: ulng.rsdlgdel
-msgid "Delete file(s)"
-msgstr "Esborra fitxer(s)"
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -10144,16 +10115,9 @@ msgstr "Velocitat %s/s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "Velocitat %s/s, temps restant %s"
 
-#: ulng.rsdlgsplit
-#, fuzzy
-#| msgid "Split file"
-msgctxt "ulng.rsdlgsplit"
-msgid "Split"
-msgstr "Divideix Fitxer"
-
-#: ulng.rsdlgwipe
-msgid "Wipe file(s)"
-msgstr "Destrueix Fitxer(s)"
+#: ulng.rsdraganddroptextformat
+msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
+msgstr ""
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -10396,10 +10360,6 @@ msgstr "Error creant l'enllaç fort"
 msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
 msgstr ""
 
-#: ulng.rshotdirnothingtoimport
-msgid "Sorry, nothing detected to import!"
-msgstr ""
-
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
@@ -10445,14 +10405,6 @@ msgstr "Visualitzador"
 msgid "Cannot find reference to default bar file"
 msgstr ""
 
-#: ulng.rskeyboardshortcutcomplement
-msgid "Press \"[ALT] + [Shortcut]\" keys and it will select the item"
-msgstr ""
-
-#: ulng.rslinkmsgok
-msgid "Linker complete"
-msgstr "Enllaçat complet"
-
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "Màscara a deselecció"
@@ -10480,10 +10432,6 @@ msgstr "Configura columnes a mida"
 #: ulng.rsmenuconfigureentercustomcolumnname
 msgid "Enter new custom columns name"
 msgstr ""
-
-#: ulng.rsmenuconfigurethiscustomcolumn
-msgid "Configure this custom columns view"
-msgstr "Configura aquesta vista de columnes a mida"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -10594,13 +10542,6 @@ msgstr "¿Tanca totes les pestanyes inactives?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Aquesta pestanya (%s) està blocada! La tanco? "
 
-#: ulng.rsmsgcolumnsmodifiedwanttosave
-msgid ""
-"Options regarding columns view have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr ""
@@ -10660,10 +10601,6 @@ msgstr "No puc enviar \"%s\" a la paperera!¿Ho esborro directament?"
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Disc no disponible"
-
-#: ulng.rsmsgdraganddropmodifiedwanttosave
-msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
-msgstr ""
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
@@ -10817,11 +10754,6 @@ msgstr ""
 msgid "Drag here other entries"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabsendofmenu
-msgctxt "ulng.rsmsgfavoritetabsendofmenu"
-msgid "(end of sub menu)"
-msgstr ""
-
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name this Favorite Tabs entry"
 msgstr ""
@@ -10830,24 +10762,12 @@ msgstr ""
 msgid "Saving a new Favorite Tabs entry"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabserrorloading
-msgid "Error loading Favorite Tabs..."
-msgstr ""
-
-#: ulng.rsmsgfavoritetabserrorsaving
-msgid "Error saving Favorite Tabs..."
-msgstr ""
-
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabshasbeenadded
-msgid "Favorite Tabs have been added in memory!"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
@@ -10866,37 +10786,9 @@ msgstr ""
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabsmodifiedwanttosave
-msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabsname
-#, fuzzy
-msgctxt "ulng.rsmsgfavoritetabsname"
-msgid "Name"
-msgstr "Nom"
-
-#: ulng.rsmsgfavoritetabsnamesample
-msgid "This will load your Favorites Tabs entry setup called %s"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssavelastloadover
-msgid "Save to Favorite Tabs over last loaded entry (%s)"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssimplemenu
-msgctxt "ulng.rsmsgfavoritetabssimplemenu"
-msgid "Menu name:"
-msgstr ""
-
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssimpleseparator
-msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
-msgid "(separator)"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabssubmenuname
@@ -10910,20 +10802,6 @@ msgstr ""
 
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
-msgstr ""
-
-#: ulng.rsmsgfileassociationsextramodifiedwanttosave
-msgid ""
-"File extension associations extra options have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgfileassociationsmodifiedwanttosave
-msgid ""
-"File extension associations have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
 msgstr ""
 
 #: ulng.rsmsgfilechangedsave
@@ -10957,17 +10835,6 @@ msgstr "Operacions de fitxer actives"
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "Algunes operacions de fitxer no han acabat encara. Si tanca Double Commander pot perdre dades."
-
-#: ulng.rsmsgfileoperationsmodifiedwanttosave
-msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
-msgstr ""
-
-#: ulng.rsmsgfilepanelcolormodifiedwanttosave
-msgid ""
-"Options regarding panel color have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
 
 #: ulng.rsmsgfilereadonly
 #, fuzzy
@@ -11077,10 +10944,6 @@ msgstr "Ruta"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
-msgstr ""
-
-#: ulng.rsmsghotdirmodifiedwanttosave
-msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
 msgstr ""
 
 #: ulng.rsmsghotdirname
@@ -11280,13 +11143,6 @@ msgstr "Crea carpeta %s"
 msgid "Move file %s"
 msgstr "Mou Fitxer %s"
 
-#: ulng.rsmsglogoptionsmodifiedwanttosave
-msgid ""
-"Options regarding log have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "Comprimeix en fitxer %s"
@@ -11322,10 +11178,6 @@ msgstr "Contrasenya mestra"
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
 msgstr "Per favor, introduiu la contrasenya mestra:"
-
-#: ulng.rsmsgmiscellaneousmodifiedwanttosave
-msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
-msgstr ""
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -11383,15 +11235,6 @@ msgstr "Contrasenya (Firewall):"
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
 msgstr "Si us plau torneu a escriure el password de verificació"
-
-#: ulng.rsmsgpopuphotadd
-msgid "&Add %s"
-msgstr "&Afegeix %s"
-
-#: ulng.rsmsgpopuphotcnf
-msgctxt "ulng.rsmsgpopuphotcnf"
-msgid "&Configure"
-msgstr "&Configura"
 
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
@@ -11547,20 +11390,6 @@ msgstr "Reanomena pestanya"
 msgid "New tab name:"
 msgstr "Nom de la nova pestanya:"
 
-#: ulng.rsmsgtabsextraoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs extra have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgtabsoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "Ruta destí:"
@@ -11593,13 +11422,6 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr ""
 
-#: ulng.rsmsgterminaloptionsmodifiedwanttosave
-msgid ""
-"Options regarding terminal have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
 msgstr ""
@@ -11608,20 +11430,12 @@ msgstr ""
 msgid "Extension of selected file is not in any recognized file types"
 msgstr ""
 
-#: ulng.rsmsgtoolbarerrornotsaved
-msgid "Error! Problem saving toolbar!"
-msgstr ""
-
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
 msgstr ""
 
 #: ulng.rsmsgtoolbarlocatetctoolbarfile
 msgid "Locate \".BAR\" file to import"
-msgstr ""
-
-#: ulng.rsmsgtoolbarmodifiedwanttosave
-msgid "Toolbar has been modified. Do you want to save before to exit?"
 msgstr ""
 
 #: ulng.rsmsgtoolbarrestorewhat
@@ -11637,20 +11451,6 @@ msgstr ""
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Massa fitxers seleccionats."
-
-#: ulng.rsmsgtreeviewmenucolorsmodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu Colors have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgtreeviewmenumodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
@@ -11836,11 +11636,6 @@ msgstr "Pausat"
 msgid "Pausing"
 msgstr "Pausant"
 
-#: ulng.rsoperqueued
-msgctxt "ulng.rsoperqueued"
-msgid "Queued"
-msgstr "En cua"
-
 #: ulng.rsoperrunning
 msgid "Running"
 msgstr "Funcionant"
@@ -12014,22 +11809,6 @@ msgstr "Registre"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Introduir extensió"
-
-#: ulng.rsoptexamplecursor
-msgid "Cursor"
-msgstr "Cursor"
-
-#: ulng.rsoptexamplemark
-msgid "Mark"
-msgstr "Marca"
-
-#: ulng.rsoptexamplemarkcursor
-msgid "Mark + Cursor"
-msgstr "Marca + Cursor"
-
-#: ulng.rsoptexampletext
-msgid "Text"
-msgstr "Text"
 
 #: ulng.rsoptfavoritetabswheretoaddinlist
 msgid "Add at beginning;Add at the end;Alphabetical sort"
@@ -12210,6 +11989,12 @@ msgctxt "ulng.rsoptionseditorfileassoc"
 msgid "File associations"
 msgstr "Associacions de fitxers"
 
+#: ulng.rsoptionseditorfilenewfiletypes
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilenewfiletypes"
+msgid "New"
+msgstr "Nou"
+
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
 msgid "File operations"
@@ -12290,6 +12075,13 @@ msgstr "Varis"
 msgid "Mouse"
 msgstr "Ratolí"
 
+#: ulng.rsoptionseditoroptionschanged
+msgid ""
+"Options have changed in \"%s\"\n"
+"\n"
+"Do you want to save modifications?\n"
+msgstr ""
+
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
 msgid "Plugins"
@@ -12310,10 +12102,6 @@ msgstr ""
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
 msgstr "Barra d'eines"
-
-#: ulng.rsoptionseditortoolbarcomplement
-msgid "Complements"
-msgstr ""
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -12404,10 +12192,6 @@ msgstr "Amunt;Avall;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "S&eparador;Comandament inte&rn;Comandament e&xtern;Men&ú"
 
-#: ulng.rsopttreeviewmenudirectoryhotlistusage
-msgid "Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel"
-msgstr ""
-
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
 msgstr ""
@@ -12442,11 +12226,6 @@ msgstr "Carpeta"
 msgid "Named pipe"
 msgstr "Caanalització del nom"
 
-#: ulng.rspropsno
-msgctxt "ulng.rspropsno"
-msgid "No"
-msgstr "No"
-
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "Socket"
@@ -12466,10 +12245,6 @@ msgstr "Enllaç simbòlic"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "Tipus desconegut"
-
-#: ulng.rspropsyes
-msgid "Yes (%s)"
-msgstr "Si (%s)"
 
 #: ulng.rssearchresult
 msgid "Search result"
@@ -12523,18 +12298,8 @@ msgstr ""
 msgid "Param"
 msgstr ""
 
-#: ulng.rssimplewordpreview
-#, fuzzy
-msgctxt "ulng.rssimplewordpreview"
-msgid "Preview"
-msgstr "Vista prèvia"
-
 #: ulng.rssimplewordresult
 msgid "Result"
-msgstr ""
-
-#: ulng.rssimplewordsaved
-msgid "Saved!"
 msgstr ""
 
 #: ulng.rssimplewordworkdir
@@ -12583,6 +12348,10 @@ msgstr "Impossible dividir el fitxer!"
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "La quantitat de parts es superior a 100! ¿Voleu continuar?"
+
+#: ulng.rssplitpredefinedsizes
+msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgstr ""
 
 #: ulng.rssplitseldir
 msgid "Select directory:"

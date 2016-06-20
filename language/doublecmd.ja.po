@@ -5865,8 +5865,8 @@ msgid "File si&ze format:"
 msgstr "ファイルサイズのフォーマット(&z)："
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
-msgid "&Insert new files"
-msgstr "新しいファイルの挿入(&I)"
+msgid "&Insert new files:"
+msgstr "新しいファイルの挿入(&I):"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -5877,7 +5877,7 @@ msgid "&Sort method:"
 msgstr "ソート方法(&S)："
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
-msgid "&Move updated files"
+msgid "&Move updated files:"
 msgstr "更新されたファイルを移動(&M)："
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
@@ -6164,18 +6164,18 @@ msgstr "入力中"
 
 #: tfrmoptionskeyboard.lblalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
-msgid "Alt+L&etters"
-msgstr "Alt+文字(&e)"
+msgid "Alt+L&etters:"
+msgstr "Alt+文字(&e):"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
-msgid "Ctrl+Alt+Le&tters"
-msgstr "Ctrl+Alt+文字(&t)"
+msgid "Ctrl+Alt+Le&tters:"
+msgstr "Ctrl+Alt+文字(&t):"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
-msgid "&Letters"
-msgstr "文字(&L)"
+msgid "&Letters:"
+msgstr "文字(&L):"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
@@ -6839,11 +6839,6 @@ msgstr "選択"
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstoolbar.btnopenicon.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENICON.CAPTION"
 msgid ">>"
 msgstr ">>"
 
@@ -9043,10 +9038,6 @@ msgstr "整列"
 msgid "Caption"
 msgstr "キャプション"
 
-#: ulng.rsconfcolconfig
-msgid "Config"
-msgstr "設定"
-
 #: ulng.rsconfcoldelete
 msgctxt "ulng.rsconfcoldelete"
 msgid "Delete"
@@ -9139,14 +9130,6 @@ msgstr "一致："
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr "変更："
-
-#: ulng.rsdlgallopcomplete
-msgid "All operations completed"
-msgstr "すべての操作が完了しました"
-
-#: ulng.rsdlgallopprogress
-msgid "Progress of all operations %d %%"
-msgstr "すべての操作の進捗 %d %%"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -9252,28 +9235,10 @@ msgstr "全てスキップ(&k)"
 msgid "&Yes"
 msgstr "はい(&Y)"
 
-#: ulng.rsdlgcalcstatistics
-msgid "Calculate files and folders"
-msgstr "ファイルとフォルダを計算"
-
-#: ulng.rsdlgchecksumcalc
-msgctxt "ulng.rsdlgchecksumcalc"
-msgid "Calculate checksum..."
-msgstr "チェックサムを計算…"
-
-#: ulng.rsdlgchecksumverify
-msgctxt "ulng.rsdlgchecksumverify"
-msgid "Verify checksum..."
-msgstr "チェックサムを確認…"
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
 msgstr "ファイルのコピー"
-
-#: ulng.rsdlgdel
-msgid "Delete file(s)"
-msgstr "ファイルの削除"
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -9302,14 +9267,9 @@ msgstr "スピード %s/s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "スピード %s/s、残り時間 %s"
 
-#: ulng.rsdlgsplit
-msgctxt "ulng.rsdlgsplit"
-msgid "Split"
-msgstr "ファイル分割："
-
-#: ulng.rsdlgwipe
-msgid "Wipe file(s)"
-msgstr "ファイルの完全削除（抹殺）"
+#: ulng.rsdraganddroptextformat
+msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
+msgstr ""
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -9559,10 +9519,6 @@ msgstr "ハードリンク作成時エラーが発生しました。"
 msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
 msgstr "なし;名前(昇順);名前(降順);拡張子(昇順);拡張子(降順);サイズ(降順);サイズ(昇順);日付(降順);日付(昇順)"
 
-#: ulng.rshotdirnothingtoimport
-msgid "Sorry, nothing detected to import!"
-msgstr "残念。インポートする項目が検出されませんでした！"
-
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
@@ -9610,14 +9566,6 @@ msgstr "ビューア"
 msgid "Cannot find reference to default bar file"
 msgstr "デフォルトのバーファイルへの参照を見つけることができません"
 
-#: ulng.rskeyboardshortcutcomplement
-msgid "Press \"[ALT] + [Shortcut]\" keys and it will select the item"
-msgstr "”[ALT] + [ショートカット]”キーを押して項目を選択"
-
-#: ulng.rslinkmsgok
-msgid "Linker complete"
-msgstr "リンカ完了"
-
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "選択解除マスク"
@@ -9645,10 +9593,6 @@ msgstr "カスタム列の構成"
 #: ulng.rsmenuconfigureentercustomcolumnname
 msgid "Enter new custom columns name"
 msgstr "新しいカスタムカラム名を入力"
-
-#: ulng.rsmenuconfigurethiscustomcolumn
-msgid "Configure this custom columns view"
-msgstr "カスタム列のビューを構成"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -9761,17 +9705,6 @@ msgstr "全てのアクティブでないタブを削除しますか？"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "この＜%s＞タブはロックされています。それも、閉じるしますか？"
 
-#: ulng.rsmsgcolumnsmodifiedwanttosave
-msgid ""
-"Options regarding columns view have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"カラムビューに関するオプションが変更済みです。\n"
-"\n"
-"終了前に保存しますか？\n"
-" \n"
-
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "終了してもよろしいですか?"
@@ -9831,10 +9764,6 @@ msgstr "＜%s＞をゴミ箱に入れて削除することができません。�
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "ディスクが利用できません。"
-
-#: ulng.rsmsgdraganddropmodifiedwanttosave
-msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
-msgstr "マウスのドラッグ&&ロップに関するオプションが変更されています。終了する前に保存しますか？"
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
@@ -9988,11 +9917,6 @@ msgstr "お気に入りのタブから全てのエントリを本当に削除し
 msgid "Drag here other entries"
 msgstr "ここに他のエントリをドラッグ"
 
-#: ulng.rsmsgfavoritetabsendofmenu
-msgctxt "ulng.rsmsgfavoritetabsendofmenu"
-msgid "(end of sub menu)"
-msgstr "（サブメニューの終了）"
-
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name this Favorite Tabs entry"
 msgstr "このお気に入りのタブのエントリの名前を入力"
@@ -10001,14 +9925,6 @@ msgstr "このお気に入りのタブのエントリの名前を入力"
 msgid "Saving a new Favorite Tabs entry"
 msgstr "新しいお気に入りのタブのエントリを保存中"
 
-#: ulng.rsmsgfavoritetabserrorloading
-msgid "Error loading Favorite Tabs..."
-msgstr "お気に入りのタブの読み込みエラー…"
-
-#: ulng.rsmsgfavoritetabserrorsaving
-msgid "Error saving Favorite Tabs..."
-msgstr "お気に入りのタブの保存エラー…"
-
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr "正常にエクスポートされたお気に入りのタブの数： %d個（%d中）"
@@ -10016,10 +9932,6 @@ msgstr "正常にエクスポートされたお気に入りのタブの数： %d
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
 msgstr "デフォルトの追加設定（新しいお気に入りのタブのディレクトリ履歴の保存）："
-
-#: ulng.rsmsgfavoritetabshasbeenadded
-msgid "Favorite Tabs have been added in memory!"
-msgstr "お気に入りのタブがメモリに追加されました！"
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
 msgid "Number of file(s) imported successfully: %d on %d"
@@ -10039,37 +9951,10 @@ msgstr "インポートする.tabファイル（複数可）を選択します�
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
 msgstr "お気に入りのタブへの最終変更がまだ保存されていません。続行する前に保存しますか？"
 
-#: ulng.rsmsgfavoritetabsmodifiedwanttosave
-msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
-msgstr "お気に入りタブが変更されました。終了する前に保存しますか？"
-
-#: ulng.rsmsgfavoritetabsname
-msgctxt "ulng.rsmsgfavoritetabsname"
-msgid "Name"
-msgstr "名前"
-
-#: ulng.rsmsgfavoritetabsnamesample
-msgid "This will load your Favorites Tabs entry setup called %s"
-msgstr "お気に入りのタブの設定＜%s＞を読み込み"
-
-#: ulng.rsmsgfavoritetabssavelastloadover
-msgid "Save to Favorite Tabs over last loaded entry (%s)"
-msgstr "最後にロードされたお気に入りのタブ＜%s＞に保存"
-
-#: ulng.rsmsgfavoritetabssimplemenu
-msgctxt "ulng.rsmsgfavoritetabssimplemenu"
-msgid "Menu name:"
-msgstr "メニューの名前："
-
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
 msgstr "お気に入りのタブのディレクトリ履歴を必ず保存："
-
-#: ulng.rsmsgfavoritetabssimpleseparator
-msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
-msgid "(separator)"
-msgstr "（区切り）"
 
 #: ulng.rsmsgfavoritetabssubmenuname
 msgctxt "ulng.rsmsgfavoritetabssubmenuname"
@@ -10083,28 +9968,6 @@ msgstr "お気に入りのタブをロード：<%s>"
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
 msgstr "既存のお気に入りのタブのエントリに現在のタブを保存"
-
-#: ulng.rsmsgfileassociationsextramodifiedwanttosave
-msgid ""
-"File extension associations extra options have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
-msgstr ""
-"ファイルの拡張子の関連づけの追加オプションが変更されています。\n"
-"\n"
-"終了前に保存しますか？\n"
-" \n"
-
-#: ulng.rsmsgfileassociationsmodifiedwanttosave
-msgid ""
-"File extension associations have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
-msgstr ""
-"ファイルの拡張子の関連づけが変更されています。\n"
-"\n"
-"終了前に保存しますか？\n"
-" \n"
 
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
@@ -10137,21 +10000,6 @@ msgstr "ファイル操作を実行中です。"
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "まだ幾つかのファイル操作が終了していません。この状態でダブル・コマンダーを終了すると、データを失う可能性があります。"
-
-#: ulng.rsmsgfileoperationsmodifiedwanttosave
-msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
-msgstr "ファイル操作に関するオプションが変更されています。終了する前に保存しますか？"
-
-#: ulng.rsmsgfilepanelcolormodifiedwanttosave
-msgid ""
-"Options regarding panel color have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"パネルの色に関するオプションが変更されています。\n"
-"\n"
-"終了前に保存しますか？\n"
-" \n"
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
@@ -10260,10 +10108,6 @@ msgstr "パス"
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
 msgstr "インポートする＜.hotlist＞ファイルの場所を指定"
-
-#: ulng.rsmsghotdirmodifiedwanttosave
-msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
-msgstr "「ディレクトリ・ホットリスト」が変更されています。終了する前に保存しますか？"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
@@ -10475,17 +10319,6 @@ msgstr "ディレクトリ＜%s＞を作成"
 msgid "Move file %s"
 msgstr "ファイル＜%s＞を移動"
 
-#: ulng.rsmsglogoptionsmodifiedwanttosave
-msgid ""
-"Options regarding log have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"ログに関するオプションが変更されています。\n"
-"\n"
-"終了前に保存しますか？\n"
-" \n"
-
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "ファイル＜%s＞に圧縮"
@@ -10521,10 +10354,6 @@ msgstr "マスターパスワード"
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
 msgstr "マスターパスワードを入力して下さい："
-
-#: ulng.rsmsgmiscellaneousmodifiedwanttosave
-msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
-msgstr "その他の細々したオプションが変更されています。終了する前に保存しますか？"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -10582,15 +10411,6 @@ msgstr "パスワード（ファイアウォール用）："
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
 msgstr "確認のためパスワードを再度入力して下さい："
-
-#: ulng.rsmsgpopuphotadd
-msgid "&Add %s"
-msgstr "＜%s＞を追加(&A)"
-
-#: ulng.rsmsgpopuphotcnf
-msgctxt "ulng.rsmsgpopuphotcnf"
-msgid "&Configure"
-msgstr "設定(&C)"
 
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
@@ -10744,26 +10564,6 @@ msgstr "タブの名前を変更"
 msgid "New tab name:"
 msgstr "新しいタブの名前："
 
-#: ulng.rsmsgtabsextraoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs extra have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"フォルダー・タブの追加に関するオプションが変更されています。\n"
-"\n"
-"終了前に保存しますか？\n"
-
-#: ulng.rsmsgtabsoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"フォルダー・タブに関するオプションが変更されています。\n"
-"\n"
-"終了前に保存しますか？\n"
-
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "ターゲットのパス："
@@ -10811,17 +10611,6 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "TCツールバーファイルを保存する場所とファイル名を入力して下さい。"
 
-#: ulng.rsmsgterminaloptionsmodifiedwanttosave
-msgid ""
-"Options regarding terminal have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"端末に関するオプションが変更されています。\n"
-"\n"
-"終了前に保存しますか？\n"
-" \n"
-
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
 msgstr "＜”%s”＞が現在クリップボードにあります"
@@ -10830,10 +10619,6 @@ msgstr "＜”%s”＞が現在クリップボードにあります"
 msgid "Extension of selected file is not in any recognized file types"
 msgstr "選択したファイルの拡張子は認識可能なファイルタイプにありません"
 
-#: ulng.rsmsgtoolbarerrornotsaved
-msgid "Error! Problem saving toolbar!"
-msgstr "エラー！：ツールバーの保存中の問題！"
-
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
 msgstr "インポートすべき＜.toolbar＞ファイルの場所を指定して下さい。"
@@ -10841,10 +10626,6 @@ msgstr "インポートすべき＜.toolbar＞ファイルの場所を指定し�
 #: ulng.rsmsgtoolbarlocatetctoolbarfile
 msgid "Locate \".BAR\" file to import"
 msgstr "インポートすべき＜.BAR＞ファイルの場所を指定して下さい。"
-
-#: ulng.rsmsgtoolbarmodifiedwanttosave
-msgid "Toolbar has been modified. Do you want to save before to exit?"
-msgstr "ツールバーが更新されています。終了する前に保存しますか？"
 
 #: ulng.rsmsgtoolbarrestorewhat
 msgid "Enter location and filename of Toolbar to restore"
@@ -10862,26 +10643,6 @@ msgstr ""
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "選択されたファイル名が多すぎます。"
-
-#: ulng.rsmsgtreeviewmenucolorsmodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu Colors have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"ツリー表示メニューの色が変更されました。\n"
-"\n"
-"終了前に変更を保存しますか？\n"
-
-#: ulng.rsmsgtreeviewmenumodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-"ツリー表示メニューが変更されました。\n"
-"\n"
-"終了前に変更を保存しますか？\n"
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
@@ -11066,11 +10827,6 @@ msgstr "一時停止"
 msgid "Pausing"
 msgstr "一時停止中"
 
-#: ulng.rsoperqueued
-msgctxt "ulng.rsoperqueued"
-msgid "Queued"
-msgstr "キューに待機済み"
-
 #: ulng.rsoperrunning
 msgid "Running"
 msgstr "実行中"
@@ -11243,22 +10999,6 @@ msgstr "有効にする"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "拡張子を入力"
-
-#: ulng.rsoptexamplecursor
-msgid "Cursor"
-msgstr "カーソル"
-
-#: ulng.rsoptexamplemark
-msgid "Mark"
-msgstr "マーク"
-
-#: ulng.rsoptexamplemarkcursor
-msgid "Mark + Cursor"
-msgstr "マーク＋カーソル"
-
-#: ulng.rsoptexampletext
-msgid "Text"
-msgstr "テキスト"
 
 #: ulng.rsoptfavoritetabswheretoaddinlist
 msgid "Add at beginning;Add at the end;Alphabetical sort"
@@ -11437,6 +11177,12 @@ msgctxt "ulng.rsoptionseditorfileassoc"
 msgid "File associations"
 msgstr "ファイルの関連づけ"
 
+#: ulng.rsoptionseditorfilenewfiletypes
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilenewfiletypes"
+msgid "New"
+msgstr "新規"
+
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
 msgid "File operations"
@@ -11517,6 +11263,13 @@ msgstr "その他…"
 msgid "Mouse"
 msgstr "マウス"
 
+#: ulng.rsoptionseditoroptionschanged
+msgid ""
+"Options have changed in \"%s\"\n"
+"\n"
+"Do you want to save modifications?\n"
+msgstr ""
+
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
 msgid "Plugins"
@@ -11535,10 +11288,6 @@ msgstr "端末"
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
 msgstr "ツールバー"
-
-#: ulng.rsoptionseditortoolbarcomplement
-msgid "Complements"
-msgstr "補足"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -11627,10 +11376,6 @@ msgstr "上部;下部;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "区切り;内部コマンド;外部コマンド;メニュー(&e)"
 
-#: ulng.rsopttreeviewmenudirectoryhotlistusage
-msgid "Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel"
-msgstr "なし;必ず;毎回確認;キーボードショートカット;パネルトップバーのダブルクリック"
-
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
 msgstr "DCレガシー：　Copy (x) ファイル名.拡張子;Windows：　ファイル名 (x).拡張子;その他：　ファイル名(x).拡張子"
@@ -11665,11 +11410,6 @@ msgstr "ディレクトリ"
 msgid "Named pipe"
 msgstr "名前付きパイプ"
 
-#: ulng.rspropsno
-msgctxt "ulng.rspropsno"
-msgid "No"
-msgstr "いいえ"
-
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "ソケット"
@@ -11689,10 +11429,6 @@ msgstr "シンボリックリンク"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "不明なタイプ"
-
-#: ulng.rspropsyes
-msgid "Yes (%s)"
-msgstr "はい（%s）"
 
 #: ulng.rssearchresult
 msgid "Search result"
@@ -11745,18 +11481,9 @@ msgstr "ファイル"
 msgid "Param"
 msgstr "パラメータ"
 
-#: ulng.rssimplewordpreview
-msgctxt "ulng.rssimplewordpreview"
-msgid "Preview"
-msgstr "プレビュー"
-
 #: ulng.rssimplewordresult
 msgid "Result"
 msgstr "結果"
-
-#: ulng.rssimplewordsaved
-msgid "Saved!"
-msgstr "保存しました！"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
@@ -11805,12 +11532,16 @@ msgstr "ファイルを分割できません！"
 msgid "The number of parts is more than 100! Continue?"
 msgstr "パーツの数が100を超えます！続けますか？"
 
+#: ulng.rssplitpredefinedsizes
+msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgstr ""
+
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "ディレクトリを選択："
 
 #: ulng.rsstraccents
-msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;#195;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
+msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
 msgstr ""
 
 #: ulng.rsstraccentsstripped
@@ -12186,3 +11917,4 @@ msgstr "置換の回数：%d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "置換は起こりませんでした。"
+

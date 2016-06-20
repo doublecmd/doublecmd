@@ -3422,6 +3422,18 @@ msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "確定 (&O)"
 
+#: tfrmmaskinputdlg.chkcasesensitive.caption
+msgid "Case sensitive"
+msgstr ""
+
+#: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
+msgid "Ignore accents and ligatures"
+msgstr ""
+
+#: tfrmmaskinputdlg.lblprompt.caption
+msgid "Input Mask:"
+msgstr ""
+
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 #, fuzzy
 #| msgid "Or select predefined selection type:"
@@ -6354,8 +6366,8 @@ msgstr "檔案大小格式 (&Z):"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 #, fuzzy
-#| msgid "Insert new files"
-msgid "&Insert new files"
+#| msgid "&Insert new files"
+msgid "&Insert new files:"
 msgstr "插入新檔案 (&I):"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
@@ -6370,7 +6382,7 @@ msgid "&Sort method:"
 msgstr "排序方式 (&S):"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
-msgid "&Move updated files"
+msgid "&Move updated files:"
 msgstr "移動更新檔案 (&M):"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
@@ -6717,21 +6729,21 @@ msgstr "輸入焦點"
 
 #: tfrmoptionskeyboard.lblalt.caption
 #, fuzzy
-#| msgid "Alt+Letters"
+#| msgid "Alt+L&etters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
-msgid "Alt+L&etters"
-msgstr "Alt+字母 (&E)"
+msgid "Alt+L&etters:"
+msgstr "Alt+字母 (&E):"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
 #, fuzzy
-#| msgid "Ctrl+Alt+Letters"
+#| msgid "Ctrl+Alt+Le&tters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
-msgid "Ctrl+Alt+Le&tters"
-msgstr "Ctrl+Alt+字母 (&T)"
+msgid "Ctrl+Alt+Le&tters:"
+msgstr "Ctrl+Alt+字母 (&T):"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
-msgid "&Letters"
-msgstr "字母 (&L)"
+msgid "&Letters:"
+msgstr "字母 (&L):"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 #, fuzzy
@@ -7508,11 +7520,6 @@ msgstr ""
 
 #: tfrmoptionstoolbar.btnopenfile.caption
 msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmoptionstoolbar.btnopenicon.caption
-msgctxt "tfrmoptionstoolbar.btnopenicon.caption"
 msgid ">>"
 msgstr ">>"
 
@@ -9889,10 +9896,6 @@ msgstr "對齊"
 msgid "Caption"
 msgstr "標題"
 
-#: ulng.rsconfcolconfig
-msgid "Config"
-msgstr "設置"
-
 #: ulng.rsconfcoldelete
 msgctxt "ulng.rsconfcoldelete"
 msgid "Delete"
@@ -9979,14 +9982,6 @@ msgstr ""
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
 msgstr ""
-
-#: ulng.rsdlgallopcomplete
-msgid "All operations completed"
-msgstr "所有操作已完成"
-
-#: ulng.rsdlgallopprogress
-msgid "Progress of all operations %d %%"
-msgstr "所有操作進度 %d %%"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -10094,32 +10089,10 @@ msgstr "略過全部 (&K)"
 msgid "&Yes"
 msgstr "是 (&Y)"
 
-#: ulng.rsdlgcalcstatistics
-msgid "Calculate files and folders"
-msgstr "計算檔案及資料夾"
-
-#: ulng.rsdlgchecksumcalc
-#, fuzzy
-#| msgid "Calculate check sum..."
-msgctxt "ulng.rsdlgchecksumcalc"
-msgid "Calculate checksum..."
-msgstr "計算驗證碼..."
-
-#: ulng.rsdlgchecksumverify
-#, fuzzy
-#| msgid "Verify check sum..."
-msgctxt "ulng.rsdlgchecksumverify"
-msgid "Verify checksum..."
-msgstr "校驗驗證碼..."
-
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
 msgstr "複製檔案"
-
-#: ulng.rsdlgdel
-msgid "Delete file(s)"
-msgstr "刪除檔案"
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -10148,14 +10121,9 @@ msgstr "速度 %s/秒"
 msgid "Speed %s/s, time remaining %s"
 msgstr "速度 %s/秒, 剩餘時間 %s"
 
-#: ulng.rsdlgsplit
-msgctxt "ulng.rsdlgsplit"
-msgid "Split"
-msgstr "分割"
-
-#: ulng.rsdlgwipe
-msgid "Wipe file(s)"
-msgstr "抹除檔案"
+#: ulng.rsdraganddroptextformat
+msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
+msgstr ""
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -10400,10 +10368,6 @@ msgstr "建立硬式連結發生錯誤。"
 msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
 msgstr ""
 
-#: ulng.rshotdirnothingtoimport
-msgid "Sorry, nothing detected to import!"
-msgstr ""
-
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
 "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
@@ -10449,14 +10413,6 @@ msgstr "檢視器"
 msgid "Cannot find reference to default bar file"
 msgstr ""
 
-#: ulng.rskeyboardshortcutcomplement
-msgid "Press \"[ALT] + [Shortcut]\" keys and it will select the item"
-msgstr ""
-
-#: ulng.rslinkmsgok
-msgid "Linker complete"
-msgstr "連結完成"
-
 #: ulng.rsmarkminus
 msgid "Unselect mask"
 msgstr "取消選擇遮罩"
@@ -10484,10 +10440,6 @@ msgstr "設置自訂欄位"
 #: ulng.rsmenuconfigureentercustomcolumnname
 msgid "Enter new custom columns name"
 msgstr ""
-
-#: ulng.rsmenuconfigurethiscustomcolumn
-msgid "Configure this custom columns view"
-msgstr "設置這個自訂欄位檢視"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -10599,13 +10551,6 @@ msgstr "你確定要關閉所有非現用的分頁嗎?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "這個分頁【%s】已鎖定! 仍要關閉嗎?"
 
-#: ulng.rsmsgcolumnsmodifiedwanttosave
-msgid ""
-"Options regarding columns view have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "你確定要退出嗎?"
@@ -10665,10 +10610,6 @@ msgstr "無法刪除【%s】到資源回收筒! 要直接刪除嗎?"
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "磁碟不存在"
-
-#: ulng.rsmsgdraganddropmodifiedwanttosave
-msgid "Options regarding mouse drag && drop have been modified. Do you want to save before to exit?"
-msgstr ""
 
 #: ulng.rsmsgentercustomaction
 msgid "Enter custom action name:"
@@ -10822,11 +10763,6 @@ msgstr ""
 msgid "Drag here other entries"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabsendofmenu
-msgctxt "ulng.rsmsgfavoritetabsendofmenu"
-msgid "(end of sub menu)"
-msgstr ""
-
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name this Favorite Tabs entry"
 msgstr ""
@@ -10835,24 +10771,12 @@ msgstr ""
 msgid "Saving a new Favorite Tabs entry"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabserrorloading
-msgid "Error loading Favorite Tabs..."
-msgstr ""
-
-#: ulng.rsmsgfavoritetabserrorsaving
-msgid "Error saving Favorite Tabs..."
-msgstr ""
-
 #: ulng.rsmsgfavoritetabsexportedsuccessfully
 msgid "Number of Favorite Tabs exported successfully: %d on %d"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsextramode
 msgid "Default extra setting for save dir history for new Favorite Tabs:"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabshasbeenadded
-msgid "Favorite Tabs have been added in memory!"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabsimportedsuccessfully
@@ -10871,37 +10795,9 @@ msgstr ""
 msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
 msgstr ""
 
-#: ulng.rsmsgfavoritetabsmodifiedwanttosave
-msgid "Favorite Tabs have been modified. Do you want to save before to exit?"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabsname
-#, fuzzy
-msgctxt "ulng.rsmsgfavoritetabsname"
-msgid "Name"
-msgstr "名稱"
-
-#: ulng.rsmsgfavoritetabsnamesample
-msgid "This will load your Favorites Tabs entry setup called %s"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssavelastloadover
-msgid "Save to Favorite Tabs over last loaded entry (%s)"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssimplemenu
-msgctxt "ulng.rsmsgfavoritetabssimplemenu"
-msgid "Menu name:"
-msgstr ""
-
 #: ulng.rsmsgfavoritetabssimplemode
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr ""
-
-#: ulng.rsmsgfavoritetabssimpleseparator
-msgctxt "ulng.rsmsgfavoritetabssimpleseparator"
-msgid "(separator)"
 msgstr ""
 
 #: ulng.rsmsgfavoritetabssubmenuname
@@ -10915,20 +10811,6 @@ msgstr ""
 
 #: ulng.rsmsgfavortietabssaveoverexisting
 msgid "Save current tabs over existing Favorite Tabs entry"
-msgstr ""
-
-#: ulng.rsmsgfileassociationsextramodifiedwanttosave
-msgid ""
-"File extension associations extra options have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgfileassociationsmodifiedwanttosave
-msgid ""
-"File extension associations have been modified.\n"
-"\n"
-"Do you want to save before to exit?\n"
 msgstr ""
 
 #: ulng.rsmsgfilechangedsave
@@ -10962,17 +10844,6 @@ msgstr "檔案操作啟動"
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "部份檔案操作尚未完成。關閉 Double Commander 可能會使資料遺失。"
-
-#: ulng.rsmsgfileoperationsmodifiedwanttosave
-msgid "Options regarding file operations have been modified. Do you want to save before to exit?"
-msgstr ""
-
-#: ulng.rsmsgfilepanelcolormodifiedwanttosave
-msgid ""
-"Options regarding panel color have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
 
 #: ulng.rsmsgfilereadonly
 #, fuzzy
@@ -11082,10 +10953,6 @@ msgstr "路徑"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
-msgstr ""
-
-#: ulng.rsmsghotdirmodifiedwanttosave
-msgid "Directory Hotlist has been modified. Do you want to save before to exit?"
 msgstr ""
 
 #: ulng.rsmsghotdirname
@@ -11285,13 +11152,6 @@ msgstr "建立資料夾 %s"
 msgid "Move file %s"
 msgstr "移動檔案 %s"
 
-#: ulng.rsmsglogoptionsmodifiedwanttosave
-msgid ""
-"Options regarding log have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "壓縮檔案 %s"
@@ -11327,10 +11187,6 @@ msgstr "主要密碼"
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
 msgstr "請輸入主要密碼:"
-
-#: ulng.rsmsgmiscellaneousmodifiedwanttosave
-msgid "Miscellaneous options have been modified. Do you want to save before to exit?"
-msgstr ""
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -11388,15 +11244,6 @@ msgstr "密碼 (防火牆):"
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
 msgstr "請再次輸入密碼來驗證"
-
-#: ulng.rsmsgpopuphotadd
-msgid "&Add %s"
-msgstr "加入【%s】(&A)"
-
-#: ulng.rsmsgpopuphotcnf
-msgctxt "ulng.rsmsgpopuphotcnf"
-msgid "&Configure"
-msgstr "設置 (&C)"
 
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
@@ -11552,20 +11399,6 @@ msgstr "重新命名分頁"
 msgid "New tab name:"
 msgstr "新的分頁名稱:"
 
-#: ulng.rsmsgtabsextraoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs extra have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgtabsoptionsmodifiedwanttosave
-msgid ""
-"Options regarding folder tabs have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "目標路徑:"
@@ -11598,13 +11431,6 @@ msgstr ""
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr ""
 
-#: ulng.rsmsgterminaloptionsmodifiedwanttosave
-msgid ""
-"Options regarding terminal have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
 msgstr ""
@@ -11613,20 +11439,12 @@ msgstr ""
 msgid "Extension of selected file is not in any recognized file types"
 msgstr ""
 
-#: ulng.rsmsgtoolbarerrornotsaved
-msgid "Error! Problem saving toolbar!"
-msgstr ""
-
 #: ulng.rsmsgtoolbarlocatedctoolbarfile
 msgid "Locate \".toolbar\" file to import"
 msgstr ""
 
 #: ulng.rsmsgtoolbarlocatetctoolbarfile
 msgid "Locate \".BAR\" file to import"
-msgstr ""
-
-#: ulng.rsmsgtoolbarmodifiedwanttosave
-msgid "Toolbar has been modified. Do you want to save before to exit?"
 msgstr ""
 
 #: ulng.rsmsgtoolbarrestorewhat
@@ -11642,20 +11460,6 @@ msgstr ""
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "選擇了太多檔案。"
-
-#: ulng.rsmsgtreeviewmenucolorsmodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu Colors have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
-
-#: ulng.rsmsgtreeviewmenumodifiedwanttosave
-msgid ""
-"Options regarding Tree View Menu have been modified.\n"
-"\n"
-"Do you want to save them before to exit?\n"
-msgstr ""
 
 #: ulng.rsmsgundeterminednumberoffile
 msgid "Undetermined"
@@ -11848,11 +11652,6 @@ msgstr "已暫停"
 msgid "Pausing"
 msgstr "正在暫停"
 
-#: ulng.rsoperqueued
-msgctxt "ulng.rsoperqueued"
-msgid "Queued"
-msgstr "已佇列"
-
 #: ulng.rsoperrunning
 msgid "Running"
 msgstr "正在執行"
@@ -12032,22 +11831,6 @@ msgstr "啟用"
 msgid "Enter extension"
 msgstr "輸入副檔名"
 
-#: ulng.rsoptexamplecursor
-msgid "Cursor"
-msgstr "指標"
-
-#: ulng.rsoptexamplemark
-msgid "Mark"
-msgstr "標記"
-
-#: ulng.rsoptexamplemarkcursor
-msgid "Mark + Cursor"
-msgstr "反白 + 指標"
-
-#: ulng.rsoptexampletext
-msgid "Text"
-msgstr "文字"
-
 #: ulng.rsoptfavoritetabswheretoaddinlist
 msgid "Add at beginning;Add at the end;Alphabetical sort"
 msgstr ""
@@ -12222,6 +12005,12 @@ msgctxt "ulng.rsoptionseditorfileassoc"
 msgid "File associations"
 msgstr "檔案關聯"
 
+#: ulng.rsoptionseditorfilenewfiletypes
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilenewfiletypes"
+msgid "New"
+msgstr "新增"
+
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
 msgid "File operations"
@@ -12302,6 +12091,13 @@ msgstr "雜項"
 msgid "Mouse"
 msgstr "滑鼠"
 
+#: ulng.rsoptionseditoroptionschanged
+msgid ""
+"Options have changed in \"%s\"\n"
+"\n"
+"Do you want to save modifications?\n"
+msgstr ""
+
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
 msgid "Plugins"
@@ -12320,10 +12116,6 @@ msgstr "終端機"
 #: ulng.rsoptionseditortoolbar
 msgid "Toolbar"
 msgstr "工具列"
-
-#: ulng.rsoptionseditortoolbarcomplement
-msgid "Complements"
-msgstr ""
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -12414,10 +12206,6 @@ msgstr "頂端;底部;"
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "分隔線 (&E);內部指令 (&R);外部指令 (&X);選單 (&U)"
 
-#: ulng.rsopttreeviewmenudirectoryhotlistusage
-msgid "Never;Always;Confirm each time;Just with keyboard shortcut;Just then double click on top bar of panel"
-msgstr ""
-
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
 msgstr ""
@@ -12452,11 +12240,6 @@ msgstr "資料夾"
 msgid "Named pipe"
 msgstr "命名管道"
 
-#: ulng.rspropsno
-msgctxt "ulng.rspropsno"
-msgid "No"
-msgstr "否"
-
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "Socket"
@@ -12476,10 +12259,6 @@ msgstr "符號連結"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "未知類型"
-
-#: ulng.rspropsyes
-msgid "Yes (%s)"
-msgstr "是 (%S)"
 
 #: ulng.rssearchresult
 msgid "Search result"
@@ -12533,18 +12312,8 @@ msgstr ""
 msgid "Param"
 msgstr ""
 
-#: ulng.rssimplewordpreview
-#, fuzzy
-msgctxt "ulng.rssimplewordpreview"
-msgid "Preview"
-msgstr "預覽"
-
 #: ulng.rssimplewordresult
 msgid "Result"
-msgstr ""
-
-#: ulng.rssimplewordsaved
-msgid "Saved!"
 msgstr ""
 
 #: ulng.rssimplewordworkdir
@@ -12593,6 +12362,10 @@ msgstr "無法分割這個檔案!"
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "分割數量大於 100! 是否要繼續?"
+
+#: ulng.rssplitpredefinedsizes
+msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgstr ""
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
