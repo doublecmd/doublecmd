@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsArchivers;
@@ -92,6 +92,7 @@ type
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
+    function IsSignatureComputedFromAllWindowComponents: Boolean; override;
   end;
 
 implementation
@@ -302,6 +303,12 @@ end;
 class function TfrmOptionsArchivers.GetTitle: String;
 begin
   Result := rsOptionsEditorArchivers;
+end;
+
+{ TfrmOptionsArchivers.IsSignatureComputedFromAllWindowComponents }
+function TfrmOptionsArchivers.IsSignatureComputedFromAllWindowComponents: Boolean;
+begin
+  Result := False;
 end;
 
 procedure TfrmOptionsArchivers.Init;

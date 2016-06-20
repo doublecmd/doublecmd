@@ -92,7 +92,7 @@ type
     procedure SaveXMLFile;
     function GetExtActionCmd(aFile: TFile; const sActionName: string; var sCmd: string; var sParams: string; var sStartPath: string): boolean;
     function GetExtActions(aFile: TFile; paramActionList: TExtActionList; pIndexOfFirstPossibleFileType: PInteger = nil; bWantedAllActions: boolean = False): boolean;
-    function ComputeSignature: dword;
+    function ComputeSignature(Seed:dword=$00000000): dword;
     property Count: integer read GetCount;
     property Items[Index: integer]: TExtAction read GetItems;
     property FileType[Index: integer]: TExtAction read GetItems;
@@ -500,11 +500,11 @@ begin
 end;
 
 { TExts.ComputeSignature }
-function TExts.ComputeSignature: dword;
+function TExts.ComputeSignature(Seed:dword): dword;
 var
   iExtType, iExtension, iAction: integer;
 begin
-  Result := $00000000;
+  Result := Seed;
 
   for iExtType := 0 to pred(Count) do
   begin

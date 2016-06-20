@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File operations options page
 
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsFileOperations;
@@ -68,7 +68,6 @@ type
     procedure cbDeleteToTrashChange(Sender: TObject);
   private
     FLoading: Boolean;
-    FLastLoadedOptionSignature: dword;
     procedure FillTemplatesList(ListItems: TStrings);
   protected
     procedure Init; override;
@@ -78,7 +77,6 @@ type
     constructor Create(TheOwner: TComponent); override;
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
-    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -86,8 +84,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uComponentsSignature, fOptions, uShowMsg, DCStrUtils, uGlobs, uLng,
-  fOptionsHotkeys;
+  DCStrUtils, uGlobs, uLng, fOptionsHotkeys;
 
 { TfrmOptionsFileOperations }
 
@@ -158,7 +155,6 @@ begin
   if cbSearchDefaultTemplate.ItemIndex < 0 then cbSearchDefaultTemplate.ItemIndex := 0;
 
   FLoading := False;
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
 end;
 
 function TfrmOptionsFileOperations.Save: TOptionsEditorSaveFlags;
@@ -199,38 +195,12 @@ begin
   else begin
     gSearchDefaultTemplate:= EmptyStr;
   end;
-
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
 end;
 
 constructor TfrmOptionsFileOperations.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FLoading := False;
-end;
-
-function TfrmOptionsFileOperations.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := (FLastLoadedOptionSignature = ComputeSignatureBasedOnComponent(Self, $00000000));
-
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsFileOperations);
-    Answer := MsgBox(rsMsgFileOperationsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
-  end;
 end;
 
 end.

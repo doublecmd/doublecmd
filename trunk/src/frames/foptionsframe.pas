@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsFrame;
@@ -51,9 +51,28 @@ type
 
   { TOptionsEditor }
 
+  // Regarding warning to user when attempting to exit configuration window or "option editor" without having saved a modified setting:
+  // 1o) Immediately after having load the options in "LoadSettings", we will compute a signature,
+  //     which is a CRC32 of the related settings and memorize it.
+  // 2o) When will attempt to close options, we'll recalculate again this signature, if it is different,
+  //     we know user has change something and will prompt user to validate if he wants to save, discard or cancel quit.
+  // 3o) For many option editors, signature may be computed simply by validating actual controls of the window like
+  //     checkboxes state, edit box, etc.
+  // 4o) For others, we need to run specific computation like signature of list like hot directories list, favorites tabs list, etc.
+  // 5o) For some computing the signature with controls should not be done.
+  // 6o) Here is a list of function and procedure around that:
+  // 7o)   "IsSignatureComputedFromAllWindowComponents": Function that may be overloaded by specific option editor to indicate
+  //                                                     if we may compute signature of controls of the editor or not.
+  //                                                     By default, it is the case.
+  // 8o)   "ExtraOptionsSignature": Function that may overloaded by specifica option editor when signature must include extra element not present in controls of the editor like a list of structures, etc.
+  //                                By default, nothing more is required.
+  // 9o)   "ComputeCompleteOptionsSignature": Will first compute signature based on controls >IF< "IsSignatureComputedFromAllWindowComponents" is not invalidated by specific option editor
+  //                                          Then will make progress that signature >IF< "ExtraOptionsSignature" has been overload by specific option editor.
+
   TOptionsEditor = class(TFrame)
   private
     FOptionsDialog: IOptionsDialog;
+    FLastLoadedOptionSignature: dword;
   protected
     procedure Init; virtual;
     procedure Done; virtual;
@@ -61,18 +80,22 @@ type
     function  Save: TOptionsEditorSaveFlags; virtual;
     property OptionsDialog: IOptionsDialog read FOptionsDialog;
   public
+    property LastLoadedOptionSignature:dword read FLastLoadedOptionSignature write FLastLoadedOptionSignature; // Let it public so Options Forms will be able to know what was initial signature.
     destructor Destroy; override;
 
     class function GetIconIndex: Integer; virtual; abstract;
     class function GetTitle: String; virtual; abstract;
     class function IsEmpty: Boolean; virtual;
+    function IsSignatureComputedFromAllWindowComponents: Boolean; virtual;
+    function ComputeCompleteOptionsSignature: dword;
+    function ExtraOptionsSignature(CurrentSignature:dword):dword; virtual;
+    function CanWeClose(var SaveFlags:TOptionsEditorSaveFlags; bForceClose:boolean=false):boolean; virtual;
 
     procedure LoadSettings;
     function  SaveSettings: TOptionsEditorSaveFlags;
     procedure Init(AParent: TWinControl;
                    AOptionsDialog: IOptionsDialog;
                    Flags: TOptionsEditorInitFlags);
-    function CanWeClose(var {%H-}WillNeedUpdateWindowView:boolean):boolean; virtual;
   end;
 
   { TOptionsEditorRec }
@@ -108,6 +131,10 @@ var
 implementation
 
 uses
+  uLng,
+  uComponentsSignature,
+  uShowMsg,
+  fOptions,
   fOptionsArchivers,
   fOptionsAutoRefresh,
   fOptionsBehavior,
@@ -196,9 +223,59 @@ begin
   // Empty.
 end;
 
-function TOptionsEditor.CanWeClose(var WillNeedUpdateWindowView:boolean): boolean;
+{ TOptionsEditor.ExtraOptionsSignature }
+function TOptionsEditor.ExtraOptionsSignature(CurrentSignature:dword):dword;
 begin
-  result:=TRUE;
+  result := CurrentSignature;
+end;
+
+{ TOptionsEditor.ComputeCompleteOptionsSignature }
+function TOptionsEditor.ComputeCompleteOptionsSignature:dword;
+begin
+  result := $000000;
+
+  if IsSignatureComputedFromAllWindowComponents then
+    result := ComputeSignatureBasedOnComponent(Self, result);
+
+  result := ExtraOptionsSignature(result);
+end;
+
+{ TOptionsEditor.CanWeClose }
+function TOptionsEditor.CanWeClose(var SaveFlags:TOptionsEditorSaveFlags; bForceClose:boolean=false):boolean;
+var
+  Answer: TMyMsgResult;
+begin
+  SaveFlags:=[];
+
+  if bForceClose then
+    result:=True
+  else
+    result := (FLastLoadedOptionSignature = ComputeCompleteOptionsSignature);
+
+  if (not result) OR bForceClose then
+  begin
+    if bForceClose then
+    begin
+      Answer:=mmrYes;
+    end
+    else
+    begin
+      ShowOptions(Self.ClassName);
+      Answer := MsgBox(Format(rsOptionsEditorOptionsChanged, [GetTitle]), [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
+    end;
+
+    case Answer of
+      mmrYes:
+      begin
+        SaveFlags := SaveSettings;
+        result := True;
+      end;
+
+      mmrNo: result := True;
+      else
+        result := False;
+    end;
+  end;
 end;
 
 procedure TOptionsEditor.Done;
@@ -217,11 +294,18 @@ begin
   Result := False;
 end;
 
+{ TOptionsEditor.IsSignatureComputedFromAllWindowComponents }
+function TOptionsEditor.IsSignatureComputedFromAllWindowComponents: Boolean;
+begin
+  Result := True;
+end;
+
 procedure TOptionsEditor.LoadSettings;
 begin
   DisableAutoSizing;
   try
     Load;
+    FLastLoadedOptionSignature := ComputeCompleteOptionsSignature;
   finally
     EnableAutoSizing;
   end;
@@ -230,6 +314,7 @@ end;
 function TOptionsEditor.SaveSettings: TOptionsEditorSaveFlags;
 begin
   Result := Save;
+  FLastLoadedOptionSignature := ComputeCompleteOptionsSignature;
 end;
 
 procedure TOptionsEditor.Load;

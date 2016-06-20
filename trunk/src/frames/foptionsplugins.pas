@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Plugins options page
 
-   Copyright (C) 2006-2013 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsPlugins;
@@ -57,17 +57,17 @@ type
     procedure btnRemovePluginClick(Sender: TObject);
     procedure btnTweakPluginClick(Sender: TObject);
     procedure pcPluginsTypesChange(Sender: TObject);
-    procedure stgPluginsBeforeSelection(Sender: TObject; aCol, aRow: Integer);
+    procedure stgPluginsBeforeSelection(Sender: TObject; {%H-}aCol, aRow: Integer);
     procedure btnDSXAddClick(Sender: TObject);
     procedure btnWDXAddClick(Sender: TObject);
     procedure btnWFXAddClick(Sender: TObject);
     procedure btnWLXAddClick(Sender: TObject);
     procedure btnWCXAddClick(Sender: TObject);
     procedure stgPluginsMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+      {%H-}Shift: TShiftState; X, Y: Integer);
     procedure stgPluginsMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure stgPluginsSelection(Sender: TObject; aCol, aRow: Integer);
+      {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);
+    procedure stgPluginsSelection(Sender: TObject; {%H-}aCol, aRow: Integer);
     procedure tsDSXShow(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
     procedure tsWDXShow(Sender: TObject);
@@ -84,6 +84,7 @@ type
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
+    function IsSignatureComputedFromAllWindowComponents: Boolean; override;
   end;
 
 var
@@ -385,7 +386,7 @@ end;
 procedure TfrmOptionsPlugins.stgPluginsMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
-  SourceCol: Integer;
+  SourceCol: Integer = 0;
 begin
   if (Button = mbLeft) then
   begin
@@ -675,6 +676,12 @@ end;
 class function TfrmOptionsPlugins.GetTitle: String;
 begin
   Result := rsOptionsEditorPlugins;
+end;
+
+{ TfrmOptionsPlugins.IsSignatureComputedFromAllWindowComponents }
+function TfrmOptionsPlugins.IsSignatureComputedFromAllWindowComponents: Boolean;
+begin
+  Result := False;
 end;
 
 procedure TfrmOptionsPlugins.Init;

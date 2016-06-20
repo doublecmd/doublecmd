@@ -15,9 +15,9 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsFileAssoc;
@@ -148,7 +148,6 @@ type
   private
     Exts: TExts;
     FUpdatingControls: boolean;
-    FLastLoadedExtSignature: dword;
     procedure UpdateEnabledButtons;
     {en
        Frees icon cached in lbFileTypes.Items.Objects[Index].
@@ -165,7 +164,8 @@ type
   public
     class function GetIconIndex: integer; override;
     class function GetTitle: string; override;
-    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
+    function IsSignatureComputedFromAllWindowComponents: Boolean; override;
+    function ExtraOptionsSignature(CurrentSignature:dword):dword; override;
   end;
 
 implementation
@@ -177,8 +177,8 @@ uses
   LCLProc, Math, LCLType, LazUTF8,
 
   //DC
-  uOSForms, fMain, fOptions, uFile, uGlobs, uPixMapManager, uLng, uDCUtils,
-  DCOSUtils, uShowMsg, uSpecialDir;
+  uOSForms, fMain, uFile, uGlobs, uPixMapManager, uLng, uDCUtils, DCOSUtils,
+  uShowMsg, uSpecialDir;
 
 const
   ACTUAL_ADD_ACTION = 1;
@@ -253,7 +253,6 @@ begin
   gSupportForVariableHelperMenu.PopulateMenuWithVariableHelper(pmVariableParamsHelper, edtParams);
   gSupportForVariableHelperMenu.PopulateMenuWithVariableHelper(pmVariableStartPathHelper, deStartPath);
 
-  FLastLoadedExtSignature := Exts.ComputeSignature;
   inherited Load;
 end;
 
@@ -272,7 +271,6 @@ begin
   for iExt := 0 to pred(gExts.Count) do
     TExtAction(gExts.Items[iExt]).IconIndex := PixMapManager.GetIconByName(TExtAction(gExts.Items[iExt]).Icon);
 
-  FLastLoadedExtSignature := Exts.ComputeSignature;
   Result := inherited Save;
 end;
 
@@ -286,6 +284,18 @@ end;
 class function TfrmOptionsFileAssoc.GetTitle: string;
 begin
   Result := rsOptionsEditorFileAssoc;
+end;
+
+{ TfrmOptionsFileAssoc.IsSignatureComputedFromAllWindowComponents }
+function TfrmOptionsFileAssoc.IsSignatureComputedFromAllWindowComponents: Boolean;
+begin
+  Result := False;
+end;
+
+{ TfrmOptionsFileAssoc.ExtraOptionsSignature }
+function TfrmOptionsFileAssoc.ExtraOptionsSignature(CurrentSignature:dword):dword;
+begin
+  result := Exts.ComputeSignature(CurrentSignature);
 end;
 
 { TfrmOptionsFileAssoc.UpdateEnabledButtons }
@@ -1289,32 +1299,6 @@ begin
       end;
 
       FreeAndNil(aFile);
-    end;
-  end;
-end;
-
-{ TfrmOptionsFileAssoc.CanWeClose }
-function TfrmOptionsFileAssoc.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := (FLastLoadedExtSignature = Exts.ComputeSignature);// AND (not FModificationTookPlace);
-
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsFileAssoc);
-    Answer := MsgBox(rsMsgFileAssociationsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        WillNeedUpdateWindowView := True;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
     end;
   end;
 end;

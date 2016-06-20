@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Tooltips options page
 
-   Copyright (C) 2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2011-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsToolTips;
@@ -58,7 +58,7 @@ type
     procedure btnFieldsSearchTemplateClick(Sender: TObject);
     procedure chkShowToolTipChange(Sender: TObject);
     procedure miPluginClick(Sender: TObject);
-    procedure lsbCustomFieldsSelectionChange(Sender: TObject; User: boolean);
+    procedure lsbCustomFieldsSelectionChange(Sender: TObject; {%H-}User: boolean);
   private
     FFileInfoToolTip: TFileInfoToolTip;
     procedure ClearData;
@@ -70,6 +70,8 @@ type
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
+    function IsSignatureComputedFromAllWindowComponents: Boolean; override;
+    function ExtraOptionsSignature(CurrentSignature:dword):dword; override;
   end;
 
 implementation
@@ -77,7 +79,12 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, fMaskInputDlg, uLng, uGlobs, uSearchTemplate, uFileFunctions;
+  //Lazarus, Free-Pascal, etc.
+  LCLProc,
+
+  //DC
+  uComponentsSignature, fMaskInputDlg, uLng, uGlobs, uSearchTemplate,
+  uFileFunctions;
 
 { TfrmOptionsToolTips }
 
@@ -157,6 +164,18 @@ end;
 class function TfrmOptionsToolTips.GetTitle: String;
 begin
   Result := rsOptionsEditorTooltips;
+end;
+
+{ TfrmOptionsToolTips.IsSignatureComputedFromAllWindowComponents }
+function TfrmOptionsToolTips.IsSignatureComputedFromAllWindowComponents: Boolean;
+begin
+  Result := False;
+end;
+
+{ TfrmOptionsToolTips.ExtraOptionsSignature }
+function TfrmOptionsToolTips.ExtraOptionsSignature(CurrentSignature:dword):dword;
+begin
+  Result := ComputeSignatureSingleComponent(chkShowToolTip, CurrentSignature);
 end;
 
 procedure TfrmOptionsToolTips.Init;

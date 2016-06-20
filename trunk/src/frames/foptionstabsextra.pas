@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Tabs "Extra" options page
 
-   Copyright (C) 2016  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsTabsExtra;
@@ -50,7 +50,6 @@ type
     procedure cbUseFavoriteTabsExtraOptionsChange(Sender: TObject);
   private
     FPageControl: TPageControl; // For checking Tabs capabilities
-    FLastLoadedOptionSignature: dword;
   protected
     procedure Init; override;
     procedure Load; override;
@@ -58,7 +57,6 @@ type
   public
     class function GetIconIndex: integer; override;
     class function GetTitle: string; override;
-    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -70,8 +68,7 @@ uses
   Forms,
 
   //DC
-  fOptions, uShowMsg, uComponentsSignature, DCStrUtils, uLng, uGlobs,
-  ufavoritetabs, fOptionsFavoriteTabs;
+  fOptions, DCStrUtils, uLng, uGlobs, ufavoritetabs, fOptionsFavoriteTabs;
 
 { TfrmOptionsTabsExtra }
 
@@ -129,7 +126,6 @@ begin
   cbGoToConfigAfterReSave.Checked := gFavoriteTabsGoToConfigAfterReSave;
 
   Application.ProcessMessages;
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
 end;
 
 function TfrmOptionsTabsExtra.Save: TOptionsEditorSaveFlags;
@@ -144,34 +140,6 @@ begin
   gWhereToAddNewFavoriteTabs := TPositionWhereToAddFavoriteTabs(rgWhereToAdd.ItemIndex);
   gFavoriteTabsGoToConfigAfterSave := cbGoToConfigAfterSave.Checked;
   gFavoriteTabsGoToConfigAfterReSave := cbGoToConfigAfterReSave.Checked;
-
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
-end;
-
-{ TfrmOptionsTabsExtra.CanWeClose }
-function TfrmOptionsTabsExtra.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := (FLastLoadedOptionSignature = ComputeSignatureBasedOnComponent(Self, $00000000));
-
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsTabsExtra);
-    Answer := MsgBox(rsMsgTabsExtraOptionsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        WillNeedUpdateWindowView := True;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
-  end;
 end;
 
 end.

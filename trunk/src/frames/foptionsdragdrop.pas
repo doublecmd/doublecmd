@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Drag&drop options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsDragDrop;
@@ -28,7 +28,7 @@ interface
 
 uses
   Controls, Classes, SysUtils, StdCtrls,
-  fOptionsFrame;
+  fOptionsFrame, Types;
 
 type
 
@@ -44,35 +44,34 @@ type
     lblMostDesiredTextFormat2: TLabel;
     lblWarningForAskFormat: TLabel;
     lbMostDesiredTextFormat: TListBox;
-    procedure lbMostDesiredTextFormatDragOver(Sender, Source: TObject; X,
-      Y: Integer; State: TDragState; var Accept: Boolean);
-    procedure lbMostDesiredTextFormatDragDrop(Sender, Source: TObject; X,
-      Y: Integer);
-    procedure GenericSomethingChanged(Sender: TObject);
+    procedure lbMostDesiredTextFormatDragOver(Sender, Source: TObject; {%H-}X,
+    {%H-}Y: integer; {%H-}State: TDragState; var Accept: boolean);
+    procedure lbMostDesiredTextFormatDragDrop(Sender, {%H-}Source: TObject; {%H-}X,
+      Y: integer);
   protected
-    FModificationTookPlace: boolean;
     slUserLanguageName, slLegacyName: TStringList;
     procedure Init; override;
     procedure Done; override;
     procedure Load; override;
+    function IsSignatureComputedFromAllWindowComponents: boolean; override;
+    function ExtraOptionsSignature(CurrentSignature: dword): dword; override;
     function Save: TOptionsEditorSaveFlags; override;
     function GetUserNameFromLegacyName(sLegacyName: string): string;
     procedure LoadDesiredOrderTextFormatList;
     procedure SaveDesiredOrderTextFormatList;
   public
-    class function GetIconIndex: Integer; override;
-    class function GetTitle: String; override;
-    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
+    class function GetIconIndex: integer; override;
+    class function GetTitle: string; override;
   end;
 
-procedure SortThisListAccordingToDragAndDropDesiredFormat(ListToSort:TStringList);
+procedure SortThisListAccordingToDragAndDropDesiredFormat(ListToSort: TStringList);
 
 implementation
 
 {$R *.lfm}
 
 uses
-  DCStrUtils, fOptions, uShowMsg, uGlobs, uLng;
+  DCStrUtils, crc, uGlobs, uLng;
 
 { TfrmOptionsDragDrop }
 
@@ -118,9 +117,26 @@ begin
   cbDragAndDropTextAutoFilename.Checked := gDragAndDropTextAutoFilename;
   cbDragAndDropSaveUnicodeTextInUFT8.Checked := gDragAndDropSaveUnicodeTextInUFT8;
   {$ENDIF}
-  FModificationTookPlace := False;
 end;
 
+{ TfrmOptionsDragDrop.IsSignatureComputedFromAllWindowComponents }
+function TfrmOptionsDragDrop.IsSignatureComputedFromAllWindowComponents: boolean;
+begin
+  lbMostDesiredTextFormat.ItemIndex := -1; // Tricky pass but nothing was selected when we initially did the signature so let's unselect them all.
+  Result := True;
+end;
+
+{ TfrmOptionsDragDrop.ExtraOptionsSignature }
+function TfrmOptionsDragDrop.ExtraOptionsSignature(CurrentSignature: dword): dword;
+var
+  iFormat: integer;
+begin
+  Result := CurrentSignature;
+  for iFormat := 0 to pred(lbMostDesiredTextFormat.Items.Count) do
+    Result := crc32(Result, @lbMostDesiredTextFormat.Items.Strings[iFormat][1], length(lbMostDesiredTextFormat.Items.Strings[iFormat]));
+end;
+
+{ TfrmOptionsDragDrop.Save }
 function TfrmOptionsDragDrop.Save: TOptionsEditorSaveFlags;
 begin
   gShowDialogOnDragDrop := cbShowConfirmationDialog.Checked;
@@ -130,29 +146,28 @@ begin
   gDragAndDropTextAutoFilename := cbDragAndDropTextAutoFilename.Checked;
   gDragAndDropSaveUnicodeTextInUFT8 := cbDragAndDropSaveUnicodeTextInUFT8.Checked;
   {$ENDIF}
-  FModificationTookPlace := False;
   Result := [];
 end;
 
-class function TfrmOptionsDragDrop.GetIconIndex: Integer;
+class function TfrmOptionsDragDrop.GetIconIndex: integer;
 begin
   Result := 28;
 end;
 
-class function TfrmOptionsDragDrop.GetTitle: String;
+class function TfrmOptionsDragDrop.GetTitle: string;
 begin
   Result := rsOptionsEditorDragAndDrop;
 end;
 
 procedure TfrmOptionsDragDrop.lbMostDesiredTextFormatDragOver(Sender,
-  Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
+  Source: TObject; X, Y: integer; State: TDragState; var Accept: boolean);
 begin
   Accept := (Source = lbMostDesiredTextFormat) and (lbMostDesiredTextFormat.ItemIndex <> -1);
 end;
 
-procedure TfrmOptionsDragDrop.lbMostDesiredTextFormatDragDrop(Sender, Source: TObject; X, Y: Integer);
+procedure TfrmOptionsDragDrop.lbMostDesiredTextFormatDragDrop(Sender, Source: TObject; X, Y: integer);
 var
-  SrcIndex, DestIndex: Integer;
+  SrcIndex, DestIndex: integer;
 begin
   SrcIndex := lbMostDesiredTextFormat.ItemIndex;
   if SrcIndex = -1 then
@@ -163,14 +178,9 @@ begin
 
   lbMostDesiredTextFormat.Items.Move(SrcIndex, DestIndex);
   lbMostDesiredTextFormat.ItemIndex := DestIndex;
-  FModificationTookPlace := True;
 end;
 
-procedure TfrmOptionsDragDrop.GenericSomethingChanged(Sender: TObject);
-begin
-  FModificationTookPlace := True;
-end;
-
+{ TfrmOptionsDragDrop.LoadDesiredOrderTextFormatList }
 procedure TfrmOptionsDragDrop.LoadDesiredOrderTextFormatList;
 var
   IndexDropTextFormat, ExpectedPosition, ActualPosition: integer;
@@ -210,31 +220,6 @@ begin
     if (ActualPosition <> -1) then gDragAndDropDesiredTextFormat[IndexDropTextFormat].DesireLevel := ActualPosition;
   end;
 end;
-
-function TfrmOptionsDragDrop.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := not FModificationTookPlace;
-
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsDragDrop);
-    Answer := MsgBox(rsMsgDragAndDropModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
-  end;
-end;
-
 
 // Arrange the list in such way that the most desired format is on top.
 // This routine is also used in "uOleDragDrop" for offering user's suggestion so the list is arranged according to user's desire

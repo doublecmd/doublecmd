@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsTerminal;
@@ -44,15 +44,12 @@ type
     ledtRunInTermStayOpenCmd: TLabeledEdit;
     ledtRunInTermCloseParams: TLabeledEdit;
     ledtRunInTermStayOpenParams: TLabeledEdit;
-  private
-    FLastLoadedOptionSignature: dword;
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
-    function CanWeClose(var {%H-}WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -60,7 +57,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fOptions, uShowMsg, uComponentsSignature, uGlobs, uLng;
+  uGlobs, uLng;
 
 { TfrmOptionsTerminal }
 
@@ -72,8 +69,6 @@ begin
   ledtRunInTermCloseParams.Text := gRunInTermCloseParams;
   ledtRunTermCmd.Text := gRunTermCmd;
   ledtRunTermParams.Text := gRunTermParams;
-
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
 end;
 
 function TfrmOptionsTerminal.Save: TOptionsEditorSaveFlags;
@@ -84,8 +79,6 @@ begin
   gRunInTermCloseParams := ledtRunInTermCloseParams.Text;
   gRunTermCmd := ledtRunTermCmd.Text;
   gRunTermParams := ledtRunTermParams.Text;
-
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
   Result := [];
 end;
 
@@ -98,32 +91,6 @@ class function TfrmOptionsTerminal.GetTitle: String;
 begin
   Result := rsOptionsEditorTerminal;
 end;
-
-{ TfrmOptionsTerminal.CanWeClose }
-function TfrmOptionsTerminal.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := (FLastLoadedOptionSignature = ComputeSignatureBasedOnComponent(Self, $00000000));
-
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsTerminal);
-    Answer := MsgBox(rsMsgTerminalOptionsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
-  end;
-end;
-
 
 end.
 

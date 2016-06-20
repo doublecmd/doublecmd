@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
    -This unit has been added in 2016, inspired a lot from "foptionsDirectoryHotlist".
 }
@@ -103,7 +103,6 @@ type
     miSortEverything: TMenuItem;
     procedure btnRenameClick(Sender: TObject);
     procedure FrameEnter(Sender: TObject);
-    function GetSettingsSignatureOfThisFrame: dword;
     function ActualAddFavoriteTabs(ParamDispatcher: TKindOfFavoriteTabsEntry; sFavoriteTabsName: string; InsertOrAdd: TNodeAttachMode): TTreeNode;
     function MySortViaGroup(Node1, Node2: TTreeNode): integer;
     procedure RecursiveSetGroupNumbers(ParamNode: TTreeNode; ParamGroupNumber: integer; DoRecursion, StopAtFirstGroup: boolean);
@@ -144,13 +143,13 @@ type
     FavoriteTabsListTemp: TFavoriteTabsList;
     CutAndPasteIndexList: TStringList;
     GlobalGroupNumber: integer;
-    FLastLoadedFavoriteTabsListSignature: dword;
   public
     { Public declarations }
     class function GetIconIndex: integer; override;
     class function GetTitle: string; override;
     destructor Destroy; override;
-    function CanWeClose(var {%H-}WillNeedUpdateWindowView: boolean): boolean; override;
+    function IsSignatureComputedFromAllWindowComponents: boolean; override;
+    function ExtraOptionsSignature(CurrentSignature:dword):dword; override;
     procedure MakeUsInPositionToWorkWithActiveFavoriteTabs;
   end;
 
@@ -164,7 +163,7 @@ uses
 
   //DC
   DCStrUtils, uGlobs, uLng, uDCUtils, uDebug, fmain, uShowMsg, DCOSUtils,
-  fOptions, uComponentsSignature;
+  uComponentsSignature;
 
 { TfrmOptionsFavoriteTabs.Init }
 procedure TfrmOptionsFavoriteTabs.Init;
@@ -195,8 +194,6 @@ begin
   FavoriteTabsListTemp.LoadTTreeView(tvFavoriteTabs);
   cbFullExpandTreeChange(cbFullExpandTree);
   if tvFavoriteTabs.Items.Count > 0 then tvFavoriteTabs.Items[0].Selected := True; //Select at least first one by default
-
-  FLastLoadedFavoriteTabsListSignature := GetSettingsSignatureOfThisFrame;
 end;
 
 { TfrmOptionsFavoriteTabs.Save }
@@ -211,7 +208,6 @@ begin
   gFavoriteTabsFullExpandOrNot := cbFullExpandTree.Checked;
 
   cbFullExpandTreeChange(cbFullExpandTree);
-  FLastLoadedFavoriteTabsListSignature := GetSettingsSignatureOfThisFrame;
 end;
 
 { TfrmOptionsFavoriteTabs.GetIconIndex }
@@ -233,35 +229,18 @@ begin
   inherited Destroy;
 end;
 
-{ TfrmOptionsFavoriteTabs.CanWeClose }
-function TfrmOptionsFavoriteTabs.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
+{ TfrmOptionsFavoriteTabs.IsSignatureComputedFromAllWindowComponents }
+function TfrmOptionsFavoriteTabs.IsSignatureComputedFromAllWindowComponents: boolean;
 begin
-  Result := True;
+  result := False;
+end;
 
-  if Assigned(FavoriteTabsListTemp) then
-  begin
-    FavoriteTabsListTemp.RefreshFromTTreeView(tvFavoriteTabs);
-    Result := (FLastLoadedFavoriteTabsListSignature = GetSettingsSignatureOfThisFrame);
-
-    if not Result then
-    begin
-      ShowOptions(TfrmOptionsFavoriteTabs);
-      Answer := MsgBox(rsMsgFavoriteTabsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-      case Answer of
-        mmrYes:
-        begin
-          Save;
-          Result := True;
-        end;
-
-        mmrNo: Result := True;
-        else
-          Result := False;
-      end;
-    end;
-  end;
+{ TfrmOptionsFavoriteTabs.ExtraOptionsSignature }
+function TfrmOptionsFavoriteTabs.ExtraOptionsSignature(CurrentSignature:dword):dword;
+begin
+  FavoriteTabsListTemp.RefreshFromTTreeView(tvFavoriteTabs);
+  result := FavoriteTabsListTemp.ComputeSignature(CurrentSignature);
+  result := ComputeSignatureSingleComponent(cbFullExpandTree, result);
 end;
 
 { TfrmOptionsFavoriteTabs.MakeUsInPositionToWorkWithActiveFavoriteTabs }
@@ -317,13 +296,6 @@ procedure TfrmOptionsFavoriteTabs.FrameEnter(Sender: TObject);
 begin
   if gpSavedTabsRestorationAction.Visible <> gFavoriteTabsUseRestoreExtraOptions then
     gpSavedTabsRestorationAction.Visible := gFavoriteTabsUseRestoreExtraOptions;
-end;
-
-{ TfrmOptionsFavoriteTabs.GetSettingsSignatureOfThisFrame }
-function TfrmOptionsFavoriteTabs.GetSettingsSignatureOfThisFrame: dword;
-begin
-  Result := FavoriteTabsListTemp.ComputeSignature;
-  Result := ComputeSignatureSingleComponent(cbFullExpandTree, Result);
 end;
 
 { TfrmOptionsFavoriteTabs.ActualAddFavoriteTabs }
@@ -894,7 +866,7 @@ var
   slRememberCurrentSelections: TStringList;
 begin
   FavoriteTabsListTemp.RefreshFromTTreeView(tvFavoriteTabs);
-  Result := (FLastLoadedFavoriteTabsListSignature = GetSettingsSignatureOfThisFrame);
+  Result := (LastLoadedOptionSignature = ComputeCompleteOptionsSignature);
   if not Result then
   begin
     Answer := MsgBox(rsMsgFavoriteTabsModifiedNoImport, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
@@ -1048,7 +1020,7 @@ begin
       end;
 
       // 7. Refresh our last signature since what we have is up to date.
-      FLastLoadedFavoriteTabsListSignature := GetSettingsSignatureOfThisFrame;
+      LastLoadedOptionSignature := ComputeCompleteOptionsSignature;
 
       // 8. Finally, let's inform our user we've complete importation.
       msgOk(Format(rsMsgFavoriteTabsImportedSuccessfully, [iFileImportedSuccessfully, OpenDialog.Files.Count]));

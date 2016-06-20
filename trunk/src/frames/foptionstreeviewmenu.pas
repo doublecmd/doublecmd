@@ -15,11 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-   -This unit has been added in 2016.
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsTreeViewMenu;
@@ -31,7 +29,7 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus,
-  Dialogs, types,
+  Dialogs,
 
   //DC
   fOptionsFrame;
@@ -60,15 +58,11 @@ type
     procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
-  private
-    { Private declarations }
-    FLastSignature: dword;
   public
     { Public declarations }
     class function GetIconIndex: integer; override;
     class function GetTitle: string; override;
     destructor Destroy; override;
-    function CanWeClose(var {%H-}WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -80,7 +74,7 @@ uses
   Graphics, LCLType, LCLProc, LCLIntf,
 
   //DC
-  uGlobs, uLng, fmain, uShowMsg, DCOSUtils, fOptions, uComponentsSignature;
+  uGlobs, uLng, fmain, DCOSUtils;
 
 { TfrmOptionsTreeViewMenu.Init }
 procedure TfrmOptionsTreeViewMenu.Init;
@@ -101,8 +95,6 @@ begin
   ckbShortcutSelectAndClose.Checked := gTreeViewMenuShortcutExit;
   ckbSingleClickSelect.Checked := gTreeViewMenuSingleClickExit;
   ckbDoubleClickSelect.Checked := gTreeViewMenuDoubleClickExit;
-
-  FLastSignature := ComputeSignatureBasedOnComponent(self, $00000000);
 end;
 
 { TfrmOptionsTreeViewMenu.Save }
@@ -119,8 +111,6 @@ begin
   gTreeViewMenuShortcutExit := ckbShortcutSelectAndClose.Checked;
   gTreeViewMenuSingleClickExit := ckbSingleClickSelect.Checked;
   gTreeViewMenuDoubleClickExit := ckbDoubleClickSelect.Checked;
-
-  FLastSignature := ComputeSignatureBasedOnComponent(self, $00000000);
 end;
 
 { TfrmOptionsTreeViewMenu.GetIconIndex }
@@ -139,30 +129,6 @@ end;
 destructor TfrmOptionsTreeViewMenu.Destroy;
 begin
   inherited Destroy;
-end;
-
-{ TfrmOptionsTreeViewMenu.CanWeClose }
-function TfrmOptionsTreeViewMenu.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := (FLastSignature = ComputeSignatureBasedOnComponent(self, $00000000));
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsTreeViewMenu);
-    Answer := MsgBox(rsMsgTreeViewMenuModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
-  end;
 end;
 
 end.

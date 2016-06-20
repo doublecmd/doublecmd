@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File panels colors options page
 
-   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsFilePanelsColors;
@@ -119,7 +119,6 @@ type
     function JustForConfigDim(AColor: TColor): TColor;
     function JustForConfigNoDim(AColor: TColor): TColor;
   private
-    FLastLoadedOptionSignature: dword;
     bLoadCompleted: boolean;
     PreviewLeftPanel: TColumnsFileView;
     PreviewRightPanel: TColumnsFileView;
@@ -131,7 +130,6 @@ type
   public
     class function GetIconIndex: integer; override;
     class function GetTitle: string; override;
-    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -143,8 +141,7 @@ uses
   Forms,
 
   //DC
-  uSampleForConfigFileSource, fOptions, uShowMsg, uComponentsSignature,
-  uFileFunctions, DCOSUtils, fMain, uLng, uGlobs,
+  uSampleForConfigFileSource, uFileFunctions, DCOSUtils, fMain, uLng, uGlobs,
   uDCUtils;
 
 { TfrmOptionsFilePanelsColors }
@@ -159,32 +156,6 @@ end;
 class function TfrmOptionsFilePanelsColors.GetTitle: string;
 begin
   Result := rsOptionsEditorFilePanels;
-end;
-
-{ TfrmOptionsFilePanelsColors.CanWeClose }
-function TfrmOptionsFilePanelsColors.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := (FLastLoadedOptionSignature = ComputeSignatureBasedOnComponent(Self, $00000000));
-
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsFilePanelsColors);
-    Answer := MsgBox(rsMsgFilePanelColorModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        WillNeedUpdateWindowView := True;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
-  end;
 end;
 
 { TfrmOptionsFilePanelsColors.Load }
@@ -237,7 +208,6 @@ begin
 
   //6. Good. Loading is completed.
   bLoadCompleted := True;
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
 end;
 
 { TfrmOptionsFilePanelsColors.Save }
@@ -261,7 +231,6 @@ begin
   gIndUseGradient := cbbUseGradientInd.Checked;
   gIndForeColor := cbIndColor.Selected;
   gIndBackColor := cbIndBackColor.Selected;
-  FLastLoadedOptionSignature := ComputeSignatureBasedOnComponent(Self, $00000000);
   Result := [];
 end;
 

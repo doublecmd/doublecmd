@@ -15,11 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-   -This unit has been added in 2016.
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsTreeViewMenuColor;
@@ -31,7 +29,7 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus,
-  Dialogs, ComCtrls, ColorBox, types,
+  Dialogs, ComCtrls, ColorBox,
 
   //DC
   fOptionsFrame, fTreeViewMenu;
@@ -86,7 +84,6 @@ type
     function Save: TOptionsEditorSaveFlags; override;
   private
     { Private declarations }
-    FLastSignature: dword;
     TreeViewMenuGenericRoutineAndVarHolder: TTreeViewMenuGenericRoutineAndVarHolder;
     ColorBoxPointer: array[1..12] of TColorBox;
   public
@@ -94,7 +91,6 @@ type
     class function GetIconIndex: integer; override;
     class function GetTitle: string; override;
     destructor Destroy; override;
-    function CanWeClose(var {%H-}WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -106,8 +102,7 @@ uses
   Graphics, LCLType, LCLProc, LCLIntf,
 
   //DC
-  uGlobs, uLng, uDCUtils, fmain, uShowMsg, DCOSUtils, fOptions,
-  uComponentsSignature;
+  uGlobs, uLng, uDCUtils, fmain, DCOSUtils;
 
 { TfrmOptionsTreeViewMenuColor.Init }
 procedure TfrmOptionsTreeViewMenuColor.Init;
@@ -205,7 +200,6 @@ begin
   SetColorInColorBox(cbSecondaryTextUnderCursor, gTVMSecondaryTextUnderCursor);
   SetColorInColorBox(cbFoundTextUnderCursor, gTVMFoundTextUnderCursor);
   SetColorInColorBox(cbUnselectableUnderCursor, gTVMUnselectableUnderCursor);
-  FLastSignature := ComputeSignatureBasedOnComponent(self, $00000000);
 end;
 
 { TfrmOptionsTreeViewMenuColor.Save }
@@ -225,7 +219,6 @@ begin
   gTVMSecondaryTextUnderCursor := cbSecondaryTextUnderCursor.Selected;
   gTVMFoundTextUnderCursor := cbFoundTextUnderCursor.Selected;
   gTVMUnselectableUnderCursor := cbUnselectableUnderCursor.Selected;
-  FLastSignature := ComputeSignatureBasedOnComponent(self, $00000000);
 end;
 
 { TfrmOptionsTreeViewMenuColor.GetIconIndex }
@@ -245,30 +238,6 @@ destructor TfrmOptionsTreeViewMenuColor.Destroy;
 begin
   FreeAndNil(TreeViewMenuGenericRoutineAndVarHolder);
   inherited Destroy;
-end;
-
-{ TfrmOptionsTreeViewMenuColor.CanWeClose }
-function TfrmOptionsTreeViewMenuColor.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := (FLastSignature = ComputeSignatureBasedOnComponent(self, $00000000));
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsTreeViewMenuColor);
-    Answer := MsgBox(rsMsgTreeViewMenuColorsModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
-  end;
 end;
 
 { TfrmOptionsTreeViewMenuColor.RefreshColorOfOurSampleClick }

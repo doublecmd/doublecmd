@@ -19,9 +19,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptions;
@@ -78,6 +78,7 @@ type
     procedure LoadSettings;
     procedure SelectEditor(EditorClassName: String);
     function CompareTwoNodeOfConfigurationOptionTree(Node1, Node2: TTreeNode): integer;
+    function CycleThroughOptionEditors(bForceSaving:boolean):boolean;
   public
     constructor Create(TheOwner: TComponent); override;
     constructor Create(TheOwner: TComponent; EditorClass: TOptionsEditorClass); overload;
@@ -90,7 +91,7 @@ type
   function ShowOptions(EditorClassName: String): IOptionsDialog;
   procedure SortConfigurationOptionsOnLeftTree; //If the var "frmOptions" would be in the interface section, we could have called directly "frmOptions.tvTreeView.CustomSort(@frmOptions.CompareTwoNodeOfConfigurationOptionTree);"
                                                 //But it's not the case... Let's create this routine and respect the wish of original authors to have it there. Maybe there is a raison why so let's play safe.
-                                                function GetOptionsForm: TfrmOptions;
+  function GetOptionsForm: TfrmOptions;
 
 implementation
 
@@ -157,19 +158,8 @@ begin
 end;
 
 procedure TfrmOptions.FormCloseQuery(Sender: TObject; var CanClose: boolean);
-var
-  I:integer;
-  NeedsUpdateWindowView:boolean=FALSE;
 begin
-  CanClose:=TRUE;
-  I:=0;
-  while (I<FOptionsEditorList.Count) AND (CanClose) do
-  begin
-    if Assigned(FOptionsEditorList[I].Instance) then CanClose:=FOptionsEditorList[I].Instance.CanWeClose(NeedsUpdateWindowView);
-    inc(I);
-  end;
-
-  if NeedsUpdateWindowView then frmMain.UpdateWindowView;
+  CanClose := CycleThroughOptionEditors(False);
 end;
 
 procedure TfrmOptions.btnCancelClick(Sender: TObject);
@@ -386,27 +376,57 @@ begin
 end;
 
 procedure TfrmOptions.SaveConfig;
-var
-  I: LongInt;
-  NeedsRestart: Boolean = False;
 begin
-  { Save options from frames }
-  for I:= 0 to FOptionsEditorList.Count - 1 do
+  CycleThroughOptionEditors(True);
+end;
+
+{ TfrmOptions.CycleThroughOptionEditors }
+// -Will cycle through all option editors to either:
+//   >Prompt user to save change if any, discard change if any, etc.
+//   >Force saving eventual modification without asking.
+// -In case we prompt user save changes or not, user may answer that he wants to
+//  CANCEL exit. If so, that's the only case where the function will return FALSE.
+// -Could be call from a simple "APPLY" or "OK" from the main option window and
+//  if so, will save any modification.
+// -Could be call from "CANCEL" or "Attempt to close with the 'x' of the window
+//  and if so, will prompt user to save modifications, discard modification or
+//  cancel exiting.
+function TfrmOptions.CycleThroughOptionEditors(bForceSaving: boolean): boolean;
+var
+  I: integer;
+  SaveFlags: TOptionsEditorSaveFlags = [];
+  bNeedsRestart: boolean = False;
+begin
+  Result := True;
+
+  I := 0;
+  while (I < FOptionsEditorList.Count) and (Result) do
   begin
     if Assigned(FOptionsEditorList[I].Instance) then
-    try
-      if oesfNeedsRestart in FOptionsEditorList[I].Instance.SaveSettings then
-        NeedsRestart := True;
-    except
-      on E: Exception do
-        MessageDlg(FOptionsEditorList[I].Instance.GetTitle, E.Message, mtError, [mbOK], 0);
+    begin
+      try
+        Result := FOptionsEditorList[I].Instance.CanWeClose(SaveFlags, bForceSaving);
+
+        if oesfNeedsRestart in SaveFlags then
+          bNeedsRestart := True;
+
+      except
+        on E: Exception do
+          MessageDlg(FOptionsEditorList[I].Instance.GetTitle, E.Message, mtError, [mbOK], 0);
+      end;
     end;
+
+    Inc(I);
   end;
 
-  if NeedsRestart then
+  if bNeedsRestart then
     MessageDlg(rsMsgRestartForApplyChanges, mtInformation, [mbOK], 0);
 
-  frmMain.UpdateWindowView;
+  frmMain.UpdateWindowView; // Let's refresh the views.
+                            // In fact, may settings would not really require it since they don't have an immediate visual impact.
+                            // But let's do it for two reasons:
+                            //  1st) Previously with "SaveConfig" it was updating it no matter what.
+                            //  2nd) The little delay and visual blink it gives to user is a good feedback to him confirming him he just saved settings.
 end;
 
 end.

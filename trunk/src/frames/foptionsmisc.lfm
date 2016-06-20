@@ -31,7 +31,6 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Top = 6
       Width = 251
       Caption = 'Show &warning messages ("OK" button only)'
-      OnClick = GenericSomethingChanged
       TabOrder = 0
     end
     object chkThumbSave: TCheckBox
@@ -43,7 +42,6 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Width = 154
       BorderSpacing.Top = 4
       Caption = '&Save thumbnails in cache'
-      OnClick = GenericSomethingChanged
       TabOrder = 2
     end
     object lblThumbSize: TLabel
@@ -85,7 +83,6 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       BorderSpacing.Top = 6
       MaxValue = 512
       MinValue = 16
-      OnChange = GenericSomethingChanged
       TabOrder = 3
       Value = 16
     end
@@ -100,7 +97,6 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       BorderSpacing.Left = 6
       MaxValue = 512
       MinValue = 16
-      OnChange = GenericSomethingChanged
       TabOrder = 4
       Value = 16
     end
@@ -152,7 +148,6 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Width = 304
       BorderSpacing.Top = 4
       Caption = 'Always &go to the root of a drive when changing drives'
-      OnClick = GenericSomethingChanged
       TabOrder = 1
     end
     object chkMarkMaskFilterWindows: TCheckBox
@@ -164,7 +159,6 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Width = 463
       BorderSpacing.Top = 4
       Caption = 'Windows style filter when marking files ("*.*" also select files without extension, etc.)'
-      OnClick = GenericSomethingChanged
       TabOrder = 6
     end
   end
@@ -208,7 +202,6 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Anchors = [akTop, akLeft, akRight]
       MaxLength = 0
       TabOrder = 0
-      OnChange = GenericSomethingChanged
     end
     object btnRelativeTCExecutableFile: TSpeedButton
       AnchorSideLeft.Side = asrBottom
@@ -291,7 +284,6 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Anchors = [akTop, akLeft, akRight]
       MaxLength = 0
       TabOrder = 1
-      OnChange = GenericSomethingChanged
     end
     object lblTCConfig: TLabel
       AnchorSideLeft.Control = gbTCExportImport
@@ -408,7 +400,6 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       Top = 115
       Width = 643
       Anchors = [akTop, akLeft, akRight]
-      OnChange = GenericSomethingChanged
       TabOrder = 2
     end
     object lblTCPathForTool: TLabel

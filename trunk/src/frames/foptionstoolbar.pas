@@ -16,9 +16,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit fOptionsToolbar;
@@ -112,7 +112,7 @@ type
     pmparameteresHelper: TPopupMenu;
     ReplaceDialog: TReplaceDialog;
     rgToolItemType: TRadioGroup;
-    btnOpenIcon: TButton;
+    btnOpenIcon: TSpeedButton;
     pnToolbars: TPanel;
     btnRelativeExternalCommand: TSpeedButton;
     trbBarSize: TTrackBar;
@@ -218,11 +218,10 @@ type
     procedure trbBarSizeChange(Sender: TObject);
     procedure trbIconSizeChange(Sender: TObject);
     procedure FrameEnter(Sender: TObject);
-    function ComputeToolbarsSignature: dword;
+    function ComputeToolbarsSignature(Seed:dword=$00000000): dword;
     procedure btnOtherClick(Sender: TObject);
     procedure miExportToAnythingClick(Sender: TObject);
     procedure miImportFromAnythingClick(Sender: TObject);
-    procedure GenericSomethingChanged(Sender: TObject);
 
   private
     FUpdateHotKey: Boolean;
@@ -233,8 +232,6 @@ type
     FUpdatingButtonType: Boolean;
     FUpdatingIconText: Boolean;
     bFirstTimeDrawn: boolean;
-    FModificationTookPlace: boolean;
-    FLastLoadedToolbarsSignature: dword;
     function AddNewSubToolbar(ToolItem: TKASMenuItem): TKASToolBar;
     procedure ApplyEditControls;
     procedure CloseToolbarsBelowCurrentButton;
@@ -257,8 +254,9 @@ type
     class function GetIconIndex: Integer; override;
     class function GetShortcuts(NormalItem: TKASNormalItem): TDynamicStringArray;
     class function GetTitle: String; override;
+    function IsSignatureComputedFromAllWindowComponents: Boolean; override;
+    function ExtraOptionsSignature(CurrentSignature:dword):dword; override;
     procedure SelectButton(ButtonNumber: Integer);
-    function CanWeClose(var WillNeedUpdateWindowView: boolean): boolean; override;
   end;
 
 implementation
@@ -273,10 +271,10 @@ uses
   {$IFDEF MSWINDOWS}
   uTotalCommander,
   {$ENDIF}
-  fEditSearch, fMainCommandsDlg, uFileProcs, uDebug, DCOSUtils,
-  uShowMsg, fOptions, DCStrUtils, uGlobs, uLng, uOSForms,
-  uDCUtils, uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir,
-  dmHelpManager, uGlobsPaths;
+  uComponentsSignature, fEditSearch, fMainCommandsDlg, uFileProcs, uDebug,
+  DCOSUtils, uShowMsg, DCStrUtils, uGlobs, uLng, uOSForms, uDCUtils,
+  uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir, dmHelpManager,
+  uGlobsPaths;
 
 const
   cHotKeyCommand = 'cm_ExecuteToolbarItem';
@@ -319,6 +317,22 @@ end;
 class function TfrmOptionsToolbar.GetTitle: String;
 begin
   Result := rsOptionsEditorToolbar;
+end;
+
+{ TfrmOptionsToolbar.IsSignatureComputedFromAllWindowComponents }
+function TfrmOptionsToolbar.IsSignatureComputedFromAllWindowComponents: Boolean;
+begin
+  Result := False;
+end;
+
+{ TfrmOptionsToolbar.ExtraOptionsSignature }
+function TfrmOptionsToolbar.ExtraOptionsSignature(CurrentSignature:dword):dword;
+begin
+  Result := ComputeToolbarsSignature(CurrentSignature);
+  Result := ComputeSignatureSingleComponent(trbBarSize, Result);
+  Result := ComputeSignatureSingleComponent(trbIconSize, Result);
+  Result := ComputeSignatureSingleComponent(cbFlatButtons, Result);
+  Result := ComputeSignatureSingleComponent(cbReportErrorWithCommands, Result);
 end;
 
 function TfrmOptionsToolbar.GetTopToolbar: TKASToolBar;
@@ -394,8 +408,6 @@ begin
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
   gSupportForVariableHelperMenu.PopulateMenuWithVariableHelper(pmparameteresHelper,edtExternalParameters);
 
-  FLastLoadedToolbarsSignature := ComputeToolbarsSignature;
-  FModificationTookPlace := False;
   FUpdateHotKey := False;
 end;
 
@@ -586,8 +598,6 @@ begin
     ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', True);
     gConfig.ClearNode(ToolBarNode);
     Toolbar.SaveConfiguration(gConfig, ToolBarNode);
-    FLastLoadedToolbarsSignature := ComputeToolbarsSignature;
-    FModificationTookPlace := False;
   end;
 
   if FUpdateHotKey then
@@ -1133,7 +1143,6 @@ begin
     ToolBar := pnToolbars.Controls[i] as TKASToolBar;
     ToolBar.Flat := cbFlatButtons.Checked;
   end;
-  GenericSomethingChanged(Sender);
 end;
 
 procedure TfrmOptionsToolbar.edtIconFileNameChange(Sender: TObject);
@@ -1200,7 +1209,6 @@ begin
       ToolBar := pnToolbars.Controls[i] as TKASToolBar;
       ToolBar.SetButtonSize(trbBarSize.Position * 2, trbBarSize.Position * 2);
     end;
-    GenericSomethingChanged(Sender);
   finally
     EnableAutoSizing;
   end;
@@ -1219,7 +1227,6 @@ begin
       ToolBar := pnToolbars.Controls[i] as TKASToolBar;
       ToolBar.GlyphSize := trbIconSize.Position * 2;
     end;
-    GenericSomethingChanged(Sender);
   finally
     EnableAutoSizing;
   end;
@@ -1409,41 +1416,14 @@ begin
   end;
 end;
 
-{ TfrmOptionsToolbar.CanWeClose }
-function TfrmOptionsToolbar.CanWeClose(var WillNeedUpdateWindowView: boolean): boolean;
-var
-  Answer: TMyMsgResult;
-begin
-  Result := (FLastLoadedToolbarsSignature = ComputeToolbarsSignature) AND (not FModificationTookPlace);
-
-  if not Result then
-  begin
-    ShowOptions(TfrmOptionsToolbar);
-    Answer := MsgBox(rsMsgToolbarModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-    case Answer of
-      mmrYes:
-      begin
-        Save;
-        WillNeedUpdateWindowView := True;
-        Result := True;
-      end;
-
-      mmrNo: Result := True;
-      else
-        Result := False;
-    end;
-  end;
-end;
-
 { TfrmOptionsToolbar.ComputeToolbarsSignature }
 // Routine tries to pickup all char chain from element of toolbar toolbar and compute a unique CRC32.
 // This CRC32 will bea kind of signature of the toolbar.
-// We compute the CRC32 at the start of edition (TfrmOptionsToolbar.Load) and
-// at the end (TfrmOptionsToolbar.CanWeClose).
+// We compute the CRC32 at the start of edition and at the end.
 // If they are different, it's a sign that toolbars have been modified.
 // It's not "perfect" since it might happen that two different combinaisons will
 // give the same CRC32 but odds are very good that it will be a different one.
-function TfrmOptionsToolbar.ComputeToolbarsSignature: dword;
+function TfrmOptionsToolbar.ComputeToolbarsSignature(Seed:dword): dword;
 const
   CONSTFORTOOLITEM: array[1..4] of byte = ($23, $35, $28, $DE);
 
@@ -1499,7 +1479,7 @@ var
 begin
   ApplyEditControls;
   Toolbar := GetTopToolbar;
-  Result := 0;
+  Result := Seed;
   for IndexButton := 0 to pred(Toolbar.ButtonCount) do
     RecursiveGetSignature(Toolbar.Buttons[IndexButton].ToolItem, Result);
 end;
@@ -1863,12 +1843,6 @@ begin
       end;
     end;
   end;
-end;
-
-{ TfrmOptionsToolbar.GenericSomethingChanged }
-procedure TfrmOptionsToolbar.GenericSomethingChanged(Sender: TObject);
-begin
-  FModificationTookPlace := True;
 end;
 
 end.

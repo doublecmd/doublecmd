@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit foptionsDirectoryHotlist;
@@ -182,7 +182,6 @@ type
     procedure CopyTTreeViewToAnother(tvSource,tvDestination:TTreeView);
     function GetNextGroupNumber:integer;
     procedure miGotoConfigureTCInfo2Click(Sender: TObject);
-    procedure GenericSomethingChanged(Sender: TObject);
   protected
     procedure Init; override;
     procedure Load; override;
@@ -193,14 +192,13 @@ type
     DirectoryHotlistTemp: TDirectoryHotlist;
     CutAndPasteIndexList: TStringList;
     GlobalGroupNumber: integer;
-    FModificationTookPlace: boolean;
-    FLastLoadedDirectoryHotlistSignature: dword;
   public
     { Public declarations }
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
+    function IsSignatureComputedFromAllWindowComponents: Boolean; override;
+    function ExtraOptionsSignature(CurrentSignature:dword):dword; override;
     destructor Destroy; override;
-    function CanWeClose(var {%H-}WillNeedUpdateWindowView:boolean): boolean; override;
     procedure SubmitToAddOrConfigToHotDirDlg(paramActionDispatcher: integer; paramPath,paramTarget:string; paramOptionalIndex: integer);
   end;
 
@@ -210,12 +208,12 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  Graphics, LCLType, LCLProc, LCLIntf, LCLMessageGlue, helpintfs,
+  Graphics, LCLType, LazUTF8, LCLIntf, LCLMessageGlue, helpintfs,
 
   //DC
-  fEditSearch, fOptionsMisc, DCStrUtils, uGlobs, uLng, uDCUtils, uDebug, fmain,
+  fEditSearch, fOptionsMisc, DCStrUtils, uGlobs, uLng, uDCUtils, fmain,
   uFormCommands, uFileProcs, uShowMsg, DCOSUtils, uSpecialDir,
-  fhotdirexportimport, fOptions;
+  fhotdirexportimport, uComponentsSignature;
 
 { Constants used with export/import }
 const
@@ -275,9 +273,6 @@ begin
   DirectoryHotlistTemp.LoadTTreeView(tvDirectoryHotlist,-1);
   cbFullExpandTreeChange(cbFullExpandTree);
   if tvDirectoryHotlist.Items.Count>0 then tvDirectoryHotlist.Items[0].Selected:=TRUE; //Select at least first one by default
-
-  FLastLoadedDirectoryHotlistSignature := DirectoryHotlistTemp.ComputeSignature;
-  FModificationTookPlace := False;
 end;
 
 { TfrmOptionsDirectoryHotlist.Save }
@@ -304,38 +299,6 @@ begin
   end;
   gWhereToAddNewHotDir:=TPositionWhereToAddHotDir(rgWhereToAdd.ItemIndex);
   cbFullExpandTreeChange(cbFullExpandTree);
-  FLastLoadedDirectoryHotlistSignature := DirectoryHotlistTemp.ComputeSignature;
-  FModificationTookPlace := False;
-end;
-
-{ TfrmOptionsDirectoryHotlist.CanWeClose }
-function TfrmOptionsDirectoryHotlist.CanWeClose(var WillNeedUpdateWindowView:boolean): boolean;
-var
-  Answer:TMyMsgResult;
-begin
-  result:=TRUE;
-
-  if Assigned(DirectoryHotlistTemp) then
-  begin
-    DirectoryHotlistTemp.RefreshFromTTreeView(tvDirectoryHotlist);
-    result := (FLastLoadedDirectoryHotlistSignature = DirectoryHotlistTemp.ComputeSignature) AND (not FModificationTookPlace);
-
-    if not result then
-    begin
-      ShowOptions(TfrmOptionsDirectoryHotlist);
-      Answer:=MsgBox(rsMsgHotDirModifiedWantToSave, [msmbYes, msmbNo, msmbCancel], msmbCancel, msmbCancel);
-      case Answer of
-        mmrYes:
-          begin
-            Save;
-            result:=TRUE;
-          end;
-
-        mmrNo: result:=TRUE;
-        else result:=FALSE;
-      end;
-    end;
-  end;
 end;
 
 { TfrmOptionsDirectoryHotlist.GetIconIndex }
@@ -348,6 +311,24 @@ end;
 class function TfrmOptionsDirectoryHotlist.GetTitle: String;
 begin
   Result := rsOptionsEditorDirectoryHotlist;
+end;
+
+{ TfrmOptionsDirectoryHotlist.IsSignatureComputedFromAllWindowComponents }
+function TfrmOptionsDirectoryHotlist.IsSignatureComputedFromAllWindowComponents: Boolean;
+begin
+  Result := False;
+end;
+
+{ TfrmOptionsDirectoryHotlist.ExtraOptionsSignature }
+function TfrmOptionsDirectoryHotlist.ExtraOptionsSignature(CurrentSignature:dword):dword;
+begin
+  DirectoryHotlistTemp.RefreshFromTTreeView(tvDirectoryHotlist);
+  Result := DirectoryHotlistTemp.ComputeSignature(CurrentSignature);
+  Result := ComputeSignatureSingleComponent(rgWhereToAdd, Result);
+  Result := ComputeSignatureSingleComponent(cbAddTarget, Result);
+  Result := ComputeSignatureSingleComponent(cbFullExpandTree, Result);
+  Result := ComputeSignatureSingleComponent(cbShowPathInPopup, Result);
+  Result := ComputeSignatureSingleComponent(cbShowOnlyValidEnv, Result);
 end;
 
 { TfrmOptionsDirectoryHotlist.Destroy }
@@ -490,7 +471,6 @@ end;
 { TfrmOptionsDirectoryHotlist.cbFullExpandTreeChange }
 procedure TfrmOptionsDirectoryHotlist.cbFullExpandTreeChange(Sender: TObject);
 begin
-  GenericSomethingChanged(cbFullExpandTree);
   if cbFullExpandTree.Checked then tvDirectoryHotlist.FullExpand else tvDirectoryHotlist.FullCollapse;
 end;
 
@@ -2015,12 +1995,6 @@ end;
 procedure TfrmOptionsDirectoryHotlist.miGotoConfigureTCInfo2Click(Sender: TObject);
 begin
   BringUsToTCConfigurationPage;
-end;
-
-{ TfrmOptionsDirectoryHotlist.GenericSomethingChanged }
-procedure TfrmOptionsDirectoryHotlist.GenericSomethingChanged(Sender: TObject);
-begin
-  FModificationTookPlace := True;
 end;
 
 { TfrmOptionsDirectoryHotlist.Init }

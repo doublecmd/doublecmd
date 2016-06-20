@@ -99,7 +99,6 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           Top = 6
           Width = 225
           Caption = 'When adding directory, add also target'
-          OnChange = GenericSomethingChanged
           TabOrder = 0
         end
         object cbFullExpandTree: TCheckBox
@@ -125,7 +124,6 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           Width = 161
           BorderSpacing.Top = 2
           Caption = 'In popup, show [path also]'
-          OnChange = GenericSomethingChanged
           TabOrder = 2
         end
         object cbShowOnlyValidEnv: TCheckBox
@@ -138,7 +136,6 @@ inherited frmOptionsDirectoryHotlist: TfrmOptionsDirectoryHotlist
           Width = 223
           BorderSpacing.Top = 2
           Caption = 'Show only valid environment variables'
-          OnChange = GenericSomethingChanged
           TabOrder = 3
         end
       end

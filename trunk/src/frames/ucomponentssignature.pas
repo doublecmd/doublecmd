@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Compute signature of a form, frame, etc. based on current options set
 
-   Copyright (C) 2016  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 }
 
 unit uComponentsSignature;
@@ -28,13 +28,13 @@ interface
 
 uses
   Classes, EditBtn;
+
 function ComputeSignatureBasedOnComponent(aComponent: TComponent; seed: dword): dword;
 function ComputeSignatureSingleComponent(aComponent: TComponent; seed: dword): dword;
 
 implementation
 
 uses
-  //uDebug,
   Graphics, ComCtrls, ColorBox, ExtCtrls, Spin, StdCtrls, Math, Dialogs,
   SysUtils, crc;
 const
@@ -44,7 +44,7 @@ const
 function ComputeSignatureSingleComponent(aComponent: TComponent; seed: dword): dword;
 var
   SampleValue: dword;
-  iSampleValue: integer;
+  iSampleValue, iIndex: integer;
   ColorSampleValue: TColor;
 begin
   Result := seed;
@@ -59,7 +59,10 @@ begin
       Result := crc32(Result, @SampleValue, sizeof(SampleValue));
     end;
 
-    //'TRadioButton': 2016-01-20:DB-With LAZ 1.4.4 and FPC 2.6.4 and in Windows 7 64-bits, it looks like after the .LOAD, the RadioButton are all "false"... That's why we'll check the "itemIndex" of the TRadioGroup instead.
+    'TRadioButton':
+    begin
+      Result := crc32(Result, @SAMPLEBYTES[ifthen(TRadioButton(aComponent).Checked, 1, 0)], 1);
+    end;
 
     'TEdit':
       if length(TEdit(aComponent).Text) > 0 then
@@ -75,7 +78,7 @@ begin
       if length(TFileNameEdit(aComponent).FileName) > 0 then
         Result := crc32(Result, @TFileNameEdit(aComponent).FileName[1], length(TFileNameEdit(aComponent).FileName));
 
-    'TComboBox':
+    'TComboBox', 'TComboBoxAutoWidth':
     begin
       if TComboBox(aComponent).ItemIndex <> -1 then
       begin
@@ -107,6 +110,27 @@ begin
       iSampleValue := TTrackBar(aComponent).Position;
       Result := crc32(Result, @iSampleValue, 4);
     end;
+
+    'TListBox':
+    begin
+      if not TListBox(aComponent).MultiSelect then
+      begin
+        iSampleValue := TListBox(aComponent).ItemIndex;
+        Result := crc32(Result, @iSampleValue, sizeof(iSampleValue));
+      end;
+    end;
+
+    'TMemo':
+    begin
+      SampleValue := TMemo(aComponent).Lines.Count;
+      Result := crc32(Result, @SampleValue, sizeof(SampleValue));
+      for iIndex:=0 to pred(TMemo(aComponent).Lines.Count) do
+        begin
+          if length(TMemo(aComponent).Lines.Strings[iIndex]) > 0 then
+            Result := crc32(Result, @TMemo(aComponent).Lines.Strings[iIndex][1], length(TMemo(aComponent).Lines.Strings[iIndex]));
+        end;
+    end;
+
   end;
 end;
 
@@ -115,17 +139,16 @@ function ComputeSignatureBasedOnComponent(aComponent: TComponent; seed: dword): 
 var
   iComponent: integer;
 begin
-  Result := seed;
-
-  for iComponent := 0 to pred(aComponent.ComponentCount) do
-  begin
-    if aComponent.Components[iComponent].ComponentCount > 0 then
-      Result := ComputeSignatureBasedOnComponent(aComponent.Components[iComponent], Result)
+  Result := ComputeSignatureSingleComponent(aComponent, seed);
+  case aComponent.ClassName of
+    'TRadioGroup': begin end; // Nothing. Because if we go inside, we'll analyse *always* ALL unchecked "TRadioButton" after load but they're not when it's time to save them.
     else
-      Result := ComputeSignatureSingleComponent(aComponent.Components[iComponent], Result);
+      begin
+        for iComponent := 0 to pred(aComponent.ComponentCount) do
+          Result := ComputeSignatureBasedOnComponent(aComponent.Components[iComponent], Result)
+      end;
   end;
 end;
-
 
 end.
 
