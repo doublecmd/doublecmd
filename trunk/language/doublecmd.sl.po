@@ -6796,6 +6796,21 @@ msgstr ""
 msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr ""
 
+#: tfrmoptionsterminal.edrunintermcloseparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr "{command} bi moral biti izpisan na tem mestu za ukaz, ki bo zagnan v terminalu"
+
+#: tfrmoptionsterminal.edrunintermstayopenparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr "{command} bi moral biti izpisan na tem mestu za ukaz, ki bo zagnan v terminalu"
+
+#: tfrmoptionsterminal.edruntermparams.hint
+msgctxt "tfrmoptionsterminal.edruntermparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr "{command} bi moral biti izpisan na tem mestu za ukaz, ki bo zagnan v terminalu"
+
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Ukaz za zagon terminala:"
@@ -6808,50 +6823,35 @@ msgstr "Ukaz za izvedbo zaključenega ukaza v terminalu"
 msgid "Command for running a command in terminal and stay open:"
 msgstr "Ukaz za izvedbo ukaza v oknu terminala, ki naj ostane odprto"
 
-#: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMCLOSECMD.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbrunintermclosecmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermclosecmd.caption"
 msgid "Command:"
 msgstr "Ukaz:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermcloseparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermcloseparams.caption"
 msgid "Parameters:"
 msgstr "Parametri:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} bi moral biti izpisan na tem mestu za ukaz, ki bo zagnan v terminalu"
-
-#: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENCMD.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbrunintermstayopencmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopencmd.caption"
 msgid "Command:"
 msgstr "Ukaz:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbrunintermstayopenparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopenparams.caption"
 msgid "Parameters:"
 msgstr "Parametri:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} bi moral biti izpisan na tem mestu za ukaz, ki bo zagnan v terminalu"
-
-#: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMCMD.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbruntermcmd.caption
+msgctxt "tfrmoptionsterminal.lbruntermcmd.caption"
 msgid "Command:"
 msgstr "Ukaz:"
 
-#: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbruntermparams.caption
+msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
 msgstr "Parametri:"
-
-#: tfrmoptionsterminal.ledtruntermparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} bi moral biti izpisan na tem mestu za ukaz, ki bo zagnan v terminalu"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgid "C&lone button"

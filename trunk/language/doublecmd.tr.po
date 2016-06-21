@@ -5707,7 +5707,7 @@ msgstr "&Komut"
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
 msgctxt "tfrmoptionsfileassoc.lblexternalparameters.caption"
 msgid "Parameter&s:"
-msgstr ""
+msgstr "DeÄŸiÅŸkenler:"
 
 #: tfrmoptionsfileassoc.lblstartpath.caption
 msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
@@ -6776,7 +6776,7 @@ msgstr "Alternatif arama algoritmalarÄ± kullanmak iÃ§in arama eklentilerine veya
 #| msgid "Packer plugins are used to work with archives."
 msgctxt "tfrmoptionsplugins.lblwcxdescription.caption"
 msgid "Pack&er plugins are used to work with archives"
-msgstr "ArÅallow one to display±ÅŸmak iÃ§in sÄ±kÄ±ÅŸtÄ±rma eklentileri kullanÄ±labilir."
+msgstr "ArÅŸivler ile Ã§alÄ±ÅŸmak iÃ§in sÄ±kÄ±ÅŸtÄ±rma eklentileri kullanÄ±labilir."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
 #, fuzzy
@@ -6795,7 +6795,6 @@ msgstr "Dosya sistemi eklentileri iÅŸletim sistemi tarafÄ±ndan ulaÅŸÄ±lmaz diskl
 #: tfrmoptionsplugins.lblwlxdescription.caption
 #, fuzzy
 #| msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"dosya tipi imgeleri ÄŸibigÃ¶rÃ¼ntÃ¼lemek iÃ§in izin verresimlerin"
 msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "GÃ¶rÃ¼ntÃ¼leyici eklentilerine izin ver, dosya tipleri,resimler,elektronik tablolar, veritabanlarÄ± vb. gibi.gÃ¶sterilmesini saÄŸlar(F3, Ctrl+Q)"
 
@@ -7024,6 +7023,21 @@ msgstr ""
 msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr ""
 
+#: tfrmoptionsterminal.edrunintermcloseparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.edrunintermstayopenparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.edruntermparams.hint
+msgctxt "tfrmoptionsterminal.edruntermparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr ""
@@ -7036,50 +7050,35 @@ msgstr ""
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
 
-#: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermclosecmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermclosecmd.caption"
 msgid "Command:"
-msgstr ""
+msgstr "Komut:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermcloseparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermcloseparams.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "DeÄŸiÅŸkenler:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermstayopencmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopencmd.caption"
 msgid "Command:"
-msgstr ""
+msgstr "Komut:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermstayopenparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopenparams.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "DeÄŸiÅŸkenler:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtruntermcmd.editlabel.caption"
+#: tfrmoptionsterminal.lbruntermcmd.caption
+msgctxt "tfrmoptionsterminal.lbruntermcmd.caption"
 msgid "Command:"
-msgstr ""
+msgstr "Komut:"
 
-#: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtruntermparams.editlabel.caption"
+#: tfrmoptionsterminal.lbruntermparams.caption
+msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtruntermparams.hint
-msgctxt "tfrmoptionsterminal.ledtruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
+msgstr "DeÄŸiÅŸkenler:"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgid "C&lone button"
@@ -7159,7 +7158,7 @@ msgstr ""
 #: tfrmoptionstoolbar.lblexternalparameters.caption
 msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
 msgid "Parameter&s:"
-msgstr ""
+msgstr "DeÄŸiÅŸkenler:"
 
 #: tfrmoptionstoolbar.lblhelponinternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblhelponinternalcommand.caption"
@@ -10198,7 +10197,7 @@ msgid "Cannot copy file %s to %s"
 msgstr "Dosya %s kopyalanamÄ±yor %s"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
-#, fuzzy,badformat
+#, fuzzy
 msgid "There already exists a directory named \"%s\"."
 msgstr "Orada zaten o adda bir dizin var"
 
@@ -10768,7 +10767,7 @@ msgid "No enough free space on target drive, Retry?"
 msgstr "Hedef sÃ¼rÃ¼cÃ¼de yeterli boÅŸluk yok. Yeniden Dene?"
 
 #: ulng.rsmsgnotdelete
-#, fuzzy,badformat
+#, fuzzy
 msgid "Can not delete file %s"
 msgstr "Dosya silinemiyor"
 
@@ -11465,7 +11464,7 @@ msgid "Shortcut in use"
 msgstr "KÄ±sayol kullanÄ±mÄ±"
 
 #: ulng.rsopthotkeysshortcutusedtext1
-#, fuzzy,badformat
+#, fuzzy
 #| msgid "Shortcut %s is already used for %s."
 msgid "Shortcut %s is already used."
 msgstr "KÄ±sayol %s zaten kullanÄ±lÄ±yor %s."
@@ -11475,7 +11474,7 @@ msgid "Change it to %s?"
 msgstr "Bunu deÄŸiÅŸtir %s?"
 
 #: ulng.rsopthotkeysusedby
-#, fuzzy,badformat
+#, fuzzy
 #| msgid "used by"
 msgid "used for %s in %s"
 msgstr "tarafÄ±ndan kullanÄ±lan"
@@ -11925,7 +11924,7 @@ msgid "Select directory:"
 msgstr "Dizin SeÃ§:"
 
 #: ulng.rsstraccents
-msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
+msgid "Ã¡;Ã¢;Ã ;Ã¥;Ã£;Ã¤;Ã§;Ã©;Ãª;Ã¨;Ã«;Ã­;Ã®;Ã¬;Ã¯;Ã±;Ã³;Ã´;Ã²;Ã¸;Ãµ;Ã¶;Ãº;Ã»;Ã¹;Ã¼;Ã¿;Ã;Ã‚;Ã€;Ã…;Ãƒ;Ã„;Ã‡;Ã‰;ÃŠ;Ãˆ;Ã‹;Ã;Ã;ÃŒ;Ã;Ã‘;Ã“;Ã”;Ã˜;Ã•;Ã–;ÃŸ;Ãš;Ã›;Ã™;Ãœ;Å¸;Â¿;Â¡;Å“;Ã¦;Ã†;Å’"
 msgstr ""
 
 #: ulng.rsstraccentsstripped
@@ -12300,4 +12299,3 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
-
