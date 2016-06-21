@@ -6721,6 +6721,21 @@ msgstr "Verzeichnis-Verlauf weiter speichern bei diesen Favoriten-Tabs:"
 msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr "Standardposition im Menü beim Speicherneines neuen Favoriten-Tabs:"
 
+#: tfrmoptionsterminal.edrunintermcloseparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr "{Befehl} sollte normalerweise hier angezeigt werden um den Befehl im Terminal auszuführen"
+
+#: tfrmoptionsterminal.edrunintermstayopenparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr "{Befehl} sollte normalerweise hier angezeigt werden um den Befehl im Terminal auszuführen"
+
+#: tfrmoptionsterminal.edruntermparams.hint
+msgctxt "tfrmoptionsterminal.edruntermparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr "{Befehl} sollte normalerweise hier angezeigt werden um den Befehl im Terminal auszuführen"
+
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Befehl um das Terminal auszuführen"
@@ -6733,50 +6748,35 @@ msgstr "Befehl um einen Befehl im Terminal auszuführen und es anschließend zu 
 msgid "Command for running a command in terminal and stay open:"
 msgstr "Befehl um einen Befehl im Terminal auszuführen und es anschließend offen zu halten:"
 
-#: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermclosecmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermclosecmd.caption"
+msgid "Command:"
+msgstr "Befehl"
+
+#: tfrmoptionsterminal.lbrunintermcloseparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermcloseparams.caption"
+msgid "Parameters:"
+msgstr "Parameter:"
+
+#: tfrmoptionsterminal.lbrunintermstayopencmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopencmd.caption"
 msgid "Command:"
 msgstr "Befehl:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermstayopenparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopenparams.caption"
 msgid "Parameters:"
 msgstr "Parameter:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{Befehl} sollte normalerweise hier angezeigt werden um den Befehl im Terminal auszuführen"
-
-#: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption"
+#: tfrmoptionsterminal.lbruntermcmd.caption
+msgctxt "tfrmoptionsterminal.lbruntermcmd.caption"
 msgid "Command:"
-msgstr "Befehl"
+msgstr "Befehl:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption"
+#: tfrmoptionsterminal.lbruntermparams.caption
+msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
 msgstr "Parameter:"
-
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{Befehl} sollte normalerweise hier angezeigt werden um den Befehl im Terminal auszuführen"
-
-#: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtruntermcmd.editlabel.caption"
-msgid "Command:"
-msgstr "Befehl"
-
-#: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtruntermparams.editlabel.caption"
-msgid "Parameters:"
-msgstr "Parameter:"
-
-#: tfrmoptionsterminal.ledtruntermparams.hint
-msgctxt "tfrmoptionsterminal.ledtruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{Befehl} sollte normalerweise hier angezeigt werden um den Befehl im Terminal auszuführen"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgid "C&lone button"

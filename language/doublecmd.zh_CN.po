@@ -7383,6 +7383,21 @@ msgstr ""
 msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr ""
 
+#: tfrmoptionsterminal.edrunintermcloseparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.edrunintermstayopenparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.edruntermparams.hint
+msgctxt "tfrmoptionsterminal.edruntermparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr ""
@@ -7395,50 +7410,35 @@ msgstr ""
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
 
-#: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermclosecmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermclosecmd.caption"
 msgid "Command:"
-msgstr ""
+msgstr "命令:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermcloseparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermcloseparams.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "参数:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermstayopencmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopencmd.caption"
 msgid "Command:"
-msgstr ""
+msgstr "命令:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermstayopenparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopenparams.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "参数:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtruntermcmd.editlabel.caption"
+#: tfrmoptionsterminal.lbruntermcmd.caption
+msgctxt "tfrmoptionsterminal.lbruntermcmd.caption"
 msgid "Command:"
-msgstr ""
+msgstr "命令:"
 
-#: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtruntermparams.editlabel.caption"
+#: tfrmoptionsterminal.lbruntermparams.caption
+msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtruntermparams.hint
-msgctxt "tfrmoptionsterminal.ledtruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
+msgstr "参数:"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"

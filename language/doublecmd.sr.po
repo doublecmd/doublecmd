@@ -4616,7 +4616,7 @@ msgid "Always expand tree"
 msgstr "Увек шири стабло фасцикли"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
-#, fuzzy,badformat
+#, fuzzy
 #| msgid "Show only valid %senv_var%s"
 msgid "Show only valid environment variables"
 msgstr "Приказуј само исправне %env_var%"
@@ -6918,6 +6918,21 @@ msgstr ""
 msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr ""
 
+#: tfrmoptionsterminal.edrunintermcloseparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.edrunintermstayopenparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.edruntermparams.hint
+msgctxt "tfrmoptionsterminal.edruntermparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr ""
@@ -6930,52 +6945,35 @@ msgstr ""
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
 
-#: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
-#, fuzzy
-msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermclosecmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermclosecmd.caption"
 msgid "Command:"
 msgstr "Наредба:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermcloseparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermcloseparams.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Одреднице:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermstayopencmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopencmd.caption"
 msgid "Command:"
 msgstr "Наредба:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermstayopenparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopenparams.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Одреднице:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
-#, fuzzy
-msgctxt "tfrmoptionsterminal.ledtruntermcmd.editlabel.caption"
+#: tfrmoptionsterminal.lbruntermcmd.caption
+msgctxt "tfrmoptionsterminal.lbruntermcmd.caption"
 msgid "Command:"
 msgstr "Наредба:"
 
-#: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtruntermparams.editlabel.caption"
+#: tfrmoptionsterminal.lbruntermparams.caption
+msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtruntermparams.hint
-msgctxt "tfrmoptionsterminal.ledtruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
+msgstr "Одреднице:"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgid "C&lone button"
@@ -11264,7 +11262,7 @@ msgid "Command"
 msgstr "Наредба"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
-#, fuzzy,badformat
+#, fuzzy
 msgctxt "ulng.rsopthotkeysdeletetrashcanoverrides"
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
 msgstr "Пречица за „cm_Delete“ има одредницу која заобилази ове поставке. Да ли желите да измените одредницу и користите опште поставке?"
@@ -11311,7 +11309,7 @@ msgid "Set shortcut to delete file"
 msgstr "Постави пречицу за брисање датотеке"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
-#, fuzzy,badformat
+#, fuzzy
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Да би ове поставке радиле са пречицом %s, пречица мора да буде додељена „cm_Delete“, али је већ додељена за %s. Да ли желите да је промените?"
 
@@ -12147,4 +12145,3 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
-

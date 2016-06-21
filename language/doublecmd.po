@@ -6524,6 +6524,21 @@ msgstr ""
 msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr ""
 
+#: tfrmoptionsterminal.edrunintermcloseparams.hint
+msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMCLOSEPARAMS.HINT"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.edrunintermstayopenparams.hint
+msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.edruntermparams.hint
+msgctxt "TFRMOPTIONSTERMINAL.EDRUNTERMPARAMS.HINT"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr ""
@@ -6536,49 +6551,34 @@ msgstr ""
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
 
-#: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermclosecmd.caption
+msgctxt "TFRMOPTIONSTERMINAL.LBRUNINTERMCLOSECMD.CAPTION"
 msgid "Command:"
 msgstr ""
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermcloseparams.caption
+msgctxt "TFRMOPTIONSTERMINAL.LBRUNINTERMCLOSEPARAMS.CAPTION"
 msgid "Parameters:"
 msgstr ""
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENCMD.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbrunintermstayopencmd.caption
+msgctxt "TFRMOPTIONSTERMINAL.LBRUNINTERMSTAYOPENCMD.CAPTION"
 msgid "Command:"
 msgstr ""
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbrunintermstayopenparams.caption
+msgctxt "TFRMOPTIONSTERMINAL.LBRUNINTERMSTAYOPENPARAMS.CAPTION"
 msgid "Parameters:"
 msgstr ""
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMCMD.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbruntermcmd.caption
+msgctxt "TFRMOPTIONSTERMINAL.LBRUNTERMCMD.CAPTION"
 msgid "Command:"
 msgstr ""
 
-#: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbruntermparams.caption
+msgctxt "TFRMOPTIONSTERMINAL.LBRUNTERMPARAMS.CAPTION"
 msgid "Parameters:"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtruntermparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
 #: tfrmoptionstoolbar.btnclonebutton.caption

@@ -1,141 +1,152 @@
 inherited frmOptionsTerminal: TfrmOptionsTerminal
   Height = 324
   Width = 519
+  AutoSize = True
   ClientHeight = 324
   ClientWidth = 519
   ParentShowHint = False
   ShowHint = True
-  object gbRunInTerminalClose: TGroupBox[0]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = gbRunInTerminalStayOpen
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 6
-    Height = 80
-    Top = 92
-    Width = 507
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = True
-    BorderSpacing.Around = 6
-    Caption = 'Command for running a command in terminal and close after:'
-    ClientHeight = 60
-    ClientWidth = 503
-    TabOrder = 1
-    object ledtRunInTermCloseCmd: TLabeledEdit
-      AnchorSideTop.Control = gbRunInTerminalClose
-      AnchorSideRight.Control = gbRunInTerminalClose
-      AnchorSideRight.Side = asrBottom
-      Left = 86
-      Height = 23
-      Top = 4
-      Width = 413
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Around = 4
-      EditLabel.AnchorSideTop.Control = ledtRunInTermCloseCmd
-      EditLabel.AnchorSideTop.Side = asrCenter
-      EditLabel.AnchorSideRight.Control = ledtRunInTermCloseCmd
-      EditLabel.AnchorSideBottom.Side = asrBottom
-      EditLabel.Left = 22
-      EditLabel.Height = 15
-      EditLabel.Top = 8
-      EditLabel.Width = 60
-      EditLabel.Caption = 'Command:'
-      EditLabel.ParentColor = False
-      LabelPosition = lpLeft
-      TabOrder = 0
-    end
-    object ledtRunInTermCloseParams: TLabeledEdit
-      AnchorSideLeft.Control = ledtRunInTermCloseCmd
-      AnchorSideTop.Control = ledtRunInTermCloseCmd
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = ledtRunInTermCloseCmd
-      AnchorSideRight.Side = asrBottom
-      Left = 86
-      Height = 23
-      Hint = '{command} should normally be present here to reflect the command to be run in terminal'
-      Top = 31
-      Width = 413
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Bottom = 6
-      EditLabel.AnchorSideTop.Control = ledtRunInTermCloseParams
-      EditLabel.AnchorSideTop.Side = asrCenter
-      EditLabel.AnchorSideRight.Control = ledtRunInTermCloseParams
-      EditLabel.AnchorSideBottom.Side = asrBottom
-      EditLabel.Left = 21
-      EditLabel.Height = 15
-      EditLabel.Top = 35
-      EditLabel.Width = 62
-      EditLabel.Caption = 'Parameters:'
-      EditLabel.ParentColor = False
-      LabelPosition = lpLeft
-      TabOrder = 1
-    end
-  end
-  object gbRunInTerminalStayOpen: TGroupBox[1]
+  object gbRunInTerminalStayOpen: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 80
+    Height = 82
     Top = 6
     Width = 507
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Around = 6
     Caption = 'Command for running a command in terminal and stay open:'
-    ClientHeight = 60
+    ChildSizing.LeftRightSpacing = 12
+    ChildSizing.TopBottomSpacing = 8
+    ChildSizing.HorizontalSpacing = 4
+    ChildSizing.VerticalSpacing = 12
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ClientHeight = 62
     ClientWidth = 503
     TabOrder = 0
-    object ledtRunInTermStayOpenCmd: TLabeledEdit
-      AnchorSideTop.Control = gbRunInTerminalStayOpen
+    object lbRunInTermStayOpenCmd: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 12
+      Height = 15
+      Top = 8
+      Width = 62
+      Alignment = taRightJustify
+      Caption = 'Command:'
+      ParentColor = False
+    end
+    object edRunInTermStayOpenCmd: TEdit
+      AnchorSideLeft.Control = lbRunInTermStayOpenCmd
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lbRunInTermStayOpenCmd
+      AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbRunInTerminalStayOpen
       AnchorSideRight.Side = asrBottom
-      Left = 86
+      Left = 78
       Height = 23
       Top = 4
       Width = 413
       Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Around = 4
-      EditLabel.AnchorSideTop.Control = ledtRunInTermStayOpenCmd
-      EditLabel.AnchorSideTop.Side = asrCenter
-      EditLabel.AnchorSideRight.Control = ledtRunInTermStayOpenCmd
-      EditLabel.AnchorSideBottom.Side = asrBottom
-      EditLabel.Left = 22
-      EditLabel.Height = 15
-      EditLabel.Top = 8
-      EditLabel.Width = 60
-      EditLabel.Caption = 'Command:'
-      EditLabel.ParentColor = False
-      LabelPosition = lpLeft
       TabOrder = 0
     end
-    object ledtRunInTermStayOpenParams: TLabeledEdit
-      AnchorSideLeft.Control = ledtRunInTermStayOpenCmd
-      AnchorSideTop.Control = ledtRunInTermStayOpenCmd
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = ledtRunInTermStayOpenCmd
+    object lbRunInTermStayOpenParams: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 12
+      Height = 15
+      Top = 35
+      Width = 62
+      Alignment = taRightJustify
+      Caption = 'Parameters:'
+      ParentColor = False
+    end
+    object edRunInTermStayOpenParams: TEdit
+      AnchorSideLeft.Control = lbRunInTermStayOpenParams
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lbRunInTermStayOpenParams
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = edRunInTermStayOpenCmd
       AnchorSideRight.Side = asrBottom
-      Left = 86
+      Left = 78
       Height = 23
       Hint = '{command} should normally be present here to reflect the command to be run in terminal'
       Top = 31
       Width = 413
       Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Bottom = 6
-      EditLabel.AnchorSideTop.Control = ledtRunInTermStayOpenParams
-      EditLabel.AnchorSideTop.Side = asrCenter
-      EditLabel.AnchorSideRight.Control = ledtRunInTermStayOpenParams
-      EditLabel.AnchorSideBottom.Side = asrBottom
-      EditLabel.Left = 21
-      EditLabel.Height = 15
-      EditLabel.Top = 35
-      EditLabel.Width = 62
-      EditLabel.Caption = 'Parameters:'
-      EditLabel.ParentColor = False
-      LabelPosition = lpLeft
       TabOrder = 1
+    end
+  end
+  object gbRunInTerminalClose: TGroupBox[1]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbRunInTerminalStayOpen
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 82
+    Top = 94
+    Width = 507
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = 'Command for running a command in terminal and close after:'
+    ChildSizing.LeftRightSpacing = 12
+    ChildSizing.TopBottomSpacing = 8
+    ChildSizing.HorizontalSpacing = 4
+    ChildSizing.VerticalSpacing = 12
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ClientHeight = 62
+    ClientWidth = 503
+    TabOrder = 1
+    object edRunInTermCloseParams: TEdit
+      AnchorSideLeft.Control = lbRunInTermCloseParams
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lbRunInTermCloseParams
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = edRunInTermCloseCmd
+      AnchorSideRight.Side = asrBottom
+      Left = 78
+      Height = 23
+      Hint = '{command} should normally be present here to reflect the command to be run in terminal'
+      Top = 31
+      Width = 413
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 1
+    end
+    object edRunInTermCloseCmd: TEdit
+      AnchorSideLeft.Control = lbRunInTermCloseCmd
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lbRunInTermCloseCmd
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = gbRunInTerminalClose
+      AnchorSideRight.Side = asrBottom
+      Left = 78
+      Height = 23
+      Top = 4
+      Width = 413
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 0
+    end
+    object lbRunInTermCloseCmd: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 12
+      Height = 15
+      Top = 8
+      Width = 62
+      Alignment = taRightJustify
+      Caption = 'Command:'
+      ParentColor = False
+    end
+    object lbRunInTermCloseParams: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 12
+      Height = 15
+      Top = 35
+      Width = 62
+      Alignment = taRightJustify
+      Caption = 'Parameters:'
+      ParentColor = False
     end
   end
   object gbJustRunTerminal: TGroupBox[2]
@@ -145,63 +156,69 @@ inherited frmOptionsTerminal: TfrmOptionsTerminal
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 80
-    Top = 178
+    Height = 82
+    Top = 182
     Width = 507
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Around = 6
     Caption = 'Command for just running terminal:'
-    ClientHeight = 60
+    ChildSizing.LeftRightSpacing = 12
+    ChildSizing.TopBottomSpacing = 8
+    ChildSizing.HorizontalSpacing = 4
+    ChildSizing.VerticalSpacing = 12
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ClientHeight = 62
     ClientWidth = 503
     TabOrder = 2
-    object ledtRunTermCmd: TLabeledEdit
-      AnchorSideTop.Control = gbJustRunTerminal
+    object lbRunTermCmd: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 12
+      Height = 15
+      Top = 8
+      Width = 62
+      Alignment = taRightJustify
+      Caption = 'Command:'
+      ParentColor = False
+    end
+    object edRunTermCmd: TEdit
+      AnchorSideLeft.Control = lbRunTermCmd
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lbRunTermCmd
+      AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbJustRunTerminal
       AnchorSideRight.Side = asrBottom
-      Left = 86
+      Left = 78
       Height = 23
       Top = 4
       Width = 413
       Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Around = 4
-      EditLabel.AnchorSideTop.Control = ledtRunTermCmd
-      EditLabel.AnchorSideTop.Side = asrCenter
-      EditLabel.AnchorSideRight.Control = ledtRunTermCmd
-      EditLabel.AnchorSideBottom.Side = asrBottom
-      EditLabel.Left = 22
-      EditLabel.Height = 15
-      EditLabel.Top = 8
-      EditLabel.Width = 60
-      EditLabel.Caption = 'Command:'
-      EditLabel.ParentColor = False
-      LabelPosition = lpLeft
       TabOrder = 0
     end
-    object ledtRunTermParams: TLabeledEdit
-      AnchorSideLeft.Control = ledtRunTermCmd
-      AnchorSideTop.Control = ledtRunTermCmd
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = ledtRunTermCmd
+    object lbRunTermParams: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 12
+      Height = 15
+      Top = 35
+      Width = 62
+      Alignment = taRightJustify
+      Caption = 'Parameters:'
+      ParentColor = False
+    end
+    object edRunTermParams: TEdit
+      AnchorSideLeft.Control = lbRunTermParams
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lbRunTermParams
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = edRunTermCmd
       AnchorSideRight.Side = asrBottom
-      Left = 86
+      AnchorSideBottom.Side = asrBottom
+      Left = 78
       Height = 23
       Hint = '{command} should normally be present here to reflect the command to be run in terminal'
       Top = 31
       Width = 413
       Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Bottom = 6
-      EditLabel.AnchorSideTop.Control = ledtRunTermParams
-      EditLabel.AnchorSideTop.Side = asrCenter
-      EditLabel.AnchorSideRight.Control = ledtRunTermParams
-      EditLabel.AnchorSideBottom.Side = asrBottom
-      EditLabel.Left = 21
-      EditLabel.Height = 15
-      EditLabel.Top = 35
-      EditLabel.Width = 62
-      EditLabel.Caption = 'Parameters:'
-      EditLabel.ParentColor = False
-      LabelPosition = lpLeft
       TabOrder = 1
     end
   end

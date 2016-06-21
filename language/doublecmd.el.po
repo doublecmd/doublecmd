@@ -6793,6 +6793,21 @@ msgstr "Διατήρηση αποθήκευσης ιστορικού καταλ�
 msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr "Προκαθορισμένη θέση στο μενού όταν αποθηκεύεται μια νέα Αγαπημένη Καρτέλα:"
 
+#: tfrmoptionsterminal.edrunintermcloseparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr "{command} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
+
+#: tfrmoptionsterminal.edrunintermstayopenparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr "{command} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
+
+#: tfrmoptionsterminal.edruntermparams.hint
+msgctxt "tfrmoptionsterminal.edruntermparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr "{command} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
+
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Εντολή για εκτέλεση μόνο του τερματικού:"
@@ -6805,50 +6820,35 @@ msgstr "Εντολή για εκτέλεση μιας εντολής στο τε
 msgid "Command for running a command in terminal and stay open:"
 msgstr "Εντολή για εκτέλεση μιας εντολής στο τερματικό και παραμονή του ανοικτό :"
 
-#: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMCLOSECMD.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbrunintermclosecmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermclosecmd.caption"
 msgid "Command:"
 msgstr "Εντολή:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermcloseparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermcloseparams.caption"
 msgid "Parameters:"
 msgstr "Παράμετροι:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{εντολή} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
-
-#: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENCMD.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbrunintermstayopencmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopencmd.caption"
 msgid "Command:"
 msgstr "Εντολή:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbrunintermstayopenparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopenparams.caption"
 msgid "Parameters:"
 msgstr "Παράμετροι:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{εντολή} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
-
-#: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMCMD.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbruntermcmd.caption
+msgctxt "tfrmoptionsterminal.lbruntermcmd.caption"
 msgid "Command:"
 msgstr "Εντολή:"
 
-#: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbruntermparams.caption
+msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
 msgstr "Παράμετροι:"
-
-#: tfrmoptionsterminal.ledtruntermparams.hint
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{εντολή} θα έπρεπε να είναι παρούσα εδώ για να προσδιορίσει την εντολή που θα εκτελεστεί στο τερματικό"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgid "C&lone button"

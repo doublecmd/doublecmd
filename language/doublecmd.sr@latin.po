@@ -4615,7 +4615,7 @@ msgid "Always expand tree"
 msgstr "Uvek širi stablo fascikli"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
-#, fuzzy,badformat
+#, fuzzy
 #| msgid "Show only valid %senv_var%s"
 msgid "Show only valid environment variables"
 msgstr "Prikazuj samo ispravne %env_var%"
@@ -6917,6 +6917,21 @@ msgstr ""
 msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr ""
 
+#: tfrmoptionsterminal.edrunintermcloseparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.edrunintermstayopenparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
+#: tfrmoptionsterminal.edruntermparams.hint
+msgctxt "tfrmoptionsterminal.edruntermparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr ""
+
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr ""
@@ -6929,52 +6944,38 @@ msgstr ""
 msgid "Command for running a command in terminal and stay open:"
 msgstr ""
 
-#: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
+#: tfrmoptionsterminal.lbrunintermclosecmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermclosecmd.caption"
+msgid "Command:"
+msgstr "Naredba:"
+
+#: tfrmoptionsterminal.lbrunintermcloseparams.caption
 #, fuzzy
-msgctxt "tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption"
+msgctxt "tfrmoptionsterminal.lbrunintermcloseparams.caption"
+msgid "Parameters:"
+msgstr "Odrednice:"
+
+#: tfrmoptionsterminal.lbrunintermstayopencmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopencmd.caption"
 msgid "Command:"
 msgstr "Naredba:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
-msgid "Parameters:"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtrunintermcloseparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption"
-msgid "Command:"
-msgstr "Naredba:"
-
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption"
-msgid "Parameters:"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
-msgctxt "tfrmoptionsterminal.ledtrunintermstayopenparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
+#: tfrmoptionsterminal.lbrunintermstayopenparams.caption
 #, fuzzy
-msgctxt "tfrmoptionsterminal.ledtruntermcmd.editlabel.caption"
+msgctxt "tfrmoptionsterminal.lbrunintermstayopenparams.caption"
+msgid "Parameters:"
+msgstr "Odrednice:"
+
+#: tfrmoptionsterminal.lbruntermcmd.caption
+msgctxt "tfrmoptionsterminal.lbruntermcmd.caption"
 msgid "Command:"
 msgstr "Naredba:"
 
-#: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtruntermparams.editlabel.caption"
+#: tfrmoptionsterminal.lbruntermparams.caption
+#, fuzzy
+msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
-msgstr ""
-
-#: tfrmoptionsterminal.ledtruntermparams.hint
-msgctxt "tfrmoptionsterminal.ledtruntermparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr ""
+msgstr "Odrednice:"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgid "C&lone button"
@@ -11263,7 +11264,7 @@ msgid "Command"
 msgstr "Naredba"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
-#, fuzzy,badformat
+#, fuzzy
 msgctxt "ulng.rsopthotkeysdeletetrashcanoverrides"
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
 msgstr "Prečica za „cm_Delete“ ima odrednicu koja zaobilazi ove postavke. Da li želite da izmenite odrednicu i koristite opšte postavke?"
@@ -11310,7 +11311,7 @@ msgid "Set shortcut to delete file"
 msgstr "Postavi prečicu za brisanje datoteke"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
-#, fuzzy,badformat
+#, fuzzy
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Da bi ove postavke radile sa prečicom %s, prečica mora da bude dodeljena „cm_Delete“, ali je već dodeljena za %s. Da li želite da je promenite?"
 
@@ -12146,4 +12147,3 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
-

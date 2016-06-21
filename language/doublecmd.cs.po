@@ -6780,6 +6780,21 @@ msgstr ""
 msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr "Výchozí umístění v menu při ukládání nové oblíbené záložky:"
 
+#: tfrmoptionsterminal.edrunintermcloseparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr "{command} zde za normálních okolností znovu předloží příkaz, který chcete spustit v terminálu"
+
+#: tfrmoptionsterminal.edrunintermstayopenparams.hint
+msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr "{command} zde za normálních okolností znovu předloží příkaz, který chcete spustit v terminálu"
+
+#: tfrmoptionsterminal.edruntermparams.hint
+msgctxt "tfrmoptionsterminal.edruntermparams.hint"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
+msgstr "{command} zde za normálních okolností znovu předloží příkaz, který chcete spustit v terminálu"
+
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
 msgstr "Příkaz pouze pro spuštění terminálu:"
@@ -6792,56 +6807,35 @@ msgstr "Příkaz pro spuštění v terminálu a terminál se zavře:"
 msgid "Command for running a command in terminal and stay open:"
 msgstr "Příkaz pro spuštění v terminálu a terminál zůstane otevřený:"
 
-#: tfrmoptionsterminal.ledtrunintermclosecmd.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMCLOSECMD.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbrunintermclosecmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermclosecmd.caption"
 msgid "Command:"
 msgstr "Příkaz:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.editlabel.caption"
+#: tfrmoptionsterminal.lbrunintermcloseparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermcloseparams.caption"
 msgid "Parameters:"
 msgstr "Parametry:"
 
-#: tfrmoptionsterminal.ledtrunintermcloseparams.hint
-#, fuzzy
-#| msgid "{command} should normally present here to releft the command to be run in terminal"
-msgctxt "tfrmoptionsterminal.ledtrunintermcloseparams.hint"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} zde za normálních okolností znovu předloží příkaz, který chcete spustit v terminálu"
-
-#: tfrmoptionsterminal.ledtrunintermstayopencmd.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENCMD.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbrunintermstayopencmd.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopencmd.caption"
 msgid "Command:"
 msgstr "Příkaz:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbrunintermstayopenparams.caption
+msgctxt "tfrmoptionsterminal.lbrunintermstayopenparams.caption"
 msgid "Parameters:"
 msgstr "Parametry:"
 
-#: tfrmoptionsterminal.ledtrunintermstayopenparams.hint
-#, fuzzy
-#| msgid "{command} should normally present here to releft the command to be run in terminal"
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNINTERMSTAYOPENPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} zde za normálních okolností znovu předloží příkaz, který chcete spustit v terminálu"
-
-#: tfrmoptionsterminal.ledtruntermcmd.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMCMD.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbruntermcmd.caption
+msgctxt "tfrmoptionsterminal.lbruntermcmd.caption"
 msgid "Command:"
 msgstr "Příkaz:"
 
-#: tfrmoptionsterminal.ledtruntermparams.editlabel.caption
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.EDITLABEL.CAPTION"
+#: tfrmoptionsterminal.lbruntermparams.caption
+msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
 msgstr "Parametry:"
-
-#: tfrmoptionsterminal.ledtruntermparams.hint
-#, fuzzy
-#| msgid "{command} should normally present here to releft the command to be run in terminal"
-msgctxt "TFRMOPTIONSTERMINAL.LEDTRUNTERMPARAMS.HINT"
-msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} zde za normálních okolností znovu předloží příkaz, který chcete spustit v terminálu"
 
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgid "C&lone button"

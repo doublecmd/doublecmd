@@ -35,15 +35,21 @@ type
   { TfrmOptionsTerminal }
 
   TfrmOptionsTerminal = class(TOptionsEditor)
-    gbRunInTerminalClose: TGroupBox;
-    gbJustRunTerminal: TGroupBox;
     gbRunInTerminalStayOpen: TGroupBox;
-    ledtRunInTermCloseCmd: TLabeledEdit;
-    ledtRunTermCmd: TLabeledEdit;
-    ledtRunTermParams: TLabeledEdit;
-    ledtRunInTermStayOpenCmd: TLabeledEdit;
-    ledtRunInTermCloseParams: TLabeledEdit;
-    ledtRunInTermStayOpenParams: TLabeledEdit;
+    lbRunInTermStayOpenCmd: TLabel;
+    edRunInTermStayOpenCmd: TEdit;
+    lbRunInTermStayOpenParams: TLabel;
+    edRunInTermStayOpenParams: TEdit;
+    gbRunInTerminalClose: TGroupBox;
+    lbRunInTermCloseCmd: TLabel;
+    edRunInTermCloseCmd: TEdit;
+    lbRunInTermCloseParams: TLabel;
+    edRunInTermCloseParams: TEdit;
+    gbJustRunTerminal: TGroupBox;
+    lbRunTermCmd: TLabel;
+    edRunTermCmd: TEdit;
+    lbRunTermParams: TLabel;
+    edRunTermParams: TEdit;
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -63,22 +69,22 @@ uses
 
 procedure TfrmOptionsTerminal.Load;
 begin
-  ledtRunInTermStayOpenCmd.Text := gRunInTermStayOpenCmd;
-  ledtRunInTermStayOpenParams.Text := gRunInTermStayOpenParams;
-  ledtRunInTermCloseCmd.Text := gRunInTermCloseCmd;
-  ledtRunInTermCloseParams.Text := gRunInTermCloseParams;
-  ledtRunTermCmd.Text := gRunTermCmd;
-  ledtRunTermParams.Text := gRunTermParams;
+  edRunInTermStayOpenCmd.Text := gRunInTermStayOpenCmd;
+  edRunInTermStayOpenParams.Text := gRunInTermStayOpenParams;
+  edRunInTermCloseCmd.Text := gRunInTermCloseCmd;
+  edRunInTermCloseParams.Text := gRunInTermCloseParams;
+  edRunTermCmd.Text := gRunTermCmd;
+  edRunTermParams.Text := gRunTermParams;
 end;
 
 function TfrmOptionsTerminal.Save: TOptionsEditorSaveFlags;
 begin
-  gRunInTermStayOpenCmd := ledtRunInTermStayOpenCmd.Text;
-  gRunInTermStayOpenParams := ledtRunInTermStayOpenParams.Text;
-  gRunInTermCloseCmd := ledtRunInTermCloseCmd.Text;
-  gRunInTermCloseParams := ledtRunInTermCloseParams.Text;
-  gRunTermCmd := ledtRunTermCmd.Text;
-  gRunTermParams := ledtRunTermParams.Text;
+  gRunInTermStayOpenCmd := edRunInTermStayOpenCmd.Text;
+  gRunInTermStayOpenParams := edRunInTermStayOpenParams.Text;
+  gRunInTermCloseCmd := edRunInTermCloseCmd.Text;
+  gRunInTermCloseParams := edRunInTermCloseParams.Text;
+  gRunTermCmd := edRunTermCmd.Text;
+  gRunTermParams := edRunTermParams.Text;
   Result := [];
 end;
 
