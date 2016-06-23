@@ -3416,6 +3416,12 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "&Izbriši"
 
+#: tfrmmultirename.btnedit.caption
+#, fuzzy
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "&Uredi"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3635,6 +3641,14 @@ msgstr "[Y] Leto (2 številki)"
 msgid "[YYYY] Year (4 digits)"
 msgstr "[YYYY] Leto (4 številke)"
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3674,6 +3688,16 @@ msgstr "Novo ime datoteke"
 msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TITLE.CAPTION"
 msgid "File Path"
 msgstr "Pot datoteke"
+
+#: tfrmmultirenamewait.caption
+#, fuzzy
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr ""
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -10758,6 +10782,10 @@ msgstr "z"
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Brez spremembe;VELIKE ČRKE;male črke;Prva črka je velika;Prva Črka Vsake Besede Je Velika;"
+
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr ""
 
 #: ulng.rsoperaborted
 msgid "Aborted"

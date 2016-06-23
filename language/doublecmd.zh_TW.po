@@ -3578,6 +3578,13 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "刪除 (&D)"
 
+#: tfrmmultirename.btnedit.caption
+#, fuzzy
+#| msgid "Edit"
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "編輯 (&E)"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3810,6 +3817,14 @@ msgstr "[Y] 年 (2位數)"
 msgid "[YYYY] Year (4 digits)"
 msgstr "[YYYY] 年 (4位數)"
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3849,6 +3864,16 @@ msgstr "新檔名"
 msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "檔案路徑"
+
+#: tfrmmultirenamewait.caption
+#, fuzzy
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr ""
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -10984,9 +11009,10 @@ msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
+#, fuzzy
 msgctxt "ulng.rsmsghotdirsimplecommand"
 msgid "Command:"
-msgstr ""
+msgstr "指令:"
 
 #: ulng.rsmsghotdirsimpleendofmenu
 msgctxt "ulng.rsmsghotdirsimpleendofmenu"
@@ -11515,6 +11541,10 @@ msgstr ""
 #| msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "不變更;大寫;小寫;首字大寫;每個單字首字大寫;"
+
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr ""
 
 #: ulng.rsoperaborted
 msgid "Aborted"

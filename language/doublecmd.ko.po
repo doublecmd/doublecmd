@@ -3665,6 +3665,13 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "삭제(&D)"
 
+#: tfrmmultirename.btnedit.caption
+#, fuzzy
+#| msgid "Edit"
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "편집"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3908,6 +3915,14 @@ msgstr "[Y] 년 (2자리)"
 msgid "[YYYY] Year (4 digits)"
 msgstr "[YYYY] 년 (4자리)"
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3950,6 +3965,16 @@ msgstr "새 파일명"
 msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "파일 경로"
+
+#: tfrmmultirenamewait.caption
+#, fuzzy
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr "더블 커맨더"
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr ""
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -11210,9 +11235,10 @@ msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
+#, fuzzy
 msgctxt "ulng.rsmsghotdirsimplecommand"
 msgid "Command:"
-msgstr ""
+msgstr "명령:"
 
 #: ulng.rsmsghotdirsimpleendofmenu
 msgctxt "ulng.rsmsghotdirsimpleendofmenu"
@@ -11398,7 +11424,7 @@ msgid "Create symlink %s"
 msgstr "심링크 %s 생성"
 
 #: ulng.rsmsglogtest
-#, fuzzy
+#, fuzzy,badformat
 msgid "Test file integrity %s"
 msgstr "파일 % 상태 테스트"
 
@@ -11744,6 +11770,10 @@ msgstr ""
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "변경 없음;대문자로;소문자로;첫 문자만 대문자로;모든 낱말의 첫 문자를 대문자로;"
+
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr ""
 
 #: ulng.rsoperaborted
 msgid "Aborted"
@@ -12112,7 +12142,7 @@ msgid "Description"
 msgstr "설명"
 
 #: ulng.rsopthotkeysedithotkey
-#, fuzzy
+#, fuzzy,badformat
 msgid "Edit hotkey for %s"
 msgstr "%의 단축키 편집"
 
@@ -13011,3 +13041,4 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
+

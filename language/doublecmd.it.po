@@ -3422,6 +3422,12 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "&Elimina"
 
+#: tfrmmultirename.btnedit.caption
+#, fuzzy
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "&Modifica"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3641,6 +3647,14 @@ msgstr "[Y] Anni (2 cifre)"
 msgid "[YYYY] Year (4 digits)"
 msgstr "[YYYY] Anni (4 cifre)"
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3680,6 +3694,16 @@ msgstr "Nuovo nome del file"
 msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TITLE.CAPTION"
 msgid "File Path"
 msgstr "Percorso del file"
+
+#: tfrmmultirenamewait.caption
+#, fuzzy
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr ""
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -10305,9 +10329,10 @@ msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
+#, fuzzy
 msgctxt "ulng.rsmsghotdirsimplecommand"
 msgid "Command:"
-msgstr ""
+msgstr "Comando:"
 
 #: ulng.rsmsghotdirsimpleendofmenu
 msgctxt "ulng.rsmsghotdirsimpleendofmenu"
@@ -10833,6 +10858,10 @@ msgstr ""
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Nessuna modifica;MAIUSCOLE;minuscole;Primo carattere maiusc.;Primo caratt. di ogni parola maiusc.;"
+
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr ""
 
 #: ulng.rsoperaborted
 msgid "Aborted"
@@ -12069,3 +12098,4 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
+

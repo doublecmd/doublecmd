@@ -3394,6 +3394,12 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "&Vymazat"
 
+#: tfrmmultirename.btnedit.caption
+#, fuzzy
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "&Upravit"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3613,6 +3619,14 @@ msgstr "[Y] Rok (2 cifry)"
 msgid "[YYYY] Year (4 digits)"
 msgstr "[YYYY] Rok (4 cifry)"
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3652,6 +3666,16 @@ msgstr "Nový název souboru"
 msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TITLE.CAPTION"
 msgid "File Path"
 msgstr "Cesta k souboru"
+
+#: tfrmmultirenamewait.caption
+#, fuzzy
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr ""
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -10754,6 +10778,10 @@ msgstr "s"
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Neměnit;VELKÁ;malá;1. znak velkým;1. znak každého slova velkým;"
+
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr ""
 
 #: ulng.rsoperaborted
 msgid "Aborted"

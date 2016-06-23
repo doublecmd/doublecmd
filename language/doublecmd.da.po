@@ -3446,6 +3446,12 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "&Slet maske"
 
+#: tfrmmultirename.btnedit.caption
+#, fuzzy
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "&Rediger"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3665,6 +3671,14 @@ msgstr "[Y] År (to cifre)"
 msgid "[YYYY] Year (4 digits)"
 msgstr "[YYYY] År (fire cifre)"
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3704,6 +3718,15 @@ msgstr "Nyt navn"
 msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "Placering"
+
+#: tfrmmultirenamewait.caption
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr ""
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr ""
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -11037,6 +11060,10 @@ msgstr ""
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Uændret;STORE BOGSTAVER;små bogstaver;Første bogstav stort;Første Bogstav Stort I hvert Ord;"
 
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Afbrudt"
@@ -11446,7 +11473,7 @@ msgid "Shortcut in use"
 msgstr "Genvejstast anvendes"
 
 #: ulng.rsopthotkeysshortcutusedtext1
-#, fuzzy
+#, fuzzy,badformat
 msgid "Shortcut %s is already used."
 msgstr "Genvejstast %s anvendes allerede til %s."
 
@@ -12275,3 +12302,4 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
+

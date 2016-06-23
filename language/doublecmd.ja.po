@@ -3380,6 +3380,12 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "削除(&D)"
 
+#: tfrmmultirename.btnedit.caption
+#, fuzzy
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "編集(&E)"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3599,6 +3605,14 @@ msgstr "[Y] 年（2桁）"
 msgid "[YYYY] Year (4 digits)"
 msgstr "[YYYY] 年(4桁）"
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3638,6 +3652,16 @@ msgstr "新しいファイル名"
 msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TITLE.CAPTION"
 msgid "File Path"
 msgstr "ファイルのパス"
+
+#: tfrmmultirenamewait.caption
+#, fuzzy
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr "ダブル・コマンダー"
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr ""
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -10697,6 +10721,10 @@ msgstr "with"
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "変更無し;大文字;小文字;最初だけ大文字;各単語の頭を大文字"
+
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr ""
 
 #: ulng.rsoperaborted
 msgid "Aborted"

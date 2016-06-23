@@ -3680,6 +3680,13 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "&Vymazať"
 
+#: tfrmmultirename.btnedit.caption
+#, fuzzy
+#| msgid "Edit"
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "&Upraviť"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3950,6 +3957,14 @@ msgstr "[Y] Rok (2 číslice)"
 msgid "[YYYY] Year (4 digits)"
 msgstr "[YYYY] Rok (4 číslice)"
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3989,6 +4004,16 @@ msgstr "Nové meno súboru"
 msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "Cesta k súboru"
+
+#: tfrmmultirenamewait.caption
+#, fuzzy
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr ""
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -11043,9 +11068,10 @@ msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
+#, fuzzy
 msgctxt "ulng.rsmsghotdirsimplecommand"
 msgid "Command:"
-msgstr ""
+msgstr "Príkaz:"
 
 #: ulng.rsmsghotdirsimpleendofmenu
 msgctxt "ulng.rsmsghotdirsimpleendofmenu"
@@ -11577,6 +11603,10 @@ msgstr ""
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Nemeniť;VEĽKÝM;malým;Prvý znak veľkým;Prvý Znak Každého Slova Veľkým;"
 
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Prerušené"
@@ -11905,7 +11935,7 @@ msgid "float;B;K;M;G"
 msgstr ""
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
-#, fuzzy
+#, fuzzy,badformat
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr "Skratka pre cm_Delete bude zaregistrovaná, takže môže byť použitá na obrátenie tohto nastavenia."
 
@@ -11975,7 +12005,7 @@ msgid "Set shortcut to delete file"
 msgstr "Nastaviť skratku pre vymazanie súboru"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
-#, fuzzy
+#, fuzzy,badformat
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Pre toto nastavenie"
 
@@ -12818,3 +12848,4 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
+

@@ -3379,6 +3379,11 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "&Удалить"
 
+#: tfrmmultirename.btnedit.caption
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "Пр&авка"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3598,6 +3603,14 @@ msgstr "[Y] Год (2 цифры)"
 msgid "[YYYY] Year (4 digits)"
 msgstr "[YYYY] Год (4 цифры)"
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr "&Редактировать имена..."
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr "&Загрузить имена из файла..."
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3637,6 +3650,15 @@ msgstr "Новое имя"
 msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "Путь файла"
+
+#: tfrmmultirenamewait.caption
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr "Нажмите \"OK\" по закрытии редактора, чтобы загрузить изменённые имена!"
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -10715,6 +10737,10 @@ msgstr "с"
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С прописной;Каждое Слово С Прописной;"
+
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr "В файле содержится неверное количество строк: %d, должно быть: %d!"
 
 #: ulng.rsoperaborted
 msgid "Aborted"

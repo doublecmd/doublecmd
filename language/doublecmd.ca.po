@@ -3641,6 +3641,13 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "&Esborra"
 
+#: tfrmmultirename.btnedit.caption
+#, fuzzy
+#| msgid "Edit"
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "Edita"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3904,6 +3911,14 @@ msgstr "[Y]->Any"
 msgid "[YYYY] Year (4 digits)"
 msgstr "[YYYY] Any (4 dígits)"
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3943,6 +3958,16 @@ msgstr "Nou nom de fitxer"
 msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "Ruta"
+
+#: tfrmmultirenamewait.caption
+#, fuzzy
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr ""
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -10975,9 +11000,10 @@ msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
+#, fuzzy
 msgctxt "ulng.rsmsghotdirsimplecommand"
 msgid "Command:"
-msgstr ""
+msgstr "Comandament:"
 
 #: ulng.rsmsghotdirsimpleendofmenu
 msgctxt "ulng.rsmsghotdirsimpleendofmenu"
@@ -11506,6 +11532,10 @@ msgstr ""
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Sense canvis;MAJÚSCULES;minúscules;Primera Majúscula;"
 
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Interromput"
@@ -11861,7 +11891,7 @@ msgid "Description"
 msgstr "Descripció"
 
 #: ulng.rsopthotkeysedithotkey
-#, fuzzy
+#, fuzzy,badformat
 msgid "Edit hotkey for %s"
 msgstr "Fixa Tecles ràpides"
 
@@ -12733,3 +12763,4 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
+
