@@ -240,7 +240,7 @@ implementation
 uses
   uDebug, uLng, uGlobs, uFileProcs, DCOSUtils, DCStrUtils,
   fSelectTextRange, uShowMsg, uFileSourceUtil, uFileProperty, uFileFunctions,
-  uShowForm, dmCommonData, fMultiRenameWait, uOSUtils;
+  dmCommonData, fMultiRenameWait, uOSUtils;
 
 const
   sPresetsSection = 'MultiRenamePresets';
@@ -508,8 +508,7 @@ begin
   try
     AFileList.SaveToFile(AFileName);
     try
-      ShowEditorByGlob(AFileName);
-      if ShowMultiRenameWaitForm(Self) then
+      if ShowMultiRenameWaitForm(AFileName, Self) then
         LoadNamesFromFile(AFileName);
     finally
       mbDeleteFile(AFileName);

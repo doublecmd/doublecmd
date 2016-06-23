@@ -1,7 +1,7 @@
 object frmMultiRenameWait: TfrmMultiRenameWait
-  Left = 526
+  Left = 500
   Height = 87
-  Top = 63
+  Top = 182
   Width = 394
   AutoSize = True
   BorderStyle = bsDialog
@@ -10,8 +10,9 @@ object frmMultiRenameWait: TfrmMultiRenameWait
   ChildSizing.TopBottomSpacing = 12
   ClientHeight = 87
   ClientWidth = 394
+  OnPaint = FormPaint
   Position = poOwnerFormCenter
-  LCLVersion = '1.6.0.3'
+  LCLVersion = '1.6.0.4'
   object lblMessage: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
