@@ -311,7 +311,12 @@ begin
     SendMessage(GetCapture, LM_CANCELMODE, 0, 0);
   ReleaseCapture;
 
-  ActiveWindow := GetActiveWindow;
+  if Owner is TCustomForm then
+    ActiveWindow := TCustomForm(Owner).Handle
+  else begin
+    ActiveWindow := GetActiveWindow;
+  end;
+
   // If parent window is normal window then call inherited method
   if GetWindowLong(ActiveWindow, GWL_HWNDPARENT) <> 0 then
     Result:= inherited ShowModal

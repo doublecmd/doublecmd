@@ -18,9 +18,9 @@ unit fMultiRename;
 interface
 
 uses
-  LazUtf8,SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, SynRegExpr, Controls, LCLType,
-  DCClassesUtf8, uClassesEx, uFile, uFileSource, StringHashList, Grids, ExtCtrls,
-  DCXmlConfig, uOSForms;
+  LazUtf8, SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, SynRegExpr,
+  Controls, LCLType, DCClassesUtf8, uClassesEx, uFile, uFileSource,
+  StringHashList, Grids, ExtCtrls, Buttons, DCXmlConfig, uOSForms;
 
 type
 
@@ -44,6 +44,7 @@ type
   { TfrmMultiRename }
 
   TfrmMultiRename = class(TAloneForm)
+   btnEdit: TButton;
     btnLoadPreset: TButton;
     btnSavePreset: TButton;
     btnDeletePreset: TButton;
@@ -51,11 +52,14 @@ type
     cbUseSubs: TCheckBox;
     cmbExtensionStyle: TComboBox;
     cbPresets: TComboBox;
+    mnuEditNames: TMenuItem;
+    mnuLoadFromFile: TMenuItem;
     miDay2: TMenuItem;
     miHour1: TMenuItem;
     miMinute1: TMenuItem;
     miSecond1: TMenuItem;
     pnlOptions: TPanel;
+    pmEditDirect: TPopupMenu;
     StringGrid: TStringGrid;
     gbPresets: TGroupBox;
     gbMaska: TGroupBox;
@@ -113,11 +117,14 @@ type
     miHour: TMenuItem;
     miMinute: TMenuItem;
     miSecond: TMenuItem;
+    procedure btnEditClick(Sender: TObject);
     procedure btnLoadPresetClick(Sender: TObject);
     procedure btnSavePresetClick(Sender: TObject);
     procedure btnDeletePresetClick(Sender: TObject);
     procedure cbRegExpChange(Sender: TObject);
     procedure cmbNameStyleChange(Sender: TObject);
+    procedure mnuEditNamesClick(Sender: TObject);
+    procedure mnuLoadFromFileClick(Sender: TObject);
     procedure StringGridKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure StringGridMouseDown(Sender: TObject; Button: TMouseButton;
@@ -169,6 +176,7 @@ type
     FPresets: TStringHashList; // of PMultiRenamePreset
     FSourceRow: Integer;
     FMoveRow : Boolean;
+    FNames: TStringList;
 
     {Handles a single formatting string}
     function sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
@@ -209,6 +217,8 @@ type
     procedure FillPresetsList;
     {Removes all presets from the presets list}
     procedure ClearPresetsList;
+    {Load names from file}
+    procedure LoadNamesFromFile(const AFileName: String);
   public
     { Public declarations }
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource; var aFiles: TFiles); reintroduce;
@@ -228,8 +238,9 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, FileUtil, uDebug, uLng, uGlobs, uFileProcs, DCOSUtils, DCStrUtils,
-  fSelectTextRange, uShowMsg, uFileSourceUtil, uFileProperty, uFileFunctions;
+  uDebug, uLng, uGlobs, uFileProcs, DCOSUtils, DCStrUtils,
+  fSelectTextRange, uShowMsg, uFileSourceUtil, uFileProperty, uFileFunctions,
+  uShowForm, dmCommonData, fMultiRenameWait, uOSUtils;
 
 const
   sPresetsSection = 'MultiRenamePresets';
@@ -249,6 +260,7 @@ end;
 
 constructor TfrmMultiRename.Create(TheOwner: TComponent; aFileSource: IFileSource; var aFiles: TFiles);
 begin
+  FNames := TStringList.Create;
   FPresets := TStringHashList.Create(False);
   FFileSource := aFileSource;
   FFiles := aFiles;
@@ -263,8 +275,8 @@ begin
   inherited Destroy;
   ClearPresetsList;
   FreeAndNil(FPresets);
-  if Assigned(FFiles) then
-    FreeAndNil(FFiles);
+  FreeAndNil(FFiles);
+  FreeAndNil(FNames);
 end;
 
 procedure TfrmMultiRename.FormCreate(Sender: TObject);
@@ -403,14 +415,18 @@ var
 begin
   bError:= False;
 
-  // Use mask
-  sTmpName:=sReplace(edName.Text, ItemIndex);
-  sTmpExt:=sReplace(edExt.Text, ItemIndex);
+  if FNames.Count > 0 then
+    Result:= FNames[ItemIndex]
+  else begin
+    // Use mask
+    sTmpName:=sReplace(edName.Text, ItemIndex);
+    sTmpExt:=sReplace(edExt.Text, ItemIndex);
 
-  // Join
-  Result := sTmpName;
-  if sTmpExt <> '' then
-    Result := Result + '.' + sTmpExt;
+    // Join
+    Result := sTmpName;
+    if sTmpExt <> '' then
+      Result := Result + '.' + sTmpExt;
+  end;
 
   // Find and replace
   if cbRegExp.Checked and (edFind.Text <> '') then
@@ -448,6 +464,68 @@ end;
 procedure TfrmMultiRename.cmbNameStyleChange(Sender: TObject);
 begin
   StringGridTopLeftChanged(StringGrid);
+end;
+
+procedure TfrmMultiRename.LoadNamesFromFile(const AFileName: String);
+var
+  AFileList: TStringListEx;
+begin
+  AFileList:= TStringListEx.Create;
+  try
+    AFileList.LoadFromFile(AFileName);
+    if AFileList.Count <> FFiles.Count then
+    begin
+      msgError(Format(rsMulRenWrongLinesNumber, [AFileList.Count, FFiles.Count]));
+    end
+    else begin
+      FNames.Assign(AFileList);
+      gbMaska.Enabled:= False;
+      gbPresets.Enabled:= False;
+      gbCounter.Enabled:= False;
+      StringGridTopLeftChanged(StringGrid);
+    end;
+  except
+    on E: Exception do msgError(E.Message);
+  end;
+  AFileList.Free;
+end;
+
+procedure TfrmMultiRename.mnuEditNamesClick(Sender: TObject);
+var
+  I: Integer;
+  AFileName: String;
+  AFileList: TStringListEx;
+begin
+  AFileList:= TStringListEx.Create;
+  AFileName:= GetTempFolderDeletableAtTheEnd;
+  AFileName:= GetTempName(AFileName) + '.txt';
+  if FNames.Count > 0 then
+    AFileList.Assign(FNames)
+  else begin
+    for I:= 0 to FFiles.Count - 1 do
+      AFileList.Add(FFiles[I].Name);
+  end;
+  try
+    AFileList.SaveToFile(AFileName);
+    try
+      ShowEditorByGlob(AFileName);
+      if ShowMultiRenameWaitForm(Self) then
+        LoadNamesFromFile(AFileName);
+    finally
+      mbDeleteFile(AFileName);
+    end;
+  except
+    on E: Exception do msgError(E.Message);
+  end;
+  AFileList.Free;
+end;
+
+procedure TfrmMultiRename.mnuLoadFromFileClick(Sender: TObject);
+begin
+  dmComData.OpenDialog.FileName:= EmptyStr;
+  dmComData.OpenDialog.Filter:= AllFilesMask;
+  if dmComData.OpenDialog.Execute then
+    LoadNamesFromFile(dmComData.OpenDialog.FileName);
 end;
 
 procedure TfrmMultiRename.StringGridKeyDown(Sender: TObject; var Key: Word;
@@ -547,6 +625,11 @@ end;
 procedure TfrmMultiRename.btnLoadPresetClick(Sender: TObject);
 begin
   LoadPreset(cbPresets.Text);
+end;
+
+procedure TfrmMultiRename.btnEditClick(Sender: TObject);
+begin
+  pmEditDirect.PopUp;
 end;
 
 procedure TfrmMultiRename.btnSavePresetClick(Sender: TObject);
@@ -660,6 +743,11 @@ begin
   edFile.SelStart:= UTF8Length(edFile.Text);
   cbPresets.Text:='';
   FLastPreset:='';
+  FNames.Clear;
+  gbMaska.Enabled:= True;
+  gbPresets.Enabled:= True;
+  gbCounter.Enabled:= True;
+  StringGridTopLeftChanged(StringGrid);
 end;
 
 function TfrmMultiRename.sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
