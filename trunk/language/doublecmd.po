@@ -3308,6 +3308,11 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr ""
 
+#: tfrmmultirename.btnedit.caption
+msgctxt "TFRMMULTIRENAME.BTNEDIT.CAPTION"
+msgid "&Edit"
+msgstr ""
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3523,6 +3528,14 @@ msgstr ""
 msgid "[YYYY] Year (4 digits)"
 msgstr ""
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3558,6 +3571,15 @@ msgstr ""
 
 #: tfrmmultirename.stringgrid.columns[2].title.caption
 msgid "File Path"
+msgstr ""
+
+#: tfrmmultirenamewait.caption
+msgctxt "TFRMMULTIRENAMEWAIT.CAPTION"
+msgid "Double Commander"
+msgstr ""
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
 msgstr ""
 
 #: tfrmopenwith.caption
@@ -10347,6 +10369,10 @@ msgstr ""
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
+msgstr ""
+
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr ""
 
 #: ulng.rsoperaborted

@@ -3621,6 +3621,13 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "Verwijder"
 
+#: tfrmmultirename.btnedit.caption
+#, fuzzy
+#| msgid "Edit"
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "&Bewerk"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3888,6 +3895,14 @@ msgstr "[J]aar"
 msgid "[YYYY] Year (4 digits)"
 msgstr ""
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3927,6 +3942,16 @@ msgstr ""
 msgctxt "tfrmmultirename.stringgrid.columns[2].title.caption"
 msgid "File Path"
 msgstr "Bestandspad"
+
+#: tfrmmultirenamewait.caption
+#, fuzzy
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr ""
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -11014,7 +11039,7 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Onjuist resultaat bestandslengte voor bestand: \"%s\""
 
 #: ulng.rsmsginsertnextdisk
-#, fuzzy
+#, fuzzy,badformat
 #| msgid ""
 #| "Please insert next disk or something similar.\n"
 #| "\n"
@@ -11386,7 +11411,7 @@ msgstr ""
 "%s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
-#, fuzzy
+#, fuzzy,badformat
 #| msgid ""
 #| "Error! Cannot find the TC configuration executable:\n"
 #| "%s\n"
@@ -11408,7 +11433,7 @@ msgstr ""
 "TC sluiten en OK drukken of ANNULEER om af te breken.\n"
 
 #: ulng.rsmsgtctoolbarnotfound
-#, fuzzy
+#, fuzzy,badformat
 #| msgid ""
 #| "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 #| "%s\n"
@@ -11510,6 +11535,10 @@ msgstr ""
 #| msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Geem wijziging:HOOFDLETTERS;kleine letters;Eerste letter van ieder woord Groot;grote letters;"
+
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr ""
 
 #: ulng.rsoperaborted
 msgid "Aborted"
@@ -11658,7 +11687,7 @@ msgid "Setting property of \"%s\""
 msgstr "Instellen eigenschappen van \"%s\""
 
 #: ulng.rsopersplitting
-#, fuzzy
+#, fuzzy,badformat
 #| msgid "SplittingSplitting \"%s\" to \"%s\""
 msgid "Splitting"
 msgstr "Bezig met splitseBezig met splitsen \"%s\" naar \"%s\""
@@ -11828,7 +11857,7 @@ msgid "float;B;K;M;G"
 msgstr "Drijvend;B;K;M;G"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
-#, fuzzy
+#, fuzzy,badformat
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr "Shortcut voor cm_Delete zal geregistreerd worden, zodat het gebruikt kan worden om deze instelling om te keren."
 
@@ -11900,7 +11929,7 @@ msgid "Set shortcut to delete file"
 msgstr "Instellen shortcut om bestand te verwijderen"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
-#, fuzzy
+#, fuzzy,badformat
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Om met deze instelling te werken, moet deze toegewezen worden aan cm_Delete, maar het is reeds toegewezen aan %s. Wil je dit eijzigen? "
 
@@ -12536,7 +12565,7 @@ msgid "Viewer"
 msgstr "Viewer"
 
 #: ulng.rsunhandledexceptionmessage
-#, fuzzy
+#, fuzzy,badformat
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr "Rapporteer deze fout aan de bug tracker met een omschrijving van wat je aan het doen was en het volgende bestand:%Druk %s om door te gaan of %s om het programma af te breken."
 
@@ -12742,3 +12771,4 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
+

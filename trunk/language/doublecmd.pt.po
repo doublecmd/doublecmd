@@ -3424,6 +3424,12 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "&Apagar"
 
+#: tfrmmultirename.btnedit.caption
+#, fuzzy
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "&Editar"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3643,6 +3649,14 @@ msgstr "[Y] Ano (2 dígitos)"
 msgid "[YYYY] Year (4 digits)"
 msgstr "[YYYY] Ano (4 dígitos)"
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3682,6 +3696,16 @@ msgstr "Novo nome de ficheiro"
 msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TITLE.CAPTION"
 msgid "File Path"
 msgstr "Caminho de ficheiro"
+
+#: tfrmmultirenamewait.caption
+#, fuzzy
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr ""
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -9918,7 +9942,7 @@ msgid "Delete %d selected files/directories into trash can?"
 msgstr "Apagar %d ficheiros/pastas selecionados para a lata de lixo?"
 
 #: ulng.rsmsgdelsel
-#, fuzzy
+#, fuzzy,badformat
 msgid "Delete selected \"%s\"?"
 msgstr "Apagar %d ficheiros/pastas selecionados?"
 
@@ -10307,9 +10331,10 @@ msgid "Enter location and filename of Directory Hotlist to restore"
 msgstr ""
 
 #: ulng.rsmsghotdirsimplecommand
+#, fuzzy
 msgctxt "ulng.rsmsghotdirsimplecommand"
 msgid "Command:"
-msgstr ""
+msgstr "Comando:"
 
 #: ulng.rsmsghotdirsimpleendofmenu
 msgctxt "ulng.rsmsghotdirsimpleendofmenu"
@@ -10825,7 +10850,7 @@ msgid "Wipe %d selected files/directories?"
 msgstr "Limpar %d ficheiros/pastas selecionados?"
 
 #: ulng.rsmsgwipesel
-#, fuzzy
+#, fuzzy,badformat
 msgid "Wipe selected \"%s\"?"
 msgstr "Limpar \"s\" selecionados?"
 
@@ -10836,6 +10861,10 @@ msgstr ""
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Sem alteração;MAIÚSCULAS;minúsculas;Primeira maiúscula;Primeira De Todas As Palavras Maiúscula;"
+
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr ""
 
 #: ulng.rsoperaborted
 msgid "Aborted"
@@ -12070,3 +12099,4 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
+

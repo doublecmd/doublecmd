@@ -3424,6 +3424,12 @@ msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
 msgstr "Izbriši&"
 
+#: tfrmmultirename.btnedit.caption
+#, fuzzy
+msgctxt "tfrmmultirename.btnedit.caption"
+msgid "&Edit"
+msgstr "Uredi&"
+
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
@@ -3643,6 +3649,14 @@ msgstr "[Y] Godina (2 znaka)"
 msgid "[YYYY] Year (4 digits)"
 msgstr "[YYYY] Godina (4 znaka)"
 
+#: tfrmmultirename.mnueditnames.caption
+msgid "Edit names..."
+msgstr ""
+
+#: tfrmmultirename.mnuloadfromfile.caption
+msgid "Load names from file..."
+msgstr ""
+
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
@@ -3682,6 +3696,16 @@ msgstr "Novo ime datoteke"
 msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TITLE.CAPTION"
 msgid "File Path"
 msgstr "Putanja datoteke"
+
+#: tfrmmultirenamewait.caption
+#, fuzzy
+msgctxt "tfrmmultirenamewait.caption"
+msgid "Double Commander"
+msgstr "Double Commander"
+
+#: tfrmmultirenamewait.lblmessage.caption
+msgid "Click OK when you have closed the editor to load the changed names!"
+msgstr ""
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -4615,7 +4639,7 @@ msgid "Always expand tree"
 msgstr "Uvek širi stablo fascikli"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
-#, fuzzy
+#, fuzzy,badformat
 #| msgid "Show only valid %senv_var%s"
 msgid "Show only valid environment variables"
 msgstr "Prikazuj samo ispravne %env_var%"
@@ -10924,6 +10948,10 @@ msgstr ""
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Bez izmena;VELIKA SLOVA;mala slova;Prvi znak veliki;Prvi Znak Svake Reči Veliki;"
 
+#: ulng.rsmulrenwronglinesnumber
+msgid "File contains wrong number of lines: %d, should be %d!"
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Obustavljeno"
@@ -11264,7 +11292,7 @@ msgid "Command"
 msgstr "Naredba"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
-#, fuzzy
+#, fuzzy,badformat
 msgctxt "ulng.rsopthotkeysdeletetrashcanoverrides"
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
 msgstr "Prečica za „cm_Delete“ ima odrednicu koja zaobilazi ove postavke. Da li želite da izmenite odrednicu i koristite opšte postavke?"
@@ -11311,7 +11339,7 @@ msgid "Set shortcut to delete file"
 msgstr "Postavi prečicu za brisanje datoteke"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
-#, fuzzy
+#, fuzzy,badformat
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Da bi ove postavke radile sa prečicom %s, prečica mora da bude dodeljena „cm_Delete“, ali je već dodeljena za %s. Da li želite da je promenite?"
 
@@ -12147,3 +12175,4 @@ msgstr ""
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr ""
+
