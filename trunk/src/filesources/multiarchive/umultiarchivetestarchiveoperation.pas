@@ -198,13 +198,13 @@ procedure TMultiArchiveTestArchiveOperation.CheckForErrors(const FileName: Strin
 begin
   if ExitStatus > FErrorLevel then
     begin
-      ShowError(Format(rsMsgLogError + rsMsgLogDelete,
+      ShowError(Format(rsMsgLogError + rsMsgLogTest,
                  [FileName +
                   ' - Exit status: ' + IntToStr(ExitStatus)]), [log_arc_op]);
     end
   else
     begin
-      LogMessage(Format(rsMsgLogSuccess + rsMsgLogDelete,
+      LogMessage(Format(rsMsgLogSuccess + rsMsgLogTest,
                   [FileName]), [log_arc_op], lmtSuccess);
     end;
 end;
