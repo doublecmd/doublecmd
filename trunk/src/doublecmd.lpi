@@ -269,7 +269,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="233">
+    <Units Count="234">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1659,6 +1659,14 @@ end;"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fTreeViewMenu"/>
       </Unit232>
+      <Unit233>
+        <Filename Value="fmultirenamewait.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmMultiRenameWait"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fMultiRenameWait"/>
+      </Unit233>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

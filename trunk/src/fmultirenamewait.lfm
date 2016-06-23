@@ -1,0 +1,49 @@
+object frmMultiRenameWait: TfrmMultiRenameWait
+  Left = 526
+  Height = 87
+  Top = 63
+  Width = 394
+  AutoSize = True
+  BorderStyle = bsDialog
+  Caption = 'Double Commander'
+  ChildSizing.LeftRightSpacing = 12
+  ChildSizing.TopBottomSpacing = 12
+  ClientHeight = 87
+  ClientWidth = 394
+  Position = poOwnerFormCenter
+  LCLVersion = '1.6.0.3'
+  object lblMessage: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 12
+    Height = 15
+    Top = 12
+    Width = 369
+    Caption = 'Click OK when you have closed the editor to load the changed names!'
+    ParentColor = False
+  end
+  object ButtonPanel: TButtonPanel
+    AnchorSideLeft.Control = lblMessage
+    AnchorSideTop.Control = lblMessage
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = lblMessage
+    AnchorSideRight.Side = asrBottom
+    Left = 18
+    Height = 34
+    Top = 57
+    Width = 357
+    Align = alNone
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 24
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 0
+    ShowButtons = [pbOK, pbCancel]
+  end
+end
