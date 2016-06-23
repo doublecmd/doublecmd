@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-06-14 14:24+0300\n"
+"PO-Revision-Date: 2016-06-23 16:38+0400\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Русский\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.7.4\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -205,7 +205,7 @@ msgstr "&Только для чтения"
 #: tfrmattributesedit.cbsgid.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBSGID.CAPTION"
 msgid "SGID"
-msgstr ""
+msgstr "SGID"
 
 #: tfrmattributesedit.cbsparse.caption
 msgid "S&parse"
@@ -219,7 +219,7 @@ msgstr "Закре&пляющий бит"
 #: tfrmattributesedit.cbsuid.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBSUID.CAPTION"
 msgid "SUID"
-msgstr ""
+msgstr "SUID"
 
 #: tfrmattributesedit.cbsymlink.caption
 msgid "&Symlink"
@@ -422,7 +422,7 @@ msgstr "&Кодировка:"
 #: tfrmdescredit.lblfilename.caption
 msgctxt "TFRMDESCREDIT.LBLFILENAME.CAPTION"
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: tfrmdiffer.actabout.caption
 msgctxt "TFRMDIFFER.ACTABOUT.CAPTION"
@@ -1163,7 +1163,7 @@ msgstr "&Учитывать подкаталоги"
 #: tfrmextractdlg.cbfilemask.text
 msgctxt "tfrmextractdlg.cbfilemask.text"
 msgid "*.*"
-msgstr ""
+msgstr "*.*"
 
 #: tfrmextractdlg.cbinseparatefolder.caption
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
@@ -1299,7 +1299,7 @@ msgstr "Владелец"
 #: tfrmfileproperties.lblattrtext.caption
 msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION"
 msgid "-----------"
-msgstr ""
+msgstr "-----------"
 
 #: tfrmfileproperties.lblattrtextstr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
@@ -1309,7 +1309,7 @@ msgstr "Текст:"
 #: tfrmfileproperties.lblcontains.caption
 msgctxt "tfrmfileproperties.lblcontains.caption"
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: tfrmfileproperties.lblcontainsstr.caption
 msgid "Contains:"
@@ -1328,7 +1328,7 @@ msgstr "Имя файла"
 #: tfrmfileproperties.lblfilename.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: tfrmfileproperties.lblfilenamestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION"
@@ -1343,7 +1343,7 @@ msgstr "Имя файла"
 #: tfrmfileproperties.lblfolder.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFOLDER.CAPTION"
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: tfrmfileproperties.lblfolderstr.caption
 msgctxt "tfrmfileproperties.lblfolderstr.caption"
@@ -1358,7 +1358,7 @@ msgstr "&Группа"
 #: tfrmfileproperties.lbllastaccess.caption
 msgctxt "TFRMFILEPROPERTIES.LBLLASTACCESS.CAPTION"
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: tfrmfileproperties.lbllastaccessstr.caption
 msgid "Last access:"
@@ -1367,7 +1367,7 @@ msgstr "Последний доступ:"
 #: tfrmfileproperties.lbllastmodif.caption
 msgctxt "TFRMFILEPROPERTIES.LBLLASTMODIF.CAPTION"
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
 msgid "Last modification:"
@@ -1376,7 +1376,7 @@ msgstr "Последнее изменение:"
 #: tfrmfileproperties.lbllaststchange.caption
 msgctxt "TFRMFILEPROPERTIES.LBLLASTSTCHANGE.CAPTION"
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
 msgid "Last status change:"
@@ -1400,7 +1400,7 @@ msgstr "Чтение"
 #: tfrmfileproperties.lblsize.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSIZE.CAPTION"
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: tfrmfileproperties.lblsizestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
@@ -1410,7 +1410,7 @@ msgstr "Размер:"
 #: tfrmfileproperties.lblsymlink.caption
 msgctxt "TFRMFILEPROPERTIES.LBLSYMLINK.CAPTION"
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: tfrmfileproperties.lblsymlinkstr.caption
 msgid "Symlink to:"
@@ -1419,7 +1419,7 @@ msgstr "Симв. ссылка"
 #: tfrmfileproperties.lbltype.caption
 msgctxt "TFRMFILEPROPERTIES.LBLTYPE.CAPTION"
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: tfrmfileproperties.lbltypestr.caption
 msgid "Type:"
@@ -2708,7 +2708,7 @@ msgstr "Избранные каталоги"
 #: tfrmmain.btnleftequalright.caption
 msgctxt "tfrmmain.btnleftequalright.caption"
 msgid "<"
-msgstr ""
+msgstr "<"
 
 #: tfrmmain.btnleftequalright.hint
 msgid "Show current directory of the right panel in the left panel"
@@ -2717,7 +2717,7 @@ msgstr "Открыть в левой панели текущий каталог 
 #: tfrmmain.btnlefthome.caption
 msgctxt "TFRMMAIN.BTNLEFTHOME.CAPTION"
 msgid "~"
-msgstr ""
+msgstr "~"
 
 #: tfrmmain.btnlefthome.hint
 msgid "Go to home directory"
@@ -2726,7 +2726,7 @@ msgstr "Перейти в домашний каталог"
 #: tfrmmain.btnleftroot.caption
 msgctxt "TFRMMAIN.BTNLEFTROOT.CAPTION"
 msgid "/"
-msgstr ""
+msgstr "/"
 
 #: tfrmmain.btnleftroot.hint
 msgid "Go to root directory"
@@ -2735,7 +2735,7 @@ msgstr "Перейти в корневой каталог"
 #: tfrmmain.btnleftup.caption
 msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
 msgid ".."
-msgstr ""
+msgstr ".."
 
 #: tfrmmain.btnleftup.hint
 msgid "Go to parent directory"
@@ -2754,7 +2754,7 @@ msgstr "Избранные каталоги"
 #: tfrmmain.btnrightequalleft.caption
 msgctxt "tfrmmain.btnrightequalleft.caption"
 msgid ">"
-msgstr ""
+msgstr ">"
 
 #: tfrmmain.btnrightequalleft.hint
 msgid "Show current directory of the left panel in the right panel"
@@ -2763,17 +2763,17 @@ msgstr "Открыть в правой панели текущий катало�
 #: tfrmmain.btnrighthome.caption
 msgctxt "TFRMMAIN.BTNRIGHTHOME.CAPTION"
 msgid "~"
-msgstr ""
+msgstr "~"
 
 #: tfrmmain.btnrightroot.caption
 msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
 msgid "/"
-msgstr ""
+msgstr "/"
 
 #: tfrmmain.btnrightup.caption
 msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
-msgstr ""
+msgstr ".."
 
 #: tfrmmain.caption
 msgctxt "tfrmmain.caption"
@@ -3045,7 +3045,7 @@ msgstr "Восстановить"
 #: tfrmmain.mnualloperpause.caption
 msgctxt "tfrmmain.mnualloperpause.caption"
 msgid "||"
-msgstr ""
+msgstr "||"
 
 #: tfrmmain.mnualloperstart.caption
 msgctxt "tfrmmain.mnualloperstart.caption"
@@ -3235,15 +3235,15 @@ msgstr "&ОК"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
 msgid "Case sensitive"
-msgstr ""
+msgstr "Регистрозависимый"
 
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
-msgstr ""
+msgstr "Игнорировать акценты и лигатуры"
 
 #: tfrmmaskinputdlg.lblprompt.caption
 msgid "Input Mask:"
-msgstr ""
+msgstr "Укажите маску файлов:"
 
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 msgid "O&r select predefined selection type:"
@@ -3304,25 +3304,25 @@ msgstr "Высота:"
 #: tfrmmodview.lblpath1.caption
 msgctxt "TFRMMODVIEW.LBLPATH1.CAPTION"
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: tfrmmodview.lblpath2.caption
 msgctxt "tfrmmodview.lblpath2.caption"
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: tfrmmodview.lblpath3.caption
 msgctxt "tfrmmodview.lblpath3.caption"
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: tfrmmodview.lblpath4.caption
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: tfrmmodview.lblpath5.caption
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: tfrmmodview.lblquality.caption
 msgid "Quality of compress to Jpg"
@@ -3358,7 +3358,7 @@ msgstr "Высота"
 
 #: tfrmmodview.tequality.text
 msgid "80"
-msgstr ""
+msgstr "80"
 
 #: tfrmmodview.tewidth.text
 msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
@@ -3367,7 +3367,7 @@ msgstr "Ширина"
 
 #: tfrmmsg.lblmsg.caption
 msgid "456456465465465"
-msgstr ""
+msgstr "456456465465465"
 
 #: tfrmmultirename.btnclose.caption
 msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
@@ -3433,17 +3433,17 @@ msgstr "Под&становка"
 
 #: tfrmmultirename.cmbxwidth.text
 msgid "01"
-msgstr ""
+msgstr "01"
 
 #: tfrmmultirename.edinterval.text
 msgctxt "TFRMMULTIRENAME.EDINTERVAL.TEXT"
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: tfrmmultirename.edpoc.text
 msgctxt "TFRMMULTIRENAME.EDPOC.TEXT"
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: tfrmmultirename.extension.caption
 msgid "[E] Extension"
@@ -6996,7 +6996,7 @@ msgstr "Подс&казка:"
 
 #: tfrmoptionstoolbar.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
-msgstr "Добавить панель инструментов со ВСЕМИ командами DC"
+msgstr "Добавить панель со ВСЕМИ командами DC"
 
 #: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
@@ -8295,7 +8295,7 @@ msgstr "Дата"
 
 #: tfrmsyncdirsdlg.headerdg.columns[3].title.caption
 msgid "<=>"
-msgstr ""
+msgstr "<=>"
 
 #: tfrmsyncdirsdlg.headerdg.columns[4].title.caption
 msgctxt "tfrmsyncdirsdlg.headerdg.columns[4].title.caption"
@@ -8808,7 +8808,7 @@ msgstr "Развернуть на весь экран"
 #: tfrmviewer.btngifmove.caption
 msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
 msgid "||"
-msgstr ""
+msgstr "||"
 
 #: tfrmviewer.btngiftobmp.caption
 msgid "S"
@@ -8831,7 +8831,7 @@ msgstr "Переместить"
 
 #: tfrmviewer.btnnextgifframe.caption
 msgid "||>"
-msgstr ""
+msgstr "||>"
 
 #: tfrmviewer.btnpaint.hint
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
@@ -8840,7 +8840,7 @@ msgstr "Рисование"
 
 #: tfrmviewer.btnprevgifframe.caption
 msgid "<||"
-msgstr ""
+msgstr "<||"
 
 #: tfrmviewer.btnredeye.hint
 msgid "Red Eyes"
@@ -8873,7 +8873,7 @@ msgstr "Карандаш"
 #: tfrmviewer.comboboxwidth.text
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: tfrmviewer.gboxhightlight.caption
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
@@ -9330,7 +9330,7 @@ msgstr "Скорость %s/с, осталось времени %s"
 
 #: ulng.rsdraganddroptextformat
 msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
-msgstr ""
+msgstr "Формат RTF;Формат HTML;Текст в Unicode;Простой текст"
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -10572,7 +10572,7 @@ msgstr "Сделать путь абсолютным"
 
 #: ulng.rsmsgspecialdirmkdcrel
 msgid "Make relative to Double Commander special path..."
-msgstr "Сделать путь относительным к специальной папке DC..."
+msgstr "Сделать путь относительным к спец. папке DC..."
 
 #: ulng.rsmsgspecialdirmkenvrel
 msgid "Make relative to environment variable..."
@@ -10580,11 +10580,11 @@ msgstr "Сделать путь относительным к переменно
 
 #: ulng.rsmsgspecialdirmktctel
 msgid "Make relative to Windows special folder (TC)..."
-msgstr "Сделать путь относительным к специальной папке Windows (TC)..."
+msgstr "Сделать путь относительным к спец. папке Windows (TC)..."
 
 #: ulng.rsmsgspecialdirmkwnrel
 msgid "Make relative to other Windows special folder..."
-msgstr "Сделать путь относительным к другой специальной папке Windows..."
+msgstr "Сделать путь относительным к другой спец. папке Windows..."
 
 #: ulng.rsmsgspecialdirusedc
 msgid "Use Double Commander special path..."
@@ -11219,7 +11219,6 @@ msgid "File associations"
 msgstr "Файловые ассоциации"
 
 #: ulng.rsoptionseditorfilenewfiletypes
-#, fuzzy
 msgctxt "ulng.rsoptionseditorfilenewfiletypes"
 msgid "New"
 msgstr "Создать"
@@ -11310,6 +11309,9 @@ msgid ""
 "\n"
 "Do you want to save modifications?\n"
 msgstr ""
+"Опции \"%s\" изменены.\n"
+"\n"
+"Хотите сохранить изменения?\n"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -11575,7 +11577,7 @@ msgstr "Количество частей больше 100! Продолжить
 
 #: ulng.rssplitpredefinedsizes
 msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
-msgstr ""
+msgstr "Автоматически;1457664 B - 3.5\" High Density 1.44 M;1213952 B - 5.25\" High Density 1.2 M;730112 B - 3.5\" Double Density 720 K;362496 B - 5.25\" Double Density 360 K;98078 KB - ZIP 100 MB;650 MB - CD 650 MB;700 MB - CD 700 MB;4482 MB - DVD+R"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
@@ -11583,11 +11585,11 @@ msgstr "Выберите каталог:"
 
 #: ulng.rsstraccents
 msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
-msgstr ""
+msgstr "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
 
 #: ulng.rsstraccentsstripped
 msgid "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
-msgstr ""
+msgstr "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
