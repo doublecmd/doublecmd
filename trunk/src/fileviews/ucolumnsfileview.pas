@@ -1618,7 +1618,7 @@ begin
     DrawFixed; // Draw column headers
     if TitleStyle <> tsNative then DrawCellGrid(aCol, aRow, aRect, aState);
   end
-  else if ColumnsView.FFiles.Count > 0 then
+  else if ColumnsView.IsFileIndexInRange(ARow - FixedRows) then
   begin
     AFile := ColumnsView.FFiles[ARow - FixedRows]; // substract fixed rows (header)
     FileSourceDirectAccess := fspDirectAccess in ColumnsView.FileSource.Properties;
