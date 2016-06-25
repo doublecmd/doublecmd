@@ -1141,15 +1141,13 @@ procedure TPanelColumnsList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   AName: String;
   AnObject: TPanelColumnsClass;
-  iTemp: int64;
 begin
   Clear;
 
   ANode := ANode.FindNode('ColumnsSets');
   if Assigned(ANode) then
   begin
-    iTemp := AConfig.GetAttr(ANode, 'DefaultTitleHash', 0);
-    DefaultTitleHash := dword(iTemp);
+    DefaultTitleHash := AConfig.GetAttr(ANode, 'DefaultTitleHash', Int64(0));
     ANode := ANode.FirstChild;
     while Assigned(ANode) do
     begin
@@ -1177,7 +1175,7 @@ var
 begin
   ANode := AConfig.FindNode(ANode, 'ColumnsSets', True);
   AConfig.ClearNode(ANode);
-  AConfig.SetAttr(ANode, 'DefaultTitleHash', DefaultTitleHash);
+  AConfig.SetAttr(ANode, 'DefaultTitleHash', Int64(DefaultTitleHash));
   for I := 0 to FSet.Count - 1 do
   begin
     SubNode := AConfig.AddNode(ANode, 'ColumnsSet');
