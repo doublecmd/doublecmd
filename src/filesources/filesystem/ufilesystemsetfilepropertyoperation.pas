@@ -10,7 +10,8 @@ uses
   uFileSource,
   uFileSourceOperationOptions,
   uFile,
-  uFileProperty;
+  uFileProperty,
+  uDescr;
 
 type
 
@@ -19,7 +20,7 @@ type
   private
     FFullFilesTree: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceSetFilePropertyOperationStatistics; // local copy of statistics
-
+    FDescription: TDescription;
     // Options.
     FSymLinkOption: TFileSourceOperationOptionSymLink;
 
@@ -68,6 +69,10 @@ begin
                            fpModificationTime,
                            fpCreationTime,
                            fpLastAccessTime];
+
+  if gProcessComments then begin
+    FDescription := TDescription.Create(False);
+  end;
 end;
 
 destructor TFileSystemSetFilePropertyOperation.Destroy;
@@ -78,6 +83,12 @@ begin
   begin
     if Assigned(FFullFilesTree) then
       FreeAndNil(FFullFilesTree);
+  end;
+
+  if Assigned(FDescription) then
+  begin
+    FDescription.SaveDescription;
+    FreeAndNil(FDescription);
   end;
 end;
 
@@ -149,6 +160,11 @@ begin
           Result := RenameFile(
             aFile.FullPath,
             (aTemplateProperty as TFileNameProperty).Value);
+
+          if (Result = sfprSuccess) and gProcessComments then
+          begin
+            FDescription.Rename(aFile.FullPath, (aTemplateProperty as TFileNameProperty).Value);
+          end;
         end
         else
           Result := sfprSkipped;

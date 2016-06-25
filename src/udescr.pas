@@ -107,6 +107,13 @@ type
     }
     function MoveDescription(const FileNameFrom, FileNameTo: String): Boolean;
     {en
+       Rename file in description
+       @param(FileNameOld Old file name)
+       @param(FileNameNew New file name)
+       @returns(The function returns @true if successful, @false otherwise)
+    }
+    function Rename(const FileNameOld, FileNameNew: String): Boolean;
+    {en
        Save all changes to description file
     }
     procedure SaveDescription;
@@ -429,6 +436,22 @@ begin
     DCDebug(FileNameFrom, '=', DescrByIndex[I]);
     FDestDescr.WriteDescription(FileNameTo, DescrByIndex[I]);
     Delete(I);
+    FModified:= True;
+    Result:= True;
+  end;
+end;
+
+function TDescription.Rename(const FileNameOld, FileNameNew: String): Boolean;
+var
+  I: Integer;
+  AValue: String;
+begin
+  Result:= False;
+  PrepareDescrFile(FileNameOld);
+  if Find(FileNameOld, I) then
+  begin
+    AValue:= GetDescription(I); Delete(I);
+    AddDescription(FileNameNew, AValue);
     FModified:= True;
     Result:= True;
   end;
