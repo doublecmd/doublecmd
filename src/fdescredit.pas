@@ -94,7 +94,11 @@ begin
     DisplayEncoding;
     if ShowModal = mrOK then
     begin
-      FDescr.WriteDescription(sFileName, StringReplace(memDescr.Lines.Text, LineEnding, nbsp, [rfReplaceAll]));
+      if Length(memDescr.Lines.Text) = 0 then
+        FDescr.DeleteDescription(sFileName)
+      else begin
+        FDescr.WriteDescription(sFileName, StringReplace(memDescr.Lines.Text, LineEnding, nbsp, [rfReplaceAll]));
+      end;
       FDescr.SaveDescription;
       FileView.Reload(True);
       Result:= True;
