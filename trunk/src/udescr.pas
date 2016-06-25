@@ -437,10 +437,13 @@ end;
 procedure TDescription.SaveDescription;
 begin
   try
-    if Count > 0 then
-      SaveToFile(FLastDescrFile)
-    else
-      mbDeleteFile(FLastDescrFile);
+    if FModified then
+    begin
+      if Count > 0 then
+        SaveToFile(FLastDescrFile)
+      else
+        mbDeleteFile(FLastDescrFile);
+    end;
     if Assigned(FDestDescr) then
       FDestDescr.SaveDescription;
   except
