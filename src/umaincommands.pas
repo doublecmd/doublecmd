@@ -358,7 +358,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
      fOptionsToolbar, fMainCommandsDlg, uConnectionManager, fOptionsTabs, fOptionsFavoriteTabs,
-     fTreeViewMenu, fOptionsTreeViewMenu, fOptionsTreeViewMenuColor
+     fTreeViewMenu, fOptionsTreeViewMenu, fOptionsTreeViewMenuColor, uArchiveFileSource
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ELSE}
@@ -2264,16 +2264,30 @@ begin
       Message:= frmMain.GetFileDlgStr(MsgDelSel,MsgDelFlDr,theFilesToDelete);
       if (bConfirmation = False) or (ShowDeleteDialog(Message, FileSource, QueueId)) then
       begin
-        if FileSource.IsClass(TFileSystemFileSource) and
-           frmMain.NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+        if FileSource.IsClass(TFileSystemFileSource) then
         begin
-          for I:= 0 to theFilesToDelete.Count - 1 do
+          if frmMain.NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
           begin
-            if (theFilesToDelete[I].IsDirectory or theFilesToDelete[I].IsLinkToDirectory) and
-               IsInPath(theFilesToDelete[I].FullPath, frmMain.NotActiveFrame.CurrentPath, True, True) then
+            for I:= 0 to theFilesToDelete.Count - 1 do
             begin
-              frmMain.NotActiveFrame.CurrentPath:= theFilesToDelete.Path;
-              Break;
+              if (theFilesToDelete[I].IsDirectory or theFilesToDelete[I].IsLinkToDirectory) and
+                 IsInPath(theFilesToDelete[I].FullPath, frmMain.NotActiveFrame.CurrentPath, True, True) then
+              begin
+                frmMain.NotActiveFrame.CurrentPath:= theFilesToDelete.Path;
+                Break;
+              end;
+            end;
+          end
+          else if frmMain.NotActiveFrame.FileSource.IsClass(TArchiveFileSource) then
+          begin
+            Message:= (frmMain.NotActiveFrame.FileSource as TArchiveFileSource).ArchiveFileName;
+            for I:= 0 to theFilesToDelete.Count - 1 do
+            begin
+              if IsInPath(theFilesToDelete[I].FullPath, Message, True, True) then
+              begin
+                SetFileSystemPath(frmMain.NotActiveFrame, theFilesToDelete.Path);
+                Break;
+              end;
             end;
           end;
         end;
