@@ -140,7 +140,8 @@ type
 implementation
 
 uses
-  LConvEncoding, uDebug, DCOSUtils, DCConvertEncoding, UnicodeUtils, uGlobs;
+  LazUTF8, LConvEncoding, uDebug, DCOSUtils, DCConvertEncoding, UnicodeUtils,
+  uGlobs;
 
 { TDescription }
 
@@ -354,8 +355,11 @@ begin
 end;
 
 procedure TDescription.SaveToFile(const FileName: String);
+const
+  faSpecial = faHidden or faSysFile;
 var
   S: String;
+  Attr: Integer;
   fsFileStream: TFileStreamEx;
 begin
   FModified:= False;
@@ -367,11 +371,20 @@ begin
     meUTF16LE: S:= UTF16LEBOM + Utf8ToUtf16LE(Text);
     meUTF16BE: S:= UTF16BEBOM + Utf8ToUtf16BE(Text);
   end;
+  Attr:= FileGetAttr(UTF8ToSys(FileName));
+  // Remove hidden & system attributes
+  if (Attr <> -1) and ((Attr and faSpecial) <> 0) then begin
+    FileSetAttr(UTF8ToSys(FileName), faArchive);
+  end;
   fsFileStream:= TFileStreamEx.Create(FileName, fmCreate or fmShareDenyWrite);
   try
     fsFileStream.Write(S[1], Length(S));
   finally
     fsFileStream.Free;
+  end;
+  // Restore original attributes
+  if (Attr <> -1) and ((Attr and faSpecial) <> 0) then begin
+    FileSetAttr(UTF8ToSys(FileName), Attr);
   end;
 end;
 
