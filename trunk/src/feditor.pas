@@ -533,6 +533,7 @@ end;
 
 destructor TfrmEditor.Destroy;
 begin
+  HotMan.UnRegister(Self);
   inherited Destroy;
   if Assigned(FWaitData) then EditDone(FWaitData);
 end;
