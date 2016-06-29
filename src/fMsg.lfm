@@ -13,9 +13,9 @@ object frmMsg: TfrmMsg
   Constraints.MinWidth = 250
   KeyPreview = True
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
-  OnKeyUp = FormKeyUp
-  LCLVersion = '1.2.4.0'
+  LCLVersion = '1.6.0.3'
   object lblMsg: TLabel
     AnchorSideRight.Side = asrBottom
     Left = 12
