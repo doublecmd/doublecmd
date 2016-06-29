@@ -75,7 +75,7 @@ function FileIsExeLib(const sFileName : String) : Boolean;
    @param(bDropReadOnlyFlag Drop read only attribute if @true)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function FileIsReadOnly(iAttr: TFileAttrs): Boolean;
+function FileIsReadOnly(iAttr: TFileAttrs): Boolean; inline;
 
 {en
    Returns path to a temporary name. It ensures that returned path doesn't exist,
