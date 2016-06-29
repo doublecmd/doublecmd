@@ -14,8 +14,8 @@ type
     pnlButtons: TPanel;
     mnuOther: TPopupMenu;
     procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -33,15 +33,37 @@ implementation
 
 {$R *.lfm}
 
-{$IF DEFINED(LCLGTK2)}
 uses
-  LCLType,
-  LCLVersion;
-{$ENDIF}
+  LCLType;
 
 procedure TfrmMsg.FormCreate(Sender: TObject);
 begin
   iSelected:= -1;
+end;
+
+procedure TfrmMsg.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  Index: Integer;
+  NextOrder: Integer;
+begin
+  if (Key in [VK_UP, VK_DOWN]) and (ActiveControl is TButton) then
+  begin
+    NextOrder:= pnlButtons.ChildSizing.ControlsPerLine;
+    if Key = VK_UP then NextOrder:= -NextOrder;
+    NextOrder:= ActiveControl.TabOrder + NextOrder;
+    for Index:= 0 to pnlButtons.ControlCount - 1 do
+    begin
+      if pnlButtons.Controls[Index] is TButton then
+      begin
+        if NextOrder = TButton(pnlButtons.Controls[Index]).TabOrder then
+        begin
+          ActiveControl:= TButton(pnlButtons.Controls[Index]);
+          Key:= 0;
+          Break;
+        end;
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmMsg.ButtonClick(Sender: TObject);
@@ -69,15 +91,6 @@ begin
     iSelected:= Escape;
     Close;
   end;
-end;
-
-procedure TfrmMsg.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  {$IF DEFINED(LCLGTK2) and (lcl_fullversion < 093100)}
-  if Key = VK_RETURN then
-    // Lazarus issue 0021483. ControlKeyUp not called after Enter pressed.
-    Application.ControlKeyUp(ActiveControl, Key, Shift);
-  {$ENDIF}
 end;
 
 procedure TfrmMsg.ButtonOtherClick(Sender: TObject);
