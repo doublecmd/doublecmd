@@ -604,7 +604,7 @@ var
   pcPassword: PAnsiChar;
 begin
   ShowInputQuery(FMultiArchiveFileSource.MultiArcItem.FDescription, rsMsgPasswordEnter, True, FPassword);
-  pcPassword:= PAnsiChar(UTF8ToConsole(FPassword + #13#10));
+  pcPassword:= PAnsiChar(UTF8ToConsole(FPassword + LineEnding));
   FExProcess.Process.Input.Write(pcPassword^, Length(pcPassword));
 end;
 
