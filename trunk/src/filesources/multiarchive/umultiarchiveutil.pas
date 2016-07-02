@@ -268,7 +268,7 @@ begin
   if not ShowInputQuery(FMultiArcItem.FDescription, rsMsgPasswordEnter, True, FPassword) then
     FExProcess.Stop
   else begin
-    pcPassword:= PAnsiChar(UTF8ToConsole(FPassword + #13#10));
+    pcPassword:= PAnsiChar(UTF8ToConsole(FPassword + LineEnding));
     FExProcess.Process.Input.Write(pcPassword^, Length(pcPassword));
   end;
 end;
