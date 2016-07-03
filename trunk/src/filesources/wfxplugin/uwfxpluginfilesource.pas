@@ -117,6 +117,7 @@ type
     function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
                                             var theNewProperties: TFileProperties): TFileSourceOperation; override;
+    function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; override;
 
     function GetLocalName(var aFile: TFile): Boolean; override;
     function CreateDirectory(const Path: String): Boolean; override;
@@ -161,7 +162,7 @@ uses
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation, uVfsModule,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
   uWfxPluginDeleteOperation, uWfxPluginSetFilePropertyOperation, uWfxPluginCopyOperation,
-  DCConvertEncoding;
+  DCConvertEncoding, uWfxPluginCalcStatisticsOperation;
 
 const
   connCopyIn      = 0;
@@ -591,7 +592,7 @@ function TWfxPluginFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   with WfxModule do
   begin
-    Result := [fsoList]; // supports by any plugin
+    Result := [fsoList, fsoCalcStatistics]; // supports by any plugin
     if Assigned(FsPutFile) or Assigned(FsPutFileW) then
       Result:= Result + [fsoCopyIn];
     if Assigned(FsGetFile) or Assigned(FsGetFileW) then
@@ -853,6 +854,14 @@ begin
                 TargetFileSource,
                 theTargetFiles,
                 theNewProperties);
+end;
+
+function TWfxPluginFileSource.CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result := TWfxPluginCalcStatisticsOperation.Create(TargetFileSource, theFiles);
 end;
 
 function TWfxPluginFileSource.GetLocalName(var aFile: TFile): Boolean;
