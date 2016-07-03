@@ -40,7 +40,7 @@ type
 implementation
 
 uses
-  fPackInfoDlg;
+  fPackInfoDlg, uMasks, uGlobs;
 
 constructor TWcxArchiveExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -59,7 +59,11 @@ end;
 
 procedure TWcxArchiveExecuteOperation.MainExecute;
 begin
-  FExecuteOperationResult:= ShowPackInfoDlg(FWcxArchiveFileSource, ExecutableFile);
+  if MatchesMaskList(ExecutableFile.Name, gAutoExtractOpenMask) then
+    FExecuteOperationResult:= fseorYourSelf
+  else begin
+    FExecuteOperationResult:= ShowPackInfoDlg(FWcxArchiveFileSource, ExecutableFile);
+  end;
 end;
 
 procedure TWcxArchiveExecuteOperation.Finalize;

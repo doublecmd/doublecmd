@@ -40,7 +40,7 @@ type
 implementation
 
 uses
-  fPackInfoDlg;
+  fPackInfoDlg, uMasks, uGlobs;
 
 constructor TMultiArchiveExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -59,7 +59,11 @@ end;
 
 procedure TMultiArchiveExecuteOperation.MainExecute;
 begin
-  FExecuteOperationResult:= ShowPackInfoDlg(FMultiArchiveFileSource, ExecutableFile);
+  if MatchesMaskList(ExecutableFile.Name, gAutoExtractOpenMask) then
+    FExecuteOperationResult:= fseorYourSelf
+  else begin
+    FExecuteOperationResult:= ShowPackInfoDlg(FMultiArchiveFileSource, ExecutableFile);
+  end;
 end;
 
 procedure TMultiArchiveExecuteOperation.Finalize;
