@@ -59,7 +59,7 @@ end;
 
 procedure TMultiArchiveExecuteOperation.MainExecute;
 begin
-  if MatchesMaskList(ExecutableFile.Name, gAutoExtractOpenMask) then
+  if (Verb <> 'properties') and MatchesMaskList(ExecutableFile.Name, gAutoExtractOpenMask) then
     FExecuteOperationResult:= fseorYourSelf
   else begin
     FExecuteOperationResult:= ShowPackInfoDlg(FMultiArchiveFileSource, ExecutableFile);
