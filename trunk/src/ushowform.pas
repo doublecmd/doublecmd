@@ -82,6 +82,7 @@ type
   private
     FWaitData: TEditorWaitData;
   private
+    procedure RunEditDone;
     procedure ShowWaitForm;
   protected
     procedure Execute; override;
@@ -297,6 +298,11 @@ end;
 
 { TEditorWaitThread }
 
+procedure TEditorWaitThread.RunEditDone;
+begin
+  EditDone(FWaitData);
+end;
+
 procedure TEditorWaitThread.ShowWaitForm;
 begin
   ShowFileEditExternal(FWaitData);
@@ -346,7 +352,7 @@ begin
     Synchronize(@ShowWaitForm);
   end
   else begin
-    EditDone(FWaitData);
+    Synchronize(@RunEditDone);
   end;
 end;
 
