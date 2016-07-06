@@ -68,13 +68,14 @@ type
     property OnClose: TNotifyEvent read FOnClose write FOnClose;
   end;
 
-function GetShellContextMenu(Handle: HWND; Files: TFiles; Background: boolean): IContextMenu;
+  procedure PasteFromClipboard(Parent: HWND; const Path: String);
+  function GetShellContextMenu(Handle: HWND; Files: TFiles; Background: boolean): IContextMenu;
 
 implementation
 
 uses
   graphtype, intfgraphics, Graphics, uPixMapManager, uExts, LCLProc, Dialogs, uLng, uMyWindows, uShellExecute,
-  fMain, uDCUtils, uFormCommands, DCOSUtils, uOSUtils, uShowMsg;
+  fMain, uDCUtils, uFormCommands, DCOSUtils, uOSUtils, uShowMsg, uFileSystemFileSource;
 
 const
   USER_CMD_ID = $1000;
@@ -784,6 +785,29 @@ begin
 
   if Assigned(FOnClose) then
     FOnClose(Self);
+end;
+
+procedure PasteFromClipboard(Parent: HWND; const Path: String);
+var
+  AFile: TFile;
+  Files: TFiles;
+  ShellMenu: IContextMenu;
+begin
+  Files:= TFiles.Create(EmptyStr);
+  try
+    AFile := TFileSystemFileSource.CreateFile(EmptyStr);
+    AFile.FullPath := Path;
+    AFile.Attributes := faFolder;
+    Files.Add(AFile);
+    ShellMenu:= GetShellContextMenu(Parent, Files, True);
+    if Assigned(ShellMenu) then begin
+      TShellThread.Create(Parent, ShellMenu, sCmdVerbPaste).Start;
+    end;
+  except
+    on E: Exception do
+      MessageDlg(E.Message, mtError, [mbOK], 0);
+  end;
+  FreeAndNil(Files);
 end;
 
 end.
