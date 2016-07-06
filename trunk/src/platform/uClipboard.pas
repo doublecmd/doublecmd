@@ -91,7 +91,7 @@ implementation
 uses
   Clipbrd
 {$IFDEF MSWINDOWS}
-  , Windows, ActiveX, uOleDragDrop, fMain
+  , Windows, ActiveX, uOleDragDrop, fMain, uShellContextMenu
 {$ELSE IFDEF UNIX}
   , LCLIntf
 {$ENDIF}
@@ -580,6 +580,16 @@ begin
   { Now, retrieve file names. }
 
   hGlobalBuffer := GetClipboardData(CF_HDROP);
+
+  if hGlobalBuffer = 0 then
+  begin
+    with frmMain do
+    begin
+      CloseClipboard;
+      uShellContextMenu.PasteFromClipboard(Handle, ActiveFrame.CurrentPath);
+      Exit(False);
+    end;
+  end;
 
   filenames := uOleDragDrop.TFileDropTarget.GetDropFilenames(hGlobalBuffer);
 
