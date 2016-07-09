@@ -645,16 +645,13 @@ begin
   BinaryViewerLeft.Align:= alClient;
   BinaryViewerRight.Align:= alClient;
 
-  BinaryViewerLeft.Font.Name:= gFonts[dcfViewer].Name;
-  BinaryViewerLeft.Font.Size:= gFonts[dcfViewer].Size;
-  BinaryViewerLeft.Font.Style:= gFonts[dcfViewer].Style;
-
-  BinaryViewerRight.Font.Name:= gFonts[dcfViewer].Name;
-  BinaryViewerRight.Font.Size:= gFonts[dcfViewer].Size;
-  BinaryViewerRight.Font.Style:= gFonts[dcfViewer].Style;
-
   BinaryViewerLeft.SecondViewer:= BinaryViewerRight;
   BinaryViewerRight.SecondViewer:= BinaryViewerLeft;
+
+  FontOptionsToFont(gFonts[dcfEditor], SynDiffEditLeft.Font);
+  FontOptionsToFont(gFonts[dcfEditor], SynDiffEditRight.Font);
+  FontOptionsToFont(gFonts[dcfViewer], BinaryViewerLeft.Font);
+  FontOptionsToFont(gFonts[dcfViewer], BinaryViewerRight.Font);
 
   // Initialize property storage
   InitPropStorage(Self);
