@@ -68,6 +68,10 @@ function UTF8ToUCS4(const UTF8Text: String): UCS4String;
    Replaces invalid UTF-8 characters with '?'.
 }
 function Utf8ReplaceBroken(const s: String): String;
+{en
+   Replaces invalid UTF-8 characters with ' '.
+}
+procedure Utf8FixBroken(var S: String);
 
 implementation
 
@@ -534,6 +538,62 @@ begin
     end;
 
     SetLength(Result, Dst - PByte(Result));
+  end;
+end;
+
+procedure Utf8FixBroken(var S: String);
+var
+  P: PAnsiChar;
+  C, L: Integer;
+begin
+  L:= Length(S);
+  P:= Pointer(S);
+  while (L > 0) do
+  begin
+    if Ord(P^) < %10000000 then begin
+      // Regular single byte character
+      C:= 1;
+    end
+    else if Ord(P^) < %11000000 then begin
+      // Invalid character
+      C:= 1;
+      P^:= #32;
+    end
+    else if ((Ord(P^) and %11100000) = %11000000) then begin
+      // Should be 2 byte character
+      if (L > 1) and ((Ord(P[1]) and %11000000) = %10000000) then
+        C:= 2
+      else begin // Invalid character
+        C:= 1;
+        P^:= #32;
+      end;
+    end
+    else if ((Ord(P^) and %11110000) = %11100000) then begin
+      // Should be 3 byte character
+      if (L > 2) and ((Ord(P[1]) and %11000000) = %10000000)
+      and ((Ord(P[2]) and %11000000) = %10000000) then
+        C:= 3
+      else begin // Invalid character
+        C:= 1;
+        P^:= #32;
+      end
+    end
+    else if ((Ord(P^) and %11111000) = %11110000) then begin
+      // Should be 4 byte character
+      if (L > 3) and ((Ord(P[1]) and %11000000) = %10000000)
+      and ((Ord(P[2]) and %11000000) = %10000000)
+      and ((Ord(P[3]) and %11000000) = %10000000) then
+        C:= 4
+      else begin // Invalid character
+        C:= 1;
+        P^:= #32;
+      end
+    end else begin // Invalid character
+      C:= 1;
+      P^:= #32;
+    end;
+    Dec(L, C);
+    Inc(P, C);
   end;
 end;
 
