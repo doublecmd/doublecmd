@@ -40,7 +40,7 @@ function PosMem(pDataAddr: PChar; iDataLength, iStartPos: PtrInt; const sSearchT
                 bCaseSensitive: Boolean; bSearchBackwards: Boolean): Pointer;
 
 function PosMemU(pDataAddr: PChar; iDataLength, iStartPos: PtrInt;
-                 const sSearchText: String): Pointer;
+                 const sSearchText: String; bSearchBackwards: Boolean): Pointer;
 
 {en
    Searches a file for a string using memory mapping.
@@ -61,7 +61,7 @@ function FindMmap(const sFileName:String; const sFindData:String; bCase:Boolean;
 implementation
 
 uses
-  DCOSUtils, UnicodeUtils, LazUTF8;
+  DCOSUtils, UnicodeUtils, LazUTF8, StrUtils;
 
 function PosMem(pDataAddr: PChar; iDataLength, iStartPos: PtrInt; const sSearchText: String;
                 bCaseSensitive: Boolean; bSearchBackwards: Boolean): Pointer;
@@ -122,54 +122,75 @@ begin
 end;
 
 function PosMemU(pDataAddr: PChar; iDataLength, iStartPos: PtrInt;
-                 const sSearchText: String): Pointer;
+                 const sSearchText: String; bSearchBackwards: Boolean): Pointer;
 const
   BUFFER_SIZE = 4096;
 var
   iSize: PtrInt;
   iLength: Integer;
   iTextPos: Integer;
-  pLastSymbol: PByte;
-  iNewDataLen: Integer;
   sTextBuffer: String;
   sLowerCase: String;
 begin
   Result := Pointer(-1);
   iLength:= Length(sSearchText);
-  iSize:= iDataLength - iStartPos;
-  if iLength > iSize then Exit;
-  sLowerCase:= UTF8LowerCase(sSearchText);
-
-  // While text size > buffer size
-  while iSize > BUFFER_SIZE do
+  if bSearchBackwards then
   begin
-    iNewDataLen:= BUFFER_SIZE;
-    // Find last valid UTF-8 symbol
-    pLastSymbol:= SafeUTF8PrevCharEnd(PByte(pDataAddr + iStartPos + BUFFER_SIZE), 8);
-    if (pLastSymbol <> nil) then begin
-      iNewDataLen:= (pLastSymbol - PByte(pDataAddr + iStartPos));
-    end;
-    SetString(sTextBuffer, pDataAddr + iStartPos, iNewDataLen);
-    sTextBuffer:= UTF8LowerCase(sTextBuffer);
-    iTextPos:= Pos(sLowerCase, sTextBuffer);
-    if iTextPos > 0 then
-      Exit(pDataAddr + iStartPos + iTextPos - 1)
-    else begin
-      // Shift text buffer
-      iStartPos:= iStartPos + (iNewDataLen - iLength);
-      pLastSymbol:= SafeUTF8PrevCharEnd(PByte(pDataAddr + iStartPos), 8);
-      if (pLastSymbol <> nil) then begin
-        iStartPos:= pLastSymbol - PByte(pDataAddr);
+    iSize:= iStartPos;
+    if iLength > iSize then Exit;
+    sLowerCase:= UTF8LowerCase(sSearchText);
+
+    // While text size > buffer size
+    while iStartPos > BUFFER_SIZE do
+    begin
+      iStartPos:= iStartPos - BUFFER_SIZE;
+      SetString(sTextBuffer, pDataAddr + iStartPos, BUFFER_SIZE);
+      UnicodeUtils.Utf8FixBroken(sTextBuffer);
+      sTextBuffer:= UTF8LowerCase(sTextBuffer);
+      iTextPos:= RPos(sLowerCase, sTextBuffer);
+      if iTextPos > 0 then
+        Exit(pDataAddr + iStartPos + iTextPos - 1)
+      else begin
+        // Shift text buffer
+        iStartPos:= iStartPos + iLength;
       end;
     end;
+    // Process remaining buffer
+    if iLength > iStartPos then Exit;
+    SetString(sTextBuffer, pDataAddr, iStartPos);
+    UnicodeUtils.Utf8FixBroken(sTextBuffer);
+    sTextBuffer:= UTF8LowerCase(sTextBuffer);
+    iTextPos:= RPos(sLowerCase, sTextBuffer);
+    if iTextPos > 0 then Result:= pDataAddr + iTextPos - 1;
+  end
+  else begin
     iSize:= iDataLength - iStartPos;
+    if iLength > iSize then Exit;
+    sLowerCase:= UTF8LowerCase(sSearchText);
+
+    // While text size > buffer size
+    while iSize > BUFFER_SIZE do
+    begin
+      SetString(sTextBuffer, pDataAddr + iStartPos, BUFFER_SIZE);
+      UnicodeUtils.Utf8FixBroken(sTextBuffer);
+      sTextBuffer:= UTF8LowerCase(sTextBuffer);
+      iTextPos:= Pos(sLowerCase, sTextBuffer);
+      if iTextPos > 0 then
+        Exit(pDataAddr + iStartPos + iTextPos - 1)
+      else begin
+        // Shift text buffer
+        iStartPos:= iStartPos + (BUFFER_SIZE - iLength);
+      end;
+      iSize:= iDataLength - iStartPos;
+    end;
+    // Process remaining buffer
+    if iLength > iSize then Exit;
+    SetString(sTextBuffer, pDataAddr + iStartPos, iSize);
+    UnicodeUtils.Utf8FixBroken(sTextBuffer);
+    sTextBuffer:= UTF8LowerCase(sTextBuffer);
+    iTextPos:= Pos(sLowerCase, sTextBuffer);
+    if iTextPos > 0 then Result:= pDataAddr + iStartPos + iTextPos - 1;
   end;
-  // Process remaining buffer
-  if iLength > iSize then Exit;
-  SetString(sTextBuffer, pDataAddr + iStartPos, iSize);
-  sTextBuffer:= UTF8LowerCase(sTextBuffer);
-  iTextPos:= Pos(sLowerCase, sTextBuffer);
-  if iTextPos > 0 then Result:= pDataAddr + iStartPos + iTextPos - 1;
 end;
 
 function FindMmap(const sFileName, sFindData:String; bCase:Boolean;
