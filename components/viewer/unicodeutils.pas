@@ -69,7 +69,7 @@ function UTF8ToUCS4(const UTF8Text: String): UCS4String;
 }
 function Utf8ReplaceBroken(const s: String): String;
 {en
-   Replaces invalid UTF-8 characters with ' '.
+   Replaces invalid UTF-8 characters with 0x1A (SUBSTITUTE).
 }
 procedure Utf8FixBroken(var S: String);
 
@@ -557,7 +557,7 @@ begin
     else if Ord(P^) < %11000000 then begin
       // Invalid character
       C:= 1;
-      P^:= #32;
+      P^:= #26;
     end
     else if ((Ord(P^) and %11100000) = %11000000) then begin
       // Should be 2 byte character
@@ -565,7 +565,7 @@ begin
         C:= 2
       else begin // Invalid character
         C:= 1;
-        P^:= #32;
+        P^:= #26;
       end;
     end
     else if ((Ord(P^) and %11110000) = %11100000) then begin
@@ -575,7 +575,7 @@ begin
         C:= 3
       else begin // Invalid character
         C:= 1;
-        P^:= #32;
+        P^:= #26;
       end
     end
     else if ((Ord(P^) and %11111000) = %11110000) then begin
@@ -586,11 +586,11 @@ begin
         C:= 4
       else begin // Invalid character
         C:= 1;
-        P^:= #32;
+        P^:= #26;
       end
     end else begin // Invalid character
       C:= 1;
-      P^:= #32;
+      P^:= #26;
     end;
     Dec(L, C);
     Inc(P, C);
