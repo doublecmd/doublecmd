@@ -1939,6 +1939,7 @@ end;
 
 procedure TfrmViewer.DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
 var
+  T: QWord;
   PAdr: PtrInt;
   PAnsiAddr: PByte;
   bTextFound: Boolean;
@@ -2005,6 +2006,7 @@ begin
           FLastSearchPos := FLastSearchPos - 1;
       end;
 
+      T:= GetTickCount64;
       sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU);
       // Using standard search algorithm if case sensitive and multibyte
       if FFindDialog.cbCaseSens.Checked and (ViewerControl.Encoding in ViewerEncodingMultiByte) then
@@ -2019,7 +2021,7 @@ begin
       else if (ViewerControl.Encoding in [veUtf8, veUtf8bom]) then
       begin
         PAnsiAddr := PosMemU(ViewerControl.GetDataAdr, ViewerControl.FileSize,
-                             FLastSearchPos, sSearchTextA);
+                             FLastSearchPos, sSearchTextA, bSearchBackwards);
         bTextFound := (PAnsiAddr <> Pointer(-1));
         if bTextFound then FLastSearchPos := PAnsiAddr - ViewerControl.GetDataAdr;
       end
@@ -2043,6 +2045,7 @@ begin
 
       if bTextFound then
         begin
+          DCDebug('Search time: ' + IntToStr(GetTickCount64 - T));
           // Text found, show it in ViewerControl if not visible
           ViewerControl.MakeVisible(FLastSearchPos);
           // Select found text.
