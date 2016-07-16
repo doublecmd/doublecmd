@@ -203,7 +203,7 @@ begin
   Result:= -1;
   if UnixFindData = nil then Exit;
   if UnixFindData^.DirPtr = nil then Exit;
-  PtrDirEnt:= fpReadDir(UnixFindData^.DirPtr);
+  PtrDirEnt:= fpReadDir(UnixFindData^.DirPtr^);
   while PtrDirEnt <> nil do
   begin
     SearchRec.Name:= CeSysToUtf8(PtrDirEnt^.d_name);
@@ -211,7 +211,7 @@ begin
     if Result = 0 then // if found then exit
       Exit
     else // else read next
-      PtrDirEnt:= fpReadDir(UnixFindData^.DirPtr);
+      PtrDirEnt:= fpReadDir(UnixFindData^.DirPtr^);
   end;
 end;
 {$ENDIF}
@@ -228,7 +228,7 @@ var
 begin
   if UnixFindData = nil then Exit;
   if UnixFindData^.DirPtr <> nil then
-    fpCloseDir(UnixFindData^.DirPtr);
+    fpCloseDir(UnixFindData^.DirPtr^);
   if Assigned(UnixFindData^.Mask) then
     UnixFindData^.Mask.Free;
   Dispose(UnixFindData);
