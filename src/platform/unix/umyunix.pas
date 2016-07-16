@@ -167,14 +167,6 @@ function getgrnam(name: PChar): PGroupRecord; cdecl; external libc name 'getgrna
 }
 function setenv(const name, value: PChar; overwrite: LongInt): LongInt; cdecl; external libc name 'setenv';
 
-{$IFDEF LINUX}
-function fpOpenDir(__name: PChar): pDir; cdecl; external libc name 'opendir';
-function fpReadDir(__dirp: pDir): pDirent; cdecl; external libc name 'readdir64';
-function fpCloseDir(__dirp: pDir): cInt; cdecl; external libc name 'closedir';
-{$ELSE}
-function fpReadDir(__dirp: pDir): pDirent; inline;
-function fpCloseDir(__dirp: pDir): cInt; inline;
-{$ENDIF}
 function fpSystemStatus(Command: string): cint;
 
 function GetDesktopEnvironment: TDesktopEnvironment;
@@ -262,20 +254,6 @@ const
 begin
   Result := do_syscall(syscall_nr_getfsstat, TSysParam(struct_statfs), TSysParam(buffsize), TSysParam(int_flags));
 end;
-{$ENDIF}
-
-{$IF NOT DEFINED(LINUX)}
-
-function fpReadDir(__dirp: pDir): pDirent;
-begin
-  Result:= BaseUnix.FpReaddir(__dirp^);
-end;
-
-function fpCloseDir(__dirp: pDir): cInt;
-begin
-  Result:= BaseUnix.FpClosedir(__dirp^);
-end;
-
 {$ENDIF}
 
 function fpSystemStatus(Command: string): cint;
