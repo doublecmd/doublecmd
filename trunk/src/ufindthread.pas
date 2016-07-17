@@ -728,7 +728,7 @@ begin
 
   if CheckFile(sNewDir, sr) then
   begin
-    FFoundFile := sNewDir + PathDelim + sr.Name;
+    FFoundFile := IncludeTrailingBackslash(sNewDir) + sr.Name;
     Synchronize(@AddFile);
 
 {
@@ -771,7 +771,7 @@ begin
   FCurrentDir := sNewDir;
 
   // Search all files to display statistics
-  Path := sNewDir + PathDelim + '*';
+  Path := IncludeTrailingBackslash(sNewDir) + '*';
 
   if FindFirstEx(Path, faAnyFile, sr) = 0 then
   repeat
@@ -783,7 +783,7 @@ begin
         // Search in sub folders
         if (FCurrentDepth < FSearchTemplate.SearchDepth) and CheckDirectory(sNewDir, sr.Name) then
         begin
-          SubPath := sNewDir + PathDelim + sr.Name;
+          SubPath := IncludeTrailingBackslash(sNewDir) + sr.Name;
           IsLink := FPS_ISLNK(sr.Attr);
           if FSearchTemplate.FollowSymLinks then
           begin
