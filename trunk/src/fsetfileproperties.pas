@@ -205,7 +205,7 @@ end;
 
 procedure TfrmSetFileProperties.edtOctalKeyPress(Sender: TObject; var Key: char);
 begin
-  if not ((Key in ['0'..'7']) or (Key = Chr(VK_BACK))) then
+  if not ((Key in ['0'..'7']) or (Key = Chr(VK_BACK)) or (Key = Chr(VK_DELETE))) then
     Key:= #0;
 end;
 
