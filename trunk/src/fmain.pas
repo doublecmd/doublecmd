@@ -724,7 +724,7 @@ type
     function FrameLeft: TFileView;
     function FrameRight: TFileView;
     procedure ForEachView(CallbackFunction: TForEachViewFunction; UserData: Pointer);
-    procedure GetListOpenedPaths(out APaths:TStringList);
+    procedure GetListOpenedPaths(const APaths:TStringList);
     //check selected count and generate correct msg, parameters is lng indexs
     Function GetFileDlgStr(sLngOne, sLngMulti : String; Files: TFiles):String;
     procedure HotDirSelected(Sender:TObject);
@@ -2518,21 +2518,23 @@ begin
   EnumerateNotebook(nbRight);
 end;
 
-procedure TfrmMain.GetListOpenedPaths(out APaths: TStringList);
-  procedure GetNotebookPaths(ANoteBook: TFileViewNotebook;out notePaths: TStringList);
+procedure TfrmMain.GetListOpenedPaths(const APaths: TStringList);
+
+  procedure GetNotebookPaths(ANoteBook: TFileViewNotebook);
   var
-    i: Integer;
-    s :string;
+    S: String;
+    I: Integer;
   begin
-    for i := 0 to ANoteBook.PageCount - 1 do
+    for I := 0 to ANoteBook.PageCount - 1 do
     begin
-        s:=ANoteBook.View[i].CurrentPath;
-        notePaths.Add(s);
+      S:= ANoteBook.View[I].CurrentPath;
+      APaths.Add(S);
     end;
   end;
+
 begin
-  GetNotebookPaths(nbLeft,APaths);
-  GetNotebookPaths(nbRight,APaths);
+  GetNotebookPaths(nbLeft);
+  GetNotebookPaths(nbRight);
 end;
 
 procedure TfrmMain.AppException(Sender: TObject; E: Exception);
