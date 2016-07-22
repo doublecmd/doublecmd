@@ -7,7 +7,7 @@ unit uMultiArchiveUtil;
 interface
 
 uses
-  LazUtf8,Classes, SysUtils, uMultiArc, un_process, uFile, DCBasicTypes;
+  Classes, SysUtils, uMultiArc, un_process, uFile, DCBasicTypes;
 
 const
   MAF_UNIX_PATH        = 1; // Use Unix path delimiter (/)
@@ -85,7 +85,7 @@ function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: String;
 implementation
 
 uses
-  LCLProc, FileUtil, StrUtils, DCClassesUtf8, uDCUtils, DCOSUtils, uOSUtils,
+  LCLProc, LazUTF8, StrUtils, DCClassesUtf8, uDCUtils, DCOSUtils, uOSUtils,
   DCDateTimeUtils, uDebug, uShowMsg, uLng, DCFileAttributes;
 
 function GetUnixFileName(const Str: String): String;
@@ -153,8 +153,8 @@ end;
 
 function TOutputParser.KeyPos(Key: char; out Position: TKeyPos): boolean;
 var
-  I: integer;
-  Format: string;
+  I, L: Integer;
+  Format: String;
 begin
   Result := False;
   Position.Index := -1;
@@ -165,13 +165,18 @@ begin
       Position.Start := Pos(Key, Format);
       if Position.Start = 0 then
         Continue;
-      Position.Count:= Position.Start;
-      while ((Position.Count <= Length(Format)) and (Format[Position.Count] = Key)) do
-        Inc(Position.Count);
-      Position.Count := Position.Count - Position.Start;
+      L := Length(Format);
+      if (Position.Start = L - 1) and (Format[L] = '+') then
+        Position.Count := MaxInt
+      else begin
+        Position.Count := Position.Start;
+        while ((Position.Count <= L) and (Format[Position.Count] = Key)) do
+          Inc(Position.Count);
+        Position.Count := Position.Count - Position.Start;
+      end;
       Position.Index := I;
       {$IFDEF DEBUG}
-      DCDebug('Key: ', Key, ' Format: ', IntToStr(I), ' Start: ', IntToStr(Position.Start), ' Count: ', IntToStr(Position.Count));
+      DCDebug('Key: ' + Key, ' Format: ' + IntToStr(I), ' Start: ' + IntToStr(Position.Start), ' Count: ' + IntToStr(Position.Count));
       {$ENDIF}
       Result := True;
       Break;
