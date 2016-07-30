@@ -33,6 +33,12 @@ const
   MaxSignSize = 1024;
   SignSeekRange = 1024 * 1024;
 
+const
+  MAF_UNIX_PATH        = 1; // Use Unix path delimiter (/)
+  MAF_WIN_PATH         = 2; // Use Windows path delimiter (\)
+  MAF_UNIX_ATTR        = 4; // Use Unix file attributes
+  MAF_WIN_ATTR         = 8; // Use Windows file attributes
+
 type
 
   TSignature = record

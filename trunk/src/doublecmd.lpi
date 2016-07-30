@@ -269,7 +269,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="234">
+    <Units Count="235">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1246,6 +1246,7 @@ end;"/>
       <Unit157>
         <Filename Value="filesources\multiarchive\umultiarchivefilesource.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uMultiArchiveFileSource"/>
       </Unit157>
       <Unit158>
         <Filename Value="filesources\multiarchive\umultiarchivelistoperation.pas"/>
@@ -1255,6 +1256,7 @@ end;"/>
       <Unit159>
         <Filename Value="filesources\multiarchive\umultiarchivetestarchiveoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uMultiArchiveTestArchiveOperation"/>
       </Unit159>
       <Unit160>
         <Filename Value="filesources\multiarchive\umultiarchiveutil.pas"/>
@@ -1308,6 +1310,7 @@ end;"/>
       <Unit170>
         <Filename Value="filesources\wcxarchive\uwcxarchivecalcstatisticsoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveCalcStatisticsOperation"/>
       </Unit170>
       <Unit171>
         <Filename Value="filesources\wcxarchive\uwcxarchivecopyinoperation.pas"/>
@@ -1667,6 +1670,11 @@ end;"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fMultiRenameWait"/>
       </Unit233>
+      <Unit234>
+        <Filename Value="filesources\multiarchive\umultiarchiveparser.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMultiArchiveParser"/>
+      </Unit234>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
