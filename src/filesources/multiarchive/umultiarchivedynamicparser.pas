@@ -102,8 +102,6 @@ begin
   FLines := TStringList.Create;
   FMasks := AMultiArcItem.FFormat;
   FUnparsedLines := TStringList.Create;
-
-//  FMasks.add('aaaaaaaaaaa *z+  yyyy tt dd hh:mm  n+');
 end;
 
 destructor TMultiArchiveDynamicParser.Destroy;
