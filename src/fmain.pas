@@ -4030,6 +4030,7 @@ begin
     begin
       ReadOnly := True;
       RightClickSelect := True;
+      FileSortType := fstFoldersFirst;
       TCustomShellTreeViewCrack(ShellTreeView).PopulateWithBaseFiles;
 
       Images := TImageList.Create(Self);
