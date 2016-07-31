@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Several useful functions
    
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    contributors:
    
@@ -342,10 +342,14 @@ end;
 
 function mbExpandFileName(const sFileName: String): String;
 begin
-  Result:= NormalizePathDelimiters(sFileName);
-  Result:= ReplaceEnvVars(Result);
-  if Pos(PathDelim, Result) <> 0 then
-    Result:= ExpandFileName(Result);
+  if (Pos('://', sFileName) > 0) then
+    Result:= sFileName
+  else begin
+    Result:= NormalizePathDelimiters(sFileName);
+    Result:= ReplaceEnvVars(Result);
+    if Pos(PathDelim, Result) <> 0 then
+      Result:= ExpandFileName(Result);
+  end;
 end;
 
 function cnvFormatFileSize(iSize: Int64; FSF: TFileSizeFormat): String;

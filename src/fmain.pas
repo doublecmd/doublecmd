@@ -2721,7 +2721,7 @@ end;
 
 procedure TfrmMain.miHotAddOrConfigClick(Sender: TObject);
 begin
-  with Sender as TComponent do Commands.cm_WorkWithDirectoryHotlist(['action='+HOTLISTMAGICWORDS[tag], 'source='+QuoteStr(ActiveFrame.CurrentPath), 'target='+QuoteStr(NotActiveFrame.CurrentPath), 'index=0']);
+  with Sender as TComponent do Commands.cm_WorkWithDirectoryHotlist(['action='+HOTLISTMAGICWORDS[tag], 'source='+QuoteStr(ActiveFrame.CurrentLocation), 'target='+QuoteStr(NotActiveFrame.CurrentLocation), 'index=0']);
 end;
 
 procedure TfrmMain.CreatePopUpDirHistory;
