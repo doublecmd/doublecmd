@@ -139,6 +139,7 @@ type
     procedure EachViewDeactivate(AFileView: TFileView; UserData: Pointer);
     function FileListLoaded: Boolean;
     function GetCurrentAddress: String;
+    function GetCurrentLocation: String;
     function GetNotebookPage: TCustomPage;
     function GetCurrentFileSource: IFileSource;
     function GetCurrentFileSourceIndex: Integer;
@@ -487,6 +488,7 @@ type
     property CurrentFileSourceIndex: Integer read GetCurrentFileSourceIndex;
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentPathIndex: Integer read GetCurrentPathIndex;
+    property CurrentLocation: String read GetCurrentLocation;
     property FileFilter: String read FFileFilter;
     property FilterOptions: TQuickSearchOptions read FFilterOptions;
     property Filtered: Boolean read GetFiltered;
@@ -1313,6 +1315,19 @@ begin
     Result := FileSource.CurrentAddress
   else
     Result := '';
+end;
+
+function TFileView.GetCurrentLocation: String;
+begin
+  if Length(CurrentAddress) = 0 then
+    Result := GetCurrentPath
+  else begin
+    Result := CurrentAddress;
+    if (PathDelim = '/') then
+      Result += GetCurrentPath
+    else
+      Result += StringReplace(GetCurrentPath, PathDelim, '/', [rfReplaceAll]);
+  end;
 end;
 
 procedure TFileView.AddWorker(const Worker: TFileViewWorker; SetEvents: Boolean = True);
