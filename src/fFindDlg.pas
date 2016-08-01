@@ -591,11 +591,14 @@ begin
   AEncoding:= NormalizeEncoding(cmbEncoding.Text);
   if (AEncoding = EncodingUCS2LE) or (AEncoding = EncodingUCS2BE) then
     begin
-      cbCaseSens.Tag:= Integer(cbCaseSens.Checked);
-      cbCaseSens.Checked:= True;
-      cbCaseSens.Enabled:= False;
+      if cbCaseSens.Enabled then
+      begin
+        cbCaseSens.Tag:= Integer(cbCaseSens.Checked);
+        cbCaseSens.Checked:= True;
+        cbCaseSens.Enabled:= False;
+      end;
     end
-  else
+  else if not cbCaseSens.Enabled then
     begin
       cbCaseSens.Checked:= Boolean(cbCaseSens.Tag);
       cbCaseSens.Enabled:= True;
