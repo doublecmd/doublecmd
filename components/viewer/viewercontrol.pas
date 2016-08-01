@@ -504,7 +504,7 @@ implementation
 
 uses
   LCLType, LCLVersion, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
-  UnicodeUtils, LCLIntf
+  UnicodeUtils, LCLIntf, LazUTF8
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix
   {$ELSEIF DEFINED(WINDOWS)}

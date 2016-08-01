@@ -74,7 +74,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  Graphics, LCLVersion, Forms, JwaDbt, SysUtils, LCLProc,
+  Graphics, LCLVersion, Forms, JwaDbt, SysUtils, LCLProc, LazUTF8,
 
   //DC
   uFileProcs, uOSUtils, fOptionsMisc, uKASToolItemsExtended,
