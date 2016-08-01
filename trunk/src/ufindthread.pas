@@ -43,6 +43,7 @@ type
     FFilesFound:Integer;
     FFoundFile:String;
     FCurrentDepth: Integer;
+    FTextSearchType: TTextSearch;
     FSearchTemplate: TSearchTemplateRec;
     FSelectedFiles: TStringList;
     FFileChecks: TFindFileChecks;
@@ -63,7 +64,7 @@ type
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function CheckDirectory(const CurrentDir, FolderName : String) : Boolean;
     function FindInFile(const sFileName: String;sData: String; bCase, bRegExp: Boolean): Boolean;
-    function FindInFile2(const sFileName: String; sData: String;bCase, bRegExp: Boolean): Boolean;
+    // function FindInFile2(const sFileName: String; sData: String;bCase, bRegExp: Boolean): Boolean;
 
   protected
     procedure Execute; override;
@@ -106,10 +107,24 @@ begin
     if SearchDepth < 0 then
       SearchDepth := MaxInt;
 
-    FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
-    ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
-    if IsFindText and SingleByteEncoding(TextEncoding) then
-      RecodeTable := InitRecodeTable(TextEncoding, CaseSensitive);
+    if IsFindText then
+    begin
+      TextEncoding := NormalizeEncoding(TextEncoding);
+      FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
+      ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
+
+      // Determine search type
+      if SingleByteEncoding(TextEncoding) then
+      begin
+        FTextSearchType := tsAnsi;
+        RecodeTable := InitRecodeTable(TextEncoding, CaseSensitive);
+      end
+      else if (CaseSensitive = False) and ((TextEncoding = EncodingUTF8) or (TextEncoding = EncodingUTF8BOM)) then
+        FTextSearchType:= tsUtf8
+      else begin
+        FTextSearchType:= tsOther;
+      end;
+    end
   end;
 
   SearchTemplateToFindFileChecks(FSearchTemplate, FFileChecks);
@@ -121,11 +136,9 @@ begin
     FExcludeDirectories := TMaskList.Create(ExcludeDirectories);
   end;
 
-
   FTimeSearchStart:=0;
   FTimeSearchEnd:=0;
   FTimeOfScan:=0;
-
 end;
 
 destructor TFindThread.Destroy;
@@ -218,9 +231,8 @@ begin
   end;
 end;
 
-function TFindThread.FindInFile(const sFileName: String; sData: String;  bCase, bRegExp: Boolean): Boolean;
-// this method is NOT used and placed here for possible comparing with FindInFile2
-// in future plans to remove it and rename FindInFile2 to FindInFile
+function TFindThread.FindInFile(const sFileName: String; sData: String;
+                                bCase, bRegExp: Boolean): Boolean;
 var
   fs: TFileStreamEx;
 
@@ -241,12 +253,9 @@ var
   lastPos,
   sDataLength,
   DataRead: Longint;
-  Buffer: PAnsiChar = nil;
   BufferSize: Integer;
+  Buffer: PAnsiChar = nil;
   S: String;
-
-  t1,t2,dt:integer;
-  label ext;
 begin
   Result := False;
   if sData = '' then Exit;
@@ -272,10 +281,10 @@ begin
   if gUseMmapInSearch then
   begin
     // Memory mapping should be slightly faster and use less memory
-    if SingleByteEncoding(FSearchTemplate.TextEncoding) then
-      lastPos:= FindMmapBM(sFileName, sData, RecodeTable, @IsAborting)
-    else begin
-      lastPos:= FindMmap(sFileName, sData, bCase, @IsAborting);
+    case FTextSearchType of
+      tsAnsi:  lastPos:= FindMmapBM(sFileName, sData, RecodeTable, @IsAborting);
+      tsUtf8:  lastPos:= FindMmapU(sFileName, sData)
+      else     lastPos:= FindMmap(sFileName, sData, bCase, @IsAborting);
     end;
     case lastPos of
       0 : Exit(False);
@@ -308,18 +317,26 @@ begin
         begin
           while not Terminated do
           begin
-            DataRead := FillBuffer(@Buffer[sDataLength-1], BufferSize);
+            DataRead := FillBuffer(@Buffer[sDataLength - 1], BufferSize);
             if DataRead = 0 then
               Break;
 
-
-            for lastPos := 0 to DataRead - 1 do
-            begin
-              if PosMem(@Buffer[lastPos], sDataLength, 0, sData, bCase, False) <> Pointer(-1) then
-              begin
-                Result:=True; // found
-                goto ext;
-              end;
+            case FTextSearchType of
+              tsAnsi:
+                begin
+                  if PosMemBoyerMur(@Buffer[0], DataRead + sDataLength - 1, sData, RecodeTable) <> -1 then
+                    Exit(True);
+                end;
+              tsUtf8:
+                begin
+                  if PosMemU(@Buffer[0], DataRead + sDataLength - 1, 0, sData, False) <> Pointer(-1) then
+                    Exit(True);
+                end
+              else
+                begin
+                  if PosMem(@Buffer[0], DataRead + sDataLength - 1, 0, sData, bCase, False) <> Pointer(-1) then
+                    Exit(True);
+                end;
             end;
 
             // Copy last 'sDataLength-1' bytes to the beginning of the buffer
@@ -328,10 +345,6 @@ begin
             Move(Buffer[DataRead], Buffer^, sDataLength-1);
           end;
         end;
-
-ext:
-
-
       except
       end;
 
@@ -343,13 +356,9 @@ ext:
       Buffer := nil;
     end;
   end;
-
-
 end;
 
-
-
-
+{
 function TFindThread.FindInFile2(const sFileName: String; sData: String;bCase, bRegExp: Boolean): Boolean;
 var
   fs: TFileStreamEx;
@@ -496,7 +505,7 @@ ext:
 
 
 end;
-
+}
 
 procedure FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase, bRegExp: Boolean);
 var
@@ -624,7 +633,7 @@ begin
           begin
             if Result and IsFindText then
             begin
-              Result:= FindInFile2(TargetFileName, FindText, CaseSensitive, TextRegExp);
+              Result:= FindInFile(TargetFileName, FindText, CaseSensitive, TextRegExp);
               if NotContainingText then Result:= not Result;
               mbDeleteFile(TargetFileName);
             end;
@@ -694,7 +703,7 @@ begin
            Exit(False);
 
          try
-           Result := FindInFile2(Folder + PathDelim + sr.Name, FindText, CaseSensitive, TextRegExp);
+           Result := FindInFile(Folder + PathDelim + sr.Name, FindText, CaseSensitive, TextRegExp);
 
            if (Result and IsReplaceText) then
              FileReplaceString(Folder + PathDelim + sr.Name, FindText, ReplaceText, CaseSensitive, TextRegExp);

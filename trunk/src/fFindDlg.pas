@@ -585,21 +585,23 @@ begin
 end;
 
 procedure TfrmFindDlg.cmbEncodingSelect(Sender: TObject);
+var
+  AEncoding: String;
 begin
-  if not gUseMmapInSearch then
-  begin
-    if cmbEncoding.ItemIndex <> cmbEncoding.Items.IndexOf(EncodingAnsi) then
-      begin
-        cbCaseSens.Tag:= Integer(cbCaseSens.Checked);
-        cbCaseSens.Checked:= True;
-        cbCaseSens.Enabled:= False;
-      end
-    else
-      begin
-        cbCaseSens.Checked:= Boolean(cbCaseSens.Tag);
-        cbCaseSens.Enabled:= True;
-      end;
-  end;
+  AEncoding:= NormalizeEncoding(cmbEncoding.Text);
+  if (AEncoding = EncodingUCS2LE) or (AEncoding = EncodingUCS2BE) then
+    begin
+      cbCaseSens.Tag:= Integer(cbCaseSens.Checked);
+      cbCaseSens.Checked:= True;
+      cbCaseSens.Enabled:= False;
+    end
+  else
+    begin
+      cbCaseSens.Checked:= Boolean(cbCaseSens.Tag);
+      cbCaseSens.Enabled:= True;
+    end;
+  cbTextRegExp.Enabled := (AEncoding = EncodingAnsi);
+  if not cbTextRegExp.Enabled then cbTextRegExp.Checked:= False;
 end;
 
 constructor TfrmFindDlg.Create(TheOwner: TComponent);
@@ -699,7 +701,7 @@ begin
   cbReplaceText.Checked:= False;
   cbCaseSens.Checked:= False;
   cbNotContainingText.Checked:= False;
-  cmbEncoding.ItemIndex := 0;
+  cmbEncoding.ItemIndex := cmbEncoding.Items.IndexOf(EncodingAnsi);
 
   // plugins
   cmbPlugin.Text:= '';
@@ -1811,9 +1813,6 @@ procedure TfrmFindDlg.lsFoundedFilesMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   i:integer;
-  AFile: TFile;
-  AFiles: TFiles;
-  APoint: TPoint;
 begin
   i:=lsFoundedFiles.ItemAtPos(Point(X,Y),False);
 
