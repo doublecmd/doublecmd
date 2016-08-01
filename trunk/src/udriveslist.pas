@@ -128,7 +128,7 @@ type
 implementation
 
 uses
-  StdCtrls, Graphics, LCLProc,
+  StdCtrls, Graphics, LCLProc, LazUTF8,
   uPixMapManager, uOSUtils, uDCUtils, uOSForms, uGlobs;
 
 const
