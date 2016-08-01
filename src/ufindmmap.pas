@@ -58,6 +58,8 @@ function PosMemU(pDataAddr: PChar; iDataLength, iStartPos: PtrInt;
 function FindMmap(const sFileName:String; const sFindData:String; bCase:Boolean;
                   Abort: TAbortFunction):Integer;
 
+function FindMmapU(const sFileName: String; const sFindData: String): Integer;
+
 implementation
 
 uses
@@ -245,6 +247,27 @@ begin
     try
       begin
         if PosMem(fmr.MappedFile, fmr.FileSize) <> Pointer(-1) then
+          Result := 1
+        else
+          Result := 0;
+      end;
+    finally
+      UnMapFile(fmr);
+    end;
+  end;
+end;
+
+function FindMmapU(const sFileName: String; const sFindData: String): Integer;
+var
+  fmr : TFileMapRec;
+begin
+  Result := -1;
+
+  if MapFile(sFileName, fmr) then
+  begin
+    try
+      begin
+        if PosMemU(fmr.MappedFile, fmr.FileSize, 0, sFindData, False) <> Pointer(-1) then
           Result := 1
         else
           Result := 0;
