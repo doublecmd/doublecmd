@@ -164,6 +164,7 @@ begin
   cbCorrectLinks.Checked := gOperationOptionCorrectLinks;
   cbReserveSpace.Checked := gOperationOptionReserveSpace;
   cbCheckFreeSpace.Checked := gOperationOptionCheckFreeSpace;
+  cbExcludeEmptyDirectories.Checked := gOperationOptionExcludeEmptyDirectories;
 end;
 
 destructor TFileSystemCopyMoveOperationOptionsUI.Destroy;
@@ -213,6 +214,7 @@ begin
   gOperationOptionCorrectLinks := cbCorrectLinks.Checked;
   gOperationOptionReserveSpace := cbReserveSpace.Checked;
   gOperationOptionCheckFreeSpace := cbCheckFreeSpace.Checked;
+  gOperationOptionExcludeEmptyDirectories := cbExcludeEmptyDirectories.Checked;
 end;
 
 procedure TFileSystemCopyMoveOperationOptionsUI.SetOperationOptions(Operation: TObject);
