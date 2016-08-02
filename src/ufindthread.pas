@@ -119,8 +119,17 @@ begin
         FTextSearchType := tsAnsi;
         RecodeTable := InitRecodeTable(TextEncoding, CaseSensitive);
       end
-      else if (CaseSensitive = False) and ((TextEncoding = EncodingUTF8) or (TextEncoding = EncodingUTF8BOM)) then
-        FTextSearchType:= tsUtf8
+      else if (CaseSensitive = False) then
+      begin
+        if ((TextEncoding = EncodingUTF8) or (TextEncoding = EncodingUTF8BOM)) then
+          FTextSearchType:= tsUtf8
+        else if (TextEncoding = EncodingUCS2LE) then
+          FTextSearchType:= tsUtf16le
+        else if (TextEncoding = EncodingUCS2BE) then
+          FTextSearchType:= tsUtf16be
+        else
+          FTextSearchType:= tsOther;
+      end
       else begin
         FTextSearchType:= tsOther;
       end;
@@ -282,9 +291,11 @@ begin
   begin
     // Memory mapping should be slightly faster and use less memory
     case FTextSearchType of
-      tsAnsi:  lastPos:= FindMmapBM(sFileName, sData, RecodeTable, @IsAborting);
-      tsUtf8:  lastPos:= FindMmapU(sFileName, sData)
-      else     lastPos:= FindMmap(sFileName, sData, bCase, @IsAborting);
+      tsAnsi:    lastPos:= FindMmapBM(sFileName, sData, RecodeTable, @IsAborting);
+      tsUtf8:    lastPos:= FindMmapU(sFileName, sData);
+      tsUtf16le: lastPos:= FindMmapW(sFileName, sData, True);
+      tsUtf16be: lastPos:= FindMmapW(sFileName, sData, False);
+      else       lastPos:= FindMmap(sFileName, sData, bCase, @IsAborting);
     end;
     case lastPos of
       0 : Exit(False);
@@ -331,7 +342,13 @@ begin
                 begin
                   if PosMemU(@Buffer[0], DataRead + sDataLength - 1, 0, sData, False) <> Pointer(-1) then
                     Exit(True);
-                end
+                end;
+              tsUtf16le,
+              tsUtf16be:
+                begin
+                  if PosMemW(@Buffer[0], DataRead + sDataLength - 1, 0, sData, False, FTextSearchType = tsUtf16le) <> Pointer(-1) then
+                    Exit(True);
+                end;
               else
                 begin
                   if PosMem(@Buffer[0], DataRead + sDataLength - 1, 0, sData, bCase, False) <> Pointer(-1) then

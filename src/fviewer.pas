@@ -2025,6 +2025,15 @@ begin
         bTextFound := (PAnsiAddr <> Pointer(-1));
         if bTextFound then FLastSearchPos := PAnsiAddr - ViewerControl.GetDataAdr;
       end
+      // Using special case insensitive UTF-16 search algorithm
+      else if (ViewerControl.Encoding in [veUtf16le, veUtf16be, veUcs2le, veUcs2be]) then
+      begin
+        PAnsiAddr := PosMemW(ViewerControl.GetDataAdr, ViewerControl.FileSize,
+                             FLastSearchPos, sSearchTextA, bSearchBackwards,
+                             ViewerControl.Encoding in [veUtf16le, veUcs2le]);
+        bTextFound := (PAnsiAddr <> Pointer(-1));
+        if bTextFound then FLastSearchPos := PAnsiAddr - ViewerControl.GetDataAdr;
+      end
       // Using very slow search algorithm
       else if (ViewerControl.Encoding in ViewerEncodingMultiByte) or bSearchBackwards then
       begin

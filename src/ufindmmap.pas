@@ -42,6 +42,9 @@ function PosMem(pDataAddr: PChar; iDataLength, iStartPos: PtrInt; const sSearchT
 function PosMemU(pDataAddr: PChar; iDataLength, iStartPos: PtrInt;
                  const sSearchText: String; bSearchBackwards: Boolean): Pointer;
 
+function PosMemW(pDataAddr: PChar; iDataLength, iStartPos: PtrInt;
+                 const sSearchText: String; bSearchBackwards, bLittleEndian: Boolean): Pointer;
+
 {en
    Searches a file for a string using memory mapping.
 
@@ -60,10 +63,12 @@ function FindMmap(const sFileName:String; const sFindData:String; bCase:Boolean;
 
 function FindMmapU(const sFileName: String; const sFindData: String): Integer;
 
+function FindMmapW(const sFileName: String; const sFindData: String; bLittleEndian: Boolean): Integer;
+
 implementation
 
 uses
-  DCOSUtils, UnicodeUtils, LazUTF8, StrUtils;
+  SysUtils, DCOSUtils, UnicodeUtils, LazUTF8, StrUtils, DCStrUtils;
 
 function PosMem(pDataAddr: PChar; iDataLength, iStartPos: PtrInt; const sSearchText: String;
                 bCaseSensitive: Boolean; bSearchBackwards: Boolean): Pointer;
@@ -195,8 +200,86 @@ begin
   end;
 end;
 
-function FindMmap(const sFileName, sFindData:String; bCase:Boolean;
-                  Abort: TAbortFunction):Integer;
+function PosMemW(pDataAddr: PChar; iDataLength, iStartPos: PtrInt;
+  const sSearchText: String; bSearchBackwards, bLittleEndian: Boolean): Pointer;
+const
+  BUFFER_SIZE = 4096;
+var
+  iSize: PtrInt;
+  iLength: Integer;
+  iTextPos: Integer;
+  bSwapEndian: Boolean;
+  sTextBuffer: UnicodeString;
+  sLowerCase: UnicodeString;
+begin
+  Result := Pointer(-1);
+  iLength:= Length(sSearchText);
+  bSwapEndian:= {$IFDEF ENDIAN_BIG}bLittleEndian{$ELSE}not bLittleEndian{$ENDIF};
+  if bSearchBackwards then
+  begin
+    iSize:= iStartPos;
+    if iLength > iSize then Exit;
+    sLowerCase:= PUnicodeChar(Pointer(sSearchText + #0));
+    if bSwapEndian then Utf16SwapEndian(sLowerCase);
+    sLowerCase:= UnicodeLowerCase(sLowerCase);
+
+    // While text size > buffer size
+    while iStartPos > BUFFER_SIZE do
+    begin
+      iStartPos:= iStartPos - BUFFER_SIZE;
+      SetString(sTextBuffer, PUnicodeChar(pDataAddr + iStartPos), BUFFER_SIZE div 2);
+      if bSwapEndian then Utf16SwapEndian(sTextBuffer);
+      sTextBuffer:= UnicodeLowerCase(sTextBuffer);
+      iTextPos:= RPos(sLowerCase, sTextBuffer);
+      if iTextPos > 0 then
+        Exit(pDataAddr + iStartPos + iTextPos * 2 - 2)
+      else begin
+        // Shift text buffer
+        iStartPos:= iStartPos + iLength;
+      end;
+    end;
+    // Process remaining buffer
+    if iLength > iStartPos then Exit;
+    SetString(sTextBuffer, PUnicodeChar(pDataAddr), iStartPos div 2);
+    if bSwapEndian then Utf16SwapEndian(sTextBuffer);
+    sTextBuffer:= UnicodeLowerCase(sTextBuffer);
+    iTextPos:= RPos(sLowerCase, sTextBuffer);
+    if iTextPos > 0 then Result:= pDataAddr + iTextPos * 2 - 2
+  end
+  else begin
+    iSize:= iDataLength - iStartPos;
+    if iLength > iSize then Exit;
+    sLowerCase:= PUnicodeChar(Pointer(sSearchText + #0));
+    if bSwapEndian then Utf16SwapEndian(sLowerCase);
+    sLowerCase:= UnicodeLowerCase(sLowerCase);
+
+    // While text size > buffer size
+    while iSize > BUFFER_SIZE do
+    begin
+      SetString(sTextBuffer, PUnicodeChar(pDataAddr + iStartPos), BUFFER_SIZE div 2);
+      if bSwapEndian then Utf16SwapEndian(sTextBuffer);
+      sTextBuffer:= UnicodeLowerCase(sTextBuffer);
+      iTextPos:= Pos(sLowerCase, sTextBuffer);
+      if iTextPos > 0 then
+        Exit(pDataAddr + iStartPos + iTextPos * 2 - 2)
+      else begin
+        // Shift text buffer
+        iStartPos:= iStartPos + (BUFFER_SIZE - iLength);
+      end;
+      iSize:= iDataLength - iStartPos;
+    end;
+    // Process remaining buffer
+    if iLength > iSize then Exit;
+    SetString(sTextBuffer, PUnicodeChar(pDataAddr + iStartPos), iSize div 2);
+    if bSwapEndian then Utf16SwapEndian(sTextBuffer);
+    sTextBuffer:= UnicodeLowerCase(sTextBuffer);
+    iTextPos:= Pos(sLowerCase, sTextBuffer);
+    if iTextPos > 0 then Result:= pDataAddr + iStartPos + iTextPos * 2 - 2;
+  end;
+end;
+
+function FindMmap(const sFileName: String; const sFindData: String;
+  bCase: Boolean; Abort: TAbortFunction): Integer;
 
   function PosMem(pAdr:PChar; iLength:Integer):Pointer;
   var
@@ -268,6 +351,27 @@ begin
     try
       begin
         if PosMemU(fmr.MappedFile, fmr.FileSize, 0, sFindData, False) <> Pointer(-1) then
+          Result := 1
+        else
+          Result := 0;
+      end;
+    finally
+      UnMapFile(fmr);
+    end;
+  end;
+end;
+
+function FindMmapW(const sFileName: String; const sFindData: String; bLittleEndian: Boolean): Integer;
+var
+  fmr : TFileMapRec;
+begin
+  Result := -1;
+
+  if MapFile(sFileName, fmr) then
+  begin
+    try
+      begin
+        if PosMemW(fmr.MappedFile, fmr.FileSize, 0, sFindData, False, bLittleEndian) <> Pointer(-1) then
           Result := 1
         else
           Result := 0;
