@@ -769,7 +769,7 @@ begin
         begin
           if aFile.IsDirectory then
             ChooseFileSource(TargetPage.FileView, aFile.FullPath)
-          else if not ChooseFileSource(TargetPage.FileView, aFile) then
+          else if not ChooseFileSource(TargetPage.FileView, TargetPage.FileView.FileSource, aFile) then
             begin
               ChooseFileSource(TargetPage.FileView, aFile.Path);
               TargetPage.FileView.SetActiveFile(aFile.Name);
@@ -794,7 +794,7 @@ begin
       begin
         // Change file source, if the file under cursor can be opened as another file source.
         try
-          if not ChooseFileSource(TargetPage.FileView, aFile) then
+          if not ChooseFileSource(TargetPage.FileView, SourcePage.FileView.FileSource, aFile) then
             TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource,
                                               SourcePage.FileView.CurrentPath);
         except
@@ -1042,7 +1042,7 @@ procedure TMainCommands.cm_OpenDirInNewTab(const Params: array of string);
   function OpenArchive(const aFile: TFile): TFileViewPage;
   begin
     Result := FrmMain.ActiveNotebook.NewPage(FrmMain.ActiveFrame);
-    ChooseArchive(Result.FileView, aFile);
+    ChooseArchive(Result.FileView, Result.FileView.FileSource, aFile);
   end;
 
   function OpenParent: TFileViewPage;
@@ -1121,7 +1121,7 @@ begin
         if aFile.IsDirectory or aFile.IsLinkToDirectory then
           ChangePathToChild(aFile)
         else
-          ChooseArchive(frmMain.ActiveFrame, aFile, True);
+          ChooseArchive(frmMain.ActiveFrame, FileSource, aFile, True);
       end;
     finally
       FreeAndNil(aFile);
