@@ -470,6 +470,8 @@ begin
       Result := ptAbsolute
     else if ( Pos( PathDelim, sPath ) > 0 ) then
       Result := ptRelative
+    else if (sPath = '..') then
+      Result := ptRelative
     else
       Result := ptNone;
   end
