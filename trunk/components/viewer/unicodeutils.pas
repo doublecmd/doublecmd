@@ -73,6 +73,8 @@ function Utf8ReplaceBroken(const s: String): String;
 }
 procedure Utf8FixBroken(var S: String);
 
+procedure Utf16SwapEndian(var S: UnicodeString);
+
 implementation
 
 uses
@@ -405,8 +407,11 @@ end;
 
 function Utf8ToUtf16LE(const s: string): string;
 var
+  L: SizeUInt;
+{$IF DEFINED(ENDIAN_BIG)}
   P: PWord;
-  I, L: SizeUInt;
+  I: SizeInt;
+{$ENDIF}
 begin
   if Length(S) = 0 then
   begin
@@ -423,21 +428,23 @@ begin
     begin
       SetLength(Result, (L - 1) * SizeOf(WideChar));
       // Swap endian if needed
-      if (NtoLE($FFFE) <> $FFFE) then
+      {$IF DEFINED(ENDIAN_BIG)}
+      P := PWord(PAnsiChar(Result));
+      for I := 0 to SizeInt(L) - 1 do
       begin
-        P := PWord(PAnsiChar(Result));
-        for I := 0 to L - 1 do
-        begin
-          P[I] := SwapEndian(P[I]);
-        end;
+        P[I] := SwapEndian(P[I]);
       end;
+      {$ENDIF}
     end;
 end;
 
 function Utf8ToUtf16BE(const s: string): string;
 var
+  L: SizeUInt;
+{$IF DEFINED(ENDIAN_LITTLE)}
   P: PWord;
-  I, L: SizeUInt;
+  I: SizeInt;
+{$ENDIF}
 begin
   if Length(S) = 0 then
   begin
@@ -454,14 +461,13 @@ begin
     begin
       SetLength(Result, (L - 1) * SizeOf(WideChar));
       // Swap endian if needed
-      if (NtoBE($FEFF) <> $FEFF) then
+      {$IF DEFINED(ENDIAN_LITTLE)}
+      P := PWord(PAnsiChar(Result));
+      for I := 0 to SizeInt(L) - 1 do
       begin
-        P := PWord(PAnsiChar(Result));
-        for I := 0 to L - 1 do
-        begin
-          P[I] := SwapEndian(P[I]);
-        end;
+        P[I] := SwapEndian(P[I]);
       end;
+      {$ENDIF}
     end;
 end;
 
@@ -594,6 +600,19 @@ begin
     end;
     Dec(L, C);
     Inc(P, C);
+  end;
+end;
+
+procedure Utf16SwapEndian(var S: UnicodeString);
+var
+  P: PWord;
+  I, L: Integer;
+begin
+  L:= Length(S);
+  P:= PWord(PWideChar(S));
+  for I:= 0 to L - 1 do
+  begin
+    P[I]:= SwapEndian(P[I]);
   end;
 end;
 
