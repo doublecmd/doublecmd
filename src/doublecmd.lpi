@@ -1016,6 +1016,7 @@ end;"/>
       <Unit107>
         <Filename Value="filesources\uarchivefilesource.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uArchiveFileSource"/>
       </Unit107>
       <Unit108>
         <Filename Value="filesources\uarchivefilesourceutil.pas"/>
