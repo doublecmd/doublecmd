@@ -589,20 +589,6 @@ var
   AEncoding: String;
 begin
   AEncoding:= NormalizeEncoding(cmbEncoding.Text);
-  if (AEncoding = EncodingUCS2LE) or (AEncoding = EncodingUCS2BE) then
-    begin
-      if cbCaseSens.Enabled then
-      begin
-        cbCaseSens.Tag:= Integer(cbCaseSens.Checked);
-        cbCaseSens.Checked:= True;
-        cbCaseSens.Enabled:= False;
-      end;
-    end
-  else if not cbCaseSens.Enabled then
-    begin
-      cbCaseSens.Checked:= Boolean(cbCaseSens.Tag);
-      cbCaseSens.Enabled:= True;
-    end;
   cbTextRegExp.Enabled := (AEncoding = EncodingAnsi);
   if not cbTextRegExp.Enabled then cbTextRegExp.Checked:= False;
 end;
@@ -829,7 +815,20 @@ end;
 
 procedure TfrmFindDlg.cbTextRegExpChange(Sender: TObject);
 begin
-  if cbTextRegExp.Checked then cbCaseSens.Checked:= False;
+  if cbTextRegExp.Checked then
+    begin
+      if cbCaseSens.Enabled then
+      begin
+        cbCaseSens.Tag:= Integer(cbCaseSens.Checked);
+        cbCaseSens.Checked:= False;
+        cbCaseSens.Enabled:= False;
+      end;
+    end
+  else if not cbCaseSens.Enabled then
+    begin
+      cbCaseSens.Checked:= Boolean(cbCaseSens.Tag);
+      cbCaseSens.Enabled:= True;
+    end;
 end;
 
 procedure TfrmFindDlg.cbSelectedFilesChange(Sender: TObject);

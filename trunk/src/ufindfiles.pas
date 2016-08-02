@@ -32,7 +32,7 @@ uses
   Classes, SysUtils, DCBasicTypes, uFile;
 
 type
-  TTextSearch = (tsAnsi, tsUtf8, tsOther);
+  TTextSearch = (tsAnsi, tsUtf8, tsUtf16le, tsUtf16be, tsOther);
   TTimeUnit = (tuSecond, tuMinute, tuHour, tuDay, tuWeek, tuMonth, tuYear);
   TFileSizeUnit = (suBytes, suKilo, suMega, suGiga, suTera);
   TPluginOperator = (poEqual, poNotEqual, poMore, poLess, poMoreEqual, poLessEqual,
