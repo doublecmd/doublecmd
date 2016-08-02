@@ -70,7 +70,7 @@ function PosMem(pDataAddr: PChar; iDataLength, iStartPos: PtrInt; const sSearchT
 var
   SearchTextLength: Integer;
 
-  function sPos2(pAdr: PChar):Boolean;
+  function sPos2(pAdr: PChar):Boolean; inline;
   var
     i: Integer;
   begin
@@ -203,7 +203,7 @@ function FindMmap(const sFileName, sFindData:String; bCase:Boolean;
     xIndex:Integer;
     DataLength: Integer;
 
-    function sPos(pAdr:PChar):Boolean;
+    function sPos(pAdr:PChar):Boolean; inline;
     var
       i:Integer;
     begin
