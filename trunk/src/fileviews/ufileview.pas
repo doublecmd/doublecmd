@@ -2087,7 +2087,7 @@ begin
         ChangePathToChild(FSFile)
       else if not FolderMode then
         try
-          uFileSourceUtil.ChooseFile(Self, FSFile);
+          uFileSourceUtil.ChooseFile(Self, FileSource, FSFile);
         except
           on e: EInvalidCommandLine do
             MessageDlg(rsMsgInvalidCommandLine, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);

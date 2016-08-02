@@ -13,7 +13,7 @@ uses
    This function may add/remove a file source from the view,
    change path, execute a file or a command, etc.
 }
-procedure ChooseFile(aFileView: TFileView; aFile: TFile);
+procedure ChooseFile(aFileView: TFileView; aFileSource: IFileSource; aFile: TFile);
 
 {en
    Checks if choosing the given file will change to another file source,
@@ -21,11 +21,11 @@ procedure ChooseFile(aFileView: TFileView; aFile: TFile);
    @returns @true if the file matched any rules and a new file source was created,
             @false otherwise, which means no action was taken.
 }
-function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean; overload;
+function ChooseFileSource(aFileView: TFileView; aFileSource: IFileSource; aFile: TFile): Boolean; overload;
 
 function ChooseFileSource(aFileView: TFileView; const aPath: String): Boolean; overload;
 
-function ChooseArchive(aFileView: TFileView; aFile: TFile; bForce: Boolean = False): Boolean;
+function ChooseArchive(aFileView: TFileView; aFileSource: IFileSource; aFile: TFile; bForce: Boolean = False): Boolean;
 
 procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);
 
@@ -53,14 +53,15 @@ uses
   uFileSourceOperationMessageBoxesUI,
   uFileProperty, URIParser;
 
-procedure ChooseFile(aFileView: TFileView; aFile: TFile);
+procedure ChooseFile(aFileView: TFileView; aFileSource: IFileSource;
+  aFile: TFile);
 var
   sCmd, sParams, sStartPath: String;
   Operation: TFileSourceExecuteOperation = nil;
   aFileCopy: TFile = nil;
 begin
   // First test for file sources.
-  if ChooseFileSource(aFileView, aFile) then
+  if ChooseFileSource(aFileView, aFileSource, aFile) then
     Exit;
 
   // For now work only for local files.
@@ -138,14 +139,15 @@ begin
     end;
 end;
 
-function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean;
+function ChooseFileSource(aFileView: TFileView; aFileSource: IFileSource;
+  aFile: TFile): Boolean;
 var
   FileSource: IFileSource;
   VfsModule: TVfsModule;
 begin
   Result := False;
 
-  if ChooseArchive(aFileView, aFile) then
+  if ChooseArchive(aFileView, aFileSource, aFile) then
     Exit(True);
 
   // Work only for TVfsFileSource.
@@ -220,13 +222,14 @@ begin
     end;
 end;
 
-function ChooseArchive(aFileView: TFileView; aFile: TFile; bForce: Boolean): Boolean;
+function ChooseArchive(aFileView: TFileView; aFileSource: IFileSource;
+  aFile: TFile; bForce: Boolean): Boolean;
 var
   FileSource: IFileSource;
 begin
   try
     // Check if there is a ArchiveFileSource for possible archive.
-    FileSource := GetArchiveFileSource(aFileView.FileSource, aFile, EmptyStr, bForce);
+    FileSource := GetArchiveFileSource(aFileSource, aFile, EmptyStr, bForce);
   except
     on E: Exception do
     begin
@@ -242,7 +245,7 @@ begin
   begin
     if not mbCompareFileNames(aFileView.CurrentPath, aFile.Path) then
     begin
-      if aFileView.FileSource.Properties * [fspDirectAccess, fspLinksToLocalFiles] <> [] then
+      if aFileSource.Properties * [fspDirectAccess, fspLinksToLocalFiles] <> [] then
         SetFileSystemPath(aFileView, aFile.Path);
     end;
     aFileView.AddFileSource(FileSource, FileSource.GetRootDir);
