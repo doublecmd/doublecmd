@@ -242,6 +242,7 @@ procedure StrDisposeW(var pStr : PWideChar);
 function StrLCopyW(Dest, Source: PWideChar; MaxLen: SizeInt): PWideChar;
 function StrPCopyW(Dest: PWideChar; const Source: WideString): PWideChar;
 function StrPLCopyW(Dest: PWideChar; const Source: WideString; MaxLen: Cardinal): PWideChar;
+function RPos(const Substr : UnicodeString; const Source : UnicodeString) : Integer; overload;
 
 {en
    Checks if a string begins with another string.
@@ -881,6 +882,33 @@ end;
 function StrPLCopyW(Dest: PWideChar; const Source: WideString; MaxLen: Cardinal): PWideChar;
 begin
   Result := StrLCopyW(Dest, PWideChar(Source), MaxLen);
+end;
+
+function RPos(const Substr: UnicodeString; const Source: UnicodeString): Integer;
+var
+  c : WideChar;
+  pc, pc2 : PWideChar;
+  MaxLen, llen : Integer;
+begin
+  Result:= 0;
+  llen:= Length(SubStr);
+  maxlen:= Length(Source);
+  if (llen > 0) and (maxlen > 0) and (llen <= maxlen) then
+   begin
+     pc:= @Source[maxlen];
+     pc2:= @Source[llen - 1];
+     c:= Substr[llen];
+     while pc >= pc2 do
+      begin
+        if (c = pc^) and
+           (CompareByte(Substr[1], PByte(pc - llen + 1)^, llen * SizeOf(WideChar)) = 0) then
+         begin
+           Result:= PWideChar(pc - llen + 1) - PWideChar(@source[1]) + 1;
+           Exit;
+         end;
+        Dec(pc);
+      end;
+   end;
 end;
 
 function StrBegins(const StringToCheck, StringToMatch: String): Boolean;
