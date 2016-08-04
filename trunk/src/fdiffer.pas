@@ -191,6 +191,7 @@ type
     procedure edtFileNameLeftAcceptFileName(Sender: TObject; var Value: String);
     procedure edtFileNameRightAcceptFileName(Sender: TObject; var Value: String);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -723,6 +724,30 @@ end;
 procedure TfrmDiffer.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
+end;
+
+procedure TfrmDiffer.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+var
+  Result: TMyMsgResult;
+begin
+  if SynDiffEditLeft.Modified then
+  begin
+    Result:= msgYesNoCancel(Format(rsMsgFileChangedSave, [edtFileNameLeft.FileName]));
+    CanClose:= Result <> mmrCancel;
+    if Result = mmrYes then
+      actSaveLeft.Execute
+    else if Result = mmrCancel then
+      Exit;
+  end;
+  if SynDiffEditRight.Modified then
+  begin
+    Result:= msgYesNoCancel(Format(rsMsgFileChangedSave, [edtFileNameRight.FileName]));
+    CanClose:= Result <> mmrCancel;
+    if Result = mmrYes then
+      actSaveRight.Execute
+    else if Result = mmrCancel then
+      Exit;
+  end;
 end;
 
 procedure TfrmDiffer.Clear(bLeft, bRight: Boolean);

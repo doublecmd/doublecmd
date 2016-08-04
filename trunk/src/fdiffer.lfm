@@ -8,6 +8,7 @@ object frmDiffer: TfrmDiffer
   ClientWidth = 760
   Menu = MainMenu
   OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
