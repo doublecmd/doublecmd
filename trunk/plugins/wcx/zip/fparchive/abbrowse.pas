@@ -525,7 +525,7 @@ begin
   if Result = atUnknown then begin
     { Guess archive type based on it's extension }
     Ext := UpperCase(ExtractFileExt(FN));
-    if (Ext = '.ZIP') or (Ext = '.JAR') then
+    if (Ext = '.ZIP') or (Ext = '.JAR') or (Ext = '.ZIPX') then
       Result := atZip
     else if (Ext = '.EXE') then
       Result := atSelfExtZip
