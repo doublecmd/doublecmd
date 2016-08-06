@@ -36,6 +36,7 @@ type
 
   TfrmOptionsFilesViews = class(TOptionsEditor)
     cbDateTimeFormat: TComboBox;
+    cbDblClickToParent: TCheckBox;
     cbHighlightUpdatedFiles: TCheckBox;
     cbDirBrackets: TCheckBox;
     cbListFilesInThread: TCheckBox;
@@ -152,6 +153,7 @@ begin
   cbDelayLoadingTabs.Checked:= gDelayLoadingTabs;
   cbHighlightUpdatedFiles.Checked:= gHighlightUpdatedFiles;
   cbInplaceRename.Checked := gInplaceRename;
+  cbDblClickToParent.Checked := gDblClickToParent;
 end;
 
 function TfrmOptionsFilesViews.Save: TOptionsEditorSaveFlags;
@@ -190,6 +192,7 @@ begin
   gDelayLoadingTabs := cbDelayLoadingTabs.Checked;
   gHighlightUpdatedFiles := cbHighlightUpdatedFiles.Checked;
   gInplaceRename := cbInplaceRename.Checked;
+  gDblClickToParent := cbDblClickToParent.Checked;
 
   Result := [];
 end;

@@ -242,6 +242,7 @@ var
   gLynxLike:Boolean;
   gFirstTextSearch: Boolean;
 
+  { Mouse }
   gMouseSelectionEnabled: Boolean;
   gMouseSelectionButton: Integer;
 
@@ -416,6 +417,7 @@ var
   gShowWarningMessages,
   gDirBrackets,
   gInplaceRename,
+  gDblClickToParent,
   gGoToRoot: Boolean;
   gShowToolTipMode: Boolean;
   gThumbSize: TSize;
@@ -1535,6 +1537,7 @@ begin
   gSpaceMovesDown := False;
   gDirBrackets := True;
   gInplaceRename := False;
+  gDblClickToParent := False;
   gHotDirAddTargetOrNot := False;
   gHotDirFullExpandOrNot:=False;
   gShowPathInPopup:=FALSE;
@@ -2713,6 +2716,7 @@ begin
       gSpaceMovesDown := GetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
       gDirBrackets := GetValue(Node, 'DirBrackets', gDirBrackets);
       gInplaceRename := GetValue(Node, 'InplaceRename', gInplaceRename);
+      gDblClickToParent := GetValue(Node, 'DblClickToParent', gDblClickToParent);
       gHotDirAddTargetOrNot:=GetValue(Node, 'HotDirAddTargetOrNot', gHotDirAddTargetOrNot);
       gHotDirFullExpandOrNot:=GetValue(Node, 'HotDirFullExpandOrNot', gHotDirFullExpandOrNot);
       gShowPathInPopup:=GetValue(Node, 'ShowPathInPopup', gShowPathInPopup);
@@ -3207,6 +3211,7 @@ begin
     SetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
     SetValue(Node, 'DirBrackets', gDirBrackets);
     SetValue(Node, 'InplaceRename', gInplaceRename);
+    SetValue(Node, 'DblClickToParent', gDblClickToParent);
     SetValue(Node, 'HotDirAddTargetOrNot',gHotDirAddTargetOrNot);
     SetValue(Node, 'HotDirFullExpandOrNot', gHotDirFullExpandOrNot);
     SetValue(Node, 'ShowPathInPopup', gShowPathInPopup);

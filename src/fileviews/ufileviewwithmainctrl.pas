@@ -433,6 +433,10 @@ begin
     Application.ProcessMessages;
 {$ENDIF}
     ChooseFile(FFiles[FileIndex]);
+  end
+  else if gDblClickToParent then
+  begin
+    ChangePathToParent(True);
   end;
 
 {$IFDEF LCLGTK2}
