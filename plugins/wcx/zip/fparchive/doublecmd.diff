@@ -369,10 +369,10 @@ Index: AbBrowse.pas
 +  AbXzTyp,
 +  DCOSUtils,
 +  DCClassesUtf8;
- 
+
  { TAbBaseBrowser implementation ======================================= }
- 
-@@ -515,7 +519,7 @@
+
+@@ -515,66 +519,84 @@
  function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType;
  var
    Ext : string;
@@ -381,10 +381,9 @@ Index: AbBrowse.pas
  begin
    Result := AssertType;
    if Result = atUnknown then begin
-@@ -522,59 +526,77 @@
      { Guess archive type based on it's extension }
      Ext := UpperCase(ExtractFileExt(FN));
-     if (Ext = '.ZIP') or (Ext = '.JAR') then
+-    if (Ext = '.ZIP') or (Ext = '.JAR') then
 -      Result := atZip;
 -    if (Ext = '.EXE') then
 -      Result := atSelfExtZip;
@@ -400,6 +399,7 @@ Index: AbBrowse.pas
 -      Result := atBzip2;
 -    if (Ext = '.TBZ') then
 -      Result := atBzippedTar;
++    if (Ext = '.ZIP') or (Ext = '.JAR') or (Ext = '.ZIPX') then
 +      Result := atZip
 +    else if (Ext = '.EXE') then
 +      Result := atSelfExtZip
@@ -441,7 +441,7 @@ Index: AbBrowse.pas
 -        case Result of
 -          atZip : begin
 -            Result := VerifyZip(FS);
-+    try  
++    try
 +      FS := TFileStreamEx.Create(FN, fmOpenRead or fmShareDenyNone);
 +      try
 +        if Result <> atUnknown then begin
@@ -2418,17 +2418,28 @@ Index: AbZipPrc.pas
 ===================================================================
 --- AbZipPrc.pas	(revision 512)
 +++ AbZipPrc.pas	(working copy)
-@@ -67,7 +67,8 @@
+@@ -67,7 +67,9 @@
    AbVMStrm,
    AbDfBase,
    AbDfEnc,
 -  AbSpanSt;
 +  AbSpanSt,
++  AbXzPrc,
 +  DCClassesUtf8;
- 
- 
+
+
  { ========================================================================== }
-@@ -294,22 +295,14 @@
+@@ -209,6 +211,9 @@
+   try
+     if InStream.Size > 0 then begin
+
++      if SameText(ExtractFileExt(Sender.ArchiveName), '.zipx') then
++        DoCompressXz(ZipArchive, Item, DestStrm, InStream)
++      else
+       { determine how to store Item based on specified CompressionMethodToUse }
+       case ZipArchive.CompressionMethodToUse of
+         smDeflated : begin
+@@ -294,22 +299,14 @@
                   OutStream : TStream );
  var
    UncompressedStream : TStream;

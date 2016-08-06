@@ -68,6 +68,7 @@ uses
   AbDfBase,
   AbDfEnc,
   AbSpanSt,
+  AbXzPrc,
   DCClassesUtf8;
 
 
@@ -210,6 +211,9 @@ begin
   try
     if InStream.Size > 0 then begin
 
+      if SameText(ExtractFileExt(Sender.ArchiveName), '.zipx') then
+        DoCompressXz(ZipArchive, Item, DestStrm, InStream)
+      else
       { determine how to store Item based on specified CompressionMethodToUse }
       case ZipArchive.CompressionMethodToUse of
         smDeflated : begin
