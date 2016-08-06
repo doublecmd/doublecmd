@@ -4599,7 +4599,7 @@ end;
 
 procedure TfrmMain.ToggleFullscreenConsole;
 begin
-  if  nbConsole.Height < (nbConsole.Height + pnlNotebooks.Height) then
+  if  nbConsole.Height < (nbConsole.Height + pnlNotebooks.Height - 1) then
     begin
       nbConsole.Height := nbConsole.Height + pnlNotebooks.Height;
     end
