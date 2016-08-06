@@ -1445,6 +1445,7 @@ msgstr "속성"
 #: tfrmfinddlg.actcancel.caption
 #, fuzzy
 #| msgid "actCancel"
+msgctxt "tfrmfinddlg.actcancel.caption"
 msgid "Cancel"
 msgstr "실행취소"
 
@@ -1455,12 +1456,14 @@ msgstr ""
 #: tfrmfinddlg.actclose.caption
 #, fuzzy
 #| msgid "actClose"
+msgctxt "tfrmfinddlg.actclose.caption"
 msgid "Close"
 msgstr "실행닫기"
 
 #: tfrmfinddlg.actedit.caption
 #, fuzzy
 #| msgid "actEdit"
+msgctxt "tfrmfinddlg.actedit.caption"
 msgid "Edit"
 msgstr "실행편집"
 
@@ -1479,6 +1482,7 @@ msgstr "파일로 가기 실행"
 #: tfrmfinddlg.actintellifocus.caption
 #, fuzzy
 #| msgid "actIntelliFocus"
+msgctxt "tfrmfinddlg.actintellifocus.caption"
 msgid "Find Data"
 msgstr "actIntelliFocus"
 
@@ -1527,12 +1531,14 @@ msgstr "actPageStandard"
 #: tfrmfinddlg.actstart.caption
 #, fuzzy
 #| msgid "actStart"
+msgctxt "tfrmfinddlg.actstart.caption"
 msgid "Start"
 msgstr "actStart"
 
 #: tfrmfinddlg.actview.caption
 #, fuzzy
 #| msgid "actView"
+msgctxt "tfrmfinddlg.actview.caption"
 msgid "View"
 msgstr "actView"
 
@@ -1731,6 +1737,7 @@ msgid "Files"
 msgstr "파일"
 
 #: tfrmfinddlg.gbfinddata.caption
+msgctxt "tfrmfinddlg.gbfinddata.caption"
 msgid "Find Data"
 msgstr "자료 찾기"
 
@@ -5854,6 +5861,10 @@ msgstr "아래는 미리보기임. 커서를 움직여서 실제 적용을 바�
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
 msgid "T&ext Color:"
 msgstr "&텍스트 색상:"
+
+#: tfrmoptionsfilesviews.cbdblclicktoparent.caption
+msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
+msgstr ""
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
 msgid "Do&n't load file list until a tab is activated"

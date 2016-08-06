@@ -5829,6 +5829,10 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
 msgid "T&ext Color:"
 msgstr "テキストの色(&e)："
 
+#: tfrmoptionsfilesviews.cbdblclicktoparent.caption
+msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
+msgstr "ファイルリストの余白部分にダブルクリックした際に親フォルダへ遷移するか(&p)"
+
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
 msgid "Do&n't load file list until a tab is activated"
 msgstr "タブが有効になるまではファイルリストをロードしない(&n)"
