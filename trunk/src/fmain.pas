@@ -630,6 +630,7 @@ type
     procedure OnUniqueInstanceMessage(Sender: TObject; Params: TCommandLineParams);
     procedure tbPasteClick(Sender: TObject);
     procedure AllProgressOnUpdateTimer(Sender: TObject);
+    procedure OnCmdBoxInput(ACmdBox: TCmdBox; AInput: String);
 {$IFDEF LCLQT}
   private
     QEventHook: QObject_hookH;
@@ -4561,6 +4562,12 @@ begin
   end; // if Destination<>tclNone then
 end;
 
+procedure TfrmMain.OnCmdBoxInput(ACmdBox: TCmdBox; AInput: String);
+begin
+  Cons.Terminal.Write_pty(AInput + LineEnding);
+  ACmdBox.StartRead(clWhite, clBlack, ACmdBox.Hint, clWhite, clBlack);
+end;
+
 procedure TfrmMain.ToggleConsole;
 begin
   if gTermWindow then
@@ -4572,7 +4579,23 @@ begin
         cmdConsole.Align:= alClient;
         cmdConsole.AutoFollow:= True;
         cmdConsole.LineCount:= 256;
+        cmdConsole.ShowHint:= False;
+        cmdConsole.CaretType:= cartSubBar;
+        cmdConsole.OnInput:= @OnCmdBoxInput;
+        ShowScrollBar(cmdConsole.Handle, SB_Horz, False);
         FontOptionsToFont(gFonts[dcfConsole], cmdConsole.Font);
+        cmdConsole.Hint:= Format(fmtCommandPath, [GetComputerNetName]);
+      end;
+      if gCmdLine then
+      begin
+        cmdConsole.Tag := 0;
+        cmdConsole.StopRead;
+      end
+      else if cmdConsole.Tag = 0 then
+      begin
+        cmdConsole.Tag := MaxInt;
+        cmdConsole.Writeln(EmptyStr);
+        cmdConsole.StartRead(clWhite, clBlack, cmdConsole.Hint, clWhite, clBlack);
       end;
       if not Assigned(Cons) then
         begin
@@ -4602,10 +4625,12 @@ begin
   if  nbConsole.Height < (nbConsole.Height + pnlNotebooks.Height - 1) then
     begin
       nbConsole.Height := nbConsole.Height + pnlNotebooks.Height;
+      if (not gCmdLine) and cmdConsole.CanFocus then cmdConsole.SetFocus;
     end
   else
     begin
       nbConsole.Height := 0;
+      if (not gCmdLine) and ActiveFrame.CanFocus then ActiveFrame.SetFocus;
     end;
 end;
 
@@ -4862,7 +4887,8 @@ begin
     FontOptionsToFont(gFonts[dcfLog], seLogWindow.Font);
 
     // Command line
-    pnlCommand.Visible := gCmdLine;
+    pnlCmdLine.Visible := gCmdLine;
+    pnlCommand.Visible := gCmdLine or gTermWindow;
 
     // Align command line and terminal window
     pnlCommand.Top := -Height;
@@ -5453,7 +5479,7 @@ end;
 
 function TfrmMain.IsCommandLineVisible: Boolean;
 begin
-  Result := (edtCommand.Visible and pnlCommand.Visible);
+  Result := (edtCommand.Visible and pnlCommand.Visible and pnlCmdLine.Visible);
 end;
 
 function TfrmMain.FindMatchingDrive(Address, Path: String): Integer;
