@@ -204,7 +204,6 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       Width = 124
       BorderSpacing.Top = 2
       Caption = 'Show te&rminal window'
-      OnChange = cbTermWindowChange
       TabOrder = 18
     end
     object cbFreespaceInd: TCheckBox

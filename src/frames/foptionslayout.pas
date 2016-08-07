@@ -60,7 +60,6 @@ type
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbShowDriveFreeSpaceChange(Sender: TObject);
     procedure cbShowMainToolBarChange(Sender: TObject);
-    procedure cbTermWindowChange(Sender: TObject);
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -95,21 +94,6 @@ begin
   cbFlatToolBar.Enabled := cbShowMainToolBar.Checked;
 end;
 
-procedure TfrmOptionsLayout.cbTermWindowChange(Sender: TObject);
-begin
-  if cbTermWindow.Checked then
-    begin
-      cbShowCmdLine.Tag:= Integer(cbShowCmdLine.Checked);
-      cbShowCmdLine.Checked:= True;
-      cbShowCmdLine.Enabled:= False;
-    end
-  else
-    begin
-      cbShowCmdLine.Checked:= Boolean(cbShowCmdLine.Tag);
-      cbShowCmdLine.Enabled:= True;
-    end;
-end;
-
 class function TfrmOptionsLayout.GetIconIndex: Integer;
 begin
   Result := 7;
@@ -133,8 +117,7 @@ begin
   cbShowCurDir.Checked := gCurDir;
   cbShowTabHeader.Checked := gTabHeader;
   cbShowStatusBar.Checked := gStatusBar;
-  cbShowCmdLine.Checked := gCmdLine or gTermWindow;
-  cbShowCmdLine.Enabled:= not gTermWindow;
+  cbShowCmdLine.Checked := gCmdLine;
   cbShowKeysPanel.Checked := gKeyButtons;
   cbFlatInterface.Checked := gInterfaceFlat;
   cbLogWindow.Checked := gLogWindow;
