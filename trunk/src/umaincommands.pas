@@ -552,7 +552,10 @@ begin
     if edtCommand.Visible then
     begin
       if not (gCmdLine and frmMain.IsCommandLineVisible) then
+      begin
         pnlCommand.Show;
+        pnlCmdLine.Show;
+      end;
       edtCommand.SetFocus;
       if bNextCmdLine then
       begin
@@ -2470,6 +2473,7 @@ begin
     if (not gCmdLine) and (frmMain.IsCommandLineVisible = False) then
     begin
       frmMain.pnlCommand.Show;
+      frmMain.pnlCmdLine.Show;
     end;
 
     frmMain.edtCommand.SetFocus;
