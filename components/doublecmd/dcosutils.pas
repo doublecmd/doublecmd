@@ -274,20 +274,22 @@ var
 begin
   Result := False;
   if mbFileExists(sFileName) and (mbFileSize(sFileName) >= SizeOf(Sign)) then
-    begin
-      fsExeLib := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
-      try
-        {$IFDEF MSWINDOWS}
-        Sign := fsExeLib.ReadWord;
-        Result := (Sign = $5A4D);
-        {$ELSE}
-        Sign := fsExeLib.ReadDWord;
-        Result := (Sign = $464C457F);
-        {$ENDIF}
-      finally
-        fsExeLib.Free;
-      end;
+  try
+    fsExeLib := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
+    try
+      {$IFDEF MSWINDOWS}
+      Sign := fsExeLib.ReadWord;
+      Result := (Sign = $5A4D);
+      {$ELSE}
+      Sign := fsExeLib.ReadDWord;
+      Result := (Sign = $464C457F);
+      {$ENDIF}
+    finally
+      fsExeLib.Free;
     end;
+  except
+    Result := False;
+  end;
 end;
 
 function FileIsReadOnly(iAttr: TFileAttrs): Boolean;
