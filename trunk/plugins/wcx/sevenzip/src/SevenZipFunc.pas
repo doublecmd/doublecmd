@@ -356,7 +356,7 @@ begin
         FileName := WideString(AddList);
         FileNameUTF8:= Utf16ToUtf8(WideString(SrcPath + FileName));
         if FileName[Length(FileName)] = PathDelim then
-          Archive.AddDirectory(FilePath + FileName, FileNameUTF8)
+          Archive.AddDirectory(FilePath + Copy(FileName, 1, Length(FileName) - 1), FileNameUTF8)
         else
           Archive.AddFile(FilePath + FileName, FileNameUTF8);
         if (AddList + Length(FileName) + 1)^ = #0 then
