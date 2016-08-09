@@ -4990,7 +4990,10 @@ procedure TfrmMain.edtCommandExit(Sender: TObject);
 begin
   // Hide command line if it was temporarily shown.
   if (not gCmdLine) and IsCommandLineVisible then
-    pnlCommand.Hide;
+  begin
+    pnlCmdLine.Visible := False;
+    pnlCommand.Visible := gTermWindow;
+  end;
 end;
 
 procedure TfrmMain.tbChangeDirClick(Sender: TObject);
