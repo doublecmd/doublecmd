@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-06-23 16:38+0400\n"
+"PO-Revision-Date: 2016-08-10 16:38+0400\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -759,7 +759,7 @@ msgstr "&Файл"
 #: tfrmdiffer.mnuoptions.caption
 msgctxt "TFRMDIFFER.MNUOPTIONS.CAPTION"
 msgid "&Options"
-msgstr "&Настройка"
+msgstr "&Настройки"
 
 #: tfrmedithotkey.btnaddshortcut.hint
 msgid "Add new shortcut to sequence"
@@ -804,7 +804,7 @@ msgstr "О программе..."
 
 #: tfrmeditor.actconfhigh.caption
 msgid "&Configuration"
-msgstr "&Настройка"
+msgstr "&Настройки"
 
 #: tfrmeditor.actconfhigh.hint
 msgctxt "tfrmeditor.actconfhigh.hint"
@@ -3063,7 +3063,7 @@ msgstr "&Команды"
 
 #: tfrmmain.mnuconfig.caption
 msgid "C&onfiguration"
-msgstr "&Настройка"
+msgstr "&Настройки"
 
 #: tfrmmain.mnucontextline1.caption
 msgctxt "tfrmmain.mnucontextline1.caption"
@@ -3730,7 +3730,7 @@ msgstr "&ОК"
 #: tfrmoptions.caption
 msgctxt "tfrmoptions.caption"
 msgid "Options"
-msgstr "Настройка"
+msgstr "Настройки"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
@@ -3784,7 +3784,7 @@ msgstr "Пока&зывать консольный вывод"
 #: tfrmoptionsarchivers.gbarchiveroptions.caption
 msgctxt "TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION"
 msgid "Options"
-msgstr "Настройка"
+msgstr "Настройки"
 
 #: tfrmoptionsarchivers.lblarchiveadd.caption
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEADD.CAPTION"
@@ -5855,7 +5855,7 @@ msgstr "&Текст:"
 
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr ""
+msgstr "Разрешить переход в родительский каталог двойным кликом по свободному месту в файловой панели"
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
 msgid "Do&n't load file list until a tab is activated"
