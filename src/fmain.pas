@@ -1662,6 +1662,33 @@ begin
     begin
       if Assigned(TargetFileSource) then
       begin
+
+{$IF DEFINED(MSWINDOWS)}
+        // If drop from external application and from temporary directory then
+        // in most cases it is a drop from archiver application that extracting
+        // files via temporary directory and requires run operation in the main thread
+        // See http://doublecmd.sourceforge.net/mantisbt/view.php?id=1124
+        if (GetDragDropType = ddtExternal) and (Operation in [ddoMove, ddoCopy]) and
+           IsInPath(GetTempDir, DropParams.Files[0].FullPath, True, True) then
+        begin
+          if gShowDialogOnDragDrop then
+          begin
+            case Operation of
+              ddoMove: SourceFileName := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr, DropParams.Files);
+              ddoCopy: SourceFileName := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, DropParams.Files);
+            end;
+            if MessageDlg(SourceFileName, mtConfirmation, [mbOK, mbCancel], 0) <> mrOK then
+              Exit;
+          end;
+          case Operation of
+            ddoMove: Self.MoveFiles(TFileSystemFileSource.GetFileSource,
+                           TargetFileSource, Files, TargetPath, False, ModalQueueId);
+            ddoCopy: Self.CopyFiles(TFileSystemFileSource.GetFileSource,
+                           TargetFileSource, Files, TargetPath, False, ModalQueueId);
+          end;
+        end else
+{$ENDIF}
+
         case Operation of
 
           ddoMove:

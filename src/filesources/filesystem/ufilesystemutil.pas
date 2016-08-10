@@ -84,6 +84,7 @@ type
     AbortOperation: TAbortOperationFunction;
     CheckOperationState: TCheckOperationStateFunction;
     UpdateStatistics: TUpdateStatisticsFunction;
+    AppProcessMessages: TAppProcessMessagesFunction;
     MoveOrCopy: TFileSystemOperationHelperMoveOrCopy;
 
     procedure ShowError(sMessage: String);
@@ -113,6 +114,7 @@ type
   public
     constructor Create(AskQuestionFunction: TAskQuestionFunction;
                        AbortOperationFunction: TAbortOperationFunction;
+                       AppProcessMessagesFunction: TAppProcessMessagesFunction;
                        CheckOperationStateFunction: TCheckOperationStateFunction;
                        UpdateStatisticsFunction: TUpdateStatisticsFunction;
                        OperationThread: TThread;
@@ -302,17 +304,18 @@ end;
 
 // ----------------------------------------------------------------------------
 
-constructor TFileSystemOperationHelper.Create(AskQuestionFunction: TAskQuestionFunction;
-                                         AbortOperationFunction: TAbortOperationFunction;
-                                         CheckOperationStateFunction: TCheckOperationStateFunction;
-                                         UpdateStatisticsFunction: TUpdateStatisticsFunction;
-                                         OperationThread: TThread;
-                                         Mode: TFileSystemOperationHelperMode;
-                                         TargetPath: String;
-                                         StartingStatistics: TFileSourceCopyOperationStatistics);
+constructor TFileSystemOperationHelper.Create(
+  AskQuestionFunction: TAskQuestionFunction;
+  AbortOperationFunction: TAbortOperationFunction;
+  AppProcessMessagesFunction: TAppProcessMessagesFunction;
+  CheckOperationStateFunction: TCheckOperationStateFunction;
+  UpdateStatisticsFunction: TUpdateStatisticsFunction;
+  OperationThread: TThread; Mode: TFileSystemOperationHelperMode;
+  TargetPath: String; StartingStatistics: TFileSourceCopyOperationStatistics);
 begin
   AskQuestion := AskQuestionFunction;
   AbortOperation := AbortOperationFunction;
+  AppProcessMessages := AppProcessMessagesFunction;
   CheckOperationState := CheckOperationStateFunction;
   UpdateStatistics := UpdateStatisticsFunction;
 
@@ -687,6 +690,7 @@ begin
           UpdateStatistics(FStatistics);
         end;
 
+        AppProcessMessages;
         CheckOperationState; // check pause and stop
       end;//while
 
@@ -834,6 +838,7 @@ begin
             begin
               Result := False;
               CountStatistics(CurrentSubNode);
+              AppProcessMessages;
               CheckOperationState;
               Continue;
             end;
@@ -849,6 +854,7 @@ begin
     if not ProcessedOk then
       Result := False;
 
+    AppProcessMessages;
     CheckOperationState;
   end;
 end;
