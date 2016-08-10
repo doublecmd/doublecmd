@@ -1197,6 +1197,7 @@ end;"/>
       <Unit146>
         <Filename Value="filesources\filesystem\ufilesystemmoveoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemMoveOperation"/>
       </Unit146>
       <Unit147>
         <Filename Value="filesources\filesystem\ufilesystemsetfilepropertyoperation.pas"/>
@@ -1392,6 +1393,7 @@ end;"/>
       <Unit187>
         <Filename Value="filesources\wfxplugin\uwfxpluginmoveoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWfxPluginMoveOperation"/>
       </Unit187>
       <Unit188>
         <Filename Value="filesources\wfxplugin\uwfxpluginsetfilepropertyoperation.pas"/>

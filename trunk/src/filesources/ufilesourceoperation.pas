@@ -79,6 +79,7 @@ type
              ) : TFileSourceOperationUIResponse of object;
   TAbortOperationFunction = procedure of object;
   TCheckOperationStateFunction = procedure of object;
+  TAppProcessMessagesFunction = function(CheckState: Boolean = False): Boolean of object;
 
   TFileSourceOperationClass = class of TFileSourceOperation;
   {en

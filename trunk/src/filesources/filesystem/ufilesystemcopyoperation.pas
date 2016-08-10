@@ -166,6 +166,7 @@ begin
   FOperationHelper := TFileSystemOperationHelper.Create(
                         @AskQuestion,
                         @RaiseAbortOperation,
+                        @AppProcessMessages,
                         @CheckOperationState,
                         @UpdateStatistics,
                         Thread,
