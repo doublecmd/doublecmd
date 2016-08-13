@@ -977,7 +977,7 @@ uses
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
   fOptionsToolbarBase, fOptionsToolbarMiddle, fEditor, uColumns, StrUtils, uSysFolders,
-  uColumnsFileView, dmHigh, uFileSourceOperationMisc
+  uColumnsFileView, dmHigh, uFileSourceOperationMisc, uFileViewWithMainCtrl
 {$IFDEF MSWINDOWS}
   , uShellFileSource, uNetworkThread
 {$ENDIF}
@@ -1207,7 +1207,7 @@ begin
   nbLeft := CreateNotebook(pnlLeft, fpLeft);
   nbRight := CreateNotebook(pnlRight, fpRight);
 
-  FDrivesListPopup := TDrivesListPopup.Create(Self, Self);
+  FDrivesListPopup := TDrivesListPopup.Create(Self);
   FDrivesListPopup.OnDriveSelected := @DriveListDriveSelected;
   FDrivesListPopup.OnClose := @DriveListClose;
 
@@ -6870,8 +6870,10 @@ end;
 
 procedure TfrmMain.ShowDrivesList(APanel: TFilePanelSelect);
 var
+  AFileView: TFileView;
+  AButton: TSpeedButton;
+  ARect: TRect;
   p: TPoint;
-  ADriveIndex: Integer;
 begin
   if tb_activate_panel_on_click in gDirTabOptions then
     SetActiveFrame(APanel);
@@ -6879,19 +6881,30 @@ begin
   case APanel of
     fpLeft:
       begin
-        p := Classes.Point(btnLeftDrive.Left, btnLeftDrive.Height);
-        p := pnlLeftTools.ClientToScreen(p);
-        ADriveIndex := btnLeftDrive.Tag;
+        AButton := btnLeftDrive;
+        AFileView := FrameLeft;
       end;
     fpRight:
       begin
-        p := Classes.Point(btnRightDrive.Left, btnRightDrive.Height);
-        p := pnlRightTools.ClientToScreen(p);
-        ADriveIndex := btnRightDrive.Tag;
+        AButton := btnRightDrive;
+        AFileView := FrameRight;
       end;
   end;
-  p := ScreenToClient(p);
-  FDrivesListPopup.Show(p, APanel, ADriveIndex);
+
+  p := AButton.ClientToScreen(Classes.Point(0, AButton.Height));
+  case gDrivesListPositionMode of
+    dlpActiveRow:
+      if AFileView is TFileViewWithMainCtrl then
+      begin
+        ARect := TFileViewWithMainCtrl(AFileView).GetActiveFileScreenRect;
+        if (ARect.Width > 0) and (ARect.Height > 0) then
+          p := Classes.Point(ARect.Left + Round(ARect.Width * 0.2), ARect.Top);
+      end;
+    dlpMouseCursor:
+      p := Mouse.CursorPos;
+  end;
+
+  FDrivesListPopup.Show(p, APanel, AButton.Tag);
 end;
 
 procedure TfrmMain.HideToTray;

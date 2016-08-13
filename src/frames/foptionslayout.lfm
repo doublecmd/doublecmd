@@ -1,8 +1,8 @@
 inherited frmOptionsLayout: TfrmOptionsLayout
-  Height = 550
+  Height = 580
   Width = 784
   HelpKeyword = '/configuration.html#ConfigLayout'
-  ClientHeight = 550
+  ClientHeight = 580
   ClientWidth = 784
   DesignLeft = 276
   DesignTop = 44
@@ -12,7 +12,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 530
+    Height = 560
     Top = 6
     Width = 772
     Anchors = [akTop, akLeft, akRight]
@@ -21,7 +21,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
     Caption = ' Screen layout '
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 512
+    ClientHeight = 542
     ClientWidth = 768
     TabOrder = 0
     object cbShowMainMenu: TCheckBox
@@ -65,6 +65,33 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       BorderSpacing.Top = 2
       Caption = 'Show drives list bu&tton'
       TabOrder = 6
+    end
+    object lblDrivesListPosition: TLabel
+      AnchorSideTop.Control = cbPanelOfOperations
+      AnchorSideTop.Side = asrBottom
+      Left = 12
+      Height = 15
+      Top = 512
+      Width = 104
+      BorderSpacing.Top = 6
+      Caption = 'Drives list position'
+      FocusControl = cmbDrivesListPosition
+      ParentColor = False
+    end
+    object cmbDrivesListPosition: TComboBox
+      AnchorSideLeft.Control = lblDrivesListPosition
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbPanelOfOperations
+      AnchorSideTop.Side = asrBottom
+      Left = 128
+      Height = 23
+      Top = 508
+      Width = 170
+      BorderSpacing.Left = 12
+      BorderSpacing.Top = 2
+      ItemHeight = 15
+      Style = csDropDownList
+      TabOrder = 21
     end
     object cbShowCurDir: TCheckBox
       AnchorSideTop.Control = cbShowTabs
