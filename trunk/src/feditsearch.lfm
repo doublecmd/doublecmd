@@ -13,6 +13,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
+  Position = poOwnerFormCenter
   SessionProperties = 'Left;Top;Width;Height'
   LCLVersion = '1.6.0.4'
   object lblSearchFor: TLabel
