@@ -9,7 +9,6 @@ object frmGioAuthDialog: TfrmGioAuthDialog
   ChildSizing.TopBottomSpacing = 8
   ClientHeight = 215
   ClientWidth = 375
-  Constraints.MinHeight = 215
   Constraints.MinWidth = 375
   Position = poScreenCenter
   LCLVersion = '1.6.0.4'
@@ -133,12 +132,12 @@ object frmGioAuthDialog: TfrmGioAuthDialog
     Left = 72
     Height = 72
     Top = 79
-    Width = 290
+    Width = 287
     AutoSize = True
     BorderSpacing.Top = 10
     BevelOuter = bvNone
     ClientHeight = 72
-    ClientWidth = 290
+    ClientWidth = 287
     Color = clForm
     ParentColor = False
     TabOrder = 0
@@ -149,7 +148,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
       Left = 0
       Height = 14
       Top = 3
-      Width = 72
+      Width = 69
       Caption = 'User name:'
       ParentColor = False
     end
@@ -158,7 +157,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = pnlUser
       AnchorSideRight.Side = asrBottom
-      Left = 90
+      Left = 87
       Height = 20
       Top = 0
       Width = 200
@@ -172,7 +171,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
       Left = 0
       Height = 14
       Top = 29
-      Width = 51
+      Width = 50
       Caption = 'Domain:'
       ParentColor = False
     end
@@ -182,7 +181,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = edtPassword
       AnchorSideRight.Side = asrBottom
-      Left = 90
+      Left = 87
       Height = 20
       Top = 26
       Width = 200
@@ -197,7 +196,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
       Left = 0
       Height = 14
       Top = 55
-      Width = 63
+      Width = 59
       Caption = 'Password:'
       ParentColor = False
     end
@@ -207,7 +206,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = edtUserName
       AnchorSideRight.Side = asrBottom
-      Left = 90
+      Left = 87
       Height = 20
       Top = 52
       Width = 200
@@ -227,7 +226,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
     Left = 72
     Height = 1
     Top = 8
-    Width = 290
+    Width = 287
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 16
     ParentColor = False
@@ -241,7 +240,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
     Left = 72
     Height = 40
     Top = 29
-    Width = 163
+    Width = 159
     AutoSize = True
     BorderSpacing.Left = 16
     BorderSpacing.Top = 20
@@ -249,7 +248,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 40
-    ClientWidth = 163
+    ClientWidth = 159
     Color = clForm
     ParentColor = False
     TabOrder = 1
@@ -257,7 +256,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
       Left = 0
       Height = 20
       Top = 0
-      Width = 163
+      Width = 159
       Caption = 'Connect anonymously'
       Checked = True
       OnChange = rbAnonymousChange
@@ -268,7 +267,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
       Left = 0
       Height = 20
       Top = 20
-      Width = 163
+      Width = 159
       Caption = 'Connect as user:'
       TabOrder = 0
     end
@@ -281,7 +280,7 @@ object frmGioAuthDialog: TfrmGioAuthDialog
     Left = 188
     Height = 28
     Top = 167
-    Width = 174
+    Width = 171
     Align = alNone
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 16
