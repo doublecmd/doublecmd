@@ -93,6 +93,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure RequestAlign(Data: PtrInt);
   private
     function GetSearchBackwards: boolean;
     function GetSearchCaseSensitive: boolean;
@@ -243,6 +244,15 @@ begin
         cbSearchText.Text:= cbSearchText.Items[0];
     end;
   cbSearchText.SelectAll;
+
+  // Fixes AutoSize under Qt
+  Application.QueueAsyncCall(@RequestAlign, 0);
+end;
+
+procedure TfrmEditSearchReplace.RequestAlign(Data: PtrInt);
+begin
+  Width := Width + 1;
+  Width := Width - 1;
 end;
 
 function TfrmEditSearchReplace.GetSearchBackwards: boolean;
