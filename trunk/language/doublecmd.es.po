@@ -1,10 +1,9 @@
-# Pepe López <kuidao@yahoo.es>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-07-27 02:20+0200\n"
+"PO-Revision-Date: 2016-08-11 19:15+0200\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -12,8 +11,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Español\n"
-"X-Generator: Gtranslator 2.91.7\n"
-"Plural-Forms: \n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -49,7 +46,7 @@ msgstr "Copiar a&tributos"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption
 msgid "Copy o&wnership"
-msgstr "Copiar &propietario"
+msgstr "Copiar p&ropietario"
 
 #: tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption
 msgid "Copy &permissions"
@@ -205,7 +202,7 @@ msgstr "SGID"
 
 #: tfrmattributesedit.cbsparse.caption
 msgid "S&parse"
-msgstr "Dis&perso"
+msgstr "Disper&so"
 
 #: tfrmattributesedit.cbsticky.caption
 msgctxt "tfrmattributesedit.cbsticky.caption"
@@ -346,7 +343,7 @@ msgstr "&Cancelar"
 
 #: tfrmcopydlg.btnoptions.caption
 msgid "O&ptions"
-msgstr "O&pciones"
+msgstr "&Opciones"
 
 #: tfrmcopydlg.btnsaveoptions.caption
 msgid "Sa&ve these options as default"
@@ -826,8 +823,6 @@ msgid "Delete"
 msgstr "Borrar"
 
 #: tfrmeditor.acteditfind.caption
-#, fuzzy
-#| msgid "&Find "
 msgctxt "tfrmeditor.acteditfind.caption"
 msgid "&Find"
 msgstr "&Buscar"
@@ -983,8 +978,6 @@ msgid "Save"
 msgstr "Guardar"
 
 #: tfrmeditor.actfilesaveas.caption
-#, fuzzy
-#| msgid "Save &As.."
 msgid "Save &As..."
 msgstr "Guardar &como..."
 
@@ -1190,7 +1183,7 @@ msgstr "&Cancelar"
 
 #: tfrmfileop.btnminimizetopanel.caption
 msgid "&To panel"
-msgstr "Al &panel"
+msgstr "&Al panel"
 
 #: tfrmfileop.btnviewoperations.caption
 msgid "&View all"
@@ -1216,11 +1209,11 @@ msgstr "&Cerrar"
 
 #: tfrmfileproperties.btnsetproperties.caption
 msgid "&Set properties"
-msgstr "Aplicar"
+msgstr "A&plicar"
 
 #: tfrmfileproperties.btnsetpropertiestoallfiles.caption
 msgid "Set to &all selected files"
-msgstr "Aplicar a selección"
+msgstr "Aplicar a &selección"
 
 #: tfrmfileproperties.btnskipfile.caption
 msgid "Ski&p this file"
@@ -1625,7 +1618,7 @@ msgstr "Expresiones &regulares"
 
 #: tfrmfinddlg.cbreplacetext.caption
 msgid "Re&place by"
-msgstr "Reem&plazar por"
+msgstr "Ree&mplazar por"
 
 #: tfrmfinddlg.cbselectedfiles.caption
 msgid "Selected directories and &files"
@@ -1853,7 +1846,7 @@ msgstr "Abajo"
 #: tfrmlinker.spbtnrem.caption
 msgctxt "tfrmlinker.spbtnrem.caption"
 msgid "&Remove"
-msgstr "Elimina&r"
+msgstr "&Eliminar"
 
 #: tfrmlinker.spbtnrem.hint
 msgctxt "TFRMLINKER.SPBTNREM.HINT"
@@ -2099,7 +2092,7 @@ msgstr "Editar campo de ruta encima de la lista de archivos"
 
 #: tfrmmain.actexchange.caption
 msgid "Swap &Panels"
-msgstr "Intercambiar &paneles"
+msgstr "Intercambiar paneles"
 
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
@@ -2120,7 +2113,7 @@ msgstr "Com&binar archivos..."
 
 #: tfrmmain.actfileproperties.caption
 msgid "Show &File Properties"
-msgstr "Mostrar &propiedades de archivo"
+msgstr "Mostrar p&ropiedades de archivo"
 
 #: tfrmmain.actfilespliter.caption
 msgid "Spl&it File..."
@@ -2212,7 +2205,7 @@ msgstr "&Cargar pestañas desde favoritas"
 
 #: tfrmmain.actloadselectionfromclip.caption
 msgid "Load Selection from Clip&board"
-msgstr "Cargar selección desde el &portapapeles"
+msgstr "Cargar selección desde el p&ortapapeles"
 
 #: tfrmmain.actloadselectionfromfile.caption
 msgid "&Load Selection from File..."
@@ -2313,7 +2306,7 @@ msgstr "&Opciones..."
 
 #: tfrmmain.actpackfiles.caption
 msgid "&Pack Files..."
-msgstr "Com&primir archivos..."
+msgstr "Co&mprimir archivos..."
 
 #: tfrmmain.actpanelssplitterperpos.caption
 msgid "Set splitter position"
@@ -3428,7 +3421,7 @@ msgstr "&Nombre del archivo"
 
 #: tfrmmultirename.lbreplace.caption
 msgid "Re&place..."
-msgstr "Reem&plazar..."
+msgstr "Ree&mplazar..."
 
 #: tfrmmultirename.lbstnb.caption
 msgid "S&tart Number"
@@ -3599,7 +3592,7 @@ msgstr "Pulsa en Aceptar cuando hayas cerrado el editor para efectuar los cambio
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
-msgstr "Seleccione una aplicación"
+msgstr "Selecciona una aplicación"
 
 #: tfrmopenwith.chkcustomcommand.caption
 msgid "Custom command"
@@ -3651,7 +3644,7 @@ msgstr "%u"
 
 #: tfrmoptions.btnapply.caption
 msgid "&Apply"
-msgstr "Aplicar"
+msgstr "A&plicar"
 
 #: tfrmoptions.btncancel.caption
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
@@ -3670,7 +3663,7 @@ msgstr "Opciones"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
-msgstr "Por favor, seleccione una de las subpáginas, esta página no contiene ningún ajuste."
+msgstr "Por favor, selecciona una de las subpáginas, esta página no contiene ningún ajuste."
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 msgid "A&uto Configure"
@@ -3748,7 +3741,7 @@ msgstr "Comenzar listado (opcional):"
 
 #: tfrmoptionsarchivers.lblarchiver.caption
 msgid "Arc&hiver:"
-msgstr "Com&presor:"
+msgstr "Co&mpresor:"
 
 #: tfrmoptionsarchivers.lbldescription.caption
 msgid "De&scription:"
@@ -3765,20 +3758,20 @@ msgstr "General"
 
 #: tfrmoptionsautorefresh.cbwatchattributeschange.caption
 msgid "When &size, date or attributes change"
-msgstr "Cuando tamaño, fecha o atributo&s cambian"
+msgstr "Cua&ndo tamaño, fecha o atributos cambian"
 
 #: tfrmoptionsautorefresh.cbwatchexcludedirs.caption
 msgctxt "tfrmoptionsautorefresh.cbwatchexcludedirs.caption"
 msgid "For the following &paths and their subdirectories:"
-msgstr "&Para las rutas siguientes y sus subcarpetas:"
+msgstr "Para la&s rutas siguientes y sus subcarpetas:"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
 msgid "When &files are created, deleted or renamed"
-msgstr "Cuando los archi&vos son creados, borrados o renombrados"
+msgstr "C&uando los archivos son creados, borrados o renombrados"
 
 #: tfrmoptionsautorefresh.cbwatchonlyforeground.caption
 msgid "When application is in the &background"
-msgstr "Cuando la aplicación está en segundo plano"
+msgstr "Cuan&do la aplicación está en segundo plano"
 
 #: tfrmoptionsautorefresh.gbautorefreshdisable.caption
 msgid "Disable auto-refresh"
@@ -5335,7 +5328,7 @@ msgstr "Acción:"
 
 #: tfrmoptionsfileassoc.lblcommand.caption
 msgid "&Command:"
-msgstr "&Comando:"
+msgstr "Co&mando:"
 
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
 msgctxt "tfrmoptionsfileassoc.lblexternalparameters.caption"
@@ -5698,7 +5691,7 @@ msgstr "Color del t&exto:"
 
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr ""
+msgstr "Cambiar a la carpeta superior al hacer doble clic en una zona vacía de la vista de archivos"
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
 msgid "Do&n't load file list until a tab is activated"
@@ -5861,7 +5854,7 @@ msgstr "..."
 
 #: tfrmoptionsfonts.lblconsolefont.caption
 msgid "&Console font"
-msgstr "Fuente de la &consola"
+msgstr "Fuente de la c&onsola"
 
 #: tfrmoptionsfonts.lbleditorfont.caption
 msgid "&Editor font"
@@ -5877,7 +5870,7 @@ msgstr "&Fuente principal"
 
 #: tfrmoptionsfonts.lblpatheditfont.caption
 msgid "Path font"
-msgstr "Ruta de la fuente"
+msgstr "Fuente de la &ruta del panel"
 
 #: tfrmoptionsfonts.lblsearchresultsfont.caption
 msgid "Search results font"
@@ -6048,35 +6041,35 @@ msgstr "&Letras:"
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 msgctxt "tfrmoptionslayout.cbflatdiskpanel.caption"
 msgid "&Flat buttons"
-msgstr "Botones &planos"
+msgstr "&Botones planos"
 
 #: tfrmoptionslayout.cbflatinterface.caption
 msgid "Flat i&nterface"
-msgstr "I&nterfaz plana"
+msgstr "&Interfaz plana"
 
 #: tfrmoptionslayout.cbflattoolbar.caption
 msgid "Flat b&uttons"
-msgstr "Botones p&lanos"
+msgstr "Bo&tones planos"
 
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgid "Show fr&ee space indicator on drive label"
-msgstr "Mostrar indicador de &espacio libre en la etiqueta de unidad"
+msgstr "Mostrar i&ndicador de espacio libre en la etiqueta de unidad"
 
 #: tfrmoptionslayout.cblogwindow.caption
 msgid "Show lo&g window"
-msgstr "Mostrar la ventana de re&gistro"
+msgstr "&Mostrar la ventana de registro"
 
 #: tfrmoptionslayout.cbpanelofoperations.caption
 msgid "Show panel of operation in background"
-msgstr "Mostrar el panel de operaciones en segundo plano"
+msgstr "Mostrar el panel de operaciones en seg&undo plano"
 
 #: tfrmoptionslayout.cbproginmenubar.caption
 msgid "Show common progress in menu bar"
-msgstr "Mostrar el progreso común en la barra de menú"
+msgstr "Mostrar el progreso com&ún en la barra de menú"
 
 #: tfrmoptionslayout.cbshowcmdline.caption
 msgid "Show command l&ine"
-msgstr "Mostrar la &línea de comandos"
+msgstr "Mostrar la línea de co&mandos"
 
 #: tfrmoptionslayout.cbshowcurdir.caption
 msgid "Show current director&y"
@@ -6084,15 +6077,15 @@ msgstr "Mostrar barra de nave&gación"
 
 #: tfrmoptionslayout.cbshowdiskpanel.caption
 msgid "Show &drive buttons"
-msgstr "Mostrar botones de uni&dades"
+msgstr "Mostrar &botones de unidades"
 
 #: tfrmoptionslayout.cbshowdrivefreespace.caption
 msgid "Show free s&pace label"
-msgstr "Mostrar etiqueta de es&pacio libre"
+msgstr "Mostrar et&iqueta de espacio libre"
 
 #: tfrmoptionslayout.cbshowdriveslistbutton.caption
 msgid "Show drives list bu&tton"
-msgstr "Mostrar el bo&tón de lista de unidades"
+msgstr "Mostrar &el botón de lista de unidades"
 
 #: tfrmoptionslayout.cbshowkeyspanel.caption
 msgid "Show function &key buttons"
@@ -6100,31 +6093,31 @@ msgstr "Mostrar los botones de teclas de &función"
 
 #: tfrmoptionslayout.cbshowmainmenu.caption
 msgid "Show &main menu"
-msgstr "Mostrar &menú principal"
+msgstr "M&ostrar menú principal"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
 msgid "Show tool&bar"
-msgstr "Mostrar &barra de herramientas"
+msgstr "Mo&strar barra de herramientas"
 
 #: tfrmoptionslayout.cbshowshortdrivefreespace.caption
 msgid "Show short free space &label"
-msgstr "Mostrar etiqueta corta de espacio &libre"
+msgstr "Mostrar eti&queta corta de espacio libre"
 
 #: tfrmoptionslayout.cbshowstatusbar.caption
 msgid "Show &status bar"
-msgstr "Mostrar la barra de e&stado"
+msgstr "Mostrar &la barra de estado"
 
 #: tfrmoptionslayout.cbshowtabheader.caption
 msgid "S&how tabstop header"
-msgstr "Mostrar los encabezados de columnas"
+msgstr "Mostrar los encabe&zados de columnas"
 
 #: tfrmoptionslayout.cbshowtabs.caption
 msgid "Sho&w folder tabs"
-msgstr "Mostrar &pestañas de carpetas"
+msgstr "Mostrar pesta&ñas de carpetas"
 
 #: tfrmoptionslayout.cbtermwindow.caption
 msgid "Show te&rminal window"
-msgstr "Mostrar la ventana de te&rminal"
+msgstr "Mostrar la &ventana de terminal"
 
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
@@ -6150,7 +6143,7 @@ msgstr "Incluir fecha en el archivo de registro"
 
 #: tfrmoptionslog.cblogarcop.caption
 msgid "&Pack/Unpack"
-msgstr "Com&primir/Descomprimir"
+msgstr "Co&mprimir/Descomprimir"
 
 #: tfrmoptionslog.cblogcommandlineexecution.caption
 msgid "External command line execution"
@@ -6343,7 +6336,7 @@ msgstr "&Habilitar"
 #: tfrmoptionsplugins.btnremoveplugin.caption
 msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
 msgid "&Remove"
-msgstr "Elimina&r"
+msgstr "&Eliminar"
 
 #: tfrmoptionsplugins.btntweakplugin.caption
 msgid "&Tweak"
@@ -6395,7 +6388,7 @@ msgstr "Bú&squeda (.DSX)"
 
 #: tfrmoptionsplugins.tswcx.caption
 msgid "Pac&ker plugins (.WCX)"
-msgstr "Com&presión (.WCX)"
+msgstr "Co&mpresión (.WCX)"
 
 #: tfrmoptionsplugins.tswdx.caption
 msgid "Content pl&ugins (.WDX)"
@@ -6440,7 +6433,7 @@ msgstr "Mantener el renombrado cuando desbloquees una pestaña"
 
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgid "Activate target &panel when clicking on one of its Tabs"
-msgstr "Activar el &panel de destino al pulsar en una de sus pestañas"
+msgstr "Activar el pa&nel de destino al pulsar en una de sus pestañas"
 
 #: tfrmoptionstabs.cbtabsalwaysvisible.caption
 msgid "&Show tab header also when there is only one tab"
@@ -6677,7 +6670,7 @@ msgstr ""
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 msgctxt "TFRMOPTIONSTOOLBAR.CBFLATBUTTONS.CAPTION"
 msgid "&Flat buttons"
-msgstr "Botones &planos"
+msgstr "&Botones planos"
 
 #: tfrmoptionstoolbar.cbreporterrorwithcommands.caption
 msgid "Report errors with commands"
@@ -7165,7 +7158,7 @@ msgstr "Parámetros a&dicionales"
 
 #: tfrmoptionstoolbase.lbltoolspath.caption
 msgid "&Path to program to execute"
-msgstr "Ruta del &programa a ejecutar"
+msgstr "&Ruta del programa a ejecutar"
 
 #: tfrmoptionstooltips.btnaddfields.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
@@ -7477,7 +7470,7 @@ msgstr "Poner primero en fichero TAR"
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"
-msgstr "Com&primir también nombres de rutas (solo recursivo)"
+msgstr "Co&mprimir también nombres de rutas (solo recursivo)"
 
 #: tfrmpackdlg.lblprompt.caption
 msgid "Pack file(s) to the file:"
@@ -8168,7 +8161,7 @@ msgstr "&Aceptar"
 #: tfrmtweakplugin.btnremove.caption
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
 msgid "&Remove"
-msgstr "Elimina&r"
+msgstr "&Eliminar"
 
 #: tfrmtweakplugin.caption
 msgid "Tweak plugin"
@@ -8192,7 +8185,7 @@ msgstr "Mostrar como archivos normales (ocultar icono de compresión)"
 
 #: tfrmtweakplugin.cbpk_caps_mempack.caption
 msgid "Supports pac&king in memory"
-msgstr "Soporta com&presión en memoria"
+msgstr "Soporta co&mpresión en memoria"
 
 #: tfrmtweakplugin.cbpk_caps_modify.caption
 msgid "Can &modify existing archives"
@@ -8208,7 +8201,7 @@ msgstr "Puede crear nue&vos ficheros"
 
 #: tfrmtweakplugin.cbpk_caps_options.caption
 msgid "S&upports the options dialogbox"
-msgstr "So&porta la ventana de diálogo con opciones"
+msgstr "&Soporta la ventana de diálogo con opciones"
 
 #: tfrmtweakplugin.cbpk_caps_searchtext.caption
 msgid "Allow searchin&g for text in archives"
@@ -8237,12 +8230,12 @@ msgstr "&Nombre:"
 #: tfrmtweakplugin.lblplugin.caption
 msgctxt "tfrmtweakplugin.lblplugin.caption"
 msgid "&Plugin:"
-msgstr "Com&plemento:"
+msgstr "Co&mplemento:"
 
 #: tfrmtweakplugin.lblplugin1.caption
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "&Plugin:"
-msgstr "Com&plemento:"
+msgstr "Co&mplemento:"
 
 #: tfrmviewer.actabout.caption
 msgid "About Viewer..."
@@ -8965,7 +8958,7 @@ msgstr "Sobrescribir los más anti&guos"
 
 #: ulng.rsdlgbuttonoverwritesmaller
 msgid "Overwrite All S&maller"
-msgstr "Sobrescribir los más &pequeños"
+msgstr "Sobrescribir los más peque&ños"
 
 #: ulng.rsdlgbuttonrename
 msgctxt "ulng.rsdlgbuttonrename"
@@ -9775,7 +9768,7 @@ msgstr "¿Seguir enlace simbólico «%s»?"
 
 #: ulng.rsmsgfortextformattoimport
 msgid "Select the text format to import"
-msgstr "Seleccione el formato de texto a importar"
+msgstr "Selecciona el formato de texto a importar"
 
 #: ulng.rsmsghotdiraddselecteddirectories
 msgid "Add %d selected dirs"
@@ -11164,7 +11157,7 @@ msgstr "<plantilla sin nombre>"
 
 #: ulng.rsselectdir
 msgid "Select a directory"
-msgstr "Seleccione una carpeta"
+msgstr "Selecciona una carpeta"
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"
