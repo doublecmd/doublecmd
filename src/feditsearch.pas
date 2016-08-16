@@ -60,8 +60,8 @@ unit fEditSearch;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, StdCtrls, ExtCtrls, Buttons, uOSForms,
-  DCClassesUtf8;
+  Classes, SysUtils, Forms, Controls, StdCtrls, ExtCtrls, Buttons, ButtonPanel,
+  uOSForms, DCClassesUtf8;
 
 type
   { TEditSearchDialogOption }
@@ -77,8 +77,7 @@ type
 
   { TfrmEditSearchReplace }
   TfrmEditSearchReplace = class(TModalForm)
-    btnOK: TBitBtn;
-    btnCancel: TBitBtn;
+    ButtonPanel: TButtonPanel;
     cbSearchText: TComboBox;
     cbSearchCaseSensitive: TCheckBox;
     cbSearchWholeWords: TCheckBox;
@@ -144,7 +143,7 @@ implementation
 {$R *.lfm}
 
 uses
-  math, uGlobs, uLng, uDCUtils;
+  Math, Graphics, uGlobs, uLng, uDCUtils;
 
 function GetSimpleSearchAndReplaceString(AOwner:TComponent; OptionAllowed:TEditSearchDialogOption; var sSearchText:string; var sReplaceText:string; var OptionsToReturn:TEditSearchDialogOption; PastSearchList:TStringListEx; PastReplaceList:TStringListEx):boolean;
 var
@@ -357,6 +356,7 @@ end;
 constructor TfrmEditSearchReplace.Create(AOwner: TComponent; AReplace: Boolean);
 begin
   inherited Create(AOwner);
+  Color:= clForm;
   if AReplace then
     begin
       Caption:= rsEditSearchReplace;
