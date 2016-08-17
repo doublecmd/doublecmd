@@ -125,7 +125,7 @@ implementation
 uses
   uOSUtils, DCOSUtils, DCDateTimeUtils, uGlobs, uGlobsPaths, uLog, uLng,
 {$IFDEF MSWINDOWS}
-  uMyWindows, Windows,
+  DCWindows, uMyWindows, Windows,
 {$ENDIF}
 {$IFDEF UNIX}
   BaseUnix, uUsersGroups, LazUTF8, uMyUnix,
@@ -357,7 +357,7 @@ begin
 
 {$IF DEFINED(MSWINDOWS)}
 
-  FindHandle := FindFirstFileW(PWideChar(UTF8Decode(aFilePath)), @FindData);
+  FindHandle := FindFirstFileW(PWideChar(UTF16LongName(aFilePath)), @FindData);
   if FindHandle = INVALID_HANDLE_VALUE then
     raise EFileNotFound.Create(aFilePath);
   Windows.FindClose(FindHandle);
@@ -463,7 +463,7 @@ begin
          fpLastAccessTime] * PropertiesToSet <> []) or
        ((fpLink in PropertiesToSet) and (not (fpAttributes in AProps))) then
     begin
-      FindHandle := FindFirstFileW(PWideChar(UTF8Decode(sFullPath)), @FindData);
+      FindHandle := FindFirstFileW(PWideChar(UTF16LongName(sFullPath)), @FindData);
       if FindHandle = INVALID_HANDLE_VALUE then
         raise EFileNotFound.Create(sFullPath);
       Windows.FindClose(FindHandle);
