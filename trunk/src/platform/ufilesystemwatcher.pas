@@ -1279,7 +1279,7 @@ end;
 procedure TOSWatch.CreateHandle;
 {$IF DEFINED(MSWINDOWS)}
 begin
-  FHandle := CreateFileW(PWideChar(UnicodeLongName(FWatchPath)),
+  FHandle := CreateFileW(PWideChar(UTF16LongName(FWatchPath)),
                FILE_LIST_DIRECTORY,
                CREATEFILEW_SHAREMODE,
                nil,

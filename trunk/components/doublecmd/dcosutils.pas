@@ -919,7 +919,7 @@ end;
 function mbDeleteFile(const FileName: String): Boolean;
 {$IFDEF MSWINDOWS}
 begin
-  Result:= Windows.DeleteFileW(PWideChar(UTF8Decode(FileName)));
+  Result:= Windows.DeleteFileW(PWideChar(UTF16LongName(FileName)));
 end;
 {$ELSE}
 begin
@@ -1155,7 +1155,7 @@ end;
 function mbRemoveDir(const Dir: String): Boolean;
 {$IFDEF MSWINDOWS}
 begin
-  Result:= RemoveDirectoryW(PWideChar(UTF8Decode(Dir)));
+  Result:= RemoveDirectoryW(PWideChar(UTF16LongName(Dir)));
 end;
 {$ELSE}
 begin
