@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains UTF8 versions of Find(First, Next) functions and other stuff
     
-    Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -77,7 +77,7 @@ implementation
 uses
   LazUTF8, uDebug
   {$IFDEF MSWINDOWS}
-  , uMyWindows
+  , DCWindows, uMyWindows
   {$ENDIF}
   {$IFDEF UNIX}
   , Unix, DCOSUtils, DCFileAttributes, DCConvertEncoding, uMyUnix
@@ -133,9 +133,9 @@ end;
 function FindFirstEx (const Path : String; Attr : TFileAttrs; out SearchRec : TSearchRecEx) : Longint;
 {$IFDEF MSWINDOWS}
 var
-  wPath: WideString;
+  wPath: UnicodeString;
 begin
-  wPath:= UTF8Decode(Path);
+  wPath:= UTF16LongName(Path);
   SearchRec.ExcludeAttr:= not Attr and faSpecial;
   SearchRec.FindHandle:= FindFirstFileW(PWideChar(wPath), SearchRec.FindData);
   // if error then exit
