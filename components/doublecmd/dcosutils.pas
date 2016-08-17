@@ -600,7 +600,7 @@ var
   Handle: System.THandle;
   FindData: TWin32FindDataW;
 begin
-  Handle := FindFirstFileW(PWideChar(UTF8Decode(FileName)), FindData);
+  Handle := FindFirstFileW(PWideChar(UTF16LongName(FileName)), FindData);
   if Handle <> INVALID_HANDLE_VALUE then
     begin
       Windows.FindClose(Handle);
@@ -629,7 +629,7 @@ var
   lpSecondFileInfo: TByHandleFileInformation;
 begin
   // Read first file info
-  Handle:= CreateFileW(PWideChar(UTF8Decode(FirstName)), FILE_READ_ATTRIBUTES,
+  Handle:= CreateFileW(PWideChar(UTF16LongName(FirstName)), FILE_READ_ATTRIBUTES,
                        FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
                        nil, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
   if Handle = INVALID_HANDLE_VALUE then Exit(False);
@@ -637,7 +637,7 @@ begin
   CloseHandle(Handle);
   if not Result then Exit;
   // Read second file info
-  Handle:= CreateFileW(PWideChar(UTF8Decode(SecondName)), FILE_READ_ATTRIBUTES,
+  Handle:= CreateFileW(PWideChar(UTF16LongName(SecondName)), FILE_READ_ATTRIBUTES,
                        FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
                        nil, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
   if Handle = INVALID_HANDLE_VALUE then Exit(False);
@@ -671,7 +671,7 @@ function mbFileGetTime(const FileName: String;
 var
   Handle: System.THandle;
 begin
-  Handle := CreateFileW(PWideChar(UTF8Decode(FileName)),
+  Handle := CreateFileW(PWideChar(UTF16LongName(FileName)),
                         FILE_READ_ATTRIBUTES,
                         FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
                         nil,
@@ -715,7 +715,7 @@ var
   PWinCreationTime: Windows.LPFILETIME = nil;
   PWinLastAccessTime: Windows.LPFILETIME = nil;
 begin
-  Handle := CreateFileW(PWideChar(UTF8Decode(FileName)),
+  Handle := CreateFileW(PWideChar(UTF16LongName(FileName)),
                         FILE_WRITE_ATTRIBUTES,
                         FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
                         nil,
@@ -770,7 +770,7 @@ function mbFileExists(const FileName: String) : Boolean;
 var
   Attr: DWORD;
 begin
-  Attr:= GetFileAttributesW(PWideChar(UTF8Decode(FileName)));
+  Attr:= GetFileAttributesW(PWideChar(UTF16LongName(FileName)));
   if Attr <> DWORD(-1) then
     Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) = 0
   else
@@ -804,7 +804,7 @@ begin
   if Mode = fmOpenRead then // If checking Read mode no sharing mode given
     Mode := Mode or fmShareDenyNone;
   dwShareMode := ShareModes[(Mode and $F0) shr 4];
-  hFile:= CreateFileW(PWideChar(UTF8Decode(FileName)), dwDesiredAccess, dwShareMode,
+  hFile:= CreateFileW(PWideChar(UTF16LongName(FileName)), dwDesiredAccess, dwShareMode,
                       nil, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
   Result := hFile <> INVALID_HANDLE_VALUE;
   if Result then
@@ -829,7 +829,7 @@ end;
 function mbFileGetAttr(const FileName: String): TFileAttrs;
 {$IFDEF MSWINDOWS}
 begin
-  Result := GetFileAttributesW(PWideChar(UTF8Decode(FileName)));
+  Result := GetFileAttributesW(PWideChar(UTF16LongName(FileName)));
 end;
 {$ELSE}
 var
@@ -845,7 +845,7 @@ end;
 function mbFileSetAttr(const FileName: String; Attr: TFileAttrs): LongInt;
 {$IFDEF MSWINDOWS}
 begin
-  if SetFileAttributesW(PWideChar(UTF8Decode(FileName)), Attr) then
+  if SetFileAttributesW(PWideChar(UTF16LongName(FileName)), Attr) then
     Result:= 0
   else
     Result:= GetLastError;
@@ -861,7 +861,7 @@ function mbFileGetAttr(const FileName: String; out Attr: TSearchRec): Boolean;
 var
   FileInfo: Windows.TWin32FileAttributeData;
 begin
-  Result:= GetFileAttributesExW(PWideChar(UTF8Decode(FileName)),
+  Result:= GetFileAttributesExW(PWideChar(UTF16LongName(FileName)),
                                 GetFileExInfoStandard, @FileInfo);
   if Result then
   begin
@@ -896,7 +896,7 @@ var
   iAttr: DWORD;
   wFileName: UnicodeString;
 begin
-  wFileName:= UTF8Decode(FileName);
+  wFileName:= UTF16LongName(FileName);
   iAttr := GetFileAttributesW(PWideChar(wFileName));
   if iAttr = DWORD(-1) then Exit(False);
   if ReadOnly then
@@ -1025,7 +1025,7 @@ var
   FindData: TWin32FindDataW;
 begin
   Result:= 0;
-  Handle := FindFirstFileW(PWideChar(UTF8Decode(FileName)), FindData);
+  Handle := FindFirstFileW(PWideChar(UTF16LongName(FileName)), FindData);
   if Handle <> INVALID_HANDLE_VALUE then
     begin
       Windows.FindClose(Handle);
@@ -1119,7 +1119,7 @@ function mbDirectoryExists(const Directory: String) : Boolean;
 var
   Attr: DWORD;
 begin
-  Attr:= GetFileAttributesW(PWideChar(UTF8Decode(Directory)));
+  Attr:= GetFileAttributesW(PWideChar(UTF16LongName(Directory)));
   if Attr <> DWORD(-1) then
     Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) > 0
   else
@@ -1189,13 +1189,13 @@ begin
 
   if not Result then
   begin
-    FileHandle1 := CreateFileW(PWideChar(UTF8Decode(FileName1)), FILE_READ_ATTRIBUTES,
+    FileHandle1 := CreateFileW(PWideChar(UTF16LongName(FileName1)), FILE_READ_ATTRIBUTES,
         FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
         nil, OPEN_EXISTING, 0, 0);
 
     if FileHandle1 <> INVALID_HANDLE_VALUE then
     begin
-      FileHandle2 := CreateFileW(PWideChar(UTF8Decode(FileName2)), FILE_READ_ATTRIBUTES,
+      FileHandle2 := CreateFileW(PWideChar(UTF16LongName(FileName2)), FILE_READ_ATTRIBUTES,
           FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
           nil, OPEN_EXISTING, 0, 0);
 
