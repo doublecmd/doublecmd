@@ -155,7 +155,7 @@ procedure FixCommandLineToUTF8;
 implementation
 
 uses
-  ShellAPI, MMSystem, JwaWinNetWk, LazUTF8, uShlObjAdditional;
+  ShellAPI, MMSystem, JwaWinNetWk, LazUTF8, DCWindows, uShlObjAdditional;
 
 function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): WideString;
 var
@@ -578,7 +578,7 @@ end;
 
 function mbGetCompressedFileSize(const FileName: String): Int64;
 begin
-  Int64Rec(Result).Lo:= GetCompressedFileSizeW(PWideChar(UTF8Decode(FileName)), @Int64Rec(Result).Hi);
+  Int64Rec(Result).Lo:= GetCompressedFileSizeW(PWideChar(UTF16LongName(FileName)), @Int64Rec(Result).Hi);
 end;
 
 type
