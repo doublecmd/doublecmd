@@ -10030,6 +10030,13 @@ msgstr "ファイル操作を実行中です。"
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "まだ幾つかのファイル操作が終了していません。この状態でダブル・コマンダーを終了すると、データを失う可能性があります。"
 
+#: ulng.rsmsgfilepathovermaxpath
+msgid ""
+"The target name length (%d) is more than %d characters!\n"
+"%s\n"
+"Most programs will not be able to access a file/directory with such a long name!\n"
+msgstr ""
+
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "ファイル %s は読み取り専用/非表示/システムとしてマークされます。それでも削除しますか。"

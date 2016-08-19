@@ -10131,6 +10131,13 @@ msgstr "파일 작업 중"
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "파일 작업 완료되지 않음. 더블커맨더를 닫으면 자료 손실이 발생할 수도 있음."
 
+#: ulng.rsmsgfilepathovermaxpath
+msgid ""
+"The target name length (%d) is more than %d characters!\n"
+"%s\n"
+"Most programs will not be able to access a file/directory with such a long name!\n"
+msgstr ""
+
 #: ulng.rsmsgfilereadonly
 #, fuzzy
 #| msgid "File %s is marked as read-only. Delete it?"
