@@ -392,16 +392,16 @@ var
   cchBuffer: DWORD;
 begin
   Result:= False;
-  wsLongPath:= UTF8Decode(sLongPath);
+  wsLongPath:= UTF16LongName(sLongPath);
   cchBuffer:= GetShortPathNameW(PWideChar(wsLongPath), nil, 0);
   if cchBuffer = 0 then Exit;
   SetLength(wsShortPath, cchBuffer);
   cchBuffer:= GetShortPathNameW(PWideChar(wsLongPath), PWideChar(wsShortPath), cchBuffer);
   if cchBuffer <> 0 then
-    begin
-      sShortPath:= AnsiString(wsShortPath);
-      Result:= True;
-    end;
+  begin
+    sShortPath:= AnsiString(wsShortPath);
+    Result:= True;
+  end;
 end;
 
 function GetFileOwner(const sPath: String; out sUser, sGroup: String): Boolean;
