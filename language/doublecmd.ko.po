@@ -9304,6 +9304,10 @@ msgstr "&모두 여기로 복사"
 msgid "E&xit program"
 msgstr "프로그램 종료"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "모두 &무시"

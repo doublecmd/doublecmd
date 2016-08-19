@@ -9412,6 +9412,10 @@ msgstr "Copiază to&ate la"
 msgid "E&xit program"
 msgstr "Părăsește programul (&x)"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "I&gnoră toate"

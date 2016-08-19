@@ -9234,9 +9234,13 @@ msgstr "К&опировать в (для всех)"
 msgid "E&xit program"
 msgstr "&Выйти из программы"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr "Игнорировать"
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
-msgstr "И&гнорировать всех"
+msgstr "И&гнорировать все"
 
 #: ulng.rsdlgbuttonno
 msgid "&No"

@@ -9285,6 +9285,10 @@ msgstr "Kopiraj v &vse"
 msgid "E&xit program"
 msgstr "&končaj program"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "Izberi &vse"

@@ -10050,6 +10050,10 @@ msgstr "全部複製進去 (&A)"
 msgid "E&xit program"
 msgstr "離開程式 (&X)"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "忽略全部 (&G)"

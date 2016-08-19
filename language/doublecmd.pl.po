@@ -9373,6 +9373,10 @@ msgstr "Kopiuj do &wszystkich"
 msgid "E&xit program"
 msgstr "Wyjdź z programu"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "Ignoruj wszystko"
