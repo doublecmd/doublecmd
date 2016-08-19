@@ -581,7 +581,7 @@ end;
 function mbFileCreate(const FileName: String; ShareMode: Longint; Rights: Longint): System.THandle;
 {$IFDEF MSWINDOWS}
 begin
-  Result:= CreateFileW(PWideChar(UTF8Decode(FileName)), GENERIC_READ or GENERIC_WRITE,
+  Result:= CreateFileW(PWideChar(UTF16LongName(FileName)), GENERIC_READ or GENERIC_WRITE,
                        ShareModes[(ShareMode and $F0) shr 4], nil, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 end;
 {$ELSE}
@@ -933,8 +933,8 @@ var
   wOldName,
   wNewName: UnicodeString;
 begin
-  wOldName:= UTF8Decode(OldName);
   wNewName:= UTF8Decode(NewName);
+  wOldName:= UTF16LongName(OldName);
   Result:= MoveFileExW(PWChar(wOldName), PWChar(wNewName), MOVEFILE_REPLACE_EXISTING);
 end;
 {$ELSE}
