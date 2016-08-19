@@ -148,6 +148,7 @@ resourcestring
   rsMsgProblemExecutingCommand = 'Problem executing command (%s)';
   rsMsgCopyBackward = 'The file %s has changed. Do you want to copy it backward?';
   rsMsgCouldNotCopyBackward = 'Could not copy backward - do you want to keep the changed file?';
+  rsMsgFilePathOverMaxPath = 'The target name length (%d) is more than %d characters!' + #13 + '%s' + #13 + 'Most programs will not be able to access a file/directory with such a long name!';
 
   //Hot Dir related
   rsMsgHotDirWhatToDelete = 'Do you want to delete all elements inside the sub-menu [%s]?'+#$0A+'Answering NO will delete only menu delimiters but will keep element inside sub-menu.';

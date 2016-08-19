@@ -844,6 +844,25 @@ begin
             end;
         end;
     end;
+
+    // Check MAX_PATH
+    if Length(TargetName) > MAX_PATH - 1 then
+    begin
+      case AskQuestion(Format(rsMsgFilePathOverMaxPath, [Length(TargetName), MAX_PATH - 1, '']), '',
+                       [fsourAbort, fsourSkip], fsourAbort, fsourSkip) of
+        fsourAbort:
+          AbortOperation();
+      else
+          begin
+            Result := False;
+            CountStatistics(CurrentSubNode);
+            AppProcessMessages;
+            CheckOperationState;
+            Continue;
+          end;
+      end;
+    end;
+
     if aFile.IsDirectory then
       ProcessedOk := ProcessDirectory(CurrentSubNode, TargetName)
     else if aFile.IsLink then
