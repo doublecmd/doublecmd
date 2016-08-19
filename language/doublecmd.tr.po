@@ -10427,6 +10427,13 @@ msgstr "Dosya işlemleri etkin"
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "Bazı dosya işlemleri henüz bitmiş değil .Double Commander´ın kapatılması veri kaybına neden olabilir!"
 
+#: ulng.rsmsgfilepathovermaxpath
+msgid ""
+"The target name length (%d) is more than %d characters!\n"
+"%s\n"
+"Most programs will not be able to access a file/directory with such a long name!\n"
+msgstr ""
+
 #: ulng.rsmsgfilereadonly
 #, fuzzy
 #| msgid "File %s is marked as read-only. Delete it?"

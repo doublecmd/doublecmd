@@ -10082,6 +10082,13 @@ msgstr "Opérations sur les fichiers en cours"
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "Certaines opérations sur les fichiers ne sont pas encore terminées. Fermer Double Commander peut entraîner la perte de données."
 
+#: ulng.rsmsgfilepathovermaxpath
+msgid ""
+"The target name length (%d) is more than %d characters!\n"
+"%s\n"
+"Most programs will not be able to access a file/directory with such a long name!\n"
+msgstr ""
+
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "Le fichier %s est en lecture seule. Le supprimer quand même?"

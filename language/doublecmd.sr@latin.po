@@ -10258,6 +10258,13 @@ msgstr "U pogonu je radnja nad datotekama"
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr "Neke radnje nad datotekama nisu dovršene. Zatvaranje Double Commander-a može dovesti do gubljenja podataka."
 
+#: ulng.rsmsgfilepathovermaxpath
+msgid ""
+"The target name length (%d) is more than %d characters!\n"
+"%s\n"
+"Most programs will not be able to access a file/directory with such a long name!\n"
+msgstr ""
+
 #: ulng.rsmsgfilereadonly
 #, fuzzy
 #| msgid "File %s is marked as read-only. Delete it?"
