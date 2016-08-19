@@ -310,6 +310,7 @@ resourcestring
   rsDlgButtonAutoRenameSource = 'A&uto-rename source files';
   rsDlgButtonSkip = '&Skip';
   rsDlgButtonSkipAll = 'S&kip All';
+  rsDlgButtonIgnore = 'Ig&nore';
   rsDlgButtonIgnoreAll = 'I&gnore All';
   rsDlgButtonAll = 'A&ll';
   rsDlgButtonRetry = 'Re&try';

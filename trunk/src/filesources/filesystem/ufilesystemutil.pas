@@ -77,6 +77,7 @@ type
     FAutoRenameItSelf: Boolean;
     FCorrectSymLinks: Boolean;
     FCopyAttributesOptions: TCopyAttributesOptions;
+    FMaxPathOption: TFileSourceOperationUIResponse;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
 
@@ -795,10 +796,11 @@ function TFileSystemOperationHelper.ProcessNode(aFileTreeNode: TFileTreeNode;
                                                 CurrentTargetPath: String): Boolean;
 var
   aFile: TFile;
-  ProcessedOk: Boolean;
   TargetName: String;
+  ProcessedOk: Boolean;
   CurrentFileIndex: Integer;
   CurrentSubNode: TFileTreeNode;
+  AskResult: TFileSourceOperationUIResponse;
 begin
   Result := True;
 
@@ -848,18 +850,27 @@ begin
     // Check MAX_PATH
     if Length(TargetName) > MAX_PATH - 1 then
     begin
-      case AskQuestion(Format(rsMsgFilePathOverMaxPath, [Length(TargetName), MAX_PATH - 1, '']), '',
-                       [fsourAbort, fsourSkip], fsourAbort, fsourSkip) of
-        fsourAbort:
-          AbortOperation();
-      else
+      if FMaxPathOption <> fsourInvalid then
+        AskResult := FMaxPathOption
+      else begin
+        AskResult := AskQuestion(Format(rsMsgFilePathOverMaxPath,
+                         [Length(TargetName), MAX_PATH - 1, LineEnding + WrapTextSimple(TargetName, 100) + LineEnding]), '',
+                         [fsourIgnore, fsourSkip, fsourAbort, fsourIgnoreAll, fsourSkipAll], fsourIgnore, fsourSkip);
+      end;
+      case AskResult of
+        fsourAbort: AbortOperation();
+        fsourSkip,
+        fsourSkipAll:
           begin
             Result := False;
+            FMaxPathOption := fsourSkip;
             CountStatistics(CurrentSubNode);
             AppProcessMessages;
             CheckOperationState;
             Continue;
           end;
+        fsourIgnore: ;
+        fsourIgnoreAll: FMaxPathOption := fsourIgnore;
       end;
     end;
 
