@@ -262,7 +262,7 @@ end;
 
 procedure OleErrorUTF8(ErrorCode: HResult);
 begin
-  raise EOleError.Create(SysToUTF8(SysErrorMessage(ErrorCode)));
+  raise EOleError.Create(WinCPToUTF8(SysErrorMessage(ErrorCode)));
 end;
 
 procedure OleCheckUTF8(Result: HResult);
