@@ -10049,6 +10049,10 @@ msgstr ""
 msgid "E&xit program"
 msgstr "Из&ход от приложението"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr ""

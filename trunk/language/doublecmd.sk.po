@@ -10104,6 +10104,10 @@ msgstr "Kopírovať do &Všetko"
 msgid "E&xit program"
 msgstr "Ukončiť program"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "Všetko ignorovať"

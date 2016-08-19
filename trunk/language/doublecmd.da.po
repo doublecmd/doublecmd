@@ -9502,6 +9502,10 @@ msgstr "Kopier ind i alle"
 msgid "E&xit program"
 msgstr "Afslut program"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "I&gnorér alle"

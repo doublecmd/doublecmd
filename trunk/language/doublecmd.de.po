@@ -9176,6 +9176,10 @@ msgstr "&Alle bestehenden Verzeichnisse kopieren"
 msgid "E&xit program"
 msgstr "&Programm beenden"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "Alle i&gnorieren"

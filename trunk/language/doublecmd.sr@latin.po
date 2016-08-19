@@ -9418,6 +9418,10 @@ msgstr "Umnoži u &sve"
 msgid "E&xit program"
 msgstr "Napusti& program"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "Zanemari& sve"

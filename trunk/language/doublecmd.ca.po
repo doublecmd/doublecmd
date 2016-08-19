@@ -10038,6 +10038,10 @@ msgstr "Copia tot a dins"
 msgid "E&xit program"
 msgstr "Surt del programa"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "Ignora-ho tot"

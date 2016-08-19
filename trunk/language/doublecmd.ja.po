@@ -9198,6 +9198,10 @@ msgstr "全てコピー(&A)"
 msgid "E&xit program"
 msgstr "プログラムの終了(&x)"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "全て無視(&g)"

@@ -9282,6 +9282,10 @@ msgstr "Αντιγραφή μέσα σε Όλα"
 msgid "E&xit program"
 msgstr "Έξοδος προγράμματος"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "Αγνόηση όλων"

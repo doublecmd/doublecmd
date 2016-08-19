@@ -9257,6 +9257,10 @@ msgstr "Copie tout à l'intérieur"
 msgid "E&xit program"
 msgstr "Sortie de l'application"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "Ignorez tous"

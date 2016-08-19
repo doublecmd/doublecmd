@@ -9416,6 +9416,10 @@ msgstr "Умножи у &све"
 msgid "E&xit program"
 msgstr "Напусти& програм"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "Занемари& све"

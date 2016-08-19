@@ -9427,6 +9427,10 @@ msgstr "&Mind belemásolja"
 msgid "E&xit program"
 msgstr "&Kilépés a programból"
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr "Min&d mellőzése"

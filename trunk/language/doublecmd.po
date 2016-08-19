@@ -8901,6 +8901,10 @@ msgstr ""
 msgid "E&xit program"
 msgstr ""
 
+#: ulng.rsdlgbuttonignore
+msgid "Ig&nore"
+msgstr ""
+
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
 msgstr ""
