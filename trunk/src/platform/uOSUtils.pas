@@ -232,7 +232,7 @@ uses
   fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8
   {$IF DEFINED(MSWINDOWS)}
   , JwaWinCon, Windows, uNTFSLinks, uMyWindows, JwaWinNetWk,
-    uShlObjAdditional, shlobj
+    uShlObjAdditional, shlobj, DCWindows
   {$ENDIF}
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix, dl
@@ -494,10 +494,10 @@ begin
 end;
 {$ELSE}
 var
-  wPath: WideString;
+  wPath: UnicodeString;
 begin
-  wPath:= UTF8Decode(Path);
-  Result:= GetDiskFreeSpaceExW(PWChar(wPath), FreeSize, TotalSize, nil);
+  wPath:= UTF16LongName(Path);
+  Result:= GetDiskFreeSpaceExW(PWideChar(wPath), FreeSize, TotalSize, nil);
 end;
 {$ENDIF}
 
