@@ -234,13 +234,13 @@ function FileExistsMessage(const TargetName, SourceName: String;
 var
   TargetInfo: TSearchRec;
 begin
-  Result:= rsMsgFileExistsOverwrite + LineEnding + TargetName + LineEnding;
+  Result:= rsMsgFileExistsOverwrite + LineEnding + WrapTextSimple(TargetName, 100) + LineEnding;
   if mbFileGetAttr(TargetName, TargetInfo) then
   begin
     Result:= Result + Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(TargetInfo.Size)),
                              DateTimeToStr(FileDateToDateTime(TargetInfo.Time))]) + LineEnding;
   end;
-  Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + SourceName + LineEnding +
+  Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + WrapTextSimple(SourceName, 100) + LineEnding +
            Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(SourceSize)), DateTimeToStr(SourceTime)]);
 end;
 
