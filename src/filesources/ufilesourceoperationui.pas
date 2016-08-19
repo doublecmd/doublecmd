@@ -29,6 +29,7 @@ type
      fsourRenameSource,
      fsourSkip,
      fsourSkipAll,
+     fsourIgnore,
      fsourIgnoreAll,
      fsourAll,
      fsourRetry,

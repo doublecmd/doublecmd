@@ -25,13 +25,13 @@ type
                 mmrAppend, mmrResume, mmrCopyInto, mmrCopyIntoAll,
                 mmrOverwrite, mmrOverwriteAll, mmrOverwriteOlder,
                 mmrOverwriteSmaller, mmrOverwriteLarger, mmrAutoRenameSource, mmrRenameSource,
-                mmrSkip, mmrSkipAll, mmrIgnoreAll, mmrAll, mmrRetry, mmrAbort);
+                mmrSkip, mmrSkipAll, mmrIgnore, mmrIgnoreAll, mmrAll, mmrRetry, mmrAbort);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
                 msmbAppend, msmbResume, msmbCopyInto, msmbCopyIntoAll,
                 msmbOverwrite, msmbOverwriteAll, msmbOverwriteOlder,
                 msmbOverwriteSmaller, msmbOverwriteLarger, msmbAutoRenameSource, msmbRenameSource,
-                msmbSkip, msmbSkipAll, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort);
+                msmbSkip, msmbSkipAll, msmbIgnore, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort);
 
 
   { TDialogMainThread }
@@ -721,6 +721,7 @@ begin
   cLngButton[msmbRenameSource]     := rsDlgButtonRename;
   cLngButton[msmbSkip]             := rsDlgButtonSkip;
   cLngButton[msmbSkipAll]          := rsDlgButtonSkipAll;
+  cLngButton[msmbIgnore]           := rsDlgButtonIgnore;
   cLngButton[msmbIgnoreAll]        := rsDlgButtonIgnoreAll;
   cLngButton[msmbAll]              := rsDlgButtonAll;
   cLngButton[msmbRetry]            := rsDlgButtonRetry;

@@ -318,6 +318,7 @@ procedure SetValue(var anArray: TDynamicStringArray; Key, NewValue: String);
 procedure SetValue(var anArray: TDynamicStringArray; Key: String; NewValue: Boolean);
 function ShortcutsToText(const Shortcuts: TDynamicStringArray): String;
 function GetDateTimeInStrEZSortable(DateTime:TDateTime):string;
+function WrapTextSimple(const S: String; MaxCol: Integer): String;
 
 implementation
 
@@ -1190,8 +1191,19 @@ begin
   result:=Format('%d-%2.2d-%2.2d@%2.2d-%2.2d-%2.2d', [MyYear, MyMonth, MyDay, MyHour, MyMin, MySec]);
 end;
 
-
-
+function WrapTextSimple(const S: String; MaxCol: Integer): String;
+var
+  Temp: String;
+begin
+  Temp:= S;
+  Result:= EmptyStr;
+  while (Length(Temp) > 0) do
+  begin
+    Result:= Result + Copy(Temp, 1, MaxCol) + LineEnding;
+    Delete(Temp, 1, MaxCol);
+  end;
+  SetLength(Result, Length(Result) - Length(LineEnding));
+end;
 
 end.
 
