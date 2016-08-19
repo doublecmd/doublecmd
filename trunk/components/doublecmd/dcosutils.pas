@@ -542,7 +542,7 @@ end;
 function mbFileOpen(const FileName: String; Mode: Word): System.THandle;
 {$IFDEF MSWINDOWS}
 begin
-  Result:= CreateFileW(PWideChar(UTF8Decode(FileName)), AccessModes[Mode and 3],
+  Result:= CreateFileW(PWideChar(UTF16LongName(FileName)), AccessModes[Mode and 3],
                        ShareModes[(Mode and $F0) shr 4], nil, OPEN_EXISTING,
                        FILE_ATTRIBUTE_NORMAL, 0);
 end;
@@ -1102,7 +1102,7 @@ begin
     NetResource.lpRemoteName:= PWideChar(wsNewDir);
     WNetAddConnection2W(NetResource, nil, nil, CONNECT_INTERACTIVE);
   end;
-  wsNewDir:= wsNewDir + DirectorySeparator + '*';
+  wsNewDir:= UTF16LongName(IncludeTrailingBackslash(NewDir)) + '*';
   Handle:= FindFirstFileW(PWideChar(wsNewDir), FindData);
   Result:= (Handle <> INVALID_HANDLE_VALUE) or (GetLastError = ERROR_FILE_NOT_FOUND);
   if (Handle <> INVALID_HANDLE_VALUE) then FindClose(Handle);
@@ -1144,7 +1144,7 @@ end;
 function mbCreateDir(const NewDir: String): Boolean;
 {$IFDEF MSWINDOWS}
 begin
-  Result:= CreateDirectoryW(PWideChar(UTF8Decode(NewDir)), nil);
+  Result:= CreateDirectoryW(PWideChar(UTF16LongName(NewDir)), nil);
 end;
 {$ELSE}
 begin
