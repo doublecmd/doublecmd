@@ -145,7 +145,7 @@ implementation
 uses
   uDebug, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
   DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty,
-  StrUtils, DCDateTimeUtils, uShowMsg, Forms;
+  StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8;
 
 function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String; overload;
 begin
@@ -848,13 +848,13 @@ begin
     end;
 
     // Check MAX_PATH
-    if Length(TargetName) > MAX_PATH - 1 then
+    if UTF8Length(TargetName) > MAX_PATH - 1 then
     begin
       if FMaxPathOption <> fsourInvalid then
         AskResult := FMaxPathOption
       else begin
         AskResult := AskQuestion(Format(rsMsgFilePathOverMaxPath,
-                         [Length(TargetName), MAX_PATH - 1, LineEnding + WrapTextSimple(TargetName, 100) + LineEnding]), '',
+                         [UTF8Length(TargetName), MAX_PATH - 1, LineEnding + WrapTextSimple(TargetName, 100) + LineEnding]), '',
                          [fsourIgnore, fsourSkip, fsourAbort, fsourIgnoreAll, fsourSkipAll], fsourIgnore, fsourSkip);
       end;
       case AskResult of

@@ -5,7 +5,7 @@ unit uFileSystemSetFilePropertyOperation;
 interface
 
 uses
-  LazUtf8,Classes, SysUtils,
+  Classes, SysUtils, LazUTF8,
   uFileSourceSetFilePropertyOperation,
   uFileSource,
   uFileSourceOperationOptions,
@@ -48,7 +48,7 @@ uses
   uGlobs, uLng, DCDateTimeUtils, uFileSystemUtil,
   uFileSourceOperationUI, DCOSUtils, DCStrUtils, DCBasicTypes
   {$IF DEFINED(MSWINDOWS)}
-    , Windows, ShellAPI, LCLProc
+    , Windows, ShellAPI
   {$ELSEIF DEFINED(UNIX)}
     , BaseUnix, FileUtil
   {$ENDIF}
@@ -410,7 +410,7 @@ begin
 
 {$ELSE}
 
-  if gUseShellForFileOperations then
+  if gUseShellForFileOperations and (UTF8Length(OldName) < MAX_PATH - 1) and (UTF8Length(NewName) < MAX_PATH - 1) then
   begin
     if ShellRename then
       Result := sfprSuccess
