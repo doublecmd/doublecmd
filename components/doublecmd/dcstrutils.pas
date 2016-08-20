@@ -1193,14 +1193,15 @@ end;
 
 function WrapTextSimple(const S: String; MaxCol: Integer): String;
 var
-  Temp: String;
+  Len, Index: Integer;
 begin
-  Temp:= S;
+  Index:= 1;
   Result:= EmptyStr;
-  while (Length(Temp) > 0) do
+  Len:= UTF8Length(S);
+  while (Len > 0) do
   begin
-    Result:= Result + Copy(Temp, 1, MaxCol) + LineEnding;
-    Delete(Temp, 1, MaxCol);
+    Result:= Result + UTF8Copy(S, Index, MaxCol) + LineEnding;
+    Inc(Index, MaxCol); Dec(Len, MaxCol);
   end;
   SetLength(Result, Length(Result) - Length(LineEnding));
 end;
