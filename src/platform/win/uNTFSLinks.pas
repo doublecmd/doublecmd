@@ -4,7 +4,7 @@
     This unit contains functions to work with hard and symbolic links
     on the NTFS file system.
 
-    Copyright (C) 2012  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2012-2016 Alexander Koblov (alexx2000@mail.ru)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -116,6 +116,9 @@ implementation
 uses
   LCLProc, uDebug;
 
+const
+  ERROR_DIRECTORY_NOT_SUPPORTED = 336;
+
 type
   TCreateSymbolicLinkW = function(
     pwcSymlinkFileName,
@@ -218,14 +221,19 @@ var
   dwAttributes: DWORD;
 begin
   dwAttributes := Windows.GetFileAttributesW(PWideChar(AFileName));
-  if dwAttributes = FILE_DOES_NOT_EXIST then
-    raise Exception.Create('File "' + AFileName + '" does not exist.');
+  if dwAttributes = FILE_DOES_NOT_EXIST then Exit(False);
   if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
-    raise Exception.Create('Can''t create hardlink for directory (file "' + AFileName + '").');
+  begin
+    SetLastError(ERROR_DIRECTORY_NOT_SUPPORTED);
+    Exit(False);
+  end;
 
   dwAttributes := Windows.GetFileAttributesW(PWideChar(ALinkName));
   if dwAttributes <> FILE_DOES_NOT_EXIST then
-    raise Exception.Create('File "' + ALinkName + '" already exists.');
+  begin
+    SetLastError(ERROR_FILE_EXISTS);
+    Exit(False);
+  end;
 
   if HasNewApi then
     Result:= _CreateHardLink_New(AFileName, ALinkName)

@@ -568,16 +568,11 @@ end;
 function CreateHardLink(const Path, LinkName: String) : Boolean;
 {$IFDEF MSWINDOWS}
 var
-  wsPath, wsLinkName: WideString;
+  wsPath, wsLinkName: UnicodeString;
 begin
-  Result:= True;
-  try
-    wsPath:= UTF8Decode(Path);
-    wsLinkName:= UTF8Decode(LinkName);
-    Result:= uNTFSLinks.CreateHardlink(wsPath, wsLinkName);
-  except
-    Result:= False;
-  end;
+  wsPath:= UTF16LongName(Path);
+  wsLinkName:= UTF16LongName(LinkName);
+  Result:= uNTFSLinks.CreateHardlink(wsPath, wsLinkName);
 end;
 {$ELSE}
 begin
@@ -588,16 +583,11 @@ end;
 function CreateSymLink(const Path, LinkName: string) : Boolean;
 {$IFDEF MSWINDOWS}
 var
-  wsPath, wsLinkName: WideString;
+  wsPath, wsLinkName: UnicodeString;
 begin
-  Result := True;
-  try
-    wsPath:= UTF8Decode(Path);
-    wsLinkName:= UTF8Decode(LinkName);
-    Result:= uNTFSLinks.CreateSymlink(wsPath, wsLinkName);
-  except
-    Result := False;
-  end;
+  wsPath:= UTF8Decode(Path);
+  wsLinkName:= UTF16LongName(LinkName);
+  Result:= uNTFSLinks.CreateSymlink(wsPath, wsLinkName);
 end;
 {$ELSE}
 begin
@@ -613,15 +603,11 @@ var
   wsLinkName,
   wsTarget: UnicodeString;
 begin
-  try
-    wsLinkName:= UTF8Decode(LinkName);
-    if uNTFSLinks.ReadSymLink(wsLinkName, wsTarget) then
-      Result := UTF16ToUTF8(wsTarget)
-    else
-      Result := '';
-  except
-    Result := '';
-  end;
+  wsLinkName:= UTF16LongName(LinkName);
+  if uNTFSLinks.ReadSymLink(wsLinkName, wsTarget) then
+    Result := UTF16ToUTF8(wsTarget)
+  else
+    Result := EmptyStr;
 end;
 {$ELSE}
 begin
@@ -1040,7 +1026,7 @@ function mbSetEnvironmentVariable(const sName, sValue: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wsName,
-  wsValue: WideString;
+  wsValue: UnicodeString;
 begin
   wsName:= UTF8Decode(sName);
   wsValue:= UTF8Decode(sValue);
