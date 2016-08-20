@@ -60,14 +60,14 @@ function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWideChar; Position, I
 {en
    Extracts volume GUID from a volume GUID path
 }
-function ExtractVolumeGUID(const VolumeName: WideString): WideString;
+function ExtractVolumeGUID(const VolumeName: UnicodeString): UnicodeString;
 {en
    Retrieves a volume GUID path for the volume that is associated with the specified
    volume mount point (drive letter, volume GUID path, or mounted folder)
    @param(Path The string that contains the path of a mounted folder or a drive letter)
    @returns(Volume GUID path)
 }
-function GetMountPointVolumeName(const Path: WideString): WideString;
+function GetMountPointVolumeName(const Path: UnicodeString): UnicodeString;
 {en
    Checks readiness of a drive
    @param(sDrv  String specifying the root directory of a file system volume)
@@ -239,7 +239,7 @@ begin
     SetLength(Result, Pos('(', Result) - 2);
 end;
 
-function ExtractVolumeGUID(const VolumeName: WideString): WideString;
+function ExtractVolumeGUID(const VolumeName: UnicodeString): UnicodeString;
 var
   I, J: LongInt;
 begin
@@ -249,11 +249,11 @@ begin
   Result:= Copy(VolumeName, I, J - I + 1);
 end;
 
-function GetMountPointVolumeName(const Path: WideString): WideString;
+function GetMountPointVolumeName(const Path: UnicodeString): UnicodeString;
 const
   MAX_VOLUME_NAME = 50;
 var
-  wsPath: WideString;
+  wsPath: UnicodeString;
   wsVolumeName: array[0..Pred(MAX_VOLUME_NAME)] of WideChar;
 begin
   FillByte(wsVolumeName, MAX_VOLUME_NAME, 0);
@@ -261,7 +261,7 @@ begin
   if not GetVolumeNameForVolumeMountPointW(PWideChar(wsPath), wsVolumeName, MAX_VOLUME_NAME) then
     Result:= EmptyWideStr
   else
-    Result:= WideString(wsVolumeName);
+    Result:= UnicodeString(wsVolumeName);
 end;
 
 (* Drive ready *)
@@ -563,7 +563,7 @@ end;
 function mbGetFileSystem(const sRootPath: String): String;
 var
   Buf: array [0..MAX_PATH] of WideChar;
-  NotUsed: DWORD;
+  NotUsed: DWORD = 0;
 begin
   // Available since Windows XP.
   if ((Win32MajorVersion > 5) or ((Win32MajorVersion = 5) and (Win32MinorVersion >= 1))) and
