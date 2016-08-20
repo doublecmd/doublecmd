@@ -91,7 +91,7 @@ type
 implementation
 
 uses
-  LazUTF8, Graphics, UnicodeUtils;
+  LazUTF8, Graphics, DCUnicodeUtils;
 
 { TSynDiffHighlighter }
 

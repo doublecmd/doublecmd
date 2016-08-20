@@ -68,7 +68,7 @@ function FindMmapW(const sFileName: String; const sFindData: String; bLittleEndi
 implementation
 
 uses
-  SysUtils, DCOSUtils, UnicodeUtils, LazUTF8, StrUtils, DCStrUtils;
+  SysUtils, DCOSUtils, DCUnicodeUtils, LazUTF8, StrUtils, DCStrUtils;
 
 function PosMem(pDataAddr: PChar; iDataLength, iStartPos: PtrInt; const sSearchText: String;
                 bCaseSensitive: Boolean; bSearchBackwards: Boolean): Pointer;
@@ -152,7 +152,7 @@ begin
     begin
       iStartPos:= iStartPos - BUFFER_SIZE;
       SetString(sTextBuffer, pDataAddr + iStartPos, BUFFER_SIZE);
-      UnicodeUtils.Utf8FixBroken(sTextBuffer);
+      DCUnicodeUtils.Utf8FixBroken(sTextBuffer);
       sTextBuffer:= UTF8LowerCase(sTextBuffer);
       iTextPos:= RPos(sLowerCase, sTextBuffer);
       if iTextPos > 0 then
@@ -165,7 +165,7 @@ begin
     // Process remaining buffer
     if iLength > iStartPos then Exit;
     SetString(sTextBuffer, pDataAddr, iStartPos);
-    UnicodeUtils.Utf8FixBroken(sTextBuffer);
+    DCUnicodeUtils.Utf8FixBroken(sTextBuffer);
     sTextBuffer:= UTF8LowerCase(sTextBuffer);
     iTextPos:= RPos(sLowerCase, sTextBuffer);
     if iTextPos > 0 then Result:= pDataAddr + iTextPos - 1;
@@ -179,7 +179,7 @@ begin
     while iSize > BUFFER_SIZE do
     begin
       SetString(sTextBuffer, pDataAddr + iStartPos, BUFFER_SIZE);
-      UnicodeUtils.Utf8FixBroken(sTextBuffer);
+      DCUnicodeUtils.Utf8FixBroken(sTextBuffer);
       sTextBuffer:= UTF8LowerCase(sTextBuffer);
       iTextPos:= Pos(sLowerCase, sTextBuffer);
       if iTextPos > 0 then
@@ -193,7 +193,7 @@ begin
     // Process remaining buffer
     if iLength > iSize then Exit;
     SetString(sTextBuffer, pDataAddr + iStartPos, iSize);
-    UnicodeUtils.Utf8FixBroken(sTextBuffer);
+    DCUnicodeUtils.Utf8FixBroken(sTextBuffer);
     sTextBuffer:= UTF8LowerCase(sTextBuffer);
     iTextPos:= Pos(sLowerCase, sTextBuffer);
     if iTextPos > 0 then Result:= pDataAddr + iStartPos + iTextPos - 1;

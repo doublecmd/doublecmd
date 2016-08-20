@@ -140,7 +140,7 @@ type
 implementation
 
 uses
-  LazUTF8, LConvEncoding, uDebug, DCOSUtils, DCConvertEncoding, UnicodeUtils,
+  LazUTF8, LConvEncoding, uDebug, DCOSUtils, DCConvertEncoding, DCUnicodeUtils,
   uGlobs;
 
 { TDescription }
