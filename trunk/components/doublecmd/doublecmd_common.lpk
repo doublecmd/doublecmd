@@ -31,17 +31,11 @@ end"/>
           <DebugInfoType Value="dsDwarf2Set"/>
         </Debugging>
       </Linking>
-      <Other>
-        <CompilerMessages>
-          <MsgFileName Value=""/>
-        </CompilerMessages>
-        <CompilerPath Value="$(CompPath)"/>
-      </Other>
     </CompilerOptions>
     <Description Value="Common units for Double Commander"/>
     <License Value="GNU GPL 2"/>
     <Version Minor="3" Release="1"/>
-    <Files Count="9">
+    <Files Count="10">
       <Item1>
         <Filename Value="dcclassesutf8.pas"/>
         <UnitName Value="DCClassesUtf8"/>
@@ -78,6 +72,10 @@ end"/>
         <Filename Value="dcprocessutf8.pas"/>
         <UnitName Value="DCProcessUtf8"/>
       </Item9>
+      <Item10>
+        <Filename Value="dcunicodeutils.pas"/>
+        <UnitName Value="DCUnicodeUtils"/>
+      </Item10>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>

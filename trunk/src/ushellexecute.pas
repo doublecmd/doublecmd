@@ -57,7 +57,7 @@ uses
   //       "StrUtils" is here to have the "PosEx".
   //Lazarus, Free-Pascal, etc.
   StrUtils, Dialogs, SysUtils, Process, UTF8Process, LazUTF8, LConvEncoding,
-  UnicodeUtils,
+  DCUnicodeUtils,
 
   //DC
   uShowMsg, uDCUtils, uLng, uFormCommands, fViewer, fEditor, uShowForm, uGlobs,

@@ -3,6 +3,7 @@
   <Package Version="4">
     <PathDelim Value="\"/>
     <Name Value="viewerpackage"/>
+    <Type Value="RunAndDesignTime"/>
     <Author Value="Radek Červinka"/>
     <CompilerOptions>
       <Version Value="11"/>
@@ -20,31 +21,26 @@
           <DebugInfoType Value="dsDwarf2Set"/>
         </Debugging>
       </Linking>
-      <Other>
-        <CompilerPath Value="$(CompPath)"/>
-      </Other>
     </CompilerOptions>
     <Version Major="1"/>
-    <Files Count="2">
+    <Files Count="1">
       <Item1>
         <Filename Value="viewercontrol.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ViewerControl"/>
       </Item1>
-      <Item2>
-        <Filename Value="unicodeutils.pas"/>
-        <UnitName Value="UnicodeUtils"/>
-      </Item2>
     </Files>
-    <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="2">
+    <RequiredPkgs Count="3">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="doublecmd_common"/>
       </Item1>
       <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+      <Item3>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item2>
+      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

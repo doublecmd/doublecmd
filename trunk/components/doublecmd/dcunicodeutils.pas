@@ -2,7 +2,7 @@
   Most of this code is based on similar functions from Lazarus LCLProc.
 }
 
-unit UnicodeUtils;
+unit DCUnicodeUtils;
 
 {$mode objfpc}{$H+}
 
@@ -78,7 +78,7 @@ procedure Utf16SwapEndian(var S: UnicodeString);
 implementation
 
 uses
-  LCLProc, LazUTF8;
+  LazUTF8;
 
 const
   maxUTF8Len = 7;  // really is 4, but this includes any invalid characters up to length 7
@@ -296,8 +296,7 @@ begin
     end;
   end;
   len:=PtrUInt(Dest)-PtrUInt(Result);
-  if len>length(Result) then
-    RaiseGDBException('');
+  Assert(len <= length(Result));
   SetLength(Result,len);
 end;
 
@@ -336,8 +335,7 @@ begin
     end;
   end;
   len:=PtrUInt(Dest)-PtrUInt(Result);
-  if len>length(Result) then
-    RaiseGDBException('');
+  Assert(len <= length(Result));
   SetLength(Result,len);
 end;
 
@@ -368,8 +366,7 @@ begin
     end;
   end;
   len:=PtrUInt(Dest)-PtrUInt(Result);
-  if len>length(Result) then
-    RaiseGDBException('');
+  Assert(len <= length(Result));
   SetLength(Result,len);
 end;
 
@@ -400,8 +397,7 @@ begin
     end;
   end;
   len:=PtrUInt(Dest)-PtrUInt(Result);
-  if len>length(Result) then
-    RaiseGDBException('');
+  Assert(len <= length(Result));
   SetLength(Result,len);
 end;
 

@@ -504,11 +504,11 @@ implementation
 
 uses
   LCLType, LCLVersion, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
-  UnicodeUtils, LCLIntf, LazUTF8
+  DCUnicodeUtils, LCLIntf, LazUTF8
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix
   {$ELSEIF DEFINED(WINDOWS)}
-  , Windows
+  , Windows, DCWindows
   {$ENDIF};
 
 
@@ -1383,13 +1383,13 @@ function TViewerControl.MapFile(const sFileName: String): Boolean;
 
 {$IFDEF MSWINDOWS}
 var
-  wFileName: WideString;
+  wFileName: UnicodeString;
 begin
   Result := False;
   if Assigned(FMappedFile) then
     UnMapFile; // if needed
 
-  wFileName   := UTF8Decode(sFileName);
+  wFileName   := UTF16LongName(sFileName);
   FFileHandle := CreateFileW(PWChar(wFileName), GENERIC_READ,
       FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE, nil,
       OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);

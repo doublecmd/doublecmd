@@ -7,7 +7,7 @@ unit viewerpackage;
 interface
 
 uses
-  ViewerControl, UnicodeUtils, LazarusPackageIntf;
+  ViewerControl, LazarusPackageIntf;
 
 implementation
 
