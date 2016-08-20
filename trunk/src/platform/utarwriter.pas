@@ -136,7 +136,7 @@ implementation
 
 uses
   {$IF DEFINED(MSWINDOWS)}
-  Windows, DCFileAttributes, uMyWindows,
+  Windows, DCFileAttributes, DCWindows, uMyWindows,
   {$ELSEIF DEFINED(UNIX)}
   BaseUnix, FileUtil, uUsersGroups,
   {$ENDIF}
@@ -193,14 +193,13 @@ function GetFileInfo(const FileName: String; out FileInfo: TWin32FindDataW): Boo
 var
   Handle: System.THandle;
 begin
-  Result:= False;
-  Handle := FindFirstFileW(PWideChar(UTF8Decode(FileName)), FileInfo);
-  if Handle <> INVALID_HANDLE_VALUE then
-    begin
-      FileInfo.dwFileAttributes:= ExtractFileAttributes(FileInfo);
-      Windows.FindClose(Handle);
-      Result:= True;
-    end;
+  Handle := FindFirstFileW(PWideChar(UTF16LongName(FileName)), FileInfo);
+  Result := Handle <> INVALID_HANDLE_VALUE;
+  if Result then
+  begin
+    FileInfo.dwFileAttributes:= ExtractFileAttributes(FileInfo);
+    Windows.FindClose(Handle);
+  end;
 end;
 {$ELSEIF DEFINED(UNIX)}
 function GetFileInfo(const FileName: String; out FileInfo: BaseUnix.Stat): Boolean;
