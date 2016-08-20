@@ -313,7 +313,7 @@ end;
 function mbSetVolumeLabel(sRootPathName, sVolumeName: String): Boolean;
 var
   wsRootPathName,
-  wsVolumeName: WideString;
+  wsVolumeName: UnicodeString;
 begin
   wsRootPathName:= UTF8Decode(sRootPathName);
   wsVolumeName:= UTF8Decode(sVolumeName);
