@@ -74,8 +74,9 @@ type
 implementation
 
 uses
-  graphtype, intfgraphics, Graphics, uPixMapManager, uExts, LCLProc, Dialogs, uLng, uMyWindows, uShellExecute,
-  fMain, uDCUtils, uFormCommands, DCOSUtils, uOSUtils, uShowMsg, uFileSystemFileSource;
+  graphtype, intfgraphics, Graphics, uPixMapManager, Dialogs, uLng, uMyWindows,
+  uShellExecute, fMain, uDCUtils, uFormCommands, DCOSUtils, uOSUtils, uShowMsg,
+  uExts, uFileSystemFileSource, DCConvertEncoding;
 
 const
   USER_CMD_ID = $1000;
@@ -557,7 +558,7 @@ begin
   ShellMenu3 := nil;
   // Free internal objects
   FShellMenu1 := nil;
-  FreeThenNil(FFiles);
+  FreeAndNil(FFiles);
   if FShellMenu <> 0 then
     DestroyMenu(FShellMenu);
   inherited Destroy;
@@ -718,10 +719,13 @@ begin
           begin
             cbSize := SizeOf(cmici);
             hwnd := FParent.Handle;
-                {$PUSH}{$HINTS OFF}
+            {$PUSH}{$HINTS OFF}
             lpVerb := PAnsiChar(PtrUInt(cmd - 1));
-                {$POP}
+            {$POP}
             nShow := SW_NORMAL;
+            if FBackground then begin
+              lpDirectory := PAnsiChar(CeUtf8ToSys(FFiles[0].FullPath));
+            end;
           end;
 
           Result := FShellMenu1.InvokeCommand(cmici);
