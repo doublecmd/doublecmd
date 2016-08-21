@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, ActnList, uFileView, uFileViewNotebook, uFileSourceOperation,
-  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu, Menus, ufavoritetabs;
+  uGlobs, uFileFunctions, uFormCommands, uFileSorting, uShellContextMenu, Menus, ufavoritetabs,ufile;
 
 type
 
@@ -44,6 +44,9 @@ type
   private
    FCommands: TFormCommands;
    FOriginalNumberOfTabs: integer;
+
+   // Helper routines
+   procedure TryGetParentDir(FileView: TFileView; var SelectedFiles: TFiles);
 
    // Filters out commands.
    function CommandsFilter(Command: String): Boolean;
@@ -346,7 +349,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView,
      uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile,
-     uFilePanelSelect, uFile, uFileSystemFileSource, uQuickViewPanel,
+     uFilePanelSelect, uFileSystemFileSource, uQuickViewPanel,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation, uSearchResultFileSource,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
@@ -404,6 +407,24 @@ begin
 end;
 
 //------------------------------------------------------
+procedure TMainCommands.TryGetParentDir(FileView: TFileView; var SelectedFiles: TFiles);
+var
+  activeFile : TFile;
+  tempPath : String;
+begin
+  activeFile := FileView.CloneActiveFile;
+  if assigned(activeFile) then begin
+    if activeFile.Name = '..' then
+      begin
+        tempPath := activeFile.FullPath;
+        activeFile.Name := ExtractFileName(ExcludeTrailingPathDelimiter(activeFile.Path));
+        activeFile.Path := ExpandFileName(tempPath);
+        SelectedFiles.Add(activeFile);
+      end
+      else
+        FreeAndNil(activeFile);
+    end;
+end;
 
 procedure TMainCommands.OnCopyOutStateChanged(Operation: TFileSourceOperation;
                                               State: TFileSourceOperationState);
@@ -597,6 +618,8 @@ var
   PathToAdd, FileNameToAdd: String;
 begin
   SelectedFiles := FileView.CloneSelectedOrActiveFiles;
+  if (SelectedFiles.Count = 0) then
+    TryGetParentDir(FileView, SelectedFiles);
   try
     if SelectedFiles.Count > 0 then
     begin
