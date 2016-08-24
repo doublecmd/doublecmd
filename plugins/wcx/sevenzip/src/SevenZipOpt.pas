@@ -328,6 +328,7 @@ begin
   if IsEqualGUID(CLSID_CFormat7z, PluginConfig[AFormat].ArchiveCLSID^) then
   begin
     AddWideStringProperty('0', MethodName[Method]);
+    AddWideStringProperty('D', IntToStr(PluginConfig[AFormat].Dictionary) + 'B');
   end;
   // Parse additional parameters
   Parameters:= Trim(PluginConfig[AFormat].Parameters);
