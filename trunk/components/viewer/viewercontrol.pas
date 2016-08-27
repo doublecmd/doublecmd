@@ -373,7 +373,6 @@ type
     function GetNextCharAsUtf8(const iPosition: PtrInt; out CharLenInBytes: Integer): String;
 
     procedure ReReadFile;
-    function IsFileOpen: Boolean; inline;
 
     {en
        Searches for an ASCII character.
@@ -464,6 +463,7 @@ type
                           bCaseSensitive: Boolean; bSearchBackwards: Boolean): PtrInt;
 
     procedure ResetEncoding;
+    function IsFileOpen: Boolean; inline;
     function DetectEncoding: TViewerEncoding;
     procedure GetSupportedEncodings(List: TStrings);
 

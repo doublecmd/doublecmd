@@ -523,17 +523,23 @@ begin
       begin
         ActivatePanel(pnlFolder);
         memFolder.Clear;
+        memFolder.Font.Color:= clDefault;
         memFolder.Lines.Add(rsPropsFolder + ': ');
         memFolder.Lines.Add(aFileName);
         memFolder.Lines.Add('');
-
       end
     else if CheckGraphics(aFileName) and LoadGraphics(aFileName) then
       ActivatePanel(pnlImage)
     else
       begin
         ViewerControl.FileName := aFileName;
-        ActivatePanel(pnlText);
+        if ViewerControl.IsFileOpen then
+          ActivatePanel(pnlText)
+        else begin
+          ActivatePanel(pnlFolder);
+          memFolder.Font.Color:= clRed;
+          memFolder.Lines.Text:= rsMsgErrERead;
+        end;
       end;
 
     Status.Panels[sbpFileName].Text:= aFileName;
