@@ -315,23 +315,6 @@ var
 
 begin
   JclArchive:= AJclArchive as TJclCompressionArchive;
-  // Set word size parameter
-  Method:= TJclCompressionMethod(PluginConfig[AFormat].Method);
-  case Method of
-    cmLZMA, cmLZMA2,
-    cmDeflate, cmDeflate64:
-        AddCardinalProperty('fb', PluginConfig[AFormat].WordSize);
-    cmPPMd:
-        AddCardinalProperty('o', PluginConfig[AFormat].WordSize);
-  end;
-  // Set 7-zip compression method
-  if IsEqualGUID(CLSID_CFormat7z, PluginConfig[AFormat].ArchiveCLSID^) then
-  begin
-    AddWideStringProperty('0', MethodName[Method]);
-    if Method <> cmCopy then begin
-      AddWideStringProperty('D', IntToStr(PluginConfig[AFormat].Dictionary) + 'B');
-    end;
-  end;
   // Parse additional parameters
   Parameters:= Trim(PluginConfig[AFormat].Parameters);
   if Length(Parameters) > 0 then
@@ -345,6 +328,32 @@ begin
       end;
     end;
     AddOption(MaxInt);
+  end;
+  Parameters:= WideUpperCase(Parameters);
+  // Set word size parameter
+  Method:= TJclCompressionMethod(PluginConfig[AFormat].Method);
+  case Method of
+    cmLZMA, cmLZMA2,
+    cmDeflate, cmDeflate64:
+      begin
+        if (Pos('FB=', Parameters) = 0) and (Pos('1=', Parameters) = 0) then
+          AddCardinalProperty('fb', PluginConfig[AFormat].WordSize);
+      end;
+    cmPPMd:
+      begin
+        if Pos('O=', Parameters) = 0 then
+          AddCardinalProperty('o', PluginConfig[AFormat].WordSize);
+      end;
+  end;
+  // Set 7-zip compression method
+  if IsEqualGUID(CLSID_CFormat7z, PluginConfig[AFormat].ArchiveCLSID^) then
+  begin
+    if Pos('0=', Parameters) = 0 then begin
+      AddWideStringProperty('0', MethodName[Method]);
+    end;
+    if (Method <> cmCopy) and (Pos('D=', Parameters) = 0) then begin
+      AddWideStringProperty('D', WideString(IntToStr(PluginConfig[AFormat].Dictionary) + 'B'));
+    end;
   end;
 end;
 
