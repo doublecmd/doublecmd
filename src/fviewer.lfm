@@ -285,6 +285,7 @@ object frmViewer: TfrmViewer
       Top = 0
       Width = 472
       Align = alClient
+      BorderStyle = bsNone
       ReadOnly = True
       TabOrder = 0
     end
