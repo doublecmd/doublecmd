@@ -258,9 +258,9 @@ var
   begin
     with JclArchive do
     begin
-      SetLength(PropNames, Length(PropNames)+1);
+      SetLength(PropNames, Length(PropNames) + 1);
       PropNames[High(PropNames)] := Name;
-      SetLength(PropValues, Length(PropValues)+1);
+      SetLength(PropValues, Length(PropValues) + 1);
       PropValues[High(PropValues)] := Value;
     end;
   end;
@@ -286,6 +286,7 @@ var
   procedure AddOption(Finish: Integer);
   var
     C: WideChar;
+    IValue: Int64;
     PropValue: TPropVariant;
     Option, Value: WideString;
   begin
@@ -309,7 +310,10 @@ var
     else begin
       Value:= Copy(Option, Start + 1, MaxInt);
       SetLength(Option, Start - 1);
-      AddWideStringProperty(Option, Value);
+      if TryStrToInt64(AnsiString(Value), IValue) then
+        AddCardinalProperty(Option, IValue)
+      else
+        AddWideStringProperty(Option, Value);
     end;
   end;
 
