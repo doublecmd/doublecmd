@@ -72,6 +72,7 @@ type
    //
    procedure DoOpenVirtualFileSystemList(Panel: TFileView);
    procedure DoPanelsSplitterPerPos(SplitPos: Integer);
+   procedure DoUpdateFileView(AFileView: TFileView; UserData: Pointer);
    procedure DoCloseTab(Notebook: TFileViewNotebook; PageIndex: Integer);
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; TypeOfCopy: TCopyFileNamesToClipboard);
    procedure DoNewTab(Notebook: TFileViewNotebook);
@@ -705,6 +706,11 @@ begin
       MainSplitterPos:= SplitPos;
     end;
   end;
+end;
+
+procedure TMainCommands.DoUpdateFileView(AFileView: TFileView; UserData: Pointer);
+begin
+  AFileView.UpdateView;
 end;
 
 procedure TMainCommands.DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean; UserWishForContextMenu:TUserWishForContextMenu);
@@ -2544,9 +2550,8 @@ begin
     uGlobs.gShowSystemFiles:= not uGlobs.gShowSystemFiles;
     actShowSysFiles.Checked:= uGlobs.gShowSystemFiles;
     UpdateTreeView;
-    //repaint both panels
-    FrameLeft.Reload;
-    FrameRight.Reload;
+    // Update all tabs
+    ForEachView(@DoUpdateFileView, nil);
   end;
 end;
 
