@@ -50,7 +50,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
     , Windows, ShellAPI
   {$ELSEIF DEFINED(UNIX)}
-    , BaseUnix, FileUtil
+    , BaseUnix, DCUnix
   {$ENDIF}
   ;
 
@@ -65,6 +65,10 @@ begin
 
   // Assign after calling inherited constructor.
   FSupportedProperties := [fpName,
+  {$IF DEFINED(UNIX)}
+  // Set owner/group before MODE because it clears SUID bit.
+                           fpOwner,
+  {$ENDIF}
                            fpAttributes,
                            fpModificationTime,
                            fpCreationTime,
@@ -230,6 +234,17 @@ begin
         end
         else
           Result := sfprSkipped;
+
+      {$IF DEFINED(UNIX)}
+      fpOwner:
+        begin
+          if fplchown(aFile.FullPath, (aTemplateProperty as TFileOwnerProperty).Owner,
+                      (aTemplateProperty as TFileOwnerProperty).Group) <> 0 then
+          begin
+            Result := sfprError;;
+          end;
+        end
+      {$ENDIF}
 
       else
         raise Exception.Create('Trying to set unsupported property');
