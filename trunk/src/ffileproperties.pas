@@ -30,7 +30,7 @@ unit fFileProperties;
 interface
 
 uses
-  LazUtf8,LResources, SysUtils, Classes, Graphics, Forms, StdCtrls, Buttons, ComCtrls,
+  LResources, SysUtils, Classes, Graphics, Forms, StdCtrls, Buttons, ComCtrls,
   Dialogs, Controls, ExtCtrls, DCBasicTypes, uFile, uFileProperty, uFileSource,
   uFileSourceOperation, uFileSourceCalcStatisticsOperation;
 
@@ -60,7 +60,7 @@ type
     edtOctal: TEdit;
     gbOwner: TGroupBox;
     lblFileName: TLabel;
-    lblFileNameStr: TLabel;
+    imgFileIcon: TImage;
     lblFolder: TLabel;
     lblFolderStr: TLabel;
     lblLastAccess: TLabel;
@@ -94,6 +94,7 @@ type
     lblWrite: TLabel;
     pnlCaption: TPanel;
     pnlData: TPanel;
+    pnlIcon: TPanel;
     pcPageControl: TPageControl;
     tmUpdateFolderSize: TTimer;
     tsProperties: TTabSheet;
@@ -144,10 +145,10 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, FileUtil, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
-  uDefaultFilePropertyFormatter, uMyUnix, DCFileAttributes,
+  LCLType, LazUTF8, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
+  uDefaultFilePropertyFormatter, uMyUnix, DCFileAttributes, uGlobs,
   uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager,
-  uFileSourceOperationOptions, uKeyboard, DCStrUtils, DCUnix;
+  uFileSourceOperationOptions, uKeyboard, DCStrUtils, DCUnix, uPixMapManager;
 
 procedure ShowFileProperties(aFileSource: IFileSource; const aFiles: TFiles);
 begin
@@ -170,6 +171,9 @@ begin
   ChangeTriggersEnabled := True;
 
   inherited Create(AOwner);
+
+  imgFileIcon.Width:= gIconsSize;
+  imgFileIcon.Height:= gIconsSize;
 end;
 
 destructor TfrmFileProperties.Destroy;
@@ -295,9 +299,14 @@ var
   Attrs: TFileAttrs;
   isFileSystem: Boolean;
   hasSize: Boolean;
+  Polik: PtrInt;
 begin
   StopCalcFolderSize; // Stop previous calculate folder size operation
   isFileSystem := FFileSource.IsClass(TFileSystemFileSource);
+
+  Polik := PixMapManager.GetIconByFile(FFiles[iIndex], isFileSystem, True, sim_all_and_exe, True);
+  if Polik < 0 then Polik:= PixMapManager.GetDefaultIcon(FFiles[iIndex]);
+  imgFileIcon.Picture.Bitmap := PixMapManager.GetBitmap(Polik);
 
   with FFiles[iIndex] do
   begin
@@ -421,8 +430,8 @@ end;
 
 procedure TfrmFileProperties.FormCreate(Sender: TObject);
 begin
-  lblFileNameStr.Font.Style:=[fsBold];
-  lblFileName.Font.Style:=[fsBold];
+  InitPropStorage(Self);
+  lblFileName.Font.Style:= [fsBold];
 
   AllowChange(False);
   ShowFile(0);
