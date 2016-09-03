@@ -540,6 +540,8 @@ begin
   // fill encoding combobox
   cmbEncoding.Clear;
   GetSupportedEncodings(cmbEncoding.Items);
+  I:= cmbEncoding.Items.IndexOf('UTF-8BOM');
+  if I >= 0 then cmbEncoding.Items.Delete(I);
   cmbEncoding.ItemIndex:= cmbEncoding.Items.IndexOf(EncodingAnsi);
 
   // gray disabled fields
