@@ -2063,6 +2063,10 @@ msgstr "즐겨찾기탭 설정"
 msgid "Configuration of folder tabs"
 msgstr "폴더탭 설정"
 
+#: tfrmmain.actconfigsavesettings.caption
+msgid "Save Settings"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "도구 모음"
@@ -3014,6 +3018,12 @@ msgstr "-"
 
 #: tfrmmain.miline50.caption
 msgctxt "TFRMMAIN.MILINE50.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline55.caption
+#, fuzzy
+msgctxt "tfrmmain.miline55.caption"
 msgid "-"
 msgstr "-"
 

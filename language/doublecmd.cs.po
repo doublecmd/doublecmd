@@ -2033,6 +2033,10 @@ msgstr "Nastavení oblíbených záložek"
 msgid "Configuration of folder tabs"
 msgstr "Nastavení adresářů záložek"
 
+#: tfrmmain.actconfigsavesettings.caption
+msgid "Save Settings"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Nástrojová lišta"
@@ -2982,6 +2986,12 @@ msgstr "-"
 
 #: tfrmmain.miline50.caption
 msgctxt "TFRMMAIN.MILINE50.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline55.caption
+#, fuzzy
+msgctxt "tfrmmain.miline55.caption"
 msgid "-"
 msgstr "-"
 

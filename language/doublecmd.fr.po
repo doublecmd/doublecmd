@@ -2055,6 +2055,10 @@ msgstr "Configuration des groupes d'onglets favoris"
 msgid "Configuration of folder tabs"
 msgstr "Configuration des options reliées aux onlgets"
 
+#: tfrmmain.actconfigsavesettings.caption
+msgid "Save Settings"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Configuation de la barre d'outils"
@@ -3004,6 +3008,12 @@ msgstr "-"
 
 #: tfrmmain.miline50.caption
 msgctxt "tfrmmain.miline50.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline55.caption
+#, fuzzy
+msgctxt "tfrmmain.miline55.caption"
 msgid "-"
 msgstr "-"
 

@@ -2009,6 +2009,10 @@ msgstr "Konfiguration der Favoriten-Tabs"
 msgid "Configuration of folder tabs"
 msgstr "Konfiguration der Verzeichnis-Tabs"
 
+#: tfrmmain.actconfigsavesettings.caption
+msgid "Save Settings"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Toolbar..."
@@ -2952,6 +2956,12 @@ msgstr "-"
 
 #: tfrmmain.miline50.caption
 msgctxt "tfrmmain.miline50.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline55.caption
+#, fuzzy
+msgctxt "tfrmmain.miline55.caption"
 msgid "-"
 msgstr "-"
 

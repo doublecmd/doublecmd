@@ -1977,6 +1977,10 @@ msgstr ""
 msgid "Configuration of folder tabs"
 msgstr ""
 
+#: tfrmmain.actconfigsavesettings.caption
+msgid "Save Settings"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr ""
@@ -2912,6 +2916,11 @@ msgstr ""
 
 #: tfrmmain.miline50.caption
 msgctxt "TFRMMAIN.MILINE50.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmmain.miline55.caption
+msgctxt "TFRMMAIN.MILINE55.CAPTION"
 msgid "-"
 msgstr ""
 
