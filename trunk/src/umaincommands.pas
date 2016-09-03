@@ -334,9 +334,10 @@ type
    procedure cm_PreviousFavoriteTabs(const {%H-}Params: array of string);
    procedure cm_NextFavoriteTabs(const {%H-}Params: array of string);
    procedure cm_ResaveFavoriteTabs(const {%H-}Params: array of string);
-    procedure cm_CopyAllTabsToOpposite(const {%H-}Params: array of string);
-    procedure cm_ConfigTreeViewMenus(const {%H-}Params: array of string);
-    procedure cm_ConfigTreeViewMenusColors(const {%H-}Params: array of string);
+   procedure cm_CopyAllTabsToOpposite(const {%H-}Params: array of string);
+   procedure cm_ConfigTreeViewMenus(const {%H-}Params: array of string);
+   procedure cm_ConfigTreeViewMenusColors(const {%H-}Params: array of string);
+   procedure cm_ConfigSaveSettings(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -4724,25 +4725,10 @@ begin
   if Editor.CanFocus then  Editor.SetFocus;
 end;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+procedure TMainCommands.cm_ConfigSaveSettings(const Params: array of string);
+begin
+  frmMain.ConfigSaveSettings;
+end;
 
 end.
 

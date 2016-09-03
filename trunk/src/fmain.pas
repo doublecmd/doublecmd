@@ -101,6 +101,7 @@ type
     actCopyAllTabsToOpposite: TAction;
     actConfigTreeViewMenus: TAction;
     actConfigTreeViewMenusColors: TAction;
+    actConfigSaveSettings: TAction;
     actTreeView: TAction;
     actToggleFullscreenConsole: TAction;
     actSrcOpenDrives: TAction;
@@ -206,6 +207,8 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    mnuConfigSaveSettings: TMenuItem;
+    miLine55: TMenuItem;
     mnuConfigureFavoriteTabs: TMenuItem;
     mnuRewriteFavoriteTabs: TMenuItem;
     mnuCreateNewFavoriteTabs: TMenuItem;
@@ -792,6 +795,7 @@ type
     procedure SaveWindowState;
     procedure LoadMainToolbar;
     procedure SaveMainToolBar;
+    procedure ConfigSaveSettings;
     function  IsCommandLineVisible: Boolean;
     procedure ShowDrivesList(APanel: TFilePanelSelect);
     procedure ExecuteCommandLine(bRunInTerm: Boolean);
@@ -2122,20 +2126,7 @@ begin
     Commands.cm_CloseDuplicateTabs(['RightTabs']);
   end;
 
-  if gSaveConfiguration then
-  try
-    DebugLn('Saving configuration');
-    if Assigned(gIni) then
-      uGlobs.ConvertIniToXml;
-    if gSaveCmdLineHistory then
-      glsCmdLineHistory.Assign(edtCommand.Items);
-    SaveWindowState;
-    if gButtonBar then SaveMainToolBar;
-    SaveGlobs; // Should be last, writes configuration file
-  except
-    on E: Exception do
-      DebugLn('Cannot save main configuration: ', e.Message);
-  end;
+  if gSaveConfiguration then ConfigSaveSettings;
 
   FreeAndNil(Cons);
 
@@ -5505,6 +5496,23 @@ begin
   ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', True);
   gConfig.ClearNode(ToolBarNode);
   MainToolBar.SaveConfiguration(gConfig, ToolBarNode);
+end;
+
+procedure TfrmMain.ConfigSaveSettings;
+begin
+  try
+    DebugLn('Saving configuration');
+    if Assigned(gIni) then
+      uGlobs.ConvertIniToXml;
+    if gSaveCmdLineHistory then
+      glsCmdLineHistory.Assign(edtCommand.Items);
+    SaveWindowState;
+    if gButtonBar then SaveMainToolBar;
+    SaveGlobs; // Should be last, writes configuration file
+  except
+    on E: Exception do
+      DebugLn('Cannot save main configuration: ', e.Message);
+  end;
 end;
 
 function TfrmMain.IsCommandLineVisible: Boolean;
