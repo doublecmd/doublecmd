@@ -20,7 +20,7 @@ object frmMain: TfrmMain
   SessionProperties = 'nbConsole.Height;seLogWindow.Height;TreePanel.Width'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '1.7'
+  LCLVersion = '1.6.0.4'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
@@ -46,7 +46,7 @@ object frmMain: TfrmMain
   end
   object TreePanel: TPanel
     Left = 0
-    Height = 191
+    Height = 194
     Top = 20
     Width = 121
     Align = alLeft
@@ -55,18 +55,18 @@ object frmMain: TfrmMain
   end
   object TreeSplitter: TSplitter
     Left = 121
-    Height = 191
+    Height = 194
     Top = 20
     Width = 5
   end
   object pnlMain: TPanel
     Left = 126
-    Height = 191
+    Height = 194
     Top = 20
     Width = 634
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 191
+    ClientHeight = 194
     ClientWidth = 634
     TabOrder = 5
     object pnlDisk: TPanel
@@ -150,24 +150,24 @@ object frmMain: TfrmMain
     end
     object pnlNotebooks: TPanel
       Left = 0
-      Height = 167
+      Height = 170
       Top = 24
       Width = 634
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 167
+      ClientHeight = 170
       ClientWidth = 634
       FullRepaint = False
       TabOrder = 1
       OnResize = pnlNotebooksResize
       object pnlLeft: TPanel
         Left = 0
-        Height = 167
+        Height = 170
         Top = 0
         Width = 511
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 167
+        ClientHeight = 170
         ClientWidth = 511
         TabOrder = 0
         OnDblClick = pnlLeftRightDblClick
@@ -288,12 +288,12 @@ object frmMain: TfrmMain
       end
       object pnlRight: TPanel
         Left = 511
-        Height = 167
+        Height = 170
         Top = 0
         Width = 123
         Align = alClient
         BevelOuter = bvNone
-        ClientHeight = 167
+        ClientHeight = 170
         ClientWidth = 123
         TabOrder = 1
         OnDblClick = pnlLeftRightDblClick
@@ -429,7 +429,7 @@ object frmMain: TfrmMain
   object PanelAllProgress: TPanel
     Left = 0
     Height = 0
-    Top = 211
+    Top = 214
     Width = 760
     Align = alBottom
     AutoSize = True
@@ -440,7 +440,7 @@ object frmMain: TfrmMain
     Cursor = crVSplit
     Left = 0
     Height = 3
-    Top = 211
+    Top = 214
     Width = 760
     Align = alBottom
     AutoSnap = False
@@ -451,35 +451,35 @@ object frmMain: TfrmMain
   object pnlCommand: TPanel
     AnchorSideBottom.Control = LogSplitter
     Left = 0
-    Height = 81
-    Top = 214
+    Height = 78
+    Top = 217
     Width = 760
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 81
+    ClientHeight = 78
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 8
     object pnlCmdLine: TPanel
       Left = 0
-      Height = 27
+      Height = 24
       Top = 54
       Width = 760
       Align = alClient
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.TopBottomSpacing = 2
-      ClientHeight = 27
+      ClientHeight = 24
       ClientWidth = 760
       TabOrder = 1
       object lblCommandPath: TLabel
         AnchorSideTop.Control = edtCommand
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 15
-        Top = 6
-        Width = 24
+        Height = 14
+        Top = 5
+        Width = 26
         Caption = 'Path'
         ParentColor = False
         ShowAccelChar = False
@@ -490,13 +490,13 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = pnlCmdLine
         AnchorSideRight.Control = pnlCmdLine
         AnchorSideRight.Side = asrBottom
-        Left = 28
-        Height = 23
+        Left = 30
+        Height = 20
         Top = 2
-        Width = 732
+        Width = 730
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 4
-        ItemHeight = 15
+        ItemHeight = 14
         OnExit = edtCommandExit
         OnKeyDown = edtCommandKeyDown
         TabOrder = 0
@@ -934,17 +934,17 @@ object frmMain: TfrmMain
       Left = 89
       Height = 20
       Top = 0
-      Width = 84
+      Width = 85
       Action = actEdit
       Flat = True
       OnMouseWheelDown = btnF3MouseWheelDown
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF5: TSpeedButton
-      Left = 173
+      Left = 174
       Height = 20
       Top = 0
-      Width = 92
+      Width = 91
       Action = actCopy
       Flat = True
       OnMouseWheelDown = btnF3MouseWheelDown
@@ -954,17 +954,17 @@ object frmMain: TfrmMain
       Left = 265
       Height = 20
       Top = 0
-      Width = 94
+      Width = 92
       Action = actRename
       Flat = True
       OnMouseWheelDown = btnF3MouseWheelDown
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF7: TSpeedButton
-      Left = 359
+      Left = 357
       Height = 20
       Top = 0
-      Width = 112
+      Width = 116
       Action = actMakeDir
       Caption = 'Directory'
       Flat = True
@@ -972,10 +972,10 @@ object frmMain: TfrmMain
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF8: TSpeedButton
-      Left = 471
+      Left = 473
       Height = 20
       Top = 0
-      Width = 97
+      Width = 99
       Caption = 'Delete'
       Flat = True
       OnClick = btnF8Click
@@ -984,10 +984,10 @@ object frmMain: TfrmMain
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF9: TSpeedButton
-      Left = 568
+      Left = 572
       Height = 20
       Top = 0
-      Width = 110
+      Width = 111
       Action = actRunTerm
       Caption = 'Terminal'
       Flat = True
@@ -995,10 +995,10 @@ object frmMain: TfrmMain
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF10: TSpeedButton
-      Left = 678
+      Left = 683
       Height = 20
       Top = 0
-      Width = 82
+      Width = 77
       Action = actExit
       Caption = 'Exit'
       Flat = True
@@ -1393,6 +1393,12 @@ object frmMain: TfrmMain
       end
       object mnuConfigFolderTabs: TMenuItem
         Action = actConfigFolderTabs
+      end
+      object miLine55: TMenuItem
+        Caption = '-'
+      end
+      object mnuConfigSaveSettings: TMenuItem
+        Action = actConfigSaveSettings
       end
     end
     object mnuHelp: TMenuItem
@@ -2554,6 +2560,11 @@ object frmMain: TfrmMain
       Tag = 5
       Category = 'Configuration'
       Caption = 'Configuration of Tree View Menu Colors'
+      OnExecute = actExecute
+    end
+    object actConfigSaveSettings: TAction
+      Category = 'Configuration'
+      Caption = 'Save Settings'
       OnExecute = actExecute
     end
   end
