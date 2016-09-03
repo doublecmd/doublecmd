@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-08-11 19:15+0200\n"
+"PO-Revision-Date: 2016-09-01 19:51+0200\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -1985,6 +1985,10 @@ msgstr "Configuración de las pestañas favoritas"
 msgid "Configuration of folder tabs"
 msgstr "Configuración de las pestañas de carpetas"
 
+#: tfrmmain.actconfigsavesettings.caption
+msgid "Save Settings"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Barra de herramientas..."
@@ -2920,6 +2924,12 @@ msgstr "-"
 
 #: tfrmmain.miline50.caption
 msgctxt "TFRMMAIN.MILINE50.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline55.caption
+#, fuzzy
+msgctxt "tfrmmain.miline55.caption"
 msgid "-"
 msgstr "-"
 
@@ -8921,7 +8931,7 @@ msgstr "&Salir del programa"
 
 #: ulng.rsdlgbuttonignore
 msgid "Ig&nore"
-msgstr ""
+msgstr "Ig&norar"
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
@@ -9756,6 +9766,10 @@ msgid ""
 "%s\n"
 "Most programs will not be able to access a file/directory with such a long name!\n"
 msgstr ""
+"La longitud del nombre de destino (%d) tiene más de %d caracteres\n"
+"%s\n"
+"La mayoría de los programas no podrán acceder a un archivo/carpeta con un nombre tan largo\n"
+"%s\n"
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only/hidden/system. Delete it?"

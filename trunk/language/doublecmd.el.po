@@ -2066,6 +2066,10 @@ msgstr "Διαμόρφωση των Αγαπημένων Καρτελών"
 msgid "Configuration of folder tabs"
 msgstr "Διαμόρφωση των Καρτελών Φακέλων"
 
+#: tfrmmain.actconfigsavesettings.caption
+msgid "Save Settings"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Γραμμή εργαλείων"
@@ -3015,6 +3019,12 @@ msgstr "-"
 
 #: tfrmmain.miline50.caption
 msgctxt "TFRMMAIN.MILINE50.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: tfrmmain.miline55.caption
+#, fuzzy
+msgctxt "tfrmmain.miline55.caption"
 msgid "-"
 msgstr "-"
 
