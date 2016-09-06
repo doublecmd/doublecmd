@@ -10,7 +10,6 @@ object frmStartingSplash: TfrmStartingSplash
   Caption = 'Double Commander'
   ClientHeight = 314
   ClientWidth = 256
-  Color = 15396089
   FormStyle = fsSplash
   Icon.Data = {
     267D000000000100040010100000010020006804000046000000202000000100
@@ -1035,6 +1034,8 @@ object frmStartingSplash: TfrmStartingSplash
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 283
     ClientWidth = 196
+    Color = clForm
+    ParentColor = False
     TabOrder = 0
     object lblTitle: TLabel
       AnchorSideLeft.Control = pnlInfo
