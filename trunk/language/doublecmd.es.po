@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-09-01 19:51+0200\n"
+"PO-Revision-Date: 2016-09-01 23:01+0200\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -1987,7 +1987,7 @@ msgstr "Configuración de las pestañas de carpetas"
 
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
-msgstr ""
+msgstr "Guardar ajustes"
 
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
@@ -2928,8 +2928,7 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmain.miline55.caption
-#, fuzzy
-msgctxt "tfrmmain.miline55.caption"
+msgctxt "TFRMMAIN.MILINE55.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -9476,7 +9475,7 @@ msgstr "¿Copiar los %d archivos/carpetas seleccionados?"
 
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
-msgstr "¿Copiar «%s» a..."
+msgstr "¿Copiar «%s»?"
 
 #: ulng.rsmsgcreateanewfiletype
 msgid "< Create a new file type \"%s files\" >"
