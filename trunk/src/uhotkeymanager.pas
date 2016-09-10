@@ -101,6 +101,8 @@ type
     procedure AddIfNotExists(const ShortcutsWithParams: array of String; Command: String;
                              const OldShortcuts, OldParams: array of String); overload;
     procedure AddIfNotExists(const ShortcutsWithParams: array of String; Command: String); overload;
+    procedure AddIfNotExists(Key: Word; Shift: TShiftState;
+                             const Command: String; const Param: String = ''); overload;
     procedure Clear; reintroduce;
     procedure Remove(var hotkey: THotkey); reintroduce;
     function Find(const Shortcuts: TDynamicStringArray): THotkey;
@@ -326,6 +328,15 @@ end;
 procedure THotkeys.AddIfNotExists(const ShortcutsWithParams: array of String; Command: String);
 begin
   AddIfNotExists(ShortcutsWithParams, Command, [], []);
+end;
+
+procedure THotkeys.AddIfNotExists(Key: Word; Shift: TShiftState;
+                                  const Command: String; const Param: String);
+var
+  AParams: TDynamicStringArray;
+begin
+  if (Length(Param) > 0) then AddString(AParams, Param);
+  AddIfNotExists([VirtualKeyToText(Key, Shift)], AParams, Command);
 end;
 
 procedure THotkeys.AddIfNotExists(const ShortcutsWithParams: array of String; Command: String;
