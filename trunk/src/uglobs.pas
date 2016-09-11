@@ -118,7 +118,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 38;  // 26
+  hkVersion     = 39;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
