@@ -577,7 +577,7 @@ var
 implementation
 
 uses
-   LCLProc, Dialogs, XMLRead, LazUTF8,
+   LCLProc, LCLType, Dialogs, XMLRead, LazUTF8,
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils
@@ -921,14 +921,15 @@ begin
       AddIfNotExists(['Num-'],[],'cm_MarkMinus');
       AddIfNotExists(['Shift+Num-'],[],'cm_UnmarkCurrentExtension');
       AddIfNotExists(['Num*'],[],'cm_MarkInvert');
-      AddIfNotExists(['Ctrl+C'],[],'cm_CopyToClipboard');
-      AddIfNotExists(['Ctrl+V'],[],'cm_PasteFromClipboard');
-      AddIfNotExists(['Ctrl+X'],[],'cm_CutToClipboard');
       AddIfNotExists(['Ctrl+Z'],[],'cm_EditComment');
       AddIfNotExists(['Ctrl+Home'],[],'cm_ChangeDirToHome');
       AddIfNotExists(['Ctrl+Left'],[],'cm_TransferLeft');
       AddIfNotExists(['Ctrl+Right'],[],'cm_TransferRight');
       AddIfNotExists(['Shift+Tab'],[],'cm_NextGroup');
+
+      AddIfNotExists(VK_C, [ssModifier], 'cm_CopyToClipboard');
+      AddIfNotExists(VK_V, [ssModifier], 'cm_PasteFromClipboard');
+      AddIfNotExists(VK_X, [ssModifier], 'cm_CutToClipboard');
     end;
 
   HMForm := HotMan.Forms.FindOrCreate('Viewer');
@@ -964,9 +965,6 @@ begin
       AddIfNotExists(['F3'],[],'cm_FindNext');
       AddIfNotExists(['Shift+F3'],[],'cm_FindPrev');
 
-      AddIfNotExists(['Ctrl+C'],[],'cm_CopyToClipboard');
-      AddIfNotExists(['Ctrl+A'],[],'cm_SelectAll');
-
       AddIfNotExists(['`'],[],'cm_Preview');  // til'da on preview mode
 
       AddIfNotExists(['Num+'],[],'cm_ZoomIn');
@@ -977,6 +975,8 @@ begin
       //AddIfNotExists(['Up'],[],'cm_Rotate270');  // how at once add this keys only to Image control?
       //AddIfNotExists(['Down'],[],'cm_Rotate90');
 
+      AddIfNotExists(VK_A, [ssModifier], 'cm_SelectAll');
+      AddIfNotExists(VK_C, [ssModifier], 'cm_CopyToClipboard');
     end;
 
 
@@ -1010,13 +1010,22 @@ begin
   with HMForm.Hotkeys do
     begin
       AddIfNotExists(['F7'],[],'cm_EditFind');
-      AddIfNotExists(['Ctrl+F'],[],'cm_EditFind');
       AddIfNotExists(['F2'],[],'cm_FileSave');
       AddIfNotExists(['F3'],[],'cm_EditFindNext');
       AddIfNotExists(['Shift+F3'],[],'cm_EditFindPrevious');
-      AddIfNotExists(['Ctrl+N'],[],'cm_FileNew');
-      AddIfNotExists(['Ctrl+S'],[],'cm_FileSave');
       AddIfNotExists(['Esc'],[],'cm_FileExit');
+
+      AddIfNotExists(VK_X, [ssModifier], 'cm_EditCut');
+      AddIfNotExists(VK_N, [ssModifier], 'cm_FileNew');
+      AddIfNotExists(VK_O, [ssModifier], 'cm_FileOpen');
+      AddIfNotExists(VK_S, [ssModifier], 'cm_FileSave');
+      AddIfNotExists(VK_F, [ssModifier], 'cm_EditFind');
+      AddIfNotExists(VK_R, [ssModifier], 'cm_EditRplc');
+      AddIfNotExists(VK_C, [ssModifier], 'cm_EditCopy');
+      AddIfNotExists(VK_Z, [ssModifier], 'cm_EditUndo');
+      AddIfNotExists(VK_V, [ssModifier], 'cm_EditPaste');
+      AddIfNotExists(VK_A, [ssModifier], 'cm_EditSelectAll');
+      AddIfNotExists(VK_Z, [ssModifier, ssShift], 'cm_EditRedo');
     end;
 
 
