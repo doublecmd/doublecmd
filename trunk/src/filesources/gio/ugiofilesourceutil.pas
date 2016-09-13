@@ -45,6 +45,7 @@ type
     FRenamingRootDir: Boolean;
     FCancel: PGCancellable;
     FRootDir: TFile;
+    FOldDoneBytes: Int64;
     FSkipAnyError: Boolean;
     FStatistics: TFileSourceCopyOperationStatistics;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
@@ -221,8 +222,12 @@ begin
       Exit;
     end;
 
-    FStatistics.CurrentFileDoneBytes:= current_num_bytes;
-    FStatistics.CurrentFileTotalBytes:= total_num_bytes;
+    with FStatistics do
+    begin
+      CurrentFileDoneBytes:= current_num_bytes;
+      CurrentFileTotalBytes:= total_num_bytes;
+      DoneBytes:= FOldDoneBytes + current_num_bytes;
+    end;
     UpdateStatistics(FStatistics);
 
     CheckOperationState;
@@ -455,6 +460,8 @@ var
   AError: PGError = nil;
   SourceFile, TargetFile: PGFile;
 begin
+  FOldDoneBytes:= FStatistics.DoneBytes;
+
   FCancel:= g_cancellable_new();
   SourceFile:= g_file_new_for_commandline_arg(Pgchar(aNode.TheFile.FullPath));
   TargetFile:= g_file_new_for_commandline_arg(Pgchar(AbsoluteTargetFileName));
@@ -523,6 +530,13 @@ begin
     g_object_unref(FCancel);
     g_object_unref(PGObject(SourceFile));
     g_object_unref(PGObject(TargetFile));
+  end;
+
+  with FStatistics do
+  begin
+    DoneFiles := DoneFiles + 1;
+    DoneBytes := FOldDoneBytes + aNode.TheFile.Size;
+    UpdateStatistics(FStatistics);
   end;
 end;
 
