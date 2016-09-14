@@ -30,13 +30,21 @@ interface
 uses
   Classes, SysUtils, MacOSAll, CocoaAll;
 
+function StringToNSString(const S: String): NSString;
+function StringToCFStringRef(const S: String): CFStringRef;
+
 function GetFileDescription(const FileName: String): String;
 
 implementation
 
-function StringToCFStringRef(const Value: String): CFStringRef;
+function StringToNSString(const S: String): NSString;
 begin
-  Result:= CFStringCreateWithCString(nil, PAnsiChar(Value), kCFStringEncodingUTF8)
+  Result:= NSString(NSString.stringWithUTF8String(PAnsiChar(S)));
+end;
+
+function StringToCFStringRef(const S: String): CFStringRef;
+begin
+  Result:= CFStringCreateWithCString(nil, PAnsiChar(S), kCFStringEncodingUTF8);
 end;
 
 function GetFileDescription(const FileName: String): String;
