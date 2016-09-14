@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Enumerating and monitoring drives in the system.
 
-   Copyright (C) 2006-2014  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -713,6 +713,22 @@ var
           GetStrMaybeQuoted(Copy(DeviceFile, 7, MaxInt)), UDisksDevices);
       if UDisksDeviceObject <> EmptyStr then
         DeviceFile := '/dev/' + ExtractFileName(UDisksDeviceObject);
+      Result := True;
+    end
+    else if StrBegins(DeviceFile, 'PARTUUID=') then
+    begin
+      DeviceFile := mbReadAllLinks('/dev/disk/by-partuuid/' +
+                                   GetStrMaybeQuoted(Copy(DeviceFile, 10, MaxInt)));
+      if Length(DeviceFile) > 0 then
+        UDisksDeviceObject := DeviceFileToUDisksObjectPath(DeviceFile);
+      Result := True;
+    end
+    else if StrBegins(DeviceFile, 'PARTLABEL=') then
+    begin
+      DeviceFile := mbReadAllLinks('/dev/disk/by-partlabel/' +
+                                   GetStrMaybeQuoted(Copy(DeviceFile, 11, MaxInt)));
+      if Length(DeviceFile) > 0 then
+        UDisksDeviceObject := DeviceFileToUDisksObjectPath(DeviceFile);
       Result := True;
     end
     else if StrBegins(DeviceFile, '/dev/') then
