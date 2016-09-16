@@ -76,13 +76,13 @@ type
 implementation
 
 uses
-  LCLProc, uDebug, uExceptions, syncobjs, fgl
+  LCLProc, LazUTF8, uDebug, uExceptions, syncobjs, fgl
   {$IF DEFINED(MSWINDOWS)}
-  ,Windows, JwaWinNT, JwaWinBase, LazUTF8, DCWindows, DCStrUtils, uGlobs, uOSUtils
+  , Windows, JwaWinNT, JwaWinBase, DCWindows, DCStrUtils, uGlobs, uOSUtils
   {$ELSEIF DEFINED(LINUX)}
-  ,inotify, BaseUnix, FileUtil, DCConvertEncoding
+  , inotify, BaseUnix, FileUtil, DCConvertEncoding
   {$ELSEIF DEFINED(BSD)}
-  ,BSD, Unix, BaseUnix, UnixType, FileUtil
+  , BSD, Unix, BaseUnix, UnixType, FileUtil
   {$ENDIF};
 
 {$IF DEFINED(MSWINDOWS)}

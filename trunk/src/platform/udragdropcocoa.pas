@@ -45,7 +45,7 @@ type
 implementation
 
 uses
-  CocoaAll;
+  CocoaAll, uMyDarwin;
 
 { ---------- TDragDropSourceCocoa ---------- }
 
@@ -83,7 +83,7 @@ begin
   FileList:= NSMutableArray.arrayWithCapacity(FileNamesList.Count);
   for I:= 0 to FileNamesList.Count - 1 do
   begin
-    FileList.addObject(NSSTR(PAnsiChar(FileNamesList[I])));
+    FileList.addObject(StringToNSString(FileNamesList[I]));
   end;
 
   DragPoint.x:= ScreenStartPoint.X;
@@ -92,7 +92,7 @@ begin
   PasteBoard:= NSPasteboard.pasteboardWithName(NSDragPboard);
   PasteBoard.declareTypes_owner(NSArray.arrayWithObject(NSFileNamesPboardType), nil);
   PasteBoard.setPropertyList_forType(FileList, NSFileNamesPboardType);
-  DragIcon:= NSWorkspace.sharedWorkspace.iconForFile(NSSTR(PAnsiChar(FileNamesList[0])));
+  DragIcon:= NSWorkspace.sharedWorkspace.iconForFile(StringToNSString(FileNamesList[0]));
   Window.dragImage_at_offset_event_pasteboard_source_slideBack(DragIcon, DragPoint, NSZeroSize, nil, PasteBoard, Window, True);
 
   // Simulate drag-end event.
