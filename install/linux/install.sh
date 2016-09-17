@@ -127,7 +127,8 @@ if [ -z $CK_PORTABLE ]
     ln -sf  ../lib$LIB_SUFFIX/doublecmd/doublecmd $DC_INSTALL_PREFIX/usr/bin/doublecmd
     install -m 644 doublecmd.png $DC_INSTALL_PREFIX/usr/share/pixmaps/doublecmd.png
     install -m 644 install/linux/doublecmd.desktop $DC_INSTALL_PREFIX/usr/share/applications/doublecmd.desktop
-    install -m 644 pixmaps/mainicon/alt/dcfinal.svg $DC_INSTALL_PREFIX/usr/share/icons/hicolor/scalable/apps/doublecmd.svg
+    ln -sf ../../../../doublecmd/pixmaps/mainicon/alt/dcfinal.svg \
+           $DC_INSTALL_PREFIX/usr/share/icons/hicolor/scalable/apps/doublecmd.svg
   else
     # Copy documentation
     mkdir -p $DC_INSTALL_DIR/doc
