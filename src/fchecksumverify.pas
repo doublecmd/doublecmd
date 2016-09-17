@@ -39,6 +39,7 @@ type
     btnClose: TBitBtn;
     seCheckSumVerify: TSynEdit;
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
     procedure seCheckSumVerifySpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
   private
@@ -56,7 +57,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uLng;
+  uLng, uClassesEx;
 
 procedure ShowVerifyCheckSum(const VerifyResult: TVerifyChecksumResult);
 var
@@ -98,6 +99,11 @@ end;
 procedure TfrmCheckSumVerify.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
+end;
+
+procedure TfrmCheckSumVerify.FormCreate(Sender: TObject);
+begin
+  seCheckSumVerify.FixDefaultKeystrokes;
 end;
 
 procedure TfrmCheckSumVerify.seCheckSumVerifySpecialLineColors(Sender: TObject; Line: integer;
