@@ -48,6 +48,7 @@ install/linux/install.sh --install-prefix=%{buildroot}
 %{_datadir}/man/man1/%{doublecmd}.*
 %{_datadir}/pixmaps/%{doublecmd}.*
 %{_datadir}/applications/%{doublecmd}.desktop
+%{_datadir}/icons/hicolor/scalable/apps/%{doublecmd}.svg
 
 %changelog
 * Fri Jun 11 2010 - Alexander Koblov <Alexx2000@mail.ru>
