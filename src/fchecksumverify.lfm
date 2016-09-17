@@ -8,10 +8,12 @@ object frmCheckSumVerify: TfrmCheckSumVerify
   ClientWidth = 400
   Constraints.MinHeight = 200
   Constraints.MinWidth = 300
+  KeyPreview = True
   OnClose = FormClose
+  OnKeyDown = FormKeyDown
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '1.4.0.4'
+  LCLVersion = '1.6.0.4'
   inline seCheckSumVerify: TSynEdit
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -35,7 +37,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     Gutter.MouseActions = <>
     RightGutter.Width = 0
     RightGutter.MouseActions = <>
-    Keystrokes = <
+    Keystrokes = <    
       item
         Command = ecUp
         ShortCut = 38
