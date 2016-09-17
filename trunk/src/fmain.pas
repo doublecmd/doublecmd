@@ -843,7 +843,7 @@ uses
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil, uTempFileSystemFileSource,
-  XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar,
+  XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
@@ -987,6 +987,8 @@ begin
   InitPropStorage(Self);
 
   PanelSelected:=fpLeft;
+
+  seLogWindow.FixDefaultKeystrokes;
 
   HMMainForm := HotMan.Register(Self, HotkeysCategory);
   HotMan.Register(edtCommand, 'Command Line');

@@ -28,7 +28,7 @@ unit uClassesEx;
 interface
 
 uses
-  Classes, SysUtils, IniPropStorage;
+  Classes, SysUtils, IniPropStorage, SynEdit;
 
 type
 
@@ -52,10 +52,17 @@ type
     procedure DoWriteString(const Section, Ident, Value: string); override;
   end;
 
+  { TSynEditHelper }
+
+  TSynEditHelper = class helper for TSynEdit
+  public
+    procedure FixDefaultKeystrokes;
+  end;
+
 implementation
 
 uses
-  LCLVersion, Forms, DCStrUtils, DCClassesUtf8;
+  LCLType, Forms, Controls, SynEditKeyCmds, DCStrUtils, DCClassesUtf8;
 
 { TBlobStream }
 
@@ -82,10 +89,9 @@ begin
   begin
     with TCustomForm(Self.Owner) do
     begin
-{$IF (lcl_fullversion >= 1020000)}
       // Refresh monitor list
       Screen.UpdateMonitors;
-{$ENDIF}
+
       AMonitor:= Screen.MonitorFromPoint(Classes.Point(Left, Top));
       if Assigned(AMonitor) then MakeFullyVisible(AMonitor, True);
 
@@ -112,6 +118,27 @@ begin
     Result := Owner.ClassName + Copy(Ident, 1 + Length(Owner.Name), MaxInt)
   else
     Result := Ident;
+end;
+
+{ TSynEditHelper }
+
+procedure TSynEditHelper.FixDefaultKeystrokes;
+
+  procedure AddKey(const ACmd: TSynEditorCommand; const AKey: Word;
+     const AShift: TShiftState; const AShiftMask: TShiftState = []);
+  begin
+    with Keystrokes.Add do
+    begin
+      Key       := AKey;
+      Shift     := AShift;
+      ShiftMask := AShiftMask;
+      Command   := ACmd;
+    end;
+  end;
+
+begin
+  AddKey(ecCopy, VK_C, [ssModifier]);
+  AddKey(ecSelectAll, VK_A, [ssModifier]);
 end;
 
 end.
