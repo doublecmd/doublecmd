@@ -3,6 +3,7 @@ object frmMultiRename: TfrmMultiRename
   Height = 465
   Top = 143
   Width = 803
+  ActiveControl = edName
   Caption = 'MultiRename'
   ClientHeight = 465
   ClientWidth = 803
@@ -12,7 +13,7 @@ object frmMultiRename: TfrmMultiRename
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.6.0.3'
+  LCLVersion = '1.6.0.4'
   object StringGrid: TStringGrid
     Left = 6
     Height = 244
