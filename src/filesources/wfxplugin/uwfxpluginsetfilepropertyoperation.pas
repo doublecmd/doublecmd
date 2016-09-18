@@ -117,15 +117,13 @@ begin
     else
       aTemplateFile := nil;
 
-    SetProperties(aFile, aTemplateFile);
+    SetProperties(CurrentFileIndex, aFile, aTemplateFile);
 
     with FStatistics do
     begin
       DoneFiles := DoneFiles + 1;
       UpdateStatistics(FStatistics);
     end;
-
-    AppProcessMessages;
 
     CheckOperationState;
   end;

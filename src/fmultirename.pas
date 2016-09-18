@@ -20,7 +20,8 @@ interface
 uses
   LazUtf8, SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, SynRegExpr,
   Controls, LCLType, DCClassesUtf8, uClassesEx, uFile, uFileSource,
-  StringHashList, Grids, ExtCtrls, Buttons, DCXmlConfig, uOSForms;
+  StringHashList, Grids, ExtCtrls, Buttons, DCXmlConfig, uOSForms,
+  uFileProperty, uFileSourceSetFilePropertyOperation;
 
 type
 
@@ -177,6 +178,7 @@ type
     FSourceRow: Integer;
     FMoveRow : Boolean;
     FNames: TStringList;
+    FLog: TStringListEx;
 
     {Handles a single formatting string}
     function sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
@@ -219,6 +221,7 @@ type
     procedure ClearPresetsList;
     {Load names from file}
     procedure LoadNamesFromFile(const AFileName: String);
+    procedure SetFilePropertyResult(Index: Integer; aFile: TFile; aTemplate: TFileProperty; Result: TSetFilePropertyResult);
   public
     { Public declarations }
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource; var aFiles: TFiles); reintroduce;
@@ -239,8 +242,9 @@ implementation
 
 uses
   uDebug, uLng, uGlobs, uFileProcs, DCOSUtils, DCStrUtils,
-  fSelectTextRange, uShowMsg, uFileSourceUtil, uFileProperty, uFileFunctions,
-  dmCommonData, fMultiRenameWait, uOSUtils;
+  fSelectTextRange, uShowMsg, uFileSourceUtil, uFileFunctions,
+  dmCommonData, fMultiRenameWait, uOSUtils, uFileSourceOperation,
+  uOperationsManager;
 
 const
   sPresetsSection = 'MultiRenamePresets';
@@ -956,50 +960,75 @@ begin
   Close;
 end;
 
+procedure TfrmMultiRename.SetFilePropertyResult(Index: Integer; aFile: TFile;
+  aTemplate: TFileProperty; Result: TSetFilePropertyResult);
+var
+  S: String;
+begin
+  with TFileNameProperty(aTemplate) do
+  begin
+    case Result of
+      sfprSuccess:
+        begin
+          S:= 'OK      ' + aFile.Name + ' -> ' + Value;
+          FFiles[Index].Name := Value; // Write new name to the file object
+        end;
+      sfprError: S:= 'FAILED  ' + aFile.Name + ' -> ' + Value;
+      sfprSkipped: S:= 'SKIPPED ' + aFile.Name + ' -> ' + Value;
+    end;
+  end;
+  if cbLog.Checked then FLog.Add(S);
+end;
+
 procedure TfrmMultiRename.RenameFiles;
 var
-  hFile: THandle;
-  c: Integer;
-  sNewName,
-  sResult: String;
+  I: Integer;
+  AFile: TFile;
+  OldFiles, NewFiles: TFiles;
+  Operation: TFileSourceOperation;
+  theNewProperties: TFileProperties;
 begin
+  if cbLog.Checked then
+  begin
+    if edFile.Text = EmptyStr then
+      edFile.Text:= FFiles[0].Path + 'default.log';
+    mbForceDirectory(ExtractFileDir(edFile.Text));
+    FLog:= TStringListEx.Create;
+  end;
+
+  OldFiles:= FFiles.Clone;
+  NewFiles:= TFiles.Create(EmptyStr);
+
   try
-    if cbLog.Checked then
+    for I:= 0 to FFiles.Count - 1 do
     begin
-      if edFile.Text = EmptyStr then
-        edFile.Text:= FFiles[0].Path + 'default.log';
-      mbForceDirectory(ExtractFileDir(edFile.Text));
-
-      if mbFileExists(edFile.Text) then
-        begin
-          hFile:= mbFileOpen(edFile.Text, fmOpenReadWrite);
-          FileTruncate(hFile, 0);
-        end
-      else
-        begin
-          hFile:= mbFileCreate(edFile.Text);
-        end;
+      AFile:= TFile.Create(EmptyStr);
+      AFile.Name:= FreshText(I);
+      NewFiles.Add(AFile);
     end;
-    for c:= 0 to FFiles.Count - 1 do
+    FillChar({%H-}theNewProperties, SizeOf(TFileProperties), 0);
+    Operation:= FFileSource.CreateSetFilePropertyOperation(OldFiles, theNewProperties);
+    if Assigned(Operation) then
     begin
-      sResult:= FFiles[c].Name;
-      sNewName:= FreshText(c);
-      if RenameFile(FFileSource, FFiles[c], sNewName, True) = True then
-        begin
-          FFiles[c].Name := sNewName; // Write new name to the file object
-          sResult := 'OK    ' + sResult + ' -> ' + sNewName;
-        end
-      else
-        begin
-          sResult := 'FAILED' + sResult + ' -> ' + sNewName;
-        end;
-
-      if cbLog.Checked then
-        FileWriteLn(hFile, sResult);
+      with Operation as TFileSourceSetFilePropertyOperation do
+      begin
+        SetTemplateFiles(NewFiles);
+        OnSetFilePropertyResult:= @SetFilePropertyResult;
+      end;
+      OperationsManager.AddOperationModal(Operation);
     end;
   finally
     if cbLog.Checked then
-      FileClose(hFile);
+    begin
+      try
+        FLog.SaveToFile(edFile.Text);
+      except
+        on E: Exception do msgError(E.Message);
+      end;
+      FLog.Free;
+    end;
+    OldFiles.Free;
+    NewFiles.Free;
   end;
 
   StringGridTopLeftChanged(StringGrid);

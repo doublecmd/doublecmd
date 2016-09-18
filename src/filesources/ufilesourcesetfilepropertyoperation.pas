@@ -17,6 +17,9 @@ type
 
   TSetFilePropertyResult = (sfprSuccess, sfprError, sfprSkipped);
 
+  TSetFilePropertyResultFunction = procedure(Index: Integer; aFile: TFile;
+      aTemplate: TFileProperty; Result: TSetFilePropertyResult) of object;
+
   TFileSourceSetFilePropertyOperationStatistics = record
     CurrentFile: String;
     TotalFiles: Int64;
@@ -77,6 +80,7 @@ type
 
   protected
     FSupportedProperties: TFilePropertiesTypes;
+    FSetFilePropertyResultFunction: TSetFilePropertyResultFunction;
 
     function GetID: TFileSourceOperationType; override;
     procedure DoReloadFileSources; override;
@@ -84,7 +88,7 @@ type
     procedure UpdateStatistics(var NewStatistics: TFileSourceSetFilePropertyOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
 
-    procedure SetProperties(aFile: TFile; aTemplateFile: TFile);
+    procedure SetProperties(Index: Integer; aFile: TFile; aTemplateFile: TFile);
     function SetNewProperty(aFile: TFile; aTemplateProperty: TFileProperty): TSetFilePropertyResult; virtual abstract;
 
     function GetErrorString(aFile: TFile; aProperty: TFileProperty): String;
@@ -122,6 +126,7 @@ type
     property Recursive: Boolean read FRecursive write FRecursive;
     property SupportedProperties: TFilePropertiesTypes read FSupportedProperties;
     property SkipErrors: Boolean read FSkipErrors write FSkipErrors;
+    property OnSetFilePropertyResult: TSetFilePropertyResultFunction write FSetFilePropertyResultFunction;
   end;
 
 implementation
@@ -227,6 +232,7 @@ begin
 
     FStatistics := NewStatistics;
 
+    AppProcessMessages();
   finally
     FStatisticsLock.Release;
   end;
@@ -263,8 +269,8 @@ begin
   theTemplateFiles := nil;
 end;
 
-procedure TFileSourceSetFilePropertyOperation.SetProperties(aFile: TFile;
-                                                            aTemplateFile: TFile);
+procedure TFileSourceSetFilePropertyOperation.SetProperties(Index: Integer;
+  aFile: TFile; aTemplateFile: TFile);
 var
   FileAttrs: TFileAttrs;
   prop: TFilePropertyType;
@@ -306,6 +312,10 @@ begin
           end;
 
           SetResult := SetNewProperty(aFile, templateProperty);
+
+          if Assigned(FSetFilePropertyResultFunction) then begin
+            FSetFilePropertyResultFunction(Index, aFile, templateProperty, SetResult);
+          end;
         end;
       end;
 

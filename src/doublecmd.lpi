@@ -1398,6 +1398,7 @@ end;"/>
       <Unit188>
         <Filename Value="filesources\wfxplugin\uwfxpluginsetfilepropertyoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWfxPluginSetFilePropertyOperation"/>
       </Unit188>
       <Unit189>
         <Filename Value="filesources\wfxplugin\uwfxpluginutil.pas"/>
