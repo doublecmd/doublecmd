@@ -425,7 +425,8 @@ begin
 
 {$ELSE}
 
-  if gUseShellForFileOperations and (UTF8Length(OldName) < MAX_PATH - 1) and (UTF8Length(NewName) < MAX_PATH - 1) then
+  if gUseShellForFileOperations and (FFullFilesTree.Count = 1) and
+     (UTF8Length(OldName) < MAX_PATH - 1) and (UTF8Length(NewName) < MAX_PATH - 1) then
   begin
     if ShellRename then
       Result := sfprSuccess
