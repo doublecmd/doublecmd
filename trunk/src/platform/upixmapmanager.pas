@@ -499,6 +499,7 @@ begin
   if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlNotLoaded;
 
   sFileName:= ReplaceEnvVars(sFileName);
+  sFileName:= ExpandAbsolutePath(sFileName);
 
   // If the name is not full path then treat it as MIME type.
   if GetPathType(sFileName) = ptNone then
