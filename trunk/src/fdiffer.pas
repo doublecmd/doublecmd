@@ -269,7 +269,7 @@ begin
     edtFileNameLeft.Text:= FileNameLeft;
     edtFileNameRight.Text:= FileNameRight;
     FShowIdentical:= actAutoCompare.Checked;
-    actBinaryCompare.Checked:= not (FileIsText(FileNameLeft) or FileIsText(FileNameRight));
+    actBinaryCompare.Checked:= not (FileIsText(FileNameLeft) and FileIsText(FileNameRight));
     if actBinaryCompare.Checked then
       actBinaryCompareExecute(actBinaryCompare)
     else begin
@@ -1063,13 +1063,9 @@ begin
       FreeAndNil(fsFileStream);
     end;
   except
-    on EFOpenError do
+    on E: Exception do
     begin
-      msgError(rsMsgErrEOpen + ': ' + FileName);
-    end;
-    on EReadError do
-    begin
-      msgError(rsMsgErrERead + ': ' + FileName);
+      msgError(E.Message + LineEnding + FileName);
     end;
   end;
 end;
