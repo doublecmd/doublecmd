@@ -801,7 +801,7 @@ begin
   if Assigned(ContentGetValueW) then
     Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
   else if Assigned(ContentGetValue) then
-    Rez := ContentGetValue(PAnsiChar(CeUtf8ToSys(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
+    Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
 
   case Rez of
     ft_fieldempty: Result := Unassigned;
@@ -852,7 +852,7 @@ begin
   if Assigned(ContentGetValueW) then
     Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
   else if Assigned(ContentGetValue) then
-      Rez := ContentGetValue(PAnsiChar(CeUtf8ToSys(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
+      Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
 
   case Rez of
     ft_fieldempty: Result := '';

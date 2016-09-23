@@ -985,7 +985,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= UTF8ToSys(LongPath);
+  Result:= CeUtf8ToSys(LongPath);
 end;
 {$ENDIF}
 
