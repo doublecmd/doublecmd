@@ -39,7 +39,7 @@ type
     FKeepScrolling: Boolean;
     FSecondViewer: TBinaryDiffViewer;
   protected
-    procedure WriteHex; override;
+    procedure WriteCustom; override;
     procedure SetPosition(Value: PtrInt); override;
   public
     constructor Create(AOwner: TComponent); override;
@@ -76,7 +76,7 @@ const
 
 { TBinaryDiffViewer }
 
-procedure TBinaryDiffViewer.WriteHex;
+procedure TBinaryDiffViewer.WriteCustom;
 const
   cWordSize = 3;
 var
