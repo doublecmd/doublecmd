@@ -327,17 +327,15 @@ type
     procedure OutBin(x, y: Integer; sText: string; StartPos: PtrInt; DataLength: Integer);
 
     procedure OutCustom(x, y: Integer; sText: string;StartPos: PtrInt; DataLength: Integer);  // render one line
-    procedure WriteCustom;
     function  TransformCustom(var APosition: PtrInt; ALimit: PtrInt;AWithAdditionalData:boolean=True): AnsiString;
     function  TransformCustomBlock(var APosition: PtrInt; DataLength: integer ; ASeparatorsOn, AAlignData:boolean; out AChars:AnsiString): AnsiString;
 
     function HexToValueProc(AChar:AnsiChar;AMaxDigitsCount:integer):AnsiString;
     function DecToValueProc(AChar:AnsiChar;AMaxDigitsCount:integer):AnsiString;
 
-    procedure WriteText;
-    procedure WriteHex; virtual;
-    procedure WriteDec; virtual;
     procedure WriteBin;
+    procedure WriteText;
+    procedure WriteCustom; virtual;
     function  TransformText(const sText: String; const Xoffset: Integer): String;
     function  TransformBin(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
     function  TransformHex(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;virtual;
@@ -1575,7 +1573,6 @@ begin
   end;
 end;
 
-
 procedure TViewerControl.WriteBin;
 var
   yIndex: Integer;
@@ -1593,19 +1590,6 @@ begin
     if s <> '' then
       OutBin(0, yIndex * FTextHeight, s, LineStart, iPos - LineStart);
   end;
-end;
-
-
-
-procedure TViewerControl.WriteHex;
-begin
-  WriteCustom;
-end;
-
-
-procedure TViewerControl.WriteDec;
-begin
-  WriteCustom;
 end;
 
 function TViewerControl.GetDataAdr: Pointer;
