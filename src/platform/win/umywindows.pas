@@ -111,7 +111,7 @@ function mbGetRemoteFileName(const sLocalName: String): String;
    @param(sShortPath A string to receive the short form of the path that sLongPath specifies)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function mbGetShortPathName(const sLongPath: String; out sShortPath: AnsiString): Boolean;
+function mbGetShortPathName(const sLongPath: String; var sShortPath: AnsiString): Boolean;
 {en
    Retrieves owner of the file (user and group).
    Both user and group contain computer name.
@@ -385,7 +385,7 @@ begin
   end;
 end;
 
-function mbGetShortPathName(const sLongPath: String; out sShortPath: AnsiString): Boolean;
+function mbGetShortPathName(const sLongPath: String; var sShortPath: AnsiString): Boolean;
 var
   wsLongPath,
   wsShortPath: UnicodeString;
