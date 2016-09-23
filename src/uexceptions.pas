@@ -22,7 +22,7 @@ implementation
 
 uses
   Forms, Controls, Dialogs, LCLProc, LCLStrConsts, syncobjs,
-  uDebug, uLng, uGlobs, uDCVersion, DCOSUtils, LazUTF8;
+  uDebug, uLng, uGlobs, uDCVersion, DCOSUtils, LazUTF8, DCConvertEncoding;
 
 type
   THandleException = class
@@ -137,7 +137,7 @@ begin
     Msg := ExceptionText;
 
   if FindInvalidUTF8Character(PChar(Msg), Length(Msg), False) > 0 then
-    Msg := AnsiToUtf8(Msg);
+    Msg := CeSysToUtf8(Msg);
   if (Msg <> '') and (Msg[length(Msg)] = LineEnding) then Delete(Msg, Length(Msg), 1);
 
   with Application do
