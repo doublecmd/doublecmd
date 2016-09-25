@@ -698,13 +698,9 @@ begin
   begin
     if (SplitPos >= 0) and (SplitPos <= 100) then
     begin
-      // Calculate panel width
-      if not gHorizontalFilePanels then
-        pnlLeft.Width:= (pnlNoteBooks.Width - MainSplitter.Width) * SplitPos div 100
-      else
-        pnlLeft.Height:= (pnlNoteBooks.Height - MainSplitter.Height) * SplitPos div 100;
       // Update splitter position
       MainSplitterPos:= SplitPos;
+      pnlNotebooksResize(pnlNotebooks);
     end;
   end;
 end;
