@@ -38,7 +38,7 @@ type
     FHandle: THandle;
     FFileName: String;
   public
-    constructor Create(const AFileName: String; Mode: Word);
+    constructor Create(const AFileName: String; Mode: LongWord);
     destructor Destroy; override;
     function Read(var Buffer; Count: LongInt): LongInt; override;
     property FileName: String read FFileName;
@@ -73,7 +73,7 @@ uses
 
 { TFileStreamEx }
 
-constructor TFileStreamEx.Create(const AFileName: String; Mode: Word);
+constructor TFileStreamEx.Create(const AFileName: String; Mode: LongWord);
 begin
   if (Mode and fmCreate) <> 0 then
     begin
