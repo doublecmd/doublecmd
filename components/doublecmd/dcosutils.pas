@@ -231,10 +231,11 @@ const
                FILE_SHARE_READ,
                FILE_SHARE_WRITE,
                FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE);
-  OpenFlags: array[0..2] of DWORD  = (
+  OpenFlags: array[0..3] of DWORD  = (
                 0,
                 FILE_FLAG_NO_BUFFERING,
-                FILE_FLAG_WRITE_THROUGH);
+                FILE_FLAG_WRITE_THROUGH,
+                FILE_FLAG_NO_BUFFERING or FILE_FLAG_WRITE_THROUGH);
 
 var
   CurrentDirectory: String;
@@ -253,10 +254,11 @@ const
                 O_RdOnly,
                 O_WrOnly,
                 O_RdWr);
-  OpenFlags: array[0..2] of cInt  = (
+  OpenFlags: array[0..3] of cInt  = (
                 0,
                 O_SYNC,
-                O_DIRECT);
+                O_DIRECT,
+                O_SYNC or O_DIRECT);
 {$ENDIF}
 
 (*Is Directory*)
