@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform dependent functions dealing with operating system.
 
-    Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,11 @@ interface
 
 uses
   SysUtils, Classes, DynLibs, DCClassesUtf8, DCBasicTypes;
-    
+
+const
+  fmOpenSync   = $10000;
+  fmOpenDirect = $20000;
+
 type
   TFileMapRec = record
     FileHandle : System.THandle;
@@ -112,10 +116,10 @@ procedure UnMapFile(var FileMapRec : TFileMapRec);
 function ConsoleToUTF8(const Str: AnsiString): String;
 
 { File handling functions}
-function mbFileOpen(const FileName: String; Mode: Word): System.THandle;
-function mbFileCreate(const FileName: String): System.THandle; overload;
-function mbFileCreate(const FileName: String; ShareMode: Longint): System.THandle; overload;
-function mbFileCreate(const FileName: String; ShareMode: Longint; Rights: Longint): System.THandle; overload;
+function mbFileOpen(const FileName: String; Mode: LongWord): System.THandle;
+function mbFileCreate(const FileName: String): System.THandle; overload; inline;
+function mbFileCreate(const FileName: String; Mode: LongWord): System.THandle; overload; inline;
+function mbFileCreate(const FileName: String; Mode, Rights: LongWord): System.THandle; overload;
 function mbFileAge(const FileName: String): DCBasicTypes.TFileTime;
 function mbFileSame(const FirstName, SecondName: String): Boolean;
 // On success returns True.
@@ -214,6 +218,7 @@ begin
 end;
 
 {$ENDIF}
+
 {$IF DEFINED(MSWINDOWS)}
 const
   AccessModes: array[0..2] of DWORD  = (
@@ -226,15 +231,32 @@ const
                FILE_SHARE_READ,
                FILE_SHARE_WRITE,
                FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE);
+  OpenFlags: array[0..2] of DWORD  = (
+                0,
+                FILE_FLAG_NO_BUFFERING,
+                FILE_FLAG_WRITE_THROUGH);
 
 var
   CurrentDirectory: String;
 {$ELSEIF DEFINED(UNIX)}
 const
-  AccessModes: array[0..2] of LongInt  = (
+
+{$IF NOT DECLARED(O_SYNC)}
+  O_SYNC   = 0;
+{$ENDIF}
+
+{$IF NOT DECLARED(O_DIRECT)}
+  O_DIRECT = 0;
+{$ENDIF}
+
+  AccessModes: array[0..2] of cInt  = (
                 O_RdOnly,
                 O_WrOnly,
                 O_RdWr);
+  OpenFlags: array[0..2] of cInt  = (
+                0,
+                O_SYNC,
+                O_DIRECT);
 {$ENDIF}
 
 (*Is Directory*)
@@ -539,58 +561,47 @@ begin
   {$ENDIF}
 end;
 
-function mbFileOpen(const FileName: String; Mode: Word): System.THandle;
+function mbFileOpen(const FileName: String; Mode: LongWord): System.THandle;
 {$IFDEF MSWINDOWS}
 begin
   Result:= CreateFileW(PWideChar(UTF16LongName(FileName)), AccessModes[Mode and 3],
                        ShareModes[(Mode and $F0) shr 4], nil, OPEN_EXISTING,
-                       FILE_ATTRIBUTE_NORMAL, 0);
+                       FILE_ATTRIBUTE_NORMAL, OpenFlags[(Mode shr 16) and 3]);
 end;
 {$ELSE}
 begin
-  Result:= fpOpen(UTF8ToSys(FileName), AccessModes[Mode and 3]);
+  repeat
+    Result:= fpOpen(UTF8ToSys(FileName), AccessModes[Mode and 3] or
+                    OpenFlags[(Mode shr 16) and 3]);
+  until (Result <> -1) or (fpgeterrno <> ESysEINTR);
+  Result:= FileLock(Result, Mode and $FF);
 end;
 {$ENDIF}
 
 function mbFileCreate(const FileName: String): System.THandle;
-{$IFDEF MSWINDOWS}
 begin
-  Result := mbFileCreate(FileName, fmShareDenyWrite, 0);
+  Result:= mbFileCreate(FileName, fmShareDenyWrite);
 end;
-{$ELSE}
-begin
-  Result:= fpOpen(UTF8ToSys(FileName), O_Creat or O_RdWr or O_Trunc);
-end;
-{$ENDIF}
 
-function mbFileCreate(const FileName: String; ShareMode: Longint): System.THandle;
-{$IFDEF MSWINDOWS}
+function mbFileCreate(const FileName: String; Mode: LongWord): System.THandle;
 begin
-  Result:= mbFileCreate(FileName, ShareMode, 0);
+  Result:= mbFileCreate(FileName, Mode, 438); // 438 = 666 octal
 end;
-{$ELSE}
-begin
-  {$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5))}
-  Result:= FileCreate(UTF8ToSys(FileName), ShareMode, 438); // 438 = 666 octal
-  {$ELSE}
-  Result:= FileCreate(UTF8ToSys(FileName), 438); // 438 = 666 octal
-  {$ENDIF}
-end;
-{$ENDIF}
 
-function mbFileCreate(const FileName: String; ShareMode: Longint; Rights: Longint): System.THandle;
+function mbFileCreate(const FileName: String; Mode, Rights: LongWord): System.THandle;
 {$IFDEF MSWINDOWS}
 begin
   Result:= CreateFileW(PWideChar(UTF16LongName(FileName)), GENERIC_READ or GENERIC_WRITE,
-                       ShareModes[(ShareMode and $F0) shr 4], nil, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+                       ShareModes[(Mode and $F0) shr 4], nil, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
+                       OpenFlags[(Mode shr 16) and 3]);
 end;
 {$ELSE}
 begin
-  {$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5))}
-  Result:= FileCreate(UTF8ToSys(FileName), ShareMode, Rights);
-  {$ELSE}
-  Result:= FileCreate(UTF8ToSys(FileName), Rights);
-  {$ENDIF}
+  repeat
+    Result:= fpOpen(UTF8ToSys(FileName), O_Creat or O_RdWr or O_Trunc or
+                    OpenFlags[(Mode shr 16) and 3], Rights);
+  until (Result <> -1) or (fpgeterrno <> ESysEINTR);
+  Result:= FileLock(Result, Mode and $FF);
 end;
 {$ENDIF}
 
