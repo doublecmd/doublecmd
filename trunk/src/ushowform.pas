@@ -59,7 +59,7 @@ uses
   uTempFileSystemFileSource, uLng, fDiffer, uDebug, DCOSUtils, uShowMsg,
   uFile, uFileSourceCopyOperation, uFileSystemFileSource,
   uFileSourceOperationOptions, uOperationsManager, uFileSourceOperationTypes,
-  uWcxArchiveFileSource, uWfxPluginFileSource, fFileExecuteYourSelf;
+  uMultiArchiveFileSource, fFileExecuteYourSelf;
 
 type
 
@@ -239,7 +239,7 @@ begin
     begin
       if not msgYesNo(Format(rsMsgCopyBackward, [ExtractFileName(FileName)])) then Exit;
       if (fsoCopyIn in TargetFileSource.GetOperationsTypes) and
-         ((TargetFileSource is TWcxArchiveFileSource) or (TargetFileSource is TWfxPluginFileSource)) then
+         (not (TargetFileSource is TMultiArchiveFileSource)) then
       begin
         Files:= TFiles.Create(SourceFileSource.GetRootDir);
         Files.Add(TFileSystemFileSource.CreateFileFromFile(FileName));
