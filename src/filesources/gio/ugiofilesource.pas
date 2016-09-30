@@ -410,7 +410,8 @@ var
   TargetFileSource: IFileSource;
 begin
   TargetFileSource := Self;
-  Result:= TGioCopyInOperation.Create(SourceFileSource, TargetFileSource, SourceFiles, FCurrentAddress + TargetPath);
+  if not StrBegins(TargetPath, FCurrentAddress) then TargetPath:= FCurrentAddress + TargetPath;
+  Result:= TGioCopyInOperation.Create(SourceFileSource, TargetFileSource, SourceFiles, TargetPath);
 end;
 
 function TGioFileSource.CreateCopyOutOperation(TargetFileSource: IFileSource;
