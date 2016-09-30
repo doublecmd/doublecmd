@@ -2058,7 +2058,7 @@ end;
 
 procedure TMainCommands.cm_EditPath(const Params: array of string);
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_EditPath', Params);
+  if gCurDir then frmMain.ActiveFrame.ExecuteCommand('cm_EditPath', Params);
 end;
 
 // Parameters:
