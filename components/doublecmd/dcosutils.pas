@@ -233,9 +233,9 @@ const
                FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE);
   OpenFlags: array[0..3] of DWORD  = (
                 0,
-                FILE_FLAG_NO_BUFFERING,
                 FILE_FLAG_WRITE_THROUGH,
-                FILE_FLAG_NO_BUFFERING or FILE_FLAG_WRITE_THROUGH);
+                FILE_FLAG_NO_BUFFERING,
+                FILE_FLAG_WRITE_THROUGH or FILE_FLAG_NO_BUFFERING);
 
 var
   CurrentDirectory: String;
