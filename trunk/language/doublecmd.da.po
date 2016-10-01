@@ -79,6 +79,10 @@ msgstr "Fø&lg links"
 msgid "&Reserve space"
 msgstr "&Reservér plads"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Hvad skal gøres, når filens tid, attributter, etc. ikke kan indstilles"

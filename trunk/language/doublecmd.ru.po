@@ -78,6 +78,10 @@ msgstr "С&ледовать ссылкам"
 msgid "&Reserve space"
 msgstr "Р&езервировать место"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr "Проверить после &завершения"
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgctxt "tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint"
 msgid "What to do when cannot set file time, attributes, etc."

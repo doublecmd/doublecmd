@@ -78,6 +78,10 @@ msgstr "Fo&lge Verknüpfungen"
 msgid "&Reserve space"
 msgstr "Speicherplatz &reservieren"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Was soll getan werden, wenn Dateieigenschaften nicht übernommen werden können"

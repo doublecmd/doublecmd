@@ -85,6 +85,10 @@ msgstr "Nas&ledovať odkazy"
 msgid "&Reserve space"
 msgstr "Vyh&radený priestor"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Čo urobiť, ak nemôžem nastaviť súboru čas, atribúty a pod."

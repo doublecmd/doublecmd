@@ -21,12 +21,8 @@ msgid "Right: Delete %d file(s)"
 msgstr "Rechts: verwijder %d bestand(en)"
 
 #: fsyncdirsdlg.rsfilesfound
-msgid ""
-"Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique "
-"right: %d)"
-msgstr ""
-"Gevonden bestanden: %d (Identiek: %d, Verschillend: %d, Uniek links: %d, "
-"Uniek rechts: %d)"
+msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique right: %d)"
+msgstr "Gevonden bestanden: %d (Identiek: %d, Verschillend: %d, Uniek links: %d, Uniek rechts: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
 msgid "Left to Right: Copy %d files, total size: %d bytes"
@@ -80,6 +76,10 @@ msgstr "Volg koppelingen"
 #: tfilesystemcopymoveoperationoptionsui.cbreservespace.caption
 msgid "&Reserve space"
 msgstr "Reserveer ruimte"
+
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
@@ -1140,8 +1140,7 @@ msgstr "*.*"
 
 #: tfrmextractdlg.cbinseparatefolder.caption
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
-msgstr ""
-"Pak elk archiefbestand uit in &aparte submap (naam van het archiefbestand)"
+msgstr "Pak elk archiefbestand uit in &aparte submap (naam van het archiefbestand)"
 
 #: tfrmextractdlg.cboverwrite.caption
 msgid "O&verwrite existing files"
@@ -1536,13 +1535,8 @@ msgid "Sa&ve with \"Start in directory\""
 msgstr "Opslaan met 'Begin in map'"
 
 #: tfrmfinddlg.btnsearchsavewithstartingpath.hint
-msgid ""
-"If saved then \"Start in directory\" will be restored when loading template. "
-"Use it if you want to fix searching to a certain directory"
-msgstr ""
-"Indien opgeslagen dan zal 'Begin in map' worden hersteld bij het laden van "
-"de sjabloon. Gebruik dit als u de zoekopdracht wilt vastknopen aan een "
-"bepaalde map"
+msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
+msgstr "Indien opgeslagen dan zal 'Begin in map' worden hersteld bij het laden van de sjabloon. Gebruik dit als u de zoekopdracht wilt vastknopen aan een bepaalde map"
 
 #: tfrmfinddlg.btnstart.caption
 msgctxt "tfrmfinddlg.btnstart.caption"
@@ -1604,7 +1598,6 @@ msgid "Follow s&ymlinks"
 msgstr "Volg symbolische koppelingen"
 
 #: tfrmfinddlg.cbnotcontainingtext.caption
-
 msgid "Find files N&OT containing the text"
 msgstr "Vind bestanden die NIET de tekst bevatten"
 
@@ -1649,19 +1642,12 @@ msgid "&Use search plugin:"
 msgstr "&Gebruik invoegtoepassing voor zoeken:"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
-msgid ""
-"Enter directories names that should be excluded from search separated with "
-"\";\""
-msgstr ""
-"Geef mapnamen in die uitgesloten zijn van zoekopdrachten, gescheiden door "
-"puntkomma"
+msgid "Enter directories names that should be excluded from search separated with \";\""
+msgstr "Geef mapnamen in die uitgesloten zijn van zoekopdrachten, gescheiden door puntkomma"
 
 #: tfrmfinddlg.cmbexcludefiles.hint
-msgid ""
-"Enter files names that should be excluded from search separated with \";\""
-msgstr ""
-"Geef bestandnamen in die uitgesloten zijn van zoekopdrachten, gescheiden "
-"door puntkomma"
+msgid "Enter files names that should be excluded from search separated with \";\""
+msgstr "Geef bestandnamen in die uitgesloten zijn van zoekopdrachten, gescheiden door puntkomma"
 
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
@@ -3682,10 +3668,8 @@ msgid "Options"
 msgstr "Opties"
 
 #: tfrmoptions.lblemptyeditor.caption
-msgid ""
-"Please select one of the subpages, this page does not contain any settings."
-msgstr ""
-"Kies a.u.b. een van de subpagina's, want deze pagina bevat geen instellingen."
+msgid "Please select one of the subpages, this page does not contain any settings."
+msgstr "Kies a.u.b. een van de subpagina's, want deze pagina bevat geen instellingen."
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 msgid "A&uto Configure"
@@ -3820,11 +3804,8 @@ msgid "A&llow only one copy of DC at a time"
 msgstr "Slechts één actief exemplaar van DC toestaan"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
-msgid ""
-"Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr ""
-"Hier kunt u een of meer schijven of koppelpunten opgeven, gescheiden door "
-"puntkomma."
+msgid "Here you can enter one or more drives or mount points, separated by \";\"."
+msgstr "Hier kunt u een of meer schijven of koppelpunten opgeven, gescheiden door puntkomma."
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
 msgid "Drives &blacklist"
@@ -4380,13 +4361,8 @@ msgstr "Markeerkleur:"
 
 #: tfrmoptionscustomcolumns.lblpreviewtop.caption
 msgctxt "tfrmoptionscustomcolumns.lblpreviewtop.caption"
-msgid ""
-"Below is a preview. You may move cursor and select files to get immediately "
-"an actual look and feel of the various settings."
-msgstr ""
-"Hieronder staat een voorbeeldweergave. U kunt de aanwijzer verplaatsen en "
-"bestanden kiezen om direct een actueel beeld te krijgen van het effect van "
-"de diverse instellingen."
+msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
+msgstr "Hieronder staat een voorbeeldweergave. U kunt de aanwijzer verplaatsen en bestanden kiezen om direct een actueel beeld te krijgen van het effect van de diverse instellingen."
 
 #: tfrmoptionscustomcolumns.lblworkingcolumn.caption
 msgid "Settings for column:"
@@ -4482,8 +4458,7 @@ msgstr "Naam, a-z"
 
 #: tfrmoptionsdirectoryhotlist.gbdirectoryhotlist.caption
 msgid "Directory Hotlist (reorder by drag && drop)"
-msgstr ""
-"Lijst met favoriete mappen (verander rangschikking door sleur en pleur)"
+msgstr "Lijst met favoriete mappen (verander rangschikking door sleur en pleur)"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
 msgctxt "tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption"
@@ -4597,16 +4572,11 @@ msgstr "Verwijder geselecteerd element"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathexist.caption
 msgid "Scan all hotdir's path to validate the ones that actually exist"
-msgstr ""
-"Doorzoek pad van mapfavorieten om diegene te valideren die "
-"daadwerkelijk bestaan"
+msgstr "Doorzoek pad van mapfavorieten om diegene te valideren die daadwerkelijk bestaan"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption
-msgid ""
-"Scan all hotdir's path && target to validate the ones that actually exist"
-msgstr ""
-"Doorzoek het pad en doel van de mapfavorieten om diegene te valideren die "
-"daadwerkelijk bestaan"
+msgid "Scan all hotdir's path && target to validate the ones that actually exist"
+msgstr "Doorzoek het pad en doel van de mapfavorieten om diegene te valideren die daadwerkelijk bestaan"
 
 #: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
 msgid "to a Directory Hotlist file (.hotlist)"
@@ -4795,17 +4765,12 @@ msgid "From all the supported formats, ask which one to use every time"
 msgstr "Van alle ondersteunde bestandtypen, vraag elke keer welke te gebruiken"
 
 #: tfrmoptionsdragdrop.cbdraganddropsaveunicodetextinuft8.caption
-msgid ""
-"When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
+msgid "When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)"
 msgstr "Bij opslaan Unicode-tekst, sla dit op in UTF8-opmaak (anders UTF16)"
 
 #: tfrmoptionsdragdrop.cbdraganddroptextautofilename.caption
-msgid ""
-"When dropping text, generate filename automatically (otherwise will prompt "
-"the user)"
-msgstr ""
-"Bij pleuren van tekst, genereer bestandnaam automatisch (anders vragen aan "
-"gebruiker)"
+msgid "When dropping text, generate filename automatically (otherwise will prompt the user)"
+msgstr "Bij pleuren van tekst, genereer bestandnaam automatisch (anders vragen aan gebruiker)"
 
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "&Show confirmation dialog after drop"
@@ -4817,20 +4782,15 @@ msgstr "Bij sleuren en pleuren van tekst in panelen:"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat1.caption
 msgid "Place the most desired format on top of list (use dag && drop):"
-msgstr ""
-"Plaats het meest gewenste bestandtype bovenaan de lijst (gebruik sleur en "
-"pleur):"
+msgstr "Plaats het meest gewenste bestandtype bovenaan de lijst (gebruik sleur en pleur):"
 
 #: tfrmoptionsdragdrop.lblmostdesiredtextformat2.caption
 msgid "(if the most desired is not present, we'll take second one and so on)"
 msgstr "(als de meest gewenste niet aanwezig is, nemen we de tweede enz.)"
 
 #: tfrmoptionsdragdrop.lblwarningforaskformat.caption
-msgid ""
-"(will not work with some source application, so try to uncheck if problem)"
-msgstr ""
-"(zal met sommige brontoepassingen niet werken. Dus probeer bij probleem uit "
-"te vinken)"
+msgid "(will not work with some source application, so try to uncheck if problem)"
+msgstr "(zal met sommige brontoepassingen niet werken. Dus probeer bij probleem uit te vinken)"
 
 #: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
 msgid "Show &file system"
@@ -5037,9 +4997,7 @@ msgstr "Rechts"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabs.caption
 msgid "Favorite Tabs list (reorder by drag && drop)"
-msgstr ""
-"Lijst met favoriete tabbladen (verander rangschikking door sleuren en "
-"pleuren)"
+msgstr "Lijst met favoriete tabbladen (verander rangschikking door sleuren en pleuren)"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
 msgctxt "TFRMOPTIONSFAVORITETABS.GBFAVORITETABSOTHEROPTIONS.CAPTION"
@@ -5145,8 +5103,7 @@ msgstr "FavTabsProefMenu"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesaccsetting.caption
 msgid "Import legacy .tab file(s) according to default setting"
-msgstr ""
-"Importeer ouderwetse .tab-bestand(en) overeenkomstig de standaardinstelling"
+msgstr "Importeer ouderwetse .tab-bestand(en) overeenkomstig de standaardinstelling"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesatpos.caption
 msgctxt "TFRMOPTIONSFAVORITETABS.MIIMPORTLEGACYTABFILESATPOS.CAPTION"
@@ -5317,26 +5274,19 @@ msgstr "&Omhoog"
 
 #: tfrmoptionsfileassoc.destartpath.hint
 msgid "Starting path of the command. Never quote this string."
-msgstr ""
-"Beginpad van de opdracht. Zet deze tekenreeks nimmer tussen aanhalingstekens."
+msgstr "Beginpad van de opdracht. Zet deze tekenreeks nimmer tussen aanhalingstekens."
 
 #: tfrmoptionsfileassoc.edbactionname.hint
-msgid ""
-"Name of the action. It is never passed to the system, it's just a mnemonic "
-"name chosen by you, for you"
+msgid "Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, for you"
 msgstr "Naam van de actie. Niet voor het systeem, alleen voor u"
 
 #: tfrmoptionsfileassoc.edtparams.hint
-msgid ""
-"Parameter to pass to the command. Long filename with spaces should be quoted."
-msgstr ""
-"Parameter om mee te geven aan de opdracht. Let op juiste omgang met spaties "
-"in bestandnamen."
+msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+msgstr "Parameter om mee te geven aan de opdracht. Let op juiste omgang met spaties in bestandnamen."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
 msgid "Command to execute. Long filename with space should be quoted."
-msgstr ""
-"Opdracht om uit te voeren. Let op juiste omgang met spaties in bestandnamen."
+msgstr "Opdracht om uit te voeren. Let op juiste omgang met spaties in bestandnamen."
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
 msgid "Action description:"
@@ -5478,9 +5428,7 @@ msgstr "Uitgebreid contextmenu"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
 msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXTENDEDCONTEXTMENU.HINT"
-msgid ""
-"When accessing file association, offer to add current selected file if not "
-"already included in a configured file type"
+msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
 msgstr ""
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
@@ -5493,9 +5441,7 @@ msgstr ""
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint
 msgctxt "tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint"
-msgid ""
-"When accessing file association, offer to add current selected file if not "
-"already included in a configured file type"
+msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
 msgstr ""
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
@@ -5558,8 +5504,7 @@ msgstr "Toon tabbladselectiepaneel in kopieer/verplaats-dialoogvenster"
 
 #: tfrmoptionsfileoperations.cbskipfileoperror.caption
 msgid "S&kip file operations errors and write them to log window"
-msgstr ""
-"Sla fouten bij bestandbewerkingen over en schrijf deze in het logboekvenster"
+msgstr "Sla fouten bij bestandbewerkingen over en schrijf deze in het logboekvenster"
 
 #: tfrmoptionsfileoperations.dbtextsearch.caption
 msgid "Text search in files"
@@ -5741,21 +5686,15 @@ msgid "&Mark Color:"
 msgstr "Markeerkleur:"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
-msgid ""
-"Below is a preview. You may move cursor, select file and get immediately an "
-"actual look and feel of the various settings."
-msgstr ""
-"Onderstaand is een voorbeeldweergave. U kunt alvast de aanwijzer bewegen of "
-"een bestand kiezen om te kijken of het u bevalt."
+msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
+msgstr "Onderstaand is een voorbeeldweergave. U kunt alvast de aanwijzer bewegen of een bestand kiezen om te kijken of het u bevalt."
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgid "T&ext Color:"
 msgstr "Tekstkleur:"
 
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
-msgid ""
-"Enable changing to &parent folder when double-clicking on empty part of file "
-"view"
+msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
 msgstr ""
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
@@ -5787,12 +5726,8 @@ msgid "Show s&ystem and hidden files"
 msgstr "Toon systeem- en verborgen bestanden"
 
 #: tfrmoptionsfilesviews.cbspacemovesdown.caption
-msgid ""
-"&When selecting files with <SPACEBAR>, move down to next file (as with "
-"<INSERT>)"
-msgstr ""
-"Bij selecteren bestanden met <SPATIEBALK>, ga naar beneden naar volgend "
-"bestand (zoals bij <INSERT>)"
+msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "Bij selecteren bestanden met <SPATIEBALK>, ga naar beneden naar volgend bestand (zoals bij <INSERT>)"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
@@ -6306,12 +6241,8 @@ msgid "Always &go to the root of a drive when changing drives"
 msgstr "Ga altijd naar de root van een schijf bij verandering van schijven"
 
 #: tfrmoptionsmisc.chkmarkmaskfilterwindows.caption
-msgid ""
-"Windows style filter when marking files (\"*.*\" also select files without "
-"extension, etc.)"
-msgstr ""
-"Windowsachtig filter bij markeren van bestanden ('.' selecteert ook "
-"bestanden zonder extensie, enz.)"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr "Windowsachtig filter bij markeren van bestanden ('.' selecteert ook bestanden zonder extensie, enz.)"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
@@ -6416,46 +6347,24 @@ msgid "&Tweak"
 msgstr "Aanpassen"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
-msgid ""
-"Searc&h plugins allow one to use alternative search algorithms or external "
-"tools (like \"locate\", etc.)"
-msgstr ""
-"Invoegtoepassingen voor zoeken stellen u in staat om alternatieve "
-"zoekalgorithmes of externe gereedschappen (zoals 'locate', etc.) te "
-"gebruiken."
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Invoegtoepassingen voor zoeken stellen u in staat om alternatieve zoekalgorithmes of externe gereedschappen (zoals 'locate', etc.) te gebruiken."
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
-
 msgid "Pack&er plugins are used to work with archives"
-msgstr ""
-"Invoegtoepassingen voor inpakken worden gebruikt om te werken met "
-"archiefbestanden"
+msgstr "Invoegtoepassingen voor inpakken worden gebruikt om te werken met archiefbestanden"
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
-msgid ""
-"Content plu&gins allow one to display extended file details like mp3 tags or "
-"image attributes in file lists, or use them in search and multi-rename tool"
-msgstr ""
-"Invoegtoepassingen voor inhoud stellen u in staat om uitgebreide "
-"bestanddetails weer te geven, zoals mp3-etiketten of afbeeldingsattributen "
-"in bestandlijsten, of gebruik ze in het zoek- en hernoemgereedschap"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Invoegtoepassingen voor inhoud stellen u in staat om uitgebreide bestanddetails weer te geven, zoals mp3-etiketten of afbeeldingsattributen in bestandlijsten, of gebruik ze in het zoek- en hernoemgereedschap"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
-msgid ""
-"Fi&le system plugins allow access to disks inaccessible by operating system "
-"or to external devices like Palm/PocketPC."
-msgstr ""
-"Bestandssysteem-invoegtoepassingen geven u toegang tot schijven die niet "
-"benaderbaar zijn door het besturingsssysteem of tot externe apparaten zoals "
-"Palm/PocketPC."
+msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Bestandssysteem-invoegtoepassingen geven u toegang tot schijven die niet benaderbaar zijn door het besturingsssysteem of tot externe apparaten zoals Palm/PocketPC."
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
-msgid ""
-"Vie&wer plugins allow one to display file formats like images, spreadsheets, "
-"databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr ""
-"Kijker-invoegtoepassingen laten bestandsoorten zoals plaatjes, rekenbladen, "
-"gegevensbanken enz. zien in Kijker (F3, Ctrl+Q)"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Kijker-invoegtoepassingen laten bestandsoorten zoals plaatjes, rekenbladen, gegevensbanken enz. zien in Kijker (F3, Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
 msgctxt "tfrmoptionsplugins.stgplugins.columns[0].title.caption"
@@ -6620,20 +6529,15 @@ msgstr "Ga naar instellingen voor favoriete tabbladen na opslaan"
 
 #: tfrmoptionstabsextra.cbgotoconfigaftersave.caption
 msgid "Goto to Favorite Tabs Configuration after saving a new one"
-msgstr ""
-"Ga naar instellingen voor favoriete tabbladen na opslaan van een nieuwe"
+msgstr "Ga naar instellingen voor favoriete tabbladen na opslaan van een nieuwe"
 
 #: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
-msgid ""
-"Enable Favorite Tabs extra options (select target side when restore, etc.)"
-msgstr ""
-"Schakel extra opties in voor favoriete tabbladen (kies doelkant bij "
-"herstellen enz.)"
+msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
+msgstr "Schakel extra opties in voor favoriete tabbladen (kies doelkant bij herstellen enz.)"
 
 #: tfrmoptionstabsextra.gbdefaulttabsavedrestoration.caption
 msgid "Default extra settings when saving new Favorite Tabs:"
-msgstr ""
-"Standaard extra instellingen bij opslaan van nieuwe favoriete tabbladen:"
+msgstr "Standaard extra instellingen bij opslaan van nieuwe favoriete tabbladen:"
 
 #: tfrmoptionstabsextra.gbtabs.caption
 msgid "Folder tabs headers extra"
@@ -6662,23 +6566,17 @@ msgstr "Standaardpositie in menu bij opslaan van een nieuw favoriet tabblad:"
 
 #: tfrmoptionsterminal.edrunintermcloseparams.hint
 msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMCLOSEPARAMS.HINT"
-msgid ""
-"{command} should normally be present here to reflect the command to be run "
-"in terminal"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
 msgctxt "TFRMOPTIONSTERMINAL.EDRUNINTERMSTAYOPENPARAMS.HINT"
-msgid ""
-"{command} should normally be present here to reflect the command to be run "
-"in terminal"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
 #: tfrmoptionsterminal.edruntermparams.hint
 msgctxt "TFRMOPTIONSTERMINAL.EDRUNTERMPARAMS.HINT"
-msgid ""
-"{command} should normally be present here to reflect the command to be run "
-"in terminal"
+msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr ""
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
@@ -6687,13 +6585,11 @@ msgstr "Opdracht voor alleen draaien van terminalvenster:"
 
 #: tfrmoptionsterminal.gbruninterminalclose.caption
 msgid "Command for running a command in terminal and close after:"
-msgstr ""
-"Opdracht voor uitvoeren van een opdracht in de terminal en daarna sluiten:"
+msgstr "Opdracht voor uitvoeren van een opdracht in de terminal en daarna sluiten:"
 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
-msgstr ""
-"Opdracht voor uitvoeren van een opdracht in de terminal en blijf geopend:"
+msgstr "Opdracht voor uitvoeren van een opdracht in de terminal en blijf geopend:"
 
 #: tfrmoptionsterminal.lbrunintermclosecmd.caption
 msgctxt "TFRMOPTIONSTERMINAL.LBRUNINTERMCLOSECMD.CAPTION"
@@ -6770,11 +6666,8 @@ msgid "Suggest"
 msgstr "Suggereren"
 
 #: tfrmoptionstoolbar.btnsuggestiontooltip.hint
-msgid ""
-"Have DC suggest the tooltip based on button type, command and parameters"
-msgstr ""
-"Laat DC de gereedschaptip voorstellen gebaseerd op knopsoort, opdracht en "
-"parameters"
+msgid "Have DC suggest the tooltip based on button type, command and parameters"
+msgstr "Laat DC de gereedschaptip voorstellen gebaseerd op knopsoort, opdracht en parameters"
 
 #: tfrmoptionstoolbar.cbflatbuttons.caption
 msgctxt "TFRMOPTIONSTOOLBAR.CBFLATBUTTONS.CAPTION"
@@ -6786,12 +6679,8 @@ msgid "Report errors with commands"
 msgstr "Rapporteer fouten bij opdrachten"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
-msgid ""
-"Enter command parameters, each in a separate line. Press F1 to see help on "
-"parameters."
-msgstr ""
-"geef opdrachtparameters, elk in een afzonderlijke regel. Tik op F1 om "
-"hulptekst bij de parameters te tonen."
+msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
+msgstr "geef opdrachtparameters, elk in een afzonderlijke regel. Tik op F1 om hulptekst bij de parameters te tonen."
 
 #: tfrmoptionstoolbar.gbgroupbox.caption
 msgid "Appearance"
@@ -7020,14 +6909,16 @@ msgid "to add to current toolbar"
 msgstr "toe te voegen aan huidige werkbalk"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
-msgstr ""
+msgstr "toe te voegen aan nieuwe werkbalk aan huidige werkbalk"
 
 #: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
-msgstr ""
+msgstr "toe te voegen aan nieuwe werkbalk aan bovenste werkbalk"
 
 #: tfrmoptionstoolbar.miimportdcbaraddtop.caption
 msgctxt "tfrmoptionstoolbar.miimportdcbaraddtop.caption"
@@ -7341,9 +7232,7 @@ msgid "With double-click on a tab (if configured for it)"
 msgstr ""
 
 #: tfrmoptionstreeviewmenu.ckbshortcutselectandclose.caption
-msgid ""
-"When using the keyboard shortcut, it will exit the window returning the "
-"current choice"
+msgid "When using the keyboard shortcut, it will exit the window returning the current choice"
 msgstr ""
 
 #: tfrmoptionstreeviewmenu.ckbsingleclickselect.caption
@@ -7375,10 +7264,7 @@ msgid "Where to use Tree View Menus:"
 msgstr "Waar boomstructuurmenu's te gebruiken:"
 
 #: tfrmoptionstreeviewmenu.lblnote.caption
-msgid ""
-"*NOTE: Regarding the options like the case sensitivity, ignoring accents or "
-"not, these are saved and restored individually for each context from a usage "
-"and session to another."
+msgid "*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another."
 msgstr ""
 
 #: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
@@ -7514,12 +7400,8 @@ msgid "Unselectable under cursor:"
 msgstr "Niet-selecteerbaar onder aanwijzer:"
 
 #: tfrmoptionstreeviewmenucolor.treeviewmenusample.hint
-msgid ""
-"Change color on left and you'll see here a preview of what your Tree View "
-"Menus will look likes with this sample."
-msgstr ""
-"Verander kleur links en u ziet hier een vooruitblik van hoe uw "
-"boomstructuurmenu's er uit zullen gaan zien."
+msgid "Change color on left and you'll see here a preview of what your Tree View Menus will look likes with this sample."
+msgstr "Verander kleur links en u ziet hier een vooruitblik van hoe uw boomstructuurmenu's er uit zullen gaan zien."
 
 #: tfrmoptionsviewer.btnbackviewercolor.caption
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
@@ -8235,15 +8117,11 @@ msgid "Search is strict regarding accents and ligatures"
 msgstr "Zoekopdracht is strikt inzake accenten en verbindingstekens"
 
 #: tfrmtreeviewmenu.pminotshowwholebranchifmatch.caption
-msgid ""
-"Don't show the branch content \"just\" because the searched string is found "
-"in the branche name"
+msgid "Don't show the branch content \"just\" because the searched string is found in the branche name"
 msgstr ""
 
 #: tfrmtreeviewmenu.pmishowwholebranchifmatch.caption
-msgid ""
-"If searched string is found in a branch name, show the whole branch even if "
-"elements don't match"
+msgid "If searched string is found in a branch name, show the whole branch even if elements don't match"
 msgstr ""
 
 #: tfrmtreeviewmenu.tbcancelandquit.hint
@@ -8816,8 +8694,7 @@ msgstr "Als bestand bestaat"
 
 #: ulng.msgtrytolocatecrcfile
 msgid ""
-"This file cannot be found and could help to validate final combination of "
-"files:\n"
+"This file cannot be found and could help to validate final combination of files:\n"
 "%s\n"
 "\n"
 "Could you make it available and press \"OK\" when ready,\n"
@@ -8877,10 +8754,7 @@ msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "Plakbord bevat geen geldige werkbalkgegevens."
 
 #: ulng.rscmdcategorylistinorder
-msgid ""
-"All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;"
-"Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;"
-"Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
+msgid "All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log"
 msgstr ""
 
 #: ulng.rscmdkindofsort
@@ -9383,22 +9257,16 @@ msgid "Error creating hardlink."
 msgstr "Fout bij maken harde koppeling."
 
 #: ulng.rshotdirforcesortingorderchoices
-msgid ""
-"none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date "
-"0-9"
-msgstr ""
-"geen;Naam, a-z;Naam, z-a;Ext, a-z;Ext, z-a;Grootte 9-0;Grootte 0-9;Datum 9-0;"
-"Datum 0-9"
+msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
+msgstr "geen;Naam, a-z;Naam, z-a;Ext, a-z;Ext, z-a;Grootte 9-0;Grootte 0-9;Datum 9-0;Datum 0-9"
 
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
-"Warning! When restoring a .hotlist backup file, this will erase existing "
-"list to replace by the imported one.\n"
+"Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
 "\n"
 "Are you sure you want to proceed?\n"
 msgstr ""
-"Waarschuwing: bij het herstellen van een .hotlist reservekopiebestand, zal "
-"de bestaande lijst worden vervangen door de geïmporteerde.\n"
+"Waarschuwing: bij het herstellen van een .hotlist reservekopiebestand, zal de bestaande lijst worden vervangen door de geïmporteerde.\n"
 "\n"
 "Weet u zeker dat u wil doorgaan?\n"
 
@@ -9455,9 +9323,7 @@ msgid "A columns view with that name already exists."
 msgstr "Er bestaat reeds een kolomweergave met die naam."
 
 #: ulng.rsmenuconfigurecolumnssavetochange
-msgid ""
-"To change current editing colmuns view, either SAVE, COPY or DELETE current "
-"editing one"
+msgid "To change current editing colmuns view, either SAVE, COPY or DELETE current editing one"
 msgstr ""
 
 #: ulng.rsmenuconfigurecustomcolumns
@@ -9588,8 +9454,7 @@ msgstr "Het bestand %s is veranderd. Wilt u het achterwaarts kopiëren?"
 
 #: ulng.rsmsgcouldnotcopybackward
 msgid "Could not copy backward - do you want to keep the changed file?"
-msgstr ""
-"Kon niet achterwaarts kopiëren - wilt u het gewijzigde bestand behouden?"
+msgstr "Kon niet achterwaarts kopiëren - wilt u het gewijzigde bestand behouden?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -9784,12 +9649,8 @@ msgid "Archive format unknown"
 msgstr "Archiefbestandsoort onbekend"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
-msgid ""
-"Are you sure you want to remove all entries of your Favorite Tabs? (There is "
-"no \"undo\" to this action!)"
-msgstr ""
-"Weet u zeker dat u alle elementen wilt verwijderen uit uw favoriete "
-"tabbladen? Dit kan niet ongedaan worden gemaakt."
+msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
+msgstr "Weet u zeker dat u alle elementen wilt verwijderen uit uw favoriete tabbladen? Dit kan niet ongedaan worden gemaakt."
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
@@ -9824,17 +9685,14 @@ msgid "Select .tab file(s) to import (could be more than one at the time!)"
 msgstr "Kies .tab-bestand(en) om te importeren (kunnen er meer dan één zijn)"
 
 #: ulng.rsmsgfavoritetabsmodifiednoimport
-msgid ""
-"Last Favorite Tabs modification have been saved yet. Do you want to save "
-"them prior to continue?"
-msgstr ""
-"De laatste wijzigingen van de favoriete tabbladen zijn nog niet opgeslagen. "
-"Wilt u die opslaan alvorens door te gaan?"
+msgid "Last Favorite Tabs modification have been saved yet. Do you want to save them prior to continue?"
+msgstr "De laatste wijzigingen van de favoriete tabbladen zijn nog niet opgeslagen. Wilt u die opslaan alvorens door te gaan?"
 
 #: ulng.rsmsgfavoritetabssimplemode
+#, fuzzy
 msgctxt "ulng.rsmsgfavoritetabssimplemode"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr ""
+msgstr "Behoud mapopslaggeschiedenis bij favoriete tabbladen:"
 
 #: ulng.rsmsgfavoritetabssubmenuname
 msgctxt "ulng.rsmsgfavoritetabssubmenuname"
@@ -9878,19 +9736,14 @@ msgid "File operations active"
 msgstr "Bestandbewerkingen actief"
 
 #: ulng.rsmsgfileoperationsactivelong
-msgid ""
-"Some file operations have not yet finished. Closing Double Commander may "
-"result in data loss."
-msgstr ""
-"Sommige bestandbewerkingen zijn nog niet voltooid. Afsluiten van Double "
-"Commander kan gegevensverlies veroorzaken."
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
+msgstr "Sommige bestandbewerkingen zijn nog niet voltooid. Afsluiten van Double Commander kan gegevensverlies veroorzaken."
 
 #: ulng.rsmsgfilepathovermaxpath
 msgid ""
 "The target name length (%d) is more than %d characters!\n"
 "%s\n"
-"Most programs will not be able to access a file/directory with such a long "
-"name!\n"
+"Most programs will not be able to access a file/directory with such a long name!\n"
 msgstr ""
 
 #: ulng.rsmsgfilereadonly
@@ -9939,12 +9792,8 @@ msgid "Configuration of Directory Hotlist"
 msgstr "Instellingen van lijst van favoriete mappen"
 
 #: ulng.rsmsghotdirdeleteallentries
-msgid ""
-"Are you sure you want to remove all entries of your Directory Hotlist? "
-"(There is no \"undo\" to this action!)"
-msgstr ""
-"Weet u zeker dat u alle elementen in uw lijst van favoriete mappen wil "
-"verwijderen? Dit is onherroepelijk."
+msgid "Are you sure you want to remove all entries of your Directory Hotlist? (There is no \"undo\" to this action!)"
+msgstr "Weet u zeker dat u alle elementen in uw lijst van favoriete mappen wil verwijderen? Dit is onherroepelijk."
 
 #: ulng.rsmsghotdirdemocommand
 msgid "This will execute the following command:"
@@ -9976,8 +9825,7 @@ msgstr "Exporteer alles."
 
 #: ulng.rsmsghotdirexporthotlist
 msgid "Export Directory Hotlist - Select the entries you want to export"
-msgstr ""
-"Exporteer lijst van favoriete mappen - Selecteer de te exporteren elementen"
+msgstr "Exporteer lijst van favoriete mappen - Selecteer de te exporteren elementen"
 
 #: ulng.rsmsghotdirexportsel
 msgid "Export selected"
@@ -9990,8 +9838,7 @@ msgstr "Importeer alles."
 
 #: ulng.rsmsghotdirimporthotlist
 msgid "Import Directory Hotlist - Select the entries you want to import"
-msgstr ""
-"Importeer lijst van favoriete mappen - Selecteer de te importeren elementen"
+msgstr "Importeer lijst van favoriete mappen - Selecteer de te importeren elementen"
 
 #: ulng.rsmsghotdirimportsel
 msgctxt "ulng.rsmsghotdirimportsel"
@@ -10033,8 +9880,7 @@ msgstr "Opnieuw toevoegen huidige map: "
 
 #: ulng.rsmsghotdirrestorewhat
 msgid "Enter location and filename of Directory Hotlist to restore"
-msgstr ""
-"Geef locatie en bestand van lijst met favoriete mappen om te herstellen"
+msgstr "Geef locatie en bestand van lijst met favoriete mappen om te herstellen"
 
 #: ulng.rsmsghotdirsimplecommand
 msgctxt "ulng.rsmsghotdirsimplecommand"
@@ -10071,28 +9917,16 @@ msgid "Hotdir target"
 msgstr "Doel van favoriete map"
 
 #: ulng.rsmsghotdirtiporderpath
-msgid ""
-"Determine if you want the active frame to be sorted in a specified order "
-"after changing directory"
-msgstr ""
-"Bepaal of u wilt dat het actieve venster gesorteerd wordt op een opgegeven "
-"manier na wijziging map"
+msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
+msgstr "Bepaal of u wilt dat het actieve venster gesorteerd wordt op een opgegeven manier na wijziging map"
 
 #: ulng.rsmsghotdirtipordertarget
-msgid ""
-"Determine if you want the not active frame to be sorted in a specified order "
-"after changing directory"
-msgstr ""
-"Bepaal of u wilt dat het niet-actieve venster gesorteerd wordt op een "
-"opgegeven manier na wijziging map"
+msgid "Determine if you want the not active frame to be sorted in a specified order after changing directory"
+msgstr "Bepaal of u wilt dat het niet-actieve venster gesorteerd wordt op een opgegeven manier na wijziging map"
 
 #: ulng.rsmsghotdirtipspecialdirbut
-msgid ""
-"Some functions to select appropriate path relative, absolute, windows "
-"special folders, etc."
-msgstr ""
-"Enkele functies om geschikte pad te selecteren, relatief, absoluut, vensters "
-"speciale mappen, etc."
+msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
+msgstr "Enkele functies om geschikte pad te selecteren, relatief, absoluut, vensters speciale mappen, etc."
 
 #: ulng.rsmsghotdirtotalbackuped
 msgid ""
@@ -10111,15 +9945,12 @@ msgstr "Totaal elementen geëxporteerd: "
 #: ulng.rsmsghotdirwhattodelete
 msgid ""
 "Do you want to delete all elements inside the sub-menu [%s]?\n"
-"Answering NO will delete only menu delimiters but will keep element inside "
-"sub-menu.\n"
+"Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
 msgstr ""
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
-msgstr ""
-"Geef locatie en bestandnaam in waar een lijstbestand met favoriete mappen op "
-"te slaan"
+msgstr "Geef locatie en bestandnaam in waar een lijstbestand met favoriete mappen op te slaan"
 
 #: ulng.rsmsgincorrectfilelength
 msgid "Incorrect resulting filelength for file : \"%s\""
@@ -10165,12 +9996,8 @@ msgid "This is not a valid plugin!"
 msgstr "Dit is geen geldige invoegtoepassing."
 
 #: ulng.rsmsginvalidpluginarchitecture
-msgid ""
-"This plugin is built for Double Commander for %s.%sIt can not work with "
-"Double Commander for %s!"
-msgstr ""
-"Deze invoegtoepassing is gemaakt voor Double Commander voor %s.Het werkt "
-"niet met Double Commander voor %s."
+msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
+msgstr "Deze invoegtoepassing is gemaakt voor Double Commander voor %s.Het werkt niet met Double Commander voor %s."
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
@@ -10302,13 +10129,8 @@ msgstr "Niet verwezenlijkt."
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
-msgid ""
-"Below is a preview. You may move cursor and select files to get immediately "
-"an actual look and feel of the various settings."
-msgstr ""
-"Onderstaand is een voorbeeldweergave. U kunt de aanwijzer bewegen en "
-"bestanden kiezen om direct een idee te krijgen van hoe het werkt en eruit "
-"ziet."
+msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
+msgstr "Onderstaand is een voorbeeldweergave. U kunt de aanwijzer bewegen en bestanden kiezen om direct een idee te krijgen van hoe het werkt en eruit ziet."
 
 #: ulng.rsmsgpassword
 msgid "Password:"
@@ -10603,12 +10425,8 @@ msgid "with"
 msgstr "met"
 
 #: ulng.rsmulrenfilenamestylelist
-msgid ""
-"No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word "
-"Uppercase;"
-msgstr ""
-"Geen wijziging;HOOFDLETTERS;kleine letters;Eerste letter hoofdletter;Ieder "
-"Woord Begint Met Hoofdletter;"
+msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
+msgstr "Geen wijziging;HOOFDLETTERS;kleine letters;Eerste letter hoofdletter;Ieder Woord Begint Met Hoofdletter;"
 
 #: ulng.rsmulrenwronglinesnumber
 msgid "File contains wrong number of lines: %d, should be %d!"
@@ -10889,16 +10707,11 @@ msgstr "Eerst;Laatst;"
 
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
-msgstr ""
-"Klassiek;Ouderwetse volgorde;Alfabetische volgorde (maar taal toch eerst)"
+msgstr "Klassiek;Ouderwetse volgorde;Alfabetische volgorde (maar taal toch eerst)"
 
 #: ulng.rsoptdifferframeposition
-msgid ""
-"Active frame panel on left, inactive on right (legacy);Left frame panel on "
-"left, right on right"
-msgstr ""
-"Actieve omlijstingspaneel op links, inactieve op rechts (ouderwets);Linker "
-"omlijstingspaneel op links, rechter op rechts"
+msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
+msgstr "Actieve omlijstingspaneel op links, inactieve op rechts (ouderwets);Linker omlijstingspaneel op links, rechter op rechts"
 
 #: ulng.rsoptdisable
 msgid "Disable"
@@ -10925,12 +10738,8 @@ msgid "float;B;K;M;G"
 msgstr "drijvend;B;K;M;G"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
-msgid ""
-"Shortcut %s for cm_Delete will be registered, so it can be used to reverse "
-"this setting."
-msgstr ""
-"Sneltoets voor cm_Delete zal geregistreerd worden, zodat het gebruikt kan "
-"worden om deze instelling om te keren."
+msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
+msgstr "Sneltoets voor cm_Delete zal geregistreerd worden, zodat het gebruikt kan worden om deze instelling om te keren."
 
 #: ulng.rsopthotkeysaddhotkey
 msgid "Add hotkey for %s"
@@ -10954,20 +10763,12 @@ msgid "Command"
 msgstr "Opdracht"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
-msgid ""
-"Shortcut %s for cm_Delete has a parameter that overrides this setting. Do "
-"you want to change this parameter to use the global setting?"
-msgstr ""
-"Sneltoets %s voor cm_Delete heeft een parameter die deze instelling "
-"passeert. Wilt u deze parameter wijzigen en de globale instelling gebruiken?"
+msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
+msgstr "Sneltoets %s voor cm_Delete heeft een parameter die deze instelling passeert. Wilt u deze parameter wijzigen en de globale instelling gebruiken?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
-msgid ""
-"Shortcut %s for cm_Delete needs to have a parameter changed to match "
-"shortcut %s. Do you want to change it?"
-msgstr ""
-"Sneltoets %s voor cm_Delete heeft een gewijzigde parameter nodig om met "
-"sneltoets %s overeen te komen. Wilt u dit wijzigen?"
+msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
+msgstr "Sneltoets %s voor cm_Delete heeft een gewijzigde parameter nodig om met sneltoets %s overeen te komen. Wilt u dit wijzigen?"
 
 #: ulng.rsopthotkeysdescription
 msgctxt "ulng.rsopthotkeysdescription"
@@ -11006,21 +10807,12 @@ msgid "Set shortcut to delete file"
 msgstr "Instellen sneltoets om bestand te verwijderen"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
-msgid ""
-"For this setting to work with shortcut %s, shortcut %s must be assigned to "
-"cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr ""
-"Om met deze instelling te werken, moet deze toegewezen worden aan cm_Delete, "
-"maar die is reeds toegewezen aan %s. Wilt u dit wijzigen? "
+msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
+msgstr "Om met deze instelling te werken, moet deze toegewezen worden aan cm_Delete, maar die is reeds toegewezen aan %s. Wilt u dit wijzigen? "
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
-msgid ""
-"Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with "
-"reversed Shift cannot be assigned. This setting might not work."
-msgstr ""
-"Sneltoets %s voor cm_Delete is een volgordesneltoets waarvoor een sneltoets "
-"met omkeer Shift niet toegewezen kan worden. Deze instelling zal misschien "
-"niet werken."
+msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
+msgstr "Sneltoets %s voor cm_Delete is een volgordesneltoets waarvoor een sneltoets met omkeer Shift niet toegewezen kan worden. Deze instelling zal misschien niet werken."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -11228,12 +11020,8 @@ msgid "Left button;Right button;"
 msgstr "Linkerknop;Rechterknop;"
 
 #: ulng.rsoptnewfilesposition
-msgid ""
-"at the top of the file list;after directories (if directories are sorted "
-"before files);at sorted position;at the bottom of the file list"
-msgstr ""
-"bovenaan bestandslijst;na onderverdeling (indien mappen zijn gesorteerd voor "
-"bestanden;op gesorteerde positie;onderaan bestandslijst"
+msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
+msgstr "bovenaan bestandslijst;na onderverdeling (indien mappen zijn gesorteerd voor bestanden;op gesorteerde positie;onderaan bestandslijst"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -11268,32 +11056,20 @@ msgid "&Files;Di&rectories;Files a&nd Directories"
 msgstr "&Bestanden;Mappen;Bestanden en mappen"
 
 #: ulng.rsoptsearchopt
-msgid ""
-"&Hide filter panel when not focused;Keep saving setting modifications for "
-"next session"
+msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
 msgstr ""
 
 #: ulng.rsoptsortcasesens
-msgid ""
-"not case sensitive;according to locale settings (aAbBcC);first upper then "
-"lower case (ABCabc)"
-msgstr ""
-"niet hoofdlettergevoelig;overeenkomstig lokale instellingen (aAbBcC);eerst "
-"hoofdletters dan kleine letters (ABCabc)"
+msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
+msgstr "niet hoofdlettergevoelig;overeenkomstig lokale instellingen (aAbBcC);eerst hoofdletters dan kleine letters (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
-msgid ""
-"sort by name and show first;sort like files and show first;sort like files"
-msgstr ""
-"sorteer op naam en toon eerste;rangschik als bestanden en toon eerste;"
-"rangschik als bestanden"
+msgid "sort by name and show first;sort like files and show first;sort like files"
+msgstr "sorteer op naam en toon eerste;rangschik als bestanden en toon eerste;rangschik als bestanden"
 
 #: ulng.rsoptsortmethod
-msgid ""
-"Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
-msgstr ""
-"Alfabetisch, met inachtneming van accenten;Natuurlijke rangschikking: "
-"alfabetisch en cijfers"
+msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgstr "Alfabetisch, met inachtneming van accenten;Natuurlijke rangschikking: alfabetisch en cijfers"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -11304,20 +11080,12 @@ msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
 msgstr "Scheidingsteken;Interne opdracht;Externe opdracht;Menu"
 
 #: ulng.rsopttypeofduplicatedrename
-msgid ""
-"DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - "
-"filename(x).ext"
-msgstr ""
-"DC ouderwets - Kopieer (x) bestandnaam.ext;Windows - bestandnaam (x).ext;"
-"Ander - bestandnaam (x).ext"
+msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
+msgstr "DC ouderwets - Kopieer (x) bestandnaam.ext;Windows - bestandnaam (x).ext;Ander - bestandnaam (x).ext"
 
 #: ulng.rsoptupdatedfilesposition
-msgid ""
-"don't change position;use the same setting as for new files;to sorted "
-"position"
-msgstr ""
-"wijzig plaats niet;gebruik dezelfde instelling als voor nieuwe bestanden;op "
-"gerangschikte plaats"
+msgid "don't change position;use the same setting as for new files;to sorted position"
+msgstr "wijzig plaats niet;gebruik dezelfde instelling als voor nieuwe bestanden;op gerangschikte plaats"
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
@@ -11464,10 +11232,7 @@ msgid "The number of parts is more than 100! Continue?"
 msgstr "Het aantal delen is meer dan 100. Doorgaan?"
 
 #: ulng.rssplitpredefinedsizes
-msgid ""
-"Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density "
-"1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density "
-"360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
+msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
 msgstr ""
 
 #: ulng.rssplitseldir
@@ -11475,15 +11240,11 @@ msgid "Select directory:"
 msgstr "Kies map:"
 
 #: ulng.rsstraccents
-msgid ""
-"á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;"
-"Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
+msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
 msgstr ""
 
 #: ulng.rsstraccentsstripped
-msgid ""
-"a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;"
-"I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
+msgid "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
 msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
@@ -11572,8 +11333,7 @@ msgstr "Platte tekst"
 
 #: ulng.rstabsactionondoubleclickchoices
 msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
-msgstr ""
-"Doe niets;Sluit tabblad;Benader favoriete tabbladen;Opduikmenu voor tabbladen"
+msgstr "Doe niets;Sluit tabblad;Benader favoriete tabbladen;Opduikmenu voor tabbladen"
 
 #: ulng.rstimeunitday
 msgid "Day(s)"
@@ -11648,14 +11408,8 @@ msgid "Viewer"
 msgstr "Kijker"
 
 #: ulng.rsunhandledexceptionmessage
-msgid ""
-"Please report this error to the bug tracker with a description of what you "
-"were doing and the following file:%sPress %s to continue or %s to abort the "
-"program."
-msgstr ""
-"Rapporteer deze fout a.u.b. aan de bugtracker met een omschrijving van wat u "
-"aan het doen was en het volgende bestand: %s Druk op %s om door te gaan of "
-"op %s om het programma af te breken."
+msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
+msgstr "Rapporteer deze fout a.u.b. aan de bugtracker met een omschrijving van wat u aan het doen was en het volgende bestand: %s Druk op %s om door te gaan of op %s om het programma af te breken."
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
@@ -11686,11 +11440,8 @@ msgid "Help with \"%\" variables"
 msgstr "Hulp met '%s' variabelen"
 
 #: ulng.rsvarinputparam
-msgid ""
-"Will request request user to enter a parameter with a default suggested value"
-msgstr ""
-"Zal gebruiker vragen om een parameter in te voeren met een voorgestelde "
-"standaardwaarde"
+msgid "Will request request user to enter a parameter with a default suggested value"
+msgstr "Zal gebruiker vragen om een parameter in te voeren met een voorgestelde standaardwaarde"
 
 #: ulng.rsvarleftpanel
 msgid "Left panel"
@@ -11702,8 +11453,7 @@ msgstr "Tijdelijke bestandnaam van lijst met bestandnamen"
 
 #: ulng.rsvarlistfullfilename
 msgid "Temporary filename of list of complete filenames (path+filename)"
-msgstr ""
-"Tijdelijke bestandnaam van lijst van volledige bestandnamen (pad+bestandnaam)"
+msgstr "Tijdelijke bestandnaam van lijst van volledige bestandnamen (pad+bestandnaam)"
 
 #: ulng.rsvarlistinutf16
 msgid "Filenames in list in UTF-16 with BOM"
@@ -11742,9 +11492,7 @@ msgid "Path, with ending delimiter"
 msgstr ""
 
 #: ulng.rsvarpercentchangetopound
-msgid ""
-"From here to the end of the line, the percent-variable indicator is the \"#"
-"\" sign"
+msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
 msgstr ""
 
 #: ulng.rsvarpercentsign
@@ -11752,9 +11500,7 @@ msgid "Return the percent sign"
 msgstr ""
 
 #: ulng.rsvarpoundchangetopercent
-msgid ""
-"From here to the end of the line, the percent-variable indicator is back the "
-"\"%\" sign"
+msgid "From here to the end of the line, the percent-variable indicator is back the \"%\" sign"
 msgstr ""
 
 #: ulng.rsvarprependelement
@@ -11799,14 +11545,11 @@ msgstr "Inactief paneel (doel)"
 
 #: ulng.rsvarwillbequoted
 msgid "Filenames will be quoted from here (default)"
-msgstr ""
-"Vanaf hier zullen bestandnamen tussen aanhalingstekens worden gezet "
-"(standaard)"
+msgstr "Vanaf hier zullen bestandnamen tussen aanhalingstekens worden gezet (standaard)"
 
 #: ulng.rsvarwilldointerminal
 msgid "Command will be done in terminal, remaining opened at the end"
-msgstr ""
-"Opdracht zal worden uitgevoerd in de terminal, die daarna open zal blijven"
+msgstr "Opdracht zal worden uitgevoerd in de terminal, die daarna open zal blijven"
 
 #: ulng.rsvarwillhaveendingdelimiter
 msgid "Paths will have ending delimiter"
@@ -11814,13 +11557,11 @@ msgstr ""
 
 #: ulng.rsvarwillnotbequoted
 msgid "Filenames will not be quoted from here"
-msgstr ""
-"Vanaf hier zullen bestandnamen niet tussen aanhalingstekens worden gezet"
+msgstr "Vanaf hier zullen bestandnamen niet tussen aanhalingstekens worden gezet"
 
 #: ulng.rsvarwillnotdointerminal
 msgid "Command will be done in terminal, closed at the end"
-msgstr ""
-"Opdracht zal worden uitgevoerd in de terminal, die daarna gesloten zal worden"
+msgstr "Opdracht zal worden uitgevoerd in de terminal, die daarna gesloten zal worden"
 
 #: ulng.rsvarwillnothaveendingdelimiter
 msgid "Paths will not have ending delimiter (default)"

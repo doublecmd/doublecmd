@@ -80,6 +80,10 @@ msgstr "&Следване на връзките"
 msgid "&Reserve space"
 msgstr "Запазване на &място"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Действие, при невъзможност за задаване на време, принадлежности и т.н."

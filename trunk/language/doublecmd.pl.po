@@ -79,6 +79,10 @@ msgstr "Idź za linkami"
 msgid "&Reserve space"
 msgstr "Za&rezerwuj miejsce"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Co zrobić, gdy nie można ustawić czasu pliku, atrybutów, itp."

@@ -77,6 +77,10 @@ msgstr "允許連結 (&L)"
 msgid "&Reserve space"
 msgstr "預留空間 (&R)"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "當不能設定檔案時間、屬性及其它項目時要如何處理"
