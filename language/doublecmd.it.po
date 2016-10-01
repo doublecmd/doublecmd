@@ -77,6 +77,10 @@ msgstr "Se&gui i link"
 msgid "&Reserve space"
 msgstr "&Riserva spazio"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Cosa fare quando non è possibile impostare data, attributi, etc. del file?"

@@ -79,6 +79,10 @@ msgstr "リンクを辿る(&l)"
 msgid "&Reserve space"
 msgstr "スペースを確保(&R)"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "ファイルの時間、属性などを設定できない場合どうするか"

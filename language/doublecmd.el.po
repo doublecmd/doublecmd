@@ -80,6 +80,10 @@ msgstr "Ακολουθείστε τους δεσμούς"
 msgid "&Reserve space"
 msgstr "Κράτηση Χώρου"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Τι να κάνετε όταν δεν μπορείτε να ορίσετε στα αρχεία χρόνο, ιδιότητες, κ.α"

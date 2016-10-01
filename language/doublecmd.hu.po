@@ -79,6 +79,10 @@ msgstr "Linkek követése"
 msgid "&Reserve space"
 msgstr "Hely &tartalékolása"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Mit tegyen, ha nem bírja beállítani a fájl idejét, attribútumait, stb."

@@ -81,6 +81,10 @@ msgstr "S&ledi veze"
 msgid "&Reserve space"
 msgstr "&Čuvaj slobodan prostor"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Šta činiti kada se ne mogu podesiti vreme, svojstva, itd."

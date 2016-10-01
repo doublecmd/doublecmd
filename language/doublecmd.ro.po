@@ -81,6 +81,10 @@ msgstr "Urmărește &legăturile"
 msgid "&Reserve space"
 msgstr "&Rezervă spațiu"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "Ce să fac când nu se pot seta numele de fișier, atributele, etc."

@@ -77,6 +77,10 @@ msgstr "링크 연결"
 msgid "&Reserve space"
 msgstr "공간 리버스"
 
+#: tfilesystemcopymoveoperationoptionsui.chkverify.caption
+msgid "&Verify"
+msgstr ""
+
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
 msgstr "시간, 속성을 지정할 수 없을 때"
