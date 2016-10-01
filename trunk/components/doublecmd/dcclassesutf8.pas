@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This module contains classes with UTF8 file names support.
 
-   Copyright (C) 2008-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@ type
   public
     constructor Create(const AFileName: String; Mode: LongWord);
     destructor Destroy; override;
+    function Flush: Boolean; inline;
     function Read(var Buffer; Count: LongInt): LongInt; override;
     property FileName: String read FFileName;
   end; 
@@ -81,7 +82,7 @@ begin
       if FHandle = feInvalidHandle then
         raise EFCreateError.CreateFmt(SFCreateError, [AFileName])
       else
-        inherited Create(FHandle);	  
+        inherited Create(FHandle);
     end
   else
     begin 
@@ -89,7 +90,7 @@ begin
       if FHandle = feInvalidHandle then
         raise EFOpenError.CreateFmt(SFOpenError, [AFilename])
       else
-        inherited Create(FHandle);	  
+        inherited Create(FHandle);
     end;
   FFileName:= AFileName;
 end;
@@ -99,6 +100,11 @@ begin
   inherited Destroy;
   // Close handle after destroying the base object, because it may use Handle in Destroy.
   if FHandle >= 0 then FileClose(FHandle);
+end;
+
+function TFileStreamEx.Flush: Boolean;
+begin
+  Result:= FileFlush(FHandle);
 end;
 
 function TFileStreamEx.Read(var Buffer; Count: LongInt): LongInt;

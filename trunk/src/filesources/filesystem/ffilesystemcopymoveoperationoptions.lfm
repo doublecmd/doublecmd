@@ -6,14 +6,14 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
   AutoSize = True
   ClientHeight = 248
   ClientWidth = 637
-  LCLVersion = '1.4.3.0'
+  LCLVersion = '1.6.0.4'
   object pnlComboBoxes: TPanel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     Left = 0
-    Height = 79
+    Height = 75
     Top = 0
-    Width = 242
+    Width = 265
     AutoSize = True
     BorderSpacing.Right = 10
     BevelOuter = bvNone
@@ -22,14 +22,14 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
     ChildSizing.VerticalSpacing = 10
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 79
-    ClientWidth = 242
+    ClientHeight = 75
+    ClientWidth = 265
     TabOrder = 0
     object lblFileExists: TLabel
       Left = 0
-      Height = 15
+      Height = 14
       Top = 5
-      Width = 137
+      Width = 160
       BorderSpacing.CellAlignVertical = ccaCenter
       Caption = 'When &file exists'
       FocusControl = cmbFileExists
@@ -37,9 +37,9 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
     end
     object lblDirectoryExists: TLabel
       Left = 0
-      Height = 15
-      Top = 30
-      Width = 137
+      Height = 14
+      Top = 29
+      Width = 160
       BorderSpacing.CellAlignVertical = ccaCenter
       Caption = 'When dir&ectory exists'
       FocusControl = cmbDirectoryExists
@@ -47,9 +47,9 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
     end
     object lblSetPropertyError: TLabel
       Left = 0
-      Height = 15
-      Top = 55
-      Width = 137
+      Height = 14
+      Top = 53
+      Width = 160
       BorderSpacing.CellAlignVertical = ccaCenter
       Caption = 'When ca&nnot set property'
       FocusControl = cmbSetPropertyError
@@ -61,12 +61,12 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       AnchorSideTop.Control = lblFileExists
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Side = asrBottom
-      Left = 142
-      Height = 23
-      Top = 1
+      Left = 165
+      Height = 20
+      Top = 2
       Width = 100
       Anchors = [akTop, akLeft, akRight]
-      ItemHeight = 15
+      ItemHeight = 14
       Style = csDropDownList
       TabOrder = 0
     end
@@ -76,12 +76,12 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       AnchorSideTop.Control = lblDirectoryExists
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Side = asrBottom
-      Left = 142
-      Height = 23
+      Left = 165
+      Height = 20
       Top = 26
       Width = 100
       Anchors = [akTop, akLeft, akRight]
-      ItemHeight = 15
+      ItemHeight = 14
       Style = csDropDownList
       TabOrder = 1
     end
@@ -91,13 +91,13 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       AnchorSideTop.Control = lblSetPropertyError
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Side = asrBottom
-      Left = 142
-      Height = 23
+      Left = 165
+      Height = 20
       Hint = 'What to do when cannot set file time, attributes, etc.'
-      Top = 51
+      Top = 50
       Width = 100
       Anchors = [akTop, akLeft, akRight]
-      ItemHeight = 15
+      ItemHeight = 14
       ParentShowHint = False
       ShowHint = True
       Style = csDropDownList
@@ -110,25 +110,26 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
     AnchorSideTop.Control = pnlComboBoxes
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 252
-    Height = 171
+    Left = 275
+    Height = 190
     Top = 0
-    Width = 128
+    Width = 146
     AutoSize = True
     BevelOuter = bvNone
     BevelWidth = 8
-    ClientHeight = 171
-    ClientWidth = 128
+    ClientHeight = 190
+    ClientWidth = 146
     TabOrder = 1
     object cbCheckFreeSpace: TCheckBox
       AnchorSideLeft.Control = pnlCheckboxes
-      AnchorSideTop.Control = pnlCheckboxes
+      AnchorSideTop.Control = chkVerify
+      AnchorSideTop.Side = asrBottom
       Left = 0
       Height = 19
-      Top = 0
-      Width = 109
+      Top = 19
+      Width = 128
       Caption = 'C&heck free space'
-      TabOrder = 0
+      TabOrder = 1
     end
     object cbFollowLinks: TCheckBox
       AnchorSideLeft.Control = pnlCheckboxes
@@ -136,11 +137,11 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       AnchorSideTop.Side = asrBottom
       Left = 0
       Height = 19
-      Top = 38
-      Width = 82
+      Top = 57
+      Width = 93
       AllowGrayed = True
       Caption = 'Fo&llow links'
-      TabOrder = 2
+      TabOrder = 3
       Visible = False
     end
     object cbCorrectLinks: TCheckBox
@@ -149,10 +150,10 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       AnchorSideTop.Side = asrBottom
       Left = 0
       Height = 19
-      Top = 57
-      Width = 86
+      Top = 76
+      Width = 100
       Caption = 'Correct lin&ks'
-      TabOrder = 3
+      TabOrder = 4
     end
     object cbCopyAttributes: TCheckBox
       AnchorSideLeft.Control = cbCorrectLinks
@@ -160,11 +161,11 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       AnchorSideTop.Side = asrBottom
       Left = 0
       Height = 19
-      Top = 76
-      Width = 101
+      Top = 95
+      Width = 118
       Caption = 'Cop&y attributes'
       OnChange = cbCopyAttributesChange
-      TabOrder = 4
+      TabOrder = 5
     end
     object cbDropReadOnlyFlag: TCheckBox
       AnchorSideLeft.Control = cbCopyAttributes
@@ -172,11 +173,11 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 19
-      Top = 95
-      Width = 118
+      Top = 114
+      Width = 136
       BorderSpacing.Left = 10
       Caption = 'Drop readonly fla&g'
-      TabOrder = 5
+      TabOrder = 6
       Visible = False
     end
     object cbCopyTime: TCheckBox
@@ -185,10 +186,10 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       AnchorSideTop.Side = asrBottom
       Left = 0
       Height = 19
-      Top = 114
-      Width = 103
+      Top = 133
+      Width = 117
       Caption = 'Copy d&ate/time'
-      TabOrder = 6
+      TabOrder = 7
     end
     object cbCopyOwnership: TCheckBox
       AnchorSideLeft.Control = cbCopyTime
@@ -196,10 +197,10 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       AnchorSideTop.Side = asrBottom
       Left = 0
       Height = 19
-      Top = 133
-      Width = 106
+      Top = 152
+      Width = 120
       Caption = 'Copy o&wnership'
-      TabOrder = 7
+      TabOrder = 8
     end
     object cbReserveSpace: TCheckBox
       AnchorSideLeft.Control = pnlCheckboxes
@@ -207,11 +208,11 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       AnchorSideTop.Side = asrBottom
       Left = 0
       Height = 19
-      Top = 19
-      Width = 93
+      Top = 38
+      Width = 110
       Caption = '&Reserve space'
       OnChange = cbReserveSpaceChange
-      TabOrder = 1
+      TabOrder = 2
     end
     object cbCopyPermissions: TCheckBox
       AnchorSideLeft.Control = cbCopyOwnership
@@ -219,11 +220,21 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       AnchorSideTop.Side = asrBottom
       Left = 0
       Height = 19
-      Top = 152
-      Width = 114
+      Top = 171
+      Width = 130
       Caption = 'Copy &permissions'
-      TabOrder = 8
+      TabOrder = 9
       Visible = False
+    end
+    object chkVerify: TCheckBox
+      AnchorSideLeft.Control = pnlCheckboxes
+      AnchorSideTop.Control = pnlCheckboxes
+      Left = 0
+      Height = 19
+      Top = 0
+      Width = 58
+      Caption = '&Verify'
+      TabOrder = 0
     end
   end
   object gbFileTemplate: TGroupBox
@@ -233,21 +244,21 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
     AnchorSideRight.Control = pnlComboBoxes
     AnchorSideRight.Side = asrBottom
     Left = 0
-    Height = 76
-    Top = 79
-    Width = 242
+    Height = 74
+    Top = 75
+    Width = 265
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     Caption = 'Use file template'
     ClientHeight = 56
-    ClientWidth = 238
+    ClientWidth = 261
     TabOrder = 2
     object btnSearchTemplate: TBitBtn
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbFileTemplate
       AnchorSideRight.Control = gbFileTemplate
       AnchorSideRight.Side = asrBottom
-      Left = 201
+      Left = 224
       Height = 32
       Hint = 'Choose template...'
       Top = 0
@@ -301,9 +312,9 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = btnSearchTemplate
       Left = 5
-      Height = 15
+      Height = 14
       Top = 9
-      Width = 186
+      Width = 209
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 5
       BorderSpacing.Right = 10
@@ -317,7 +328,7 @@ object FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptions
       Left = 5
       Height = 19
       Top = 37
-      Width = 155
+      Width = 183
       BorderSpacing.Left = 5
       BorderSpacing.Top = 5
       BorderSpacing.Right = 5

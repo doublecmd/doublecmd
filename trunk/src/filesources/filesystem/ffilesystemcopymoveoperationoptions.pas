@@ -27,6 +27,7 @@ type
     cbExcludeEmptyDirectories: TCheckBox;
     cbReserveSpace: TCheckBox;
     cbCopyPermissions: TCheckBox;
+    chkVerify: TCheckBox;
     cmbDirectoryExists: TComboBoxAutoWidth;
     cmbFileExists: TComboBoxAutoWidth;
     cmbSetPropertyError: TComboBoxAutoWidth;
@@ -161,6 +162,7 @@ begin
     fsooslNone       : cbFollowLinks.State := cbGrayed;
   end;
 
+  chkVerify.Checked := gOperationOptionVerify;
   cbCorrectLinks.Checked := gOperationOptionCorrectLinks;
   cbReserveSpace.Checked := gOperationOptionReserveSpace;
   cbCheckFreeSpace.Checked := gOperationOptionCheckFreeSpace;
@@ -200,6 +202,7 @@ begin
     2: gOperationOptionSetPropertyError := fsoospeIgnoreErrors;
   end;
 
+  gOperationOptionVerify          :=  chkVerify.Checked;
   gOperationOptionCopyAttributes  := cbCopyAttributes.Checked;
   gOperationOptionCopyTime        := cbCopyTime.Checked;
   gOperationOptionCopyOwnership   := cbCopyOwnership.Checked;
@@ -270,6 +273,7 @@ begin
     CorrectSymLinks := cbCorrectLinks.Checked;
     CheckFreeSpace := cbCheckFreeSpace.Checked;
     ReserveSpace := cbReserveSpace.Checked;
+    Verify := chkVerify.Checked;
     if Assigned(FTemplate) then
     begin
       SearchTemplate := FTemplate;
@@ -312,6 +316,7 @@ begin
     CorrectSymLinks := cbCorrectLinks.Checked;
     CheckFreeSpace := cbCheckFreeSpace.Checked;
     ReserveSpace := cbReserveSpace.Checked;
+    Verify := chkVerify.Checked;
     Options := CopyAttributesOptions;
     SetCopyOption(Options, caoCopyAttributes, cbCopyAttributes.Checked);
     SetCopyOption(Options, caoCopyTime, cbCopyTime.Checked);
