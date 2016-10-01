@@ -67,6 +67,7 @@ type
     FRenamingFiles: Boolean;
     FRenamingRootDir: Boolean;
     FRootDir: TFile;
+    FVerify,
     FReserveSpace,
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
@@ -91,6 +92,7 @@ type
     procedure ShowError(sMessage: String);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
+    function CheckFileHash(const FileName, Hash: String; Size: Int64): Boolean;
     function CopyFile(SourceFile: TFile; TargetFileName: String; Mode: TFileSystemOperationHelperCopyMode): Boolean;
     function MoveFile(SourceFile: TFile; TargetFileName: String; Mode: TFileSystemOperationHelperCopyMode): Boolean;
     procedure CopyProperties(SourceFileName, TargetFileName: String);
@@ -128,6 +130,7 @@ type
 
     procedure ProcessTree(aFileTree: TFileTree);
 
+    property Verify: Boolean read FVerify write FVerify;
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
@@ -145,7 +148,7 @@ implementation
 uses
   uDebug, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
   DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty,
-  StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8;
+  StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash;
 
 function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String; overload;
 begin
@@ -427,6 +430,8 @@ var
   BytesRead, BytesToRead, BytesWrittenTry, BytesWritten: Int64;
   TotalBytesToRead: Int64 = 0;
   NewPos: Int64;
+  Hash: String;
+  Context: THashContext;
   DeleteFile: Boolean = False;
 
   procedure OpenSourceFile;
@@ -490,30 +495,32 @@ var
       end;
     end;
   var
+    Flags: LongWord = 0;
     bRetry: Boolean = True;
   begin
     while bRetry do
     begin
       bRetry := False;
+      if FVerify then Flags := fmOpenSync;
       try
         TargetFileStream.Free; // In case stream was created but 'while' loop run again
         case Mode of
         fsohcmAppend:
           begin
-            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmOpenReadWrite);
+            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmOpenReadWrite or Flags);
             TargetFileStream.Seek(0, soFromEnd); // seek to end
             TotalBytesToRead := SourceFileStream.Size;
           end;
         fsohcmResume:
           begin
-            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmOpenReadWrite);
+            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmOpenReadWrite or Flags);
             NewPos := TargetFileStream.Seek(0, soFromEnd);
             SourceFileStream.Seek(NewPos, soFromBeginning);
             TotalBytesToRead := SourceFileStream.Size - NewPos;
           end
         else
           begin
-            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmCreate);
+            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmCreate or Flags);
             TotalBytesToRead := SourceFileStream.Size;
             if FReserveSpace then
             begin
@@ -569,9 +576,10 @@ begin
     end;
   end;
 
-  BytesToRead := FBufferSize;
   SourceFileStream := nil;
   TargetFileStream := nil; // for safety exception handling
+  BytesToRead := FBufferSize;
+  if FVerify then HashInit(Context, HASH_SHA3_224);
   try
     try
       OpenSourceFile;
@@ -596,6 +604,8 @@ begin
 
             if (BytesRead = 0) then
               Raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
+
+            if FVerify then HashUpdate(Context, FBuffer^, BytesRead);
 
             TotalBytesToRead := TotalBytesToRead - BytesRead;
             BytesWritten := 0;
@@ -695,6 +705,12 @@ begin
         CheckOperationState; // check pause and stop
       end;//while
 
+      if FVerify then
+      begin
+        HashFinal(Context, Hash);
+        TargetFileStream.Flush;
+      end;
+
       Result:= True;
 
     except
@@ -708,6 +724,7 @@ begin
 
   finally
     FreeAndNil(SourceFileStream);
+    if FVerify then Context.Free;
     if Assigned(TargetFileStream) then
     begin
       FreeAndNil(TargetFileStream);
@@ -722,10 +739,13 @@ begin
           mbDeleteFile(TargetFileName);
         end;
       end;
+      if Result and FVerify then begin
+        Result:= CheckFileHash(TargetFileName, Hash, SourceFile.Size);
+      end;
     end;
   end;
 
-  CopyProperties(SourceFile.FullPath, TargetFileName);
+  if Result then CopyProperties(SourceFile.FullPath, TargetFileName);
 end;
 
 procedure TFileSystemOperationHelper.CopyProperties(SourceFileName, TargetFileName: String);
@@ -779,6 +799,7 @@ begin
   if (Mode in [fsohcmAppend, fsohcmResume]) or
      (not mbRenameFile(SourceFile.FullPath, TargetFileName)) then
   begin
+    if FVerify then FStatistics.TotalBytes += SourceFile.Size;
     if CopyFile(SourceFile, TargetFileName, Mode) then
     begin
       if FileIsReadOnly(SourceFile.Attributes) then
@@ -1472,6 +1493,100 @@ begin
   if logOptions <= gLogOptions then
   begin
     logWrite(FOperationThread, sMessage, logMsgType);
+  end;
+end;
+
+function TFileSystemOperationHelper.CheckFileHash(const FileName, Hash: String;
+  Size: Int64): Boolean;
+const
+  BLOCK_SIZE = $20000;
+var
+  Handle: THandle;
+  FileHash: String;
+  bRetryRead: Boolean;
+  Context: THashContext;
+  Buffer, Aligned: Pointer;
+  TotalBytesToRead: Int64 = 0;
+  BytesRead, BytesToRead: Int64;
+begin
+  Handle := feInvalidHandle;
+  FStatistics.CurrentFileDoneBytes:= 0;
+  // Flag fmOpenDirect requires: file access sizes must be for a number of bytes
+  // that is an integer multiple of the volume block size, file access buffer
+  // addresses for read and write operations should be physical block size aligned
+  BytesToRead:= BLOCK_SIZE;
+  Buffer:= GetMem(BytesToRead * 2 - 1);
+  {$PUSH}{$HINTS OFF}{$WARNINGS OFF}
+  Aligned:= Pointer(PtrUInt(Buffer + BytesToRead - 1) and not (BytesToRead - 1));
+  {$POP}
+  HashInit(Context, HASH_SHA3_224);
+  try
+    Handle:= mbFileOpen(FileName, fmOpenRead or fmShareDenyWrite or fmOpenSync or fmOpenDirect);
+
+    Result:= Handle <> feInvalidHandle;
+    if Result then
+    begin
+      TotalBytesToRead := Size;
+
+      while TotalBytesToRead > 0 do
+      begin
+        repeat
+          try
+            bRetryRead := False;
+            BytesRead := FileRead(Handle, Aligned^, BytesToRead);
+
+            if (BytesRead <= 0) then
+              Raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
+
+            TotalBytesToRead := TotalBytesToRead - BytesRead;
+
+            HashUpdate(Context, Aligned^, BytesRead);
+
+          except
+            on E: EReadError do
+              begin
+                if gSkipFileOpError then
+                begin
+                  LogMessage(rsMsgErrERead + ' ' + FileName + ': ' + E.Message,
+                             [], lmtError);
+                  Exit(False);
+                end
+                else
+                case AskQuestion(rsMsgErrERead + ' ' + FileName + ': ',
+                                 E.Message,
+                                 [fsourRetry, fsourSkip, fsourAbort],
+                                 fsourRetry, fsourSkip) of
+                  fsourRetry:
+                    bRetryRead := True;
+                  fsourAbort:
+                    AbortOperation();
+                  fsourSkip:
+                    Exit(False);
+                end; // case
+              end;
+          end;
+        until not bRetryRead;
+
+        with FStatistics do
+        begin
+          CurrentFileDoneBytes := CurrentFileDoneBytes + BytesRead;
+          DoneBytes := DoneBytes + BytesRead;
+
+          UpdateStatistics(FStatistics);
+        end;
+
+        CheckOperationState; // check pause and stop
+      end;//while
+    end;
+
+  finally
+    FreeMem(Buffer);
+    HashFinal(Context, FileHash);
+    Result:= SameText(Hash, FileHash);
+    if Handle <> feInvalidHandle then
+    begin
+      FileClose(Handle);
+    end;
   end;
 end;
 

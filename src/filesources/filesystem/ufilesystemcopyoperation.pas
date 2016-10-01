@@ -31,6 +31,7 @@ type
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
 
     // Options.
+    FVerify,
     FReserveSpace,
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
@@ -53,6 +54,7 @@ type
 
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
+    property Verify: Boolean read FVerify write FVerify;
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
     property ReserveSpace: Boolean read FReserveSpace write FReserveSpace;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
@@ -156,6 +158,7 @@ begin
     FSourceFilesTree := TreeBuilder.ReleaseTree;
     FStatistics.TotalFiles := TreeBuilder.FilesCount;
     FStatistics.TotalBytes := TreeBuilder.FilesSize;
+    if FVerify then FStatistics.TotalBytes := FStatistics.TotalBytes * 2;
   finally
     FreeAndNil(TreeBuilder);
   end;
@@ -174,6 +177,7 @@ begin
                         TargetPath,
                         FStatistics);
 
+  FOperationHelper.Verify := FVerify;
   FOperationHelper.RenameMask := RenameMask;
   FOperationHelper.ReserveSpace :=  FReserveSpace;
   FOperationHelper.CheckFreeSpace := CheckFreeSpace;
