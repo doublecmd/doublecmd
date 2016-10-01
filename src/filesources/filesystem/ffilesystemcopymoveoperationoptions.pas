@@ -111,6 +111,10 @@ constructor TFileSystemCopyMoveOperationOptionsUI.Create(AOwner: TComponent; AFi
 begin
   inherited;
 
+  {$IFDEF DARWIN}
+  chkVerify.Visible := False;
+  {$ENDIF}
+
   {$IFDEF MSWINDOWS}
   cbCopyOwnership.Visible := False;
   cbCopyPermissions.Visible := True;
