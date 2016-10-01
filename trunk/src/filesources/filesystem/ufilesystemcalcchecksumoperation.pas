@@ -445,7 +445,7 @@ begin
               bRetryRead := False;
               BytesRead := FileRead(hFile, FBuffer^, BytesToRead);
 
-              if (BytesRead = 0) then
+              if (BytesRead <= 0) then
                 Raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
 
               TotalBytesToRead := TotalBytesToRead - BytesRead;
