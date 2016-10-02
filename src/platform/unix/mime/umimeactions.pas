@@ -80,7 +80,7 @@ implementation
 
 uses
   Unix, DCBasicTypes, DCClassesUtf8, DCStrUtils, uDCUtils, uGlib2,
-  uIconTheme, uClipboard, DCOSUtils, uKeyFile, uGio, uXdg, uMimeType;
+  uIconTheme, uClipboard, DCOSUtils, uKeyFile, uGio, uXdg, uMimeType, uDebug;
 
 type
   TMimeAppsGroup = (magDefault, magAdded, magRemoved);
@@ -604,7 +604,11 @@ begin
       DesktopFile.Free;
     end;
   except
-    Result:= False;
+    on E: Exception do
+    begin
+      Result:= False;
+      DCDebug(E.Message);
+    end;
   end;
 end;
 
