@@ -56,8 +56,11 @@ type
     {en
        Set, if the file source supports flat listing mode.
     }
-    fspListFlatView
-
+    fspListFlatView,
+    {en
+       Set, if the file source cannot be a child
+    }
+    fspNoneParent
   );
 
   TFileSourceProperties = set of TFileSourceProperty;

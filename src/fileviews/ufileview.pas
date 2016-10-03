@@ -2726,6 +2726,8 @@ var
   PreviousSubDirectory,
   sUpLevel: String;
 begin
+  AllowChangingFileSource:= AllowChangingFileSource and
+                            not (fspNoneParent in FileSource.Properties);
   // Check if this is root level of the current file source.
   if FileSource.IsPathAtRoot(CurrentPath) then
   begin

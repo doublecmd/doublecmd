@@ -144,7 +144,7 @@ end;
 
 function TWinNetFileSource.GetProperties: TFileSourceProperties;
 begin
-  Result := inherited GetProperties + [fspVirtual];
+  Result := inherited GetProperties + [fspVirtual] - [fspNoneParent];
 end;
 
 function TWinNetFileSource.GetProviderName: WideString;
