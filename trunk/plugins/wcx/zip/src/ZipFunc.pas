@@ -309,6 +309,10 @@ var
   sPassword: AnsiString;
   sPackedFile: String;
 begin
+  if (Flags and PK_PACK_MOVE_FILES) <> 0 then begin
+    Exit(E_NOT_SUPPORTED);
+  end;
+
   Arc := TAbZipKitEx.Create(nil);
   try
     Arc.AutoSave := False;
