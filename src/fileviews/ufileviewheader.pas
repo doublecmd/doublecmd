@@ -109,7 +109,7 @@ begin
         NewPath:= NormalizePathDelimiters(FPathEdit.Text);
         NewPath:= ReplaceEnvVars(ReplaceTilde(NewPath));
         if not mbFileExists(NewPath) then
-          ChooseFileSource(FFileView, NewPath)
+          ChooseFileSource(FFileView, NewPath, True)
         else
           begin
             ChooseFileSource(FFileView, ExtractFileDir(NewPath));

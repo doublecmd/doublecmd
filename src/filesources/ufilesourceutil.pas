@@ -23,7 +23,7 @@ procedure ChooseFile(aFileView: TFileView; aFileSource: IFileSource; aFile: TFil
 }
 function ChooseFileSource(aFileView: TFileView; aFileSource: IFileSource; aFile: TFile): Boolean; overload;
 
-function ChooseFileSource(aFileView: TFileView; const aPath: String): Boolean; overload;
+function ChooseFileSource(aFileView: TFileView; const aPath: String; bLocal: Boolean = False): Boolean; overload;
 
 function ChooseArchive(aFileView: TFileView; aFileSource: IFileSource; aFile: TFile; bForce: Boolean = False): Boolean;
 
@@ -178,7 +178,8 @@ begin
   end;
 end;
 
-function ChooseFileSource(aFileView: TFileView; const aPath: String): Boolean;
+function ChooseFileSource(aFileView: TFileView; const aPath: String;
+  bLocal: Boolean): Boolean;
 var
   URI: TURI;
   RemotePath: String;
@@ -212,7 +213,7 @@ begin
         aFileView.AddFileSource(aFileSourceClass.Create, aPath);
     end
   // If current FileSource has address
-  else if Length(aFileView.CurrentAddress) > 0 then
+  else if bLocal and (Length(aFileView.CurrentAddress) > 0) then
      aFileView.CurrentPath := aPath
   // Else use FileSystemFileSource
   else

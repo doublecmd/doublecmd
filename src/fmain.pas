@@ -5235,7 +5235,7 @@ begin
             end;
 
           // Choose FileSource by path
-          ChooseFileSource(ActiveFrame, sDir);
+          ChooseFileSource(ActiveFrame, sDir, True);
           if sFilename <> '' then
             ActiveFrame.SetActiveFile(sFilename);
 
