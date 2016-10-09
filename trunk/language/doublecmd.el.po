@@ -9285,11 +9285,15 @@ msgid "&Continue"
 msgstr "Συνέχιση"
 
 #: ulng.rsdlgbuttoncopyinto
-msgid "Copy &Into"
+#, fuzzy
+#| msgid "Copy &Into"
+msgid "&Merge"
 msgstr "Αντιγραφή Μέσα σε"
 
 #: ulng.rsdlgbuttoncopyintoall
-msgid "Copy Into &All"
+#, fuzzy
+#| msgid "Copy Into &All"
+msgid "Mer&ge All"
 msgstr "Αντιγραφή μέσα σε Όλα"
 
 #: ulng.rsdlgbuttonexitprogram
@@ -9489,7 +9493,9 @@ msgid "Exported_from_DC"
 msgstr "Έχει_Εξαχθεί_από_DC"
 
 #: ulng.rsfileopdirectoryexistsoptions
-msgid "Ask;Overwrite;Copy into;Skip"
+#, fuzzy
+#| msgid "Ask;Overwrite;Copy into;Skip"
+msgid "Ask;Merge;Skip"
 msgstr "Ερώτηση;Αντικατάσταση;Αντιγραφή στο;Παράβλεψη"
 
 #: ulng.rsfileopfileexistsoptions
@@ -10143,7 +10149,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "Το μέγεθος αρχείου του \"%s\" είναι πολύ μεγάλο για το προοριζόμενο σύστημα αρχείων!"
 
 #: ulng.rsmsgfolderexistsrwrt
-msgid "Folder %s exists, overwrite?"
+#, fuzzy
+#| msgid "Folder %s exists, overwrite?"
+msgid "Folder %s exists, merge?"
 msgstr "Ο Φάκελος %s υπάρχει, αντικατάσταση;"
 
 #: ulng.rsmsgfollowsymlink

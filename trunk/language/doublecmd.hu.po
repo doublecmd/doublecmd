@@ -9430,11 +9430,15 @@ msgid "&Continue"
 msgstr "&Folytat"
 
 #: ulng.rsdlgbuttoncopyinto
-msgid "Copy &Into"
+#, fuzzy
+#| msgid "Copy &Into"
+msgid "&Merge"
 msgstr "&Belemásol"
 
 #: ulng.rsdlgbuttoncopyintoall
-msgid "Copy Into &All"
+#, fuzzy
+#| msgid "Copy Into &All"
+msgid "Mer&ge All"
 msgstr "&Mind belemásolja"
 
 #: ulng.rsdlgbuttonexitprogram
@@ -9634,7 +9638,9 @@ msgid "Exported_from_DC"
 msgstr ""
 
 #: ulng.rsfileopdirectoryexistsoptions
-msgid "Ask;Overwrite;Copy into;Skip"
+#, fuzzy
+#| msgid "Ask;Overwrite;Copy into;Skip"
+msgid "Ask;Merge;Skip"
 msgstr "Kérdez;Felülír;Belemásol;Kihagy"
 
 #: ulng.rsfileopfileexistsoptions
@@ -10284,7 +10290,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "A fájl \"%s\" mérete túl nagy a cél fájlrendszerre!"
 
 #: ulng.rsmsgfolderexistsrwrt
-msgid "Folder %s exists, overwrite?"
+#, fuzzy
+#| msgid "Folder %s exists, overwrite?"
+msgid "Folder %s exists, merge?"
 msgstr "A mappa %s már létezik, felülírja?"
 
 #: ulng.rsmsgfollowsymlink

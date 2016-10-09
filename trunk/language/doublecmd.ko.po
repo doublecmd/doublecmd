@@ -9307,11 +9307,15 @@ msgid "&Continue"
 msgstr "&계속"
 
 #: ulng.rsdlgbuttoncopyinto
-msgid "Copy &Into"
+#, fuzzy
+#| msgid "Copy &Into"
+msgid "&Merge"
 msgstr "&여기로 복사"
 
 #: ulng.rsdlgbuttoncopyintoall
-msgid "Copy Into &All"
+#, fuzzy
+#| msgid "Copy Into &All"
+msgid "Mer&ge All"
 msgstr "&모두 여기로 복사"
 
 #: ulng.rsdlgbuttonexitprogram
@@ -9511,7 +9515,9 @@ msgid "Exported_from_DC"
 msgstr "DC에서 내보내기된"
 
 #: ulng.rsfileopdirectoryexistsoptions
-msgid "Ask;Overwrite;Copy into;Skip"
+#, fuzzy
+#| msgid "Ask;Overwrite;Copy into;Skip"
+msgid "Ask;Merge;Skip"
 msgstr "묻기;덮어쓰기;복사해 넣기;건너뛰기"
 
 #: ulng.rsfileopfileexistsoptions
@@ -10167,7 +10173,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "\"%s\" 파일 크기가 복사될 파일시스템에는 너무 큽니다."
 
 #: ulng.rsmsgfolderexistsrwrt
-msgid "Folder %s exists, overwrite?"
+#, fuzzy
+#| msgid "Folder %s exists, overwrite?"
+msgid "Folder %s exists, merge?"
 msgstr "%s 폴더가 있습니다, 덮어쓸까요?"
 
 #: ulng.rsmsgfollowsymlink

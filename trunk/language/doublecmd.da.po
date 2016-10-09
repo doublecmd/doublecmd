@@ -9505,11 +9505,15 @@ msgid "&Continue"
 msgstr "Fortsæt"
 
 #: ulng.rsdlgbuttoncopyinto
-msgid "Copy &Into"
+#, fuzzy
+#| msgid "Copy &Into"
+msgid "&Merge"
 msgstr "Kopier ind i"
 
 #: ulng.rsdlgbuttoncopyintoall
-msgid "Copy Into &All"
+#, fuzzy
+#| msgid "Copy Into &All"
+msgid "Mer&ge All"
 msgstr "Kopier ind i alle"
 
 #: ulng.rsdlgbuttonexitprogram
@@ -9709,7 +9713,9 @@ msgid "Exported_from_DC"
 msgstr "Eksporteret_fra_DC"
 
 #: ulng.rsfileopdirectoryexistsoptions
-msgid "Ask;Overwrite;Copy into;Skip"
+#, fuzzy
+#| msgid "Ask;Overwrite;Copy into;Skip"
+msgid "Ask;Merge;Skip"
 msgstr "Spørg bruger;Overskriv alle filer;Kopier alle filer;Spring alle filer over"
 
 #: ulng.rsfileopfileexistsoptions
@@ -10366,7 +10372,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "Størrelsen på filen \"%s\" er for stor til destinationens filsystem!"
 
 #: ulng.rsmsgfolderexistsrwrt
-msgid "Folder %s exists, overwrite?"
+#, fuzzy
+#| msgid "Folder %s exists, overwrite?"
+msgid "Folder %s exists, merge?"
 msgstr ""
 "Mappen %s eksisterer.\n"
 "Vil du overskrive?\n"

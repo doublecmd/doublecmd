@@ -9421,11 +9421,15 @@ msgid "&Continue"
 msgstr "&Nastavi"
 
 #: ulng.rsdlgbuttoncopyinto
-msgid "Copy &Into"
+#, fuzzy
+#| msgid "Copy &Into"
+msgid "&Merge"
 msgstr "Umnoži &u"
 
 #: ulng.rsdlgbuttoncopyintoall
-msgid "Copy Into &All"
+#, fuzzy
+#| msgid "Copy Into &All"
+msgid "Mer&ge All"
 msgstr "Umnoži u &sve"
 
 #: ulng.rsdlgbuttonexitprogram
@@ -9625,7 +9629,9 @@ msgid "Exported_from_DC"
 msgstr ""
 
 #: ulng.rsfileopdirectoryexistsoptions
-msgid "Ask;Overwrite;Copy into;Skip"
+#, fuzzy
+#| msgid "Ask;Overwrite;Copy into;Skip"
+msgid "Ask;Merge;Skip"
 msgstr "Pitaj;Prepiši;Umnoži;Preskoči"
 
 #: ulng.rsfileopfileexistsoptions
@@ -10294,7 +10300,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "Datoteka veličine „%s“ je prevelika za odredišni sistem datoteka."
 
 #: ulng.rsmsgfolderexistsrwrt
-msgid "Folder %s exists, overwrite?"
+#, fuzzy
+#| msgid "Folder %s exists, overwrite?"
+msgid "Folder %s exists, merge?"
 msgstr "Datoteka %s postoji. Da li da je prepišem?"
 
 #: ulng.rsmsgfollowsymlink

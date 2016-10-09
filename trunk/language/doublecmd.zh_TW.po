@@ -10053,11 +10053,15 @@ msgid "&Continue"
 msgstr "繼續 (&C)"
 
 #: ulng.rsdlgbuttoncopyinto
-msgid "Copy &Into"
+#, fuzzy
+#| msgid "Copy &Into"
+msgid "&Merge"
 msgstr "複製進去 (&I)"
 
 #: ulng.rsdlgbuttoncopyintoall
-msgid "Copy Into &All"
+#, fuzzy
+#| msgid "Copy Into &All"
+msgid "Mer&ge All"
 msgstr "全部複製進去 (&A)"
 
 #: ulng.rsdlgbuttonexitprogram
@@ -10259,7 +10263,9 @@ msgid "Exported_from_DC"
 msgstr ""
 
 #: ulng.rsfileopdirectoryexistsoptions
-msgid "Ask;Overwrite;Copy into;Skip"
+#, fuzzy
+#| msgid "Ask;Overwrite;Copy into;Skip"
+msgid "Ask;Merge;Skip"
 msgstr "詢問;覆蓋;複製進去;略過"
 
 #: ulng.rsfileopfileexistsoptions
@@ -10910,7 +10916,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "這個檔案【%s】的容量對於目標檔案系統來說太大!"
 
 #: ulng.rsmsgfolderexistsrwrt
-msgid "Folder %s exists, overwrite?"
+#, fuzzy
+#| msgid "Folder %s exists, overwrite?"
+msgid "Folder %s exists, merge?"
 msgstr "資料夾 %s 已存在, 是否要覆蓋?"
 
 #: ulng.rsmsgfollowsymlink

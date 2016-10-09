@@ -8906,11 +8906,15 @@ msgid "&Continue"
 msgstr "Doorgaan"
 
 #: ulng.rsdlgbuttoncopyinto
-msgid "Copy &Into"
+#, fuzzy
+#| msgid "Copy &Into"
+msgid "&Merge"
 msgstr "Kopieer in"
 
 #: ulng.rsdlgbuttoncopyintoall
-msgid "Copy Into &All"
+#, fuzzy
+#| msgid "Copy Into &All"
+msgid "Mer&ge All"
 msgstr "Kopieer in alles"
 
 #: ulng.rsdlgbuttonexitprogram
@@ -9106,7 +9110,9 @@ msgid "Exported_from_DC"
 msgstr "Geëxporteerd vanuit DC"
 
 #: ulng.rsfileopdirectoryexistsoptions
-msgid "Ask;Overwrite;Copy into;Skip"
+#, fuzzy
+#| msgid "Ask;Overwrite;Copy into;Skip"
+msgid "Ask;Merge;Skip"
 msgstr "Vraag;Overschrijf;Kopieer naar;Overslaan"
 
 #: ulng.rsfileopfileexistsoptions
@@ -9755,7 +9761,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "De bestandgrootte van '%s' is te groot voor doelbestandssysteem."
 
 #: ulng.rsmsgfolderexistsrwrt
-msgid "Folder %s exists, overwrite?"
+#, fuzzy
+#| msgid "Folder %s exists, overwrite?"
+msgid "Folder %s exists, merge?"
 msgstr "Map %s bestaat al, overschrijven?"
 
 #: ulng.rsmsgfollowsymlink
