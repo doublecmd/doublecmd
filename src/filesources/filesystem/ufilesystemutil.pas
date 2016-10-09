@@ -1260,67 +1260,68 @@ var
   end;
 
 begin
-  case FDirExistsOption of
-    fsoodeNone:
+  if (FDirExistsOption = fsoodeNone) or
+     ((FDirExistsOption = fsoodeDelete) and (AllowDelete = False)) or
+     ((FDirExistsOption = fsoodeCopyInto) and (AllowCopyInto = False)) then
+    begin
+      if AllowDelete then
+        AddResponse(fsourOverwrite);
+      if AllowCopyInto then
       begin
-        if AllowDelete then
-          AddResponse(fsourOverwrite);
-        if AllowCopyInto then
-        begin
-          AddResponse(fsourCopyInto);
-          AddResponse(fsourCopyIntoAll);
-        end;
-        AddResponse(fsourSkip);
-        if AllowDelete then
-          AddResponse(fsourOverwriteAll);
-        AddResponse(fsourSkipAll);
-        AddResponse(fsourCancel);
-
-        if AllowCopyInto then
-          DefaultOkResponse := fsourCopyInto
-        else if AllowDelete then
-          DefaultOkResponse := fsourOverwrite
-        else
-          DefaultOkResponse := fsourSkip;
-
-        if AllowCopyInto or AllowDelete then
-          Message:= Format(rsMsgFolderExistsRwrt, [AbsoluteTargetFileName])
-        else begin
-          Message:= Format(rsMsgCannotOverwriteDirectory, [AbsoluteTargetFileName, aFile.FullPath]);
-        end;
-
-        case AskQuestion(Message, '',
-                         PossibleResponses, DefaultOkResponse, fsourSkip) of
-          fsourOverwrite:
-            Result := fsoodeDelete;
-          fsourCopyInto:
-            Result := fsoodeCopyInto;
-          fsourCopyIntoAll:
-            begin
-              FDirExistsOption := fsoodeCopyInto;
-              Result := fsoodeCopyInto;
-            end;
-          fsourSkip:
-            Result := fsoodeSkip;
-          fsourOverwriteAll:
-            begin
-              FDirExistsOption := fsoodeDelete;
-              Result := fsoodeDelete;
-            end;
-          fsourSkipAll:
-            begin
-              FDirExistsOption := fsoodeSkip;
-              Result := fsoodeSkip;
-            end;
-          fsourNone,
-          fsourCancel:
-            AbortOperation;
-        end;
+        AddResponse(fsourCopyInto);
+        AddResponse(fsourCopyIntoAll);
       end;
+      AddResponse(fsourSkip);
+      if AllowDelete then
+        AddResponse(fsourOverwriteAll);
+      if AllowCopyInto or AllowDelete then
+        AddResponse(fsourSkipAll);
+      AddResponse(fsourCancel);
+
+      if AllowCopyInto then
+        DefaultOkResponse := fsourCopyInto
+      else if AllowDelete then
+        DefaultOkResponse := fsourOverwrite
+      else
+        DefaultOkResponse := fsourSkip;
+
+      if AllowCopyInto or AllowDelete then
+        Message:= Format(rsMsgFolderExistsRwrt, [AbsoluteTargetFileName])
+      else begin
+        Message:= Format(rsMsgCannotOverwriteDirectory, [AbsoluteTargetFileName, aFile.FullPath]);
+      end;
+
+      case AskQuestion(Message, '',
+                       PossibleResponses, DefaultOkResponse, fsourSkip) of
+        fsourOverwrite:
+          Result := fsoodeDelete;
+        fsourCopyInto:
+          Result := fsoodeCopyInto;
+        fsourCopyIntoAll:
+          begin
+            FDirExistsOption := fsoodeCopyInto;
+            Result := fsoodeCopyInto;
+          end;
+        fsourSkip:
+          Result := fsoodeSkip;
+        fsourOverwriteAll:
+          begin
+            FDirExistsOption := fsoodeDelete;
+            Result := fsoodeDelete;
+          end;
+        fsourSkipAll:
+          begin
+            FDirExistsOption := fsoodeSkip;
+            Result := fsoodeSkip;
+          end;
+        fsourNone,
+        fsourCancel:
+          AbortOperation;
+      end;
+    end
 
     else
       Result := FDirExistsOption;
-  end;
 end;
 
 function TFileSystemOperationHelper.FileExists(aFile: TFile;
