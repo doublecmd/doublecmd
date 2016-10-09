@@ -1145,10 +1145,7 @@ var
         Exit(fsoterSkip);
       fsoodeDelete:
         begin
-          if FPS_ISLNK(Attrs) then
-            mbDeleteFile(AbsoluteTargetFileName)
-          else
-            DelTree(AbsoluteTargetFileName);
+          mbDeleteFile(AbsoluteTargetFileName);
           Exit(fsoterDeleted);
         end;
       fsoodeCopyInto:
@@ -1212,13 +1209,6 @@ var
               (IsLinkFollowed and aNode.SubNodes[0].TheFile.IsDirectory);
   end;
 
-  function AllowDeleteDirectory: Boolean;
-  begin
-    Result := (not (SourceFile.AttributesProperty.IsDirectory or
-                   (IsLinkFollowed and aNode.SubNodes[0].TheFile.IsDirectory))) or
-              gOverwriteFolder;
-  end;
-
 begin
   Attrs := mbFileGetAttr(AbsoluteTargetFileName);
   if Attrs <> faInvalidAttributes then
@@ -1226,24 +1216,24 @@ begin
     SourceFile := aNode.TheFile;
 
     // Target exists - ask user what to do.
-    if FPS_ISDIR(Attrs) then
-    begin
-      Result := DoDirectoryExists(AllowCopyInto, AllowDeleteDirectory)
-    end
-    else if FPS_ISLNK(Attrs) then
+    if FPS_ISLNK(Attrs) then
     begin
       // Check if target of the link exists.
       LinkTargetAttrs := mbFileGetAttrNoLinks(AbsoluteTargetFileName);
       if (LinkTargetAttrs <> faInvalidAttributes) then
       begin
         if FPS_ISDIR(LinkTargetAttrs) then
-          Result := DoDirectoryExists(AllowCopyInto, AllowDeleteDirectory)
+          Result := DoDirectoryExists(AllowCopyInto, False)
         else
           Result := DoFileExists(AllowAppendFile);
       end
       else
         // Target of link doesn't exist. Treat link as file and don't allow append.
         Result := DoFileExists(False);
+    end
+    else if FPS_ISDIR(Attrs) then
+    begin
+      Result := DoDirectoryExists(AllowCopyInto, False)
     end
     else
       // Existing target is a file.

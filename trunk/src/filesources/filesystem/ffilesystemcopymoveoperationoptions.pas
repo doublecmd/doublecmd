@@ -124,8 +124,6 @@ begin
   ParseLineToList(rsFileOpDirectoryExistsOptions, cmbDirectoryExists.Items);
   ParseLineToList(rsFileOpSetPropertyErrorOptions, cmbSetPropertyError.Items);
 
-  if not gOverwriteFolder then cmbDirectoryExists.Items.Delete(1);
-
   // Load default options.
   case gOperationOptionFileExists of
     fsoofeNone          : cmbFileExists.ItemIndex := 0;
@@ -134,19 +132,11 @@ begin
     fsoofeSkip          : cmbFileExists.ItemIndex := 3;
   end;
 
-  if gOverwriteFolder then
-    case gOperationOptionDirectoryExists of
-      fsoodeNone     : cmbDirectoryExists.ItemIndex := 0;
-      fsoodeDelete   : cmbDirectoryExists.ItemIndex := 1;
-      fsoodeCopyInto : cmbDirectoryExists.ItemIndex := 2;
-      fsoodeSkip     : cmbDirectoryExists.ItemIndex := 3;
-    end
-  else
-    case gOperationOptionDirectoryExists of
-      fsoodeNone     : cmbDirectoryExists.ItemIndex := 0;
-      fsoodeCopyInto : cmbDirectoryExists.ItemIndex := 1;
-      fsoodeSkip     : cmbDirectoryExists.ItemIndex := 2;
-    end;
+  case gOperationOptionDirectoryExists of
+    fsoodeNone     : cmbDirectoryExists.ItemIndex := 0;
+    fsoodeCopyInto : cmbDirectoryExists.ItemIndex := 1;
+    fsoodeSkip     : cmbDirectoryExists.ItemIndex := 2;
+  end;
 
   case gOperationOptionSetPropertyError of
     fsoospeNone         : cmbSetPropertyError.ItemIndex := 0;
@@ -187,19 +177,11 @@ begin
     2: gOperationOptionFileExists := fsoofeOverwriteOlder;
     3: gOperationOptionFileExists := fsoofeSkip;
   end;
-  if gOverwriteFolder then
-    case cmbDirectoryExists.ItemIndex of
-      0: gOperationOptionDirectoryExists := fsoodeNone;
-      1: gOperationOptionDirectoryExists := fsoodeDelete;
-      2: gOperationOptionDirectoryExists := fsoodeCopyInto;
-      3: gOperationOptionDirectoryExists := fsoodeSkip;
-    end
-  else
-    case cmbDirectoryExists.ItemIndex of
-      0: gOperationOptionDirectoryExists := fsoodeNone;
-      1: gOperationOptionDirectoryExists := fsoodeCopyInto;
-      2: gOperationOptionDirectoryExists := fsoodeSkip;
-    end;
+  case cmbDirectoryExists.ItemIndex of
+    0: gOperationOptionDirectoryExists := fsoodeNone;
+    1: gOperationOptionDirectoryExists := fsoodeCopyInto;
+    2: gOperationOptionDirectoryExists := fsoodeSkip;
+  end;
   case cmbSetPropertyError.ItemIndex of
     0: gOperationOptionSetPropertyError := fsoospeNone;
     1: gOperationOptionSetPropertyError := fsoospeDontSet;
@@ -244,19 +226,11 @@ begin
       2: FileExistsOption := fsoofeOverwriteOlder;
       3: FileExistsOption := fsoofeSkip;
     end;
-    if gOverwriteFolder then
-      case cmbDirectoryExists.ItemIndex of
-        0: DirExistsOption := fsoodeNone;
-        1: DirExistsOption := fsoodeDelete;
-        2: DirExistsOption := fsoodeCopyInto;
-        3: DirExistsOption := fsoodeSkip;
-      end
-    else
-      case cmbDirectoryExists.ItemIndex of
-        0: DirExistsOption := fsoodeNone;
-        1: DirExistsOption := fsoodeCopyInto;
-        2: DirExistsOption := fsoodeSkip;
-      end;
+    case cmbDirectoryExists.ItemIndex of
+      0: DirExistsOption := fsoodeNone;
+      1: DirExistsOption := fsoodeCopyInto;
+      2: DirExistsOption := fsoodeSkip;
+    end;
     case cmbSetPropertyError.ItemIndex of
       0: SetPropertyError := fsoospeNone;
       1: SetPropertyError := fsoospeDontSet;
@@ -299,19 +273,11 @@ begin
       2: FileExistsOption := fsoofeOverwriteOlder;
       3: FileExistsOption := fsoofeSkip;
     end;
-    if gOverwriteFolder then
-      case cmbDirectoryExists.ItemIndex of
-        0: DirExistsOption := fsoodeNone;
-        1: DirExistsOption := fsoodeDelete;
-        2: DirExistsOption := fsoodeCopyInto;
-        3: DirExistsOption := fsoodeSkip;
-      end
-    else
-      case cmbDirectoryExists.ItemIndex of
-        0: DirExistsOption := fsoodeNone;
-        1: DirExistsOption := fsoodeCopyInto;
-        2: DirExistsOption := fsoodeSkip;
-      end;
+    case cmbDirectoryExists.ItemIndex of
+      0: DirExistsOption := fsoodeNone;
+      1: DirExistsOption := fsoodeCopyInto;
+      2: DirExistsOption := fsoodeSkip;
+    end;
     case cmbSetPropertyError.ItemIndex of
       0: SetPropertyError := fsoospeNone;
       1: SetPropertyError := fsoospeDontSet;

@@ -39,7 +39,7 @@ resourcestring
   rsMsgFileExistsFileInfo = '%s bytes, %s';
   rsMsgFileExistsRwrt = 'File %s exists, overwrite?';
   rsMsgFileChangedSave = 'File %s changed, save?';
-  rsMsgFolderExistsRwrt = 'Folder %s exists, overwrite?';
+  rsMsgFolderExistsRwrt = 'Folder %s exists, merge?';
   rsMsgFileReadOnly = 'File %s is marked as read-only/hidden/system. Delete it?';
   rsMsgNewFile = 'New file';
   rsMsgDelFlDr = 'Delete %d selected files/directories?';
@@ -300,8 +300,8 @@ resourcestring
   rsDlgButtonAppend = 'A&ppend';
   rsDlgButtonResume = '&Resume';
   rsDlgButtonRename = 'R&ename';
-  rsDlgButtonCopyInto = 'Copy &Into';
-  rsDlgButtonCopyIntoAll = 'Copy Into &All';
+  rsDlgButtonCopyInto = '&Merge';
+  rsDlgButtonCopyIntoAll = 'Mer&ge All';
   rsDlgButtonOverwrite = '&Overwrite';
   rsDlgButtonOverwriteAll = 'Overwrite &All';
   rsDlgButtonOverwriteOlder = 'Overwrite All Ol&der';
@@ -356,8 +356,8 @@ resourcestring
   rsDlgSpeedTime = 'Speed %s/s, time remaining %s';
 
   // File operations
+  rsFileOpDirectoryExistsOptions = 'Ask;Merge;Skip';
   rsFileOpFileExistsOptions = 'Ask;Overwrite;Overwrite Older;Skip';
-  rsFileOpDirectoryExistsOptions = 'Ask;Overwrite;Copy into;Skip';
   rsFileOpSetPropertyErrorOptions = 'Ask;Don''t set anymore;Ignore errors';
 
   // Viewer
