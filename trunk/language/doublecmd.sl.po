@@ -9736,6 +9736,10 @@ msgstr "Datoteke \"%s\" ni mogoče kopirati oziroma premakniti samo vase!"
 msgid "Cannot delete directory %s"
 msgstr "Ni mogoče izbrisati mape %s"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Ukaz chdir v [%s] je spodletel!"

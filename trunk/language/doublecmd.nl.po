@@ -9438,6 +9438,10 @@ msgstr "U kunt bestand '%s' niet kopiëren of verplaatsen naar zichzelf."
 msgid "Cannot delete directory %s"
 msgstr "Kan directory %s niet verwijderen"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Wijzigen dir naar [%s] mislukt."

@@ -9913,6 +9913,10 @@ msgstr "Não pode copiar/mover um ficheiro \"%s\" para si próprio!"
 msgid "Cannot delete directory %s"
 msgstr "Impossível apagar a pasta %s"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "ChDir para [%s] falhou!"

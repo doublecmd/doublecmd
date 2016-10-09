@@ -9716,6 +9716,10 @@ msgstr "Die Datei \"%s\" kann nicht über sich selbst kopiert/verschoben werden!
 msgid "Cannot delete directory %s"
 msgstr "Kann Verzeichnis %s nicht löschen."
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Verzeichniswechsel nach [%s] fehlgeschlagen"

@@ -10592,6 +10592,10 @@ msgstr "你不能複製/移動檔案【%s】到相同目錄"
 msgid "Cannot delete directory %s"
 msgstr "無法刪除資料夾【%s】"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "變更目錄到資料夾【%s】失敗!"

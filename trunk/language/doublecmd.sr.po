@@ -9973,6 +9973,10 @@ msgstr "Не можете умножавати и премештати у сам
 msgid "Cannot delete directory %s"
 msgstr "Не можете избрисати %s"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Нисам успео да пређем на фасциклу [%s]."

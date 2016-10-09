@@ -10590,6 +10590,10 @@ msgstr ""
 msgid "Cannot delete directory %s"
 msgstr ""
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Смяната на папката на [%s] бе неуспешно!"

@@ -10140,6 +10140,10 @@ msgstr "Dosyayı \"kendisine!\" kopyalayamaz/taşıyamazsınız\"%s\""
 msgid "Cannot delete directory %s"
 msgstr ""
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Dizin değişikliği [%s]başarısız oldu!"

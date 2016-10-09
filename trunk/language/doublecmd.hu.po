@@ -9966,6 +9966,10 @@ msgstr "Nem másolhatja/helyezheti a fájlt \"%s\" saját magára!"
 msgid "Cannot delete directory %s"
 msgstr "A mappa \"%s\" nem törölhető"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Váltás ide \"%s\" meghiúsult!"

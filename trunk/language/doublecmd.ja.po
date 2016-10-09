@@ -9746,6 +9746,10 @@ msgstr "ファイル＜%s＞をそれ自身にコピー/移動することはで
 msgid "Cannot delete directory %s"
 msgstr "ディレクトリ＜%s＞を削除できません。"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "ディレクトリ＜%s＞への移動ができません。"
