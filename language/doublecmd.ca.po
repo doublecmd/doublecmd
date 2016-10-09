@@ -10040,11 +10040,15 @@ msgid "&Continue"
 msgstr "&Continua"
 
 #: ulng.rsdlgbuttoncopyinto
-msgid "Copy &Into"
+#, fuzzy
+#| msgid "Copy &Into"
+msgid "&Merge"
 msgstr "Copia dins"
 
 #: ulng.rsdlgbuttoncopyintoall
-msgid "Copy Into &All"
+#, fuzzy
+#| msgid "Copy Into &All"
+msgid "Mer&ge All"
 msgstr "Copia tot a dins"
 
 #: ulng.rsdlgbuttonexitprogram
@@ -10251,7 +10255,7 @@ msgid "Exported_from_DC"
 msgstr ""
 
 #: ulng.rsfileopdirectoryexistsoptions
-msgid "Ask;Overwrite;Copy into;Skip"
+msgid "Ask;Merge;Skip"
 msgstr ""
 
 #: ulng.rsfileopfileexistsoptions
@@ -10900,7 +10904,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "La Mida del fitxer de \"%s\" és massa gran per al seu destí!"
 
 #: ulng.rsmsgfolderexistsrwrt
-msgid "Folder %s exists, overwrite?"
+#, fuzzy
+#| msgid "Folder %s exists, overwrite?"
+msgid "Folder %s exists, merge?"
 msgstr "La carpeta %s existeix, la sobreescric?"
 
 #: ulng.rsmsgfollowsymlink

@@ -9415,11 +9415,15 @@ msgid "&Continue"
 msgstr "&Continuă"
 
 #: ulng.rsdlgbuttoncopyinto
-msgid "Copy &Into"
+#, fuzzy
+#| msgid "Copy &Into"
+msgid "&Merge"
 msgstr "Cop&iază la"
 
 #: ulng.rsdlgbuttoncopyintoall
-msgid "Copy Into &All"
+#, fuzzy
+#| msgid "Copy Into &All"
+msgid "Mer&ge All"
 msgstr "Copiază to&ate la"
 
 #: ulng.rsdlgbuttonexitprogram
@@ -9619,7 +9623,9 @@ msgid "Exported_from_DC"
 msgstr ""
 
 #: ulng.rsfileopdirectoryexistsoptions
-msgid "Ask;Overwrite;Copy into;Skip"
+#, fuzzy
+#| msgid "Ask;Overwrite;Copy into;Skip"
+msgid "Ask;Merge;Skip"
 msgstr "Întreabă;Suprascrie;Copiază la;Sari"
 
 #: ulng.rsfileopfileexistsoptions
@@ -10269,7 +10275,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "Mărimea lui \"%s\" este prea mare pentru sistemul de fișiere destinație!"
 
 #: ulng.rsmsgfolderexistsrwrt
-msgid "Folder %s exists, overwrite?"
+#, fuzzy
+#| msgid "Folder %s exists, overwrite?"
+msgid "Folder %s exists, merge?"
 msgstr "Dosarul %s există, se suprascrie?"
 
 #: ulng.rsmsgfollowsymlink

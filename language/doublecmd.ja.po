@@ -9201,11 +9201,15 @@ msgid "&Continue"
 msgstr "継続(&C)"
 
 #: ulng.rsdlgbuttoncopyinto
-msgid "Copy &Into"
+#, fuzzy
+#| msgid "Copy &Into"
+msgid "&Merge"
 msgstr "この中へコピー(&I)"
 
 #: ulng.rsdlgbuttoncopyintoall
-msgid "Copy Into &All"
+#, fuzzy
+#| msgid "Copy Into &All"
+msgid "Mer&ge All"
 msgstr "全てコピー(&A)"
 
 #: ulng.rsdlgbuttonexitprogram
@@ -9406,7 +9410,9 @@ msgstr "DCからエクスポート済み"
 
 # どの文脈か不明
 #: ulng.rsfileopdirectoryexistsoptions
-msgid "Ask;Overwrite;Copy into;Skip"
+#, fuzzy
+#| msgid "Ask;Overwrite;Copy into;Skip"
+msgid "Ask;Merge;Skip"
 msgstr "尋ねる;上書き;コピー;スキップ"
 
 # どの文脈か不明
@@ -10064,7 +10070,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "ファイル＜%s＞のサイズは、送り先のファイルシステムには大きすぎます！"
 
 #: ulng.rsmsgfolderexistsrwrt
-msgid "Folder %s exists, overwrite?"
+#, fuzzy
+#| msgid "Folder %s exists, overwrite?"
+msgid "Folder %s exists, merge?"
 msgstr "ディレクトリ＜%s＞が存在します。上書きしますか？"
 
 #: ulng.rsmsgfollowsymlink

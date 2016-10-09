@@ -9194,11 +9194,15 @@ msgid "&Continue"
 msgstr "&Pokračovat"
 
 #: ulng.rsdlgbuttoncopyinto
-msgid "Copy &Into"
+#, fuzzy
+#| msgid "Copy &Into"
+msgid "&Merge"
 msgstr "Kopírovat &do"
 
 #: ulng.rsdlgbuttoncopyintoall
-msgid "Copy Into &All"
+#, fuzzy
+#| msgid "Copy Into &All"
+msgid "Mer&ge All"
 msgstr "Kopírovat do &Vše"
 
 #: ulng.rsdlgbuttonexitprogram
@@ -9398,7 +9402,9 @@ msgid "Exported_from_DC"
 msgstr "Exportováno_z_DC"
 
 #: ulng.rsfileopdirectoryexistsoptions
-msgid "Ask;Overwrite;Copy into;Skip"
+#, fuzzy
+#| msgid "Ask;Overwrite;Copy into;Skip"
+msgid "Ask;Merge;Skip"
 msgstr "Zeptat se;Přepsat;Kopírovat do;Přeskočit"
 
 #: ulng.rsfileopfileexistsoptions
@@ -10050,7 +10056,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "Velikost souboru \"%s\" je příliš velká pro cílový souborový systém!"
 
 #: ulng.rsmsgfolderexistsrwrt
-msgid "Folder %s exists, overwrite?"
+#, fuzzy
+#| msgid "Folder %s exists, overwrite?"
+msgid "Folder %s exists, merge?"
 msgstr "Složka %s existuje, přepsat?"
 
 #: ulng.rsmsgfollowsymlink

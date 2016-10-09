@@ -9376,11 +9376,15 @@ msgid "&Continue"
 msgstr "&Continua"
 
 #: ulng.rsdlgbuttoncopyinto
-msgid "Copy &Into"
+#, fuzzy
+#| msgid "Copy &Into"
+msgid "&Merge"
 msgstr "Copia &in"
 
 #: ulng.rsdlgbuttoncopyintoall
-msgid "Copy Into &All"
+#, fuzzy
+#| msgid "Copy Into &All"
+msgid "Mer&ge All"
 msgstr "Copia in &tutto"
 
 #: ulng.rsdlgbuttonexitprogram
@@ -9580,7 +9584,9 @@ msgid "Exported_from_DC"
 msgstr ""
 
 #: ulng.rsfileopdirectoryexistsoptions
-msgid "Ask;Overwrite;Copy into;Skip"
+#, fuzzy
+#| msgid "Ask;Overwrite;Copy into;Skip"
+msgid "Ask;Merge;Skip"
 msgstr "Chiedi;Sovrascrivi;Copia su;Salta"
 
 #: ulng.rsfileopfileexistsoptions
@@ -10230,7 +10236,9 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "La dimensione del file \"%s\" è eccessiva per il file system di destinazione!"
 
 #: ulng.rsmsgfolderexistsrwrt
-msgid "Folder %s exists, overwrite?"
+#, fuzzy
+#| msgid "Folder %s exists, overwrite?"
+msgid "Folder %s exists, merge?"
 msgstr "La cartella %s esiste, sovrascriverla?"
 
 #: ulng.rsmsgfollowsymlink
