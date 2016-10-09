@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-10-01 18:09+0200\n"
+"PO-Revision-Date: 2016-10-09 20:52+0200\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -1290,7 +1290,7 @@ msgstr "Contiene:"
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
-msgstr "Ejecutar"
+msgstr "Ejecución"
 
 #: tfrmfileproperties.lblfile.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILE.CAPTION"
@@ -1944,7 +1944,7 @@ msgstr "Línea de comandos siguiente"
 
 #: tfrmmain.actcmdlinenext.hint
 msgid "Set command line to next command in history"
-msgstr "Poner en línea de comandos el comando siguiente en historial"
+msgstr "Poner en la línea de comandos el comando siguiente en historial"
 
 #: tfrmmain.actcmdlineprev.caption
 msgid "Previous Command Line"
@@ -1952,7 +1952,7 @@ msgstr "Línea de comandos anterior"
 
 #: tfrmmain.actcmdlineprev.hint
 msgid "Set command line to previous command in history"
-msgstr "Poner en línea de comandos el comando anterior en historial"
+msgstr "Poner en la línea de comandos el comando anterior en historial"
 
 #: tfrmmain.actcolumnsview.caption
 msgid "Full"
@@ -2133,7 +2133,7 @@ msgstr "Ver archivos anidados"
 
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
-msgstr "Foco en línea de comandos"
+msgstr "Foco en la línea de comandos"
 
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
@@ -2505,7 +2505,7 @@ msgstr "Mostrar menú de botones"
 
 #: tfrmmain.actshowcmdlinehistory.caption
 msgid "Show command line history"
-msgstr "Mostrar historial de línea de comandos"
+msgstr "Mostrar historial de la línea de comandos"
 
 #: tfrmmain.actshowmainmenu.caption
 msgid "Menu"
@@ -3771,7 +3771,7 @@ msgstr "General"
 
 #: tfrmoptionsautorefresh.cbwatchattributeschange.caption
 msgid "When &size, date or attributes change"
-msgstr "Cua&ndo tamaño, fecha o atributos cambian"
+msgstr "Cua&ndo cambian de tamaño, fecha o atributos"
 
 #: tfrmoptionsautorefresh.cbwatchexcludedirs.caption
 msgctxt "tfrmoptionsautorefresh.cbwatchexcludedirs.caption"
@@ -3780,7 +3780,7 @@ msgstr "Para la&s rutas siguientes y sus subcarpetas:"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
 msgid "When &files are created, deleted or renamed"
-msgstr "C&uando los archivos son creados, borrados o renombrados"
+msgstr "C&uando se crean, borran o renombran archivos"
 
 #: tfrmoptionsautorefresh.cbwatchonlyforeground.caption
 msgid "When application is in the &background"
@@ -3838,7 +3838,7 @@ msgstr "Di&rectamente tras el nombre del archivo"
 
 #: tfrmoptionsbriefview.rbuseautosize.caption
 msgid "Auto"
-msgstr "Auto"
+msgstr "Automático"
 
 #: tfrmoptionsbriefview.rbusefixedcount.caption
 msgid "Fixed columns count"
@@ -3846,7 +3846,7 @@ msgstr "Número de columnas fijas"
 
 #: tfrmoptionsbriefview.rbusefixedwidth.caption
 msgid "Fixed columns width"
-msgstr "Ancho de columnas fijo"
+msgstr "Ancho fijo de columnas"
 
 #: tfrmoptionscolumnsview.cbcuttexttocolwidth.caption
 msgid "Cut &text to column width"
@@ -3900,7 +3900,7 @@ msgstr "Historial de &máscaras de archivos"
 
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
-msgstr "&Guardar configuración"
+msgstr "&Guardar la configuración"
 
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
@@ -3920,7 +3920,7 @@ msgstr "Modo de ordenar el árbol de opciones de la izquierda"
 
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
-msgstr "Fijar en línea de comandos"
+msgstr "Fijar en la línea de comandos"
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
 msgid "P&rogram directory (portable version)"
@@ -3928,7 +3928,7 @@ msgstr "Ca&rpeta del programa (versión portable)"
 
 #: tfrmoptionsconfiguration.rbuserhomedir.caption
 msgid "&User home directory"
-msgstr "Carpeta de &usuario"
+msgstr "Carpeta del &usuario"
 
 #: tfrmoptionscustomcolumns.btnallallowovercolor.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNALLALLOWOVERCOLOR.CAPTION"
@@ -4445,7 +4445,7 @@ msgstr "Al añadir carpeta, agregar también destino"
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
 msgctxt "tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption"
 msgid "Always expand tree"
-msgstr "Siempre expandir árbol"
+msgstr "Expandir siempre el árbol"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
 msgid "Show only valid environment variables"
@@ -4987,7 +4987,7 @@ msgstr "Ninguno"
 #: tfrmoptionsfavoritetabs.cbfullexpandtree.caption
 msgctxt "TFRMOPTIONSFAVORITETABS.CBFULLEXPANDTREE.CAPTION"
 msgid "Always expand tree"
-msgstr "Siempre expandir árbol"
+msgstr "Expandir siempre el árbol"
 
 #: tfrmoptionsfavoritetabs.cbsavedirhistory.text
 msgctxt "tfrmoptionsfavoritetabs.cbsavedirhistory.text"
@@ -5505,7 +5505,7 @@ msgstr "&Procesar comentarios con archivos/carpetas"
 
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
 msgid "Select &file name without extension when renaming"
-msgstr "Seleccionar el nombre del archivo sin extensión al &renombrar"
+msgstr "Seleccionar al &renombrar el nombre del archivo sin la extensión"
 
 #: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
 msgid "Sho&w tab select panel in copy/move dialog"
@@ -5637,7 +5637,7 @@ msgstr "Usar indicador &gradiente"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
 msgid "Use Inactive Sel Color"
-msgstr "Usar color sel.inactiva"
+msgstr "Usar color de selección inactiva"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinvertedselection.caption
 msgid "U&se Inverted Selection"
@@ -5650,7 +5650,7 @@ msgstr "Borde del cursor"
 
 #: tfrmoptionsfilepanelscolors.dbfreespaceindicator.caption
 msgid "Drive Free Space Indicator"
-msgstr "Indicador de espacio libre de Unidad"
+msgstr "Indicador de espacio libre"
 
 #: tfrmoptionsfilepanelscolors.lblbackgroundcolor.caption
 msgid "Bac&kground:"
@@ -5716,7 +5716,7 @@ msgstr "Mostrar los nombres de carpetas entre corc&hetes []"
 
 #: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
 msgid "Hi&ghlight new and updated files"
-msgstr "&Resaltar archivos nuevos y actualizados"
+msgstr "&Resaltar los archivos nuevos y actualizados"
 
 #: tfrmoptionsfilesviews.cbinplacerename.caption
 msgid "Enable inplace &renaming when clicking twice on a name"
@@ -5805,7 +5805,7 @@ msgstr "Plantilla..."
 
 #: tfrmoptionsfiletypescolors.gbfiletypescolors.caption
 msgid "File types colors (sort by drag&&drop)"
-msgstr "Colores para tipos de archivos (or&denar con arrastrar y soltar)"
+msgstr "Colores para los tipos de archivos (or&denar con arrastrar y soltar)"
 
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
 msgid "Category a&ttributes:"
@@ -7784,7 +7784,7 @@ msgstr "Texto:"
 #: tfrmsetfileproperties.lblexec.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
-msgstr "Ejecutar"
+msgstr "Ejecución"
 
 #: tfrmsetfileproperties.lblmodeinfo.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLMODEINFO.CAPTION"
@@ -8921,16 +8921,12 @@ msgid "&Continue"
 msgstr "&Continuar"
 
 #: ulng.rsdlgbuttoncopyinto
-#, fuzzy
-#| msgid "Copy &Into"
 msgid "&Merge"
-msgstr "Copiar en"
+msgstr "&Mezclar"
 
 #: ulng.rsdlgbuttoncopyintoall
-#, fuzzy
-#| msgid "Copy Into &All"
 msgid "Mer&ge All"
-msgstr "Copi&ar en todo"
+msgstr "Me&zclar todo"
 
 #: ulng.rsdlgbuttonexitprogram
 msgid "E&xit program"
@@ -9125,10 +9121,8 @@ msgid "Exported_from_DC"
 msgstr "Exportado_desde_DC"
 
 #: ulng.rsfileopdirectoryexistsoptions
-#, fuzzy
-#| msgid "Ask;Overwrite;Copy into;Skip"
 msgid "Ask;Merge;Skip"
-msgstr "Preguntar;Sobrescribir;Copiar en;Saltar"
+msgstr "Preguntar;Mezclar;Saltar"
 
 #: ulng.rsfileopfileexistsoptions
 msgid "Ask;Overwrite;Overwrite Older;Skip"
@@ -9455,7 +9449,7 @@ msgstr "No se puede borrar la carpeta «%s»"
 
 #: ulng.rsmsgcannotoverwritedirectory
 msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
-msgstr ""
+msgstr "No se puede sobrescribir la carpeta «%s» porque «%s» no es una carpeta"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -9795,12 +9789,10 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "¡El tamaño del archivo de «%s» es demasiado grande para el sistema de archivos de destino!"
 
 #: ulng.rsmsgfolderexistsrwrt
-#, fuzzy
-#| msgid "Folder %s exists, overwrite?"
 msgid "Folder %s exists, merge?"
 msgstr ""
 "La carpeta «%s» ya existe.\n"
-"¿Quieres sobrescribirla?\n"
+"¿Quieres mezclarla?\n"
 
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
@@ -10020,7 +10012,7 @@ msgstr ""
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
-msgstr "Error en línea de comandos"
+msgstr "Error en la línea de comandos"
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
@@ -10697,7 +10689,7 @@ msgstr "Trabajando"
 
 #: ulng.rsoptaddfrommainpanel
 msgid "Add at beginning;Add at the end;Smart add"
-msgstr "Añadir a principio;Añadir al final;Añadido inteligente"
+msgstr "Añadir al principio;Añadir al final;Añadido inteligente"
 
 #: ulng.rsoptarchivedelete
 msgid "Delete:"
@@ -11108,7 +11100,7 @@ msgstr "&Archivos;Ca&rpetas;Archivos &y carpetas"
 
 #: ulng.rsoptsearchopt
 msgid "&Hide filter panel when not focused;Keep saving setting modifications for next session"
-msgstr "Ocultar panel del filtro cuando no esté enfocado;Guardar los ajustes para siguiente sesión"
+msgstr "Ocultar el panel del filtro cuando no esté enfocado;Guardar los ajustes para la siguiente sesión"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
@@ -11120,7 +11112,7 @@ msgstr "ordenar por nombre y mostrar primero;ordenar como los archivos y mostrar
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
-msgstr "Alfabético, considerando tildes;Orden natural: alfabético y numérico"
+msgstr "alfabético, considerando tildes;orden natural: alfabético y numérico"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
@@ -11348,7 +11340,7 @@ msgstr "Escoge tus pestañas favoritas"
 
 #: ulng.rsstrtvmchoosefromcmdlinehistory
 msgid "Choose your command from Command Line History"
-msgstr "Escoge tu orden desde el historial de línea de comandos"
+msgstr "Escoge tu orden desde el historial de la línea de comandos"
 
 #: ulng.rsstrtvmchoosefrommainmenu
 msgid "Choose your action from Main Menu"
@@ -11647,7 +11639,7 @@ msgstr "Tamaño nuevo"
 
 #: ulng.rsviewnotfound
 msgid "%s not found!"
-msgstr "¡«%s» no encontrado!"
+msgstr "¡%s no encontrado!"
 
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
