@@ -1249,6 +1249,7 @@ function TFileSystemOperationHelper.DirExists(
              AllowCopyInto: Boolean;
              AllowDelete: Boolean): TFileSourceOperationOptionDirectoryExists;
 var
+  Message: String;
   PossibleResponses: array of TFileSourceOperationUIResponse = nil;
   DefaultOkResponse: TFileSourceOperationUIResponse;
 
@@ -1282,7 +1283,13 @@ begin
         else
           DefaultOkResponse := fsourSkip;
 
-        case AskQuestion(Format(rsMsgFolderExistsRwrt, [AbsoluteTargetFileName]), '',
+        if AllowCopyInto or AllowDelete then
+          Message:= Format(rsMsgFolderExistsRwrt, [AbsoluteTargetFileName])
+        else begin
+          Message:= Format(rsMsgCannotOverwriteDirectory, [AbsoluteTargetFileName, aFile.FullPath]);
+        end;
+
+        case AskQuestion(Message, '',
                          PossibleResponses, DefaultOkResponse, fsourSkip) of
           fsourOverwrite:
             Result := fsoodeDelete;
