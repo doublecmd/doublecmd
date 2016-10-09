@@ -9237,16 +9237,12 @@ msgid "&Continue"
 msgstr "&Продолжить"
 
 #: ulng.rsdlgbuttoncopyinto
-#, fuzzy
-#| msgid "Copy &Into"
 msgid "&Merge"
-msgstr "&Копировать в"
+msgstr "&Объединить"
 
 #: ulng.rsdlgbuttoncopyintoall
-#, fuzzy
-#| msgid "Copy Into &All"
 msgid "Mer&ge All"
-msgstr "К&опировать в (для всех)"
+msgstr "Объ&единить (для всех)"
 
 #: ulng.rsdlgbuttonexitprogram
 msgid "E&xit program"
@@ -9445,10 +9441,8 @@ msgid "Exported_from_DC"
 msgstr ""
 
 #: ulng.rsfileopdirectoryexistsoptions
-#, fuzzy
-#| msgid "Ask;Overwrite;Copy into;Skip"
 msgid "Ask;Merge;Skip"
-msgstr "Спрашивать;Перезаписывать;Копировать в;Пропускать"
+msgstr "Спрашивать;Объединять;Пропускать"
 
 #: ulng.rsfileopfileexistsoptions
 msgid "Ask;Overwrite;Overwrite Older;Skip"
@@ -9775,6 +9769,10 @@ msgstr "Нельзя скопировать/переместить файл \"%s
 msgid "Cannot delete directory %s"
 msgstr "Нельзя удалить каталог %s"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr "Невозможно перезаписать каталог \"%s\" файлом, не являющимся каталогом \"%s\""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Переход в каталог [%s] не удался!"
@@ -10100,10 +10098,8 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "Размер файла \"%s\" слишком большой для файловой системы получателя!"
 
 #: ulng.rsmsgfolderexistsrwrt
-#, fuzzy
-#| msgid "Folder %s exists, overwrite?"
 msgid "Folder %s exists, merge?"
-msgstr "Каталог %s существует, переписать?"
+msgstr "Каталог %s существует, объединить?"
 
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"

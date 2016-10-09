@@ -9848,6 +9848,10 @@ msgstr "\"%s\"파일 자체를 복사/이동할 수 없습니다."
 msgid "Cannot delete directory %s"
 msgstr "폴더(디렉토리)삭제 할 수 없음"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "[%s] 디렉토리 변경 실패"

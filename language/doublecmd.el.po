@@ -9825,6 +9825,10 @@ msgstr "Δεν μπορείτε να αντιγράψετε/μετακινήσε
 msgid "Cannot delete directory %s"
 msgstr "Αδυναμία διαγραφής καταλόγου %s"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "ChDir σε [%s] απέτυχε!"

@@ -9734,6 +9734,10 @@ msgstr "Nemůžete kopírovat/přesunout soubor \"%s\" do sebe!"
 msgid "Cannot delete directory %s"
 msgstr "Nelze odstranit adresář %s"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Změna adresáře na [%s] selhala!"

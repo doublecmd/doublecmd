@@ -10650,6 +10650,10 @@ msgstr "Nedá sa kopírovať/presunúť súbor \"%s\" sám na seba!"
 msgid "Cannot delete directory %s"
 msgstr "Nemôžem vymazať adresár %s"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Zmena adresára na [%s] zlyhala!"

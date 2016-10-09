@@ -10043,6 +10043,10 @@ msgstr "Du kan ikke kopiere/flytte filen \"%s\" til sig selv!"
 msgid "Cannot delete directory %s"
 msgstr "Kan ikke slette mappen %s"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Ændre arbejdsmappe [ChDir] til [%s] mislykkedes!"

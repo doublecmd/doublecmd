@@ -9912,6 +9912,10 @@ msgstr "Nie można skopiować/przenieść pliku \"%s\" do niego samego!"
 msgid "Cannot delete directory %s"
 msgstr "Nie mogę usunąć katalogu %s"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Nieudane przejście do katalogu [%s] !"

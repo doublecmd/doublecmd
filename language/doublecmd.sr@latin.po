@@ -9975,6 +9975,10 @@ msgstr "Ne možete umnožavati i premeštati u samu datoteku „%s“!"
 msgid "Cannot delete directory %s"
 msgstr "Ne možete izbrisati %s"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Nisam uspeo da pređem na fasciklu [%s]."

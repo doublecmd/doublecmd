@@ -9951,6 +9951,10 @@ msgstr "Nu puteți copia/muta un fișier \"%s\" la sine însuși!"
 msgid "Cannot delete directory %s"
 msgstr "Nu se poate șterge dosarul %s"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "ChDir la [%s] a eșuat!"

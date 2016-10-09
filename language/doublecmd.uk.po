@@ -10034,6 +10034,10 @@ msgstr "Ви не можете скопіювати/перемістити фа�
 msgid "Cannot delete directory %s"
 msgstr "Не вдається видалити каталог %s"
 
+#: ulng.rsmsgcannotoverwritedirectory
+msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Перехід в каталог [%s] не вдався!"
