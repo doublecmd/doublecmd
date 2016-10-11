@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -237,7 +237,7 @@ uses
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix, dl
     {$IF NOT DEFINED(DARWIN)}
-  , uGio, uClipboard
+  , uGio, uClipboard, uKde
     {$ENDIF}
   {$ENDIF}
   ;
@@ -459,8 +459,8 @@ begin
     end
   else
     begin
-      if (DesktopEnv = DE_KDE) and (FindDefaultExecutablePath('kioclient') <> EmptyStr) then
-        sCmdLine:= 'kioclient exec ' + QuoteStr(URL) // Under KDE use "kioclient" to open files
+      if (DesktopEnv = DE_KDE) and (HasKdeOpen = True) then
+        Result:= KioOpen(URL) // Under KDE use "kioclient" to open files
       else if HasGio and (DesktopEnv <> DE_XFCE) then
         Result:= GioOpen(URL) // Under GNOME, Unity and LXDE use "GIO" to open files
       else

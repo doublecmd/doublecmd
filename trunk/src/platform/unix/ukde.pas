@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    K Desktop Environment integration unit
 
-   Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,10 +29,12 @@ interface
 uses
   Classes, SysUtils, uMyUnix;
 
+function KioOpen(const URL: String): Boolean;
 function ShowOpenWithDialog(const FileList: TStringList): Boolean;
 
 var
   UseKde: Boolean = False;
+  HasKdeOpen: Boolean = False;
 
 implementation
 
@@ -40,7 +42,14 @@ uses
   uDCUtils, uGlobs, uGlobsPaths, uOSUtils, uTrash, uPython;
 
 var
+  KdeVersion: String;
+  KdeOpen: String = 'kioclient';
   PythonScript: String = 'scripts/doublecmd-kde.py';
+
+function KioOpen(const URL: String): Boolean;
+begin
+  Result:= ExecCmdFork(KdeOpen + ' exec ' + QuoteStr(URL));
+end;
 
 function ShowOpenWithDialog(const FileList: TStringList): Boolean;
 var
@@ -55,7 +64,7 @@ end;
 
 function FileTrash(const FileName: String): Boolean;
 begin
-  Result:= fpSystemStatus('kioclient --noninteractive move ' +
+  Result:= fpSystemStatus(KdeOpen + ' --noninteractive move ' +
                           QuoteStr(FileName) + ' trash:/') = 0;
 end;
 
@@ -65,7 +74,10 @@ begin
   if UseKde then
   begin
     PythonScript:= gpExePath + PythonScript;
-    if ExecutableInSystemPath('kioclient') then FileTrashUtf8:= @FileTrash;
+    KdeVersion:= GetEnvironmentVariable('KDE_SESSION_VERSION');
+    if KdeVersion = '5' then KdeOpen:= 'kioclient5';
+    HasKdeOpen:= ExecutableInSystemPath(KdeOpen);
+    if HasKdeOpen then FileTrashUtf8:= @FileTrash;
     UseKde:= (fpSystemStatus(PythonExe + ' ' + PythonScript + ' > /dev/null 2>&1') = 0);
   end;
 end;
