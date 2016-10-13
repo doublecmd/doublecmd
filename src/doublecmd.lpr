@@ -25,6 +25,9 @@ uses
   {$ENDIF}
   DCConvertEncoding,
   Interfaces,
+  {$IFDEF LCLGTK2}
+  uGtk2FixCursorPos,
+  {$ENDIF}
   LCLProc,
   Classes,
   SysUtils,
