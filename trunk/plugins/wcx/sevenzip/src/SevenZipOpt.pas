@@ -367,10 +367,13 @@ var
   SolidBlockSize: Int64;
   Index: TArchiveFormat;
   Solid: IJclArchiveSolid;
+  CompressHeader: IJclArchiveCompressHeader;
   DictionarySize: IJclArchiveDictionarySize;
   CompressionLevel: IJclArchiveCompressionLevel;
   MultiThreadStrategy: IJclArchiveNumberOfThreads;
   CompressionMethod: IJclArchiveCompressionMethod;
+  SaveCreationDateTime: IJclArchiveSaveCreationDateTime;
+  SaveLastAccessDateTime: IJclArchiveSaveLastAccessDateTime;
 begin
   if AJclArchive is TJclSevenzipCompressArchive then
     ArchiveCLSID:= (AJclArchive as TJclSevenzipCompressArchive).ArchiveCLSID
@@ -401,6 +404,15 @@ begin
 
         if Supports(AJclArchive, IJclArchiveNumberOfThreads, MultiThreadStrategy) and Assigned(MultiThreadStrategy) then
           MultiThreadStrategy.SetNumberOfThreads(PluginConfig[Index].ThreadCount);
+
+        if Supports(AJclArchive, IJclArchiveSaveCreationDateTime, SaveCreationDateTime) and Assigned(SaveCreationDateTime) then
+          SaveCreationDateTime.SetSaveCreationDateTime(False);
+
+        if Supports(AJclArchive, IJclArchiveSaveLastAccessDateTime, SaveLastAccessDateTime) and Assigned(SaveLastAccessDateTime) then
+          SaveLastAccessDateTime.SetSaveLastAccessDateTime(False);
+
+        if Supports(AJclArchive, IJclArchiveCompressHeader, CompressHeader) and Assigned(CompressHeader) then
+          CompressHeader.SetCompressHeader(True);
       end;
 
       try
