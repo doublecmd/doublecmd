@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific UNIX functions.
 
-    Copyright (C) 2008-2015 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2016 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -129,6 +129,10 @@ function getmntent(stream: PFILE): PMountEntry; cdecl; external libc name 'getmn
 }
 function endmntent(stream: PFILE): LongInt; cdecl; external libc name 'endmntent';
 {$ENDIF}
+{en
+   Set process group ID for job control
+}
+function setpgid(pid, pgid: pid_t): cint; cdecl; external libc name 'setpgid';
 {en
    Get password file entry
    @param(uid User ID)
@@ -477,11 +481,61 @@ begin
   end;
 end;
 
+function Mount(const Path: String; Timeout: Integer): Boolean;
+var
+  Message: String;
+  Handler: TMethod;
+  Process: TProcess;
+  Index: Integer = 0;
+
+  procedure ProcessForkEvent(Self, Sender : TObject);
+  begin
+    if (setpgid(0, 0) < 0) then fpExit(127);
+  end;
+
+begin
+  Process:= TProcess.Create(nil);
+  try
+    Handler.Data:= Process;
+    Process.Executable:= 'mount';
+    Process.Parameters.Add(Path);
+    Handler.Code:= @ProcessForkEvent;
+    Process.OnForkEvent:= TProcessForkEvent(Handler);
+    Process.Options:= Process.Options + [poUsePipes, poStderrToOutPut];
+    try
+      Process.Execute;
+      while Process.Running do
+      begin
+        Inc(Index);
+        Sleep(100);
+        if (Index > Timeout) then
+        begin
+          Process.Terminate(-1);
+          fpKill(-Process.Handle, SIGTERM);
+          Exit(False);
+        end;
+        Process.Input.Write(#13#10, 2);
+        if (Process.Output.NumBytesAvailable > 0) then
+        begin
+          SetLength(Message, Process.Output.NumBytesAvailable);
+          Process.Output.Read(Message[1], Length(Message));
+          Write(Message);
+        end;
+      end;
+      Result:= (Process.ExitCode = 0);
+    except
+      Result:= False;
+    end;
+  finally
+    Process.Free;
+  end;
+end;
+
 function MountDrive(Drive: PDrive): Boolean;
 {$IFDEF LINUX}
 var
   Index: Integer;
-  MountPath: String;
+  MountPath: String = '';
 {$ENDIF}
 begin
   if not Drive^.IsMounted then
@@ -491,11 +545,10 @@ begin
     // If Path is not empty "mount" can mount it because it has a destination path from fstab.
     if Drive^.Path <> EmptyStr then
 {$ENDIF}
-      Result := fpSystemStatus('mount ' + Drive^.DeviceId) = 0;
+      Result := Mount(Drive^.Path, 300);
 {$IF DEFINED(LINUX)}
     if not Result and HaveUDisksCtl then
     begin
-      {$IF (FPC_FULLVERSION >= 20602)}
       Result:= RunCommand('udisksctl', ['mount', '-b', Drive^.DeviceId], MountPath);
       if Result then
       begin
@@ -507,11 +560,18 @@ begin
           Drive^.Path:= Copy(MountPath, Index, Length(MountPath) - Index - 1);
         end;
       end
-      {$ENDIF}
     end;
     if not Result and uUDisks.Initialize then
     begin
-      Result := uUDisks.Mount(DeviceFileToUDisksObjectPath(Drive^.DeviceId), EmptyStr, nil, MountPath);
+      try
+        Result := uUDisks.Mount(DeviceFileToUDisksObjectPath(Drive^.DeviceId), EmptyStr, nil, MountPath);
+      except
+        on E: Exception do
+        begin
+          Result := False;
+          WriteLn(E.Message);
+        end;
+      end;
       if Result then
         Drive^.Path := MountPath;
       uUDisks.Finalize;
