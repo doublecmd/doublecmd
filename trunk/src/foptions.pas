@@ -79,6 +79,7 @@ type
     procedure SelectEditor(EditorClassName: String);
     function CompareTwoNodeOfConfigurationOptionTree(Node1, Node2: TTreeNode): integer;
     function CycleThroughOptionEditors(bForceSaving:boolean):boolean;
+    procedure MakeVisible(Data: PtrInt);
   public
     constructor Create(TheOwner: TComponent); override;
     constructor Create(TheOwner: TComponent; EditorClass: TOptionsEditorClass); overload;
@@ -294,6 +295,7 @@ begin
       if Assigned(FOptionsEditorList[I].TreeNode) then
       begin
         FOptionsEditorList[I].TreeNode.Selected := True;
+        Application.QueueAsyncCall(@MakeVisible, PtrInt(FOptionsEditorList[I].TreeNode));
         Break;
       end;
   end;
@@ -427,6 +429,13 @@ begin
                             // But let's do it for two reasons:
                             //  1st) Previously with "SaveConfig" it was updating it no matter what.
                             //  2nd) The little delay and visual blink it gives to user is a good feedback to him confirming him he just saved settings.
+end;
+
+procedure TfrmOptions.MakeVisible(Data: PtrInt);
+var
+  TreeNode: TTreeNode absolute Data;
+begin
+  TreeNode.MakeVisible;
 end;
 
 end.
