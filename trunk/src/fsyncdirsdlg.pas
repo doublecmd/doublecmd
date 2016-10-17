@@ -3,8 +3,8 @@
    -------------------------------------------------------------------------
    Directories synchronization utility (specially for DC)
 
-   Copyright (C) 2013  Anton Panferov (ast.a_s@mail.ru)
-   Copyright (C) 2014-2015  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013 Anton Panferov (ast.a_s@mail.ru)
+   Copyright (C) 2014-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -78,6 +78,7 @@ type
     procedure btnCompareClick(Sender: TObject);
     procedure btnSynchronizeClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure MainDrawGridDblClick(Sender: TObject);
     procedure MainDrawGridDrawCell(Sender: TObject; aCol, aRow: Integer;
@@ -118,6 +119,7 @@ type
     procedure SortFoundItems;
     procedure SortFoundItems(sl: TStringList);
     procedure UpdateStatusBar;
+    procedure StopCheckContentThread;
     property SortIndex: Integer read FSortIndex write SetSortIndex;
   public
     { public declarations }
@@ -193,7 +195,6 @@ end;
 
 procedure TCheckContentThread.DoOnTerminate(Sender: TObject);
 begin
-  FOwner.CheckContentThread := nil;
   FOwner := nil;
 end;
 
@@ -280,7 +281,6 @@ constructor TCheckContentThread.Create(Owner: TfrmSyncDirsDlg);
 begin
   inherited Create(True);
   OnTerminate := @DoOnTerminate;
-  FreeOnTerminate := True;
   FOwner := Owner;
   Start;
 end;
@@ -367,13 +367,8 @@ procedure TfrmSyncDirsDlg.btnCompareClick(Sender: TObject);
 begin
   InsertFirstItem(Trim(cbExtFilter.Text), cbExtFilter);
   StatusBar1.Panels[0].Text := Format(rsComparingPercent, [0]);
-  if Assigned(CheckContentThread) then
-    with TCheckContentThread(CheckContentThread) do
-    begin
-      Terminate;
-      WaitFor;
-    end;
-  Compare
+  StopCheckContentThread;
+  Compare;
 end;
 
 procedure TfrmSyncDirsDlg.btnSynchronizeClick(Sender: TObject);
@@ -574,6 +569,16 @@ begin
   if chkByContent.Enabled then
     gSyncDirsByContent          := chkByContent.Checked;
   glsMaskHistory.Assign(cbExtFilter.Items);
+end;
+
+procedure TfrmSyncDirsDlg.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+begin
+  CanClose := FCancel;
+  if not FCancel then
+  begin
+    FCancel := True;
+    StopCheckContentThread;
+  end;
 end;
 
 procedure TfrmSyncDirsDlg.FormCreate(Sender: TObject);
@@ -1058,6 +1063,7 @@ begin
     FFileExists:= srsCopyLeft;
   end;
   ScanDir('');
+  if FCancel then Exit;
   if (FFoundItems.Count > 0) and chkByContent.Checked then
     CheckContentThread := TCheckContentThread.Create(Self);
   FCancel := True;
@@ -1195,6 +1201,19 @@ begin
   and not TCheckContentThread(CheckContentThread).Done then
     s := s + ' ...';
   StatusBar1.Panels[0].Text := s;
+end;
+
+procedure TfrmSyncDirsDlg.StopCheckContentThread;
+begin
+  if Assigned(CheckContentThread) then
+  begin
+    with TCheckContentThread(CheckContentThread) do
+    begin
+      Terminate;
+      WaitFor;
+    end;
+    FreeAndNil(CheckContentThread);
+  end;
 end;
 
 constructor TfrmSyncDirsDlg.Create(AOwner: TComponent; FileView1,
