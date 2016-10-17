@@ -195,6 +195,7 @@ end;
 
 procedure TCheckContentThread.DoOnTerminate(Sender: TObject);
 begin
+  FOwner.CheckContentThread := nil;
   FOwner := nil;
 end;
 
@@ -281,6 +282,7 @@ constructor TCheckContentThread.Create(Owner: TfrmSyncDirsDlg);
 begin
   inherited Create(True);
   OnTerminate := @DoOnTerminate;
+  FreeOnTerminate := True;
   FOwner := Owner;
   Start;
 end;
@@ -1212,7 +1214,6 @@ begin
       Terminate;
       WaitFor;
     end;
-    FreeAndNil(CheckContentThread);
   end;
 end;
 
