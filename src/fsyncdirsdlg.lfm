@@ -8,12 +8,13 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
   ClientWidth = 691
   KeyPreview = True
   OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   Position = poScreenCenter
   SessionProperties = 'Height;Left;Top;Width;WindowState'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.2.4.0'
+  LCLVersion = '1.6.0.4'
   object edPath1: TEdit
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
