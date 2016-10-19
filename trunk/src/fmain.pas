@@ -2149,7 +2149,7 @@ end;
 procedure TfrmMain.frmMainShow(Sender: TObject);
 begin
   DCDebug('frmMain.frmMainShow');
-{$IF NOT DEFINED(LCLWIN32)}
+{$IF NOT (DEFINED(LCLWIN32) or DEFINED(LCLGTK2))}
   OnPaint := @frmMainAfterShow;
 {$ELSE}
   Application.QueueAsyncCall(TDataEvent(@frmMainAfterShow), 0);
