@@ -585,7 +585,7 @@ type
     procedure MainToolBarMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure frmMainAfterShow(Data: PtrInt);
+    procedure frmMainAfterShow(Sender: TObject);
     procedure frmMainShow(Sender: TObject);
     procedure mnuDropClick(Sender: TObject);
     procedure mnuSplitterPercentClick(Sender: TObject);
@@ -2135,22 +2135,25 @@ begin
   Application.Terminate;
 end;
 
-procedure TfrmMain.frmMainAfterShow(Data: PtrInt);
+procedure TfrmMain.frmMainAfterShow(Sender: TObject);
 begin
-  ActiveFrame.SetFocus;
-
+  OnPaint := nil;
+  if Assigned(ActiveFrame) then
+    ActiveFrame.SetFocus
+  else begin
+    DCDebug('ActiveFrame = nil');
+  end;
   HiddenToTray := False;
 end;
 
 procedure TfrmMain.frmMainShow(Sender: TObject);
 begin
   DCDebug('frmMain.frmMainShow');
-  {$IF DEFINED(LCLCARBON) and DECLARED(lcl_fullversion) and (lcl_fullversion >= 093100)}
-  ActiveControl:= ActiveFrame;
-  HiddenToTray := False;
-  {$ELSE}
-  Application.QueueAsyncCall(@frmMainAfterShow, 0);
-  {$ENDIF}
+{$IF NOT DEFINED(LCLWIN32)}
+  OnPaint := @frmMainAfterShow;
+{$ELSE}
+  Application.QueueAsyncCall(TDataEvent(@frmMainAfterShow), 0);
+{$ENDIF}
 end;
 
 procedure TfrmMain.mnuDropClick(Sender: TObject);
@@ -3596,7 +3599,6 @@ procedure TfrmMain.FormKeyUp( Sender: TObject; var Key: Word;
 begin
   SetDragCursor(Shift);
 end;
-
 
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
