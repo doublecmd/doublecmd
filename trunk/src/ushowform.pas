@@ -98,7 +98,7 @@ begin
   sCmd := ExtTool.Path;
   sParams := ExtTool.Parameters;
   //If there is %p already configured in the parameter, we assume user configured it the way he wants.
-  //This might be in non-common case where there are paramters AFTER the filename to open.
+  //This might be in non-common case where there are parameters AFTER the filename to open.
   //If there is not %p, let's do thing like legacy was and let's add the filename received as paramter.
   if pos('%p',sParams)=0 then
     sParams := ConcatenateStrWithSpace(sParams,QuoteFilenameIfNecessary(sFileName));
