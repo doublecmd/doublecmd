@@ -94,7 +94,7 @@ function ExecCmdFork(sCmd: String): Boolean;
 {en
    Execute external commands
    @param(sCmd The executable)
-   @param(sParams The optional paramters)
+   @param(sParams The optional parameters)
    @param(sStartPath The initial working directory)
    @param(bShowCommandLinePriorToExecute Flag indicating if we want the user to be prompted at the very last
                                          seconds prior to launch execution by offering a dialog window where
