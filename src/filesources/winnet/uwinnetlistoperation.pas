@@ -61,8 +61,8 @@ begin
     dwResult := WNetOpenEnumW(RESOURCE_GLOBALNET, RESOURCETYPE_ANY, 0, @nFile, hEnum);
     if (dwResult <> NO_ERROR) then Exit;
     dwCount := DWORD(-1);
-    // 512 Kb must be enough
-    dwBufferSize:= $80000;
+    // 1024 Kb must be enough
+    dwBufferSize:= $100000;
     // Allocate output buffer
     GetMem(lpBuffer, dwBufferSize);
     // Enumerate all resources
