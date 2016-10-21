@@ -86,9 +86,10 @@ begin
       WriteLn(f, '| DC v', dcVersion, ' Rev. ', dcRevision,
                  ' -- ', TargetCPU + '-' + TargetOS + '-' + TargetWS);
       if WSVersion <> EmptyStr then
-        WriteLn(f, '| ', OSVersion, ' -- ', WSVersion)
+        Write(f, '| ', OSVersion, ' -- ', WSVersion)
       else
-        WriteLn(f, '| ', OSVersion);
+        Write(f, '| ', OSVersion);
+      WriteLn(f, ' | PID ', GetProcessID);
 
       if ExceptionText = EmptyStr then
       begin
