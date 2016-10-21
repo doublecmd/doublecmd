@@ -61,7 +61,7 @@ uses
    {$ENDIF}
   {$ENDIF}
   {$IFDEF MSWINDOWS}
-  uMyWindows, Windows, JwaDbt, LazUTF8
+  uMyWindows, Windows, JwaDbt, LazUTF8, JwaWinNetWk, DCOSUtils, uDebug
   {$ENDIF}
   ;
 
@@ -439,27 +439,33 @@ end;
 class function TDriveWatcher.GetDrivesList: TDrivesList;
 {$IF DEFINED(MSWINDOWS)}
 var
+  Key: HKEY = 0;
   Drive : PDrive;
-  DriveNum: Integer;
+  dwResult: DWORD;
   DriveBits: DWORD;
-  WinDriveType: UINT;
-  DriveLetter: AnsiChar;
+  DriveNum: Integer;
   DrivePath: String;
-  Key: HKEY;
-  RegDrivePath: UnicodeString;
-  NetworkPath: array[0..Pred(MAX_PATH)] of WideChar;
+  WinDriveType: UINT;
+  nFile: TNetResourceW;
+  DriveLetter: AnsiChar;
   NetworkPathSize: DWORD;
+  lpBuffer: Pointer = nil;
+  nFileList: PNetResourceW;
+  RegDrivePath: UnicodeString;
+  dwCount, dwBufferSize: DWORD;
+  hEnum: THandle = INVALID_HANDLE_VALUE;
+  NetworkPath: array[0..MAX_PATH] of WideChar;
 begin
   Result := TDrivesList.Create;
   { fill list }
-  DWORD(DriveBits) := GetLogicalDrives;
+  DriveBits := GetLogicalDrives;
   for DriveNum := 0 to 25 do
   begin
     if ((DriveBits shr DriveNum) and $1) = 0 then
     begin
       // Try to find in mapped network drives
       DriveLetter := AnsiChar(DriveNum + Ord('a'));
-      RegDrivePath := 'Network' + PathDelim + DriveLetter;
+      RegDrivePath := 'Network' + PathDelim + WideChar(DriveLetter);
       if RegOpenKeyExW(HKEY_CURRENT_USER, PWideChar(RegDrivePath), 0, KEY_READ, Key) = ERROR_SUCCESS then
       begin
         NetworkPathSize := MAX_PATH * SizeOf(WideChar);
@@ -467,7 +473,7 @@ begin
         begin
           New(Drive);
           Result.Add(Drive);
-          FillChar(Drive^, SizeOf(TDrive), #0);
+          ZeroMemory(Drive, SizeOf(TDrive));
           with Drive^ do
           begin
             Path := DriveLetter + ':\';
@@ -543,6 +549,49 @@ begin
         end;
       end;
     end;
+  end;
+  // Enumerate Terminal Services Disks
+  try
+    ZeroMemory(@nFile, SizeOf(TNetResource));
+    nFile.dwScope := RESOURCE_GLOBALNET;
+    nFile.dwType := RESOURCETYPE_DISK;
+    nFile.dwDisplayType := RESOURCEDISPLAYTYPE_SERVER;
+    nFile.dwUsage := RESOURCEUSAGE_CONTAINER;
+    nFile.lpRemoteName := '\\tsclient';
+    dwResult := WNetOpenEnumW(RESOURCE_GLOBALNET, RESOURCETYPE_DISK, 0, @nFile, hEnum);
+    if (dwResult <> NO_ERROR) then Exit;
+    dwCount := DWORD(-1);
+    // 512 Kb must be enough
+    dwBufferSize:= $80000;
+    // Allocate output buffer
+    GetMem(lpBuffer, dwBufferSize);
+    // Enumerate all resources
+    dwResult := WNetEnumResourceW(hEnum, dwCount, lpBuffer, dwBufferSize);
+    if dwResult = ERROR_NO_MORE_ITEMS then Exit;
+    if (dwResult <> NO_ERROR) then Exit;
+    nFileList:= PNetResourceW(lpBuffer);
+    for DriveNum := 0 to Int64(dwCount) - 1 do
+    begin
+      New(Drive);
+      Result.Add(Drive);
+      ZeroMemory(Drive,  SizeOf(TDrive));
+      with Drive^ do
+      begin
+        Path := UTF16ToUTF8(UnicodeString(nFileList^.lpRemoteName));
+        DriveLabel := ExcludeTrailingBackslash(Path);
+        DisplayName := PathDelim + UTF8LowerCase(ExtractFileName(DriveLabel));
+        DriveType := dtNetwork;
+        IsMediaAvailable := True;
+        IsMounted := True;
+        AutoMount := True;
+      end;
+      Inc(nFileList);
+    end;
+  finally
+    if (hEnum <> INVALID_HANDLE_VALUE) then dwResult := WNetCloseEnum(hEnum);
+    if (dwResult <> NO_ERROR) and (dwResult <> ERROR_NO_MORE_ITEMS) then
+      DCDebug(mbSysErrorMessage(dwResult));
+    if Assigned(lpBuffer) then FreeMem(lpBuffer);
   end;
 end;
 {$ELSEIF DEFINED(LINUX)}
