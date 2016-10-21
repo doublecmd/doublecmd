@@ -31,15 +31,12 @@ uses
   LazUTF8, uFile, Windows, JwaWinNetWk, JwaLmCons, JwaLmShare, JwaLmApiBuf,
   DCStrUtils, uShowMsg, DCOSUtils, uOSUtils;
 
-type
-  PNetResourceArray = ^TNetResource;
-
 procedure TWinNetListOperation.WorkgroupEnum;
 var
   I: DWORD;
   aFile: TFile;
   nFile: TNetResourceW;
-  nFileList: PNetResourceArray;
+  nFileList: PNetResourceW;
   dwResult: DWORD;
   dwCount, dwBufferSize: DWORD;
   hEnum: THandle = INVALID_HANDLE_VALUE;
@@ -69,10 +66,10 @@ begin
     // Allocate output buffer
     GetMem(lpBuffer, dwBufferSize);
     // Enumerate all resources
-    dwResult:= WNetEnumResource(hEnum, dwCount, lpBuffer, dwBufferSize);
+    dwResult:= WNetEnumResourceW(hEnum, dwCount, lpBuffer, dwBufferSize);
     if dwResult = ERROR_NO_MORE_ITEMS then Exit;
     if (dwResult <> NO_ERROR) then Exit;
-    nFileList:= PNetResourceArray(lpBuffer);
+    nFileList:= PNetResourceW(lpBuffer);
     for I := 0 to dwCount - 1 do
     begin
       CheckOperationState;
