@@ -484,7 +484,7 @@ begin
   end;
 
   //Let's display the menuitem related with a subtoolbar only if current selected toolbar is a subtoolbar.
-  miExportCurrent.Enabled := (FCurrentButton.ToolBar.Tag > 1);
+  miExportCurrent.Enabled := Assigned(FCurrentButton) and (FCurrentButton.ToolBar.Tag > 1);
   {$IFDEF MSWINDOWS}
   miImportTCINIAddCurrent.Enabled := miExportCurrent.Enabled;
   miImportTCINIAddMenuCurrent.Enabled := miExportCurrent.Enabled;
