@@ -13,7 +13,7 @@ implementation
 
 uses
   Classes, SysUtils, Gtk2WSStdCtrls, Gtk2, Gtk2Def, Gtk2WSSpin, Gtk2Proc,
-  WSLCLClasses, StdCtrls, Glib2, Gtk2Globals, Spin;
+  WSLCLClasses, StdCtrls, Glib2, Gtk2Globals, Spin, LMessages, LazUTF8;
 
 type
 
@@ -53,6 +53,94 @@ begin
   end;
 end;
 
+procedure gtkchanged_editbox_ex(widget: PGtkWidget; {%H-}data: gPointer); cdecl; forward;
+
+function GtkEntryDelayCursorPos(AGtkWidget: Pointer): GBoolean; cdecl;
+var
+  Info: PWidgetInfo;
+begin
+  Result := AGtkWidget <> nil;
+  if AGtkWidget <> nil then
+  begin
+    g_idle_remove_by_data(AGtkWidget);
+    Info := GetWidgetInfo(AGtkWidget);
+    if Info <> nil then
+      gtkchanged_editbox_ex(PGtkWidget(AGtkWidget),
+        Info^.LCLObject);
+  end;
+end;
+
+procedure gtkchanged_editbox_ex(widget: PGtkWidget; {%H-}data: gPointer); cdecl;
+var
+  Mess : TLMessage;
+  GStart, GEnd: gint;
+  Info: PWidgetInfo;
+  EntryText: PgChar;
+  NeedCursorCheck: Boolean;
+begin
+  if LockOnChange(PgtkObject(Widget),0)>0 then exit;
+  {$IFDEF EventTrace}
+  EventTrace('changed_editbox', data);
+  {$ENDIF}
+  NeedCursorCheck := False;
+  if GTK_IS_ENTRY(Widget) then
+  begin
+    // lcl-do-not-change-selection comes from gtkKeyPress.
+    // Only floatspinedit sets that data, so default is nil. issue #18679
+    if g_object_get_data(PGObject(Widget),'lcl-do-not-change-selection') = nil then
+    begin
+      {cheat GtkEditable to update cursor pos in gtkEntry. issue #7243}
+      gtk_editable_get_selection_bounds(PGtkEditable(Widget), @GStart, @GEnd);
+      EntryText := gtk_entry_get_text(PGtkEntry(Widget));
+      if (GStart = GEnd) and
+        (UTF8Length(EntryText) >= PGtkEntry(Widget)^.text_length) then
+      begin
+        Info := GetWidgetInfo(Widget, False);
+        {do not update position if backspace or delete pressed}
+        if wwiInvalidEvent in Info^.Flags then
+        begin
+          Exclude(Info^.Flags, wwiInvalidEvent);
+
+          {take care of pasted data since it does not return proper cursor pos.}
+          // issue #7243
+          if g_object_get_data(PGObject(Widget),'lcl-delay-cm_textchaged') <> nil then
+          begin
+            g_object_set_data(PGObject(Widget),'lcl-delay-cm_textchaged',nil);
+            g_object_set_data(PGObject(Widget),'lcl-gtkentry-pasted-data',Widget);
+            g_idle_add(@GtkEntryDelayCursorPos, Widget);
+            exit;
+          end;
+        end else
+        begin
+          // if we change selstart in OnChange event new cursor pos need to
+          // be postponed in TGtk2WSCustomEdit.SetSelStart
+          NeedCursorCheck := True;
+          if g_object_get_data(PGObject(Widget),'lcl-gtkentry-pasted-data') <> nil then
+          begin
+            g_object_set_data(PGObject(Widget),'lcl-gtkentry-pasted-data',nil);
+            gtk_editable_set_position(PGtkEditable(Widget), GStart);
+          end else
+          begin
+            //NeedCursorCheck := True;
+            g_object_set_data(PGObject(Widget),'lcl-gtkentry-pasted-data',Widget);
+            g_idle_add(@GtkEntryDelayCursorPos, Widget);
+            exit;
+          end;
+        end;
+      end;
+    end else
+      g_object_set_data(PGObject(Widget),'lcl-do-not-change-selection', nil);
+  end;
+
+  if NeedCursorCheck then
+    LockOnChange(PgtkObject(Widget), +1);
+  FillByte(Mess{%H-},SizeOf(Mess),0);
+  Mess.Msg := CM_TEXTCHANGED;
+  DeliverMessage(Data, Mess);
+  if NeedCursorCheck then
+    LockOnChange(PgtkObject(Widget), -1);
+end;
+
 { TGtk2WSCustomEditEx }
 
 class procedure TGtk2WSCustomEditEx.SetCallbacks(const AGtkWidget: PGtkWidget;
@@ -72,7 +160,9 @@ begin
 
   if GTK_IS_ENTRY(gObject) then
   begin
+    ConnectSignal(gObject, 'changed', @gtkchanged_editbox_ex, ALCLObject);
     ConnectSignal(gObject, 'cut-clipboard', @gtkcuttoclip_ex, ALCLObject);
+    g_signal_handlers_disconnect_by_func(gObject, @gtkchanged_editbox, ALCLObject);
     ConnectSignal(gObject, 'backspace', @gtkchanged_editbox_backspace_ex, ALCLObject);
     ConnectSignal(gObject, 'delete-from-cursor', @gtkchanged_editbox_delete, ALCLObject);
   end;
