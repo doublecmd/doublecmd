@@ -903,7 +903,17 @@ begin
       ProcessedOk := ProcessFile(CurrentSubNode, TargetName);
 
     if not ProcessedOk then
-      Result := False;
+      Result := False
+    // Process comments if need
+    else if gProcessComments then
+    begin
+      case FMode of
+        fsohmCopy:
+          FDescription.CopyDescription(CurrentSubNode.TheFile.FullPath, TargetName);
+        fsohmMove:
+          FDescription.MoveDescription(CurrentSubNode.TheFile.FullPath, TargetName);
+      end;
+    end;
 
     AppProcessMessages;
     CheckOperationState;
@@ -1104,17 +1114,6 @@ begin
     begin
       LogMessage(Format(rsMsgLogSuccess+FLogCaption, [aNode.TheFile.FullPath + ' -> ' + AbsoluteTargetFileName]),
                  [log_cp_mv_ln], lmtSuccess);
-
-      // process comments if need
-      if gProcessComments then
-      begin
-        case FMode of
-          fsohmCopy:
-            FDescription.CopyDescription(aNode.TheFile.FullPath, AbsoluteTargetFileName);
-          fsohmMove:
-            FDescription.MoveDescription(aNode.TheFile.FullPath, AbsoluteTargetFileName);
-        end;
-      end;
     end
   else
     begin
