@@ -2563,6 +2563,7 @@ object frmMain: TfrmMain
       OnExecute = actExecute
     end
     object actConfigSaveSettings: TAction
+      Tag = 5
       Category = 'Configuration'
       Caption = 'Save Settings'
       OnExecute = actExecute
