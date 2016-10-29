@@ -552,7 +552,7 @@ begin
   end;
   // Enumerate Terminal Services Disks
   try
-    ZeroMemory(@nFile, SizeOf(TNetResource));
+    ZeroMemory(@nFile, SizeOf(TNetResourceW));
     nFile.dwScope := RESOURCE_GLOBALNET;
     nFile.dwType := RESOURCETYPE_DISK;
     nFile.dwDisplayType := RESOURCEDISPLAYTYPE_SERVER;
