@@ -6324,6 +6324,10 @@ msgctxt "tfrmoptionsicons.cbiconsinmenussize.text"
 msgid "16x16"
 msgstr ""
 
+#: tfrmoptionsicons.cbiconsonbuttons.caption
+msgid "Show icons on buttons"
+msgstr ""
+
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
@@ -6341,6 +6345,10 @@ msgstr "Slå specielle ikoner fra"
 #: tfrmoptionsicons.gbiconsinmenus.caption
 msgid "Icons in menus"
 msgstr "Ikoner i hovedmenu"
+
+#: tfrmoptionsicons.gbiconsonbuttons.caption
+msgid "Icons on buttons"
+msgstr ""
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"

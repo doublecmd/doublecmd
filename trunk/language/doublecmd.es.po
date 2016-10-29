@@ -5968,6 +5968,10 @@ msgctxt "TFRMOPTIONSICONS.CBICONSINMENUSSIZE.TEXT"
 msgid "16x16"
 msgstr "16x16"
 
+#: tfrmoptionsicons.cbiconsonbuttons.caption
+msgid "Show icons on buttons"
+msgstr ""
+
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Mostrar &iconos superpuestos (por ejemplo, para enlaces)"
@@ -5984,6 +5988,10 @@ msgstr "Deshabilitar iconos especiales"
 #: tfrmoptionsicons.gbiconsinmenus.caption
 msgid "Icons in menus"
 msgstr "Iconos en menús"
+
+#: tfrmoptionsicons.gbiconsonbuttons.caption
+msgid "Icons on buttons"
+msgstr ""
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgid " Icon size "

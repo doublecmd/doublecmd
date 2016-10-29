@@ -6749,6 +6749,10 @@ msgctxt "tfrmoptionsicons.cbiconsinmenussize.text"
 msgid "16x16"
 msgstr "16x16"
 
+#: tfrmoptionsicons.cbiconsonbuttons.caption
+msgid "Show icons on buttons"
+msgstr ""
+
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 #, fuzzy
 #| msgid "Show overlay i&cons, e.g. for links"
@@ -6768,6 +6772,10 @@ msgstr "Zakáž špeciálne ikony"
 #: tfrmoptionsicons.gbiconsinmenus.caption
 msgid "Icons in menus"
 msgstr "Ikony v menu"
+
+#: tfrmoptionsicons.gbiconsonbuttons.caption
+msgid "Icons on buttons"
+msgstr ""
 
 #: tfrmoptionsicons.gbiconssize.caption
 #, fuzzy
