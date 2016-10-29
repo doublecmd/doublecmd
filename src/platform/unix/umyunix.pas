@@ -237,7 +237,8 @@ var
 implementation
 
 uses
-  URIParser, Unix, LazUTF8, DCOSUtils, DCClassesUtf8, DCStrUtils, uDCUtils, uOSUtils
+  URIParser, Unix, Process, LazUTF8, DCOSUtils, DCClassesUtf8, DCStrUtils,
+  uDCUtils, uOSUtils
 {$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
 {$ENDIF}
@@ -245,7 +246,7 @@ uses
   , uMimeActions, uMimeType
 {$ENDIF}
 {$IFDEF LINUX}
-  , Process, uUDisks
+  , uUDisks
 {$ENDIF}
   ;
 
