@@ -9281,7 +9281,7 @@ msgid ""
 "\n"
 "Are you sure you want to proceed?\n"
 msgstr ""
-"¡Advertencia! Cuando restablezca un archivo de respaldo .hotlist, este borrará la lista existente y la reemplazará.\n"
+"¡Advertencia! Cuando se restablece un archivo de respaldo .hotlist, este borrará la lista existente y la reemplazará.\n"
 "\n"
 "¿Seguro que quieres continuar?\n"
 
@@ -9292,7 +9292,7 @@ msgstr "Diálogo «Copiar/Mover»"
 #: ulng.rshotkeycategorydiffer
 msgctxt "ulng.rshotkeycategorydiffer"
 msgid "Differ"
-msgstr "Differ (comparar)"
+msgstr "Comparar"
 
 #: ulng.rshotkeycategoryeditcommentdialog
 msgid "Edit Comment Dialog"
@@ -9561,7 +9561,7 @@ msgstr "No se puede copiar el archivo «%s» a «%s»"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 msgid "There already exists a directory named \"%s\"."
-msgstr "Ya exite una carpeta llamada «%s»."
+msgstr "Ya existe una carpeta llamada «%s»."
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
@@ -11417,7 +11417,7 @@ msgstr "Renombrar submenú de pestañas favoritas"
 #: ulng.rstooldiffer
 msgctxt "ulng.rstooldiffer"
 msgid "Differ"
-msgstr "Differ (comparador)"
+msgstr "Comparador"
 
 #: ulng.rstooleditor
 msgctxt "ulng.rstooleditor"
