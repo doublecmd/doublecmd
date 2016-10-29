@@ -10,7 +10,7 @@ object frmFileOp: TfrmFileOp
   OnCreate = FormCreate
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '1.4.0.4'
+  LCLVersion = '1.6.0.4'
   object pnlClient: TPanel
     Left = 3
     Height = 141
@@ -213,6 +213,7 @@ object frmFileOp: TfrmFileOp
         AutoSize = True
         BorderSpacing.Left = 3
         Constraints.MinWidth = 50
+        GlyphShowMode = gsmAlways
         OnClick = btnPauseStartClick
         Spacing = 0
         TabOrder = 3

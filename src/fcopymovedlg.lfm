@@ -169,6 +169,7 @@ object frmCopyDlg: TfrmCopyDlg
         0000000000FF000000000000000000000000000000FF000000FF000000FF0000
         0000000000FF000000FF000000FF000000FF000000FF
       }
+      GlyphShowMode = gsmAlways
       Layout = blGlyphBottom
       OnClick = btnCreateSpecialQueueClick
       PopupMenu = pmQueuePopup

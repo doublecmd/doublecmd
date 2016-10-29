@@ -2772,6 +2772,7 @@ begin
       gCustomDriveIcons := GetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
       gIconsInMenus := GetAttr(Node, 'ShowInMenus/Enabled', gIconsInMenus);
       gIconsInMenusSize := GetValue(Node, 'ShowInMenus/Size', gIconsInMenusSize);
+      Application.ShowButtonGlyphs := TApplicationShowGlyphs(GetValue(Node, 'ShowButtonGlyphs', Integer(Application.ShowButtonGlyphs)));
     end;
 
     { Ignore list page }
@@ -3255,6 +3256,7 @@ begin
     SetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
     SetAttr(Node, 'ShowInMenus/Enabled', gIconsInMenus);
     SetValue(Node, 'ShowInMenus/Size', gIconsInMenusSizeNew);
+    SetValue(Node, 'ShowButtonGlyphs', Integer(Application.ShowButtonGlyphs));
 
     { Ignore list page }
     Node := FindNode(Root, 'IgnoreList', True);

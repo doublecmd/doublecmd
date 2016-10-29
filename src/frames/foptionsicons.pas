@@ -39,11 +39,13 @@ type
     cbIconsExclude: TCheckBox;
     cbIconsInMenusSize: TComboBox;
     cbIconsInMenus: TCheckBox;
+    cbIconsOnButtons: TCheckBox;
     edtIconsExcludeDirs: TEdit;
     gbIconsSize: TGroupBox;
     gbShowIconsMode: TGroupBox;
     gbDisableSpecialIcons: TGroupBox;
     gbIconsInMenus: TGroupBox;
+    gbIconsOnButtons: TGroupBox;
     imgIconExample: TImage;
     pnlIconExample: TPanel;
     rbIconsShowAll: TRadioButton;
@@ -65,7 +67,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Graphics, uPixMapManager, uGlobs, uLng;
+  Forms, Graphics, uPixMapManager, uGlobs, uLng;
 
 { TfrmOptionsIcons }
 
@@ -123,6 +125,7 @@ begin
   cbIconsSize.Text := IntToStr(gIconsSizeNew) + 'x' + IntToStr(gIconsSizeNew);
   cbIconsInMenusSize.Text := IntToStr(gIconsInMenusSizeNew) + 'x' + IntToStr(gIconsInMenusSizeNew);
   cbIconsSizeChange(nil);
+  cbIconsOnButtons.Checked := Application.ShowButtonGlyphs = sbgAlways;
 end;
 
 function TfrmOptionsIcons.Save: TOptionsEditorSaveFlags;
@@ -170,6 +173,16 @@ begin
   gIconsExclude := cbIconsExclude.Checked;
   gIconsExcludeDirs := edtIconsExcludeDirs.Text;
   gIconsInMenus := cbIconsInMenus.Checked;
+
+  if cbIconsOnButtons.Checked then
+  begin
+    if Application.ShowButtonGlyphs <> sbgAlways then Include(Result, oesfNeedsRestart);
+    Application.ShowButtonGlyphs := sbgAlways;
+  end
+  else begin
+    if Application.ShowButtonGlyphs <> sbgNever then Include(Result, oesfNeedsRestart);
+    Application.ShowButtonGlyphs := sbgNever;
+  end;
 end;
 
 end.
