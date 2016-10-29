@@ -362,9 +362,9 @@ end;
 
 function mbGetRemoteFileName(const sLocalName: String): String;
 var
-  wsLocalName: WideString;
   dwResult,
   lpBufferSize: DWORD;
+  wsLocalName: UnicodeString;
   lpBuffer: PUniversalNameInfoW;
 begin
   Result:= sLocalName;
@@ -379,7 +379,7 @@ begin
         dwResult:= WNetGetUniversalNameW(PWideChar(wsLocalName), UNIVERSAL_NAME_INFO_LEVEL, lpBuffer, lpBufferSize);
       end;
     if dwResult = NO_ERROR then
-      Result:= UTF16ToUTF8(WideString(lpBuffer^.lpUniversalName));
+      Result:= UTF16ToUTF8(UnicodeString(lpBuffer^.lpUniversalName));
   finally
     FreeMem(lpBuffer);
   end;

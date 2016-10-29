@@ -269,6 +269,7 @@ resourcestring
   // for main menu
   rsMnuMapNetworkDrive = 'Map Network Drive...';
   rsMnuDisconnectNetworkDrive = 'Disconnect Network Drive...';
+  rsMnuCopyNetNamesToClip = 'Copy names with UNC path';
   // wcx module messages
   rsMsgSelLocNextVol = 'Please select location of next volume';
   rsMsgNextVolUnpack = 'Next volume will be unpacked';

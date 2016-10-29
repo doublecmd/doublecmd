@@ -128,8 +128,8 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   , ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
-  , uWinNetFileSource, uVfsModule, uLng, uMyWindows
-  , uThumbnailProvider, uFileSourceUtil, Dialogs
+  , uWinNetFileSource, uVfsModule, uLng, uMyWindows, DCStrUtils
+  , uThumbnailProvider, uFileSourceUtil, Dialogs, Clipbrd
   {$ENDIF}
   {$IFDEF UNIX}
   , BaseUnix, fFileProperties, uJpegThumb
@@ -420,6 +420,32 @@ begin
     end;
   end;
 end;
+
+procedure CopyNetNamesToClip(Self, Sender: TObject);
+var
+  I: Integer;
+  sl: TStringList = nil;
+  SelectedFiles: TFiles = nil;
+begin
+  SelectedFiles := frmMain.ActiveFrame.CloneSelectedOrActiveFiles;
+  try
+    if SelectedFiles.Count > 0 then
+    begin
+      sl := TStringList.Create;
+      for I := 0 to SelectedFiles.Count - 1 do
+      begin
+        sl.Add(mbGetRemoteFileName(SelectedFiles[I].FullPath));
+      end;
+
+      Clipboard.Clear; // Prevent multiple formats in Clipboard (specially synedit)
+      Clipboard.AsText := TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle);
+    end;
+
+  finally
+    FreeAndNil(sl);
+    FreeAndNil(SelectedFiles);
+  end;
+end;
 {$ENDIF}
 
 {$IF DEFINED(LCLGTK2) or (DEFINED(LCLQT) and not DEFINED(DARWIN))}
@@ -484,6 +510,16 @@ begin
     MenuItem:= TMenuItem.Create(mnuMain);
     MenuItem.Caption:= rsMnuDisconnectNetworkDrive;
     MenuItem.Tag:= 1;
+    MenuItem.OnClick:= TNotifyEvent(Handler);
+    mnuNetwork.Add(MenuItem);
+
+    MenuItem:= TMenuItem.Create(mnuMain);
+    MenuItem.Caption:= '-';
+    mnuNetwork.Add(MenuItem);
+
+    MenuItem:= TMenuItem.Create(mnuMain);
+    MenuItem.Caption:= rsMnuCopyNetNamesToClip;
+    Handler.Code:= @CopyNetNamesToClip;
     MenuItem.OnClick:= TNotifyEvent(Handler);
     mnuNetwork.Add(MenuItem);
   end;
