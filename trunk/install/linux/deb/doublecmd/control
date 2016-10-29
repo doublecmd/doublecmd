@@ -83,7 +83,7 @@ Depends: desktop-file-utils, ${misc:Depends}
 Suggests: doublecmd-help-en | doublecmd-help,
           libffmpegthumbnailer4,
           libunrar0,
-          mplayer2,
+          mplayer,
           rabbitvcs-core,
           xterm | x-terminal-emulator
 Description: twin-panel (commander-style) file manager
