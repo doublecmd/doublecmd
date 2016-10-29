@@ -7,7 +7,7 @@ object frmButtonForm: TfrmButtonForm
   ChildSizing.TopBottomSpacing = 8
   ClientHeight = 402
   ClientWidth = 609
-  LCLVersion = '1.4.4.0'
+  LCLVersion = '1.6.0.4'
   object pnlContent: TPanel
     Left = 8
     Height = 348
@@ -100,6 +100,7 @@ object frmButtonForm: TfrmButtonForm
         0000000000FF000000000000000000000000000000FF000000FF000000FF0000
         0000000000FF000000FF000000FF000000FF000000FF
       }
+      GlyphShowMode = gsmAlways
       Layout = blGlyphBottom
       OnClick = btnCreateSpecialQueueClick
       PopupMenu = pmQueuePopup
