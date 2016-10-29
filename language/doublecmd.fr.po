@@ -9706,6 +9706,10 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Actions"
 
+#: ulng.rsmnucopynetnamestoclip
+msgid "Copy names with UNC path"
+msgstr ""
+
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
 msgstr "Déconnecté les lecteurs-réseaux"

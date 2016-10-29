@@ -9675,6 +9675,10 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Команды"
 
+#: ulng.rsmnucopynetnamestoclip
+msgid "Copy names with UNC path"
+msgstr "Копировать в буфер имена с UNC-путём"
+
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
 msgstr "Отключить сетевой диск..."

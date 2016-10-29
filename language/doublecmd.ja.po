@@ -9652,6 +9652,10 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "アクション"
 
+#: ulng.rsmnucopynetnamestoclip
+msgid "Copy names with UNC path"
+msgstr ""
+
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
 msgstr "ネットワークドライブの切断…"
