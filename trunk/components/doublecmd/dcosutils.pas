@@ -182,7 +182,8 @@ function mbGetEnvironmentString(Index : Integer) : String;
    them with the values defined for the current user
 }
 function mbExpandEnvironmentStrings(const FileName: String): String;
-function mbSysErrorMessage(ErrorCode: Integer): String;
+function mbSysErrorMessage: String; overload; inline;
+function mbSysErrorMessage(ErrorCode: Integer): String; overload;
 {en
    Get current module name
 }
@@ -1304,6 +1305,11 @@ begin
   end;
 end;
 {$ENDIF}
+
+function mbSysErrorMessage: String;
+begin
+  Result := mbSysErrorMessage(GetLastOSError);
+end;
 
 function mbSysErrorMessage(ErrorCode: Integer): String;
 begin
