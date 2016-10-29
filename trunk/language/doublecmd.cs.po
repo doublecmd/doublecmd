@@ -9641,6 +9641,10 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Akce"
 
+#: ulng.rsmnucopynetnamestoclip
+msgid "Copy names with UNC path"
+msgstr ""
+
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
 msgstr "Odpojit síťový disk..."
