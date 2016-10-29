@@ -79,6 +79,7 @@ type
     FCorrectSymLinks: Boolean;
     FCopyAttributesOptions: TCopyAttributesOptions;
     FMaxPathOption: TFileSourceOperationUIResponse;
+    FDeleteFileOption: TFileSourceOperationUIResponse;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
 
@@ -795,6 +796,9 @@ end;
 
 function TFileSystemOperationHelper.MoveFile(SourceFile: TFile; TargetFileName: String;
   Mode: TFileSystemOperationHelperCopyMode): Boolean;
+var
+  Message: String;
+  RetryDelete: Boolean = True;
 begin
   if (Mode in [fsohcmAppend, fsohcmResume]) or
      (not mbRenameFile(SourceFile.FullPath, TargetFileName)) then
@@ -802,9 +806,21 @@ begin
     if FVerify then FStatistics.TotalBytes += SourceFile.Size;
     if CopyFile(SourceFile, TargetFileName, Mode) then
     begin
-      if FileIsReadOnly(SourceFile.Attributes) then
-        mbFileSetReadOnly(SourceFile.FullPath, False);
-      Result := mbDeleteFile(SourceFile.FullPath)
+      repeat
+        if FileIsReadOnly(SourceFile.Attributes) then
+          mbFileSetReadOnly(SourceFile.FullPath, False);
+        Result := mbDeleteFile(SourceFile.FullPath);
+        if (not Result) and (FDeleteFileOption = fsourInvalid) then
+        begin
+          RetryDelete := True;
+          Message := Format(rsMsgNotDelete, [WrapTextSimple(SourceFile.FullPath, 100)]) + LineEnding + LineEnding + mbSysErrorMessage;
+          case AskQuestion('', Message, [fsourSkip, fsourRetry, fsourAbort, fsourSkipAll], fsourSkip, fsourAbort) of
+            fsourAbort: AbortOperation;
+            fsourRetry: RetryDelete := False;
+            fsourSkipAll: FDeleteFileOption := fsourSkipAll;
+          end;
+        end;
+      until RetryDelete;
     end
     else
       Result := False;
