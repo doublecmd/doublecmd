@@ -5,7 +5,7 @@
 # Set Double Commander version
 DC_VER=0.8.0
 # Set Ubuntu series
-DISTRO=( wily xenial )
+DISTRO=( xenial yakkety zesty )
 
 # Temp directory
 DC_TEMP_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
