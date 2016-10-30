@@ -65,27 +65,27 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\i386-win32\</OutDir>
-    <IntDir>..\..\i386-win32\</IntDir>
+    <OutDir>..\..\bin\i386-win32\</OutDir>
+    <IntDir>..\..\bin\i386-win32\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>bz2</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\x86_64-win64\</OutDir>
-    <IntDir>..\..\x86_64-win64\</IntDir>
+    <OutDir>..\..\bin\x86_64-win64\</OutDir>
+    <IntDir>..\..\bin\x86_64-win64\</IntDir>
     <TargetName>bz2</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\i386-win32\</OutDir>
-    <IntDir>..\..\i386-win32\</IntDir>
+    <OutDir>..\..\bin\i386-win32\</OutDir>
+    <IntDir>..\..\bin\i386-win32\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <TargetName>bz2</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\..\x86_64-win64\</OutDir>
-    <IntDir>..\..\x86_64-win64\</IntDir>
+    <OutDir>..\..\bin\x86_64-win64\</OutDir>
+    <IntDir>..\..\bin\x86_64-win64\</IntDir>
     <TargetName>bz2</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -98,15 +98,15 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;BZ_NO_STDIO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>..\..\i386-win32\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>..\..\i386-win32\libbz2.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>..\..\i386-win32\</ObjectFileName>
-      <ProgramDataBaseFileName>..\..\i386-win32\</ProgramDataBaseFileName>
+      <AssemblerListingLocation>..\..\bin\i386-win32\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>..\..\bin\i386-win32\libbz2.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>..\..\bin\i386-win32\</ObjectFileName>
+      <ProgramDataBaseFileName>..\..\bin\i386-win32\</ProgramDataBaseFileName>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>..\..\i386-win32\libbz2.tlb</TypeLibraryName>
+      <TypeLibraryName>..\..\bin\i386-win32\libbz2.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <RedirectOutputAndErrors>NUL</RedirectOutputAndErrors>
       <TargetEnvironment>Win32</TargetEnvironment>
@@ -117,14 +117,14 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>..\..\i386-win32\libbz2.bsc</OutputFile>
+      <OutputFile>..\..\bin\i386-win32\libbz2.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>..\..\i386-win32\bz2.dll</OutputFile>
-      <ImportLibrary>..\..\i386-win32\libbz2.lib</ImportLibrary>
+      <OutputFile>..\..\bin\i386-win32\bz2.dll</OutputFile>
+      <ImportLibrary>..\..\bin\i386-win32\libbz2.lib</ImportLibrary>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\libbz2.def</ModuleDefinitionFile>
       <Version>
@@ -142,15 +142,15 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;BZ_NO_STDIO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>..\..\x86_64-win64\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>..\..\x86_64-win64\libbz2.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>..\..\x86_64-win64\</ObjectFileName>
-      <ProgramDataBaseFileName>..\..\x86_64-win64\</ProgramDataBaseFileName>
+      <AssemblerListingLocation>..\..\bin\x86_64-win64\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>..\..\bin\x86_64-win64\libbz2.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>..\..\bin\x86_64-win64\</ObjectFileName>
+      <ProgramDataBaseFileName>..\..\bin\x86_64-win64\</ProgramDataBaseFileName>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>..\..\x86_64-win64\libbz2.tlb</TypeLibraryName>
+      <TypeLibraryName>..\..\bin\x86_64-win64\libbz2.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <RedirectOutputAndErrors>NUL</RedirectOutputAndErrors>
     </Midl>
@@ -160,14 +160,14 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>..\..\x86_64-win64\libbz2.bsc</OutputFile>
+      <OutputFile>..\..\bin\x86_64-win64\libbz2.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>..\..\x86_64-win64\bz2.dll</OutputFile>
-      <ImportLibrary>..\..\x86_64-win64\libbz2.lib</ImportLibrary>
+      <OutputFile>..\..\bin\x86_64-win64\bz2.dll</OutputFile>
+      <ImportLibrary>..\..\bin\x86_64-win64\libbz2.lib</ImportLibrary>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\libbz2.def</ModuleDefinitionFile>
       <Version>
@@ -185,15 +185,15 @@
       <MinimalRebuild>true</MinimalRebuild>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;BZ_NO_STDIO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>..\..\i386-win32\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>..\..\i386-win32\libbz2.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>..\..\i386-win32\</ObjectFileName>
-      <ProgramDataBaseFileName>..\..\i386-win32\</ProgramDataBaseFileName>
+      <AssemblerListingLocation>..\..\bin\i386-win32\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>..\..\bin\i386-win32\libbz2.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>..\..\bin\i386-win32\</ObjectFileName>
+      <ProgramDataBaseFileName>..\..\bin\i386-win32\</ProgramDataBaseFileName>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>..\..\i386-win32\libbz2.tlb</TypeLibraryName>
+      <TypeLibraryName>..\..\bin\i386-win32\libbz2.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <RedirectOutputAndErrors>NUL</RedirectOutputAndErrors>
       <TargetEnvironment>Win32</TargetEnvironment>
@@ -204,15 +204,15 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>..\..\i386-win32\libbz2.bsc</OutputFile>
+      <OutputFile>..\..\bin\i386-win32\libbz2.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>..\..\i386-win32\bz2.dll</OutputFile>
-      <ImportLibrary>..\..\i386-win32\libbz2.lib</ImportLibrary>
+      <OutputFile>..\..\bin\i386-win32\bz2.dll</OutputFile>
+      <ImportLibrary>..\..\bin\i386-win32\libbz2.lib</ImportLibrary>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\libbz2.def</ModuleDefinitionFile>
       <Version>
@@ -229,15 +229,15 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;BZ_NO_STDIO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>..\..\x86_64-win64\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>..\..\x86_64-win64\libbz2.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>..\..\x86_64-win64\</ObjectFileName>
-      <ProgramDataBaseFileName>..\..\x86_64-win64\</ProgramDataBaseFileName>
+      <AssemblerListingLocation>..\..\bin\x86_64-win64\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>..\..\bin\x86_64-win64\libbz2.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>..\..\bin\x86_64-win64\</ObjectFileName>
+      <ProgramDataBaseFileName>..\..\bin\x86_64-win64\</ProgramDataBaseFileName>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TypeLibraryName>..\..\x86_64-win64\libbz2.tlb</TypeLibraryName>
+      <TypeLibraryName>..\..\bin\x86_64-win64\libbz2.tlb</TypeLibraryName>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <RedirectOutputAndErrors>NUL</RedirectOutputAndErrors>
     </Midl>
@@ -247,15 +247,15 @@
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>..\..\x86_64-win64\libbz2.bsc</OutputFile>
+      <OutputFile>..\..\bin\x86_64-win64\libbz2.bsc</OutputFile>
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>..\..\x86_64-win64\bz2.dll</OutputFile>
-      <ImportLibrary>..\..\x86_64-win64\libbz2.lib</ImportLibrary>
+      <OutputFile>..\..\bin\x86_64-win64\bz2.dll</OutputFile>
+      <ImportLibrary>..\..\bin\x86_64-win64\libbz2.lib</ImportLibrary>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\libbz2.def</ModuleDefinitionFile>
       <Version>
