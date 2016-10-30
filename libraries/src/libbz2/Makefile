@@ -7,9 +7,9 @@ CFLAGS=-Wall -Winline -O2 -D_FILE_OFFSET_BITS=64 -DBZ_NO_STDIO
 # Determine output directory
 ARCH=$(shell $(LD) --print-output-format)
 ifeq ($(ARCH), pei-i386)
-  OUTPUT=..\..\i386-win32
+  OUTPUT=..\..\bin\i386-win32
 else ifeq ($(ARCH), pei-x86-64)
-  OUTPUT=..\..\x86_64-win64
+  OUTPUT=..\..\bin\x86_64-win64
 endif
 
 OBJS= blocksort.o  \
