@@ -64,6 +64,9 @@ uses
   {$IFDEF LCLQT}
   , qt4
   {$ENDIF}
+  {$IFDEF LCLQT5}
+  , qt5
+  {$ENDIF}
   {$IFDEF LCLGTK2}
   , gtk2
   {$ENDIF}
@@ -446,8 +449,8 @@ begin
   end;
   {$ENDIF}
 
-  {$IFDEF LCLQT}
-  WSVersion := 'Qt ' + QtVersion + ', libQt4Pas ';
+  {$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
+  WSVersion := 'Qt ' + QtVersion + ', libQt' + QtVersion[0] + 'Pas ';
 
   WSVersion := WSVersion + IntToStr((QT_VERSION shr 16) and 255) + '.' +
                            IntToStr((QT_VERSION shr  8) and 255) + '.' +
