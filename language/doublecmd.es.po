@@ -2231,6 +2231,14 @@ msgstr "Crear carpeta"
 msgid "Select All with the Same E&xtension"
 msgstr "Sele&ccionar todos con la misma e&xtensión"
 
+#: tfrmmain.actmarkcurrentname.caption
+msgid "Select all files with same name"
+msgstr ""
+
+#: tfrmmain.actmarkcurrentpath.caption
+msgid "Select all in same path"
+msgstr ""
+
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
 msgstr "&Invertir selección"
@@ -2591,6 +2599,14 @@ msgstr "Ordenar de acuerdo con los parámetros"
 #: tfrmmain.actunmarkcurrentextension.caption
 msgid "Unselect All with the Same Ex&tension"
 msgstr "Deselecci&onar todos con la misma extensión"
+
+#: tfrmmain.actunmarkcurrentname.caption
+msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentpath.caption
+msgid "Unselect all in same path"
+msgstr ""
 
 #: tfrmmain.actview.caption
 msgctxt "TFRMMAIN.ACTVIEW.CAPTION"

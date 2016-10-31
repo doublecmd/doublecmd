@@ -2283,6 +2283,14 @@ msgstr "Δημιουργία Καταλόγου"
 msgid "Select All with the Same E&xtension"
 msgstr "Επιλογή όλων με την Ίδια Επέκταση"
 
+#: tfrmmain.actmarkcurrentname.caption
+msgid "Select all files with same name"
+msgstr ""
+
+#: tfrmmain.actmarkcurrentpath.caption
+msgid "Select all in same path"
+msgstr ""
+
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
 msgstr "Αντιστροφή Επιλογής"
@@ -2650,6 +2658,14 @@ msgstr "Ταξινόμηση βάσει παραμέτρων"
 #: tfrmmain.actunmarkcurrentextension.caption
 msgid "Unselect All with the Same Ex&tension"
 msgstr "Αποεπιλογή Όλων με τη ίδια Επέκταση"
+
+#: tfrmmain.actunmarkcurrentname.caption
+msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentpath.caption
+msgid "Unselect all in same path"
+msgstr ""
 
 #: tfrmmain.actview.caption
 msgctxt "tfrmmain.actview.caption"

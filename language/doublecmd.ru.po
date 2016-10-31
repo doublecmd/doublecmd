@@ -2282,6 +2282,14 @@ msgstr "Создать &каталог"
 msgid "Select All with the Same E&xtension"
 msgstr "Выделить файлы по рас&ширению"
 
+#: tfrmmain.actmarkcurrentname.caption
+msgid "Select all files with same name"
+msgstr "Выделить все файлы по текущему имени"
+
+#: tfrmmain.actmarkcurrentpath.caption
+msgid "Select all in same path"
+msgstr "Выделить всё с этим путём"
+
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
 msgstr "&Инверсия выделения"
@@ -2649,6 +2657,14 @@ msgstr "Сортировка по параметрам"
 #: tfrmmain.actunmarkcurrentextension.caption
 msgid "Unselect All with the Same Ex&tension"
 msgstr "Снять выделение по расши&рению"
+
+#: tfrmmain.actunmarkcurrentname.caption
+msgid "Unselect all files with same name"
+msgstr "Снять выделение по текущему имени"
+
+#: tfrmmain.actunmarkcurrentpath.caption
+msgid "Unselect all in same path"
+msgstr "Снять всё выделение с этим путём"
 
 #: tfrmmain.actview.caption
 msgctxt "tfrmmain.actview.caption"

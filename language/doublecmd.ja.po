@@ -2280,6 +2280,14 @@ msgstr "ディレクトリを作成(&D)"
 msgid "Select All with the Same E&xtension"
 msgstr "同じ拡張子の項目を全て選択(&x)"
 
+#: tfrmmain.actmarkcurrentname.caption
+msgid "Select all files with same name"
+msgstr ""
+
+#: tfrmmain.actmarkcurrentpath.caption
+msgid "Select all in same path"
+msgstr ""
+
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
 msgstr "選択を反転(&I)"
@@ -2647,6 +2655,14 @@ msgstr "パラメータに従ってソート"
 #: tfrmmain.actunmarkcurrentextension.caption
 msgid "Unselect All with the Same Ex&tension"
 msgstr "同じ拡張子の項目を全て選択解除(&t)"
+
+#: tfrmmain.actunmarkcurrentname.caption
+msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentpath.caption
+msgid "Unselect all in same path"
+msgstr ""
 
 #: tfrmmain.actview.caption
 msgctxt "tfrmmain.actview.caption"
