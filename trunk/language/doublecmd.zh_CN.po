@@ -2441,6 +2441,10 @@ msgstr "选择所有相同扩展"
 msgid "Select all files with same name"
 msgstr ""
 
+#: tfrmmain.actmarkcurrentnameext.caption
+msgid "Select all files with same name and extension"
+msgstr ""
+
 #: tfrmmain.actmarkcurrentpath.caption
 msgid "Select all in same path"
 msgstr ""
@@ -2867,6 +2871,10 @@ msgstr "取消选择所有相同扩展"
 
 #: tfrmmain.actunmarkcurrentname.caption
 msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentnameext.caption
+msgid "Unselect all files with same name and extension"
 msgstr ""
 
 #: tfrmmain.actunmarkcurrentpath.caption

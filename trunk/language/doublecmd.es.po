@@ -2235,6 +2235,10 @@ msgstr "Sele&ccionar todos con la misma e&xtensión"
 msgid "Select all files with same name"
 msgstr ""
 
+#: tfrmmain.actmarkcurrentnameext.caption
+msgid "Select all files with same name and extension"
+msgstr ""
+
 #: tfrmmain.actmarkcurrentpath.caption
 msgid "Select all in same path"
 msgstr ""
@@ -2602,6 +2606,10 @@ msgstr "Deselecci&onar todos con la misma extensión"
 
 #: tfrmmain.actunmarkcurrentname.caption
 msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentnameext.caption
+msgid "Unselect all files with same name and extension"
 msgstr ""
 
 #: tfrmmain.actunmarkcurrentpath.caption
