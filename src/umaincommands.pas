@@ -255,6 +255,8 @@ type
    procedure cm_MarkMinus(const Params: array of string);
    procedure cm_MarkCurrentName(const Params: array of string);
    procedure cm_UnmarkCurrentName(const Params: array of string);
+   procedure cm_MarkCurrentNameExt(const Params: array of string);
+   procedure cm_UnmarkCurrentNameExt(const Params: array of string);
    procedure cm_MarkCurrentExtension(const Params: array of string);
    procedure cm_UnmarkCurrentExtension(const Params: array of string);
    procedure cm_MarkCurrentPath(const Params: array of string);
@@ -2875,6 +2877,16 @@ end;
 procedure TMainCommands.cm_UnmarkCurrentName(const Params: array of string);
 begin
   frmMain.ActiveFrame.MarkCurrentName(False);
+end;
+
+procedure TMainCommands.cm_MarkCurrentNameExt(const Params: array of string);
+begin
+  frmMain.ActiveFrame.MarkCurrentNameExt(True);
+end;
+
+procedure TMainCommands.cm_UnmarkCurrentNameExt(const Params: array of string);
+begin
+  frmMain.ActiveFrame.MarkCurrentNameExt(False);
 end;
 
 procedure TMainCommands.cm_MarkCurrentExtension(const Params: array of string);
