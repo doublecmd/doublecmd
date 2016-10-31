@@ -2436,6 +2436,14 @@ msgstr "建立資料夾"
 msgid "Select All with the Same E&xtension"
 msgstr "選擇所有相同副檔名 (&X)"
 
+#: tfrmmain.actmarkcurrentname.caption
+msgid "Select all files with same name"
+msgstr ""
+
+#: tfrmmain.actmarkcurrentpath.caption
+msgid "Select all in same path"
+msgstr ""
+
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
 msgstr "反向選擇 (&I)"
@@ -2809,6 +2817,14 @@ msgstr ""
 #| msgid "Unselect all with same extension"
 msgid "Unselect All with the Same Ex&tension"
 msgstr "取消選擇所有相同副檔名 (&T)"
+
+#: tfrmmain.actunmarkcurrentname.caption
+msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentpath.caption
+msgid "Unselect all in same path"
+msgstr ""
 
 #: tfrmmain.actview.caption
 #, fuzzy

@@ -2307,6 +2307,14 @@ msgstr "Utwórz katalog"
 msgid "Select All with the Same E&xtension"
 msgstr "Zaznacz wszystko z tym samyn &rozszerzeniem"
 
+#: tfrmmain.actmarkcurrentname.caption
+msgid "Select all files with same name"
+msgstr ""
+
+#: tfrmmain.actmarkcurrentpath.caption
+msgid "Select all in same path"
+msgstr ""
+
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
 msgstr "&Odwróć zaznaczenie"
@@ -2674,6 +2682,14 @@ msgstr ""
 #: tfrmmain.actunmarkcurrentextension.caption
 msgid "Unselect All with the Same Ex&tension"
 msgstr "Usuń s&elekcję według rozszerzenia"
+
+#: tfrmmain.actunmarkcurrentname.caption
+msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentpath.caption
+msgid "Unselect all in same path"
+msgstr ""
 
 #: tfrmmain.actview.caption
 msgctxt "tfrmmain.actview.caption"

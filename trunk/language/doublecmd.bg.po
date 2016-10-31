@@ -2458,6 +2458,14 @@ msgstr "Нова папка"
 msgid "Select All with the Same E&xtension"
 msgstr "Избор на всички със същото разширение"
 
+#: tfrmmain.actmarkcurrentname.caption
+msgid "Select all files with same name"
+msgstr ""
+
+#: tfrmmain.actmarkcurrentpath.caption
+msgid "Select all in same path"
+msgstr ""
+
 #: tfrmmain.actmarkinvert.caption
 #, fuzzy
 #| msgid "Invert Selections"
@@ -2893,6 +2901,14 @@ msgstr ""
 #| msgid "Unselect all with same extension"
 msgid "Unselect All with the Same Ex&tension"
 msgstr "Снемане на избора на всички със същото разширение"
+
+#: tfrmmain.actunmarkcurrentname.caption
+msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentpath.caption
+msgid "Unselect all in same path"
+msgstr ""
 
 #: tfrmmain.actview.caption
 #, fuzzy

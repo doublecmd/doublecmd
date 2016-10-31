@@ -2491,6 +2491,14 @@ msgstr "Vytvor adresár"
 msgid "Select All with the Same E&xtension"
 msgstr "Vybrať všetko s rovnakou príponou"
 
+#: tfrmmain.actmarkcurrentname.caption
+msgid "Select all files with same name"
+msgstr ""
+
+#: tfrmmain.actmarkcurrentpath.caption
+msgid "Select all in same path"
+msgstr ""
+
 #: tfrmmain.actmarkinvert.caption
 #, fuzzy
 #| msgid "Invert Selections"
@@ -2913,6 +2921,14 @@ msgstr ""
 #| msgid "Unselect all with same extension"
 msgid "Unselect All with the Same Ex&tension"
 msgstr "Zrušiť výber súborov s rovnakou príponou"
+
+#: tfrmmain.actunmarkcurrentname.caption
+msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentpath.caption
+msgid "Unselect all in same path"
+msgstr ""
 
 #: tfrmmain.actview.caption
 #, fuzzy

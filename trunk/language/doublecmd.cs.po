@@ -2282,6 +2282,14 @@ msgstr "Vytvořit a&dresář"
 msgid "Select All with the Same E&xtension"
 msgstr "Vybrat vše se stejnou &příponou"
 
+#: tfrmmain.actmarkcurrentname.caption
+msgid "Select all files with same name"
+msgstr ""
+
+#: tfrmmain.actmarkcurrentpath.caption
+msgid "Select all in same path"
+msgstr ""
+
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
 msgstr "Převrát&it výběr"
@@ -2649,6 +2657,14 @@ msgstr "Seřadit podle parametrů"
 #: tfrmmain.actunmarkcurrentextension.caption
 msgid "Unselect All with the Same Ex&tension"
 msgstr "Zrušit označení všech se stejnou &příponou"
+
+#: tfrmmain.actunmarkcurrentname.caption
+msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentpath.caption
+msgid "Unselect all in same path"
+msgstr ""
 
 #: tfrmmain.actview.caption
 msgctxt "tfrmmain.actview.caption"

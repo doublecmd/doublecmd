@@ -2287,6 +2287,14 @@ msgstr "Ustvari &mapo"
 msgid "Select All with the Same E&xtension"
 msgstr "Izberi vse datoteke z &enako pripono"
 
+#: tfrmmain.actmarkcurrentname.caption
+msgid "Select all files with same name"
+msgstr ""
+
+#: tfrmmain.actmarkcurrentpath.caption
+msgid "Select all in same path"
+msgstr ""
+
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
 msgstr "Obrni iz&bor"
@@ -2654,6 +2662,14 @@ msgstr "Razvrsti glede na parametre"
 #: tfrmmain.actunmarkcurrentextension.caption
 msgid "Unselect All with the Same Ex&tension"
 msgstr "Odstrani izbor vse&h datotek z enako pripono"
+
+#: tfrmmain.actunmarkcurrentname.caption
+msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentpath.caption
+msgid "Unselect all in same path"
+msgstr ""
 
 #: tfrmmain.actview.caption
 msgctxt "tfrmmain.actview.caption"

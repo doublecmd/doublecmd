@@ -2224,6 +2224,14 @@ msgstr "Maak map"
 msgid "Select All with the Same E&xtension"
 msgstr "Selecteer alles met dezelfde extensie"
 
+#: tfrmmain.actmarkcurrentname.caption
+msgid "Select all files with same name"
+msgstr ""
+
+#: tfrmmain.actmarkcurrentpath.caption
+msgid "Select all in same path"
+msgstr ""
+
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
 msgstr "Draai selectie om"
@@ -2584,6 +2592,14 @@ msgstr "Rangschik op parameters"
 #: tfrmmain.actunmarkcurrentextension.caption
 msgid "Unselect All with the Same Ex&tension"
 msgstr "Deselecteer alles met dezelfde extensie"
+
+#: tfrmmain.actunmarkcurrentname.caption
+msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentpath.caption
+msgid "Unselect all in same path"
+msgstr ""
 
 #: tfrmmain.actview.caption
 msgctxt "TFRMMAIN.ACTVIEW.CAPTION"

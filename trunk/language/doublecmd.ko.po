@@ -2312,6 +2312,14 @@ msgstr "&새 폴더 생성"
 msgid "Select All with the Same E&xtension"
 msgstr "같은 확장자 전체 선택"
 
+#: tfrmmain.actmarkcurrentname.caption
+msgid "Select all files with same name"
+msgstr ""
+
+#: tfrmmain.actmarkcurrentpath.caption
+msgid "Select all in same path"
+msgstr ""
+
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
 msgstr "&선택 반전"
@@ -2679,6 +2687,14 @@ msgstr "매개변수에 따라 정렬"
 #: tfrmmain.actunmarkcurrentextension.caption
 msgid "Unselect All with the Same Ex&tension"
 msgstr "같은 확장자 전체 선택해제"
+
+#: tfrmmain.actunmarkcurrentname.caption
+msgid "Unselect all files with same name"
+msgstr ""
+
+#: tfrmmain.actunmarkcurrentpath.caption
+msgid "Unselect all in same path"
+msgstr ""
 
 #: tfrmmain.actview.caption
 msgctxt "tfrmmain.actview.caption"
