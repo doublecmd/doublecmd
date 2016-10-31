@@ -2568,6 +2568,30 @@ object frmMain: TfrmMain
       Caption = 'Save Settings'
       OnExecute = actExecute
     end
+    object actMarkCurrentPath: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Select all in same path'
+      OnExecute = actExecute
+    end
+    object actUnmarkCurrentPath: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Unselect all in same path'
+      OnExecute = actExecute
+    end
+    object actMarkCurrentName: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Select all files with same name'
+      OnExecute = actExecute
+    end
+    object actUnmarkCurrentName: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Unselect all files with same name'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

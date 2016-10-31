@@ -253,8 +253,12 @@ type
    procedure cm_MarkUnmarkAll(const Params: array of string);
    procedure cm_MarkPlus(const Params: array of string);
    procedure cm_MarkMinus(const Params: array of string);
+   procedure cm_MarkCurrentName(const Params: array of string);
+   procedure cm_UnmarkCurrentName(const Params: array of string);
    procedure cm_MarkCurrentExtension(const Params: array of string);
    procedure cm_UnmarkCurrentExtension(const Params: array of string);
+   procedure cm_MarkCurrentPath(const Params: array of string);
+   procedure cm_UnmarkCurrentPath(const Params: array of string);
    procedure cm_SaveSelection(const Params: array of string);
    procedure cm_RestoreSelection(const Params: array of string);
    procedure cm_SaveSelectionToFile(const Params: array of string);
@@ -2863,6 +2867,16 @@ begin
   DoActualMarkUnMark(Params, False);
 end;
 
+procedure TMainCommands.cm_MarkCurrentName(const Params: array of string);
+begin
+  frmMain.ActiveFrame.MarkCurrentName(True);
+end;
+
+procedure TMainCommands.cm_UnmarkCurrentName(const Params: array of string);
+begin
+  frmMain.ActiveFrame.MarkCurrentName(False);
+end;
+
 procedure TMainCommands.cm_MarkCurrentExtension(const Params: array of string);
 begin
   frmMain.ActiveFrame.MarkCurrentExtension(True);
@@ -2871,6 +2885,16 @@ end;
 procedure TMainCommands.cm_UnmarkCurrentExtension(const Params: array of string);
 begin
   frmMain.ActiveFrame.MarkCurrentExtension(False);
+end;
+
+procedure TMainCommands.cm_MarkCurrentPath(const Params: array of string);
+begin
+  frmMain.ActiveFrame.MarkCurrentPath(True);
+end;
+
+procedure TMainCommands.cm_UnmarkCurrentPath(const Params: array of string);
+begin
+  frmMain.ActiveFrame.MarkCurrentPath(False);
 end;
 
 procedure TMainCommands.cm_SaveSelection(const Params: array of string);
