@@ -458,6 +458,7 @@ type
     procedure LoadSelectionFromClipboard;
     procedure LoadSelectionFromFile(const AFileName: String);
     procedure MarkCurrentName(bSelect: Boolean);
+    procedure MarkCurrentNameExt(bSelect: Boolean);
     procedure MarkCurrentExtension(bSelect: Boolean);
     procedure MarkCurrentPath(bSelect: Boolean);
     procedure MarkFile(AFile: TDisplayFile; bSelect: Boolean; bNotify: Boolean = True);
@@ -2619,6 +2620,20 @@ begin
   begin
     sGroup := GetActiveDisplayFile.FSFile.NameNoExt;
     if Length(sGroup) > 0 then sGroup += ExtensionSeparator + '*';
+    MarkGroup(sGroup, bSelect, @bCaseSensitive, @bIgnoreAccents, @bWindowsInterpretation);
+  end;
+end;
+
+procedure TFileView.MarkCurrentNameExt(bSelect: Boolean);
+var
+  sGroup: String;
+  bCaseSensitive: boolean = False;
+  bIgnoreAccents: boolean = False;
+  bWindowsInterpretation: boolean = False;
+begin
+  if IsActiveItemValid then
+  begin
+    sGroup := GetActiveDisplayFile.FSFile.Name;
     MarkGroup(sGroup, bSelect, @bCaseSensitive, @bIgnoreAccents, @bWindowsInterpretation);
   end;
 end;

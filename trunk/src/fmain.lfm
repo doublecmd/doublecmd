@@ -2592,6 +2592,18 @@ object frmMain: TfrmMain
       Caption = 'Unselect all files with same name'
       OnExecute = actExecute
     end
+    object actMarkCurrentNameExt: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Select all files with same name and extension'
+      OnExecute = actExecute
+    end
+    object actUnmarkCurrentNameExt: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Unselect all files with same name and extension'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist
