@@ -102,6 +102,10 @@ type
     actConfigTreeViewMenus: TAction;
     actConfigTreeViewMenusColors: TAction;
     actConfigSaveSettings: TAction;
+    actUnmarkCurrentName: TAction;
+    actMarkCurrentName: TAction;
+    actUnmarkCurrentPath: TAction;
+    actMarkCurrentPath: TAction;
     actTreeView: TAction;
     actToggleFullscreenConsole: TAction;
     actSrcOpenDrives: TAction;

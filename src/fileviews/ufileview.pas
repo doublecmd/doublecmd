@@ -457,7 +457,9 @@ type
     procedure InvertAll;
     procedure LoadSelectionFromClipboard;
     procedure LoadSelectionFromFile(const AFileName: String);
+    procedure MarkCurrentName(bSelect: Boolean);
     procedure MarkCurrentExtension(bSelect: Boolean);
+    procedure MarkCurrentPath(bSelect: Boolean);
     procedure MarkFile(AFile: TDisplayFile; bSelect: Boolean; bNotify: Boolean = True);
     procedure MarkFiles(bSelect: Boolean);
     procedure MarkFiles(FromIndex, ToIndex: PtrInt; bSelect: Boolean);
@@ -1807,6 +1809,37 @@ begin
   end;
 end;
 
+procedure TFileView.MarkCurrentPath(bSelect: Boolean);
+var
+  I: Integer;
+  sPath: String;
+  bSelected: Boolean = False;
+begin
+  if IsActiveItemValid then
+  begin
+    sPath := GetActiveDisplayFile.FSFile.Path;
+
+    BeginUpdate;
+    try
+      for I := 0 to FFiles.Count - 1 do
+      begin
+        if FFiles[I].FSFile.IsDirectory then Continue;
+
+        if mbCompareFileNames(FFiles[I].FSFile.Path, sPath) then
+        begin
+          FFiles[I].Selected := bSelect;
+          bSelected := True;
+        end;
+      end;
+
+      if bSelected then
+        Notify([fvnSelectionChanged]);
+    finally
+      EndUpdate;
+    end;
+  end;
+end;
+
 function TFileView.IsVisibleToUser: Boolean;
 begin
   if NotebookPage is TFileViewPage then
@@ -2572,6 +2605,21 @@ begin
         on E: Exception do
           msgError(rsMsgErrEOpen + '-' + E.Message);
       end;
+  end;
+end;
+
+procedure TFileView.MarkCurrentName(bSelect: Boolean);
+var
+  sGroup: String;
+  bCaseSensitive: boolean = false;
+  bIgnoreAccents: boolean = false;
+  bWindowsInterpretation: boolean = True;
+begin
+  if IsActiveItemValid then
+  begin
+    sGroup := GetActiveDisplayFile.FSFile.NameNoExt;
+    if Length(sGroup) > 0 then sGroup += ExtensionSeparator + '*';
+    MarkGroup(sGroup, bSelect, @bCaseSensitive, @bIgnoreAccents, @bWindowsInterpretation);
   end;
 end;
 
