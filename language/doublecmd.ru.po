@@ -2286,6 +2286,10 @@ msgstr "Выделить файлы по рас&ширению"
 msgid "Select all files with same name"
 msgstr "Выделить все файлы по текущему имени"
 
+#: tfrmmain.actmarkcurrentnameext.caption
+msgid "Select all files with same name and extension"
+msgstr "Выделить все файлы по текущему имени и расширению"
+
 #: tfrmmain.actmarkcurrentpath.caption
 msgid "Select all in same path"
 msgstr "Выделить всё с этим путём"
@@ -2661,6 +2665,10 @@ msgstr "Снять выделение по расши&рению"
 #: tfrmmain.actunmarkcurrentname.caption
 msgid "Unselect all files with same name"
 msgstr "Снять выделение по текущему имени"
+
+#: tfrmmain.actunmarkcurrentnameext.caption
+msgid "Unselect all files with same name and extension"
+msgstr "Снять выделение по текущему имени и расширению"
 
 #: tfrmmain.actunmarkcurrentpath.caption
 msgid "Unselect all in same path"
