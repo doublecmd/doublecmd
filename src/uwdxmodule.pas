@@ -5,6 +5,7 @@
    (TC WDX-API v1.5)
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
+   Copyright (C) 2008-2016 Alexander Koblov (alexx2000@mail.ru)
 
    Some ideas were found in sources of WdxGuide by Alexey Torgashin
    and SuperWDX by Pavel Dubrovsky and Dmitry Vorotilin.
@@ -1040,7 +1041,7 @@ begin
   lua_call(L, 1, 3);
   xFieldName := lua_tostring(L, -3);
   xUnits := lua_tostring(L, -2);
-  Result := lua_tointeger(L, -1);
+  Result := Integer(lua_tointeger(L, -1));
   lua_pop(L, 3);
 end;
 
@@ -1137,14 +1138,51 @@ end;
 
 function TLuaWdx.CallContentGetValueV(FileName: String; FieldName: String;
   UnitName: String; flags: Integer): Variant;
+var
+  FieldIndex,
+  UnitIndex: Integer;
 begin
-  Result := CallContentGetValue(FileName, FieldName, UnitName, flags);
+  FieldIndex := GetFieldIndex(FieldName);
+  if FieldIndex <> -1 then
+  begin
+    UnitIndex := TWdxField(FieldList.Objects[FieldIndex]).GetUnitIndex(UnitName);
+    Result := CallContentGetValueV(FileName, FieldIndex, UnitIndex, flags);
+  end
+  else
+    Result := Unassigned;
 end;
 
 function TLuaWdx.CallContentGetValueV(FileName: String; FieldIndex,
   UnitIndex: Integer; flags: Integer): Variant;
 begin
-  Result := CallContentGetValue(FileName, FieldIndex, UnitIndex, flags);
+  Result := Unassigned;
+  if not Assigned(L) then
+    Exit;
+
+  lua_getglobal(L, 'ContentGetValue');
+  if not lua_isfunction(L, -1) then
+    Exit;
+  lua_pushstring(L, PChar(FileName));
+  lua_pushinteger(L, FieldIndex);
+  lua_pushinteger(L, UnitIndex);
+  lua_pushinteger(L, flags);
+
+  lua_call(L, 4, 1);
+
+  case TWdxField(FieldList.Objects[FieldIndex]).FType of
+    ft_string:
+      Result := StrPas(lua_tostring(L, -1));
+    ft_numeric_32:
+      Result := Int32(lua_tointeger(L, -1));
+    ft_numeric_64:
+      Result := Int64(lua_tointeger(L, -1));
+    ft_boolean:
+      Result := lua_toboolean(L, -1);
+    ft_numeric_floating:
+      Result := lua_tonumber(L, -1);
+  end;
+
+  lua_pop(L, 1);
 end;
 
 function TLuaWdx.CallContentGetValue(FileName: String; FieldName: String; UnitName: String; flags: Integer): String;
@@ -1165,21 +1203,33 @@ end;
 function TLuaWdx.CallContentGetValue(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): String;
 begin
   Result := '';
-  if not assigned(L) then
-    exit;
+  if not Assigned(L) then
+    Exit;
 
   lua_getglobal(L, 'ContentGetValue');
   if not lua_isfunction(L, -1) then
-    exit;
+    Exit;
   lua_pushstring(L, PChar(FileName));
   lua_pushinteger(L, FieldIndex);
   lua_pushinteger(L, UnitIndex);
   lua_pushinteger(L, flags);
 
   lua_call(L, 4, 1);
-  Result := lua_tostring(L, -1);
-  lua_pop(L, 1);
 
+  case TWdxField(FieldList.Objects[FieldIndex]).FType of
+    ft_string:
+      Result := lua_tostring(L, -1);
+    ft_numeric_32:
+      Result := IntToStr(Int32(lua_tointeger(L, -1)));
+    ft_numeric_64:
+      Result := IntToStr(Int64(lua_tointeger(L, -1)));
+    ft_numeric_floating:
+      Result := FloatToStr(lua_tonumber(L, -1));
+    ft_boolean:
+      Result := BoolToStr(lua_toboolean(L, -1), True);
+  end;
+
+  lua_pop(L, 1);
 end;
 
 function TLuaWdx.CallContentGetSupportedFieldFlags(FieldIndex: Integer): Integer;
