@@ -1169,17 +1169,20 @@ begin
 
   lua_call(L, 4, 1);
 
-  case TWdxField(FieldList.Objects[FieldIndex]).FType of
-    ft_string:
-      Result := StrPas(lua_tostring(L, -1));
-    ft_numeric_32:
-      Result := Int32(lua_tointeger(L, -1));
-    ft_numeric_64:
-      Result := Int64(lua_tointeger(L, -1));
-    ft_boolean:
-      Result := lua_toboolean(L, -1);
-    ft_numeric_floating:
-      Result := lua_tonumber(L, -1);
+  if not lua_isnil(L, -1) then
+  begin
+    case TWdxField(FieldList.Objects[FieldIndex]).FType of
+      ft_string:
+        Result := StrPas(lua_tostring(L, -1));
+      ft_numeric_32:
+        Result := Int32(lua_tointeger(L, -1));
+      ft_numeric_64:
+        Result := Int64(lua_tointeger(L, -1));
+      ft_boolean:
+        Result := lua_toboolean(L, -1);
+      ft_numeric_floating:
+        Result := lua_tonumber(L, -1);
+    end;
   end;
 
   lua_pop(L, 1);
@@ -1216,17 +1219,20 @@ begin
 
   lua_call(L, 4, 1);
 
-  case TWdxField(FieldList.Objects[FieldIndex]).FType of
-    ft_string:
-      Result := lua_tostring(L, -1);
-    ft_numeric_32:
-      Result := IntToStr(Int32(lua_tointeger(L, -1)));
-    ft_numeric_64:
-      Result := IntToStr(Int64(lua_tointeger(L, -1)));
-    ft_numeric_floating:
-      Result := FloatToStr(lua_tonumber(L, -1));
-    ft_boolean:
-      Result := BoolToStr(lua_toboolean(L, -1), True);
+  if not lua_isnil(L, -1) then
+  begin
+    case TWdxField(FieldList.Objects[FieldIndex]).FType of
+      ft_string:
+        Result := lua_tostring(L, -1);
+      ft_numeric_32:
+        Result := IntToStr(Int32(lua_tointeger(L, -1)));
+      ft_numeric_64:
+        Result := IntToStr(Int64(lua_tointeger(L, -1)));
+      ft_numeric_floating:
+        Result := FloatToStr(lua_tonumber(L, -1));
+      ft_boolean:
+        Result := BoolToStr(lua_toboolean(L, -1), True);
+    end;
   end;
 
   lua_pop(L, 1);
