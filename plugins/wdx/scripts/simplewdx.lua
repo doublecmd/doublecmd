@@ -25,13 +25,13 @@ end
 
 function ContentGetValue(FileName, FieldIndex, UnitIndex, flags)
   if (FieldIndex == 0) then
-    return "FieldValue0";
+    return "FieldValue0"; -- return string
   elseif (FieldIndex == 1) then
     return "FieldValue1";
   elseif (FieldIndex == 2) then
     return "FieldValue2";
   end
-  return ""; --return string
+  return nil; -- invalid
 end
 
 --function ContentGetSupportedFieldFlags(FieldIndex)
