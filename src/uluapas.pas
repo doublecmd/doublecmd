@@ -35,7 +35,7 @@ function ExecuteScript(const FileName: String; Args: array of String): Boolean;
 implementation
 
 uses
-  Forms, Dialogs, LazUTF8, DCOSUtils, fMain, uFormCommands, uOSUtils;
+  Forms, Dialogs, LazUTF8, DCOSUtils, fMain, uFormCommands, uOSUtils, uGlobs;
 
 function luaFileGetAttr(L : Plua_State) : Integer; cdecl;
 begin
@@ -109,6 +109,12 @@ var
   Status: Integer;
 begin
   Result:= False;
+
+  // Load Lua library
+  if not IsLuaLibLoaded then
+  begin
+    if not LoadLuaLib(gLuaLib) then Exit;
+  end;
 
   // Get script file name
   Script:= mbFileNameToSysEnc(FileName);
