@@ -1449,12 +1449,16 @@ end;
 
 procedure TSynLuaSyn.SetRange(Value: Pointer);
 begin
-  fRange := TRangeState(Value);
+  {$PUSH}{$HINTS OFF}{$WARNINGS OFF}
+  fRange := TRangeState(PtrInt(Value));
+  {$POP}
 end;
 
 function TSynLuaSyn.GetRange: Pointer;
 begin
-  Result := Pointer(fRange);
+  {$PUSH}{$HINTS OFF}
+  Result := Pointer(PtrInt(fRange));
+  {$POP}
 end;
 
 initialization
