@@ -11,7 +11,7 @@ uses
   SynHighlighterUNIXShellScript, SynHighlighterPHP, SynHighlighterTeX,
   SynHighlighterSQL, SynHighlighterPerl, SynHighlighterCss,
   SynHighlighterPython, SynHighlighterDiff, SynHighlighterVB, SynHighlighterBat,
-  SynHighlighterIni, SynHighlighterPo;
+  SynHighlighterIni, SynHighlighterPo, SynHighlighterLua;
 
 
 const
@@ -128,6 +128,7 @@ var
   I: LongWord;
   HighLighter: TSynCustomHighlighter;
 begin
+  TSynLuaSyn.Create(Self).Tag:= 1;
   SynHighlighterList:= TStringList.Create;
   SynHighlighterHashList:= TStringHashList.Create(True);
 {$PUSH}{$HINTS OFF}{$WARNINGS OFF}
