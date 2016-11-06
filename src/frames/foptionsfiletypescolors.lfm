@@ -256,6 +256,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
         0000000000005F5054459C919391B7ADAFB4BBB2B2C3C0B5B6CFC0B6B7D2BBB2
         B3D0BCB2B3C3BBB3B4B59D929592615156460000000000000000
       }
+      GlyphShowMode = gsmAlways
       Layout = blGlyphRight
       OnClick = btnSearchTemplateClick
       ParentShowHint = False
