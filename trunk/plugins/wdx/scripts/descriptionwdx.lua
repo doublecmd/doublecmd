@@ -1,15 +1,11 @@
 -- This script reads file descriptions from descript.ion
 
-first=true;
 function ContentGetSupportedField(Index)
-  if (not first) then 
+  if (Index > 0) then
     return '','', 0; -- ft_nomorefields
   end 
 
-  if (first) then
-    first=false;
-    return 'Description','', 8; -- FieldName,Units,ft_string
-  end  
+  return 'Description','', 8; -- FieldName,Units,ft_string
 end
 
 function ContentGetDefaultSortOrder(FieldIndex)
@@ -35,13 +31,13 @@ function ContentGetValue(FileName, FieldIndex, UnitIndex, flags)
      end  
    end
  end
+ return nil;
 end
-
 
 function GetDesc(Path,Name)
    local f=io.open(Path..'descript.ion',"r");
    if not f then 
-    return "";
+    return nil;
    end
   
     for line in f:lines() do
@@ -53,6 +49,5 @@ function GetDesc(Path,Name)
 
   f:close();
      
-  return "";
+  return nil;
 end
-
