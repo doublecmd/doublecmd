@@ -2338,6 +2338,10 @@ msgstr "Upraviť cestu nad zoznamom súborov"
 msgid "Swap &Panels"
 msgstr "Zameniť &panely"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 #, fuzzy
 #| msgid "Exit"

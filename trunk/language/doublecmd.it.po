@@ -2172,6 +2172,10 @@ msgstr "Modifica campo percorso precedente nella lista file"
 msgid "Swap &Panels"
 msgstr "Scambia &pannelli"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"

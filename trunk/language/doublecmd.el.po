@@ -2152,6 +2152,10 @@ msgstr "Επεξεργασία πεδίου διαδρομής πάνω από �
 msgid "Swap &Panels"
 msgstr "Εναλλαγή Πάνελ"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"

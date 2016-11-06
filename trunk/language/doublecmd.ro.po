@@ -2172,6 +2172,10 @@ msgstr "Editează calea deasupra fișierului listă"
 msgid "Swap &Panels"
 msgstr "Comută &Panourile"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"

@@ -2295,6 +2295,10 @@ msgstr "Dosya listesi üzerinde Yol alanını düzenle"
 msgid "Swap &Panels"
 msgstr "Panoları &Değiştir"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"
