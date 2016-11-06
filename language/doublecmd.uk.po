@@ -2162,6 +2162,10 @@ msgstr "Редагувати шлях в заголовку списку"
 msgid "Swap &Panels"
 msgstr "Поміняти панелі місцями"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"

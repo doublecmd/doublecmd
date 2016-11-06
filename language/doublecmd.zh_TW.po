@@ -2299,6 +2299,10 @@ msgstr "變更路徑"
 msgid "Swap &Panels"
 msgstr "交換面板 (&P)"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"

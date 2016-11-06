@@ -2095,6 +2095,10 @@ msgstr "Bewerk padveld boven bestandenlijst"
 msgid "Swap &Panels"
 msgstr "Wissel panelen om"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"

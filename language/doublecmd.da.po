@@ -2190,6 +2190,10 @@ msgstr "Rediger stifeltet over fillisten"
 msgid "Swap &Panels"
 msgstr "Ombyt vind&uer"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"

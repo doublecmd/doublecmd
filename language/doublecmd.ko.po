@@ -2181,6 +2181,10 @@ msgstr "상위 파일 경로 편집"
 msgid "Swap &Panels"
 msgstr "창 바꾸기"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"

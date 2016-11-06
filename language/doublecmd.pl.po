@@ -2174,6 +2174,10 @@ msgstr "Edycja ścieżki nad listą plików"
 msgid "Swap &Panels"
 msgstr "Zamień panele"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"

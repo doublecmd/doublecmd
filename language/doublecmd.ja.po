@@ -2149,6 +2149,10 @@ msgstr "ファイルリストのパスフィールドを編集"
 msgid "Swap &Panels"
 msgstr "パネルの交換(&P)"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"

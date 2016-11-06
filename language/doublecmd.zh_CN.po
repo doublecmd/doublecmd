@@ -2284,6 +2284,10 @@ msgstr ""
 msgid "Swap &Panels"
 msgstr "交换面板(&P)"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 #, fuzzy
 #| msgid "Exit"

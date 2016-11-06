@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-10-09 20:52+0200\n"
+"PO-Revision-Date: 2016-11-01 06:45+0100\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -2102,6 +2102,10 @@ msgstr "Editar campo de ruta encima de la lista de archivos"
 msgid "Swap &Panels"
 msgstr "Intercambiar paneles"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"
@@ -2233,15 +2237,15 @@ msgstr "Sele&ccionar todos con la misma e&xtensión"
 
 #: tfrmmain.actmarkcurrentname.caption
 msgid "Select all files with same name"
-msgstr ""
+msgstr "Seleccionar todos los archivos con el mismo nombre"
 
 #: tfrmmain.actmarkcurrentnameext.caption
 msgid "Select all files with same name and extension"
-msgstr ""
+msgstr "Seleccionar todos los archivos con el mismo nombre y extensión"
 
 #: tfrmmain.actmarkcurrentpath.caption
 msgid "Select all in same path"
-msgstr ""
+msgstr "Seleccionar todos en la misma ruta"
 
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
@@ -2606,15 +2610,15 @@ msgstr "Deselecci&onar todos con la misma extensión"
 
 #: tfrmmain.actunmarkcurrentname.caption
 msgid "Unselect all files with same name"
-msgstr ""
+msgstr "Deseleccionar todos los archivos con el mismo nombre"
 
 #: tfrmmain.actunmarkcurrentnameext.caption
 msgid "Unselect all files with same name and extension"
-msgstr ""
+msgstr "Deseleccionar todos los archivos con el mismo nombre y extensión"
 
 #: tfrmmain.actunmarkcurrentpath.caption
 msgid "Unselect all in same path"
-msgstr ""
+msgstr "Deseleccionar todos en la misma ruta"
 
 #: tfrmmain.actview.caption
 msgctxt "TFRMMAIN.ACTVIEW.CAPTION"
@@ -4339,7 +4343,7 @@ msgstr "U&sar selección invertida"
 
 #: tfrmoptionscustomcolumns.chkusecustomview.caption
 msgid "Use custom font and color for this view"
-msgstr "Usar fuente y color personalizado"
+msgstr "Usar fuente y color personalizados"
 
 #: tfrmoptionscustomcolumns.lblbackcolor.caption
 msgid "BackGround:"
@@ -5994,7 +5998,7 @@ msgstr "16x16"
 
 #: tfrmoptionsicons.cbiconsonbuttons.caption
 msgid "Show icons on buttons"
-msgstr ""
+msgstr "Mostrar iconos en botones"
 
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgid "Show o&verlay icons, e.g. for links"
@@ -6015,7 +6019,7 @@ msgstr "Iconos en menús"
 
 #: tfrmoptionsicons.gbiconsonbuttons.caption
 msgid "Icons on buttons"
-msgstr ""
+msgstr "Iconos en botones"
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgid " Icon size "
@@ -9388,7 +9392,7 @@ msgstr "Acciones"
 
 #: ulng.rsmnucopynetnamestoclip
 msgid "Copy names with UNC path"
-msgstr ""
+msgstr "Copiar nombres con la ruta UNC"
 
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."

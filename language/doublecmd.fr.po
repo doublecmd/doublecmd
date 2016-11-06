@@ -2173,6 +2173,10 @@ msgstr "Éditer le champ du chemin au dessus de la liste des fichiers"
 msgid "Swap &Panels"
 msgstr "&Permuter les panneaux"
 
+#: tfrmmain.actexecutescript.caption
+msgid "Execute Script"
+msgstr ""
+
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"
