@@ -102,6 +102,7 @@ type
     actConfigTreeViewMenus: TAction;
     actConfigTreeViewMenusColors: TAction;
     actConfigSaveSettings: TAction;
+    actExecuteScript: TAction;
     actUnmarkCurrentNameExt: TAction;
     actMarkCurrentNameExt: TAction;
     actUnmarkCurrentName: TAction;

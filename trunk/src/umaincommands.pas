@@ -345,6 +345,8 @@ type
    procedure cm_ConfigTreeViewMenusColors(const {%H-}Params: array of string);
    procedure cm_ConfigSaveSettings(const {%H-}Params: array of string);
 
+   procedure cm_ExecuteScript(const {%H-}Params: array of string);
+
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
   end;
@@ -356,7 +358,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView,
-     uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile,
+     uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile, uLuaPas,
      uFilePanelSelect, uFileSystemFileSource, uQuickViewPanel,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation, uSearchResultFileSource,
@@ -4760,6 +4762,33 @@ end;
 procedure TMainCommands.cm_ConfigSaveSettings(const Params: array of string);
 begin
   frmMain.ConfigSaveSettings;
+end;
+
+procedure TMainCommands.cm_ExecuteScript(const Params: array of string);
+var
+  FileName: String;
+  Index, Count: Integer;
+  Args: array of String;
+begin
+  if Length(Params) > 0 then
+  begin
+    // Get script file name
+    FileName:= PrepareParameter(Params[0]);
+    if not mbFileExists(FileName) then Exit;
+
+    // Get script arguments
+    Count:= Length(Params) - 1;
+    if (Count > 0) then
+    begin
+      SetLength(Args, Count);
+      for Index := 1 to Count do begin
+        Args[Index - 1]:= PrepareParameter(Params[Index]);
+      end;
+    end;
+
+    // Execute script
+    ExecuteScript(FileName, Args);
+  end;
 end;
 
 end.
