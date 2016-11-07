@@ -13,8 +13,9 @@ uses
 
 function GetArchiveFileSource(SourceFileSource: IFileSource;
                               ArchiveFile: TFile;
-                              ArchiveType: String = '';
-                              ArchiveSign: Boolean = False): IArchiveFileSource;
+                              ArchiveType: String;
+                              ArchiveSign: Boolean;
+                              IncludeHidden: Boolean): IArchiveFileSource;
 
 procedure TestArchive(aFileView: TFileView; aFiles: TFiles);
 
@@ -43,7 +44,8 @@ uses
 function GetArchiveFileSourceDirect(SourceFileSource: IFileSource;
                                     ArchiveFileName: String;
                                     ArchiveType: String;
-                                    ArchiveSign: Boolean = False): IArchiveFileSource;
+                                    ArchiveSign: Boolean;
+                                    IncludeHidden: Boolean): IArchiveFileSource;
 begin
   if not (fspDirectAccess in SourceFileSource.Properties) then
     Exit(nil);
@@ -61,7 +63,7 @@ begin
       if ArchiveSign then
         Result := TWcxArchiveFileSource.CreateByArchiveSign(SourceFileSource, ArchiveFileName)
       else
-        Result := TWcxArchiveFileSource.CreateByArchiveType(SourceFileSource, ArchiveFileName, ArchiveType);
+        Result := TWcxArchiveFileSource.CreateByArchiveType(SourceFileSource, ArchiveFileName, ArchiveType, IncludeHidden);
     end;
     // Check if there is a registered MultiArc addon for possible archive.
     if not Assigned(Result) then
@@ -86,8 +88,9 @@ end;
 
 function GetArchiveFileSource(SourceFileSource: IFileSource;
                               ArchiveFile: TFile;
-                              ArchiveType: String = '';
-                              ArchiveSign: Boolean = False): IArchiveFileSource;
+                              ArchiveType: String;
+                              ArchiveSign: Boolean;
+                              IncludeHidden: Boolean): IArchiveFileSource;
 var
   TempFS: ITempFileSystemFileSource = nil;
   Operation: TFileSourceOperation = nil;
@@ -96,7 +99,7 @@ var
 begin
   if fspDirectAccess in SourceFileSource.Properties then
   begin
-    Result := GetArchiveFileSourceDirect(SourceFileSource, ArchiveFile.FullPath, ArchiveType, ArchiveSign);
+    Result := GetArchiveFileSourceDirect(SourceFileSource, ArchiveFile.FullPath, ArchiveType, ArchiveSign, IncludeHidden);
     Exit;
   end;
 
@@ -113,7 +116,7 @@ begin
         TempFS.DeleteOnDestroy := False;
         // The files on temp file source are valid as long as source FileSource is valid.
         TempFS.ParentFileSource := SourceFileSource;
-        Result := GetArchiveFileSourceDirect(TempFS, LocalArchiveFile.FullPath, ArchiveType, ArchiveSign);
+        Result := GetArchiveFileSourceDirect(TempFS, LocalArchiveFile.FullPath, ArchiveType, ArchiveSign, IncludeHidden);
         // If not successful will try to get files through CopyOut below.
       end;
     finally
@@ -159,7 +162,8 @@ begin
                       TempFS,
                       IncludeTrailingPathDelimiter(TempFS.FilesystemRoot) + ArchiveFile.Name,
                       ArchiveType,
-                      ArchiveSign);
+                      ArchiveSign,
+                      IncludeHidden);
         end;
       end;
 
@@ -207,7 +211,7 @@ begin
           for I := 0 to aFiles.Count - 1 do // test all selected archives
             try
               // Check if there is a ArchiveFileSource for possible archive.
-              ArchiveFileSource := GetArchiveFileSource(aFileView.FileSource, aFiles[i]);
+              ArchiveFileSource := GetArchiveFileSource(aFileView.FileSource, aFiles[i], EmptyStr, False, True);
 
               if Assigned(ArchiveFileSource) then
                 begin

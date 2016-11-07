@@ -3,7 +3,6 @@ inherited frmPackDlg: TfrmPackDlg
   Height = 272
   Width = 540
   HelpContext = 150
-  ActiveControl = edtPackCmd
   AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -15,7 +14,7 @@ inherited frmPackDlg: TfrmPackDlg
   Constraints.MinHeight = 236
   Constraints.MinWidth = 482
   OnShow = FormShow
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   inherited pnlContent: TPanel
     Height = 179
     Width = 532
@@ -221,7 +220,7 @@ inherited frmPackDlg: TfrmPackDlg
     AnchorSideTop.Control = DividerBevel
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Top = 214
+    Top = 212
     Width = 524
     Align = alNone
     Anchors = [akTop, akLeft, akRight]

@@ -230,7 +230,7 @@ var
 begin
   try
     // Check if there is a ArchiveFileSource for possible archive.
-    FileSource := GetArchiveFileSource(aFileSource, aFile, EmptyStr, bForce);
+    FileSource := GetArchiveFileSource(aFileSource, aFile, EmptyStr, bForce, False);
   except
     on E: Exception do
     begin

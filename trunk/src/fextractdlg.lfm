@@ -20,7 +20,7 @@ inherited frmExtractDlg: TfrmExtractDlg
   ClientWidth = 516
   Constraints.MinWidth = 500
   OnCreate = FormCreate
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   SessionProperties = 'cbOverwrite.Checked'
   inherited pnlContent: TPanel
     Left = 6

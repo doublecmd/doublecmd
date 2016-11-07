@@ -79,7 +79,8 @@ type
   end;
 
   // Frees 'Files'.
-  function ShowPackDlg(const SourceFileSource: IFileSource;
+  function ShowPackDlg(TheOwner: TComponent;
+                       const SourceFileSource: IFileSource;
                        const TargetFileSource: IArchiveFileSource;
                        var Files: TFiles;
                        TargetArchivePath: String;
@@ -96,7 +97,8 @@ uses
   uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation, uMasks,
   DCStrUtils;
 
-function ShowPackDlg(const SourceFileSource: IFileSource;
+function ShowPackDlg(TheOwner: TComponent;
+                     const SourceFileSource: IFileSource;
                      const TargetFileSource: IArchiveFileSource;
                      var Files: TFiles;
                      TargetArchivePath: String;
@@ -181,7 +183,7 @@ var
 var
   QueueId: TOperationsManagerQueueIdentifier;
 begin
-  PackDialog := TfrmPackDlg.Create(nil);
+  PackDialog := TfrmPackDlg.Create(TheOwner);
 {$IF DEFINED(LCLGTK2)}
   // TRadioGroup.ItemIndex:= -1 will not work under Gtk2
   // if items have been added dynamically, this workaround fixes it
@@ -258,7 +260,7 @@ begin
                         // Check if there is an ArchiveFileSource for possible archive.
                         aFile := SourceFileSource.CreateFileObject(ExtractFilePath(edtPackCmd.Text));
                         aFile.Name := Files[I].Name + FTarExt + FArchiveExt;
-                        NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType);
+                        NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
                       except
                         on e: EFileSourceException do
                           begin
@@ -283,7 +285,7 @@ begin
                     // Check if there is an ArchiveFileSource for possible archive.
                     aFile := SourceFileSource.CreateFileObject(ExtractFilePath(edtPackCmd.Text));
                     aFile.Name := ExtractFileName(edtPackCmd.Text);
-                    NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType);
+                    NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
                   except
                     on e: EFileSourceException do
                       begin
@@ -368,7 +370,7 @@ var
   WcxFileSource: IWcxArchiveFileSource;
 begin
   try
-    WcxFileSource := TWcxArchiveFileSource.CreateByArchiveName(FSourceFileSource, edtPackCmd.Text);
+    WcxFileSource := TWcxArchiveFileSource.CreateByArchiveName(FSourceFileSource, edtPackCmd.Text, True);
     if Assigned(WcxFileSource) then // WCX plugin
       try
         WcxFileSource.WcxModule.VFSConfigure(Handle);
