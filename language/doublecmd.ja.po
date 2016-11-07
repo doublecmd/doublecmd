@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-06-16 06:35+0900\n"
+"PO-Revision-Date: 2016-11-07 20:10+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: 日本語\n"
 "Language: ja\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -81,7 +81,7 @@ msgstr "スペースを確保(&R)"
 
 #: tfilesystemcopymoveoperationoptionsui.chkverify.caption
 msgid "&Verify"
-msgstr ""
+msgstr "確認（&V）"
 
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgid "What to do when cannot set file time, attributes, etc."
@@ -1100,13 +1100,13 @@ msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmeditsearchreplace.btncancel.caption
-msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
+#: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
+msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
 msgstr "キャンセル(&C)"
 
-#: tfrmeditsearchreplace.btnok.caption
-msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
+#: tfrmeditsearchreplace.buttonpanel.okbutton.caption
+msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "OK(&O)"
 
@@ -1333,11 +1333,6 @@ msgstr "ファイル名"
 msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
 msgid "???"
 msgstr "???"
-
-#: tfrmfileproperties.lblfilenamestr.caption
-msgctxt "TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION"
-msgid "Name:"
-msgstr "名前："
 
 #: tfrmfileproperties.lblfilestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILESTR.CAPTION"
@@ -2037,7 +2032,7 @@ msgstr "フォルダー タブの構成"
 
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
-msgstr ""
+msgstr "設定を保存する"
 
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
@@ -2151,7 +2146,7 @@ msgstr "パネルの交換(&P)"
 
 #: tfrmmain.actexecutescript.caption
 msgid "Execute Script"
-msgstr ""
+msgstr "スクリプトを実行"
 
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
@@ -2286,15 +2281,15 @@ msgstr "同じ拡張子の項目を全て選択(&x)"
 
 #: tfrmmain.actmarkcurrentname.caption
 msgid "Select all files with same name"
-msgstr ""
+msgstr "同じ名前を持つすべてのファイルを選択"
 
 #: tfrmmain.actmarkcurrentnameext.caption
 msgid "Select all files with same name and extension"
-msgstr ""
+msgstr "同じ名前と拡張子を持つすべてのファイルを選択"
 
 #: tfrmmain.actmarkcurrentpath.caption
 msgid "Select all in same path"
-msgstr ""
+msgstr "同じパス内のすべてを選択"
 
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
@@ -2666,15 +2661,15 @@ msgstr "同じ拡張子の項目を全て選択解除(&t)"
 
 #: tfrmmain.actunmarkcurrentname.caption
 msgid "Unselect all files with same name"
-msgstr ""
+msgstr "同じ名前を持つすべてのファイルの選択を解除"
 
 #: tfrmmain.actunmarkcurrentnameext.caption
 msgid "Unselect all files with same name and extension"
-msgstr ""
+msgstr "同じ名前と拡張子を持つすべてのファイルの選択を解除"
 
 #: tfrmmain.actunmarkcurrentpath.caption
 msgid "Unselect all in same path"
-msgstr ""
+msgstr "同じパス内のすべての選択を解除"
 
 #: tfrmmain.actview.caption
 msgctxt "tfrmmain.actview.caption"
@@ -3020,7 +3015,6 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmain.miline55.caption
-#, fuzzy
 msgctxt "tfrmmain.miline55.caption"
 msgid "-"
 msgstr "-"
@@ -3410,7 +3404,7 @@ msgstr "幅"
 
 #: tfrmmsg.lblmsg.caption
 msgid "456456465465465"
-msgstr ""
+msgstr "456456465465465"
 
 #: tfrmmultirename.btnclose.caption
 msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
@@ -3423,7 +3417,6 @@ msgid "&Delete"
 msgstr "削除(&D)"
 
 #: tfrmmultirename.btnedit.caption
-#, fuzzy
 msgctxt "tfrmmultirename.btnedit.caption"
 msgid "&Edit"
 msgstr "編集(&E)"
@@ -3649,11 +3642,11 @@ msgstr "[YYYY] 年(4桁）"
 
 #: tfrmmultirename.mnueditnames.caption
 msgid "Edit names..."
-msgstr ""
+msgstr "名前を編集…"
 
 #: tfrmmultirename.mnuloadfromfile.caption
 msgid "Load names from file..."
-msgstr ""
+msgstr "名前をファイルからロード…"
 
 #: tfrmmultirename.n1.caption
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
@@ -3696,14 +3689,13 @@ msgid "File Path"
 msgstr "ファイルのパス"
 
 #: tfrmmultirenamewait.caption
-#, fuzzy
 msgctxt "tfrmmultirenamewait.caption"
 msgid "Double Commander"
 msgstr "ダブル・コマンダー"
 
 #: tfrmmultirenamewait.lblmessage.caption
 msgid "Click OK when you have closed the editor to load the changed names!"
-msgstr ""
+msgstr "エディタを閉じたとき変更した名前をロードするには、OKをクリック！"
 
 #: tfrmopenwith.caption
 msgid "Choose an application"
@@ -6153,7 +6145,7 @@ msgstr "16x16"
 
 #: tfrmoptionsicons.cbiconsonbuttons.caption
 msgid "Show icons on buttons"
-msgstr ""
+msgstr "ボタン上にアイコンを表示"
 
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
@@ -6175,7 +6167,7 @@ msgstr "メニューでアイコンの表示"
 
 #: tfrmoptionsicons.gbiconsonbuttons.caption
 msgid "Icons on buttons"
-msgstr ""
+msgstr "ボタン上のアイコン"
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
@@ -6834,19 +6826,16 @@ msgid "Default position in menu when saving a new Favorite Tabs:"
 msgstr "新しいお気に入りタブを保存する際のメニュー中のデフォルトの位置："
 
 #: tfrmoptionsterminal.edrunintermcloseparams.hint
-#, fuzzy
 msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "端末中で実行されるコマンドを反映するため、通常 {command} がこの位置になくてはなりません"
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
-#, fuzzy
 msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "端末中で実行されるコマンドを反映するため、通常 {command} がこの位置になくてはなりません"
 
 #: tfrmoptionsterminal.edruntermparams.hint
-#, fuzzy
 msgctxt "tfrmoptionsterminal.edruntermparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
 msgstr "端末中で実行されるコマンドを反映するため、通常 {command} がこの位置になくてはなりません"
@@ -9237,16 +9226,12 @@ msgid "&Continue"
 msgstr "継続(&C)"
 
 #: ulng.rsdlgbuttoncopyinto
-#, fuzzy
-#| msgid "Copy &Into"
 msgid "&Merge"
-msgstr "この中へコピー(&I)"
+msgstr "マージ(&M)"
 
 #: ulng.rsdlgbuttoncopyintoall
-#, fuzzy
-#| msgid "Copy Into &All"
 msgid "Mer&ge All"
-msgstr "全てコピー(&A)"
+msgstr "全てマージ(&g)"
 
 #: ulng.rsdlgbuttonexitprogram
 msgid "E&xit program"
@@ -9254,7 +9239,7 @@ msgstr "プログラムの終了(&x)"
 
 #: ulng.rsdlgbuttonignore
 msgid "Ig&nore"
-msgstr ""
+msgstr "無視（&n）"
 
 #: ulng.rsdlgbuttonignoreall
 msgid "I&gnore All"
@@ -9356,7 +9341,7 @@ msgstr "スピード %s/s、残り時間 %s"
 
 #: ulng.rsdraganddroptextformat
 msgid "Rich Text Format;HTML Format;Unicode Format;Simple Text Format"
-msgstr ""
+msgstr "リッチテキストフォーマット;HTMLフォーマット;Unicodeフォーマット;テキストフォーマット"
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
@@ -9446,10 +9431,8 @@ msgstr "DCからエクスポート済み"
 
 # どの文脈か不明
 #: ulng.rsfileopdirectoryexistsoptions
-#, fuzzy
-#| msgid "Ask;Overwrite;Copy into;Skip"
 msgid "Ask;Merge;Skip"
-msgstr "尋ねる;上書き;コピー;スキップ"
+msgstr "尋ねる;マージ;スキップ"
 
 # どの文脈か不明
 #: ulng.rsfileopfileexistsoptions
@@ -9690,7 +9673,7 @@ msgstr "アクション"
 
 #: ulng.rsmnucopynetnamestoclip
 msgid "Copy names with UNC path"
-msgstr ""
+msgstr "UNCパスで名前をコピー"
 
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
@@ -9788,7 +9771,7 @@ msgstr "ディレクトリ＜%s＞を削除できません。"
 
 #: ulng.rsmsgcannotoverwritedirectory
 msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
-msgstr ""
+msgstr "ディレクトリ<%s>をディレクトリでない<%s>で上書きすることはできません"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -10104,6 +10087,9 @@ msgid ""
 "%s\n"
 "Most programs will not be able to access a file/directory with such a long name!\n"
 msgstr ""
+"ターゲット名の長さ (%d) は %d 文字以上です!\n"
+"%s\n"
+"ほとんどのプログラムはこのような長い名前のファイル/ディレクトリにアクセスすることができますされません!\n"
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
@@ -10114,10 +10100,8 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "ファイル＜%s＞のサイズは、送り先のファイルシステムには大きすぎます！"
 
 #: ulng.rsmsgfolderexistsrwrt
-#, fuzzy
-#| msgid "Folder %s exists, overwrite?"
 msgid "Folder %s exists, merge?"
-msgstr "ディレクトリ＜%s＞が存在します。上書きしますか？"
+msgstr "フォルダ＜%s＞が存在します。マージしますか？"
 
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
@@ -10805,7 +10789,7 @@ msgstr "変更無し;大文字;小文字;最初だけ大文字;各単語の頭�
 
 #: ulng.rsmulrenwronglinesnumber
 msgid "File contains wrong number of lines: %d, should be %d!"
-msgstr ""
+msgstr "ファイルに含まれる行数が正しくありません：%dは%dでなくてはなりません！"
 
 #: ulng.rsoperaborted
 msgid "Aborted"
@@ -11288,7 +11272,6 @@ msgid "File associations"
 msgstr "ファイルの関連づけ"
 
 #: ulng.rsoptionseditorfilenewfiletypes
-#, fuzzy
 msgctxt "ulng.rsoptionseditorfilenewfiletypes"
 msgid "New"
 msgstr "新規"
@@ -11379,6 +11362,9 @@ msgid ""
 "\n"
 "Do you want to save modifications?\n"
 msgstr ""
+"“%s” でオプションが変更されました。\n"
+"\n"
+"変更を保存しますか？\n"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -11644,7 +11630,7 @@ msgstr "パーツの数が100を超えます！続けますか？"
 
 #: ulng.rssplitpredefinedsizes
 msgid "Automatic;1457664B - 3.5\" High Density 1.44M;1213952B - 5.25\" High Density 1.2M;730112B - 3.5\" Double Density 720K;362496B - 5.25\" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
-msgstr ""
+msgstr "自動;1457664B - 3.5”高密度1.44M;1213952B - 5.25”高密度1.2M;730112B - 3.5”倍密度720K;362496B - 5.25”倍密度360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
@@ -11652,11 +11638,11 @@ msgstr "ディレクトリを選択："
 
 #: ulng.rsstraccents
 msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
-msgstr ""
+msgstr "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;#195;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
 
 #: ulng.rsstraccentsstripped
 msgid "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
-msgstr ""
+msgstr "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
@@ -11668,7 +11654,7 @@ msgstr "その他"
 
 #: ulng.rsstrpreviewsearchingletters
 msgid "OU"
-msgstr ""
+msgstr "OU"
 
 #: ulng.rsstrpreviewsidenote
 msgid "Side note"
@@ -12027,4 +12013,3 @@ msgstr "置換の回数：%d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "置換は起こりませんでした。"
-
