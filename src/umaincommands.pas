@@ -1236,7 +1236,8 @@ begin
         else begin
           TargetPath:= NotActiveFrame.CurrentPath;
         end;
-        ShowPackDlg(ActiveFrame.FileSource,
+        ShowPackDlg(frmMain,
+                    ActiveFrame.FileSource,
                     nil, // No specific target (create new)
                     SelectedFiles,
                     TargetPath,
@@ -1275,7 +1276,7 @@ begin
           TargetPath:= NotActiveFrame.CurrentPath;
           TargetFileSource:= NotActiveFrame.FileSource;
         end;
-        ShowExtractDlg(ActiveFrame.FileSource, SelectedFiles,
+        ShowExtractDlg(frmMain, ActiveFrame.FileSource, SelectedFiles,
                        TargetFileSource, TargetPath);
       end;
     finally

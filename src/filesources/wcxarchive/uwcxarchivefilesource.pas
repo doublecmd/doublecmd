@@ -110,9 +110,11 @@ type
                                        anArchiveFileName: String): IWcxArchiveFileSource;
     class function CreateByArchiveType(anArchiveFileSource: IFileSource;
                                        anArchiveFileName: String;
-                                       anArchiveType: String): IWcxArchiveFileSource;
+                                       anArchiveType: String;
+                                       bIncludeHidden: Boolean = False): IWcxArchiveFileSource;
     class function CreateByArchiveName(anArchiveFileSource: IFileSource;
-                                       anArchiveFileName: String): IWcxArchiveFileSource;
+                                       anArchiveFileName: String;
+                                       bIncludeHidden: Boolean = False): IWcxArchiveFileSource;
     {en
        Returns @true if there is a plugin registered for the archive type
        (only extension is checked).
@@ -343,9 +345,8 @@ begin
 end;
 
 class function TWcxArchiveFileSource.CreateByArchiveType(
-    anArchiveFileSource: IFileSource;
-    anArchiveFileName: String;
-    anArchiveType: String): IWcxArchiveFileSource;
+  anArchiveFileSource: IFileSource; anArchiveFileName: String;
+  anArchiveType: String; bIncludeHidden: Boolean): IWcxArchiveFileSource;
 var
   i: Integer;
   ModuleFileName: String;
@@ -356,7 +357,7 @@ begin
   for i := 0 to gWCXPlugins.Count - 1 do
   begin
     if SameText(anArchiveType, gWCXPlugins.Ext[i]) and (gWCXPlugins.Enabled[i]) and
-       ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) <> PK_CAPS_HIDE) then
+       ((bIncludeHidden) or ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) <> PK_CAPS_HIDE)) then
     begin
       ModuleFileName := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
 
@@ -372,11 +373,12 @@ begin
 end;
 
 class function TWcxArchiveFileSource.CreateByArchiveName(
-    anArchiveFileSource: IFileSource;
-    anArchiveFileName: String): IWcxArchiveFileSource;
+  anArchiveFileSource: IFileSource; anArchiveFileName: String;
+  bIncludeHidden: Boolean): IWcxArchiveFileSource;
 begin
   Result:= CreateByArchiveType(anArchiveFileSource, anArchiveFileName,
-                               ExtractOnlyFileExt(anArchiveFileName));
+                               ExtractOnlyFileExt(anArchiveFileName),
+                               bIncludeHidden);
 end;
 
 class function TWcxArchiveFileSource.CheckPluginByExt(anArchiveType: String): Boolean;

@@ -884,7 +884,7 @@ begin
       TargetFile:= PathDelim + ExtractWord(2, TargetFile, [ReversePathDelim]);
       AFile:= TFileSystemFileSource.CreateFileFromFile(ArchiveFile);
       try
-        FileSource:= GetArchiveFileSource(TFileSystemFileSource.GetFileSource, AFile);
+        FileSource:= GetArchiveFileSource(TFileSystemFileSource.GetFileSource, AFile, EmptyStr, False, False);
       finally
         AFile.Free;
       end;

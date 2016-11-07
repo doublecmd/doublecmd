@@ -62,7 +62,7 @@ type
   end;
 
 // Frees 'SourceFiles'.
-procedure ShowExtractDlg(SourceFileSource: IFileSource; var SourceFiles: TFiles;
+procedure ShowExtractDlg(TheOwner: TComponent; SourceFileSource: IFileSource; var SourceFiles: TFiles;
                          TargetFileSource: IFileSource; sDestPath: String);
 
 implementation
@@ -92,7 +92,7 @@ begin
     Result := IncludeTrailingPathDelimiter(TargetPath);
 end;
 
-procedure ShowExtractDlg(SourceFileSource: IFileSource; var SourceFiles: TFiles;
+procedure ShowExtractDlg(TheOwner: TComponent; SourceFileSource: IFileSource; var SourceFiles: TFiles;
                          TargetFileSource: IFileSource; sDestPath: String);
 var
   Result: Boolean;
@@ -108,7 +108,7 @@ begin
     Exit;
   end;
 
-  extractDialog := TfrmExtractDlg.Create(nil);
+  extractDialog := TfrmExtractDlg.Create(TheOwner);
   if Assigned(extractDialog) then
     try
       with extractDialog do
@@ -173,7 +173,7 @@ begin
             begin
               try
                 // Check if there is a ArchiveFileSource for possible archive.
-                ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i]);
+                ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i], EmptyStr, False, True);
 
                 // Extract current item
                 ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath, QueueId);

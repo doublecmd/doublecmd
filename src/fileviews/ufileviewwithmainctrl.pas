@@ -348,7 +348,7 @@ begin
           end
           else if FileIsArchive(AFile.FSFile.FullPath) then
             begin
-              TargetFileSource:= GetArchiveFileSource(FileSource, AFile.FSFile);
+              TargetFileSource:= GetArchiveFileSource(FileSource, AFile.FSFile, EmptyStr, False, False);
               if Assigned(TargetFileSource) then TargetPath:= TargetFileSource.GetRootDir;
             end;
         end;
