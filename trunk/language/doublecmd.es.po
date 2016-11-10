@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-11-01 06:45+0100\n"
+"PO-Revision-Date: 2016-11-07 03:03+0100\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -2104,7 +2104,7 @@ msgstr "Intercambiar paneles"
 
 #: tfrmmain.actexecutescript.caption
 msgid "Execute Script"
-msgstr ""
+msgstr "Ejecutar script"
 
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
@@ -5533,7 +5533,7 @@ msgstr "&Procesar comentarios con archivos/carpetas"
 
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
 msgid "Select &file name without extension when renaming"
-msgstr "Seleccionar al &renombrar el nombre del archivo sin la extensión"
+msgstr "Seleccionar al &renombrar solo el nombre del archivo, sin la extensión"
 
 #: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
 msgid "Sho&w tab select panel in copy/move dialog"
@@ -6478,7 +6478,7 @@ msgstr "Buscar por estos elementos"
 
 #: tfrmoptionstabs.cbkeeprenamednamebacktonormal.caption
 msgid "Keep renamed name when unlocking a tab"
-msgstr "Mantener el renombrado cuando desbloquees una pestaña"
+msgstr "Mantener el renombrado cuando se desbloquee una pestaña"
 
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgid "Activate target &panel when clicking on one of its Tabs"
@@ -6490,15 +6490,15 @@ msgstr "Mo&strar pestañas también cuando haya una sola"
 
 #: tfrmoptionstabs.cbtabscloseduplicatewhenclosing.caption
 msgid "Close duplicate tabs when closing application"
-msgstr "Cerrar las pestañas duplicadas cuando cierres la aplicación"
+msgstr "Cerrar las pestañas duplicadas cuando se cierre la aplicación"
 
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
 msgid "Con&firm close all tabs"
-msgstr "Con&firmar cerrar todas las pestañas"
+msgstr "Con&firmación para cerrar todas las pestañas"
 
 #: tfrmoptionstabs.cbtabsconfirmcloselocked.caption
 msgid "Confirm close locked tabs"
-msgstr "Confirmar cerrar las pestañas &bloqueadas"
+msgstr "Confirmación para cerrar las pestañas &bloqueadas"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 msgid "&Limit tab title length to"
