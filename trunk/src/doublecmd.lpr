@@ -28,6 +28,9 @@ uses
   {$IFDEF LCLGTK2}
   uGtk2FixCursorPos,
   {$ENDIF}
+  {$IFDEF LCLWIN32}
+  uDClass,
+  {$ENDIF}
   LCLProc,
   Classes,
   SysUtils,
