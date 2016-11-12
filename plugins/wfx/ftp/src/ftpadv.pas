@@ -441,6 +441,8 @@ begin
     ConvertFromUtf8:= @UTF8ToKOI8;
   end;
 
+  // Move mostly used UNIX format to first
+  FFtpList.Masks.Exchange(0, 2);
   // Windows CE 5.1 (insert before BullGCOS7)
   FFtpList.Masks.Insert(35, 'MM DD YY  hh mm !S* n*');
   FFtpList.Masks.Insert(36, 'MM DD YY  hh mm $ d!n*');
