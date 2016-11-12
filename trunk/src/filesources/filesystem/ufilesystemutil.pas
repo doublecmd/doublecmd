@@ -96,7 +96,7 @@ type
     function CheckFileHash(const FileName, Hash: String; Size: Int64): Boolean;
     function CopyFile(SourceFile: TFile; TargetFileName: String; Mode: TFileSystemOperationHelperCopyMode): Boolean;
     function MoveFile(SourceFile: TFile; TargetFileName: String; Mode: TFileSystemOperationHelperCopyMode): Boolean;
-    procedure CopyProperties(SourceFileName, TargetFileName: String);
+    procedure CopyProperties(SourceFile: TFile; TargetFileName: String);
 
     function ProcessNode(aFileTreeNode: TFileTreeNode; CurrentTargetPath: String): Boolean;
     function ProcessDirectory(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
@@ -746,17 +746,33 @@ begin
     end;
   end;
 
-  if Result then CopyProperties(SourceFile.FullPath, TargetFileName);
+  if Result then CopyProperties(SourceFile, TargetFileName);
 end;
 
-procedure TFileSystemOperationHelper.CopyProperties(SourceFileName, TargetFileName: String);
+procedure TFileSystemOperationHelper.CopyProperties(SourceFile: TFile;
+  TargetFileName: String);
 var
-  CopyAttrResult: TCopyAttributesOptions;
   Msg: String = '';
+  ACopyTime: Boolean;
+  CopyAttrResult: TCopyAttributesOptions;
+  ACopyAttributesOptions: TCopyAttributesOptions;
 begin
   if FCopyAttributesOptions <> [] then
   begin
-    CopyAttrResult := mbFileCopyAttr(SourceFileName, TargetFileName, FCopyAttributesOptions);
+    ACopyAttributesOptions := FCopyAttributesOptions;
+    ACopyTime := (FMode = fsohmMove) and (caoCopyTime in ACopyAttributesOptions);
+    if ACopyTime then ACopyAttributesOptions -= [caoCopyTime];
+    if ACopyAttributesOptions <> [] then begin
+      CopyAttrResult := mbFileCopyAttr(SourceFile.FullPath, TargetFileName, ACopyAttributesOptions);
+    end;
+    if ACopyTime then
+    begin
+      // Copy time from properties because move operation change time of original folder
+      if not mbFileSetTime(TargetFileName, DateTimeToFileTime(SourceFile.ModificationTime),
+                                           DateTimeToFileTime(SourceFile.CreationTime),
+                                           DateTimeToFileTime(SourceFile.LastAccessTime)) then
+        CopyAttrResult += [caoCopyTime];
+    end;
     if CopyAttrResult <> [] then
     begin
       case FSetPropertyError of
@@ -766,13 +782,13 @@ begin
         fsoospeNone:
           begin
             if caoCopyAttributes in CopyAttrResult then
-              AddStrWithSep(Msg, Format(rsMsgErrSetAttribute, [SourceFileName]), LineEnding);
+              AddStrWithSep(Msg, Format(rsMsgErrSetAttribute, [SourceFile.FullPath]), LineEnding);
             if caoCopyTime in CopyAttrResult then
-              AddStrWithSep(Msg, Format(rsMsgErrSetDateTime, [SourceFileName]), LineEnding);
+              AddStrWithSep(Msg, Format(rsMsgErrSetDateTime, [SourceFile.FullPath]), LineEnding);
             if caoCopyOwnership in CopyAttrResult then
-              AddStrWithSep(Msg, Format(rsMsgErrSetOwnership, [SourceFileName]), LineEnding);
+              AddStrWithSep(Msg, Format(rsMsgErrSetOwnership, [SourceFile.FullPath]), LineEnding);
             if caoCopyPermissions in CopyAttrResult then
-              AddStrWithSep(Msg, Format(rsMsgErrSetPermissions, [SourceFileName]), LineEnding);
+              AddStrWithSep(Msg, Format(rsMsgErrSetPermissions, [SourceFile.FullPath]), LineEnding);
 
             case AskQuestion(Msg, '',
                              [fsourSkip, fsourSkipAll, fsourIgnoreAll, fsourAbort],
@@ -977,7 +993,7 @@ begin
             // Copy/Move all files inside.
             Result := ProcessNode(aNode, IncludeTrailingPathDelimiter(AbsoluteTargetFileName));
             // Copy attributes after copy/move directory contents, because this operation can change date/time
-            CopyProperties(aNode.TheFile.FullPath, AbsoluteTargetFileName);
+            CopyProperties(aNode.TheFile, AbsoluteTargetFileName);
           end
           else
           begin
@@ -1057,7 +1073,7 @@ begin
 
             if CreateSymlink(LinkTarget, AbsoluteTargetFileName) then
             begin
-              CopyProperties(aFile.FullPath, AbsoluteTargetFileName);
+              CopyProperties(aFile, AbsoluteTargetFileName);
             end
             else
             begin
