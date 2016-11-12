@@ -53,6 +53,7 @@ type
     FOnActivate: TNotifyEvent;
     FCurrentTitle: String;
     FPermanentTitle: String;
+    FBackupViewClass: TFileViewClass;
 
     procedure AssignPage(OtherPage: TFileViewPage);
     procedure AssignProperties(OtherPage: TFileViewPage);
@@ -100,7 +101,7 @@ type
     property PermanentTitle: String read FPermanentTitle write SetPermanentTitle;
     property CurrentTitle: String read FCurrentTitle;
     property OnActivate: TNotifyEvent read FOnActivate write FOnActivate;
-
+    property BackupViewClass: TFileViewClass read FBackupViewClass write FBackupViewClass;
   end;
 
   { TFileViewNotebook }
@@ -176,6 +177,7 @@ uses
   LazUTF8,
   DCStrUtils,
   uGlobs,
+  uColumnsFileView,
   uArchiveFileSource
   {$IF DEFINED(LCLGTK2)}
   , Glib2, Gtk2
@@ -208,6 +210,7 @@ end;
 constructor TFileViewPage.Create(TheOwner: TComponent);
 begin
   FLockState := tlsNormal;
+  FBackupViewClass := TColumnsFileView;
   {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
   FSettingCaption := False;
   {$ENDIF}

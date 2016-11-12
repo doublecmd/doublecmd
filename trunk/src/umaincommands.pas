@@ -1921,26 +1921,21 @@ begin
   end;
 end;
 
-var
-  // Static variables
-  BackupLeftFileViewClass: TFileViewClass = TColumnsFileView;
-  BackupRightFileViewClass: TFileViewClass = TColumnsFileView;
-
-procedure ToggleOrNotToOrFromThumbnailsView(WorkingFileView:TFileView; WorkingFileViewClass:TFileViewClass; WorkingNotebook:TFileViewNotebook);
+procedure ToggleOrNotToOrFromThumbnailsView(WorkingFileView: TFileView; WorkingNotebook: TFileViewNotebook);
 var
   aFileView: TFileView;
 begin
   if WorkingFileView.ClassType <> TThumbFileView then
   begin
     // Save current file view type
-    WorkingFileViewClass:=TFileViewClass(WorkingFileView.ClassType);
+    WorkingNotebook.ActivePage.BackupViewClass := TFileViewClass(WorkingFileView.ClassType);
     // Create thumbnails view
     aFileView:= TThumbFileView.Create(WorkingNotebook.ActivePage, WorkingFileView);
   end
   else
   begin
     // Restore previous file view type
-    aFileView:= WorkingFileViewClass.Create(WorkingNotebook.ActivePage, WorkingFileView);
+    aFileView:= WorkingNotebook.ActivePage.BackupViewClass.Create(WorkingNotebook.ActivePage, WorkingFileView);
   end;
   WorkingNotebook.ActivePage.FileView:= aFileView;
 end;
@@ -1948,21 +1943,21 @@ end;
 procedure TMainCommands.cm_ThumbnailsView(const Params: array of string);
 begin
   case frmMain.SelectedPanel of
-    fpLeft: ToggleOrNotToOrFromThumbnailsView(frmMain.FrameLeft, BackupLeftFileViewClass,frmMain.LeftTabs);
-    fpRight: ToggleOrNotToOrFromThumbnailsView(frmMain.FrameRight, BackupRightFileViewClass,frmMain.RightTabs);
+    fpLeft: ToggleOrNotToOrFromThumbnailsView(frmMain.FrameLeft, frmMain.LeftTabs);
+    fpRight: ToggleOrNotToOrFromThumbnailsView(frmMain.FrameRight, frmMain.RightTabs);
   end;
   frmMain.ActiveFrame.SetFocus;
 end;
 
 procedure TMainCommands.cm_LeftThumbView(const Params: array of string);
 begin
-  ToggleOrNotToOrFromThumbnailsView(frmMain.FrameLeft, BackupLeftFileViewClass,frmMain.LeftTabs);
+  ToggleOrNotToOrFromThumbnailsView(frmMain.FrameLeft, frmMain.LeftTabs);
   frmMain.ActiveFrame.SetFocus;
 end;
 
 procedure TMainCommands.cm_RightThumbView(const Params: array of string);
 begin
-  ToggleOrNotToOrFromThumbnailsView(frmMain.FrameRight, BackupRightFileViewClass,frmMain.RightTabs);
+  ToggleOrNotToOrFromThumbnailsView(frmMain.FrameRight, frmMain.RightTabs);
   frmMain.ActiveFrame.SetFocus;
 end;
 
