@@ -1236,6 +1236,7 @@ begin
   MainDrawGrid.Font.Bold := True;
   FSortIndex := -1;
   SortIndex := 0;
+  FCancel := True;
   FSortDesc := False;
   MainDrawGrid.RowCount := 0;
   chkAsymmetric.Enabled := fsoDelete in FileView2.FileSource.GetOperationsTypes;
