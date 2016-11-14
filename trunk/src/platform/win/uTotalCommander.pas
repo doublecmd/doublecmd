@@ -618,13 +618,13 @@ begin
   if RegReadKey(HKEY_LOCAL_MACHINE, 'System\CurrentControlSet\Control\Session Manager\Environment', 'Path', ASysPath) then
   begin
     APath:= ASysPath;
-    if APath[Length(APath)] <> PathSeparator then APath += PathSeparator;
+    if (Length(APath) > 0) and (APath[Length(APath)] <> PathSeparator) then APath += PathSeparator;
   end;
   // User environment
   if RegReadKey(HKEY_CURRENT_USER, 'Environment', 'Path', AUserPath) then
   begin
     APath:= APath + AUserPath;
-    if APath[Length(APath)] <> PathSeparator then APath += PathSeparator;
+    if (Length(APath) > 0) and (APath[Length(APath)] <> PathSeparator) then APath += PathSeparator;
   end;
   // Update path environment variable
   if Length(APath) > 0 then SetEnvironmentVariableW('Path', PWideChar(APath));
