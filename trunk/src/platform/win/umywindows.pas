@@ -57,6 +57,7 @@ function InsertMenuItemW(hMenu: HMENU; uItem: UINT; fByPosition: BOOL;
 function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): WideString;
 function GetMenuItemType(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UINT;
 function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWideChar; Position, ItemID,  ItemType : UINT; Bitmap:Graphics.TBitmap = nil): boolean;
+function RegReadKey(ARoot: HKEY; const APath, AName: UnicodeString; out AValue: UnicodeString): Boolean;
 {en
    Extracts volume GUID from a volume GUID path
 }
@@ -225,6 +226,21 @@ begin
       cch := SizeOf(Caption);
    end;
    Result := InsertMenuItemW(hMenu, Position, True, mi);
+end;
+
+function RegReadKey(ARoot: HKEY; const APath, AName: UnicodeString; out AValue: UnicodeString): Boolean;
+var
+  AKey: HKEY = 0;
+  dwSize: DWORD = MaxSmallint;
+begin
+  Result:= RegOpenKeyExW(ARoot, PWideChar(APath), 0, KEY_READ, AKey) = ERROR_SUCCESS;
+  if Result then
+  begin
+    SetLength(AValue, MaxSmallint);
+    Result:= RegQueryValueExW(AKey, PWideChar(AName), nil, nil, PByte(AValue), @dwSize) = ERROR_SUCCESS;
+    if Result then SetLength(AValue, dwSize div SizeOf(WideChar));
+    RegCloseKey(AKey);
+  end;
 end;
 
 function DisplayName(const wsDrv: WideString): WideString;

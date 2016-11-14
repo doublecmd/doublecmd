@@ -79,7 +79,7 @@ uses
   //DC
   uFileProcs, uOSUtils, fOptionsMisc, uKASToolItemsExtended,
   DCClassesUtf8, DCOSUtils, uDebug, DCStrUtils, uPixMapManager, uShowMsg,
-  uDCUtils, uLng, uGlobs, uGlobsPaths, DCConvertEncoding;
+  uDCUtils, uLng, uGlobs, uGlobsPaths, DCConvertEncoding, uMyWindows;
 type
   { TTCommandEquivalence }
   TTCommandEquivalence = record
@@ -608,6 +608,28 @@ var
   TCNumberOfInstance: integer;
   TCListOfCreatedTCIconFilename: TStringList;
 
+procedure UpdateEnvironment;
+var
+  ASysPath: UnicodeString;
+  AUserPath: UnicodeString;
+  APath: UnicodeString = '';
+begin
+  // System environment
+  if RegReadKey(HKEY_LOCAL_MACHINE, 'System\CurrentControlSet\Control\Session Manager\Environment', 'Path', ASysPath) then
+  begin
+    APath:= ASysPath;
+    if APath[Length(APath)] <> PathSeparator then APath += PathSeparator;
+  end;
+  // User environment
+  if RegReadKey(HKEY_CURRENT_USER, 'Environment', 'Path', AUserPath) then
+  begin
+    APath:= APath + AUserPath;
+    if APath[Length(APath)] <> PathSeparator then APath += PathSeparator;
+  end;
+  // Update path environment variable
+  if Length(APath) > 0 then SetEnvironmentVariableW('Path', PWideChar(APath));
+end;
+
 { WindowProc }
 function WindowProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 begin
@@ -623,6 +645,12 @@ begin
       it stops calling OnExit events for controls (see TWinControl.WMKillFocus).
   }
   //SendMessage(hMainWindow, uiMsg, wParam, lParam);
+
+  if (uiMsg = WM_SETTINGCHANGE) and (lParam <> 0) and (StrComp('Environment', PAnsiChar(lParam)) = 0) then
+  begin
+    UpdateEnvironment;
+    DCDebug('WM_SETTINGCHANGE:Environment');
+  end;
 
   {$IF (lcl_fullversion >= 1020000)}
   if (uiMsg = WM_DEVICECHANGE) and (wParam = DBT_DEVNODES_CHANGED) and (lParam = 0) then
