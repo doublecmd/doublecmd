@@ -238,7 +238,12 @@ begin
   begin
     SetLength(AValue, MaxSmallint);
     Result:= RegQueryValueExW(AKey, PWideChar(AName), nil, nil, PByte(AValue), @dwSize) = ERROR_SUCCESS;
-    if Result then SetLength(AValue, dwSize div SizeOf(WideChar));
+    if Result then
+    begin
+      dwSize:= dwSize div SizeOf(WideChar);
+      if (dwSize > 0) and (AValue[dwSize] = #0) then Dec(dwSize);
+      SetLength(AValue, dwSize);
+    end;
     RegCloseKey(AKey);
   end;
 end;
