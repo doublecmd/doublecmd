@@ -769,7 +769,7 @@ begin
     begin
       // Copy time from properties because move operation change time of original folder
       if not mbFileSetTime(TargetFileName, DateTimeToFileTime(SourceFile.ModificationTime),
-                                           DateTimeToFileTime(SourceFile.CreationTime),
+                   {$IF DEFINED(MSWINDOWS)}DateTimeToFileTime(SourceFile.CreationTime){$ELSE}0{$ENDIF},
                                            DateTimeToFileTime(SourceFile.LastAccessTime)) then
         CopyAttrResult += [caoCopyTime];
     end;
