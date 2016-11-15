@@ -3626,7 +3626,8 @@ begin
 
   case Key of
     VK_BACK:
-      if (GetKeyTypingAction(ShiftEx) = ktaCommandLine) and (edtCommand.Text <> '') then
+      if IsCommandLineVisible and
+         (GetKeyTypingAction(ShiftEx) = ktaCommandLine) and (edtCommand.Text <> '') then
       begin
         // Delete last character.
         CmdText := edtCommand.Text;
@@ -5018,7 +5019,7 @@ end;
 procedure TfrmMain.edtCommandExit(Sender: TObject);
 begin
   // Hide command line if it was temporarily shown.
-  if (not gCmdLine) and IsCommandLineVisible then
+  if (not gCmdLine) and IsCommandLineVisible and (edtCommand.Text = '') then
   begin
     pnlCmdLine.Visible := False;
     pnlCommand.Visible := gTermWindow;
