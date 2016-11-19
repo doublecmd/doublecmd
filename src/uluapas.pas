@@ -37,6 +37,12 @@ implementation
 uses
   Forms, Dialogs, LazUTF8, DCOSUtils, fMain, uFormCommands, uOSUtils, uGlobs;
 
+function luaSleep(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 0;
+  Sleep(lua_tointeger(L, 1));
+end;
+
 function luaFileGetAttr(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 1;
@@ -90,6 +96,7 @@ end;
 procedure RegisterPackages(L: Plua_State);
 begin
   lua_newtable(L);
+    luaP_register(L, 'Sleep', @luaSleep);
     luaP_register(L, 'FileExists', @luaFileExists);
     luaP_register(L, 'FileGetAttr', @luaFileGetAttr);
     luaP_register(L, 'DirectoryExists', @luaDirectoryExists);
