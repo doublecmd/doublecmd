@@ -77,6 +77,7 @@ type
     FUnicode: Boolean;
     FSetTime: Boolean;
     FMachine: Boolean;
+    FCanAllocate: Boolean;
   private
     ConvertToUtf8: TConvertEncodingFunction;
     ConvertFromUtf8: TConvertUTF8ToEncodingFunc;
@@ -470,6 +471,7 @@ begin
         FTPCommand('OPTS UTF8 ON');
       end;
     end;
+    FCanAllocate:= (FTPCommand('ALLO') <> 500);
   end;
 end;
 
@@ -550,7 +552,7 @@ begin
     end;
     SendStream.FileSize := StorSize;
     SendStream.DoneSize := RestoreAt;
-    FTPCommand('ALLO ' + IntToStr(StorSize - RestoreAt));
+    if FCanAllocate then FTPCommand('ALLO ' + IntToStr(StorSize - RestoreAt));
     if FCanResume then
     begin
       if (FTPCommand('REST ' + IntToStr(RestoreAt)) div 100) <> 3 then
