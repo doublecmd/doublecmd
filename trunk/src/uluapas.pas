@@ -46,7 +46,7 @@ end;
 function luaFileGetAttr(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 1;
-  lua_pushinteger(L, FileGetAttr(Utf8ToSys(lua_tostring(L, 1))));
+  lua_pushinteger(L, FileGetAttr(mbFileNameToNative(lua_tostring(L, 1))));
 end;
 
 function luaFileExists(L : Plua_State) : Integer; cdecl;
