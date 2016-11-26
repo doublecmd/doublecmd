@@ -72,7 +72,7 @@ type
    //
    procedure DoOpenVirtualFileSystemList(Panel: TFileView);
    procedure DoPanelsSplitterPerPos(SplitPos: Integer);
-   procedure DoUpdateFileView(AFileView: TFileView; UserData: Pointer);
+   procedure DoUpdateFileView(AFileView: TFileView; {%H-}UserData: Pointer);
    procedure DoCloseTab(Notebook: TFileViewNotebook; PageIndex: Integer);
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; TypeOfCopy: TCopyFileNamesToClipboard);
    procedure DoNewTab(Notebook: TFileViewNotebook);
@@ -98,6 +98,7 @@ type
    procedure DoParseParametersForPossibleTreeViewMenu(const Params: array of string; gDefaultConfigWithCommand, gDefaultConfigWithDoubleClick:boolean; var bUseTreeViewMenu:boolean; var bUsePanel:boolean; var p: TPoint);
    procedure DoComputeSizeAndPosForWindowInMiddle(var iPosX:integer; var iPosY:integer; var iWidth:integer; var iHeight:integer);
    procedure DoActualMarkUnMark(const Params: array of string; bSelect: boolean);
+   procedure DoActualAddToCommandLine(const Params: array of string; sAddedString:string; bAddSpaceAtTheEnd:boolean);
 
    //---------------------
 
@@ -232,18 +233,18 @@ type
    procedure cm_LeftThumbView(const Params: array of string);
    procedure cm_RightThumbView(const Params: array of string);
    procedure cm_TreeView(const Params: array of string);
-   procedure cm_CopyNamesToClip(const Params: array of string);
-   procedure cm_FocusCmdLine(const Params: array of string);
-   procedure cm_FileAssoc(const Params: array of string);
-   procedure cm_HelpIndex(const Params: array of string);
-   procedure cm_Keyboard(const Params: array of string);
-   procedure cm_VisitHomePage(const Params: array of string);
-   procedure cm_About(const Params: array of string);
-   procedure cm_ShowSysFiles(const Params: array of string);
+   procedure cm_CopyNamesToClip(const {%H-}Params: array of string);
+   procedure cm_FocusCmdLine(const {%H-}Params: array of string);
+   procedure cm_FileAssoc(const {%H-}Params: array of string);
+   procedure cm_HelpIndex(const {%H-}Params: array of string);
+   procedure cm_Keyboard(const {%H-}Params: array of string);
+   procedure cm_VisitHomePage(const {%H-}Params: array of string);
+   procedure cm_About(const {%H-}Params: array of string);
+   procedure cm_ShowSysFiles(const {%H-}Params: array of string);
    procedure cm_SwitchIgnoreList(const Params: array of string);
    procedure cm_Options(const Params: array of string);
    procedure cm_CompareContents(const Params: array of string);
-   procedure cm_Refresh(const Params: array of string);
+   procedure cm_Refresh(const {%H-}Params: array of string);
    procedure cm_ShowMainMenu(const Params: array of string);
    procedure cm_DirHotList(const Params: array of string);
    procedure cm_ConfigDirHotList(const {%H-}Params: array of string);
@@ -915,64 +916,85 @@ end;
 //Published methods
 //------------------------------------------------------
 
-procedure TMainCommands.cm_AddPathToCmdLine(const Params: array of string);
+{ TMainCommands.DoActualAddToCommandLine }
+procedure TMainCommands.DoActualAddToCommandLine(const Params: array of string; sAddedString:string; bAddSpaceAtTheEnd:boolean);
+type
+  tQuoteMode = (tqmSmartQuote,tqmForceQuote,tqmNeverQuote);
 var
   OldPosition: Integer;
-  AddedString: String;
+  sParamValue: String;
+  QuoteMode: tQuoteMode = tqmSmartQuote;
+  DefaultButton: TMyMsgButton;
+  Answer: TMyMsgResult;
 begin
-  with frmMain do
+  if Length(Params)>0 then
+  begin
+    if GetParamValue(Params[0], 'mode', sParamValue) then
     begin
-      OldPosition := edtCommand.SelStart;
-      AddedString := QuoteStr(ActiveFrame.CurrentPath);
-      edtCommand.Text := edtCommand.Text + AddedString;
-      edtCommand.SelStart := OldPosition + Length(AddedString);
+      if sParamValue='smartquote' then QuoteMode:=tqmSmartQuote else
+        if sParamValue='forcequote' then QuoteMode:=tqmForceQuote else
+          if sParamValue='neverquote' then QuoteMode:=tqmNeverQuote else
+            if sParamValue='prompt' then
+            begin
+              if sAddedString = QuoteFilenameIfNecessary(sAddedString) then DefaultButton:=msmbNo else DefaultButton:=msmbYes;
+              Answer:=MsgBox(rsMsgAskQuoteOrNot,[msmbYes, msmbNo], DefaultButton, DefaultButton);
+              case Answer of
+                mmrYes:QuoteMode:=tqmForceQuote;
+                mmrNo:QuoteMode:=tqmNeverQuote;
+              end;
+            end;
     end;
+  end;
+
+  case QuoteMode of
+    tqmSmartQuote : sAddedString := QuoteFilenameIfNecessary(sAddedString);
+    tqmForceQuote : sAddedString := QuoteStr(sAddedString);
+    tqmNeverQuote : sAddedString := sAddedString;
+    else sAddedString := QuoteFilenameIfNecessary(sAddedString);
+  end;
+
+  if bAddSpaceAtTheEnd then sAddedString:=sAddedString+' ';
+
+  OldPosition := frmMain.edtCommand.SelStart;
+  frmMain.edtCommand.Text := frmMain.edtCommand.Text + sAddedString;
+  frmMain.edtCommand.SelStart := OldPosition + Length(sAddedString);
 end;
 
+{ TMainCommands.cm_AddPathToCmdLine }
+procedure TMainCommands.cm_AddPathToCmdLine(const Params: array of string);
+begin
+  DoActualAddToCommandLine(Params, frmMain.ActiveFrame.CurrentPath, False);
+end;
+
+{ TMainCommands.cm_AddFilenameToCmdLine }
 procedure TMainCommands.cm_AddFilenameToCmdLine(const Params: array of string);
 var
-  AddedString: String;
-  OldPosition: Integer;
   aFile: TFile;
 begin
-  with frmMain do
-    begin
-      aFile := ActiveFrame.CloneActiveFile;
-      if Assigned(aFile) then
-      try
-        OldPosition := edtCommand.SelStart;
-        AddedString := QuoteStr(aFile.Name) + ' ';
-        edtCommand.Text := edtCommand.Text + AddedString;
-        edtCommand.SelStart := OldPosition + Length(AddedString);
-      finally
-        FreeAndNil(aFile);
-      end;
-    end;
+  aFile := frmMain.ActiveFrame.CloneActiveFile;
+  if Assigned(aFile) then
+  try
+    DoActualAddToCommandLine(Params, aFile.Name, True);
+  finally
+    FreeAndNil(aFile);
+  end;
 end;
 
+{ TMainCommands.cm_AddPathAndFilenameToCmdLine }
 procedure TMainCommands.cm_AddPathAndFilenameToCmdLine(const Params: array of string);
 var
-  AddedString: String;
-  OldPosition: Integer;
   aFile: TFile;
 begin
-  with frmMain do
-    begin
-      aFile := ActiveFrame.CloneActiveFile;
-      if Assigned(aFile) then
-      try
-        if aFile.Name = '..' then
-          AddedString := QuoteStr(ActiveFrame.CurrentPath) + ' '
-        else
-          AddedString := QuoteStr(aFile.FullPath) + ' ';
-
-        OldPosition := edtCommand.SelStart;
-        edtCommand.Text := edtCommand.Text + AddedString;
-        edtCommand.SelStart := OldPosition + Length(AddedString);
-      finally
-        FreeAndNil(aFile);
-      end;
-    end;
+  aFile := frmMain.ActiveFrame.CloneActiveFile;
+  if Assigned(aFile) then
+  try
+    if aFile.Name = '..' then
+      DoActualAddToCommandLine(Params, frmMain.ActiveFrame.CurrentPath, True)
+    else
+      DoActualAddToCommandLine(Params, aFile.FullPath, True);
+  finally
+    FreeAndNil(aFile);
+  end;
 end;
 
 procedure TMainCommands.cm_ContextMenu(const Params: array of string);
@@ -2833,7 +2855,7 @@ procedure TMainCommands.DoActualMarkUnMark(const Params: array of string; bSelec
 var
   iParameter: integer;
   sWantedMask, sParamValue: string;
-  bWantedCaseSensitive, bWantedIgnoreAccents, bWantedWindowsInterpretation, bParamValue: boolean;
+  bWantedCaseSensitive, bWantedIgnoreAccents, bWantedWindowsInterpretation: boolean;
   pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation: PBoolean;
 begin
   sWantedMask := '';
