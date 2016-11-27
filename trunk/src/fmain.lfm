@@ -1678,6 +1678,30 @@ object frmMain: TfrmMain
       HelpType = htKeyword
       OnExecute = actExecute
     end
+    object actMarkCurrentPath: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Select all in same path'
+      OnExecute = actExecute
+    end
+    object actUnmarkCurrentPath: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Unselect all in same path'
+      OnExecute = actExecute
+    end
+    object actMarkCurrentName: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Select all files with same name'
+      OnExecute = actExecute
+    end
+    object actUnmarkCurrentName: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Unselect all files with same name'
+      OnExecute = actExecute
+    end
     object actMarkCurrentExtension: TAction
       Tag = 10
       Category = 'Mark'
@@ -1688,6 +1712,18 @@ object frmMain: TfrmMain
       Tag = 10
       Category = 'Mark'
       Caption = 'Unselect All with the Same Ex&tension'
+      OnExecute = actExecute
+    end
+    object actMarkCurrentNameExt: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Select all files with same name and extension'
+      OnExecute = actExecute
+    end
+    object actUnmarkCurrentNameExt: TAction
+      Tag = 10
+      Category = 'Mark'
+      Caption = 'Unselect all files with same name and extension'
       OnExecute = actExecute
     end
     object actCompareDirectories: TAction
@@ -2566,42 +2602,6 @@ object frmMain: TfrmMain
       Tag = 5
       Category = 'Configuration'
       Caption = 'Save Settings'
-      OnExecute = actExecute
-    end
-    object actMarkCurrentPath: TAction
-      Tag = 10
-      Category = 'Mark'
-      Caption = 'Select all in same path'
-      OnExecute = actExecute
-    end
-    object actUnmarkCurrentPath: TAction
-      Tag = 10
-      Category = 'Mark'
-      Caption = 'Unselect all in same path'
-      OnExecute = actExecute
-    end
-    object actMarkCurrentName: TAction
-      Tag = 10
-      Category = 'Mark'
-      Caption = 'Select all files with same name'
-      OnExecute = actExecute
-    end
-    object actUnmarkCurrentName: TAction
-      Tag = 10
-      Category = 'Mark'
-      Caption = 'Unselect all files with same name'
-      OnExecute = actExecute
-    end
-    object actMarkCurrentNameExt: TAction
-      Tag = 10
-      Category = 'Mark'
-      Caption = 'Select all files with same name and extension'
-      OnExecute = actExecute
-    end
-    object actUnmarkCurrentNameExt: TAction
-      Tag = 10
-      Category = 'Mark'
-      Caption = 'Unselect all files with same name and extension'
       OnExecute = actExecute
     end
     object actExecuteScript: TAction
