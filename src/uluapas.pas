@@ -37,6 +37,64 @@ implementation
 uses
   Forms, Dialogs, LazUTF8, DCOSUtils, fMain, uFormCommands, uOSUtils, uGlobs;
 
+procedure luaPushSearchRec(L : Plua_State; var Rec: TSearchRec);
+var
+  FindHandle: PtrInt absolute Rec.FindHandle;
+begin
+  lua_pushinteger(L, FindHandle);
+  lua_newtable(L);
+  lua_pushinteger(L, Rec.Time);
+  lua_setfield(L, -2, 'Time');
+  lua_pushinteger(L, Rec.Size);
+  lua_setfield(L, -2, 'Size');
+  lua_pushinteger(L, Rec.Attr);
+  lua_setfield(L, -2, 'Attr');
+  lua_pushstring(L, PAnsiChar(Rec.Name));
+  lua_setfield(L, -2, 'Name');
+end;
+
+function luaFindFirst(L : Plua_State) : Integer; cdecl;
+var
+  Path: String;
+  Rec: TSearchRec;
+begin
+  Result:= 2;
+  Path:= String(mbFileNameToNative(lua_tostring(L, 1)));
+  if FindFirst(Path, faAnyFile, Rec) = 0 then
+    luaPushSearchRec(L, Rec)
+  else begin
+    lua_pushnil(L);
+    lua_pushnil(L);
+  end;
+end;
+
+function luaFindNext(L : Plua_State) : Integer; cdecl;
+var
+  Rec: TSearchRec;
+  FindHandle: PtrInt absolute Rec.FindHandle;
+begin
+  Result:= 2;
+  FillChar({%H-}Rec, SizeOf(TSearchRec), 0);
+  FindHandle:= PtrInt(lua_tointeger(L, 1));
+  if FindNext(Rec) = 0 then
+    luaPushSearchRec(L, Rec)
+  else begin
+    lua_pushnil(L);
+    lua_pushnil(L);
+  end;
+end;
+
+function luaFindClose(L : Plua_State) : Integer; cdecl;
+var
+  Rec: TSearchRec;
+  FindHandle: PtrInt absolute Rec.FindHandle;
+begin
+  Result:= 0;
+  FillChar({%H-}Rec, SizeOf(TSearchRec), 0);
+  FindHandle:= PtrInt(lua_tointeger(L, 1));
+  FindClose(Rec);
+end;
+
 function luaSleep(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 0;
@@ -97,6 +155,9 @@ procedure RegisterPackages(L: Plua_State);
 begin
   lua_newtable(L);
     luaP_register(L, 'Sleep', @luaSleep);
+    luaP_register(L, 'FindNext', @luaFindNext);
+    luaP_register(L, 'FindFirst', @luaFindFirst);
+    luaP_register(L, 'FindClose', @luaFindClose);
     luaP_register(L, 'FileExists', @luaFileExists);
     luaP_register(L, 'FileGetAttr', @luaFileGetAttr);
     luaP_register(L, 'DirectoryExists', @luaDirectoryExists);
