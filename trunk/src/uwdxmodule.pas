@@ -53,6 +53,8 @@ type
 
   TWDXModule = class
   private
+    FMutex: TRTLCriticalSection;
+  private
     function GetAName: String; virtual; abstract;
     function GetAFileName: String; virtual; abstract;
     function GetADetectStr: String; virtual; abstract;
@@ -60,6 +62,9 @@ type
     procedure SetAFileName(AValue: String); virtual; abstract;
     procedure SetADetectStr(const AValue: String); virtual; abstract;
   public
+    //---------------------
+    constructor Create; virtual;
+    destructor Destroy; override;
     //---------------------
     function LoadModule: Boolean; virtual; abstract;
     procedure UnloadModule; virtual; abstract;
@@ -132,7 +137,7 @@ type
     ContentSendStateInformationW: TContentSendStateInformationW;
   public
     //---------------------
-    constructor Create;
+    constructor Create; override;
     destructor Destroy; override;
     //---------------------
     function LoadModule: Boolean; override;
@@ -191,7 +196,7 @@ type
     function WdxLuaContentGetSupportedField(Index: Integer; var xFieldName, xUnits: String): Integer;
     procedure WdxLuaContentPluginUnloading;
   public
-    constructor Create;
+    constructor Create; override;
     destructor Destroy; override;
     //---------------------
     function LoadModule: Boolean; override;
@@ -601,6 +606,7 @@ end;
 
 constructor TPluginWDX.Create;
 begin
+  inherited Create;
   FFieldsList := TStringList.Create;
   FParser := TParserControl.Create;
 end;
@@ -799,29 +805,33 @@ var
   ftime: TTimeFormat absolute buf;
   wtime: TWinFileTime absolute buf;
 begin
-  if Assigned(ContentGetValueW) then
-    Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
-  else if Assigned(ContentGetValue) then
-    Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
+  EnterCriticalSection(FMutex);
+  try
+    if Assigned(ContentGetValueW) then
+      Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
+    else if Assigned(ContentGetValue) then
+      Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
 
-  case Rez of
-    ft_fieldempty: Result := Unassigned;
-    ft_numeric_32: Result := fnval;
-    ft_numeric_64: Result := fnval64;
-    ft_numeric_floating: Result := ffval;
-    ft_date: Result := EncodeDate(fdate.wYear, fdate.wMonth, fdate.wDay);
-    ft_time: Result := EncodeTime(ftime.wHour, ftime.wMinute, ftime.wSecond, 0);
-    ft_datetime: Result :=  WinFileTimeToDateTime(wtime);
-    ft_boolean: Result := Boolean(fnval);
+    case Rez of
+      ft_fieldempty: Result := Unassigned;
+      ft_numeric_32: Result := fnval;
+      ft_numeric_64: Result := fnval64;
+      ft_numeric_floating: Result := ffval;
+      ft_date: Result := EncodeDate(fdate.wYear, fdate.wMonth, fdate.wDay);
+      ft_time: Result := EncodeTime(ftime.wHour, ftime.wMinute, ftime.wSecond, 0);
+      ft_datetime: Result :=  WinFileTimeToDateTime(wtime);
+      ft_boolean: Result := Boolean(fnval);
 
-    ft_multiplechoice,
-    ft_string,
-    ft_fulltext: Result := CeSysToUtf8(AnsiString(PAnsiChar(@Buf[0])));
-    ft_stringw: Result := UTF16ToUTF8(UnicodeString(PWideChar(@Buf[0])));
-    else
-      Result := Unassigned;
+      ft_multiplechoice,
+      ft_string,
+      ft_fulltext: Result := CeSysToUtf8(AnsiString(PAnsiChar(@Buf[0])));
+      ft_stringw: Result := UTF16ToUTF8(UnicodeString(PWideChar(@Buf[0])));
+      else
+        Result := Unassigned;
+    end;
+  finally
+    LeaveCriticalSection(FMutex);
   end;
-
 end;
 
 function TPluginWDX.CallContentGetValue(FileName: String; FieldName: String; UnitName: String; flags: Integer): String;
@@ -850,34 +860,38 @@ var
   ftime: TTimeFormat absolute buf;
   wtime: TWinFileTime absolute buf;
 begin
-  if Assigned(ContentGetValueW) then
-    Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
-  else if Assigned(ContentGetValue) then
-      Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
+  EnterCriticalSection(FMutex);
+  try
+    if Assigned(ContentGetValueW) then
+      Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags)
+    else if Assigned(ContentGetValue) then
+        Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), flags);
 
-  case Rez of
-    ft_fieldempty: Result := '';
-    ft_numeric_32: Result := IntToStr(fnval);
-    ft_numeric_64: Result := IntToStr(fnval64);
-    ft_numeric_floating: Result := FloatToStr(ffval);
-    ft_date: Result :=  Format('%2.2d.%2.2d.%4.4d', [fdate.wDay, fdate.wMonth, fdate.wYear]);
-    ft_time: Result := Format('%2.2d:%2.2d:%2.2d', [ftime.wHour, ftime.wMinute, ftime.wSecond]);
-    ft_datetime: Result := DateTimeToStr(WinFileTimeToDateTime(wtime));
+    case Rez of
+      ft_fieldempty: Result := '';
+      ft_numeric_32: Result := IntToStr(fnval);
+      ft_numeric_64: Result := IntToStr(fnval64);
+      ft_numeric_floating: Result := FloatToStr(ffval);
+      ft_date: Result :=  Format('%2.2d.%2.2d.%4.4d', [fdate.wDay, fdate.wMonth, fdate.wYear]);
+      ft_time: Result := Format('%2.2d:%2.2d:%2.2d', [ftime.wHour, ftime.wMinute, ftime.wSecond]);
+      ft_datetime: Result := DateTimeToStr(WinFileTimeToDateTime(wtime));
 
-    ft_boolean: if fnval = 0 then
-        Result := 'FALSE'
+      ft_boolean: if fnval = 0 then
+          Result := 'FALSE'
+        else
+          Result := 'TRUE';
+
+      ft_multiplechoice,
+      ft_string,
+      ft_fulltext: Result := CeSysToUtf8(AnsiString(PAnsiChar(@Buf[0])));
+      ft_stringw: Result := UTF16ToUTF8(UnicodeString(PWideChar(@Buf[0])));
+        //TODO: FT_DELAYED,ft_ondemand
       else
-        Result := 'TRUE';
-
-    ft_multiplechoice,
-    ft_string,
-    ft_fulltext: Result := CeSysToUtf8(AnsiString(PAnsiChar(@Buf[0])));
-    ft_stringw: Result := UTF16ToUTF8(UnicodeString(PWideChar(@Buf[0])));
-      //TODO: FT_DELAYED,ft_ondemand
-    else
-      Result := '';
+        Result := '';
+    end;
+  finally
+    LeaveCriticalSection(FMutex);
   end;
-
 end;
 
 function TPluginWDX.CallContentGetSupportedFieldFlags(FieldIndex: Integer): Integer;
@@ -944,6 +958,7 @@ end;
 
 constructor TLuaWdx.Create;
 begin
+  inherited Create;
   if not IsLuaLibLoaded then
     LoadLuaLib(gLuaLib); //Todo вынести загрузку либы в VmClass
   FFieldsList := TStringList.Create;
@@ -1155,37 +1170,42 @@ end;
 function TLuaWdx.CallContentGetValueV(FileName: String; FieldIndex,
   UnitIndex: Integer; flags: Integer): Variant;
 begin
-  Result := Unassigned;
-  if not Assigned(L) then
-    Exit;
+  EnterCriticalSection(FMutex);
+  try
+    Result := Unassigned;
+    if not Assigned(L) then
+      Exit;
 
-  lua_getglobal(L, 'ContentGetValue');
-  if not lua_isfunction(L, -1) then
-    Exit;
-  lua_pushstring(L, PChar(FileName));
-  lua_pushinteger(L, FieldIndex);
-  lua_pushinteger(L, UnitIndex);
-  lua_pushinteger(L, flags);
+    lua_getglobal(L, 'ContentGetValue');
+    if not lua_isfunction(L, -1) then
+      Exit;
+    lua_pushstring(L, PChar(FileName));
+    lua_pushinteger(L, FieldIndex);
+    lua_pushinteger(L, UnitIndex);
+    lua_pushinteger(L, flags);
 
-  lua_call(L, 4, 1);
+    lua_call(L, 4, 1);
 
-  if not lua_isnil(L, -1) then
-  begin
-    case TWdxField(FieldList.Objects[FieldIndex]).FType of
-      ft_string:
-        Result := StrPas(lua_tostring(L, -1));
-      ft_numeric_32:
-        Result := Int32(lua_tointeger(L, -1));
-      ft_numeric_64:
-        Result := Int64(lua_tointeger(L, -1));
-      ft_boolean:
-        Result := lua_toboolean(L, -1);
-      ft_numeric_floating:
-        Result := lua_tonumber(L, -1);
+    if not lua_isnil(L, -1) then
+    begin
+      case TWdxField(FieldList.Objects[FieldIndex]).FType of
+        ft_string:
+          Result := StrPas(lua_tostring(L, -1));
+        ft_numeric_32:
+          Result := Int32(lua_tointeger(L, -1));
+        ft_numeric_64:
+          Result := Int64(lua_tointeger(L, -1));
+        ft_boolean:
+          Result := lua_toboolean(L, -1);
+        ft_numeric_floating:
+          Result := lua_tonumber(L, -1);
+      end;
     end;
-  end;
 
-  lua_pop(L, 1);
+    lua_pop(L, 1);
+  finally
+    LeaveCriticalSection(FMutex);
+  end;
 end;
 
 function TLuaWdx.CallContentGetValue(FileName: String; FieldName: String; UnitName: String; flags: Integer): String;
@@ -1205,37 +1225,42 @@ end;
 
 function TLuaWdx.CallContentGetValue(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): String;
 begin
-  Result := '';
-  if not Assigned(L) then
-    Exit;
+  EnterCriticalSection(FMutex);
+  try
+    Result := '';
+    if not Assigned(L) then
+      Exit;
 
-  lua_getglobal(L, 'ContentGetValue');
-  if not lua_isfunction(L, -1) then
-    Exit;
-  lua_pushstring(L, PChar(FileName));
-  lua_pushinteger(L, FieldIndex);
-  lua_pushinteger(L, UnitIndex);
-  lua_pushinteger(L, flags);
+    lua_getglobal(L, 'ContentGetValue');
+    if not lua_isfunction(L, -1) then
+      Exit;
+    lua_pushstring(L, PChar(FileName));
+    lua_pushinteger(L, FieldIndex);
+    lua_pushinteger(L, UnitIndex);
+    lua_pushinteger(L, flags);
 
-  lua_call(L, 4, 1);
+    lua_call(L, 4, 1);
 
-  if not lua_isnil(L, -1) then
-  begin
-    case TWdxField(FieldList.Objects[FieldIndex]).FType of
-      ft_string:
-        Result := lua_tostring(L, -1);
-      ft_numeric_32:
-        Result := IntToStr(Int32(lua_tointeger(L, -1)));
-      ft_numeric_64:
-        Result := IntToStr(Int64(lua_tointeger(L, -1)));
-      ft_numeric_floating:
-        Result := FloatToStr(lua_tonumber(L, -1));
-      ft_boolean:
-        Result := BoolToStr(lua_toboolean(L, -1), True);
+    if not lua_isnil(L, -1) then
+    begin
+      case TWdxField(FieldList.Objects[FieldIndex]).FType of
+        ft_string:
+          Result := lua_tostring(L, -1);
+        ft_numeric_32:
+          Result := IntToStr(Int32(lua_tointeger(L, -1)));
+        ft_numeric_64:
+          Result := IntToStr(Int64(lua_tointeger(L, -1)));
+        ft_numeric_floating:
+          Result := FloatToStr(lua_tonumber(L, -1));
+        ft_boolean:
+          Result := BoolToStr(lua_toboolean(L, -1), True);
+      end;
     end;
-  end;
 
-  lua_pop(L, 1);
+    lua_pop(L, 1);
+  finally
+    LeaveCriticalSection(FMutex);
+  end;
 end;
 
 function TLuaWdx.CallContentGetSupportedFieldFlags(FieldIndex: Integer): Integer;
@@ -1257,6 +1282,17 @@ end;
 
 
 { TWDXModule }
+
+constructor TWDXModule.Create;
+begin
+  InitCriticalSection(FMutex);
+end;
+
+destructor TWDXModule.Destroy;
+begin
+  inherited Destroy;
+  DoneCriticalSection(FMutex);
+end;
 
 function TWDXModule.WdxFieldType(n: Integer): String;
 begin
