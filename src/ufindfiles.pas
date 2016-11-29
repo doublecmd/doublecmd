@@ -123,6 +123,7 @@ type
   function CheckFileSize(const FileChecks: TFindFileChecks; FileSize : Int64) : Boolean;
   function CheckFileAttributes(const FileChecks: TFindFileChecks; Attrs : TFileAttrs) : Boolean;
   function CheckFile(const SearchTemplate: TSearchTemplateRec; const FileChecks: TFindFileChecks; const AFile: TFile) : Boolean;
+  procedure AttrsPatternOptionsToChecks(const SearchTemplate: TSearchTemplateRec; var FileChecks: TFindFileChecks);
 
 implementation
 

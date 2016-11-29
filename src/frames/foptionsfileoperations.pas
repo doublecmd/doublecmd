@@ -65,10 +65,21 @@ type
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
+    bvlMarkingFiles: TDividerBevel;
+    chkMarkMaskFilterWindows: TCheckBox;
+    chkMarkMaskShowAttribute: TCheckBox;
+    lbAttributeMask: TLabel;
+    edtDefaultAttribute: TEdit;
+    btnAddAttribute: TButton;
+    btnAttrsHelp: TButton;
     procedure cbDeleteToTrashChange(Sender: TObject);
+    procedure chkMarkMaskShowAttributeChange(Sender: TObject);
+    procedure btnAddAttributeClick(Sender: TObject);
+    procedure btnAttrsHelpClick(Sender: TObject);
   private
     FLoading: Boolean;
     procedure FillTemplatesList(ListItems: TStrings);
+    procedure OnAddAttribute(Sender: TObject);
   protected
     procedure Init; override;
     procedure Load; override;
@@ -84,7 +95,7 @@ implementation
 {$R *.lfm}
 
 uses
-  DCStrUtils, uGlobs, uLng, fOptionsHotkeys;
+  HelpIntfs, fAttributesEdit, DCStrUtils, uGlobs, uLng, fOptionsHotkeys;
 
 { TfrmOptionsFileOperations }
 
@@ -154,6 +165,10 @@ begin
   cbSearchDefaultTemplate.ItemIndex   := cbSearchDefaultTemplate.Items.IndexOf(gSearchDefaultTemplate);
   if cbSearchDefaultTemplate.ItemIndex < 0 then cbSearchDefaultTemplate.ItemIndex := 0;
 
+  chkMarkMaskFilterWindows.Checked := gMarkMaskFilterWindows;
+  chkMarkMaskShowAttribute.Checked := gMarkShowWantedAttribute;
+  edtDefaultAttribute.Text := gMarkDefaultWantedAttribute;
+
   FLoading := False;
 end;
 
@@ -195,12 +210,55 @@ begin
   else begin
     gSearchDefaultTemplate:= EmptyStr;
   end;
+
+  gMarkMaskFilterWindows := chkMarkMaskFilterWindows.Checked;
+  gMarkShowWantedAttribute := chkMarkMaskShowAttribute.Checked;
+  gMarkDefaultWantedAttribute := edtDefaultAttribute.Text;
 end;
 
 constructor TfrmOptionsFileOperations.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FLoading := False;
+end;
+
+procedure TfrmOptionsFileOperations.chkMarkMaskShowAttributeChange(Sender: TObject);
+begin
+  lbAttributeMask.Enabled := not chkMarkMaskShowAttribute.Checked;
+  edtDefaultAttribute.Enabled := not chkMarkMaskShowAttribute.Checked;
+  btnAddAttribute.Enabled := not chkMarkMaskShowAttribute.Checked;
+  btnAttrsHelp.Enabled := not chkMarkMaskShowAttribute.Checked;
+end;
+
+procedure TfrmOptionsFileOperations.btnAddAttributeClick(Sender: TObject);
+var
+  FFrmAttributesEdit: TfrmAttributesEdit;
+begin
+  FFrmAttributesEdit := TfrmAttributesEdit.Create(Self);
+  try
+  FFrmAttributesEdit.OnOk := @OnAddAttribute;
+  FFrmAttributesEdit.Reset;
+  FFrmAttributesEdit.ShowModal;
+  finally
+    FFrmAttributesEdit.Free;
+  end;
+end;
+
+procedure TfrmOptionsFileOperations.btnAttrsHelpClick(Sender: TObject);
+begin
+  ShowHelpOrErrorForKeyword('', edtDefaultAttribute.HelpKeyword);
+end;
+
+procedure TfrmOptionsFileOperations.OnAddAttribute(Sender: TObject);
+var
+  sAttr: String;
+begin
+  sAttr := edtDefaultAttribute.Text;
+  if edtDefaultAttribute.SelStart > 0 then    
+    Insert((Sender as TfrmAttributesEdit).AttrsAsText, sAttr, edtDefaultAttribute.SelStart + 1) // Insert at caret position.
+  else
+    sAttr := sAttr + (Sender as TfrmAttributesEdit).AttrsAsText;
+  edtDefaultAttribute.Text := sAttr;
 end;
 
 end.

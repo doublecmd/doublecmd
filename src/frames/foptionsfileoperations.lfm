@@ -12,7 +12,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     AnchorSideRight.Control = gbExecutingOperations
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 274
+    Height = 374
     Top = 0
     Width = 722
     Anchors = [akTop, akLeft, akRight]
@@ -24,7 +24,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 254
+    ClientHeight = 354
     ClientWidth = 718
     TabOrder = 0
     object lblProgressKind: TLabel
@@ -157,6 +157,107 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       BorderSpacing.Top = 12
       ParentFont = False
     end
+    object bvlMarkingFiles: TDividerBevel
+      AnchorSideLeft.Control = lblProgressKind
+      AnchorSideTop.Control = cbDeleteToTrashConfirmation
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbUserInterface
+      AnchorSideRight.Side = asrBottom
+      Left = 10
+      Height = 15
+      Top = 256
+      Width = 698
+      Caption = 'Marking/Unmarking files:'
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 12
+      ParentFont = False
+    end
+    object chkMarkMaskFilterWindows: TCheckBox
+      AnchorSideLeft.Control = lblProgressKind
+      AnchorSideTop.Control = bvlMarkingFiles
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 19
+      Top = 275
+      Width = 463
+      BorderSpacing.Top = 4
+      Caption = 'Windows style filter when marking files ("*.*" also select files without extension, etc.)'
+      TabOrder = 9
+    end
+    object chkMarkMaskShowAttribute: TCheckBox
+      AnchorSideLeft.Control = lblProgressKind
+      AnchorSideTop.Control = edtDefaultAttribute
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 19
+      Top = 325
+      Width = 333
+      BorderSpacing.Top = 4
+      Caption = 'Show attribute specification in mask input dialog each time'
+      OnChange = chkMarkMaskShowAttributeChange
+      TabOrder = 13
+    end
+    object lbAttributeMask: TLabel
+      AnchorSideLeft.Control = lblProgressKind
+      AnchorSideTop.Control = edtDefaultAttribute
+      AnchorSideTop.Side = asrCenter
+      Left = 10
+      Height = 15
+      Top = 302
+      Width = 147
+      BorderSpacing.Bottom = 10
+      Caption = 'Attribute mask value to use:'
+      FocusControl = edtBufferSize
+      ParentColor = False
+    end
+    object edtDefaultAttribute: TEdit
+      AnchorSideLeft.Control = lbAttributeMask
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = chkMarkMaskFilterWindows
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Side = asrCenter
+      Left = 161
+      Height = 23
+      Top = 298
+      Width = 141
+      AutoSize = False
+      TabOrder = 10
+    end
+    object btnAddAttribute: TButton
+      AnchorSideLeft.Control = edtDefaultAttribute
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = edtDefaultAttribute
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = btnAttrsHelp
+      Left = 306
+      Height = 26
+      Top = 296
+      Width = 48
+      AutoSize = True
+      BorderSpacing.Around = 3
+      Caption = '&Add'
+      Constraints.MinHeight = 26
+      OnClick = btnAddAttributeClick
+      TabOrder = 11
+    end
+    object btnAttrsHelp: TButton
+      AnchorSideLeft.Control = btnAddAttribute
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = edtDefaultAttribute
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Side = asrBottom
+      Left = 358
+      Height = 27
+      Top = 296
+      Width = 53
+      AutoSize = True
+      BorderSpacing.InnerBorder = 1
+      Caption = '&Help'
+      Constraints.MinHeight = 26
+      OnClick = btnAttrsHelpClick
+      TabOrder = 12
+    end
   end
   object gbExecutingOperations: TGroupBox[1]
     AnchorSideLeft.Control = Owner
@@ -166,7 +267,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 190
-    Top = 280
+    Top = 380
     Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -317,7 +418,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 143
-    Top = 476
+    Top = 576
     Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True

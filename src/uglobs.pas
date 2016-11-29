@@ -291,6 +291,8 @@ var
   gbMarkMaskCaseSensitive: boolean;
   gbMarkMaskIgnoreAccents: boolean;
   gMarkMaskFilterWindows: boolean;
+  gMarkShowWantedAttribute: boolean;
+  gMarkDefaultWantedAttribute: string;
 
   { Favorite Tabs }
   gFavoriteTabsUseRestoreExtraOptions: boolean;
@@ -1673,6 +1675,8 @@ begin
   gbMarkMaskCaseSensitive := False;
   gbMarkMaskIgnoreAccents := False;
   gMarkMaskFilterWindows := False;
+  gMarkShowWantedAttribute := False;
+  gMarkDefaultWantedAttribute := '';
 
   { TotalCommander Import/Export }
   //Will search minimally where TC could be installed so the default value would have some chances to be correct.
@@ -2917,6 +2921,8 @@ begin
     gbMarkMaskCaseSensitive := GetValue(Root, 'MarkMaskCaseSensitive', gbMarkMaskCaseSensitive);
     gbMarkMaskIgnoreAccents := GetValue(Root, 'MarkMaskIgnoreAccents', gbMarkMaskIgnoreAccents);
     gMarkMaskFilterWindows := GetValue(Root, 'MarkMaskFilterWindows', gMarkMaskFilterWindows);
+    gMarkShowWantedAttribute := GetValue(Root, 'MarkShowWantedAttribute', gMarkShowWantedAttribute);
+    gMarkDefaultWantedAttribute := GetValue(Root, 'MarkDefaultWantedAttribute', gMarkDefaultWantedAttribute);
 
     { TotalCommander Import/Export }
     {$IFDEF MSWINDOWS}
@@ -3374,6 +3380,8 @@ begin
     SetValue(Root, 'MarkMaskCaseSensitive', gbMarkMaskCaseSensitive);
     SetValue(Root, 'MarkMaskIgnoreAccents', gbMarkMaskIgnoreAccents);
     SetValue(Root, 'MarkMaskFilterWindows', gMarkMaskFilterWindows);
+    SetValue(Root, 'MarkShowWantedAttribute', gMarkShowWantedAttribute);
+    SetValue(Root, 'MarkDefaultWantedAttribute', gMarkDefaultWantedAttribute);
 
     {$IFDEF MSWINDOWS}
     { TotalCommander Import/Export }

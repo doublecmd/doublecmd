@@ -44,39 +44,47 @@ type
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
     lbxSearchTemplate: TListBox;
+    lblAttributes: TLabel;
+    edtAttrib: TEdit;
+    btnAddAttribute: TButton;
+    btnAttrsHelp: TButton;
     procedure btnDefineTemplateClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure lbxSearchTemplateClick(Sender: TObject);
     procedure lbxSearchTemplateDblClick(Sender: TObject);
+    procedure btnAddAttributeClick(Sender: TObject);
+    procedure btnAttrsHelpClick(Sender: TObject);
   private
     { private declarations }
+    procedure OnAddAttribute(Sender: TObject);
   public
     { public declarations }
   end;
 
 function ShowMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string): boolean;
 function ShowExtendedMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string; AMaskInputDlgStyle: TMaskInputDlgStyle; var bCaseSensitive: boolean;
-  var bIgnoreAccents: boolean): boolean;
+  var bIgnoreAccents: boolean; var sAttribute:string): boolean;
 
 implementation
 
 {$R *.lfm}
 
 uses
-  fFindDlg, uGlobs, uSearchTemplate;
+  HelpIntfs, fAttributesEdit, fFindDlg, uGlobs, uSearchTemplate;
 
 { ShowMaskInputDlg }
 function ShowMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string): boolean;
 var
   dummybCaseSensitive: boolean = False;
   dummybIgnoreAccents: boolean = False;
+  dummysAttribute: string = '';
 begin
-  Result := ShowExtendedMaskInputDlg(sCaption, sPrompt, slValueList, sValue, midsLegacy, dummybCaseSensitive, dummybIgnoreAccents);
+  Result := ShowExtendedMaskInputDlg(sCaption, sPrompt, slValueList, sValue, midsLegacy, dummybCaseSensitive, dummybIgnoreAccents, dummysAttribute);
 end;
 
 { ShowExtendedMaskInputDlg }
 function ShowExtendedMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string; AMaskInputDlgStyle: TMaskInputDlgStyle; var bCaseSensitive: boolean;
-  var bIgnoreAccents: boolean): boolean;
+  var bIgnoreAccents: boolean; var sAttribute:string): boolean;
 var
   Index, iCurrentPos: integer;
 begin
@@ -93,6 +101,7 @@ begin
         begin
           chkCaseSensitive.Checked := bCaseSensitive;
           chkIgnoreAccentsAndLigatures.Checked := bIgnoreAccents;
+          edtAttrib.Text := sAttribute;
         end;
 
         midsLegacy:
@@ -100,6 +109,16 @@ begin
           chkIgnoreAccentsAndLigatures.Visible := False;
           chkCaseSensitive.Visible := False;
         end;
+      end;
+
+      // Don't show the attribute filter if we're in legacy request mode OR if user request to don't use it.
+      if (AMaskInputDlgStyle=midsLegacy) OR (not gMarkShowWantedAttribute) then
+      begin
+        lblAttributes.Visible := False;
+        btnAddAttribute.Visible := False;
+        btnAttrsHelp.Visible := False;
+        edtAttrib.Visible := False;
+        edtAttrib.Text := gMarkDefaultWantedAttribute; // When we don't see it, we set what we wanted to be our default
       end;
 
       if IsMaskSearchTemplate(sValue) then
@@ -122,6 +141,7 @@ begin
         sValue := cmbMask.Text;
         bCaseSensitive := chkCaseSensitive.Checked;
         bIgnoreAccents := chkIgnoreAccentsAndLigatures.Checked;
+        sAttribute := edtAttrib.Text;
         Result := True;
       end;
     finally
@@ -165,6 +185,37 @@ begin
     lbxSearchTemplate.ItemIndex := lbxSearchTemplate.Items.Add(sTemplateName);
     cmbMask.Text := cTemplateSign + sTemplateName;
   end;
+end;
+
+procedure TfrmMaskInputDlg.btnAddAttributeClick(Sender: TObject);
+var
+  FFrmAttributesEdit: TfrmAttributesEdit;
+begin
+  FFrmAttributesEdit := TfrmAttributesEdit.Create(Self);
+  try
+    FFrmAttributesEdit.OnOk := @OnAddAttribute;
+    FFrmAttributesEdit.Reset;
+    FFrmAttributesEdit.ShowModal;
+  finally
+    FFrmAttributesEdit.Free;
+  end;
+end;
+
+procedure TfrmMaskInputDlg.btnAttrsHelpClick(Sender: TObject);
+begin
+  ShowHelpOrErrorForKeyword('', edtAttrib.HelpKeyword);
+end;
+
+procedure TfrmMaskInputDlg.OnAddAttribute(Sender: TObject);
+var
+  sAttr: String;
+begin
+  sAttr := edtAttrib.Text;
+  if edtAttrib.SelStart > 0 then    
+    Insert((Sender as TfrmAttributesEdit).AttrsAsText, sAttr, edtAttrib.SelStart + 1) // Insert at caret position.
+  else
+    sAttr := sAttr + (Sender as TfrmAttributesEdit).AttrsAsText;
+  edtAttrib.Text := sAttr;
 end;
 
 end.
