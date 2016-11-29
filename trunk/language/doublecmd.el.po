@@ -1103,13 +1103,15 @@ msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmeditsearchreplace.btncancel.caption
-msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
+#: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
+#, fuzzy
+msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
 msgstr "Ακύρωση"
 
-#: tfrmeditsearchreplace.btnok.caption
-msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
+#: tfrmeditsearchreplace.buttonpanel.okbutton.caption
+#, fuzzy
+msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "&OK"
 
@@ -1336,11 +1338,6 @@ msgstr "Όνομα Αρχείου"
 msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
 msgid "???"
 msgstr ";;;"
-
-#: tfrmfileproperties.lblfilenamestr.caption
-msgctxt "TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION"
-msgid "Name:"
-msgstr "Όνομα:"
 
 #: tfrmfileproperties.lblfilestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILESTR.CAPTION"
@@ -3264,6 +3261,18 @@ msgctxt "TFRMMAINCOMMANDSDLG.LBLSELECTEDCOMMANDHOTKEY.CAPTION"
 msgid "Hotkey"
 msgstr "Ειδικό Πλήκτρο"
 
+#: tfrmmaskinputdlg.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmmaskinputdlg.btnaddattribute.caption"
+msgid "&Add"
+msgstr "Προσθήκη"
+
+#: tfrmmaskinputdlg.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmmaskinputdlg.btnattrshelp.caption"
+msgid "&Help"
+msgstr "Βοήθεια"
+
 #: tfrmmaskinputdlg.btncancel.caption
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
@@ -3285,6 +3294,10 @@ msgstr "Με διάκριση πεζών -κεφαλαίων"
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
 msgstr "Αγνόηση χρήσης τονισμού και διφθόγγων"
+
+#: tfrmmaskinputdlg.lblattributes.caption
+msgid "Attri&butes:"
+msgstr ""
 
 #: tfrmmaskinputdlg.lblprompt.caption
 msgid "Input Mask:"
@@ -5625,10 +5638,26 @@ msgstr "Εκτέλεση με τερματικό και παραμονή ανο�
 msgid "Extended options items:"
 msgstr "Αντικείμενα Εκτεταμένων Ρυθμίσεων:"
 
+#: tfrmoptionsfileoperations.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.btnaddattribute.caption"
+msgid "&Add"
+msgstr "Προσθήκη"
+
+#: tfrmoptionsfileoperations.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.btnattrshelp.caption"
+msgid "&Help"
+msgstr "Βοήθεια"
+
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.BVLCONFIRMATIONS.CAPTION"
 msgid "Show confirmation window for:"
 msgstr "Εμφάνιση παραθύρου επιβεβαίωσης για:"
+
+#: tfrmoptionsfileoperations.bvlmarkingfiles.caption
+msgid "Marking/Unmarking files:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
@@ -5675,6 +5704,16 @@ msgstr "Εμφάνιση καρτέλας επιλογής πάνελ στο δ�
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Παράβλεψη των λαθών εργασιών αρχείων και καταγραφή τους στο παράθυρο καταγραφής"
 
+#: tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr "Φίλτρο σε στυλ Windows όταν σημειώνονται αρχεία (\"*.*\" επίσης επιλέγει αρχεία χωρίς επέκταση, κ.λ.π.)"
+
+#: tfrmoptionsfileoperations.chkmarkmaskshowattribute.caption
+msgid "Show attribute specification in mask input dialog each time"
+msgstr ""
+
 #: tfrmoptionsfileoperations.dbtextsearch.caption
 msgid "Text search in files"
 msgstr "Αναζήτηση Κειμένου στα αρχεία"
@@ -5691,6 +5730,10 @@ msgstr "Αναζήτηση Αρχείου"
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
 msgstr "Περιβάλλον Χρήστη"
+
+#: tfrmoptionsfileoperations.lbattributemask.caption
+msgid "Attribute mask value to use:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "&Buffer size for file operations (in KB):"
@@ -6479,10 +6522,6 @@ msgstr "Δημιουργία νέου με κωδικοποίηση:"
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Πάντα μετάβαση στη ρίζα ενός οδηγού όταν γίνεται αλλαγή οδηγών"
-
-#: tfrmoptionsmisc.chkmarkmaskfilterwindows.caption
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr "Φίλτρο σε στυλ Windows όταν σημειώνονται αρχεία (\"*.*\" επίσης επιλέγει αρχεία χωρίς επέκταση, κ.λ.π.)"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "TFRMOPTIONSMISC.CHKSHOWWARNINGMESSAGES.CAPTION"
@@ -9753,6 +9792,10 @@ msgstr "Λογαριασμός:"
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Επιπρόσθετες παράμετροι για τη γραμμή εντολών του προγράμματος συμπίεσης:"
+
+#: ulng.rsmsgaskquoteornot
+msgid "Do you want to enclose between quotes?"
+msgstr ""
 
 #: ulng.rsmsgbadcrc32
 msgid ""

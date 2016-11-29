@@ -1100,13 +1100,15 @@ msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmeditsearchreplace.btncancel.caption
-msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
+#: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
+#, fuzzy
+msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
-msgstr "&Mégsem"
+msgstr "&Kilépés"
 
-#: tfrmeditsearchreplace.btnok.caption
-msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
+#: tfrmeditsearchreplace.buttonpanel.okbutton.caption
+#, fuzzy
+msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "&OK"
 
@@ -1333,11 +1335,6 @@ msgstr "Fájl néve"
 msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
 msgid "???"
 msgstr "???"
-
-#: tfrmfileproperties.lblfilenamestr.caption
-msgctxt "TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION"
-msgid "Name:"
-msgstr "Név :"
 
 #: tfrmfileproperties.lblfilestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILESTR.CAPTION"
@@ -3263,6 +3260,18 @@ msgctxt "tfrmmaincommandsdlg.lblselectedcommandhotkey.caption"
 msgid "Hotkey"
 msgstr "Gyorsbillentyű"
 
+#: tfrmmaskinputdlg.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmmaskinputdlg.btnaddattribute.caption"
+msgid "&Add"
+msgstr "&Hozzáadás"
+
+#: tfrmmaskinputdlg.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmmaskinputdlg.btnattrshelp.caption"
+msgid "&Help"
+msgstr "&Súgó"
+
 #: tfrmmaskinputdlg.btncancel.caption
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
@@ -3283,6 +3292,10 @@ msgstr "Karakterérzékeny"
 
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
+msgstr ""
+
+#: tfrmmaskinputdlg.lblattributes.caption
+msgid "Attri&butes:"
 msgstr ""
 
 #: tfrmmaskinputdlg.lblprompt.caption
@@ -5639,10 +5652,26 @@ msgstr "Futtatás terminálban és nyitva tartás"
 msgid "Extended options items:"
 msgstr "Elemek kibővített opciói:"
 
+#: tfrmoptionsfileoperations.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.btnaddattribute.caption"
+msgid "&Add"
+msgstr "&Hozzáadás"
+
+#: tfrmoptionsfileoperations.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.btnattrshelp.caption"
+msgid "&Help"
+msgstr "&Súgó"
+
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
 msgid "Show confirmation window for:"
 msgstr "Megerősítő ablak megjelenítése:"
+
+#: tfrmoptionsfileoperations.bvlmarkingfiles.caption
+msgid "Marking/Unmarking files:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
@@ -5695,6 +5724,15 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Fájlműveleti hibá&k átugrása és írja naplóablakba"
 
+#: tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
+
+#: tfrmoptionsfileoperations.chkmarkmaskshowattribute.caption
+msgid "Show attribute specification in mask input dialog each time"
+msgstr ""
+
 #: tfrmoptionsfileoperations.dbtextsearch.caption
 msgid "Text search in files"
 msgstr "Szöveg keresése a fájlokban"
@@ -5711,6 +5749,10 @@ msgstr "Fájlkeresés"
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
 msgstr "Felhasználói felület"
+
+#: tfrmoptionsfileoperations.lbattributemask.caption
+msgid "Attribute mask value to use:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "&Buffer size for file operations (in KB):"
@@ -6516,10 +6558,6 @@ msgstr "Új létrehozása ezzel a kódolással:"
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "&Mindig ugorjon a gyökérkönyvtárba a meghajtó váltásakor"
-
-#: tfrmoptionsmisc.chkmarkmaskfilterwindows.caption
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
@@ -9805,6 +9843,10 @@ msgstr "Fiók :"
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "További paraméterek az archiváló parancssorra :"
+
+#: ulng.rsmsgaskquoteornot
+msgid "Do you want to enclose between quotes?"
+msgstr ""
 
 #: ulng.rsmsgbadcrc32
 msgid ""

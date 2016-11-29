@@ -1184,15 +1184,16 @@ msgctxt "tfrmeditor.n5.caption"
 msgid "-"
 msgstr "-"
 
-#: tfrmeditsearchreplace.btncancel.caption
+#: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 #, fuzzy
 #| msgid "Cancel"
-msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
+msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
 msgstr "&Zrušiť"
 
-#: tfrmeditsearchreplace.btnok.caption
-msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
+#: tfrmeditsearchreplace.buttonpanel.okbutton.caption
+#, fuzzy
+msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "&OK"
 
@@ -1435,11 +1436,6 @@ msgstr "Názov súboru"
 msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
 msgid "???"
 msgstr "???"
-
-#: tfrmfileproperties.lblfilenamestr.caption
-msgctxt "TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION"
-msgid "Name:"
-msgstr "Meno:"
 
 #: tfrmfileproperties.lblfilestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILESTR.CAPTION"
@@ -3554,6 +3550,18 @@ msgctxt "tfrmmaincommandsdlg.lblselectedcommandhotkey.caption"
 msgid "Hotkey"
 msgstr "Klávesa"
 
+#: tfrmmaskinputdlg.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmmaskinputdlg.btnaddattribute.caption"
+msgid "&Add"
+msgstr "Prid&ať"
+
+#: tfrmmaskinputdlg.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmmaskinputdlg.btnattrshelp.caption"
+msgid "&Help"
+msgstr "&Pomoc"
+
 #: tfrmmaskinputdlg.btncancel.caption
 #, fuzzy
 #| msgid "Cancel"
@@ -3578,6 +3586,10 @@ msgstr ""
 
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
+msgstr ""
+
+#: tfrmmaskinputdlg.lblattributes.caption
+msgid "Attri&butes:"
 msgstr ""
 
 #: tfrmmaskinputdlg.lblprompt.caption
@@ -6147,11 +6159,27 @@ msgstr ""
 msgid "Extended options items:"
 msgstr ""
 
+#: tfrmoptionsfileoperations.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.btnaddattribute.caption"
+msgid "&Add"
+msgstr "Prid&ať"
+
+#: tfrmoptionsfileoperations.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.btnattrshelp.caption"
+msgid "&Help"
+msgstr "&Pomoc"
+
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 #, fuzzy
 msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
 msgid "Show confirmation window for:"
 msgstr "Ukázať okno potvrdenia pre:"
+
+#: tfrmoptionsfileoperations.bvlmarkingfiles.caption
+msgid "Marking/Unmarking files:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
@@ -6215,6 +6243,15 @@ msgctxt "tfrmoptionsfileoperations.cbskipfileoperror.caption"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Preskočiť chyby súborových operácií a len ich zapísať do okna logov"
 
+#: tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
+
+#: tfrmoptionsfileoperations.chkmarkmaskshowattribute.caption
+msgid "Show attribute specification in mask input dialog each time"
+msgstr ""
+
 #: tfrmoptionsfileoperations.dbtextsearch.caption
 msgid "Text search in files"
 msgstr ""
@@ -6231,6 +6268,10 @@ msgstr "Hľadanie súborov"
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
 msgstr "Užívateľský interfejs"
+
+#: tfrmoptionsfileoperations.lbattributemask.caption
+msgid "Attribute mask value to use:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "&Buffer size for file operations (in KB):"
@@ -7161,10 +7202,6 @@ msgstr ""
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Vždy choď na root disku, keď je zmena diskov"
-
-#: tfrmoptionsmisc.chkmarkmaskfilterwindows.caption
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 #, fuzzy
@@ -10673,6 +10710,10 @@ msgstr "Účet:"
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Ďalšie parametre pre príkazový riadok archivátora:"
+
+#: ulng.rsmsgaskquoteornot
+msgid "Do you want to enclose between quotes?"
+msgstr ""
 
 #: ulng.rsmsgbadcrc32
 msgid ""

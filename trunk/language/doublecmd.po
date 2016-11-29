@@ -1078,13 +1078,13 @@ msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr ""
 
-#: tfrmeditsearchreplace.btncancel.caption
-msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
+#: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
+msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.CANCELBUTTON.CAPTION"
 msgid "&Cancel"
 msgstr ""
 
-#: tfrmeditsearchreplace.btnok.caption
-msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
+#: tfrmeditsearchreplace.buttonpanel.okbutton.caption
+msgctxt "TFRMEDITSEARCHREPLACE.BUTTONPANEL.OKBUTTON.CAPTION"
 msgid "&OK"
 msgstr ""
 
@@ -1299,11 +1299,6 @@ msgstr ""
 #: tfrmfileproperties.lblfilename.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
 msgid "???"
-msgstr ""
-
-#: tfrmfileproperties.lblfilenamestr.caption
-msgctxt "tfrmfileproperties.lblfilenamestr.caption"
-msgid "Name:"
 msgstr ""
 
 #: tfrmfileproperties.lblfilestr.caption
@@ -3191,6 +3186,16 @@ msgctxt "tfrmmaincommandsdlg.lblselectedcommandhotkey.caption"
 msgid "Hotkey"
 msgstr ""
 
+#: tfrmmaskinputdlg.btnaddattribute.caption
+msgctxt "TFRMMASKINPUTDLG.BTNADDATTRIBUTE.CAPTION"
+msgid "&Add"
+msgstr ""
+
+#: tfrmmaskinputdlg.btnattrshelp.caption
+msgctxt "TFRMMASKINPUTDLG.BTNATTRSHELP.CAPTION"
+msgid "&Help"
+msgstr ""
+
 #: tfrmmaskinputdlg.btncancel.caption
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
@@ -3211,6 +3216,10 @@ msgstr ""
 
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
+msgstr ""
+
+#: tfrmmaskinputdlg.lblattributes.caption
+msgid "Attri&butes:"
 msgstr ""
 
 #: tfrmmaskinputdlg.lblprompt.caption
@@ -5485,8 +5494,22 @@ msgstr ""
 msgid "Extended options items:"
 msgstr ""
 
+#: tfrmoptionsfileoperations.btnaddattribute.caption
+msgctxt "TFRMOPTIONSFILEOPERATIONS.BTNADDATTRIBUTE.CAPTION"
+msgid "&Add"
+msgstr ""
+
+#: tfrmoptionsfileoperations.btnattrshelp.caption
+msgctxt "TFRMOPTIONSFILEOPERATIONS.BTNATTRSHELP.CAPTION"
+msgid "&Help"
+msgstr ""
+
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgid "Show confirmation window for:"
+msgstr ""
+
+#: tfrmoptionsfileoperations.bvlmarkingfiles.caption
+msgid "Marking/Unmarking files:"
 msgstr ""
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
@@ -5533,6 +5556,15 @@ msgstr ""
 msgid "S&kip file operations errors and write them to log window"
 msgstr ""
 
+#: tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption
+msgctxt "TFRMOPTIONSFILEOPERATIONS.CHKMARKMASKFILTERWINDOWS.CAPTION"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
+
+#: tfrmoptionsfileoperations.chkmarkmaskshowattribute.caption
+msgid "Show attribute specification in mask input dialog each time"
+msgstr ""
+
 #: tfrmoptionsfileoperations.dbtextsearch.caption
 msgid "Text search in files"
 msgstr ""
@@ -5547,6 +5579,10 @@ msgstr ""
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
+msgstr ""
+
+#: tfrmoptionsfileoperations.lbattributemask.caption
+msgid "Attribute mask value to use:"
 msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
@@ -6273,10 +6309,6 @@ msgstr ""
 
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
-msgstr ""
-
-#: tfrmoptionsmisc.chkmarkmaskfilterwindows.caption
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
 msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
@@ -9444,6 +9476,10 @@ msgstr ""
 
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
+msgstr ""
+
+#: ulng.rsmsgaskquoteornot
+msgid "Do you want to enclose between quotes?"
 msgstr ""
 
 #: ulng.rsmsgbadcrc32

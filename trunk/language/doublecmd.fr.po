@@ -1123,13 +1123,15 @@ msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmeditsearchreplace.btncancel.caption
-msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
+#: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
+#, fuzzy
+msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
 msgstr "Annuler"
 
-#: tfrmeditsearchreplace.btnok.caption
-msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
+#: tfrmeditsearchreplace.buttonpanel.okbutton.caption
+#, fuzzy
+msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "&OK"
 
@@ -1356,11 +1358,6 @@ msgstr "Nom du fichier"
 msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
 msgid "???"
 msgstr "???"
-
-#: tfrmfileproperties.lblfilenamestr.caption
-msgctxt "TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION"
-msgid "Name:"
-msgstr "Nom :"
 
 #: tfrmfileproperties.lblfilestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILESTR.CAPTION"
@@ -3286,6 +3283,18 @@ msgctxt "tfrmmaincommandsdlg.lblselectedcommandhotkey.caption"
 msgid "Hotkey"
 msgstr "Raccourci clavier"
 
+#: tfrmmaskinputdlg.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmmaskinputdlg.btnaddattribute.caption"
+msgid "&Add"
+msgstr "&Ajouter"
+
+#: tfrmmaskinputdlg.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmmaskinputdlg.btnattrshelp.caption"
+msgid "&Help"
+msgstr "Ai&de"
+
 #: tfrmmaskinputdlg.btncancel.caption
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
@@ -3307,6 +3316,10 @@ msgstr "Sensibilité à la casse"
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
 msgstr "Ignorer les accents et les ligatures"
+
+#: tfrmmaskinputdlg.lblattributes.caption
+msgid "Attri&butes:"
+msgstr ""
 
 #: tfrmmaskinputdlg.lblprompt.caption
 msgid "Input Mask:"
@@ -5664,10 +5677,26 @@ msgstr "Exécuter via le terminal et demeurer actif"
 msgid "Extended options items:"
 msgstr "Options étendues :"
 
+#: tfrmoptionsfileoperations.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.btnaddattribute.caption"
+msgid "&Add"
+msgstr "&Ajouter"
+
+#: tfrmoptionsfileoperations.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.btnattrshelp.caption"
+msgid "&Help"
+msgstr "Ai&de"
+
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
 msgid "Show confirmation window for:"
 msgstr "Afficher la fenêtre de confirmation pour :"
+
+#: tfrmoptionsfileoperations.bvlmarkingfiles.caption
+msgid "Marking/Unmarking files:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
@@ -5720,6 +5749,16 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Continuer en cas d'erreurs lors des opérations et les afficher dans la fenêtre du journal"
 
+#: tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr "Interpréter le masque de filtre comme Windows (\"*.*\" sélectionne vraiment tout, même fichiers sans extension, etc.)"
+
+#: tfrmoptionsfileoperations.chkmarkmaskshowattribute.caption
+msgid "Show attribute specification in mask input dialog each time"
+msgstr ""
+
 #: tfrmoptionsfileoperations.dbtextsearch.caption
 msgid "Text search in files"
 msgstr "Recherche de texte dans les fichiers"
@@ -5736,6 +5775,10 @@ msgstr "Recherche de fichiers"
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
 msgstr "Interface usager"
+
+#: tfrmoptionsfileoperations.lbattributemask.caption
+msgid "Attribute mask value to use:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "&Buffer size for file operations (in KB):"
@@ -6533,10 +6576,6 @@ msgstr "Créer de nouveaux avec le codage :"
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Toujours aller à la racine du lecteur lorsqu'on change de lecteur"
-
-#: tfrmoptionsmisc.chkmarkmaskfilterwindows.caption
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr "Interpréter le masque de filtre comme Windows (\"*.*\" sélectionne vraiment tout, même fichiers sans extension, etc.)"
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
@@ -9818,6 +9857,10 @@ msgstr "Compte :"
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Paramètres additionnels pour la ligne de commande du programme d'archivage :"
+
+#: ulng.rsmsgaskquoteornot
+msgid "Do you want to enclose between quotes?"
+msgstr ""
 
 #: ulng.rsmsgbadcrc32
 msgid ""

@@ -172,16 +172,16 @@ type
    procedure cm_Exchange(const {%H-}Params: array of string);
    procedure cm_FlatView(const {%H-}Params: array of string);
    procedure cm_LeftFlatView(const {%H-}Params: array of string);
-   procedure cm_RightFlatView(const Params: array of string);
-   procedure cm_OpenArchive(const Params: array of string);
-   procedure cm_TestArchive(const Params: array of string);
-   procedure cm_OpenDirInNewTab(const Params: array of string);
-   procedure cm_Open(const Params: array of string);
+   procedure cm_RightFlatView(const {%H-}Params: array of string);
+   procedure cm_OpenArchive(const {%H-}Params: array of string);
+   procedure cm_TestArchive(const {%H-}Params: array of string);
+   procedure cm_OpenDirInNewTab(const {%H-}Params: array of string);
+   procedure cm_Open(const {%H-}Params: array of string);
    procedure cm_ShellExecute(const Params: array of string);
-   procedure cm_OpenVirtualFileSystemList(const Params: array of string);
-   procedure cm_TargetEqualSource(const Params: array of string);
-   procedure cm_LeftEqualRight(const Params: array of string);
-   procedure cm_RightEqualLeft(const Params: array of string);
+   procedure cm_OpenVirtualFileSystemList(const {%H-}Params: array of string);
+   procedure cm_TargetEqualSource(const {%H-}Params: array of string);
+   procedure cm_LeftEqualRight(const {%H-}Params: array of string);
+   procedure cm_RightEqualLeft(const {%H-}Params: array of string);
    procedure cm_PackFiles(const Params: array of string);
    procedure cm_ExtractFiles(const Params: array of string);
    procedure cm_QuickSearch(const Params: array of string);
@@ -2855,26 +2855,30 @@ procedure TMainCommands.DoActualMarkUnMark(const Params: array of string; bSelec
 var
   iParameter: integer;
   sWantedMask, sParamValue: string;
+  sAttribute: string = '';
   bWantedCaseSensitive, bWantedIgnoreAccents, bWantedWindowsInterpretation: boolean;
   pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation: PBoolean;
+  psAttribute: pString;
 begin
   sWantedMask := '';
   pbWantedCaseSensitive := nil;
   pbWantedIgnoreAccents := nil;
   pbWantedWindowsInterpretation := nil;
+  psAttribute := nil;
 
   for iParameter:=0 to pred(Length(Params)) do
   begin
     if GetParamValue(Params[iParameter], 'mask', sParamValue) then sWantedMask := sParamValue
     else if GetParamBoolValue(Params[iParameter], 'casesensitive', bWantedCaseSensitive) then pbWantedCaseSensitive := @bWantedCaseSensitive
     else if GetParamBoolValue(Params[iParameter], 'ignoreaccents', bWantedIgnoreAccents) then pbWantedIgnoreAccents := @bWantedIgnoreAccents
-    else if GetParamBoolValue(Params[iParameter], 'windowsinterpretation', bWantedWindowsInterpretation) then pbWantedWindowsInterpretation := @bWantedWindowsInterpretation;
+    else if GetParamBoolValue(Params[iParameter], 'windowsinterpretation', bWantedWindowsInterpretation) then pbWantedWindowsInterpretation := @bWantedWindowsInterpretation
+    else if GetParamValue(Params[iParameter], 'attr', sAttribute) then psAttribute := @sAttribute;
   end;
 
   if sWantedMask<>'' then
-    frmMain.ActiveFrame.MarkGroup(sWantedMask, bSelect, pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation)
+    frmMain.ActiveFrame.MarkGroup(sWantedMask, bSelect, pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation, psAttribute)
   else
-    frmMain.ActiveFrame.MarkGroup(bSelect, pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation)
+    frmMain.ActiveFrame.MarkGroup(bSelect, pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation, psAttribute)
 end;
 
 { TMainCommands.cm_MarkPlus }

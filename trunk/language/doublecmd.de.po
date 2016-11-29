@@ -1091,14 +1091,15 @@ msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: tfrmeditsearchreplace.btncancel.caption
+#: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 #, fuzzy
-msgctxt "tfrmeditsearchreplace.btncancel.caption"
+msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
-msgstr "Abbru&ch"
+msgstr "&Ende"
 
-#: tfrmeditsearchreplace.btnok.caption
-msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
+#: tfrmeditsearchreplace.buttonpanel.okbutton.caption
+#, fuzzy
+msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr "&OK"
 
@@ -1317,11 +1318,6 @@ msgstr "Dateiname"
 msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
 msgid "???"
 msgstr "???"
-
-#: tfrmfileproperties.lblfilenamestr.caption
-msgctxt "TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION"
-msgid "Name:"
-msgstr "Name:"
 
 #: tfrmfileproperties.lblfilestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILESTR.CAPTION"
@@ -3234,6 +3230,18 @@ msgctxt "tfrmmaincommandsdlg.lblselectedcommandhotkey.caption"
 msgid "Hotkey"
 msgstr "Tastaturkürzel"
 
+#: tfrmmaskinputdlg.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmmaskinputdlg.btnaddattribute.caption"
+msgid "&Add"
+msgstr "&Hinzufügen"
+
+#: tfrmmaskinputdlg.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmmaskinputdlg.btnattrshelp.caption"
+msgid "&Help"
+msgstr "&Hilfe"
+
 #: tfrmmaskinputdlg.btncancel.caption
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
 msgid "&Cancel"
@@ -3254,6 +3262,10 @@ msgstr ""
 
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
+msgstr ""
+
+#: tfrmmaskinputdlg.lblattributes.caption
+msgid "Attri&butes:"
 msgstr ""
 
 #: tfrmmaskinputdlg.lblprompt.caption
@@ -5591,10 +5603,26 @@ msgstr "Im Terminal ausführen und geöffnet lassen"
 msgid "Extended options items:"
 msgstr "Einträge für erweiterte Optionen:"
 
+#: tfrmoptionsfileoperations.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.btnaddattribute.caption"
+msgid "&Add"
+msgstr "&Hinzufügen"
+
+#: tfrmoptionsfileoperations.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmoptionsfileoperations.btnattrshelp.caption"
+msgid "&Help"
+msgstr "&Hilfe"
+
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
 msgid "Show confirmation window for:"
 msgstr "Bestätigungsdialog zeigen für:"
+
+#: tfrmoptionsfileoperations.bvlmarkingfiles.caption
+msgid "Marking/Unmarking files:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
@@ -5647,6 +5675,15 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "&Fehler bei Datei-Operationen ignorieren und sie im Log-Fenster anzeigen"
 
+#: tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
+
+#: tfrmoptionsfileoperations.chkmarkmaskshowattribute.caption
+msgid "Show attribute specification in mask input dialog each time"
+msgstr ""
+
 #: tfrmoptionsfileoperations.dbtextsearch.caption
 msgid "Text search in files"
 msgstr "Textsuche in Dateien"
@@ -5663,6 +5700,10 @@ msgstr "Dateisuche"
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
 msgstr "Nutzeroberfläche"
+
+#: tfrmoptionsfileoperations.lbattributemask.caption
+msgid "Attribute mask value to use:"
+msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "&Buffer size for file operations (in KB):"
@@ -6464,10 +6505,6 @@ msgstr ""
 #: tfrmoptionsmisc.chkgotoroot.caption
 msgid "Always &go to the root of a drive when changing drives"
 msgstr "Beim Wechsel des Laufwerkes immer zur &obersten Ebenen des Laufwerkes wechseln"
-
-#: tfrmoptionsmisc.chkmarkmaskfilterwindows.caption
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
 
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgid "Show &warning messages (\"OK\" button only)"
@@ -9735,6 +9772,10 @@ msgstr "Zugang:"
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Zusätzliche Parameter für die Befehlszeile des Packers:"
+
+#: ulng.rsmsgaskquoteornot
+msgid "Do you want to enclose between quotes?"
+msgstr ""
 
 #: ulng.rsmsgbadcrc32
 msgid ""

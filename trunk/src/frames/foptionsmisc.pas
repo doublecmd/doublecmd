@@ -38,7 +38,6 @@ type
     btnThumbCompactCache: TButton;
     chkDescCreateUnicode: TCheckBox;
     chkGoToRoot: TCheckBox;
-    chkMarkMaskFilterWindows: TCheckBox;
     chkThumbSave: TCheckBox;
     chkShowWarningMessages: TCheckBox;
     cmbDescDefaultEncoding: TComboBox;
@@ -114,7 +113,6 @@ begin
   speThumbWidth.Value            := gThumbSize.cx;
   speThumbHeight.Value           := gThumbSize.cy;
   chkGoToRoot.Checked            := gGoToRoot;
-  chkMarkMaskFilterWindows.Checked := gMarkMaskFilterWindows;
 
   {$IFDEF MSWINDOWS}
   gbTCExportImport.Visible:=True;
@@ -152,7 +150,6 @@ begin
   gThumbSize.cx        := speThumbWidth.Value;
   gThumbSize.cy        := speThumbHeight.Value;
   gGoToRoot            := chkGoToRoot.Checked;
-  gMarkMaskFilterWindows := chkMarkMaskFilterWindows.Checked;
   {$IFDEF MSWINDOWS}
   gTotalCommanderExecutableFilename := fneTCExecutableFilename.FileName;
   gTotalCommanderConfigFilename := fneTCConfigFilename.FileName;
