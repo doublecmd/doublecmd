@@ -764,6 +764,10 @@ msgstr "&OK"
 msgid "Remove last shortcut from sequence"
 msgstr "Odstraní poslední zkratku ze sekvence"
 
+#: tfrmedithotkey.btnselectfromlist.hint
+msgid "Select shortcut from list of remaining free available keys"
+msgstr ""
+
 #: tfrmedithotkey.cghkcontrols.caption
 msgid "Only for these controls"
 msgstr "Pouze pro tyto prvky"
@@ -775,6 +779,10 @@ msgstr "&Parametry (každý na zvláštní řádce):"
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
 msgstr "Zkratky:"
+
+#: tfrmedithotkey.menuitem1.caption
+msgid "New Item1"
+msgstr ""
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -1977,6 +1985,10 @@ msgstr "Nastavení oblíbených záložek"
 #: tfrmmain.actconfigfoldertabs.caption
 msgid "Configuration of folder tabs"
 msgstr "Nastavení adresářů záložek"
+
+#: tfrmmain.actconfighotkeys.caption
+msgid "Configuration of hot keys"
+msgstr ""
 
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
@@ -5958,17 +5970,73 @@ msgstr "&Knižní písmo prohlížeče"
 msgid "&Viewer font"
 msgstr "&Písmo prohlížeče"
 
-#: tfrmoptionshotkeys.btnaddhotkey.caption
+#: tfrmoptionshotkeys.actaddhotkey.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.actaddhotkey.caption"
 msgid "Add &hotkey"
 msgstr "Přidat &klávesovou zkratku"
 
-#: tfrmoptionshotkeys.btndeletehotkey.caption
+#: tfrmoptionshotkeys.actcopy.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.actcopy.caption"
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: tfrmoptionshotkeys.actdelete.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.actdelete.caption"
+msgid "Delete"
+msgstr "Vymazat"
+
+#: tfrmoptionshotkeys.actdeletehotkey.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.actdeletehotkey.caption"
 msgid "&Delete hotkey"
 msgstr "&Vymazat klávesovou zkratku"
 
-#: tfrmoptionshotkeys.btnedithotkey.caption
+#: tfrmoptionshotkeys.actedithotkey.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.actedithotkey.caption"
 msgid "&Edit hotkey"
 msgstr "&Upravit klávesovou zkratku"
+
+#: tfrmoptionshotkeys.actnextcategory.caption
+msgid "Next category"
+msgstr ""
+
+#: tfrmoptionshotkeys.actpopupfilerelatedmenu.caption
+msgid "Make popup the file related menu"
+msgstr ""
+
+#: tfrmoptionshotkeys.actpreviouscategory.caption
+msgid "Previous category"
+msgstr ""
+
+#: tfrmoptionshotkeys.actrename.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.actrename.caption"
+msgid "Rename"
+msgstr "Přejmenovat"
+
+#: tfrmoptionshotkeys.actrestoredefault.caption
+msgid "Restore DC default"
+msgstr ""
+
+#: tfrmoptionshotkeys.actsavenow.caption
+msgid "Save now"
+msgstr ""
+
+#: tfrmoptionshotkeys.actsortbycommand.caption
+msgid "Sort by command name"
+msgstr ""
+
+#: tfrmoptionshotkeys.actsortbyhotkeysgrouped.caption
+msgid "Sort by hotkeys (grouped)"
+msgstr ""
+
+#: tfrmoptionshotkeys.actsortbyhotkeysoneperline.caption
+msgid "Sort by hotkeys (one per row)"
+msgstr ""
 
 #: tfrmoptionshotkeys.lbfilter.caption
 msgid "&Filter"
@@ -5986,34 +6054,29 @@ msgstr "Př&íkazy:"
 msgid "&Shortcut files:"
 msgstr "&Soubory zástupců:"
 
-#: tfrmoptionshotkeys.stgcommands.columns[0].title.caption
-msgctxt "TFRMOPTIONSHOTKEYS.STGCOMMANDS.COLUMNS[0].TITLE.CAPTION"
+#: tfrmoptionshotkeys.lblsortorder.caption
+msgid "So&rt order:"
+msgstr ""
+
+#: tfrmoptionshotkeys.micategories.caption
+msgid "Categories"
+msgstr ""
+
+#: tfrmoptionshotkeys.micommands.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.micommands.caption"
 msgid "Command"
 msgstr "Příkaz"
 
-#: tfrmoptionshotkeys.stgcommands.columns[1].title.caption
-msgctxt "TFRMOPTIONSHOTKEYS.STGCOMMANDS.COLUMNS[1].TITLE.CAPTION"
-msgid "Hotkeys"
-msgstr "Klávesové zkratky"
+#: tfrmoptionshotkeys.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.miseparator1.caption"
+msgid "-"
+msgstr "-"
 
-#: tfrmoptionshotkeys.stgcommands.columns[2].title.caption
-msgctxt "TFRMOPTIONSHOTKEYS.STGCOMMANDS.COLUMNS[2].TITLE.CAPTION"
-msgid "Description"
-msgstr "Popis"
-
-#: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
-msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
-msgid "Hotkey"
-msgstr "Klávesová zkratka"
-
-#: tfrmoptionshotkeys.stghotkeys.columns[1].title.caption
-msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
-msgid "Parameters"
-msgstr "Parametry"
-
-#: tfrmoptionshotkeys.stghotkeys.columns[2].title.caption
-msgid "Controls"
-msgstr "Ovládací prvky"
+#: tfrmoptionshotkeys.misortorder.caption
+msgid "Sort order"
+msgstr ""
 
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
@@ -9379,6 +9442,50 @@ msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"
 msgstr "Prohlížeč"
 
+#: ulng.rshotkeyfilealreadyexists
+msgid ""
+"A setup with that name already exists.\n"
+"Do you want to overwrite it?\n"
+msgstr ""
+
+#: ulng.rshotkeyfileconfirmdefault
+msgid "Are you sure you want to restore default?"
+msgstr ""
+
+#: ulng.rshotkeyfileconfirmerasure
+msgid "Are you sure you want to erase setup \"%s\"?"
+msgstr ""
+
+#: ulng.rshotkeyfilecopyof
+msgid "Copy of %s"
+msgstr ""
+
+#: ulng.rshotkeyfileinputnewname
+msgid "Input your new name"
+msgstr ""
+
+#: ulng.rshotkeyfilemustkeepone
+msgid "You must keep at least one shortcut file."
+msgstr ""
+
+#: ulng.rshotkeyfilenewname
+msgid "New name"
+msgstr ""
+
+#: ulng.rshotkeyfilesavemodified
+msgid ""
+"\"%s\" setup has been modified.\n"
+"Do you want to save it now?\n"
+msgstr ""
+
+#: ulng.rshotkeynoscenter
+msgid "No shortcut with \"ENTER\""
+msgstr ""
+
+#: ulng.rshotkeysortorder
+msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
+msgstr ""
+
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "Nemohu najít odkaz na výchozí BAR soubor"
@@ -11272,6 +11379,10 @@ msgstr "Název souboru"
 #: ulng.rssimplewordfiles
 msgid "files"
 msgstr "soubory"
+
+#: ulng.rssimplewordletter
+msgid "Letter"
+msgstr ""
 
 #: ulng.rssimplewordparameter
 msgid "Param"
