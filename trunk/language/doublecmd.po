@@ -764,6 +764,10 @@ msgstr ""
 msgid "Remove last shortcut from sequence"
 msgstr ""
 
+#: tfrmedithotkey.btnselectfromlist.hint
+msgid "Select shortcut from list of remaining free available keys"
+msgstr ""
+
 #: tfrmedithotkey.cghkcontrols.caption
 msgid "Only for these controls"
 msgstr ""
@@ -774,6 +778,10 @@ msgstr ""
 
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
+msgstr ""
+
+#: tfrmedithotkey.menuitem1.caption
+msgid "New Item1"
 msgstr ""
 
 #: tfrmeditor.actabout.caption
@@ -1974,6 +1982,10 @@ msgstr ""
 
 #: tfrmmain.actconfigfoldertabs.caption
 msgid "Configuration of folder tabs"
+msgstr ""
+
+#: tfrmmain.actconfighotkeys.caption
+msgid "Configuration of hot keys"
 msgstr ""
 
 #: tfrmmain.actconfigsavesettings.caption
@@ -5951,16 +5963,66 @@ msgstr ""
 msgid "&Viewer font"
 msgstr ""
 
-#: tfrmoptionshotkeys.btnaddhotkey.caption
+#: tfrmoptionshotkeys.actaddhotkey.caption
+msgctxt "TFRMOPTIONSHOTKEYS.ACTADDHOTKEY.CAPTION"
 msgid "Add &hotkey"
 msgstr ""
 
-#: tfrmoptionshotkeys.btndeletehotkey.caption
+#: tfrmoptionshotkeys.actcopy.caption
+msgctxt "TFRMOPTIONSHOTKEYS.ACTCOPY.CAPTION"
+msgid "Copy"
+msgstr ""
+
+#: tfrmoptionshotkeys.actdelete.caption
+msgctxt "TFRMOPTIONSHOTKEYS.ACTDELETE.CAPTION"
+msgid "Delete"
+msgstr ""
+
+#: tfrmoptionshotkeys.actdeletehotkey.caption
+msgctxt "TFRMOPTIONSHOTKEYS.ACTDELETEHOTKEY.CAPTION"
 msgid "&Delete hotkey"
 msgstr ""
 
-#: tfrmoptionshotkeys.btnedithotkey.caption
+#: tfrmoptionshotkeys.actedithotkey.caption
+msgctxt "TFRMOPTIONSHOTKEYS.ACTEDITHOTKEY.CAPTION"
 msgid "&Edit hotkey"
+msgstr ""
+
+#: tfrmoptionshotkeys.actnextcategory.caption
+msgid "Next category"
+msgstr ""
+
+#: tfrmoptionshotkeys.actpopupfilerelatedmenu.caption
+msgid "Make popup the file related menu"
+msgstr ""
+
+#: tfrmoptionshotkeys.actpreviouscategory.caption
+msgid "Previous category"
+msgstr ""
+
+#: tfrmoptionshotkeys.actrename.caption
+msgctxt "TFRMOPTIONSHOTKEYS.ACTRENAME.CAPTION"
+msgid "Rename"
+msgstr ""
+
+#: tfrmoptionshotkeys.actrestoredefault.caption
+msgid "Restore DC default"
+msgstr ""
+
+#: tfrmoptionshotkeys.actsavenow.caption
+msgid "Save now"
+msgstr ""
+
+#: tfrmoptionshotkeys.actsortbycommand.caption
+msgid "Sort by command name"
+msgstr ""
+
+#: tfrmoptionshotkeys.actsortbyhotkeysgrouped.caption
+msgid "Sort by hotkeys (grouped)"
+msgstr ""
+
+#: tfrmoptionshotkeys.actsortbyhotkeysoneperline.caption
+msgid "Sort by hotkeys (one per row)"
 msgstr ""
 
 #: tfrmoptionshotkeys.lbfilter.caption
@@ -5979,33 +6041,26 @@ msgstr ""
 msgid "&Shortcut files:"
 msgstr ""
 
-#: tfrmoptionshotkeys.stgcommands.columns[0].title.caption
-msgctxt "tfrmoptionshotkeys.stgcommands.columns[0].title.caption"
+#: tfrmoptionshotkeys.lblsortorder.caption
+msgid "So&rt order:"
+msgstr ""
+
+#: tfrmoptionshotkeys.micategories.caption
+msgid "Categories"
+msgstr ""
+
+#: tfrmoptionshotkeys.micommands.caption
+msgctxt "TFRMOPTIONSHOTKEYS.MICOMMANDS.CAPTION"
 msgid "Command"
 msgstr ""
 
-#: tfrmoptionshotkeys.stgcommands.columns[1].title.caption
-msgctxt "tfrmoptionshotkeys.stgcommands.columns[1].title.caption"
-msgid "Hotkeys"
+#: tfrmoptionshotkeys.miseparator1.caption
+msgctxt "TFRMOPTIONSHOTKEYS.MISEPARATOR1.CAPTION"
+msgid "-"
 msgstr ""
 
-#: tfrmoptionshotkeys.stgcommands.columns[2].title.caption
-msgctxt "tfrmoptionshotkeys.stgcommands.columns[2].title.caption"
-msgid "Description"
-msgstr ""
-
-#: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
-msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
-msgid "Hotkey"
-msgstr ""
-
-#: tfrmoptionshotkeys.stghotkeys.columns[1].title.caption
-msgctxt "tfrmoptionshotkeys.stghotkeys.columns[1].title.caption"
-msgid "Parameters"
-msgstr ""
-
-#: tfrmoptionshotkeys.stghotkeys.columns[2].title.caption
-msgid "Controls"
+#: tfrmoptionshotkeys.misortorder.caption
+msgid "Sort order"
 msgstr ""
 
 #: tfrmoptionsicons.cbiconsexclude.caption
@@ -9364,6 +9419,50 @@ msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"
 msgstr ""
 
+#: ulng.rshotkeyfilealreadyexists
+msgid ""
+"A setup with that name already exists.\n"
+"Do you want to overwrite it?\n"
+msgstr ""
+
+#: ulng.rshotkeyfileconfirmdefault
+msgid "Are you sure you want to restore default?"
+msgstr ""
+
+#: ulng.rshotkeyfileconfirmerasure
+msgid "Are you sure you want to erase setup \"%s\"?"
+msgstr ""
+
+#: ulng.rshotkeyfilecopyof
+msgid "Copy of %s"
+msgstr ""
+
+#: ulng.rshotkeyfileinputnewname
+msgid "Input your new name"
+msgstr ""
+
+#: ulng.rshotkeyfilemustkeepone
+msgid "You must keep at least one shortcut file."
+msgstr ""
+
+#: ulng.rshotkeyfilenewname
+msgid "New name"
+msgstr ""
+
+#: ulng.rshotkeyfilesavemodified
+msgid ""
+"\"%s\" setup has been modified.\n"
+"Do you want to save it now?\n"
+msgstr ""
+
+#: ulng.rshotkeynoscenter
+msgid "No shortcut with \"ENTER\""
+msgstr ""
+
+#: ulng.rshotkeysortorder
+msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
+msgstr ""
+
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr ""
@@ -11225,6 +11324,10 @@ msgstr ""
 
 #: ulng.rssimplewordfiles
 msgid "files"
+msgstr ""
+
+#: ulng.rssimplewordletter
+msgid "Letter"
 msgstr ""
 
 #: ulng.rssimplewordparameter

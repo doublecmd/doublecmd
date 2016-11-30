@@ -806,6 +806,10 @@ msgstr "&OK"
 msgid "Remove last shortcut from sequence"
 msgstr "Retirer le dernier raccourcis de la séquence"
 
+#: tfrmedithotkey.btnselectfromlist.hint
+msgid "Select shortcut from list of remaining free available keys"
+msgstr ""
+
 #: tfrmedithotkey.cghkcontrols.caption
 msgctxt "tfrmedithotkey.cghkcontrols.caption"
 msgid "Only for these controls"
@@ -818,6 +822,10 @@ msgstr "Paramètre (chacun sur sa ligne unique)"
 #: tfrmedithotkey.lblshortcuts.caption
 msgid "Shortcuts:"
 msgstr "Raccourcis :"
+
+#: tfrmedithotkey.menuitem1.caption
+msgid "New Item1"
+msgstr ""
 
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -2055,6 +2063,10 @@ msgstr "Configuration des groupes d'onglets favoris"
 #: tfrmmain.actconfigfoldertabs.caption
 msgid "Configuration of folder tabs"
 msgstr "Configuration des options reliées aux onlgets"
+
+#: tfrmmain.actconfighotkeys.caption
+msgid "Configuration of hot keys"
+msgstr ""
 
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
@@ -6173,18 +6185,73 @@ msgctxt "TFRMOPTIONSFONTS.LBLVIEWERFONT.CAPTION"
 msgid "&Viewer font"
 msgstr "Police du lecteur de fichiers"
 
-#: tfrmoptionshotkeys.btnaddhotkey.caption
+#: tfrmoptionshotkeys.actaddhotkey.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.actaddhotkey.caption"
 msgid "Add &hotkey"
 msgstr "Ajoute un raccourci clavier"
 
-#: tfrmoptionshotkeys.btndeletehotkey.caption
+#: tfrmoptionshotkeys.actcopy.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.actcopy.caption"
+msgid "Copy"
+msgstr "Copier"
+
+#: tfrmoptionshotkeys.actdelete.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.actdelete.caption"
+msgid "Delete"
+msgstr "Supprimer"
+
+#: tfrmoptionshotkeys.actdeletehotkey.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.actdeletehotkey.caption"
 msgid "&Delete hotkey"
 msgstr "Efface le raccourci clavier"
 
-#: tfrmoptionshotkeys.btnedithotkey.caption
-msgctxt "tfrmoptionshotkeys.btnedithotkey.caption"
+#: tfrmoptionshotkeys.actedithotkey.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.actedithotkey.caption"
 msgid "&Edit hotkey"
 msgstr "Éditer raccourci clavier"
+
+#: tfrmoptionshotkeys.actnextcategory.caption
+msgid "Next category"
+msgstr ""
+
+#: tfrmoptionshotkeys.actpopupfilerelatedmenu.caption
+msgid "Make popup the file related menu"
+msgstr ""
+
+#: tfrmoptionshotkeys.actpreviouscategory.caption
+msgid "Previous category"
+msgstr ""
+
+#: tfrmoptionshotkeys.actrename.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.actrename.caption"
+msgid "Rename"
+msgstr "Renommer"
+
+#: tfrmoptionshotkeys.actrestoredefault.caption
+msgid "Restore DC default"
+msgstr ""
+
+#: tfrmoptionshotkeys.actsavenow.caption
+msgid "Save now"
+msgstr ""
+
+#: tfrmoptionshotkeys.actsortbycommand.caption
+msgid "Sort by command name"
+msgstr ""
+
+#: tfrmoptionshotkeys.actsortbyhotkeysgrouped.caption
+msgid "Sort by hotkeys (grouped)"
+msgstr ""
+
+#: tfrmoptionshotkeys.actsortbyhotkeysoneperline.caption
+msgid "Sort by hotkeys (one per row)"
+msgstr ""
 
 #: tfrmoptionshotkeys.lbfilter.caption
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
@@ -6206,34 +6273,29 @@ msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
 msgid "&Shortcut files:"
 msgstr "Fichiers des raccourcis clavier :"
 
-#: tfrmoptionshotkeys.stgcommands.columns[0].title.caption
-msgctxt "tfrmoptionshotkeys.stgcommands.columns[0].title.caption"
+#: tfrmoptionshotkeys.lblsortorder.caption
+msgid "So&rt order:"
+msgstr ""
+
+#: tfrmoptionshotkeys.micategories.caption
+msgid "Categories"
+msgstr ""
+
+#: tfrmoptionshotkeys.micommands.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.micommands.caption"
 msgid "Command"
 msgstr "Commande"
 
-#: tfrmoptionshotkeys.stgcommands.columns[1].title.caption
-msgctxt "tfrmoptionshotkeys.stgcommands.columns[1].title.caption"
-msgid "Hotkeys"
-msgstr "Raccourcis clavier"
+#: tfrmoptionshotkeys.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmoptionshotkeys.miseparator1.caption"
+msgid "-"
+msgstr "-"
 
-#: tfrmoptionshotkeys.stgcommands.columns[2].title.caption
-msgctxt "tfrmoptionshotkeys.stgcommands.columns[2].title.caption"
-msgid "Description"
-msgstr "Description"
-
-#: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
-msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
-msgid "Hotkey"
-msgstr "Raccourci clavier"
-
-#: tfrmoptionshotkeys.stghotkeys.columns[1].title.caption
-msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
-msgid "Parameters"
-msgstr "Paramètres"
-
-#: tfrmoptionshotkeys.stghotkeys.columns[2].title.caption
-msgid "Controls"
-msgstr "Contrôle"
+#: tfrmoptionshotkeys.misortorder.caption
+msgid "Sort order"
+msgstr ""
 
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
@@ -9744,6 +9806,50 @@ msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"
 msgstr "Visionneuse"
 
+#: ulng.rshotkeyfilealreadyexists
+msgid ""
+"A setup with that name already exists.\n"
+"Do you want to overwrite it?\n"
+msgstr ""
+
+#: ulng.rshotkeyfileconfirmdefault
+msgid "Are you sure you want to restore default?"
+msgstr ""
+
+#: ulng.rshotkeyfileconfirmerasure
+msgid "Are you sure you want to erase setup \"%s\"?"
+msgstr ""
+
+#: ulng.rshotkeyfilecopyof
+msgid "Copy of %s"
+msgstr ""
+
+#: ulng.rshotkeyfileinputnewname
+msgid "Input your new name"
+msgstr ""
+
+#: ulng.rshotkeyfilemustkeepone
+msgid "You must keep at least one shortcut file."
+msgstr ""
+
+#: ulng.rshotkeyfilenewname
+msgid "New name"
+msgstr ""
+
+#: ulng.rshotkeyfilesavemodified
+msgid ""
+"\"%s\" setup has been modified.\n"
+"Do you want to save it now?\n"
+msgstr ""
+
+#: ulng.rshotkeynoscenter
+msgid "No shortcut with \"ENTER\""
+msgstr ""
+
+#: ulng.rshotkeysortorder
+msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
+msgstr ""
+
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "On ne troube pas de rérérence à la barre par défaut"
@@ -11670,6 +11776,10 @@ msgstr "Nom de fichier"
 #: ulng.rssimplewordfiles
 msgid "files"
 msgstr "fichiers"
+
+#: ulng.rssimplewordletter
+msgid "Letter"
+msgstr ""
 
 #: ulng.rssimplewordparameter
 msgid "Param"
