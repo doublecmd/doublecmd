@@ -346,6 +346,7 @@ type
    procedure cm_ConfigTreeViewMenusColors(const {%H-}Params: array of string);
    procedure cm_ConfigSaveSettings(const {%H-}Params: array of string);
 
+   procedure cm_ConfigHotKeys(const {%H-}Params: array of string);
    procedure cm_ExecuteScript(const {%H-}Params: array of string);
 
    // Internal commands
@@ -372,7 +373,8 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
      fOptionsToolbar, fMainCommandsDlg, uConnectionManager, fOptionsTabs, fOptionsFavoriteTabs,
-     fTreeViewMenu, fOptionsTreeViewMenu, fOptionsTreeViewMenuColor, uArchiveFileSource
+     fTreeViewMenu, fOptionsTreeViewMenu, fOptionsTreeViewMenuColor, uArchiveFileSource,
+     fOptionsHotKeys
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ELSE}
@@ -4770,6 +4772,7 @@ begin
 end;
 
 
+{ TMainCommands.cm_ConfigTreeViewMenusColors }
 procedure TMainCommands.cm_ConfigTreeViewMenusColors(const {%H-}Params: array of string);
 var
   Options: IOptionsDialog;
@@ -4781,11 +4784,13 @@ begin
   if Editor.CanFocus then  Editor.SetFocus;
 end;
 
+{ TMainCommands.cm_ConfigSaveSettings }
 procedure TMainCommands.cm_ConfigSaveSettings(const Params: array of string);
 begin
   frmMain.ConfigSaveSettings;
 end;
 
+{ TMainCommands.cm_ExecuteScript }
 procedure TMainCommands.cm_ExecuteScript(const Params: array of string);
 var
   FileName: String;
@@ -4811,6 +4816,23 @@ begin
     // Execute script
     ExecuteScript(FileName, Args);
   end;
+end;
+
+{ TMainCommands.cm_ConfigHotKeys }
+procedure TMainCommands.cm_ConfigHotKeys(const Params: array of string);
+var
+  Editor: TOptionsEditor;
+  Options: IOptionsDialog;
+  Param, sCategoryName:string;
+begin
+  sCategoryName:='';
+  Options := ShowOptions(TfrmOptionsHotkeys);
+  Editor := Options.GetEditor(TfrmOptionsHotkeys);
+  Application.ProcessMessages;
+  for Param in Params do
+    GetParamValue(Param, 'category', sCategoryName);
+  TfrmOptionsHotkeys(Editor).TryToSelectThatCategory(sCategoryName);
+  if Editor.CanFocus then  Editor.SetFocus;
 end;
 
 end.

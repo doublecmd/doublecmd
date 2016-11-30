@@ -3,90 +3,80 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
   Width = 808
   ClientHeight = 513
   ClientWidth = 808
-  DesignLeft = 423
-  DesignTop = 48
+  ParentShowHint = False
+  PopupMenu = pmShortcutMenu
+  ShowHint = True
+  DesignLeft = 451
+  DesignTop = 209
   object lblCategories: TLabel[0]
     AnchorSideLeft.Control = lbxCategories
     AnchorSideTop.Control = Owner
-    Left = 317
+    Left = 299
     Height = 15
     Top = 6
-    Width = 74
+    Width = 59
     BorderSpacing.Top = 6
     Caption = 'C&ategories:'
     FocusControl = lbxCategories
     ParentColor = False
   end
-  object lblCommands: TLabel[1]
+  object lbFilter: TLabel[1]
     AnchorSideLeft.Control = lbSCFilesList
-    AnchorSideTop.Control = edtFilter
+    AnchorSideTop.Control = lbxCategories
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtFilter
     Left = 6
     Height = 15
-    Top = 58
-    Width = 78
+    Top = 50
+    Width = 26
     BorderSpacing.Top = 6
-    Caption = 'Co&mmands:'
-    FocusControl = stgCommands
-    ParentColor = False
-  end
-  object lbFilter: TLabel[2]
-    AnchorSideTop.Control = edtFilter
-    AnchorSideTop.Side = asrCenter
-    AnchorSideRight.Control = edtFilter
-    Left = 663
-    Height = 15
-    Top = 57
-    Width = 32
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 4
-    BorderSpacing.Right = 4
     Caption = '&Filter'
     FocusControl = edtFilter
     ParentColor = False
   end
-  object lbxCategories: TComboBox[3]
-    AnchorSideLeft.Control = lbSCFilesList
+  object lbxCategories: TComboBox[2]
+    AnchorSideLeft.Control = btnFileAction
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = lblCategories
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 317
-    Height = 27
+    Left = 299
+    Height = 23
     Top = 21
-    Width = 485
+    Width = 503
     Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 6
+    BorderSpacing.Left = 10
     BorderSpacing.Right = 6
-    ItemHeight = 0
+    ItemHeight = 15
     OnChange = lbxCategoriesChange
     Style = csDropDownList
     TabOrder = 1
   end
-  object edtFilter: TEdit[4]
-    AnchorSideTop.Control = lbxCategories
+  object edtFilter: TEdit[3]
+    AnchorSideLeft.Control = lbSCFilesList
+    AnchorSideTop.Control = lbFilter
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = stgCommands
+    AnchorSideRight.Control = btnFileAction
     AnchorSideRight.Side = asrBottom
-    Left = 699
-    Height = 25
-    Top = 52
-    Width = 103
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 4
+    Left = 6
+    Height = 23
+    Top = 65
+    Width = 283
+    Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Bottom = 4
     OnChange = edtFilterChange
     TabOrder = 2
   end
-  object stgCommands: TStringGrid[5]
-    AnchorSideLeft.Control = lblCommands
-    AnchorSideTop.Control = edtFilter
+  object stgCommands: TStringGrid[4]
+    AnchorSideLeft.Control = lbSCFilesList
+    AnchorSideTop.Control = lblCommands
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 287
-    Top = 81
+    Height = 261
+    Top = 107
     Width = 796
     Anchors = [akTop, akLeft, akRight, akBottom]
     AutoFillColumns = True
@@ -105,7 +95,7 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
       end    
       item
         Title.Caption = 'Description'
-        Width = 265
+        Width = 263
       end>
     Constraints.MinHeight = 200
     Constraints.MinWidth = 200
@@ -114,19 +104,21 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     MouseWheelOption = mwGrid
     Options = [goVertLine, goColSizing, goColMoving, goRowSelect, goThumbTracking, goDblClickAutoSize, goSmoothScroll]
     RowCount = 1
-    TabOrder = 3
+    TabOrder = 4
     TitleStyle = tsNative
+    OnCompareCells = stgCommandsCompareCells
     OnDblClick = stgCommandsDblClick
     OnDrawCell = stgCommandsDrawCell
+    OnHeaderClick = stgCommandsHeaderClick
     OnResize = stgCommandsResize
     OnSelectCell = stgCommandsSelectCell
     ColWidths = (
       265
       264
-      265
+      263
     )
   end
-  object stgHotkeys: TStringGrid[6]
+  object stgHotkeys: TStringGrid[5]
     AnchorSideLeft.Control = stgCommands
     AnchorSideTop.Control = stgCommands
     AnchorSideTop.Side = asrBottom
@@ -136,7 +128,7 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     Left = 6
     Height = 137
     Top = 372
-    Width = 676
+    Width = 682
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Top = 4
     BorderSpacing.Right = 8
@@ -162,7 +154,7 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     Options = [goFixedVertLine, goFixedHorzLine, goColSizing, goColMoving, goRowSelect, goThumbTracking, goDblClickAutoSize, goSmoothScroll]
     RowCount = 3
     ScrollBars = ssAutoVertical
-    TabOrder = 4
+    TabOrder = 5
     TitleStyle = tsNative
     OnDblClick = stgHotkeysDblClick
     OnKeyDown = stgHotkeysKeyDown
@@ -174,16 +166,16 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
       120
     )
   end
-  object pnlHotkeyButtons: TPanel[7]
+  object pnlHotkeyButtons: TPanel[6]
     AnchorSideTop.Control = stgHotkeys
     AnchorSideRight.Control = stgCommands
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = stgHotkeys
     AnchorSideBottom.Side = asrBottom
-    Left = 690
+    Left = 696
     Height = 137
     Top = 372
-    Width = 112
+    Width = 106
     Anchors = [akTop, akRight, akBottom]
     AutoSize = True
     BevelOuter = bvNone
@@ -195,31 +187,27 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 137
-    ClientWidth = 112
-    TabOrder = 5
+    ClientWidth = 106
+    TabOrder = 6
     object btnAddHotKey: TButton
       AnchorSideRight.Side = asrBottom
       Left = 0
       Height = 42
       Top = 0
-      Width = 112
+      Width = 106
+      Action = actAddHotKey
       AutoSize = True
       BorderSpacing.InnerBorder = 4
-      Caption = 'Add &hotkey'
-      Enabled = False
-      OnClick = btnAddHotKeyClick
       TabOrder = 0
     end
     object btnEditHotkey: TButton
       Left = 0
       Height = 42
       Top = 48
-      Width = 112
+      Width = 106
+      Action = actEditHotKey
       AutoSize = True
       BorderSpacing.InnerBorder = 4
-      Caption = '&Edit hotkey'
-      Enabled = False
-      OnClick = btnEditHotkeyClick
       TabOrder = 1
     end
     object btnDeleteHotKey: TButton
@@ -227,39 +215,257 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
       Left = 0
       Height = 41
       Top = 96
-      Width = 112
+      Width = 106
+      Action = actDeleteHotKey
       AutoSize = True
       BorderSpacing.InnerBorder = 4
-      Caption = '&Delete hotkey'
-      Enabled = False
-      OnClick = btnDeleteHotKeyClick
       TabOrder = 2
     end
   end
-  object lbSCFilesList: TComboBox[8]
+  object lbSCFilesList: TComboBox[7]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblSCFiles
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 27
+    Height = 23
     Top = 21
-    Width = 305
+    Width = 258
     BorderSpacing.Left = 6
-    ItemHeight = 0
+    ItemHeight = 15
     OnChange = lbSCFilesListChange
     Style = csDropDownList
     TabOrder = 0
   end
-  object lblSCFiles: TLabel[9]
+  object lblSCFiles: TLabel[8]
     AnchorSideLeft.Control = lbSCFilesList
     AnchorSideTop.Control = Owner
     Left = 6
     Height = 15
     Top = 6
-    Width = 89
+    Width = 72
     BorderSpacing.Top = 6
     Caption = '&Shortcut files:'
     FocusControl = lbSCFilesList
     ParentColor = False
+  end
+  object btnFileAction: TSpeedButton[9]
+    AnchorSideLeft.Control = lbSCFilesList
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = lbSCFilesList
+    AnchorSideTop.Side = asrCenter
+    AnchorSideBottom.Control = lbSCFilesList
+    AnchorSideBottom.Side = asrBottom
+    Left = 266
+    Height = 23
+    Top = 21
+    Width = 23
+    Action = actPopupFileRelatedMenu
+    BorderSpacing.Left = 2
+    Glyph.Data = {
+      36040000424D3604000000000000360000002800000010000000100000000100
+      2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00000000300000
+      0033000000330000003300000033000000330000003300000033000000330000
+      00330000003300000033000000330000003300000033000000239E9688F29E96
+      88FF9D9587FF9D9587FF9D9487FF9D9486FF9D9486FF9D9486FF9D9486FF9D94
+      86FF9D9486FF9D9487FF9D9587FF9D9587FF9E9688FF938B7FC09E9688FFCAC5
+      C2FFC7C2BEFFC7C2BEFFC6C1BDFFC5C0BCFFC5C0BBFFC5C0BBFFC5C0BBFFC5C0
+      BBFFC5C0BCFFC6C1BDFFC7C2BEFFC7C2BEFFCAC5C2FF9E9688FF9D9487FFC9C6
+      C1FFF6F8FAFFAFA89DFFF5F6F9FFF3F4F6FFF3F4F6FFF3F4F6FFF3F4F6FFF3F4
+      F6FFF3F4F6FFF5F6F8FFAFA89DFFF6F8FAFFC9C6C1FF9D9487FF9D9487FFCDCA
+      C4FFAAA497FFACA598FFACA599FFAAA497FFABA498FFAAA497FFABA498FFAAA4
+      97FFABA498FFAAA497FFAAA397FFAAA396FFCDC9C4FF9D9487FF9C9486FFCFCD
+      C6FFF5F6F9FFF7F8FAFFA9A296FFF8FAFDFFA9A396FFF8FAFDFFA9A396FFF8FA
+      FDFFA9A296FFF6F7FAFFF3F4F6FFF2F3F5FFCECBC4FF9C9486FF9C9486FFD3D2
+      CBFFA49C8EFFA69E91FFA7A092FFA7A092FFA7A092FFA7A092FFA7A092FFA7A0
+      92FFA7A092FFA59E90FFA2998BFFF1F2F4FFD1D0C8FF9C9386FF9C9386FFD6D5
+      CDFFF6F7FAFFA1998CFFF8FAFDFFA29A8DFFF8FAFDFFA29A8DFFF8FAFDFFA29A
+      8DFFF8FAFDFFA1998CFFF5F6F9FFDDD9D7FFD5D4CBFF9C9386FF9C9386FFDADA
+      D1FFB6B0A4FFB8B1A6FFB8B1A5FFB8B2A6FFB8B1A5FFB8B2A6FFB8B1A5FFB8B2
+      A6FFB8B1A5FFB8B1A6FFB6B0A4FFB6AFA3FFDADAD1FF9C9386FF9D9487FFDFE1
+      D7FFDDDED4FFDDDED4FFDDDED5FFDDDED5FFDDDED5FFDDDED5FFDDDED5FFDDDE
+      D5FFDDDED5FFDDDED5FFDDDED4FFDDDED4FFDFE1D7FF9D9487FF9F978AB09D95
+      87FF9C9386FF9C9386FF9C9386FF9C9386FF9C9386FF9C9386FF9C9386FF9C93
+      86FF9C9386FF9C9386FF9C9386FF9C9386FF9D9587FF9F978AB0A1998C00A098
+      8B00A0988B00A0988BFF0000003300000024A0988B00A0988B00A0988B00A098
+      8B00A0988B00A0988B00A0988B00A0988B00A0988B00A1998C00A1998C00A199
+      8C00A1998C00A1998CB5A1998CFF948D81C4A1998C00A1998C00A1998C00A199
+      8C00A1998C00A1998C00A1998C00A1998C00A1998C00A1998C00A1998C00A199
+      8C00A1998C00A1998C00A1998C00A1998CFFA1998C00A1998C00A1998C00A199
+      8C00A1998C00A1998C00A1998C00A1998C00A1998C00A1998C00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+    }
+  end
+  object lblSortOrder: TLabel[10]
+    AnchorSideLeft.Control = lbxCategories
+    AnchorSideTop.Control = lbxCategories
+    AnchorSideTop.Side = asrBottom
+    Left = 299
+    Height = 15
+    Top = 50
+    Width = 55
+    BorderSpacing.Top = 6
+    Caption = 'So&rt order:'
+    FocusControl = cbCommandSortOrder
+    ParentColor = False
+  end
+  object cbCommandSortOrder: TComboBox[11]
+    AnchorSideLeft.Control = lbxCategories
+    AnchorSideTop.Control = lblSortOrder
+    AnchorSideTop.Side = asrBottom
+    Left = 299
+    Height = 23
+    Top = 65
+    Width = 208
+    ItemHeight = 15
+    OnChange = cbCommandSortOrderChange
+    Style = csDropDownList
+    TabOrder = 3
+  end
+  object lblCommands: TLabel[12]
+    AnchorSideLeft.Control = lbSCFilesList
+    AnchorSideTop.Control = edtFilter
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 15
+    Top = 92
+    Width = 65
+    Caption = 'Co&mmands:'
+    FocusControl = stgCommands
+    ParentColor = False
+  end
+  object alMainActionList: TActionList[13]
+    left = 680
+    top = 240
+    object actSaveNow: TAction
+      Caption = 'Save now'
+      OnExecute = actSaveNowExecute
+      ShortCut = 16467
+    end
+    object actRename: TAction
+      Tag = 1
+      Caption = 'Rename'
+      OnExecute = actRenameExecute
+      ShortCut = 8309
+    end
+    object actCopy: TAction
+      Caption = 'Copy'
+      OnExecute = actCopyExecute
+      ShortCut = 116
+    end
+    object actDelete: TAction
+      Caption = 'Delete'
+      OnExecute = actDeleteExecute
+      ShortCut = 119
+    end
+    object actRestoreDefault: TAction
+      Caption = 'Restore DC default'
+      OnExecute = actRestoreDefaultExecute
+      ShortCut = 24658
+    end
+    object actAddHotKey: TAction
+      Caption = 'Add &hotkey'
+      OnExecute = actAddHotKeyExecute
+      ShortCut = 118
+    end
+    object actEditHotKey: TAction
+      Caption = '&Edit hotkey'
+      OnExecute = actEditHotKeyExecute
+      ShortCut = 115
+    end
+    object actDeleteHotKey: TAction
+      Caption = '&Delete hotkey'
+      OnExecute = actDeleteHotKeyExecute
+      ShortCut = 46
+    end
+    object actPreviousCategory: TAction
+      Caption = 'Previous category'
+      OnExecute = actPreviousCategoryExecute
+      ShortCut = 109
+    end
+    object actNextCategory: TAction
+      Caption = 'Next category'
+      OnExecute = actNextCategoryExecute
+      ShortCut = 107
+    end
+    object actSortByCommand: TAction
+      Caption = 'Sort by command name'
+      OnExecute = actAdjustSortOrderExecute
+      ShortCut = 16498
+    end
+    object actSortByHotKeysGrouped: TAction
+      Tag = 1
+      Caption = 'Sort by hotkeys (grouped)'
+      OnExecute = actAdjustSortOrderExecute
+      ShortCut = 16499
+    end
+    object actSortByHotKeysOnePerLine: TAction
+      Tag = 2
+      Caption = 'Sort by hotkeys (one per row)'
+      OnExecute = actAdjustSortOrderExecute
+      ShortCut = 16500
+    end
+    object actPopupFileRelatedMenu: TAction
+      Caption = 'Make popup the file related menu'
+      OnExecute = actPopupFileRelatedMenuExecute
+      ShortCut = 120
+    end
+  end
+  object pmShortcutMenu: TPopupMenu[14]
+    left = 328
+    top = 216
+    object miSaveNow: TMenuItem
+      Action = actSaveNow
+    end
+    object miRename: TMenuItem
+      Action = actRename
+    end
+    object miCopy: TMenuItem
+      Action = actCopy
+    end
+    object miDelete: TMenuItem
+      Action = actDelete
+    end
+    object miRestoreDefault: TMenuItem
+      Action = actRestoreDefault
+    end
+    object miSeparator1: TMenuItem
+      Caption = '-'
+    end
+    object miCategories: TMenuItem
+      Caption = 'Categories'
+      object miPreviousCategory: TMenuItem
+        Action = actPreviousCategory
+      end
+      object miNextCategory: TMenuItem
+        Action = actNextCategory
+      end
+    end
+    object miSortOrder: TMenuItem
+      Caption = 'Sort order'
+      object miSortByCommand: TMenuItem
+        Action = actSortByCommand
+      end
+      object miSortByHotKeysGrouped: TMenuItem
+        Action = actSortByHotKeysGrouped
+      end
+      object miSortByHotKeysOnePerLine: TMenuItem
+        Action = actSortByHotKeysOnePerLine
+      end
+    end
+    object miCommands: TMenuItem
+      Caption = 'Command'
+      object miAddHotKey: TMenuItem
+        Action = actAddHotKey
+      end
+      object miEditHotKey: TMenuItem
+        Action = actEditHotKey
+      end
+      object miDeleteHotKey: TMenuItem
+        Action = actDeleteHotKey
+      end
+    end
   end
 end

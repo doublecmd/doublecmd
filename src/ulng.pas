@@ -620,6 +620,17 @@ resourcestring
   rsHotkeyCategoryDiffer = 'Differ';
   rsHotkeyCategoryCopyMoveDialog = 'Copy/Move Dialog';
   rsHotkeyCategoryEditCommentDialog = 'Edit Comment Dialog';
+  rsHotkeySortOrder = 'By command name;By shortcut key (grouped);By shortcut key (one per row)';
+  rsHotKeyNoSCEnter='No shortcut with "ENTER"';
+  rsHotKeyFileSaveModified = '"%s" setup has been modified.'+#$0A+'Do you want to save it now?';
+  rsHotKeyFileNewName = 'New name';
+  rsHotKeyFileInputNewName = 'Input your new name';
+  rsHotKeyFileAlreadyExists = 'A setup with that name already exists.'+#$0A+'Do you want to overwrite it?';
+  rsHotKeyFileCopyOf = 'Copy of %s';
+  rsHotKeyFileConfirmErasure = 'Are you sure you want to erase setup "%s"?';
+  rsHotKeyFileMustKeepOne = 'You must keep at least one shortcut file.';
+  rsHotKeyFileConfirmDefault = 'Are you sure you want to restore default?';
+
   rsCmdCategoryListInOrder='All;Active Panel;Left Panel;Right Panel;File Operations;Configuration;Network;Miscellaneous;Parallel Port;Print;Mark;Security;Clipboard;FTP;Navigation;Help;Window;Command Line;Tools;View;User;Tabs;Sorting;Log';
   rsCmdKindOfSort='Legacy sorted;A-Z sorted';
   rsMsgThisIsNowInClipboard = '"%s" is now in the clipboard';
@@ -631,6 +642,7 @@ resourcestring
   rsSimpleWordWorkDir = 'WorkDir';
   rsSimpleWordResult = 'Result';
   rsSimpleWordColumnSingular = 'Column';
+  rsSimpleWordLetter = 'Letter';
 
   // Plugins
   rsOptPluginsActive = 'Active';

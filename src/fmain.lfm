@@ -2598,6 +2598,13 @@ object frmMain: TfrmMain
       Caption = 'Configuration of Tree View Menu Colors'
       OnExecute = actExecute
     end
+    object actConfigHotKeys: TAction
+      Tag = 5
+      Category = 'Configuration'
+      Caption = 'Configuration of hot keys'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
     object actConfigSaveSettings: TAction
       Tag = 5
       Category = 'Configuration'
