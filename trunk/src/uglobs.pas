@@ -116,6 +116,7 @@ type
 
   TBriefViewMode = (bvmFixedWidth, bvmFixedCount, bvmAutoSize);
 
+  THotKeySortOrder = (hksoByCommand, hksoByHotKeyGrouped, hksoByHotKeyOnePerRow);
 const
   { Default hotkey list version number }
   hkVersion     = 39;
@@ -441,6 +442,8 @@ var
   {HotKey Manager}
   HotMan:THotKeyManager;
   gNameSCFile: string;
+  gHotKeySortOrder: THotKeySortOrder;
+  gUseEnterToCloseHotKeyEditor: boolean;
   
   {Copy/Move operation options}
   gOperationOptionSymLinks: TFileSourceOperationOptionSymLink;
@@ -1668,6 +1671,8 @@ begin
   gGoToRoot := False;
   gLuaLib := LuaDLL;
   gNameSCFile := 'shortcuts.scf';
+  gHotKeySortOrder := hksoByCommand;
+  gUseEnterToCloseHotKeyEditor := True;
   gLastUsedPacker := 'zip';
   gUseShellForFileOperations :=
     {$IF DEFINED(MSWINDOWS)}WindowsVersion >= wvVista{$ELSE}False{$ENDIF};
@@ -2915,6 +2920,8 @@ begin
     { - Other - }
     gLuaLib := GetValue(Root, 'Lua/PathToLibrary', gLuaLib);
     gNameSCFile:= GetValue(Root, 'NameShortcutFile', gNameSCFile);
+    gHotKeySortOrder := THotKeySortOrder(GetValue(Root, 'HotKeySortOrder', Integer(hksoByCommand)));
+    gUseEnterToCloseHotKeyEditor := GetValue(Root,'UseEnterToCloseHotKeyEditor',gUseEnterToCloseHotKeyEditor);
     gLastUsedPacker:= GetValue(Root, 'LastUsedPacker', gLastUsedPacker);
     gUseShellForFileOperations:= GetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
     gLastDoAnyCommand:=GetValue(Root, 'LastDoAnyCommand', gLastDoAnyCommand);
@@ -3374,6 +3381,8 @@ begin
     { - Other - }
     SetValue(Root, 'Lua/PathToLibrary', gLuaLib);
     SetValue(Root, 'NameShortcutFile', gNameSCFile);
+    SetValue(Root, 'HotKeySortOrder', Integer(gHotKeySortOrder));
+    SetValue(Root, 'UseEnterToCloseHotKeyEditor', gUseEnterToCloseHotKeyEditor);
     SetValue(Root, 'LastUsedPacker', gLastUsedPacker);
     SetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
     SetValue(Root, 'LastDoAnyCommand', gLastDoAnyCommand);

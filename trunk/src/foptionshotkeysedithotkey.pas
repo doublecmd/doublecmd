@@ -4,7 +4,7 @@
    Editor for hotkeys
 
    Copyright (C) 2012  Przemyslaw Nagay (cobines@gmail.com)
-   Copyright (C) 2015  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,8 +29,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons,
-  uHotkeyManager, DCBasicTypes;
+  ExtCtrls, Buttons, Menus, uHotkeyManager, DCBasicTypes;
 
 type
 
@@ -48,18 +47,25 @@ type
     lblHotKeyConflict: TLabel;
     lblParameters: TLabel;
     edtParameters: TMemo;
+    MenuItem1: TMenuItem;
     pnlShortcuts: TPanel;
     btnAddShortcut: TSpeedButton;
     btnRemoveShortcut: TSpeedButton;
+    pmWithAllShortcuts: TPopupMenu;
+    btnSelectFromList: TSpeedButton;
     procedure btnAddShortcutClick(Sender: TObject);
     procedure btnRemoveShortcutClick(Sender: TObject);
     procedure btnShowCommandHelpClick(Sender: TObject);
-    procedure cgHKControlsItemClick(Sender: TObject; Index: integer);
-    procedure edtShortcutKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure cgHKControlsItemClick(Sender: TObject; {%H-}Index: integer);
+    procedure edtShortcutKeyDown(Sender: TObject; var Key: Word; {%H-}Shift: TShiftState);
     procedure edtShortcutKeyPress(Sender: TObject; var Key: char);
-    procedure edtShortcutKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtShortcutKeyUp(Sender: TObject; var Key: Word; {%H-}Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure ChangeEnterBehaviorClick(Sender: TObject);
+    procedure ShortcutHelperClick(Sender: TObject);
+    procedure PopulateHelperMenu;
+    procedure btnSelectFromListClick(Sender: TObject);
   private
     FCommand: String;
     FEditMode: Boolean;
@@ -103,7 +109,7 @@ implementation
 {$R *.lfm}
 
 uses
-  HelpIntfs, LCLType, dmHelpManager, uOSUtils, uKeyboard, uLng, uGlobs, uFormCommands, DCStrUtils,
+  LCLType, dmHelpManager, uKeyboard, uLng, uGlobs, uFormCommands, DCStrUtils,
   uPixMapManager;
 
 const
@@ -218,6 +224,8 @@ end;
 procedure TfrmEditHotkey.btnAddShortcutClick(Sender: TObject);
 begin
   AddShortcutEditor;
+  if TEdit(pnlShortcuts.Controls[pred(pnlShortcuts.ControlCount)]).CanFocus then
+    TEdit(pnlShortcuts.Controls[pred(pnlShortcuts.ControlCount)]).SetFocus;
 end;
 
 procedure TfrmEditHotkey.btnRemoveShortcutClick(Sender: TObject);
@@ -358,19 +366,22 @@ var
   sShortCut: String;
   EditControl: TEdit;
 begin
-  ShortCut := KeyToShortCutEx(Key, GetKeyShiftStateEx);
-  sShortCut := ShortCutToTextEx(ShortCut);
-  EditControl := Sender as TEdit;
-
-  // Allow closing the dialog if Escape pressed twice.
-  if (ShortCut <> VK_ESCAPE) or (EditControl.Text <> sShortCut) then
+  if (Key<>VK_RETURN) or (not gUseEnterToCloseHotKeyEditor) then
   begin
-    EditControl.Text := sShortCut;
-    Key := 0;
-    btnOK.Enabled := GetShortcuts <> nil;
-    lblHotKeyConflict.Caption := '';
+    ShortCut := KeyToShortCutEx(Key, GetKeyShiftStateEx);
+    sShortCut := ShortCutToTextEx(ShortCut);
+    EditControl := Sender as TEdit;
 
-    CheckHotKeyConflicts;
+    // Allow closing the dialog if Escape pressed twice.
+    if (ShortCut <> VK_ESCAPE) or (EditControl.Text <> sShortCut) then
+    begin
+      EditControl.Text := sShortCut;
+      Key := 0;
+      btnOK.Enabled := GetShortcuts <> nil;
+      lblHotKeyConflict.Caption := '';
+
+      CheckHotKeyConflicts;
+    end;
   end;
 end;
 
@@ -378,10 +389,13 @@ procedure TfrmEditHotkey.edtShortcutKeyPress(Sender: TObject; var Key: char);
 var
   EditControl: TEdit;
 begin
-  EditControl := Sender as TEdit;
-  EditControl.Text := '';
-  btnOK.Enabled := GetShortcuts <> nil;
-  Key := #0;
+  if (Key <> Char(VK_RETURN)) or (not gUseEnterToCloseHotKeyEditor) then
+  begin
+    EditControl := Sender as TEdit;
+    EditControl.Text := '';
+    btnOK.Enabled := GetShortcuts <> nil;
+    Key := #0;
+  end;
 end;
 
 procedure TfrmEditHotkey.edtShortcutKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -390,13 +404,16 @@ var
   sShortCut: String;
   EditControl: TEdit;
 begin
-  ShortCut := KeyToShortCutEx(Key, GetKeyShiftStateEx);
-  sShortCut := ShortCutToTextEx(ShortCut);
-  EditControl := Sender as TEdit;
+  if (Key <> VK_RETURN) or (not gUseEnterToCloseHotKeyEditor) then
+  begin
+    ShortCut := KeyToShortCutEx(Key, GetKeyShiftStateEx);
+    sShortCut := ShortCutToTextEx(ShortCut);
+    EditControl := Sender as TEdit;
 
-  // Select next shortcut editor.
-  if (ShortCut <> VK_ESCAPE) and (sShortCut <> '') and (EditControl.Text = sShortCut) then
-    pnlShortcuts.SelectNext(EditControl, True, True);
+    // Select next shortcut editor.
+    if (ShortCut <> VK_ESCAPE) and (sShortCut <> '') and (EditControl.Text = sShortCut) then
+      pnlShortcuts.SelectNext(EditControl, True, True);
+  end;
 end;
 
 function TfrmEditHotkey.Execute(
@@ -414,6 +431,7 @@ begin
   SetHotkey(Hotkey);
   SetCommand(Command);
   SetControls(AControls);
+  PopulateHelperMenu;
 
   if EditMode then
     Caption := Format(rsOptHotkeysEditHotkey, [Command])
@@ -543,8 +561,6 @@ begin
   if Assigned(Bmp) then
   begin
     Button.Glyph  := Bmp;
-    Button.Height := gIconsSize;
-    Button.Width  := gIconsSize;
     Bmp.Free;
   end
   else
@@ -633,6 +649,137 @@ begin
       EditControl.Clear;
     end;
   end;
+end;
+
+{ TfrmEditHotkey.ShortcutHelperClick }
+procedure TfrmEditHotkey.ShortcutHelperClick(Sender: TObject);
+var
+  EditControl:TEdit=nil;
+  iSeeker:integer;
+begin
+  for iSeeker:=0 to pred(pnlShortcuts.ControlCount) do
+    if TEdit(pnlShortcuts.Controls[iSeeker]).Focused then EditControl:=TEdit(pnlShortcuts.Controls[iSeeker]);
+
+  if (EditControl=nil) AND (pnlShortcuts.ControlCount>0) then
+    EditControl:=TEdit(pnlShortcuts.Controls[pred(pnlShortcuts.ControlCount)]);
+
+  if EditControl<>nil then
+  begin
+    EditControl.Text:=TMenuItem(Sender).Caption;
+    btnOK.Enabled := GetShortcuts <> nil;
+    lblHotKeyConflict.Caption := '';
+    CheckHotKeyConflicts;
+
+    // Select next shortcut editor.
+    pnlShortcuts.SelectNext(EditControl, True, True);
+  end;
+end;
+
+{ TfrmEditHotKey.PopulateHelperMenu }
+procedure TfrmEditHotKey.PopulateHelperMenu;
+const
+  STD_PREFIX=6;
+  CommandPrefix:array[0..pred(STD_PREFIX)] of string =('','Alt+','Ctrl+','Shift+','Ctrl+Shift+','Shift+Alt+');
+var
+  ASubMenu:TMenuItem;
+  AMenuItem:TMenuItem;
+  sMaybeSC:string;
+  iPrefix,iFunction:integer;
+  HMForm: THMForm;
+  Hotkeys: THotkeys;
+  i,j:integer;
+  slAllShortcuts:TStringList;
+begin
+  slAllShortcuts:=TStringList.Create;
+  try
+    slAllShortcuts.Sorted:=True;
+    slAllShortcuts.Duplicates:=dupIgnore;
+
+    //1. Clear any previous menu entries.
+    pmWithAllShortcuts.Items.Clear;
+
+    //2. Scan to get all the shortcuts in a TStringList
+    HMForm := HotMan.Forms.Find(FForm);
+    if not Assigned(HMForm) then Exit;
+    Hotkeys := HMForm.Hotkeys;
+    for i:=0 to pred(Hotkeys.Count) do
+      for j:=0 to pred(length(Hotkeys.Items[i].Shortcuts)) do
+        slAllShortcuts.Add(Hotkeys.Items[i].Shortcuts[j]);
+
+    //3. Begin to populate menu with the "F" fonction keys
+    for iPrefix:=0 to pred(STD_PREFIX) do
+    begin
+      ASubMenu:=TMenuItem.Create(pmWithAllshortcuts);
+      ASubMenu.Caption := CommandPrefix[iPrefix]+'Fx...';
+      pmWithAllShortcuts.Items.Add(ASubMenu);
+
+      for iFunction:=1 to 12 do
+      begin
+        sMaybeSC:=Format('%sF%d',[CommandPrefix[iPrefix],iFunction]);
+        if slAllShortcuts.IndexOf(sMaybeSC)=-1 then
+        begin
+          AMenuItem:=TMenuItem.Create(pmWithAllShortcuts);
+          AMenuItem.Caption:=sMaybeSC;
+          AMenuItem.Enabled:=(slAllShortcuts.IndexOf(sMaybeSC)=-1);
+          if AMenuItem.Enabled then AMenuItem.OnClick:=@ShortcutHelperClick;
+          ASubMenu.Add(AMenuItem);
+        end;
+      end;
+    end;
+
+    //4. Then a little separator
+    ASubMenu:=TMenuItem.Create(pmWithAllshortcuts);
+    ASubMenu.Caption:='-';
+    pmWithAllShortcuts.Items.Add(ASubMenu);
+
+    //5. Continue to populate with the "letter" fonction keys
+    for iPrefix:=2 to pred(STD_PREFIX) do
+    begin
+      ASubMenu:=TMenuItem.Create(pmWithAllshortcuts);
+      ASubMenu.Caption:=CommandPrefix[iPrefix]+rsSimpleWordLetter;
+      pmWithAllShortcuts.Items.Add(ASubMenu);
+
+      for iFunction:=0 to pred(26) do
+      begin
+        sMaybeSC:=Format('%s%s',[CommandPrefix[iPrefix],AnsiChar(ord('A')+iFunction)]);
+        if slAllShortcuts.IndexOf(sMaybeSC)=-1 then
+        begin
+          AMenuItem:=TMenuItem.Create(pmWithAllShortcuts);
+          AMenuItem.Caption:=sMaybeSC;
+          AMenuItem.Enabled:=(slAllShortcuts.IndexOf(sMaybeSC)=-1);
+          if AMenuItem.Enabled then AMenuItem.OnClick:=@ShortcutHelperClick;
+          ASubMenu.Add(AMenuItem);
+        end;
+      end;
+    end;
+
+    //6. Little separator
+    ASubMenu:=TMenuItem.Create(pmWithAllshortcuts);
+    ASubMenu.Caption:='-';
+    pmWithAllShortcuts.Items.Add(ASubMenu);
+
+    //7. Option for the "Enter"
+    ASubMenu := TMenuItem.Create(pmWithAllshortcuts);
+    ASubMenu.Caption := rsHotKeyNoSCEnter;
+    ASubMenu.Checked := gUseEnterToCloseHotKeyEditor;
+    ASubMenu.OnClick := @ChangeEnterBehaviorClick;
+    pmWithAllShortcuts.Items.Add(ASubMenu);
+
+  finally
+    FreeAndNil(slAllShortcuts);
+  end;
+end;
+
+procedure TfrmEditHotkey.btnSelectFromListClick(Sender: TObject);
+begin
+  pmWithAllShortcuts.PopUp(Mouse.CursorPos.x, Mouse.CursorPos.y);
+end;
+
+{ TfrmEditHotkey.ChangeEnterBehaviorClick }
+procedure TfrmEditHotkey.ChangeEnterBehaviorClick(Sender: TObject);
+begin
+  TMenuItem(Sender).Checked := not TMenuItem(Sender).Checked;
+  gUseEnterToCloseHotKeyEditor := TMenuItem(Sender).Checked;
 end;
 
 end.

@@ -441,6 +441,7 @@ type
     actShowMainMenu: TAction;
     actRefresh: TAction;
     actSearch: TAction;
+    actConfigHotKeys: TAction;
     actDirHotList: TAction;
     actMarkMarkAll: TAction;
     actMarkInvert: TAction;
