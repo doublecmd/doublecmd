@@ -4,7 +4,7 @@
    Find dialog, with searching in thread
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
 }
 
 unit fFindDlg;
@@ -33,19 +32,16 @@ uses
   Graphics, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
   ExtCtrls, Menus, EditBtn, Spin, Buttons, DateTimePicker, KASComboBox,
   fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
-  uSearchTemplate, fSearchPlugin, uFileView, types, DCStrUtils, ShellCtrls,
+  uSearchTemplate, fSearchPlugin, uFileView, types, DCStrUtils,
   ActnList, uOSForms, uShellContextMenu, uExceptions, uFileSystemFileSource,
   uFormCommands, uHotkeyManager;
 
 const
   HotkeysCategory = 'Find files';
 
-
 type
-
   { TfrmFindDlg }
-
-  TfrmFindDlg = class(TForm,IFormCommands)
+  TfrmFindDlg = class(TForm, IFormCommands)
     actIntelliFocus: TAction;
     actCancel: TAction;
     actClose: TAction;
@@ -159,14 +155,41 @@ type
     ZVDateTo: TDateTimePicker;
     ZVTimeFrom: TDateTimePicker;
     ZVTimeTo: TDateTimePicker;
-
+    actFreeFromMem: TAction;
+    actFreeFromMemAllOthers: TAction;
+    actConfigFileSearchHotKeys: TAction;
+    actNewSearchClearFilters: TAction;
+    mmMainMenu: TMainMenu;
+    miNewSearchClearFilters: TMenuItem;
+    miConfigFileSearchHotKeys: TMenuItem;
+    miOptions: TMenuItem;
+    miAction: TMenuItem;
+    miNewSearch: TMenuItem;
+    miLastSearch: TMenuItem;
+    miStart: TMenuItem;
+    miCancel: TMenuItem;
+    miFreeFromMem: TMenuItem;
+    miFreeFromMemAllOthers: TMenuItem;
+    miSeparator1: TMenuItem;
+    miCancelClose: TMenuItem;
+    miClose: TMenuItem;
+    miViewTab: TMenuItem;
+    miPageStandard: TMenuItem;
+    miPageAdvanced: TMenuItem;
+    miPagePlugins: TMenuItem;
+    miPageLoadSave: TMenuItem;
+    miPageResults: TMenuItem;
+    miSeparator2: TMenuItem;
+    miResult: TMenuItem;
+    miView: TMenuItem;
+    miEdit: TMenuItem;
+    miFeedToListbox: TMenuItem;
+    miGoToFile: TMenuItem;
     procedure actExecute(Sender: TObject);
     procedure btnAddAttributeClick(Sender: TObject);
     procedure btnAttrsHelpClick(Sender: TObject);
-    procedure btnEditClick(Sender: TObject);
-    procedure btnLastSearchClick(Sender: TObject);
-    procedure btnNewSearchKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure btnNewSearchKeyDown(Sender: TObject; var Key: word;
+      {%H-}Shift: TShiftState);
     procedure btnSearchDeleteClick(Sender: TObject);
     procedure btnSearchLoadClick(Sender: TObject);
     procedure btnSearchSaveWithStartingPathClick(Sender: TObject);
@@ -184,23 +207,15 @@ type
     procedure cbFindTextChange(Sender: TObject);
     procedure cbUsePluginChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure btnGoToPathClick(Sender: TObject);
-    procedure btnNewSearchClick(Sender: TObject);
     procedure btnSelDirClick(Sender: TObject);
-    procedure btnStartClick(Sender: TObject);
-    procedure btnViewClick(Sender: TObject);
-    procedure btnWorkWithFoundClick(Sender: TObject);
     procedure cbFileSizeFromChange(Sender: TObject);
     procedure cbFileSizeToChange(Sender: TObject);
     procedure cbNotOlderThanChange(Sender: TObject);
     procedure cbReplaceTextChange(Sender: TObject);
     procedure cbTimeFromChange(Sender: TObject);
     procedure cbTimeToChange(Sender: TObject);
-    procedure btnStopClick(Sender: TObject);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure btnCloseClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormDestroy(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmFindDlgClose(Sender: TObject; var {%H-}CloseAction: TCloseAction);
     procedure frmFindDlgShow(Sender: TObject);
     procedure gbDirectoriesResize(Sender: TObject);
@@ -208,15 +223,15 @@ type
     procedure lbSearchTemplatesSelectionChange(Sender: TObject; {%H-}User: boolean);
     procedure lsFoundedFilesDblClick(Sender: TObject);
     procedure lsFoundedFilesKeyDown(Sender: TObject;
-      var Key: Word; Shift: TShiftState);
+      var Key: word; Shift: TShiftState);
     procedure lsFoundedFilesMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+      {%H-}Shift: TShiftState; X, Y: integer);
     procedure lsFoundedFilesMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+      Shift: TShiftState; X, Y: integer);
     procedure lsFoundedFilesMouseWheelDown(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);
+      {%H-}MousePos: TPoint; var Handled: boolean);
     procedure lsFoundedFilesMouseWheelUp(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);
+      {%H-}MousePos: TPoint; var Handled: boolean);
     procedure miOpenInNewTabClick(Sender: TObject);
     procedure miRemoveFromLlistClick(Sender: TObject);
     procedure miShowAllFoundClick(Sender: TObject);
@@ -232,21 +247,26 @@ type
     procedure ZVDateToChange(Sender: TObject);
     procedure ZVTimeFromChange(Sender: TObject);
     procedure ZVTimeToChange(Sender: TObject);
+    procedure CancelCloseAndFreeMem;
+    procedure LoadHistory;
+    procedure SaveHistory;
   private
     FSelectedFiles: TStringList;
-    FFindThread:TFindThread;
-    FTimeSearch:string;
+    FFindThread: TFindThread;
+    FTimeSearch: string;
     DsxPlugins: TDSXModuleList;
-    FSearchingActive: Boolean;
+    FSearchingActive: boolean;
     FFrmAttributesEdit: TfrmAttributesEdit;
-    FLastTemplateName: String;
+    FLastTemplateName: string;
     FLastSearchTemplate: TSearchTemplate;
     FUpdateTimer: TTimer;
-    FUpdating: Boolean;
-
-
-    FRButtonPanelSender:TObject; // last focused button on Right Panel (pnlButtons)
+    FUpdating: boolean;
+    FRButtonPanelSender: TObject; // last focused button on Right Panel (pnlButtons)
     FCommands: TFormCommands;
+    FSearchWithDSXPluginInProgress: boolean;
+    FSearchWithWDXPluginInProgress: boolean;
+    FFreeOnClose: boolean;
+    FAtLeastOneSearchWasDone: boolean;
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
 
@@ -255,57 +275,52 @@ type
     procedure AfterSearchStopped;  //update button states after stop search(ThreadTerminate call this method)
     procedure AfterSearchFocus;     //set correct focus after search stopped
 
-    procedure FillFindOptions(out FindOptions: TSearchTemplateRec; SetStartPath: Boolean);
+    procedure FillFindOptions(out FindOptions: TSearchTemplateRec; SetStartPath: boolean);
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
                                         out SRec: TDsxSearchRecord);
     procedure FoundedStringCopyChanged(Sender: TObject);
     procedure LoadTemplate(const Template: TSearchTemplateRec);
     procedure LoadSelectedTemplate;
-    procedure SaveTemplate(SaveStartingPath: Boolean);
-    procedure SelectTemplate(const ATemplateName: String);
+    procedure SaveTemplate(SaveStartingPath: boolean);
+    procedure SelectTemplate(const ATemplateName: string);
     procedure UpdateTemplatesList;
     procedure OnUpdateTimer(Sender: TObject);
     procedure OnAddAttribute(Sender: TObject);
-    function InvalidRegExpr(AChecked: Boolean; const ARegExpr: String): Boolean;
+    function InvalidRegExpr(AChecked: boolean; const ARegExpr: string): boolean;
+    procedure SetWindowCaption(AWindowCaptionStyle: byte);
   public
+    FoundedStringCopy: TStringList;
     class function Instance: TfrmFindDlg;
   public
-
-    LastClickResultsPath:string;
-
+    LastClickResultsPath: string;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
-    procedure ClearFilter;
+    procedure ClearFilter(bClearSearchLocation: boolean = True);
     procedure ClearResults;
-
-    procedure ThreadTerminate(Sender:TObject);
-
-    procedure FocusOnResults(Sender:TObject); // if press VK_LEFT or VK_RIGHT when on any button on left panel  - focus on results and remember button in FRButtonPanelSender
-
+    procedure ThreadTerminate(Sender: TObject);
+    procedure FocusOnResults(Sender: TObject); // if press VK_LEFT or VK_RIGHT when on any button on left panel  - focus on results and remember button in FRButtonPanelSender
   published
-    procedure cm_IntelliFocus(const Params: array of string);
-    procedure cm_Start(const Params: array of string);
-    procedure cm_CancelClose(const Params: array of string);
-    procedure cm_Cancel(const Params: array of string);
-    procedure cm_Close(const Params: array of string);
-    procedure cm_NewSearch(const Params: array of string);
-    procedure cm_LastSearch(const Params: array of string);
-    procedure cm_View(const Params: array of string);
-    procedure cm_Edit(const Params: array of string);
-    procedure cm_GoToFile(const Params: array of string);
-    procedure cm_FeedToListbox(const Params: array of string);
-
-    procedure cm_PageStandard(const Params: array of string);
-    procedure cm_PageAdvanced(const Params: array of string);
-    procedure cm_PagePlugins(const Params: array of string);
-    procedure cm_PageLoadSave(const Params: array of string);
-    procedure cm_PageResults(const Params: array of string);
-
-
+    procedure cm_IntelliFocus(const {%H-}Params: array of string);
+    procedure cm_Start(const {%H-}Params: array of string);
+    procedure cm_CancelClose(const {%H-}Params: array of string);
+    procedure cm_Cancel(const {%H-}Params: array of string);
+    procedure cm_Close(const {%H-}Params: array of string);
+    procedure cm_NewSearch(const {%H-}Params: array of string);
+    procedure cm_LastSearch(const {%H-}Params: array of string);
+    procedure cm_View(const {%H-}Params: array of string);
+    procedure cm_Edit(const {%H-}Params: array of string);
+    procedure cm_GoToFile(const {%H-}Params: array of string);
+    procedure cm_FeedToListbox(const {%H-}Params: array of string);
+    procedure cm_PageStandard(const {%H-}Params: array of string);
+    procedure cm_PageAdvanced(const {%H-}Params: array of string);
+    procedure cm_PagePlugins(const {%H-}Params: array of string);
+    procedure cm_PageLoadSave(const {%H-}Params: array of string);
+    procedure cm_PageResults(const {%H-}Params: array of string);
+    procedure cm_NewSearchClearFilters(const {%H-}Params: array of string);
+    procedure cm_FreeFromMem(const {%H-}Params: array of string);
+    procedure cm_FreeFromMemAllOthers(const {%H-}Params: array of string);
+    procedure cm_ConfigFileSearchHotKeys(const {%H-}Params: array of string);
   end;
-
-var
-  FoundedStringCopy: TStringlist = nil;
 
 {en
    Shows the find files dialog.
@@ -315,9 +330,28 @@ var
           For which file view the find dialog is executed,
           to get file source, current path and a list of selected files.)
 }
-procedure ShowFindDlg(FileView: TFileView; const TemplateName: String);
-function ShowDefineTemplateDlg(var TemplateName: String): Boolean;
-function ShowUseTemplateDlg(var Template: TSearchTemplate): Boolean;
+
+  { TListOffrmFindDlgInstance }
+  TListOffrmFindDlgInstance = class(TList)
+  private
+    function GetfrmFindDlgInstance(Index: integer): TfrmFindDlg;
+  public
+    constructor Create;
+    procedure Clear; override;
+    function Add(AfrmFindDlg: TfrmFindDlg): integer;
+    property frmFindDlgInstance[Index: integer]: TfrmFindDlg read GetfrmFindDlgInstance;
+  end;
+
+var
+  // [ ListOffrmFindDlgInstance ]
+  // This list will hold in memory pointers to our find dialog forms.
+  ListOffrmFindDlgInstance: TListOffrmFindDlgInstance;
+  frmFindDlgUsingPluginDSX: TfrmFindDlg = nil;
+  frmFindDlgUsingPluginWDX: TfrmFindDlg = nil;
+
+procedure ShowFindDlg(FileView: TFileView; const TemplateName: string; bCreateNewFindDlg: boolean = False);
+function ShowDefineTemplateDlg(var TemplateName: string): boolean;
+function ShowUseTemplateDlg(var Template: TSearchTemplate): boolean;
 
 implementation
 
@@ -328,103 +362,157 @@ uses
   uLng, uGlobs, uShowForm, uDCUtils, uFileSource, uFileSourceUtil,
   uSearchResultFileSource, uFile,
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
-  DCOSUtils, SynRegExpr;
+  DCOSUtils, SynRegExpr, uDebug, uShowMsg;
 
 const
-  TimeUnitToComboIndex: array[TTimeUnit] of Integer = (0, 1, 2, 3, 4, 5, 6);
+  TimeUnitToComboIndex: array[TTimeUnit] of integer = (0, 1, 2, 3, 4, 5, 6);
   ComboIndexToTimeUnit: array[0..6] of TTimeUnit = (tuSecond, tuMinute, tuHour, tuDay, tuWeek, tuMonth, tuYear);
-  FileSizeUnitToComboIndex: array[TFileSizeUnit] of Integer = (0, 1, 2, 3, 4);
+  FileSizeUnitToComboIndex: array[TFileSizeUnit] of integer = (0, 1, 2, 3, 4);
   ComboIndexToFileSizeUnit: array[0..4] of TFileSizeUnit = (suBytes, suKilo, suMega, suGiga, suTera);
 
+  wcs_NewSearch = $01;
+  wcs_StartSearch = $0A;
+  wcs_EndSearch = $1B;
+
 type
-
   { TStringListTemp }
-
   TStringListTemp = class(TStringList)
   public
-    function AddObject(const S: String; AObject: TObject): Integer; override;
+    function AddObject(const S: string; AObject: TObject): integer; override;
   end;
 
 var
-  GfrmFindDlgInstance: TfrmFindDlg = nil;
+  gSearchWithDSXPluginInProgress: boolean = False;
+  gSearchWithWDXPluginInProgress: boolean = False;
 
-procedure SAddFileProc({%H-}PlugNr: Integer; FoundFile: PChar); dcpcall;
+{ TListOffrmFindDlgInstance.Create }
+constructor TListOffrmFindDlgInstance.Create;
+begin
+  inherited Create;
+end;
+
+{ TListOffrmFindDlgInstance.Clear }
+procedure TListOffrmFindDlgInstance.Clear;
+var
+  i: integer;
+begin
+  for i := pred(Count) downto 0 do
+    if frmFindDlgInstance[i] <> nil then
+      frmFindDlgInstance[i].Free;
+  inherited Clear;
+end;
+
+{ TListOffrmFindDlgInstance.Add }
+function TListOffrmFindDlgInstance.Add(AfrmFindDlg: TfrmFindDlg): integer;
+begin
+  Result := inherited Add(AfrmFindDlg);
+end;
+
+{ TListOffrmFindDlgInstance.GetfrmFindDlgInstance }
+function TListOffrmFindDlgInstance.GetfrmFindDlgInstance(Index: integer): TfrmFindDlg;
+begin
+  Result := TfrmFindDlg(Items[Index]);
+end;
+
+procedure SAddFileProc({%H-}PlugNr: integer; FoundFile: PChar); dcpcall;
 var
   s: string;
 begin
   s := string(FoundFile);
-  if s='' then
-    begin
-      TfrmFindDlg.Instance.AfterSearchStopped;
-      {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-        TfrmFindDlg.Instance.btnStart.Default := True;
-      {$ENDIF}
-    end
+  if s = '' then
+  begin
+    TfrmFindDlg.Instance.AfterSearchStopped;
+    {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+    TfrmFindDlg.Instance.btnStart.Default := True;
+    {$ENDIF}
+  end
   else
-    begin
-     FoundedStringCopy.Add(s);
-     Application.ProcessMessages;
-    end;
+  begin
+    TfrmFindDlg.Instance.FoundedStringCopy.Add(s);
+    Application.ProcessMessages;
+  end;
 end;
 
-procedure SUpdateStatusProc({%H-}PlugNr: Integer; CurrentFile: PChar; FilesScanned: Integer); dcpcall;
+procedure SUpdateStatusProc({%H-}PlugNr: integer; CurrentFile: PChar; FilesScanned: integer); dcpcall;
 var
-  sCurrentFile: String;
+  sCurrentFile: string;
 begin
-  sCurrentFile := String(CurrentFile);
-  TfrmFindDlg.Instance.lblStatus.Caption:=Format(rsFindScanned,[FilesScanned])+TfrmFindDlg.Instance.FTimeSearch;
+  sCurrentFile := string(CurrentFile);
+  TfrmFindDlg.Instance.lblStatus.Caption := Format(rsFindScanned, [FilesScanned]) + TfrmFindDlg.Instance.FTimeSearch;
   if sCurrentFile = '' then
     TfrmFindDlg.Instance.lblCurrent.Caption := ''
   else
-    TfrmFindDlg.Instance.lblCurrent.Caption:=rsFindScanning + ': ' + sCurrentFile;
+    TfrmFindDlg.Instance.lblCurrent.Caption := rsFindScanning + ': ' + sCurrentFile;
   Application.ProcessMessages;
 end;
 
-procedure ShowFindDlg(FileView: TFileView; const TemplateName: String);
+{ ShowFindDlg }
+procedure ShowFindDlg(FileView: TFileView; const TemplateName: string; bCreateNewFindDlg: boolean = False);
 var
   ASelectedFiles: TFiles = nil;
-  I: Integer;
+  I: integer;
+  AfrmFindDlgInstance: TfrmFindDlg;
+  bFirstFindDlg: boolean;
 begin
   if not Assigned(FileView) then
     raise Exception.Create('ShowFindDlg: FileView=nil');
 
-  with TfrmFindDlg.Instance do
+  bFirstFindDlg := (ListOffrmFindDlgInstance.Count = 0);
+
+  // 1. We create a new form: if it's the first search we do OR if we've been instructed to do so (cm_AddNewSearch)
+  if bFirstFindDlg or bCreateNewFindDlg then
   begin
-    // Prepare window for search files
-    ClearFilter;
-    Caption := rsFindSearchFiles;
-    edtFindPathStart.Text := FileView.CurrentPath;
-
-    // Get paths of selected files, if any.
-    FSelectedFiles.Clear;
-    ASelectedFiles := FileView.CloneSelectedFiles;
-    if Assigned(ASelectedFiles) then
-    try
-      if ASelectedFiles.Count > 0 then
-      begin
-        for I := 0 to ASelectedFiles.Count - 1 do
-          FSelectedFiles.Add(ASelectedFiles[I].FullPath);
-      end;
-    finally
-      FreeAndNil(ASelectedFiles);
-    end;
-
-    if Length(TemplateName) > 0 then
-    begin
-      FUpdating:= True;
-      UpdateTemplatesList;
-      SelectTemplate(TemplateName);
-      LoadSelectedTemplate;
-      FUpdating:= False;
-    end;
-
-    ShowOnTop;
+    AfrmFindDlgInstance := TfrmFindDlg.Create(nil);
+    ListOffrmFindDlgInstance.add(AfrmFindDlgInstance);
+  end
+  else
+  begin
+    AfrmFindDlgInstance := ListOffrmFindDlgInstance.frmFindDlgInstance[pred(ListOffrmFindDlgInstance.Count)];
   end;
+
+  // 2. If we don't have a search in progress, then clear and set a few things.
+  if not AfrmFindDlgInstance.FSearchingActive then
+  begin
+    with AfrmFindDlgInstance do
+    begin
+      // Prepare window for search files
+      ClearFilter;
+      // SetWindowCaption(wcs_NewSearch);
+      edtFindPathStart.Text := FileView.CurrentPath;
+
+      // Get paths of selected files, if any.
+      FSelectedFiles.Clear;
+      ASelectedFiles := FileView.CloneSelectedFiles;
+      if Assigned(ASelectedFiles) then
+        try
+          if ASelectedFiles.Count > 0 then
+          begin
+            for I := 0 to ASelectedFiles.Count - 1 do
+              FSelectedFiles.Add(ASelectedFiles[I].FullPath);
+          end;
+        finally
+          FreeAndNil(ASelectedFiles);
+        end;
+
+      if Length(TemplateName) > 0 then
+      begin
+        FUpdating := True;
+        UpdateTemplatesList;
+        SelectTemplate(TemplateName);
+        LoadSelectedTemplate;
+        FUpdating := False;
+      end;
+
+    end;
+  end;
+
+  AfrmFindDlgInstance.ShowOnTop;
 end;
 
-function ShowDefineTemplateDlg(var TemplateName: String): Boolean;
+{ ShowDefineTemplateDlg }
+function ShowDefineTemplateDlg(var TemplateName: string): boolean;
 var
-  AIndex: Integer;
+  AIndex: integer;
   AForm: TfrmFindDlg;
 begin
   AForm := TfrmFindDlg.Create(nil);
@@ -433,24 +521,24 @@ begin
     begin
       // Prepare window for define search template
       Caption := rsFindDefineTemplate;
-      AForm.DisableControlsForTemplate;
+      DisableControlsForTemplate;
       btnSaveTemplate.Visible := True;
       btnSaveTemplate.Default := True;
       BorderIcons := [biSystemMenu, biMaximize];
       if Length(TemplateName) > 0 then
       begin
         UpdateTemplatesList;
-        AIndex:= lbSearchTemplates.Items.IndexOf(TemplateName);
+        AIndex := lbSearchTemplates.Items.IndexOf(TemplateName);
         if AIndex >= 0 then
         begin
-          lbSearchTemplates.ItemIndex:= AIndex;
+          lbSearchTemplates.ItemIndex := AIndex;
           AForm.LoadSelectedTemplate;
         end;
       end;
-      Result:= (ShowModal = mrOK);
+      Result := (ShowModal = mrOk);
       if Result and (lbSearchTemplates.Count > 0) then
       begin
-        TemplateName:= lbSearchTemplates.Items[lbSearchTemplates.Count - 1];
+        TemplateName := lbSearchTemplates.Items[lbSearchTemplates.Count - 1];
       end;
     end;
   finally
@@ -458,7 +546,8 @@ begin
   end;
 end;
 
-function ShowUseTemplateDlg(var Template: TSearchTemplate): Boolean;
+{ ShowUseTemplateDlg }
+function ShowUseTemplateDlg(var Template: TSearchTemplate): boolean;
 var
   AForm: TfrmFindDlg;
   SearchRec: TSearchTemplateRec;
@@ -475,11 +564,11 @@ begin
       BorderIcons := [biSystemMenu, biMaximize];
       if Assigned(Template) then
         AForm.LoadTemplate(Template.SearchRecord);
-      Result:= (ShowModal = mrOK);
+      Result := (ShowModal = mrOk);
       if Result then
       begin
         if not Assigned(Template) then
-          Template:= TSearchTemplate.Create;
+          Template := TSearchTemplate.Create;
         try
           Template.TemplateName := AForm.FLastTemplateName;
           AForm.FillFindOptions(SearchRec, False);
@@ -497,27 +586,34 @@ end;
 
 { TStringListTemp }
 
-function TStringListTemp.AddObject(const S: String; AObject: TObject): Integer;
+{ TStringListTemp.AddObject }
+function TStringListTemp.AddObject(const S: string; AObject: TObject): integer;
 begin
-  Result:= Count;
+  Result := Count;
   InsertItem(Result, S, AObject);
 end;
 
 { TfrmFindDlg }
 
+{ TfrmFindDlg.FormCreate }
 procedure TfrmFindDlg.FormCreate(Sender: TObject);
 var
-  I: Integer;
+  I: integer;
   HMFindFiles: THMForm;
 begin
-  Height:= pnlFindFile.Height + 22;
+  if not gShowMenuBarInFindFiles then FreeAndNil(mmMainMenu);
+  Height := pnlFindFile.Height + 22;
   DsxPlugins := TDSXModuleList.Create;
   DsxPlugins.Assign(gDSXPlugins);
   FoundedStringCopy := TStringListTemp.Create;
-  FoundedStringCopy.OnChange:=@FoundedStringCopyChanged;
+  FoundedStringCopy.OnChange := @FoundedStringCopyChanged;
+  FFreeOnClose := False;
+  FAtLeastOneSearchWasDone := False;
+  FSearchWithDSXPluginInProgress := False;
+  FSearchWithWDXPluginInProgress := False;
 
   // load language
-  edtFindPathStart.DialogTitle:= rsFindWhereBeg;
+  edtFindPathStart.DialogTitle := rsFindWhereBeg;
   cmbNotOlderThanUnit.Items.Add(rsTimeUnitSecond);
   cmbNotOlderThanUnit.Items.Add(rsTimeUnitMinute);
   cmbNotOlderThanUnit.Items.Add(rsTimeUnitHour);
@@ -534,15 +630,15 @@ begin
   // fill search depth combobox
   cmbSearchDepth.Items.Add(rsFindDepthAll);
   cmbSearchDepth.Items.Add(rsFindDepthCurDir);
-  for I:= 1 to 100 do
+  for I := 1 to 100 do
     cmbSearchDepth.Items.Add(Format(rsFindDepth, [IntToStr(I)]));
-  cmbSearchDepth.ItemIndex:= 0;
+  cmbSearchDepth.ItemIndex := 0;
   // fill encoding combobox
   cmbEncoding.Clear;
   GetSupportedEncodings(cmbEncoding.Items);
-  I:= cmbEncoding.Items.IndexOf('UTF-8BOM');
+  I := cmbEncoding.Items.IndexOf('UTF-8BOM');
   if I >= 0 then cmbEncoding.Items.Delete(I);
-  cmbEncoding.ItemIndex:= cmbEncoding.Items.IndexOf(EncodingAnsi);
+  cmbEncoding.ItemIndex := cmbEncoding.Items.IndexOf(EncodingAnsi);
 
   // gray disabled fields
   cbUsePluginChange(Sender);
@@ -551,30 +647,35 @@ begin
   cbNotOlderThanChange(Sender);
   cbFileSizeFromChange(Sender);
   cbFileSizeToChange(Sender);
-  ZVDateFrom.DateTime:=Now();
-  ZVDateTo.DateTime:=Now();
-  ZVTimeFrom.DateTime:=Now();
-  ZVTimeTo.DateTime:=Now();
-  cbDateFrom.Checked:=False;
-  cbDateTo.Checked:=False;
-  cbTimeFrom.Checked:=False;
-  cbTimeTo.Checked:=False;
+  ZVDateFrom.DateTime := Now();
+  ZVDateTo.DateTime := Now();
+  ZVTimeFrom.DateTime := Now();
+  ZVTimeTo.DateTime := Now();
+  cbDateFrom.Checked := False;
+  cbDateTo.Checked := False;
+  cbTimeFrom.Checked := False;
+  cbTimeTo.Checked := False;
 
-{$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
   btnStart.Default := True;
-{$ENDIF}
+  {$ENDIF}
 
   cmbNotOlderThanUnit.ItemIndex := 3; // Days
   cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
   edtFindPathStart.ShowHidden := gShowSystemFiles;
-  cbPartialNameSearch.Checked:= gPartialNameSearch;
 
   InitPropStorage(Self);
 
   HMFindFiles := HotMan.Register(Self, HotkeysCategory);
   HMFindFiles.RegisterActionList(actList);
+
+  CloneMainAction(frmMain.actAddNewSearch, actList, miViewTab, -1);
+  CloneMainAction(frmMain.actViewSearches, actList, miViewTab, -1);
+  CloneMainAction(frmMain.actDeleteSearches, actList, miAction, -1);
+  CloneMainAction(frmMain.actConfigSearches, actList, miOptions, 0);
 end;
 
+{ TfrmFindDlg.cbUsePluginChange }
 procedure TfrmFindDlg.cbUsePluginChange(Sender: TObject);
 begin
   EnableControl(cmbPlugin, cbUsePlugin.Checked);
@@ -586,15 +687,17 @@ begin
   end;
 end;
 
+{ TfrmFindDlg.cmbEncodingSelect }
 procedure TfrmFindDlg.cmbEncodingSelect(Sender: TObject);
 var
-  AEncoding: String;
+  AEncoding: string;
 begin
-  AEncoding:= NormalizeEncoding(cmbEncoding.Text);
+  AEncoding := NormalizeEncoding(cmbEncoding.Text);
   cbTextRegExp.Enabled := (AEncoding = EncodingAnsi);
-  if not cbTextRegExp.Enabled then cbTextRegExp.Checked:= False;
+  if not cbTextRegExp.Enabled then cbTextRegExp.Checked := False;
 end;
 
+{ TfrmFindDlg.Create }
 constructor TfrmFindDlg.Create(TheOwner: TComponent);
 begin
   FSelectedFiles := TStringList.Create;
@@ -607,6 +710,7 @@ begin
   FCommands := TFormCommands.Create(Self, actList);
 end;
 
+{ TfrmFindDlg.Destroy }
 destructor TfrmFindDlg.Destroy;
 begin
   inherited Destroy;
@@ -614,12 +718,14 @@ begin
   FLastSearchTemplate.Free;
 end;
 
+{ TfrmFindDlg.DisableControlsForTemplate }
 procedure TfrmFindDlg.DisableControlsForTemplate;
 begin
   lblFindPathStart.Visible := False;
   edtFindPathStart.Visible := False;
   cbFollowSymLinks.Visible := False;
   cbSelectedFiles.Visible := False;
+  cbOpenedTabs.Visible := False;
   btnStart.Visible := False;
   btnStop.Visible := False;
   btnNewSearch.Visible := False;
@@ -627,8 +733,11 @@ begin
   btnSearchSaveWithStartingPath.Visible := False;
   gbFindData.Visible := False;
   tsResults.TabVisible := False;
+  actPageResults.Enabled := False;
+  if mmMainMenu <> nil then FreeAndNil(mmMainMenu);
 end;
 
+{ TfrmFindDlg.cbFindTextChange }
 procedure TfrmFindDlg.cbFindTextChange(Sender: TObject);
 begin
   EnableControl(cmbFindText, cbFindText.Checked);
@@ -637,8 +746,8 @@ begin
   EnableControl(cbReplaceText, cbFindText.Checked and not cbFindInArchive.Checked);
   EnableControl(cbNotContainingText, cbFindText.Checked);
   EnableControl(cbTextRegExp, cbFindText.Checked);
-  lblEncoding.Enabled:=cbFindText.Checked;
-  cbReplaceText.Checked:= False;
+  lblEncoding.Enabled := cbFindText.Checked;
+  cbReplaceText.Checked := False;
 
   if not FUpdating and cmbFindText.Enabled and cmbFindText.CanFocus and (Sender = cbFindText) then
   begin
@@ -647,80 +756,92 @@ begin
   end;
 end;
 
-procedure TfrmFindDlg.ClearFilter;
+{ TfrmFindDlg.ClearFilter }
+procedure TfrmFindDlg.ClearFilter(bClearSearchLocation: boolean = True);
+var
+  FreezeTime: TDateTime;
 begin
   FUpdating := True;
 
   FLastTemplateName := '';
-  edtFindPathStart.Text:= '';
-  edtFindPathStart.ShowHidden := gShowSystemFiles;
-  cmbExcludeDirectories.Text := '';
+  if bClearSearchLocation then
+  begin
+    edtFindPathStart.Text := '';
+    edtFindPathStart.ShowHidden := gShowSystemFiles;
+    cmbExcludeDirectories.Text := '';
+  end;
+
   cmbSearchDepth.ItemIndex := 0;
-  cmbFindFileMask.Text:= '*';
+  if gInitiallyClearFileMask then cmbFindFileMask.Text := '*';
   cmbExcludeFiles.Text := '';
-  cbPartialNameSearch.Checked:= gPartialNameSearch;
+  cbPartialNameSearch.Checked := gPartialNameSearch;
   cbRegExp.Checked := False;
 
   // attributes
-  edtAttrib.Text:= '';
+  edtAttrib.Text := '';
 
   // file date/time
-  ZVDateFrom.DateTime:=Now();
-  ZVDateTo.DateTime:=Now();
-  ZVTimeFrom.DateTime:=Now();
-  ZVTimeTo.DateTime:=Now();
-  cbDateFrom.Checked:=False;
-  cbDateTo.Checked:=False;
-  cbTimeFrom.Checked:=False;
-  cbTimeTo.Checked:=False;
+  FreezeTime := Now;
+  ZVDateFrom.DateTime := FreezeTime;
+  ZVDateTo.DateTime := FreezeTime;
+  ZVTimeFrom.DateTime := FreezeTime;
+  ZVTimeTo.DateTime := FreezeTime;
+  cbDateFrom.Checked := False;
+  cbDateTo.Checked := False;
+  cbTimeFrom.Checked := False;
+  cbTimeTo.Checked := False;
 
   // not older then
-  cbNotOlderThan.Checked:= False;
-  seNotOlderThan.Value:= 1;
+  cbNotOlderThan.Checked := False;
+  seNotOlderThan.Value := 1;
   cmbNotOlderThanUnit.ItemIndex := 3; // Days
 
   // file size
-  cbFileSizeFrom.Checked:= False;
-  cbFileSizeTo.Checked:= False;
-  seFileSizeFrom.Value:= 0;
-  seFileSizeTo.Value:= 10;
+  cbFileSizeFrom.Checked := False;
+  cbFileSizeTo.Checked := False;
+  seFileSizeFrom.Value := 0;
+  seFileSizeTo.Value := 10;
   cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
 
   // find/replace text
   // do not clear search/replace text just clear checkbox
-  cbFindText.Checked:= False;
-  cbReplaceText.Checked:= False;
-  cbCaseSens.Checked:= False;
-  cbNotContainingText.Checked:= False;
+  cbFindText.Checked := False;
+  cbReplaceText.Checked := False;
+  cbCaseSens.Checked := False;
+  cbNotContainingText.Checked := False;
   cmbEncoding.ItemIndex := cmbEncoding.Items.IndexOf(EncodingAnsi);
 
   // plugins
-  cmbPlugin.Text:= '';
+  cmbPlugin.Text := '';
 
   FUpdating := False;
 end;
 
+{ TfrmFindDlg.ClearResults }
 procedure TfrmFindDlg.ClearResults;
 begin
   lsFoundedFiles.Clear;
-  lsFoundedFiles.Tag:= 0;
-  lsFoundedFiles.ScrollWidth:= 0;
+  lsFoundedFiles.Tag := 0;
+  lsFoundedFiles.ScrollWidth := 0;
   FoundedStringCopy.Clear;
 end;
 
+{ TfrmFindDlg.btnSearchLoadClick }
 procedure TfrmFindDlg.btnSearchLoadClick(Sender: TObject);
 begin
   LoadSelectedTemplate;
 end;
 
+{ TfrmFindDlg.btnSearchSaveWithStartingPathClick }
 procedure TfrmFindDlg.btnSearchSaveWithStartingPathClick(Sender: TObject);
 begin
   SaveTemplate(True);
 end;
 
+{ TfrmFindDlg.btnSearchDeleteClick }
 procedure TfrmFindDlg.btnSearchDeleteClick(Sender: TObject);
 var
-  OldIndex: Integer;
+  OldIndex: integer;
 begin
   OldIndex := lbSearchTemplates.ItemIndex;
   if OldIndex < 0 then Exit;
@@ -732,17 +853,13 @@ begin
     lbSearchTemplates.ItemIndex := lbSearchTemplates.Count - 1;
 end;
 
+{ TfrmFindDlg.btnAttrsHelpClick }
 procedure TfrmFindDlg.btnAttrsHelpClick(Sender: TObject);
 begin
   ShowHelpOrErrorForKeyword('', edtAttrib.HelpKeyword);
 end;
 
-procedure TfrmFindDlg.btnEditClick(Sender: TObject);
-begin
-  if lsFoundedFiles.ItemIndex <> -1 then
-    ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
-end;
-
+{ TfrmFindDlg.actExecute }
 procedure TfrmFindDlg.actExecute(Sender: TObject);
 var
   cmd: string;
@@ -752,7 +869,7 @@ begin
   Commands.ExecuteCommand(cmd, []);
 end;
 
-
+{ TfrmFindDlg.btnAddAttributeClick }
 procedure TfrmFindDlg.btnAddAttributeClick(Sender: TObject);
 begin
   if not Assigned(FFrmAttributesEdit) then
@@ -763,164 +880,112 @@ begin
   FFrmAttributesEdit.Reset;
   if not (fsModal in FormState) then
     FFrmAttributesEdit.Show
-  else begin
+  else
+  begin
     FFrmAttributesEdit.ShowModal;
   end;
 end;
 
+{ TfrmFindDlg.btnSearchSaveClick }
 procedure TfrmFindDlg.btnSearchSaveClick(Sender: TObject);
 begin
   SaveTemplate(False);
 end;
 
+{ TfrmFindDlg.cbCaseSensChange }
 procedure TfrmFindDlg.cbCaseSensChange(Sender: TObject);
 begin
-  if cbCaseSens.Checked then cbTextRegExp.Checked:= False;
+  if cbCaseSens.Checked then cbTextRegExp.Checked := False;
 end;
 
+{ TfrmFindDlg.cbDateFromChange }
 procedure TfrmFindDlg.cbDateFromChange(Sender: TObject);
 begin
   UpdateColor(ZVDateFrom, cbDateFrom.Checked);
 end;
 
+{ TfrmFindDlg.cbDateToChange }
 procedure TfrmFindDlg.cbDateToChange(Sender: TObject);
 begin
   UpdateColor(ZVDateTo, cbDateTo.Checked);
 end;
 
+{ TfrmFindDlg.cbFindInArchiveChange }
 procedure TfrmFindDlg.cbFindInArchiveChange(Sender: TObject);
 begin
   EnableControl(cbReplaceText, cbFindText.Checked and not cbFindInArchive.Checked);
   if cbReplaceText.Checked then cbReplaceText.Checked := cbReplaceText.Enabled;
-  btnView.Enabled:= not cbFindInArchive.Checked;
-  btnEdit.Enabled:= not cbFindInArchive.Checked;
-  btnWorkWithFound.Enabled:= not cbFindInArchive.Checked;
+  actView.Enabled := not cbFindInArchive.Checked;
+  actEdit.Enabled := not cbFindInArchive.Checked;
+  actFeedToListbox.Enabled := not cbFindInArchive.Checked;
   cbReplaceTextChange(cbReplaceText);
 end;
 
+{ TfrmFindDlg.cbOpenedTabsChange }
 procedure TfrmFindDlg.cbOpenedTabsChange(Sender: TObject);
 begin
-  cbSelectedFiles.Enabled:=not cbOpenedTabs.Checked;
-  cbFollowSymLinks.Enabled:=not cbOpenedTabs.Checked;
-  edtFindPathStart.Enabled:=not cbOpenedTabs.Checked;
+  cbSelectedFiles.Enabled := not cbOpenedTabs.Checked;
+  cbFollowSymLinks.Enabled := not cbOpenedTabs.Checked;
+  edtFindPathStart.Enabled := not cbOpenedTabs.Checked;
 end;
 
+{ TfrmFindDlg.cbPartialNameSearchChange }
 procedure TfrmFindDlg.cbPartialNameSearchChange(Sender: TObject);
 begin
-  if cbPartialNameSearch.Checked then cbRegExp.Checked:=False;
+  if cbPartialNameSearch.Checked then cbRegExp.Checked := False;
 end;
 
+{ TfrmFindDlg.cbRegExpChange }
 procedure TfrmFindDlg.cbRegExpChange(Sender: TObject);
 begin
-  if cbRegExp.Checked then cbPartialNameSearch.Checked:=False;
+  if cbRegExp.Checked then cbPartialNameSearch.Checked := False;
 end;
 
+{ TfrmFindDlg.cbTextRegExpChange }
 procedure TfrmFindDlg.cbTextRegExpChange(Sender: TObject);
 begin
   if cbTextRegExp.Checked then
+  begin
+    if cbCaseSens.Enabled then
     begin
-      if cbCaseSens.Enabled then
-      begin
-        cbCaseSens.Tag:= Integer(cbCaseSens.Checked);
-        cbCaseSens.Checked:= False;
-        cbCaseSens.Enabled:= False;
-      end;
-    end
-  else if not cbCaseSens.Enabled then
-    begin
-      cbCaseSens.Checked:= Boolean(cbCaseSens.Tag);
-      cbCaseSens.Enabled:= True;
+      cbCaseSens.Tag := integer(cbCaseSens.Checked);
+      cbCaseSens.Checked := False;
+      cbCaseSens.Enabled := False;
     end;
+  end
+  else if not cbCaseSens.Enabled then
+  begin
+    cbCaseSens.Checked := boolean(cbCaseSens.Tag);
+    cbCaseSens.Enabled := True;
+  end;
 end;
 
+{ TfrmFindDlg.cbSelectedFilesChange }
 procedure TfrmFindDlg.cbSelectedFilesChange(Sender: TObject);
 begin
   edtFindPathStart.Enabled := not cbSelectedFiles.Checked;
 end;
 
+{ TfrmFindDlg.btnSelDirClick }
 procedure TfrmFindDlg.btnSelDirClick(Sender: TObject);
 var
-  s:String;
+  s: string;
 begin
-  s:=edtFindPathStart.Text;
-  if not mbDirectoryExists(s) then s:='';
-  SelectDirectory(rsFindWhereBeg,'',s, False);
-  edtFindPathStart.Text:=s;
+  s := edtFindPathStart.Text;
+  if not mbDirectoryExists(s) then s := '';
+  SelectDirectory(rsFindWhereBeg, '', s, False);
+  edtFindPathStart.Text := s;
 end;
 
-procedure TfrmFindDlg.btnNewSearchClick(Sender: TObject);
-begin
-  StopSearch;
-  pgcSearch.PageIndex:= 0;
-  ClearResults;
-  miShowAllFound.Enabled:=False;
-  lblStatus.Caption:= EmptyStr;
-  lblCurrent.Caption:= EmptyStr;
-  lblFound.Caption:= EmptyStr;
-  if pgcSearch.ActivePage = tsStandard then
-    cmbFindFileMask.SetFocus;
-
-//  AfterSearchStopped;
-
-  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-    btnStart.Default := True;
-  {$ENDIF}
-end;
-
-procedure TfrmFindDlg.btnGoToPathClick(Sender: TObject);
-var
-  AFile: TFile = nil;
-  TargetFile: String;
-  ArchiveFile: String;
-  FileSource: IFileSource;
-begin
-  if lsFoundedFiles.ItemIndex <> -1 then
-  try
-    StopSearch;
-    if (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] <> nil) then
-    begin
-      TargetFile:= lsFoundedFiles.Items[lsFoundedFiles.ItemIndex];
-      ArchiveFile:= ExtractWord(1, TargetFile, [ReversePathDelim]);
-      TargetFile:= PathDelim + ExtractWord(2, TargetFile, [ReversePathDelim]);
-      AFile:= TFileSystemFileSource.CreateFileFromFile(ArchiveFile);
-      try
-        FileSource:= GetArchiveFileSource(TFileSystemFileSource.GetFileSource, AFile, EmptyStr, False, False);
-      finally
-        AFile.Free;
-      end;
-      if Assigned(FileSource) then
-      begin
-        frmMain.ActiveFrame.AddFileSource(FileSource, ExtractFilePath(TargetFile));
-        frmMain.ActiveFrame.SetActiveFile(ExtractFileName(TargetFile));
-      end;
-    end
-    else begin
-      SetFileSystemPath(frmMain.ActiveFrame, ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
-      frmMain.ActiveFrame.SetActiveFile(ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
-    end;
-    Close;
-  except
-    on E: Exception do MessageDlg(E.Message, mtError, [mbOK], 0);
-  end;
-end;
-
-procedure TfrmFindDlg.btnLastSearchClick(Sender: TObject);
-begin
-  if Assigned(FLastSearchTemplate) then
-  begin
-    LoadTemplate(FLastSearchTemplate.SearchRecord);
-    pgcSearch.ActivePage := tsStandard;
-    cmbFindFileMask.SetFocus;
-  end;
-end;
-
-procedure TfrmFindDlg.btnNewSearchKeyDown(Sender: TObject; var Key: Word;
+{ TfrmFindDlg.btnNewSearchKeyDown }
+procedure TfrmFindDlg.btnNewSearchKeyDown(Sender: TObject; var Key: word;
   Shift: TShiftState);
 begin
-  if ((Key=VK_LEFT)or(Key=VK_RIGHT))and(lsFoundedFiles.Count>0) then FocusOnResults(Sender);
+  if ((Key = VK_LEFT) or (Key = VK_RIGHT)) and (lsFoundedFiles.Count > 0) then FocusOnResults(Sender);
 end;
 
-procedure TfrmFindDlg.FillFindOptions(out FindOptions: TSearchTemplateRec; SetStartPath: Boolean);
+{ TfrmFindDlg.FillFindOptions }
+procedure TfrmFindDlg.FillFindOptions(out FindOptions: TSearchTemplateRec; SetStartPath: boolean);
 begin
   with FindOptions do
   begin
@@ -928,73 +993,74 @@ begin
       StartPath := edtFindPathStart.Text
     else
       StartPath := '';
-    ExcludeDirectories  := cmbExcludeDirectories.Text;
-    FilesMasks          := cmbFindFileMask.Text;
-    ExcludeFiles        := cmbExcludeFiles.Text;
-    SearchDepth         := cmbSearchDepth.ItemIndex - 1;
-    RegExp              := cbRegExp.Checked;
+    ExcludeDirectories := cmbExcludeDirectories.Text;
+    FilesMasks := cmbFindFileMask.Text;
+    ExcludeFiles := cmbExcludeFiles.Text;
+    SearchDepth := cmbSearchDepth.ItemIndex - 1;
+    RegExp := cbRegExp.Checked;
     IsPartialNameSearch := cbPartialNameSearch.Checked;
-    FollowSymLinks      := cbFollowSymLinks.Checked;
-    FindInArchives      := cbFindInArchive.Checked;
+    FollowSymLinks := cbFollowSymLinks.Checked;
+    FindInArchives := cbFindInArchive.Checked;
 
     { File attributes }
-    AttributesPattern   := edtAttrib.Text;
+    AttributesPattern := edtAttrib.Text;
 
     { Date/time }
     DateTimeFrom := 0;
-    DateTimeTo   := 0;
-    IsDateFrom   := False;
-    IsDateTo     := False;
-    IsTimeFrom   := False;
-    IsTimeTo     := False;
+    DateTimeTo := 0;
+    IsDateFrom := False;
+    IsDateTo := False;
+    IsTimeFrom := False;
+    IsTimeTo := False;
     if cbDateFrom.Checked then
-      begin
-        IsDateFrom := True;
-        DateTimeFrom := ZVDateFrom.Date;
-      end;
+    begin
+      IsDateFrom := True;
+      DateTimeFrom := ZVDateFrom.Date;
+    end;
     if cbDateTo.Checked then
-      begin
-        IsDateTo := True;
-        DateTimeTo := ZVDateTo.Date;
-      end;
+    begin
+      IsDateTo := True;
+      DateTimeTo := ZVDateTo.Date;
+    end;
     if cbTimeFrom.Checked then
-      begin
-        IsTimeFrom := True;
-        DateTimeFrom := DateTimeFrom + ZVTimeFrom.Time;
-      end;
+    begin
+      IsTimeFrom := True;
+      DateTimeFrom := DateTimeFrom + ZVTimeFrom.Time;
+    end;
     if cbTimeTo.Checked then
-      begin
-        IsTimeTo := True;
-        DateTimeTo := DateTimeTo + ZVTimeTo.Time;
-      end;
+    begin
+      IsTimeTo := True;
+      DateTimeTo := DateTimeTo + ZVTimeTo.Time;
+    end;
 
     { Not Older Than }
-    IsNotOlderThan   := cbNotOlderThan.Checked;
-    NotOlderThan     := seNotOlderThan.Value;
+    IsNotOlderThan := cbNotOlderThan.Checked;
+    NotOlderThan := seNotOlderThan.Value;
     NotOlderThanUnit := ComboIndexToTimeUnit[cmbNotOlderThanUnit.ItemIndex];
 
     { File size }
     IsFileSizeFrom := cbFileSizeFrom.Checked;
-    IsFileSizeTo   := cbFileSizeTo.Checked;
-    FileSizeFrom   := seFileSizeFrom.Value;
-    FileSizeTo     := seFileSizeTo.Value;
-    FileSizeUnit   := ComboIndexToFileSizeUnit[cmbFileSizeUnit.ItemIndex];
+    IsFileSizeTo := cbFileSizeTo.Checked;
+    FileSizeFrom := seFileSizeFrom.Value;
+    FileSizeTo := seFileSizeTo.Value;
+    FileSizeUnit := ComboIndexToFileSizeUnit[cmbFileSizeUnit.ItemIndex];
 
     { Find/replace text }
-    IsFindText        := cbFindText.Checked;
-    FindText          := cmbFindText.Text;
-    IsReplaceText     := cbReplaceText.Checked;
-    ReplaceText       := cmbReplaceText.Text;
-    CaseSensitive     := cbCaseSens.Checked;
+    IsFindText := cbFindText.Checked;
+    FindText := cmbFindText.Text;
+    IsReplaceText := cbReplaceText.Checked;
+    ReplaceText := cmbReplaceText.Text;
+    CaseSensitive := cbCaseSens.Checked;
     NotContainingText := cbNotContainingText.Checked;
-    TextRegExp        := cbTextRegExp.Checked;
-    TextEncoding      := cmbEncoding.Text;
+    TextRegExp := cbTextRegExp.Checked;
+    TextEncoding := cmbEncoding.Text;
     { Plugins }
-    SearchPlugin      := cmbPlugin.Text;
-    frmContentPlugins.Save(FindOptions)
+    SearchPlugin := cmbPlugin.Text;
+    frmContentPlugins.Save(FindOptions);
   end;
 end;
 
+{ TfrmFindDlg.FindOptionsToDSXSearchRec }
 procedure TfrmFindDlg.FindOptionsToDSXSearchRec(
   const AFindOptions: TSearchTemplateRec;
   out SRec: TDsxSearchRecord);
@@ -1003,51 +1069,54 @@ begin
   begin
     FillByte(SRec{%H-}, SizeOf(SRec), 0);
 
-    SRec.StartPath:= Copy(StartPath, 1, SizeOf(SRec.StartPath));
+    SRec.StartPath := Copy(StartPath, 1, SizeOf(SRec.StartPath));
 
     if IsPartialNameSearch then
-      SRec.FileMask:= '*' + Copy(FilesMasks, 1, SizeOf(SRec.FileMask) - 2) + '*'
+      SRec.FileMask := '*' + Copy(FilesMasks, 1, SizeOf(SRec.FileMask) - 2) + '*'
     else
-      SRec.FileMask:= Copy(FilesMasks, 1, SizeOf(SRec.FileMask));
+      SRec.FileMask := Copy(FilesMasks, 1, SizeOf(SRec.FileMask));
 
-    SRec.Attributes:= faAnyFile;  // AttrStrToFileAttr?
-    SRec.AttribStr:= Copy(AttributesPattern, 1, SizeOf(SRec.AttribStr));
+    SRec.Attributes := faAnyFile;  // AttrStrToFileAttr?
+    SRec.AttribStr := Copy(AttributesPattern, 1, SizeOf(SRec.AttribStr));
 
-    SRec.CaseSensitive:=CaseSensitive;
+    SRec.CaseSensitive := CaseSensitive;
     {Date search}
-    SRec.IsDateFrom:=IsDateFrom;
-    SRec.IsDateTo:=IsDateTo;
-    SRec.DateTimeFrom:=DateTimeFrom;
-    SRec.DateTimeTo:=DateTimeTo;
+    SRec.IsDateFrom := IsDateFrom;
+    SRec.IsDateTo := IsDateTo;
+    SRec.DateTimeFrom := DateTimeFrom;
+    SRec.DateTimeTo := DateTimeTo;
     {Time search}
-    SRec.IsTimeFrom:=IsTimeFrom;
-    SRec.IsTimeTo:=IsTimeTo;
+    SRec.IsTimeFrom := IsTimeFrom;
+    SRec.IsTimeTo := IsTimeTo;
     (* File size search *)
-    SRec.IsFileSizeFrom:=IsFileSizeFrom;
-    SRec.IsFileSizeTo:=IsFileSizeTo;
-    SRec.FileSizeFrom:=FileSizeFrom;
-    SRec.FileSizeTo:=FileSizeTo;
+    SRec.IsFileSizeFrom := IsFileSizeFrom;
+    SRec.IsFileSizeTo := IsFileSizeTo;
+    SRec.FileSizeFrom := FileSizeFrom;
+    SRec.FileSizeTo := FileSizeTo;
     (* Find text *)
-    SRec.NotContainingText:=NotContainingText;
-    SRec.IsFindText:=IsFindText;
-    SRec.FindText:= Copy(FindText, 1, SizeOf(SRec.FindText));
+    SRec.NotContainingText := NotContainingText;
+    SRec.IsFindText := IsFindText;
+    SRec.FindText := Copy(FindText, 1, SizeOf(SRec.FindText));
     (* Replace text *)
-    SRec.IsReplaceText:=IsReplaceText;
-    SRec.ReplaceText:= Copy(ReplaceText, 1, SizeOf(SRec.ReplaceText));
+    SRec.IsReplaceText := IsReplaceText;
+    SRec.ReplaceText := Copy(ReplaceText, 1, SizeOf(SRec.ReplaceText));
   end;
 end;
 
+{ TfrmFindDlg.StopSearch }
 procedure TfrmFindDlg.StopSearch;
 begin
   if FSearchingActive then
   begin
-    if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex<>-1) then
+    if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex <> -1) then
     begin
-      DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStopSearch;
-      DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallFinalize;
+      if FSearchWithDSXPluginInProgress then
+      begin
+        DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStopSearch;
+        DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallFinalize;
+      end;
       AfterSearchStopped;
       AfterSearchFocus;
-//      btnNewSearch.SetFocus;
     end;
 
     if Assigned(FFindThread) then
@@ -1058,29 +1127,41 @@ begin
   end;
 end;
 
+{ TfrmFindDlg.Instance }
 class function TfrmFindDlg.Instance: TfrmFindDlg;
 begin
-  if not Assigned(GfrmFindDlgInstance) then
-    GfrmFindDlgInstance := TfrmFindDlg.Create(nil);
-  Result := GfrmFindDlgInstance;
+  Result:=frmFindDlgUsingPluginDSX;
 end;
 
+{ TfrmFindDlg.lbSearchTemplatesDblClick }
 procedure TfrmFindDlg.lbSearchTemplatesDblClick(Sender: TObject);
 begin
   LoadSelectedTemplate;
 end;
 
+{ TfrmFindDlg.AfterSearchStopped }
 procedure TfrmFindDlg.AfterSearchStopped;
 begin
-  btnStop.Enabled:= False;
-  btnStart.Enabled:= True;
-  btnClose.Enabled:= True;
-  btnNewSearch.Enabled:= True;
+  actCancel.Enabled := False;
+  actStart.Enabled := True;;
+  actClose.Enabled := True;
+  actNewSearch.Enabled := True;
+  actNewSearchClearFilters.Enabled := True;
+  actLastSearch.Enabled := True;
   FSearchingActive := False;
-
-//  btnNewSearch.SetFocus;
+  if FSearchWithDSXPluginInProgress then
+  begin
+    FSearchWithDSXPluginInProgress := False;
+    gSearchWithDSXPluginInProgress := False;
+  end;
+  if FSearchWithWDXPluginInProgress then
+  begin
+    FSearchWithWDXPluginInProgress := False;
+    gSearchWithWDXPluginInProgress := False;
+  end;
 end;
 
+{ TfrmFindDlg.AfterSearchFocus }
 procedure TfrmFindDlg.AfterSearchFocus;
 var
   LastButton: TButton;
@@ -1089,109 +1170,255 @@ begin
   begin
     if FRButtonPanelSender <> nil then  // if user press a keys while search - keep focus on it
     begin
-        LastButton:= (FRButtonPanelSender as TButton);
-        if LastButton.Enabled then LastButton.SetFocus else btnNewSearch.SetFocus;
+      LastButton := (FRButtonPanelSender as TButton);
+      if LastButton.Enabled then LastButton.SetFocus else btnNewSearch.SetFocus;
     end
-    else begin                          // if user don't press anything - focus on results
-      if (pgcSearch.ActivePage=tsResults)and(lsFoundedFiles.Count > 0) then
+    else
+    begin                          // if user don't press anything - focus on results
+      if (pgcSearch.ActivePage = tsResults) and (lsFoundedFiles.Count > 0) then
       begin
         lsFoundedFiles.SetFocus;
         if (lsFoundedFiles.ItemIndex <> -1) then
-          lsFoundedFiles.Selected[lsFoundedFiles.ItemIndex]:= True;
-      end else
+        begin
+          lsFoundedFiles.Selected[lsFoundedFiles.ItemIndex] := True;
+        end;
+      end
+      else
       begin
-        if btnNewSearch.Enabled then btnNewSearch.SetFocus else btnStart.SetFocus;
+        if actNewSearch.Enabled then
+          btnNewSearch.SetFocus
+        else
+          btnStart.SetFocus;
       end;
     end;
   end;
 end;
 
-procedure TfrmFindDlg.btnStartClick(Sender: TObject);
+{ TfrmFindDlg.FoundedStringCopyChanged }
+procedure TfrmFindDlg.FoundedStringCopyChanged(Sender: TObject);
 var
-  sTemp, sPath : String;
+  sText: string;
+  iTemp: integer;
+begin
+  if FoundedStringCopy.Count > 0 then
+  begin
+    iTemp := FoundedStringCopy.Count - 1;
+    Sender := FoundedStringCopy.Objects[iTemp];
+    sText := FoundedStringCopy[iTemp];
+    iTemp := Length(sText);
+    if iTemp > lsFoundedFiles.Tag then
+    begin
+      lsFoundedFiles.Tag := iTemp;
+      iTemp := lsFoundedFiles.Canvas.TextWidth(sText);
+      if iTemp > lsFoundedFiles.ScrollWidth then
+        lsFoundedFiles.ScrollWidth := iTemp + 32;
+    end;
+    lsFoundedFiles.Items.AddObject(sText, Sender);
+  end;
+end;
+
+{ TfrmFindDlg.cbFileSizeFromChange }
+procedure TfrmFindDlg.cbFileSizeFromChange(Sender: TObject);
+begin
+  UpdateColor(seFileSizeFrom, cbFileSizeFrom.Checked);
+  EnableControl(cmbFileSizeUnit, cbFileSizeFrom.Checked or cbFileSizeTo.Checked);
+end;
+
+{ TfrmFindDlg.cbFileSizeToChange }
+procedure TfrmFindDlg.cbFileSizeToChange(Sender: TObject);
+begin
+  UpdateColor(seFileSizeTo, cbFileSizeTo.Checked);
+  EnableControl(cmbFileSizeUnit, cbFileSizeFrom.Checked or cbFileSizeTo.Checked);
+end;
+
+{ TfrmFindDlg.cbNotOlderThanChange }
+procedure TfrmFindDlg.cbNotOlderThanChange(Sender: TObject);
+begin
+  UpdateColor(seNotOlderThan, cbNotOlderThan.Checked);
+  EnableControl(cmbNotOlderThanUnit, cbNotOlderThan.Checked);
+end;
+
+{ TfrmFindDlg.cbReplaceTextChange }
+procedure TfrmFindDlg.cbReplaceTextChange(Sender: TObject);
+begin
+  EnableControl(cmbReplaceText, cbReplaceText.Checked and cbFindText.Checked);
+  cbNotContainingText.Checked := False;
+  cbNotContainingText.Enabled := (not cbReplaceText.Checked and cbFindText.Checked);
+
+  if not FUpdating and cmbReplaceText.Enabled and cmbReplaceText.CanFocus then
+  begin
+    cmbReplaceText.SetFocus;
+    cmbReplaceText.SelectAll;
+  end;
+end;
+
+{ TfrmFindDlg.cbTimeFromChange }
+procedure TfrmFindDlg.cbTimeFromChange(Sender: TObject);
+begin
+  UpdateColor(ZVTimeFrom, cbTimeFrom.Checked);
+end;
+
+{ TfrmFindDlg.cbTimeToChange }
+procedure TfrmFindDlg.cbTimeToChange(Sender: TObject);
+begin
+  UpdateColor(ZVTimeTo, cbTimeTo.Checked);
+end;
+
+{ TfrmFindDlg.ThreadTerminate }
+procedure TfrmFindDlg.ThreadTerminate(Sender: TObject);
+begin
+  FFindThread := TFindThread(Sender);
+  if FFindThread.TimeOfScan <> 0 then FTimeSearch := ' , ' + rsFindTimeOfScan + formatdatetime('hh:nn:ss.zzz', FFindThread.TimeOfScan);
+  FUpdateTimer.OnTimer(FUpdateTimer);
+  FUpdateTimer.Enabled := False;
+  FFindThread := nil;
+  SetWindowCaption(wcs_EndSearch);
+  AfterSearchStopped;
+  AfterSearchFocus;
+end;
+
+{ TfrmFindDlg.FocusOnResults }
+procedure TfrmFindDlg.FocusOnResults(Sender: TObject);
+begin
+  FRButtonPanelSender := Sender;
+
+  if pgcSearch.ActivePage = tsResults then
+  begin
+    {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+    btnStart.Default := False;
+    {$ENDIF}
+    if lsFoundedFiles.SelCount = 0 then lsFoundedFiles.ItemIndex := 0;
+    lsFoundedFiles.SetFocus;
+    lsFoundedFiles.Selected[lsFoundedFiles.ItemIndex] := True;
+
+  end;
+end;
+
+{ TfrmFindDlg.cm_IntelliFocus }
+procedure TfrmFindDlg.cm_IntelliFocus(const Params: array of string);
+begin
+  if FFindThread <> nil then
+  begin
+    FFindThread.OnTerminate := nil;
+    FFindThread.Terminate;
+    FUpdateTimer.OnTimer(FUpdateTimer);
+    FUpdateTimer.Enabled := False;
+    FFindThread := nil;
+  end;
+
+  AfterSearchStopped;
+  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+  btnStart.Default := True;
+  {$ENDIF}
+
+  if cmbFindText.Focused then // if F7 on already focused textSearch field- disable text search and set focun on file mask
+  begin
+    cbFindText.Checked := False;
+    cmbFindFileMask.SetFocus;
+    cmbFindFileMask.SelectAll;
+    exit;
+  end
+  else
+  begin
+    pgcSearch.PageIndex := 0;
+    cbFindText.Checked := True;
+    cmbFindText.SetFocus;
+    cmbFindText.SelectAll;
+  end;
+end;
+
+{ TfrmFindDlg.cm_Start }
+procedure TfrmFindDlg.cm_Start(const Params: array of string);
+var
+  sTemp, sPath: string;
   sr: TDsxSearchRecord;
   SearchTemplate, TmpTemplate: TSearchTemplateRec;
   PassedSelectedFiles: TStringList = nil;
 begin
-  sTemp:= edtFindPathStart.Text;
+  cm_Cancel([]);
+  Self.Repaint;
+  Application.ProcessMessages;
+
+  sTemp := edtFindPathStart.Text;
   repeat
-    sPath:= Copy2SymbDel(sTemp, ';');
+    sPath := Copy2SymbDel(sTemp, ';');
     if not mbDirectoryExists(sPath) then
-      begin
-        ShowMessage(Format(rsFindDirNoEx,[sPath]));
-        Exit;
-      end;
+    begin
+      ShowMessage(Format(rsFindDirNoEx, [sPath]));
+      Exit;
+    end;
   until sTemp = EmptyStr;
-  // add to find mask history
-  InsertFirstItem(cmbFindFileMask.Text, cmbFindFileMask);
-  // add to exclude directories history
-  InsertFirstItem(cmbExcludeDirectories.Text, cmbExcludeDirectories);
-  // add to exclude files history
-  InsertFirstItem(cmbExcludeFiles.Text, cmbExcludeFiles);
-  // add to search text history
-  if cbFindText.Checked then
-  begin
-    InsertFirstItem(cmbFindText.Text, cmbFindText);
-    // update search history, so it can be used in
-    // Viewer/Editor opened from find files dialog
-    gFirstTextSearch:= False;
-    glsSearchHistory.Assign(cmbFindText.Items);
-  end;
-  // add to replace text history
-  if cbReplaceText.Checked then
-  begin
-    InsertFirstItem(cmbReplaceText.Text, cmbReplaceText);
-    // update replace history, so it can be used in
-    // Editor opened from find files dialog (issue 0000539)
-    glsReplaceHistory.Assign(cmbReplaceText.Items);
-  end;
+
+  SaveHistory;
+  FAtLeastOneSearchWasDone := True;
 
   if cbSelectedFiles.Checked and (FSelectedFiles.Count = 0) then
   begin
     ShowMessage(rsMsgNoFilesSelected);
-    cbSelectedFiles.Checked:= False;
+    cbSelectedFiles.Checked := False;
     Exit;
   end;
 
   // Show search results page
-  pgcSearch.ActivePageIndex:= pgcSearch.PageCount - 1;
+  pgcSearch.ActivePage := tsResults;
 
   if lsFoundedFiles.CanFocus then
     lsFoundedFiles.SetFocus;
 
   ClearResults;
-  miShowAllFound.Enabled:=False;
+  miShowAllFound.Enabled := False;
 
   FSearchingActive := True;
-  btnStop.Enabled:=True;
-{$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-  btnStop.Default:=True;
-{$ENDIF}
-  btnStart.Enabled:= False;
-  btnClose.Enabled:= False;
-  btnNewSearch.Enabled:= False;
+  actCancel.Enabled := True;
+  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+  btnStop.Default := True;
+  {$ENDIF}
+  actStart.Enabled := False;
+  actClose.Enabled := False;
+  actNewSearch.Enabled := False;
+  actNewSearchClearFilters.Enabled := False;
+  actLastSearch.Enabled := False;
 
-  FillFindOptions(SearchTemplate, True);
+  if (not frmContentPlugins.chkUsePlugins.Checked) OR (not gSearchWithWDXPluginInProgress) then
+  begin
+    FillFindOptions(SearchTemplate, True);
+    if frmContentPlugins.chkUsePlugins.Checked then
+    begin
+      gSearchWithWDXPluginInProgress := True;
+      FSearchWithWDXPluginInProgress := True;
+      frmFindDlgUsingPluginWDX := Self;
+    end;
 
-  if not Assigned(FLastSearchTemplate) then
-    FLastSearchTemplate := TSearchTemplate.Create;
-  TmpTemplate := SearchTemplate;
-  TmpTemplate.StartPath := ''; // Don't remember starting path.
-  FLastSearchTemplate.SearchRecord := TmpTemplate;
+    if not Assigned(FLastSearchTemplate) then
+      FLastSearchTemplate := TSearchTemplate.Create;
+    TmpTemplate := SearchTemplate;
+    TmpTemplate.StartPath := ''; // Don't remember starting path.
+    FLastSearchTemplate.SearchRecord := TmpTemplate;
 
-  try
-    if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex<>-1) then
+    try
+      if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex <> -1) then
       begin
-        if DSXPlugins.LoadModule(cmbPlugin.ItemIndex) then
+        if not gSearchWithDSXPluginInProgress then
         begin
-          FindOptionsToDSXSearchRec(SearchTemplate, sr);
-          DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallInit(@SAddFileProc,@SUpdateStatusProc);
-          DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStartSearch(sr);
+          gSearchWithDSXPluginInProgress := True;
+          FSearchWithDSXPluginInProgress := True;
+          frmFindDlgUsingPluginDSX := Self;
+          if DSXPlugins.LoadModule(cmbPlugin.ItemIndex) then
+          begin
+            FindOptionsToDSXSearchRec(SearchTemplate, sr);
+            DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallInit(@SAddFileProc, @SUpdateStatusProc);
+            DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStartSearch(sr);
+          end
+          else
+            StopSearch;
         end
         else
+        begin
+          MsgError(rsSearchWithDSXPluginInProgress);
           StopSearch;
+        end;
       end
-    else
+      else
       begin
         if cbSelectedFiles.Checked then PassedSelectedFiles := FSelectedFiles;
 
@@ -1208,51 +1435,149 @@ begin
           OnTerminate := @ThreadTerminate; // will update the buttons after search is finished
         end;
 
-        FTimeSearch:='';
+        SetWindowCaption(wcs_StartSearch);
+
+        FTimeSearch := '';
         FFindThread.Start;
         FUpdateTimer.Enabled := True;
         FUpdateTimer.OnTimer(FUpdateTimer);
 
-        FRButtonPanelSender:=nil;
+        FRButtonPanelSender := nil;
       end;
-  except
-    StopSearch;
-    raise;
-  end;
-end;
-
-procedure TfrmFindDlg.FoundedStringCopyChanged(Sender: TObject);
-var
-  sText: String;
-  iTemp: Integer;
-begin
-  if FoundedStringCopy.Count > 0 then
-  begin
-    iTemp:= FoundedStringCopy.Count - 1;
-    Sender:= FoundedStringCopy.Objects[iTemp];
-    sText:= FoundedStringCopy[iTemp];
-    iTemp:= Length(sText);
-    if iTemp > lsFoundedFiles.Tag then
-    begin
-      lsFoundedFiles.Tag:= iTemp;
-      iTemp:= lsFoundedFiles.Canvas.TextWidth(sText);
-      if iTemp > lsFoundedFiles.ScrollWidth then
-        lsFoundedFiles.ScrollWidth:= iTemp + 32;
+    except
+      StopSearch;
+      raise;
     end;
-    lsFoundedFiles.Items.AddObject(sText, Sender);
+  end
+  else
+  begin
+    MsgError(rsSearchWithWDXPluginInProgress);
+    StopSearch;
+    AfterSearchStopped;
+    AfterSearchFocus;
+  end;
+end; //cm_Start
+
+{ TfrmFindDlg.cm_CancelClose }
+procedure TfrmFindDlg.cm_CancelClose(const Params: array of string);
+begin
+  if FSearchingActive then
+    StopSearch
+  else
+    Close;
+end;
+
+{ TfrmFindDlg.cm_Cancel }
+procedure TfrmFindDlg.cm_Cancel(const Params: array of string);
+begin
+  StopSearch;
+  AfterSearchStopped;
+  AfterSearchFocus;
+end;
+
+{ TfrmFindDlg.cm_NewSearch }
+procedure TfrmFindDlg.cm_NewSearch(const Params: array of string);
+var
+  Param: string;
+  sActionWithFilters: string = '';
+begin
+  StopSearch;
+
+  if length(Params) = 0 then
+  begin
+    case gNewSearchClearFiltersAction of
+      fonsClear: sActionWithFilters := 'clear';
+      fonsPrompt: if msgYesNo(rsClearFiltersOrNot) then sActionWithFilters := 'clear';
+    end;
+  end;
+  for Param in Params do
+    GetParamValue(Param, 'filters', sActionWithFilters);
+  if sActionWithFilters = 'clear' then ClearFilter(False);
+
+  pgcSearch.PageIndex := 0;
+  ClearResults;
+  miShowAllFound.Enabled := False;
+  lblStatus.Caption := EmptyStr;
+  lblCurrent.Caption := EmptyStr;
+  lblFound.Caption := EmptyStr;
+  SetWindowCaption(wcs_NewSearch);
+  if pgcSearch.ActivePage = tsStandard then cmbFindFileMask.SetFocus;
+  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+  btnStart.Default := True;
+  {$ENDIF}
+end;
+
+{ TfrmFindDlg.cm_LastSearch }
+procedure TfrmFindDlg.cm_LastSearch(const Params: array of string);
+begin
+  if Assigned(FLastSearchTemplate) then
+  begin
+    LoadTemplate(FLastSearchTemplate.SearchRecord);
+    pgcSearch.ActivePage := tsStandard;
+    cmbFindFileMask.SetFocus;
   end;
 end;
 
-procedure TfrmFindDlg.btnViewClick(Sender: TObject);
+{ TfrmFindDlg.cm_View }
+procedure TfrmFindDlg.cm_View(const Params: array of string);
+begin
+  if pgcSearch.ActivePage = tsResults then
+    if lsFoundedFiles.ItemIndex <> -1 then
+      ShowViewerByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+end;
+
+{ TfrmFindDlg.cm_Edit }
+procedure TfrmFindDlg.cm_Edit(const Params: array of string);
+begin
+  if pgcSearch.ActivePage = tsResults then
+    if lsFoundedFiles.ItemIndex <> -1 then
+      ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+end;
+
+{ TfrmFindDlg.cm_GoToFile }
+procedure TfrmFindDlg.cm_GoToFile(const Params: array of string);
+var
+  AFile: TFile = nil;
+  TargetFile: string;
+  ArchiveFile: string;
+  FileSource: IFileSource;
 begin
   if lsFoundedFiles.ItemIndex <> -1 then
-    ShowViewerByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+    try
+      StopSearch;
+      if (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] <> nil) then
+      begin
+        TargetFile := lsFoundedFiles.Items[lsFoundedFiles.ItemIndex];
+        ArchiveFile := ExtractWord(1, TargetFile, [ReversePathDelim]);
+        TargetFile := PathDelim + ExtractWord(2, TargetFile, [ReversePathDelim]);
+        AFile := TFileSystemFileSource.CreateFileFromFile(ArchiveFile);
+        try
+          FileSource:= GetArchiveFileSource(TFileSystemFileSource.GetFileSource, AFile, EmptyStr, False, False);
+        finally
+          AFile.Free;
+        end;
+        if Assigned(FileSource) then
+        begin
+          frmMain.ActiveFrame.AddFileSource(FileSource, ExtractFilePath(TargetFile));
+          frmMain.ActiveFrame.SetActiveFile(ExtractFileName(TargetFile));
+        end;
+      end
+      else
+      begin
+        SetFileSystemPath(frmMain.ActiveFrame, ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
+        frmMain.ActiveFrame.SetActiveFile(ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
+      end;
+      Close;
+    except
+      on E: Exception do MessageDlg(E.Message, mtError, [mbOK], 0);
+    end;
 end;
 
-procedure TfrmFindDlg.btnWorkWithFoundClick(Sender: TObject);
+{ TfrmFindDlg.cm_FeedToListbox }
+procedure TfrmFindDlg.cm_FeedToListbox(const Params: array of string);
 var
-  I: Integer;
-  sFileName: String;
+  I: integer;
+  sFileName: string;
   SearchResultFS: ISearchResultFileSource;
   FileList: TFileTree;
   aFile: TFile;
@@ -1264,12 +1589,12 @@ begin
   FileList := TFileTree.Create;
   for i := 0 to lsFoundedFiles.Items.Count - 1 do
   begin
-    sFileName:= lsFoundedFiles.Items[I];
+    sFileName := lsFoundedFiles.Items[I];
     try
       aFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
       FileList.AddSubNode(aFile);
     except
-      on EFileNotFound do;
+      on EFileNotFound do ;
     end;
   end;
 
@@ -1288,218 +1613,42 @@ begin
   Close;
 end;
 
-procedure TfrmFindDlg.cbFileSizeFromChange(Sender: TObject);
-begin
-  UpdateColor(seFileSizeFrom, cbFileSizeFrom.Checked);
-  EnableControl(cmbFileSizeUnit,cbFileSizeFrom.Checked or cbFileSizeTo.Checked);
-end;
-
-procedure TfrmFindDlg.cbFileSizeToChange(Sender: TObject);
-begin
-  UpdateColor(seFileSizeTo, cbFileSizeTo.Checked);
-  EnableControl(cmbFileSizeUnit,cbFileSizeFrom.Checked or cbFileSizeTo.Checked);
-end;
-
-procedure TfrmFindDlg.cbNotOlderThanChange(Sender: TObject);
-begin
-   UpdateColor(seNotOlderThan, cbNotOlderThan.Checked);
-   EnableControl(cmbNotOlderThanUnit,cbNotOlderThan.Checked);
-end;
-
-procedure TfrmFindDlg.cbReplaceTextChange(Sender: TObject);
-begin
-  EnableControl(cmbReplaceText, cbReplaceText.Checked and cbFindText.Checked);
-  cbNotContainingText.Checked := False;
-  cbNotContainingText.Enabled := (not cbReplaceText.Checked and cbFindText.Checked);
-
-  if not FUpdating and cmbReplaceText.Enabled and cmbReplaceText.CanFocus then
-  begin
-    cmbReplaceText.SetFocus;
-    cmbReplaceText.SelectAll;
-  end;
-end;
-
-procedure TfrmFindDlg.cbTimeFromChange(Sender: TObject);
-begin
-  UpdateColor(ZVTimeFrom, cbTimeFrom.Checked);
-end;
-
-procedure TfrmFindDlg.cbTimeToChange(Sender: TObject);
-begin
-  UpdateColor(ZVTimeTo, cbTimeTo.Checked);
-end;
-
-procedure TfrmFindDlg.ThreadTerminate(Sender:TObject);
-begin
-  FFindThread := TFindThread(Sender);
-  if FFindThread.TimeOfScan<>0 then FTimeSearch:=' , '+rsFindTimeOfScan+formatdatetime('hh:nn:ss.zzz', FFindThread.TimeOfScan);
-  FUpdateTimer.OnTimer(FUpdateTimer);
-  FUpdateTimer.Enabled := False;
-  FFindThread := nil;
-  AfterSearchStopped;
-  AfterSearchFocus;
-
-  {
-  if Assigned(Self) and Visible then
-  begin
-    if FRButtonPanelSender<>nil then  // if user press a keys while search - keep focus on it
-    begin
-        LastButton:=(FRButtonPanelSender as TButton);
-        if LastButton.Enabled then LastButton.SetFocus else btnNewSearch.SetFocus;
-    end else
-    begin// if user don't press anything - focus on results
-        lsFoundedFiles.SetFocus;
-        if lsFoundedFiles.Count>0 then lsFoundedFiles.Selected[lsFoundedFiles.ItemIndex]:=True;
-    end;
-  end;
-  }
-
-//  if Assigned(Self) and Visible then btnNewSearch.SetFocus;
-//  if Self.Instance;
-end;
-
-procedure TfrmFindDlg.FocusOnResults(Sender: TObject);
-begin
-  FRButtonPanelSender:=Sender;
-
-  if pgcSearch.ActivePage=tsResults then
-  begin
-    {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-      btnStart.Default:= False;
-    {$ENDIF}
-    if lsFoundedFiles.SelCount=0 then lsFoundedFiles.ItemIndex:=0;
-    lsFoundedFiles.SetFocus;
-    lsFoundedFiles.Selected[lsFoundedFiles.ItemIndex]:=True;
-
-  end;
-end;
-
-procedure TfrmFindDlg.cm_IntelliFocus(const Params: array of string);
-begin
-    if FFindThread<>nil then
-    begin
-      FFindThread.OnTerminate:=nil;
-      FFindThread.Terminate;
-      FUpdateTimer.OnTimer(FUpdateTimer);
-      FUpdateTimer.Enabled := False;
-      FFindThread := nil;
-    end;
-
-    AfterSearchStopped;
-    {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-      btnStart.Default := True;
-    {$ENDIF}
-
-    if cmbFindText.Focused then // if F7 on already focused textSearch field- disable text search and set focun on file mask
-    begin
-      cbFindText.Checked:=False;
-      cmbFindFileMask.SetFocus;
-      cmbFindFileMask.SelectAll;
-      exit;
-    end else
-    begin
-      pgcSearch.PageIndex:= 0;
-      cbFindText.Checked:=True;
-      cmbFindText.SetFocus;
-      cmbFindText.SelectAll;
-    end;
-end;
-
-procedure TfrmFindDlg.cm_Start(const Params: array of string);
-begin
-  btnStop.Click;
-  Self.Repaint;
-  Application.ProcessMessages;
-  btnStart.Click;
-end;
-
-procedure TfrmFindDlg.cm_CancelClose(const Params: array of string);
-begin
-  if FSearchingActive then
-    StopSearch
-  else
-    Close;
-end;
-
-procedure TfrmFindDlg.cm_Cancel(const Params: array of string);
-begin
-  btnStop.Click;
-end;
-
-procedure TfrmFindDlg.cm_Close(const Params: array of string);
-begin
-  btnClose.Click;
-end;
-
-procedure TfrmFindDlg.cm_NewSearch(const Params: array of string);
-begin
-  btnNewSearch.Click;
-end;
-
-procedure TfrmFindDlg.cm_LastSearch(const Params: array of string);
-begin
-  btnLastSearch.Click;
-end;
-
-procedure TfrmFindDlg.cm_View(const Params: array of string);
-begin
-  btnView.Click;
-end;
-
-procedure TfrmFindDlg.cm_Edit(const Params: array of string);
-begin
-  btnEdit.Click;
-end;
-
-procedure TfrmFindDlg.cm_GoToFile(const Params: array of string);
-begin
-  btnGoToPath.Click;
-end;
-
-procedure TfrmFindDlg.cm_FeedToListbox(const Params: array of string);
-begin
-  btnWorkWithFound.Click;
-end;
-
+{ TfrmFindDlg.cm_PageStandard }
 procedure TfrmFindDlg.cm_PageStandard(const Params: array of string);
 begin
-  pgcSearch.PageIndex:=0;
+  pgcSearch.ActivePage := tsStandard;
 end;
 
+{ TfrmFindDlg.cm_PageAdvanced }
 procedure TfrmFindDlg.cm_PageAdvanced(const Params: array of string);
 begin
-  pgcSearch.PageIndex:=1;
+  pgcSearch.ActivePage := tsAdvanced;
 end;
 
+{ TfrmFindDlg.cm_PagePlugins }
 procedure TfrmFindDlg.cm_PagePlugins(const Params: array of string);
 begin
-  pgcSearch.PageIndex:=2;
+  pgcSearch.ActivePage := tsPlugins;
 end;
 
+{ TfrmFindDlg.cm_PageLoadSave }
 procedure TfrmFindDlg.cm_PageLoadSave(const Params: array of string);
 begin
-  pgcSearch.PageIndex:=3;
+  pgcSearch.ActivePage := tsLoadSave;
 end;
 
+{ TfrmFindDlg.cm_PageResults }
 procedure TfrmFindDlg.cm_PageResults(const Params: array of string);
 begin
-  pgcSearch.PageIndex:=4;
+  pgcSearch.ActivePage := tsResults;
 end;
 
-procedure TfrmFindDlg.btnStopClick(Sender: TObject);
+{ TfrmFindDlg.FormCloseQuery }
+procedure TfrmFindDlg.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
-  StopSearch;
-  AfterSearchStopped;
-  AfterSearchFocus;
-//  btnNewSearch.SetFocus;
-end;
-
-procedure TfrmFindDlg.FormCloseQuery(Sender: TObject;var CanClose: Boolean);
-// was on F7
-begin
-  if FFindThread<>nil then  // we can't call StopSearch because it method will set focus on unavailable field
+  if FFindThread <> nil then  // We can't call StopSearch because it method will set focus on unavailable field
   begin
-    FFindThread.OnTerminate:=nil;
+    FFindThread.OnTerminate := nil;
     FFindThread.Terminate;
     FUpdateTimer.OnTimer(FUpdateTimer);
     FUpdateTimer.Enabled := False;
@@ -1508,147 +1657,141 @@ begin
 
   AfterSearchStopped;
   {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-    btnStart.Default := True;
+  btnStart.Default := True;
   {$ENDIF}
-  CanClose:= not Assigned(FFindThread);
+  CanClose := not Assigned(FFindThread);
 end;
 
-procedure TfrmFindDlg.btnCloseClick(Sender: TObject);
-begin
-  Close;
-end;
-
+{ TfrmFindDlg.FormDestroy }
 procedure TfrmFindDlg.FormDestroy(Sender: TObject);
 begin
   FreeThenNil(FoundedStringCopy);
   FreeThenNil(DsxPlugins);
 end;
 
-procedure TfrmFindDlg.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+{ TfrmFindDlg.FormClose }
+procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject; var CloseAction: TCloseAction);
+const
+  CLOSETAG: longint = $233528DE;
+var
+  iSearchingForm: integer;
 begin
-  {
-  case Key of
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-    // On LCLGTK2 default button on Enter does not work.
-    VK_RETURN, VK_SELECT:
-      begin
-        Key := 0;
-        if btnStart.Enabled then
-          btnStart.Click
-        else
-          btnStop.Click;
-      end;
-{$ENDIF}
-    VK_ESCAPE:
-      begin
-        Key := 0;
-        if FSearchingActive then
-          StopSearch
-        else
-          Close;
-      end;
-    VK_1..VK_5:
-      begin
-        if Shift * KeyModifiersShortcut = [ssAlt] then
-          begin
-            pgcSearch.PageIndex := Key - VK_1;
-            Key := 0;
-          end;
-      end;
-
-    VK_TAB:
-      begin
-        if Shift * KeyModifiersShortcut = [ssCtrl] then
-        begin
-          pgcSearch.SelectNextPage(True);
-          Key := 0;
-        end
-        else if Shift * KeyModifiersShortcut = [ssCtrl, ssShift] then
-        begin
-          pgcSearch.SelectNextPage(False);
-          Key := 0;
-        end;
-      end;
-
-    VK_F7 :
-      begin
-        if FFindThread<>nil then
-        begin
-          FFindThread.OnTerminate:=nil;
-          FFindThread.Terminate;
-          FUpdateTimer.OnTimer(FUpdateTimer);
-          FUpdateTimer.Enabled := False;
-          FFindThread := nil;
-        end;
-
-        AfterSearchStopped;
-        {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-          btnStart.Default := True;
-        {$ENDIF}
-
-        if cmbFindText.Focused then // if F7 on already focused textSearch field- disable text search and set focun on file mask
-        begin
-          cbFindText.Checked:=False;
-          cmbFindFileMask.SetFocus;
-          cmbFindFileMask.SelectAll;
-          exit;
-        end else
-        begin
-          pgcSearch.PageIndex:= 0;
-          cbFindText.Checked:=True;
-          cmbFindText.SetFocus;
-          cmbFindText.SelectAll;
-        end;
-      end;
-  end;
-  }
-end;
-
-procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
-  var CloseAction: TCloseAction);
-begin
-  glsMaskHistory.Assign(cmbFindFileMask.Items);
-  glsSearchExcludeFiles.Assign(cmbExcludeFiles.Items);
-  glsSearchExcludeDirectories.Assign(cmbExcludeDirectories.Items);
-
   if Assigned(FFrmAttributesEdit) then
   begin
     FFrmAttributesEdit.Close;
     FreeAndNil(FFrmAttributesEdit);
   end;
+
+  // Remove the whole thing from memory if no search was made at all.
+  // We remove it also if we've been asked to remove it.
+  // We ned to remove it from our list of instances "ListOffrmFindDlgInstance".
+  // We'll use the trick to give current form a magic tag number and then pass the list to delete the matching one.
+  if (not FAtLeastOneSearchWasDone) or FFreeOnClose then
+  begin
+    tag := CLOSETAG;
+    for iSearchingForm := pred(ListOffrmFindDlgInstance.Count) downto 0 do
+      if ListOffrmFindDlgInstance.frmFindDlgInstance[iSearchingForm].Tag = CLOSETAG then
+        ListOffrmFindDlgInstance.Delete(iSearchingForm);
+
+    CloseAction := caFree; // This will destroy the from on next step in the flow.
+  end;
 end;
 
+{ TfrmFindDlg.SetWindowCaption }
+procedure TfrmFindDlg.SetWindowCaption(AWindowCaptionStyle: byte);
+var
+  sBuildingCaptionName: string;
+begin
+  sBuildingCaptionName := rsFindSearchFiles;
+
+  case (AWindowCaptionStyle and $07) of
+    2: sBuildingCaptionName := sBuildingCaptionName + ' - ' + rsFindScanning;
+    3: sBuildingCaptionName := sBuildingCaptionName + ' - ' + rsOperFinished;
+  end;
+
+  if (AWindowCaptionStyle and $10) <> 0 then
+    sBuildingCaptionName := sBuildingCaptionName + ' - ' + lblFound.Caption;
+
+  if (AWindowCaptionStyle and $08) <> 0 then
+  begin
+    sBuildingCaptionName := sBuildingCaptionName + ' - File: ' + cmbFindFileMask.Text;
+    if cbFindText.Checked then
+      sBuildingCaptionName := sBuildingCaptionName + ' - Text:' + cmbFindText.Text;
+  end;
+
+  Caption := sBuildingCaptionName;
+end;
+
+{ TfrmFindDlg.LoadHistory }
+procedure TfrmFindDlg.LoadHistory;
+begin
+  cmbFindFileMask.Items.Assign(glsMaskHistory);
+  cmbExcludeDirectories.Items.Assign(glsSearchExcludeDirectories);
+  cmbExcludeFiles.Items.Assign(glsSearchExcludeFiles);
+  cmbFindText.Items.Assign(glsSearchHistory);
+
+  // If we already search text then use last searched text
+  if not gFirstTextSearch then
+  begin
+    if glsSearchHistory.Count > 0 then
+      cmbFindText.Text := glsSearchHistory[0];
+  end;
+  cmbReplaceText.Items.Assign(glsReplaceHistory);
+end;
+
+{ TfrmFindDlg.SaveHistory }
+procedure TfrmFindDlg.SaveHistory;
+begin
+  // 1. Add to find mask history
+  InsertFirstItem(cmbFindFileMask.Text, cmbFindFileMask);
+  glsMaskHistory.Assign(cmbFindFileMask.Items);
+
+  // 2. Add to exclude directories history
+  InsertFirstItem(cmbExcludeDirectories.Text, cmbExcludeDirectories);
+  glsSearchExcludeFiles.Assign(cmbExcludeFiles.Items);
+
+  // 3. Add to exclude files history
+  InsertFirstItem(cmbExcludeFiles.Text, cmbExcludeFiles);
+  glsSearchExcludeDirectories.Assign(cmbExcludeDirectories.Items);
+
+  // 4. Add to search text history
+  if cbFindText.Checked then
+  begin
+    InsertFirstItem(cmbFindText.Text, cmbFindText);
+    // Update search history, so it can be used in
+    // Viewer/Editor opened from find files dialog
+    gFirstTextSearch := False;
+    glsSearchHistory.Assign(cmbFindText.Items);
+  end;
+
+  // 5. Add to replace text history
+  if cbReplaceText.Checked then
+  begin
+    InsertFirstItem(cmbReplaceText.Text, cmbReplaceText);
+    // Update replace history, so it can be used in
+    // Editor opened from find files dialog (issue 0000539)
+    glsReplaceHistory.Assign(cmbReplaceText.Items);
+  end;
+end;
+
+{ TfrmFindDlg.FormShow }
 procedure TfrmFindDlg.frmFindDlgShow(Sender: TObject);
 var
-  I: Integer;
+  I: integer;
 begin
-
-  pgcSearch.PageIndex:= 0;
+  pgcSearch.PageIndex := 0;
 
   if cmbFindFileMask.Visible then
     cmbFindFileMask.SelectAll;
 
-  cmbFindFileMask.Items.Assign(glsMaskHistory);
-  cmbFindText.Items.Assign(glsSearchHistory);
-  // if we already search text then use last searched text
-  if not gFirstTextSearch then
-    begin
-      if glsSearchHistory.Count > 0 then
-        cmbFindText.Text:= glsSearchHistory[0];
-    end;
-  cmbReplaceText.Items.Assign(glsReplaceHistory);
-  cmbExcludeFiles.Items.Assign(glsSearchExcludeFiles);
-  cmbExcludeDirectories.Items.Assign(glsSearchExcludeDirectories);
-
-  cbFindText.Checked := False;
+  LoadHistory;
+  cbPartialNameSearch.Checked := gPartialNameSearch;
   lsFoundedFiles.Canvas.Font := lsFoundedFiles.Font;
 
   cmbPlugin.Clear;
-  for I:= 0 to DSXPlugins.Count-1 do
-    begin
-      cmbPlugin.AddItem(DSXPlugins.GetDSXModule(i).Name+' (' + DSXPlugins.GetDSXModule(I).Descr+' )',nil);
-    end;
-  if (cmbPlugin.Items.Count>0) then cmbPlugin.ItemIndex:=0;
+  for I := 0 to DSXPlugins.Count - 1 do
+    cmbPlugin.AddItem(DSXPlugins.GetDSXModule(i).Name + ' (' + DSXPlugins.GetDSXModule(I).Descr + ' )', nil);
+  if (cmbPlugin.Items.Count > 0) then cmbPlugin.ItemIndex := 0;
 
   if pgcSearch.ActivePage = tsStandard then
     if cmbFindFileMask.CanFocus then
@@ -1658,11 +1801,13 @@ begin
   cbSelectedFiles.Enabled := cbSelectedFiles.Checked;
 end;
 
+{ TfrmFindDlg.gbDirectoriesResize }
 procedure TfrmFindDlg.gbDirectoriesResize(Sender: TObject);
 begin
   pnlDirectoriesDepth.Width := gbDirectories.Width div 3;
 end;
 
+{ TfrmFindDlg.lbSearchTemplatesSelectionChange }
 procedure TfrmFindDlg.lbSearchTemplatesSelectionChange(Sender: TObject; User: boolean);
 begin
   if lbSearchTemplates.ItemIndex < 0 then
@@ -1679,12 +1824,13 @@ begin
   end;
 end;
 
+{ TfrmFindDlg.LoadSelectedTemplate }
 procedure TfrmFindDlg.LoadSelectedTemplate;
 var
   SearchTemplate: TSearchTemplate;
 begin
   if lbSearchTemplates.ItemIndex < 0 then Exit;
-  SearchTemplate:= gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex];
+  SearchTemplate := gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex];
   if Assigned(SearchTemplate) then
   begin
     FLastTemplateName := SearchTemplate.TemplateName;
@@ -1692,91 +1838,81 @@ begin
   end;
 end;
 
+{ TfrmFindDlg.LoadTemplate }
 procedure TfrmFindDlg.LoadTemplate(const Template: TSearchTemplateRec);
 begin
   with Template do
   begin
     if StartPath <> '' then
-      edtFindPathStart.Text:= StartPath;
-    cmbExcludeDirectories.Text:= ExcludeDirectories;
-    cmbFindFileMask.Text:= FilesMasks;
-    cmbExcludeFiles.Text:= ExcludeFiles;
+      edtFindPathStart.Text := StartPath;
+    cmbExcludeDirectories.Text := ExcludeDirectories;
+    cmbFindFileMask.Text := FilesMasks;
+    cmbExcludeFiles.Text := ExcludeFiles;
     if (SearchDepth + 1 >= 0) and (SearchDepth + 1 < cmbSearchDepth.Items.Count) then
-      cmbSearchDepth.ItemIndex:= SearchDepth + 1
+      cmbSearchDepth.ItemIndex := SearchDepth + 1
     else
-      cmbSearchDepth.ItemIndex:= 0;
+      cmbSearchDepth.ItemIndex := 0;
     cbRegExp.Checked := RegExp;
     cbPartialNameSearch.Checked := IsPartialNameSearch;
     cbFollowSymLinks.Checked := FollowSymLinks;
     cbFindInArchive.Checked := FindInArchives;
     // attributes
-    edtAttrib.Text:= AttributesPattern;
+    edtAttrib.Text := AttributesPattern;
     // file date/time
-    cbDateFrom.Checked:= IsDateFrom;
+    cbDateFrom.Checked := IsDateFrom;
     if IsDateFrom then
-      ZVDateFrom.Date:= DateTimeFrom;
+      ZVDateFrom.Date := DateTimeFrom;
 
-    cbDateTo.Checked:= IsDateTo;
+    cbDateTo.Checked := IsDateTo;
     if IsDateTo then
-      ZVDateTo.Date:= DateTimeTo;
+      ZVDateTo.Date := DateTimeTo;
 
-    cbTimeFrom.Checked:= IsTimeFrom;
+    cbTimeFrom.Checked := IsTimeFrom;
     if IsTimeFrom then
-      ZVTimeFrom.Time:= DateTimeFrom;
+      ZVTimeFrom.Time := DateTimeFrom;
 
-    cbTimeTo.Checked:= IsTimeTo;
+    cbTimeTo.Checked := IsTimeTo;
     if IsTimeTo then
-      ZVTimeTo.Time:= DateTimeTo;
+      ZVTimeTo.Time := DateTimeTo;
 
     // not older then
-    cbNotOlderThan.Checked:= IsNotOlderThan;
-    seNotOlderThan.Value:= NotOlderThan;
+    cbNotOlderThan.Checked := IsNotOlderThan;
+    seNotOlderThan.Value := NotOlderThan;
     cmbNotOlderThanUnit.ItemIndex := TimeUnitToComboIndex[NotOlderThanUnit];
     // file size
-    cbFileSizeFrom.Checked:= IsFileSizeFrom;
-    cbFileSizeTo.Checked:= IsFileSizeTo;
-    seFileSizeFrom.Value:= FileSizeFrom;
-    seFileSizeTo.Value:= FileSizeTo;
+    cbFileSizeFrom.Checked := IsFileSizeFrom;
+    cbFileSizeTo.Checked := IsFileSizeTo;
+    seFileSizeFrom.Value := FileSizeFrom;
+    seFileSizeTo.Value := FileSizeTo;
     cmbFileSizeUnit.ItemIndex := FileSizeUnitToComboIndex[FileSizeUnit];
     // find/replace text
-    cbFindText.Checked:= IsFindText;
-    cmbFindText.Text:= FindText;
-    cbReplaceText.Checked:= IsReplaceText;
-    cmbReplaceText.Text:= ReplaceText;
-    cbCaseSens.Checked:= CaseSensitive;
-    cbNotContainingText.Checked:= NotContainingText;
-    cbTextRegExp.Checked:= TextRegExp;
-    cmbEncoding.Text:= TextEncoding;
+    cbFindText.Checked := IsFindText;
+    cmbFindText.Text := FindText;
+    cbReplaceText.Checked := IsReplaceText;
+    cmbReplaceText.Text := ReplaceText;
+    cbCaseSens.Checked := CaseSensitive;
+    cbNotContainingText.Checked := NotContainingText;
+    cbTextRegExp.Checked := TextRegExp;
+    cmbEncoding.Text := TextEncoding;
     // plugins
-    cmbPlugin.Text:= SearchPlugin;
+    cmbPlugin.Text := SearchPlugin;
     frmContentPlugins.Load(Template);
   end;
 end;
 
+{ TfrmFindDlg.lsFoundedFilesDblClick }
 procedure TfrmFindDlg.lsFoundedFilesDblClick(Sender: TObject);
 begin
-//  if not FSearchingActive then btnGoToPathClick(Sender);
-  btnGoToPathClick(Sender);
+  cm_GoToFile([]);
 end;
 
+{ TfrmFindDlg.lsFoundedFilesKeyDown }
 procedure TfrmFindDlg.lsFoundedFilesKeyDown(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
+  var Key: word; Shift: TShiftState);
 begin
   if (Shift = []) and (lsFoundedFiles.ItemIndex <> -1) then
   begin
     case Key of
-      VK_F3:
-      begin
-        ShowViewerByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
-        Key := 0;
-      end;
-
-      VK_F4:
-      begin
-        ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
-        Key := 0;
-      end;
-
       VK_DELETE:
       begin
         miRemoveFromLlistClick(Sender);
@@ -1787,106 +1923,103 @@ begin
       begin
         if not FSearchingActive then
         begin
-          btnGoToPathClick(Sender);
+          cm_GotoFile([]);
           Key := 0;
         end;
       end;
 
-      VK_RIGHT,VK_LEFT:
+      VK_RIGHT, VK_LEFT:
       begin
         if not FSearchingActive then
         begin
-          if FRButtonPanelSender<>nil then (FRButtonPanelSender as TButton).SetFocus
-          else btnNewSearch.SetFocus;
-//          btnNewSearch.SetFocus;
+          if FRButtonPanelSender <> nil then (FRButtonPanelSender as TButton).SetFocus else btnNewSearch.SetFocus;
           Key := 0;
-        end else
+        end
+        else
         begin
           Key := 0;
           btnStop.SetFocus;
         end;
       end;
 
-
     end;
 
   end;
 end;
 
+{ TfrmFindDlg.lsFoundedFilesMouseDown }
 procedure TfrmFindDlg.lsFoundedFilesMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+  Button: TMouseButton; Shift: TShiftState; X, Y: integer);
 var
-  i:integer;
+  i: integer;
 begin
-  i:=lsFoundedFiles.ItemAtPos(Point(X,Y),False);
+  i := lsFoundedFiles.ItemAtPos(Point(X, Y), False);
 
-  if (i>=0) then
+  if (i >= 0) then
   begin
-    LastClickResultsPath:=GetDeepestExistingPath(lsFoundedFiles.Items[i]);
+    LastClickResultsPath := GetDeepestExistingPath(lsFoundedFiles.Items[i]);
 
-    if (Button=mbRight)and(lsFoundedFiles.Selected[i]<>True) then
+    if (Button = mbRight) and (lsFoundedFiles.Selected[i] <> True) then
     begin
-         lsFoundedFiles.ClearSelection;
-         lsFoundedFiles.Selected[i]:=True;
+      lsFoundedFiles.ClearSelection;
+      lsFoundedFiles.Selected[i] := True;
     end;
   end;
 end;
 
+{ TfrmFindDlg.lsFoundedFilesMouseUp }
 procedure TfrmFindDlg.lsFoundedFilesMouseUp(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+  Button: TMouseButton; Shift: TShiftState; X, Y: integer);
 var
-  i:integer;
-  sPath:string;
+  i: integer;
+  sPath: string;
   AFile: TFile;
   AFiles: TFiles;
-
-  Panel:TFileView;
-  FileList :TFileTree;
-
   pt: TPoint;
 begin
-  if Button=mbRight then
+  if Button = mbRight then
   begin
 
-    if Shift=[ssCtrl] then    // Show System context menu
+    if Shift = [ssCtrl] then // Show System context menu
     begin
 
       {$IF DEFINED(MSWINDOWS)}
-        try
-          AFiles:= TFiles.Create(LastClickResultsPath);
-          AFiles.Path:=LastClickResultsPath;
+      try
+        AFiles := TFiles.Create(LastClickResultsPath);
+        AFiles.Path := LastClickResultsPath;
 
-          i:=0;
-          while i<lsFoundedFiles.Count do
+        i := 0;
+        while i < lsFoundedFiles.Count do
+        begin
+          if lsFoundedFiles.Selected[i] then
           begin
-           if lsFoundedFiles.Selected[i] then
-           begin
-             sPath:=lsFoundedFiles.Items[i];
-             AFile:= TFileSystemFileSource.CreateFile(sPath);
-             AFiles.Add(aFile);
-           end;
-          inc(i);
+            sPath := lsFoundedFiles.Items[i];
+            AFile := TFileSystemFileSource.CreateFile(sPath);
+            AFiles.Add(aFile);
           end;
-
-          try
-            pt.X := X;
-            pt.Y := Y;
-            pt := ClientToScreen(pt);
-            ShowContextMenu(lsFoundedFiles, AFiles, pt.X, pt.Y, False, nil);
-          finally
-            FreeAndNil(AFiles);
-          end;
-
-
-        except
-          on E: EContextMenuException do
-            ShowException(E)
-          else;
+          Inc(i);
         end;
+
+        try
+          pt.X := X;
+          pt.Y := Y;
+          pt := ClientToScreen(pt);
+          ShowContextMenu(lsFoundedFiles, AFiles, pt.X, pt.Y, False, nil);
+        finally
+          FreeAndNil(AFiles);
+        end;
+
+
+      except
+        on E: EContextMenuException do
+          ShowException(E)
+        else;
+      end;
 
       {$ENDIF}
 
-    end else
+    end
+    else
     begin
       PopupMenuFind.PopUp;  // Show DC menu
     end;
@@ -1894,99 +2027,99 @@ begin
   end;
 end;
 
+{ TfrmFindDlg.lsFoundedFilesMouseWheelDown }
 procedure TfrmFindDlg.lsFoundedFilesMouseWheelDown(Sender: TObject;
-  Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+  Shift: TShiftState; MousePos: TPoint; var Handled: boolean);
 begin
-  if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size<MAX_FONT_SIZE_EDITOR) then
+  if (Shift = [ssCtrl]) and (gFonts[dcfEditor].Size > MIN_FONT_SIZE_EDITOR) then
   begin
-    //gFonts[dcfEditor].Size:=gFonts[dcfEditor].Size+1;
-    //FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
-
-    lsFoundedFiles.Font.Size:=lsFoundedFiles.Font.Size-1;
-    Handled:=True;
+    lsFoundedFiles.Font.Size := lsFoundedFiles.Font.Size - 1;
+    Handled := True;
   end;
 end;
 
+{ TfrmFindDlg.lsFoundedFilesMouseWheelUp }
 procedure TfrmFindDlg.lsFoundedFilesMouseWheelUp(Sender: TObject;
-  Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+  Shift: TShiftState; MousePos: TPoint; var Handled: boolean);
 begin
-  if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size<MAX_FONT_SIZE_EDITOR) then
+  if (Shift = [ssCtrl]) and (gFonts[dcfEditor].Size < MAX_FONT_SIZE_EDITOR) then
   begin
-    //gFonts[dcfFileSearchResults].Size:=gFonts[dcfFileSearchResults].Size+1;
-    //FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
-
-    lsFoundedFiles.Font.Size:=lsFoundedFiles.Font.Size+1;
-    Handled:=True;
+    lsFoundedFiles.Font.Size := lsFoundedFiles.Font.Size + 1;
+    Handled := True;
   end;
 end;
 
+{ TfrmFindDlg.miOpenInNewTabClick }
 procedure TfrmFindDlg.miOpenInNewTabClick(Sender: TObject);
 var
-  i,ind:integer;
-  sPath:string;
+  i: integer;
+  sPath: string;
 
   Notebook: TFileViewNotebook;
   NewPage: TFileViewPage;
 
 begin
-  ind:=lsFoundedFiles.ItemIndex;
   Notebook := frmMain.ActiveNotebook;
 
-  i:=0;
-  while i<lsFoundedFiles.Count do
+  i := 0;
+  while i < lsFoundedFiles.Count do
   begin
     if lsFoundedFiles.Selected[i] then
     begin
-      sPath :=lsFoundedFiles.Items[i];
+      sPath := lsFoundedFiles.Items[i];
       sPath := GetDeepestExistingPath(sPath);
 
       NewPage := Notebook.NewPage(Notebook.ActiveView);
-      NewPage.FileView.CurrentPath:=sPath;
+      NewPage.FileView.CurrentPath := sPath;
       NewPage.FileView.SetActiveFile(ExtractFileName(lsFoundedFiles.Items[i]));
     end;
-  inc(i);
+    Inc(i);
   end;
 
 end;
 
+{ TfrmFindDlg.miRemoveFromLlistClick }
 procedure TfrmFindDlg.miRemoveFromLlistClick(Sender: TObject);
 var
-  i:Integer;
+  i: integer;
 begin
-  if lsFoundedFiles.ItemIndex=-1 then Exit;
+  if lsFoundedFiles.ItemIndex = -1 then Exit;
   if lsFoundedFiles.SelCount = 0 then Exit;
 
-  for i:=lsFoundedFiles.Items.Count-1 downto 0 do
+  for i := lsFoundedFiles.Items.Count - 1 downto 0 do
     if lsFoundedFiles.Selected[i] then
       lsFoundedFiles.Items.Delete(i);
 
-  miShowAllFound.Enabled:=True;
+  miShowAllFound.Enabled := True;
 end;
 
+{ TfrmFindDlg.miShowAllFoundClick }
 procedure TfrmFindDlg.miShowAllFoundClick(Sender: TObject);
 begin
   lsFoundedFiles.Clear;
   lsFoundedFiles.Items.AddStrings(FoundedStringCopy);
 
-  miShowAllFound.Enabled:=False;
+  miShowAllFound.Enabled := False;
 end;
 
+{ TfrmFindDlg.miShowInEditorClick }
 procedure TfrmFindDlg.miShowInEditorClick(Sender: TObject);
 begin
-  if lsFoundedFiles.ItemIndex>=0 then
-     ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+  if lsFoundedFiles.ItemIndex >= 0 then
+    ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
 end;
 
+{ TfrmFindDlg.miShowInViewerClick }
 procedure TfrmFindDlg.miShowInViewerClick(Sender: TObject);
 var
-  sl:TStringList;
-  i:Integer;
+  sl: TStringList;
+  i: integer;
 begin
-  if lsFoundedFiles.ItemIndex=-1 then Exit;
+  if lsFoundedFiles.ItemIndex = -1 then Exit;
 
-  sl:=TStringList.Create;
+  sl := TStringList.Create;
   try
-    for i:=0 to lsFoundedFiles.Items.Count-1 do
+    for i := 0 to lsFoundedFiles.Items.Count - 1 do
       if lsFoundedFiles.Selected[i] then
         sl.Add(lsFoundedFiles.Items[i]);
     ShowViewer(sl);
@@ -1995,21 +2128,24 @@ begin
   end;
 end;
 
+{ TfrmFindDlg.seFileSizeFromChange }
 procedure TfrmFindDlg.seFileSizeFromChange(Sender: TObject);
 begin
   if not FUpdating then
-    cbFileSizeFrom.Checked:= (seFileSizeFrom.Value > 0);
+    cbFileSizeFrom.Checked := (seFileSizeFrom.Value > 0);
 end;
 
+{ TfrmFindDlg.seFileSizeToChange }
 procedure TfrmFindDlg.seFileSizeToChange(Sender: TObject);
 begin
   if not FUpdating then
-    cbFileSizeTo.Checked:= (seFileSizeTo.Value > 0);
+    cbFileSizeTo.Checked := (seFileSizeTo.Value > 0);
 end;
 
-procedure TfrmFindDlg.SelectTemplate(const ATemplateName: String);
+{ TfrmFindDlg.SelectTemplate }
+procedure TfrmFindDlg.SelectTemplate(const ATemplateName: string);
 var
-  i: Integer;
+  i: integer;
 begin
   for i := 0 to lbSearchTemplates.Count - 1 do
     if lbSearchTemplates.Items[i] = ATemplateName then
@@ -2019,12 +2155,14 @@ begin
     end;
 end;
 
+{ TfrmFindDlg.seNotOlderThanChange }
 procedure TfrmFindDlg.seNotOlderThanChange(Sender: TObject);
 begin
   if not FUpdating then
-    cbNotOlderThan.Checked:= (seNotOlderThan.Value > 0);
+    cbNotOlderThan.Checked := (seNotOlderThan.Value > 0);
 end;
 
+{ TfrmFindDlg.tsLoadSaveShow }
 procedure TfrmFindDlg.tsLoadSaveShow(Sender: TObject);
 begin
   UpdateTemplatesList;
@@ -2032,16 +2170,18 @@ begin
     lbSearchTemplates.ItemIndex := 0;
 end;
 
+{ TfrmFindDlg.tsStandardEnter }
 procedure TfrmFindDlg.tsStandardEnter(Sender: TObject);
 begin
   {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-    btnStart.Default:= True;
+  btnStart.Default := True;
   {$ENDIF}
 end;
 
+{ TfrmFindDlg.UpdateTemplatesList }
 procedure TfrmFindDlg.UpdateTemplatesList;
 var
-  OldIndex: Integer;
+  OldIndex: integer;
 begin
   OldIndex := lbSearchTemplates.ItemIndex;
   gSearchTemplateList.LoadToStringList(lbSearchTemplates.Items);
@@ -2049,43 +2189,49 @@ begin
     lbSearchTemplates.ItemIndex := OldIndex;
 end;
 
+{ TfrmFindDlg.OnUpdateTimer }
 procedure TfrmFindDlg.OnUpdateTimer(Sender: TObject);
 begin
   if Assigned(FFindThread) then
   begin
-    lblStatus.Caption := Format(rsFindScanned, [FFindThread.FilesScanned])+FTimeSearch;
+    lblStatus.Caption := Format(rsFindScanned, [FFindThread.FilesScanned]) + FTimeSearch;
     lblFound.Caption := Format(rsFindFound, [FFindThread.FilesFound]);
     lblCurrent.Caption := rsFindScanning + ': ' + FFindThread.CurrentDir;
   end;
 end;
 
+{ TfrmFindDlg.ZVDateFromChange }
 procedure TfrmFindDlg.ZVDateFromChange(Sender: TObject);
 begin
   if not FUpdating then
-    cbDateFrom.Checked:= True;
+    cbDateFrom.Checked := True;
 end;
 
+{ TfrmFindDlg.ZVDateToChange }
 procedure TfrmFindDlg.ZVDateToChange(Sender: TObject);
 begin
   if not FUpdating then
-    cbDateTo.Checked:= True;
+    cbDateTo.Checked := True;
 end;
 
+{ TfrmFindDlg.ZVTimeFromChange }
 procedure TfrmFindDlg.ZVTimeFromChange(Sender: TObject);
 begin
   if not FUpdating then
-    cbTimeFrom.Checked:= True;
+    cbTimeFrom.Checked := True;
 end;
 
+{ TfrmFindDlg.ZVTimeToChange }
 procedure TfrmFindDlg.ZVTimeToChange(Sender: TObject);
 begin
   if not FUpdating then
-    cbTimeTo.Checked:= True;
+    cbTimeTo.Checked := True;
 end;
 
+{ TfrmFindDlg.OnAddAttribute }
 procedure TfrmFindDlg.OnAddAttribute(Sender: TObject);
 var
-  sAttr: String;
+  sAttr: string;
 begin
   sAttr := edtAttrib.Text;
   if edtAttrib.SelStart > 0 then
@@ -2096,36 +2242,45 @@ begin
   edtAttrib.Text := sAttr;
 end;
 
-function TfrmFindDlg.InvalidRegExpr(AChecked: Boolean; const ARegExpr: String): Boolean;
+{ TfrmFindDlg.InvalidRegExpr }
+function TfrmFindDlg.InvalidRegExpr(AChecked: boolean; const ARegExpr: string): boolean;
 var
-  sMsg: String;
+  sMsg: string;
 begin
-  Result:= False;
+  Result := False;
   if AChecked then
-  try
-    ExecRegExpr(ARegExpr, '');
-  except
-    on E: Exception do
-    begin
-      Result:= True;
-      sMsg:= StringReplace(cbRegExp.Caption, '&', '', [rfReplaceAll]);
-      MessageDlg(sMsg + ': ' +  E.Message, mtError, [mbOK], 0);
+    try
+      ExecRegExpr(ARegExpr, '');
+    except
+      on E: Exception do
+      begin
+        Result := True;
+        sMsg := StringReplace(cbRegExp.Caption, '&', '', [rfReplaceAll]);
+        MessageDlg(sMsg + ': ' + E.Message, mtError, [mbOK], 0);
+      end;
     end;
-  end;
 end;
 
+{ TfrmFindDlg.pgcSearchChange }
 procedure TfrmFindDlg.pgcSearchChange(Sender: TObject);
 begin
-  if (pgcSearch.ActivePage = tsStandard) and not cmbFindFileMask.Focused then
+  if pgcSearch.ActivePage = tsStandard then
   begin
-    if cmbFindFileMask.CanFocus then
+    if (not cmbFindFileMask.Focused) and (cmbFindFileMask.CanFocus) then
       cmbFindFileMask.SetFocus;
+  end
+  else
+  if pgcSearch.ActivePage = tsResults then
+  begin
+    if (not lsFoundedFiles.Focused) and (lsFoundedFiles.CanFocus) then
+      lsFoundedFiles.SetFocus;
   end;
 end;
 
-procedure TfrmFindDlg.SaveTemplate(SaveStartingPath: Boolean);
+{ TfrmFindDlg.SaveTemplate }
+procedure TfrmFindDlg.SaveTemplate(SaveStartingPath: boolean);
 var
-  sName: String;
+  sName: string;
   SearchTemplate: TSearchTemplate;
   SearchRec: TSearchTemplateRec;
 begin
@@ -2136,7 +2291,7 @@ begin
   sName := FLastTemplateName;
   if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then
   begin
-    ModalResult:= mrCancel;
+    ModalResult := mrCancel;
     Exit;
   end;
 
@@ -2150,9 +2305,9 @@ begin
     Exit;
   end;
 
-  SearchTemplate:= TSearchTemplate.Create;
+  SearchTemplate := TSearchTemplate.Create;
   try
-    SearchTemplate.TemplateName:= sName;
+    SearchTemplate.TemplateName := sName;
     FillFindOptions(SearchRec, SaveStartingPath);
     SearchTemplate.SearchRecord := SearchRec;
     gSearchTemplateList.Add(SearchTemplate);
@@ -2164,13 +2319,89 @@ begin
   SelectTemplate(FLastTemplateName);
 end;
 
+procedure TfrmFindDlg.CancelCloseAndFreeMem;
+begin
+  cm_FreeFromMem([]);
+end;
+
+{ TfrmFindDlg.cm_Close }
+procedure TfrmFindDlg.cm_Close(const Params: array of string);
+begin
+  Close;
+end;
+
+{ TfrmFindDlg.cm_NewSearchClearFilters }
+procedure TfrmFindDlg.cm_NewSearchClearFilters(const Params: array of string);
+begin
+  cm_NewSearch(['filters=clear']);
+end;
+
+
+{ TfrmFindDlg.cm_FreeFromMem }
+// We will set the flag "FFreeOnClose" to "true" (it was to "false" since "FormCreate".
+// This flag will be checked in "FormClose" to set "CloseAction" to "caFree" so form will be destroy.
+// But we need to remove the pointer to that form from our "ListOffrmFindDlgInstance".
+// To determine which one to remove, we set the tag to a magic number, then scan our list and delete the one pointing the form with that magic number.
+// We just delete the pointer. The actual form will be destroyed properly because of the "CloseAction" set to "caFree".
+procedure TfrmFindDlg.cm_FreeFromMem(const {%H-}Params: array of string);
+var
+  iSearchingForm: integer;
+const
+  CLOSETAG: longint = $233528DE;
+begin
+  if FSearchingActive then StopSearch;
+
+  // Remove our pointer from our list of forms
+  tag := CLOSETAG;
+  for iSearchingForm := pred(ListOffrmFindDlgInstance.Count) downto 1 do
+  begin
+    if ListOffrmFindDlgInstance.frmFindDlgInstance[iSearchingForm].Tag = CLOSETAG then
+      ListOffrmFindDlgInstance.Delete(iSearchingForm);
+  end;
+
+  FFreeOnClose := True; // Prepare the "free mem"
+
+  // Do the "close"
+  Close;
+end;
+
+{ TfrmFindDlg.cm_FreeFromMemAllOthers }
+// We set the tag of our actual current form to a magic number and then scan
+// all forms in our list to close all the ones that does not have that magic
+// tag number.
+procedure TfrmFindDlg.cm_FreeFromMemAllOthers(const {%H-}Params: array of string);
+const
+  KEEPOPENTAG: longint = $270299;
+var
+  iIndex: integer;
+begin
+  if ListOffrmFindDlgInstance.Count > 1 then
+  begin
+    tag := KEEPOPENTAG;
+    try
+      for iIndex := pred(ListOffrmFindDlgInstance.Count) downto 0 do
+        if ListOffrmFindDlgInstance.frmFindDlgInstance[iIndex].Tag <> KEEPOPENTAG then
+          ListOffrmFindDlgInstance.frmFindDlgInstance[iIndex].CancelCloseAndFreeMem;
+    finally
+      tag := 0; // Don't forget to set back tag to 0!!!
+    end;
+  end
+  else
+  begin
+    msgOK(rsNoOtherFindFilesWindowToClose);
+  end;
+end;
+
+{ TfrmFindDlg.cm_ConfigFileSearchHotKeys }
+procedure TfrmFindDlg.cm_ConfigFileSearchHotKeys(const {%H-}Params: array of string);
+begin
+  frmMain.Commands.cm_ConfigHotKeys([Format('category=%s', [rsHotkeyCategoryFindFiles])]);
+end;
 
 initialization
   TFormCommands.RegisterCommandsForm(TfrmFindDlg, HotkeysCategory, @rsHotkeyCategoryFindFiles);
-
-
+  ListOffrmFindDlgInstance := TListOffrmFindDlgInstance.Create;
 
 finalization
-  FreeAndNil(GfrmFindDlgInstance);
-
+  ListOffrmFindDlgInstance.Destroy; // "Destroy" does call the "Clear" who will free the forms.
 end.

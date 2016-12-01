@@ -1952,6 +1952,10 @@ msgstr "&정보"
 msgid "Add file name to command line"
 msgstr "명령줄에 파일명 추가"
 
+#: tfrmmain.actaddnewsearch.caption
+msgid "New search instance..."
+msgstr ""
+
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
 msgstr "명령줄에 경로와 파일명 추가"
@@ -2080,6 +2084,10 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
+#: tfrmmain.actconfigsearches.caption
+msgid "Configuration of searches"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "도구 모음"
@@ -2155,6 +2163,10 @@ msgstr "명령어 매개변수 표시"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "삭제"
+
+#: tfrmmain.actdeletesearches.caption
+msgid "For all searches, cancel, close and free memory"
+msgstr ""
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2737,6 +2749,10 @@ msgstr "히스토리 이전 항목 가기"
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
 msgstr "로그파일 보기"
+
+#: tfrmmain.actviewsearches.caption
+msgid "View current search instances"
+msgstr ""
 
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
@@ -5730,10 +5746,6 @@ msgstr "읽기 전용 지정"
 msgid "&Move operation"
 msgstr "&파일 이동 연산"
 
-#: tfrmoptionsfileoperations.cbpartialnamesearch.caption
-msgid "&Search for part of file name"
-msgstr "&파일명 일부에서 검색"
-
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 msgid "&Process comments with files/folders"
 msgstr "파일/폴더에 &프로세스 코멘트"
@@ -5759,18 +5771,9 @@ msgstr ""
 msgid "Show attribute specification in mask input dialog each time"
 msgstr ""
 
-#: tfrmoptionsfileoperations.dbtextsearch.caption
-msgid "Text search in files"
-msgstr "파일에서 텍스트 검색"
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "작업 실행"
-
-#: tfrmoptionsfileoperations.gbfilesearch.caption
-msgctxt "tfrmoptionsfileoperations.gbfilesearch.caption"
-msgid "File search"
-msgstr "파일 검색"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
@@ -5792,10 +5795,6 @@ msgstr "해시(hash) 계산 버퍼 크기(Kilo Byte):"
 msgid "Show operations progress &initially in"
 msgstr "작업 프로세스 시작 지점 표시"
 
-#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
-msgid "Default search template:"
-msgstr "기본 검색 템플릿:"
-
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLTYPEOFDUPLICATEDRENAME.CAPTION"
 msgid "Duplicated name auto-rename style:"
@@ -5804,14 +5803,6 @@ msgstr "파일명 복제 자동 이름 바꾸기 스타일:"
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
 msgstr "&삭제한 숫자:"
-
-#: tfrmoptionsfileoperations.rbusemmapinsearch.caption
-msgid "Use memory mapping for search te&xt in files"
-msgstr "파일 텍스트 검색을 위해 메모리 매핑 사용"
-
-#: tfrmoptionsfileoperations.rbusestreaminsearch.caption
-msgid "&Use stream for search text in files"
-msgstr "파일 텍스트 검색을 위해 스트림(stream) 사용"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -9285,6 +9276,10 @@ msgstr "체크섬 검증"
 msgid "Total:"
 msgstr "전체값:"
 
+#: ulng.rsclearfiltersornot
+msgid "Do you want to clear filters for this new search?"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "클립보드에 도구상자 데이터가 없습니다"
@@ -9899,6 +9894,10 @@ msgstr ""
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "기본 도구바 파일 참조를 찾을수 없음"
+
+#: ulng.rslistoffindfileswindows
+msgid "List of \"Find files\" windows"
+msgstr ""
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -11048,6 +11047,18 @@ msgstr "변화없음;대문자;소문자;첫번째 문자 대문자;모든 단�
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr ""
 
+#: ulng.rsnewsearchclearfilteroptions
+msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnofindfileswindowyet
+msgid "Sorry, no \"Find files\" window yet..."
+msgstr ""
+
+#: ulng.rsnootherfindfileswindowtoclose
+msgid "Sorry, no other \"Find files\" window to close and free from memory..."
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "취소됨"
@@ -11541,6 +11552,12 @@ msgctxt "ulng.rsoptionseditorfilepanels"
 msgid "File panels"
 msgstr "파일 패널"
 
+#: ulng.rsoptionseditorfilesearch
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilesearch"
+msgid "File search"
+msgstr "파일 검색"
+
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
 msgstr "파일 보기"
@@ -11790,9 +11807,25 @@ msgstr "검색"
 msgid "<unnamed template>"
 msgstr "<이름없는 템플릿>"
 
+#: ulng.rssearchwithdsxplugininprogress
+msgid ""
+"A file search using DSX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
+#: ulng.rssearchwithwdxplugininprogress
+msgid ""
+"A file search using WDX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "폴더(디렉토리) 선택"
+
+#: ulng.rsselectyoufindfileswindow
+msgid "Select your window"
+msgstr ""
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"

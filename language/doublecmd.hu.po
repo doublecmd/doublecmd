@@ -1922,6 +1922,10 @@ msgstr "&Névjegy"
 msgid "Add file name to command line"
 msgstr "Fájlnév hozzáadása a parancssorhoz"
 
+#: tfrmmain.actaddnewsearch.caption
+msgid "New search instance..."
+msgstr ""
+
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
 msgstr "Útvonal és fájlnév hozzáadása a parancssorhoz"
@@ -2050,6 +2054,10 @@ msgstr ""
 msgid "Save Settings"
 msgstr "Beállítások mentése"
 
+#: tfrmmain.actconfigsearches.caption
+msgid "Configuration of searches"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Eszköztár..."
@@ -2125,6 +2133,10 @@ msgstr ""
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "Törlés"
+
+#: tfrmmain.actdeletesearches.caption
+msgid "For all searches, cancel, close and free memory"
+msgstr ""
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2707,6 +2719,10 @@ msgstr "Előző előzményre ugrik"
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
 msgstr "Naplófájl megtekintése"
+
+#: tfrmmain.actviewsearches.caption
+msgid "View current search instances"
+msgstr ""
 
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
@@ -5711,11 +5727,6 @@ msgstr "Írásvédelmi attribútum elhagyása"
 msgid "&Move operation"
 msgstr "&Mozgatás művelet"
 
-#: tfrmoptionsfileoperations.cbpartialnamesearch.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION"
-msgid "&Search for part of file name"
-msgstr "Kere&sés fájlnév részletre"
-
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION"
 msgid "&Process comments with files/folders"
@@ -5745,18 +5756,9 @@ msgstr ""
 msgid "Show attribute specification in mask input dialog each time"
 msgstr ""
 
-#: tfrmoptionsfileoperations.dbtextsearch.caption
-msgid "Text search in files"
-msgstr "Szöveg keresése a fájlokban"
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Műveletek futtatása"
-
-#: tfrmoptionsfileoperations.gbfilesearch.caption
-msgctxt "tfrmoptionsfileoperations.gbfilesearch.caption"
-msgid "File search"
-msgstr "Fájlkeresés"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
@@ -5778,10 +5780,6 @@ msgstr ""
 msgid "Show operations progress &initially in"
 msgstr "Mű&ködő műveletek megjelenítése"
 
-#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
-msgid "Default search template:"
-msgstr "Alapértelmezett keresési sablon:"
-
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
 msgid "Duplicated name auto-rename style:"
@@ -5791,16 +5789,6 @@ msgstr ""
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
 msgid "&Number of wipe passes:"
 msgstr "&Hányszoros legyen a végleges törlés??"
-
-#: tfrmoptionsfileoperations.rbusemmapinsearch.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSEMMAPINSEARCH.CAPTION"
-msgid "Use memory mapping for search te&xt in files"
-msgstr "Memória térképezés has&ználata fájlokban történő kereséskor"
-
-#: tfrmoptionsfileoperations.rbusestreaminsearch.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSESTREAMINSEARCH.CAPTION"
-msgid "&Use stream for search text in files"
-msgstr "Memóriafolyam haszná&lata fájlokban történő kereséskor"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -9227,6 +9215,10 @@ msgstr "Ellenőrzőösszeg ellenőrzése"
 msgid "Total:"
 msgstr "Összes :"
 
+#: ulng.rsclearfiltersornot
+msgid "Do you want to clear filters for this new search?"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "A vágólap nem tartalmaz érvényes eszköztári adatot."
@@ -9837,6 +9829,10 @@ msgstr ""
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
+msgstr ""
+
+#: ulng.rslistoffindfileswindows
+msgid "List of \"Find files\" windows"
 msgstr ""
 
 #: ulng.rsmarkminus
@@ -10956,6 +10952,18 @@ msgstr "Nincs változás;NAGYBETŰS;kisbetűs;Nagy kezdőbetűs;Minden Szó Nagy
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr ""
 
+#: ulng.rsnewsearchclearfilteroptions
+msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnofindfileswindowyet
+msgid "Sorry, no \"Find files\" window yet..."
+msgstr ""
+
+#: ulng.rsnootherfindfileswindowtoclose
+msgid "Sorry, no other \"Find files\" window to close and free from memory..."
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Megszüntetett"
@@ -11449,6 +11457,12 @@ msgctxt "ulng.rsoptionseditorfilepanels"
 msgid "File panels"
 msgstr "Fájl panelek"
 
+#: ulng.rsoptionseditorfilesearch
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilesearch"
+msgid "File search"
+msgstr "Fájlkeresés"
+
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
 msgstr "Fájlok megtekintése"
@@ -11698,9 +11712,25 @@ msgstr "KERESÉS"
 msgid "<unnamed template>"
 msgstr "<névtelen sablon>"
 
+#: ulng.rssearchwithdsxplugininprogress
+msgid ""
+"A file search using DSX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
+#: ulng.rssearchwithwdxplugininprogress
+msgid ""
+"A file search using WDX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "Válasszon ki egy könyvtárat"
+
+#: ulng.rsselectyoufindfileswindow
+msgid "Select your window"
+msgstr ""
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"

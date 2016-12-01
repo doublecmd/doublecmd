@@ -147,6 +147,7 @@ uses
   fOptionsTreeViewMenu,
   fOptionsTreeViewMenuColor,
   fOptionsFileOperations,
+  fOptionsFileSearch,
   fOptionsFilePanelsColors,
   fOptionsFileTypesColors,
   fOptionsFilesViews,
@@ -346,16 +347,8 @@ end;
 procedure MakeEditorsClassList;
 var
   Main: TOptionsEditorClassList absolute OptionsEditorClassList;
-  Colors,
-  ColumnsView,
-  FilesViews,
-  Keyboard,
-  Layout,
-  Mouse,
-  Tools,
-  Editor,
-  FileAssoc,
-  FolderTabs: TOptionsEditorRec;
+  Colors, ColumnsView, FilesViews, Keyboard, Layout, Mouse, Tools, Editor,
+  FileAssoc, FileOperation, FolderTabs: TOptionsEditorRec;
 begin
   Main.Add(TfrmOptionsLanguage);
   Main.Add(TfrmOptionsBehavior);
@@ -383,7 +376,8 @@ begin
   Layout.Add(TfrmOptionsTreeViewMenu);
   Layout.Add(TfrmOptionsTreeViewMenuColor);
   Main.Add(TfrmOptionsToolbar);
-  Main.Add(TfrmOptionsFileOperations);
+  FileOperation := Main.Add(TfrmOptionsFileOperations);
+  FileOperation.Add(TfrmOptionsFileSearch);
   FolderTabs := Main.Add(TfrmOptionsTabs);
   FolderTabs.Add(TfrmOptionsFavoriteTabs);
   FolderTabs.Add(TfrmOptionsTabsExtra);

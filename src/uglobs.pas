@@ -116,10 +116,16 @@ type
 
   TBriefViewMode = (bvmFixedWidth, bvmFixedCount, bvmAutoSize);
 
+  TFiltersOnNewSearch = (fonsKeep, fonsClear, fonsPrompt);
+
   THotKeySortOrder = (hksoByCommand, hksoByHotKeyGrouped, hksoByHotKeyOnePerRow);
+
 const
   { Default hotkey list version number }
-  hkVersion     = 39;
+  hkVersion = 40;
+  // 40 - In "Main" context, added the "Ctrl+Shift+F7" for "cm_AddNewSearch".
+  //      In "Find Files" context, changed "cm_Start" that was "Enter" for "F9".
+  //      In "Find Files" context, added "Alt+F7" as a valid alternative for "cm_PageStandard".
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -368,6 +374,9 @@ var
   gHashBlockSize : Integer;
   gUseMmapInSearch : Boolean;
   gPartialNameSearch: Boolean;
+  gInitiallyClearFileMask : Boolean;
+  gNewSearchClearFiltersAction : TFiltersOnNewSearch;
+  gShowMenuBarInFindFiles : Boolean;
   gSkipFileOpError: Boolean;
   gTypeOfDuplicatedRename: tDuplicatedRename;
   gDropReadOnlyFlag : Boolean;
@@ -880,6 +889,7 @@ begin
       AddIfNotExists(['Ctrl+Shift+F1'],[],'cm_ThumbnailsView');
       AddIfNotExists(['Ctrl+Shift+Enter'],[],'cm_AddPathAndFilenameToCmdLine');
       AddIfNotExists(['Ctrl+Shift+Tab'],[],'cm_PrevTab');
+      AddIfNotExists(['Ctrl+Shift+F7'],[],'cm_AddNewSearch');
       AddIfNotExists(['Ctrl+Shift+F8'],[],'cm_TreeView');
       AddIfNotExists(['Ctrl+Tab'],[],'cm_NextTab');
       AddIfNotExists(['Ctrl+Up'],[],'cm_OpenDirInNewTab');
@@ -1037,18 +1047,21 @@ begin
   HMForm := HotMan.Forms.FindOrCreate('Find Files');
   with HMForm.Hotkeys do
     begin
+      AddIfNotExists(['F3'],[],'cm_View');
+      AddIfNotExists(['F4'],[],'cm_Edit');
       AddIfNotExists(['F7'],[],'cm_IntelliFocus');
-      AddIfNotExists(['Enter'],[],'cm_Start');
+      AddIfNotExists(['F9'],[],'cm_Start');
       AddIfNotExists(['Esc'],[],'cm_CancelClose');
-//      AddIfNotExists(['Esc'],[],'cm_Close');
       AddIfNotExists(['Ctrl+N'],[],'cm_NewSearch');
+      AddIfNotExists(['Ctrl+Shift+N'],[],'cm_NewSearchClearFilters');
       AddIfNotExists(['Ctrl+L'],[],'cm_LastSearch');
-
-      AddIfNotExists(['Alt+1'],[],'cm_PageStandard');
+      AddIfNotExists(['Alt+1','','',
+                      'Alt+F7','',''],'cm_PageStandard');
       AddIfNotExists(['Alt+2'],[],'cm_PageAdvanced');
       AddIfNotExists(['Alt+3'],[],'cm_PagePlugins');
       AddIfNotExists(['Alt+4'],[],'cm_PageLoadSave');
       AddIfNotExists(['Alt+5'],[],'cm_PageResults');
+      AddIfNotExists(['Alt+F4','',''],'cm_FreeFromMem');
     end;
 
   if not mbFileExists(gpCfgDir + gNameSCFile) then
@@ -1458,6 +1471,9 @@ begin
   gHashBlockSize := 8388608;
   gUseMmapInSearch := False;
   gPartialNameSearch := True;
+  gInitiallyClearFileMask := True;
+  gNewSearchClearFiltersAction := fonsKeep;
+  gShowMenuBarInFindFiles := True;
   gWipePassNumber := 1;
   gDropReadOnlyFlag := False;
   gProcessComments := False;
@@ -2614,6 +2630,9 @@ begin
       gHashBlockSize := GetValue(Node, 'HashBufferSize', gHashBlockSize);
       gUseMmapInSearch := GetValue(Node, 'UseMmapInSearch', gUseMmapInSearch);
       gPartialNameSearch := GetValue(Node, 'PartialNameSearch', gPartialNameSearch);
+      gInitiallyClearFileMask := GetValue(Node, 'InitiallyClearFileMask', gInitiallyClearFileMask);
+      gNewSearchClearFiltersAction := TFiltersOnNewSearch(GetValue(Node, 'NewSearchClearFiltersAction', integer(gNewSearchClearFiltersAction)));
+      gShowMenuBarInFindFiles := GetValue(Node, 'ShowMenuBarInFindFiles', gShowMenuBarInFindFiles);
       gWipePassNumber := GetValue(Node, 'WipePassNumber', gWipePassNumber);
       gDropReadOnlyFlag := GetValue(Node, 'DropReadOnlyFlag', gDropReadOnlyFlag);
       gProcessComments := GetValue(Node, 'ProcessComments', gProcessComments);
@@ -3157,6 +3176,9 @@ begin
     SetValue(Node, 'HashBufferSize', gHashBlockSize);
     SetValue(Node, 'UseMmapInSearch', gUseMmapInSearch);
     SetValue(Node, 'PartialNameSearch', gPartialNameSearch);
+    SetValue(Node, 'InitiallyClearFileMask', gInitiallyClearFileMask);
+    SetValue(Node, 'NewSearchClearFiltersAction', integer(gNewSearchClearFiltersAction));
+    SetValue(Node, 'ShowMenuBarInFindFiles', gShowMenuBarInFindFiles);
     SetValue(Node, 'WipePassNumber', gWipePassNumber);
     SetValue(Node, 'DropReadOnlyFlag', gDropReadOnlyFlag);
     SetValue(Node, 'ProcessComments', gProcessComments);

@@ -27,7 +27,7 @@ unit uFormCommands;
 interface
 
 uses
-  Classes, SysUtils, StringHashList, ActnList;
+  Classes, SysUtils, StringHashList, ActnList, Menus;
 
 type
   TCommandFuncResult = (cfrSuccess, cfrDisabled, cfrNotFound);
@@ -170,6 +170,8 @@ type
      it returns @true and sets Value appropriately. Otherwise returns @false.
   }
   function GetBoolValue(StrValue: string; out BoolValue: Boolean): Boolean;
+  function CloneMainAction(AMainAction:TAction; ATargetActionList:TActionList; AMenuToInsert:TMenuItem=nil; APositionToInsert:integer=-1):TAction;
+
 
 implementation
 
@@ -628,6 +630,34 @@ begin
   end
   else
     Result := False;
+end;
+
+{ CloneMainAction }
+// Useful to implement an action in sub window form that will invoke a main action
+function CloneMainAction(AMainAction:TAction; ATargetActionList:TActionList; AMenuToInsert:TMenuItem=nil; APositionToInsert:integer=-1):TAction;
+var
+  AMenuItem:TMenuItem;
+begin
+  result:= TAction.Create(ATargetActionList);
+  result.Name := AMainAction.Name;
+  result.Caption := AMainAction.Caption;
+  result.Hint := AMainAction.Hint;
+  result.Category := AMainAction.Category;
+  result.GroupIndex := AMainAction.GroupIndex;
+  result.ShortCut:= AMainAction.ShortCut;
+  result.Enabled := AMainAction.Enabled;
+  result.ActionList := ATargetActionList;
+  result.OnExecute := AMainAction.OnExecute;
+
+  if AMenuToInsert<>nil then
+  begin
+    AMenuItem:=TMenuItem.Create(AMenuToInsert);
+    AMenuItem.Action:=result;
+    if APositionToInsert=-1 then
+      AMenuToInsert.Add(AMenuItem)
+    else
+      AMenuToInsert.Insert(APositionToInsert,AMenuItem);
+  end;
 end;
 
 end.

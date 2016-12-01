@@ -1,3 +1,26 @@
+
+{
+   Double commander
+   -------------------------------------------------------------------------
+   Implementing of Showing messages with localization
+
+   Copyright (C) 2007-2016 Alexander Koblov (alexx2000@mail.ru)
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with this library; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+}
+
 {
    Seksi Commander
    ----------------------------
@@ -550,6 +573,17 @@ begin
     end; // with frmDialog
 end;
 
+type
+  TProcedureHolder=class(TObject)
+    public
+      procedure ListBoxDblClick(Sender: TObject);
+  end;
+
+procedure TProcedureHolder.ListBoxDblClick(Sender: TObject);
+begin
+  TForm(TComponent(Sender).Owner).ModalResult:=mrOk;
+end;
+
 function ShowInputListBox(const sCaption, sPrompt : String; slValueList : TStringList;
                            var sValue : String; var SelectedChoice:integer) : Boolean;
 var
@@ -558,8 +592,11 @@ var
   lbValue : TListBox;
   bbtnOK,
   bbtnCancel : TBitBtn;
+  ProcedureHolder:TProcedureHolder;
 begin
   SelectedChoice:=-1;
+  ProcedureHolder:=TProcedureHolder.Create;
+  try
   frmDialog := TForm.CreateNew(nil, 0);
   with frmDialog do
     try
@@ -592,6 +629,7 @@ begin
           Left := 6;
           AnchorToNeighbour(akTop, 6, lblPrompt);
           Constraints.MinWidth := max(280, Screen.Width div 4);
+          OnDblClick:= ProcedureHolder.ListBoxDblClick;
         end;
       bbtnCancel := TBitBtn.Create(frmDialog);
       with bbtnCancel do
@@ -626,6 +664,10 @@ begin
     finally
       FreeAndNil(frmDialog);
     end; // with frmDialog
+
+  finally
+    ProcedureHolder.Free;
+  end;
 end;
 
 function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray): Integer;

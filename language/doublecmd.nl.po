@@ -1872,6 +1872,10 @@ msgstr "Over"
 msgid "Add file name to command line"
 msgstr "Voeg bestandnaam toe aan opdrachtregel"
 
+#: tfrmmain.actaddnewsearch.caption
+msgid "New search instance..."
+msgstr ""
+
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
 msgstr "Voeg pad en bestandnaam toe aan opdrachtregel"
@@ -1995,6 +1999,10 @@ msgstr ""
 msgid "Save Settings"
 msgstr "Sla instellingen op"
 
+#: tfrmmain.actconfigsearches.caption
+msgid "Configuration of searches"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Werkbalk..."
@@ -2070,6 +2078,10 @@ msgstr "Toon parameters voor opdrachtregel"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "Verwijderen"
+
+#: tfrmmain.actdeletesearches.caption
+msgid "For all searches, cancel, close and free memory"
+msgstr ""
 
 #: tfrmmain.actdirhistory.caption
 msgid "Directory history"
@@ -2642,6 +2654,10 @@ msgstr "Ga naar vorig element in geschiedenis"
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
 msgstr "Toon logboekbestand"
+
+#: tfrmmain.actviewsearches.caption
+msgid "View current search instances"
+msgstr ""
 
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
@@ -5555,10 +5571,6 @@ msgstr "Laat alleen-lezen-vlag vallen"
 msgid "&Move operation"
 msgstr "&Verplaatsbewerking"
 
-#: tfrmoptionsfileoperations.cbpartialnamesearch.caption
-msgid "&Search for part of file name"
-msgstr "&Zoek naar deel van bestandnaam"
-
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 msgid "&Process comments with files/folders"
 msgstr "Verwerk commentaren met bestanden/mappen"
@@ -5585,17 +5597,9 @@ msgstr "Windowsachtig filter bij markeren van bestanden ('.' selecteert ook best
 msgid "Show attribute specification in mask input dialog each time"
 msgstr ""
 
-#: tfrmoptionsfileoperations.dbtextsearch.caption
-msgid "Text search in files"
-msgstr "Tekstzoekopdracht in bestanden"
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Uitvoeren van bewerkingen"
-
-#: tfrmoptionsfileoperations.gbfilesearch.caption
-msgid "File search"
-msgstr "Bestandzoekopdracht"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
@@ -5617,10 +5621,6 @@ msgstr "Buffergrootte voor hashberekening (in KB):"
 msgid "Show operations progress &initially in"
 msgstr "Toon voortgang van bewerkingen in het begin in"
 
-#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
-msgid "Default search template:"
-msgstr "Standaardzoeksjabloon:"
-
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgid "Duplicated name auto-rename style:"
 msgstr "Gedupliceerde naam in 'automatisch hernoemen'-stijl:"
@@ -5628,14 +5628,6 @@ msgstr "Gedupliceerde naam in 'automatisch hernoemen'-stijl:"
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
 msgstr "Aantal wissingen:"
-
-#: tfrmoptionsfileoperations.rbusemmapinsearch.caption
-msgid "Use memory mapping for search te&xt in files"
-msgstr "Gebruik geheugenmapping voor zoeken tekst in bestanden"
-
-#: tfrmoptionsfileoperations.rbusestreaminsearch.caption
-msgid "&Use stream for search text in files"
-msgstr "Gebruik stream voor zoeken tekst in bestanden"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -8887,6 +8879,10 @@ msgstr "Verifieer checksum"
 msgid "Total:"
 msgstr "Totaal:"
 
+#: ulng.rsclearfiltersornot
+msgid "Do you want to clear filters for this new search?"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "Plakbord bevat geen geldige werkbalkgegevens."
@@ -9493,6 +9489,10 @@ msgstr ""
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "Kan verwijzing naar standaardbalkbestand niet vinden"
+
+#: ulng.rslistoffindfileswindows
+msgid "List of \"Find files\" windows"
+msgstr ""
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -10634,6 +10634,18 @@ msgstr "Geen wijziging;HOOFDLETTERS;kleine letters;Eerste letter hoofdletter;Ied
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr ""
 
+#: ulng.rsnewsearchclearfilteroptions
+msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnofindfileswindowyet
+msgid "Sorry, no \"Find files\" window yet..."
+msgstr ""
+
+#: ulng.rsnootherfindfileswindowtoclose
+msgid "Sorry, no other \"Find files\" window to close and free from memory..."
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Afgebroken"
@@ -11107,6 +11119,12 @@ msgstr "Bestandbewerkingen"
 msgid "File panels"
 msgstr "Bestandpanelen"
 
+#: ulng.rsoptionseditorfilesearch
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilesearch"
+msgid "File search"
+msgstr "Bestandzoekopdracht"
+
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
 msgstr "Bestandvoorbeeldweergaven"
@@ -11346,9 +11364,25 @@ msgstr "ZOEKEN"
 msgid "<unnamed template>"
 msgstr "<naamloze sjabloon>"
 
+#: ulng.rssearchwithdsxplugininprogress
+msgid ""
+"A file search using DSX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
+#: ulng.rssearchwithwdxplugininprogress
+msgid ""
+"A file search using WDX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "Kies een map"
+
+#: ulng.rsselectyoufindfileswindow
+msgid "Select your window"
+msgstr ""
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"

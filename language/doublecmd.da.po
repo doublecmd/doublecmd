@@ -1957,6 +1957,10 @@ msgstr "&Om Double Commander"
 msgid "Add file name to command line"
 msgstr "Tilføj filnavn til kommandolinje"
 
+#: tfrmmain.actaddnewsearch.caption
+msgid "New search instance..."
+msgstr ""
+
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
 msgstr "Tilføj sti og filnavn til kommandolinje"
@@ -2088,6 +2092,10 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
+#: tfrmmain.actconfigsearches.caption
+msgid "Configuration of searches"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr ""
@@ -2164,6 +2172,10 @@ msgstr ""
 msgctxt "tfrmmain.actdelete.caption"
 msgid "Delete"
 msgstr "Slet"
+
+#: tfrmmain.actdeletesearches.caption
+msgid "For all searches, cancel, close and free memory"
+msgstr ""
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2750,6 +2762,10 @@ msgstr "Gå til forrige postering i historik"
 
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
+msgstr ""
+
+#: tfrmmain.actviewsearches.caption
+msgid "View current search instances"
 msgstr ""
 
 #: tfrmmain.actvisithomepage.caption
@@ -5881,10 +5897,6 @@ msgstr "Fjern skrivebeskyttelse-attribut"
 msgid "&Move operation"
 msgstr "Flytning"
 
-#: tfrmoptionsfileoperations.cbpartialnamesearch.caption
-msgid "&Search for part of file name"
-msgstr "Sø&g efter en del af filnavnet"
-
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 msgid "&Process comments with files/folders"
 msgstr "Kopier kommentarer sammen med filer/mapper"
@@ -5910,18 +5922,9 @@ msgstr ""
 msgid "Show attribute specification in mask input dialog each time"
 msgstr ""
 
-#: tfrmoptionsfileoperations.dbtextsearch.caption
-msgid "Text search in files"
-msgstr ""
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Udfør handlinger"
-
-#: tfrmoptionsfileoperations.gbfilesearch.caption
-msgctxt "tfrmoptionsfileoperations.gbfilesearch.caption"
-msgid "File search"
-msgstr "Find filer"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
@@ -5943,10 +5946,6 @@ msgstr ""
 msgid "Show operations progress &initially in"
 msgstr "Vis handlingernes fremskridt i:"
 
-#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
-msgid "Default search template:"
-msgstr ""
-
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 #, fuzzy
 msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
@@ -5956,14 +5955,6 @@ msgstr "Stil for auto-omdøbning af dubletter:"
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
 msgstr "A&ntal overskrivninger ved sikker sletning:"
-
-#: tfrmoptionsfileoperations.rbusemmapinsearch.caption
-msgid "Use memory mapping for search te&xt in files"
-msgstr "Brug hukommelses-mapping ved tekstsøgning i filer"
-
-#: tfrmoptionsfileoperations.rbusestreaminsearch.caption
-msgid "&Use stream for search text in files"
-msgstr "Br&ug Stream til tekstsøgning i filer"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "tfrmoptionsfilepanelscolors.btnbackcolor.caption"
@@ -6336,7 +6327,7 @@ msgstr "Tilføj genvejstast"
 #, fuzzy
 msgctxt "tfrmoptionshotkeys.actcopy.caption"
 msgid "Copy"
-msgstr "Kopi"
+msgstr "Kopier"
 
 #: tfrmoptionshotkeys.actdelete.caption
 #, fuzzy
@@ -9480,6 +9471,10 @@ msgstr "Kontroller kontrolsum"
 msgid "Total:"
 msgstr ""
 
+#: ulng.rsclearfiltersornot
+msgid "Do you want to clear filters for this new search?"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "Udklipsholderen indeholder ingen gyldige data for værktøjslinjen"
@@ -10095,6 +10090,10 @@ msgstr ""
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "Kan ikke finde reference til standard-panelfil"
+
+#: ulng.rslistoffindfileswindows
+msgid "List of \"Find files\" windows"
+msgstr ""
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -11289,6 +11288,18 @@ msgstr "Uændret;STORE BOGSTAVER;små bogstaver;Første bogstav stort;Første Bo
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr ""
 
+#: ulng.rsnewsearchclearfilteroptions
+msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnofindfileswindowyet
+msgid "Sorry, no \"Find files\" window yet..."
+msgstr ""
+
+#: ulng.rsnootherfindfileswindowtoclose
+msgid "Sorry, no other \"Find files\" window to close and free from memory..."
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Afbrudt"
@@ -11795,6 +11806,12 @@ msgctxt "ulng.rsoptionseditorfilepanels"
 msgid "File panels"
 msgstr "Filvindue"
 
+#: ulng.rsoptionseditorfilesearch
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilesearch"
+msgid "File search"
+msgstr "Find filer"
+
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
 msgstr "Visning"
@@ -12047,9 +12064,25 @@ msgstr ""
 msgid "<unnamed template>"
 msgstr "<unavngivet skabelon>"
 
+#: ulng.rssearchwithdsxplugininprogress
+msgid ""
+"A file search using DSX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
+#: ulng.rssearchwithwdxplugininprogress
+msgid ""
+"A file search using WDX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "Vælg en mappe"
+
+#: ulng.rsselectyoufindfileswindow
+msgid "Select your window"
+msgstr ""
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"

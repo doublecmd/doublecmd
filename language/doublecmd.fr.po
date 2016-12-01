@@ -1944,6 +1944,10 @@ msgstr "&A propos"
 msgid "Add file name to command line"
 msgstr "Ajouter le nom du fichier dans la ligne de commande"
 
+#: tfrmmain.actaddnewsearch.caption
+msgid "New search instance..."
+msgstr ""
+
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
 msgstr "Ajouter le chemin complet et le nom du fichier dans la ligne de commande"
@@ -2072,6 +2076,10 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
+#: tfrmmain.actconfigsearches.caption
+msgid "Configuration of searches"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Configuation de la barre d'outils"
@@ -2147,6 +2155,10 @@ msgstr "Affiche les paramètres des commandes"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "Supprimer"
+
+#: tfrmmain.actdeletesearches.caption
+msgid "For all searches, cancel, close and free memory"
+msgstr ""
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2729,6 +2741,10 @@ msgstr "Aller à l'entrée précédente de l'historique"
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
 msgstr "Regarder le fichier journal"
+
+#: tfrmmain.actviewsearches.caption
+msgid "View current search instances"
+msgstr ""
 
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
@@ -5736,11 +5752,6 @@ msgstr "Ne pas tenir compte du marqueur \"lecture seule\""
 msgid "&Move operation"
 msgstr "Opération de déplacement"
 
-#: tfrmoptionsfileoperations.cbpartialnamesearch.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION"
-msgid "&Search for part of file name"
-msgstr "Recherche pour les parties de noms"
-
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION"
 msgid "&Process comments with files/folders"
@@ -5771,18 +5782,9 @@ msgstr "Interpréter le masque de filtre comme Windows (\"*.*\" sélectionne vra
 msgid "Show attribute specification in mask input dialog each time"
 msgstr ""
 
-#: tfrmoptionsfileoperations.dbtextsearch.caption
-msgid "Text search in files"
-msgstr "Recherche de texte dans les fichiers"
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Exécution des opérations"
-
-#: tfrmoptionsfileoperations.gbfilesearch.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.GBFILESEARCH.CAPTION"
-msgid "File search"
-msgstr "Recherche de fichiers"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
@@ -5804,10 +5806,6 @@ msgstr "Taille du tampon pour le calcul de signature (en KB) :"
 msgid "Show operations progress &initially in"
 msgstr "Montre la progression des opérations dans"
 
-#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
-msgid "Default search template:"
-msgstr "Modèle de recherche par défaut :"
-
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
 msgid "Duplicated name auto-rename style:"
@@ -5816,16 +5814,6 @@ msgstr "Méthode de renommage automatique des fichiers à dupliquer :"
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
 msgstr "Nombre de cycles de pulvérisation :"
-
-#: tfrmoptionsfileoperations.rbusemmapinsearch.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSEMMAPINSEARCH.CAPTION"
-msgid "Use memory mapping for search te&xt in files"
-msgstr "Utiliser la mémoire pour les recherches dans les fichiers texte"
-
-#: tfrmoptionsfileoperations.rbusestreaminsearch.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSESTREAMINSEARCH.CAPTION"
-msgid "&Use stream for search text in files"
-msgstr "Utiliser un flux pour les recherches dans les fichiers texte"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -9240,6 +9228,10 @@ msgstr "Vérifier la signature"
 msgid "Total:"
 msgstr "Total :"
 
+#: ulng.rsclearfiltersornot
+msgid "Do you want to clear filters for this new search?"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "Le presse papier ne contient aucune information de barre d'outils"
@@ -9853,6 +9845,10 @@ msgstr ""
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "On ne troube pas de rérérence à la barre par défaut"
+
+#: ulng.rslistoffindfileswindows
+msgid "List of \"Find files\" windows"
+msgstr ""
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -10999,6 +10995,18 @@ msgstr "Pas de changement;MAJUSCULE;minuscule;Premier caractère majuscule;Premi
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr ""
 
+#: ulng.rsnewsearchclearfilteroptions
+msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnofindfileswindowyet
+msgid "Sorry, no \"Find files\" window yet..."
+msgstr ""
+
+#: ulng.rsnootherfindfileswindowtoclose
+msgid "Sorry, no other \"Find files\" window to close and free from memory..."
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Annulé"
@@ -11490,6 +11498,12 @@ msgctxt "ulng.rsoptionseditorfilepanels"
 msgid "File panels"
 msgstr "Panneaux des fichiers"
 
+#: ulng.rsoptionseditorfilesearch
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilesearch"
+msgid "File search"
+msgstr "Recherche de fichiers"
+
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
 msgstr "Affichage des fichiers"
@@ -11742,9 +11756,25 @@ msgstr "RECHERCHE"
 msgid "<unnamed template>"
 msgstr "<modèle sans nom>"
 
+#: ulng.rssearchwithdsxplugininprogress
+msgid ""
+"A file search using DSX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
+#: ulng.rssearchwithwdxplugininprogress
+msgid ""
+"A file search using WDX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "Sélectionner un dossier"
+
+#: ulng.rsselectyoufindfileswindow
+msgid "Select your window"
+msgstr ""
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"

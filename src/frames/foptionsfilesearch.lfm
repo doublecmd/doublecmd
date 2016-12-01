@@ -1,0 +1,152 @@
+inherited frmOptionsFileSearch: TfrmOptionsFileSearch
+  Height = 649
+  Width = 734
+  ChildSizing.LeftRightSpacing = 6
+  ClientHeight = 649
+  ClientWidth = 734
+  DesignLeft = 612
+  DesignTop = 188
+  object gbFileSearch: TGroupBox[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 220
+    Top = 6
+    Width = 722
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = 'File search'
+    ChildSizing.LeftRightSpacing = 10
+    ChildSizing.TopBottomSpacing = 4
+    ChildSizing.HorizontalSpacing = 4
+    ChildSizing.VerticalSpacing = 4
+    ClientHeight = 200
+    ClientWidth = 718
+    TabOrder = 0
+    object cbPartialNameSearch: TCheckBox
+      AnchorSideLeft.Control = rbUseStreamInSearch
+      AnchorSideTop.Control = gbFileSearch
+      Left = 10
+      Height = 19
+      Top = 6
+      Width = 163
+      BorderSpacing.Top = 6
+      Caption = '&Search for part of file name'
+      TabOrder = 0
+    end
+    object cbInitiallyClearFileMask: TCheckBox
+      AnchorSideLeft.Control = rbUseStreamInSearch
+      AnchorSideTop.Control = cbPartialNameSearch
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 19
+      Top = 31
+      Width = 271
+      BorderSpacing.Top = 6
+      Caption = 'When launching file search, clear file mask filter'
+      TabOrder = 1
+    end
+    object lblNewSearchFilters: TLabel
+      AnchorSideTop.Control = cbNewSearchFilters
+      AnchorSideTop.Side = asrCenter
+      Left = 10
+      Height = 15
+      Top = 58
+      Width = 214
+      Caption = 'Current filters with "New search" button:'
+      ParentColor = False
+    end
+    object cbNewSearchFilters: TComboBoxAutoWidth
+      AnchorSideLeft.Control = lblNewSearchFilters
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbInitiallyClearFileMask
+      AnchorSideTop.Side = asrBottom
+      Left = 230
+      Height = 23
+      Top = 54
+      Width = 100
+      BorderSpacing.Left = 6
+      ItemHeight = 15
+      Style = csDropDownList
+      TabOrder = 2
+    end
+    object cbShowMenuBarInFindFiles: TCheckBox
+      AnchorSideLeft.Control = rbUseStreamInSearch
+      AnchorSideTop.Control = cbNewSearchFilters
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 19
+      Top = 83
+      Width = 176
+      BorderSpacing.Top = 6
+      Caption = 'Show menu bar in "Find files"'
+      TabOrder = 3
+    end
+    object lblSearchDefaultTemplate: TLabel
+      AnchorSideLeft.Control = cbPartialNameSearch
+      AnchorSideTop.Control = cbSearchDefaultTemplate
+      AnchorSideTop.Side = asrCenter
+      Left = 10
+      Height = 15
+      Top = 110
+      Width = 128
+      Caption = 'Default search template:'
+      ParentColor = False
+    end
+    object cbSearchDefaultTemplate: TComboBoxAutoWidth
+      AnchorSideLeft.Control = lblSearchDefaultTemplate
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbShowMenuBarInFindFiles
+      AnchorSideTop.Side = asrBottom
+      Left = 144
+      Height = 23
+      Top = 106
+      Width = 100
+      BorderSpacing.Left = 6
+      ItemHeight = 15
+      Style = csDropDownList
+      TabOrder = 4
+    end
+    object dbTextSearch: TDividerBevel
+      AnchorSideLeft.Control = gbFileSearch
+      AnchorSideTop.Control = cbSearchDefaultTemplate
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbFileSearch
+      AnchorSideRight.Side = asrBottom
+      Left = 10
+      Height = 15
+      Top = 133
+      Width = 698
+      Caption = 'Text search in files'
+      Anchors = [akTop, akLeft, akRight]
+    end
+    object rbUseMmapInSearch: TRadioButton
+      AnchorSideLeft.Control = gbFileSearch
+      AnchorSideTop.Control = dbTextSearch
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 19
+      Top = 152
+      Width = 252
+      Caption = 'Use memory mapping for search te&xt in files'
+      TabOrder = 5
+    end
+    object rbUseStreamInSearch: TRadioButton
+      AnchorSideLeft.Control = rbUseMmapInSearch
+      AnchorSideTop.Control = rbUseMmapInSearch
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 19
+      Top = 177
+      Width = 192
+      BorderSpacing.Top = 6
+      Caption = '&Use stream for search text in files'
+      Checked = True
+      TabOrder = 6
+      TabStop = True
+    end
+  end
+end

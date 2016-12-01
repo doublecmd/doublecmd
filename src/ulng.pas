@@ -461,6 +461,14 @@ resourcestring
   rsFindSaveTemplateCaption = 'Save search template';
   rsFindSaveTemplateTitle = 'Template name:';
   rsSearchTemplateUnnamed = '<unnamed template>';
+  rsListOfFindfilesWindows = 'List of "Find files" windows';
+  rsSelectYouFindFilesWindow = 'Select your window';
+  rsNoFindFilesWindowYet = 'Sorry, no "Find files" window yet...';
+  rsNoOtherFindFilesWindowToClose = 'Sorry, no other "Find files" window to close and free from memory...';
+  rsNewSearchClearFilterOptions = 'Keep;Clear;Prompt';
+  rsClearFiltersOrNot = 'Do you want to clear filters for this new search?';
+  rsSearchWithDSXPluginInProgress = 'A file search using DSX plugin is already in progress.'+#$0A+'We need that one to be completed before to launch a new one.';
+  rsSearchWithWDXPluginInProgress = 'A file search using WDX plugin is already in progress.'+#$0A+'We need that one to be completed before to launch a new one.';
 
   rsTimeUnitSecond = 'Second(s)';
   rsTimeUnitMinute = 'Minute(s)';
@@ -559,6 +567,7 @@ resourcestring
   rsOptionsEditorDirectoryHotlist = 'Directory Hotlist';
   rsOptionsEditorFavoriteTabs = 'Favorite Tabs';
   rsOptionsEditorOptionsChanged = 'Options have changed in "%s"'+#$0A+#$0A+'Do you want to save modifications?';
+  rsOptionsEditorFileSearch = 'File search';
   //-------------------------------
   rsOptConfigSortOrder = 'Classic, legacy order;Alphabetic order (but language still first)';
   rsOptDifferFramePosition = 'Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right';

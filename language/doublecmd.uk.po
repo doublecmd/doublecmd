@@ -1930,6 +1930,10 @@ msgstr "Пр&о програму"
 msgid "Add file name to command line"
 msgstr "Додати ім'я файлу в командний рядок"
 
+#: tfrmmain.actaddnewsearch.caption
+msgid "New search instance..."
+msgstr ""
+
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
 msgstr "Додати шлях і ім'я файлу в командний рядок"
@@ -2061,6 +2065,10 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
+#: tfrmmain.actconfigsearches.caption
+msgid "Configuration of searches"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr ""
@@ -2136,6 +2144,10 @@ msgstr ""
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "Видалити"
+
+#: tfrmmain.actdeletesearches.caption
+msgid "For all searches, cancel, close and free memory"
+msgstr ""
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2719,6 +2731,10 @@ msgstr "Перейти до попереднього запису в істор�
 
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
+msgstr ""
+
+#: tfrmmain.actviewsearches.caption
+msgid "View current search instances"
 msgstr ""
 
 #: tfrmmain.actvisithomepage.caption
@@ -5852,11 +5868,6 @@ msgstr "С&кинути прапорець \"Лише читання\""
 msgid "&Move operation"
 msgstr "Операції &переміщення"
 
-#: tfrmoptionsfileoperations.cbpartialnamesearch.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION"
-msgid "&Search for part of file name"
-msgstr "&Шукати по частині імені файла"
-
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION"
 msgid "&Process comments with files/folders"
@@ -5886,18 +5897,9 @@ msgstr ""
 msgid "Show attribute specification in mask input dialog each time"
 msgstr ""
 
-#: tfrmoptionsfileoperations.dbtextsearch.caption
-msgid "Text search in files"
-msgstr "Пошук тексту у файлах"
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Виконання операцій"
-
-#: tfrmoptionsfileoperations.gbfilesearch.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.GBFILESEARCH.CAPTION"
-msgid "File search"
-msgstr "Пошук файлів"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
@@ -5919,10 +5921,6 @@ msgstr ""
 msgid "Show operations progress &initially in"
 msgstr "Показати прогрес &операцій спочатку в"
 
-#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
-msgid "Default search template:"
-msgstr "Типовий шаблон для пошуку:"
-
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
 msgid "Duplicated name auto-rename style:"
@@ -5932,16 +5930,6 @@ msgstr "Стиль автопереіменування співпадаючих
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
 msgid "&Number of wipe passes:"
 msgstr "Кіл-&ть проходів стирання:"
-
-#: tfrmoptionsfileoperations.rbusemmapinsearch.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSEMMAPINSEARCH.CAPTION"
-msgid "Use memory mapping for search te&xt in files"
-msgstr "Використати відображенн&я в пам'ять при пошуку тексту у файлах"
-
-#: tfrmoptionsfileoperations.rbusestreaminsearch.caption
-msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSESTREAMINSEARCH.CAPTION"
-msgid "&Use stream for search text in files"
-msgstr "Використати п&отік при пошуку тексту в файлах"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -9447,6 +9435,10 @@ msgstr "Перевірити контрольну суму"
 msgid "Total:"
 msgstr "Всього:"
 
+#: ulng.rsclearfiltersornot
+msgid "Do you want to clear filters for this new search?"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "Буфер обміну не містить допустимих даних панелі інструментів."
@@ -10075,6 +10067,10 @@ msgstr ""
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "Не вдається знати файл типової панелі інструментів"
+
+#: ulng.rslistoffindfileswindows
+msgid "List of \"Find files\" windows"
+msgstr ""
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -11266,6 +11262,18 @@ msgstr "Без змін;ПРОПИСНІ;рядкові;З Прописної;К
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr ""
 
+#: ulng.rsnewsearchclearfilteroptions
+msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnofindfileswindowyet
+msgid "Sorry, no \"Find files\" window yet..."
+msgstr ""
+
+#: ulng.rsnootherfindfileswindowtoclose
+msgid "Sorry, no other \"Find files\" window to close and free from memory..."
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Перервано"
@@ -11766,6 +11774,12 @@ msgctxt "ulng.rsoptionseditorfilepanels"
 msgid "File panels"
 msgstr "Файлові панелі"
 
+#: ulng.rsoptionseditorfilesearch
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilesearch"
+msgid "File search"
+msgstr "Пошук файлів"
+
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
 msgstr "Перегляд файлів"
@@ -12015,9 +12029,25 @@ msgstr "Пошук"
 msgid "<unnamed template>"
 msgstr "<безіменний шаблон>"
 
+#: ulng.rssearchwithdsxplugininprogress
+msgid ""
+"A file search using DSX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
+#: ulng.rssearchwithwdxplugininprogress
+msgid ""
+"A file search using WDX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "Виберіть каталог"
+
+#: ulng.rsselectyoufindfileswindow
+msgid "Select your window"
+msgstr ""
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"

@@ -1880,6 +1880,10 @@ msgstr "&O programu"
 msgid "Add file name to command line"
 msgstr "Doda ime datoteke v ukazno vrstico"
 
+#: tfrmmain.actaddnewsearch.caption
+msgid "New search instance..."
+msgstr ""
+
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
 msgstr "Doda pot in ime datoteke v ukazno vrstico"
@@ -2003,6 +2007,10 @@ msgstr ""
 msgid "Save Settings"
 msgstr "Shrani nastavitve"
 
+#: tfrmmain.actconfigsearches.caption
+msgid "Configuration of searches"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Orodna vrstica ..."
@@ -2078,6 +2086,10 @@ msgstr "Pokaži parametre ukaza"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "Izbriši"
+
+#: tfrmmain.actdeletesearches.caption
+msgid "For all searches, cancel, close and free memory"
+msgstr ""
 
 #: tfrmmain.actdirhistory.caption
 msgid "Directory history"
@@ -2650,6 +2662,10 @@ msgstr "Pojdi na predhodni vnos zgodovine"
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
 msgstr "Preglej vsebino datoteke dnevnika"
+
+#: tfrmmain.actviewsearches.caption
+msgid "View current search instances"
+msgstr ""
 
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
@@ -5563,10 +5579,6 @@ msgstr "Odstrani &zastavico le za branje"
 msgid "&Move operation"
 msgstr "opravila &premikanja"
 
-#: tfrmoptionsfileoperations.cbpartialnamesearch.caption
-msgid "&Search for part of file name"
-msgstr "&Poišči del imena datoteke"
-
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 msgid "&Process comments with files/folders"
 msgstr "&Obravnavaj opombe skupaj z datotekami in mapami"
@@ -5593,17 +5605,9 @@ msgstr "Filter v slogu sistema Windows za označevanje datotek (»*.*« izbere t
 msgid "Show attribute specification in mask input dialog each time"
 msgstr ""
 
-#: tfrmoptionsfileoperations.dbtextsearch.caption
-msgid "Text search in files"
-msgstr "Iskanje besedila v datotekah"
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Izvajanje opravil"
-
-#: tfrmoptionsfileoperations.gbfilesearch.caption
-msgid "File search"
-msgstr "Iskanje datotek"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
@@ -5625,10 +5629,6 @@ msgstr "Velikost &medpomnilnika za izračun nadzorne vsote (v KB):"
 msgid "Show operations progress &initially in"
 msgstr "Pokaži splošni napredek &dejavnosti v"
 
-#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
-msgid "Default search template:"
-msgstr "Privzeta predloga iskanja:"
-
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgid "Duplicated name auto-rename style:"
 msgstr "Slog samodejnega preimenovanja podvojenih datotek:"
@@ -5636,14 +5636,6 @@ msgstr "Slog samodejnega preimenovanja podvojenih datotek:"
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
 msgstr "Število prehodov &neobnovljivega brisanja:"
-
-#: tfrmoptionsfileoperations.rbusemmapinsearch.caption
-msgid "Use memory mapping for search te&xt in files"
-msgstr "Uporabi preslikavo pomnilnika za iskanje &besedila v datotekah"
-
-#: tfrmoptionsfileoperations.rbusestreaminsearch.caption
-msgid "&Use stream for search text in files"
-msgstr "&Uporabi pretok za iskanje besedila v datotekah"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -8898,6 +8890,10 @@ msgstr "Preveri nadzorne vsote"
 msgid "Total:"
 msgstr "Skupaj:"
 
+#: ulng.rsclearfiltersornot
+msgid "Do you want to clear filters for this new search?"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "V odložišču ni veljavnih podatkov orodne vrstice."
@@ -9498,6 +9494,10 @@ msgstr ""
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "Ni mogoče najti sklica na privzeto datoteko orodne vrstice"
+
+#: ulng.rslistoffindfileswindows
+msgid "List of \"Find files\" windows"
+msgstr ""
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -10643,6 +10643,18 @@ msgstr "Brez spremembe;VELIKE ČRKE;male črke;Prva črka je velika;Prva Črka V
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr "Datoteka vsebuje napačno število vrstic; zaznana vrednost je %d, pričakovana pa %d!"
 
+#: ulng.rsnewsearchclearfilteroptions
+msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnofindfileswindowyet
+msgid "Sorry, no \"Find files\" window yet..."
+msgstr ""
+
+#: ulng.rsnootherfindfileswindowtoclose
+msgid "Sorry, no other \"Find files\" window to close and free from memory..."
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Preklicano"
@@ -11116,6 +11128,12 @@ msgstr "Datotečna opravila"
 msgid "File panels"
 msgstr "Okna datotek"
 
+#: ulng.rsoptionseditorfilesearch
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilesearch"
+msgid "File search"
+msgstr "Iskanje datotek"
+
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
 msgstr "Pogled datotek"
@@ -11355,9 +11373,25 @@ msgstr "Iskanje"
 msgid "<unnamed template>"
 msgstr "<neimenovana predloga>"
 
+#: ulng.rssearchwithdsxplugininprogress
+msgid ""
+"A file search using DSX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
+#: ulng.rssearchwithwdxplugininprogress
+msgid ""
+"A file search using WDX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "Izbor mape"
+
+#: ulng.rsselectyoufindfileswindow
+msgid "Select your window"
+msgstr ""
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"

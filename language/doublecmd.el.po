@@ -1923,6 +1923,10 @@ msgstr "Σχετικά"
 msgid "Add file name to command line"
 msgstr "Προσθήκη ονόματος αρχείου στη γραμμή εντολών"
 
+#: tfrmmain.actaddnewsearch.caption
+msgid "New search instance..."
+msgstr ""
+
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
 msgstr "Προσθήκη διαδρομής και ονόματος αρχείου στη γραμμή εντολών"
@@ -2051,6 +2055,10 @@ msgstr ""
 msgid "Save Settings"
 msgstr "Αποθήκευση Ρυθμίσεων"
 
+#: tfrmmain.actconfigsearches.caption
+msgid "Configuration of searches"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Γραμμή εργαλείων"
@@ -2126,6 +2134,10 @@ msgstr "Εμφάνιση Παραμέτρων Εντολών"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "Διαγραφή"
+
+#: tfrmmain.actdeletesearches.caption
+msgid "For all searches, cancel, close and free memory"
+msgstr ""
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2708,6 +2720,10 @@ msgstr "Μετάβαση στην προηγούμενη καταχώρηση σ
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
 msgstr "Προβολή αρχείου καταγραφών"
+
+#: tfrmmain.actviewsearches.caption
+msgid "View current search instances"
+msgstr ""
 
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
@@ -5696,10 +5712,6 @@ msgstr "Κατέβασμα σημαίας μόνο για ανάγνωση"
 msgid "&Move operation"
 msgstr "Λειτουργία Μετακίνησης"
 
-#: tfrmoptionsfileoperations.cbpartialnamesearch.caption
-msgid "&Search for part of file name"
-msgstr "Αναζήτηση για τμήμα ονόματος αρχείου"
-
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 msgid "&Process comments with files/folders"
 msgstr "Επεξεργασία σχολίων για αρχεία/φακέλους"
@@ -5726,18 +5738,9 @@ msgstr "Φίλτρο σε στυλ Windows όταν σημειώνονται α�
 msgid "Show attribute specification in mask input dialog each time"
 msgstr ""
 
-#: tfrmoptionsfileoperations.dbtextsearch.caption
-msgid "Text search in files"
-msgstr "Αναζήτηση Κειμένου στα αρχεία"
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Εκτέλεση λειτουργιών"
-
-#: tfrmoptionsfileoperations.gbfilesearch.caption
-msgctxt "tfrmoptionsfileoperations.gbfilesearch.caption"
-msgid "File search"
-msgstr "Αναζήτηση Αρχείου"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
@@ -5759,10 +5762,6 @@ msgstr "Μέγεθος ενδιάμεσης μνήμης για υπολογισ
 msgid "Show operations progress &initially in"
 msgstr "Εμφάνιση προόδου εργασιών αρχικά σε"
 
-#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
-msgid "Default search template:"
-msgstr "Εξ'ορισμού πρότυπο αναζήτησης:"
-
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLTYPEOFDUPLICATEDRENAME.CAPTION"
 msgid "Duplicated name auto-rename style:"
@@ -5771,14 +5770,6 @@ msgstr "Στυλ αυτόματης μετονομασίας διπλότυπω�
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
 msgstr "Αριθμός περασμάτων ασφαλούς διαγραφής:"
-
-#: tfrmoptionsfileoperations.rbusemmapinsearch.caption
-msgid "Use memory mapping for search te&xt in files"
-msgstr "Χρήση απεικόνισης στη μνήμη για αναζήτηση κειμένου στα αρχεία"
-
-#: tfrmoptionsfileoperations.rbusestreaminsearch.caption
-msgid "&Use stream for search text in files"
-msgstr "Χρήση stream για αναζήτηση κειμένου στα αρχεία"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -9173,6 +9164,10 @@ msgstr "Επιβεβαίωση αθροίσματος ελέγχου"
 msgid "Total:"
 msgstr "Συνολικά:"
 
+#: ulng.rsclearfiltersornot
+msgid "Do you want to clear filters for this new search?"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "Το Πρόχειρο δεν περιέχει κάποια έγκυρα δεδομένα γραμμής εργαλείων."
@@ -9787,6 +9782,10 @@ msgstr ""
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "Αδυναμία εύρεσης αναφοράς στο προκαθορισμένο αρχείο γραμμής εργαλείων"
+
+#: ulng.rslistoffindfileswindows
+msgid "List of \"Find files\" windows"
+msgstr ""
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -10933,6 +10932,18 @@ msgstr "Χωρίς αλλαγή;ΚΕΦΑΛΑΙΟ;μικρό;Πρώτο γράμ�
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr "Το Αρχείο περιέχει λάθος αριθμό γραμμών: Το %d, θα έπρεπε να είναι %d!"
 
+#: ulng.rsnewsearchclearfilteroptions
+msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnofindfileswindowyet
+msgid "Sorry, no \"Find files\" window yet..."
+msgstr ""
+
+#: ulng.rsnootherfindfileswindowtoclose
+msgid "Sorry, no other \"Find files\" window to close and free from memory..."
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Έχει απορριφθεί"
@@ -11425,6 +11436,12 @@ msgctxt "ulng.rsoptionseditorfilepanels"
 msgid "File panels"
 msgstr "Πάνελ Αρχείων"
 
+#: ulng.rsoptionseditorfilesearch
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilesearch"
+msgid "File search"
+msgstr "Αναζήτηση Αρχείου"
+
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
 msgstr "Προβολές Αρχείων"
@@ -11677,9 +11694,25 @@ msgstr "ΑΝΑΖΗΤΗΣΗ"
 msgid "<unnamed template>"
 msgstr "<πρότυπο χωρίς όνομα>"
 
+#: ulng.rssearchwithdsxplugininprogress
+msgid ""
+"A file search using DSX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
+#: ulng.rssearchwithwdxplugininprogress
+msgid ""
+"A file search using WDX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "Επιλέξτε ένα κατάλογο"
+
+#: ulng.rsselectyoufindfileswindow
+msgid "Select your window"
+msgstr ""
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"

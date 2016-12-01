@@ -425,6 +425,8 @@ type
     mnuMarkInvert: TMenuItem;
     miLine5: TMenuItem;
     mnuCmdSearch: TMenuItem;
+    mnuCmdAddNewSearch:TMenuItem;
+    mnuCmdViewSearches:TMenuItem;
     actionLst: TActionList;
     actExit: TAction;
     actView: TAction;
@@ -441,6 +443,10 @@ type
     actShowMainMenu: TAction;
     actRefresh: TAction;
     actSearch: TAction;
+    actAddNewSearch: TAction;
+    actViewSearches: TAction;
+    actDeleteSearches: TAction;
+    actConfigSearches: TAction;
     actConfigHotKeys: TAction;
     actDirHotList: TAction;
     actMarkMarkAll: TAction;
@@ -525,12 +531,12 @@ type
     actResaveFavoriteTabs: TAction;
     procedure actExecute(Sender: TObject);
     procedure btnF3MouseWheelDown(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);
+      {%H-}MousePos: TPoint; var {%H-}Handled: Boolean);
     procedure btnF3MouseWheelUp(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);
+      {%H-}MousePos: TPoint; var {%H-}Handled: Boolean);
     procedure btnF8MouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure FormKeyUp( Sender: TObject; var Key: Word; Shift: TShiftState) ;
+      {%H-}Shift: TShiftState; X, Y: Integer);
+    procedure FormKeyUp( Sender: TObject; var {%H-}Key: Word; Shift: TShiftState) ;
     function MainToolBarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
     procedure mnuAllOperStartClick(Sender: TObject);
     procedure mnuAllOperStopClick(Sender: TObject);
@@ -541,12 +547,12 @@ type
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
     procedure btnRightDirectoryHotlistClick(Sender: TObject);
-    procedure btnDriveMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure btnDriveMouseUp(Sender: TObject; Button: TMouseButton; {%H-}Shift: TShiftState; X, Y: Integer);
     procedure ConsoleSplitterCanResize(Sender: TObject; var NewSize: Integer;
-      var Accept: Boolean);
+      var {%H-}Accept: Boolean);
     procedure dskLeftResize(Sender: TObject);
     procedure dskRightResize(Sender: TObject);
-    procedure dskLeftRightToolButtonDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure dskLeftRightToolButtonDragDrop(Sender, {%H-}Source: TObject; {%H-}X, {%H-}Y: Integer);
     procedure dskToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure lblAllProgressPctClick(Sender: TObject);
     procedure MainToolBarToolButtonDragDrop(Sender, Source: TObject; X, Y: Integer);
@@ -1572,6 +1578,8 @@ var
   Point: TPoint;
   DropParams: TDropParams;
 begin
+  Point.x := 0;
+  Point.y := 0;
   TargetControl := FindLCLControl(Mouse.CursorPos);
   while TargetControl <> nil do
   begin
@@ -2908,6 +2916,8 @@ var
   mi: TMenuItem;
 begin
   pmDirHistory.Items.Clear;
+  p.x := 0;
+  p.y := 0;
 
   if FromFileSourceIndex <> -1 then
     FindBoundsForward

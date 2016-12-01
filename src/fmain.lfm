@@ -46,7 +46,7 @@ object frmMain: TfrmMain
   end
   object TreePanel: TPanel
     Left = 0
-    Height = 194
+    Height = 191
     Top = 20
     Width = 121
     Align = alLeft
@@ -55,18 +55,18 @@ object frmMain: TfrmMain
   end
   object TreeSplitter: TSplitter
     Left = 121
-    Height = 194
+    Height = 191
     Top = 20
     Width = 5
   end
   object pnlMain: TPanel
     Left = 126
-    Height = 194
+    Height = 191
     Top = 20
     Width = 634
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 194
+    ClientHeight = 191
     ClientWidth = 634
     TabOrder = 5
     object pnlDisk: TPanel
@@ -150,24 +150,24 @@ object frmMain: TfrmMain
     end
     object pnlNotebooks: TPanel
       Left = 0
-      Height = 170
+      Height = 167
       Top = 24
       Width = 634
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 170
+      ClientHeight = 167
       ClientWidth = 634
       FullRepaint = False
       TabOrder = 1
       OnResize = pnlNotebooksResize
       object pnlLeft: TPanel
         Left = 0
-        Height = 170
+        Height = 167
         Top = 0
         Width = 511
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 170
+        ClientHeight = 167
         ClientWidth = 511
         TabOrder = 0
         OnDblClick = pnlLeftRightDblClick
@@ -288,12 +288,12 @@ object frmMain: TfrmMain
       end
       object pnlRight: TPanel
         Left = 511
-        Height = 170
+        Height = 167
         Top = 0
         Width = 123
         Align = alClient
         BevelOuter = bvNone
-        ClientHeight = 170
+        ClientHeight = 167
         ClientWidth = 123
         TabOrder = 1
         OnDblClick = pnlLeftRightDblClick
@@ -429,7 +429,7 @@ object frmMain: TfrmMain
   object PanelAllProgress: TPanel
     Left = 0
     Height = 0
-    Top = 214
+    Top = 211
     Width = 760
     Align = alBottom
     AutoSize = True
@@ -440,7 +440,7 @@ object frmMain: TfrmMain
     Cursor = crVSplit
     Left = 0
     Height = 3
-    Top = 214
+    Top = 211
     Width = 760
     Align = alBottom
     AutoSnap = False
@@ -451,35 +451,35 @@ object frmMain: TfrmMain
   object pnlCommand: TPanel
     AnchorSideBottom.Control = LogSplitter
     Left = 0
-    Height = 78
-    Top = 217
+    Height = 81
+    Top = 214
     Width = 760
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 78
+    ClientHeight = 81
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 8
     object pnlCmdLine: TPanel
       Left = 0
-      Height = 24
+      Height = 27
       Top = 54
       Width = 760
       Align = alClient
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.TopBottomSpacing = 2
-      ClientHeight = 24
+      ClientHeight = 27
       ClientWidth = 760
       TabOrder = 1
       object lblCommandPath: TLabel
         AnchorSideTop.Control = edtCommand
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 14
-        Top = 5
-        Width = 26
+        Height = 15
+        Top = 6
+        Width = 24
         Caption = 'Path'
         ParentColor = False
         ShowAccelChar = False
@@ -490,13 +490,13 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = pnlCmdLine
         AnchorSideRight.Control = pnlCmdLine
         AnchorSideRight.Side = asrBottom
-        Left = 30
-        Height = 20
+        Left = 28
+        Height = 23
         Top = 2
-        Width = 730
+        Width = 732
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 4
-        ItemHeight = 14
+        ItemHeight = 15
         OnExit = edtCommandExit
         OnKeyDown = edtCommandKeyDown
         TabOrder = 0
@@ -934,17 +934,17 @@ object frmMain: TfrmMain
       Left = 89
       Height = 20
       Top = 0
-      Width = 85
+      Width = 84
       Action = actEdit
       Flat = True
       OnMouseWheelDown = btnF3MouseWheelDown
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF5: TSpeedButton
-      Left = 174
+      Left = 173
       Height = 20
       Top = 0
-      Width = 91
+      Width = 92
       Action = actCopy
       Flat = True
       OnMouseWheelDown = btnF3MouseWheelDown
@@ -954,17 +954,17 @@ object frmMain: TfrmMain
       Left = 265
       Height = 20
       Top = 0
-      Width = 92
+      Width = 94
       Action = actRename
       Flat = True
       OnMouseWheelDown = btnF3MouseWheelDown
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF7: TSpeedButton
-      Left = 357
+      Left = 359
       Height = 20
       Top = 0
-      Width = 116
+      Width = 112
       Action = actMakeDir
       Caption = 'Directory'
       Flat = True
@@ -972,10 +972,10 @@ object frmMain: TfrmMain
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF8: TSpeedButton
-      Left = 473
+      Left = 471
       Height = 20
       Top = 0
-      Width = 99
+      Width = 97
       Caption = 'Delete'
       Flat = True
       OnClick = btnF8Click
@@ -984,10 +984,10 @@ object frmMain: TfrmMain
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF9: TSpeedButton
-      Left = 572
+      Left = 568
       Height = 20
       Top = 0
-      Width = 111
+      Width = 110
       Action = actRunTerm
       Caption = 'Terminal'
       Flat = True
@@ -995,10 +995,10 @@ object frmMain: TfrmMain
       OnMouseWheelUp = btnF3MouseWheelUp
     end
     object btnF10: TSpeedButton
-      Left = 683
+      Left = 678
       Height = 20
       Top = 0
-      Width = 77
+      Width = 82
       Action = actExit
       Caption = 'Exit'
       Flat = True
@@ -1146,6 +1146,12 @@ object frmMain: TfrmMain
       Caption = '&Commands'
       object mnuCmdSearch: TMenuItem
         Action = actSearch
+      end
+      object mnuCmdAddNewSearch: TMenuItem
+        Action = actAddNewSearch
+      end
+      object mnuCmdViewSearches: TMenuItem
+        Action = actViewSearches
       end
       object mnuCmdDirHotlist: TMenuItem
         Action = actDirHotList
@@ -1515,6 +1521,27 @@ object frmMain: TfrmMain
       Tag = 18
       Category = 'Tools'
       Caption = '&Search...'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actAddNewSearch: TAction
+      Tag = 18
+      Category = 'Tools'
+      Caption = 'New search instance...'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actViewSearches: TAction
+      Tag = 18
+      Category = 'Tools'
+      Caption = 'View current search instances'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actDeleteSearches: TAction
+      Tag = 18
+      Category = 'Tools'
+      Caption = 'For all searches, cancel, close and free memory'
       HelpType = htKeyword
       OnExecute = actExecute
     end
@@ -2596,6 +2623,13 @@ object frmMain: TfrmMain
       Tag = 5
       Category = 'Configuration'
       Caption = 'Configuration of Tree View Menu Colors'
+      OnExecute = actExecute
+    end
+    object actConfigSearches: TAction
+      Tag = 5
+      Category = 'Configuration'
+      Caption = 'Configuration of searches'
+      HelpType = htKeyword
       OnExecute = actExecute
     end
     object actConfigHotKeys: TAction
