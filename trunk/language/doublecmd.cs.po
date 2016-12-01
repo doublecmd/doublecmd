@@ -1871,6 +1871,10 @@ msgstr "&O programu"
 msgid "Add file name to command line"
 msgstr "Přidat název souboru do příkazového řádku"
 
+#: tfrmmain.actaddnewsearch.caption
+msgid "New search instance..."
+msgstr ""
+
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
 msgstr "Uložit cestu a název souboru do příkazového řádku"
@@ -1994,6 +1998,10 @@ msgstr ""
 msgid "Save Settings"
 msgstr "Uložit nastavení"
 
+#: tfrmmain.actconfigsearches.caption
+msgid "Configuration of searches"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Nástrojová lišta"
@@ -2069,6 +2077,10 @@ msgstr "Zobrazit parametry příkazu"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "Vymazat"
+
+#: tfrmmain.actdeletesearches.caption
+msgid "For all searches, cancel, close and free memory"
+msgstr ""
 
 #: tfrmmain.actdirhistory.caption
 msgid "Directory history"
@@ -2641,6 +2653,10 @@ msgstr "Jít na předchozí položku v historii"
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
 msgstr "Zobrazit soubor protokolu"
+
+#: tfrmmain.actviewsearches.caption
+msgid "View current search instances"
+msgstr ""
 
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
@@ -5554,10 +5570,6 @@ msgstr "Z&rušit příznak jen pro čtení"
 msgid "&Move operation"
 msgstr "&Přesunout operaci"
 
-#: tfrmoptionsfileoperations.cbpartialnamesearch.caption
-msgid "&Search for part of file name"
-msgstr "&Hledat část jména souboru"
-
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 msgid "&Process comments with files/folders"
 msgstr "&Zpracovat komentáře složek/souborů"
@@ -5584,17 +5596,9 @@ msgstr "Styl filtrování Windows při označení souborů (\"*.*\" také vybír
 msgid "Show attribute specification in mask input dialog each time"
 msgstr ""
 
-#: tfrmoptionsfileoperations.dbtextsearch.caption
-msgid "Text search in files"
-msgstr "Hledání textu v souborech"
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Provádění operací"
-
-#: tfrmoptionsfileoperations.gbfilesearch.caption
-msgid "File search"
-msgstr "Hledání souborů"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
@@ -5616,10 +5620,6 @@ msgstr "Velikost vyrovnávací paměti pro výpočet &hash (v KB):"
 msgid "Show operations progress &initially in"
 msgstr "Zobrazit pokrok v operacích &zpočátku v"
 
-#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
-msgid "Default search template:"
-msgstr "Výchozí šablona vyhledávání:"
-
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgid "Duplicated name auto-rename style:"
 msgstr "Styl stejného názvu souboru u automatického přejmenování:"
@@ -5627,14 +5627,6 @@ msgstr "Styl stejného názvu souboru u automatického přejmenování:"
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
 msgstr "&Počet nevratně mazacích průchodů:"
-
-#: tfrmoptionsfileoperations.rbusemmapinsearch.caption
-msgid "Use memory mapping for search te&xt in files"
-msgstr "Použít mapování paměti pro hledání te&xtu v souborech"
-
-#: tfrmoptionsfileoperations.rbusestreaminsearch.caption
-msgid "&Use stream for search text in files"
-msgstr "&Použit proud pro hledání textu v souborech"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -8889,6 +8881,10 @@ msgstr "Ověřit kontrolní součet"
 msgid "Total:"
 msgstr "Celkem:"
 
+#: ulng.rsclearfiltersornot
+msgid "Do you want to clear filters for this new search?"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "Schránka neobsahuje žádné platné údaje z nástrojové lišty."
@@ -9489,6 +9485,10 @@ msgstr ""
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "Nemohu najít odkaz na výchozí BAR soubor"
+
+#: ulng.rslistoffindfileswindows
+msgid "List of \"Find files\" windows"
+msgstr ""
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -10633,6 +10633,18 @@ msgstr "Neměnit;VELKÁ;malá;1. znak velkým;1. znak každého slova velkým;"
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr "Soubor obsahuje špatný počet řádků: %d, mělo by být %d!"
 
+#: ulng.rsnewsearchclearfilteroptions
+msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnofindfileswindowyet
+msgid "Sorry, no \"Find files\" window yet..."
+msgstr ""
+
+#: ulng.rsnootherfindfileswindowtoclose
+msgid "Sorry, no other \"Find files\" window to close and free from memory..."
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Přerušeno"
@@ -11106,6 +11118,12 @@ msgstr "Souborové operace"
 msgid "File panels"
 msgstr "Panely souborů"
 
+#: ulng.rsoptionseditorfilesearch
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilesearch"
+msgid "File search"
+msgstr "Hledání souborů"
+
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
 msgstr "Zobrazení souborů"
@@ -11345,9 +11363,25 @@ msgstr "VYHLEDAT"
 msgid "<unnamed template>"
 msgstr "<nepojmenovaná šablona>"
 
+#: ulng.rssearchwithdsxplugininprogress
+msgid ""
+"A file search using DSX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
+#: ulng.rssearchwithwdxplugininprogress
+msgid ""
+"A file search using WDX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "Vybrat adresář"
+
+#: ulng.rsselectyoufindfileswindow
+msgid "Select your window"
+msgstr ""
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"

@@ -1920,6 +1920,10 @@ msgstr "本製品について(&A)"
 msgid "Add file name to command line"
 msgstr "コマンドラインにファイル名を追加"
 
+#: tfrmmain.actaddnewsearch.caption
+msgid "New search instance..."
+msgstr ""
+
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
 msgstr "コマンドラインにパスとファイル名を追加"
@@ -2048,6 +2052,10 @@ msgstr ""
 msgid "Save Settings"
 msgstr "設定を保存する"
 
+#: tfrmmain.actconfigsearches.caption
+msgid "Configuration of searches"
+msgstr ""
+
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "ツールバー…"
@@ -2123,6 +2131,10 @@ msgstr "コマンドのパラメータを表示"
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete"
 msgstr "削除"
+
+#: tfrmmain.actdeletesearches.caption
+msgid "For all searches, cancel, close and free memory"
+msgstr ""
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2705,6 +2717,10 @@ msgstr "履歴内の前のエントリへ移動"
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
 msgstr "ログファイルの表示"
+
+#: tfrmmain.actviewsearches.caption
+msgid "View current search instances"
+msgstr ""
 
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
@@ -5694,10 +5710,6 @@ msgstr "読み取り専用フラグをドロップ(&r)"
 msgid "&Move operation"
 msgstr "「移動」操作(&M)"
 
-#: tfrmoptionsfileoperations.cbpartialnamesearch.caption
-msgid "&Search for part of file name"
-msgstr "ファイル名の一部を検索(&S)"
-
 #: tfrmoptionsfileoperations.cbprocesscomments.caption
 msgid "&Process comments with files/folders"
 msgstr "ファイル/フォルダのコメントを処理(&P)"
@@ -5724,18 +5736,9 @@ msgstr "ファイル作成時にWindowsスタイルのフィルタを使用（�
 msgid "Show attribute specification in mask input dialog each time"
 msgstr ""
 
-#: tfrmoptionsfileoperations.dbtextsearch.caption
-msgid "Text search in files"
-msgstr "ファイル中の文字列検索"
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "操作を実行中"
-
-#: tfrmoptionsfileoperations.gbfilesearch.caption
-msgctxt "tfrmoptionsfileoperations.gbfilesearch.caption"
-msgid "File search"
-msgstr "ファイル検索"
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
@@ -5757,10 +5760,6 @@ msgstr "ハッシュ値の計算のためのバッファサイズ（KB単位）(
 msgid "Show operations progress &initially in"
 msgstr "操作の進行状況を最初ここに表示(&i)："
 
-#: tfrmoptionsfileoperations.lblsearchdefaulttemplate.caption
-msgid "Default search template:"
-msgstr "デフォルトの検索テンプレート："
-
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
 msgid "Duplicated name auto-rename style:"
@@ -5769,14 +5768,6 @@ msgstr "重複した名前を自動的に変更するスタイル："
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgid "&Number of wipe passes:"
 msgstr "完全削除（抹殺）の実行回数(&N)："
-
-#: tfrmoptionsfileoperations.rbusemmapinsearch.caption
-msgid "Use memory mapping for search te&xt in files"
-msgstr "ファイル中のテキスト検索にメモリマッピングを使って実行(&x)"
-
-#: tfrmoptionsfileoperations.rbusestreaminsearch.caption
-msgid "&Use stream for search text in files"
-msgstr "ファイル中のテキスト検索をストリームを使って実行(&U)"
 
 #: tfrmoptionsfilepanelscolors.btnbackcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
@@ -9168,6 +9159,10 @@ msgstr "チェックサムを確認"
 msgid "Total:"
 msgstr "合計："
 
+#: ulng.rsclearfiltersornot
+msgid "Do you want to clear filters for this new search?"
+msgstr ""
+
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
 msgstr "クリップボードには、有効なツールバーのデータが含まれていません。"
@@ -9786,6 +9781,10 @@ msgstr ""
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "デフォルトのバーファイルへの参照を見つけることができません"
+
+#: ulng.rslistoffindfileswindows
+msgid "List of \"Find files\" windows"
+msgstr ""
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -10944,6 +10943,18 @@ msgstr "変更無し;大文字;小文字;最初だけ大文字;各単語の頭�
 msgid "File contains wrong number of lines: %d, should be %d!"
 msgstr "ファイルに含まれる行数が正しくありません：%dは%dでなくてはなりません！"
 
+#: ulng.rsnewsearchclearfilteroptions
+msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnofindfileswindowyet
+msgid "Sorry, no \"Find files\" window yet..."
+msgstr ""
+
+#: ulng.rsnootherfindfileswindowtoclose
+msgid "Sorry, no other \"Find files\" window to close and free from memory..."
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "中止しました。"
@@ -11439,6 +11450,12 @@ msgctxt "ulng.rsoptionseditorfilepanels"
 msgid "File panels"
 msgstr "ファイルパネル"
 
+#: ulng.rsoptionseditorfilesearch
+#, fuzzy
+msgctxt "ulng.rsoptionseditorfilesearch"
+msgid "File search"
+msgstr "ファイル検索"
+
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
 msgstr "ファイルビュー"
@@ -11691,9 +11708,25 @@ msgstr "検索"
 msgid "<unnamed template>"
 msgstr "＜名前のないテンプレート＞"
 
+#: ulng.rssearchwithdsxplugininprogress
+msgid ""
+"A file search using DSX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
+#: ulng.rssearchwithwdxplugininprogress
+msgid ""
+"A file search using WDX plugin is already in progress.\n"
+"We need that one to be completed before to launch a new one.\n"
+msgstr ""
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "ディレクトリを１つ選択して下さい。"
+
+#: ulng.rsselectyoufindfileswindow
+msgid "Select your window"
+msgstr ""
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"

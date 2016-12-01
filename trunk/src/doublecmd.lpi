@@ -269,7 +269,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="235">
+    <Units Count="236">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1679,6 +1679,14 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMultiArchiveParser"/>
       </Unit234>
+      <Unit235>
+        <Filename Value="frames\foptionsfilesearch.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsFileSearch"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsFileSearch"/>
+      </Unit235>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

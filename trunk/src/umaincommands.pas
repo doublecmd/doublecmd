@@ -345,7 +345,10 @@ type
    procedure cm_ConfigTreeViewMenus(const {%H-}Params: array of string);
    procedure cm_ConfigTreeViewMenusColors(const {%H-}Params: array of string);
    procedure cm_ConfigSaveSettings(const {%H-}Params: array of string);
-
+   procedure cm_AddNewSearch(const Params: array of string);
+   procedure cm_ViewSearches(const {%H-}Params: array of string);
+   procedure cm_DeleteSearches(const {%H-}Params: array of string);
+   procedure cm_ConfigSearches(const {%H-}Params: array of string);
    procedure cm_ConfigHotKeys(const {%H-}Params: array of string);
    procedure cm_ExecuteScript(const {%H-}Params: array of string);
 
@@ -374,7 +377,7 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
      fOptionsToolbar, fMainCommandsDlg, uConnectionManager, fOptionsTabs, fOptionsFavoriteTabs,
      fTreeViewMenu, fOptionsTreeViewMenu, fOptionsTreeViewMenuColor, uArchiveFileSource,
-     fOptionsHotKeys
+     fOptionsFileSearch, fOptionsHotKeys
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ELSE}
@@ -4816,6 +4819,82 @@ begin
     // Execute script
     ExecuteScript(FileName, Args);
   end;
+end;
+
+{ TMainCommands.cm_AddNewSearch }
+procedure TMainCommands.cm_AddNewSearch(const Params: array of string);
+var
+  TemplateName: String;
+begin
+  if Length(Params) > 0 then
+    TemplateName:= Params[0]
+  else begin
+    TemplateName:= gSearchDefaultTemplate;
+  end;
+  ShowFindDlg(frmMain.ActiveFrame, TemplateName, True);
+end;
+
+{ TMainCommands.cm_ViewSearches }
+procedure TMainCommands.cm_ViewSearches(const {%H-}Params: array of string);
+var
+  iIndex,iCurrentPage:integer;
+  iSelectedWindow: integer = -1;
+  slWindowTitleToOffer:TStringList;
+  sTitleSelected:string='';
+begin
+  if ListOffrmFindDlgInstance.Count>0 then
+  begin
+  slWindowTitleToOffer:=TStringList.Create;
+
+  try
+    for iIndex:=0 to pred(ListOffrmFindDlgInstance.count) do
+      slWindowTitleToOffer.Add(ListOffrmFindDlgInstance.frmFindDlgInstance[iIndex].Caption);
+
+    if ShowInputListBox(rsListOfFindFilesWindows, rsSelectYouFindFilesWindow, slWindowTitleToOffer,sTitleSelected,iSelectedWindow) then
+    begin
+      if (iSelectedWindow>-1) AND (iSelectedWindow<ListOffrmFindDlgInstance.Count) then
+      begin
+        iCurrentPage:=ListOffrmFindDlgInstance.frmFindDlgInstance[iSelectedWindow].pgcSearch.ActivePageIndex;
+        ListOffrmFindDlgInstance.frmFindDlgInstance[iSelectedWindow].ShowOnTop;
+        ListOffrmFindDlgInstance.frmFindDlgInstance[iSelectedWindow].pgcSearch.ActivePageIndex:=iCurrentPage;
+      end;
+    end;
+  finally
+    FreeAndNil(slWindowTitleToOffer);
+  end;
+  end
+  else
+  begin
+    msgOK(rsNoFindFilesWindowYet);
+  end;
+end;
+
+{ TMainCommands.cm_DeleteSearches }
+procedure TMainCommands.cm_DeleteSearches(const Params: array of string);
+var
+  iIndex:integer;
+begin
+  if ListOffrmFindDlgInstance.Count>0 then
+  begin
+    for iIndex := pred(ListOffrmFindDlgInstance.count) downto 0 do
+      ListOffrmFindDlgInstance.frmFindDlgInstance[iIndex].CancelCloseAndFreeMem;
+  end
+  else
+  begin
+    msgOK(rsNoFindFilesWindowYet);
+  end;
+end;
+
+{ TMainCommands.cm_ConfigSearches }
+procedure TMainCommands.cm_ConfigSearches(const Params: array of string);
+var
+  Editor: TOptionsEditor;
+  Options: IOptionsDialog;
+begin
+  Options := ShowOptions(TfrmOptionsFileSearch);
+  Editor := Options.GetEditor(TfrmOptionsFileSearch);
+  Application.ProcessMessages;
+  if Editor.CanFocus then  Editor.SetFocus;
 end;
 
 { TMainCommands.cm_ConfigHotKeys }
