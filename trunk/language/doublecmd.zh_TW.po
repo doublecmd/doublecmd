@@ -1553,13 +1553,26 @@ msgctxt "tfrmfinddlg.actclose.caption"
 msgid "Close"
 msgstr "關閉"
 
+#: tfrmfinddlg.actconfigfilesearchhotkeys.caption
+msgctxt "tfrmfinddlg.actconfigfilesearchhotkeys.caption"
+msgid "Configuration of hot keys"
+msgstr ""
+
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
 msgid "Edit"
-msgstr ""
+msgstr "編輯"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "Feed to listbox"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommem.caption
+msgid "Cancel search, close and free from memory"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommemallothers.caption
+msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
@@ -1569,7 +1582,7 @@ msgstr ""
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
 msgid "Find Data"
-msgstr ""
+msgstr "尋找數據"
 
 #: tfrmfinddlg.actlastsearch.caption
 msgid "Last search"
@@ -1577,6 +1590,10 @@ msgstr ""
 
 #: tfrmfinddlg.actnewsearch.caption
 msgid "New search"
+msgstr ""
+
+#: tfrmfinddlg.actnewsearchclearfilters.caption
+msgid "New search (clear filters)"
 msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
@@ -1602,12 +1619,12 @@ msgstr ""
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
 msgid "Start"
-msgstr ""
+msgstr "開始"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
 msgid "View"
-msgstr ""
+msgstr "檢視"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -1618,31 +1635,6 @@ msgstr "新增 (&A)"
 msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "說明 (&H)"
-
-#: tfrmfinddlg.btnclose.caption
-msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "關閉 (&C)"
-
-#: tfrmfinddlg.btnedit.caption
-#, fuzzy
-#| msgid "Edit"
-msgctxt "tfrmfinddlg.btnedit.caption"
-msgid "&Edit"
-msgstr "編輯 (&E)"
-
-#: tfrmfinddlg.btngotopath.caption
-msgid "&Go to file"
-msgstr "移到檔案 (&G)"
-
-#: tfrmfinddlg.btnlastsearch.caption
-msgctxt "tfrmfinddlg.btnlastsearch.caption"
-msgid "&Last search"
-msgstr "最近搜尋 (&L)"
-
-#: tfrmfinddlg.btnnewsearch.caption
-msgid "&New search"
-msgstr "新的搜尋 (&N)"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 #, fuzzy
@@ -1672,30 +1664,9 @@ msgstr "儲存並保存\"開始位置\" (&V)"
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr "當載入範本時將會還原為目前設置的\"開始位置\"。如果你要固定搜尋一個特定的資料夾時就使用它"
 
-#: tfrmfinddlg.btnstart.caption
-msgctxt "tfrmfinddlg.btnstart.caption"
-msgid "&Start"
-msgstr "開始 (&S)"
-
-#: tfrmfinddlg.btnstop.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
-msgid "C&ancel"
-msgstr "取消 (&A)"
-
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
 msgstr "使用範本"
-
-#: tfrmfinddlg.btnview.caption
-msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
-msgid "&View"
-msgstr "檢視 (&V)"
-
-#: tfrmfinddlg.btnworkwithfound.caption
-msgid "Feed to &listbox"
-msgstr "傳送到清單列表 (&L)"
 
 #: tfrmfinddlg.caption
 msgctxt "TFRMFINDDLG.CAPTION"
@@ -1871,13 +1842,43 @@ msgstr "搜尋子目錄 (&B)："
 msgid "&Previous searches:"
 msgstr "歷史搜尋 (&P):"
 
+#: tfrmfinddlg.miaction.caption
+msgid "&Action"
+msgstr ""
+
+#: tfrmfinddlg.mifreefrommemallothers.caption
+msgid "For all others, cancel, close and free from memory"
+msgstr ""
+
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
 msgstr ""
 
+#: tfrmfinddlg.mioptions.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.mioptions.caption"
+msgid "Options"
+msgstr "選項"
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "從清單移除"
+
+#: tfrmfinddlg.miresult.caption
+msgid "&Result"
+msgstr ""
+
+#: tfrmfinddlg.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmfinddlg.miseparator2.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -1890,6 +1891,12 @@ msgstr ""
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
 msgstr "在檢視器顯示"
+
+#: tfrmfinddlg.miviewtab.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miviewtab.caption"
+msgid "&View"
+msgstr "檢視 (&V)"
 
 #: tfrmfinddlg.tsadvanced.caption
 msgid "Advanced"
@@ -2188,6 +2195,7 @@ msgid "Configuration of folder tabs"
 msgstr ""
 
 #: tfrmmain.actconfighotkeys.caption
+msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
@@ -3502,7 +3510,7 @@ msgstr "確定 (&O)"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
 msgid "Case sensitive"
-msgstr ""
+msgstr "大小寫視為相異"
 
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
@@ -3514,7 +3522,7 @@ msgstr ""
 
 #: tfrmmaskinputdlg.lblprompt.caption
 msgid "Input Mask:"
-msgstr ""
+msgstr "輸入遮罩"
 
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 #, fuzzy
@@ -6390,6 +6398,44 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
 msgid "T&ext Color:"
 msgstr "文字色彩 (&E):"
 
+#: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
+msgid "When launching file search, clear file mask filter"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbpartialnamesearch.caption
+msgid "&Search for part of file name"
+msgstr "搜尋部分檔名 (&S)"
+
+#: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
+msgid "Show menu bar in \"Find files\""
+msgstr ""
+
+#: tfrmoptionsfilesearch.dbtextsearch.caption
+msgid "Text search in files"
+msgstr ""
+
+#: tfrmoptionsfilesearch.gbfilesearch.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesearch.gbfilesearch.caption"
+msgid "File search"
+msgstr "檔案搜尋"
+
+#: tfrmoptionsfilesearch.lblnewsearchfilters.caption
+msgid "Current filters with \"New search\" button:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.rbusemmapinsearch.caption
+msgid "Use memory mapping for search te&xt in files"
+msgstr "使用記憶體映射搜尋檔案中的文字 (&X)"
+
+#: tfrmoptionsfilesearch.rbusestreaminsearch.caption
+msgid "&Use stream for search text in files"
+msgstr "使用檔案串流搜尋檔案中的文字 (&U)"
+
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
 msgstr ""
@@ -8441,7 +8487,7 @@ msgstr ""
 
 #: tfrmoptionstreeviewmenucolor.lblcursorcolor.caption
 msgid "Cursor color:"
-msgstr ""
+msgstr "指標行背景色彩:"
 
 #: tfrmoptionstreeviewmenucolor.lblfoundtextcolor.caption
 msgid "Found text color:"
@@ -12523,7 +12569,7 @@ msgstr "搜尋結果"
 
 #: ulng.rssearchstatus
 msgid "SEARCH"
-msgstr ""
+msgstr "搜尋"
 
 #: ulng.rssearchtemplateunnamed
 msgid "<unnamed template>"
@@ -12579,7 +12625,7 @@ msgstr ""
 
 #: ulng.rssimplewordfiles
 msgid "files"
-msgstr ""
+msgstr "檔案"
 
 #: ulng.rssimplewordletter
 msgid "Letter"

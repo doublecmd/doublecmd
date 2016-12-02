@@ -1428,6 +1428,11 @@ msgctxt "tfrmfinddlg.actclose.caption"
 msgid "Close"
 msgstr "Zavřít"
 
+#: tfrmfinddlg.actconfigfilesearchhotkeys.caption
+msgctxt "tfrmfinddlg.actconfigfilesearchhotkeys.caption"
+msgid "Configuration of hot keys"
+msgstr ""
+
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
 msgid "Edit"
@@ -1436,6 +1441,14 @@ msgstr "Upravit"
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "Feed to listbox"
 msgstr "Naplnit seznam"
+
+#: tfrmfinddlg.actfreefrommem.caption
+msgid "Cancel search, close and free from memory"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommemallothers.caption
+msgid "For all other \"Find files\", cancel, close and free from memory"
+msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
 msgid "Go to file"
@@ -1453,6 +1466,10 @@ msgstr "Poslední hledání"
 #: tfrmfinddlg.actnewsearch.caption
 msgid "New search"
 msgstr "Nové hledání"
+
+#: tfrmfinddlg.actnewsearchclearfilters.caption
+msgid "New search (clear filters)"
+msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
 msgid "Go to page \"Advanced\""
@@ -1494,28 +1511,6 @@ msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "&Nápověda"
 
-#: tfrmfinddlg.btnclose.caption
-msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "&Zavřít"
-
-#: tfrmfinddlg.btnedit.caption
-msgctxt "TFRMFINDDLG.BTNEDIT.CAPTION"
-msgid "&Edit"
-msgstr "&Upravit"
-
-#: tfrmfinddlg.btngotopath.caption
-msgid "&Go to file"
-msgstr "&Jdi k souboru"
-
-#: tfrmfinddlg.btnlastsearch.caption
-msgid "&Last search"
-msgstr "&Poslední hledání"
-
-#: tfrmfinddlg.btnnewsearch.caption
-msgid "&New search"
-msgstr "&Nové hledání"
-
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
@@ -1542,27 +1537,9 @@ msgstr "Ulo&žit s \"Začátek v adresáři\""
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr "Pokud je uloženo, pak \"Začátek v adresáři \" se obnoví při načítání šablony. Použijte, pokud chcete opravit hledání v určitém adresáři"
 
-#: tfrmfinddlg.btnstart.caption
-msgctxt "tfrmfinddlg.btnstart.caption"
-msgid "&Start"
-msgstr "&Start"
-
-#: tfrmfinddlg.btnstop.caption
-msgid "C&ancel"
-msgstr "Z&rušit"
-
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
 msgstr "Použít šablonu"
-
-#: tfrmfinddlg.btnview.caption
-msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
-msgid "&View"
-msgstr "&Zobrazit"
-
-#: tfrmfinddlg.btnworkwithfound.caption
-msgid "Feed to &listbox"
-msgstr "Výsledek do &okna"
 
 #: tfrmfinddlg.caption
 msgctxt "TFRMFINDDLG.CAPTION"
@@ -1709,13 +1686,43 @@ msgstr "Prohledat po&dadresáře:"
 msgid "&Previous searches:"
 msgstr "&Předchozí hledání:"
 
+#: tfrmfinddlg.miaction.caption
+msgid "&Action"
+msgstr ""
+
+#: tfrmfinddlg.mifreefrommemallothers.caption
+msgid "For all others, cancel, close and free from memory"
+msgstr ""
+
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
 msgstr "Otevřít v nové záložce"
 
+#: tfrmfinddlg.mioptions.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.mioptions.caption"
+msgid "Options"
+msgstr "Možnosti"
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Odebrat ze seznamu"
+
+#: tfrmfinddlg.miresult.caption
+msgid "&Result"
+msgstr ""
+
+#: tfrmfinddlg.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmfinddlg.miseparator2.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -1728,6 +1735,12 @@ msgstr "Ukázat v editoru"
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
 msgstr "Zobrazit v prohlížeči"
+
+#: tfrmfinddlg.miviewtab.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miviewtab.caption"
+msgid "&View"
+msgstr "&Zobrazit"
 
 #: tfrmfinddlg.tsadvanced.caption
 msgid "Advanced"
@@ -1991,6 +2004,7 @@ msgid "Configuration of folder tabs"
 msgstr "Nastavení adresářů záložek"
 
 #: tfrmmain.actconfighotkeys.caption
+msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
@@ -5766,6 +5780,44 @@ msgstr "Níže je náhled. Můžeme pohybovat kurzorem a vybrat soubory, a okam�
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgid "T&ext Color:"
 msgstr "B&arva písma:"
+
+#: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
+msgid "When launching file search, clear file mask filter"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbpartialnamesearch.caption
+msgid "&Search for part of file name"
+msgstr "&Hledat část jména souboru"
+
+#: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
+msgid "Show menu bar in \"Find files\""
+msgstr ""
+
+#: tfrmoptionsfilesearch.dbtextsearch.caption
+msgid "Text search in files"
+msgstr "Hledání textu v souborech"
+
+#: tfrmoptionsfilesearch.gbfilesearch.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesearch.gbfilesearch.caption"
+msgid "File search"
+msgstr "Hledání souborů"
+
+#: tfrmoptionsfilesearch.lblnewsearchfilters.caption
+msgid "Current filters with \"New search\" button:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr "Výchozí šablona vyhledávání:"
+
+#: tfrmoptionsfilesearch.rbusemmapinsearch.caption
+msgid "Use memory mapping for search te&xt in files"
+msgstr "Použít mapování paměti pro hledání te&xtu v souborech"
+
+#: tfrmoptionsfilesearch.rbusestreaminsearch.caption
+msgid "&Use stream for search text in files"
+msgstr "&Použit proud pro hledání textu v souborech"
 
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"

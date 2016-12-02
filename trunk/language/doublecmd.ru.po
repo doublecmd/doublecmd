@@ -1463,6 +1463,11 @@ msgctxt "tfrmfinddlg.actclose.caption"
 msgid "Close"
 msgstr "Закрыть"
 
+#: tfrmfinddlg.actconfigfilesearchhotkeys.caption
+msgctxt "tfrmfinddlg.actconfigfilesearchhotkeys.caption"
+msgid "Configuration of hot keys"
+msgstr ""
+
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
 msgid "Edit"
@@ -1471,6 +1476,14 @@ msgstr "Редактровать"
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "Feed to listbox"
 msgstr "Файлы на панель"
+
+#: tfrmfinddlg.actfreefrommem.caption
+msgid "Cancel search, close and free from memory"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommemallothers.caption
+msgid "For all other \"Find files\", cancel, close and free from memory"
+msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
 msgid "Go to file"
@@ -1488,6 +1501,10 @@ msgstr "Последний поиск"
 #: tfrmfinddlg.actnewsearch.caption
 msgid "New search"
 msgstr "Новый поиск"
+
+#: tfrmfinddlg.actnewsearchclearfilters.caption
+msgid "New search (clear filters)"
+msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
 msgid "Go to page \"Advanced\""
@@ -1529,29 +1546,6 @@ msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "Помощ&ь"
 
-#: tfrmfinddlg.btnclose.caption
-msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "&Закрыть"
-
-#: tfrmfinddlg.btnedit.caption
-msgctxt "tfrmfinddlg.btnedit.caption"
-msgid "&Edit"
-msgstr "Пр&авка"
-
-#: tfrmfinddlg.btngotopath.caption
-msgid "&Go to file"
-msgstr "Пере&йти к файлу"
-
-#: tfrmfinddlg.btnlastsearch.caption
-msgctxt "tfrmfinddlg.btnlastsearch.caption"
-msgid "&Last search"
-msgstr "&Предыдущий поиск"
-
-#: tfrmfinddlg.btnnewsearch.caption
-msgid "&New search"
-msgstr "Н&овый поиск"
-
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
@@ -1578,28 +1572,9 @@ msgstr "Сох&ранить с \"Начинать с каталога\""
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr "При нажатии сохраняется значение \"Начинать с каталога\". Используйте, если хотите начинать поиск только с определенного каталога"
 
-#: tfrmfinddlg.btnstart.caption
-msgctxt "tfrmfinddlg.btnstart.caption"
-msgid "&Start"
-msgstr "&Старт"
-
-#: tfrmfinddlg.btnstop.caption
-msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
-msgid "C&ancel"
-msgstr "&Отмена"
-
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
 msgstr "Использовать шаблон"
-
-#: tfrmfinddlg.btnview.caption
-msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
-msgid "&View"
-msgstr "П&росмотр"
-
-#: tfrmfinddlg.btnworkwithfound.caption
-msgid "Feed to &listbox"
-msgstr "Фай&лы на панель"
 
 #: tfrmfinddlg.caption
 msgctxt "tfrmfinddlg.caption"
@@ -1752,13 +1727,43 @@ msgstr "Глубина вло&женности подкаталогов:"
 msgid "&Previous searches:"
 msgstr "Сохранённые &шаблоны поиска:"
 
+#: tfrmfinddlg.miaction.caption
+msgid "&Action"
+msgstr ""
+
+#: tfrmfinddlg.mifreefrommemallothers.caption
+msgid "For all others, cancel, close and free from memory"
+msgstr ""
+
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
 msgstr "Открыть в новой вкладке(ах)"
 
+#: tfrmfinddlg.mioptions.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.mioptions.caption"
+msgid "Options"
+msgstr "Настройки"
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Убрать из списка"
+
+#: tfrmfinddlg.miresult.caption
+msgid "&Result"
+msgstr ""
+
+#: tfrmfinddlg.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmfinddlg.miseparator2.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -1771,6 +1776,12 @@ msgstr "Показать в редакторе"
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
 msgstr "Просмотр"
+
+#: tfrmfinddlg.miviewtab.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miviewtab.caption"
+msgid "&View"
+msgstr "&Вид"
 
 #: tfrmfinddlg.tsadvanced.caption
 msgid "Advanced"
@@ -2047,6 +2058,7 @@ msgid "Configuration of folder tabs"
 msgstr "Настройка вкладок папок"
 
 #: tfrmmain.actconfighotkeys.caption
+msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
@@ -5936,6 +5948,44 @@ msgstr "Ниже находится предварительный просмо�
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
 msgid "T&ext Color:"
 msgstr "&Текст:"
+
+#: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
+msgid "When launching file search, clear file mask filter"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbpartialnamesearch.caption
+msgid "&Search for part of file name"
+msgstr "По&иск по части имени"
+
+#: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
+msgid "Show menu bar in \"Find files\""
+msgstr ""
+
+#: tfrmoptionsfilesearch.dbtextsearch.caption
+msgid "Text search in files"
+msgstr "Поиск текста в файлах"
+
+#: tfrmoptionsfilesearch.gbfilesearch.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesearch.gbfilesearch.caption"
+msgid "File search"
+msgstr "Поиск файлов"
+
+#: tfrmoptionsfilesearch.lblnewsearchfilters.caption
+msgid "Current filters with \"New search\" button:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr "Шаблон поиска по умолчанию:"
+
+#: tfrmoptionsfilesearch.rbusemmapinsearch.caption
+msgid "Use memory mapping for search te&xt in files"
+msgstr "Использовать отобра&жение в память"
+
+#: tfrmoptionsfilesearch.rbusestreaminsearch.caption
+msgid "&Use stream for search text in files"
+msgstr "Испо&льзовать поток"
 
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"

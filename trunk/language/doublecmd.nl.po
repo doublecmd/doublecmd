@@ -1429,6 +1429,11 @@ msgctxt "TFRMFINDDLG.ACTCLOSE.CAPTION"
 msgid "Close"
 msgstr "Sluiten"
 
+#: tfrmfinddlg.actconfigfilesearchhotkeys.caption
+msgctxt "tfrmfinddlg.actconfigfilesearchhotkeys.caption"
+msgid "Configuration of hot keys"
+msgstr ""
+
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
 msgid "Edit"
@@ -1437,6 +1442,14 @@ msgstr "Bewerken"
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "Feed to listbox"
 msgstr "Voeg toe aan &lijstvenster"
+
+#: tfrmfinddlg.actfreefrommem.caption
+msgid "Cancel search, close and free from memory"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommemallothers.caption
+msgid "For all other \"Find files\", cancel, close and free from memory"
+msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
 msgid "Go to file"
@@ -1454,6 +1467,10 @@ msgstr "Laatste zoekopdracht"
 #: tfrmfinddlg.actnewsearch.caption
 msgid "New search"
 msgstr "Nieuwe zoekopdracht"
+
+#: tfrmfinddlg.actnewsearchclearfilters.caption
+msgid "New search (clear filters)"
+msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
 msgid "Go to page \"Advanced\""
@@ -1495,28 +1512,6 @@ msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "&Hulp"
 
-#: tfrmfinddlg.btnclose.caption
-msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "&Sluiten"
-
-#: tfrmfinddlg.btnedit.caption
-msgctxt "TFRMFINDDLG.BTNEDIT.CAPTION"
-msgid "&Edit"
-msgstr "&Bewerken"
-
-#: tfrmfinddlg.btngotopath.caption
-msgid "&Go to file"
-msgstr "&Ga naar bestand"
-
-#: tfrmfinddlg.btnlastsearch.caption
-msgid "&Last search"
-msgstr "&Laatste zoekopdracht"
-
-#: tfrmfinddlg.btnnewsearch.caption
-msgid "&New search"
-msgstr "&Nieuwe zoekopdracht"
-
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
@@ -1543,27 +1538,9 @@ msgstr "Opslaan met 'Begin in map'"
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr "Indien opgeslagen dan zal 'Begin in map' worden hersteld bij het laden van de sjabloon. Gebruik dit als u de zoekopdracht wilt vastknopen aan een bepaalde map"
 
-#: tfrmfinddlg.btnstart.caption
-msgctxt "tfrmfinddlg.btnstart.caption"
-msgid "&Start"
-msgstr "&Starten"
-
-#: tfrmfinddlg.btnstop.caption
-msgid "C&ancel"
-msgstr "&Annuleren"
-
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
 msgstr "Gebruik sjabloon"
-
-#: tfrmfinddlg.btnview.caption
-msgctxt "tfrmfinddlg.btnview.caption"
-msgid "&View"
-msgstr "&Tonen"
-
-#: tfrmfinddlg.btnworkwithfound.caption
-msgid "Feed to &listbox"
-msgstr "Voeg toe aan &lijstvenster"
 
 #: tfrmfinddlg.caption
 msgctxt "tfrmfinddlg.caption"
@@ -1710,13 +1687,43 @@ msgstr "Doorzoek submappen:"
 msgid "&Previous searches:"
 msgstr "&Vorige zoekopdrachten:"
 
+#: tfrmfinddlg.miaction.caption
+msgid "&Action"
+msgstr ""
+
+#: tfrmfinddlg.mifreefrommemallothers.caption
+msgid "For all others, cancel, close and free from memory"
+msgstr ""
+
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
 msgstr "Open in nieuw(e) tabblad(en)"
 
+#: tfrmfinddlg.mioptions.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.mioptions.caption"
+msgid "Options"
+msgstr "Opties"
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Verwijder uit lijst"
+
+#: tfrmfinddlg.miresult.caption
+msgid "&Result"
+msgstr ""
+
+#: tfrmfinddlg.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmfinddlg.miseparator2.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -1729,6 +1736,12 @@ msgstr "Toon in bewerker"
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
 msgstr "Toon in kijker"
+
+#: tfrmfinddlg.miviewtab.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miviewtab.caption"
+msgid "&View"
+msgstr "&Tonen"
 
 #: tfrmfinddlg.tsadvanced.caption
 msgid "Advanced"
@@ -1992,6 +2005,7 @@ msgid "Configuration of folder tabs"
 msgstr "Instellingen van maptabbladen"
 
 #: tfrmmain.actconfighotkeys.caption
+msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
@@ -5767,6 +5781,44 @@ msgstr "Onderstaand is een voorbeeldweergave. U kunt alvast de aanwijzer bewegen
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgid "T&ext Color:"
 msgstr "Tekstkleur:"
+
+#: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
+msgid "When launching file search, clear file mask filter"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbpartialnamesearch.caption
+msgid "&Search for part of file name"
+msgstr "&Zoek naar deel van bestandnaam"
+
+#: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
+msgid "Show menu bar in \"Find files\""
+msgstr ""
+
+#: tfrmoptionsfilesearch.dbtextsearch.caption
+msgid "Text search in files"
+msgstr "Tekstzoekopdracht in bestanden"
+
+#: tfrmoptionsfilesearch.gbfilesearch.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesearch.gbfilesearch.caption"
+msgid "File search"
+msgstr "Bestandzoekopdracht"
+
+#: tfrmoptionsfilesearch.lblnewsearchfilters.caption
+msgid "Current filters with \"New search\" button:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr "Standaardzoeksjabloon:"
+
+#: tfrmoptionsfilesearch.rbusemmapinsearch.caption
+msgid "Use memory mapping for search te&xt in files"
+msgstr "Gebruik geheugenmapping voor zoeken tekst in bestanden"
+
+#: tfrmoptionsfilesearch.rbusestreaminsearch.caption
+msgid "&Use stream for search text in files"
+msgstr "Gebruik stream voor zoeken tekst in bestanden"
 
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"

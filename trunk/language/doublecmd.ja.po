@@ -1463,6 +1463,11 @@ msgctxt "tfrmfinddlg.actclose.caption"
 msgid "Close"
 msgstr "閉じる"
 
+#: tfrmfinddlg.actconfigfilesearchhotkeys.caption
+msgctxt "tfrmfinddlg.actconfigfilesearchhotkeys.caption"
+msgid "Configuration of hot keys"
+msgstr ""
+
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
 msgid "Edit"
@@ -1471,6 +1476,14 @@ msgstr "編集"
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "Feed to listbox"
 msgstr "リストボックスへ送付(&l)"
+
+#: tfrmfinddlg.actfreefrommem.caption
+msgid "Cancel search, close and free from memory"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommemallothers.caption
+msgid "For all other \"Find files\", cancel, close and free from memory"
+msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
 msgid "Go to file"
@@ -1488,6 +1501,10 @@ msgstr "最後の検索"
 #: tfrmfinddlg.actnewsearch.caption
 msgid "New search"
 msgstr "新しい検索"
+
+#: tfrmfinddlg.actnewsearchclearfilters.caption
+msgid "New search (clear filters)"
+msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
 msgid "Go to page \"Advanced\""
@@ -1529,29 +1546,6 @@ msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "ヘルプ(&H)"
 
-#: tfrmfinddlg.btnclose.caption
-msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "閉じる(&C)"
-
-#: tfrmfinddlg.btnedit.caption
-msgctxt "TFRMFINDDLG.BTNEDIT.CAPTION"
-msgid "&Edit"
-msgstr "編集(&E)"
-
-#: tfrmfinddlg.btngotopath.caption
-msgid "&Go to file"
-msgstr "ファイルに移動(&G)"
-
-#: tfrmfinddlg.btnlastsearch.caption
-msgctxt "TFRMFINDDLG.BTNLASTSEARCH.CAPTION"
-msgid "&Last search"
-msgstr "最後の検索(&L)"
-
-#: tfrmfinddlg.btnnewsearch.caption
-msgid "&New search"
-msgstr "新しい検索(&N)"
-
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
@@ -1578,28 +1572,9 @@ msgstr "開始ディレクトリにセーブ(&v)"
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr "保存された場合は、 テンプレートをロードするとき開始ディレクトリを復元します。特定のディレクトリに検索先を固定したい場合これを使います。"
 
-#: tfrmfinddlg.btnstart.caption
-msgctxt "tfrmfinddlg.btnstart.caption"
-msgid "&Start"
-msgstr "開始(&S)"
-
-#: tfrmfinddlg.btnstop.caption
-msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
-msgid "C&ancel"
-msgstr "キャンセル(&a)"
-
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
 msgstr "テンプレートを使用"
-
-#: tfrmfinddlg.btnview.caption
-msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
-msgid "&View"
-msgstr "表示(&V)"
-
-#: tfrmfinddlg.btnworkwithfound.caption
-msgid "Feed to &listbox"
-msgstr "リストボックスへ送付(&l)"
 
 #: tfrmfinddlg.caption
 msgctxt "TFRMFINDDLG.CAPTION"
@@ -1752,13 +1727,43 @@ msgstr "検索するサブディレクトリ(&b)："
 msgid "&Previous searches:"
 msgstr "以前の検索(&P)："
 
+#: tfrmfinddlg.miaction.caption
+msgid "&Action"
+msgstr ""
+
+#: tfrmfinddlg.mifreefrommemallothers.caption
+msgid "For all others, cancel, close and free from memory"
+msgstr ""
+
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
 msgstr "新しいタブで開く"
 
+#: tfrmfinddlg.mioptions.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.mioptions.caption"
+msgid "Options"
+msgstr "オプション"
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "リストから削除"
+
+#: tfrmfinddlg.miresult.caption
+msgid "&Result"
+msgstr ""
+
+#: tfrmfinddlg.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmfinddlg.miseparator2.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -1771,6 +1776,12 @@ msgstr "エディタに表示"
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
 msgstr "ビューアで表示"
+
+#: tfrmfinddlg.miviewtab.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miviewtab.caption"
+msgid "&View"
+msgstr "表示(&V)"
 
 #: tfrmfinddlg.tsadvanced.caption
 msgid "Advanced"
@@ -2045,6 +2056,7 @@ msgid "Configuration of folder tabs"
 msgstr "フォルダー タブの構成"
 
 #: tfrmmain.actconfighotkeys.caption
+msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
@@ -5913,6 +5925,44 @@ msgstr "プレビューが下に表示されます。カーソルを動かした
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
 msgid "T&ext Color:"
 msgstr "テキストの色(&e)："
+
+#: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
+msgid "When launching file search, clear file mask filter"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbpartialnamesearch.caption
+msgid "&Search for part of file name"
+msgstr "ファイル名の一部を検索(&S)"
+
+#: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
+msgid "Show menu bar in \"Find files\""
+msgstr ""
+
+#: tfrmoptionsfilesearch.dbtextsearch.caption
+msgid "Text search in files"
+msgstr "ファイル中の文字列検索"
+
+#: tfrmoptionsfilesearch.gbfilesearch.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesearch.gbfilesearch.caption"
+msgid "File search"
+msgstr "ファイル検索"
+
+#: tfrmoptionsfilesearch.lblnewsearchfilters.caption
+msgid "Current filters with \"New search\" button:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr "デフォルトの検索テンプレート："
+
+#: tfrmoptionsfilesearch.rbusemmapinsearch.caption
+msgid "Use memory mapping for search te&xt in files"
+msgstr "ファイル中のテキスト検索にメモリマッピングを使って実行(&x)"
+
+#: tfrmoptionsfilesearch.rbusestreaminsearch.caption
+msgid "&Use stream for search text in files"
+msgstr "ファイル中のテキスト検索をストリームを使って実行(&U)"
 
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"

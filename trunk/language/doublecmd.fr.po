@@ -1486,6 +1486,11 @@ msgctxt "tfrmfinddlg.actclose.caption"
 msgid "Close"
 msgstr "Fermer"
 
+#: tfrmfinddlg.actconfigfilesearchhotkeys.caption
+msgctxt "tfrmfinddlg.actconfigfilesearchhotkeys.caption"
+msgid "Configuration of hot keys"
+msgstr ""
+
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
 msgid "Edit"
@@ -1494,6 +1499,14 @@ msgstr "Éditer"
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "Feed to listbox"
 msgstr "Envoyer vers le panneau actif"
+
+#: tfrmfinddlg.actfreefrommem.caption
+msgid "Cancel search, close and free from memory"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommemallothers.caption
+msgid "For all other \"Find files\", cancel, close and free from memory"
+msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
 msgid "Go to file"
@@ -1511,6 +1524,10 @@ msgstr "Dernière recherche"
 #: tfrmfinddlg.actnewsearch.caption
 msgid "New search"
 msgstr "Prochaine recherche"
+
+#: tfrmfinddlg.actnewsearchclearfilters.caption
+msgid "New search (clear filters)"
+msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
 msgid "Go to page \"Advanced\""
@@ -1552,29 +1569,6 @@ msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "Ai&de"
 
-#: tfrmfinddlg.btnclose.caption
-msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "&Fermer"
-
-#: tfrmfinddlg.btnedit.caption
-msgctxt "tfrmfinddlg.btnedit.caption"
-msgid "&Edit"
-msgstr "Éditer"
-
-#: tfrmfinddlg.btngotopath.caption
-msgid "&Go to file"
-msgstr "&Aller au fichier"
-
-#: tfrmfinddlg.btnlastsearch.caption
-msgctxt "tfrmfinddlg.btnlastsearch.caption"
-msgid "&Last search"
-msgstr "Dernière recherche"
-
-#: tfrmfinddlg.btnnewsearch.caption
-msgid "&New search"
-msgstr "&Nouvelle recherche"
-
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
@@ -1601,28 +1595,9 @@ msgstr "Sauvegarder avec le nom du dossier de début de recherche"
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr "Si sauvegardé, alors le dossier de début de recherche sera restitué lorsqu'on chargera le modèle. Utilisez cela si vous voulez chercher à nouveau dans un même dossier."
 
-#: tfrmfinddlg.btnstart.caption
-msgctxt "tfrmfinddlg.btnstart.caption"
-msgid "&Start"
-msgstr "Dé&marrer"
-
-#: tfrmfinddlg.btnstop.caption
-msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
-msgid "C&ancel"
-msgstr "Annuler"
-
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
 msgstr "Utiliser un modèle"
-
-#: tfrmfinddlg.btnview.caption
-msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
-msgid "&View"
-msgstr "&Vue"
-
-#: tfrmfinddlg.btnworkwithfound.caption
-msgid "Feed to &listbox"
-msgstr "Envoyer vers un &onglet"
 
 #: tfrmfinddlg.caption
 msgctxt "tfrmfinddlg.caption"
@@ -1774,13 +1749,43 @@ msgstr "Rechercher dans les sous-dossiers :"
 msgid "&Previous searches:"
 msgstr "Recherches &précédentes :"
 
+#: tfrmfinddlg.miaction.caption
+msgid "&Action"
+msgstr ""
+
+#: tfrmfinddlg.mifreefrommemallothers.caption
+msgid "For all others, cancel, close and free from memory"
+msgstr ""
+
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
 msgstr "Ovrir dans un nouvel onglet"
 
+#: tfrmfinddlg.mioptions.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.mioptions.caption"
+msgid "Options"
+msgstr "Options"
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Supprimer de la liste"
+
+#: tfrmfinddlg.miresult.caption
+msgid "&Result"
+msgstr ""
+
+#: tfrmfinddlg.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmfinddlg.miseparator2.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -1793,6 +1798,12 @@ msgstr "Ouvrir dans l'éditeur"
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
 msgstr "Afficher dans la visionneuse"
+
+#: tfrmfinddlg.miviewtab.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miviewtab.caption"
+msgid "&View"
+msgstr "&Vue"
 
 #: tfrmfinddlg.tsadvanced.caption
 msgid "Advanced"
@@ -2069,6 +2080,7 @@ msgid "Configuration of folder tabs"
 msgstr "Configuration des options reliées aux onlgets"
 
 #: tfrmmain.actconfighotkeys.caption
+msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
@@ -5962,6 +5974,44 @@ msgstr "Un aperçu apparaît ci-dessous. Vous pouvez vous déplacer, sélectionn
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
 msgid "T&ext Color:"
 msgstr "Couleur du texte :"
+
+#: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
+msgid "When launching file search, clear file mask filter"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbpartialnamesearch.caption
+msgid "&Search for part of file name"
+msgstr "Recherche pour les parties de noms"
+
+#: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
+msgid "Show menu bar in \"Find files\""
+msgstr ""
+
+#: tfrmoptionsfilesearch.dbtextsearch.caption
+msgid "Text search in files"
+msgstr "Recherche de texte dans les fichiers"
+
+#: tfrmoptionsfilesearch.gbfilesearch.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesearch.gbfilesearch.caption"
+msgid "File search"
+msgstr "Recherche de fichiers"
+
+#: tfrmoptionsfilesearch.lblnewsearchfilters.caption
+msgid "Current filters with \"New search\" button:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr "Modèle de recherche par défaut :"
+
+#: tfrmoptionsfilesearch.rbusemmapinsearch.caption
+msgid "Use memory mapping for search te&xt in files"
+msgstr "Utiliser la mémoire pour les recherches dans les fichiers texte"
+
+#: tfrmoptionsfilesearch.rbusestreaminsearch.caption
+msgid "&Use stream for search text in files"
+msgstr "Utiliser un flux pour les recherches dans les fichiers texte"
 
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"

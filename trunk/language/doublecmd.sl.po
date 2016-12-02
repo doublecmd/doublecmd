@@ -1437,6 +1437,11 @@ msgctxt "TFRMFINDDLG.ACTCLOSE.CAPTION"
 msgid "Close"
 msgstr "Zapri"
 
+#: tfrmfinddlg.actconfigfilesearchhotkeys.caption
+msgctxt "tfrmfinddlg.actconfigfilesearchhotkeys.caption"
+msgid "Configuration of hot keys"
+msgstr ""
+
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
 msgid "Edit"
@@ -1445,6 +1450,14 @@ msgstr "Uredi"
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "Feed to listbox"
 msgstr "Izpiši v seznam"
+
+#: tfrmfinddlg.actfreefrommem.caption
+msgid "Cancel search, close and free from memory"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommemallothers.caption
+msgid "For all other \"Find files\", cancel, close and free from memory"
+msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
 msgid "Go to file"
@@ -1462,6 +1475,10 @@ msgstr "Zadnje iskanje"
 #: tfrmfinddlg.actnewsearch.caption
 msgid "New search"
 msgstr "Novo iskanje"
+
+#: tfrmfinddlg.actnewsearchclearfilters.caption
+msgid "New search (clear filters)"
+msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
 msgid "Go to page \"Advanced\""
@@ -1503,28 +1520,6 @@ msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "Pomo&č"
 
-#: tfrmfinddlg.btnclose.caption
-msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "&Zapri"
-
-#: tfrmfinddlg.btnedit.caption
-msgctxt "TFRMFINDDLG.BTNEDIT.CAPTION"
-msgid "&Edit"
-msgstr "&Uredi"
-
-#: tfrmfinddlg.btngotopath.caption
-msgid "&Go to file"
-msgstr "&Skoči na datoteko"
-
-#: tfrmfinddlg.btnlastsearch.caption
-msgid "&Last search"
-msgstr "&Zadnje iskanje"
-
-#: tfrmfinddlg.btnnewsearch.caption
-msgid "&New search"
-msgstr "&Novo iskanje"
-
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
@@ -1551,27 +1546,9 @@ msgstr "Sh&rani z možnostjo »Začni v mapi«"
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr "V kolikor je možnost »Začni v mapi« shranjena, bo mesto obnovljeno med nalaganjem predloge. Možnost je uporabna pri iskanju v določeni mapi."
 
-#: tfrmfinddlg.btnstart.caption
-msgctxt "tfrmfinddlg.btnstart.caption"
-msgid "&Start"
-msgstr "&Začni"
-
-#: tfrmfinddlg.btnstop.caption
-msgid "C&ancel"
-msgstr "&Prekliči"
-
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
 msgstr "Uporabi predlogo"
-
-#: tfrmfinddlg.btnview.caption
-msgctxt "tfrmfinddlg.btnview.caption"
-msgid "&View"
-msgstr "&Pogled"
-
-#: tfrmfinddlg.btnworkwithfound.caption
-msgid "Feed to &listbox"
-msgstr "Izpiši v &seznam"
 
 #: tfrmfinddlg.caption
 msgctxt "tfrmfinddlg.caption"
@@ -1718,13 +1695,43 @@ msgstr "Poišči tudi po &podrejenih mapah:"
 msgid "&Previous searches:"
 msgstr "&Shranjena iskanja:"
 
+#: tfrmfinddlg.miaction.caption
+msgid "&Action"
+msgstr ""
+
+#: tfrmfinddlg.mifreefrommemallothers.caption
+msgid "For all others, cancel, close and free from memory"
+msgstr ""
+
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
 msgstr "Odpri v novem zavihku"
 
+#: tfrmfinddlg.mioptions.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.mioptions.caption"
+msgid "Options"
+msgstr "Možnosti"
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Odstrani s seznama"
+
+#: tfrmfinddlg.miresult.caption
+msgid "&Result"
+msgstr ""
+
+#: tfrmfinddlg.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmfinddlg.miseparator2.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -1737,6 +1744,12 @@ msgstr "Pokaži v urejevalniku"
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
 msgstr "Pokaži v pregledovalniku"
+
+#: tfrmfinddlg.miviewtab.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miviewtab.caption"
+msgid "&View"
+msgstr "&Pogled"
 
 #: tfrmfinddlg.tsadvanced.caption
 msgid "Advanced"
@@ -2000,6 +2013,7 @@ msgid "Configuration of folder tabs"
 msgstr "Nastavitve zavihkov map"
 
 #: tfrmmain.actconfighotkeys.caption
+msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
@@ -5775,6 +5789,44 @@ msgstr "Spodaj je okno predogleda. S premikanjem kazalnika in izborom datoteke s
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgid "T&ext Color:"
 msgstr "Barva &besedila:"
+
+#: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
+msgid "When launching file search, clear file mask filter"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbpartialnamesearch.caption
+msgid "&Search for part of file name"
+msgstr "&Poišči del imena datoteke"
+
+#: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
+msgid "Show menu bar in \"Find files\""
+msgstr ""
+
+#: tfrmoptionsfilesearch.dbtextsearch.caption
+msgid "Text search in files"
+msgstr "Iskanje besedila v datotekah"
+
+#: tfrmoptionsfilesearch.gbfilesearch.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesearch.gbfilesearch.caption"
+msgid "File search"
+msgstr "Iskanje datotek"
+
+#: tfrmoptionsfilesearch.lblnewsearchfilters.caption
+msgid "Current filters with \"New search\" button:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr "Privzeta predloga iskanja:"
+
+#: tfrmoptionsfilesearch.rbusemmapinsearch.caption
+msgid "Use memory mapping for search te&xt in files"
+msgstr "Uporabi preslikavo pomnilnika za iskanje &besedila v datotekah"
+
+#: tfrmoptionsfilesearch.rbusestreaminsearch.caption
+msgid "&Use stream for search text in files"
+msgstr "&Uporabi pretok za iskanje besedila v datotekah"
 
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"

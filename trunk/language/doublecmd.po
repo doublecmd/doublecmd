@@ -1426,6 +1426,11 @@ msgctxt "TFRMFINDDLG.ACTCLOSE.CAPTION"
 msgid "Close"
 msgstr ""
 
+#: tfrmfinddlg.actconfigfilesearchhotkeys.caption
+msgctxt "TFRMFINDDLG.ACTCONFIGFILESEARCHHOTKEYS.CAPTION"
+msgid "Configuration of hot keys"
+msgstr ""
+
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
 msgid "Edit"
@@ -1433,6 +1438,14 @@ msgstr ""
 
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "Feed to listbox"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommem.caption
+msgid "Cancel search, close and free from memory"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommemallothers.caption
+msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
@@ -1450,6 +1463,10 @@ msgstr ""
 
 #: tfrmfinddlg.actnewsearch.caption
 msgid "New search"
+msgstr ""
+
+#: tfrmfinddlg.actnewsearchclearfilters.caption
+msgid "New search (clear filters)"
 msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
@@ -1492,28 +1509,6 @@ msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr ""
 
-#: tfrmfinddlg.btnclose.caption
-msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr ""
-
-#: tfrmfinddlg.btnedit.caption
-msgctxt "TFRMFINDDLG.BTNEDIT.CAPTION"
-msgid "&Edit"
-msgstr ""
-
-#: tfrmfinddlg.btngotopath.caption
-msgid "&Go to file"
-msgstr ""
-
-#: tfrmfinddlg.btnlastsearch.caption
-msgid "&Last search"
-msgstr ""
-
-#: tfrmfinddlg.btnnewsearch.caption
-msgid "&New search"
-msgstr ""
-
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
@@ -1540,26 +1535,8 @@ msgstr ""
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr ""
 
-#: tfrmfinddlg.btnstart.caption
-msgctxt "tfrmfinddlg.btnstart.caption"
-msgid "&Start"
-msgstr ""
-
-#: tfrmfinddlg.btnstop.caption
-msgid "C&ancel"
-msgstr ""
-
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
-msgstr ""
-
-#: tfrmfinddlg.btnview.caption
-msgctxt "tfrmfinddlg.btnview.caption"
-msgid "&View"
-msgstr ""
-
-#: tfrmfinddlg.btnworkwithfound.caption
-msgid "Feed to &listbox"
 msgstr ""
 
 #: tfrmfinddlg.caption
@@ -1707,12 +1684,39 @@ msgstr ""
 msgid "&Previous searches:"
 msgstr ""
 
+#: tfrmfinddlg.miaction.caption
+msgid "&Action"
+msgstr ""
+
+#: tfrmfinddlg.mifreefrommemallothers.caption
+msgid "For all others, cancel, close and free from memory"
+msgstr ""
+
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
 msgstr ""
 
+#: tfrmfinddlg.mioptions.caption
+msgctxt "TFRMFINDDLG.MIOPTIONS.CAPTION"
+msgid "Options"
+msgstr ""
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
+msgstr ""
+
+#: tfrmfinddlg.miresult.caption
+msgid "&Result"
+msgstr ""
+
+#: tfrmfinddlg.miseparator1.caption
+msgctxt "TFRMFINDDLG.MISEPARATOR1.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfrmfinddlg.miseparator2.caption
+msgctxt "TFRMFINDDLG.MISEPARATOR2.CAPTION"
+msgid "-"
 msgstr ""
 
 #: tfrmfinddlg.mishowallfound.caption
@@ -1725,6 +1729,11 @@ msgstr ""
 
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
+msgstr ""
+
+#: tfrmfinddlg.miviewtab.caption
+msgctxt "TFRMFINDDLG.MIVIEWTAB.CAPTION"
+msgid "&View"
 msgstr ""
 
 #: tfrmfinddlg.tsadvanced.caption
@@ -1989,6 +1998,7 @@ msgid "Configuration of folder tabs"
 msgstr ""
 
 #: tfrmmain.actconfighotkeys.caption
+msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
@@ -5758,6 +5768,43 @@ msgstr ""
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgid "T&ext Color:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
+msgid "When launching file search, clear file mask filter"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbpartialnamesearch.caption
+msgid "&Search for part of file name"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
+msgid "Show menu bar in \"Find files\""
+msgstr ""
+
+#: tfrmoptionsfilesearch.dbtextsearch.caption
+msgid "Text search in files"
+msgstr ""
+
+#: tfrmoptionsfilesearch.gbfilesearch.caption
+msgctxt "TFRMOPTIONSFILESEARCH.GBFILESEARCH.CAPTION"
+msgid "File search"
+msgstr ""
+
+#: tfrmoptionsfilesearch.lblnewsearchfilters.caption
+msgid "Current filters with \"New search\" button:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.rbusemmapinsearch.caption
+msgid "Use memory mapping for search te&xt in files"
+msgstr ""
+
+#: tfrmoptionsfilesearch.rbusestreaminsearch.caption
+msgid "&Use stream for search text in files"
 msgstr ""
 
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption

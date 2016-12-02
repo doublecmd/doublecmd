@@ -1452,8 +1452,6 @@ msgid "Properties"
 msgstr "속성"
 
 #: tfrmfinddlg.actcancel.caption
-#, fuzzy
-#| msgid "actCancel"
 msgctxt "tfrmfinddlg.actcancel.caption"
 msgid "Cancel"
 msgstr "실행취소"
@@ -1469,6 +1467,11 @@ msgctxt "tfrmfinddlg.actclose.caption"
 msgid "Close"
 msgstr "실행닫기"
 
+#: tfrmfinddlg.actconfigfilesearchhotkeys.caption
+msgctxt "tfrmfinddlg.actconfigfilesearchhotkeys.caption"
+msgid "Configuration of hot keys"
+msgstr ""
+
 #: tfrmfinddlg.actedit.caption
 #, fuzzy
 #| msgid "actEdit"
@@ -1481,6 +1484,14 @@ msgstr "실행편집"
 #| msgid "actFeedToListbox"
 msgid "Feed to listbox"
 msgstr "목록상자에 실행"
+
+#: tfrmfinddlg.actfreefrommem.caption
+msgid "Cancel search, close and free from memory"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommemallothers.caption
+msgid "For all other \"Find files\", cancel, close and free from memory"
+msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
 #, fuzzy
@@ -1506,6 +1517,10 @@ msgstr "마지막 검색 실행"
 #| msgid "actNewSearch"
 msgid "New search"
 msgstr "새 검색 실행"
+
+#: tfrmfinddlg.actnewsearchclearfilters.caption
+msgid "New search (clear filters)"
+msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
 #, fuzzy
@@ -1561,29 +1576,6 @@ msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "&도움말"
 
-#: tfrmfinddlg.btnclose.caption
-msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "&닫기"
-
-#: tfrmfinddlg.btnedit.caption
-msgctxt "TFRMFINDDLG.BTNEDIT.CAPTION"
-msgid "&Edit"
-msgstr "&편집"
-
-#: tfrmfinddlg.btngotopath.caption
-msgid "&Go to file"
-msgstr "파일로 &가기"
-
-#: tfrmfinddlg.btnlastsearch.caption
-msgctxt "TFRMFINDDLG.BTNLASTSEARCH.CAPTION"
-msgid "&Last search"
-msgstr "&마지막 검색"
-
-#: tfrmfinddlg.btnnewsearch.caption
-msgid "&New search"
-msgstr "&새 검색"
-
 #: tfrmfinddlg.btnsavetemplate.caption
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "&Save"
@@ -1610,28 +1602,9 @@ msgstr "시작 폴더 &저장"
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr "만약 \"시작 폴더\"에 템플릿이 로딩되면 복구됨. 특정 폴더 검색을 수정하기 위해 사용."
 
-#: tfrmfinddlg.btnstart.caption
-msgctxt "tfrmfinddlg.btnstart.caption"
-msgid "&Start"
-msgstr "&실행"
-
-#: tfrmfinddlg.btnstop.caption
-msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
-msgid "C&ancel"
-msgstr "&취소"
-
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
 msgstr "템플릿 사용"
-
-#: tfrmfinddlg.btnview.caption
-msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
-msgid "&View"
-msgstr "&보기"
-
-#: tfrmfinddlg.btnworkwithfound.caption
-msgid "Feed to &listbox"
-msgstr "목록상자에 적용"
 
 #: tfrmfinddlg.caption
 msgctxt "TFRMFINDDLG.CAPTION"
@@ -1784,13 +1757,43 @@ msgstr "하위 디랙토리 검색:"
 msgid "&Previous searches:"
 msgstr "&이전 검색:"
 
+#: tfrmfinddlg.miaction.caption
+msgid "&Action"
+msgstr ""
+
+#: tfrmfinddlg.mifreefrommemallothers.caption
+msgid "For all others, cancel, close and free from memory"
+msgstr ""
+
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
 msgstr "새 탭에서 열기"
 
+#: tfrmfinddlg.mioptions.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.mioptions.caption"
+msgid "Options"
+msgstr "설정"
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "리스트에서 제거"
+
+#: tfrmfinddlg.miresult.caption
+msgid "&Result"
+msgstr ""
+
+#: tfrmfinddlg.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmfinddlg.miseparator2.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -1803,6 +1806,12 @@ msgstr "편집기에서 표시"
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
 msgstr "뷰어에 표시"
+
+#: tfrmfinddlg.miviewtab.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miviewtab.caption"
+msgid "&View"
+msgstr "&보기"
 
 #: tfrmfinddlg.tsadvanced.caption
 msgid "Advanced"
@@ -2077,6 +2086,7 @@ msgid "Configuration of folder tabs"
 msgstr "폴더탭 설정"
 
 #: tfrmmain.actconfighotkeys.caption
+msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
@@ -3349,7 +3359,7 @@ msgstr "&확인"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
 msgid "Case sensitive"
-msgstr ""
+msgstr "대소문자 구분"
 
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
@@ -3361,7 +3371,7 @@ msgstr ""
 
 #: tfrmmaskinputdlg.lblprompt.caption
 msgid "Input Mask:"
-msgstr ""
+msgstr "삽입 마스크:"
 
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 msgid "O&r select predefined selection type:"
@@ -5949,6 +5959,44 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
 msgid "T&ext Color:"
 msgstr "&텍스트 색상:"
 
+#: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
+msgid "When launching file search, clear file mask filter"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbpartialnamesearch.caption
+msgid "&Search for part of file name"
+msgstr "&파일명 일부에서 검색"
+
+#: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
+msgid "Show menu bar in \"Find files\""
+msgstr ""
+
+#: tfrmoptionsfilesearch.dbtextsearch.caption
+msgid "Text search in files"
+msgstr "파일에서 텍스트 검색"
+
+#: tfrmoptionsfilesearch.gbfilesearch.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesearch.gbfilesearch.caption"
+msgid "File search"
+msgstr "파일 검색"
+
+#: tfrmoptionsfilesearch.lblnewsearchfilters.caption
+msgid "Current filters with \"New search\" button:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr "기본 검색 템플릿:"
+
+#: tfrmoptionsfilesearch.rbusemmapinsearch.caption
+msgid "Use memory mapping for search te&xt in files"
+msgstr "파일 텍스트 검색을 위해 메모리 매핑 사용"
+
+#: tfrmoptionsfilesearch.rbusestreaminsearch.caption
+msgid "&Use stream for search text in files"
+msgstr "파일 텍스트 검색을 위해 스트림(stream) 사용"
+
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
 msgstr ""
@@ -7795,7 +7843,7 @@ msgstr ""
 
 #: tfrmoptionstreeviewmenucolor.lblcursorcolor.caption
 msgid "Cursor color:"
-msgstr ""
+msgstr "커서 색상:"
 
 #: tfrmoptionstreeviewmenucolor.lblfoundtextcolor.caption
 msgid "Found text color:"
