@@ -744,52 +744,52 @@ msgstr "Compara fitxers"
 #: tfrmdiffer.midivider1.caption
 msgctxt "TFRMDIFFER.MIDIVIDER1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider10.caption
 msgctxt "TFRMDIFFER.MIDIVIDER10.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider2.caption
 msgctxt "TFRMDIFFER.MIDIVIDER2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider3.caption
 msgctxt "TFRMDIFFER.MIDIVIDER3.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider4.caption
 msgctxt "TFRMDIFFER.MIDIVIDER4.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider5.caption
 msgctxt "TFRMDIFFER.MIDIVIDER5.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider6.caption
 msgctxt "TFRMDIFFER.MIDIVIDER6.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider7.caption
 msgctxt "TFRMDIFFER.MIDIVIDER7.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider8.caption
 msgctxt "TFRMDIFFER.MIDIVIDER8.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.midivider9.caption
 msgctxt "TFRMDIFFER.MIDIVIDER9.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.miencodingleft.caption
 #, fuzzy
@@ -806,12 +806,12 @@ msgstr "dreta"
 #: tfrmdiffer.miseparator1.caption
 msgctxt "TFRMDIFFER.MISEPARATOR1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.miseparator2.caption
 msgctxt "TFRMDIFFER.MISEPARATOR2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmdiffer.mnuactions.caption
 msgid "&Actions"
@@ -1121,12 +1121,12 @@ msgstr "A&juda"
 #: tfrmeditor.menuitem1.caption
 msgctxt "tfrmeditor.menuitem1.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.midiv.caption
 msgctxt "TFRMEDITOR.MIDIV.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.miedit.caption
 msgctxt "TFRMEDITOR.MIEDIT.CAPTION"
@@ -1163,32 +1163,32 @@ msgstr "Fi de línia"
 #: tfrmeditor.miseparator1.caption
 msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.miseparator2.caption
 msgctxt "TFRMEDITOR.MISEPARATOR2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.n1.caption
 msgctxt "TFRMEDITOR.N1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.n3.caption
 msgctxt "TFRMEDITOR.N3.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.n4.caption
 msgctxt "TFRMEDITOR.N4.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditor.n5.caption
 msgctxt "tfrmeditor.n5.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 #, fuzzy
@@ -1571,13 +1571,26 @@ msgctxt "tfrmfinddlg.actclose.caption"
 msgid "Close"
 msgstr "Tanca"
 
+#: tfrmfinddlg.actconfigfilesearchhotkeys.caption
+msgctxt "tfrmfinddlg.actconfigfilesearchhotkeys.caption"
+msgid "Configuration of hot keys"
+msgstr ""
+
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
 msgid "Edit"
-msgstr ""
+msgstr "Edita"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "Feed to listbox"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommem.caption
+msgid "Cancel search, close and free from memory"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommemallothers.caption
+msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
@@ -1587,7 +1600,7 @@ msgstr ""
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
 msgid "Find Data"
-msgstr ""
+msgstr "Cerca dades"
 
 #: tfrmfinddlg.actlastsearch.caption
 msgid "Last search"
@@ -1595,6 +1608,10 @@ msgstr ""
 
 #: tfrmfinddlg.actnewsearch.caption
 msgid "New search"
+msgstr ""
+
+#: tfrmfinddlg.actnewsearchclearfilters.caption
+msgid "New search (clear filters)"
 msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
@@ -1620,12 +1637,12 @@ msgstr ""
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
 msgid "Start"
-msgstr ""
+msgstr "Inicia"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
 msgid "View"
-msgstr ""
+msgstr "Visualització"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -1636,31 +1653,6 @@ msgstr "Afegeix"
 msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "A&juda"
-
-#: tfrmfinddlg.btnclose.caption
-msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "&Tanca"
-
-#: tfrmfinddlg.btnedit.caption
-#, fuzzy
-#| msgid "Edit"
-msgctxt "tfrmfinddlg.btnedit.caption"
-msgid "&Edit"
-msgstr "Edita"
-
-#: tfrmfinddlg.btngotopath.caption
-msgid "&Go to file"
-msgstr "&Va al fitxer"
-
-#: tfrmfinddlg.btnlastsearch.caption
-msgctxt "tfrmfinddlg.btnlastsearch.caption"
-msgid "&Last search"
-msgstr "&Última cerca"
-
-#: tfrmfinddlg.btnnewsearch.caption
-msgid "&New search"
-msgstr "&Nova cerca"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 #, fuzzy
@@ -1690,30 +1682,9 @@ msgstr "Desa amb \"Start in directory\""
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr "Si es desa amb \"Start in directory\" es restaurarà quan es carrega la plantilla. Feu-lo servir si voleu corregir la cerca a un determinat directori\""
 
-#: tfrmfinddlg.btnstart.caption
-msgctxt "tfrmfinddlg.btnstart.caption"
-msgid "&Start"
-msgstr "Inicia"
-
-#: tfrmfinddlg.btnstop.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
-msgid "C&ancel"
-msgstr "Cancel·la"
-
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
 msgstr "Usa plantilla"
-
-#: tfrmfinddlg.btnview.caption
-msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
-msgid "&View"
-msgstr "&Visualització"
-
-#: tfrmfinddlg.btnworkwithfound.caption
-msgid "Feed to &listbox"
-msgstr "Inclou a la llista"
 
 #: tfrmfinddlg.caption
 msgctxt "tfrmfinddlg.caption"
@@ -1891,13 +1862,41 @@ msgstr "Cerca subcarpetes:"
 msgid "&Previous searches:"
 msgstr "Cerques prèvies:"
 
+#: tfrmfinddlg.miaction.caption
+msgid "&Action"
+msgstr ""
+
+#: tfrmfinddlg.mifreefrommemallothers.caption
+msgid "For all others, cancel, close and free from memory"
+msgstr ""
+
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
 msgstr ""
 
+#: tfrmfinddlg.mioptions.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.mioptions.caption"
+msgid "Options"
+msgstr "Opcions"
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Elimina de la lista"
+
+#: tfrmfinddlg.miresult.caption
+msgid "&Result"
+msgstr ""
+
+#: tfrmfinddlg.miseparator1.caption
+msgctxt "tfrmfinddlg.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmfinddlg.miseparator2.caption
+msgctxt "tfrmfinddlg.miseparator2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -1910,6 +1909,12 @@ msgstr ""
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
 msgstr "Mostra en el Visualitzador"
+
+#: tfrmfinddlg.miviewtab.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miviewtab.caption"
+msgid "&View"
+msgstr "&Visualització"
 
 #: tfrmfinddlg.tsadvanced.caption
 msgid "Advanced"
@@ -2016,7 +2021,7 @@ msgstr ""
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmlinker.caption
 msgctxt "tfrmlinker.caption"
@@ -2219,6 +2224,7 @@ msgid "Configuration of folder tabs"
 msgstr ""
 
 #: tfrmmain.actconfighotkeys.caption
+msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
@@ -3008,7 +3014,7 @@ msgstr "*"
 #: tfrmmain.btnleftdirectoryhotlist.hint
 msgctxt "tfrmmain.btnleftdirectoryhotlist.hint"
 msgid "Directory Hotlist"
-msgstr ""
+msgstr "Carpetes freqüents"
 
 #: tfrmmain.btnleftequalright.caption
 msgctxt "tfrmmain.btnleftequalright.caption"
@@ -3094,7 +3100,7 @@ msgstr "Ruta"
 #: tfrmmain.menuitem2.caption
 msgctxt "TFRMMAIN.MENUITEM2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.mi2080.caption
 msgid "&20/80"
@@ -3141,177 +3147,177 @@ msgstr "Crea enllaç"
 #: tfrmmain.miline1.caption
 msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline10.caption
 msgctxt "tfrmmain.miline10.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline11.caption
 msgctxt "tfrmmain.miline11.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline12.caption
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline13.caption
 msgctxt "TFRMMAIN.MILINE13.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline14.caption
 msgctxt "TFRMMAIN.MILINE14.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline15.caption
 msgctxt "TFRMMAIN.MILINE15.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline16.caption
 msgctxt "TFRMMAIN.MILINE16.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline17.caption
 msgctxt "TFRMMAIN.MILINE17.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline18.caption
 msgctxt "TFRMMAIN.MILINE18.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline19.caption
 msgctxt "TFRMMAIN.MILINE19.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline2.caption
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline20.caption
 msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline21.caption
 msgctxt "tfrmmain.miline21.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline22.caption
 msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline23.caption
 msgctxt "tfrmmain.miline23.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline24.caption
 msgctxt "TFRMMAIN.MILINE24.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline25.caption
 msgctxt "TFRMMAIN.MILINE25.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline26.caption
 msgctxt "tfrmmain.miline26.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline3.caption
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline32.caption
 msgctxt "TFRMMAIN.MILINE32.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline33.caption
 msgctxt "tfrmmain.miline33.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline37.caption
 msgctxt "tfrmmain.miline37.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline38.caption
 msgctxt "tfrmmain.miline38.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline39.caption
 msgctxt "tfrmmain.miline39.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline4.caption
 msgctxt "TFRMMAIN.MILINE4.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline40.caption
 msgctxt "tfrmmain.miline40.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline47.caption
 msgctxt "TFRMMAIN.MILINE47.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline5.caption
 msgctxt "TFRMMAIN.MILINE5.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline50.caption
 msgctxt "tfrmmain.miline50.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline55.caption
 msgctxt "tfrmmain.miline55.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline6.caption
 msgctxt "TFRMMAIN.MILINE6.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline7.caption
 msgctxt "TFRMMAIN.MILINE7.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline8.caption
 msgctxt "TFRMMAIN.MILINE8.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.miline9.caption
 msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.milogclear.caption
 msgid "Clear"
@@ -3379,12 +3385,12 @@ msgstr "C&onfiguració"
 #: tfrmmain.mnucontextline1.caption
 msgctxt "tfrmmain.mnucontextline1.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.mnucontextline2.caption
 msgctxt "tfrmmain.mnucontextline2.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmain.mnufavoritetabs.caption
 msgid "Favorites"
@@ -3457,7 +3463,7 @@ msgstr "Enganxa"
 #: tfrmmain.tbseparator.caption
 msgctxt "TFRMMAIN.TBSEPARATOR.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmaincommandsdlg.btncancel.caption
 #, fuzzy
@@ -3570,7 +3576,7 @@ msgstr "&Accepta"
 
 #: tfrmmaskinputdlg.chkcasesensitive.caption
 msgid "Case sensitive"
-msgstr ""
+msgstr "Sensibilitat a Majúscules"
 
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
@@ -3582,7 +3588,7 @@ msgstr ""
 
 #: tfrmmaskinputdlg.lblprompt.caption
 msgid "Input Mask:"
-msgstr ""
+msgstr "Màscara d'entrada:"
 
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 #, fuzzy
@@ -3615,27 +3621,27 @@ msgstr "Nom de la nova carpeta:"
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmodview.btnpath2.caption
 msgctxt "TFRMMODVIEW.BTNPATH2.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmodview.btnpath3.caption
 msgctxt "TFRMMODVIEW.BTNPATH3.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmodview.btnpath4.caption
 msgctxt "TFRMMODVIEW.BTNPATH4.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmodview.btnpath5.caption
 msgctxt "TFRMMODVIEW.BTNPATH5.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmodview.caption
 msgctxt "tfrmmodview.caption"
@@ -3732,7 +3738,7 @@ msgstr "Edita"
 #: tfrmmultirename.btnextmenu.caption
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmultirename.btnloadpreset.caption
 msgid "&Load"
@@ -3741,7 +3747,7 @@ msgstr "Carrega"
 #: tfrmmultirename.btnnamemenu.caption
 msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmmultirename.btnrename.caption
 msgctxt "tfrmmultirename.btnrename.caption"
@@ -4008,22 +4014,22 @@ msgstr "-"
 #: tfrmmultirename.n2.caption
 msgctxt "TFRMMULTIRENAME.N2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmultirename.n3.caption
 msgctxt "TFRMMULTIRENAME.N3.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmultirename.n4.caption
 msgctxt "TFRMMULTIRENAME.N4.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmultirename.n5.caption
 msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmmultirename.stringgrid.columns[0].title.caption
 msgctxt "tfrmmultirename.stringgrid.columns[0].title.caption"
@@ -4658,7 +4664,7 @@ msgstr "&Esborra"
 #: tfrmoptionscustomcolumns.btnfont.caption
 msgctxt "tfrmoptionscustomcolumns.btnfont.caption"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmoptionscustomcolumns.btnforecolor.caption
 #, fuzzy
@@ -5280,67 +5286,67 @@ msgstr ""
 #: tfrmoptionsdirectoryhotlist.miseparator1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator1.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator10.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator10.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator11.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator11.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator12.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator12.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator13.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator13.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator2.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator3.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator3.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator4.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator4.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator5.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator5.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator6.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator6.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator7.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator7.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator8.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator8.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.miseparator9.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miseparator9.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsdirectoryhotlist.misorteverything.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misorteverything.caption"
@@ -5659,12 +5665,12 @@ msgstr ""
 #: tfrmoptionsfavoritetabs.menuitem1.caption
 msgctxt "tfrmoptionsfavoritetabs.menuitem1.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsfavoritetabs.menuitem2.caption
 msgctxt "tfrmoptionsfavoritetabs.menuitem2.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miaddseparator.caption
 msgctxt "tfrmoptionsfavoritetabs.miaddseparator.caption"
@@ -5780,42 +5786,42 @@ msgstr "Reanomena"
 #: tfrmoptionsfavoritetabs.miseparator1.caption
 msgctxt "tfrmoptionsfavoritetabs.miseparator1.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator10.caption
 msgctxt "tfrmoptionsfavoritetabs.miseparator10.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator11.caption
 msgctxt "tfrmoptionsfavoritetabs.miseparator11.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator2.caption
 msgctxt "tfrmoptionsfavoritetabs.miseparator2.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator3.caption
 msgctxt "tfrmoptionsfavoritetabs.miseparator3.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator7.caption
 msgctxt "tfrmoptionsfavoritetabs.miseparator7.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator8.caption
 msgctxt "tfrmoptionsfavoritetabs.miseparator8.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsfavoritetabs.miseparator9.caption
 msgctxt "tfrmoptionsfavoritetabs.miseparator9.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsfavoritetabs.misorteverything.caption
 msgctxt "tfrmoptionsfavoritetabs.misorteverything.caption"
@@ -6009,7 +6015,7 @@ msgstr "Ruta d'inici"
 #: tfrmoptionsfileassoc.menuitem1.caption
 msgctxt "tfrmoptionsfileassoc.menuitem1.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsfileassoc.menuitem3.caption
 msgid "Custom with..."
@@ -6058,7 +6064,7 @@ msgstr ""
 #: tfrmoptionsfileassoc.miseparator.caption
 msgctxt "tfrmoptionsfileassoc.miseparator.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionsfileassoc.mishell.caption
 msgctxt "tfrmoptionsfileassoc.mishell.caption"
@@ -6417,6 +6423,44 @@ msgctxt "tfrmoptionsfilepanelscolors.lbltextcolor.caption"
 msgid "T&ext Color:"
 msgstr "Color de text:"
 
+#: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
+msgid "When launching file search, clear file mask filter"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbpartialnamesearch.caption
+msgid "&Search for part of file name"
+msgstr "Cerca part del nom del fitxer"
+
+#: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
+msgid "Show menu bar in \"Find files\""
+msgstr ""
+
+#: tfrmoptionsfilesearch.dbtextsearch.caption
+msgid "Text search in files"
+msgstr ""
+
+#: tfrmoptionsfilesearch.gbfilesearch.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesearch.gbfilesearch.caption"
+msgid "File search"
+msgstr "Cerca de fitxers"
+
+#: tfrmoptionsfilesearch.lblnewsearchfilters.caption
+msgid "Current filters with \"New search\" button:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.rbusemmapinsearch.caption
+msgid "Use memory mapping for search te&xt in files"
+msgstr "Usa mapatge en memòria per a cerca de text en fitxers"
+
+#: tfrmoptionsfilesearch.rbusestreaminsearch.caption
+msgid "&Use stream for search text in files"
+msgstr "Usa disc per a cerca de text en fitxers"
+
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
 msgstr ""
@@ -6581,12 +6625,12 @@ msgstr "Nom de la categoria:"
 #: tfrmoptionsfonts.btnpatheditfnt.caption
 msgctxt "tfrmoptionsfonts.btnpatheditfnt.caption"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmoptionsfonts.btnsearchresultsfnt.caption
 msgctxt "tfrmoptionsfonts.btnsearchresultsfnt.caption"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tfrmoptionsfonts.btnselconsolefnt.caption
 #, fuzzy
@@ -6779,7 +6823,7 @@ msgstr "Comandament"
 #: tfrmoptionshotkeys.miseparator1.caption
 msgctxt "tfrmoptionshotkeys.miseparator1.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionshotkeys.misortorder.caption
 msgid "Sort order"
@@ -7831,22 +7875,22 @@ msgstr ""
 #: tfrmoptionstoolbar.miexportseparator1.caption
 msgctxt "tfrmoptionstoolbar.miexportseparator1.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miexportseparator2.caption
 msgctxt "tfrmoptionstoolbar.miexportseparator2.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miexportseparator3.caption
 msgctxt "tfrmoptionstoolbar.miexportseparator3.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miexportseparator4.caption
 msgctxt "tfrmoptionstoolbar.miexportseparator4.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miexporttop.caption
 msgid "Top toolbar..."
@@ -7967,7 +8011,7 @@ msgstr ""
 #: tfrmoptionstoolbar.miimportseparator.caption
 msgctxt "tfrmoptionstoolbar.miimportseparator.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miimporttcbar.caption
 msgid "from a single TC .BAR file"
@@ -8055,52 +8099,52 @@ msgstr ""
 #: tfrmoptionstoolbar.miseparator1.caption
 msgctxt "tfrmoptionstoolbar.miseparator1.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miseparator10.caption
 msgctxt "tfrmoptionstoolbar.miseparator10.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miseparator11.caption
 msgctxt "tfrmoptionstoolbar.miseparator11.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miseparator13.caption
 msgctxt "tfrmoptionstoolbar.miseparator13.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miseparator14.caption
 msgctxt "tfrmoptionstoolbar.miseparator14.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miseparator2.caption
 msgctxt "tfrmoptionstoolbar.miseparator2.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miseparator6.caption
 msgctxt "tfrmoptionstoolbar.miseparator6.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miseparator7.caption
 msgctxt "tfrmoptionstoolbar.miseparator7.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miseparator8.caption
 msgctxt "tfrmoptionstoolbar.miseparator8.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miseparator9.caption
 msgctxt "tfrmoptionstoolbar.miseparator9.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.miseparatoraftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
@@ -8129,7 +8173,7 @@ msgstr ""
 #: tfrmoptionstoolbar.misrcrplclickseparator.caption
 msgctxt "tfrmoptionstoolbar.misrcrplclickseparator.caption"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmoptionstoolbar.misrcrplcommands.caption
 msgid "in all commands..."
@@ -8431,7 +8475,7 @@ msgstr ""
 
 #: tfrmoptionstreeviewmenucolor.lblcursorcolor.caption
 msgid "Cursor color:"
-msgstr ""
+msgstr "Color de cursor:"
 
 #: tfrmoptionstreeviewmenucolor.lblfoundtextcolor.caption
 msgid "Found text color:"
@@ -9845,27 +9889,27 @@ msgstr "Quant a"
 #: tfrmviewer.midiv1.caption
 msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmviewer.midiv2.caption
 msgctxt "TFRMVIEWER.MIDIV2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmviewer.midiv3.caption
 msgctxt "TFRMVIEWER.MIDIV3.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmviewer.midiv4.caption
 msgctxt "TFRMVIEWER.MIDIV4.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmviewer.midiv5.caption
 msgctxt "TFRMVIEWER.MIDIV5.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmviewer.miedit.caption
 msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
@@ -9902,7 +9946,7 @@ msgstr "Captura"
 #: tfrmviewer.miseparator.caption
 msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: tfrmviewer.miview.caption
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
@@ -10386,7 +10430,7 @@ msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
-msgstr ""
+msgstr "Filtre"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
@@ -12511,7 +12555,7 @@ msgstr "Cerca resultat"
 
 #: ulng.rssearchstatus
 msgid "SEARCH"
-msgstr ""
+msgstr "Cerca"
 
 #: ulng.rssearchtemplateunnamed
 msgid "<unnamed template>"
@@ -12567,7 +12611,7 @@ msgstr ""
 
 #: ulng.rssimplewordfiles
 msgid "files"
-msgstr ""
+msgstr "Fitxers"
 
 #: ulng.rssimplewordletter
 msgid "Letter"

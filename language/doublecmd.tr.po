@@ -125,7 +125,7 @@ msgstr "&Kapat"
 
 #: tfrmabout.btncopytoclipboard.caption
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Panoya kopyala"
 
 #: tfrmabout.caption
 msgctxt "TFRMABOUT.CAPTION"
@@ -1058,7 +1058,7 @@ msgstr "&Çıkış"
 #: tfrmeditor.actfileexit.hint
 msgctxt "tfrmeditor.actfileexit.hint"
 msgid "Exit"
-msgstr ""
+msgstr "Çıkış F10"
 
 #: tfrmeditor.actfilenew.caption
 msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
@@ -1097,7 +1097,7 @@ msgstr "Farklı &Kaydet..."
 
 #: tfrmeditor.actfilesaveas.hint
 msgid "Save As"
-msgstr ""
+msgstr "Farklı Kaydet..."
 
 #: tfrmeditor.actsaveall.caption
 msgid "Sa&ve All"
@@ -1558,13 +1558,26 @@ msgctxt "tfrmfinddlg.actclose.caption"
 msgid "Close"
 msgstr "Kapat"
 
+#: tfrmfinddlg.actconfigfilesearchhotkeys.caption
+msgctxt "tfrmfinddlg.actconfigfilesearchhotkeys.caption"
+msgid "Configuration of hot keys"
+msgstr ""
+
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
 msgid "Edit"
-msgstr ""
+msgstr "Düzenle F4"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
 msgid "Feed to listbox"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommem.caption
+msgid "Cancel search, close and free from memory"
+msgstr ""
+
+#: tfrmfinddlg.actfreefrommemallothers.caption
+msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
@@ -1574,7 +1587,7 @@ msgstr ""
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
 msgid "Find Data"
-msgstr ""
+msgstr "Veri Bul"
 
 #: tfrmfinddlg.actlastsearch.caption
 msgid "Last search"
@@ -1582,6 +1595,10 @@ msgstr ""
 
 #: tfrmfinddlg.actnewsearch.caption
 msgid "New search"
+msgstr ""
+
+#: tfrmfinddlg.actnewsearchclearfilters.caption
+msgid "New search (clear filters)"
 msgstr ""
 
 #: tfrmfinddlg.actpageadvanced.caption
@@ -1607,12 +1624,12 @@ msgstr ""
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
 msgid "Start"
-msgstr ""
+msgstr "Başlat"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
 msgid "View"
-msgstr ""
+msgstr "Göster F3"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
@@ -1623,28 +1640,6 @@ msgstr "&Ekle"
 msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
 msgid "&Help"
 msgstr "&Yardım"
-
-#: tfrmfinddlg.btnclose.caption
-msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
-msgid "&Close"
-msgstr "&Kapat"
-
-#: tfrmfinddlg.btnedit.caption
-msgctxt "tfrmfinddlg.btnedit.caption"
-msgid "&Edit"
-msgstr "&Düzenle"
-
-#: tfrmfinddlg.btngotopath.caption
-msgid "&Go to file"
-msgstr "&Dosya'ya git"
-
-#: tfrmfinddlg.btnlastsearch.caption
-msgid "&Last search"
-msgstr ""
-
-#: tfrmfinddlg.btnnewsearch.caption
-msgid "&New search"
-msgstr "&Yeni arama"
 
 #: tfrmfinddlg.btnsavetemplate.caption
 #, fuzzy
@@ -1674,30 +1669,9 @@ msgstr ""
 msgid "If saved then \"Start in directory\" will be restored when loading template. Use it if you want to fix searching to a certain directory"
 msgstr ""
 
-#: tfrmfinddlg.btnstart.caption
-msgctxt "tfrmfinddlg.btnstart.caption"
-msgid "&Start"
-msgstr "&Başlat"
-
-#: tfrmfinddlg.btnstop.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
-msgid "C&ancel"
-msgstr "İptal"
-
 #: tfrmfinddlg.btnusetemplate.caption
 msgid "Use template"
 msgstr ""
-
-#: tfrmfinddlg.btnview.caption
-msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
-msgid "&View"
-msgstr "&Göster"
-
-#: tfrmfinddlg.btnworkwithfound.caption
-msgid "Feed to &listbox"
-msgstr "&Liste kutusunu besle"
 
 #: tfrmfinddlg.caption
 msgctxt "tfrmfinddlg.caption"
@@ -1870,13 +1844,43 @@ msgstr "Alt dizinleri ara"
 msgid "&Previous searches:"
 msgstr "Önceki arama(lar)"
 
+#: tfrmfinddlg.miaction.caption
+msgid "&Action"
+msgstr ""
+
+#: tfrmfinddlg.mifreefrommemallothers.caption
+msgid "For all others, cancel, close and free from memory"
+msgstr ""
+
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
 msgstr ""
 
+#: tfrmfinddlg.mioptions.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.mioptions.caption"
+msgid "Options"
+msgstr "Seçenekler"
+
 #: tfrmfinddlg.miremovefromllist.caption
 msgid "Remove from list"
 msgstr "Listeden kaldır"
+
+#: tfrmfinddlg.miresult.caption
+msgid "&Result"
+msgstr ""
+
+#: tfrmfinddlg.miseparator1.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator1.caption"
+msgid "-"
+msgstr "-"
+
+#: tfrmfinddlg.miseparator2.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miseparator2.caption"
+msgid "-"
+msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -1889,6 +1893,12 @@ msgstr ""
 #: tfrmfinddlg.mishowinviewer.caption
 msgid "Show In Viewer"
 msgstr "Görüntüleyicide göster"
+
+#: tfrmfinddlg.miviewtab.caption
+#, fuzzy
+msgctxt "tfrmfinddlg.miviewtab.caption"
+msgid "&View"
+msgstr "&Göster"
 
 #: tfrmfinddlg.tsadvanced.caption
 msgid "Advanced"
@@ -2184,6 +2194,7 @@ msgid "Configuration of folder tabs"
 msgstr ""
 
 #: tfrmmain.actconfighotkeys.caption
+msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
@@ -3507,7 +3518,7 @@ msgstr ""
 
 #: tfrmmaskinputdlg.lblprompt.caption
 msgid "Input Mask:"
-msgstr ""
+msgstr "Make girişi:"
 
 #: tfrmmaskinputdlg.lblsearchtemplate.caption
 #, fuzzy
@@ -4034,12 +4045,12 @@ msgstr "Ekle"
 #: tfrmoptionsarchivers.btnmultiarcapply.caption
 msgctxt "tfrmoptionsarchivers.btnmultiarcapply.caption"
 msgid "A&pply"
-msgstr ""
+msgstr "Uygula"
 
 #: tfrmoptionsarchivers.btnmultiarcdelete.caption
 msgctxt "tfrmoptionsarchivers.btnmultiarcdelete.caption"
 msgid "D&elete"
-msgstr ""
+msgstr "&Sil"
 
 #: tfrmoptionsarchivers.btnmultiarcrename.caption
 msgctxt "tfrmoptionsarchivers.btnmultiarcrename.caption"
@@ -4227,7 +4238,7 @@ msgstr ""
 #: tfrmoptionsconfiguration.btnconfigapply.caption
 msgctxt "tfrmoptionsconfiguration.btnconfigapply.caption"
 msgid "A&pply"
-msgstr ""
+msgstr "Uygula"
 
 #: tfrmoptionsconfiguration.btnconfigedit.caption
 msgctxt "tfrmoptionsconfiguration.btnconfigedit.caption"
@@ -6189,6 +6200,44 @@ msgstr ""
 msgid "T&ext Color:"
 msgstr ""
 
+#: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
+msgid "When launching file search, clear file mask filter"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbpartialnamesearch.caption
+msgid "&Search for part of file name"
+msgstr ""
+
+#: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
+msgid "Show menu bar in \"Find files\""
+msgstr ""
+
+#: tfrmoptionsfilesearch.dbtextsearch.caption
+msgid "Text search in files"
+msgstr ""
+
+#: tfrmoptionsfilesearch.gbfilesearch.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesearch.gbfilesearch.caption"
+msgid "File search"
+msgstr "Dosya ara"
+
+#: tfrmoptionsfilesearch.lblnewsearchfilters.caption
+msgid "Current filters with \"New search\" button:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
+msgid "Default search template:"
+msgstr ""
+
+#: tfrmoptionsfilesearch.rbusemmapinsearch.caption
+msgid "Use memory mapping for search te&xt in files"
+msgstr ""
+
+#: tfrmoptionsfilesearch.rbusestreaminsearch.caption
+msgid "&Use stream for search text in files"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
 msgstr ""
@@ -6274,7 +6323,7 @@ msgstr "Ekle"
 #: tfrmoptionsfiletypescolors.btnapplycategory.caption
 msgctxt "tfrmoptionsfiletypescolors.btnapplycategory.caption"
 msgid "A&pply"
-msgstr ""
+msgstr "Uygula"
 
 #: tfrmoptionsfiletypescolors.btncategorycolor.caption
 msgctxt "tfrmoptionsfiletypescolors.btncategorycolor.caption"
@@ -6284,7 +6333,7 @@ msgstr ">>"
 #: tfrmoptionsfiletypescolors.btndeletecategory.caption
 msgctxt "tfrmoptionsfiletypescolors.btndeletecategory.caption"
 msgid "D&elete"
-msgstr ""
+msgstr "&Sil"
 
 #: tfrmoptionsfiletypescolors.btnsearchtemplate.hint
 msgctxt "tfrmoptionsfiletypescolors.btnsearchtemplate.hint"
@@ -6306,12 +6355,12 @@ msgstr ""
 #: tfrmoptionsfiletypescolors.lblcategorymask.caption
 msgctxt "tfrmoptionsfiletypescolors.lblcategorymask.caption"
 msgid "Category &mask:"
-msgstr ""
+msgstr "Sınıf maskesi"
 
 #: tfrmoptionsfiletypescolors.lblcategoryname.caption
 msgctxt "tfrmoptionsfiletypescolors.lblcategoryname.caption"
 msgid "Category &name:"
-msgstr ""
+msgstr "Sınıf adı"
 
 #: tfrmoptionsfonts.btnpatheditfnt.caption
 #, fuzzy
@@ -8007,7 +8056,7 @@ msgstr ""
 
 #: tfrmoptionstreeviewmenucolor.lblcursorcolor.caption
 msgid "Cursor color:"
-msgstr ""
+msgstr "Gösterge rengi:"
 
 #: tfrmoptionstreeviewmenucolor.lblfoundtextcolor.caption
 msgid "Found text color:"
@@ -9953,7 +10002,7 @@ msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
-msgstr ""
+msgstr "Süzgeç"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
@@ -12077,7 +12126,7 @@ msgstr "Arama sonucu"
 
 #: ulng.rssearchstatus
 msgid "SEARCH"
-msgstr ""
+msgstr "Ara"
 
 #: ulng.rssearchtemplateunnamed
 msgid "<unnamed template>"

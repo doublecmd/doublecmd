@@ -1411,7 +1411,7 @@ object frmFindDlg: TfrmFindDlg
       OnExecute = actExecute
     end
     object actCancel: TAction
-      Caption = 'Stop search'
+      Caption = 'Cancel'
       Enabled = False
       OnExecute = actExecute
     end
