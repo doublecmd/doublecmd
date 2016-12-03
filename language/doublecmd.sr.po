@@ -5824,27 +5824,11 @@ msgstr ""
 msgid "Extended options items:"
 msgstr ""
 
-#: tfrmoptionsfileoperations.btnaddattribute.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileoperations.btnaddattribute.caption"
-msgid "&Add"
-msgstr "Додај&"
-
-#: tfrmoptionsfileoperations.btnattrshelp.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileoperations.btnattrshelp.caption"
-msgid "&Help"
-msgstr "&Помоћ"
-
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 #, fuzzy
 msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
 msgid "Show confirmation window for:"
 msgstr "Приказуј прозор потврде за:"
-
-#: tfrmoptionsfileoperations.bvlmarkingfiles.caption
-msgid "Marking/Unmarking files:"
-msgstr ""
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
@@ -5887,15 +5871,6 @@ msgstr "Приказуј картицу површи одабира у проз�
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Занемари грешке радњи над датотекама и уписуј их у прозору дневника"
 
-#: tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption
-msgctxt "tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption"
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
-
-#: tfrmoptionsfileoperations.chkmarkmaskshowattribute.caption
-msgid "Show attribute specification in mask input dialog each time"
-msgstr ""
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Извршавање радњи"
@@ -5903,10 +5878,6 @@ msgstr "Извршавање радњи"
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
 msgstr "Корисничко сучеље"
-
-#: tfrmoptionsfileoperations.lbattributemask.caption
-msgid "Attribute mask value to use:"
-msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "&Buffer size for file operations (in KB):"
@@ -6117,6 +6088,18 @@ msgstr "Користи карту меморије за претраге по т
 msgid "&Use stream for search text in files"
 msgstr "Користи ток за претраге по текстовима"
 
+#: tfrmoptionsfilesviews.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesviews.btnaddattribute.caption"
+msgid "&Add"
+msgstr "Додај&"
+
+#: tfrmoptionsfilesviews.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesviews.btnattrshelp.caption"
+msgid "&Help"
+msgstr "&Помоћ"
+
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
 msgstr ""
@@ -6156,13 +6139,32 @@ msgstr "Прикажи системске и скривене датотеке"
 msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "Приликом одабира датотека помоћу <SPACEBAR>, пређи на следећу датотеку ( као и са <INSERT>)"
 
+#: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
+
+#: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
+msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
+msgid "Use an independant attribute filter in mask input dialog each time"
+msgstr ""
+
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
 msgstr "Обликујем"
 
+#: tfrmoptionsfilesviews.gbmarking.caption
+msgid "Marking/Unmarking entries"
+msgstr ""
+
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
 msgstr "Ређање"
+
+#: tfrmoptionsfilesviews.lbattributemask.caption
+msgctxt "tfrmoptionsfilesviews.lbattributemask.caption"
+msgid "Default attribute mask value to use:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"

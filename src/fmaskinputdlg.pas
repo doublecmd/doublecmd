@@ -95,13 +95,13 @@ begin
       lblPrompt.Caption := sPrompt;
       cmbMask.Items.Assign(slValueList);
       cmbMask.Text := sValue;
+      edtAttrib.Text := sAttribute;
 
       case AMaskInputDlgStyle of
         midsFull:
         begin
           chkCaseSensitive.Checked := bCaseSensitive;
           chkIgnoreAccentsAndLigatures.Checked := bIgnoreAccents;
-          edtAttrib.Text := sAttribute;
         end;
 
         midsLegacy:
@@ -118,7 +118,6 @@ begin
         btnAddAttribute.Visible := False;
         btnAttrsHelp.Visible := False;
         edtAttrib.Visible := False;
-        edtAttrib.Text := gMarkDefaultWantedAttribute; // When we don't see it, we set what we wanted to be our default
       end;
 
       if IsMaskSearchTemplate(sValue) then

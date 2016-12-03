@@ -5678,26 +5678,10 @@ msgstr "Εκτέλεση με τερματικό και παραμονή ανο�
 msgid "Extended options items:"
 msgstr "Αντικείμενα Εκτεταμένων Ρυθμίσεων:"
 
-#: tfrmoptionsfileoperations.btnaddattribute.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileoperations.btnaddattribute.caption"
-msgid "&Add"
-msgstr "Προσθήκη"
-
-#: tfrmoptionsfileoperations.btnattrshelp.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileoperations.btnattrshelp.caption"
-msgid "&Help"
-msgstr "Βοήθεια"
-
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.BVLCONFIRMATIONS.CAPTION"
 msgid "Show confirmation window for:"
 msgstr "Εμφάνιση παραθύρου επιβεβαίωσης για:"
-
-#: tfrmoptionsfileoperations.bvlmarkingfiles.caption
-msgid "Marking/Unmarking files:"
-msgstr ""
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
@@ -5740,16 +5724,6 @@ msgstr "Εμφάνιση καρτέλας επιλογής πάνελ στο δ�
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Παράβλεψη των λαθών εργασιών αρχείων και καταγραφή τους στο παράθυρο καταγραφής"
 
-#: tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption"
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr "Φίλτρο σε στυλ Windows όταν σημειώνονται αρχεία (\"*.*\" επίσης επιλέγει αρχεία χωρίς επέκταση, κ.λ.π.)"
-
-#: tfrmoptionsfileoperations.chkmarkmaskshowattribute.caption
-msgid "Show attribute specification in mask input dialog each time"
-msgstr ""
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Εκτέλεση λειτουργιών"
@@ -5757,10 +5731,6 @@ msgstr "Εκτέλεση λειτουργιών"
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
 msgstr "Περιβάλλον Χρήστη"
-
-#: tfrmoptionsfileoperations.lbattributemask.caption
-msgid "Attribute mask value to use:"
-msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "&Buffer size for file operations (in KB):"
@@ -5966,6 +5936,18 @@ msgstr "Χρήση απεικόνισης στη μνήμη για αναζήτ�
 msgid "&Use stream for search text in files"
 msgstr "Χρήση stream για αναζήτηση κειμένου στα αρχεία"
 
+#: tfrmoptionsfilesviews.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesviews.btnaddattribute.caption"
+msgid "&Add"
+msgstr "Προσθήκη"
+
+#: tfrmoptionsfilesviews.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesviews.btnattrshelp.caption"
+msgid "&Help"
+msgstr "Βοήθεια"
+
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
 msgstr "Ενεργοποίηση αλλαγής στο &γονικό φάκελο όταν γίνεται διπλό κλικ πάνω σε ένα κενό τμήμα της προβολής αρχείου"
@@ -6005,13 +5987,32 @@ msgstr "Εμφάνιση αρχείων συστήματος και κρυφών
 msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "Όταν επιλέγονται αρχεία με το <SPACEBAR>, μετακίνηση κάτω στο επόμενο αρχείο (όπως με το <INSERT>)"
 
+#: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr "Φίλτρο σε στυλ Windows όταν σημειώνονται αρχεία (\"*.*\" επίσης επιλέγει αρχεία χωρίς επέκταση, κ.λ.π.)"
+
+#: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
+msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
+msgid "Use an independant attribute filter in mask input dialog each time"
+msgstr ""
+
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
 msgstr "Μορφοποίηση"
 
+#: tfrmoptionsfilesviews.gbmarking.caption
+msgid "Marking/Unmarking entries"
+msgstr ""
+
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
 msgstr "Ταξινόμηση"
+
+#: tfrmoptionsfilesviews.lbattributemask.caption
+msgctxt "tfrmoptionsfilesviews.lbattributemask.caption"
+msgid "Default attribute mask value to use:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"
