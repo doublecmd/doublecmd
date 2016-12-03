@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.7.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
@@ -1453,18 +1453,16 @@ msgstr "속성"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
-msgid "Cancel"
-msgstr "실행취소"
+msgid "C&ancel"
+msgstr "&취소"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr ""
+msgstr "&닫기"
 
 #: tfrmfinddlg.actclose.caption
-#, fuzzy
-#| msgid "actClose"
 msgctxt "tfrmfinddlg.actclose.caption"
-msgid "Close"
+msgid "&Close"
 msgstr "실행닫기"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1473,17 +1471,13 @@ msgid "Configuration of hot keys"
 msgstr ""
 
 #: tfrmfinddlg.actedit.caption
-#, fuzzy
-#| msgid "actEdit"
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
-msgstr "실행편집"
+msgid "&Edit"
+msgstr "&편집"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-#, fuzzy
-#| msgid "actFeedToListbox"
-msgid "Feed to listbox"
-msgstr "목록상자에 실행"
+msgid "Feed to &listbox"
+msgstr "목록상자에 적용"
 
 #: tfrmfinddlg.actfreefrommem.caption
 msgid "Cancel search, close and free from memory"
@@ -1494,10 +1488,8 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-#, fuzzy
-#| msgid "actGoToFile"
-msgid "Go to file"
-msgstr "파일로 가기 실행"
+msgid "&Go to file"
+msgstr "파일로 &가기"
 
 #: tfrmfinddlg.actintellifocus.caption
 #, fuzzy
@@ -1507,16 +1499,12 @@ msgid "Find Data"
 msgstr "actIntelliFocus"
 
 #: tfrmfinddlg.actlastsearch.caption
-#, fuzzy
-#| msgid "actLastSearch"
-msgid "Last search"
-msgstr "마지막 검색 실행"
+msgid "&Last search"
+msgstr "&마지막 검색"
 
 #: tfrmfinddlg.actnewsearch.caption
-#, fuzzy
-#| msgid "actNewSearch"
-msgid "New search"
-msgstr "새 검색 실행"
+msgid "&New search"
+msgstr "&새 검색"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
@@ -1553,18 +1541,14 @@ msgid "Go to page \"Standard\""
 msgstr "actPageStandard"
 
 #: tfrmfinddlg.actstart.caption
-#, fuzzy
-#| msgid "actStart"
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
-msgstr "actStart"
+msgid "&Start"
+msgstr "&실행"
 
 #: tfrmfinddlg.actview.caption
-#, fuzzy
-#| msgid "actView"
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
-msgstr "actView"
+msgid "&View"
+msgstr "&보기"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"

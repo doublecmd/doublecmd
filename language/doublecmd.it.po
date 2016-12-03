@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
@@ -1465,19 +1465,17 @@ msgid "Properties"
 msgstr "Proprietà"
 
 #: tfrmfinddlg.actcancel.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.actcancel.caption"
-msgid "Cancel"
-msgstr "Annulla"
+msgid "C&ancel"
+msgstr "A&nnulla"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr ""
+msgstr "&Chiudi"
 
 #: tfrmfinddlg.actclose.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.actclose.caption"
-msgid "Close"
+msgid "&Close"
 msgstr "Chiudi"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1487,12 +1485,12 @@ msgstr ""
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
-msgstr "Modifica"
+msgid "&Edit"
+msgstr "&Modifica"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "Feed to listbox"
-msgstr ""
+msgid "Feed to &listbox"
+msgstr "Feed to &listbox"
 
 #: tfrmfinddlg.actfreefrommem.caption
 msgid "Cancel search, close and free from memory"
@@ -1503,8 +1501,8 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "Go to file"
-msgstr ""
+msgid "&Go to file"
+msgstr "&Vai al file"
 
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
@@ -1512,12 +1510,12 @@ msgid "Find Data"
 msgstr "Cerca Data"
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "Last search"
-msgstr ""
+msgid "&Last search"
+msgstr "&Ultima ricerca"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "New search"
-msgstr ""
+msgid "&New search"
+msgstr "&Nuova ricerca"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
@@ -1545,13 +1543,13 @@ msgstr ""
 
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
-msgstr "Avvio"
+msgid "&Start"
+msgstr "&Avvia"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
-msgstr "Visualizza"
+msgid "&View"
+msgstr "&Mostra"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"

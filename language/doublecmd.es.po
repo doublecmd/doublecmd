@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
@@ -1417,16 +1417,16 @@ msgstr "Propiedades"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Cancelar"
+msgid "C&ancel"
+msgstr "C&ancelar"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr "Cancelar búsqueda y cerrar ventana"
+msgstr "&Cerrar"
 
 #: tfrmfinddlg.actclose.caption
 msgctxt "TFRMFINDDLG.ACTCLOSE.CAPTION"
-msgid "Close"
+msgid "&Close"
 msgstr "Cerrar"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1436,11 +1436,11 @@ msgstr ""
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
-msgstr "Editar"
+msgid "&Edit"
+msgstr "&Editar"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "Feed to listbox"
+msgid "Feed to &listbox"
 msgstr "En&listar"
 
 #: tfrmfinddlg.actfreefrommem.caption
@@ -1452,8 +1452,8 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "Go to file"
-msgstr "Ir al archivo"
+msgid "&Go to file"
+msgstr "&Ir al archivo"
 
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "TFRMFINDDLG.ACTINTELLIFOCUS.CAPTION"
@@ -1461,11 +1461,11 @@ msgid "Find Data"
 msgstr "Buscar datos"
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "Last search"
+msgid "&Last search"
 msgstr "Ú&ltima búsqueda"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "New search"
+msgid "&New search"
 msgstr "&Búsqueda nueva"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
@@ -1494,13 +1494,13 @@ msgstr "Ir a la página «General»"
 
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
-msgstr "Comenzar"
+msgid "&Start"
+msgstr "Comen&zar"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
-msgstr "Ver"
+msgid "&View"
+msgstr "&Ver"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"

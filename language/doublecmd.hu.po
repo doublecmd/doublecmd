@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha r7226\n"
 "Report-Msgid-Bugs-To: \n"
@@ -1451,16 +1451,16 @@ msgstr "Tulajdonságok"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
-msgid "Cancel"
-msgstr "Mégsem"
+msgid "C&ancel"
+msgstr "&Mégsem"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr "Keresés félbeszakítása és az ablak bezárása"
+msgstr "&Bezárás"
 
 #: tfrmfinddlg.actclose.caption
 msgctxt "tfrmfinddlg.actclose.caption"
-msgid "Close"
+msgid "&Close"
 msgstr "Bezárás"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1470,12 +1470,12 @@ msgstr ""
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
-msgstr "Szerkesztés"
+msgid "&Edit"
+msgstr "&Szerkesztés"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "Feed to listbox"
-msgstr ""
+msgid "Feed to &listbox"
+msgstr "&Ablakba"
 
 #: tfrmfinddlg.actfreefrommem.caption
 msgid "Cancel search, close and free from memory"
@@ -1486,8 +1486,8 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "Go to file"
-msgstr "Ugrás fájlhoz"
+msgid "&Go to file"
+msgstr "&Ugrás fájlhoz"
 
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
@@ -1495,12 +1495,12 @@ msgid "Find Data"
 msgstr "Adat keresése"
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "Last search"
-msgstr "Utolsó keresés"
+msgid "&Last search"
+msgstr "&Utolsó keresés"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "New search"
-msgstr "Új keresés"
+msgid "&New search"
+msgstr "Ú&j keresés"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
@@ -1528,13 +1528,13 @@ msgstr ""
 
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
-msgstr "Indítás"
+msgid "&Start"
+msgstr "&Indítás"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
-msgstr "Nézet"
+msgid "&View"
+msgstr "&Nézőke"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"

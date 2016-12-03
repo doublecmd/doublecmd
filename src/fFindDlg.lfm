@@ -1407,20 +1407,20 @@ object frmFindDlg: TfrmFindDlg
       OnExecute = actExecute
     end
     object actStart: TAction
-      Caption = 'Start'
+      Caption = '&Start'
       OnExecute = actExecute
     end
     object actCancel: TAction
-      Caption = 'Cancel'
+      Caption = 'C&ancel'
       Enabled = False
       OnExecute = actExecute
     end
     object actClose: TAction
-      Caption = 'Close'
+      Caption = '&Close'
       OnExecute = actExecute
     end
     object actNewSearch: TAction
-      Caption = 'New search'
+      Caption = '&New search'
       OnExecute = actExecute
     end
     object actNewSearchClearFilters: TAction
@@ -1428,23 +1428,23 @@ object frmFindDlg: TfrmFindDlg
       OnExecute = actExecute
     end
     object actLastSearch: TAction
-      Caption = 'Last search'
+      Caption = '&Last search'
       OnExecute = actExecute
     end
     object actView: TAction
-      Caption = 'View'
+      Caption = '&View'
       OnExecute = actExecute
     end
     object actEdit: TAction
-      Caption = 'Edit'
+      Caption = '&Edit'
       OnExecute = actExecute
     end
     object actGoToFile: TAction
-      Caption = 'Go to file'
+      Caption = '&Go to file'
       OnExecute = actExecute
     end
     object actFeedToListbox: TAction
-      Caption = 'Feed to listbox'
+      Caption = 'Feed to &listbox'
       OnExecute = actExecute
     end
     object actPageStandard: TAction

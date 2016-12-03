@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
@@ -1454,16 +1454,16 @@ msgstr "Ιδιότητες"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
-msgid "Cancel"
+msgid "C&ancel"
 msgstr "Ακύρωση"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr "Ακύρωση της αναζήτησης και κλείσιμο παραθύρου"
+msgstr "Κλείσιμο"
 
 #: tfrmfinddlg.actclose.caption
 msgctxt "tfrmfinddlg.actclose.caption"
-msgid "Close"
+msgid "&Close"
 msgstr "Κλείσιμο"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1473,11 +1473,11 @@ msgstr ""
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
-msgstr "Ρύθμιση"
+msgid "&Edit"
+msgstr "Επεξεργασία"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "Feed to listbox"
+msgid "Feed to &listbox"
 msgstr "Τροφοδοσία στο listbox"
 
 #: tfrmfinddlg.actfreefrommem.caption
@@ -1489,8 +1489,8 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "Go to file"
-msgstr "Μετάβαση Στο Αρχείο"
+msgid "&Go to file"
+msgstr "&Μετάβαση στο αρχείο"
 
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
@@ -1498,11 +1498,11 @@ msgid "Find Data"
 msgstr "Εύρεση Δεδομένων"
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "Last search"
+msgid "&Last search"
 msgstr "Τελευταία Αναζήτηση"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "New search"
+msgid "&New search"
 msgstr "Νέα Αναζήτηση"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
@@ -1531,12 +1531,12 @@ msgstr "Μετάβαση στη σελίδα \"Προκαθορισμένα\""
 
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
+msgid "&Start"
 msgstr "Εκκίνηση"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
+msgid "&View"
 msgstr "Προβολή"
 
 #: tfrmfinddlg.btnaddattribute.caption

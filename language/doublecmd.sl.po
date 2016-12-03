@@ -1,4 +1,4 @@
-# Slovenian translations for double-commander.
+﻿# Slovenian translations for double-commander.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # This file is distributed under the same license as the double-commander package.
 #
@@ -1425,16 +1425,16 @@ msgstr "Lastnosti"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Prekliči"
+msgid "C&ancel"
+msgstr "&Prekliči"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr "Prekliči iskanje in zapri okno"
+msgstr "&Zapri"
 
 #: tfrmfinddlg.actclose.caption
 msgctxt "TFRMFINDDLG.ACTCLOSE.CAPTION"
-msgid "Close"
+msgid "&Close"
 msgstr "Zapri"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1444,12 +1444,12 @@ msgstr ""
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
-msgstr "Uredi"
+msgid "&Edit"
+msgstr "&Uredi"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "Feed to listbox"
-msgstr "Izpiši v seznam"
+msgid "Feed to &listbox"
+msgstr "Izpiši v &seznam"
 
 #: tfrmfinddlg.actfreefrommem.caption
 msgid "Cancel search, close and free from memory"
@@ -1460,8 +1460,8 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "Go to file"
-msgstr "Skoči na datoteko"
+msgid "&Go to file"
+msgstr "&Skoči na datoteko"
 
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "TFRMFINDDLG.ACTINTELLIFOCUS.CAPTION"
@@ -1469,12 +1469,12 @@ msgid "Find Data"
 msgstr "Najdi podatke"
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "Last search"
-msgstr "Zadnje iskanje"
+msgid "&Last search"
+msgstr "&Zadnje iskanje"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "New search"
-msgstr "Novo iskanje"
+msgid "&New search"
+msgstr "&Novo iskanje"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
@@ -1502,13 +1502,13 @@ msgstr "Skoči na stran »Osnovno«"
 
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
-msgstr "Začetek"
+msgid "&Start"
+msgstr "&Začni"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
-msgstr "Poglej"
+msgid "&View"
+msgstr "&Pogled"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"

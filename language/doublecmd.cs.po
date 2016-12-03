@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.7.0 beta\n"
 "Report-Msgid-Bugs-To: \n"
@@ -1416,16 +1416,16 @@ msgstr "Vlastnosti"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
-msgid "Cancel"
-msgstr "Zrušit"
+msgid "C&ancel"
+msgstr "Z&rušit"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr "Zrušit hledání a zavřít okno"
+msgstr "&Zavřít"
 
 #: tfrmfinddlg.actclose.caption
 msgctxt "tfrmfinddlg.actclose.caption"
-msgid "Close"
+msgid "&Close"
 msgstr "Zavřít"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1435,12 +1435,12 @@ msgstr ""
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
-msgstr "Upravit"
+msgid "&Edit"
+msgstr "&Upravit"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "Feed to listbox"
-msgstr "Naplnit seznam"
+msgid "Feed to &listbox"
+msgstr "Výsledek do &okna"
 
 #: tfrmfinddlg.actfreefrommem.caption
 msgid "Cancel search, close and free from memory"
@@ -1451,8 +1451,8 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "Go to file"
-msgstr "Jít k souboru"
+msgid "&Go to file"
+msgstr "&Jdi k souboru"
 
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
@@ -1460,12 +1460,12 @@ msgid "Find Data"
 msgstr "Najít data"
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "Last search"
-msgstr "Poslední hledání"
+msgid "&Last search"
+msgstr "&Poslední hledání"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "New search"
-msgstr "Nové hledání"
+msgid "&New search"
+msgstr "&Nové hledání"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
@@ -1493,13 +1493,13 @@ msgstr "Jít na stránku \"Standardní\""
 
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
-msgstr "Start"
+msgid "&Start"
+msgstr "&Start"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
-msgstr "Pohled"
+msgid "&View"
+msgstr "&Zobrazit"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"

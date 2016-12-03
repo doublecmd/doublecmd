@@ -1,4 +1,4 @@
-# 2016-02-12:DB-Dans ce fichier le terme "Dossier" a été préféré à "Répertoire".
+﻿# 2016-02-12:DB-Dans ce fichier le terme "Dossier" a été préféré à "Répertoire".
 # Par soucis d'être constant, il n'y a pas d'exception, c'est toujours "Dossier" qui est utilisé.
 # C'est comme ça pour reprendre la même nomenclature que Windows et Apple.
 # Il est vrai que TC utilise le terme "Répertoire" mais on prend le partie de Windows qui lui parle de "dossier".
@@ -1474,16 +1474,16 @@ msgstr "Propriétés"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
-msgid "Cancel"
+msgid "C&ancel"
 msgstr "Annuler"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr "Annule la recherche et ferme la fenêtre"
+msgstr "&Fermer"
 
 #: tfrmfinddlg.actclose.caption
 msgctxt "tfrmfinddlg.actclose.caption"
-msgid "Close"
+msgid "&Close"
 msgstr "Fermer"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1493,12 +1493,12 @@ msgstr ""
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
+msgid "&Edit"
 msgstr "Éditer"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "Feed to listbox"
-msgstr "Envoyer vers le panneau actif"
+msgid "Feed to &listbox"
+msgstr "Envoyer vers un &onglet"
 
 #: tfrmfinddlg.actfreefrommem.caption
 msgid "Cancel search, close and free from memory"
@@ -1509,8 +1509,8 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "Go to file"
-msgstr "Aller au fichier"
+msgid "&Go to file"
+msgstr "&Aller au fichier"
 
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
@@ -1518,12 +1518,12 @@ msgid "Find Data"
 msgstr "Cherche donnée"
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "Last search"
+msgid "&Last search"
 msgstr "Dernière recherche"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "New search"
-msgstr "Prochaine recherche"
+msgid "&New search"
+msgstr "&Nouvelle recherche"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
@@ -1551,13 +1551,13 @@ msgstr "Aller à la page \"Normal\""
 
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
-msgstr "Débuter"
+msgid "&Start"
+msgstr "Dé&marrer"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
-msgstr "Vue"
+msgid "&View"
+msgstr "&Vue"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
