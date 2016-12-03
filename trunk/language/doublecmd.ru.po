@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "POT-Creation-Date: \n"
@@ -1451,16 +1451,16 @@ msgstr "Свойства"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
-msgid "Cancel"
-msgstr "Отмена"
+msgid "C&ancel"
+msgstr "&Отмена"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr "Отменить поиск и зыкрыть окно поиска"
+msgstr "&Закрыть"
 
 #: tfrmfinddlg.actclose.caption
 msgctxt "tfrmfinddlg.actclose.caption"
-msgid "Close"
+msgid "&Close"
 msgstr "Закрыть"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1470,12 +1470,12 @@ msgstr ""
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
-msgstr "Редактровать"
+msgid "&Edit"
+msgstr "Пр&авка"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "Feed to listbox"
-msgstr "Файлы на панель"
+msgid "Feed to &listbox"
+msgstr "Фай&лы на панель"
 
 #: tfrmfinddlg.actfreefrommem.caption
 msgid "Cancel search, close and free from memory"
@@ -1486,8 +1486,8 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "Go to file"
-msgstr "Перейти к файлу"
+msgid "&Go to file"
+msgstr "Пере&йти к файлу"
 
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
@@ -1495,12 +1495,12 @@ msgid "Find Data"
 msgstr "С текстом"
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "Last search"
-msgstr "Последний поиск"
+msgid "&Last search"
+msgstr "&Предыдущий поиск"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "New search"
-msgstr "Новый поиск"
+msgid "&New search"
+msgstr "Н&овый поиск"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
@@ -1528,13 +1528,13 @@ msgstr "Перейти к вкладке \"Стандартный\""
 
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
-msgstr "Старт"
+msgid "&Start"
+msgstr "&Старт"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
-msgstr "Просмотр"
+msgid "&View"
+msgstr "П&росмотр"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"

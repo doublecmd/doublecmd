@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
@@ -1417,16 +1417,16 @@ msgstr "Eigenschappen"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Annuleren"
+msgid "C&ancel"
+msgstr "&Annuleren"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr "Breek doorzoeking af en sluit venster"
+msgstr "&Sluiten"
 
 #: tfrmfinddlg.actclose.caption
 msgctxt "TFRMFINDDLG.ACTCLOSE.CAPTION"
-msgid "Close"
+msgid "&Close"
 msgstr "Sluiten"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1436,11 +1436,11 @@ msgstr ""
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
-msgstr "Bewerken"
+msgid "&Edit"
+msgstr "&Bewerken"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "Feed to listbox"
+msgid "Feed to &listbox"
 msgstr "Voeg toe aan &lijstvenster"
 
 #: tfrmfinddlg.actfreefrommem.caption
@@ -1452,7 +1452,7 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "Go to file"
+msgid "&Go to file"
 msgstr "&Ga naar bestand"
 
 #: tfrmfinddlg.actintellifocus.caption
@@ -1461,12 +1461,12 @@ msgid "Find Data"
 msgstr "Zoek gegevens"
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "Last search"
-msgstr "Laatste zoekopdracht"
+msgid "&Last search"
+msgstr "&Laatste zoekopdracht"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "New search"
-msgstr "Nieuwe zoekopdracht"
+msgid "&New search"
+msgstr "&Nieuwe zoekopdracht"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
@@ -1494,13 +1494,13 @@ msgstr "Ga naar pagina 'Standaard'"
 
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
-msgstr "Beginnen"
+msgid "&Start"
+msgstr "&Starten"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
-msgstr "Tonen"
+msgid "&View"
+msgstr "&Tonen"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"

@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
@@ -1451,16 +1451,16 @@ msgstr "属性"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
-msgid "Cancel"
-msgstr "キャンセル"
+msgid "C&ancel"
+msgstr "キャンセル(&a)"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr "検索をキャンセルしてウィンドウを閉じる"
+msgstr "閉じる(&C)"
 
 #: tfrmfinddlg.actclose.caption
 msgctxt "tfrmfinddlg.actclose.caption"
-msgid "Close"
+msgid "&Close"
 msgstr "閉じる"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1470,11 +1470,11 @@ msgstr ""
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
-msgstr "編集"
+msgid "&Edit"
+msgstr "編集(&E)"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "Feed to listbox"
+msgid "Feed to &listbox"
 msgstr "リストボックスへ送付(&l)"
 
 #: tfrmfinddlg.actfreefrommem.caption
@@ -1486,8 +1486,8 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "Go to file"
-msgstr "ファイルに移動"
+msgid "&Go to file"
+msgstr "ファイルに移動(&G)"
 
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
@@ -1495,12 +1495,12 @@ msgid "Find Data"
 msgstr "データを検索"
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "Last search"
-msgstr "最後の検索"
+msgid "&Last search"
+msgstr "最後の検索(&L)"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "New search"
-msgstr "新しい検索"
+msgid "&New search"
+msgstr "新しい検索(&N)"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
@@ -1528,13 +1528,13 @@ msgstr "「標準」のページへ"
 
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
-msgstr "開始"
+msgid "&Start"
+msgstr "開始(&S)"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
-msgstr "表示"
+msgid "&View"
+msgstr "表示(&V)"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"

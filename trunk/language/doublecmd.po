@@ -1414,7 +1414,7 @@ msgstr ""
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "TFRMFINDDLG.ACTCANCEL.CAPTION"
-msgid "Cancel"
+msgid "C&ancel"
 msgstr ""
 
 #: tfrmfinddlg.actcancelclose.caption
@@ -1423,7 +1423,7 @@ msgstr ""
 
 #: tfrmfinddlg.actclose.caption
 msgctxt "TFRMFINDDLG.ACTCLOSE.CAPTION"
-msgid "Close"
+msgid "&Close"
 msgstr ""
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1433,11 +1433,11 @@ msgstr ""
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
+msgid "&Edit"
 msgstr ""
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "Feed to listbox"
+msgid "Feed to &listbox"
 msgstr ""
 
 #: tfrmfinddlg.actfreefrommem.caption
@@ -1449,7 +1449,7 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "Go to file"
+msgid "&Go to file"
 msgstr ""
 
 #: tfrmfinddlg.actintellifocus.caption
@@ -1458,11 +1458,11 @@ msgid "Find Data"
 msgstr ""
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "Last search"
+msgid "&Last search"
 msgstr ""
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "New search"
+msgid "&New search"
 msgstr ""
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
@@ -1491,12 +1491,12 @@ msgstr ""
 
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
+msgid "&Start"
 msgstr ""
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
+msgid "&View"
 msgstr ""
 
 #: tfrmfinddlg.btnaddattribute.caption

@@ -1,4 +1,4 @@
-# Maximilian Machedon <maximilian.machedon@gmail.com>, 2015.
+﻿# Maximilian Machedon <maximilian.machedon@gmail.com>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.7.0\n"
@@ -1465,19 +1465,17 @@ msgid "Properties"
 msgstr "Proprietăți"
 
 #: tfrmfinddlg.actcancel.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.actcancel.caption"
-msgid "Cancel"
-msgstr "Renunță"
+msgid "C&ancel"
+msgstr "Revoc&are"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr ""
+msgstr "În&chide"
 
 #: tfrmfinddlg.actclose.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.actclose.caption"
-msgid "Close"
+msgid "&Close"
 msgstr "Închide"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
@@ -1487,12 +1485,12 @@ msgstr ""
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
-msgid "Edit"
-msgstr "Editează"
+msgid "&Edit"
+msgstr "&Editează"
 
 #: tfrmfinddlg.actfeedtolistbox.caption
-msgid "Feed to listbox"
-msgstr ""
+msgid "Feed to &listbox"
+msgstr "Aprovizionează caseta cu &liste"
 
 #: tfrmfinddlg.actfreefrommem.caption
 msgid "Cancel search, close and free from memory"
@@ -1503,8 +1501,8 @@ msgid "For all other \"Find files\", cancel, close and free from memory"
 msgstr ""
 
 #: tfrmfinddlg.actgotofile.caption
-msgid "Go to file"
-msgstr ""
+msgid "&Go to file"
+msgstr "Du-te la fișier (&g)"
 
 #: tfrmfinddlg.actintellifocus.caption
 msgctxt "tfrmfinddlg.actintellifocus.caption"
@@ -1512,12 +1510,12 @@ msgid "Find Data"
 msgstr "Găsește Date"
 
 #: tfrmfinddlg.actlastsearch.caption
-msgid "Last search"
-msgstr ""
+msgid "&Last search"
+msgstr "U&ltima căutare"
 
 #: tfrmfinddlg.actnewsearch.caption
-msgid "New search"
-msgstr ""
+msgid "&New search"
+msgstr "Căutare &nouă"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
@@ -1545,13 +1543,13 @@ msgstr ""
 
 #: tfrmfinddlg.actstart.caption
 msgctxt "tfrmfinddlg.actstart.caption"
-msgid "Start"
-msgstr "Pornește"
+msgid "&Start"
+msgstr "Pornește (&s)"
 
 #: tfrmfinddlg.actview.caption
 msgctxt "tfrmfinddlg.actview.caption"
-msgid "View"
-msgstr "Vizualizează"
+msgid "&View"
+msgstr "&Vizualizare"
 
 #: tfrmfinddlg.btnaddattribute.caption
 msgctxt "tfrmfinddlg.btnaddattribute.caption"
