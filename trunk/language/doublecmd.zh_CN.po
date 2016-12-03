@@ -6107,25 +6107,9 @@ msgstr ""
 msgid "Extended options items:"
 msgstr ""
 
-#: tfrmoptionsfileoperations.btnaddattribute.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileoperations.btnaddattribute.caption"
-msgid "&Add"
-msgstr "添加"
-
-#: tfrmoptionsfileoperations.btnattrshelp.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileoperations.btnattrshelp.caption"
-msgid "&Help"
-msgstr "帮助(&H)"
-
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
 msgid "Show confirmation window for:"
-msgstr ""
-
-#: tfrmoptionsfileoperations.bvlmarkingfiles.caption
-msgid "Marking/Unmarking files:"
 msgstr ""
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
@@ -6186,25 +6170,12 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "忽略文件操作错误，并记录到日志窗口"
 
-#: tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption
-msgctxt "tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption"
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
-
-#: tfrmoptionsfileoperations.chkmarkmaskshowattribute.caption
-msgid "Show attribute specification in mask input dialog each time"
-msgstr ""
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr ""
 
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
-msgstr ""
-
-#: tfrmoptionsfileoperations.lbattributemask.caption
-msgid "Attribute mask value to use:"
 msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
@@ -6436,6 +6407,18 @@ msgstr "使用内存映像搜索文本"
 msgid "&Use stream for search text in files"
 msgstr "使用流搜索文本"
 
+#: tfrmoptionsfilesviews.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesviews.btnaddattribute.caption"
+msgid "&Add"
+msgstr "添加"
+
+#: tfrmoptionsfilesviews.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesviews.btnattrshelp.caption"
+msgid "&Help"
+msgstr "帮助(&H)"
+
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
 msgstr ""
@@ -6483,13 +6466,32 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
 msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "当用空格键 <SPACEBAR>选文件时, 自动移动到下一文件 (相当于执行插入键<INSERT>)"
 
+#: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
+
+#: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
+msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
+msgid "Use an independant attribute filter in mask input dialog each time"
+msgstr ""
+
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
+msgstr ""
+
+#: tfrmoptionsfilesviews.gbmarking.caption
+msgid "Marking/Unmarking entries"
 msgstr ""
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
 msgid "Sorting"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lbattributemask.caption
+msgctxt "tfrmoptionsfilesviews.lbattributemask.caption"
+msgid "Default attribute mask value to use:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption

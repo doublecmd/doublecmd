@@ -5694,26 +5694,10 @@ msgstr "명령 프롬프트에서 실행하고 창 열어두기"
 msgid "Extended options items:"
 msgstr "목록 확장 옵션:"
 
-#: tfrmoptionsfileoperations.btnaddattribute.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileoperations.btnaddattribute.caption"
-msgid "&Add"
-msgstr "&추가"
-
-#: tfrmoptionsfileoperations.btnattrshelp.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileoperations.btnattrshelp.caption"
-msgid "&Help"
-msgstr "&도움말"
-
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.BVLCONFIRMATIONS.CAPTION"
 msgid "Show confirmation window for:"
 msgstr "확인창 보이기:"
-
-#: tfrmoptionsfileoperations.bvlmarkingfiles.caption
-msgid "Marking/Unmarking files:"
-msgstr ""
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
@@ -5756,15 +5740,6 @@ msgstr "복사/이동 대화상자에 선택된 탭 표시"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "파일 작업 에러 건너뛰고 로그 파일에 저장하기"
 
-#: tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption
-msgctxt "tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption"
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
-
-#: tfrmoptionsfileoperations.chkmarkmaskshowattribute.caption
-msgid "Show attribute specification in mask input dialog each time"
-msgstr ""
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "작업 실행"
@@ -5772,10 +5747,6 @@ msgstr "작업 실행"
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
 msgstr "사용자 인터페이스"
-
-#: tfrmoptionsfileoperations.lbattributemask.caption
-msgid "Attribute mask value to use:"
-msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "&Buffer size for file operations (in KB):"
@@ -5981,6 +5952,18 @@ msgstr "파일 텍스트 검색을 위해 메모리 매핑 사용"
 msgid "&Use stream for search text in files"
 msgstr "파일 텍스트 검색을 위해 스트림(stream) 사용"
 
+#: tfrmoptionsfilesviews.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesviews.btnaddattribute.caption"
+msgid "&Add"
+msgstr "&추가"
+
+#: tfrmoptionsfilesviews.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesviews.btnattrshelp.caption"
+msgid "&Help"
+msgstr "&도움말"
+
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
 msgstr ""
@@ -6020,13 +6003,32 @@ msgstr "시스템, 숨김파일 표시"
 msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "<스페이스바>로 선택시 (Insert 키 사용처럼) 다음 파일 아래로 이동"
 
+#: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
+
+#: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
+msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
+msgid "Use an independant attribute filter in mask input dialog each time"
+msgstr ""
+
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
 msgstr "형식화(Formatting)"
 
+#: tfrmoptionsfilesviews.gbmarking.caption
+msgid "Marking/Unmarking entries"
+msgstr ""
+
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
 msgstr "정렬"
+
+#: tfrmoptionsfilesviews.lbattributemask.caption
+msgctxt "tfrmoptionsfilesviews.lbattributemask.caption"
+msgid "Default attribute mask value to use:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"

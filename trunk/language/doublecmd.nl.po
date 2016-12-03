@@ -5541,25 +5541,9 @@ msgstr "Voer uit via terminal en blijf geopend"
 msgid "Extended options items:"
 msgstr "Onderdelen voor uitgebreide opties:"
 
-#: tfrmoptionsfileoperations.btnaddattribute.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileoperations.btnaddattribute.caption"
-msgid "&Add"
-msgstr "Toe&voegen"
-
-#: tfrmoptionsfileoperations.btnattrshelp.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileoperations.btnattrshelp.caption"
-msgid "&Help"
-msgstr "&Hulp"
-
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgid "Show confirmation window for:"
 msgstr "Toon bevestigingsvenster voor:"
-
-#: tfrmoptionsfileoperations.bvlmarkingfiles.caption
-msgid "Marking/Unmarking files:"
-msgstr ""
 
 #: tfrmoptionsfileoperations.cbcopyconfirmation.caption
 msgid "Cop&y operation"
@@ -5601,16 +5585,6 @@ msgstr "Toon tabbladselectiepaneel in kopieer/verplaats-dialoogvenster"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Sla fouten bij bestandbewerkingen over en schrijf deze in het logboekvenster"
 
-#: tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption
-#, fuzzy
-msgctxt "tfrmoptionsfileoperations.chkmarkmaskfilterwindows.caption"
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr "Windowsachtig filter bij markeren van bestanden ('.' selecteert ook bestanden zonder extensie, enz.)"
-
-#: tfrmoptionsfileoperations.chkmarkmaskshowattribute.caption
-msgid "Show attribute specification in mask input dialog each time"
-msgstr ""
-
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Uitvoeren van bewerkingen"
@@ -5618,10 +5592,6 @@ msgstr "Uitvoeren van bewerkingen"
 #: tfrmoptionsfileoperations.gbuserinterface.caption
 msgid "User interface"
 msgstr "Gebruikersschil"
-
-#: tfrmoptionsfileoperations.lbattributemask.caption
-msgid "Attribute mask value to use:"
-msgstr ""
 
 #: tfrmoptionsfileoperations.lblbuffersize.caption
 msgid "&Buffer size for file operations (in KB):"
@@ -5820,6 +5790,18 @@ msgstr "Gebruik geheugenmapping voor zoeken tekst in bestanden"
 msgid "&Use stream for search text in files"
 msgstr "Gebruik stream voor zoeken tekst in bestanden"
 
+#: tfrmoptionsfilesviews.btnaddattribute.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesviews.btnaddattribute.caption"
+msgid "&Add"
+msgstr "&Toevoegen"
+
+#: tfrmoptionsfilesviews.btnattrshelp.caption
+#, fuzzy
+msgctxt "tfrmoptionsfilesviews.btnattrshelp.caption"
+msgid "&Help"
+msgstr "&Hulp"
+
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
 msgstr ""
@@ -5856,13 +5838,32 @@ msgstr "Toon systeem- en verborgen bestanden"
 msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "Bij selecteren bestanden met <SPATIEBALK>, ga naar beneden naar volgend bestand (zoals bij <INSERT>)"
 
+#: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr "Windowsachtig filter bij markeren van bestanden ('.' selecteert ook bestanden zonder extensie, enz.)"
+
+#: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
+msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
+msgid "Use an independant attribute filter in mask input dialog each time"
+msgstr ""
+
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
 msgstr "Formatteren"
 
+#: tfrmoptionsfilesviews.gbmarking.caption
+msgid "Marking/Unmarking entries"
+msgstr ""
+
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
 msgstr "Rangschikken"
+
+#: tfrmoptionsfilesviews.lbattributemask.caption
+msgctxt "tfrmoptionsfilesviews.lbattributemask.caption"
+msgid "Default attribute mask value to use:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"

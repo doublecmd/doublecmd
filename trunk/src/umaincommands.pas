@@ -97,6 +97,7 @@ type
    procedure DoShowFavoriteTabsOptions;
    procedure DoParseParametersForPossibleTreeViewMenu(const Params: array of string; gDefaultConfigWithCommand, gDefaultConfigWithDoubleClick:boolean; var bUseTreeViewMenu:boolean; var bUsePanel:boolean; var p: TPoint);
    procedure DoComputeSizeAndPosForWindowInMiddle(var iPosX:integer; var iPosY:integer; var iWidth:integer; var iHeight:integer);
+   procedure DoActualMarkApplyOnAll(const maoaDispatcher: TMarkApplyOnAllDispatcher; const Params: array of string);
    procedure DoActualMarkUnMark(const Params: array of string; bSelect: boolean);
    procedure DoActualAddToCommandLine(const Params: array of string; sAddedString:string; bAddSpaceAtTheEnd:boolean);
 
@@ -186,21 +187,21 @@ type
    procedure cm_ExtractFiles(const Params: array of string);
    procedure cm_QuickSearch(const Params: array of string);
    procedure cm_QuickFilter(const Params: array of string);
-   procedure cm_SrcOpenDrives(const Params: array of string);
-   procedure cm_LeftOpenDrives(const Params: array of string);
-   procedure cm_RightOpenDrives(const Params: array of string);
-   procedure cm_OpenBar(const Params: array of string);
+   procedure cm_SrcOpenDrives(const {%H-}Params: array of string);
+   procedure cm_LeftOpenDrives(const {%H-}Params: array of string);
+   procedure cm_RightOpenDrives(const {%H-}Params: array of string);
+   procedure cm_OpenBar(const {%H-}Params: array of string);
    procedure cm_ShowButtonMenu(const Params: array of string);
-   procedure cm_TransferLeft(const Params: array of string);
-   procedure cm_TransferRight(const Params: array of string);
-   procedure cm_GoToFirstFile(const Params: array of string);
-   procedure cm_GoToLastFile(const Params: array of string);
-   procedure cm_Minimize(const Params: array of string);
-   procedure cm_Wipe(const Params: array of string);
-   procedure cm_Exit(const Params: array of string);
-   procedure cm_NewTab(const Params: array of string);
-   procedure cm_RenameTab(const Params: array of string);
-   procedure cm_CloseTab(const Params: array of string);
+   procedure cm_TransferLeft(const {%H-}Params: array of string);
+   procedure cm_TransferRight(const {%H-}Params: array of string);
+   procedure cm_GoToFirstFile(const {%H-}Params: array of string);
+   procedure cm_GoToLastFile(const {%H-}Params: array of string);
+   procedure cm_Minimize(const {%H-}Params: array of string);
+   procedure cm_Wipe(const {%H-}Params: array of string);
+   procedure cm_Exit(const {%H-}Params: array of string);
+   procedure cm_NewTab(const {%H-}Params: array of string);
+   procedure cm_RenameTab(const {%H-}Params: array of string);
+   procedure cm_CloseTab(const {%H-}Params: array of string);
    procedure cm_CloseAllTabs(const Params: array of string);
    procedure cm_CloseDuplicateTabs(const Params: array of string);
    procedure cm_NextTab(const Params: array of string);
@@ -358,7 +359,7 @@ type
 
 implementation
 
-uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHashList,
+uses uFindFiles, Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHashList,
      dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, DCDateTimeUtils, KASToolBar, KASToolItems,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
@@ -2840,21 +2841,6 @@ end;
 
 //------------------------------------------------------
 
-procedure TMainCommands.cm_MarkInvert(const Params: array of string);
-begin
-  frmMain.ActiveFrame.InvertAll;
-end;
-
-procedure TMainCommands.cm_MarkMarkAll(const Params: array of string);
-begin
-  frmMain.ActiveFrame.MarkFiles(True);
-end;
-
-procedure TMainCommands.cm_MarkUnmarkAll(const Params: array of string);
-begin
-  frmMain.ActiveFrame.MarkFiles(False);
-end;
-
 { TMainCommands.DoActualMarkUnMark }
 procedure TMainCommands.DoActualMarkUnMark(const Params: array of string; bSelect: boolean);
 var
@@ -2863,13 +2849,14 @@ var
   sAttribute: string = '';
   bWantedCaseSensitive, bWantedIgnoreAccents, bWantedWindowsInterpretation: boolean;
   pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation: PBoolean;
-  psAttribute: pString;
+  psAttribute: pString = nil;
+  MarkSearchTemplateRec: TSearchTemplateRec;
+  MarkFileChecks: TFindFileChecks;
 begin
   sWantedMask := '';
   pbWantedCaseSensitive := nil;
   pbWantedIgnoreAccents := nil;
   pbWantedWindowsInterpretation := nil;
-  psAttribute := nil;
 
   for iParameter:=0 to pred(Length(Params)) do
   begin
@@ -2880,10 +2867,51 @@ begin
     else if GetParamValue(Params[iParameter], 'attr', sAttribute) then psAttribute := @sAttribute;
   end;
 
+  // When mask is specified, we don't prompt the user
   if sWantedMask<>'' then
-    frmMain.ActiveFrame.MarkGroup(sWantedMask, bSelect, pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation, psAttribute)
+  begin
+    if psAttribute <> nil then MarkSearchTemplateRec.AttributesPattern := psAttribute^ else MarkSearchTemplateRec.AttributesPattern := gMarkDefaultWantedAttribute;
+    AttrsPatternOptionsToChecks(MarkSearchTemplateRec, MarkFileChecks);
+    frmMain.ActiveFrame.MarkGroup(sWantedMask, bSelect, pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation, @MarkFileChecks)
+  end
   else
+  begin
     frmMain.ActiveFrame.MarkGroup(bSelect, pbWantedCaseSensitive, pbWantedIgnoreAccents, pbWantedWindowsInterpretation, psAttribute)
+  end;
+end;
+
+{ TMainCommands.DoActualMarkApplyOnAll }
+procedure TMainCommands.DoActualMarkApplyOnAll(const maoaDispatcher: TMarkApplyOnAllDispatcher; const Params: array of string);
+var
+  iParameter: integer;
+  sAttribute, sParam: string;
+  MarkSearchTemplateRec: TSearchTemplateRec;
+  MarkFileChecks: TFindFileChecks;
+begin
+  sAttribute := gMarkDefaultWantedAttribute;
+  for iParameter:=0 to pred(Length(Params)) do
+    if GetParamValue(Params[iParameter], 'attr', sParam) then sAttribute := sParam;
+  MarkSearchTemplateRec.AttributesPattern := sAttribute;
+  AttrsPatternOptionsToChecks(MarkSearchTemplateRec, MarkFileChecks);
+  frmMain.ActiveFrame.MarkApplyOnAllFiles(maoaDispatcher, MarkFileChecks);
+end;
+
+{ TMainCommands.cm_MarkMarkAll }
+procedure TMainCommands.cm_MarkMarkAll(const Params: array of string);
+begin
+  DoActualMarkApplyOnAll(tmaoa_Mark, Params);
+end;
+
+{ TMainCommands.cm_MarkUnmarkAll }
+procedure TMainCommands.cm_MarkUnmarkAll(const Params: array of string);
+begin
+  DoActualMarkApplyOnAll(tmaoa_UnMark, Params);
+end;
+
+{ TMainCommands.cm_MarkInvert }
+procedure TMainCommands.cm_MarkInvert(const Params: array of string);
+begin
+  DoActualMarkApplyOnAll(tmaoa_InvertMark, Params);
 end;
 
 { TMainCommands.cm_MarkPlus }

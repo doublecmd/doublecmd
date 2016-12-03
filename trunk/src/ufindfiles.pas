@@ -108,6 +108,7 @@ type
     FileSizeTo : Int64;
     Attributes: array of TFindFileAttrsCheck;  //en> Each entry is OR'ed.
   end;
+  TPFindFileChecks = ^TFindFileChecks;
 
   procedure SearchTemplateToFindFileChecks(const SearchTemplate: TSearchTemplateRec;
                                            out FileChecks: TFindFileChecks);

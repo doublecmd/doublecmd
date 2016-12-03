@@ -300,6 +300,7 @@ var
   gMarkMaskFilterWindows: boolean;
   gMarkShowWantedAttribute: boolean;
   gMarkDefaultWantedAttribute: string;
+  gMarkLastWantedAttribute: string;
 
   { Favorite Tabs }
   gFavoriteTabsUseRestoreExtraOptions: boolean;
@@ -1698,6 +1699,7 @@ begin
   gMarkMaskFilterWindows := False;
   gMarkShowWantedAttribute := False;
   gMarkDefaultWantedAttribute := '';
+  gMarkLastWantedAttribute := '';
 
   { TotalCommander Import/Export }
   //Will search minimally where TC could be installed so the default value would have some chances to be correct.
@@ -2949,6 +2951,7 @@ begin
     gMarkMaskFilterWindows := GetValue(Root, 'MarkMaskFilterWindows', gMarkMaskFilterWindows);
     gMarkShowWantedAttribute := GetValue(Root, 'MarkShowWantedAttribute', gMarkShowWantedAttribute);
     gMarkDefaultWantedAttribute := GetValue(Root, 'MarkDefaultWantedAttribute', gMarkDefaultWantedAttribute);
+    gMarkLastWantedAttribute := GetValue(Root, 'MarkLastWantedAttribute', gMarkLastWantedAttribute);
 
     { TotalCommander Import/Export }
     {$IFDEF MSWINDOWS}
@@ -3413,6 +3416,7 @@ begin
     SetValue(Root, 'MarkMaskFilterWindows', gMarkMaskFilterWindows);
     SetValue(Root, 'MarkShowWantedAttribute', gMarkShowWantedAttribute);
     SetValue(Root, 'MarkDefaultWantedAttribute', gMarkDefaultWantedAttribute);
+    SetValue(Root, 'MarkLastWantedAttribute', gMarkLastWantedAttribute);
 
     {$IFDEF MSWINDOWS}
     { TotalCommander Import/Export }

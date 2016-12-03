@@ -28,7 +28,7 @@ unit uFileView;
 interface
 
 uses
-  Classes, SysUtils, Controls, ExtCtrls, Graphics, ComCtrls, contnrs, fgl, LMessages,
+  uFindFiles, Classes, SysUtils, Controls, ExtCtrls, Graphics, ComCtrls, contnrs, fgl, LMessages,
   uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, DCXmlConfig,
   DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
   uFunctionThread, uFileSystemWatcher, fQuickSearch, StringHashList, uGlobs;
@@ -76,6 +76,9 @@ type
   TFileViewNotifications = set of TFileViewNotification;
   TFileViewApplyFilterResult = (fvaprRemoved, fvaprInserted,
                                 fvaprExisting, fvaprNotExisting);
+
+  { TMarkApplyOnAllDispatcher }
+  TMarkApplyOnAllDispatcher = (tmaoa_Mark, tmaoa_UnMark, tmaoa_InvertMark);
 
   {en
      Base class for any view of a file or files.
@@ -136,7 +139,6 @@ type
     FFilterOptions: TQuickSearchOptions;
     FWatchPath: String;
     FLastMark: String;
-    FLastMarkWantedAttribute: String;
     FLastMarkCaseSensitive: Boolean;
     FLastMarkIgnoreAccents: Boolean;
     FLastLoadedFileSource: IFileSource;
@@ -488,7 +490,8 @@ type
     procedure MarkFile(AFile: TDisplayFile; bSelect: Boolean; bNotify: Boolean = True);
     procedure MarkFiles(bSelect: Boolean);
     procedure MarkFiles(FromIndex, ToIndex: PtrInt; bSelect: Boolean);
-    procedure MarkGroup(const sMask: String; bSelect: Boolean; pbCaseSensitive:PBoolean = nil; pbIgnoreAccents: PBoolean = nil; pbWindowsInterpretation: PBoolean = nil; psAttribute:PString = nil);
+    procedure MarkApplyOnAllFiles(const MarkApplyOnAllDispatcher: TMarkApplyOnAllDispatcher; MarkFileChecks: TFindFileChecks);
+    procedure MarkGroup(const sMask: String; bSelect: Boolean; pbCaseSensitive:PBoolean = nil; pbIgnoreAccents: PBoolean = nil; pbWindowsInterpretation: PBoolean = nil; pMarkFileChecks: TPFindFileChecks = nil);
     procedure MarkGroup(bSelect: Boolean; pbCaseSensitive:PBoolean = nil; pbIgnoreAccents: PBoolean = nil; pbWindowsInterpretation: PBoolean = nil; psAttribute:PString = nil);
     procedure OpenActiveFile;
     procedure RestoreSelection;
@@ -592,7 +595,7 @@ type
 implementation
 
 uses
-  uFindFiles, Clipbrd, Dialogs, LCLProc, LCLType, Forms, dmCommonData,
+  Clipbrd, Dialogs, LCLProc, LCLType, Forms, dmCommonData,
   uShellExecute, fMaskInputDlg, uMasks, DCOSUtils, uOSUtils, DCStrUtils,
   uDCUtils, uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uFileViewNotebook, uSearchTemplate, uKeyboard, uFileFunctions,
@@ -686,7 +689,6 @@ begin
   FHistory := TFileViewHistory.Create;
   FSavedSelection:= TStringListEx.Create;
   FLastMark := '*';
-  FLastMarkWantedAttribute := '';
   FLastMarkCaseSensitive := gbMarkMaskCaseSensitive;
   FLastMarkIgnoreAccents := gbMarkMaskIgnoreAccents;
   FFiles := TDisplayFiles.Create(False);
@@ -771,7 +773,6 @@ begin
     AFileView.FLastLoadedFileSource := FLastLoadedFileSource;
     AFileView.FLastLoadedPath := FLastLoadedPath;
     AFileView.FLastMark := FLastMark;
-    AFileView.FLastMarkWantedAttribute := FLastMarkWantedAttribute;
     AFileView.FLastMarkCaseSensitive := FLastMarkCaseSensitive;
     AFileView.FLastMarkIgnoreAccents := FLastMarkIgnoreAccents;
     // FFileSource should have been passed to FileView constructor already.
@@ -1353,7 +1354,7 @@ begin
   else begin
     Result := CurrentAddress;
     if (PathDelim = '/') then
-      Result += GetCurrentPath
+      {%H-}Result += GetCurrentPath
     else
       Result += StringReplace(GetCurrentPath, PathDelim, '/', [rfReplaceAll]);
   end;
@@ -1747,14 +1748,45 @@ begin
   end;
 end;
 
-procedure TFileView.MarkGroup(const sMask: String; bSelect: Boolean; pbCaseSensitive:PBoolean = nil; pbIgnoreAccents: PBoolean = nil; pbWindowsInterpretation: PBoolean = nil; psAttribute:PString = nil);
+{ TFileView.MarkApplyOnAllFiles }
+procedure TFileView.MarkApplyOnAllFiles(const MarkApplyOnAllDispatcher: TMarkApplyOnAllDispatcher; MarkFileChecks: TFindFileChecks);
+var
+  Index: PtrInt;
+  bInitialValue: boolean;
+  bSelected: boolean = False;
+begin
+  BeginUpdate;
+  try
+    for Index := 0 to pred(FFiles.Count) do
+    begin
+      if FFiles[Index].FSFile.Name = '..' then Continue;
+      if CheckFileAttributes(MarkFileChecks, FFiles[Index].FSFile.Attributes) then
+      begin
+        bInitialValue := FFiles[Index].Selected;
+        case MarkApplyOnAllDispatcher of
+          tmaoa_Mark: FFiles[Index].Selected := True;
+          tmaoa_UnMark: FFiles[Index].Selected := False;
+          tmaoa_InvertMark: FFiles[Index].Selected := not FFiles[Index].Selected;
+        end;
+        bSelected := bSelected OR (bInitialValue xor FFiles[Index].Selected);
+      end;
+    end;
+
+    if bSelected then
+      Notify([fvnSelectionChanged]);
+  finally
+    EndUpdate;
+  end;
+end;
+
+{ TFileView.MarkGroup (Where we have all the parameters) }
+procedure TFileView.MarkGroup(const sMask: String; bSelect: Boolean; pbCaseSensitive:PBoolean = nil; pbIgnoreAccents: PBoolean = nil; pbWindowsInterpretation: PBoolean = nil; pMarkFileChecks: TPFindFileChecks = nil);
 var
   I: Integer;
   SearchTemplate: TSearchTemplate = nil;
   bSelected: Boolean = False;
   bCaseSensitive, bIgnoreAccents, bWindowsInterpretation: boolean;
-  markSearchTemplateRec: TSearchTemplateRec;
-  markFileChecks: TFindFileChecks;
+  LocalMarkFileChecks: TFindFileChecks;
 begin
   BeginUpdate;
   try
@@ -1777,21 +1809,20 @@ begin
       if pbCaseSensitive <> nil then bCaseSensitive := pbCaseSensitive^ else bCaseSensitive := gbMarkMaskCaseSensitive;
       if pbIgnoreAccents <> nil then bIgnoreAccents := pbIgnoreAccents^ else bIgnoreAccents := gbMarkMaskIgnoreAccents;
       if pbWindowsInterpretation <> nil then bWindowsInterpretation := pbWindowsInterpretation^ else bWindowsInterpretation := gMarkMaskFilterWindows;
-      if psAttribute <> nil then markSearchTemplateRec.AttributesPattern := psAttribute^ else markSearchTemplateRec.AttributesPattern := gMarkDefaultWantedAttribute;
-      AttrsPatternOptionsToChecks(markSearchTemplateRec, markFileChecks);
+      if pMarkFileChecks<> nil then LocalMarkFileChecks:=pMarkFileChecks^ else LocalMarkFileChecks.Attributes:=nil;
 
       for I := 0 to FFiles.Count - 1 do
+      begin
+        if FFiles[I].FSFile.Name = '..' then Continue;
+        if CheckFileAttributes(LocalMarkFileChecks, FFiles[I].FSFile.Attributes) then
         begin
-          if FFiles[I].FSFile.Name = '..' then Continue;
           if MatchesMaskList(FFiles[I].FSFile.Name, sMask, ';, ', bCaseSensitive, bIgnoreAccents, bWindowsInterpretation) then
-            begin
-              if CheckFileAttributes(markFileChecks,FFiles[I].FSFile.Attributes) then
-                begin
-                  FFiles[I].Selected := bSelect;
-                  bSelected := True;
-                end;
-            end;
+          begin
+            FFiles[I].Selected := bSelect;
+            bSelected := True;
+          end;
         end;
+      end;
     end;
 
     if bSelected then
@@ -1801,10 +1832,13 @@ begin
   end;
 end;
 
+{ TFileView.MarkGroup (Where we prompt the user) }
 procedure TFileView.MarkGroup(bSelect: Boolean; pbCaseSensitive:PBoolean = nil; pbIgnoreAccents: PBoolean = nil; pbWindowsInterpretation: PBoolean = nil; psAttribute:PString = nil);
 var
   s, ADlgTitle, sAttribute: String;
   bCaseSensitive, bIgnoreAccents, bWindowsInterpretation: boolean;
+  MarkSearchTemplateRec: TSearchTemplateRec;
+  MarkFileChecks: TFindFileChecks;
 begin
   if not IsEmpty then
   begin
@@ -1817,17 +1851,22 @@ begin
     if pbCaseSensitive <> nil then bCaseSensitive := pbCaseSensitive^ else bCaseSensitive := FLastMarkCaseSensitive;
     if pbIgnoreAccents <> nil then bIgnoreAccents := pbIgnoreAccents^ else bIgnoreAccents := FLastMarkIgnoreAccents;
     if pbWindowsInterpretation <> nil then bWindowsInterpretation := pbWindowsInterpretation^ else bWindowsInterpretation := gMarkMaskFilterWindows;
-    if psAttribute <> nil then sAttribute := psAttribute^ else sAttribute := FLastMarkWantedAttribute;
+    if psAttribute <> nil then sAttribute := psAttribute^ else
+      if not gMarkShowWantedAttribute then sAttribute:=gMarkDefaultWantedAttribute else sAttribute := gMarkLastWantedAttribute;
 
     if ShowExtendedMaskInputDlg(ADlgTitle, rsMaskInput, glsMaskHistory, s, midsFull, bCaseSensitive, bIgnoreAccents, sAttribute) then
       begin
         FLastMark := s;
         FLastMarkCaseSensitive := bCaseSensitive;
         FLastMarkIgnoreAccents := bIgnoreAccents;
-        FLastMarkWantedAttribute := sAttribute;
         gbMarkMaskCaseSensitive := bCaseSensitive;
         gbMarkMaskIgnoreAccents := bIgnoreAccents;
-        MarkGroup(s, bSelect, @bCaseSensitive, @bIgnoreAccents, @bWindowsInterpretation, @sAttribute);
+        if (psAttribute = nil) AND gMarkShowWantedAttribute then gMarkLastWantedAttribute:=sAttribute;
+
+        MarkSearchTemplateRec.AttributesPattern := sAttribute;
+        AttrsPatternOptionsToChecks(MarkSearchTemplateRec, MarkFileChecks);
+
+        MarkGroup(s, bSelect, @bCaseSensitive, @bIgnoreAccents, @bWindowsInterpretation, @MarkFileChecks);
       end;
   end;
 end;
