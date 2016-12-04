@@ -800,10 +800,6 @@ msgstr "&Параметры (каждый в отдельной строке)"
 msgid "Shortcuts:"
 msgstr "Сочетание клавиш:"
 
-#: tfrmedithotkey.menuitem1.caption
-msgid "New Item1"
-msgstr ""
-
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
 msgid "About"
@@ -11014,6 +11010,10 @@ msgstr "В файле содержится неверное количество
 
 #: ulng.rsnewsearchclearfilteroptions
 msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnoequivalentinternalcommand
+msgid "No internal equivalent command"
 msgstr ""
 
 #: ulng.rsnofindfileswindowyet

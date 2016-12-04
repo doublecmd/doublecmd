@@ -812,10 +812,6 @@ msgstr "&Parametry (każdy w osobnym wierszu):"
 msgid "Shortcuts:"
 msgstr "Skróty:"
 
-#: tfrmedithotkey.menuitem1.caption
-msgid "New Item1"
-msgstr ""
-
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
 msgid "About"
@@ -11139,6 +11135,10 @@ msgstr ""
 
 #: ulng.rsnewsearchclearfilteroptions
 msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnoequivalentinternalcommand
+msgid "No internal equivalent command"
 msgstr ""
 
 #: ulng.rsnofindfileswindowyet
