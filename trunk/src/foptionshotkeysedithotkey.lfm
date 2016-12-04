@@ -256,8 +256,5 @@ object frmEditHotkey: TfrmEditHotkey
   object pmWithAllShortcuts: TPopupMenu
     left = 310
     top = 13
-    object MenuItem1: TMenuItem
-      Caption = 'New Item1'
-    end
   end
 end

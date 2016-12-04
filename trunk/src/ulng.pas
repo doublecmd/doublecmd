@@ -251,6 +251,7 @@ resourcestring
   rsDefaultImportedTCToolbarHint = 'Imported TC toolbar';
   rsDefaultImportedDCToolbarHint = 'Imported DC toolbar';
   rsFilenameExportedTCBarPrefix = 'Exported_from_DC';
+  rsNoEquivalentInternalCommand = 'No internal equivalent command';
 
   // for context menu
   rsMnuActions = 'Actions';

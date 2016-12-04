@@ -47,7 +47,6 @@ type
     lblHotKeyConflict: TLabel;
     lblParameters: TLabel;
     edtParameters: TMemo;
-    MenuItem1: TMenuItem;
     pnlShortcuts: TPanel;
     btnAddShortcut: TSpeedButton;
     btnRemoveShortcut: TSpeedButton;

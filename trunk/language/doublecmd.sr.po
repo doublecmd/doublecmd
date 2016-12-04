@@ -815,10 +815,6 @@ msgstr "&Одреднице (свака у посебној линији):"
 msgid "Shortcuts:"
 msgstr "Пречице:"
 
-#: tfrmedithotkey.menuitem1.caption
-msgid "New Item1"
-msgstr ""
-
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
 msgid "About"
@@ -11226,6 +11222,10 @@ msgstr ""
 
 #: ulng.rsnewsearchclearfilteroptions
 msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnoequivalentinternalcommand
+msgid "No internal equivalent command"
 msgstr ""
 
 #: ulng.rsnofindfileswindowyet

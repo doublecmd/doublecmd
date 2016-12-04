@@ -1811,9 +1811,6 @@ begin
         LocalKASMenuItem.Hint := ImportedToolbarHint;
         FCurrentButton := ToolBar.AddButton(LocalKASMenuItem);
         Toolbar := AddNewSubToolbar(LocalKASMenuItem);
-        PressButtonDown(FCurrentButton);
-        PressButtonDown(Toolbar.Buttons[0]);
-        Toolbar.RemoveButton(0); // ...to remove the default empty button added by "AddNewSubToolbar" routine
       end;
     end;
 
@@ -1829,7 +1826,17 @@ begin
           ToolBar.Clear;
           Application.ProcessMessages;
         end;
-        ImportTCToolbarsToDC(OpenDialog.FileName, LocalKASMenuItem, Toolbar, (ImportDestination and $01), FCurrentButton, FFormCommands);
+
+        ImportTCToolbarsToDC(OpenDialog.FileName, LocalKASMenuItem, ToolBar, (ImportDestination and $01), FFormCommands);
+
+        case ImportDestination of
+          IMPORT_IN_MAIN_TOOLBAR_TO_NEW_SUB_BAR, IMPORT_IN_CURRENT_BAR_TO_NEW_SUB_BAR:
+            begin
+              PressButtonDown(FCurrentButton);
+              ToolBar.RemoveButton(0); //We remove the button the was added by default when we created the toolbar
+            end;
+        end;
+
         if ToolBar.ButtonCount > 0 then
           PressButtonDown(ToolBar.Buttons[pred(ToolBar.ButtonCount)]); //Let's press the last added button since user might wants to complement what he just added
       end;

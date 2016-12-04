@@ -780,10 +780,6 @@ msgstr "&Parametry (každý na zvláštní řádce):"
 msgid "Shortcuts:"
 msgstr "Zkratky:"
 
-#: tfrmedithotkey.menuitem1.caption
-msgid "New Item1"
-msgstr ""
-
 #: tfrmeditor.actabout.caption
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
 msgid "About"
@@ -10688,6 +10684,10 @@ msgstr "Soubor obsahuje špatný počet řádků: %d, mělo by být %d!"
 
 #: ulng.rsnewsearchclearfilteroptions
 msgid "Keep;Clear;Prompt"
+msgstr ""
+
+#: ulng.rsnoequivalentinternalcommand
+msgid "No internal equivalent command"
 msgstr ""
 
 #: ulng.rsnofindfileswindowyet
