@@ -83,7 +83,7 @@ begin
   EventTrace('changed_editbox', data);
   {$ENDIF}
   NeedCursorCheck := False;
-  if GTK_IS_ENTRY(Widget) then
+  if GTK_IS_ENTRY(Widget) and (not (TObject(data) is TCustomFloatSpinEdit)) then
   begin
     // lcl-do-not-change-selection comes from gtkKeyPress.
     // Only floatspinedit sets that data, so default is nil. issue #18679
@@ -160,7 +160,11 @@ begin
 
   if GTK_IS_ENTRY(gObject) then
   begin
-    ConnectSignal(gObject, 'changed', @gtkchanged_editbox_ex, ALCLObject);
+    if ALCLObject is TCustomFloatSpinEdit then
+      ConnectSignal(gObject, 'value-changed', @gtkchanged_editbox_ex, ALCLObject)
+    else begin
+      ConnectSignal(gObject, 'changed', @gtkchanged_editbox_ex, ALCLObject);
+    end;
     ConnectSignal(gObject, 'cut-clipboard', @gtkcuttoclip_ex, ALCLObject);
     g_signal_handlers_disconnect_by_func(gObject, @gtkchanged_editbox, ALCLObject);
     ConnectSignal(gObject, 'backspace', @gtkchanged_editbox_backspace_ex, ALCLObject);
