@@ -61,18 +61,11 @@ end;"/>
               <ExecutableType Value="Library"/>
             </Options>
           </Linking>
-          <Other>
-            <CompilerMessages>
-              <UseMsgFile Value="True"/>
-            </CompilerMessages>
-            <CompilerPath Value="$(CompPath)"/>
-          </Other>
         </CompilerOptions>
       </Item2>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
-      <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
       <IgnoreBinaries Value="False"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
       <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
@@ -87,12 +80,10 @@ end;"/>
       <Unit0>
         <Filename Value="DSXLocate.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="DSXLocate"/>
       </Unit0>
       <Unit1>
         <Filename Value="un_process.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="un_process"/>
       </Unit1>
     </Units>
   </ProjectOptions>
@@ -114,6 +105,11 @@ end;
 if (TargetOS = 'darwin') then
 begin
   LinkerOptions += ' -no_order_inits';
+end;
+
+if (TargetOS = 'linux') then
+begin
+  LinkerOptions += ' -z relro --as-needed';
 end;"/>
     <Parsing>
       <SyntaxOptions>
@@ -136,11 +132,5 @@ end;"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>
-    <Other>
-      <CompilerMessages>
-        <UseMsgFile Value="True"/>
-      </CompilerMessages>
-      <CompilerPath Value="$(CompPath)"/>
-    </Other>
   </CompilerOptions>
 </CONFIG>

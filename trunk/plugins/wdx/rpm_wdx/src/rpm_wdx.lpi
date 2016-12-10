@@ -61,12 +61,6 @@ end;"/>
               <ExecutableType Value="Library"/>
             </Options>
           </Linking>
-          <Other>
-            <CompilerMessages>
-              <UseMsgFile Value="True"/>
-            </CompilerMessages>
-            <CompilerPath Value="$(CompPath)"/>
-          </Other>
         </CompilerOptions>
       </Item2>
     </BuildModes>
@@ -95,17 +89,14 @@ end;"/>
       <Unit1>
         <Filename Value="rpm_io.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="rpm_io"/>
       </Unit1>
       <Unit2>
         <Filename Value="rpm_wdx_intf.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="rpm_wdx_intf"/>
       </Unit2>
       <Unit3>
         <Filename Value="rpm_def.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="rpm_def"/>
       </Unit3>
     </Units>
   </ProjectOptions>
@@ -128,6 +119,11 @@ end;
 if (TargetOS = 'darwin') then
 begin
   LinkerOptions += ' -no_order_inits';
+end;
+
+if (TargetOS = 'linux') then
+begin
+  LinkerOptions += ' -z relro --as-needed';
 end;"/>
     <Parsing>
       <SyntaxOptions>
@@ -151,11 +147,5 @@ end;"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>
-    <Other>
-      <CompilerMessages>
-        <UseMsgFile Value="True"/>
-      </CompilerMessages>
-      <CompilerPath Value="$(CompPath)"/>
-    </Other>
   </CompilerOptions>
 </CONFIG>

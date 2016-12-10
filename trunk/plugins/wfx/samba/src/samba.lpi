@@ -72,12 +72,6 @@ end;"/>
               <ExecutableType Value="Library"/>
             </Options>
           </Linking>
-          <Other>
-            <CompilerMessages>
-              <UseMsgFile Value="True"/>
-            </CompilerMessages>
-            <CompilerPath Value="$(CompPath)"/>
-          </Other>
         </CompilerOptions>
       </Item2>
     </BuildModes>
@@ -90,14 +84,12 @@ end;"/>
       <local>
         <FormatVersion Value="1"/>
         <HostApplicationFilename Value="/usr/bin/doublecmd"/>
-        <LaunchingApplication PathPlusParams="/usr/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <Units Count="2">
       <Unit0>
         <Filename Value="samba.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="samba"/>
       </Unit0>
       <Unit1>
         <Filename Value="smbauthdlg.pas"/>
@@ -124,14 +116,14 @@ begin
   CustomOptions += '-fPIC';
 end;
 
-if (TargetOS = 'linux') then
-begin
-  LinkerOptions += ' -z relro';
-end;
-
 if (TargetOS = 'darwin') then
 begin
   LinkerOptions += ' -no_order_inits';
+end;
+
+if (TargetOS = 'linux') then
+begin
+  LinkerOptions += ' -z relro --as-needed';
 end;"/>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>
@@ -149,11 +141,5 @@ end;"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>
-    <Other>
-      <CompilerMessages>
-        <UseMsgFile Value="True"/>
-      </CompilerMessages>
-      <CompilerPath Value="$(CompPath)"/>
-    </Other>
   </CompilerOptions>
 </CONFIG>

@@ -69,15 +69,11 @@ end;"/>
             </Options>
           </Linking>
           <Other>
-            <CompilerMessages>
-              <UseMsgFile Value="True"/>
-            </CompilerMessages>
             <ConfigFile>
               <CustomConfigFile Value="True"/>
               <ConfigFilePath Value="fpc-extra.cfg"/>
             </ConfigFile>
             <CustomOptions Value="-dLCL$(LCLWidgetType)"/>
-            <CompilerPath Value="$(CompPath)"/>
           </Other>
         </CompilerOptions>
       </Item2>
@@ -103,7 +99,6 @@ end;"/>
       <Unit0>
         <Filename Value="wlxMplayer.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="wlxMplayer"/>
       </Unit0>
     </Units>
   </ProjectOptions>
@@ -123,14 +118,14 @@ begin
   CustomOptions += '-fPIC';
 end;
 
-if (TargetOS = 'linux') then
-begin
-  LinkerOptions += ' -z relro';
-end;
-
 if (TargetOS = 'darwin') then
 begin
   LinkerOptions += ' -no_order_inits';
+end;
+
+if (TargetOS = 'linux') then
+begin
+  LinkerOptions += ' -z relro --as-needed';
 end;"/>
     <Parsing>
       <SyntaxOptions>
@@ -154,15 +149,11 @@ end;"/>
       </Options>
     </Linking>
     <Other>
-      <CompilerMessages>
-        <UseMsgFile Value="True"/>
-      </CompilerMessages>
       <ConfigFile>
         <CustomConfigFile Value="True"/>
         <ConfigFilePath Value="fpc-extra.cfg"/>
       </ConfigFile>
       <CustomOptions Value="-dLCL$(LCLWidgetType)"/>
-      <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
 </CONFIG>
