@@ -244,11 +244,9 @@ begin
       FreeAndNil(Header);
     end;
 
-    WcxModule.CloseArchive(ArcHandle);
-
   finally
-    if Assigned(Files) then
-      FreeAndNil(Files);
+    WcxModule.CloseArchive(ArcHandle);
+    FreeAndNil(Files);
   end;
 end;
 
