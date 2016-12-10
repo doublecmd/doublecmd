@@ -96,7 +96,7 @@ begin
       end;
 
       WcxDeleteOperation.UpdateStatistics(WcxDeleteOperation.FStatistics);
-      WcxDeleteOperation.CheckOperationState;
+      if not WcxDeleteOperation.CheckOperationStateSafe then Exit(0);
     end;
   end;
 end;

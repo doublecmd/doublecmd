@@ -102,7 +102,7 @@ begin
       end;
 
       WcxTestArchiveOperation.UpdateStatistics(WcxTestArchiveOperation.FStatistics);
-      WcxTestArchiveOperation.CheckOperationState;
+      if not WcxTestArchiveOperation.CheckOperationStateSafe then Exit(0);
     end;
   end;
 end;
