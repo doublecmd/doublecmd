@@ -149,7 +149,7 @@ begin
       //DCDebug('CurrentDone  = ' + IntToStr(CurrentFileDoneBytes) + ' Done  = ' + IntToStr(DoneBytes));
       //DCDebug('CurrentTotal = ' + IntToStr(CurrentFileTotalBytes) + ' Total = ' + IntToStr(TotalBytes));
       WcxCopyOutOperation.UpdateStatistics(WcxCopyOutOperation.FStatistics);
-      WcxCopyOutOperation.CheckOperationState;
+      if not WcxCopyOutOperation.CheckOperationStateSafe then Exit(0);
     end;
   end;
 end;
