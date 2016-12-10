@@ -19,6 +19,7 @@ mkdir  %DC_INSTALL_DIR%\plugins\wdx
 mkdir  %DC_INSTALL_DIR%\plugins\wdx\scripts
 mkdir  %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx
 mkdir  %DC_INSTALL_DIR%\plugins\wdx\deb_wdx
+mkdir  %DC_INSTALL_DIR%\plugins\wdx\audioinfo
 rem WFX plugins directories
 mkdir  %DC_INSTALL_DIR%\plugins\wfx
 mkdir  %DC_INSTALL_DIR%\plugins\wfx\ftp
@@ -49,5 +50,6 @@ rem WDX
 copy  plugins\wdx\rpm_wdx\lib\rpm_wdx.wdx %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx\
 copy  plugins\wdx\deb_wdx\lib\deb_wdx.wdx %DC_INSTALL_DIR%\plugins\wdx\deb_wdx\
 copy  plugins\wdx\scripts\*               %DC_INSTALL_DIR%\plugins\wdx\scripts\
+copy  plugins\wdx\audioinfo\audioinfo.wdx %DC_INSTALL_DIR%\plugins\wdx\audioinfo\
 rem WFX
 copy  plugins\wfx\ftp\lib\ftp.wfx         %DC_INSTALL_DIR%\plugins\wfx\ftp\
