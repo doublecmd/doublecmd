@@ -67,12 +67,6 @@ end;"/>
               <ExecutableType Value="Library"/>
             </Options>
           </Linking>
-          <Other>
-            <CompilerMessages>
-              <UseMsgFile Value="True"/>
-            </CompilerMessages>
-            <CompilerPath Value="$(CompPath)"/>
-          </Other>
         </CompilerOptions>
       </Item2>
     </BuildModes>
@@ -86,29 +80,25 @@ end;"/>
       <local>
         <FormatVersion Value="1"/>
         <HostApplicationFilename Value="D:\totalcmd\totalcmd.exe"/>
-        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <Units Count="4">
       <Unit0>
         <Filename Value="svn_wdx.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="svn_wdx"/>
       </Unit0>
       <Unit1>
         <Filename Value="xpi_wdx_intf.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="xpi_wdx_intf"/>
       </Unit1>
       <Unit2>
         <Filename Value="xpi_def.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="xpi_def"/>
       </Unit2>
       <Unit3>
         <Filename Value="xpi_io.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="xpi_io"/>
       </Unit3>
     </Units>
   </ProjectOptions>
@@ -131,6 +121,11 @@ end;
 if (TargetOS = 'darwin') then
 begin
   LinkerOptions += ' -no_order_inits';
+end;
+
+if (TargetOS = 'linux') then
+begin
+  LinkerOptions += ' -z relro --as-needed';
 end;"/>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>
@@ -148,12 +143,6 @@ end;"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>
-    <Other>
-      <CompilerMessages>
-        <UseMsgFile Value="True"/>
-      </CompilerMessages>
-      <CompilerPath Value="$(CompPath)"/>
-    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">

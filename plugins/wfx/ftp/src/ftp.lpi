@@ -140,14 +140,14 @@ begin
   CustomOptions += '-fPIC';
 end;
 
-if (TargetOS = 'linux') then
-begin
-  LinkerOptions += ' -z relro';
-end;
-
 if (TargetOS = 'darwin') then
 begin
   LinkerOptions += ' -no_order_inits';
+end;
+
+if (TargetOS = 'linux') then
+begin
+  LinkerOptions += ' -z relro --as-needed';
 end;"/>
     <Parsing>
       <SyntaxOptions>

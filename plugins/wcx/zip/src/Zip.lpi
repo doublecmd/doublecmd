@@ -65,14 +65,10 @@ end;"/>
             </Options>
           </Linking>
           <Other>
-            <CompilerMessages>
-              <UseMsgFile Value="True"/>
-            </CompilerMessages>
             <ConfigFile>
               <CustomConfigFile Value="True"/>
               <ConfigFilePath Value="fpc-extra.cfg"/>
             </ConfigFile>
-            <CompilerPath Value="$(CompPath)"/>
           </Other>
         </CompilerOptions>
       </Item2>
@@ -117,14 +113,14 @@ begin
   CustomOptions += '-fPIC';
 end;
 
-if (TargetOS = 'linux') then
-begin
-  LinkerOptions += ' -z relro';
-end;
-
 if (TargetOS = 'darwin') then
 begin
   LinkerOptions += ' -no_order_inits';
+end;
+
+if (TargetOS = 'linux') then
+begin
+  LinkerOptions += ' -z relro --as-needed';
 end;"/>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>
@@ -143,14 +139,10 @@ end;"/>
       </Options>
     </Linking>
     <Other>
-      <CompilerMessages>
-        <UseMsgFile Value="True"/>
-      </CompilerMessages>
       <ConfigFile>
         <CustomConfigFile Value="True"/>
         <ConfigFilePath Value="fpc-extra.cfg"/>
       </ConfigFile>
-      <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
 </CONFIG>
