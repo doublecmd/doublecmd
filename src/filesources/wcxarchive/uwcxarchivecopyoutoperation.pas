@@ -334,8 +334,11 @@ begin
       FreeAndNil(Header);
     end;
 
-    iResult := WcxModule.CloseArchive(ArcHandle);
+    if (FExtractWithoutPath = False) then SetDirsAttributes(CreatedPaths);
 
+  finally
+    // Close archive
+    iResult := WcxModule.CloseArchive(ArcHandle);
     // Check for errors
     if iResult <> E_SUCCESS then
     begin
@@ -343,12 +346,8 @@ begin
                        [FWcxArchiveFileSource.ArchiveFileName +
                         ' - ' + GetErrorMsg(iResult)]), [log_arc_op]);
     end;
-
-    if (FExtractWithoutPath = False) then SetDirsAttributes(CreatedPaths);
-
-  finally
-    if Assigned(Files) then
-      FreeAndNil(Files);
+    // Free memory
+    FreeAndNil(Files);
     FreeAndNil(CreatedPaths);
   end;
 end;
