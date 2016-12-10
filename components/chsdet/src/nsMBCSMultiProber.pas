@@ -162,8 +162,8 @@ begin
       begin
         if (Byte(aBuf[i]) > $80) then
           begin
-            inc(hptr);
             hptr^ := aBuf[i];
+            inc(hptr);
             keepNext:= TRUE;
           end
         else
@@ -171,8 +171,8 @@ begin
             (*if previous is highbyte, keep this even it is a ASCII*)
             if keepNext = TRUE then
               begin
-                inc(hptr);
                 hptr^ := aBuf[i];
+                inc(hptr);
                 keepNext:= FALSE;
               end;
           end;
