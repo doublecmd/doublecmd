@@ -751,15 +751,15 @@ msgstr "Программа просмотра справки для данног
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
-msgstr "Выделенное"
+msgstr "Выделение"
 
 #: lclstrconsts.rshighlighttextcolorcaption
 msgid "Highlight Text"
-msgstr "Текст выделенного"
+msgstr "Выделенный текст"
 
 #: lclstrconsts.rshotlightcolorcaption
 msgid "Hot Light"
-msgstr "Выделение"
+msgstr "Тёплый свет"
 
 #: lclstrconsts.rsicns
 msgid "Mac OS X Icon"
