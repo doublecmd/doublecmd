@@ -75,7 +75,7 @@ function GetPluginBinaryType(const FileName: String): TBinaryType;
 implementation
 
 uses
-  Forms, Dialogs, DCOSUtils, DCStrUtils, DCClassesUtf8, uGlobs, uLng;
+  Forms, Dialogs, DCOSUtils, DCStrUtils, DCClassesUtf8, uGlobs, uLng, uDCUtils;
 
 procedure UpdatePlugins;
 var
@@ -279,6 +279,11 @@ begin
   if gWdxPlugins.IndexOfName('rpm_wdx') < 0 then
   begin
     gWdxPlugins.Add('rpm_wdx', Folder + 'rpm_wdx' + PathDelim + 'rpm_wdx.wdx', 'EXT="RPM"');
+  end;
+
+  if gWdxPlugins.IndexOfName('audioinfo') < 0 then
+  begin
+    gWdxPlugins.Add(GetCmdDirFromEnvVar(Folder) + 'audioinfo' + PathDelim + 'audioinfo.wdx');
   end;
 
   // Wfx plugins
