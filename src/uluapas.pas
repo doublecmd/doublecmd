@@ -35,7 +35,8 @@ function ExecuteScript(const FileName: String; Args: array of String): Boolean;
 implementation
 
 uses
-  Forms, Dialogs, LazUTF8, DCOSUtils, fMain, uFormCommands, uOSUtils, uGlobs;
+  Forms, Dialogs, LazUTF8, DCOSUtils, DCConvertEncoding, fMain, uFormCommands,
+  uOSUtils, uGlobs;
 
 procedure luaPushSearchRec(L : Plua_State; var Rec: TSearchRec);
 var
@@ -119,6 +120,19 @@ begin
   lua_pushboolean(L, mbDirectoryExists(lua_tostring(L, 1)));
 end;
 
+function luaGetEnvironmentVariable(L : Plua_State) : Integer; cdecl;
+var
+  AValue: String;
+begin
+  Result:= 1;
+  AValue:= mbGetEnvironmentVariable(luaL_checkstring(L, 1));
+  if (Length(AValue) = 0) then
+    lua_pushnil(L)
+  else begin
+    lua_pushstring(L, PAnsiChar(CeUtf8ToSys(AValue)));
+  end;
+end;
+
 function luaExecuteCommand(L : Plua_State) : Integer; cdecl;
 var
   Index,
@@ -166,6 +180,10 @@ begin
   lua_newtable(L);
     luaP_register(L, 'ExecuteCommand', @luaExecuteCommand);
   lua_setglobal(L, 'DC');
+
+  lua_getglobal(L, 'os');
+    luaP_register(L, 'getenv', @luaGetEnvironmentVariable);
+  lua_pop(L, 1);
 end;
 
 function ExecuteScript(const FileName: String; Args: array of String): Boolean;
