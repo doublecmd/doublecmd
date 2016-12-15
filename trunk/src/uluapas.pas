@@ -30,13 +30,14 @@ uses
   Classes, SysUtils, lua;
 
 procedure RegisterPackages(L : Plua_State);
+function LuaPCall(L : Plua_State; nargs, nresults : Integer): Boolean;
 function ExecuteScript(const FileName: String; Args: array of String): Boolean;
 
 implementation
 
 uses
   Forms, Dialogs, LazUTF8, DCOSUtils, DCConvertEncoding, fMain, uFormCommands,
-  uOSUtils, uGlobs;
+  uOSUtils, uGlobs, uLog;
 
 procedure luaPushSearchRec(L : Plua_State; var Rec: TSearchRec);
 var
@@ -184,6 +185,18 @@ begin
   lua_getglobal(L, 'os');
     luaP_register(L, 'getenv', @luaGetEnvironmentVariable);
   lua_pop(L, 1);
+end;
+
+function LuaPCall(L: Plua_State; nargs, nresults: Integer): Boolean;
+var
+  Status: Integer;
+begin
+  Status:= lua_pcall(L, nargs, nresults, 0);
+  // Check execution result
+  if Status <> 0 then begin
+    logWrite(lua_tostring(L, -1), lmtError, True, False);
+  end;
+  Result:= (Status = 0);
 end;
 
 function ExecuteScript(const FileName: String; Args: array of String): Boolean;
