@@ -1053,7 +1053,7 @@ begin
   if not lua_isfunction(L, -1) then
     exit;
   lua_pushinteger(L, Index);
-  lua_call(L, 1, 3);
+  LuaPCall(L, 1, 3);
   xFieldName := lua_tostring(L, -3);
   xUnits := lua_tostring(L, -2);
   Result := Integer(lua_tointeger(L, -1));
@@ -1067,7 +1067,7 @@ begin
   lua_getglobal(L, 'ContentPluginUnloading');
   if not lua_isfunction(L, -1) then
     exit;
-  lua_call(L, 0, 0);
+  LuaPCall(L, 0, 0);
 end;
 
 procedure TLuaWdx.CallContentGetSupportedField;
@@ -1101,7 +1101,7 @@ begin
   lua_pushstring(L, PChar(gpCfgDir + WdxIniFileName));
   lua_pushinteger(L, 1);
   lua_pushinteger(L, 50);
-  lua_call(L, 3, 0);
+  LuaPCall(L, 3, 0);
 end;
 
 procedure TLuaWdx.CallContentStopGetValue(FileName: String);
@@ -1112,7 +1112,7 @@ begin
   if not lua_isfunction(L, -1) then
     exit;
   lua_pushstring(L, PChar(FileName));
-  lua_call(L, 1, 0);
+  LuaPCall(L, 1, 0);
 end;
 
 function TLuaWdx.CallContentGetDefaultSortOrder(FieldIndex: Integer): Boolean;
@@ -1127,7 +1127,7 @@ begin
   if not lua_isfunction(L, -1) then
     exit;
   lua_pushinteger(L, FieldIndex);
-  lua_call(L, 1, 1);
+  LuaPCall(L, 1, 1);
 
   x := lua_tointeger(L, -1);
   case x of
@@ -1146,7 +1146,7 @@ begin
   lua_getglobal(L, 'ContentGetDetectString');
   if not lua_isfunction(L, -1) then
     exit;
-  lua_call(L, 0, 1);
+  LuaPCall(L, 0, 1);
   Result := lua_tostring(L, -1);
   lua_pop(L, 1);
 end;
@@ -1184,7 +1184,7 @@ begin
     lua_pushinteger(L, UnitIndex);
     lua_pushinteger(L, flags);
 
-    lua_call(L, 4, 1);
+    LuaPCall(L, 4, 1);
 
     if not lua_isnil(L, -1) then
     begin
@@ -1239,7 +1239,7 @@ begin
     lua_pushinteger(L, UnitIndex);
     lua_pushinteger(L, flags);
 
-    lua_call(L, 4, 1);
+    LuaPCall(L, 4, 1);
 
     if not lua_isnil(L, -1) then
     begin
@@ -1274,7 +1274,7 @@ begin
     exit;
   lua_pushinteger(L, FieldIndex);
 
-  lua_call(L, 1, 1);
+  LuaPCall(L, 1, 1);
   Result := lua_tointeger(L, -1);
   lua_pop(L, 1);
 
