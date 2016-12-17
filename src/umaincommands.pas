@@ -352,6 +352,7 @@ type
    procedure cm_ConfigSearches(const {%H-}Params: array of string);
    procedure cm_ConfigHotKeys(const {%H-}Params: array of string);
    procedure cm_ExecuteScript(const {%H-}Params: array of string);
+   procedure cm_FocusSwap(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -4846,6 +4847,33 @@ begin
 
     // Execute script
     ExecuteScript(FileName, Args);
+  end;
+end;
+
+procedure TMainCommands.cm_FocusSwap(const Params: array of string);
+var
+  AParam, AValue: String;
+begin
+  with frmMain do
+  begin
+    // Select opposite panel
+    if Length(Params) = 0 then
+    begin
+      case SelectedPanel of
+        fpLeft: SetActiveFrame(fpRight);
+        fpRight: SetActiveFrame(fpLeft);
+      end;
+    end
+    else begin
+      AParam:= GetDefaultParam(Params);
+      if GetParamValue(AParam, 'side', AValue) then
+      begin
+        if AValue = 'left' then
+          SetActiveFrame(fpLeft)
+        else if AValue = 'right' then
+          SetActiveFrame(fpRight);
+      end;
+    end;
   end;
 end;
 

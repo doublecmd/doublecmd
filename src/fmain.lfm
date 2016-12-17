@@ -2651,6 +2651,13 @@ object frmMain: TfrmMain
       Caption = 'Execute Script'
       OnExecute = actExecute
     end
+    object actFocusSwap: TAction
+      Tag = 14
+      Category = 'Navigation'
+      Caption = 'Swap focus'
+      Hint = 'Switch between left and right file list'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist
