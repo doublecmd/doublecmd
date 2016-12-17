@@ -1324,7 +1324,7 @@ begin
   gAlwaysShowTrayIcon := False;
   gMouseSelectionEnabled := True;
   gMouseSelectionButton := 0;  // Left
-  gMouseSingleClickStart := 1;
+  gMouseSingleClickStart := 0;
   gScrollMode := smLineByLine;
   gWheelScrollLines:= Mouse.WheelScrollLines;
   gAutoFillColumns := False;
