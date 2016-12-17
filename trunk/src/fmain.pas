@@ -103,6 +103,7 @@ type
     actConfigTreeViewMenusColors: TAction;
     actConfigSaveSettings: TAction;
     actExecuteScript: TAction;
+    actFocusSwap: TAction;
     actUnmarkCurrentNameExt: TAction;
     actMarkCurrentNameExt: TAction;
     actUnmarkCurrentName: TAction;
