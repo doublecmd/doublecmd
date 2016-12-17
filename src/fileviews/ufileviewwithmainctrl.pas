@@ -108,6 +108,7 @@ type
     FRenameFileIndex: PtrInt;
     tmRenameFile: TTimer;
     FMouseRename: Boolean;
+    FMouseFocus: Boolean;
     procedure AfterChangePath; override;
     // Simulates releasing mouse button that started a dragging operation,
     // but was released in another window or another application.
@@ -636,6 +637,8 @@ begin
   if not AtFileList then
     Exit;
 
+  FMouseFocus:= MainControl.Focused;
+
   SetFocus;
 
   // history navigation for mice with extra buttons
@@ -839,6 +842,18 @@ begin
       end;
     end;
 
+  // A single click starts programs and opens files
+  if (gMouseSingleClickStart > 0) and (FMainControlMouseDown = False) and
+     (Shift * [ssShift, ssAlt, ssCtrl] = []) and (not MainControl.Dragging) then
+  begin
+    FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
+    if IsFileIndexInRange(FileIndex) and
+       (GetActiveFileIndex <> FileIndex) then
+    begin
+      SetActiveFile(FileIndex);
+    end;
+  end;
+
   // Selection with right mouse button, if enabled.
   if FMainControlMouseDown and (FMainControlLastMouseButton = mbRight) and
      gMouseSelectionEnabled and (gMouseSelectionButton = 1) then
@@ -878,6 +893,13 @@ begin
 
   if IsMouseSelecting and (GetCaptureControl = MainControl) then
     SetCaptureControl(nil);
+
+  // A single click starts programs and opens files
+  if (gMouseSingleClickStart > 0) and (Button = mbLeft) and
+     (Shift * [ssShift, ssAlt, ssCtrl] = []) and FMouseFocus then
+  begin
+    MainControlDblClick(Sender);
+  end;
 
   FMainControlMouseDown := False;
 end;

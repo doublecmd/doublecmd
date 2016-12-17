@@ -252,6 +252,7 @@ var
   { Mouse }
   gMouseSelectionEnabled: Boolean;
   gMouseSelectionButton: Integer;
+  gMouseSingleClickStart: Integer;
 
   gAutoFillColumns: Boolean;
   gAutoSizeColumn: Integer;
@@ -1323,6 +1324,7 @@ begin
   gAlwaysShowTrayIcon := False;
   gMouseSelectionEnabled := True;
   gMouseSelectionButton := 0;  // Left
+  gMouseSingleClickStart := 1;
   gScrollMode := smLineByLine;
   gWheelScrollLines:= Mouse.WheelScrollLines;
   gAutoFillColumns := False;
@@ -2444,6 +2446,7 @@ begin
       gAlwaysShowTrayIcon := GetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
       gMouseSelectionEnabled := GetAttr(Node, 'Mouse/Selection/Enabled', gMouseSelectionEnabled);
       gMouseSelectionButton := GetValue(Node, 'Mouse/Selection/Button', gMouseSelectionButton);
+      gMouseSingleClickStart := GetValue(Node, 'Mouse/SingleClickStart', gMouseSingleClickStart);
       gScrollMode := TScrollMode(GetValue(Node, 'Mouse/ScrollMode', Integer(gScrollMode)));
       gWheelScrollLines:= GetValue(Node, 'Mouse/WheelScrollLines', gWheelScrollLines);
       gAutoFillColumns := GetValue(Node, 'AutoFillColumns', gAutoFillColumns);
@@ -3041,6 +3044,7 @@ begin
     SubNode := FindNode(Node, 'Mouse', True);
     SetAttr(SubNode, 'Selection/Enabled', gMouseSelectionEnabled);
     SetValue(SubNode, 'Selection/Button', gMouseSelectionButton);
+    SetValue(SubNode, 'SingleClickStart', gMouseSingleClickStart);
     SetValue(SubNode, 'ScrollMode', Integer(gScrollMode));
     SetValue(SubNode, 'WheelScrollLines', gWheelScrollLines);
     SetValue(Node, 'AutoFillColumns', gAutoFillColumns);
