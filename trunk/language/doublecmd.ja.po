@@ -2210,6 +2210,14 @@ msgstr "フラットビュー(&F)"
 msgid "Focus command line"
 msgstr "コマンドラインにフォーカス"
 
+#: tfrmmain.actfocusswap.caption
+msgid "Swap focus"
+msgstr ""
+
+#: tfrmmain.actfocusswap.hint
+msgid "Switch between left and right file list"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "リストの最初のファイルにカーソルを置く"
@@ -9766,7 +9774,7 @@ msgstr "ビューア"
 msgid ""
 "A setup with that name already exists.\n"
 "Do you want to overwrite it?\n"
-msgstr "その名前のセットアップは既に存在します。上書きしますか？\n"
+msgstr "その名前のセットアップは既に存在します。上書きしますか？"
 
 #: ulng.rshotkeyfileconfirmdefault
 msgid "Are you sure you want to restore default?"
@@ -12240,3 +12248,4 @@ msgstr "置換の回数：%d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "置換は起こりませんでした。"
+

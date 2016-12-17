@@ -2156,6 +2156,14 @@ msgstr "Płaski widok (bez podkatalogów)"
 msgid "Focus command line"
 msgstr "Przejdź do lini poleceń"
 
+#: tfrmmain.actfocusswap.caption
+msgid "Swap focus"
+msgstr ""
+
+#: tfrmmain.actfocusswap.hint
+msgid "Switch between left and right file list"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Umieść kursor na pierwszym pliku listy"

@@ -2241,6 +2241,14 @@ msgstr ""
 msgid "Focus command line"
 msgstr "Foco na linha de comandos"
 
+#: tfrmmain.actfocusswap.caption
+msgid "Swap focus"
+msgstr ""
+
+#: tfrmmain.actfocusswap.hint
+msgid "Switch between left and right file list"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Colocar cursor no primeiro ficheiro da lista"

@@ -2230,6 +2230,14 @@ msgstr "&일괄보기(하위폴더 포함)"
 msgid "Focus command line"
 msgstr "명령 라인 포커스"
 
+#: tfrmmain.actfocusswap.caption
+msgid "Swap focus"
+msgstr ""
+
+#: tfrmmain.actfocusswap.hint
+msgid "Switch between left and right file list"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "목록 첫 파일에 커서 두기"

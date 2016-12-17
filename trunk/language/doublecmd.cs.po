@@ -2162,6 +2162,14 @@ msgstr "Pří&mé zobrazení"
 msgid "Focus command line"
 msgstr "Zaměřit příkazový řádek"
 
+#: tfrmmain.actfocusswap.caption
+msgid "Swap focus"
+msgstr ""
+
+#: tfrmmain.actfocusswap.hint
+msgid "Switch between left and right file list"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Umístit kurzor na první soubor v seznamu"
