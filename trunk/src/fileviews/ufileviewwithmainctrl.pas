@@ -843,7 +843,7 @@ begin
     end;
 
   // A single click starts programs and opens files
-  if (gMouseSingleClickStart > 0) and (FMainControlMouseDown = False) and
+  if (gMouseSingleClickStart in [1..3]) and (FMainControlMouseDown = False) and
      (Shift * [ssShift, ssAlt, ssCtrl] = []) and (not MainControl.Dragging) then
   begin
     FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
