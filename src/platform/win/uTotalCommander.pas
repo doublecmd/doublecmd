@@ -97,464 +97,464 @@ const
   //jcf:format=off
   COMMANDS_LIST_TC: array[1..NUMBEROFCOMMANDS] of TTCommandEquivalence =
     (
-    (TCCommand: 'cm_SrcComments';               TCIcon: 21; DCCommand: '';                          DCParameters: ''        ), //Source: Show comments
-    (TCCommand: 'cm_SrcShort';                  TCIcon: 3;  DCCommand: 'cm_BriefView';              DCParameters: ''        ), //Source: Only file names
-    (TCCommand: 'cm_SrcLong';                   TCIcon: 4;  DCCommand: 'cm_ColumnsView';            DCParameters: ''        ), //Source: All file details
-    (TCCommand: 'cm_SrcTree';                   TCIcon: 2;  DCCommand: '';                          DCParameters: ''        ), //Source: Directory tree
-    (TCCommand: 'cm_SrcQuickview';              TCIcon: 22; DCCommand: 'cm_QuickView';              DCParameters: ''        ), //Source: Quick view panel
-    (TCCommand: 'cm_VerticalPanels';            TCIcon: 23; DCCommand: 'cm_HorizontalFilePanels';   DCParameters: ''        ), //File windows above each other
-    (TCCommand: 'cm_SrcQuickInternalOnly';      TCIcon: 22; DCCommand: '';                          DCParameters: ''        ), //Source: Quick view, no plugins
-    (TCCommand: 'cm_SrcHideQuickview';          TCIcon: 22; DCCommand: '';                          DCParameters: ''        ), //Source: Quick view panel off
-    (TCCommand: 'cm_SrcExecs';                  TCIcon: 12; DCCommand: '';                          DCParameters: ''        ), //Source: Only programs
-    (TCCommand: 'cm_SrcAllFiles';               TCIcon: 13; DCCommand: '';                          DCParameters: ''        ), //Source: All files
-    (TCCommand: 'cm_SrcUserSpec';               TCIcon: 24; DCCommand: '';                          DCParameters: ''        ), //Source: Last selected
-    (TCCommand: 'cm_SrcUserDef';                TCIcon: 25; DCCommand: '';                          DCParameters: ''        ), //Source: Select user type
-    (TCCommand: 'cm_SrcByName';                 TCIcon: 5;  DCCommand: 'cm_SortByName';             DCParameters: ''        ), //Source: Sort by name
-    (TCCommand: 'cm_SrcByExt';                  TCIcon: 6;  DCCommand: 'cm_SortByExt';              DCParameters: ''        ), //Source: Sort by extension
-    (TCCommand: 'cm_SrcBySize';                 TCIcon: 8;  DCCommand: 'cm_SortBySize';             DCParameters: ''        ), //Source: Sort by size
-    (TCCommand: 'cm_SrcByDateTime';             TCIcon: 7;  DCCommand: 'cm_SortByDate';             DCParameters: ''        ), //Source: Sort by date
-    (TCCommand: 'cm_SrcUnsorted';               TCIcon: 9;  DCCommand: '';                          DCParameters: ''        ), //Source: Unsorted
-    (TCCommand: 'cm_SrcNegOrder';               TCIcon: 10; DCCommand: 'cm_ReverseOrder';           DCParameters: ''        ), //Source: Reversed order
-    (TCCommand: 'cm_SrcOpenDrives';             TCIcon: -1; DCCommand: 'cm_SrcOpenDrives';          DCParameters: ''        ), //Source: Open drive list
-    (TCCommand: 'cm_SrcThumbs';                 TCIcon: 26; DCCommand: 'cm_ThumbnailsView';         DCParameters: ''        ), //Source: Thumbnail view
-    (TCCommand: 'cm_SrcCustomViewMenu';         TCIcon: 52; DCCommand: '';                          DCParameters: ''        ), //Source: Custom view menu
-    (TCCommand: 'cm_SrcPathFocus';              TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Source: Put focus on path
-    (TCCommand: 'cm_LeftComments';              TCIcon: 21; DCCommand: '';                          DCParameters: ''        ), //Left: Show comments
-    (TCCommand: 'cm_LeftShort';                 TCIcon: 3;  DCCommand: 'cm_LeftBriefView';          DCParameters: ''        ), //Left: Only file names
-    (TCCommand: 'cm_LeftLong';                  TCIcon: 4;  DCCommand: 'cm_LeftColumnsView';        DCParameters: ''        ), //Left: All file details
-    (TCCommand: 'cm_LeftTree';                  TCIcon: 2;  DCCommand: '';                          DCParameters: ''        ), //Left: Directory tree
-    (TCCommand: 'cm_LeftQuickview';             TCIcon: 22; DCCommand: '';                          DCParameters: ''        ), //Left: Quick view panel
-    (TCCommand: 'cm_LeftQuickInternalOnly';     TCIcon: 22; DCCommand: '';                          DCParameters: ''        ), //Left: Quick view, no plugins
-    (TCCommand: 'cm_LeftHideQuickview';         TCIcon: 22; DCCommand: '';                          DCParameters: ''        ), //Left: Quick view panel off
-    (TCCommand: 'cm_LeftExecs';                 TCIcon: 12; DCCommand: '';                          DCParameters: ''        ), //Left: Only programs
-    (TCCommand: 'cm_LeftAllFiles';              TCIcon: 13; DCCommand: '';                          DCParameters: ''        ), //Left: All files
-    (TCCommand: 'cm_LeftUserSpec';              TCIcon: 24; DCCommand: '';                          DCParameters: ''        ), //Left: Last selected
-    (TCCommand: 'cm_LeftUserDef';               TCIcon: 25; DCCommand: '';                          DCParameters: ''        ), //Left: Select user type
-    (TCCommand: 'cm_LeftByName';                TCIcon: 5;  DCCommand: 'cm_LeftSortByName';         DCParameters: ''        ), //Left: Sort by name
-    (TCCommand: 'cm_LeftByExt';                 TCIcon: 6;  DCCommand: 'cm_LeftSortByExt';          DCParameters: ''        ), //Left: Sort by extension
-    (TCCommand: 'cm_LeftBySize';                TCIcon: 8;  DCCommand: 'cm_LeftSortBySize';         DCParameters: ''        ), //Left: Sort by size
-    (TCCommand: 'cm_LeftByDateTime';            TCIcon: 7;  DCCommand: 'cm_LeftSortByDate';         DCParameters: ''        ), //Left: Sort by date
-    (TCCommand: 'cm_LeftUnsorted';              TCIcon: 9;  DCCommand: '';                          DCParameters: ''        ), //Left: Unsorted
-    (TCCommand: 'cm_LeftNegOrder';              TCIcon: 10; DCCommand: 'cm_LeftReverseOrder';       DCParameters: ''        ), //Left: Reversed order
-    (TCCommand: 'cm_LeftOpenDrives';            TCIcon: -1; DCCommand: 'cm_LeftOpenDrives';         DCParameters: ''        ), //Left: Open drive list
-    (TCCommand: 'cm_LeftPathFocus';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Left: Put focus on path
-    (TCCommand: 'cm_LeftDirBranch';             TCIcon: 50; DCCommand: 'cm_LeftFlatView';           DCParameters: ''        ), //Left: Branch view
-    (TCCommand: 'cm_LeftDirBranchSel';          TCIcon: 50; DCCommand: '';                          DCParameters: ''        ), //Left: branch view, only selected
-    (TCCommand: 'cm_LeftThumbs';                TCIcon: 26; DCCommand: 'cm_LeftThumbView';          DCParameters: ''        ), //Left: Thumbnail view
-    (TCCommand: 'cm_LeftCustomViewMenu';        TCIcon: 52; DCCommand: '';                          DCParameters: ''        ), //Left: Custom view menu
-    (TCCommand: 'cm_RightComments';             TCIcon: 21; DCCommand: '';                          DCParameters: ''        ), //Right: Show comments
-    (TCCommand: 'cm_RightShort';                TCIcon: 3;  DCCommand: 'cm_RightBriefView';         DCParameters: ''        ), //Right: Only file names
-    (TCCommand: 'cm_RightLong';                 TCIcon: 4;  DCCommand: 'cm_RightColumnsView';       DCParameters: ''        ), //Right: All file details
-    (TCCommand: 'cm_RightTree';                 TCIcon: 2;  DCCommand: '';                          DCParameters: ''        ), //Right: Directory tree
-    (TCCommand: 'cm_RightQuickview';            TCIcon: 22; DCCommand: '';                          DCParameters: ''        ), //Right: Quick view panel
-    (TCCommand: 'cm_RightQuickInternalOnly';    TCIcon: 22; DCCommand: '';                          DCParameters: ''        ), //Right: Quick view, no plugins
-    (TCCommand: 'cm_RightHideQuickview';        TCIcon: 22; DCCommand: '';                          DCParameters: ''        ), //Right: Quick view panel off
-    (TCCommand: 'cm_RightExecs';                TCIcon: 12; DCCommand: '';                          DCParameters: ''        ), //Right: Only programs
-    (TCCommand: 'cm_RightAllFiles';             TCIcon: 13; DCCommand: '';                          DCParameters: ''        ), //Right: All files
-    (TCCommand: 'cm_RightUserSpec';             TCIcon: 24; DCCommand: '';                          DCParameters: ''        ), //Right: Last selected
-    (TCCommand: 'cm_RightUserDef';              TCIcon: 25; DCCommand: '';                          DCParameters: ''        ), //Right: Select user type
-    (TCCommand: 'cm_RightByName';               TCIcon: 5;  DCCommand: '';                          DCParameters: ''        ), //Right: Sort by name
-    (TCCommand: 'cm_RightByExt';                TCIcon: 6;  DCCommand: 'cm_RightSortByName';        DCParameters: ''        ), //Right: Sort by extension
-    (TCCommand: 'cm_RightBySize';               TCIcon: 8;  DCCommand: 'cm_RightSortByExt';         DCParameters: ''        ), //Right: Sort by size
-    (TCCommand: 'cm_RightByDateTime';           TCIcon: 7;  DCCommand: 'cm_RightSortBySize';        DCParameters: ''        ), //Right: Sort by date
-    (TCCommand: 'cm_RightUnsorted';             TCIcon: 9;  DCCommand: 'cm_RightSortByDate';        DCParameters: ''        ), //Right: Unsorted
-    (TCCommand: 'cm_RightNegOrder';             TCIcon: 10; DCCommand: 'cm_RightReverseOrder';      DCParameters: ''        ), //Right: Reversed order
-    (TCCommand: 'cm_RightOpenDrives';           TCIcon: -1; DCCommand: 'cm_RightOpenDrives';        DCParameters: ''        ), //Right: Open drive list
-    (TCCommand: 'cm_RightPathFocus';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Right: Put focus on path
-    (TCCommand: 'cm_RightDirBranch';            TCIcon: 50; DCCommand: 'cm_RightFlatView';          DCParameters: ''        ), //Right: branch view
-    (TCCommand: 'cm_RightDirBranchSel';         TCIcon: 50; DCCommand: '';                          DCParameters: ''        ), //Right: branch view, only selected
-    (TCCommand: 'cm_RightThumbs';               TCIcon: 26; DCCommand: 'cm_RightThumbView';         DCParameters: ''        ), //Right: Thumbnail view
-    (TCCommand: 'cm_RightCustomViewMenu';       TCIcon: 52; DCCommand: '';                          DCParameters: ''        ), //Right: Custom view menu
-    (TCCommand: 'cm_List';                      TCIcon: 27; DCCommand: 'cm_View';                   DCParameters: ''        ), //View with Lister
-    (TCCommand: 'cm_ListInternalOnly';          TCIcon: 27; DCCommand: 'cm_view';                   DCParameters: ''        ), //Lister without plugins/multimedia
-    (TCCommand: 'cm_Edit';                      TCIcon: 28; DCCommand: 'cm_Edit';                   DCParameters: ''        ), //Edit (Notepad)
-    (TCCommand: 'cm_Copy';                      TCIcon: 62; DCCommand: 'cm_Copy';                   DCParameters: ''        ), //Copy files
-    (TCCommand: 'cm_CopySamepanel';             TCIcon: 62; DCCommand: 'cm_CopySamePanel';          DCParameters: ''        ), //Copy within panel
-    (TCCommand: 'cm_CopyOtherpanel';            TCIcon: 62; DCCommand: '';                          DCParameters: ''        ), //Copy to other
-    (TCCommand: 'cm_RenMov';                    TCIcon: 63; DCCommand: 'cm_Rename';                 DCParameters: ''        ), //Rename/Move files
-    (TCCommand: 'cm_MkDir';                     TCIcon: 29; DCCommand: 'cm_MakeDir';                DCParameters: ''        ), //Make directory
-    (TCCommand: 'cm_Delete';                    TCIcon: 64; DCCommand: 'cm_Delete';                 DCParameters: ''        ), //Delete files
-    (TCCommand: 'cm_TestArchive';               TCIcon: 60; DCCommand: 'cm_TestArchive';            DCParameters: ''        ), //Test selected archives
-    (TCCommand: 'cm_PackFiles';                 TCIcon: 30; DCCommand: 'cm_PackFiles';              DCParameters: ''        ), //Pack files
-    (TCCommand: 'cm_UnpackFiles';               TCIcon: 31; DCCommand: 'cm_ExtractFiles';           DCParameters: ''        ), //Unpack all
-    (TCCommand: 'cm_RenameOnly';                TCIcon: 32; DCCommand: 'cm_RenameOnly';             DCParameters: ''        ), //Rename (Shift+F6)
-    (TCCommand: 'cm_RenameSingleFile';          TCIcon: 32; DCCommand: 'cm_RenameOnly';             DCParameters: ''        ), //Rename file under cursor
-    (TCCommand: 'cm_MoveOnly';                  TCIcon: 63; DCCommand: '';                          DCParameters: ''        ), //Move (F6)
-    (TCCommand: 'cm_Properties';                TCIcon: -1; DCCommand: 'cm_FileProperties';         DCParameters: ''        ), //Properties dialog
-    (TCCommand: 'cm_CreateShortcut';            TCIcon: 65; DCCommand: '';                          DCParameters: ''        ), //Create a shortcut
-    (TCCommand: 'cm_Return';                    TCIcon: -1; DCCommand: 'cm_Open';                   DCParameters: ''        ), //Simulate: Return pressed
-    (TCCommand: 'cm_OpenAsUser';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Open program under cursor as different user
-    (TCCommand: 'cm_Split';                     TCIcon: 68; DCCommand: 'cm_FileSpliter';            DCParameters: ''        ), //Split file into pieces
-    (TCCommand: 'cm_Combine';                   TCIcon: 69; DCCommand: 'cm_FileLinker';             DCParameters: ''        ), //Combine partial files
-    (TCCommand: 'cm_Encode';                    TCIcon: 66; DCCommand: '';                          DCParameters: ''        ), //Encode MIME/UUE/XXE
-    (TCCommand: 'cm_Decode';                    TCIcon: 67; DCCommand: '';                          DCParameters: ''        ), //Decode MIME/UUE/XXE/BinHex
-    (TCCommand: 'cm_CRCcreate';                 TCIcon: -1; DCCommand: 'cm_CheckSumCalc';           DCParameters: ''        ), //Create CRC checksums
-    (TCCommand: 'cm_CRCcheck';                  TCIcon: 61; DCCommand: 'cm_CheckSumVerify';         DCParameters: ''        ), //Verify CRC checksums
-    (TCCommand: 'cm_SetAttrib';                 TCIcon: 33; DCCommand: 'cm_SetFileProperties';      DCParameters: ''        ), //Change attributes
-    (TCCommand: 'cm_Config';                    TCIcon: 34; DCCommand: 'cm_Options';                DCParameters: ''        ), //Conf: Layout (first page)
-    (TCCommand: 'cm_DisplayConfig';             TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Display
-    (TCCommand: 'cm_IconConfig';                TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Icons
-    (TCCommand: 'cm_FontConfig';                TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Font
-    (TCCommand: 'cm_ColorConfig';               TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Colors
-    (TCCommand: 'cm_ConfTabChange';             TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Tabstops
-    (TCCommand: 'cm_DirTabsConfig';             TCIcon: 34; DCCommand: 'cm_ConfigFolderTabs';       DCParameters: ''        ), //Conf: Directory tabs
-    (TCCommand: 'cm_CustomColumnConfig';        TCIcon: 56; DCCommand: '';                          DCParameters: ''        ), //Conf: Custom colums
-    (TCCommand: 'cm_CustomColumnDlg';           TCIcon: 56; DCCommand: '';                          DCParameters: ''        ), //Change current custom columns
-    (TCCommand: 'cm_LanguageConfig';            TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Language
-    (TCCommand: 'cm_Config2';                   TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Operation
-    (TCCommand: 'cm_EditConfig';                TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Viewer/Editor
-    (TCCommand: 'cm_CopyConfig';                TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Copy/Delete
-    (TCCommand: 'cm_RefreshConfig';             TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Refresh file lists
-    (TCCommand: 'cm_QuickSearchConfig';         TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Quick Search
-    (TCCommand: 'cm_FtpConfig';                 TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //FTP options
-    (TCCommand: 'cm_PluginsConfig';             TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Plugins
-    (TCCommand: 'cm_ThumbnailsConfig';          TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Thumbnails
-    (TCCommand: 'cm_LogConfig';                 TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Log file
-    (TCCommand: 'cm_IgnoreConfig';              TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Ignore list
-    (TCCommand: 'cm_PackerConfig';              TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Packer
-    (TCCommand: 'cm_ZipPackerConfig';           TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: ZIP packer
-    (TCCommand: 'cm_Confirmation';              TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Conf: Misc, Confirmation
-    (TCCommand: 'cm_ConfigSavePos';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Conf: Save position
-    (TCCommand: 'cm_ButtonConfig';              TCIcon: 14; DCCommand: 'cm_ConfigToolbars';         DCParameters: ''        ), //Conf: Button bar
-    (TCCommand: 'cm_ConfigSaveSettings';        TCIcon: -1; DCCommand: 'cm_ConfigSaveSettings';     DCParameters: ''        ), //Save current paths etc.
-    (TCCommand: 'cm_ConfigChangeIniFiles';      TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Open ini files in notepad
-    (TCCommand: 'cm_ConfigSaveDirHistory';      TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Save directory history
-    (TCCommand: 'cm_ChangeStartMenu';           TCIcon: 34; DCCommand: '';                          DCParameters: ''        ), //Change Start menu
-    (TCCommand: 'cm_NetConnect';                TCIcon: 53; DCCommand: 'cm_NetworkConnect';         DCParameters: ''        ), //Network connections
-    (TCCommand: 'cm_NetDisconnect';             TCIcon: 54; DCCommand: 'cm_NetworkDisconnect';      DCParameters: ''        ), //Disconnect network drives
-    (TCCommand: 'cm_NetShareDir';               TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Share directory
-    (TCCommand: 'cm_NetUnshareDir';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Unshare directory
-    (TCCommand: 'cm_AdministerServer';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Connect to admin share to open \\server\c$ etc.
-    (TCCommand: 'cm_ShowFileUser';              TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Which remote user has opened a local file
-    (TCCommand: 'cm_GetFileSpace';              TCIcon: -1; DCCommand: 'cm_CalculateSpace';         DCParameters: ''        ), //Calculate space
-    (TCCommand: 'cm_VolumeId';                  TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Volume label
-    (TCCommand: 'cm_VersionInfo';               TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Version information
-    (TCCommand: 'cm_ExecuteDOS';                TCIcon: -1; DCCommand: 'cm_RunTerm';                DCParameters: ''        ), //Open command prompt window
-    (TCCommand: 'cm_CompareDirs';               TCIcon: 35; DCCommand: 'cm_CompareDirectories';     DCParameters: ''        ), //Compare dirs
-    (TCCommand: 'cm_CompareDirsWithSubdirs';    TCIcon: 35; DCCommand: 'cm_CompareDirectories';     DCParameters: ''        ), //Also mark subdirs not present in other dir
-    (TCCommand: 'cm_ContextMenu';               TCIcon: -1; DCCommand: 'cm_ContextMenu';            DCParameters: ''        ), //Show context menu
-    (TCCommand: 'cm_ContextMenuInternal';       TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show context menu for internal associations
-    (TCCommand: 'cm_ContextMenuInternalCursor'; TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Internal context menu for file under cursor
-    (TCCommand: 'cm_ShowRemoteMenu';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Context menu for Media Center remote control Play/Pause
-    (TCCommand: 'cm_SyncChangeDir';             TCIcon: 75; DCCommand: '';                          DCParameters: ''        ), //Synchronous directory changing in both windows
-    (TCCommand: 'cm_EditComment';               TCIcon: -1; DCCommand: 'cm_EditComment';            DCParameters: ''        ), //Edit file comment
-    (TCCommand: 'cm_FocusLeft';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Focus on left file list
-    (TCCommand: 'cm_FocusRight';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Focus on right file list
-    (TCCommand: 'cm_FocusCmdLine';              TCIcon: -1; DCCommand: 'cm_FocusCmdLine';           DCParameters: ''        ), //Focus on command line
-    (TCCommand: 'cm_FocusButtonBar';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Focus on button bar
-    (TCCommand: 'cm_CountDirContent';           TCIcon: 36; DCCommand: 'cm_CountDirContent';        DCParameters: ''        ), //Calculate space occupied by subdirs in current dir
-    (TCCommand: 'cm_UnloadPlugins';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Unload all plugins
-    (TCCommand: 'cm_DirMatch';                  TCIcon: 35; DCCommand: '';                          DCParameters: ''        ), //Mark newer
-    (TCCommand: 'cm_Exchange';                  TCIcon: 37; DCCommand: 'cm_Exchange';               DCParameters: ''        ), //Swap panels
-    (TCCommand: 'cm_MatchSrc';                  TCIcon: 86; DCCommand: 'cm_TargetEqualSource';      DCParameters: ''        ), //target=Source
-    (TCCommand: 'cm_ReloadSelThumbs';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Re-load selected thumbnails
-    (TCCommand: 'cm_DirectCableConnect';        TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Connect to other PC by cable
-    (TCCommand: 'cm_NTinstallDriver';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Install parallel port driver on NT
-    (TCCommand: 'cm_NTremoveDriver';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Remove parallel port driver on NT
-    (TCCommand: 'cm_PrintDir';                  TCIcon: 38; DCCommand: '';                          DCParameters: ''        ), //Print current directory (with preview)
-    (TCCommand: 'cm_PrintDirSub';               TCIcon: 38; DCCommand: '';                          DCParameters: ''        ), //Print dir with subdirs
-    (TCCommand: 'cm_PrintFile';                 TCIcon: 38; DCCommand: '';                          DCParameters: ''        ), //Print file
-    (TCCommand: 'cm_SpreadSelection';           TCIcon: 39; DCCommand: 'cm_MarkPlus';               DCParameters: ''        ), //Select group
-    (TCCommand: 'cm_SelectBoth';                TCIcon: 72; DCCommand: 'cm_MarkPlus';               DCParameters: 'attr='   ), //Select group: files+folders
-    (TCCommand: 'cm_SelectFiles';               TCIcon: 70; DCCommand: 'cm_MarkPlus';               DCParameters: 'attr=d-' ), //Select group: just files
-    (TCCommand: 'cm_SelectFolders';             TCIcon: 71; DCCommand: 'cm_MarkPlus';               DCParameters: 'attr=d+' ), //Select group: just folders
-    (TCCommand: 'cm_ShrinkSelection';           TCIcon: 40; DCCommand: 'cm_MarkMinus';              DCParameters: 'attr='   ), //Unselect group
-    (TCCommand: 'cm_ClearFiles';                TCIcon: 40; DCCommand: 'cm_MarkMinus';              DCParameters: 'attr=d+' ), //Unselect group: just files
-    (TCCommand: 'cm_ClearFolders';              TCIcon: 40; DCCommand: 'cm_MarkMinus';              DCParameters: 'attr=d-' ), //Unselect group: just folders
-    (TCCommand: 'cm_ClearSelCfg';               TCIcon: 40; DCCommand: 'cm_MarkMinus';              DCParameters: ''        ), //Unselect group (files or both, as configured)
-    (TCCommand: 'cm_SelectAll';                 TCIcon: 44; DCCommand: 'cm_MarkMarkAll';            DCParameters: ''        ), //Select all (files or both, as configured)
-    (TCCommand: 'cm_SelectAllBoth';             TCIcon: 44; DCCommand: 'cm_MarkMarkAll';            DCParameters: 'attr='   ), //Select both files+folders
-    (TCCommand: 'cm_SelectAllFiles';            TCIcon: 44; DCCommand: 'cm_MarkMarkAll';            DCParameters: 'attr=d-' ), //Select all files
-    (TCCommand: 'cm_SelectAllFolders';          TCIcon: 44; DCCommand: 'cm_MarkMarkAll';            DCParameters: 'attr=d+' ), //Select all folders
-    (TCCommand: 'cm_ClearAll';                  TCIcon: -1; DCCommand: 'cm_MarkUnmarkAll';          DCParameters: 'attr='   ), //Unselect all (files+folders)
-    (TCCommand: 'cm_ClearAllFiles';             TCIcon: -1; DCCommand: 'cm_MarkUnmarkAll';          DCParameters: 'attr=d-' ), //Unselect all files
-    (TCCommand: 'cm_ClearAllFolders';           TCIcon: -1; DCCommand: 'cm_MarkUnmarkAll';          DCParameters: 'attr=d+' ), //Unselect all folders
-    (TCCommand: 'cm_ClearAllCfg';               TCIcon: -1; DCCommand: 'cm_MarkUnmarkAll';          DCParameters: ''        ), //Unselect all (files or both, as configured)
-    (TCCommand: 'cm_ExchangeSelection';         TCIcon: 11; DCCommand: 'cm_MarkInvert';             DCParameters: ''        ), //Invert selection
-    (TCCommand: 'cm_ExchangeSelBoth';           TCIcon: 11; DCCommand: 'cm_MarkInvert';             DCParameters: 'attr='   ), //Invert selection (files+folders)
-    (TCCommand: 'cm_ExchangeSelFiles';          TCIcon: 11; DCCommand: 'cm_MarkInvert';             DCParameters: 'attr=d-' ), //Invert selection (files)
-    (TCCommand: 'cm_ExchangeSelFolders';        TCIcon: 11; DCCommand: 'cm_MarkInvert';             DCParameters: 'attr=d+' ), //Invert selection (folders)
-    (TCCommand: 'cm_SelectCurrentExtension';    TCIcon: 41; DCCommand: 'cm_MarkCurrentExtension';   DCParameters: ''        ), //Select all files with same ext.
-    (TCCommand: 'cm_UnselectCurrentExtension';  TCIcon: -1; DCCommand: 'cm_UnmarkCurrentExtension'; DCParameters: ''        ), //Unselect all files with same ext.
-    (TCCommand: 'cm_SelectCurrentName';         TCIcon: -1; DCCommand: 'cm_MarkCurrentName';        DCParameters: ''        ), //Select all files with same name
-    (TCCommand: 'cm_UnselectCurrentName';       TCIcon: -1; DCCommand: 'cm_UnmarkCurrentName';      DCParameters: ''        ), //Unselect all files with same name
-    (TCCommand: 'cm_SelectCurrentNameExt';      TCIcon: -1; DCCommand: 'cm_MarkCurrentNameExt';     DCParameters: ''        ), //Select all files with same name+ext.
-    (TCCommand: 'cm_UnselectCurrentNameExt';    TCIcon: -1; DCCommand: 'cm_UnmarkCurrentNameExt';   DCParameters: ''        ), //Unselect all files with same name+ext.
-    (TCCommand: 'cm_SelectCurrentPath';         TCIcon: 72; DCCommand: 'cm_MarkCurrentPath';        DCParameters: ''        ), //Select all in same path (for branch view+search)
-    (TCCommand: 'cm_UnselectCurrentPath';       TCIcon: -1; DCCommand: 'cm_UnmarkCurrentPath';      DCParameters: ''        ), //Unselect all in same path
-    (TCCommand: 'cm_RestoreSelection';          TCIcon: 42; DCCommand: 'cm_RestoreSelection';       DCParameters: ''        ), //Selection before last operation
-    (TCCommand: 'cm_SaveSelection';             TCIcon: 43; DCCommand: 'cm_SaveSelection';          DCParameters: ''        ), //Temporarily save selection
-    (TCCommand: 'cm_SaveSelectionToFile';       TCIcon: -1; DCCommand: 'cm_SaveSelectionToFile';    DCParameters: ''        ), //Save file selection to file
-    (TCCommand: 'cm_SaveSelectionToFileA';      TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Save file selection to file (ANSI)
-    (TCCommand: 'cm_SaveSelectionToFileW';      TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Save file selection to file (Unicode)
-    (TCCommand: 'cm_SaveDetailsToFile';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Save all shown columns to file
-    (TCCommand: 'cm_SaveDetailsToFileA';        TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Save all shown columns to file (ANSI)
-    (TCCommand: 'cm_SaveDetailsToFileW';        TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Save all shown columns to file (Unicode)
-    (TCCommand: 'cm_LoadSelectionFromFile';     TCIcon: -1; DCCommand: 'cm_LoadSelectionFromFile';  DCParameters: ''        ), //Read file selection from file
-    (TCCommand: 'cm_LoadSelectionFromClip';     TCIcon: -1; DCCommand: 'cm_LoadSelectionFromClip';  DCParameters: ''        ), //Read file selection from clipboard
-    (TCCommand: 'cm_EditPermissionInfo';        TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Permissions dialog (NTFS)
-    (TCCommand: 'cm_EditPersmissionInfo';       TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Typo...
-    (TCCommand: 'cm_EditAuditInfo';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //File auditing (NTFS)
-    (TCCommand: 'cm_EditOwnerInfo';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Take ownership (NTFS)
-    (TCCommand: 'cm_CutToClipboard';            TCIcon: -1; DCCommand: 'cm_CutToClipboard';         DCParameters: ''        ), //Cut selected files to clipboard
-    (TCCommand: 'cm_CopyToClipboard';           TCIcon: -1; DCCommand: 'cm_CopyToClipboard';        DCParameters: ''        ), //Copy selected files to clipboard
-    (TCCommand: 'cm_PasteFromClipboard';        TCIcon: -1; DCCommand: 'cm_PasteFromClipboard';     DCParameters: ''        ), //Paste from clipboard to current dir
-    (TCCommand: 'cm_CopyNamesToClip';           TCIcon: 45; DCCommand: 'cm_CopyNamesToClip';        DCParameters: ''        ), //Copy filenames to clipboard
-    (TCCommand: 'cm_CopyFullNamesToClip';       TCIcon: 45; DCCommand: 'cm_CopyFullNamesToClip';    DCParameters: ''        ), //Copy names with full path
-    (TCCommand: 'cm_CopyNetNamesToClip';        TCIcon: 45; DCCommand: '';                          DCParameters: ''        ), //Copy names with UNC path
-    (TCCommand: 'cm_CopySrcPathToClip';         TCIcon: 45; DCCommand: '';                          DCParameters: ''        ), //Copy source path to clipboard
-    (TCCommand: 'cm_CopyTrgPathToClip';         TCIcon: 45; DCCommand: '';                          DCParameters: ''        ), //Copy target path to clipboard
-    (TCCommand: 'cm_CopyFileDetailsToClip';     TCIcon: 59; DCCommand: 'cm_CopyFileDetailsToClip';  DCParameters: ''        ), //Copy all shown columns
-    (TCCommand: 'cm_CopyFpFileDetailsToClip';   TCIcon: 59; DCCommand: '';                          DCParameters: ''        ), //Copy all columns, with full path
-    (TCCommand: 'cm_CopyNetFileDetailsToClip';  TCIcon: 59; DCCommand: '';                          DCParameters: ''        ), //Copy all columns, with UNC path
-    (TCCommand: 'cm_FtpConnect';                TCIcon: 16; DCCommand: '';                          DCParameters: ''        ), //Connect to FTP
-    (TCCommand: 'cm_FtpNew';                    TCIcon: 17; DCCommand: '';                          DCParameters: ''        ), //New FTP connection
-    (TCCommand: 'cm_FtpDisconnect';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Disconnect from FTP
-    (TCCommand: 'cm_FtpHiddenFiles';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show hidden FTP files
-    (TCCommand: 'cm_FtpAbort';                  TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Abort current FTP command
-    (TCCommand: 'cm_FtpResumeDownload';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Resume aborted download
-    (TCCommand: 'cm_FtpSelectTransferMode';     TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Select Binary, ASCII or Auto mode
-    (TCCommand: 'cm_FtpAddToList';              TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Add selected files to download list
-    (TCCommand: 'cm_FtpDownloadList';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Download files in download list
-    (TCCommand: 'cm_GotoPreviousDir';           TCIcon: 18; DCCommand: '';                          DCParameters: ''        ), //Go back
-    (TCCommand: 'cm_GotoNextDir';               TCIcon: 19; DCCommand: '';                          DCParameters: ''        ), //Go forward
-    (TCCommand: 'cm_DirectoryHistory';          TCIcon: -1; DCCommand: 'cm_DirHistory';             DCParameters: ''        ), //History list
-    (TCCommand: 'cm_GotoPreviousLocalDir';      TCIcon: 18; DCCommand: '';                          DCParameters: ''        ), //Go back, no ftp
-    (TCCommand: 'cm_GotoNextLocalDir';          TCIcon: 19; DCCommand: '';                          DCParameters: ''        ), //Go forward, no ftp
-    (TCCommand: 'cm_DirectoryHotlist';          TCIcon: -1; DCCommand: 'cm_DirHotList';             DCParameters: ''        ), //Directory popup menu
-    (TCCommand: 'cm_GoToRoot';                  TCIcon: -1; DCCommand: 'cm_ChangeDirToRoot';        DCParameters: ''        ), //Go to root directory
-    (TCCommand: 'cm_GoToParent';                TCIcon: 15; DCCommand: 'cm_ChangeDirToParent';      DCParameters: ''        ), //Go to parent directory
-    (TCCommand: 'cm_GoToDir';                   TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Open dir or zip under cursor
-    (TCCommand: 'cm_OpenDesktop';               TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Desktop folder
-    (TCCommand: 'cm_OpenDrives';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //My computer
-    (TCCommand: 'cm_OpenControls';              TCIcon: 20; DCCommand: '';                          DCParameters: ''        ), //Control panel
-    (TCCommand: 'cm_OpenFonts';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Fonts folder
-    (TCCommand: 'cm_OpenNetwork';               TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Network neighborhood
-    (TCCommand: 'cm_OpenPrinters';              TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Printers folder
-    (TCCommand: 'cm_OpenRecycled';              TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Recycle bin
-    (TCCommand: 'cm_CDtree';                    TCIcon: 1;  DCCommand: '';                          DCParameters: ''        ), //Popup directory tree
-    (TCCommand: 'cm_TransferLeft';              TCIcon: -1; DCCommand: 'cm_TransferLeft';           DCParameters: ''        ), //Transfer dir under cursor to left window
-    (TCCommand: 'cm_TransferRight';             TCIcon: -1; DCCommand: 'cm_TransferRight';          DCParameters: ''        ), //Transfer dir under cursor to right window
-    (TCCommand: 'cm_EditPath';                  TCIcon: -1; DCCommand: 'cm_EditPath';               DCParameters: ''        ), //Edit path field above file list
-    (TCCommand: 'cm_GoToFirstFile';             TCIcon: -1; DCCommand: 'cm_GoToFirstFile';          DCParameters: ''        ), //Place cursor on first file in list
-    (TCCommand: 'cm_GotoNextDrive';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Go one drive up (C->D)
-    (TCCommand: 'cm_GotoPreviousDrive';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Go one drive down
-    (TCCommand: 'cm_GotoNextSelected';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Go to next selected file
-    (TCCommand: 'cm_GotoPrevSelected';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Go to previous selected file
-    (TCCommand: 'cm_GotoDriveA';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Switch to drive A
-    (TCCommand: 'cm_GotoDriveC';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Switch to drive C
-    (TCCommand: 'cm_GotoDriveD';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Switch to drive D
-    (TCCommand: 'cm_GotoDriveE';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Switch to drive E
-    (TCCommand: 'cm_GotoDriveF';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //(etc, define your own if)
-    (TCCommand: 'cm_GotoDriveZ';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //(you need more drives)
-    (TCCommand: 'cm_HelpIndex';                 TCIcon: 55; DCCommand: 'cm_HelpIndex';              DCParameters: ''        ), //Help index
-    (TCCommand: 'cm_Keyboard';                  TCIcon: -1; DCCommand: 'cm_Keyboard';               DCParameters: ''        ), //Keyboard help
-    (TCCommand: 'cm_Register';                  TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Registration info
-    (TCCommand: 'cm_VisitHomepage';             TCIcon: -1; DCCommand: 'cm_VisitHomePage';          DCParameters: ''        ), //Visit http://www.ghisler.com/
-    (TCCommand: 'cm_About';                     TCIcon: -1; DCCommand: 'cm_About';                  DCParameters: ''        ), //Help/About Total Commander
-    (TCCommand: 'cm_Exit';                      TCIcon: -1; DCCommand: 'cm_Exit';                   DCParameters: ''        ), //Exit Total Commander
-    (TCCommand: 'cm_Minimize';                  TCIcon: -1; DCCommand: 'cm_Minimize';               DCParameters: ''        ), //Minimize Total Commander
-    (TCCommand: 'cm_Maximize';                  TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Maximize Total Commander
-    (TCCommand: 'cm_Restore';                   TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Restore normal size
-    (TCCommand: 'cm_ClearCmdLine';              TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Clear command line
-    (TCCommand: 'cm_NextCommand';               TCIcon: -1; DCCommand: 'cm_CmdLineNext';            DCParameters: ''        ), //Next command line
-    (TCCommand: 'cm_PrevCommand';               TCIcon: -1; DCCommand: 'cm_CmdLinePrev';            DCParameters: ''        ), //Previous command line
-    (TCCommand: 'cm_AddPathToCmdline';          TCIcon: -1; DCCommand: 'cm_AddPathToCmdLine';       DCParameters: ''        ), //Copy path to command line
-    (TCCommand: 'cm_MultiRenameFiles';          TCIcon: 46; DCCommand: 'cm_MultiRename';            DCParameters: ''        ), //Rename multiple files
-    (TCCommand: 'cm_SysInfo';                   TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //System information
-    (TCCommand: 'cm_OpenTransferManager';       TCIcon: 74; DCCommand: '';                          DCParameters: ''        ), //Background transfer manager
-    (TCCommand: 'cm_SearchFor';                 TCIcon: 47; DCCommand: 'cm_Search';                 DCParameters: ''        ), //Search for
-    (TCCommand: 'cm_SearchStandalone';          TCIcon: 47; DCCommand: '';                          DCParameters: ''        ), //Search in separate process
-    (TCCommand: 'cm_FileSync';                  TCIcon: 48; DCCommand: 'cm_SyncDirs';               DCParameters: ''        ), //Synchronize directories
-    (TCCommand: 'cm_Associate';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Associate
-    (TCCommand: 'cm_InternalAssociate';         TCIcon: -1; DCCommand: 'cm_FileAssoc';              DCParameters: ''        ), //Define internal associations
-    (TCCommand: 'cm_CompareFilesByContent';     TCIcon: 49; DCCommand: 'cm_CompareContents';        DCParameters: ''        ), //File comparison
-    (TCCommand: 'cm_IntCompareFilesByContent';  TCIcon: 49; DCCommand: 'cm_CompareContents';        DCParameters: ''        ), //Use internal compare tool
-    (TCCommand: 'cm_CommandBrowser';            TCIcon: 82; DCCommand: '';                          DCParameters: ''        ), //Browse internal commands
-    (TCCommand: 'cm_VisButtonbar';              TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide button bar
-    (TCCommand: 'cm_VisDriveButtons';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide drive button bars
-    (TCCommand: 'cm_VisTwoDriveButtons';        TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide two drive bars
-    (TCCommand: 'cm_VisFlatDriveButtons';       TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Buttons: Flat/normal mode
-    (TCCommand: 'cm_VisFlatInterface';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Interface: Flat/normal mode
-    (TCCommand: 'cm_VisDriveCombo';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide drive combobox
-    (TCCommand: 'cm_VisCurDir';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide current directory
-    (TCCommand: 'cm_VisBreadCrumbs';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide Breadcrumb bar
-    (TCCommand: 'cm_VisTabHeader';              TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide tab header (sorting)
-    (TCCommand: 'cm_VisStatusbar';              TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide status bar
-    (TCCommand: 'cm_VisCmdLine';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide Command line
-    (TCCommand: 'cm_VisKeyButtons';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide function key buttons
-    (TCCommand: 'cm_ShowHint';                  TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show file tip window
-    (TCCommand: 'cm_ShowQuickSearch';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show name search window
-    (TCCommand: 'cm_SwitchLongNames';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Turn long names on and off
-    (TCCommand: 'cm_RereadSource';              TCIcon: 0;  DCCommand: 'cm_Refresh';                DCParameters: ''        ), //Reread source
-    (TCCommand: 'cm_ShowOnlySelected';          TCIcon: 73; DCCommand: '';                          DCParameters: ''        ), //Hide files which aren't selected
-    (TCCommand: 'cm_SwitchHidSys';              TCIcon: 79; DCCommand: '';                          DCParameters: ''        ), //Turn hidden/system files on and off
-    (TCCommand: 'cm_SwitchHid';                 TCIcon: 79; DCCommand: '';                          DCParameters: ''        ), //Turn hidden files on and off
-    (TCCommand: 'cm_SwitchSys';                 TCIcon: 79; DCCommand: 'cm_ShowSysFiles';           DCParameters: ''        ), //Turn system files on and off
-    (TCCommand: 'cm_Switch83Names';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Turn 8.3 names lowercase on/off
-    (TCCommand: 'cm_SwitchDirSort';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Turn directory sorting by name on/off
-    (TCCommand: 'cm_DirBranch';                 TCIcon: 50; DCCommand: 'cm_FlatView';               DCParameters: ''        ), //Show all files in current dir and all subdirs
-    (TCCommand: 'cm_DirBranchSel';              TCIcon: 50; DCCommand: '';                          DCParameters: ''        ), //Show selected files, and all in selected subdirs
-    (TCCommand: 'cm_50Percent';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Window separator at 50%
-    (TCCommand: 'cm_100Percent';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Window separator at 100%
-    (TCCommand: 'cm_VisDirTabs';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide folder tabs
-    (TCCommand: 'cm_VisXPThemeBackground';      TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide XP theme background
-    (TCCommand: 'cm_SwitchOverlayIcons';        TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Switch icon overlays on/off
-    (TCCommand: 'cm_VisHistHotButtons';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show/hide dir history+hotlist
-    (TCCommand: 'cm_SwitchWatchDirs';           TCIcon: 80; DCCommand: '';                          DCParameters: ''        ), //Enable/disable WatchDirs auto-refresh temporarily
-    (TCCommand: 'cm_SwitchIgnoreList';          TCIcon: 81; DCCommand: 'cm_SwitchIgnoreList';       DCParameters: ''        ), //Enable/disable ignore list file to not show file names
-    (TCCommand: 'cm_SwitchX64Redirection';      TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //64-bit Windows: Redirect 32-bit system32 dir off/on
-    (TCCommand: 'cm_SeparateTreeOff';           TCIcon: 76; DCCommand: '';                          DCParameters: ''        ), //Disable separate tree panel
-    (TCCommand: 'cm_SeparateTree1';             TCIcon: 77; DCCommand: '';                          DCParameters: ''        ), //One separate tree panel
-    (TCCommand: 'cm_SeparateTree2';             TCIcon: 78; DCCommand: '';                          DCParameters: ''        ), //Two separate tree panels
-    (TCCommand: 'cm_SwitchSeparateTree';        TCIcon: 51; DCCommand: '';                          DCParameters: ''        ), //Switch through tree panel options
-    (TCCommand: 'cm_ToggleSeparateTree1';       TCIcon: 77; DCCommand: '';                          DCParameters: ''        ), //One separate tree panel on/off
-    (TCCommand: 'cm_ToggleSeparateTree2';       TCIcon: 78; DCCommand: '';                          DCParameters: ''        ), //Two separate tree panels on/off
-    (TCCommand: 'cm_UserMenu1';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Start first menu item in Start menu
-    (TCCommand: 'cm_UserMenu2';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Second item
-    (TCCommand: 'cm_UserMenu3';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Third item
-    (TCCommand: 'cm_UserMenu4';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //etc.
-    (TCCommand: 'cm_UserMenu5';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_UserMenu6';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_UserMenu7';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_UserMenu8';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //You can add more
-    (TCCommand: 'cm_UserMenu9';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //custom user menu ids
-    (TCCommand: 'cm_UserMenu10';                TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //in totalcmd.inc!
-    (TCCommand: 'cm_OpenNewTab';                TCIcon: 83; DCCommand: 'cm_NewTab';                 DCParameters: ''        ), //Open new tab
-    (TCCommand: 'cm_OpenNewTabBg';              TCIcon: 83; DCCommand: '';                          DCParameters: ''        ), //Open new tab in background
-    (TCCommand: 'cm_OpenDirInNewTab';           TCIcon: -1; DCCommand: 'cm_OpenDirInNewTab';        DCParameters: ''        ), //Open dir under cursor in tab
-    (TCCommand: 'cm_OpenDirInNewTabOther';      TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Open dir under cursor (other window)
-    (TCCommand: 'cm_SwitchToNextTab';           TCIcon: -1; DCCommand: 'cm_NextTab';                DCParameters: ''        ), //Switch to next Tab (as Ctrl+Tab)
-    (TCCommand: 'cm_SwitchToPreviousTab';       TCIcon: -1; DCCommand: 'cm_PrevTab';                DCParameters: ''        ), //Switch to previous Tab (Ctrl+Shift+Tab)
-    (TCCommand: 'cm_CloseCurrentTab';           TCIcon: 84; DCCommand: 'cm_CloseTab';               DCParameters: ''        ), //Close tab
-    (TCCommand: 'cm_CloseAllTabs';              TCIcon: 85; DCCommand: 'cm_CloseAllTabs';           DCParameters: ''        ), //Close all
-    (TCCommand: 'cm_DirTabsShowMenu';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Show tab menu
-    (TCCommand: 'cm_ToggleLockCurrentTab';      TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Turn on/off tab locking
-    (TCCommand: 'cm_ToggleLockDcaCurrentTab';   TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Same but with dir changes allowed
-    (TCCommand: 'cm_ExchangeWithTabs';          TCIcon: 37; DCCommand: '';                          DCParameters: ''        ), //Swap all Tabs
-    (TCCommand: 'cm_GoToLockedDir';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Go to the base dir of locked tab
-    (TCCommand: 'cm_SrcActivateTab1';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Activate first tab
-    (TCCommand: 'cm_SrcActivateTab2';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Activate second tab
-    (TCCommand: 'cm_SrcActivateTab3';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //(Source window)
-    (TCCommand: 'cm_SrcActivateTab4';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //etc.
-    (TCCommand: 'cm_SrcActivateTab5';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcActivateTab6';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcActivateTab7';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcActivateTab8';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcActivateTab9';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcActivateTab10';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //(up to 99 items)
-    (TCCommand: 'cm_TrgActivateTab1';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Activate first tab
-    (TCCommand: 'cm_TrgActivateTab2';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Activate second tab
-    (TCCommand: 'cm_TrgActivateTab3';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //(Target window)
-    (TCCommand: 'cm_TrgActivateTab4';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //etc.
-    (TCCommand: 'cm_TrgActivateTab5';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_TrgActivateTab6';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_TrgActivateTab7';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_TrgActivateTab8';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_TrgActivateTab9';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_TrgActivateTab10';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftActivateTab1';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Activate first tab
-    (TCCommand: 'cm_LeftActivateTab2';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Activate second tab
-    (TCCommand: 'cm_LeftActivateTab3';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //(Left window)
-    (TCCommand: 'cm_LeftActivateTab4';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //etc.
-    (TCCommand: 'cm_LeftActivateTab5';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftActivateTab6';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftActivateTab7';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftActivateTab8';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftActivateTab9';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftActivateTab10';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightActivateTab1';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Activate first tab
-    (TCCommand: 'cm_RightActivateTab2';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Activate second tab
-    (TCCommand: 'cm_RightActivateTab3';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //(Right window)
-    (TCCommand: 'cm_RightActivateTab4';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //etc.
-    (TCCommand: 'cm_RightActivateTab5';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightActivateTab6';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightActivateTab7';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightActivateTab8';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightActivateTab9';         TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightActivateTab10';        TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcSortByCol1';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // Sort by first column
-    (TCCommand: 'cm_SrcSortByCol2';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // Sort by second column
-    (TCCommand: 'cm_SrcSortByCol3';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // (source window)
-    (TCCommand: 'cm_SrcSortByCol4';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // etc.
-    (TCCommand: 'cm_SrcSortByCol5';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcSortByCol6';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcSortByCol7';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcSortByCol8';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcSortByCol9';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcSortByCol10';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcSortByCol99';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_TrgSortByCol1';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // Sort by first column
-    (TCCommand: 'cm_TrgSortByCol2';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // Sort by second column
-    (TCCommand: 'cm_TrgSortByCol3';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // (target window)
-    (TCCommand: 'cm_TrgSortByCol4';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // etc.
-    (TCCommand: 'cm_TrgSortByCol5';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_TrgSortByCol6';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_TrgSortByCol7';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_TrgSortByCol8';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_TrgSortByCol9';             TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_TrgSortByCol10';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_TrgSortByCol99';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftSortByCol1';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // Sort by first column
-    (TCCommand: 'cm_LeftSortByCol2';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // Sort by second column
-    (TCCommand: 'cm_LeftSortByCol3';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // (left window)
-    (TCCommand: 'cm_LeftSortByCol4';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // etc.
-    (TCCommand: 'cm_LeftSortByCol5';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftSortByCol6';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftSortByCol7';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftSortByCol8';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftSortByCol9';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftSortByCol10';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftSortByCol99';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightSortByCol1';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // Sort by first column
-    (TCCommand: 'cm_RightSortByCol2';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // Sort by second column
-    (TCCommand: 'cm_RightSortByCol3';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // (right window)
-    (TCCommand: 'cm_RightSortByCol4';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // etc.
-    (TCCommand: 'cm_RightSortByCol5';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightSortByCol6';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightSortByCol7';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightSortByCol8';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightSortByCol9';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightSortByCol10';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightSortByCol99';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcCustomView1';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // Source: Custom columns 1
-    (TCCommand: 'cm_SrcCustomView2';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // (user defined columns)
-    (TCCommand: 'cm_SrcCustomView3';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // etc.
-    (TCCommand: 'cm_SrcCustomView4';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcCustomView5';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcCustomView6';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcCustomView7';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcCustomView8';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcCustomView9';            TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // etc. until 299
-    (TCCommand: 'cm_LeftCustomView1';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // Left: Custom columns 1
-    (TCCommand: 'cm_LeftCustomView2';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // (user defined columns)
-    (TCCommand: 'cm_LeftCustomView3';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // etc.
-    (TCCommand: 'cm_LeftCustomView4';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftCustomView5';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftCustomView6';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftCustomView7';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftCustomView8';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_LeftCustomView9';           TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightCustomView1';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // Right: Custom columns 1
-    (TCCommand: 'cm_RightCustomView2';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // (user defined columns)
-    (TCCommand: 'cm_RightCustomView3';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), // etc.
-    (TCCommand: 'cm_RightCustomView4';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightCustomView5';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightCustomView6';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightCustomView7';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightCustomView8';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_RightCustomView9';          TCIcon: -1; DCCommand: '';                          DCParameters: ''        ),
-    (TCCommand: 'cm_SrcNextCustomView';         TCIcon: 52; DCCommand: '';                          DCParameters: ''        ), //  Source: Next custom view
-    (TCCommand: 'cm_SrcPrevCustomView';         TCIcon: 52; DCCommand: '';                          DCParameters: ''        ), //  Source: Previous custom view
-    (TCCommand: 'cm_TrgNextCustomView';         TCIcon: 52; DCCommand: '';                          DCParameters: ''        ), //  Target: Next custom view
-    (TCCommand: 'cm_TrgPrevCustomView';         TCIcon: 52; DCCommand: '';                          DCParameters: ''        ), //  Target: Previous custom view
-    (TCCommand: 'cm_LeftNextCustomView';        TCIcon: 52; DCCommand: '';                          DCParameters: ''        ), // Left:   Next custom view
-    (TCCommand: 'cm_LeftPrevCustomView';        TCIcon: 52; DCCommand: '';                          DCParameters: ''        ), // Left:   Previous custom view
-    (TCCommand: 'cm_RightNextCustomView';       TCIcon: 52; DCCommand: '';                          DCParameters: ''        ), //Right:  Next custom view
-    (TCCommand: 'cm_RightPrevCustomView';       TCIcon: 52; DCCommand: '';                          DCParameters: ''        ), //Right:  Previous custom view
-    (TCCommand: 'cm_LoadAllOnDemandFields';     TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Load on demand fields for all files
-    (TCCommand: 'cm_LoadSelOnDemandFields';     TCIcon: -1; DCCommand: '';                          DCParameters: ''        ), //Load on demand fields for selected files
-    (TCCommand: 'cm_ContentStopLoadFields';     TCIcon: -1; DCCommand: '';                          DCParameters: ''        )  //Stop loading on demand fields
+    (TCCommand: 'cm_SrcComments';               TCIcon: 21; DCCommand: '';                          DCParameters: ''          ), //Source: Show comments
+    (TCCommand: 'cm_SrcShort';                  TCIcon: 3;  DCCommand: 'cm_BriefView';              DCParameters: ''          ), //Source: Only file names
+    (TCCommand: 'cm_SrcLong';                   TCIcon: 4;  DCCommand: 'cm_ColumnsView';            DCParameters: ''          ), //Source: All file details
+    (TCCommand: 'cm_SrcTree';                   TCIcon: 2;  DCCommand: '';                          DCParameters: ''          ), //Source: Directory tree
+    (TCCommand: 'cm_SrcQuickview';              TCIcon: 22; DCCommand: 'cm_QuickView';              DCParameters: ''          ), //Source: Quick view panel
+    (TCCommand: 'cm_VerticalPanels';            TCIcon: 23; DCCommand: 'cm_HorizontalFilePanels';   DCParameters: ''          ), //File windows above each other
+    (TCCommand: 'cm_SrcQuickInternalOnly';      TCIcon: 22; DCCommand: '';                          DCParameters: ''          ), //Source: Quick view, no plugins
+    (TCCommand: 'cm_SrcHideQuickview';          TCIcon: 22; DCCommand: '';                          DCParameters: ''          ), //Source: Quick view panel off
+    (TCCommand: 'cm_SrcExecs';                  TCIcon: 12; DCCommand: '';                          DCParameters: ''          ), //Source: Only programs
+    (TCCommand: 'cm_SrcAllFiles';               TCIcon: 13; DCCommand: '';                          DCParameters: ''          ), //Source: All files
+    (TCCommand: 'cm_SrcUserSpec';               TCIcon: 24; DCCommand: '';                          DCParameters: ''          ), //Source: Last selected
+    (TCCommand: 'cm_SrcUserDef';                TCIcon: 25; DCCommand: '';                          DCParameters: ''          ), //Source: Select user type
+    (TCCommand: 'cm_SrcByName';                 TCIcon: 5;  DCCommand: 'cm_SortByName';             DCParameters: ''          ), //Source: Sort by name
+    (TCCommand: 'cm_SrcByExt';                  TCIcon: 6;  DCCommand: 'cm_SortByExt';              DCParameters: ''          ), //Source: Sort by extension
+    (TCCommand: 'cm_SrcBySize';                 TCIcon: 8;  DCCommand: 'cm_SortBySize';             DCParameters: ''          ), //Source: Sort by size
+    (TCCommand: 'cm_SrcByDateTime';             TCIcon: 7;  DCCommand: 'cm_SortByDate';             DCParameters: ''          ), //Source: Sort by date
+    (TCCommand: 'cm_SrcUnsorted';               TCIcon: 9;  DCCommand: '';                          DCParameters: ''          ), //Source: Unsorted
+    (TCCommand: 'cm_SrcNegOrder';               TCIcon: 10; DCCommand: 'cm_ReverseOrder';           DCParameters: ''          ), //Source: Reversed order
+    (TCCommand: 'cm_SrcOpenDrives';             TCIcon: -1; DCCommand: 'cm_SrcOpenDrives';          DCParameters: ''          ), //Source: Open drive list
+    (TCCommand: 'cm_SrcThumbs';                 TCIcon: 26; DCCommand: 'cm_ThumbnailsView';         DCParameters: ''          ), //Source: Thumbnail view
+    (TCCommand: 'cm_SrcCustomViewMenu';         TCIcon: 52; DCCommand: '';                          DCParameters: ''          ), //Source: Custom view menu
+    (TCCommand: 'cm_SrcPathFocus';              TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Source: Put focus on path
+    (TCCommand: 'cm_LeftComments';              TCIcon: 21; DCCommand: '';                          DCParameters: ''          ), //Left: Show comments
+    (TCCommand: 'cm_LeftShort';                 TCIcon: 3;  DCCommand: 'cm_LeftBriefView';          DCParameters: ''          ), //Left: Only file names
+    (TCCommand: 'cm_LeftLong';                  TCIcon: 4;  DCCommand: 'cm_LeftColumnsView';        DCParameters: ''          ), //Left: All file details
+    (TCCommand: 'cm_LeftTree';                  TCIcon: 2;  DCCommand: '';                          DCParameters: ''          ), //Left: Directory tree
+    (TCCommand: 'cm_LeftQuickview';             TCIcon: 22; DCCommand: '';                          DCParameters: ''          ), //Left: Quick view panel
+    (TCCommand: 'cm_LeftQuickInternalOnly';     TCIcon: 22; DCCommand: '';                          DCParameters: ''          ), //Left: Quick view, no plugins
+    (TCCommand: 'cm_LeftHideQuickview';         TCIcon: 22; DCCommand: '';                          DCParameters: ''          ), //Left: Quick view panel off
+    (TCCommand: 'cm_LeftExecs';                 TCIcon: 12; DCCommand: '';                          DCParameters: ''          ), //Left: Only programs
+    (TCCommand: 'cm_LeftAllFiles';              TCIcon: 13; DCCommand: '';                          DCParameters: ''          ), //Left: All files
+    (TCCommand: 'cm_LeftUserSpec';              TCIcon: 24; DCCommand: '';                          DCParameters: ''          ), //Left: Last selected
+    (TCCommand: 'cm_LeftUserDef';               TCIcon: 25; DCCommand: '';                          DCParameters: ''          ), //Left: Select user type
+    (TCCommand: 'cm_LeftByName';                TCIcon: 5;  DCCommand: 'cm_LeftSortByName';         DCParameters: ''          ), //Left: Sort by name
+    (TCCommand: 'cm_LeftByExt';                 TCIcon: 6;  DCCommand: 'cm_LeftSortByExt';          DCParameters: ''          ), //Left: Sort by extension
+    (TCCommand: 'cm_LeftBySize';                TCIcon: 8;  DCCommand: 'cm_LeftSortBySize';         DCParameters: ''          ), //Left: Sort by size
+    (TCCommand: 'cm_LeftByDateTime';            TCIcon: 7;  DCCommand: 'cm_LeftSortByDate';         DCParameters: ''          ), //Left: Sort by date
+    (TCCommand: 'cm_LeftUnsorted';              TCIcon: 9;  DCCommand: '';                          DCParameters: ''          ), //Left: Unsorted
+    (TCCommand: 'cm_LeftNegOrder';              TCIcon: 10; DCCommand: 'cm_LeftReverseOrder';       DCParameters: ''          ), //Left: Reversed order
+    (TCCommand: 'cm_LeftOpenDrives';            TCIcon: -1; DCCommand: 'cm_LeftOpenDrives';         DCParameters: ''          ), //Left: Open drive list
+    (TCCommand: 'cm_LeftPathFocus';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Left: Put focus on path
+    (TCCommand: 'cm_LeftDirBranch';             TCIcon: 50; DCCommand: 'cm_LeftFlatView';           DCParameters: ''          ), //Left: Branch view
+    (TCCommand: 'cm_LeftDirBranchSel';          TCIcon: 50; DCCommand: '';                          DCParameters: ''          ), //Left: branch view, only selected
+    (TCCommand: 'cm_LeftThumbs';                TCIcon: 26; DCCommand: 'cm_LeftThumbView';          DCParameters: ''          ), //Left: Thumbnail view
+    (TCCommand: 'cm_LeftCustomViewMenu';        TCIcon: 52; DCCommand: '';                          DCParameters: ''          ), //Left: Custom view menu
+    (TCCommand: 'cm_RightComments';             TCIcon: 21; DCCommand: '';                          DCParameters: ''          ), //Right: Show comments
+    (TCCommand: 'cm_RightShort';                TCIcon: 3;  DCCommand: 'cm_RightBriefView';         DCParameters: ''          ), //Right: Only file names
+    (TCCommand: 'cm_RightLong';                 TCIcon: 4;  DCCommand: 'cm_RightColumnsView';       DCParameters: ''          ), //Right: All file details
+    (TCCommand: 'cm_RightTree';                 TCIcon: 2;  DCCommand: '';                          DCParameters: ''          ), //Right: Directory tree
+    (TCCommand: 'cm_RightQuickview';            TCIcon: 22; DCCommand: '';                          DCParameters: ''          ), //Right: Quick view panel
+    (TCCommand: 'cm_RightQuickInternalOnly';    TCIcon: 22; DCCommand: '';                          DCParameters: ''          ), //Right: Quick view, no plugins
+    (TCCommand: 'cm_RightHideQuickview';        TCIcon: 22; DCCommand: '';                          DCParameters: ''          ), //Right: Quick view panel off
+    (TCCommand: 'cm_RightExecs';                TCIcon: 12; DCCommand: '';                          DCParameters: ''          ), //Right: Only programs
+    (TCCommand: 'cm_RightAllFiles';             TCIcon: 13; DCCommand: '';                          DCParameters: ''          ), //Right: All files
+    (TCCommand: 'cm_RightUserSpec';             TCIcon: 24; DCCommand: '';                          DCParameters: ''          ), //Right: Last selected
+    (TCCommand: 'cm_RightUserDef';              TCIcon: 25; DCCommand: '';                          DCParameters: ''          ), //Right: Select user type
+    (TCCommand: 'cm_RightByName';               TCIcon: 5;  DCCommand: '';                          DCParameters: ''          ), //Right: Sort by name
+    (TCCommand: 'cm_RightByExt';                TCIcon: 6;  DCCommand: 'cm_RightSortByName';        DCParameters: ''          ), //Right: Sort by extension
+    (TCCommand: 'cm_RightBySize';               TCIcon: 8;  DCCommand: 'cm_RightSortByExt';         DCParameters: ''          ), //Right: Sort by size
+    (TCCommand: 'cm_RightByDateTime';           TCIcon: 7;  DCCommand: 'cm_RightSortBySize';        DCParameters: ''          ), //Right: Sort by date
+    (TCCommand: 'cm_RightUnsorted';             TCIcon: 9;  DCCommand: 'cm_RightSortByDate';        DCParameters: ''          ), //Right: Unsorted
+    (TCCommand: 'cm_RightNegOrder';             TCIcon: 10; DCCommand: 'cm_RightReverseOrder';      DCParameters: ''          ), //Right: Reversed order
+    (TCCommand: 'cm_RightOpenDrives';           TCIcon: -1; DCCommand: 'cm_RightOpenDrives';        DCParameters: ''          ), //Right: Open drive list
+    (TCCommand: 'cm_RightPathFocus';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Right: Put focus on path
+    (TCCommand: 'cm_RightDirBranch';            TCIcon: 50; DCCommand: 'cm_RightFlatView';          DCParameters: ''          ), //Right: branch view
+    (TCCommand: 'cm_RightDirBranchSel';         TCIcon: 50; DCCommand: '';                          DCParameters: ''          ), //Right: branch view, only selected
+    (TCCommand: 'cm_RightThumbs';               TCIcon: 26; DCCommand: 'cm_RightThumbView';         DCParameters: ''          ), //Right: Thumbnail view
+    (TCCommand: 'cm_RightCustomViewMenu';       TCIcon: 52; DCCommand: '';                          DCParameters: ''          ), //Right: Custom view menu
+    (TCCommand: 'cm_List';                      TCIcon: 27; DCCommand: 'cm_View';                   DCParameters: ''          ), //View with Lister
+    (TCCommand: 'cm_ListInternalOnly';          TCIcon: 27; DCCommand: 'cm_view';                   DCParameters: ''          ), //Lister without plugins/multimedia
+    (TCCommand: 'cm_Edit';                      TCIcon: 28; DCCommand: 'cm_Edit';                   DCParameters: ''          ), //Edit (Notepad)
+    (TCCommand: 'cm_Copy';                      TCIcon: 62; DCCommand: 'cm_Copy';                   DCParameters: ''          ), //Copy files
+    (TCCommand: 'cm_CopySamepanel';             TCIcon: 62; DCCommand: 'cm_CopySamePanel';          DCParameters: ''          ), //Copy within panel
+    (TCCommand: 'cm_CopyOtherpanel';            TCIcon: 62; DCCommand: '';                          DCParameters: ''          ), //Copy to other
+    (TCCommand: 'cm_RenMov';                    TCIcon: 63; DCCommand: 'cm_Rename';                 DCParameters: ''          ), //Rename/Move files
+    (TCCommand: 'cm_MkDir';                     TCIcon: 29; DCCommand: 'cm_MakeDir';                DCParameters: ''          ), //Make directory
+    (TCCommand: 'cm_Delete';                    TCIcon: 64; DCCommand: 'cm_Delete';                 DCParameters: ''          ), //Delete files
+    (TCCommand: 'cm_TestArchive';               TCIcon: 60; DCCommand: 'cm_TestArchive';            DCParameters: ''          ), //Test selected archives
+    (TCCommand: 'cm_PackFiles';                 TCIcon: 30; DCCommand: 'cm_PackFiles';              DCParameters: ''          ), //Pack files
+    (TCCommand: 'cm_UnpackFiles';               TCIcon: 31; DCCommand: 'cm_ExtractFiles';           DCParameters: ''          ), //Unpack all
+    (TCCommand: 'cm_RenameOnly';                TCIcon: 32; DCCommand: 'cm_RenameOnly';             DCParameters: ''          ), //Rename (Shift+F6)
+    (TCCommand: 'cm_RenameSingleFile';          TCIcon: 32; DCCommand: 'cm_RenameOnly';             DCParameters: ''          ), //Rename file under cursor
+    (TCCommand: 'cm_MoveOnly';                  TCIcon: 63; DCCommand: '';                          DCParameters: ''          ), //Move (F6)
+    (TCCommand: 'cm_Properties';                TCIcon: -1; DCCommand: 'cm_FileProperties';         DCParameters: ''          ), //Properties dialog
+    (TCCommand: 'cm_CreateShortcut';            TCIcon: 65; DCCommand: '';                          DCParameters: ''          ), //Create a shortcut
+    (TCCommand: 'cm_Return';                    TCIcon: -1; DCCommand: 'cm_Open';                   DCParameters: ''          ), //Simulate: Return pressed
+    (TCCommand: 'cm_OpenAsUser';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Open program under cursor as different user
+    (TCCommand: 'cm_Split';                     TCIcon: 68; DCCommand: 'cm_FileSpliter';            DCParameters: ''          ), //Split file into pieces
+    (TCCommand: 'cm_Combine';                   TCIcon: 69; DCCommand: 'cm_FileLinker';             DCParameters: ''          ), //Combine partial files
+    (TCCommand: 'cm_Encode';                    TCIcon: 66; DCCommand: '';                          DCParameters: ''          ), //Encode MIME/UUE/XXE
+    (TCCommand: 'cm_Decode';                    TCIcon: 67; DCCommand: '';                          DCParameters: ''          ), //Decode MIME/UUE/XXE/BinHex
+    (TCCommand: 'cm_CRCcreate';                 TCIcon: -1; DCCommand: 'cm_CheckSumCalc';           DCParameters: ''          ), //Create CRC checksums
+    (TCCommand: 'cm_CRCcheck';                  TCIcon: 61; DCCommand: 'cm_CheckSumVerify';         DCParameters: ''          ), //Verify CRC checksums
+    (TCCommand: 'cm_SetAttrib';                 TCIcon: 33; DCCommand: 'cm_SetFileProperties';      DCParameters: ''          ), //Change attributes
+    (TCCommand: 'cm_Config';                    TCIcon: 34; DCCommand: 'cm_Options';                DCParameters: ''          ), //Conf: Layout (first page)
+    (TCCommand: 'cm_DisplayConfig';             TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Display
+    (TCCommand: 'cm_IconConfig';                TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Icons
+    (TCCommand: 'cm_FontConfig';                TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Font
+    (TCCommand: 'cm_ColorConfig';               TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Colors
+    (TCCommand: 'cm_ConfTabChange';             TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Tabstops
+    (TCCommand: 'cm_DirTabsConfig';             TCIcon: 34; DCCommand: 'cm_ConfigFolderTabs';       DCParameters: ''          ), //Conf: Directory tabs
+    (TCCommand: 'cm_CustomColumnConfig';        TCIcon: 56; DCCommand: '';                          DCParameters: ''          ), //Conf: Custom colums
+    (TCCommand: 'cm_CustomColumnDlg';           TCIcon: 56; DCCommand: '';                          DCParameters: ''          ), //Change current custom columns
+    (TCCommand: 'cm_LanguageConfig';            TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Language
+    (TCCommand: 'cm_Config2';                   TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Operation
+    (TCCommand: 'cm_EditConfig';                TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Viewer/Editor
+    (TCCommand: 'cm_CopyConfig';                TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Copy/Delete
+    (TCCommand: 'cm_RefreshConfig';             TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Refresh file lists
+    (TCCommand: 'cm_QuickSearchConfig';         TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Quick Search
+    (TCCommand: 'cm_FtpConfig';                 TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //FTP options
+    (TCCommand: 'cm_PluginsConfig';             TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Plugins
+    (TCCommand: 'cm_ThumbnailsConfig';          TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Thumbnails
+    (TCCommand: 'cm_LogConfig';                 TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Log file
+    (TCCommand: 'cm_IgnoreConfig';              TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Ignore list
+    (TCCommand: 'cm_PackerConfig';              TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Packer
+    (TCCommand: 'cm_ZipPackerConfig';           TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: ZIP packer
+    (TCCommand: 'cm_Confirmation';              TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Misc, Confirmation
+    (TCCommand: 'cm_ConfigSavePos';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Conf: Save position
+    (TCCommand: 'cm_ButtonConfig';              TCIcon: 14; DCCommand: 'cm_ConfigToolbars';         DCParameters: ''          ), //Conf: Button bar
+    (TCCommand: 'cm_ConfigSaveSettings';        TCIcon: -1; DCCommand: 'cm_ConfigSaveSettings';     DCParameters: ''          ), //Save current paths etc.
+    (TCCommand: 'cm_ConfigChangeIniFiles';      TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Open ini files in notepad
+    (TCCommand: 'cm_ConfigSaveDirHistory';      TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Save directory history
+    (TCCommand: 'cm_ChangeStartMenu';           TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Change Start menu
+    (TCCommand: 'cm_NetConnect';                TCIcon: 53; DCCommand: 'cm_NetworkConnect';         DCParameters: ''          ), //Network connections
+    (TCCommand: 'cm_NetDisconnect';             TCIcon: 54; DCCommand: 'cm_NetworkDisconnect';      DCParameters: ''          ), //Disconnect network drives
+    (TCCommand: 'cm_NetShareDir';               TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Share directory
+    (TCCommand: 'cm_NetUnshareDir';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Unshare directory
+    (TCCommand: 'cm_AdministerServer';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Connect to admin share to open \\server\c$ etc.
+    (TCCommand: 'cm_ShowFileUser';              TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Which remote user has opened a local file
+    (TCCommand: 'cm_GetFileSpace';              TCIcon: -1; DCCommand: 'cm_CalculateSpace';         DCParameters: ''          ), //Calculate space
+    (TCCommand: 'cm_VolumeId';                  TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Volume label
+    (TCCommand: 'cm_VersionInfo';               TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Version information
+    (TCCommand: 'cm_ExecuteDOS';                TCIcon: -1; DCCommand: 'cm_RunTerm';                DCParameters: ''          ), //Open command prompt window
+    (TCCommand: 'cm_CompareDirs';               TCIcon: 35; DCCommand: 'cm_CompareDirectories';     DCParameters: ''          ), //Compare dirs
+    (TCCommand: 'cm_CompareDirsWithSubdirs';    TCIcon: 35; DCCommand: 'cm_CompareDirectories';     DCParameters: ''          ), //Also mark subdirs not present in other dir
+    (TCCommand: 'cm_ContextMenu';               TCIcon: -1; DCCommand: 'cm_ContextMenu';            DCParameters: ''          ), //Show context menu
+    (TCCommand: 'cm_ContextMenuInternal';       TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show context menu for internal associations
+    (TCCommand: 'cm_ContextMenuInternalCursor'; TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Internal context menu for file under cursor
+    (TCCommand: 'cm_ShowRemoteMenu';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Context menu for Media Center remote control Play/Pause
+    (TCCommand: 'cm_SyncChangeDir';             TCIcon: 75; DCCommand: '';                          DCParameters: ''          ), //Synchronous directory changing in both windows
+    (TCCommand: 'cm_EditComment';               TCIcon: -1; DCCommand: 'cm_EditComment';            DCParameters: ''          ), //Edit file comment
+    (TCCommand: 'cm_FocusLeft';                 TCIcon: -1; DCCommand: 'cm_FocusSwap';              DCParameters: 'side=left' ), //Focus on left file list
+    (TCCommand: 'cm_FocusRight';                TCIcon: -1; DCCommand: 'cm_FocusSwap';              DCParameters: 'side=right'), //Focus on right file list
+    (TCCommand: 'cm_FocusCmdLine';              TCIcon: -1; DCCommand: 'cm_FocusCmdLine';           DCParameters: ''          ), //Focus on command line
+    (TCCommand: 'cm_FocusButtonBar';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Focus on button bar
+    (TCCommand: 'cm_CountDirContent';           TCIcon: 36; DCCommand: 'cm_CountDirContent';        DCParameters: ''          ), //Calculate space occupied by subdirs in current dir
+    (TCCommand: 'cm_UnloadPlugins';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Unload all plugins
+    (TCCommand: 'cm_DirMatch';                  TCIcon: 35; DCCommand: '';                          DCParameters: ''          ), //Mark newer
+    (TCCommand: 'cm_Exchange';                  TCIcon: 37; DCCommand: 'cm_Exchange';               DCParameters: ''          ), //Swap panels
+    (TCCommand: 'cm_MatchSrc';                  TCIcon: 86; DCCommand: 'cm_TargetEqualSource';      DCParameters: ''          ), //target=Source
+    (TCCommand: 'cm_ReloadSelThumbs';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Re-load selected thumbnails
+    (TCCommand: 'cm_DirectCableConnect';        TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Connect to other PC by cable
+    (TCCommand: 'cm_NTinstallDriver';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Install parallel port driver on NT
+    (TCCommand: 'cm_NTremoveDriver';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Remove parallel port driver on NT
+    (TCCommand: 'cm_PrintDir';                  TCIcon: 38; DCCommand: '';                          DCParameters: ''          ), //Print current directory (with preview)
+    (TCCommand: 'cm_PrintDirSub';               TCIcon: 38; DCCommand: '';                          DCParameters: ''          ), //Print dir with subdirs
+    (TCCommand: 'cm_PrintFile';                 TCIcon: 38; DCCommand: '';                          DCParameters: ''          ), //Print file
+    (TCCommand: 'cm_SpreadSelection';           TCIcon: 39; DCCommand: 'cm_MarkPlus';               DCParameters: ''          ), //Select group
+    (TCCommand: 'cm_SelectBoth';                TCIcon: 72; DCCommand: 'cm_MarkPlus';               DCParameters: 'attr='     ), //Select group: files+folders
+    (TCCommand: 'cm_SelectFiles';               TCIcon: 70; DCCommand: 'cm_MarkPlus';               DCParameters: 'attr=d-'   ), //Select group: just files
+    (TCCommand: 'cm_SelectFolders';             TCIcon: 71; DCCommand: 'cm_MarkPlus';               DCParameters: 'attr=d+'   ), //Select group: just folders
+    (TCCommand: 'cm_ShrinkSelection';           TCIcon: 40; DCCommand: 'cm_MarkMinus';              DCParameters: 'attr='     ), //Unselect group
+    (TCCommand: 'cm_ClearFiles';                TCIcon: 40; DCCommand: 'cm_MarkMinus';              DCParameters: 'attr=d+'   ), //Unselect group: just files
+    (TCCommand: 'cm_ClearFolders';              TCIcon: 40; DCCommand: 'cm_MarkMinus';              DCParameters: 'attr=d-'   ), //Unselect group: just folders
+    (TCCommand: 'cm_ClearSelCfg';               TCIcon: 40; DCCommand: 'cm_MarkMinus';              DCParameters: ''          ), //Unselect group (files or both, as configured)
+    (TCCommand: 'cm_SelectAll';                 TCIcon: 44; DCCommand: 'cm_MarkMarkAll';            DCParameters: ''          ), //Select all (files or both, as configured)
+    (TCCommand: 'cm_SelectAllBoth';             TCIcon: 44; DCCommand: 'cm_MarkMarkAll';            DCParameters: 'attr='     ), //Select both files+folders
+    (TCCommand: 'cm_SelectAllFiles';            TCIcon: 44; DCCommand: 'cm_MarkMarkAll';            DCParameters: 'attr=d-'   ), //Select all files
+    (TCCommand: 'cm_SelectAllFolders';          TCIcon: 44; DCCommand: 'cm_MarkMarkAll';            DCParameters: 'attr=d+'   ), //Select all folders
+    (TCCommand: 'cm_ClearAll';                  TCIcon: -1; DCCommand: 'cm_MarkUnmarkAll';          DCParameters: 'attr='     ), //Unselect all (files+folders)
+    (TCCommand: 'cm_ClearAllFiles';             TCIcon: -1; DCCommand: 'cm_MarkUnmarkAll';          DCParameters: 'attr=d-'   ), //Unselect all files
+    (TCCommand: 'cm_ClearAllFolders';           TCIcon: -1; DCCommand: 'cm_MarkUnmarkAll';          DCParameters: 'attr=d+'   ), //Unselect all folders
+    (TCCommand: 'cm_ClearAllCfg';               TCIcon: -1; DCCommand: 'cm_MarkUnmarkAll';          DCParameters: ''          ), //Unselect all (files or both, as configured)
+    (TCCommand: 'cm_ExchangeSelection';         TCIcon: 11; DCCommand: 'cm_MarkInvert';             DCParameters: ''          ), //Invert selection
+    (TCCommand: 'cm_ExchangeSelBoth';           TCIcon: 11; DCCommand: 'cm_MarkInvert';             DCParameters: 'attr='     ), //Invert selection (files+folders)
+    (TCCommand: 'cm_ExchangeSelFiles';          TCIcon: 11; DCCommand: 'cm_MarkInvert';             DCParameters: 'attr=d-'   ), //Invert selection (files)
+    (TCCommand: 'cm_ExchangeSelFolders';        TCIcon: 11; DCCommand: 'cm_MarkInvert';             DCParameters: 'attr=d+'   ), //Invert selection (folders)
+    (TCCommand: 'cm_SelectCurrentExtension';    TCIcon: 41; DCCommand: 'cm_MarkCurrentExtension';   DCParameters: ''          ), //Select all files with same ext.
+    (TCCommand: 'cm_UnselectCurrentExtension';  TCIcon: -1; DCCommand: 'cm_UnmarkCurrentExtension'; DCParameters: ''          ), //Unselect all files with same ext.
+    (TCCommand: 'cm_SelectCurrentName';         TCIcon: -1; DCCommand: 'cm_MarkCurrentName';        DCParameters: ''          ), //Select all files with same name
+    (TCCommand: 'cm_UnselectCurrentName';       TCIcon: -1; DCCommand: 'cm_UnmarkCurrentName';      DCParameters: ''          ), //Unselect all files with same name
+    (TCCommand: 'cm_SelectCurrentNameExt';      TCIcon: -1; DCCommand: 'cm_MarkCurrentNameExt';     DCParameters: ''          ), //Select all files with same name+ext.
+    (TCCommand: 'cm_UnselectCurrentNameExt';    TCIcon: -1; DCCommand: 'cm_UnmarkCurrentNameExt';   DCParameters: ''          ), //Unselect all files with same name+ext.
+    (TCCommand: 'cm_SelectCurrentPath';         TCIcon: 72; DCCommand: 'cm_MarkCurrentPath';        DCParameters: ''          ), //Select all in same path (for branch view+search)
+    (TCCommand: 'cm_UnselectCurrentPath';       TCIcon: -1; DCCommand: 'cm_UnmarkCurrentPath';      DCParameters: ''          ), //Unselect all in same path
+    (TCCommand: 'cm_RestoreSelection';          TCIcon: 42; DCCommand: 'cm_RestoreSelection';       DCParameters: ''          ), //Selection before last operation
+    (TCCommand: 'cm_SaveSelection';             TCIcon: 43; DCCommand: 'cm_SaveSelection';          DCParameters: ''          ), //Temporarily save selection
+    (TCCommand: 'cm_SaveSelectionToFile';       TCIcon: -1; DCCommand: 'cm_SaveSelectionToFile';    DCParameters: ''          ), //Save file selection to file
+    (TCCommand: 'cm_SaveSelectionToFileA';      TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Save file selection to file (ANSI)
+    (TCCommand: 'cm_SaveSelectionToFileW';      TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Save file selection to file (Unicode)
+    (TCCommand: 'cm_SaveDetailsToFile';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Save all shown columns to file
+    (TCCommand: 'cm_SaveDetailsToFileA';        TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Save all shown columns to file (ANSI)
+    (TCCommand: 'cm_SaveDetailsToFileW';        TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Save all shown columns to file (Unicode)
+    (TCCommand: 'cm_LoadSelectionFromFile';     TCIcon: -1; DCCommand: 'cm_LoadSelectionFromFile';  DCParameters: ''          ), //Read file selection from file
+    (TCCommand: 'cm_LoadSelectionFromClip';     TCIcon: -1; DCCommand: 'cm_LoadSelectionFromClip';  DCParameters: ''          ), //Read file selection from clipboard
+    (TCCommand: 'cm_EditPermissionInfo';        TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Permissions dialog (NTFS)
+    (TCCommand: 'cm_EditPersmissionInfo';       TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Typo...
+    (TCCommand: 'cm_EditAuditInfo';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //File auditing (NTFS)
+    (TCCommand: 'cm_EditOwnerInfo';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Take ownership (NTFS)
+    (TCCommand: 'cm_CutToClipboard';            TCIcon: -1; DCCommand: 'cm_CutToClipboard';         DCParameters: ''          ), //Cut selected files to clipboard
+    (TCCommand: 'cm_CopyToClipboard';           TCIcon: -1; DCCommand: 'cm_CopyToClipboard';        DCParameters: ''          ), //Copy selected files to clipboard
+    (TCCommand: 'cm_PasteFromClipboard';        TCIcon: -1; DCCommand: 'cm_PasteFromClipboard';     DCParameters: ''          ), //Paste from clipboard to current dir
+    (TCCommand: 'cm_CopyNamesToClip';           TCIcon: 45; DCCommand: 'cm_CopyNamesToClip';        DCParameters: ''          ), //Copy filenames to clipboard
+    (TCCommand: 'cm_CopyFullNamesToClip';       TCIcon: 45; DCCommand: 'cm_CopyFullNamesToClip';    DCParameters: ''          ), //Copy names with full path
+    (TCCommand: 'cm_CopyNetNamesToClip';        TCIcon: 45; DCCommand: '';                          DCParameters: ''          ), //Copy names with UNC path
+    (TCCommand: 'cm_CopySrcPathToClip';         TCIcon: 45; DCCommand: '';                          DCParameters: ''          ), //Copy source path to clipboard
+    (TCCommand: 'cm_CopyTrgPathToClip';         TCIcon: 45; DCCommand: '';                          DCParameters: ''          ), //Copy target path to clipboard
+    (TCCommand: 'cm_CopyFileDetailsToClip';     TCIcon: 59; DCCommand: 'cm_CopyFileDetailsToClip';  DCParameters: ''          ), //Copy all shown columns
+    (TCCommand: 'cm_CopyFpFileDetailsToClip';   TCIcon: 59; DCCommand: '';                          DCParameters: ''          ), //Copy all columns, with full path
+    (TCCommand: 'cm_CopyNetFileDetailsToClip';  TCIcon: 59; DCCommand: '';                          DCParameters: ''          ), //Copy all columns, with UNC path
+    (TCCommand: 'cm_FtpConnect';                TCIcon: 16; DCCommand: '';                          DCParameters: ''          ), //Connect to FTP
+    (TCCommand: 'cm_FtpNew';                    TCIcon: 17; DCCommand: '';                          DCParameters: ''          ), //New FTP connection
+    (TCCommand: 'cm_FtpDisconnect';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Disconnect from FTP
+    (TCCommand: 'cm_FtpHiddenFiles';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show hidden FTP files
+    (TCCommand: 'cm_FtpAbort';                  TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Abort current FTP command
+    (TCCommand: 'cm_FtpResumeDownload';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Resume aborted download
+    (TCCommand: 'cm_FtpSelectTransferMode';     TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Select Binary, ASCII or Auto mode
+    (TCCommand: 'cm_FtpAddToList';              TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Add selected files to download list
+    (TCCommand: 'cm_FtpDownloadList';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Download files in download list
+    (TCCommand: 'cm_GotoPreviousDir';           TCIcon: 18; DCCommand: '';                          DCParameters: ''          ), //Go back
+    (TCCommand: 'cm_GotoNextDir';               TCIcon: 19; DCCommand: '';                          DCParameters: ''          ), //Go forward
+    (TCCommand: 'cm_DirectoryHistory';          TCIcon: -1; DCCommand: 'cm_DirHistory';             DCParameters: ''          ), //History list
+    (TCCommand: 'cm_GotoPreviousLocalDir';      TCIcon: 18; DCCommand: '';                          DCParameters: ''          ), //Go back, no ftp
+    (TCCommand: 'cm_GotoNextLocalDir';          TCIcon: 19; DCCommand: '';                          DCParameters: ''          ), //Go forward, no ftp
+    (TCCommand: 'cm_DirectoryHotlist';          TCIcon: -1; DCCommand: 'cm_DirHotList';             DCParameters: ''          ), //Directory popup menu
+    (TCCommand: 'cm_GoToRoot';                  TCIcon: -1; DCCommand: 'cm_ChangeDirToRoot';        DCParameters: ''          ), //Go to root directory
+    (TCCommand: 'cm_GoToParent';                TCIcon: 15; DCCommand: 'cm_ChangeDirToParent';      DCParameters: ''          ), //Go to parent directory
+    (TCCommand: 'cm_GoToDir';                   TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Open dir or zip under cursor
+    (TCCommand: 'cm_OpenDesktop';               TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Desktop folder
+    (TCCommand: 'cm_OpenDrives';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //My computer
+    (TCCommand: 'cm_OpenControls';              TCIcon: 20; DCCommand: '';                          DCParameters: ''          ), //Control panel
+    (TCCommand: 'cm_OpenFonts';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Fonts folder
+    (TCCommand: 'cm_OpenNetwork';               TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Network neighborhood
+    (TCCommand: 'cm_OpenPrinters';              TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Printers folder
+    (TCCommand: 'cm_OpenRecycled';              TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Recycle bin
+    (TCCommand: 'cm_CDtree';                    TCIcon: 1;  DCCommand: '';                          DCParameters: ''          ), //Popup directory tree
+    (TCCommand: 'cm_TransferLeft';              TCIcon: -1; DCCommand: 'cm_TransferLeft';           DCParameters: ''          ), //Transfer dir under cursor to left window
+    (TCCommand: 'cm_TransferRight';             TCIcon: -1; DCCommand: 'cm_TransferRight';          DCParameters: ''          ), //Transfer dir under cursor to right window
+    (TCCommand: 'cm_EditPath';                  TCIcon: -1; DCCommand: 'cm_EditPath';               DCParameters: ''          ), //Edit path field above file list
+    (TCCommand: 'cm_GoToFirstFile';             TCIcon: -1; DCCommand: 'cm_GoToFirstFile';          DCParameters: ''          ), //Place cursor on first file in list
+    (TCCommand: 'cm_GotoNextDrive';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Go one drive up (C->D)
+    (TCCommand: 'cm_GotoPreviousDrive';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Go one drive down
+    (TCCommand: 'cm_GotoNextSelected';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Go to next selected file
+    (TCCommand: 'cm_GotoPrevSelected';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Go to previous selected file
+    (TCCommand: 'cm_GotoDriveA';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Switch to drive A
+    (TCCommand: 'cm_GotoDriveC';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Switch to drive C
+    (TCCommand: 'cm_GotoDriveD';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Switch to drive D
+    (TCCommand: 'cm_GotoDriveE';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Switch to drive E
+    (TCCommand: 'cm_GotoDriveF';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //(etc, define your own if)
+    (TCCommand: 'cm_GotoDriveZ';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //(you need more drives)
+    (TCCommand: 'cm_HelpIndex';                 TCIcon: 55; DCCommand: 'cm_HelpIndex';              DCParameters: ''          ), //Help index
+    (TCCommand: 'cm_Keyboard';                  TCIcon: -1; DCCommand: 'cm_Keyboard';               DCParameters: ''          ), //Keyboard help
+    (TCCommand: 'cm_Register';                  TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Registration info
+    (TCCommand: 'cm_VisitHomepage';             TCIcon: -1; DCCommand: 'cm_VisitHomePage';          DCParameters: ''          ), //Visit http://www.ghisler.com/
+    (TCCommand: 'cm_About';                     TCIcon: -1; DCCommand: 'cm_About';                  DCParameters: ''          ), //Help/About Total Commander
+    (TCCommand: 'cm_Exit';                      TCIcon: -1; DCCommand: 'cm_Exit';                   DCParameters: ''          ), //Exit Total Commander
+    (TCCommand: 'cm_Minimize';                  TCIcon: -1; DCCommand: 'cm_Minimize';               DCParameters: ''          ), //Minimize Total Commander
+    (TCCommand: 'cm_Maximize';                  TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Maximize Total Commander
+    (TCCommand: 'cm_Restore';                   TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Restore normal size
+    (TCCommand: 'cm_ClearCmdLine';              TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Clear command line
+    (TCCommand: 'cm_NextCommand';               TCIcon: -1; DCCommand: 'cm_CmdLineNext';            DCParameters: ''          ), //Next command line
+    (TCCommand: 'cm_PrevCommand';               TCIcon: -1; DCCommand: 'cm_CmdLinePrev';            DCParameters: ''          ), //Previous command line
+    (TCCommand: 'cm_AddPathToCmdline';          TCIcon: -1; DCCommand: 'cm_AddPathToCmdLine';       DCParameters: ''          ), //Copy path to command line
+    (TCCommand: 'cm_MultiRenameFiles';          TCIcon: 46; DCCommand: 'cm_MultiRename';            DCParameters: ''          ), //Rename multiple files
+    (TCCommand: 'cm_SysInfo';                   TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //System information
+    (TCCommand: 'cm_OpenTransferManager';       TCIcon: 74; DCCommand: '';                          DCParameters: ''          ), //Background transfer manager
+    (TCCommand: 'cm_SearchFor';                 TCIcon: 47; DCCommand: 'cm_Search';                 DCParameters: ''          ), //Search for
+    (TCCommand: 'cm_SearchStandalone';          TCIcon: 47; DCCommand: '';                          DCParameters: ''          ), //Search in separate process
+    (TCCommand: 'cm_FileSync';                  TCIcon: 48; DCCommand: 'cm_SyncDirs';               DCParameters: ''          ), //Synchronize directories
+    (TCCommand: 'cm_Associate';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Associate
+    (TCCommand: 'cm_InternalAssociate';         TCIcon: -1; DCCommand: 'cm_FileAssoc';              DCParameters: ''          ), //Define internal associations
+    (TCCommand: 'cm_CompareFilesByContent';     TCIcon: 49; DCCommand: 'cm_CompareContents';        DCParameters: ''          ), //File comparison
+    (TCCommand: 'cm_IntCompareFilesByContent';  TCIcon: 49; DCCommand: 'cm_CompareContents';        DCParameters: ''          ), //Use internal compare tool
+    (TCCommand: 'cm_CommandBrowser';            TCIcon: 82; DCCommand: '';                          DCParameters: ''          ), //Browse internal commands
+    (TCCommand: 'cm_VisButtonbar';              TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide button bar
+    (TCCommand: 'cm_VisDriveButtons';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide drive button bars
+    (TCCommand: 'cm_VisTwoDriveButtons';        TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide two drive bars
+    (TCCommand: 'cm_VisFlatDriveButtons';       TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Buttons: Flat/normal mode
+    (TCCommand: 'cm_VisFlatInterface';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Interface: Flat/normal mode
+    (TCCommand: 'cm_VisDriveCombo';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide drive combobox
+    (TCCommand: 'cm_VisCurDir';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide current directory
+    (TCCommand: 'cm_VisBreadCrumbs';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide Breadcrumb bar
+    (TCCommand: 'cm_VisTabHeader';              TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide tab header (sorting)
+    (TCCommand: 'cm_VisStatusbar';              TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide status bar
+    (TCCommand: 'cm_VisCmdLine';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide Command line
+    (TCCommand: 'cm_VisKeyButtons';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide function key buttons
+    (TCCommand: 'cm_ShowHint';                  TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show file tip window
+    (TCCommand: 'cm_ShowQuickSearch';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show name search window
+    (TCCommand: 'cm_SwitchLongNames';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Turn long names on and off
+    (TCCommand: 'cm_RereadSource';              TCIcon: 0;  DCCommand: 'cm_Refresh';                DCParameters: ''          ), //Reread source
+    (TCCommand: 'cm_ShowOnlySelected';          TCIcon: 73; DCCommand: '';                          DCParameters: ''          ), //Hide files which aren't selected
+    (TCCommand: 'cm_SwitchHidSys';              TCIcon: 79; DCCommand: '';                          DCParameters: ''          ), //Turn hidden/system files on and off
+    (TCCommand: 'cm_SwitchHid';                 TCIcon: 79; DCCommand: '';                          DCParameters: ''          ), //Turn hidden files on and off
+    (TCCommand: 'cm_SwitchSys';                 TCIcon: 79; DCCommand: 'cm_ShowSysFiles';           DCParameters: ''          ), //Turn system files on and off
+    (TCCommand: 'cm_Switch83Names';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Turn 8.3 names lowercase on/off
+    (TCCommand: 'cm_SwitchDirSort';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Turn directory sorting by name on/off
+    (TCCommand: 'cm_DirBranch';                 TCIcon: 50; DCCommand: 'cm_FlatView';               DCParameters: ''          ), //Show all files in current dir and all subdirs
+    (TCCommand: 'cm_DirBranchSel';              TCIcon: 50; DCCommand: '';                          DCParameters: ''          ), //Show selected files, and all in selected subdirs
+    (TCCommand: 'cm_50Percent';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Window separator at 50%
+    (TCCommand: 'cm_100Percent';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Window separator at 100%
+    (TCCommand: 'cm_VisDirTabs';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide folder tabs
+    (TCCommand: 'cm_VisXPThemeBackground';      TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide XP theme background
+    (TCCommand: 'cm_SwitchOverlayIcons';        TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Switch icon overlays on/off
+    (TCCommand: 'cm_VisHistHotButtons';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide dir history+hotlist
+    (TCCommand: 'cm_SwitchWatchDirs';           TCIcon: 80; DCCommand: '';                          DCParameters: ''          ), //Enable/disable WatchDirs auto-refresh temporarily
+    (TCCommand: 'cm_SwitchIgnoreList';          TCIcon: 81; DCCommand: 'cm_SwitchIgnoreList';       DCParameters: ''          ), //Enable/disable ignore list file to not show file names
+    (TCCommand: 'cm_SwitchX64Redirection';      TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //64-bit Windows: Redirect 32-bit system32 dir off/on
+    (TCCommand: 'cm_SeparateTreeOff';           TCIcon: 76; DCCommand: '';                          DCParameters: ''          ), //Disable separate tree panel
+    (TCCommand: 'cm_SeparateTree1';             TCIcon: 77; DCCommand: '';                          DCParameters: ''          ), //One separate tree panel
+    (TCCommand: 'cm_SeparateTree2';             TCIcon: 78; DCCommand: '';                          DCParameters: ''          ), //Two separate tree panels
+    (TCCommand: 'cm_SwitchSeparateTree';        TCIcon: 51; DCCommand: '';                          DCParameters: ''          ), //Switch through tree panel options
+    (TCCommand: 'cm_ToggleSeparateTree1';       TCIcon: 77; DCCommand: '';                          DCParameters: ''          ), //One separate tree panel on/off
+    (TCCommand: 'cm_ToggleSeparateTree2';       TCIcon: 78; DCCommand: '';                          DCParameters: ''          ), //Two separate tree panels on/off
+    (TCCommand: 'cm_UserMenu1';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Start first menu item in Start menu
+    (TCCommand: 'cm_UserMenu2';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Second item
+    (TCCommand: 'cm_UserMenu3';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Third item
+    (TCCommand: 'cm_UserMenu4';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //etc.
+    (TCCommand: 'cm_UserMenu5';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_UserMenu6';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_UserMenu7';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_UserMenu8';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //You can add more
+    (TCCommand: 'cm_UserMenu9';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //custom user menu ids
+    (TCCommand: 'cm_UserMenu10';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //in totalcmd.inc!
+    (TCCommand: 'cm_OpenNewTab';                TCIcon: 83; DCCommand: 'cm_NewTab';                 DCParameters: ''          ), //Open new tab
+    (TCCommand: 'cm_OpenNewTabBg';              TCIcon: 83; DCCommand: '';                          DCParameters: ''          ), //Open new tab in background
+    (TCCommand: 'cm_OpenDirInNewTab';           TCIcon: -1; DCCommand: 'cm_OpenDirInNewTab';        DCParameters: ''          ), //Open dir under cursor in tab
+    (TCCommand: 'cm_OpenDirInNewTabOther';      TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Open dir under cursor (other window)
+    (TCCommand: 'cm_SwitchToNextTab';           TCIcon: -1; DCCommand: 'cm_NextTab';                DCParameters: ''          ), //Switch to next Tab (as Ctrl+Tab)
+    (TCCommand: 'cm_SwitchToPreviousTab';       TCIcon: -1; DCCommand: 'cm_PrevTab';                DCParameters: ''          ), //Switch to previous Tab (Ctrl+Shift+Tab)
+    (TCCommand: 'cm_CloseCurrentTab';           TCIcon: 84; DCCommand: 'cm_CloseTab';               DCParameters: ''          ), //Close tab
+    (TCCommand: 'cm_CloseAllTabs';              TCIcon: 85; DCCommand: 'cm_CloseAllTabs';           DCParameters: ''          ), //Close all
+    (TCCommand: 'cm_DirTabsShowMenu';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show tab menu
+    (TCCommand: 'cm_ToggleLockCurrentTab';      TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Turn on/off tab locking
+    (TCCommand: 'cm_ToggleLockDcaCurrentTab';   TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Same but with dir changes allowed
+    (TCCommand: 'cm_ExchangeWithTabs';          TCIcon: 37; DCCommand: '';                          DCParameters: ''          ), //Swap all Tabs
+    (TCCommand: 'cm_GoToLockedDir';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Go to the base dir of locked tab
+    (TCCommand: 'cm_SrcActivateTab1';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Activate first tab
+    (TCCommand: 'cm_SrcActivateTab2';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Activate second tab
+    (TCCommand: 'cm_SrcActivateTab3';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //(Source window)
+    (TCCommand: 'cm_SrcActivateTab4';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //etc.
+    (TCCommand: 'cm_SrcActivateTab5';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcActivateTab6';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcActivateTab7';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcActivateTab8';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcActivateTab9';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcActivateTab10';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //(up to 99 items)
+    (TCCommand: 'cm_TrgActivateTab1';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Activate first tab
+    (TCCommand: 'cm_TrgActivateTab2';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Activate second tab
+    (TCCommand: 'cm_TrgActivateTab3';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //(Target window)
+    (TCCommand: 'cm_TrgActivateTab4';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //etc.
+    (TCCommand: 'cm_TrgActivateTab5';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_TrgActivateTab6';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_TrgActivateTab7';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_TrgActivateTab8';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_TrgActivateTab9';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_TrgActivateTab10';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftActivateTab1';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Activate first tab
+    (TCCommand: 'cm_LeftActivateTab2';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Activate second tab
+    (TCCommand: 'cm_LeftActivateTab3';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //(Left window)
+    (TCCommand: 'cm_LeftActivateTab4';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //etc.
+    (TCCommand: 'cm_LeftActivateTab5';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftActivateTab6';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftActivateTab7';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftActivateTab8';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftActivateTab9';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftActivateTab10';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightActivateTab1';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Activate first tab
+    (TCCommand: 'cm_RightActivateTab2';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Activate second tab
+    (TCCommand: 'cm_RightActivateTab3';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //(Right window)
+    (TCCommand: 'cm_RightActivateTab4';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //etc.
+    (TCCommand: 'cm_RightActivateTab5';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightActivateTab6';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightActivateTab7';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightActivateTab8';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightActivateTab9';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightActivateTab10';        TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcSortByCol1';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // Sort by first column
+    (TCCommand: 'cm_SrcSortByCol2';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // Sort by second column
+    (TCCommand: 'cm_SrcSortByCol3';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // (source window)
+    (TCCommand: 'cm_SrcSortByCol4';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // etc.
+    (TCCommand: 'cm_SrcSortByCol5';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcSortByCol6';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcSortByCol7';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcSortByCol8';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcSortByCol9';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcSortByCol10';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcSortByCol99';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_TrgSortByCol1';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // Sort by first column
+    (TCCommand: 'cm_TrgSortByCol2';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // Sort by second column
+    (TCCommand: 'cm_TrgSortByCol3';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // (target window)
+    (TCCommand: 'cm_TrgSortByCol4';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // etc.
+    (TCCommand: 'cm_TrgSortByCol5';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_TrgSortByCol6';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_TrgSortByCol7';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_TrgSortByCol8';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_TrgSortByCol9';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_TrgSortByCol10';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_TrgSortByCol99';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftSortByCol1';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // Sort by first column
+    (TCCommand: 'cm_LeftSortByCol2';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // Sort by second column
+    (TCCommand: 'cm_LeftSortByCol3';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // (left window)
+    (TCCommand: 'cm_LeftSortByCol4';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // etc.
+    (TCCommand: 'cm_LeftSortByCol5';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftSortByCol6';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftSortByCol7';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftSortByCol8';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftSortByCol9';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftSortByCol10';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftSortByCol99';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightSortByCol1';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // Sort by first column
+    (TCCommand: 'cm_RightSortByCol2';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // Sort by second column
+    (TCCommand: 'cm_RightSortByCol3';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // (right window)
+    (TCCommand: 'cm_RightSortByCol4';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // etc.
+    (TCCommand: 'cm_RightSortByCol5';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightSortByCol6';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightSortByCol7';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightSortByCol8';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightSortByCol9';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightSortByCol10';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightSortByCol99';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcCustomView1';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // Source: Custom columns 1
+    (TCCommand: 'cm_SrcCustomView2';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // (user defined columns)
+    (TCCommand: 'cm_SrcCustomView3';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // etc.
+    (TCCommand: 'cm_SrcCustomView4';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcCustomView5';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcCustomView6';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcCustomView7';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcCustomView8';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcCustomView9';            TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // etc. until 299
+    (TCCommand: 'cm_LeftCustomView1';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // Left: Custom columns 1
+    (TCCommand: 'cm_LeftCustomView2';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // (user defined columns)
+    (TCCommand: 'cm_LeftCustomView3';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // etc.
+    (TCCommand: 'cm_LeftCustomView4';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftCustomView5';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftCustomView6';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftCustomView7';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftCustomView8';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_LeftCustomView9';           TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightCustomView1';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // Right: Custom columns 1
+    (TCCommand: 'cm_RightCustomView2';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // (user defined columns)
+    (TCCommand: 'cm_RightCustomView3';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), // etc.
+    (TCCommand: 'cm_RightCustomView4';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightCustomView5';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightCustomView6';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightCustomView7';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightCustomView8';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_RightCustomView9';          TCIcon: -1; DCCommand: '';                          DCParameters: ''          ),
+    (TCCommand: 'cm_SrcNextCustomView';         TCIcon: 52; DCCommand: '';                          DCParameters: ''          ), //  Source: Next custom view
+    (TCCommand: 'cm_SrcPrevCustomView';         TCIcon: 52; DCCommand: '';                          DCParameters: ''          ), //  Source: Previous custom view
+    (TCCommand: 'cm_TrgNextCustomView';         TCIcon: 52; DCCommand: '';                          DCParameters: ''          ), //  Target: Next custom view
+    (TCCommand: 'cm_TrgPrevCustomView';         TCIcon: 52; DCCommand: '';                          DCParameters: ''          ), //  Target: Previous custom view
+    (TCCommand: 'cm_LeftNextCustomView';        TCIcon: 52; DCCommand: '';                          DCParameters: ''          ), // Left:   Next custom view
+    (TCCommand: 'cm_LeftPrevCustomView';        TCIcon: 52; DCCommand: '';                          DCParameters: ''          ), // Left:   Previous custom view
+    (TCCommand: 'cm_RightNextCustomView';       TCIcon: 52; DCCommand: '';                          DCParameters: ''          ), //Right:  Next custom view
+    (TCCommand: 'cm_RightPrevCustomView';       TCIcon: 52; DCCommand: '';                          DCParameters: ''          ), //Right:  Previous custom view
+    (TCCommand: 'cm_LoadAllOnDemandFields';     TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Load on demand fields for all files
+    (TCCommand: 'cm_LoadSelOnDemandFields';     TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Load on demand fields for selected files
+    (TCCommand: 'cm_ContentStopLoadFields';     TCIcon: -1; DCCommand: '';                          DCParameters: ''          )  //Stop loading on demand fields
     );
 //jcf:format=on
 
