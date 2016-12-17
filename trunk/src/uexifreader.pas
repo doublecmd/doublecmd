@@ -47,11 +47,10 @@ type
 
   { TExifReader }
 
-  TExifReader = class
+  TExifReader = class(TMemoryStream)
   private
     FOffset: Int64;
     FSwap: Boolean;
-    FFile: TFileStream;
   protected
     FMake: String;
     FModel: String;
@@ -76,10 +75,14 @@ type
 
 implementation
 
+uses
+  Math, DCClassesUtf8;
+
 { TExifReader }
 
 procedure TExifReader.Reset;
 begin
+  Clear;
   FImageWidth:= 0;
   FImageHeight:= 0;
   FOrientation:= 0;
@@ -92,17 +95,17 @@ function TExifReader.ReadString(Offset, Count: Int32): String;
 var
   AOffset: Int64;
 begin
-  AOffset:= FFile.Seek(0, soCurrent);
-  FFile.Seek(Offset, soBeginning);
+  AOffset:= Self.Seek(0, soCurrent);
+  Self.Seek(Offset, soBeginning);
   SetLength(Result, Count);
-  FFile.ReadBuffer(Result[1], Count);
+  Self.ReadBuffer(Result[1], Count);
   Result:= PAnsiChar(Result);
-  FFile.Seek(AOffset, soBeginning);
+  Self.Seek(AOffset, soBeginning);
 end;
 
 procedure TExifReader.ReadTag(var ATag: TTag);
 begin
-  FFile.ReadBuffer(ATag, SizeOf(TTag));
+  Self.ReadBuffer(ATag, SizeOf(TTag));
   if FSwap = False then
   begin
     case ATag.Typ of
@@ -129,7 +132,7 @@ var
   ACount: UInt16;
   AOffset: Int32 = 0;
 begin
-  ACount:= FFile.ReadWord;
+  ACount:= Self.ReadWord;
   if FSwap then ACount:= SwapEndian(ACount);
   for I:= 1 to ACount do
   begin
@@ -156,8 +159,8 @@ begin
   Result:= ACount > 0;
   if AOffset > 0 then
   begin
-    FFile.Seek(FOffset + AOffset, soBeginning);
-    ACount:= FFile.ReadWord;
+    Self.Seek(FOffset + AOffset, soBeginning);
+    ACount:= Self.ReadWord;
     if FSwap then ACount:= SwapEndian(ACount);
     for I:= 1 to ACount do
     begin
@@ -177,65 +180,75 @@ begin
 end;
 
 function TExifReader.LoadFromFile(const FileName: String): Boolean;
+const
+  BUFFER_SIZE = 262144;
 var
   P: UInt16;
   ASize: UInt16;
   Offset: UInt32;
+  AFile: TFileStreamEx;
   Magic: array [0..5] of AnsiChar;
 begin
+  Reset;
   try
-    Reset;
-    FFile:= TFileStream.Create(FileName, fmOpenRead or fmShareDenyNone);
+    AFile:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
     try
-      if (FFile.ReadByte <> $FF) then Exit(False);
-      if (FFile.ReadByte <> $D8) then Exit(False);
-
-      repeat
-        if FFile.ReadByte = $FF then
-        begin
-          case FFile.ReadByte of
-            $E1: // Exif Marker
-              begin
-                Break;
-              end;
-            $D9: // End Of Image (EOI)
-              begin
-                Exit(False);
-              end;
-            else begin // Unknown section, skip
-              P:= FFile.ReadWordBE;
-              FFile.Seek(Int64(P) - 2, soCurrent);
-            end;
-          end;
-        end;
-      until False;
-
-      // Exif data size
-      ASize:= FFile.ReadWordBE;
-      // Exif magic string
-      FFile.Read(Magic, SizeOf(Magic));
-      if (CompareByte(Magic, 'Exif'#0#0, SizeOf(Magic)) <> 0) then
-        Exit(False);
-      FOffset:= FFile.Seek(0, soCurrent);
-      // Byte order
-      case FFile.ReadWord of
-        $4949: FSwap:= {$IF DEFINED(ENDIAN_BIG)} True {$ELSE} False {$ENDIF}; // little-endian
-        $4D4D: FSwap:= {$IF DEFINED(ENDIAN_LITTLE)} True {$ELSE} False {$ENDIF}; // big-endian
-        else   Exit(False);
-      end;
-      // Magic word
-      P:= FFile.ReadWord;
-      if (P <> $002A) and (P <> $2A00) then Exit(False);
-      // Offset to first IFD
-      Offset:= FFile.ReadDWord;
-      if FSwap then Offset:= SwapEndian(Offset);
-      // Go to Image file directory
-      FFile.Seek(Offset - 8, soCurrent);
-      Result:= DoImageFileDirectory;
+      Self.SetSize(Min(AFile.Size, BUFFER_SIZE));
+      AFile.ReadBuffer(Self.Memory^, Self.Size);
     finally
-      FFile.Free;
+      AFile.Free;
     end;
   except
+    Exit(False);
+  end;
+  try
+    if (Self.ReadByte <> $FF) then Exit(False);
+    if (Self.ReadByte <> $D8) then Exit(False);
+
+    repeat
+      if Self.ReadByte = $FF then
+      begin
+        case Self.ReadByte of
+          $E1: // Exif Marker
+            begin
+              Break;
+            end;
+          $D9: // End Of Image (EOI)
+            begin
+              Exit(False);
+            end;
+          else begin // Unknown section, skip
+            P:= Self.ReadWordBE;
+            Self.Seek(Int64(P) - 2, soCurrent);
+          end;
+        end;
+      end;
+    until False;
+
+    // Exif data size
+    ASize:= Self.ReadWordBE;
+    // Exif magic string
+    Self.Read(Magic, SizeOf(Magic));
+    if (CompareByte(Magic, 'Exif'#0#0, SizeOf(Magic)) <> 0) then
+      Exit(False);
+    FOffset:= Self.Seek(0, soCurrent);
+    // Byte order
+    case Self.ReadWord of
+      $4949: FSwap:= {$IF DEFINED(ENDIAN_BIG)} True {$ELSE} False {$ENDIF}; // little-endian
+      $4D4D: FSwap:= {$IF DEFINED(ENDIAN_LITTLE)} True {$ELSE} False {$ENDIF}; // big-endian
+      else   Exit(False);
+    end;
+    // Magic word
+    P:= Self.ReadWord;
+    if (P <> $002A) and (P <> $2A00) then Exit(False);
+    // Offset to first IFD
+    Offset:= Self.ReadDWord;
+    if FSwap then Offset:= SwapEndian(Offset);
+    // Go to Image file directory
+    Self.Seek(Offset - 8, soCurrent);
+    Result:= DoImageFileDirectory;
+  except
+    Reset;
     Result:= False;
   end;
 end;
