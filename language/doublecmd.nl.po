@@ -2163,6 +2163,14 @@ msgstr "&Platte weergave"
 msgid "Focus command line"
 msgstr "Stel scherp op opdrachtregel"
 
+#: tfrmmain.actfocusswap.caption
+msgid "Swap focus"
+msgstr ""
+
+#: tfrmmain.actfocusswap.hint
+msgid "Switch between left and right file list"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Plaats aanwijzer op eerste bestand in lijst"

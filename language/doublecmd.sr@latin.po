@@ -2242,6 +2242,14 @@ msgstr "&Ravan prikaz"
 msgid "Focus command line"
 msgstr "Žiža na naredbenu liniju"
 
+#: tfrmmain.actfocusswap.caption
+msgid "Swap focus"
+msgstr ""
+
+#: tfrmmain.actfocusswap.hint
+msgid "Switch between left and right file list"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Postavi pokazivač na prvu datoteku spiska"

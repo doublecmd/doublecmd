@@ -2377,6 +2377,14 @@ msgstr "&Плосък изглед"
 msgid "Focus command line"
 msgstr "Сочене на реда за управление"
 
+#: tfrmmain.actfocusswap.caption
+msgid "Swap focus"
+msgstr ""
+
+#: tfrmmain.actfocusswap.hint
+msgid "Switch between left and right file list"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr ""

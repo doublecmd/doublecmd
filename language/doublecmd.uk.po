@@ -2229,6 +2229,14 @@ msgstr "Плоский вигл&яд"
 msgid "Focus command line"
 msgstr "Перейти в командний рядок"
 
+#: tfrmmain.actfocusswap.caption
+msgid "Swap focus"
+msgstr ""
+
+#: tfrmmain.actfocusswap.hint
+msgid "Switch between left and right file list"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Помістити курсор на перший у списку файл"

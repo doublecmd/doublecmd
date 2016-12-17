@@ -2164,6 +2164,14 @@ msgstr "Ver archivos anidados"
 msgid "Focus command line"
 msgstr "Foco en la línea de comandos"
 
+#: tfrmmain.actfocusswap.caption
+msgid "Swap focus"
+msgstr ""
+
+#: tfrmmain.actfocusswap.hint
+msgid "Switch between left and right file list"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Colocar el cursor sobre el primer archivo"
@@ -11446,7 +11454,7 @@ msgid ""
 "We need that one to be completed before to launch a new one.\n"
 msgstr ""
 "Ya hay en curso una búsqueda de archivos mediante el complemento WDX.\n"
-"Es necesario que se complete antes de lanzar una nueva."
+"Es necesario que se complete antes de lanzar una nueva.\n"
 
 #: ulng.rsselectdir
 msgid "Select a directory"

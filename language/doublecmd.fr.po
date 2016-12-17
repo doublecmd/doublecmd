@@ -2233,6 +2233,14 @@ msgstr "Vue à plat"
 msgid "Focus command line"
 msgstr "Mettre la contrôle actif sur la ligne de commande"
 
+#: tfrmmain.actfocusswap.caption
+msgid "Swap focus"
+msgstr ""
+
+#: tfrmmain.actfocusswap.hint
+msgid "Switch between left and right file list"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Placer le curseur sur le premier fichier de la liste"
@@ -12280,3 +12288,4 @@ msgstr "Nombre de remplacements : %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
+

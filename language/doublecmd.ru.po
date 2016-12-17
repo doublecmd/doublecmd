@@ -2212,6 +2212,14 @@ msgstr "Показать все фа&йлы без подкаталогов"
 msgid "Focus command line"
 msgstr "Перейти к командной строке"
 
+#: tfrmmain.actfocusswap.caption
+msgid "Swap focus"
+msgstr "Сменить фокус"
+
+#: tfrmmain.actfocusswap.hint
+msgid "Switch between left and right file list"
+msgstr "Переключиться на другую файловую панель"
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Поместить курсор на первый файл в списке"
@@ -12256,3 +12264,4 @@ msgstr "Число замен: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Замена не состоялась."
+
