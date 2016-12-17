@@ -224,7 +224,8 @@ end;
 
 procedure TPluginPanel.SetUnitName(AValue: String);
 begin
-  SetComboBox(FUnit, AValue, Format('Unit %s not found!', [AValue]));
+  if FUnit.Enabled then
+    SetComboBox(FUnit, AValue, Format('Unit %s not found!', [AValue]));
 end;
 
 procedure TPluginPanel.SetValue(AValue: Variant);
