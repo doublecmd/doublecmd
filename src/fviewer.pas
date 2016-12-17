@@ -40,7 +40,8 @@ uses
   SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls, LMessages,
   LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
   Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
-  uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd;
+  uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd,
+  uExifReader;
 
 type
 
@@ -284,6 +285,7 @@ type
     FBitmapList: TBitmapList;
     FCommands: TFormCommands;
     FZoomFactor: Double;
+    FExif: TExifReader;
 
     //---------------------
     WlxPlugins:TWLXModuleList;
@@ -441,6 +443,7 @@ begin
   FLastSearchPos := -1;
   FZoomFactor := 1.0;
   FThumbnailManager:= nil;
+  FExif:= TExifReader.Create;
   if not bQuickView then Menu:= MainMenu;
   FBitmapList:= TBitmapList.Create(True);
   FCommands := TFormCommands.Create(Self, actionList);
@@ -475,6 +478,7 @@ end;
 
 destructor TfrmViewer.Destroy;
 begin
+  FExif.Free;
   FreeThenNil(FileList);
   FreeThenNil(FThumbnailManager);
   inherited Destroy;
@@ -1912,7 +1916,21 @@ begin
         finally
           FreeAndNil(fsFileStream);
         end;
-          AdjustImageSize;
+        if SameText(sExt, 'jpg') then
+        begin
+          if FExif.LoadFromFile(sFileName) then
+          begin
+            bImage:= True;
+            case FExif.Orientation of
+              2: cm_MirrorHorz([]);
+              3: cm_Rotate180([]);
+              4: cm_MirrorVert([]);
+              6: cm_Rotate90([]);
+              8: cm_Rotate270([]);
+            end;
+          end;
+        end;
+        AdjustImageSize;
       except
         Exit(False);
       end;
