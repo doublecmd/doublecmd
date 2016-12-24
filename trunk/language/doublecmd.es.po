@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-12-16 18:25+0100\n"
+"PO-Revision-Date: 2016-12-21 20:00+0100\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -1678,7 +1678,7 @@ msgstr "Máscara de &archivos"
 
 #: tfrmfinddlg.lblfindpathstart.caption
 msgid "Start in &directory"
-msgstr "Iniciar en carpeta"
+msgstr "Comenzar en la carpeta"
 
 #: tfrmfinddlg.lblsearchdepth.caption
 msgid "Search su&bdirectories:"
@@ -2166,11 +2166,11 @@ msgstr "Foco en la línea de comandos"
 
 #: tfrmmain.actfocusswap.caption
 msgid "Swap focus"
-msgstr ""
+msgstr "Intercambiar foco"
 
 #: tfrmmain.actfocusswap.hint
 msgid "Switch between left and right file list"
-msgstr ""
+msgstr "Cambia entre la lista de archivos izquierda y derecha"
 
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
@@ -3215,7 +3215,7 @@ msgstr "Atajo:"
 
 #: tfrmmaincommandsdlg.lblselectedcommand.caption
 msgid "cm_name"
-msgstr ""
+msgstr "cm_name"
 
 #: tfrmmaincommandsdlg.lblselectedcommandcategory.caption
 msgctxt "tfrmmaincommandsdlg.lblselectedcommandcategory.caption"
@@ -4692,7 +4692,7 @@ msgstr "Ir a info configurar TC"
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
 msgid "HotDirTestMenu"
-msgstr ""
+msgstr "Menú de pruebas para las carpetas de favoritos"
 
 #: tfrmoptionsdirectoryhotlist.miimportfromhotlistfile.caption
 msgid "from a Directory Hotlist file (.hotlist)"
@@ -5187,7 +5187,7 @@ msgstr "Exportar selección a archivo(s) .tab heredado(s)"
 
 #: tfrmoptionsfavoritetabs.mifavoritetabstestmenu.caption
 msgid "FavoriteTabsTestMenu"
-msgstr ""
+msgstr "Menú de pruebas para las pestañas favoritas"
 
 #: tfrmoptionsfavoritetabs.miimportlegacytabfilesaccsetting.caption
 msgid "Import legacy .tab file(s) according to default setting"
@@ -5560,7 +5560,7 @@ msgstr "Operaciones de &borrado"
 
 #: tfrmoptionsfileoperations.cbdeletetotrash.caption
 msgid "Dele&te to recycle bin (Shift key reverses this setting)"
-msgstr "Enviar a la papelera (la tecla «Mayúscula» revierte este ajuste)"
+msgstr "Enviar a la papelera (la tecla de Mayúsculas invalida este ajuste)"
 
 #: tfrmoptionsfileoperations.cbdeletetotrashconfirmation.caption
 msgid "D&elete to trash operation"
@@ -5608,7 +5608,7 @@ msgstr "Tamaño del búfer para el cálculo de hash (en KB):"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
-msgstr "Mostrar progreso de operaciones &inicialmente en"
+msgstr "Mostrar &inicialmente las operaciones en curso en"
 
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgid "Duplicated name auto-rename style:"
@@ -7759,7 +7759,7 @@ msgstr "{"
 
 #: tfrmquicksearch.sbmatchbeginning.hint
 msgid "Match Beginning"
-msgstr "Coincidir al inicio"
+msgstr "Coincidir al comienzo"
 
 #: tfrmquicksearch.sbmatchending.caption
 msgid "}"
@@ -8088,7 +8088,7 @@ msgstr "Versión"
 
 #: tfrmstartingsplash.lblwidgetsetver.caption
 msgid "WidgetsetVer"
-msgstr ""
+msgstr "Versión de Widget"
 
 #: tfrmsymlink.btncancel.caption
 msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
@@ -8251,7 +8251,7 @@ msgstr "simples"
 
 #: tfrmsyncdirsdlg.statusbar1.panels[0].text
 msgid "Please press \"Compare\" to start"
-msgstr "Por favor, presione «Comparar» para iniciar"
+msgstr "Por favor, presiona «Comparar» para comenzar"
 
 #: tfrmsyncdirsperformdlg.caption
 msgctxt "TFRMSYNCDIRSPERFORMDLG.CAPTION"
@@ -9371,7 +9371,7 @@ msgstr "%s bytes libres"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
-msgstr "Fecha hora de último acceso"
+msgstr "Fecha/hora de último acceso"
 
 #: ulng.rsfuncattr
 msgctxt "ulng.rsfuncattr"
@@ -10052,7 +10052,7 @@ msgstr "Crear comando"
 
 #: ulng.rsmsghotdircommandsample
 msgid "cm_somthing"
-msgstr ""
+msgstr "cm_somthing"
 
 #: ulng.rsmsghotdirconfighotlist
 msgctxt "ulng.rsmsghotdirconfighotlist"
@@ -10304,11 +10304,11 @@ msgstr "Error: "
 
 #: ulng.rsmsglogextcmdlaunch
 msgid "Launch external"
-msgstr ""
+msgstr "Lanzamiento externo"
 
 #: ulng.rsmsglogextcmdresult
 msgid "Result external"
-msgstr ""
+msgstr "Resultado externo"
 
 #: ulng.rsmsglogextract
 msgid "Extract file %s"
@@ -10829,7 +10829,7 @@ msgstr "Moviendo «%s» a «%s»"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
-msgstr "No iniciado"
+msgstr "Sin comenzar"
 
 #: ulng.rsoperpacking
 msgid "Packing"
@@ -10877,7 +10877,7 @@ msgstr "Dividiendo «%s» a «%s»"
 
 #: ulng.rsoperstarting
 msgid "Starting"
-msgstr "Iniciando"
+msgstr "Comenzando"
 
 #: ulng.rsoperstopped
 msgid "Stopped"
@@ -11103,7 +11103,7 @@ msgstr "Para que este ajuste funcione con el atajo «%s», el atajo «%s» debe 
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."
-msgstr "El atajo «%s» para cm_Delete es una secuencia a la que no se puede asignar una tecla con «Mayúscula» invertida. Este ajuste podría no funcionar."
+msgstr "El atajo «%s» para cm_Delete es una secuencia a la que no se puede asignar una tecla con «Mayúsculas» invertida. Este ajuste podría no funcionar."
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -11406,7 +11406,7 @@ msgstr "Carpeta"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
-msgstr ""
+msgstr "Tubería nombrada"
 
 #: ulng.rspropssocket
 msgid "Socket"
@@ -11509,7 +11509,7 @@ msgstr "Resultado"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
-msgstr ""
+msgstr "Carpeta de trabajo"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
