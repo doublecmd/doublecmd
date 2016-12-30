@@ -73,6 +73,9 @@ uses
   {$IFDEF MSWINDOWS}
   , Windows, JwaNative, JwaNtStatus, JwaWinType
   {$ENDIF}
+  {$if lcl_fullversion >= 1070000}
+  , LCLPlatformDef
+  {$endif}
   ;
 
 const
@@ -86,6 +89,9 @@ const
       'wince',
       'carbon',
       'qt4',
+{$if lcl_fullversion >= 1070000}
+      'Qt5',
+{$endif}
       'fpGUI',
       'NoGUI',
       'cocoa',
