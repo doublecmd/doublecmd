@@ -129,7 +129,7 @@ type
 implementation
 
 uses
-  strutils, DateUtils, DCDateTimeUtils, DCFileAttributes, SynRegExpr, uMasks,
+  strutils, DateUtils, DCDateTimeUtils, DCFileAttributes, RegExpr, uMasks,
   DCStrUtils, uFileProperty, uGlobs, uWDXModule, LazUTF8;
 
 const

@@ -362,7 +362,7 @@ uses
   uLng, uGlobs, uShowForm, uDCUtils, uFileSource, uFileSourceUtil,
   uSearchResultFileSource, uFile,
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
-  DCOSUtils, SynRegExpr, uDebug, uShowMsg;
+  DCOSUtils, RegExpr, uDebug, uShowMsg;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of integer = (0, 1, 2, 3, 4, 5, 6);

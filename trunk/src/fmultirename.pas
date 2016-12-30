@@ -18,7 +18,7 @@ unit fMultiRename;
 interface
 
 uses
-  LazUtf8, SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, SynRegExpr,
+  LazUtf8, SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, RegExpr,
   Controls, LCLType, DCClassesUtf8, uClassesEx, uFile, uFileSource,
   StringHashList, Grids, ExtCtrls, Buttons, DCXmlConfig, uOSForms,
   uFileProperty, uFileSourceSetFilePropertyOperation;

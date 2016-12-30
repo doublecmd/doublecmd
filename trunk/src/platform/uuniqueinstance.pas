@@ -5,7 +5,7 @@ unit uUniqueInstance;
 interface
 
 uses
-  Classes, SysUtils, SimpleIPC, uCmdLineParams, SynRegExpr;
+  Classes, SysUtils, SimpleIPC, uCmdLineParams, RegExpr;
 
 type
 
