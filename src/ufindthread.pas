@@ -88,7 +88,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, LConvEncoding, SynRegExpr, DCStrUtils,
+  LCLProc, StrUtils, LConvEncoding, RegExpr, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
   uLog, uWCXmodule, WcxPlugin, Math, uDCUtils, uConvEncoding;
 
