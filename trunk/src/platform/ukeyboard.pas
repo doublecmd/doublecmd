@@ -159,7 +159,7 @@ uses
   {$IF DEFINED(LCLQT)}
   , qt4, qtwidgets
   {$ELSEIF DEFINED(LCLQT5)}
-  , qt5, qt5widgets
+  , qt5, qtwidgets
   {$ENDIF}
   , XLib, X
   , xutil, KeySym
