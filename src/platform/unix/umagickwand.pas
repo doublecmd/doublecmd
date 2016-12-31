@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    ImageMagick thumbnail provider
 
-   Copyright (C) 2013-2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2016 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -30,14 +30,23 @@ implementation
 
 uses
   LCLIntf, Classes, SysUtils, DynLibs, FileUtil, Types, Graphics, CTypes,
-  DCOSUtils, DCConvertEncoding, uThumbnails, uDebug, uClassesEx, uGraphics;
+  DCOSUtils, DCConvertEncoding, uThumbnails, uDebug, uClassesEx, uGraphics,
+  uMasks;
 
 const
   MagickFalse = 0;
   MagickTrue = 1;
 
 const
-  libMagickWand = 'libMagickWand.so.%d';
+  libMagickWand: array[0..5] of String =
+  (
+      'libMagickWand-6.Q16.so.1',
+      'libMagickWand-6.Q16.so.2',
+      'libMagickWand-6.Q16.so.3',
+      'libMagickWand-6.Q16HDRI.so.3',
+      'libMagickWand.so.5',
+      'libMagickWand.so.4'
+  );
 
 type
   PMagickWand = Pointer;
@@ -69,6 +78,7 @@ type
 
 var
   MagickWand: TLibHandle;
+  MaskList: TMaskList = nil;
 
 var
   MagickWandGenesis: procedure(); cdecl;
@@ -108,7 +118,7 @@ var
 begin
   Result:= nil;
 
-  if SameText(ExtractFileExt(aFileName), '.xcf') then
+  if MaskList.Matches(aFileName) then
   begin
     // DCDebug('GetThumbnail start: ' + IntToStr(GetTickCount));
     MagickWandGenesis;
@@ -169,14 +179,11 @@ end;
 procedure Initialize;
 var
   Version: Integer;
-  LibraryName: AnsiString = 'libMagickWand-6.Q16.so.1';
+  LibraryName: AnsiString;
 begin
-  MagickWand:= LoadLibrary(LibraryName);
-
-  if (MagickWand = NilHandle) then
-  for Version:= 7 downto 3 do
+  for Version:= 0 to High(libMagickWand) do
   begin
-    LibraryName:= Format(libMagickWand, [Version]);
+    LibraryName:= libMagickWand[Version];
     MagickWand:= LoadLibrary(LibraryName);
     if (MagickWand <> NilHandle) then Break;
   end;
@@ -201,13 +208,16 @@ begin
 
     // Register thumbnail provider
     TThumbnailManager.RegisterProvider(@GetThumbnail);
+    MaskList:= TMaskList.Create('*.xcf;*.webp');
     DCDebug('ImageMagick: ' + LibraryName);
   except
+    // Ignore
   end;
 end;
 
 procedure Finalize;
 begin
+  MaskList.Free;
   if (MagickWand <> NilHandle) then FreeLibrary(MagickWand);
 end;
 
