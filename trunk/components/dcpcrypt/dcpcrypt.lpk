@@ -33,7 +33,7 @@
 www.cityinthesky.co.uk/cryptography.html
 "/>
     <Version Major="2" Release="4" Build="1"/>
-    <Files Count="22">
+    <Files Count="23">
       <Item1>
         <Filename Value="dcpbase64.pas"/>
         <UnitName Value="DCPbase64"/>
@@ -122,6 +122,10 @@ www.cityinthesky.co.uk/cryptography.html
         <Filename Value="Hashes/dcpsha3.pas"/>
         <UnitName Value="DCPsha3"/>
       </Item22>
+      <Item23>
+        <Filename Value="Hashes/dcpsha224.pas"/>
+        <UnitName Value="DCPsha224"/>
+      </Item23>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
