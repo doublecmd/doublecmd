@@ -3,6 +3,7 @@ inherited frmDeleteDlg: TfrmDeleteDlg
   Height = 86
   Top = 169
   Width = 415
+  ActiveControl = btnOK
   AutoSize = True
   BorderStyle = bsDialog
   ClientHeight = 86
@@ -42,19 +43,11 @@ inherited frmDeleteDlg: TfrmDeleteDlg
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 32
     ClientWidth = 399
-    inherited btnAddToQueue: TBitBtn
-      TabOrder = 3
-    end
-    inherited btnCreateSpecialQueue: TBitBtn
-      TabOrder = 2
-    end
     inherited btnCancel: TBitBtn
-      Left = 217
-      TabOrder = 1
+      Left = 221
     end
     inherited btnOK: TBitBtn
       Left = 311
-      TabOrder = 0
     end
   end
 end
