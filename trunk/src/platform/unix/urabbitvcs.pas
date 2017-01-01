@@ -336,7 +336,9 @@ begin
 end;
 
 initialization
+{$IF NOT DEFINED(LCLQT5)}
   RegisterInitialization(@Initialize);
+{$ENDIF}
 
 finalization
   Finalize;
