@@ -1916,7 +1916,7 @@ begin
         finally
           FreeAndNil(fsFileStream);
         end;
-        if SameText(sExt, 'jpg') then
+        if gImageExifRotate and SameText(sExt, 'jpg') then
         begin
           if FExif.LoadFromFile(sFileName) then
           begin
