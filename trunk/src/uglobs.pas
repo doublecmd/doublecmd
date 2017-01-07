@@ -477,6 +477,7 @@ var
   {Viewer}
   gPreviewVisible,
   gImageStretch: Boolean;
+  gImageExifRotate: Boolean;
   gImageStretchOnlyLarge: Boolean;
   gImageCenter: Boolean;
   gCopyMovePath1,
@@ -1609,6 +1610,7 @@ begin
 
   {Viewer}
   gImageStretch := False;
+  gImageExifRotate := True;
   gImageStretchOnlyLarge := False;
   gImageCenter := True;
   gPreviewVisible := False;
@@ -2824,6 +2826,7 @@ begin
     if Assigned(Node) then
     begin
       gImageStretch := GetValue(Node, 'ImageStretch', gImageStretch);
+      gImageExifRotate := GetValue(Node, 'ImageExifRotate', gImageExifRotate);
       gImageStretchOnlyLarge := GetValue(Node, 'ImageStretchLargeOnly', gImageStretchOnlyLarge);
       gImageCenter := GetValue(Node, 'ImageCenter', gImageCenter);
       gPreviewVisible := GetValue(Node, 'PreviewVisible', gPreviewVisible);
@@ -3312,6 +3315,7 @@ begin
     Node := FindNode(Root, 'Viewer',True);
     SetValue(Node, 'PreviewVisible',gPreviewVisible);
     SetValue(Node, 'ImageStretch',gImageStretch);
+    SetValue(Node, 'ImageExifRotate', gImageExifRotate);
     SetValue(Node, 'ImageStretchLargeOnly',gImageStretchOnlyLarge);
     SetValue(Node, 'ImageCenter',gImageCenter);
     SetValue(Node, 'CopyMovePath1', gCopyMovePath1);
