@@ -185,7 +185,7 @@ uses
 {$ELSEIF DEFINED(LCLQT) and DEFINED(DARWIN)}
 uses
   uDragDropQt, uDragDropCocoa;
-{$ELSEIF DEFINED(LCLQT)}
+{$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
 uses
   uDragDropQt;
 {$ENDIF}
@@ -345,7 +345,7 @@ begin
   Result := True;
 {$ELSEIF DEFINED(LCLGTK) OR DEFINED(LCLGTK2)}
   Result := True;
-{$ELSEIF DEFINED(LCLQT)}
+{$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   Result := True;
 {$ELSE}
   Result := False;
@@ -360,7 +360,7 @@ begin
   Result := TDragDropSourceGTK.Create(Control);
 {$ELSEIF DEFINED(LCLQT) and DEFINED(DARWIN)}
   Result := TDragDropSourceCocoa.Create(Control);
-{$ELSEIF DEFINED(LCLQT)}
+{$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   Result := TDragDropSourceQT.Create(Control);
 {$ELSE}
   Result := TDragDropSource.Create(Control);   // Dummy
@@ -373,7 +373,7 @@ begin
   Result := TDragDropTargetWindows.Create(Control);
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   Result := TDragDropTargetGTK.Create(Control);
-{$ELSEIF DEFINED(LCLQT)}
+{$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   Result := TDragDropTargetQT.Create(Control);
 {$ELSE}
   Result := TDragDropTarget.Create(Control);   // Dummy

@@ -10,7 +10,13 @@ interface
 
 uses
   Classes, SysUtils, Controls, uDragDropEx,
-  qt4, qtwidgets;
+  qtwidgets
+  {$IF DEFINED(LCLQT)}
+  , qt4
+  {$ELSEIF DEFINED(LCLQT5)}
+  , qt5
+  {$ENDIF}
+  ;
 
 type
   TDragDropSourceQT = class(TDragDropSource)
@@ -68,6 +74,16 @@ const
   uriListMimeW   : WideString = uriListMime;
   textPlainMimeW : WideString = textPlainMime;
 
+
+{$IF DEFINED(LCLQT5)}
+function QDropEvent_pos(handle: QDropEventH): PQtPoint; overload;
+const
+  retval: TQtPoint = (x: 0; y: 0);
+begin
+  Result:= @retval;
+  QDropEvent_pos(handle, Result);
+end;
+{$ENDIF}
 
 function GetWidgetFromLCLControl(AWinControl: TWinControl): QWidgetH; inline;
 begin
