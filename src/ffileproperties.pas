@@ -555,7 +555,7 @@ begin
   tsImage.TabVisible:= SameText(FFiles[iIndex].Extension, 'jpg') and FExif.LoadFromFile(FFiles[iIndex].FullPath);
   if tsImage.TabVisible then
   begin
-    sgImage.RowCount:= 4;
+    sgImage.RowCount:= 6;
     if FExif.ImageWidth <> 0 then
     begin
      Inc(Index);
@@ -573,6 +573,18 @@ begin
       Inc(Index);
       sgImage.Cells[0, Index]:= rsDateTimeOriginal;
       sgImage.Cells[1, Index]:= FExif.DateTimeOriginal;
+    end;
+    if Length(FExif.Make) > 0 then
+    begin
+      Inc(Index);
+      sgImage.Cells[0, Index]:= rsMake;
+      sgImage.Cells[1, Index]:= FExif.Make;
+    end;
+    if Length(FExif.Model) > 0 then
+    begin
+      Inc(Index);
+      sgImage.Cells[0, Index]:= rsModel;
+      sgImage.Cells[1, Index]:= FExif.Model;
     end;
     tsImage.TabVisible:= Index > 0;
     sgImage.RowCount:= Index + 1;
