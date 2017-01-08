@@ -31,8 +31,9 @@ interface
 
 uses
   LResources, SysUtils, Classes, Graphics, Forms, StdCtrls, Buttons, ComCtrls,
-  Dialogs, Controls, ExtCtrls, DCBasicTypes, uFile, uFileProperty, uFileSource,
-  uFileSourceOperation, uFileSourceCalcStatisticsOperation;
+  Dialogs, Controls, ExtCtrls, Grids, DCBasicTypes, uFile,
+  uFileProperty, uFileSource, uFileSourceOperation,
+  uFileSourceCalcStatisticsOperation, uExifReader;
 
 type
 
@@ -96,6 +97,8 @@ type
     pnlData: TPanel;
     pnlIcon: TPanel;
     pcPageControl: TPageControl;
+    sgImage: TStringGrid;
+    tsImage: TTabSheet;
     tmUpdateFolderSize: TTimer;
     tsProperties: TTabSheet;
     tsAttributes: TTabSheet;
@@ -116,6 +119,7 @@ type
     iCurrent: Integer;
     FFileSource: IFileSource;
     FFiles: TFiles;
+    FExif: TExifReader;
     FPropertyFormatter: IFilePropertyFormatter;
     FFileSourceCalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
     ChangeTriggersEnabled: Boolean;
@@ -132,6 +136,7 @@ type
     procedure AllowChange(Allow: Boolean);
     procedure StartCalcFolderSize;
     procedure StopCalcFolderSize;
+    procedure ShowImage(iIndex:Integer);
   public
     constructor Create(AOwner: TComponent; aFileSource: IFileSource; theFiles: TFiles); reintroduce;
     destructor Destroy; override;
@@ -165,6 +170,7 @@ end;
 
 constructor TfrmFileProperties.Create(AOwner: TComponent; aFileSource: IFileSource; theFiles: TFiles);
 begin
+  FExif:= TExifReader.Create;
   FFileSource:= aFileSource;
   FFiles := theFiles;
   FPropertyFormatter := MaxDetailsFilePropertyFormatter;
@@ -178,6 +184,7 @@ end;
 
 destructor TfrmFileProperties.Destroy;
 begin
+  FExif.Free;
   StopCalcFolderSize;
   inherited Destroy;
   FPropertyFormatter := nil; // free interface
@@ -424,6 +431,9 @@ begin
     end;
   end;
 
+  tsImage.Visible:= isFileSystem;
+  if isFileSystem then ShowImage(iIndex);
+
   // Only allow changes for file system file.
   AllowChange(isFileSystem);
 end;
@@ -536,6 +546,37 @@ begin
       FFileSourceCalcStatisticsOperation.Stop;
     end;
   FFileSourceCalcStatisticsOperation:= nil;
+end;
+
+procedure TfrmFileProperties.ShowImage(iIndex: Integer);
+var
+  Index: Integer = 0;
+begin
+  tsImage.TabVisible:= SameText(FFiles[iIndex].Extension, 'jpg') and FExif.LoadFromFile(FFiles[iIndex].FullPath);
+  if tsImage.TabVisible then
+  begin
+    sgImage.RowCount:= 4;
+    if FExif.ImageWidth <> 0 then
+    begin
+     Inc(Index);
+     sgImage.Cells[0, Index]:= rsImageWidth;
+     sgImage.Cells[1, Index]:= IntToStr(FExif.ImageWidth);
+    end;
+    if FExif.ImageHeight <> 0 then
+    begin
+     Inc(Index);
+     sgImage.Cells[0, Index]:= rsImageHeight;
+     sgImage.Cells[1, Index]:= IntToStr(FExif.ImageHeight);
+    end;
+    if Length(FExif.DateTimeOriginal) > 0 then
+    begin
+      Inc(Index);
+      sgImage.Cells[0, Index]:= rsDateTimeOriginal;
+      sgImage.Cells[1, Index]:= FExif.DateTimeOriginal;
+    end;
+    tsImage.TabVisible:= Index > 0;
+    sgImage.RowCount:= Index + 1;
+  end;
 end;
 
 end.
