@@ -1437,10 +1437,26 @@ msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "쓰기"
 
+#: tfrmfileproperties.sgimage.columns[0].title.caption
+#, fuzzy
+msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
+msgid "Name"
+msgstr "파일명"
+
+#: tfrmfileproperties.sgimage.columns[1].title.caption
+#, fuzzy
+msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
+msgid "Value"
+msgstr "값"
+
 #: tfrmfileproperties.tsattributes.caption
 msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
 msgstr "파일속성"
+
+#: tfrmfileproperties.tsimage.caption
+msgid "Image"
+msgstr ""
 
 #: tfrmfileproperties.tsproperties.caption
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
@@ -3469,6 +3485,7 @@ msgid "PNM"
 msgstr "PNM"
 
 #: tfrmmodview.teheight.text
+msgctxt "tfrmmodview.teheight.text"
 msgid "Height"
 msgstr "높이"
 
@@ -9251,6 +9268,34 @@ msgstr "백그라운드 실행(연결 분리)"
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "파일이 있을 때"
+
+#: uexifreader.rsdatetimeoriginal
+msgid "Date taken"
+msgstr ""
+
+#: uexifreader.rsimageheight
+#, fuzzy
+msgctxt "uexifreader.rsimageheight"
+msgid "Height"
+msgstr "높이"
+
+#: uexifreader.rsimagewidth
+#, fuzzy
+msgctxt "uexifreader.rsimagewidth"
+msgid "Width"
+msgstr "폭"
+
+#: uexifreader.rsmake
+msgid "Manufacturer"
+msgstr ""
+
+#: uexifreader.rsmodel
+msgid "Camera model"
+msgstr ""
+
+#: uexifreader.rsorientation
+msgid "Orientation"
+msgstr ""
 
 #: ulng.msgtrytolocatecrcfile
 msgid ""

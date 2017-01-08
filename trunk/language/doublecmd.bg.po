@@ -1512,10 +1512,25 @@ msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Четене"
 
+#: tfrmfileproperties.sgimage.columns[0].title.caption
+#, fuzzy
+msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
+msgid "Name"
+msgstr "Име"
+
+#: tfrmfileproperties.sgimage.columns[1].title.caption
+msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
+msgid "Value"
+msgstr ""
+
 #: tfrmfileproperties.tsattributes.caption
 msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
 msgstr "Принадлежности"
+
+#: tfrmfileproperties.tsimage.caption
+msgid "Image"
+msgstr ""
 
 #: tfrmfileproperties.tsproperties.caption
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
@@ -3720,6 +3735,7 @@ msgid "PNM"
 msgstr ""
 
 #: tfrmmodview.teheight.text
+msgctxt "tfrmmodview.teheight.text"
 msgid "Height"
 msgstr ""
 
@@ -10001,6 +10017,33 @@ msgstr ""
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Когато файлът съществува"
+
+#: uexifreader.rsdatetimeoriginal
+msgid "Date taken"
+msgstr ""
+
+#: uexifreader.rsimageheight
+msgctxt "uexifreader.rsimageheight"
+msgid "Height"
+msgstr ""
+
+#: uexifreader.rsimagewidth
+#, fuzzy
+msgctxt "uexifreader.rsimagewidth"
+msgid "Width"
+msgstr "Ширина"
+
+#: uexifreader.rsmake
+msgid "Manufacturer"
+msgstr ""
+
+#: uexifreader.rsmodel
+msgid "Camera model"
+msgstr ""
+
+#: uexifreader.rsorientation
+msgid "Orientation"
+msgstr ""
 
 #: ulng.msgtrytolocatecrcfile
 msgid ""

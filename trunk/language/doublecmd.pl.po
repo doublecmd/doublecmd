@@ -1398,10 +1398,26 @@ msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Zapis"
 
+#: tfrmfileproperties.sgimage.columns[0].title.caption
+#, fuzzy
+msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
+msgid "Name"
+msgstr "Nazwa"
+
+#: tfrmfileproperties.sgimage.columns[1].title.caption
+#, fuzzy
+msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
+msgid "Value"
+msgstr "Wartość"
+
 #: tfrmfileproperties.tsattributes.caption
 msgctxt "tfrmfileproperties.tsattributes.caption"
 msgid "Attributes"
 msgstr "Atrybuty"
+
+#: tfrmfileproperties.tsimage.caption
+msgid "Image"
+msgstr ""
 
 #: tfrmfileproperties.tsproperties.caption
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
@@ -3374,6 +3390,7 @@ msgid "PNM"
 msgstr "PNM"
 
 #: tfrmmodview.teheight.text
+msgctxt "tfrmmodview.teheight.text"
 msgid "Height"
 msgstr "Wysokość"
 
@@ -6178,9 +6195,10 @@ msgid "Add selected names with &full path"
 msgstr "Dodaj wybrane nazwy z pełną ścieżką"
 
 #: tfrmoptionsignorelist.btnrelativesavein.hint
+#, fuzzy
 msgctxt "tfrmoptionsignorelist.btnrelativesavein.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Niektóre funkcje by wybrać odpowiednią ścieżkę"
 
 #: tfrmoptionsignorelist.chkignoreenable.caption
 msgid "&Ignore (don't show) the following files and folders:"
@@ -6300,9 +6318,10 @@ msgid " Screen layout "
 msgstr " Wygląd ekranu głównego"
 
 #: tfrmoptionslog.btnrelativelogfile.hint
+#, fuzzy
 msgctxt "tfrmoptionslog.btnrelativelogfile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Niektóre funkcje by wybrać odpowiednią ścieżkę"
 
 #: tfrmoptionslog.btnviewlogfile.hint
 msgctxt "tfrmoptionslog.btnviewlogfile.hint"
@@ -6376,19 +6395,22 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint
+#, fuzzy
 msgctxt "tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Niektóre funkcje by wybrać odpowiednią ścieżkę"
 
 #: tfrmoptionsmisc.btnrelativetcconfigfile.hint
+#, fuzzy
 msgctxt "tfrmoptionsmisc.btnrelativetcconfigfile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Niektóre funkcje by wybrać odpowiednią ścieżkę"
 
 #: tfrmoptionsmisc.btnrelativetcexecutablefile.hint
+#, fuzzy
 msgctxt "tfrmoptionsmisc.btnrelativetcexecutablefile.hint"
 msgid "Some functions to select appropriate path"
-msgstr ""
+msgstr "Niektóre funkcje by wybrać odpowiednią ścieżkę"
 
 #: tfrmoptionsmisc.btnthumbcompactcache.caption
 msgid "&Remove thumbnails for no longer existing files"
@@ -8853,6 +8875,34 @@ msgstr "Praca w tle (oddzielne połączenie)"
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Gdy plik istnieje"
+
+#: uexifreader.rsdatetimeoriginal
+msgid "Date taken"
+msgstr ""
+
+#: uexifreader.rsimageheight
+#, fuzzy
+msgctxt "uexifreader.rsimageheight"
+msgid "Height"
+msgstr "Wysokość"
+
+#: uexifreader.rsimagewidth
+#, fuzzy
+msgctxt "uexifreader.rsimagewidth"
+msgid "Width"
+msgstr "Szerokość"
+
+#: uexifreader.rsmake
+msgid "Manufacturer"
+msgstr ""
+
+#: uexifreader.rsmodel
+msgid "Camera model"
+msgstr ""
+
+#: uexifreader.rsorientation
+msgid "Orientation"
+msgstr ""
 
 #: ulng.msgtrytolocatecrcfile
 msgid ""

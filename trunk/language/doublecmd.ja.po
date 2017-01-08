@@ -1433,10 +1433,26 @@ msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "書き込み"
 
+#: tfrmfileproperties.sgimage.columns[0].title.caption
+#, fuzzy
+msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
+msgid "Name"
+msgstr "名前"
+
+#: tfrmfileproperties.sgimage.columns[1].title.caption
+#, fuzzy
+msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
+msgid "Value"
+msgstr "値"
+
 #: tfrmfileproperties.tsattributes.caption
 msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
 msgstr "属性"
+
+#: tfrmfileproperties.tsimage.caption
+msgid "Image"
+msgstr ""
 
 #: tfrmfileproperties.tsproperties.caption
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
@@ -3444,6 +3460,7 @@ msgid "PNM"
 msgstr "PNM"
 
 #: tfrmmodview.teheight.text
+msgctxt "tfrmmodview.teheight.text"
 msgid "Height"
 msgstr "高さ"
 
@@ -9130,6 +9147,34 @@ msgstr "バックグラウンドで動作（別の接続）"
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "ファイルが存在する場合"
+
+#: uexifreader.rsdatetimeoriginal
+msgid "Date taken"
+msgstr ""
+
+#: uexifreader.rsimageheight
+#, fuzzy
+msgctxt "uexifreader.rsimageheight"
+msgid "Height"
+msgstr "高さ"
+
+#: uexifreader.rsimagewidth
+#, fuzzy
+msgctxt "uexifreader.rsimagewidth"
+msgid "Width"
+msgstr "幅"
+
+#: uexifreader.rsmake
+msgid "Manufacturer"
+msgstr ""
+
+#: uexifreader.rsmodel
+msgid "Camera model"
+msgstr ""
+
+#: uexifreader.rsorientation
+msgid "Orientation"
+msgstr ""
 
 # 元の英語の品質悪い。
 #: ulng.msgtrytolocatecrcfile

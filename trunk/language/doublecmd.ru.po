@@ -1433,10 +1433,24 @@ msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Запись"
 
+#: tfrmfileproperties.sgimage.columns[0].title.caption
+msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
+msgid "Name"
+msgstr "Имя"
+
+#: tfrmfileproperties.sgimage.columns[1].title.caption
+msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
+msgid "Value"
+msgstr "Значение"
+
 #: tfrmfileproperties.tsattributes.caption
 msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
 msgstr "Атрибуты"
+
+#: tfrmfileproperties.tsimage.caption
+msgid "Image"
+msgstr "Изображение"
 
 #: tfrmfileproperties.tsproperties.caption
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
@@ -3443,6 +3457,7 @@ msgid "PNM"
 msgstr "PNM"
 
 #: tfrmmodview.teheight.text
+msgctxt "tfrmmodview.teheight.text"
 msgid "Height"
 msgstr "Высота"
 
@@ -9176,6 +9191,32 @@ msgstr "Работать в фоне (отдельное соединение)"
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Если файл существует"
+
+#: uexifreader.rsdatetimeoriginal
+msgid "Date taken"
+msgstr "Дата съёмки"
+
+#: uexifreader.rsimageheight
+msgctxt "uexifreader.rsimageheight"
+msgid "Height"
+msgstr "Высота"
+
+#: uexifreader.rsimagewidth
+msgctxt "uexifreader.rsimagewidth"
+msgid "Width"
+msgstr "Ширина"
+
+#: uexifreader.rsmake
+msgid "Manufacturer"
+msgstr "Производитель"
+
+#: uexifreader.rsmodel
+msgid "Camera model"
+msgstr "Модель камеры"
+
+#: uexifreader.rsorientation
+msgid "Orientation"
+msgstr "Ориентация"
 
 #: ulng.msgtrytolocatecrcfile
 msgid ""
