@@ -1398,9 +1398,23 @@ msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr ""
 
+#: tfrmfileproperties.sgimage.columns[0].title.caption
+msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
+msgid "Name"
+msgstr ""
+
+#: tfrmfileproperties.sgimage.columns[1].title.caption
+msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
+msgid "Value"
+msgstr ""
+
 #: tfrmfileproperties.tsattributes.caption
 msgctxt "tfrmfileproperties.tsattributes.caption"
 msgid "Attributes"
+msgstr ""
+
+#: tfrmfileproperties.tsimage.caption
+msgid "Image"
 msgstr ""
 
 #: tfrmfileproperties.tsproperties.caption
@@ -3374,6 +3388,7 @@ msgid "PNM"
 msgstr ""
 
 #: tfrmmodview.teheight.text
+msgctxt "tfrmmodview.teheight.text"
 msgid "Height"
 msgstr ""
 
@@ -8852,6 +8867,32 @@ msgstr ""
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
+msgstr ""
+
+#: uexifreader.rsdatetimeoriginal
+msgid "Date taken"
+msgstr ""
+
+#: uexifreader.rsimageheight
+msgctxt "uexifreader.rsimageheight"
+msgid "Height"
+msgstr ""
+
+#: uexifreader.rsimagewidth
+msgctxt "uexifreader.rsimagewidth"
+msgid "Width"
+msgstr ""
+
+#: uexifreader.rsmake
+msgid "Manufacturer"
+msgstr ""
+
+#: uexifreader.rsmodel
+msgid "Camera model"
+msgstr ""
+
+#: uexifreader.rsorientation
+msgid "Orientation"
 msgstr ""
 
 #: ulng.msgtrytolocatecrcfile
