@@ -73,6 +73,12 @@ type
     property DateTimeOriginal: String read FDateTimeOriginal;
   end;
 
+resourcestring
+  rsImageWidth = 'Width';
+  rsImageHeight = 'Height';
+  rsOrientation = 'Orientation';
+  rsDateTimeOriginal = 'Date';
+
 implementation
 
 uses
@@ -138,6 +144,14 @@ begin
   begin
     ReadTag(ATag);
     case ATag.ID of
+     $100: // Image width
+       begin
+         FImageWidth := ATag.Offset;
+       end;
+     $101: // Image height
+       begin
+         FImageHeight := ATag.Offset;
+       end;
      $010f: // Shows manufacturer of digicam
        begin
          FMake:= ReadString(ATag.Offset + FOffset, ATag.Count);
@@ -171,9 +185,9 @@ begin
             FDateTimeOriginal:= ReadString(ATag.Offset + FOffset, ATag.Count);
           end;
         // Image pixel width
-        $A002: FImageWidth := ATag.Offset;
+        $A002: if FImageWidth = 0 then FImageWidth := ATag.Offset;
         // Image pixel height
-        $A003: FImageHeight := ATag.Offset;
+        $A003: if FImageHeight = 0 then FImageHeight := ATag.Offset;
       end;
     end;
   end;
@@ -181,7 +195,7 @@ end;
 
 function TExifReader.LoadFromFile(const FileName: String): Boolean;
 const
-  BUFFER_SIZE = 262144;
+  BUFFER_SIZE = 196608;
 var
   P: UInt16;
   ASize: UInt16;
