@@ -74,6 +74,8 @@ type
   end;
 
 resourcestring
+  rsMake = 'Manufacturer';
+  rsModel = 'Camera model';
   rsImageWidth = 'Width';
   rsImageHeight = 'Height';
   rsOrientation = 'Orientation';
