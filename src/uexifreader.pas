@@ -79,7 +79,7 @@ resourcestring
   rsImageWidth = 'Width';
   rsImageHeight = 'Height';
   rsOrientation = 'Orientation';
-  rsDateTimeOriginal = 'Date';
+  rsDateTimeOriginal = 'Date taken';
 
 implementation
 

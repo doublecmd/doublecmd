@@ -269,7 +269,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item11>
     </RequiredPackages>
-    <Units Count="236">
+    <Units Count="237">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1687,6 +1687,11 @@ end;"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsFileSearch"/>
       </Unit235>
+      <Unit236>
+        <Filename Value="uexifreader.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uExifReader"/>
+      </Unit236>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
