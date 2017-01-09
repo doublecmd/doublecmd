@@ -1276,9 +1276,9 @@ var
   dwSize: DWORD;
   wsResult: UnicodeString;
 begin
-  SetLength(wsResult, MAX_PATH + 1);
-  dwSize:= ExpandEnvironmentStringsW(PWideChar(UTF8Decode(FileName)), PWideChar(wsResult), MAX_PATH);
-  if (dwSize = 0) or (dwSize > MAX_PATH) then
+  SetLength(wsResult, MaxSmallInt + 1);
+  dwSize:= ExpandEnvironmentStringsW(PWideChar(UTF8Decode(FileName)), PWideChar(wsResult), MaxSmallInt);
+  if (dwSize = 0) or (dwSize > MaxSmallInt) then
     Result:= FileName
   else begin
     SetLength(wsResult, dwSize - 1);
