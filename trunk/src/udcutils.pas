@@ -953,8 +953,8 @@ var
 begin
   // Set up compare function
   case CaseSensitivity of
-    cstNotSensitive: str_cmp:= WideStringManager.CompareTextWideStringProc;
-    cstLocale:       str_cmp:= WideStringManager.CompareWideStringProc;
+    cstNotSensitive: str_cmp:= @WideCompareText;
+    cstLocale:       str_cmp:= @WideCompareStr;
     cstCharValue:    str_cmp:= @WideStrComp;
     else
       raise Exception.Create('Invalid CaseSensitivity parameter');

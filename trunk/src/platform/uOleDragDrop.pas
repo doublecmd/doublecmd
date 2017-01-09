@@ -998,13 +998,12 @@ var
   tIID : PGuid;
   hFile: THandle;
   pvStrm: IStream;
-  i64Size:    Int64;
-  i64Move:    Int64;
   dwSize:     LongInt;
   AnyPointer: PAnsiChar;
   InnerFilename: String;
   StgDocFile: WideString;
   msStream:   TMemoryStream;
+  i64Size, i64Move: {$IF FPC_FULLVERSION < 030002}Int64{$ELSE}QWord{$ENDIF};
 begin
   result:=FALSE;
   InnerFilename:= ExtractFilepath(WantedFilename) + TEMPFILENAME;
