@@ -615,6 +615,7 @@ var
 
 procedure UpdateEnvironment;
 var
+  dwSize: DWORD;
   ASysPath: UnicodeString;
   AUserPath: UnicodeString;
   APath: UnicodeString = '';
@@ -632,7 +633,17 @@ begin
     if (Length(APath) > 0) and (APath[Length(APath)] <> PathSeparator) then APath += PathSeparator;
   end;
   // Update path environment variable
-  if Length(APath) > 0 then SetEnvironmentVariableW('Path', PWideChar(APath));
+  if Length(APath) > 0 then
+  begin
+    SetLength(ASysPath, MaxSmallInt + 1);
+    dwSize:= ExpandEnvironmentStringsW(PWideChar(APath), PWideChar(ASysPath), MaxSmallInt);
+    if (dwSize = 0) or (dwSize > MaxSmallInt) then
+      ASysPath:= APath
+    else begin
+      SetLength(ASysPath, dwSize - 1);
+    end;
+    SetEnvironmentVariableW('Path', PWideChar(ASysPath));
+  end;
 end;
 
 { WindowProc }
