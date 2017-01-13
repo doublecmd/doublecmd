@@ -115,14 +115,14 @@ end;
 
 procedure TPipeServerComm.ReadMessage;
 var
-{$IF (FPC_FULLVERSION < 030002)}
+{$IF (FPC_FULLVERSION < 030001)}
   M : TStream;
   Count : Integer;
 {$ENDIF}
   Hdr : TMsgHeader;
 begin
   FStream.ReadBuffer(Hdr,SizeOf(Hdr));
-{$IF (FPC_FULLVERSION >= 030002)}
+{$IF (FPC_FULLVERSION >= 030001)}
   PushMessage(Hdr,FStream);
 {$ELSE}
   SetMsgType(Hdr.MsgType);

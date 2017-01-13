@@ -105,7 +105,7 @@ begin
     begin
       FServerIPC:= TSimpleIPCServer.Create(nil);
       FServerIPC.OnMessage:= @OnNative;
-      {$IF DEFINED(MSWINDOWS) and (FPC_FULLVERSION >= 030002)}
+      {$IF DEFINED(MSWINDOWS) and (FPC_FULLVERSION >= 030001)}
       FServerIPC.OnMessageQueued:= @OnMessageQueued;
       {$ENDIF}
     end;
