@@ -26,6 +26,7 @@ type
     {$ENDIF}
 
     procedure OnNative(Sender: TObject);
+    procedure OnMessageQueued(Sender: TObject);
 
     procedure CreateServer;
     procedure CreateClient;
@@ -93,12 +94,20 @@ begin
     end;
 end;
 
+procedure TUniqueInstance.OnMessageQueued(Sender: TObject);
+begin
+  FServerIPC.ReadMessage;
+end;
+
 procedure TUniqueInstance.CreateServer;
 begin
   if FServerIPC = nil then
     begin
       FServerIPC:= TSimpleIPCServer.Create(nil);
       FServerIPC.OnMessage:= @OnNative;
+      {$IF DEFINED(MSWINDOWS) and (FPC_FULLVERSION >= 030002)}
+      FServerIPC.OnMessageQueued:= @OnMessageQueued;
+      {$ENDIF}
     end;
   if FClientIPC <> nil then
     FreeAndNil(FClientIPC);

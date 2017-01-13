@@ -114,13 +114,17 @@ begin
 end;
 
 procedure TPipeServerComm.ReadMessage;
-
-Var
-  Count : Integer;
-  Hdr : TMsgHeader;
+var
+{$IF (FPC_FULLVERSION < 030002)}
   M : TStream;
+  Count : Integer;
+{$ENDIF}
+  Hdr : TMsgHeader;
 begin
   FStream.ReadBuffer(Hdr,SizeOf(Hdr));
+{$IF (FPC_FULLVERSION >= 030002)}
+  PushMessage(Hdr,FStream);
+{$ELSE}
   SetMsgType(Hdr.MsgType);
   Count:=Hdr.MsgLen;
   M:=MsgData;
@@ -131,6 +135,7 @@ begin
     end
   else
     M.Size := 0;
+{$ENDIF}
 end;
 
 function TPipeServerComm.GetInstanceID: String;
