@@ -25,8 +25,10 @@ uses
    ActiveX;
 
 const
+   { The operation was canceled by the user }
+   HRESULT_ERROR_CANCELLED = HRESULT($800704C7);
    { User canceled the current action }
-   COPYENGINE_E_USER_CANCELLED: HRESULT = HRESULT($80270000);
+   COPYENGINE_E_USER_CANCELLED = HRESULT($80270000);
 
 const
   IID_IImageList: TGUID = '{46EB5926-582E-4017-9FDF-E8998DAA0950}';

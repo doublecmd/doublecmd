@@ -254,7 +254,7 @@ begin
       nShow := SW_NORMAL;
     end;
     Result := FShellMenu.InvokeCommand(cmici);
-    if not (Succeeded(Result) or (Result = COPYENGINE_E_USER_CANCELLED)) then
+    if not (Succeeded(Result) or (Result = COPYENGINE_E_USER_CANCELLED) or (Result = HRESULT_ERROR_CANCELLED)) then
       msgError(Self, mbSysErrorMessage(Result));
   finally
     CoUninitialize;
