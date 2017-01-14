@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    ImageMagick thumbnail provider
 
-   Copyright (C) 2013-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 }
 
 unit uMagickWand;
@@ -208,7 +208,7 @@ begin
 
     // Register thumbnail provider
     TThumbnailManager.RegisterProvider(@GetThumbnail);
-    MaskList:= TMaskList.Create('*.xcf;*.webp');
+    MaskList:= TMaskList.Create('*.xcf');
     DCDebug('ImageMagick: ' + LibraryName);
   except
     // Ignore
