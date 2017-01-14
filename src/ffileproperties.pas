@@ -421,7 +421,8 @@ begin
       //if Attrs is TNtfsFileAttributesProperty
 
       ShowPermissions(Attrs);
-      chkExecutable.Visible:= FPS_ISREG(Attrs);
+      lblExecutable.Visible:= FPS_ISREG(Attrs);
+      chkExecutable.Visible:= lblExecutable.Visible;
       edtOctal.Text:= DecToOct(GetModeFromForm);
       lblAttrText.Caption := Properties[fpAttributes].Format(DefaultFilePropertyFormatter);
 
