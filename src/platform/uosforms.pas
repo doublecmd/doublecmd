@@ -135,6 +135,7 @@ uses
   , BaseUnix, fFileProperties, uJpegThumb
     {$IF NOT DEFINED(DARWIN)}
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
+    , uDCReadWebP
     {$ELSE}
     , MacOSAll, uQuickLook
     {$ENDIF}
