@@ -1246,6 +1246,10 @@ msgctxt "TFRMFILEPROPERTIES.CBSUID.CAPTION"
 msgid "SUID"
 msgstr ""
 
+#: tfrmfileproperties.chkexecutable.caption
+msgid "Allow &executing file as program"
+msgstr ""
+
 #: tfrmfileproperties.gbowner.caption
 msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
 msgid "Owner"
@@ -1293,6 +1297,10 @@ msgstr ""
 #: tfrmfileproperties.lblexec.caption
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
+msgstr ""
+
+#: tfrmfileproperties.lblexecutable.caption
+msgid "Execute:"
 msgstr ""
 
 #: tfrmfileproperties.lblfile.caption
