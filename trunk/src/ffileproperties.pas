@@ -31,7 +31,7 @@ interface
 
 uses
   LResources, SysUtils, Classes, Graphics, Forms, StdCtrls, Buttons, ComCtrls,
-  Dialogs, Controls, ExtCtrls, Grids, DCBasicTypes, uFile,
+  Dialogs, Controls, ExtCtrls, Grids, DividerBevel, DCBasicTypes, uFile,
   uFileProperty, uFileSource, uFileSourceOperation,
   uFileSourceCalcStatisticsOperation, uExifReader;
 
@@ -58,8 +58,12 @@ type
     cbWriteOwner: TCheckBox;
     cbxGroups: TComboBox;
     cbxUsers: TComboBox;
+    chkExecutable: TCheckBox;
+    DividerBevel1: TDividerBevel;
+    DividerBevel2: TDividerBevel;
     edtOctal: TEdit;
     gbOwner: TGroupBox;
+    lblExecutable: TLabel;
     lblFileName: TLabel;
     imgFileIcon: TImage;
     lblFolder: TLabel;
@@ -105,6 +109,7 @@ type
     procedure btnSetPropertiesToAllFilesClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure cbChangeModeClick(Sender: TObject);
+    procedure chkExecutableChange(Sender: TObject);
     procedure edtOctalKeyPress(Sender: TObject; var Key: char);
     procedure edtOctalKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -128,6 +133,7 @@ type
     FChangedProperties: Boolean;
 
     function ShowError(const MessageFmt: String): TModalResult;
+    procedure ShowExecutable;
     procedure ShowPermissions(Mode: TFileAttrs);
     function ChangeProperties: Boolean;
     function CheckIfChangedProperties: Boolean;
@@ -220,8 +226,33 @@ begin
   if ChangeTriggersEnabled then
   begin
     ChangeTriggersEnabled := False;
+    ShowExecutable;
     edtOctal.Text:= DecToOct(GetModeFromForm);
     ChangeTriggersEnabled := True;
+  end;
+end;
+
+procedure TfrmFileProperties.chkExecutableChange(Sender: TObject);
+begin
+  if chkExecutable.Tag = 0 then
+  begin
+    chkExecutable.Tag:= 1;
+    case chkExecutable.State of
+      cbChecked,
+      cbUnchecked:
+        begin
+          cbExecOwner.Checked:= chkExecutable.Checked;
+          cbExecGroup.Checked:= chkExecutable.Checked;
+          cbExecOther.Checked:= chkExecutable.Checked;
+        end;
+      cbGrayed:
+        begin
+          cbExecOwner.Checked:= ((OriginalAttr and S_IXUSR) = S_IXUSR);
+          cbExecGroup.Checked:= ((OriginalAttr and S_IXGRP) = S_IXGRP);
+          cbExecOther.Checked:= ((OriginalAttr and S_IXOTH) = S_IXOTH);
+        end;
+    end;
+   chkExecutable.Tag:= 0;
   end;
 end;
 
@@ -269,6 +300,8 @@ begin
   cbSuid.Checked:= ((Mode AND S_ISUID) = S_ISUID);
   cbSgid.Checked:= ((Mode AND S_ISGID) = S_ISGID);
   cbSticky.Checked:= ((Mode AND S_ISVTX) = S_ISVTX);
+
+  ShowExecutable;
 end;
 
 function TfrmFileProperties.ChangeProperties: Boolean;
@@ -388,6 +421,7 @@ begin
       //if Attrs is TNtfsFileAttributesProperty
 
       ShowPermissions(Attrs);
+      chkExecutable.Visible:= FPS_ISREG(Attrs);
       edtOctal.Text:= DecToOct(GetModeFromForm);
       lblAttrText.Caption := Properties[fpAttributes].Format(DefaultFilePropertyFormatter);
 
@@ -513,6 +547,21 @@ function TfrmFileProperties.ShowError(const MessageFmt: String): TModalResult;
 begin
   Result:= MessageDlg(Caption, Format(MessageFmt, [FFiles[iCurrent].FullPath]) +
                       LineEnding + SysErrorMessageUTF8(fpgetErrNo), mtError, mbOKCancel, 0);
+end;
+
+procedure TfrmFileProperties.ShowExecutable;
+begin
+  if chkExecutable.Tag = 0 then
+  begin
+    if cbExecOwner.Checked and cbExecGroup.Checked and cbExecOther.Checked then
+      chkExecutable.State:= cbChecked
+    else if not (cbExecOwner.Checked or cbExecGroup.Checked or cbExecOther.Checked) then
+      chkExecutable.State:= cbUnchecked
+    else begin
+      chkExecutable.AllowGrayed:= True;
+      chkExecutable.State:= cbGrayed;
+    end;
+  end;
 end;
 
 procedure TfrmFileProperties.AllowChange(Allow: Boolean);
