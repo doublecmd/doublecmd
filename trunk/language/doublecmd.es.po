@@ -1,9 +1,9 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-12-21 20:00+0100\n"
+"PO-Revision-Date: 2017-01-14 19:00+0100\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -1249,7 +1249,7 @@ msgstr "SUID"
 
 #: tfrmfileproperties.chkexecutable.caption
 msgid "Allow &executing file as program"
-msgstr ""
+msgstr "Permitir ejecutar el archivo como un programa"
 
 #: tfrmfileproperties.gbowner.caption
 msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
@@ -1302,7 +1302,7 @@ msgstr "Ejecución"
 
 #: tfrmfileproperties.lblexecutable.caption
 msgid "Execute:"
-msgstr ""
+msgstr "Ejecutar:"
 
 #: tfrmfileproperties.lblfile.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILE.CAPTION"
@@ -1408,13 +1408,11 @@ msgid "Write"
 msgstr "Escritura"
 
 #: tfrmfileproperties.sgimage.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
 msgid "Name"
 msgstr "Nombre"
 
 #: tfrmfileproperties.sgimage.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
 msgid "Value"
 msgstr "Valor"
@@ -1426,7 +1424,7 @@ msgstr "Atributos"
 
 #: tfrmfileproperties.tsimage.caption
 msgid "Image"
-msgstr ""
+msgstr "Imagen"
 
 #: tfrmfileproperties.tsproperties.caption
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
@@ -2174,7 +2172,7 @@ msgstr "Com&binar archivos..."
 
 #: tfrmmain.actfileproperties.caption
 msgid "Show &File Properties"
-msgstr "Mostrar p&ropiedades de archivo"
+msgstr "Mostrar p&ropiedades del archivo"
 
 #: tfrmmain.actfilespliter.caption
 msgid "Spl&it File..."
@@ -3383,7 +3381,7 @@ msgstr "Calidad de compresión jpg"
 
 #: tfrmmodview.lblwidth.caption
 msgid "Width :"
-msgstr "Ancho:"
+msgstr "Anchura:"
 
 #: tfrmmodview.rbbmp.caption
 msgid "BMP"
@@ -3417,7 +3415,7 @@ msgstr "80"
 #: tfrmmodview.tewidth.text
 msgctxt "tfrmmodview.tewidth.text"
 msgid "Width"
-msgstr "Ancho"
+msgstr "Anchura"
 
 #: tfrmmsg.lblmsg.caption
 msgid "456456465465465"
@@ -3459,7 +3457,7 @@ msgstr "&Renombrar"
 
 #: tfrmmultirename.btnrestore.caption
 msgid "Reset &all"
-msgstr "Restablecer todo"
+msgstr "Res&tablecer todo"
 
 #: tfrmmultirename.btnsavepreset.caption
 msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
@@ -3476,7 +3474,7 @@ msgstr "Acti&var"
 
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
-msgstr "Expresiones regulares"
+msgstr "E&xpresiones regulares"
 
 #: tfrmmultirename.cbusesubs.caption
 msgid "&Use substitution"
@@ -3526,7 +3524,7 @@ msgstr "&Extensión"
 
 #: tfrmmultirename.lbfind.caption
 msgid "&Find..."
-msgstr "&Buscar..."
+msgstr "B&uscar..."
 
 #: tfrmmultirename.lbinterval.caption
 msgid "&Interval"
@@ -3542,7 +3540,7 @@ msgstr "Ree&mplazar..."
 
 #: tfrmmultirename.lbstnb.caption
 msgid "S&tart Number"
-msgstr "&Número inicial"
+msgstr "Número inicia&l"
 
 #: tfrmmultirename.lbwidth.caption
 msgid "&Width"
@@ -5421,7 +5419,7 @@ msgstr "Se puede ordenar con arrastrar y soltar"
 #: tfrmoptionsfileassoc.gbfiletypes.caption
 msgctxt "tfrmoptionsfileassoc.gbfiletypes.caption"
 msgid "File types"
-msgstr "Tipos de archivo"
+msgstr "Tipos de archivos"
 
 #: tfrmoptionsfileassoc.gbicon.caption
 msgid "Icon"
@@ -8618,7 +8616,7 @@ msgstr "Seleccionar todo"
 
 #: tfrmviewer.actshowasbin.caption
 msgid "Show as &Bin"
-msgstr "Mostra como &binario"
+msgstr "Mostrar como &binario"
 
 #: tfrmviewer.actshowasbook.caption
 msgid "Show as B&ook"
@@ -8898,31 +8896,29 @@ msgstr "Si el archivo ya existe"
 
 #: uexifreader.rsdatetimeoriginal
 msgid "Date taken"
-msgstr ""
+msgstr "Fecha de la toma"
 
 #: uexifreader.rsimageheight
-#, fuzzy
 msgctxt "uexifreader.rsimageheight"
 msgid "Height"
 msgstr "Altura"
 
 #: uexifreader.rsimagewidth
-#, fuzzy
 msgctxt "uexifreader.rsimagewidth"
 msgid "Width"
-msgstr "Ancho"
+msgstr "Anchura"
 
 #: uexifreader.rsmake
 msgid "Manufacturer"
-msgstr ""
+msgstr "Fabricante"
 
 #: uexifreader.rsmodel
 msgid "Camera model"
-msgstr ""
+msgstr "Modelo de la cámara"
 
 #: uexifreader.rsorientation
 msgid "Orientation"
-msgstr ""
+msgstr "Orientación"
 
 #: ulng.msgtrytolocatecrcfile
 msgid ""
@@ -9958,7 +9954,7 @@ msgstr "Formato de fichero desconocido"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
-msgstr "¿Seguro que quieres eliminar toda la lista de pestañas favoritas?) (¡No es posible deshacer esta acción!)"
+msgstr "¿Seguro que quieres eliminar todos los apuntes de la lista de pestañas favoritas?) (¡No es posible deshacer esta acción!)"
 
 #: ulng.rsmsgfavoritetabsdraghereentry
 msgid "Drag here other entries"
