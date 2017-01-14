@@ -64,7 +64,6 @@ type
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function CheckDirectory(const CurrentDir, FolderName : String) : Boolean;
     function FindInFile(const sFileName: String;sData: String; bCase, bRegExp: Boolean): Boolean;
-    // function FindInFile2(const sFileName: String; sData: String;bCase, bRegExp: Boolean): Boolean;
 
   protected
     procedure Execute; override;
@@ -375,155 +374,6 @@ begin
   end;
 end;
 
-{
-function TFindThread.FindInFile2(const sFileName: String; sData: String;bCase, bRegExp: Boolean): Boolean;
-var
-  fs: TFileStreamEx;
-
-  lastPos,i,c,
-  subStrLength,
-  DataRead: Longint;
-  Buffer: PAnsiChar = nil;
-  BufferSize: Integer;
-  S,subStr: String;
-
-//  debug vars
-  ch1,ch2:Char;
-  pch:PChar;
-
-  label ext,agn1,agn2;
-begin
-  Result := False;
-  if sData = '' then Exit;
-
-  if not bCase then subStr:=UpCase(sData)
-  else              subStr:=sData;
-
-  // Simple regular expression search (don't work for very big files)
-  if bRegExp then
-  begin
-    fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
-    try
-      if fs.Size = 0 then Exit;
-      {$PUSH}{$R-}
-      SetLength(S, fs.Size);
-      {$POP}
-      if Length(S) = 0 then
-        raise EFOpenError.Create(EmptyStr);
-      fs.ReadBuffer(S[1], fs.Size);
-    finally
-      fs.Free;
-    end;
-    Exit(ExecRegExpr(subStr, S));
-  end;
-
-  if gUseMmapInSearch then
-    begin
-      // memory mapping should be slightly faster and use less memory
-      case FindMmapBM(sFileName, subStr, RecodeTable, @IsAborting) of
-        0 : Exit(False);
-        1 : Exit(True);
-        // else fall back to searching via stream reading
-      end;
-    end;
-
-  BufferSize := gCopyBlockSize;
-  subStrLength := Length(subStr);
-
-  if subStrLength > BufferSize then
-    raise Exception.Create(rsMsgErrSmallBuf);
-
-  fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
-  try
-    if subStrLength > fs.Size then // string longer than file, cannot search
-      Exit;
-
-    GetMem(Buffer, BufferSize + subStrLength - 1);
-    if Assigned(Buffer) then
-      try
-        if bCase then
-        begin
-          while not Terminated do
-          begin
-            DataRead := fs.Read(Buffer[0], BufferSize);
-            if DataRead <subStrLength then Break;
-
-            for lastPos := 0 to DataRead-subStrLength do
-            begin
-              i:=0;
-agn1:
-              if i<subStrLength then
-              begin
-                if Buffer[lastPos+i]<>subStr[i+1] then continue;
-              end else  // founded
-              begin
-                Result:=True;
-                goto ext;
-              end;
-              inc(i);
-              goto agn1;
-            end;
-            i:=fs.Size;c:=fs.Position; // debug watch
-            if fs.Position>=fs.Size-1 then break;
-            fs.Seek(fs.Position-subStrLength+1,soBeginning); // little backward stream seeker for to found on boundaries
-          end;
-
-        end else
-        begin
-          while not Terminated do
-          begin
-            DataRead := fs.Read(Buffer[0], BufferSize);
-            if DataRead <subStrLength then Break;
-
-            for lastPos := 0 to DataRead-subStrLength do
-            begin
-              i:=0;
-agn2:
-              if i<subStrLength then
-              begin
-{
-//-------------------------------------
-                // Debug block
-                  Ch1:=UpCase(Buffer[lastPos+i]);
-                  Ch2:=UpCase(Char(sData[i+1]));
-                  Ch2:=subStr[i+1];
-                  if Ch1<>Ch2 then Continue;  // subStr already in upper case
-//-------------------------------------
-}
-                if UpCase(Buffer[lastPos+i])<>subStr[i+1] then continue;
-              end else  // founded
-              begin
-                Result:=True;
-                goto ext;
-              end;
-              inc(i);
-              goto agn2;
-            end;
-            i:=fs.Size;c:=fs.Position; // debug watch
-            if fs.Position>=fs.Size-1 then break;
-            fs.Seek(fs.Position-subStrLength+1,soBeginning); // little backward stream seeker for to found on boundaries
-          end;
-        end;
-
-ext:
-
-
-      except
-      end;
-
-  finally
-    FreeAndNil(fs);
-    if Assigned(Buffer) then
-    begin
-      FreeMem(Buffer);
-      Buffer := nil;
-    end;
-  end;
-
-
-end;
-}
-
 procedure FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase, bRegExp: Boolean);
 var
   S: String;
@@ -756,28 +606,6 @@ begin
   begin
     FFoundFile := IncludeTrailingBackslash(sNewDir) + sr.Name;
     Synchronize(@AddFile);
-
-{
-    Move(sNewDir[1]  ,FPool[FPoolOfs],length(sNewDir));
-    inc(FPoolOfs,length(sNewDir));
-
-    FPool[FPoolOfs]:=PathDelim;
-    inc(FPoolOfs,length(PathDelim));
-
-    Move(sr.Name[1],FPool[FPoolOfs],length(sr.Name));
-    inc(FPoolOfs,length(sr.Name));
-
-    FPool[FPoolOfs]:=',';
-    inc(FPoolOfs,1);
-
-//    FPool[FPoolOfs]:=#10;
-//    inc(FPoolOfs,1);
-
-
-
-    if FPoolOfs>970000 then FPoolOfs:=1;
-}
-
     Inc(FFilesFound);
   end;
 
