@@ -96,7 +96,9 @@ end;
 
 procedure TUniqueInstance.OnMessageQueued(Sender: TObject);
 begin
+  {$IF (FPC_FULLVERSION >= 030001)}
   FServerIPC.ReadMessage;
+  {$ENDIF}
 end;
 
 procedure TUniqueInstance.CreateServer;
