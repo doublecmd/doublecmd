@@ -4,7 +4,7 @@ library AudioInfo;
 {$include calling.inc}
 
 uses
-  SysUtils, Classes, LazUTF8, WdxPlugin, AudioData, DCOSUtils;
+  FPCAdds, SysUtils, Classes, LazUTF8, WdxPlugin, AudioData, DCOSUtils;
 
 const
   DETECT_STRING: String = '(EXT="MP3") | (EXT="MP2") | (EXT="MP1") | (EXT="OGG") | (EXT="WMA") | ' +
