@@ -40,7 +40,7 @@ type
   public
     constructor Create(const AFileName: String; Mode: LongWord);
     destructor Destroy; override;
-    function Flush: Boolean; inline;
+    function Flush: Boolean;
     function Read(var Buffer; Count: LongInt): LongInt; override;
     property FileName: String read FFileName;
   end; 
@@ -99,7 +99,7 @@ destructor TFileStreamEx.Destroy;
 begin
   inherited Destroy;
   // Close handle after destroying the base object, because it may use Handle in Destroy.
-  if FHandle >= 0 then FileClose(FHandle);
+  if FHandle <> feInvalidHandle then FileClose(FHandle);
 end;
 
 function TFileStreamEx.Flush: Boolean;

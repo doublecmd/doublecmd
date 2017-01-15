@@ -1060,7 +1060,7 @@ begin
 end;
 {$ENDIF}
 
-function FileFlush(Handle: System.THandle): Boolean;
+function FileFlush(Handle: System.THandle): Boolean; inline;
 {$IFDEF MSWINDOWS}
 begin
   Result:= FlushFileBuffers(Handle);
