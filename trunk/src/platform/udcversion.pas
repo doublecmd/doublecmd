@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Version information about DC, building tools and running environment.
 
-   Copyright (C) 2006-2016  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2017  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -77,26 +77,6 @@ uses
   , LCLPlatformDef
   {$endif}
   ;
-
-const
-  // A custom version of InterfaceBase.LCLPlatformDirNames
-  // because we make slight changes to names.
-  LCLPlatform: array[TLCLPlatform] of string = (
-      'gtk1',
-      'gtk2',
-      'gtk3',
-      'win32/win64',
-      'wince',
-      'carbon',
-      'qt4',
-{$if lcl_fullversion >= 1070000}
-      'Qt5',
-{$endif}
-      'fpGUI',
-      'NoGUI',
-      'cocoa',
-      'customdrawn'
-    );
 
 {$IF DEFINED(UNIX)}
 {en
@@ -308,7 +288,7 @@ var
   osvi: TOsVersionInfoExW;
 {$ENDIF}
 begin
-  TargetWS := LCLPlatform[WidgetSet.LCLPlatform];
+  TargetWS := LCLPlatformDisplayNames[WidgetSet.LCLPlatform];
 
   {$IF DEFINED(MSWINDOWS)}
   OSVersion := 'Windows';
@@ -477,6 +457,14 @@ begin
     Result += '-' + lazRevision;
   end;
 end;
+
+procedure Initialize;
+begin
+  LCLPlatformDisplayNames[lpQT]:= 'qt4';
+end;
+
+initialization
+  Initialize;
 
 end.
 
