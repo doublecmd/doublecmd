@@ -52,7 +52,9 @@ type
 implementation
 
 uses
-  DynLibs, IntfGraphics, GraphType, CTypes, DCOSUtils;
+  InitC, DynLibs, IntfGraphics, GraphType, CTypes, DCOSUtils;
+
+procedure CFree(P: Pointer); cdecl; external clib name 'free';
 
 var
   WebPFree: procedure(ptr: pointer); cdecl;
@@ -111,7 +113,11 @@ begin
       Img.Colors[X, Y]:= PixelColor;
       Inc(ImageData);
     end;
-    WebPFree(Data);
+    if Assigned(WebPFree) then
+      WebPFree(Data)
+    else begin
+      CFree(Data);
+    end;
   end;
 end;
 
@@ -133,17 +139,26 @@ begin
 end;
 
 const
-  webplib = 'libwebp.so.6';
+  webplib = 'libwebp.so.%d';
 
 var
   libwebp: TLibHandle;
 
 procedure Initialize;
+var
+  Version: Integer;
+  LibraryName: AnsiString;
 begin
-  libwebp:= LoadLibrary(webplib);
+  for Version:= 6 downto 5 do
+  begin
+    LibraryName:= Format(webplib, [Version]);
+    libwebp:= LoadLibrary(LibraryName);
+    if (libwebp <> NilHandle) then Break;
+  end;
+
   if (libwebp <> NilHandle) then
   try
-    @WebPFree:= SafeGetProcAddress(libwebp, 'WebPFree');
+    @WebPFree:= GetProcAddress(libwebp, 'WebPFree');
     @WebPGetInfo:= SafeGetProcAddress(libwebp, 'WebPGetInfo');
     @WebPDecodeRGBA:= SafeGetProcAddress(libwebp, 'WebPDecodeRGBA');
 
