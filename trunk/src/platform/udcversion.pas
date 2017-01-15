@@ -288,7 +288,7 @@ var
   osvi: TOsVersionInfoExW;
 {$ENDIF}
 begin
-  TargetWS := LCLPlatformDisplayNames[WidgetSet.LCLPlatform];
+  TargetWS := LCLPlatformDirNames[WidgetSet.LCLPlatform];
 
   {$IF DEFINED(MSWINDOWS)}
   OSVersion := 'Windows';
@@ -460,7 +460,8 @@ end;
 
 procedure Initialize;
 begin
-  LCLPlatformDisplayNames[lpQT]:= 'qt4';
+  LCLPlatformDirNames[lpQT]:= 'qt4';
+  LCLPlatformDirNames[lpWin32]:= 'win32/win64';
 end;
 
 initialization
