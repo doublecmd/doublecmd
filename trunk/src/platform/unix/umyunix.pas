@@ -489,7 +489,7 @@ var
   Process: TProcess;
   Index: Integer = 0;
 
-  procedure ProcessForkEvent(Self, Sender : TObject);
+  procedure ProcessForkEvent{$IF (FPC_FULLVERSION >= 30000)}(Self, Sender : TObject){$ENDIF};
   begin
     if (setpgid(0, 0) < 0) then fpExit(127);
   end;
@@ -501,7 +501,11 @@ begin
     Process.Executable:= 'mount';
     Process.Parameters.Add(Path);
     Handler.Code:= @ProcessForkEvent;
+    {$IF (FPC_FULLVERSION >= 30000)}
     Process.OnForkEvent:= TProcessForkEvent(Handler);
+    {$ELSE}
+    Process.OnForkEvent:= TProcessForkEvent(@ProcessForkEvent);
+    {$ENDIF}
     Process.Options:= Process.Options + [poUsePipes, poStderrToOutPut];
     try
       Process.Execute;
@@ -523,7 +527,11 @@ begin
           Write(Message);
         end;
       end;
+      {$IF (FPC_FULLVERSION >= 30000)}
       Result:= (Process.ExitCode = 0);
+      {$ELSE}
+      Result:= (Process.ExitStatus = 0);
+      {$ENDIF}
     except
       Result:= False;
     end;
