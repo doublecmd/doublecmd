@@ -5,7 +5,7 @@
    (TC WDX-API v1.5)
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2017 Alexander Koblov (alexx2000@mail.ru)
 
    Some ideas were found in sources of WdxGuide by Alexey Torgashin
    and SuperWDX by Pavel Dubrovsky and Dmitry Vorotilin.
@@ -54,7 +54,7 @@ type
   TWDXModule = class
   private
     FMutex: TRTLCriticalSection;
-  private
+  protected
     function GetAName: String; virtual; abstract;
     function GetAFileName: String; virtual; abstract;
     function GetADetectStr: String; virtual; abstract;
@@ -825,7 +825,8 @@ begin
       ft_multiplechoice,
       ft_string,
       ft_fulltext: Result := CeSysToUtf8(AnsiString(PAnsiChar(@Buf[0])));
-      ft_stringw: Result := UTF16ToUTF8(UnicodeString(PWideChar(@Buf[0])));
+      ft_stringw,
+      ft_fulltextw: Result := UTF16ToUTF8(UnicodeString(PWideChar(@Buf[0])));
       else
         Result := Unassigned;
     end;
@@ -884,7 +885,8 @@ begin
       ft_multiplechoice,
       ft_string,
       ft_fulltext: Result := CeSysToUtf8(AnsiString(PAnsiChar(@Buf[0])));
-      ft_stringw: Result := UTF16ToUTF8(UnicodeString(PWideChar(@Buf[0])));
+      ft_stringw,
+      ft_fulltextw: Result := UTF16ToUTF8(UnicodeString(PWideChar(@Buf[0])));
         //TODO: FT_DELAYED,ft_ondemand
       else
         Result := '';
