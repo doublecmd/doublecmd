@@ -1191,7 +1191,8 @@ begin
     if not lua_isnil(L, -1) then
     begin
       case TWdxField(FieldList.Objects[FieldIndex]).FType of
-        ft_string:
+        ft_string,
+        ft_fulltext:
           Result := StrPas(lua_tostring(L, -1));
         ft_numeric_32:
           Result := Int32(lua_tointeger(L, -1));
@@ -1246,7 +1247,8 @@ begin
     if not lua_isnil(L, -1) then
     begin
       case TWdxField(FieldList.Objects[FieldIndex]).FType of
-        ft_string:
+        ft_string,
+        ft_fulltext:
           Result := lua_tostring(L, -1);
         ft_numeric_32:
           Result := IntToStr(Int32(lua_tointeger(L, -1)));
