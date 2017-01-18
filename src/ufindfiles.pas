@@ -130,7 +130,7 @@ implementation
 
 uses
   strutils, DateUtils, DCDateTimeUtils, DCFileAttributes, RegExpr, uMasks,
-  DCStrUtils, uFileProperty, uGlobs, uWDXModule, LazUTF8;
+  DCStrUtils, uFileProperty, uGlobs, uWDXModule, LazUTF8, WdxPlugin;
 
 const
   cKilo = 1024;
@@ -328,6 +328,44 @@ begin
   AttrsPatternOptionsToChecks(SearchTemplate, FileChecks);
 end;
 
+function CheckPluginFullText(Module: TWdxModule; constref ContentPlugin: TPluginSearchRec;
+  const FileName: String): Boolean;
+var
+  Value: String;
+  Old: String = '';
+  FindText: String;
+  FieldIndex: Integer;
+  UnitIndex: Integer = 0;
+begin
+  // Prepare find text
+  case ContentPlugin.Compare of
+    poContainsCase,
+    poNotContainsCase: FindText := UTF8LowerCase(ContentPlugin.Value);
+    else FindText:= ContentPlugin.Value;
+  end;
+  // Find field index
+  FieldIndex:= Module.GetFieldIndex(ContentPlugin.Field);
+  Value:= Module.CallContentGetValue(FileName, FieldIndex, UnitIndex, 0);
+  while Length(Value) > 0 do
+  begin
+    Old+= Value;
+    case ContentPlugin.Compare of
+      poContains: Result := UTF8Pos(FindText, Old) > 0;
+      poNotContains: Result := UTF8Pos(FindText, Old) = 0;
+      poContainsCase: Result := UTF8Pos(FindText, UTF8LowerCase(Old)) > 0;
+      poNotContainsCase: Result := UTF8Pos(FindText, UTF8LowerCase(Old)) = 0;
+    end;
+    if Result then begin
+       Module.CallContentGetValue(FileName, FieldIndex, -1, 0);
+       Exit;
+    end;
+    Inc(UnitIndex, WDX_MAX_LEN);
+    Old:= RightStr(Old, Length(FindText));
+    Value:= Module.CallContentGetValue(FileName, FieldIndex, UnitIndex, 0);
+  end;
+  Result:= False;
+end;
+
 function CheckPlugin(const SearchTemplate: TSearchTemplateRec;
   const FileName: String): Boolean;
 var
@@ -342,20 +380,24 @@ begin
   begin
     Module := gWDXPlugins.GetWdxModule(ContentPlugins[I].Plugin);
     if (Module = nil) or (not Module.IsLoaded) then Continue;
-    Value:= Module.CallContentGetValueV(FileName, ContentPlugins[I].Field, ContentPlugins[I].UnitName, 0);
-    case ContentPlugins[I].Compare of
-      poEqual: Work:= (ContentPlugins[I].Value = Value);
-      poNotEqual: Work:= (ContentPlugins[I].Value <> Value);
-      poMore: Work := (Value > ContentPlugins[I].Value);
-      poLess: Work := (Value < ContentPlugins[I].Value);
-      poMoreEqual: Work := (Value >= ContentPlugins[I].Value);
-      poLessEqual: Work := (Value <= ContentPlugins[I].Value);
-      poEqualCase: Work:= UTF8CompareText(Value, ContentPlugins[I].Value) = 0;
-      poNotEqualCase: Work:= UTF8CompareText(Value, ContentPlugins[I].Value) <> 0;
-      poContains: Work := UTF8Pos(ContentPlugins[I].Value, Value) > 0;
-      poNotContains: Work := UTF8Pos(ContentPlugins[I].Value, Value) = 0;
-      poContainsCase: Work := UTF8Pos(UTF8LowerCase(ContentPlugins[I].Value), UTF8LowerCase(Value)) > 0;
-      poNotContainsCase: Work := UTF8Pos(UTF8LowerCase(ContentPlugins[I].Value), UTF8LowerCase(Value)) = 0;
+    if ContentPlugins[I].FieldType in [ft_fulltext, ft_fulltextw] then
+      Work:= CheckPluginFullText(Module, ContentPlugins[I], FileName)
+    else begin
+      Value:= Module.CallContentGetValueV(FileName, ContentPlugins[I].Field, ContentPlugins[I].UnitName, 0);
+      case ContentPlugins[I].Compare of
+        poEqual: Work:= (ContentPlugins[I].Value = Value);
+        poNotEqual: Work:= (ContentPlugins[I].Value <> Value);
+        poMore: Work := (Value > ContentPlugins[I].Value);
+        poLess: Work := (Value < ContentPlugins[I].Value);
+        poMoreEqual: Work := (Value >= ContentPlugins[I].Value);
+        poLessEqual: Work := (Value <= ContentPlugins[I].Value);
+        poEqualCase: Work:= UTF8CompareText(Value, ContentPlugins[I].Value) = 0;
+        poNotEqualCase: Work:= UTF8CompareText(Value, ContentPlugins[I].Value) <> 0;
+        poContains: Work := UTF8Pos(ContentPlugins[I].Value, Value) > 0;
+        poNotContains: Work := UTF8Pos(ContentPlugins[I].Value, Value) = 0;
+        poContainsCase: Work := UTF8Pos(UTF8LowerCase(ContentPlugins[I].Value), UTF8LowerCase(Value)) > 0;
+        poNotContainsCase: Work := UTF8Pos(UTF8LowerCase(ContentPlugins[I].Value), UTF8LowerCase(Value)) = 0;
+      end;
     end;
     if ContentPluginCombine then
       Result := Result and Work

@@ -38,6 +38,9 @@ uses
   uWdxPrototypes, WdxPlugin,
   dynlibs, uDetectStr, lua, uFile, DCXmlConfig;
 
+const
+  WDX_MAX_LEN = 2048;
+
 type
 
   { TWdxField }
@@ -797,7 +800,7 @@ function TPluginWDX.CallContentGetValueV(FileName: String; FieldIndex,
   UnitIndex: Integer; flags: Integer): Variant;
 var
   Rez: Integer;
-  Buf: array[0..2 * 1024] of Byte;
+  Buf: array[0..WDX_MAX_LEN] of Byte;
   fnval: Integer absolute buf;
   fnval64: Int64 absolute buf;
   ffval: Double absolute buf;
@@ -853,7 +856,7 @@ end;
 function TPluginWDX.CallContentGetValue(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): String;
 var
   Rez: Integer;
-  Buf: array[0..2 * 1024] of Byte;
+  Buf: array[0..WDX_MAX_LEN] of Byte;
   fnval: Integer absolute buf;
   fnval64: Int64 absolute buf;
   ffval: Double absolute buf;
