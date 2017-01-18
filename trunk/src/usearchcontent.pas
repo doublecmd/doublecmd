@@ -187,14 +187,22 @@ begin
       end;
     end;
   FT_STRING,
-  FT_STRINGW,
-  FT_FULLTEXT:
+  FT_STRINGW:
     begin
       FValue.Style:= csDropDown;
       FOperator.Items.AddObject('=', TObject(PtrInt(poEqual)));
       FOperator.Items.AddObject('!=', TObject(PtrInt(poNotEqual)));
       FOperator.Items.AddObject('=(case)', TObject(PtrInt(poEqualCase)));
       FOperator.Items.AddObject('!=(case)', TObject(PtrInt(poNotEqualCase)));
+      FOperator.Items.AddObject('contains', TObject(PtrInt(poContains)));
+      FOperator.Items.AddObject('!contains', TObject(PtrInt(poNotContains)));
+      FOperator.Items.AddObject('contains(case)', TObject(PtrInt(poContainsCase)));
+      FOperator.Items.AddObject('!contains(case)', TObject(PtrInt(poNotContainsCase)));
+    end;
+  FT_FULLTEXT,
+  FT_FULLTEXTW:
+    begin
+      FValue.Style:= csDropDown;
       FOperator.Items.AddObject('contains', TObject(PtrInt(poContains)));
       FOperator.Items.AddObject('!contains', TObject(PtrInt(poNotContains)));
       FOperator.Items.AddObject('contains(case)', TObject(PtrInt(poContainsCase)));
