@@ -423,10 +423,22 @@ var
 
   function CheckHeader: Boolean;
   var
+    NameLength: Integer;
     DirectoryName: String;
   begin
     with FSearchTemplate do
     begin
+      if IsFindText then
+      begin
+        // Skip directories
+        if (Header.FileAttr and faFolder) <> 0 then Exit(False);
+        // Some plugins end directories with path delimiter.
+        // And not set directory attribute. Process this case.
+        NameLength := Length(Header.FileName);
+        if (NameLength > 0) and (Header.FileName[NameLength] = PathDelim) then
+          Exit(False);
+      end;
+
       DirectoryName:= ExtractFileName(ExtractFileDir(Header.FileName));
       if not CheckDirectoryName(DirectoryName) then Exit(False);
 
