@@ -345,23 +345,22 @@ begin
   end;
   // Find field index
   FieldIndex:= Module.GetFieldIndex(ContentPlugin.Field);
-  Value:= Module.CallContentGetValue(FileName, FieldIndex, UnitIndex, 0);
+  Value:= Module.CallContentGetValue(FileName, FieldIndex, UnitIndex);
   while Length(Value) > 0 do
   begin
     Old+= Value;
     case ContentPlugin.Compare of
-      poContains: Result := UTF8Pos(FindText, Old) > 0;
-      poNotContains: Result := UTF8Pos(FindText, Old) = 0;
-      poContainsCase: Result := UTF8Pos(FindText, UTF8LowerCase(Old)) > 0;
-      poNotContainsCase: Result := UTF8Pos(FindText, UTF8LowerCase(Old)) = 0;
+      poContains: Result := Pos(FindText, Old) > 0;
+      poNotContains: Result := Pos(FindText, Old) = 0;
+      poContainsCase: Result := Pos(FindText, UTF8LowerCase(Old)) > 0;
+      poNotContainsCase: Result := Pos(FindText, UTF8LowerCase(Old)) = 0;
     end;
     if Result then begin
        Module.CallContentGetValue(FileName, FieldIndex, -1, 0);
        Exit;
     end;
-    Inc(UnitIndex, WDX_MAX_LEN);
     Old:= RightStr(Old, Length(FindText));
-    Value:= Module.CallContentGetValue(FileName, FieldIndex, UnitIndex, 0);
+    Value:= Module.CallContentGetValue(FileName, FieldIndex, UnitIndex);
   end;
   Result:= False;
 end;

@@ -88,6 +88,7 @@ type
     function CallContentGetValueV(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): Variant; overload; virtual; abstract;
     function CallContentGetValue(FileName: String; FieldName: String; UnitName: String; flags: Integer): String; overload; virtual; abstract;
     function CallContentGetValue(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): String; overload; virtual; abstract;
+    function CallContentGetValue(FileName: String; FieldIndex: Integer; var UnitIndex: Integer): String; overload; virtual; abstract;
     function CallContentGetSupportedFieldFlags(FieldIndex: Integer): Integer; virtual; abstract;
         {ContentSetValue
          ContentEditValue
@@ -161,6 +162,7 @@ type
     function CallContentGetValueV(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): Variant; overload; override;
     function CallContentGetValue(FileName: String; FieldName: String; UnitName: String; flags: Integer): String; overload; override;
     function CallContentGetValue(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): String; overload; override;
+    function CallContentGetValue(FileName: String; FieldIndex: Integer; var UnitIndex: Integer): String; overload; override;
     function CallContentGetSupportedFieldFlags(FieldIndex: Integer): Integer; override;
         {ContentSetValue
          ContentEditValue
@@ -220,6 +222,7 @@ type
     function CallContentGetValueV(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): Variant; overload; override;
     function CallContentGetValue(FileName: String; FieldName: String; UnitName: String; flags: Integer): String; overload; override;
     function CallContentGetValue(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): String; overload; override;
+    function CallContentGetValue(FileName: String; FieldIndex: Integer; var UnitIndex: Integer): String; overload; override;
     function CallContentGetSupportedFieldFlags(FieldIndex: Integer): Integer; override;
     //---------------------
     property Force: Boolean read FForce write FForce;
@@ -899,6 +902,44 @@ begin
   end;
 end;
 
+function TPluginWDX.CallContentGetValue(FileName: String; FieldIndex: Integer; var UnitIndex: Integer): String;
+var
+  Rez: Integer;
+  ValueA: AnsiString;
+  ValueW: UnicodeString;
+  Buf: array[0..WDX_MAX_LEN] of Byte;
+begin
+  EnterCriticalSection(FMutex);
+  try
+    if Assigned(ContentGetValueW) then
+      Rez := ContentGetValueW(PWideChar(UTF8Decode(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), 0)
+    else if Assigned(ContentGetValue) then
+      Rez := ContentGetValue(PAnsiChar(mbFileNameToSysEnc(FileName)), FieldIndex, UnitIndex, @Buf, SizeOf(buf), 0);
+
+    case Rez of
+      ft_fieldempty:
+        Result := EmptyStr;
+      ft_fulltext:
+        begin
+          ValueA:= AnsiString(PAnsiChar(@Buf[0]));
+          Inc(UnitIndex, Length(ValueA));
+          Result := CeSysToUtf8(ValueA);
+        end;
+      ft_fulltextw:
+        begin
+          ValueW:= UnicodeString(PWideChar(@Buf[0]));
+          Inc(UnitIndex, Length(ValueW) * SizeOf(WideChar));
+          Result := UTF16ToUTF8(ValueW);
+        end;
+      else begin
+        Result := EmptyStr;
+      end;
+    end;
+  finally
+    LeaveCriticalSection(FMutex);
+  end;
+end;
+
 function TPluginWDX.CallContentGetSupportedFieldFlags(FieldIndex: Integer): Integer;
 begin
   if assigned(ContentGetSupportedFieldFlags) then
@@ -1262,6 +1303,36 @@ begin
         ft_boolean:
           Result := BoolToStr(lua_toboolean(L, -1), True);
       end;
+    end;
+
+    lua_pop(L, 1);
+  finally
+    LeaveCriticalSection(FMutex);
+  end;
+end;
+
+function TLuaWdx.CallContentGetValue(FileName: String; FieldIndex: Integer; var UnitIndex: Integer): String;
+begin
+  EnterCriticalSection(FMutex);
+  try
+    Result := EmptyStr;
+    if not Assigned(L) then
+      Exit;
+
+    lua_getglobal(L, 'ContentGetValue');
+    if not lua_isfunction(L, -1) then
+      Exit;
+    lua_pushstring(L, PChar(FileName));
+    lua_pushinteger(L, FieldIndex);
+    lua_pushinteger(L, UnitIndex);
+    lua_pushinteger(L, 0);
+
+    LuaPCall(L, 4, 1);
+
+    if not lua_isnil(L, -1) then
+    begin
+      Result := lua_tostring(L, -1);
+      Inc(UnitIndex, Length(Result));
     end;
 
     lua_pop(L, 1);
