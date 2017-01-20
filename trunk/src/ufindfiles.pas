@@ -130,7 +130,7 @@ implementation
 
 uses
   strutils, DateUtils, DCDateTimeUtils, DCFileAttributes, RegExpr, uMasks,
-  DCStrUtils, uFileProperty, uGlobs, uWDXModule, LazUTF8, WdxPlugin;
+  DCStrUtils, DCUnicodeUtils, uFileProperty, uGlobs, uWDXModule, LazUTF8, WdxPlugin;
 
 const
   cKilo = 1024;
@@ -349,6 +349,7 @@ begin
   while Length(Value) > 0 do
   begin
     Old+= Value;
+    DCUnicodeUtils.Utf8FixBroken(Old);
     case ContentPlugin.Compare of
       poContains: Result := Pos(FindText, Old) > 0;
       poNotContains: Result := Pos(FindText, Old) = 0;
@@ -359,7 +360,7 @@ begin
        Module.CallContentGetValue(FileName, FieldIndex, -1, 0);
        Exit;
     end;
-    Old:= RightStr(Old, Length(FindText));
+    Old:= RightStr(Value, Length(FindText));
     Value:= Module.CallContentGetValue(FileName, FieldIndex, UnitIndex);
   end;
   Result:= False;
