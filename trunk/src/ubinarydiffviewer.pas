@@ -54,6 +54,7 @@ type
     FFirst,
     FSecond: PByte;
     FFinish: PtrInt;
+    FEqual: Boolean;
     FResult: TFPList;
     FOnFinish: TThreadMethod;
   protected
@@ -198,8 +199,17 @@ begin
   begin
     if not CompareMem(FFirst + Position, FSecond + Position, Remain) then
     begin
-      if Equal then FResult.Add(Pointer(Position));
+      if Equal then
+      begin
+        Equal:= False;
+        FResult.Add(Pointer(Position));
+      end;
     end;
+  end;
+  // Different file size
+  if (FEqual = False) and (Equal = True) then
+  begin
+    FResult.Add(Pointer(Position + Remain))
   end;
   if Assigned(FOnFinish) then Synchronize(FOnFinish);
 end;
@@ -212,6 +222,7 @@ begin
   FResult:= Result;
   inherited Create(True);
   FreeOnTerminate:= True;
+  FEqual:= (FirstSize = SecondSize);
   FFinish:= Min(FirstSize, SecondSize);
 end;
 

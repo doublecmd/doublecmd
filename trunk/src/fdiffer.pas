@@ -811,7 +811,7 @@ begin
       BinaryDiffIndex:= 0;
       BinaryViewerLeft.Position:= PtrInt(BinaryDiffList[BinaryDiffIndex]);
       if not actKeepScrolling.Checked then
-        BinaryViewerRight.Position:= BinaryViewerLeft.Position;
+        BinaryViewerRight.Position:= PtrInt(BinaryDiffList[BinaryDiffIndex]);
     end;
   end
   else begin
@@ -844,7 +844,7 @@ begin
       BinaryDiffIndex:= BinaryDiffList.Count - 1;
       BinaryViewerLeft.Position:= PtrInt(BinaryDiffList[BinaryDiffIndex]);
       if not actKeepScrolling.Checked then
-        BinaryViewerRight.Position:= BinaryViewerLeft.Position;
+        BinaryViewerRight.Position:= PtrInt(BinaryDiffList[BinaryDiffIndex]);
     end;
   end
   else begin
@@ -878,7 +878,7 @@ begin
       BinaryDiffIndex:= BinaryDiffIndex + 1;
       BinaryViewerLeft.Position:= PtrInt(BinaryDiffList[BinaryDiffIndex]);
       if not actKeepScrolling.Checked then
-        BinaryViewerRight.Position:= BinaryViewerLeft.Position;
+        BinaryViewerRight.Position:= PtrInt(BinaryDiffList[BinaryDiffIndex]);
     end;
   end
   else begin
@@ -917,7 +917,7 @@ begin
       BinaryDiffIndex:= BinaryDiffIndex - 1;
       BinaryViewerLeft.Position:= PtrInt(BinaryDiffList[BinaryDiffIndex]);
       if not actKeepScrolling.Checked then
-        BinaryViewerRight.Position:= BinaryViewerLeft.Position;
+        BinaryViewerRight.Position:= PtrInt(BinaryDiffList[BinaryDiffIndex]);
     end;
   end
   else begin
