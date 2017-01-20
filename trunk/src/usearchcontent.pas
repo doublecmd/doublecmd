@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Content plugin search control
 
-   Copyright (C) 2014-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -111,7 +111,7 @@ var
 begin
   if FPlugin.ItemIndex < 0 then Exit;
 
-  FField.Items.Clear;
+  FField.Clear;
   Module:= gWdxPlugins.GetWdxModule(FPlugin.Text);
   if Assigned(Module) then
   for I:= 0 to  Module.FieldList.Count - 1 do
