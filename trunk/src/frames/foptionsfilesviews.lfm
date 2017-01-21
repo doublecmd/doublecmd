@@ -3,8 +3,8 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
   Width = 640
   ClientHeight = 550
   ClientWidth = 640
-  DesignLeft = 721
-  DesignTop = 202
+  DesignLeft = 369
+  DesignTop = 91
   object gbSorting: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -303,15 +303,15 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = lblFileSizeFormat
       AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Control = gbFormatting
-      AnchorSideRight.Side = asrBottom
+      AnchorSideRight.Control = speNumberOfDigits
       Left = 138
       Height = 23
       Top = 31
-      Width = 474
+      Width = 380
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
       ItemHeight = 15
+      OnChange = cbFileSizeFormatChange
       Style = csDropDownList
       TabOrder = 1
     end
@@ -380,6 +380,38 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
         OnChange = cbDateTimeFormatChange
         TabOrder = 0
       end
+    end
+    object speNumberOfDigits: TSpinEdit
+      AnchorSideLeft.Control = cbFileSizeFormat
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbFileSizeFormat
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = lblFileSizeExample
+      Left = 524
+      Height = 23
+      Top = 31
+      Width = 50
+      Anchors = [akTop, akRight]
+      MaxValue = 9
+      OnChange = cbFileSizeFormatChange
+      TabOrder = 2
+    end
+    object lblFileSizeExample: TLabel
+      AnchorSideTop.Control = cbFileSizeFormat
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = gbFormatting
+      AnchorSideRight.Side = asrBottom
+      Left = 580
+      Height = 12
+      Top = 36
+      Width = 32
+      Alignment = taRightJustify
+      Anchors = [akTop, akRight]
+      Constraints.MinHeight = 12
+      Constraints.MinWidth = 32
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
     end
   end
   object gbMarking: TGroupBox[3]

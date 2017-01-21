@@ -44,7 +44,7 @@ type
     Last: Integer;
   end;
 
-  TFileSizeFormat = (fsfFloat, fsfB, fsfK, fsfM, fsfG);
+  TFileSizeFormat = (fsfFloat, fsfByte, fsfKilo, fsfMega, fsfGiga);
 
 implementation
 

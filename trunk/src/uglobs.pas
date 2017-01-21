@@ -287,6 +287,7 @@ var
   gAlwaysShowTrayIcon: Boolean;
   gMinimizeToTray: Boolean;
   gFileSizeFormat: TFileSizeFormat;
+  gFileSizeDigits: Integer;
   gDateTimeFormat : String;
   gDriveBlackList: String;
   gDriveBlackListUnmounted: Boolean; // Automatically black list unmounted devices
@@ -1321,6 +1322,7 @@ begin
   gNewFilesPosition := nfpSortedPosition;
   gUpdatedFilesPosition := ufpNoChange;
   gFileSizeFormat := fsfFloat;
+  gFileSizeDigits := 1;
   gMinimizeToTray := False;
   gAlwaysShowTrayIcon := False;
   gMouseSelectionEnabled := True;
@@ -2102,7 +2104,7 @@ begin
     if gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True) then
       gFileSizeFormat := fsfFloat
     else
-      gFileSizeFormat := fsfB;
+      gFileSizeFormat := fsfByte;
   end
   else
     gFileSizeFormat := TFileSizeFormat(gIni.ReadInteger('Configuration', 'FileSizeFormat', Ord(fsfFloat)));
@@ -2438,12 +2440,13 @@ begin
         if GetValue(Node, 'ShortFileSizeFormat', True) then
           gFileSizeFormat := fsfFloat
         else
-          gFileSizeFormat := fsfB;
+          gFileSizeFormat := fsfByte;
       end
       else
       begin
         gFileSizeFormat := TFileSizeFormat(GetValue(Node, 'FileSizeFormat', Ord(gFileSizeFormat)));
       end;
+      gFileSizeDigits := GetValue(Node, 'FileSizeDigits', gFileSizeDigits);
       gMinimizeToTray := GetValue(Node, 'MinimizeToTray', gMinimizeToTray);
       gAlwaysShowTrayIcon := GetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
       gMouseSelectionEnabled := GetAttr(Node, 'Mouse/Selection/Enabled', gMouseSelectionEnabled);
@@ -3042,6 +3045,7 @@ begin
     SetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
     SetValue(Node, 'LynxLike', gLynxLike);
     SetValue(Node, 'FileSizeFormat', Ord(gFileSizeFormat));
+    SetValue(Node, 'FileSizeDigits', gFileSizeDigits);
     SetValue(Node, 'MinimizeToTray', gMinimizeToTray);
     SetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
     SubNode := FindNode(Node, 'Mouse', True);

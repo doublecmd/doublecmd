@@ -27,7 +27,7 @@ unit fOptionsFilesViews;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, Graphics, ExtCtrls,
+  Classes, SysUtils, StdCtrls, Graphics, ExtCtrls, Spin,
   fOptionsFrame;
 
 type
@@ -56,6 +56,7 @@ type
     gbFormatting: TGroupBox;
     gbSorting: TGroupBox;
     gbMisc: TGroupBox;
+    lblFileSizeExample: TLabel;
     lblDateTimeExample: TLabel;
     lblUpdatedFilesPosition: TLabel;
     lblSortFolderMode: TLabel;
@@ -71,9 +72,11 @@ type
     lbAttributeMask: TLabel;
     edtDefaultAttribute: TEdit;
     chkMarkMaskShowAttribute: TCheckBox;
+    speNumberOfDigits: TSpinEdit;
     procedure btnAddAttributeClick(Sender: TObject);
     procedure btnAttrsHelpClick(Sender: TObject);
     procedure cbDateTimeFormatChange(Sender: TObject);
+    procedure cbFileSizeFormatChange(Sender: TObject);
   private
     FIncorrectFormatMessage: string;
     procedure OnAddAttribute(Sender: TObject);
@@ -92,7 +95,10 @@ implementation
 {$R *.lfm}
 
 uses
-  HelpIntfs, fAttributesEdit, DCStrUtils, uGlobs, uLng, uTypes;
+  HelpIntfs, fAttributesEdit, DCStrUtils, uGlobs, uLng, uTypes, uDCUtils;
+
+const
+  cFileSizeExample = 1335875825;
 
 { TfrmOptionsFilesViews }
 
@@ -108,6 +114,13 @@ begin
       lblDateTimeExample.Font.Color := clRed;
     end;
   end;
+end;
+
+procedure TfrmOptionsFilesViews.cbFileSizeFormatChange(Sender: TObject);
+begin
+  lblFileSizeExample.Caption:= cnvFormatFileSize(cFileSizeExample,
+                                 TFileSizeFormat(cbFileSizeFormat.ItemIndex),
+                                 speNumberOfDigits.Value);
 end;
 
 procedure TfrmOptionsFilesViews.Init;
@@ -148,6 +161,7 @@ begin
     ufpSortedPosition: cbUpdatedFilesPosition.ItemIndex := 2;
   end;
   cbFileSizeFormat.ItemIndex := Ord(gFileSizeFormat);
+  speNumberOfDigits.Value:= gFileSizeDigits;
   cbDateTimeFormat.Text := gDateTimeFormat;
   lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
   cbSpaceMovesDown.Checked := gSpaceMovesDown;
@@ -169,6 +183,12 @@ begin
   chkMarkMaskFilterWindows.Checked := gMarkMaskFilterWindows;
   chkMarkMaskShowAttribute.Checked := gMarkShowWantedAttribute;
   edtDefaultAttribute.Text := gMarkDefaultWantedAttribute;
+
+  with lblFileSizeExample do begin
+    Constraints.MinWidth:= Canvas.TextWidth(cnvFormatFileSize(cFileSizeExample,
+                                            fsfKilo, speNumberOfDigits.MaxValue));
+  end;
+  cbFileSizeFormatChange(cbFileSizeFormat);
 end;
 
 function TfrmOptionsFilesViews.Save: TOptionsEditorSaveFlags;
@@ -196,7 +216,7 @@ begin
     2: gUpdatedFilesPosition := ufpSortedPosition;
   end;
   gFileSizeFormat := TFileSizeFormat(cbFileSizeFormat.ItemIndex);
-
+  gFileSizeDigits := speNumberOfDigits.Value;
   gDateTimeFormat := GetValidDateTimeFormat(cbDateTimeFormat.Text, gDateTimeFormat);
 
   gSpaceMovesDown := cbSpaceMovesDown.Checked;

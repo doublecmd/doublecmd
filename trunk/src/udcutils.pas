@@ -85,9 +85,10 @@ function mbExpandFileName(const sFileName: String): String;
    @param(iSize File size)
    @param(ShortFormat If @true than short format is used,
                       otherwise long format (bytes) is used.)
+   @param(Number Number of digits after decimal)
    @returns(File size in string representation)
 }
-function cnvFormatFileSize(iSize: Int64; FSF: TFileSizeFormat): String;
+function cnvFormatFileSize(iSize: Int64; FSF: TFileSizeFormat; Number: Integer): String;
 function cnvFormatFileSize(iSize: Int64; FSF: Boolean): String;
 function cnvFormatFileSize(iSize: Int64): String; inline;
 {en
@@ -352,58 +353,58 @@ begin
   end;
 end;
 
-function cnvFormatFileSize(iSize: Int64; FSF: TFileSizeFormat): String;
+function cnvFormatFileSize(iSize: Int64; FSF: TFileSizeFormat; Number: Integer): String;
 var
-  d: Double;
+  FloatSize: Extended;
 begin
+  FloatSize:= iSize;
   case FSF of
   fsfFloat:
   begin
-    if iSize div (1024*1024*1024) > 0 then
+    if iSize div (1024 * 1024 * 1024) > 0 then
     begin
-      Result:=FloatToStrF((iSize*16 div (1024*1024*1024))/16, ffFixed, 15, 1)+' G'
+      Result:= FloatToStrF(FloatSize / (1024 * 1024 * 1024), ffFixed, 15, Number) + ' G'
     end
     else
-    if iSize div (1024*1024) >0 then
+    if iSize div (1024 * 1024) > 0 then
     begin
-      Result:=FloatToStrF((iSize*10 div (1024*1024))/10, ffFixed, 15, 1)+' M'
+      Result:= FloatToStrF(FloatSize / (1024 * 1024), ffFixed, 15, Number) + ' M'
     end
     else
-    if iSize div 1024 >0 then
+    if iSize div 1024 > 0 then
     begin
-      Result:=FloatToStrF((iSize*10 div 1024)/10, ffFixed, 15, 1)+' K'
+      Result:= FloatToStrF(FloatSize / 1024, ffFixed, 15, Number) + ' K'
     end
     else
-      Result:=IntToStr(iSize);
+      Result:= IntToStr(iSize);
   end;
-  fsfB:
+  fsfByte:
   begin
-    d:=iSize;
-    Result:=Format('%8.0n',[d]);
+    Result:= Format('%8.0n', [FloatSize]);
   end;
-  fsfK:
+  fsfKilo:
   begin
-    Result:=FloatToStrF((iSize*10 div 1024)/10, ffFixed, 15, 1)+' K'
+    Result:=FloatToStrF(FloatSize / 1024, ffFixed, 15, Number) + ' K'
   end;
-  fsfM:
+  fsfMega:
   begin
-    Result:=FloatToStrF((iSize*10 div (1024*1024))/10, ffFixed, 15, 1)+' M'
+    Result:=FloatToStrF(FloatSize / (1024 * 1024), ffFixed, 15, Number) + ' M'
   end;
-  fsfG:
+  fsfGiga:
   begin
-    Result:=FloatToStrF((iSize*16 div (1024*1024*1024))/16, ffFixed, 15, 1)+' G'
+    Result:=FloatToStrF(FloatSize / (1024 * 1024 * 1024), ffFixed, 15, Number) + ' G'
   end;
   end;
 end;
 
 function cnvFormatFileSize(iSize: Int64; FSF: Boolean): String;
 begin
-  Result := cnvFormatFileSize(iSize, fsfFloat);
+  Result := cnvFormatFileSize(iSize, fsfFloat, gFileSizeDigits);
 end;
 
 function cnvFormatFileSize(iSize: Int64): String;
 begin
-  Result := cnvFormatFileSize(iSize, gFileSizeFormat);
+  Result := cnvFormatFileSize(iSize, gFileSizeFormat, gFileSizeDigits);
 end;
 
 {
