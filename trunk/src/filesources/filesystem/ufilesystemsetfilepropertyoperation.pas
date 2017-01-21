@@ -9,11 +9,14 @@ uses
   uFileSourceSetFilePropertyOperation,
   uFileSource,
   uFileSourceOperationOptions,
+  uFileSourceOperationUI,
   uFile,
   uFileProperty,
   uDescr;
 
 type
+
+  { TFileSystemSetFilePropertyOperation }
 
   TFileSystemSetFilePropertyOperation = class(TFileSourceSetFilePropertyOperation)
 
@@ -23,8 +26,10 @@ type
     FDescription: TDescription;
     // Options.
     FSymLinkOption: TFileSourceOperationOptionSymLink;
+    FFileExistsOption: TFileSourceOperationUIResponse;
+    FDirExistsOption: TFileSourceOperationUIResponse;
 
-    function RenameFile(const OldName: String; NewName: String): TSetFilePropertyResult;
+    function RenameFile(aFile: TFile; NewName: String): TSetFilePropertyResult;
 
   protected
     function SetNewProperty(aFile: TFile; aTemplateProperty: TFileProperty): TSetFilePropertyResult; override;
@@ -46,7 +51,7 @@ implementation
 
 uses
   uGlobs, uLng, DCDateTimeUtils, uFileSystemUtil,
-  uFileSourceOperationUI, DCOSUtils, DCStrUtils, DCBasicTypes
+  DCOSUtils, DCStrUtils, DCBasicTypes
   {$IF DEFINED(MSWINDOWS)}
     , Windows, ShellAPI
   {$ELSEIF DEFINED(UNIX)}
@@ -162,7 +167,7 @@ begin
         if (aTemplateProperty as TFileNameProperty).Value <> aFile.Name then
         begin
           Result := RenameFile(
-            aFile.FullPath,
+            aFile,
             (aTemplateProperty as TFileNameProperty).Value);
 
           if (Result = sfprSuccess) and gProcessComments then
@@ -277,19 +282,42 @@ begin
   end;
 end;
 
-function TFileSystemSetFilePropertyOperation.RenameFile(const OldName: String; NewName: String): TSetFilePropertyResult;
+function TFileSystemSetFilePropertyOperation.RenameFile(aFile: TFile; NewName: String): TSetFilePropertyResult;
 
   function AskIfOverwrite(Attrs: TFileAttrs): TFileSourceOperationUIResponse;
   var
     sQuestion: String;
   begin
     if DCOSUtils.FPS_ISDIR(Attrs) then
-      sQuestion := rsMsgFolderExistsRwrt
-    else
-      sQuestion := rsMsgFileExistsRwrt;
-
-    Result := AskQuestion(Format(sQuestion, [NewName]), '',
-              [fsourYes, fsourNo, fsourAbort], fsourYes, fsourNo);
+    begin
+      if FDirExistsOption <> fsourInvalid then Exit(FDirExistsOption);
+      Result := AskQuestion(Format(rsMsgErrDirExists, [NewName]), '',
+                 [fsourSkip, fsourSkipAll, fsourAbort], fsourSkip, fsourAbort);
+      if Result = fsourSkipAll then
+      begin
+        FDirExistsOption:= fsourSkip;
+        Result:= FDirExistsOption;
+      end;
+    end
+    else begin
+      if FFileExistsOption <> fsourInvalid then Exit(FFileExistsOption);
+      sQuestion:= FileExistsMessage(NewName, aFile.FullPath, aFile.Size, aFile.ModificationTime);
+      Result := AskQuestion(sQuestion, '',
+                  [fsourOverwrite, fsourSkip, fsourAbort, fsourOverwriteAll,
+                   fsourSkipAll],fsourOverwrite, fsourSkip);
+      case Result of
+      fsourOverwriteAll:
+        begin
+          Result:= fsourOverwrite;
+          FFileExistsOption:= Result;
+        end;
+      fsourSkipAll:
+        begin
+          Result:= fsourSkip;
+          FFileExistsOption:= Result;
+        end;
+      end;
+    end;
   end;
 
   {$IFDEF MSWINDOWS}
@@ -323,7 +351,10 @@ var
 {$ELSE}
   NewFileAttrs: TFileAttrs;
 {$ENDIF}
+  OldName: String;
 begin
+  OldName:= aFile.FullPath;
+
   if FileSource.GetPathType(NewName) <> ptAbsolute then
     NewName := ExtractFilePath(OldName) + NewName;
 
@@ -391,8 +422,8 @@ begin
       // Both names are hard links to the same file.
 
       case AskIfOverwrite(NewFileStat.st_mode) of
-        fsourYes: ; // continue
-        fsourNo:
+        fsourOverwrite: ; // continue
+        fsourSkip:
           Exit(sfprSkipped);
         fsourAbort:
           RaiseAbortOperation;
@@ -409,8 +440,8 @@ begin
     else
     begin
       case AskIfOverwrite(NewFileStat.st_mode) of
-        fsourYes: ; // continue
-        fsourNo:
+        fsourOverwrite: ; // continue
+        fsourSkip:
           Exit(sfprSkipped);
         fsourAbort:
           RaiseAbortOperation;
@@ -442,8 +473,8 @@ begin
       if NewFileAttrs <> faInvalidAttributes then  // If target file exists.
       begin
         case AskIfOverwrite(NewFileAttrs) of
-          fsourYes: ; // continue
-          fsourNo:
+          fsourOverwrite: ; // continue
+          fsourSkip:
             Exit(sfprSkipped);
           fsourAbort:
             RaiseAbortOperation;
