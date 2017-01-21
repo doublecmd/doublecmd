@@ -392,7 +392,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Top = 31
       Width = 50
       Anchors = [akTop, akRight]
-      MaxValue = 9
+      MaxValue = 3
       OnChange = cbFileSizeFormatChange
       TabOrder = 2
     end
