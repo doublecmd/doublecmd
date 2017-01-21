@@ -59,7 +59,7 @@ const
     ft_stringw,
     ft_stringw,
     ft_stringw,
-    ft_fulltext
+    ft_fulltextw
   );
 
   FIELD_UNIT: array[0..Pred(FIELD_COUNT)] of String = (
@@ -95,6 +95,7 @@ function ContentGetValueW(FileName: PWideChar; FieldIndex, UnitIndex: Integer;
 var
   Value: String;
   FileNameU: String;
+  FullText: UnicodeString;
   ValueI: PInteger absolute FieldValue;
   Time: ptimeformat absolute FieldValue;
 begin
@@ -155,15 +156,21 @@ begin
      begin
        if UnitIndex = -1 then
          Result:= ft_fieldempty
-       else
-         Value:= DataAudio.FullText;
+       else begin
+         MaxLen:= MaxLen div SizeOf(WideChar) - 1;
+         FullText:= Copy(DataAudio.FullText, UnitIndex + 1, MaxLen);
+         if Length(FullText) = 0 then
+           Result:= ft_fieldempty
+         else begin
+           StrPLCopy(PWideChar(FieldValue), FullText, MaxLen);
+         end;
+       end;
      end;
   end;
 
   case Result of
     ft_string,
     ft_stringw,
-    ft_fulltext,
     ft_multiplechoice:
       begin
         if Length(Value) = 0 then
