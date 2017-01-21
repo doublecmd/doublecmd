@@ -842,6 +842,7 @@ begin
           if not ChooseFileSource(TargetPage.FileView, SourcePage.FileView.FileSource, aFile) then
             TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource,
                                               SourcePage.FileView.CurrentPath);
+          TargetPage.FileView.SetActiveFile(aFile.Name);
         except
           on e: EFileSourceException do
             MessageDlg('Error', e.Message, mtError, [mbOK], 0);
