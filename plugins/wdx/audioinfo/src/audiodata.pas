@@ -123,9 +123,9 @@ begin
   Encoder:= EmptyStr;
   Channels:= EmptyStr;
   Composer:= EmptyStr;
-  FullText:= EmptyStr;
   Copyright:= EmptyStr;
   DurationHMS:= EmptyStr;
+  FullText:= EmptyWideStr;
   BitRateType:= 'Unknown';
 end;
 
