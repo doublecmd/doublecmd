@@ -11378,7 +11378,7 @@ msgstr "отдельное окно;минимизировать отдельн�
 
 #: ulng.rsoptfilesizeformat
 msgid "float;B;K;M;G"
-msgstr "плавающий;B;K;M;G"
+msgstr "плавающий;байты;килобайты;мегабайты;гигабайты"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
