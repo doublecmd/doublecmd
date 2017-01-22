@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform dependent functions dealing with operating system.
 
-    Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -478,7 +478,7 @@ begin
   with FileMapRec do
     begin
       MappedFile := nil;
-      FileHandle:= fpOpen(UTF8ToSys(sFileName), O_RDONLY);
+      FileHandle:= mbFileOpen(sFileName, fmOpenRead);
 
       if FileHandle = feInvalidHandle then Exit;
       if fpfstat(FileHandle, StatInfo) <> 0 then
@@ -575,9 +575,13 @@ end;
 begin
   repeat
     Result:= fpOpen(UTF8ToSys(FileName), AccessModes[Mode and 3] or
-                    OpenFlags[(Mode shr 16) and 3]);
+                    OpenFlags[(Mode shr 16) and 3] or O_CLOEXEC);
   until (Result <> -1) or (fpgeterrno <> ESysEINTR);
-  Result:= FileLock(Result, Mode and $FF);
+  if Result <> feInvalidHandle then
+  begin
+    FileCloseOnExec(Result);
+    Result:= FileLock(Result, Mode and $FF);
+  end;
 end;
 {$ENDIF}
 
@@ -602,9 +606,13 @@ end;
 begin
   repeat
     Result:= fpOpen(UTF8ToSys(FileName), O_Creat or O_RdWr or O_Trunc or
-                    OpenFlags[(Mode shr 16) and 3], Rights);
+                    OpenFlags[(Mode shr 16) and 3] or O_CLOEXEC, Rights);
   until (Result <> -1) or (fpgeterrno <> ESysEINTR);
-  Result:= FileLock(Result, Mode and $FF);
+  if Result <> feInvalidHandle then
+  begin
+    FileCloseOnExec(Result);
+    Result:= FileLock(Result, Mode and $FF);
+  end;
 end;
 {$ENDIF}
 

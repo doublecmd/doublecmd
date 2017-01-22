@@ -1278,7 +1278,7 @@ begin
       end; { while }
 
     finally
-      FpClose(Self.kq);
+      FileClose(Self.kq);
     end; { try - finally }
   finally
     FFinished := True;

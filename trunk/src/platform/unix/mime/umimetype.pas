@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Shared MIME-info Database - mime type guess
 
-   Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2017 Alexander Koblov (alexx2000@mail.ru)
 
    Based on PCManFM v0.5.1 (http://pcmanfm.sourceforge.net)
    Copyright (C) 2007 Houng Jen Yee (PCMan) <pcman.tw@gmail.com>
@@ -246,7 +246,7 @@ begin
           FreeMem(data);
 {$ENDIF}
       end;
-      fpClose(fd);
+      FileClose(fd);
     end;
   end
   else
