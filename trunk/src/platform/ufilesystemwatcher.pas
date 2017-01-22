@@ -898,8 +898,9 @@ begin
   if FpPipe(FEventPipe) = 0 then
   begin
     // set both ends of pipe non blocking
-    FpFcntl(FEventPipe[0], F_SetFl, FpFcntl(FEventPipe[0], F_GetFl) or O_NONBLOCK or O_CLOEXEC);
-    FpFcntl(FEventPipe[1], F_SetFl, FpFcntl(FEventPipe[1], F_GetFl) or O_NONBLOCK or O_CLOEXEC);
+    FileCloseOnExec(FEventPipe[0]); FileCloseOnExec(FEventPipe[1]);
+    FpFcntl(FEventPipe[0], F_SetFl, FpFcntl(FEventPipe[0], F_GetFl) or O_NONBLOCK);
+    FpFcntl(FEventPipe[1], F_SetFl, FpFcntl(FEventPipe[1], F_GetFl) or O_NONBLOCK);
   end
   else
     ShowError('pipe() failed');
