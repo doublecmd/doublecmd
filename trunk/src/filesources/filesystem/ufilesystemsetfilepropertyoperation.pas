@@ -283,6 +283,8 @@ begin
 end;
 
 function TFileSystemSetFilePropertyOperation.RenameFile(aFile: TFile; NewName: String): TSetFilePropertyResult;
+var
+  OldName: String;
 
   function AskIfOverwrite(Attrs: TFileAttrs): TFileSourceOperationUIResponse;
   var
@@ -351,7 +353,6 @@ var
 {$ELSE}
   NewFileAttrs: TFileAttrs;
 {$ENDIF}
-  OldName: String;
 begin
   OldName:= aFile.FullPath;
 
