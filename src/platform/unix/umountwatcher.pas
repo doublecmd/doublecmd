@@ -26,7 +26,7 @@ type
 implementation
 
 uses
-  RtlConsts, uDebug, uPollThread;
+  RtlConsts, DCOSUtils, uDebug, uPollThread;
 
 { TMountWatcher }
 
@@ -52,7 +52,7 @@ procedure TMountWatcher.Start;
 var
   fd: cint;
 begin
-  fd:= fpOpen('/proc/self/mounts', O_RDONLY);
+  fd:= mbFileOpen('/proc/self/mounts', fmOpenRead);
   if (fd = feInvalidHandle) then
     ShowMessage(Format(SFOpenError, ['/proc/self/mounts']))
   else begin

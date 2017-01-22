@@ -502,7 +502,7 @@ implementation
 
 uses
   LCLType, LCLVersion, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
-  DCUnicodeUtils, LCLIntf, LazUTF8
+  DCUnicodeUtils, LCLIntf, LazUTF8, DCOSUtils
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix
   {$ELSEIF DEFINED(WINDOWS)}
@@ -1428,7 +1428,7 @@ begin
   if Assigned(FMappedFile) then
     UnMapFile; // if needed
 
-  FFileHandle := fpOpen(PChar(sFileName), O_RDONLY);
+  FFileHandle := mbFileOpen(sFileName, fmOpenRead);
   if FFileHandle = feInvalidHandle then
   begin
     FFileHandle := 0;
@@ -1437,7 +1437,7 @@ begin
 
   if fpFStat(FFileHandle, StatBuf) <> 0 then
   begin
-    fpClose(FFileHandle);
+    FileClose(FFileHandle);
     FFileHandle := 0;
     Exit;
   end;
@@ -1454,7 +1454,7 @@ begin
   if FMappedFile = MAP_FAILED then
   begin
     FMappedFile:= nil;
-    fpClose(FFileHandle);
+    FileClose(FFileHandle);
     FFileHandle := 0;
     Exit;
   end;

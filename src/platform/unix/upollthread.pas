@@ -12,6 +12,9 @@ procedure RemovePoll(fd: cint);
 
 implementation
 
+uses
+  DCUnix;
+
 type
 
   { TPollRecord }
@@ -149,8 +152,8 @@ begin
     Print(SysErrorMessage(fpGetErrNo))
   else begin
     // Set both ends of pipe non blocking
-    FpFcntl(FEventPipe[0], F_SetFl, FpFcntl(FEventPipe[0], F_GetFl) or O_NONBLOCK);
-    FpFcntl(FEventPipe[1], F_SetFl, FpFcntl(FEventPipe[1], F_GetFl) or O_NONBLOCK);
+    FpFcntl(FEventPipe[0], F_SetFl, FpFcntl(FEventPipe[0], F_GetFl) or O_NONBLOCK or O_CLOEXEC);
+    FpFcntl(FEventPipe[1], F_SetFl, FpFcntl(FEventPipe[1], F_GetFl) or O_NONBLOCK or O_CLOEXEC);
   end;
   Self.AddPoll(FEventPipe[0], POLLIN, @Clear, True);
 end;
@@ -167,13 +170,13 @@ begin
   // Close both ends of pipe
   if FEventPipe[1] <> -1 then
   begin
-    fpClose(FEventPipe[1]);
+    FileClose(FEventPipe[1]);
     FEventPipe[1] := -1;
   end;
   for Index:= 0 to FCount - 1 do
   begin
     if FHandler[Index].CloseOnDestroy then
-      fpClose(FDesc[Index].fd);
+      FileClose(FDesc[Index].fd);
   end;
 
   Print('Finish polling');
