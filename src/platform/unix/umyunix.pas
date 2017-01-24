@@ -238,7 +238,7 @@ implementation
 
 uses
   URIParser, Unix, Process, LazUTF8, DCOSUtils, DCClassesUtf8, DCStrUtils,
-  uDCUtils, uOSUtils
+  DCUnix, uDCUtils, uOSUtils
 {$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
 {$ENDIF}
@@ -690,6 +690,9 @@ begin
 
   if pid = 0 then
     begin
+      { Set the close-on-exec flag to all }
+      FileCloseOnExecAll;
+
       { Set child current directory }
       if Length(StartPath) > 0 then fpChdir(StartPath);
 
