@@ -42,10 +42,13 @@ const
 {$ENDIF}
 
 {en
+   Set the close-on-exec flag to all
+}
+procedure FileCloseOnExecAll;
+{en
    Set the close-on-exec (FD_CLOEXEC) flag
 }
 procedure FileCloseOnExec(Handle: System.THandle); inline;
-
 {en
    Change owner and group of a file (does not follow symbolic links)
    @param(path Full path to file)
@@ -62,7 +65,35 @@ implementation
 uses
   SysUtils, Unix, DCConvertEncoding;
 
+const
+  {$IF DEFINED(LINUX)}
+  _SC_OPEN_MAX = 4;
+  {$ELSEIF DEFINED(BSD)}
+  _SC_OPEN_MAX = 5;
+  {$ENDIF}
+  RLIM_INFINITY = rlim_t(-1);
+
+function sysconf(name: cint): clong; cdecl; external clib;
 function lchown(path : PChar; owner : TUid; group : TGid): cInt; cdecl; external clib name 'lchown';
+
+procedure FileCloseOnExecAll;
+var
+  fd: cint;
+  p: TRLimit;
+  fd_max: rlim_t = RLIM_INFINITY;
+begin
+  if (FpGetRLimit(RLIMIT_NOFILE, @p) = 0) and (p.rlim_cur <> RLIM_INFINITY) then
+    fd_max:= p.rlim_cur
+  else begin
+    {$IF DECLARED(_SC_OPEN_MAX)}
+    fd_max:= sysconf(_SC_OPEN_MAX);
+    {$ENDIF}
+  end;
+  if fd_max = RLIM_INFINITY then
+    fd_max:= High(Byte);
+  for fd:= 3 to cint(fd_max) do
+    FileCloseOnExec(fd);
+end;
 
 procedure FileCloseOnExec(Handle: System.THandle);
 begin
