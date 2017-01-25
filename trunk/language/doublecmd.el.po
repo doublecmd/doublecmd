@@ -1,9 +1,9 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-10-05 22:03+0300\n"
+"PO-Revision-Date: 2017-01-23 21:09+0200\n"
 "Last-Translator: Anastasios Kazakis <orca.surfshark@gmail.com>\n"
 "Language-Team: Anastasios Kazakis <orca.surfshark@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -788,7 +788,7 @@ msgstr "Αφαίρεση τελευταίας μικρογραφίας από τ
 
 #: tfrmedithotkey.btnselectfromlist.hint
 msgid "Select shortcut from list of remaining free available keys"
-msgstr ""
+msgstr "Επιλογή συντόμευσης από τη λίστα των υπόλοιπων ελεύθερων διαθέσιμων κουμπιών"
 
 #: tfrmedithotkey.cghkcontrols.caption
 msgctxt "TFRMEDITHOTKEY.CGHKCONTROLS.CAPTION"
@@ -1108,16 +1108,14 @@ msgid "-"
 msgstr "-"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
-#, fuzzy
 msgctxt "tfrmeditsearchreplace.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
 msgstr "Ακύρωση"
 
 #: tfrmeditsearchreplace.buttonpanel.okbutton.caption
-#, fuzzy
 msgctxt "tfrmeditsearchreplace.buttonpanel.okbutton.caption"
 msgid "&OK"
-msgstr "&OK"
+msgstr "OK"
 
 #: tfrmeditsearchreplace.cbsearchcasesensitive.caption
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -1286,7 +1284,7 @@ msgstr "SUID"
 
 #: tfrmfileproperties.chkexecutable.caption
 msgid "Allow &executing file as program"
-msgstr ""
+msgstr "Αποδοχή εκτέλεσης αρχείου σαν πρόγραμμα"
 
 #: tfrmfileproperties.gbowner.caption
 msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
@@ -1339,7 +1337,7 @@ msgstr "Εκτέλεση"
 
 #: tfrmfileproperties.lblexecutable.caption
 msgid "Execute:"
-msgstr ""
+msgstr "Εκτέλεση:"
 
 #: tfrmfileproperties.lblfile.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILE.CAPTION"
@@ -1447,13 +1445,11 @@ msgid "Write"
 msgstr "Εγγραφή"
 
 #: tfrmfileproperties.sgimage.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
 msgid "Name"
 msgstr "Όνομα"
 
 #: tfrmfileproperties.sgimage.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
 msgid "Value"
 msgstr "Τιμή"
@@ -1465,7 +1461,7 @@ msgstr "Ιδιότητες"
 
 #: tfrmfileproperties.tsimage.caption
 msgid "Image"
-msgstr ""
+msgstr "Εικόνα"
 
 #: tfrmfileproperties.tsproperties.caption
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
@@ -1489,7 +1485,7 @@ msgstr "Κλείσιμο"
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
 msgctxt "tfrmfinddlg.actconfigfilesearchhotkeys.caption"
 msgid "Configuration of hot keys"
-msgstr ""
+msgstr "Διαμόρφωση των ειδικών πλήκτρων"
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
@@ -1502,11 +1498,11 @@ msgstr "Τροφοδοσία στο listbox"
 
 #: tfrmfinddlg.actfreefrommem.caption
 msgid "Cancel search, close and free from memory"
-msgstr ""
+msgstr "Ακύρωση αναζήτησης, κλείσιμο και απελευθέρωση από τη μνήμη"
 
 #: tfrmfinddlg.actfreefrommemallothers.caption
 msgid "For all other \"Find files\", cancel, close and free from memory"
-msgstr ""
+msgstr "Για όλα τα άλλα \"Αναζήτηση Αρχείων\", ακύρωση, κλείσιμο και απελευθέρωση από τη μνήμη"
 
 #: tfrmfinddlg.actgotofile.caption
 msgid "&Go to file"
@@ -1527,7 +1523,7 @@ msgstr "Νέα Αναζήτηση"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
-msgstr ""
+msgstr "Νέα Αναζήτηση (καθαρισμός φίλτρων)"
 
 #: tfrmfinddlg.actpageadvanced.caption
 msgid "Go to page \"Advanced\""
@@ -1752,18 +1748,17 @@ msgstr "Προηγούμενες αναζητήσεις:"
 
 #: tfrmfinddlg.miaction.caption
 msgid "&Action"
-msgstr ""
+msgstr "Ενέργεια"
 
 #: tfrmfinddlg.mifreefrommemallothers.caption
 msgid "For all others, cancel, close and free from memory"
-msgstr ""
+msgstr "Για όλα τα άλλα, ακύρωση, κλείσιμο και απελευθέρωση από τη μνήμη"
 
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
 msgstr "Άνοιγμα σε Νέα Καρτέλα(ες)"
 
 #: tfrmfinddlg.mioptions.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.mioptions.caption"
 msgid "Options"
 msgstr "Επιλογές"
@@ -1774,16 +1769,14 @@ msgstr "Απομάκρυνση από τη λίστα"
 
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
-msgstr ""
+msgstr "Αποτέλεσμα"
 
 #: tfrmfinddlg.miseparator1.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.miseparator1.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmfinddlg.miseparator2.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.miseparator2.caption"
 msgid "-"
 msgstr "-"
@@ -1801,7 +1794,6 @@ msgid "Show In Viewer"
 msgstr "Εμφάνιση στον Προβολέα"
 
 #: tfrmfinddlg.miviewtab.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.miviewtab.caption"
 msgid "&View"
 msgstr "Προβολή"
@@ -1956,7 +1948,7 @@ msgstr "Προσθήκη ονόματος αρχείου στη γραμμή ε�
 
 #: tfrmmain.actaddnewsearch.caption
 msgid "New search instance..."
-msgstr ""
+msgstr "Νέο περιστατικό αναζήτησης..."
 
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
@@ -2081,7 +2073,7 @@ msgstr "Διαμόρφωση των Καρτελών Φακέλων"
 #: tfrmmain.actconfighotkeys.caption
 msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
-msgstr ""
+msgstr "Διαμόρφωση των ειδικών πλήκτρων"
 
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
@@ -2089,7 +2081,7 @@ msgstr "Αποθήκευση Ρυθμίσεων"
 
 #: tfrmmain.actconfigsearches.caption
 msgid "Configuration of searches"
-msgstr ""
+msgstr "Διαμόρφωση των αναζητήσεων"
 
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
@@ -2169,7 +2161,7 @@ msgstr "Διαγραφή"
 
 #: tfrmmain.actdeletesearches.caption
 msgid "For all searches, cancel, close and free memory"
-msgstr ""
+msgstr "Για όλες τις αναζητήσεις, ακύρωση, κλείσιμο και απελευθέρωση μνήμης"
 
 #: tfrmmain.actdirhistory.caption
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
@@ -2207,7 +2199,7 @@ msgstr "Εναλλαγή Πάνελ"
 
 #: tfrmmain.actexecutescript.caption
 msgid "Execute Script"
-msgstr ""
+msgstr "Εκτέλεση Σεναρίου εντολών"
 
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
@@ -2245,11 +2237,11 @@ msgstr "Συγκέντρωση της γραμμής εντολών"
 
 #: tfrmmain.actfocusswap.caption
 msgid "Swap focus"
-msgstr ""
+msgstr "Εναλλαγή σημείου εστίασης"
 
 #: tfrmmain.actfocusswap.hint
 msgid "Switch between left and right file list"
-msgstr ""
+msgstr "Αλλαγή μεταξύ αριστερής και δεξιάς λίστας αρχείων"
 
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
@@ -2350,15 +2342,15 @@ msgstr "Επιλογή όλων με την Ίδια Επέκταση"
 
 #: tfrmmain.actmarkcurrentname.caption
 msgid "Select all files with same name"
-msgstr ""
+msgstr "Επιλογή όλων των αρχείων με την ίδια ονομασία"
 
 #: tfrmmain.actmarkcurrentnameext.caption
 msgid "Select all files with same name and extension"
-msgstr ""
+msgstr "Επιλογή όλων των αρχείων με την ίδια ονομασία και επέκταση"
 
 #: tfrmmain.actmarkcurrentpath.caption
 msgid "Select all in same path"
-msgstr ""
+msgstr "Επιλογή όλων με την ίδια διαδρομή"
 
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
@@ -2730,15 +2722,15 @@ msgstr "Αποεπιλογή Όλων με τη ίδια Επέκταση"
 
 #: tfrmmain.actunmarkcurrentname.caption
 msgid "Unselect all files with same name"
-msgstr ""
+msgstr "Αποεπιλογή όλων των αρχείων με την ίδια ονομασία"
 
 #: tfrmmain.actunmarkcurrentnameext.caption
 msgid "Unselect all files with same name and extension"
-msgstr ""
+msgstr "Αποεπιλογή όλων των αρχείων με την ίδια ονομασία και επέκταση"
 
 #: tfrmmain.actunmarkcurrentpath.caption
 msgid "Unselect all in same path"
-msgstr ""
+msgstr "Αποεπιλογή όλων με την ίδια διαδρομή"
 
 #: tfrmmain.actview.caption
 msgctxt "tfrmmain.actview.caption"
@@ -2763,7 +2755,7 @@ msgstr "Προβολή αρχείου καταγραφών"
 
 #: tfrmmain.actviewsearches.caption
 msgid "View current search instances"
-msgstr ""
+msgstr "Προβολή τρεχόντων περιστατικών αναζήτησης"
 
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
@@ -3330,13 +3322,11 @@ msgid "Hotkey"
 msgstr "Ειδικό Πλήκτρο"
 
 #: tfrmmaskinputdlg.btnaddattribute.caption
-#, fuzzy
 msgctxt "tfrmmaskinputdlg.btnaddattribute.caption"
 msgid "&Add"
 msgstr "Προσθήκη"
 
 #: tfrmmaskinputdlg.btnattrshelp.caption
-#, fuzzy
 msgctxt "tfrmmaskinputdlg.btnattrshelp.caption"
 msgid "&Help"
 msgstr "Βοήθεια"
@@ -3365,7 +3355,7 @@ msgstr "Αγνόηση χρήσης τονισμού και διφθόγγων"
 
 #: tfrmmaskinputdlg.lblattributes.caption
 msgid "Attri&butes:"
-msgstr ""
+msgstr "Ιδιότητες:"
 
 #: tfrmmaskinputdlg.lblprompt.caption
 msgid "Input Mask:"
@@ -3383,7 +3373,7 @@ msgstr "Ακύρωση"
 #: tfrmmkdir.btnok.caption
 msgctxt "TFRMMKDIR.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&OK"
+msgstr "OK"
 
 #: tfrmmkdir.caption
 msgid "Create new directory"
@@ -4039,7 +4029,7 @@ msgstr "Ευθυγραμμισμένο (με Καρτέλα)"
 
 #: tfrmoptionsbriefview.rbdirectly.caption
 msgid "di&rectly after filename"
-msgstr "αμέσως μετά το όνομα αρχείου"
+msgstr "Αμέσως μετά το όνομα αρχείου"
 
 #: tfrmoptionsbriefview.rbuseautosize.caption
 msgid "Auto"
@@ -5929,7 +5919,7 @@ msgstr "Χρώμα Κειμένου:"
 
 #: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
 msgid "When launching file search, clear file mask filter"
-msgstr ""
+msgstr "Όταν φορτώνεται η αναζήτηση αρχείων, καθαρισμός του φίλτρου μάσκας αρχείου"
 
 #: tfrmoptionsfilesearch.cbpartialnamesearch.caption
 msgid "&Search for part of file name"
@@ -5937,21 +5927,20 @@ msgstr "Αναζήτηση για τμήμα ονόματος αρχείου"
 
 #: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
 msgid "Show menu bar in \"Find files\""
-msgstr ""
+msgstr "Εμφάνιση μπάρας μενού στην \"Αναζήτηση Αρχείων\""
 
 #: tfrmoptionsfilesearch.dbtextsearch.caption
 msgid "Text search in files"
 msgstr "Αναζήτηση Κειμένου στα αρχεία"
 
 #: tfrmoptionsfilesearch.gbfilesearch.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilesearch.gbfilesearch.caption"
 msgid "File search"
 msgstr "Αναζήτηση Αρχείου"
 
 #: tfrmoptionsfilesearch.lblnewsearchfilters.caption
 msgid "Current filters with \"New search\" button:"
-msgstr ""
+msgstr "Τρέχοντα φίλτρα με \"Νέα Αναζήτηση\" κουμπί:"
 
 #: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
 msgid "Default search template:"
@@ -5966,13 +5955,11 @@ msgid "&Use stream for search text in files"
 msgstr "Χρήση stream για αναζήτηση κειμένου στα αρχεία"
 
 #: tfrmoptionsfilesviews.btnaddattribute.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilesviews.btnaddattribute.caption"
 msgid "&Add"
 msgstr "Προσθήκη"
 
 #: tfrmoptionsfilesviews.btnattrshelp.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilesviews.btnattrshelp.caption"
 msgid "&Help"
 msgstr "Βοήθεια"
@@ -6024,7 +6011,7 @@ msgstr "Φίλτρο σε στυλ Windows όταν σημειώνονται α�
 #: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
 msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
 msgid "Use an independant attribute filter in mask input dialog each time"
-msgstr ""
+msgstr "Χρήση ενός ανεξάρτητου φίλτρου ιδιοτήτων, στο διάλογο εισαγωγής μάσκας, κάθε φορά"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
@@ -6032,7 +6019,7 @@ msgstr "Μορφοποίηση"
 
 #: tfrmoptionsfilesviews.gbmarking.caption
 msgid "Marking/Unmarking entries"
-msgstr ""
+msgstr "Σήμανση/ Κατάργηση σήμανσης εγγραφών"
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
@@ -6041,7 +6028,7 @@ msgstr "Ταξινόμηση"
 #: tfrmoptionsfilesviews.lbattributemask.caption
 msgctxt "tfrmoptionsfilesviews.lbattributemask.caption"
 msgid "Default attribute mask value to use:"
-msgstr ""
+msgstr "Προκαθορισμένη τιμή ιδιότητας μάσκας προς χρήση:"
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"
@@ -6053,7 +6040,7 @@ msgstr "Μη Έγκυρος Τύπος"
 
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
 msgid "&Date and time format:"
-msgstr "Μορφοποίηση Ημερομηνίας και Χρόνου:"
+msgstr "Μορφοποίηση Ημερομηνίας και Χρονιάς:"
 
 #: tfrmoptionsfilesviews.lblfilesizeformat.caption
 msgid "File si&ze format:"
@@ -6200,72 +6187,66 @@ msgid "&Viewer font"
 msgstr "Γραμματοσειρά Προβολέα"
 
 #: tfrmoptionshotkeys.actaddhotkey.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.actaddhotkey.caption"
 msgid "Add &hotkey"
 msgstr "Προσθήκη ειδικού πλήκτρου"
 
 #: tfrmoptionshotkeys.actcopy.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.actcopy.caption"
 msgid "Copy"
 msgstr "Αντιγραφή"
 
 #: tfrmoptionshotkeys.actdelete.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.actdelete.caption"
 msgid "Delete"
 msgstr "Διαγραφή"
 
 #: tfrmoptionshotkeys.actdeletehotkey.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.actdeletehotkey.caption"
 msgid "&Delete hotkey"
 msgstr "Διαγραφή ειδικού πλήκτρου"
 
 #: tfrmoptionshotkeys.actedithotkey.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.actedithotkey.caption"
 msgid "&Edit hotkey"
 msgstr "Ρύθμιση ειδικού πλήκτρου"
 
 #: tfrmoptionshotkeys.actnextcategory.caption
 msgid "Next category"
-msgstr ""
+msgstr "Επόμενη Κατηγορία"
 
 #: tfrmoptionshotkeys.actpopupfilerelatedmenu.caption
 msgid "Make popup the file related menu"
-msgstr ""
+msgstr "Δημιουργία αναδυόμενου μενού για το σχετικό αρχείο"
 
 #: tfrmoptionshotkeys.actpreviouscategory.caption
 msgid "Previous category"
-msgstr ""
+msgstr "Προηγούμενη Κατηγορία"
 
 #: tfrmoptionshotkeys.actrename.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.actrename.caption"
 msgid "Rename"
 msgstr "Μετονομασία"
 
 #: tfrmoptionshotkeys.actrestoredefault.caption
 msgid "Restore DC default"
-msgstr ""
+msgstr "Αποκατάσταση των προκαθορισμένων ρυθμίσεων του DC"
 
 #: tfrmoptionshotkeys.actsavenow.caption
 msgid "Save now"
-msgstr ""
+msgstr "Αποθήκευση τώρα"
 
 #: tfrmoptionshotkeys.actsortbycommand.caption
 msgid "Sort by command name"
-msgstr ""
+msgstr "Ταξινόμηση κατά Όνομα Εντολής"
 
 #: tfrmoptionshotkeys.actsortbyhotkeysgrouped.caption
 msgid "Sort by hotkeys (grouped)"
-msgstr ""
+msgstr "Ταξινόμηση κατά ειδικά πλήκτρα (ομαδοποιημένα)"
 
 #: tfrmoptionshotkeys.actsortbyhotkeysoneperline.caption
 msgid "Sort by hotkeys (one per row)"
-msgstr ""
+msgstr "Ταξινόμηση κατά ειδικά πλήκτρα (ένα σε κάθε σειρά)"
 
 #: tfrmoptionshotkeys.lbfilter.caption
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
@@ -6289,27 +6270,25 @@ msgstr "Αρχεία συντομεύσεων:"
 
 #: tfrmoptionshotkeys.lblsortorder.caption
 msgid "So&rt order:"
-msgstr ""
+msgstr "Σειρά κατάταξης:"
 
 #: tfrmoptionshotkeys.micategories.caption
 msgid "Categories"
-msgstr ""
+msgstr "Κατηγορίες:"
 
 #: tfrmoptionshotkeys.micommands.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.micommands.caption"
 msgid "Command"
 msgstr "Εντολή"
 
 #: tfrmoptionshotkeys.miseparator1.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.miseparator1.caption"
 msgid "-"
 msgstr "-"
 
 #: tfrmoptionshotkeys.misortorder.caption
 msgid "Sort order"
-msgstr ""
+msgstr "Σειρά κατάταξης"
 
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
@@ -6327,7 +6306,7 @@ msgstr "16x16"
 
 #: tfrmoptionsicons.cbiconsonbuttons.caption
 msgid "Show icons on buttons"
-msgstr ""
+msgstr "Εμφάνιση εικονιδίων στα κουμπιά"
 
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
@@ -6349,7 +6328,7 @@ msgstr "Εικονίδια στα μενού"
 
 #: tfrmoptionsicons.gbiconsonbuttons.caption
 msgid "Icons on buttons"
-msgstr ""
+msgstr "Εικονίδια στα κουμπιά"
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
@@ -7293,7 +7272,7 @@ msgstr "σε ένα \"wincmd.ini\" του TC (διαγραφή υπάρχοντ�
 #: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDAFTERCURRENT.CAPTION"
 msgid "just after current selection"
-msgstr "αμέσως μετά την τρέχουσα επιλογή"
+msgstr "Αμέσως μετά την τρέχουσα επιλογή"
 
 #: tfrmoptionstoolbar.miexternalcommandfirstelement.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDFIRSTELEMENT.CAPTION"
@@ -7308,7 +7287,7 @@ msgstr "ως τελευταίο στοιχείο"
 #: tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
-msgstr "αμέσως πριν την τρέχουσα επιλογή"
+msgstr "Αμέσως πριν την τρέχουσα επιλογή"
 
 #: tfrmoptionstoolbar.miimport.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORT.CAPTION"
@@ -7439,7 +7418,7 @@ msgstr "για αντικατάσταση της σειράς εργαλείων
 #: tfrmoptionstoolbar.miinternalcommandaftercurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDAFTERCURRENT.CAPTION"
 msgid "just after current selection"
-msgstr "αμέσως μετά την τρέχουσα επιλογή"
+msgstr "Αμέσως μετά την τρέχουσα επιλογή"
 
 #: tfrmoptionstoolbar.miinternalcommandfirstelement.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDFIRSTELEMENT.CAPTION"
@@ -7454,7 +7433,7 @@ msgstr "ως τελευταίο στοιχείο"
 #: tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
-msgstr "αμέσως πριν την τρέχουσα επιλογή"
+msgstr "Αμέσως πριν την τρέχουσα επιλογή"
 
 #: tfrmoptionstoolbar.misearchandreplace.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MISEARCHANDREPLACE.CAPTION"
@@ -7514,7 +7493,7 @@ msgstr "-"
 #: tfrmoptionstoolbar.miseparatoraftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
 msgid "just after current selection"
-msgstr "αμέσως μετά την τρέχουσα επιλογή"
+msgstr "Αμέσως μετά την τρέχουσα επιλογή"
 
 #: tfrmoptionstoolbar.miseparatorfirstitem.caption
 msgctxt "tfrmoptionstoolbar.miseparatorfirstitem.caption"
@@ -7529,7 +7508,7 @@ msgstr "ως τελευταίο στοιχείο"
 #: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr "αμέσως πριν την τρέχουσα επιλογή"
+msgstr "Αμέσως πριν την τρέχουσα επιλογή"
 
 #: tfrmoptionstoolbar.misrcrplallofall.caption
 msgid "in all of all the above..."
@@ -7559,7 +7538,7 @@ msgstr "σε όλες τις διαδρομές εκκίνησης...."
 #: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARAFTERCURRENT.CAPTION"
 msgid "just after current selection"
-msgstr "αμέσως μετά την τρέχουσα επιλογή"
+msgstr "Αμέσως μετά την τρέχουσα επιλογή"
 
 #: tfrmoptionstoolbar.misubtoolbarfirstelement.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARFIRSTELEMENT.CAPTION"
@@ -7574,7 +7553,7 @@ msgstr "ως τελευταίο στοιχείο"
 #: tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
-msgstr "αμέσως πριν την τρέχουσα επιλογή"
+msgstr "Αμέσως πριν την τρέχουσα επιλογή"
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
@@ -8104,7 +8083,7 @@ msgstr "Βοήθεια"
 #: tfrmselecttextrange.btppanel.okbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
 msgid "&OK"
-msgstr "&OK"
+msgstr "OK"
 
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "&Select the characters to insert:"
@@ -9184,31 +9163,29 @@ msgstr "Όταν το αρχείο υπάρχει"
 
 #: uexifreader.rsdatetimeoriginal
 msgid "Date taken"
-msgstr ""
+msgstr "Ημερομηνία πρόσληψης"
 
 #: uexifreader.rsimageheight
-#, fuzzy
 msgctxt "uexifreader.rsimageheight"
 msgid "Height"
 msgstr "Ύψος"
 
 #: uexifreader.rsimagewidth
-#, fuzzy
 msgctxt "uexifreader.rsimagewidth"
 msgid "Width"
 msgstr "Πλάτος"
 
 #: uexifreader.rsmake
 msgid "Manufacturer"
-msgstr ""
+msgstr "Κατασκευαστής"
 
 #: uexifreader.rsmodel
 msgid "Camera model"
-msgstr ""
+msgstr "Μοντέλο Κάμερας"
 
 #: uexifreader.rsorientation
 msgid "Orientation"
-msgstr ""
+msgstr "Προσανατολισμός"
 
 #: ulng.msgtrytolocatecrcfile
 msgid ""
@@ -9274,7 +9251,7 @@ msgstr "Συνολικά:"
 
 #: ulng.rsclearfiltersornot
 msgid "Do you want to clear filters for this new search?"
-msgstr ""
+msgstr "Επιθυμείτε το καθαρισμό φίλτρων για αυτή τη νέα αναζήτηση;"
 
 #: ulng.rsclipboardcontainsinvalidtoolbardata
 msgid "Clipboard doesn't contain any valid toolbar data."
@@ -9433,16 +9410,12 @@ msgid "&Continue"
 msgstr "Συνέχιση"
 
 #: ulng.rsdlgbuttoncopyinto
-#, fuzzy
-#| msgid "Copy &Into"
 msgid "&Merge"
-msgstr "Αντιγραφή Μέσα σε"
+msgstr "Συγχώνευση"
 
 #: ulng.rsdlgbuttoncopyintoall
-#, fuzzy
-#| msgid "Copy Into &All"
 msgid "Mer&ge All"
-msgstr "Αντιγραφή μέσα σε Όλα"
+msgstr "Συγχώνευση Όλων"
 
 #: ulng.rsdlgbuttonexitprogram
 msgid "E&xit program"
@@ -9641,10 +9614,8 @@ msgid "Exported_from_DC"
 msgstr "Έχει_Εξαχθεί_από_DC"
 
 #: ulng.rsfileopdirectoryexistsoptions
-#, fuzzy
-#| msgid "Ask;Overwrite;Copy into;Skip"
 msgid "Ask;Merge;Skip"
-msgstr "Ερώτηση;Αντικατάσταση;Αντιγραφή στο;Παράβλεψη"
+msgstr "Ερώτηση;Συγχώνευση;Παράβλεψη"
 
 #: ulng.rsfileopfileexistsoptions
 msgid "Ask;Overwrite;Overwrite Older;Skip"
@@ -9848,44 +9819,48 @@ msgid ""
 "A setup with that name already exists.\n"
 "Do you want to overwrite it?\n"
 msgstr ""
+"Μια εγκατάσταση με αυτή την ονομασία υπάρχει ήδη.\n"
+"Επιθυμείτε αντικατάστασή της;\n"
 
 #: ulng.rshotkeyfileconfirmdefault
 msgid "Are you sure you want to restore default?"
-msgstr ""
+msgstr "Είστε σίγουροι ότι επιθυμείτε αποκατάσταση των προκαθορισμένων;"
 
 #: ulng.rshotkeyfileconfirmerasure
 msgid "Are you sure you want to erase setup \"%s\"?"
-msgstr ""
+msgstr "Είστε σίγουροι ότι επιθυμείτε διαγραφή της εγκατάστασης των \"%s\";"
 
 #: ulng.rshotkeyfilecopyof
 msgid "Copy of %s"
-msgstr ""
+msgstr "Αντιγραφή των %s"
 
 #: ulng.rshotkeyfileinputnewname
 msgid "Input your new name"
-msgstr ""
+msgstr "Εισάγετε τη νέα σας ονομασία:"
 
 #: ulng.rshotkeyfilemustkeepone
 msgid "You must keep at least one shortcut file."
-msgstr ""
+msgstr "Πρέπει να διατηρηθεί τουλάχιστο ένα αρχείο συντόμευσης."
 
 #: ulng.rshotkeyfilenewname
 msgid "New name"
-msgstr ""
+msgstr "Νέα Ονομασία"
 
 #: ulng.rshotkeyfilesavemodified
 msgid ""
 "\"%s\" setup has been modified.\n"
 "Do you want to save it now?\n"
 msgstr ""
+"\"%s\" Εγκαταστάσεις έχουν αλλάξει.\n"
+"Επιθυμείτε αποθήκευση;\n"
 
 #: ulng.rshotkeynoscenter
 msgid "No shortcut with \"ENTER\""
-msgstr ""
+msgstr "Δεν υπάρχει συντόμευση για \"ENTER\""
 
 #: ulng.rshotkeysortorder
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
-msgstr ""
+msgstr "Βάσει ονόματος εντολής;Βάσει κουμπιού συντόμευσης (ομαδοποιημένα);Βάσει κουμπιού συντόμευσης (ένα σε κάθε σειρά)"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
@@ -9893,7 +9868,7 @@ msgstr "Αδυναμία εύρεσης αναφοράς στο προκαθορ
 
 #: ulng.rslistoffindfileswindows
 msgid "List of \"Find files\" windows"
-msgstr ""
+msgstr "Λίστα παραθύρων \"Αναζήτηση Αρχείων\""
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -9930,7 +9905,7 @@ msgstr "Ενέργειες"
 
 #: ulng.rsmnucopynetnamestoclip
 msgid "Copy names with UNC path"
-msgstr ""
+msgstr "Αντιγραφή ονομάτων με UNC διαδρομή"
 
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
@@ -10007,7 +9982,7 @@ msgstr "Επιπρόσθετες παράμετροι για τη γραμμή �
 
 #: ulng.rsmsgaskquoteornot
 msgid "Do you want to enclose between quotes?"
-msgstr ""
+msgstr "Επιθυμείτε να εισαχθεί μεταξύ εισαγωγικών;"
 
 #: ulng.rsmsgbadcrc32
 msgid ""
@@ -10031,7 +10006,7 @@ msgstr "Αδυναμία διαγραφής καταλόγου %s"
 
 #: ulng.rsmsgcannotoverwritedirectory
 msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
-msgstr ""
+msgstr "Δεν είναι δυνατή η αντικατάσταση του καταλόγου \"%s\" με τον μη-κατάλογο \"%s\""
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -10358,10 +10333,8 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "Το μέγεθος αρχείου του \"%s\" είναι πολύ μεγάλο για το προοριζόμενο σύστημα αρχείων!"
 
 #: ulng.rsmsgfolderexistsrwrt
-#, fuzzy
-#| msgid "Folder %s exists, overwrite?"
 msgid "Folder %s exists, merge?"
-msgstr "Ο Φάκελος %s υπάρχει, αντικατάσταση;"
+msgstr "Ο Φάκελος %s υπάρχει, συγχώνευση;"
 
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
@@ -11042,19 +11015,19 @@ msgstr "Το Αρχείο περιέχει λάθος αριθμό γραμμώ�
 
 #: ulng.rsnewsearchclearfilteroptions
 msgid "Keep;Clear;Prompt"
-msgstr ""
+msgstr "Διατήρηση;Καθαρισμός;Υπενθύμιση"
 
 #: ulng.rsnoequivalentinternalcommand
 msgid "No internal equivalent command"
-msgstr ""
+msgstr "Δεν υπάρχει ισοδύναμη εσωτερική εντολή"
 
 #: ulng.rsnofindfileswindowyet
 msgid "Sorry, no \"Find files\" window yet..."
-msgstr ""
+msgstr "Λυπούμαστε, δεν υπάρχει παράθυρο \"Αναζήτηση Αρχείων\" ακόμη..."
 
 #: ulng.rsnootherfindfileswindowtoclose
 msgid "Sorry, no other \"Find files\" window to close and free from memory..."
-msgstr ""
+msgstr "Λυπούμαστε, δεν υπάρχει άλλο παράθυρο \"Αναζήτηση Αρχείων\" προς κλείσιμο και απελευθέρωση από τη μνήμη..."
 
 #: ulng.rsoperaborted
 msgid "Aborted"
@@ -11482,7 +11455,7 @@ msgstr "Αυτόματη Ανανέωση"
 #: ulng.rsoptionseditorbehavior
 msgctxt "ulng.rsoptionseditorbehavior"
 msgid "Behaviors"
-msgstr "Συμπεριφορές"
+msgstr "Γενικές Ρυθμίσεις"
 
 #: ulng.rsoptionseditorbriefview
 msgctxt "ulng.rsoptionseditorbriefview"
@@ -11549,7 +11522,6 @@ msgid "File panels"
 msgstr "Πάνελ Αρχείων"
 
 #: ulng.rsoptionseditorfilesearch
-#, fuzzy
 msgctxt "ulng.rsoptionseditorfilesearch"
 msgid "File search"
 msgstr "Αναζήτηση Αρχείου"
@@ -11811,12 +11783,16 @@ msgid ""
 "A file search using DSX plugin is already in progress.\n"
 "We need that one to be completed before to launch a new one.\n"
 msgstr ""
+"Μια αναζήτηση αρχείων με χρήση του προσθέτου DSX είναι ήδη σε εξέλιξη.\n"
+"Πρέπει να ολοκληρωθεί αυτή ώστε να φορτωθεί μια νέα.\n"
 
 #: ulng.rssearchwithwdxplugininprogress
 msgid ""
 "A file search using WDX plugin is already in progress.\n"
 "We need that one to be completed before to launch a new one.\n"
 msgstr ""
+"Μια αναζήτηση αρχείων με χρήση του προσθέτου WDX είναι ήδη σε εξέλιξη.\n"
+"Πρέπει να ολοκληρωθεί αυτή ώστε να φορτωθεί μια νέα.\n"
 
 #: ulng.rsselectdir
 msgid "Select a directory"
@@ -11824,7 +11800,7 @@ msgstr "Επιλέξτε ένα κατάλογο"
 
 #: ulng.rsselectyoufindfileswindow
 msgid "Select your window"
-msgstr ""
+msgstr "Επιλογή επιθυμητού παραθύρου"
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"
@@ -11859,7 +11835,7 @@ msgstr "Αρχεία"
 
 #: ulng.rssimplewordletter
 msgid "Letter"
-msgstr ""
+msgstr "Γράμμα"
 
 #: ulng.rssimplewordparameter
 msgid "Param"
@@ -12301,4 +12277,3 @@ msgstr "Αριθμός αντικατάστασης: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Δεν πραγματοποιήθηκε καμία αντικατάσταση."
-
