@@ -75,7 +75,7 @@ const
   RLIM_INFINITY = rlim_t(-1);
   {$ELSEIF DEFINED(BSD)}
   _SC_OPEN_MAX  = 5;
-  RLIM_INFINITY = rlim_t((QWord(1) shl 63) - 1);
+  RLIM_INFINITY = rlim_t(High(QWord) shr 1);
   {$ENDIF}
 
 function sysconf(name: cint): clong; cdecl; external clib;
