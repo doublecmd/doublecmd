@@ -65,13 +65,18 @@ implementation
 uses
   SysUtils, Unix, DCConvertEncoding;
 
+{$IF DEFINED(BSD)}
+type rlim_t = Int64;
+{$ENDIF}
+
 const
   {$IF DEFINED(LINUX)}
-  _SC_OPEN_MAX = 4;
-  {$ELSEIF DEFINED(BSD)}
-  _SC_OPEN_MAX = 5;
-  {$ENDIF}
+  _SC_OPEN_MAX  = 4;
   RLIM_INFINITY = rlim_t(-1);
+  {$ELSEIF DEFINED(BSD)}
+  _SC_OPEN_MAX  = 5;
+  RLIM_INFINITY = rlim_t((QWord(1) shl 63) - 1);
+  {$ENDIF}
 
 function sysconf(name: cint): clong; cdecl; external clib;
 function lchown(path : PChar; owner : TUid; group : TGid): cInt; cdecl; external clib name 'lchown';
