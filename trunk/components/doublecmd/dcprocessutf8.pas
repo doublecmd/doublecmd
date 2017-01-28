@@ -21,14 +21,19 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   , Process, Windows, Pipes
   {$ELSEIF DEFINED(UNIX)}
-  , UTF8Process
+  , UTF8Process, DCUnix
   {$ENDIF}
   ;
 
 type
   { TProcessUtf8 }
   {$IF DEFINED(UNIX)}
-  TProcessUtf8 = UTF8Process.TProcessUTF8;
+  TProcessUtf8 = class(UTF8Process.TProcessUTF8)
+  private
+    procedure DoForkEvent(Sender : TObject);
+  public
+    constructor Create(AOwner : TComponent); override;
+  end;
   {$ELSEIF DEFINED(MSWINDOWS)}
   TProcessUtf8 = class(TProcess)
   public
@@ -38,7 +43,26 @@ type
 
 implementation
 
-{$IF DEFINED(MSWINDOWS)}
+{$IF DEFINED(UNIX)}
+
+{ TProcessUtf8 }
+
+procedure TProcessUtf8.DoForkEvent(Sender: TObject);
+begin
+  FileCloseOnExecAll;
+end;
+
+constructor TProcessUtf8.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  {$IF (FPC_FULLVERSION >= 30000)}
+  OnForkEvent:= @DoForkEvent;
+  {$ELSE}
+  OnForkEvent:= @FileCloseOnExecAll;
+  {$ENDIF}
+end;
+
+{$ELSEIF DEFINED(MSWINDOWS)}
 
 {$WARN SYMBOL_DEPRECATED OFF}
 
