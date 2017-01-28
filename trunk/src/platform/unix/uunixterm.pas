@@ -189,7 +189,7 @@ function execl(__path:Pchar; __arg:Pchar):longint;cdecl;varargs;external clib na
 implementation
 
 uses
-  uDebug;
+  DCUnix, uDebug;
 
 { TUnixConThread }
 
@@ -480,6 +480,7 @@ begin
   if ChildPid=0 then
   begin
     //Child
+    FileCloseOnExecAll;
     setenv('TERM', 'linux', 1);
     execl(pchar(cmd), pchar(params), nil);
     
