@@ -486,7 +486,7 @@ begin
     
     //если execl не сработал и новый процесс не подменил форкнутый, то ошибка
     fpWrite(C_stderr, pchar('execl() failed. Command: '+ cmd),length('execl() failed. Command: '+ cmd));
-    exit(127);  // error exec'ing
+    fpExit(127);  // error exec'ing
   end;
 FChildPid:=ChildPid;
 Result:=ChildPid;
