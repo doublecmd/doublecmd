@@ -222,6 +222,7 @@ procedure TFileViewWithMainCtrl.cm_ContextMenu(const Params: array of string);
 var
   Rect: TRect;
   Point: TPoint;
+  AFileIndex: PtrInt;
   UserWishForContextMenu: TUserWishForContextMenu = uwcmComplete;
   bUserWishJustActionMenu: boolean;
 begin
@@ -236,11 +237,19 @@ begin
       UserWishForContextMenu:=uwcmComplete;
   end;
 
-  Rect := GetFileRect(GetActiveFileIndex);
-  Point.X := Rect.Left + ((Rect.Right - Rect.Left) div 2);
-  Point.Y := Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
+  AFileIndex:= GetActiveFileIndex;
+  if AFileIndex < 0 then
+  begin
+    Point.X:= 0;
+    Point.Y:= 0;
+  end
+  else begin
+    Rect := GetFileRect(AFileIndex);
+    Point.X := Rect.Left + ((Rect.Right - Rect.Left) div 2);
+    Point.Y := Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
+  end;
   Point := MainControl.ClientToScreen(Point);
-  SetCursorPos(Point.X+100, Point.Y+25);
+  // SetCursorPos(Point.X+100, Point.Y+25);
   frmMain.Commands.DoContextMenu(Self, Point.X, Point.Y, False, UserWishForContextMenu);
 end;
 

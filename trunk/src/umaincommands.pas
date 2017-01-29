@@ -743,8 +743,9 @@ begin
     if not Panel.HasSelectedFiles then
     begin
       aFile:= Panel.CloneActiveFile;
-      if Assigned(aFile) then
-      begin
+      if not Assigned(aFile) then
+        Background:= True
+      else begin
         sName:= aFile.Name;
         FreeAndNil(aFile);
       end;
