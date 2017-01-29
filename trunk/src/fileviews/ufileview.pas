@@ -363,11 +363,6 @@ type
                        AFileView: TFileView;
                        AFlags: TFileViewFlags = []); virtual reintroduce;
     constructor Create(AOwner: TWinControl;
-                       {%H-}AConfig: TIniFileEx;
-                       ASectionName: String;
-                       ATabIndex: Integer;
-                       AFlags: TFileViewFlags = []); virtual reintroduce;
-    constructor Create(AOwner: TWinControl;
                        AConfig: TXmlConfig;
                        ANode: TXmlNode;
                        AFlags: TFileViewFlags = []); virtual reintroduce;
@@ -436,8 +431,6 @@ type
 
     // For now we use here the knowledge that there are tabs.
     // Config should be independent of that in the future.
-    procedure LoadConfiguration({%H-}Section: String; {%H-}TabIndex: Integer); virtual;
-    procedure SaveConfiguration({%H-}Section: String; {%H-}TabIndex: Integer); virtual;
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); virtual;
 
@@ -635,27 +628,6 @@ begin
     if Assigned(FileSource) then
       FileSource.AddReloadEventListener(@ReloadEvent);
     UpdateView;
-  finally
-    EnableAutoSizing;
-  end;
-end;
-
-constructor TFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer; AFlags: TFileViewFlags = []);
-begin
-  DisableAutoSizing;
-  try
-    FFlags := AFlags;
-    CreateDefault(AOwner);
-    LoadConfiguration(ASectionName, ATabIndex);
-
-    // Update view before making file source file list,
-    // so that file list isn't unnecessarily displayed twice.
-    UpdateView;
-
-    if FileSourcesCount > 0 then
-    begin
-      MakeFileSourceFileList;
-    end;
   finally
     EnableAutoSizing;
   end;
@@ -2480,16 +2452,6 @@ begin
     end;
   end;
   SetLoadingFileListLongTime(False);
-end;
-
-procedure TFileView.LoadConfiguration(Section: String; TabIndex: Integer);
-begin
-  // Empty. For backward compatibility with loading from INI.
-end;
-
-procedure TFileView.SaveConfiguration(Section: String; TabIndex: Integer);
-begin
-  // Empty. For backward compatibility with saving to INI.
 end;
 
 procedure TFileView.LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);

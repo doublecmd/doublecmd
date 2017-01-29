@@ -86,10 +86,7 @@ end;
 
 procedure TfrmOptionsConfiguration.btnConfigEditClick(Sender: TObject);
 begin
-  if Assigned(gIni) then
-    ShowEditorByGlob(gpCfgDir + 'doublecmd.ini')
-  else
-    ShowEditorByGlob(gpCfgDir + 'doublecmd.xml');
+  ShowEditorByGlob(gpCfgDir + 'doublecmd.xml');
   btnConfigApply.Enabled:= True;
 end;
 

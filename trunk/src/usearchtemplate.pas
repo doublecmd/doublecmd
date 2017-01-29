@@ -58,9 +58,7 @@ type
     function Add(SearchTemplate: TSearchTemplate): Integer;
     procedure DeleteTemplate(Index: Integer);
     procedure LoadToStringList(StringList: TStrings);
-    procedure LoadFromIni(IniFile: TIniFileEx);
     procedure LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
-    procedure SaveToIni(IniFile: TIniFileEx);
     procedure SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode);
     property TemplateByName[const AName: String]: TSearchTemplate read GetTemplate;
     property Templates[Index: Integer]: TSearchTemplate read GetTemplate;
@@ -168,70 +166,6 @@ end;
 const
   cSection = 'SearchTemplates';
 
-procedure TSearchTemplateList.LoadFromIni(IniFile: TIniFileEx);
-var
-  I, iCount: Integer;
-  sTemplate: String;
-  SearchTemplate: TSearchTemplate;
-  FloatNotOlderThan: Double;
-  iAttr: LongInt;
-begin
-  Clear;
-
-  iCount:= IniFile.ReadInteger(cSection, 'TemplateCount', 0);
-  for I:= 0 to iCount - 1 do
-    begin
-      SearchTemplate:= TSearchTemplate.Create;
-      with SearchTemplate.FSearchRecord do
-      begin
-        sTemplate:= 'Template' + IntToStr(I+1);
-        SearchTemplate.TemplateName:= IniFile.ReadString(cSection, sTemplate+'Name', '');
-        StartPath:= IniFile.ReadString(cSection, sTemplate+'StartPath', '');
-        FilesMasks:= IniFile.ReadString(cSection, sTemplate+'FileMask', '*');
-        iAttr:= IniFile.ReadInteger(cSection, sTemplate+'Attributes', faAnyFile);
-        if iAttr <> faAnyFile then
-          AttributesPattern := FileAttrToStr(TFileAttrs(iAttr));
-        //AttributesPattern:= IniFile.ReadString(cSection, sTemplate+'AttribStr', '');
-        // date/time
-        CaseSensitive:= IniFile.ReadBool(cSection, sTemplate+'CaseSens', False);
-        IsDateFrom:= IniFile.ReadBool(cSection, sTemplate+'IsDateFrom', False);
-        IsDateTo:= IniFile.ReadBool(cSection, sTemplate+'IsDateTo', False);
-        IsTimeFrom:= IniFile.ReadBool(cSection, sTemplate+'IsTimeFrom', False);
-        IsTimeTo:= IniFile.ReadBool(cSection, sTemplate+'IsTimeTo', False);
-        if IsDateFrom or IsTimeFrom then
-          DateTimeFrom:= IniFile.ReadDateTime(cSection, sTemplate+'DateTimeFrom', 0);
-        if IsDateTo or IsTimeTo then
-          DateTimeTo:= IniFile.ReadDateTime(cSection, sTemplate+'DateTimeTo', Now);
-        // not older than
-        IsNotOlderThan:= IniFile.ReadBool(cSection, sTemplate+'IsNotOlderThan', False);
-        if IsNotOlderThan then
-        begin
-          FloatNotOlderThan:= IniFile.ReadFloat(cSection, sTemplate+'NotOlderThan', 0);
-          NotOlderThan:= Trunc(FloatNotOlderThan);
-          NotOlderThanUnit:= TTimeUnit(Round(Frac(FloatNotOlderThan)*10) + 1);
-        end;
-        // file size
-        IsFileSizeFrom:= IniFile.ReadBool(cSection, sTemplate+'IsFileSizeFrom', False);
-        IsFileSizeTo:= IniFile.ReadBool(cSection, sTemplate+'IsFileSizeTo', False);
-        if IsFileSizeFrom then
-          FileSizeFrom:= IniFile.ReadInteger(cSection, sTemplate+'FileSizeFrom', 0);
-        if IsFileSizeTo then
-          FileSizeTo:= IniFile.ReadInteger(cSection, sTemplate+'FileSizeTo', MaxInt);
-        // find text
-        NotContainingText:= IniFile.ReadBool(cSection, sTemplate+'IsNoThisText', False);
-        IsFindText:= IniFile.ReadBool(cSection, sTemplate+'FindInFiles', False);
-        if IsFindText then
-          FindText:= IniFile.ReadString(cSection, sTemplate+'FindData', '');
-        // replace text
-        IsReplaceText:= IniFile.ReadBool(cSection, sTemplate+'ReplaceInFiles', False);
-        if IsReplaceText then
-          ReplaceText:= IniFile.ReadString(cSection, sTemplate+'ReplaceData', '');
-      end;
-      SearchTemplate.MakeFileChecks;
-      Add(SearchTemplate);
-    end;
-end;
-
 procedure TSearchTemplateList.LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   Index: Integer;
@@ -333,59 +267,6 @@ begin
       ANode := ANode.NextSibling;
     end;
   end;
-end;
-
-procedure TSearchTemplateList.SaveToIni(IniFile: TIniFileEx);
-var
-  I: Integer;
-  sTemplate: String;
-  FloatNotOlderThan: Double;
-begin
-  IniFile.EraseSection(cSection);
-  IniFile.WriteInteger(cSection, 'TemplateCount', Count);
-  for I:= 0 to Count - 1 do
-    with Templates[I].SearchRecord do
-    begin
-      sTemplate:= 'Template' + IntToStr(I+1);
-      IniFile.WriteString(cSection, sTemplate+'Name', Templates[I].TemplateName);
-      IniFile.WriteString(cSection, sTemplate+'StartPath', StartPath);
-      IniFile.WriteString(cSection, sTemplate+'FileMask', FilesMasks);
-      //IniFile.WriteInteger(cSection, sTemplate+'Attributes', Attributes);
-      //IniFile.WriteString(cSection, sTemplate+'AttribStr', AttributesPattern);
-      // date/time
-      IniFile.WriteBool(cSection, sTemplate+'CaseSens', CaseSensitive);
-      IniFile.WriteBool(cSection, sTemplate+'IsDateFrom', IsDateFrom);
-      IniFile.WriteBool(cSection, sTemplate+'IsDateTo', IsDateTo);
-      IniFile.WriteBool(cSection, sTemplate+'IsTimeFrom', IsTimeFrom);
-      IniFile.WriteBool(cSection, sTemplate+'IsTimeTo', IsTimeTo);
-      if IsDateFrom or IsTimeFrom then
-        IniFile.WriteDateTime(cSection, sTemplate+'DateTimeFrom', DateTimeFrom);
-      if IsDateTo or IsTimeTo then
-        IniFile.WriteDateTime(cSection, sTemplate+'DateTimeTo', DateTimeTo);
-      // not older than
-      IniFile.WriteBool(cSection, sTemplate+'IsNotOlderThan', IsNotOlderThan);
-      if IsNotOlderThan then
-      begin
-        FloatNotOlderThan := Double(NotOlderThan) + Double(Integer(NotOlderThanUnit) - 1) / 10;
-        IniFile.WriteFloat(cSection, sTemplate+'NotOlderThan', FloatNotOlderThan);
-      end;
-      // file size
-      IniFile.WriteBool(cSection, sTemplate+'IsFileSizeFrom', IsFileSizeFrom);
-      IniFile.WriteBool(cSection, sTemplate+'IsFileSizeTo', IsFileSizeTo);
-      if IsFileSizeFrom then
-        IniFile.WriteInteger(cSection, sTemplate+'FileSizeFrom', FileSizeFrom);
-      if IsFileSizeTo then
-        IniFile.WriteInteger(cSection, sTemplate+'FileSizeTo', FileSizeTo);
-      // find text
-      IniFile.WriteBool(cSection, sTemplate+'IsNoThisText', NotContainingText);
-      IniFile.WriteBool(cSection, sTemplate+'FindInFiles', IsFindText);
-      if IsFindText then
-        IniFile.WriteString(cSection, sTemplate+'FindData', FindText);
-      // replace text
-      IniFile.WriteBool(cSection, sTemplate+'ReplaceInFiles', IsReplaceText);
-      if IsReplaceText then
-        IniFile.WriteString(cSection, sTemplate+'ReplaceData', ReplaceText);
-    end;
 end;
 
 procedure TSearchTemplateList.SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode);

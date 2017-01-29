@@ -184,9 +184,7 @@ type
     constructor Create; reintroduce;
     destructor Destroy; override;
   public
-    procedure Load(Ini: TIniFileEx); overload;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
-    procedure Save(Ini: TIniFileEx); overload;
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     function Add(Ext: String; FileName: String): Integer; reintroduce;
     function FindFirstEnabledByName(Name: String): Integer;
@@ -771,26 +769,6 @@ begin
   inherited Destroy;
 end;
 
-procedure TWFXModuleList.Load(Ini: TIniFileEx);
-var
-  I: Integer;
-  sCurrPlugin: String;
-  LEnabled: Boolean;
-begin
-  Ini.ReadSectionRaw('FileSystemPlugins', Self);
-  for I:= 0 to Count - 1 do
-  begin
-    sCurrPlugin := Name[I];
-    if (sCurrPlugin = '') then
-      Continue;
-
-    LEnabled := (sCurrPlugin[1] <> '#');
-    Enabled[I]:= LEnabled;
-    if not LEnabled then
-      Name[I]:= Copy(sCurrPlugin, 2, MaxInt);
-  end;
-end;
-
 procedure TWFXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   I: Integer;
@@ -817,23 +795,6 @@ begin
       end;
       ANode := ANode.NextSibling;
     end;
-  end;
-end;
-
-procedure TWFXModuleList.Save(Ini: TIniFileEx);
-var
- I: Integer;
- LName: String;
-begin
-  Ini.EraseSection('FileSystemPlugins');
-  for I := 0 to Count - 1 do
-  begin
-    if Enabled[I] then
-      LName := Name[I]
-    else
-      LName := '#' + Name[I];
-
-    Ini.WriteString('FileSystemPlugins', LName, FileName[I]);
   end;
 end;
 

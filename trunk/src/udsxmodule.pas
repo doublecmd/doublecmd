@@ -81,9 +81,7 @@ type
     //---------------------
     procedure Clear;
     procedure Exchange(Index1, Index2: Integer);
-    procedure Load(Ini: TIniFileEx); overload;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
-    procedure Save(Ini: TIniFileEx); overload;
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure DeleteItem(Index: integer);
     //---------------------
@@ -233,28 +231,6 @@ begin
   FList.Exchange(Index1, Index2);
 end;
 
-procedure TDSXModuleList.Load(Ini: TIniFileEx);
-var
-  xCount, I: integer;
-  tmp: string;
-begin
-  Self.Clear;
-  xCount := Ini.ReadInteger('Search Plugins', 'PluginCount', 0);
-  if xCount = 0 then
-    Exit;
-
-  for i := 0 to xCount - 1 do
-  begin
-    tmp := Ini.ReadString('Search Plugins', 'Plugin' + IntToStr(I + 1) + 'Name', '');
-    Flist.AddObject(UpCase(tmp), TDSXModule.Create);
-    TDSXModule(Flist.Objects[I]).Name := tmp;
-    TDSXModule(Flist.Objects[I]).Descr :=
-      Ini.ReadString('Search Plugins', 'Plugin' + IntToStr(I + 1) + 'Description', '');
-    TDSXModule(Flist.Objects[I]).FileName :=
-      GetCmdDirFromEnvVar(Ini.ReadString('Search Plugins', 'Plugin' + IntToStr(I + 1) + 'Path', ''));
-  end;
-end;
-
 procedure TDSXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   AName, APath: String;
@@ -284,23 +260,6 @@ begin
       end;
       ANode := ANode.NextSibling;
     end;
-  end;
-end;
-
-procedure TDSXModuleList.Save(Ini: TIniFileEx);
-var
-  i: integer;
-begin
-  Ini.EraseSection('Search Plugins');
-  Ini.WriteInteger('Search Plugins', 'PluginCount', Flist.Count);
-  for i := 0 to Flist.Count - 1 do
-  begin
-    Ini.WriteString('Search Plugins', 'Plugin' + IntToStr(I + 1) + 'Name',
-      TDSXModule(Flist.Objects[I]).Name);
-    Ini.WriteString('Search Plugins', 'Plugin' + IntToStr(I + 1) +
-      'Description', TDSXModule(Flist.Objects[I]).Descr);
-    Ini.WriteString('Search Plugins', 'Plugin' + IntToStr(I + 1) + 'Path',
-      SetCmdDirAsEnvVar(TDSXModule(Flist.Objects[I]).FileName));
   end;
 end;
 

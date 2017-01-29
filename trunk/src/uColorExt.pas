@@ -50,7 +50,6 @@ type
 
   TColorExt = class
   private
-    fOldCount: Integer;
     lslist: TList;
 
     function GetCount: Integer;
@@ -65,8 +64,6 @@ type
     function GetColorByExt(const sExt: String): TColor;
     function GetColorByAttr(const sModeStr: String): TColor;
     function GetColorBy(const AFile: TFile): TColor;
-    procedure LoadIni;
-    procedure SaveIni;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
 
@@ -240,61 +237,6 @@ Added Attributes:
 !!! The "?" and other regular expressions DOES NOT SUPPORTED
 
 }
-
-procedure TColorExt.LoadIni;
-var
-  sExtMask,
-  sAttr,
-  sName: String;
-  iColor,
-  I : Integer;
-begin
-  I := 1;
-
-  Clear;
-
-  while gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '') <> '' do
-    begin
-      sExtMask := gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '');
-      iColor := gIni.ReadInteger('Colors', 'ColorFilter' + IntToStr(I) + 'Color', clWindowText);
-      sName:=gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I)+'Name', '');
-      sAttr := gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I) + 'Attributes', '');
-
-      lsList.Add(TMaskItem.Create);
-      TMaskItem(lsList[lsList.Count-1]).sName:=sName;
-      TMaskItem(lsList[lsList.Count-1]).cColor:=iColor;
-      TMaskItem(lsList[lsList.Count-1]).sExt:=sExtMask;
-      TMaskItem(lsList[lsList.Count-1]).sModeStr:=sAttr;
-
-      fOldCount := I;
-      Inc(I);
-    end; // while gIni.ReadString();
-end;
-
-procedure TColorExt.SaveIni;
-var
-  I : Integer;
-begin
-
-  if (not assigned(lslist))  then exit;
-
-  for I:=0 to lslist.Count - 1 do
-    begin
-      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I+1), TMaskItem(lsList[I]).sExt);
-      gIni.WriteInteger('Colors', 'ColorFilter' + IntToStr(I+1) + 'Color', TMaskItem(lsList[I]).cColor);
-      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I+1)+'Name', TMaskItem(lsList[I]).sName);
-      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I+1) + 'Attributes', TMaskItem(lsList[I]).sModeStr);
-    end;
-
-  // delete old not used filters
-  for I := lslist.Count + 1 to fOldCount do
-    begin
-      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I));
-      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I) + 'Color');
-      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I)+'Name');
-      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I) + 'Attributes');
-    end;
-end;
 
 procedure TColorExt.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
