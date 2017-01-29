@@ -566,10 +566,8 @@ function LoadConfig: Boolean;
 function InitGlobs: Boolean;
 function LoadGlobs: Boolean;
 procedure SaveGlobs;
-procedure LoadIniConfig;
 procedure LoadXmlConfig;
 procedure SaveXmlConfig;
-procedure ConvertIniToXml;
 
 procedure LoadDefaultHotkeyBindings;
 
@@ -589,7 +587,6 @@ const
   cMaxStringItems=50;
   
 var
-  gIni: TIniFileEx = nil;
   gConfig: TXmlConfig = nil;
 
 implementation
@@ -1165,32 +1162,6 @@ begin
   end;
 end;
 
-procedure ConvertIniToXml;
-var
-  MultiRename: TfrmMultiRename = nil;
-  tmpFiles: TFiles = nil;
-begin
-  SaveXmlConfig;
-
-  // Force loading Multi-rename config if it wasn't used yet.
-  tmpFiles := TFiles.Create(mbGetCurrentDir);
-  MultiRename := TfrmMultiRename.Create(nil, nil, tmpFiles);
-  try
-    MultiRename.LoadPresetsIni(gIni);
-    MultiRename.PublicSavePresets;
-  finally
-    FreeThenNil(MultiRename);
-    FreeThenNil(tmpFiles);
-  end;
-
-  FreeAndNil(gIni);
-
-  if mbFileExists(gpGlobalCfgDir + 'doublecmd.ini') then
-    mbRenameFile(gpGlobalCfgDir + 'doublecmd.ini', gpGlobalCfgDir + 'doublecmd.ini.obsolete');
-  if mbFileExists(gpCfgDir + 'doublecmd.ini') then
-    mbRenameFile(gpCfgDir + 'doublecmd.ini', gpCfgDir + 'doublecmd.ini.obsolete');
-end;
-
 procedure CopySettingsFiles;
 begin
   { Create default configuration files if need }
@@ -1255,7 +1226,6 @@ begin
   FreeThenNil(glsSearchExcludeFiles);
   FreeThenNil(glsSearchExcludeDirectories);
   FreeThenNil(gExts);
-  FreeThenNil(gIni);
   FreeThenNil(gConfig);
   FreeThenNil(gSearchTemplateList);
   FreeThenNil(gDSXPlugins);
@@ -1824,48 +1794,6 @@ begin
     end;
   end;
 
-  if not Assigned(gConfig) then
-  begin
-    // Open INI config if present.
-
-    // Check global directory for INI config.
-    if not Assigned(gIni) and mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenRead or fmShareDenyWrite) then
-    begin
-      gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini', fmOpenRead or fmShareDenyWrite);
-      gUseConfigInProgramDir := gIni.ReadBool('Configuration', 'UseIniInProgramDir', False);
-      if not gUseConfigInProgramDir then
-        FreeAndNil(gIni)
-      else
-      begin
-        if mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenWrite or fmShareDenyWrite) then
-        begin
-          FreeAndNil(gIni);
-          gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini', fmOpenWrite or fmShareDenyWrite);
-        end
-        else begin
-          DCDebug('Warning: Config file "' + gpGlobalCfgDir + 'doublecmd.ini' +
-                  '" is not accessible for writing. Configuration will not be saved.');
-        end;
-      end;
-    end;
-
-    // Check user directory for INI config.
-    if not Assigned(gIni) and mbFileAccess(gpCfgDir + 'doublecmd.ini', fmOpenRead or fmShareDenyWrite) then
-    begin
-      gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini', fmOpenRead or fmShareDenyWrite);
-      gUseConfigInProgramDir := False;
-    end;
-
-    if Assigned(gIni) then
-    begin
-      DebugLn('Converted old configuration from ' + gIni.FileName);
-      if gUseConfigInProgramDir then
-        gConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml')
-      else
-        gConfig := TXmlConfig.Create(gpCfgDir + 'doublecmd.xml');
-    end;
-  end;
-
   // By default use config in user directory.
   if not Assigned(gConfig) then
   begin
@@ -1906,9 +1834,7 @@ begin
   DCDebug('Loading configuration from ', gpCfgDir);
 
   SetDefaultConfigGlobs;
-  if Assigned(gIni) then
-    LoadIniConfig
-  else if Assigned(gConfig) then
+  if Assigned(gConfig) then
     LoadXmlConfig
   else
   begin
@@ -2001,7 +1927,6 @@ end;
 procedure SaveGlobs;
 var
   TmpConfig: TXmlConfig;
-  Ini: TIniFileEx = nil;
   ErrMsg: String = '';
 begin
   if (gUseConfigInProgramDirNew <> gUseConfigInProgramDir) and
@@ -2015,21 +1940,6 @@ begin
       end;
 
       { Save location of configuration files }
-
-      if Assigned(gIni) then
-      begin
-        // Still using INI config.
-        FreeThenNil(gIni);
-        try
-          Ini:= TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini');
-          Ini.WriteBool('Configuration', 'UseIniInProgramDir', gUseConfigInProgramDirNew);
-          Ini.UpdateFile;
-        finally
-          FreeThenNil(Ini);
-        end;
-        gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
-      end;
-
       if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenWrite or fmShareDenyWrite) then
       begin
         TmpConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml', True);
@@ -2055,240 +1965,6 @@ begin
   end
   else
     DebugLn('Not saving configuration - no write access to ', gpCfgDir);
-end;
-
-procedure LoadIniConfig;
-var
-  oldQuickSearch: Boolean = True;
-  oldQuickFilter: Boolean = False;
-  oldQuickSearchMode: TShiftState = [ssCtrl, ssAlt];
-  oldQuickFilterMode: TShiftState = [];
-  glsHotDirTempoLegacyConversion:TStringListEx;
-  LocalHotDir: THotDir;
-  IndexHotDir: integer;
-begin
-  { Layout page }
-
-  gButtonBar := gIni.ReadBool('Layout', 'ButtonBar', True);
-  gToolBarFlat := gIni.ReadBool('ButtonBar', 'FlatIcons', True);
-  gToolBarButtonSize := gIni.ReadInteger('ButtonBar', 'ButtonHeight', 16);
-  gToolBarIconSize := gIni.ReadInteger('ButtonBar', 'SmallIconSize', 16);
-  gDriveBar1 := gIni.ReadBool('Layout', 'DriveBar1', True);
-  gDriveBar2 := gIni.ReadBool('Layout', 'DriveBar2', True);
-  gDriveBarFlat := gIni.ReadBool('Layout', 'DriveBarFlat', True);
-  gDrivesListButton := gIni.ReadBool('Layout', 'DriveMenuButton', True);
-  gDirectoryTabs := gIni.ReadBool('Layout', 'DirectoryTabs', True);
-  gCurDir := gIni.ReadBool('Layout', 'CurDir', True);
-  gTabHeader := gIni.ReadBool('Layout', 'TabHeader', True);
-  gStatusBar := gIni.ReadBool('Layout', 'StatusBar', True);
-  gCmdLine := gIni.ReadBool('Layout', 'CmdLine', True);
-  gLogWindow := gIni.ReadBool('Layout', 'LogWindow', True);
-  gTermWindow := gIni.ReadBool('Layout', 'TermWindow', False);
-  gKeyButtons := gIni.ReadBool('Layout', 'KeyButtons', True);
-  gInterfaceFlat := gIni.ReadBool('Layout', 'InterfaceFlat', True);
-
-  gShowSystemFiles := gIni.ReadBool('Configuration', 'ShowSystemFiles', False);
-  gPOFileName := gIni.ReadString('Configuration', 'Language', '?');
-
-  DoLoadLng;
-
-  gRunInTermStayOpenCmd := gIni.ReadString('Configuration', 'RunInTerm', gRunInTermStayOpenCmd);
-  gOnlyOneAppInstance:= gIni.ReadBool('Configuration', 'OnlyOnce', False);
-  if gIni.ReadBool('Configuration', 'CaseSensitiveSort', False) = False then
-    gSortCaseSensitivity := cstNotSensitive
-  else
-    gSortCaseSensitivity := cstLocale;
-  gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
-  if gIni.ValueExists('Configuration', 'ShortFileSizeFormat') then
-  begin
-    if gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True) then
-      gFileSizeFormat := fsfFloat
-    else
-      gFileSizeFormat := fsfByte;
-  end
-  else
-    gFileSizeFormat := TFileSizeFormat(gIni.ReadInteger('Configuration', 'FileSizeFormat', Ord(fsfFloat)));
-  gScrollMode := TScrollMode(gIni.ReadInteger('Configuration', 'ScrollMode', Integer(gScrollMode)));
-  gMinimizeToTray := gIni.ReadBool('Configuration', 'MinimizeToTray', False);
-  gAlwaysShowTrayIcon := gIni.ReadBool('Configuration', 'AlwaysShowTrayIcon', False);
-  gDateTimeFormat := GetValidDateTimeFormat(gIni.ReadString('Configuration', 'DateTimeFormat', DefaultDateTimeFormat), DefaultDateTimeFormat);
-  gDriveBlackList:= gIni.ReadString('Configuration', 'DriveBlackList', '');
-  gSpaceMovesDown := gIni.ReadBool('Configuration', 'SpaceMovesDown', False);
-
-  {$IFNDEF LCLCARBON}
-  // Under Mac OS X loading file list in separate thread are very very slow
-  // so disable and hide this option under Mac OS X Carbon
-  gListFilesInThread := gIni.ReadBool('Configuration', 'ListFilesInThread', gListFilesInThread);
-  {$ENDIF}
-  gLoadIconsSeparately := gIni.ReadBool('Configuration', 'LoadIconsSeparately', gLoadIconsSeparately);
-
-  gMouseSelectionEnabled:= gIni.ReadBool('Configuration', 'MouseSelectionEnabled', True);
-  gMouseSelectionButton := gIni.ReadInteger('Configuration', 'MouseSelectionButton', 0);
-
-  gAutoFillColumns:= gIni.ReadBool('Configuration', 'AutoFillColumns', False);
-  gAutoSizeColumn := gIni.ReadInteger('Configuration', 'AutoSizeColumn', 1);
-  gCustomColumnsChangeAllColumns := gIni.ReadBool('Configuration', 'CustomColumnsChangeAllColumns', gCustomColumnsChangeAllColumns);
-
-  // Loading tabs relating option respecting legacy order of options setting and wanted default values.
-  // The legacy default choice will still be to close on double click if it was set to that before. But if it was not, let's set to Favorite Tabs, then, by default of first start of new version.
-  gDirTabOptions := TTabsOptions(gIni.ReadInteger('Configuration', 'DirTabOptions', Integer(gDirTabOptions)))+[tb_close_on_doubleclick, tb_reusing_tab_when_possible, tb_confirm_close_locked_tab];
-  gDirTabLimit :=  gIni.ReadInteger('Configuration', 'DirTabLimit', 32);
-  gDirTabPosition := TTabsPosition(gIni.ReadInteger('Configuration', 'DirTabPosition', Integer(gDirTabPosition)));
-  gDirTabActionOnDoubleClick := tadc_CloseTab;
-
-  gExternalTools[etEditor].Enabled := gIni.ReadBool('Configuration', 'UseExtEdit', False);
-  gExternalTools[etViewer].Enabled := gIni.ReadBool('Configuration', 'UseExtView', False);
-  gExternalTools[etDiffer].Enabled := gIni.ReadBool('Configuration', 'UseExtDiff', False);
-  gExternalTools[etEditor].Path := gIni.ReadString('Configuration', 'ExtEdit', '');
-  gExternalTools[etViewer].Path := gIni.ReadString('Configuration', 'ExtView', '');
-  gExternalTools[etDiffer].Path := gIni.ReadString('Configuration', 'ExtDiff', '');
-
-  gRunTermCmd := gIni.ReadString('Configuration', 'RunTerm', RunTermCmd);
-
-  gLuaLib:=gIni.ReadString('Configuration', 'LuaLib', gLuaLib);
-
-  { Fonts }
-  gFonts[dcfMain].Name:=gIni.ReadString('Configuration', 'Font.Name', 'default');
-  gFonts[dcfEditor].Name:=gIni.ReadString('Editor', 'Font.Name', MonoSpaceFont);
-  gFonts[dcfViewer].Name:=gIni.ReadString('Viewer', 'Font.Name', MonoSpaceFont);
-  gFonts[dcfOptionsTree].Name:=gIni.ReadString('OptionsTree', 'Font.Name', 'default');
-  gFonts[dcfOptionsMain].Name:=gIni.ReadString('OptionsMain', 'Font.Name', 'default');
-
-  gFonts[dcfSearchResults].Name:=gIni.ReadString('SearchResults', 'Font.Name', MonoSpaceFont);
-  gFonts[dcfPathEdit].Name:=gIni.ReadString('PathEdit', 'Font.Name', MonoSpaceFont);
-  gFonts[dcfFunctionButtons].Name:=gIni.ReadString('FunctionButtons', 'Font.Name', MonoSpaceFont);
-
-
-  gFonts[dcfMain].Size:=gIni.ReadInteger('Configuration', 'Font.Size', 10);
-  gFonts[dcfEditor].Size:=gIni.ReadInteger('Editor', 'Font.Size', 14);
-  gFonts[dcfViewer].Size:=gIni.ReadInteger('Viewer', 'Font.Size', 14);
-  gFonts[dcfOptionsTree].Size:=gIni.ReadInteger('OptionsTree', 'Font.Size', 10);
-  gFonts[dcfOptionsMain].Size:=gIni.ReadInteger('OptionsMain', 'Font.Size', 10);
-
-
-  gFonts[dcfSearchResults].Size:=gIni.ReadInteger('SearchResults', 'Font.Size', 12);
-  gFonts[dcfPathEdit].Size:=gIni.ReadInteger('PathEdit', 'Font.Size', 8);
-  gFonts[dcfFunctionButtons].Size:=gIni.ReadInteger('FunctionButtons', 'Font.Size', 8);
-
-  gFonts[dcfMain].Style := TFontStyles(gIni.ReadInteger('Configuration', 'Font.Style', 1));
-  gFonts[dcfEditor].Style := TFontStyles(gIni.ReadInteger('Editor', 'Font.Style', 0));
-  gFonts[dcfViewer].Style := TFontStyles(gIni.ReadInteger('Viewer', 'Font.Style', 0));
-  gFonts[dcfOptionsTree].Style:=TFontStyles(gIni.ReadInteger('OptionsTree', 'Font.Style', 10));
-  gFonts[dcfOptionsMain].Style:=TFontStyles(gIni.ReadInteger('OptionsMain', 'Font.Style', 10));
-
-  { Colors }
-  gUseCursorBorder := gIni.ReadBool('(Colors', 'UseCursorBorder', gUseCursorBorder);
-  gCursorBorderColor := gIni.ReadInteger('Colors', 'CursorBorderColor', gCursorBorderColor);
-  gUseFrameCursor := gIni.ReadBool('Colors', 'UseFrameCursor', gUseFrameCursor);
-  gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', gForeColor);
-  gBackColor := gIni.ReadInteger('Colors', 'BackColor', gBackColor);
-  gBackColor2 := gIni.ReadInteger('Colors', 'BackColor2', gBackColor2);
-  gMarkColor := gIni.ReadInteger('Colors', 'MarkColor', gMarkColor);
-  gCursorColor := gIni.ReadInteger('Colors', 'CursorColor', gCursorColor);
-  gCursorText := gIni.ReadInteger('Colors', 'CursorText', gCursorText);
-  gInactiveCursorColor := gIni.ReadInteger('Colors', 'InactiveCursorColor', gInactiveCursorColor);
-  gInactiveMarkColor := gIni.ReadInteger('Colors', 'InactiveMarkColor', gInactiveMarkColor);
-  gUseInvertedSelection := gIni.ReadBool('Colors', 'UseInvertedSelection', gUseInvertedSelection);
-  gUseInactiveSelColor := gIni.ReadBool('Colors', 'UseInactiveSelColor', gUseInactiveSelColor);
-  gAllowOverColor   := gIni.ReadBool('Colors', 'AllowOverColor', gAllowOverColor);
-  gBorderFrameWidth := gIni.ReadInteger('Colors', 'gBorderFrameWidth', gBorderFrameWidth);
-  gInactivePanelBrightness := gIni.ReadInteger('Colors', 'InactivePanelBrightness', gInactivePanelBrightness);
-
-  { File operations }
-  gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 65536);
-  gSkipFileOpError:= gIni.ReadBool('Configuration', 'SkipFileOpError', False);
-  gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
-  gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
-  gWipePassNumber:= gIni.ReadInteger('Configuration', 'WipePassNumber', 1);
-  gProcessComments := gIni.ReadBool('Configuration', 'ProcessComments', True);
-  gRenameSelOnlyName:= gIni.ReadBool('Configuration', 'RenameSelOnlyName', false);
-  gShowCopyTabSelectPanel:= gIni.ReadBool('Configuration', 'ShowCopyTabSelectPanel', false);
-  gUseTrash := gIni.ReadBool('Configuration', 'UseTrash', True); // 05.05.2009 - read global trash option from configuration file
-  gShowDialogOnDragDrop := gIni.ReadBool('Configuration', 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
-
-  { Log }
-  gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
-  gLogFileWithDateInName := gIni. ReadBool('Configuration', 'LogFileWithDateInName', FALSE);
-  gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gLogFileName);
-  gLogOptions := TLogOptions(gIni.ReadInteger('Configuration', 'LogOptions', Integer(gLogOptions)));
-  { Configuration page }
-  gSaveDirHistory := gIni.ReadBool('Configuration', 'SaveDirHistory', True);
-  gSaveCmdLineHistory := gIni.ReadBool('Configuration', 'SaveCmdLineHistory', True);
-  gSaveFileMaskHistory := gIni.ReadBool('Configuration', 'SaveFileMaskHistory', True);
-  { Quick Search page}
-  oldQuickSearch := gIni.ReadBool('Configuration', 'QuickSearch', oldQuickSearch);
-  oldQuickSearchMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickSearchMode', Integer(oldQuickSearchMode)));
-  OldKeysToNew(oldQuickSearch, oldQuickSearchMode, ktaQuickSearch);
-  oldQuickFilter := gIni.ReadBool('Configuration', 'QuickFilter', oldQuickFilter);
-  oldQuickFilterMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickFilterMode', Integer(oldQuickFilterMode)));
-  OldKeysToNew(oldQuickFilter, oldQuickFilterMode, ktaQuickFilter);
-  if gIni.ReadBool('Configuration', 'QuickSearchMatchBeginning', qsmBeginning in gQuickSearchOptions.Match) then
-    Include(gQuickSearchOptions.Match, qsmBeginning)
-  else
-    Exclude(gQuickSearchOptions.Match, qsmBeginning);
-  if gIni.ReadBool('Configuration', 'QuickSearchMatchEnding', qsmEnding in gQuickSearchOptions.Match) then
-    Include(gQuickSearchOptions.Match, qsmEnding)
-  else
-    Exclude(gQuickSearchOptions.Match, qsmEnding);
-  { Misc page }
-  gGridVertLine:= gIni.ReadBool('Configuration', 'GridVertLine', False);
-  gGridHorzLine:= gIni.ReadBool('Configuration', 'GridHorzLine', False);
-  gShowWarningMessages := gIni.ReadBool('Configuration', 'ShowWarningMessages', True);
-  gDirBrackets:= gIni.ReadBool('Configuration', 'DirBrackets', True);
-  gShowToolTipMode:= gIni.ReadBool('Configuration', 'ShowToolTipMode', gShowToolTipMode);
-  { Auto refresh page }
-  gWatchDirs := TWatchOptions(gIni.ReadInteger('Configuration', 'WatchDirs', Integer(gWatchDirs)));
-  gWatchDirsExclude := gIni.ReadString('Configuration', 'WatchDirsExclude', '');
-  { Icons page }
-  gShowIcons := TShowIconsMode(gIni.ReadInteger('Configuration', 'ShowIcons', Integer(gShowIcons)));
-  gIconOverlays:= gIni.ReadBool('Configuration', 'IconOverlays', True);
-  gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
-  gCustomDriveIcons := gIni.ReadBool('Configuration', 'CustomDriveIcons', False);
-  { Ignore list page }
-  gIgnoreListFileEnabled:= gIni.ReadBool('Configuration', 'IgnoreListFileEnabled', False);
-  gIgnoreListFile:= gIni.ReadString('Configuration', 'IgnoreListFile', gIgnoreListFile);
-
-  gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', True);
-
-  gImageStretch:=  gIni.ReadBool('Viewer', 'Image.Stretch', False);
-
-  { Operations options }
-  gOperationOptionSymLinks := TFileSourceOperationOptionSymLink(
-                                gIni.ReadInteger('Operations', 'Symlink', Integer(gOperationOptionSymLinks)));
-  gOperationOptionCorrectLinks := gIni.ReadBool('Operations', 'CorrectLinks', gOperationOptionCorrectLinks);
-  gOperationOptionFileExists := TFileSourceOperationOptionFileExists(
-                                  gIni.ReadInteger('Operations', 'FileExists', Integer(gOperationOptionFileExists)));
-  gOperationOptionDirectoryExists := TFileSourceOperationOptionDirectoryExists(
-                                       gIni.ReadInteger('Operations', 'DirectoryExists', Integer(gOperationOptionDirectoryExists)));
-  gOperationOptionCheckFreeSpace := gIni.ReadBool('Operations', 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
-
-  //Let's take the time to do the conversion for those loading from INI file
-  { Hot dir }
-  glsHotDirTempoLegacyConversion:=TStringListEx.Create;
-  gIni.ReadSectionRaw('DirectoryHotList', glsHotDirTempoLegacyConversion);
-  for IndexHotDir:=0 to pred(glsHotDirTempoLegacyConversion.Count) do
-  begin
-    LocalHotDir:=THotDir.Create;
-    LocalHotDir.HotDirName:=glsHotDirTempoLegacyConversion.Names[IndexHotDir];
-    LocalHotDir.HotDirPath:=glsHotDirTempoLegacyConversion.ValueFromIndex[IndexHotDir];
-    LocalHotDir.HotDirTarget:='';
-    gDirectoryHotlist.Add(LocalHotDir);
-  end;
-  FreeAndNil(glsHotDirTempoLegacyConversion); //Thank you, good bye!
-  gColorExt.LoadIni;
-
-  { Search template list }
-  gSearchTemplateList.LoadFromIni(gIni);
-
-  { Columns sets }
-  ColSet.Load(gIni);
-
-  { Plugins }
-  gDSXPlugins.Load(gIni);
-  gWCXPlugins.Load(gIni);
-  gWDXPlugins.Load(gIni);
-  gWFXPlugins.Load(gIni);
-  gWLXPlugins.Load(gIni);
 end;
 
 procedure LoadContentPlugins;

@@ -226,11 +226,6 @@ type
     { Public declarations }
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource; var aFiles: TFiles); reintroduce;
     destructor Destroy; override;
-
-    // Temporary for switching configuration from INI to XML
-    procedure PublicSavePresets;
-    procedure LoadPresetsIni(IniFile: TIniFileEx);
-    procedure SavePresetsIni(IniFile: TIniFileEx);
   end;
 
 {initialization function}
@@ -1112,52 +1107,7 @@ end;
 
 procedure TfrmMultiRename.LoadPresets;
 begin
-  if Assigned(gIni) then
-    LoadPresetsIni(gIni)
-  else
-    LoadPresetsXml(gConfig);
-end;
-
-procedure TfrmMultiRename.LoadPresetsIni(IniFile: TIniFileEx);
-var
-  i: Integer;
-  PresetIndex: Integer;
-  PresetName: String;
-  sPresetNr: String;
-  PresetsCount: Integer;
-begin
-  ClearPresetsList;
-
-  FLastPreset := IniFile.ReadString(sPresetsSection, 'LastPreset', '');
-  PresetsCount := IniFile.ReadInteger(sPresetsSection, 'Presets', -1);
-
-  for i := 0 to PresetsCount - 1 do
-  begin
-    sPresetNr := 'Preset' + IntToStr(I + 1);
-
-    PresetName := IniFile.ReadString(sPresetsSection, sPresetNr + 'PresetName', '');
-    if PresetName <> '' then
-    begin
-      PresetIndex := FPresets.Add(PresetName, New(PMultiRenamePreset));
-
-      with PMultiRenamePreset(FPresets.List[PresetIndex]^.Data)^ do
-      begin
-        FileName := IniFile.ReadString(sPresetsSection, sPresetNr + 'Filename', '[N]');
-        Extension := IniFile.ReadString(sPresetsSection, sPresetNr + 'Extension', '[E]');
-        FileNameStyle := IniFile.ReadInteger(sPresetsSection, sPresetNr + 'FilenameStyle', 0);
-        ExtensionStyle := IniFile.ReadInteger(sPresetsSection, sPresetNr + 'ExtensionStyle', 0);
-        Find := IniFile.ReadString(sPresetsSection, sPresetNr + 'Find', '');
-        Replace := IniFile.ReadString(sPresetsSection, sPresetNr + 'Replace', '');
-        RegExp := IniFile.ReadBool(sPresetsSection, sPresetNr + 'RegExp', False);
-        UseSubs := IniFile.ReadBool(sPresetsSection, sPresetNr + 'UseSubs', False);
-        Counter := IniFile.ReadString(sPresetsSection, sPresetNr + 'Counter', '1');
-        Interval := IniFile.ReadString(sPresetsSection, sPresetNr + 'Interval', '1');
-        Width := IniFile.ReadInteger(sPresetsSection, sPresetNr + 'Width', 0);
-        Log := IniFile.ReadBool(sPresetsSection, sPresetNr + 'Log', False);
-        LogFile := IniFile.ReadString(sPresetsSection, sPresetNr + 'LogFile', '');
-      end;
-    end;
-  end;
+  LoadPresetsXml(gConfig);
 end;
 
 procedure TfrmMultiRename.LoadPresetsXml(AConfig: TXmlConfig);
@@ -1210,41 +1160,8 @@ end;
 
 procedure TfrmMultiRename.SavePresets;
 begin
-  if Assigned(gIni) then
-    SavePresetsIni(gIni);
   SavePresetsXml(gConfig);
   gConfig.Save;
-end;
-
-procedure TfrmMultiRename.SavePresetsIni(IniFile: TIniFileEx);
-var
-  i: Integer;
-  sPresetNr: String;
-begin
-  IniFile.EraseSection(sPresetsSection);
-  IniFile.WriteString(sPresetsSection, 'LastPreset', FLastPreset);
-  IniFile.WriteInteger(sPresetsSection, 'Presets', FPresets.Count);
-
-  for i := 0 to FPresets.Count - 1 do
-    with PMultiRenamePreset(FPresets.List[i]^.Data)^ do
-    begin
-      sPresetNr := 'Preset' + IntToStr(I + 1);
-
-      IniFile.WriteString(sPresetsSection, sPresetNr + 'PresetName', FPresets.List[i]^.Key);
-      IniFile.WriteString(sPresetsSection, sPresetNr + 'Filename', FileName);
-      IniFile.WriteString(sPresetsSection, sPresetNr + 'Extension', Extension);
-      IniFile.WriteInteger(sPresetsSection, sPresetNr + 'FilenameStyle', FileNameStyle);
-      IniFile.WriteInteger(sPresetsSection, sPresetNr + 'ExtensionStyle', ExtensionStyle);
-      IniFile.WriteString(sPresetsSection, sPresetNr + 'Find', Find);
-      IniFile.WriteString(sPresetsSection, sPresetNr + 'Replace', Replace);
-      IniFile.WriteBool(sPresetsSection, sPresetNr + 'RegExp', RegExp);
-      IniFile.WriteBool(sPresetsSection, sPresetNr + 'UseSubs', UseSubs);
-      IniFile.WriteString(sPresetsSection, sPresetNr + 'Counter', Counter);
-      IniFile.WriteString(sPresetsSection, sPresetNr + 'Interval', Interval);
-      IniFile.WriteInteger(sPresetsSection, sPresetNr + 'Width', Width);
-      IniFile.WriteBool(sPresetsSection, sPresetNr + 'Log', Log);
-      IniFile.WriteString(sPresetsSection, sPresetNr + 'LogFile', LogFile);
-    end;
 end;
 
 procedure TfrmMultiRename.SavePresetsXml(AConfig: TXmlConfig);
@@ -1384,12 +1301,6 @@ begin
   for i := 0 to FPresets.Count - 1 do
     Dispose(PMultiRenamePreset(FPresets.List[i]^.Data));
   FPresets.Clear;
-end;
-
-// Temporary for switching configuration from INI to XML
-procedure TfrmMultiRename.PublicSavePresets;
-begin
-  SavePresetsXml(gConfig);
 end;
 
 end.

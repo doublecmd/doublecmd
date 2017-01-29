@@ -188,7 +188,6 @@ type
     procedure AddDefaultColumns;
     procedure AddDefaultEverything;
     //---------------------
-    procedure Load(Ini: TIniFileEx; SetName: String); overload;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     //---------------------
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
@@ -217,7 +216,6 @@ type
     destructor Destroy; override;
     //---------------------
     procedure Clear;
-    procedure Load(Ini: TIniFileEx); overload;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     function Add(Item: TPanelColumnsClass): Integer;
@@ -768,51 +766,6 @@ begin
   FUseFrameCursor := gUseFrameCursor;
 end;
 
-procedure TPanelColumnsClass.Load(Ini: TIniFileEx; SetName: String);
-var
-  aCount, I: Integer;
-begin
-  fSetName := SetName;
-  Self.Clear;
-  aCount := Ini.ReadInteger(fSetName, 'ColumnCount', 0);
-  //---------------------
-  if aCount = 0 then
-    begin
-      AddDefaultColumns;
-    end
-  else
-    for I := 0 to aCount - 1 do
-      begin
-        Flist.Add(TPanelColumn.Create);
-        TPanelColumn(FList[I]).Title:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'Title','');
-        //---------------------
-        TPanelColumn(FList[I]).FuncString:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString','');
-        TPanelColumn(FList[I]).Width:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Width',50);
-        TPanelColumn(FList[I]).Align:=TAlignment(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Align',0));
-        //---------------------
-        TPanelColumn(FList[I]).FontName:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FontName',gFonts[dcfMain].Name);
-        TPanelColumn(FList[I]).FontSize:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize',gFonts[dcfMain].Size);
-        TPanelColumn(FList[I]).FontStyle:=TFontStyles(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontStyle',Integer(gFonts[dcfMain].Style)));
-        TPanelColumn(FList[I]).TextColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'TextColor',gForeColor));
-        TPanelColumn(FList[I]).Background:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background',gBackColor ));
-        TPanelColumn(FList[I]).Background2:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background2',gBackColor2 ));
-        TPanelColumn(FList[I]).MarkColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'MarkColor',gMarkColor ));
-        TPanelColumn(FList[I]).CursorColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorColor',gCursorColor ));
-        TPanelColumn(FList[I]).CursorText:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorText',gCursorText ));
-        TPanelColumn(FList[I]).InactiveCursorColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'InactiveCursorColor',gInactiveCursorColor));
-        TPanelColumn(FList[I]).InactiveMarkColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'InactiveMarkColor',gInactiveMarkColor ));
-        TPanelColumn(FList[I]).UseInvertedSelection:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'UseInvertedSelection',true );
-        TPanelColumn(FList[I]).UseInactiveSelColor:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'UseInactiveSelColor',gUseInactiveSelColor);
-        TPanelColumn(FList[I]).Overcolor:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor',true );
-        //---------------------
-      end;
-  //---------------------
-  FCustomView := Ini.ReadBool(fSetName, 'CustomView', False);
-  FCursorBorder := Ini.ReadBool(fSetName, 'CursorBorder', gUseCursorBorder);
-  FCursorBorderColor := TColor(Ini.ReadInteger(fSetName, 'CursorBorderColor', gCursorBorderColor));
-  FUseFrameCursor := Ini.ReadBool(fSetName, 'UseFrameCursor', gUseFrameCursor);
-end;
-
 procedure TPanelColumnsClass.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   Title: String;
@@ -1119,22 +1072,6 @@ begin
   for i := 0 to Fset.Count - 1 do
     TPanelColumnsClass(Fset.Objects[i]).Free;
   Fset.Clear;
-end;
-
-procedure TPanelColumnsList.Load(Ini: TIniFileEx);
-var
-  aCount, I: Integer;
-begin
-  Self.Clear;
-  aCount := Ini.ReadInteger('ColumnsSet', 'ColumnsSetCount', 0);
-  for I := 0 to aCount - 1 do
-    begin
-      fSet.AddObject(Ini.ReadString('ColumnsSet', 'ColumnsSet' +
-        IntToStr(I + 1) + 'Name', ''), TPanelColumnsClass.Create);
-      TPanelColumnsClass(fSet.Objects[I]).Load(ini, fset[i]);
-      DCDebug('FsetName=' + Fset[i]);
-    end;
-  DCDebug('FsetCount=' + IntToStr(fset.Count));
 end;
 
 procedure TPanelColumnsList.Load(AConfig: TXmlConfig; ANode: TXmlNode);

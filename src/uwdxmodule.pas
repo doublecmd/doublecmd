@@ -250,9 +250,7 @@ type
     //---------------------
     procedure Clear;
     procedure Exchange(Index1, Index2: Integer);
-    procedure Load(Ini: TIniFileEx); overload;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
-    procedure Save(Ini: TIniFileEx); overload;
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure DeleteItem(Index: Integer);
     //---------------------
@@ -361,35 +359,6 @@ begin
   FList.Exchange(Index1, Index2);
 end;
 
-procedure TWDXModuleList.Load(Ini: TIniFileEx);
-var
-  Count, I: Integer;
-  tmp, tp: String;
-begin
-  Self.Clear;
-  Count := Ini.ReadInteger('Content Plugins', 'PluginCount', 0);
-  if Count = 0 then
-    Exit;
-
-  For i := 0 to Count - 1 do
-  begin
-    tmp := Ini.ReadString('Content Plugins', 'Plugin' + IntToStr(I + 1) + 'Name', '');
-    // читать FileName - читать расширение и создавать нужный обьект
-    tp := GetCmdDirFromEnvVar(Ini.ReadString('Content Plugins', 'Plugin' + IntToStr(I + 1) + 'Path', ''));
-    DCDebug('WDX:LOAD:' + tp);
-
-    if UpCase(ExtractFileExt(tp)) = '.LUA' then
-      Flist.AddObject(UpCase(tmp), TLuaWdx.Create)
-    else
-      Flist.AddObject(UpCase(tmp), TPluginWDX.Create);
-
-    TWDXModule(Flist.Objects[I]).Name := tmp;
-    TWDXModule(Flist.Objects[I]).DetectStr := Ini.ReadString('Content Plugins', 'Plugin' + IntToStr(I + 1) + 'Detect', '');
-    TWDXModule(Flist.Objects[I]).FileName := tp;//GetCmdDirFromEnvVar(Ini.ReadString('Content Plugins','Plugin'+IntToStr(I+1)+'Path',''));
-  end;
-
-end;
-
 procedure TWDXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   AName, APath: String;
@@ -427,20 +396,6 @@ begin
       end;
       ANode := ANode.NextSibling;
     end;
-  end;
-end;
-
-procedure TWDXModuleList.Save(Ini: TIniFileEx);
-var
-  i: Integer;
-begin
-  Ini.EraseSection('Content Plugins');
-  Ini.WriteInteger('Content Plugins', 'PluginCount', Flist.Count);
-  For i := 0 to Flist.Count - 1 do
-  begin
-    Ini.WriteString('Content Plugins', 'Plugin' + IntToStr(I + 1) + 'Name', TWDXModule(Flist.Objects[I]).Name);
-    Ini.WriteString('Content Plugins', 'Plugin' + IntToStr(I + 1) + 'Detect', TWDXModule(Flist.Objects[I]).DetectStr);
-    Ini.WriteString('Content Plugins', 'Plugin' + IntToStr(I + 1) + 'Path', SetCmdDirAsEnvVar(TWDXModule(Flist.Objects[I]).FileName));
   end;
 end;
 

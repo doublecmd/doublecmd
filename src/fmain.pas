@@ -793,11 +793,9 @@ type
     procedure UpdateSelectedDrives;
     procedure UpdateGUIFunctionKeys;
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
-    function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer): TFileView;
     function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TXmlConfig; ANode: TXmlNode): TFileView;
     procedure AssignEvents(AFileView: TFileView);
     function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer; CloseLocked: Boolean = True; ConfirmCloseLocked: integer = 0; ShowButtonAll: Boolean = False): LongInt;
-    procedure LoadTabsIni(ANoteBook: TFileViewNotebook);
     procedure LoadTabsXml(AConfig: TXmlConfig; ABranch:string; ANoteBook: TFileViewNotebook);
     procedure SaveTabsXml(AConfig: TXmlConfig; ABranch:string; ANoteBook: TFileViewNotebook; ASaveHistory: boolean);
     procedure LoadTheseTabsWithThisConfig(Config: TXmlConfig; ABranch:string; Source, Destination:TTabsConfigLocation; DestinationToKeep : TTabsConfigLocation; var TabsAlreadyDestroyedFlags:TTabsFlagsAlreadyDestroyed);
@@ -4255,20 +4253,6 @@ begin
   end;
 end;
 
-function TfrmMain.CreateFileView(sType: String; Page: TFileViewPage; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer): TFileView;
-var
-  FileViewFlags: TFileViewFlags = [];
-begin
-  // This function should be changed to a separate TFileView factory.
-
-  if gDelayLoadingTabs then
-    FileViewFlags := [fvfDelayLoadingFiles];
-  if sType = 'columns' then
-    Result := TColumnsFileView.Create(Page, AConfig, ASectionName, ATabIndex, FileViewFlags)
-  else
-    raise Exception.Create('Invalid file view type');
-end;
-
 function TfrmMain.CreateFileView(sType: String; Page: TFileViewPage; AConfig: TXmlConfig; ANode: TXmlNode): TFileView;
 var
   FileViewFlags: TFileViewFlags = [];
@@ -4345,72 +4329,6 @@ begin
   begin
     ANoteBook.View[I].UpdateView;
   end;
-end;
-
-procedure TfrmMain.LoadTabsIni(ANoteBook: TFileViewNotebook);
-var
-  I: Integer;
-  sIndex,
-  TabsSection: String;
-  sCurrentDir,
-  sPath: String;
-  iActiveTab: Integer;
-  Page: TFileViewPage;
-  AFileView: TFileView;
-  aFileSource: IFileSource;
-begin
-  if ANoteBook = nbLeft then
-    begin
-      TabsSection:= 'lefttabs';
-    end
-  else
-    begin
-      TabsSection:= 'righttabs';
-    end;
-
-  I:= 0;
-  sIndex:= '0';
-  // create one tab in any way
-  sCurrentDir:= gpExePath; // default path
-  sPath:= gIni.ReadString(TabsSection, sIndex + '_path', sCurrentDir);
-  while True do
-    begin
-      sPath := GetDeepestExistingPath(sPath);
-      if sPath = EmptyStr then
-        sPath := sCurrentDir;
-
-      Page := ANoteBook.AddPage;
-
-      aFileSource := TFileSystemFileSource.GetFileSource;
-
-      AFileView := CreateFileView('columns', Page, gIni, TabsSection, StrToInt(sIndex));
-      if not Assigned(AFileView) then
-      begin
-        ANoteBook.RemovePage(Page);
-        continue;
-      end;
-
-      Page.LockState := TTabLockState(gIni.ReadInteger(TabsSection, sIndex + '_options', Integer(tlsNormal)));
-      Page.LockPath  := sPath;
-
-      AFileView.AddFileSource(aFileSource, sPath);
-      // Assign events after loading file source.
-      AssignEvents(AFileView);
-
-      Inc(I);
-      // get page index in string representation
-      sIndex:= IntToStr(I);
-      // get path of next tab
-      sPath:= gIni.ReadString(TabsSection, sIndex + '_path', '');
-      // if not found then break
-      if sPath = '' then Break;
-    end;
-
-  // read active tab index
-  iActiveTab:= gIni.ReadInteger(TabsSection, 'activetab', 0);
-  // set active tab
-  if (iActiveTab >= 0) and (iActiveTab < ANoteBook.PageCount) then
-    ANoteBook.PageIndex := iActiveTab;
 end;
 
 procedure TfrmMain.LoadTabsXml(AConfig: TXmlConfig; ABranch:string; ANoteBook: TFileViewNotebook);
@@ -5358,16 +5276,8 @@ end;
 
 procedure TfrmMain.LoadTabs;
 begin
-  if Assigned(gIni) then
-  begin
-    LoadTabsIni(nbLeft);
-    LoadTabsIni(nbRight);
-  end
-  else
-  begin
-    LoadTabsXml(gConfig,'Tabs/OpenedTabs/Left', nbLeft);
-    LoadTabsXml(gConfig,'Tabs/OpenedTabs/Right', nbRight);
-  end;
+  LoadTabsXml(gConfig,'Tabs/OpenedTabs/Left', nbLeft);
+  LoadTabsXml(gConfig,'Tabs/OpenedTabs/Right', nbRight);
 
   LoadTabsCommandLine(CommandLineParams);
 
@@ -5444,33 +5354,18 @@ procedure TfrmMain.LoadWindowState;
 var
   ANode: TXmlNode;
 begin
-
   (* Load window bounds and state *)
-  if Assigned(gIni) then
+  ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position');
+  if Assigned(ANode) then
   begin
-    Left := gIni.ReadInteger('Configuration', 'Main.Left', 80);
-    Top := gIni.ReadInteger('Configuration', 'Main.Top', 48);
-    Width :=  gIni.ReadInteger('Configuration', 'Main.Width', 800);
-    Height :=  gIni.ReadInteger('Configuration', 'Main.Height', 480);
-    if gIni.ReadBool('Configuration', 'Maximized', True) then
+    MainSplitterPos := gConfig.GetValue(ANode, 'Splitter', 50.0);
+    Left := gConfig.GetValue(ANode, 'Left', 80);
+    Top := gConfig.GetValue(ANode, 'Top', 48);
+    Width := gConfig.GetValue(ANode, 'Width', 800);
+    Height := gConfig.GetValue(ANode, 'Height', 480);
+    if gConfig.GetValue(ANode, 'Maximized', True) then
       Self.WindowState := wsMaximized;
-  end
-  else
-  begin
-    ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position');
-    if Assigned(ANode) then
-    begin
-      MainSplitterPos := gConfig.GetValue(ANode, 'Splitter', 50.0);
-      Left := gConfig.GetValue(ANode, 'Left', 80);
-      Top := gConfig.GetValue(ANode, 'Top', 48);
-      Width := gConfig.GetValue(ANode, 'Width', 800);
-      Height := gConfig.GetValue(ANode, 'Height', 480);
-      if gConfig.GetValue(ANode, 'Maximized', True) then
-        Self.WindowState := wsMaximized;
-    end;
   end;
-
-
 end;
 
 procedure TfrmMain.SaveWindowState;
@@ -5526,8 +5421,6 @@ procedure TfrmMain.ConfigSaveSettings;
 begin
   try
     DebugLn('Saving configuration');
-    if Assigned(gIni) then
-      uGlobs.ConvertIniToXml;
     if gSaveCmdLineHistory then
       glsCmdLineHistory.Assign(edtCommand.Items);
     SaveWindowState;

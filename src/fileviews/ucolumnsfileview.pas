@@ -170,7 +170,6 @@ type
 
     constructor Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []); override;
     constructor Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []); override;
-    constructor Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer; AFlags: TFileViewFlags = []); override;
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
 
     destructor Destroy; override;
@@ -180,7 +179,6 @@ type
 
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
 
-    procedure LoadConfiguration(Section: String; TabIndex: Integer); override;
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); override;
 
@@ -219,42 +217,6 @@ procedure TColumnsFileView.SetSorting(const NewSortings: TFileSortings);
 begin
   inherited SetSorting(NewSortings);
   SetColumnsSortDirections;
-end;
-
-procedure TColumnsFileView.LoadConfiguration(Section: String; TabIndex: Integer);
-var
-  ColumnsClass: TPanelColumnsClass;
-  SortCount: Integer;
-  SortColumn: Integer;
-  SortDirection: TSortDirection;
-  i: Integer;
-  sIndex: String;
-  NewSorting: TFileSortings = nil;
-  Column: TPanelColumn;
-  SortFunctions: TFileFunctions;
-begin
-  sIndex := IntToStr(TabIndex);
-
-  ActiveColm := gIni.ReadString(Section, sIndex + '_columnsset', 'Default');
-
-  // Load sorting options.
-  ColumnsClass := GetColumnsClass;
-  SortCount := gIni.ReadInteger(Section, sIndex + '_sortcount', 0);
-  for i := 0 to SortCount - 1 do
-  begin
-    SortColumn := gIni.ReadInteger(Section, sIndex + '_sortcolumn' + IntToStr(i), -1);
-    if (SortColumn >= 0) and (SortColumn < ColumnsClass.ColumnsCount) then
-    begin
-      Column := ColumnsClass.GetColumnItem(SortColumn);
-      if Assigned(Column) then
-      begin
-        SortFunctions := Column.GetColumnFunctions;
-        SortDirection := TSortDirection(gIni.ReadInteger(Section, sIndex + '_sortdirection' + IntToStr(i), Integer(sdNone)));
-        AddSorting(NewSorting, SortFunctions, SortDirection);
-      end;
-    end;
-  end;
-  inherited SetSorting(NewSorting);
 end;
 
 procedure TColumnsFileView.LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -747,11 +709,6 @@ end;
 constructor TColumnsFileView.Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []);
 begin
   inherited Create(AOwner, AFileView, AFlags);
-end;
-
-constructor TColumnsFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer; AFlags: TFileViewFlags = []);
-begin
-  inherited Create(AOwner, AConfig, ASectionName, ATabIndex, AFlags);
 end;
 
 constructor TColumnsFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []);

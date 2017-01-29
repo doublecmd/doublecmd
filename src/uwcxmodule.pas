@@ -155,9 +155,7 @@ Type
     constructor Create; reintroduce;
     destructor Destroy; override;
   public
-    procedure Load(Ini: TIniFileEx);
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
-    procedure Save(Ini: TIniFileEx);
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
     function Add(Ext: String; Flags: PtrInt; FileName: String): Integer; reintroduce;
     function FindFirstEnabledByName(Name: String): Integer;
@@ -636,27 +634,6 @@ begin
   inherited Destroy;
 end;
 
-procedure TWCXModuleList.Load(Ini: TIniFileEx);
-var
-  I: Integer;
-  sCurrPlugin,
-  sValue: String;
-begin
-  Ini.ReadSectionRaw('PackerPlugins', Self);
-  for I:= 0 to Count - 1 do
-    if Pos('#', Names[I]) = 0 then
-      begin
-        Enabled[I]:= True;
-      end
-    else
-      begin
-        sCurrPlugin:= Names[I];
-        sValue:= ValueFromIndex[I];
-        Self[I]:= Copy(sCurrPlugin, 2, Length(sCurrPlugin) - 1) + '=' + sValue;
-        Enabled[I]:= False;
-      end;
-end;
-
 procedure TWCXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   I: Integer;
@@ -686,24 +663,6 @@ begin
       ANode := ANode.NextSibling;
     end;
   end;
-end;
-
-procedure TWCXModuleList.Save(Ini: TIniFileEx);
-var
- I: Integer;
-begin
-  Ini.EraseSection('PackerPlugins');
-  for I := 0 to Count - 1 do
-    begin
-      if Enabled[I] then
-        begin
-          Ini.WriteString('PackerPlugins', Names[I], ValueFromIndex[I])
-        end
-      else
-        begin
-          Ini.WriteString('PackerPlugins', '#' + Names[I], ValueFromIndex[I]);
-        end;
-    end;
 end;
 
 procedure TWCXModuleList.Save(AConfig: TXmlConfig; ANode: TXmlNode);
