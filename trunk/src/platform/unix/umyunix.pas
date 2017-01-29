@@ -631,46 +631,33 @@ begin
   Result := fpSystemStatus('eject ' + Drive^.DeviceId) = 0;
 end;
 
-type
-  {en
-    Waits for a child process to finish and collects its exit status,
-    causing it to be released by the system (prevents defunct processes).
+{en
+  Waits for a child process to finish and collects its exit status,
+  causing it to be released by the system (prevents defunct processes).
 
-    Instead of the wait-thread we could just ignore or handle SIGCHLD signal
-    for the process, but this way we don't interfere with the signal handling.
-    The downside is that there's a thread for every child process running.
+  Instead of the wait-thread we could just ignore or handle SIGCHLD signal
+  for the process, but this way we don't interfere with the signal handling.
+  The downside is that there's a thread for every child process running.
 
-    Another method is to periodically do a cleanup, for example from OnIdle
-    or OnTimer event. Remember PIDs of spawned child processes and when
-    cleaning call FpWaitpid(PID, nil, WNOHANG) on each PID. Downside is they
-    are not released immediately after the child process finish (may be relevant
-    if we want to display exit status to the user).
-  }
-  TWaitForPidThread = class(TThread)
-  private
-    FPID: TPid;
-  protected
-    procedure Execute; override;
-  public
-    constructor Create(WaitForPid: TPid); overload;
-  end;
-
-  constructor TWaitForPidThread.Create(WaitForPid: TPid);
-  begin
-    inherited Create(True);
-    FPID := WaitForPid;
-    FreeOnTerminate := True;
-  end;
-
-  procedure TWaitForPidThread.Execute;
-  begin
-    while (FpWaitPid(FPID, nil, 0) = -1) and (fpgeterrno() = ESysEINTR) do;
-  end;
+  Another method is to periodically do a cleanup, for example from OnIdle
+  or OnTimer event. Remember PIDs of spawned child processes and when
+  cleaning call FpWaitpid(PID, nil, WNOHANG) on each PID. Downside is they
+  are not released immediately after the child process finish (may be relevant
+  if we want to display exit status to the user).
+}
+function WaitForPidThread(Parameter : Pointer): PtrInt;
+var
+  Status : cInt = 0;
+  PID: PtrInt absolute Parameter;
+begin
+  while (FpWaitPid(PID, @Status, 0) = -1) and (fpgeterrno() = ESysEINTR) do;
+  WriteLn('Process ', PID, ' finished, exit status ', Status);
+  Result:= Status; EndThread(Result);
+end;
 
 function ExecuteCommand(Command: String; Args: TDynamicStringArray; StartPath: String): Boolean;
 var
   pid : TPid;
-  WaitForPidThread: TWaitForPidThread;
 begin
   {$IFDEF DARWIN}
   // If we run application bundle (*.app) then
@@ -705,12 +692,13 @@ begin
     end
   else if pid = -1 then         { Fork failed }
     begin
-      raise Exception.Create('Fork failed: ' + Command);
+      WriteLn('Fork failed: ' + Command, LineEnding, SysErrorMessage(fpgeterrno));
     end
   else if pid > 0 then          { Parent }
     begin
-      WaitForPidThread := TWaitForPidThread.Create(pid);
-      WaitForPidThread.Start;
+      {$PUSH}{$WARNINGS OFF}{$HINTS OFF}
+      BeginThread(@WaitForPidThread, Pointer(PtrInt(pid)));
+      {$POP}
     end;
 
   Result := (pid > 0);
