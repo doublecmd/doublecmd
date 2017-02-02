@@ -13,6 +13,7 @@ type
     lblMsg: TLabel;
     pnlButtons: TPanel;
     mnuOther: TPopupMenu;
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -39,6 +40,11 @@ uses
 procedure TfrmMsg.FormCreate(Sender: TObject);
 begin
   iSelected:= -1;
+end;
+
+procedure TfrmMsg.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  if (iSelected < 0) and (Escape >= 0) then iSelected:= Escape;
 end;
 
 procedure TfrmMsg.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
