@@ -12,14 +12,15 @@ object frmMsg: TfrmMsg
   ClientWidth = 426
   Constraints.MinWidth = 250
   KeyPreview = True
+  OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
-  LCLVersion = '1.6.0.3'
+  LCLVersion = '1.6.0.4'
   object lblMsg: TLabel
     AnchorSideRight.Side = asrBottom
     Left = 12
-    Height = 15
+    Height = 18
     Top = 12
     Width = 402
     Align = alTop
@@ -33,8 +34,8 @@ object frmMsg: TfrmMsg
   object pnlButtons: TPanel
     AnchorSideBottom.Side = asrBottom
     Left = 12
-    Height = 203
-    Top = 39
+    Height = 200
+    Top = 42
     Width = 402
     Align = alClient
     AutoSize = True
