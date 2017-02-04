@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains specific DARWIN functions.
 
-   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -22,7 +22,7 @@
 
 unit uMyDarwin;
 
-{$mode objfpc}{$H+}
+{$mode delphi}
 {$modeswitch objectivec1}
 
 interface
@@ -34,8 +34,15 @@ function StringToNSString(const S: String): NSString;
 function StringToCFStringRef(const S: String): CFStringRef;
 
 function GetFileDescription(const FileName: String): String;
+function MountNetworkDrive(const serverAddress: String): Boolean;
+
+var
+  HasNetFS: Boolean = False;
 
 implementation
+
+uses
+  DynLibs;
 
 function StringToNSString(const S: String): NSString;
 begin
@@ -65,6 +72,43 @@ begin
   end;
   CFRelease(FileNameRef);
 end;
+
+var
+  NetFS: TLibHandle = NilHandle;
+
+var
+  NetFSMountURLSync: function(_url: CFURLRef; _mountpath: CFURLRef; _user: CFStringRef; _passwd: CFStringRef;
+    _open_options: CFMutableDictionaryRef; _mount_options: CFMutableDictionaryRef; _mountpoints: CFArrayRefPtr): Int32; cdecl;
+
+function MountNetworkDrive(const serverAddress: String): Boolean;
+var
+  sharePath: NSURL;
+  mountPoints: CFArrayRef = nil;
+begin
+  sharePath:= NSURL.URLWithString(StringToNSString(serverAddress));
+  Result:= NetFSMountURLSync(CFURLRef(sharePath), nil, nil, nil, nil, nil, @mountPoints) = 0;
+end;
+
+procedure Initialize;
+begin
+  NetFS:= LoadLibrary('/System/Library/Frameworks/NetFS.framework/NetFS');
+  if (NetFS <> NilHandle) then
+  begin
+    @NetFSMountURLSync:= GetProcAddress(NetFS, 'NetFSMountURLSync');
+    HasNetFS:= Assigned(NetFSMountURLSync);
+  end;
+end;
+
+procedure Finalize;
+begin
+  if (NetFS <> NilHandle) then FreeLibrary(NetFS);
+end;
+
+initialization
+  Initialize;
+
+finalization
+  Finalize;
 
 end.
 

@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -137,7 +137,7 @@ uses
     , uDCReadSVG, uMagickWand, uGio, uGioFileSource, uVfsModule, uVideoThumb
     , uDCReadWebP
     {$ELSE}
-    , MacOSAll, uQuickLook
+    , MacOSAll, fMain, uQuickLook, uMyDarwin, uShowMsg, uLng
     {$ENDIF}
     {$IF NOT DEFINED(DARWIN)}
     , fOpenWith, uKde
@@ -473,6 +473,18 @@ end;
 
 {$ENDIF}
 
+{$IF DEFINED(DARWIN)}
+
+procedure MenuHandler(Self, Sender: TObject);
+var
+  Address: String = '';
+begin
+  if ShowInputQuery(Application.Title, rsMsgURL, False, Address) then
+    MountNetworkDrive(Address);
+end;
+
+{$ENDIF}
+
 procedure MainFormCreate(MainForm : TCustomForm);
 {$IFDEF MSWINDOWS}
 var
@@ -526,9 +538,12 @@ begin
   end;
 end;
 {$ELSE}
-{$IF DEFINED(LCLQT) or DEFINED(LCLGTK2)}
+{$IF DEFINED(LCLQT) or DEFINED(LCLGTK2) or DEFINED(DARWIN)}
 var
   Handler: TMethod;
+{$ENDIF}
+{$IF DEFINED(DARWIN)}
+  MenuItem: TMenuItem;
 {$ENDIF}
 begin
   if fpGetUID = 0 then // if run under root
@@ -548,6 +563,26 @@ begin
   Handler.Code:= @ScreenFormEvent;
   ScreenFormEvent(MainForm, MainForm, MainForm);
   Screen.AddHandlerFormAdded(TScreenFormEvent(Handler), True);
+  {$ENDIF}
+
+  {$IF DEFINED(DARWIN)}
+  if HasNetFS then
+  begin
+    with frmMain do
+    begin
+      Handler.Code:= @MenuHandler;
+      Handler.Data:= MainForm;
+
+      MenuItem:= TMenuItem.Create(mnuMain);
+      MenuItem.Caption:= '-';
+      mnuNetwork.Add(MenuItem);
+
+      MenuItem:= TMenuItem.Create(mnuMain);
+      MenuItem.Caption:= rsMnuMapNetworkDrive;
+      MenuItem.OnClick:= TNotifyEvent(Handler);
+      mnuNetwork.Add(MenuItem);
+    end;
+  end;
   {$ENDIF}
 end;
 {$ENDIF}
