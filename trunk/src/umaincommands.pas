@@ -366,7 +366,7 @@ uses uFindFiles, Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView,
      uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile, uLuaPas,
-     uFilePanelSelect, uFileSystemFileSource, uQuickViewPanel,
+     uFilePanelSelect, uFileSystemFileSource, uQuickViewPanel, Math,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation, uSearchResultFileSource,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
@@ -2325,7 +2325,16 @@ begin
     if Assigned(theFilesToDelete) then
     try
       if (theFilesToDelete.Count = 0) then Exit;
-      Message:= frmMain.GetFileDlgStr(MsgDelSel,MsgDelFlDr,theFilesToDelete);
+      if (theFilesToDelete.Count = 1) then
+        Message:= Format(MsgDelSel, [theFilesToDelete[0].Name])
+      else begin
+         Message:= Format(MsgDelFlDr, [theFilesToDelete.Count]) + LineEnding;
+         for I:= 0 to Min(4, theFilesToDelete.Count - 1) do
+         begin
+           Message+= LineEnding + theFilesToDelete[I].Name;
+         end;
+         if theFilesToDelete.Count > 5 then Message+= LineEnding + '...';
+      end;
       if (bConfirmation = False) or (ShowDeleteDialog(Message, FileSource, QueueId)) then
       begin
         if FileSource.IsClass(TFileSystemFileSource) then
