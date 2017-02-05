@@ -37,7 +37,7 @@ function GetFileDescription(const FileName: String): String;
 function MountNetworkDrive(const serverAddress: String): Boolean;
 
 var
-  HasNetFS: Boolean = False;
+  HasMountURL: Boolean = False;
 
 implementation
 
@@ -75,8 +75,11 @@ end;
 
 var
   NetFS: TLibHandle = NilHandle;
+  CoreServices: TLibHandle = NilHandle;
 
 var
+  FSMountServerVolumeSync: function(url: CFURLRef; mountDir: CFURLRef; user: CFStringRef; password: CFStringRef;
+    mountedVolumeRefNum: FSVolumeRefNumPtr; flags: OptionBits): OSStatus; stdcall;
   NetFSMountURLSync: function(_url: CFURLRef; _mountpath: CFURLRef; _user: CFStringRef; _passwd: CFStringRef;
     _open_options: CFMutableDictionaryRef; _mount_options: CFMutableDictionaryRef; _mountpoints: CFArrayRefPtr): Int32; cdecl;
 
@@ -86,7 +89,11 @@ var
   mountPoints: CFArrayRef = nil;
 begin
   sharePath:= NSURL.URLWithString(StringToNSString(serverAddress));
-  Result:= NetFSMountURLSync(CFURLRef(sharePath), nil, nil, nil, nil, nil, @mountPoints) = 0;
+  if Assigned(NetFSMountURLSync) then
+    Result:= NetFSMountURLSync(CFURLRef(sharePath), nil, nil, nil, nil, nil, @mountPoints) = 0
+  else begin
+    Result:= FSMountServerVolumeSync(CFURLRef(sharePath), nil, nil, nil, nil, 0) = noErr;
+  end;
 end;
 
 procedure Initialize;
@@ -95,13 +102,19 @@ begin
   if (NetFS <> NilHandle) then
   begin
     @NetFSMountURLSync:= GetProcAddress(NetFS, 'NetFSMountURLSync');
-    HasNetFS:= Assigned(NetFSMountURLSync);
   end;
+  CoreServices:= LoadLibrary('/System/Library/Frameworks/CoreServices.framework/CoreServices');
+  if (CoreServices <> NilHandle) then
+  begin
+    @FSMountServerVolumeSync:= GetProcAddress(CoreServices, 'FSMountServerVolumeSync');
+  end;
+  HasMountURL:= Assigned(NetFSMountURLSync) or Assigned(FSMountServerVolumeSync);
 end;
 
 procedure Finalize;
 begin
   if (NetFS <> NilHandle) then FreeLibrary(NetFS);
+  if (CoreServices <> NilHandle) then FreeLibrary(CoreServices);
 end;
 
 initialization
