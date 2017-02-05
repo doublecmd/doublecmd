@@ -289,6 +289,7 @@ type
     procedure OnAddAttribute(Sender: TObject);
     function InvalidRegExpr(AChecked: boolean; const ARegExpr: string): boolean;
     procedure SetWindowCaption(AWindowCaptionStyle: byte);
+    function GetFileMask: String;
   public
     FoundedStringCopy: TStringList;
     class function Instance: TfrmFindDlg;
@@ -479,7 +480,7 @@ begin
       // Prepare window for search files
       ClearFilter;
       // SetWindowCaption(wcs_NewSearch);
-      cmbFindPathStart.Hint := FileView.CurrentPath;
+      cmbFindPathStart.Text := FileView.CurrentPath;
 
       // Get paths of selected files, if any.
       FSelectedFiles.Clear;
@@ -779,8 +780,20 @@ begin
     cmbExcludeDirectories.Text := '';
   end;
 
+  if gInitiallyClearFileMask then
+    cmbFindFileMask.Text := ''
+  else if glsMaskHistory.Count > 0 then begin
+    cmbFindFileMask.Text:= glsMaskHistory[0];
+  end;
+
+  // If we already search text then use last searched text
+  if not gFirstTextSearch then
+  begin
+    if glsSearchHistory.Count > 0 then
+      cmbFindText.Text := glsSearchHistory[0];
+  end;
+
   cmbSearchDepth.ItemIndex := 0;
-  if gInitiallyClearFileMask then cmbFindFileMask.Text := '*';
   cmbExcludeFiles.Text := '';
   cbPartialNameSearch.Checked := gPartialNameSearch;
   cbRegExp.Checked := False;
@@ -1003,7 +1016,7 @@ begin
     else
       StartPath := '';
     ExcludeDirectories := cmbExcludeDirectories.Text;
-    FilesMasks := cmbFindFileMask.Text;
+    FilesMasks := GetFileMask;
     ExcludeFiles := cmbExcludeFiles.Text;
     SearchDepth := cmbSearchDepth.ItemIndex - 1;
     RegExp := cbRegExp.Checked;
@@ -1723,12 +1736,21 @@ begin
 
   if (AWindowCaptionStyle and $08) <> 0 then
   begin
-    sBuildingCaptionName := sBuildingCaptionName + ' - File: ' + cmbFindFileMask.Text;
+    sBuildingCaptionName := sBuildingCaptionName + ' - File: ' + GetFileMask;
     if cbFindText.Checked then
       sBuildingCaptionName := sBuildingCaptionName + ' - Text:' + cmbFindText.Text;
   end;
 
   Caption := sBuildingCaptionName;
+end;
+
+function TfrmFindDlg.GetFileMask: String;
+begin
+  if Length(cmbFindFileMask.Text) = 0 then
+    Result := AllFilesMask
+  else begin
+    Result := cmbFindFileMask.Text;
+  end;
 end;
 
 { TfrmFindDlg.LoadHistory }
@@ -1739,14 +1761,6 @@ begin
   cmbExcludeDirectories.Items.Assign(glsSearchExcludeDirectories);
   cmbExcludeFiles.Items.Assign(glsSearchExcludeFiles);
   cmbFindText.Items.Assign(glsSearchHistory);
-
-  cmbFindPathStart.Text:= cmbFindPathStart.Hint;
-  // If we already search text then use last searched text
-  if not gFirstTextSearch then
-  begin
-    if glsSearchHistory.Count > 0 then
-      cmbFindText.Text := glsSearchHistory[0];
-  end;
   cmbReplaceText.Items.Assign(glsReplaceHistory);
 end;
 

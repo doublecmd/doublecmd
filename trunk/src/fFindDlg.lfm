@@ -260,7 +260,6 @@ object frmFindDlg: TfrmFindDlg
             ParentShowHint = False
             ShowHint = True
             TabOrder = 0
-            Text = '*'
           end
           object lblExcludeFiles: TLabel
             AnchorSideLeft.Control = cmbFindFileMask
