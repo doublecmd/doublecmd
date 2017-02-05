@@ -566,7 +566,7 @@ begin
   {$ENDIF}
 
   {$IF DEFINED(DARWIN)}
-  if HasNetFS then
+  if HasMountURL then
   begin
     with frmMain do
     begin
