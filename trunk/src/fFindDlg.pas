@@ -4,7 +4,7 @@
    Find dialog, with searching in thread
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -105,7 +105,7 @@ type
     cmbFindText: TComboBoxWithDelItems;
     cmbExcludeFiles: TComboBoxWithDelItems;
     edtAttrib: TEdit;
-    edtFindPathStart: TDirectoryEdit;
+    cmbFindPathStart: TComboBoxWithDelItems;
     frmContentPlugins: TfrmSearchPlugin;
     gbDirectories: TGroupBox;
     gbFiles: TGroupBox;
@@ -139,6 +139,7 @@ type
     seFileSizeTo: TSpinEdit;
     pnlFindFile: TPanel;
     pgcSearch: TPageControl;
+    btnChooseFolder: TSpeedButton;
     tsPlugins: TTabSheet;
     tsResults: TTabSheet;
     tsLoadSave: TTabSheet;
@@ -478,7 +479,7 @@ begin
       // Prepare window for search files
       ClearFilter;
       // SetWindowCaption(wcs_NewSearch);
-      edtFindPathStart.Text := FileView.CurrentPath;
+      cmbFindPathStart.Hint := FileView.CurrentPath;
 
       // Get paths of selected files, if any.
       FSelectedFiles.Clear;
@@ -613,7 +614,6 @@ begin
   FSearchWithWDXPluginInProgress := False;
 
   // load language
-  edtFindPathStart.DialogTitle := rsFindWhereBeg;
   cmbNotOlderThanUnit.Items.Add(rsTimeUnitSecond);
   cmbNotOlderThanUnit.Items.Add(rsTimeUnitMinute);
   cmbNotOlderThanUnit.Items.Add(rsTimeUnitHour);
@@ -662,7 +662,6 @@ begin
 
   cmbNotOlderThanUnit.ItemIndex := 3; // Days
   cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
-  edtFindPathStart.ShowHidden := gShowSystemFiles;
 
   InitPropStorage(Self);
 
@@ -699,6 +698,8 @@ end;
 
 { TfrmFindDlg.Create }
 constructor TfrmFindDlg.Create(TheOwner: TComponent);
+var
+  C: TPortableNetworkGraphic;
 begin
   FSelectedFiles := TStringList.Create;
   inherited Create(TheOwner);
@@ -706,6 +707,14 @@ begin
   FUpdateTimer.Interval := 100;
   FUpdateTimer.Enabled := False;
   FUpdateTimer.OnTimer := @OnUpdateTimer;
+
+  try
+    C := TPortableNetworkGraphic.Create;
+    C.LoadFromResourceName(hInstance, ResBtnSelDir);
+    btnChooseFolder.Glyph.Assign(C);
+  finally
+    C.Free;
+  end;
 
   FCommands := TFormCommands.Create(Self, actList);
 end;
@@ -722,7 +731,7 @@ end;
 procedure TfrmFindDlg.DisableControlsForTemplate;
 begin
   lblFindPathStart.Visible := False;
-  edtFindPathStart.Visible := False;
+  cmbFindPathStart.Visible := False;
   cbFollowSymLinks.Visible := False;
   cbSelectedFiles.Visible := False;
   cbOpenedTabs.Visible := False;
@@ -766,8 +775,7 @@ begin
   FLastTemplateName := '';
   if bClearSearchLocation then
   begin
-    edtFindPathStart.Text := '';
-    edtFindPathStart.ShowHidden := gShowSystemFiles;
+    cmbFindPathStart.Text := '';
     cmbExcludeDirectories.Text := '';
   end;
 
@@ -926,7 +934,7 @@ procedure TfrmFindDlg.cbOpenedTabsChange(Sender: TObject);
 begin
   cbSelectedFiles.Enabled := not cbOpenedTabs.Checked;
   cbFollowSymLinks.Enabled := not cbOpenedTabs.Checked;
-  edtFindPathStart.Enabled := not cbOpenedTabs.Checked;
+  cmbFindPathStart.Enabled := not cbOpenedTabs.Checked;
 end;
 
 { TfrmFindDlg.cbPartialNameSearchChange }
@@ -963,18 +971,19 @@ end;
 { TfrmFindDlg.cbSelectedFilesChange }
 procedure TfrmFindDlg.cbSelectedFilesChange(Sender: TObject);
 begin
-  edtFindPathStart.Enabled := not cbSelectedFiles.Checked;
+  cmbFindPathStart.Enabled := not cbSelectedFiles.Checked;
 end;
 
 { TfrmFindDlg.btnSelDirClick }
 procedure TfrmFindDlg.btnSelDirClick(Sender: TObject);
 var
-  s: string;
+  S, AFolder: String;
 begin
-  s := edtFindPathStart.Text;
-  if not mbDirectoryExists(s) then s := '';
-  SelectDirectory(rsFindWhereBeg, '', s, False);
-  edtFindPathStart.Text := s;
+  S := cmbFindPathStart.Text;
+  AFolder:= ExtractFilePath(ExcludeTrailingBackslash(S));
+  if not mbDirectoryExists(AFolder) then AFolder := EmptyStr;
+  if SelectDirectory(rsFindWhereBeg, AFolder, S, gShowSystemFiles) then
+    cmbFindPathStart.Text := S;
 end;
 
 { TfrmFindDlg.btnNewSearchKeyDown }
@@ -990,7 +999,7 @@ begin
   with FindOptions do
   begin
     if SetStartPath then
-      StartPath := edtFindPathStart.Text
+      StartPath := cmbFindPathStart.Text
     else
       StartPath := '';
     ExcludeDirectories := cmbExcludeDirectories.Text;
@@ -1339,7 +1348,7 @@ begin
   Self.Repaint;
   Application.ProcessMessages;
 
-  sTemp := edtFindPathStart.Text;
+  sTemp := cmbFindPathStart.Text;
   repeat
     sPath := Copy2SymbDel(sTemp, ';');
     if not mbDirectoryExists(sPath) then
@@ -1726,10 +1735,12 @@ end;
 procedure TfrmFindDlg.LoadHistory;
 begin
   cmbFindFileMask.Items.Assign(glsMaskHistory);
+  cmbFindPathStart.Items.Assign(glsSearchDirectories);
   cmbExcludeDirectories.Items.Assign(glsSearchExcludeDirectories);
   cmbExcludeFiles.Items.Assign(glsSearchExcludeFiles);
   cmbFindText.Items.Assign(glsSearchHistory);
 
+  cmbFindPathStart.Text:= cmbFindPathStart.Hint;
   // If we already search text then use last searched text
   if not gFirstTextSearch then
   begin
@@ -1745,6 +1756,10 @@ begin
   // 1. Add to find mask history
   InsertFirstItem(cmbFindFileMask.Text, cmbFindFileMask);
   glsMaskHistory.Assign(cmbFindFileMask.Items);
+
+  // 1. Add to find directory history
+  InsertFirstItem(cmbFindPathStart.Text, cmbFindPathStart);
+  glsSearchDirectories.Assign(cmbFindPathStart.Items);
 
   // 2. Add to exclude directories history
   InsertFirstItem(cmbExcludeDirectories.Text, cmbExcludeDirectories);
@@ -1844,7 +1859,7 @@ begin
   with Template do
   begin
     if StartPath <> '' then
-      edtFindPathStart.Text := StartPath;
+      cmbFindPathStart.Text := StartPath;
     cmbExcludeDirectories.Text := ExcludeDirectories;
     cmbFindFileMask.Text := FilesMasks;
     cmbExcludeFiles.Text := ExcludeFiles;
