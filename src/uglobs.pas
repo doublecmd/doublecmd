@@ -276,6 +276,7 @@ var
   glsSearchPathHistory : TStringListEx;
   glsReplaceHistory : TStringListEx;
   glsReplacePathHistory : TStringListEx;
+  glsSearchDirectories: TStringList;
   glsSearchExcludeFiles: TStringList;
   glsSearchExcludeDirectories: TStringList;
   glsIgnoreList : TStringListEx;
@@ -757,6 +758,7 @@ begin
       LoadHistory('SearchTextPath', glsSearchPathHistory);
       LoadHistory('ReplaceText', glsReplaceHistory);
       LoadHistory('ReplaceTextPath', glsReplacePathHistory);
+      LoadHistory('SearchDirectories', glsSearchDirectories);
       LoadHistory('SearchExcludeFiles', glsSearchExcludeFiles);
       LoadHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
     end;
@@ -799,6 +801,7 @@ begin
       SaveHistory('SearchTextPath', glsSearchPathHistory);
       SaveHistory('ReplaceText', glsReplaceHistory);
       SaveHistory('ReplaceTextPath', glsReplacePathHistory);
+      SaveHistory('SearchDirectories', glsSearchDirectories);
       SaveHistory('SearchExcludeFiles', glsSearchExcludeFiles);
       SaveHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
     end;
@@ -1194,6 +1197,7 @@ begin
   glsReplaceHistory := TStringListEx.Create;
   glsReplacePathHistory := TStringListEx.Create;
   glsIgnoreList := TStringListEx.Create;
+  glsSearchDirectories := TStringList.Create;
   glsSearchExcludeFiles:= TStringList.Create;
   glsSearchExcludeDirectories:= TStringList.Create;
   gSearchTemplateList := TSearchTemplateList.Create;
@@ -1223,6 +1227,7 @@ begin
   FreeThenNil(glsReplaceHistory);
   FreeThenNil(glsReplacePathHistory);
   FreeThenNil(glsIgnoreList);
+  FreeThenNil(glsSearchDirectories);
   FreeThenNil(glsSearchExcludeFiles);
   FreeThenNil(glsSearchExcludeDirectories);
   FreeThenNil(gExts);
