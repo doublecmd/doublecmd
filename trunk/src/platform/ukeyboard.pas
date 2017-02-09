@@ -348,14 +348,41 @@ end;
 {$ENDIF}
 
 function GetKeyShiftStateEx: TShiftState;
+
   function IsKeyDown(Key: Integer): Boolean;
   begin
     Result := (GetKeyState(Key) and $8000)<>0;
   end;
+
+{$IFDEF MSWINDOWS}
+  procedure GetMouseButtonState;
+  var
+    bSwapButton: Boolean;
+  begin
+    bSwapButton:= GetSystemMetrics(SM_SWAPBUTTON) <> 0;
+    if (GetAsyncKeyState(VK_LBUTTON) and $8000 <> 0) then
+    begin
+      if bSwapButton then
+        Include(Result, ssRight)
+      else
+        Include(Result, ssLeft);
+    end;
+    if (GetAsyncKeyState(VK_RBUTTON) and $8000 <> 0) then
+    begin
+      if bSwapButton then
+        Include(Result, ssLeft)
+      else
+        Include(Result, ssRight);
+    end;
+  end;
+{$ENDIF}
+
 begin
   Result:=[];
 
 {$IFDEF MSWINDOWS}
+  GetMouseButtonState;
+
   if HasKeyboardAltGrKey then
   begin
     // Windows maps AltGr as Ctrl+Alt combination, so if AltGr is pressed,
