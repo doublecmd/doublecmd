@@ -204,7 +204,7 @@ uses
   LCLIntf, LCLProc, LazUTF8, Forms, Dialogs,
   fMain, uShowMsg, uLng, uFileProperty, uFileSource, uFileSourceOperationTypes,
   uGlobs, uInfoToolTip, uDisplayFile, uFileSystemFileSource, uFileSourceUtil,
-  uArchiveFileSourceUtil, uFormCommands;
+  uArchiveFileSourceUtil, uFormCommands, uKeyboard;
 
 type
   TControlHandlersHack = class(TWinControl)
@@ -473,7 +473,7 @@ begin
     // Drop onto target panel.
     DropParams := TDropParams.Create(
       SourceFiles, // Will be freed automatically.
-      GetDropEffectByKeyAndMouse(GetKeyShiftState,
+      GetDropEffectByKeyAndMouse(GetKeyShiftStateEx,
                                  SourcePanel.FMainControlLastMouseButton),
       MainControl.ClientToScreen(Classes.Point(X, Y)),
       True,
@@ -642,6 +642,8 @@ var
   AFile, APreviousFile: TDisplayFile;
 begin
   SetDragCursor(Shift);
+  if (DragManager <> nil) and DragManager.IsDragging and (Button = mbRight) then
+    Exit;
   FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
   if not AtFileList then
     Exit;

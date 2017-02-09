@@ -381,7 +381,11 @@ begin
 end;
 
 function GetDropEffectByKey(ShiftState: TShiftState): TDropEffect;
+const
+  ssBoth = [ssLeft, ssRight];
 begin
+  if (ssBoth * ShiftState = ssBoth) then
+    Exit(DropMoveEffect);
   ShiftState := [ssCtrl, ssShift, ssAlt] * ShiftState;
   if ShiftState = [] then
     Result := DropCopyEffect   // default to Copy when no keys pressed
@@ -400,7 +404,12 @@ function GetDropEffectByKeyAndMouse(ShiftState: TShiftState;
 begin
   case MouseButton of
     mbLeft:
-      Result := GetDropEffectByKey(ShiftState);
+      begin
+        if ShiftState = [ssRight] then
+          Result := DropMoveEffect
+        else
+          Result := GetDropEffectByKey(ShiftState);
+      end;
 
     mbMiddle:
       Result := DropAskEffect;
