@@ -451,6 +451,7 @@ type
     procedure SelectText(AStart, AEnd: PtrInt);
     procedure CopyToClipboard;
     procedure CopyToClipboardF;
+    function Selection: String;
 
     function IsVisible(const aPosition: PtrInt): Boolean; overload;
     procedure MakeVisible(const aPosition: PtrInt);
@@ -868,7 +869,8 @@ begin
 end;
 
 
-function TViewerControl.TransformCustom(var APosition: PtrInt; aLimit:PtrInt; AWithAdditionalData: boolean=True): AnsiString;
+function TViewerControl.TransformCustom(var APosition: PtrInt; ALimit: PtrInt;
+  AWithAdditionalData: boolean): AnsiString;
 var
   sAscii: string = '';
   sRez  : string = '';
@@ -2678,6 +2680,19 @@ begin
    {$ELSE}
    Clipboard.AsText := utf8Text;
    {$ENDIF}
+end;
+
+function TViewerControl.Selection: String;
+var
+  sText: String;
+  ALength: PtrInt;
+begin
+  if (FBlockEnd - FBlockBeg) <= 0 then
+    Exit(EmptyStr);
+  ALength:= FBlockEnd - FBlockBeg;
+  if ALength > 256 then ALength:= 256;
+  SetString(sText, GetDataAdr + FBlockBeg, ALength);
+  Result := ConvertToUTF8(sText);
 end;
 
 function TViewerControl.GetNextCharAsAscii(const iPosition: PtrInt; out CharLenInBytes: Integer): Cardinal;

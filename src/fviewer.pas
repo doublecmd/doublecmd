@@ -1986,6 +1986,9 @@ begin
         end;
       // Load search history
       FFindDialog.cbDataToFind.Items.Assign(glsSearchHistory);
+      sSearchTextU:= ViewerControl.Selection;
+      if Length(sSearchTextU) > 0 then
+        FFindDialog.cbDataToFind.Text:= sSearchTextU;
       if FFindDialog.ShowModal <> mrOK then Exit;
       if FFindDialog.cbDataToFind.Text = '' then Exit;
       sSearchTextU:= FFindDialog.cbDataToFind.Text;
