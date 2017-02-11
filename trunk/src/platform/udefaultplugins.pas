@@ -161,9 +161,9 @@ begin
 
   I:= gWCXPlugins.IndexOfName('zipx');
   if I < 0 then
-    gWCXPlugins.Add('zipx', 212, Folder + 'zip' + PathDelim + 'zip.wcx')
+    gWCXPlugins.Add('zipx', 223, Folder + 'zip' + PathDelim + 'zip.wcx')
   else
-    gWCXPlugins.Flags[I]:= 212;
+    gWCXPlugins.Flags[I]:= 223;
   {$ENDIF}
 
   {$IF DEFINED(MSWINDOWS)}
