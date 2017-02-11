@@ -1,9 +1,9 @@
- jcl/source/common/JclCompression.pas | 106 +++++++++++++++++++++++++++++++----
+ jcl/source/common/JclCompression.pas | 127 +++++++++++++++++++++++++++++++----
  jcl/source/windows/sevenzip.pas      |   8 +--
- 2 files changed, 99 insertions(+), 15 deletions(-)
+ 2 files changed, 119 insertions(+), 16 deletions(-)
 
 diff --git a/jcl/source/common/JclCompression.pas b/jcl/source/common/JclCompression.pas
-index e5e6a2f..a6bf1ce 100644
+index e5e6a2f..f214efa 100644
 --- a/jcl/source/common/JclCompression.pas
 +++ b/jcl/source/common/JclCompression.pas
 @@ -44,8 +44,7 @@
@@ -235,7 +235,18 @@ index e5e6a2f..a6bf1ce 100644
  end;
 
  function TJclSevenzipUpdateCallback.GetUpdateItemInfo(Index: Cardinal; NewData,
-@@ -6692,7 +6751,11 @@ begin
+@@ -6681,7 +6740,10 @@ end;
+
+ procedure TJclSevenzipCompressArchive.Compress;
+ var
++  Value: HRESULT;
++  Index: Integer;
+   OutStream: IOutStream;
++  AVolume: TJclCompressionVolume;
+   UpdateCallback: IArchiveUpdateCallback;
+   SplitStream: TJclDynamicSplitStream;
+ begin
+@@ -6692,12 +6754,32 @@ begin
      SplitStream := TJclDynamicSplitStream.Create(False);
      SplitStream.OnVolume := NeedStream;
      SplitStream.OnVolumeMaxSize := NeedStreamMaxSize;
@@ -248,7 +259,29 @@ index e5e6a2f..a6bf1ce 100644
      UpdateCallback := TJclSevenzipUpdateCallback.Create(Self);
 
      SetSevenzipArchiveCompressionProperties(Self, OutArchive);
-@@ -7422,7 +7485,14 @@ function TJclSevenzipOpenCallback.CryptoGetTextPassword(
+
+-    SevenzipCheck(OutArchive.UpdateItems(OutStream, ItemCount, UpdateCallback));
++    Value:= OutArchive.UpdateItems(OutStream, ItemCount, UpdateCallback);
++
++    if Value = E_ABORT then
++    begin
++      // Remove partial archives
++      for Index := 0 to FVolumes.Count - 1 do
++      begin
++        AVolume := TJclCompressionVolume(FVolumes.Items[Index]);
++        if AVolume.OwnsStream then
++        begin
++          FreeAndNil(AVolume.FStream);
++          FileDelete(AVolume.FileName);
++        end;
++      end;
++    end;
++
++    SevenzipCheck(Value);
+   finally
+     FCompressing := False;
+     // release volumes and other finalizations
+@@ -7422,7 +7504,14 @@ function TJclSevenzipOpenCallback.CryptoGetTextPassword(
    password: PBStr): HRESULT;
  begin
    if Assigned(password) then
@@ -263,7 +296,7 @@ index e5e6a2f..a6bf1ce 100644
    Result := S_OK;
  end;
 
-@@ -7456,7 +7526,14 @@ function TJclSevenzipExtractCallback.CryptoGetTextPassword(
+@@ -7456,7 +7545,14 @@ function TJclSevenzipExtractCallback.CryptoGetTextPassword(
    password: PBStr): HRESULT;
  begin
    if Assigned(password) then
@@ -278,7 +311,7 @@ index e5e6a2f..a6bf1ce 100644
    Result := S_OK;
  end;
 
-@@ -8807,6 +8884,7 @@ end;
+@@ -8807,6 +8903,7 @@ end;
 
  procedure TJclSevenzipUpdateArchive.Compress;
  var
@@ -286,7 +319,7 @@ index e5e6a2f..a6bf1ce 100644
    OutStream: IOutStream;
    UpdateCallback: IArchiveUpdateCallback;
    SplitStream: TJclDynamicSplitStream;
-@@ -8824,7 +8902,13 @@ begin
+@@ -8824,7 +8921,13 @@ begin
 
      SetSevenzipArchiveCompressionProperties(Self, OutArchive);
 
