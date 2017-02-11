@@ -85,11 +85,22 @@ begin
   // Wcx plugins
   Folder:= '%commander_path%' + PathDelim + 'plugins' + PathDelim + 'wcx' + PathDelim;
 
+  {$IF DEFINED(MSWINDOWS)}
+  I:= gWCXPlugins.IndexOfName('zip');
+  if I < 0 then
+    gWCXPlugins.Add('zip', 735, Folder + 'sevenzip' + PathDelim + 'sevenzip.wcx')
+  else begin
+    gWCXPlugins.FileName[I]:= Folder + 'sevenzip' + PathDelim + 'sevenzip.wcx';
+  end;
+  {$ELSE}
   I:= gWCXPlugins.IndexOfName('zip');
   if I < 0 then
     gWCXPlugins.Add('zip', 735, Folder + 'zip' + PathDelim + 'zip.wcx')
-  else
-    gWCXPlugins.Flags[I]:= 735;
+  {$ENDIF}
+
+  I:= gWCXPlugins.IndexOfName('jar');
+  if I < 0 then
+    gWCXPlugins.Add('jar', 990, Folder + 'zip' + PathDelim + 'zip.wcx');
 
   {$IF DEFINED(MSWINDOWS)}
   I:= gWCXPlugins.IndexOfName('7z');
