@@ -513,17 +513,14 @@ begin
 end;
 
 function TSevenZipUpdate.Update: Integer;
-var
-  AllowCancel: Boolean;
 begin
   FArchive.OnProgress:= JclCompressionProgress;
-  AllowCancel:= not (FArchive is TJclUpdateArchive);
   while not Terminated do
   begin
     // Wait progress event
     FProgress.WaitFor(INFINITE);
     // If the user has clicked on Cancel, the function returns zero
-    FArchive.CancelCurrentOperation:= (ProcessDataProcT(PWideChar(FFileName), -FPercent) = 0) and AllowCancel;
+    FArchive.CancelCurrentOperation:= (ProcessDataProcT(PWideChar(FFileName), -FPercent) = 0);
     // Drop pause
     FPause.SetEvent;
   end;

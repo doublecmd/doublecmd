@@ -8904,9 +8904,9 @@ begin
 
     Value:= OutArchive.UpdateItems(OutStream, ItemCount, UpdateCallback);
 
-    if Value = E_ABORT then
-      FReplaceVolumes:= False
-    else begin
+    if Value <> S_OK then
+    begin
+      FReplaceVolumes:= False;
       SevenzipCheck(Value);
     end;
   finally
