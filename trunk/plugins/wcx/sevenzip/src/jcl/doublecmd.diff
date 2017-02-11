@@ -1,9 +1,9 @@
- jcl/source/common/JclCompression.pas | 67 +++++++++++++++++++++++++++++++-----
- jcl/source/windows/sevenzip.pas      |  8 ++---
- 2 files changed, 63 insertions(+), 12 deletions(-)
+ jcl/source/common/JclCompression.pas | 106 +++++++++++++++++++++++++++++++----
+ jcl/source/windows/sevenzip.pas      |   8 +--
+ 2 files changed, 99 insertions(+), 15 deletions(-)
 
 diff --git a/jcl/source/common/JclCompression.pas b/jcl/source/common/JclCompression.pas
-index e5e6a2f..5934880 100644
+index e5e6a2f..daff55a 100644
 --- a/jcl/source/common/JclCompression.pas
 +++ b/jcl/source/common/JclCompression.pas
 @@ -44,8 +44,7 @@
@@ -156,7 +156,35 @@ index e5e6a2f..5934880 100644
        try
          ExtensionMap.Delimiter := ';';
          ExtensionMap.DelimitedText := Archive.ArchiveSubExtensions;
-@@ -6117,6 +6139,8 @@ end;
+@@ -5544,6 +5566,18 @@ begin
+     end;
+     if not AllHandled then
+       raise EJclCompressionError.CreateRes(@RsCompressionReplaceError);
++  end
++  else begin
++    // Remove temporary files
++    for Index := 0 to FVolumes.Count - 1 do
++    begin
++      AVolume := TJclCompressionVolume(FVolumes.Items[Index]);
++      if AVolume.OwnsTmpStream then
++      begin
++        FreeAndNil(AVolume.FTmpStream);
++        FileDelete(AVolume.TmpFileName);
++      end;
++    end;
+   end;
+ end;
+
+@@ -5791,6 +5825,8 @@ begin
+   FItemIndex := AItemIndex;
+   FStream := nil;
+   FOwnsStream := False;
++
++  NeedStream;
+ end;
+
+ constructor TJclSevenzipInStream.Create(AStream: TStream; AOwnsStream: Boolean);
+@@ -6117,6 +6153,8 @@ end;
 
  procedure SetSevenzipArchiveCompressionProperties(AJclArchive: IInterface; ASevenzipArchive: IInterface);
  var
@@ -165,7 +193,7 @@ index e5e6a2f..5934880 100644
    PropertySetter: Sevenzip.ISetProperties;
    InArchive, OutArchive: Boolean;
    Unused: IInterface;
-@@ -6254,9 +6278,18 @@ begin
+@@ -6254,9 +6292,18 @@ begin
          else
            AddWideStringProperty('S', IntToStr(Solid.SolidBlockSize) + 'F');
        end;
@@ -184,7 +212,30 @@ index e5e6a2f..5934880 100644
    end;
  end;
 
-@@ -6692,7 +6725,11 @@ begin
+@@ -6535,8 +6582,20 @@ function TJclSevenzipUpdateCallback.GetStream(Index: Cardinal;
+   out InStream: ISequentialInStream): HRESULT;
+ begin
+   FLastStream := Index;
+-  InStream := TJclSevenzipInStream.Create(FArchive, Index);
+-  Result := S_OK;
++  repeat
++    try
++      InStream := TJclSevenzipInStream.Create(FArchive, Index);
++      Result := S_OK;
++    except
++      on E: Exception do
++      begin
++        case MessageBox(0, PAnsiChar(E.Message), nil, MB_ABORTRETRYIGNORE or MB_ICONERROR) of
++          IDABORT: Exit(E_ABORT);
++          IDIGNORE: Exit(S_FALSE);
++        end;
++      end;
++    end;
++  until Result = S_OK;
+ end;
+
+ function TJclSevenzipUpdateCallback.GetUpdateItemInfo(Index: Cardinal; NewData,
+@@ -6692,7 +6751,11 @@ begin
      SplitStream := TJclDynamicSplitStream.Create(False);
      SplitStream.OnVolume := NeedStream;
      SplitStream.OnVolumeMaxSize := NeedStreamMaxSize;
@@ -197,7 +248,7 @@ index e5e6a2f..5934880 100644
      UpdateCallback := TJclSevenzipUpdateCallback.Create(Self);
 
      SetSevenzipArchiveCompressionProperties(Self, OutArchive);
-@@ -7422,7 +7459,14 @@ function TJclSevenzipOpenCallback.CryptoGetTextPassword(
+@@ -7422,7 +7485,14 @@ function TJclSevenzipOpenCallback.CryptoGetTextPassword(
    password: PBStr): HRESULT;
  begin
    if Assigned(password) then
@@ -212,7 +263,7 @@ index e5e6a2f..5934880 100644
    Result := S_OK;
  end;
 
-@@ -7456,7 +7500,14 @@ function TJclSevenzipExtractCallback.CryptoGetTextPassword(
+@@ -7456,7 +7526,14 @@ function TJclSevenzipExtractCallback.CryptoGetTextPassword(
    password: PBStr): HRESULT;
  begin
    if Assigned(password) then
@@ -227,6 +278,29 @@ index e5e6a2f..5934880 100644
    Result := S_OK;
  end;
 
+@@ -8807,6 +8884,7 @@ end;
+
+ procedure TJclSevenzipUpdateArchive.Compress;
+ var
++  Value: HRESULT;
+   OutStream: IOutStream;
+   UpdateCallback: IArchiveUpdateCallback;
+   SplitStream: TJclDynamicSplitStream;
+@@ -8824,7 +8902,13 @@ begin
+
+     SetSevenzipArchiveCompressionProperties(Self, OutArchive);
+
+-    SevenzipCheck(OutArchive.UpdateItems(OutStream, ItemCount, UpdateCallback));
++    Value:= OutArchive.UpdateItems(OutStream, ItemCount, UpdateCallback);
++
++    if Value = E_ABORT then
++      FReplaceVolumes:= False
++    else begin
++      SevenzipCheck(Value);
++    end;
+   finally
+     FCompressing := False;
+     // release reference to volume streams
 diff --git a/jcl/source/windows/sevenzip.pas b/jcl/source/windows/sevenzip.pas
 index 06fb94f..0853a85 100644
 --- a/jcl/source/windows/sevenzip.pas

@@ -5566,6 +5566,18 @@ begin
     end;
     if not AllHandled then
       raise EJclCompressionError.CreateRes(@RsCompressionReplaceError);
+  end
+  else begin
+    // Remove temporary files
+    for Index := 0 to FVolumes.Count - 1 do
+    begin
+      AVolume := TJclCompressionVolume(FVolumes.Items[Index]);
+      if AVolume.OwnsTmpStream then
+      begin
+        FreeAndNil(AVolume.FTmpStream);
+        FileDelete(AVolume.TmpFileName);
+      end;
+    end;
   end;
 end;
 
@@ -5813,6 +5825,8 @@ begin
   FItemIndex := AItemIndex;
   FStream := nil;
   FOwnsStream := False;
+
+  NeedStream;
 end;
 
 constructor TJclSevenzipInStream.Create(AStream: TStream; AOwnsStream: Boolean);
@@ -6568,8 +6582,20 @@ function TJclSevenzipUpdateCallback.GetStream(Index: Cardinal;
   out InStream: ISequentialInStream): HRESULT;
 begin
   FLastStream := Index;
-  InStream := TJclSevenzipInStream.Create(FArchive, Index);
-  Result := S_OK;
+  repeat
+    try
+      InStream := TJclSevenzipInStream.Create(FArchive, Index);
+      Result := S_OK;
+    except
+      on E: Exception do
+      begin
+        case MessageBox(0, PAnsiChar(E.Message), nil, MB_ABORTRETRYIGNORE or MB_ICONERROR) of
+          IDABORT: Exit(E_ABORT);
+          IDIGNORE: Exit(S_FALSE);
+        end;
+      end;
+    end;
+  until Result = S_OK;
 end;
 
 function TJclSevenzipUpdateCallback.GetUpdateItemInfo(Index: Cardinal; NewData,
@@ -8858,6 +8884,7 @@ end;
 
 procedure TJclSevenzipUpdateArchive.Compress;
 var
+  Value: HRESULT;
   OutStream: IOutStream;
   UpdateCallback: IArchiveUpdateCallback;
   SplitStream: TJclDynamicSplitStream;
@@ -8875,7 +8902,13 @@ begin
 
     SetSevenzipArchiveCompressionProperties(Self, OutArchive);
 
-    SevenzipCheck(OutArchive.UpdateItems(OutStream, ItemCount, UpdateCallback));
+    Value:= OutArchive.UpdateItems(OutStream, ItemCount, UpdateCallback);
+
+    if Value = E_ABORT then
+      FReplaceVolumes:= False
+    else begin
+      SevenzipCheck(Value);
+    end;
   finally
     FCompressing := False;
     // release reference to volume streams
