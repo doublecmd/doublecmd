@@ -320,6 +320,7 @@ resourcestring
   rsDlgButtonRetry = 'Re&try';
   rsDlgButtonAbort = 'Ab&ort';
   rsDlgButtonOther = 'Ot&her';
+  rsDlgButtonRetryAdmin = 'As Ad&ministrator';
 
   rsDlgButtonContinue = '&Continue';
   rsDlgButtonExitProgram = 'E&xit program';

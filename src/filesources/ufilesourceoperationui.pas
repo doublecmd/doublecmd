@@ -33,7 +33,8 @@ type
      fsourIgnoreAll,
      fsourAll,
      fsourRetry,
-     fsourAbort);
+     fsourAbort,
+     fsourRetryAdmin);
 
   {en
      General interface for communication: operation <-> user.
