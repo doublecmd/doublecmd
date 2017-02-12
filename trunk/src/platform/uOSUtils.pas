@@ -110,6 +110,8 @@ function ExecCmdFork(sCmd: String): Boolean;
 }
 function ExecCmdFork(sCmd: String; sParams: String; sStartPath: String = ''; bShowCommandLinePriorToExecute: Boolean = False;
                      bTerm: Boolean = False; bKeepTerminalOpen: tTerminalEndindMode = termStayOpen): Boolean;
+
+function ExecCmdAdmin(sCmd: String; sParams: String; sStartPath: String = ''): Boolean;
 {en
    Opens a file or URL in the user's preferred application
    @param(URL File name or URL)
@@ -234,6 +236,8 @@ function GetCurrentUserName : String;
 }
 function GetComputerNetName: String;
 
+var
+  AdministratorPrivileges: Boolean = False;
 
 implementation
 
@@ -415,6 +419,26 @@ begin
   end;
 
   Result := (ExecutionResult > 32);
+end;
+{$ENDIF}
+
+function ExecCmdAdmin(sCmd: String; sParams: String; sStartPath: String): Boolean;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  sStartPath:= RemoveQuotation(sStartPath);
+
+  if sStartPath = '' then
+    sStartPath:= mbGetCurrentDir;
+
+  sCmd:= NormalizePathDelimiters(sCmd);
+
+  Result:= ShellExecuteW(0, 'runas', PWideChar(UTF8Decode(sCmd)),
+                         PWideChar(UTF8Decode(sParams)),
+                         PWideChar(UTF8Decode(sStartPath)), SW_SHOW) > 32;
+end;
+{$ELSE}
+begin
+  Result:= False;
 end;
 {$ENDIF}
 
@@ -1175,5 +1199,12 @@ begin
   Result:= Utf8ToSys(FileName);
 end;
 {$ENDIF}
+
+initialization
+  {$IF DEFINED(UNIX)}
+  AdministratorPrivileges:= (fpGetUID = 0);
+  {$ELSE}
+  AdministratorPrivileges:= IsUserAdmin;
+  {$ENDIF}
 
 end.
