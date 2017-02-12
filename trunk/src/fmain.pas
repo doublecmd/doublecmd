@@ -4828,13 +4828,13 @@ begin
     // Operations panel and menu
     if (gPanelOfOp = False) then
       FreeAndNil(FOperationsPanel)
-    else
-      begin
-        FOperationsPanel := TOperationsPanel.Create(Self);
-        FOperationsPanel.Parent := PanelAllProgress;
-        FOperationsPanel.DoubleBuffered := True;
-        PanelAllProgress.OnResize := @FOperationsPanel.ParentResized;
-      end;
+    else if (FOperationsPanel = nil) then
+    begin
+      FOperationsPanel := TOperationsPanel.Create(Self);
+      FOperationsPanel.Parent := PanelAllProgress;
+      FOperationsPanel.DoubleBuffered := True;
+      PanelAllProgress.OnResize := @FOperationsPanel.ParentResized;
+    end;
     PanelAllProgress.Visible := gPanelOfOp;
     Timer.Enabled := gPanelOfOp or gProgInMenuBar;
 
