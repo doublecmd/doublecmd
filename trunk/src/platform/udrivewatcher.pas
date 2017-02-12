@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Enumerating and monitoring drives in the system.
 
-   Copyright (C) 2006-2016  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2017  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -610,7 +610,8 @@ end;
          (mnt_dir = '/proc') or
          (StrBegins(mnt_dir, '/dev/')) or
          (StrBegins(mnt_dir, '/sys/')) or
-         (StrBegins(mnt_dir, '/proc/')) then Exit;
+         (StrBegins(mnt_dir, '/proc/')) or
+         (StrBegins(mnt_dir, '/snap/')) then Exit;
 
       // check file system type
       if (mnt_type = 'ignore') or
