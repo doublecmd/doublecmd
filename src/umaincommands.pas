@@ -1997,9 +1997,14 @@ begin
   gSeparateTree := not gSeparateTree;
   with frmMain do
   begin
-    UpdateWindowView;
-    UpdateTreeViewPath;
-    MainSplitterPos:= MainSplitterPos;
+    DisableAutoSizing;
+    try
+      UpdateShellTreeView;
+      UpdateTreeViewPath;
+      MainSplitterPos:= MainSplitterPos;
+    finally
+      EnableAutoSizing;
+    end;
   end;
 end;
 
