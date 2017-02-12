@@ -171,8 +171,8 @@ begin
     case FDeleteReadOnly of
       fsoogNone:
         case AskQuestion(Format(rsMsgFileReadOnly, [FileName]), '',
-                         [fsourYes, fsourAll, fsourSkip, fsourSkipAll],
-                         fsourYes, fsourSkip) of
+                         [fsourYes, fsourSkip, fsourAbort, fsourAll, fsourSkipAll],
+                         fsourYes, fsourAbort) of
           fsourAll:
             FDeleteReadOnly := fsoogYes;
           fsourSkip:
@@ -182,6 +182,8 @@ begin
               FDeleteReadOnly := fsoogNo;
               Exit;
             end;
+          fsourAbort:
+            RaiseAbortOperation;
         end;
 
        fsoogNo:
@@ -216,7 +218,7 @@ begin
             fsoogNone:
               case AskQuestion(Format(rsMsgDelToTrashForce, [FileName]), '',
                                [fsourYes, fsourAll, fsourSkip, fsourSkipAll, fsourAbort],
-                               fsourYes, fsourSkip) of
+                               fsourYes, fsourAbort) of
                 fsourYes:
                   RemoveDirectly:= fsoogYes;
                 fsourAll:
@@ -295,7 +297,7 @@ begin
       begin
         case AskQuestion(sQuestion, '',
                          [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
-                         fsourRetry, fsourSkip) of
+                         fsourRetry, fsourAbort) of
           fsourRetry:
             bRetry := True;
           fsourSkipAll:
