@@ -1202,7 +1202,7 @@ end;
 
 initialization
   {$IF DEFINED(UNIX)}
-  AdministratorPrivileges:= (fpGetUID = 0);
+  AdministratorPrivileges:= True; // (fpGetUID = 0); temporary while ExecCmdAdmin not implemented
   {$ELSE}
   AdministratorPrivileges:= IsUserAdmin;
   {$ENDIF}
