@@ -34,7 +34,7 @@ type
     procedure DeleteSubDirectory(const aFile: TFile);
 
   protected
-    procedure ProcessFile(aFile: TFile);
+    function ProcessFile(aFile: TFile): Boolean;
     procedure ProcessList(aFiles: TFiles);
     function ShowError(sMessage: String): TFileSourceOperationUIResponse;
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -59,7 +59,7 @@ type
 implementation
 
 uses
-  DCOSUtils, uLng, uFileSystemUtil, uTrash;
+  DCOSUtils, uLng, uFileSystemUtil, uTrash, uAdministrator, uOSUtils;
 
 constructor TFileSystemDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
@@ -155,7 +155,12 @@ begin
   end;
 end;
 
-procedure TFileSystemDeleteOperation.ProcessFile(aFile: TFile);
+function TFileSystemDeleteOperation.ProcessFile(aFile: TFile): Boolean;
+const
+  ResponsesTrash: array[0..4] of TFileSourceOperationUIResponse
+    = (fsourYes, fsourAll, fsourSkip, fsourSkipAll, fsourAbort);
+  ResponsesError: array[0..3] of TFileSourceOperationUIResponse
+    = (fsourRetry, fsourSkip, fsourSkipAll, fsourAbort);
 var
   FileName: String;
   bRetry: Boolean;
@@ -163,7 +168,9 @@ var
   sMessage, sQuestion: String;
   logOptions: TLogOptions;
   DeleteResult: Boolean;
+  PossibleResponses: array of TFileSourceOperationUIResponse;
 begin
+  Result := True;
   FileName := aFile.FullPath;
 
   if FileIsReadOnly(aFile.Attributes) then
@@ -216,25 +223,36 @@ begin
         begin
           case FDeleteDirectly of
             fsoogNone:
-              case AskQuestion(Format(rsMsgDelToTrashForce, [FileName]), '',
-                               [fsourYes, fsourAll, fsourSkip, fsourSkipAll, fsourAbort],
-                               fsourYes, fsourAbort) of
-                fsourYes:
-                  RemoveDirectly:= fsoogYes;
-                fsourAll:
-                  begin
-                    FDeleteDirectly := fsoogYes;
+              begin
+                if AdministratorPrivileges then
+                  PossibleResponses:= ResponsesTrash
+                else begin
+                  SetLength(PossibleResponses, Length(ResponsesTrash) + 1);
+                  Move(ResponsesTrash[0], PossibleResponses[0], SizeOf(ResponsesTrash));
+                  PossibleResponses[High(PossibleResponses)]:= fsourRetryAdmin;
+                end;
+                case AskQuestion(Format(rsMsgDelToTrashForce, [FileName]), '',
+                                 PossibleResponses,
+                                 fsourYes, fsourAbort) of
+                  fsourYes:
                     RemoveDirectly:= fsoogYes;
-                  end;
-                fsourSkip:
-                  RemoveDirectly:= fsoogNo;
-                fsourSkipAll:
-                  begin
-                    FDeleteDirectly := fsoogNo;
+                  fsourAll:
+                    begin
+                      FDeleteDirectly := fsoogYes;
+                      RemoveDirectly:= fsoogYes;
+                    end;
+                  fsourSkip:
                     RemoveDirectly:= fsoogNo;
-                  end;
-                fsourAbort:
-                  RaiseAbortOperation;
+                  fsourSkipAll:
+                    begin
+                      FDeleteDirectly := fsoogNo;
+                      RemoveDirectly:= fsoogNo;
+                    end;
+                  fsourAbort:
+                    RaiseAbortOperation;
+                  fsourRetryAdmin:
+                    Exit(False);
+                end;
               end;
             fsoogYes:
               RemoveDirectly:= fsoogYes;
@@ -295,8 +313,15 @@ begin
         LogMessage(sMessage, logOptions, lmtError)
       else
       begin
+        if AdministratorPrivileges then
+          PossibleResponses:= ResponsesError
+        else begin
+          SetLength(PossibleResponses, Length(ResponsesError) + 1);
+          Move(ResponsesError[0], PossibleResponses[0], SizeOf(ResponsesError));
+          PossibleResponses[High(PossibleResponses)]:= fsourRetryAdmin;
+        end;
         case AskQuestion(sQuestion, '',
-                         [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
+                         PossibleResponses,
                          fsourRetry, fsourAbort) of
           fsourRetry:
             bRetry := True;
@@ -304,6 +329,8 @@ begin
             FSkipErrors := True;
           fsourAbort:
             RaiseAbortOperation;
+          fsourRetryAdmin:
+            Exit(False);
         end;
       end;
     end;
@@ -322,7 +349,11 @@ begin
     FStatistics.CurrentFile := aFile.FullPath;
     UpdateStatistics(FStatistics);
 
-    ProcessFile(aFile);
+    if not ProcessFile(aFile) then
+    begin
+      Delete(Self, aFiles, CurrentFileIndex);
+      Exit;
+    end;
 
     with FStatistics do
     begin

@@ -26,7 +26,7 @@ implementation
 
 uses
   Forms, Dialogs, SysUtils, uOSUtils, uDCUtils, uGlobsPaths, getopts, uDebug,
-  uLng, uClipboard;
+  uLng, uClipboard, uAdministrator;
 
 function DecodePath(const Path: String): String;
 begin
@@ -41,7 +41,7 @@ procedure ProcessCommandLineParams;
 var
   Option: AnsiChar = #0;
   OptionIndex: LongInt = 0;
-  Options: array[1..5] of TOption;
+  Options: array[1..6] of TOption;
   OptionUnknown: String;
 begin
   FillChar(Options, SizeOf(Options), #0);
@@ -66,6 +66,11 @@ begin
   with Options[5] do
   begin
     Name:= 'no-splash';
+  end;
+  with Options[6] do
+  begin
+    Name:= 'operation';
+    Has_arg:= 1;
   end;
   FillChar(CommandLineParams, SizeOf(TCommandLineParams), #0);
   repeat
@@ -101,6 +106,10 @@ begin
             5:
               begin
                 CommandLineParams.NoSplash:= True;
+              end;
+            6:
+              begin
+                ExecuteOperation(ParamStrU(TrimQuotes(OptArg)));
               end;
           end;
         end;
