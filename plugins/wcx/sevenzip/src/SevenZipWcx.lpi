@@ -24,7 +24,7 @@
       <RevisionNr Value="11"/>
       <BuildNr Value="0"/>
       <CharSet Value="04B0"/>
-      <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2016 Alexander Koblov" ProductVersion=""/>
+      <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2017 Alexander Koblov" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
