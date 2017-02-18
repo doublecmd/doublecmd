@@ -19,9 +19,9 @@
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MajorVersionNr Value="16"/>
-      <MinorVersionNr Value="10"/>
-      <RevisionNr Value="15"/>
+      <MajorVersionNr Value="17"/>
+      <MinorVersionNr Value="02"/>
+      <RevisionNr Value="11"/>
       <BuildNr Value="0"/>
       <CharSet Value="04B0"/>
       <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2016 Alexander Koblov" ProductVersion=""/>
