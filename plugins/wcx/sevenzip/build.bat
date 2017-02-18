@@ -1,6 +1,6 @@
 @echo off
 
-set VERSION=16.10.15
+set VERSION=17.02.11
 
 rem The next two line must be changed before run on your computer
 set lazpath=D:\Alexx\Prog\FreePascal\Lazarus
