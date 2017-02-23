@@ -17,7 +17,7 @@ uses
 type
   TMenuKeyCap = (mkcClear, mkcBkSp, mkcTab, mkcEsc, mkcEnter, mkcSpace, mkcPgUp,
     mkcPgDn, mkcEnd, mkcHome, mkcLeft, mkcUp, mkcRight, mkcDown, mkcIns,
-    mkcDel, mkcShift, mkcCtrl, mkcAlt, mkcWin, mkcMeta, mkcNumDivide, mkcNumMultiply,
+    mkcDel, mkcShift, mkcCtrl, mkcAlt, mkcWin, mkcNumDivide, mkcNumMultiply,
     mkcNumAdd, mkcNumSubstract);
 
 const
@@ -41,7 +41,6 @@ const
   SmkcCtrl = 'Ctrl+';
   SmkcAlt = 'Alt+';
   SmkcWin = 'WinKey+';
-  SmkcMeta = 'Meta+';
   SmkcNumDivide = 'Num/';
   SmkcNumMultiply = 'Num*';
   SmkcNumAdd = 'Num+';
@@ -50,7 +49,7 @@ const
   MenuKeyCaps: array[TMenuKeyCap] of string = (
     SmkcClear, SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
     SmkcPgDn, SmkcEnd, SmkcHome, SmkcLeft, SmkcUp, SmkcRight, SmkcDown,
-    SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt, SmkcWin, SmkcMeta,
+    SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt, SmkcWin,
     SmkcNumDivide, SmkcNumMultiply, SmkcNumAdd, SmkcNumSubstract);
 
   // Modifiers that can be used for shortcuts (non-toggable).
@@ -179,11 +178,7 @@ const
    ((Shift: ssCtrl;  Shortcut: scCtrl;  Text: mkcCtrl),
     (Shift: ssShift; Shortcut: scShift; Text: mkcShift),
     (Shift: ssAlt;   Shortcut: scAlt;   Text: mkcAlt),
-{$IF DEFINED(DARWIN)}
-    (Shift: ssMeta;  Shortcut: scMeta;  Text: mkcMeta)
-{$ELSE}
-    (Shift: ssSuper; Shortcut: scMeta;  Text: mkcWin)
-{$ENDIF}
+    (Shift: ssMeta;  Shortcut: scMeta;  Text: mkcWin)
     );
 
 {$IF DEFINED(X11)}
@@ -416,17 +411,17 @@ begin
 {$ENDIF}
 
   if IsKeyDown(VK_RCONTROL) then
-    Include(Result,ssCtrl);
+    Include(Result, ssCtrl);
   if IsKeyDown(VK_LMENU) then
-    Include(Result,ssAlt);
+    Include(Result, ssAlt);
 
   if IsKeyDown(VK_SHIFT) then
-    Include(Result,ssShift);
+    Include(Result, ssShift);
   if IsKeyDown(VK_LWIN) or IsKeyDown(VK_RWIN) then
-    Include(Result,ssSuper);
+    Include(Result, ssMeta);
 
   if (GetKeyState(VK_CAPITAL) and $1)<>0 then  // Caps-lock toggled
-    Include(Result,ssCaps);
+    Include(Result, ssCaps);
 end;
 
 function KeyToShortCutEx(Key: Word; Shift: TShiftState): TShortCut;
