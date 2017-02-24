@@ -121,7 +121,7 @@ begin
   // Get a file's type (whether it is a regular file, symlink, etc).
   AFileType:= g_file_info_get_file_type (AFileInfo);
 
-  if AFileType in [G_FILE_TYPE_DIRECTORY, G_FILE_TYPE_SHORTCUT, G_FILE_TYPE_MOUNTABLE] then
+  if AFileType = G_FILE_TYPE_DIRECTORY then
     begin
       Result.Attributes:= Result.Attributes or S_IFDIR;
     end
@@ -143,7 +143,14 @@ begin
         g_object_unref(ASymlinkInfo);
       end;
       g_object_unref(PGObject(AFile));
-    end;
+    end
+  else if AFileType in [G_FILE_TYPE_SHORTCUT, G_FILE_TYPE_MOUNTABLE] then
+  begin
+    Result.Attributes:= Result.Attributes or S_IFLNK or S_IFDIR;
+    ATarget:= g_file_info_get_attribute_string(AFileInfo, FILE_ATTRIBUTE_STANDARD_TARGET_URI);
+    Result.LinkProperty.IsValid := Length(ATarget) > 0;
+    Result.LinkProperty.LinkTo := ATarget;
+  end;
 end;
 
 procedure TGioFileSource.Reload(const PathsToReload: TPathsArray);

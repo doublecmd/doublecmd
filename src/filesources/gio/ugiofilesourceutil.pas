@@ -16,7 +16,7 @@ const
                                         FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET + ',' + FILE_ATTRIBUTE_TIME_MODIFIED + ',' +
                                         FILE_ATTRIBUTE_TIME_ACCESS + ',' + FILE_ATTRIBUTE_TIME_CREATED + ',' +
                                         FILE_ATTRIBUTE_UNIX_MODE + ',' + FILE_ATTRIBUTE_UNIX_UID + ',' +
-                                        FILE_ATTRIBUTE_UNIX_GID;
+                                        FILE_ATTRIBUTE_UNIX_GID + ',' + FILE_ATTRIBUTE_STANDARD_TARGET_URI;
 
 type
   TUpdateStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
