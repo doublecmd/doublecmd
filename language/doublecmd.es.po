@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2017-01-14 19:00+0100\n"
+"PO-Revision-Date: 2017-02-24 09:00+0100\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -3443,7 +3443,7 @@ msgstr "..."
 
 #: tfrmmultirename.btnloadpreset.caption
 msgid "&Load"
-msgstr "Car&gar"
+msgstr "Carg&ar"
 
 #: tfrmmultirename.btnnamemenu.caption
 msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
@@ -3520,7 +3520,7 @@ msgstr "Preajustes"
 
 #: tfrmmultirename.lbext.caption
 msgid "&Extension"
-msgstr "&Extensión"
+msgstr "Exten&sión"
 
 #: tfrmmultirename.lbfind.caption
 msgid "&Find..."
@@ -4417,7 +4417,7 @@ msgstr "U&sar selección invertida"
 
 #: tfrmoptionscustomcolumns.chkusecustomview.caption
 msgid "Use custom font and color for this view"
-msgstr "Usar fuente y color personalizados"
+msgstr "Usar tipografía y color personalizados"
 
 #: tfrmoptionscustomcolumns.lblbackcolor.caption
 msgid "BackGround:"
@@ -4445,7 +4445,7 @@ msgstr "Texto en cursor:"
 
 #: tfrmoptionscustomcolumns.lblfontname.caption
 msgid "Font:"
-msgstr "Fuente:"
+msgstr "Tipografía:"
 
 #: tfrmoptionscustomcolumns.lblfontsize.caption
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLFONTSIZE.CAPTION"
@@ -5711,7 +5711,7 @@ msgstr "Usar cursor &enmarcado"
 
 #: tfrmoptionsfilepanelscolors.cbbusegradientind.caption
 msgid "Use &Gradient Indicator"
-msgstr "Usar indicador &gradiente"
+msgstr "Indicador de color &degradado"
 
 #: tfrmoptionsfilepanelscolors.cbbuseinactiveselcolor.caption
 msgid "Use Inactive Sel Color"
@@ -6011,23 +6011,23 @@ msgstr "..."
 
 #: tfrmoptionsfonts.lblconsolefont.caption
 msgid "&Console font"
-msgstr "Fuente de la c&onsola"
+msgstr "Tipografía de la c&onsola"
 
 #: tfrmoptionsfonts.lbleditorfont.caption
 msgid "&Editor font"
-msgstr "Fuente del &editor"
+msgstr "Tipografía del &editor"
 
 #: tfrmoptionsfonts.lbllogfont.caption
 msgid "&Log font"
-msgstr "Fuente del re&gistro"
+msgstr "Tipografía del re&gistro"
 
 #: tfrmoptionsfonts.lblmainfont.caption
 msgid "Main &font"
-msgstr "&Fuente principal"
+msgstr "&Tipografía principal"
 
 #: tfrmoptionsfonts.lblpatheditfont.caption
 msgid "Path font"
-msgstr "Fuente de la &ruta del panel"
+msgstr "Tipografía de la &ruta del panel"
 
 #: tfrmoptionsfonts.lblsearchresultsfont.caption
 msgid "Search results font"
@@ -6035,11 +6035,11 @@ msgstr "Resultados de la búsqueda"
 
 #: tfrmoptionsfonts.lblviewerbookfont.caption
 msgid "Viewer&Book Font"
-msgstr "Fuente de la vista de li&bro"
+msgstr "Tipografía de la vista de li&bro"
 
 #: tfrmoptionsfonts.lblviewerfont.caption
 msgid "&Viewer font"
-msgstr "Fuente del &visor"
+msgstr "Tipografía del &visor"
 
 #: tfrmoptionshotkeys.actaddhotkey.caption
 msgctxt "tfrmoptionshotkeys.actaddhotkey.caption"
@@ -6125,7 +6125,7 @@ msgstr "O&rdenación:"
 
 #: tfrmoptionshotkeys.micategories.caption
 msgid "Categories"
-msgstr "Categorias"
+msgstr "Categorías"
 
 #: tfrmoptionshotkeys.micommands.caption
 msgctxt "tfrmoptionshotkeys.micommands.caption"
@@ -7629,7 +7629,7 @@ msgstr "Color de fondo en vista de libro"
 
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 msgid "&Font color in book viewer"
-msgstr "Color de &fuente en vista de libro"
+msgstr "Color de &tipografía en vista de libro"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgid "&Number of columns in book viewer"
@@ -9494,7 +9494,7 @@ msgstr "Error creando el enlace duro"
 
 #: ulng.rshotdirforcesortingorderchoices
 msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Date 0-9"
-msgstr "ninguno;Nombre, a-z;Nombre, z-a;Ext, a-z;Ext, z-a;Tamaño 9-0;Tamaño 0-9;Fecha 9-0;Fecha 0-9"
+msgstr "Ninguno;Nombre, a-z;Nombre, z-a;Ext, a-z;Ext, z-a;Tamaño 9-0;Tamaño 0-9;Fecha 9-0;Fecha 0-9"
 
 #: ulng.rshotdirwarningabortrestorebackup
 msgid ""
@@ -9788,7 +9788,7 @@ msgstr "¿Quieres eliminar los %d archivos/carpetas seleccionados?"
 
 #: ulng.rsmsgdelfldrt
 msgid "Delete %d selected files/directories into trash can?"
-msgstr "¿Quieres enviar a la papelera %d archivos/carpetas?"
+msgstr "¿Quieres enviar %d archivos/carpetas a la papelera?"
 
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
@@ -9796,12 +9796,12 @@ msgstr "¿Quieres eliminar «%s»?"
 
 #: ulng.rsmsgdelselt
 msgid "Delete selected \"%s\" into trash can?"
-msgstr "¿Quieres enviar a la papelera «%s»?"
+msgstr "¿Quieres enviar a «%s» a la papelera?"
 
 #: ulng.rsmsgdeltotrashforce
 msgid "Can not delete \"%s\" to trash! Delete directly?"
 msgstr ""
-"¡No se puede enviar a la papelera «%s»!\n"
+"¡No se puede enviar «%s» a la papelera!\n"
 "¿Quieres eliminarlo directamente?\n"
 
 #: ulng.rsmsgdisknotavail
@@ -11269,7 +11269,7 @@ msgstr "Pestañas extra"
 
 #: ulng.rsoptionseditorfonts
 msgid "Fonts"
-msgstr "Fuentes"
+msgstr "Tipografías"
 
 #: ulng.rsoptionseditorhighlighters
 msgid "Highlighters"
