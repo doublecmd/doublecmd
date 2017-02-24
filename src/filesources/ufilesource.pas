@@ -344,7 +344,7 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    function Find(FileSourceClass: TClass; Address: String): IFileSource;
+    function Find(FileSourceClass: TClass; Address: String; CaseSensitive: Boolean = True): IFileSource;
   end;
 
   EFileSourceException = class(Exception);
@@ -921,16 +921,23 @@ begin
   FFileSources.Remove(aFileSource);
 end;
 
-function TFileSourceManager.Find(FileSourceClass: TClass; Address: String): IFileSource;
+function TFileSourceManager.Find(FileSourceClass: TClass; Address: String;
+  CaseSensitive: Boolean): IFileSource;
 var
-  i: Integer;
+  I: Integer;
+  StrCmp: function(const S1, S2: String): Integer;
 begin
-  for i := 0 to FFileSources.Count - 1 do
+  if CaseSensitive then
+    StrCmp:= @CompareStr
+  else begin
+    StrCmp:= @CompareText;
+  end;
+  for I := 0 to FFileSources.Count - 1 do
   begin
-    if (FFileSources[i].IsClass(FileSourceClass)) and
-       (FFileSources[i].CurrentAddress = Address) then
+    if (FFileSources[I].IsClass(FileSourceClass)) and
+       (StrCmp(FFileSources[I].CurrentAddress, Address) = 0) then
     begin
-      Result := FFileSources[i];
+      Result := FFileSources[I];
       Exit;
     end;
   end;

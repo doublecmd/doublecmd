@@ -197,7 +197,10 @@ begin
           URI:= ParseURI(aPath);
           RemotePath:= NormalizePathDelimiters(URI.Path + URI.Document);
           RemotePath:= IncludeTrailingPathDelimiter(RemotePath);
-          FileSource:= FileSourceManager.Find(aFileSourceClass, URI.Protocol + '://' + URI.Host);
+          FileSource:= FileSourceManager.Find(aFileSourceClass,
+                                              URI.Protocol + '://' + URI.Host,
+                                              not SameText(URI.Protocol, 'smb')
+                                              );
           if Assigned(FileSource) then
             aFileView.AddFileSource(FileSource, RemotePath)
           else begin
