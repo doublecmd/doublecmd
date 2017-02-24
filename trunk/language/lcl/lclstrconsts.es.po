@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2017-01-14 19:00+0100\n"
+"PO-Revision-Date: 2017-02-24 09:00+0100\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -280,7 +280,7 @@ msgstr "Luz 3D"
 
 #: lclstrconsts.rsacontrolcannothaveitselfasparent
 msgid "A control can't have itself as a parent"
-msgstr "Un control no se puede tener como padre"
+msgstr "Un control no puede tenerse a sí mismo como padre"
 
 #: lclstrconsts.rsactivebordercolorcaption
 msgid "Active Border"
@@ -583,11 +583,11 @@ msgstr "--g-fatal-warnings    Alertas y errores generados por Gtk+/GDK con inter
 
 #: lclstrconsts.rsgradientactivecaptioncolorcaption
 msgid "Gradient Active Caption"
-msgstr "Gradiente título activo"
+msgstr "Degradado del título activo"
 
 #: lclstrconsts.rsgradientinactivecaptioncolorcaption
 msgid "Gradient Inactive Caption"
-msgstr "Gradiente título inactivo"
+msgstr "Degradado del título inactivo"
 
 #: lclstrconsts.rsgraphic
 msgid "Graphic"
@@ -1119,7 +1119,7 @@ msgstr "-fg o -foreground color, establece el color de primer plano predetermina
 
 #: lclstrconsts.rsqtoptionx11font
 msgid "-fn or -font font, defines the application font. The font should be specified using an X logical font description."
-msgstr "-fn o -font font, define la fuente de la aplicación. La fuente debe especificarse usando una descripción de la fuente lógica X."
+msgstr "-fn o -font font, define la tipografía de la aplicación. El tipo de letra debe especificarse usando una descripción de la tipografía lógica de X."
 
 #: lclstrconsts.rsqtoptionx11geometry
 msgid "-geometry geometry, sets the client geometry of the first window that is shown."
@@ -1196,7 +1196,7 @@ msgstr "Escoge color"
 
 #: lclstrconsts.rsselectfonttitle
 msgid "Select a font"
-msgstr "Escoge una fuente"
+msgstr "Escoge una tipografía"
 
 #: lclstrconsts.rssilvercolorcaption
 msgid "Silver"
@@ -1243,7 +1243,7 @@ msgstr "Un árbol de elementos"
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
-msgstr "No se ha podido cargar la fuente predeterminada"
+msgstr "No se ha podido cargar la tipografía predeterminada"
 
 #: lclstrconsts.rsunknownerrorpleasereportthisbug
 msgid "Unknown Error, please report this bug"
