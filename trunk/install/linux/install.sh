@@ -121,6 +121,9 @@ if [ -z $CK_PORTABLE ]
     # Copy pixmaps
     cp -r pixmaps $DC_INSTALL_PREFIX/usr/share/doublecmd
     ln -sf ../../share/doublecmd/pixmaps $DC_INSTALL_DIR/pixmaps
+    # Copy highlighters
+    cp -r highlighters $DC_INSTALL_PREFIX/usr/share/doublecmd
+    ln -sf ../../share/doublecmd/highlighters $DC_INSTALL_DIR/highlighters
     # Create symlink and desktop files
     install -d $DC_INSTALL_PREFIX/usr/bin
     install -d $DC_INSTALL_PREFIX/usr/share/pixmaps
@@ -138,8 +141,9 @@ if [ -z $CK_PORTABLE ]
     # Copy script for execute portable version
     cp -a doublecmd.sh $DC_INSTALL_DIR/
     # Copy directories
-    cp -r language $DC_INSTALL_DIR/
-    cp -r pixmaps  $DC_INSTALL_DIR/
+    cp -r language     $DC_INSTALL_DIR/
+    cp -r pixmaps      $DC_INSTALL_DIR/
+    cp -r highlighters $DC_INSTALL_DIR/
     # Copy scripts
     install -d         $DC_INSTALL_DIR/scripts
     cp -a scripts/*.py $DC_INSTALL_DIR/scripts/

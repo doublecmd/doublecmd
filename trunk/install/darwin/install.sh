@@ -63,8 +63,9 @@ mkdir -p $DC_INSTALL_DIR/scripts
 cp -a scripts/terminal.sh $DC_INSTALL_DIR/scripts/
 
 # Copy directories
-cp -r language $DC_INSTALL_DIR/
-cp -r pixmaps  $DC_INSTALL_DIR/
+cp -r language     $DC_INSTALL_DIR/
+cp -r pixmaps      $DC_INSTALL_DIR/
+cp -r highlighters $DC_INSTALL_DIR/
 
 # Copy libraries
 cp -a *.dylib             $DC_INSTALL_DIR/
