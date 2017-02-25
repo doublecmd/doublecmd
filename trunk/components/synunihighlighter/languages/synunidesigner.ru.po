@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-01-21 20:11+0300\n"
+"Last-Translator: Maxim Ganetsky <maxkill@mail.ru>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: synunidesigner.sunifiledescription
+msgid "UniHighlighter Syntax"
+msgstr "Подсветка синтаксиса UniHighlighter"
+

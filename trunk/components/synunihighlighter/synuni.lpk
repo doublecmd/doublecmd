@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="SynUni"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Vit (Vitaly Nevzorov nevzorov@yahoo.com); Fantasist (Kirill Burtsev walking_in_the_sky@yahoo.com)"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <IncludeFiles Value="../synedit"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType)"/>
+      </SearchPaths>
+      <CodeGeneration>
+        <Checks>
+          <IOChecks Value="True"/>
+          <RangeChecks Value="True"/>
+          <OverflowChecks Value="True"/>
+          <StackChecks Value="True"/>
+        </Checks>
+      </CodeGeneration>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="Conversion of the UniHighlighter to FPC/Lazarus
+Source homepage is:
+   http://www.delphist.com/UniHighlighter.html
+"/>
+    <License Value="Mozilla Public License Version 1.1
+see http://www.mozilla.org/MPL/
+"/>
+    <Version Major="1"/>
+    <Files Count="3">
+      <Item1>
+        <Filename Value="synunidesigner.pas"/>
+        <UnitName Value="SynUniDesigner"/>
+      </Item1>
+      <Item2>
+        <Filename Value="synunihighlighter.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="SynUniHighlighter"/>
+      </Item2>
+      <Item3>
+        <Filename Value="synunireg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="SynUniReg"/>
+      </Item3>
+    </Files>
+    <i18n>
+      <EnableI18N Value="True"/>
+      <OutDir Value="languages"/>
+    </i18n>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="IDEIntf"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="SynEdit"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
