@@ -418,6 +418,8 @@ begin
   xmlInfoTags.Add('Version');
   xmlInfoTags.Add('W');
   xmlInfoTags.Add('Web');
+
+  xmlInfoTags.Sorted:= True;
 end;
 
 const
