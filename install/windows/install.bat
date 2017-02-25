@@ -26,8 +26,9 @@ mkdir  %DC_INSTALL_DIR%\plugins\wfx\ftp
 
 mkdir  %DC_INSTALL_DIR%\doc
 rem Copy directories
-xcopy /E language %DC_INSTALL_DIR%\language\
-xcopy /E pixmaps  %DC_INSTALL_DIR%\pixmaps\
+xcopy /E language     %DC_INSTALL_DIR%\language\
+xcopy /E pixmaps      %DC_INSTALL_DIR%\pixmaps\
+xcopy /E highlighters %DC_INSTALL_DIR%\highlighters\
 rem Copy files
 copy doc\*.txt                      %DC_INSTALL_DIR%\doc\
 copy doublecmd.exe                  %DC_INSTALL_DIR%\
