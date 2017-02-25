@@ -1,0 +1,31 @@
+
+Project notes
+
+ Conversion of the UniHighlighter to FPC/Lazarus
+ Source homepage is:
+   http://www.delphist.com/UniHighlighter.html
+
+ Initial conversion started on 11-6-2003 by Tom Lisjac
+  
+ Component beta release - 18-6-2003 by Tom Lisjac
+ -----------------
+   - Case of all filenames converted to lower for FPC 1.0.x series
+   - In Designer, added Buttons for TButton and LCLType vk_* key declarations
+   - In Designer, changed TPageControl to TNotebook and TTabset to TPage. There
+     are possible problems that should be reviewed. They are flagged with a TL!!.
+   - In Designer, removed "out" prefix from method parameter declarations.
+   - In SynUniReg, no TDefaultEditor class was found as a base class for
+     TSynUniEditor. Used TDefaultComponentEditor instead. Flagged:needs testing!
+   - Added GraphType to the uses statement to resolve TFontStyles
+   - Added the Lazarus specific method GetTokenEx and conditional to SetLine
+   - Prefixed addresses and function parameters with an "@"
+   - FPC claimed duplicate IDs in a lot of method declarations that Delphi/Kylix
+     obviously didn't worry about. I approached this, for better or worse, by
+     adding a 1 suffix to the identifier in the declarations... and then fixing
+     up the implementations. All are flagged for and should be reviewed.
+   - Removed optional default parameter declarations and explicitly stated
+     them in the calls.
+   - Some light testing performed.
+   - Changes are clearly marked.
+  
+   

@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Lazarus 1.x\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-09-22 01:08+0700\n"
+"Last-Translator: Zaenal Mutaqin <ade999@gmail.com>\n"
+"Language-Team: Indonesian <ade999@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: synunidesigner.sunifiledescription
+msgid "UniHighlighter Syntax"
+msgstr "Sintaks UniHighlighter"
+

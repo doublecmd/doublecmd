@@ -1,0 +1,14 @@
+Thanks to:
+
+Kirill Burtsev, Vitaly Nevzorov and Flavio Etrusco for initially
+creating this very useful component. I would expecially like to
+thank Flavio for responding to my posting on the Synedit mail list
+and pointing me at this and many other useful components.
+ 
+The Free Pascal Compiler team for the years they've spent
+creating a feature rich, stable and high quality Pascal
+compiler for the Open Source Community.
+
+The Lazarus IDE programming team for building a world class
+graphical development environment for the Free Pascal Compiler.
+ 
