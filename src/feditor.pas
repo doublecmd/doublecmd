@@ -443,7 +443,7 @@ begin
   end;
 
   // set up highlighter
-  Highlighter := dmHighl.GetHighlighterByExt(ExtractFileExt(aFileName));
+  Highlighter := dmHighl.GetHighlighter(Editor, ExtractFileExt(aFileName));
   UpdateHighlighter(Highlighter);
   FileName := aFileName;
   bChanged := False;
@@ -1023,7 +1023,7 @@ begin
   bNoname:=False;
 
   UpdateStatus;
-  Highlighter:= dmHighl.GetHighlighterByExt(ExtractFileExt(FileName));
+  Highlighter:= dmHighl.GetHighlighter(Editor, ExtractFileExt(FileName));
   UpdateHighlighter(Highlighter);
 end;
 

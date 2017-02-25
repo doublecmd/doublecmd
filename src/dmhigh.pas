@@ -64,7 +64,7 @@ type
     procedure Assign(Source: TPersistent); override;
     function LoadFromFile(const FileName: String): Boolean;
     function SaveToFile(const FileName: String): Boolean;
-    function GetHighlighterByExt(const sExtension: string): TSynCustomHighlighter;
+    function GetHighlighter(SynEdit: TCustomSynEdit; const sExtension: string): TSynCustomHighlighter;
     procedure SetHighlighter(SynEdit: TCustomSynEdit; Highlighter: TSynCustomHighlighter);
     property Changed: Boolean read FChanged write FChanged;
   end;
@@ -102,7 +102,7 @@ implementation
 
 uses
   Graphics, SynEditTypes, FileUtil, uHighlighterProcs, DCXmlConfig, uGlobsPaths,
-  DCClassesUtf8, DCOSUtils, uLng, uMasks;
+  DCClassesUtf8, DCOSUtils, DCStrUtils, uLng, uMasks;
 
 const
   csDefaultName = 'editor.col';
@@ -472,14 +472,15 @@ begin
   end;
 end;
 
-function TdmHighl.GetHighlighterByExt(const sExtension: string): TSynCustomHighlighter;
+function TdmHighl.GetHighlighter(SynEdit: TCustomSynEdit;
+  const sExtension: string): TSynCustomHighlighter;
 var
   Index: Integer;
   Extension: String;
   Highlighter: TSynUniSyn;
 begin
   Result:= GetHighlighterFromFileExt(SynHighlighterList, sExtension);
-
+  // Try to find user custom highlighter
   if (Result = nil) then
   begin
     Extension:= Copy(sExtension, 2, MaxInt);
@@ -493,7 +494,15 @@ begin
       end;
     end;
   end;
-
+  // Determine file type by content
+  if (Result = nil) and (SynEdit.Lines.Count > 0) then
+  begin
+    Extension:= SynEdit.Lines[0];
+    // Unix shell script
+    if StrBegins(Extension, '#!') and (Pos('sh', Extension) > 0) then
+      Result:= SynUNIXShellScriptSyn1;
+  end;
+  // Default syntax highlighter
   if (Result = nil) then Result:= SynPlainTextHighlighter;
 end;
 
