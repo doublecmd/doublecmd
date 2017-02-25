@@ -129,7 +129,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, LCLIntf, SynEditTypes, GraphUtil, uLng, uGlobs;
+  LCLType, LCLIntf, SynEditTypes, SynUniHighlighter, GraphUtil, uLng, uGlobs;
 
 const
   COLOR_NODE_PREFIX = ' abc  ';
@@ -773,9 +773,16 @@ begin
 end;
 
 procedure TfrmOptionsEditorColors.Load;
+var
+  Index: Integer;
 begin
   FHighl.Assign(dmHighl);
   cmbLanguage.Items.Assign(FHighl.SynHighlighterList);
+  for Index:= cmbLanguage.Items.Count - 1 downto 0 do
+  begin
+    if cmbLanguage.Items.Objects[Index] is TSynUniSyn then
+      cmbLanguage.Items.Delete(Index);
+  end;
   cmbLanguage.ItemIndex:= 0;
   cmbLanguageChange(nil);
 end;
