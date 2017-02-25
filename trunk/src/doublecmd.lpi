@@ -228,46 +228,49 @@ end;"/>
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="11">
+    <RequiredPackages Count="12">
       <Item1>
-        <PackageName Value="DateTimeCtrls"/>
+        <PackageName Value="SynUni"/>
       </Item1>
       <Item2>
-        <PackageName Value="dcpcrypt"/>
+        <PackageName Value="DateTimeCtrls"/>
       </Item2>
       <Item3>
-        <PackageName Value="chsdet"/>
+        <PackageName Value="dcpcrypt"/>
       </Item3>
       <Item4>
-        <PackageName Value="LazControls"/>
-        <MinVersion Valid="True"/>
+        <PackageName Value="chsdet"/>
       </Item4>
       <Item5>
-        <PackageName Value="pkg_gifanim"/>
-        <MinVersion Major="1" Minor="4" Valid="True"/>
+        <PackageName Value="LazControls"/>
+        <MinVersion Valid="True"/>
       </Item5>
       <Item6>
-        <PackageName Value="cmdbox"/>
+        <PackageName Value="pkg_gifanim"/>
+        <MinVersion Major="1" Minor="4" Valid="True"/>
       </Item6>
       <Item7>
-        <PackageName Value="KASComp"/>
-        <MinVersion Major="1" Minor="8" Valid="True"/>
+        <PackageName Value="cmdbox"/>
       </Item7>
       <Item8>
-        <PackageName Value="LCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <PackageName Value="KASComp"/>
+        <MinVersion Major="1" Minor="8" Valid="True"/>
       </Item8>
       <Item9>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item9>
       <Item10>
-        <PackageName Value="viewerpackage"/>
+        <PackageName Value="SynEdit"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item10>
       <Item11>
+        <PackageName Value="viewerpackage"/>
+      </Item11>
+      <Item12>
         <PackageName Value="doublecmd_common"/>
         <MinVersion Minor="3" Valid="True"/>
-      </Item11>
+      </Item12>
     </RequiredPackages>
     <Units Count="237">
       <Unit0>
