@@ -275,7 +275,7 @@ begin
   for i:=0 to dmHighl.SynHighlighterList.Count - 1 do
     begin
       mi:=TMenuItem.Create(miHighlight);
-      mi.Caption:=TSynCustomHighlighter(dmHighl.SynHighlighterList.Objects[i]).GetLanguageName;
+      mi.Caption:=TSynCustomHighlighter(dmHighl.SynHighlighterList.Objects[i]).LanguageName;
       mi.Tag:=i;
 //      mi.Name:='miHigh'+IntToStr(i);
       mi.Enabled:=True;
@@ -744,7 +744,7 @@ end;
 procedure TfrmEditor.UpdateHighlighter(Highlighter: TSynCustomHighlighter);
 begin
   dmHighl.SetHighlighter(Editor, Highlighter);
-  StatusBar.Panels[3].Text:= Highlighter.GetLanguageName;
+  StatusBar.Panels[3].Text:= Highlighter.LanguageName;
 end;
 
 

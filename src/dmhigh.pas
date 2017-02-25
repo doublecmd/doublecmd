@@ -11,7 +11,7 @@ uses
   SynHighlighterUNIXShellScript, SynHighlighterPHP, SynHighlighterTeX,
   SynHighlighterSQL, SynHighlighterPerl, SynHighlighterCss,
   SynHighlighterPython, SynHighlighterDiff, SynHighlighterVB, SynHighlighterBat,
-  SynHighlighterIni, SynHighlighterPo, SynHighlighterLua;
+  SynHighlighterIni, SynHighlighterPo, SynHighlighterLua, SynUniHighlighter;
 
 
 const
@@ -69,7 +69,12 @@ type
     property Changed: Boolean read FChanged write FChanged;
   end;
 
-{$if lcl_fullversion >= 1010000}
+  { TSynCustomHighlighterHelper }
+
+  TSynCustomHighlighterHelper = class helper for TSynCustomHighlighter
+  public
+    function LanguageName: String;
+  end;
 
   TSynHighlighterAttrFeature =
     ( hafBackColor, hafForeColor, hafFrameColor,
@@ -88,8 +93,6 @@ type
     property Features: TSynHighlighterAttrFeatures read GetFeatures write SetFeatures;
   end;
 
-{$endif}
-
 var
   dmHighl: TdmHighl;
 
@@ -98,8 +101,8 @@ implementation
 {$R *.lfm}
 
 uses
-  Graphics, SynEditTypes, uHighlighterProcs, DCXmlConfig, uGlobsPaths,
-  DCClassesUtf8, DCOSUtils, uLng;
+  Graphics, SynEditTypes, FileUtil, uHighlighterProcs, DCXmlConfig, uGlobsPaths,
+  DCClassesUtf8, DCOSUtils, uLng, uMasks;
 
 const
   csDefaultName = 'editor.col';
@@ -114,6 +117,16 @@ begin
     Result:= CompareStr(List[Index1], List[Index2]);
 end;
 
+{ TSynCustomHighlighterHelper }
+
+function TSynCustomHighlighterHelper.LanguageName: String;
+begin
+  if Self is TSynUniSyn then
+    Result:= TSynUniSyn(Self).Info.General.Name
+  else
+    Result:= Self.GetLanguageName;
+end;
+
 { TSynPlainTextHighlighter }
 
 class function TSynPlainTextHighlighter.GetLanguageName: string;
@@ -125,7 +138,8 @@ end;
 
 procedure TdmHighl.dmHighlCreate(Sender: TObject);
 var
-  I: LongWord;
+  I: Integer;
+  AList: TStringList;
   HighLighter: TSynCustomHighlighter;
 begin
   TSynLuaSyn.Create(Self).Tag:= 1;
@@ -135,6 +149,20 @@ begin
   SynPlainTextHighlighter:= TSynPlainTextHighlighter.Create(Self);
 {$POP}
   GetHighlighters(Self, SynHighlighterList, False);
+
+  AList:= FindAllFiles(gpHighPath, '*.hgl');
+  for I:= 0 to AList.Count - 1 do
+  begin
+    HighLighter:= TSynUniSyn.Create(Self);
+    try
+      TSynUniSyn(HighLighter).LoadFromFile(AList[I]);
+      SynHighlighterList.AddObject(TSynUniSyn(HighLighter).Info.General.Name, Highlighter);
+    except
+      FreeAndNil(HighLighter);
+    end;
+  end;
+  AList.Free;
+
   for I:= 0 to SynHighlighterList.Count - 1 do
   begin
     HighLighter:= TSynCustomHighlighter(SynHighlighterList.Objects[I]);
@@ -432,6 +460,7 @@ begin
     try
       for I := 0 to SynHighlighterList.Count - 1 do
       begin
+        if SynHighlighterList.Objects[I] is TSynUniSyn then Continue;
         SaveHighlighter(TSynCustomHighlighter(SynHighlighterList.Objects[I]));
       end;
       Config.Save;
@@ -444,8 +473,27 @@ begin
 end;
 
 function TdmHighl.GetHighlighterByExt(const sExtension: string): TSynCustomHighlighter;
+var
+  Index: Integer;
+  Extension: String;
+  Highlighter: TSynUniSyn;
 begin
   Result:= GetHighlighterFromFileExt(SynHighlighterList, sExtension);
+
+  if (Result = nil) then
+  begin
+    Extension:= Copy(sExtension, 2, MaxInt);
+    for Index:= 0 to SynHighlighterList.Count - 1 do
+    begin
+      if SynHighlighterList.Objects[Index] is TSynUniSyn then
+      begin
+        Highlighter:= TSynUniSyn(SynHighlighterList.Objects[Index]);
+        if MatchesMaskList(Extension, Highlighter.Info.General.FileTypeName, ',') then
+          Exit(Highlighter);
+      end;
+    end;
+  end;
+
   if (Result = nil) then Result:= SynPlainTextHighlighter;
 end;
 
@@ -467,8 +515,6 @@ begin
   SynEdit.Font.Color:= Attribute.Foreground;
 end;
 
-{$if lcl_fullversion >= 1010000}
-
 { TSynHighlighterAttributesHelper }
 
 function TSynHighlighterAttributesHelper.GetFeatures: TSynHighlighterAttrFeatures;
@@ -483,8 +529,6 @@ procedure TSynHighlighterAttributesHelper.SetFeatures(AValue: TSynHighlighterAtt
 begin
 
 end;
-
-{$endif}
 
 end.
 
