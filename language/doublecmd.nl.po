@@ -9223,6 +9223,10 @@ msgstr "&Hervatten"
 msgid "Re&try"
 msgstr "Opnieuw"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "Overslaan"

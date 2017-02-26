@@ -10342,6 +10342,10 @@ msgstr "Под&новяване"
 msgid "Re&try"
 msgstr "Нов &опит"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "&Пропускане"

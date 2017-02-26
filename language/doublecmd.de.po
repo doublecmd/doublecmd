@@ -9488,6 +9488,10 @@ msgstr "Fo&rtsetzen"
 msgid "Re&try"
 msgstr "&Wiederholen"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "Übe&rspringen"

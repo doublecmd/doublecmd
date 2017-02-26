@@ -9812,6 +9812,10 @@ msgstr "&Tilføj"
 msgid "Re&try"
 msgstr "Forsøg igen"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "&Spring over"

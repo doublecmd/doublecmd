@@ -10333,6 +10333,10 @@ msgstr "Reprèn"
 msgid "Re&try"
 msgstr "Reintenta"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "&Omet"

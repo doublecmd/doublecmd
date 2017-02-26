@@ -10343,6 +10343,10 @@ msgstr "回復 (&R)"
 msgid "Re&try"
 msgstr "重試 (&T)"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "略過 (&S)"

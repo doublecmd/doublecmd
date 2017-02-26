@@ -9728,6 +9728,10 @@ msgstr "&Nastavi"
 msgid "Re&try"
 msgstr "Po&novo pokušaj"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "&Preskoči"

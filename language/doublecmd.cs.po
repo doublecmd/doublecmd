@@ -9205,6 +9205,10 @@ msgstr "&Znovu začít"
 msgid "Re&try"
 msgstr "O&pakovat"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "Pře&skočit"

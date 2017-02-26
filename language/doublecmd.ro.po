@@ -9479,6 +9479,10 @@ msgstr "&Reia"
 msgid "Re&try"
 msgstr "Reîncearcă (&t)"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "&Sari"

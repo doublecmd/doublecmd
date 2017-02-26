@@ -9558,6 +9558,10 @@ msgstr "Fol&ytat"
 msgid "Re&try"
 msgstr "Újra&próbál"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "&Kihagy"

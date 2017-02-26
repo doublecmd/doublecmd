@@ -9518,6 +9518,10 @@ msgstr "П&родолжить"
 msgid "Re&try"
 msgstr "Пов&торить"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "Пр&опустить"
