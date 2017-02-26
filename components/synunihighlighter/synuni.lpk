@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <Name Value="SynUni"/>
@@ -7,7 +7,6 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <IncludeFiles Value="../synedit"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType)"/>
       </SearchPaths>
       <CodeGeneration>
@@ -18,19 +17,19 @@
           <StackChecks Value="True"/>
         </Checks>
       </CodeGeneration>
-      <Other>
-        <CompilerPath Value="$(CompPath)"/>
-      </Other>
     </CompilerOptions>
     <Description Value="Conversion of the UniHighlighter to FPC/Lazarus
 Source homepage is:
    http://www.delphist.com/UniHighlighter.html
 "/>
     <License Value="Mozilla Public License Version 1.1
-see http://www.mozilla.org/MPL/
+https://www.mozilla.org/en-US/MPL/1.1/
+or
+GNU General Public License, version 2
+https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 "/>
     <Version Major="1"/>
-    <Files Count="3">
+    <Files Count="2">
       <Item1>
         <Filename Value="synunidesigner.pas"/>
         <UnitName Value="SynUniDesigner"/>
@@ -40,31 +39,18 @@ see http://www.mozilla.org/MPL/
         <HasRegisterProc Value="True"/>
         <UnitName Value="SynUniHighlighter"/>
       </Item2>
-      <Item3>
-        <Filename Value="synunireg.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="SynUniReg"/>
-      </Item3>
     </Files>
-    <i18n>
-      <EnableI18N Value="True"/>
-      <OutDir Value="languages"/>
-    </i18n>
-    <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="4">
+    <RequiredPkgs Count="3">
       <Item1>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item1>
       <Item2>
-        <PackageName Value="IDEIntf"/>
+        <PackageName Value="LCL"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
-      </Item3>
-      <Item4>
         <PackageName Value="SynEdit"/>
-      </Item4>
+      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
