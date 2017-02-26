@@ -66,6 +66,6 @@
 @del /Q /S components\KASToolBar\lib\*.*
 @del /Q /S components\multithreadprocs\lib\*.*
 @del /Q /S components\viewer\lib\*.*
-@del /Q /S components\ZVDateTimeCtrls\lib\*.*
+@del /Q /S components\synunihighlighter\lib\*.*
 
 @echo Done.
