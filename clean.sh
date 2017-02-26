@@ -14,7 +14,7 @@ rm -rf components/gifanim/lib/*
 rm -rf components/KASToolBar/lib/*
 rm -rf components/multithreadprocs/lib/*
 rm -rf components/viewer/lib/*
-rm -rf components/ZVDateTimeCtrls/lib/*
+rm -rf components/synunihighlighter/lib/*
 
 # Clean up all temporary files
 find . -iname '*.compiled' -delete
