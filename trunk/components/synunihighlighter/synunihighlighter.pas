@@ -45,7 +45,7 @@ Tom Lisjac <vlx@users.sourceforge.net> http://theseus.sf.net
 
 unit SynUniHighlighter;
 
-{$I SynEdit.inc}
+{$mode objfpc}{$H+}
 
 interface
 
