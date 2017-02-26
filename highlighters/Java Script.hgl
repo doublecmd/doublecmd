@@ -8,7 +8,7 @@
  <Info>
   <General>
    <Name>Java script</Name>
-   <FileTypeName>js</FileTypeName>
+   <FileTypeName>js,json</FileTypeName>
    <Layout>Standard</Layout>
   </General>
   <Author>
