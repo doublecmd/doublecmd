@@ -10243,6 +10243,10 @@ msgstr ""
 msgid "Re&try"
 msgstr ""
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "略过(&S)"

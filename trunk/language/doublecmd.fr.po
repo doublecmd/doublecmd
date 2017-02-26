@@ -9545,6 +9545,10 @@ msgstr "Reprendre"
 msgid "Re&try"
 msgstr "Ré-&essayer"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "&Passer"

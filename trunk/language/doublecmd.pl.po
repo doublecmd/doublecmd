@@ -9199,6 +9199,10 @@ msgstr "&Wznów"
 msgid "Re&try"
 msgstr "Ponów"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "&Pomiń"

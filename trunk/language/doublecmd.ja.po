@@ -9484,6 +9484,10 @@ msgstr "再開(&R)"
 msgid "Re&try"
 msgstr "再試行(&t)"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "スキップ(&S)"

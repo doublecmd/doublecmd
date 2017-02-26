@@ -9208,6 +9208,10 @@ msgstr "&Nadaljuj"
 msgid "Re&try"
 msgstr "Poskusi &znova"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "&Preskoči"

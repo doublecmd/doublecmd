@@ -9683,6 +9683,10 @@ msgstr "&Riprendi"
 msgid "Re&try"
 msgstr "Ri&tenta"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "Sa&lta"

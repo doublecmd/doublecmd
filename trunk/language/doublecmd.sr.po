@@ -9726,6 +9726,10 @@ msgstr "&Настави"
 msgid "Re&try"
 msgstr "По&ново покушај"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "&Прескочи"

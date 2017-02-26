@@ -9479,6 +9479,10 @@ msgstr "Ολοκλήρωση"
 msgid "Re&try"
 msgstr "Επαναπροσπάθεια"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "Παράβλεψη"
@@ -12277,3 +12281,4 @@ msgstr "Αριθμός αντικατάστασης: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Δεν πραγματοποιήθηκε καμία αντικατάσταση."
+

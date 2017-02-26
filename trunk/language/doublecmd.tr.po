@@ -9907,6 +9907,10 @@ msgstr ""
 msgid "Re&try"
 msgstr "&Yeniden dene"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "&Atla"

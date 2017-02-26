@@ -10404,6 +10404,10 @@ msgstr ""
 msgid "Re&try"
 msgstr "Znovu"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "Pre&skočiť"

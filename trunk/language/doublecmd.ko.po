@@ -9601,6 +9601,10 @@ msgstr "&재실행"
 msgid "Re&try"
 msgstr "재&시도"
 
+#: ulng.rsdlgbuttonretryadmin
+msgid "As Ad&ministrator"
+msgstr ""
+
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
 msgstr "&건너뛰기"
