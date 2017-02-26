@@ -489,7 +489,7 @@ begin
       if SynHighlighterList.Objects[Index] is TSynUniSyn then
       begin
         Highlighter:= TSynUniSyn(SynHighlighterList.Objects[Index]);
-        if MatchesMaskList(Extension, Highlighter.Info.General.FileTypeName, ',') then
+        if MatchesMaskList(Extension, Highlighter.Info.General.FileTypeName, ', ') then
           Exit(Highlighter);
       end;
     end;
