@@ -106,6 +106,10 @@ begin
   uMyWindows.FixCommandLineToUTF8;
   {$ENDIF}
 
+  {$if lcl_fullversion >= 1070000}
+  Application.Scaled:= True;
+  {$endif}
+
   // Fix default BidiMode
   // see http://bugs.freepascal.org/view.php?id=22044
   Application.BidiMode:= bdLeftToRight;
