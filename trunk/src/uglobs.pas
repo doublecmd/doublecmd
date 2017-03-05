@@ -1572,7 +1572,7 @@ begin
   gShowIcons := sim_all_and_exe;
   gShowIconsNew := gShowIcons;
   gIconOverlays := False;
-  gIconsSize := 16;
+  gIconsSize := 32;
   gIconsSizeNew := gIconsSize;
   gIconsExclude := False;
   gIconsExcludeDirs := EmptyStr;
