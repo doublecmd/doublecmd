@@ -28,7 +28,7 @@ unit DCXmlConfig;
 interface
 
 uses
-  Classes, SysUtils, DOM, XMLRead, XMLWrite;
+  Classes, SysUtils, Laz2_DOM, Laz2_XMLRead, Laz2_XMLWrite;
 
 type
   // Define type aliases so we don't have to include DOM if we want to use config.
@@ -147,7 +147,7 @@ type
 implementation
 
 uses
-  LazUTF8, LazLogger, DCOSUtils, DCClassesUtf8, URIParser;
+  LazLogger, DCOSUtils, DCClassesUtf8, URIParser;
 
 const
   BoolStrings: array[Boolean] of DOMString = ('False', 'True');
@@ -221,7 +221,7 @@ var
   NodePath, AttrName: DOMString;
 begin
   SplitPathToNodeAndAttr(Path, NodePath, AttrName);
-  if NodePath <> EmptyWideStr then
+  if NodePath <> EmptyStr then
   begin
     Node := FindNode(RootNode, NodePath, False);
     if not Assigned(Node) then
@@ -233,7 +233,7 @@ begin
   Attr := TDOMElement(Node).GetAttributeNode(AttrName);
   Result := Assigned(Attr);
   if Result then
-    AValue := UTF16ToUTF8(Attr.Value);
+    AValue := Attr.Value;
 end;
 
 function TXmlConfig.TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Boolean): Boolean;
@@ -279,7 +279,7 @@ var
 begin
   Node := FindNode(RootNode, Path, False);
   if Assigned(Node) then
-    Result := UTF16ToUTF8(Node.TextContent)
+    Result := Node.TextContent
   else
     Result := ADefault;
 end;
@@ -324,7 +324,7 @@ begin
   Node := FindNode(RootNode, Path, False);
   Result := Assigned(Node);
   if Result then
-    AValue := UTF16ToUTF8(Node.TextContent);
+    AValue := Node.TextContent;
 end;
 
 function TXmlConfig.TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Boolean): Boolean;
@@ -371,7 +371,7 @@ var
   Node: TDOMNode;
 begin
   Node := RootNode.AppendChild(FDoc.CreateElement(ValueName));
-  Node.TextContent := UTF8ToUTF16(AValue);
+  Node.TextContent := AValue;
 end;
 
 procedure TXmlConfig.AddValueDef(const RootNode: TDOMNode; const ValueName: DOMString; const AValue, DefaultValue: Boolean);
@@ -430,13 +430,13 @@ var
   NodePath, AttrName: DOMString;
 begin
   SplitPathToNodeAndAttr(Path, NodePath, AttrName);
-  if NodePath <> EmptyWideStr then
+  if NodePath <> EmptyStr then
   begin
     Node := FindNode(RootNode, NodePath, True);
-    TDOMElement(Node)[AttrName] := UTF8ToUTF16(AValue);
+    TDOMElement(Node)[AttrName] := AValue;
   end
   else
-    TDOMElement(RootNode)[AttrName] := UTF8ToUTF16(AValue);
+    TDOMElement(RootNode)[AttrName] := AValue;
 end;
 
 procedure TXmlConfig.SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: Boolean);
@@ -464,7 +464,7 @@ var
   Node: TDOMNode;
 begin
   Node := FindNode(RootNode, Path, True);
-  Node.TextContent := UTF8ToUTF16(AValue);
+  Node.TextContent := AValue;
 end;
 
 procedure TXmlConfig.SetValue(const RootNode: TDOMNode; const Path: DOMString; const AValue: Boolean);
@@ -634,7 +634,7 @@ begin
 
   if (AttrSepPos = 0) or (AttrSepPos = Length(Path)) then
   begin
-    NodePath := EmptyWideStr;
+    NodePath := EmptyStr;
     AttrName := Path;
   end
   else
@@ -730,12 +730,12 @@ end;
 
 function TXmlConfig.GetContent(const Node: TDOMNode): String;
 begin
-  Result := UTF16ToUTF8(Node.TextContent);
+  Result := Node.TextContent;
 end;
 
 procedure TXmlConfig.SetContent(const Node: TDOMNode; const AValue: String);
 begin
-  Node.TextContent := UTF8ToUTF16(AValue);
+  Node.TextContent := AValue;
 end;
 
 function TXmlConfig.GetPathFromNode(aNode: TDOMNode): String;

@@ -49,7 +49,7 @@ type
 implementation
 
 uses
-  DOM, XMLRead, DCClassesUtf8, uMyUnix, DCOSUtils, uOSUtils, uGio;
+  Laz2_DOM, Laz2_XMLRead, DCClassesUtf8, uMyUnix, DCOSUtils, uOSUtils, uGio;
 
 function GetKdeIconTheme: String;
 const

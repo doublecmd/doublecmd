@@ -593,7 +593,7 @@ var
 implementation
 
 uses
-   LCLProc, LCLType, Dialogs, XMLRead, LazUTF8,
+   LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8,
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils
