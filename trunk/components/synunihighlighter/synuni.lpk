@@ -38,27 +38,19 @@ or
 GNU General Public License, version 2
 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html"/>
     <Version Major="1" Minor="8"/>
-    <Files Count="5">
+    <Files Count="3">
       <Item1>
         <Filename Value="source/SynUniClasses.pas"/>
         <UnitName Value="SynUniClasses"/>
       </Item1>
       <Item2>
-        <Filename Value="source/SynUniDesigner.dfm"/>
-        <Type Value="Text"/>
-      </Item2>
-      <Item3>
-        <Filename Value="source/SynUniDesigner.pas"/>
-        <UnitName Value="SynUniDesigner"/>
-      </Item3>
-      <Item4>
         <Filename Value="source/SynUniHighlighter.pas"/>
         <UnitName Value="SynUniHighlighter"/>
-      </Item4>
-      <Item5>
+      </Item2>
+      <Item3>
         <Filename Value="source/SynUniRules.pas"/>
         <UnitName Value="SynUniRules"/>
-      </Item5>
+      </Item3>
     </Files>
     <RequiredPkgs Count="3">
       <Item1>

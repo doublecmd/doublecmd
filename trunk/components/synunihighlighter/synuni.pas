@@ -7,7 +7,7 @@ unit SynUni;
 interface
 
 uses
-  SynUniClasses, SynUniDesigner, SynUniHighlighter, SynUniRules;
+  SynUniClasses, SynUniHighlighter, SynUniRules;
 
 implementation
 
