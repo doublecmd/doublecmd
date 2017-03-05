@@ -230,7 +230,7 @@ type
 implementation
 
 uses
-  XMLRead, uKeyboard, uGlobs, uDebug, uDCVersion, uFormCommands,
+  Laz2_XMLRead, uKeyboard, uGlobs, uDebug, uDCVersion, uFormCommands,
   DCOSUtils, DCStrUtils;
 
 const
