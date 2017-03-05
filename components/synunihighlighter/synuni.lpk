@@ -3,12 +3,18 @@
   <Package Version="4">
     <Name Value="SynUni"/>
     <AddToProjectUsesSection Value="True"/>
-    <Author Value="Vit (Vitaly Nevzorov nevzorov@yahoo.com); Fantasist (Kirill Burtsev walking_in_the_sky@yahoo.com)"/>
+    <Author Value="Vitaly Nevzorov (aka Vit); Kirill Burtsev (aka Fantasist); Vitaly Lyapota (aka Vitalik); eastorwest; Alexander Koblov"/>
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
+        <OtherUnitFiles Value="source"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="Delphi"/>
+        </SyntaxOptions>
+      </Parsing>
       <CodeGeneration>
         <Checks>
           <IOChecks Value="True"/>
@@ -17,28 +23,42 @@
           <StackChecks Value="True"/>
         </Checks>
       </CodeGeneration>
+      <Linking>
+        <Debugging>
+          <DebugInfoType Value="dsDwarf2Set"/>
+          <UseExternalDbgSyms Value="True"/>
+        </Debugging>
+      </Linking>
     </CompilerOptions>
-    <Description Value="Conversion of the UniHighlighter to FPC/Lazarus
-Source homepage is:
-   http://www.delphist.com/UniHighlighter.html
-"/>
+    <Description Value="SynUniHighlighter component version 1.8 for syntax highlighting with SynEdit
+Ported to Lazarus by eastorwest on February 2012"/>
     <License Value="Mozilla Public License Version 1.1
 https://www.mozilla.org/en-US/MPL/1.1/
 or
 GNU General Public License, version 2
-https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
-"/>
-    <Version Major="1"/>
-    <Files Count="2">
+https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html"/>
+    <Version Major="1" Minor="8"/>
+    <Files Count="5">
       <Item1>
-        <Filename Value="synunidesigner.pas"/>
-        <UnitName Value="SynUniDesigner"/>
+        <Filename Value="source/SynUniClasses.pas"/>
+        <UnitName Value="SynUniClasses"/>
       </Item1>
       <Item2>
-        <Filename Value="synunihighlighter.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="SynUniHighlighter"/>
+        <Filename Value="source/SynUniDesigner.dfm"/>
+        <Type Value="Text"/>
       </Item2>
+      <Item3>
+        <Filename Value="source/SynUniDesigner.pas"/>
+        <UnitName Value="SynUniDesigner"/>
+      </Item3>
+      <Item4>
+        <Filename Value="source/SynUniHighlighter.pas"/>
+        <UnitName Value="SynUniHighlighter"/>
+      </Item4>
+      <Item5>
+        <Filename Value="source/SynUniRules.pas"/>
+        <UnitName Value="SynUniRules"/>
+      </Item5>
     </Files>
     <RequiredPkgs Count="3">
       <Item1>

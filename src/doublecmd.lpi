@@ -231,6 +231,7 @@ end;"/>
     <RequiredPackages Count="12">
       <Item1>
         <PackageName Value="SynUni"/>
+        <MinVersion Major="1" Minor="8" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="DateTimeCtrls"/>
