@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Internal editor highlighters configuration frame
 
-    Copyright (C) 2012-2016 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2012-2017 Alexander Koblov (alexx2000@mail.ru)
 
     Based on Lazarus IDE editor configuration frame (Editor/Display/Colors)
 
@@ -53,7 +53,7 @@ type
     FrameColorUseDefaultCheckBox: TCheckBox;
     FrameEdgesBox: TComboBox;
     FrameStyleBox: TComboBox;
-    ColorElementTree: TListBox;
+    ColorElementTree: TTreeView;
     pnlBold: TPanel;
     pnlElementAttributes: TPanel;
     pnlItalic: TPanel;
@@ -97,9 +97,9 @@ type
     procedure ForegroundColorBoxChange(Sender: TObject);
     procedure FrameEdgesBoxDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; {%H-}State: TOwnerDrawState);
-    procedure ColorElementTreeDrawItem({%H-}Control: TWinControl; Index: Integer;
-      NodeRect: TRect; State: TOwnerDrawState);
-    procedure ColorElementTreeSelectionChange(Sender: TObject; {%H-}User: boolean);
+    procedure ColorElementTreeAdvancedCustomDrawItem(Sender: TCustomTreeView; Node: TTreeNode;
+      State: TCustomDrawState; {%H-}Stage: TCustomDrawStage; var {%H-}PaintImages, {%H-}DefaultDraw: Boolean);
+    procedure ColorElementTreeChange(Sender: TObject; {%H-}Node: TTreeNode);
     procedure GeneralCheckBoxOnChange(Sender: TObject);
     procedure pnlElementAttributesResize(Sender: TObject);
     procedure tbtnGlobalClick(Sender: TObject);
@@ -113,6 +113,7 @@ type
     FIsEditingDefaults: Boolean;
     UpdatingColor: Boolean;
     procedure UpdateCurrentScheme;
+    function SynAttributeSortCompare(Node1, Node2: TTreeNode): Integer;
   protected
     procedure Init; override;
     procedure Done; override;
@@ -150,17 +151,17 @@ begin
     Result := AColor;
 end;
 
-function SynAttributeSortCompare(List: TStringList; Index1, Index2: Integer): Integer;
+{ TfrmOptionsEditorColors }
+
+function TfrmOptionsEditorColors.SynAttributeSortCompare(Node1, Node2: TTreeNode): Integer;
 begin
-  if CompareStr(List[Index1], rsSynDefaultText) = 0 then
+  if CompareStr(Node1.Text, rsSynDefaultText) = 0 then
     Result:= -1
-  else if CompareStr(List[Index2], rsSynDefaultText) = 0 then
+  else if CompareStr(Node2.Text, rsSynDefaultText) = 0 then
     Result:=  1
   else
-    Result:= CompareStr(List[Index1], List[Index2]);
+    Result:= CompareStr(Node1.Text, Node2.Text);
 end;
-
-{ TfrmOptionsEditorColors }
 
 procedure TfrmOptionsEditorColors.FrameEdgesBoxDrawItem(Control: TWinControl;
   Index: Integer; ARect: TRect; State: TOwnerDrawState); //+++
@@ -247,33 +248,34 @@ end;
 procedure TfrmOptionsEditorColors.cmbLanguageChange(Sender: TObject);
 var
   I: LongInt;
-  AttributeList: TStringList;
+  ANode: TTreeNode;
 begin
   if (cmbLanguage.ItemIndex < 0) then Exit;
-  AttributeList:= TStringList.Create;
+  FCurrentHighlighter:= TSynCustomHighlighter(cmbLanguage.Items.Objects[cmbLanguage.ItemIndex]);
+  pnlFileExtensions.Enabled:= not (FCurrentHighlighter is TSynPlainTextHighlighter);
+  edtFileExtensions.Text:= Copy(FCurrentHighlighter.DefaultFilter, Pos('|', FCurrentHighlighter.DefaultFilter) + 1, MaxInt);
+  ColorPreview.Lines.Text:= FHighl.GetSampleSource(FCurrentHighlighter);
+  if ColorPreview.Lines.Text = EmptyStr then
   try
-    FCurrentHighlighter:= TSynCustomHighlighter(cmbLanguage.Items.Objects[cmbLanguage.ItemIndex]);
-    pnlFileExtensions.Enabled:= not (FCurrentHighlighter is TSynPlainTextHighlighter);
-    edtFileExtensions.Text:= Copy(FCurrentHighlighter.DefaultFilter, Pos('|', FCurrentHighlighter.DefaultFilter) + 1, MaxInt);
-    ColorPreview.Lines.Text:= FHighl.GetSampleSource(FCurrentHighlighter);
-    if ColorPreview.Lines.Text = EmptyStr then
-    try
-      ColorPreview.Lines.Text:= FCurrentHighlighter.SampleSource;
-    except
-      ColorPreview.Lines.Text:= EmptyStr;
-    end;
-    FHighl.SetHighlighter(ColorPreview, FCurrentHighlighter);
-    ColorElementTree.Items.Clear;
-    for I:=0 to FCurrentHighlighter.AttrCount - 1 do
-      AttributeList.AddObject(FCurrentHighlighter.Attribute[I].Name, FCurrentHighlighter.Attribute[I]);
-    if (AttributeList.Count > 0) then
+    ColorPreview.Lines.Text:= FCurrentHighlighter.SampleSource;
+  except
+    ColorPreview.Lines.Text:= EmptyStr;
+  end;
+  FHighl.SetHighlighter(ColorPreview, FCurrentHighlighter);
+  ColorElementTree.Items.Clear;
+  if (FCurrentHighlighter.AttrCount > 0) then
+  begin
+    for I:= 0 to FCurrentHighlighter.AttrCount - 1 do
     begin
-      AttributeList.CustomSort(@SynAttributeSortCompare);
-      ColorElementTree.Items.Assign(AttributeList);
-      ColorElementTree.ItemIndex:= 0;
+      ANode:= ColorElementTree.Items.Add(nil, FCurrentHighlighter.Attribute[I].Name);
+      ANode.Data:= FCurrentHighlighter.Attribute[I];
     end;
-  finally
-    AttributeList.Free;
+    ColorElementTree.CustomSort(@SynAttributeSortCompare);
+    if ColorElementTree.Items.GetFirstNode <> nil then
+    begin
+      ColorElementTree.Items.GetFirstNode.Selected := True;
+      ColorElementTreeChange(ColorElementTree, nil);
+    end;
   end;
 end;
 
@@ -320,32 +322,35 @@ begin
   UpdateCurrentScheme;
 end;
 
-procedure TfrmOptionsEditorColors.ColorElementTreeDrawItem(Control: TWinControl;
-  Index: Integer; NodeRect: TRect; State: TOwnerDrawState); //+++
+procedure TfrmOptionsEditorColors.ColorElementTreeAdvancedCustomDrawItem(Sender: TCustomTreeView;
+  Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage; var PaintImages,
+  DefaultDraw: Boolean); //+++
 var
+  NodeRect: TRect;
   FullAbcWidth, AbcWidth: Integer;
   Attri: TSynHighlighterAttributes;
   TextY: Integer;
   c: TColor;
   s: String;
 begin
-  if (Index = 0) and FIsEditingDefaults then
+  if (ColorElementTree.Items.GetFirstNode = Node) and FIsEditingDefaults then
     Attri := FDefHighlightElement
   else
-    Attri := TSynHighlighterAttributes(ColorElementTree.Items.Objects[Index]);
+    Attri := TSynHighlighterAttributes(Node.Data);
 
   if (Attri = nil) then Exit;
 
   // Draw node background and name
-  if odSelected in State then begin
-    ColorElementTree.Canvas.Brush.Color := clHighlight;
-    ColorElementTree.Canvas.Font.Color := clHighlightText;
+  if cdsSelected in State then begin
+    ColorElementTree.Canvas.Brush.Color := ColorElementTree.SelectionColor;
+    ColorElementTree.Canvas.Font.Color := InvertColor(ColorElementTree.SelectionColor);
   end else begin
     ColorElementTree.Canvas.Brush.Color := ColorElementTree.Color;
     ColorElementTree.Canvas.Font.Color := Font.Color;
   end;
+  NodeRect := Node.DisplayRect(False);
   FullAbcWidth := ColorElementTree.Canvas.TextExtent(COLOR_NODE_PREFIX).cx;
-  TextY := (NodeRect.Top + NodeRect.Bottom - ColorElementTree.Canvas.TextHeight(ColorElementTree.Items[Index])) div 2;
+  TextY := (NodeRect.Top + NodeRect.Bottom - ColorElementTree.Canvas.TextHeight(Node.Text)) div 2;
   ColorElementTree.Canvas.FillRect(NodeRect);
   ColorElementTree.Canvas.TextOut(NodeRect.Left+FullAbcWidth, TextY, Attri.Name);
 
@@ -401,15 +406,15 @@ begin
   ColorPreview.Font.Color:= SynPlainTextHighlighter.Foreground;
 end;
 
-procedure TfrmOptionsEditorColors.ColorElementTreeSelectionChange(
-  Sender: TObject; User: boolean); //+++
+procedure TfrmOptionsEditorColors.ColorElementTreeChange(Sender: TObject; Node: TTreeNode); //+++
 var
   AttrToShow: TSynHighlighterAttributes;
   IsDefault, CanGlobal: Boolean;
 begin
-  if (ColorElementTree.ItemIndex < 0) or UpdatingColor then
+  if UpdatingColor or (ColorElementTree.Selected = nil) or (ColorElementTree.Selected.Data = nil) then
     Exit;
-  FCurHighlightElement:= TSynHighlighterAttributes(ColorElementTree.Items.Objects[ColorElementTree.ItemIndex]);
+
+  FCurHighlightElement:= TSynHighlighterAttributes(ColorElementTree.Selected.Data);
   UpdatingColor := True;
   DisableAlign;
   try
@@ -676,7 +681,7 @@ begin
     Exit;
 
   FCurrentHighlighter.Tag := PtrInt(tbtnGlobal.Down);
-  ColorElementTreeSelectionChange(ColorElementTree, True);
+  ColorElementTreeChange(ColorElementTree, nil);
   UpdateCurrentScheme;
 end;
 
