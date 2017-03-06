@@ -924,6 +924,9 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     Result := TFileViewNotebook.Create(aParent, aSide);
     Result.Align := alClient;
     Result.Options := [nboHidePageListPopup];
+    {$if lcl_fullversion >= 1070000}
+      Result.Options := Result.Options + [nboDoChangeOnSetIndex];
+    {$endif}
 
     Result.OnCloseTabClicked := @NotebookCloseTabClicked;
     Result.OnMouseDown := @nbPageMouseDown;
