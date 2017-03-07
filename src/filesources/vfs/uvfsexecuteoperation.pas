@@ -40,7 +40,7 @@ type
 implementation
 
 uses
-  uWfxModule, uDCUtils, uGlobs;
+  Forms, uWfxModule, uDCUtils, uGlobs;
 
 constructor TVfsExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -75,7 +75,7 @@ begin
       if Assigned(WfxModule) then
       begin
         WfxModule.VFSInit;
-        WfxModule.VFSConfigure(0);
+        WfxModule.VFSConfigure(Application.MainForm.Tag);
       end;
     end;
   end;
