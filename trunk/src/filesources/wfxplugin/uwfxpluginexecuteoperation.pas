@@ -40,7 +40,7 @@ type
 implementation
 
 uses
-  WfxPlugin;
+  Forms, WfxPlugin;
 
 constructor TWfxPluginExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -64,7 +64,7 @@ var
   iResult: LongInt;
 begin
     RemoteName:= AbsolutePath;
-    iResult:= FWfxPluginFileSource.WfxModule.WfxExecuteFile(0, RemoteName, Verb);
+    iResult:= FWfxPluginFileSource.WfxModule.WfxExecuteFile(Application.MainForm.Tag, RemoteName, Verb);
     case iResult of
     FS_EXEC_OK:
       FExecuteOperationResult:= fseorSuccess;
