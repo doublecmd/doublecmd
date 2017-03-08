@@ -44,7 +44,7 @@ type
 implementation
 
 uses
-  DCBasicTypes, DCStrUtils, WfxPlugin, uWfxPluginUtil, DCDateTimeUtils;
+  Forms, DCBasicTypes, DCStrUtils, WfxPlugin, uWfxPluginUtil, DCDateTimeUtils;
 
 constructor TWfxPluginSetFilePropertyOperation.Create(aTargetFileSource: IFileSource;
                                                       var theTargetFiles: TFiles;
@@ -169,7 +169,7 @@ begin
           end
           else if aTemplateProperty is TUnixFileAttributesProperty then
           begin
-            if WfxExecuteFile(0, FileName, 'chmod' + #32 + DecToOct(NewAttributes)) <> FS_EXEC_OK then
+            if WfxExecuteFile(Application.MainForm.Tag, FileName, 'chmod' + #32 + DecToOct(NewAttributes)) <> FS_EXEC_OK then
               Result := sfprError;
           end
           else
