@@ -6906,11 +6906,6 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Показване на наслоени значета, например за връзки"
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Забраняване на особени значета"
@@ -6933,6 +6928,14 @@ msgstr "Раз&мер на значетата"
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
 msgid " Show icons to the left of the filename "
+msgstr ""
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
 msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption

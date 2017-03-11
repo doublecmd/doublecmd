@@ -6489,11 +6489,6 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Приказуј преклапајуће& иконице, нпр. за везе"
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Онемогући нарочите иконице"
@@ -6515,6 +6510,14 @@ msgstr " Величина иконица"
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
 msgid " Show icons to the left of the filename "
 msgstr " Приказуј иконице лево од имена датотека"
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"

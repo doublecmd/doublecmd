@@ -6946,11 +6946,6 @@ msgctxt "tfrmoptionsicons.cbiconsshowoverlay.caption"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Zobraziť prekladané i&kony (pre zástupcov)"
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "tfrmoptionsicons.cbiconssize.text"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Zakáž špeciálne ikony"
@@ -6974,6 +6969,14 @@ msgstr "Veľkosť i&kon"
 msgctxt "tfrmoptionsicons.gbshowiconsmode.caption"
 msgid " Show icons to the left of the filename "
 msgstr "Zobraziť ikony vľavo od názvu súboru"
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 #, fuzzy

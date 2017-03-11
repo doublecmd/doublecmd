@@ -6592,11 +6592,6 @@ msgstr ""
 msgid "Show o&verlay icons, e.g. for links"
 msgstr ""
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "tfrmoptionsicons.cbiconssize.text"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr ""
@@ -6617,6 +6612,14 @@ msgstr ""
 msgctxt "tfrmoptionsicons.gbshowiconsmode.caption"
 msgid " Show icons to the left of the filename "
 msgstr "Dosya adının solundaki simgeleri göster"
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "tfrmoptionsicons.rbiconsshowall.caption"

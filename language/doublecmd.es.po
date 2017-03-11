@@ -6163,11 +6163,6 @@ msgstr "Mostrar iconos en botones"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Mostrar &iconos superpuestos (por ejemplo, para enlaces)"
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "tfrmoptionsicons.cbiconssize.text"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Deshabilitar iconos especiales"
@@ -6187,6 +6182,14 @@ msgstr "Tamaño de icono"
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgid " Show icons to the left of the filename "
 msgstr " Mostrar iconos a la izquierda del nombre del archivo"
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "tfrmoptionsicons.rbiconsshowall.caption"

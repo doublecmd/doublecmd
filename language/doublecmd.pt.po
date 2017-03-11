@@ -6369,11 +6369,6 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "M&ostrar ícones sobrepostos, i.e. para ligações"
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Desactivar ícones especiais"
@@ -6395,6 +6390,14 @@ msgstr "Tamanho do ícone"
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
 msgid " Show icons to the left of the filename "
 msgstr "Mostrar ícones à esquerda do nome de ficheiro"
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"

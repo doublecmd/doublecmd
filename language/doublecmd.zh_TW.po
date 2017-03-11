@@ -6868,11 +6868,6 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "顯示覆蓋圖示,例如捷徑 (&V)"
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "停用特定的圖示"
@@ -6896,6 +6891,14 @@ msgstr "圖示大小"
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
 msgid " Show icons to the left of the filename "
 msgstr "顯示圖示在檔案名稱左邊"
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 #, fuzzy

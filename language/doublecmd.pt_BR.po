@@ -1487,6 +1487,7 @@ msgstr ""
 #: tfrmfinddlg.actclose.caption
 #, fuzzy
 #| msgid "actClose"
+msgctxt "tfrmfinddlg.actclose.caption"
 msgid "&Close"
 msgstr "actClose"
 
@@ -1498,6 +1499,7 @@ msgstr ""
 #: tfrmfinddlg.actedit.caption
 #, fuzzy
 #| msgid "actEdit"
+msgctxt "tfrmfinddlg.actedit.caption"
 msgid "&Edit"
 msgstr "actEdit"
 
@@ -1524,6 +1526,7 @@ msgstr "actGoToFile"
 #: tfrmfinddlg.actintellifocus.caption
 #, fuzzy
 #| msgid "actIntelliFocus"
+msgctxt "tfrmfinddlg.actintellifocus.caption"
 msgid "Find Data"
 msgstr "actIntelliFocus"
 
@@ -1576,12 +1579,14 @@ msgstr "actPageStandard"
 #: tfrmfinddlg.actstart.caption
 #, fuzzy
 #| msgid "actStart"
+msgctxt "tfrmfinddlg.actstart.caption"
 msgid "&Start"
 msgstr "actStart"
 
 #: tfrmfinddlg.actview.caption
 #, fuzzy
 #| msgid "actView"
+msgctxt "tfrmfinddlg.actview.caption"
 msgid "&View"
 msgstr "actView"
 
@@ -1738,6 +1743,7 @@ msgid "Files"
 msgstr "Arquivos"
 
 #: tfrmfinddlg.gbfinddata.caption
+msgctxt "tfrmfinddlg.gbfinddata.caption"
 msgid "Find Data"
 msgstr "Localizar Dados"
 
@@ -6375,11 +6381,6 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Mostrar ícones sobrepostos, i.e. para links."
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Desativar ícones especiais."
@@ -6401,6 +6402,14 @@ msgstr "Tamanho do ícone."
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
 msgid " Show icons to the left of the filename "
 msgstr "Mostrar ícones à esquerda do nome de arquivo."
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"

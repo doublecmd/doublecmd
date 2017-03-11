@@ -6883,11 +6883,6 @@ msgctxt "tfrmoptionsicons.cbiconsshowoverlay.caption"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Mostra icones superposades. Exemple: per enllaços"
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "tfrmoptionsicons.cbiconssize.text"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Desactiva icones especials"
@@ -6911,6 +6906,14 @@ msgstr "Mida d'Icona"
 msgctxt "tfrmoptionsicons.gbshowiconsmode.caption"
 msgid " Show icons to the left of the filename "
 msgstr " Mostra icones a l'esquerra del nom"
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 #, fuzzy

@@ -6161,11 +6161,6 @@ msgstr "Na gumbih naj se izrisujejo ikone."
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Pokaži prekrivne i&kone za npr. povezave"
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "tfrmoptionsicons.cbiconssize.text"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Onemogoči posebne ikone"
@@ -6185,6 +6180,14 @@ msgstr "Velikost ikon"
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgid " Show icons to the left of the filename "
 msgstr "Pokaži ikone na levi strani imena datoteke"
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "tfrmoptionsicons.rbiconsshowall.caption"
