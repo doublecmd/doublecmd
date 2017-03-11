@@ -351,11 +351,15 @@ const
 
 function AdjustIconSize(ASize: Integer; APixelsPerInch: Integer): Integer;
 begin
+{$IF DEFINED(MSWINDOWS)}
   if (APixelsPerInch = Screen.PixelsPerInch) then
     Result:= ASize
   else begin
     Result:= MulDiv(ASize, Screen.PixelsPerInch, APixelsPerInch);
   end;
+{$ELSE}
+  Result:= ASize;
+{$ENDIF}
 end;
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
