@@ -271,7 +271,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
         ParentColor = False
       end
     end
-    object Panel4: TPanel
+    object pnlComboBox: TPanel
       Left = 156
       Height = 102
       Top = 6
@@ -290,17 +290,9 @@ inherited frmOptionsIcons: TfrmOptionsIcons
         Top = 16
         Width = 100
         ItemHeight = 20
-        ItemIndex = 0
-        Items.Strings = (
-          '16x16'
-          '22x22'
-          '32x32'
-          '48x48'
-        )
         OnChange = cbIconsSizeChange
         Style = csDropDownList
         TabOrder = 0
-        Text = '16x16'
       end
       object cbDiskIconsSize: TComboBox
         AnchorSideTop.Side = asrCenter
@@ -309,17 +301,9 @@ inherited frmOptionsIcons: TfrmOptionsIcons
         Top = 60
         Width = 100
         ItemHeight = 20
-        ItemIndex = 0
-        Items.Strings = (
-          '16x16'
-          '22x22'
-          '32x32'
-          '48x48'
-        )
         OnChange = cbDiskIconsSizeChange
         Style = csDropDownList
         TabOrder = 1
-        Text = '16x16'
       end
     end
     object pnlImage: TPanel

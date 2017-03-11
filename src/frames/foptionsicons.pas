@@ -51,7 +51,7 @@ type
     imgIconExample: TImage;
     lblDiskPanel: TLabel;
     lblFilePanel: TLabel;
-    Panel4: TPanel;
+    pnlComboBox: TPanel;
     pnlImage: TPanel;
     pnlLabel: TPanel;
     rbIconsShowAll: TRadioButton;
@@ -65,6 +65,7 @@ type
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -83,12 +84,8 @@ var
   iSize: Integer;
   bmpTemp: TBitmap;
 begin
-  case cbIconsSize.ItemIndex of
-    0: iSize:= 16;
-    1: iSize:= 22;
-    2: iSize:= 32;
-    3: iSize:= 48;
-  end;
+  if cbIconsSize.ItemIndex < 0 then Exit;
+  iSize:= PtrInt(cbIconsSize.Items.Objects[cbIconsSize.ItemIndex]);
   bmpTemp:= PixmapManager.GetFolderIcon(iSize, pnlImage.Color);
   imgIconExample.Picture.Assign(bmpTemp);
   FreeAndNil(bmpTemp);
@@ -104,12 +101,8 @@ var
   iSize: Integer;
   bmpTemp: TBitmap;
 begin
-  case cbDiskIconsSize.ItemIndex of
-    0: iSize:= 16;
-    1: iSize:= 22;
-    2: iSize:= 32;
-    3: iSize:= 48;
-  end;
+  if cbDiskIconsSize.ItemIndex < 0 then Exit;
+  iSize:= PtrInt(cbDiskIconsSize.Items.Objects[cbDiskIconsSize.ItemIndex]);
   bmpTemp:= PixmapManager.GetDefaultDriveIcon(iSize, pnlImage.Color);
   imgDiskIconExample.Picture.Assign(bmpTemp);
   FreeAndNil(bmpTemp);
@@ -130,6 +123,24 @@ end;
 class function TfrmOptionsIcons.GetTitle: String;
 begin
   Result := rsOptionsEditorIcons;
+end;
+
+procedure TfrmOptionsIcons.Init;
+var
+  I: Integer;
+  AIconSize: String;
+begin
+  inherited Init;
+  for I:= Low(ICON_SIZES) to High(ICON_SIZES) do
+  begin
+    AIconSize:= IntToStr(ICON_SIZES[I]) + 'x' + IntToStr(ICON_SIZES[I]);
+    cbIconsSize.Items.AddObject(AIconSize, TObject(PtrInt(ICON_SIZES[I])));
+  end;
+  for I:= Low(ICON_SIZES) to High(ICON_SIZES) - 1 do
+  begin
+    AIconSize:= IntToStr(ICON_SIZES[I]) + 'x' + IntToStr(ICON_SIZES[I]);
+    cbDiskIconsSize.Items.AddObject(AIconSize, TObject(PtrInt(ICON_SIZES[I])));
+  end;
 end;
 
 procedure TfrmOptionsIcons.Load;
@@ -170,20 +181,16 @@ begin
   else if rbIconsShowAllAndExe.Checked then
     SelectedShowIcons := sim_all_and_exe;
 
-  case cbIconsSize.ItemIndex of
-    0: SelectedIconsSize := 16;
-    1: SelectedIconsSize := 22;
-    2: SelectedIconsSize := 32;
-    3: SelectedIconsSize := 48;
-  else SelectedIconsSize := gIconsSizeNew;
+  if cbIconsSize.ItemIndex < 0 then
+    SelectedIconsSize := gIconsSizeNew
+  else begin
+    SelectedIconsSize := PtrInt(cbIconsSize.Items.Objects[cbIconsSize.ItemIndex])
   end;
 
-  case cbDiskIconsSize.ItemIndex of
-    0: SelectedDiskIconsSize := 16;
-    1: SelectedDiskIconsSize := 22;
-    2: SelectedDiskIconsSize := 32;
-    3: SelectedDiskIconsSize := 48;
-  else SelectedDiskIconsSize := gDiskIconsSizeNew;
+  if cbDiskIconsSize.ItemIndex < 0 then
+    SelectedDiskIconsSize := gDiskIconsSizeNew
+  else begin
+    SelectedDiskIconsSize := PtrInt(cbDiskIconsSize.Items.Objects[cbDiskIconsSize.ItemIndex])
   end;
 
   case cbIconsInMenusSize.ItemIndex of

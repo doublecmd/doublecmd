@@ -306,7 +306,17 @@ type
 var
   PixMapManager: TPixMapManager = nil;
 
+var
+  ICON_SIZES:
+{$IF DEFINED(MSWINDOWS)}
+   array [0..2] of Integer = (16, 32, 48);
+{$ELSE}
+   array [0..3] of Integer = (16, 22, 32, 48);
+{$ENDIF}
+
 procedure LoadPixMapManager;
+
+function AdjustIconSize(ASize: Integer; APixelsPerInch: Integer): Integer;
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
@@ -338,6 +348,15 @@ uses
 const
   SystemIconIndexStart: PtrInt = High(PtrInt) div 2;
 {$ENDIF}
+
+function AdjustIconSize(ASize: Integer; APixelsPerInch: Integer): Integer;
+begin
+  if (APixelsPerInch = Screen.PixelsPerInch) then
+    Result:= ASize
+  else begin
+    Result:= MulDiv(ASize, Screen.PixelsPerInch, APixelsPerInch);
+  end;
+end;
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
@@ -481,7 +500,6 @@ function TPixMapManager.LoadBitmapEnhanced(sFileName : String; iIconSize : Integ
 var
 {$IFDEF MSWINDOWS}
   iIconIndex: PtrInt;
-  iIconLarge,
   iIconSmall: Integer;
   phIcon: HICON = INVALID_HANDLE_VALUE;
   phIconLarge : HICON = 0;
@@ -515,15 +533,11 @@ begin
         begin
           // Get system metrics
           iIconSmall:= GetSystemMetrics(SM_CXSMICON);
-          iIconLarge:= GetSystemMetrics(SM_CXICON);
-          if (iIconSize = 16) and (iIconSmall = 16) then
+          if iIconSize <= iIconSmall then
             phIcon:= phIconSmall    // Use small icon
-          else if (iIconSize = 32) and (iIconLarge = 32) then
+          else begin
             phIcon:= phIconLarge    // Use large icon
-          else if iIconSize > iIconSmall then
-            phicon := phIconLarge   // Use large icon
-          else
-            phicon := phIconSmall;  // Use small icon
+          end;
 
           if phIcon <> INVALID_HANDLE_VALUE then
             try
@@ -1191,10 +1205,15 @@ begin
   CreateIconTheme;
 
   {$IFDEF MSWINDOWS}
-  case gIconsSize of
-    16: iIconSize := SHIL_SMALL;
-    32: iIconSize := SHIL_LARGE;
-    else iIconSize := SHIL_EXTRALARGE;
+  for iIconSize:= Low(ICON_SIZES) to High(ICON_SIZES) do
+    ICON_SIZES[iIconSize]:= AdjustIconSize(ICON_SIZES[iIconSize], 96);
+
+  if gIconsSize <= ICON_SIZES[0] then
+    iIconSize := SHIL_SMALL
+  else if gIconsSize <= ICON_SIZES[1] then
+    iIconSize := SHIL_LARGE
+  else begin
+    iIconSize := SHIL_EXTRALARGE;
   end;
 
   FSysImgList := SHGetSystemImageList(iIconSize);
@@ -1480,19 +1499,10 @@ end;
 
 function TPixMapManager.DrawBitmap(iIndex: PtrInt; Canvas : TCanvas; X, Y: Integer) : Boolean;
 begin
-  Result := DrawBitmap(iIndex, Canvas, X, Y, gIconsSize, gIconsSize); // X, Y, 0, 0 - No bitmap stretching.
+  Result := DrawBitmap(iIndex, Canvas, X, Y, gIconsSize, gIconsSize); // No bitmap stretching.
 end;
 
 function TPixMapManager.DrawBitmap(iIndex: PtrInt; Canvas: TCanvas; X, Y, Width, Height: Integer): Boolean;
-
-  procedure TrySetSize(aWidth, aHeight: Integer);
-  begin
-    if Width = 0 then
-      Width := aWidth;
-    if Height = 0 then
-      Height := aHeight;
-  end;
-
 var
   PPixmap: Pointer;
   PixmapFromList: Boolean = False;
@@ -1532,7 +1542,6 @@ begin
     DrawPixbufAtCanvas(Canvas, pbPicture, 0, 0, X, Y, Width, Height);
   {$ELSE}
     Bitmap := Graphics.TBitmap(PPixmap);
-    TrySetSize(Bitmap.Width, Bitmap.Height);
     aRect := Classes.Bounds(X, Y, Width, Height);
     Canvas.StretchDraw(aRect, Bitmap);
   {$ENDIF}
@@ -1541,13 +1550,9 @@ begin
   {$IFDEF MSWINDOWS}
   if iIndex >= SystemIconIndexStart then
     try
-      if ImageList_GetIconSize(FSysImgList, @cx, @cy) then
-        TrySetSize(cx, cy)
-      else
-        TrySetSize(gIconsSize, gIconsSize);
+      ImageList_GetIconSize(FSysImgList, @cx, @cy);
 
-      if (Height in [16, 32, 48]) and (cx = Width) and (cy = Height) then
-        // for transparent
+      if (cx = Width) and (cy = Height) then
         ImageList_Draw(FSysImgList, iIndex - SystemIconIndexStart, Canvas.Handle, X, Y, ILD_TRANSPARENT)
       else
       begin
@@ -1875,14 +1880,11 @@ begin
       iIconSmall:= GetSystemMetrics(SM_CXSMICON);
       iIconLarge:= GetSystemMetrics(SM_CXICON);
 
-      if (IconSize = 16) and (iIconSmall = 16) then // standart small icon
-        uFlags := SHGFI_SMALLICON // Use small icon
-      else if (IconSize = 32) and (iIconLarge = 32) then // standart large icon
-        uFlags := SHGFI_LARGEICON // Use large icon
-      else if IconSize > iIconSmall then
-        uFlags := SHGFI_LARGEICON // Use large icon
-      else
-        uFlags := SHGFI_SMALLICON; // Use small icon
+      if (IconSize <= iIconSmall) then
+        uFlags := SHGFI_SMALLICON  // Use small icon
+      else begin
+        uFlags := SHGFI_LARGEICON; // Use large icon
+      end;
 
       if (SHGetFileInfoW(PWideChar(UTF8Decode(Drive^.Path)), 0, SFI,
                          SizeOf(SFI), uFlags or SHGFI_ICON) <> 0) and
@@ -1904,7 +1906,7 @@ begin
               Result.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
               Result := StretchBitmap(Result, IconSize, clBackColor, True);
             finally
-              FreeThenNil(Icon);
+              FreeAndNil(Icon);
               DestroyIcon(SFI.hIcon);
             end
         end;

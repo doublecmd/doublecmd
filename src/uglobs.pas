@@ -367,6 +367,7 @@ var
   gFiOwnDCIcon : PtrInt;
   gIconsExclude: Boolean;
   gIconsExcludeDirs: String;
+  gPixelsPerInch: Integer;
   gCustomDriveIcons : Boolean; // for use custom drive icons under windows
   gIconsInMenus: Boolean;
   gIconsInMenusSize,
@@ -598,7 +599,7 @@ uses
    LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8,
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
-   uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils
+   uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager
    {$IF DEFINED(MSWINDOWS)}
     , ShlObj, win32proc
    {$ENDIF}
@@ -1580,6 +1581,7 @@ begin
   gDiskIconsSizeNew := gIconsSize;
   gIconsExclude := False;
   gIconsExcludeDirs := EmptyStr;
+  gPixelsPerInch := 96;
   gCustomDriveIcons := False;
   gIconsInMenus := False;
   gIconsInMenusSize := 16;
@@ -1857,6 +1859,9 @@ begin
   // Update plugins if DC version is changed
   if (gPreviousVersion <> dcVersion) then UpdatePlugins;
 
+  // Adjust icons size
+  gIconsSize:= AdjustIconSize(gIconsSize, gPixelsPerInch);
+  gDiskIconsSize:= AdjustIconSize(gDiskIconsSize, gPixelsPerInch);
   // Set secondary variables for options that need restart.
   gShowIconsNew := gShowIcons;
   gIconsSizeNew := gIconsSize;
@@ -2494,6 +2499,7 @@ begin
       gDiskIconsSize := GetValue(Node, 'DiskSize', gDiskIconsSize);
       gIconsExclude := GetValue(Node, 'Exclude', gIconsExclude);
       gIconsExcludeDirs := GetValue(Node, 'ExcludeDirs', gIconsExcludeDirs);
+      gPixelsPerInch := GetValue(Node, 'PixelsPerInch', gPixelsPerInch);
       gCustomDriveIcons := GetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
       gIconsInMenus := GetAttr(Node, 'ShowInMenus/Enabled', gIconsInMenus);
       gIconsInMenusSize := GetValue(Node, 'ShowInMenus/Size', gIconsInMenusSize);
@@ -2991,6 +2997,7 @@ begin
     SetValue(Node, 'Exclude', gIconsExclude);
     SetValue(Node, 'ExcludeDirs', gIconsExcludeDirs);
     SetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
+    SetValue(Node, 'PixelsPerInch', Screen.PixelsPerInch);
     SetAttr(Node, 'ShowInMenus/Enabled', gIconsInMenus);
     SetValue(Node, 'ShowInMenus/Size', gIconsInMenusSizeNew);
     SetValue(Node, 'ShowButtonGlyphs', Integer(Application.ShowButtonGlyphs));
