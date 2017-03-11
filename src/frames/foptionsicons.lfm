@@ -179,7 +179,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       ItemIndex = 0
       Items.Strings = (
         '16x16'
-        '22x22'
+        '24x24'
         '32x32'
       )
       OnChange = cbIconsSizeChange

@@ -195,7 +195,7 @@ begin
 
   case cbIconsInMenusSize.ItemIndex of
     0: gIconsInMenusSizeNew := 16;
-    1: gIconsInMenusSizeNew := 22;
+    1: gIconsInMenusSizeNew := 24;
     2: gIconsInMenusSizeNew := 32;
   end;
 
