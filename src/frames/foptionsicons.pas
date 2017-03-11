@@ -34,24 +34,31 @@ type
   { TfrmOptionsIcons }
 
   TfrmOptionsIcons = class(TOptionsEditor)
+    cbDiskIconsSize: TComboBox;
     cbIconsShowOverlay: TCheckBox;
-    cbIconsSize: TComboBox;
     cbIconsExclude: TCheckBox;
     cbIconsInMenusSize: TComboBox;
     cbIconsInMenus: TCheckBox;
     cbIconsOnButtons: TCheckBox;
+    cbIconsSize: TComboBox;
     edtIconsExcludeDirs: TEdit;
     gbIconsSize: TGroupBox;
     gbShowIconsMode: TGroupBox;
     gbDisableSpecialIcons: TGroupBox;
     gbIconsInMenus: TGroupBox;
     gbIconsOnButtons: TGroupBox;
+    imgDiskIconExample: TImage;
     imgIconExample: TImage;
-    pnlIconExample: TPanel;
+    lblDiskPanel: TLabel;
+    lblFilePanel: TLabel;
+    Panel4: TPanel;
+    pnlImage: TPanel;
+    pnlLabel: TPanel;
     rbIconsShowAll: TRadioButton;
     rbIconsShowAllAndExe: TRadioButton;
     rbIconsShowNone: TRadioButton;
     rbIconsShowStandard: TRadioButton;
+    procedure cbDiskIconsSizeChange(Sender: TObject);
     procedure cbIconsExcludeChange(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
     procedure rbIconsShowNoneChange(Sender: TObject);
@@ -73,8 +80,8 @@ uses
 
 procedure TfrmOptionsIcons.cbIconsSizeChange(Sender: TObject);
 var
-  bmpTemp: TBitmap;
   iSize: Integer;
+  bmpTemp: TBitmap;
 begin
   case cbIconsSize.ItemIndex of
     0: iSize:= 16;
@@ -82,14 +89,30 @@ begin
     2: iSize:= 32;
     3: iSize:= 48;
   end;
-  bmpTemp:= PixmapManager.GetDefaultDriveIcon(iSize, pnlIconExample.Color);
-  imgIconExample.Picture.Bitmap.Assign(bmpTemp);
+  bmpTemp:= PixmapManager.GetFolderIcon(iSize, pnlImage.Color);
+  imgIconExample.Picture.Assign(bmpTemp);
   FreeAndNil(bmpTemp);
 end;
 
 procedure TfrmOptionsIcons.cbIconsExcludeChange(Sender: TObject);
 begin
   edtIconsExcludeDirs.Enabled:= cbIconsExclude.Checked;
+end;
+
+procedure TfrmOptionsIcons.cbDiskIconsSizeChange(Sender: TObject);
+var
+  iSize: Integer;
+  bmpTemp: TBitmap;
+begin
+  case cbDiskIconsSize.ItemIndex of
+    0: iSize:= 16;
+    1: iSize:= 22;
+    2: iSize:= 32;
+    3: iSize:= 48;
+  end;
+  bmpTemp:= PixmapManager.GetDefaultDriveIcon(iSize, pnlImage.Color);
+  imgDiskIconExample.Picture.Assign(bmpTemp);
+  FreeAndNil(bmpTemp);
 end;
 
 procedure TfrmOptionsIcons.rbIconsShowNoneChange(Sender: TObject);
@@ -123,8 +146,10 @@ begin
   edtIconsExcludeDirs.Text:= gIconsExcludeDirs;
   edtIconsExcludeDirs.Enabled:= gIconsExclude;
   cbIconsSize.Text := IntToStr(gIconsSizeNew) + 'x' + IntToStr(gIconsSizeNew);
+  cbDiskIconsSize.Text := IntToStr(gDiskIconsSizeNew) + 'x' + IntToStr(gDiskIconsSizeNew);
   cbIconsInMenusSize.Text := IntToStr(gIconsInMenusSizeNew) + 'x' + IntToStr(gIconsInMenusSizeNew);
   cbIconsSizeChange(nil);
+  cbDiskIconsSizeChange(nil);
   cbIconsOnButtons.Checked := Application.ShowButtonGlyphs = sbgAlways;
 end;
 
@@ -132,6 +157,7 @@ function TfrmOptionsIcons.Save: TOptionsEditorSaveFlags;
 var
   SelectedShowIcons: TShowIconsMode = sim_none;
   SelectedIconsSize: Integer;
+  SelectedDiskIconsSize: Integer;
 begin
   Result := [];
 
@@ -152,6 +178,14 @@ begin
   else SelectedIconsSize := gIconsSizeNew;
   end;
 
+  case cbDiskIconsSize.ItemIndex of
+    0: SelectedDiskIconsSize := 16;
+    1: SelectedDiskIconsSize := 22;
+    2: SelectedDiskIconsSize := 32;
+    3: SelectedDiskIconsSize := 48;
+  else SelectedDiskIconsSize := gDiskIconsSizeNew;
+  end;
+
   case cbIconsInMenusSize.ItemIndex of
     0: gIconsInMenusSizeNew := 16;
     1: gIconsInMenusSizeNew := 22;
@@ -160,6 +194,7 @@ begin
 
   if (gIconsSizeNew <> SelectedIconsSize) or
      (gShowIconsNew <> SelectedShowIcons) or
+     (gDiskIconsSizeNew <> SelectedDiskIconsSize) or
      (gIconsInMenusSizeNew <> gIconsInMenusSize) then
   begin
     Include(Result, oesfNeedsRestart);
@@ -169,6 +204,7 @@ begin
 
   gIconsSizeNew := SelectedIconsSize;
   gShowIconsNew := SelectedShowIcons;
+  gDiskIconsSizeNew := SelectedDiskIconsSize;
   gIconOverlays := cbIconsShowOverlay.Checked;
   gIconsExclude := cbIconsExclude.Checked;
   gIconsExcludeDirs := edtIconsExcludeDirs.Text;
