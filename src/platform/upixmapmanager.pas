@@ -1325,7 +1325,7 @@ begin
       bmMediaFlash := LoadIconThemeBitmapLocked('media-flash', iPixmapSize);
       bmMediaOptical := LoadIconThemeBitmapLocked('media-optical', iPixmapSize);
       bmDriveNetwork:= LoadIconThemeBitmapLocked('network-wired', iPixmapSize);
-      bmDriveVirtual:= LoadIconThemeBitmapLocked('folder-virtual', iPixmapSize);
+      bmDriveVirtual:= LoadIconThemeBitmapLocked('drive-virtual', iPixmapSize);
       bmDriveRemovableMedia:= LoadIconThemeBitmapLocked('drive-removable-media', iPixmapSize);
       bmDriveRemovableMediaUsb:= LoadIconThemeBitmapLocked('drive-removable-media-usb', iPixmapSize);
     end;
