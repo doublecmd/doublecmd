@@ -42,6 +42,7 @@ type
 
   TDrivesListPopup = class(TStringGrid)
   private
+    FDriveIconSize: Integer;
     FDrivesList: TDrivesList;
     FPanel: TFilePanelSelect;
     FShortCuts: array of TUTF8Char;
@@ -173,6 +174,7 @@ begin
 
   Color := clBtnFace;
   Font.Color := clWindowText;
+  FDriveIconSize := AdjustIconSize(DriveIconSize, 96);
 
   OnPrepareCanvas := @PrepareCanvasEvent;
   OnSelectCell    := @SelectCellEvent;
@@ -301,13 +303,13 @@ begin
     Drive := FDrivesList.Items[GetDriveIndexByRow(aRow)];
 
     // get disk icon
-    BitmapTmp := PixMapManager.GetDriveIcon(Drive, DriveIconSize, Self.Color);
+    BitmapTmp := PixMapManager.GetDriveIcon(Drive, FDriveIconSize, Self.Color);
 
     if Assigned(BitmapTmp) then
     begin
       // Center icon in the cell.
-      aRect.Left := aRect.Left + (ColWidths[aCol] - DriveIconSize) div 2;
-      aRect.Top := aRect.Top + (RowHeights[aRow] - DriveIconSize) div 2;
+      aRect.Left := aRect.Left + (ColWidths[aCol] - FDriveIconSize) div 2;
+      aRect.Top := aRect.Top + (RowHeights[aRow] - FDriveIconSize) div 2;
 
       Canvas.Draw(aRect.Left, aRect.Top, BitmapTmp);
 
@@ -603,7 +605,7 @@ begin
   AutoSizeColumns;
 
   // Add some space to the icon column.
-  ColWidths[0] := DriveIconSize + 8;
+  ColWidths[0] := FDriveIconSize + 8;
 
   // Add some space to other columns.
   for I := 1 to ColCount - 1 do
