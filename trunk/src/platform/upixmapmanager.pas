@@ -311,7 +311,7 @@ var
 {$IF DEFINED(MSWINDOWS)}
    array [0..2] of Integer = (16, 32, 48);
 {$ELSE}
-   array [0..3] of Integer = (16, 22, 32, 48);
+   array [0..3] of Integer = (16, 24, 32, 48);
 {$ENDIF}
 
 procedure LoadPixMapManager;
@@ -1104,7 +1104,7 @@ begin
   if not FUseSystemTheme then Exit;
   nImage:= NSWorkspace.sharedWorkspace.iconForFileType(NSSTR(PChar(AFileExt)));
   nRepresentations:= nImage.Representations;
-  if AIconSize = 22 then AIconSize:= 32;
+  if AIconSize = 24 then AIconSize:= 32;
   for I:= nRepresentations.Count - 1 downto 0 do
   begin
     nImageRep:= NSImageRep(nRepresentations.objectAtIndex(I));
@@ -1313,7 +1313,7 @@ begin
 
   //  load all drive icons
   FDriveIconList[0].Size := 16;
-  FDriveIconList[1].Size := 22;
+  FDriveIconList[1].Size := 24;
   FDriveIconList[2].Size := 32;
 
   for I:= Low(FDriveIconList) to High(FDriveIconList) do
@@ -1331,10 +1331,8 @@ begin
     end;
 
   // load emblems
-  if gIconsSize = 22 then
+  if gIconsSize = 24 then
     I:= 16
-  else if gIconsSize = 48 then
-    I:= 22
   else
     I:= gIconsSize div 2;
   FiEmblemLinkID:= CheckAddThemePixmap('emblem-symbolic-link', I);
@@ -1933,7 +1931,7 @@ begin
   case IconSize of
   16: // Standart 16x16 icon size
     DriveIconListIndex := 0;
-  22:  // Standart 22x22 icon size
+  24:  // Standart 24x24 icon size
     DriveIconListIndex := 1;
   32:  // Standart 32x32 icon size
     DriveIconListIndex := 2;
@@ -1960,7 +1958,7 @@ begin
     Bitmap := bmDriveHardDisk;
   end;
   //  if need stretch icon
-  if (IconSize <> 16) and (IconSize <> 22) and (IconSize <> 32) then
+  if (IconSize <> 16) and (IconSize <> 24) and (IconSize <> 32) then
     begin
       Result := StretchBitmap(Bitmap, IconSize, clBackColor, False);
     end
@@ -1990,7 +1988,7 @@ begin
   case IconSize of
   16: // Standart 16x16 icon size
     DriveIconListIndex := 0;
-  22:  // Standart 22x22 icon size
+  24:  // Standart 24x24 icon size
     DriveIconListIndex := 1;
   32:  // Standart 32x32 icon size
     DriveIconListIndex := 2;
@@ -2000,7 +1998,7 @@ begin
   with FDriveIconList[DriveIconListIndex] do
   begin
     //  if need stretch icon
-    if (IconSize <> 16) and (IconSize <> 22) and (IconSize <> 32) then
+    if (IconSize <> 16) and (IconSize <> 24) and (IconSize <> 32) then
       begin
         Result := StretchBitmap(bmDriveVirtual, IconSize, clBackColor, False);
       end
