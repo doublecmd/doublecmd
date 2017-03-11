@@ -157,7 +157,7 @@ begin
   edtIconsExcludeDirs.Text:= gIconsExcludeDirs;
   edtIconsExcludeDirs.Enabled:= gIconsExclude;
   cbIconsSize.Text := IntToStr(gIconsSizeNew) + 'x' + IntToStr(gIconsSizeNew);
-  cbDiskIconsSize.Text := IntToStr(gDiskIconsSizeNew) + 'x' + IntToStr(gDiskIconsSizeNew);
+  cbDiskIconsSize.Text := IntToStr(gDiskIconsSize) + 'x' + IntToStr(gDiskIconsSize);
   cbIconsInMenusSize.Text := IntToStr(gIconsInMenusSizeNew) + 'x' + IntToStr(gIconsInMenusSizeNew);
   cbIconsSizeChange(nil);
   cbDiskIconsSizeChange(nil);
@@ -188,7 +188,7 @@ begin
   end;
 
   if cbDiskIconsSize.ItemIndex < 0 then
-    SelectedDiskIconsSize := gDiskIconsSizeNew
+    SelectedDiskIconsSize := gDiskIconsSize
   else begin
     SelectedDiskIconsSize := PtrInt(cbDiskIconsSize.Items.Objects[cbDiskIconsSize.ItemIndex])
   end;
@@ -201,7 +201,6 @@ begin
 
   if (gIconsSizeNew <> SelectedIconsSize) or
      (gShowIconsNew <> SelectedShowIcons) or
-     (gDiskIconsSizeNew <> SelectedDiskIconsSize) or
      (gIconsInMenusSizeNew <> gIconsInMenusSize) then
   begin
     Include(Result, oesfNeedsRestart);
@@ -211,7 +210,7 @@ begin
 
   gIconsSizeNew := SelectedIconsSize;
   gShowIconsNew := SelectedShowIcons;
-  gDiskIconsSizeNew := SelectedDiskIconsSize;
+  gDiskIconsSize := SelectedDiskIconsSize;
   gIconOverlays := cbIconsShowOverlay.Checked;
   gIconsExclude := cbIconsExclude.Checked;
   gIconsExcludeDirs := edtIconsExcludeDirs.Text;
