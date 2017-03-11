@@ -4746,11 +4746,10 @@ begin
       dskRight.Parent := pnlDskRight;
     end;
 
-    I:= Round(gDiskIconsSize * 1.125);
     dskLeft.GlyphSize:= gDiskIconsSize;
-    dskLeft.SetButtonSize(I, I);
     dskRight.GlyphSize:= gDiskIconsSize;
-    dskRight.SetButtonSize(I, I);
+    dskLeft.ButtonHeight:= gDiskIconsSize + 6;
+    dskRight.ButtonHeight:= gDiskIconsSize + 6;
 
     pnlDiskLeftInner.Visible := gHorizontalFilePanels and gDriveBar1 and gDriveBar2;
     pnlDiskRightInner.Visible := gHorizontalFilePanels and gDriveBar1 and gDriveBar2;
