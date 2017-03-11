@@ -6152,11 +6152,6 @@ msgstr "Pokaż ikony na przyciskach"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Pokazuj ikony nakładkowo (np dla linków symbolicznych)"
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Wyłącz specjalne ikony"
@@ -6176,6 +6171,14 @@ msgstr " Rozmiar ikon"
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgid " Show icons to the left of the filename "
 msgstr " Pokazuj ikony po lewej stronie nazwy pliku"
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"

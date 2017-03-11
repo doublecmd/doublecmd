@@ -6531,11 +6531,6 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Vis overlæg til ikoner, (f.eks. &pile ved links)"
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "tfrmoptionsicons.cbiconssize.text"
-msgid "16x16"
-msgstr ""
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Slå specielle ikoner fra"
@@ -6557,6 +6552,14 @@ msgstr "Ikonstørrelse "
 msgctxt "tfrmoptionsicons.gbshowiconsmode.caption"
 msgid " Show icons to the left of the filename "
 msgstr "Vis ikoner til venstre for filnavnet"
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "tfrmoptionsicons.rbiconsshowall.caption"

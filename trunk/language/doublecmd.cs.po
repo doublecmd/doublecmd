@@ -6158,11 +6158,6 @@ msgstr "Zobrazit ikony na tlačítkách"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Zobrazit p&řekryvné i&kony, např. pro odkazy"
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Zakázat speciální ikony"
@@ -6182,6 +6177,14 @@ msgstr " Velikost ikon "
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgid " Show icons to the left of the filename "
 msgstr " Zobrazit ikony nalevo od názvu souboru "
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"

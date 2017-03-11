@@ -6175,11 +6175,6 @@ msgstr ""
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Toon opplakpictogrammen, bijv. voor koppelingen"
 
-#: tfrmoptionsicons.cbiconssize.text
-msgctxt "tfrmoptionsicons.cbiconssize.text"
-msgid "16x16"
-msgstr "16x16"
-
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Schakel speciale pictogrammen uit"
@@ -6199,6 +6194,14 @@ msgstr " Pictogramgrootte "
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgid " Show icons to the left of the filename "
 msgstr "Toon pictogrammen links van de bestandnaam"
+
+#: tfrmoptionsicons.lbldiskpanel.caption
+msgid "Disk panel:"
+msgstr ""
+
+#: tfrmoptionsicons.lblfilepanel.caption
+msgid "File panel:"
+msgstr ""
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "tfrmoptionsicons.rbiconsshowall.caption"
