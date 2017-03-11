@@ -362,6 +362,8 @@ var
   gIconOverlays : Boolean;
   gIconsSize,
   gIconsSizeNew : Integer;
+  gDiskIconsSize,
+  gDiskIconsSizeNew : Integer;
   gFiOwnDCIcon : PtrInt;
   gIconsExclude: Boolean;
   gIconsExcludeDirs: String;
@@ -1574,6 +1576,8 @@ begin
   gIconOverlays := False;
   gIconsSize := 32;
   gIconsSizeNew := gIconsSize;
+  gDiskIconsSize := 16;
+  gDiskIconsSizeNew := gIconsSize;
   gIconsExclude := False;
   gIconsExcludeDirs := EmptyStr;
   gCustomDriveIcons := False;
@@ -1856,6 +1860,7 @@ begin
   // Set secondary variables for options that need restart.
   gShowIconsNew := gShowIcons;
   gIconsSizeNew := gIconsSize;
+  gDiskIconsSizeNew := gDiskIconsSize;
   gIconsInMenusSizeNew := gIconsInMenusSize;
 
   CopySettingsFiles;
@@ -2486,6 +2491,7 @@ begin
       gShowIcons := TShowIconsMode(GetValue(Node, 'ShowMode', Integer(gShowIcons)));
       gIconOverlays := GetValue(Node, 'ShowOverlays', gIconOverlays);
       gIconsSize := GetValue(Node, 'Size', gIconsSize);
+      gDiskIconsSize := GetValue(Node, 'DiskSize', gDiskIconsSize);
       gIconsExclude := GetValue(Node, 'Exclude', gIconsExclude);
       gIconsExcludeDirs := GetValue(Node, 'ExcludeDirs', gIconsExcludeDirs);
       gCustomDriveIcons := GetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
@@ -2981,6 +2987,7 @@ begin
     SetValue(Node, 'ShowMode', Integer(gShowIconsNew));
     SetValue(Node, 'ShowOverlays', gIconOverlays);
     SetValue(Node, 'Size', gIconsSizeNew);
+    SetValue(Node, 'DiskSize', gDiskIconsSizeNew);
     SetValue(Node, 'Exclude', gIconsExclude);
     SetValue(Node, 'ExcludeDirs', gIconsExcludeDirs);
     SetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
