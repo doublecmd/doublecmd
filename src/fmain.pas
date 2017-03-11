@@ -5509,7 +5509,7 @@ begin
     Drive := DrivesList[DriveIndex];
     DriveButton.Caption := Drive^.DisplayName;
     DriveButton.Tag := DriveIndex;
-    BitmapTmp := PixMapManager.GetDriveIcon(Drive, 22, DriveButton.Color);
+    BitmapTmp := PixMapManager.GetDriveIcon(Drive, 24, DriveButton.Color);
   end
   else
   begin
@@ -5517,9 +5517,9 @@ begin
     DriveButton.Tag := -1;
 
     if FileView.FileSource.IsClass(TArchiveFileSource) then
-      BitmapTmp := PixMapManager.GetArchiveIcon(22, DriveButton.Color)
+      BitmapTmp := PixMapManager.GetArchiveIcon(24, DriveButton.Color)
     else
-      BitmapTmp := PixMapManager.GetDefaultDriveIcon(22, DriveButton.Color);
+      BitmapTmp := PixMapManager.GetDefaultDriveIcon(24, DriveButton.Color);
   end;
 
   DriveButton.Glyph := BitmapTmp;
