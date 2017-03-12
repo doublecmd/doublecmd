@@ -307,12 +307,7 @@ var
   PixMapManager: TPixMapManager = nil;
 
 var
-  ICON_SIZES:
-{$IF DEFINED(MSWINDOWS)}
-   array [0..2] of Integer = (16, 32, 48);
-{$ELSE}
-   array [0..3] of Integer = (16, 24, 32, 48);
-{$ENDIF}
+  ICON_SIZES: array [0..3] of Integer = (16, 24, 32, 48);
 
 procedure LoadPixMapManager;
 
