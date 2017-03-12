@@ -1505,6 +1505,15 @@ begin
 end;
 
 function TPixMapManager.DrawBitmap(iIndex: PtrInt; Canvas: TCanvas; X, Y, Width, Height: Integer): Boolean;
+
+  procedure TrySetSize(aWidth, aHeight: Integer);
+  begin
+    if Width = 0 then
+      Width := aWidth;
+    if Height = 0 then
+      Height := aHeight;
+  end;
+
 var
   PPixmap: Pointer;
   PixmapFromList: Boolean = False;
@@ -1544,6 +1553,7 @@ begin
     DrawPixbufAtCanvas(Canvas, pbPicture, 0, 0, X, Y, Width, Height);
   {$ELSE}
     Bitmap := Graphics.TBitmap(PPixmap);
+    TrySetSize(Bitmap.Width, Bitmap.Height);
     aRect := Classes.Bounds(X, Y, Width, Height);
     Canvas.StretchDraw(aRect, Bitmap);
   {$ENDIF}
@@ -1552,7 +1562,10 @@ begin
   {$IFDEF MSWINDOWS}
   if iIndex >= SystemIconIndexStart then
     try
-      ImageList_GetIconSize(FSysImgList, @cx, @cy);
+      if ImageList_GetIconSize(FSysImgList, @cx, @cy) then
+        TrySetSize(cx, cy)
+      else
+        TrySetSize(gIconsSize, gIconsSize);
 
       if (cx = Width) and (cy = Height) then
         ImageList_Draw(FSysImgList, iIndex - SystemIconIndexStart, Canvas.Handle, X, Y, ILD_TRANSPARENT)
