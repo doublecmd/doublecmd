@@ -61,14 +61,7 @@ uses
 type
   TDriveIconList = record
     Size: Integer;
-    bmMediaFloppy,
-    bmDriveHardDisk,
-    bmMediaFlash,
-    bmMediaOptical,
-    bmDriveNetwork,
-    bmDriveVirtual,
-    bmDriveRemovableMedia,
-    bmDriveRemovableMediaUsb: TBitmap;
+    Bitmap: array[TDriveType] of TBitmap;
   end;
 
   { TfromWhatBitmapWasLoaded }
@@ -1224,6 +1217,7 @@ end;
 destructor TPixMapManager.Destroy;
 var
   I : Integer;
+  K: TDriveType;
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   J : Integer;
   nodeList: TFPObjectList;
@@ -1247,17 +1241,13 @@ begin
     FreeAndNil(FPixmapsFileNames);
 
   for I := Low(FDriveIconList) to High(FDriveIconList) do
+  begin
     with FDriveIconList[I] do
     begin
-      if Assigned(bmMediaFloppy) then FreeAndNil(bmMediaFloppy);
-      if Assigned(bmDriveHardDisk) then FreeAndNil(bmDriveHardDisk);
-      if Assigned(bmMediaFlash) then FreeAndNil(bmMediaFlash);
-      if Assigned(bmMediaOptical) then FreeAndNil(bmMediaOptical);
-      if Assigned(bmDriveNetwork) then FreeAndNil(bmDriveNetwork);
-      if Assigned(bmDriveVirtual) then FreeAndNil(bmDriveVirtual);
-      if Assigned(bmDriveRemovableMedia) then FreeAndNil(bmDriveRemovableMedia);
-      if Assigned(bmDriveRemovableMediaUsb) then FreeAndNil(bmDriveRemovableMediaUsb);
+      for K:= Low(Bitmap) to High(Bitmap) do
+        FreeAndNil(Bitmap[K]);
     end;
+  end;
 
   {$IF DEFINED(MSWINDOWS)}
   ImageList_Destroy(FSysImgList);
@@ -1315,14 +1305,14 @@ begin
     with FDriveIconList[I] do
     begin
       iPixmapSize := FDriveIconList[I].Size;
-      bmMediaFloppy := LoadIconThemeBitmapLocked('media-floppy', iPixmapSize);
-      bmDriveHardDisk := LoadIconThemeBitmapLocked('drive-harddisk', iPixmapSize);
-      bmMediaFlash := LoadIconThemeBitmapLocked('media-flash', iPixmapSize);
-      bmMediaOptical := LoadIconThemeBitmapLocked('media-optical', iPixmapSize);
-      bmDriveNetwork:= LoadIconThemeBitmapLocked('network-wired', iPixmapSize);
-      bmDriveVirtual:= LoadIconThemeBitmapLocked('drive-virtual', iPixmapSize);
-      bmDriveRemovableMedia:= LoadIconThemeBitmapLocked('drive-removable-media', iPixmapSize);
-      bmDriveRemovableMediaUsb:= LoadIconThemeBitmapLocked('drive-removable-media-usb', iPixmapSize);
+      Bitmap[dtFloppy] := LoadIconThemeBitmapLocked('media-floppy', iPixmapSize);
+      Bitmap[dtHardDisk] := LoadIconThemeBitmapLocked('drive-harddisk', iPixmapSize);
+      Bitmap[dtFlash] := LoadIconThemeBitmapLocked('media-flash', iPixmapSize);
+      Bitmap[dtOptical] := LoadIconThemeBitmapLocked('media-optical', iPixmapSize);
+      Bitmap[dtNetwork] := LoadIconThemeBitmapLocked('network-wired', iPixmapSize);
+      Bitmap[dtVirtual] := LoadIconThemeBitmapLocked('drive-virtual', iPixmapSize);
+      Bitmap[dtRemovable] := LoadIconThemeBitmapLocked('drive-removable-media', iPixmapSize);
+      Bitmap[dtRemovableUsb] := LoadIconThemeBitmapLocked('drive-removable-media-usb', iPixmapSize);
     end;
 
   // load emblems
@@ -1931,7 +1921,7 @@ end;
 function TPixMapManager.GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 var
   DriveIconListIndex: Integer;
-  Bitmap: Graphics.TBitmap;
+  ABitmap: Graphics.TBitmap;
 begin
 {$IFDEF MSWINDOWS}
   if GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 15 then Exit(nil);
@@ -1947,33 +1937,22 @@ begin
     DriveIconListIndex := 2;
   end;
   with FDriveIconList[DriveIconListIndex] do
-  case Drive^.DriveType of
-  dtFloppy:
-    Bitmap := bmMediaFloppy;
-  dtHardDisk:
-    Bitmap := bmDriveHardDisk;
-  dtFlash:
-    Bitmap := bmMediaFlash;
-  dtOptical:
-    Bitmap := bmMediaOptical;
-  dtNetwork:
-    Bitmap := bmDriveNetwork;
-  dtRemovable:
-    Bitmap := bmDriveRemovableMedia;
-  dtRemovableUsb:
-    Bitmap := bmDriveRemovableMediaUsb;
-  else
-    Bitmap := bmDriveHardDisk;
+  begin
+    if Assigned(Bitmap[Drive^.DriveType]) then
+      ABitmap:= Bitmap[Drive^.DriveType]
+    else begin
+      ABitmap:= Bitmap[dtHardDisk];
+    end;
   end;
   //  if need stretch icon
   if (IconSize <> 16) and (IconSize <> 24) and (IconSize <> 32) then
     begin
-      Result := StretchBitmap(Bitmap, IconSize, clBackColor, False);
+      Result := StretchBitmap(ABitmap, IconSize, clBackColor, False);
     end
   else
     begin
       Result := Graphics.TBitmap.Create;
-      Result.Assign(Bitmap);
+      Result.Assign(ABitmap);
     end;
   // 'Bitmap' should not be freed, because it only points to DriveIconList.
 end;
@@ -2008,12 +1987,12 @@ begin
     //  if need stretch icon
     if (IconSize <> 16) and (IconSize <> 24) and (IconSize <> 32) then
       begin
-        Result := StretchBitmap(bmDriveVirtual, IconSize, clBackColor, False);
+        Result := StretchBitmap(Bitmap[dtVirtual], IconSize, clBackColor, False);
       end
     else
       begin
         Result := Graphics.TBitmap.Create;
-        Result.Assign(bmDriveVirtual);
+        Result.Assign(Bitmap[dtVirtual]);
       end;
   end;
 end;
