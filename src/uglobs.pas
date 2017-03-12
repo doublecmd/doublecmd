@@ -943,7 +943,7 @@ begin
       AddIfNotExists(['Shift+Num-'],[],'cm_UnmarkCurrentExtension');
       AddIfNotExists(['Num*'],[],'cm_MarkInvert');
       AddIfNotExists(['Ctrl+Z'],[],'cm_EditComment');
-      AddIfNotExists(['Ctrl+Home'],[],'cm_ChangeDirToHome');
+      AddIfNotExists(['Ctrl+Shift+Home'],[],'cm_ChangeDirToHome');
       AddIfNotExists(['Ctrl+Left'],[],'cm_TransferLeft');
       AddIfNotExists(['Ctrl+Right'],[],'cm_TransferRight');
       AddIfNotExists(['Shift+Tab'],[],'cm_NextGroup');
