@@ -5,7 +5,7 @@ unit uFileViewHeader;
 interface
 
 uses
-  Classes, SysUtils, Controls, ExtCtrls, ComCtrls,
+  Classes, SysUtils, Controls, ExtCtrls, ComCtrls, LCLVersion,
   uPathLabel, uFileView, KASPathEdit, uFileSorting;
 
 type
@@ -63,6 +63,10 @@ type
     procedure MouseMove({%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer); override;
     procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState;
                       {%H-}X, {%H-}Y: Integer); override;
+    {$if lcl_fullversion >= 1070000}
+    procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                const AXProportion, AYProportion: Double); override;
+    {$endif}
   public
     constructor Create(AOwner: TFileView; AParent: TWinControl); reintroduce;
     destructor Destroy; override;
@@ -510,6 +514,15 @@ begin
     UpdateState;
   end;
 end;
+
+{$if lcl_fullversion >= 1070000}
+procedure TFileViewFixedHeader.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+  const AXProportion, AYProportion: Double);
+begin
+  // Don't auto adjust vertical layout
+  inherited DoAutoAdjustLayout(AMode, AXProportion, 1.0);
+end;
+{$endif}
 
 constructor TFileViewFixedHeader.Create(AOwner: TFileView; AParent: TWinControl);
 var

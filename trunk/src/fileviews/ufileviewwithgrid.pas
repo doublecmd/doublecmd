@@ -5,7 +5,7 @@ unit uFileViewWithGrid;
 interface
 
 uses
-  Classes, SysUtils, Controls, Grids, Graphics, StdCtrls,
+  Classes, SysUtils, Controls, Grids, Graphics, StdCtrls, LCLVersion,
   uDisplayFile, DCXmlConfig, uFileSorting, uFileProperty,
   uFileViewWithMainCtrl, uFile, uFileViewHeader, uFileView, uFileSource;
 
@@ -39,6 +39,10 @@ type
     procedure CalculateColumnWidth; virtual; abstract;
     function  CellToIndex(ACol, ARow: Integer): Integer; virtual; abstract;
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); virtual; abstract;
+    {$if lcl_fullversion >= 1070000}
+    procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                const AXProportion, AYProportion: Double); override;
+    {$endif}
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce; virtual;
     property BorderWidth: Integer read GetBorderWidth;
@@ -102,7 +106,7 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, LCLVersion, LCLProc, LazUTF8, math,
+  LCLIntf, LCLType, LCLProc, LazUTF8, Math,
   DCStrUtils, uGlobs, uPixmapManager, uKeyboard,
   uDCUtils, fMain,
   uFileFunctions;
@@ -412,6 +416,15 @@ begin
   Canvas.FillRect(aRect);
   Canvas.Font.Color := TextColor;
 end;
+
+{$if lcl_fullversion >= 1070000}
+procedure TFileViewGrid.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+  const AXProportion, AYProportion: Double);
+begin
+  // Don't auto adjust vertical layout
+  inherited DoAutoAdjustLayout(AMode, AXProportion, 1.0);
+end;
+{$endif}
 
 constructor TFileViewGrid.Create(AOwner: TComponent; AParent: TWinControl);
 begin
