@@ -1202,7 +1202,7 @@ begin
 
   if gIconsSize <= ICON_SIZES[0] then
     iIconSize := SHIL_SMALL
-  else if gIconsSize <= ICON_SIZES[1] then
+  else if gIconsSize <= ICON_SIZES[2] then
     iIconSize := SHIL_LARGE
   else begin
     iIconSize := SHIL_EXTRALARGE;
