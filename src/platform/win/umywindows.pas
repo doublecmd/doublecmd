@@ -3,12 +3,12 @@
     -------------------------------------------------------------------------
     This unit contains specific WINDOWS functions.
 
-    Copyright (C) 2006-2013  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,8 +16,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uMyWindows;
@@ -29,32 +28,7 @@ interface
 uses
   Graphics, Classes, SysUtils, JwaWinBase, Windows;
 
-type
-  tagMENUITEMINFOW = record
-    cbSize: UINT;
-    fMask: UINT;
-    fType: UINT;            // used if MIIM_TYPE (4.0) or MIIM_FTYPE (>4.0)
-    fState: UINT;           // used if MIIM_STATE
-    wID: UINT;              // used if MIIM_ID
-    hSubMenu: HMENU;        // used if MIIM_SUBMENU
-    hbmpChecked: HBITMAP;   // used if MIIM_CHECKMARKS
-    hbmpUnchecked: HBITMAP; // used if MIIM_CHECKMARKS
-    dwItemData: ULONG_PTR;  // used if MIIM_DATA
-    dwTypeData: LPWSTR;     // used if MIIM_TYPE (4.0) or MIIM_STRING (>4.0)
-    cch: UINT;              // used if MIIM_TYPE (4.0) or MIIM_STRING (>4.0)
-    hbmpItem: HBITMAP;      // used if MIIM_BITMAP
-  end;
-
-  MENUITEMINFOW = tagMENUITEMINFOW;
-  LPMENUITEMINFOW = ^MENUITEMINFOW;
-  LPCMENUITEMINFOW = ^MENUITEMINFOW;
-  TMenuItemInfoW = MENUITEMINFOW;
-  PMenuItemInfoW = LPMENUITEMINFOW;
-
-function InsertMenuItemW(hMenu: HMENU; uItem: UINT; fByPosition: BOOL;
-                         const lpmii: MENUITEMINFOW): BOOL; stdcall; external 'user32' name 'InsertMenuItemW';
-
-function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): WideString;
+function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UnicodeString;
 function GetMenuItemType(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UINT;
 function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWideChar; Position, ItemID,  ItemType : UINT; Bitmap:Graphics.TBitmap = nil): boolean;
 function RegReadKey(ARoot: HKEY; const APath, AName: UnicodeString; out AValue: UnicodeString): Boolean;
@@ -156,9 +130,9 @@ procedure FixCommandLineToUTF8;
 implementation
 
 uses
-  ShellAPI, MMSystem, JwaWinNetWk, LazUTF8, DCWindows, uShlObjAdditional;
+  ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, LazUTF8, DCWindows, uShlObjAdditional;
 
-function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): WideString;
+function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UnicodeString;
 var
   miiw: TMenuItemInfoW;
   wca: array[0..Pred(MAX_PATH)] of WideChar;
@@ -172,7 +146,7 @@ begin
     dwTypeData:= @wca[0];
     cch:= MAX_PATH;
   end;
-  if GetMenuItemInfoW(hMenu, uItem, fByPosition, @miiw) then
+  if GetMenuItemInfoW(hMenu, uItem, fByPosition, miiw) then
   begin
     Result:= miiw.dwTypeData;
   end;
@@ -189,7 +163,7 @@ begin
     cbSize:= SizeOf(TMenuItemInfoW);
     fMask:= MIIM_FTYPE;
   end;
-  if GetMenuItemInfoW(hMenu, uItem, fByPosition, @miiw) then
+  if GetMenuItemInfoW(hMenu, uItem, fByPosition, miiw) then
   begin
     Result:= miiw.fType;
   end;
@@ -353,32 +327,18 @@ begin
     st2:= mbGetVolumeLabel(sDrv, FALSE);
 end;
 
-{$IF FPC_FULLVERSION < 020600}
-type
-  // mmsystem unit has incorrect definition
-  MCI_OPEN_PARMS = packed record
-    dwCallback: DWORD_PTR;
-    wDeviceID: MCIDEVICEID;
-    lpstrDeviceType: LPCTSTR;
-    lpstrElementName: LPCTSTR;
-    lpstrAlias: LPCTSTR;
-  end;
-{$ENDIF}
-
-function mciSendCommand(IDDevice: MCIDEVICEID; uMsg: UINT; fdwCommand: DWORD; dwParam: DWORD_PTR): MCIERROR; stdcall; external 'winmm.dll' name 'mciSendCommandA';
-
 (* Close CD/DVD *)
 
 procedure mbCloseCD(const sDrv: String);
 var
-  OpenParms: MCI_OPEN_PARMS;
+  OpenParms: MCI_OPEN_PARMSA;
 begin
   FillChar(OpenParms, SizeOf(OpenParms), 0);
   OpenParms.lpstrDeviceType:= 'CDAudio';
   OpenParms.lpstrElementName:= PAnsiChar(ExtractFileDrive(sDrv));
-  mciSendCommand(0, MCI_OPEN, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
-  mciSendCommand(OpenParms.wDeviceID, MCI_SET, MCI_SET_DOOR_CLOSED, 0);
-  mciSendCommand(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
+  mciSendCommandA(0, MCI_OPEN, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
+  mciSendCommandA(OpenParms.wDeviceID, MCI_SET, MCI_SET_DOOR_CLOSED, 0);
+  mciSendCommandA(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
 end;
 
 function mbGetRemoteFileName(const sLocalName: String): String;
