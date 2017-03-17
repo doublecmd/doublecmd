@@ -76,7 +76,7 @@ implementation
 uses
   graphtype, intfgraphics, Graphics, uPixMapManager, Dialogs, uLng, uMyWindows,
   uShellExecute, fMain, uDCUtils, uFormCommands, DCOSUtils, uOSUtils, uShowMsg,
-  uExts, uFileSystemFileSource, DCConvertEncoding;
+  uExts, uFileSystemFileSource, DCConvertEncoding, LazUTF8;
 
 const
   USER_CMD_ID = $1000;
@@ -571,9 +571,10 @@ var
   hActionsSubMenu: HMENU = 0;
   cmd: UINT = 0;
   iCmd: integer;
-  cmici: TCMINVOKECOMMANDINFO;
+  cmici: TCMInvokeCommandInfoEx;
+  lpici: TCMINVOKECOMMANDINFO absolute cmici;
   bHandled: boolean = False;
-  ZVerb: array[0..255] of char;
+  ZVerb: array[0..255] of AnsiChar;
   sVerb: string;
   Result: HRESULT;
   FormCommands: IFormCommands;
@@ -714,21 +715,27 @@ begin
 
         if not bHandled then
         begin
-          FillChar(cmici, SizeOf(cmici), #0);
+          if FBackground then
+            sVolumeLabel := FFiles[0].FullPath
+          else begin
+            sVolumeLabel := FFiles[0].Path;
+          end;
+          ZeroMemory(@cmici, SizeOf(cmici));
           with cmici do
           begin
             cbSize := SizeOf(cmici);
             hwnd := FParent.Handle;
+            fMask := CMIC_MASK_UNICODE;
             {$PUSH}{$HINTS OFF}
-            lpVerb := PAnsiChar(PtrUInt(cmd - 1));
+            lpVerb  := PAnsiChar(PtrUInt(cmd - 1));
+            lpVerbW := PWideChar(PtrUInt(cmd - 1));
             {$POP}
             nShow := SW_NORMAL;
-            if FBackground then begin
-              lpDirectory := PAnsiChar(CeUtf8ToSys(FFiles[0].FullPath));
-            end;
+            lpDirectory := PAnsiChar(CeUtf8ToSys(sVolumeLabel));
+            lpDirectoryW := PWideChar(UTF8ToUTF16(sVolumeLabel));
           end;
 
-          Result := FShellMenu1.InvokeCommand(cmici);
+          Result := FShellMenu1.InvokeCommand(lpici);
           if not (Succeeded(Result) or (Result = COPYENGINE_E_USER_CANCELLED)) then
             OleErrorUTF8(Result);
 
