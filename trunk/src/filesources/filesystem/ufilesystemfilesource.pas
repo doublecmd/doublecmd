@@ -770,9 +770,8 @@ begin
              fpModificationTime,
              {$IF DEFINED(MSWINDOWS)}
              fpCreationTime,
-             {$ELSE}
-             fpChangeTime,
              {$ENDIF}
+             fpChangeTime,
              fpLastAccessTime,
              uFileProperty.fpLink,
              fpOwner,
@@ -782,9 +781,6 @@ begin
              , fpCompressedSize
              {$ENDIF}
              ];
-{$IF DEFINED(MSWINDOWS)}
-  if CheckWin32Version(6, 1) then Result += [fpChangeTime];
-{$ENDIF}
 end;
 
 function TFileSystemFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
