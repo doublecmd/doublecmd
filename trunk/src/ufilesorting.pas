@@ -673,6 +673,10 @@ begin
         Result := ICompareByDate(File1.LastAccessTime,
                                  File2.LastAccessTime,
                                  bNegative);
+      fsfChangeTime:
+        Result := ICompareByDate(File1.ChangeTime,
+                                 File2.ChangeTime,
+                                 bNegative);
       fsfLinkTo:
         begin
           Result := mbCompareText(File1.LinkProperty.LinkTo,
