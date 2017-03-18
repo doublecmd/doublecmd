@@ -56,6 +56,8 @@ type
     procedure SetCreationTime(NewTime: TDateTime);
     function GetLastAccessTime: TDateTime;
     procedure SetLastAccessTime(NewTime: TDateTime);
+    function GetChangeTime: TDateTime;
+    procedure SetChangeTime(AValue: TDateTime);
     function GetIsLinkToDirectory: Boolean;
     procedure SetIsLinkToDirectory(NewValue: Boolean);
     function GetType: String;
@@ -76,6 +78,8 @@ type
     procedure SetCreationTimeProperty(NewValue: TFileCreationDateTimeProperty);
     function GetLastAccessTimeProperty: TFileLastAccessDateTimeProperty;
     procedure SetLastAccessTimeProperty(NewValue: TFileLastAccessDateTimeProperty);
+    function GetChangeTimeProperty: TFileChangeDateTimeProperty;
+    procedure SetChangeTimeProperty(AValue: TFileChangeDateTimeProperty);
     function GetLinkProperty: TFileLinkProperty;
     procedure SetLinkProperty(NewValue: TFileLinkProperty);
     function GetOwnerProperty: TFileOwnerProperty;
@@ -148,6 +152,7 @@ type
     property ModificationTimeProperty: TFileModificationDateTimeProperty read GetModificationTimeProperty write SetModificationTimeProperty;
     property CreationTimeProperty: TFileCreationDateTimeProperty read GetCreationTimeProperty write SetCreationTimeProperty;
     property LastAccessTimeProperty: TFileLastAccessDateTimeProperty read GetLastAccessTimeProperty write SetLastAccessTimeProperty;
+    property ChangeTimeProperty: TFileChangeDateTimeProperty read GetChangeTimeProperty write SetChangeTimeProperty;
     property LinkProperty: TFileLinkProperty read GetLinkProperty write SetLinkProperty;
     property OwnerProperty: TFileOwnerProperty read GetOwnerProperty write SetOwnerProperty;
     property TypeProperty: TFileTypeProperty read GetTypeProperty write SetTypeProperty;
@@ -171,6 +176,7 @@ type
     property ModificationTime: TDateTime read GetModificationTime write SetModificationTime;
     property CreationTime: TDateTime read GetCreationTime write SetCreationTime;
     property LastAccessTime: TDateTime read GetLastAccessTime write SetLastAccessTime;
+    property ChangeTime: TDateTime read GetChangeTime write SetChangeTime;
     property FileType: String read GetType write SetType;
 
     // Convenience functions.
@@ -602,6 +608,30 @@ begin
     Include(FSupportedProperties, fpLastAccessTime)
   else
     Exclude(FSupportedProperties, fpLastAccessTime);
+end;
+
+function TFile.GetChangeTime: TDateTime;
+begin
+  Result := TFileChangeDateTimeProperty(FProperties[fpChangeTime]).Value;
+end;
+
+procedure TFile.SetChangeTime(AValue: TDateTime);
+begin
+  TFileChangeDateTimeProperty(FProperties[fpChangeTime]).Value := AValue;
+end;
+
+function TFile.GetChangeTimeProperty: TFileChangeDateTimeProperty;
+begin
+  Result := TFileChangeDateTimeProperty(FProperties[fpChangeTime]);
+end;
+
+procedure TFile.SetChangeTimeProperty(AValue: TFileChangeDateTimeProperty);
+begin
+  FProperties[fpChangeTime] := AValue;
+  if Assigned(AValue) then
+    Include(FSupportedProperties, fpChangeTime)
+  else
+    Exclude(FSupportedProperties, fpChangeTime);
 end;
 
 function TFile.GetLinkProperty: TFileLinkProperty;

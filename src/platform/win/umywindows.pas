@@ -111,6 +111,10 @@ function mbGetFileSystem(const sRootPath: String): String;
 }
 function mbGetCompressedFileSize(const FileName: String): Int64;
 {en
+   Retrieves the time the file was changed.
+}
+function mbGetFileChangeTime(const FileName: String; out ChangeTime: TFileTime): Boolean;
+{en
    This routine returns @true if the caller's
    process is a member of the Administrators local group.
    @returns(The function returns @true if caller has Administrators local group, @false otherwise)
@@ -130,7 +134,8 @@ procedure FixCommandLineToUTF8;
 implementation
 
 uses
-  ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, LazUTF8, DCWindows, uShlObjAdditional;
+  ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, JwaNative, LazUTF8, DCWindows,
+  uShlObjAdditional;
 
 function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UnicodeString;
 var
@@ -592,6 +597,31 @@ type
 function GetTokenInformation(TokenHandle: HANDLE; TokenInformationClass: TOKEN_INFORMATION_CLASS;
                              TokenInformation: Pointer; TokenInformationLength: DWORD;
                              out ReturnLength: DWORD): BOOL; stdcall; external 'advapi32' name 'GetTokenInformation';
+
+function mbGetFileChangeTime(const FileName: String; out ChangeTime: TFileTime): Boolean;
+var
+  Handle: System.THandle;
+  lpFileInformation: TFileBasicInformation;
+  GetFileInformationByHandleEx: function(hFile: THandle; FileInformationClass: DWORD;
+                                  lpFileInformation: LPVOID; dwBufferSize: DWORD): BOOL; stdcall;
+begin
+  Result:= CheckWin32Version(6, 1);
+  if Result then
+  begin
+    Pointer(GetFileInformationByHandleEx):= GetProcAddress(GetModuleHandle(Kernel32), 'GetFileInformationByHandleEx');
+    Result:= Assigned(GetFileInformationByHandleEx);
+    if Result then
+    begin
+      Handle:= CreateFileW(PWideChar(UTF16LongName(FileName)), FILE_READ_ATTRIBUTES,
+                           FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
+                           nil, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
+      if Handle = INVALID_HANDLE_VALUE then Exit(False);
+      Result:= GetFileInformationByHandleEx(Handle, 0, @lpFileInformation, SizeOf(lpFileInformation));
+      CloseHandle(Handle);
+      ChangeTime:= TFileTime(lpFileInformation.ChangeTime);
+    end;
+  end;
+end;
 
 function IsUserAdmin: LongBool;
 var

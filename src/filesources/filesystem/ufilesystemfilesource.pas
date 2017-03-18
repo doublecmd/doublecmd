@@ -526,6 +526,12 @@ begin
       CompressedSizeProperty.Value := mbGetCompressedFileSize(sFullPath);
     end;
 
+    if fpChangeTime in PropertiesToSet then
+    begin
+      ChangeTimeProperty := TFileChangeDateTimeProperty.Create;
+      if mbGetFileChangeTime(sFullPath, FindData.ftCreationTime) then
+        ChangeTimeProperty.Value := WinFileTimeToDateTime(FindData.ftCreationTime);
+    end;
 {$ELSEIF DEFINED(UNIX)}
 
     if ([fpAttributes,
@@ -776,6 +782,9 @@ begin
              , fpCompressedSize
              {$ENDIF}
              ];
+{$IF DEFINED(MSWINDOWS)}
+  if CheckWin32Version(6, 1) then Result += [fpChangeTime];
+{$ENDIF}
 end;
 
 function TFileSystemFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
