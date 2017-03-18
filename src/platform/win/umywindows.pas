@@ -134,8 +134,8 @@ procedure FixCommandLineToUTF8;
 implementation
 
 uses
-  ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, JwaNative, LazUTF8, DCWindows,
-  uShlObjAdditional;
+  ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, JwaNative, JwaVista, LazUTF8,
+  DCWindows, uShlObjAdditional;
 
 function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UnicodeString;
 var
@@ -583,43 +583,12 @@ begin
   ChangeTime:= TFileTime(FileInformation.ChangeTime);
 end;
 
-type
-  TOKEN_ELEVATION_TYPE = (
-                          TokenElevationTypeDefault:= 1, TokenElevationTypeFull,
-                          TokenElevationTypeLimited
-                         );
-
-  TOKEN_INFORMATION_CLASS = (
-                             TokenUser:= 1, TokenGroups, TokenPrivileges,
-                             TokenOwner, TokenPrimaryGroup, TokenDefaultDacl,
-                             TokenSource, TokenType, TokenImpersonationLevel,
-                             TokenStatistics, TokenRestrictedSids, TokenSessionId,
-                             TokenGroupsAndPrivileges, TokenSessionReference,
-                             TokenSandBoxInert, TokenAuditPolicy, TokenOrigin,
-                             TokenElevationType, TokenLinkedToken, TokenElevation,
-                             TokenHasRestrictions, TokenAccessInformation,
-                             TokenVirtualizationAllowed, TokenVirtualizationEnabled,
-                             TokenIntegrityLevel, TokenUIAccess, TokenMandatoryPolicy,
-                             TokenLogonSid, TokenIsAppContainer, TokenCapabilities,
-                             TokenAppContainerSid, TokenAppContainerNumber,
-                             TokenUserClaimAttributes, TokenDeviceClaimAttributes,
-                             TokenRestrictedUserClaimAttributes,
-                             TokenRestrictedDeviceClaimAttributes,
-                             TokenDeviceGroups, TokenRestrictedDeviceGroups,
-                             TokenSecurityAttributes, TokenIsRestricted,
-                             MaxTokenInfoClass
-                            );
-
-function GetTokenInformation(TokenHandle: HANDLE; TokenInformationClass: TOKEN_INFORMATION_CLASS;
-                             TokenInformation: Pointer; TokenInformationLength: DWORD;
-                             out ReturnLength: DWORD): BOOL; stdcall; external 'advapi32' name 'GetTokenInformation';
-
 function IsUserAdmin: LongBool;
 var
-  ReturnLength: DWORD;
+  ReturnLength: DWORD = 0;
   TokenHandle: HANDLE = INVALID_HANDLE_VALUE;
   TokenInformation: array [0..1023] of Byte;
-  ElevationType: TOKEN_ELEVATION_TYPE absolute TokenInformation;
+  ElevationType: JwaVista.TTokenElevationType absolute TokenInformation;
 begin
   Result:= OpenThreadToken(GetCurrentThread, TOKEN_QUERY, True, TokenHandle);
   if not Result then
@@ -629,11 +598,8 @@ begin
   end;
   if Result then
   begin
-    Result:= GetTokenInformation(
-                                 TokenHandle, TokenElevationType,
-                                 @TokenInformation, SizeOf(TokenInformation),
-                                 ReturnLength
-                                );
+    Result:= GetTokenInformation(TokenHandle, Windows.TTokenInformationClass(TokenElevationType),
+                                 @TokenInformation, SizeOf(TokenInformation), ReturnLength);
     CloseHandle(TokenHandle);
     if Result then
     begin
