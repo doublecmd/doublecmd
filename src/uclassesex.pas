@@ -41,8 +41,11 @@ type
 
   TIniPropStorageEx = class(TCustomIniPropStorage)
   private
+    FPixelsPerInch: Integer;
     function ChangeIdent(const Ident: String): String;
   protected
+    procedure SaveProperties; override;
+    procedure RestoreProperties; override;
     function IniFileClass: TIniFileClass; override;
   public
     procedure Restore; override;
@@ -71,6 +74,18 @@ begin
 end;
 
 { TIniPropStorageEx }
+
+procedure TIniPropStorageEx.SaveProperties;
+begin
+  inherited SaveProperties;
+  IniFile.WriteInteger(IniSection, 'PixelsPerInch', Screen.PixelsPerInch);
+end;
+
+procedure TIniPropStorageEx.RestoreProperties;
+begin
+  FPixelsPerInch := IniFile.ReadInteger(IniSection, 'PixelsPerInch', Screen.PixelsPerInch);
+  inherited RestoreProperties;
+end;
 
 function TIniPropStorageEx.IniFileClass: TIniFileClass;
 begin
@@ -102,19 +117,24 @@ end;
 function TIniPropStorageEx.DoReadString(const Section, Ident, Default: string): string;
 var
   Value: Integer;
+  Form: TCustomForm;
 begin
   Result := inherited DoReadString(Section, ChangeIdent(Ident), Default);
 {$if lcl_fullversion >= 1070000}
   // Workaround for bug: http://bugs.freepascal.org/view.php?id=31526
   if (Self.Owner is TCustomForm) and (TCustomForm(Self.Owner).Scaled) then
   begin
-    if StrEnds(Ident, '_Left') or StrEnds(Ident, '_Width') or
-       StrEnds(Ident, '_Top') or StrEnds(Ident, '_Height') then
+    Form := TCustomForm(Self.Owner);
+    if ((Form.DesignTimePPI <> Screen.PixelsPerInch) and (FPixelsPerInch = Screen.PixelsPerInch)) or
+       ((Form.DesignTimePPI = Screen.PixelsPerInch) and (FPixelsPerInch <> Screen.PixelsPerInch)) then
     begin
-      if TryStrToInt(Result, Value) then
+      if StrEnds(Ident, '_Left') or StrEnds(Ident, '_Width') or
+         StrEnds(Ident, '_Top') or StrEnds(Ident, '_Height') then
       begin
-        Result := IntToStr(MulDiv(Value, TCustomForm(Self.Owner).DesignTimePPI,
-                                  Screen.PixelsPerInch));
+        if TryStrToInt(Result, Value) then
+        begin
+          Result := IntToStr(MulDiv(Value, Form.DesignTimePPI, FPixelsPerInch));
+        end;
       end;
     end;
   end;
