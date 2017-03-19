@@ -125,8 +125,7 @@ begin
   if (Self.Owner is TCustomForm) and (TCustomForm(Self.Owner).Scaled) then
   begin
     Form := TCustomForm(Self.Owner);
-    if ((Form.DesignTimePPI <> Screen.PixelsPerInch) and (FPixelsPerInch = Screen.PixelsPerInch)) or
-       ((Form.DesignTimePPI = Screen.PixelsPerInch) and (FPixelsPerInch <> Screen.PixelsPerInch)) then
+    if (Form.DesignTimePPI <> FPixelsPerInch) then
     begin
       if StrEnds(Ident, '_Left') or StrEnds(Ident, '_Width') or
          StrEnds(Ident, '_Top') or StrEnds(Ident, '_Height') then
