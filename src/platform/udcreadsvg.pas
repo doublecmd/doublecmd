@@ -271,9 +271,15 @@ begin
 end;
 
 const
+{$IF DEFINED(UNIX)}
   cairolib   = 'libcairo.so.2';
   rsvglib    = 'librsvg-2.so.2';
   gobjectlib = 'libgobject-2.0.so.0';
+{$ELSEIF DEFINED(MSWINDOWS)}
+  cairolib   = 'libcairo-2.dll';
+  rsvglib    = 'librsvg-2-2.dll';
+  gobjectlib = 'libgobject-2.0-0.dll';
+{$ENDIF}
 
 var
   libcairo, librsvg, libgobject: TLibHandle;
