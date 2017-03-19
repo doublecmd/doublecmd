@@ -78,12 +78,12 @@ end;
 procedure TIniPropStorageEx.SaveProperties;
 begin
   inherited SaveProperties;
-  IniFile.WriteInteger(IniSection, 'PixelsPerInch', Screen.PixelsPerInch);
+  IniFile.WriteInteger(IniSection, 'Screen_PixelsPerInch', Screen.PixelsPerInch);
 end;
 
 procedure TIniPropStorageEx.RestoreProperties;
 begin
-  FPixelsPerInch := IniFile.ReadInteger(IniSection, 'PixelsPerInch', Screen.PixelsPerInch);
+  FPixelsPerInch := IniFile.ReadInteger(IniSection, 'Screen_PixelsPerInch', Screen.PixelsPerInch);
   inherited RestoreProperties;
 end;
 
