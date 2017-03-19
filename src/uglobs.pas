@@ -1860,6 +1860,8 @@ begin
   // Adjust icons size
   gIconsSize:= AdjustIconSize(gIconsSize, gPixelsPerInch);
   gDiskIconsSize:= AdjustIconSize(gDiskIconsSize, gPixelsPerInch);
+  gToolBarIconSize:= AdjustIconSize(gToolBarIconSize, gPixelsPerInch);
+  gToolBarButtonSize:= AdjustIconSize(gToolBarButtonSize, gPixelsPerInch);
   // Set secondary variables for options that need restart.
   gShowIconsNew := gShowIcons;
   gIconsSizeNew := gIconsSize;
