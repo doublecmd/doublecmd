@@ -3,12 +3,12 @@
    -------------------------------------------------------------------------
    This module contains additional or extended classes.
 
-   Copyright (C) 2008-2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2017 Alexander Koblov (alexx2000@mail.ru)
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2
+   of the License, or (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,9 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uClassesEx;
@@ -48,7 +46,7 @@ type
     function IniFileClass: TIniFileClass; override;
   public
     procedure Restore; override;
-    function DoReadString(const Section, Ident, default: string): string; override;
+    function DoReadString(const Section, Ident, Default: string): string; override;
     procedure DoWriteString(const Section, Ident, Value: string); override;
   end;
 
@@ -62,7 +60,7 @@ type
 implementation
 
 uses
-  LCLType, Forms, Controls, SynEditKeyCmds, DCStrUtils, DCClassesUtf8;
+  LCLType, Forms, Controls, LCLVersion, SynEditKeyCmds, DCStrUtils, DCClassesUtf8;
 
 { TBlobStream }
 
@@ -101,9 +99,26 @@ begin
   end;
 end;
 
-function TIniPropStorageEx.DoReadString(const Section, Ident, default: string): string;
+function TIniPropStorageEx.DoReadString(const Section, Ident, Default: string): string;
+var
+  Value: Integer;
 begin
-  Result := inherited DoReadString(Section, ChangeIdent(Ident), default);
+  Result := inherited DoReadString(Section, ChangeIdent(Ident), Default);
+{$if lcl_fullversion >= 1070000}
+  // Workaround for bug: http://bugs.freepascal.org/view.php?id=31526
+  if (Self.Owner is TCustomForm) and (TCustomForm(Self.Owner).Scaled) then
+  begin
+    if StrEnds(Ident, '_Left') or StrEnds(Ident, '_Width') or
+       StrEnds(Ident, '_Top') or StrEnds(Ident, '_Height') then
+    begin
+      if TryStrToInt(Result, Value) then
+      begin
+        Result := IntToStr(MulDiv(Value, TCustomForm(Self.Owner).DesignTimePPI,
+                                  Screen.PixelsPerInch));
+      end;
+    end;
+  end;
+{$endif}
 end;
 
 procedure TIniPropStorageEx.DoWriteString(const Section, Ident, Value: string);
