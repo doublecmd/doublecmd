@@ -478,7 +478,13 @@ end;
 
 procedure TFileViewWithGrid.MakeColumnsStrings(AFile: TDisplayFile);
 begin
-  AFile.DisplayStrings.Text:= FormatFileFunction('DC().GETFILENAME{}', AFile.FSFile, FileSource);
+  AFile.DisplayStrings.BeginUpdate;
+  try
+    AFile.DisplayStrings.Clear;
+    AFile.DisplayStrings.Add(FormatFileFunction('DC().GETFILENAME{}', AFile.FSFile, FileSource));
+  finally
+    AFile.DisplayStrings.EndUpdate;
+  end;
 end;
 
 procedure TFileViewWithGrid.RedrawFile(FileIndex: PtrInt);
