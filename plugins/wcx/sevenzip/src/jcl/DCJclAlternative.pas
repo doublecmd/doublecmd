@@ -439,12 +439,20 @@ end;
 
 function TJclWideStringList.CompareWideStringProc(Key1, Key2: Pointer): Integer;
 begin
+{$if FPC_FULLVERSION<30002}
   Result:= WideStringManager.CompareWideStringProc(WideString(Key1^), WideString(Key2^));
+{$else}
+  Result:= WideStringManager.CompareWideStringProc(WideString(Key1^), WideString(Key2^), []);
+{$endif}
 end;
 
 function TJclWideStringList.CompareTextWideStringProc(Key1, Key2: Pointer): Integer;
 begin
+{$if FPC_FULLVERSION<30002}
   Result:= WideStringManager.CompareTextWideStringProc(WideString(Key1^), WideString(Key2^));
+{$else}
+  Result:= WideStringManager.CompareWideStringProc(WideString(Key1^), WideString(Key2^), [coIgnoreCase]);
+{$endif}
 end;
 
 constructor TJclWideStringList.Create;
