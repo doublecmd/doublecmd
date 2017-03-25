@@ -394,6 +394,9 @@ begin
       if ShowFtpConfDlg then
         with gConnection do
         begin
+          if ConnectionList.IndexOf(ConnectionName) >= 0 then begin
+            ConnectionName += '+' + IntToStr(Random(MaxInt));
+          end;
           if MasterPassword then
           begin
             if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then

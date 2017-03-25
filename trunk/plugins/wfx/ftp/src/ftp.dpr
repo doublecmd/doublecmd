@@ -54,5 +54,5 @@ exports
 {$R *.res}
 
 begin
-
+  Randomize;
 end.
