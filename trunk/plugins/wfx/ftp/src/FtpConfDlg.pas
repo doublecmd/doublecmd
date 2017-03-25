@@ -163,7 +163,7 @@ begin
             Text:= PAnsiChar(Data);
             if (Length(Text) = 0) or (Length(gConnection.ConnectionName) = 0) then
             begin
-              gStartupInfo.MessageBox('You MUST at least specify a session and host name!',
+              gStartupInfo.MessageBox('You MUST at least specify a connection and host name!',
                                       nil, MB_OK or MB_ICONERROR);
               Exit;
             end;
