@@ -605,11 +605,13 @@ end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridDblClick(Sender: TObject);
 var
-  r: Integer;
+  r, x: Integer;
   sr: TFileSyncRec;
 begin
   r := MainDrawGrid.Row;
   if (r < 0) or (r >= FVisibleItems.Count) then Exit;
+  x := MainDrawGrid.ScreenToClient(Mouse.CursorPos).X;
+  if (x > hCols[3].Left) and (x < hCols[3].Left + hCols[3].Width) then Exit;
   sr := TFileSyncRec(FVisibleItems.Objects[r]);
   if not Assigned(sr)
   or not Assigned(sr.FFileR) or not Assigned(sr.FFileL) or (sr.FState = srsEqual)
