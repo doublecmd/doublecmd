@@ -160,7 +160,7 @@ end;
 
 procedure TfrmOptions.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
-  CanClose := CycleThroughOptionEditors(False);
+  CanClose := (ModalResult in [mrOK, mrCancel]) or CycleThroughOptionEditors(False);
 end;
 
 procedure TfrmOptions.btnCancelClick(Sender: TObject);
