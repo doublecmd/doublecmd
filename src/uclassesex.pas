@@ -127,8 +127,7 @@ begin
     Form := TCustomForm(Self.Owner);
     if (Form.DesignTimePPI <> FPixelsPerInch) then
     begin
-      if StrEnds(Ident, '_Left') or StrEnds(Ident, '_Width') or
-         StrEnds(Ident, '_Top') or StrEnds(Ident, '_Height') then
+      if StrEnds(Ident, '_Width') or StrEnds(Ident, '_Height') then
       begin
         if TryStrToInt(Result, Value) then
         begin
