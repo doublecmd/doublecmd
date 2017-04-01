@@ -204,7 +204,7 @@ uses
   LCLIntf, LCLProc, LazUTF8, Forms, Dialogs,
   fMain, uShowMsg, uLng, uFileProperty, uFileSource, uFileSourceOperationTypes,
   uGlobs, uInfoToolTip, uDisplayFile, uFileSystemFileSource, uFileSourceUtil,
-  uArchiveFileSourceUtil, uFormCommands, uKeyboard;
+  uArchiveFileSourceUtil, uFormCommands, uKeyboard, uFileSourceSetFilePropertyOperation;
 
 type
   TControlHandlersHack = class(TWinControl)
@@ -1308,14 +1308,16 @@ begin
         aFile := CloneActiveFile;
         try
           try
-            if RenameFile(FileSource, aFile, NewFileName, True) = True then
-            begin
-              edtRename.Visible:=False;
-              SetActiveFile(CurrentPath + NewFileName);
-              SetFocus;
-            end
-            else
-              msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileNameAbsolute), NewFileName]));
+            case RenameFile(FileSource, aFile, NewFileName, True) of
+              sfprSuccess:
+                begin
+                  edtRename.Visible:=False;
+                  SetActiveFile(CurrentPath + NewFileName);
+                  SetFocus;
+                end;
+              sfprError:
+                msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileNameAbsolute), NewFileName]));
+            end;
 
           except
             on e: EInvalidFileProperty do

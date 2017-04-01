@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSource, uFileView, uFile, uFileSourceOperationTypes;
+  uFileSource, uFileView, uFile, uFileSourceOperationTypes,
+  uFileSourceSetFilePropertyOperation;
 
 {en
    Decides what should be done when user chooses a file in a file view.
@@ -32,7 +33,7 @@ procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);
 procedure SetFileSystemPath(aFileView: TFileView; aPath: String);
 
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
-                    const NewFileName: String; Interactive: Boolean): Boolean;
+                    const NewFileName: String; Interactive: Boolean): TSetFilePropertyResult;
 
 function GetCopyOperationType(SourceFileSource, TargetFileSource: IFileSource;
                               out OperationType: TFileSourceOperationType): Boolean;
@@ -43,7 +44,6 @@ uses
   LCLProc, fFileExecuteYourSelf, uGlobs, uShellExecute, uFindEx, uDebug,
   uOSUtils, uShowMsg, uLng, uVfsModule, DCOSUtils, DCStrUtils,
   uFileSourceOperation,
-  uFileSourceSetFilePropertyOperation,
   uFileSourceExecuteOperation,
   uVfsFileSource,
   uFileSourceProperty,
@@ -302,14 +302,14 @@ begin
 end;
 
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
-                    const NewFileName: String; Interactive: Boolean): Boolean;
+  const NewFileName: String; Interactive: Boolean): TSetFilePropertyResult;
 var
   aFiles: TFiles = nil;
   Operation: TFileSourceSetFilePropertyOperation = nil;
   NewProperties: TFileProperties;
   UserInterface: TFileSourceOperationMessageBoxesUI = nil;
 begin
-  Result:= False;
+  Result:= sfprError;
 
   if fsoSetFileProperty in aFileSource.GetOperationsTypes then
   begin
@@ -337,7 +337,10 @@ begin
           end;
 
           Operation.Execute;
-          Result := (Operation.Result = fsorFinished);
+          case Operation.Result of
+            fsorFinished: Result:= sfprSuccess;
+            fsorAborted: Result:= sfprSkipped;
+          end;
         end;
       end;
 
