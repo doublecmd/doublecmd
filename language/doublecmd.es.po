@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2017-02-24 09:00+0100\n"
+"PO-Revision-Date: 2017-03-26 12:00+0200\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -1135,7 +1135,7 @@ msgstr "Descomprimir archivos"
 
 #: tfrmextractdlg.cbextractpath.caption
 msgid "&Unpack path names if stored with files"
-msgstr "&Descomprimir nombres de ruta si se almacenaron con archivos"
+msgstr "Desco&mprimir nombres de ruta si se almacenaron con archivos"
 
 #: tfrmextractdlg.cbfilemask.text
 msgctxt "tfrmextractdlg.cbfilemask.text"
@@ -1144,11 +1144,11 @@ msgstr "*.*"
 
 #: tfrmextractdlg.cbinseparatefolder.caption
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
-msgstr "Descomprimir cada archivo en una carpeta &separada (nombre del archivo)"
+msgstr "De&scomprimir cada archivo en una carpeta separada (nombre del archivo)"
 
 #: tfrmextractdlg.cboverwrite.caption
 msgid "O&verwrite existing files"
-msgstr "&Sobrescribir archivos existentes"
+msgstr "S&obrescribir archivos existentes"
 
 #: tfrmextractdlg.lblextractto.caption
 msgid "To the &directory:"
@@ -1160,7 +1160,7 @@ msgstr "&Extraer los de la máscara:"
 
 #: tfrmextractdlg.lblpassword.caption
 msgid "&Password for encrypted files:"
-msgstr "Contraseña para archivos ci&frados:"
+msgstr "Co&ntraseña para archivos cifrados:"
 
 #: tfrmfileexecuteyourself.btnclose.caption
 msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
@@ -1482,11 +1482,11 @@ msgstr "Ú&ltima búsqueda"
 
 #: tfrmfinddlg.actnewsearch.caption
 msgid "&New search"
-msgstr "&Búsqueda nueva"
+msgstr "&Nueva búsqueda"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
-msgstr "Nueva búsqueda (borrar filtros)"
+msgstr "Nueva &búsqueda (borrar filtros)"
 
 #: tfrmfinddlg.actpageadvanced.caption
 msgid "Go to page \"Advanced\""
@@ -2212,7 +2212,7 @@ msgstr "&Contenidos"
 
 #: tfrmmain.acthorizontalfilepanels.caption
 msgid "&Horizontal Panels Mode"
-msgstr "Paneles en &horizontal"
+msgstr "Paneles en modo &horizontal"
 
 #: tfrmmain.actkeyboard.caption
 msgid "&Keyboard"
@@ -2612,7 +2612,7 @@ msgstr "Abrir lista de unidades"
 
 #: tfrmmain.actswitchignorelist.caption
 msgid "Enable/disable ignore list file to not show file names"
-msgstr "Habilitar/Deshabilitar listado de ignorar para no mostrar nombres de archivo"
+msgstr "Habilitar/Deshabilitar lista de ignorados para no mostrar nombres de archivo"
 
 #: tfrmmain.actsymlink.caption
 msgid "Create Symbolic &Link..."
@@ -3873,7 +3873,7 @@ msgstr "General"
 
 #: tfrmoptionsautorefresh.cbwatchattributeschange.caption
 msgid "When &size, date or attributes change"
-msgstr "Cua&ndo cambian de tamaño, fecha o atributos"
+msgstr "Cua&ndo cambien de tamaño, fecha o atributos"
 
 #: tfrmoptionsautorefresh.cbwatchexcludedirs.caption
 msgctxt "tfrmoptionsautorefresh.cbwatchexcludedirs.caption"
@@ -3882,11 +3882,11 @@ msgstr "Para la&s rutas siguientes y sus subcarpetas:"
 
 #: tfrmoptionsautorefresh.cbwatchfilenamechange.caption
 msgid "When &files are created, deleted or renamed"
-msgstr "C&uando se crean, borran o renombran archivos"
+msgstr "C&uando se creen, borren o renombren archivos"
 
 #: tfrmoptionsautorefresh.cbwatchonlyforeground.caption
 msgid "When application is in the &background"
-msgstr "Cuan&do la aplicación está en segundo plano"
+msgstr "Cuan&do la aplicación esté en segundo plano"
 
 #: tfrmoptionsautorefresh.gbautorefreshdisable.caption
 msgid "Disable auto-refresh"
@@ -5861,7 +5861,7 @@ msgstr "Mostrar archivos ocultos &y de sistema"
 
 #: tfrmoptionsfilesviews.cbspacemovesdown.caption
 msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "Al seleccionar archivos con la &barra de espacio, bajar al archivo siguiente (como con «Insertar»)"
+msgstr "Al seleccionar archivos con la &barra espaciadora, bajar al archivo siguiente (como con «Insertar»)"
 
 #: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
 msgctxt "tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption"
@@ -6173,23 +6173,23 @@ msgstr "Iconos en menús"
 
 #: tfrmoptionsicons.gbiconsonbuttons.caption
 msgid "Icons on buttons"
-msgstr "Iconos en botones"
+msgstr "Iconos en los botones"
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgid " Icon size "
-msgstr "Tamaño de icono"
+msgstr " Tamaño de los iconos "
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgid " Show icons to the left of the filename "
-msgstr " Mostrar iconos a la izquierda del nombre del archivo"
+msgstr " Mostrar iconos a la izquierda del nombre del archivo "
 
 #: tfrmoptionsicons.lbldiskpanel.caption
 msgid "Disk panel:"
-msgstr ""
+msgstr "Panel de discos:"
 
 #: tfrmoptionsicons.lblfilepanel.caption
 msgid "File panel:"
-msgstr ""
+msgstr "Panel de archivos:"
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "tfrmoptionsicons.rbiconsshowall.caption"
@@ -6660,7 +6660,7 @@ msgstr "Confirmación para cerrar las pestañas &bloqueadas"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 msgid "&Limit tab title length to"
-msgstr "&Limitar longitud del título a:"
+msgstr "&Limitar la longitud del título a:"
 
 #: tfrmoptionstabs.cbtabslockedasterisk.caption
 msgid "Show locked tabs &with an asterisk *"
@@ -6891,7 +6891,7 @@ msgstr ""
 
 #: tfrmoptionstoolbar.gbgroupbox.caption
 msgid "Appearance"
-msgstr " Apariencia "
+msgstr "Apariencia"
 
 #: tfrmoptionstoolbar.lblbarsize.caption
 msgid "&Bar size:"
@@ -9100,11 +9100,11 @@ msgstr "TextoUnicodeUTF8Soltado"
 
 #: ulng.rsdiffadds
 msgid " Adds: "
-msgstr "Añadidos: "
+msgstr " Añadidos: "
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
-msgstr "Eliminados: "
+msgstr " Eliminados: "
 
 #: ulng.rsdifffilesidentical
 msgid "The two files are identical!"
@@ -9112,11 +9112,11 @@ msgstr "¡Los dos archivos son idénticos!"
 
 #: ulng.rsdiffmatches
 msgid " Matches: "
-msgstr "Coincidentes: "
+msgstr " Coincidentes: "
 
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
-msgstr "Modificados: "
+msgstr " Modificados: "
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -9216,7 +9216,7 @@ msgstr "Rein&tentar"
 
 #: ulng.rsdlgbuttonretryadmin
 msgid "As Ad&ministrator"
-msgstr ""
+msgstr "Como ad&ministrador"
 
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
@@ -9829,7 +9829,7 @@ msgstr "Introduce el nombre:"
 
 #: ulng.rsmsgenternewfiletypename
 msgid "Enter name of new file type to create for extension \"%s\""
-msgstr "Introduce nombre del nuevo tipo de archivo a crear para la extensión «%s»"
+msgstr "Introduce el nombre del nuevo tipo de archivo a crear para la extensión «%s»"
 
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
@@ -9909,11 +9909,11 @@ msgstr "¡Función no soportada!"
 
 #: ulng.rsmsgerrorincontextmenucommand
 msgid "Error in context menu command"
-msgstr "Error en comando de menú contextual"
+msgstr "Error en el comando del menú contextual"
 
 #: ulng.rsmsgerrorloadingconfiguration
 msgid "Error when loading configuration"
-msgstr "Error cuando se cargaba configuración"
+msgstr "Error al cargar la configuración"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
@@ -11142,7 +11142,7 @@ msgstr "Atajos"
 
 #: ulng.rsopthotkeysnohotkey
 msgid "<none>"
-msgstr "<ninguno>"
+msgstr "<ninguna>"
 
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
@@ -11292,7 +11292,7 @@ msgstr "Iconos"
 
 #: ulng.rsoptionseditorignorelist
 msgid "Ignore list"
-msgstr "Lista de ignorar"
+msgstr "Lista de ignorados"
 
 #: ulng.rsoptionseditorkeyboard
 msgid "Keys"
