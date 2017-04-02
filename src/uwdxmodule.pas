@@ -1282,17 +1282,17 @@ end;
 
 function TEmbeddedWDX.GetAName: String;
 begin
-
+  Result:= EmptyStr;
 end;
 
 function TEmbeddedWDX.GetAFileName: String;
 begin
-
+  Result:= ParamStrUTF8(0);
 end;
 
 function TEmbeddedWDX.GetADetectStr: String;
 begin
-
+  Result:= EmptyStr;
 end;
 
 procedure TEmbeddedWDX.SetAName(AValue: String);
