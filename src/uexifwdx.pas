@@ -72,7 +72,7 @@ end;
 
 function TExifWdx.GetAName: String;
 begin
-  Result:= '< Exif >';
+  Result:= '<Exif>';
 end;
 
 function TExifWdx.GetADetectStr: String;
