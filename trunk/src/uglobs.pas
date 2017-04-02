@@ -2682,7 +2682,7 @@ begin
     gWFXPlugins.Load(gConfig, Node);
     gWLXPlugins.Load(gConfig, Node);
   end;
-  gWDXPlugins.Add(TExifWdx.Create);
+  // gWDXPlugins.Add(TExifWdx.Create);
 
   { Load content plugins used in search templates }
   LoadContentPlugins;
