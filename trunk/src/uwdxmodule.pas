@@ -55,7 +55,7 @@ type
   { TWDXModule }
 
   TWDXModule = class
-  private
+  protected
     FMutex: TRTLCriticalSection;
   protected
     function GetAName: String; virtual; abstract;
