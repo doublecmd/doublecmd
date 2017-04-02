@@ -100,7 +100,6 @@ type
     //---------------------
   end;
 
-
   { TPluginWDX }
 
   TPluginWDX = class(TWDXModule)
@@ -112,7 +111,7 @@ type
     FName:      String;
     FFileName:  String;
     FDetectStr: String;
-
+  protected
     function GetAName: String; override;
     function GetAFileName: String; override;
     function GetADetectStr: String; override;
@@ -186,7 +185,7 @@ type
     FName:  String;
     FFileName: String;
     FDetectStr: String;
-
+  protected
     function GetAName: String; override;
     function GetAFileName: String; override;
     function GetADetectStr: String; override;
@@ -225,7 +224,6 @@ type
     property Name: String read GetAName write SetAName;
     property FileName: String read GetAFileName write SetAFileName;
     property DetectStr: String read GetADetectStr write SetADetectStr;
-
 
   end;
 
@@ -306,6 +304,9 @@ uses
 const
   WdxIniFileName = 'wdx.ini';
 
+type
+  TWdxModuleClass = class of TWdxModule;
+
 function StrToVar(const Value: String; FieldType: Integer): Variant;
 begin
   case FieldType of
@@ -353,6 +354,7 @@ end;
 procedure TWDXModuleList.Assign(Source: TWDXModuleList);
 var
   I: Integer;
+  Module: TWDXModule;
 begin
   if Assigned(Source) then
   begin
@@ -360,7 +362,13 @@ begin
     for I := 0 to Source.Flist.Count - 1 do
     begin
       with TWdxModule(Source.Flist.Objects[I]) do
-      Add(Name, FileName, DetectStr);
+      begin
+        Module:= TWdxModuleClass(ClassType).Create;
+        Module.Name:= Name;
+        Module.FileName:= FileName;
+        Module.DetectStr:= DetectStr;
+        Add(Module);
+      end;
     end;
   end;
 end;
