@@ -260,6 +260,8 @@ end;
 
 procedure TfrmOptionsPlugins.stgPluginsBeforeSelection(Sender: TObject; aCol,
   aRow: Integer);
+var
+  AEnabled: Boolean = True;
 begin
   if stgPlugins.Cells[0, aRow] = '+' then
     btnEnablePlugin.Caption:= rsOptDisable
@@ -267,6 +269,14 @@ begin
     btnEnablePlugin.Caption:= rsOptEnable;
 
   btnEnablePlugin.Enabled:= (stgPlugins.Cells[0, aRow] <> '');
+  if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
+  begin
+    aRow:= aRow - stgPlugins.FixedRows;
+    AEnabled:= not (tmpWDXPlugins.GetWdxModule(aRow) is TEmbeddedWDX);
+  end;
+  btnRemovePlugin.Enabled:= AEnabled;
+  btnTweakPlugin.Enabled:= AEnabled;
+  btnConfigPlugin.Enabled:= AEnabled;
 end;
 
 { DSX plugins }
