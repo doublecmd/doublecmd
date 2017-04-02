@@ -595,7 +595,7 @@ var
 implementation
 
 uses
-   LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8,
+   LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8, uExifWdx,
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager
@@ -2682,6 +2682,7 @@ begin
     gWFXPlugins.Load(gConfig, Node);
     gWLXPlugins.Load(gConfig, Node);
   end;
+  gWDXPlugins.Add(TExifWdx.Create);
 
   { Load content plugins used in search templates }
   LoadContentPlugins;
