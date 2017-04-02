@@ -125,28 +125,38 @@ end;
 function TExifWdx.CallContentGetValueV(FileName: String; FieldIndex,
   UnitIndex: Integer; flags: Integer): Variant;
 begin
-  GetData(FileName);
-  case FieldIndex of
-    0: Result:= FExif.Make;
-    1: Result:= FExif.Model;
-    2: Result:= FExif.ImageWidth;
-    3: Result:= FExif.ImageHeight;
-    4: Result:= FExif.Orientation;
-    5: Result:= FExif.DateTimeOriginal;
+  EnterCriticalSection(FMutex);
+  try
+    GetData(FileName);
+    case FieldIndex of
+      0: Result:= FExif.Make;
+      1: Result:= FExif.Model;
+      2: Result:= FExif.ImageWidth;
+      3: Result:= FExif.ImageHeight;
+      4: Result:= FExif.Orientation;
+      5: Result:= FExif.DateTimeOriginal;
+    end;
+  finally
+    LeaveCriticalSection(FMutex);
   end;
 end;
 
 function TExifWdx.CallContentGetValue(FileName: String; FieldIndex,
   UnitIndex: Integer; flags: Integer): String;
 begin
-  GetData(FileName);
-  case FieldIndex of
-    0: Result:= FExif.Make;
-    1: Result:= FExif.Model;
-    2: Result:= IntToStr(FExif.ImageWidth);
-    3: Result:= IntToStr(FExif.ImageHeight);
-    4: Result:= IntToStr(FExif.Orientation);
-    5: Result:= FExif.DateTimeOriginal;
+  EnterCriticalSection(FMutex);
+  try
+    GetData(FileName);
+    case FieldIndex of
+      0: Result:= FExif.Make;
+      1: Result:= FExif.Model;
+      2: Result:= IntToStr(FExif.ImageWidth);
+      3: Result:= IntToStr(FExif.ImageHeight);
+      4: Result:= IntToStr(FExif.Orientation);
+      5: Result:= FExif.DateTimeOriginal;
+    end;
+  finally
+    LeaveCriticalSection(FMutex);
   end;
 end;
 
