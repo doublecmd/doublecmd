@@ -55,6 +55,9 @@ type
   { TWDXModule }
 
   TWDXModule = class
+  private
+    FFieldsList: TStringList;
+    FParser:     TParserControl;
   protected
     FMutex: TRTLCriticalSection;
   protected
@@ -73,10 +76,10 @@ type
     procedure UnloadModule; virtual; abstract;
     function IsLoaded: Boolean; virtual; abstract;
     //---------------------
-    function FieldList: TStringList; virtual; abstract;
+    function FieldList: TStringList; virtual;
     function WdxFieldType(n: Integer): String;
-    function GetFieldIndex(FieldName: String): Integer; virtual; abstract;
-    function FileParamVSDetectStr(const aFile: TFile): Boolean; virtual; abstract;
+    function GetFieldIndex(FieldName: String): Integer; virtual;
+    function FileParamVSDetectStr(const aFile: TFile): Boolean; virtual;
     //------------------------------------------------------
     procedure CallContentGetSupportedField; virtual; abstract;
     procedure CallContentSetDefaultParams; virtual; abstract;
@@ -104,10 +107,8 @@ type
 
   TPluginWDX = class(TWDXModule)
   private
-    FFieldsList: TStringList;
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FForce:     Boolean;
-    FParser:    TParserControl;
     FName:      String;
     FFileName:  String;
     FDetectStr: String;
@@ -140,17 +141,10 @@ type
     ContentSendStateInformationW: TContentSendStateInformationW;
   public
     //---------------------
-    constructor Create; override;
-    destructor Destroy; override;
-    //---------------------
     function LoadModule: Boolean; override;
     procedure UnloadModule; override;
     function IsLoaded: Boolean; override;
     //---------------------
-    function FieldList: TStringList; override;
-    function GetFieldIndex(FieldName: String): Integer; override;
-    function FileParamVSDetectStr(const aFile: TFile): Boolean; override;
-    //------------------------------------------------------
     procedure CallContentGetSupportedField; override;
     procedure CallContentSetDefaultParams; override;
     procedure CallContentStopGetValue(FileName: String); override;
@@ -167,10 +161,6 @@ type
     //------------------------------------------------------
     property ModuleHandle: TLibHandle read FModuleHandle write FModuleHandle;
     property Force: Boolean read FForce write FForce;
-    property Name: String read GetAName write SetAName;
-    property FileName: String read GetAFileName write SetAFileName;
-    property DetectStr: String read GetADetectStr write SetADetectStr;
-
     //---------------------
   end;
 
@@ -179,9 +169,7 @@ type
   TLuaWdx = class(TWdxModule)
   private
     L:      Plua_State;
-    FFieldsList: TStringList;
     FForce: Boolean;
-    FParser: TParserControl;
     FName:  String;
     FFileName: String;
     FDetectStr: String;
@@ -199,16 +187,11 @@ type
     procedure WdxLuaContentPluginUnloading;
   public
     constructor Create; override;
-    destructor Destroy; override;
     //---------------------
     function LoadModule: Boolean; override;
     procedure UnloadModule; override;
     function IsLoaded: Boolean; override;
     //---------------------
-    function FieldList: TStringList; override;
-    function GetFieldIndex(FieldName: String): Integer; override;
-    function FileParamVSDetectStr(const aFile: TFile): Boolean; override;
-    //------------------------------------------------------
     procedure CallContentGetSupportedField; override;
     procedure CallContentSetDefaultParams; override;
     procedure CallContentStopGetValue(FileName: String); override;
@@ -221,18 +204,11 @@ type
     function CallContentGetSupportedFieldFlags(FieldIndex: Integer): Integer; override;
     //---------------------
     property Force: Boolean read FForce write FForce;
-    property Name: String read GetAName write SetAName;
-    property FileName: String read GetAFileName write SetAFileName;
-    property DetectStr: String read GetADetectStr write SetADetectStr;
-
   end;
 
   { TEmbeddedWDX }
 
   TEmbeddedWDX = class(TWDXModule)
-  private
-    FFieldsList: TStringList;
-    FParser:     TParserControl;
   protected
     function GetAName: String; override;
     function GetAFileName: String; override;
@@ -245,16 +221,11 @@ type
   public
     //---------------------
     constructor Create; override;
-    destructor Destroy; override;
     //---------------------
     function LoadModule: Boolean; override;
     procedure UnloadModule; override;
     function IsLoaded: Boolean; override;
     //---------------------
-    function FieldList: TStringList; override;
-    function GetFieldIndex(FieldName: String): Integer; override;
-    function FileParamVSDetectStr(const aFile: TFile): Boolean; override;
-    //------------------------------------------------------
   end;
 
   { TWDXModuleList }
@@ -557,11 +528,6 @@ begin
   Result := FModuleHandle <> 0;
 end;
 
-function TPluginWDX.FieldList: TStringList;
-begin
-  Result := FFieldsList;
-end;
-
 function TPluginWDX.GetADetectStr: String;
 begin
   Result := FDetectStr;
@@ -590,31 +556,6 @@ end;
 procedure TPluginWDX.SetAFileName(AValue: String);
 begin
   FFileName := AValue;
-end;
-
-constructor TPluginWDX.Create;
-begin
-  inherited Create;
-  FFieldsList := TStringList.Create;
-  FParser := TParserControl.Create;
-end;
-
-destructor TPluginWDX.Destroy;
-var
-  i: Integer;
-begin
-  if assigned(FParser) then
-    FParser.Free;
-
-  if assigned(FFieldsList) then
-  begin
-    for i := 0 to FFieldsList.Count - 1 do
-      TWdxField(FFieldsList.Objects[i]).Free;
-    FFieldsList.Free;
-  end;
-
-  Self.UnloadModule;
-  inherited Destroy;
 end;
 
 function TPluginWDX.LoadModule: Boolean;
@@ -897,20 +838,6 @@ begin
     Result := ContentGetSupportedFieldFlags(FieldIndex);
 end;
 
-
-function TPluginWDX.GetFieldIndex(FieldName: String): Integer;
-begin
-  Result := FFieldsList.IndexOf(FieldName);
-end;
-
-
-function TPluginWDX.FileParamVSDetectStr(const aFile: TFile): Boolean;
-begin
-  FParser.DetectStr := Self.DetectStr;
-  Result := FParser.TestFileResult(aFile);
-end;
-
-
 { TLuaWdx }
 
 function TLuaWdx.GetAName: String;
@@ -958,30 +885,6 @@ begin
   inherited Create;
   if not IsLuaLibLoaded then
     LoadLuaLib(gLuaLib); //Todo вынести загрузку либы в VmClass
-  FFieldsList := TStringList.Create;
-  FParser := TParserControl.Create;
-end;
-
-destructor TLuaWdx.Destroy;
-begin
-  if Assigned(FParser) then
-    FParser.Free;
-
-  if Assigned(FFieldsList) then
-  begin
-    while FFieldsList.Count > 0 do
-    begin
-      TWdxField(FFieldsList.Objects[0]).Free;
-      FFieldsList.Delete(0);
-    end;
-    FreeAndNil(FFieldsList);
-  end;
-
-  Self.UnloadModule;
-
-  //UnloadLuaLib;           //Todo вынести выгрузку либы в VmClass
-
-  inherited Destroy;
 end;
 
 function TLuaWdx.LoadModule: Boolean;
@@ -1023,22 +926,6 @@ end;
 function TLuaWdx.IsLoaded: Boolean;
 begin
   Result := IsLuaLibLoaded and Assigned(Self.L);
-end;
-
-function TLuaWdx.FieldList: TStringList;
-begin
-  Result := FFieldsList;
-end;
-
-function TLuaWdx.GetFieldIndex(FieldName: String): Integer;
-begin
-  Result := FFieldsList.IndexOf(FieldName);
-end;
-
-function TLuaWdx.FileParamVSDetectStr(const aFile: TFile): Boolean;
-begin
-  FParser.DetectStr := Self.DetectStr;
-  Result := FParser.TestFileResult(aFile);
 end;
 
 function TLuaWdx.WdxLuaContentGetSupportedField(Index: Integer; var xFieldName, xUnits: String): Integer;
@@ -1325,16 +1212,7 @@ end;
 constructor TEmbeddedWDX.Create;
 begin
   inherited Create;
-  FParser:= TParserControl.Create;
-  FFieldsList:= TStringList.Create;
   CallContentGetSupportedField;
-end;
-
-destructor TEmbeddedWDX.Destroy;
-begin
-  FParser.Free;
-  FFieldsList.Free;
-  inherited Destroy;
 end;
 
 function TEmbeddedWDX.LoadModule: Boolean;
@@ -1352,33 +1230,34 @@ begin
   Result:= True;
 end;
 
-function TEmbeddedWDX.FieldList: TStringList;
-begin
-  Result:= FFieldsList;
-end;
-
-function TEmbeddedWDX.GetFieldIndex(FieldName: String): Integer;
-begin
-  Result := FFieldsList.IndexOf(FieldName);
-end;
-
-function TEmbeddedWDX.FileParamVSDetectStr(const aFile: TFile): Boolean;
-begin
-  FParser.DetectStr := Self.DetectStr;
-  Result := FParser.TestFileResult(aFile);
-end;
-
 { TWDXModule }
 
 constructor TWDXModule.Create;
 begin
   InitCriticalSection(FMutex);
+  FParser:= TParserControl.Create;
+  FFieldsList:= TStringList.Create;
 end;
 
 destructor TWDXModule.Destroy;
+var
+  I: Integer;
 begin
+  FParser.Free;
+  if Assigned(FFieldsList) then
+  begin
+    for I := 0 to FFieldsList.Count - 1 do
+      TWdxField(FFieldsList.Objects[I]).Free;
+    FFieldsList.Free;
+  end;
+  Self.UnloadModule;
   inherited Destroy;
   DoneCriticalSection(FMutex);
+end;
+
+function TWDXModule.FieldList: TStringList;
+begin
+  Result:= FFieldsList;
 end;
 
 function TWDXModule.WdxFieldType(n: Integer): String;
@@ -1401,6 +1280,17 @@ begin
     else
       Result := '?';
   end;
+end;
+
+function TWDXModule.GetFieldIndex(FieldName: String): Integer;
+begin
+  Result := FFieldsList.IndexOf(FieldName);
+end;
+
+function TWDXModule.FileParamVSDetectStr(const aFile: TFile): Boolean;
+begin
+  FParser.DetectStr := Self.DetectStr;
+  Result := FParser.TestFileResult(aFile);
 end;
 
 function TWDXModule.CallContentGetValueV(FileName: String; FieldName: String;
