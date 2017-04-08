@@ -6765,7 +6765,7 @@ begin
 
     Value:= OutArchive.UpdateItems(OutStream, ItemCount, UpdateCallback);
 
-    if Value = E_ABORT then
+    if Value <> S_OK then
     begin
       // Remove partial archives
       for Index := 0 to FVolumes.Count - 1 do

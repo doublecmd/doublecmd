@@ -3,7 +3,7 @@
  2 files changed, 119 insertions(+), 16 deletions(-)
 
 diff --git a/jcl/source/common/JclCompression.pas b/jcl/source/common/JclCompression.pas
-index e5e6a2f..f214efa 100644
+index e5e6a2f..21c714d 100644
 --- a/jcl/source/common/JclCompression.pas
 +++ b/jcl/source/common/JclCompression.pas
 @@ -44,8 +44,7 @@
@@ -263,7 +263,7 @@ index e5e6a2f..f214efa 100644
 -    SevenzipCheck(OutArchive.UpdateItems(OutStream, ItemCount, UpdateCallback));
 +    Value:= OutArchive.UpdateItems(OutStream, ItemCount, UpdateCallback);
 +
-+    if Value = E_ABORT then
++    if Value <> S_OK then
 +    begin
 +      // Remove partial archives
 +      for Index := 0 to FVolumes.Count - 1 do
