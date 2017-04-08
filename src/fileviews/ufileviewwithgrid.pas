@@ -643,6 +643,7 @@ begin
     for I := 0 to FAllDisplayFiles.Count - 1 do
       MakeColumnsStrings(FAllDisplayFiles[I]);
   end;
+  TabHeader.UpdateSorting(Sorting);
 end;
 
 destructor TFileViewWithGrid.Destroy;
