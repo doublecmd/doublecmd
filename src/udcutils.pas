@@ -380,7 +380,7 @@ begin
   end;
   fsfByte:
   begin
-    Result:= Format('%8.0n', [FloatSize]);
+    Result:= IntToStr(iSize);
   end;
   fsfKilo:
   begin
