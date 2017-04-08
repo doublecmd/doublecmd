@@ -659,7 +659,6 @@ type
 {$ENDIF}
   private
     { Private declarations }
-    FPixelsPerInch: Integer;
     FMainSplitterPos: Double;
     PanelSelected: TFilePanelSelect;
     DrivesList : TDrivesList;
@@ -5389,6 +5388,7 @@ end;
 procedure TfrmMain.LoadWindowState;
 var
   ANode: TXmlNode;
+  FPixelsPerInch: Integer;
   ALeft, ATop, AWidth, AHeight: Integer;
 begin
   (* Load window bounds and state *)
