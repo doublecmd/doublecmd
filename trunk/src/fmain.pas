@@ -659,6 +659,7 @@ type
 {$ENDIF}
   private
     { Private declarations }
+    FPixelsPerInch: Integer;
     FMainSplitterPos: Double;
     PanelSelected: TFilePanelSelect;
     DrivesList : TDrivesList;
@@ -733,6 +734,12 @@ type
     procedure LeftDriveBarExecuteDrive(ToolItem: TKASToolItem);
     procedure RightDriveBarExecuteDrive(ToolItem: TKASToolItem);
     procedure SetDragCursor(Shift: TShiftState);
+
+  protected
+{$if lcl_fullversion >= 1070000}
+    procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                            const AXProportion, AYProportion: Double); override;
+{$endif}
 
   public
     constructor Create(TheOwner: TComponent); override;
@@ -3617,6 +3624,24 @@ begin
   FrameRight.SetDragCursor(Shift);
 end;
 
+{$if lcl_fullversion >= 1070000}
+procedure TfrmMain.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+  const AXProportion, AYProportion: Double);
+begin
+  if AMode in [lapAutoAdjustWithoutHorizontalScrolling, lapAutoAdjustForDPI] then
+  begin
+    DisableAutoSizing;
+    try
+      ScaleFontsPPI(AYProportion);
+      BorderSpacing.AutoAdjustLayout(AXProportion, AYProportion);
+      Constraints.AutoAdjustLayout(AXProportion, AYProportion);
+    finally
+      EnableAutoSizing;
+    end;
+  end;
+end;
+{$endif}
+
 procedure TfrmMain.FormKeyUp( Sender: TObject; var Key: Word;
   Shift: TShiftState) ;
 begin
@@ -5364,16 +5389,25 @@ end;
 procedure TfrmMain.LoadWindowState;
 var
   ANode: TXmlNode;
+  ALeft, ATop, AWidth, AHeight: Integer;
 begin
   (* Load window bounds and state *)
-  ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position');
-  if Assigned(ANode) then
+  ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
   begin
     MainSplitterPos := gConfig.GetValue(ANode, 'Splitter', 50.0);
-    Left := gConfig.GetValue(ANode, 'Left', 80);
-    Top := gConfig.GetValue(ANode, 'Top', 48);
-    Width := gConfig.GetValue(ANode, 'Width', 800);
-    Height := gConfig.GetValue(ANode, 'Height', 480);
+    ALeft := gConfig.GetValue(ANode, 'Left', 80);
+    ATop := gConfig.GetValue(ANode, 'Top', 48);
+    AWidth := gConfig.GetValue(ANode, 'Width', 800);
+    AHeight := gConfig.GetValue(ANode, 'Height', 480);
+{$if lcl_fullversion >= 1070000}
+    FPixelsPerInch := gConfig.GetValue(ANode, 'PixelsPerInch', DesignTimePPI);
+    if Scaled and (Screen.PixelsPerInch <> FPixelsPerInch) then
+    begin
+      AWidth := MulDiv(AWidth, Screen.PixelsPerInch, FPixelsPerInch);
+      AHeight := MulDiv(AHeight, Screen.PixelsPerInch, FPixelsPerInch);
+    end;
+{$endif}
+    SetBounds(ALeft, ATop, AWidth, AHeight);
     if gConfig.GetValue(ANode, 'Maximized', True) then
       Self.WindowState := wsMaximized;
   end;
@@ -5396,6 +5430,7 @@ begin
     gConfig.SetValue(ANode, 'Top', Top);
     gConfig.SetValue(ANode, 'Width', Width);
     gConfig.SetValue(ANode, 'Height', Height);
+    gConfig.SetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
   end;
   gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
   gConfig.SetValue(ANode, 'Splitter', FMainSplitterPos);

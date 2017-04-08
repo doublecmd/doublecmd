@@ -235,7 +235,7 @@ type
 implementation
 
 uses
-  crc, uDebug, uLng, uGlobs;
+  LCLType, Forms, crc, uDebug, uLng, uGlobs;
 
 var
   DefaultTitleHash: LongWord = 0;
@@ -773,8 +773,10 @@ var
   SubNode: TXmlNode;
   Quality: Integer = 0;
   AColumn: TPanelColumn;
+  APixelsPerInch: Integer;
 begin
   FCustomView := AConfig.GetValue(ANode, 'CustomView', False);
+  APixelsPerInch:= AConfig.GetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
   FCursorBorder := AConfig.GetAttr(ANode, 'CursorBorder/Enabled', gUseCursorBorder);
   FCursorBorderColor := TColor(AConfig.GetValue(ANode, 'CursorBorder/Color', gCursorBorderColor));
   FUseFrameCursor := AConfig.GetAttr(ANode, 'UseFrameCursor', gUseFrameCursor);
@@ -795,6 +797,7 @@ begin
         AColumn.Title := AConfig.GetValue(SubNode, 'Title', '');
         AColumn.FuncString := AConfig.GetValue(SubNode, 'FuncString', '');
         AColumn.Width := AConfig.GetValue(SubNode, 'Width', 50);
+        AColumn.Width := MulDiv(AColumn.Width, Screen.PixelsPerInch, APixelsPerInch);
         AColumn.Align := TAlignment(AConfig.GetValue(SubNode, 'Align', Integer(0)));
         AConfig.GetFont(SubNode, 'Font', AColumn.FontName, AColumn.FontSize, Integer(AColumn.FontStyle), Quality,
                         gFonts[dcfMain].Name, gFonts[dcfMain].Size, Integer(gFonts[dcfMain].Style), Quality);
@@ -844,6 +847,7 @@ var
   AColumn: TPanelColumn;
 begin
   AConfig.SetValue(ANode, 'CustomView', FCustomView);
+  AConfig.SetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
   AConfig.SetAttr(ANode, 'CursorBorder/Enabled', FCursorBorder);
   if FCursorBorderColor <> clNone then
     AConfig.SetValue(ANode, 'CursorBorder/Color', FCursorBorderColor);
