@@ -1606,8 +1606,7 @@ end;
 procedure TDrawGridEx.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
   const AXProportion, AYProportion: Double);
 begin
-  // Don't auto adjust vertical layout
-  inherited DoAutoAdjustLayout(AMode, AXProportion, 1.0);
+  // Don't auto adjust layout
 end;
 {$endif}
 
