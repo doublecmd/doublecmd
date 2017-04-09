@@ -1090,6 +1090,7 @@ begin
           if ChildNode2.NodeName = 'Version' then Info.Version.Version := StrToIntDef(ReadValue(ChildNode2), 0)
           else if ChildNode2.NodeName = 'Revision' then Info.Version.Revision := StrToIntDef(ReadValue(ChildNode2), 0)
           else if ChildNode2.NodeName = 'Date' then
+          {
             try
               AFormatSettings:= DefaultFormatSettings;
               Info.Version.ReleaseDate := StrToFloat(ReadValue(ChildNode2), AFormatSettings);
@@ -1101,6 +1102,7 @@ begin
                 // Ignore
               end;
             end
+          }
           else if ChildNode2.NodeName = 'Type' then
             begin
               if ReadValue(ChildNode2) = 'Beta' then Info.Version.VersionType := vtBeta
