@@ -259,7 +259,7 @@ end;"/>
       </Item8>
       <Item9>
         <PackageName Value="LCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <MinVersion Major="1" Minor="6" Valid="True"/>
       </Item9>
       <Item10>
         <PackageName Value="SynEdit"/>
