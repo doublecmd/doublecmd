@@ -860,7 +860,7 @@ uses
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource, uThumbFileView,
-  uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
+  uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd, ShellCtrls,
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil, uTempFileSystemFileSource,
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager
@@ -868,12 +868,6 @@ uses
   , uColumnsFileViewVtv
   {$ELSE}
   , uColumnsFileView
-  {$ENDIF}
-  // TODO: remove when switch to Lazarus 1.6
-  {$IF (lcl_fullversion < 1060000)}
-  , uShellCtrls
-  {$ELSE}
-  , ShellCtrls
   {$ENDIF}
   ;
 
