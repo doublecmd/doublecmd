@@ -376,11 +376,11 @@ begin
       Result:= FloatToStrF(FloatSize / 1024, ffFixed, 15, Number) + ' K'
     end
     else
-      Result:= IntToStr(iSize);
+      Result:= Format('%.0n', [FloatSize]);
   end;
   fsfByte:
   begin
-    Result:= IntToStr(iSize);
+    Result:= Format('%.0n', [FloatSize]);
   end;
   fsfKilo:
   begin
