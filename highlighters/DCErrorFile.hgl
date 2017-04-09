@@ -1,0 +1,56 @@
+<UniHighlighter version="1.8.1">
+  <Info>
+    <General Name="DC Error File" Extensions="err"/>
+    <Author Name="Skif_off" Email="" Web="" Copyright="" Company="" Remark=""/>
+    <Version Version="0" Revision="2" Date="42820,0524461111"/>
+    <History>
+    </History>
+    <Sample>
+      <S>--------------- 24-03-2017, 03:10:06 ---------------</S>
+      <S>| DC v0.8.0 alpha Rev. 7469 -- i386-Win32-win32/win64</S>
+      <S>| Windows 7 SP1 x86_64 | PID 1148</S>
+      <S>Unhandled exception: EAccessViolation: Access violation</S>
+      <S>  Stack trace:</S>
+      <S>  $0043F190 line 2194, column 8 of include/customform.inc in C:\DC\doublecmd.exe</S>
+      <S>  $0071E4A4 line 179, column 3 of foptions.pas in C:\DC\doublecmd.exe</S>
+      <S>  $005517BD line 55, column 3 of include/buttoncontrol.inc in C:\DC\doublecmd.exe</S>
+      <S>  $0053BBCD line 64, column 3 of include/bitbtn.inc in C:\DC\doublecmd.exe</S>
+      <S>  $005516E9 line 21, column 5 of include/buttoncontrol.inc in C:\DC\doublecmd.exe</S>
+      <S>  $0040EEA8 in C:\DC\doublecmd.exe</S>
+      <S>  $00526B61 line 5395, column 28 of include/wincontrol.inc in C:\DC\doublecmd.exe</S>
+      <S>  $005B5D59 line 112, column 36 of lclmessageglue.pas in C:\DC\doublecmd.exe</S>
+      <S>  $0050F309 line 2499, column 33 of win32/win32callback.inc in C:\DC\doublecmd.exe</S>
+      <S>  $759062FA in C:\Windows\syswow64\USER32.dll</S>
+    </Sample>
+  </Info>
+  <Scheme File="" Name=""/>
+  <Range Name="Root" Attributes="0,16777215;False:False." Style="" CaseSensitive="True"
+         Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+    <Rule/>
+    <Keywords Name="Keywords" Attributes="8388608,536870911;False:False." Style="">
+      <word value="line"/>
+      <word value="column"/>
+      <word value="in"/>
+      <word value="of"/>
+      <word value="Stack trace:"/>
+    </Keywords>
+    <Set Name="Digits" Attributes="8421376,536870911;False:False." Style="" Symbols="0123456789"/>
+    <Range Name="Date" Attributes="8388608,16777215;False:False." Style="" CaseSensitive="True"
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="--------------- " CloseSymbol=" ---------------"/>
+    </Range>
+    <Range Name="About" Attributes="8388736,536870911;False:False." Style="" CaseSensitive="True"
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="|" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Exception" Attributes="210,536870911;False:False." Style="" CaseSensitive="True"
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="Unhandled exception" OpenSymbolStartLine="True" CloseSymbol="" CloseSymbolFinishOnEol="True" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Address" Attributes="150,536870911;False:False." Style="" CaseSensitive="True"
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="$" CloseSymbolPartOfTerm="False" CloseOnTerm="True"/>
+    </Range>
+  </Range>
+  <CopyRight>Rule file for UniHighlighter Delphi component (Copyright(C) Fantasist(walking_in_the_sky@yahoo.com), Vit(nevzorov@yahoo.com), Vitalik(vetal-x@mail.ru), 2002-2004)</CopyRight>
+</UniHighlighter>
