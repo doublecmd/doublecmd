@@ -806,7 +806,7 @@ begin
   { GNU_FORMAT is detected by the presence of GNU extended headers. }
 
   { These detections are similar to GNU tar's. }
-  if (PTarHeader.Magic.value = AB_TAR_MAGIC_VAL) then
+  if CompareByte(PTarHeader.Magic.value, AB_TAR_MAGIC_VAL, SizeOf(AB_TAR_MAGIC_VAL)) = 0 then
   begin { We have one of three types, STAR_FORMAT, USTAR_FORMAT, POSIX_FORMAT }
     { Detect STAR format.  Leave disabled until explicit STAR support is added. }
     {if (PTarHeader.star.Prefix[130] = #00) and
@@ -822,7 +822,7 @@ begin
     { This can define false positives, Pax headers/ STAR format could be detected as this }
     FTarItem.ArchiveFormat := USTAR_FORMAT;
   end
-  else if (PTarHeader.Magic.gnuOld = AB_TAR_MAGIC_GNUOLD) then
+  else if CompareByte(PTarHeader.Magic.gnuOld, AB_TAR_MAGIC_GNUOLD, SizeOf(AB_TAR_MAGIC_GNUOLD)) = 0 then
   begin
     FTarItem.ArchiveFormat := OLDGNU_FORMAT;
   end
