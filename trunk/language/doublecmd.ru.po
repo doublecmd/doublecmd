@@ -2599,7 +2599,7 @@ msgstr "Изменить атри&буты"
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
-msgstr "О&ткрывать каталоги в новой вкладке"
+msgstr "Заблокировать и о&ткрывать каталоги в новой вкладке"
 
 #: tfrmmain.actsettaboptionnormal.caption
 msgid "&Normal"
