@@ -742,6 +742,7 @@ type
 
   public
     constructor Create(TheOwner: TComponent); override;
+    procedure AfterConstruction; override;
     Function ActiveFrame: TFileView;  // get Active frame
     Function NotActiveFrame: TFileView; // get NotActive frame :)
     function ActiveNotebook: TFileViewNotebook;
@@ -2604,6 +2605,14 @@ begin
   Screen.Cursors[crArrowCopy] := LoadCursorFromLazarusResource('ArrowCopy');
   Screen.Cursors[crArrowMove] := LoadCursorFromLazarusResource('ArrowMove');
   Screen.Cursors[crArrowLink] := LoadCursorFromLazarusResource('ArrowLink');
+end;
+
+procedure TfrmMain.AfterConstruction;
+begin
+  FResizingFilePanels:= True;
+  inherited AfterConstruction;
+  FResizingFilePanels:= False;
+  pnlNotebooksResize(pnlNotebooks);
 end;
 
 procedure TfrmMain.UpdateActionIcons();
