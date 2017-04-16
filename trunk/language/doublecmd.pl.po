@@ -3946,6 +3946,10 @@ msgstr "Stała szerokość kolumn"
 msgid "Cut &text to column width"
 msgstr "Obetnij tekst do szerokości kolumny"
 
+#: tfrmoptionscolumnsview.cbextendcellwidth.caption
+msgid "&Extend cell width if text is not fitting into column"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgid "&Horizontal lines"
 msgstr "Linie poziome"

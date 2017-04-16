@@ -4050,6 +4050,10 @@ msgstr "Lățimea coloanelor fixe"
 msgid "Cut &text to column width"
 msgstr "Taie &textul la mărimea coloanei"
 
+#: tfrmoptionscolumnsview.cbextendcellwidth.caption
+msgid "&Extend cell width if text is not fitting into column"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgid "&Horizontal lines"
 msgstr "Linii orizontale (&h)"

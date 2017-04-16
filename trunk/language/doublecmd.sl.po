@@ -3955,6 +3955,10 @@ msgstr "Določena širina stolpcev"
 msgid "Cut &text to column width"
 msgstr "&Okrajšaj besedilo na širino stolpca"
 
+#: tfrmoptionscolumnsview.cbextendcellwidth.caption
+msgid "&Extend cell width if text is not fitting into column"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgid "&Horizontal lines"
 msgstr "&Vodoravne črte"
