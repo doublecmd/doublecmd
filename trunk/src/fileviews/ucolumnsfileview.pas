@@ -1265,6 +1265,9 @@ end;
 
 procedure TDrawGridEx.DrawCell(aCol, aRow: Integer; aRect: TRect;
               aState: TGridDrawState);
+const
+  CELL_PADDING = 2;
+
 var
   //shared variables
   s:   string;
@@ -1312,7 +1315,7 @@ var
       // Draw icon for a file
       PixMapManager.DrawBitmap(IconID,
                                Canvas,
-                               aRect.Left + 1,
+                               aRect.Left + CELL_PADDING,
                                Y
                                );
 
@@ -1322,62 +1325,56 @@ var
         PixMapManager.DrawBitmapOverlay(AFile,
                                         FileSourceDirectAccess,
                                         Canvas,
-                                        aRect.Left + 1,
+                                        aRect.Left + CELL_PADDING,
                                         Y
                                         );
       end;
 
     end;
 
-    if AFile.DisplayStrings.Count = 0 then
-      ColumnsView.MakeColumnsStrings(AFile, ColumnsSet);
     s := AFile.DisplayStrings.Strings[ACol];
 
     if gCutTextToColWidth then
     begin
-      Y:= ((aRect.Right - aRect.Left) - Canvas.TextWidth('V'));
-      if (gShowIcons <> sim_none) then Y:= Y - gIconsSize;
+      Y:= (aRect.Right - aRect.Left) - 2*CELL_PADDING;
+      if (gShowIcons <> sim_none) then Y:= Y - gIconsSize - 2;
       s:= FitFileName(s, Canvas, AFile.FSFile, Y);
     end;
 
     if (gShowIcons <> sim_none) then
-      Canvas.TextOut(aRect.Left + gIconsSize + 4, iTextTop, s)
+      Canvas.TextOut(aRect.Left + CELL_PADDING + gIconsSize + 2, iTextTop, s)
     else
-      Canvas.TextOut(aRect.Left + 2, iTextTop, s);
+      Canvas.TextOut(aRect.Left + CELL_PADDING, iTextTop, s);
   end; //of DrawIconCell
   //------------------------------------------------------
 
   procedure DrawOtherCell;
   //------------------------------------------------------
   var
-    tw, cw: Integer;
+    tw: Integer;
   begin
-    if AFile.DisplayStrings.Count = 0 then
-      ColumnsView.MakeColumnsStrings(AFile, ColumnsSet);
     s := AFile.DisplayStrings.Strings[ACol];
 
     if gCutTextToColWidth then
-      s := FitOtherCellText(s, Canvas, ((ARect.Right-ARect.Left)-4));
+      s := FitOtherCellText(s, Canvas, ARect.Right - ARect.Left - 2*CELL_PADDING);
 
     case ColumnsSet.GetColumnAlign(ACol) of
 
       taRightJustify:
         begin
-          cw := ColWidths[ACol];
           tw := Canvas.TextWidth(s);
-          Canvas.TextOut(aRect.Left + cw - tw - 3, iTextTop, s);
+          Canvas.TextOut(aRect.Right - tw - CELL_PADDING, iTextTop, s);
         end;
 
       taLeftJustify:
         begin
-          Canvas.TextOut(aRect.Left + 3, iTextTop, s);
+          Canvas.TextOut(aRect.Left + CELL_PADDING, iTextTop, s);
         end;
 
       taCenter:
         begin
-          cw := ColWidths[ACol];
           tw := Canvas.TextWidth(s);
-          Canvas.TextOut(aRect.Left + ((cw - tw - 3) div 2), iTextTop, s);
+          Canvas.TextOut((aRect.Left + aRect.Right - tw) div 2, iTextTop, s);
         end;
 
     end; //of case
@@ -1465,6 +1462,7 @@ var
     Canvas.Brush.Color := BackgroundColor;
     Canvas.FillRect(aRect);
     Canvas.Font.Color := TextColor;
+    Canvas.Brush.Style := bsClear;
   end;// of PrepareColors;
 
   procedure DrawLines;
@@ -1566,6 +1564,144 @@ var
         }
     end;
   end;
+
+  procedure DrawExtendedCells;
+  type
+    TCell = record
+      Col: Integer;         // column index
+      Rect: TRect;          // initial rect
+      LeftBound,            // new left bound
+      RightBound: Integer;  // new right bound
+    end;
+
+    procedure GetCellBounds(var ACell: TCell);
+    var
+      CellText: string;
+      CellWidth: Integer;
+      ColAlign: TAlignment;
+    begin
+      CellText := AFile.DisplayStrings[ACell.Col];
+      CellWidth := Canvas.TextWidth(CellText) + 2*CELL_PADDING;
+      if (ACell.Col = 0) and (gShowIcons <> sim_none) then
+        CellWidth := CellWidth + gIconsSize + 2;
+
+      ColAlign := ColumnsSet.GetColumnAlign(ACell.Col);
+      if (ColAlign = taLeftJustify) or (ACell.Col = 0) then
+      begin
+        ACell.LeftBound := ACell.Rect.Left;
+        ACell.RightBound := ACell.LeftBound + CellWidth;
+      end
+      else if ColAlign = taRightJustify then
+      begin
+        ACell.RightBound := ACell.Rect.Right;
+        ACell.LeftBound := ACell.RightBound - CellWidth;
+      end
+      else
+      begin
+        ACell.LeftBound := (ACell.Rect.Left + ACell.Rect.Right - CellWidth) div 2;
+        if (ACell.Rect.Left <= ACell.LeftBound) or (not gCutTextToColWidth) then
+          ACell.RightBound := ACell.LeftBound + CellWidth
+        else begin
+          ACell.LeftBound := ACell.Rect.Left;
+          ACell.RightBound := ACell.Rect.Right;
+        end;
+      end;
+    end;
+
+    procedure FindNextCell(ACurrentCol, ADirection: Integer; out ACell: TCell);
+    var
+      C: Integer;
+    begin
+      C := ACurrentCol + ADirection;
+      while (C >= 0) and (C < ColCount) do
+      begin
+        if (AFile.DisplayStrings[C] <> '') and (ColWidths[C] <> 0) then
+        begin
+          ACell.Col := C;
+          ACell.Rect := CellRect(C, aRow);
+          GetCellBounds(ACell);
+          Exit;
+        end;
+        C := C + ADirection;
+      end;
+      ACell.Col := -1;
+    end;
+
+    procedure ReconcileBounds(var LCell, RCell: TCell);
+    var
+      LeftEdge: Integer absolute LCell.RightBound;
+      RightEdge: Integer absolute RCell.LeftBound;
+      LeftColEdge: Integer absolute LCell.Rect.Right;
+    begin
+      if (LeftEdge <= RightEdge) or (not gCutTextToColWidth) then
+        Exit;
+
+      if (RightEdge < LeftColEdge) and (LeftColEdge < LeftEdge) then
+      begin
+        LeftEdge := LeftColEdge;
+        RightEdge := LeftColEdge;
+      end
+      else if LeftEdge <= LeftColEdge then
+        RightEdge := LeftEdge
+      else
+        LeftEdge := RightEdge;
+    end;
+
+    procedure DrawCell(const ACell: TCell);
+    begin
+      aCol := ACell.Col;
+      aRect.Left := ACell.LeftBound;
+      aRect.Right := ACell.RightBound;
+      if aCol = 0 then
+        DrawIconCell
+      else
+        DrawOtherCell;
+    end;
+
+  var
+    CCell, LCell, RCell: TCell;
+  begin
+    CCell.Col := aCol;
+    CCell.Rect := aRect;
+
+    FindNextCell(CCell.Col, -1, LCell);
+    FindNextCell(CCell.Col, +1, RCell);
+
+    if AFile.DisplayStrings[CCell.Col] = '' then
+    begin
+      if (LCell.Col <> -1) and (RCell.Col <> -1) then
+        ReconcileBounds(LCell, RCell);
+
+      if (LCell.Col <> -1) and (CCell.Rect.Left < LCell.RightBound) then
+        DrawCell(LCell);
+
+      if (RCell.Col <> -1) and (RCell.LeftBound < CCell.Rect.Right) then
+        DrawCell(RCell);
+    end
+    else
+    begin
+      GetCellBounds(CCell);
+
+      if LCell.Col <> -1 then
+      begin
+        ReconcileBounds(LCell, CCell);
+        if CCell.Rect.Left < LCell.RightBound then
+          DrawCell(LCell);
+      end;
+
+      if RCell.Col <> -1 then
+      begin
+        ReconcileBounds(CCell, RCell);
+        if RCell.LeftBound < CCell.Rect.Right then
+          DrawCell(RCell);
+      end;
+
+      DrawCell(CCell);
+    end;
+
+    aCol := CCell.Col;
+    aRect := CCell.Rect;
+  end;
   //------------------------------------------------------
   //end of subprocedures
   //------------------------------------------------------
@@ -1583,14 +1719,22 @@ begin
     AFile := ColumnsView.FFiles[ARow - FixedRows]; // substract fixed rows (header)
     FileSourceDirectAccess := fspDirectAccess in ColumnsView.FileSource.Properties;
 
+    if AFile.DisplayStrings.Count = 0 then
+      ColumnsView.MakeColumnsStrings(AFile, ColumnsSet);
+
     PrepareColors;
 
     iTextTop := aRect.Top + (RowHeights[aRow] - Canvas.TextHeight('Wg')) div 2;
 
-    if ACol = 0 then
-      DrawIconCell  // Draw icon in the first column
+    if gExtendCellWidth then
+      DrawExtendedCells
     else
-      DrawOtherCell;
+    begin
+      if ACol = 0 then
+        DrawIconCell  // Draw icon in the first column
+      else
+        DrawOtherCell;
+    end;
 
     DrawCellGrid(aCol,aRow,aRect,aState);
     DrawLines;

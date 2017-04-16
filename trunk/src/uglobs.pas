@@ -282,6 +282,7 @@ var
   glsIgnoreList : TStringListEx;
   gOnlyOneAppInstance,
   gCutTextToColWidth : Boolean;
+  gExtendCellWidth : Boolean;
   gSpaceMovesDown: Boolean;
   gScrollMode: TScrollMode;
   gWheelScrollLines: Integer;
@@ -1314,6 +1315,7 @@ begin
   gCustomColumnsChangeAllColumns := False;
   gDateTimeFormat := DefaultDateTimeFormat;
   gCutTextToColWidth := True;
+  gExtendCellWidth := False;
   gShowSystemFiles := False;
   // Under Mac OS X loading file list in separate thread are very very slow
   // so disable and hide this option under Mac OS X Carbon
@@ -2148,6 +2150,7 @@ begin
       gAutoSizeColumn := GetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
       gDateTimeFormat := GetValidDateTimeFormat(GetValue(Node, 'DateTimeFormat', gDateTimeFormat), DefaultDateTimeFormat);
       gCutTextToColWidth := GetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
+      gExtendCellWidth := GetValue(Node, 'ExtendCellWidth', gExtendCellWidth);
       gShowSystemFiles := GetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
       {$IFNDEF LCLCARBON}
       // Under Mac OS X loading file list in separate thread are very very slow
@@ -2753,6 +2756,7 @@ begin
     SetValue(Node, 'BriefViewFileExtAligned', gBriefViewFileExtAligned);
     SetValue(Node, 'DateTimeFormat', gDateTimeFormat);
     SetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
+    SetValue(Node, 'ExtendCellWidth', gExtendCellWidth);
     SetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
     {$IFNDEF LCLCARBON}
     // Under Mac OS X loading file list in separate thread are very very slow

@@ -36,6 +36,7 @@ type
 
   TfrmOptionsColumnsView = class(TOptionsEditor)
     cbCutTextToColWidth: TCheckBox;
+    cbExtendCellWidth: TCheckBox;
     cbGridHorzLine: TCheckBox;
     cbGridVertLine: TCheckBox;
     chkAutoFillColumns: TCheckBox;
@@ -44,6 +45,8 @@ type
     grpMisc: TGroupBox;
     grpAutosizeColumns: TGroupBox;
     lblAutoSizeColumn: TLabel;
+    procedure cbExtendCellWidthChange(Sender: TObject);
+    procedure cbGridVertLineChange(Sender: TObject);
   protected
     procedure Init; override;
     procedure Load; override;
@@ -62,6 +65,16 @@ uses
 
 { TfrmOptionsColumnsView }
 
+procedure TfrmOptionsColumnsView.cbExtendCellWidthChange(Sender: TObject);
+begin
+  if cbExtendCellWidth.Checked then cbGridVertLine.Checked:= False;
+end;
+
+procedure TfrmOptionsColumnsView.cbGridVertLineChange(Sender: TObject);
+begin
+  if cbGridVertLine.Checked then cbExtendCellWidth.Checked:= False;
+end;
+
 procedure TfrmOptionsColumnsView.Init;
 begin
   ParseLineToList(rsOptAutoSizeColumn, cmbAutoSizeColumn.Items);
@@ -74,6 +87,7 @@ begin
   chkAutoFillColumns.Checked  := gAutoFillColumns;
   cmbAutoSizeColumn.ItemIndex := gAutoSizeColumn;
   cbCutTextToColWidth.Checked := gCutTextToColWidth;
+  cbExtendCellWidth.Checked   := gExtendCellWidth;
 end;
 
 function TfrmOptionsColumnsView.Save: TOptionsEditorSaveFlags;
@@ -83,6 +97,7 @@ begin
   gAutoFillColumns   := chkAutoFillColumns.Checked;
   gAutoSizeColumn    := cmbAutoSizeColumn.ItemIndex;
   gCutTextToColWidth := cbCutTextToColWidth.Checked;
+  gExtendCellWidth   := cbExtendCellWidth.Checked;
 
   Result := [];
 end;
@@ -98,4 +113,4 @@ begin
 end;
 
 end.
-
+
