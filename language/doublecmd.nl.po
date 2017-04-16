@@ -3955,6 +3955,10 @@ msgstr "Vaste kolombreedte"
 msgid "Cut &text to column width"
 msgstr "Kap tekst af op kolombreedte"
 
+#: tfrmoptionscolumnsview.cbextendcellwidth.caption
+msgid "&Extend cell width if text is not fitting into column"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgid "&Horizontal lines"
 msgstr "Horizontale regels"

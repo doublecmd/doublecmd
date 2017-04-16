@@ -4047,6 +4047,10 @@ msgstr "Σταθερό Πλάτος Στηλών"
 msgid "Cut &text to column width"
 msgstr "Αποκοπή κειμένου στο πλάτος της στήλης"
 
+#: tfrmoptionscolumnsview.cbextendcellwidth.caption
+msgid "&Extend cell width if text is not fitting into column"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgid "&Horizontal lines"
 msgstr "Οριζόντιες γραμμές"

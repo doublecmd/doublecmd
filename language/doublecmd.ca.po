@@ -4402,6 +4402,10 @@ msgctxt "tfrmoptionscolumnsview.cbcuttexttocolwidth.caption"
 msgid "Cut &text to column width"
 msgstr "Ajusta text a l'amplada de columna"
 
+#: tfrmoptionscolumnsview.cbextendcellwidth.caption
+msgid "&Extend cell width if text is not fitting into column"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 #, fuzzy
 #| msgid "Horizontal lines"

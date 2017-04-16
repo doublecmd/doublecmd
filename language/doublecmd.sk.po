@@ -4454,6 +4454,10 @@ msgctxt "tfrmoptionscolumnsview.cbcuttexttocolwidth.caption"
 msgid "Cut &text to column width"
 msgstr "Orezať text na šírku stĺpca"
 
+#: tfrmoptionscolumnsview.cbextendcellwidth.caption
+msgid "&Extend cell width if text is not fitting into column"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 #, fuzzy
 #| msgid "Horizontal lines"

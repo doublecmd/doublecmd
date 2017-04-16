@@ -3949,6 +3949,10 @@ msgstr "Pevná šířka sloupce"
 msgid "Cut &text to column width"
 msgstr "Oříznout &text na šířku sloupce"
 
+#: tfrmoptionscolumnsview.cbextendcellwidth.caption
+msgid "&Extend cell width if text is not fitting into column"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgid "&Horizontal lines"
 msgstr "&Vodorovné čáry"

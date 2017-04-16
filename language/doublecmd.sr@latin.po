@@ -4100,6 +4100,10 @@ msgstr ""
 msgid "Cut &text to column width"
 msgstr "Opseci tekst na širinu stupca"
 
+#: tfrmoptionscolumnsview.cbextendcellwidth.caption
+msgid "&Extend cell width if text is not fitting into column"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgid "&Horizontal lines"
 msgstr "Vodoravne& linije"

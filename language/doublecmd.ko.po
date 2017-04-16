@@ -4073,6 +4073,10 @@ msgstr "고정된 파일속성열 제목폭"
 msgid "Cut &text to column width"
 msgstr "파일속성열 제목 폭 &텍스트 잘라내기"
 
+#: tfrmoptionscolumnsview.cbextendcellwidth.caption
+msgid "&Extend cell width if text is not fitting into column"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgid "&Horizontal lines"
 msgstr "&수평줄"

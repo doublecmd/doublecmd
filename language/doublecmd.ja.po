@@ -4046,6 +4046,10 @@ msgstr "カラムの幅を固定"
 msgid "Cut &text to column width"
 msgstr "カラムの幅で文字列を切断(&t)"
 
+#: tfrmoptionscolumnsview.cbextendcellwidth.caption
+msgid "&Extend cell width if text is not fitting into column"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgid "&Horizontal lines"
 msgstr "水平ライン(&H)"

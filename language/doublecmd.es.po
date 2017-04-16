@@ -3954,6 +3954,10 @@ msgstr "Ancho fijo de columnas"
 msgid "Cut &text to column width"
 msgstr "Ajustar &texto al ancho de columna"
 
+#: tfrmoptionscolumnsview.cbextendcellwidth.caption
+msgid "&Extend cell width if text is not fitting into column"
+msgstr ""
+
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgid "&Horizontal lines"
 msgstr "Líneas &horizontales"
