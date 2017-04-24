@@ -67,6 +67,15 @@ type
       function GetOverlayIconIndex(pidl : PItemIDList; var IconIndex : Integer) : HResult; stdcall;
    end; { IShellIconOverlay }
 
+type
+  TSHStockIconInfo = record
+    cbSize: DWORD;
+    hIcon: HICON;
+    iSysImageIndex: Int32;
+    iIcon: Int32;
+    szPath: array[0..MAX_PATH-1] of WCHAR;
+  end;
+
 function SHGetSystemImageList(iImageList: Integer): HIMAGELIST;
 function SHChangeIconDialog(hOwner: HWND; var FileName: String; var IconIndex: Integer): Boolean;
 function SHGetOverlayIconIndex(const sFilePath, sFileName: String): Integer;

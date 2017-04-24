@@ -170,6 +170,7 @@ type
     }
     function GetIconResourceIndex(const IconPath: String; out IconFile: String; out IconIndex: PtrInt): Boolean;
     function GetSystemFolderIcon: PtrInt;
+    function GetSystemArchiveIcon: PtrInt;
     function GetSystemExecutableIcon: PtrInt;
   {$ENDIF}
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
@@ -1158,6 +1159,26 @@ begin
     Result := FileInfo.iIcon + SystemIconIndexStart;
 end;
 
+function TPixMapManager.GetSystemArchiveIcon: PtrInt;
+const
+  SIID_ZIPFILE = 105;
+var
+  psii: TSHStockIconInfo;
+  SHGetStockIconInfo: function(siid: Int32; uFlags: UINT; var psii: TSHStockIconInfo): HRESULT; stdcall;
+begin
+  Result:= -1;
+  if (Win32MajorVersion > 5) then
+  begin
+    Pointer(SHGetStockIconInfo):= GetProcAddress(GetModuleHandle(Shell32), 'SHGetStockIconInfo');
+    if Assigned(SHGetStockIconInfo) then
+    begin
+      psii.cbSize:= SizeOf(TSHStockIconInfo);
+      if SHGetStockIconInfo(SIID_ZIPFILE, SHGFI_SYSICONINDEX, psii) = S_OK then
+        Result:= psii.iSysImageIndex + SystemIconIndexStart;
+    end;
+  end;
+end;
+
 function TPixMapManager.GetSystemExecutableIcon: PtrInt;
 var
   FileInfo: TSHFileInfo;
@@ -1337,6 +1358,12 @@ begin
   FiLinkIconID:=CheckAddThemePixmap('link');
   FiLinkBrokenIconID:=CheckAddThemePixmap('link-broken');
   FiUpDirIconID:=CheckAddThemePixmap('go-up');
+  {$IFDEF MSWINDOWS}
+  FiArcIconID := -1;
+  if gShowIcons > sim_standart then
+    FiArcIconID := GetSystemArchiveIcon;
+  if FiArcIconID = -1 then
+  {$ENDIF}
   FiArcIconID := CheckAddThemePixmap('package-x-generic');
   {$IFDEF MSWINDOWS}
   FiExeIconID := -1;
