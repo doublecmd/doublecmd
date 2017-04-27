@@ -1348,7 +1348,7 @@ begin
   FiDefaultIconID:=CheckAddThemePixmap('unknown');
   {$IF DEFINED(MSWINDOWS) or DEFINED(DARWIN)}
   FiDirIconID := -1;
-  if gShowIcons > sim_standart then
+  if (gShowIcons > sim_standart) and (not (cimFolder in gCustomIcons)) then
     FiDirIconID := GetSystemFolderIcon;
   if FiDirIconID = -1 then
   {$ENDIF}
@@ -1360,7 +1360,7 @@ begin
   FiUpDirIconID:=CheckAddThemePixmap('go-up');
   {$IFDEF MSWINDOWS}
   FiArcIconID := -1;
-  if gShowIcons > sim_standart then
+  if (gShowIcons > sim_standart) and (not (cimArchive in gCustomIcons)) then
     FiArcIconID := GetSystemArchiveIcon;
   if FiArcIconID = -1 then
   {$ENDIF}
@@ -1900,7 +1900,7 @@ begin
   Result := nil;
 {$IFDEF MSWINDOWS}
   if GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 15 then Exit;
-  if (not gCustomDriveIcons) and (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
+  if (not (cimDrive in gCustomIcons)) and (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
     begin
       SFI.hIcon := 0;
       Result := Graphics.TBitMap.Create;

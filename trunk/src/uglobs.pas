@@ -58,6 +58,8 @@ type
   TTabsPosition = (tbpos_top, tbpos_bottom);
   { Show icons mode }
   TShowIconsMode = (sim_none, sim_standart, sim_all, sim_all_and_exe);
+  { Custom icons mode }
+  TCustomIconsMode = set of (cimDrive, cimFolder, cimArchive);
   TScrollMode = (smLineByLineCursor, smLineByLine, smPageByPage);
   { Sorting directories mode }
   TSortFolderMode = (sfmSortNameShowFirst, sfmSortLikeFileShowFirst, sfmSortLikeFile);
@@ -141,7 +143,8 @@ const
   // 7   - changed Viewer/SaveThumbnails to Thumbnails/Save
   // 8   - changed Behaviours/BriefViewFileExtAligned to FilesViews/BriefView/FileExtAligned
   // 9   - few new options regarding tabs
-  ConfigVersion = 9;
+  // 10  - changed Icons/CustomDriveIcons to Icons/CustomIcons
+  ConfigVersion = 10;
 
   TKeyTypingModifierToShift: array[TKeyTypingModifier] of TShiftState =
     ([], [ssAlt], [ssCtrl, ssAlt]);
@@ -368,7 +371,7 @@ var
   gIconsExclude: Boolean;
   gIconsExcludeDirs: String;
   gPixelsPerInch: Integer;
-  gCustomDriveIcons : Boolean; // for use custom drive icons under windows
+  gCustomIcons : TCustomIconsMode; // for use custom icons under windows
   gIconsInMenus: Boolean;
   gIconsInMenusSize,
   gIconsInMenusSizeNew: Integer;
@@ -1582,7 +1585,7 @@ begin
   gIconsExclude := False;
   gIconsExcludeDirs := EmptyStr;
   gPixelsPerInch := 96;
-  gCustomDriveIcons := False;
+  gCustomIcons := [];
   gIconsInMenus := False;
   gIconsInMenusSize := 16;
   gIconsInMenusSizeNew := gIconsInMenusSize;
@@ -2502,7 +2505,13 @@ begin
       gIconsExclude := GetValue(Node, 'Exclude', gIconsExclude);
       gIconsExcludeDirs := GetValue(Node, 'ExcludeDirs', gIconsExcludeDirs);
       gPixelsPerInch := GetValue(Node, 'PixelsPerInch', gPixelsPerInch);
-      gCustomDriveIcons := GetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
+      if LoadedConfigVersion < 10 then
+      begin
+        if GetValue(Node, 'CustomDriveIcons', False) then
+          gCustomIcons += [cimDrive];
+        DeleteNode(Node, 'CustomDriveIcons');
+      end;
+      gCustomIcons := TCustomIconsMode(GetValue(Node, 'CustomIcons', Integer(gCustomIcons)));
       gIconsInMenus := GetAttr(Node, 'ShowInMenus/Enabled', gIconsInMenus);
       gIconsInMenusSize := GetValue(Node, 'ShowInMenus/Size', gIconsInMenusSize);
       Application.ShowButtonGlyphs := TApplicationShowGlyphs(GetValue(Node, 'ShowButtonGlyphs', Integer(Application.ShowButtonGlyphs)));
@@ -3000,7 +3009,7 @@ begin
     SetValue(Node, 'DiskSize', gDiskIconsSize);
     SetValue(Node, 'Exclude', gIconsExclude);
     SetValue(Node, 'ExcludeDirs', gIconsExcludeDirs);
-    SetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
+    SetValue(Node, 'CustomIcons', Integer(gCustomIcons));
     SetValue(Node, 'PixelsPerInch', Screen.PixelsPerInch);
     SetAttr(Node, 'ShowInMenus/Enabled', gIconsInMenus);
     SetValue(Node, 'ShowInMenus/Size', gIconsInMenusSizeNew);
