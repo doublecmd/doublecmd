@@ -34,7 +34,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LazFileUtils, uLng, uGlobs, uLog, uShowMsg, uOSUtils, DCStrUtils;
+  LazFileUtils, uLng, uGlobs, uLog, uShowMsg, uOSUtils, DCStrUtils, DCOSUtils;
 
 function ShowSymLinkForm(const sExistingFile, sLinkToCreate, CurrentPath: String): Boolean;
 begin
@@ -59,7 +59,7 @@ end;
 
 procedure TfrmSymLink.btnOKClick(Sender: TObject);
 var
-  sSrc,sDst:String;
+  sSrc, sDst, Message: String;
 begin
   sSrc:=edtExistingFile.Text;
   sDst:=edtLinkToCreate.Text;
@@ -77,12 +77,12 @@ begin
     end
   else
     begin
+      Message:= mbSysErrorMessage;
       // write log
       if (log_cp_mv_ln in gLogOptions) and (log_errors in gLogOptions) then
         logWrite(Format(rsMsgLogError+rsMsgLogSymLink,[sSrc+' -> '+sDst]), lmtError);
-
       // Standart error modal dialog
-      MsgError(rsSymErrCreate);
+      MsgError(rsSymErrCreate + LineEnding + LineEnding + Message);
     end;
 end;
 
