@@ -4,7 +4,7 @@
     This unit contains functions to work with hard and symbolic links
     on the NTFS file system.
 
-    Copyright (C) 2012-2016 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2012-2017 Alexander Koblov (alexx2000@mail.ru)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -130,10 +130,9 @@ type
     lpExistingFileName: LPCWSTR;
     lpSecurityAttributes: LPSECURITY_ATTRIBUTES): BOOL; stdcall;
 
-function HasNewApi: Boolean;
-begin
-  Result:= (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6);
-end;
+var
+  HasNewApi: Boolean = False;
+  MayCreateSymLink: Boolean = False;
 
 function _CreateHardLink_New(AFileName : UnicodeString; ALinkName: UnicodeString): Boolean;
 var
@@ -241,7 +240,7 @@ begin
     Result:= _CreateHardLink_Old(AFileName, ALinkName)
 end;
 
-function _CreateSymLink_New(const ATargetFileName, ASymlinkFileName: UnicodeString): boolean;
+function _CreateSymLink_New(const ATargetFileName, ASymlinkFileName: UnicodeString; dwFlags: DWORD): boolean;
 var
   hLib: THandle;
   CreateSymbolicLinkW: TCreateSymbolicLinkW;
@@ -262,7 +261,7 @@ begin
       Exit;
     end;
 
-  Result:= CreateSymbolicLinkW(PWideChar(ASymlinkFileName), PWideChar(ATargetFileName), SYMBOLIC_LINK_FLAG_FILE);
+  Result:= CreateSymbolicLinkW(PWideChar(ASymlinkFileName), PWideChar(ATargetFileName), dwFlags);
 end;
 
 function _CreateSymLink_Old(aTargetFileName, aSymlinkFileName: UnicodeString): Boolean;
@@ -317,10 +316,23 @@ var
 begin
   Result:= False;
   dwAttributes := Windows.GetFileAttributesW(PWideChar(ATargetName));
-  if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
-    Result:= _CreateSymLink_Old(ATargetName, ALinkName)
-  else if HasNewApi then
-    Result:= _CreateSymLink_New(ATargetName, ALinkName);
+
+  if HasNewApi = False then
+  begin
+    if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
+      Result:= _CreateSymLink_Old(ATargetName, ALinkName);
+  end
+  else begin
+    if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
+      Result:= _CreateSymLink_New(ATargetName, ALinkName, SYMBOLIC_LINK_FLAG_FILE)
+    else begin
+      if not MayCreateSymLink then
+        Result:= _CreateSymLink_Old(ATargetName, ALinkName)
+      else begin
+        Result:= _CreateSymLink_New(ATargetName, ALinkName, SYMBOLIC_LINK_FLAG_DIRECTORY);
+      end;
+    end;
+  end;
 end;
 
 function ReadSymLink(aSymlinkFileName: UnicodeString; out aTargetFileName: UnicodeString): Boolean;
@@ -381,5 +393,42 @@ begin
     end;
   end;
 end;
+
+function MayCreateSymbolicLink: Boolean;
+const
+  SE_CREATE_SYMBOLIC_LINK_NAME = 'SeCreateSymbolicLinkPrivilege';
+var
+  I: Integer;
+  hProcess: HANDLE;
+  dwLength: DWORD = 0;
+  seCreateSymbolicLink: LUID = 0;
+  TokenInformation: array [0..1023] of Byte;
+  Privileges: TTokenPrivileges absolute TokenInformation;
+begin
+  hProcess:= GetCurrentProcess();
+  if (OpenProcessToken(hProcess, TOKEN_READ, hProcess)) then
+  try
+    if (LookupPrivilegeValueW(nil, SE_CREATE_SYMBOLIC_LINK_NAME, seCreateSymbolicLink)) then
+    begin
+      if (GetTokenInformation(hProcess, TokenPrivileges, @Privileges, SizeOf(TokenInformation), dwLength)) then
+      begin
+        {$PUSH}{$R-}
+        for I:= 0 to Int32(Privileges.PrivilegeCount) - 1 do
+        begin
+          if Privileges.Privileges[I].Luid = seCreateSymbolicLink then
+            Exit(True);
+        end;
+        {$POP}
+      end;
+    end;
+  finally
+    CloseHandle(hProcess);
+  end;
+  Result:= False;
+end;
+
+initialization
+  MayCreateSymLink:= MayCreateSymbolicLink;
+  HasNewApi:= (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6);
 
 end.
