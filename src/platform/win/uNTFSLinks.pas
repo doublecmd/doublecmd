@@ -320,7 +320,9 @@ begin
   if HasNewApi = False then
   begin
     if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
-      Result:= _CreateSymLink_Old(ATargetName, ALinkName);
+      Result:= _CreateSymLink_Old(ATargetName, ALinkName)
+    else
+      SetLastError(ERROR_NOT_SUPPORTED);
   end
   else begin
     if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
