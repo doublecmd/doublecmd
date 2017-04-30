@@ -45,7 +45,6 @@ type
     function ChangeIdent(const Ident: String): String;
   protected
     procedure SaveProperties; override;
-    procedure RestoreProperties; override;
     function IniFileClass: TIniFileClass; override;
   public
     procedure Restore; override;
@@ -81,12 +80,6 @@ begin
   IniFile.WriteInteger(IniSection, 'Screen_PixelsPerInch', Screen.PixelsPerInch);
 end;
 
-procedure TIniPropStorageEx.RestoreProperties;
-begin
-  FPixelsPerInch := IniFile.ReadInteger(IniSection, 'Screen_PixelsPerInch', Screen.PixelsPerInch);
-  inherited RestoreProperties;
-end;
-
 function TIniPropStorageEx.IniFileClass: TIniFileClass;
 begin
   Result:= TIniFileEx;
@@ -96,7 +89,13 @@ procedure TIniPropStorageEx.Restore;
 var
   AMonitor: TMonitor;
 begin
-  inherited Restore;
+  StorageNeeded(True);
+  try
+    FPixelsPerInch := IniFile.ReadInteger(IniSection, 'Screen_PixelsPerInch', Screen.PixelsPerInch);
+    inherited Restore;
+  finally
+    FreeStorage;
+  end;
 
   if Self.Owner is TCustomForm then
   begin
