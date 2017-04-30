@@ -57,8 +57,8 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil,
-  uLng, uFileSystemUtil, uFileSystemFileSource, DCOSUtils, DCStrUtils;
+  LazUTF8, DCConvertEncoding,
+  uLng, uFileSystemUtil, uFileSystemFileSource, DCOSUtils, DCStrUtils, uFileProcs;
 
 type
   TChecksumEntry = class
@@ -304,6 +304,7 @@ end;
 procedure TFileSystemCalcChecksumOperation.InitializeVerifyMode;
 var
   aFile: TFile;
+  AText: String;
   Entry: TChecksumEntry;
   CurrentFileIndex: Integer;
 begin
@@ -335,7 +336,13 @@ begin
     aFile := Files[CurrentFileIndex];
     FCheckSumFile.Clear;
     FCheckSumFile.NameValueSeparator:= #32;
-    FCheckSumFile.LoadFromFile(aFile.FullPath);
+
+    AText:= mbReadFileToString(aFile.FullPath);
+    if FindInvalidUTF8Character(PChar(AText), Length(AText), True) = -1 then
+      FCheckSumFile.Text:= AText
+    else begin
+      FCheckSumFile.Text:= CeAnsiToUtf8(AText);
+    end;
 
     if (FCheckSumFile.Count = 0) then Continue;
 
