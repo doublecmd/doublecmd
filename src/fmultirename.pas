@@ -141,7 +141,7 @@ type
     procedure btnRestoreClick(Sender: TObject);
     procedure btnNameMenuClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+    procedure RestoreProperties(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure miDay1Click(Sender: TObject);
     procedure miDay2Click(Sender: TObject);
@@ -290,6 +290,7 @@ begin
 
   // Initialize property storage
   IniPropStorage:= InitPropStorage(Self);
+  IniPropStorage.OnRestoreProperties:= @RestoreProperties;
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item0_Width';
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item1_Width';
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item2_Width';
@@ -304,7 +305,7 @@ begin
   LoadPreset(FLastPreset);
 end;
 
-procedure TfrmMultiRename.FormShow(Sender: TObject);
+procedure TfrmMultiRename.RestoreProperties(Sender: TObject);
 begin
   with StringGrid.Columns do
   begin
