@@ -33,6 +33,8 @@ uses
 function StringToNSString(const S: String): NSString;
 function StringToCFStringRef(const S: String): CFStringRef;
 
+function NSGetFolderPath(Folder: NSSearchPathDirectory): String;
+
 function GetFileDescription(const FileName: String): String;
 function MountNetworkDrive(const serverAddress: String): Boolean;
 
@@ -52,6 +54,17 @@ end;
 function StringToCFStringRef(const S: String): CFStringRef;
 begin
   Result:= CFStringCreateWithCString(nil, PAnsiChar(S), kCFStringEncodingUTF8);
+end;
+
+function NSGetFolderPath(Folder: NSSearchPathDirectory): String;
+var
+  Path: NSArray;
+begin
+  Path:= NSFileManager.defaultManager.URLsForDirectory_inDomains(Folder, NSUserDomainMask);
+  if Path.count > 0 then
+  begin
+    Result:= IncludeTrailingBackslash(NSURL(Path.objectAtIndex(0)).path) + ApplicationName;
+  end;
 end;
 
 function GetFileDescription(const FileName: String): String;
