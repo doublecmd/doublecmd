@@ -63,6 +63,7 @@ type
     FTheme,
     FThemeName: String;
     FComment: String;
+    FDefaultTheme: String;
     FInherits: TStringList;
     FOwnsInheritsObject: Boolean;
     FDirectories: TIconDirList;
@@ -77,7 +78,7 @@ type
     function LookupIcon(AIconName: String; AIconSize, AIconScale: Integer): String;
     function CreateParentTheme(const sThemeName: String): TIconTheme; virtual;
   public
-    constructor Create(sThemeName: String; BaseDirList: array of String); virtual;
+    constructor Create(sThemeName: String; BaseDirList: array of String; ADefaultTheme: String = ''); virtual;
     destructor Destroy; override;
     function Load: Boolean; virtual;
     function FindIcon(AIconName: String; AIconSize: Integer; AIconScale: Integer = 1): String;
@@ -87,6 +88,7 @@ type
     class procedure RegisterExtension(const AExtension: String);
     property ThemeName: String read FThemeName;
     property Directories: TIconDirList read FDirectories;
+    property DefaultTheme: String read FDefaultTheme write FDefaultTheme;
   end;
 
 implementation
@@ -163,13 +165,15 @@ begin
 end;
 
 
-constructor TIconTheme.Create(sThemeName: String; BaseDirList: array of String);
+constructor TIconTheme.Create(sThemeName: String; BaseDirList: array of String;
+  ADefaultTheme: String);
 var
  I, J: Integer;
  sElement: String;
 begin
   FTheme:= sThemeName;
   FInherits:= nil;
+  FDefaultTheme:= ADefaultTheme;
   FOwnsInheritsObject:= False;
   FDirectories:= nil;
   J:= 0;
@@ -210,8 +214,16 @@ begin
 end;
 
 function TIconTheme.Load: Boolean;
+var
+  ADefault: String;
+  ADefaultArray: TDynamicStringArray;
 begin
    Result := LoadThemeWithInherited(FInherits);
+   if Result and FOwnsInheritsObject then
+   begin
+     ADefaultArray:= SplitString(FDefaultTheme, PathSeparator);
+     for ADefault in ADefaultArray do LoadParentTheme(ADefault);
+   end;
 end;
 
 function TIconTheme.LoadThemeWithInherited(AInherits: TStringList): Boolean;
