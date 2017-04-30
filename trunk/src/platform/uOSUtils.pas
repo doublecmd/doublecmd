@@ -22,7 +22,11 @@
 
 unit uOSUtils;
  
-{$mode delphi}{$H+}
+{$mode delphi}
+
+{$IFDEF DARWIN}
+{$modeswitch objectivec1}
+{$ENDIF}
 
 interface
 
@@ -176,6 +180,7 @@ function GetAppConfigDir: String;
    @returns(The directory for the application's cache files)
 }
 function GetAppCacheDir: String;
+function GetAppDataDir: String;
 function GetTempFolder: String;
 
 { Similar to "GetTempFolder" but that we can unilaterally delete at the end when closin application}
@@ -250,8 +255,10 @@ uses
   {$ENDIF}
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix, dl
-    {$IF NOT DEFINED(DARWIN)}
-  , uGio, uClipboard, uKde
+    {$IF DEFINED(DARWIN)}
+  , CocoaAll, uMyDarwin
+    {$ELSE}
+  , uGio, uClipboard, uXdg, uKde
     {$ENDIF}
   {$ENDIF}
   ;
@@ -871,7 +878,7 @@ begin
 end;
 {$ELSEIF DEFINED(DARWIN)}
 begin
-  Result:= GetHomeDir + '/Library/Caches/' + ApplicationName;
+  Result:= NSGetFolderPath(NSCachesDirectory);
 end;
 {$ELSE}
 var
@@ -882,6 +889,21 @@ begin
     Result:= CeSysToUtf8(uinfo^.pw_dir) + '/.cache/' + ApplicationName
   else
     Result:= GetHomeDir + '/.cache/' + ApplicationName;
+end;
+{$ENDIF}
+
+function GetAppDataDir: String;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  Result:= GetAppCacheDir;
+end;
+{$ELSEIF DEFINED(DARWIN)}
+begin
+  Result:= NSGetFolderPath(NSApplicationSupportDirectory);
+end;
+{$ELSE}
+begin
+  Result:= IncludeTrailingPathDelimiter(GetUserDataDir) + ApplicationName;
 end;
 {$ENDIF}
 
