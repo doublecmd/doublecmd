@@ -63,7 +63,7 @@ begin
   Path:= NSFileManager.defaultManager.URLsForDirectory_inDomains(Folder, NSUserDomainMask);
   if Path.count > 0 then
   begin
-    Result:= IncludeTrailingBackslash(NSURL(Path.objectAtIndex(0)).path) + ApplicationName;
+    Result:= IncludeTrailingBackslash(NSURL(Path.objectAtIndex(0)).path.UTF8String) + ApplicationName;
   end;
 end;
 
