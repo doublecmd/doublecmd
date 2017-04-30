@@ -289,7 +289,7 @@ begin
   lbCommands.Items.Clear;
   for IndexItem := 0 to pred(ListCommands.Count) do
   begin
-    if (lbledtFilter.Text = '') or (pos(lowercase(lbledtFilter.Text), lowercase(ListCommands.Strings[IndexItem])) <> 0) then
+    if (lbledtFilter.Text = '') or (Pos(UTF8LowerCase(lbledtFilter.Text), UTF8LowerCase(ListCommands.Strings[IndexItem])) <> 0) then
       lbCommands.Items.Add(ListCommands.Strings[IndexItem]);
   end;
 
