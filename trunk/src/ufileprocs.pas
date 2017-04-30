@@ -56,6 +56,8 @@ procedure FileWriteLn(hFile: Integer; S: String);
 
 function GetNextCopyName(FileName: String): String;
 
+function mbReadFileToString(const FileName: String): String;
+
 implementation
 
 uses
@@ -267,6 +269,25 @@ begin
     end;
 
     until not mbFileSystemEntryExists(Result);
+end;
+
+function mbReadFileToString(const FileName: String): String;
+var
+  Text: String;
+  ASize: Int64;
+  Handle: THandle;
+begin
+  Result:= EmptyStr;
+  ASize:= mbFileSize(FileName);
+  SetLength(Text, ASize);
+  if Length(Text) = 0 then Exit;
+  Handle:= mbFileOpen(FileName, fmOpenRead or fmShareDenyNone);
+  if Handle <> feInvalidHandle then
+  begin
+    if FileRead(Handle, Text[1], ASize) = ASize then
+      Result:= Text;
+    FileClose(Handle);
+  end;
 end;
 
 end.
