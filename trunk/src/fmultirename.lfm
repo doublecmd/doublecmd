@@ -9,7 +9,6 @@ object frmMultiRename: TfrmMultiRename
   ClientWidth = 803
   OnClose = FormClose
   OnCreate = FormCreate
-  OnShow = FormShow
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
