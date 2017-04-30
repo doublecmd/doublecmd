@@ -41,8 +41,13 @@ type
     cbFileMaskHistory: TCheckBox;
     chkSaveConfiguration: TCheckBox;
     chkSearchReplaceHistory: TCheckBox;
+    edtAppCache: TEdit;
+    edtAppData: TEdit;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
+    gbDirectories: TGroupBox;
+    lblAppData: TLabel;
+    lblAppCache: TLabel;
     lblCmdLineConfigDir: TLabel;
     gbSortOrderConfigurationOption: TRadioGroup;
     rbProgramDir: TRadioButton;
@@ -140,6 +145,9 @@ begin
     rbProgramDir.Checked := True
   else
     rbUserHomeDir.Checked := True;
+
+  edtAppData.Text:= GetAppDataDir;
+  edtAppCache.Text:= GetAppCacheDir;
   chkSaveConfiguration.Checked:= gSaveConfiguration;
   chkSearchReplaceHistory.Checked:= gSaveSearchReplaceHistory;
   cbDirHistory.Checked := gSaveDirHistory;
