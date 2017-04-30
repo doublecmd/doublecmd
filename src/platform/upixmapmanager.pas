@@ -46,10 +46,10 @@ interface
 
 uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, StringHashList,
-  uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD
+  uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils
   {$IF DEFINED(UNIX)}
     {$IF NOT DEFINED(DARWIN)}
-    , contnrs, uDCReadSVG, uGio, uOSUtils
+    , contnrs, uDCReadSVG, uGio
       {$IFDEF LCLGTK2}
       , gtk2
       {$ELSE}
@@ -57,6 +57,9 @@ uses
       {$ENDIF}
     {$ENDIF}
   {$ENDIF};
+
+const
+  DC_THEME_NAME = 'dctheme';
 
 type
   TDriveIconList = record
@@ -715,9 +718,11 @@ begin
 {$ENDIF}
 
   // Create DC theme.
-  SetLength(DirList, 1);
-  DirList[0] := ExcludeTrailingPathDelimiter(gpPixmapPath);
-  FDCIconTheme := TIconTheme.Create('dctheme', DirList);
+  if not gUseConfigInProgramDir then begin
+    AddString(DirList, IncludeTrailingBackslash(GetAppDataDir) + 'pixmaps');
+  end;
+  AddString(DirList, ExcludeTrailingPathDelimiter(gpPixmapPath));
+  FDCIconTheme := TIconTheme.Create(gIconTheme, DirList, DC_THEME_NAME);
 end;
 
 procedure TPixMapManager.DestroyIconTheme;

@@ -375,6 +375,7 @@ var
   gIconsInMenus: Boolean;
   gIconsInMenusSize,
   gIconsInMenusSizeNew: Integer;
+  gIconTheme: String;
 
   { Keys page }
   gKeyTyping: array[TKeyTypingModifier] of TKeyTypingAction;
@@ -1589,6 +1590,7 @@ begin
   gIconsInMenus := False;
   gIconsInMenusSize := 16;
   gIconsInMenusSizeNew := gIconsInMenusSize;
+  gIconTheme := DC_THEME_NAME;
 
   { Ignore list page }
   gIgnoreListFileEnabled := False;
@@ -2498,6 +2500,7 @@ begin
     Node := Root.FindNode('Icons');
     if Assigned(Node) then
     begin
+      gIconTheme := GetValue(Node, 'Theme', gIconTheme);
       gShowIcons := TShowIconsMode(GetValue(Node, 'ShowMode', Integer(gShowIcons)));
       gIconOverlays := GetValue(Node, 'ShowOverlays', gIconOverlays);
       gIconsSize := GetValue(Node, 'Size', gIconsSize);
@@ -3003,6 +3006,7 @@ begin
 
     { Icons page }
     Node := FindNode(Root, 'Icons', True);
+    SetValue(Node, 'Theme', gIconTheme);
     SetValue(Node, 'ShowMode', Integer(gShowIconsNew));
     SetValue(Node, 'ShowOverlays', gIconOverlays);
     SetValue(Node, 'Size', gIconsSizeNew);
