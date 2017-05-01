@@ -1,9 +1,9 @@
 {
     Double Commander
     -------------------------------------------------------------------------
-    Some useful functions for Icon Theme implementation
+    Some useful functions for Unix icon theme implementation
 
-    Copyright (C) 2009-2014  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2017  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uUnixIconTheme;
@@ -27,24 +26,15 @@ unit uUnixIconTheme;
 interface
 
 uses
-  Classes, SysUtils, uIconTheme;
+  Classes, SysUtils, DCBasicTypes, uIconTheme;
 
 const
-  DEFAULT_THEME_NAME: String = 'hicolor';
-  DEFAULT_THEME_KDE4: String = 'default.kde4';
+  DEFAULT_THEME_NAME = 'hicolor';
+  DEFAULT_THEME_KDE4 = 'default.kde4';
 
-type
-
-  { TUnixIconTheme }
-
-  TUnixIconTheme = class(TIconTheme)
-  protected
-    function CreateParentTheme(const sThemeName: String): TIconTheme; override;
-  public
-    constructor Create; reintroduce;
-    constructor Create(sThemeName: String; BaseDirList: array of String); override;
-    function Load: Boolean; override;
-  end;
+function GetCurrentIconTheme: String;
+function GetUnixDefaultTheme: String;
+function GetUnixIconThemeBaseDirList: TDynamicStringArray;
 
 implementation
 
@@ -193,7 +183,18 @@ begin
 end;
 
 var
-  UnixIconThemesBaseDirList: array of String;
+  UnixDefaultTheme: String = DEFAULT_THEME_NAME;
+  UnixIconThemesBaseDirList: TDynamicStringArray;
+
+function GetUnixDefaultTheme: String;
+begin
+  Result:= UnixDefaultTheme;
+end;
+
+function GetUnixIconThemeBaseDirList: TDynamicStringArray;
+begin
+  Result:= UnixIconThemesBaseDirList;
+end;
 
 procedure InitIconThemesBaseDirList;
 var
@@ -215,34 +216,9 @@ begin
   UnixIconThemesBaseDirList[I + 2] := '/usr/local/share/pixmaps';
   UnixIconThemesBaseDirList[I + 3] := '/usr/share/icons';
   UnixIconThemesBaseDirList[I + 4] := '/usr/share/pixmaps';
-end;
-
-{ TUnixIconTheme }
-
-function TUnixIconTheme.CreateParentTheme(const sThemeName: String): TIconTheme;
-begin
-  Result:= TUnixIconTheme.Create(sThemeName, FBaseDirListAtCreate);
-end;
-
-constructor TUnixIconTheme.Create;
-begin
-  inherited Create(GetCurrentIconTheme, UnixIconThemesBaseDirList);
-end;
-
-constructor TUnixIconTheme.Create(sThemeName: String;
-  BaseDirList: array of String);
-begin
-  inherited Create(sThemeName, BaseDirList);
-end;
-
-function TUnixIconTheme.Load: Boolean;
-begin
-  Result:= inherited Load;
-  // add default theme if needed
-  if Result and Assigned(FInherits) then
-  begin
-    LoadParentTheme(DEFAULT_THEME_NAME);
-    if (DesktopEnv = DE_KDE) then LoadParentTheme(DEFAULT_THEME_KDE4);
+  // Default Unix icon theme
+  if (DesktopEnv = DE_KDE) then begin
+    UnixDefaultTheme:= DEFAULT_THEME_KDE4 + PathSep + UnixDefaultTheme;
   end;
 end;
 

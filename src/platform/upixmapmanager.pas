@@ -713,7 +713,9 @@ begin
   gtk_icon_theme_set_custom_theme(FIconTheme, 'oxygen');
   }
   {$ELSE}
-  FIconTheme:= TUnixIconTheme.Create;
+  FIconTheme:= TIconTheme.Create(GetCurrentIconTheme,
+                                 GetUnixIconThemeBaseDirList,
+                                 GetUnixDefaultTheme);
   {$ENDIF}
 {$ENDIF}
 
