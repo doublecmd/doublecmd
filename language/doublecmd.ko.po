@@ -4132,6 +4132,12 @@ msgstr "환경설정 &저장"
 msgid "Searc&h/Replace history"
 msgstr "검&색/바꾸기 히스토리"
 
+#: tfrmoptionsconfiguration.gbdirectories.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
+msgid "Directories"
+msgstr "폴더"
+
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
 msgid "Location of configuration files"
 msgstr "환경설정 파일 위치"
@@ -4147,6 +4153,14 @@ msgstr "왼쪽 트리에 환경설정 명령 정렬"
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "명령 프롬프트에 준비"
+
+#: tfrmoptionsconfiguration.lbliconthemes.caption
+msgid "Icon themes:"
+msgstr ""
+
+#: tfrmoptionsconfiguration.lblthumbcache.caption
+msgid "Thumbnails cache:"
+msgstr ""
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
 msgid "P&rogram directory (portable version)"
@@ -6364,18 +6378,18 @@ msgstr "&오버레이 아이콘 표시(예, 링크)"
 msgid "Disable special icons"
 msgstr "특별 아이콘 사용안함"
 
-#: tfrmoptionsicons.gbiconsinmenus.caption
-msgid "Icons in menus"
-msgstr "메뉴 아이콘"
-
-#: tfrmoptionsicons.gbiconsonbuttons.caption
-msgid "Icons on buttons"
-msgstr ""
-
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
 msgid " Icon size "
 msgstr "아이콘 크기"
+
+#: tfrmoptionsicons.gbicontheme.caption
+msgid "Icon theme"
+msgstr ""
+
+#: tfrmoptionsicons.gbshowicons.caption
+msgid "Show icons"
+msgstr ""
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 #, fuzzy

@@ -4013,6 +4013,12 @@ msgstr "Instellingen opslaan"
 msgid "Searc&h/Replace history"
 msgstr "Geschiedenis van zoeken en vervangen"
 
+#: tfrmoptionsconfiguration.gbdirectories.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
+msgid "Directories"
+msgstr "Mappen"
+
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
 msgid "Location of configuration files"
 msgstr "Locatie van instellingbestanden"
@@ -4028,6 +4034,14 @@ msgstr "Rangschikvolgorde van instellingenvolgorde in linkerboom"
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "Instellen op opdrachtregel"
+
+#: tfrmoptionsconfiguration.lbliconthemes.caption
+msgid "Icon themes:"
+msgstr ""
+
+#: tfrmoptionsconfiguration.lblthumbcache.caption
+msgid "Thumbnails cache:"
+msgstr ""
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
 msgid "P&rogram directory (portable version)"
@@ -6183,17 +6197,17 @@ msgstr "Toon opplakpictogrammen, bijv. voor koppelingen"
 msgid "Disable special icons"
 msgstr "Schakel speciale pictogrammen uit"
 
-#: tfrmoptionsicons.gbiconsinmenus.caption
-msgid "Icons in menus"
-msgstr "Pictogrammen in menu's"
-
-#: tfrmoptionsicons.gbiconsonbuttons.caption
-msgid "Icons on buttons"
-msgstr ""
-
 #: tfrmoptionsicons.gbiconssize.caption
 msgid " Icon size "
 msgstr " Pictogramgrootte "
+
+#: tfrmoptionsicons.gbicontheme.caption
+msgid "Icon theme"
+msgstr ""
+
+#: tfrmoptionsicons.gbshowicons.caption
+msgid "Show icons"
+msgstr ""
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgid " Show icons to the left of the filename "

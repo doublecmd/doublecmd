@@ -4445,6 +4445,11 @@ msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
 msgid "Searc&h/Replace history"
 msgstr ""
 
+#: tfrmoptionsconfiguration.gbdirectories.caption
+msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
+msgid "Directories"
+msgstr ""
+
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.GBLOCCONFIGFILES.CAPTION"
 msgid "Location of configuration files"
@@ -4462,6 +4467,14 @@ msgstr ""
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
 msgid "Set on command line"
+msgstr ""
+
+#: tfrmoptionsconfiguration.lbliconthemes.caption
+msgid "Icon themes:"
+msgstr ""
+
+#: tfrmoptionsconfiguration.lblthumbcache.caption
+msgid "Thumbnails cache:"
 msgstr ""
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
@@ -6857,20 +6870,20 @@ msgstr "显示覆盖图标，比如链接"
 msgid "Disable special icons"
 msgstr ""
 
-#: tfrmoptionsicons.gbiconsinmenus.caption
-msgid "Icons in menus"
-msgstr ""
-
-#: tfrmoptionsicons.gbiconsonbuttons.caption
-msgid "Icons on buttons"
-msgstr ""
-
 #: tfrmoptionsicons.gbiconssize.caption
 #, fuzzy
 #| msgid " Icon &size "
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
 msgid " Icon size "
 msgstr "图标大小(&S)"
+
+#: tfrmoptionsicons.gbicontheme.caption
+msgid "Icon theme"
+msgstr ""
+
+#: tfrmoptionsicons.gbshowicons.caption
+msgid "Show icons"
+msgstr ""
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"

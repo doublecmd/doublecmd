@@ -4543,6 +4543,12 @@ msgctxt "tfrmoptionsconfiguration.chksearchreplacehistory.caption"
 msgid "Searc&h/Replace history"
 msgstr "Históriu hľadania/nahrádzania"
 
+#: tfrmoptionsconfiguration.gbdirectories.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
+msgid "Directories"
+msgstr "Adresáre"
+
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
 msgctxt "tfrmoptionsconfiguration.gblocconfigfiles.caption"
 msgid "Location of configuration files"
@@ -4561,6 +4567,14 @@ msgstr ""
 msgctxt "tfrmoptionsconfiguration.lblcmdlineconfigdir.caption"
 msgid "Set on command line"
 msgstr "Nastaviť v príkazovom riadku"
+
+#: tfrmoptionsconfiguration.lbliconthemes.caption
+msgid "Icon themes:"
+msgstr ""
+
+#: tfrmoptionsconfiguration.lblthumbcache.caption
+msgid "Thumbnails cache:"
+msgstr ""
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
 #, fuzzy
@@ -6954,20 +6968,20 @@ msgstr "Zobraziť prekladané i&kony (pre zástupcov)"
 msgid "Disable special icons"
 msgstr "Zakáž špeciálne ikony"
 
-#: tfrmoptionsicons.gbiconsinmenus.caption
-msgid "Icons in menus"
-msgstr "Ikony v menu"
-
-#: tfrmoptionsicons.gbiconsonbuttons.caption
-msgid "Icons on buttons"
-msgstr ""
-
 #: tfrmoptionsicons.gbiconssize.caption
 #, fuzzy
 #| msgid " Icon &size "
 msgctxt "tfrmoptionsicons.gbiconssize.caption"
 msgid " Icon size "
 msgstr "Veľkosť i&kon"
+
+#: tfrmoptionsicons.gbicontheme.caption
+msgid "Icon theme"
+msgstr ""
+
+#: tfrmoptionsicons.gbshowicons.caption
+msgid "Show icons"
+msgstr ""
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgctxt "tfrmoptionsicons.gbshowiconsmode.caption"

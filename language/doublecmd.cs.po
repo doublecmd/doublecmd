@@ -4007,6 +4007,12 @@ msgstr "Ul&ožit nastavení"
 msgid "Searc&h/Replace history"
 msgstr "Historie hle&dání/nahrazení"
 
+#: tfrmoptionsconfiguration.gbdirectories.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
+msgid "Directories"
+msgstr "Adresáře"
+
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
 msgid "Location of configuration files"
 msgstr "Umístění konfiguračních souborů"
@@ -4022,6 +4028,14 @@ msgstr "Řazení pořadí levého konfiguračního stromu"
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "Nastavit na příkazové řádce"
+
+#: tfrmoptionsconfiguration.lbliconthemes.caption
+msgid "Icon themes:"
+msgstr ""
+
+#: tfrmoptionsconfiguration.lblthumbcache.caption
+msgid "Thumbnails cache:"
+msgstr ""
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
 msgid "P&rogram directory (portable version)"
@@ -6166,17 +6180,17 @@ msgstr "Zobrazit p&řekryvné i&kony, např. pro odkazy"
 msgid "Disable special icons"
 msgstr "Zakázat speciální ikony"
 
-#: tfrmoptionsicons.gbiconsinmenus.caption
-msgid "Icons in menus"
-msgstr "Ikony v nabídkách"
-
-#: tfrmoptionsicons.gbiconsonbuttons.caption
-msgid "Icons on buttons"
-msgstr "Ikony na tlačítkách"
-
 #: tfrmoptionsicons.gbiconssize.caption
 msgid " Icon size "
 msgstr " Velikost ikon "
+
+#: tfrmoptionsicons.gbicontheme.caption
+msgid "Icon theme"
+msgstr ""
+
+#: tfrmoptionsicons.gbshowicons.caption
+msgid "Show icons"
+msgstr ""
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgid " Show icons to the left of the filename "

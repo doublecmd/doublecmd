@@ -4004,6 +4004,12 @@ msgstr "Konfigurację"
 msgid "Searc&h/Replace history"
 msgstr "Historię znajdź/zamień"
 
+#: tfrmoptionsconfiguration.gbdirectories.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
+msgid "Directories"
+msgstr "Katalog"
+
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
 msgid "Location of configuration files"
 msgstr "Położenie plików konfiguracji"
@@ -4019,6 +4025,14 @@ msgstr "Kolejność sortowania porządku konfiguracji w drzewie po lewej"
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "Ustaw w linii komend"
+
+#: tfrmoptionsconfiguration.lbliconthemes.caption
+msgid "Icon themes:"
+msgstr ""
+
+#: tfrmoptionsconfiguration.lblthumbcache.caption
+msgid "Thumbnails cache:"
+msgstr ""
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
 msgid "P&rogram directory (portable version)"
@@ -6160,17 +6174,17 @@ msgstr "Pokazuj ikony nakładkowo (np dla linków symbolicznych)"
 msgid "Disable special icons"
 msgstr "Wyłącz specjalne ikony"
 
-#: tfrmoptionsicons.gbiconsinmenus.caption
-msgid "Icons in menus"
-msgstr "Ikony w menu"
-
-#: tfrmoptionsicons.gbiconsonbuttons.caption
-msgid "Icons on buttons"
-msgstr "Ikony na przyciskach"
-
 #: tfrmoptionsicons.gbiconssize.caption
 msgid " Icon size "
 msgstr " Rozmiar ikon"
+
+#: tfrmoptionsicons.gbicontheme.caption
+msgid "Icon theme"
+msgstr ""
+
+#: tfrmoptionsicons.gbshowicons.caption
+msgid "Show icons"
+msgstr ""
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgid " Show icons to the left of the filename "
