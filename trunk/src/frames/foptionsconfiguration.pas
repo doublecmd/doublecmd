@@ -41,13 +41,13 @@ type
     cbFileMaskHistory: TCheckBox;
     chkSaveConfiguration: TCheckBox;
     chkSearchReplaceHistory: TCheckBox;
-    edtAppCache: TEdit;
-    edtAppData: TEdit;
+    edtThumbCache: TEdit;
+    edtIconThemes: TEdit;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
     gbDirectories: TGroupBox;
-    lblAppData: TLabel;
-    lblAppCache: TLabel;
+    lblIconThemes: TLabel;
+    lblThumbCache: TLabel;
     lblCmdLineConfigDir: TLabel;
     gbSortOrderConfigurationOption: TRadioGroup;
     rbProgramDir: TRadioButton;
@@ -146,8 +146,12 @@ begin
   else
     rbUserHomeDir.Checked := True;
 
-  edtAppData.Text:= GetAppDataDir;
-  edtAppCache.Text:= GetAppCacheDir;
+  edtThumbCache.Text:= gpThumbCacheDir;
+  if not gUseConfigInProgramDir then begin
+    edtIconThemes.Text:= IncludeTrailingBackslash(GetAppDataDir) + 'pixmaps' + PathSep;
+  end;
+  edtIconThemes.Text:= edtIconThemes.Text + ExcludeTrailingPathDelimiter(gpPixmapPath);
+
   chkSaveConfiguration.Checked:= gSaveConfiguration;
   chkSearchReplaceHistory.Checked:= gSaveSearchReplaceHistory;
   cbDirHistory.Checked := gSaveDirHistory;

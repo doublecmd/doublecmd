@@ -187,7 +187,7 @@ end;
 constructor TThumbnailManager.Create(BackColor: TColor);
 begin
   FBackColor:= BackColor;
-  FThumbPath:= gpCacheDir + PathDelim + 'thumbnails';
+  FThumbPath:= gpThumbCacheDir;
   // If directory not exists then create it
   if not mbDirectoryExists(FThumbPath) then mbForceDirectory(FThumbPath);
 end;
@@ -317,7 +317,7 @@ var
   aFileName: String;
   aFileList: TStringList;
 begin
-  aFileList:= FindAllFiles(gpCacheDir + PathDelim + 'thumbnails');
+  aFileList:= FindAllFiles(gpThumbCacheDir);
   for I:= 0 to Pred(aFileList.Count) do
   begin
     if not (ReadFileName(aFileList[I], aFileName) and mbFileExists(aFileName)) then
