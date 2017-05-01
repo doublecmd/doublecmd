@@ -35,18 +35,19 @@ type
 
   TfrmOptionsIcons = class(TOptionsEditor)
     cbDiskIconsSize: TComboBox;
+    cbIconsOnButtons: TCheckBox;
     cbIconsShowOverlay: TCheckBox;
     cbIconsExclude: TCheckBox;
     cbIconsInMenusSize: TComboBox;
     cbIconsInMenus: TCheckBox;
-    cbIconsOnButtons: TCheckBox;
     cbIconsSize: TComboBox;
+    cmbIconTheme: TComboBox;
     edtIconsExcludeDirs: TEdit;
     gbIconsSize: TGroupBox;
     gbShowIconsMode: TGroupBox;
     gbDisableSpecialIcons: TGroupBox;
-    gbIconsInMenus: TGroupBox;
-    gbIconsOnButtons: TGroupBox;
+    gbShowIcons: TGroupBox;
+    gbIconTheme: TGroupBox;
     imgDiskIconExample: TImage;
     imgIconExample: TImage;
     lblDiskPanel: TLabel;
@@ -62,6 +63,8 @@ type
     procedure cbIconsExcludeChange(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
     procedure rbIconsShowNoneChange(Sender: TObject);
+  private
+    procedure FillIconThemes(const Path: String);
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
@@ -75,7 +78,8 @@ implementation
 {$R *.lfm}
 
 uses
-  Forms, Graphics, uPixMapManager, uGlobs, uLng;
+  Forms, Graphics, FileUtil, DCOSUtils, uPixMapManager, uGlobs, uLng, uOSUtils,
+  uGlobsPaths;
 
 { TfrmOptionsIcons }
 
@@ -115,6 +119,20 @@ begin
   gbDisableSpecialIcons.Enabled := not rbIconsShowNone.Checked;
 end;
 
+procedure TfrmOptionsIcons.FillIconThemes(const Path: String);
+var
+  I: Integer;
+  ADirectories: TStringList;
+begin
+  ADirectories:= FindAllDirectories(Path, False);
+  for I:= 0 to ADirectories.Count - 1 do
+  begin
+    if mbFileExists(ADirectories[I] + PathDelim + 'index.theme') then
+      cmbIconTheme.Items.Add(ExtractFileName(ADirectories[I]));
+  end;
+  ADirectories.Free;
+end;
+
 class function TfrmOptionsIcons.GetIconIndex: Integer;
 begin
   Result := 16;
@@ -141,6 +159,11 @@ begin
     AIconSize:= IntToStr(ICON_SIZES[I]) + 'x' + IntToStr(ICON_SIZES[I]);
     cbDiskIconsSize.Items.AddObject(AIconSize, TObject(PtrInt(ICON_SIZES[I])));
   end;
+  TStringList(cmbIconTheme.Items).Duplicates:= dupIgnore;
+  if not gUseConfigInProgramDir then begin
+    FillIconThemes(IncludeTrailingBackslash(GetAppDataDir) + 'pixmaps');
+  end;
+  FillIconThemes(gpPixmapPath);
 end;
 
 procedure TfrmOptionsIcons.Load;
@@ -151,6 +174,7 @@ begin
     sim_all: rbIconsShowAll.Checked:= True;
     sim_all_and_exe: rbIconsShowAllAndExe.Checked := True;
   end;
+  cmbIconTheme.Text:= gIconTheme;
   cbIconsShowOverlay.Checked:= gIconOverlays;
   cbIconsExclude.Checked:= gIconsExclude;
   cbIconsInMenus.Checked := gIconsInMenus;
@@ -224,6 +248,12 @@ begin
   else begin
     if Application.ShowButtonGlyphs <> sbgNever then Include(Result, oesfNeedsRestart);
     Application.ShowButtonGlyphs := sbgNever;
+  end;
+
+  if cmbIconTheme.Text <> gIconTheme then
+  begin
+    gIconTheme:= cmbIconTheme.Text;
+    Include(Result, oesfNeedsRestart);
   end;
 end;
 
