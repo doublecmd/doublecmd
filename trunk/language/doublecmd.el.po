@@ -4106,6 +4106,12 @@ msgstr "Αποθήκευση Ρυθμίσεων"
 msgid "Searc&h/Replace history"
 msgstr "Αναζήτηση/Αντικατάσταση Ιστορικό"
 
+#: tfrmoptionsconfiguration.gbdirectories.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
+msgid "Directories"
+msgstr "Κατάλογοι"
+
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
 msgid "Location of configuration files"
 msgstr "Τοποθεσία των αρχείων επεξεργασίας"
@@ -4121,6 +4127,14 @@ msgstr "Καθορισμός σειράς της σειράς ρύθμισης �
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "Καθορισμός στη γραμμή εντολών"
+
+#: tfrmoptionsconfiguration.lbliconthemes.caption
+msgid "Icon themes:"
+msgstr ""
+
+#: tfrmoptionsconfiguration.lblthumbcache.caption
+msgid "Thumbnails cache:"
+msgstr ""
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
 msgid "P&rogram directory (portable version)"
@@ -6321,18 +6335,18 @@ msgstr "Εμφάνιση εικονιδίων επίστρωσης, π.χ. γι�
 msgid "Disable special icons"
 msgstr "Απενεργοποίηση ειδικών εικονιδίων"
 
-#: tfrmoptionsicons.gbiconsinmenus.caption
-msgid "Icons in menus"
-msgstr "Εικονίδια στα μενού"
-
-#: tfrmoptionsicons.gbiconsonbuttons.caption
-msgid "Icons on buttons"
-msgstr "Εικονίδια στα κουμπιά"
-
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
 msgid " Icon size "
 msgstr "Μέγεθος Εικονοδίου"
+
+#: tfrmoptionsicons.gbicontheme.caption
+msgid "Icon theme"
+msgstr ""
+
+#: tfrmoptionsicons.gbshowicons.caption
+msgid "Show icons"
+msgstr ""
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
