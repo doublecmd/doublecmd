@@ -514,7 +514,7 @@ uses
 const
   //cTextWidth      = 80;  // wrap on 80 chars
   cBinWidth       = 80;
-  cMaxTextWidth   = 65535; // maximum of chars on one line unwrapped text
+  cMaxTextWidth   = 1024; // maximum of chars on one line unwrapped text
   cTabSpaces      = 8;   // tab stop - allow to set in settings
 
   // These strings must be Ascii only.
