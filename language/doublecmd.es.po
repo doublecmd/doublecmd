@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2017-03-26 12:00+0200\n"
+"PO-Revision-Date: 2017-05-02 12:00+0200\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -3956,7 +3956,7 @@ msgstr "Ajustar &texto al ancho de columna"
 
 #: tfrmoptionscolumnsview.cbextendcellwidth.caption
 msgid "&Extend cell width if text is not fitting into column"
-msgstr ""
+msgstr "Am&pliar el ancho de la celda si el texto no se ajusta a la columna"
 
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgid "&Horizontal lines"
@@ -4013,7 +4013,6 @@ msgid "Searc&h/Replace history"
 msgstr "&Historial de buscar/reemplazar"
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
-#, fuzzy
 msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
 msgid "Directories"
 msgstr "Carpetas"
@@ -4036,11 +4035,11 @@ msgstr "Fijar en la línea de comandos"
 
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
-msgstr ""
+msgstr "Temas de iconos:"
 
 #: tfrmoptionsconfiguration.lblthumbcache.caption
 msgid "Thumbnails cache:"
-msgstr ""
+msgstr "Caché de miniaturas:"
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
 msgid "P&rogram directory (portable version)"
@@ -6191,11 +6190,11 @@ msgstr " Tamaño de los iconos "
 
 #: tfrmoptionsicons.gbicontheme.caption
 msgid "Icon theme"
-msgstr ""
+msgstr "Tema de icono"
 
 #: tfrmoptionsicons.gbshowicons.caption
 msgid "Show icons"
-msgstr ""
+msgstr "Mostrar iconos"
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgid " Show icons to the left of the filename "
