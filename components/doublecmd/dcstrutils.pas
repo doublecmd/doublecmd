@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Useful functions dealing with strings.
    
-   Copyright (C) 2006-2016  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2017  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -17,8 +17,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit DCStrUtils;
@@ -208,6 +207,12 @@ function scopy(IndexBegin,IndexEnd:integer;str:string):string;
    @param(e Extension)
 }
 procedure DivFileName(const sFileName:String; out n,e:String);
+{en
+   Split ';' separated path list to array
+   @param(Path Path list to split)
+   @returns(Path array)
+}
+function SplitPath(const Path: String): TStringArray;
 {en
    Split file mask on name mask and extension mask
    @param(DestMask File mask)
@@ -687,6 +692,29 @@ begin
     end;
   e:='';
   n:=sFileName;
+end;
+
+function SplitPath(const Path: String): TStringArray;
+const
+  cDelta = {$IF DEFINED(UNIX)}1{$ELSE}2{$ENDIF};
+  cDelimiter = {$IF DEFINED(UNIX)}'/'{$ELSE}':'{$ENDIF};
+var
+  L, F: Integer;
+  S: Integer = 1;
+begin
+  L:= Length(Path);
+  for F:= 1 to L - cDelta do
+  begin
+    if (Path[F] = ';') and (Path[F + cDelta] = cDelimiter) then
+    begin
+      AddString(Result, Copy(Path, S, F - S));
+      S:= F + 1;
+    end;
+  end;
+  if S <= L then
+  begin
+    AddString(Result, Copy(Path, S, L - S + 1));
+  end;
 end;
 
 procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
