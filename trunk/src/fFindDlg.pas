@@ -1352,7 +1352,7 @@ end;
 { TfrmFindDlg.cm_Start }
 procedure TfrmFindDlg.cm_Start(const Params: array of string);
 var
-  sTemp, sPath: string;
+  sPath: String;
   sr: TDsxSearchRecord;
   SearchTemplate, TmpTemplate: TSearchTemplateRec;
   PassedSelectedFiles: TStringList = nil;
@@ -1361,15 +1361,17 @@ begin
   Self.Repaint;
   Application.ProcessMessages;
 
-  sTemp := cmbFindPathStart.Text;
-  repeat
-    sPath := Copy2SymbDel(sTemp, ';');
+  if (cmbFindPathStart.Text = '') then begin
+    cmbFindPathStart.Text:= mbGetCurrentDir;
+  end;
+  for sPath in SplitPath(cmbFindPathStart.Text) do
+  begin
     if not mbDirectoryExists(sPath) then
     begin
       ShowMessage(Format(rsFindDirNoEx, [sPath]));
       Exit;
     end;
-  until sTemp = EmptyStr;
+  end;
 
   SaveHistory;
   FAtLeastOneSearchWasDone := True;
