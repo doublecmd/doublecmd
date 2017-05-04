@@ -212,7 +212,7 @@ procedure DivFileName(const sFileName:String; out n,e:String);
    @param(Path Path list to split)
    @returns(Path array)
 }
-function SplitPath(const Path: String): TStringArray;
+function SplitPath(const Path: String): TDynamicStringArray;
 {en
    Split file mask on name mask and extension mask
    @param(DestMask File mask)
@@ -694,7 +694,7 @@ begin
   n:=sFileName;
 end;
 
-function SplitPath(const Path: String): TStringArray;
+function SplitPath(const Path: String): TDynamicStringArray;
 const
   cDelta = {$IF DEFINED(UNIX)}1{$ELSE}2{$ENDIF};
   cDelimiter = {$IF DEFINED(UNIX)}'/'{$ELSE}':'{$ENDIF};
