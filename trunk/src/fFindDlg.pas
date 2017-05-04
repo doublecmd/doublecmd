@@ -478,6 +478,7 @@ begin
     with AfrmFindDlgInstance do
     begin
       // Prepare window for search files
+      LoadHistory;
       ClearFilter;
       // SetWindowCaption(wcs_NewSearch);
       cmbFindPathStart.Text := FileView.CurrentPath;
@@ -522,6 +523,7 @@ begin
     with AForm do
     begin
       // Prepare window for define search template
+      LoadHistory;
       Caption := rsFindDefineTemplate;
       DisableControlsForTemplate;
       btnSaveTemplate.Visible := True;
@@ -559,6 +561,7 @@ begin
     with AForm do
     begin
       // Prepare window for define search template
+      LoadHistory;
       Caption := rsFindDefineTemplate;
       DisableControlsForTemplate;
       btnUseTemplate.Visible := True;
@@ -1815,7 +1818,6 @@ begin
   if cmbFindFileMask.Visible then
     cmbFindFileMask.SelectAll;
 
-  LoadHistory;
   cbPartialNameSearch.Checked := gPartialNameSearch;
   lsFoundedFiles.Canvas.Font := lsFoundedFiles.Font;
 
