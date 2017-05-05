@@ -2090,6 +2090,9 @@ begin
       else
         begin
           msgOK(Format(rsViewNotFound, ['"' + sSearchTextU + '"']));
+          if (ViewerControl.Selection <> sSearchTextU) then begin
+            ViewerControl.SelectText(0, 0);
+          end;
           FLastSearchPos := -1;
         end;
     end;
