@@ -2683,14 +2683,25 @@ begin
 end;
 
 function TViewerControl.Selection: String;
+const
+  MAX_LEN = 1024;
 var
   sText: String;
   ALength: PtrInt;
+  InvalidCharLen: Integer;
 begin
   if (FBlockEnd - FBlockBeg) <= 0 then
     Exit(EmptyStr);
   ALength:= FBlockEnd - FBlockBeg;
-  if ALength > 256 then ALength:= 256;
+  if ALength > MAX_LEN then
+  begin
+    ALength:= MAX_LEN;
+    if FEncoding in [veUtf8, veUtf8bom] then
+    begin
+      SafeUTF8PrevCharLen(GetDataAdr + FBlockBeg + ALength, 8, InvalidCharLen);
+      Dec(ALength, InvalidCharLen);
+    end;
+  end;
   SetString(sText, GetDataAdr + FBlockBeg, ALength);
   Result := ConvertToUTF8(sText);
 end;
