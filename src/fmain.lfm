@@ -52,6 +52,7 @@ object frmMain: TfrmMain
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 0
+    Visible = False
   end
   object TreeSplitter: TSplitter
     Left = 121
@@ -435,6 +436,7 @@ object frmMain: TfrmMain
     AutoSize = True
     BevelOuter = bvNone
     TabOrder = 2
+    Visible = False
   end
   object ConsoleSplitter: TSplitter
     Cursor = crVSplit
