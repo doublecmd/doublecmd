@@ -2684,26 +2684,34 @@ end;
 
 function TViewerControl.Selection: String;
 const
-  MAX_LEN = 1024;
+  MAX_LEN = 512;
 var
   sText: String;
+  AIndex: PtrInt;
   ALength: PtrInt;
-  InvalidCharLen: Integer;
+  CharLenInBytes: Integer;
 begin
   if (FBlockEnd - FBlockBeg) <= 0 then
     Exit(EmptyStr);
   ALength:= FBlockEnd - FBlockBeg;
-  if ALength > MAX_LEN then
+  if ALength <= MAX_LEN then
   begin
-    ALength:= MAX_LEN;
-    if FEncoding in [veUtf8, veUtf8bom] then
+    SetString(sText, GetDataAdr + FBlockBeg, ALength);
+    Result := ConvertToUTF8(sText);
+  end
+  else begin
+    Result:= EmptyStr;
+    AIndex:= FBlockBeg;
+    ALength:= AIndex + MAX_LEN;
+    while AIndex < ALength do
     begin
-      SafeUTF8PrevCharLen(GetDataAdr + FBlockBeg + ALength, 8, InvalidCharLen);
-      Dec(ALength, InvalidCharLen);
+      sText := GetNextCharAsUtf8(AIndex, CharLenInBytes);
+      if CharLenInBytes = 0 then
+        Break;
+      Result:= Result + sText;
+      AIndex:= AIndex + CharLenInBytes;
     end;
   end;
-  SetString(sText, GetDataAdr + FBlockBeg, ALength);
-  Result := ConvertToUTF8(sText);
 end;
 
 function TViewerControl.GetNextCharAsAscii(const iPosition: PtrInt; out CharLenInBytes: Integer): Cardinal;
