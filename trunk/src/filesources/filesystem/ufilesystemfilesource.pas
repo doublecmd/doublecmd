@@ -132,6 +132,9 @@ uses
   {$IFDEF DARWIN}
   uMyDarwin,
   {$ENDIF}
+  {$IFDEF LINUX}
+  statx,
+  {$ENDIF}
 {$ENDIF}
   uFileSystemListOperation,
   uFileSystemCopyOperation,
@@ -430,6 +433,9 @@ var
   sFullPath: String;
   Attrs: TFileAttrs;
   AProps: TFilePropertiesTypes;
+{$IF DEFINED(LINUX)}
+  StatXInfo: TStatX;
+{$ENDIF}
 {$IF DEFINED(UNIX)}
   StatInfo, LinkInfo: BaseUnix.Stat; //buffer for stat info
 {$ELSEIF DEFINED(MSWINDOWS)}
@@ -606,6 +612,20 @@ begin
       {$ENDIF}
     end;
 
+    {$IF DEFINED(LINUX)}
+    if fpCreationTime in PropertiesToSet then
+    begin
+      if HasStatX and (fpstatx(0, sFullPath, 0, STATX_BTIME, @StatXInfo) >= 0) then
+      begin
+        if (StatXInfo.stx_mask and STATX_BTIME <> 0) and (StatXInfo.stx_btime.tv_sec > 0) then
+        begin
+          CreationTimeProperty := TFileCreationDateTimeProperty.Create(
+                                       FileTimeToDateTime(DCBasicTypes.TFileTime(StatXInfo.stx_btime.tv_sec)));
+        end;
+      end;
+    end;
+    {$ENDIF}
+
 {$ELSE}
 
     if FindFirstEx(sFullPath, 0, SearchRec) = -1 then
@@ -781,6 +801,9 @@ begin
              , fpCompressedSize
              {$ENDIF}
              ];
+{$IF DEFINED(LINUX)}
+  if HasStatX then Result += [fpCreationTime];
+{$ENDIF}
 end;
 
 function TFileSystemFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
