@@ -11050,10 +11050,18 @@ msgstr "選択した＜%s＞を完全削除（抹殺）しますか？"
 msgid "with"
 msgstr "with"
 
+#: ulng.rsmulrenautorename
+msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
+msgstr ""
+
 # 文脈不明
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "変更無し;大文字;小文字;最初だけ大文字;各単語の頭を大文字"
+
+#: ulng.rsmulrenwarningduplicate
+msgid "Warning, duplicate names!"
+msgstr ""
 
 #: ulng.rsmulrenwronglinesnumber
 msgid "File contains wrong number of lines: %d, should be %d!"

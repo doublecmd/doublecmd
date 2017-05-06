@@ -10772,9 +10772,17 @@ msgstr "¿Quieres destruir «%s»?"
 msgid "with"
 msgstr "con"
 
+#: ulng.rsmulrenautorename
+msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
+msgstr ""
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Sin cambios;MAYÚSCULAS;minúsculas;Primera letra en mayúscula;Primera Letra De Cada Palabra En Mayúsculas"
+
+#: ulng.rsmulrenwarningduplicate
+msgid "Warning, duplicate names!"
+msgstr ""
 
 #: ulng.rsmulrenwronglinesnumber
 msgid "File contains wrong number of lines: %d, should be %d!"

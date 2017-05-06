@@ -11155,9 +11155,17 @@ msgstr "선택된 \"%s\" 완전 삭제(휴지통X)할까요?"
 msgid "with"
 msgstr "함께"
 
+#: ulng.rsmulrenautorename
+msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
+msgstr ""
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "변화없음;대문자;소문자;첫번째 문자 대문자;모든 단어의 첫번째는 대문자;"
+
+#: ulng.rsmulrenwarningduplicate
+msgid "Warning, duplicate names!"
+msgstr ""
 
 #: ulng.rsmulrenwronglinesnumber
 msgid "File contains wrong number of lines: %d, should be %d!"

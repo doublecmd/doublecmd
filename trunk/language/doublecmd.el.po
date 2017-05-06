@@ -11030,9 +11030,17 @@ msgstr "Ασφαλής Διαγραφή επιλεγμένων \"%s\";"
 msgid "with"
 msgstr "με"
 
+#: ulng.rsmulrenautorename
+msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
+msgstr ""
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Χωρίς αλλαγή;ΚΕΦΑΛΑΙΟ;μικρό;Πρώτο γράμμα κεφαλαίο;Πρώτο Γράμμα κάθε Λέξης Κεφαλαίο;"
+
+#: ulng.rsmulrenwarningduplicate
+msgid "Warning, duplicate names!"
+msgstr ""
 
 #: ulng.rsmulrenwronglinesnumber
 msgid "File contains wrong number of lines: %d, should be %d!"
