@@ -175,6 +175,7 @@ type
     FFileSource: IFileSource;
     FFiles: TFiles;
     FPresets: TStringHashList; // of PMultiRenamePreset
+    FNewNames: TStringHashList;
     FSourceRow: Integer;
     FMoveRow : Boolean;
     FNames: TStringList;
@@ -239,7 +240,7 @@ uses
   uDebug, uLng, uGlobs, uFileProcs, DCOSUtils, DCStrUtils,
   fSelectTextRange, uShowMsg, uFileSourceUtil, uFileFunctions,
   dmCommonData, fMultiRenameWait, uOSUtils, uFileSourceOperation,
-  uOperationsManager;
+  uOperationsManager, Dialogs;
 
 const
   sPresetsSection = 'MultiRenamePresets';
@@ -261,6 +262,7 @@ constructor TfrmMultiRename.Create(TheOwner: TComponent; aFileSource: IFileSourc
 begin
   FNames := TStringList.Create;
   FPresets := TStringHashList.Create(False);
+  FNewNames:= TStringHashList.Create(FileNameCaseSensitive);
   FFileSource := aFileSource;
   FFiles := aFiles;
   aFiles := nil;
@@ -274,6 +276,7 @@ begin
   inherited Destroy;
   ClearPresetsList;
   FreeAndNil(FPresets);
+  FreeAndNil(FNewNames);
   FreeAndNil(FFiles);
   FreeAndNil(FNames);
 end;
@@ -978,9 +981,11 @@ end;
 
 procedure TfrmMultiRename.RenameFiles;
 var
-  I: Integer;
   AFile: TFile;
+  NewName: String;
+  I, J, K: Integer;
   OldFiles, NewFiles: TFiles;
+  AutoRename: Boolean = False;
   Operation: TFileSourceOperation;
   theNewProperties: TFileProperties;
 begin
@@ -996,10 +1001,34 @@ begin
   NewFiles:= TFiles.Create(EmptyStr);
 
   try
+    FNewNames.Clear;
     for I:= 0 to FFiles.Count - 1 do
     begin
       AFile:= TFile.Create(EmptyStr);
       AFile.Name:= FreshText(I);
+      // Checking duplicates
+      NewName:= FFiles[I].Path + AFile.Name;
+      J:= FNewNames.Find(NewName);
+      if J < 0 then
+        FNewNames.Add(NewName)
+      else begin
+        if not AutoRename then
+        begin
+          if MessageDlg(rsMulRenWarningDuplicate + LineEnding +
+                     NewName + LineEnding + LineEnding + rsMulRenAutoRename,
+                     mtWarning, [mbYes, mbAbort], 0, mbAbort) <> mrYes then Exit;
+          AutoRename:= True;
+        end;
+        K:= 1;
+        while J >= 0 do
+        begin
+          NewName:= FFiles[I].Path + AFile.NameNoExt + ' (' + IntToStr(K) + ')' + ExtensionSeparator + AFile.Extension;
+          J:= FNewNames.Find(NewName);
+          Inc(K);
+        end;
+        FNewNames.Add(NewName);
+        AFile.Name:= ExtractFileName(NewName);
+      end;
       NewFiles.Add(AFile);
     end;
     FillChar({%H-}theNewProperties, SizeOf(TFileProperties), 0);
