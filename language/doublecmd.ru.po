@@ -11066,9 +11066,18 @@ msgstr "Стереть выбранный \"%s\"?"
 msgid "with"
 msgstr "с"
 
+#: ulng.rsmulrenautorename
+#| msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc?"
+msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
+msgstr "Переименовывать автоматически в \"name (1).ext\", \"name (2).ext\" и т.д.?"
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С прописной;Каждое Слово С Прописной;"
+
+#: ulng.rsmulrenwarningduplicate
+msgid "Warning, duplicate names!"
+msgstr "Внимание, одинаковые имена!"
 
 #: ulng.rsmulrenwronglinesnumber
 msgid "File contains wrong number of lines: %d, should be %d!"
