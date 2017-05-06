@@ -942,10 +942,12 @@ function mbDeleteFile(const FileName: String): Boolean;
 {$IFDEF MSWINDOWS}
 begin
   Result:= Windows.DeleteFileW(PWideChar(UTF16LongName(FileName)));
+  if not Result then Result:= (GetLastError = ERROR_FILE_NOT_FOUND);
 end;
 {$ELSE}
 begin
   Result:= fpUnLink(UTF8ToSys(FileName)) = 0;
+  if not Result then Result:= (fpgetErrNo = ESysENOENT);
 end;
 {$ENDIF}
 
@@ -1178,10 +1180,12 @@ function mbRemoveDir(const Dir: String): Boolean;
 {$IFDEF MSWINDOWS}
 begin
   Result:= RemoveDirectoryW(PWideChar(UTF16LongName(Dir)));
+  if not Result then Result:= (GetLastError = ERROR_FILE_NOT_FOUND);
 end;
 {$ELSE}
 begin
   Result:= fpRmDir(UTF8ToSys(Dir)) = 0;
+  if not Result then Result:= (fpgetErrNo = ESysENOENT);
 end;
 {$ENDIF}
 

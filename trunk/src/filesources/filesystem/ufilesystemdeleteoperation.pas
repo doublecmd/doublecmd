@@ -219,6 +219,9 @@ begin
     begin
       // Delete to trash (one function for file and folder)
       DeleteResult:= FileTrashUtf8(FileName);
+      if not DeleteResult then begin
+        DeleteResult:= not mbFileSystemEntryExists(FileName);
+      end;
       if not DeleteResult then
         begin
           case FDeleteDirectly of
