@@ -88,7 +88,7 @@ object frmMaskInputDlg: TfrmMaskInputDlg
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Side = asrBottom
+    AnchorSideBottom.Control = btnOK
     Left = 10
     Height = 116
     Top = 140
@@ -104,10 +104,9 @@ object frmMaskInputDlg: TfrmMaskInputDlg
     TabOrder = 6
   end
   object btnDefineTemplate: TBitBtn
-    AnchorSideTop.Control = lbxSearchTemplate
-    AnchorSideTop.Side = asrBottom
+    AnchorSideTop.Control = btnOK
     AnchorSideRight.Control = btnOK
-    AnchorSideBottom.Control = btnCancel
+    AnchorSideBottom.Control = btnOK
     AnchorSideBottom.Side = asrBottom
     Left = 9
     Height = 30
@@ -115,7 +114,6 @@ object frmMaskInputDlg: TfrmMaskInputDlg
     Width = 100
     Anchors = [akTop, akRight, akBottom]
     AutoSize = True
-    BorderSpacing.Top = 6
     BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 2
     Caption = '&Define...'
@@ -125,14 +123,14 @@ object frmMaskInputDlg: TfrmMaskInputDlg
   end
   object btnOK: TBitBtn
     AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = lbxSearchTemplate
-    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnCancel
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
     Left = 115
     Height = 30
     Top = 262
     Width = 100
-    Anchors = [akTop, akRight]
+    Anchors = [akRight, akBottom]
     AutoSize = True
     BorderSpacing.Top = 6
     BorderSpacing.Right = 6
@@ -145,15 +143,15 @@ object frmMaskInputDlg: TfrmMaskInputDlg
     TabOrder = 8
   end
   object btnCancel: TBitBtn
-    AnchorSideTop.Control = lbxSearchTemplate
-    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = lbxSearchTemplate
     AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
     Left = 221
     Height = 30
     Top = 262
     Width = 100
-    Anchors = [akTop, akRight]
+    Anchors = [akRight, akBottom]
     AutoSize = True
     BorderSpacing.Top = 6
     BorderSpacing.InnerBorder = 2
