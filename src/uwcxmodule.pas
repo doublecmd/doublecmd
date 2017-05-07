@@ -399,7 +399,7 @@ begin
       with PackDefaultParamStruct do
         begin
           Size := SizeOf(PackDefaultParamStruct);
-          PluginInterfaceVersionLow := 10;
+          PluginInterfaceVersionLow := 22;
           PluginInterfaceVersionHi := 2;
           DefaultIniName := mbFileNameToSysEnc(gpCfgDir + WcxIniFileName);
         end;
