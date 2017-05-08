@@ -4,7 +4,7 @@
    Extended ComboBox classes
 
    Copyright (C) 2012 Przemyslaw Nagay (cobines@gmail.com)
-   Copyright (C) 2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -17,9 +17,7 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   in a file called COPYING along with this program; if not, write to
-   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA
-   02139, USA.
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit KASComboBox;
@@ -29,7 +27,8 @@ unit KASComboBox;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls;
+  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  LCLVersion;
 
 type
 
@@ -51,6 +50,10 @@ type
                          var PreferredWidth, PreferredHeight: Integer;
                          WithThemeSpace: Boolean); override;
     procedure CalculateSize(MaxWidth: Integer; var NeededWidth: Integer);
+    {$if lcl_fullversion >= 1070000}
+    procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                const AXProportion, AYProportion: Double); override;
+    {$endif}
   end;
 
 procedure Register;
@@ -149,5 +152,14 @@ begin
     ReleaseDC(Parent.Handle, DC);
   end;
 end;
+
+{$if lcl_fullversion >= 1070000}
+procedure TComboBoxAutoWidth.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+  const AXProportion, AYProportion: Double);
+begin
+  // Don't auto adjust horizontal layout
+  inherited DoAutoAdjustLayout(AMode, 1.0, AYProportion);
+end;
+{$endif}
 
 end.
