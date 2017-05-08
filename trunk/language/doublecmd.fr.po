@@ -8782,6 +8782,10 @@ msgstr "A propos de la visionneuse"
 msgid "Displays the About message"
 msgstr "Affiche le message d'À propos"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"

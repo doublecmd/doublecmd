@@ -8965,6 +8965,10 @@ msgstr "Про переглядач..."
 msgid "Displays the About message"
 msgstr "Відображає інформаційне повідомлення"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"

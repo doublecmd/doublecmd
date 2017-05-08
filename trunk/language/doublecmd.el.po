@@ -8712,6 +8712,10 @@ msgstr "Σχετικά με τον Προβολέα..."
 msgid "Displays the About message"
 msgstr "Εμφανίζει το \"Σχετικά\" μήνυμα"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"

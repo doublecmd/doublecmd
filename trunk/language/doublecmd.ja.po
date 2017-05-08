@@ -8712,6 +8712,10 @@ msgstr "ビューアについて…"
 msgid "Displays the About message"
 msgstr "「この製品について」メッセージを表示"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"

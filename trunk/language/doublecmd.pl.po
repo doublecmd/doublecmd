@@ -8460,6 +8460,10 @@ msgstr "O listerze..."
 msgid "Displays the About message"
 msgstr "Wyświetla komunikat \"O...\""
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"

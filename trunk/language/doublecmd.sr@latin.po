@@ -8916,6 +8916,10 @@ msgstr "O pregledniku..."
 msgid "Displays the About message"
 msgstr "Prikazuje poruku o programu"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"

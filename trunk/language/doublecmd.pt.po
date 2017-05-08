@@ -8795,6 +8795,10 @@ msgstr "Acerca do visualizador..."
 msgid "Displays the About message"
 msgstr "Mostra a mensagem Sobre"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"
