@@ -494,9 +494,12 @@ begin
     dgPanel.LeftCol:= dgPanel.Col;
     ATop := dgPanel.CellRect(dgPanel.Col, dgPanel.Row).Top - 2;
     ALeft := dgPanel.CellRect(dgPanel.Col, dgPanel.Row).Left;
+    AWidth := dgPanel.ColWidths[dgPanel.Col];
     if gShowIcons <> sim_none then
+    begin
       Inc(ALeft, gIconsSize + 2);
-    AWidth := dgPanel.ColWidths[dgPanel.Col] - ALeft;
+      Dec(AWidth, gIconsSize + 2);
+    end;
     AHeight := dgPanel.RowHeights[dgPanel.Row] + 4;
 
     edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
