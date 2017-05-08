@@ -247,6 +247,8 @@ begin
 
   edtDst.SelectAll;
   edtDst.SetFocus;
+
+  btnCreateSpecialQueue.Left:= btnAddToQueue.BoundsRect.Right;
 end;
 
 procedure TfrmCopyDlg.mnuNewQueueClick(Sender: TObject);
