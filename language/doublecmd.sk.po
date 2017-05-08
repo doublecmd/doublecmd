@@ -9603,6 +9603,10 @@ msgstr "O prezerači..."
 msgid "Displays the About message"
 msgstr "Zobraziť About správu"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "tfrmviewer.actcopyfile.caption"
 msgid "Copy File"

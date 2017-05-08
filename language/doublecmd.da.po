@@ -9000,6 +9000,10 @@ msgstr "Om fremviseren..."
 msgid "Displays the About message"
 msgstr "Vis \"Om\" dialogen"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "tfrmviewer.actcopyfile.caption"
 msgid "Copy File"

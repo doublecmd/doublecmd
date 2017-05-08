@@ -9563,6 +9563,10 @@ msgstr "За прегледа..."
 msgid "Displays the About message"
 msgstr ""
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"

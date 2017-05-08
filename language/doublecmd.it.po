@@ -8883,6 +8883,10 @@ msgstr "Info visualizzatore..."
 msgid "Displays the About message"
 msgstr "Mostra il messagio Info"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"

@@ -9541,6 +9541,10 @@ msgstr "關於檢視器..."
 msgid "Displays the About message"
 msgstr "顯示關於訊息"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"

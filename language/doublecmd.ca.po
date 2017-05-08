@@ -9533,6 +9533,10 @@ msgstr "Quant al Visualitzador..."
 msgid "Displays the About message"
 msgstr "Mostra el missatge Quant a"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "tfrmviewer.actcopyfile.caption"
 msgid "Copy File"

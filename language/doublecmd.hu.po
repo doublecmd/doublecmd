@@ -8790,6 +8790,10 @@ msgstr "Nézőke névjegye..."
 msgid "Displays the About message"
 msgstr "A névjegy megjelenítése"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"

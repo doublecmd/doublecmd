@@ -8717,6 +8717,10 @@ msgstr "Über den Be&trachter..."
 msgid "Displays the About message"
 msgstr "Zeigt den 'Über'-Dialog"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"

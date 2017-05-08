@@ -9115,6 +9115,10 @@ msgstr "Görüntüleyici Hakkında"
 msgid "Displays the About message"
 msgstr ""
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "tfrmviewer.actcopyfile.caption"
 msgid "Copy File"

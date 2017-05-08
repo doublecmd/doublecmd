@@ -8480,6 +8480,10 @@ msgstr "Over Kijker..."
 msgid "Displays the About message"
 msgstr "Toont het Over-bericht"
 
+#: tfrmviewer.actchangeencoding.caption
+msgid "Change encoding"
+msgstr ""
+
 #: tfrmviewer.actcopyfile.caption
 msgctxt "tfrmviewer.actcopyfile.caption"
 msgid "Copy File"
