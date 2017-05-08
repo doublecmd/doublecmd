@@ -1320,7 +1320,7 @@ begin
   // Don't execute hotkeys that coincide with key typing actions.
   if (TextShortcut <> '') and
      ((FSequenceStep > 0) or
-     (not (((GetKeyTypingAction(ShiftEx) <> ktaNone)
+     (not ((((GetKeyTypingAction(ShiftEx) <> ktaNone) and (HMForm.Name = 'Main'))
 {$IFDEF MSWINDOWS}
       // Don't execute hotkeys with Ctrl+Alt = AltGr on Windows.
       or (HasKeyboardAltGrKey and
