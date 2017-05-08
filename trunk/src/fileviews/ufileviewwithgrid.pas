@@ -449,7 +449,7 @@ begin
   DoubleBuffered := True;
   Align := alClient;
   MouseWheelOption:= mwGrid;
-  Options := [goTabs, goThumbTracking, goSmoothScroll];
+  Options := [goTabs, goThumbTracking];
   TabStop := False;
 
   UpdateView;
