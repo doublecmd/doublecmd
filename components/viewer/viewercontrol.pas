@@ -130,6 +130,7 @@ type
                      veUtf8,
                      veUtf8bom,
                      veAnsi,
+                     veOem,
                      veCp1250,
                      veCp1251,
                      veCp1252,
@@ -165,7 +166,8 @@ const
                    ('Auto-detect',
                     'UTF-8',
                     'UTF-8BOM',
-                    'Ansi',
+                    'ANSI',
+                    'OEM',
                     'CP1250',
                     'CP1251',
                     'CP1252',
@@ -503,7 +505,7 @@ implementation
 
 uses
   LCLType, LCLVersion, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
-  DCUnicodeUtils, LCLIntf, LazUTF8, DCOSUtils
+  DCUnicodeUtils, LCLIntf, LazUTF8, DCOSUtils , DCConvertEncoding
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix
   {$ELSEIF DEFINED(WINDOWS)}
@@ -2740,7 +2742,7 @@ begin
           CharLenInBytes := 0;
       end;
 
-    veAnsi,
+    veAnsi, veOem,
     veCp1250..veCp950,
     veIso88591,
     veIso88592,
@@ -2862,7 +2864,7 @@ begin
           CharLenInBytes := 0;
       end;
 
-    veAnsi,
+    veAnsi, veOem,
     veCp1250..veCp950,
     veIso88591,
     veIso88592,
@@ -2970,7 +2972,7 @@ begin
       CharLenInBytes := SafeUTF8NextCharLen(GetDataAdr + iPosition,
                                             FHighLimit - iPosition,
                                             InvalidCharLen);
-    veAnsi,
+    veAnsi, veOem,
     veCp1250..veCp950,
     veIso88591,
     veIso88592,
@@ -3016,6 +3018,10 @@ begin
 
   case FEncoding of
     veAutoDetect: ;
+    veAnsi:
+      Result := CeAnsiToUtf8(sText);
+    veOem:
+      Result := CeOemToUtf8(sText);
     veUtf8, veUtf8bom:
       Result := Utf8ReplaceBroken(sText);
     veUtf16be:
@@ -3039,6 +3045,10 @@ begin
 
   case FEncoding of
     veAutoDetect: ;
+    veAnsi:
+      Result := CeUtf8ToAnsi(sText);
+    veOem:
+      Result := CeUtf8ToOem(sText);
     veUtf8, veUtf8bom:
       Result := sText;
     veUtf16be:
@@ -3368,7 +3378,7 @@ procedure TViewerControl.UpdateSelection;
           end;
         end;
 
-      veAnsi,
+      veAnsi, veOem,
       veCp1250..veCp950,
       veIso88591,
       veIso88592,
