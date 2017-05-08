@@ -957,9 +957,9 @@ end;
 
 function TViewerControl.DecToValueProc(AChar:AnsiChar;AMaxDigitsCount:integer):AnsiString;
 begin
-  Result:=IntToStr(ord(AChar));
-  while length(Result)<AMaxDigitsCount do
-        Result:=' '+Result;
+  Result:= IntToStr(Ord(AChar));
+  while Length(Result) < AMaxDigitsCount do
+    Result:= '0' + Result;
 end;
 
 function TViewerControl.HexToValueProc(AChar:AnsiChar;AMaxDigitsCount:integer):AnsiString;
