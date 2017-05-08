@@ -103,9 +103,11 @@ var
 implementation
 
 uses
-  IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs, LazFileUtils, LazUTF8;
+  IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs, LazFileUtils,
+  LazUTF8, DCClassesUtf8;
 
 var
+  DefaultIniName: String;
   ActiveConnectionList, ConnectionList: TStringList;
   IniFile: TIniFile;
   HasDialogAPI: Boolean = False;
@@ -186,6 +188,7 @@ begin
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'FullSSL', Connection.FullSSL);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'InitCommands', Connection.InitCommands);
   end;
+  IniFile.UpdateFile;
 end;
 
 procedure FreeConnectionList;
@@ -918,9 +921,7 @@ procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); dcpcall;
 begin
   ConnectionList := TStringList.Create;
   ActiveConnectionList := TStringList.Create;
-  IniFile := TIniFile.Create(dps.DefaultIniName);
-  // IniFile.WriteDateTime('FTP', 'Test', Now);
-  ReadConnectionList;
+  DefaultIniName:= ExtractFileName(dps.DefaultIniName);
 end;
 
 {
@@ -1012,6 +1013,11 @@ end;
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo);
 begin
   gStartupInfo:= StartupInfo^;
+
+  DefaultIniName:= gStartupInfo.PluginConfDir + DefaultIniName;
+  IniFile := TIniFileEx.Create(DefaultIniName, fmOpenReadWrite);
+
+  ReadConnectionList;
 
   HasDialogAPI:= True;
 end;
