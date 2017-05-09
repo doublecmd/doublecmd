@@ -748,7 +748,12 @@ begin
     begin
       if RemainingTime > 0 then
         begin
-          sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
+          // Normal view, less than 24 hours of estimated time
+          if RemainingTime < 1.0 then
+            sEstimated := FormatDateTime('HH:MM:SS', RemainingTime)
+          else begin
+            sEstimated := IntToStr(Trunc(RemainingTime)) + '``' + FormatDateTime('HH:MM:SS', RemainingTime);
+          end;
           sEstimated := Format(rsDlgSpeedTime, [Speed, sEstimated]);
         end
       else
