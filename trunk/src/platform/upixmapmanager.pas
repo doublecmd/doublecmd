@@ -48,7 +48,9 @@ uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, StringHashList,
   uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils
   {$IF DEFINED(UNIX)}
-    {$IF NOT DEFINED(DARWIN)}
+    {$IF DEFINED(DARWIN)}
+    , uDCTiffImage
+    {$ELSE}
     , contnrs, uDCReadSVG, uGio
       {$IFDEF LCLGTK2}
       , gtk2
