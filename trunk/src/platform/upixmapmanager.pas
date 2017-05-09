@@ -49,7 +49,9 @@ uses
   uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils
   {$IF DEFINED(UNIX)}
     {$IF DEFINED(DARWIN)}
-    , uDCTiffImage
+      {$IF (FPC_FULLVERSION >= 30000)}
+      , uDCTiffImage
+      {$ENDIF}
     {$ELSE}
     , contnrs, uDCReadSVG, uGio
       {$IFDEF LCLGTK2}
