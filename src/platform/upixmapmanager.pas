@@ -1090,8 +1090,9 @@ end;
 function TPixMapManager.GetMimeIcon(AFileExt: String; AIconSize: Integer): PtrInt;
 var
   I: Integer;
-  nImage: NSImage;
   nData: NSData;
+  nImage: NSImage;
+  bestRect: NSRect;
   nRepresentations: NSArray;
   nImageRep: NSImageRep;
   WorkStream: TBlobStream;
@@ -1100,16 +1101,30 @@ var
 begin
   Result:= -1;
   if not FUseSystemTheme then Exit;
-  nImage:= NSWorkspace.sharedWorkspace.iconForFileType(NSSTR(PChar(AFileExt)));
-  nRepresentations:= nImage.Representations;
   if AIconSize = 24 then AIconSize:= 32;
-  for I:= nRepresentations.Count - 1 downto 0 do
+  nImage:= NSWorkspace.sharedWorkspace.iconForFileType(NSSTR(PChar(AFileExt)));
+  // Try to find best representation for requested icon size
+  bestRect.origin.x:= 0;
+  bestRect.origin.y:= 0;
+  bestRect.size.width:= AIconSize;
+  bestRect.size.height:= AIconSize;
+  nImageRep:= nImage.bestRepresentationForRect_context_hints(bestRect, nil, nil);
+  if Assigned(nImageRep) then
   begin
-    nImageRep:= NSImageRep(nRepresentations.objectAtIndex(I));
-    if (AIconSize <> nImageRep.Size.Width) then
-      nImage.removeRepresentation(nImageRep);
+    nImage:= NSImage.Alloc.InitWithSize(nImageRep.Size);
+    nImage.AddRepresentation(nImageRep);
+  end
+  // Try old method
+  else begin
+    nRepresentations:= nImage.Representations;
+    for I:= nRepresentations.Count - 1 downto 0 do
+    begin
+      nImageRep:= NSImageRep(nRepresentations.objectAtIndex(I));
+      if (AIconSize <> nImageRep.Size.Width) then
+        nImage.removeRepresentation(nImageRep);
+    end;
+    if nImage.Representations.Count = 0 then Exit;
   end;
-  if nImage.Representations.Count = 0 then Exit;
   nData:= nImage.TIFFRepresentation;
   tfBitmap:= TTiffImage.Create;
   WorkStream:= TBlobStream.Create(nData.Bytes, nData.Length);
@@ -1124,6 +1139,7 @@ begin
     end;
   finally
     tfBitmap.Free;
+    nImage.Release;
     WorkStream.Free;
   end;
 end;
