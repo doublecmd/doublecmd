@@ -80,6 +80,7 @@ type
     function CompareTwoNodeOfConfigurationOptionTree(Node1, Node2: TTreeNode): integer;
     function CycleThroughOptionEditors(bForceSaving:boolean):boolean;
     procedure MakeVisible(Data: PtrInt);
+    procedure UpdateWindowView(Data: PtrInt);
   public
     constructor Create(TheOwner: TComponent); override;
     constructor Create(TheOwner: TComponent; EditorClass: TOptionsEditorClass); overload;
@@ -424,11 +425,12 @@ begin
   if bNeedsRestart then
     MessageDlg(rsMsgRestartForApplyChanges, mtInformation, [mbOK], 0);
 
-  frmMain.UpdateWindowView; // Let's refresh the views.
-                            // In fact, may settings would not really require it since they don't have an immediate visual impact.
-                            // But let's do it for two reasons:
-                            //  1st) Previously with "SaveConfig" it was updating it no matter what.
-                            //  2nd) The little delay and visual blink it gives to user is a good feedback to him confirming him he just saved settings.
+  // Let's refresh the views.
+  // In fact, may settings would not really require it since they don't have an immediate visual impact.
+  // But let's do it for two reasons:
+  //  1st) Previously with "SaveConfig" it was updating it no matter what.
+  //  2nd) The little delay and visual blink it gives to user is a good feedback to him confirming him he just saved settings.
+  Application.QueueAsyncCall(@UpdateWindowView, 0);
 end;
 
 procedure TfrmOptions.MakeVisible(Data: PtrInt);
@@ -436,6 +438,11 @@ var
   TreeNode: TTreeNode absolute Data;
 begin
   TreeNode.MakeVisible;
+end;
+
+procedure TfrmOptions.UpdateWindowView(Data: PtrInt);
+begin
+  frmMain.UpdateWindowView;
 end;
 
 end.
