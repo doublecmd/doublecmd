@@ -476,10 +476,9 @@ var
 begin
   BeginUpdate;
   if ConfigurationLoadType=tocl_FlushCurrentToolbarContent then
-    begin
-      Clear;
-      Application.ProcessMessages;
-    end;
+  begin
+    Clear;
+  end;
   try
     Node := Config.FindNode(RootNode, 'Row', False);
     if Assigned(Node) then
