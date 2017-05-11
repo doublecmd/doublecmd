@@ -201,7 +201,7 @@ begin
     EventsListeners[Event] := TFPList.Create;
 end;
 
-procedure Finalize;
+procedure Terminate;
 var
   Event: TOperationProgressWindowEvent;
   Item: PEventsListItem;
@@ -1148,10 +1148,7 @@ end;
 initialization
   Initialize;
 
-// Workaround: Internal error 200130121
-{$IF (FPC_FULLVERSION < 030000) or (not DEFINED(WIN64))}
 finalization
-  Finalize;
-{$ENDIF}
+  Terminate;
 
 end.
