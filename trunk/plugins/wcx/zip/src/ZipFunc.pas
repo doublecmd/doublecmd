@@ -479,35 +479,52 @@ procedure TAbZipKitEx.AbProcessItemFailureEvent(Sender: TObject;
 var
   Message: AnsiString;
 begin
+  // Unknown error
+  FOperationResult:= -1;
+  // Check error class
   case ErrorClass of
   ecFileOpenError:
     begin
+      ErrorClass:= ecAbbrevia;
       ErrorCode:= AbFCIFileOpenError;
       FOperationResult:= E_EOPEN;
     end;
   ecFileCreateError:
     begin
+      ErrorClass:= ecAbbrevia;
       ErrorCode:= AbFCICreateError;
       FOperationResult:= E_ECREATE;
-    end
-  else
-    case ErrorCode of
-    AbUserAbort:
-      FOperationResult:= E_EABORTED;
-    AbZipBadCRC:
-      FOperationResult:= E_BAD_ARCHIVE;
-    AbFileNotFound:
-      FOperationResult:= E_NO_FILES;
-    AbReadError:
-      FOperationResult:= E_EREAD;
-    else
-      FOperationResult:= E_BAD_DATA;
+    end;
+  ecAbbrevia:
+    begin
+      case ErrorCode of
+        AbUserAbort:
+          FOperationResult:= E_EABORTED;
+        AbZipBadCRC:
+          FOperationResult:= E_BAD_ARCHIVE;
+        AbFileNotFound:
+          FOperationResult:= E_NO_FILES;
+        AbReadError:
+          FOperationResult:= E_EREAD;
+      end;
+    end;
+  // Has exception message? Show it!
+  else if Assigned(ExceptObject) and (ExceptObject is Exception) then
+    begin
+      Message := Exception(ExceptObject).Message;
+      if Assigned(Item) then Message += LineEnding + LineEnding + Item.FileName;
+      if gStartupInfo.MessageBox(PAnsiChar(Message), nil, MB_OKCANCEL or MB_ICONERROR) = ID_OK then
+        FOperationResult:= E_SUCCESS
+      else begin
+        raise EAbUserAbort.Create;
+      end;
     end;
   end;
-  if ProcessType in [ptAdd, ptFreshen, ptReplace] then
+  // Show abbrevia specific errors
+  if (ErrorClass = ecAbbrevia) and (ProcessType in [ptAdd, ptFreshen, ptReplace]) then
   begin
-    Message:= AbStrRes(ErrorCode) + ': ' + Item.FileName;
-    if gStartupInfo.MessageBox(PAnsiChar(Message), nil, MB_OKCANCEL) = ID_OK then
+    Message:= AbStrRes(ErrorCode) + LineEnding + LineEnding + Item.FileName;
+    if gStartupInfo.MessageBox(PAnsiChar(Message), nil, MB_OKCANCEL or MB_ICONERROR) = ID_OK then
       FOperationResult:= E_SUCCESS
     else begin
       raise EAbUserAbort.Create;
