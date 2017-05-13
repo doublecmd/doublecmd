@@ -59,9 +59,9 @@ uses
   Posix.SysTypes,
 {$ENDIF}
 {$IFDEF UNIX}
-  DateUtils,
   DCClassesUtf8,
 {$ENDIF}
+  DateUtils,
   SysUtils,
   Classes;
 
@@ -1122,15 +1122,6 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 function AbDosFileDateToDateTime(FileDate, FileTime : Word) : TDateTime;
-{$IFDEF MSWINDOWS}
-var
-  Temp : LongInt;
-begin
-  LongRec(Temp).Lo := FileTime;
-  LongRec(Temp).Hi := FileDate;
-  Result := FileDateToDateTime(Temp);
-{$ENDIF MSWINDOWS}
-{$IFDEF UNIX}
 var
   Yr, Mo, Dy : Word;
   Hr, Mn, S  : Word;
@@ -1158,7 +1149,6 @@ begin
   Result :=
     EncodeDate(Yr, Mo, Dy) +
     EncodeTime(Hr, Mn, S, 0);
-{$ENDIF UNIX}
 end;
 
 function AbDateTimeToDosFileDate(Value : TDateTime) : LongInt;
