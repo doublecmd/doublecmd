@@ -128,7 +128,7 @@ begin
   else if E is EWriteError then
     Result := E_EWRITE
   else
-    Result := E_BAD_DATA;
+    Result := E_UNKNOWN;
 end;
 
 // -- Exported functions ------------------------------------------------------
@@ -257,7 +257,18 @@ begin
 
   except
     on E: Exception do
+    begin
       Arc.FOperationResult := GetArchiveError(E);
+      if (Operation = PK_TEST) and (Arc.FOperationResult = E_UNKNOWN) then
+      begin
+        DestNameUtf8:= E.Message + LineEnding + LineEnding + Arc.Items[Arc.Tag].FileName;
+        if gStartupInfo.MessageBox(PAnsiChar(DestNameUtf8), nil, MB_OKCANCEL or MB_ICONERROR) = ID_OK then
+          Arc.FOperationResult:= E_HANDLED
+        else begin
+          Arc.FOperationResult:= E_EABORTED;
+        end;
+      end;
+    end;
   end;
 
   Result:= Arc.FOperationResult;
@@ -480,7 +491,7 @@ var
   Message: AnsiString;
 begin
   // Unknown error
-  FOperationResult:= -1;
+  FOperationResult:= E_UNKNOWN;
   // Check error class
   case ErrorClass of
   ecFileOpenError:
@@ -514,7 +525,7 @@ begin
       Message := Exception(ExceptObject).Message;
       if Assigned(Item) then Message += LineEnding + LineEnding + Item.FileName;
       if gStartupInfo.MessageBox(PAnsiChar(Message), nil, MB_OKCANCEL or MB_ICONERROR) = ID_OK then
-        FOperationResult:= E_SUCCESS
+        FOperationResult:= E_HANDLED
       else begin
         raise EAbUserAbort.Create;
       end;
@@ -525,7 +536,7 @@ begin
   begin
     Message:= AbStrRes(ErrorCode) + LineEnding + LineEnding + Item.FileName;
     if gStartupInfo.MessageBox(PAnsiChar(Message), nil, MB_OKCANCEL or MB_ICONERROR) = ID_OK then
-      FOperationResult:= E_SUCCESS
+      FOperationResult:= E_HANDLED
     else begin
       raise EAbUserAbort.Create;
     end;

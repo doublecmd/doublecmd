@@ -24,8 +24,8 @@ const       {Error codes returned to calling application}
   E_TOO_MANY_FILES=  23;       {Too many files to pack}
   E_NOT_SUPPORTED=   24;       {Function not supported}
 
-  E_HANDLED=         -32768;   {Handled error}
-  E_UNKNOWN=         +32767;   {Unknown error}
+  E_HANDLED=         -32769;   {Handled error}
+  E_UNKNOWN=         +32768;   {Unknown error}
 
   {Unpacking flags}
   PK_OM_LIST=           0;
