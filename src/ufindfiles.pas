@@ -175,7 +175,7 @@ begin
     if SearchTemplate.IsNotOlderThan then
     begin
       DateTimeFrom := SysUtils.Now;
-      DateTimeTo   := DateTimeFrom;
+      DateTimeTo   := MaxDateTime;
 
       case SearchTemplate.NotOlderThanUnit of
         tuSecond:
@@ -451,7 +451,7 @@ end;
 
 function CheckFileDateTime(const FileChecks: TFindFileChecks; DT : TDateTime) : Boolean;
 begin
-  with FileChecks do
+    with FileChecks do
     Result := (DateTimeFrom <= DT) and (DT <= DateTimeTo);
 end;
 
