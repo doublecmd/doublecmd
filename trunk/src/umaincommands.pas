@@ -1713,13 +1713,13 @@ end;
 
 procedure TMainCommands.cm_View(const Params: array of string);
 var
-  sl: TStringList = nil;
+  aFile: TFile;
   i, n: Integer;
+  sl: TStringList = nil;
   ActiveFile: TFile = nil;
   AllFiles: TFiles = nil;
   SelectedFiles: TFiles = nil;
   TempFiles: TFiles = nil;
-  aFile: TFile;
   TempFileSource: ITempFileSystemFileSource = nil;
   Operation: TFileSourceOperation;
   aFileSource: IFileSource;
@@ -1789,21 +1789,22 @@ begin
     end;
 
     try
+      aFile := SelectedFiles[0];
+      // Try to find 'view' command in internal associations
+      if gExts.GetExtActionCmd(aFile, 'view', sCmd, sParams, sStartPath) then
+      begin
+        ProcessExtCommandFork(sCmd, sParams, ActiveFrame.CurrentPath);
+        Exit;
+      end;
+
       sl := TStringList.Create;
       for i := 0 to SelectedFiles.Count - 1 do
       begin
         aFile := SelectedFiles[i];
-
         if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
         begin
-          // Try to find 'view' command in internal associations
-          if not gExts.GetExtActionCmd(aFile, 'view', sCmd, sParams, sStartPath) then
-            sl.Add(aFile.FullPath)
-          else
-            begin
-              ProcessExtCommandFork(sCmd, sParams, ActiveFrame.CurrentPath);
-            end;
-        end; // if selected
+          sl.Add(aFile.FullPath)
+        end;
       end; // for
 
       // If only one file was selected then add all files in panel to the list.
@@ -1853,16 +1854,11 @@ begin
     end;
 
   finally
-    if Assigned(sl) then
-      FreeAndNil(sl);
-    if Assigned(AllFiles) then
-      FreeAndNil(AllFiles);
-    if Assigned(SelectedFiles) then
-      FreeAndNil(SelectedFiles);
-    if Assigned(TempFiles) then
-      FreeAndNil(TempFiles);
-    if Assigned(ActiveFile) then
-      FreeAndNil(ActiveFile);
+    FreeAndNil(sl);
+    FreeAndNil(AllFiles);
+    FreeAndNil(SelectedFiles);
+    FreeAndNil(TempFiles);
+    FreeAndNil(ActiveFile);
   end;
 end;
 
