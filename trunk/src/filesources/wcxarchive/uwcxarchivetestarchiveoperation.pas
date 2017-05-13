@@ -24,8 +24,8 @@ type
     FStatistics: TFileSourceTestArchiveOperationStatistics; // local copy of statistics
     FCurrentFileSize: Int64;
 
-    procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
-    procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
+    procedure ShowError(const sMessage: String; iError: Integer; logOptions: TLogOptions = []);
+    procedure LogMessage(const sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
   protected
     procedure SetProcessDataProc(hArcData: TArcHandle);
@@ -210,14 +210,14 @@ begin
 
         if iResult <> E_SUCCESS then
         begin
-          ShowError(Format(rsMsgLogError + rsMsgLogTest,
-                           [FWcxArchiveFileSource.ArchiveFileName + PathDelim +
-                            Header.FileName +
-                            ' - ' + GetErrorMsg(iResult)]), [log_arc_op]);
-
           // User aborted operation.
           if iResult = E_EABORTED then
             Break;
+
+          ShowError(Format(rsMsgLogError + rsMsgLogTest,
+                           [FWcxArchiveFileSource.ArchiveFileName + PathDelim +
+                            Header.FileName +
+                            ' : ' + GetErrorMsg(iResult)]), iResult, [log_arc_op]);
         end // Error
         else
         begin
@@ -236,7 +236,7 @@ begin
           ShowError(Format(rsMsgLogError + rsMsgLogTest,
                            [FWcxArchiveFileSource.ArchiveFileName + PathDelim +
                             Header.FileName +
-                            ' - ' + GetErrorMsg(iResult)]), [log_arc_op]);
+                            ' : ' + GetErrorMsg(iResult)]), iResult, [log_arc_op]);
         end;
       end; // Skip
 
@@ -255,23 +255,23 @@ begin
   ClearCurrentOperation;
 end;
 
-procedure TWcxArchiveTestArchiveOperation.ShowError(sMessage: String; logOptions: TLogOptions);
+procedure TWcxArchiveTestArchiveOperation.ShowError(const sMessage: String;
+  iError: Integer; logOptions: TLogOptions);
 begin
-  if not gSkipFileOpError then
+  LogMessage(sMessage, logOptions, lmtError);
+
+  if (gSkipFileOpError = False) and (iError > E_SUCCESS) then
   begin
     if AskQuestion(sMessage, '', [fsourSkip, fsourAbort],
                    fsourSkip, fsourAbort) = fsourAbort then
     begin
       RaiseAbortOperation;
     end;
-  end
-  else
-  begin
-    LogMessage(sMessage, logOptions, lmtError);
   end;
 end;
 
-procedure TWcxArchiveTestArchiveOperation.LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
+procedure TWcxArchiveTestArchiveOperation.LogMessage(const sMessage: String;
+  logOptions: TLogOptions; logMsgType: TLogMsgType);
 begin
   case logMsgType of
     lmtError:
