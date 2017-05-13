@@ -36,8 +36,8 @@ type
     }
     function GetFileList(const theFiles: TFiles): String;
     procedure SetTarBefore(const AValue: Boolean);
-    procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
-    procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
+    procedure ShowError(const sMessage: String; iError: Integer; logOptions: TLogOptions = []);
+    procedure LogMessage(const sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
     procedure DeleteFiles(const aFiles: TFiles);
 
   protected
@@ -257,9 +257,12 @@ begin
   // Check for errors.
   if iResult <> E_SUCCESS then
   begin
+    // User aborted operation.
+    if iResult = E_EABORTED then Exit;
+
     ShowError(Format(rsMsgLogError + rsMsgLogPack,
                      [FWcxArchiveFileSource.ArchiveFileName +
-                      ' - ' + GetErrorMsg(iResult)]), [log_arc_op]);
+                      ' : ' + GetErrorMsg(iResult)]), iResult, [log_arc_op]);
   end
   else
   begin
@@ -347,23 +350,23 @@ begin
   end;
 end;
 
-procedure TWcxArchiveCopyInOperation.ShowError(sMessage: String; logOptions: TLogOptions);
+procedure TWcxArchiveCopyInOperation.ShowError(const sMessage: String;
+  iError: Integer; logOptions: TLogOptions);
 begin
-  if not gSkipFileOpError then
+  LogMessage(sMessage, logOptions, lmtError);
+
+  if (gSkipFileOpError = False) and (iError > E_SUCCESS) then
   begin
     if AskQuestion(sMessage, '', [fsourSkip, fsourAbort],
                    fsourSkip, fsourAbort) = fsourAbort then
     begin
       RaiseAbortOperation;
     end;
-  end
-  else
-  begin
-    LogMessage(sMessage, logOptions, lmtError);
   end;
 end;
 
-procedure TWcxArchiveCopyInOperation.LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
+procedure TWcxArchiveCopyInOperation.LogMessage(const sMessage: String;
+  logOptions: TLogOptions; logMsgType: TLogMsgType);
 begin
   case logMsgType of
     lmtError:
