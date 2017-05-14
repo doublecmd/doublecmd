@@ -718,7 +718,7 @@ begin
           if FBackground then
             sVolumeLabel := FFiles[0].FullPath
           else begin
-            sVolumeLabel := FFiles[0].Path;
+            sVolumeLabel := ExcludeTrailingBackslash(FFiles[0].Path);
           end;
           ZeroMemory(@cmici, SizeOf(cmici));
           with cmici do
@@ -728,7 +728,6 @@ begin
             fMask := CMIC_MASK_UNICODE;
             {$PUSH}{$HINTS OFF}
             lpVerb  := PAnsiChar(PtrUInt(cmd - 1));
-            lpVerbW := PWideChar(PtrUInt(cmd - 1));
             {$POP}
             nShow := SW_NORMAL;
             lpDirectory := PAnsiChar(CeUtf8ToSys(sVolumeLabel));
