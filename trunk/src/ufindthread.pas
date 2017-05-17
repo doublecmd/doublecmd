@@ -381,7 +381,7 @@ begin
   end;
 
   if bRegExp then
-    S := ReplaceRegExpr(SearchString, S, replaceString, False)
+    S := ReplaceRegExpr(SearchString, S, replaceString, True)
   else
     begin
       Include(Flags, rfReplaceAll);
