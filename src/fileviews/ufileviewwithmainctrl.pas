@@ -1120,6 +1120,8 @@ begin
         TControlHandlersHack(MainControl).DragCursor:= crArrowCopy
       else
         TControlHandlersHack(MainControl).DragCursor:= crDrag;
+
+      DragManager.DragMove(Mouse.CursorPos);
     end
   else
     TControlHandlersHack(MainControl).DragCursor:= crDrag;
