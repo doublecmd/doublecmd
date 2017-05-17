@@ -1405,10 +1405,17 @@ begin
     Result := Byte(ExternalFileAttributes);
 {$ENDIF}
 {$IFDEF UNIX}
-  if HostOS in [hosDOS, hosNTFS, hosWinNT] then
+  if HostOS in [hosDOS, hosOS2, hosNTFS, hosWinNT, hosVFAT] then
     Result := AbDOS2UnixFileAttributes(ExternalFileAttributes)
-  else
+  else begin
     Result := ExternalFileAttributes shr 16;
+    if Result = 0 then begin
+      Result:= AB_FPERMISSION_GENERIC;
+      if GetIsDirectory then begin
+        Result := Result or AB_FMODE_DIR or AB_FPERMISSION_OWNEREXECUTE;
+      end;
+    end;
+  end;
 {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }

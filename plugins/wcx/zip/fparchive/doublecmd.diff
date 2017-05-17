@@ -2766,7 +2766,27 @@ Index: AbZipTyp.pas
  end;
  { -------------------------------------------------------------------------- }
  procedure TAbZipDirectoryFileFooter.LoadFromStream( Stream : TStream );
-@@ -1407,6 +1417,22 @@
+@@ -1395,10 +1405,17 @@
+     Result := Byte(ExternalFileAttributes);
+ {$ENDIF}
+ {$IFDEF UNIX}
+-  if HostOS in [hosDOS, hosNTFS, hosWinNT] then
++  if HostOS in [hosDOS, hosOS2, hosNTFS, hosWinNT, hosVFAT] then
+     Result := AbDOS2UnixFileAttributes(ExternalFileAttributes)
+-  else
++  else begin
+     Result := ExternalFileAttributes shr 16;
++    if Result = 0 then begin
++      Result:= AB_FPERMISSION_GENERIC;
++      if GetIsDirectory then begin
++        Result := Result or AB_FMODE_DIR or AB_FPERMISSION_OWNEREXECUTE;
++      end;
++    end;
++  end;
+ {$ENDIF}
+ end;
+ { -------------------------------------------------------------------------- }
+@@ -1407,6 +1424,22 @@
    Result := FItemInfo.FileName;
  end;
  { -------------------------------------------------------------------------- }
@@ -2789,7 +2809,7 @@ Index: AbZipTyp.pas
  function TAbZipItem.GetShannonFanoTreeCount : Byte;
  begin
    Result := FItemInfo.ShannonFanoTreeCount;
-@@ -1430,12 +1456,13 @@
+@@ -1430,12 +1463,13 @@
    UnicodeName: UnicodeString;
    UTF8Name: AnsiString;
    XceedField: PXceedUnicodePathRec;
@@ -2805,7 +2825,7 @@ Index: AbZipTyp.pas
    else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
       (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
       (InfoZipField.Version = 1) and
-@@ -1442,7 +1469,7 @@
+@@ -1442,7 +1476,7 @@
       (InfoZipField.NameCRC32 = AbCRC32Of(FItemInfo.FileName)) then begin
      SetString(UTF8Name, InfoZipField.UnicodeName,
        FieldSize - SizeOf(TInfoZipUnicodePathRec) + 1);
@@ -2814,7 +2834,7 @@ Index: AbZipTyp.pas
    end
    else if FItemInfo.ExtraField.Get(Ab_XceedUnicodePathSubfieldID, Pointer(XceedField), FieldSize) and
       (FieldSize > SizeOf(TXceedUnicodePathRec)) and
-@@ -1449,16 +1476,28 @@
+@@ -1449,16 +1483,28 @@
       (XceedField.Signature = Ab_XceedUnicodePathSignature) and
       (XceedField.Length * SizeOf(WideChar) = FieldSize - SizeOf(TXceedUnicodePathRec) + SizeOf(WideChar)) then begin
      SetString(UnicodeName, XceedField.UnicodeName, XceedField.Length);
@@ -2851,7 +2871,7 @@ Index: AbZipTyp.pas
 
    { read ZIP64 extended header }
    FUncompressedSize := FItemInfo.UncompressedSize;
-@@ -1596,24 +1635,20 @@
+@@ -1596,24 +1642,20 @@
    {$IFDEF MSWINDOWS}
    FItemInfo.IsUTF8 := False;
    HostOS := hosDOS;
@@ -2881,7 +2901,7 @@ Index: AbZipTyp.pas
    {$ENDIF}
 
    UseExtraField := False;
-@@ -1626,7 +1661,7 @@
+@@ -1626,7 +1668,7 @@
      end;
 
    if UseExtraField then begin
@@ -2890,7 +2910,7 @@ Index: AbZipTyp.pas
      FieldSize := SizeOf(TInfoZipUnicodePathRec) + Length(UTF8Name) - 1;
      GetMem(InfoZipField, FieldSize);
      try
-@@ -1762,11 +1797,11 @@
+@@ -1762,11 +1804,11 @@
    inherited Destroy;
  end;
  { -------------------------------------------------------------------------- }
@@ -2905,7 +2925,7 @@ Index: AbZipTyp.pas
    Result := TAbZipItem.Create;
    with TAbZipItem( Result ) do begin
      CompressionMethod := cmDeflated;
-@@ -1773,9 +1808,17 @@
+@@ -1773,9 +1815,17 @@
      GeneralPurposeBitFlag := 0;
      CompressedSize := 0;
      CRC32 := 0;
@@ -2925,7 +2945,7 @@ Index: AbZipTyp.pas
    end;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1930,8 +1973,8 @@
+@@ -1930,8 +1980,8 @@
      AbStripDots( lValue );
 
    for i := 1 to Length( lValue ) do
@@ -2936,7 +2956,7 @@ Index: AbZipTyp.pas
    Result := lValue;
  end;
  { -------------------------------------------------------------------------- }
-@@ -1983,7 +2026,7 @@
+@@ -1983,7 +2033,7 @@
          FStatus := asInvalid; //TODO: Status updates are extremely inconsistent
          raise EAbUserAbort.Create;
        end;
@@ -2945,7 +2965,7 @@ Index: AbZipTyp.pas
        TailPosition := FindCentralDirectoryTail( FStream );
      end;
    end;
-@@ -2302,7 +2345,7 @@
+@@ -2302,7 +2352,7 @@
          if FOwnsStream then begin
            {need new stream to write}
            FreeAndNil(FStream);
