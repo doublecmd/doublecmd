@@ -1594,6 +1594,7 @@ begin
         SetFileSystemPath(frmMain.ActiveFrame, ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
         frmMain.ActiveFrame.SetActiveFile(ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
       end;
+      frmMain.RestoreWindow;
       Close;
     except
       on E: Exception do MessageDlg(E.Message, mtError, [mbOK], 0);
