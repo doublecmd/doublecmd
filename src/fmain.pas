@@ -809,6 +809,7 @@ type
     procedure ToggleConsole;
     procedure UpdateWindowView;
     procedure MinimizeWindow;
+    procedure RestoreWindow;
     procedure LoadTabs;
     procedure LoadTabsCommandLine(Params: TCommandLineParams);
     procedure LoadWindowState;
@@ -5057,16 +5058,8 @@ end;
 
 procedure TfrmMain.OnUniqueInstanceMessage(Sender: TObject; Params: TCommandLineParams);
 begin
-  if HiddenToTray then
-    RestoreFromTray
-  else
-  begin
-    WindowState:= lastWindowState;
-    BringToFront;
-  end;
-
+  RestoreWindow;
   LoadTabsCommandLine(Params);
-
 end;
 
 procedure TfrmMain.tbPasteClick(Sender: TObject);
@@ -5311,6 +5304,17 @@ begin
   Self.WindowState := wsMinimized;
 end;
 //LaBero end
+
+procedure TfrmMain.RestoreWindow;
+begin
+  if HiddenToTray then
+    RestoreFromTray
+  else
+  begin
+    WindowState:= lastWindowState;
+    BringToFront;
+  end;
+end;
 
 procedure TfrmMain.LoadTabs;
 begin
