@@ -447,9 +447,14 @@ begin
 
       ATop := dgPanel.CellRect(FFileNameColumn, dgPanel.Row).Top - 2;
       ALeft := dgPanel.CellRect(FFileNameColumn, dgPanel.Row).Left;
-      if gShowIcons <> sim_none then
+      AWidth := dgPanel.ColWidths[FFileNameColumn];
+
+      if (gShowIcons <> sim_none) and (FFileNameColumn = 0) then
+      begin
         Inc(ALeft, gIconsSize + 2);
-      AWidth := dgPanel.ColWidths[FFileNameColumn] - ALeft;
+        Dec(AWidth, gIconsSize + 2);
+      end;
+
       if Succ(FFileNameColumn) = FExtensionColumn then
         Inc(AWidth, dgPanel.ColWidths[FExtensionColumn]);
       AHeight := dgPanel.RowHeights[dgPanel.Row] + 4;
