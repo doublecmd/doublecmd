@@ -19,7 +19,7 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="../lib/zip.wcx" ApplyConventions="False"/>
+            <Filename Value="../zip.wcx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);../../../../sdk"/>
@@ -101,7 +101,7 @@ end;"/>
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="../lib/zip.wcx" ApplyConventions="False"/>
+      <Filename Value="../zip.wcx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);../../../../sdk"/>

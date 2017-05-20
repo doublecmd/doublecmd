@@ -46,7 +46,7 @@ copy  plugins\wcx\deb\lib\deb.wcx         %DC_INSTALL_DIR%\plugins\wcx\deb\
 copy  plugins\wcx\rpm\lib\rpm.wcx         %DC_INSTALL_DIR%\plugins\wcx\rpm\
 copy  plugins\wcx\sevenzip\sevenzip.wcx   %DC_INSTALL_DIR%\plugins\wcx\sevenzip\
 copy  plugins\wcx\unrar\lib\unrar.wcx     %DC_INSTALL_DIR%\plugins\wcx\unrar\
-copy  plugins\wcx\zip\lib\zip.wcx         %DC_INSTALL_DIR%\plugins\wcx\zip\
+copy  plugins\wcx\zip\zip.wcx             %DC_INSTALL_DIR%\plugins\wcx\zip\
 rem WDX
 copy  plugins\wdx\rpm_wdx\lib\rpm_wdx.wdx %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx\
 copy  plugins\wdx\deb_wdx\lib\deb_wdx.wdx %DC_INSTALL_DIR%\plugins\wdx\deb_wdx\
