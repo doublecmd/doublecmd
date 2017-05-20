@@ -8,6 +8,8 @@ inherited frmDeleteDlg: TfrmDeleteDlg
   BorderStyle = bsDialog
   ClientHeight = 86
   ClientWidth = 415
+  Constraints.MaxWidth = 800
+  Constraints.MinWidth = 400
   KeyPreview = True
   OnKeyDown = FormKeyDown
   Position = poScreenCenter

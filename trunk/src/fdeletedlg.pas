@@ -35,8 +35,6 @@ begin
   begin
     Caption:= Application.Title;
     lblMessage.Caption:= Message;
-    Constraints.MinWidth:= 400;
-    Constraints.MaxWidth:= 800;
     Result:= ShowModal = mrOK;
     QueueId:= QueueIdentifier;
     Free;
