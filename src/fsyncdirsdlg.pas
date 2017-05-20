@@ -144,7 +144,7 @@ uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uFileSourceOperation, uDCUtils, uFileSourceUtil, uFileSourceOperationTypes,
-  uShowForm, uFileSourceDeleteOperation, uOSUtils;
+  uShowForm, uFileSourceDeleteOperation, uOSUtils, uLng;
 
 {$R *.lfm}
 
@@ -380,10 +380,14 @@ var
 
   function CopyFiles(src, dst: IFileSource; fs: TFiles; Dest: string): Boolean;
   var
-    Operation: TFileSourceCopyOperation;
+    Operation: TFileSourceCopyOperation = nil;
   begin
-    if GetCopyOperationType(Src, Dst, OperationType) then
+    if not GetCopyOperationType(Src, Dst, OperationType) then
     begin
+      MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
+      Exit(False);
+    end
+    else begin
       Fs.Path:= fs[0].Path;
       // Create destination directory
       Dst.CreateDirectory(Dest);
@@ -413,6 +417,11 @@ var
                            Dest) as TFileSourceCopyOperation;
           end;
       end;
+      if not Assigned(Operation) then
+      begin
+        MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
+        Exit(False);
+      end;
       Operation.FileExistsOption := FileExistsOption;
       Operation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
       try
@@ -429,7 +438,13 @@ var
   var
     Operation: TFileSourceDeleteOperation;
   begin
+    Files.Path := Files[0].Path;
     Operation:= FileSource.CreateDeleteOperation(Files) as TFileSourceDeleteOperation;
+    if not Assigned(Operation) then
+    begin
+      MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
+      Exit(False);
+    end;
     Operation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
     try
       Operation.Execute;
