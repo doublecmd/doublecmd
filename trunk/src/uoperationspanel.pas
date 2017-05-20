@@ -27,7 +27,7 @@ unit uOperationsPanel;
 interface
 
 uses
-  Classes, SysUtils, Controls, Forms, Graphics,
+  Classes, SysUtils, Controls, Forms, Graphics, LCLVersion,
   fFileOpDlg,
   uFileSourceOperation, uOperationsManager, uFileSourceOperationUI;
 
@@ -37,6 +37,7 @@ type
 
   TOperationsPanel = class(TScrollBox)
   private
+    FMaximumItemWidth: Integer;
     FUserInterface: TFileSourceOperationUI;
     FOperations, FQueues: TFPList;
     FParentWidth: Integer;
@@ -48,6 +49,10 @@ type
                                   Event: TOperationProgressWindowEvent);
     procedure UpdateItems;
     procedure UpdateVisibility;
+{$if lcl_fullversion >= 1070000}
+  protected
+    procedure SetParent(NewParent: TWinControl); override;
+{$endif}
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -172,7 +177,7 @@ var
       DT_NOPREFIX or DT_CALCRECT);
 
     OperationItem^.Width  :=
-      Min(ItemRect.Right  + (LeftRightTextMargin + PanelBorderWidth) * 2, MaximumItemWidth);
+      Min(ItemRect.Right  + (LeftRightTextMargin + PanelBorderWidth) * 2, FMaximumItemWidth);
     OverallHeight :=
       Max(ItemRect.Bottom + (TopBottomTextMargin + PanelBorderWidth) * 2, OverallHeight);
     OverallWidth := OverallWidth + OperationItem^.Width + HorizontalSpaceBetween;
@@ -264,11 +269,25 @@ begin
   Visible := Visibility;
 end;
 
+{$if lcl_fullversion >= 1070000}
+procedure TOperationsPanel.SetParent(NewParent: TWinControl);
+var
+  AForm: TCustomForm;
+begin
+  inherited SetParent(NewParent);
+  AForm := GetParentForm(NewParent);
+  if Assigned(AForm) then begin
+    FMaximumItemWidth := ScaleX(MaximumItemWidth, AForm.DesignTimePPI);
+  end;
+end;
+{$endif}
+
 constructor TOperationsPanel.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FOperations := TFPList.Create;
   FQueues := TFPList.Create;
+  FMaximumItemWidth := MaximumItemWidth;
   FUserInterface := TFileSourceOperationMessageBoxesUI.Create;
 
   OperationsManager.AddEventsListener(
