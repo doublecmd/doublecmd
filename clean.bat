@@ -16,12 +16,16 @@
 @del /Q tools\extractdwrflnfo.exe
 
 @echo Clean up plugins output directories
+@del /Q /S plugins\*.dsx
+@del /Q /S plugins\*.w?x
+
 @del /Q /S plugins\dsx\DSXLocate\lib\*.*
 
 @del /Q /S plugins\wcx\cpio\lib\*.*
 @del /Q /S plugins\wcx\deb\lib\*.*
 @del /Q /S plugins\wcx\lzma\lib\*.*
 @del /Q /S plugins\wcx\rpm\lib\*.*
+@del /Q /S plugins\wcx\sevenzip\lib\*.*
 @del /Q /S plugins\wcx\unbz2\lib\*.*
 @del /Q /S plugins\wcx\unrar\lib\*.*
 @del /Q /S plugins\wcx\zip\lib\*.*
@@ -40,21 +44,8 @@
 @del /Q /S plugins\wlx\WlxMplayer\lib\*.*
 
 @echo Remove backup files
-@del /Q plugins\wcx\cpio\src\*.bak
-@del /Q plugins\wcx\rpm\src\*.bak
-@del /Q plugins\wcx\deb\src\*.bak
-@del /Q plugins\wcx\lzma\src\*.bak
-@del /Q plugins\wcx\zip\src\*.bak
-@del /Q plugins\wcx\unbz2\src\*.bak
-@del /Q plugins\wcx\unrar\src\*.bak
-
-@del /Q plugins\wcx\cpio\src\*.*~
-@del /Q plugins\wcx\rpm\src\*.*~
-@del /Q plugins\wcx\deb\src\*.*~
-@del /Q plugins\wcx\lzma\src\*.*~
-@del /Q plugins\wcx\zip\src\*.*~
-@del /Q plugins\wcx\unbz2\src\*.*~
-@del /Q plugins\wcx\unrar\src\*.*~
+@del /Q /S plugins\*.*~
+@del /Q /S plugins\*.bak
 
 @echo Clean up components output directories
 
