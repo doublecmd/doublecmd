@@ -29,7 +29,7 @@ var
 implementation
 
 uses
-  uPixMapManager;
+  LCLVersion, uPixMapManager;
 
 {$R *.lfm}
 
@@ -42,6 +42,7 @@ end;
 
 procedure TdmComData.LoadEditorImageList;
 begin
+{$if lcl_fullversion >= 1070000}
   ilEditorImages.Width:= AdjustIconSize(ilEditorImages.Width, 96);
   ilEditorImages.Height:= AdjustIconSize(ilEditorImages.Height, 96);
   with PixMapManager do
@@ -64,6 +65,7 @@ begin
     ilEditorImages.Replace(15, GetThemeIcon('edit-select-all', ilEditorImages.Width) , nil);
     // ilEditorImages.Replace(16, GetThemeIcon('edit-goto', ilEditorImages.Width) , nil);
   end;
+{$endif}
 end;
 
 end.
