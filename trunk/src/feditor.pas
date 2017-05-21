@@ -46,7 +46,6 @@ type
     actEditLineEndLf: TAction;
     actEditGotoLine: TAction;
     actEditFindPrevious: TAction;
-    ilImageList: TImageList;
     MainMenu1: TMainMenu;
     ActListEdit: TActionList;
     actAbout: TAction;
@@ -266,6 +265,8 @@ var
   HMEditor: THMForm;
 begin
   InitPropStorage(Self);
+
+  Menu.Images:= dmComData.ilEditorImages;
 
   Editor.Options:= gEditorSynEditOptions;
   FontOptionsToFont(gFonts[dcfEditor], Editor.Font);

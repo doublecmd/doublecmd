@@ -292,6 +292,7 @@ type
     function GetApplicationBundleIcon(sFileName: String; iDefaultIcon: PtrInt): PtrInt;
     {$ENDIF}
     function GetIconByName(const AIconName: String): PtrInt;
+    function GetThemeIcon(const AIconName: String; AIconSize: Integer) : Graphics.TBitmap;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetVirtualDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -1907,6 +1908,23 @@ end;
 function TPixMapManager.GetIconByName(const AIconName: String): PtrInt;
 begin
   Result := CheckAddPixmap(AIconName, gIconsSize);
+end;
+
+function TPixMapManager.GetThemeIcon(const AIconName: String; AIconSize: Integer): Graphics.TBitmap;
+var
+  ABitmap: Graphics.TBitmap;
+begin
+  Result:= LoadIconThemeBitmap(AIconName, AIconSize);
+  if Assigned(Result) then
+  begin
+    if (Result.Width > AIconSize) or (Result.Height > AIconSize) then
+    begin
+      ABitmap:= Graphics.TBitmap.Create;
+      ABitmap.SetSize(AIconSize, AIconSize);
+      Stretch(Result, ABitmap, ResampleFilters[2].Filter, ResampleFilters[2].Width);
+      Result.Free; Result:= ABitmap;
+    end;
+  end;
 end;
 
 function TPixMapManager.GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
