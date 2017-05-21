@@ -45,6 +45,7 @@ begin
 {$if lcl_fullversion >= 1070000}
   ilEditorImages.Width:= AdjustIconSize(ilEditorImages.Width, 96);
   ilEditorImages.Height:= AdjustIconSize(ilEditorImages.Height, 96);
+{$endif}
   with PixMapManager do
   begin
     ilEditorImages.Replace(0, GetThemeIcon('document-new', ilEditorImages.Width) , nil);
@@ -63,9 +64,8 @@ begin
     ilEditorImages.Replace(13, GetThemeIcon('help-about', ilEditorImages.Width) , nil);
     ilEditorImages.Replace(14, GetThemeIcon('edit-delete', ilEditorImages.Width) , nil);
     ilEditorImages.Replace(15, GetThemeIcon('edit-select-all', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(16, GetThemeIcon('edit-goto-line', ilEditorImages.Width) , nil);
+    ilEditorImages.Replace(16, GetThemeIcon('go-jump', ilEditorImages.Width) , nil);
   end;
-{$endif}
 end;
 
 end.
