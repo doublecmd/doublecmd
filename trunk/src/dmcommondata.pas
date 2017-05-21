@@ -60,7 +60,7 @@ begin
     ilEditorImages.Replace(10, GetThemeIcon('edit-find', ilEditorImages.Width) , nil);
     ilEditorImages.Replace(11, GetThemeIcon('edit-find-replace', ilEditorImages.Width) , nil);
     ilEditorImages.Replace(12, GetThemeIcon('system-log-out', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(13, GetThemeIcon('help-browser', ilEditorImages.Width) , nil);
+    ilEditorImages.Replace(13, GetThemeIcon('help-about', ilEditorImages.Width) , nil);
     ilEditorImages.Replace(14, GetThemeIcon('edit-delete', ilEditorImages.Width) , nil);
     ilEditorImages.Replace(15, GetThemeIcon('edit-select-all', ilEditorImages.Width) , nil);
     ilEditorImages.Replace(16, GetThemeIcon('edit-goto-line', ilEditorImages.Width) , nil);
