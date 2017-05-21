@@ -63,7 +63,7 @@ begin
     ilEditorImages.Replace(13, GetThemeIcon('help-browser', ilEditorImages.Width) , nil);
     ilEditorImages.Replace(14, GetThemeIcon('edit-delete', ilEditorImages.Width) , nil);
     ilEditorImages.Replace(15, GetThemeIcon('edit-select-all', ilEditorImages.Width) , nil);
-    // ilEditorImages.Replace(16, GetThemeIcon('edit-goto', ilEditorImages.Width) , nil);
+    ilEditorImages.Replace(16, GetThemeIcon('edit-goto-line', ilEditorImages.Width) , nil);
   end;
 {$endif}
 end;
