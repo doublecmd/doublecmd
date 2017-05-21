@@ -45,7 +45,7 @@ const
   TextLineBreakValue: array[TTextLineBreakStyle] of String = (#10, #13#10, #13);
 
 {$IF DEFINED(UNIX)}
-  NoQuotesSpecialChars     = [' ', '"', '''', '(', ')', ':', '&', '!', '$', '*', '?', '=', '`', '\', #10];
+  NoQuotesSpecialChars     = [' ', '"', '''', '(', ')', ':', '&', '!', '$', '*', '?', '=', '`', '\', '|', ';', #10];
   DoubleQuotesSpecialChars = ['$', '\', '`', '"', #10];
 {$ENDIF}
 
