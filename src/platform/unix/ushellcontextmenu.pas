@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Shell context menu implementation.
 
-    Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uShellContextMenu;
@@ -165,7 +164,7 @@ begin
               templateIcon:= desktopFile.ReadString('Desktop Entry', 'Icon', EmptyStr);
               templatePath:= desktopFile.ReadString('Desktop Entry', 'URL', EmptyStr);
               templatePath:= GetAbsoluteFileName(templateDir[I] + PathDelim, templatePath);
-
+              if not mbFileExists(templatePath) then Continue; // Skip the non-existent templates
               bmpBitmap:= PixMapManager.LoadBitmapEnhanced(templateIcon, 16, True, clMenu);
               Items.AddObject(templateName + '=' + templatePath, bmpBitmap);
             finally
@@ -829,6 +828,16 @@ begin
         miSortBy := TMenuItem.Create(Self);
         miSortBy.Caption := rsMnuNew;
         Self.Items.Add(miSortBy);
+
+        // Add "Make directory"
+        mi:= TMenuItem.Create(miSortBy);
+        mi.Action := frmMain.actMakeDir;
+        mi.Caption:= rsPropsFolder;
+        miSortBy.Add(mi);
+
+        mi:= TMenuItem.Create(miSortBy);
+        mi.Caption:= '-';
+        miSortBy.Add(mi);
 
         for I:= 0 to sl.Count - 1 do
         begin
