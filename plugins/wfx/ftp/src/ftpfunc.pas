@@ -188,6 +188,7 @@ begin
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'PassiveMode', Connection.PassiveMode);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'AutoTLS', Connection.AutoTLS);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'FullSSL', Connection.FullSSL);
+    IniFile.WriteBool('FTP', 'Connection' + sIndex + 'UseAllocate', Connection.UseAllocate);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'InitCommands', Connection.InitCommands);
   end;
   IniFile.UpdateFile;
