@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Graphic functions
 
-   Copyright (C) 2013-2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -27,14 +27,23 @@ unit uGraphics;
 interface
 
 uses
-  Classes, SysUtils, Graphics;
+  Classes, SysUtils, Graphics, Controls;
+
+type
+
+  { TImageListHelper }
+
+  TImageListHelper = class helper for TImageList
+  public
+    procedure LoadThemeIcon(Index: Integer; const AIconName: String);
+  end;
 
 procedure BitmapAssign(Bitmap: TBitmap; Image: TRasterImage);
 
 implementation
 
 uses
-  GraphType;
+  GraphType, uPixMapManager;
 
 type
   TRawAccess = class(TRasterImage) end;
@@ -48,6 +57,20 @@ begin
   Bitmap.LoadFromRawImage(RawImage^, True);
   // Set image data pointer to nil, so it will not free double
   RawImage^.ReleaseData;
+end;
+
+{ TImageListHelper }
+
+procedure TImageListHelper.LoadThemeIcon(Index: Integer; const AIconName: String);
+var
+  ABitmap: TBitmap;
+begin
+  ABitmap:= PixMapManager.GetThemeIcon(AIconName, Self.Width);
+  if Assigned(ABitmap) then
+  begin
+    Self.Replace(Index, ABitmap , nil);
+    ABitmap.Free;
+  end;
 end;
 
 end.
