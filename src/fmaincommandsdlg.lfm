@@ -39,10 +39,11 @@ object frmMainCommandsDlg: TfrmMainCommandsDlg
     AnchorSideLeft.Control = lbCommands
     AnchorSideTop.Control = lbledtFilter
     AnchorSideTop.Side = asrBottom
-    Left = 161
+    Left = 162
     Height = 15
     Top = 34
     Width = 93
+    BorderSpacing.Left = 1
     Caption = 'Command &name:'
     FocusControl = lbCommands
     ParentColor = False
@@ -51,7 +52,7 @@ object frmMainCommandsDlg: TfrmMainCommandsDlg
     AnchorSideLeft.Control = lblCommandName
     AnchorSideTop.Control = lbledtFilter
     AnchorSideTop.Side = asrBottom
-    Left = 411
+    Left = 412
     Height = 15
     Top = 34
     Width = 26
@@ -364,7 +365,7 @@ object frmMainCommandsDlg: TfrmMainCommandsDlg
     AnchorSideLeft.Control = lblCommandName
     AnchorSideTop.Control = lbledtFilter
     AnchorSideTop.Side = asrBottom
-    Left = 311
+    Left = 312
     Height = 15
     Top = 34
     Width = 41

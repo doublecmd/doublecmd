@@ -385,8 +385,8 @@ begin
 
   FFormCommands.GetCommandsListForACommandCategory(ListCommands, lbCategory.Items.Strings[lbCategory.ItemIndex], TCommandSortOrder(cbCommandsSortOrNot.ItemIndex));
 
-  LargestCommandName := lbCommands.Canvas.TextWidth(lblCommandName.Caption);
-  LargestHotKeyName := lbCommands.Canvas.TextWidth(lblHotKey.Caption); //This way, if the word "hotkey" once translated is longer than a hotkey, label will not be overwritten.
+  LargestCommandName := lblCommandName.Canvas.TextWidth(lblCommandName.Caption);
+  LargestHotKeyName := lblCommandName.Canvas.TextWidth(lblHotKey.Caption); //This way, if the word "hotkey" once translated is longer than a hotkey, label will not be overwritten.
   WantedCommandIndex := -1;
   LastSelectedIndex := -1;
 
@@ -396,10 +396,10 @@ begin
     FFormCommands.ExtractCommandFields(ListCommands.Strings[SearchingIndex], sCategory, sCommand, sHint, sHotKey, FlagCategoryTitle);
     if not FlagCategoryTitle then
     begin
-      if lbCommands.Canvas.TextWidth(sCommand) > LargestCommandName then
-        LargestCommandName := lbCommands.Canvas.TextWidth(sCommand);
-      if lbCommands.Canvas.TextWidth(sHotKey) > LargestHotKeyName then
-        LargestHotKeyName := lbCommands.Canvas.TextWidth(sHotKey);
+      if lblCommandName.Canvas.TextWidth(sCommand) > LargestCommandName then
+        LargestCommandName := lblCommandName.Canvas.TextWidth(sCommand);
+      if lblCommandName.Canvas.TextWidth(sHotKey) > LargestHotKeyName then
+        LargestHotKeyName := lblCommandName.Canvas.TextWidth(sHotKey);
       if (WantedCommandToSelect <> '') and (WantedCommandToSelect = sCommand) then
         WantedCommandIndex := SearchingIndex;
       if (LastSelectedCommand <> '') and (LastSelectedCommand = sCommand) then
@@ -409,9 +409,9 @@ begin
   end;
 
   OffsetForHotKey := LargestCommandName + 10;
-  lblHotKey.BorderSpacing.Left := OffsetForHotKey;
+  lblHotKey.BorderSpacing.Left := OffsetForHotKey + 1;
   OffsetForHint := LargestCommandName + 10 + LargestHotKeyName + 10;
-  lblHint.BorderSpacing.Left := OffsetForHint;
+  lblHint.BorderSpacing.Left := OffsetForHint + 1;
 
   lbCommands.Items.Assign(ListCommands);
 
