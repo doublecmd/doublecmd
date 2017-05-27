@@ -295,7 +295,6 @@ var
   i, J: integer;
   Key, Value: string;
   ChildNode1, ChildNode2: TDOMNode;
-  AFormatSettings: TFormatSettings;
 begin
   for J := 0 to Int32(xml.ChildNodes.Count) - 1 do
   begin
@@ -323,15 +322,11 @@ begin
         if SameText('Revision', Key) then Version.Revision := StrToIntDef(Value, 0) else
         if SameText('Date', Key) then
           try
-            AFormatSettings:= DefaultFormatSettings;
-            Version.ReleaseDate := StrToFloat(Value, AFormatSettings);
+            Value := StringReplace(Value, ',', DefaultFormatSettings.DecimalSeparator, [rfReplaceAll]); // Since no one ever call something like "GetFormatSettings", "DefaultFormatSettings" still hold the default values.
+            Value := StringReplace(Value, '.', DefaultFormatSettings.DecimalSeparator, [rfReplaceAll]); // Just in case there is something we did not think about.
+            Version.ReleaseDate := StrToFloat(Value, DefaultFormatSettings);
           except
-            AFormatSettings.DecimalSeparator:= '.';
-            try
-              Version.ReleaseDate := StrToFloat(Value, AFormatSettings);
-            except
-              // Ignore
-            end;
+            // Ignore
           end
         else if SameText('Type', Key) then
           if Value = 'Beta'    then Version.VersionType := vtBeta else
@@ -425,7 +420,7 @@ end;
   begin
     SetLength(Result, i);
 //    if i > 0 then !!!!!!!!!!!!!!!!!!!!!!!!!
-{$note To prevent error...}
+{To prevent error...}
 {$IFDEF FPC}
     if i > 0 then
 {$ENDIF}
