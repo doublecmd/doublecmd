@@ -29,7 +29,7 @@ var
 implementation
 
 uses
-  LCLVersion, uPixMapManager;
+  LCLVersion, uGraphics;
 
 {$R *.lfm}
 
@@ -46,26 +46,23 @@ begin
   ilEditorImages.Width:= AdjustIconSize(ilEditorImages.Width, 96);
   ilEditorImages.Height:= AdjustIconSize(ilEditorImages.Height, 96);
 {$endif}
-  with PixMapManager do
-  begin
-    ilEditorImages.Replace(0, GetThemeIcon('document-new', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(1, GetThemeIcon('document-open', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(2, GetThemeIcon('document-save', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(3, GetThemeIcon('document-save-as', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(4, GetThemeIcon('document-properties', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(5, GetThemeIcon('edit-cut', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(6, GetThemeIcon('edit-copy', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(7, GetThemeIcon('edit-paste', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(8, GetThemeIcon('edit-undo', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(9, GetThemeIcon('edit-redo', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(10, GetThemeIcon('edit-find', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(11, GetThemeIcon('edit-find-replace', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(12, GetThemeIcon('application-exit', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(13, GetThemeIcon('help-about', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(14, GetThemeIcon('edit-delete', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(15, GetThemeIcon('edit-select-all', ilEditorImages.Width) , nil);
-    ilEditorImages.Replace(16, GetThemeIcon('go-jump', ilEditorImages.Width) , nil);
-  end;
+  ilEditorImages.LoadThemeIcon(0, 'document-new');
+  ilEditorImages.LoadThemeIcon(1, 'document-open');
+  ilEditorImages.LoadThemeIcon(2, 'document-save');
+  ilEditorImages.LoadThemeIcon(3, 'document-save-as');
+  ilEditorImages.LoadThemeIcon(4, 'document-properties');
+  ilEditorImages.LoadThemeIcon(5, 'edit-cut');
+  ilEditorImages.LoadThemeIcon(6, 'edit-copy');
+  ilEditorImages.LoadThemeIcon(7, 'edit-paste');
+  ilEditorImages.LoadThemeIcon(8, 'edit-undo');
+  ilEditorImages.LoadThemeIcon(9, 'edit-redo');
+  ilEditorImages.LoadThemeIcon(10, 'edit-find');
+  ilEditorImages.LoadThemeIcon(11, 'edit-find-replace');
+  ilEditorImages.LoadThemeIcon(12, 'application-exit');
+  ilEditorImages.LoadThemeIcon(13, 'help-about');
+  ilEditorImages.LoadThemeIcon(14, 'edit-delete');
+  ilEditorImages.LoadThemeIcon(15, 'edit-select-all');
+  ilEditorImages.LoadThemeIcon(16, 'go-jump');
 end;
 
 end.
