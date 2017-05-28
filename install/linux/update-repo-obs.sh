@@ -78,6 +78,8 @@ update_doublecmd_svn()
   read -s -p "Enter password: " PASSWORD; echo
   echo "Update Double Commander (Qt)"
   curl -u Alexx2000:$PASSWORD -X POST https://api.opensuse.org/source/home:Alexx2000:doublecmd-svn/doublecmd-qt?cmd=runservice
+  echo "Update Double Commander (Qt5)"
+  curl -u Alexx2000:$PASSWORD -X POST https://api.opensuse.org/source/home:Alexx2000:doublecmd-svn/doublecmd-qt5?cmd=runservice
   echo "Update Double Commander (Gtk)"
   curl -u Alexx2000:$PASSWORD -X POST https://api.opensuse.org/source/home:Alexx2000:doublecmd-svn/doublecmd-gtk?cmd=runservice
   echo "Update Double Commander (Debian)"
