@@ -1236,7 +1236,6 @@ var
   begin
     if mbFileExists(Barfilename) then
     begin
-      DCListOfParameters := TStringList.Create;
       TCBarConfigFile := TIniFileEx.Create(Barfilename);
       try
         IndexButton := 1;
@@ -1326,7 +1325,6 @@ var
         until sButtonName = TCCONFIG_MAINBAR_NOTPRESENT;
       finally
         TCBarConfigFile.Free;
-        DCListOfParameters.Free;
       end;
     end;
   end;
@@ -1334,7 +1332,12 @@ var
 begin
   TCToolbarFilenameList := TStringList.Create;
   try
-    RecursiveIncorporateTCBarfile(Barfilename, UpperToolItem, Toolbar, WhereToImport);
+    try
+      DCListOfParameters := TStringList.Create;
+      RecursiveIncorporateTCBarfile(Barfilename, UpperToolItem, Toolbar, WhereToImport);
+    finally
+      DCListOfParameters.Free;
+    end;
   finally
     TCToolbarFilenameList.Free;
   end;
