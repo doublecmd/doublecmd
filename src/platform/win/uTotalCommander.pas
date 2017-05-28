@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Creates Total Commander fake window (some plugins don't work without it)
 
-    Copyright (C) 2009-2016 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2017 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -662,7 +662,7 @@ begin
   }
   //SendMessage(hMainWindow, uiMsg, wParam, lParam);
 
-  if (uiMsg = WM_SETTINGCHANGE) and (lParam <> 0) and (StrComp('Environment', PAnsiChar(lParam)) = 0) then
+  if (uiMsg = WM_SETTINGCHANGE) and (lParam <> 0) and (StrComp('Environment', {%H-}PAnsiChar(lParam)) = 0) then
   begin
     UpdateEnvironment;
     DCDebug('WM_SETTINGCHANGE:Environment');
@@ -766,13 +766,19 @@ end;
 // Routine to replace %VARIABLE% of TC path by the actual absolute path
 // This is useful when we "import" TC related path to place them in absolute format this way DC refer them correctly after import.
 function ReplaceTCEnvVars(const sText: string): string;
+var
+  sAbsoluteTotalCommanderExecutableFilename, sAbsoluteTotalCommanderConfigFilename: string;
 begin
-  Result := StringReplace(sText, '%COMMANDER_INI%', gTotalCommanderConfigFilename, [rfIgnoreCase]);
-  Result := StringReplace(Result, '%COMMANDER_PATH%', ExcludeTrailingPathDelimiter(ExtractFilePath(gTotalCommanderExecutableFilename)), [rfIgnoreCase]);
-  Result := StringReplace(Result, '%COMMANDER_EXE%', ExcludeTrailingPathDelimiter(ExtractFilePath(gTotalCommanderExecutableFilename)), [rfIgnoreCase]);
-  Result := StringReplace(Result, '%COMMANDER_DRIVE%', ExcludeTrailingPathDelimiter(ExtractFileDrive(gTotalCommanderExecutableFilename)), [rfIgnoreCase]);
+  sAbsoluteTotalCommanderExecutableFilename := mbExpandFileName(gTotalCommanderExecutableFilename);
+  sAbsoluteTotalCommanderConfigFilename := mbExpandFileName(gTotalCommanderConfigFilename);
+
+  Result := StringReplace(sText, '%COMMANDER_INI%\..', ExcludeTrailingPathDelimiter(ExtractFilePath(sAbsoluteTotalCommanderConfigFilename)),[rfIgnoreCase]);
+  Result := StringReplace(Result, '%COMMANDER_INI%', sAbsoluteTotalCommanderConfigFilename, [rfIgnoreCase]);
+  Result := StringReplace(Result, '%COMMANDER_PATH%', ExcludeTrailingPathDelimiter(ExtractFilePath(sAbsoluteTotalCommanderExecutableFilename)), [rfIgnoreCase]);
+  Result := StringReplace(Result, '%COMMANDER_EXE%', ExcludeTrailingPathDelimiter(ExtractFilePath(sAbsoluteTotalCommanderExecutableFilename)), [rfIgnoreCase]);
+  Result := StringReplace(Result, '%COMMANDER_DRIVE%', ExcludeTrailingPathDelimiter(ExtractFileDrive(sAbsoluteTotalCommanderExecutableFilename)), [rfIgnoreCase]);
   if utf8pos(UTF8UpperCase('wcmicons.dll'), UTF8UpperCase(Result)) = 1 then
-    Result := StringReplace(Result, 'wcmicons.dll', ExtractFilePath(gTotalCommanderExecutableFilename) + 'wcmicons.dll', [rfIgnoreCase]);
+    Result := StringReplace(Result, 'wcmicons.dll', ExtractFilePath(sAbsoluteTotalCommanderExecutableFilename) + 'wcmicons.dll', [rfIgnoreCase]);
 end;
 
 { GetTotalCommandeMainBarFilename }
@@ -783,12 +789,12 @@ var
   TCMainConfigFile: TIniFileEx;
 begin
   Result := '';
-  if mbFileExists(gTotalCommanderConfigFilename) then
+  if mbFileExists(mbExpandFileName(gTotalCommanderConfigFilename)) then
   begin
-    TCMainConfigFile := TIniFileEx.Create(gTotalCommanderConfigFilename);
+    TCMainConfigFile := TIniFileEx.Create(mbExpandFileName(gTotalCommanderConfigFilename));
     try
       Result :=
-        ReplaceTCEnvVars(ConvertTCStringToString(TCMainConfigFile.ReadString(TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_MAINBAR_NOTPRESENT)));
+        mbExpandFileName(ReplaceTCEnvVars(ConvertTCStringToString(TCMainConfigFile.ReadString(TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_MAINBAR_NOTPRESENT))));
 
       //While we're there, we'll get the button height.
       TCIconSize := TCMainConfigFile.ReadInteger(TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_BUTTONHEIGHT, 32 + 5);
@@ -801,8 +807,8 @@ begin
     //Let's see if there is such file there.
     if Result = TCCONFIG_MAINBAR_NOTPRESENT then
     begin
-      if mbFileExists(IncludeTrailingPathDelimiter(ExtractFilePath(gTotalCommanderExecutableFilename)) + 'DEFAULT.bar') then
-        Result := IncludeTrailingPathDelimiter(ExtractFilePath(gTotalCommanderExecutableFilename)) + 'DEFAULT.bar';
+      if mbFileExists(IncludeTrailingPathDelimiter(ExtractFilePath(mbExpandFileName(gTotalCommanderExecutableFilename))) + 'DEFAULT.bar') then
+        Result := IncludeTrailingPathDelimiter(ExtractFilePath(mbExpandFileName(gTotalCommanderExecutableFilename))) + 'DEFAULT.bar';
     end;
   end;
 end;
@@ -844,14 +850,14 @@ end;
 function areTCRelatedPathsAndFilesDetected: boolean;
 begin
   Result := False;
-  if mbFileExists(gTotalCommanderExecutableFilename) then
+  if mbFileExists(mbExpandFileName(gTotalCommanderExecutableFilename)) then
   begin
-    if mbFileExists(gTotalCommanderConfigFilename) then
+    if mbFileExists(mbExpandFileName(gTotalCommanderConfigFilename)) then
     begin
       sTotalCommanderMainbarFilename := GetTotalCommandeMainBarFilename;
       if mbFileExists(sTotalCommanderMainbarFilename) then
       begin
-        if mbDirectoryExists(ExcludeTrailingPathDelimiter(gTotalCommanderToolbarPath)) then
+        if mbDirectoryExists(ExcludeTrailingPathDelimiter(mbExpandFileName(gTotalCommanderToolbarPath))) then
         begin
           Result := True;
         end
@@ -983,7 +989,7 @@ begin
       if Result = '' then
         Result := 'empty';
 
-      Result := gTotalCommanderToolbarPath + PathDelim + Result;
+      Result := IncludeTrailingPathDelimiter(mbExpandFileName(gTotalCommanderToolbarPath)) + Result;
 
       //Make sure to use a filename not already generated.
       Suffix := '';
@@ -1137,7 +1143,7 @@ var
 begin
   ExportationDateTime := now;
 
-  TargetBarFilenamePrefix := IncludeTrailingPathDelimiter(gTotalCommanderToolbarPath) + rsFilenameExportedTCBarPrefix;
+  TargetBarFilenamePrefix := IncludeTrailingPathDelimiter(mbExpandFilename(gTotalCommanderToolbarPath)) + rsFilenameExportedTCBarPrefix;
   TCToolBarIndex := 1;
 
   TCListOfCreatedTCIconFilename := TStringList.Create;
@@ -1180,7 +1186,7 @@ begin
   //If we've been asked to play in the Wincmd.ini file, let's make sure to save the main bar filename.
   if FlagNeedToUpdateConfigIni then
   begin
-    TCMainConfigFile := TIniFileEx.Create(gTotalCommanderConfigFilename, fmOpenReadWrite);
+    TCMainConfigFile := TIniFileEx.Create(mbExpandFileName(gTotalCommanderConfigFilename), fmOpenReadWrite);
     try
       //2014-11-27:It looks like, will with TC 8.50B12, the main bar file cannot have unicode in the name???
       //It "basically" works but have some annoying problem from here to thre.
