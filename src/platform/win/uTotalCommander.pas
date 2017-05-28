@@ -1332,8 +1332,8 @@ var
 begin
   TCToolbarFilenameList := TStringList.Create;
   try
+    DCListOfParameters := TStringList.Create;
     try
-      DCListOfParameters := TStringList.Create;
       RecursiveIncorporateTCBarfile(Barfilename, UpperToolItem, Toolbar, WhereToImport);
     finally
       DCListOfParameters.Free;
