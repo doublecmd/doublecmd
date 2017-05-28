@@ -1316,12 +1316,9 @@ end;
 
 procedure TSynLuaSyn.UnknownProc;
 begin
-  {$IFDEF SYN_MBCSSUPPORT}
-  if FLine[Run] in LeadBytes then
-    Inc(Run,2)
-  else
-  {$ENDIF}
   Inc(Run);
+  while (fLine[Run] in [#128..#191]) or // continued utf8 subcode
+   ((fLine[Run] <> #0) and (fProcTable[fLine[Run]] = @UnknownProc)) do Inc(Run);
   fTokenID := tkUnknown;
 end;
 
