@@ -29,7 +29,7 @@ var
 implementation
 
 uses
-  LCLVersion, uGraphics;
+  LCLVersion, uGraphics, uPixMapManager;
 
 {$R *.lfm}
 
