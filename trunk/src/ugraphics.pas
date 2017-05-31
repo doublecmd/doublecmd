@@ -66,15 +66,13 @@ var
   ABitmap: TBitmap;
 begin
   ABitmap:= PixMapManager.GetThemeIcon(AIconName, Self.Width);
-  if Assigned(ABitmap) then
-  begin
-    if (Index < Count) then
-      Self.Replace(Index, ABitmap , nil)
-    else begin
-      Self.Insert(Index, ABitmap , nil)
-    end;
-    ABitmap.Free;
+  if (ABitmap = nil) then ABitmap:= TBitmap.Create;
+  if (Index < Count) then
+    Self.Replace(Index, ABitmap , nil)
+  else begin
+    Self.Insert(Index, ABitmap , nil)
   end;
+  ABitmap.Free;
 end;
 
 end.
