@@ -53,7 +53,7 @@ const
   RunInTermCloseCmd = 'cmd.exe'; // default run in terminal command AND Close after command
   RunInTermCloseParams = '/C {command}';
   fmtCommandPath = '%s>';
-  MonoSpaceFont = 'Fixedsys';
+  MonoSpaceFont = 'Courier New';
   {$ELSEIF DEFINED(UNIX)}
   faFolder = S_IFDIR;
   ReversePathDelim = '\';
