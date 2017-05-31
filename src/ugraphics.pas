@@ -68,7 +68,11 @@ begin
   ABitmap:= PixMapManager.GetThemeIcon(AIconName, Self.Width);
   if Assigned(ABitmap) then
   begin
-    Self.Replace(Index, ABitmap , nil);
+    if (Index < Count) then
+      Self.Replace(Index, ABitmap , nil)
+    else begin
+      Self.Insert(Index, ABitmap , nil)
+    end;
     ABitmap.Free;
   end;
 end;
