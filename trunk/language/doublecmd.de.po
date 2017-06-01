@@ -10009,6 +10009,10 @@ msgstr "Betrachten"
 msgid "Account:"
 msgstr "Zugang:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Zusätzliche Parameter für die Befehlszeile des Packers:"

@@ -9739,6 +9739,10 @@ msgstr "Overzicht"
 msgid "Account:"
 msgstr "Account:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Extra parameters voor inpakker-opdrachtregel:"

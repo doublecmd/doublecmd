@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Structure/Load/Save/Working With FavoriteTab and List of them
 
-   Copyright (C) 2016  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2017  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -130,9 +130,6 @@ type
     property LastImportationStringUniqueId: TStringList read FLastImportationStringUniqueId write FLastImportationStringUniqueId;
   end;
 
-{ GetNewUniqueID }
-function GetNewUniqueID: TGUID;
-
 implementation
 
 uses
@@ -147,20 +144,6 @@ uses
 function GetSingleXmlFavoriteTabsFilename: string;
 begin
   Result := mbExpandFileName(IncludeTrailingPathDelimiter(EnvVarConfigPath) + 'favoritetabs.xml');
-end;
-
-{ GetNewUniqueID }
-function GetNewUniqueID: TGUID;
-var
-  iIndex: integer;
-begin
-  if CreateGuid(Result) <> 0 then
-  begin
-    Result.Data1 := random($233528DE);
-    Result.Data2 := random($FFFF);
-    Result.Data3 := random($FFFF);
-    for iIndex := 0 to 7 do Result.Data4[iIndex] := random($FF);
-  end;
 end;
 
 { XmlStringToGuid }
@@ -183,7 +166,7 @@ begin
   FDestinationForSavedRightTabs := tclRight;
   FExistingTabsToKeep := tclNone;
   FSaveDirHistory := False;
-  FUniqueID := GetNewUniqueID;
+  FUniqueID := DCGetNewGUID;
   FGroupNumber := 0;
 end;
 
@@ -196,7 +179,7 @@ begin
   DestinationFavoriteTabs.DestinationForSavedRightTabs := FDestinationForSavedRightTabs;
   DestinationFavoriteTabs.ExistingTabsToKeep := FExistingTabsToKeep;
   DestinationFavoriteTabs.SaveDirHistory := FSaveDirHistory;
-  if bExactCopyWanted then DestinationFavoriteTabs.UniqueID := FUniqueId else DestinationFavoriteTabs.UniqueID := GetNewUniqueID;
+  if bExactCopyWanted then DestinationFavoriteTabs.UniqueID := FUniqueId else DestinationFavoriteTabs.UniqueID := DCGetNewGUID;
   DestinationFavoriteTabs.GroupNumber := FGroupNumber;
 end;
 
@@ -251,7 +234,7 @@ end;
 constructor TFavoriteTabsList.Create;
 begin
   inherited Create;
-  FLastFavoriteTabsLoadedUniqueId := GetNewUniqueID;
+  FLastFavoriteTabsLoadedUniqueId := DCGetNewGUID;
   FLastImportationStringUniqueId := TStringList.Create;
   FAssociatedMainMenuItem := nil;
 end;
@@ -541,7 +524,7 @@ begin
                   LocalFavoriteTabs.DestinationForSavedRightTabs := TTabsConfigLocation(AConfig.GetAttr(Anode, 'DestRight', integer(tclRight)));
                   LocalFavoriteTabs.ExistingTabsToKeep := TTabsConfigLocation(AConfig.GetAttr(Anode, 'ExistingKeep', integer(tclNone)));
                   LocalFavoriteTabs.SaveDirHistory := AConfig.GetAttr(Anode, 'SaveDirHistory', False);
-                  LocalFavoriteTabs.UniqueID := StringToGuid(AConfig.GetAttr(Anode, 'UniqueID', GuidToString(GetNewUniqueID)));
+                  LocalFavoriteTabs.UniqueID := StringToGuid(AConfig.GetAttr(Anode, 'UniqueID', GuidToString(DCGetNewGUID)));
                 end;
               end;
             end;

@@ -9998,6 +9998,10 @@ msgstr "Vizualizează"
 msgid "Account:"
 msgstr "Cont:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Parametri adiționali pentru linia de comandă a arhivatorului:"

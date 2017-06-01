@@ -10012,6 +10012,10 @@ msgstr "ビュー"
 msgid "Account:"
 msgstr "アカウント："
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "アーカイバコマンドライン用の追加パラメータ："

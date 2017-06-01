@@ -9726,6 +9726,10 @@ msgstr "Poglej"
 msgid "Account:"
 msgstr "Račun:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Dodatni parametri arhiva v ukazni vrstici:"

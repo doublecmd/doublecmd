@@ -10316,6 +10316,10 @@ msgstr "Перегляд"
 msgid "Account:"
 msgstr "Обліковий запис:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Додаткові параметри для командного рядка архіватора:"

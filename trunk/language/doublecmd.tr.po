@@ -10430,6 +10430,10 @@ msgstr "Göster"
 msgid "Account:"
 msgstr "Hesap:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Arşiv komut satırı için ek değişkenler:"

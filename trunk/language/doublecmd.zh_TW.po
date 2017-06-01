@@ -10868,6 +10868,10 @@ msgstr "檢視"
 msgid "Account:"
 msgstr "帳戶:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "壓縮器命令行的額外參數"
