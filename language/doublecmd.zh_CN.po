@@ -10768,6 +10768,10 @@ msgstr "视图"
 msgid "Account:"
 msgstr ""
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr ""

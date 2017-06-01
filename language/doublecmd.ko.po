@@ -10125,6 +10125,10 @@ msgstr "보기"
 msgid "Account:"
 msgstr "계정:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "압축기 명령줄의 부가 매개변수:"

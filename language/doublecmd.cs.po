@@ -9723,6 +9723,10 @@ msgstr "Zobrazit"
 msgid "Account:"
 msgstr "Účet:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Doplňující parametry pro archivátor příkazové řádky:"

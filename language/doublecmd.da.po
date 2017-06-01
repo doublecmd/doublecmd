@@ -10338,6 +10338,10 @@ msgstr "Vis"
 msgid "Account:"
 msgstr "Konto:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Ekstra parametre til pakkeprograms kommandolinje:"

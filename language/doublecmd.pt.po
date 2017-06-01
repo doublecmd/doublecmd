@@ -10121,6 +10121,10 @@ msgstr "Ver"
 msgid "Account:"
 msgstr "Conta:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Parâmetros adicionais da linha de comandos do arquivador:"

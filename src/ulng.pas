@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Localization core unit
 
-   Copyright (C) 2007-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -754,6 +754,7 @@ resourcestring
   rsMsgTCConfigNotFound = 'Error! Cannot find the TC configuration file:'+#$0A+'%s';
   rsMsgTCExecutableNotFound = 'Error! Cannot find the TC configuration executable:'+#$0A+'%s';
   rsMsgTCisRunning = 'Error! TC is still running but it should be closed for this operation.'+#$0A+'Close it and press OK or press CANCEL to abort.';
+  rsMsgAllDCIntCmds = 'All Double Commander internal commands';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';

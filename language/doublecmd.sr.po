@@ -10258,6 +10258,10 @@ msgstr "Прикажи"
 msgid "Account:"
 msgstr "Налог:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Додатне одреднице за наредбену линију програма сажимања:"

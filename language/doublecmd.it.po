@@ -10207,6 +10207,10 @@ msgstr "Vista"
 msgid "Account:"
 msgstr "Account:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Parametri addizionali per compressore da linea di comando:"

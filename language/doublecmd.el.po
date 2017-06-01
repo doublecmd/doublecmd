@@ -10005,6 +10005,10 @@ msgstr "Προβολή"
 msgid "Account:"
 msgstr "Λογαριασμός:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Επιπρόσθετες παράμετροι για τη γραμμή εντολών του προγράμματος συμπίεσης:"

@@ -10933,6 +10933,10 @@ msgstr "Zobraziť"
 msgid "Account:"
 msgstr "Účet:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Ďalšie parametre pre príkazový riadok archivátora:"

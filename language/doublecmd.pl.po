@@ -9713,6 +9713,10 @@ msgstr "Podgląd"
 msgid "Account:"
 msgstr "Konto:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Dodatkowe parametry linii poleceń archiwizera:"

@@ -12,7 +12,7 @@
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
    Copyright (C) 2008  Vitaly Zotov (vitalyzotov@mail.ru)
-   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
 
 }
 
@@ -2656,7 +2656,7 @@ begin
       gDefaultTargetPanelRightSaved := TTabsConfigLocation(GetValue(Node, 'DfltRightGoTo', Integer(gDefaultTargetPanelRightSaved)));
       gDefaultExistingTabsToKeep := TTabsConfigLocation(GetValue(Node, 'DfltKeep', Integer(gDefaultExistingTabsToKeep)));
       gFavoriteTabsSaveDirHistory := GetValue(Node, 'DfltSaveDirHistory', gFavoriteTabsSaveDirHistory);
-      gFavoriteTabsList.LastFavoriteTabsLoadedUniqueId := StringToGUID(GetValue(Node,'FavTabsLastUniqueID',GUIDtoString(GetNewUniqueID)));
+      gFavoriteTabsList.LastFavoriteTabsLoadedUniqueId := StringToGUID(GetValue(Node,'FavTabsLastUniqueID',GUIDtoString(DCGetNewGUID)));
     end;
 
     { - Other - }

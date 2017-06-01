@@ -10260,6 +10260,10 @@ msgstr "Prikaži"
 msgid "Account:"
 msgstr "Nalog:"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Dodatne odrednice za naredbenu liniju programa sažimanja:"

@@ -10070,6 +10070,10 @@ msgstr "Voir"
 msgid "Account:"
 msgstr "Compte :"
 
+#: ulng.rsmsgalldcintcmds
+msgid "All Double Commander internal commands"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Paramètres additionnels pour la ligne de commande du programme d'archivage :"

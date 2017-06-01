@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Several useful functions
    
-   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
 
    contributors:
    
@@ -89,7 +89,7 @@ function mbExpandFileName(const sFileName: String): String;
    @returns(File size in string representation)
 }
 function cnvFormatFileSize(iSize: Int64; FSF: TFileSizeFormat; Number: Integer): String;
-function cnvFormatFileSize(iSize: Int64; FSF: Boolean): String;
+function cnvFormatFileSize(iSize: Int64; {%H-}FSF: Boolean): String;
 function cnvFormatFileSize(iSize: Int64): String; inline;
 {en
    Minimize file path
@@ -250,6 +250,7 @@ procedure SplitCmdLineToCmdParams(sCmdLine : String; var sCmd, sParams : String)
 
 function GuessLineBreakStyle(const S: String): TTextLineBreakStyle;
 function GetTextRange(Strings: TStrings; Start, Finish: Integer): String;
+function DCGetNewGUID: TGUID;
 
 implementation
 
@@ -1254,6 +1255,20 @@ begin
         Inc(P);
       end;
     end;
+  end;
+end;
+
+{ DCGetNewGUID }
+function DCGetNewGUID: TGUID;
+var
+  iIndex: integer;
+begin
+  if CreateGuid(Result) <> 0 then
+  begin
+    Result.Data1 := random($233528DE);
+    Result.Data2 := random($FFFF);
+    Result.Data3 := random($FFFF);
+    for iIndex := 0 to 7 do Result.Data4[iIndex] := random($FF);
   end;
 end;
 
