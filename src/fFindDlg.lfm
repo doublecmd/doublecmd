@@ -1493,6 +1493,14 @@ object frmFindDlg: TfrmFindDlg
       Caption = 'Configuration of hot keys'
       OnExecute = actExecute
     end
+    object actPageNext: TAction
+      Caption = 'Switch to Nex&t Page'
+      OnExecute = actExecute
+    end
+    object actPagePrev: TAction
+      Caption = 'Switch to &Previous Page'
+      OnExecute = actExecute
+    end
   end
   object mmMainMenu: TMainMenu
     left = 232

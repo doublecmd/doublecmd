@@ -49,6 +49,8 @@ type
     actGoToFile: TAction;
     actFeedToListbox: TAction;
     actCancelClose: TAction;
+    actPagePrev: TAction;
+    actPageNext: TAction;
     actPageResults: TAction;
     actPageLoadSave: TAction;
     actPagePlugins: TAction;
@@ -313,6 +315,8 @@ type
     procedure cm_Edit(const {%H-}Params: array of string);
     procedure cm_GoToFile(const {%H-}Params: array of string);
     procedure cm_FeedToListbox(const {%H-}Params: array of string);
+    procedure cm_PageNext(const Params: array of string);
+    procedure cm_PagePrev(const Params: array of string);
     procedure cm_PageStandard(const {%H-}Params: array of string);
     procedure cm_PageAdvanced(const {%H-}Params: array of string);
     procedure cm_PagePlugins(const {%H-}Params: array of string);
@@ -1639,6 +1643,28 @@ begin
   NewPage.MakeActive;
 
   Close;
+end;
+
+procedure TfrmFindDlg.cm_PageNext(const Params: array of string);
+begin
+  with pgcSearch do
+  begin
+    if PageIndex = PageCount - 1 then
+      ActivePage := Pages[0]
+    else
+      ActivePage := Pages[PageIndex + 1];
+  end;
+end;
+
+procedure TfrmFindDlg.cm_PagePrev(const Params: array of string);
+begin
+  with pgcSearch do
+  begin
+    if PageIndex = 0 then
+      ActivePage := Pages[PageCount - 1]
+    else
+      ActivePage := Pages[PageIndex - 1];
+  end;
 end;
 
 { TfrmFindDlg.cm_PageStandard }
