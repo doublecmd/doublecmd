@@ -40,7 +40,7 @@ uses
   Windows, Classes,
 
   //DC
-  uFormCommands, KASToolItems, KASToolBar;
+  DCXmlConfig, uFormCommands, KASToolItems, KASToolBar;
 
 const
   TCCONFIG_MAINBAR_NOTPRESENT = ':-<#/?*+*?\#>-:';
@@ -69,7 +69,7 @@ function GetTCEquivalentCommandToDCCommand(DCCommand: string; var TCIndexOfComma
 function GetTCIconFromDCIconAndCreateIfNecessary(const DCIcon: string): string;
 function GetTCEquivalentCommandIconToDCCommandIcon(DCIcon: string; TCIndexOfCommand: integer): string;
 procedure ExportDCToolbarsToTC(Toolbar: TKASToolbar; Barfilename: string; FlushExistingContent, FlagNeedToUpdateConfigIni: boolean);
-procedure ImportTCToolbarsToDC(Barfilename: string; UpperToolItem: TKASToolItem; Toolbar: TKASToolbar; WhereToImport: integer; FFormCommands: IFormCommands);
+procedure ConvertTCToolbarToDCXmlConfig(sTCBarFilename: string; ADCXmlConfig:TXmlConfig);
 
 implementation
 
@@ -1201,38 +1201,26 @@ begin
   end;
 end;
 
-{ ImportTCToolbarsToDC }
-// Will import the TC toolbar file named "Barfilename" into either:
-//   -a TKASToolbar referenced by "Toolbar" (when "WhereToImport"=IMPORT_TO_BAR)
-//   -a subtoolbar of a "TKASToolItem" referenced by "UpperToolItem" (when "WhereToImport"=IMPORT_TO_ITEM)
+{ ConvertTCToolbarToDCXmlConfig }
+// Will import the TC toolbar file named "sBarFilename" into either our "AToolbarConfig" XML structure.
 // If the TC toolbar have buttons pointing other TC toolbar file, the routine will import them as well
 //   and organize something similar in the tree structure of subtoolbar DC is using.
 // Obviously to avoid keeps cycling in round if "Toolbar A points toolbar B and toolbar B points toolbar A",
 //   this import routine will not re-importe a toolbar already imported.
-procedure ImportTCToolbarsToDC(Barfilename: string; UpperToolItem: TKASToolItem; Toolbar: TKASToolbar; WhereToImport: integer; FFormCommands: IFormCommands);
-const
-  IMPORT_TO_BAR = 0;
-  IMPORT_TO_ITEM = 1;
+procedure ConvertTCToolbarToDCXmlConfig(sTCBarFilename: string; ADCXmlConfig:TXmlConfig);
 var
-  TCToolbarFilenameList: TStringList; //To hold the TC toolbarfile already imported to don't re-import more than once a toolbar file already imported.
+  TCToolbarFilenameList: TStringList; //To hold the TC toolbarfile already imported so we don't re-import more than once a toolbar file already imported.
   TCIndexOfCommand: integer;
   DCListOfParameters: TStringList;
+  ToolBarNode, RowNode: TXmlNode;
 
-  procedure RecursiveIncorporateTCBarfile(Barfilename: string; UpperToolItem: TKASToolItem; Toolbar: TKASToolbar; WhereToImport: integer);
+  // WARNING: "RecursiveIncorporateTCBarfile" is recursive and may call itself!
+  procedure RecursiveIncorporateTCBarfile(Barfilename: string; InsertionNode:TXmlNode);
   var
     TCBarConfigFile: TIniFileEx;
     IndexButton: integer;
     sButtonName, sCmdName, sHintName, sParamValue, sStartingPath: string;
-    SubToolItem: TKASToolItem = nil;
-
-    procedure AddToolItem;
-    begin
-      case WhereToImport of
-        IMPORT_TO_BAR: ToolBar.AddButton(SubToolItem);
-        IMPORT_TO_ITEM: TKASMenuItem(UpperToolItem).SubItems.Add(SubToolItem);
-      end;
-    end;
-
+    SubMenuNode, CommandNode, MenuItemsNode: TXmlNode;
   begin
     if mbFileExists(Barfilename) then
     begin
@@ -1247,8 +1235,7 @@ var
             if sButtonName = '' then
             begin
               //We have a separator bar!
-              SubToolItem := TKASSeparatorItem.Create;
-              AddToolItem;
+              CommandNode := ADCXmlConfig.AddNode(InsertionNode, 'Separator');
             end
             else
             begin
@@ -1266,57 +1253,57 @@ var
                 if TCIndexOfCommand <> -1 then
                 begin
                   // If we have an equivalent, we add it as the equivalent internal command.
-                  SubToolItem := TKASCommandItem.Create(FFormCommands);
-                  TKASCommandItem(SubToolItem).Command := sCmdName;
-                  TKASCommandItem(SubToolItem).Params := GetArrayFromStrings(DCListOfParameters);
-                  if sHintName <> '' then TKASCommandItem(SubToolItem).Hint := sHintName else TKASCommandItem(SubToolItem).Hint := FFormCommands.GetCommandCaption(sCmdName, cctLong);
-                  TKASCommandItem(SubToolItem).Icon := UTF8LowerCase(TKASCommandItem(SubToolItem).Command);
+                  CommandNode := ADCXmlConfig.AddNode(InsertionNode, 'Command');
+                  ADCXmlConfig.AddValue(CommandNode, 'ID', GuidToString(DCGetNewGUID));
+                  ADCXmlConfig.AddValue(CommandNode, 'Icon', UTF8LowerCase(sCmdName));
+                  ADCXmlConfig.AddValue(CommandNode, 'Command', sCmdName);
+                  ADCXmlConfig.AddValue(CommandNode, 'Hint', sHintName);
                 end
                 else
                 begin
                   // If we don't have an equivalent, we add is as an external command and we will write info to mean it.
-                  SubToolItem := TKASProgramItem.Create;
-                  TKASProgramItem(SubToolItem).Icon := sButtonName;
-                  TKASProgramItem(SubToolItem).Command := rsNoEquivalentInternalCommand + ' - ' + sCmdName;
-                  TKASProgramItem(SubToolItem).Params := '';
-                  TKASProgramItem(SubToolItem).StartPath := '';
-                  TKASProgramItem(SubToolItem).Hint := rsNoEquivalentInternalCommand;
+                  CommandNode := ADCXmlConfig.AddNode(InsertionNode, 'Program');
+                  ADCXmlConfig.AddValue(CommandNode, 'ID', GuidToString(DCGetNewGUID));
+                  ADCXmlConfig.AddValue(CommandNode, 'Icon', '???: '+sButtonName); // ???: will result into the question mark icon so it's easy for user to see that one did not work.
+                  ADCXmlConfig.AddValue(CommandNode, 'Command', rsNoEquivalentInternalCommand + ' - ' + sCmdName);
+                  ADCXmlConfig.AddValue(CommandNode, 'Params',  '');
+                  ADCXmlConfig.AddValue(CommandNode, 'StartPath',  '');
+                  ADCXmlConfig.AddValue(CommandNode, 'Hint', rsNoEquivalentInternalCommand);
                 end;
-
-                AddToolItem;
               end
               else
               begin
                 if UTF8UpperCase(ExtractFileExt(sCmdName)) = '.BAR' then
                 begin
-                  //Since with TC we could have toolbar recursively pointing themselves, we need to make sure we'll not get lost cycling throught the same ones over and over.
+                  //Since with TC we could have toolbars recursively pointing themselves, we need to make sure we'll not get lost cycling throught the same ones over and over.
                   if TCToolbarFilenameList.IndexOf(UTF8UpperCase(sCmdName)) = -1 then
                   begin
                     //We have a subtoolbar!
                     TCToolbarFilenameList.Add(UTF8UpperCase(sCmdName));
-                    SubToolItem := TKASMenuItem.Create;
-                    TKASMenuItem(SubToolItem).Icon := sButtonName;
+                    SubMenuNode := ADCXmlConfig.AddNode(InsertionNode, 'Menu');
+                    ADCXmlConfig.AddValue(SubMenuNode, 'ID', GuidToString(DCGetNewGUID));
                     if sHintName <> '' then
-                      TKASMenuItem(SubToolItem).Hint := sHintName
+                      ADCXmlConfig.AddValue(SubMenuNode, 'Hint', sHintName)
                     else
-                      TKASMenuItem(SubToolItem).Hint := 'Sub menu';
-                    AddToolItem;
-                    RecursiveIncorporateTCBarfile(sCmdName, SubToolItem, nil, IMPORT_TO_ITEM);
+                      ADCXmlConfig.AddValue(SubMenuNode, 'Hint', 'Sub menu');
+                    ADCXmlConfig.AddValue(SubMenuNode, 'Icon', sButtonName);
+                    MenuItemsNode := ADCXmlConfig.AddNode(SubMenuNode, 'MenuItems');
+                    RecursiveIncorporateTCBarfile(sCmdName, MenuItemsNode);
                   end;
                 end
                 else
                 begin
                   //We have a "Program Item"
-                  SubToolItem := TKASProgramItem.Create;
-                  TKASProgramItem(SubToolItem).Icon := sButtonName;
-                  TKASProgramItem(SubToolItem).Command := sCmdName;
-                  TKASProgramItem(SubToolItem).Params := sParamValue;
-                  TKASProgramItem(SubToolItem).StartPath := sStartingPath;
+                  CommandNode := ADCXmlConfig.AddNode(InsertionNode, 'Program');
+                  ADCXmlConfig.AddValue(CommandNode, 'ID', GuidToString(DCGetNewGUID));
+                  ADCXmlConfig.AddValue(CommandNode, 'Icon', sButtonName);
+                  ADCXmlConfig.AddValue(CommandNode, 'Command', sCmdName);
+                  ADCXmlConfig.AddValue(CommandNode, 'Params',  sParamValue);
+                  ADCXmlConfig.AddValue(CommandNode, 'StartPath',  sStartingPath);
                   if sHintName <> '' then
-                    TKASProgramItem(SubToolItem).Hint := sHintName
+                    ADCXmlConfig.AddValue(CommandNode, 'Hint', sHintName)
                   else
-                    TKASProgramItem(SubToolItem).Hint := 'Program';
-                  AddToolItem;
+                    ADCXmlConfig.AddValue(CommandNode, 'Hint', 'Program');
                 end;
               end;
             end;
@@ -1332,9 +1319,13 @@ var
 begin
   TCToolbarFilenameList := TStringList.Create;
   try
+    ToolBarNode := ADCXmlConfig.FindNode(ADCXmlConfig.RootNode, 'Toolbars/MainToolbar', True);
+    ADCXmlConfig.ClearNode(ToolBarNode);
+    RowNode := ADCXmlConfig.AddNode(ToolBarNode, 'Row');
+
     DCListOfParameters := TStringList.Create;
     try
-      RecursiveIncorporateTCBarfile(Barfilename, UpperToolItem, Toolbar, WhereToImport);
+      RecursiveIncorporateTCBarfile(sTCBarFilename, RowNode);
     finally
       DCListOfParameters.Free;
     end;
