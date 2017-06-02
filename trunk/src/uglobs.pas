@@ -124,7 +124,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 41;
+  hkVersion = 42;
   // 40 - In "Main" context, added the "Ctrl+Shift+F7" for "cm_AddNewSearch".
   //      In "Find Files" context, changed "cm_Start" that was "Enter" for "F9".
   //      In "Find Files" context, added "Alt+F7" as a valid alternative for "cm_PageStandard".
@@ -1078,6 +1078,9 @@ begin
       AddIfNotExists(['Alt+4'],[],'cm_PageLoadSave');
       AddIfNotExists(['Alt+5'],[],'cm_PageResults');
       AddIfNotExists(['Alt+F4','',''],'cm_FreeFromMem');
+
+      AddIfNotExists(VK_TAB, [ssModifier], 'cm_PageNext');
+      AddIfNotExists(VK_TAB, [ssModifier, ssShift], 'cm_PagePrev');
     end;
 
   if not mbFileExists(gpCfgDir + gNameSCFile) then
