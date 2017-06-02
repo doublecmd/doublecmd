@@ -332,7 +332,7 @@ begin
             begin
               case AskQuestion(sQuestion, '',
                                [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
-                               fsourRetry, fsourSkip) of
+                               fsourRetry, fsourAbort) of
               fsourRetry:
                 bRetry := True;
               fsourSkipAll:
