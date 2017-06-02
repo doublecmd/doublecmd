@@ -232,7 +232,7 @@ type
     FUpdatingButtonType: Boolean;
     FUpdatingIconText: Boolean;
     bFirstTimeDrawn: boolean;
-    function AddNewSubToolbar(ToolItem: TKASMenuItem): TKASToolBar;
+    function AddNewSubToolbar(ToolItem: TKASMenuItem; bIncludeButtonOnNewBar:boolean=True): TKASToolBar;
     procedure ApplyEditControls;
     procedure CloseToolbarsBelowCurrentButton;
     procedure CloseToolbar(Index: Integer);
@@ -651,11 +651,12 @@ begin
   Result.Tag := pnToolbars.ComponentCount;
 end;
 
-function TfrmOptionsToolbar.AddNewSubToolbar(ToolItem: TKASMenuItem): TKASToolBar;
+function TfrmOptionsToolbar.AddNewSubToolbar(ToolItem: TKASMenuItem; bIncludeButtonOnNewBar:boolean=True): TKASToolBar;
 begin
   Result := CreateToolbar(ToolItem.SubItems);
-  if Result.ButtonCount = 0 then
-    Result.AddButton(TKASCommandItem.Create(FFormCommands));
+  if bIncludeButtonOnNewBar then
+    if Result.ButtonCount = 0 then
+      Result.AddButton(TKASCommandItem.Create(FFormCommands));
 end;
 
 procedure TfrmOptionsToolbar.ApplyEditControls;
@@ -1528,7 +1529,6 @@ begin
     try
       ToolBarNode := AToolbarConfig.FindNode(AToolbarConfig.RootNode, 'Toolbars/MainToolbar', True);
       AToolbarConfig.ClearNode(ToolBarNode);
-
       RowNode := AToolbarConfig.AddNode(ToolBarNode, 'Row');
 
       AllDCCommandsSubMenuNode := AToolbarConfig.AddNode(RowNode, 'Menu');
@@ -1819,7 +1819,7 @@ begin
         LocalKASMenuItem.Icon := 'cm_configtoolbars';
         LocalKASMenuItem.Hint := ImportedToolbarHint;
         FCurrentButton := ToolBar.AddButton(LocalKASMenuItem);
-        Toolbar := AddNewSubToolbar(LocalKASMenuItem);
+        Toolbar := AddNewSubToolbar(LocalKASMenuItem, False);
       end;
     end;
 
@@ -1828,26 +1828,25 @@ begin
       {$IFDEF MSWINDOWS}
       ACTION_WITH_WINCMDINI, ACTION_WITH_TC_TOOLBARFILE:
       begin
-        if (ActionDispatcher and MASK_FLUSHORNOT_EXISTING) = ACTION_FLUSH_EXISTING then
-        begin
-          FCurrentButton := nil;
-          Application.ProcessMessages;
-          ToolBar.Clear;
-          Application.ProcessMessages;
+        ToolbarConfig := TXmlConfig.Create;
+        try
+          ConvertTCToolbarToDCXmlConfig(OpenDialog.FileName, ToolbarConfig);
+
+          ToolBarNode := ToolbarConfig.FindNode(ToolbarConfig.RootNode, 'Toolbars/MainToolbar', False);
+          if ToolBarNode <> nil then
+          begin
+            FCurrentButton := nil;
+            if (ActionDispatcher and MASK_FLUSHORNOT_EXISTING) = ACTION_FLUSH_EXISTING then
+              LoadToolbar(ToolBar, ToolbarConfig, ToolBarNode, tocl_FlushCurrentToolbarContent)
+            else
+              LoadToolbar(ToolBar, ToolbarConfig, ToolBarNode, tocl_AddToCurrentToolbarContent);
+
+            if ToolBar.ButtonCount > 0 then
+              PressButtonDown(ToolBar.Buttons[pred(ToolBar.ButtonCount)]); //Let's press the last added button since user might wants to complement what he just added
+          end;
+        finally
+          FreeAndNil(ToolbarConfig);
         end;
-
-        ImportTCToolbarsToDC(OpenDialog.FileName, LocalKASMenuItem, ToolBar, (ImportDestination and $01), FFormCommands);
-
-        case ImportDestination of
-          IMPORT_IN_MAIN_TOOLBAR_TO_NEW_SUB_BAR, IMPORT_IN_CURRENT_BAR_TO_NEW_SUB_BAR:
-            begin
-              PressButtonDown(FCurrentButton);
-              ToolBar.RemoveButton(0); //We remove the button the was added by default when we created the toolbar
-            end;
-        end;
-
-        if ToolBar.ButtonCount > 0 then
-          PressButtonDown(ToolBar.Buttons[pred(ToolBar.ButtonCount)]); //Let's press the last added button since user might wants to complement what he just added
       end;
       {$ENDIF}
 
