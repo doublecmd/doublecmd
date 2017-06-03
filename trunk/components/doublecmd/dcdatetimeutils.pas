@@ -92,6 +92,7 @@ function UnixFileTimeToDateTime(UnixTime: TUnixFileTime) : TDateTime;
 function DateTimeToUnixFileTime(DateTime: TDateTime) : TUnixFileTime;
 function UnixFileTimeToDosTime(UnixTime: TUnixFileTime): TDosFileTime;
 function UnixFileTimeToWinTime(UnixTime: TUnixFileTime): TWinFileTime;
+function WinFileTimeToUnixTime(WinTime: TWinFileTime) : TUnixFileTime;
 
 function GetTimeZoneBias: LongInt;
 
@@ -492,6 +493,11 @@ begin
   WinFileTime := $019DB1DED53E8000; // Unix epoch start
   if not AdjustWinFileTime(WinFileTime, Result, 10000000 * Int64(UnixTime)) then
     Result := WinFileTime;
+end;
+
+function WinFileTimeToUnixTime(WinTime: TWinFileTime): TUnixFileTime;
+begin
+  Result:= TUnixFileTime((WinTime - $019DB1DED53E8000) div 10000000);
 end;
 
 function GetTimeZoneBias: LongInt;
