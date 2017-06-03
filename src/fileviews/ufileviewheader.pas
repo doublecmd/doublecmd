@@ -72,6 +72,7 @@ type
     destructor Destroy; override;
 
     procedure Click; override;
+    procedure DblClick; override;
     procedure UpdateHeader;
     procedure UpdateSorting(Sorting: TFileSortings);
   end;
@@ -433,6 +434,11 @@ begin
     if Index <> -1 then
       SectionClick(Sections[Index]);
   end;
+end;
+
+procedure TFileViewFixedHeader.DblClick;
+begin
+  Click;
 end;
 
 procedure TFileViewFixedHeader.UpdateHeader;
