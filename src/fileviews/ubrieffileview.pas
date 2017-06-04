@@ -137,12 +137,12 @@ procedure TBriefDrawGrid.CalculateColumnWidth;
 var
   I, J, L, M: Integer;
 begin
-  if not Assigned(FBriefView.FFiles) then Exit;
+  if not Assigned(FBriefView.FFiles) or (FBriefView.FFiles.Count = 0) then Exit;
   if gBriefViewMode = bvmFixedWidth then
     DefaultColWidth:= Min(ClientWidth, gBriefViewFixedWidth)
   else if gBriefViewMode = bvmFixedCount then
     DefaultColWidth:= ClientWidth div Max(1, gBriefViewFixedCount)
-  else if FBriefView.FFiles.Count < 2 then
+  else if (FBriefView.FFiles.Count = 1) and (FBriefView.FFiles[0].FSFile.Name = '..') then
     DefaultColWidth:= ClientWidth div 3
   else
     begin
