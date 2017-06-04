@@ -130,6 +130,7 @@ resourcestring
   rsMsgErrCreateFileDirectoryExists = 'There already exists a directory named "%s".';
   rsMsgDeletePartiallyCopied = 'Delete the partially copied file ?';
   rsMsgInvalidCommandLine = 'Error in command line';
+  rsMsgCofirmUserParam = 'Confirmation of parameter';
   rsMsgAskQuoteOrNot = 'Do you want to enclose between quotes?';
   rsMsgInvalidQuoting = 'Invalid quoting';
   rsMsgErrorInContextMenuCommand = 'Error in context menu command';

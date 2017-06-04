@@ -1558,11 +1558,19 @@ msgstr "actPageAdvanced"
 msgid "Go to page \"Load/Save\""
 msgstr "actPageLoadSave"
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 #, fuzzy
 #| msgid "actPagePlugins"
 msgid "Go to page \"Plugins\""
 msgstr "actPagePlugins"
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
+msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
 #, fuzzy
@@ -1726,11 +1734,6 @@ msgstr "Introduza os nomes dos arquivos a excluir da procura, separados por \";\
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Introduza os nomes de arquivos separados por \";\""
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
@@ -10188,6 +10191,10 @@ msgstr "Remover as guias inativas?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Esta guia (%s) está bloqueado! Fechar mesmo assim?"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Tem a certeza que quer desistir?"
@@ -10876,6 +10883,10 @@ msgstr "Impossível Excluir o arquivo %s"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Não implementado."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

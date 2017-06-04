@@ -1564,8 +1564,16 @@ msgstr ""
 msgid "Go to page \"Load/Save\""
 msgstr ""
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
+msgstr ""
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
 msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
@@ -1724,11 +1732,6 @@ msgstr "Indtast filnavnene, som skal udelades i søgningen adskilt med \";\""
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Indtast filnavne adskilt med \";\""
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*.*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -10382,6 +10385,10 @@ msgstr "Luk alle inaktive faneblade?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Fanebladet (%s) er låst! Luk alligevel?"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Er du sikker på at ville afslutte?"
@@ -11098,6 +11105,10 @@ msgstr "Kan ikke slette fil %s"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Ikke muligt."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

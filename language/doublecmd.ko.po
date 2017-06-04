@@ -1542,11 +1542,19 @@ msgstr "페이지 어드반스드 실행"
 msgid "Go to page \"Load/Save\""
 msgstr "actPageLoadSave"
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 #, fuzzy
 #| msgid "actPagePlugins"
 msgid "Go to page \"Plugins\""
 msgstr "actPagePlugins"
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
+msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
 #, fuzzy
@@ -1706,11 +1714,6 @@ msgstr "\";\"로 검색 구분된 파일명 입력 \";\""
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "\";\"로 구분된 파일명 입력"
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
@@ -10174,6 +10177,10 @@ msgstr "비활성 탭 모두 제거?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "이 탭(%s) 잠겼음! 어쨌든 닫을까요?"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "정말로 끝내기를 원하시나요?"
@@ -10865,6 +10872,10 @@ msgstr "%s 파일을 삭제할 수 없습니다."
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "실행되지 않음"
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

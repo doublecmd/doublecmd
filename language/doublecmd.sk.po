@@ -1643,8 +1643,16 @@ msgstr ""
 msgid "Go to page \"Load/Save\""
 msgstr ""
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
+msgstr ""
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
 msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
@@ -1825,11 +1833,6 @@ msgstr "Zadaj mená súborov, ktoré by mali byť vynechané z vyhľadávania od
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Zadaj mená súborov oddelené \";\""
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -10977,6 +10980,10 @@ msgstr "Odstrániť všetky neaktívne záložky?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Záložka (%s) je uzamknutá! Aj tak zavrieť?"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Skutočne chcete skončiť?"
@@ -11656,6 +11663,10 @@ msgstr "Nedá sa vymazať súbor %s"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Nie je zavedené."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

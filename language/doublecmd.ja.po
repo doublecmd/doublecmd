@@ -1532,9 +1532,17 @@ msgstr "「詳細設定」のページへ"
 msgid "Go to page \"Load/Save\""
 msgstr "「読み込み/保存」のページへ"
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
 msgstr "「プラグイン」のページへ"
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
+msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -1690,11 +1698,6 @@ msgstr "検索対象から除外すべきファイル名を”;”で区切っ�
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "ファイル名を”;”で区切って入力"
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
@@ -10061,6 +10064,10 @@ msgstr "全てのアクティブでないタブを削除しますか？"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "この＜%s＞タブはロックされています。それも、閉じるしますか？"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "終了してもよろしいですか?"
@@ -10752,6 +10759,10 @@ msgstr "ファイル＜%s＞を削除できません。"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "機能は提供されていません。"
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

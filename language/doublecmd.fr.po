@@ -1554,9 +1554,17 @@ msgstr "Allez à la page \"Avancé\""
 msgid "Go to page \"Load/Save\""
 msgstr "Aller à la page \"Charger/Sauvegarder\""
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
 msgstr "Aller à la page \"Plugins\""
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
+msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -1712,11 +1720,6 @@ msgstr "Entrer les noms de fichiers à exclure de la recherche et les séparer p
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Entrer les noms de fichiers séparés par un point-virgule"
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -10118,6 +10121,10 @@ msgstr "Fermer tous les onglets inactifs?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Cet onglet (%s) est verrouillé! Forcer sa fermeture tout de même?"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Êtes-vous certain de vouloir quitter ?"
@@ -10805,6 +10812,10 @@ msgstr "Impossible de supprimer le fichier %s"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Pas encore implémenté."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

@@ -1530,9 +1530,17 @@ msgstr "Перейти к вкладке \"Расширенный\""
 msgid "Go to page \"Load/Save\""
 msgstr "Перейти к вкладке \"Загрузить/Сохранить\""
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
 msgstr "Перейти к вкладке \"Плагины\""
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
+msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -1688,11 +1696,6 @@ msgstr "Введите имена файлов, которые должны бы
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Введите имена файлов, разделённые символом \";\""
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -10089,6 +10092,10 @@ msgstr "Закрыть все неактивные вкладки?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Вкладка (%s) заблокирована! Закрыть?"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Вы уверены что хотите выйти?"
@@ -10776,6 +10783,10 @@ msgstr "Не удалось удалить файл %s"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Не реализовано."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

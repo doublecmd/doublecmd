@@ -1496,9 +1496,17 @@ msgstr "Ir a la página «Avanzado»"
 msgid "Go to page \"Load/Save\""
 msgstr "Ir a la página «Cargar/Guardar»"
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
 msgstr "Ir a la página «Complementos»"
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
+msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -1657,11 +1665,6 @@ msgstr ""
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Introducir nombres de archivos separados con «;»"
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "tfrmfinddlg.cmbfindfilemask.text"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -9778,6 +9781,10 @@ msgstr ""
 "¡Esta pestaña (%s) está bloqueada!\n"
 "¿Quieres cerrarla de todos modos?\n"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "¿Estás seguro de querer salir?"
@@ -10478,6 +10485,10 @@ msgstr "No se puede borrar archivo «%s»"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "No se ha implementado."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

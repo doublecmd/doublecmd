@@ -33,12 +33,12 @@ type
   TPrepareParameterOption = (ppoNormalizePathDelims, ppoReplaceTilde);
   TPrepareParameterOptions = set of TPrepareParameterOption;
 
-function PrepareParameter(sParam: string; paramFile: TFile = nil; options: TPrepareParameterOptions = []; pbShowCommandLinePriorToExecute: PBoolean = nil; pbRunInTerminal: PBoolean = nil; pbKeepTerminalOpen: PBoolean = nil): string; overload;
+function PrepareParameter(sParam: string; paramFile: TFile = nil; options: TPrepareParameterOptions = []; pbShowCommandLinePriorToExecute: PBoolean = nil; pbRunInTerminal: PBoolean = nil; pbKeepTerminalOpen: PBoolean = nil; pbAbortOperation: PBoolean = nil): string; overload;
 
 {en
    Replace variable parameters that depend on files in panels.
 }
-function ReplaceVarParams(sSourceStr: string; paramFile: TFile = nil; pbShowCommandLinePriorToExecute: PBoolean = nil; pbRunInTerminal: PBoolean = nil; pbKeepTerminalOpen: PBoolean = nil): string; overload;
+function ReplaceVarParams(sSourceStr: string; paramFile: TFile = nil; pbShowCommandLinePriorToExecute: PBoolean = nil; pbRunInTerminal: PBoolean = nil; pbKeepTerminalOpen: PBoolean = nil; pbAbortOperation: PBoolean = nil): string; overload;
 {en
    Replace variable parameters that depend on the file in active dir.
 }
@@ -135,8 +135,9 @@ uses
 
    Prompt the user with a sentence, propose a default, and use what the user typed
    -------------------------------------------------------------------------------
-   %[Enter with required;1024] - This is an example. The text following the ";" indicates that default value is 1024
    %[This required the \\DB-2010\ server to be online!] - if no default value is given, DC will simply shows the message, assuming it's simply to echo a message.
+   %[Enter with required;1024] - This is an example. The text following the ";" indicates that default value is 1024
+   %[First name;%o] - The text proposed in the parameter value may be parsed prior to be displayed to user. For example here, the %o will be substituted to the filename with no extension prior to be displayed to user.
 
    Control what will be the effective "%" char (for situation where we want the "%" to be the "#" sign instead
    -----------------------------------------------------------------------------------------------------------
@@ -174,7 +175,7 @@ uses
          - if only 1 file selected      : -first <file_1>
          - if 2 (or more) files selected: -first <file_1> -second <file_2>
 *)
-function ReplaceVarParams(sSourceStr: string; paramFile: TFile; pbShowCommandLinePriorToExecute: PBoolean; pbRunInTerminal: PBoolean; pbKeepTerminalOpen: PBoolean): string;
+function ReplaceVarParams(sSourceStr: string; paramFile: TFile; pbShowCommandLinePriorToExecute: PBoolean; pbRunInTerminal: PBoolean; pbKeepTerminalOpen: PBoolean; pbAbortOperation: PBoolean = nil): string;
 type
   TFunctType = (ftNone, ftName, ftDir, ftPath, ftSingleDir, ftSource, ftSourcePath,
     ftFileFullList, ftFileNameList, ftRelativeFileNameList,
@@ -188,407 +189,397 @@ type
     spGotInputHintWaitEndDefaultVal, spGetExecuteConsoleCommand,
     spComplete);
 
-  Tstate = record
-    pos: TStatePos;
-    functStartIndex: integer;
-    funct: TFunctType;
-    functMod: TFuncModifiers;
-    files: TFiles;
-    otherfiles: TFiles;
-    dir: string;
-    address: string;
-    sFileIndex: string;
-    prefix, postfix: string; // a string to add before/after each output
-    // (for functions giving output of multiple strings)
-    sSubParam: string;
-    sUserMessage: string;
-  end;
+  var
+    leftFiles: TFiles = nil;
+    rightFiles: TFiles = nil;
+    singleFileFiles: TFiles = nil;
+    activeFiles: TFiles;
+    inactiveFiles: TFiles;
+    activeDir: string;
+    inactiveDir: string;
+    activeAddress: string;
+    inactiveAddress: string;
+    bTrailingDelimiter: boolean = False;
+    bQuoteOrNot: boolean = True;
+    CurrentPercentIndicator: char = '%';
+    bKeepProcessParameter:boolean = true;
 
-var
-  index: integer;
-  leftFiles: TFiles = nil;
-  rightFiles: TFiles = nil;
-  activeFiles: TFiles;
-  inactiveFiles: TFiles;
-  singleFileFiles: TFiles = nil;
-  activeDir: string;
-  inactiveDir: string;
-  activeAddress: string;
-  inactiveAddress: string;
-  state: Tstate;
-  sOutput: string = '';
-  parseStartIndex: integer;
-  bTrailingDelimiter: boolean = False;
-  bQuoteOrNot: boolean = True;
-  CurrentPercentIndicator: char = '%';
-
-  function BuildName(aFile: TFile): string;
-  begin
-    //1. Processing according to function requested
-    case state.funct of
-      ftName, ftDir, ftPath, ftNameNoExt, ftExtension, ftRelativePath, ftSingleDir, ftSource, ftSourcePath:
-      begin
-        ;
-        case state.funct of
-          ftName:
-            Result := aFile.Name;
-
-          ftDir:
-            Result := aFile.Path;
-
-          ftPath:
-            Result := aFile.FullPath;
-
-          ftNameNoExt:
-            Result := aFile.NameNoExt;
-
-          ftExtension:
-            Result := aFile.Extension;
-
-          ftRelativePath:
-            Result := ExtractRelativepath(state.dir, aFile.FullPath);
-
-          ftSingleDir:
-            Result := state.dir;
-
-          ftSource:
-            Result := state.address;
-
-          ftSourcePath:
-            Result := state.address + aFile.FullPath;
-        end;
-      end;
-      else
-        Exit('');
+  // There is a inside recursive function because of the %[ that could have a parameter that could be parsed using the same function.
+  // It would have been possible to simply call again "ReplaceVarParams" without an inner function...
+  // ...but there are a few things that would have not work as what the user would expect.
+  // For example, if user would have wrote previously %"0 to have the following not include the quote, by simply recalling "ReplaceVarParams" itself, if he would have used then a %o in the default parameter value for the %[ , the filename would have been quoted again since it's the default when entering into the "ReplaceVarParams" function originally...
+  // Same similar problem with the bTrailingDelimiter, etc.
+  // So that's why there is an inner recursive functions where the kind of local-global flag like the ones mentionned above have to be global for the current parsed string.
+  function InnerRecursiveReplaceVarParams(sSourceStr: string; paramFile: TFile; pbShowCommandLinePriorToExecute: PBoolean; pbRunInTerminal: PBoolean; pbKeepTerminalOpen: PBoolean; pbAbortOperation: PBoolean = nil): string;
+  type
+    Tstate = record
+      pos: TStatePos;
+      functStartIndex: integer;
+      funct: TFunctType;
+      functMod: TFuncModifiers;
+      files: TFiles;
+      otherfiles: TFiles;
+      dir: string;
+      address: string;
+      sFileIndex: string;
+      prefix, postfix: string; // a string to add before/after each output
+      // (for functions giving output of multiple strings)
+      sSubParam: string;
+      sUserMessage: string;
     end;
 
-    //2. Processing the prefix/postfix requested
-    Result := state.prefix + Result + state.postfix;
+  var
+    index: integer;
+    state: Tstate;
+    sOutput: string = '';
+    parseStartIndex: integer;
 
-    //3. Processing the trailing path delimiter requested
-    case state.funct of
-      ftDir, ftSingleDir:
+    function BuildName(aFile: TFile): string;
+    begin
+      //1. Processing according to function requested
+      case state.funct of
+        ftName, ftDir, ftPath, ftNameNoExt, ftExtension, ftRelativePath, ftSingleDir, ftSource, ftSourcePath:
+        begin
+          case state.funct of
+            ftName:
+              Result := aFile.Name;
+
+            ftDir:
+              Result := aFile.Path;
+
+            ftPath:
+              Result := aFile.FullPath;
+
+            ftNameNoExt:
+              Result := aFile.NameNoExt;
+
+            ftExtension:
+              Result := aFile.Extension;
+
+            ftRelativePath:
+              Result := ExtractRelativepath(state.dir, aFile.FullPath);
+
+            ftSingleDir:
+              Result := state.dir;
+
+            ftSource:
+              Result := state.address;
+
+            ftSourcePath:
+              Result := state.address + aFile.FullPath;
+          end;
+        end;
+        else
+          Exit('');
+      end;
+
+      //2. Processing the prefix/postfix requested
+      Result := state.prefix + Result + state.postfix;
+
+      //3. Processing the trailing path delimiter requested
+      case state.funct of
+        ftDir, ftSingleDir:
+        begin
+          if bTrailingDelimiter then
+            Result := IncludeTrailingPathDelimiter(Result)
+          else
+            Result := ExcludeBackPathDelimiter(Result);
+        end;
+      end;
+
+      //4. Processing the quotes requested
+      if bQuoteOrNot then
+        Result := QuoteStr(Result);
+    end;
+
+    function BuildAllNames: string;
+    var
+      i: integer;
+    begin
+      Result := '';
+
+      if Assigned(state.files) then
+        for i := 0 to pred(state.files.Count) do
+          Result := ConcatenateStrWithSpace(Result, BuildName(state.files[i]));
+
+      if Assigned(state.otherfiles) then
+        for i := 0 to pred(state.otherfiles.Count) do
+          Result := ConcatenateStrWithSpace(Result, BuildName(state.otherfiles[i]));
+    end;
+
+    function BuildFile(aFile: TFile): string;
+    begin
+      case state.funct of
+        ftFileFullList: Result := aFile.FullPath;
+        ftFileNameList: Result := aFile.Name;
+        ftRelativeFileNameList: Result := ExtractRelativepath(state.dir, aFile.FullPath);
+        else
+          Result := aFile.Name;
+      end;
+
+      if aFile.isDirectory then
       begin
         if bTrailingDelimiter then
           Result := IncludeTrailingPathDelimiter(Result)
         else
           Result := ExcludeBackPathDelimiter(Result);
       end;
+
+      if (fmQuote in state.functMod) then
+        Result := '"' + Result + '"';
+
+      if (fmUTF16 in state.functMod) then
+        Result := Utf8ToUtf16LE(Result)
+      else if not (fmUTF8 in state.functMod) then
+        Result := UTF8ToSys(Result);
     end;
 
-    //4. Processing the quotes requested
-    if bQuoteOrNot then
-      Result := QuoteStr(Result);
-  end;
-
-  function BuildAllNames: string;
-  var
-    i: integer;
-  begin
-    Result := '';
-
-    if Assigned(state.files) then
-      for i := 0 to pred(state.files.Count) do
-        Result := ConcatenateStrWithSpace(Result, BuildName(state.files[i]));
-
-    if Assigned(state.otherfiles) then
-      for i := 0 to pred(state.otherfiles.Count) do
-        Result := ConcatenateStrWithSpace(Result, BuildName(state.otherfiles[i]));
-  end;
-
-  function BuildFile(aFile: TFile): string;
-  begin
-    case state.funct of
-      ftFileFullList: Result := aFile.FullPath;
-      ftFileNameList: Result := aFile.Name;
-      ftRelativeFileNameList: Result := ExtractRelativepath(state.dir, aFile.FullPath);
-      else
-        Result := aFile.Name;
-    end;
-
-    if aFile.isDirectory then
+    function BuildFileList: String;
+    var
+      I: integer;
+      FileName: ansistring;
+      FileList: TFileStreamEx;
+      LineEndingA: ansistring = LineEnding;
     begin
-      if bTrailingDelimiter then
-        Result := IncludeTrailingPathDelimiter(Result)
-      else
-        Result := ExcludeBackPathDelimiter(Result);
-    end;
-
-    if (fmQuote in state.functMod) then
-      Result := '"' + Result + '"';
-
-    if (fmUTF16 in state.functMod) then
-      Result := Utf8ToUtf16LE(Result)
-    else if not (fmUTF8 in state.functMod) then
-      Result := UTF8ToSys(Result);
-  end;
-
-  function BuildFileList: String;
-  var
-    I: integer;
-    FileName: ansistring;
-    FileList: TFileStreamEx;
-    LineEndingA: ansistring = LineEnding;
-  begin
-    Result := GetTempName(GetTempFolderDeletableAtTheEnd + 'Filelist') + '.lst';
-    try
-      FileList := TFileStreamEx.Create(Result, fmCreate);
+      Result := GetTempName(GetTempFolderDeletableAtTheEnd + 'Filelist') + '.lst';
       try
-        if fmUTF16 in state.functMod then
-        begin
-          FileName := UTF16LEBOM;
-          LineEndingA := Utf8ToUtf16LE(LineEnding);
-        end;
-
-        if Assigned(state.files) then
-        begin
-          if state.files.Count > 0 then
+        FileList := TFileStreamEx.Create(Result, fmCreate);
+        try
+          if fmUTF16 in state.functMod then
           begin
-            for I := 0 to state.files.Count - 1 do
-              FileName += BuildFile(state.files[I]) + LineEndingA;
+            FileName := UTF16LEBOM;
+            LineEndingA := Utf8ToUtf16LE(LineEnding);
           end;
-        end;
 
-        if Assigned(state.otherfiles) then
-        begin
-          if state.otherfiles.Count > 0 then
+          if Assigned(state.files) then
           begin
-            FileName += LineEndingA;
-
-            for I := 0 to state.otherfiles.Count - 1 do
-              FileName += BuildFile(state.otherfiles[I]) + LineEndingA;
+            if state.files.Count > 0 then
+            begin
+              for I := 0 to state.files.Count - 1 do
+                FileName += BuildFile(state.files[I]) + LineEndingA;
+            end;
           end;
+
+          if Assigned(state.otherfiles) then
+          begin
+            if state.otherfiles.Count > 0 then
+            begin
+              FileName += LineEndingA;
+
+              for I := 0 to state.otherfiles.Count - 1 do
+                FileName += BuildFile(state.otherfiles[I]) + LineEndingA;
+            end;
+          end;
+
+          FileList.Write(FileName[1], Length(FileName));
+        finally
+          FileList.Free;
         end;
-
-        FileList.Write(FileName[1], Length(FileName));
-      finally
-        FileList.Free;
-      end;
-    except
-      Result := EmptyStr;
-    end;
-  end;
-
-  procedure ResetState(var aState: TState);
-  begin
-    with aState do
-    begin
-      pos := spNone;
-      if paramFile <> nil then
-        files := singleFileFiles
-      else
-        files := activeFiles;
-      otherfiles := nil;
-      dir := activeDir;
-      address := activeAddress;
-      sFileIndex := '';
-      funct := ftNone;
-      functMod := [];
-      functStartIndex := 0;
-      prefix := '';
-      postfix := '';
-      sSubParam := '';
-      sUserMessage := '';
-    end;
-  end;
-
-  procedure AddParsedText(limit: integer);
-  begin
-    // Copy [parseStartIndex .. limit - 1].
-    if limit > parseStartIndex then
-      sOutput := sOutput + Copy(sSourceStr, parseStartIndex, limit - parseStartIndex);
-    parseStartIndex := index;
-  end;
-
-  procedure SetTrailingPathDelimiter;
-  begin
-    bTrailingDelimiter := state.sSubParam = '1';
-    // Currently in the code, anything else than "0" will include the trailing delimiter.
-    // BUT, officially, in the documentation, juste state that 0 or 1 is required.
-    // This could give room for future addition maybe.
-  end;
-
-  procedure SetQuoteOrNot;
-  begin
-    bQuoteOrNot := not (state.sSubParam = '0');
-    // Currently in the code, anything else than "0" will indicate we want to quote
-    // BUT, officially, in the documentation, juste state that 0 or 1 is required.
-    // This could give room for future addition maybe.
-  end;
-
-  procedure SetTerminalOptions;
-  begin
-    if pbRunInTerminal <> nil then
-    begin
-      pbRunInTerminal^ := True;
-      if pbKeepTerminalOpen <> nil then
-        pbKeepTerminalOpen^ := not (state.sSubParam = '0');
-    end;
-  end;
-
-  procedure JustEchoTheMessage;
-  begin
-    msgOK(state.sUserMessage);
-  end;
-
-  procedure AskUserParamAndReplace;
-  begin
-    ShowInputQuery(state.sUserMessage, state.sUserMessage, state.sSubParam);
-    sOutput := sOutput + state.sSubParam;
-  end;
-
-  procedure ExecuteConsoleCommand;
-  var
-    sTmpFilename, sShellCmdLine: string;
-    Process: TProcessUTF8;
-  begin
-    sTmpFilename := GetTempName(GetTempFolderDeletableAtTheEnd) + '.tmp';
-    //sShellCmdLine := Copy(state.sSubParam, 3, length(state.sSubParam)-2) + ' > ' + QuoteStr(sTmpFilename);
-    sShellCmdLine := state.sSubParam + ' > ' + QuoteStr(sTmpFilename);
-    Process := TProcessUTF8.Create(nil);
-    try
-      Process.CommandLine := FormatShell(sShellCmdLine);
-      Process.Options := [poNoConsole, poWaitOnExit];
-      Process.Execute;
-    finally
-      Process.Free;
-    end;
-    sOutput := sOutput + sTmpFilename;
-  end;
-
-  procedure ProcessPercentSignIndicator;
-  begin
-    if CurrentPercentIndicator = state.sSubParam then
-      sOutput := sOutput + state.sSubParam
-    else
-    if CurrentPercentIndicator = '%' then
-      CurrentPercentIndicator := '#'
-    else
-      CurrentPercentIndicator := '%';
-  end;
-
-  procedure DoFunction;
-  var
-    fileIndex: integer = -1;
-    OffsetFromStart: integer = 0;
-  begin
-    AddParsedText(state.functStartIndex);
-
-    if state.sFileIndex <> '' then
-      try
-        fileIndex := StrToInt(state.sFileIndex);
-        fileIndex := fileIndex - 1; // Files are counted from 0, but user enters 1..n.
       except
-        on EConvertError do
-          fileIndex := -1;
+        Result := EmptyStr;
       end;
-
-    if fileIndex <> -1 then
-    begin
-      if (fileIndex >= 0) and Assigned(state.files) then
-      begin
-        if fileIndex < state.files.Count then
-          sOutput := sOutput + BuildName(state.files[fileIndex]);
-        OffsetFromStart := state.files.Count;
-      end;
-
-      if ((fileIndex - OffsetFromStart) >= 0) and Assigned(state.otherfiles) then
-        if (fileIndex - OffsetFromStart) < state.otherfiles.Count then
-          sOutput := sOutput + BuildName(state.otherfiles[fileIndex - OffsetFromStart]);
-    end
-    else
-    begin
-      if state.funct in [ftName, ftPath, ftDir, ftNameNoExt, ftSourcePath, ftExtension, ftRelativePath] then
-        sOutput := sOutput + BuildAllNames
-      else if state.funct in [ftSingleDir, ftSource] then // only single current dir
-        sOutput := sOutput + BuildName(nil)
-      else if state.funct in [ftFileFullList, ftFileNameList, ftRelativeFileNameList] then // for list of file
-        sOutput := sOutput + BuildFileList
-      else if state.funct in [ftProcessPercentSignIndicator] then // only add % sign
-        ProcessPercentSignIndicator
-      else if state.funct in [ftJustSetTheShowFlag] then //only set the flag to show the params prior to execute
-      begin
-        if pbShowCommandLinePriorToExecute <> nil then
-          pbShowCommandLinePriorToExecute^ := True;
-      end
-      else if state.funct in [ftSetTrailingDelimiter] then //set the trailing path delimiter
-        SetTrailingPathDelimiter
-      else if state.funct in [ftSetQuoteOrNot] then
-        SetQuoteOrNot
-      else if state.funct in [ftEchoSimpleMessage] then
-        JustEchoTheMessage
-      else if state.funct in [ftPromptUserForParam] then
-        AskUserParamAndReplace
-      else if state.funct in [ftSetTerminalOptions] then
-        SetTerminalOptions
-      else if state.funct in [ftExecuteConsoleCommand] then
-        ExecuteConsoleCommand;
     end;
 
-    ResetState(state);
-  end;
-
-  procedure ProcessNumber;
-  begin
-    case state.funct of
-      ftSingleDir: state.pos := spComplete; // Numbers not allowed for %D
-      ftSetTrailingDelimiter, ftSetQuoteOrNot, ftSetTerminalOptions:
+    procedure ResetState(var aState: TState);
+    begin
+      with aState do
       begin
-        state.sSubParam := state.sSubParam + sSourceStr[index];
-        state.pos := spComplete;
-        Inc(Index);
+        pos := spNone;
+        if paramFile <> nil then
+          files := singleFileFiles
+        else
+          files := activeFiles;
+        otherfiles := nil;
+        dir := activeDir;
+        address := activeAddress;
+        sFileIndex := '';
+        funct := ftNone;
+        functMod := [];
+        functStartIndex := 0;
+        prefix := '';
+        postfix := '';
+        sSubParam := '';
+        sUserMessage := '';
       end;
+    end;
+
+    procedure AddParsedText(limit: integer);
+    begin
+      // Copy [parseStartIndex .. limit - 1].
+      if limit > parseStartIndex then
+        sOutput := sOutput + Copy(sSourceStr, parseStartIndex, limit - parseStartIndex);
+      parseStartIndex := index;
+    end;
+
+    procedure SetTrailingPathDelimiter;
+    begin
+      bTrailingDelimiter := state.sSubParam = '1';
+      // Currently in the code, anything else than "0" will include the trailing delimiter.
+      // BUT, officially, in the documentation, just state that 0 or 1 is required.
+      // This could give room for future addition maybe.
+    end;
+
+    procedure SetQuoteOrNot;
+    begin
+      bQuoteOrNot := not (state.sSubParam = '0');
+      // Currently in the code, anything else than "0" will indicate we want to quote
+      // BUT, officially, in the documentation, just state that 0 or 1 is required.
+      // This could give room for future addition maybe.
+    end;
+
+    procedure SetTerminalOptions;
+    begin
+      if pbRunInTerminal <> nil then
+      begin
+        pbRunInTerminal^ := True;
+        if pbKeepTerminalOpen <> nil then
+          pbKeepTerminalOpen^ := not (state.sSubParam = '0');
+      end;
+    end;
+
+    procedure JustEchoTheMessage;
+    begin
+      state.sUserMessage := InnerRecursiveReplaceVarParams(state.sUserMessage, paramFile, pbShowCommandLinePriorToExecute, pbRunInTerminal, pbKeepTerminalOpen, pbAbortOperation);
+      msgOK(state.sUserMessage);
+    end;
+
+    procedure AskUserParamAndReplace;
+    begin
+      state.sSubParam := InnerRecursiveReplaceVarParams(state.sSubParam, paramFile, pbShowCommandLinePriorToExecute, pbRunInTerminal, pbKeepTerminalOpen, pbAbortOperation);
+      if ShowInputQuery(rsMsgCofirmUserParam, state.sUserMessage, state.sSubParam) then
+      begin
+        sOutput := sOutput + state.sSubParam;
+      end
       else
       begin
-        state.sFileIndex := state.sFileIndex + sSourceStr[index];
-        state.pos := spIndex;
+        bKeepProcessParameter:=False;
       end;
     end;
-  end;
 
-  procedure ProcessOpenBracket; // '{'
+    procedure ExecuteConsoleCommand;
+    var
+      sTmpFilename, sShellCmdLine: string;
+      Process: TProcessUTF8;
+    begin
+      sTmpFilename := GetTempName(GetTempFolderDeletableAtTheEnd) + '.tmp';
+      //sShellCmdLine := Copy(state.sSubParam, 3, length(state.sSubParam)-2) + ' > ' + QuoteStr(sTmpFilename);
+      sShellCmdLine := state.sSubParam + ' > ' + QuoteStr(sTmpFilename);
+      Process := TProcessUTF8.Create(nil);
+      try
+        Process.CommandLine := FormatShell(sShellCmdLine);
+        Process.Options := [poNoConsole, poWaitOnExit];
+        Process.Execute;
+      finally
+        Process.Free;
+      end;
+      sOutput := sOutput + sTmpFilename;
+    end;
+
+    procedure ProcessPercentSignIndicator;
+    begin
+      if CurrentPercentIndicator = state.sSubParam then
+        sOutput := sOutput + state.sSubParam
+      else
+      if CurrentPercentIndicator = '%' then
+        CurrentPercentIndicator := '#'
+      else
+        CurrentPercentIndicator := '%';
+    end;
+
+    procedure DoFunction;
+    var
+      fileIndex: integer = -1;
+      OffsetFromStart: integer = 0;
+    begin
+      AddParsedText(state.functStartIndex);
+
+      if state.sFileIndex <> '' then
+        try
+          fileIndex := StrToInt(state.sFileIndex);
+          fileIndex := fileIndex - 1; // Files are counted from 0, but user enters 1..n.
+        except
+          on EConvertError do
+            fileIndex := -1;
+        end;
+
+      if fileIndex <> -1 then
+      begin
+        if (fileIndex >= 0) and Assigned(state.files) then
+        begin
+          if fileIndex < state.files.Count then
+            sOutput := sOutput + BuildName(state.files[fileIndex]);
+          OffsetFromStart := state.files.Count;
+        end;
+
+        if ((fileIndex - OffsetFromStart) >= 0) and Assigned(state.otherfiles) then
+          if (fileIndex - OffsetFromStart) < state.otherfiles.Count then
+            sOutput := sOutput + BuildName(state.otherfiles[fileIndex - OffsetFromStart]);
+      end
+      else
+      begin
+        if state.funct in [ftName, ftPath, ftDir, ftNameNoExt, ftSourcePath, ftExtension, ftRelativePath] then
+          sOutput := sOutput + BuildAllNames
+        else if state.funct in [ftSingleDir, ftSource] then // only single current dir
+          sOutput := sOutput + BuildName(nil)
+        else if state.funct in [ftFileFullList, ftFileNameList, ftRelativeFileNameList] then // for list of file
+          sOutput := sOutput + BuildFileList
+        else if state.funct in [ftProcessPercentSignIndicator] then // only add % sign
+          ProcessPercentSignIndicator
+        else if state.funct in [ftJustSetTheShowFlag] then //only set the flag to show the params prior to execute
+        begin
+          if pbShowCommandLinePriorToExecute <> nil then
+            pbShowCommandLinePriorToExecute^ := True;
+        end
+        else if state.funct in [ftSetTrailingDelimiter] then //set the trailing path delimiter
+          SetTrailingPathDelimiter
+        else if state.funct in [ftSetQuoteOrNot] then
+          SetQuoteOrNot
+        else if state.funct in [ftEchoSimpleMessage] then
+          JustEchoTheMessage
+        else if state.funct in [ftPromptUserForParam] then
+          AskUserParamAndReplace
+        else if state.funct in [ftSetTerminalOptions] then
+          SetTerminalOptions
+        else if state.funct in [ftExecuteConsoleCommand] then
+          ExecuteConsoleCommand;
+      end;
+
+      ResetState(state);
+    end;
+
+    procedure ProcessNumber;
+    begin
+      case state.funct of
+        ftSingleDir: state.pos := spComplete; // Numbers not allowed for %D
+        ftSetTrailingDelimiter, ftSetQuoteOrNot, ftSetTerminalOptions:
+        begin
+          state.sSubParam := state.sSubParam + sSourceStr[index];
+          state.pos := spComplete;
+          Inc(Index);
+        end;
+        else
+        begin
+          state.sFileIndex := state.sFileIndex + sSourceStr[index];
+          state.pos := spIndex;
+        end;
+      end;
+    end;
+
+    procedure ProcessOpenBracket; // '{'
+    begin
+      if state.pos <> spGotPrefix then
+        state.pos := spPrefix
+      else
+        state.pos := spPostfix;
+    end;
+
   begin
-    if state.pos <> spGotPrefix then
-      state.pos := spPrefix
-    else
-      state.pos := spPostfix;
-  end;
-
-begin
-  try
-    leftFiles := frmMain.FrameLeft.CloneSelectedOrActiveFiles;
-    rightFiles := frmMain.FrameRight.CloneSelectedOrActiveFiles;
-    if paramFile <> nil then
-    begin
-      singleFileFiles := TFiles.Create(paramFile.Path);
-      singleFileFiles.Add(paramFile.Clone);
-    end;
-
-    if frmMain.ActiveFrame = frmMain.FrameLeft then
-    begin
-      activeFiles := leftFiles;
-      activeDir := frmMain.FrameLeft.CurrentPath;
-      activeAddress := frmMain.FrameLeft.CurrentAddress;
-      inactiveFiles := rightFiles;
-      inactiveDir := frmMain.FrameRight.CurrentPath;
-      inactiveAddress := frmMain.FrameRight.CurrentAddress;
-    end
-    else
-    begin
-      activeFiles := rightFiles;
-      activeDir := frmMain.FrameRight.CurrentPath;
-      activeAddress := frmMain.FrameRight.CurrentAddress;
-      inactiveFiles := leftFiles;
-      inactiveDir := frmMain.FrameLeft.CurrentPath;
-      inactiveAddress := frmMain.FrameLeft.CurrentAddress;
-    end;
-
     index := 1;
     parseStartIndex := index;
 
     ResetState(state);
 
-    while index <= Length(sSourceStr) do
+    while (index <= Length(sSourceStr)) AND (bKeepProcessParameter) do
     begin
       case state.pos of
         spNone:
@@ -830,12 +821,52 @@ begin
     end;
 
     // Finish current parse.
-    if state.pos in [spFunction, spSide, spIndex, spGotPrefix] then
-      DoFunction
-    else
-      AddParsedText(index);
+    if bKeepProcessParameter then
+    begin
+      if state.pos in [spFunction, spSide, spIndex, spGotPrefix] then
+        DoFunction
+      else
+        AddParsedText(index);
+    end;
 
-    Result := sOutput;
+    if bKeepProcessParameter then
+      Result := sOutput
+    else
+      if pbAbortOperation<>nil then
+        pbAbortOperation^ := True;
+  end;
+
+begin
+  result := '';
+  try
+    leftFiles := frmMain.FrameLeft.CloneSelectedOrActiveFiles;
+    rightFiles := frmMain.FrameRight.CloneSelectedOrActiveFiles;
+    if paramFile <> nil then
+    begin
+      singleFileFiles := TFiles.Create(paramFile.Path);
+      singleFileFiles.Add(paramFile.Clone);
+    end;
+
+    if frmMain.ActiveFrame = frmMain.FrameLeft then
+    begin
+      activeFiles := leftFiles;
+      activeDir := frmMain.FrameLeft.CurrentPath;
+      activeAddress := frmMain.FrameLeft.CurrentAddress;
+      inactiveFiles := rightFiles;
+      inactiveDir := frmMain.FrameRight.CurrentPath;
+      inactiveAddress := frmMain.FrameRight.CurrentAddress;
+    end
+    else
+    begin
+      activeFiles := rightFiles;
+      activeDir := frmMain.FrameRight.CurrentPath;
+      activeAddress := frmMain.FrameRight.CurrentAddress;
+      inactiveFiles := leftFiles;
+      inactiveDir := frmMain.FrameLeft.CurrentPath;
+      inactiveAddress := frmMain.FrameLeft.CurrentAddress;
+    end;
+
+    result:=InnerRecursiveReplaceVarParams(sSourceStr, paramFile, pbShowCommandLinePriorToExecute, pbRunInTerminal, pbKeepTerminalOpen, pbAbortOperation);
 
   finally
     if Assigned(leftFiles) then
@@ -848,7 +879,7 @@ begin
 end;
 
 { PrepareParameter }
-function PrepareParameter(sParam: string; paramFile: TFile; options: TPrepareParameterOptions; pbShowCommandLinePriorToExecute: PBoolean; pbRunInTerminal: PBoolean; pbKeepTerminalOpen: PBoolean): string;
+function PrepareParameter(sParam: string; paramFile: TFile; options: TPrepareParameterOptions; pbShowCommandLinePriorToExecute: PBoolean; pbRunInTerminal: PBoolean; pbKeepTerminalOpen: PBoolean; pbAbortOperation: PBoolean = nil): string; overload;
 begin
   Result := sParam;
 
@@ -860,7 +891,7 @@ begin
 
   Result := ReplaceEnvVars(Result);
 
-  Result := ReplaceVarParams(Result, paramFile, pbShowCommandLinePriorToExecute, pbRunInTerminal, pbKeepTerminalOpen);
+  Result := ReplaceVarParams(Result, paramFile, pbShowCommandLinePriorToExecute, pbRunInTerminal, pbKeepTerminalOpen,pbAbortOperation);
 
   Result := Trim(Result);
 end;
@@ -874,128 +905,133 @@ var
   Process: TProcessUTF8;
   sl: TStringList;
   bShowCommandLinePriorToExecute: boolean = False;
+  bAbortOperationFlag: boolean = false;
 begin
   Result := False;
 
   // 1. Parse the command, parameters and working directory for the percent-variable substitution.
   sCmd := PrepareParameter(sCmd, paramFile, [ppoReplaceTilde]);
-  sParams := PrepareParameter(sParams, paramFile, [], @bShowCommandLinePriorToExecute, @bTerm, @bKeepTerminalOpen);
-  sWorkPath := PrepareParameter(sWorkPath, paramFile, [ppoNormalizePathDelims, ppoReplaceTilde]);
+  sParams := PrepareParameter(sParams, paramFile, [], @bShowCommandLinePriorToExecute, @bTerm, @bKeepTerminalOpen, @bAbortOperationFlag);
+  if not bAbortOperationFlag then sWorkPath := PrepareParameter(sWorkPath, paramFile, [ppoNormalizePathDelims, ppoReplaceTilde]);
 
   // 2. If working directory has been specified, let's switch to it.
-  if sWorkPath <> '' then
-    mbSetCurrentDir(sWorkPath);
+  if not bAbortOperationFlag then
+  begin
+    if sWorkPath <> '' then
+      mbSetCurrentDir(sWorkPath);
 
-  // 3. If user has command-line to execute and get the result to a file, let's execute it.
-  // Check for <? ?> command.
-  // This command is used to put output of some console program to a file so
-  //   that the file can then be viewed. The command is between '<?' and '?>'.
-  // The whole <?...?> expression is replaced with a path to the temporary file
-  //   containing output of the command.
-  // For example:
-  // {!VIEWER} <?rpm -qivlp --scripts %p?>
-  //  Show in Viewer information about RPM package
-  repeat
-    iStart := Posex('<?', sParams, (iLastConsoleCommandPos + 1)) + 2;
-    iCount := Posex('?>', sParams, iStart) - iStart;
-    if (iStart <> 0) and (iCount >= 0) then
-    begin
-      sTmpFile := GetTempName(GetTempFolderDeletableAtTheEnd) + '.tmp';
-      sShellCmdLine := Copy(sParams, iStart, iCount) + ' > ' + QuoteStr(sTmpFile);
-      Process := TProcessUTF8.Create(nil);
-      try
-        Process.CommandLine := FormatShell(sShellCmdLine);
-        Process.Options := [poNoConsole, poWaitOnExit];
-        Process.Execute;
-      finally
-        Process.Free;
+    // 3. If user has command-line to execute and get the result to a file, let's execute it.
+    // Check for <? ?> command.
+    // This command is used to put output of some console program to a file so
+    //   that the file can then be viewed. The command is between '<?' and '?>'.
+    // The whole <?...?> expression is replaced with a path to the temporary file
+    //   containing output of the command.
+    // For example:
+    // {!VIEWER} <?rpm -qivlp --scripts %p?>
+    //  Show in Viewer information about RPM package
+    repeat
+      iStart := Posex('<?', sParams, (iLastConsoleCommandPos + 1)) + 2;
+      iCount := Posex('?>', sParams, iStart) - iStart;
+      if (iStart <> 0) and (iCount >= 0) then
+      begin
+        sTmpFile := GetTempName(GetTempFolderDeletableAtTheEnd) + '.tmp';
+        sShellCmdLine := Copy(sParams, iStart, iCount) + ' > ' + QuoteStr(sTmpFile);
+        Process := TProcessUTF8.Create(nil);
+        try
+          Process.CommandLine := FormatShell(sShellCmdLine);
+          Process.Options := [poNoConsole, poWaitOnExit];
+          Process.Execute;
+        finally
+          Process.Free;
+        end;
+        sParams := Copy(sParams, 1, iStart - 3) + sTmpFile + Copy(sParams, iStart + iCount + 2, MaxInt);
+        iLastConsoleCommandPos := iStart;
       end;
-      sParams := Copy(sParams, 1, iStart - 3) + sTmpFile + Copy(sParams, iStart + iCount + 2, MaxInt);
-      iLastConsoleCommandPos := iStart;
-    end;
-  until ((iStart = 0) or (iCount < 0));
+    until ((iStart = 0) or (iCount < 0));
 
-  //4. If user user wanted to execute an internal command, let's do it.
-  if frmMain.Commands.Commands.ExecuteCommand(sCmd, [sParams]) = cfrSuccess then
-  begin
-    Result := True;
-    exit;
-  end;
-
-  //5. From legacy, invoking shell seems to be similar to "run in terminal with stay open" with param as-is
-  if Pos('{!SHELL}', sCmd) > 0 then
-  begin
-    sCmd := sParams;
-    sParams := '';
-    bTerm := True;
-    bKeepTerminalOpen := True;
-  end;
-
-  //6. If user wants to process via terminal (and close at the end), let's flag it.
-  if Pos('{!TERMANDCLOSE}', sCmd) > 0 then
-  begin
-    sCmd := RemoveQuotation(sParams);
-    sParams := '';
-    bTerm := True;
-  end;
-
-  //7. If user wants to process via terminal (and close at the end), let's flag it.
-  if Pos('{!TERMSTAYOPEN}', sCmd) > 0 then
-  begin
-    sCmd := RemoveQuotation(sParams);
-    sParams := '';
-    bTerm := True;
-    bKeepTerminalOpen := True;
-  end;
-
-  //8. If our end-job is to EDIT a file via what's configured as editor, let's do it.
-  if Pos('{!EDITOR}', sCmd) > 0 then
-  begin
-    uShowForm.ShowEditorByGlob(RemoveQuotation(sParams));
-    Result := True;
-    Exit;
-  end;
-
-  //9. If our end-job is to EDIT a file via internal editor, let's do it.
-  if Pos('{!DC-EDITOR}', sCmd) > 0 then
-  begin
-    fEditor.ShowEditor(RemoveQuotation(sParams));
-    Result := True;
-    Exit;
-  end;
-
-  //10. If our end-job is to VIEW a file via what's configured as viewer, let's do it.
-  if Pos('{!VIEWER}', sCmd) > 0 then
-  begin
-    uShowForm.ShowViewerByGlob(RemoveQuotation(sParams));
-    Result := True;
-    Exit;
-  end;
-
-  //11. If our end-job is to VIEW a file or files via internal viewer, let's do it.
-  if Pos('{!DC-VIEWER}', sCmd) > 0 then
-  begin
-    sl := TStringList.Create;
-    try
-      sl.Add(RemoveQuotation(sParams));
-      fViewer.ShowViewer(sl);
-      Result := True;
-    finally
-      FreeAndNil(sl);
-    end;
-    Exit;
-  end;
-
-  //12. Ok. If we're here now it's to execute something external so let's launch it!
-  try
-    Result := ExecCmdFork(sCmd, sParams, sWorkPath, bShowCommandLinePriorToExecute, bTerm, bKeepTerminalOpen);
-  except
-    on e: EInvalidCommandLine do
+    //4. If user user wanted to execute an internal command, let's do it.
+    if frmMain.Commands.Commands.ExecuteCommand(sCmd, [sParams]) = cfrSuccess then
     begin
-      MessageDlg(rsMsgInvalidCommandLine, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
-      Result := False;
+      Result := True;
+      exit;
     end;
-  end;
+
+    //5. From legacy, invoking shell seems to be similar to "run in terminal with stay open" with param as-is
+    if Pos('{!SHELL}', sCmd) > 0 then
+    begin
+      sCmd := sParams;
+      sParams := '';
+      bTerm := True;
+      bKeepTerminalOpen := True;
+    end;
+
+    //6. If user wants to process via terminal (and close at the end), let's flag it.
+    if Pos('{!TERMANDCLOSE}', sCmd) > 0 then
+    begin
+      sCmd := RemoveQuotation(sParams);
+      sParams := '';
+      bTerm := True;
+    end;
+
+    //7. If user wants to process via terminal (and close at the end), let's flag it.
+    if Pos('{!TERMSTAYOPEN}', sCmd) > 0 then
+    begin
+      sCmd := RemoveQuotation(sParams);
+      sParams := '';
+      bTerm := True;
+      bKeepTerminalOpen := True;
+    end;
+
+    //8. If our end-job is to EDIT a file via what's configured as editor, let's do it.
+    if Pos('{!EDITOR}', sCmd) > 0 then
+    begin
+      uShowForm.ShowEditorByGlob(RemoveQuotation(sParams));
+      Result := True;
+      Exit;
+    end;
+
+    //9. If our end-job is to EDIT a file via internal editor, let's do it.
+    if Pos('{!DC-EDITOR}', sCmd) > 0 then
+    begin
+      fEditor.ShowEditor(RemoveQuotation(sParams));
+      Result := True;
+      Exit;
+    end;
+
+    //10. If our end-job is to VIEW a file via what's configured as viewer, let's do it.
+    if Pos('{!VIEWER}', sCmd) > 0 then
+    begin
+      uShowForm.ShowViewerByGlob(RemoveQuotation(sParams));
+      Result := True;
+      Exit;
+    end;
+
+    //11. If our end-job is to VIEW a file or files via internal viewer, let's do it.
+    if Pos('{!DC-VIEWER}', sCmd) > 0 then
+    begin
+      sl := TStringList.Create;
+      try
+        sl.Add(RemoveQuotation(sParams));
+        fViewer.ShowViewer(sl);
+        Result := True;
+      finally
+        FreeAndNil(sl);
+      end;
+      Exit;
+    end;
+
+    //12. Ok. If we're here now it's to execute something external so let's launch it!
+    try
+      Result := ExecCmdFork(sCmd, sParams, sWorkPath, bShowCommandLinePriorToExecute, bTerm, bKeepTerminalOpen);
+    except
+      on e: EInvalidCommandLine do
+      begin
+        MessageDlg(rsMsgInvalidCommandLine, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
+        Result := False;
+      end;
+    end;
+
+  end; //if not bAbortOperationFlag
 end;
 
 function ShellExecuteEx(sActionName, sFileName, sActiveDir: string): boolean;
