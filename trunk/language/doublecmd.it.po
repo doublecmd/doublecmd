@@ -1549,8 +1549,16 @@ msgstr ""
 msgid "Go to page \"Load/Save\""
 msgstr ""
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
+msgstr ""
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
 msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
@@ -1707,11 +1715,6 @@ msgstr "Inserisci i nomi di file che devono essere esclusi dalla ricerca, separa
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Inserisci i nomi di file separati con \";\""
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
@@ -10251,6 +10254,10 @@ msgstr "Rimuovere tutte le schede inattive?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Questa scheda (%s) è bloccata! Chiudere ugualmente?"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Sei sicuro di voler uscire?"
@@ -10929,6 +10936,10 @@ msgstr "Non è possibile eliminare il file %s"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Non implementato."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

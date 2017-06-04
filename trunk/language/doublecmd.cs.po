@@ -1500,9 +1500,17 @@ msgstr "Jít na stránku \"Pokročilé\""
 msgid "Go to page \"Load/Save\""
 msgstr "Jít na stránku \"Načíst/Uložit\""
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
 msgstr "Jít na stránku \"Doplňky\""
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
+msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -1654,11 +1662,6 @@ msgstr "Zadejte názvy souborů, které mají být vyloučeny z hledání, oddě
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Zadejte názvy souborů oddělených s \";\""
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
@@ -9771,6 +9774,10 @@ msgstr "Odstranit všechny neaktivní záložky?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Záložka (%s) je uzamčena! Přesto zavřít?"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Opravdu chcete skončit?"
@@ -10458,6 +10465,10 @@ msgstr "Nelze vymazat soubor %s"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Není implementováno."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

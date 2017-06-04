@@ -1506,9 +1506,17 @@ msgstr "Skoči na stran »Napredno«"
 msgid "Go to page \"Load/Save\""
 msgstr "Skoči na stran »Nalaganje/Shranjevanje«"
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
 msgstr "Skoči na stran »Vstavkov«"
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
+msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -1660,11 +1668,6 @@ msgstr "Vpis imen datotek, ki naj ne bodo upoštevana v iskanju. Imena morajo bi
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Vpis imen datotek, ločenih s podpičjem » ; «"
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "tfrmfinddlg.cmbfindfilemask.text"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -9774,6 +9777,10 @@ msgstr "Ali naj se odstranijo vsi nedejavni zavihki?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Zavihek (%s) je zaklenjen! Ali naj se vseeno zapre?"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Ali ste prepričani, da želite končati?"
@@ -10461,6 +10468,10 @@ msgstr "Ni mogoče izbrisati datoteke %s"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Ni podprto."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

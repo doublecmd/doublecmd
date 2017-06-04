@@ -1610,8 +1610,16 @@ msgstr ""
 msgid "Go to page \"Load/Save\""
 msgstr ""
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
+msgstr ""
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
 msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
@@ -1788,11 +1796,6 @@ msgstr ""
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr ""
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -10913,6 +10916,10 @@ msgstr "Премахване на бездейните подпрозорци?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr ""
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr ""
@@ -11588,6 +11595,10 @@ msgstr "Невъзможно е изтриването на %s"
 
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
+msgstr ""
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
 msgstr ""
 
 #: ulng.rsmsgpanelpreview

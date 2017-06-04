@@ -1554,8 +1554,16 @@ msgstr ""
 msgid "Go to page \"Load/Save\""
 msgstr ""
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
+msgstr ""
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
 msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
@@ -1712,11 +1720,6 @@ msgstr "Унесите имена датотека које би требало 
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Унесите имена датотека раздвојена знаком „;“"
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
@@ -10312,6 +10315,10 @@ msgstr "Да ли да уклоним све картице које се не �
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Картица (%s) је закључана. Да ли да је упркос томе затворим?"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Да ли сте сигурни да желите напустити програм?"
@@ -11018,6 +11025,10 @@ msgstr "Нисам успео да избришем датотеку %s"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Није примењено."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

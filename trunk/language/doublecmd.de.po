@@ -1515,9 +1515,17 @@ msgstr "Gehe zu Seite \"Fortgeschritten\""
 msgid "Go to page \"Load/Save\""
 msgstr "Gehe zu Seite \"Laden/Speichern\""
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
 msgstr "Gehe zu Seite \"Plugins\""
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
+msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -1672,11 +1680,6 @@ msgstr "Dateinamen eingeben, die von der Suche ausgeschlossen werden sollen (Nam
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Dateinamen durch \";\" getrennt eingeben"
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -10057,6 +10060,10 @@ msgstr "Alle in-aktiven Tabs entfernen?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Dieser Tab (%s) ist gesperrt! Trotzdem schließen?"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Double Commander wirklich beenden?"
@@ -10743,6 +10750,10 @@ msgstr "Kann Datei %s nicht löschen"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Nicht möglich."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

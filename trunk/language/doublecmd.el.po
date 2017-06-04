@@ -1533,9 +1533,17 @@ msgstr "Μετάβαση στη σελίδα \"Για Προχωρημένους
 msgid "Go to page \"Load/Save\""
 msgstr "Μετάβαση στη σελίδα \"Φόρτωμα/Αποθήκευση\""
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
 msgstr "Μετάβαση στη σελίδα \"Πρόσθετα\""
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
+msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -1691,11 +1699,6 @@ msgstr "Εισαγωγή ονομάτων αρχείων τα οποία θα έ
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Εισαγωγή ονομάτων αρχείων διαχωρισμένα με \";\""
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
@@ -10053,6 +10056,10 @@ msgstr "Αφαίρεση όλων των ανενεργών καρτελών;"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Αυτή η καρτέλα (%s) είναι κλειδωμένη! Κλείσιμο ως έχει;"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Είστε σίγουροι οτι επιθυμείτε έξοδο;"
@@ -10740,6 +10747,10 @@ msgstr "Αδυναμία διαγραφής αρχείου %s"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Δεν έχει εφαρμοστεί."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"

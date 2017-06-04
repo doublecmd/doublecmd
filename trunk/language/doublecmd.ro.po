@@ -1534,8 +1534,16 @@ msgstr ""
 msgid "Go to page \"Load/Save\""
 msgstr ""
 
+#: tfrmfinddlg.actpagenext.caption
+msgid "Switch to Nex&t Page"
+msgstr ""
+
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
+msgstr ""
+
+#: tfrmfinddlg.actpageprev.caption
+msgid "Switch to &Previous Page"
 msgstr ""
 
 #: tfrmfinddlg.actpageresults.caption
@@ -1692,11 +1700,6 @@ msgstr "Introduceți numele de directoare ce ar trebui excluse de la căutare se
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
 msgstr "Introduceți numele de fișiere separate cu \";\""
-
-#: tfrmfinddlg.cmbfindfilemask.text
-msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
-msgid "*"
-msgstr "*"
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "TFRMFINDDLG.GBDIRECTORIES.CAPTION"
@@ -10042,6 +10045,10 @@ msgstr "Se înlătură toate filele inactive?"
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Această filă (%s) este blocată! Se închide oricum?"
 
+#: ulng.rsmsgcofirmuserparam
+msgid "Confirmation of parameter"
+msgstr ""
+
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Sigur doriți să închideți?"
@@ -10715,6 +10722,10 @@ msgstr "Nu poate fi șters fișierul %s"
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Nu este implementat."
+
+#: ulng.rsmsgobjectnotexists
+msgid "Object does not exist!"
+msgstr ""
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
