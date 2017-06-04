@@ -175,6 +175,11 @@ if LCLWidgetType &lt;> GetIDEValue('LCLWidgetType') then
 begin
   UnitPath += '$(FallbackOutputRoot)/LazControls/lib/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
   UnitPath += '$(FallbackOutputRoot)/SynEdit/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
+end;
+
+if (LCLWidgetType = 'qt5') and (TargetOS &lt;> 'darwin') then
+begin
+  UnitPath += 'platform/$(SrcOS)/$(LCLWidgetType);';
 end;"/>
           <Parsing>
             <SyntaxOptions>
