@@ -1576,9 +1576,9 @@ begin
   if lsFoundedFiles.ItemIndex <> -1 then
     try
       StopSearch;
+      TargetFile := lsFoundedFiles.Items[lsFoundedFiles.ItemIndex];
       if (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] <> nil) then
       begin
-        TargetFile := lsFoundedFiles.Items[lsFoundedFiles.ItemIndex];
         ArchiveFile := ExtractWord(1, TargetFile, [ReversePathDelim]);
         TargetFile := PathDelim + ExtractWord(2, TargetFile, [ReversePathDelim]);
         AFile := TFileSystemFileSource.CreateFileFromFile(ArchiveFile);
@@ -1595,8 +1595,12 @@ begin
       end
       else
       begin
-        SetFileSystemPath(frmMain.ActiveFrame, ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
-        frmMain.ActiveFrame.SetActiveFile(ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
+        if not mbFileSystemEntryExists(TargetFile) then begin
+          msgError(rsMsgObjectNotExists + LineEnding + TargetFile);
+          Exit;
+        end;
+        SetFileSystemPath(frmMain.ActiveFrame, ExtractFilePath(TargetFile));
+        frmMain.ActiveFrame.SetActiveFile(ExtractFileName(TargetFile));
       end;
       frmMain.RestoreWindow;
       Close;
