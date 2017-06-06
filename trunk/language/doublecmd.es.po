@@ -11908,7 +11908,9 @@ msgid "Other example of what's possible"
 msgstr "Otro ejemplo de lo que es posible"
 
 #: ulng.rsvarpath
-msgid "Path, with ending delimiter"
+#, fuzzy
+#| msgid "Path, with ending delimiter"
+msgid "Path, without ending delimiter"
 msgstr "Ruta de acceso, con delimitador final"
 
 #: ulng.rsvarpercentchangetopound

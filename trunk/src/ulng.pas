@@ -699,7 +699,7 @@ resourcestring
   rsVarOtherExamples = 'Other example of what''s possible';
 
   rsVarOnlyFilename = 'Only filename';
-  rsVarPath = 'Path, with ending delimiter';
+  rsVarPath = 'Path, without ending delimiter';
   rsVarFullPath = 'Complete filename (path+filename)';
   rsVarFilenameNoExt = 'Just filename, no extension';
   rsVarOnlyExtension = 'Only file extension';

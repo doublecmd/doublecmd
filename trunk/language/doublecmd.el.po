@@ -12204,7 +12204,9 @@ msgid "Other example of what's possible"
 msgstr "Άλλο παράδειγμα για το τι είναι δυνατό"
 
 #: ulng.rsvarpath
-msgid "Path, with ending delimiter"
+#, fuzzy
+#| msgid "Path, with ending delimiter"
+msgid "Path, without ending delimiter"
 msgstr "Διαδρομή, με τελικό οριοθέτη"
 
 #: ulng.rsvarpercentchangetopound

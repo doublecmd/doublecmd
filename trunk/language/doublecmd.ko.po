@@ -12324,7 +12324,9 @@ msgid "Other example of what's possible"
 msgstr "가능한 다른 예"
 
 #: ulng.rsvarpath
-msgid "Path, with ending delimiter"
+#, fuzzy
+#| msgid "Path, with ending delimiter"
+msgid "Path, without ending delimiter"
 msgstr "경로, 마지막에 종료 분리문자"
 
 #: ulng.rsvarpercentchangetopound
