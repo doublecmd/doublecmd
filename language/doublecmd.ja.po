@@ -12228,7 +12228,9 @@ msgid "Other example of what's possible"
 msgstr "何が可能かを示す他の例"
 
 #: ulng.rsvarpath
-msgid "Path, with ending delimiter"
+#, fuzzy
+#| msgid "Path, with ending delimiter"
+msgid "Path, without ending delimiter"
 msgstr "パス（行末の区切り文字付き）"
 
 #: ulng.rsvarpercentchangetopound

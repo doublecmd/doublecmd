@@ -11884,7 +11884,9 @@ msgid "Other example of what's possible"
 msgstr "Další příklady toho, co je možné"
 
 #: ulng.rsvarpath
-msgid "Path, with ending delimiter"
+#, fuzzy
+#| msgid "Path, with ending delimiter"
+msgid "Path, without ending delimiter"
 msgstr "cesta, s oddělovačem na konci"
 
 #: ulng.rsvarpercentchangetopound

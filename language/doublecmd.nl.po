@@ -11894,7 +11894,7 @@ msgid "Other example of what's possible"
 msgstr "Ander voorbeeld want wat er mogelijk is"
 
 #: ulng.rsvarpath
-msgid "Path, with ending delimiter"
+msgid "Path, without ending delimiter"
 msgstr ""
 
 #: ulng.rsvarpercentchangetopound
