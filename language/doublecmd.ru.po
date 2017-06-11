@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-12-05 12:43+0400\n"
+"PO-Revision-Date: 2017-06-06 10:43+0400\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1532,7 +1532,7 @@ msgstr "Перейти к вкладке \"Загрузить/Сохранить
 
 #: tfrmfinddlg.actpagenext.caption
 msgid "Switch to Nex&t Page"
-msgstr ""
+msgstr "Перейти &на следующую вкладку"
 
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
@@ -1540,11 +1540,11 @@ msgstr "Перейти к вкладке \"Плагины\""
 
 #: tfrmfinddlg.actpageprev.caption
 msgid "Switch to &Previous Page"
-msgstr ""
+msgstr "Перейти н&а предыдущую вкладку"
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
-msgstr "Перейти к вкладке \"Загрузить/Сохранить\""
+msgstr "Перейти к вкладке \"Результаты\""
 
 #: tfrmfinddlg.actpagestandard.caption
 msgid "Go to page \"Standard\""
@@ -2057,7 +2057,7 @@ msgstr "Сравнить &каталоги"
 #: tfrmmain.actcomparedirectories.hint
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
 msgid "Compare Directories"
-msgstr "Сравнить &каталоги"
+msgstr "Сравнить каталоги"
 
 #: tfrmmain.actconfigdirhotlist.caption
 msgctxt "tfrmmain.actconfigdirhotlist.caption"
@@ -4049,7 +4049,7 @@ msgstr "Обр&езать текст по ширине колонки"
 
 #: tfrmoptionscolumnsview.cbextendcellwidth.caption
 msgid "&Extend cell width if text is not fitting into column"
-msgstr ""
+msgstr "Рас&ширить ширину ячейки, если текст не умещается в колонке"
 
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDHORZLINE.CAPTION"
@@ -9547,7 +9547,7 @@ msgstr "Пов&торить"
 
 #: ulng.rsdlgbuttonretryadmin
 msgid "As Ad&ministrator"
-msgstr ""
+msgstr "Как &Администратор"
 
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
@@ -10046,7 +10046,7 @@ msgstr "Учётная запись:"
 
 #: ulng.rsmsgalldcintcmds
 msgid "All Double Commander internal commands"
-msgstr ""
+msgstr "Все внутренние команды Double Commander"
 
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
@@ -10094,7 +10094,7 @@ msgstr "Вкладка (%s) заблокирована! Закрыть?"
 
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
-msgstr ""
+msgstr "Подтверждение параметра"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -10786,7 +10786,7 @@ msgstr "Не реализовано."
 
 #: ulng.rsmsgobjectnotexists
 msgid "Object does not exist!"
-msgstr ""
+msgstr "Объект не существует!"
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
@@ -11086,9 +11086,8 @@ msgid "with"
 msgstr "с"
 
 #: ulng.rsmulrenautorename
-#| msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc?"
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
-msgstr "Переименовывать автоматически в \"name (1).ext\", \"name (2).ext\" и т.д.?"
+msgstr "Автоматически переименовывать в \"name (1).ext\", \"name (2).ext\" и т.д.?"
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
@@ -12237,13 +12236,11 @@ msgstr "Только имя файла"
 
 #: ulng.rsvarotherexamples
 msgid "Other example of what's possible"
-msgstr "Прочие возможножные примеры"
+msgstr "Прочие возможные примеры"
 
 #: ulng.rsvarpath
-#, fuzzy
-#| msgid "Path, with ending delimiter"
 msgid "Path, without ending delimiter"
-msgstr "Путь с разделителем в конце"
+msgstr "Путь без разделителя в конце"
 
 #: ulng.rsvarpercentchangetopound
 msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
