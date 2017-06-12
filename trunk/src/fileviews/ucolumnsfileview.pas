@@ -162,6 +162,7 @@ type
     procedure SetActiveFile(FileIndex: PtrInt); override;
     procedure SetSorting(const NewSortings: TFileSortings); override;
     procedure ShowRenameFileEdit(aFile: TFile); override;
+    procedure UpdateRenameFileEditPosition; override;
 
     procedure AfterChangePath; override;
 
@@ -434,8 +435,6 @@ begin
 end;
 
 procedure TColumnsFileView.ShowRenameFileEdit(aFile: TFile);
-var
-  ALeft, ATop, AWidth, AHeight: Integer;
 begin
   if FFileNameColumn <> -1 then
   begin
@@ -445,25 +444,28 @@ begin
       edtRename.Font.Size  := GetColumnsClass.GetColumnFontSize(FFileNameColumn);
       edtRename.Font.Style := GetColumnsClass.GetColumnFontStyle(FFileNameColumn);
 
-      ATop := dgPanel.CellRect(FFileNameColumn, dgPanel.Row).Top - 2;
-      ALeft := dgPanel.CellRect(FFileNameColumn, dgPanel.Row).Left;
-      AWidth := dgPanel.ColWidths[FFileNameColumn];
-
-      if (gShowIcons <> sim_none) and (FFileNameColumn = 0) then
-      begin
-        Inc(ALeft, gIconsSize + 2);
-        Dec(AWidth, gIconsSize + 2);
-      end;
-
-      if Succ(FFileNameColumn) = FExtensionColumn then
-        Inc(AWidth, dgPanel.ColWidths[FExtensionColumn]);
-      AHeight := dgPanel.RowHeights[dgPanel.Row] + 4;
-
-      edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
+      UpdateRenameFileEditPosition;
     end;
 
     inherited ShowRenameFileEdit(AFile);
   end;
+end;
+
+procedure TColumnsFileView.UpdateRenameFileEditPosition;
+var
+  ARect: TRect;
+begin
+  ARect := dgPanel.CellRect(FFileNameColumn, dgPanel.Row);
+  Dec(ARect.Top, 2);
+  Inc(ARect.Bottom, 2);
+
+  if (gShowIcons <> sim_none) and (FFileNameColumn = 0) then
+    Inc(ARect.Left, gIconsSize + 2);
+
+  if Succ(FFileNameColumn) = FExtensionColumn then
+    Inc(ARect.Right, dgPanel.ColWidths[FExtensionColumn]);
+
+  edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Width, ARect.Height);
 end;
 
 procedure TColumnsFileView.RedrawFile(FileIndex: PtrInt);

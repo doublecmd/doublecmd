@@ -40,6 +40,7 @@ type
   protected
     function GetFileViewGridClass: TFileViewGridClass; override;
     procedure ShowRenameFileEdit(aFile: TFile); override;
+    procedure UpdateRenameFileEditPosition; override;
     function GetVisibleFilesIndexes: TRange; override;
   public
     function Clone(NewParent: TWinControl): TBriefFileView; override;
@@ -482,30 +483,33 @@ begin
 end;
 
 procedure TBriefFileView.ShowRenameFileEdit(aFile: TFile);
-var
-  ALeft, ATop, AWidth, AHeight: Integer;
 begin
   if not edtRename.Visible then
   begin
     edtRename.Font.Name  := gFonts[dcfMain].Name;
-    edtRename.Font.Size  := gFonts[dcfMain].Size;;
+    edtRename.Font.Size  := gFonts[dcfMain].Size;
     edtRename.Font.Style := gFonts[dcfMain].Style;
 
     dgPanel.LeftCol:= dgPanel.Col;
-    ATop := dgPanel.CellRect(dgPanel.Col, dgPanel.Row).Top - 2;
-    ALeft := dgPanel.CellRect(dgPanel.Col, dgPanel.Row).Left;
-    AWidth := dgPanel.ColWidths[dgPanel.Col];
-    if gShowIcons <> sim_none then
-    begin
-      Inc(ALeft, gIconsSize + 2);
-      Dec(AWidth, gIconsSize + 2);
-    end;
-    AHeight := dgPanel.RowHeights[dgPanel.Row] + 4;
 
-    edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
+    UpdateRenameFileEditPosition;
   end;
 
   inherited ShowRenameFileEdit(AFile);
+end;
+
+procedure TBriefFileView.UpdateRenameFileEditPosition;
+var
+  ARect: TRect;
+begin
+  ARect := dgPanel.CellRect(dgPanel.Col, dgPanel.Row);
+  Dec(ARect.Top, 2);
+  Inc(ARect.Bottom, 2);
+
+  if gShowIcons <> sim_none then
+    Inc(ARect.Left, gIconsSize + 2);
+
+  edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Width, ARect.Height);
 end;
 
 function TBriefFileView.GetVisibleFilesIndexes: TRange;

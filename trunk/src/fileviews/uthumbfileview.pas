@@ -80,6 +80,7 @@ type
     function GetFileViewGridClass: TFileViewGridClass; override;
     function GetVisibleFilesIndexes: TRange; override;
     procedure ShowRenameFileEdit(aFile: TFile); override;
+    procedure UpdateRenameFileEditPosition(); override;
   public
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
     constructor Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []); override;
@@ -618,29 +619,27 @@ begin
 end;
 
 procedure TThumbFileView.ShowRenameFileEdit(aFile: TFile);
-var
-  ARect: TRect;
-  ALeft, ATop, AWidth, AHeight: Integer;
 begin
   if not edtRename.Visible then
   begin
     edtRename.Font.Name  := gFonts[dcfMain].Name;
-    edtRename.Font.Size  := gFonts[dcfMain].Size;;
+    edtRename.Font.Size  := gFonts[dcfMain].Size;
     edtRename.Font.Style := gFonts[dcfMain].Style;
 
-    with dgPanel do
-    begin
-      ARect := CellRect(Col, Row);
-      ATop := ARect.Bottom - Canvas.TextHeight('Wg') - 4;
-      ALeft := ARect.Left;
-      AWidth := ARect.Right - ALeft;
-      AHeight := ARect.Bottom - ATop;
-    end;
-
-    edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
+    UpdateRenameFileEditPosition;
   end;
 
   inherited ShowRenameFileEdit(AFile);
+end;
+
+procedure TThumbFileView.UpdateRenameFileEditPosition;
+var
+  ARect: TRect;
+begin
+  ARect := dgPanel.CellRect(dgPanel.Col, dgPanel.Row);
+  ARect.Top := ARect.Bottom - dgPanel.Canvas.TextHeight('Wg') - 4;
+
+  edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Width, ARect.Height);
 end;
 
 constructor TThumbFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig;

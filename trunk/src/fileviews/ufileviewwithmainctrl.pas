@@ -150,6 +150,7 @@ type
     procedure MainControlMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure MainControlShowHint(Sender: TObject; HintInfo: PHintInfo);
     procedure MainControlUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+    procedure MainControlResize(Sender: TObject);
     procedure MainControlWindowProc(var TheMessage: TLMessage);
     {en
        Updates the drop row index, which is used to draw a rectangle
@@ -161,6 +162,7 @@ type
 
 //    procedure ShowRenameFileEdit(AFile: TFile); virtual;
     procedure ShowRenameFileEdit(AFile: TFile); virtual;
+    procedure UpdateRenameFileEditPosition; virtual;abstract;
     procedure RenameSelectPart(AActionType:TRenameFileActionType); virtual;
 
     property MainControl: TWinControl read FMainControl write SetMainControl;
@@ -949,6 +951,12 @@ begin
     Exit;
 end;
 
+procedure TFileViewWithMainCtrl.MainControlResize(Sender: TObject);
+begin
+  if edtRename.Visible then
+    UpdateRenameFileEditPosition;
+end;
+
 procedure TFileViewWithMainCtrl.MainControlWindowProc(var TheMessage: TLMessage);
 begin
   // Cancel rename if user scroll file list by mouse
@@ -1160,6 +1168,7 @@ begin
   FMainControl.OnKeyUp        := @MainControlKeyUp;
   FMainControl.OnShowHint     := @MainControlShowHint;
   FMainControl.OnUTF8KeyPress := @MainControlUTF8KeyPress;
+  FMainControl.AddHandlerOnResize(@MainControlResize);
 
   TControlHandlersHack(FMainControl).OnDblClick   := @MainControlDblClick;
   TControlHandlersHack(FMainControl).OnQuadClick  := @MainControlQuadClick;
