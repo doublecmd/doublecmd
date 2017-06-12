@@ -38,7 +38,9 @@ type
     procedure SetGridVertLine(const AValue: Boolean);
 
   protected
+    {$IF lcl_fullversion < 1090000}
     function SelectCell(aCol, aRow: Integer): Boolean; override;
+    {$ENDIF}
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
@@ -1926,6 +1928,8 @@ begin
     Options := Options - [goVertLine];
 end;
 
+{$IF lcl_fullversion < 1090000}
+// Workaround for Lazarus issue 31942.
 function TDrawGridEx.SelectCell(aCol, aRow: Integer): Boolean;
 begin
   Result:= inherited SelectCell(aCol, aRow);
@@ -1936,6 +1940,7 @@ begin
     SetColRow(aCol, aRow);
   end;
 end;
+{$ENDIF}
 
 function TDrawGridEx.GetVisibleRows: TRange;
 var

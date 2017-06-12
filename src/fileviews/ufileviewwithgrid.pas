@@ -19,6 +19,9 @@ type
   protected
     FFileView: TFileViewWithGrid;
   protected
+    {$IF lcl_fullversion < 1090000}
+    function SelectCell(aCol, aRow: Integer): Boolean; override;
+    {$ENDIF}
     procedure RowHeightsChanged; override;
     procedure ColWidthsChanged;  override;
     procedure FinalizeWnd; override;
@@ -182,6 +185,20 @@ begin
 {$ENDIF}
   inherited KeyDown(Key, Shift);
 end;
+
+{$IF lcl_fullversion < 1090000}
+// Workaround for Lazarus issue 31942.
+function TFileViewGrid.SelectCell(aCol, aRow: Integer): Boolean;
+begin
+  Result:= inherited SelectCell(aCol, aRow);
+  // ScrollToCell hangs when Width = 0
+  if Width = 0 then
+  begin
+    Result:= False;
+    SetColRow(aCol, aRow);
+  end;
+end;
+{$ENDIF}
 
 procedure TFileViewGrid.RowHeightsChanged;
 begin
