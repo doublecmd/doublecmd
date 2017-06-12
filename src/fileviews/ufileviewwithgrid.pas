@@ -164,9 +164,9 @@ end;
 
 procedure TFileViewGrid.DoOnResize;
 begin
-  inherited DoOnResize;
   CalculateColRowCount;
   CalculateColumnWidth;
+  inherited DoOnResize;
 end;
 
 procedure TFileViewGrid.KeyDown(var Key: Word; Shift: TShiftState);
