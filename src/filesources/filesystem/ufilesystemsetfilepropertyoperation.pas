@@ -306,7 +306,7 @@ var
       sQuestion:= FileExistsMessage(NewName, aFile.FullPath, aFile.Size, aFile.ModificationTime);
       Result := AskQuestion(sQuestion, '',
                   [fsourOverwrite, fsourSkip, fsourAbort, fsourOverwriteAll,
-                   fsourSkipAll],fsourOverwrite, fsourSkip);
+                   fsourSkipAll], fsourOverwrite, fsourAbort);
       case Result of
       fsourOverwriteAll:
         begin
