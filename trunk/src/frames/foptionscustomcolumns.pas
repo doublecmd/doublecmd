@@ -233,6 +233,7 @@ type
     FUpdating: boolean;
     ColumnClassOwnership: boolean;
     IndexRaw: integer;
+    FCellValue: string;
 
   protected
     procedure Load; override;
@@ -691,6 +692,8 @@ begin
     begin
       Editor.Tag := aRow;
       Editor.Hint := IntToStr(aCol);
+      if not stgColumns.EditorMode then
+        FCellValue := stgColumns.Cells[aCol, aRow];
     end;
     FUpdating := False;
   end;
@@ -699,9 +702,19 @@ end;
 { TfrmOptionsCustomColumns.stgColumnsKeyDown }
 procedure TfrmOptionsCustomColumns.stgColumnsKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
-  if (Key = vk_Down) and (stgColumns.Row = stgColumns.RowCount - 1) then
-  begin
-    AddNewField;
+  case Key of
+    VK_DOWN:
+      if (stgColumns.Row = stgColumns.RowCount - 1) then
+      begin
+        AddNewField;
+      end;
+    VK_ESCAPE:
+      if (stgColumns.EditorMode) then
+      begin
+        stgColumns.Cells[stgColumns.Col, stgColumns.Row] := FCellValue;
+        stgColumns.EditorMode := False;
+        Key := 0;
+      end;
   end;
 end;
 
@@ -813,11 +826,20 @@ end;
 { TfrmOptionsCustomColumns.EditorKeyDown }
 procedure TfrmOptionsCustomColumns.EditorKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
-  if Key = VK_RETURN then
-  begin
-    EditorSaveResult(Sender);
-    stgColumns.EditorMode := False;
-    Key := 0;
+  case Key of
+    VK_RETURN:
+      begin
+        EditorSaveResult(Sender);
+        stgColumns.EditorMode := False;
+        Key := 0;
+       end;
+    VK_ESCAPE:
+      begin
+        stgColumns.EditorMode := False;
+        stgColumns.Cells[stgColumns.Col, stgColumns.Row] := FCellValue;
+        UpdateColumnClass;
+        Key := 0;
+      end;
   end;
 end;
 
