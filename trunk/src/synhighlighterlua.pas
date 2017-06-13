@@ -189,6 +189,7 @@ type
     procedure IdentProc;
     procedure NumberProc;
     procedure UnknownProc;
+    procedure MinusProc;
     procedure CommentProc;
     procedure StringProc;
     procedure QuoteStringProc;
@@ -875,8 +876,8 @@ begin
       'A'..'Z', 'a'..'z', '_': fProcTable[I] := @IdentProc;
       '0'..'9': fProcTable[I] := @NumberProc;
       '''': fProcTable[I] := @StringProc;
-      '"': fProcTable[I] := @QuoteStringProc;
-      '-': fProcTable[I] := @CommentProc;
+      '"': fProcTable[I]  := @QuoteStringProc;
+      '-': fProcTable[I]  := @MinusProc;
       '}': fProcTable[I]  := @BraceCloseProc;
       '{': fProcTable[I]  := @BraceOpenProc;
       '>': fProcTable[I]  := @GreaterProc;
@@ -974,13 +975,18 @@ begin
   Inc(Run);
 end;
 
-procedure TSynLuaSyn.CommentProc;
+procedure TSynLuaSyn.MinusProc;
 begin
   case fLine[Run + 1] of
     '-':
     begin
       fTokenID := tkComment;
-      repeat
+      if (StrComp(fLine + Run + 2, '[[--') = 0) then
+      begin
+        fRange := rsComment;
+        Inc(Run, 6);
+      end
+      else repeat
         Inc(Run);
       until fLine[Run] in [#0, #10, #13];
     end;
@@ -993,6 +999,27 @@ begin
     begin
       fTokenID := tkSymbol;
       Inc(Run);              {subtract}
+    end;
+  end;
+end;
+
+procedure TSynLuaSyn.CommentProc;
+begin
+  case FLine[Run] of
+    #0:  NullProc;
+    #10: LFProc;
+    #13: CRProc;
+    else begin
+      fTokenID := tkComment;
+      repeat
+        if (StrComp(fLine + Run, '--]]--') = 0) then
+        begin
+          fRange := rsUnKnown;
+          Inc(Run, 6);
+          Break;
+        end;
+        Inc(Run);
+      until fLine[Run] in [#0, #10, #13];
     end;
   end;
 end;
@@ -1332,6 +1359,7 @@ procedure TSynLuaSyn.Next;
 begin
   fTokenPos := Run;
   case fRange of
+    rsComment: CommentProc();
     rsMultilineString: StringEndProc;
     else
     begin
