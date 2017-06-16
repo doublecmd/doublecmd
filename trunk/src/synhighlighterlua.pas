@@ -84,6 +84,7 @@ type
     fProcTable: array[#0..#255] of TProcTableProc;
     fRange: TRangeState;
     Run: LongInt;
+    fCommentEnd: String;
     fStringLen: Integer;
     fToIdent: PChar;
     fTokenPos: Integer;
@@ -976,17 +977,33 @@ begin
 end;
 
 procedure TSynLuaSyn.MinusProc;
+var
+  Idx: Integer;
 begin
   case fLine[Run + 1] of
     '-':
     begin
       fTokenID := tkComment;
-      if (StrComp(fLine + Run + 2, '[[--') = 0) then
+      if (fLine[Run + 2] = '[') and (fLine[Run + 3] in ['[', '=']) then
       begin
-        fRange := rsComment;
-        Inc(Run, 6);
-      end
-      else repeat
+        Idx := Run + 2;
+        repeat
+          Inc(Idx);
+        until fLine[Idx] in [#0, #10, #13, '['];
+        if (fLine[Idx] = '[') then
+        begin
+          if (fLine[Run + 3] = '[') then
+            fCommentEnd := ']]'
+          else begin
+            SetString(fCommentEnd, fLine + Run + 3, Idx - (Run + 3));
+            fCommentEnd := ']' + fCommentEnd + ']';
+          end;
+          fRange := rsComment;
+          Run := Idx;
+          Exit;
+        end;
+      end;
+      repeat
         Inc(Run);
       until fLine[Run] in [#0, #10, #13];
     end;
@@ -1004,6 +1021,9 @@ begin
 end;
 
 procedure TSynLuaSyn.CommentProc;
+var
+  ALength: Integer;
+  ACommentEnd: PAnsiChar;
 begin
   case FLine[Run] of
     #0:  NullProc;
@@ -1011,11 +1031,13 @@ begin
     #13: CRProc;
     else begin
       fTokenID := tkComment;
+      ALength := Length(fCommentEnd);
+      ACommentEnd := PAnsiChar(fCommentEnd);
       repeat
-        if (StrComp(fLine + Run, '--]]--') = 0) then
+        if (StrLComp(fLine + Run, ACommentEnd, ALength) = 0) then
         begin
+          Inc(Run, ALength);
           fRange := rsUnKnown;
-          Inc(Run, 6);
           Break;
         end;
         Inc(Run);
