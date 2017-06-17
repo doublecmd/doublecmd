@@ -639,7 +639,7 @@ begin
   ARect := dgPanel.CellRect(dgPanel.Col, dgPanel.Row);
   ARect.Top := ARect.Bottom - dgPanel.Canvas.TextHeight('Wg') - 4;
 
-  edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Width, ARect.Height);
+  edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Right - ARect.Left, ARect.Bottom - ARect.Top);
 end;
 
 constructor TThumbFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig;
