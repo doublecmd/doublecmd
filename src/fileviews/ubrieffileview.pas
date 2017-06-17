@@ -509,7 +509,7 @@ begin
   if gShowIcons <> sim_none then
     Inc(ARect.Left, gIconsSize + 2);
 
-  edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Width, ARect.Height);
+  edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Right - ARect.Left, ARect.Bottom - ARect.Top);
 end;
 
 function TBriefFileView.GetVisibleFilesIndexes: TRange;

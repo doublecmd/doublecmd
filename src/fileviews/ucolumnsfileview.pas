@@ -467,7 +467,7 @@ begin
   if Succ(FFileNameColumn) = FExtensionColumn then
     Inc(ARect.Right, dgPanel.ColWidths[FExtensionColumn]);
 
-  edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Width, ARect.Height);
+  edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Right - ARect.Left, ARect.Bottom - ARect.Top);
 end;
 
 procedure TColumnsFileView.RedrawFile(FileIndex: PtrInt);
