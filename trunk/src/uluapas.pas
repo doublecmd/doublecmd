@@ -36,8 +36,8 @@ function ExecuteScript(const FileName: String; Args: array of String): Boolean;
 implementation
 
 uses
-  Forms, Dialogs, LazUTF8, DCOSUtils, DCConvertEncoding, fMain, uFormCommands,
-  uOSUtils, uGlobs, uLog;
+  Forms, Dialogs, Clipbrd, LazUTF8, DCOSUtils, DCConvertEncoding, fMain,
+  uFormCommands, uOSUtils, uGlobs, uLog, uClipboard;
 
 procedure luaPushSearchRec(L : Plua_State; var Rec: TSearchRec);
 var
@@ -121,6 +121,30 @@ begin
   lua_pushboolean(L, mbDirectoryExists(lua_tostring(L, 1)));
 end;
 
+function luaClipbrdClear(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 0;
+  Clipboard.Clear;
+end;
+
+function luaClipbrdGetText(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 1;
+  lua_pushstring(L, PAnsiChar(Clipboard.AsText));
+end;
+
+function luaClipbrdSetText(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 0;
+  ClipboardSetText(luaL_checkstring(L, 1));
+end;
+
+function luaClipbrdSetHtml(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 0;
+  Clipboard.SetAsHtml(luaL_checkstring(L, 1));
+end;
+
 function luaGetEnvironmentVariable(L : Plua_State) : Integer; cdecl;
 var
   AValue: String;
@@ -177,6 +201,13 @@ begin
     luaP_register(L, 'FileGetAttr', @luaFileGetAttr);
     luaP_register(L, 'DirectoryExists', @luaDirectoryExists);
   lua_setglobal(L, 'SysUtils');
+
+  lua_newtable(L);
+    luaP_register(L, 'Clear', @luaClipbrdClear);
+    luaP_register(L, 'GetAsText', @luaClipbrdGetText);
+    luaP_register(L, 'SetAsText', @luaClipbrdSetText);
+    luaP_register(L, 'SetAsHtml', @luaClipbrdSetHtml);
+  lua_setglobal(L, 'Clipbrd');
 
   lua_newtable(L);
     luaP_register(L, 'ExecuteCommand', @luaExecuteCommand);
