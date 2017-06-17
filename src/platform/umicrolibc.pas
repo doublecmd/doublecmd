@@ -39,6 +39,8 @@ const
 
 function fpgetCerrno: cint;
 procedure fpsetCerrno(err: cint);
+{$ELSE}
+function fpgetCerrno: cint; inline;
 {$ENDIF}
 
 function csystem(const command: String): cint;
@@ -46,7 +48,7 @@ function cfopen(const path, mode: String): Pointer;
 function cpopen(const command, mode: String): Pointer;
 function cstrerror(errnum: cint): PAnsiChar; cdecl; external clib name 'strerror';
 
-property cerrno: cint read fpgetCerrno write fpsetcerrno;
+property cerrno:cint read fpgetCerrno write fpsetcerrno;
 
 implementation
 
@@ -80,6 +82,11 @@ function fflush(stream: Pointer): cint; cdecl; external clib;
 function system(const command: PAnsiChar): cint; cdecl; external clib;
 function popen(const command, mode: PAnsiChar): Pointer; cdecl; external clib;
 function fopen(const filename, mode: PAnsiChar): Pointer; cdecl; external clib;
+
+function fpgetCerrno: cint; inline;
+begin
+  Result:= InitC.fpgetCerrno;
+end;
 
 {$ENDIF}
 
