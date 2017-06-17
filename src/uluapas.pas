@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Push some useful functions to Lua
 
-   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -36,8 +36,8 @@ function ExecuteScript(const FileName: String; Args: array of String): Boolean;
 implementation
 
 uses
-  Forms, Dialogs, Clipbrd, LazUTF8, DCOSUtils, DCConvertEncoding, fMain,
-  uFormCommands, uOSUtils, uGlobs, uLog, uClipboard;
+  Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, DCOSUtils, DCConvertEncoding,
+  fMain, uFormCommands, uOSUtils, uGlobs, uLog, uClipboard;
 
 procedure luaPushSearchRec(L : Plua_State; var Rec: TSearchRec);
 var
@@ -139,11 +139,13 @@ begin
   ClipboardSetText(luaL_checkstring(L, 1));
 end;
 
+{$if lcl_fullversion >= 1070000}
 function luaClipbrdSetHtml(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 0;
   Clipboard.SetAsHtml(luaL_checkstring(L, 1));
 end;
+{$endif}
 
 function luaGetEnvironmentVariable(L : Plua_State) : Integer; cdecl;
 var
@@ -206,7 +208,9 @@ begin
     luaP_register(L, 'Clear', @luaClipbrdClear);
     luaP_register(L, 'GetAsText', @luaClipbrdGetText);
     luaP_register(L, 'SetAsText', @luaClipbrdSetText);
+{$if lcl_fullversion >= 1070000}
     luaP_register(L, 'SetAsHtml', @luaClipbrdSetHtml);
+{$endif}
   lua_setglobal(L, 'Clipbrd');
 
   lua_newtable(L);
