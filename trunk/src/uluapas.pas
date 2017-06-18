@@ -40,9 +40,6 @@ uses
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog, uMicroLibC,
   uClipboard;
 
-var
-  f_lines: lua_CFunction = nil;
-
 function tofilep(L: Plua_State): PPointer; inline;
 begin
   Result:= PPointer(luaL_checkudata(L, 1, LUA_FILEHANDLE))
@@ -125,26 +122,32 @@ const
 var
   pf: PPointer;
   filename: PAnsiChar;
+  f_lines: lua_CFunction;
 begin
-    if (lua_isnoneornil(L, 1)) then
-    begin
-      //* no arguments? */
-      //* will iterate over default input */
-      lua_rawgeti(L, LUA_ENVIRONINDEX, IO_INPUT);
-      Result := f_lines(L);
-    end
-    else begin
-      filename := luaL_checkstring(L, 1);
-      pf := newfile(L);
-      pf^ := cfopen(filename, 'r');
-      if (pf^ = nil) then begin
-        lua_pushfstring(L, '%s: %s', filename, cstrerror(cerrno));
-        luaL_argerror(L, 1, lua_tostring(L, -1));
-      end;
-      lua_replace(L, 1);
-      f_lines(L);
-      Result:= 1;
+  // Get f_lines C function
+  luaL_getmetatable(L, LUA_FILEHANDLE);
+    lua_getfield(L, -1, 'lines');
+    f_lines := lua_tocfunction(L, -1);
+  lua_pop(L, 2);
+  //* no arguments? */
+  if (lua_isnoneornil(L, 1)) then
+  begin
+    //* will iterate over default input */
+    lua_rawgeti(L, LUA_ENVIRONINDEX, IO_INPUT);
+    Result := f_lines(L);
+  end
+  else begin
+    filename := luaL_checkstring(L, 1);
+    pf := newfile(L);
+    pf^ := cfopen(filename, 'r');
+    if (pf^ = nil) then begin
+      lua_pushfstring(L, '%s: %s', filename, cstrerror(cerrno));
+      luaL_argerror(L, 1, lua_tostring(L, -1));
     end;
+    lua_replace(L, 1);
+    f_lines(L);
+    Result:= 1;
+  end;
 end;
 
 function io_popen(L: Plua_State): Integer; cdecl;
@@ -367,15 +370,6 @@ procedure ReplaceLib(L: Plua_State);
 var
   Index: Integer;
 begin
-  // Get f_lines C function
-  if (f_lines = nil) then
-  begin
-    luaL_getmetatable(L, LUA_FILEHANDLE);
-      lua_getfield(L, -1, 'lines');
-      f_lines := lua_tocfunction(L, -1);
-    lua_pop(L, 2);
-  end;
-
   // Get 'popen' environment
   lua_getglobal(L, LUA_IOLIBNAME);
     lua_getfield(L, -1, 'popen');
