@@ -145,8 +145,7 @@ begin
       luaL_argerror(L, 1, lua_tostring(L, -1));
     end;
     lua_replace(L, 1);
-    f_lines(L);
-    Result:= 1;
+    Result := f_lines(L);
   end;
 end;
 
