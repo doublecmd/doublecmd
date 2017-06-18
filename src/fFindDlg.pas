@@ -36,6 +36,10 @@ uses
   ActnList, uOSForms, uShellContextMenu, uExceptions, uFileSystemFileSource,
   uFormCommands, uHotkeyManager;
 
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
+  {$DEFINE FIX_DEFAULT}
+{$ENDIF}
+
 const
   HotkeysCategory = 'Find files';
 
@@ -219,6 +223,9 @@ type
     procedure cbTimeToChange(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormDestroy(Sender: TObject);
+{$IF DEFINED(FIX_DEFAULT)}
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+{$ENDIF}
     procedure frmFindDlgClose(Sender: TObject; var {%H-}CloseAction: TCloseAction);
     procedure frmFindDlgShow(Sender: TObject);
     procedure gbDirectoriesResize(Sender: TObject);
@@ -428,9 +435,7 @@ begin
   if s = '' then
   begin
     TfrmFindDlg.Instance.AfterSearchStopped;
-    {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
     TfrmFindDlg.Instance.btnStart.Default := True;
-    {$ENDIF}
   end
   else
   begin
@@ -664,9 +669,7 @@ begin
   cbTimeFrom.Checked := False;
   cbTimeTo.Checked := False;
 
-  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
   btnStart.Default := True;
-  {$ENDIF}
 
   cmbNotOlderThanUnit.ItemIndex := 3; // Days
   cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
@@ -680,6 +683,10 @@ begin
   CloneMainAction(frmMain.actViewSearches, actList, miViewTab, -1);
   CloneMainAction(frmMain.actDeleteSearches, actList, miAction, -1);
   CloneMainAction(frmMain.actConfigSearches, actList, miOptions, 0);
+
+{$IF DEFINED(FIX_DEFAULT)}
+  Application.AddOnKeyDownBeforeHandler(@FormKeyDown);
+{$ENDIF}
 end;
 
 { TfrmFindDlg.cbUsePluginChange }
@@ -1313,9 +1320,7 @@ begin
 
   if pgcSearch.ActivePage = tsResults then
   begin
-    {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
     btnStart.Default := False;
-    {$ENDIF}
     if lsFoundedFiles.SelCount = 0 then lsFoundedFiles.ItemIndex := 0;
     lsFoundedFiles.SetFocus;
     lsFoundedFiles.Selected[lsFoundedFiles.ItemIndex] := True;
@@ -1336,9 +1341,8 @@ begin
   end;
 
   AfterSearchStopped;
-  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+
   btnStart.Default := True;
-  {$ENDIF}
 
   if cmbFindText.Focused then // if F7 on already focused textSearch field- disable text search and set focun on file mask
   begin
@@ -1401,9 +1405,9 @@ begin
 
   FSearchingActive := True;
   actCancel.Enabled := True;
-  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+
   btnStop.Default := True;
-  {$ENDIF}
+
   actStart.Enabled := False;
   actClose.Enabled := False;
   actNewSearch.Enabled := False;
@@ -1533,9 +1537,8 @@ begin
   lblFound.Caption := EmptyStr;
   SetWindowCaption(wcs_NewSearch);
   if pgcSearch.ActivePage = tsStandard then cmbFindFileMask.SetFocus;
-  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+
   btnStart.Default := True;
-  {$ENDIF}
 end;
 
 { TfrmFindDlg.cm_LastSearch }
@@ -1714,18 +1717,35 @@ begin
   end;
 
   AfterSearchStopped;
-  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+
   btnStart.Default := True;
-  {$ENDIF}
+
   CanClose := not Assigned(FFindThread);
 end;
 
 { TfrmFindDlg.FormDestroy }
 procedure TfrmFindDlg.FormDestroy(Sender: TObject);
 begin
-  FreeThenNil(FoundedStringCopy);
-  FreeThenNil(DsxPlugins);
+{$IF DEFINED(FIX_DEFAULT)}
+  Application.RemoveOnKeyDownBeforeHandler(@FormKeyDown);
+{$ENDIF}
+  FreeAndNil(FoundedStringCopy);
+  FreeAndNil(DsxPlugins);
 end;
+
+{$IF DEFINED(FIX_DEFAULT)}
+procedure TfrmFindDlg.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Sender = lsFoundedFiles) then
+    TCustomListBox(Sender).OnKeyDown(Sender, Key, Shift)
+  else if (Sender is TCustomButton) and (Screen.ActiveForm = Self) then
+  begin
+    TCustomButton(Sender).Click;
+    Key:= 0;
+  end;
+end;
+{$ENDIF}
 
 { TfrmFindDlg.FormClose }
 procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -2237,9 +2257,7 @@ end;
 { TfrmFindDlg.tsStandardEnter }
 procedure TfrmFindDlg.tsStandardEnter(Sender: TObject);
 begin
-  {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
   btnStart.Default := True;
-  {$ENDIF}
 end;
 
 { TfrmFindDlg.UpdateTemplatesList }
