@@ -1737,12 +1737,15 @@ end;
 procedure TfrmFindDlg.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (Sender = lsFoundedFiles) then
-    TCustomListBox(Sender).OnKeyDown(Sender, Key, Shift)
-  else if (Sender is TCustomButton) and (Screen.ActiveForm = Self) then
+  if Key = VK_RETURN then
   begin
-    TCustomButton(Sender).Click;
-    Key:= 0;
+    if (Sender = lsFoundedFiles) then
+      TCustomListBox(Sender).OnKeyDown(Sender, Key, Shift)
+    else if (Sender is TCustomButton) and (Screen.ActiveForm = Self) then
+    begin
+      TCustomButton(Sender).Click;
+      Key:= 0;
+    end;
   end;
 end;
 {$ENDIF}
