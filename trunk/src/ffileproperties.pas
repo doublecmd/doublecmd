@@ -128,6 +128,7 @@ type
     FPropertyFormatter: IFilePropertyFormatter;
     FFileSourceCalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
     ChangeTriggersEnabled: Boolean;
+    FFileType,
     OriginalAttr: TFileAttrs;
     OriginalUser, OriginalGroup: String;
     FChangedProperties: Boolean;
@@ -231,7 +232,7 @@ begin
     ShowExecutable;
     AMode:= GetModeFromForm;
     edtOctal.Text:= DecToOct(AMode);
-    lblAttrText.Caption := FormatUnixAttributes(AMode);
+    lblAttrText.Caption := FormatUnixAttributes(FFileType or AMode);
     ChangeTriggersEnabled := True;
   end;
 end;
@@ -268,11 +269,15 @@ end;
 
 procedure TfrmFileProperties.edtOctalKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+var
+  AMode: TFileAttrs;
 begin
   if ChangeTriggersEnabled then
   begin
     ChangeTriggersEnabled := False;
-    ShowPermissions(OctToDec(edtOctal.Text));
+    AMode:= OctToDec(edtOctal.Text);
+    lblAttrText.Caption := FormatUnixAttributes(FFileType or AMode);
+    ShowPermissions(AMode);
     ChangeTriggersEnabled := True;
   end;
 end;
@@ -420,6 +425,7 @@ begin
     if fpAttributes in SupportedProperties then
     begin
       Attrs := AttributesProperty.Value;
+      FFileType:= Attrs and S_IFMT;
       OriginalAttr := Attrs and $0FFF;
       //if Attrs is TUnixFileAttributesProperty
       //if Attrs is TNtfsFileAttributesProperty

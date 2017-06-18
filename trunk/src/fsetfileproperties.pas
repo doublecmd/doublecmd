@@ -108,6 +108,7 @@ type
     procedure ShowMode(Mode: TFileAttrs);
     procedure ShowAttr(Attr: TFileAttrs);
     procedure UpdateAllowGrayed(AllowGrayed: Boolean);
+    function FormatUnixAttributesEx(iAttr: TFileAttrs): String;
     function GetModeFromForm(out ExcludeAttrs: TFileAttrs): TFileAttrs;
     function GetAttrFromForm(out ExcludeAttrs: TFileAttrs): TFileAttrs;
   public
@@ -197,7 +198,7 @@ begin
     else begin
       AMode:= GetModeFromForm(ExcludeAttrs);
       edtOctal.Text:= DecToOct(AMode);
-      lblAttrText.Caption:= FormatUnixAttributes(AMode);
+      lblAttrText.Caption:= FormatUnixAttributesEx(AMode);
     end;
     FChangeTriggersEnabled := True;
   end;
@@ -216,11 +217,15 @@ end;
 
 procedure TfrmSetFileProperties.edtOctalKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+var
+  AMode: TFileAttrs;
 begin
   if FChangeTriggersEnabled then
   begin
     FChangeTriggersEnabled := False;
-    ShowMode(OctToDec(edtOctal.Text));
+    AMode:= OctToDec(edtOctal.Text);
+    lblAttrText.Caption:= FormatUnixAttributesEx(AMode);
+    ShowMode(AMode);
     FChangeTriggersEnabled := True;
   end;
 end;
@@ -273,6 +278,11 @@ begin
     if gbUnixAttributes.Controls[Index] is TCheckBox then
       TCheckBox(gbUnixAttributes.Controls[Index]).AllowGrayed:= AllowGrayed;
   end;
+end;
+
+function TfrmSetFileProperties.FormatUnixAttributesEx(iAttr: TFileAttrs): String;
+begin
+  Result:= Copy(FormatUnixAttributes(iAttr), 2, MaxInt);
 end;
 
 function TfrmSetFileProperties.GetModeFromForm(out ExcludeAttrs: TFileAttrs): TFileAttrs;
