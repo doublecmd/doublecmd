@@ -74,74 +74,13 @@ begin
   Result := IntToStr(FileProperty.Value);
 end;
 }
-var
-  iAttr: TFileAttrs;
 begin
-  iAttr := FileProperty.Value;
-
-  Result:= '--------';
-
-  if (iAttr and FILE_ATTRIBUTE_DIRECTORY    ) <> 0 then Result[1] := 'd';
-  if (iAttr and FILE_ATTRIBUTE_REPARSE_POINT) <> 0 then Result[1] := 'l';
-  if (iAttr and FILE_ATTRIBUTE_READONLY     ) <> 0 then Result[2] := 'r';
-  if (iAttr and FILE_ATTRIBUTE_ARCHIVE      ) <> 0 then Result[3] := 'a';
-  if (iAttr and FILE_ATTRIBUTE_HIDDEN       ) <> 0 then Result[4] := 'h';
-  if (iAttr and FILE_ATTRIBUTE_SYSTEM       ) <> 0 then Result[5] := 's';
-
-  // These two are exclusive on NTFS.
-  if (iAttr and FILE_ATTRIBUTE_COMPRESSED   ) <> 0 then Result[6] := 'c';
-  if (iAttr and FILE_ATTRIBUTE_ENCRYPTED    ) <> 0 then Result[6] := 'e';
-
-  if (iAttr and FILE_ATTRIBUTE_TEMPORARY    ) <> 0 then Result[7] := 't';
-  if (iAttr and FILE_ATTRIBUTE_SPARSE_FILE  ) <> 0 then Result[8] := 'p';
+  Result:= DCFileAttributes.FormatNtfsAttributes(FileProperty.Value);
 end;
 
 function TDefaultFilePropertyFormatter.FormatUnixAttributes(FileProperty: TUnixFileAttributesProperty): String;
-var
-  iAttr: TFileAttrs;
 begin
-  iAttr := FileProperty.Value;
-
-  Result:= '----------';
-
-  if ((iAttr and S_IFMT) = S_IFDIR)  then Result[1]  := 'd';
-  if ((iAttr and S_IFMT) = S_IFLNK)  then Result[1]  := 'l';
-  if ((iAttr and S_IFMT) = S_IFSOCK) then Result[1]  := 's';
-  if ((iAttr and S_IFMT) = S_IFIFO)  then Result[1]  := 'f';
-  if ((iAttr and S_IFMT) = S_IFBLK)  then Result[1]  := 'b';
-  if ((iAttr and S_IFMT) = S_IFCHR)  then Result[1]  := 'c';
-
-  if ((iAttr and S_IRUSR) = S_IRUSR) then Result[2]  := 'r';
-  if ((iAttr and S_IWUSR) = S_IWUSR) then Result[3]  := 'w';
-  if ((iAttr and S_IXUSR) = S_IXUSR) then Result[4]  := 'x';
-  if ((iAttr and S_IRGRP) = S_IRGRP) then Result[5]  := 'r';
-  if ((iAttr and S_IWGRP) = S_IWGRP) then Result[6]  := 'w';
-  if ((iAttr and S_IXGRP) = S_IXGRP) then Result[7]  := 'x';
-  if ((iAttr and S_IROTH) = S_IROTH) then Result[8]  := 'r';
-  if ((iAttr and S_IWOTH) = S_IWOTH) then Result[9]  := 'w';
-  if ((iAttr and S_IXOTH) = S_IXOTH) then Result[10] := 'x';
-
-  if ((iAttr and S_ISUID) = S_ISUID) then
-  begin
-    if Result[4] = 'x' then
-      Result[4]  := 's'
-    else
-      Result[4]  := 'S';
-  end;
-  if ((iAttr and S_ISGID) = S_ISGID) then
-  begin
-    if Result[7] = 'x' then
-      Result[7]  := 's'
-    else
-      Result[7]  := 'S';
-  end;
-  if ((iAttr and S_ISVTX) = S_ISVTX) then
-  begin
-    if Result[10] = 'x' then
-      Result[10]  := 't'
-    else
-      Result[10]  := 'T';
-  end;
+  Result:= DCFileAttributes.FormatUnixAttributes(FileProperty.Value);
 end;
 
 // ----------------------------------------------------------------------------
