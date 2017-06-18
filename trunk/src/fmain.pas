@@ -4118,6 +4118,7 @@ begin
       OnDblClick := @ShellTreeViewDblClick;
       OnAdvancedCustomDrawItem := @ShellTreeViewAdvancedCustomDrawItem;
 
+      ExpandSignType := tvestPlusMinus;
       Options := Options - [tvoThemedDraw];
       Options := Options + [tvoReadOnly, tvoRightClickSelect];
     end;
