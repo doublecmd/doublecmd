@@ -222,12 +222,16 @@ begin
 end;
 
 procedure TfrmFileProperties.cbChangeModeClick(Sender: TObject);
+var
+  AMode: TFileAttrs;
 begin
   if ChangeTriggersEnabled then
   begin
     ChangeTriggersEnabled := False;
     ShowExecutable;
-    edtOctal.Text:= DecToOct(GetModeFromForm);
+    AMode:= GetModeFromForm;
+    edtOctal.Text:= DecToOct(AMode);
+    lblAttrText.Caption := FormatUnixAttributes(AMode);
     ChangeTriggersEnabled := True;
   end;
 end;

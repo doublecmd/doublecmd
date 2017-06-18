@@ -183,16 +183,21 @@ end;
 
 procedure TfrmSetFileProperties.cbChangeModeClick(Sender: TObject);
 var
-  ExcludeAttrs: TFileAttrs;
+  AMode, ExcludeAttrs: TFileAttrs;
   CheckBox: TCheckBox absolute Sender;
 begin
   if FChangeTriggersEnabled then
   begin
     FChangeTriggersEnabled := False;
     if CheckBox.State = cbGrayed then
-      edtOctal.Text:= EmptyStr
+    begin
+      edtOctal.Text:= EmptyStr;
+      lblAttrText.Caption:= EmptyStr;
+    end
     else begin
-      edtOctal.Text:= DecToOct(GetModeFromForm(ExcludeAttrs));
+      AMode:= GetModeFromForm(ExcludeAttrs);
+      edtOctal.Text:= DecToOct(AMode);
+      lblAttrText.Caption:= FormatUnixAttributes(AMode);
     end;
     FChangeTriggersEnabled := True;
   end;
