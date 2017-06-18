@@ -38,7 +38,7 @@ implementation
 uses
   Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, CTypes, DCOSUtils, DCBasicTypes,
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog, uMicroLibC,
-  uClipboard;
+  uClipboard, uShowMsg;
 
 function tofilep(L: Plua_State): PPointer; inline;
 begin
@@ -273,6 +273,39 @@ begin
 end;
 {$endif}
 
+function luaMessageBox(L : Plua_State) : Integer; cdecl;
+var
+  flags: Integer;
+  text, caption: PAnsiChar;
+begin
+  Result:= 1;
+  text:= luaL_checkstring(L, 1);
+  caption:= luaL_checkstring(L, 2);
+  flags:= Integer(lua_tointeger(L, 3));
+  flags:= ShowMessageBox(text, caption, flags);
+  lua_pushinteger(L, flags);
+end;
+
+function luaInputQuery(L : Plua_State) : Integer; cdecl;
+var
+  AValue: String;
+  AMaskInput: Boolean;
+  APrompt, ACaption: PAnsiChar;
+begin
+  Result:= 1;
+  ACaption:= luaL_checkstring(L, 1);
+  APrompt:= luaL_checkstring(L, 2);
+  AMaskInput:= lua_toboolean(L, 3);
+  AValue:= luaL_checkstring(L, 4);
+  AMaskInput:= ShowInputQuery(ACaption, APrompt, AMaskInput, AValue);
+  lua_pushboolean(L, AMaskInput);
+  if AMaskInput then
+  begin
+    Result:= 2;
+    lua_pushstring(L, PAnsiChar(AValue));
+  end;
+end;
+
 function luaGetEnvironmentVariable(L : Plua_State) : Integer; cdecl;
 var
   AValue: String;
@@ -409,6 +442,11 @@ begin
     luaP_register(L, 'SetAsHtml', @luaClipbrdSetHtml);
 {$endif}
   lua_setglobal(L, 'Clipbrd');
+
+  lua_newtable(L);
+    luaP_register(L, 'MessageBox', @luaMessageBox);
+    luaP_register(L, 'InputQuery', @luaInputQuery);
+  lua_setglobal(L, 'Dialogs');
 
   lua_newtable(L);
     luaP_register(L, 'ExecuteCommand', @luaExecuteCommand);
