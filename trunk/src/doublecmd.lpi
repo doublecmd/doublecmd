@@ -177,9 +177,9 @@ begin
   UnitPath += '$(FallbackOutputRoot)/SynEdit/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType);';
 end;
 
-if (LCLWidgetType = 'qt5') and (TargetOS &lt;> 'darwin') then
+if ((LCLWidgetType = 'qt') or (LCLWidgetType = 'qt5')) and (TargetOS &lt;> 'darwin') then
 begin
-  UnitPath += 'platform/$(SrcOS)/$(LCLWidgetType);';
+  UnitPath += 'platform/$(SrcOS)/qt5;';
 end;"/>
           <Parsing>
             <SyntaxOptions>
