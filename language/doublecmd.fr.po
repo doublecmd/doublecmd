@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2016-12-08 20:46-0500\n"
+"PO-Revision-Date: 2017-06-23 11:30-0400\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -1303,7 +1303,7 @@ msgstr "SUID"
 
 #: tfrmfileproperties.chkexecutable.caption
 msgid "Allow &executing file as program"
-msgstr ""
+msgstr "Permettre l'exécution du fichier"
 
 #: tfrmfileproperties.gbowner.caption
 msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
@@ -1356,7 +1356,7 @@ msgstr "Exécuter"
 
 #: tfrmfileproperties.lblexecutable.caption
 msgid "Execute:"
-msgstr ""
+msgstr "Exécution:"
 
 #: tfrmfileproperties.lblfile.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILE.CAPTION"
@@ -1464,13 +1464,11 @@ msgid "Write"
 msgstr "Écriture"
 
 #: tfrmfileproperties.sgimage.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.sgimage.columns[0].title.caption"
 msgid "Name"
 msgstr "Nom"
 
 #: tfrmfileproperties.sgimage.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
 msgid "Value"
 msgstr "Valeur"
@@ -1482,7 +1480,7 @@ msgstr "Attributs"
 
 #: tfrmfileproperties.tsimage.caption
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
 #: tfrmfileproperties.tsproperties.caption
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
@@ -1556,7 +1554,7 @@ msgstr "Aller à la page \"Charger/Sauvegarder\""
 
 #: tfrmfinddlg.actpagenext.caption
 msgid "Switch to Nex&t Page"
-msgstr ""
+msgstr "Aller à la page suivante"
 
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
@@ -1564,7 +1562,7 @@ msgstr "Aller à la page \"Plugins\""
 
 #: tfrmfinddlg.actpageprev.caption
 msgid "Switch to &Previous Page"
-msgstr ""
+msgstr "Aller à la page précédente"
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -2262,11 +2260,11 @@ msgstr "Mettre la contrôle actif sur la ligne de commande"
 
 #: tfrmmain.actfocusswap.caption
 msgid "Swap focus"
-msgstr ""
+msgstr "Alterner de panneau"
 
 #: tfrmmain.actfocusswap.hint
 msgid "Switch between left and right file list"
-msgstr ""
+msgstr "Alterner entre la liste de gauche et de droite"
 
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
@@ -4075,7 +4073,7 @@ msgstr "Couper le texte à la largeur de la colonne"
 
 #: tfrmoptionscolumnsview.cbextendcellwidth.caption
 msgid "&Extend cell width if text is not fitting into column"
-msgstr ""
+msgstr "Ajuster la largeur de la cellul au texte"
 
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDHORZLINE.CAPTION"
@@ -4141,7 +4139,6 @@ msgid "Searc&h/Replace history"
 msgstr "Historique des Recherches/Remplacements"
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
-#, fuzzy
 msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
 msgid "Directories"
 msgstr "Dossiers"
@@ -4167,11 +4164,11 @@ msgstr "Ajuster sur la ligne de commande"
 
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
-msgstr ""
+msgstr "Thème d'icône:"
 
 #: tfrmoptionsconfiguration.lblthumbcache.caption
 msgid "Thumbnails cache:"
-msgstr ""
+msgstr "Cache des vignettes:"
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.RBPROGRAMDIR.CAPTION"
@@ -6284,7 +6281,7 @@ msgctxt "tfrmoptionshotkeys.actedithotkey.caption"
 msgid "&Edit hotkey"
 msgstr ""
 "Éditer raccourci-\n"
-"clavier\n"
+"clavier"
 
 #: tfrmoptionshotkeys.actnextcategory.caption
 msgid "Next category"
@@ -6399,11 +6396,11 @@ msgstr " &Taille des icônes "
 
 #: tfrmoptionsicons.gbicontheme.caption
 msgid "Icon theme"
-msgstr ""
+msgstr "Thème d'icône"
 
 #: tfrmoptionsicons.gbshowicons.caption
 msgid "Show icons"
-msgstr ""
+msgstr "Affiche les icônes"
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
@@ -6412,11 +6409,11 @@ msgstr "Montrer les icônes à gauche des noms de fichier"
 
 #: tfrmoptionsicons.lbldiskpanel.caption
 msgid "Disk panel:"
-msgstr ""
+msgstr "Panneau des lecteurs:"
 
 #: tfrmoptionsicons.lblfilepanel.caption
 msgid "File panel:"
-msgstr ""
+msgstr "Panneau des fichiers:"
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"
@@ -8787,7 +8784,7 @@ msgstr "Affiche le message d'À propos"
 
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
-msgstr ""
+msgstr "Changer encodage"
 
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
@@ -9255,31 +9252,29 @@ msgstr "Quand le fichier existe"
 
 #: uexifreader.rsdatetimeoriginal
 msgid "Date taken"
-msgstr ""
+msgstr "Date de capture"
 
 #: uexifreader.rsimageheight
-#, fuzzy
 msgctxt "uexifreader.rsimageheight"
 msgid "Height"
 msgstr "Hauteur"
 
 #: uexifreader.rsimagewidth
-#, fuzzy
 msgctxt "uexifreader.rsimagewidth"
 msgid "Width"
 msgstr "Largeur"
 
 #: uexifreader.rsmake
 msgid "Manufacturer"
-msgstr ""
+msgstr "Manufacturier"
 
 #: uexifreader.rsmodel
 msgid "Camera model"
-msgstr ""
+msgstr "Appareil"
 
 #: uexifreader.rsorientation
 msgid "Orientation"
-msgstr ""
+msgstr "Orientation"
 
 #: ulng.msgtrytolocatecrcfile
 msgid ""
@@ -9575,7 +9570,7 @@ msgstr "Ré-&essayer"
 
 #: ulng.rsdlgbuttonretryadmin
 msgid "As Ad&ministrator"
-msgstr ""
+msgstr "Comme administrateur"
 
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
@@ -10075,7 +10070,7 @@ msgstr "Compte :"
 
 #: ulng.rsmsgalldcintcmds
 msgid "All Double Commander internal commands"
-msgstr ""
+msgstr "Toutes les commandes internes de Double Commander"
 
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
@@ -10123,7 +10118,7 @@ msgstr "Cet onglet (%s) est verrouillé! Forcer sa fermeture tout de même?"
 
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
-msgstr ""
+msgstr "Confirmation de paramètre"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -10815,7 +10810,7 @@ msgstr "Pas encore implémenté."
 
 #: ulng.rsmsgobjectnotexists
 msgid "Object does not exist!"
-msgstr ""
+msgstr "L'oject n'existe pas!"
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
@@ -11116,7 +11111,7 @@ msgstr "avec"
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
-msgstr ""
+msgstr "Renommage automatique sous forme de \"nom (1).ext\", \"nom (2).ext\", etc.?"
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
@@ -11124,7 +11119,7 @@ msgstr "Pas de changement;MAJUSCULE;minuscule;Premier caractère majuscule;Premi
 
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
-msgstr ""
+msgstr "Attention, il y a des doubons!"
 
 #: ulng.rsmulrenwronglinesnumber
 msgid "File contains wrong number of lines: %d, should be %d!"
@@ -12268,10 +12263,8 @@ msgid "Other example of what's possible"
 msgstr "Autres exemples de ce qui est possible"
 
 #: ulng.rsvarpath
-#, fuzzy
-#| msgid "Path, with ending delimiter"
 msgid "Path, without ending delimiter"
-msgstr "Chemin, avec le séparateur de dossier à la fin"
+msgstr "Chemin, sans le séparateur de dossier à la fin"
 
 #: ulng.rsvarpercentchangetopound
 msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
@@ -12395,4 +12388,3 @@ msgstr "Nombre de remplacements : %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
-
