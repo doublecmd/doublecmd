@@ -427,7 +427,7 @@ begin
   MaybeActiveOrSelectedDirectories:=frmMain.ActiveFrame.CloneSelectedOrActiveDirectories;
   try
     // Create All popup menu
-    CurrentPathToSearch := UpperCase(mbExpandFileName(frmMain.ActiveFrame.CurrentPath));
+    CurrentPathToSearch := UpperCase(mbExpandFileName(frmMain.ActiveFrame.CurrentLocation));
     if MaybeActiveOrSelectedDirectories.Count=1 then SelectedPathToSearch := UpperCase(IncludeTrailingPathDelimiter(mbExpandFileName(MaybeActiveOrSelectedDirectories.Items[0].FullPath))) else SelectedPathToSearch := TERMINATORNOTPRESENT;
 
     FlagCurrentPathAlreadyInMenu := False;
