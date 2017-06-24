@@ -3087,7 +3087,7 @@ end;
 //
 procedure TMainCommands.cm_ConfigDirHotList(const Params: array of string);
 begin
-  cm_WorkWithDirectoryHotlist(['action=config', 'source='+QuoteStr(frmMain.ActiveFrame.CurrentPath), 'target='+QuoteStr(frmMain.NotActiveFrame.CurrentPath), 'index=0']);
+  cm_WorkWithDirectoryHotlist(['action=config', 'source='+QuoteStr(frmMain.ActiveFrame.CurrentLocation), 'target='+QuoteStr(frmMain.NotActiveFrame.CurrentLocation), 'index=0']);
 end;
 
 { TMainCommands.cm_WorkWithDirectoryHotlist }
