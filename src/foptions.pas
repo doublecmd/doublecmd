@@ -31,8 +31,8 @@ unit fOptions;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, Dialogs, ExtCtrls, ComCtrls, Buttons,
-  StdCtrls, fgl, uGlobs, fOptionsFrame, uDCUtils;
+  ActnList,  SysUtils, Classes, Controls, Forms, Dialogs, ExtCtrls, ComCtrls,
+  Buttons, StdCtrls, fgl, uGlobs, fOptionsFrame, uDCUtils;
 
 type
 
@@ -61,6 +61,8 @@ type
     sboxOptionsEditor: TScrollBox;
     tvTreeView: TTreeView;
     splOptionsSplitter: TSplitter;
+    alOptionsActionList: TActionList;
+    actCloseWithEscape: TAction;
     procedure btnCancelClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -69,6 +71,7 @@ type
     procedure btnApplyClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
+    procedure actCloseWithEscapeExecute(Sender: TObject);
   private
     FOptionsEditorList: TOptionsEditorViews;
     FOldEditor: TOptionsEditorView;
@@ -436,6 +439,13 @@ var
   TreeNode: TTreeNode absolute Data;
 begin
   TreeNode.MakeVisible;
+end;
+
+{ TfrmOptions.actCloseWithEscapeExecute }
+procedure TfrmOptions.actCloseWithEscapeExecute(Sender: TObject);
+begin
+  // Closing with the "Escape" key this way won't set the modalresult to mrCancel so this way, if an unsaved modification has been made, we'll be able to prompt confirmation from user who attempt to quit by hitting "Escape".
+  close;
 end;
 
 end.

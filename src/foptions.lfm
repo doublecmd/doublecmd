@@ -127,7 +127,6 @@ object frmOptions: TfrmOptions
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 8
       BorderSpacing.InnerBorder = 2
-      Cancel = True
       Caption = '&Cancel'
       Kind = bkCancel
       ModalResult = 2
@@ -1499,5 +1498,14 @@ object frmOptions: TfrmOptions
       0033000000330000000000000000000000000000000000000033000000330000
       0033000000330000003300000000
     }
+  end
+  object alOptionsActionList: TActionList
+    left = 72
+    top = 80
+    object actCloseWithEscape: TAction
+      Caption = ''
+      OnExecute = actCloseWithEscapeExecute
+      ShortCut = 27
+    end
   end
 end
