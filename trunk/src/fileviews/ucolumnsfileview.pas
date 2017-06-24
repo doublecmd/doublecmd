@@ -30,6 +30,7 @@ type
 
   TDrawGridEx = class(TDrawGrid)
   private
+    FMouseDownY: Integer;
     ColumnsView: TColumnsFileView;
 
     function GetGridHorzLine: Boolean;
@@ -161,7 +162,7 @@ type
     procedure RedrawFile(FileIndex: PtrInt); override;
     procedure RedrawFile(DisplayFile: TDisplayFile); override;
     procedure RedrawFiles; override;
-    procedure SetActiveFile(FileIndex: PtrInt); override;
+    procedure SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean); override;
     procedure SetSorting(const NewSortings: TFileSortings); override;
     procedure ShowRenameFileEdit(aFile: TFile); override;
     procedure UpdateRenameFileEditPosition; override;
@@ -643,10 +644,14 @@ begin
     MakeVisible(dgPanel.Row);
 end;
 
-procedure TColumnsFileView.SetActiveFile(FileIndex: PtrInt);
+procedure TColumnsFileView.SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean);
 begin
-  dgPanel.Row := FileIndex + dgPanel.FixedRows;
-  MakeVisible(dgPanel.Row);
+  if not ScrollTo then
+    dgPanel.SetColRow(dgPanel.Col, FileIndex + dgPanel.FixedRows)
+  else begin
+    dgPanel.Row := FileIndex + dgPanel.FixedRows;
+    MakeVisible(dgPanel.Row);
+  end;
 end;
 
 {$IF lcl_fullversion >= 093100}
@@ -1852,6 +1857,7 @@ begin
   if ColumnsView.TooManyDoubleClicks then Exit;
 {$ENDIF}
 
+  FMouseDownY := Y;
   ColumnsView.FMainControlMouseDown := True;
 
   inherited MouseDown(Button, Shift, X, Y);
@@ -1874,8 +1880,11 @@ begin
   begin
     if Y < DefaultRowHeight then
       Scroll(SB_LINEUP)
-    else if Y > ClientHeight - DefaultRowHeight then
+    else if (Y > ClientHeight - DefaultRowHeight) and (Y - 1 > FMouseDownY) then
+    begin
+      FMouseDownY := -1;
       Scroll(SB_LINEDOWN);
+    end;
   end;
 end;
 

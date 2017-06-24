@@ -87,7 +87,7 @@ type
     procedure SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions);
     procedure Selection(Key: Word; CurIndex: PtrInt);
     procedure SelectRange(FileIndex: PtrInt);
-    procedure SetActiveFile(FileIndex: PtrInt); overload; virtual; abstract;
+    procedure SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean = True); overload; virtual; abstract;
     procedure SetLastActiveFile(FileIndex: PtrInt);
     {en
        Sets a file as active if the file currently exists.

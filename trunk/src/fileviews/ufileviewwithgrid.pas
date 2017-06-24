@@ -83,7 +83,7 @@ type
     procedure RedrawFile(FileIndex: PtrInt); override;
     procedure RedrawFile(DisplayFile: TDisplayFile); override;
     procedure RedrawFiles; override;
-    procedure SetActiveFile(FileIndex: PtrInt); override;
+    procedure SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean); override;
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
     procedure UpdateFlatFileName; override;
@@ -700,7 +700,7 @@ begin
   TabHeader.UpdateSorting(Sorting);
 end;
 
-procedure TFileViewWithGrid.SetActiveFile(FileIndex: PtrInt);
+procedure TFileViewWithGrid.SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean);
 var
   ACol, ARow: Integer;
 begin
