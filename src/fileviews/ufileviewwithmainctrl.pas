@@ -680,7 +680,7 @@ begin
     case Button of
       mbRight:
       begin
-        SetActiveFile(FileIndex);
+        SetActiveFile(FileIndex, False);
 
         if gMouseSelectionEnabled and (gMouseSelectionButton = 1) then
         begin
