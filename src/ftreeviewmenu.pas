@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Menu offered to user via a Tree View look where user might type sequence of letters
 
-   Copyright (C) 2016  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2017  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1052,6 +1052,17 @@ begin
       begin
         pmiFullExpand.Checked := True;
         pmiFullExpandOrNotClick(pmiFullExpand);
+      end;
+
+      // It might happen we hit no direct found BUT we're still displaying item because of branch name matching. If so, let's select the first item of a branch matching name.
+      if nFirstMatchingNode=nil then
+      begin
+        iNode:=0;
+        while (iNode<tvMainMenu.Items.Count) AND (nFirstMatchingNode=nil) do
+          if (tvMainMenu.Items[iNode].Visible) AND (tvMainMenu.Items[iNode].Count=0) then
+            nFirstMatchingNode:=tvMainMenu.Items[iNode]
+          else
+            inc(iNode);
       end;
 
       if nFirstMatchingNode <> nil then
