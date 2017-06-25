@@ -887,7 +887,7 @@ begin
         SelEndIndex := FMouseSelectionStartIndex;
       end;
 
-      SetActiveFile(FileIndex);
+      SetActiveFile(FileIndex, False);
       MarkFiles(SelStartIndex, SelEndIndex, FMouseSelectionLastState);
     end;
   end;
