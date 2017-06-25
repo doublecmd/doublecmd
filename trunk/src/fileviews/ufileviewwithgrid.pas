@@ -705,7 +705,12 @@ var
   ACol, ARow: Integer;
 begin
   dgPanel.IndexToCell(FileIndex, ACol, ARow);
-  dgPanel.SetColRow(ACol, ARow, ScrollTo);
+  if not ScrollTo then
+    dgPanel.SetColRow(ACol, ARow)
+  else begin
+    dgPanel.MoveExtend(False, ACol, ARow);
+    dgPanel.Click;
+  end;
 end;
 
 procedure TFileViewWithGrid.SetFilesDisplayItems;
