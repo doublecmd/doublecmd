@@ -428,7 +428,7 @@ begin
   try
     // Create All popup menu
     CurrentPathToSearch := UpperCase(mbExpandFileName(frmMain.ActiveFrame.CurrentLocation));
-    if MaybeActiveOrSelectedDirectories.Count=1 then SelectedPathToSearch := UpperCase(IncludeTrailingPathDelimiter(mbExpandFileName(MaybeActiveOrSelectedDirectories.Items[0].FullPath))) else SelectedPathToSearch := TERMINATORNOTPRESENT;
+    if MaybeActiveOrSelectedDirectories.Count=1 then SelectedPathToSearch := UpperCase(ExcludeTrailingPathDelimiter(mbExpandFileName(MaybeActiveOrSelectedDirectories.Items[0].FullPath))) else SelectedPathToSearch := TERMINATORNOTPRESENT;
 
     FlagCurrentPathAlreadyInMenu := False;
     FlagSelectedPathAlreadyInMenu := FALSE;
@@ -662,8 +662,8 @@ begin
                   LocalHotDir.HotDirPathSort := AConfig.GetAttr(Anode, 'PathSort', 0);
                   LocalHotDir.HotDirTarget := AConfig.GetAttr(ANode, 'Target', '');
                   LocalHotDir.HotDirTargetSort := AConfig.GetAttr(Anode, 'TargetSort', 0);
-                  if LocalHotDir.HotDirPath<>'' then LocalHotDir.HotDirPath:=IncludeTrailingPathDelimiter(LocalHotDir.HotDirPath);
-                  if LocalHotDir.HotDirTarget<>'' then LocalHotDir.HotDirTarget:=IncludeTrailingPathDelimiter(LocalHotDir.HotDirTarget);
+                  if LocalHotDir.HotDirPath<>'' then LocalHotDir.HotDirPath:=ExcludeTrailingPathDelimiter(LocalHotDir.HotDirPath);
+                  if LocalHotDir.HotDirTarget<>'' then LocalHotDir.HotDirTarget:=ExcludeTrailingPathDelimiter(LocalHotDir.HotDirTarget);
                   LocalHotDir.Dispatcher := hd_CHANGEPATH;
                 end
                 else
@@ -1116,11 +1116,11 @@ begin
 
               if UTF8Pos('cm_', UTF8LowerCase(sPath)) = 0 then //Make sure it's not a command
               begin
-                if sPath <> '' then sPath := IncludeTrailingPathDelimiter(sPath); //Not an obligation but DC convention seems to like a backslash at the end
+                if sPath <> '' then sPath := ExcludeTrailingPathDelimiter(sPath); //Not an obligation but DC convention seems to like a backslash at the end
 
                 sTarget := ReplaceTCEnvVars(ConvertTCStringToString(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME, CONFIGFILE_TARGETPREFIX + IntToStr(Index), '')));
                 if UTF8Length(sTarget) > 3 then if UTF8Pos('cd ', UTF8LowerCase(sTarget)) = 1 then sTarget := UTF8Copy(sTarget, 4, UTF8Length(sTarget) - 3);
-                if sTarget <> '' then sTarget := IncludeTrailingPathDelimiter(sTarget); //Not an obligation but DC convention seems to like a backslash at the end
+                if sTarget <> '' then sTarget := ExcludeTrailingPathDelimiter(sTarget); //Not an obligation but DC convention seems to like a backslash at the end
 
                 LocalHotDir.Dispatcher := hd_CHANGEPATH;
                 LocalHotDir.HotDirPath := sPath;

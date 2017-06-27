@@ -165,12 +165,12 @@ resourcestring
   rsMsgHotDirDeleteAllEntries = 'Are you sure you want to remove all entries of your Directory Hotlist? (There is no "undo" to this action!)';
   rsMsgHotDirName = 'Hotdir name';
   rsMsgHotDirPath = 'Hotdir path';
-  rsMsgHotDirJustPath = 'Path';
+  rsMsgHotDirJustPath = '&Path:';
   rsMsgHotDirTarget = 'Hotdir target';
   rsMsgHotDirSubMenuName = 'Submenu name';
-  rsMsgHotDirSimpleName = 'Name:';
+  rsMsgHotDirSimpleName = '&Name:';
   rsMsgHotDirSimpleSeparator = '(separator)';
-  rsMsgHotDirSimpleMenu = 'Menu name:';
+  rsMsgHotDirSimpleMenu = 'Menu &name:';
   rsMsgHotDirSimpleEndOfMenu = '(end of sub menu)';
   rsMsgHotDirSimpleCommand = 'Command:';
   rsMsgHotDirCommandName = 'Do command';
@@ -677,7 +677,7 @@ resourcestring
   // Keyboard
   rsOptLetters = 'None;Command Line;Quick Search;Quick Filter';
   // Directory hotlist
-  rsOptAddFromMainPanel = 'Add at beginning;Add at the end;Smart add';
+  rsOptAddFromMainPanel = 'Add at &beginning;Add at the end;Smart add';
   //File Associations
   rsMsgTitleExtNotInFileType = 'Extension of selected file is not in any recognized file types';
   rsMsgSekectFileType = 'Select to which file type to add extension "%s"';
