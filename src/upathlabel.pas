@@ -38,6 +38,7 @@ type
     FAllowHighlight: Boolean;
     FHighlightStartPos: Integer;
     FHighlightText: String;
+    FMousePos: Integer;
     {en
        How much space to leave between the text and left border.
     }
@@ -53,9 +54,11 @@ type
        If a mouse if over some parent directory of the currently displayed path,
        it is highlighted, so that user can click on it.
     }
-    procedure Highlight(MousePosX, MousePosY: Integer);
+    procedure Highlight;
 
   protected
+
+    procedure TextChanged; override;
 
     procedure MouseEnter; override;
     procedure MouseMove(Shift: TShiftState; X,Y: Integer); override;
@@ -138,7 +141,7 @@ begin
   end;
 end;
 
-procedure TPathLabel.Highlight(MousePosX, MousePosY: Integer);
+procedure TPathLabel.Highlight;
 var
   PartText: String;
   StartPos, CurPos: Integer;
@@ -170,7 +173,7 @@ begin
       PartWidth := Canvas.TextWidth(PartText);
 
       // If mouse is over this part of the path - highlight it.
-      if InRange(MousePosX, CurrentHighlightPos, CurrentHighlightPos + PartWidth) then
+      if InRange(FMousePos, CurrentHighlightPos, CurrentHighlightPos + PartWidth) then
       begin
         NewHighlightPos := CurrentHighlightPos;
         Break;
@@ -210,6 +213,12 @@ begin
   end;
 end;
 
+procedure TPathLabel.TextChanged;
+begin
+  inherited TextChanged;
+  if FAllowHighlight and MouseEntered then Highlight;
+end;
+
 procedure TPathLabel.MouseEnter;
 begin
   inherited MouseEnter;
@@ -223,7 +232,8 @@ end;
 procedure TPathLabel.MouseMove(Shift: TShiftState; X,Y: Integer);
 begin
   inherited MouseMove(Shift, X, Y);
-  if FAllowHighlight then Highlight(X, Y);
+  FMousePos := X;
+  if FAllowHighlight then Highlight;
 end;
 
 procedure TPathLabel.MouseLeave;
