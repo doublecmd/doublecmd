@@ -58,7 +58,8 @@ implementation
 
 uses
   LazUTF8, DCConvertEncoding,
-  uLng, uFileSystemUtil, uFileSystemFileSource, DCOSUtils, DCStrUtils, uFileProcs;
+  uLng, uFileSystemUtil, uFileSystemFileSource, DCOSUtils, DCStrUtils,
+  uFileProcs, uDCUtils;
 
 type
   TChecksumEntry = class
@@ -307,6 +308,7 @@ var
   AText: String;
   Entry: TChecksumEntry;
   CurrentFileIndex: Integer;
+{$IF DEFINED(UNIX)} PText: PAnsiChar; {$ENDIF}
 begin
   FFullFilesTree := TFiles.Create(Files.Path);
 
@@ -338,6 +340,17 @@ begin
     FCheckSumFile.NameValueSeparator:= #32;
 
     AText:= mbReadFileToString(aFile.FullPath);
+{$IF DEFINED(UNIX)}
+    if (GuessLineBreakStyle(AText) = tlbsCRLF) then
+    begin
+      PText:= PAnsiChar(AText);
+      while (PText^ <> #0) do
+      begin
+        if (PText^ = '\') then PText^:= PathDelim;
+        Inc(PText);
+      end;
+    end;
+{$ENDIF}
     if FindInvalidUTF8Character(PChar(AText), Length(AText), True) = -1 then
       FCheckSumFile.Text:= AText
     else begin
