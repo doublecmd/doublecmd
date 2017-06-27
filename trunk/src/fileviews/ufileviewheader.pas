@@ -135,7 +135,7 @@ end;
 
 procedure TFileViewHeader.PathLabelClick(Sender: TObject);
 var
-  walkPath, dirNameToSelect: String;
+  walkPath, selectedDir, dirNameToSelect: String;
 begin
   FFileView.SetFocus;
 
@@ -143,9 +143,10 @@ begin
   begin
     // User clicked on a subdirectory of the path.
     walkPath := FFileView.CurrentPath;
-    FFileView.CurrentPath := FPathLabel.SelectedDir;
+    selectedDir := FPathLabel.SelectedDir;
+    FFileView.CurrentPath := selectedDir;
 
-    while (Length(walkPath) > Length(FPathLabel.SelectedDir) + 1) do
+    while (Length(walkPath) > Length(selectedDir) + 1) do
     begin
       dirNameToSelect := ExtractFileName(ExcludeTrailingPathDelimiter(walkPath));
       walkPath := FFileView.FileSource.GetParentDir(walkPath);
