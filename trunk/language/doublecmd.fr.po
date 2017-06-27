@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2017-06-23 13:27-0400\n"
+"PO-Revision-Date: 2017-06-26 22:16-0400\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -3855,12 +3855,12 @@ msgstr "%u"
 #: tfrmoptions.btnapply.caption
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "&Apply"
-msgstr "Appliquer"
+msgstr "Appli&quer"
 
 #: tfrmoptions.btncancel.caption
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "Annuler"
+msgstr "Annu&ler"
 
 #: tfrmoptions.btnok.caption
 msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
@@ -4802,7 +4802,7 @@ msgstr "Ajuster la cible"
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnadd.caption"
 msgid "A&dd..."
-msgstr "Ajouter..."
+msgstr "&Ajouter..."
 
 #: tfrmoptionsdirectoryhotlist.btnbackup.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnbackup.caption"
@@ -4812,12 +4812,12 @@ msgstr "Archiver..."
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btndelete.caption"
 msgid "De&lete..."
-msgstr "Effacer..."
+msgstr "E&ffacer..."
 
 #: tfrmoptionsdirectoryhotlist.btnexport.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
 msgid "E&xport..."
-msgstr "Exportr..."
+msgstr "E&xporter..."
 
 #: tfrmoptionsdirectoryhotlist.btnhelp.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnhelp.caption"
@@ -4827,16 +4827,16 @@ msgstr "Aide"
 #: tfrmoptionsdirectoryhotlist.btnimport.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnimport.caption"
 msgid "Impo&rt..."
-msgstr "Importer..."
+msgstr "Im&porter..."
 
 #: tfrmoptionsdirectoryhotlist.btninsert.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btninsert.caption"
 msgid "&Insert..."
-msgstr "Insérer..."
+msgstr "&Insérer..."
 
 #: tfrmoptionsdirectoryhotlist.btnmiscellaneous.caption
 msgid "&Miscellaneous..."
-msgstr "Divers..."
+msgstr "&Divers..."
 
 #: tfrmoptionsdirectoryhotlist.btnrelativepath.hint
 msgctxt "tfrmoptionsdirectoryhotlist.btnrelativepath.hint"
@@ -4902,7 +4902,7 @@ msgstr "Chemin :"
 #: tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption
 msgctxt "tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption"
 msgid "&Target:"
-msgstr "Cible :"
+msgstr "Ci&ble :"
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
 msgctxt "tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption"
@@ -4957,7 +4957,7 @@ msgstr "de \"wincmd.ini\" de TC"
 
 #: tfrmoptionsdirectoryhotlist.minavigate.caption
 msgid "&Navigate..."
-msgstr ""
+msgstr "Navigation"
 
 #: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
 msgid "&Restore a backup of Directory Hotlist"
@@ -4999,11 +4999,11 @@ msgstr "Vérification du menu résultant"
 
 #: tfrmoptionsdirectoryhotlist.mitweakpath.caption
 msgid "Tweak &path"
-msgstr ""
+msgstr "Ajuste chemin"
 
 #: tfrmoptionsdirectoryhotlist.mitweaktargetpath.caption
 msgid "Tweak &target path"
-msgstr ""
+msgstr "Ajuste la cible"
 
 #: tfrmoptionsdirectoryhotlist.rgwheretoadd.caption
 msgid "Addition from main panel"
@@ -6248,7 +6248,7 @@ msgctxt "tfrmoptionshotkeys.actedithotkey.caption"
 msgid "&Edit hotkey"
 msgstr ""
 "Éditer raccourci-\n"
-"clavier\n"
+"clavier"
 
 #: tfrmoptionshotkeys.actnextcategory.caption
 msgid "Next category"
@@ -10493,7 +10493,7 @@ msgstr "Importe la sélection"
 #: ulng.rsmsghotdirjustpath
 msgctxt "ulng.rsmsghotdirjustpath"
 msgid "&Path:"
-msgstr "Chemin:"
+msgstr "&Chemin :"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
@@ -10540,12 +10540,12 @@ msgstr "(fin de menu)"
 #: ulng.rsmsghotdirsimplemenu
 msgctxt "ulng.rsmsghotdirsimplemenu"
 msgid "Menu &name:"
-msgstr "Sous-menu :"
+msgstr "Sous-me&nu :"
 
 #: ulng.rsmsghotdirsimplename
 msgctxt "ulng.rsmsghotdirsimplename"
 msgid "&Name:"
-msgstr "Nom :"
+msgstr "&Nom :"
 
 #: ulng.rsmsghotdirsimpleseparator
 msgctxt "ulng.rsmsghotdirsimpleseparator"
@@ -12355,4 +12355,3 @@ msgstr "Nombre de remplacements : %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
-
