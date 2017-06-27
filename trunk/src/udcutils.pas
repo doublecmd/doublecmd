@@ -1204,7 +1204,7 @@ begin
   Start:= PAnsiChar(S);
   Finish:= Start + Length(S);
   Current:= Start;
-  while Current + 2 < Finish do
+  while Current < Finish do
   begin
     case Current[0] of
       #10, #13:
