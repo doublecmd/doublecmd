@@ -145,6 +145,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Caption = 'only selected'
         Enabled = False
         TabOrder = 1
+        Visible = False
       end
       object Label1: TLabel
         AnchorSideLeft.Control = chkOnlySelected
@@ -158,6 +159,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Caption = '(in main window)'
         Enabled = False
         ParentColor = False
+        Visible = False
       end
     end
     object LeftPanel2: TPanel
