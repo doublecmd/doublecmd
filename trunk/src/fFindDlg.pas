@@ -1250,6 +1250,9 @@ begin
         lsFoundedFiles.ScrollWidth := iTemp + 32;
     end;
     lsFoundedFiles.Items.AddObject(sText, Sender);
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
+    Application.ProcessMessages;
+{$ENDIF}
   end;
 end;
 
