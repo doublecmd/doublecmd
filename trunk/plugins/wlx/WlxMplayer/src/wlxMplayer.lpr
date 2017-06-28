@@ -27,7 +27,7 @@ library wlxMplayer;
 {$mode objfpc}{$H+}
 {$include calling.inc}
 
-{$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLQT))}
+{$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5))}
 {$DEFINE LCLGTK2}
 {$ENDIF}
 
@@ -41,6 +41,7 @@ uses
   {$IFDEF LCLGTK} gtk, gdk, glib, {$ENDIF}
   {$IFDEF LCLGTK2} gtk2, gdk2, glib2, gdk2x, {$ENDIF}
   {$IFDEF LCLQT} qt4, {$ENDIF}
+  {$IFDEF LCLQT5} qt5, {$ENDIF}
   process,
   math,
   WLXPlugin;
@@ -157,7 +158,7 @@ begin
   if pr.Running then
     pr.Terminate(0);
   pr.Free;
-{$IF DEFINED(LCLQT)}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   QWidget_Destroy(QWidgetH(hWidget));
 {$ELSE}
   gtk_widget_destroy(PGtkWidget(hWidget));
@@ -166,7 +167,7 @@ begin
 end;
 
 procedure TMPlayer.SetParentWidget(AWidget: THandle);
-{$IFDEF LCLQT}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
 begin
   hWidget:= THandle(QWidget_create(QWidgetH(AWidget)));
   QWidget_show(QWidgetH(hWidget));
