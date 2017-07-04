@@ -114,10 +114,14 @@ begin
         NewPath:= NormalizePathDelimiters(FPathEdit.Text);
         NewPath:= ReplaceEnvVars(ReplaceTilde(NewPath));
         if not mbFileExists(NewPath) then
-          ChooseFileSource(FFileView, NewPath, True)
+          begin
+            if not ChooseFileSource(FFileView, NewPath, True) then
+              Exit;
+          end
         else
           begin
-            ChooseFileSource(FFileView, ExtractFileDir(NewPath));
+            if not ChooseFileSource(FFileView, ExtractFileDir(NewPath)) then
+              Exit;
             FFileView.SetActiveFile(ExtractFileName(NewPath));
           end;
         FPathEdit.Visible := False;
