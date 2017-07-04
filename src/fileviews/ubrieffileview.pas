@@ -86,7 +86,7 @@ procedure TBriefDrawGrid.UpdateView;
     Canvas.Font := OldFont;
     FreeAndNil(NewFont);
 
-    Result := MaxFontHeight;
+    Result := MaxFontHeight + gExtraLineSpan;
   end;
 
 var

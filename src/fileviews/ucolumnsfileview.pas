@@ -1179,7 +1179,7 @@ procedure TDrawGridEx.UpdateView;
     Canvas.Font := OldFont;
     FreeAndNil(NewFont);
 
-    Result := MaxFontHeight;
+    Result := MaxFontHeight + gExtraLineSpan;
   end;
 
   function CalculateTabHeaderHeight: Integer;
