@@ -251,6 +251,7 @@ var
   gUpdatedFilesPosition: TUpdatedFilesPosition;
   gLynxLike:Boolean;
   gFirstTextSearch: Boolean;
+  gExtraLineSpan: Integer;
 
   { Mouse }
   gMouseSelectionEnabled: Boolean;
@@ -1338,6 +1339,8 @@ begin
   gDriveBlackList := '';
   gDriveBlackListUnmounted := False;
 
+  { File views page }
+  gExtraLineSpan := 2;
   { Brief view page }
   gBriefViewFixedCount := 2;
   gBriefViewFixedWidth := 100;
@@ -2323,6 +2326,7 @@ begin
           gBriefViewMode := TBriefViewMode(GetValue(SubNode, 'AutoSize', Integer(gBriefViewMode)));
         end;
       end;
+      gExtraLineSpan := GetValue(Node, 'ExtraLineSpan', gExtraLineSpan);
     end;
 
     { Keys page }
@@ -2893,6 +2897,7 @@ begin
     SetValue(SubNode, 'FixedWidth', gBriefViewFixedWidth);
     SetValue(SubNode, 'FixedCount', gBriefViewFixedCount);
     SetValue(SubNode, 'AutoSize', Integer(gBriefViewMode));
+    SetValue(Node, 'ExtraLineSpan', gExtraLineSpan);
 
     { Keys page }
     Node := FindNode(Root, 'Keyboard', True);
