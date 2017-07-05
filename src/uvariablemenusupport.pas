@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Support for popup menu to help to enter variable parameters.
 
-	Copyright (C) 2015  Alexander Koblov (alexx2000@mail.ru)
+	Copyright (C) 2015-2017  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -99,7 +99,7 @@ end;
 { TVariableMenuItem.HelpOnVariablesClick }
 procedure TVariableMenuItem.HelpOnVariablesClick(Sender: TObject);
 begin
-  ShowHelpForKeywordWithAnchor('/Variables.html');
+  ShowHelpForKeywordWithAnchor('/variables.html');
 end;
 
 { TSupportForVariableHelperMenu.Create }
