@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WFX plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 }
 
 unit FtpAdv;
@@ -49,7 +49,10 @@ type
   { TFTPListEx }
 
   TFTPListEx = class(TFTPList)
+  private
+    FIndex: Integer;
   public
+    procedure Clear; override;
     procedure Assign(Value: TFTPList); override;
   end;
 
@@ -91,13 +94,20 @@ type
     function ClientToServer(const Value: UnicodeString): AnsiString;
     function ServerToClient(const Value: AnsiString): UnicodeString;
   public
-    constructor Create(const Encoding: String); reintroduce;
+    function FsFindFirstW(const Path: String; var FindData: TWin32FindDataW): Pointer; virtual;
+    function FsFindNextW(Handle: Pointer; var FindData: TWin32FindDataW): BOOL; virtual;
+    function FsFindClose(Handle: Pointer): Integer; virtual;
+    function FsSetTime(const FileName: String; LastAccessTime, LastWriteTime: PFileTime): BOOL; virtual;
+  public
+    constructor Create(const Encoding: String); virtual; reintroduce;
     function Login: Boolean; override;
     procedure ParseRemote(Value: string); override;
+    function CreateDir(const Directory: string): Boolean; override;
+    function ExecuteCommand(const Command: String): Boolean; virtual;
+    function ChangeMode(const FileName, Mode: String): Boolean; virtual;
     function List(Directory: String; NameList: Boolean): Boolean; override;
-    function SetTime(const FileName: String; FileTime: TFileTime): Boolean;
     function StoreFile(const FileName: string; Restore: Boolean): Boolean; override;
-    function RetrieveFile(const FileName: string; FileSize: Int64; Restore: Boolean): Boolean; overload;
+    function RetrieveFile(const FileName: string; FileSize: Int64; Restore: Boolean): Boolean; virtual; overload;
     function NetworkError(): Boolean;
   public
     property UseAllocate: Boolean write FUseAllocate;
@@ -158,6 +168,12 @@ begin
 end;
 
 { TFTPListEx }
+
+procedure TFTPListEx.Clear;
+begin
+  FIndex := 0;
+  inherited Clear;
+end;
 
 procedure TFTPListEx.Assign(Value: TFTPList);
 var
@@ -313,6 +329,58 @@ end;
 function TFTPSendEx.ServerToClient(const Value: AnsiString): UnicodeString;
 begin
   Result:= UTF8ToUTF16(ConvertToUtf8(Value));
+end;
+
+function TFTPSendEx.FsFindFirstW(const Path: String; var FindData: TWin32FindDataW): Pointer;
+begin
+  Result:= nil;
+  // Get directory listing
+  if List(Path, False) then
+  begin
+    if FtpList.Count > 0 then
+    begin
+      // Save file list
+      Result:= TFTPListEx.Create;
+      TFTPListEx(Result).Assign(FtpList);
+      FsFindNextW(Result, FindData);
+    end;
+  end;
+end;
+
+function TFTPSendEx.FsFindNextW(Handle: Pointer; var FindData: TWin32FindDataW): BOOL;
+var
+  I: Integer;
+  FtpList: TFTPListEx absolute Handle;
+begin
+  Result := False;
+  if Assigned(FtpList) then
+  begin
+    I := FtpList.FIndex;
+    if I < FtpList.Count then
+    begin
+      FillChar(FindData, SizeOf(FindData), 0);
+      StrPCopy(FindData.cFileName, ServerToClient(FtpList.Items[I].FileName));
+      FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_UNIX_MODE;
+      if TFTPListEx(FtpList).Items[I].Directory then
+        FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_DIRECTORY
+      else
+        begin
+          FindData.nFileSizeLow := (FtpList.Items[I].FileSize and MAXDWORD);
+          FindData.nFileSizeHigh := (FtpList.Items[I].FileSize shr $20);
+        end;
+      // set Unix permissions
+      FindData.dwReserved0 := ModeStr2Mode(FtpList.Items[I].Permission);
+      FindData.ftLastWriteTime := DateTimeToFileTime(FtpList.Items[I].FileTime);
+      Inc(FtpList.FIndex);
+      Result := True;
+    end;
+  end;
+end;
+
+function TFTPSendEx.FsFindClose(Handle: Pointer): Integer;
+begin
+  Result:= 0;
+  FreeAndNil(TFTPListEx(Handle));
 end;
 
 constructor TFTPSendEx.Create(const Encoding: String);
@@ -499,6 +567,28 @@ begin
   end;
 end;
 
+function TFTPSendEx.CreateDir(const Directory: string): Boolean;
+var
+  sOldPath: AnsiString;
+begin
+  sOldPath := GetCurrentDir;
+  if ChangeWorkingDir(Directory) then
+    Result := ChangeWorkingDir(sOldPath)
+  else begin
+    Result := inherited CreateDir(Directory);
+  end;
+end;
+
+function TFTPSendEx.ExecuteCommand(const Command: String): Boolean;
+begin
+  Result:= (FTPCommand(Command) div 100) = 2;
+end;
+
+function TFTPSendEx.ChangeMode(const FileName, Mode: String): Boolean;
+begin
+  Result:= (FTPCommand('SITE CHMOD' + #32 + Mode + #32 + FileName) div 100) = 2;
+end;
+
 function TFTPSendEx.List(Directory: String; NameList: Boolean): Boolean;
 var
   Message: UnicodeString;
@@ -519,12 +609,13 @@ begin
   end;
 end;
 
-function TFTPSendEx.SetTime(const FileName: String; FileTime: TFileTime): Boolean;
+function TFTPSendEx.FsSetTime(const FileName: String; LastAccessTime, LastWriteTime: PFileTime): BOOL;
 var
   Time: String;
 begin
   if not FSetTime then Exit(False);
-  Time:= FormatMachineTime(FileTime);
+  if (LastWriteTime = nil) then Exit(False);
+  Time:= FormatMachineTime(LastWriteTime^);
   Result:= FTPCommand('MFMT ' + Time + ' ' + FileName) = 213;
 end;
 
