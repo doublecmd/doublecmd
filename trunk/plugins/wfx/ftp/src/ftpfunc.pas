@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 }
 
 unit FtpFunc;
@@ -549,37 +549,6 @@ begin
   end;
 end;
 
-function RemoteFindNext(Hdl: THandle; var FindData: TWin32FindDataW): Boolean;
-var
-  ListRec: PListRec absolute Hdl;
-  I: Integer;
-begin
-  Result := False;
-  if Assigned(ListRec^.FtpList) then
-    with ListRec^ do
-    begin
-      I := Index;
-      if I < FtpList.Count then
-      begin
-        FillChar(FindData, SizeOf(FindData), 0);
-        StrPCopy(FindData.cFileName, FtpSend.ServerToClient(FtpList.Items[I].FileName));
-        FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_UNIX_MODE;
-        if FtpList.Items[I].Directory then
-          FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_DIRECTORY
-        else
-          begin
-            FindData.nFileSizeLow := (FtpList.Items[I].FileSize and MAXDWORD);
-            FindData.nFileSizeHigh := (FtpList.Items[I].FileSize shr $20);
-          end;
-        // set Unix permissions
-        FindData.dwReserved0 := ModeStr2Mode(FtpList.Items[I].Permission);
-        FindData.ftLastWriteTime := DateTimeToFileTime(FtpList.Items[I].FileTime);
-        Inc(ListRec^.Index);
-        Result := True;
-      end;
-    end;
-end;
-
 function FsInitW(PluginNr: Integer; pProgressProc: TProgressProcW;
   pLogProc: TLogProcW; pRequestProc: TRequestProcW): Integer; dcpcall;
 begin
@@ -599,9 +568,10 @@ var
   Directory: UnicodeString;
 begin
   New(ListRec);
-  ListRec.Path := Path;
   ListRec.Index := 0;
-  ListRec.FtpList:= nil;
+  ListRec.Path := Path;
+  ListRec.FtpSend := nil;
+  ListRec.FtpList := nil;
   Result := wfxInvalidHandle;
 
   if Path = PathDelim then
@@ -619,18 +589,8 @@ begin
         if GetConnectionByPath(Directory, FtpSend, sPath) then
         begin
           ListRec.FtpSend := FtpSend;
-          // Get directory listing
-          if FtpSend.List(sPath, False) then
-          begin
-            if FtpSend.FtpList.Count > 0 then
-            begin
-              // Save file list
-              ListRec.FtpList:= TFTPListEx.Create;
-              ListRec.FtpList.Assign(FtpSend.FtpList);
-              Result := THandle(ListRec);
-              RemoteFindNext(Result, FindData);
-            end;
-          end;
+          ListRec.FtpList := FtpSend.FsFindFirstW(sPath, FindData);
+          if Assigned(ListRec.FtpList) then Result:= THandle(ListRec);
         end;
       finally
         ListLock.Release;
@@ -647,20 +607,21 @@ begin
   if ListRec.Path = PathDelim then
     Result := LocalFindNext(Hdl, FindData)
   else
-    Result := RemoteFindNext(Hdl, FindData);
+    Result := ListRec^.FtpSend.FsFindNextW(ListRec.FtpList, FindData);
 end;
 
 function FsFindClose(Hdl: THandle): Integer; dcpcall;
 var
   ListRec: PListRec absolute Hdl;
 begin
+  Result:= 0;
   if Assigned(ListRec) then
   begin
-    if Assigned(ListRec^.FtpList) then
-      FreeAndNil(ListRec^.FtpList);
+    if Assigned(ListRec^.FtpSend) then begin
+      Result:= ListRec^.FtpSend.FsFindClose(ListRec.FtpList);
+    end;
     Dispose(ListRec);
   end;
-  Result:= 0;
 end;
 
 function FsExecuteFileW(MainWin: THandle; RemoteName, Verb: PWideChar): Integer; dcpcall;
@@ -710,7 +671,7 @@ begin
     begin
       if GetConnectionByPath(RemoteName, FtpSend, asFileName) then
       begin
-        if (FtpSend.FTPCommand('SITE' + #32 + AnsiString(UnicodeString(Verb)) + #32 + asFileName) div 100) = 2 then
+        if FtpSend.ChangeMode(asFileName, AnsiString(Copy(Verb, 7, MaxInt))) then
           Result:= FS_EXEC_OK
         else
           Result := FS_EXEC_ERROR;
@@ -720,8 +681,9 @@ begin
     begin
       if GetConnectionByPath(RemoteName, FtpSend, asFileName) then
       begin
-        if (FtpSend.FTPCommand(AnsiString(Copy(Verb, 7, MaxInt))) div 100) = 2 then
-          Result:= FS_EXEC_OK
+        asFileName:= FtpSend.ClientToServer(Verb);
+        if FtpSend.ExecuteCommand(Copy(asFileName, 7, MaxInt)) then
+          Result := FS_EXEC_OK
         else
           Result := FS_EXEC_ERROR;
       end;
@@ -855,18 +817,10 @@ function FsMkDirW(RemoteDir: PWideChar): BOOL; dcpcall;
 var
   sPath: AnsiString;
   FtpSend: TFTPSendEx;
-  sOldPath: AnsiString;
 begin
   Result := False;
   if GetConnectionByPath(RemoteDir, FtpSend, sPath) then
-  begin
-    sOldPath := FtpSend.GetCurrentDir;
-    if FtpSend.ChangeWorkingDir(sPath) then
-      Result := FtpSend.ChangeWorkingDir(sOldPath)
-    else begin
-      Result := FtpSend.CreateDir(sPath);
-    end;
-  end;
+    Result := FtpSend.CreateDir(sPath);
 end;
 
 function FsRemoveDirW(RemoteName: PWideChar): BOOL; dcpcall;
@@ -885,11 +839,10 @@ var
   sPath: AnsiString;
   FtpSend: TFTPSendEx;
 begin
-  Result := False;
-  if Assigned(LastWriteTime) then
-  begin
-    if GetConnectionByPath(RemoteName, FtpSend, sPath) then
-      Result := FtpSend.SetTime(sPath, LastWriteTime^);
+  if GetConnectionByPath(RemoteName, FtpSend, sPath) then
+    Result := FtpSend.FsSetTime(sPath, LastAccessTime, LastWriteTime)
+  else begin
+    Result := False;
   end;
 end;
 
