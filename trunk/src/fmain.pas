@@ -5391,6 +5391,7 @@ begin
     LoadPanel((ActiveFrame.NotebookPage as TFileViewPage).Notebook, Params.ActivePanelPath);
   end;
 
+  ActiveFrame.SetFocus;
 end;
 
 procedure TfrmMain.LoadWindowState;
