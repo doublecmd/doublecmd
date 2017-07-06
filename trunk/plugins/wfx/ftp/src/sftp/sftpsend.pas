@@ -191,11 +191,12 @@ function TSFtpSend.FileSize(const FileName: String): Int64;
 var
   Attributes: LIBSSH2_SFTP_ATTRIBUTES;
 begin
-  if (libssh2_sftp_stat(FSFTPSession, PAnsiChar(FileName), @Attributes) = 0) then
-    Result:= Attributes.filesize
-  else begin
-    Result:= -1;
-  end;
+  repeat
+    FLastError:= libssh2_sftp_stat(FSFTPSession, PAnsiChar(FileName), @Attributes);
+    if (FLastError = 0) then Exit(Attributes.filesize);
+    DoProgress(0);
+  until FLastError <> LIBSSH2_ERROR_EAGAIN;
+  Result:= -1;
 end;
 
 function TSFtpSend.CreateDir(const Directory: string): Boolean;
