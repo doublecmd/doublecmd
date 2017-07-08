@@ -4,6 +4,7 @@
    Date and time functions.
 
    Copyright (C) 2009-2012 Przemysław Nagay (cobines@gmail.com)
+   Copyright (C) 2017 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -554,7 +555,7 @@ end;
 function FileTimeCompare(SourceTime, TargetTime: TDateTime; NtfsShift: Boolean): Integer;
 const
   TimeDiff = 3100 / MSecsPerDay;
-  NtfsDiff = MinsPerHour * SecsPerMin;
+  NtfsDiff:TDateTime = (1/HoursPerDay);
 var
   FileTimeDiff,
   NtfsTimeDiff: TDateTime;
