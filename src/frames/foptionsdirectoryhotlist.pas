@@ -339,7 +339,10 @@ begin
   tvDirectoryHotlist.Images := frmMain.imgLstDirectoryHotlist;
   DirectoryHotlistTemp.LoadTTreeView(tvDirectoryHotlist, -1);
   cbFullExpandTreeChange(cbFullExpandTree);
-  if tvDirectoryHotlist.Items.Count > 0 then tvDirectoryHotlist.Items[0].Selected := True; //Select at least first one by default
+  if tvDirectoryHotlist.Items.Count > 0 then
+    tvDirectoryHotlist.Items[0].Selected := True //Select at least first one by default
+  else
+    RefreshTreeView(nil); //If zero hot directory we will hide the directory path, disable export button, etc.
 end;
 
 { TfrmOptionsDirectoryHotlist.Save }
@@ -1401,9 +1404,9 @@ end;
 { TfrmOptionsDirectoryHotlist.anyRelativeAbsolutePathClick }
 procedure TfrmOptionsDirectoryHotlist.anyRelativeAbsolutePathClick(Sender: TObject);
 begin
-  with Sender as TComponent do
+  if tvDirectoryHotlist.Selected<>nil then //Should not happen, but if it happens, will avoid an error.
   begin
-    case tag of
+    case TComponent(Sender).tag of
       2:
       begin
         lbleditHotDirPath.SetFocus;
