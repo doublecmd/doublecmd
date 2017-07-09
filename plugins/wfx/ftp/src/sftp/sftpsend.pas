@@ -66,7 +66,8 @@ begin
   begin
     if (I = 0) and (Length(Sender.FPassword) > 0) then
     begin
-      responses^.text:= PAnsiChar(Sender.FPassword);
+      responses^.text:= GetMem(Length(Sender.FPassword) + 1);
+      StrCopy(responses^.text, PAnsiChar(Sender.FPassword));
       responses^.length:= Length(Sender.FPassword);
     end;
   end;
@@ -105,7 +106,7 @@ begin
 
   if FSock.LastError=0 then
   begin
-    FSession := libssh2_session_init_ex(nil, nil, nil, Self);
+    FSession := libssh2_session_init(Self);
 
     libssh2_session_set_timeout(FSession, FTimeout);
 
