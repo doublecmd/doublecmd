@@ -263,7 +263,7 @@ var
                                     target_len: cuint; link_type: cint): cint; cdecl;
 
   //* Inline functions */
-  function libssh2_session_init: PLIBSSH2_SESSION; inline;
+  function libssh2_session_init(abstract: Pointer): PLIBSSH2_SESSION; inline;
   function libssh2_session_disconnect(session: PLIBSSH2_SESSION; const description: PAnsiChar): cint; inline;
   function libssh2_userauth_password(session: PLIBSSH2_SESSION; const username: PAnsiChar; const password: PAnsiChar): cint; inline;
   function libssh2_userauth_keyboard_interactive(session: PLIBSSH2_SESSION; const username: PAnsiChar; response_callback: LIBSSH2_USERAUTH_KBDINT_RESPONSE_FUNC): cint; inline;
@@ -298,9 +298,24 @@ var
 
 implementation
 
-function libssh2_session_init: PLIBSSH2_SESSION;
+function libssh2_alloc(count: csize_t; abstract: Pointer): Pointer; cdecl;
 begin
-  Result:= libssh2_session_init_ex(nil, nil, nil, nil);
+  Result:= GetMem(count);
+end;
+
+function libssh2_realloc(ptr: Pointer; count: csize_t; abstract: Pointer): Pointer; cdecl;
+begin
+  Result:= ReAllocMem(ptr, count);
+end;
+
+procedure libssh2_free(ptr: Pointer; abstract: Pointer); cdecl;
+begin
+  FreeMem(ptr);
+end;
+
+function libssh2_session_init(abstract: Pointer): PLIBSSH2_SESSION;
+begin
+  Result:= libssh2_session_init_ex(libssh2_alloc, libssh2_free, libssh2_realloc, abstract);
 end;
 
 function libssh2_session_disconnect(session: PLIBSSH2_SESSION; const description: PAnsiChar): cint;
