@@ -6,7 +6,7 @@ unit libssh;
 interface
 
 uses
-  Classes, SysUtils, CTypes;
+  Classes, SysUtils, CTypes, DynLibs;
 
 const
   //* Hash Types */
@@ -282,10 +282,21 @@ var
   function libssh2_sftp_readlink(sftp: PLIBSSH2_SFTP; const path: PAnsiChar; target: PAnsiChar; maxlen: cuint): cint; inline;
   function libssh2_sftp_realpath(sftp: PLIBSSH2_SFTP; const path: PAnsiChar; target: PAnsiChar; maxlen: cuint): cint; inline;
 
-implementation
+const
+  LibSSHName =
+    {$IF DEFINED(MSWINDOWS)}
+    'libssh2.dll'
+    {$ELSEIF DEFINED(DARWIN)}
+    'libssh2.dylib'
+    {$ELSEIF DEFINED(UNIX)}
+    'libssh2.so.1'
+    {$ENDIF}
+    ;
 
-uses
-  DynLibs;
+var
+  libssh2: TLibHandle = NilHandle;
+
+implementation
 
 function libssh2_session_init: PLIBSSH2_SESSION;
 begin
@@ -396,9 +407,6 @@ begin
   Result:= libssh2_sftp_symlink_ex(sftp, path, strlen(path), target, maxlen, _LIBSSH2_SFTP_REALPATH);
 end;
 
-var
-  libssh2: TLibHandle = NilHandle;
-
 function SafeGetProcAddress(Lib : TlibHandle; const ProcName : AnsiString) : Pointer;
 begin
   Result:= GetProcedureAddress(Lib, ProcName);
@@ -407,7 +415,7 @@ end;
 
 procedure Initialize;
 begin
-  libssh2:= LoadLibrary('libssh2.dll');
+  libssh2:= LoadLibrary(LibSSHName);
   if (libssh2 <> NilHandle) then
   try
     //* Session API */
@@ -442,8 +450,9 @@ begin
     libssh2_sftp_rmdir_ex:= SafeGetProcAddress(libssh2, 'libssh2_sftp_rmdir_ex');
     libssh2_sftp_stat_ex:= SafeGetProcAddress(libssh2, 'libssh2_sftp_stat_ex');
     libssh2_sftp_symlink_ex:= SafeGetProcAddress(libssh2, 'libssh2_sftp_symlink_ex');
-
   except
+    FreeLibrary(libssh2);
+    libssh2:= NilHandle;
   end;
 end;
 
