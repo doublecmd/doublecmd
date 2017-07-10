@@ -48,7 +48,8 @@ type
 implementation
 
 uses
-  DCBasicTypes, DCDateTimeUtils, DCStrUtils, DCOSUtils, FtpFunc, CTypes, DCClassesUtf8;
+  DCBasicTypes, DCDateTimeUtils, DCStrUtils, DCOSUtils, FtpFunc, CTypes,
+  DCClassesUtf8, DCFileAttributes;
 
 const
   SMB_BUFFER_SIZE = 131072;
@@ -428,8 +429,11 @@ begin
     FillChar(FindData, SizeOf(FindData), 0);
     FindData.dwReserved0:= Attributes.permissions;
     FindData.dwFileAttributes:= FILE_ATTRIBUTE_UNIX_MODE;
-    FindData.nFileSizeLow:= Int64Rec(Attributes.filesize).Lo;
-    FindData.nFileSizeHigh:= Int64Rec(Attributes.filesize).Hi;
+    if (Attributes.permissions and S_IFMT) <> S_IFDIR then
+    begin
+      FindData.nFileSizeLow:= Int64Rec(Attributes.filesize).Lo;
+      FindData.nFileSizeHigh:= Int64Rec(Attributes.filesize).Hi;
+    end;
     StrPLCopy(FindData.cFileName, ServerToClient(AFileName), MAX_PATH - 1);
     FindData.ftLastWriteTime:= TWfxFileTime(UnixFileTimeToWinTime(Attributes.mtime));
     FindData.ftLastAccessTime:= TWfxFileTime(UnixFileTimeToWinTime(Attributes.atime));
