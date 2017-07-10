@@ -184,6 +184,9 @@ type
                                             responses: PLIBSSH2_USERAUTH_KBDINT_RESPONSE; abstract: PPointer); cdecl;
 
 var
+  //* Global API */
+  libssh2_init: function(flags: cint): cint; cdecl;
+  libssh2_exit: procedure(); cdecl;
   //* Session API */
   libssh2_session_init_ex: function(my_alloc: LIBSSH2_ALLOC_FUNC;
                                     my_free: LIBSSH2_FREE_FUNC;
@@ -297,6 +300,9 @@ var
   libssh2: TLibHandle = NilHandle;
 
 implementation
+
+uses
+  DCOSUtils;
 
 function libssh2_alloc(count: csize_t; abstract: Pointer): Pointer; cdecl;
 begin
@@ -422,17 +428,14 @@ begin
   Result:= libssh2_sftp_symlink_ex(sftp, path, strlen(path), target, maxlen, _LIBSSH2_SFTP_REALPATH);
 end;
 
-function SafeGetProcAddress(Lib : TlibHandle; const ProcName : AnsiString) : Pointer;
-begin
-  Result:= GetProcedureAddress(Lib, ProcName);
-  if (Result = nil) then raise Exception.Create(EmptyStr);
-end;
-
 procedure Initialize;
 begin
   libssh2:= LoadLibrary(LibSSHName);
   if (libssh2 <> NilHandle) then
   try
+    //* Global API */
+    libssh2_init:= SafeGetProcAddress(libssh2, 'libssh2_init');
+    libssh2_exit:= SafeGetProcAddress(libssh2, 'libssh2_exit');
     //* Session API */
     libssh2_session_init_ex:= SafeGetProcAddress(libssh2, 'libssh2_session_init_ex');
     libssh2_session_handshake:= SafeGetProcAddress(libssh2, 'libssh2_session_handshake');
@@ -465,6 +468,8 @@ begin
     libssh2_sftp_rmdir_ex:= SafeGetProcAddress(libssh2, 'libssh2_sftp_rmdir_ex');
     libssh2_sftp_stat_ex:= SafeGetProcAddress(libssh2, 'libssh2_sftp_stat_ex');
     libssh2_sftp_symlink_ex:= SafeGetProcAddress(libssh2, 'libssh2_sftp_symlink_ex');
+    // Initialize the libssh2 functions
+    if (libssh2_init(0) <> 0) then raise Exception.Create(EmptyStr);
   except
     FreeLibrary(libssh2);
     libssh2:= NilHandle;
@@ -475,7 +480,11 @@ initialization
   Initialize;
 
 finalization
-  if (libssh2 <> NilHandle) then FreeLibrary(libssh2);
+  if (libssh2 <> NilHandle) then
+  begin
+    libssh2_exit();
+    FreeLibrary(libssh2);
+  end;
 
 end.
 
