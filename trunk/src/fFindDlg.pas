@@ -2121,7 +2121,7 @@ end;
 procedure TfrmFindDlg.lsFoundedFilesMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: boolean);
 begin
-  if (Shift = [ssCtrl]) and (gFonts[dcfEditor].Size > MIN_FONT_SIZE_EDITOR) then
+  if (Shift = [ssCtrl]) and (gFonts[dcfSearchResults].Size > MIN_FONT_SIZE_FILE_SEARCH_RESULTS) then
   begin
     lsFoundedFiles.Font.Size := lsFoundedFiles.Font.Size - 1;
     Handled := True;
@@ -2132,7 +2132,7 @@ end;
 procedure TfrmFindDlg.lsFoundedFilesMouseWheelUp(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: boolean);
 begin
-  if (Shift = [ssCtrl]) and (gFonts[dcfEditor].Size < MAX_FONT_SIZE_EDITOR) then
+  if (Shift = [ssCtrl]) and (gFonts[dcfSearchResults].Size < MAX_FONT_SIZE_FILE_SEARCH_RESULTS) then
   begin
     lsFoundedFiles.Font.Size := lsFoundedFiles.Font.Size + 1;
     Handled := True;
