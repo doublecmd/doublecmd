@@ -1,687 +1,590 @@
-<UniHighlighter>
- <ImportantInfo>
-  ******* Please read carefully *************************
-  * Please, make any changes in this file very carefuly!*
-  * It is much more convinient to use native designer!  *
-  *******************************************************
- </ImportantInfo>
- <Info>
-  <General>
-   <Name>Java script</Name>
-   <FileTypeName>js,json</FileTypeName>
-   <Layout>Standard</Layout>
-  </General>
-  <Author>
-   <Name>Vitaly Nevzorov</Name>
-   <Email>nevzorov@yahoo.com</Email>
-   <Web>www.delphist.com</Web>
-   <Copyright>Copyright (c) Vitaly Nevzorov, 2002</Copyright>
-   <Company>N/A</Company>
-   <Remark></Remark>
-  </Author>
-  <Version>
-   <Version>1</Version>
-   <Revision>0</Revision>
-   <Date>37650.2974113773</Date>
-   <Type>Beta</Type>
-  </Version>
-  <History>
-  </History>
-  <Sample>
-   <S>// Syntax highlighting</S>
-   <S>function printNumber()</S>
-   <S>{</S>
-   <S>  var number = 1234;</S>
-   <S>  var x;</S>
-   <S>  document.write(&qt;The number is &qt; + number);</S>
-   <S>  for (var i = 0; i &lt;= number; i++)</S>
-   <S>  {</S>
-   <S>    x++;</S>
-   <S>    x--;</S>
-   <S>    x += 1.0;</S>
-   <S>  }</S>
-   <S>  i += @; // illegal character</S>
-   <S>}</S>
-   <S>body.onLoad = printNumber;</S>
-   <S></S>
-   <S></S>
-  </Sample>
- </Info>
- <Range Name="Root">
- <Def>
-  <Back>16777215</Back>
-  <Fore>0</Fore>
-  <Style></Style>
- </Def>
- <Num>
-  <Back>16777215</Back>
-  <Fore>128</Fore>
-  <Style></Style>
- </Num>
- <OpenSymbol></OpenSymbol>
- <CloseSymbol></CloseSymbol>
- <DelimiterChars>!&qt;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~</DelimiterChars>
- <AnyTerm>True</AnyTerm>
- <CloseOnTerm>False</CloseOnTerm>
- <CloseOnEol>False</CloseOnEol>
- <CaseSensitive>False</CaseSensitive>
- <KW Name="Functions and key words">
-  <Attri>
-   <Back>16777215</Back>
-   <Fore>32768</Fore>
-   <Style></Style>
-  </Attri>
-  <W>E</W>
-  <W>back</W>
-  <W>big</W>
-  <W>abs</W>
-  <W>go</W>
-  <W>Area</W>
-  <W>PI</W>
-  <W>All</W>
-  <W>all</W>
-  <W>LN10</W>
-  <W>LN2</W>
-  <W>call</W>
-  <W>Embed</W>
-  <W>ceil</W>
-  <W>Date</W>
-  <W>bold</W>
-  <W>name</W>
-  <W>find</W>
-  <W>log</W>
-  <W>java</W>
-  <W>Image</W>
-  <W>tan</W>
-  <W>min</W>
-  <W>hash</W>
-  <W>atan2</W>
-  <W>atan</W>
-  <W>href</W>
-  <W>cos</W>
-  <W>click</W>
-  <W>acos</W>
-  <W>max</W>
-  <W>LOG10E</W>
-  <W>LOG2E</W>
-  <W>checked</W>
-  <W>clear</W>
-  <W>eval</W>
-  <W>src</W>
-  <W>home</W>
-  <W>self</W>
-  <W>Math</W>
-  <W>sin</W>
-  <W>sub</W>
-  <W>asin</W>
-  <W>Frame</W>
-  <W>left</W>
-  <W>align</W>
-  <W>Hidden</W>
-  <W>UTC</W>
-  <W>exp</W>
-  <W>match</W>
-  <W>Link</W>
-  <W>link</W>
-  <W>body</W>
-  <W>Radio</W>
-  <W>tags</W>
-  <W>join</W>
-  <W>embeds</W>
-  <W>blink</W>
-  <W>fixed</W>
-  <W>slice</W>
-  <W>escape</W>
-  <W>Global</W>
-  <W>open</W>
-  <W>charAt</W>
-  <W>top</W>
-  <W>URL</W>
-  <W>caller</W>
-  <W>Form</W>
-  <W>form</W>
-  <W>hspace</W>
-  <W>blur</W>
-  <W>pageX</W>
-  <W>pow</W>
-  <W>close</W>
-  <W>search</W>
-  <W>images</W>
-  <W>Float</W>
-  <W>pageY</W>
-  <W>reload</W>
-  <W>Object</W>
-  <W>watch</W>
-  <W>alert</W>
-  <W>sup</W>
-  <W>domain</W>
-  <W>index</W>
-  <W>concat</W>
-  <W>isNaN</W>
-  <W>small</W>
-  <W>height</W>
-  <W>cookie</W>
-  <W>closed</W>
-  <W>parse</W>
-  <W>Anchor</W>
-  <W>anchor</W>
-  <W>replace</W>
-  <W>value</W>
-  <W>Layer</W>
-  <W>action</W>
-  <W>getDate</W>
-  <W>getDay</W>
-  <W>border</W>
-  <W>host</W>
-  <W>frames</W>
-  <W>right</W>
-  <W>Array</W>
-  <W>next</W>
-  <W>Packages</W>
-  <W>logon</W>
-  <W>color</W>
-  <W>Select</W>
-  <W>select</W>
-  <W>Boolean</W>
-  <W>taint</W>
-  <W>focus</W>
-  <W>width</W>
-  <W>screen</W>
-  <W>filename</W>
-  <W>links</W>
-  <W>method</W>
-  <W>random</W>
-  <W>vspace</W>
-  <W>length</W>
-  <W>title</W>
-  <W>type</W>
-  <W>appName</W>
-  <W>floor</W>
-  <W>event</W>
-  <W>reset</W>
-  <W>Reset</W>
-  <W>port</W>
-  <W>Text</W>
-  <W>text</W>
-  <W>Applet</W>
-  <W>stop</W>
-  <W>target</W>
-  <W>Checkbox</W>
-  <W>encoding</W>
-  <W>forms</W>
-  <W>round</W>
-  <W>sort</W>
-  <W>bgColor</W>
-  <W>italics</W>
-  <W>Number</W>
-  <W>opener</W>
-  <W>selected</W>
-  <W>sqrt</W>
-  <W>SQRT2</W>
-  <W>parent</W>
-  <W>setDate</W>
-  <W>menubar</W>
-  <W>write</W>
-  <W>RegExp</W>
-  <W>fgColor</W>
-  <W>split</W>
-  <W>javaEnabled</W>
-  <W>indexOf</W>
-  <W>print</W>
-  <W>anchors</W>
-  <W>confirm</W>
-  <W>pathname</W>
-  <W>charCodeAt</W>
-  <W>Plugin</W>
-  <W>getTime</W>
-  <W>refresh</W>
-  <W>scroll</W>
-  <W>layers</W>
-  <W>input</W>
-  <W>getYear</W>
-  <W>style</W>
-  <W>strike</W>
-  <W>valueOf</W>
-  <W>moveBy</W>
-  <W>zIndex</W>
-  <W>Undefined</W>
-  <W>undefined</W>
-  <W>netscape</W>
-  <W>toolbar</W>
-  <W>Submit</W>
-  <W>submit</W>
-  <W>unescape</W>
-  <W>forward</W>
-  <W>bottom</W>
-  <W>display</W>
-  <W>String</W>
-  <W>Window</W>
-  <W>window</W>
-  <W>Location</W>
-  <W>location</W>
-  <W>complete</W>
-  <W>applets</W>
-  <W>Option</W>
-  <W>lowsrc</W>
-  <W>moveTo</W>
-  <W>unwatch</W>
-  <W>setTime</W>
-  <W>isFinite</W>
-  <W>Button</W>
-  <W>reverse</W>
-  <W>appCodeName</W>
-  <W>setYear</W>
-  <W>referrer</W>
-  <W>elements</W>
-  <W>Textarea</W>
-  <W>hostname</W>
-  <W>document</W>
-  <W>background</W>
-  <W>prompt</W>
-  <W>plugins</W>
-  <W>current</W>
-  <W>untaint</W>
-  <W>substr</W>
-  <W>status</W>
-  <W>FileUpload</W>
-  <W>writeln</W>
-  <W>platform</W>
-  <W>getMonth</W>
-  <W>Function</W>
-  <W>parseInt</W>
-  <W>SQRT1_2</W>
-  <W>MimeType</W>
-  <W>Infinity</W>
-  <W>scrollBy</W>
-  <W>getUTCDate</W>
-  <W>getUTCDay</W>
-  <W>taintEnabled</W>
-  <W>Navigator</W>
-  <W>navigator</W>
-  <W>defaultChecked</W>
-  <W>options</W>
-  <W>suffixes</W>
-  <W>linkColor</W>
-  <W>resizeBy</W>
-  <W>fromCharCode</W>
-  <W>userAgent</W>
-  <W>alinkColor</W>
-  <W>locationbar</W>
-  <W>handleEvent</W>
-  <W>getSeconds</W>
-  <W>parseFloat</W>
-  <W>getHours</W>
-  <W>fontsize</W>
-  <W>History</W>
-  <W>history</W>
-  <W>setMonth</W>
-  <W>protocol</W>
-  <W>scrollTo</W>
-  <W>Password</W>
-  <W>toSource</W>
-  <W>lastModified</W>
-  <W>resizeTo</W>
-  <W>innerHeight</W>
-  <W>fontcolor</W>
-  <W>Arguments</W>
-  <W>arguments</W>
-  <W>setUTCDate</W>
-  <W>scrollbars</W>
-  <W>personalbar</W>
-  <W>statusbar</W>
-  <W>toString</W>
-  <W>enabledPlugin</W>
-  <W>setSeconds</W>
-  <W>innerWidth</W>
-  <W>pageXOffset</W>
-  <W>previous</W>
-  <W>setHours</W>
-  <W>mimeTypes</W>
-  <W>pageYOffset</W>
-  <W>MIN_VALUE</W>
-  <W>lastIndexOf</W>
-  <W>substring</W>
-  <W>selectedIndex</W>
-  <W>defaultValue</W>
-  <W>MAX_VALUE</W>
-  <W>vlinkColor</W>
-  <W>description</W>
-  <W>getFullYear</W>
-  <W>getMinutes</W>
-  <W>appVersion</W>
-  <W>toLowerCase</W>
-  <W>outerHeight</W>
-  <W>visibility</W>
-  <W>toUpperCase</W>
-  <W>clearInterval</W>
-  <W>defaultSelected</W>
-  <W>clearTimeout</W>
-  <W>outerWidth</W>
-  <W>setFullYear</W>
-  <W>setMinutes</W>
-  <W>setInterval</W>
-  <W>routeEvent</W>
-  <W>getUTCMonth</W>
-  <W>getElementById</W>
-  <W>setTimeout</W>
-  <W>releaseEvents</W>
-  <W>getUTCSeconds</W>
-  <W>getUTCHours</W>
-  <W>setUTCMonth</W>
-  <W>toGMTString</W>
-  <W>getMilliseconds</W>
-  <W>toUTCString</W>
-  <W>setUTCSeconds</W>
-  <W>defaultStatus</W>
-  <W>captureEvents</W>
-  <W>setUTCHours</W>
-  <W>toLocaleString</W>
-  <W>getUTCFullYear</W>
-  <W>getUTCMinutes</W>
-  <W>setMilliseconds</W>
-  <W>setUTCFullYear</W>
-  <W>setUTCMinutes</W>
-  <W>getTimezoneOffset</W>
-  <W>getUTCMilliseconds</W>
-  <W>NEGATIVE_INFINITY</W>
-  <W>setUTCMilliseconds</W>
-  <W>POSITIVE_INFINITY</W>
-  <W>above</W>
-  <W>activeElement</W>
-  <W>altKey</W>
-  <W>apply</W>
-  <W>arity</W>
-  <W>availWidth</W>
-  <W>availTop</W>
-  <W>availLeft</W>
-  <W>availHeight</W>
-  <W>atob</W>
-  <W>assign</W>
-  <W>btoa</W>
-  <W>cancelBubble</W>
-  <W>borderWidths</W>
-  <W>below</W>
-  <W>charset</W>
-  <W>className</W>
-  <W>classes</W>
-  <W>children</W>
-  <W>clientInformation</W>
-  <W>clientX</W>
-  <W>clientY</W>
-  <W>colorDepth</W>
-  <W>compile</W>
-  <W>crypto</W>
-  <W>ctrlKey</W>
-  <W>contextual</W>
-  <W>contains</W>
-  <W>constructir</W>
-  <W>data</W>
-  <W>defaultCharset</W>
-  <W>disableExternalCapture</W>
-  <W>disablePrivilege</W>
-  <W>element</W>
-  <W>enableExternalCapture</W>
-  <W>exec</W>
-  <W>expando</W>
-  <W>FromPoint</W>
-  <W>enablePrivilege</W>
-  <W>getAttribute</W>
-  <W>fromElement</W>
-  <W>getClass</W>
-  <W>get</W>
-  <W>getMember</W>
-  <W>getSlot</W>
-  <W>getSelection</W>
-  <W>getWindow</W>
-  <W>id</W>
-  <W>ids</W>
-  <W>ignoreCase</W>
-  <W>inner</W>
-  <W>innerHTML</W>
-  <W>innerText</W>
-  <W>insertAdjacentText</W>
-  <W>insertAdjacentHTML</W>
-  <W>keyCode</W>
-  <W>lang</W>
-  <W>language</W>
-  <W>lastIndex</W>
-  <W>lastMatch</W>
-  <W>lastParen</W>
-  <W>leftContext</W>
-  <W>layerY</W>
-  <W>layerX</W>
-  <W>margins</W>
-  <W>modifiers</W>
-  <W>multiline</W>
-  <W>moveToAbsolute</W>
-  <W>moveAbove</W>
-  <W>moveBelow</W>
-  <W>navigate</W>
-  <W>offscreenBuffering</W>
-  <W>offset</W>
-  <W>offsetHeight</W>
-  <W>offsetLeft</W>
-  <W>offsetParent</W>
-  <W>offsetTop</W>
-  <W>offsetWidth</W>
-  <W></W>
-  <W>offsetY</W>
-  <W>offsetX</W>
-  <W>outerHTML</W>
-  <W>outerText</W>
-  <W>paddings</W>
-  <W>parentElement</W>
-  <W>parentLayer</W>
-  <W>parentWindow</W>
-  <W>preference</W>
-  <W>pop</W>
-  <W>pixelDepth</W>
-  <W>readyState</W>
-  <W>reason</W>
-  <W>push</W>
-  <W>returnValue</W>
-  <W>rightcontext</W>
-  <W>removeMember</W>
-  <W>removeAttribute</W>
-  <W>screenY</W>
-  <W>screenX</W>
-  <W>scrollIntoView</W>
-  <W>setAttribute</W>
-  <W>setDay</W>
-  <W>setMember</W>
-  <W>setSlot</W>
-  <W>setResizable</W>
-  <W>setHotkeys</W>
-  <W>setUTCMillseconds</W>
-  <W>siblingAbove</W>
-  <W>shiftKey</W>
-  <W>siblingBelow</W>
-  <W>setZOptions</W>
-  <W>shift</W>
-  <W>sourceIndex</W>
-  <W>splice</W>
-  <W>smallsort</W>
-  <W>source</W>
-  <W>sun</W>
-  <W>systemLanguage</W>
-  <W>srcFilter</W>
-  <W>srcElement</W>
-  <W>signText</W>
-  <W>tagName</W>
-  <W>toElement</W>
-  <W>test</W>
-  <W>userLanguage</W>
-  <W>unshift</W>
-  <W>which</W>
-  <W>x</W>
-  <W>y</W>
-  <W>HTMLElement</W>
-  <W>JavaArray</W>
-  <W>JavaClass</W>
-  <W>JavaObject</W>
-  <W>JavaPackage</W>
-  <W>JSObject</W>
-  <W>PrivilegeManager</W>
- </KW>
- <KW Name="Reserved words">
-  <Attri>
-   <Back>16777215</Back>
-   <Fore>16711680</Fore>
-   <Style></Style>
-  </Attri>
-  <W>if</W>
-  <W>do</W>
-  <W>in</W>
-  <W>case</W>
-  <W>NaN</W>
-  <W>char</W>
-  <W>catch</W>
-  <W>break</W>
-  <W>callee</W>
-  <W>for</W>
-  <W>else</W>
-  <W>var</W>
-  <W>new</W>
-  <W>false</W>
-  <W>int</W>
-  <W>package</W>
-  <W>long</W>
-  <W>void</W>
-  <W>delete</W>
-  <W>byte</W>
-  <W>enum</W>
-  <W>class</W>
-  <W>float</W>
-  <W>this</W>
-  <W>while</W>
-  <W>goto</W>
-  <W>double</W>
-  <W>Null</W>
-  <W>null</W>
-  <W>with</W>
-  <W>try</W>
-  <W>public</W>
-  <W>boolean</W>
-  <W>true</W>
-  <W>default</W>
-  <W>debugger</W>
-  <W>const</W>
-  <W>native</W>
-  <W>static</W>
-  <W>start</W>
-  <W>finally</W>
-  <W>super</W>
-  <W>short</W>
-  <W>interface</W>
-  <W>switch</W>
-  <W>throw</W>
-  <W>abstract</W>
-  <W>typeof</W>
-  <W>import</W>
-  <W>extends</W>
-  <W>private</W>
-  <W>return</W>
-  <W>export</W>
-  <W>continue</W>
-  <W>function</W>
-  <W>throws</W>
-  <W>instanceof</W>
-  <W>protected</W>
-  <W>transient</W>
-  <W>implements</W>
-  <W>prototype</W>
-  <W>synchronized</W>
-  <W>constructor</W>
-  <W>final</W>
- </KW>
- <KW Name="Common Events">
-  <Attri>
-   <Back>16777215</Back>
-   <Fore>16711808</Fore>
-   <Style></Style>
-  </Attri>
-  <W>onLoad</W>
-  <W>onClick</W>
-  <W>onChange</W>
-  <W>onBlur</W>
-  <W>onAbort</W>
-  <W>onDblClick</W>
-  <W>onFocus</W>
-  <W>onSelect</W>
-  <W>onUnload</W>
-  <W>onReset</W>
-  <W>onError</W>
-  <W>onKeyUp</W>
-  <W>onSubmit</W>
-  <W>onKeyDown</W>
-  <W>onMouseUp</W>
-  <W>onKeyPress</W>
-  <W>onMouseMove</W>
-  <W>onMouseOut</W>
-  <W>onMouseDown</W>
-  <W>onMouseOver</W>
-  <W>ondragdrop</W>
-  <W>onHelp</W>
-  <W>onmove</W>
-  <W>onresize</W>
- </KW>
-  <Range Name="Remark //">
-  <Def>
-   <Back>16777215</Back>
-   <Fore>10485760</Fore>
-   <Style></Style>
-  </Def>
-  <Num>
-   <Back>16777215</Back>
-   <Fore>10485760</Fore>
-   <Style></Style>
-  </Num>
-  <OpenSymbol>//</OpenSymbol>
-  <CloseSymbol></CloseSymbol>
-  <DelimiterChars>!&qt;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~</DelimiterChars>
-  <AnyTerm>True</AnyTerm>
-  <CloseOnTerm>False</CloseOnTerm>
-  <CloseOnEol>True</CloseOnEol>
-  <CaseSensitive>True</CaseSensitive>
+<UniHighlighter version="1.8.1">
+  <Info>
+    <General Name="Java script" Extensions="js,json"/>
+    <Author Name="Vitaly Nevzorov" Email="nevzorov@yahoo.com" Web="www.delphist.com" Copyright="Copyright (c) Vitaly Nevzorov, 2002" Company="N/A" Remark=""/>
+    <Version Version="1" Revision="0" Date="37650.2974113773"/>
+    <History>
+    </History>
+    <Sample>
+      <S>// Syntax highlighting</S>
+      <S>function printNumber()</S>
+      <S>{</S>
+      <S>  var number = 1234;</S>
+      <S>  var x;</S>
+      <S>  document.write(&quot;The number is &quot; + number);</S>
+      <S>  for (var i = 0; i &lt;= number; i++)</S>
+      <S>  {</S>
+      <S>    x++;</S>
+      <S>    x--;</S>
+      <S>    x += 1.0;</S>
+      <S>  }</S>
+      <S>  i += @; // illegal character</S>
+      <S>}</S>
+      <S>body.onLoad = printNumber;</S>
+      <S></S>
+    </Sample>
+  </Info>
+  <Scheme File="" Name=""/>
+  <Range Name="Root" Attributes="0,16777215;False:False." Style=""
+         Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+    <Rule/>
+    <Keywords Name="Functions and key words" Attributes="32768,16777215;False:False." Style="">
+      <word value="E"/>
+      <word value="back"/>
+      <word value="big"/>
+      <word value="abs"/>
+      <word value="go"/>
+      <word value="Area"/>
+      <word value="PI"/>
+      <word value="All"/>
+      <word value="all"/>
+      <word value="LN10"/>
+      <word value="LN2"/>
+      <word value="call"/>
+      <word value="Embed"/>
+      <word value="ceil"/>
+      <word value="Date"/>
+      <word value="bold"/>
+      <word value="name"/>
+      <word value="find"/>
+      <word value="log"/>
+      <word value="java"/>
+      <word value="Image"/>
+      <word value="tan"/>
+      <word value="min"/>
+      <word value="hash"/>
+      <word value="atan2"/>
+      <word value="atan"/>
+      <word value="href"/>
+      <word value="cos"/>
+      <word value="click"/>
+      <word value="acos"/>
+      <word value="max"/>
+      <word value="LOG10E"/>
+      <word value="LOG2E"/>
+      <word value="checked"/>
+      <word value="clear"/>
+      <word value="eval"/>
+      <word value="src"/>
+      <word value="home"/>
+      <word value="self"/>
+      <word value="Math"/>
+      <word value="sin"/>
+      <word value="sub"/>
+      <word value="asin"/>
+      <word value="Frame"/>
+      <word value="left"/>
+      <word value="align"/>
+      <word value="Hidden"/>
+      <word value="UTC"/>
+      <word value="exp"/>
+      <word value="match"/>
+      <word value="Link"/>
+      <word value="link"/>
+      <word value="body"/>
+      <word value="Radio"/>
+      <word value="tags"/>
+      <word value="join"/>
+      <word value="embeds"/>
+      <word value="blink"/>
+      <word value="fixed"/>
+      <word value="slice"/>
+      <word value="escape"/>
+      <word value="Global"/>
+      <word value="open"/>
+      <word value="charAt"/>
+      <word value="top"/>
+      <word value="URL"/>
+      <word value="caller"/>
+      <word value="Form"/>
+      <word value="form"/>
+      <word value="hspace"/>
+      <word value="blur"/>
+      <word value="pageX"/>
+      <word value="pow"/>
+      <word value="close"/>
+      <word value="search"/>
+      <word value="images"/>
+      <word value="Float"/>
+      <word value="pageY"/>
+      <word value="reload"/>
+      <word value="Object"/>
+      <word value="watch"/>
+      <word value="alert"/>
+      <word value="sup"/>
+      <word value="domain"/>
+      <word value="index"/>
+      <word value="concat"/>
+      <word value="isNaN"/>
+      <word value="small"/>
+      <word value="height"/>
+      <word value="cookie"/>
+      <word value="closed"/>
+      <word value="parse"/>
+      <word value="Anchor"/>
+      <word value="anchor"/>
+      <word value="replace"/>
+      <word value="value"/>
+      <word value="Layer"/>
+      <word value="action"/>
+      <word value="getDate"/>
+      <word value="getDay"/>
+      <word value="border"/>
+      <word value="host"/>
+      <word value="frames"/>
+      <word value="right"/>
+      <word value="Array"/>
+      <word value="next"/>
+      <word value="Packages"/>
+      <word value="logon"/>
+      <word value="color"/>
+      <word value="Select"/>
+      <word value="select"/>
+      <word value="Boolean"/>
+      <word value="taint"/>
+      <word value="focus"/>
+      <word value="width"/>
+      <word value="screen"/>
+      <word value="filename"/>
+      <word value="links"/>
+      <word value="method"/>
+      <word value="random"/>
+      <word value="vspace"/>
+      <word value="length"/>
+      <word value="title"/>
+      <word value="type"/>
+      <word value="appName"/>
+      <word value="floor"/>
+      <word value="event"/>
+      <word value="reset"/>
+      <word value="Reset"/>
+      <word value="port"/>
+      <word value="Text"/>
+      <word value="text"/>
+      <word value="Applet"/>
+      <word value="stop"/>
+      <word value="target"/>
+      <word value="Checkbox"/>
+      <word value="encoding"/>
+      <word value="forms"/>
+      <word value="round"/>
+      <word value="sort"/>
+      <word value="bgColor"/>
+      <word value="italics"/>
+      <word value="Number"/>
+      <word value="opener"/>
+      <word value="selected"/>
+      <word value="sqrt"/>
+      <word value="SQRT2"/>
+      <word value="parent"/>
+      <word value="setDate"/>
+      <word value="menubar"/>
+      <word value="write"/>
+      <word value="RegExp"/>
+      <word value="fgColor"/>
+      <word value="split"/>
+      <word value="javaEnabled"/>
+      <word value="indexOf"/>
+      <word value="print"/>
+      <word value="anchors"/>
+      <word value="confirm"/>
+      <word value="pathname"/>
+      <word value="charCodeAt"/>
+      <word value="Plugin"/>
+      <word value="getTime"/>
+      <word value="refresh"/>
+      <word value="scroll"/>
+      <word value="layers"/>
+      <word value="input"/>
+      <word value="getYear"/>
+      <word value="style"/>
+      <word value="strike"/>
+      <word value="valueOf"/>
+      <word value="moveBy"/>
+      <word value="zIndex"/>
+      <word value="Undefined"/>
+      <word value="undefined"/>
+      <word value="netscape"/>
+      <word value="toolbar"/>
+      <word value="Submit"/>
+      <word value="submit"/>
+      <word value="unescape"/>
+      <word value="forward"/>
+      <word value="bottom"/>
+      <word value="display"/>
+      <word value="String"/>
+      <word value="Window"/>
+      <word value="window"/>
+      <word value="Location"/>
+      <word value="location"/>
+      <word value="complete"/>
+      <word value="applets"/>
+      <word value="Option"/>
+      <word value="lowsrc"/>
+      <word value="moveTo"/>
+      <word value="unwatch"/>
+      <word value="setTime"/>
+      <word value="isFinite"/>
+      <word value="Button"/>
+      <word value="reverse"/>
+      <word value="appCodeName"/>
+      <word value="setYear"/>
+      <word value="referrer"/>
+      <word value="elements"/>
+      <word value="Textarea"/>
+      <word value="hostname"/>
+      <word value="document"/>
+      <word value="background"/>
+      <word value="prompt"/>
+      <word value="plugins"/>
+      <word value="current"/>
+      <word value="untaint"/>
+      <word value="substr"/>
+      <word value="status"/>
+      <word value="FileUpload"/>
+      <word value="writeln"/>
+      <word value="platform"/>
+      <word value="getMonth"/>
+      <word value="Function"/>
+      <word value="parseInt"/>
+      <word value="SQRT1_2"/>
+      <word value="MimeType"/>
+      <word value="Infinity"/>
+      <word value="scrollBy"/>
+      <word value="getUTCDate"/>
+      <word value="getUTCDay"/>
+      <word value="taintEnabled"/>
+      <word value="Navigator"/>
+      <word value="navigator"/>
+      <word value="defaultChecked"/>
+      <word value="options"/>
+      <word value="suffixes"/>
+      <word value="linkColor"/>
+      <word value="resizeBy"/>
+      <word value="fromCharCode"/>
+      <word value="userAgent"/>
+      <word value="alinkColor"/>
+      <word value="locationbar"/>
+      <word value="handleEvent"/>
+      <word value="getSeconds"/>
+      <word value="parseFloat"/>
+      <word value="getHours"/>
+      <word value="fontsize"/>
+      <word value="History"/>
+      <word value="history"/>
+      <word value="setMonth"/>
+      <word value="protocol"/>
+      <word value="scrollTo"/>
+      <word value="Password"/>
+      <word value="toSource"/>
+      <word value="lastModified"/>
+      <word value="resizeTo"/>
+      <word value="innerHeight"/>
+      <word value="fontcolor"/>
+      <word value="Arguments"/>
+      <word value="arguments"/>
+      <word value="setUTCDate"/>
+      <word value="scrollbars"/>
+      <word value="personalbar"/>
+      <word value="statusbar"/>
+      <word value="toString"/>
+      <word value="enabledPlugin"/>
+      <word value="setSeconds"/>
+      <word value="innerWidth"/>
+      <word value="pageXOffset"/>
+      <word value="previous"/>
+      <word value="setHours"/>
+      <word value="mimeTypes"/>
+      <word value="pageYOffset"/>
+      <word value="MIN_VALUE"/>
+      <word value="lastIndexOf"/>
+      <word value="substring"/>
+      <word value="selectedIndex"/>
+      <word value="defaultValue"/>
+      <word value="MAX_VALUE"/>
+      <word value="vlinkColor"/>
+      <word value="description"/>
+      <word value="getFullYear"/>
+      <word value="getMinutes"/>
+      <word value="appVersion"/>
+      <word value="toLowerCase"/>
+      <word value="outerHeight"/>
+      <word value="visibility"/>
+      <word value="toUpperCase"/>
+      <word value="clearInterval"/>
+      <word value="defaultSelected"/>
+      <word value="clearTimeout"/>
+      <word value="outerWidth"/>
+      <word value="setFullYear"/>
+      <word value="setMinutes"/>
+      <word value="setInterval"/>
+      <word value="routeEvent"/>
+      <word value="getUTCMonth"/>
+      <word value="getElementById"/>
+      <word value="setTimeout"/>
+      <word value="releaseEvents"/>
+      <word value="getUTCSeconds"/>
+      <word value="getUTCHours"/>
+      <word value="setUTCMonth"/>
+      <word value="toGMTString"/>
+      <word value="getMilliseconds"/>
+      <word value="toUTCString"/>
+      <word value="setUTCSeconds"/>
+      <word value="defaultStatus"/>
+      <word value="captureEvents"/>
+      <word value="setUTCHours"/>
+      <word value="toLocaleString"/>
+      <word value="getUTCFullYear"/>
+      <word value="getUTCMinutes"/>
+      <word value="setMilliseconds"/>
+      <word value="setUTCFullYear"/>
+      <word value="setUTCMinutes"/>
+      <word value="getTimezoneOffset"/>
+      <word value="getUTCMilliseconds"/>
+      <word value="NEGATIVE_INFINITY"/>
+      <word value="setUTCMilliseconds"/>
+      <word value="POSITIVE_INFINITY"/>
+      <word value="above"/>
+      <word value="activeElement"/>
+      <word value="altKey"/>
+      <word value="apply"/>
+      <word value="arity"/>
+      <word value="availWidth"/>
+      <word value="availTop"/>
+      <word value="availLeft"/>
+      <word value="availHeight"/>
+      <word value="atob"/>
+      <word value="assign"/>
+      <word value="btoa"/>
+      <word value="cancelBubble"/>
+      <word value="borderWidths"/>
+      <word value="below"/>
+      <word value="charset"/>
+      <word value="className"/>
+      <word value="classes"/>
+      <word value="children"/>
+      <word value="clientInformation"/>
+      <word value="clientX"/>
+      <word value="clientY"/>
+      <word value="colorDepth"/>
+      <word value="compile"/>
+      <word value="crypto"/>
+      <word value="ctrlKey"/>
+      <word value="contextual"/>
+      <word value="contains"/>
+      <word value="constructir"/>
+      <word value="data"/>
+      <word value="defaultCharset"/>
+      <word value="disableExternalCapture"/>
+      <word value="disablePrivilege"/>
+      <word value="element"/>
+      <word value="enableExternalCapture"/>
+      <word value="exec"/>
+      <word value="expando"/>
+      <word value="FromPoint"/>
+      <word value="enablePrivilege"/>
+      <word value="getAttribute"/>
+      <word value="fromElement"/>
+      <word value="getClass"/>
+      <word value="get"/>
+      <word value="getMember"/>
+      <word value="getSlot"/>
+      <word value="getSelection"/>
+      <word value="getWindow"/>
+      <word value="id"/>
+      <word value="ids"/>
+      <word value="ignoreCase"/>
+      <word value="inner"/>
+      <word value="innerHTML"/>
+      <word value="innerText"/>
+      <word value="insertAdjacentText"/>
+      <word value="insertAdjacentHTML"/>
+      <word value="keyCode"/>
+      <word value="lang"/>
+      <word value="language"/>
+      <word value="lastIndex"/>
+      <word value="lastMatch"/>
+      <word value="lastParen"/>
+      <word value="leftContext"/>
+      <word value="layerY"/>
+      <word value="layerX"/>
+      <word value="margins"/>
+      <word value="modifiers"/>
+      <word value="multiline"/>
+      <word value="moveToAbsolute"/>
+      <word value="moveAbove"/>
+      <word value="moveBelow"/>
+      <word value="navigate"/>
+      <word value="offscreenBuffering"/>
+      <word value="offset"/>
+      <word value="offsetHeight"/>
+      <word value="offsetLeft"/>
+      <word value="offsetParent"/>
+      <word value="offsetTop"/>
+      <word value="offsetWidth"/>
+      <word value=""/>
+      <word value="offsetY"/>
+      <word value="offsetX"/>
+      <word value="outerHTML"/>
+      <word value="outerText"/>
+      <word value="paddings"/>
+      <word value="parentElement"/>
+      <word value="parentLayer"/>
+      <word value="parentWindow"/>
+      <word value="preference"/>
+      <word value="pop"/>
+      <word value="pixelDepth"/>
+      <word value="readyState"/>
+      <word value="reason"/>
+      <word value="push"/>
+      <word value="returnValue"/>
+      <word value="rightcontext"/>
+      <word value="removeMember"/>
+      <word value="removeAttribute"/>
+      <word value="screenY"/>
+      <word value="screenX"/>
+      <word value="scrollIntoView"/>
+      <word value="setAttribute"/>
+      <word value="setDay"/>
+      <word value="setMember"/>
+      <word value="setSlot"/>
+      <word value="setResizable"/>
+      <word value="setHotkeys"/>
+      <word value="setUTCMillseconds"/>
+      <word value="siblingAbove"/>
+      <word value="shiftKey"/>
+      <word value="siblingBelow"/>
+      <word value="setZOptions"/>
+      <word value="shift"/>
+      <word value="sourceIndex"/>
+      <word value="splice"/>
+      <word value="smallsort"/>
+      <word value="source"/>
+      <word value="sun"/>
+      <word value="systemLanguage"/>
+      <word value="srcFilter"/>
+      <word value="srcElement"/>
+      <word value="signText"/>
+      <word value="tagName"/>
+      <word value="toElement"/>
+      <word value="test"/>
+      <word value="userLanguage"/>
+      <word value="unshift"/>
+      <word value="which"/>
+      <word value="x"/>
+      <word value="y"/>
+      <word value="HTMLElement"/>
+      <word value="JavaArray"/>
+      <word value="JavaClass"/>
+      <word value="JavaObject"/>
+      <word value="JavaPackage"/>
+      <word value="JSObject"/>
+      <word value="PrivilegeManager"/>
+    </Keywords>
+    <Keywords Name="Reserved words" Attributes="16711680,16777215;False:False." Style="">
+      <word value="if"/>
+      <word value="do"/>
+      <word value="in"/>
+      <word value="case"/>
+      <word value="NaN"/>
+      <word value="char"/>
+      <word value="catch"/>
+      <word value="break"/>
+      <word value="callee"/>
+      <word value="for"/>
+      <word value="else"/>
+      <word value="var"/>
+      <word value="new"/>
+      <word value="false"/>
+      <word value="int"/>
+      <word value="package"/>
+      <word value="long"/>
+      <word value="void"/>
+      <word value="delete"/>
+      <word value="byte"/>
+      <word value="enum"/>
+      <word value="class"/>
+      <word value="float"/>
+      <word value="this"/>
+      <word value="while"/>
+      <word value="goto"/>
+      <word value="double"/>
+      <word value="Null"/>
+      <word value="null"/>
+      <word value="with"/>
+      <word value="try"/>
+      <word value="public"/>
+      <word value="boolean"/>
+      <word value="true"/>
+      <word value="default"/>
+      <word value="debugger"/>
+      <word value="const"/>
+      <word value="native"/>
+      <word value="static"/>
+      <word value="start"/>
+      <word value="finally"/>
+      <word value="super"/>
+      <word value="short"/>
+      <word value="interface"/>
+      <word value="switch"/>
+      <word value="throw"/>
+      <word value="abstract"/>
+      <word value="typeof"/>
+      <word value="import"/>
+      <word value="extends"/>
+      <word value="private"/>
+      <word value="return"/>
+      <word value="export"/>
+      <word value="continue"/>
+      <word value="function"/>
+      <word value="throws"/>
+      <word value="instanceof"/>
+      <word value="protected"/>
+      <word value="transient"/>
+      <word value="implements"/>
+      <word value="prototype"/>
+      <word value="synchronized"/>
+      <word value="constructor"/>
+      <word value="final"/>
+    </Keywords>
+    <Keywords Name="Common Events" Attributes="16711808,16777215;False:False." Style="">
+      <word value="onLoad"/>
+      <word value="onClick"/>
+      <word value="onChange"/>
+      <word value="onBlur"/>
+      <word value="onAbort"/>
+      <word value="onDblClick"/>
+      <word value="onFocus"/>
+      <word value="onSelect"/>
+      <word value="onUnload"/>
+      <word value="onReset"/>
+      <word value="onError"/>
+      <word value="onKeyUp"/>
+      <word value="onSubmit"/>
+      <word value="onKeyDown"/>
+      <word value="onMouseUp"/>
+      <word value="onKeyPress"/>
+      <word value="onMouseMove"/>
+      <word value="onMouseOut"/>
+      <word value="onMouseDown"/>
+      <word value="onMouseOver"/>
+      <word value="ondragdrop"/>
+      <word value="onHelp"/>
+      <word value="onmove"/>
+      <word value="onresize"/>
+    </Keywords>
+    <Range Name="Remark //" Attributes="10485760,16777215;False:False." Style="" CaseSensitive="True"
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="//" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Remark /*...*/" Attributes="10485760,16777215;False:False." Style="" CaseSensitive="True"
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="/*" CloseSymbol="*/"/>
+    </Range>
+    <Range Name="Strings" Attributes="255,16777215;False:False." Style="" CaseSensitive="True"
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&quot;" CloseSymbol="&quot;"/>
+    </Range>
   </Range>
-  <Range Name="Remark /*...*/">
-  <Def>
-   <Back>16777215</Back>
-   <Fore>10485760</Fore>
-   <Style></Style>
-  </Def>
-  <Num>
-   <Back>16777215</Back>
-   <Fore>10485760</Fore>
-   <Style></Style>
-  </Num>
-  <OpenSymbol>/*</OpenSymbol>
-  <CloseSymbol>*/</CloseSymbol>
-  <DelimiterChars>!&qt;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~</DelimiterChars>
-  <AnyTerm>True</AnyTerm>
-  <CloseOnTerm>False</CloseOnTerm>
-  <CloseOnEol>False</CloseOnEol>
-  <CaseSensitive>True</CaseSensitive>
-  </Range>
-  <Range Name="Strings">
-  <Def>
-   <Back>16777215</Back>
-   <Fore>255</Fore>
-   <Style></Style>
-  </Def>
-  <Num>
-   <Back>16777215</Back>
-   <Fore>255</Fore>
-   <Style></Style>
-  </Num>
-  <OpenSymbol>&qt;</OpenSymbol>
-  <CloseSymbol>&qt;</CloseSymbol>
-  <DelimiterChars>!&qt;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~</DelimiterChars>
-  <AnyTerm>True</AnyTerm>
-  <CloseOnTerm>False</CloseOnTerm>
-  <CloseOnEol>False</CloseOnEol>
-  <CaseSensitive>True</CaseSensitive>
-  </Range>
- </Range>
- <CopyRight>Rule file for UniHighlighter Delphi component (Copyright(C) Fantasist(walking_in_the_sky@yahoo.com), Vit(nevzorov@yahoo.com), 2002)</CopyRight>
+  <CopyRight>Rule file for UniHighlighter Delphi component (Copyright(C) Fantasist(walking_in_the_sky@yahoo.com), Vit(nevzorov@yahoo.com), Vitalik(vetal-x@mail.ru), 2002-2004)</CopyRight>
 </UniHighlighter>
