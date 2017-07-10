@@ -327,7 +327,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     MaxValue = 99
     MinValue = 6
     OnChange = edtConsoleFontSizeChange
-    TabOrder = 21
+    TabOrder = 16
     Value = 14
   end
   object edtConsoleFont: TEdit[22]
@@ -385,23 +385,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     BorderSpacing.Right = 4
     TabOrder = 18
   end
-  object edtConsoleFontSize1: TSpinEdit[26]
-    AnchorSideTop.Control = edtConsoleFont
-    AnchorSideTop.Side = asrCenter
-    AnchorSideRight.Control = btnSelConsoleFnt
-    Left = 633
-    Height = 23
-    Top = 299
-    Width = 56
-    Anchors = [akTop, akRight]
-    BorderSpacing.Right = 4
-    MaxValue = 99
-    MinValue = 6
-    OnChange = edtConsoleFontSizeChange
-    TabOrder = 16
-    Value = 14
-  end
-  object edtPathEditFontSize: TSpinEdit[27]
+  object edtPathEditFontSize: TSpinEdit[26]
     AnchorSideTop.Control = edtPathEditFont
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnSelMainFnt
@@ -417,7 +401,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     TabOrder = 19
     Value = 12
   end
-  object btnPathEditFnt: TButton[28]
+  object btnPathEditFnt: TButton[27]
     AnchorSideTop.Control = edtPathEditFontSize
     AnchorSideRight.Control = btnSelViewerBookFnt
     AnchorSideRight.Side = asrBottom
@@ -432,7 +416,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     OnClick = btnPathEditFntClick
     TabOrder = 20
   end
-  object lblSearchResultsFont: TLabel[29]
+  object lblSearchResultsFont: TLabel[28]
     AnchorSideLeft.Control = edtViewerFont
     AnchorSideTop.Control = edtPathEditFont
     AnchorSideTop.Side = asrBottom
@@ -445,7 +429,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     ParentColor = False
     Visible = False
   end
-  object edtSearchResultsFont: TEdit[30]
+  object edtSearchResultsFont: TEdit[29]
     AnchorSideTop.Control = lblSearchResultsFont
     AnchorSideTop.Side = asrBottom
     Left = 6
@@ -455,10 +439,10 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
-    TabOrder = 22
+    TabOrder = 21
     Visible = False
   end
-  object edtSearchresultsFontSize: TSpinEdit[31]
+  object edtSearchresultsFontSize: TSpinEdit[30]
     AnchorSideTop.Control = edtSearchResultsFont
     AnchorSideTop.Side = asrCenter
     Left = 632
@@ -467,11 +451,11 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Width = 57
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Right = 4
-    TabOrder = 23
+    TabOrder = 22
     Value = 12
     Visible = False
   end
-  object btnSearchResultsFnt: TButton[32]
+  object btnSearchResultsFnt: TButton[31]
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
     Left = 689
@@ -480,10 +464,10 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Width = 40
     Anchors = [akTop, akLeft, akRight, akBottom]
     Caption = '...'
-    TabOrder = 24
+    TabOrder = 23
     Visible = False
   end
-  object dlgFnt: TFontDialog[33]
+  object dlgFnt: TFontDialog[32]
     MinFontSize = 0
     MaxFontSize = 0
     Options = [fdNoStyleSel]
