@@ -83,6 +83,7 @@ end;
 
 function TSFtpSend.FileClose(Handle: Pointer): Boolean;
 begin
+  FLastError:= 0;
   if Assigned(Handle) then
   repeat
     FLastError:= libssh2_sftp_close(Handle);
@@ -95,8 +96,8 @@ function TSFtpSend.Connect: Boolean;
 const
   HOSTKEY_SIZE = 20;
 var
-  I: Integer;
   S: String;
+  I: Integer;
   userauthlist: PAnsiChar;
   FingerPrint: array [0..Pred(HOSTKEY_SIZE)] of AnsiChar;
 begin
@@ -104,7 +105,7 @@ begin
   DoStatus(False, 'Connecting to: ' + FTargetHost);
   FSock.Connect(FTargetHost, FTargetPort);
 
-  if FSock.LastError=0 then
+  if FSock.LastError = 0 then
   begin
     FSession := libssh2_session_init(Self);
 
@@ -121,7 +122,6 @@ begin
     DoStatus(False, 'Connection established');
     FingerPrint := libssh2_hostkey_hash(FSession, LIBSSH2_HOSTKEY_HASH_SHA1);
     S:= 'Server fingerprint:';
-    i:=0;
     for I:= Low(FingerPrint) to High(FingerPrint) do
     begin
       S:= S + #32 + IntToHex(Ord(FingerPrint[i]), 2);
@@ -418,7 +418,7 @@ var
   Return: Integer;
   Attributes: LIBSSH2_SFTP_ATTRIBUTES;
   AFileName: array[0..1023] of AnsiChar;
-  AFullData: array[0..1023] of AnsiChar;
+  AFullData: array[0..2047] of AnsiChar;
 begin
   Return:= libssh2_sftp_readdir_ex(Handle, AFileName, SizeOf(AFileName),
                                    AFullData, SizeOf(AFullData), @Attributes);
@@ -426,13 +426,13 @@ begin
   if Result then
   begin
     FillChar(FindData, SizeOf(FindData), 0);
-    StrPCopy(FindData.cFileName, ServerToClient(AFileName));
     FindData.dwReserved0:= Attributes.permissions;
     FindData.dwFileAttributes:= FILE_ATTRIBUTE_UNIX_MODE;
     FindData.nFileSizeLow:= Int64Rec(Attributes.filesize).Lo;
     FindData.nFileSizeHigh:= Int64Rec(Attributes.filesize).Hi;
-    FindData.ftLastAccessTime:= TWfxFileTime(UnixFileTimeToWinTime(Attributes.atime));
+    StrPLCopy(FindData.cFileName, ServerToClient(AFileName), MAX_PATH - 1);
     FindData.ftLastWriteTime:= TWfxFileTime(UnixFileTimeToWinTime(Attributes.mtime));
+    FindData.ftLastAccessTime:= TWfxFileTime(UnixFileTimeToWinTime(Attributes.atime));
   end;
 end;
 
