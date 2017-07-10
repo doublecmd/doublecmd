@@ -46,7 +46,6 @@ type
     dlgFnt: TFontDialog;
     edtSearchResultsFont: TEdit;
     edtPathEditFont: TEdit;
-    edtConsoleFontSize1: TSpinEdit;
     edtEditorFont: TEdit;
     edtEditorFontSize: TSpinEdit;
     edtLogFont: TEdit;
