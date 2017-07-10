@@ -1,260 +1,143 @@
-<UniHighlighter>
- <ImportantInfo>
-  ******* Please read carefully *************************
-  * Please, make any changes in this file very carefuly!*
-  * It is much more convinient to use native designer!  *
-  *******************************************************
- </ImportantInfo>
- <Info>
-  <General>
-   <Name>C#</Name>
-   <FileTypeName>CS</FileTypeName>
-   <Layout>Standard</Layout>
-  </General>
-  <Author>
-   <Name>Vitaly Nevzorov</Name>
-   <Email>nevzorov@yahoo.com</Email>
-   <Web>www.delphist.com</Web>
-   <Copyright>Copyright (c) Vitaly Nevzorov, 2002</Copyright>
-   <Company>N/A</Company>
-   <Remark>Created based on UltraEdit:csharp.txt</Remark>
-  </Author>
-  <Version>
-   <Version>1</Version>
-   <Revision>0</Revision>
-   <Date>37612.5337957176</Date>
-   <Type>Beta</Type>
-  </Version>
-  <History>
-  </History>
-  <Sample>
-   <S></S>
-  </Sample>
- </Info>
- <Range Name="Root">
- <Def>
-  <Back>16777215</Back>
-  <Fore>0</Fore>
-  <Style></Style>
- </Def>
- <Num>
-  <Back>16777215</Back>
-  <Fore>128</Fore>
-  <Style></Style>
- </Num>
- <OpenSymbol></OpenSymbol>
- <CloseSymbol></CloseSymbol>
- <DelimiterChars>	!&qt;%&amp;'()*+,-./:;&lt;=&gt;?@[\]^{|}~</DelimiterChars>
- <AnyTerm>True</AnyTerm>
- <CloseOnTerm>False</CloseOnTerm>
- <CloseOnEol>False</CloseOnEol>
- <CaseSensitive>False</CaseSensitive>
- <KW Name="Keywords">
-  <Attri>
-   <Back>16777215</Back>
-   <Fore>32768</Fore>
-   <Style></Style>
-  </Attri>
-  <W>as</W>
-  <W>auto</W>
-  <W>base</W>
-  <W>break</W>
-  <W>case</W>
-  <W>catch</W>
-  <W>const</W>
-  <W>continue</W>
-  <W>default</W>
-  <W>do</W>
-  <W>else</W>
-  <W>event</W>
-  <W>explicit</W>
-  <W>extern</W>
-  <W>false</W>
-  <W>finally</W>
-  <W>fixed</W>
-  <W>for</W>
-  <W>foreach</W>
-  <W>goto</W>
-  <W>if</W>
-  <W>implicit</W>
-  <W>in</W>
-  <W>internal</W>
-  <W>lock</W>
-  <W>namespace</W>
-  <W>null</W>
-  <W>operator</W>
-  <W>out</W>
-  <W>override</W>
-  <W>params</W>
-  <W>private</W>
-  <W>protected</W>
-  <W>public</W>
-  <W>readonly</W>
-  <W>ref</W>
-  <W>return</W>
-  <W>sealed</W>
-  <W>stackalloc</W>
-  <W>static</W>
-  <W>switch</W>
-  <W>this</W>
-  <W>throw</W>
-  <W>true</W>
-  <W>try</W>
-  <W>unsafe</W>
-  <W>using</W>
-  <W>virtual</W>
-  <W>void</W>
-  <W>while</W>
- </KW>
- <KW Name="C# Data Types">
-  <Attri>
-   <Back>16777215</Back>
-   <Fore>16711680</Fore>
-   <Style></Style>
-  </Attri>
-  <W>bool</W>
-  <W>byte</W>
-  <W>char</W>
-  <W>class</W>
-  <W>decimal</W>
-  <W>delegate</W>
-  <W>double</W>
-  <W>enum</W>
-  <W>float</W>
-  <W>int</W>
-  <W>interface</W>
-  <W>long</W>
-  <W>object</W>
-  <W>sbyte</W>
-  <W>short</W>
-  <W>string</W>
-  <W>struct</W>
-  <W>uint</W>
-  <W>ulong</W>
-  <W>ushort</W>
- </KW>
- <KW Name="C# Preprocessor Directives">
-  <Attri>
-   <Back>16777215</Back>
-   <Fore>16711808</Fore>
-   <Style></Style>
-  </Attri>
-  <W>#elif</W>
-  <W>#endif</W>
-  <W>#endregion</W>
-  <W>#else</W>
-  <W>#error</W>
-  <W>#define</W>
-  <W>#if</W>
-  <W>#line</W>
-  <W>#region</W>
-  <W>#undef</W>
-  <W>#warning</W>
- </KW>
- <KW Name="Operators">
-  <Attri>
-   <Back>16777215</Back>
-   <Fore>33023</Fore>
-   <Style></Style>
-  </Attri>
-  <W>+</W>
-  <W>-</W>
-  <W>*</W>
-  <W>?</W>
-  <W>=</W>
-  <W>//</W>
-  <W>/</W>
-  <W>%</W>
-  <W>&amp;</W>
-  <W>&gt;</W>
-  <W>&lt;</W>
-  <W>^</W>
-  <W>!</W>
-  <W>|</W>
-  <W>:</W>
-  <W>checked</W>
-  <W>is</W>
-  <W>new</W>
-  <W>sizeof</W>
-  <W>typeof</W>
-  <W>unchecked</W>
- </KW>
-  <Range Name="Remarks //">
-  <Def>
-   <Back>16777215</Back>
-   <Fore>8388608</Fore>
-   <Style></Style>
-  </Def>
-  <Num>
-   <Back>16777215</Back>
-   <Fore>8388608</Fore>
-   <Style></Style>
-  </Num>
-  <OpenSymbol>//</OpenSymbol>
-  <CloseSymbol></CloseSymbol>
-  <DelimiterChars>!&qt;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~</DelimiterChars>
-  <AnyTerm>True</AnyTerm>
-  <CloseOnTerm>False</CloseOnTerm>
-  <CloseOnEol>True</CloseOnEol>
-  <CaseSensitive>False</CaseSensitive>
+<UniHighlighter version="1.8.1">
+  <Info>
+    <General Name="C#" Extensions="CS"/>
+    <Author Name="Vitaly Nevzorov" Email="nevzorov@yahoo.com" Web="www.delphist.com" Copyright="Copyright (c) Vitaly Nevzorov, 2002" Company="N/A" Remark="Created based on UltraEdit:csharp.txt"/>
+    <Version Version="1" Revision="0" Date="37612.5337957176"/>
+    <History>
+    </History>
+    <Sample>
+    </Sample>
+  </Info>
+  <Scheme File="" Name=""/>
+  <Range Name="Root" Attributes="0,16777215;False:False." Style=""
+         Delimiters="!&quot;%&amp;'()*+,-./:;&lt;=&gt;?@[\]^{|}~">
+    <Rule/>
+    <Keywords Name="Keywords" Attributes="32768,16777215;False:False." Style="">
+      <word value="as"/>
+      <word value="auto"/>
+      <word value="base"/>
+      <word value="break"/>
+      <word value="case"/>
+      <word value="catch"/>
+      <word value="const"/>
+      <word value="continue"/>
+      <word value="default"/>
+      <word value="do"/>
+      <word value="else"/>
+      <word value="event"/>
+      <word value="explicit"/>
+      <word value="extern"/>
+      <word value="false"/>
+      <word value="finally"/>
+      <word value="fixed"/>
+      <word value="for"/>
+      <word value="foreach"/>
+      <word value="goto"/>
+      <word value="if"/>
+      <word value="implicit"/>
+      <word value="in"/>
+      <word value="internal"/>
+      <word value="lock"/>
+      <word value="namespace"/>
+      <word value="null"/>
+      <word value="operator"/>
+      <word value="out"/>
+      <word value="override"/>
+      <word value="params"/>
+      <word value="private"/>
+      <word value="protected"/>
+      <word value="public"/>
+      <word value="readonly"/>
+      <word value="ref"/>
+      <word value="return"/>
+      <word value="sealed"/>
+      <word value="stackalloc"/>
+      <word value="static"/>
+      <word value="switch"/>
+      <word value="this"/>
+      <word value="throw"/>
+      <word value="true"/>
+      <word value="try"/>
+      <word value="unsafe"/>
+      <word value="using"/>
+      <word value="virtual"/>
+      <word value="void"/>
+      <word value="while"/>
+    </Keywords>
+    <Keywords Name="C# Data Types" Attributes="16711680,16777215;False:False." Style="">
+      <word value="bool"/>
+      <word value="byte"/>
+      <word value="char"/>
+      <word value="class"/>
+      <word value="decimal"/>
+      <word value="delegate"/>
+      <word value="double"/>
+      <word value="enum"/>
+      <word value="float"/>
+      <word value="int"/>
+      <word value="interface"/>
+      <word value="long"/>
+      <word value="object"/>
+      <word value="sbyte"/>
+      <word value="short"/>
+      <word value="string"/>
+      <word value="struct"/>
+      <word value="uint"/>
+      <word value="ulong"/>
+      <word value="ushort"/>
+    </Keywords>
+    <Keywords Name="C# Preprocessor Directives" Attributes="16711808,16777215;False:False." Style="">
+      <word value="#elif"/>
+      <word value="#endif"/>
+      <word value="#endregion"/>
+      <word value="#else"/>
+      <word value="#error"/>
+      <word value="#define"/>
+      <word value="#if"/>
+      <word value="#line"/>
+      <word value="#region"/>
+      <word value="#undef"/>
+      <word value="#warning"/>
+    </Keywords>
+    <Keywords Name="Operators" Attributes="33023,16777215;False:False." Style="">
+      <word value="+"/>
+      <word value="-"/>
+      <word value="*"/>
+      <word value="?"/>
+      <word value="="/>
+      <word value="//"/>
+      <word value="/"/>
+      <word value="%"/>
+      <word value="&amp;"/>
+      <word value="&gt;"/>
+      <word value="&lt;"/>
+      <word value="^"/>
+      <word value="!"/>
+      <word value="|"/>
+      <word value=":"/>
+      <word value="checked"/>
+      <word value="is"/>
+      <word value="new"/>
+      <word value="sizeof"/>
+      <word value="typeof"/>
+      <word value="unchecked"/>
+    </Keywords>
+    <Range Name="Remarks //" Attributes="8388608,16777215;False:False." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="//" CloseOnEol="True"/>
+    </Range>
+    <Range Name="Remarks /*..*/" Attributes="8388608,16777215;False:False." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="/*" CloseSymbol="*/"/>
+    </Range>
+    <Range Name="Strings &quot;..&quot;" Attributes="255,16777215;False:False." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="&quot;" CloseSymbol="&quot;"/>
+    </Range>
+    <Range Name="Strings '..'" Attributes="255,16777215;False:False." Style=""
+           Delimiters="!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~">
+      <Rule OpenSymbol="'" CloseSymbol="'"/>
+    </Range>
   </Range>
-  <Range Name="Remarks /*..*/">
-  <Def>
-   <Back>16777215</Back>
-   <Fore>8388608</Fore>
-   <Style></Style>
-  </Def>
-  <Num>
-   <Back>16777215</Back>
-   <Fore>8388608</Fore>
-   <Style></Style>
-  </Num>
-  <OpenSymbol>/*</OpenSymbol>
-  <CloseSymbol>*/</CloseSymbol>
-  <DelimiterChars>!&qt;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~</DelimiterChars>
-  <AnyTerm>True</AnyTerm>
-  <CloseOnTerm>False</CloseOnTerm>
-  <CloseOnEol>False</CloseOnEol>
-  <CaseSensitive>False</CaseSensitive>
-  </Range>
-  <Range Name="Strings &qt;..&qt;">
-  <Def>
-   <Back>16777215</Back>
-   <Fore>255</Fore>
-   <Style></Style>
-  </Def>
-  <Num>
-   <Back>16777215</Back>
-   <Fore>255</Fore>
-   <Style></Style>
-  </Num>
-  <OpenSymbol>&qt;</OpenSymbol>
-  <CloseSymbol>&qt;</CloseSymbol>
-  <DelimiterChars>!&qt;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~</DelimiterChars>
-  <AnyTerm>True</AnyTerm>
-  <CloseOnTerm>False</CloseOnTerm>
-  <CloseOnEol>False</CloseOnEol>
-  <CaseSensitive>False</CaseSensitive>
-  </Range>
-  <Range Name="Strings '..'">
-  <Def>
-   <Back>16777215</Back>
-   <Fore>255</Fore>
-   <Style></Style>
-  </Def>
-  <Num>
-   <Back>16777215</Back>
-   <Fore>255</Fore>
-   <Style></Style>
-  </Num>
-  <OpenSymbol>'</OpenSymbol>
-  <CloseSymbol>'</CloseSymbol>
-  <DelimiterChars>!&qt;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`{|}~</DelimiterChars>
-  <AnyTerm>True</AnyTerm>
-  <CloseOnTerm>False</CloseOnTerm>
-  <CloseOnEol>False</CloseOnEol>
-  <CaseSensitive>False</CaseSensitive>
-  </Range>
- </Range>
- <CopyRight>Rule file for UniHighlighter Delphi component (Copyright(C) Fantasist(walking_in_the_sky@yahoo.com), Vit(nevzorov@yahoo.com), 2002)</CopyRight>
+  <CopyRight>Rule file for UniHighlighter Delphi component (Copyright(C) Fantasist(walking_in_the_sky@yahoo.com), Vit(nevzorov@yahoo.com), Vitalik(vetal-x@mail.ru), 2002-2004)</CopyRight>
 </UniHighlighter>
