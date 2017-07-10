@@ -83,6 +83,9 @@ const       {Error codes returned to calling application}
 
   PK_CRYPTOPT_MASTERPASS_SET = 1;   // The user already has a master password defined
 
+  { THeaderData Flags }
+  RHDF_ENCRYPTED = $04;             { File encrypted with password }
+
 type
   { Unsigned integer with pointer size }
   TArcHandle = {$IFDEF CPU64}QWord{$ELSE}LongWord{$ENDIF};
