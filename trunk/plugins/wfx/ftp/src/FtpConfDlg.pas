@@ -37,7 +37,7 @@ function ShowFtpConfDlg: Boolean;
 implementation
 
 uses
-  LazUTF8, FtpFunc, FtpUtils, blcksock, ssl_openssl_lib;
+  LazUTF8, DynLibs, FtpFunc, FtpUtils, blcksock, ssl_openssl_lib, libssh;
 
 procedure ShowWarningSSL;
 begin
@@ -47,6 +47,18 @@ begin
                'To use SSL connections, please install the OpenSSL ' +
                'libraries (' + DLLSSLName + ' and ' + DLLUtilName + ')!'),
                'OpenSSL', MB_OK or MB_ICONERROR
+               );
+  end;
+end;
+
+procedure ShowWarningSSH;
+begin
+  with gStartupInfo do
+  begin
+    MessageBox(PAnsiChar('LibSSH2 library not found!' + LineEnding +
+               'To use SSH2 connections, please install the LibSSH2 ' +
+               'library (' + LibSSHName + ')!'),
+               'LibSSH2', MB_OK or MB_ICONERROR
                );
   end;
 end;
@@ -102,6 +114,8 @@ begin
           SendDlgMsg(pDlg, 'chkPassiveMode', DM_SETCHECK, Data, 0);
           Data:= PtrInt(gConnection.AutoTLS);
           SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, Data, 0);
+          Data:= PtrInt(gConnection.OpenSSH);
+          SendDlgMsg(pDlg, 'chkOpenSSH', DM_SETCHECK, Data, 0);
         end;
       DN_CHANGE:
         begin
@@ -111,8 +125,8 @@ begin
             gConnection.MasterPassword:= Boolean(Data);
             if not gConnection.MasterPassword then
               DeletePassword(gConnection.ConnectionName);
-          end;
-        if DlgItemName = 'chkAutoTLS' then
+          end
+        else if DlgItemName = 'chkAutoTLS' then
           begin
             Data:= SendDlgMsg(pDlg, 'chkAutoTLS', DM_GETCHECK, 0, 0);
             gConnection.AutoTLS:= Boolean(Data);
@@ -125,6 +139,23 @@ begin
                 Data:= PtrInt(gConnection.AutoTLS);
                 SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, Data, 0);
               end;
+              SendDlgMsg(pDlg, 'chkOpenSSH', DM_SETCHECK, 0, 0);
+            end;
+          end
+        else if DlgItemName = 'chkOpenSSH' then
+          begin
+            Data:= SendDlgMsg(pDlg, 'chkOpenSSH', DM_GETCHECK, 0, 0);
+            gConnection.OpenSSH:= Boolean(Data);
+            if gConnection.OpenSSH then
+            begin
+              if libssh2 = NilHandle then
+              begin
+                ShowWarningSSH;
+                gConnection.OpenSSH:= False;
+                Data:= PtrInt(gConnection.OpenSSH);
+                SendDlgMsg(pDlg, 'chkOpenSSH', DM_SETCHECK, Data, 0);
+               end;
+              SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, 0, 0);
             end;
           end;
         end;
