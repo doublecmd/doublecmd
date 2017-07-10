@@ -839,7 +839,9 @@ var
   sPath: AnsiString;
   FtpSend: TFTPSendEx;
 begin
-  if GetConnectionByPath(RemoteName, FtpSend, sPath) then
+  if (LastAccessTime = nil) and (LastWriteTime = nil) then
+    Result := False
+  else if GetConnectionByPath(RemoteName, FtpSend, sPath) then
     Result := FtpSend.FsSetTime(sPath, LastAccessTime, LastWriteTime)
   else begin
     Result := False;
