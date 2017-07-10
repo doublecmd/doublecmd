@@ -71,6 +71,9 @@
 
 #define PK_CRYPTOPT_MASTERPASS_SET 1   // The user already has a master password defined
 
+/* tHeaderData Flags */
+#define RHDF_ENCRYPTED   0x04          // File encrypted with password
+
 typedef struct {
     char ArcName[260];
     char FileName[260];
