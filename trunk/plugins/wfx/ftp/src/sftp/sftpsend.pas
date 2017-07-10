@@ -109,58 +109,65 @@ begin
   if FSock.LastError = 0 then
   begin
     FSession := libssh2_session_init(Self);
+    if not Assigned(FSession) then Exit(False);
+    try
+      libssh2_session_set_timeout(FSession, FTimeout);
 
-    libssh2_session_set_timeout(FSession, FTimeout);
+      //* Since we have not set non-blocking, tell libssh2 we are blocking */
+      libssh2_session_set_blocking(FSession, 1);
 
-    //* Since we have not set non-blocking, tell libssh2 we are blocking */
-    libssh2_session_set_blocking(FSession, 1);
-
-    if libssh2_session_handshake(FSession, FSock.Socket) <> 0 then
-    begin
-      DoStatus(False, 'Cannot establishing SSH session');
-      Exit(False);
-    end;
-    DoStatus(False, 'Connection established');
-    FingerPrint := libssh2_hostkey_hash(FSession, LIBSSH2_HOSTKEY_HASH_SHA1);
-    S:= 'Server fingerprint:';
-    for I:= Low(FingerPrint) to High(FingerPrint) do
-    begin
-      S:= S + #32 + IntToHex(Ord(FingerPrint[i]), 2);
-    end;
-    DoStatus(False, S);
-
-    //* check what authentication methods are available */
-    userauthlist := libssh2_userauth_list(FSession, PAnsiChar(FUserName), Length(FUserName));
-
-    if (strpos(userauthlist, 'password') <> nil) then
-    begin
-      I:= libssh2_userauth_password(FSession, PAnsiChar(FUserName), PAnsiChar(FPassword));
-      if I <> 0 then
+      if libssh2_session_handshake(FSession, FSock.Socket) <> 0 then
       begin
-        DoStatus(False, 'Authentication by password failed');
+        DoStatus(False, 'Cannot establishing SSH session');
         Exit(False);
       end;
-    end
-    else if (strpos(userauthlist, 'keyboard-interactive') <> nil) then
-    begin
-      I:= libssh2_userauth_keyboard_interactive(FSession, PAnsiChar(FUserName), @userauth_kbdint);
-      if I <> 0 then
+      DoStatus(False, 'Connection established');
+      FingerPrint := libssh2_hostkey_hash(FSession, LIBSSH2_HOSTKEY_HASH_SHA1);
+      S:= 'Server fingerprint:';
+      for I:= Low(FingerPrint) to High(FingerPrint) do
       begin
-        DoStatus(False, 'Authentication by keyboard-interactive failed');
+        S:= S + #32 + IntToHex(Ord(FingerPrint[i]), 2);
+      end;
+      DoStatus(False, S);
+
+      //* check what authentication methods are available */
+      userauthlist := libssh2_userauth_list(FSession, PAnsiChar(FUserName), Length(FUserName));
+
+      if (strpos(userauthlist, 'password') <> nil) then
+      begin
+        I:= libssh2_userauth_password(FSession, PAnsiChar(FUserName), PAnsiChar(FPassword));
+        if I <> 0 then
+        begin
+          DoStatus(False, 'Authentication by password failed');
+          Exit(False);
+        end;
+      end
+      else if (strpos(userauthlist, 'keyboard-interactive') <> nil) then
+      begin
+        I:= libssh2_userauth_keyboard_interactive(FSession, PAnsiChar(FUserName), @userauth_kbdint);
+        if I <> 0 then
+        begin
+          DoStatus(False, 'Authentication by keyboard-interactive failed');
+          Exit(False);
+        end;
+      end
+      else if (strpos(userauthlist, 'publickey') <> nil) then
+      begin
+        DoStatus(False, 'Authentication by publickey is not supported!');
         Exit(False);
       end;
-    end
-    else if (strpos(userauthlist, 'publickey') <> nil) then
-    begin
-      DoStatus(False, 'Authentication by publickey is not supported!');
-      Exit(False);
+
+      DoStatus(False, 'Authentication succeeded');
+      FSFTPSession := libssh2_sftp_init(FSession);
+
+      Result:= Assigned(FSFTPSession);
+    finally
+      if not Result then begin
+        libssh2_session_free(FSession);
+        FSock.CloseSocket;
+      end;
     end;
-
-    DoStatus(False, 'Authentication succeeded');
-    FSFTPSession := libssh2_sftp_init(FSession);
-
   end;
-  Result:= Assigned(FSFTPSession);
 end;
 
 constructor TSftpSend.Create(const Encoding: String);
