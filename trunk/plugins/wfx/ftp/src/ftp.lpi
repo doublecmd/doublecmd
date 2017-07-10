@@ -29,7 +29,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk;..\synapse"/>
-            <OtherUnitFiles Value="..\synapse;..\..\..\..\sdk"/>
+            <OtherUnitFiles Value="..\synapse;..\..\..\..\sdk;sftp"/>
             <UnitOutputDirectory Value="..\lib"/>
           </SearchPaths>
           <Conditionals Value="if (TargetCPU &lt;> 'arm') then
@@ -95,7 +95,7 @@ end;"/>
         <PackageName Value="LazUtils"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="6">
       <Unit0>
         <Filename Value="ftp.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -122,6 +122,11 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="FtpAdv"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="sftp\sftpsend.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SftpSend"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -132,7 +137,7 @@ end;"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk;..\synapse"/>
-      <OtherUnitFiles Value="..\synapse;..\..\..\..\sdk"/>
+      <OtherUnitFiles Value="..\synapse;..\..\..\..\sdk;sftp"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <Conditionals Value="if (TargetCPU &lt;> 'arm') then
