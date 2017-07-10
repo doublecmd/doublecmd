@@ -43,6 +43,7 @@ type
     PassiveMode: Boolean;
     AutoTLS: Boolean;
     FullSSL: Boolean;
+    OpenSSH: Boolean;
     UseAllocate: Boolean;
     Encoding: AnsiString;
     InitCommands: AnsiString;
@@ -105,7 +106,7 @@ implementation
 
 uses
   IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs, LazFileUtils,
-  LazUTF8, DCClassesUtf8;
+  LazUTF8, DCClassesUtf8, SftpSend;
 
 var
   DefaultIniName: String;
@@ -154,6 +155,7 @@ begin
     Connection.PassiveMode:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'PassiveMode', True);
     Connection.AutoTLS:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'AutoTLS', False);
     Connection.FullSSL:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'FullSSL', False);
+    Connection.OpenSSH:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'OpenSSH', False);
     Connection.UseAllocate:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'UseAllocate', False);
     Connection.InitCommands := IniFile.ReadString('FTP', 'Connection' + sIndex + 'InitCommands', EmptyStr);
     // add connection to connection list
@@ -188,6 +190,7 @@ begin
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'PassiveMode', Connection.PassiveMode);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'AutoTLS', Connection.AutoTLS);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'FullSSL', Connection.FullSSL);
+    IniFile.WriteBool('FTP', 'Connection' + sIndex + 'OpenSSH', Connection.OpenSSH);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'UseAllocate', Connection.UseAllocate);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'InitCommands', Connection.InitCommands);
   end;
@@ -295,7 +298,11 @@ begin
       if I >= 0 then
       begin
         Connection := TConnection(ConnectionList.Objects[I]);
-        FtpSend := TFTPSendEx.Create(Connection.Encoding);
+        if Connection.OpenSSH then
+          FtpSend := TSftpSend.Create(Connection.Encoding)
+        else begin
+          FtpSend := TFTPSendEx.Create(Connection.Encoding);
+        end;
         FtpSend.TargetHost := Connection.Host;
         FtpSend.PassiveMode:= Connection.PassiveMode;
         FtpSend.AutoTLS:= Connection.AutoTLS;

@@ -1,4 +1,4 @@
-unit SFtpSend;
+unit SftpSend;
 
 {$mode delphi}
 
@@ -9,9 +9,9 @@ uses
 
 type
 
-  { TSFtpSend }
+  { TSftpSend }
 
-  TSFtpSend = class(TFTPSendEx)
+  TSftpSend = class(TFTPSendEx)
   private
     FLastError: Integer;
     SourceName, TargetName: PWideChar;
@@ -59,9 +59,9 @@ procedure userauth_kbdint(const name: PAnsiChar; name_len: cint;
                           responses: PLIBSSH2_USERAUTH_KBDINT_RESPONSE; abstract: PPointer); cdecl;
 var
   I: Integer;
-  Sender: TSFtpSend;
+  Sender: TSftpSend;
 begin
-  Sender:= TSFtpSend(abstract^);
+  Sender:= TSftpSend(abstract^);
   for I:= 0 to num_prompts - 1 do
   begin
     if (I = 0) and (Length(Sender.FPassword) > 0) then
@@ -73,15 +73,15 @@ begin
   end;
 end;
 
-{ TSFtpSend }
+{ TSftpSend }
 
-procedure TSFtpSend.DoProgress(Percent: Int64);
+procedure TSftpSend.DoProgress(Percent: Int64);
 begin
   if ProgressProc(PluginNumber, SourceName, TargetName, Percent) = 1 then
     raise EUserAbort.Create(EmptyStr);
 end;
 
-function TSFtpSend.FileClose(Handle: Pointer): Boolean;
+function TSftpSend.FileClose(Handle: Pointer): Boolean;
 begin
   FLastError:= 0;
   if Assigned(Handle) then
@@ -92,7 +92,7 @@ begin
   Result:= (FLastError = 0);
 end;
 
-function TSFtpSend.Connect: Boolean;
+function TSftpSend.Connect: Boolean;
 const
   HOSTKEY_SIZE = 20;
 var
@@ -162,7 +162,7 @@ begin
   Result:= Assigned(FSFTPSession);
 end;
 
-constructor TSFtpSend.Create(const Encoding: String);
+constructor TSftpSend.Create(const Encoding: String);
 begin
   FCurrentDir:= '/';
   inherited Create(Encoding);
@@ -170,12 +170,12 @@ begin
   FCanResume := True;
 end;
 
-function TSFtpSend.Login: Boolean;
+function TSftpSend.Login: Boolean;
 begin
   Result:= Connect;
 end;
 
-function TSFtpSend.Logout: Boolean;
+function TSftpSend.Logout: Boolean;
 begin
   Result:= libssh2_sftp_shutdown(FSFTPSession) = 0;
   libssh2_session_disconnect(FSession, 'Thank you for using sshtest');
@@ -183,12 +183,12 @@ begin
   FSock.CloseSocket;
 end;
 
-function TSFtpSend.GetCurrentDir: String;
+function TSftpSend.GetCurrentDir: String;
 begin
   Result:= FCurrentDir;
 end;
 
-function TSFtpSend.FileSize(const FileName: String): Int64;
+function TSftpSend.FileSize(const FileName: String): Int64;
 var
   Attributes: LIBSSH2_SFTP_ATTRIBUTES;
 begin
@@ -200,7 +200,7 @@ begin
   Result:= -1;
 end;
 
-function TSFtpSend.CreateDir(const Directory: string): Boolean;
+function TSftpSend.CreateDir(const Directory: string): Boolean;
 var
   Return: Integer;
   Attributes: LIBSSH2_SFTP_ATTRIBUTES;
@@ -216,22 +216,22 @@ begin
   Result:= (Return = 0);
 end;
 
-function TSFtpSend.DeleteDir(const Directory: string): Boolean;
+function TSftpSend.DeleteDir(const Directory: string): Boolean;
 begin
   Result:= libssh2_sftp_rmdir(FSFTPSession, PAnsiChar(Directory)) = 0;
 end;
 
-function TSFtpSend.DeleteFile(const FileName: string): Boolean;
+function TSftpSend.DeleteFile(const FileName: string): Boolean;
 begin
   Result:= libssh2_sftp_unlink(FSFTPSession, PAnsiChar(FileName)) = 0;
 end;
 
-function TSFtpSend.ExecuteCommand(const Command: String): Boolean;
+function TSftpSend.ExecuteCommand(const Command: String): Boolean;
 begin
   Result:= False;
 end;
 
-function TSFtpSend.ChangeWorkingDir(const Directory: string): Boolean;
+function TSftpSend.ChangeWorkingDir(const Directory: string): Boolean;
 var
   Attributes: LIBSSH2_SFTP_ATTRIBUTES;
 begin
@@ -239,12 +239,12 @@ begin
   if Result then FCurrentDir:= Directory;
 end;
 
-function TSFtpSend.RenameFile(const OldName, NewName: string): Boolean;
+function TSftpSend.RenameFile(const OldName, NewName: string): Boolean;
 begin
   Result:= libssh2_sftp_rename(FSFTPSession, PAnsiChar(OldName), PAnsiChar(NewName)) = 0;
 end;
 
-function TSFtpSend.ChangeMode(const FileName, Mode: String): Boolean;
+function TSftpSend.ChangeMode(const FileName, Mode: String): Boolean;
 var
   Attributes: LIBSSH2_SFTP_ATTRIBUTES;
 begin
@@ -253,7 +253,7 @@ begin
   Result:= libssh2_sftp_setstat(FSFTPSession, PAnsiChar(FileName), @Attributes) = 0;
 end;
 
-function TSFtpSend.StoreFile(const FileName: string; Restore: Boolean): Boolean;
+function TSftpSend.StoreFile(const FileName: string; Restore: Boolean): Boolean;
 var
   Index: PtrInt;
   FBuffer: PByte;
@@ -338,7 +338,7 @@ begin
   end;
 end;
 
-function TSFtpSend.RetrieveFile(const FileName: string; FileSize: Int64;
+function TSftpSend.RetrieveFile(const FileName: string; FileSize: Int64;
   Restore: Boolean): Boolean;
 var
   FBuffer: PByte;
@@ -407,13 +407,13 @@ begin
   end;
 end;
 
-function TSFtpSend.FsFindFirstW(const Path: String; var FindData: TWin32FindDataW): Pointer;
+function TSftpSend.FsFindFirstW(const Path: String; var FindData: TWin32FindDataW): Pointer;
 begin
   Result := libssh2_sftp_opendir(FSFTPSession, PAnsiChar(Path));
   if Assigned(Result) then FsFindNextW(Result, FindData);
 end;
 
-function TSFtpSend.FsFindNextW(Handle: Pointer; var FindData: TWin32FindDataW): BOOL;
+function TSftpSend.FsFindNextW(Handle: Pointer; var FindData: TWin32FindDataW): BOOL;
 var
   Return: Integer;
   Attributes: LIBSSH2_SFTP_ATTRIBUTES;
@@ -436,12 +436,12 @@ begin
   end;
 end;
 
-function TSFtpSend.FsFindClose(Handle: Pointer): Integer;
+function TSftpSend.FsFindClose(Handle: Pointer): Integer;
 begin
   Result:= libssh2_sftp_closedir(Handle);
 end;
 
-function TSFtpSend.FsSetTime(const FileName: String; LastAccessTime,
+function TSftpSend.FsSetTime(const FileName: String; LastAccessTime,
   LastWriteTime: WfxPlugin.PFileTime): BOOL;
 var
   Attributes: LIBSSH2_SFTP_ATTRIBUTES;
