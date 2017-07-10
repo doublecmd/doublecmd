@@ -76,6 +76,7 @@ type
     procedure btnSelViewFntClick(Sender: TObject);
     procedure btnSelLogFntClick(Sender: TObject);
     procedure btnSelViewerBookFntClick(Sender: TObject);
+    procedure edtConsoleFontExit(Sender: TObject);
     procedure edtConsoleFontSizeChange(Sender: TObject);
     procedure edtEditorFontExit(Sender: TObject);
     procedure edtEditorFontSizeChange(Sender: TObject);
@@ -143,6 +144,11 @@ end;
 procedure TfrmOptionsFonts.btnSelViewerBookFntClick(Sender: TObject);
 begin
   RunDialogFont(dcfViewerBook);
+end;
+
+procedure TfrmOptionsFonts.edtConsoleFontExit(Sender: TObject);
+begin
+  SetFontName(dcfConsole, TEdit(Sender).Text);
 end;
 
 procedure TfrmOptionsFonts.edtConsoleFontSizeChange(Sender: TObject);

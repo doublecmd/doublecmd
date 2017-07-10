@@ -342,7 +342,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
-    OnExit = edtLogFontExit
+    OnExit = edtConsoleFontExit
     TabOrder = 15
   end
   object lblConsoleFont: TLabel[23]
