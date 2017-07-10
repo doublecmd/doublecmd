@@ -192,6 +192,10 @@ begin
       HeaderData.FileTime     := NativeLastModFileTime;
       HeaderData.FileAttr     := NativeFileAttributes;
 
+      if IsEncrypted then begin
+        HeaderData.Flags      := RHDF_ENCRYPTED;
+      end;
+
       if IsDirectory then begin
         HeaderData.FileAttr   := HeaderData.FileAttr or faFolder;
       end;
