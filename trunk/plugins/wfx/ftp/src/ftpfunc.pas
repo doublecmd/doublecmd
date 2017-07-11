@@ -77,6 +77,8 @@ function FsDisconnectW(DisconnectRoot: PWideChar): BOOL; dcpcall;
 procedure FsSetCryptCallbackW(pCryptProc: TCryptProcW; CryptoNr, Flags: Integer); dcpcall;
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); dcpcall;
 procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); dcpcall;
+procedure FsStatusInfoW(RemoteDir: PWideChar; InfoStartEnd, InfoOperation: Integer); dcpcall;
+function FsGetBackgroundFlags: Integer; dcpcall;
 { Network API }
 {
 procedure FsNetworkGetSupportedProtocols(Protocols: PAnsiChar; MaxLen: LongInt); dcpcall;
@@ -114,6 +116,9 @@ var
   IniFile: TIniFile;
   HasDialogAPI: Boolean = False;
   ListLock: TCriticalSection;
+
+threadvar
+  ThreadCon: TFtpSendEx;
 
 const
   cAddConnection = '<Add connection>';
@@ -522,7 +527,14 @@ begin
   Result := False;
   if (ExtractFileDir(sPath) = PathDelim) then Exit;
   sConnName := ExtractConnectionName(UTF16ToUTF8(sPath));
-  Result:= FtpConnect(sConnName, FtpSend);
+  if Assigned(ThreadCon) then
+  begin
+    Result:= True;
+    FtpSend:= ThreadCon;
+  end
+  else begin
+    Result:= FtpConnect(sConnName, FtpSend);
+  end;
   if Result then begin
     RemotePath:= FtpSend.ClientToServer(sPath);
     RemotePath:= ExtractRemoteFileName(RemotePath);
@@ -888,6 +900,40 @@ begin
   ConnectionList := TStringList.Create;
   ActiveConnectionList := TStringList.Create;
   DefaultIniName:= ExtractFileName(dps.DefaultIniName);
+end;
+
+procedure FsStatusInfoW(RemoteDir: PWideChar; InfoStartEnd, InfoOperation: Integer); dcpcall;
+var
+  FtpSend: TFtpSendEx;
+  RemotePath: AnsiString;
+begin
+  if (InfoOperation in [FS_STATUS_OP_GET_MULTI_THREAD, FS_STATUS_OP_PUT_MULTI_THREAD]) then
+  begin
+    if InfoStartEnd = FS_STATUS_START then
+    begin
+      if GetConnectionByPath(RemoteDir, FtpSend, RemotePath) then
+      begin
+        LogProc(PluginNumber, msgtype_details, 'Create background connection');
+        ThreadCon:= FtpSend.Clone;
+        if not ThreadCon.Login then
+        begin
+          FreeAndNil(ThreadCon);
+          LogProc(PluginNumber, msgtype_importanterror, 'Cannot create background connection, use foreground');
+        end;
+      end;
+    end
+    else if Assigned(ThreadCon) then
+    begin
+      LogProc(PluginNumber, msgtype_details, 'Destroy background connection');
+      ThreadCon.Logout;
+      FreeAndNil(ThreadCon);
+    end;
+  end;
+end;
+
+function FsGetBackgroundFlags: Integer; dcpcall;
+begin
+  Result:= BG_DOWNLOAD or BG_UPLOAD or BG_ASK_USER;
 end;
 
 {
