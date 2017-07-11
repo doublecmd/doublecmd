@@ -43,6 +43,8 @@ exports
   FsSetCryptCallbackW,
   FsGetDefRootName,
   FsSetDefaultParams,
+  FsStatusInfoW,
+  FsGetBackgroundFlags,
   {
   FsNetworkGetSupportedProtocols,
   FsNetworkGetConnection,
