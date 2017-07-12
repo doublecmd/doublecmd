@@ -1307,25 +1307,16 @@ end;
 
 { TfrmOptionsDirectoryHotlist.btnActionClick }
 procedure TfrmOptionsDirectoryHotlist.btnActionClick(Sender: TObject);
-  procedure ShowPopupMenu(APopupMenu: TPopupMenu; ABitBtn: TBitBtn);
-  var
-    ptPopupLocation: TPoint;
-  begin
-    ptPopupLocation := ABitBtn.ClientToScreen(Point(ABitBtn.Width - 10, ABitBtn.Height - 10));
-    Mouse.CursorPos := Point(ptPopupLocation.x + 250, ptPopupLocation.y + 10);
-    APopupMenu.PopUp(ptPopupLocation.x, ptPopupLocation.y);
-  end;
-
 begin
   case TComponent(Sender).tag of
-    1: ShowPopupMenu(pmInsertDirectoryHotlist, btnInsert);
-    2: ShowPopupMenu(pmAddDirectoryHotlist, btnAdd);
-    3: ShowPopupMenu(pmDeleteDirectoryHotlist, btnDelete);
-    4: ShowPopupMenu(pmExportDirectoryHotlist, btnExport);
-    5: ShowPopupMenu(pmImportDirectoryHotlist, btnImport);
-    6: ShowPopupMenu(pmBackupDirectoryHotlist, btnBackup);
-    7: ShowPopupMenu(pmMiscellaneousDirectoryHotlist, btnMiscellaneous);
-    8: ShowPopupMenu(pmSortDirectoryHotlist, btnSort);
+    1: pmInsertDirectoryHotlist.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+    2: pmAddDirectoryHotlist.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+    3: pmDeleteDirectoryHotlist.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+    4: pmExportDirectoryHotlist.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+    5: pmImportDirectoryHotlist.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+    6: pmBackupDirectoryHotlist.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+    7: pmMiscellaneousDirectoryHotlist.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+    8: pmSortDirectoryHotlist.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
   end;
 end;
 
