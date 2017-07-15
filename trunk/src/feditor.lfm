@@ -90,8 +90,6 @@ object frmEditor: TfrmEditor
     ParentFont = False
     PopupMenu = pmContextMenu
     TabOrder = 0
-    OnKeyDown = EditorKeyDown
-    OnKeyPress = EditorKeyPress
     OnMouseWheelDown = EditorMouseWheelDown
     OnMouseWheelUp = EditorMouseWheelUp
     BookMarkOptions.Xoffset = 48
