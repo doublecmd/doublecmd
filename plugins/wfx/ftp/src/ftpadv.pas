@@ -64,7 +64,7 @@ type
     FileSize: Int64;
     PluginNumber: Integer;
     ProgressProc: TProgressProcW;
-    RemoteName, LocalName: PWideChar;
+    SourceName, TargetName: PWideChar;
   private
     procedure DoProgress(Result: Integer);
   public
@@ -207,7 +207,7 @@ var
 begin
   DoneSize += Result;
   Percent:= DoneSize * 100 div FileSize;
-  if ProgressProc(PluginNumber, LocalName, RemoteName, Percent) = 1 then
+  if ProgressProc(PluginNumber, SourceName, TargetName, Percent) = 1 then
     raise EUserAbort.Create(EmptyStr);
 end;
 
@@ -660,8 +660,8 @@ begin
 
   SendStream.PluginNumber:= PluginNumber;
   SendStream.ProgressProc:= ProgressProc;
-  SendStream.LocalName:= PWideChar(UTF8Decode(FDirectFileName));
-  SendStream.RemoteName:= PWideChar(ServerToClient(FileName));
+  SendStream.TargetName:= PWideChar(ServerToClient(FileName));
+  SendStream.SourceName:= PWideChar(UTF8Decode(FDirectFileName));
 
   try
     if not DataSocket then Exit;
@@ -708,8 +708,8 @@ begin
   RetrStream.FileSize := FileSize;
   RetrStream.PluginNumber := PluginNumber;
   RetrStream.ProgressProc := ProgressProc;
-  RetrStream.LocalName := PWideChar(UTF8Decode(FDirectFileName));
-  RetrStream.RemoteName := PWideChar(ServerToClient(FileName));
+  RetrStream.SourceName := PWideChar(ServerToClient(FileName));
+  RetrStream.TargetName := PWideChar(UTF8Decode(FDirectFileName));
 
   try
     FTPCommand('TYPE I');
