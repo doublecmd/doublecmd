@@ -148,6 +148,7 @@ begin
   repeat
     FLastError:= libssh2_sftp_close(Handle);
     DoProgress(100);
+    FSock.CanRead(10);
   until FLastError <> LIBSSH2_ERROR_EAGAIN;
   Result:= (FLastError = 0);
 end;
@@ -263,6 +264,7 @@ begin
   repeat
     FLastError:= libssh2_sftp_stat(FSFTPSession, PAnsiChar(FileName), @Attributes);
     if (FLastError = 0) then Exit(Attributes.filesize);
+    FSock.CanRead(10);
     DoProgress(0);
   until FLastError <> LIBSSH2_ERROR_EAGAIN;
   Result:= -1;
@@ -332,7 +334,7 @@ var
   BytesToWrite: Integer;
   SendStream: TFileStreamEx;
   TotalBytesToWrite: Int64 = 0;
-  TargetHandle: PLIBSSH2_SFTP_HANDLE;
+  TargetHandle: PLIBSSH2_SFTP_HANDLE = nil;
   Flags: cint = LIBSSH2_FXF_CREAT or LIBSSH2_FXF_WRITE;
 begin
   SendStream := TFileStreamEx.Create(FDirectFileName, fmOpenRead or fmShareDenyWrite);
@@ -368,6 +370,7 @@ begin
         FLastError:= libssh2_session_last_errno(FSession);
         if (FLastError <> LIBSSH2_ERROR_EAGAIN) then Exit(False);
         DoProgress((FileSize - TotalBytesToWrite) * 100 div FileSize);
+        FSock.CanRead(10);
       end;
     until not ((TargetHandle = nil) and (FLastError = LIBSSH2_ERROR_EAGAIN));
 
@@ -388,6 +391,7 @@ begin
           BytesWritten:= libssh2_sftp_write(TargetHandle, FBuffer + Index, BytesToWrite);
           if BytesWritten = LIBSSH2_ERROR_EAGAIN then begin
             DoProgress((FileSize - TotalBytesToWrite) * 100 div FileSize);
+            FSock.CanRead(10);
           end;
         until BytesWritten <> LIBSSH2_ERROR_EAGAIN;
         if (BytesWritten < 0) then Exit(False);
@@ -437,6 +441,7 @@ begin
         FLastError:= libssh2_session_last_errno(FSession);
         if (FLastError <> LIBSSH2_ERROR_EAGAIN) then Exit(False);
         DoProgress((FileSize - TotalBytesToRead) * 100 div FileSize);
+        FSock.CanRead(10);
       end;
     until not ((SourceHandle = nil) and (FLastError = LIBSSH2_ERROR_EAGAIN));
 
@@ -453,6 +458,7 @@ begin
           BytesRead := libssh2_sftp_read(SourceHandle, PAnsiChar(FBuffer), SMB_BUFFER_SIZE);
           if BytesRead = LIBSSH2_ERROR_EAGAIN then begin
             DoProgress((FileSize - TotalBytesToRead) * 100 div FileSize);
+            FSock.CanRead(10);
           end;
         until BytesRead <> LIBSSH2_ERROR_EAGAIN;
 
