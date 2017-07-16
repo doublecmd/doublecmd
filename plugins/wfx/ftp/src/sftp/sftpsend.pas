@@ -1,6 +1,7 @@
 unit SftpSend;
 
 {$mode delphi}
+{$pointermath on}
 
 interface
 
@@ -14,6 +15,7 @@ type
   TSftpSend = class(TFTPSendEx)
   private
     FLastError: Integer;
+    FSavedPassword: Boolean;
     SourceName, TargetName: PWideChar;
     procedure DoProgress(Percent: Int64);
     function FileClose(Handle: Pointer): Boolean;
@@ -48,7 +50,7 @@ type
 implementation
 
 uses
-  DCBasicTypes, DCDateTimeUtils, DCStrUtils, DCOSUtils, FtpFunc, CTypes,
+  LazUTF8, DCBasicTypes, DCDateTimeUtils, DCStrUtils, DCOSUtils, FtpFunc, CTypes,
   DCClassesUtf8, DCFileAttributes;
 
 const
@@ -59,17 +61,52 @@ procedure userauth_kbdint(const name: PAnsiChar; name_len: cint;
                           num_prompts: cint; const prompts: PLIBSSH2_USERAUTH_KBDINT_PROMPT;
                           responses: PLIBSSH2_USERAUTH_KBDINT_RESPONSE; abstract: PPointer); cdecl;
 var
+  S: String;
   I: Integer;
   Sender: TSftpSend;
+  Title, Message, Password: UnicodeString;
 begin
   Sender:= TSftpSend(abstract^);
   for I:= 0 to num_prompts - 1 do
   begin
-    if (I = 0) and (Length(Sender.FPassword) > 0) then
+    if (I = 0) and (Length(Sender.FPassword) > 0) and (not Sender.FSavedPassword) then
     begin
+      Sender.FSavedPassword:= True;
       responses^.text:= GetMem(Length(Sender.FPassword) + 1);
       StrCopy(responses^.text, PAnsiChar(Sender.FPassword));
       responses^.length:= Length(Sender.FPassword);
+    end
+    else begin
+      Title:= EmptyWideStr;
+      Message:= EmptyWideStr;
+      if Assigned(instruction) and (instruction_len > 0) then
+      begin
+        SetString(S, instruction, instruction_len);
+        Message:= Sender.ServerToClient(S) + LineEnding;
+      end;
+      if Assigned(prompts[I].text) and (prompts[I].length > 0) then
+      begin
+        SetString(S, prompts[I].text, prompts[I].length);
+        Message+= Sender.ServerToClient(S);
+      end;
+      if Assigned(name) and (name_len > 0) then
+      begin
+        SetString(S, name, name_len);
+        Title:= Sender.ServerToClient(S) + #32;
+      end;
+      SetLength(Password, MAX_PATH + 1);
+      Title+= 'sftp://' + UTF8ToUTF16(Sender.UserName + '@' + Sender.TargetHost);
+      if not RequestProc(PluginNumber, RT_Password, PWideChar(Title), PWideChar(Message), PWideChar(Password), MAX_PATH) then
+      begin
+        responses^.text:= nil;
+        responses^.length:= 0;
+      end
+      else begin
+        Sender.FPassword:= Sender.ClientToServer(Password);
+        responses^.text:= GetMem(Length(Sender.FPassword) + 1);
+        StrCopy(responses^.text, PAnsiChar(Sender.FPassword));
+        responses^.length:= Length(Sender.FPassword);
+      end;
     end;
   end;
 end;
@@ -136,20 +173,21 @@ begin
       if (strpos(userauthlist, 'password') <> nil) then
       begin
         I:= libssh2_userauth_password(FSession, PAnsiChar(FUserName), PAnsiChar(FPassword));
-        if I <> 0 then
-        begin
+        if I <> 0 then begin
           DoStatus(False, 'Authentication by password failed');
           Exit(False);
         end;
       end
       else if (strpos(userauthlist, 'keyboard-interactive') <> nil) then
       begin
+        FSavedPassword:= False;
+        libssh2_session_set_timeout(FSession, 0);
         I:= libssh2_userauth_keyboard_interactive(FSession, PAnsiChar(FUserName), @userauth_kbdint);
-        if I <> 0 then
-        begin
+        if I <> 0 then begin
           DoStatus(False, 'Authentication by keyboard-interactive failed');
           Exit(False);
         end;
+        libssh2_session_set_timeout(FSession, FTimeout);
       end
       else if (strpos(userauthlist, 'publickey') <> nil) then
       begin
