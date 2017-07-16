@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2017-06-06 10:43+0400\n"
+"PO-Revision-Date: 2017-07-16 18:27+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2352,7 +2352,7 @@ msgstr "Выделить все файлы по текущему имени и �
 
 #: tfrmmain.actmarkcurrentpath.caption
 msgid "Select all in same path"
-msgstr "Выделить всё с этим путём"
+msgstr "Выделить все с этим путём"
 
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
@@ -3990,7 +3990,7 @@ msgstr "Обновлять список файлов"
 #: tfrmoptionsbehavior.cbalwaysshowtrayicon.caption
 msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Al&ways show tray icon"
-msgstr "Вс&егда показывать иконку в трее"
+msgstr "Вс&егда показывать значок в трее"
 
 #: tfrmoptionsbehavior.cbblacklistunmounteddevices.caption
 msgid "Automatically &hide unmounted devices"
@@ -4511,7 +4511,7 @@ msgstr "Сохранить"
 #: tfrmoptionscustomcolumns.cballowovercolor.caption
 msgctxt "tfrmoptionscustomcolumns.cballowovercolor.caption"
 msgid "Allow Overcolor"
-msgstr "Раскраска файлов"
+msgstr "Разрешить наложение цвета"
 
 #: tfrmoptionscustomcolumns.cbapplychangeforallcolumns.caption
 msgid "When clicking to change something, change for all columns"
@@ -4622,15 +4622,15 @@ msgstr "Позиция панели после сравнения:"
 
 #: tfrmoptionsdirectoryhotlist.actaddactiveframedir.caption
 msgid "Add directory of the &active frame"
-msgstr ""
+msgstr "Добавить каталог &активной вкладки"
 
 #: tfrmoptionsdirectoryhotlist.actaddbothframedir.caption
 msgid "Add &directories of the active && inactive frames"
-msgstr ""
+msgstr "Добавить каталоги активной &и неактивной вкладок"
 
 #: tfrmoptionsdirectoryhotlist.actaddbrowseddir.caption
 msgid "Add directory I will bro&wse to"
-msgstr ""
+msgstr "Диалог выбора &каталога"
 
 #: tfrmoptionsdirectoryhotlist.actaddcopyofentry.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actaddcopyofentry.caption"
@@ -4639,7 +4639,7 @@ msgstr "Добавить копию выделенного элемента"
 
 #: tfrmoptionsdirectoryhotlist.actaddselectionsfromframe.caption
 msgid "Add current &selected or active directories of active frame"
-msgstr ""
+msgstr "Добавить &выделенные или каталог под курсором в активной вкладке"
 
 #: tfrmoptionsdirectoryhotlist.actaddseparator.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actaddseparator.caption"
@@ -4648,12 +4648,12 @@ msgstr "Добавить разделитель"
 
 #: tfrmoptionsdirectoryhotlist.actaddsubmenu.caption
 msgid "Add a sub menu"
-msgstr ""
+msgstr "Добавить подменю"
 
 #: tfrmoptionsdirectoryhotlist.actaddtypeddir.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actaddtypeddir.caption"
 msgid "Add directory I will type"
-msgstr "Добавить каталог вручную"
+msgstr "Добавить вручную"
 
 #: tfrmoptionsdirectoryhotlist.actcollapseall.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actcollapseall.caption"
@@ -4662,164 +4662,161 @@ msgstr "Свернуть все"
 
 #: tfrmoptionsdirectoryhotlist.actcollapseitem.caption
 msgid "Collapse item"
-msgstr ""
+msgstr "Свернуть элемент"
 
 #: tfrmoptionsdirectoryhotlist.actcut.caption
 msgid "Cut selection of entries"
-msgstr ""
+msgstr "Вырезать выделенные элементы"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteall.caption
 msgid "Delete all!"
-msgstr ""
+msgstr "Удалить все!"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteselecteditem.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.actdeleteselecteditem.caption"
 msgid "Delete selected item"
 msgstr "Удалить выделенный элемент"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenuandelem.caption
 msgid "Delete sub-menu and all its elements"
-msgstr ""
+msgstr "Удалить подменю и все его элементы"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenukeepelem.caption
 msgid "Delete just sub-menu but keep elements"
-msgstr ""
+msgstr "Удалить подменю, но оставить все его элементы"
 
 #: tfrmoptionsdirectoryhotlist.actexpanditem.caption
 msgid "Expand item"
-msgstr ""
+msgstr "Развернуть элемент"
 
 #: tfrmoptionsdirectoryhotlist.actfocustreewindow.caption
 msgid "Focus tree window"
-msgstr ""
+msgstr "Фокус на дерево элементов"
 
 #: tfrmoptionsdirectoryhotlist.actgotofirstitem.caption
 msgid "Goto first item"
-msgstr ""
+msgstr "Перейти к первому элементу"
 
 #: tfrmoptionsdirectoryhotlist.actgotolastitem.caption
 msgid "Goto last item"
-msgstr ""
+msgstr "Перейти к последнему элементу"
 
 #: tfrmoptionsdirectoryhotlist.actgotonextitem.caption
 msgid "Go to next item"
-msgstr ""
+msgstr "Перейти к следующему элементу"
 
 #: tfrmoptionsdirectoryhotlist.actgotopreviousitem.caption
 msgid "Go to previous item"
-msgstr ""
+msgstr "Перейти к предыдущему элементу"
 
 #: tfrmoptionsdirectoryhotlist.actinsertactiveframedir.caption
 msgid "Insert directory of the &active frame"
-msgstr ""
+msgstr "Вставить каталог &активной вкладки"
 
 #: tfrmoptionsdirectoryhotlist.actinsertbothframedir.caption
 msgid "Insert &directories of the active && inactive frames"
-msgstr ""
+msgstr "Вставить каталоги активной &и неактивной вкладок"
 
 #: tfrmoptionsdirectoryhotlist.actinsertbrowseddir.caption
 msgid "Insert directory I will bro&wse to"
-msgstr ""
+msgstr "Диалог выбора &каталога"
 
 #: tfrmoptionsdirectoryhotlist.actinsertcopyofentry.caption
 msgid "Insert a copy of the selected entry"
-msgstr ""
+msgstr "Вставить копию выделенного элемента"
 
 #: tfrmoptionsdirectoryhotlist.actinsertselectionsfromframe.caption
 msgid "Insert current &selected or active directories of active frame"
-msgstr ""
+msgstr "Вставить &выделенные или каталог под курсором в активной вкладке"
 
 #: tfrmoptionsdirectoryhotlist.actinsertseparator.caption
 msgid "Insert a separator"
-msgstr ""
+msgstr "Вставить разделитель"
 
 #: tfrmoptionsdirectoryhotlist.actinsertsubmenu.caption
 msgid "Insert sub menu"
-msgstr ""
+msgstr "Вставить подменю"
 
 #: tfrmoptionsdirectoryhotlist.actinserttypeddir.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.actinserttypeddir.caption"
 msgid "Insert directory I will type"
-msgstr "Диалог выбора каталога"
+msgstr "Вставить вручную"
 
 #: tfrmoptionsdirectoryhotlist.actmovetonext.caption
 msgid "Move to next"
-msgstr ""
+msgstr "Переместить вниз"
 
 #: tfrmoptionsdirectoryhotlist.actmovetoprevious.caption
 msgid "Move to previous"
-msgstr ""
+msgstr "Переместить вверх"
 
 #: tfrmoptionsdirectoryhotlist.actopenallbranches.caption
-#, fuzzy
 msgctxt "tfrmoptionsdirectoryhotlist.actopenallbranches.caption"
 msgid "Open all branches"
 msgstr "Развернуть все ветки"
 
 #: tfrmoptionsdirectoryhotlist.actpaste.caption
 msgid "Paste what was cut"
-msgstr ""
+msgstr "Вставить вырезаннное"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceinpath.caption
 msgid "Search && replace in &path"
-msgstr ""
+msgstr "Найти и заменить в &пути"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceinpathandtarget.caption
 msgid "Search && replace in both path and target"
-msgstr ""
+msgstr "&Найти и заменить в пути и целевом пути"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceintargetpath.caption
 msgid "Search && replace in &target path"
-msgstr ""
+msgstr "Найти и заменить в &целевом пути"
 
 #: tfrmoptionsdirectoryhotlist.acttweakpath.caption
 msgid "Tweak path"
-msgstr ""
+msgstr "Изменить путь"
 
 #: tfrmoptionsdirectoryhotlist.acttweaktargetpath.caption
 msgid "Tweak target path"
-msgstr ""
+msgstr "Изменить целевой путь"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnadd.caption"
 msgid "A&dd..."
-msgstr "Добавить..."
+msgstr "&Добавить..."
 
 #: tfrmoptionsdirectoryhotlist.btnbackup.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnbackup.caption"
 msgid "Bac&kup..."
-msgstr "Резервирование..."
+msgstr "Ре&зервирование..."
 
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btndelete.caption"
 msgid "De&lete..."
-msgstr "Удалить..."
+msgstr "&Удалить..."
 
 #: tfrmoptionsdirectoryhotlist.btnexport.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
 msgid "E&xport..."
-msgstr "Экспорт..."
+msgstr "&Экспорт..."
 
 #: tfrmoptionsdirectoryhotlist.btnhelp.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnhelp.caption"
 msgid "&Help"
-msgstr "Помощь"
+msgstr "Помо&щь"
 
 #: tfrmoptionsdirectoryhotlist.btnimport.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnimport.caption"
 msgid "Impo&rt..."
-msgstr "Импорт..."
+msgstr "&Импорт..."
 
 #: tfrmoptionsdirectoryhotlist.btninsert.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btninsert.caption"
 msgid "&Insert..."
-msgstr "Вставить..."
+msgstr "&Вставить..."
 
 #: tfrmoptionsdirectoryhotlist.btnmiscellaneous.caption
 msgid "&Miscellaneous..."
-msgstr "Разное..."
+msgstr "&Разное..."
 
 #: tfrmoptionsdirectoryhotlist.btnrelativepath.hint
 msgctxt "tfrmoptionsdirectoryhotlist.btnrelativepath.hint"
@@ -4829,29 +4826,29 @@ msgstr "Некоторые функции для выбора подходяще
 #: tfrmoptionsdirectoryhotlist.btnrelativetarget.hint
 msgctxt "tfrmoptionsdirectoryhotlist.btnrelativetarget.hint"
 msgid "Some functions to select appropriate target"
-msgstr "Некоторые функции для выбора подходящего назначения"
+msgstr "Некоторые функции для выбора целевого пути"
 
 #: tfrmoptionsdirectoryhotlist.btnsort.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnsort.caption"
 msgid "&Sort..."
-msgstr "Сортировать..."
+msgstr "&Сортировать..."
 
 #: tfrmoptionsdirectoryhotlist.cbaddtarget.caption
 msgid "&When adding directory, add also target"
-msgstr "При добавлении также добавить и целевой путь"
+msgstr "При добавлении также добавить и це&левой путь"
 
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
 msgctxt "tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption"
 msgid "Alwa&ys expand tree"
-msgstr "Всегда разворачивать дерево"
+msgstr "Все&гда разворачивать дерево"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
 msgid "Show only &valid environment variables"
-msgstr "Показывать только приемлемые переменные окружения"
+msgstr "Показывать только приемлемые п&еременные окружения"
 
 #: tfrmoptionsdirectoryhotlist.cbshowpathinpopup.caption
 msgid "In pop&up, show [path also]"
-msgstr "Показывать в меню также и [путь]"
+msgstr "Показывать в меню так&же и [путь]"
 
 #: tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text
 msgctxt "tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text"
@@ -4885,46 +4882,46 @@ msgstr "Путь:"
 #: tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption
 msgctxt "tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption"
 msgid "&Target:"
-msgstr "Целевой путь:"
+msgstr "&Целевой путь:"
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
 msgctxt "tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption"
 msgid "...current le&vel of item(s) selected only"
-msgstr "...текущий уровень элемента(ов), только выделенные"
+msgstr "...текущий &уровень элемента(ов), только выделенные"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathexist.caption
 msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathexist.caption"
 msgid "Scan all &hotdir's path to validate the ones that actually exist"
-msgstr "Проверить существование всех путей"
+msgstr "Проверить &существование всех путей"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption
 msgctxt "tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption"
 msgid "&Scan all hotdir's path && target to validate the ones that actually exist"
-msgstr "Проверить существование всех путей и целевых путей"
+msgstr "Проверить существование &всех путей и целевых путей"
 
 #: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
 msgid "to a Directory &Hotlist file (.hotlist)"
-msgstr "в файл Избранных каталогов (.hotlist)"
+msgstr "в файл &Избранных каталогов (.hotlist)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption"
 msgid "to a \"wincmd.ini\" of TC (&keep existing)"
-msgstr "в файл \"wincmd.ini\" TC (оставить существующие)"
+msgstr "в файл \"wincmd.ini\" TC (&оставить существующие)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption"
 msgid "to a \"wincmd.ini\" of TC (&erase existing)"
-msgstr "в файл \"wincmd.ini\" TC (удалить существующие)"
+msgstr "в файл \"wincmd.ini\" TC (&удалить существующие)"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption"
 msgid "Go to &configure TC related info"
-msgstr "Перейти к настройкам, связанным с TC"
+msgstr "Перейти к &настройкам, связанным с TC"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption"
 msgid "Go to &configure TC related info"
-msgstr "Перейти к настройкам, связанным с TC"
+msgstr "Перейти к &настройкам, связанным с TC"
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
 msgid "HotDirTestMenu"
@@ -4932,65 +4929,65 @@ msgstr ""
 
 #: tfrmoptionsdirectoryhotlist.miimportfromhotlistfile.caption
 msgid "from a Directory &Hotlist file (.hotlist)"
-msgstr "из файла Избранных каталогов (.hotlist)"
+msgstr "из файла &Избранных каталогов (.hotlist)"
 
 #: tfrmoptionsdirectoryhotlist.miimporttotalcommander.caption
 msgid "from \"&wincmd.ini\" of TC"
-msgstr "из файла \"wincmd.ini\" TC"
+msgstr "из &файла \"wincmd.ini\" ТС"
 
 #: tfrmoptionsdirectoryhotlist.minavigate.caption
 msgid "&Navigate..."
-msgstr ""
+msgstr "&Навигация..."
 
 #: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
 msgid "&Restore a backup of Directory Hotlist"
-msgstr "Восстановить Избранные каталоги из резервной копии"
+msgstr "&Восстановить Избранные каталоги из резервной копии"
 
 #: tfrmoptionsdirectoryhotlist.misavebackuphotlist.caption
 msgid "&Save a backup of current Directory Hotlist"
-msgstr "Сохранить резервную копию Избранных каталогов"
+msgstr "&Сохранить резервную копию Избранных каталогов"
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplace.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misearchandreplace.caption"
 msgid "Search and &replace..."
-msgstr "Найти и заменить..."
+msgstr "Найти и &заменить..."
 
 #: tfrmoptionsdirectoryhotlist.misorteverything.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misorteverything.caption"
 msgid "...everything, from A to &Z!"
-msgstr "...все, от А до Я!"
+msgstr "...все, от А до &Я!"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup.caption"
 msgid "...single &group of item(s) only"
-msgstr "...только одну группу элементов"
+msgstr "...только &одну группу элементов"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption"
 msgid "...&content of submenu(s) selected, no sublevel"
-msgstr "...содержимое выделенного(ых) подменю, но не подуровни"
+msgstr "...&содержимое выделенного(ых) подменю, но не подуровни"
 
 #: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption"
 msgid "...content of submenu(s) selected and &all sublevels"
-msgstr "...содержимое выделенного(ых) подменю и все подуровни"
+msgstr "...содержимое выделенного(ых) подменю и &все подуровни"
 
 #: tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption"
 msgid "Test resultin&g menu"
-msgstr "Проверить полученное меню"
+msgstr "Проверить полученное &меню"
 
 #: tfrmoptionsdirectoryhotlist.mitweakpath.caption
 msgid "Tweak &path"
-msgstr ""
+msgstr "Изменить &путь"
 
 #: tfrmoptionsdirectoryhotlist.mitweaktargetpath.caption
 msgid "Tweak &target path"
-msgstr ""
+msgstr "Изменить &целевой путь"
 
 #: tfrmoptionsdirectoryhotlist.rgwheretoadd.caption
 msgid "Addition from main panel"
-msgstr "Добавление из главной панели:"
+msgstr "Добавление из главной панели"
 
 #: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
 msgid "From all the supported formats, ask which one to use every time"
@@ -5185,7 +5182,7 @@ msgstr "Удалить..."
 
 #: tfrmoptionsfavoritetabs.btnimportexport.caption
 msgid "Import/Export"
-msgstr "Импортировать/Экспортировать"
+msgstr "Импорт/Экспорт"
 
 #: tfrmoptionsfavoritetabs.btninsert.caption
 msgctxt "tfrmoptionsfavoritetabs.btninsert.caption"
@@ -5659,7 +5656,7 @@ msgstr "Просмотреть с помощью..."
 
 #: tfrmoptionsfileassoc.sbtnicon.hint
 msgid "Click me to change icon!"
-msgstr "Нажмите здесь для смены иконки"
+msgstr "Нажмите здесь для смены значка"
 
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
@@ -5845,7 +5842,7 @@ msgstr "Сбросить на умолчания DC"
 #: tfrmoptionsfilepanelscolors.cballowovercolor.caption
 msgctxt "tfrmoptionsfilepanelscolors.cballowovercolor.caption"
 msgid "Allow Overcolor"
-msgstr "Раскраска файлов"
+msgstr "Разрешить наложение цвета"
 
 #: tfrmoptionsfilepanelscolors.cbbuseframecursor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
@@ -6008,7 +6005,7 @@ msgstr "Загру&жать список файлов в отдельном по
 #: tfrmoptionsfilesviews.cbloadiconsseparately.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
 msgid "Load icons af&ter file list"
-msgstr "За&гружать иконки после списка файлов"
+msgstr "За&гружать значки после списка файлов"
 
 #: tfrmoptionsfilesviews.cbshowsystemfiles.caption
 msgid "Show s&ystem and hidden files"
@@ -6337,7 +6334,7 @@ msgstr "Показывать овер&лейные значки (наприме�
 
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
-msgstr "Отключить загрузку специальных иконок"
+msgstr "Отключить загрузку специальных значков"
 
 #: tfrmoptionsicons.gbiconssize.caption
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
@@ -8666,7 +8663,7 @@ msgstr "Поддерживает &шифрование"
 
 #: tfrmtweakplugin.cbpk_caps_hide.caption
 msgid "Sho&w as normal files (hide packer icon)"
-msgstr "Пока&зывать как нормальные файлы (скрывать иконку архива)"
+msgstr "Пока&зывать как нормальные файлы (скрывать значок архива)"
 
 #: tfrmtweakplugin.cbpk_caps_mempack.caption
 msgid "Supports pac&king in memory"
@@ -10037,10 +10034,10 @@ msgid ""
 "\n"
 "Do you want to keep the resulting corrupted file anyway?\n"
 msgstr ""
-"Плохой CRC32 для файла назначения:\n"
+"Неверная контрольная сумма файла назначения:\n"
 "\"%s\"\n"
 "\n"
-"Хотите оставить повреждённый файл назначения?\n"
+"Хотите оставить повреждённый файл?\n"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
@@ -10096,7 +10093,7 @@ msgstr "< Создать новый тип файла \"%s файлы\" >"
 
 #: ulng.rsmsgdctoolbarwheretosave
 msgid "Enter location and filename where to save a DC Toolbar file"
-msgstr "Введите место расположения и имя файла, куда сохранить файл Панели инструментов DC"
+msgstr "Укажите место и имя файла для сохранения файла Панели инструментов DC"
 
 #: ulng.rsmsgdefaultcustomactionname
 msgid "Custom action"
@@ -10476,7 +10473,7 @@ msgstr "Только выделенные"
 #: ulng.rsmsghotdirjustpath
 msgctxt "ulng.rsmsghotdirjustpath"
 msgid "&Path:"
-msgstr "Путь:"
+msgstr "Пут&ь:"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
@@ -10508,7 +10505,7 @@ msgstr "Снова добавить текущий: "
 
 #: ulng.rsmsghotdirrestorewhat
 msgid "Enter location and filename of Directory Hotlist to restore"
-msgstr "Введите место расположения и имя файла Избранных каталогов для восстановления"
+msgstr "Укажите место и имя файла Избранных каталогов для восстановления"
 
 #: ulng.rsmsghotdirsimplecommand
 msgctxt "ulng.rsmsghotdirsimplecommand"
@@ -10523,12 +10520,12 @@ msgstr "(конец подменю)"
 #: ulng.rsmsghotdirsimplemenu
 msgctxt "ulng.rsmsghotdirsimplemenu"
 msgid "Menu &name:"
-msgstr "Имя меню:"
+msgstr "Имя &меню:"
 
 #: ulng.rsmsghotdirsimplename
 msgctxt "ulng.rsmsghotdirsimplename"
 msgid "&Name:"
-msgstr "Имя:"
+msgstr "И&мя:"
 
 #: ulng.rsmsghotdirsimpleseparator
 msgctxt "ulng.rsmsghotdirsimpleseparator"
@@ -10546,11 +10543,11 @@ msgstr "Путь избранного целевого каталога"
 
 #: ulng.rsmsghotdirtiporderpath
 msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
-msgstr "Определите, как вы хотите чтобы активная панель была отсортирована после изменения каталога"
+msgstr "Задаёт порядок сортировки в активной панели после смены каталога"
 
 #: ulng.rsmsghotdirtipordertarget
 msgid "Determine if you want the not active frame to be sorted in a specified order after changing directory"
-msgstr "Определите, как вы хотите чтобы НЕактивная панель была отсортирована после изменения каталога"
+msgstr "Задаёт порядок сортировки в неактивной панели после смены каталога"
 
 #: ulng.rsmsghotdirtipspecialdirbut
 msgid "Some functions to select appropriate path relative, absolute, windows special folders, etc."
@@ -10580,7 +10577,7 @@ msgstr ""
 
 #: ulng.rsmsghotdirwheretosave
 msgid "Enter location and filename where to save a Directory Hotlist file"
-msgstr "Введите место расположения и имя файла куда сохранить файл Избранных каталогов"
+msgstr "Укажите место и имя файла для сохранения файла Избранных каталогов"
 
 #: ulng.rsmsgincorrectfilelength
 msgid "Incorrect resulting filelength for file : \"%s\""
@@ -10873,19 +10870,19 @@ msgstr "Использовать переменную окружения..."
 
 #: ulng.rsmsgspecialdirgotodc
 msgid "Go to Double Commander special path..."
-msgstr "Перейти в специальную папку DC..."
+msgstr "Каталог Double Commander..."
 
 #: ulng.rsmsgspecialdirgotoenvvar
 msgid "Go to environment variable..."
-msgstr "Перейти в переменную окружения..."
+msgstr "Переменная окружения..."
 
 #: ulng.rsmsgspecialdirgotoother
 msgid "Go to other Windows special folder..."
-msgstr "Перейти в другие специальные папки Windows..."
+msgstr "Другая специальная папка Windows..."
 
 #: ulng.rsmsgspecialdirgototc
 msgid "Go to Windows special folder (TC)..."
-msgstr "Перейти в специальные папки Windows (TC)..."
+msgstr "Специальная папка Windows (TC)..."
 
 #: ulng.rsmsgspecialdirmakereltohotdir
 msgid "Make relative to hotdir path"
@@ -10997,7 +10994,7 @@ msgstr "Укажите файл \".BAR\" для импорта"
 
 #: ulng.rsmsgtoolbarrestorewhat
 msgid "Enter location and filename of Toolbar to restore"
-msgstr "Введите место расположения и имя файла Панели инструментов для восстановления"
+msgstr "Укажите место и имя файла Панели инструментов для восстановления"
 
 #: ulng.rsmsgtoolbarsaved
 msgid ""
@@ -11307,7 +11304,7 @@ msgstr "Работа"
 
 #: ulng.rsoptaddfrommainpanel
 msgid "Add at &beginning;Add at the end;Smart add"
-msgstr "Добавить в начало;Добавить в конец;Умное добавление"
+msgstr "Добавить в &начало;Добавить в конец;Умное добавление"
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
