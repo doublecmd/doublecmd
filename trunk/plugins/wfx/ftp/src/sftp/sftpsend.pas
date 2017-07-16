@@ -78,6 +78,13 @@ uses
 const
   SMB_BUFFER_SIZE = 131072;
 
+type
+  PFindRec = ^TFindRec;
+  TFindRec = record
+    Path: String;
+    Handle: PLIBSSH2_SFTP_HANDLE;
+  end;
+
 procedure userauth_kbdint(const name: PAnsiChar; name_len: cint;
                           const instruction: PAnsiChar; instruction_len: cint;
                           num_prompts: cint; const prompts: PLIBSSH2_USERAUTH_KBDINT_PROMPT;
@@ -482,19 +489,29 @@ begin
 end;
 
 function TSftpSend.FsFindFirstW(const Path: String; var FindData: TWin32FindDataW): Pointer;
+var
+  FindRec: PFindRec;
 begin
   Result := libssh2_sftp_opendir(FSFTPSession, PAnsiChar(Path));
-  if Assigned(Result) then FsFindNextW(Result, FindData);
+  if Assigned(Result) then
+  begin
+    New(FindRec);
+    FindRec.Path:= Path;
+    FindRec.Handle:= Result;
+    FsFindNextW(FindRec, FindData);
+    Result:= FindRec;
+  end;
 end;
 
 function TSftpSend.FsFindNextW(Handle: Pointer; var FindData: TWin32FindDataW): BOOL;
 var
   Return: Integer;
+  FindRec: PFindRec absolute Handle;
   Attributes: LIBSSH2_SFTP_ATTRIBUTES;
   AFileName: array[0..1023] of AnsiChar;
   AFullData: array[0..2047] of AnsiChar;
 begin
-  Return:= libssh2_sftp_readdir_ex(Handle, AFileName, SizeOf(AFileName),
+  Return:= libssh2_sftp_readdir_ex(FindRec.Handle, AFileName, SizeOf(AFileName),
                                    AFullData, SizeOf(AFullData), @Attributes);
   Result:= (Return > 0);
   if Result then
@@ -510,12 +527,27 @@ begin
     StrPLCopy(FindData.cFileName, ServerToClient(AFileName), MAX_PATH - 1);
     FindData.ftLastWriteTime:= TWfxFileTime(UnixFileTimeToWinTime(Attributes.mtime));
     FindData.ftLastAccessTime:= TWfxFileTime(UnixFileTimeToWinTime(Attributes.atime));
+    if (Attributes.permissions and S_IFMT) = S_IFLNK then
+    begin
+      if libssh2_sftp_stat(FSFTPSession, PAnsiChar(FindRec.Path + AFileName), @Attributes) = 0 then
+      begin
+        if (Attributes.permissions and S_IFMT) = S_IFDIR then
+        begin
+          FindData.nFileSizeLow:= 0;
+          FindData.nFileSizeHigh:= 0;
+          FindData.dwFileAttributes:= FindData.dwFileAttributes or FILE_ATTRIBUTE_REPARSE_POINT;
+        end;
+      end;
+    end;
   end;
 end;
 
 function TSftpSend.FsFindClose(Handle: Pointer): Integer;
+var
+  FindRec: PFindRec absolute Handle;
 begin
-  Result:= libssh2_sftp_closedir(Handle);
+  Result:= libssh2_sftp_closedir(FindRec.Handle);
+  Dispose(FindRec);
 end;
 
 function TSftpSend.FsSetTime(const FileName: String; LastAccessTime,
