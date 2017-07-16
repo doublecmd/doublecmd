@@ -172,8 +172,8 @@ begin
   FSock.CloseSocket;
   DoStatus(False, 'Connecting to: ' + FTargetHost);
   FSock.Connect(FTargetHost, FTargetPort);
-
-  if FSock.LastError = 0 then
+  Result:= (FSock.LastError = 0);
+  if Result then
   begin
     FSession := libssh2_session_init(Self);
     if not Assigned(FSession) then Exit(False);
