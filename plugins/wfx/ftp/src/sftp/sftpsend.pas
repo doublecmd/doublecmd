@@ -120,14 +120,14 @@ begin
       Title+= 'sftp://' + UTF8ToUTF16(Sender.UserName + '@' + Sender.TargetHost);
       if not RequestProc(PluginNumber, RT_Password, PWideChar(Title), PWideChar(Message), PWideChar(Password), MAX_PATH) then
       begin
-        responses^.text:= nil;
-        responses^.length:= 0;
+        responses[I].text:= nil;
+        responses[I].length:= 0;
       end
       else begin
         Sender.FPassword:= Sender.ClientToServer(Password);
-        responses^.text:= GetMem(Length(Sender.FPassword) + 1);
-        StrCopy(responses^.text, PAnsiChar(Sender.FPassword));
-        responses^.length:= Length(Sender.FPassword);
+        responses[I].text:= GetMem(Length(Sender.FPassword) + 1);
+        StrCopy(responses[I].text, PAnsiChar(Sender.FPassword));
+        responses[I].length:= Length(Sender.FPassword);
       end;
     end;
   end;
