@@ -105,7 +105,7 @@ type
   // Dst:	Destination bitmap
   // filter:	Weight calculation filter
   // fwidth:	Relative sample radius
-  procedure Stretch(Src, Dst: TBitmap; filter: TFilterProc; fwidth: single);
+  procedure Stretch(Src, Dst: TRasterImage; filter: TFilterProc; fwidth: single);
 
 // -----------------------------------------------------------------------------
 //
@@ -295,7 +295,7 @@ type
   TRGBAList = packed array[0..0] of TColorRGBA;
   PRGBAList = ^TRGBAList;
 
-function CreateAlphaFromMask(Bitmap: TBitmap): TLazIntfImage;
+function CreateAlphaFromMask(Bitmap: TRasterImage): TLazIntfImage;
 var
   SrcIntfImage: TLazIntfImage;
   x, y, xStop, yStop: Integer;
@@ -323,7 +323,7 @@ begin
   SrcIntfImage.Free;
 end;
 
-procedure Stretch(Src, Dst: TBitmap; filter: TFilterProc; fwidth: single);
+procedure Stretch(Src, Dst: TRasterImage; filter: TFilterProc; fwidth: single);
 var
   xscale, yscale	: single;		// Zoom scale factors
   i, j, k		: integer;		// Loop variables
