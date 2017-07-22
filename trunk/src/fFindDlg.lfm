@@ -1387,6 +1387,7 @@ object frmFindDlg: TfrmFindDlg
   object PopupMenuFind: TPopupMenu
     left = 312
     top = 48
+    OnPopup = PopupMenuFindPopup
     object miOpenInNewTab: TMenuItem
       Caption = 'Open In New Tab(s)'
       OnClick = miOpenInNewTabClick

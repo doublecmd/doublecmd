@@ -257,6 +257,7 @@ type
     procedure ZVDateToChange(Sender: TObject);
     procedure ZVTimeFromChange(Sender: TObject);
     procedure ZVTimeToChange(Sender: TObject);
+    procedure PopupMenuFindPopup(Sender: TObject);
     procedure CancelCloseAndFreeMem;
     procedure LoadHistory;
     procedure SaveHistory;
@@ -1560,7 +1561,12 @@ procedure TfrmFindDlg.cm_View(const Params: array of string);
 begin
   if pgcSearch.ActivePage = tsResults then
     if lsFoundedFiles.ItemIndex <> -1 then
-      ShowViewerByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+    begin
+      if (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] <> nil) then
+        msgError(rsMsgErrNotSupported)
+      else
+        ShowViewerByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+    end;
 end;
 
 { TfrmFindDlg.cm_Edit }
@@ -1568,7 +1574,12 @@ procedure TfrmFindDlg.cm_Edit(const Params: array of string);
 begin
   if pgcSearch.ActivePage = tsResults then
     if lsFoundedFiles.ItemIndex <> -1 then
-      ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+    begin
+      if (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] <> nil) then
+        msgError(rsMsgErrNotSupported)
+      else
+        ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+    end;
 end;
 
 { TfrmFindDlg.cm_GoToFile }
@@ -2314,6 +2325,15 @@ procedure TfrmFindDlg.ZVTimeToChange(Sender: TObject);
 begin
   if not FUpdating then
     cbTimeTo.Checked := True;
+end;
+
+procedure TfrmFindDlg.PopupMenuFindPopup(Sender: TObject);
+begin
+  if (lsFoundedFiles.ItemIndex <> -1) then
+  begin
+    miShowInViewer.Enabled:= (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] = nil);
+    miShowInEditor.Enabled:= (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] = nil);
+  end;
 end;
 
 { TfrmFindDlg.OnAddAttribute }
