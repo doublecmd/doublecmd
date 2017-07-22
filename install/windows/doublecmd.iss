@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Double Commander
-AppVerName=Double Commander 0.8.0 beta
+AppVerName=Double Commander 0.9.0 beta
 AppPublisherURL=http://doublecmd.sourceforge.net
 AppSupportURL=http://doublecmd.sourceforge.net
 AppUpdatesURL=http://doublecmd.sourceforge.net
