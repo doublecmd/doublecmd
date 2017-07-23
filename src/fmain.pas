@@ -49,6 +49,8 @@ uses
   uOperationsPanel, KASToolItems, uKASToolItemsExtended, uCmdLineParams, uOSForms
   {$IF DEFINED(LCLQT)}
   , Qt4, QtWidgets
+  {$ELSEIF DEFINED(LCLQT5)}
+  , Qt5, QtWidgets
   {$ELSEIF DEFINED(LCLGTK2)}
   , Glib2, Gtk2
   {$ENDIF}
@@ -649,7 +651,7 @@ type
     procedure tbPasteClick(Sender: TObject);
     procedure AllProgressOnUpdateTimer(Sender: TObject);
     procedure OnCmdBoxInput(ACmdBox: TCmdBox; AInput: String);
-{$IFDEF LCLQT}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   private
     QEventHook: QObject_hookH;
     function QObjectEventFilter(Sender: QObjectH; Event: QEventH): Boolean; cdecl;
@@ -879,12 +881,12 @@ const
   TCToolbarClipboardHeader  = 'TOTALCMD#BAR#DATA';
   DCToolbarClipboardHeader  = 'DOUBLECMD#BAR#DATA';
 
-{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT)}
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
 var
   LastActiveWindow: TCustomForm = nil;
 {$ENDIF}
 
-{$IFDEF LCLQT}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
 var
   CloseQueryResult: Boolean = False;
 {$ENDIF}
@@ -1067,7 +1069,7 @@ begin
 
   UpdateWindowView;
 
-{$IFDEF LCLQT}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   // Fixes bug - [0000033] "DC cancels shutdown in KDE"
   // http://doublecmd.sourceforge.net/mantisbt/view.php?id=33
   QEventHook:= QObject_hook_create(TQtWidget(Self.Handle).Widget);
@@ -1553,7 +1555,7 @@ begin
 
   FreeAndNil(DrivesList);
 
-{$IFDEF LCLQT}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   QObject_hook_destroy(QEventHook);
 {$ENDIF}
 
@@ -1570,7 +1572,7 @@ begin
   end
   else
     CanClose := True;
-{$IFDEF LCLQT}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   CloseQueryResult:= CanClose;
 {$ENDIF}
 end;
@@ -2371,14 +2373,6 @@ begin
         if TabNr <> -1 then
         begin
           PopUpPoint := NoteBook.ClientToScreen(Point(X, Y));
-
-{$IFDEF LCLQT}
-          // In QT the NoteBook.ClientToScreen calculates coordinates
-          // relative to Page contents (client rectangle),
-          // so we must substract the height and width of the tab bar.
-          PopUpPoint.X := PopUpPoint.X - (NoteBook.Width - NoteBook.ClientWidth);
-          PopUpPoint.Y := PopUpPoint.Y - (NoteBook.Height - NoteBook.ClientHeight);
-{$ENDIF}
 
           // Check tab options items.
           case NoteBook.Page[TabNr].LockState of
@@ -5664,7 +5658,7 @@ begin
 end;
 
 procedure TfrmMain.HideToTray;
-{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT)}
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
 var
   ActiveWindow: HWND;
   LCLObject: TObject;
@@ -5682,7 +5676,7 @@ begin
   window has capture) thus preventing the user from restoring the main window.
   So when the main form is hidden the modal window is hidden too.
 }
-{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT)}
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
   LastActiveWindow := nil;
   if not Self.Active then    // If there is another window active
   begin
@@ -5700,7 +5694,7 @@ begin
         // We only want to hide it.
         LastActiveWindow.Visible := False;
 {$ENDIF}
-{$IFDEF LCLQT}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
         // Have to use QT directly to hide the window for this to work.
         TQtWidget(LastActiveWindow.Handle).setVisible(False);
 {$ENDIF}
@@ -5723,10 +5717,10 @@ begin
     ShowTrayIcon(False);
 
   // After the main form is shown, restore the last active modal form if there was any.
-{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT)}
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
    if Assigned(LastActiveWindow) then
    begin
-{$IFDEF LCLQT}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
      TQtWidget(LastActiveWindow.Handle).setVisible(true);
 {$ENDIF}
 {$IFDEF LCLGTK2}
@@ -6080,7 +6074,7 @@ begin
   Cancel := not CanClose;
 end;
 
-{$IFDEF LCLQT}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
 function TfrmMain.QObjectEventFilter(Sender: QObjectH; Event: QEventH): Boolean; cdecl;
 begin
   Result:= False;
