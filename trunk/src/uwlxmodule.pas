@@ -4,10 +4,7 @@
    WLX-API implementation (TC WLX-API v2.0).
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-
-   contributors:
-
-   Copyright (C) 2009-2013 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,6 +42,9 @@ uses
   {$IFDEF LCLQT}
   , qt4, qtwidgets
   // The Qt widgetset must be used to load plugins on qt
+  {$ENDIF}
+  {$IFDEF LCLQT5}
+  , qt5, qtwidgets
   {$ENDIF}
   ;
 
@@ -184,7 +184,7 @@ procedure WlxPrepareContainer(var ParentWin: HWND);
 begin
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   ParentWin := HWND(GetFixedWidget(Pointer(ParentWin)));
-{$ELSEIF DEFINED(LCLQT)}
+{$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   ParentWin := HWND(TQtWidget(ParentWin).GetContainerWidget);
 {$ENDIF}
 end;
@@ -251,7 +251,7 @@ end;
 
 procedure TWlxModule.UnloadModule;
 begin
-{$IF NOT (DEFINED(LCLQT) or DEFINED(LCLGTK2))}
+{$IF NOT (DEFINED(LCLQT) or DEFINED(LCLQT5) or DEFINED(LCLGTK2))}
 {$IF (not DEFINED(LINUX)) or ((FPC_VERSION > 2) or ((FPC_VERSION=2) and (FPC_RELEASE >= 5)))}
   if FModuleHandle <> 0 then
     FreeLibrary(FModuleHandle);
@@ -324,7 +324,7 @@ begin
     else DestroyWindow(FPluginWindow)
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
     else gtk_widget_destroy(PGtkWidget(FPluginWindow));
-{$ELSEIF DEFINED(LCLQT)}
+{$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
     else QWidget_Destroy(QWidgetH(FPluginWindow));
 {$ENDIF}
   finally
@@ -390,7 +390,7 @@ procedure TWlxModule.SetFocus;
 begin
   {$IF DEFINED(LCLWIN32)}
   Windows.SetFocus(FPluginWindow);
-  {$ELSEIF DEFINED(LCLQT)}
+  {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   QWidget_setFocus(QWidgetH(FPluginWindow));
   {$ELSEIF DEFINED(LCLGTK2)}
   gtk_widget_grab_focus(PGtkWidget(FPluginWindow));
@@ -404,7 +404,7 @@ begin
   begin
     {$IF DEFINED(LCLWIN32)}
     MoveWindow(FPluginWindow, Left, Top, Right - Left, Bottom - Top, True);
-    {$ELSEIF DEFINED(LCLQT)}
+    {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
     QWidget_move(QWidgetH(FPluginWindow), Left, Top);
     QWidget_resize(QWidgetH(FPluginWindow), Right - Left, Bottom - Top);
     {$ELSEIF DEFINED(LCLGTK2)}
