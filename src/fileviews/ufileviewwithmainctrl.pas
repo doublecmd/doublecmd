@@ -439,7 +439,7 @@ begin
   FileIndex := GetFileIndexFromCursor(Point.x, Point.y, AtFileList);
   if IsFileIndexInRange(FileIndex) then
   begin
-{$IF DEFINED(LCLQT)}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
     // Workaround: under Qt4 widgetset long operation (opening archive
     // for example) blocking mouse at whole system while operation executing
     Sleep(100);
