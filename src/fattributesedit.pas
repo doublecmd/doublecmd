@@ -219,7 +219,7 @@ begin
       s := s + GetCheckStr(cbCompressed, 'c');
       s := s + GetCheckStr(cbEncrypted,  'e');
       s := s + GetCheckStr(cbTemporary,  't');
-      s := s + GetCheckStr(cbSparse,     's');
+      s := s + GetCheckStr(cbSparse,     'p');
     end;
 
     edtTextAttrs.Text := s;
