@@ -49,7 +49,7 @@ implementation
 
 uses
   FileUtil, LazFileUtils, Forms, uDebug, DCOSUtils, uFileProcs, DCStrUtils, uReSample,
-  uGlobsPaths, uGlobs, uPixmapManager, URIParser, md5, uFileSystemFileSource;
+  uGlobsPaths, uGlobs, uPixmapManager, URIParser, md5, uFileSystemFileSource, uGraphics;
 
 const
   ThumbSign: QWord = $0000235448554D42; // '#0 #0 # T H U M B'
@@ -88,7 +88,6 @@ end;
 procedure TThumbnailManager.DoCreatePreviewText;
 var
   x: LongInt;
-  ARect: TRect;
   sStr: String;
   tFile: THandle;
 begin
@@ -209,6 +208,7 @@ var
   sExt: String;
   fsFileStream: TFileStreamEx = nil;
   Picture: TPicture = nil;
+  ABitmap: TBitmap;
 begin
   Result:= nil;
   try
@@ -239,6 +239,15 @@ begin
       begin
         Result:= FProviderList[I](sFullPathToFile, gThumbSize);
         if Assigned(Result) then Break;
+      end;
+      if Assigned(Result) then
+      begin
+        if (Result.Width > gThumbSize.cx) or (Result.Height > gThumbSize.cy) then
+        begin
+          ABitmap:= CreatePreviewImage(Result);
+          BitmapAssign(Result, ABitmap);
+          ABitmap.Free;
+        end;
       end;
       if not Assigned(Result) then
       begin
