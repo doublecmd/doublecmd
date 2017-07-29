@@ -30,8 +30,9 @@ uses
   SysUtils, Classes, DynLibs, DCClassesUtf8, DCBasicTypes;
 
 const
-  fmOpenSync   = $10000;
-  fmOpenDirect = $20000;
+  fmOpenSync    = $10000;
+  fmOpenDirect  = $20000;
+  fmOpenNoATime = $40000;
 
 type
   TFileMapRec = record
@@ -566,10 +567,16 @@ end;
 
 function mbFileOpen(const FileName: String; Mode: LongWord): System.THandle;
 {$IFDEF MSWINDOWS}
+const
+  ft: TFileTime = ( dwLowDateTime: $FFFFFFFF; dwHighDateTime: $FFFFFFFF; );
 begin
-  Result:= CreateFileW(PWideChar(UTF16LongName(FileName)), AccessModes[Mode and 3],
+  Result:= CreateFileW(PWideChar(UTF16LongName(FileName)),
+                       AccessModes[Mode and 3] or ((Mode and fmOpenNoATime) shr 10),
                        ShareModes[(Mode and $F0) shr 4], nil, OPEN_EXISTING,
                        FILE_ATTRIBUTE_NORMAL, OpenFlags[(Mode shr 16) and 3]);
+  if (Result <> feInvalidHandle) then begin
+    if (Mode and fmOpenNoATime <> 0) then SetFileTime(Result, nil, @ft, @ft);
+  end;
 end;
 {$ELSE}
 begin

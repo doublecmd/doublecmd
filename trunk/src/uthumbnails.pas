@@ -220,7 +220,7 @@ begin
       // If thumbnail already exists in cache for this file then load it
       if mbFileExists(sThumbFileName) then
       begin
-        fsFileStream:= TFileStreamEx.Create(sThumbFileName, fmOpenRead or fmShareDenyNone);
+        fsFileStream:= TFileStreamEx.Create(sThumbFileName, fmOpenRead or fmShareDenyNone or fmOpenNoATime);
         try
           if ReadMetaData(aFile, fsFileStream) then
           begin
@@ -255,7 +255,7 @@ begin
         // Create thumb for image files
         if GetGraphicClassForFileExtension(sExt) <> nil then
           begin
-            fsFileStream:= TFileStreamEx.Create(sFullPathToFile, fmOpenRead or fmShareDenyNone);
+            fsFileStream:= TFileStreamEx.Create(sFullPathToFile, fmOpenRead or fmShareDenyNone or fmOpenNoATime);
             with Picture do
             try
               LoadFromStreamWithFileExt(fsFileStream, sExt);
