@@ -258,7 +258,7 @@ begin
   // Simple regular expression search (don't work for very big files)
   if bRegExp then
   begin
-    fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
+    fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone or fmOpenNoATime);
     try
       if fs.Size = 0 then Exit;
       {$PUSH}{$R-}
@@ -296,7 +296,7 @@ begin
   if sDataLength > BufferSize then
     raise Exception.Create(rsMsgErrSmallBuf);
 
-  fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
+  fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone or fmOpenNoATime);
   try
     if sDataLength > fs.Size then // string longer than file, cannot search
       Exit;
