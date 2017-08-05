@@ -94,7 +94,7 @@ type
 implementation
 
 uses
-  uDebug, uLng, uFindEx, DCClassesUtf8, uFileSystemUtil, DCOSUtils;
+  uDebug, uLng, uFindEx, DCClassesUtf8, uFileSystemUtil, uRandom, DCOSUtils;
 
 constructor TFileSystemWipeOperation.Create(aTargetFileSource: IFileSource;
                                             var theFilesToWipe: TFiles);
@@ -183,23 +183,23 @@ end;
 //0 = with 0, 1 = with 1 and 2 = random
 procedure TFileSystemWipeOperation.Fill(chr: Integer);
 var
-  I: Integer;
+  Count: Integer;
 begin
+  Count:= Length(buffer);
   case chr of
     0:
       begin
-        for I := Low(buffer) to High(buffer) do
-          buffer[I] := $00;
+        Count:= Count div SizeOf(DWord);
+        FillDWord(buffer[0], Count, $00000000);
       end;
     1:
       begin
-        for I := Low(buffer) to High(buffer) do
-          buffer[I] := $FF;
+        Count:= Count div SizeOf(DWord);
+        FillDWord(buffer[0], Count, $FFFFFFFF);
       end;
     2:
       begin
-        for I := Low(buffer) to High(buffer) do
-          buffer[I] := Random($100);
+        Random(buffer, Count);
       end;
   end;
 end;
