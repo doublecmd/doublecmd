@@ -33,7 +33,7 @@
 www.cityinthesky.co.uk/cryptography.html
 "/>
     <Version Major="2" Release="4" Build="1"/>
-    <Files Count="23">
+    <Files Count="26">
       <Item1>
         <Filename Value="dcpbase64.pas"/>
         <UnitName Value="DCPbase64"/>
@@ -126,6 +126,18 @@ www.cityinthesky.co.uk/cryptography.html
         <Filename Value="Hashes/dcpsha224.pas"/>
         <UnitName Value="DCPsha224"/>
       </Item23>
+      <Item24>
+        <Filename Value="Hashes/Keccak/hmac.pas"/>
+        <UnitName Value="HMAC"/>
+      </Item24>
+      <Item25>
+        <Filename Value="Hashes/Keccak/sha3.pas"/>
+        <UnitName Value="SHA3"/>
+      </Item25>
+      <Item26>
+        <Filename Value="Hashes/Keccak/sha3_256.pas"/>
+        <UnitName Value="SHA3_256"/>
+      </Item26>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
