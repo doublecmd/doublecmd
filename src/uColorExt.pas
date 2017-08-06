@@ -4,7 +4,7 @@
    Load colors of files in file panels
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
 
    This program is free software; you can redistribute it and/or modify
@@ -30,20 +30,27 @@ unit uColorExt;
 interface
 
 uses
-  Classes, Graphics, uFile, DCXmlConfig;
+  Classes, Graphics, uFile, uMasks, DCXmlConfig;
 
 type
 
   { TMaskItem }
 
   TMaskItem = class
+  private
+    FExt: String;
+    FMaskList: TMaskList;
+    procedure SetExt(const AValue: String);
   public
-    sExt: String;
+    sName: String;
     sModeStr: String;
     cColor: TColor;
-    sName: String;
+
+    constructor Create;
+    destructor Destroy; override;
 
     procedure Assign(ASource: TMaskItem);
+    property sExt: String read FExt write SetExt;
   end;
 
   { TColorExt }
@@ -74,9 +81,27 @@ type
 implementation
 
 uses
-  SysUtils, uDebug, uGlobs, uMasks, uFileProperty;
+  SysUtils, uDebug, uGlobs, uFileProperty;
 
 { TMaskItem }
+
+procedure TMaskItem.SetExt(const AValue: String);
+begin
+  FExt:= AValue;
+  FreeAndNil(FMaskList);
+  FMaskList:= TMaskList.Create(FExt);
+end;
+
+constructor TMaskItem.Create;
+begin
+  FMaskList:= TMaskList.Create(FExt);
+end;
+
+destructor TMaskItem.Destroy;
+begin
+  FreeAndNil(FMaskList);
+  inherited Destroy;
+end;
 
 procedure TMaskItem.Assign(ASource: TMaskItem);
 begin
@@ -162,34 +187,34 @@ begin
   Result:= clDefault;
   for I:= 0 to lslist.Count-1 do
   begin
-     MaskItem:= TMaskItem(lslist[I]);
-     // get color by search template
-     if MaskItem.sExt[1] = '>' then
-       for J:= 0 to gSearchTemplateList.Count - 1 do
-         with gSearchTemplateList do
-         begin
-           if (Templates[J].TemplateName = PChar(MaskItem.sExt)+1) and
-              Templates[J].CheckFile(AFile) then
-             begin
-               Result:= MaskItem.cColor;
-               Exit;
-             end;
-         end;
+    MaskItem:= TMaskItem(lslist[I]);
+    // get color by search template
+    if MaskItem.sExt[1] = '>' then
+      for J:= 0 to gSearchTemplateList.Count - 1 do
+        with gSearchTemplateList do
+        begin
+          if (Templates[J].TemplateName = PChar(MaskItem.sExt)+1) and
+             Templates[J].CheckFile(AFile) then
+            begin
+              Result:= MaskItem.cColor;
+              Exit;
+            end;
+        end;
 
-     // Get color by extension and attribute.
-     // If attributes field is empty then don't match directories.
-     if ((MaskItem.sExt = '') or
-          (((MaskItem.sModeStr <> '') or
-            not (AFile.IsDirectory or AFile.IsLinkToDirectory)) and
-           MatchesMaskList(AFile.Name, MaskItem.sExt, ';')))
-        and
-        ((MaskItem.sModeStr = '') or
-          not (fpAttributes in AFile.SupportedProperties) or
-          MatchesMaskList(AFile.Properties[fpAttributes].AsString, MaskItem.sModeStr, ';')) then
-       begin
-         Result:= MaskItem.cColor;
-         Exit;
-       end;
+    // Get color by extension and attribute.
+    // If attributes field is empty then don't match directories.
+    if ((MaskItem.sExt = '') or
+         (((MaskItem.sModeStr <> '') or
+           not (AFile.IsDirectory or AFile.IsLinkToDirectory)) and
+          MaskItem.FMaskList.Matches(AFile.Name)))
+       and
+       ((MaskItem.sModeStr = '') or
+         not (fpAttributes in AFile.SupportedProperties) or
+         MatchesMaskList(AFile.Properties[fpAttributes].AsString, MaskItem.sModeStr, ';')) then
+      begin
+        Result:= MaskItem.cColor;
+        Exit;
+      end;
   end;
 end;
 
