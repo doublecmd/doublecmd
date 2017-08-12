@@ -1102,6 +1102,7 @@ begin
       FHashedNames.Remove(OldFileName);
       FHashedNames.Add(NewFileName, ADisplayFile);
       ADisplayFile.IconID := -1;
+      ADisplayFile.Selected := False;
       ADisplayFile.IconOverlayID := -1;
       ADisplayFile.TextColor := clNone;
       ADisplayFile.DisplayStrings.Clear;
