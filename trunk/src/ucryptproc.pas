@@ -69,7 +69,7 @@ uses
   SHA3_512, Hash, uShowMsg, uGlobsPaths, uLng, uDebug, uRandom;
 
 const
-  HMAC_COUNT = 8192;
+  HMAC_COUNT = 10240;
 
 const
   KEY_SIZE = SizeOf(TBlowFishKey);
