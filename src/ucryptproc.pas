@@ -73,12 +73,14 @@ const
 
 const
   KEY_SIZE = SizeOf(TBlowFishKey);
+  MAC_SIZE = SizeOf(TSHA3_256Digest);
+  BUF_SIZE = KEY_SIZE + MAC_SIZE;
 
 type
   TBlowFishKeyRec = record
     dwSize: LongWord;
     case Boolean of
-      True: (bBlowFishKey: TBlowFishKey);
+      True:  (bBlowFishKey: TBlowFishKey);
       False: (cBlowFishKey: array [0..KEY_SIZE - 1] of AnsiChar);
   end;
 
@@ -199,8 +201,8 @@ function EncodeStrong(MasterKey, Salt, Data: AnsiString): AnsiString;
 var
   Hash: AnsiString;
   StringStream: TStringStream = nil;
-  Buffer: array[0..KEY_SIZE * 2 - 1] of Byte;
-  BlowFishKey: TBlowFishKey  absolute Buffer;
+  Buffer: array[0..BUF_SIZE - 1] of Byte;
+  BlowFishKey: TBlowFishKey absolute Buffer;
   BlowFishEncryptStream: TBlowFishEncryptStream = nil;
 begin
   // Generate encryption key
@@ -219,7 +221,7 @@ begin
     StringStream.Free;
   end;
   // Calculate password hash message authentication code
-  Hash := hmac_sha3_256(@Buffer[KEY_SIZE], KEY_SIZE, Result);
+  Hash := hmac_sha3_256(@Buffer[KEY_SIZE], MAC_SIZE, Result);
   // Calcuate result base64 encoded string
   Result := EncodeStringBase64(Salt + Result + Copy(Hash, 1, 8));
 end;
@@ -237,8 +239,8 @@ function DecodeStrong(MasterKey, Data: AnsiString): AnsiString;
 var
   Salt, Hash: AnsiString;
   StringStream: TStringStream = nil;
-  Buffer: array[0..KEY_SIZE * 2 - 1] of Byte;
-  BlowFishKey: TBlowFishKey  absolute Buffer;
+  Buffer: array[0..BUF_SIZE - 1] of Byte;
+  BlowFishKey: TBlowFishKey absolute Buffer;
   BlowFishDeCryptStream: TBlowFishDeCryptStream = nil;
 begin
   Data:= DecodeStringBase64(Data);
@@ -249,7 +251,7 @@ begin
   // Generate encryption key
   pbkdf2_hmac_sha3_256(MasterKey, Salt, Buffer, SizeOf(Buffer), HMAC_COUNT);
   // Verify password using hash message authentication code
-  Salt:= hmac_sha3_256(@Buffer[KEY_SIZE], KEY_SIZE, Data);
+  Salt:= hmac_sha3_256(@Buffer[KEY_SIZE], MAC_SIZE, Data);
   if StrLComp(Pointer(Hash), Pointer(Salt), 8) <> 0 then
     Exit(EmptyStr);
   // Decrypt password using encryption key
