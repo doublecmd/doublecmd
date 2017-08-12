@@ -135,8 +135,8 @@ www.cityinthesky.co.uk/cryptography.html
         <UnitName Value="SHA3"/>
       </Item25>
       <Item26>
-        <Filename Value="Hashes/Keccak/sha3_256.pas"/>
-        <UnitName Value="SHA3_256"/>
+        <Filename Value="Hashes/Keccak/sha3_512.pas"/>
+        <UnitName Value="SHA3_512"/>
       </Item26>
     </Files>
     <RequiredPkgs Count="2">

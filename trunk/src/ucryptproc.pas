@@ -66,7 +66,7 @@ implementation
 
 uses
   LCLProc, LCLType, Base64, BlowFish, Math, MD5, DCPcrypt2, DCPsha3, HMAC,
-  SHA3_256, Hash, uShowMsg, uGlobsPaths, uLng, uDebug, uRandom;
+  SHA3_512, Hash, uShowMsg, uGlobsPaths, uLng, uDebug, uRandom;
 
 const
   HMAC_COUNT = 8192;
@@ -136,22 +136,22 @@ begin
   end;
 end;
 
-procedure pbkdf2_hmac_sha3_256(const Password, Salt: AnsiString; Key: PByte; KeyLength, IterationCount: Integer);
+procedure pbkdf2_hmac_sha3_512(const Password, Salt: AnsiString; Key: PByte; KeyLength, IterationCount: Integer);
 var
   I, J, K: Integer;
   BlockCnt: Integer;
   HashDesc: PHashDesc;
   Buffer: THashDigest;
-  Xuffer: TSHA3_256Digest;
+  Xuffer: TSHA3_512Digest;
   Ctx1, Ctx2, Ctx3: THMAC_Context;
 begin
-  HashDesc:= FindHash_by_Name('SHA3-256');
+  HashDesc:= FindHash_by_Name('SHA3-512');
   // Init HMAC context (with password)
   hmac_init({%H-}Ctx1, HashDesc, PByte(Password), Length(Password));
   // Prepare HMAC context (with password and salt)
   Move(Ctx1, {%H-}Ctx2, SizeOf(THMAC_Context));
   hmac_update(Ctx2, Pointer(Salt), Length(Salt));
-  // Calculate the number of SHA3-256 blocks in the key
+  // Calculate the number of SHA3-512 blocks in the key
   BlockCnt := ceil(KeyLength / HashDesc^.HDigestlen);
   // Process each key block
   for I := 1 to BlockCnt do
@@ -183,13 +183,13 @@ begin
   end;
 end;
 
-function hmac_sha3_256(AKey: PByte; AKeyLength: Integer; AMessage: AnsiString): AnsiString;
+function hmac_sha3_512(AKey: PByte; AKeyLength: Integer; AMessage: AnsiString): AnsiString;
 var
   HashDesc: PHashDesc;
   Buffer: THashDigest;
   Context: THMAC_Context;
 begin
-  HashDesc:= FindHash_by_Name('SHA3-256');
+  HashDesc:= FindHash_by_Name('SHA3-512');
   hmac_init({%H-}Context, HashDesc, AKey, AKeyLength);
   hmac_update(Context, Pointer(AMessage), Length(AMessage));
   hmac_final(Context, {%H-}Buffer);
@@ -206,7 +206,7 @@ var
   BlowFishEncryptStream: TBlowFishEncryptStream = nil;
 begin
   // Generate encryption key
-  pbkdf2_hmac_sha3_256(MasterKey, Salt, Buffer, SizeOf(Buffer), HMAC_COUNT);
+  pbkdf2_hmac_sha3_512(MasterKey, Salt, Buffer, SizeOf(Buffer), HMAC_COUNT);
   // Encrypt password using encryption key
   StringStream:= TStringStream.Create(EmptyStr);
   try
@@ -221,7 +221,7 @@ begin
     StringStream.Free;
   end;
   // Calculate password hash message authentication code
-  Hash := hmac_sha3_256(@Buffer[KEY_SIZE], MAC_SIZE, Result);
+  Hash := hmac_sha3_512(@Buffer[KEY_SIZE], MAC_SIZE, Result);
   // Calcuate result base64 encoded string
   Result := EncodeStringBase64(Salt + Result + Copy(Hash, 1, 8));
 end;
@@ -249,9 +249,9 @@ begin
   Salt:= Copy(Data, 1, SizeOf(TSHA3_256Digest));
   Data:= Copy(Data, SizeOf(TSHA3_256Digest) + 1, MaxInt);
   // Generate encryption key
-  pbkdf2_hmac_sha3_256(MasterKey, Salt, Buffer, SizeOf(Buffer), HMAC_COUNT);
+  pbkdf2_hmac_sha3_512(MasterKey, Salt, Buffer, SizeOf(Buffer), HMAC_COUNT);
   // Verify password using hash message authentication code
-  Salt:= hmac_sha3_256(@Buffer[KEY_SIZE], MAC_SIZE, Data);
+  Salt:= hmac_sha3_512(@Buffer[KEY_SIZE], MAC_SIZE, Data);
   if StrLComp(Pointer(Hash), Pointer(Salt), 8) <> 0 then
     Exit(EmptyStr);
   // Decrypt password using encryption key
@@ -310,7 +310,7 @@ begin
     end;
     // Calculate master key hash #2
     SetLength(MasterKeyHash, SizeOf(TSHA3_256Digest));
-    pbkdf2_hmac_sha3_256(HashTemp, MasterSalt, PByte(MasterKeyHash), SizeOf(TSHA3_256Digest), HMAC_COUNT);
+    pbkdf2_hmac_sha3_512(HashTemp, MasterSalt, PByte(MasterKeyHash), SizeOf(TSHA3_256Digest), HMAC_COUNT);
     // Calculate final master key hash
     MasterKeyHash:= '!' + EncodeStrong(MasterKey, MasterSalt, MasterKeyHash);
   end;
