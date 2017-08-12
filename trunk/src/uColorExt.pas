@@ -194,8 +194,10 @@ begin
   for I:= 0 to lslist.Count-1 do
   begin
     MaskItem:= TMaskItem(lslist[I]);
-    // get color by search template
+
+    // Get color by search template
     if MaskItem.sExt[1] = '>' then
+    begin
       for J:= 0 to gSearchTemplateList.Count - 1 do
         with gSearchTemplateList do
         begin
@@ -206,6 +208,8 @@ begin
               Exit;
             end;
         end;
+      Continue;
+    end;
 
     // Get color by extension and attribute.
     // If attributes field is empty then don't match directories.
