@@ -39,6 +39,7 @@ type
     FMasterKey: AnsiString;
     FMasterKeyHash: AnsiString;
   private
+    procedure ConvertStore;
     procedure UpdateMasterKey(var MasterKey: AnsiString; var MasterKeyHash: AnsiString);
   public
     constructor Create(const AFileName: String); reintroduce;
@@ -265,6 +266,39 @@ end;
 
 { TPasswordStore }
 
+procedure TPasswordStore.ConvertStore;
+var
+  I, J: Integer;
+  Password: String;
+  Sections, Strings: TStringList;
+begin
+  Strings:= TStringList.Create;
+  Sections:= TStringList.Create;
+  ReadSections(Sections);
+  try
+    for I:= 0 to Sections.Count - 1 do
+    begin
+      if not SameText(Sections[I], 'General') then
+      begin
+        ReadSectionValues(Sections[I], Strings);
+        for J:= 0 to Strings.Count - 1 do
+        begin
+          Password:= Decode(FMasterKey, Strings.ValueFromIndex[J]);
+          Password:= EncodeStrong(FMasterKey, Password);
+          WriteString(Sections[I], Strings.Names[J], Password);
+        end;
+      end;
+    end;
+    FMasterStrong:= True;
+    FMasterKeyHash:= EmptyStr;
+    UpdateMasterKey(FMasterKey, FMasterKeyHash);
+    WriteString('General', 'MasterKey', FMasterKeyHash);
+  finally
+    Strings.Free;
+    Sections.Free;
+  end;
+end;
+
 procedure TPasswordStore.UpdateMasterKey(var MasterKey: AnsiString; var
   MasterKeyHash: AnsiString);
 const
@@ -338,6 +372,7 @@ begin
   else if SameText(FMasterKeyHash, MasterKeyHash) then
     begin
       FMasterKey:= MasterKey;
+      // if not FMasterStrong then ConvertStore;
       Result:= True;
     end
   else
