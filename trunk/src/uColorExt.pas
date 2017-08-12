@@ -181,10 +181,16 @@ end;
 
 function TColorExt.GetColorBy(const AFile: TFile): TColor;
 var
+  Attr: String;
   I, J: Integer;
   MaskItem: TMaskItem;
 begin
   Result:= clDefault;
+  if not (fpAttributes in AFile.SupportedProperties) then
+    Attr:= EmptyStr
+  else begin
+    Attr:= AFile.Properties[fpAttributes].AsString;
+  end;
   for I:= 0 to lslist.Count-1 do
   begin
     MaskItem:= TMaskItem(lslist[I]);
@@ -208,9 +214,8 @@ begin
            not (AFile.IsDirectory or AFile.IsLinkToDirectory)) and
           MaskItem.FMaskList.Matches(AFile.Name)))
        and
-       ((MaskItem.sModeStr = '') or
-         not (fpAttributes in AFile.SupportedProperties) or
-         MatchesMaskList(AFile.Properties[fpAttributes].AsString, MaskItem.sModeStr, ';')) then
+       ((MaskItem.sModeStr = '') or (Length(Attr) = 0) or
+         MatchesMaskList(Attr, MaskItem.sModeStr, ';')) then
       begin
         Result:= MaskItem.cColor;
         Exit;
