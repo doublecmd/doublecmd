@@ -65,7 +65,7 @@ var
 implementation
 
 uses
-  LCLProc, LCLType, Base64, BlowFish, Math, MD5, DCPcrypt2, DCPsha3, HMAC,
+  LCLProc, LCLType, Base64, BlowFish, Math, MD5, DCPcrypt2, HMAC,
   SHA3_512, Hash, uShowMsg, uGlobsPaths, uLng, uDebug, uRandom;
 
 const
@@ -197,14 +197,17 @@ begin
   Move(Buffer[0], Result[1], HashDesc^.HDigestlen);
 end;
 
-function EncodeStrong(MasterKey, Salt, Data: AnsiString): AnsiString;
+function EncodeStrong(MasterKey, Data: AnsiString): AnsiString;
 var
-  Hash: AnsiString;
+  Salt, Hash: AnsiString;
   StringStream: TStringStream = nil;
   Buffer: array[0..BUF_SIZE - 1] of Byte;
   BlowFishKey: TBlowFishKey absolute Buffer;
   BlowFishEncryptStream: TBlowFishEncryptStream = nil;
 begin
+  // Generate random salt
+  SetLength(Salt, SizeOf(TSHA3_256Digest));
+  Random(PByte(Salt), SizeOf(TSHA3_256Digest));
   // Generate encryption key
   pbkdf2_hmac_sha3_512(MasterKey, Salt, Buffer, SizeOf(Buffer), HMAC_COUNT);
   // Encrypt password using encryption key
@@ -224,15 +227,6 @@ begin
   Hash := hmac_sha3_512(@Buffer[KEY_SIZE], MAC_SIZE, Result);
   // Calcuate result base64 encoded string
   Result := EncodeStringBase64(Salt + Result + Copy(Hash, 1, 8));
-end;
-
-function EncodeStrong(MasterKey, Data: AnsiString): AnsiString;
-var
-  Salt: AnsiString;
-begin
-  SetLength(Salt, SizeOf(TSHA3_256Digest));
-  Random(PByte(Salt), SizeOf(TSHA3_256Digest));
-  Result:= EncodeStrong(MasterKey, Salt, Data);
 end;
 
 function DecodeStrong(MasterKey, Data: AnsiString): AnsiString;
@@ -273,10 +267,11 @@ end;
 
 procedure TPasswordStore.UpdateMasterKey(var MasterKey: AnsiString; var
   MasterKeyHash: AnsiString);
+const
+  RAND_SIZE = 16;
 var
-  I: Integer;
-  HashTemp: AnsiString;
-  MasterSalt: AnsiString;
+  Hash: TMD5Digest;
+  Randata: AnsiString;
 begin
   if not FMasterStrong then
   begin
@@ -284,35 +279,26 @@ begin
     MasterKeyHash:= Encode(MasterKey, MasterKeyHash);
   end
   else begin
-    // Get master salt
     if Length(FMasterKeyHash) = 0 then
     begin
-      SetLength(MasterSalt, SizeOf(TSHA3_256Digest));
-      Random(PByte(MasterSalt), SizeOf(TSHA3_256Digest));
+      SetLength(Randata, RAND_SIZE * 2);
+      Random(PByte(Randata), RAND_SIZE);
+      Hash:= MD5Buffer(Randata[1], RAND_SIZE);
+      Move(Hash[0], Randata[RAND_SIZE + 1], RAND_SIZE);
+      MasterKeyHash:= '!' + EncodeStrong(MasterKey, Randata);
     end
     else begin
-      MasterSalt:= DecodeStringBase64(Copy(FMasterKeyHash, 2, MaxInt));
-      MasterSalt:= Copy(MasterSalt, 1, SizeOf(TSHA3_256Digest));
-    end;
-    // Calculate master key hash #1
-    HashTemp:= MasterKey + MasterSalt;
-    for I:= 1 to 64 do
-    begin
-      with TDCP_sha3_512.Create(nil) do
-      begin
-        Init;
-        UpdateStr(HashTemp);
-        SetLength(HashTemp, HashSize div 8);
-        Final(HashTemp[1]);
-        Free;
+      Randata:= DecodeStrong(MasterKey, Copy(FMasterKeyHash, 2, MaxInt));
+      if Length(Randata) <> (RAND_SIZE * 2) then
+        MasterKeyHash:= EmptyStr
+      else begin
+        Hash:= MD5Buffer(Randata[1], RAND_SIZE);
+        if CompareByte(Hash[0], Randata[RAND_SIZE + 1], RAND_SIZE) <> 0 then
+          MasterKeyHash:= EmptyStr
+        else
+          MasterKeyHash:= FMasterKeyHash;
       end;
-      SetLength(HashTemp, Length(HashTemp) div 2);
-    end;
-    // Calculate master key hash #2
-    SetLength(MasterKeyHash, SizeOf(TSHA3_256Digest));
-    pbkdf2_hmac_sha3_512(HashTemp, MasterSalt, PByte(MasterKeyHash), SizeOf(TSHA3_256Digest), HMAC_COUNT);
-    // Calculate final master key hash
-    MasterKeyHash:= '!' + EncodeStrong(MasterKey, MasterSalt, MasterKeyHash);
+    end
   end;
 end;
 
