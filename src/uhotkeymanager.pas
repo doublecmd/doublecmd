@@ -209,8 +209,6 @@ type
     procedure Save(Config: TXmlConfig; Root: TXmlNode);
     procedure Load(Config: TXmlConfig; Root: TXmlNode);
     procedure LoadIni(FileName: String);
-    //---------------------
-    function IsShortcutConflictingWithOS(Shortcut: String): Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1075,46 +1073,6 @@ begin
 
   FreeAndNil(st);
   FreeAndNil(ini);
-end;
-
-function THotKeyManager.IsShortcutConflictingWithOS(Shortcut: String): Boolean;
-const
-  ConflictingShortcuts: array [0..27] of String =
-    (SmkcBkSp,                           // Delete previous character
-     SmkcDel,                            // Delete next character
-     SmkcLeft,                           // Move cursor left
-     SmkcRight,                          // Move cursor right
-     SmkcSpace,                          // Space
-     SmkcWin,                            // Context menu
-     SmkcShift + 'F10',                  // Context menu
-     SmkcShift + SmkcDel,                // Cut text
-     SmkcShift + SmkcIns,                // Paste text
-     SmkcShift + SmkcHome,               // Select to beginning
-     SmkcShift + SmkcEnd,                // Select to end
-     SmkcShift + SmkcLeft,               // Select previous character
-     SmkcShift + SmkcRight,              // Select next character
-     SmkcCtrl + 'A',                     // Select all
-     SmkcCtrl + 'C',                     // Copy text
-     SmkcCtrl + 'V',                     // Paste text
-     SmkcCtrl + 'X',                     // Cut text
-     SmkcCtrl + 'Z',                     // Undo
-     SmkcCtrl + SmkcBkSp,                // Delete previous word
-     SmkcCtrl + SmkcDel,                 // Delete next word
-     SmkcCtrl + SmkcIns,                 // Copy text
-     SmkcCtrl + SmkcHome,                // Move to beginning
-     SmkcCtrl + SmkcEnd,                 // Move to end
-     SmkcCtrl + SmkcLeft,                // Move to beginning of word
-     SmkcCtrl + SmkcRight,               // Move to end of word
-     SmkcCtrl + SmkcShift + 'Z',         // Redo
-     SmkcCtrl + SmkcShift + SmkcLeft,    // Select to beginning of word
-     SmkcCtrl + SmkcShift + SmkcRight);  // Select to end of word
-var
-  i: Integer;
-begin
-  for i := Low(ConflictingShortcuts) to High(ConflictingShortcuts) do
-    if Shortcut = ConflictingShortcuts[i] then
-      Exit(True);
-  Result := False;
 end;
 
 function THotKeyManager.Register(AForm: TCustomForm; AFormName: String): THMForm;

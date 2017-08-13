@@ -45,6 +45,7 @@ const
   SmkcNumMultiply = 'Num*';
   SmkcNumAdd = 'Num+';
   SmkcNumSubstract = 'Num-';
+  SmkcSuper = {$IF DEFINED(DARWIN)}SmkcWin{$ELSE}SmkcCtrl{$ENDIF};
 
   MenuKeyCaps: array[TMenuKeyCap] of string = (
     SmkcClear, SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
@@ -111,6 +112,8 @@ const
   function GetInternationalCharacter(Key: Word;
                                      ExcludeShiftState: TShiftState = []): TUTF8Char;
 {$ENDIF}
+
+  function IsShortcutConflictingWithOS(Shortcut: String): Boolean;
 
   {en
      Initializes keyboard module.
@@ -1140,6 +1143,46 @@ begin
   {$ENDIF}
 
 {$ENDIF}
+end;
+
+function IsShortcutConflictingWithOS(Shortcut: String): Boolean;
+const
+  ConflictingShortcuts: array [0..27] of String =
+    (SmkcBkSp,                           // Delete previous character
+     SmkcDel,                            // Delete next character
+     SmkcLeft,                           // Move cursor left
+     SmkcRight,                          // Move cursor right
+     SmkcSpace,                          // Space
+     SmkcWin,                            // Context menu
+     SmkcShift + 'F10',                  // Context menu
+     SmkcShift + SmkcDel,                // Cut text
+     SmkcShift + SmkcIns,                // Paste text
+     SmkcShift + SmkcHome,               // Select to beginning
+     SmkcShift + SmkcEnd,                // Select to end
+     SmkcShift + SmkcLeft,               // Select previous character
+     SmkcShift + SmkcRight,              // Select next character
+     SmkcSuper + 'A',                    // Select all
+     SmkcSuper + 'C',                    // Copy text
+     SmkcSuper + 'V',                    // Paste text
+     SmkcSuper + 'X',                    // Cut text
+     SmkcSuper + 'Z',                    // Undo
+     SmkcSuper + SmkcBkSp,               // Delete previous word
+     SmkcSuper + SmkcDel,                // Delete next word
+     SmkcSuper + SmkcIns,                // Copy text
+     SmkcSuper + SmkcHome,               // Move to beginning
+     SmkcSuper + SmkcEnd,                // Move to end
+     SmkcSuper + SmkcLeft,               // Move to beginning of word
+     SmkcSuper + SmkcRight,              // Move to end of word
+     SmkcSuper + SmkcShift + 'Z',        // Redo
+     SmkcSuper + SmkcShift + SmkcLeft,   // Select to beginning of word
+     SmkcSuper + SmkcShift + SmkcRight); // Select to end of word
+var
+  i: Integer;
+begin
+  for i := Low(ConflictingShortcuts) to High(ConflictingShortcuts) do
+    if Shortcut = ConflictingShortcuts[i] then
+      Exit(True);
+  Result := False;
 end;
 
 procedure InitializeKeyboard;
