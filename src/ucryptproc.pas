@@ -16,8 +16,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uCryptProc;
@@ -66,7 +65,7 @@ var
 implementation
 
 uses
-  LCLProc, LCLType, Base64, BlowFish, Math, MD5, DCPcrypt2, HMAC,
+  LCLType, Base64, BlowFish, Math, MD5, DCPcrypt2, HMAC,
   SHA3_512, Hash, uShowMsg, uGlobsPaths, uLng, uDebug, uRandom;
 
 const
@@ -106,9 +105,9 @@ begin
     Base64EncodingStream.Flush;
     Result:= StringStream.DataString;
   finally
-    FreeThenNil(BlowFishEncryptStream);
-    FreeThenNil(Base64EncodingStream);
-    FreeThenNil(StringStream);
+    FreeAndNil(BlowFishEncryptStream);
+    FreeAndNil(Base64EncodingStream);
+    FreeAndNil(StringStream);
   end;
 end;
 
@@ -131,9 +130,9 @@ begin
     BlowFishDeCryptStream:= TBlowFishDeCryptStream.Create(BlowFishKeyRec.bBlowFishKey, BlowFishKeyRec.dwSize, Base64DecodingStream);
     BlowFishDeCryptStream.Read(PAnsiChar(Result)^, Base64DecodingStream.Size);
   finally
-    FreeThenNil(BlowFishDeCryptStream);
-    FreeThenNil(Base64DecodingStream);
-    FreeThenNil(StringStream);
+    FreeAndNil(BlowFishDeCryptStream);
+    FreeAndNil(Base64DecodingStream);
+    FreeAndNil(StringStream);
   end;
 end;
 
@@ -272,10 +271,12 @@ var
   Password: String;
   Sections, Strings: TStringList;
 begin
+  if ReadOnly then Exit;
   Strings:= TStringList.Create;
   Sections:= TStringList.Create;
-  ReadSections(Sections);
   try
+    CacheUpdates:= True;
+    ReadSections(Sections);
     for I:= 0 to Sections.Count - 1 do
     begin
       if not SameText(Sections[I], 'General') then
@@ -293,6 +294,11 @@ begin
     FMasterKeyHash:= EmptyStr;
     UpdateMasterKey(FMasterKey, FMasterKeyHash);
     WriteString('General', 'MasterKey', FMasterKeyHash);
+    try
+      CacheUpdates:= False;
+    except
+      on E: Exception do msgError(E.Message);
+    end;
   finally
     Strings.Free;
     Sections.Free;
@@ -452,7 +458,7 @@ begin
 end;
 
 finalization
-  FreeThenNil(PasswordStore);
+  FreeAndNil(PasswordStore);
 
 end.
 
