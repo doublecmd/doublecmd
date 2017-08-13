@@ -985,9 +985,9 @@ begin
                       'Esc','',''],'cm_ExitViewer');
 
 
-      AddIfNotExists(['F'        ,'','',
-                      'Ctrl+F'   ,'','',
-                      'F7'       ,'',''],'cm_Find'); // , ['F'], []);
+      AddIfNotExists(['F'             ,'','',
+                      SmkcSuper + 'F' ,'','',
+                      'F7'            ,'',''],'cm_Find'); // , ['F'], []);
 
       AddIfNotExists(['F3'],[],'cm_FindNext');
       AddIfNotExists(['Shift+F3'],[],'cm_FindPrev');
