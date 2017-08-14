@@ -1147,12 +1147,17 @@ end;
 
 function IsShortcutConflictingWithOS(Shortcut: String): Boolean;
 const
-  ConflictingShortcuts: array [0..27] of String =
+  KEY_HIGH = {$IF DEFINED(DARWIN)}28{$ELSE}27{$ENDIF};
+const
+  ConflictingShortcuts: array [0..KEY_HIGH] of String =
     (SmkcBkSp,                           // Delete previous character
      SmkcDel,                            // Delete next character
      SmkcLeft,                           // Move cursor left
      SmkcRight,                          // Move cursor right
      SmkcSpace,                          // Space
+{$IF DEFINED(DARWIN)}
+     SmkcWin + SmkcSpace,                // Spotlight (Mac OS X)
+{$ENDIF DARWIN}
      SmkcWin,                            // Context menu
      SmkcShift + 'F10',                  // Context menu
      SmkcShift + SmkcDel,                // Cut text
