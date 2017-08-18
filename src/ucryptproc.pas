@@ -69,7 +69,7 @@ uses
   SHA3_512, Hash, uShowMsg, uGlobsPaths, uLng, uDebug, uRandom;
 
 const
-  HMAC_COUNT = 10240;
+  HMAC_COUNT = 32768;
 
 const
   KEY_SIZE = SizeOf(TBlowFishKey);
@@ -176,7 +176,7 @@ begin
     // Merge key block into the result key
     K:= (I - 1) * HashDesc^.HDigestlen;
     if (I = BlockCnt) then
-      Move(Xuffer[0], Key[K], KeyLength - K)
+      Move(Xuffer[0], {%H-}Key[K], KeyLength - K)
     else begin
       Move(Xuffer[0], Key[K], HashDesc^.HDigestlen);
     end;
