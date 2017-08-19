@@ -65,11 +65,13 @@ var
 implementation
 
 uses
-  LCLType, Base64, BlowFish, Math, MD5, DCPcrypt2, HMAC,
-  SHA3_512, Hash, uShowMsg, uGlobsPaths, uLng, uDebug, uRandom;
+  LCLType, Base64, BlowFish, MD5, HMAC, SCRYPT, SHA3_512, Hash,
+  uShowMsg, uGlobsPaths, uLng, uDebug, uRandom;
 
 const
-  HMAC_COUNT = 32768;
+  SCRYPT_N = 16384;
+  SCRYPT_R = 8;
+  SCRYPT_P = 1;
 
 const
   KEY_SIZE = SizeOf(TBlowFishKey);
@@ -136,60 +138,13 @@ begin
   end;
 end;
 
-procedure pbkdf2_hmac_sha3_512(const Password, Salt: AnsiString; Key: PByte; KeyLength, IterationCount: Integer);
-var
-  I, J, K: Integer;
-  BlockCnt: Integer;
-  HashDesc: PHashDesc;
-  Buffer: THashDigest;
-  Xuffer: TSHA3_512Digest;
-  Ctx1, Ctx2, Ctx3: THMAC_Context;
-begin
-  HashDesc:= FindHash_by_Name('SHA3-512');
-  // Init HMAC context (with password)
-  hmac_init({%H-}Ctx1, HashDesc, PByte(Password), Length(Password));
-  // Prepare HMAC context (with password and salt)
-  Move(Ctx1, {%H-}Ctx2, SizeOf(THMAC_Context));
-  hmac_update(Ctx2, Pointer(Salt), Length(Salt));
-  // Calculate the number of SHA3-512 blocks in the key
-  BlockCnt := ceil(KeyLength / HashDesc^.HDigestlen);
-  // Process each key block
-  for I := 1 to BlockCnt do
-  begin
-    // Prepare HMAC context (with password and salt)
-    Move(Ctx2, {%H-}Ctx3, SizeOf(THMAC_Context));
-    ZeroMemory(@Xuffer[0], HashDesc^.HDigestlen);
-    // Init first block data
-    K:= 4;
-    PLongWord(@Buffer[0])^:= NtoBE(I);
-    // Start iteration
-    for J := 1 to IterationCount do
-    begin
-      hmac_update(Ctx3, @Buffer[0], K);
-      hmac_final(Ctx3, Buffer);
-      XorBlockEx(Xuffer[0], Buffer[0], HashDesc^.HDigestlen);
-      // Prepare HMAC context (with password)
-      Move(Ctx1, Ctx3, SizeOf(THMAC_Context));
-      // Update buffer length
-      K:= HashDesc^.HDigestlen;
-    end;
-    // Merge key block into the result key
-    K:= (I - 1) * HashDesc^.HDigestlen;
-    if (I = BlockCnt) then
-      Move(Xuffer[0], {%H-}Key[K], KeyLength - K)
-    else begin
-      Move(Xuffer[0], Key[K], HashDesc^.HDigestlen);
-    end;
-  end;
-end;
-
 function hmac_sha3_512(AKey: PByte; AKeyLength: Integer; AMessage: AnsiString): AnsiString;
 var
   HashDesc: PHashDesc;
   Buffer: THashDigest;
   Context: THMAC_Context;
 begin
-  HashDesc:= FindHash_by_Name('SHA3-512');
+  HashDesc:= FindHash_by_ID(_SHA3_512);
   hmac_init({%H-}Context, HashDesc, AKey, AKeyLength);
   hmac_update(Context, Pointer(AMessage), Length(AMessage));
   hmac_final(Context, {%H-}Buffer);
@@ -209,7 +164,8 @@ begin
   SetLength(Salt, SizeOf(TSHA3_256Digest));
   Random(PByte(Salt), SizeOf(TSHA3_256Digest));
   // Generate encryption key
-  pbkdf2_hmac_sha3_512(MasterKey, Salt, Buffer, SizeOf(Buffer), HMAC_COUNT);
+  scrypt_kdf(Pointer(MasterKey), Length(MasterKey), Pointer(Salt), Length(Salt),
+             SCRYPT_N, SCRYPT_R, SCRYPT_P, {%H-}Buffer[0], SizeOf(Buffer));
   // Encrypt password using encryption key
   StringStream:= TStringStream.Create(EmptyStr);
   try
@@ -243,7 +199,8 @@ begin
   Salt:= Copy(Data, 1, SizeOf(TSHA3_256Digest));
   Data:= Copy(Data, SizeOf(TSHA3_256Digest) + 1, MaxInt);
   // Generate encryption key
-  pbkdf2_hmac_sha3_512(MasterKey, Salt, Buffer, SizeOf(Buffer), HMAC_COUNT);
+  scrypt_kdf(Pointer(MasterKey), Length(MasterKey), Pointer(Salt), Length(Salt),
+             SCRYPT_N, SCRYPT_R, SCRYPT_P, {%H-}Buffer[0], SizeOf(Buffer));
   // Verify password using hash message authentication code
   Salt:= hmac_sha3_512(@Buffer[KEY_SIZE], MAC_SIZE, Data);
   if StrLComp(Pointer(Hash), Pointer(Salt), 8) <> 0 then
