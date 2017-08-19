@@ -12,7 +12,7 @@
    degauss of the disk, or by disintegrating, incinerating,
    pulverizing, shreding, or melting the disk.
 
-   Copyright (C) 2008-2012  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2017  Alexander Koblov (alexx2000@mail.ru)
 
    Based on:
 
@@ -284,7 +284,7 @@ begin
       Exit;
     end;
   files:= files+1;
-  DCDebug('OK');
+  // DCDebug('OK');
   FEverythingOK:= True;
 end;
 
@@ -309,12 +309,12 @@ begin
 
         if fpS_ISDIR(Search.Attr) then
           begin
-            DCDebug('Entering '+ sPath + Search.Name);
+            // DCDebug('Entering '+ sPath + Search.Name);
             WipeDir(sPath + Search.Name);
           end
         else
           begin
-            DCDebug('Wiping '+ sPath + Search.Name);
+            // DCDebug('Wiping '+ sPath + Search.Name);
             SecureDelete(gWipePassNumber, sPath + Search.Name);
           end;
       end;
@@ -324,7 +324,7 @@ begin
   try
     if FEverythingOK then
       begin
-        DCDebug('Wiping ' + dir);
+        // DCDebug('Wiping ' + dir);
 
         if not mbRemoveDir(dir) then
           begin
@@ -336,7 +336,7 @@ begin
         else
           begin
             directories:= directories + 1;
-            DCDebug('OK');
+            // DCDebug('OK');
             // write log -------------------------------------------------------------------
             LogMessage(Format(rsMsgLogSuccess+rsMsgLogWipeDir, [dir]), [log_dir_op, log_delete], lmtSuccess);
             //------------------------------------------------------------------------------
@@ -375,7 +375,7 @@ begin
         Exit;
       end;
 
-      DCDebug('Wiping ' + sPath + SRec.Name);
+      // DCDebug('Wiping ' + sPath + SRec.Name);
       SecureDelete(gWipePassNumber, sPath + SRec.Name);
       // write log -------------------------------------------------------------------
       if FEverythingOK then
