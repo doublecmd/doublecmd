@@ -325,10 +325,10 @@ begin
       Random(PByte(Randata), RAND_SIZE);
       Hash:= MD5Buffer(Randata[1], RAND_SIZE);
       Move(Hash[0], Randata[RAND_SIZE + 1], RAND_SIZE);
-      MasterKeyHash:= '!' + EncodeStrong(MasterKey, Randata);
+      MasterKeyHash:= '!0' + EncodeStrong(MasterKey, Randata);
     end
     else begin
-      Randata:= DecodeStrong(MasterKey, Copy(FMasterKeyHash, 2, MaxInt));
+      Randata:= DecodeStrong(MasterKey, Copy(FMasterKeyHash, 3, MaxInt));
       if Length(Randata) <> (RAND_SIZE * 2) then
         MasterKeyHash:= EmptyStr
       else begin
