@@ -82,10 +82,11 @@ begin
   begin
     if (Context.randidx = 0) then
     begin
-      isaac_inita({%H-}Context, [GetTickCount,
+      isaac_inita({%H-}Context, [Int32(GetTickCount64),
                                  Integer(GetThreadID),
                                  Integer(GetProcessID),
-                                 GetHeapStatus.TotalFree], 4);
+                                 GetHeapStatus.TotalFree,
+                                 Int32(Trunc(Now * MSecsPerDay))], 5);
     end;
     isaac_read(Context, ABlock, ACount);
   end;
