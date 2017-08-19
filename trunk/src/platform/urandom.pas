@@ -58,7 +58,7 @@ begin
 {$ENDIF}
   if not Result then
   begin
-    if (CompareDWord(Context.randrsl[0], Context.randrsl[128], 128) = 0) then
+    if (Context.randidx = 0) then
     begin
       isaac_inita({%H-}Context, [GetTickCount,
                                  Integer(GetThreadID),
