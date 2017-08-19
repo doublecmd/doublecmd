@@ -11,16 +11,22 @@ procedure Random(ABlock: PByte; ACount: Integer);
 
 implementation
 
-{$IF DEFINED(MSWINDOWS)}
 uses
-  Windows;
+  ISAAC
+{$IF DEFINED(MSWINDOWS)}
+  , Windows
+{$ELSEIF DEFINED(UNIX)}
+  , DCOSUtils
+{$ENDIF}
+  ;
 
+threadvar
+  Context: isaac_ctx;
+
+{$IF DEFINED(MSWINDOWS)}
 var
   RtlGenRandom: function(RandomBuffer: PByte; RandomBufferLength: ULONG): LongBool; stdcall;
 {$ELSEIF DEFINED(UNIX)}
-uses
-  DCOSUtils;
-
 const
   random_dev = '/dev/urandom';
 
@@ -30,7 +36,9 @@ var
 
 procedure Random(ABlock: PByte; ACount: Integer);
 var
-  I: THandle;
+{$IF DEFINED(UNIX)}
+  Handle: THandle;
+{$ENDIF}
   Result: Boolean = False;
 begin
 {$IF DEFINED(MSWINDOWS)}
@@ -39,16 +47,26 @@ begin
 {$ELSEIF DEFINED(UNIX)}
   if HasRandom then
   begin
-    I:= mbFileOpen(random_dev, fmOpenRead or fmShareDenyNone);
-    Result:= (I <> feInvalidHandle);
+    Handle:= mbFileOpen(random_dev, fmOpenRead or fmShareDenyNone);
+    Result:= (Handle <> feInvalidHandle);
     if Result then
     begin
-      Result:= (FileRead(I, ABlock^, ACount) = ACount);
-      FileClose(I);
+      Result:= (FileRead(Handle, ABlock^, ACount) = ACount);
+      FileClose(Handle);
     end;
   end;
 {$ENDIF}
-  if not Result then for I:= 0 to ACount - 1 do ABlock[I]:= Byte(System.Random(256));
+  if not Result then
+  begin
+    if (CompareDWord(Context.randrsl[0], Context.randrsl[128], 128) = 0) then
+    begin
+      isaac_inita({%H-}Context, [GetTickCount,
+                                 Integer(GetThreadID),
+                                 Integer(GetProcessID),
+                                 GetHeapStatus.TotalFree], 4);
+    end;
+    isaac_read(Context, ABlock, ACount);
+  end;
 end;
 
 initialization
