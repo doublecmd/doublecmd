@@ -26,9 +26,6 @@ unit uRandom;
 
 interface
 
-uses
-  Classes, SysUtils;
-
 procedure Random(ABlock: PByte; ACount: Integer);
 
 implementation
@@ -42,6 +39,10 @@ uses
   {$IF DEFINED(LINUX)}
   , dl, BaseUnix, InitC
   {$ENDIF}
+{$ENDIF}
+  , SysUtils
+{$IF (FPC_FULLVERSION < 30000)}
+  , LazUTF8SysUtils
 {$ENDIF}
   ;
 
