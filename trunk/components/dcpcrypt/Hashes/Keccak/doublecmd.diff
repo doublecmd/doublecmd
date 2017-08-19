@@ -37,3 +37,54 @@ Index: sha3.pas
  {.$define USE_64BITCODE}   {Use 64-bit for Keccak permutation}
  {.$define USE_MMXCODE  }   {Use MMX for Keccak permutation, contributed by Eric Grange}
  {.$define USE_MMX_AKP  }   {Use MMX for Keccak permutation, contributed by Anna Kaliszewicz / payl}
+Index: scrypt.pas
+===================================================================
+--- scrypt.pas	(revision 7740)
++++ scrypt.pas	(working copy)
+@@ -90,7 +90,7 @@
+ implementation
+
+ uses
+-  sha256; {Register SHA256 for HMAC-SHA256}
++  SHA3_512; {Register SHA3_512 for HMAC_SHA3_512}
+
+ type
+   TLA16 = array[0..15] of longint;
+@@ -361,14 +361,14 @@
+
+
+ {---------------------------------------------------------------------------}
+-function pbkfd2_hmac_sha256(pPW: pointer; pLen: word; salt: pointer; sLen,C: longint; var DK; dkLen: longint): integer;
+-  {-Derive key DK from password pPW using salt and iteration count C using (hmac-)sha256}
++function pbkdf2_hmac_sha3_512(pPW: pointer; pLen: word; salt: pointer; sLen,C: longint; var DK; dkLen: longint): integer;
++  {-Derive key DK from password pPW using salt and iteration count C using hmac_sha3_512}
+ var
+   phash: PHashDesc;
+ begin
+-  {Note: pbkdf2 will return error indicator phash=nil if _SHA256 is not found!}
+-  phash := FindHash_by_ID(_SHA256);
+-  pbkfd2_hmac_sha256 := pbkdf2(phash,pPW,pLen,salt,sLen,C,DK,dkLen);
++  {Note: pbkdf2 will return error indicator phash=nil if _SHA3_512 is not found!}
++  phash := FindHash_by_ID(_SHA3_512);
++  pbkdf2_hmac_sha3_512 := pbkdf2(phash,pPW,pLen,salt,sLen,C,DK,dkLen);
+ end;
+
+
+@@ -418,7 +418,7 @@
+   pV  := malloc(sV);
+   pXY := malloc(sXY);
+   if (pB<>nil) and (pV<>nil) and (pXY<>nil) then begin
+-    err := pbkfd2_hmac_sha256(pPW, pLen, salt, sLen, 1, pB^, sB);
++    err := pbkdf2_hmac_sha3_512(pPW, pLen, salt, sLen, 1, pB^, sB);
+     if err=0 then begin
+       pw := pB;
+       for i:=0 to p-1 do begin
+@@ -425,7 +425,7 @@
+         smix(pw, r, N, pV, pXY);
+         inc(Ptr2Inc(pw), r*128);
+       end;
+-      err := pbkfd2_hmac_sha256(pPW, pLen, pB, sB, 1, DK, dKlen);
++      err := pbkdf2_hmac_sha3_512(pPW, pLen, pB, sB, 1, DK, dKlen);
+     end;
+     scrypt_kdf := err;
+   end

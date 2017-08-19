@@ -34,7 +34,7 @@
 www.cityinthesky.co.uk/cryptography.html
 "/>
     <Version Major="2" Release="4" Build="1"/>
-    <Files Count="27">
+    <Files Count="28">
       <Item1>
         <Filename Value="dcpbase64.pas"/>
         <UnitName Value="DCPbase64"/>
@@ -143,6 +143,10 @@ www.cityinthesky.co.uk/cryptography.html
         <Filename Value="Random/isaac.pas"/>
         <UnitName Value="ISAAC"/>
       </Item27>
+      <Item28>
+        <Filename Value="Hashes/Keccak/scrypt.pas"/>
+        <UnitName Value="scrypt"/>
+      </Item28>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
