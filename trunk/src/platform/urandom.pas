@@ -39,6 +39,9 @@ uses
   , Windows
 {$ELSEIF DEFINED(UNIX)}
   , DCOSUtils
+  {$IF DEFINED(LINUX)}
+  , dl, BaseUnix, InitC
+  {$ENDIF}
 {$ENDIF}
   ;
 
@@ -54,6 +57,9 @@ const
 
 var
   HasRandom: Boolean = False;
+  {$IF DEFINED(LINUX)}
+    getrandom: function(buf: PByte; buflen: csize_t; flags: cuint): cint; cdecl;
+  {$ENDIF}
 {$ENDIF}
 
 procedure Random(ABlock: PByte; ACount: Integer);
@@ -66,7 +72,15 @@ begin
 {$IF DEFINED(MSWINDOWS)}
   Result:= Assigned(RtlGenRandom);
   if Result then Result:= RtlGenRandom(ABlock, ACount);
-{$ELSEIF DEFINED(UNIX)}
+{$ELSEIF DEFINED(UNIX)} {$IF DEFINED(LINUX)}
+  if Assigned(getrandom) then
+  begin
+    repeat
+      Result:= (getrandom(ABlock, ACount, 0) = ACount);
+    until (Result = True) or (fpgetCerrno <> ESysEINTR);
+  end;
+  if not Result then
+  {$ENDIF}
   if HasRandom then
   begin
     Handle:= mbFileOpen(random_dev, fmOpenRead or fmShareDenyNone);
@@ -97,6 +111,9 @@ initialization
   @RtlGenRandom:= GetProcAddress(GetModuleHandle('advapi32.dll'), 'SystemFunction036');
 {$ELSEIF DEFINED(UNIX)}
   HasRandom:= mbFileAccess(random_dev, fmOpenRead);
+  {$IF DEFINED(LINUX)}
+    @getrandom:= dlsym(dlopen('libc.so.6', RTLD_NOW), 'getrandom');
+  {$ENDIF}
 {$ENDIF}
 
 end.
