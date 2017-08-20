@@ -45,7 +45,7 @@ function InitRecodeTable(Encoding: String; bCaseSensitive: Boolean): TRecodeTabl
 implementation
 
 uses
-  DCOSUtils, LConvEncoding, LazUTF8;
+  DCOSUtils, LConvEncoding, LazUTF8, uConvEncoding;
 
 type
   TIntArray = array of Integer;
