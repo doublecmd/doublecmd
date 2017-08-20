@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Encoding conversion and related stuff
 
-   Copyright (C) 2011-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,18 +26,27 @@ unit uConvEncoding;
 
 interface
 
+uses
+  Classes;
+
+const
+  EncodingOem = 'oem';
+  EncodingDefault = 'default';
+
 type
   TMacroEncoding = (meOEM, meANSI, meUTF8, meUTF8BOM, meUTF16LE, meUTF16BE);
 
 function TextIsASCII(const S: String): Boolean;
+procedure GetSupportedEncodings(List: TStrings);
 function DetectEncoding(const S: String): String; overload;
 function SingleByteEncoding(TextEncoding: String): Boolean;
 function DetectEncoding(const S: String; ADefault: TMacroEncoding; AStrict: Boolean): TMacroEncoding; overload;
+function ConvertEncoding(const S, FromEncoding, ToEncoding: String{$ifdef FPC_HAS_CPSTRING}; SetTargetCodePage: Boolean = False{$endif}): String;
 
 implementation
 
 uses
-  SysUtils, Classes, LazUTF8, LConvEncoding, GetText,
+  SysUtils, LazUTF8, LConvEncoding, GetText, DCConvertEncoding,
   nsCore, nsUniversalDetector;
 
 var
@@ -345,6 +354,17 @@ begin
   end;
 end;
 
+procedure GetSupportedEncodings(List: TStrings);
+var
+  Index: Integer;
+begin
+  TStringList(List).CaseSensitive:= False;
+  LConvEncoding.GetSupportedEncodings(List);
+  Index:= List.IndexOf(EncodingAnsi);
+  List[Index] := UpperCase(EncodingAnsi);
+  List.Insert(Index + 1, UpperCase(EncodingOem));
+end;
+
 function DetectEncoding(const S: String): String;
 
   function CompareI(p1, p2: PChar; Count: integer): boolean;
@@ -459,6 +479,51 @@ begin
   else begin
     Result:= ADefault;
   end;
+end;
+
+function ConvertEncoding(const S, FromEncoding, ToEncoding: String{$ifdef FPC_HAS_CPSTRING};
+  SetTargetCodePage: Boolean{$endif}): String;
+var
+  Encoded : Boolean;
+  AFrom, ATo : String;
+begin
+  AFrom:= NormalizeEncoding(FromEncoding);
+  ATo:= NormalizeEncoding(ToEncoding);
+  if AFrom = ATo then Exit(S);
+  if S = EmptyStr then
+  begin
+    if ATo = EncodingUTF8BOM then
+      Result:= UTF8BOM
+    else begin
+      Result := S;
+    end;
+    Exit;
+  end;
+  Encoded:= True;
+  if AFrom = EncodingUTF8 then
+  begin
+    if ATo = EncodingAnsi then Result:= CeUtf8ToAnsi(S)
+    else if ATo = EncodingOem then Result:= CeUtf8ToOem(S)
+    else if ATo = EncodingDefault then Result:= CeUtf8ToSys(S)
+    else Result:= ConvertEncodingFromUTF8(S, ATo, Encoded{$ifdef FPC_HAS_CPSTRING}, SetTargetCodePage{$endif});
+    if Encoded then Exit;
+  end
+  else if ATo = EncodingUTF8 then
+  begin
+    if AFrom = EncodingAnsi then Result:= CeAnsiToUtf8(S)
+    else if AFrom = EncodingOem then Result:= CeOemToUtf8(S)
+    else if AFrom = EncodingDefault then Result:= CeSysToUtf8(S)
+    else Result:= ConvertEncodingToUTF8(S, AFrom, Encoded);
+    if Encoded then Exit;
+  end
+  else begin
+    Result:= ConvertEncodingToUTF8(S, AFrom, Encoded);
+    if Encoded then
+      Result:= ConvertEncodingFromUTF8(Result, ATo, Encoded{$ifdef FPC_HAS_CPSTRING}, SetTargetCodePage{$endif});
+    if Encoded then Exit;
+  end;
+  // Cannot encode: return original string
+  Result:= S;
 end;
 
 function TextIsASCII(const S: String): Boolean; inline;

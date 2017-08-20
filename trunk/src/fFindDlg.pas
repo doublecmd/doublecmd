@@ -376,7 +376,7 @@ uses
   uLng, uGlobs, uShowForm, uDCUtils, uFileSource, uFileSourceUtil,
   uSearchResultFileSource, uFile,
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
-  DCOSUtils, RegExpr, uDebug, uShowMsg;
+  DCOSUtils, RegExpr, uDebug, uShowMsg, uConvEncoding;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of integer = (0, 1, 2, 3, 4, 5, 6);
@@ -652,7 +652,8 @@ begin
   GetSupportedEncodings(cmbEncoding.Items);
   I := cmbEncoding.Items.IndexOf('UTF-8BOM');
   if I >= 0 then cmbEncoding.Items.Delete(I);
-  cmbEncoding.ItemIndex := cmbEncoding.Items.IndexOf(EncodingAnsi);
+  cmbEncoding.Items.Insert(0, 'Default');
+  cmbEncoding.ItemIndex := 0;
 
   // gray disabled fields
   cbUsePluginChange(Sender);
@@ -845,7 +846,7 @@ begin
   cbReplaceText.Checked := False;
   cbCaseSens.Checked := False;
   cbNotContainingText.Checked := False;
-  cmbEncoding.ItemIndex := cmbEncoding.Items.IndexOf(EncodingAnsi);
+  cmbEncoding.ItemIndex := 0;
 
   // plugins
   cmbPlugin.Text := '';

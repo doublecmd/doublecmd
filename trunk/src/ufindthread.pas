@@ -110,6 +110,11 @@ begin
       FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
       ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
 
+      if TextEncoding = EncodingDefault then begin
+         if not SingleByteEncoding(GetDefaultTextEncoding) then
+           TextEncoding := GetDefaultTextEncoding;
+      end;
+
       // Determine search type
       if SingleByteEncoding(TextEncoding) then
       begin
