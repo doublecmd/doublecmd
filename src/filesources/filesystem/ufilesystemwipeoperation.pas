@@ -262,7 +262,6 @@ begin
             CheckOperationState; // check pause and stop
           end;
           //-------------------------------------
-          if (j = 2) and (max > 0) then fill(j);
         end;
         FileFlush(fs.Handle);
         CheckOperationState; // check pause and stop
