@@ -939,7 +939,8 @@ begin
         Process := TProcessUTF8.Create(nil);
         try
           Process.CommandLine := FormatShell(sShellCmdLine);
-          Process.Options := [poNoConsole, poWaitOnExit];
+          Process.Options := [poWaitOnExit];
+          Process.ShowWindow := swoHide;
           Process.Execute;
         finally
           Process.Free;
