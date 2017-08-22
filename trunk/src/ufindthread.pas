@@ -27,7 +27,7 @@ unit uFindThread;
 interface
 
 uses
-  Classes, SysUtils, uFindFiles, uFindEx, uFindByrMr, uMasks;
+  Classes, SysUtils, uFindFiles, uFindEx, uFindByrMr, uMasks, uRegExpr;
 
 type
 
@@ -50,6 +50,7 @@ type
     FFilesMasks: TMaskList;
     FExcludeFiles: TMaskList;
     FExcludeDirectories: TMaskList;
+    FRegExpr: TRegExprEx;
 
     FTimeSearchStart:TTime;
     FTimeSearchEnd:TTime;
@@ -62,6 +63,7 @@ type
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function CheckDirectory(const CurrentDir, FolderName : String) : Boolean;
     function FindInFile(const sFileName: String;sData: String; bCase, bRegExp: Boolean): Boolean;
+    procedure FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase, bRegExp: Boolean);
 
   protected
     procedure Execute; override;
@@ -107,13 +109,9 @@ begin
     if IsFindText then
     begin
       TextEncoding := NormalizeEncoding(TextEncoding);
+      if TextRegExp then FRegExpr := TRegExprEx.Create(TextEncoding);
       FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
       ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
-
-      if TextEncoding = EncodingDefault then begin
-         if not SingleByteEncoding(GetDefaultTextEncoding) then
-           TextEncoding := GetDefaultTextEncoding;
-      end;
 
       // Determine search type
       if SingleByteEncoding(TextEncoding) then
@@ -155,6 +153,7 @@ end;
 destructor TFindThread.Destroy;
 begin
 //  FItems.Add('End');
+  FreeAndNil(FRegExpr);
   FreeAndNil(FFilesMasks);
   FreeAndNil(FExcludeFiles);
   FreeThenNil(FLinkTargets);
@@ -275,7 +274,7 @@ begin
     finally
       fs.Free;
     end;
-    Exit(ExecRegExpr(sData, S));
+    Exit(FRegExpr.ExecRegExpr(sData, S));
   end;
 
   if gUseMmapInSearch then
@@ -366,7 +365,7 @@ begin
   end;
 end;
 
-procedure FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase, bRegExp: Boolean);
+procedure TFindThread.FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase, bRegExp: Boolean);
 var
   S: String;
   fs: TFileStreamEx;
@@ -386,7 +385,7 @@ begin
   end;
 
   if bRegExp then
-    S := ReplaceRegExpr(SearchString, S, replaceString, True)
+    S := FRegExpr.ReplaceRegExpr(SearchString, S, replaceString, True)
   else
     begin
       Include(Flags, rfReplaceAll);
