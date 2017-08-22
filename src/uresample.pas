@@ -7,7 +7,7 @@
 // Date:	19-DEC-2009
 // Target:	Free Pascal 2.2.4, Lazarus 0.9.29
 // Author(s):	anme: Anders Melander, anders@melander.dk
-// 				Alexx2000: Alexander Koblov, Alexx2000@mail.ru
+//           	Alexx2000: Alexander Koblov, alexx2000@mail.ru
 // Copyright	(c) 1997,98 by Anders Melander
 // Copyright	(c) 2009 by Alexander Koblov
 // Formatting:	2 space indent, 8 space tabs, 80 columns.
@@ -58,7 +58,8 @@
 //			  1/2 pixel down and to the right (in source
 //			  coordinates). Thanks to David Ullrich for the
 //			  solution.
-// 0103 191209	Alexx2000	- Ported to FreePascal/Lazarus
+// 0103 191209	Alexx2000
+//			- Ported to FreePascal/Lazarus
 //			- Added alpha channel support
 // -----------------------------------------------------------------------------
 // Credits:
@@ -339,14 +340,13 @@ var
   DestLine		: PRGBAList;
   SrcDelta		: integer;
   SrcIntfImage,
-  DstIntfImage          : TLazIntfImage;
-  ImgFormatDescription  : TRawImageDescription;
+  DstIntfImage	: TLazIntfImage;
   SrcWidth		,
   SrcHeight		,
   DstWidth		,
   DstHeight		: integer;
 
-  function Color2RGBA(Color: TFPColor): TColorRGBA;
+  function Color2RGBA(Color: TFPColor): TColorRGBA; inline;
   begin
     Result.r := Color.Red shr 8;
     Result.g := Color.Green shr 8;
@@ -354,7 +354,7 @@ var
     Result.a := Color.Alpha shr 8;
   end;
 
-  function RGBA2Color(Color: TColorRGBA): TFPColor;
+  function RGBA2Color(Color: TColorRGBA): TFPColor; inline;
   begin
     Result.Red   := Color.r shl 8;
     Result.Green := Color.g shl 8;
@@ -388,11 +388,11 @@ begin
 {++++++++++++++++++++}
     if Src.RawImage.Description.AlphaPrec = 0 then // if bitmap has not alpha channel
       SrcIntfImage := CreateAlphaFromMask(Src)
-    else
+    else begin
       SrcIntfImage := TLazIntfImage.Create(Src.RawImage, False);
-    DstIntfImage := TLazIntfImage.Create(Dst.RawImage, False);
-    ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(DstWidth, DstHeight);
-    DstIntfImage.DataDescription := ImgFormatDescription;
+    end;
+    DstIntfImage := TLazIntfImage.Create(DstWidth, DstHeight, [riqfRGB, riqfAlpha]);
+    DstIntfImage.CreateData;
 {++++++++++++++++++++}
 
     // --------------------------------------------
