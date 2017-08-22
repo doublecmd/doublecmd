@@ -425,6 +425,7 @@ end;
 function SingleByteEncoding(TextEncoding: String): Boolean;
 begin
   TextEncoding := NormalizeEncoding(TextEncoding);
+  if TextEncoding = EncodingDefault then TextEncoding := GetDefaultTextEncoding;
   Result := (TextEncoding <> EncodingUTF8) and (TextEncoding <> EncodingUTF8BOM) and
             (TextEncoding <> EncodingUCS2LE) and (TextEncoding <> EncodingUCS2BE);
 end;

@@ -705,11 +705,8 @@ end;
 
 { TfrmFindDlg.cmbEncodingSelect }
 procedure TfrmFindDlg.cmbEncodingSelect(Sender: TObject);
-var
-  AEncoding: string;
 begin
-  AEncoding := NormalizeEncoding(cmbEncoding.Text);
-  cbTextRegExp.Enabled := (AEncoding = EncodingAnsi);
+  cbTextRegExp.Enabled := cbFindText.Checked and SingleByteEncoding(cmbEncoding.Text);
   if not cbTextRegExp.Enabled then cbTextRegExp.Checked := False;
 end;
 
@@ -774,6 +771,7 @@ begin
   EnableControl(cbTextRegExp, cbFindText.Checked);
   lblEncoding.Enabled := cbFindText.Checked;
   cbReplaceText.Checked := False;
+  cmbEncodingSelect(nil);
 
   if not FUpdating and cmbFindText.Enabled and cmbFindText.CanFocus and (Sender = cbFindText) then
   begin
@@ -847,6 +845,7 @@ begin
   cbCaseSens.Checked := False;
   cbNotContainingText.Checked := False;
   cmbEncoding.ItemIndex := 0;
+  cmbEncodingSelect(nil);
 
   // plugins
   cmbPlugin.Text := '';
