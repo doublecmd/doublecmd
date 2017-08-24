@@ -39,11 +39,12 @@ type
   end;
 
 procedure BitmapAssign(Bitmap: TBitmap; Image: TRasterImage);
+procedure BitmapAlpha(var ABitmap: TBitmap; APercent: Single);
 
 implementation
 
 uses
-  GraphType, uPixMapManager;
+  GraphType, FPimage, IntfGraphics, uPixMapManager;
 
 type
   TRawAccess = class(TRasterImage) end;
@@ -57,6 +58,29 @@ begin
   Bitmap.LoadFromRawImage(RawImage^, True);
   // Set image data pointer to nil, so it will not free double
   RawImage^.ReleaseData;
+end;
+
+procedure BitmapAlpha(var ABitmap: TBitmap; APercent: Single);
+var
+  X, Y: Integer;
+  Color: TFPColor;
+  AImage: TLazIntfImage;
+begin
+  if ABitmap.RawImage.Description.AlphaPrec <> 0 then
+  begin
+    AImage:= ABitmap.CreateIntfImage();
+    for X:= 0 to AImage.Width - 1 do
+    begin
+      for Y:= 0 to AImage.Height - 1 do
+      begin
+        Color:= AImage.Colors[X, Y];
+        Color.Alpha:= Round(Color.Alpha * APercent);
+        AImage.Colors[X, Y]:= Color;
+      end;
+    end;
+    ABitmap.LoadFromIntfImage(AImage);
+    AImage.Free;
+  end;
 end;
 
 { TImageListHelper }
