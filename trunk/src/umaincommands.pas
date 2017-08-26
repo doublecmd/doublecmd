@@ -1057,15 +1057,31 @@ begin
 end;
 
 procedure TMainCommands.cm_FlatView(const Params: array of string);
+var
+  AFile: TFile;
 begin
-  if not (fspListFlatView in frmMain.ActiveFrame.FileSource.GetProperties) then
+  with frmMain do
+  if not (fspListFlatView in ActiveFrame.FileSource.GetProperties) then
   begin
     msgWarning(rsMsgErrNotSupported);
   end
   else
   begin
-    frmMain.ActiveFrame.FlatView:= not frmMain.ActiveFrame.FlatView;
-    frmMain.ActiveFrame.Reload;
+    ActiveFrame.FlatView:= not ActiveFrame.FlatView;
+    if not ActiveFrame.FlatView then
+    begin
+      AFile:= ActiveFrame.CloneActiveFile;
+      if Assigned(AFile) and AFile.IsNameValid then
+      begin
+        if not mbCompareFileNames(ActiveFrame.CurrentPath, AFile.Path) then
+        begin
+          ActiveFrame.CurrentPath:= AFile.Path;
+          ActiveFrame.SetActiveFile(AFile.Name);
+        end;
+      end;
+      AFile.Free;
+    end;
+    ActiveFrame.Reload;
   end;
 end;
 
