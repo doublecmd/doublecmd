@@ -335,7 +335,7 @@ begin
   else if SameText(FMasterKeyHash, MasterKeyHash) then
     begin
       FMasterKey:= MasterKey;
-      // if not FMasterStrong then ConvertStore;
+      if not FMasterStrong then ConvertStore;
       Result:= True;
     end
   else
