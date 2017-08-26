@@ -368,6 +368,7 @@ var
   gIconsSize,
   gIconsSizeNew : Integer;
   gDiskIconsSize : Integer;
+  gDiskIconsAlpha : Integer;
   gFiOwnDCIcon : PtrInt;
   gIconsExclude: Boolean;
   gIconsExcludeDirs: String;
@@ -1594,6 +1595,7 @@ begin
   gIconsSize := 32;
   gIconsSizeNew := gIconsSize;
   gDiskIconsSize := 16;
+  gDiskIconsAlpha := 50;
   gIconsExclude := False;
   gIconsExcludeDirs := EmptyStr;
   gPixelsPerInch := 96;
@@ -2517,6 +2519,7 @@ begin
       gIconOverlays := GetValue(Node, 'ShowOverlays', gIconOverlays);
       gIconsSize := GetValue(Node, 'Size', gIconsSize);
       gDiskIconsSize := GetValue(Node, 'DiskSize', gDiskIconsSize);
+      gDiskIconsAlpha := GetValue(Node, 'DiskAlpha', gDiskIconsAlpha);
       gIconsExclude := GetValue(Node, 'Exclude', gIconsExclude);
       gIconsExcludeDirs := GetValue(Node, 'ExcludeDirs', gIconsExcludeDirs);
       gPixelsPerInch := GetValue(Node, 'PixelsPerInch', gPixelsPerInch);
@@ -3024,6 +3027,7 @@ begin
     SetValue(Node, 'ShowOverlays', gIconOverlays);
     SetValue(Node, 'Size', gIconsSizeNew);
     SetValue(Node, 'DiskSize', gDiskIconsSize);
+    SetValue(Node, 'DiskAlpha', gDiskIconsAlpha);
     SetValue(Node, 'Exclude', gIconsExclude);
     SetValue(Node, 'ExcludeDirs', gIconsExcludeDirs);
     SetValue(Node, 'CustomIcons', Integer(gCustomIcons));

@@ -1989,9 +1989,9 @@ begin
       Result := GetBuiltInDriveIcon(Drive, IconSize, clBackColor);
     end;
 
-  if Assigned(Result) and (not Drive^.IsMounted) then
+  if Assigned(Result) and (gDiskIconsAlpha in [1..99]) and (not Drive^.IsMounted) then
   begin
-    BitmapAlpha(Result, 0.5);
+    BitmapAlpha(Result, gDiskIconsAlpha / 100);
   end;
 end;
 
