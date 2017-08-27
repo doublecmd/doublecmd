@@ -1,9 +1,9 @@
 {==============================================================================|
-| Project : Ararat Synapse                                       | 001.001.004 |
+| Project : Ararat Synapse                                       | 001.001.005 |
 |==============================================================================|
 | Content: Socket Independent Platform Layer - FreePascal definition include   |
 |==============================================================================|
-| Copyright (c)2006-2011, Lukas Gebauer                                        |
+| Copyright (c)2006-2013, Lukas Gebauer                                        |
 | All rights reserved.                                                         |
 |                                                                              |
 | Redistribution and use in source and binary forms, with or without           |
@@ -33,7 +33,7 @@
 | DAMAGE.                                                                      |
 |==============================================================================|
 | The Initial Developer of the Original Code is Lukas Gebauer (Czech Republic).|
-| Portions created by Lukas Gebauer are Copyright (c)2006-2011.                |
+| Portions created by Lukas Gebauer are Copyright (c)2006-2013.                |
 | All Rights Reserved.                                                         |
 |==============================================================================|
 | Contributor(s):                                                              |
@@ -205,6 +205,10 @@ Const
 { Socket filtering }
 //  SO_ATTACH_FILTER = sockets.SO_ATTACH_FILTER;
 //  SO_DETACH_FILTER = sockets.SO_DETACH_FILTER;
+
+{$IFDEF DARWIN}
+  SO_NOSIGPIPE = $1022;
+{$ENDIF}
 
   SOMAXCONN       = 1024;
 
@@ -646,8 +650,20 @@ begin
 end;
 
 function Socket(af, Struc, Protocol: Integer): TSocket;
+{$IFDEF DARWIN}
+var
+  on_off: integer;
+{$ENDIF}
 begin
   Result := fpSocket(af, struc, protocol);
+// ##### Patch for Mac OS to avoid "Project XXX raised exception class 'External: SIGPIPE'" error.
+{$IFDEF DARWIN}
+  if Result <> INVALID_SOCKET then
+  begin
+    on_off := 1;
+    synsock.SetSockOpt(Result, integer(SOL_SOCKET), integer(SO_NOSIGPIPE), @on_off, SizeOf(integer));
+  end;
+{$ENDIF}
 end;
 
 function Select(nfds: Integer; readfds, writefds, exceptfds: PFDSet;
