@@ -1,9 +1,9 @@
 {==============================================================================|
-| Project : Ararat Synapse                                       | 001.002.001 |
+| Project : Ararat Synapse                                       | 001.003.000 |
 |==============================================================================|
 | Content: SSL support by OpenSSL                                              |
 |==============================================================================|
-| Copyright (c)1999-2012, Lukas Gebauer                                        |
+| Copyright (c)1999-2017, Lukas Gebauer                                        |
 | All rights reserved.                                                         |
 |                                                                              |
 | Redistribution and use in source and binary forms, with or without           |
@@ -33,7 +33,7 @@
 | DAMAGE.                                                                      |
 |==============================================================================|
 | The Initial Developer of the Original Code is Lukas Gebauer (Czech Republic).|
-| Portions created by Lukas Gebauer are Copyright (c)2005-2012.                |
+| Portions created by Lukas Gebauer are Copyright (c)2005-2017.                |
 | Portions created by Petr Fejfar are Copyright (c)2011-2012.                  |
 | All Rights Reserved.                                                         |
 |==============================================================================|
@@ -47,12 +47,12 @@
 
 {:@abstract(SSL plugin for OpenSSL)
 
-You need OpenSSL libraries version 0.9.7. It can work with 0.9.6 too, but
-application mysteriously crashing when you are using freePascal on Linux.
-Use Kylix on Linux is OK! If you have version 0.9.7 on Linux, then I not see
-any problems with FreePascal.
+Compatibility with OpenSSL versions:
+0.9.6 should work, known mysterious crashing on FreePascal and Linux platform.
+0.9.7 - 1.0.0 working fine.
+1.1.0 should work, under testing.
 
-OpenSSL libraries are loaded dynamicly - you not need OpenSSl librares even you
+OpenSSL libraries are loaded dynamicly - you not need OpenSSL librares even you
 compile your application with this unit. SSL just not working when you not have
 OpenSSL libraries.
 
@@ -431,7 +431,13 @@ begin
     LT_TLSv1_2:
       Fctx := SslCtxNew(SslMethodTLSV12);
     LT_all:
-      Fctx := SslCtxNew(SslMethodV23);
+      begin
+        //try new call for OpenSSL 1.1.0 first
+        Fctx := SslCtxNew(SslMethodTLS);
+        if Fctx=nil then
+          //callback to previous versions
+          Fctx := SslCtxNew(SslMethodV23);
+      end;
   else
     Exit;
   end;
