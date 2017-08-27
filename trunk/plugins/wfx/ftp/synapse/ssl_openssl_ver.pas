@@ -62,10 +62,9 @@ const
   { ADD NEW ONES WHEN THEY APPEAR!
     Always make .so/dylib first, then versions, in descending order!
     Add "." .before the version, first is always just "" }
-  LibVersions: array[1..16] of String = ('', '.1.0.6', '.1.0.5', '.1.0.4', '.1.0.3',
-                                         '.1.0.2', '.1.0.1','.1.0.0','.0.9.8',
-                                         '.0.9.7', '.0.9.6', '.0.9.5', '.0.9.4',
-                                         '.0.9.3', '.0.9.2', '.0.9.1');
+  LibVersions: array[1..13] of String = ('', '.1.1', '.1.0.2', '.1.0.1','.1.0.0',
+                                         '.0.9.8', '.0.9.7', '.0.9.6', '.0.9.5',
+                                         '.0.9.4', '.0.9.3', '.0.9.2', '.0.9.1');
 
 function GetLibraryName(const Value: String; Index: Integer): String;
 begin
