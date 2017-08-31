@@ -982,6 +982,11 @@ begin
   begin
     Result := ICompareByDirectory(TDisplayFile(item1).FSFile, TDisplayFile(item2).FSFile, False); // Ascending
     if Result <> 0 then Exit;
+  end
+  else begin
+    // Put '..' first.
+    if TDisplayFile(item1).FSFile.Name = '..' then Exit(-1);
+    if TDisplayFile(item2).FSFile.Name = '..' then Exit(+1);
   end;
 
   for i := 0 to Length(FSortings) - 1 do
@@ -1135,6 +1140,11 @@ begin
   begin
     Result := ICompareByDirectory(TFile(item1), TFile(item2), False); // Ascending
     if Result <> 0 then Exit;
+  end
+  else begin
+    // Put '..' first.
+    if TFile(item1).Name = '..' then Exit(-1);
+    if TFile(item2).Name = '..' then Exit(+1);
   end;
 
   for i := 0 to Length(FSortings) - 1 do
