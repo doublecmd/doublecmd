@@ -2175,7 +2175,7 @@ begin
   end;
 
 
-  bAnimation           := (GifAnim.Visible);
+  bAnimation           := (Panel = pnlImage) and (GifAnim.Visible);
   bImage               := (Panel = pnlImage) and (bAnimation = False);
   bPlugin              := (Panel = nil);
   miPlugins.Checked    := (Panel = nil);
