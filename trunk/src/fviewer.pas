@@ -1417,15 +1417,24 @@ begin
   if (miFullScreen.Checked) then
   begin
     if (PanelEditImage.Visible) and (i_timer > 60) and (not PanelEditImage.MouseEntered) then
-      PanelEditImage.Visible:= False
+    begin
+      PanelEditImage.Visible:= False;
+      AdjustImageSize;
+    end
     else if (not PanelEditImage.Visible) and (sboxImage.ScreenToClient(Mouse.CursorPos).Y < PanelEditImage.Height div 2) then
+    begin
       PanelEditImage.Visible:= True;
+      AdjustImageSize;
+    end;
   end;
   Inc(i_timer);
   if (cbSlideShow.Checked) and (i_timer = 60 * seTimeShow.Value) then
   begin
     if (PanelEditImage.Visible) and (not PanelEditImage.MouseEntered) then
+    begin
       PanelEditImage.Visible:= False;
+      AdjustImageSize;
+    end;
     cm_LoadNextFile([]);
     i_timer:= 0;
   end;
