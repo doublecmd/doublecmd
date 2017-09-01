@@ -267,7 +267,7 @@ object frmViewer: TfrmViewer
   OnShow = FormShow
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.6.4.0'
+  LCLVersion = '1.8.0.4'
   object pnlFolder: TPanel
     Left = 179
     Height = 435
@@ -366,6 +366,7 @@ object frmViewer: TfrmViewer
       TabOrder = 0
       OnMouseEnter = sboxImageMouseEnter
       OnMouseLeave = sboxImageMouseLeave
+      OnMouseMove = sboxImageMouseMove
       object Image: TImage
         Left = 56
         Height = 288
@@ -409,7 +410,6 @@ object frmViewer: TfrmViewer
       ParentShowHint = False
       ShowHint = True
       TabOrder = 1
-      OnMouseEnter = PanelEditImageMouseEnter
       object gboxHightlight: TGroupBox
         Left = 435
         Height = 47
@@ -1407,16 +1407,17 @@ object frmViewer: TfrmViewer
       end
       object gboxSlideShow: TGroupBox
         AnchorSideRight.Control = btnFullScreen
-        Left = 334
+        Left = 326
         Height = 48
         Top = 1
-        Width = 132
+        Width = 140
         Align = alRight
         AutoSize = True
         BorderSpacing.Right = 6
         Caption = 'Slide Show'
+        ChildSizing.LeftRightSpacing = 6
         ClientHeight = 28
-        ClientWidth = 128
+        ClientWidth = 136
         TabOrder = 3
         Visible = False
         object seTimeShow: TSpinEdit
@@ -1425,7 +1426,7 @@ object frmViewer: TfrmViewer
           AnchorSideRight.Control = gboxSlideShow
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Side = asrBottom
-          Left = 81
+          Left = 87
           Height = 23
           Top = 0
           Width = 43
@@ -1441,7 +1442,7 @@ object frmViewer: TfrmViewer
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = seTimeShow
           AnchorSideBottom.Side = asrBottom
-          Left = 0
+          Left = 6
           Height = 19
           Top = 2
           Width = 77

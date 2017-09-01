@@ -237,7 +237,6 @@ type
     procedure ImageMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure miLookBookClick(Sender: TObject);
-    procedure PanelEditImageMouseEnter(Sender: TObject);
     procedure pnlImageResize(Sender: TObject);
 
     procedure pnlTextMouseWheelUp(Sender: TObject; Shift: TShiftState;
@@ -287,6 +286,8 @@ type
     FCommands: TFormCommands;
     FZoomFactor: Double;
     FExif: TExifReader;
+    FWindowBounds: TRect;
+    FWindowState: TWindowState;
 
     //---------------------
     WlxPlugins:TWLXModuleList;
@@ -314,7 +315,6 @@ type
 
   protected
     procedure WMSetFocus(var Message: TLMSetFocus); message LM_SETFOCUS;
-    procedure UpdateGlobals;
 
   public
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource; aQuickView: Boolean = False); overload;
@@ -449,27 +449,8 @@ begin
   FBitmapList:= TBitmapList.Create(True);
   FCommands := TFormCommands.Create(Self, actionList);
 
-  FontOptionsToFont(gFonts[dcfMain],memFolder.Font);
-  memFolder.Color:=gBackColor;
-
-//  This temporary code is for debug
-  StartX:=0;
-  StartY:=0;
-  EndX:=Image.Width-1;
-  EndY:=Image.Height-1;
-//  CutToImage;
-
-
-{
-  tmp_all:= TBitmap.Create;
-  tmp_all.Assign(Image.Picture.Graphic);
-
-  Image.Picture.Bitmap.Canvas.Clear;
-  Image.Picture.Bitmap.Canvas.Draw(0,0,tmp_all);
-  UndoTmp;
-}
-//-----------------------------------
-
+  FontOptionsToFont(gFonts[dcfMain], memFolder.Font);
+  memFolder.Color:= gBackColor;
 end;
 
 constructor TfrmViewer.Create(TheOwner: TComponent);
@@ -895,16 +876,6 @@ begin
   if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).SetFocus;
 end;
 
-procedure TfrmViewer.UpdateGlobals;
-begin
-  gViewerTop:=Top;
-  gViewerLeft:=Left;
-  gViewerWidth:=Width;
-  gViewerHeight:=Height;
-end;
-
-
-
 procedure TfrmViewer.RedEyes;
 var
   tmp:TBitMap;
@@ -1319,16 +1290,10 @@ begin
   end;
 end;
 
-procedure TfrmViewer.PanelEditImageMouseEnter(Sender: TObject);
-begin
-  if miFullScreen.Checked then PanelEditImage.Height:= 50;
-end;
-
 procedure TfrmViewer.pnlImageResize(Sender: TObject);
 begin
   if bImage then AdjustImageSize;
 end;
-
 
 procedure TfrmViewer.pnlTextMouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
@@ -1449,21 +1414,27 @@ end;
 
 procedure TfrmViewer.TimerViewerTimer(Sender: TObject);
 begin
-  if (miFullScreen.Checked) and (PanelEditImage.Height>3) then
-  PanelEditImage.Height := PanelEditImage.Height-1;
-  i_timer:=i_timer+1;
-  if (cbSlideShow.Checked) and (i_timer=60*seTimeShow.Value) then
-    begin
-     cm_LoadNextFile([]);
-     i_timer:=0;
-    end;
-  if i_timer=180 then
-    begin
-     sboxImage.Cursor:=crNone;
-     Image.Cursor:=crNone;
-    end;
+  if (miFullScreen.Checked) then
+  begin
+    if (PanelEditImage.Visible) and (i_timer > 60) and (not PanelEditImage.MouseEntered) then
+      PanelEditImage.Visible:= False
+    else if (not PanelEditImage.Visible) and (sboxImage.ScreenToClient(Mouse.CursorPos).Y < PanelEditImage.Height div 2) then
+      PanelEditImage.Visible:= True;
+  end;
+  Inc(i_timer);
+  if (cbSlideShow.Checked) and (i_timer = 60 * seTimeShow.Value) then
+  begin
+    if (PanelEditImage.Visible) and (not PanelEditImage.MouseEntered) then
+      PanelEditImage.Visible:= False;
+    cm_LoadNextFile([]);
+    i_timer:= 0;
+  end;
+  if i_timer = 180 then
+  begin
+   sboxImage.Cursor:= crNone;
+   Image.Cursor:= crNone;
+  end;
 end;
-
 
 procedure TfrmViewer.ViewerControlMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -1475,7 +1446,6 @@ end;
 procedure TfrmViewer.frmViewerClose(Sender: TObject;
                                     var CloseAction: TCloseAction);
 begin
-  if not miFullScreen.Checked then UpdateGlobals;
   CloseAction:=caFree;
   gImageStretch:= miStretch.Checked;
   gImageStretchOnlyLarge:= miStretchOnlyLarge.Checked;
@@ -1827,8 +1797,8 @@ var
   dScaleFactor : Double;
   iLeft, iTop, iWidth, iHeight : Integer;
 begin
-  if (Image.Picture=nil) then exit;
-  if (Image.Picture.Width=0)or(Image.Picture.Height=0)then exit;
+  if (Image.Picture = nil) then Exit;
+  if (Image.Picture.Width = 0) or (Image.Picture.Height = 0) then Exit;
 
   dScaleFactor:= FZoomFactor;
 
@@ -1901,9 +1871,9 @@ begin
         fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
         try
           Image.Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
-          btnHightlight.Visible:= True;
-          btnPaint.Visible:= True;
-          btnResize.Visible:= True;
+          btnHightlight.Visible:= not (miFullScreen.Checked);
+          btnPaint.Visible:= not (miFullScreen.Checked);
+          btnResize.Visible:= not (miFullScreen.Checked);
           miImage.Visible:= True;
           btnZoomIn.Visible:= True;
           btnZoomOut.Visible:= True;
@@ -2170,10 +2140,9 @@ begin
   else if Panel = pnlImage then
   begin
     pnlImage.TabStop:= True;
-    PanelEditImage.Visible:= not bQuickView;
     if CanFocus and pnlImage.CanFocus then pnlImage.SetFocus;
+    PanelEditImage.Visible:= not (bQuickView or (miFullScreen.Checked and not PanelEditImage.MouseEntered));
   end;
-
 
   bAnimation           := (Panel = pnlImage) and (GifAnim.Visible);
   bImage               := (Panel = pnlImage) and (bAnimation = False);
@@ -2193,16 +2162,6 @@ begin
 
   pmiSelectAll.Visible     := (Panel = pnlText);
   pmiCopyFormatted.Visible := (Panel = pnlText);
-
-
-
-
-  WindowState:=wsNormal;
-  Top   :=gViewerTop;
-  Left  :=gViewerLeft;
-  Width :=gViewerWidth;
-  Height:=gViewerHeight;
-
 end;
 
 procedure TfrmViewer.cm_About(const Params: array of string);
@@ -2420,13 +2379,18 @@ begin
   miFullScreen.Checked:= not (miFullScreen.Checked);
   if miFullScreen.Checked then
     begin
-      UpdateGlobals;
+      FWindowBounds.Top:= Top;
+      FWindowBounds.Left:= Left;
+      FWindowBounds.Right:= Width;
+      FWindowBounds.Bottom:= Height;
+      FWindowState:= WindowState;
       WindowState:= wsMaximized;
       BorderStyle:= bsNone;
       MainMenu.Items.Visible:=false;       // it sometime not work by unknown reason
       MainMenu.Parent:=nil;                // so now we have no choice and workaround it by this trick
       gboxPaint.Visible:= false;
       gboxHightlight.Visible:=false;
+      PanelEditImage.Visible:= False;
       miStretch.Checked:= miFullScreen.Checked;
       if miPreview.Checked then
          cm_Preview(['']);
@@ -2435,24 +2399,13 @@ begin
     begin
       MainMenu.Parent:=Self;            // workaround code to attach detached menu
 
-      WindowState:= wsNormal;
+      WindowState:= FWindowState;
       BorderStyle:= bsSizeable;
-      //Viewer.MainMenu.Items.Visible:=true;            // why it work ???
+      // Viewer.MainMenu.Items.Visible:=true;            // why it work ???
 
-      Left  :=gViewerLeft;
-      Top   :=gViewerTop;
-      Width :=gViewerWidth;
-      Height:=gViewerHeight;
+      SetBounds(FWindowBounds.Left, FWindowBounds.Top, FWindowBounds.Right, FWindowBounds.Bottom);
 
-      PanelEditImage.Height:= 50;
-      if (Left+Width>Screen.Width)or(Top+Height>Screen.Height) then  // if looks bad - correct size
-      begin
-        Width :=Screen.Width -Left-10;
-        Height:=Screen.Height-Top -10;
-        gViewerWidth:=Width;
-        gViewerHeight:=Height;
-      end;
-
+      PanelEditImage.Visible:= True;
     end;
   if ExtractOnlyFileExt(FileList.Strings[iActiveFile]) <> 'gif' then
     begin
