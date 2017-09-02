@@ -1,7 +1,8 @@
 library SevenZipWcx;
 
 uses
-  FPCAdds, SevenZipFunc, SevenZipDlg, WcxPlugin, SevenZipAdv, SevenZipLng;
+  FPCAdds, SevenZipFunc, SevenZipDlg, WcxPlugin, SevenZipAdv, SevenZipLng,
+  SevenZipCodecs;
 
 function OpenArchive(var ArchiveData : tOpenArchiveData) : TArcHandle; stdcall;
 begin

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="10"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -20,9 +20,8 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="17"/>
-      <MinorVersionNr Value="02"/>
-      <RevisionNr Value="11"/>
-      <BuildNr Value="0"/>
+      <MinorVersionNr Value="9"/>
+      <RevisionNr Value="2"/>
       <CharSet Value="04B0"/>
       <StringTable FileDescription="SevenZip archiver plugin" InternalName="SevenZip" LegalCopyright="Copyright (C) 2014-2017 Alexander Koblov" ProductVersion=""/>
     </VersionInfo>
@@ -86,7 +85,7 @@
         <PackageName Value="LazUtils"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="6">
       <Unit0>
         <Filename Value="SevenZipWcx.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -107,6 +106,10 @@
         <Filename Value="SevenZipLng.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="SevenZipCodecs.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

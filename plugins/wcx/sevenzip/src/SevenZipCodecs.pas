@@ -82,7 +82,6 @@ type
       FLibraries: TFPGObjectList<TLibraryInfo>;
     public
       constructor Create(ACodecs: TFPGObjectList<TCodecInfo>; ALibraries: TFPGObjectList<TLibraryInfo>);
-      destructor Destroy; override;
     public
       function GetNumberOfMethods(NumMethods: PCardinal): HRESULT; stdcall;
       function GetProperty(Index: Cardinal; PropID: TPropID; out Value: TPropVariant): HRESULT; stdcall;
@@ -104,13 +103,6 @@ constructor TCompressCodecsInfo.Create(ACodecs: TFPGObjectList<TCodecInfo>;
 begin
   FCodecs:= ACodecs;
   FLibraries:= ALibraries;
-end;
-
-destructor TCompressCodecsInfo.Destroy;
-begin
-  FCodecs.Free;
-  FLibraries.Free;
-  inherited Destroy;
 end;
 
 function TCompressCodecsInfo.GetNumberOfMethods(NumMethods: PCardinal): HRESULT; stdcall;
@@ -287,6 +279,7 @@ begin
 
   // Add default library
   ALibraryInfo:= TLibraryInfo.Create;
+  ALibraryInfo.Handle:= SevenzipLibraryHandle;
   ALibraryInfo.CreateObject:= SevenZip.CreateObject;
   ALibraryInfo.GetHandlerProperty2:= SevenZip.GetHandlerProperty2;
   ALibraryInfo.GetHandlerProperty:= SevenZip.GetHandlerProperty;
@@ -302,6 +295,21 @@ begin
   // Load external codecs
   LoadCodecs;
 end;
+
+procedure Finish;
+var
+  Index: Integer;
+begin
+  for Index:= 0 to ALibraries.Count - 1 do
+  begin
+    if Assigned(ALibraries[Index].SetCodecs) then
+      ALibraries[Index].SetCodecs(nil);
+    FreeLibrary(ALibraries[Index].Handle);
+  end;
+end;
+
+finalization
+  Finish;
 
 end.
 
