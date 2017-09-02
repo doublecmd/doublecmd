@@ -22,3 +22,6 @@ SevenZip plugin search 7z.dll in next places:
 3. Commander directory
 
 4. Windows system directory
+
+SevenZip plugin can load external codecs. Plugin searches codecs in
+subdirectory "Codecs" near 7z.dll.
