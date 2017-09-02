@@ -286,8 +286,10 @@ type
     FCommands: TFormCommands;
     FZoomFactor: Double;
     FExif: TExifReader;
-    FWindowBounds: TRect;
     FWindowState: TWindowState;
+{$IF DEFINED(LCLWIN32)}
+    FWindowBounds: TRect;
+{$ENDIF}
 
     //---------------------
     WlxPlugins:TWLXModuleList;
@@ -2388,32 +2390,35 @@ begin
   miFullScreen.Checked:= not (miFullScreen.Checked);
   if miFullScreen.Checked then
     begin
+      FWindowState:= WindowState;
+{$IF DEFINED(LCLWIN32)}
       FWindowBounds.Top:= Top;
       FWindowBounds.Left:= Left;
       FWindowBounds.Right:= Width;
       FWindowBounds.Bottom:= Height;
-      FWindowState:= WindowState;
       WindowState:= wsMaximized;
       BorderStyle:= bsNone;
-      MainMenu.Items.Visible:=false;       // it sometime not work by unknown reason
-      MainMenu.Parent:=nil;                // so now we have no choice and workaround it by this trick
+{$ELSE}
+      WindowState:= wsFullScreen;
+{$ENDIF}
+      Self.Menu:= nil;
       gboxPaint.Visible:= false;
       gboxHightlight.Visible:=false;
       PanelEditImage.Visible:= False;
       miStretch.Checked:= miFullScreen.Checked;
-      if miPreview.Checked then
-         cm_Preview(['']);
+      if miPreview.Checked then cm_Preview(['']);
     end
   else
     begin
-      MainMenu.Parent:=Self;            // workaround code to attach detached menu
-
+      Self.Menu:= MainMenu;
+{$IFDEF LCLGTK2}
+      WindowState:= wsFullScreen;
+{$ENDIF}
       WindowState:= FWindowState;
+{$IF DEFINED(LCLWIN32)}
       BorderStyle:= bsSizeable;
-      // Viewer.MainMenu.Items.Visible:=true;            // why it work ???
-
       SetBounds(FWindowBounds.Left, FWindowBounds.Top, FWindowBounds.Right, FWindowBounds.Bottom);
-
+{$ENDIF}
       PanelEditImage.Visible:= True;
     end;
   if ExtractOnlyFileExt(FileList.Strings[iActiveFile]) <> 'gif' then

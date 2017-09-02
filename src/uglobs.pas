@@ -499,11 +499,7 @@ var
   gImagePaintMode: String;
   gImagePaintWidth,
   gColCount,
-  gViewerMode,
-  gViewerTop,
-  gViewerLeft,
-  gViewerWidth,
-  gViewerHeight: Integer;
+  gViewerMode: Integer;
   gImagePaintColor,
   gBookBackgroundColor,
   gBookFontColor: TColor;
@@ -1628,10 +1624,6 @@ begin
   gBookFontColor := clWhite;
   gTextPosition:= 0;
   gViewerMode:= 0;
-  gViewerTop:=0;
-  gViewerLeft:=0;
-  gViewerWidth:=Screen.WorkAreaWidth;
-  gViewerHeight:=Screen.WorkAreaHeight;
 
   { Editor }
   gEditWaitTime := 2000;
@@ -2564,11 +2556,6 @@ begin
       gImagePaintWidth := GetValue(Node, 'PaintWidth', gImagePaintWidth);
       gColCount    := GetValue(Node, 'NumberOfColumns', gColCount);
       gViewerMode  := GetValue(Node, 'ViewerMode'  , gViewerMode);
-      gViewerTop   := GetValue(Node, 'ViewerTop'   , gViewerTop);
-      gViewerLeft  := GetValue(Node, 'ViewerLeft'  , gViewerLeft);
-      gViewerWidth := GetValue(Node, 'ViewerWidth' , gViewerWidth);
-      gViewerHeight:= GetValue(Node, 'ViewerHeight', gViewerHeight);
-
 
       gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
       gBookBackgroundColor := GetValue(Node, 'BackgroundColor', gBookBackgroundColor);
@@ -3060,10 +3047,6 @@ begin
     SetValue(Node, 'PaintWidth', gImagePaintWidth);
     SetValue(Node, 'NumberOfColumns', gColCount);
     SetValue(Node, 'ViewerMode' , gViewerMode);
-    SetValue(Node, 'ViewerTop'  , gViewerTop);
-    SetValue(Node, 'ViewerLeft' , gViewerLeft);
-    SetValue(Node, 'ViewerWidth' , gViewerWidth);
-    SetValue(Node, 'ViewerHeight', gViewerHeight);
 
     SetValue(Node, 'PaintColor', gImagePaintColor);
     SetValue(Node, 'BackgroundColor', gBookBackgroundColor);
