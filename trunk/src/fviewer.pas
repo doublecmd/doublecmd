@@ -1478,6 +1478,10 @@ begin
      begin
        ExitPluginMode;
      end;
+
+{$IF NOT DEFINED(LCLWIN32)}
+  if WindowState = wsFullScreen then WindowState:= wsNormal;
+{$ENDIF}
 end;
 
 procedure TfrmViewer.UpdateImagePlacement;
@@ -2396,11 +2400,9 @@ begin
       FWindowBounds.Left:= Left;
       FWindowBounds.Right:= Width;
       FWindowBounds.Bottom:= Height;
-      WindowState:= wsMaximized;
       BorderStyle:= bsNone;
-{$ELSE}
-      WindowState:= wsFullScreen;
 {$ENDIF}
+      WindowState:= wsFullScreen;
       Self.Menu:= nil;
       gboxPaint.Visible:= false;
       gboxHightlight.Visible:=false;
