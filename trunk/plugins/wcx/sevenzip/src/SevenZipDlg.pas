@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin, dialogs unit
 
-  Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2014-2017 Alexander Koblov (alexx2000@mail.ru)
 
   Based on 7-Zip 15.06 (http://7-zip.org)
   7-Zip Copyright (C) 1999-2015 Igor Pavlov
@@ -36,6 +36,9 @@ procedure ShowConfigurationDialog(Parent: HWND);
 function ShowPasswordQuery(var Encrypt: Boolean; var Password: WideString): Boolean;
 
 implementation
+
+uses
+  SevenZipCodecs;
 
 {$R *.res}
 
@@ -130,7 +133,7 @@ begin
   end;
 
   decompressMemory := -1;
-  Dictionary := GetComboBox(hwndDlg, IDC_COMP_DICT);
+  Dictionary := Cardinal(GetComboBox(hwndDlg, IDC_COMP_DICT));
   Method := TJclCompressionMethod(GetComboBox(hwndDlg, IDC_COMP_METHOD));
 
   if (Method <> cmDeflate) and (Method <> cmDeflate64) and (level >= clUltra) then
@@ -210,9 +213,16 @@ procedure UpdateMemoryUsage(hwndDlg: HWND);
 var
   Comp, Decomp: Int64;
 begin
-  Comp := GetMemoryUsage(hwndDlg, Decomp);
-  SetDlgItemText(hwndDlg, IDC_MEMORY_COMP, PAnsiChar(IntToStr(Comp div cMega) + 'Mb'));
-  SetDlgItemText(hwndDlg, IDC_MEMORY_DECOMP, PAnsiChar(IntToStr(Decomp div cMega) + 'Mb'));
+  if (GetComboBox(hwndDlg, IDC_COMP_METHOD) > cmMaximum) then
+  begin
+    SetDlgItemText(hwndDlg, IDC_MEMORY_COMP, '?');
+    SetDlgItemText(hwndDlg, IDC_MEMORY_DECOMP, '?');
+  end
+  else begin
+    Comp := GetMemoryUsage(hwndDlg, Decomp);
+    SetDlgItemText(hwndDlg, IDC_MEMORY_COMP, PAnsiChar(IntToStr(Comp div cMega) + 'Mb'));
+    SetDlgItemText(hwndDlg, IDC_MEMORY_DECOMP, PAnsiChar(IntToStr(Decomp div cMega) + 'Mb'));
+  end;
 end;
 
 procedure SetDefaultOptions(hwndDlg: HWND);
@@ -372,14 +382,14 @@ begin
   begin
     ComboBoxAdd(hwndDlg, IDC_COMP_THREAD, IntToStr(Index), Index);
   end;
-  wsMaxThread:= '/ ' + IntToStr(dwHardwareThreads);
+  wsMaxThread:= '/ ' + WideString(IntToStr(dwHardwareThreads));
   SendDlgItemMessage(hwndDlg, IDC_COMP_THREAD, CB_SETCURSEL, dwDefaultValue - 1, 0);
   SendDlgItemMessageW(hwndDlg, IDC_MAX_THREAD, WM_SETTEXT, 0, LPARAM(PWideChar(wsMaxThread)));
 end;
 
 procedure UpdateMethod(hwndDlg: HWND);
 var
-  Index: Integer;
+  Index: PtrInt;
   Format: TArchiveFormat;
   dwAlgoThreadMax: LongWord = 1;
   Method: TJclCompressionMethod;
@@ -390,70 +400,80 @@ begin
   Format:= TArchiveFormat(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
   EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_DICT), not (Format in [afTar, afWim]));
   // Get Compression method
-  Method:= TJclCompressionMethod(GetComboBox(hwndDlg, IDC_COMP_METHOD));
-  EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_WORD), (Format in [afSevenZip, afGzip, afXz, afZip]) and (Method <> cmBZip2));
-  case Method of
-  cmDeflate:
-    begin
-      for Index:= Low(DeflateDict) to High(DeflateDict) do
+  Index:= GetComboBox(hwndDlg, IDC_COMP_METHOD);
+  if Index > cmMaximum then
+  begin
+    dwAlgoThreadMax:= GetNumberOfProcessors;
+    EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_DICT), False);
+    EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_WORD), False);
+  end
+  else begin
+    Method:= TJclCompressionMethod(Index);
+    EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_WORD), (Format in [afSevenZip, afGzip, afXz, afZip]) and (Method <> cmBZip2));
+    case Method of
+    cmDeflate:
       begin
-        ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(DeflateDict[Index]), PtrInt(DeflateDict[Index]));
+        for Index:= Low(DeflateDict) to High(DeflateDict) do
+        begin
+          ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(DeflateDict[Index]), PtrInt(DeflateDict[Index]));
+        end;
+        for Index:= Low(DeflateWordSize) to High(DeflateWordSize) do
+        begin
+          ComboBoxAdd(hwndDlg, IDC_COMP_WORD, IntToStr(DeflateWordSize[Index]), PtrInt(DeflateWordSize[Index]));
+        end;
       end;
-      for Index:= Low(DeflateWordSize) to High(DeflateWordSize) do
+    cmDeflate64:
       begin
-        ComboBoxAdd(hwndDlg, IDC_COMP_WORD, IntToStr(DeflateWordSize[Index]), PtrInt(DeflateWordSize[Index]));
+        for Index:= Low(Deflate64Dict) to High(Deflate64Dict) do
+        begin
+          ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(Deflate64Dict[Index]), PtrInt(Deflate64Dict[Index]));
+        end;
+        for Index:= Low(Deflate64WordSize) to High(Deflate64WordSize) do
+        begin
+          ComboBoxAdd(hwndDlg, IDC_COMP_WORD, IntToStr(Deflate64WordSize[Index]), PtrInt(Deflate64WordSize[Index]));
+        end;
+      end;
+    cmLZMA,
+    cmLZMA2:
+      begin
+        for Index:= Low(LZMADict) to High(LZMADict) do
+        begin
+          ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(LZMADict[Index], False), PtrInt(LZMADict[Index]));
+        end;
+        for Index:= Low(LZMAWordSize) to High(LZMAWordSize) do
+        begin
+          ComboBoxAdd(hwndDlg, IDC_COMP_WORD, IntToStr(LZMAWordSize[Index]), PtrInt(LZMAWordSize[Index]));
+        end;
+        dwAlgoThreadMax:= IfThen(Method = cmLZMA, 2, 32);
+      end;
+    cmBZip2:
+      begin
+        for Index:= Low(BZip2Dict) to High(BZip2Dict) do
+        begin
+          ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(BZip2Dict[Index]), PtrInt(BZip2Dict[Index]));
+        end;
+        dwAlgoThreadMax:= 32;
+      end;
+    cmPPMd:
+      begin
+        for Index:= Low(PPMdDict) to High(PPMdDict) do
+        begin
+          ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(PPMdDict[Index], False), PtrInt(PPMdDict[Index]));
+        end;
+        for Index:= Low(PPMdWordSize) to High(PPMdWordSize) do
+        begin
+          ComboBoxAdd(hwndDlg, IDC_COMP_WORD, IntToStr(PPMdWordSize[Index]), PtrInt(PPMdWordSize[Index]));
+        end;
       end;
     end;
-  cmDeflate64:
-    begin
-      for Index:= Low(Deflate64Dict) to High(Deflate64Dict) do
-      begin
-        ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(Deflate64Dict[Index]), PtrInt(Deflate64Dict[Index]));
-      end;
-      for Index:= Low(Deflate64WordSize) to High(Deflate64WordSize) do
-      begin
-        ComboBoxAdd(hwndDlg, IDC_COMP_WORD, IntToStr(Deflate64WordSize[Index]), PtrInt(Deflate64WordSize[Index]));
-      end;
-    end;
-  cmLZMA,
-  cmLZMA2:
-    begin
-      for Index:= Low(LZMADict) to High(LZMADict) do
-      begin
-        ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(LZMADict[Index], False), PtrInt(LZMADict[Index]));
-      end;
-      for Index:= Low(LZMAWordSize) to High(LZMAWordSize) do
-      begin
-        ComboBoxAdd(hwndDlg, IDC_COMP_WORD, IntToStr(LZMAWordSize[Index]), PtrInt(LZMAWordSize[Index]));
-      end;
-      dwAlgoThreadMax:= IfThen(Method = cmLZMA, 2, 32);
-    end;
-  cmBZip2:
-    begin
-      for Index:= Low(BZip2Dict) to High(BZip2Dict) do
-      begin
-        ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(BZip2Dict[Index]), PtrInt(BZip2Dict[Index]));
-      end;
-      dwAlgoThreadMax:= 32;
-    end;
-  cmPPMd:
-    begin
-      for Index:= Low(PPMdDict) to High(PPMdDict) do
-      begin
-        ComboBoxAdd(hwndDlg, IDC_COMP_DICT, FormatFileSize(PPMdDict[Index], False), PtrInt(PPMdDict[Index]));
-      end;
-      for Index:= Low(PPMdWordSize) to High(PPMdWordSize) do
-      begin
-        ComboBoxAdd(hwndDlg, IDC_COMP_WORD, IntToStr(PPMdWordSize[Index]), PtrInt(PPMdWordSize[Index]));
-      end;
-    end;
+    if Format = afZip then dwAlgoThreadMax:= 128;
   end;
-  if Format = afZip then dwAlgoThreadMax:= 128;
   UpdateThread(hwndDlg, dwAlgoThreadMax);
 end;
 
 procedure FillMethod(hwndDlg: HWND);
 var
+  Index: Integer;
   Format: TArchiveFormat;
 begin
   // Clear combobox
@@ -467,6 +487,11 @@ begin
      ComboBoxAdd(hwndDlg, IDC_COMP_METHOD, 'LZMA2', PtrInt(cmLZMA2));
      ComboBoxAdd(hwndDlg, IDC_COMP_METHOD, 'PPMd', PtrInt(cmPPMd));
      ComboBoxAdd(hwndDlg, IDC_COMP_METHOD, 'BZip2', PtrInt(cmBZip2));
+     if Assigned(ACodecs) then begin
+       for Index:= 0 to ACodecs.Count - 1 do begin
+         ComboBoxAdd(hwndDlg, IDC_COMP_METHOD, ACodecs[Index].Name, PtrInt(ACodecs[Index].ID));
+       end;
+     end;
      SetComboBox(hwndDlg, IDC_COMP_METHOD, PluginConfig[Format].Method);
    end;
   afBzip2:
@@ -546,15 +571,18 @@ end;
 
 procedure UpdateLevel(hwndDlg: HWND; First: Boolean);
 var
+  MethodStd: Boolean;
   Format: TArchiveFormat;
   Level: TCompressionLevel;
 begin
   Format:= TArchiveFormat(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
   // Get compression level
   Level:= TCompressionLevel(GetComboBox(hwndDlg, IDC_COMP_LEVEL));
+  // Get compression method
+  MethodStd:= (GetComboBox(hwndDlg, IDC_COMP_METHOD) <= cmMaximum);
 
-  EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_DICT), Level <> clStore);
-  EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_WORD), Level <> clStore);
+  EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_DICT), (Level <> clStore) and MethodStd);
+  EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_WORD), (Level <> clStore) and MethodStd);
   EnableWindow(GetDlgItem(hwndDlg, IDC_COMP_SOLID), (Format = afSevenZip) and (Level <> clStore));
 
   if Level = clStore then

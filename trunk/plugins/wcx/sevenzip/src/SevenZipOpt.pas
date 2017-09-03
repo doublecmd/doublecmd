@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin, compression options
 
-  Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2014-2017 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -222,7 +222,7 @@ var
 implementation
 
 uses
-  ActiveX, LazUTF8, SevenZipAdv;
+  ActiveX, LazUTF8, SevenZipAdv, SevenZipCodecs;
 
 function GetNumberOfProcessors: LongWord;
 var
@@ -251,6 +251,7 @@ var
   Index: Integer;
   Start: Integer = 1;
   Parameters: WideString;
+  MethodStandard: Boolean;
   Method: TJclCompressionMethod;
   JclArchive: TJclCompressionArchive;
 
@@ -334,28 +335,37 @@ begin
     AddOption(MaxInt);
   end;
   Parameters:= WideUpperCase(Parameters);
+  MethodStandard:= PluginConfig[AFormat].Method <= cmMaximum;
   // Set word size parameter
-  Method:= TJclCompressionMethod(PluginConfig[AFormat].Method);
-  case Method of
-    cmLZMA, cmLZMA2,
-    cmDeflate, cmDeflate64:
-      begin
-        if (Pos('FB=', Parameters) = 0) and (Pos('1=', Parameters) = 0) then
-          AddCardinalProperty('fb', PluginConfig[AFormat].WordSize);
-      end;
-    cmPPMd:
-      begin
-        if Pos('O=', Parameters) = 0 then
-          AddCardinalProperty('o', PluginConfig[AFormat].WordSize);
-      end;
+  if MethodStandard then
+  begin
+    Method:= TJclCompressionMethod(PluginConfig[AFormat].Method);
+    case Method of
+      cmLZMA, cmLZMA2,
+      cmDeflate, cmDeflate64:
+        begin
+          if (Pos('FB=', Parameters) = 0) and (Pos('1=', Parameters) = 0) then
+            AddCardinalProperty('fb', PluginConfig[AFormat].WordSize);
+        end;
+      cmPPMd:
+        begin
+          if Pos('O=', Parameters) = 0 then
+            AddCardinalProperty('o', PluginConfig[AFormat].WordSize);
+        end;
+    end;
   end;
   // Set 7-zip compression method
   if IsEqualGUID(CLSID_CFormat7z, PluginConfig[AFormat].ArchiveCLSID^) then
   begin
-    if Pos('0=', Parameters) = 0 then begin
-      AddWideStringProperty('0', MethodName[Method]);
+    if Pos('0=', Parameters) = 0 then
+    begin
+      if MethodStandard then
+        AddWideStringProperty('0', MethodName[Method])
+      else begin
+        AddWideStringProperty('0', GetCodecName(PluginConfig[AFormat].Method));
+      end;
     end;
-    if (Method <> cmCopy) and (Pos('D=', Parameters) = 0) then begin
+    if MethodStandard and (Method <> cmCopy) and (Pos('D=', Parameters) = 0) then begin
       AddWideStringProperty('D', WideString(IntToStr(PluginConfig[AFormat].Dictionary) + 'B'));
     end;
   end;
@@ -363,6 +373,7 @@ end;
 
 procedure SetArchiveOptions(AJclArchive: IInterface);
 var
+  MethodStd: Boolean;
   ArchiveCLSID: TGUID;
   SolidBlockSize: Int64;
   Index: TArchiveFormat;
@@ -384,7 +395,9 @@ begin
   begin
     if IsEqualGUID(ArchiveCLSID, PluginConfig[Index].ArchiveCLSID^) then
     begin
-      if Supports(AJclArchive, IJclArchiveCompressionMethod, CompressionMethod) and Assigned(CompressionMethod) then
+      MethodStd:= (PluginConfig[Index].Method <= cmMaximum);
+
+      if MethodStd and Supports(AJclArchive, IJclArchiveCompressionMethod, CompressionMethod) and Assigned(CompressionMethod) then
         CompressionMethod.SetCompressionMethod(TJclCompressionMethod(PluginConfig[Index].Method));
 
       if Supports(AJclArchive, IJclArchiveCompressionLevel, CompressionLevel) and Assigned(CompressionLevel) then
@@ -392,7 +405,7 @@ begin
 
       if PluginConfig[Index].Level <> PtrInt(clStore) then
       begin
-        if Supports(AJclArchive, IJclArchiveDictionarySize, DictionarySize) and Assigned(DictionarySize) then
+        if MethodStd and Supports(AJclArchive, IJclArchiveDictionarySize, DictionarySize) and Assigned(DictionarySize) then
           DictionarySize.SetDictionarySize(PluginConfig[Index].Dictionary);
 
         if Supports(AJclArchive, IJclArchiveSolid, Solid) and Assigned(Solid) then
