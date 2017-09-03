@@ -41,7 +41,10 @@ unit SevenZipCodecs;
 interface
 
 uses
-  Classes, SysUtils, SevenZip, fgl, ActiveX, Windows;
+  Classes, SysUtils, SevenZip, fgl, ActiveX, Windows, JclCompression;
+
+const
+  cmMaximum = PtrInt(Ord(High(TJclCompressionMethod)));
 
 type
 
@@ -71,6 +74,7 @@ type
       DecoderIsAssigned: LongBool;
       Encoder: CLSID;
       Decoder: CLSID;
+      ID: Cardinal;
       Name: WideString;
     end;
 
@@ -90,6 +94,10 @@ type
     end;
 
 procedure LoadLibraries;
+function GetCodecName(AMethod: Cardinal): WideString;
+
+var
+  ACodecs: TFPGObjectList<TCodecInfo> = nil;
 
 implementation
 
@@ -192,7 +200,11 @@ begin
     AInfo.EncoderIsAssigned:= True;
   end;
 
-  if (GetMethodProperty(index, kName, Value) <> S_OK) then
+  if (GetMethodProperty(Index, kID, Value) <> S_OK) then
+    Exit(False);
+  if (Value.vt <> VT_EMPTY) then AInfo.ID:= OleVariant(Value);
+
+  if (GetMethodProperty(Index, kName, Value) <> S_OK) then
     Exit(False);
   if (Value.vt = VT_BSTR) then AInfo.Name:= OleVariant(Value);
 
@@ -200,8 +212,7 @@ begin
 end;
 
 var
-  ACodecs: TFPGObjectList<TCodecInfo>;
-  ALibraries: TFPGObjectList<TLibraryInfo>;
+  ALibraries: TFPGObjectList<TLibraryInfo> = nil;
 
 procedure LoadCodecs;
 var
@@ -296,15 +307,31 @@ begin
   LoadCodecs;
 end;
 
+function GetCodecName(AMethod: Cardinal): WideString;
+var
+  Index: Integer;
+begin
+  if Assigned(ACodecs) then begin
+    for Index:= 0 to ACodecs.Count - 1 do
+    begin
+      if (ACodecs[Index].ID = AMethod) then
+        Exit(ACodecs[Index].Name);
+    end;
+  end;
+  Result:= EmptyWideStr;
+end;
+
 procedure Finish;
 var
   Index: Integer;
 begin
-  for Index:= 0 to ALibraries.Count - 1 do
-  begin
-    if Assigned(ALibraries[Index].SetCodecs) then
-      ALibraries[Index].SetCodecs(nil);
-    FreeLibrary(ALibraries[Index].Handle);
+  if Assigned(ALibraries) then begin
+    for Index:= 0 to ALibraries.Count - 1 do
+    begin
+      if Assigned(ALibraries[Index].SetCodecs) then
+        ALibraries[Index].SetCodecs(nil);
+      FreeLibrary(ALibraries[Index].Handle);
+    end;
   end;
 end;
 
