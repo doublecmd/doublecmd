@@ -692,16 +692,15 @@ end;
 procedure TfrmEditor.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 begin
-  inherited;
-  CanClose:=False;
+  CanClose:= False;
   if bChanged then
     case msgYesNoCancel(Format(rsMsgFileChangedSave,[FileName])) of
       mmrYes: cm_FileSave(['']);
-      mmrNo: bChanged:=False;
+      mmrNo: bChanged:= False;
     else
       Exit;
     end;
-  CanClose:=True;
+  CanClose:= True;
 end;
 
 procedure TfrmEditor.DoSearchReplaceText(AReplace: boolean;
@@ -905,31 +904,35 @@ begin
 end;
 
 procedure TfrmEditor.cm_FileNew(const Params:array of string);
+var
+  CanClose: Boolean = False;
 begin
-  inherited;
+  FormCloseQuery(Self, CanClose);
+  if not CanClose then Exit;
   FileName := rsMsgNewFile;
   Editor.Lines.Clear;
-  bChanged:=False;
-  bNoname:=True;
+  bChanged:= False;
+  bNoname:= True;
   UpdateStatus;
 end;
 
 procedure TfrmEditor.cm_FileOpen(const Params:array of string);
+var
+  CanClose: Boolean = False;
 begin
-  dmComData.OpenDialog.Filter:='*.*';
+  FormCloseQuery(Self, CanClose);
+  if not CanClose then Exit;
+  dmComData.OpenDialog.Filter:= '*.*';
   if not dmComData.OpenDialog.Execute then Exit;
   if OpenFile(dmComData.OpenDialog.FileName) then
     UpdateStatus;
 end;
 
-
 procedure TfrmEditor.cm_EditUndo(const Params:array of string);
 begin
-  inherited;
   Editor.Undo;
   UpdateStatus;
 end;
-
 
 procedure TfrmEditor.cm_FileSave(const Params:array of string);
 begin
