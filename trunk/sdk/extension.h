@@ -70,7 +70,7 @@ typedef BOOL (DCPCALL *tDialogBoxLFMFileProc)(char* LFMFileName, tDlgProc DlgPro
 #pragma pack(push)
 #pragma pack(1)
 typedef struct {
-unsigned long StructSize;
+uint32_t StructSize;
 char PluginDir[EXT_MAX_PATH];
 char PluginConfDir[EXT_MAX_PATH];
 tInputBoxProc InputBox;
