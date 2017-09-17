@@ -6,7 +6,7 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <IncludeFiles Value="Hashes/Keccak"/>
+        <IncludeFiles Value="Hashes/Keccak;Ciphers"/>
         <OtherUnitFiles Value="Ciphers;Hashes;Hashes/Keccak;Random;$(PkgOutDir)"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
@@ -34,7 +34,7 @@
 www.cityinthesky.co.uk/cryptography.html
 "/>
     <Version Major="2" Release="4" Build="1"/>
-    <Files Count="28">
+    <Files Count="30">
       <Item1>
         <Filename Value="dcpbase64.pas"/>
         <UnitName Value="DCPbase64"/>
@@ -147,6 +147,14 @@ www.cityinthesky.co.uk/cryptography.html
         <Filename Value="Hashes/Keccak/scrypt.pas"/>
         <UnitName Value="scrypt"/>
       </Item28>
+      <Item29>
+        <Filename Value="Ciphers/DCPrijndael.inc"/>
+        <Type Value="Include"/>
+      </Item29>
+      <Item30>
+        <Filename Value="Ciphers/dcprijndael.pas"/>
+        <UnitName Value="DCPrijndael"/>
+      </Item30>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
