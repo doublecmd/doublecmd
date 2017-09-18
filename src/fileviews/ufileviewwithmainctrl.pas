@@ -102,7 +102,6 @@ type
     FDragFileIndex: PtrInt;
     FDropFileIndex: PtrInt;
     FStartDrag: Boolean;
-    FStartDragTick: QWord;
     tmContextMenu: TTimer;
     // Needed for rename on mouse
     FRenameFileIndex: PtrInt;
@@ -753,7 +752,6 @@ begin
       FDragStartPoint.X := X;
       FDragStartPoint.Y := Y;
       FDragFileIndex := FileIndex;
-      FStartDragTick := GetTickCount64;
       uDragDropEx.TransformDragging := False;
       uDragDropEx.AllowTransformToInternal := True;
     end;
@@ -810,7 +808,7 @@ begin
   else
 
   // if we are about to start dragging
-  if FStartDrag and ((GetTickCount64 - FStartDragTick > 100) or (Shift * [ssShift, ssAlt, ssCtrl] <> [])) then
+  if FStartDrag then
     begin
       FStartDrag := False;
 
