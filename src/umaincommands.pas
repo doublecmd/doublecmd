@@ -651,12 +651,14 @@ begin
         case TypeOfCopy of
           cfntcPathAndFileNames, cfntcJustPathWithSeparator, cfntcPathWithoutSeparator:
             begin
+              PathToAdd:= SelectedFiles[I].Path;
+
               // Workaround for not fully implemented TMultiListFileSource.
-              if not FileView.FileSource.IsClass(TMultiListFileSource) then
-                PathToAdd := FileView.CurrentAddress
-              else
-                PathToAdd := '';
-              PathToAdd := PathToAdd + SelectedFiles[I].Path;
+              if (Pos(FileView.CurrentAddress, PathToAdd) <> 1) and
+                 (not FileView.FileSource.IsClass(TMultiListFileSource)) then
+              begin
+                PathToAdd := FileView.CurrentAddress + PathToAdd;
+              end;
 
               if TypeOfCopy=cfntcPathWithoutSeparator then PathToAdd:=ExcludeTrailingPathDelimiter(PathToAdd);
             end;
