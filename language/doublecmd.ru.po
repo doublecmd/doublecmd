@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2017-07-16 18:27+0300\n"
+"PO-Revision-Date: 2017-09-18 18:27+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2683,7 +2683,7 @@ msgstr "&Синхронизировать каталоги..."
 
 #: tfrmmain.acttargetequalsource.caption
 msgid "Target &= Source"
-msgstr "&Две одинаковых панели"
+msgstr "Получатель &= Источнику"
 
 #: tfrmmain.acttestarchive.caption
 msgid "&Test Archive(s)"
