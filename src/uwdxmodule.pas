@@ -659,38 +659,34 @@ begin
 end;
 
 procedure TPluginWDX.CallContentGetSupportedField;
+const
+  MAX_LEN = 256;
 var
-  Index,
-  MaxLen,
-  I,
-  Rez: Integer;
-  xFieldName: PAnsiChar;
-  xUnits: PAnsiChar;
   sFieldName: String;
+  I, Index, Rez: Integer;
+  xFieldName, xUnits: array[0..Pred(MAX_LEN)] of AnsiChar;
 begin
-  if not Assigned(ContentGetSupportedField) then
-    Exit;
-  Index := 0;
-  GetMem(xFieldName, MAX_PATH);
-  GetMem(xUnits, MAX_PATH);
-  maxlen := MAX_PATH;
-  repeat
-    Rez := ContentGetSupportedField(Index, xFieldName, xUnits, MaxLen);
-    if Rez <> ft_nomorefields then
-    begin
-      sFieldName := CeSysToUtf8(StrPas(xFieldName));
-      I := FFieldsList.AddObject(sFieldName, TWdxField.Create);
-      with TWdxField(FFieldsList.Objects[I]) do
+  if Assigned(ContentGetSupportedField) then
+  begin
+    Index := 0;
+    xUnits[0] := #0;
+    xFieldName[0] := #0;
+    repeat
+      Rez := ContentGetSupportedField(Index, xFieldName, xUnits, MAX_LEN);
+      if Rez <> ft_nomorefields then
       begin
-        FName := sFieldName;
-        FUnits := xUnits;
-        FType := Rez;
+        sFieldName := CeSysToUtf8(xFieldName);
+        I := FFieldsList.AddObject(sFieldName, TWdxField.Create);
+        with TWdxField(FFieldsList.Objects[I]) do
+        begin
+          FName := sFieldName;
+          FUnits := xUnits;
+          FType := Rez;
+        end;
       end;
-    end;
-    Inc(Index);
-  until Rez = ft_nomorefields;
-  FreeMem(xFieldName);
-  FreeMem(xUnits);
+      Inc(Index);
+    until Rez = ft_nomorefields;
+  end;
 end;
 
 function TPluginWDX.CallContentGetDetectString: String;
