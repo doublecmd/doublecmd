@@ -119,6 +119,8 @@ const
   function FormatNtfsAttributes(iAttr: TFileAttrs): String;
   function FormatUnixAttributes(iAttr: TFileAttrs): String;
 
+  function FormatUnixModeOctal(iAttr: TFileAttrs): String;
+
 implementation
 
 uses
@@ -391,6 +393,12 @@ begin
     else
       Result[10]  := 'T';
   end;
+end;
+
+function FormatUnixModeOctal(iAttr: TFileAttrs): String;
+begin
+  Result:= DecToOct(iAttr and $0FFF);
+  Result:= StringOfChar('0', 4 - Length(Result)) + Result;
 end;
 
 end.

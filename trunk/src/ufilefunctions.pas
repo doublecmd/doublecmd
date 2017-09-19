@@ -109,7 +109,10 @@ implementation
 
 uses
   StrUtils, WdxPlugin, uWdxModule, uGlobs, uLng, uDefaultFilePropertyFormatter,
-  uFileSourceProperty, uWfxPluginFileSource, uWfxModule, uColumns;
+  uFileSourceProperty, uWfxPluginFileSource, uWfxModule, uColumns, DCFileAttributes;
+
+const
+  ATTR_OCTAL = 'OCTAL';
 
 //Return type (Script or DC or Plugin etc)
 function GetModType(str: String): String;
@@ -223,7 +226,12 @@ begin
 
       fsfAttr:
         if fpAttributes in AFile.SupportedProperties then
-          Result := AFile.Properties[fpAttributes].Format(DefaultFilePropertyFormatter);
+        begin
+          if AFile.Properties[fpAttributes] is TUnixFileAttributesProperty and (AParam = ATTR_OCTAL) then
+            Result := FormatUnixModeOctal(AFile.Attributes)
+          else
+            Result := AFile.Properties[fpAttributes].Format(DefaultFilePropertyFormatter);
+        end;
 
       fsfPath:
         Result := AFile.Path;
@@ -402,7 +410,7 @@ end;
 procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent; const FileSystem: String);
 var
   I: Integer;
-  MI: TMenuItem;
+  MI, MI2: TMenuItem;
   Module: TWDXModule;
 begin
   MenuItem.Clear;
@@ -419,12 +427,30 @@ begin
     MI.Caption:= FileFunctionsStr.ValueFromIndex[I] + '  (' + MI.Hint + ')';
     MI.OnClick:= OnMenuItemClick;
     MenuItem.Items[0].Add(MI);
+    // Special case for attributes
+    if TFileFunctionStrings[fsfAttr] = FileFunctionsStr.Names[I] then
+    begin
+      // String attributes
+      MI2:= TMenuItem.Create(MenuItem);
+      MI2.Tag:= 3;
+      MI2.Hint:= '';
+      MI2.Caption:= rsMnuContentDefault;
+      MI2.OnClick:= OnMenuItemClick;
+      MI.Add(MI2);
+      // Octal attributes
+      MI2:= TMenuItem.Create(MenuItem);
+      MI2.Tag:= 3;
+      MI2.Hint:= ATTR_OCTAL;
+      MI2.Caption:= rsMnuContentOctal;
+      MI2.OnClick:= OnMenuItemClick;
+      MI.Add(MI2);
+    end;
   end;
   // Plugins
   if (FileSystem = EmptyStr) or SameText(FileSystem, FS_GENERAL) then
   begin
     MI:= TMenuItem.Create(MenuItem);
-    MI.Caption:= 'Plugins';
+    MI.Caption:= rsOptionsEditorPlugins;
     MenuItem.Add(MI);
     for I:= 0 to gWdxPlugins.Count - 1 do
     begin
