@@ -1038,6 +1038,10 @@ begin
     begin
       stgColumns.Cells[4, btnAdd.Tag] := stgColumns.Cells[4, btnAdd.Tag] + '[Plugin(' + MenuItem.Parent.Parent.Caption + ').' + MenuItem.Parent.Caption + '{' + MenuItem.Caption + '}] ';
     end;
+    3:
+    begin
+      stgColumns.Cells[4, btnAdd.Tag] := stgColumns.Cells[4, btnAdd.Tag] + '[DC().' + MenuItem.Parent.Hint + '{' + MenuItem.Hint + '}] ';
+    end;
   end;
   EditorSaveResult(Sender);
 end;

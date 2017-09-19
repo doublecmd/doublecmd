@@ -274,6 +274,9 @@ resourcestring
   rsMnuMapNetworkDrive = 'Map Network Drive...';
   rsMnuDisconnectNetworkDrive = 'Disconnect Network Drive...';
   rsMnuCopyNetNamesToClip = 'Copy names with UNC path';
+  // for content plugins menu
+  rsMnuContentDefault = '<Default>';
+  rsMnuContentOctal = 'Octal';
   // wcx module messages
   rsMsgSelLocNextVol = 'Please select location of next volume';
   rsMsgNextVolUnpack = 'Next volume will be unpacked';
