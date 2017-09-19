@@ -6248,7 +6248,7 @@ msgctxt "tfrmoptionshotkeys.actedithotkey.caption"
 msgid "&Edit hotkey"
 msgstr ""
 "Éditer raccourci-\n"
-"clavier"
+"clavier\n"
 
 #: tfrmoptionshotkeys.actnextcategory.caption
 msgid "Next category"
@@ -9962,6 +9962,14 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Actions"
 
+#: ulng.rsmnucontentdefault
+msgid "<Default>"
+msgstr ""
+
+#: ulng.rsmnucontentoctal
+msgid "Octal"
+msgstr ""
+
 #: ulng.rsmnucopynetnamestoclip
 msgid "Copy names with UNC path"
 msgstr "Copie les noms avec chemin UNC"
@@ -12355,3 +12363,4 @@ msgstr "Nombre de remplacements : %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
+

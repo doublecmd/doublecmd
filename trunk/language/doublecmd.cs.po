@@ -9631,6 +9631,14 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Akce"
 
+#: ulng.rsmnucontentdefault
+msgid "<Default>"
+msgstr ""
+
+#: ulng.rsmnucontentoctal
+msgid "Octal"
+msgstr ""
+
 #: ulng.rsmnucopynetnamestoclip
 msgid "Copy names with UNC path"
 msgstr "Kopírovat název s UNC cestou"

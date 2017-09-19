@@ -9641,6 +9641,14 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Dejanja"
 
+#: ulng.rsmnucontentdefault
+msgid "<Default>"
+msgstr ""
+
+#: ulng.rsmnucontentoctal
+msgid "Octal"
+msgstr ""
+
 #: ulng.rsmnucopynetnamestoclip
 msgid "Copy names with UNC path"
 msgstr "Kopiraj imena s potjo UNC"

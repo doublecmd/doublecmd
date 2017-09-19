@@ -9916,6 +9916,14 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "アクション"
 
+#: ulng.rsmnucontentdefault
+msgid "<Default>"
+msgstr ""
+
+#: ulng.rsmnucontentoctal
+msgid "Octal"
+msgstr ""
+
 #: ulng.rsmnucopynetnamestoclip
 msgid "Copy names with UNC path"
 msgstr "UNCパスで名前をコピー"

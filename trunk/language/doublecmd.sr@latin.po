@@ -10163,6 +10163,14 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Radnje"
 
+#: ulng.rsmnucontentdefault
+msgid "<Default>"
+msgstr ""
+
+#: ulng.rsmnucontentoctal
+msgid "Octal"
+msgstr ""
+
 #: ulng.rsmnucopynetnamestoclip
 msgid "Copy names with UNC path"
 msgstr ""
