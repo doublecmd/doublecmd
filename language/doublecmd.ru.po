@@ -9942,6 +9942,14 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Команды"
 
+#: ulng.rsmnucontentdefault
+msgid "<Default>"
+msgstr "<По умолчанию>"
+
+#: ulng.rsmnucontentoctal
+msgid "Octal"
+msgstr "Восьмеричный"
+
 #: ulng.rsmnucopynetnamestoclip
 msgid "Copy names with UNC path"
 msgstr "Копировать в буфер имена с UNC-путём"
