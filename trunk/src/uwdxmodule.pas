@@ -106,7 +106,7 @@ type
   { TPluginWDX }
 
   TPluginWDX = class(TWDXModule)
-  private
+  protected
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FForce:     Boolean;
     FName:      String;

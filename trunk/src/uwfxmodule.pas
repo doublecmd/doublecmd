@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Virtual File System - class for manage WFX plugins (Version 1.3)
  
-   Copyright (C) 2007-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2017 Alexander Koblov (alexx2000@mail.ru)
  
    Callback functions based on:
      Total Commander filesystem plugins debugger
@@ -20,9 +20,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uWFXmodule;
@@ -33,7 +31,8 @@ interface
 
 uses
   SysUtils, Classes, WfxPlugin, uWFXprototypes, LazUTF8Classes,
-  dynlibs, DCClassesUtf8, Extension, DCBasicTypes, DCXmlConfig;
+  dynlibs, DCClassesUtf8, Extension, DCBasicTypes, DCXmlConfig,
+  uWdxPrototypes, uWdxModule;
 
 const
   WFX_SUCCESS      =  0;
@@ -61,9 +60,8 @@ type
 
   { TWFXModule }
 
-  TWFXModule = class
+  TWFXModule = class(TPluginWDX)
   private
-    FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FModuleFileName: String;
     FBackgroundFlags: Integer;
   public
@@ -83,7 +81,6 @@ type
     FsMkDir : TFsMkDir;
     FsStatusInfo : TFsStatusInfo;
     FsSetDefaultParams : TFsSetDefaultParams;
-    FsContentPluginUnloading : TFsContentPluginUnloading;
     //---------------------
     FsSetAttr:TFsSetAttr;
     FsSetTime:TFsSetTime;
@@ -96,14 +93,6 @@ type
     //---------------------
     FsGetBackgroundFlags: TFsGetBackgroundFlags;
     //---------------------
-    FsContentGetDetectString:TFsContentGetDetectString;
-    FsContentGetSupportedField:TFsContentGetSupportedField;
-    FsContentGetValue:TFsContentGetValue;
-    FsContentSetDefaultParams:TFsContentSetDefaultParams;
-    FsContentStopGetValue:TFsContentStopGetValue;
-    FsContentGetDefaultSortOrder:TFsContentGetDefaultSortOrder;
-    FsContentGetSupportedFieldFlags:TFsContentGetSupportedFieldFlags;
-    FsContentSetValue:TFsContentSetValue;
     FsContentGetDefaultView:TFsContentGetDefaultView;
     { Unicode }
     FsInitW: TFsInitW;
@@ -126,9 +115,6 @@ type
     FsGetPreviewBitmapW: TFsGetPreviewBitmapW;
     FsGetLocalNameW: TFsGetLocalNameW;
     //-----------------------
-    FsContentGetValueW: TFsContentGetValueW;
-    FsContentStopGetValueW: TFsContentStopGetValueW;
-    FsContentSetValueW: TFsContentSetValueW;
     FsContentGetDefaultViewW: TFsContentGetDefaultViewW;
     { Extension API }
     ExtensionInitialize: TExtensionInitializeProc;
@@ -152,18 +138,16 @@ type
     function WfxGetLocalName(var sFileName: String): Boolean;
     function WfxDisconnect(const DisconnectRoot: String): Boolean;
   private
-    function LoadModule(const sName: String):Boolean; {Load plugin}
-    procedure UnloadModule;
+    function LoadModule(const sName: String):Boolean; overload; {Load plugin}
+    procedure UnloadModule; override;
   public
-    constructor Create;
+    constructor Create; override;
     destructor Destroy; override;
 
     procedure VFSInit;
 
     function VFSConfigure(Parent: HWND):Boolean;
     function VFSRootName: String;
-
-    function IsLoaded: Boolean;
 
     property BackgroundFlags: Integer read FBackgroundFlags write FBackgroundFlags;
   end;
@@ -462,8 +446,8 @@ destructor TWFXModule.Destroy;
 begin
   if IsLoaded then
   begin
-    if Assigned(FsContentPluginUnloading) then
-      FsContentPluginUnloading;
+    if Assigned(ContentPluginUnloading) then
+      ContentPluginUnloading;
     if Assigned(ExtensionFinalize) then
       ExtensionFinalize(nil);
     //------------------------------------------------------
@@ -523,7 +507,6 @@ begin
   FsRemoveDir := TFsRemoveDir(GetProcAddress(FModuleHandle,'FsRemoveDir'));
   FsStatusInfo := TFsStatusInfo(GetProcAddress(FModuleHandle,'FsStatusInfo'));
   FsSetDefaultParams := TFsSetDefaultParams(GetProcAddress(FModuleHandle,'FsSetDefaultParams'));
-  FsContentPluginUnloading := TFsContentPluginUnloading(GetProcAddress(FModuleHandle,'FsContentPluginUnloading'));
   //---------------------
   FsSetAttr := TFsSetAttr (GetProcAddress(FModuleHandle,'FsSetAttr'));
   FsSetTime := TFsSetTime (GetProcAddress(FModuleHandle,'FsSetTime'));
@@ -536,15 +519,16 @@ begin
   //---------------------
   FsGetBackgroundFlags := TFsGetBackgroundFlags (GetProcAddress(FModuleHandle,'FsGetBackgroundFlags'));
   //---------------------
-  FsContentGetDetectString := TFsContentGetDetectString (GetProcAddress(FModuleHandle,'FsContentGetDetectString'));
-  FsContentGetSupportedField := TFsContentGetSupportedField (GetProcAddress(FModuleHandle,'FsContentGetSupportedField'));
-  FsContentGetValue := TFsContentGetValue (GetProcAddress(FModuleHandle,'FsContentGetValue'));
-  FsContentSetDefaultParams := TFsContentSetDefaultParams (GetProcAddress(FModuleHandle,'FsContentSetDefaultParams'));
-  FsContentStopGetValue := TFsContentStopGetValue (GetProcAddress(FModuleHandle,'FsContentStopGetValue'));
-  FsContentGetDefaultSortOrder := TFsContentGetDefaultSortOrder (GetProcAddress(FModuleHandle,'FsContentGetDefaultSortOrder'));
-  FsContentGetSupportedFieldFlags := TFsContentGetSupportedFieldFlags (GetProcAddress(FModuleHandle,'FsContentGetSupportedFieldFlags'));
-  FsContentSetValue := TFsContentSetValue (GetProcAddress(FModuleHandle,'FsContentSetValue'));
   FsContentGetDefaultView := TFsContentGetDefaultView (GetProcAddress(FModuleHandle,'FsContentGetDefaultView'));
+  ContentSetDefaultParams := TContentSetDefaultParams (GetProcAddress(FModuleHandle,'FsContentSetDefaultParams'));
+  ContentGetDetectString := TFsContentGetDetectString (GetProcAddress(FModuleHandle,'FsContentGetDetectString'));
+  ContentGetSupportedField := TFsContentGetSupportedField (GetProcAddress(FModuleHandle,'FsContentGetSupportedField'));
+  ContentGetValue := TFsContentGetValue (GetProcAddress(FModuleHandle,'FsContentGetValue'));
+  ContentStopGetValue := TFsContentStopGetValue (GetProcAddress(FModuleHandle,'FsContentStopGetValue'));
+  ContentGetDefaultSortOrder := TFsContentGetDefaultSortOrder (GetProcAddress(FModuleHandle,'FsContentGetDefaultSortOrder'));
+  ContentGetSupportedFieldFlags := TFsContentGetSupportedFieldFlags (GetProcAddress(FModuleHandle,'FsContentGetSupportedFieldFlags'));
+  ContentSetValue := TFsContentSetValue (GetProcAddress(FModuleHandle,'FsContentSetValue'));
+  ContentPluginUnloading := TFsContentPluginUnloading(GetProcAddress(FModuleHandle,'FsContentPluginUnloading'));
 { Unicode }
   FsSetCryptCallbackW:= TFsSetCryptCallbackW(GetProcAddress(FModuleHandle,'FsSetCryptCallbackW'));
   FsMkDirW := TFsMkDirW(GetProcAddress(FModuleHandle,'FsMkDirW'));
@@ -560,6 +544,11 @@ begin
   FsStatusInfoW := TFsStatusInfoW(GetProcAddress(FModuleHandle,'FsStatusInfoW'));
   FsExtractCustomIconW := TFsExtractCustomIconW(GetProcAddress(FModuleHandle,'FsExtractCustomIconW'));
   FsGetLocalNameW := TFsGetLocalNameW(GetProcAddress(FModuleHandle,'FsGetLocalNameW'));
+  //--------------------------
+  FsContentGetDefaultViewW := TFsContentGetDefaultViewW(GetProcAddress(FModuleHandle,'FsContentGetDefaultViewW'));
+  ContentGetValueW := TFsContentGetValueW(GetProcAddress(FModuleHandle, 'FsContentGetValueW'));
+  ContentStopGetValueW := TFsContentStopGetValueW(GetProcAddress(FModuleHandle, 'FsContentStopGetValueW'));
+  ContentSetValueW := TFsContentSetValueW(GetProcAddress(FModuleHandle, 'FsContentSetValueW'));
   { Extension API }
   ExtensionInitialize:= TExtensionInitializeProc(GetProcAddress(FModuleHandle,'ExtensionInitialize'));
   ExtensionFinalize:= TExtensionFinalizeProc(GetProcAddress(FModuleHandle,'ExtensionFinalize'));
@@ -600,16 +589,16 @@ begin
   //---------------------
   FsGetBackgroundFlags := nil;
   //---------------------
-  FsContentGetDetectString := nil;
-  FsContentGetSupportedField := nil;
-  FsContentGetValue := nil;
-  FsContentSetDefaultParams := nil;
-  FsContentStopGetValue := nil;
-  FsContentGetDefaultSortOrder := nil;
-  FsContentGetSupportedFieldFlags := nil;
-  FsContentSetValue := nil;
   FsContentGetDefaultView := nil;
-  FsContentPluginUnloading := nil;
+  ContentGetDetectString := nil;
+  ContentGetSupportedField := nil;
+  ContentGetValue := nil;
+  ContentSetDefaultParams := nil;
+  ContentStopGetValue := nil;
+  ContentGetDefaultSortOrder := nil;
+  ContentGetSupportedFieldFlags := nil;
+  ContentSetValue := nil;
+  ContentPluginUnloading := nil;
 { Unicode }
   FsInitW := nil;
   FsFindFirstW := nil;
@@ -629,6 +618,11 @@ begin
   FsStatusInfoW := nil;
   FsExtractCustomIconW := nil;
   FsGetLocalNameW := nil;
+  //---------------------
+  FsContentGetDefaultViewW := nil;
+  ContentGetValueW := nil;
+  ContentStopGetValueW := nil;
+  ContentSetValueW := nil;
   // Extension API
   ExtensionInitialize:= nil;
   ExtensionFinalize:= nil;
@@ -673,6 +667,11 @@ begin
 
       ExtensionInitialize(@StartupInfo);
     end;
+
+  CallContentSetDefaultParams;
+  CallContentGetSupportedField;
+  if Length(Self.DetectStr) = 0 then
+    Self.DetectStr := CallContentGetDetectString;
 end;
 
 function TWFXModule.VFSConfigure(Parent: HWND): Boolean;
@@ -709,11 +708,6 @@ begin
       FreeMem(pcRootName);
     end;
   end;
-end;
-
-function TWFXModule.IsLoaded: Boolean;
-begin
-  Result := (FModuleHandle <> 0);
 end;
 
 { TWFXModuleList }

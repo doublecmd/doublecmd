@@ -108,7 +108,8 @@ var
 implementation
 
 uses
-  StrUtils, WdxPlugin, uWdxModule, uGlobs, uLng, uDefaultFilePropertyFormatter, uFileSourceProperty;
+  StrUtils, WdxPlugin, uWdxModule, uGlobs, uLng, uDefaultFilePropertyFormatter,
+  uFileSourceProperty, uWfxPluginFileSource;
 
 //Return type (Script or DC or Plugin etc)
 function GetModType(str: String): String;
@@ -293,7 +294,15 @@ begin
   //------------------------------------------------------
   else if AType = sFuncTypePlugin then
   begin
-    if fspDirectAccess in AFileSource.Properties then
+    if AFileSource.IsClass(TWfxPluginFileSource) then
+    begin
+      if IWfxPluginFileSource(AFileSource).WfxModule.FileParamVSDetectStr(AFile) then
+      begin
+        Result := IWfxPluginFileSource(AFileSource).WfxModule.CallContentGetValue(
+          AFile.FullPath, AFunc, AParam, 0);
+      end;
+    end
+    else if fspDirectAccess in AFileSource.Properties then
     begin
       if not gWdxPlugins.IsLoaded(AName) then
         if not gWdxPlugins.LoadModule(AName) then
