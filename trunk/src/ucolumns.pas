@@ -32,6 +32,9 @@ uses
   Classes, SysUtils, DCClassesUtf8, Graphics, uFile, uFileSource,
   DCXmlConfig, uFileFunctions;
 
+const
+  FS_GENERAL = '<General>';
+
 type
 
   { TColPrm }
@@ -114,6 +117,7 @@ type
     fSetName: String;
 
     // Global settings for columns view.
+    FFileSystem: String;
     FCustomView: Boolean;
     FCursorBorder: Boolean;
     FCursorBorderColor: TColor;
@@ -199,6 +203,7 @@ type
     property CurrentColumnsSetName: String read fSetName write fSetName;
     property SetName: String read fSetName write fSetName;
     property Name: String read fSetName write fSetName;
+    property FileSystem: String read FFileSystem write FFileSystem;
     property UseCursorBorder: boolean read GetCursorBorder write FCursorBorder;
     property CursorBorderColor: TColor read GetCursorBorderColor write FCursorBorderColor;
     property UseFrameCursor: boolean read GetUseFrameCursor write FUseFrameCursor;
@@ -521,6 +526,7 @@ begin
     Exit;
 
   Name := OtherColumnsClass.Name;
+  FFileSystem := OtherColumnsClass.FFileSystem;
   FCustomView := OtherColumnsClass.FCustomView;
   FCursorBorder := OtherColumnsClass.FCursorBorder;
   FCursorBorderColor := OtherColumnsClass.FCursorBorderColor;
@@ -742,6 +748,7 @@ var
   DCFunc: String;
 begin
   SetName := 'Default';
+  FFileSystem := FS_GENERAL;
   DCFunc := '[' + sFuncTypeDC + '().%s{}]';
   // file name
   Add(rsColName, Format(DCFunc, [TFileFunctionStrings[fsfNameNoExtension]]), 250, taLeftJustify);
@@ -760,7 +767,7 @@ end;
 procedure TPanelColumnsClass.AddDefaultEverything;
 begin
   AddDefaultColumns;
-  FCustomView := True;
+  FCustomView := False;
   FCursorBorder := gUseCursorBorder;
   FCursorBorderColor := gCursorBorderColor;
   FUseFrameCursor := gUseFrameCursor;
@@ -776,6 +783,7 @@ var
   APixelsPerInch: Integer;
 begin
   FCustomView := AConfig.GetValue(ANode, 'CustomView', False);
+  FFileSystem := AConfig.GetValue(ANode, 'FileSystem', FS_GENERAL);
   APixelsPerInch:= AConfig.GetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
   FCursorBorder := AConfig.GetAttr(ANode, 'CursorBorder/Enabled', gUseCursorBorder);
   FCursorBorderColor := TColor(AConfig.GetValue(ANode, 'CursorBorder/Color', gCursorBorderColor));
@@ -847,6 +855,7 @@ var
   AColumn: TPanelColumn;
 begin
   AConfig.SetValue(ANode, 'CustomView', FCustomView);
+  AConfig.SetValue(ANode, 'FileSystem', FFileSystem);
   AConfig.SetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
   AConfig.SetAttr(ANode, 'CursorBorder/Enabled', FCursorBorder);
   if FCursorBorderColor <> clNone then

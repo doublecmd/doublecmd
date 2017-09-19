@@ -105,9 +105,11 @@ type
     cbUseInactiveSelColor: TCheckBox;
     cbUseInvertedSelection: TCheckBox;
     chkUseCustomView: TCheckBox;
+    cmbFileSystem: TComboBox;
     dlgcolor: TColorDialog;
     dlgfont: TFontDialog;
     edtFont: TEdit;
+    lblFileSystem: TLabel;
     lblBackColor: TLabel;
     lblBackColor2: TLabel;
     lblConfigColumns: TLabel;
@@ -138,6 +140,8 @@ type
     spltBetweenPanels: TSplitter;
     stgColumns: TStringGrid;
     procedure btnGotoSetDefaultClick(Sender: TObject);
+    procedure cmbFileSystemChange(Sender: TObject);
+    procedure FillFileSystemList;
     procedure FillColumnsList;
     procedure cbConfigColumnsChange(Sender: TObject);
     procedure btnSaveConfigColumnsClick(Sender: TObject);
@@ -289,6 +293,7 @@ begin
   PreviewRightPanel.JustForColorPreviewSetActiveState(False);
 
   //4. Load our list of columns set.
+  FillFileSystemList;
   FillColumnsList;
 
   //5. Select the one we currently have in the active panel if possible. User won't be lost and it's the most pertinent thing to do.
@@ -369,10 +374,17 @@ end;
 
 { TfrmOptionsCustomColumns.FillColumnsList }
 procedure TfrmOptionsCustomColumns.FillColumnsList;
+var
+  Index: Integer;
 begin
   cbConfigColumns.Clear;
-  if ColSet.Items.Count > 0 then
-    cbConfigColumns.Items.AddStrings(ColSet.Items);
+  for Index:= 0 to ColSet.Items.Count - 1 do
+  begin
+    if SameText(TPanelColumnsClass(ColSet.Items.Objects[Index]).FileSystem, cmbFileSystem.Text) then
+    begin
+      cbConfigColumns.Items.AddObject(ColSet.Items[Index], TObject(PtrInt(Index)));
+    end;
+  end;
 end;
 
 { TfrmOptionsCustomColumns.btnGotoSetDefaultClick }
@@ -381,12 +393,43 @@ begin
   ShowOptions(TfrmOptionsFilePanelsColors);
 end;
 
+procedure TfrmOptionsCustomColumns.cmbFileSystemChange(Sender: TObject);
+begin
+  FillColumnsList;
+  if cbConfigColumns.Items.Count > 0 then
+  begin
+    cbConfigColumns.ItemIndex:= 0;
+    cbConfigColumnsChange(cbConfigColumns);
+  end
+  else begin
+    stgColumns.RowCount:= 1;
+    btnRenameConfigColumns.Enabled:= False;
+    btnDeleteConfigColumns.Enabled:= False;
+  end;
+  pnlActualCont.Enabled:= cbConfigColumns.Items.Count > 0;
+  btnSaveAsConfigColumns.Enabled:= pnlActualCont.Enabled;
+  cbConfigColumns.Enabled:= pnlActualCont.Enabled;
+end;
+
+procedure TfrmOptionsCustomColumns.FillFileSystemList;
+var
+  Index: Integer;
+begin
+  cmbFileSystem.Clear;
+  cmbFileSystem.Items.Add(FS_GENERAL);
+  for Index:= 0 to gWFXPlugins.Count - 1 do
+  begin
+    cmbFileSystem.Items.Add(gWFXPlugins.Name[Index]);
+  end;
+  cmbFileSystem.ItemIndex:= 0;
+end;
+
 { TfrmOptionsCustomColumns.cbConfigColumnsChange }
 procedure TfrmOptionsCustomColumns.cbConfigColumnsChange(Sender: TObject);
 begin
   if bColumnConfigLoaded then
   begin
-    ColumnClass.Assign(ColSet.GetColumnSet(cbConfigColumns.ItemIndex));
+    ColumnClass.Assign(ColSet.GetColumnSet(PtrInt(cbConfigColumns.Items.Objects[cbConfigColumns.ItemIndex])));
     LastLoadedOptionSignature := ComputeCompleteOptionsSignature;
     cbConfigColumns.Enabled := True;
     btnSaveConfigColumns.Enabled := False;
@@ -399,18 +442,24 @@ end;
 { TfrmOptionsCustomColumns.btnSaveConfigColumnsClick }
 procedure TfrmOptionsCustomColumns.btnSaveConfigColumnsClick(Sender: TObject);
 var
+  Index: PtrInt;
+  SuggestedCustomColumnsName: String;
   ColumnClassForConfig: TPanelColumnsClass;
-  SuggestedCustomColumnsName: string;
 begin
-  UpdateColumnClass;
-  ColumnClassForConfig := TPanelColumnsClass.Create; //We won't free that one obviously because it's the one that will now be in global application system memory
-  ColumnClassForConfig.Assign(ColumnClass);
+  // We won't free that one obviously because it's the one that will now be in global application system memory
+  ColumnClassForConfig := TPanelColumnsClass.Create;
+  if cbConfigColumns.Items.Count > 0 then
+  begin
+    UpdateColumnClass;
+    ColumnClassForConfig.Assign(ColumnClass);
+    Index:= PtrInt(cbConfigColumns.Items.Objects[cbConfigColumns.ItemIndex]);
+  end;
 
   case TComponent(Sender).tag of
     1: // Save.
     begin
-      ColSet.DeleteColumnSet(cbConfigColumns.ItemIndex);
-      Colset.Insert(cbConfigColumns.ItemIndex, ColumnClassForConfig);
+      ColSet.DeleteColumnSet(Index);
+      Colset.Insert(Index, ColumnClassForConfig);
       cbConfigColumnsChange(cbConfigColumns);
     end;
 
@@ -432,9 +481,10 @@ begin
       FreeAndNil(ColumnClassForConfig);
       ColumnClassForConfig := TPanelColumnsClass.Create;
       ColumnClassForConfig.AddDefaultEverything;
+      ColumnClassForConfig.FileSystem := cmbFileSystem.Text;
       ColumnClassForConfig.Name := ColumnClassForConfig.Name + ' (' + GetDateTimeInStrEZSortable(now) + ')';
       ColSet.Add(ColumnClassForConfig);
-      FillColumnsList;
+      cmbFileSystemChange(cmbFileSystem);
       cbConfigColumns.ItemIndex := cbConfigColumns.Items.IndexOf(ColumnClassForConfig.Name);
       cbConfigColumnsChange(cbConfigColumns);
     end;
@@ -449,8 +499,8 @@ begin
           if cbConfigColumns.Items.indexof(SuggestedCustomColumnsName) = -1 then
           begin
             ColumnClassForConfig.Name := SuggestedCustomColumnsName;
-            ColSet.DeleteColumnSet(cbConfigColumns.ItemIndex);
-            Colset.Insert(cbConfigColumns.ItemIndex, ColumnClassForConfig);
+            ColSet.DeleteColumnSet(Index);
+            Colset.Insert(Index, ColumnClassForConfig);
             FillColumnsList;
             cbConfigColumns.ItemIndex := cbConfigColumns.Items.IndexOf(ColumnClassForConfig.Name);
             cbConfigColumnsChange(cbConfigColumns);
@@ -462,21 +512,17 @@ begin
         end;
       end;
     end;
-
   end;
 end;
 
 { TfrmOptionsCustomColumns.btnDeleteConfigColumnsClick }
 procedure TfrmOptionsCustomColumns.btnDeleteConfigColumnsClick(Sender: TObject);
 begin
-  if cbConfigColumns.ItemIndex = -1 then
-    exit;
-  if cbConfigColumns.Items.Count = 1 then
-    exit;
-  ColSet.DeleteColumnSet(cbConfigColumns.Items[cbConfigColumns.ItemIndex]);
-  FillColumnsList;
-  cbConfigColumns.ItemIndex := 0;
-  cbConfigColumnsChange(cbConfigColumns);
+  if cbConfigColumns.ItemIndex = -1 then Exit;
+  if (cbConfigColumns.Items.Count = 1) and (cmbFileSystem.ItemIndex = 0) then
+    Exit;
+  ColSet.DeleteColumnSet(PtrInt(cbConfigColumns.Items.Objects[cbConfigColumns.ItemIndex]));
+  cmbFileSystemChange(cmbFileSystem);
 end;
 
 { TfrmOptionsCustomColumns.UpdatePageInfoFromColumnClass }
@@ -560,6 +606,7 @@ begin
       ColumnClass.SetColumnPrm(Indx, TColPrm(stgColumns.Objects[6, i]));
   end;
 
+  ColumnClass.FileSystem := cmbFileSystem.Text;
   ColumnClass.CustomView := chkUseCustomView.Checked;
   ColumnClass.UseCursorBorder := cbCursorBorder.Checked;
   ColumnClass.CursorBorderColor := cbCursorBorderColor.Selected;
@@ -911,7 +958,7 @@ var
   Point: TPoint;
 begin
   // Fill column fields menu
-  FillContentFieldMenu(pmFields.Items, @MenuFieldsClick);
+  FillContentFieldMenu(pmFields.Items, @MenuFieldsClick, cmbFileSystem.Text);
   // Show popup menu
   Point.x := (Sender as TButton).Left - 25;
   Point.y := (Sender as TButton).Top + (Sender as TButton).Height + 40;

@@ -7,8 +7,8 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
   ClientWidth = 1070
   ParentShowHint = False
   ShowHint = True
-  DesignLeft = 241
-  DesignTop = 65
+  DesignLeft = 328
+  DesignTop = 134
   object pnlConfigColumns: TPanel[0]
     Left = 4
     Height = 31
@@ -23,15 +23,17 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
     ClientWidth = 1062
     TabOrder = 0
     object lblConfigColumns: TLabel
-      AnchorSideLeft.Control = pnlConfigColumns
+      AnchorSideLeft.Control = cmbFileSystem
+      AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = cbConfigColumns
       AnchorSideTop.Side = asrCenter
-      Left = 4
+      Left = 177
       Height = 15
       Top = 8
-      Width = 132
+      Width = 78
+      BorderSpacing.Left = 6
       BorderSpacing.Right = 2
-      Caption = 'Con&figure columns view:'
+      Caption = '&Columns view:'
       FocusControl = cbConfigColumns
       ParentColor = False
     end
@@ -40,11 +42,12 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = pnlConfigColumns
       AnchorSideRight.Side = asrBottom
-      Left = 138
+      Left = 261
       Height = 23
       Top = 4
-      Width = 440
+      Width = 317
       Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
       BorderSpacing.Right = 4
       Constraints.MaxWidth = 440
       Font.Style = [fsBold]
@@ -56,7 +59,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       OnChange = cbConfigColumnsChange
       ParentFont = False
       Style = csDropDownList
-      TabOrder = 0
+      TabOrder = 1
       Text = 'General'
     end
     object btnSaveConfigColumns: TButton
@@ -76,7 +79,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       BorderSpacing.Left = 4
       Caption = 'Save'
       OnClick = btnSaveConfigColumnsClick
-      TabOrder = 1
+      TabOrder = 2
     end
     object btnRenameConfigColumns: TButton
       Tag = 4
@@ -94,7 +97,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       BorderSpacing.Left = 4
       Caption = 'Rename'
       OnClick = btnSaveConfigColumnsClick
-      TabOrder = 4
+      TabOrder = 5
     end
     object btnSaveAsConfigColumns: TButton
       Tag = 2
@@ -112,7 +115,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       BorderSpacing.Left = 4
       Caption = 'Save as'
       OnClick = btnSaveConfigColumnsClick
-      TabOrder = 2
+      TabOrder = 3
     end
     object btnDeleteConfigColumns: TButton
       AnchorSideLeft.Control = btnRenameConfigColumns
@@ -130,7 +133,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       BorderSpacing.Left = 4
       Caption = '&Delete'
       OnClick = btnDeleteConfigColumnsClick
-      TabOrder = 5
+      TabOrder = 6
     end
     object btnNewConfig: TButton
       Tag = 3
@@ -149,7 +152,28 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       BorderSpacing.Left = 4
       Caption = 'New'
       OnClick = btnSaveConfigColumnsClick
-      TabOrder = 3
+      TabOrder = 4
+    end
+    object cmbFileSystem: TComboBox
+      AnchorSideLeft.Control = lblFileSystem
+      AnchorSideLeft.Side = asrBottom
+      Left = 71
+      Height = 23
+      Top = 4
+      Width = 100
+      BorderSpacing.Left = 6
+      ItemHeight = 15
+      OnChange = cmbFileSystemChange
+      Style = csDropDownList
+      TabOrder = 0
+    end
+    object lblFileSystem: TLabel
+      Left = 4
+      Height = 15
+      Top = 9
+      Width = 61
+      Caption = '&File system:'
+      ParentColor = False
     end
   end
   object pnlActualCont: TPanel[1]
@@ -539,10 +563,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Control = cbForeColor
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = cbForeColor
-        Left = 104
+        Left = 105
         Height = 15
         Top = 59
-        Width = 57
+        Width = 56
         Anchors = [akTop, akRight]
         BorderSpacing.Right = 6
         Caption = 'Text Color:'
@@ -886,10 +910,10 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = lblCursorColor
         AnchorSideRight.Side = asrBottom
-        Left = 720
+        Left = 721
         Height = 15
         Top = 83
-        Width = 63
+        Width = 62
         Anchors = [akTop, akRight]
         Caption = 'Cursor Text:'
         ParentColor = False

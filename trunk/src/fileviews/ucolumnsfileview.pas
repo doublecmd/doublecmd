@@ -1774,6 +1774,7 @@ var
   I : Integer;
   Point: TPoint;
   MI: TMenuItem;
+  FileSystem: String;
   Background: Boolean;
 begin
   if ColumnsView.IsLoadingFileList then Exit;
@@ -1801,15 +1802,44 @@ begin
           ColumnsView.pmColumnsMenu.Items.Clear;
           if ColSet.Items.Count>0 then
             begin
-              For I:=0 to ColSet.Items.Count-1 do
+              if Pos('wfx://', ColumnsView.CurrentAddress) = 1 then
+                FileSystem:= Copy(ColumnsView.CurrentAddress, 7, MaxInt)
+              else begin
+                FileSystem:= FS_GENERAL;
+              end;
+              // Current file system specific columns set
+              for I:= 0 to ColSet.Items.Count - 1 do
+              begin
+                if SameText(FileSystem, ColSet.GetColumnSet(I).FileSystem) then
                 begin
-                  MI:=TMenuItem.Create(ColumnsView.pmColumnsMenu);
-                  MI.Tag:=I;
-                  MI.Caption:=ColSet.Items[I];
-                  MI.Checked:=(ColSet.Items[I] = ColumnsView.ActiveColm);
-                  MI.OnClick:=@ColumnsView.ColumnsMenuClick;
+                  MI:= TMenuItem.Create(ColumnsView.pmColumnsMenu);
+                  MI.Tag:= I;
+                  MI.Caption:= ColSet.Items[I];
+                  MI.Checked:= (ColSet.Items[I] = ColumnsView.ActiveColm);
+                  MI.OnClick:= @ColumnsView.ColumnsMenuClick;
                   ColumnsView.pmColumnsMenu.Items.Add(MI);
                 end;
+              end;
+              if not SameText(FileSystem, FS_GENERAL) then
+              begin
+                //-
+                MI:=TMenuItem.Create(ColumnsView.pmColumnsMenu);
+                MI.Caption:='-';
+                ColumnsView.pmColumnsMenu.Items.Add(MI);
+                // General columns set
+                for I:= 0 to ColSet.Items.Count - 1 do
+                begin
+                  if not SameText(FileSystem, ColSet.GetColumnSet(I).FileSystem) then
+                  begin
+                    MI:= TMenuItem.Create(ColumnsView.pmColumnsMenu);
+                    MI.Tag:= I;
+                    MI.Caption:= ColSet.Items[I];
+                    MI.Checked:= (ColSet.Items[I] = ColumnsView.ActiveColm);
+                    MI.OnClick:= @ColumnsView.ColumnsMenuClick;
+                    ColumnsView.pmColumnsMenu.Items.Add(MI);
+                  end;
+                end;
+              end;
             end;
           //-
           MI:=TMenuItem.Create(ColumnsView.pmColumnsMenu);
