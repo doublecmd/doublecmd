@@ -149,6 +149,8 @@ type
     function VFSConfigure(Parent: HWND):Boolean;
     function VFSRootName: String;
 
+    function ContentPlugin: Boolean;
+
     property BackgroundFlags: Integer read FBackgroundFlags write FBackgroundFlags;
   end;
 
@@ -440,6 +442,7 @@ end;
 constructor TWFXModule.Create;
 begin
   inherited;
+  FName:= 'FS';
 end;
 
 destructor TWFXModule.Destroy;
@@ -552,6 +555,8 @@ begin
   { Extension API }
   ExtensionInitialize:= TExtensionInitializeProc(GetProcAddress(FModuleHandle,'ExtensionInitialize'));
   ExtensionFinalize:= TExtensionFinalizeProc(GetProcAddress(FModuleHandle,'ExtensionFinalize'));
+
+  VFSInit;
 end;
 
 procedure TWFXModule.UnloadModule;
@@ -708,6 +713,11 @@ begin
       FreeMem(pcRootName);
     end;
   end;
+end;
+
+function TWFXModule.ContentPlugin: Boolean;
+begin
+  Result:= Assigned(ContentGetValue) or Assigned(ContentGetValueW);
 end;
 
 { TWFXModuleList }

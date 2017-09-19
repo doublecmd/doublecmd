@@ -94,7 +94,7 @@ type
   function FormatFileFunctions(FuncS: String; AFile: TFile; const AFileSource: IFileSource): String;
   function GetFileFunctionByName(FuncS: string): TFileFunction;
 
-  procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent);
+  procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent; const FileSystem: String = '');
 
   procedure FillFileFuncList;
 
@@ -109,7 +109,7 @@ implementation
 
 uses
   StrUtils, WdxPlugin, uWdxModule, uGlobs, uLng, uDefaultFilePropertyFormatter,
-  uFileSourceProperty, uWfxPluginFileSource;
+  uFileSourceProperty, uWfxPluginFileSource, uWfxModule, uColumns;
 
 //Return type (Script or DC or Plugin etc)
 function GetModType(str: String): String;
@@ -296,7 +296,8 @@ begin
   begin
     if AFileSource.IsClass(TWfxPluginFileSource) then
     begin
-      if IWfxPluginFileSource(AFileSource).WfxModule.FileParamVSDetectStr(AFile) then
+      if IWfxPluginFileSource(AFileSource).WfxModule.ContentPlugin and
+         IWfxPluginFileSource(AFileSource).WfxModule.FileParamVSDetectStr(AFile) then
       begin
         Result := IWfxPluginFileSource(AFileSource).WfxModule.CallContentGetValue(
           AFile.FullPath, AFunc, AParam, 0);
@@ -361,13 +362,48 @@ begin
   Result := fsfInvalid;
 end;
 
-procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent);
+procedure AddModule(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent; Module: TWDXModule);
 var
-  I, J: Integer;
+  J: Integer;
   sUnits: String;
-  Module: TWDXModule;
   Mi, mi2: TMenuItem;
   WdxField: TWdxField;
+begin
+  MI:= TMenuItem.Create(MenuItem);
+  MI.Caption:= Module.Name;
+  MenuItem.Add(MI);
+  // Load fields list
+  for J:= 0 to Module.FieldList.Count - 1 do
+  begin
+    WdxField:= TWdxField(Module.FieldList.Objects[J]);
+    if not (WdxField.FType in [ft_fulltext, ft_fulltextw]) then
+    begin
+      MI:= TMenuItem.Create(MenuItem);
+      MI.Tag:= 1;
+      MI.Caption:= Module.FieldList[J];
+      MenuItem.Items[MenuItem.Count - 1].Add(MI);
+      if WdxField.FType <> ft_multiplechoice then
+      begin
+        sUnits:= WdxField.FUnits;
+        while sUnits <> EmptyStr do
+        begin
+          MI2:=TMenuItem.Create(MenuItem);
+          MI2.Tag:= 2;
+          MI2.Caption:= Copy2SymbDel(sUnits, '|');
+          MI2.OnClick:= OnMenuItemClick;
+          MI.Add(MI2);
+        end;
+      end;
+      if MI.Count = 0 then MI.OnClick:= OnMenuItemClick;
+    end;
+  end;
+end;
+
+procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent; const FileSystem: String);
+var
+  I: Integer;
+  MI: TMenuItem;
+  Module: TWDXModule;
 begin
   MenuItem.Clear;
 
@@ -384,43 +420,26 @@ begin
     MI.OnClick:= OnMenuItemClick;
     MenuItem.Items[0].Add(MI);
   end;
-
   // Plugins
-  MI:= TMenuItem.Create(MenuItem);
-  MI.Caption:= 'Plugins';
-  MenuItem.Add(MI);
-  for I:= 0 to gWdxPlugins.Count - 1 do
+  if (FileSystem = EmptyStr) or SameText(FileSystem, FS_GENERAL) then
   begin
-    Module:= gWdxPlugins.GetWdxModule(I);
-    if not (Module.IsLoaded or Module.LoadModule) then
-     Continue;
     MI:= TMenuItem.Create(MenuItem);
-    MI.Caption:= Module.Name;
-    MenuItem.Items[1].Add(MI);
-    // Load fields list
-    for J:= 0 to Module.FieldList.Count - 1 do
+    MI.Caption:= 'Plugins';
+    MenuItem.Add(MI);
+    for I:= 0 to gWdxPlugins.Count - 1 do
     begin
-      WdxField:= TWdxField(Module.FieldList.Objects[J]);
-      if not (WdxField.FType in [ft_fulltext, ft_fulltextw]) then
-      begin
-        MI:= TMenuItem.Create(MenuItem);
-        MI.Tag:= 1;
-        MI.Caption:= Module.FieldList[J];
-        MenuItem.Items[1].Items[MenuItem.Items[1].Count - 1].Add(MI);
-        if WdxField.FType <> ft_multiplechoice then
-        begin
-          sUnits:= WdxField.FUnits;
-          while sUnits <> EmptyStr do
-          begin
-            MI2:=TMenuItem.Create(MenuItem);
-            MI2.Tag:= 2;
-            MI2.Caption:= Copy2SymbDel(sUnits, '|');
-            MI2.OnClick:= OnMenuItemClick;
-            MI.Add(MI2);
-          end;
-        end;
-        if MI.Count = 0 then MI.OnClick:= OnMenuItemClick;
-      end;
+      Module:= gWdxPlugins.GetWdxModule(I);
+      if not (Module.IsLoaded or Module.LoadModule) then
+       Continue;
+      AddModule(MI, OnMenuItemClick, Module);
+    end;
+  end
+  else begin
+    I:= gWFXPlugins.IndexOfName(FileSystem);
+    if (I >= 0) then begin
+      Module:= gWFXPlugins.LoadModule(gWFXPlugins.FileName[I]);
+      if Assigned(Module) and TWfxModule(Module).ContentPlugin then
+        AddModule(MenuItem, OnMenuItemClick, Module);
     end;
   end;
 end;
