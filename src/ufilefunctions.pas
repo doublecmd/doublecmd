@@ -425,7 +425,6 @@ begin
     MI.Tag:= 0;
     MI.Hint:= FileFunctionsStr.Names[I];
     MI.Caption:= FileFunctionsStr.ValueFromIndex[I] + '  (' + MI.Hint + ')';
-    MI.OnClick:= OnMenuItemClick;
     MenuItem.Items[0].Add(MI);
     // Special case for attributes
     if TFileFunctionStrings[fsfAttr] = FileFunctionsStr.Names[I] then
@@ -445,6 +444,7 @@ begin
       MI2.OnClick:= OnMenuItemClick;
       MI.Add(MI2);
     end;
+    if MI.Count = 0 then MI.OnClick:= OnMenuItemClick;
   end;
   // Plugins
   if (FileSystem = EmptyStr) or SameText(FileSystem, FS_GENERAL) then
