@@ -466,6 +466,7 @@ begin
   DoubleBuffered := True;
   Align := alClient;
   MouseWheelOption:= mwGrid;
+  AllowOutboundEvents := False;
   Options := [goTabs, goThumbTracking];
   TabStop := False;
 

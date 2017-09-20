@@ -1126,6 +1126,7 @@ begin
 
   DoubleBuffered := True;
   Align := alClient;
+  AllowOutboundEvents := False;
   Options := [goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing,
               goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook];
 
