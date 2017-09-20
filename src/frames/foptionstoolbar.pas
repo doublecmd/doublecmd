@@ -1276,7 +1276,10 @@ begin
     SourceButton  := Source as TKASToolButton;
     TargetToolbar := Sender as TKASToolBar;
     if SourceButton.ToolBar <> TargetToolBar then
+    begin
+      if (SourceButton = FCurrentButton) then FCurrentButton := nil;
       SourceButton.ToolBar.MoveButton(SourceButton, TargetToolbar, nil);
+    end;
   end;
 end;
 
