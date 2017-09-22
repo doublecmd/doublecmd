@@ -531,7 +531,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Height = 19
       Top = 62
       Width = 366
-      Caption = 'Use an independant attribute filter in mask input dialog each time'
+      Caption = 'Use an independent attribute filter in mask input dialog each time'
       TabOrder = 1
     end
   end

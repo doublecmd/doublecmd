@@ -6023,7 +6023,7 @@ msgstr "Фильтр для файлов в стиле Windows (\"*.*\" выде
 
 #: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
 msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
-msgid "Use an independant attribute filter in mask input dialog each time"
+msgid "Use an independent attribute filter in mask input dialog each time"
 msgstr "Каждый раз показывать в окне ввода независимый фильтр маски атрибутов"
 
 #: tfrmoptionsfilesviews.gbformatting.caption

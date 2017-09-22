@@ -6042,7 +6042,7 @@ msgstr "Interpréter le masque de filtre comme Windows (\"*.*\" sélectionne vra
 
 #: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
 msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
-msgid "Use an independant attribute filter in mask input dialog each time"
+msgid "Use an independent attribute filter in mask input dialog each time"
 msgstr "Utiliser un filtre d'attribut indépendant à chaque entrée de masque de sélection"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
