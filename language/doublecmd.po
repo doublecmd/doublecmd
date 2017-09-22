@@ -5859,7 +5859,7 @@ msgid "Windows style filter when marking files (\"*.*\" also select files withou
 msgstr ""
 
 #: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
-msgid "Use an independant attribute filter in mask input dialog each time"
+msgid "Use an independent attribute filter in mask input dialog each time"
 msgstr ""
 
 #: tfrmoptionsfilesviews.gbformatting.caption

@@ -5863,7 +5863,7 @@ msgstr "Styl filtrování Windows při označení souborů (\"*.*\" také vybír
 
 #: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
 msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
-msgid "Use an independant attribute filter in mask input dialog each time"
+msgid "Use an independent attribute filter in mask input dialog each time"
 msgstr "Vždy použít samostatný atributový filtr v dialogovém okně masky"
 
 #: tfrmoptionsfilesviews.gbformatting.caption

@@ -1018,7 +1018,7 @@ begin
   OpenTag(1, 'ImportantInfo');
   WriteString(Indent(2)+'******* Please read carefully *************************');
   WriteString(Indent(2)+'* Please, make any changes in this file very carefuly!*');
-  WriteString(Indent(2)+'* It is much more convinient to use native designer!  *');
+  WriteString(Indent(2)+'* It is much more convenient to use native designer!  *');
   WriteString(Indent(2)+'*******************************************************');
   OpenTag(1, '/ImportantInfo');
   SaveInfo;

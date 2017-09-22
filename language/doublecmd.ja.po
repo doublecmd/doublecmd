@@ -6005,7 +6005,7 @@ msgstr "ファイル作成時にWindowsスタイルのフィルタを使用（�
 
 #: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
 msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
-msgid "Use an independant attribute filter in mask input dialog each time"
+msgid "Use an independent attribute filter in mask input dialog each time"
 msgstr "マスク入力ダイアログで毎回独立した属性フィルターを使用"
 
 #: tfrmoptionsfilesviews.gbformatting.caption

@@ -526,7 +526,7 @@ type
     vsDeleting,          // Set when the node is about to be freed.
     vsExpanded,          // Set if the node is expanded.
     vsHasChildren,       // Indicates the presence of child nodes without actually setting them.
-    vsVisible,           // Indicate whether the node is visible or not (independant of the expand states of its parents).
+    vsVisible,           // Indicate whether the node is visible or not (independent of the expand states of its parents).
     vsSelected,          // Set if the node is in the current selection.
     vsInitialUserData,   // Set if (via AddChild or InsertNode) initial user data has been set which requires OnFreeNode.
     vsAllChildrenHidden, // Set if vsHasChildren is set and no child node has the vsVisible flag set.
@@ -7022,7 +7022,7 @@ end;
 
 procedure TVirtualTreeColumn.GetAbsoluteBounds(var Left, Right: Integer);
 
-// Returns the column's left and right bounds in header coordinates, that is, independant of the scrolling position.
+// Returns the column's left and right bounds in header coordinates, that is, independent of the scrolling position.
 
 begin
   Left := FLeft;

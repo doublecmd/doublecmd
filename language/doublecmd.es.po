@@ -5869,7 +5869,7 @@ msgstr "Filtro al estilo de Windows cuando se marcan los archivos («*.*» tambi
 
 #: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
 msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
-msgid "Use an independant attribute filter in mask input dialog each time"
+msgid "Use an independent attribute filter in mask input dialog each time"
 msgstr "Utilizar cada vez un filtro de atributo independiente en el diálogo de entrada de máscara"
 
 #: tfrmoptionsfilesviews.gbformatting.caption

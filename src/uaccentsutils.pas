@@ -56,7 +56,7 @@ begin
     ParseLineToList(rsStrAccentsStripped, slTempoAccentsStripped);
 
     if slTempoAccents.Count <> slTempoAccentsStripped.Count then
-      raise Exception.Create('Unexpected situation in LoadInMemoryOurAccentLookupTableList!' + #$0A + 'Most probably problem in langage file regarding conversion string with accents...');
+      raise Exception.Create('Unexpected situation in LoadInMemoryOurAccentLookupTableList!' + #$0A + 'Most probably problem in language file regarding conversion string with accents...');
 
     gslAccents := TStringList.Create;
     gslAccents.Assign(slTempoAccents);
