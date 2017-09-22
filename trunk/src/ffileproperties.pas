@@ -102,7 +102,7 @@ type
     pnlIcon: TPanel;
     pcPageControl: TPageControl;
     sgImage: TStringGrid;
-    tsImage: TTabSheet;
+    tsPlugins: TTabSheet;
     tmUpdateFolderSize: TTimer;
     tsProperties: TTabSheet;
     tsAttributes: TTabSheet;
@@ -143,7 +143,7 @@ type
     procedure AllowChange(Allow: Boolean);
     procedure StartCalcFolderSize;
     procedure StopCalcFolderSize;
-    procedure ShowImage(iIndex:Integer);
+    procedure ShowPlugin(iIndex:Integer);
   public
     constructor Create(AOwner: TComponent; aFileSource: IFileSource; theFiles: TFiles); reintroduce;
     destructor Destroy; override;
@@ -158,8 +158,8 @@ implementation
 
 uses
   LCLType, LazUTF8, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
-  uDefaultFilePropertyFormatter, uMyUnix, DCFileAttributes, uGlobs,
-  uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager,
+  uDefaultFilePropertyFormatter, uMyUnix, DCFileAttributes, uGlobs, uWdxModule,
+  uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager, WdxPlugin,
   uFileSourceOperationOptions, uKeyboard, DCStrUtils, DCUnix, uPixMapManager;
 
 procedure ShowFileProperties(aFileSource: IFileSource; const aFiles: TFiles);
@@ -476,8 +476,8 @@ begin
     end;
   end;
 
-  tsImage.Visible:= isFileSystem;
-  if isFileSystem then ShowImage(iIndex);
+  tsPlugins.Visible:= isFileSystem;
+  if isFileSystem then ShowPlugin(iIndex);
 
   // Only allow changes for file system file.
   AllowChange(isFileSystem);
@@ -608,12 +608,18 @@ begin
   FFileSourceCalcStatisticsOperation:= nil;
 end;
 
-procedure TfrmFileProperties.ShowImage(iIndex: Integer);
+procedure TfrmFileProperties.ShowPlugin(iIndex: Integer);
 var
+  I, J: Integer;
+  Value: String;
+  FileName: String;
   Index: Integer = 0;
+  WdxModule: TWdxModule;
 begin
-  tsImage.TabVisible:= SameText(FFiles[iIndex].Extension, 'jpg') and FExif.LoadFromFile(FFiles[iIndex].FullPath);
-  if tsImage.TabVisible then
+  FileName:= FFiles[iIndex].FullPath;
+  Value:= LowerCase(FFiles[iIndex].Extension);
+  tsPlugins.TabVisible:= Contains(['jpg', 'jpeg'], Value) and FExif.LoadFromFile(FileName);
+  if tsPlugins.TabVisible then
   begin
     sgImage.RowCount:= 6;
     if FExif.ImageWidth <> 0 then
@@ -646,8 +652,40 @@ begin
       sgImage.Cells[0, Index]:= rsModel;
       sgImage.Cells[1, Index]:= FExif.Model;
     end;
-    tsImage.TabVisible:= Index > 0;
+    tsPlugins.TabVisible:= Index > 0;
     sgImage.RowCount:= Index + 1;
+  end
+  else begin
+    for Index:= 0 to gWdxPlugins.Count - 1 do
+    begin
+      WdxModule:= gWdxPlugins.GetWdxModule(Index);
+      if (Length(WdxModule.DetectStr) > 0) and WdxModule.FileParamVSDetectStr(FFiles[iIndex]) then
+      begin
+        if not gWdxPlugins.IsLoaded(Index) then
+        begin
+          if not gWdxPlugins.LoadModule(Index) then
+            Continue;
+        end;
+        J:= 0;
+        sgImage.RowCount:= WdxModule.FieldList.Count + 1;
+        for I:= 0 to WdxModule.FieldList.Count - 1 do
+        begin
+          if not (TWdxField(WdxModule.FieldList.Objects[I]).FType in [ft_fulltext, ft_fulltextw]) then
+          begin
+            Value:= WdxModule.CallContentGetValue(FileName, I, 0, 0);
+            if (Length(Value) > 0) then
+            begin
+              Inc(J);
+              sgImage.Cells[1, J]:= Value;
+              sgImage.Cells[0, J]:= WdxModule.FieldList[I];
+            end;
+          end;
+        end;
+        sgImage.RowCount:= J + 1;
+        tsPlugins.TabVisible:= J > 0;
+        if tsPlugins.TabVisible then Break;
+      end;
+    end;
   end;
 end;
 

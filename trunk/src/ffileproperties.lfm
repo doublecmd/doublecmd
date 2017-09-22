@@ -598,8 +598,8 @@ object frmFileProperties: TfrmFileProperties
         ParentFont = False
       end
     end
-    object tsImage: TTabSheet
-      Caption = 'Image'
+    object tsPlugins: TTabSheet
+      Caption = 'Plugins'
       ClientHeight = 218
       ClientWidth = 434
       TabVisible = False
