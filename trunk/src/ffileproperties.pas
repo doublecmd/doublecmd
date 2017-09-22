@@ -672,7 +672,7 @@ begin
         begin
           if not (TWdxField(WdxModule.FieldList.Objects[I]).FType in [ft_fulltext, ft_fulltextw]) then
           begin
-            Value:= WdxModule.CallContentGetValue(FileName, I, 0, 0);
+            Value:= WdxModule.CallContentGetValue(FileName, I, 0, CONTENT_DELAYIFSLOW);
             if (Length(Value) > 0) then
             begin
               Inc(J);
