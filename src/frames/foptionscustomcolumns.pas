@@ -1020,10 +1020,12 @@ var
 begin
   if Length(stgColumns.Cells[1, btnAdd.Tag]) = 0 then
   begin
-    if MenuItem.Tag = 0 then
-      stgColumns.Cells[1, btnAdd.Tag] := Copy(MenuItem.Caption, 1, Pos('(', MenuItem.Caption) - 3)
+    case MenuItem.Tag of
+      0: stgColumns.Cells[1, btnAdd.Tag] := Copy(MenuItem.Caption, 1, Pos('(', MenuItem.Caption) - 3);
+      3: stgColumns.Cells[1, btnAdd.Tag] := Copy(MenuItem.Parent.Caption, 1, Pos('(', MenuItem.Parent.Caption) - 3);
     else
       stgColumns.Cells[1, btnAdd.Tag] := MenuItem.Caption;
+    end;
   end;
   case MenuItem.Tag of
     0:
