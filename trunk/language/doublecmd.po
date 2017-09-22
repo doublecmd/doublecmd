@@ -1421,8 +1421,9 @@ msgctxt "tfrmfileproperties.tsattributes.caption"
 msgid "Attributes"
 msgstr ""
 
-#: tfrmfileproperties.tsimage.caption
-msgid "Image"
+#: tfrmfileproperties.tsplugins.caption
+msgctxt "tfrmfileproperties.tsplugins.caption"
+msgid "Plugins"
 msgstr ""
 
 #: tfrmfileproperties.tsproperties.caption

@@ -1460,9 +1460,11 @@ msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
 msgstr "Attribútumok"
 
-#: tfrmfileproperties.tsimage.caption
-msgid "Image"
-msgstr ""
+#: tfrmfileproperties.tsplugins.caption
+#, fuzzy
+msgctxt "tfrmfileproperties.tsplugins.caption"
+msgid "Plugins"
+msgstr "Beépülők"
 
 #: tfrmfileproperties.tsproperties.caption
 msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
