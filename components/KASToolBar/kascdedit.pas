@@ -14,6 +14,9 @@ type
 
   TKASCDEdit = class(TCDEdit)
   protected
+    procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: Integer;
+                                     WithThemeSpace: Boolean); override;
+    procedure CalculateSize(MaxWidth: Integer; var NeededWidth, NeededHeight: Integer);
     procedure KeyDown(var Key: word; Shift: TShiftState); override;
   public
     constructor Create(AOwner: TComponent); override;
@@ -32,7 +35,7 @@ procedure Register;
 implementation
 
 uses
-  Math, Clipbrd, LCLType, LazUTF8;
+  Math, Clipbrd, LCLType, LCLIntf, LazUTF8;
 
 procedure Register;
 begin
@@ -143,6 +146,56 @@ begin
 end;
 
 { TKASCDEdit }
+
+procedure TKASCDEdit.CalculatePreferredSize(var PreferredWidth,
+  PreferredHeight: Integer; WithThemeSpace: Boolean);
+var
+  AWidth: Integer;
+begin
+  if (Parent = nil) or (not Parent.HandleAllocated) then Exit;
+  AWidth := Constraints.MinMaxWidth(10000);
+  CalculateSize(AWidth, PreferredWidth, PreferredHeight);
+end;
+
+procedure TKASCDEdit.CalculateSize(MaxWidth: Integer; var NeededWidth,
+  NeededHeight: Integer);
+var
+  DC: HDC;
+  R: TRect;
+  Flags: Cardinal;
+  OldFont: HGDIOBJ;
+  LabelText: String;
+  lTextLeftSpacing, lTextTopSpacing,
+  lTextBottomSpacing, lTextRightSpacing: Integer;
+begin
+  LabelText := Text;
+
+  if LabelText = '' then
+  begin
+    NeededWidth:= 1;
+    NeededHeight:= 1;
+    Exit;
+  end;
+
+  lTextLeftSpacing := FDrawer.GetMeasures(TCDEDIT_LEFT_TEXT_SPACING);
+  lTextTopSpacing := FDrawer.GetMeasures(TCDEDIT_TOP_TEXT_SPACING);
+  lTextRightSpacing := FDrawer.GetMeasures(TCDEDIT_RIGHT_TEXT_SPACING);
+  lTextBottomSpacing := FDrawer.GetMeasures(TCDEDIT_BOTTOM_TEXT_SPACING);
+
+  DC := GetDC(Parent.Handle);
+  try
+    R := Rect(0, 0, MaxWidth, 10000);
+    OldFont := SelectObject(DC, HGDIOBJ(Font.Reference.Handle));
+    Flags := DT_CALCRECT or DT_EXPANDTABS;
+    if not MultiLine then Flags := Flags or DT_SINGLELINE;
+    DrawText(DC, PAnsiChar(LabelText), Length(LabelText), R, Flags);
+    SelectObject(DC, OldFont);
+    NeededWidth := R.Right - R.Left + lTextLeftSpacing + lTextRightSpacing;
+    NeededHeight := R.Bottom - R.Top + lTextTopSpacing + lTextBottomSpacing;
+  finally
+    ReleaseDC(Parent.Handle, DC);
+  end;
+end;
 
 procedure TKASCDEdit.KeyDown(var Key: word; Shift: TShiftState);
 begin
