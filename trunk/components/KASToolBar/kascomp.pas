@@ -8,7 +8,7 @@ interface
 
 uses
   KASToolBar, KASProgressBar, KASPathEdit, KASToolItems, KASComboBox, 
-  LazarusPackageIntf;
+  KASCDEdit, LazarusPackageIntf;
 
 implementation
 
@@ -18,6 +18,7 @@ begin
   RegisterUnit('KASProgressBar', @KASProgressBar.Register);
   RegisterUnit('KASPathEdit', @KASPathEdit.Register);
   RegisterUnit('KASComboBox', @KASComboBox.Register);
+  RegisterUnit('KASCDEdit', @KASCDEdit.Register);
 end;
 
 initialization

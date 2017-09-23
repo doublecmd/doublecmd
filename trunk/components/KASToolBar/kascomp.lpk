@@ -1,7 +1,8 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <Name Value="KASComp"/>
+    <Type Value="RunAndDesignTime"/>
     <AddToProjectUsesSection Value="True"/>
     <Author Value="Alexander Koblov"/>
     <CompilerOptions>
@@ -19,17 +20,14 @@
           <DebugInfoType Value="dsDwarf2Set"/>
         </Debugging>
       </Linking>
-      <Other>
-        <CompilerPath Value="$(CompPath)"/>
-      </Other>
     </CompilerOptions>
     <Description Value="ToolBar that loading from *.ini file. Format of *.ini file 
       KASBarMenu is popupmenu read *.bar file and uses *.bar buttons as menu items.
 "/>
     <License Value="GNU GPL 2
 "/>
-    <Version Major="1" Minor="8"/>
-    <Files Count="5">
+    <Version Major="1" Minor="8" Release="1"/>
+    <Files Count="6">
       <Item1>
         <Filename Value="kastoolbar.pas"/>
         <HasRegisterProc Value="True"/>
@@ -54,8 +52,12 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="KASComboBox"/>
       </Item5>
+      <Item6>
+        <Filename Value="kascdedit.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="KASCDEdit"/>
+      </Item6>
     </Files>
-    <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="3">
       <Item1>
         <PackageName Value="doublecmd_common"/>
