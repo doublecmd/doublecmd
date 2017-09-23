@@ -219,6 +219,7 @@ type
     procedure DrawPreviewSelection(Sender: TObject; aCol, aRow: Integer);
     procedure DrawPreviewTopleftChanged(Sender: TObject);
     procedure FormCreate(Sender : TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure GifAnimMouseDown(Sender: TObject; Button: TMouseButton;
@@ -327,7 +328,7 @@ type
     procedure LoadFile(iIndex:Integer);
     procedure ExitPluginMode;
 
-    procedure SetNormalViewerFont;
+    procedure ShowTextViewer(AMode: TViewerControlMode);
     procedure CopyMoveFile(AViewerAction:TViewerCopyMoveAction);
     procedure RotateImage(AGradus:integer);
     procedure MirrorImage(AVertically:boolean=False);
@@ -1067,33 +1068,33 @@ begin
   miPrint.Enabled:= False;
 end;
 
-procedure TfrmViewer.SetNormalViewerFont;
+procedure TfrmViewer.ShowTextViewer(AMode: TViewerControlMode);
 begin
-  if ViewerControl.Mode=vcmBook then
+  ExitPluginMode;
+  ReopenAsTextIfNeeded;
+  ViewerControl.Mode:= AMode;
+  if ViewerControl.Mode = vcmBook then
   begin
     with ViewerControl do
       begin
-        Mode := vcmBook;
         Color:= gBookBackgroundColor;
         Font.Color:= gBookFontColor;
-        Font.Quality:= fqAntialiased;
         ColCount:= gColCount;
         Position:= gTextPosition;
       end;
     FontOptionsToFont(gFonts[dcfViewerBook], ViewerControl.Font);
-  end else
-  begin
+  end
+  else begin
     with ViewerControl do
       begin
         Color:= clWindow;
         Font.Color:= clWindowText;
-        Font.Quality:= fqDefault;
         ColCount:= 1;
       end;
     FontOptionsToFont(gFonts[dcfViewer], ViewerControl.Font);
   end;
+  ActivatePanel(pnlText);
 end;
-
 
 procedure TfrmViewer.CopyMoveFile(AViewerAction: TViewerCopyMoveAction);
 begin
@@ -1555,6 +1556,56 @@ begin
   HotMan.Register(pnlImage,'Image files');
 end;
 
+procedure TfrmViewer.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  // The following keys work only in QuickView mode because there is no menu there.
+  // Otherwise this function is never called for those keys
+  // because the menu shortcuts are automatically used.
+  if bQuickView then
+    case Key of
+      'N', 'n':
+        begin
+          cm_LoadNextFile([]);
+          Key := #0;
+        end;
+      'P', 'p':
+        begin
+          cm_LoadPrevFile([]);
+          Key := #0;
+        end;
+      '1':
+        begin
+          cm_ShowAsText(['']);
+          Key := #0;
+        end;
+      '2':
+        begin
+          cm_ShowAsBin(['']);
+          Key := #0;
+        end;
+      '3':
+        begin
+          cm_ShowAsHex(['']);
+          Key := #0;
+        end;
+      '4':
+        begin
+          cm_ShowAsWrapText(['']);
+          Key := #0;
+        end;
+      '6':
+        begin
+          cm_ShowGraphics(['']);
+          Key := #0;
+        end;
+      '7':
+        begin
+          cm_ShowPlugins(['']);
+          Key := #0;
+        end;
+    end;
+end;
+
 procedure TfrmViewer.btnCutTuImageClick(Sender: TObject);
 begin
   CutToImage;
@@ -1740,7 +1791,7 @@ end;
 
 procedure TfrmViewer.ReopenAsTextIfNeeded;
 begin
-  if bImage or bAnimation or bPlugin then
+  if bImage or bAnimation or bPlugin or miPlugins.Checked then
   begin
     Image.Picture := nil;
     ViewerControl.FileName := FileList.Strings[iActiveFile];
@@ -2567,56 +2618,32 @@ end;
 
 procedure TfrmViewer.cm_ShowAsText(const Params: array of string);
 begin
-  ViewerControl.Mode := vcmText;
-  SetNormalViewerFont;
-  ExitPluginMode;
-  ReopenAsTextIfNeeded;
-  ActivatePanel(pnlText);
+  ShowTextViewer(vcmText);
 end;
 
 procedure TfrmViewer.cm_ShowAsBin(const Params: array of string);
 begin
-  ViewerControl.Mode := vcmBin;
-  SetNormalViewerFont;
-  ExitPluginMode;
-  ReopenAsTextIfNeeded;
-  ActivatePanel(pnlText);
+  ShowTextViewer(vcmBin);
 end;
 
 procedure TfrmViewer.cm_ShowAsHex(const Params: array of string);
 begin
-  ViewerControl.Mode := vcmHex;
-  SetNormalViewerFont;
-  ExitPluginMode;
-  ReopenAsTextIfNeeded;
-  ActivatePanel(pnlText);
+  ShowTextViewer(vcmHex);
 end;
 
 procedure TfrmViewer.cm_ShowAsDec(const Params: array of string);
 begin
-  ViewerControl.Mode := vcmDec;
-  SetNormalViewerFont;
-  ExitPluginMode;
-  ReopenAsTextIfNeeded;
-  ActivatePanel(pnlText);
+  ShowTextViewer(vcmDec);
 end;
 
 procedure TfrmViewer.cm_ShowAsWrapText(const Params: array of string);
 begin
-  ViewerControl.Mode := vcmWrap;
-  SetNormalViewerFont;
-  ExitPluginMode;
-  ReopenAsTextIfNeeded;
-  ActivatePanel(pnlText);
+  ShowTextViewer(vcmWrap);
 end;
 
 procedure TfrmViewer.cm_ShowAsBook(const Params: array of string);
 begin
-  ViewerControl.Mode := vcmBook;
-  SetNormalViewerFont;
-  ExitPluginMode;
-  ReopenAsTextIfNeeded;
-  ActivatePanel(pnlText);
+  ShowTextViewer(vcmBook);
 end;
 
 procedure TfrmViewer.cm_ShowGraphics(const Params: array of string);

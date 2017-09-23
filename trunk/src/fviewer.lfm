@@ -263,6 +263,7 @@ object frmViewer: TfrmViewer
   OnClose = frmViewerClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyPress = FormKeyPress
   OnResize = FormResize
   OnShow = FormShow
   SessionProperties = 'Height;Width;Left;Top;WindowState'
