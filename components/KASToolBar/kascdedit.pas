@@ -14,6 +14,7 @@ type
 
   TKASCDEdit = class(TCDEdit)
   protected
+    procedure RealSetText(const Value: TCaption); override;
     procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: Integer;
                                      WithThemeSpace: Boolean); override;
     procedure CalculateSize(MaxWidth: Integer; var NeededWidth, NeededHeight: Integer);
@@ -26,6 +27,8 @@ type
 
   TKASCDDrawer = class(TCDDrawerCommon)
   public
+    procedure DrawEditBackground(ADest: TCanvas; ADestPos: TPoint; ASize: TSize;
+      AState: TCDControlState; AStateEx: TCDEditStateEx); override;
     procedure DrawEdit(ADest: TCanvas; ASize: TSize;
       AState: TCDControlState; AStateEx: TCDEditStateEx); override;
   end;
@@ -44,6 +47,17 @@ end;
 
 { TKASCDDrawer }
 
+procedure TKASCDDrawer.DrawEditBackground(ADest: TCanvas; ADestPos: TPoint;
+  ASize: TSize; AState: TCDControlState; AStateEx: TCDEditStateEx);
+begin
+  // The background
+  ADest.Pen.Color := clForm;
+  ADest.Pen.Style := psSolid;
+  ADest.Brush.Color := clForm;
+  ADest.Brush.Style := bsSolid;
+  ADest.Rectangle(0, 0, ASize.cx, ASize.cy);
+end;
+
 procedure TKASCDDrawer.DrawEdit(ADest: TCanvas; ASize: TSize;
   AState: TCDControlState; AStateEx: TCDEditStateEx);
 var
@@ -55,6 +69,9 @@ var
   lTextColor: TColor;
   i, lVisibleLinesCount: Integer;
 begin
+  // Background
+  DrawEditBackground(ADest, Point(0, 0), ASize, AState, AStateEx);
+
   // General text configurations which apply to all lines
   // Configure the text color
   if csfEnabled in AState then
@@ -146,6 +163,12 @@ begin
 end;
 
 { TKASCDEdit }
+
+procedure TKASCDEdit.RealSetText(const Value: TCaption);
+begin
+  Lines.Text := Value;
+  inherited RealSetText(Value);
+end;
 
 procedure TKASCDEdit.CalculatePreferredSize(var PreferredWidth,
   PreferredHeight: Integer; WithThemeSpace: Boolean);
