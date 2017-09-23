@@ -892,6 +892,9 @@ begin
 end;
 
 procedure TFileViewWithMainCtrl.MainControlMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  FileIndex: PtrInt;
+  AtFileList: Boolean;
 begin
   if IsLoadingFileList then Exit;
 
@@ -905,11 +908,27 @@ begin
   if IsMouseSelecting and (GetCaptureControl = MainControl) then
     SetCaptureControl(nil);
 
-  // A single click starts programs and opens files
+  // A single click is used to open items
   if (gMouseSingleClickStart > 0) and (Button = mbLeft) and
      (Shift * [ssShift, ssAlt, ssCtrl] = []) and FMouseFocus then
   begin
-    MainControlDblClick(Sender);
+    // A single click only opens folders. For files, a double click is needed.
+    if (gMouseSingleClickStart and 2 <> 0) then
+    begin
+      FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
+      if IsFileIndexInRange(FileIndex) then
+      begin
+        with FFiles[FileIndex].FSFile do
+        begin
+          if (IsDirectory or IsLinkToDirectory) then
+            MainControlDblClick(Sender);
+        end;
+      end
+    end
+    // A single click starts programs and opens files
+    else begin
+      MainControlDblClick(Sender);
+    end;
   end;
 
   FMainControlMouseDown := False;
