@@ -211,7 +211,7 @@ begin
         end;
       VK_C:
         begin
-          Clipboard.AsText:= Copy(Text, FEditState.SelStart.X + 1, FEditState.SelLength);
+          Clipboard.AsText:= UTF8Copy(Text, FEditState.SelStart.X + 1, FEditState.SelLength);
           Key:= 0;
         end;
     end;
@@ -222,6 +222,7 @@ end;
 constructor TKASCDEdit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  ReadOnly:= True;
   Cursor:= crIBeam;
   DrawStyle:= dsExtra1;
 end;
