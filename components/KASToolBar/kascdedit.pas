@@ -21,6 +21,10 @@ type
     procedure KeyDown(var Key: word; Shift: TShiftState); override;
   public
     constructor Create(AOwner: TComponent); override;
+  published
+    property OnMouseDown;
+    property OnMouseMove;
+    property OnMouseUp;
   end;
 
   { TKASCDDrawer }
@@ -51,10 +55,10 @@ procedure TKASCDDrawer.DrawEditBackground(ADest: TCanvas; ADestPos: TPoint;
   ASize: TSize; AState: TCDControlState; AStateEx: TCDEditStateEx);
 begin
   // The background
-  ADest.Pen.Color := clForm;
   ADest.Pen.Style := psSolid;
-  ADest.Brush.Color := clForm;
+  ADest.Pen.Color := AStateEx.RGBColor;
   ADest.Brush.Style := bsSolid;
+  ADest.Brush.Color := AStateEx.RGBColor;
   ADest.Rectangle(0, 0, ASize.cx, ASize.cy);
 end;
 
@@ -151,7 +155,7 @@ begin
       lSelLeftPixelPos := lSelLeftPixelPos + lTextWidth;
 
       // Text right of the selection
-      ADest.Brush.Color := clForm;
+      ADest.Brush.Color := AStateEx.RGBColor;
       ADest.Font.Color := lTextColor;
       lVisibleText := UTF8Copy(lControlText, lSelLeftPos+lSelLength+1, lControlTextLen);
       ADest.TextOut(lSelLeftPixelPos, lLineTop, lVisibleText);
@@ -245,6 +249,7 @@ end;
 constructor TKASCDEdit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  Color:= clForm;
   ReadOnly:= True;
   Cursor:= crIBeam;
   DrawStyle:= dsExtra1;
