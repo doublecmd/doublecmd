@@ -82,9 +82,9 @@ object frmFileProperties: TfrmFileProperties
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 17
-          Top = 67
+          Top = 63
           Width = 108
-          BorderSpacing.Top = 20
+          BorderSpacing.Top = 16
           BorderSpacing.CellAlignVertical = ccaCenter
           Caption = 'Path:'
           ParentColor = False
@@ -95,7 +95,7 @@ object frmFileProperties: TfrmFileProperties
           Cursor = crIBeam
           Left = 128
           Height = 23
-          Top = 64
+          Top = 60
           Width = 25
           AutoSize = True
           DrawStyle = dsExtra1
@@ -108,9 +108,9 @@ object frmFileProperties: TfrmFileProperties
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 17
-          Top = 96
+          Top = 88
           Width = 108
-          BorderSpacing.Top = 6
+          BorderSpacing.Top = 2
           BorderSpacing.CellAlignVertical = ccaCenter
           Caption = 'Type:'
           ParentColor = False
@@ -121,7 +121,7 @@ object frmFileProperties: TfrmFileProperties
           Cursor = crIBeam
           Left = 128
           Height = 23
-          Top = 93
+          Top = 85
           Width = 25
           AutoSize = True
           DrawStyle = dsExtra1
@@ -134,9 +134,9 @@ object frmFileProperties: TfrmFileProperties
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 17
-          Top = 125
+          Top = 113
           Width = 108
-          BorderSpacing.Top = 6
+          BorderSpacing.Top = 2
           BorderSpacing.CellAlignVertical = ccaCenter
           Caption = 'Symlink to:'
           ParentColor = False
@@ -147,7 +147,7 @@ object frmFileProperties: TfrmFileProperties
           Cursor = crIBeam
           Left = 128
           Height = 23
-          Top = 122
+          Top = 110
           Width = 25
           AutoSize = True
           DrawStyle = dsExtra1
@@ -160,9 +160,9 @@ object frmFileProperties: TfrmFileProperties
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 17
-          Top = 154
+          Top = 138
           Width = 108
-          BorderSpacing.Top = 6
+          BorderSpacing.Top = 2
           BorderSpacing.CellAlignVertical = ccaCenter
           Caption = 'Size:'
           ParentColor = False
@@ -173,7 +173,7 @@ object frmFileProperties: TfrmFileProperties
           Cursor = crIBeam
           Left = 128
           Height = 23
-          Top = 151
+          Top = 135
           Width = 25
           AutoSize = True
           DrawStyle = dsExtra1
@@ -186,9 +186,9 @@ object frmFileProperties: TfrmFileProperties
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 17
-          Top = 183
+          Top = 163
           Width = 108
-          BorderSpacing.Top = 6
+          BorderSpacing.Top = 2
           BorderSpacing.CellAlignVertical = ccaCenter
           Caption = 'Contains:'
           ParentColor = False
@@ -199,7 +199,7 @@ object frmFileProperties: TfrmFileProperties
           Cursor = crIBeam
           Left = 128
           Height = 23
-          Top = 180
+          Top = 160
           Width = 25
           AutoSize = True
           DrawStyle = dsExtra1
@@ -212,9 +212,9 @@ object frmFileProperties: TfrmFileProperties
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 17
-          Top = 218
+          Top = 194
           Width = 108
-          BorderSpacing.Top = 12
+          BorderSpacing.Top = 8
           BorderSpacing.CellAlignVertical = ccaCenter
           Caption = 'Last access:'
           ParentColor = False
@@ -225,7 +225,7 @@ object frmFileProperties: TfrmFileProperties
           Cursor = crIBeam
           Left = 128
           Height = 23
-          Top = 215
+          Top = 191
           Width = 25
           AutoSize = True
           DrawStyle = dsExtra1
@@ -238,9 +238,9 @@ object frmFileProperties: TfrmFileProperties
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 17
-          Top = 247
+          Top = 219
           Width = 108
-          BorderSpacing.Top = 6
+          BorderSpacing.Top = 2
           BorderSpacing.CellAlignVertical = ccaCenter
           Caption = 'Last modification:'
           ParentColor = False
@@ -251,7 +251,7 @@ object frmFileProperties: TfrmFileProperties
           Cursor = crIBeam
           Left = 128
           Height = 23
-          Top = 244
+          Top = 216
           Width = 25
           AutoSize = True
           DrawStyle = dsExtra1
@@ -264,9 +264,9 @@ object frmFileProperties: TfrmFileProperties
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 17
-          Top = 276
+          Top = 244
           Width = 108
-          BorderSpacing.Top = 6
+          BorderSpacing.Top = 2
           BorderSpacing.CellAlignVertical = ccaCenter
           Caption = 'Last status change:'
           ParentColor = False
@@ -277,7 +277,7 @@ object frmFileProperties: TfrmFileProperties
           Cursor = crIBeam
           Left = 128
           Height = 23
-          Top = 273
+          Top = 241
           Width = 25
           DrawStyle = dsExtra1
           Lines.Strings = (
