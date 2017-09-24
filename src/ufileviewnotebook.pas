@@ -609,7 +609,7 @@ begin
 
   if Button = mbLeft then
   begin
-    FDraggedPageIndex := TabIndexAtClientPos(Classes.Point(X, Y));
+    FDraggedPageIndex := IndexOfPageAt(Classes.Point(X, Y));
     FStartDrag := (FDraggedPageIndex <> -1);
   end;
   // Emulate double click
@@ -646,7 +646,7 @@ begin
 
   if ShowHint then
   begin
-    ATabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
+    ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
     if (ATabIndex >= 0) and (ATabIndex <> FHintPageIndex) then
     begin
       FHintPageIndex := ATabIndex;
@@ -678,7 +678,7 @@ var
 begin
   if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
   begin
-    ATabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
+    ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
     Accept := (Source <> Sender) or
               ((ATabIndex <> -1) and (ATabIndex <> FDraggedPageIndex));
   end
@@ -730,7 +730,7 @@ var
 begin
   if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
   begin
-    ATabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
+    ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
 
     if Source = Sender then
     begin

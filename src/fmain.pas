@@ -2360,7 +2360,7 @@ begin
 
     mbMiddle:
       begin
-        TabNr := NoteBook.TabIndexAtClientPos(Point(X, Y));
+        TabNr := NoteBook.IndexOfPageAt(Point(X, Y));
         if TabNr <> -1 then
         begin
           Commands.DoCloseTab(NoteBook, TabNr);
@@ -2369,7 +2369,7 @@ begin
 
     mbRight:
       begin
-        TabNr := NoteBook.TabIndexAtClientPos(Point(X, Y));
+        TabNr := NoteBook.IndexOfPageAt(Point(X, Y));
         if TabNr <> -1 then
         begin
           PopUpPoint := NoteBook.ClientToScreen(Point(X, Y));
