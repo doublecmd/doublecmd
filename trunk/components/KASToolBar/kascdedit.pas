@@ -5,14 +5,21 @@ unit KASCDEdit;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Types,
-  CustomDrawnControls, CustomDrawnDrawers, CustomDrawn_Common;
+  Classes, SysUtils, LResources, Controls, Graphics, Dialogs, Types,
+  Menus, CustomDrawnControls, CustomDrawnDrawers, CustomDrawn_Common;
 
 type
 
   { TKASCDEdit }
 
   TKASCDEdit = class(TCDEdit)
+  private
+    FEditMenu: TPopupMenu; static;
+  private
+    procedure CreatePopupMenu;
+    procedure ShowMenu(Data: PtrInt);
+    procedure MenuCopy(Sender: TObject);
+    procedure MenuSelectAll(Sender: TObject);
   protected
     procedure RealSetText(const Value: TCaption); override;
     procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: Integer;
@@ -21,6 +28,11 @@ type
     procedure KeyDown(var Key: word; Shift: TShiftState); override;
   public
     constructor Create(AOwner: TComponent); override;
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: integer); override;
+    procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
+  public
+    procedure SelectAll;
+    procedure CopyToClipboard;
   published
     property OnMouseDown;
     property OnMouseMove;
@@ -43,7 +55,11 @@ procedure Register;
 implementation
 
 uses
-  Math, Clipbrd, LCLType, LCLIntf, LazUTF8;
+  Math, Forms, Clipbrd, LCLType, LCLIntf, LazUTF8;
+
+resourcestring
+  rsMnuCopyToClipboard = 'Copy';
+  rsMnuSelectAll = 'Select &All';
 
 procedure Register;
 begin
@@ -178,6 +194,43 @@ end;
 
 { TKASCDEdit }
 
+procedure TKASCDEdit.CreatePopupMenu;
+var
+  MenuItem: TMenuItem;
+begin
+  if not Assigned(FEditMenu) then
+  begin
+    FEditMenu:= TPopupMenu.Create(Application);
+    MenuItem:= TMenuItem.Create(FEditMenu);
+    MenuItem.Caption:= rsMnuCopyToClipboard;
+    MenuItem.OnClick:= MenuCopy;
+    FEditMenu.Items.Add(MenuItem);
+    MenuItem:= TMenuItem.Create(FEditMenu);
+    MenuItem.Caption:= '-';
+    FEditMenu.Items.Add(MenuItem);
+    MenuItem:= TMenuItem.Create(FEditMenu);
+    MenuItem.Caption:= rsMnuSelectAll;
+    MenuItem.OnClick:= MenuSelectAll;
+    FEditMenu.Items.Add(MenuItem);
+  end;
+end;
+
+procedure TKASCDEdit.ShowMenu(Data: PtrInt);
+begin
+  FEditMenu.Tag:= Data;
+  FEditMenu.PopUp;
+end;
+
+procedure TKASCDEdit.MenuCopy(Sender: TObject);
+begin
+  TKASCDEdit(TMenuItem(Sender).Owner.Tag).CopyToClipboard;
+end;
+
+procedure TKASCDEdit.MenuSelectAll(Sender: TObject);
+begin
+  TKASCDEdit(TMenuItem(Sender).Owner.Tag).SelectAll;
+end;
+
 procedure TKASCDEdit.RealSetText(const Value: TCaption);
 begin
   Lines.Text := Value;
@@ -241,14 +294,12 @@ begin
     case Key of
       VK_A:
         begin
-          FEditState.SelStart.X:= 0;
-          FEditState.SelLength:= UTF8Length(Text);
-          Invalidate;
+          SelectAll;
           Key:= 0;
         end;
       VK_C:
         begin
-          Clipboard.AsText:= UTF8Copy(Text, FEditState.SelStart.X + 1, FEditState.SelLength);
+          CopyToClipboard;
           Key:= 0;
         end;
     end;
@@ -258,11 +309,41 @@ end;
 
 constructor TKASCDEdit.Create(AOwner: TComponent);
 begin
+  CreatePopupMenu;
   inherited Create(AOwner);
   Color:= clForm;
   ReadOnly:= True;
   Cursor:= crIBeam;
   DrawStyle:= dsExtra1;
+end;
+
+procedure TKASCDEdit.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if (Button = mbLeft) or (GetSelLength = 0) then
+    inherited MouseDown(Button, Shift, X, Y)
+  else if Assigned(OnMouseDown) then begin
+    OnMouseDown(Self, Button, Shift, X, Y);
+  end;
+end;
+
+procedure TKASCDEdit.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  inherited MouseUp(Button, Shift, X, Y);
+  if Button = mbRight then begin
+    Application.QueueAsyncCall(ShowMenu, PtrInt(Self));
+  end;
+end;
+
+procedure TKASCDEdit.SelectAll;
+begin
+  FEditState.SelStart.X:= 0;
+  FEditState.SelLength:= UTF8Length(Text);
+  Invalidate;
+end;
+
+procedure TKASCDEdit.CopyToClipboard;
+begin
+  Clipboard.AsText:= UTF8Copy(Text, FEditState.SelStart.X + 1, FEditState.SelLength);
 end;
 
 initialization
