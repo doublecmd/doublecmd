@@ -31,8 +31,8 @@ interface
 
 uses
   LResources, SysUtils, Classes, Graphics, Forms, StdCtrls, Buttons, ComCtrls,
-  Dialogs, Controls, ExtCtrls, Grids, DividerBevel, DCBasicTypes, uFile,
-  uFileProperty, uFileSource, uFileSourceOperation,
+  Dialogs, Controls, ExtCtrls, Grids, DividerBevel, KASCDEdit, DCBasicTypes,
+  uFile, uFileProperty, uFileSource, uFileSourceOperation,
   uFileSourceCalcStatisticsOperation, uExifReader;
 
 type
@@ -66,13 +66,13 @@ type
     lblExecutable: TLabel;
     lblFileName: TLabel;
     imgFileIcon: TImage;
-    lblFolder: TLabel;
+    lblFolder: TKASCDEdit;
     lblFolderStr: TLabel;
-    lblLastAccess: TLabel;
+    lblLastAccess: TKASCDEdit;
     lblLastAccessStr: TLabel;
-    lblLastModif: TLabel;
+    lblLastModif: TKASCDEdit;
     lblLastModifStr: TLabel;
-    lblLastStChange: TLabel;
+    lblLastStChange: TKASCDEdit;
     lblLastStChangeStr: TLabel;
     lblOctal: TLabel;
     lblAttrBitsStr: TLabel;
@@ -87,14 +87,14 @@ type
     lblOwnerStr: TLabel;
 
     lblRead: TLabel;
-    lblSize: TLabel;
-    lblContains: TLabel;
+    lblSize: TKASCDEdit;
+    lblContains: TKASCDEdit;
     lblSizeStr: TLabel;
     lblContainsStr: TLabel;
-    lblSymlink: TLabel;
+    lblSymlink: TKASCDEdit;
     lblAttrTextStr: TLabel;
     lblSymlinkStr: TLabel;
-    lblType: TLabel;
+    lblType: TKASCDEdit;
     lblTypeStr: TLabel;
     lblWrite: TLabel;
     pnlCaption: TPanel;
