@@ -31,6 +31,7 @@ type
 
   TKASCDDrawer = class(TCDDrawerCommon)
   public
+    function GetMeasures(AMeasureID: Integer): Integer; override;
     procedure DrawEditBackground(ADest: TCanvas; ADestPos: TPoint; ASize: TSize;
       AState: TCDControlState; AStateEx: TCDEditStateEx); override;
     procedure DrawEdit(ADest: TCanvas; ASize: TSize;
@@ -50,6 +51,15 @@ begin
 end;
 
 { TKASCDDrawer }
+
+function TKASCDDrawer.GetMeasures(AMeasureID: Integer): Integer;
+begin
+  case AMeasureID of
+    TCDEDIT_LEFT_TEXT_SPACING: Result := 0;
+    TCDEDIT_RIGHT_TEXT_SPACING: Result := 0;
+    else Result:= inherited GetMeasures(AMeasureID);
+  end;
+end;
 
 procedure TKASCDDrawer.DrawEditBackground(ADest: TCanvas; ADestPos: TPoint;
   ASize: TSize; AState: TCDControlState; AStateEx: TCDEditStateEx);
