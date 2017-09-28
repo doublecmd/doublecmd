@@ -1126,7 +1126,9 @@ begin
 
   DoubleBuffered := True;
   Align := alClient;
+{$if lcl_fullversion >= 1080004}
   AllowOutboundEvents := False;
+{$endif}
   Options := [goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing,
               goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook];
 
