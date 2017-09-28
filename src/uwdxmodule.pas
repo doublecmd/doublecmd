@@ -1285,8 +1285,13 @@ end;
 
 function TWDXModule.FileParamVSDetectStr(const aFile: TFile): Boolean;
 begin
-  FParser.DetectStr := Self.DetectStr;
-  Result := FParser.TestFileResult(aFile);
+  EnterCriticalSection(FMutex);
+  try
+    FParser.DetectStr := Self.DetectStr;
+    Result := FParser.TestFileResult(aFile);
+  finally
+    LeaveCriticalsection(FMutex);
+  end;
 end;
 
 function TWDXModule.CallContentGetValueV(FileName: String; FieldName: String;
