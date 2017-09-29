@@ -383,7 +383,7 @@ end;
       j:=length(stack)-1;
       if j>=0 then
        begin
-        while(getprecedence(stack[j].op)>=prec) and (j>=0) do
+        while (j>=0) and (getprecedence(stack[j].op)>=prec) do
          begin
           setlength(output,length(output)+1);
           output[length(output)-1]:=stack[j];
@@ -399,7 +399,7 @@ end;
       j:=length(stack)-1;
       if j>=0 then
        begin
-        while(stack[j].mathtype<>mtlbracket) and (j>=0) do
+        while (j>=0) and (stack[j].mathtype<>mtlbracket) do
          begin
           setlength(output,length(output)+1);
           output[length(output)-1]:=stack[j];
