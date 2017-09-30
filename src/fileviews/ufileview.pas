@@ -107,7 +107,6 @@ type
        Which file properties are needed to be displayed for each file.
     }
     FFilePropertiesNeeded: TFilePropertiesTypes;
-    FSortingProperties: TFilePropertiesTypes;
     FFileViewWorkers: TFileViewWorkers;
     FFlags: TFileViewFlags;
     FHashedFiles: TBucketList;  //<en Contains pointers to file source files for quick checking if a file object is still valid
@@ -225,6 +224,7 @@ type
     FAllDisplayFiles: TDisplayFiles;    //<en List of all files that can be displayed
     FFiles: TDisplayFiles;              //<en List of displayed files (filtered)
     FSavedSelection: TStringListEx;
+    FSortingProperties: TFilePropertiesTypes;
 
     {en
        Initializes parts of the view common to all creation methods.
