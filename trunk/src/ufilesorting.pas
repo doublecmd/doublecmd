@@ -552,7 +552,7 @@ end;
 function ICompareByVariant(Value1, Value2: Variant; bSortNegative: Boolean):Integer;
 begin
   if VarIsType(Value1, varString) then
-    Result := mbCompareText(Value1, Value2)
+    Result := CompareStrings(Value1, Value2, gSortNatural, gSortCaseSensitivity)
   else if Value1 = Value2 then
     Exit(0)
   else
