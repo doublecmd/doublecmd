@@ -177,7 +177,7 @@ begin
   if Assigned(FTemplateFiles) then
     FreeAndNil(FTemplateFiles);
 
-  for prop := Low(TFilePropertiesTypes) to High(TFilePropertiesTypes) do
+  for prop := Low(FNewProperties) to High(FNewProperties) do
     if Assigned(FNewProperties[prop]) then
       FreeAndNil(FNewProperties[prop]);
 end;
@@ -288,7 +288,7 @@ begin
       SetResult := sfprSuccess;
 
       // Double-check that the property really is supported by the file.
-      if prop in aFile.SupportedProperties then
+      if prop in (aFile.SupportedProperties * fpAll) then
       begin
         // Get template property from template file (if exists) or NewProperties.
         if Assigned(aTemplateFile) then

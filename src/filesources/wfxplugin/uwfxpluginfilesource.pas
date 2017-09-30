@@ -79,6 +79,7 @@ type
 
   protected
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
+    function GetRetrievableFileProperties: TFilePropertiesTypes; override;
     function GetCurrentAddress: String; override;
     procedure OperationFinished(Operation: TFileSourceOperation); override;
   public
@@ -93,6 +94,8 @@ type
 
     class function CreateFile(const APath: String): TFile; override;
     class function CreateFile(const APath: String; FindData: TWfxFindData): TFile; overload;
+
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String); override;
 
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; override;
@@ -162,7 +165,7 @@ uses
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation, uVfsModule,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
   uWfxPluginDeleteOperation, uWfxPluginSetFilePropertyOperation, uWfxPluginCopyOperation,
-  DCConvertEncoding, uWfxPluginCalcStatisticsOperation;
+  DCConvertEncoding, uWfxPluginCalcStatisticsOperation, uFileFunctions;
 
 const
   connCopyIn      = 0;
@@ -588,6 +591,26 @@ begin
   end;
 end;
 
+procedure TWfxPluginFileSource.RetrieveProperties(AFile: TFile;
+  PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String);
+var
+  AIndex: Integer;
+  AProp: TFilePropertyType;
+  AVariant: TFileVariantProperty;
+begin
+  PropertiesToSet:= PropertiesToSet * fpVariantAll;
+  for AProp in PropertiesToSet do
+  begin
+    AIndex:= Ord(AProp) - Ord(fpVariant);
+    if (AIndex >= 0) and (AIndex <= High(AVariantProperties)) then
+    begin
+      AVariant:= TFileVariantProperty.Create(AVariantProperties[AIndex]);
+      AVariant.Value:= GetVariantFileProperty(AVariantProperties[AIndex], AFile, Self);
+      AFile.Properties[AProp]:= AVariant;
+    end;
+  end;
+end;
+
 function TWfxPluginFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   with WfxModule do
@@ -635,6 +658,12 @@ begin
   Result := inherited GetSupportedFileProperties
           + [fpSize, fpAttributes, fpModificationTime, fpCreationTime,
              fpLastAccessTime, fpLink];
+end;
+
+function TWfxPluginFileSource.GetRetrievableFileProperties: TFilePropertiesTypes;
+begin
+  Result:= inherited GetRetrievableFileProperties;
+  if WfxModule.ContentPlugin then Result += fpVariantAll;
 end;
 
 function TWfxPluginFileSource.GetCurrentAddress: String;

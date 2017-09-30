@@ -16,6 +16,7 @@ uses
   uColumns,
   uFileSorting,
   DCXmlConfig,
+  DCBasicTypes,
   DCClassesUtf8,
   uTypes,
   uFileViewWithGrid;
@@ -169,6 +170,8 @@ type
 
     procedure AfterChangePath; override;
 
+    function GetVariantFileProperties: TDynamicStringArray; override;
+
   public
     ActiveColm: String;
     ActiveColmSlave: TPanelColumnsClass;
@@ -261,7 +264,7 @@ begin
           Column := ColumnsClass.GetColumnItem(SortColumn);
           if Assigned(Column) then
           begin
-            SortFunctions := Column.GetColumnFunctions;
+            SortFunctions := ColumnsClass.GetColumnFunctions(SortColumn);
             SortDirection := TSortDirection(AConfig.GetValue(ANode, 'Direction', Integer(sdNone)));
             AddSorting(NewSorting, SortFunctions, SortDirection);
           end;
@@ -304,7 +307,7 @@ begin
   if Assigned(Column) then
   begin
     NewSorting := Sorting;
-    SortFunctions := Column.GetColumnFunctions;
+    SortFunctions := ColumnsClass.GetColumnFunctions(Index);
     if Length(SortFunctions) = 0 then Exit;
     ShiftState := GetKeyShiftStateEx;
     if [ssShift, ssCtrl] * ShiftState = [] then
@@ -432,7 +435,12 @@ begin
   end;
 end;
 
-procedure TColumnsfileView.SetGridFunctionDim(ExternalDimFunction:TFunctionDime);
+function TColumnsFileView.GetVariantFileProperties: TDynamicStringArray;
+begin
+  Result:= GetColumnsClass.GetColumnsVariants;
+end;
+
+procedure TColumnsFileView.SetGridFunctionDim(ExternalDimFunction: TFunctionDime);
 begin
   dgPanel.ColumnsOwnDim:=ExternalDimFunction;
 end;
@@ -487,7 +495,7 @@ var
   begin
     for k := 0 to Columns.Count - 1 do
     begin
-      ColumnFunctions := Columns.GetColumnItem(k).GetColumnFunctions;
+      ColumnFunctions := Columns.GetColumnFunctions(k);
       for l := 0 to Length(ColumnFunctions) - 1 do
         if ColumnFunctions[l] = ASortFunction then
         begin
@@ -547,7 +555,6 @@ function TColumnsFileView.GetFilePropertiesNeeded: TFilePropertiesTypes;
 var
   i, j: Integer;
   ColumnsClass: TPanelColumnsClass;
-  Column: TPanelColumn;
   FileFunctionsUsed: TFileFunctions;
 begin
   // By default always use some properties.
@@ -565,15 +572,14 @@ begin
   // Scan through all columns.
   for i := 0 to ColumnsClass.Count - 1 do
   begin
-    Column := ColumnsClass.GetColumnItem(i);
-    FileFunctionsUsed := Column.GetColumnFunctions;
+    FileFunctionsUsed := ColumnsClass.GetColumnFunctions(i);
     if Length(FileFunctionsUsed) > 0 then
     begin
       // Scan through all functions in the column.
       for j := Low(FileFunctionsUsed) to High(FileFunctionsUsed) do
       begin
         // Add file properties needed to display the function.
-        Result := Result + TFileFunctionToProperty[FileFunctionsUsed[j]];
+        Result := Result + GetFilePropertyType(FileFunctionsUsed[j]);
         if (FFileNameColumn = -1) and (FileFunctionsUsed[j] in [fsfName, fsfNameNoExtension]) then
           FFileNameColumn := i;
         if (FExtensionColumn = -1) and (FileFunctionsUsed[j] in [fsfExtension]) then
@@ -909,7 +915,10 @@ begin
   begin
     // Clear display strings in case columns have changed.
     for i := 0 to FAllDisplayFiles.Count - 1 do
+    begin
       FAllDisplayFiles[i].DisplayStrings.Clear;
+      FAllDisplayFiles[i].FSFile.ClearVariantProperties;
+    end;
   end;
 end;
 

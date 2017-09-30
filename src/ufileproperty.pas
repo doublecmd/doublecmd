@@ -10,22 +10,26 @@ uses
 type
 
   TFilePropertyType = (
-    fpName,
-    fpSize,             // = fpUncompressedSize
-    fpCompressedSize,
-    fpAttributes,
-    fpModificationTime,
-    fpCreationTime,
-    fpLastAccessTime,
-    fpChangeTime,
-    fpLink,
-    fpOwner,
-    fpType,
-    fpComment
+    fpName = 0,
+    fpSize = 1,             // = fpUncompressedSize
+    fpCompressedSize = 2,
+    fpAttributes = 3,
+    fpModificationTime = 4,
+    fpCreationTime = 5,
+    fpLastAccessTime = 6,
+    fpChangeTime = 7,
+    fpLink = 8,
+    fpOwner = 9,
+    fpType = 10,
+    fpComment = 11,
+    fpInvalid = 12,
+    fpVariant = 128,
+    fpMaximum = 255
   );
 
 const
-  fpAll = [Low(TFilePropertyType) .. High(TFilePropertyType)];
+  fpAll = [Low(TFilePropertyType) .. fpInvalid];
+  fpVariantAll = [fpVariant .. High(TFilePropertyType)];
 
 type
 
@@ -63,7 +67,8 @@ type
   end;
 
 
-  TFileProperties = array [TFilePropertyType] of TFileProperty//class(TList)
+  TFileVariantProperties = array of TFileProperty;
+  TFileProperties = array [Low(TFilePropertyType)..fpInvalid] of TFileProperty//class(TList)
   {
     A list of TFileProperty. It would allow to query properties by index and name
     and by TFilePropertyType.
@@ -379,6 +384,30 @@ type
 
     property Value: String read FComment write FComment;
 
+  end;
+
+  { TFileVariantProperty }
+
+  TFileVariantProperty = class(TFileProperty)
+
+  private
+    FName: String;
+    FValue: Variant;
+
+  public
+    constructor Create; override;
+    constructor Create(const AName: String); virtual; overload;
+
+    function Clone: TFileVariantProperty; override;
+    procedure CloneTo(FileProperty: TFileProperty); override;
+
+    class function GetDescription: String; override;
+    class function GetID: TFilePropertyType; override;
+
+    function Format(Formatter: IFilePropertyFormatter): String; override;
+
+    property Value: Variant read FValue write FValue;
+    property Name: String read FName;
   end;
 
   // -- Property formatter interface ------------------------------------------
@@ -1026,6 +1055,55 @@ end;
 function TFileCommentProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result:= FComment;
+end;
+
+{ TFileVariantProperty }
+
+constructor TFileVariantProperty.Create;
+begin
+  inherited Create;
+  FValue:= Unassigned;
+end;
+
+constructor TFileVariantProperty.Create(const AName: String);
+begin
+  Create;
+  FName:= AName;
+end;
+
+function TFileVariantProperty.Clone: TFileVariantProperty;
+begin
+  Result := TFileVariantProperty.Create;
+  CloneTo(Result);
+end;
+
+procedure TFileVariantProperty.CloneTo(FileProperty: TFileProperty);
+begin
+  if Assigned(FileProperty) then
+  begin
+    inherited CloneTo(FileProperty);
+
+    with FileProperty as TFileVariantProperty do
+    begin
+      FName := Self.FName;
+      FValue := Self.FValue;
+    end;
+  end;
+end;
+
+class function TFileVariantProperty.GetDescription: String;
+begin
+  Result:= EmptyStr;
+end;
+
+class function TFileVariantProperty.GetID: TFilePropertyType;
+begin
+  Result:= fpVariant;
+end;
+
+function TFileVariantProperty.Format(Formatter: IFilePropertyFormatter): String;
+begin
+  Result:= FValue;
 end;
 
 end.

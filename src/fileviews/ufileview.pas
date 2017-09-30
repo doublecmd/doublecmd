@@ -29,7 +29,7 @@ interface
 
 uses
   uFindFiles, Classes, SysUtils, Controls, ExtCtrls, Graphics, ComCtrls, contnrs, fgl, LMessages,
-  uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, DCXmlConfig,
+  uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, DCXmlConfig, DCBasicTypes,
   DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
   uFunctionThread, uFileSystemWatcher, fQuickSearch, StringHashList, uGlobs;
 
@@ -341,6 +341,8 @@ type
     procedure WorkerFinished(const Worker: TFileViewWorker); virtual;
 
     procedure WMEraseBkgnd(var Message: TLMEraseBkgnd); message LM_ERASEBKGND;
+
+    function GetVariantFileProperties: TDynamicStringArray; virtual;
 
     property Active: Boolean read FActive write SetActive;
     property FilePropertiesNeeded: TFilePropertiesTypes read FFilePropertiesNeeded write FFilePropertiesNeeded;
@@ -1040,7 +1042,7 @@ begin
     AFile := TFile.Create(APath);
     AFile.Name := FileName;
     try
-      FileSource.RetrieveProperties(AFile, FilePropertiesNeeded);
+      FileSource.RetrieveProperties(AFile, FilePropertiesNeeded, GetVariantFileProperties);
     except
       on EFileSourceException do
         begin
@@ -1225,7 +1227,7 @@ begin
     AFile := ADisplayFile.FSFile;
     AFile.ClearProperties;
     try
-      FileSource.RetrieveProperties(AFile, FilePropertiesNeeded);
+      FileSource.RetrieveProperties(AFile, FilePropertiesNeeded, GetVariantFileProperties);
     except
       on EFileNotFound do
         begin
@@ -2062,6 +2064,7 @@ begin
     FlatView,
     AThread,
     FSortingProperties,
+    GetVariantFileProperties,
     @SetFileList,
     ClonedDisplayFiles,
     DisplayFilesHashed);
@@ -3052,7 +3055,7 @@ begin
   begin
     for J:= Low(FSortings[I].SortFunctions) to High(FSortings[I].SortFunctions) do
     begin
-      Result:= Result + TFileFunctionToProperty[FSortings[I].SortFunctions[J]];
+      Result:= Result + GetFilePropertyType(FSortings[I].SortFunctions[J]);
     end;
   end;
   Result:= (Result - FileSource.SupportedFileProperties) * FileSource.RetrievableFileProperties;
@@ -3355,6 +3358,11 @@ end;
 procedure TFileView.WMEraseBkgnd(var Message: TLMEraseBkgnd);
 begin
   Message.Result := 1;
+end;
+
+function TFileView.GetVariantFileProperties: TDynamicStringArray;
+begin
+  SetLength(Result, 0);
 end;
 
 procedure TFileView.GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);

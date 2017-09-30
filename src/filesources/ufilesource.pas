@@ -50,8 +50,8 @@ type
 
     function CreateFileObject(const APath: String): TFile;
 
-    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes);
     function CanRetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes): Boolean;
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String);
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation;
     function CreateCopyOperation(var SourceFiles: TFiles;
@@ -212,7 +212,7 @@ type
     // Create an empty TFile object with appropriate properties for the file.
     class function CreateFile(const APath: String): TFile; virtual;
 
-    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes); virtual;
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String); virtual;
     function CanRetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes): Boolean; virtual;
 
     // These functions create an operation object specific to the file source.
@@ -603,7 +603,7 @@ begin
   Result := CreateFile(APath);
 end;
 
-procedure TFileSource.RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes);
+procedure TFileSource.RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String);
 begin
   // Does not set any properties by default.
 end;

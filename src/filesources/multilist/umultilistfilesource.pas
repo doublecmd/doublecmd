@@ -82,7 +82,7 @@ type
     function GetProperties: TFileSourceProperties; override;
 
     function GetRetrievableFileProperties: TFilePropertiesTypes; override;
-    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes); override;
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String); override;
     function CanRetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes): Boolean; override;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
@@ -171,9 +171,9 @@ begin
 end;
 
 procedure TMultiListFileSource.RetrieveProperties(AFile: TFile;
-  PropertiesToSet: TFilePropertiesTypes);
+  PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String);
 begin
-  FFileSource.RetrieveProperties(AFile, PropertiesToSet);
+  FFileSource.RetrieveProperties(AFile, PropertiesToSet, AVariantProperties);
 end;
 
 function TMultiListFileSource.CanRetrieveProperties(AFile: TFile;
