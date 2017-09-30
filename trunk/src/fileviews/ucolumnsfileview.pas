@@ -94,6 +94,7 @@ type
   TColumnsFileView = class(TFileViewWithMainCtrl)
 
   private
+    FColumnsFunctions: String;
     FColumnsSortDirections: TColumnsSortDirections;
     FFileNameColumn: Integer;
     FExtensionColumn: Integer;
@@ -116,7 +117,6 @@ type
     }
     procedure MakeColumnsStrings(AFile: TDisplayFile);
     procedure MakeColumnsStrings(AFile: TDisplayFile; ColumnsClass: TPanelColumnsClass);
-    procedure ClearAllColumnsStrings;
     procedure EachViewUpdateColumns(AFileView: TFileView; UserData: Pointer);
 
     {en
@@ -603,7 +603,8 @@ end;
 
 procedure TColumnsFileView.SetColumns;
 var
-  x: Integer;
+  X: Integer;
+  AColumnsFunctions: String;
   ColumnsClass: TPanelColumnsClass;
 begin
   ColumnsClass := GetColumnsClass;
@@ -611,23 +612,45 @@ begin
   dgPanel.Columns.BeginUpdate;
   try
     dgPanel.Columns.Clear;
-    for x:= 0 to ColumnsClass.ColumnsCount - 1 do
+    AColumnsFunctions:= EmptyStr;
+    for X:= 0 to ColumnsClass.ColumnsCount - 1 do
     begin
       with dgPanel.Columns.Add do
       begin
         // SizePriority = 0 means don't modify Width with AutoFill.
         // Last column is always modified if all columns have SizePriority = 0.
-        if (x = 0) and (gAutoSizeColumn = 0) then
+        if (X = 0) and (gAutoSizeColumn = 0) then
           SizePriority := 1
         else
           SizePriority := 0;
-        Width:= ColumnsClass.GetColumnWidth(x);
-        Title.Caption:= ColumnsClass.GetColumnTitle(x);
+        Width:= ColumnsClass.GetColumnWidth(X);
+        Title.Caption:= ColumnsClass.GetColumnTitle(X);
+        AColumnsFunctions+= ColumnsClass.GetColumnFuncString(X);
       end;
     end;
   finally
     dgPanel.Columns.EndUpdate;
   end;
+
+  if Assigned(FAllDisplayFiles) then
+  begin
+    // Clear display strings in case columns have changed
+    for X := 0 to FAllDisplayFiles.Count - 1 do
+    begin
+      FAllDisplayFiles[X].DisplayStrings.Clear;
+    end;
+    // Clear variant file properties in case columns have changed
+    if not SameText(FColumnsFunctions, AColumnsFunctions) then
+    begin
+      for X := 0 to FAllDisplayFiles.Count - 1 do
+      begin
+        FAllDisplayFiles[X].FSFile.ClearVariantProperties;
+      end;
+      // Forced to reload variant file properties
+      FSortingProperties := FSortingProperties * fpAll;
+    end;
+  end;
+  FColumnsFunctions := AColumnsFunctions;
 end;
 
 procedure TColumnsFileView.MakeVisible(iRow:Integer);
@@ -683,8 +706,6 @@ var
   ColumnsClass: TPanelColumnsClass;
   OldFilePropertiesNeeded: TFilePropertiesTypes;
 begin
-  ClearAllColumnsStrings;
-
   // If the ActiveColm set doesn't exist this will retrieve either
   // the first set or the default set.
   ColumnsClass := GetColumnsClass;
@@ -904,21 +925,6 @@ begin
   begin
     AFile.DisplayStrings.Add(ColumnsClass.GetColumnItemResultString(
       ACol, AFile.FSFile, FileSource));
-  end;
-end;
-
-procedure TColumnsFileView.ClearAllColumnsStrings;
-var
-  i: Integer;
-begin
-  if Assigned(FAllDisplayFiles) then
-  begin
-    // Clear display strings in case columns have changed.
-    for i := 0 to FAllDisplayFiles.Count - 1 do
-    begin
-      FAllDisplayFiles[i].DisplayStrings.Clear;
-      FAllDisplayFiles[i].FSFile.ClearVariantProperties;
-    end;
   end;
 end;
 
