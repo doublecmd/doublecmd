@@ -343,7 +343,7 @@ begin
       AFile := FFiles[i];
       if FileSource.CanRetrieveProperties(AFile.FSFile, [fpComment]) then
       try
-        FileSource.RetrieveProperties(AFile.FSFile, [fpComment]);
+        FileSource.RetrieveProperties(AFile.FSFile, [fpComment], []);
       except
         on EFileNotFound do;
       end;
@@ -379,7 +379,7 @@ begin
         end;
         if FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) then
         try
-          FileSource.RetrieveProperties(AFile.FSFile, FilePropertiesNeeded);
+          FileSource.RetrieveProperties(AFile.FSFile, FilePropertiesNeeded, GetVariantFileProperties);
         except
           on EFileNotFound do;
         end;
@@ -413,6 +413,7 @@ begin
           FileSource,
           WorkersThread,
           AFilePropertiesNeeded,
+          GetVariantFileProperties,
           @PropertiesRetrieverOnUpdate,
           AFileList);
 

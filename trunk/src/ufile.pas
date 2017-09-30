@@ -22,6 +22,7 @@ type
     FNameNoExt: String;     //<en Name without extension.
     FPath: String;          //<en Path to the file. Always includes trailing path delimiter.
     FProperties: TFileProperties;
+    FVariantProperties: TFileVariantProperties;
     FSupportedProperties: TFilePropertiesTypes;
 
     procedure SplitIntoNameAndExtension(const FileName: string;
@@ -103,6 +104,7 @@ type
        Frees all properties except for Name (which is always required).
     }
     procedure ClearProperties;
+    procedure ClearVariantProperties;
     function ReleaseProperty(PropType: TFilePropertyType): TFileProperty;
 
     {en
@@ -135,6 +137,7 @@ type
     //property Properties[Index: Integer];
     //property Properties[Name: String];
     //property Properties[Type: TFilePropertiesType]
+    property VariantProperties: TFileVariantProperties read FVariantProperties;
     property Properties[PropType: TFilePropertyType]: TFileProperty read GetProperty write SetProperty;
 
     {en
@@ -305,12 +308,16 @@ end;
 
 destructor TFile.Destroy;
 var
+  AIndex: Integer;
   PropertyType: TFilePropertyType;
 begin
   inherited Destroy;
 
-  for PropertyType := Low(TFilePropertyType) to High(TFilePropertyType) do
-    Properties[PropertyType].Free;
+  for PropertyType := Low(FProperties) to High(FProperties) do
+    FProperties[PropertyType].Free;
+
+  for AIndex:= Low(FVariantProperties) to High(FVariantProperties) do
+    FVariantProperties[AIndex].Free;
 end;
 
 function TFile.Clone: TFile;
@@ -321,6 +328,7 @@ end;
 
 procedure TFile.CloneTo(AFile: TFile);
 var
+  AIndex: Integer;
   PropertyType: TFilePropertyType;
 begin
   if Assigned(AFile) then
@@ -330,11 +338,20 @@ begin
     AFile.FPath      := FPath;
     AFile.FSupportedProperties := FSupportedProperties;
 
-    for PropertyType := Low(TFilePropertyType) to High(TFilePropertyType) do
+    for PropertyType := Low(FProperties) to High(FProperties) do
     begin
       if Assigned(Self.FProperties[PropertyType]) then
       begin
         AFile.FProperties[PropertyType] := Self.FProperties[PropertyType].Clone;
+      end;
+    end;
+
+    SetLength(AFile.FVariantProperties, Length(FVariantProperties));
+    for AIndex:= Low(FVariantProperties) to High(FVariantProperties) do
+    begin
+      if Assigned(Self.FVariantProperties[AIndex]) then
+      begin
+        AFile.FVariantProperties[AIndex] := Self.FVariantProperties[AIndex].Clone;
       end;
     end;
   end;
@@ -344,15 +361,38 @@ procedure TFile.ClearProperties;
 var
   PropertyType: TFilePropertyType;
 begin
-  for PropertyType := Succ(fpName) to High(TFilePropertyType) do
+  ClearVariantProperties;
+  for PropertyType := TFilePropertyType(Ord(fpName) + 1) to High(FProperties) do
     FreeAndNil(FProperties[PropertyType]);
   FSupportedProperties := [fpName];
 end;
 
-function TFile.ReleaseProperty(PropType: TFilePropertyType): TFileProperty;
+procedure TFile.ClearVariantProperties;
+var
+  AIndex: Integer;
 begin
-  Result := FProperties[PropType];
-  FProperties[PropType] := nil;
+  for AIndex:= Low(FVariantProperties) to High(FVariantProperties) do
+    FreeAndNil(FVariantProperties[AIndex]);
+  FSupportedProperties := FSupportedProperties * fpAll;
+end;
+
+function TFile.ReleaseProperty(PropType: TFilePropertyType): TFileProperty;
+var
+  AIndex: Integer;
+begin
+  if PropType in fpVariantAll then
+  begin
+    AIndex := Ord(PropType) - Ord(fpVariant);
+    if (AIndex >= 0) and (AIndex <= High(FVariantProperties)) then
+    begin
+      Result := FVariantProperties[AIndex];
+      FVariantProperties[AIndex] := nil;
+    end;
+  end
+  else begin
+    Result := FProperties[PropType];
+    FProperties[PropType] := nil;
+  end;
   Exclude(FSupportedProperties, PropType);
 end;
 
@@ -378,13 +418,33 @@ begin
 end;
 
 function TFile.GetProperty(PropType: TFilePropertyType): TFileProperty;
+var
+  AIndex: Integer;
 begin
-  Result := FProperties[PropType];
+  if PropType < fpInvalid then
+    Result := FProperties[PropType]
+  else begin
+    AIndex := Ord(PropType) - Ord(fpVariant);
+    if (AIndex >= 0) and (AIndex <= High(FVariantProperties)) then
+      Result := FVariantProperties[AIndex]
+    else begin
+      Result := nil;
+    end;
+  end;
 end;
 
 procedure TFile.SetProperty(PropType: TFilePropertyType; NewValue: TFileProperty);
+var
+  AIndex: Integer;
 begin
-  FProperties[PropType] := NewValue;
+  if PropType < fpInvalid then
+    FProperties[PropType] := NewValue
+  else begin
+    AIndex := Ord(PropType) - Ord(fpVariant);
+    if AIndex > High(FVariantProperties) then
+      SetLength(FVariantProperties, AIndex + 4);
+    FVariantProperties[AIndex]:= NewValue;
+  end;
   if Assigned(NewValue) then
     Include(FSupportedProperties, PropType)
   else

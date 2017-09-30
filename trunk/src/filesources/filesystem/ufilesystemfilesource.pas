@@ -65,7 +65,7 @@ type
                                            const FileNamesList: TStringList;
                                            OmitNotExisting: Boolean = False): TFiles;
 
-    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes); override;
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String); override;
 
     class function GetFileSource: IFileSystemFileSource;
 
@@ -136,6 +136,7 @@ uses
   statx,
   {$ENDIF}
 {$ENDIF}
+  uFileFunctions,
   uFileSystemListOperation,
   uFileSystemCopyOperation,
   uFileSystemMoveOperation,
@@ -428,11 +429,15 @@ begin
   end;
 end;
 
-procedure TFileSystemFileSource.RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes);
+procedure TFileSystemFileSource.RetrieveProperties(AFile: TFile;
+  PropertiesToSet: TFilePropertiesTypes; AVariantProperties: array of String);
 var
+  AIndex: Integer;
   sFullPath: String;
   Attrs: TFileAttrs;
+  AProp: TFilePropertyType;
   AProps: TFilePropertiesTypes;
+  AVariant: TFileVariantProperty;
 {$IF DEFINED(LINUX)}
   StatXInfo: TStatX;
 {$ENDIF}
@@ -658,6 +663,18 @@ begin
       CommentProperty := TFileCommentProperty.Create;
       CommentProperty.Value := FDescr.ReadDescription(sFullPath);
     end;
+
+    PropertiesToSet:= PropertiesToSet * fpVariantAll;
+    for AProp in PropertiesToSet do
+    begin
+      AIndex:= Ord(AProp) - Ord(fpVariant);
+      if (AIndex >= 0) and (AIndex <= High(AVariantProperties)) then
+      begin
+        AVariant:= TFileVariantProperty.Create(AVariantProperties[AIndex]);
+        AVariant.Value:= GetVariantFileProperty(AVariantProperties[AIndex], AFile, Self);
+        Properties[AProp]:= AVariant;
+      end;
+    end;
   end;
 end;
 
@@ -800,7 +817,7 @@ begin
              {$IF DEFINED(MSWINDOWS)}
              , fpCompressedSize
              {$ENDIF}
-             ];
+             ] + fpVariantAll;
 {$IF DEFINED(LINUX)}
   if HasStatX then Result += [fpCreationTime];
 {$ENDIF}
