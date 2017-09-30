@@ -328,14 +328,14 @@ procedure TfrmOptionsCustomColumns.Done;
 var
   i: integer;
 begin
-  if (ColumnClassOwnership = True) and Assigned(ColumnClass) then
-    FreeAndNil(ColumnClass);
-
   if Assigned(PreviewLeftPanel) then
     FreeAndNil(PreviewLeftPanel);
 
   if Assigned(PreviewRightPanel) then
     FreeAndNil(PreviewRightPanel);
+
+  if (ColumnClassOwnership = True) and Assigned(ColumnClass) then
+    FreeAndNil(ColumnClass);
 
   // Free TColPrm objects assigned to each row.
   for i := 0 to stgColumns.RowCount - 1 do
