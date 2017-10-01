@@ -897,6 +897,8 @@ begin
 
   RegisterPackages(L);
 
+  SetPackagePath(L, ExtractFilePath(FFileName));
+
   if DoScript(Self.FFileName) = 0 then
     Result := True
   else
