@@ -410,6 +410,7 @@ inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
       ClientHeight = 179
       ClientWidth = 1060
       TabOrder = 3
+      Visible = False
       object btnPrev: TButton
         AnchorSideLeft.Control = pnlCustomColumnsViewSettings
         AnchorSideTop.Control = pnlCustomColumnsViewSettings
