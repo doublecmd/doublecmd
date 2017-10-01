@@ -461,7 +461,7 @@ begin
     luaP_register(L, 'getenv', @luaGetEnvironmentVariable);
   lua_pop(L, 1);
 
-  ReplaceLib(L);
+  if not luaJIT then ReplaceLib(L);
 end;
 
 procedure SetPackagePath(L: Plua_State; const Path: String);

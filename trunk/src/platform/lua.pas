@@ -1119,6 +1119,8 @@ type TLibHandle = PtrInt;
   lua_xmove:Tlua_xmove;
 
   LuaLibD:TLibHandle;
+
+  luaJIT: Boolean;
 {$ENDIF}
 
 implementation
@@ -1272,7 +1274,8 @@ uses
   lua_replace:=Tlua_replace(GetProcAddress(LuaLibD,'lua_replace'));
   lua_checkstack:=Tlua_checkstack(GetProcAddress(LuaLibD,'lua_checkstack'));
   lua_xmove:=Tlua_xmove(GetProcAddress(LuaLibD,'lua_xmove'));
-  
+
+  luaJIT:= GetProcAddress(LuaLibD, 'luaJIT_setmode') <> nil;
   end;
 
 {$ENDIF}
