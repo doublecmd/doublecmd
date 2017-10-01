@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2017-09-18 18:27+0300\n"
+"PO-Revision-Date: 2017-09-25 07:27+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2357,7 +2357,7 @@ msgstr "Выделить все с этим путём"
 
 #: tfrmmain.actmarkinvert.caption
 msgid "&Invert Selection"
-msgstr "&Инверсия выделения"
+msgstr "&Инвертировать выделение"
 
 #: tfrmmain.actmarkmarkall.caption
 msgid "&Select All"
@@ -5996,7 +5996,7 @@ msgstr "По&дсвечивать новые и изменённые файлы"
 
 #: tfrmoptionsfilesviews.cbinplacerename.caption
 msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "Включить &переименование прямо в строке по двойному щелчку по имени"
+msgstr "Включить &переименование прямо в строке по двойному клику по имени"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
@@ -6662,7 +6662,7 @@ msgstr "При смене диска всегда пере&ходить в ко�
 #: tfrmoptionsmisc.chkshowwarningmessages.caption
 msgctxt "tfrmoptionsmisc.chkshowwarningmessages.caption"
 msgid "Show &warning messages (\"OK\" button only)"
-msgstr "По&казывать не критические сообщения об ошибках (с одной кнопкой \"ОК\")"
+msgstr "По&казывать некритические сообщения об ошибках (с одной кнопкой \"ОК\")"
 
 #: tfrmoptionsmisc.chkthumbsave.caption
 msgctxt "tfrmoptionsmisc.chkthumbsave.caption"
@@ -6870,7 +6870,7 @@ msgstr "Сохранять изменённое имя при разблокир
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
 msgid "Activate target &panel when clicking on one of its Tabs"
-msgstr "Делат&ь панель активной при щелчке по одной из её вкладок"
+msgstr "Делат&ь панель активной при клике по одной из её вкладок"
 
 #: tfrmoptionstabs.cbtabsalwaysvisible.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSALWAYSVISIBLE.CAPTION"
@@ -6940,7 +6940,7 @@ msgstr "символов"
 
 #: tfrmoptionstabs.lbltabsactionondoubleclick.caption
 msgid "Action to do when double click on a tab:"
-msgstr "Действие по двойному щелчку на вкладке:"
+msgstr "Действие по двойному клику на вкладке:"
 
 #: tfrmoptionstabs.lbltabsposition.caption
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
@@ -12240,7 +12240,7 @@ msgstr "Представить каждое имя в виде \"-a \" или к
 
 #: ulng.rsvarpromptuserforparam
 msgid "%[Prompt user for param;Default value proposed]"
-msgstr "%[Параметр;Значение]"
+msgstr "%[Запрос;Значение]"
 
 #: ulng.rsvarrelativepathandfilename
 msgid "Filename with relative path"
