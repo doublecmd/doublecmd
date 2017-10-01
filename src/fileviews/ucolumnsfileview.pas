@@ -648,6 +648,7 @@ begin
       end;
       // Forced to reload variant file properties
       FSortingProperties := FSortingProperties * fpAll;
+      FilePropertiesNeeded := FilePropertiesNeeded * fpAll;
     end;
   end;
   FColumnsFunctions := AColumnsFunctions;
