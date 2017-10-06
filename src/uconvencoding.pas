@@ -358,11 +358,15 @@ procedure GetSupportedEncodings(List: TStrings);
 var
   Index: Integer;
 begin
-  TStringList(List).CaseSensitive:= False;
-  LConvEncoding.GetSupportedEncodings(List);
-  Index:= List.IndexOf(EncodingAnsi);
-  List[Index] := UpperCase(EncodingAnsi);
-  List.Insert(Index + 1, UpperCase(EncodingOem));
+  if SupportedEncodings.Count > 0 then
+    List.Assign(SupportedEncodings)
+  else begin
+    TStringList(List).CaseSensitive:= False;
+    LConvEncoding.GetSupportedEncodings(List);
+    Index:= List.IndexOf(EncodingAnsi);
+    List[Index] := UpperCase(EncodingAnsi);
+    List.Insert(Index + 1, UpperCase(EncodingOem));
+  end;
 end;
 
 function DetectEncoding(const S: String): String;
