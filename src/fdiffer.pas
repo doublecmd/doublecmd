@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Internal diff and merge tool
 
-   Copyright (C) 2010-2014  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2010-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -16,9 +16,7 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   in a file called COPYING along with this program; if not, write to
-   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA
-   02139, USA.
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fDiffer;
@@ -194,6 +192,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormRestoreProperties(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
   private
@@ -257,7 +256,7 @@ implementation
 
 uses
   LCLType, LazFileUtils, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs,
-  uShowMsg, DCClassesUtf8, dmCommonData, DCOSUtils;
+  uShowMsg, DCClassesUtf8, dmCommonData, DCOSUtils, uConvEncoding;
 
 const
   HotkeysCategory = 'Differ';
@@ -655,10 +654,10 @@ begin
   FontOptionsToFont(gFonts[dcfViewer], BinaryViewerRight.Font);
 
   // Initialize property storage
-  InitPropStorage(Self);
-
-  // Initialize mode
-  actKeepScrollingExecute(actKeepScrolling);
+  with InitPropStorage(Self) do
+  begin
+    OnRestoreProperties:= @FormRestoreProperties;
+  end;
 
   // Fill encoding menu
   EncodingList:= TStringList.Create;
@@ -674,6 +673,13 @@ procedure TfrmDiffer.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(Diff);
   FreeAndNil(BinaryDiffList);
+end;
+
+procedure TfrmDiffer.FormRestoreProperties(Sender: TObject);
+begin
+  // Initialize mode
+  actKeepScrollingExecute(actKeepScrolling);
+  actPaintBackgroundExecute(actPaintBackground);
 end;
 
 procedure TfrmDiffer.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -1054,7 +1060,7 @@ begin
       SynDiffEdit.Lines.LoadFromStream(fsFileStream);
       if Length(SynDiffEdit.Encoding) = 0 then
       begin
-        SynDiffEdit.Encoding:= GuessEncoding(SynDiffEdit.Lines.Text);
+        SynDiffEdit.Encoding:= DetectEncoding(SynDiffEdit.Lines.Text);
         ChooseEncoding(SynDiffEdit);
       end;
       SynDiffEdit.Lines.Text:= ConvertEncoding(SynDiffEdit.Lines.Text, SynDiffEdit.Encoding, EncodingUTF8);
