@@ -267,6 +267,7 @@ object dmHighl: TdmHighl
   end
   object SynDiffSyn1: TSynDiffSyn
     Tag = 1
+    DefaultFilter = 'Difference Files (*.diff,*.patch)|*.diff;*.patch'
     Enabled = False
     UnknownAttri.FrameEdges = sfeAround
     SpaceAttri.FrameEdges = sfeAround
