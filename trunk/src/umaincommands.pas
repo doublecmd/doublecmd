@@ -2674,7 +2674,7 @@ var
 begin
   with frmMain do
   begin
-    // For now work only for filesystem.
+    // For now works only for file source with direct access.
     // Later use temporary file system for other file sources.
 
     try
@@ -2689,8 +2689,8 @@ begin
       end
       else
       begin
-        // For now work only for filesystem.
-        if not (ActiveFrame.FileSource.IsClass(TFileSystemFileSource)) then
+        // For now works only for file source with direct access.
+        if not (fspDirectAccess in ActiveFrame.FileSource.Properties) then
         begin
           msgWarning(rsMsgNotImplemented);
           Exit;
@@ -2719,8 +2719,8 @@ begin
 
             if NotActiveSelectedFiles.Count = 1 then
             begin
-              // For now work only for filesystem.
-              if not (NotActiveFrame.FileSource.IsClass(TFileSystemFileSource)) then
+              // For now works only for file source with direct access.
+              if not (fspDirectAccess in NotActiveFrame.FileSource.Properties) then
               begin
                 msgWarning(rsMsgNotImplemented);
                 Exit;
