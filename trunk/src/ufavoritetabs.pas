@@ -931,6 +931,7 @@ var
     // WARNING: "DoCheckedBackToTop" is recursive and may call itself!
     procedure DoCheckedBackToTop(paramTMenuItem: TComponent);
     begin
+      if (mncmpMenuComponentToPopulate = paramTMenuItem) then Exit;
       if (paramTMenuItem.ClassType = TMenuItem) and (TMenuItem(paramTMenuItem).Caption <> rsMsgFavortieTabsSaveOverExisting) then
         if TMenuItem(paramTMenuItem).Parent <> nil then
           if (TMenuItem(paramTMenuItem).Parent.ClassType <> TMainMenu) then
