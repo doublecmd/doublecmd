@@ -1053,7 +1053,7 @@ begin
           InvertFileSelection(aFile, False);
         end;
 
-        if gSpaceMovesDown then
+        if gSpaceMovesDown and (dgPanel.Row + 1 < dgPanel.RowCount) then
           dgPanel.Row := dgPanel.Row + 1;
 
         MakeActiveVisible;
