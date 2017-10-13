@@ -149,7 +149,7 @@ var
   Version: Integer;
   LibraryName: AnsiString;
 begin
-  for Version:= 6 downto 5 do
+  for Version:= 7 downto 5 do
   begin
     LibraryName:= Format(webplib, [Version]);
     libwebp:= LoadLibrary(LibraryName);
