@@ -112,6 +112,7 @@ uses
 
 var
   DefaultIniName: String;
+  TcpKeepAlive: Boolean = True;
   ActiveConnectionList, ConnectionList: TStringList;
   IniFile: TIniFile;
   HasDialogAPI: Boolean = False;
@@ -308,6 +309,7 @@ begin
         else begin
           FtpSend := TFTPSendEx.Create(Connection.Encoding);
         end;
+        FtpSend.TcpKeepAlive := TcpKeepAlive;
         FtpSend.TargetHost := Connection.Host;
         FtpSend.PassiveMode:= Connection.PassiveMode;
         FtpSend.AutoTLS:= Connection.AutoTLS;
@@ -1028,6 +1030,10 @@ begin
 
   DefaultIniName:= gStartupInfo.PluginConfDir + DefaultIniName;
   IniFile := TIniFileEx.Create(DefaultIniName, fmOpenReadWrite);
+
+  // Use TCP keep alive for all connections: Useful for certain
+  // firewalls/router if the connection breaks very often.
+  TcpKeepAlive := IniFile.ReadBool('General', 'TcpKeepAlive', TcpKeepAlive);
 
   ReadConnectionList;
 

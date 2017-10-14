@@ -82,6 +82,7 @@ type
     FMachine: Boolean;
     FShowHidden: String;
     FUseAllocate: Boolean;
+    FTcpKeepAlive: Boolean;
   private
     ConvertToUtf8: TConvertEncodingFunction;
     ConvertFromUtf8: TConvertUTF8ToEncodingFunc;
@@ -114,6 +115,7 @@ type
     function NetworkError(): Boolean;
   public
     property UseAllocate: Boolean write FUseAllocate;
+    property TcpKeepAlive: Boolean write FTcpKeepAlive;
   end;
 
   { TFTPSendExClass }
@@ -123,7 +125,7 @@ type
 implementation
 
 uses
-  LazUTF8, LazFileUtils, FtpFunc, FtpUtils, synautil;
+  LazUTF8, LazFileUtils, FtpFunc, FtpUtils, synautil, synsock;
 
 {$IF NOT DECLARED(EncodingCP1250)}
 const
@@ -226,9 +228,21 @@ end;
 { TFTPSendEx }
 
 function TFTPSendEx.Connect: Boolean;
+var
+  Option: Cardinal = 1;
+  Message: UnicodeString;
 begin
   Result:= inherited Connect;
   if Result then LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
+  // Apply TcpKeepAlive option
+  if FTcpKeepAlive and Result then
+  begin
+    if SetSockOpt(FSock.Socket, SOL_SOCKET, SO_KEEPALIVE, @Option, SizeOf(Option)) <> 0 then
+    begin
+      Message := UTF8ToUTF16(FSock.GetErrorDesc(synsock.WSAGetLastError));
+      LogProc(PluginNumber, msgtype_importanterror, PWideChar('CSOCK ERROR ' + Message));
+    end;
+  end;
 end;
 
 function TFTPSendEx.DataSocket: Boolean;
