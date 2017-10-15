@@ -1,9 +1,9 @@
- jcl/source/common/JclCompression.pas | 127 +++++++++++++++++++++++++++++++----
- jcl/source/windows/sevenzip.pas      |   8 +--
- 2 files changed, 119 insertions(+), 16 deletions(-)
+ jcl/source/common/JclCompression.pas | 139 +++++++++++++++++++++++++++++++----
+ jcl/source/windows/sevenzip.pas      |   8 +-
+ 2 files changed, 130 insertions(+), 17 deletions(-)
 
 diff --git a/jcl/source/common/JclCompression.pas b/jcl/source/common/JclCompression.pas
-index e5e6a2f..21c714d 100644
+index e5e6a2f..a43868a 100644
 --- a/jcl/source/common/JclCompression.pas
 +++ b/jcl/source/common/JclCompression.pas
 @@ -44,8 +44,7 @@
@@ -110,7 +110,17 @@ index e5e6a2f..21c714d 100644
    end;
 
    // file formats
-@@ -2206,8 +2225,7 @@ const
+@@ -2189,6 +2208,9 @@ function Create7zFile(const SourceFile, DestinationFile: TFileName; VolumeSize:
+   OnArchiveProgress: TJclCompressionProgressEvent = nil;
+   OnArchiveRatio: TJclCompressionRatioEvent = nil): Boolean; overload;
+
++var
++  JclCompressSharedFiles: Boolean = False;
++
+ {$ENDIF MSWINDOWS}
+
+ {$IFDEF UNITVERSIONING}
+@@ -2206,8 +2228,7 @@ const
  implementation
 
  uses
@@ -120,7 +130,7 @@ index e5e6a2f..21c714d 100644
 
  const
    JclDefaultBufferSize = 131072; // 128k
-@@ -2218,6 +2236,8 @@ var
+@@ -2218,6 +2239,8 @@ var
    GlobalStreamFormats: TObject;
    GlobalArchiveFormats: TObject;
 
@@ -129,7 +139,7 @@ index e5e6a2f..21c714d 100644
  //=== { TJclCompressionStream } ==============================================
 
  constructor TJclCompressionStream.Create(AStream: TStream);
-@@ -3743,6 +3763,8 @@ begin
+@@ -3743,6 +3766,8 @@ begin
    end;
  end;
 
@@ -138,7 +148,7 @@ index e5e6a2f..21c714d 100644
  {$IFDEF MSWINDOWS}
 
  function OpenFileStream(const FileName: TFileName; StreamAccess: TJclStreamAccess): TStream;
-@@ -3887,7 +3909,7 @@ end;
+@@ -3887,7 +3912,7 @@ end;
  function TJclCompressionItem.GetNestedArchiveName: WideString;
  var
    ParentArchiveExtension, ArchiveFileName, ArchiveExtension: WideString;
@@ -147,7 +157,7 @@ index e5e6a2f..21c714d 100644
  begin
    if ipPackedName in ValidProperties then
      Result := PackedName
-@@ -3914,7 +3936,7 @@ begin
+@@ -3914,7 +3939,7 @@ begin
      else
      if ArchiveFileName <> '' then
      begin
@@ -156,7 +166,25 @@ index e5e6a2f..21c714d 100644
        try
          ExtensionMap.Delimiter := ';';
          ExtensionMap.DelimitedText := Archive.ArchiveSubExtensions;
-@@ -5544,6 +5566,18 @@ begin
+@@ -3962,9 +3987,16 @@ begin
+ end;
+
+ function TJclCompressionItem.GetStream: TStream;
++var
++  AItemAccess: TJclStreamAccess;
+ begin
+   if not Assigned(FStream) and (FileName <> '') then
+-    FStream := OpenFileStream(FileName, Archive.ItemAccess);
++  begin
++    AItemAccess:= Archive.ItemAccess;
++    if (AItemAccess = saReadOnly) and JclCompressSharedFiles then
++      AItemAccess:= saReadOnlyDenyNone;
++    FStream := OpenFileStream(FileName, AItemAccess);
++  end;
+
+   Result := FStream;
+ end;
+@@ -5544,6 +5576,18 @@ begin
      end;
      if not AllHandled then
        raise EJclCompressionError.CreateRes(@RsCompressionReplaceError);
@@ -175,7 +203,7 @@ index e5e6a2f..21c714d 100644
    end;
  end;
 
-@@ -5791,6 +5825,8 @@ begin
+@@ -5791,6 +5835,8 @@ begin
    FItemIndex := AItemIndex;
    FStream := nil;
    FOwnsStream := False;
@@ -184,7 +212,7 @@ index e5e6a2f..21c714d 100644
  end;
 
  constructor TJclSevenzipInStream.Create(AStream: TStream; AOwnsStream: Boolean);
-@@ -6117,6 +6153,8 @@ end;
+@@ -6117,6 +6163,8 @@ end;
 
  procedure SetSevenzipArchiveCompressionProperties(AJclArchive: IInterface; ASevenzipArchive: IInterface);
  var
@@ -193,7 +221,7 @@ index e5e6a2f..21c714d 100644
    PropertySetter: Sevenzip.ISetProperties;
    InArchive, OutArchive: Boolean;
    Unused: IInterface;
-@@ -6254,9 +6292,18 @@ begin
+@@ -6254,9 +6302,18 @@ begin
          else
            AddWideStringProperty('S', IntToStr(Solid.SolidBlockSize) + 'F');
        end;
@@ -212,7 +240,7 @@ index e5e6a2f..21c714d 100644
    end;
  end;
 
-@@ -6535,8 +6582,20 @@ function TJclSevenzipUpdateCallback.GetStream(Index: Cardinal;
+@@ -6535,8 +6592,20 @@ function TJclSevenzipUpdateCallback.GetStream(Index: Cardinal;
    out InStream: ISequentialInStream): HRESULT;
  begin
    FLastStream := Index;
@@ -235,7 +263,7 @@ index e5e6a2f..21c714d 100644
  end;
 
  function TJclSevenzipUpdateCallback.GetUpdateItemInfo(Index: Cardinal; NewData,
-@@ -6681,7 +6740,10 @@ end;
+@@ -6681,7 +6750,10 @@ end;
 
  procedure TJclSevenzipCompressArchive.Compress;
  var
@@ -246,7 +274,7 @@ index e5e6a2f..21c714d 100644
    UpdateCallback: IArchiveUpdateCallback;
    SplitStream: TJclDynamicSplitStream;
  begin
-@@ -6692,12 +6754,32 @@ begin
+@@ -6692,12 +6764,32 @@ begin
      SplitStream := TJclDynamicSplitStream.Create(False);
      SplitStream.OnVolume := NeedStream;
      SplitStream.OnVolumeMaxSize := NeedStreamMaxSize;
@@ -281,7 +309,7 @@ index e5e6a2f..21c714d 100644
    finally
      FCompressing := False;
      // release volumes and other finalizations
-@@ -7422,7 +7504,14 @@ function TJclSevenzipOpenCallback.CryptoGetTextPassword(
+@@ -7422,7 +7514,14 @@ function TJclSevenzipOpenCallback.CryptoGetTextPassword(
    password: PBStr): HRESULT;
  begin
    if Assigned(password) then
@@ -296,7 +324,7 @@ index e5e6a2f..21c714d 100644
    Result := S_OK;
  end;
 
-@@ -7456,7 +7545,14 @@ function TJclSevenzipExtractCallback.CryptoGetTextPassword(
+@@ -7456,7 +7555,14 @@ function TJclSevenzipExtractCallback.CryptoGetTextPassword(
    password: PBStr): HRESULT;
  begin
    if Assigned(password) then
@@ -311,7 +339,7 @@ index e5e6a2f..21c714d 100644
    Result := S_OK;
  end;
 
-@@ -8807,6 +8903,7 @@ end;
+@@ -8807,6 +8913,7 @@ end;
 
  procedure TJclSevenzipUpdateArchive.Compress;
  var
@@ -319,7 +347,7 @@ index e5e6a2f..21c714d 100644
    OutStream: IOutStream;
    UpdateCallback: IArchiveUpdateCallback;
    SplitStream: TJclDynamicSplitStream;
-@@ -8824,7 +8921,13 @@ begin
+@@ -8824,7 +8931,13 @@ begin
 
      SetSevenzipArchiveCompressionProperties(Self, OutArchive);
 
