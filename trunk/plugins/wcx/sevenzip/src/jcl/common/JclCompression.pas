@@ -2208,6 +2208,9 @@ function Create7zFile(const SourceFile, DestinationFile: TFileName; VolumeSize: 
   OnArchiveProgress: TJclCompressionProgressEvent = nil;
   OnArchiveRatio: TJclCompressionRatioEvent = nil): Boolean; overload;
 
+var
+  JclCompressSharedFiles: Boolean = False;
+
 {$ENDIF MSWINDOWS}
 
 {$IFDEF UNITVERSIONING}
@@ -3984,9 +3987,16 @@ begin
 end;
 
 function TJclCompressionItem.GetStream: TStream;
+var
+  AItemAccess: TJclStreamAccess;
 begin
   if not Assigned(FStream) and (FileName <> '') then
-    FStream := OpenFileStream(FileName, Archive.ItemAccess);
+  begin
+    AItemAccess:= Archive.ItemAccess;
+    if (AItemAccess = saReadOnly) and JclCompressSharedFiles then
+      AItemAccess:= saReadOnlyDenyNone;
+    FStream := OpenFileStream(FileName, AItemAccess);
+  end;
 
   Result := FStream;
 end;
