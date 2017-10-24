@@ -130,27 +130,6 @@ function GetDiskFreeSpace(const Path : String; out FreeSize, TotalSize : Int64) 
 }
 function GetDiskMaxFileSize(const Path : String) : Int64;
 {en
-   Create a hard link to a file
-   @param(Path Name of file)
-   @param(LinkName Name of hard link)
-   @returns(The function returns @true if successful, @false otherwise)
-}
-function CreateHardLink(const Path, LinkName: String) : Boolean;
-{en
-   Create a symbolic link
-   @param(Path Name of file)
-   @param(LinkName Name of symbolic link)
-   @returns(The function returns @true if successful, @false otherwise)
-}
-function CreateSymLink(const Path, LinkName: string) : Boolean;
-{en
-   Read destination of symbolic link
-   @param(LinkName Name of symbolic link)
-   @returns(The file name/path the symbolic link name is pointing to.
-            The path may be relative to link's location.)
-}
-function ReadSymLink(const LinkName : String) : String;
-{en
    Reads the concrete file's name that the link points to.
    If the link points to a link then it's resolved recursively
    until a valid file name that is not a link is found.
@@ -250,7 +229,7 @@ uses
   StrUtils, uFileProcs, FileUtil, uDCUtils, DCOSUtils, DCStrUtils, uGlobs, uLng,
   fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8
   {$IF DEFINED(MSWINDOWS)}
-  , JwaWinCon, Windows, uNTFSLinks, uMyWindows, JwaWinNetWk,
+  , JwaWinCon, Windows, uMyWindows, JwaWinNetWk,
     uShlObjAdditional, shlobj, DCWindows
   {$ENDIF}
   {$IF DEFINED(UNIX)}
@@ -603,56 +582,6 @@ end;
 {$ELSE}
 begin
   Result:= False;
-end;
-{$ENDIF}
-
-function CreateHardLink(const Path, LinkName: String) : Boolean;
-{$IFDEF MSWINDOWS}
-var
-  wsPath, wsLinkName: UnicodeString;
-begin
-  wsPath:= UTF16LongName(Path);
-  wsLinkName:= UTF16LongName(LinkName);
-  Result:= uNTFSLinks.CreateHardlink(wsPath, wsLinkName);
-end;
-{$ELSE}
-begin
-  Result := (fplink(PAnsiChar(CeUtf8ToSys(Path)),PAnsiChar(CeUtf8ToSys(LinkName)))=0);
-end;
-{$ENDIF}
-
-function CreateSymLink(const Path, LinkName: string) : Boolean;
-{$IFDEF MSWINDOWS}
-var
-  wsPath, wsLinkName: UnicodeString;
-begin
-  wsPath:= UTF8Decode(Path);
-  wsLinkName:= UTF16LongName(LinkName);
-  Result:= uNTFSLinks.CreateSymlink(wsPath, wsLinkName);
-end;
-{$ELSE}
-begin
-  Result := (fpsymlink(PAnsiChar(CeUtf8ToSys(Path)), PAnsiChar(CeUtf8ToSys(LinkName)))=0);
-end;
-{$ENDIF}
-
-(* Get symlink target *)
-
-function ReadSymLink(const LinkName : String) : String;
-{$IFDEF MSWINDOWS}
-var
-  wsLinkName,
-  wsTarget: UnicodeString;
-begin
-  wsLinkName:= UTF16LongName(LinkName);
-  if uNTFSLinks.ReadSymLink(wsLinkName, wsTarget) then
-    Result := UTF16ToUTF8(wsTarget)
-  else
-    Result := EmptyStr;
-end;
-{$ELSE}
-begin
-  Result := SysToUTF8(fpReadlink(UTF8ToSys(LinkName)));
 end;
 {$ENDIF}
 

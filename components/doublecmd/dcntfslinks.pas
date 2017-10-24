@@ -21,7 +21,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
 
-unit uNTFSLinks;
+unit DCNtfsLinks;
 
 {$mode delphi}
 
@@ -113,9 +113,6 @@ function ReadSymLink(aSymlinkFileName: UnicodeString; out aTargetFileName: Unico
 
 implementation
 
-uses
-  LCLProc, uDebug;
-
 const
   ERROR_DIRECTORY_NOT_SUPPORTED = 336;
 
@@ -144,14 +141,14 @@ begin
   hLib:= GetModuleHandle('kernel32.dll');
   if hLib = 0 then
     begin
-      DCDebug('Can not load library "kernel32.dll"');
+      Assert(False, 'Can not load library "kernel32.dll"');
       Exit;
     end;
 
   CreateHardLinkW:= TCreateHardLinkW(GetProcAddress(hLib, 'CreateHardLinkW'));
   if not Assigned(CreateHardLinkW) then
     begin
-      DCDebug('Can not get function address for "CreateHardLinkW"');
+      Assert(False, 'Can not get function address for "CreateHardLinkW"');
       Exit;
     end;
 
@@ -250,14 +247,14 @@ begin
   hLib:= GetModuleHandle('kernel32.dll');
   if hLib = 0 then
     begin
-      DCDebug('Can not load library "kernel32.dll"');
+      Assert(False, 'Can not load library "kernel32.dll"');
       Exit;
     end;
 
   CreateSymbolicLinkW:= TCreateSymbolicLinkW(GetProcAddress(hLib, 'CreateSymbolicLinkW'));
   if not Assigned(CreateSymbolicLinkW) then
     begin
-      DCDebug('Can not get function address for "CreateSymbolicLinkW"');
+      Assert(False, 'Can not get function address for "CreateSymbolicLinkW"');
       Exit;
     end;
 
