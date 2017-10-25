@@ -157,7 +157,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, LazUTF8, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
+  LCLType, LazUTF8, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, DCOSUtils,
   uDefaultFilePropertyFormatter, uMyUnix, DCFileAttributes, uGlobs, uWdxModule,
   uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager, WdxPlugin,
   uFileSourceOperationOptions, uKeyboard, DCStrUtils, DCUnix, uPixMapManager;
