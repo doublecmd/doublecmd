@@ -8514,6 +8514,10 @@ msgstr "확인(&O)"
 msgid "Create symbolic link"
 msgstr "바로 가기 생성"
 
+#: tfrmsymlink.chkuserelativepath.caption
+msgid "Use &relative path when possible"
+msgstr ""
+
 #: tfrmsymlink.lblexistingfile.caption
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
 msgid "&Destination that the link will point to"

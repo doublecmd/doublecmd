@@ -9208,6 +9208,10 @@ msgstr "&OK"
 msgid "Create symbolic link"
 msgstr "Vytvoriť symbolický odkaz"
 
+#: tfrmsymlink.chkuserelativepath.caption
+msgid "Use &relative path when possible"
+msgstr ""
+
 #: tfrmsymlink.lblexistingfile.caption
 #, fuzzy
 #| msgid "Destination that the link will point to"

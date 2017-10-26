@@ -8560,6 +8560,10 @@ msgstr "&У реду"
 msgid "Create symbolic link"
 msgstr "Направи симболичку везу"
 
+#: tfrmsymlink.chkuserelativepath.caption
+msgid "Use &relative path when possible"
+msgstr ""
+
 #: tfrmsymlink.lblexistingfile.caption
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
 msgid "&Destination that the link will point to"

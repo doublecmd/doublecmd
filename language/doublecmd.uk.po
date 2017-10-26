@@ -8611,6 +8611,10 @@ msgstr "&Гаразд"
 msgid "Create symbolic link"
 msgstr "Створити симв. посилання"
 
+#: tfrmsymlink.chkuserelativepath.caption
+msgid "Use &relative path when possible"
+msgstr ""
+
 #: tfrmsymlink.lblexistingfile.caption
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
 msgid "&Destination that the link will point to"
