@@ -45,7 +45,8 @@ const
   REPARSE_DATA_HEADER_SIZE = 8;
   MOUNT_POINT_HEADER_SIZE  = 8;
   FILE_DOES_NOT_EXIST = DWORD(-1);
-  wsNativeFileNamePrefix : UnicodeString = '\??\';
+  wsLongFileNamePrefix = UnicodeString('\\?\');
+  wsNativeFileNamePrefix = UnicodeString('\??\');
 
 type
   {$packrecords c}
@@ -93,7 +94,7 @@ type
    @param(ALinkName The name of the symbolic link)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function CreateSymLink(ATargetName, ALinkName: UnicodeString): Boolean;
+function CreateSymLink(const ATargetName, ALinkName: UnicodeString): Boolean;
 {en
    Established a hard link beetwen an existing file and new file. This function
    is only supported on the NTFS file system, and only for files, not directories.
@@ -101,7 +102,7 @@ function CreateSymLink(ATargetName, ALinkName: UnicodeString): Boolean;
    @param(ALinkName The name of the new hard link)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function CreateHardLink(AFileName, ALinkName: UnicodeString): Boolean;
+function CreateHardLink(const AFileName, ALinkName: UnicodeString): Boolean;
 {en
    Reads a symbolic link target.
    This function is only supported on the NTFS file system.
@@ -109,7 +110,7 @@ function CreateHardLink(AFileName, ALinkName: UnicodeString): Boolean;
    @param(aTargetFileName The name of the target file/directory)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function ReadSymLink(aSymlinkFileName: UnicodeString; out aTargetFileName: UnicodeString): Boolean;
+function ReadSymLink(const aSymlinkFileName: UnicodeString; out aTargetFileName: UnicodeString): Boolean;
 
 implementation
 
@@ -212,7 +213,7 @@ begin
   end;
 end;
 
-function CreateHardLink(AFileName, ALinkName: UnicodeString): Boolean;
+function CreateHardLink(const AFileName, ALinkName: UnicodeString): Boolean;
 var
   dwAttributes: DWORD;
 begin
@@ -277,7 +278,11 @@ begin
                           GENERIC_WRITE, 0, nil, OPEN_EXISTING,
                           FILE_FLAG_BACKUP_SEMANTICS or FILE_FLAG_OPEN_REPARSE_POINT, 0);
     if hDevice = INVALID_HANDLE_VALUE then Exit;
-    wsNativeFileName:= wsNativeFileNamePrefix + aTargetFileName;
+    if Pos(wsLongFileNamePrefix, aTargetFileName) <> 1 then
+      wsNativeFileName:= wsNativeFileNamePrefix + aTargetFileName
+    else begin
+      wsNativeFileName:= wsNativeFileNamePrefix + Copy(aTargetFileName, 5, MaxInt);
+    end;
     // File name length with trailing zero and zero for empty PrintName
     dwPathBufferSize:= Length(wsNativeFileName) * SizeOf(WideChar) + 4;
     nInBufferSize:= REPARSE_DATA_HEADER_SIZE + MOUNT_POINT_HEADER_SIZE + dwPathBufferSize;
@@ -307,17 +312,31 @@ begin
   end;
 end;
 
-function CreateSymLink(ATargetName, ALinkName: UnicodeString): Boolean;
+function CreateSymLink(const ATargetName, ALinkName: UnicodeString): Boolean;
 var
-  dwAttributes : DWORD;
+  dwAttributes: DWORD;
+  lpFilePart: LPWSTR = nil;
+  AFileName, AFullPathName: UnicodeString;
 begin
   Result:= False;
-  dwAttributes := Windows.GetFileAttributesW(PWideChar(ATargetName));
-
+  if (Length(ATargetName) > 1) and CharInSet(ATargetName[2], [':', '\']) then
+    AFullPathName:= ATargetName
+  else begin
+    SetLength(AFullPathName, MaxSmallint);
+    AFileName:= ExtractFilePath(ALinkName) + ATargetName;
+    dwAttributes:= GetFullPathNameW(PWideChar(AFileName), MaxSmallint, PWideChar(AFullPathName), lpFilePart);
+    if dwAttributes > 0 then
+      SetLength(AFullPathName, dwAttributes)
+    else begin
+      AFullPathName:= ATargetName;
+    end;
+  end;
+  dwAttributes:= Windows.GetFileAttributesW(PWideChar(AFullPathName));
+  if dwAttributes = FILE_DOES_NOT_EXIST then Exit;
   if HasNewApi = False then
   begin
     if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
-      Result:= _CreateSymLink_Old(ATargetName, ALinkName)
+      Result:= _CreateSymLink_Old(AFullPathName, ALinkName)
     else
       SetLastError(ERROR_NOT_SUPPORTED);
   end
@@ -326,7 +345,7 @@ begin
       Result:= _CreateSymLink_New(ATargetName, ALinkName, SYMBOLIC_LINK_FLAG_FILE)
     else begin
       if not MayCreateSymLink then
-        Result:= _CreateSymLink_Old(ATargetName, ALinkName)
+        Result:= _CreateSymLink_Old(AFullPathName, ALinkName)
       else begin
         Result:= _CreateSymLink_New(ATargetName, ALinkName, SYMBOLIC_LINK_FLAG_DIRECTORY);
       end;
@@ -334,7 +353,7 @@ begin
   end;
 end;
 
-function ReadSymLink(aSymlinkFileName: UnicodeString; out aTargetFileName: UnicodeString): Boolean;
+function ReadSymLink(const aSymlinkFileName: UnicodeString; out aTargetFileName: UnicodeString): Boolean;
 var
   hDevice: THandle;
   dwFileAttributes: DWORD;
