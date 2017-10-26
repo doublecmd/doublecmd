@@ -10,6 +10,7 @@ type
   { TfrmSymLink }
 
   TfrmSymLink = class(TForm)
+    chkUseRelativePath: TCheckBox;
     lblExistingFile: TLabel;
     lblLinkToCreate: TLabel;
     edtExistingFile: TEdit;
@@ -66,8 +67,11 @@ begin
 
   if CompareFilenames(sSrc, sDst) = 0 then Exit;
 
-  sSrc := GetAbsoluteFileName(FCurrentPath, sSrc);
   sDst := GetAbsoluteFileName(FCurrentPath, sDst);
+
+  if chkUseRelativePath.Checked then begin
+    sSrc:= CreateRelativePath(sSrc, ExtractFileDir(sDst));
+  end;
 
   if CreateSymLink(sSrc, sDst) then
     begin

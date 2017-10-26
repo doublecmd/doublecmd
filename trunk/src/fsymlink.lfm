@@ -1,7 +1,7 @@
 object frmSymLink: TfrmSymLink
-  Left = 311
+  Left = 318
   Height = 193
-  Top = 267
+  Top = 251
   Width = 602
   HorzScrollBar.Page = 399
   HorzScrollBar.Range = 344
@@ -17,15 +17,15 @@ object frmSymLink: TfrmSymLink
   KeyPreview = True
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.0.4.0'
+  LCLVersion = '1.6.4.0'
   object lblExistingFile: TLabel
     AnchorSideLeft.Control = edtExistingFile
-    AnchorSideTop.Control = edtLinkToCreate
-    AnchorSideTop.Side = asrBottom
+    AnchorSideTop.Control = chkUseRelativePath
+    AnchorSideTop.Side = asrCenter
     Left = 6
-    Height = 16
-    Top = 59
-    Width = 240
+    Height = 15
+    Top = 58
+    Width = 192
     BorderSpacing.Top = 6
     Caption = '&Destination that the link will point to'
     FocusControl = edtExistingFile
@@ -35,9 +35,9 @@ object frmSymLink: TfrmSymLink
     AnchorSideLeft.Control = edtLinkToCreate
     AnchorSideTop.Control = Owner
     Left = 6
-    Height = 16
+    Height = 15
     Top = 6
-    Width = 69
+    Width = 55
     BorderSpacing.Top = 6
     Caption = '&Link name'
     FocusControl = edtLinkToCreate
@@ -45,12 +45,12 @@ object frmSymLink: TfrmSymLink
   end
   object edtExistingFile: TEdit
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = lblExistingFile
+    AnchorSideTop.Control = chkUseRelativePath
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 25
+    Height = 23
     Top = 81
     Width = 590
     Anchors = [akTop, akLeft, akRight]
@@ -58,7 +58,7 @@ object frmSymLink: TfrmSymLink
     BorderSpacing.Top = 6
     BorderSpacing.Right = 6
     Constraints.MinWidth = 400
-    TabOrder = 1
+    TabOrder = 2
   end
   object edtLinkToCreate: TEdit
     AnchorSideLeft.Control = Owner
@@ -67,8 +67,8 @@ object frmSymLink: TfrmSymLink
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 25
-    Top = 28
+    Height = 23
+    Top = 27
     Width = 590
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
@@ -82,8 +82,8 @@ object frmSymLink: TfrmSymLink
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnCancel
     Left = 390
-    Height = 36
-    Top = 118
+    Height = 30
+    Top = 116
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -97,7 +97,7 @@ object frmSymLink: TfrmSymLink
     Kind = bkOK
     ModalResult = 1
     OnClick = btnOKClick
-    TabOrder = 2
+    TabOrder = 3
   end
   object btnCancel: TBitBtn
     AnchorSideTop.Control = edtExistingFile
@@ -105,8 +105,8 @@ object frmSymLink: TfrmSymLink
     AnchorSideRight.Control = edtExistingFile
     AnchorSideRight.Side = asrBottom
     Left = 496
-    Height = 36
-    Top = 118
+    Height = 30
+    Top = 116
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -118,6 +118,22 @@ object frmSymLink: TfrmSymLink
     Constraints.MinWidth = 100
     Kind = bkCancel
     ModalResult = 2
-    TabOrder = 3
+    TabOrder = 4
+  end
+  object chkUseRelativePath: TCheckBox
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = edtLinkToCreate
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtExistingFile
+    AnchorSideRight.Side = asrBottom
+    Left = 411
+    Height = 19
+    Top = 56
+    Width = 185
+    Anchors = [akTop, akRight]
+    BorderSpacing.Left = 24
+    BorderSpacing.Top = 6
+    Caption = 'Use &relative path when possible'
+    TabOrder = 1
   end
 end
