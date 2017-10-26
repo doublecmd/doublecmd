@@ -8127,6 +8127,10 @@ msgstr "&Ok"
 msgid "Create symbolic link"
 msgstr "Utwórz link symboliczny"
 
+#: tfrmsymlink.chkuserelativepath.caption
+msgid "Use &relative path when possible"
+msgstr ""
+
 #: tfrmsymlink.lblexistingfile.caption
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
 msgid "&Destination that the link will point to"

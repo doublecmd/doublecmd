@@ -9136,6 +9136,10 @@ msgstr "確定 (&O)"
 msgid "Create symbolic link"
 msgstr "建立符號連結"
 
+#: tfrmsymlink.chkuserelativepath.caption
+msgid "Use &relative path when possible"
+msgstr ""
+
 #: tfrmsymlink.lblexistingfile.caption
 #, fuzzy
 #| msgid "Destination that the link will point to"
