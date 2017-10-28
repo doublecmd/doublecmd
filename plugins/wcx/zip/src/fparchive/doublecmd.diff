@@ -1233,7 +1233,7 @@ Index: AbTarTyp.pas
      function GetNativeFileAttributes : LongInt; override;
 +    function GetNativeLastModFileTime: Longint; override;
      function GetUncompressedSize : Int64; override;
- 
+
      procedure SetCompressedSize(const Value : Int64); override;       { Extended Headers }
 @@ -418,7 +419,8 @@
      FArchReadOnly : Boolean;
@@ -1248,29 +1248,32 @@ Index: AbTarTyp.pas
 @@ -448,6 +450,11 @@
        write PutItem; default;
    end;
- 
+
 + procedure UnixAttrsToTarAttrs(const UnixAttrs: LongWord;
 +                               out Permissions: LongWord; out LinkFlag: AnsiChar);
 + procedure TarAttrsToUnixAttrs(const Permissions: LongWord; const LinkFlag: AnsiChar;
 +                               out UnixAttrs: LongWord);
 +
  function VerifyTar(Strm : TStream) : TAbArchiveType;
- 
- 
-@@ -457,7 +464,8 @@
-   {$IFDEF MSWINDOWS}
-   Windows, // Fix inline warnings
-   {$ENDIF MSWINDOWS}
+
+
+@@ -454,10 +461,8 @@
+ implementation
+
+ uses
+-  {$IFDEF MSWINDOWS}
+-  Windows, // Fix inline warnings
+-  {$ENDIF MSWINDOWS}
 -  Math, RTLConsts, SysUtils, AbCharset, AbVMStrm, AbExcept;
 +  Math, RTLConsts, SysUtils, AbVMStrm, AbExcept,
-+  DCOSUtils, DCClassesUtf8, DCConvertEncoding;
- 
++  DCOSUtils, DCClassesUtf8, DCConvertEncoding, DCStrUtils;
+
  { ****************** Helper functions Not from Classes Above ***************** }
  function OctalToInt(const Oct : PAnsiChar; aLen : integer): Int64;
-@@ -566,7 +574,58 @@
+@@ -566,7 +571,58 @@
               not (AB_TAR_RECORDSIZE - 1);
  end;
- 
+
 +procedure UnixAttrsToTarAttrs(const UnixAttrs: LongWord;
 +                              out Permissions: LongWord; out LinkFlag: AnsiChar);
 +begin
@@ -1294,7 +1297,7 @@ Index: AbTarTyp.pas
 +    else
 +      LinkFlag := AB_TAR_LF_OLDNORMAL;
 +  end;
- 
+
 +  Permissions := (UnixAttrs and $0FFF);
 +end;
 +{ -------------------------------------------------------------------------- }
@@ -1326,19 +1329,19 @@ Index: AbTarTyp.pas
  { ****************************** TAbTarItem ********************************** }
  constructor TAbTarItem.Create;
  begin
-@@ -632,7 +691,7 @@
- 
+@@ -632,7 +688,7 @@
+
  function TAbTarItem.GetExternalFileAttributes: LongWord;
  begin
 -  Result := FTarItem.Mode;
 +  TarAttrsToUnixAttrs(FTarItem.Mode, FTarItem.LinkFlag, Result);
  end;
- 
+
  function TAbTarItem.GetFileName: string;
-@@ -678,6 +737,19 @@
+@@ -678,6 +734,19 @@
    Result := AbUnixTimeToLocalDateTime(FTarItem.ModTime);
  end;
- 
+
 +function TAbTarItem.GetNativeLastModFileTime: Longint;
 +{$IFDEF MSWINDOWS}
 +var
@@ -1355,16 +1358,16 @@ Index: AbTarTyp.pas
  function TAbTarItem.GetLinkName: string;
  begin
    Result := FTarItem.LinkName;
-@@ -734,7 +806,7 @@
+@@ -734,7 +803,7 @@
    { GNU_FORMAT is detected by the presence of GNU extended headers. }
- 
+
    { These detections are similar to GNU tar's. }
 -  if (PTarHeader.Magic.value = AB_TAR_MAGIC_VAL) then
 +  if CompareByte(PTarHeader.Magic.value, AB_TAR_MAGIC_VAL, SizeOf(AB_TAR_MAGIC_VAL)) = 0 then
    begin { We have one of three types, STAR_FORMAT, USTAR_FORMAT, POSIX_FORMAT }
      { Detect STAR format.  Leave disabled until explicit STAR support is added. }
      {if (PTarHeader.star.Prefix[130] = #00) and
-@@ -750,7 +822,7 @@
+@@ -750,7 +819,7 @@
      { This can define false positives, Pax headers/ STAR format could be detected as this }
      FTarItem.ArchiveFormat := USTAR_FORMAT;
    end
@@ -1373,25 +1376,34 @@ Index: AbTarTyp.pas
    begin
      FTarItem.ArchiveFormat := OLDGNU_FORMAT;
    end
-@@ -819,7 +891,7 @@
+@@ -819,7 +888,7 @@
        RawFileName := PTarHeader.Name;
    end; { End not FoundName }
- 
+
 -  FTarItem.Name := AbRawBytesToString(RawFileName);
 +  FTarItem.Name := CeRawToUtf8(RawFileName);
  end;
- 
+
  { Extract the file name from the headers }
-@@ -876,7 +948,7 @@
+@@ -876,7 +945,7 @@
    if not FoundName then
      RawLinkName := PHeader.LinkName;
- 
+
 -  FTarItem.LinkName := AbRawBytesToString(RawLinkName);
 +  FTarItem.LinkName := CeRawToUtf8(RawLinkName);
  end;
- 
+
  { Return True if CheckSum passes out. }
-@@ -1017,8 +1089,8 @@
+@@ -968,7 +1037,7 @@
+     begin { This Header type is in the Set of un/supported Meta data type headers }
+       if PTarHeader.LinkFlag in AB_UNSUPPORTED_MD_HEADERS then
+         FTarItem.ItemReadOnly := True; { We don't fully support this meta-data type }
+-      if (PTarHeader.LinkFlag in AB_PAX_MD_HEADERS) and (PTarHeader.Magic.value = AB_TAR_MAGIC_VAL) then
++      if (PTarHeader.LinkFlag in AB_PAX_MD_HEADERS) and (CompareByte(PTarHeader.Magic.value, AB_TAR_MAGIC_VAL, SizeOf(AB_TAR_MAGIC_VAL)) = 0) then
+         FTarItem.ArchiveFormat := POSIX_FORMAT; { We have a POSIX_FORMAT, has x headers, and Magic matches }
+       if PTarHeader.LinkFlag in AB_GNU_MD_HEADERS then
+         FTarItem.ArchiveFormat := OLDGNU_FORMAT; { We have a OLDGNU_FORMAT, has L/K headers }
+@@ -1017,8 +1086,8 @@
    begin
      ParseTarHeaders; { Update FTarItem values }
      FFileName := FTarItem.Name; {FTarHeader.Name;}
@@ -1402,7 +1414,7 @@ Index: AbTarTyp.pas
    end;
    Action := aaNone;
    Tagged := False;
-@@ -1142,14 +1214,21 @@
+@@ -1142,14 +1211,21 @@
  var
    S : AnsiString;
    I: Integer;
@@ -1425,8 +1437,8 @@ Index: AbTarTyp.pas
 +  Self.LinkFlag := ALinkFlag;    // also updates headers
    FTarItem.Dirty := True;
  end;
- 
-@@ -1297,9 +1376,9 @@
+
+@@ -1297,9 +1373,9 @@
    { Finally we need to stuff the file type Header. }
    { Note: Value.length > AB_TAR_NAMESIZE(100) }
    if LinkFlag = AB_TAR_LF_LONGNAME then
@@ -1436,19 +1448,19 @@ Index: AbTarTyp.pas
 -    Move(Value[1], PHeader.LinkName, AB_TAR_NAMESIZE);
 +    Move(Value[1], PTarHeader.LinkName, AB_TAR_NAMESIZE);
  end;
- 
+
  procedure TAbTarItem.SetFileName(const Value: string);
-@@ -1333,7 +1412,7 @@
+@@ -1333,7 +1409,7 @@
           OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
- 
+
        Add headers to length of new Name Length, update name in file header, update name fields }
 -  RawFileName := AbStringToUnixBytes(Value);
 +  RawFileName := CeUtf8ToSys(Value);
    { In all cases zero out the name fields in the File Header. }
    if Length(RawFileName) > AB_TAR_NAMESIZE then begin { Must be null terminated except at 100 char length }
      { Look for long name meta-data headers already in the archive. }
-@@ -1431,8 +1510,8 @@
- 
+@@ -1431,8 +1507,8 @@
+
    { Update the inherited file names. }
    FFileName := FTarItem.Name;
 -  DiskFileName := FFileName;
@@ -1457,8 +1469,8 @@ Index: AbTarTyp.pas
 +//AbUnfixName(FDiskFileName); // Don't override DiskFileName
    FTarItem.Dirty := True;
  end;
- 
-@@ -1527,7 +1606,7 @@
+
+@@ -1527,7 +1603,7 @@
        if old was Long,
           OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
        STAR & PAX: And should not yet get here.}
@@ -1467,10 +1479,10 @@ Index: AbTarTyp.pas
    if Length(RawLinkName) > AB_TAR_NAMESIZE then { Must be null terminated except at 100 char length }
    begin
      { Look for long name meta-data headers already in the archive. }
-@@ -1838,16 +1917,19 @@
+@@ -1838,16 +1914,19 @@
    FArchFormat := V7_FORMAT;  // Default for new archives
  end;
- 
+
 -function TAbTarArchive.CreateItem(const FileSpec: string): TAbArchiveItem;
 +function TAbTarArchive.CreateItem(const SourceFileName   : string;
 +                                  const ArchiveDirectory : string): TAbArchiveItem;
@@ -1482,7 +1494,7 @@ Index: AbTarTyp.pas
  begin
    if FArchReadOnly then
      raise EAbTarBadOp.Create; { Create Item Unsupported in this Archive }
- 
+
 -  S := FixName(FileSpec);
 +  MakeFullNames(SourceFileName, ArchiveDirectory,
 +                FullSourceFileName, FullArchiveFileName);
@@ -1490,7 +1502,7 @@ Index: AbTarTyp.pas
    Item := TAbTarItem.Create;
    try
    //  HeaderFormat = (UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT);
-@@ -1863,7 +1945,7 @@
+@@ -1863,7 +1942,7 @@
        Item.LinkFlag := AB_TAR_LF_NORMAL;
        Item.Magic := AB_TAR_MAGIC_VAL+AB_TAR_MAGIC_VER;
      end
@@ -1499,8 +1511,8 @@ Index: AbTarTyp.pas
        begin { Switch the rep over to GNU so it can have long file names. }
        FArchFormat := OLDGNU_FORMAT;
        Item.ArchiveFormat := OLDGNU_FORMAT;
-@@ -1882,9 +1964,10 @@
- 
+@@ -1882,9 +1961,10 @@
+
      { Most others are initialized in the .Create }
      Item.CRC32 := 0;
 +
@@ -1512,16 +1524,46 @@ Index: AbTarTyp.pas
      Item.Action := aaNone;
    finally
      Result := Item;
-@@ -1894,7 +1977,7 @@
- 
+@@ -1894,12 +1974,13 @@
+
  procedure TAbTarArchive.ExtractItemAt(Index: Integer; const UseName: string);
  var
 -  OutStream : TFileStream;
++  AFileName: String;
 +  OutStream : TStream;
    CurItem : TAbTarItem;
  begin
    { Check the index is not out of range. }
-@@ -1914,18 +1997,26 @@
+   if(Index >= ItemList.Count) then
+-	  raise EListError.CreateFmt(SListIndexError, [Index]);
++    raise EListError.CreateFmt(SListIndexError, [Index]);
+
+   CurItem := TAbTarItem(ItemList[Index]);
+
+@@ -1911,21 +1992,50 @@
+     raise EAbTarBadOp.Create; { Unsupported Type, Cannot Extract }
+   { We will allow extractions if the file name/Link name are strickly less than 100 chars }
+
++  { Link to previously archived file }
++  if CurItem.LinkFlag in [AB_TAR_LF_LINK] then
++  begin
++    { Find link target }
++    AFileName := NormalizePathDelimiters(CurItem.FileName);
++    { If link target exists then try to create hard link }
++    if StrEnds(UseName, AFileName) then
++    begin
++      AFileName := StringReplace(UseName, AFileName, CurItem.LinkName, []);
++      if mbFileExists(AFileName) and CreateHardLink(AFileName, UseName) then
++        Exit;
++    end;
++    { Cannot create hard link, extract previously archived file }
++    Index := ItemList.Find(CurItem.LinkName);
++    if (Index >= 0) and (Index < ItemList.Count) then
++      CurItem := TAbTarItem(ItemList[Index])
++    else
++      raise EAbTarBadOp.Create; { Unsupported Type, Cannot Extract }
++  end;
++
    if CurItem.IsDirectory then
      AbCreateDirectory(UseName)
    else begin
@@ -1555,21 +1597,22 @@ Index: AbTarTyp.pas
 +      end;
 +
 +      AB_FMODE_FILELINK: begin
-+        AbCreateSymlink(CurItem.LinkName, UseName);
++        if not CreateSymLink(CurItem.LinkName, UseName) then
++          raise EOSError.Create(mbSysErrorMessage(GetLastOSError));
 +      end;
      end;
    end;
    AbSetFileTime(UseName, CurItem.LastModTimeAsDateTime);
-@@ -2060,7 +2151,7 @@
+@@ -2060,7 +2170,7 @@
      AbStripDrive( lValue );
- 
+
    { check for a leading slash }
 -  if lValue[1] = AbPathDelim then
 +  if (Length(lValue) > 0) and (lValue[1] = AbPathDelim) then
      System.Delete( lValue, 1, 1 );
- 
+
    if soStripPath in StoreOptions then
-@@ -2097,7 +2188,6 @@
+@@ -2097,7 +2207,6 @@
    i              : Integer;
    NewStream      : TAbVirtualMemoryStream;
    TempStream     : TStream;
@@ -1577,8 +1620,8 @@ Index: AbTarTyp.pas
    CurItem        : TAbTarItem;
    AttrEx         : TAbAttrExRec;
  begin
-@@ -2145,24 +2235,27 @@
- 
+@@ -2145,24 +2254,27 @@
+
          aaAdd, aaFreshen, aaReplace: begin
            try
 -            { it's coming from a file }
@@ -1612,7 +1655,7 @@ Index: AbTarTyp.pas
 +
 +              AB_FMODE_FILELINK: begin
 +                CurItem.UncompressedSize := 0;
-+                CurItem.LinkName := AbReadSymlink(CurItem.DiskFileName);
++                CurItem.LinkName := ReadSymlink(CurItem.DiskFileName);
 +                CurItem.SaveTarHeaderToStream(NewStream);
 +              end;
 +
@@ -1621,7 +1664,7 @@ Index: AbTarTyp.pas
                    fmOpenRead or fmShareDenyWrite );
                  try { TempStream }
                    CurItem.UncompressedSize := TempStream.Size;
-@@ -2173,9 +2266,13 @@
+@@ -2173,9 +2285,13 @@
                    TempStream.Free;
                  end; { TempStream }
                end;
@@ -1638,7 +1681,7 @@ Index: AbTarTyp.pas
            except
              ItemList[i].Action := aaDelete;
              DoProcessItemFailure(ItemList[i], ptAdd, ecFileOpenError, 0);
-@@ -2200,7 +2297,7 @@
+@@ -2200,7 +2316,7 @@
      else begin
        { need new stream to write }
        FreeAndNil(FStream);
@@ -1837,21 +1880,7 @@ Index: AbUtils.pas
  { System-encoded SBCS string (formerly AnsiString) }
  type
    AbSysString = {$IFDEF Posix}UTF8String{$ELSE}AnsiString{$ENDIF};
-@@ -198,8 +205,13 @@
-      because if you have a path x:\dir, and request x:\dir\sub1\sub2,
-      (/dir and /dir/sub1/sub2 on Unix) it fails.}
-
-+  function AbCreateSymlink( const LinksPointsTo, LinkName : String ): Boolean;
-+
-   function AbCreateTempFile(const Dir : string) : string;
-
-+  function AbReadSymlink( const LinkFile : String ): String;
-+    {Reads the name that a link points to.}
-+
-   function AbGetTempDirectory : string;
-     {-Return the system temp directory}
-
-@@ -294,7 +306,7 @@
+@@ -294,7 +301,7 @@
      Mode: {$IFDEF UNIX}mode_t{$ELSE}Cardinal{$ENDIF};
    end;
 
@@ -1860,7 +1889,7 @@ Index: AbUtils.pas
 
    function AbSwapLongEndianness(Value : LongInt): LongInt;
 
-@@ -363,9 +375,14 @@
+@@ -363,9 +370,14 @@
 
  uses
    StrUtils,
@@ -1876,7 +1905,7 @@ Index: AbUtils.pas
  {$IF DEFINED(FPCUnixAPI)}
  function mktemp(template: PAnsiChar): PAnsiChar; cdecl;
    external clib name 'mktemp';
-@@ -387,6 +404,7 @@
+@@ -387,6 +399,7 @@
  function nl_langinfo(__item: nl_item): PAnsiChar; cdecl;
    external clib name 'nl_langinfo';
  {$IFEND}
@@ -1884,7 +1913,7 @@ Index: AbUtils.pas
 
  {===platform independent routines for platform dependent stuff=======}
  function ExtractShortName(const SR : TSearchRec) : string;
-@@ -410,16 +428,16 @@
+@@ -410,16 +423,16 @@
  function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
  {$IFDEF UNIX}
  var
@@ -1905,7 +1934,7 @@ Index: AbUtils.pas
          try
            DesStream.CopyFrom(SrcStream, 0);
            Result := True;
-@@ -434,7 +452,7 @@
+@@ -434,7 +447,7 @@
      end;
  {$ENDIF UNIX}
  {$IFDEF MSWINDOWS}
@@ -1914,7 +1943,7 @@ Index: AbUtils.pas
  {$ENDIF MSWINDOWS}
  end;
  { -------------------------------------------------------------------------- }
-@@ -447,7 +465,7 @@
+@@ -447,7 +460,7 @@
    i : Integer;
    TempPath : string;
  begin
@@ -1923,7 +1952,7 @@ Index: AbUtils.pas
      Exit;
    {see how much of the path currently exists}
    if Pos( '\\', Path ) > 0 then
-@@ -463,57 +481,66 @@
+@@ -463,8 +476,9 @@
      {get a temp path to try: drive:\path1}
      TempPath := Copy( Path, 1, i );
      {if it doesn't exist, create it}
@@ -1935,37 +1964,7 @@ Index: AbUtils.pas
      inc( iStartSlash );
    until ( Length( TempPath ) = Length( Path ) );
  end;
-+
-+function AbCreateSymlink(const LinksPointsTo, LinkName: String): Boolean;
-+begin
-+{$IF DEFINED(MSWINDOWS)}
-+  // TODO: Implement using uNTFSLinks.
-+  Result := False;
-+{$ELSEIF DEFINED(FPCUnixAPI)}
-+  Result := (fpsymlink(PChar(UTF8ToSys(LinksPointsTo)),PChar(UTF8ToSys(LinkName)))=0);
-+{$ELSE}
-+  Result := False;
-+{$ENDIF}
-+end;
-+
- { -------------------------------------------------------------------------- }
- function AbCreateTempFile(const Dir : string) : string;
- begin
-   Result := AbGetTempFile(Dir, True);
- end;
-+
-+function AbReadSymlink(const LinkFile: String): String;
-+begin
-+{$IF DEFINED(MSWINDOWS)}
-+  // TODO: Implement using uNTFSLinks.
-+  Result := '';
-+{$ELSEIF DEFINED(FPCUnixAPI)}
-+  Result := SysToUTF8(fpReadlink(UTF8ToSys(LinkFile)));
-+{$ELSE}
-+  Result := '';
-+{$ENDIF}
-+end;
-+
+@@ -476,44 +490,26 @@
  { -------------------------------------------------------------------------- }
  function AbGetTempDirectory : string;
  begin
@@ -2020,7 +2019,7 @@ Index: AbUtils.pas
  end;
  { -------------------------------------------------------------------------- }
  function AbDrive(const ArchiveName : string) : Char;
-@@ -560,8 +587,8 @@
+@@ -560,8 +556,8 @@
  var
    FreeAvailable, TotalSpace: Int64;
  begin
@@ -2031,7 +2030,7 @@ Index: AbUtils.pas
      Result := FreeAvailable
    else
      Result := -1;
-@@ -574,7 +601,7 @@
+@@ -574,7 +570,7 @@
    if statfs(PAnsiChar(ExtractFilePath(ArchiveName)), FStats) = 0 then
      Result := Int64(FStats.f_bAvail) * Int64(FStats.f_bsize)
    {$ELSEIF DEFINED(FPCUnixAPI)}
@@ -2040,7 +2039,7 @@ Index: AbUtils.pas
      Result := Int64(FStats.bAvail) * Int64(FStats.bsize)
    {$ELSEIF DEFINED(PosixAPI)}
    if statvfs(PAnsiChar(AbSysString(ExtractFilePath(ArchiveName))), FStats) = 0 then
-@@ -591,8 +618,8 @@
+@@ -591,8 +587,8 @@
    DirMatch : Boolean;
    MaskDir : string;
  begin
@@ -2051,7 +2050,7 @@ Index: AbUtils.pas
    MaskDir := ExtractFilePath( FileMask );
    if MaskDir = '' then
      DirMatch := True
-@@ -614,12 +641,12 @@
+@@ -614,12 +610,12 @@
    Found := FindFirst( FileMask, SearchAttr, SR );
    if Found = 0 then begin
      try
@@ -2066,7 +2065,7 @@ Index: AbUtils.pas
            if (SR.Attr and faDirectory) <> 0 then
              FileList.Add( NewFile + PathDelim )
            else
-@@ -1002,18 +1029,18 @@
+@@ -1002,18 +998,18 @@
  function AbWriteVolumeLabel(const VolName : string;
                                  Drive : Char) : Cardinal;
  var
@@ -2092,7 +2091,7 @@ Index: AbUtils.pas
      Result := 0
    else Result := GetLastError;
  {$ENDIF MSWINDOWS}
-@@ -1095,16 +1122,7 @@
+@@ -1095,16 +1091,7 @@
  end;
  { -------------------------------------------------------------------------- }
  function AbDosFileDateToDateTime(FileDate, FileTime : Word) : TDateTime;
@@ -2109,7 +2108,7 @@ Index: AbUtils.pas
    Yr, Mo, Dy : Word;
    Hr, Mn, S  : Word;
  begin
-@@ -1131,7 +1149,6 @@
+@@ -1131,7 +1118,6 @@
    Result :=
      EncodeDate(Yr, Mo, Dy) +
      EncodeTime(Hr, Mn, S, 0);
@@ -2117,7 +2116,7 @@ Index: AbUtils.pas
  end;
 
  function AbDateTimeToDosFileDate(Value : TDateTime) : LongInt;
-@@ -1166,12 +1183,7 @@
+@@ -1166,12 +1152,7 @@
 
  function AbSetFileTime(const aFileName: string; aValue: TDateTime): Boolean;
  begin
@@ -2131,7 +2130,7 @@ Index: AbUtils.pas
  end;
 
  { -------------------------------------------------------------------------- }
-@@ -1188,7 +1200,8 @@
+@@ -1188,7 +1169,8 @@
  { -------------------------------------------------------------------------- }
  function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
  begin
@@ -2141,7 +2140,7 @@ Index: AbUtils.pas
    Result := { default permissions }
      AB_FPERMISSION_OWNERREAD or
      AB_FPERMISSION_GROUPREAD or
-@@ -1201,12 +1214,14 @@
+@@ -1201,12 +1183,14 @@
      Result := Result or AB_FMODE_DIR or AB_FPERMISSION_OWNEREXECUTE
    else
      Result := Result or AB_FMODE_FILE;
@@ -2158,7 +2157,7 @@ Index: AbUtils.pas
    Result := 0;
    case (Attr and $F000) of
      AB_FMODE_FILE, AB_FMODE_FILE2: { standard file }
-@@ -1225,21 +1240,20 @@
+@@ -1225,21 +1209,20 @@
 
    if (Attr and AB_FPERMISSION_OWNERWRITE) <> AB_FPERMISSION_OWNERWRITE then
      Result := Result or faReadOnly;
@@ -2184,7 +2183,7 @@ Index: AbUtils.pas
  end;
  { -------------------------------------------------------------------------- }
  function AbFileGetSize(const aFileName : string) : Int64;
-@@ -1252,12 +1266,12 @@
+@@ -1252,12 +1235,12 @@
      Result := -1;
  end;
  { -------------------------------------------------------------------------- }
@@ -2200,7 +2199,7 @@ Index: AbUtils.pas
  {$ENDIF}
  {$IFDEF FPCUnixAPI}
    StatBuf: stat;
-@@ -1274,9 +1288,9 @@
+@@ -1274,9 +1257,9 @@
    aAttr.Attr := -1;
    aAttr.Mode := 0;
  {$IFDEF MSWINDOWS}
@@ -2212,7 +2211,7 @@ Index: AbUtils.pas
         FileTimeToDosDateTime(LocalFileTime, FileDate.Hi, FileDate.Lo) then
        aAttr.Time := FileDateToDateTime(Integer(FileDate));
      LARGE_INTEGER(aAttr.Size).LowPart := FindData.nFileSizeLow;
-@@ -1287,7 +1301,10 @@
+@@ -1287,7 +1270,10 @@
  {$ENDIF}
  {$IFDEF UNIX}
    {$IFDEF FPCUnixAPI}
@@ -2224,7 +2223,7 @@ Index: AbUtils.pas
    {$ENDIF}
    {$IFDEF LibcAPI}
    // Work around Kylix QC#2761: Stat64, et al., are defined incorrectly
-@@ -1313,10 +1330,10 @@
+@@ -1313,10 +1299,10 @@
  {-Get the volume label for the specified drive.}
  {$IFDEF MSWINDOWS}
  var
@@ -2237,7 +2236,7 @@ Index: AbUtils.pas
  {$ENDIF}
  begin
  {$IFDEF MSWINDOWS}
-@@ -1326,10 +1343,10 @@
+@@ -1326,10 +1312,10 @@
 
    Result := '';
 

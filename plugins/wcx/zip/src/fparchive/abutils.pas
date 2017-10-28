@@ -205,12 +205,7 @@ type
      because if you have a path x:\dir, and request x:\dir\sub1\sub2,
      (/dir and /dir/sub1/sub2 on Unix) it fails.}
 
-  function AbCreateSymlink( const LinksPointsTo, LinkName : String ): Boolean;
-
   function AbCreateTempFile(const Dir : string) : string;
-
-  function AbReadSymlink( const LinkFile : String ): String;
-    {Reads the name that a link points to.}
 
   function AbGetTempDirectory : string;
     {-Return the system temp directory}
@@ -487,37 +482,11 @@ begin
     inc( iStartSlash );
   until ( Length( TempPath ) = Length( Path ) );
 end;
-
-function AbCreateSymlink(const LinksPointsTo, LinkName: String): Boolean;
-begin
-{$IF DEFINED(MSWINDOWS)}
-  // TODO: Implement using uNTFSLinks.
-  Result := False;
-{$ELSEIF DEFINED(FPCUnixAPI)}
-  Result := (fpsymlink(PChar(UTF8ToSys(LinksPointsTo)),PChar(UTF8ToSys(LinkName)))=0);
-{$ELSE}
-  Result := False;
-{$ENDIF}
-end;
-
 { -------------------------------------------------------------------------- }
 function AbCreateTempFile(const Dir : string) : string;
 begin
   Result := AbGetTempFile(Dir, True);
 end;
-
-function AbReadSymlink(const LinkFile: String): String;
-begin
-{$IF DEFINED(MSWINDOWS)}
-  // TODO: Implement using uNTFSLinks.
-  Result := '';
-{$ELSEIF DEFINED(FPCUnixAPI)}
-  Result := SysToUTF8(fpReadlink(UTF8ToSys(LinkFile)));
-{$ELSE}
-  Result := '';
-{$ENDIF}
-end;
-
 { -------------------------------------------------------------------------- }
 function AbGetTempDirectory : string;
 begin
