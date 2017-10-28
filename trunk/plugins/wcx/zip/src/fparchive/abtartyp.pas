@@ -461,11 +461,8 @@ function VerifyTar(Strm : TStream) : TAbArchiveType;
 implementation
 
 uses
-  {$IFDEF MSWINDOWS}
-  Windows, // Fix inline warnings
-  {$ENDIF MSWINDOWS}
   Math, RTLConsts, SysUtils, AbVMStrm, AbExcept,
-  DCOSUtils, DCClassesUtf8, DCConvertEncoding;
+  DCOSUtils, DCClassesUtf8, DCConvertEncoding, DCStrUtils;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function OctalToInt(const Oct : PAnsiChar; aLen : integer): Int64;
@@ -1040,7 +1037,7 @@ begin
     begin { This Header type is in the Set of un/supported Meta data type headers }
       if PTarHeader.LinkFlag in AB_UNSUPPORTED_MD_HEADERS then
         FTarItem.ItemReadOnly := True; { We don't fully support this meta-data type }
-      if (PTarHeader.LinkFlag in AB_PAX_MD_HEADERS) and (PTarHeader.Magic.value = AB_TAR_MAGIC_VAL) then
+      if (PTarHeader.LinkFlag in AB_PAX_MD_HEADERS) and (CompareByte(PTarHeader.Magic.value, AB_TAR_MAGIC_VAL, SizeOf(AB_TAR_MAGIC_VAL)) = 0) then
         FTarItem.ArchiveFormat := POSIX_FORMAT; { We have a POSIX_FORMAT, has x headers, and Magic matches }
       if PTarHeader.LinkFlag in AB_GNU_MD_HEADERS then
         FTarItem.ArchiveFormat := OLDGNU_FORMAT; { We have a OLDGNU_FORMAT, has L/K headers }
@@ -1977,12 +1974,13 @@ end;
 
 procedure TAbTarArchive.ExtractItemAt(Index: Integer; const UseName: string);
 var
+  AFileName: String;
   OutStream : TStream;
   CurItem : TAbTarItem;
 begin
   { Check the index is not out of range. }
   if(Index >= ItemList.Count) then
-	  raise EListError.CreateFmt(SListIndexError, [Index]);
+    raise EListError.CreateFmt(SListIndexError, [Index]);
 
   CurItem := TAbTarItem(ItemList[Index]);
 
@@ -1993,6 +1991,26 @@ begin
       (Length(CurItem.LinkName) >= AB_TAR_NAMESIZE)) then
     raise EAbTarBadOp.Create; { Unsupported Type, Cannot Extract }
   { We will allow extractions if the file name/Link name are strickly less than 100 chars }
+
+  { Link to previously archived file }
+  if CurItem.LinkFlag in [AB_TAR_LF_LINK] then
+  begin
+    { Find link target }
+    AFileName := NormalizePathDelimiters(CurItem.FileName);
+    { If link target exists then try to create hard link }
+    if StrEnds(UseName, AFileName) then
+    begin
+      AFileName := StringReplace(UseName, AFileName, CurItem.LinkName, []);
+      if mbFileExists(AFileName) and CreateHardLink(AFileName, UseName) then
+        Exit;
+    end;
+    { Cannot create hard link, extract previously archived file }
+    Index := ItemList.Find(CurItem.LinkName);
+    if (Index >= 0) and (Index < ItemList.Count) then
+      CurItem := TAbTarItem(ItemList[Index])
+    else
+      raise EAbTarBadOp.Create; { Unsupported Type, Cannot Extract }
+  end;
 
   if CurItem.IsDirectory then
     AbCreateDirectory(UseName)
@@ -2015,7 +2033,8 @@ begin
       end;
 
       AB_FMODE_FILELINK: begin
-        AbCreateSymlink(CurItem.LinkName, UseName);
+        if not CreateSymLink(CurItem.LinkName, UseName) then
+          raise EOSError.Create(mbSysErrorMessage(GetLastOSError));
       end;
     end;
   end;
@@ -2250,7 +2269,7 @@ begin
 
               AB_FMODE_FILELINK: begin
                 CurItem.UncompressedSize := 0;
-                CurItem.LinkName := AbReadSymlink(CurItem.DiskFileName);
+                CurItem.LinkName := ReadSymlink(CurItem.DiskFileName);
                 CurItem.SaveTarHeaderToStream(NewStream);
               end;
 
