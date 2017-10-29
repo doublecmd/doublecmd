@@ -222,7 +222,7 @@ Type=Scalable
 
 [scalable/devices]
 Size=128
-MinSize=128
+MinSize=72
 MaxSize=512
 Context=Devices
 Type=Scalable
