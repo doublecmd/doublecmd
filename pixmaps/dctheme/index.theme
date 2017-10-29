@@ -1,7 +1,7 @@
 [Icon Theme]
 Name=DCTheme
 Comment=Double Commander default theme
-Directories=8x8/emblems,16x16/actions,16x16/apps,16x16/devices,16x16/emblems,16x16/mimetypes,16x16/places,20x20/actions,20x20/apps,20x20/emblems,20x20/mimetypes,24x24/actions,24x24/apps,24x24/devices,24x24/emblems,24x24/mimetypes,24x24/places,32x32/actions,32x32/apps,32x32/devices,32x32/emblems,32x32/mimetypes,32x32/places,40x40/actions,40x40/emblems,40x40/devices,40x40/mimetypes,48x48/actions,48x48/emblems,48x48/devices,48x48/mimetypes,60x60/actions,60x60/mimetypes,64x64/actions,64x64/devices,64x64/mimetypes,72x72/actions,72x72/mimetypes,96x96/actions,96x96/mimetypes
+Directories=8x8/emblems,16x16/actions,16x16/apps,16x16/devices,16x16/emblems,16x16/mimetypes,16x16/places,20x20/actions,20x20/apps,20x20/emblems,20x20/mimetypes,24x24/actions,24x24/apps,24x24/devices,24x24/emblems,24x24/mimetypes,24x24/places,32x32/actions,32x32/apps,32x32/devices,32x32/emblems,32x32/mimetypes,32x32/places,40x40/actions,40x40/emblems,40x40/devices,40x40/mimetypes,48x48/actions,48x48/emblems,48x48/devices,48x48/mimetypes,60x60/actions,60x60/mimetypes,64x64/actions,64x64/devices,64x64/mimetypes,72x72/actions,72x72/mimetypes,96x96/actions,96x96/mimetypes,128x128/actions,128x128/mimetypes,scalable/actions,scalable/mimetypes
 
 [8x8/emblems]
 Size=8
@@ -202,3 +202,27 @@ Type=Threshold
 Size=96
 Context=MimeTypes
 Type=Threshold
+
+[128x128/actions]
+Size=128
+Context=Actions
+Type=Threshold
+
+[128x128/mimetypes]
+Size=128
+Context=MimeTypes
+Type=Threshold
+
+[scalable/actions]
+Size=128
+MinSize=128
+MaxSize=512
+Context=Actions
+Type=Scalable
+
+[scalable/mimetypes]
+Size=128
+MinSize=128
+MaxSize=512
+Context=MimeTypes
+Type=Scalable
