@@ -5191,6 +5191,17 @@ begin
             begin
               sDir:= RemoveQuotation(Copy(sCmd, iIndex + 3, Length(sCmd)));
               sDir:= NormalizePathDelimiters(Trim(sDir));
+
+              if (sDir = DirectorySeparator) or (sDir = '..') then
+              begin
+                if (sDir = DirectorySeparator) then
+                  Commands.DoChangeDirToRoot(ActiveFrame)
+                else begin
+                  ActiveFrame.ChangePathToParent(True);
+                end;
+                Exit;
+              end;
+
               sDir:= ReplaceTilde(sDir);
               sDir:= GetAbsoluteFileName(ActiveFrame.CurrentPath, sDir);
               if mbFileExists(sDir) then //if user entered an existing file, let's switch to the parent folder AND select that file
