@@ -300,25 +300,19 @@ begin
   else begin
     if Length(FMasterKeyHash) = 0 then
     begin
-      SetLength(Randata, RAND_SIZE * 2);
+      SetLength(Randata, RAND_SIZE);
       Random(PByte(Randata), RAND_SIZE);
-      Hash:= MD5Buffer(Randata[1], RAND_SIZE);
-      Move(Hash[0], Randata[RAND_SIZE + 1], RAND_SIZE);
       MasterKeyHash:= '!' + IntToStr(FMode) + EncodeStrong(FMode, MasterKey, Randata);
     end
     else begin
       FMode:= StrToIntDef(Copy(FMasterKeyHash, 2, 1), FMode);
       Randata:= DecodeStrong(FMode, MasterKey, Copy(FMasterKeyHash, 3, MaxInt));
-      if Length(Randata) <> (RAND_SIZE * 2) then
+      if Length(Randata) < RAND_SIZE then
         MasterKeyHash:= EmptyStr
       else begin
-        Hash:= MD5Buffer(Randata[1], RAND_SIZE);
-        if CompareByte(Hash[0], Randata[RAND_SIZE + 1], RAND_SIZE) <> 0 then
-          MasterKeyHash:= EmptyStr
-        else
-          MasterKeyHash:= FMasterKeyHash;
+        MasterKeyHash:= FMasterKeyHash;
       end;
-    end
+    end;
   end;
 end;
 
