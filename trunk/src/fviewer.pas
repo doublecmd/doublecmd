@@ -551,6 +551,7 @@ begin
   ExitPluginMode;
   ViewerControl.ResetEncoding;
   LoadFile(aFileName);
+  if ViewerControl.IsFileOpen then ViewerControl.GoHome;
 end;
 
 procedure TfrmViewer.LoadFile(iIndex: Integer);
