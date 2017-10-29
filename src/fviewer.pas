@@ -554,12 +554,21 @@ begin
 end;
 
 procedure TfrmViewer.LoadFile(iIndex: Integer);
+var
+  ANewFile: Boolean;
 begin
+  ANewFile:= iActiveFile <> iIndex;
+
   iActiveFile := iIndex;
   LoadFile(FileList.Strings[iIndex]);
-  gboxPaint.Visible:=false;
-  gboxHightlight.Visible:=false;
-  Status.Panels[sbpFileNr].Text:=Format('%d/%d',[iIndex+1,FileList.Count]);
+
+  gboxPaint.Visible:= False;
+  gboxHightlight.Visible:= False;
+  Status.Panels[sbpFileNr].Text:= Format('%d/%d', [iIndex + 1, FileList.Count]);
+
+  if ANewFile then begin
+    if ViewerControl.IsFileOpen then ViewerControl.GoHome;
+  end;
 end;
 
 procedure TfrmViewer.FormResize(Sender: TObject);
@@ -1466,19 +1475,19 @@ begin
   gImagePaintMode := ComboBoxPaint.text;
   gImagePaintWidth := StrToInt(ComboBoxWidth.Text) ;
   gImagePaintColor := ColorBoxPaint.Selected;
-  gTextPosition := ViewerControl.Position;
   case ViewerControl.Mode of
     vcmText: gViewerMode := 1;
     vcmBin : gViewerMode := 2;
     vcmHex : gViewerMode := 3;
     vcmWrap: gViewerMode := 4;
-    vcmBook: gViewerMode := 4;
+    vcmBook:
+      begin
+        gViewerMode := 4;
+        gTextPosition := ViewerControl.Position;
+      end;
   end;
 
-  if Assigned(WlxPlugins) then
-     begin
-       ExitPluginMode;
-     end;
+  if Assigned(WlxPlugins) then ExitPluginMode;
 
 {$IF NOT DEFINED(LCLWIN32)}
   if WindowState = wsFullScreen then WindowState:= wsNormal;
@@ -2649,25 +2658,26 @@ end;
 procedure TfrmViewer.cm_ShowGraphics(const Params: array of string);
 begin
   if CheckGraphics(FileList.Strings[iActiveFile]) then
-    begin
-      ViewerControl.FileName := ''; // unload current file if any is loaded
-      if LoadGraphics(FileList.Strings[iActiveFile]) then
-        ActivatePanel(pnlImage)
-      else
-        begin
-          ViewerControl.FileName := FileList.Strings[iActiveFile];
-          ActivatePanel(pnlText);
-        end;
-    end;
+  begin
+    ViewerControl.FileName := ''; // unload current file if any is loaded
+    if LoadGraphics(FileList.Strings[iActiveFile]) then
+      ActivatePanel(pnlImage)
+    else
+      begin
+        ViewerControl.FileName := FileList.Strings[iActiveFile];
+        ActivatePanel(pnlText);
+      end;
+  end;
 end;
 
 procedure TfrmViewer.cm_ShowPlugins(const Params: array of string);
 begin
   bPlugin:= CheckPlugins(FileList.Strings[iActiveFile], True);
   if bPlugin then
-    ActivatePanel(nil)
-  else
-    ViewerControl.FileName := FileList.Strings[iActiveFile];
+  begin
+    ViewerControl.FileName := ''; // unload current file if any is loaded
+    ActivatePanel(nil);
+  end;
 end;
 
 procedure TfrmViewer.cm_ExitViewer(const Params: array of string);

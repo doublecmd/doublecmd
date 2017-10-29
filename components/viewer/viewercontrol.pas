@@ -1680,7 +1680,7 @@ begin
     Invalidate;
 
     // Set new scroll position.
-    if LastLineReached then
+    if LastLineReached and (Value > 0) then
       FScrollBarPosition := 100
     else
       FScrollBarPosition := Percent;
