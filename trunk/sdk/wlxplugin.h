@@ -1,3 +1,6 @@
+#ifndef _WLX_H
+#define _WLX_H
+
 #include "common.h"
 
 /* Contents of file listplug.h */
@@ -39,6 +42,10 @@ typedef struct {
 	char DefaultIniName[MAX_PATH];
 } ListDefaultParamStruct;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 HWND DCPCALL ListLoad(HWND ParentWin,char* FileToLoad,int ShowFlags);
 HWND DCPCALL ListLoadW(HWND ParentWin,WCHAR* FileToLoad,int ShowFlags);
 int DCPCALL ListLoadNext(HWND ParentWin,HWND PluginWin,char* FileToLoad,int ShowFlags);
@@ -61,3 +68,10 @@ HBITMAP DCPCALL ListGetPreviewBitmap(char* FileToLoad,int width,int height,
     char* contentbuf,int contentbuflen);
 HBITMAP DCPCALL ListGetPreviewBitmapW(WCHAR* FileToLoad,int width,int height,
     char* contentbuf,int contentbuflen);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // _WLX_H
+
