@@ -34,7 +34,7 @@
 www.cityinthesky.co.uk/cryptography.html
 "/>
     <Version Major="2" Release="4" Build="1"/>
-    <Files Count="32">
+    <Files Count="31">
       <Item1>
         <Filename Value="dcpbase64.pas"/>
         <UnitName Value="DCPbase64"/>
@@ -159,10 +159,6 @@ www.cityinthesky.co.uk/cryptography.html
         <Filename Value="Hashes/Keccak/sha1.pas"/>
         <UnitName Value="SHA1"/>
       </Item31>
-      <Item32>
-        <Filename Value="Hashes/Keccak/hmacsha1.pas"/>
-        <UnitName Value="HMACSHA1"/>
-      </Item32>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
