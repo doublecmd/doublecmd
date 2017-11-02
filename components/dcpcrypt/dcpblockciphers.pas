@@ -457,16 +457,8 @@ end;
 {** TDCP_blockcipher128 ********************************************************}
 
 procedure TDCP_blockcipher128.IncCounter;
-var
-  i: integer;
 begin
-  Inc(CV[15]);
-  i:= 15;
-  while (i> 0) and (CV[i] = 0) do
-  begin
-    Inc(CV[i-1]);
-    Dec(i);
-  end;
+  Inc(PQWord(@CV[0])^);
 end;
 
 class function TDCP_blockcipher128.GetBlockSize: integer;
