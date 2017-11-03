@@ -157,6 +157,7 @@ uses
   AbSWStm,
   AbUnzOutStm,
   AbUtils,
+  AbWinZipAes,
   DCClassesUtf8;
 
 { -------------------------------------------------------------------------- }
@@ -979,6 +980,9 @@ var
   Tries       : Integer;
   CheckValue  : LongInt;
   DecryptStream: TAbDfDecryptStream;
+  FieldSize: Word;
+  WinZipAesField: PWinZipAesRec = nil;
+  AesDecryptStream: TAbWinZipAesDecryptStream;
 begin
   { validate }
   if (Lo(Item.VersionNeededToExtract) > Ab_ZipVersion) then
@@ -1013,6 +1017,12 @@ begin
   { get decrypting stream }
   if Item.IsEncrypted then begin
     try
+      { check WinZip AES extra field }
+      if Item.ExtraField.Get(Ab_WinZipAesID, Pointer(WinZipAesField), FieldSize) then
+      begin
+        { get real compression method }
+        Item.CompressionMethod := TAbZipCompressionMethod(WinZipAesField.Method);
+      end;
       { need to decrypt }
       Tries := 0;
       Abort := False;
@@ -1021,14 +1031,27 @@ begin
         if Abort then
           raise EAbUserAbort.Create;
         { check for valid password }
-        DecryptStream := TAbDfDecryptStream.Create(Result,
-          CheckValue, ZipArchive.Password);
-        if DecryptStream.IsValid then begin
-          DecryptStream.OwnsStream := True;
-          Result := DecryptStream;
-          Break;
+        if Assigned(WinZipAesField) then
+        begin
+          AesDecryptStream := TAbWinZipAesDecryptStream.Create(Result,
+            WinZipAesField, ZipArchive.Password);
+          if AesDecryptStream.IsValid then begin
+            AesDecryptStream.OwnsStream := True;
+            Result := AesDecryptStream;
+            Break;
+          end;
+          FreeAndNil(AesDecryptStream);
+        end
+        else begin
+          DecryptStream := TAbDfDecryptStream.Create(Result,
+            CheckValue, ZipArchive.Password);
+          if DecryptStream.IsValid then begin
+            DecryptStream.OwnsStream := True;
+            Result := DecryptStream;
+            Break;
+          end;
+          FreeAndNil(DecryptStream);
         end;
-        FreeAndNil(DecryptStream);
         { prompt again }
         Inc(Tries);
         if (Tries > ZipArchive.PasswordRetries) then
@@ -1045,6 +1068,7 @@ end;
 procedure DoExtract(aZipArchive: TAbZipArchive; aItem: TAbZipItem;
   aInStream, aOutStream: TStream);
 var
+  Wrong: Boolean;
   OutStream : TAbUnzipOutputStream;
 begin
   if aItem.UncompressedSize = 0 then
@@ -1098,12 +1122,21 @@ begin
     end;
 
     { check CRC }
-    if OutStream.CRC32 <> aItem.CRC32 then
+    if not (aInStream is TAbWinZipAesDecryptStream) then
+      Wrong := (OutStream.CRC32 <> aItem.CRC32)
+    else begin
+      Wrong := not TAbWinZipAesDecryptStream(aInStream).Verify;
+      if TAbWinZipAesDecryptStream(aInStream).ExtraField.Version = 1 then
+        Wrong := Wrong and (OutStream.CRC32 <> aItem.CRC32);
+    end;
+    if Wrong then
+    begin
       if Assigned(aZipArchive.OnProcessItemFailure) then
         aZipArchive.OnProcessItemFailure(aZipArchive, aItem, ptExtract,
           ecAbbrevia, AbZipBadCRC)
       else
         raise EAbZipBadCRC.Create;
+    end;
   finally
     OutStream.Free;
   end;
