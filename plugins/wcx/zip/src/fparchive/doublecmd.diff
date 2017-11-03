@@ -1713,17 +1713,18 @@ Index: AbUnzPrc.pas
    AbBitBkt,
    AbConst,
    AbDfBase,
-@@ -153,7 +156,8 @@
+@@ -153,7 +156,9 @@
    AbSpanSt,
    AbSWStm,
    AbUnzOutStm,
 -  AbUtils;
 +  AbUtils,
++  AbWinZipAes,
 +  DCClassesUtf8;
  
  { -------------------------------------------------------------------------- }
  procedure AbReverseBits(var W : Word);
-@@ -944,11 +948,30 @@
+@@ -944,11 +949,30 @@
    InStream.ReadBuffer(Header, SizeOf(Header));
    SetLength(Properties, Header.PropSize);
    InStream.ReadBuffer(Properties[0], Header.PropSize);
@@ -1756,7 +1757,73 @@ Index: AbUnzPrc.pas
  function ExtractPrep(ZipArchive: TAbZipArchive; Item: TAbZipItem): TStream;
  var
    LFH         : TAbZipLocalFileHeader;
-@@ -1062,6 +1085,11 @@
+@@ -956,6 +980,9 @@
+   Tries       : Integer;
+   CheckValue  : LongInt;
+   DecryptStream: TAbDfDecryptStream;
++  FieldSize: Word;
++  WinZipAesField: PWinZipAesRec = nil;
++  AesDecryptStream: TAbWinZipAesDecryptStream;
+ begin
+   { validate }
+   if (Lo(Item.VersionNeededToExtract) > Ab_ZipVersion) then
+@@ -990,6 +1017,12 @@
+   { get decrypting stream }
+   if Item.IsEncrypted then begin
+     try
++      { check WinZip AES extra field }
++      if Item.ExtraField.Get(Ab_WinZipAesID, Pointer(WinZipAesField), FieldSize) then
++      begin
++        { get real compression method }
++        Item.CompressionMethod := TAbZipCompressionMethod(WinZipAesField.Method);
++      end;
+       { need to decrypt }
+       Tries := 0;
+       Abort := False;
+@@ -998,14 +1031,27 @@
+         if Abort then
+           raise EAbUserAbort.Create;
+         { check for valid password }
+-        DecryptStream := TAbDfDecryptStream.Create(Result,
+-          CheckValue, ZipArchive.Password);
+-        if DecryptStream.IsValid then begin
+-          DecryptStream.OwnsStream := True;
+-          Result := DecryptStream;
+-          Break;
++        if Assigned(WinZipAesField) then
++        begin
++          AesDecryptStream := TAbWinZipAesDecryptStream.Create(Result,
++            WinZipAesField, ZipArchive.Password);
++          if AesDecryptStream.IsValid then begin
++            AesDecryptStream.OwnsStream := True;
++            Result := AesDecryptStream;
++            Break;
++          end;
++          FreeAndNil(AesDecryptStream);
++        end
++        else begin
++          DecryptStream := TAbDfDecryptStream.Create(Result,
++            CheckValue, ZipArchive.Password);
++          if DecryptStream.IsValid then begin
++            DecryptStream.OwnsStream := True;
++            Result := DecryptStream;
++            Break;
++          end;
++          FreeAndNil(DecryptStream);
+         end;
+-        FreeAndNil(DecryptStream);
+         { prompt again }
+         Inc(Tries);
+         if (Tries > ZipArchive.PasswordRetries) then
+@@ -1022,6 +1068,7 @@
+ procedure DoExtract(aZipArchive: TAbZipArchive; aItem: TAbZipItem;
+   aInStream, aOutStream: TStream);
+ var
++  Wrong: Boolean;
+   OutStream : TAbUnzipOutputStream;
+ begin
+   if aItem.UncompressedSize = 0 then
+@@ -1062,6 +1109,11 @@
          DecompressWavPack(aInStream, OutStream);
        end;
        {$ENDIF}
@@ -1768,7 +1835,30 @@ Index: AbUnzPrc.pas
        cmShrunk..cmImploded: begin
          DoLegacyUnzip(aZipArchive, aItem, aInStream, OutStream);
        end;
-@@ -1111,7 +1139,7 @@
+@@ -1070,12 +1122,21 @@
+     end;
+ 
+     { check CRC }
+-    if OutStream.CRC32 <> aItem.CRC32 then
++    if not (aInStream is TAbWinZipAesDecryptStream) then
++      Wrong := (OutStream.CRC32 <> aItem.CRC32)
++    else begin
++      Wrong := not TAbWinZipAesDecryptStream(aInStream).Verify;
++      if TAbWinZipAesDecryptStream(aInStream).ExtraField.Version = 1 then
++        Wrong := Wrong and (OutStream.CRC32 <> aItem.CRC32);
++    end;
++    if Wrong then
++    begin
+       if Assigned(aZipArchive.OnProcessItemFailure) then
+         aZipArchive.OnProcessItemFailure(aZipArchive, aItem, ptExtract,
+           ecAbbrevia, AbZipBadCRC)
+       else
+         raise EAbZipBadCRC.Create;
++    end;
+   finally
+     OutStream.Free;
+   end;
+@@ -1111,7 +1172,7 @@
    else begin
      InStream := ExtractPrep(ZipArchive, Item);
      try
@@ -1777,15 +1867,15 @@ Index: AbUnzPrc.pas
        try
          try    {OutStream}
            DoExtract(ZipArchive, Item, InStream, OutStream);
-@@ -1141,6 +1169,7 @@
+@@ -1141,6 +1202,7 @@
    LFH        : TAbZipLocalFileHeader;
    Zip64Field : PZip64LocalHeaderRec;
    ZipArchive : TAbZipArchive;
 +  DD         : TAbZipDataDescriptor = nil;
  begin
    ZipArchive := TAbZipArchive(Sender);
-
-@@ -1162,6 +1191,12 @@
+ 
+@@ -1162,6 +1224,12 @@
        {get the item's local file header}
      ZipArchive.FStream.Seek(Item.RelativeOffset, soBeginning);
      LFH.LoadFromStream(ZipArchive.FStream);
@@ -1796,9 +1886,9 @@ Index: AbUnzPrc.pas
 +      DD.LoadFromStream(ZipArchive.FStream);
 +    end;
      ZipArchive.FStream.Seek(Item.RelativeOffset, soBeginning);
-
+ 
        {currently a single exception is raised for any LFH error}
-@@ -1173,8 +1208,15 @@
+@@ -1173,8 +1241,15 @@
        raise EAbZipInvalidLFH.Create;
      if (LFH.LastModFileDate <> Item.LastModFileDate) then
        raise EAbZipInvalidLFH.Create;
@@ -1816,7 +1906,7 @@ Index: AbUnzPrc.pas
      if LFH.ExtraField.Get(Ab_Zip64SubfieldID, Pointer(Zip64Field), FieldSize) then begin
        if (Zip64Field.CompressedSize <> Item.CompressedSize) then
          raise EAbZipInvalidLFH.Create;
-@@ -1181,6 +1223,13 @@
+@@ -1181,6 +1256,13 @@
        if (Zip64Field.UncompressedSize <> Item.UncompressedSize) then
          raise EAbZipInvalidLFH.Create;
      end
@@ -1830,13 +1920,13 @@ Index: AbUnzPrc.pas
      else begin
        if (LFH.CompressedSize <> Item.CompressedSize) then
          raise EAbZipInvalidLFH.Create;
-@@ -1195,6 +1244,7 @@
+@@ -1195,6 +1277,7 @@
    finally
      BitBucket.Free;
      LFH.Free;
 +    DD.Free;
    end;
-
+ 
  end;
 Index: AbUtils.pas
 ===================================================================
