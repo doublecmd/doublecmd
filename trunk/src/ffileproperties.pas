@@ -364,7 +364,7 @@ begin
     lblFolder.Caption:= Path;
 
     // Size
-    hasSize := (fpSize in SupportedProperties) and (not IsLink);
+    hasSize := (fpSize in SupportedProperties) and (not IsLinkToDirectory);
     if hasSize then
       begin
         if IsDirectory and (fsoCalcStatistics in FFileSource.GetOperationsTypes) then
