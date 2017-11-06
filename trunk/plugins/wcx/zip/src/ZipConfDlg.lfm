@@ -155,7 +155,7 @@ object DialogBox: TDialogBox
       Width = 396
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 10
-      Caption = 'Open *.tar.xxx archives at one step (slowly with big archives)'
+      Caption = 'Open *.tar.xyz archives at one step (slowly with big archives)'
       TabOrder = 2
     end
   end
