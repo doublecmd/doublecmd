@@ -244,6 +244,7 @@ begin
       if LinkProperty.IsValid then
       begin
         LinkProperty.IsLinkToDirectory := FPS_ISDIR(LinkStatInfo.st_mode);
+        if LinkProperty.IsLinkToDirectory then SizeProperty.Value := 0;
       end;
     end;
   end;
