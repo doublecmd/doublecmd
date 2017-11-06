@@ -227,8 +227,12 @@ begin
         begin
           if (AFile.IsDirectory or AFile.IsLinkToDirectory) and
             ((not (fpSize in AFile.SupportedProperties)) or (AFile.Size = 0))
-          then
-            Result := '<DIR>'
+          then begin
+            if AFile.IsLinkToDirectory then
+              Result := '<LNK>'
+            else
+              Result := '<DIR>'
+          end
           else if fpSize in AFile.SupportedProperties then
             Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter);
         end;
@@ -299,8 +303,12 @@ begin
         begin
           if (AFile.IsDirectory or AFile.IsLinkToDirectory) and
             ((not (fpCompressedSize in AFile.SupportedProperties)) or (AFile.CompressedSize = 0))
-          then
-            Result := '<DIR>'
+          then begin
+            if AFile.IsLinkToDirectory then
+              Result := '<LNK>'
+            else
+              Result := '<DIR>'
+          end
           else if fpCompressedSize in AFile.SupportedProperties then
             Result := AFile.Properties[fpCompressedSize].Format(DefaultFilePropertyFormatter);
         end;
