@@ -19,6 +19,11 @@
           <CPPInline Value="False"/>
         </SyntaxOptions>
       </Parsing>
+      <CodeGeneration>
+        <Optimizations>
+          <OptimizationLevel Value="2"/>
+        </Optimizations>
+      </CodeGeneration>
       <Linking>
         <Debugging>
           <DebugInfoType Value="dsDwarf2Set"/>
