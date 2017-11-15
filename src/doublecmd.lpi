@@ -1732,6 +1732,8 @@ end;"/>
       </Checks>
       <Optimizations>
         <OptimizationLevel Value="0"/>
+        <VariablesInRegisters Value="True"/>
+        <UncertainOptimizations Value="True"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>
