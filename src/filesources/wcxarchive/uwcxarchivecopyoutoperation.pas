@@ -517,11 +517,10 @@ begin
       TargetDir := Paths.List[PathIndex]^.Key;
 
       try
-{$IF DEFINED(MSWINDOWS)}
-        // Restore attributes, e.g., hidden, read-only.
-        // On Unix attributes value would have to be translated somehow.
+        // Restore attributes
         mbFileSetAttr(TargetDir, Header.FileAttr);
 
+{$IF DEFINED(MSWINDOWS)}
         DosToWinTime(TDosFileTime(Header.FileTime), Time);
 {$ELSE}
   {$PUSH}{$R-}
