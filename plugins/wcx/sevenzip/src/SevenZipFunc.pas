@@ -193,6 +193,9 @@ begin
     HeaderData.PackSizeHigh:= Int64Rec(Item.PackedSize).Hi;
     HeaderData.FileAttr:= Item.Attributes;
     WinToDosTime(Item.LastWriteTime, LongWord(HeaderData.FileTime));
+    if Item.Encrypted then begin
+      HeaderData.Flags:= RHDF_ENCRYPTED;
+    end;
     // Special case for absolute file name
     if (Length(FileNameW) > 0) and (FileNameW[1] = PathDelim) then
       HeaderData.FileName:= Copy(FileNameW, 2, Length(FileNameW) - 1)
