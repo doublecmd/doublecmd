@@ -199,8 +199,8 @@ begin
           begin
             if Files.Count = 1 then // if one file selected
               begin
-                FHasFolder:= Files[0].IsDirectory;
                 FArchiveName:= Files[0].NameNoExt;
+                FHasFolder:= Files[0].IsDirectory or Files[0].IsLinkToDirectory;
                 edtPackCmd.Text := TargetArchivePath + FArchiveName + ExtensionSeparator + FArchiveType;
               end
             else   // if some files selected
@@ -208,7 +208,7 @@ begin
                 FHasFolder:= False;
                 for I:= 0 to Files.Count - 1 do
                 begin
-                  if Files[I].IsDirectory then
+                  if Files[I].IsDirectory or Files[I].IsLinkToDirectory then
                   begin
                     FHasFolder:= True;
                     Break;
