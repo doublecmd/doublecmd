@@ -1146,11 +1146,14 @@ uses
   end;
 
  function LoadLuaLib(filename:string):boolean;
-  begin
-   result:=false;
-   LuaLibD:=LoadLibrary(FileName);
-   result:= (LuaLibD<>0);
-   if LuaLibD=0 then exit;
+ begin
+{$IF DEFINED(UNIX)}
+   LuaLibD:= TLibHandle(dlopen(PAnsiChar(FileName), RTLD_NOW or RTLD_GLOBAL));
+{$ELSE}
+   LuaLibD:= LoadLibrary(FileName);
+{$ENDIF}
+   Result:= (LuaLibD <> NilHandle);
+   if not Result then Exit;
 
   lua_newstate:=Tlua_newstate(GetProcAddress(LuaLibD,'lua_newstate'));
   lua_close:=Tlua_close(GetProcAddress(LuaLibD,'lua_close'));
