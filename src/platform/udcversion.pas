@@ -451,10 +451,14 @@ begin
 end;
 
 function GetLazarusVersion: String;
+var
+  I: Integer = 1;
 begin
   Result:= lazVersion;
-  if Length(lazRevision) > 0 then begin
-    Result += '-' + lazRevision;
+  while (I <= Length(lazRevision)) and (lazRevision[I] in ['0'..'9']) do
+    Inc(I);
+  if (I > 1) then begin
+    Result += '-' + Copy(lazRevision, 1, I - 1);
   end;
 end;
 
