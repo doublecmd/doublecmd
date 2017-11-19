@@ -863,7 +863,7 @@ end;
 
 procedure TfrmFileOp.InitializeCalcChecksumOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls(OpManItem, [fodl_current_pb, fodl_total_pb]);
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_current_pb, fodl_total_pb]);
 end;
 
 procedure TfrmFileOp.InitializeTestArchiveOperation(OpManItem: TOperationsManagerItem);
