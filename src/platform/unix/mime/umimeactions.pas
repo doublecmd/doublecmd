@@ -8,7 +8,7 @@
     (http://www.freedesktop.org/wiki/Specifications/mime-apps-spec)
 
     Copyright (C) 2009-2010  Przemyslaw Nagay (cobines@gmail.com)
-    Copyright (C) 2011-2016  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2011-2017  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,8 +21,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uMimeActions;
@@ -79,8 +78,9 @@ function TranslateAppExecToCmdLine(const entry: PDesktopFileEntry;
 implementation
 
 uses
-  Unix, DCBasicTypes, DCClassesUtf8, DCStrUtils, uDCUtils, uGlib2, uFileProcs,
-  uIconTheme, uClipboard, DCOSUtils, uKeyFile, uGio, uXdg, uMimeType, uDebug;
+  Unix, BaseUnix, DCBasicTypes, DCClassesUtf8, DCStrUtils, uDCUtils, uGlib2,
+  uFileProcs, uIconTheme, uClipboard, DCOSUtils, uKeyFile, uGio, uXdg, uMimeType,
+  uDebug, uMyUnix;
 
 type
   TMimeAppsGroup = (magDefault, magAdded, magRemoved);
@@ -498,6 +498,7 @@ end;
 
 function GetDesktopEntry(const FileName: String): PDesktopFileEntry;
 var
+  TryExec: String;
   DesktopEntryFile: TKeyFile;
 begin
   try
@@ -508,6 +509,14 @@ begin
       Exit(nil);
     end;
     try
+      TryExec:= DesktopEntryFile.ReadString(DESKTOP_GROUP, DESKTOP_KEY_TRY_EXEC, EmptyStr);
+      if Length(TryExec) > 0 then
+      begin
+        case GetPathType(TryExec) of
+          ptAbsolute: if fpAccess(TryExec, X_OK) <> 0 then Exit(nil);
+          ptNone: if not ExecutableInSystemPath(TryExec) then Exit(nil);
+        end;
+      end;
       New(Result);
       with Result^, DesktopEntryFile do
       begin
