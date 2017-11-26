@@ -116,19 +116,19 @@ end;
 
 function TWfxPluginDeleteOperation.ProcessFile(aFile: TFile): Boolean;
 var
-  FileName: String;
+  aFileName: String;
   bRetry: Boolean;
   sMessage, sQuestion: String;
   logOptions: TLogOptions;
 begin
   Result := False;
-  FileName := aFile.Path + aFile.Name;
+  aFileName := aFile.Path + aFile.Name;
 
   if FileIsReadOnly(aFile.Attributes) then
   begin
     case FDeleteReadOnly of
       fsoogNone:
-        case AskQuestion(Format(rsMsgFileReadOnly, [FileName]), '',
+        case AskQuestion(Format(rsMsgFileReadOnly, [aFileName]), '',
                          [fsourYes, fsourAll, fsourSkip, fsourSkipAll],
                          fsourYes, fsourSkip) of
           fsourAll:
@@ -151,27 +151,27 @@ begin
     bRetry := False;
 
     //if FileIsReadOnly(aFile.Attributes) then
-    //  mbFileSetReadOnly(FileName, False);
+    //  mbFileSetReadOnly(aFileName, False);
 
     with FWfxPluginFileSource.WfxModule do
     if aFile.IsDirectory then // directory
       begin
-        Result := WfxRemoveDir(FileName);
+        Result := WfxRemoveDir(aFileName);
       end
     else
       begin // files and other stuff
-        Result := WfxDeleteFile(FileName);
+        Result := WfxDeleteFile(aFileName);
       end;
 
     if Result then
     begin // success
       if aFile.IsDirectory then
       begin
-        LogMessage(Format(rsMsgLogSuccess + rsMsgLogRmDir, [FileName]), [log_vfs_op], lmtSuccess);
+        LogMessage(Format(rsMsgLogSuccess + rsMsgLogRmDir, [aFileName]), [log_vfs_op], lmtSuccess);
       end
       else
       begin
-        LogMessage(Format(rsMsgLogSuccess + rsMsgLogDelete, [FileName]), [log_vfs_op], lmtSuccess);
+        LogMessage(Format(rsMsgLogSuccess + rsMsgLogDelete, [aFileName]), [log_vfs_op], lmtSuccess);
       end;
     end
     else // error
@@ -179,14 +179,14 @@ begin
       if aFile.IsDirectory then
       begin
         logOptions := [log_vfs_op];
-        sMessage := Format(rsMsgLogError + rsMsgLogRmDir, [FileName]);
-        sQuestion := Format(rsMsgNotDelete, [FileName]);
+        sMessage := Format(rsMsgLogError + rsMsgLogRmDir, [aFileName]);
+        sQuestion := Format(rsMsgNotDelete, [aFileName]);
       end
       else
       begin
         logOptions := [log_vfs_op];
-        sMessage := Format(rsMsgLogError + rsMsgLogDelete, [FileName]);
-        sQuestion := Format(rsMsgNotDelete, [FileName]);
+        sMessage := Format(rsMsgLogError + rsMsgLogDelete, [aFileName]);
+        sQuestion := Format(rsMsgNotDelete, [aFileName]);
       end;
 
       if gSkipFileOpError or (FSkipErrors = True) then
