@@ -120,7 +120,7 @@ var
   lockerr: cint;
 begin
   Result:= Handle;
-  case (Mode and $A0) of
+  case (Mode and $F0) of
     fmShareCompat,
     fmShareExclusive:
       lockop:= LOCK_EX or LOCK_NB;
