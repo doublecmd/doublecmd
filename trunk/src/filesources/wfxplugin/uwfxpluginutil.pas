@@ -200,7 +200,10 @@ begin
       end;
       if (FMode = wpohmMove) then
         iFlags:= iFlags + FS_COPYFLAGS_MOVE;
+      if FFileExistsOption = fsoofeOverwrite then
+        iFlags:= iFlags + FS_COPYFLAGS_OVERWRITE;
       bCopyMoveIn:= (FMode = wpohmCopyIn);
+
       Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, bCopyMoveIn);
 
       case Result of
