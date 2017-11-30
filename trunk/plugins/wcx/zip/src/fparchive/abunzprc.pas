@@ -1127,7 +1127,7 @@ begin
     else begin
       Wrong := not TAbWinZipAesDecryptStream(aInStream).Verify;
       if TAbWinZipAesDecryptStream(aInStream).ExtraField.Version = 1 then
-        Wrong := Wrong and (OutStream.CRC32 <> aItem.CRC32);
+        Wrong := Wrong or (OutStream.CRC32 <> aItem.CRC32);
     end;
     if Wrong then
     begin
