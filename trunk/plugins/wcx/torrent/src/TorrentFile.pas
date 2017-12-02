@@ -194,6 +194,7 @@ begin
         end else begin
           _Err.Add('Corrupt File: Missing "info.piece length" segment');
         end;
+        {
         if(info.Exists('pieces')) then begin
           fp := (info['pieces'] as TIntString).StringPart;
           pcount := System.Length(fp) div 20;
@@ -205,6 +206,7 @@ begin
         end else begin
           _Err.Add('Corrupt File: Missing "info.pieces" segment');
         end;
+        }
         if(info.Exists('length')) then begin // single-file archive
           sz := (info['length'] as TIntString).IntPart;
           _Count := 1;
