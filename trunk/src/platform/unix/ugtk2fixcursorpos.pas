@@ -13,7 +13,8 @@ implementation
 
 uses
   Classes, SysUtils, Gtk2WSStdCtrls, Gtk2, Gtk2Def, Gtk2WSSpin, Gtk2Proc,
-  WSLCLClasses, StdCtrls, Glib2, Gtk2Globals, Spin, LMessages, LazUTF8;
+  WSLCLClasses, StdCtrls, Glib2, Gtk2Globals, Spin, LMessages, LazUTF8, Gdk2,
+  Controls;
 
 type
 
@@ -141,6 +142,23 @@ begin
     LockOnChange(PgtkObject(Widget), -1);
 end;
 
+function gtkMotionNotifyEx(Widget:PGTKWidget; Event: PGDKEventMotion;
+  Data: gPointer): GBoolean; cdecl;
+var
+  ACtl: TWinControl;
+begin
+  // Call inherited function
+  Result:= gtkMotionNotify(Widget, Event, Data);
+
+  ACtl:= TWinControl(Data);
+  if (ACtl is TCustomEdit) then
+  begin
+    if (Event^.x < 0) or (Event^.y < 0) or
+       (Event^.x > ACtl.Width) or (Event^.y > ACtl.Height) then
+      Result:= CallBackDefaultReturn;
+  end;
+end;
+
 { TGtk2WSCustomEditEx }
 
 class procedure TGtk2WSCustomEditEx.SetCallbacks(const AGtkWidget: PGtkWidget;
@@ -169,6 +187,10 @@ begin
     g_signal_handlers_disconnect_by_func(gObject, @gtkchanged_editbox, ALCLObject);
     ConnectSignal(gObject, 'backspace', @gtkchanged_editbox_backspace_ex, ALCLObject);
     ConnectSignal(gObject, 'delete-from-cursor', @gtkchanged_editbox_delete, ALCLObject);
+
+    g_signal_handlers_disconnect_by_func(gObject, @GTKMotionNotify, ALCLObject);
+    ConnectSignal(gObject, 'motion-notify-event', @GTKMotionNotifyEx, ALCLObject,
+                  GDK_POINTER_MOTION_HINT_MASK or GDK_POINTER_MOTION_MASK);
   end;
 end;
 
