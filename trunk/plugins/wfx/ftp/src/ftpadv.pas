@@ -66,6 +66,8 @@ type
     ProgressProc: TProgressProcW;
     SourceName, TargetName: PWideChar;
   private
+    FTime: QWord;
+    FtpSend: TFTPSend;
     procedure DoProgress(Result: Integer);
   public
     function Read(var Buffer; Count: Longint): Longint; override;
@@ -83,6 +85,7 @@ type
     FShowHidden: String;
     FUseAllocate: Boolean;
     FTcpKeepAlive: Boolean;
+    FKeepAliveTransfer: Boolean;
   private
     ConvertToUtf8: TConvertEncodingFunction;
     ConvertFromUtf8: TConvertUTF8ToEncodingFunc;
@@ -116,6 +119,7 @@ type
   public
     property UseAllocate: Boolean write FUseAllocate;
     property TcpKeepAlive: Boolean write FTcpKeepAlive;
+    property KeepAliveTransfer: Boolean read FKeepAliveTransfer write FKeepAliveTransfer;
   end;
 
   { TFTPSendExClass }
@@ -125,7 +129,7 @@ type
 implementation
 
 uses
-  LazUTF8, LazFileUtils, FtpFunc, FtpUtils, synautil, synsock;
+  LazUTF8, LazFileUtils, FtpFunc, FtpUtils, synautil, synsock, blcksock;
 
 {$IF NOT DECLARED(EncodingCP1250)}
 const
@@ -211,6 +215,16 @@ begin
   Percent:= DoneSize * 100 div FileSize;
   if ProgressProc(PluginNumber, SourceName, TargetName, Percent) = 1 then
     raise EUserAbort.Create(EmptyStr);
+  // Send keepalive also during a transfer
+  if TFTPSendEx(FtpSend).KeepAliveTransfer then
+  begin
+    Percent:= GetTickCount64;
+    if (Percent - FTime) > 30000 then
+    begin
+      FTime:= Percent;
+      FtpSend.Sock.SendString(CRLF);
+    end;
+  end;
 end;
 
 function TProgressStream.Read(var Buffer; Count: Longint): Longint;
@@ -672,6 +686,7 @@ begin
 
   SendStream := TProgressStream.Create(FDirectFileName, fmOpenRead or fmShareDenyWrite);
 
+  SendStream.FtpSend:= Self;
   SendStream.PluginNumber:= PluginNumber;
   SendStream.ProgressProc:= ProgressProc;
   SendStream.TargetName:= PWideChar(ServerToClient(FileName));
@@ -719,6 +734,7 @@ begin
     RetrStream := TProgressStream.Create(FDirectFileName, fmCreate or fmShareDenyWrite)
   end;
 
+  RetrStream.FtpSend := Self;
   RetrStream.FileSize := FileSize;
   RetrStream.PluginNumber := PluginNumber;
   RetrStream.ProgressProc := ProgressProc;
