@@ -48,6 +48,7 @@ type
     Encoding: AnsiString;
     InitCommands: AnsiString;
     PasswordChanged: Boolean;
+    KeepAliveTransfer: Boolean;
   end;
 
 function FsInitW(PluginNr: Integer; pProgressProc: TProgressProcW;
@@ -164,6 +165,7 @@ begin
     Connection.OpenSSH:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'OpenSSH', False);
     Connection.UseAllocate:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'UseAllocate', False);
     Connection.InitCommands := IniFile.ReadString('FTP', 'Connection' + sIndex + 'InitCommands', EmptyStr);
+    Connection.KeepAliveTransfer := IniFile.ReadBool('FTP', 'Connection' + sIndex + 'KeepAliveTransfer', False);
     // add connection to connection list
     ConnectionList.AddObject(Connection.ConnectionName, Connection);
   end;
@@ -199,6 +201,7 @@ begin
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'OpenSSH', Connection.OpenSSH);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'UseAllocate', Connection.UseAllocate);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'InitCommands', Connection.InitCommands);
+    IniFile.WriteBool('FTP', 'Connection' + sIndex + 'KeepAliveTransfer', Connection.KeepAliveTransfer);
   end;
   IniFile.UpdateFile;
 end;
@@ -308,6 +311,7 @@ begin
           FtpSend := TSftpSend.Create(Connection.Encoding)
         else begin
           FtpSend := TFTPSendEx.Create(Connection.Encoding);
+          FtpSend.KeepAliveTransfer := Connection.KeepAliveTransfer;
         end;
         FtpSend.TcpKeepAlive := TcpKeepAlive;
         FtpSend.TargetHost := Connection.Host;
