@@ -481,7 +481,7 @@ begin
       end;
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(0);
     try
-      ModificationTime := WcxFileTimeToDateTime(WcxHeader);
+      ModificationTime := WcxFileTimeToDateTime(WcxHeader.FileTime);
     except
       on EConvertError do;
     end;

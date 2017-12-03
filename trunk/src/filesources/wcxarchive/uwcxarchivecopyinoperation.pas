@@ -72,7 +72,7 @@ implementation
 uses
   LazUTF8, FileUtil, StrUtils, DCStrUtils, uLng, uShowMsg, fWcxArchiveCopyOperationOptions,
   uFileSystemFileSource, uFileSourceOperationUI, uFileSystemUtil, DCOSUtils, uTarWriter,
-  DCConvertEncoding, uArchiveFileSourceUtil;
+  DCConvertEncoding, DCDateTimeUtils, uArchiveFileSourceUtil;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -414,7 +414,7 @@ begin
   Result:= rsMsgFileExistsOverwrite + LineEnding + aTargetHeader.FileName + LineEnding;
 
   Result:= Result + Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(aTargetHeader.UnpSize)),
-                           DateTimeToStr(WcxFileTimeToDateTime(aTargetHeader))]) + LineEnding;
+                           DateTimeToStr(WcxFileTimeToDateTime(aTargetHeader.FileTime))]) + LineEnding;
 
   Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + aSourceFile.FullPath + LineEnding +
            Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(aSourceFile.Size)), DateTimeToStr(aSourceFile.ModificationTime)]);
@@ -430,7 +430,7 @@ const
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
   begin
-    if aSourceFile.ModificationTime > WcxFileTimeToDateTime(aTargetHeader)  then
+    if aSourceFile.ModificationTime > WcxFileTimeToDateTime(aTargetHeader.FileTime)  then
       Result := fsoofeOverwrite
     else
       Result := fsoofeSkip;
