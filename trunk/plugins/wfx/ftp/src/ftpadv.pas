@@ -602,6 +602,7 @@ begin
   AValue.UseAllocate:= FUseAllocate;
   AValue.UserName:= UserName;
   AValue.Password:= Password;
+  AValue.KeepAliveTransfer:= KeepAliveTransfer;
 end;
 
 procedure TFTPSendEx.ParseRemote(Value: string);
