@@ -169,7 +169,6 @@ Type
   end;
 
   function GetErrorMsg(iErrorMsg : Integer): String;
-  function WcxFileTimeToDateTime(Header: TWCXHeader): TDateTime;
 
 implementation
 
@@ -814,21 +813,6 @@ begin
 
   SetString(TempString, CharString, NameLength);
   Result := CeSysToUtf8(TempString);
-end;
-
-// --
-
-function WcxFileTimeToDateTime(Header: TWCXHeader): TDateTime;
-begin
-{$IF DEFINED(MSWINDOWS)}
-  Result := DosFileTimeToDateTime(Header.FileTime);
-{$ELSEIF DEFINED(UNIX)}
-{$PUSH}{$R-}
-  Result := FileTimeToDateTime(Header.FileTime);
-{$POP}
-{$ELSE}
-  Result := 0;
-{$ENDIF}
 end;
 
 end.

@@ -89,7 +89,7 @@ implementation
 uses
   LCLProc, StrUtils, LConvEncoding, RegExpr, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
-  uLog, uWCXmodule, WcxPlugin, Math, uDCUtils, uConvEncoding;
+  uLog, uWCXmodule, WcxPlugin, Math, uDCUtils, uConvEncoding, DCDateTimeUtils;
 
 { TFindThread }
 
@@ -437,7 +437,7 @@ var
         Exit(False);
 
       if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
-        Result := CheckFileDateTime(FFileChecks, WcxFileTimeToDateTime(Header));
+        Result := CheckFileDateTime(FFileChecks, WcxFileTimeToDateTime(Header.FileTime));
 
       if (IsFileSizeFrom or IsFileSizeTo) and Result then
         Result := CheckFileSize(FFileChecks, Header.UnpSize);

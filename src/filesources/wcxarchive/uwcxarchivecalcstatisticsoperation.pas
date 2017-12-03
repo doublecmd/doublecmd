@@ -35,7 +35,7 @@ type
 implementation
 
 uses
-  DCOSUtils, uWcxModule, DCStrUtils;
+  DCOSUtils, uWcxModule, DCStrUtils, DCDateTimeUtils;
 
 constructor TWcxArchiveCalcStatisticsOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -120,7 +120,7 @@ begin
       begin
         Inc(FStatistics.Files);
         FStatistics.Size := FStatistics.Size + Header.UnpSize;
-        ModificationTime:= WcxFileTimeToDateTime(Header);
+        ModificationTime:= WcxFileTimeToDateTime(Header.FileTime);
         if ModificationTime < FStatistics.OldestFile then
           FStatistics.OldestFile := ModificationTime;
         if ModificationTime > FStatistics.NewestFile then

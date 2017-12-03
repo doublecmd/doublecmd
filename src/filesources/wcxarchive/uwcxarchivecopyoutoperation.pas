@@ -551,7 +551,7 @@ var
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
   begin
-    if WcxFileTimeToDateTime(Header) > FileTimeToDateTime(mbFileAge(AbsoluteTargetFileName)) then
+    if WcxFileTimeToDateTime(Header.FileTime) > FileTimeToDateTime(mbFileAge(AbsoluteTargetFileName)) then
       Result := fsoofeOverwrite
     else
       Result := fsoofeSkip;
@@ -581,7 +581,7 @@ begin
       repeat
         Answer := True;
         Message:= FileExistsMessage(AbsoluteTargetFileName, Header.FileName,
-                                    Header.UnpSize, WcxFileTimeToDateTime(Header));
+                                    Header.UnpSize, WcxFileTimeToDateTime(Header.FileTime));
         case AskQuestion(Message, '',
                          PossibleResponses, fsourOverwrite, fsourSkip) of
           fsourOverwrite:
