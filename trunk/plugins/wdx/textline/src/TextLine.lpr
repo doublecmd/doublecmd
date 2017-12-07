@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wdx plugin is intended to show one line of a text file
 
-   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2017 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -79,7 +79,7 @@ begin
       Reader:= TStreamReader.Create(Stream, BUFFER_SIZE, True);
       repeat
         Value:= EmptyStr;
-        if Reader.IsEof then Break;
+        if Reader.Eof then Break;
         Value:= Trim(Reader.ReadLine);
         if (Length(Value) = 0) and FSkipEmpty then
           Continue;
