@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.8.0 alpha\n"
+"Project-Id-Version: Double Commander 0.9.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2017-09-25 07:27+0300\n"
+"PO-Revision-Date: 2017-12-06 10:27+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -8407,7 +8407,7 @@ msgstr "Создать символьную ссылку"
 
 #: tfrmsymlink.chkuserelativepath.caption
 msgid "Use &relative path when possible"
-msgstr ""
+msgstr "&Относительный путь если возможно"
 
 #: tfrmsymlink.lblexistingfile.caption
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
@@ -11340,12 +11340,12 @@ msgstr "ID:"
 #: ulng.rsoptarchiveidpos
 msgctxt "ulng.rsoptarchiveidpos"
 msgid "ID Position:"
-msgstr "ID Position:"
+msgstr "Смещение ID:"
 
 #: ulng.rsoptarchiveidseekrange
 msgctxt "ulng.rsoptarchiveidseekrange"
 msgid "ID Seek Range:"
-msgstr "ID Seek Range:"
+msgstr "Диапазон поиска ID:"
 
 #: ulng.rsoptarchiveparam
 msgid "Parameter"

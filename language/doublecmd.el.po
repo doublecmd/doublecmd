@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.5.5 alpha\n"
+"Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2017-01-23 21:09+0200\n"
+"PO-Revision-Date: 2017-12-05 19:49+0100\n"
 "Last-Translator: Anastasios Kazakis <orca.surfshark@gmail.com>\n"
 "Language-Team: Anastasios Kazakis <orca.surfshark@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -1234,7 +1234,7 @@ msgstr "Προβολή όλων"
 
 #: tfrmfileop.lblcurrentoperation.caption
 msgid "Current operation:"
-msgstr "Τρέχουσα Ενέργεια"
+msgstr "Τρέχουσα Ενέργεια:"
 
 #: tfrmfileop.lblfrom.caption
 msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
@@ -1460,7 +1460,6 @@ msgid "Attributes"
 msgstr "Ιδιότητες"
 
 #: tfrmfileproperties.tsplugins.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.tsplugins.caption"
 msgid "Plugins"
 msgstr "Πρόσθετα"
@@ -1537,7 +1536,7 @@ msgstr "Μετάβαση στη σελίδα \"Φόρτωμα/Αποθήκευσ
 
 #: tfrmfinddlg.actpagenext.caption
 msgid "Switch to Nex&t Page"
-msgstr ""
+msgstr "Μετάβαση στην Επόμενη Σελίδα"
 
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
@@ -1545,7 +1544,7 @@ msgstr "Μετάβαση στη σελίδα \"Πρόσθετα\""
 
 #: tfrmfinddlg.actpageprev.caption
 msgid "Switch to &Previous Page"
-msgstr ""
+msgstr "Μετάβαση στην Προηγούμενη Σελίδα"
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -1692,7 +1691,7 @@ msgstr "Χρήση προσθέτου αναζήτησης:"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
-msgstr "εισαγωγή ονομάτων καταλόγων που θα έπρεπε να αποκλειστούν από την αναζήτηση, διαχωρισμένων με \";\""
+msgstr "Εισαγωγή ονομάτων καταλόγων που θα έπρεπε να αποκλειστούν από την αναζήτηση, διαχωρισμένων με \";\""
 
 #: tfrmfinddlg.cmbexcludefiles.hint
 msgid "Enter files names that should be excluded from search separated with \";\""
@@ -3206,7 +3205,7 @@ msgstr "Δίκτυο"
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
-msgstr "Εμφάνιση "
+msgstr "Εμφάνιση"
 
 #: tfrmmain.mnutaboptions.caption
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
@@ -3268,12 +3267,12 @@ msgstr "Επιλέξτε την εσωτερική σας εντολή"
 #: tfrmmaincommandsdlg.cbcategorysortornot.text
 msgctxt "tfrmmaincommandsdlg.cbcategorysortornot.text"
 msgid "Legacy sorted"
-msgstr "Legacy ταξινόμηση"
+msgstr "Παλαιού τύπου ταξινόμηση"
 
 #: tfrmmaincommandsdlg.cbcommandssortornot.text
 msgctxt "TFRMMAINCOMMANDSDLG.CBCOMMANDSSORTORNOT.TEXT"
 msgid "Legacy sorted"
-msgstr "Legacy ταξινόμηση"
+msgstr "Παλαιού τύπου ταξινόμηση"
 
 #: tfrmmaincommandsdlg.cbselectallcategorydefault.caption
 msgid "Select all categories by default"
@@ -4054,7 +4053,7 @@ msgstr "Αποκοπή κειμένου στο πλάτος της στήλης"
 
 #: tfrmoptionscolumnsview.cbextendcellwidth.caption
 msgid "&Extend cell width if text is not fitting into column"
-msgstr ""
+msgstr "Άυξηση πλάτους κελιού αν το κείμενο δε χωραέι στη στήλη"
 
 #: tfrmoptionscolumnsview.cbgridhorzline.caption
 msgid "&Horizontal lines"
@@ -4112,7 +4111,6 @@ msgid "Searc&h/Replace history"
 msgstr "Αναζήτηση/Αντικατάσταση Ιστορικό"
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
-#, fuzzy
 msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
 msgid "Directories"
 msgstr "Κατάλογοι"
@@ -4135,11 +4133,11 @@ msgstr "Καθορισμός στη γραμμή εντολών"
 
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
-msgstr ""
+msgstr "Θέμα εικονιδίων:"
 
 #: tfrmoptionsconfiguration.lblthumbcache.caption
 msgid "Thumbnails cache:"
-msgstr ""
+msgstr "Μνήμη Μικρογραφιών:"
 
 #: tfrmoptionsconfiguration.rbprogramdir.caption
 msgid "P&rogram directory (portable version)"
@@ -4614,15 +4612,15 @@ msgstr "Θέση του πάνελ πλαισίου μετά την σύγκρι
 
 #: tfrmoptionsdirectoryhotlist.actaddactiveframedir.caption
 msgid "Add directory of the &active frame"
-msgstr ""
+msgstr "Προσθήκη καταλόγου του ενεργού πλαισίου"
 
 #: tfrmoptionsdirectoryhotlist.actaddbothframedir.caption
 msgid "Add &directories of the active && inactive frames"
-msgstr ""
+msgstr "Προσθήκη καταλόγων των ενεργών && ανενεργών πλαισίων"
 
 #: tfrmoptionsdirectoryhotlist.actaddbrowseddir.caption
 msgid "Add directory I will bro&wse to"
-msgstr ""
+msgstr "Προσθήκη καταλόγου στην οποία θα γίνει πλοήγηση"
 
 #: tfrmoptionsdirectoryhotlist.actaddcopyofentry.caption
 msgid "Add a copy of the selected entry"
@@ -4630,7 +4628,7 @@ msgstr "Προσθήκη ενός αντιγράφου της επιλεγμέν
 
 #: tfrmoptionsdirectoryhotlist.actaddselectionsfromframe.caption
 msgid "Add current &selected or active directories of active frame"
-msgstr ""
+msgstr "Προσθήκη τρεχόντων επιλεγμένων ή ενεργών καταλόγων του ενεργού πλαισίου"
 
 #: tfrmoptionsdirectoryhotlist.actaddseparator.caption
 msgid "Add a separator"
@@ -4638,7 +4636,7 @@ msgstr "Προσθήκη ενός διαχωριστικού"
 
 #: tfrmoptionsdirectoryhotlist.actaddsubmenu.caption
 msgid "Add a sub menu"
-msgstr ""
+msgstr "Προσθήκη ενός υπομενού"
 
 #: tfrmoptionsdirectoryhotlist.actaddtypeddir.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actaddtypeddir.caption"
@@ -4652,15 +4650,15 @@ msgstr "Σύμπτυξη όλων"
 
 #: tfrmoptionsdirectoryhotlist.actcollapseitem.caption
 msgid "Collapse item"
-msgstr ""
+msgstr "Σύμπτυξη αντικειμένου"
 
 #: tfrmoptionsdirectoryhotlist.actcut.caption
 msgid "Cut selection of entries"
-msgstr ""
+msgstr "Αποκοπή επιλογής καταχωρήσεων"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteall.caption
 msgid "Delete all!"
-msgstr ""
+msgstr "Διαγραφή όλων!"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteselecteditem.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actdeleteselecteditem.caption"
@@ -4669,63 +4667,63 @@ msgstr "Διαγραφή επιλεγμένου αντικειμένου"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenuandelem.caption
 msgid "Delete sub-menu and all its elements"
-msgstr ""
+msgstr "Διαγραφή υπομενού με όλα του τα στοιχεία"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenukeepelem.caption
 msgid "Delete just sub-menu but keep elements"
-msgstr ""
+msgstr "Διαγραφή μόνο του υπομενού αλλά διατήρηση των στοιχείων"
 
 #: tfrmoptionsdirectoryhotlist.actexpanditem.caption
 msgid "Expand item"
-msgstr ""
+msgstr "Ανάπτυξη αντικειμένου"
 
 #: tfrmoptionsdirectoryhotlist.actfocustreewindow.caption
 msgid "Focus tree window"
-msgstr ""
+msgstr "Εστίαση στο παράθυρο δέντρου"
 
 #: tfrmoptionsdirectoryhotlist.actgotofirstitem.caption
 msgid "Goto first item"
-msgstr ""
+msgstr "Μετάβαση στο πρώτο αντικείμενο"
 
 #: tfrmoptionsdirectoryhotlist.actgotolastitem.caption
 msgid "Goto last item"
-msgstr ""
+msgstr "Μετάβαση στο τελευταίο αντικείμενο"
 
 #: tfrmoptionsdirectoryhotlist.actgotonextitem.caption
 msgid "Go to next item"
-msgstr ""
+msgstr "Μετάβαση στο επόμενο αντικείμενο"
 
 #: tfrmoptionsdirectoryhotlist.actgotopreviousitem.caption
 msgid "Go to previous item"
-msgstr ""
+msgstr "Μετάβαση στο προηγούμενο αντικείμενο"
 
 #: tfrmoptionsdirectoryhotlist.actinsertactiveframedir.caption
 msgid "Insert directory of the &active frame"
-msgstr ""
+msgstr "Εισαγωγή καταλόγου του ενεργού πλαισίου"
 
 #: tfrmoptionsdirectoryhotlist.actinsertbothframedir.caption
 msgid "Insert &directories of the active && inactive frames"
-msgstr ""
+msgstr "Εισαγωγή καταλόγων των ενεργών && ανενεργών πλαισίων"
 
 #: tfrmoptionsdirectoryhotlist.actinsertbrowseddir.caption
 msgid "Insert directory I will bro&wse to"
-msgstr ""
+msgstr "Εισαγωγή καταλόγου όπου θα γίνει πλοήγηση"
 
 #: tfrmoptionsdirectoryhotlist.actinsertcopyofentry.caption
 msgid "Insert a copy of the selected entry"
-msgstr ""
+msgstr "Εισαγωγή ενός αντιγράφου της επιλεγμένης καταχώρησης"
 
 #: tfrmoptionsdirectoryhotlist.actinsertselectionsfromframe.caption
 msgid "Insert current &selected or active directories of active frame"
-msgstr ""
+msgstr "Εισαγωγή του τρέχοντος επιλεγμένου ή ενεργού καταλόγου του ενεργού πλαισίου"
 
 #: tfrmoptionsdirectoryhotlist.actinsertseparator.caption
 msgid "Insert a separator"
-msgstr ""
+msgstr "Εισαγωγή διαχωριστικού"
 
 #: tfrmoptionsdirectoryhotlist.actinsertsubmenu.caption
 msgid "Insert sub menu"
-msgstr ""
+msgstr "Εισαγωγή υπομενού"
 
 #: tfrmoptionsdirectoryhotlist.actinserttypeddir.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actinserttypeddir.caption"
@@ -4734,11 +4732,11 @@ msgstr "Εισαγωγή καταλόγου που θα πληκτρολογήσ
 
 #: tfrmoptionsdirectoryhotlist.actmovetonext.caption
 msgid "Move to next"
-msgstr ""
+msgstr "Μετακίνηση στο επόμενο"
 
 #: tfrmoptionsdirectoryhotlist.actmovetoprevious.caption
 msgid "Move to previous"
-msgstr ""
+msgstr "Μετακίνηση στο προηγούμενο"
 
 #: tfrmoptionsdirectoryhotlist.actopenallbranches.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actopenallbranches.caption"
@@ -4747,27 +4745,27 @@ msgstr "Άνοιγμα όλων των κλάδων"
 
 #: tfrmoptionsdirectoryhotlist.actpaste.caption
 msgid "Paste what was cut"
-msgstr ""
+msgstr "Επικόλληση αυτού που είχε αποκοπεί"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceinpath.caption
 msgid "Search && replace in &path"
-msgstr ""
+msgstr "Αναζήτηση &&αντικατάσταση στη διαδρομή"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceinpathandtarget.caption
 msgid "Search && replace in both path and target"
-msgstr ""
+msgstr "Αναζήτηση &&αντικατάσταση ταυτόχρονα σε διαδρομή και στόχο"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceintargetpath.caption
 msgid "Search && replace in &target path"
-msgstr ""
+msgstr "Αναζήτηση &&αντικατάσταση στη διαδρομή στόχου"
 
 #: tfrmoptionsdirectoryhotlist.acttweakpath.caption
 msgid "Tweak path"
-msgstr ""
+msgstr "Προσαρμογή διαδρομής"
 
 #: tfrmoptionsdirectoryhotlist.acttweaktargetpath.caption
 msgid "Tweak target path"
-msgstr ""
+msgstr "Προσαρμογή διαδρομής στόχου"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnadd.caption"
@@ -4927,7 +4925,7 @@ msgstr "Από \"wincmd.ini\" του TC"
 
 #: tfrmoptionsdirectoryhotlist.minavigate.caption
 msgid "&Navigate..."
-msgstr ""
+msgstr "Πλοήγηση..."
 
 #: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
 msgid "&Restore a backup of Directory Hotlist"
@@ -4969,11 +4967,11 @@ msgstr "Μενού αποτελεσμάτων Δοκιμών"
 
 #: tfrmoptionsdirectoryhotlist.mitweakpath.caption
 msgid "Tweak &path"
-msgstr ""
+msgstr "Προσαρμογή διαδρομής"
 
 #: tfrmoptionsdirectoryhotlist.mitweaktargetpath.caption
 msgid "Tweak &target path"
-msgstr ""
+msgstr "Προσαρμογή διαδρομής στόχου"
 
 #: tfrmoptionsdirectoryhotlist.rgwheretoadd.caption
 msgid "Addition from main panel"
@@ -6316,11 +6314,11 @@ msgstr "Μέγεθος Εικονοδίου"
 
 #: tfrmoptionsicons.gbicontheme.caption
 msgid "Icon theme"
-msgstr ""
+msgstr "Θέμα εικονιδίων"
 
 #: tfrmoptionsicons.gbshowicons.caption
 msgid "Show icons"
-msgstr ""
+msgstr "Προβολή εικονιδίων"
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
@@ -6329,11 +6327,11 @@ msgstr "Εμφάνιση εικονιδίων αριστερά από το όν�
 
 #: tfrmoptionsicons.lbldiskpanel.caption
 msgid "Disk panel:"
-msgstr ""
+msgstr "Πάνελ Δίσκου:"
 
 #: tfrmoptionsicons.lblfilepanel.caption
 msgid "File panel:"
-msgstr ""
+msgstr "Πάνελ Αρχείου:"
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"
@@ -8361,7 +8359,7 @@ msgstr "Δημιουργία συμβολοδεσμού"
 
 #: tfrmsymlink.chkuserelativepath.caption
 msgid "Use &relative path when possible"
-msgstr ""
+msgstr "Χρήση &σχετικής διαδρομής όταν είναι δυνατό"
 
 #: tfrmsymlink.lblexistingfile.caption
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
@@ -8692,7 +8690,7 @@ msgstr "Εμφανίζει το \"Σχετικά\" μήνυμα"
 
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
-msgstr ""
+msgstr "Αλλαγή κωδικοποίησης"
 
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
@@ -9484,7 +9482,7 @@ msgstr "Επαναπροσπάθεια"
 
 #: ulng.rsdlgbuttonretryadmin
 msgid "As Ad&ministrator"
-msgstr ""
+msgstr "Ως Διαχειριστής"
 
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
@@ -9843,7 +9841,7 @@ msgstr "Αντιγραφή των %s"
 
 #: ulng.rshotkeyfileinputnewname
 msgid "Input your new name"
-msgstr "Εισάγετε τη νέα σας ονομασία:"
+msgstr "Εισάγετε τη νέα σας ονομασία"
 
 #: ulng.rshotkeyfilemustkeepone
 msgid "You must keep at least one shortcut file."
@@ -9912,11 +9910,11 @@ msgstr "Ενέργειες"
 
 #: ulng.rsmnucontentdefault
 msgid "<Default>"
-msgstr ""
+msgstr "<Προκαθορισμένα>"
 
 #: ulng.rsmnucontentoctal
 msgid "Octal"
-msgstr ""
+msgstr "Octal"
 
 #: ulng.rsmnucopynetnamestoclip
 msgid "Copy names with UNC path"
@@ -9993,7 +9991,7 @@ msgstr "Λογαριασμός:"
 
 #: ulng.rsmsgalldcintcmds
 msgid "All Double Commander internal commands"
-msgstr ""
+msgstr "Όλες οι εσωτερικές εντολές του Double Commander"
 
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
@@ -10041,7 +10039,7 @@ msgstr "Αυτή η καρτέλα (%s) είναι κλειδωμένη! Κλε�
 
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
-msgstr ""
+msgstr "Επιβεβαίωση της παραμέτρου"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -10733,7 +10731,7 @@ msgstr "Δεν έχει εφαρμοστεί."
 
 #: ulng.rsmsgobjectnotexists
 msgid "Object does not exist!"
-msgstr ""
+msgstr "Το αντικείμενο δεν υπάρχει!"
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
@@ -11034,7 +11032,7 @@ msgstr "με"
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
-msgstr ""
+msgstr "Εκτέλεση αυτόματης μετονομασίας του \"name (1).ext\", \"name (2).ext\" κ.λ.π;"
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
@@ -11042,7 +11040,7 @@ msgstr "Χωρίς αλλαγή;ΚΕΦΑΛΑΙΟ;μικρό;Πρώτο γράμ�
 
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
-msgstr ""
+msgstr "Προσοχή, διπλότυπες ονομασίες!"
 
 #: ulng.rsmulrenwronglinesnumber
 msgid "File contains wrong number of lines: %d, should be %d!"
@@ -12187,10 +12185,8 @@ msgid "Other example of what's possible"
 msgstr "Άλλο παράδειγμα για το τι είναι δυνατό"
 
 #: ulng.rsvarpath
-#, fuzzy
-#| msgid "Path, with ending delimiter"
 msgid "Path, without ending delimiter"
-msgstr "Διαδρομή, με τελικό οριοθέτη"
+msgstr "Διαδρομή, χωρίς τελικό οριοθέτη"
 
 #: ulng.rsvarpercentchangetopound
 msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
@@ -12314,4 +12310,3 @@ msgstr "Αριθμός αντικατάστασης: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Δεν πραγματοποιήθηκε καμία αντικατάσταση."
-
