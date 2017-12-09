@@ -347,9 +347,26 @@ end;
 
 function GetKeyShiftStateEx: TShiftState;
 
+{$IF DEFINED(LCLGTK2) and DEFINED(X11)}
+  function GetKeyState(nVirtKey: Integer): Smallint;
+  var
+    Mask, State: TGdkModifierType;
+  begin
+    Result := LCLIntf.GetKeyState(nVirtKey);
+    case nVirtKey of
+      VK_SHIFT, VK_LSHIFT, VK_RSHIFT       : Mask := GDK_SHIFT_MASK;
+      VK_CONTROL, VK_LCONTROL, VK_RCONTROL : Mask := GDK_CONTROL_MASK;
+      else                                   Exit;
+    end;
+    State := -1;
+    gdk_window_get_pointer(nil, nil, nil, @State);
+    if (State <> -1) and (State and Mask = 0) then Result := 0;
+  end;
+{$ENDIF}
+
   function IsKeyDown(Key: Integer): Boolean;
   begin
-    Result := (GetKeyState(Key) and $8000)<>0;
+    Result := (GetKeyState(Key) and $8000) <> 0;
   end;
 
   procedure GetMouseButtonState;
@@ -423,7 +440,7 @@ begin
   if IsKeyDown(VK_LWIN) or IsKeyDown(VK_RWIN) then
     Include(Result, ssMeta);
 
-  if (GetKeyState(VK_CAPITAL) and $1)<>0 then  // Caps-lock toggled
+  if (GetKeyState(VK_CAPITAL) and $1) <> 0 then  // Caps-lock toggled
     Include(Result, ssCaps);
 end;
 
