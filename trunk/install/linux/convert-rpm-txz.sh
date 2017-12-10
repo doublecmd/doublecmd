@@ -56,11 +56,13 @@ fi
 rm -f doublecmd/doc
 rm -f doublecmd/language
 rm -f doublecmd/pixmaps
+rm -f doublecmd/highlighters
 
 # Move directories and files
 mv usr/share/doublecmd/doc                       $DC_ROOT_DIR/
 mv usr/share/doublecmd/language                  $DC_ROOT_DIR/
 mv usr/share/doublecmd/pixmaps                   $DC_ROOT_DIR/
+mv usr/share/doublecmd/highlighters              $DC_ROOT_DIR/
 mv usr/share/pixmaps/doublecmd.png               $DC_ROOT_DIR/
 
 # Copy libraries
