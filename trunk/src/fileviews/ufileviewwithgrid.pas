@@ -19,7 +19,7 @@ type
   protected
     FFileView: TFileViewWithGrid;
   protected
-    {$IF lcl_fullversion < 1090000}
+    {$IF lcl_fullversion < 1080003}
     function SelectCell(aCol, aRow: Integer): Boolean; override;
     {$ENDIF}
     procedure RowHeightsChanged; override;
@@ -186,7 +186,7 @@ begin
   inherited KeyDown(Key, Shift);
 end;
 
-{$IF lcl_fullversion < 1090000}
+{$IF lcl_fullversion < 1080003}
 // Workaround for Lazarus issue 31942.
 function TFileViewGrid.SelectCell(aCol, aRow: Integer): Boolean;
 begin

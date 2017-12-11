@@ -40,7 +40,7 @@ type
     procedure SetGridVertLine(const AValue: Boolean);
 
   protected
-    {$IF lcl_fullversion < 1090000}
+    {$IF lcl_fullversion < 1080003}
     function SelectCell(aCol, aRow: Integer): Boolean; override;
     {$ENDIF}
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -1986,7 +1986,7 @@ begin
     Options := Options - [goVertLine];
 end;
 
-{$IF lcl_fullversion < 1090000}
+{$IF lcl_fullversion < 1080003}
 // Workaround for Lazarus issue 31942.
 function TDrawGridEx.SelectCell(aCol, aRow: Integer): Boolean;
 begin
