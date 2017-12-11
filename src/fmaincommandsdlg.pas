@@ -279,7 +279,9 @@ var
   LastSelectedText: string;
 begin
   lblSelectedCommand.Caption := '';
+  lblSelectedCommandHotkey.Caption := '';
   lblSelectedCommandHint.Caption := '';
+  lblSelectedCommandCategory.Caption := '';
   imgCommandIcon.Picture.Bitmap.Clear;
   if lbCommands.ItemIndex <> -1 then
     LastSelectedText := lbCommands.Items.Strings[lbCommands.ItemIndex]
