@@ -9,12 +9,19 @@ unit uGtk2FixCursorPos;
 
 interface
 
+uses
+  LCLVersion;
+
 implementation
 
 uses
   Classes, SysUtils, Gtk2WSStdCtrls, Gtk2, Gtk2Def, Gtk2WSSpin, Gtk2Proc,
   WSLCLClasses, StdCtrls, Glib2, Gtk2Globals, Spin, LMessages, LazUTF8, Gdk2,
-  Controls;
+  Controls, ExtCtrls
+{$if lcl_fullversion < 1090000}
+  , Gtk2WSExtCtrls, Graphics
+{$endif}
+  ;
 
 type
 
@@ -31,6 +38,17 @@ type
   protected
     class procedure SetCallbacks(const AGtkWidget: PGtkWidget; const AWidgetInfo: PWidgetInfo); override;
   end;
+
+{$if lcl_fullversion < 1090000}
+
+  { TGtk2WSCustomPanelEx }
+
+  TGtk2WSCustomPanelEx = class(TGtk2WSCustomPanel)
+  published
+    class function GetDefaultColor(const AControl: TControl; const ADefaultColorType: TDefaultColorType): TColor; override;
+  end;
+
+{$endif}
 
 procedure gtkcuttoclip_ex(widget: PGtkWidget; {%H-}data: gPointer); cdecl;
 var
@@ -159,6 +177,23 @@ begin
   end;
 end;
 
+{$if lcl_fullversion < 1090000}
+
+{ TGtk2WSCustomPanelEx }
+
+class function TGtk2WSCustomPanelEx.GetDefaultColor(const AControl: TControl;
+  const ADefaultColorType: TDefaultColorType): TColor;
+const
+  DefColors: array[TDefaultColorType] of TColor = (
+ { dctBrush } clBackground,
+ { dctFont } clBtnText
+  );
+begin
+  Result := DefColors[ADefaultColorType];
+end;
+
+{$endif}
+
 { TGtk2WSCustomEditEx }
 
 class procedure TGtk2WSCustomEditEx.SetCallbacks(const AGtkWidget: PGtkWidget;
@@ -210,6 +245,11 @@ begin
   // Replace TCustomFloatSpinEdit widgetset class
   with TCustomFloatSpinEdit.Create(nil) do Free;
   RegisterWSComponent(TCustomFloatSpinEdit, TGtk2WSCustomFloatSpinEditEx);
+{$if lcl_fullversion < 1090000}
+  // Replace TCustomPanel widgetset class
+  with TCustomPanel.Create(nil) do Free;
+  RegisterWSComponent(TCustomPanel, TGtk2WSCustomPanelEx);
+{$endif}
 end;
 
 initialization
