@@ -49,6 +49,7 @@ object dmHighl: TdmHighl
     KeyAttri.FrameEdges = sfeAround
     NumberAttri.Foreground = clNavy
     NumberAttri.FrameEdges = sfeAround
+    SpaceAttri.Foreground = clNone
     SpaceAttri.FrameEdges = sfeAround
     StringAttri.Foreground = clBlue
     StringAttri.FrameEdges = sfeAround
@@ -70,6 +71,7 @@ object dmHighl: TdmHighl
     KeyAttri.FrameEdges = sfeAround
     NumberAttri.Foreground = clNavy
     NumberAttri.FrameEdges = sfeAround
+    SpaceAttri.Foreground = clNone
     SpaceAttri.FrameEdges = sfeAround
     StringAttri.Foreground = clBlue
     StringAttri.FrameEdges = sfeAround
@@ -218,6 +220,7 @@ object dmHighl: TdmHighl
     NumberAttri.FrameEdges = sfeAround
     OperatorAttri.FrameEdges = sfeAround
     PragmaAttri.FrameEdges = sfeAround
+    SpaceAttri.Foreground = clNone
     SpaceAttri.FrameEdges = sfeAround
     StringAttri.Foreground = clNavy
     StringAttri.FrameEdges = sfeAround
