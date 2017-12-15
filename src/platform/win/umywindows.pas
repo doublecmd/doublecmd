@@ -121,6 +121,10 @@ function mbGetFileChangeTime(const FileName: String; out ChangeTime: TFileTime):
 }
 function IsUserAdmin: LongBool;
 {en
+   This routine returns @true if the caller's process is running in the remote desktop session
+}
+function RemoteSession: Boolean;
+{en
    Extract file attributes from find data record.
    Removes reparse point attribute if a reparse point tag is not a name surrogate.
    @param(FindData Find data record from FindFirstFile/FindNextFile function.)
@@ -607,6 +611,44 @@ begin
         TokenElevationTypeDefault: Result:= False; // The token does not have a linked token. (UAC disabled)
         TokenElevationTypeFull:    Result:= True;  // The token is an elevated token. (Administrator)
         TokenElevationTypeLimited: Result:= False; // The token is a limited token. (User)
+      end;
+    end;
+  end;
+end;
+
+function RemoteSession: Boolean;
+const
+  GLASS_SESSION_ID = 'GlassSessionId';
+  TERMINAL_SERVER_KEY = 'SYSTEM\CurrentControlSet\Control\Terminal Server\';
+var
+  dwType: DWORD;
+  lResult: LONG;
+  AKey: HKEY = 0;
+  dwGlassSessionId, cbGlassSessionId, dwCurrentSessionId: DWORD;
+  ProcessIdToSessionId: function(dwProcessId: DWORD; pSessionId: PDWORD): BOOL; stdcall;
+begin
+  if (GetSystemMetrics(SM_REMOTESESSION) <> 0) then
+  begin
+    Result:= True;
+  end
+  else if (Win32MajorVersion > 5) then
+  begin
+    Pointer(ProcessIdToSessionId):= GetProcAddress(GetModuleHandle(Kernel32), 'ProcessIdToSessionId');
+    if Assigned(ProcessIdToSessionId) then
+    begin
+      lResult:= RegOpenKeyEx(HKEY_LOCAL_MACHINE, TERMINAL_SERVER_KEY, 0, KEY_READ, AKey);
+      if (lResult = ERROR_SUCCESS) then
+      begin
+        cbGlassSessionId:= SizeOf(dwGlassSessionId);
+        lResult:= RegQueryValueEx(AKey, GLASS_SESSION_ID, nil, @dwType, @dwGlassSessionId, @cbGlassSessionId);
+        if (lResult = ERROR_SUCCESS) then
+        begin
+          if (ProcessIdToSessionId(GetCurrentProcessId(), @dwCurrentSessionId)) then
+          begin
+            Result:= (dwCurrentSessionId <> dwGlassSessionId);
+          end;
+        end;
+        RegCloseKey(AKey);
       end;
     end;
   end;

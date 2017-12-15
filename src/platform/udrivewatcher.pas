@@ -551,6 +551,7 @@ begin
     end;
   end;
   // Enumerate Terminal Services Disks
+  if RemoteSession then
   try
     ZeroMemory(@nFile, SizeOf(TNetResourceW));
     nFile.dwScope := RESOURCE_GLOBALNET;
