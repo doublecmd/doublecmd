@@ -145,7 +145,7 @@ begin
     for I := 0 to Files.Count - 1 do
     begin
       if Files[I].Name = EmptyStr then
-        S := EmptyStr
+        S := EmptyWideStr
       else
         S := UTF8Decode(Files[I].Path);
 
@@ -715,10 +715,13 @@ begin
 
         if not bHandled then
         begin
-          if FBackground then
-            sVolumeLabel := FFiles[0].FullPath
-          else begin
-            sVolumeLabel := ExcludeTrailingBackslash(FFiles[0].Path);
+          if Assigned(FFiles) then
+          begin
+            if FBackground then
+              sVolumeLabel := FFiles[0].FullPath
+            else begin
+              sVolumeLabel := ExcludeTrailingBackslash(FFiles[0].Path);
+            end;
           end;
           ZeroMemory(@cmici, SizeOf(cmici));
           with cmici do
@@ -730,8 +733,11 @@ begin
             lpVerb  := PAnsiChar(PtrUInt(cmd - 1));
             {$POP}
             nShow := SW_NORMAL;
-            lpDirectory := PAnsiChar(CeUtf8ToSys(sVolumeLabel));
-            lpDirectoryW := PWideChar(UTF8ToUTF16(sVolumeLabel));
+            if Assigned(FFiles) then
+            begin
+              lpDirectory := PAnsiChar(CeUtf8ToSys(sVolumeLabel));
+              lpDirectoryW := PWideChar(UTF8ToUTF16(sVolumeLabel));
+            end;
           end;
 
           Result := FShellMenu1.InvokeCommand(lpici);
