@@ -12,7 +12,7 @@ interface
 
  DESCRIPTION     :  General hash unit: defines Algo IDs, digest types, etc
 
- REQUIREMENTS    :  TP5-7, D1-D7/D9-D10/D12/D17-D18, FPC, VP
+ REQUIREMENTS    :  TP5-7, D1-D7/D9-D10/D12/D17-D18/D25S, FPC, VP
 
  EXTERNAL DATA   :  ---
 
@@ -57,6 +57,11 @@ interface
  0.33     08.08.18  we          THMacBuffer, assert HASHCTXSIZE
  0.34     16.08.15  we          Removed $ifdef DLL / stdcall
 
+ 0.35     15.05.17  we          Changes for Blake2s
+ 0.36     16.05.17  we          MaxOIDLen = 11 and MaxC_HashVers = $00020002
+
+ 0.37     03.11.17  we          TBlake2B_384/512Digest
+
 **************************************************************************)
 
 (*-------------------------------------------------------------------------
@@ -90,7 +95,9 @@ type
   THashAlgorithm = (_MD4, _MD5, _RIPEMD160, _SHA1,
                     _SHA224, _SHA256, _SHA384, _SHA512,
                     _Whirlpool, _SHA512_224, _SHA512_256,
-                    _SHA3_224, _SHA3_256, _SHA3_384, _SHA3_512); {Supported hash algorithms}
+                    _SHA3_224, _SHA3_256, _SHA3_384, _SHA3_512,
+                    _Blake2S_224, _Blake2S_256,
+                    _Blake2B_384, _Blake2B_512); {Supported hash algorithms}
 
 const
   _RMD160  = _RIPEMD160;      {Alias}
@@ -99,11 +106,11 @@ const
   MaxBlockLen  = 128;         {Max. block length (buffer size), multiple of 4}
   MaxDigestLen = 64;          {Max. length of hash digest}
   MaxStateLen  = 16;          {Max. size of internal state}
-  MaxOIDLen    = 9;           {Current max. OID length}
+  MaxOIDLen    = 11;          {Current max. OID length}
   C_HashSig    = $3D7A;       {Signature for Hash descriptor}
-  C_HashVers   = $00020001;   {Version of Hash definitions}
+  C_HashVers   = $00020002;   {Version of Hash definitions}
   C_MinHash    = _MD4;        {Lowest  hash in THashAlgorithm}
-  C_MaxHash    = _SHA3_512;   {Highest hash in THashAlgorithm}
+  C_MaxHash    = _Blake2B_512;{Highest hash in THashAlgorithm}
 
 type
   THashState   = packed array[0..MaxStateLen-1] of longint;         {Internal state}
@@ -143,6 +150,11 @@ type
   TSHA3_256Digest  = packed array[0..31] of byte;  {SHA3_256 digest  }
   TSHA3_384Digest  = packed array[0..47] of byte;  {SHA3_384 digest  }
   TSHA3_512Digest  = packed array[0..63] of byte;  {SHA3_512 digest  }
+  TBlake2S_224Digest = packed array[0..27] of byte;  {Blake2S digest }
+  TBlake2S_256Digest = packed array[0..31] of byte;  {Blake2S digest }
+  TBlake2B_384Digest = packed array[0..47] of byte;  {Blake2B-384 digest}
+  TBlake2B_512Digest = packed array[0..63] of byte;  {Blake2B-512 digest}
+
 
 type
   HashInitProc     = procedure(var Context: THashContext);

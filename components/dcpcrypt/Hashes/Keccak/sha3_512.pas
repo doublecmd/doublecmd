@@ -9,7 +9,7 @@ interface
 
  DESCRIPTION     :  SHA3-512 - 512 bit Secure Hash Function
 
- REQUIREMENTS    :  TP5-7, D1-D7/D9-D10/D12/D17-D18, FPC, VP
+ REQUIREMENTS    :  TP5-7, D1-D7/D9-D10/D12/D17-D18/D25S, FPC, VP
 
  EXTERNAL DATA   :  ---
 
@@ -29,11 +29,12 @@ interface
  -------  --------  -------     ------------------------------------------
  0.10     10.08.15  W.Ehrhardt  Initial BP version using SHA3-256 layout
  0.11     17.08.15  we          Updated references
+ 0.12     15.05.17  we          adjust OID to new MaxOIDLen
 
 **************************************************************************)
 
 (*-------------------------------------------------------------------------
- (C) Copyright 2015 Wolfgang Ehrhardt
+ (C) Copyright 2015-2017 Wolfgang Ehrhardt
 
  This software is provided 'as-is', without any express or implied warranty.
  In no event will the authors be held liable for any damages arising from
@@ -110,7 +111,7 @@ const
 {joint-iso-itu-t(2) country(16) us(840) organization(1) gov(101) csor(3) nistAlgorithm(4) hashAlgs(2) SHA3-512(10)}
 
 const
-  SHA3_512_OID : TOID_Vec = (2,16,840,1,101,3,4,2,10); {Len=9}
+  SHA3_512_OID : TOID_Vec = (2,16,840,1,101,3,4,2,10,-1,-1); {Len=9}
                             {??? NIST claims it has reserved SHA3-512(10), but e.g.}
                             {http://www.oid-info.com/ does not know it 2015-08-10. }
 

@@ -9,7 +9,7 @@ interface
 
  DESCRIPTION     :  SHA1 - 160 bit Secure Hash Function
 
- REQUIREMENTS    :  TP5-7, D1-D7/D9-D10/D12/D17-D18, FPC, VP
+ REQUIREMENTS    :  TP5-7, D1-D7/D9-D10/D12/D17-D18/D25S, FPC, VP
 
  EXTERNAL DATA   :  ---
 
@@ -75,11 +75,12 @@ interface
  3.23     11.03.12  we          Updated references
  3.24     26.12.12  we          D17 and PurePascal
  3.25     16.08.15  we          Removed $ifdef DLL / stdcall
+ 3.26     15.05.17  we          adjust OID to new MaxOIDLen
 **************************************************************************)
 
 
 (*-------------------------------------------------------------------------
- (C) Copyright 2002-2015 Wolfgang Ehrhardt
+ (C) Copyright 2002-2017 Wolfgang Ehrhardt
 
  This software is provided 'as-is', without any express or implied warranty.
  In no event will the authors be held liable for any damages arising from
@@ -174,7 +175,7 @@ type
 {1.3.14.3.2.26}
 {iso(1) identified-organization(3) oiw(14) secsig(3) algorithms(2) hashAlgorithmIdentifier(26)}
 const
-  SHA1_OID : TOID_Vec = (1,3,14,3,2,26,-1,-1,-1); {Len=6}
+  SHA1_OID : TOID_Vec = (1,3,14,3,2,26,-1,-1,-1,-1,-1); {Len=6}
 
 {$ifndef VER5X}
 const

@@ -29,7 +29,7 @@ unit DCPblake2;
 interface
 
 uses
-  Classes, SysUtils, CTypes, DCPcrypt2, DCPconst, DCblake2;
+  Classes, SysUtils, CTypes, DCPcrypt2, DCPconst, DCblake2, Hash, blake2b;
 
 type
 
@@ -54,6 +54,22 @@ type
   TDCP_blake2sp = class(TDCP_hash)
   protected
     S: blake2sp_state;
+  public
+    class function GetId: integer; override;
+    class function GetAlgorithm: string; override;
+    class function GetHashSize: integer; override;
+    class function SelfTest: boolean; override;
+    procedure Init; override;
+    procedure Burn; override;
+    procedure Update(const Buffer; Size: longword); override;
+    procedure Final(var Digest); override;
+  end;
+
+  { TDCP_blake2b }
+
+  TDCP_blake2b = class(TDCP_hash)
+  protected
+    S: THashContext;
   public
     class function GetId: integer; override;
     class function GetAlgorithm: string; override;
@@ -213,6 +229,56 @@ begin
     raise EDCP_hash.Create('Hash not initialized');
   if blake2sp_final(@S, Hash, SizeOf(Hash)) < 0 then
     raise EDCP_hash.Create('blake2sp_final');
+  Move(Hash, Digest, Sizeof(Hash));
+  Burn;
+end;
+
+{ TDCP_blake2b }
+
+class function TDCP_blake2b.GetId: integer;
+begin
+  Result:= DCP_blake2b;
+end;
+
+class function TDCP_blake2b.GetAlgorithm: string;
+begin
+  Result:= 'BLAKE2B';
+end;
+
+class function TDCP_blake2b.GetHashSize: integer;
+begin
+  Result:= 512;
+end;
+
+class function TDCP_blake2b.SelfTest: boolean;
+begin
+  Result:= blake2b_selftest;
+end;
+
+procedure TDCP_blake2b.Init;
+begin
+  if blake2b_init(S, nil, 0, SizeOf(TBlake2B_512Digest)) <> 0 then
+    raise EDCP_hash.Create('blake2b_init');
+  fInitialized:= true;
+end;
+
+procedure TDCP_blake2b.Burn;
+begin
+  fInitialized:= false;
+end;
+
+procedure TDCP_blake2b.Update(const Buffer; Size: longword);
+begin
+  blake2b_update(S, @Buffer, Size);
+end;
+
+procedure TDCP_blake2b.Final(var Digest);
+var
+  Hash: TBlake2BDigest;
+begin
+  if not fInitialized then
+    raise EDCP_hash.Create('Hash not initialized');
+  blake2b_final(S, Hash);
   Move(Hash, Digest, Sizeof(Hash));
   Burn;
 end;
