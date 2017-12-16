@@ -353,6 +353,7 @@ type
    procedure cm_ConfigHotKeys(const {%H-}Params: array of string);
    procedure cm_ExecuteScript(const {%H-}Params: array of string);
    procedure cm_FocusSwap(const {%H-}Params: array of string);
+   procedure cm_Benchmark(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -379,7 +380,7 @@ uses uFindFiles, Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
      fOptionsToolbar, fMainCommandsDlg, uConnectionManager, fOptionsTabs, fOptionsFavoriteTabs,
      fTreeViewMenu, fOptionsTreeViewMenu, fOptionsTreeViewMenuColor, uArchiveFileSource,
-     fOptionsFileSearch, fOptionsHotKeys
+     fOptionsFileSearch, fOptionsHotKeys, fBenchmark
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ELSE}
@@ -4909,6 +4910,11 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TMainCommands.cm_Benchmark(const Params: array of string);
+begin
+  OperationsManager.AddOperation(TBenchmarkOperation.Create(frmMain));
 end;
 
 { TMainCommands.cm_AddNewSearch }

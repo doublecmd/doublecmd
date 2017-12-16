@@ -1,0 +1,74 @@
+object frmBenchmark: TfrmBenchmark
+  Left = 705
+  Height = 560
+  Top = 188
+  Width = 480
+  Caption = 'Benchmark'
+  ClientHeight = 560
+  ClientWidth = 480
+  OnClose = FormClose
+  Position = poOwnerFormCenter
+  ShowInTaskBar = stAlways
+  LCLVersion = '1.8.1.0'
+  object stgResult: TStringGrid
+    Left = 0
+    Height = 479
+    Top = 35
+    Width = 480
+    Align = alClient
+    AutoEdit = False
+    AutoFillColumns = True
+    ColCount = 3
+    Columns = <    
+      item
+        Title.Caption = 'Hash'
+        Width = 159
+      end    
+      item
+        Title.Caption = 'Time (ms)'
+        Width = 159
+      end    
+      item
+        Title.Caption = 'Speed (MB/s)'
+        Width = 161
+      end>
+    FixedCols = 0
+    Flat = True
+    TabOrder = 0
+    ColWidths = (
+      159
+      159
+      161
+    )
+  end
+  object ButtonPanel: TButtonPanel
+    Left = 6
+    Height = 34
+    Top = 520
+    Width = 468
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 1
+    ShowButtons = [pbClose]
+  end
+  object lblBenchmarkSize: TLabel
+    Left = 10
+    Height = 15
+    Top = 10
+    Width = 460
+    Align = alTop
+    Alignment = taCenter
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 10
+    BorderSpacing.Bottom = 10
+    Caption = 'Benchmark data size: %d MB'
+    ParentColor = False
+  end
+end
