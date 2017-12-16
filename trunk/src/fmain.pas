@@ -479,6 +479,7 @@ type
     actRunTerm: TAction;
     miLine9: TMenuItem;
     miRunTerm: TMenuItem;
+    actBenchmark: TAction;
     actCalculateSpace: TAction;
     actFileProperties:  TAction;
     actFileLinker: TAction;
