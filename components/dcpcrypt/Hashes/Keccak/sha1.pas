@@ -107,7 +107,7 @@ credits Rich Schroeppel (rcs@cs.arizona.edu), V 5.1 does not!?}
 
 {$i STD.INC}
 
-{$ifdef BIT64}
+{$ifndef CPUI386}
   {$ifndef PurePascal}
     {$define PurePascal}
   {$endif}
