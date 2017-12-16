@@ -52,6 +52,9 @@ resourcestring
   rsMsgDelToTrashForce = 'Can not delete "%s" to trash! Delete directly?';
   rsMsgFileNotFound = 'File "%s" not found.';
   // ---
+  rsMsgVerify = 'VERIFICATION:';
+  rsMsgVerifyWrong = 'The target file is corrupted, checksum mismatch!';
+  // ---
   rsMsgWipeFlDr = 'Wipe %d selected files/directories?';
   rsMsgWipeSel = 'Wipe selected "%s"?';
   rsMsgCpFlDr = 'Copy %d selected files/directories?';
