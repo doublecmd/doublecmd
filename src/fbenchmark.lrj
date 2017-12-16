@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":77557835,"name":"tfrmbenchmark.caption","sourcebytes":[66,101,110,99,104,109,97,114,107],"value":"Benchmark"},
+{"hash":321688,"name":"tfrmbenchmark.stgresult.columns[0].title.caption","sourcebytes":[72,97,115,104],"value":"Hash"},
+{"hash":57855833,"name":"tfrmbenchmark.stgresult.columns[1].title.caption","sourcebytes":[84,105,109,101,32,40,109,115,41],"value":"Time (ms)"},
+{"hash":125308217,"name":"tfrmbenchmark.stgresult.columns[2].title.caption","sourcebytes":[83,112,101,101,100,32,40,77,66,47,115,41],"value":"Speed (MB/s)"},
+{"hash":197921842,"name":"tfrmbenchmark.lblbenchmarksize.caption","sourcebytes":[66,101,110,99,104,109,97,114,107,32,100,97,116,97,32,115,105,122,101,58,32,37,100,32,77,66],"value":"Benchmark data size: %d MB"}
+]}
