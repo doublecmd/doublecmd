@@ -1538,7 +1538,7 @@ var
   TotalBytesToRead: Int64 = 0;
   BytesRead, BytesToRead: Int64;
 begin
-  Handle := feInvalidHandle;
+  Result := False;
   FStatistics.CurrentFileDoneBytes:= 0;
   // Flag fmOpenDirect requires: file access sizes must be for a number of bytes
   // that is an integer multiple of the volume block size, file access buffer
@@ -1552,9 +1552,18 @@ begin
   try
     Handle:= mbFileOpen(FileName, fmOpenRead or fmShareDenyWrite or fmOpenSync or fmOpenDirect);
 
-    Result:= Handle <> feInvalidHandle;
-    if Result then
+    if Handle = feInvalidHandle then
     begin
+      case AskQuestion(rsMsgVerify, rsMsgErrEOpen + ' ' + FileName,
+                       [fsourSkip, fsourAbort],
+                       fsourAbort, fsourSkip) of
+        fsourAbort:
+          AbortOperation();
+        fsourSkip:
+          Exit(False);
+      end; // case
+    end
+    else begin
       TotalBytesToRead := Size;
 
       while TotalBytesToRead > 0 do
@@ -1574,14 +1583,7 @@ begin
           except
             on E: EReadError do
               begin
-                if gSkipFileOpError then
-                begin
-                  LogMessage(rsMsgErrERead + ' ' + FileName + ': ' + E.Message,
-                             [], lmtError);
-                  Exit(False);
-                end
-                else
-                case AskQuestion(rsMsgErrERead + ' ' + FileName + ': ',
+                case AskQuestion(rsMsgVerify + ' ' + rsMsgErrERead + ' ' + FileName + LineEnding,
                                  E.Message,
                                  [fsourRetry, fsourSkip, fsourAbort],
                                  fsourRetry, fsourSkip) of
@@ -1605,16 +1607,29 @@ begin
         end;
 
         CheckOperationState; // check pause and stop
-      end;//while
-    end;
+      end; // while
 
+      Result := True;
+    end;
   finally
     FreeMem(Buffer);
     HashFinal(Context, FileHash);
-    Result:= SameText(Hash, FileHash);
     if Handle <> feInvalidHandle then
     begin
       FileClose(Handle);
+    end;
+    if Result then
+    begin
+      Result:= SameText(Hash, FileHash);
+      if not Result then
+      begin
+        case AskQuestion(rsMsgVerify, rsMsgVerifyWrong + LineEnding + FileName,
+                         [fsourSkip, fsourAbort],
+                         fsourAbort, fsourSkip) of
+          fsourAbort:
+            AbortOperation();
+        end; // case
+      end;
     end;
   end;
 end;
