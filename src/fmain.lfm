@@ -1670,6 +1670,12 @@ object frmMain: TfrmMain
       HelpType = htKeyword
       OnExecute = actExecute
     end
+    object actBenchmark: TAction
+      Tag = 7
+      Category = 'Miscellaneous'
+      Caption = '&Benchmark'
+      OnExecute = actExecute
+    end
     object actNewTab: TAction
       Tag = 21
       Category = 'Tabs'
