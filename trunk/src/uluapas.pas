@@ -391,6 +391,12 @@ begin
   lua_setfield(L, -2, n);
 end;
 
+procedure luaC_register(L : Plua_State; n : PChar; c : PChar);
+begin
+  lua_pushstring(L, c);
+  lua_setfield(L, -2, n);
+end;
+
 procedure luaP_copyfenv(L: Plua_State; Idx: Integer; N: PAnsiChar);
 begin
   lua_getfield(L, -2, N);
@@ -433,6 +439,7 @@ begin
     luaP_register(L, 'FileExists', @luaFileExists);
     luaP_register(L, 'FileGetAttr', @luaFileGetAttr);
     luaP_register(L, 'DirectoryExists', @luaDirectoryExists);
+    luaC_register(L, 'PathDelim', PathDelim);
   lua_setglobal(L, 'SysUtils');
 
   lua_newtable(L);
