@@ -343,19 +343,22 @@ end;
 
 procedure TfrmFileProperties.ShowFile(iIndex:Integer);
 var
-  sb: BaseUnix.Stat;
+  Idx: PtrInt;
   iMyUID: Cardinal;
+  hasSize: Boolean;
+  ABitmap: TBitmap;
+  sb: BaseUnix.Stat;
   Attrs: TFileAttrs;
   isFileSystem: Boolean;
-  hasSize: Boolean;
-  Polik: PtrInt;
 begin
   StopCalcFolderSize; // Stop previous calculate folder size operation
   isFileSystem := FFileSource.IsClass(TFileSystemFileSource);
 
-  Polik := PixMapManager.GetIconByFile(FFiles[iIndex], isFileSystem, True, sim_all_and_exe, True);
-  if Polik < 0 then Polik:= PixMapManager.GetDefaultIcon(FFiles[iIndex]);
-  imgFileIcon.Picture.Bitmap := PixMapManager.GetBitmap(Polik);
+  Idx := PixMapManager.GetIconByFile(FFiles[iIndex], isFileSystem, True, sim_all_and_exe, True);
+  if Idx < 0 then Idx:= PixMapManager.GetDefaultIcon(FFiles[iIndex]);
+  ABitmap:= PixMapManager.GetBitmap(Idx);
+  imgFileIcon.Picture.Bitmap := ABitmap;
+  ABitmap.Free;
 
   with FFiles[iIndex] do
   begin
