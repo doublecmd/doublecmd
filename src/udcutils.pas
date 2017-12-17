@@ -988,12 +988,6 @@ begin
 
       if (is_digit1 and is_digit2) then break;
 
-      if (is_digit1 and not is_digit2) then
-        exit(-1);
-
-      if (is_digit2 and not is_digit1) then
-        exit(+1);
-
       string_result:= str_cmp(str1^, str2^);
 
       if (string_result <> 0) then exit(string_result);
