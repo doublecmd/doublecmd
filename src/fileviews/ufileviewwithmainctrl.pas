@@ -113,6 +113,7 @@ type
     // but was released in another window or another application.
     procedure ClearAfterDragDrop; virtual;
     procedure CreateDefault(AOwner: TWinControl); override;
+    procedure DisplayFileListChanged; override;
     {en
        Changes drawing colors depending on if this panel is active.
     }
@@ -291,6 +292,13 @@ begin
   if Assigned(HotMan) then
     HotMan.UnRegister(MainControl);
   inherited Destroy;
+end;
+
+procedure TFileViewWithMainCtrl.DisplayFileListChanged;
+begin
+  inherited DisplayFileListChanged;
+  if edtRename.Visible then
+    UpdateRenameFileEditPosition;
 end;
 
 procedure TFileViewWithMainCtrl.DoActiveChanged;
