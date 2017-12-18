@@ -441,7 +441,7 @@ begin
   dmComData.SaveDialog.FileName:= edtFileNameRight.FileName;
   if dmComData.SaveDialog.Execute then
   begin
-    SaveToFile(SynDiffEditLeft, dmComData.SaveDialog.FileName);
+    SaveToFile(SynDiffEditRight, dmComData.SaveDialog.FileName);
     edtFileNameRight.FileName:= dmComData.SaveDialog.FileName;
   end;
 end;
