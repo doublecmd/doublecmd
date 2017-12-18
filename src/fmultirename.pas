@@ -1025,7 +1025,9 @@ begin
         K:= 1;
         while J >= 0 do
         begin
-          NewName:= FFiles[I].Path + AFile.NameNoExt + ' (' + IntToStr(K) + ')' + ExtensionSeparator + AFile.Extension;
+          NewName:= FFiles[I].Path + AFile.NameNoExt + ' (' + IntToStr(K) + ')';
+          if AFile.Extension <> '' then
+            NewName:= NewName + ExtensionSeparator + AFile.Extension;
           J:= FNewNames.Find(NewName);
           Inc(K);
         end;
