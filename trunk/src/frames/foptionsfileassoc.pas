@@ -331,6 +331,10 @@ begin
     edtParams.Enabled := False;
     deStartPath.Enabled := False;
     btnCommands.Enabled := False;
+    btnRelativeCommand.Enabled := False;
+    btnParametersHelper.Enabled := False;
+    btnStartPathPathHelper.Enabled := False;
+    btnStartPathVarHelper.Enabled := False;
     edbActionName.Text := '';
     fneCommand.FileName := '';
     edtParams.Text := '';
@@ -343,6 +347,10 @@ begin
     btnRemoveAct.Enabled := True;
     edbActionName.Enabled := True;
     fneCommand.Enabled := True;
+    btnRelativeCommand.Enabled := True;
+    btnParametersHelper.Enabled := True;
+    btnStartPathPathHelper.Enabled := True;
+    btnStartPathVarHelper.Enabled := True;
     edtParams.Enabled := True;
     deStartPath.Enabled := True;
     btnCommands.Enabled := True;
