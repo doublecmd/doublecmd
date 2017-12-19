@@ -25,7 +25,7 @@ type
     CancelSearchMode: TQuickSearchCancelMode;
   end;
 
-  TOnChangeSearch = procedure(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions) of Object;
+  TOnChangeSearch = procedure(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions; InvertSelection: Boolean = False) of Object;
   TOnChangeFilter = procedure(Sender: TObject; AFilterText: String; const AFilterOptions: TQuickSearchOptions) of Object;
   TOnExecute = procedure(Sender: TObject) of Object;
   TOnHide = procedure(Sender: TObject) of Object;
@@ -552,7 +552,7 @@ begin
       if Assigned(Self.OnChangeSearch) then
       begin
         Options.Direction:=qsdNext;
-        Self.OnChangeSearch(Self, edtSearch.Text, Options);
+        Self.OnChangeSearch(Self, edtSearch.Text, Options, ssShift in Shift);
       end;
     end;
 
@@ -563,7 +563,7 @@ begin
       if Assigned(Self.OnChangeSearch) then
       begin
         Options.Direction:=qsdPrevious;
-        Self.OnChangeSearch(Self, edtSearch.Text, Options);
+        Self.OnChangeSearch(Self, edtSearch.Text, Options, ssShift in Shift);
       end;
     end;
 
@@ -578,7 +578,7 @@ begin
         if Assigned(Self.OnChangeSearch) then
         begin
           Options.Direction := qsdFirst;
-          Self.OnChangeSearch(Self, edtSearch.Text, Options);
+          Self.OnChangeSearch(Self, edtSearch.Text, Options, ssShift in Shift);
         end;
       end;
     end;
@@ -594,7 +594,7 @@ begin
         if Assigned(Self.OnChangeSearch) then
         begin
           Options.Direction := qsdLast;
-          Self.OnChangeSearch(Self, edtSearch.Text, Options);
+          Self.OnChangeSearch(Self, edtSearch.Text, Options, ssShift in Shift);
         end;
       end;
     end;

@@ -45,7 +45,7 @@ type
     pmOperationsCancel: TPopupMenu;
     procedure lblFilterClick(Sender: TObject);
     procedure pmOperationsCancelClick(Sender: TObject);
-    procedure quickSearchChangeSearch(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions);
+    procedure quickSearchChangeSearch(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions; InvertSelection: Boolean = False);
     procedure quickSearchChangeFilter(Sender: TObject; AFilterText: String; const AFilterOptions: TQuickSearchOptions);
     procedure quickSearchExecute(Sender: TObject);
     procedure quickSearchHide(Sender: TObject);
@@ -84,7 +84,7 @@ type
        Search and position in a file that matches name taking into account
        passed options.
     }
-    procedure SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions);
+    procedure SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions; InvertSelection: Boolean = False);
     procedure Selection(Key: Word; CurIndex: PtrInt);
     procedure SelectRange(FileIndex: PtrInt);
     procedure SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean = True); overload; virtual; abstract;
@@ -486,13 +486,13 @@ begin
   lblFilter.Visible := Filtered;
 end;
 
-procedure TOrderedFileView.quickSearchChangeSearch(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions);
+procedure TOrderedFileView.quickSearchChangeSearch(Sender: TObject; ASearchText: String; const ASearchOptions: TQuickSearchOptions; InvertSelection: Boolean = False);
 var
   Index, MaybeFoundIndex: PtrInt;
 begin
   Index:=GetActiveFileIndex;
   Active := True;
-  SearchFile(ASearchText,';, ', ASearchOptions);
+  SearchFile(ASearchText,';, ', ASearchOptions, InvertSelection);
   MaybeFoundIndex:=GetActiveFileIndex;
 
   if (MaybeFoundIndex <= Index) AND (ASearchOptions.CancelSearchMode=qscmCancelIfNoFound) then
@@ -519,10 +519,12 @@ begin
     SetFocus;
 end;
 
-procedure TOrderedFileView.SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions);
+procedure TOrderedFileView.SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions; InvertSelection: Boolean);
 var
-  i, StartIndex, Index: PtrInt;
+  i, Index, StopIndex, ActiveIndex: PtrInt;
   s :string;
+  NewSelectedState,
+  FirstFound,
   Result: Boolean;
   sFileName,
   sSearchName,
@@ -575,7 +577,20 @@ begin
 
   Index := GetActiveFileIndex; // start search from current position
   if not IsFileIndexInRange(Index) then
+  begin
     Index := 0;
+    InvertSelection := False;
+  end;
+
+  if InvertSelection then
+  begin
+    ActiveIndex := Index;
+    FirstFound := False;
+    NewSelectedState := not FFiles[Index].Selected;
+    MarkFile(FFiles[Index], NewSelectedState, False);
+    DoSelectionChanged(Index);
+  end;
+
   case SearchOptions.Direction of
     qsdFirst:
       Index := 0;                  // begin search from first file
@@ -587,8 +602,7 @@ begin
       Index := PrevIndexWrap(Index);   // begin search from previous file
   end;
 
-
-  StartIndex := Index;
+  StopIndex := Index;
   try
 //    Mask := TMask.Create(sSearchName, SearchOptions.SearchCase = qscSensitive);
     Masks:=TMaskList.Create(SearchTerm,';,', SearchOptions.SearchCase = qscSensitive);
@@ -629,8 +643,26 @@ begin
 
         if Result then
         begin
-          SetActiveFile(Index);
-          Break;
+          if InvertSelection and (SearchOptions.Direction in [qsdFirst, qsdLast]) then
+          begin
+            if not FirstFound then
+            begin
+              FirstFound := True;
+              SetActiveFile(Index);
+              if ((SearchOptions.Direction = qsdFirst) and (Index < ActiveIndex) or
+                  (SearchOptions.Direction = qsdLast) and (Index > ActiveIndex)) then
+                StopIndex := ActiveIndex // continue to mark files until the starting index
+              else
+                break;
+            end;
+            MarkFile(FFiles[Index], NewSelectedState, False);
+            DoSelectionChanged(Index);
+          end
+          else
+          begin
+            SetActiveFile(Index);
+            Break;
+          end;
         end;
 
         // check next file depending on search direction
@@ -639,7 +671,7 @@ begin
         else
           Index := PrevIndexWrap(Index);
 
-      until Index = StartIndex;
+      until Index = StopIndex;
     finally
 //      Mask.Free;
       Masks.Free;
