@@ -443,8 +443,8 @@ begin
     Result:=StringReplace(Result,edFind.Text,edReplace.Text,[rfReplaceAll,rfIgnoreCase]);
 
   // File name style
-  sTmpName := ExtractOnlyFileName(Result);
   sTmpExt  := ExtractFileExt(Result);
+  sTmpName := Copy(Result, 1, Length(Result) - Length(sTmpExt));
 
   sTmpName := ApplyStyle(sTmpName, cmbNameStyle.ItemIndex);
   sTmpExt  := ApplyStyle(sTmpExt, cmbExtensionStyle.ItemIndex);
