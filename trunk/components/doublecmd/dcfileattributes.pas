@@ -77,6 +77,7 @@ const
   S_IRWXU =  S_IRUSR or S_IWUSR or S_IXUSR;
   S_IRWXG =  S_IRGRP or S_IWGRP or S_IXGRP;
   S_IRWXO =  S_IROTH or S_IWOTH or S_IXOTH;
+  S_IXUGO =  S_IXUSR or S_IXGRP or S_IXOTH;
 
   { POSIX setuid(), setgid(), and sticky bit }
   S_ISUID  = $0800;
@@ -176,7 +177,7 @@ begin
     Result := Result or S_IWUSR;
 
   if (Attr and faDirectory) <> 0 then
-    Result := Result or S_IFDIR
+    Result := Result or S_IFDIR or S_IXUGO
   else
     Result := Result or S_IFREG;
 end;
