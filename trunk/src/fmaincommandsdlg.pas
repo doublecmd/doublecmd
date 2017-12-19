@@ -76,6 +76,7 @@ type
     procedure AttemptToSetupForThisCommand(CommandToShow: string);
     procedure lbledtFilterEnter(Sender: TObject);
     procedure lbledtFilterExit(Sender: TObject);
+    procedure lbledtFilterKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure lblPlaceCaptionInClipClick(Sender: TObject);
     procedure lblSelectedCommandHelpClick(Sender: TObject);
     procedure lblSelectedCommandHelpMouseEnter(Sender: TObject);
@@ -87,6 +88,7 @@ type
     ListCommands: TStringList;
     OffsetForHotKey: integer;
     OffsetForHint: integer;
+    lbCommandsItemHeight: Integer;
   public
     { Public declarations }
     procedure LoadCategoryListbox(CategoryToSelectIfAny: string);
@@ -103,7 +105,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  Clipbrd, LCLType, Graphics, LazUTF8, LCLIntf,
+  Clipbrd, LCLType, Graphics, LazUTF8, LCLIntf, Math,
 
   //DC
   DCStrUtils, dmHelpManager, uLng, uPixMapManager, uGlobs, fMain, uDebug, uClipboard;
@@ -185,6 +187,7 @@ var
   FlagCategoryTitle: boolean = False;
   Bitmap: TBitmap = nil;
 begin
+  lbCommandsItemHeight := ARect.Height;
   with Control as TListbox do
   begin
     FFormCommands.ExtractCommandFields(Items.Strings[Index], sCategory, sCommand, sHint, sHotKey, FlagCategoryTitle);
@@ -456,6 +459,37 @@ end;
 procedure TfrmMainCommandsDlg.lbledtFilterExit(Sender: TObject);
 begin
   lbledtFilter.EditLabel.Font.Style := [];
+end;
+
+procedure TfrmMainCommandsDlg.lbledtFilterKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+var NewIndex: Integer;
+begin
+  case Key of
+    VK_UP:
+      NewIndex := lbCommands.ItemIndex - 1;
+    VK_DOWN:
+      NewIndex := lbCommands.ItemIndex + 1;
+    VK_PRIOR:
+      NewIndex := lbCommands.ItemIndex - (lbCommands.ClientHeight div lbCommandsItemHeight) + 1;
+    VK_NEXT:
+      NewIndex := lbCommands.ItemIndex + (lbCommands.ClientHeight div lbCommandsItemHeight) - 1;
+    VK_HOME:
+      if (ssCtrl in Shift) then
+        NewIndex := 0
+      else
+        Exit;
+    VK_END:
+      if (ssCtrl in Shift) then
+        NewIndex := lbCommands.Items.Count - 1
+      else
+        Exit;
+    else
+      Exit;
+  end;
+  Key := 0;
+  if lbCommands.Items.Count > 0 then
+    lbCommands.ItemIndex := EnsureRange(NewIndex, 0, lbCommands.Items.Count - 1);
 end;
 
 { TfrmMainCommandsDlg.lblPlaceCaptionInClipClick }
