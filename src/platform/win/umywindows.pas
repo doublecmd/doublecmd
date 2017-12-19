@@ -627,6 +627,7 @@ var
   dwGlassSessionId, cbGlassSessionId, dwCurrentSessionId: DWORD;
   ProcessIdToSessionId: function(dwProcessId: DWORD; pSessionId: PDWORD): BOOL; stdcall;
 begin
+  Result:= False;
   if (GetSystemMetrics(SM_REMOTESESSION) <> 0) then
   begin
     Result:= True;
