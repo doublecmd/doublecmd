@@ -506,31 +506,13 @@ end;
 procedure TMainCommands.OnEditCopyOutStateChanged(Operation: TFileSourceOperation;
                                                   State: TFileSourceOperationState);
 var
-  aFile: TFile;
   WaitData: TEditorWaitData;
-  aFileSource: ITempFileSystemFileSource;
-  aCopyOutOperation: TFileSourceCopyOperation;
 begin
   if (State = fsosStopped) and (Operation.Result = fsorFinished) then
   begin
-    aCopyOutOperation := Operation as TFileSourceCopyOperation;
-    aFileSource := aCopyOutOperation.TargetFileSource as ITempFileSystemFileSource;
-
     try
-      aFile := aCopyOutOperation.SourceFiles[0];
-
-      WaitData:= TEditorWaitData.Create;
-
+      WaitData := TEditorWaitData.Create(Operation as TFileSourceCopyOperation);
       try
-        WaitData.TargetPath:= aCopyOutOperation.SourceFiles.Path;
-
-        ChangeFileListRoot(aFileSource.FileSystemRoot, aCopyOutOperation.SourceFiles);
-
-        WaitData.FileName:= aFile.FullPath;
-        WaitData.SourceFileSource:= aFileSource;
-        WaitData.FileTime:= mbFileAge(WaitData.FileName);
-        WaitData.TargetFileSource:= aCopyOutOperation.FileSource as IFileSource;
-
         ShowEditorByGlob(WaitData);
       except
         WaitData.Free;
@@ -1738,9 +1720,6 @@ var
   ActiveFile: TFile = nil;
   AllFiles: TFiles = nil;
   SelectedFiles: TFiles = nil;
-  TempFiles: TFiles = nil;
-  TempFileSource: ITempFileSystemFileSource = nil;
-  Operation: TFileSourceOperation;
   aFileSource: IFileSource;
   sCmd: string = '';
   sParams: string = '';
@@ -1768,44 +1747,8 @@ begin
     // Default to using the file source directly.
     aFileSource := ActiveFrame.FileSource;
 
-    // If files are links to local files
-    if (fspLinksToLocalFiles in ActiveFrame.FileSource.Properties) then
-      begin
-        for I := 0 to SelectedFiles.Count - 1 do
-          begin
-            aFile := SelectedFiles[I];
-            ActiveFrame.FileSource.GetLocalName(aFile);
-          end;
-      end
-    // If files not directly accessible copy them to temp file source.
-    else if not (fspDirectAccess in ActiveFrame.FileSource.Properties) then
-    begin
-      if not (fsoCopyOut in ActiveFrame.FileSource.GetOperationsTypes) then
-      begin
-        msgWarning(rsMsgErrNotSupported);
-        Exit;
-      end;
-
-      TempFiles := SelectedFiles.Clone;
-
-      TempFileSource := TTempFileSystemFileSource.GetFileSource;
-
-      Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
-                       TempFileSource,
-                       TempFiles,
-                       TempFileSource.FileSystemRoot);
-
-      if Assigned(Operation) then
-      begin
-        Operation.AddStateChangedListener([fsosStopped], @OnCopyOutStateChanged);
-        OperationsManager.AddOperation(Operation);
-      end
-      else
-      begin
-        msgWarning(rsMsgErrNotSupported);
-      end;
+    if PrepareData(ActiveFrame.FileSource, SelectedFiles, @OnCopyOutStateChanged) <> pdrSynchronous then
       Exit;
-    end;
 
     try
       aFile := SelectedFiles[0];
@@ -1876,7 +1819,6 @@ begin
     FreeAndNil(sl);
     FreeAndNil(AllFiles);
     FreeAndNil(SelectedFiles);
-    FreeAndNil(TempFiles);
     FreeAndNil(ActiveFile);
   end;
 end;
@@ -2027,10 +1969,7 @@ procedure TMainCommands.cm_Edit(const Params: array of string);
 var
   i: Integer;
   aFile: TFile;
-  TempFiles: TFiles;
   SelectedFiles: TFiles = nil;
-  Operation: TFileSourceOperation;
-  TempFileSource: ITempFileSystemFileSource = nil;
   sCmd: string = '';
   sParams: string = '';
   sStartPath: string = '';
@@ -2038,44 +1977,9 @@ begin
   with frmMain do
   try
     SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
-    // If files are links to local files
-    if (fspLinksToLocalFiles in ActiveFrame.FileSource.Properties) then
-      begin
-        for I := 0 to SelectedFiles.Count - 1 do
-          begin
-            aFile := SelectedFiles[I];
-            ActiveFrame.FileSource.GetLocalName(aFile);
-          end;
-      end
-    // If files not directly accessible copy them to temp file source.
-    else if not (fspDirectAccess in ActiveFrame.FileSource.Properties) then
-    begin
-      if not (fsoCopyOut in ActiveFrame.FileSource.GetOperationsTypes) then
-      begin
-        msgWarning(rsMsgErrNotSupported);
-        Exit;
-      end;
 
-      TempFiles := SelectedFiles.Clone;
-
-      TempFileSource := TTempFileSystemFileSource.GetFileSource;
-
-      Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
-                       TempFileSource,
-                       TempFiles,
-                       TempFileSource.FileSystemRoot);
-
-      if Assigned(Operation) then
-      begin
-        Operation.AddStateChangedListener([fsosStopped], @OnEditCopyOutStateChanged);
-        OperationsManager.AddOperation(Operation);
-      end
-      else
-      begin
-        msgWarning(rsMsgErrNotSupported);
-      end;
+    if PrepareData(ActiveFrame.FileSource, SelectedFiles, @OnEditCopyOutStateChanged) <> pdrSynchronous then
       Exit;
-    end;
 
     try
       for i := 0 to SelectedFiles.Count - 1 do
@@ -2656,15 +2560,18 @@ end;
 
 procedure TMainCommands.cm_CompareContents(const Params: array of string);
 var
-  FilesToCompare: TStringList = nil;
-  DirsToCompare: TStringList = nil;
+  FilesNumber: Integer = 0;
+  DirsNumber: Integer = 0;
 
-  procedure AddItem(const aFile: TFile);
+  procedure CountFiles(const Files: TFiles);
+  var I: Integer;
   begin
-    if not aFile.IsDirectory then
-      FilesToCompare.Add(aFile.FullPath)
-    else
-      DirsToCompare.Add(aFile.FullPath);
+    if Assigned(Files) then
+      for I := 0 to Files.Count - 1 do
+        if Files[I].IsDirectory then
+          Inc(DirsNumber)
+        else
+          Inc(FilesNumber);
   end;
 
 var
@@ -2672,133 +2579,115 @@ var
   Param: String;
   ActiveSelectedFiles: TFiles = nil;
   NotActiveSelectedFiles: TFiles = nil;
+  FirstFileSource: IFileSource = nil;
+  FirstFileSourceFiles: TFiles = nil;
+  SecondFileSource: IFileSource = nil;
+  SecondFileSourceFiles: TFiles = nil;
 begin
   with frmMain do
   begin
-    // For now works only for file source with direct access.
-    // Later use temporary file system for other file sources.
+    Param := GetDefaultParam(Params);
+
+    if Param = 'dir' then
+    begin
+      if gExternalTools[etDiffer].Enabled then
+        ShowDifferByGlob(FrameLeft.CurrentPath, FrameRight.CurrentPath)
+      else
+        MsgWarning(rsMsgNotImplemented);
+      Exit;
+    end;
 
     try
-      FilesToCompare := TStringList.Create;
-      DirsToCompare := TStringList.Create;
-      Param := GetDefaultParam(Params);
+      ActiveSelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
 
-      if Param = 'dir' then
+      if ActiveSelectedFiles.Count = 1 then
       begin
-        DirsToCompare.Add(FrameLeft.CurrentPath);
-        DirsToCompare.Add(FrameRight.CurrentPath);
-      end
-      else
-      begin
-        // For now works only for file source with direct access.
-        if not (fspDirectAccess in ActiveFrame.FileSource.Properties) then
+        // If no files selected in the opposite panel and panels have
+        // different path then try to get file with the same name.
+        if (not NotActiveFrame.HasSelectedFiles) and (not mbCompareFileNames(NotActiveFrame.CurrentPath, ActiveFrame.CurrentPath)) then
         begin
-          msgWarning(rsMsgNotImplemented);
+          for I := 0 to NotActiveFrame.DisplayFiles.Count - 1 do
+            if mbCompareFileNames(NotActiveFrame.DisplayFiles[I].FSFile.Name, ActiveSelectedFiles[0].Name) then
+            begin
+              NotActiveSelectedFiles := TFiles.Create(NotActiveFrame.CurrentPath);
+              NotActiveSelectedFiles.Add(NotActiveFrame.DisplayFiles[I].FSFile.Clone);
+              Break;
+            end;
+        end;
+
+        if not Assigned(NotActiveSelectedFiles) then
+          NotActiveSelectedFiles := NotActiveFrame.CloneSelectedOrActiveFiles;
+
+        if NotActiveSelectedFiles.Count <> 1 then
+        begin
+          // Only one file selected in active panel.
+          MsgWarning(rsMsgInvalidSelection);
           Exit;
         end;
 
-        try
-          ActiveSelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
+        { compare single selected files in both panels }
 
-          if ActiveSelectedFiles.Count = 1 then
-          begin
-            // If no files selected in the opposite panel and panels have
-            // different path then try to get file with the same name.
-            if (not NotActiveFrame.HasSelectedFiles) and (not mbCompareFileNames(NotActiveFrame.CurrentPath, ActiveFrame.CurrentPath)) then
+        case gResultingFramePositionAfterCompare of
+          rfpacActiveOnLeft:
             begin
-              for I := 0 to NotActiveFrame.DisplayFiles.Count - 1 do
-                if mbCompareFileNames(NotActiveFrame.DisplayFiles[I].FSFile.Name, ActiveSelectedFiles[0].Name) then
-                begin
-                  NotActiveSelectedFiles := TFiles.Create(NotActiveFrame.CurrentPath);
-                  NotActiveSelectedFiles.Add(NotActiveFrame.DisplayFiles[I].FSFile.Clone);
-                  Break;
-                end;
+              FirstFileSource := ActiveFrame.FileSource;
+              FirstFileSourceFiles := ActiveSelectedFiles;
+              SecondFileSource := NotActiveFrame.FileSource;
+              SecondFileSourceFiles := NotActiveSelectedFiles;
             end;
-
-            if not Assigned(NotActiveSelectedFiles) then
-              NotActiveSelectedFiles := NotActiveFrame.CloneSelectedOrActiveFiles;
-
-            if NotActiveSelectedFiles.Count = 1 then
+          rfpacLeftOnLeft:
             begin
-              // For now works only for file source with direct access.
-              if not (fspDirectAccess in NotActiveFrame.FileSource.Properties) then
+              if ActiveFrame = FrameLeft then
               begin
-                msgWarning(rsMsgNotImplemented);
-                Exit;
+                FirstFileSource := ActiveFrame.FileSource;
+                FirstFileSourceFiles := ActiveSelectedFiles;
+                SecondFileSource := NotActiveFrame.FileSource;
+                SecondFileSourceFiles := NotActiveSelectedFiles;
+              end
+              else begin
+                FirstFileSource := NotActiveFrame.FileSource;
+                FirstFileSourceFiles := NotActiveSelectedFiles;
+                SecondFileSource := ActiveFrame.FileSource;
+                SecondFileSourceFiles := ActiveSelectedFiles;
               end;
-
-              { compare single selected files in both panels }
-
-              case gResultingFramePositionAfterCompare of
-                rfpacActiveOnLeft:
-                  begin;
-                    AddItem(ActiveSelectedFiles[0]);
-                    AddItem(NotActiveSelectedFiles[0]);
-                  end;
-                rfpacLeftOnLeft:
-                  begin
-                    if ActiveFrame = FrameLeft then
-                    begin
-                      AddItem(ActiveSelectedFiles[0]);
-                      AddItem(NotActiveSelectedFiles[0]);
-                    end
-                    else begin
-                      AddItem(NotActiveSelectedFiles[0]);
-                      AddItem(ActiveSelectedFiles[0]);
-                    end;
-                  end;
-               end;
-
-            end
-            else
-            begin
-              // Only one file selected in active panel.
-              MsgWarning(rsMsgInvalidSelection);
-              Exit;
             end;
-          end
-          else if ActiveSelectedFiles.Count > 1 then
-          begin
-            { compare all selected files in active frame }
-
-            for I := 0 to ActiveSelectedFiles.Count - 1 do
-              AddItem(ActiveSelectedFiles[I]);
-          end;
-
-        finally
-          FreeAndNil(ActiveSelectedFiles);
-          FreeAndNil(NotActiveSelectedFiles);
         end;
+      end
+      else if ActiveSelectedFiles.Count > 1 then
+      begin
+        { compare all selected files in active frame }
+
+        FirstFileSource := ActiveFrame.FileSource;
+        FirstFileSourceFiles := ActiveSelectedFiles;
       end;
 
-      if ((FilesToCompare.Count > 0) and (DirsToCompare.Count > 0))
-      or ((FilesToCompare.Count = 1) or (DirsToCompare.Count = 1)) then
-      begin
-         // Either files or directories must be selected and more than one.
-         MsgWarning(rsMsgInvalidSelection);
-      end
-      else if FilesToCompare.Count > 0 then
-      begin
-        if gExternalTools[etDiffer].Enabled then
-          RunExtDiffer(FilesToCompare)
-        else if FilesToCompare.Count = 2 then
-          ShowDiffer(FilesToCompare.Strings[0], FilesToCompare.Strings[1])
-        else
-          MsgWarning(rsMsgTooManyFilesSelected);
-      end
-      else if DirsToCompare.Count > 0 then
-      begin
-        if gExternalTools[etDiffer].Enabled then
-          RunExtDiffer(DirsToCompare)
-        else
-          MsgWarning(rsMsgNotImplemented);
-      end
+      CountFiles(FirstFileSourceFiles);
+      CountFiles(SecondFileSourceFiles);
+
+      if ((FilesNumber > 0) and (DirsNumber > 0))
+      or ((FilesNumber = 1) or (DirsNumber = 1)) then
+        // Either files or directories must be selected and more than one.
+        MsgWarning(rsMsgInvalidSelection)
+      else if (FilesNumber = 0) and (DirsNumber = 0) then
+        MsgWarning(rsMsgNoFilesSelected)
+      else if (FilesNumber > 2) and not gExternalTools[etDiffer].Enabled then
+        MsgWarning(rsMsgTooManyFilesSelected)
+      else if (DirsNumber > 0) and not gExternalTools[etDiffer].Enabled then
+        MsgWarning(rsMsgNotImplemented)
       else
-        msgWarning(rsMsgNoFilesSelected);
+      begin
+        if not Assigned(SecondFileSource) then
+          PrepareToolData(FirstFileSource, FirstFileSourceFiles,
+                          @ShowDifferByGlobList)
+        else
+          PrepareToolData(FirstFileSource, FirstFileSourceFiles,
+                          SecondFileSource, SecondFileSourceFiles,
+                          @ShowDifferByGlobList);
+      end;
 
     finally
-      FreeAndNil(FilesToCompare);
-      FreeAndNil(DirsToCompare);
+      ActiveSelectedFiles.Free;
+      NotActiveSelectedFiles.Free;
     end;
   end;
 end;

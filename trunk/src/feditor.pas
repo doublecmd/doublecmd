@@ -161,7 +161,7 @@ type
     sEncodingIn,
     sEncodingOut,
     sOriginalText: String;
-    FWaitData: TEditorWaitData;
+    FWaitData: TWaitData;
     FCommands: TFormCommands;
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
@@ -222,8 +222,7 @@ type
      procedure cm_EditRplc(const {%H-}Params:array of string);
   end;
 
-  procedure ShowEditor(WaitData: TEditorWaitData);
-  function ShowEditor(const sFileName: String): TfrmEditor;
+  procedure ShowEditor(const sFileName: String; WaitData: TWaitData = nil);
 
 implementation
 
@@ -234,27 +233,22 @@ uses
   uLng, uShowMsg, fEditSearch, uGlobs, fOptions, DCClassesUtf8,
   uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard;
 
-function ShowEditor(const sFileName: String): TfrmEditor;
-begin
-  Result := TfrmEditor.Create(Application);
-
-  if sFileName = '' then
-    Result.cm_FileNew([''])
-  else
-  begin
-    if not Result.OpenFile(sFileName) then
-      Exit;
-  end;
-
-  Result.ShowOnTop;
-end;
-
-procedure ShowEditor(WaitData: TEditorWaitData);
+procedure ShowEditor(const sFileName: String; WaitData: TWaitData = nil);
 var
   Editor: TfrmEditor;
 begin
-  Editor:= ShowEditor(WaitData.FileName);
-  Editor.FWaitData:= WaitData
+  Editor := TfrmEditor.Create(Application);
+  Editor.FWaitData := WaitData;
+
+  if sFileName = '' then
+    Editor.cm_FileNew([''])
+  else
+  begin
+    if not Editor.OpenFile(sFileName) then
+      Exit;
+  end;
+
+  Editor.ShowOnTop;
 end;
 
 procedure TfrmEditor.FormCreate(Sender: TObject);
@@ -536,7 +530,7 @@ destructor TfrmEditor.Destroy;
 begin
   HotMan.UnRegister(Self);
   inherited Destroy;
-  if Assigned(FWaitData) then EditDone(FWaitData);
+  if Assigned(FWaitData) then FWaitData.Done;
 end;
 
 

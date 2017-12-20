@@ -29,7 +29,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
   ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls,
   uPariterControls, uDiffOND, uFormCommands, uHotkeyManager, uOSForms,
-  uBinaryDiffViewer;
+  uBinaryDiffViewer, uShowForm;
 
 type
 
@@ -214,6 +214,7 @@ type
     EncodingList: TStringList;
     ScrollLock: LongInt;
     FShowIdentical: Boolean;
+    FWaitData: TWaitData;
     FCommands: TFormCommands;
     procedure ShowIdentical;
     procedure Clear(bLeft, bRight: Boolean);
@@ -248,7 +249,7 @@ type
     procedure cm_SaveRight(const Params: array of string);
   end; 
 
-procedure ShowDiffer(const FileNameLeft, FileNameRight: String);
+procedure ShowDiffer(const FileNameLeft, FileNameRight: String; WaitData: TWaitData = nil);
 
 implementation
 
@@ -261,10 +262,11 @@ uses
 const
   HotkeysCategory = 'Differ';
 
-procedure ShowDiffer(const FileNameLeft, FileNameRight: String);
+procedure ShowDiffer(const FileNameLeft, FileNameRight: String; WaitData: TWaitData = nil);
 begin
   with TfrmDiffer.Create(Application) do
   begin
+    FWaitData := WaitData;
     edtFileNameLeft.Text:= FileNameLeft;
     edtFileNameRight.Text:= FileNameRight;
     FShowIdentical:= actAutoCompare.Checked;
@@ -984,6 +986,7 @@ begin
   BinaryViewerRight.SecondViewer:= nil;
   HotMan.UnRegister(Self);
   inherited Destroy;
+  if Assigned(FWaitData) then FWaitData.Done;
 end;
 
 procedure TfrmDiffer.BuildHashList(bLeft, bRight: Boolean);

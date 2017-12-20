@@ -632,7 +632,7 @@ begin
   or not Assigned(sr.FFileR) or not Assigned(sr.FFileL) or (sr.FState = srsEqual)
   then
     Exit;
-  ShowDifferByGlob(sr.FFileL.FullPath, sr.FFileR.FullPath);
+  PrepareToolData(FFileSourceL, sr.FFileL, FFileSourceR, sr.FFileR, @ShowDifferByGlobList);
 end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridDrawCell(Sender: TObject; aCol,
