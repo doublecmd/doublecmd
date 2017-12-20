@@ -60,7 +60,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, uTempFileSystemFileSource, uFileSourceOperation, uShellExecute, DCOSUtils;
+  DCOSUtils, DCStrUtils, uTempFileSystemFileSource, uFileSourceOperation, uShellExecute;
 
 procedure ShowFileEditExternal(const FileName, FromPath: string; aWaitData: TWaitData);
 begin
@@ -86,7 +86,7 @@ begin
     TempFileSource:= TTempFileSystemFileSource.GetFileSource;
     if bWithAll then
       begin
-        FileName:= TempFileSource.FileSystemRoot + aFile.FullPath;
+        FileName:= TempFileSource.FileSystemRoot + ExcludeFrontPathDelimiter(aFile.FullPath);
         TempFiles:= aFileView.FileSource.GetFiles(aFileView.FileSource.GetRootDir);
       end
     else
@@ -110,15 +110,15 @@ begin
       Show;
       // Save current directory
       CurrentDir:= mbGetCurrentDir;
-      Result:= ShellExecuteEx('open', FileName, TempFileSource.FileSystemRoot + aFile.Path);
+      Result:= ShellExecuteEx('open', FileName, TempFileSource.FileSystemRoot + ExcludeFrontPathDelimiter(aFile.Path));
       // Restore current directory
       mbSetCurrentDir(CurrentDir);
       // If file can not be opened then close wait window
       if not Result then Close;
     end;
   finally
-    FreeThenNil(Operation);
-    FreeThenNil(TempFiles);
+    FreeAndNil(Operation);
+    FreeAndNil(TempFiles);
   end;
 end;
 
