@@ -19,33 +19,68 @@ unit uShowForm;
 interface
 
 uses
-  Classes, DCBasicTypes, uFileSource, uFileSourceOperation;
+  Classes, DCBasicTypes, uFileSource, uFileSourceOperation, uFile,
+  uFileSourceCopyOperation;
 
 type
 
+  { TWaitData }
+
+  TWaitData = class
+  public
+    procedure ShowWaitForm; virtual; abstract;
+    procedure Done; virtual; abstract;
+  end;
+
   { TEditorWaitData }
 
-  TEditorWaitData = class
+  TEditorWaitData = class(TWaitData)
   public
-    FileName: String;
+    Files: TFiles;
+    function GetFileList: TStringList;
+  protected
+    FileTimes: array of TFileTime;
     TargetPath: String;
-    FileTime: TFileTime;
     SourceFileSource: IFileSource;
     TargetFileSource: IFileSource;
+    function GetRelativeFileName(const FullPath: string): string;
+    function GetRelativeFileNames: string;
+    function GetFromPath: string;
   public
+    constructor Create(aCopyOutOperation: TFileSourceCopyOperation);
     destructor Destroy; override;
+    procedure ShowWaitForm; override;
+    procedure Done; override;
   protected
     procedure OnCopyInStateChanged(Operation: TFileSourceOperation;
                                    State: TFileSourceOperationState);
   end;
 
-procedure EditDone(WaitData: TEditorWaitData);
+  TToolDataPreparedProc = procedure(const FileList: TStringList; WaitData: TWaitData);
+
+  TPrepareDataResult = (pdrFailed, pdrSynchronous, pdrAsynchronous);
+
+function PrepareData(FileSource: IFileSource; var SelectedFiles: TFiles;
+                     FunctionToCall: TFileSourceOperationStateChangedNotify): TPrepareDataResult;
+
+procedure PrepareToolData(FileSource: IFileSource; var SelectedFiles: TFiles;
+                          FunctionToCall: TToolDataPreparedProc); overload;
+
+procedure PrepareToolData(FileSource1: IFileSource; var SelectedFiles1: TFiles;
+                          FileSource2: IFileSource; var SelectedFiles2: TFiles;
+                          FunctionToCall: TToolDataPreparedProc); overload;
+
+procedure PrepareToolData(FileSource1: IFileSource; File1: TFile;
+                          FileSource2: IFileSource; File2: TFile;
+                          FunctionToCall: TToolDataPreparedProc); overload;
+
 procedure RunExtDiffer(CompareList: TStringList);
 
 procedure ShowEditorByGlob(const sFileName: String);
 procedure ShowEditorByGlob(WaitData: TEditorWaitData); overload;
 
 procedure ShowDifferByGlob(const LeftName, RightName: String);
+procedure ShowDifferByGlobList(const CompareList: TStringList; WaitData: TWaitData);
 
 procedure ShowViewerByGlob(const sFileName: String);
 procedure ShowViewerByGlobList(const FilesToView: TStringList;
@@ -57,11 +92,23 @@ uses
   SysUtils, Process, DCProcessUtf8, Dialogs, LCLIntf,
   uShellExecute, uGlobs, uOSUtils, fEditor, fViewer, uDCUtils,
   uTempFileSystemFileSource, uLng, fDiffer, uDebug, DCOSUtils, uShowMsg,
-  uFile, uFileSourceCopyOperation, uFileSystemFileSource,
+  DCStrUtils, uFileSourceProperty,
   uFileSourceOperationOptions, uOperationsManager, uFileSourceOperationTypes,
   uMultiArchiveFileSource, fFileExecuteYourSelf;
 
 type
+
+  { TWaitDataDouble }
+
+  TWaitDataDouble = class(TWaitData)
+  private
+    FWaitData1, FWaitData2: TEditorWaitData;
+  public
+    constructor Create(WaitData1: TEditorWaitData; WaitData2: TEditorWaitData);
+    procedure ShowWaitForm; override;
+    procedure Done; override;
+    destructor Destroy; override;
+  end;
 
   { TViewerWaitThread }
 
@@ -76,18 +123,23 @@ type
     destructor Destroy; override;
   end;
 
-  { TEditorWaitThread }
+  { TExtToolWaitThread }
 
-  TEditorWaitThread = class(TThread)
+  TExtToolWaitThread = class(TThread)
   private
-    FWaitData: TEditorWaitData;
+    FExternalTool: TExternalTool;
+    FFileList: TStringList;
+    FWaitData: TWaitData;
   private
     procedure RunEditDone;
     procedure ShowWaitForm;
   protected
     procedure Execute; override;
   public
-    constructor Create(WaitData: TEditorWaitData);
+    constructor Create(ExternalTool: TExternalTool;
+                       const FileList: TStringList;
+                       WaitData: TWaitData);
+    destructor Destroy; override;
   end;
 
 procedure RunExtTool(const ExtTool: TExternalToolOptions; sFileName: String);
@@ -147,11 +199,21 @@ begin
 end;
 
 procedure ShowEditorByGlob(WaitData: TEditorWaitData);
+var
+  FileList: TStringList;
 begin
   if gExternalTools[etEditor].Enabled then
-    with TEditorWaitThread.Create(WaitData) do Start
+  begin
+    FileList := TStringList.Create;
+    try
+      FileList.Add(WaitData.Files[0].FullPath);
+      with TExtToolWaitThread.Create(etEditor, FileList, WaitData) do Start;
+    finally
+      FileList.Free
+    end;
+  end
   else begin
-    ShowEditor(WaitData);
+    ShowEditor(WaitData.Files[0].FullPath, WaitData);
   end;
 end;
 
@@ -201,6 +263,19 @@ begin
     ShowDiffer(LeftName, RightName);
 end;
 
+procedure ShowDifferByGlobList(const CompareList: TStringList; WaitData: TWaitData);
+begin
+  if gExternalTools[etDiffer].Enabled then
+  begin
+    if Assigned(WaitData) then
+      with TExtToolWaitThread.Create(etDiffer, CompareList, WaitData) do Start
+    else
+      RunExtDiffer(CompareList);
+  end
+  else
+    ShowDiffer(CompareList[0], CompareList[1], WaitData);
+end;
+
 procedure ShowViewerByGlobList(const FilesToView : TStringList;
                                const aFileSource: IFileSource);
 var
@@ -227,54 +302,148 @@ begin
     ShowViewer(FilesToView, aFileSource);
 end;
 
-procedure EditDone(WaitData: TEditorWaitData);
-var
-  Files: TFiles;
-  Operation: TFileSourceCopyOperation;
+{ TWaitDataDouble }
+
+constructor TWaitDataDouble.Create(WaitData1: TEditorWaitData; WaitData2: TEditorWaitData);
 begin
-  with WaitData do
+  FWaitData1 := WaitData1;
+  FWaitData2 := WaitData2;
+end;
+
+procedure TWaitDataDouble.ShowWaitForm;
+begin
   try
-    // File was modified
-    if mbFileAge(FileName) <> FileTime then
+    FWaitData1.ShowWaitForm;
+  finally
+    FWaitData2.ShowWaitForm;
+  end;
+end;
+
+procedure TWaitDataDouble.Done;
+begin
+  try
+    if Assigned(FWaitData1) then
+      FWaitData1.Done;
+  finally
+    FWaitData1 := nil;
+    try
+      if Assigned(FWaitData2) then
+        FWaitData2.Done;
+    finally
+      FWaitData2 := nil;
+      Free;
+    end;
+  end;
+end;
+
+destructor TWaitDataDouble.Destroy;
+begin
+  inherited Destroy;
+  if Assigned(FWaitData1) then
+    FWaitData1.Free;
+  if Assigned(FWaitData2) then
+    FWaitData2.Free;
+end;
+
+{ TEditorWaitData }
+
+constructor TEditorWaitData.Create(aCopyOutOperation: TFileSourceCopyOperation);
+var
+  I: Integer;
+  aFileSource: ITempFileSystemFileSource;
+begin
+  aFileSource := aCopyOutOperation.TargetFileSource as ITempFileSystemFileSource;
+  TargetPath := aCopyOutOperation.SourceFiles.Path;
+  Files := aCopyOutOperation.SourceFiles.Clone;
+  ChangeFileListRoot(aFileSource.FileSystemRoot, Files);
+  SetLength(FileTimes, Files.Count);
+  for I := 0 to Files.Count - 1 do
+    FileTimes[I] := mbFileAge(Files[I].FullPath);
+  SourceFileSource := aFileSource;
+  TargetFileSource := aCopyOutOperation.FileSource as IFileSource;
+end;
+
+destructor TEditorWaitData.Destroy;
+begin
+  inherited Destroy;
+  Files.Free;
+  SourceFileSource:= nil;
+  TargetFileSource:= nil;
+end;
+
+function TEditorWaitData.GetRelativeFileName(const FullPath: string): string;
+begin
+  Result := ExtractDirLevel(IncludeTrailingPathDelimiter(Files.Path), FullPath);
+end;
+
+function TEditorWaitData.GetRelativeFileNames: string;
+var
+  I: Integer;
+begin
+  Result := GetRelativeFileName(Files[0].FullPath);
+  for I := 1 to Files.Count - 1 do
+    Result := Result + ', ' + GetRelativeFileName(Files[I].FullPath);
+end;
+
+function TEditorWaitData.GetFromPath: string;
+begin
+  Result := TargetFileSource.CurrentAddress + TargetPath;
+end;
+
+procedure TEditorWaitData.ShowWaitForm;
+begin
+  ShowFileEditExternal(GetRelativeFileNames, GetFromPath, Self);
+end;
+
+procedure TEditorWaitData.Done;
+var
+  Msg: string;
+  I: Integer;
+  Operation: TFileSourceCopyOperation;
+  DoNotFreeYet: Boolean = False;
+begin
+  try
+    for I := Files.Count - 1 downto 0 do
+      if (mbFileAge(Files[I].FullPath) = FileTimes[I]) or
+         not msgYesNo(Format(rsMsgCopyBackward, [GetRelativeFileName(Files[I].FullPath)]) + LineEnding + LineEnding + GetFromPath) then
+        Files.Delete(I);
+
+    // Files were modified
+    if Files.Count > 0 then
     begin
-      if not msgYesNo(Format(rsMsgCopyBackward, [ExtractFileName(FileName)])) then Exit;
       if (fsoCopyIn in TargetFileSource.GetOperationsTypes) and
          (not (TargetFileSource is TMultiArchiveFileSource)) then
       begin
-        Files:= TFiles.Create(SourceFileSource.GetRootDir);
-        Files.Add(TFileSystemFileSource.CreateFileFromFile(FileName));
         Operation:= TargetFileSource.CreateCopyInOperation(SourceFileSource, Files, TargetPath) as TFileSourceCopyOperation;
-        // Copy file back
+        // Copy files back
         if Assigned(Operation) then
         begin
           Operation.AddStateChangedListener([fsosStopped], @OnCopyInStateChanged);
           Operation.FileExistsOption:= fsoofeOverwrite;
           OperationsManager.AddOperation(Operation);
-          WaitData:= nil; // Will be free in operation
+          DoNotFreeYet:= True; // Will be free in operation
         end;
       end
-      else if msgYesNo(rsMsgCouldNotCopyBackward + LineEnding + FileName) then
+      else
       begin
-        (SourceFileSource as ITempFileSystemFileSource).DeleteOnDestroy:= False;
+        Msg := rsMsgCouldNotCopyBackward + LineEnding;
+        for I := 0 to Files.Count-1 do
+          Msg := Msg + LineEnding + Files[I].FullPath;
+        if msgYesNo(Msg) then
+          (SourceFileSource as ITempFileSystemFileSource).DeleteOnDestroy:= False;
       end;
     end;
   finally
-    WaitData.Free;
+    if not DoNotFreeYet then
+      Free;
   end;
-end;
-
-{ TEditorWaitData }
-
-destructor TEditorWaitData.Destroy;
-begin
-  inherited Destroy;
-  SourceFileSource:= nil;
-  TargetFileSource:= nil;
 end;
 
 procedure TEditorWaitData.OnCopyInStateChanged(Operation: TFileSourceOperation;
                                                State: TFileSourceOperationState);
 var
+  I: Integer;
+  Msg: string;
   aFileSource: ITempFileSystemFileSource;
   aCopyOperation: TFileSourceCopyOperation;
 begin
@@ -286,7 +455,10 @@ begin
     begin
       if DoneFiles <> TotalFiles then
       begin
-        if msgYesNo(Operation.Thread, rsMsgCouldNotCopyBackward + LineEnding + aCopyOperation.SourceFiles[0].FullPath) then
+        Msg := rsMsgCouldNotCopyBackward + LineEnding;
+        for I := 0 to aCopyOperation.SourceFiles.Count-1 do
+          Msg := Msg + LineEnding + aCopyOperation.SourceFiles[I].FullPath;
+        if msgYesNo(Operation.Thread, Msg) then
         begin
           aFileSource.DeleteOnDestroy:= False;
         end;
@@ -296,73 +468,106 @@ begin
   end;
 end;
 
-{ TEditorWaitThread }
-
-procedure TEditorWaitThread.RunEditDone;
-begin
-  EditDone(FWaitData);
-end;
-
-procedure TEditorWaitThread.ShowWaitForm;
-begin
-  ShowFileEditExternal(FWaitData);
-end;
-
-procedure TEditorWaitThread.Execute;
+function TEditorWaitData.GetFileList: TStringList;
 var
+  I: Integer;
+begin
+  Result := TStringList.Create;
+  for I := 0 to Files.Count - 1 do
+    Result.Add(Files[I].FullPath);
+end;
+
+{ TExtToolWaitThread }
+
+procedure TExtToolWaitThread.RunEditDone;
+begin
+  FWaitData.Done;
+end;
+
+procedure TExtToolWaitThread.ShowWaitForm;
+begin
+  FWaitData.ShowWaitForm;
+end;
+
+procedure TExtToolWaitThread.Execute;
+var
+  I: Integer;
   StartTime: QWord;
   Process : TProcessUTF8;
   sCmd, sSecureEmptyStr: String;
 begin
-  Process := TProcessUTF8.Create(nil);
+  try
+    Process := TProcessUTF8.Create(nil);
+    try
+      with gExternalTools[FExternalTool] do
+      begin
+        sCmd := ReplaceEnvVars(Path);
+        // TProcess arguments must be enclosed with double quotes and not escaped.
+        if RunInTerminal then
+        begin
+          sCmd := QuoteStr(sCmd);
+          if Parameters <> EmptyStr then
+            sCmd := sCmd + ' ' + Parameters;
+          for I := 0 to FFileList.Count - 1 do
+            sCmd := sCmd + ' ' + QuoteStr(FFileList[I]);
+          sSecureEmptyStr := EmptyStr; // Let's play safe and don't let EmptyStr being passed as "VAR" parameter of "FormatTerminal"
+          FormatTerminal(sCmd, sSecureEmptyStr, False);
+        end
+        else
+        begin
+          sCmd := '"' + sCmd + '"';
+          if Parameters <> EmptyStr then
+            sCmd := sCmd + ' ' + Parameters;
+          for I := 0 to FFileList.Count - 1 do
+            sCmd := sCmd + ' "' + FFileList[I] + '"';
+        end;
+      end;
 
-  with gExternalTools[etEditor] do
-  begin
-    sCmd := ReplaceEnvVars(Path);
-    // TProcess arguments must be enclosed with double quotes and not escaped.
-    if RunInTerminal then
-    begin
-      sCmd := QuoteStr(sCmd);
-      if Parameters <> EmptyStr then
-        sCmd := sCmd + ' ' + Parameters;
-      sCmd := sCmd + ' ' + QuoteStr(FWaitData.FileName);
-      sSecureEmptyStr := EmptyStr; // Let's play safe and don't let EmptyStr being passed as "VAR" parameter of "FormatTerminal"
-      FormatTerminal(sCmd, sSecureEmptyStr, False);
-    end
-    else
-    begin
-      sCmd := '"' + sCmd + '"';
-      if Parameters <> EmptyStr then
-        sCmd := sCmd + ' ' + Parameters;
-      sCmd := sCmd + ' "' + FWaitData.FileName + '"';
+      Process.CommandLine := sCmd;
+      Process.Options := [poWaitOnExit];
+      StartTime:= GetTickCount64;
+      Process.Execute;
+
+      // If an editor closes within gEditWaitTime amount of milliseconds,
+      // assume that it's a multiple document editor and show dialog where
+      // user can confirm when editing has ended.
+      if GetTickCount64 - StartTime < gEditWaitTime then
+      begin
+        Synchronize(@ShowWaitForm);
+      end
+      else begin
+        Synchronize(@RunEditDone);
+      end;
+
+    finally
+      Process.Free;
     end;
-  end;
-
-  Process.CommandLine := sCmd;
-  Process.Options := [poWaitOnExit];
-  StartTime:= GetTickCount64;
-  Process.Execute;
-  Process.Free;
-
-  // If an editor closes within gEditWaitTime amount of milliseconds,
-  // assume that it's a multiple document editor and show dialog where
-  // user can confirm when editing has ended.
-  if GetTickCount64 - StartTime < gEditWaitTime then
-  begin
-    Synchronize(@ShowWaitForm);
-  end
-  else begin
-    Synchronize(@RunEditDone);
+  except
+    FWaitData.Free;
   end;
 end;
 
-constructor TEditorWaitThread.Create(WaitData: TEditorWaitData);
+constructor TExtToolWaitThread.Create(ExternalTool: TExternalTool;
+                                      const FileList: TStringList;
+                                      WaitData: TWaitData);
 begin
   inherited Create(True);
 
   FreeOnTerminate := True;
 
+  FExternalTool := ExternalTool;
+
+  FFileList := TStringList.Create;
+  // Make a copy of list elements.
+  FFileList.Assign(FileList);
+
   FWaitData := WaitData;
+end;
+
+destructor TExtToolWaitThread.Destroy;
+begin
+  FFileList.Free;
+  inherited Destroy;
 end;
 
 { TViewerWaitThread }
@@ -423,6 +628,329 @@ begin
   Process.Options := [poWaitOnExit];
   Process.Execute;
   Process.Free;
+end;
+
+{ PrepareData }
+
+function PrepareData(FileSource: IFileSource; var SelectedFiles: TFiles;
+                     FunctionToCall: TFileSourceOperationStateChangedNotify): TPrepareDataResult;
+var
+  aFile: TFile;
+  I: Integer;
+  TempFiles: TFiles = nil;
+  TempFileSource: ITempFileSystemFileSource = nil;
+  Operation: TFileSourceOperation;
+begin
+  // If files are links to local files
+  if (fspLinksToLocalFiles in FileSource.Properties) then
+    begin
+      for I := 0 to SelectedFiles.Count - 1 do
+        begin
+          aFile := SelectedFiles[I];
+          FileSource.GetLocalName(aFile);
+        end;
+    end
+  // If files not directly accessible copy them to temp file source.
+  else if not (fspDirectAccess in FileSource.Properties) then
+  begin
+    if not (fsoCopyOut in FileSource.GetOperationsTypes) then
+    begin
+      msgWarning(rsMsgErrNotSupported);
+      Exit(pdrFailed);
+    end;
+
+    TempFileSource := TTempFileSystemFileSource.GetFileSource;
+
+    TempFiles := SelectedFiles.Clone;
+    try
+      Operation := FileSource.CreateCopyOutOperation(
+                       TempFileSource,
+                       TempFiles,
+                       TempFileSource.FileSystemRoot);
+    finally
+      TempFiles.Free;
+    end;
+
+    if not Assigned(Operation) then
+    begin
+      msgWarning(rsMsgErrNotSupported);
+      Exit(pdrFailed);
+    end;
+
+    Operation.AddStateChangedListener([fsosStopped], FunctionToCall);
+
+    OperationsManager.AddOperation(Operation);
+
+    Exit(pdrAsynchronous);
+  end;
+  Exit(pdrSynchronous);
+end;
+
+{ TToolDataPreparator }
+
+type
+  TToolDataPreparator = class
+  protected
+    FFunc: TToolDataPreparedProc;
+    FCallOnFail: Boolean;
+    procedure OnCopyOutStateChanged(Operation: TFileSourceOperation;
+                                    State: TFileSourceOperationState);
+  public
+    constructor Create(FunctionToCall: TToolDataPreparedProc; CallOnFail: Boolean = False);
+    procedure Prepare(FileSource: IFileSource; var SelectedFiles: TFiles);
+  end;
+
+constructor TToolDataPreparator.Create(FunctionToCall: TToolDataPreparedProc; CallOnFail: Boolean = False);
+begin
+  FFunc := FunctionToCall;
+  FCallOnFail := CallOnFail;
+end;
+
+procedure TToolDataPreparator.Prepare(FileSource: IFileSource; var SelectedFiles: TFiles);
+var
+  I: Integer;
+  FileList: TStringList;
+begin
+  case PrepareData(FileSource, SelectedFiles, @OnCopyOutStateChanged) of
+  pdrSynchronous:
+    try
+      FileList := TStringList.Create;
+      for I := 0 to SelectedFiles.Count - 1 do
+        FileList.Add(SelectedFiles[i].FullPath);
+      FFunc(FileList, nil);
+    finally
+      Free;
+    end;
+  pdrFailed:
+    try
+      if FCallOnFail then
+        FFunc(nil, nil);
+    finally
+      Free;
+    end;
+  end;
+end;
+
+procedure TToolDataPreparator.OnCopyOutStateChanged(
+  Operation: TFileSourceOperation; State: TFileSourceOperationState);
+var WaitData: TEditorWaitData;
+begin
+  if (State <> fsosStopped) then
+    Exit;
+  try
+    if Operation.Result = fsorFinished then
+    begin
+      WaitData := TEditorWaitData.Create(Operation as TFileSourceCopyOperation);
+      FFunc(WaitData.GetFileList, WaitData);
+    end
+    else
+    begin
+      if FCallOnFail then
+        FFunc(nil, nil);
+    end;
+  finally
+    Free;
+  end;
+end;
+
+{ TToolDataPreparator2 }
+
+type
+  TToolDataPreparator2 = class
+  protected
+    FFunc: TToolDataPreparedProc;
+    FCallOnFail: Boolean;
+    FFailed: Boolean;
+    FFileList1: TStringList;
+    FFileList2: TStringList;
+    FPrepared1: Boolean;
+    FPrepared2: Boolean;
+    FWaitData1: TEditorWaitData;
+    FWaitData2: TEditorWaitData;
+    procedure OnCopyOutStateChanged1(Operation: TFileSourceOperation;
+                                     State: TFileSourceOperationState);
+    procedure OnCopyOutStateChanged2(Operation: TFileSourceOperation;
+                                     State: TFileSourceOperationState);
+    procedure TryFinish;
+  public
+    constructor Create(FunctionToCall: TToolDataPreparedProc; CallOnFail: Boolean = False);
+    procedure Prepare(FileSource1: IFileSource; var SelectedFiles1: TFiles;
+                      FileSource2: IFileSource; var SelectedFiles2: TFiles);
+    destructor Destroy; override;
+  end;
+
+constructor TToolDataPreparator2.Create(FunctionToCall: TToolDataPreparedProc; CallOnFail: Boolean = False);
+begin
+  FFunc := FunctionToCall;
+  FCallOnFail := CallOnFail;
+end;
+
+procedure TToolDataPreparator2.Prepare(FileSource1: IFileSource; var SelectedFiles1: TFiles;
+                                       FileSource2: IFileSource; var SelectedFiles2: TFiles);
+var
+  I: Integer;
+begin
+  case PrepareData(FileSource1, SelectedFiles1, @OnCopyOutStateChanged1) of
+  pdrSynchronous:
+    begin
+      FFileList1 := TStringList.Create;
+      for I := 0 to SelectedFiles1.Count - 1 do
+        FFileList1.Add(SelectedFiles1[I].FullPath);
+      FPrepared1 := True;
+    end;
+  pdrFailed:
+    begin
+      try
+        if FCallOnFail then
+          FFunc(nil, nil);
+      finally
+        Free;
+      end;
+      Exit;
+    end;
+  end;
+
+  case PrepareData(FileSource2, SelectedFiles2, @OnCopyOutStateChanged2) of
+  pdrSynchronous:
+    begin
+      FFileList2 := TStringList.Create;
+      for I := 0 to SelectedFiles2.Count - 1 do
+        FFileList2.Add(SelectedFiles2[I].FullPath);
+      FPrepared2 := True;
+    end;
+  pdrFailed:
+    begin
+      FPrepared2 := True;
+      FFailed := True;
+    end;
+  end;
+
+  TryFinish;
+end;
+
+procedure TToolDataPreparator2.OnCopyOutStateChanged1(
+  Operation: TFileSourceOperation; State: TFileSourceOperationState);
+begin
+  if (State <> fsosStopped) then
+    Exit;
+  FPrepared1 := True;
+  if not FFailed then
+  begin
+    if Operation.Result = fsorFinished then
+    begin
+      FWaitData1 := TEditorWaitData.Create(Operation as TFileSourceCopyOperation);
+      FFileList1 := FWaitData1.GetFileList;
+    end
+    else
+    begin
+      FFailed := True;
+//      if not FPrepared2 and Assigned(FOperation2) then
+//        FOperation2.Stop();
+    end;
+  end;
+  TryFinish;
+end;
+
+procedure TToolDataPreparator2.OnCopyOutStateChanged2(
+  Operation: TFileSourceOperation; State: TFileSourceOperationState);
+begin
+  if (State <> fsosStopped) then
+    Exit;
+  FPrepared2 := True;
+  if not FFailed then
+  begin
+    if Operation.Result = fsorFinished then
+    begin
+      FWaitData2 := TEditorWaitData.Create(Operation as TFileSourceCopyOperation);
+      FFileList2 := FWaitData2.GetFileList;
+    end
+    else
+    begin
+      FFailed := True;
+//      if not FPrepared1 and Assigned(FOperation1) then
+//        FOperation1.Stop();
+    end;
+  end;
+  TryFinish;
+end;
+
+procedure TToolDataPreparator2.TryFinish;
+var
+  s: string;
+  WaitData: TWaitDataDouble;
+begin
+  if FPrepared1 and FPrepared2 then
+  try
+    if FFailed then
+    begin
+      if FCallOnFail then
+        FFunc(nil, nil);
+      Exit;
+    end;
+    if Assigned(FFileList2) then
+      for s in FFileList2 do
+        FFileList1.Append(s);
+    if Assigned(FWaitData1) or Assigned(FWaitData2) then
+    begin
+      WaitData := TWaitDataDouble.Create(FWaitData1, FWaitData2);
+      FWaitData1 := nil;
+      FWaitData2 := nil;
+      FFunc(FFileList1, WaitData);
+    end
+    else
+      FFunc(FFileList1, nil);
+  finally
+    Free;
+  end;
+end;
+
+destructor TToolDataPreparator2.Destroy;
+begin
+  inherited Destroy;
+  if Assigned(FFileList1) then
+     FFileList1.Free;
+  if Assigned(FFileList2) then
+     FFileList2.Free;
+  if Assigned(FWaitData1) then
+     FWaitData1.Free;
+  if Assigned(FWaitData2) then
+     FWaitData2.Free;
+end;
+
+procedure PrepareToolData(FileSource: IFileSource; var SelectedFiles: TFiles;
+                          FunctionToCall: TToolDataPreparedProc);
+begin
+  with TToolDataPreparator.Create(FunctionToCall) do
+    Prepare(FileSource, SelectedFiles);
+end;
+
+procedure PrepareToolData(FileSource1: IFileSource; var SelectedFiles1: TFiles;
+                          FileSource2: IFileSource; var SelectedFiles2: TFiles;
+                          FunctionToCall: TToolDataPreparedProc);
+begin
+  with TToolDataPreparator2.Create(FunctionToCall) do
+    Prepare(FileSource1, SelectedFiles1, FileSource2, SelectedFiles2);
+end;
+
+procedure PrepareToolData(FileSource1: IFileSource; File1: TFile;
+                          FileSource2: IFileSource; File2: TFile;
+                          FunctionToCall: TToolDataPreparedProc);
+var Files1, Files2: TFiles;
+begin
+  Files1 := TFiles.Create(File1.Path);
+  try
+    Files1.Add(File1.Clone);
+    Files2 := TFiles.Create(File2.Path);
+    try
+      Files2.Add(File2.Clone);
+      with TToolDataPreparator2.Create(FunctionToCall) do
+        Prepare(FileSource1, Files1, FileSource2, Files2);
+    finally
+      Files2.Free;
+    end;
+  finally
+    Files1.Free;
+  end;
 end;
 
 end.
