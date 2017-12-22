@@ -11010,6 +11010,14 @@ msgstr "Όνομα Χρήστη:"
 msgid "User name (Firewall):"
 msgstr "Όνομα χρήστη (Τείχος Προστασίας):"
 
+#: ulng.rsmsgverify
+msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifywrong
+msgid "The target file is corrupted, checksum mismatch!"
+msgstr ""
+
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Ετικέτα τόμου:"
@@ -12310,3 +12318,4 @@ msgstr "Αριθμός αντικατάστασης: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Δεν πραγματοποιήθηκε καμία αντικατάσταση."
+

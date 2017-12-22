@@ -10739,6 +10739,14 @@ msgstr "Jméno uživatele:"
 msgid "User name (Firewall):"
 msgstr "Uživatelské jméno (firewall):"
 
+#: ulng.rsmsgverify
+msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifywrong
+msgid "The target file is corrupted, checksum mismatch!"
+msgstr ""
+
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Název disku:"

@@ -11857,6 +11857,14 @@ msgstr "使用者名稱:"
 msgid "User name (Firewall):"
 msgstr "使用者名稱 (防火牆):"
 
+#: ulng.rsmsgverify
+msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifywrong
+msgid "The target file is corrupted, checksum mismatch!"
+msgstr ""
+
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "磁碟標籤:"

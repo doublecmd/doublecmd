@@ -10765,6 +10765,14 @@ msgstr "Nombre del usuario:"
 msgid "User name (Firewall):"
 msgstr "Nombre del usuario (Firewall):"
 
+#: ulng.rsmsgverify
+msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifywrong
+msgid "The target file is corrupted, checksum mismatch!"
+msgstr ""
+
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Etiqueta del volumen:"

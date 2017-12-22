@@ -11062,6 +11062,14 @@ msgstr "Felhasználónév :"
 msgid "User name (Firewall):"
 msgstr "Felhasználónév (Tűzfal) :"
 
+#: ulng.rsmsgverify
+msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifywrong
+msgid "The target file is corrupted, checksum mismatch!"
+msgstr ""
+
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Kötetcimke :"
