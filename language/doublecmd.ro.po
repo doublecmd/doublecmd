@@ -10982,6 +10982,14 @@ msgstr "Nume utilizator:"
 msgid "User name (Firewall):"
 msgstr "Nume utilizator (Paravan de protecție):"
 
+#: ulng.rsmsgverify
+msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifywrong
+msgid "The target file is corrupted, checksum mismatch!"
+msgstr ""
+
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Eticheta volumului:"

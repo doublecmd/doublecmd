@@ -11287,6 +11287,14 @@ msgstr "Korisničko ime:"
 msgid "User name (Firewall):"
 msgstr "korisničko ime (vatreni zid):"
 
+#: ulng.rsmsgverify
+msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifywrong
+msgid "The target file is corrupted, checksum mismatch!"
+msgstr ""
+
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Oznaka uređaja:"

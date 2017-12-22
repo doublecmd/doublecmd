@@ -11424,6 +11424,14 @@ msgstr "Kullanıcı adı:"
 msgid "User name (Firewall):"
 msgstr "Kullanıcı adı (Güvenlik duvarı):"
 
+#: ulng.rsmsgverify
+msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifywrong
+msgid "The target file is corrupted, checksum mismatch!"
+msgstr ""
+
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Birim etiketi:"

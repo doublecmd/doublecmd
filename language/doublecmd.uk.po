@@ -11373,6 +11373,14 @@ msgstr "Ім'я користувача:"
 msgid "User name (Firewall):"
 msgstr "Ім'я користувача (Фаєрвол):"
 
+#: ulng.rsmsgverify
+msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifywrong
+msgid "The target file is corrupted, checksum mismatch!"
+msgstr ""
+
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Мітка диску:"

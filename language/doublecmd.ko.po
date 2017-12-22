@@ -11213,6 +11213,14 @@ msgstr "사용자 명:"
 msgid "User name (Firewall):"
 msgstr "사용자명(방화벽):"
 
+#: ulng.rsmsgverify
+msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifywrong
+msgid "The target file is corrupted, checksum mismatch!"
+msgstr ""
+
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "볼률 레이블:"
