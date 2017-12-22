@@ -3380,6 +3380,8 @@ begin
   if BeforeChangePath(FHistory.FileSource[aFileSourceIndex],
                       FHistory.Path[aFileSourceIndex, aPathIndex]) then
   begin
+    FFlatView := False;
+
     FilenameFromHistory := FHistory.Filename[aFileSourceIndex, aPathIndex];
 
     if Assigned(FileSource) and IsNewFileSource then
