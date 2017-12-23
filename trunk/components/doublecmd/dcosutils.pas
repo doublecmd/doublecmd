@@ -1354,7 +1354,10 @@ end;
 
 function mbSysErrorMessage(ErrorCode: Integer): String;
 begin
-  Result := CeSysToUtf8(SysErrorMessage(ErrorCode));
+  Result := SysErrorMessage(ErrorCode);
+{$IF (FPC_FULLVERSION < 30004)}
+  Result := CeSysToUtf8(Result);
+{$ENDIF}
 end;
 
 function mbGetModuleName(Address: Pointer): String;
