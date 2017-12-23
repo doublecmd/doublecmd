@@ -4081,26 +4081,26 @@ begin
   begin
     if GetParamValue(Param, 'activepath', WantedPath) then
     begin
-      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath));
-      ChooseFileSource(frmMain.ActiveFrame, RemoveQuotation(ReplaceEnvVars(WantedPath)));
+      WantedPath:= PrepareParameter(WantedPath);
+      ChooseFileSource(frmMain.ActiveFrame, RemoveQuotation(WantedPath));
     end
     else
     if GetParamValue(Param, 'inactivepath', WantedPath) then
     begin
-      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath));
-      ChooseFileSource(frmMain.NotActiveFrame, RemoveQuotation(ReplaceEnvVars(WantedPath)));
+      WantedPath:= PrepareParameter(WantedPath);
+      ChooseFileSource(frmMain.NotActiveFrame, RemoveQuotation(WantedPath));
     end
     else
     if GetParamValue(Param, 'leftpath', WantedPath) then
     begin
-      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath));
-      ChooseFileSource(frmMain.FrameLeft, RemoveQuotation(ReplaceEnvVars(WantedPath)));
+      WantedPath:= PrepareParameter(WantedPath);
+      ChooseFileSource(frmMain.FrameLeft, RemoveQuotation(WantedPath));
     end
     else
     if GetParamValue(Param, 'rightpath', WantedPath) then
     begin
-      WantedPath:=RemoveQuotation(PrepareParameter(WantedPath));
-      ChooseFileSource(frmMain.FrameRight, RemoveQuotation(ReplaceEnvVars(WantedPath)));
+      WantedPath:=PrepareParameter(WantedPath);
+      ChooseFileSource(frmMain.FrameRight, RemoveQuotation(WantedPath));
     end;
   end;
 
