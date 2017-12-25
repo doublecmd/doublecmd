@@ -24,6 +24,8 @@ procedure ChooseFile(aFileView: TFileView; aFileSource: IFileSource; aFile: TFil
 }
 function ChooseFileSource(aFileView: TFileView; aFileSource: IFileSource; aFile: TFile): Boolean; overload;
 
+function ParseFileSource(var aPath: String; const CurrentFileSource: IFileSource = nil): IFileSource;
+
 function ChooseFileSource(aFileView: TFileView; const aPath: String; bLocal: Boolean = False): Boolean; overload;
 
 function ChooseArchive(aFileView: TFileView; aFileSource: IFileSource; aFile: TFile; bForce: Boolean = False): Boolean;
@@ -178,15 +180,11 @@ begin
   end;
 end;
 
-function ChooseFileSource(aFileView: TFileView; const aPath: String;
-  bLocal: Boolean): Boolean;
+function ParseFileSource(var aPath: String; const CurrentFileSource: IFileSource = nil): IFileSource;
 var
   URI: TURI;
-  RemotePath: String;
-  FileSource: IFileSource;
   aFileSourceClass: TFileSourceClass;
 begin
-  Result:= True;
   aFileSourceClass:= gVfsModuleList.GetFileSource(aPath);
   // If found special FileSource for path
   if Assigned(aFileSourceClass) then
@@ -195,25 +193,50 @@ begin
       if Pos('://', aPath) > 0 then
         begin
           URI:= ParseURI(aPath);
-          RemotePath:= NormalizePathDelimiters(URI.Path + URI.Document);
-          RemotePath:= IncludeTrailingPathDelimiter(RemotePath);
-          FileSource:= FileSourceManager.Find(aFileSourceClass,
+          aPath:= NormalizePathDelimiters(URI.Path + URI.Document);
+          aPath:= IncludeTrailingPathDelimiter(aPath);
+          Result:= FileSourceManager.Find(aFileSourceClass,
                                               URI.Protocol + '://' + URI.Host,
                                               not SameText(URI.Protocol, 'smb')
                                               );
-          if Assigned(FileSource) then
-            aFileView.AddFileSource(FileSource, RemotePath)
-          else begin
+          if not Assigned(Result) then
+          begin
             // Create new FileSource with given URI
-            aFileView.AddFileSource(aFileSourceClass.Create(URI), RemotePath);
+            Result := aFileSourceClass.Create(URI);
           end;
         end
       // If found FileSource is same as current then simply change path
-      else if aFileSourceClass.ClassNameIs(aFileView.FileSource.ClassName) then
+      else if aFileSourceClass.ClassNameIs(CurrentFileSource.ClassName) then
+        Result := CurrentFileSource
+      // Else create new FileSource with given path
+      else
+        Result := aFileSourceClass.Create;
+    end
+  else
+    Result:= nil;
+end;
+
+function ChooseFileSource(aFileView: TFileView; const aPath: String;
+  bLocal: Boolean): Boolean;
+var
+  RemotePath: String;
+  FileSource: IFileSource;
+begin
+  Result:= True;
+  RemotePath:= aPath;
+  FileSource:= ParseFileSource(RemotePath, aFileView.FileSource);
+  // If found special FileSource for path
+  if Assigned(FileSource) then
+    begin
+      // If path is URI
+      if RemotePath <> aPath then
+        aFileView.AddFileSource(FileSource, RemotePath)
+      // If found FileSource is same as current then simply change path
+      else if aFileView.FileSource.Equals(FileSource) then
         aFileView.CurrentPath := aPath
       // Else create new FileSource with given path
       else
-        aFileView.AddFileSource(aFileSourceClass.Create, aPath);
+        aFileView.AddFileSource(FileSource, aPath);
     end
   // If current FileSource has address
   else if bLocal and (Length(aFileView.CurrentAddress) > 0) then

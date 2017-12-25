@@ -1272,20 +1272,31 @@ end;
 procedure TfrmMain.dskLeftRightToolButtonDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
   ToolItem: TKASToolItem;
-  DriveItem: TKASDriveItem;
+  SourceFiles: TFiles;
+  TargetFileSource: IFileSource;
+  TargetPath: String;
 begin
   if Sender is TKASToolButton then
   begin
-    ToolItem := TKASToolButton(Sender).ToolItem;
-    if ToolItem is TKASDriveItem then
-    begin
-      DriveItem := TKASDriveItem(ToolItem);
-      case GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft) of
-        DropCopyEffect:
-          Self.CopyFiles(DriveItem.Drive^.Path, gShowDialogOnDragDrop);
-        DropMoveEffect:
-          Self.MoveFiles(DriveItem.Drive^.Path, gShowDialogOnDragDrop);
+    SourceFiles := ActiveFrame.CloneSelectedOrActiveFiles;
+    try
+      ToolItem := TKASToolButton(Sender).ToolItem;
+      if ToolItem is TKASDriveItem then
+      begin
+        TargetPath := TKASDriveItem(ToolItem).Drive^.Path;
+        TargetFileSource := ParseFileSource(TargetPath, ActiveFrame.FileSource);
+        TargetPath := IncludeTrailingPathDelimiter(TargetPath);
+        if not Assigned(TargetFileSource) then
+          TargetFileSource := TFileSystemFileSource.GetFileSource;
+        case GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft) of
+          DropCopyEffect:
+            Self.CopyFiles(ActiveFrame.FileSource, TargetFileSource, SourceFiles, TargetPath, gShowDialogOnDragDrop);
+          DropMoveEffect:
+            Self.MoveFiles(ActiveFrame.FileSource, TargetFileSource, SourceFiles, TargetPath, gShowDialogOnDragDrop);
+        end;
       end;
+    finally
+      SourceFiles.Free;
     end;
   end;
 end;
