@@ -5813,6 +5813,7 @@ const
   PTLen = 40;
 var
   st: String;
+  Properties: TFileSourceProperties;
 begin
   if (fsoExecute in ActiveFrame.FileSource.GetOperationsTypes) then
   begin
@@ -5848,7 +5849,8 @@ begin
     edtCommand.Visible := False;
   end;
   // Change program current path
-  if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
+  Properties := ActiveFrame.FileSource.GetProperties;
+  if (fspDirectAccess in Properties) and not (fspLinksToLocalFiles in Properties) then
   begin
     mbSetCurrentDir(ActiveFrame.CurrentPath);
   end;
