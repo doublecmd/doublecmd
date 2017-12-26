@@ -571,7 +571,7 @@ type
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
     procedure PanelButtonClick(Button: TSpeedButton; FileView: TFileView);
-    procedure ShellTreeViewDblClick(Sender: TObject);
+    procedure ShellTreeViewSelect;
     procedure ShellTreeViewKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure ShellTreeViewMouseUp(Sender: TObject; Button: TMouseButton;
@@ -1502,7 +1502,7 @@ begin
     SetActiveFrame(FileView);
 end;
 
-procedure TfrmMain.ShellTreeViewDblClick(Sender: TObject);
+procedure TfrmMain.ShellTreeViewSelect;
 begin
   ShellTreeView.Tag := 1;
   try
@@ -1515,7 +1515,7 @@ end;
 procedure TfrmMain.ShellTreeViewKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if Key = VK_RETURN then ShellTreeViewDblClick(Sender);
+  if Key = VK_RETURN then ShellTreeViewSelect;
 end;
 
 procedure TfrmMain.ShellTreeViewMouseUp(Sender: TObject; Button: TMouseButton;
@@ -1545,6 +1545,8 @@ begin
     else;
   end;
 {$ENDIF}
+  if Button = mbLeft then
+    ShellTreeViewSelect;
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -4121,7 +4123,6 @@ begin
 
       OnKeyDown := @ShellTreeViewKeyDown;
       OnMouseUp := @ShellTreeViewMouseUp;
-      OnDblClick := @ShellTreeViewDblClick;
       OnAdvancedCustomDrawItem := @ShellTreeViewAdvancedCustomDrawItem;
 
       ExpandSignType := tvestPlusMinus;
