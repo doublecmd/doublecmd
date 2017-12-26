@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Graphics, SynEdit,
-  SynEditMiscClasses, SynGutterBase, SynTextDrawer, uDiffOND;
+  SynEditMiscClasses, SynGutterBase, SynTextDrawer, SynEditTextBuffer,
+  LazSynEditText, uDiffOND;
 
 const
   { Default differ colors }
@@ -54,6 +55,8 @@ type
   protected
     procedure Init; override;
     function  PreferedWidth: Integer; override;
+    procedure LineCountChanged(Sender: TSynEditStrings; AIndex, ACount: Integer);
+    procedure BufferChanged(Sender: TObject);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -435,10 +438,34 @@ begin
   Result := FAutoSizeDigitCount * FTextDrawer.CharWidth + 1;
 end;
 
+procedure TSynDiffGutterLineNumber.LineCountChanged(Sender: TSynEditStrings; AIndex, ACount: Integer);
+var
+  nDigits: Integer;
+begin
+  if not (Visible and AutoSize) then Exit;
+
+  nDigits := Max(Length(IntToStr(TextBuffer.Count)), FDigitCount);
+  if FAutoSizeDigitCount <> nDigits then begin
+    FAutoSizeDigitCount := nDigits;
+    DoAutoSize;
+  end;
+end;
+
+procedure TSynDiffGutterLineNumber.BufferChanged(Sender: TObject);
+begin
+  TSynEditStringList(Sender).RemoveHanlders(self);
+  TSynEditStringList(TextBuffer).AddChangeHandler(senrLineCount, @LineCountChanged);
+  TSynEditStringList(TextBuffer).AddNotifyHandler(senrTextBufferChanged, @BufferChanged);
+  LineCountChanged(nil, 0, 0);
+end;
+
 procedure TSynDiffGutterLineNumber.Init;
 begin
   inherited Init;
   FTextDrawer := Gutter.TextDrawer;
+  TSynEditStringList(TextBuffer).AddChangeHandler(senrLineCount, @LineCountChanged);
+  TSynEditStringList(TextBuffer).AddNotifyHandler(senrTextBufferChanged, @BufferChanged);
+  LineCountchanged(nil, 0, 0);
 end;
 
 constructor TSynDiffGutterLineNumber.Create(AOwner: TComponent);
@@ -451,6 +478,7 @@ end;
 
 destructor TSynDiffGutterLineNumber.Destroy;
 begin
+  TSynEditStringList(TextBuffer).RemoveHanlders(self);
   inherited Destroy;
 end;
 
