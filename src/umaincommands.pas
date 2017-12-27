@@ -1724,6 +1724,7 @@ var
   sCmd: string = '';
   sParams: string = '';
   sStartPath: string = '';
+  LinksResolveNeeded: Boolean;
 begin
   with frmMain do
   try
@@ -1777,24 +1778,21 @@ begin
         begin
           AllFiles := ActiveFrame.CloneFiles;
 
-          if (fspLinksToLocalFiles in ActiveFrame.FileSource.Properties) then
-            begin
-              for I := 0 to AllFiles.Count - 1 do
-                begin
-                  aFile := AllFiles[I];
-                  ActiveFrame.FileSource.GetLocalName(aFile);
-                end;
-            end;
+          LinksResolveNeeded := fspLinksToLocalFiles in ActiveFrame.FileSource.Properties;
 
-          n:=0;
+          n := -1;
           for i := 0 to AllFiles.Count - 1 do
             begin
               aFile := AllFiles[i];
               if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-                begin
-                  if n>0 then sl.Add(aFile.FullPath);
-                  if aFile.Name = ActiveFile.Name then n:=i;
-                end;
+              begin
+                if aFile.Name = ActiveFile.Name then
+                  n := i;
+                if LinksResolveNeeded then
+                  ActiveFrame.FileSource.GetLocalName(aFile);
+                if (n <> -1) and (i <> n) then
+                  sl.Add(aFile.FullPath);
+              end;
             end;
 
           for i:=0 to n-1 do
