@@ -61,7 +61,6 @@ var
   sCmd, sParams, sStartPath: String;
   Operation: TFileSourceExecuteOperation = nil;
   aFileCopy: TFile = nil;
-  IsLinkToLocalFile: Boolean = False;
 begin
   // First test for file sources.
   if ChooseFileSource(aFileView, aFileSource, aFile) then
@@ -70,12 +69,12 @@ begin
   // For now work only for local files.
   if aFileView.FileSource.Properties * [fspDirectAccess, fspLinksToLocalFiles] <> [] then
   begin
-    if fspLinksToLocalFiles in aFileView.FileSource.Properties then
-      IsLinkToLocalFile := aFileView.FileSource.GetLocalName(aFile);
-
     // Now test if exists Open command in "extassoc.xml" :)
     if gExts.GetExtActionCmd(aFile, 'open', sCmd, sParams, sStartPath) then
     begin
+      if fspLinksToLocalFiles in aFileView.FileSource.Properties then
+        aFileView.FileSource.GetLocalName(aFile);
+
       if ProcessExtCommandFork(sCmd,sParams,sStartPath) then
         Exit;
     end;
@@ -84,13 +83,7 @@ begin
   if (fsoExecute in aFileView.FileSource.GetOperationsTypes) then
     try
       aFileCopy := aFile.Clone;
-      if IsLinkToLocalFile then
-        Operation := TFileSystemFileSource.GetFileSource.CreateExecuteOperation(
-                        aFileCopy,
-                        aFile.Path,
-                        'open') as TFileSourceExecuteOperation
-      else
-        Operation := aFileView.FileSource.CreateExecuteOperation(
+      Operation := aFileView.FileSource.CreateExecuteOperation(
                         aFileCopy,
                         aFileView.CurrentPath,
                         'open') as TFileSourceExecuteOperation;
