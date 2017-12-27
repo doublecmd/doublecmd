@@ -1976,29 +1976,32 @@ begin
   try
     SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
 
+    for I := SelectedFiles.Count - 1 downto 0 do
+    begin
+      aFile := SelectedFiles[I];
+      if aFile.IsDirectory or aFile.IsLinkToDirectory then
+        SelectedFiles.Delete(I);
+    end;
+
+    if SelectedFiles.Count = 0 then
+    begin
+      msgWarning(rsMsgNoFilesSelected);
+      Exit;
+    end;
+
     if PrepareData(ActiveFrame.FileSource, SelectedFiles, @OnEditCopyOutStateChanged) <> pdrSynchronous then
       Exit;
 
     try
-      for i := 0 to SelectedFiles.Count - 1 do
-      begin
-        aFile := SelectedFiles[i];
 
-        // For now we only process one file.
-        if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-        begin
-          //now test if exists "EDIT" command in "extassoc.xml" :)
-          if gExts.GetExtActionCmd(aFile, 'edit', sCmd, sParams, sStartPath) then
-            begin
-              ProcessExtCommandFork(sCmd, sParams, aFile.Path);
-            end
-          else
-            begin
-              ShowEditorByGlob(aFile.FullPath);
-            end;
-          Break;
-        end;
-      end;
+      // For now we only process one file.
+      aFile := SelectedFiles[0];
+
+      //now test if exists "EDIT" command in "extassoc.xml" :)
+      if gExts.GetExtActionCmd(aFile, 'edit', sCmd, sParams, sStartPath) then
+        ProcessExtCommandFork(sCmd, sParams, aFile.Path)
+      else
+        ShowEditorByGlob(aFile.FullPath);
 
     except
       on e: EInvalidCommandLine do
