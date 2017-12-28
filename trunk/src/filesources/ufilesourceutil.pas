@@ -72,11 +72,20 @@ begin
     // Now test if exists Open command in "extassoc.xml" :)
     if gExts.GetExtActionCmd(aFile, 'open', sCmd, sParams, sStartPath) then
     begin
-      if fspLinksToLocalFiles in aFileView.FileSource.Properties then
-        aFileView.FileSource.GetLocalName(aFile);
+      try
+        // Resolve filename here since ProcessExtCommandFork doesn't do it (as of 2017)
+        // The limitation is that only one file will be opened on a FileSource of links
+        if fspLinksToLocalFiles in aFileView.FileSource.Properties then
+        begin
+          aFileCopy := aFile.Clone;
+          aFileView.FileSource.GetLocalName(aFileCopy);
+        end;
 
-      if ProcessExtCommandFork(sCmd,sParams,sStartPath) then
-        Exit;
+        if ProcessExtCommandFork(sCmd,sParams,sStartPath,aFileCopy) then
+          Exit;
+      finally
+        FreeAndNil(aFileCopy);
+      end;
     end;
   end;
 
