@@ -53,4 +53,4 @@ copy  plugins\wdx\deb_wdx\lib\deb_wdx.wdx %DC_INSTALL_DIR%\plugins\wdx\deb_wdx\
 copy  plugins\wdx\scripts\*               %DC_INSTALL_DIR%\plugins\wdx\scripts\
 copy  plugins\wdx\audioinfo\audioinfo.wdx %DC_INSTALL_DIR%\plugins\wdx\audioinfo\
 rem WFX
-copy  plugins\wfx\ftp\lib\ftp.wfx         %DC_INSTALL_DIR%\plugins\wfx\ftp\
+copy  plugins\wfx\ftp\ftp.wfx             %DC_INSTALL_DIR%\plugins\wfx\ftp\

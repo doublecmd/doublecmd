@@ -26,7 +26,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="..\lib\ftp.wfx" ApplyConventions="False"/>
+            <Filename Value="..\ftp.wfx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk;..\synapse"/>
@@ -134,7 +134,7 @@ end;"/>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\lib\ftp.wfx" ApplyConventions="False"/>
+      <Filename Value="..\ftp.wfx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk;..\synapse"/>
