@@ -52,7 +52,7 @@ install -m 644 plugins/wdx/deb_wdx/lib/deb_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/
 install -m 644 plugins/wdx/scripts/*                $DC_INSTALL_DIR/plugins/wdx/scripts/
 install -m 644 plugins/wdx/audioinfo/audioinfo.wdx  $DC_INSTALL_DIR/plugins/wdx/audioinfo/
 # WFX
-install -m 644 plugins/wfx/ftp/lib/ftp.wfx          $DC_INSTALL_DIR/plugins/wfx/ftp/
+install -m 644 plugins/wfx/ftp/ftp.wfx              $DC_INSTALL_DIR/plugins/wfx/ftp/
 
 # Copy documentation
 mkdir -p $DC_INSTALL_DIR/doc
