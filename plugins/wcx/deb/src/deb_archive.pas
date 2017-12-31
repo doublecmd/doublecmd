@@ -40,7 +40,7 @@ procedure SetChangeVolProc(hArcData : TArcHandle; ChangeVolProc : TChangeVolProc
 implementation
 
 uses
-  SysUtils, DCDateTimeUtils, DCBasicTypes;
+  SysUtils, DCDateTimeUtils, DCBasicTypes, DCFileAttributes;
 
 function GetArchiveID(hArcData : THandle) : Integer;
 var
@@ -193,7 +193,7 @@ begin
               UnpVer   := 2;
               HostOS   := 0;
               FileCRC  := header.CRC;
-              FileAttr := faArchive;
+              FileAttr := GENERIC_ATTRIBUTE_FILE;
               FileTime := UnixFileTimeToWcxTime(TUnixFileTime(header.time));
             end;{with}
             Result := E_SUCCESS;

@@ -64,7 +64,7 @@ function  CanYouHandleThisFile(FileName: PAnsiChar): Boolean; dcpcall;
 implementation
 
 uses
-  SysUtils, DCDateTimeUtils, DCBasicTypes;
+  SysUtils, DCDateTimeUtils, DCBasicTypes, DCFileAttributes;
 
 function GetArchiveID(hArcData : THandle) : Integer;
 var
@@ -183,7 +183,7 @@ begin
                 copy_str2buf(TStrBuf(FileName), header.filename);
                 PackSize := header.filesize;
                 UnpSize  := header.filesize;
-                FileAttr := LongInt(header.mode);
+                FileAttr := UnixToWcxFileAttr(header.mode);
                 FileTime := UnixFileTimeToWcxTime(TUnixFileTime(header.mtime));
               end;{with}
               Result := 0;
