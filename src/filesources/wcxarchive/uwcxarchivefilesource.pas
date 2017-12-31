@@ -151,6 +151,7 @@ uses
   LazUTF8, uDebug, DCStrUtils, uDCUtils, uGlobs, DCOSUtils, uOSUtils, uShowMsg,
   DCDateTimeUtils, uLng, uLog,
   DCConvertEncoding,
+  DCFileAttributes,
   FileUtil, uCryptProc,
   uWcxArchiveListOperation,
   uWcxArchiveCopyInOperation,
@@ -703,7 +704,7 @@ begin
         if (NameLength > 0) and (Header.FileName[NameLength] = PathDelim) then
         begin
           Delete(Header.FileName, NameLength, 1);
-          Header.FileAttr := Header.FileAttr or faFolder;
+          Header.FileAttr := Header.FileAttr or GENERIC_ATTRIBUTE_FOLDER;
         end;
 
         //**********************************************************************
@@ -741,7 +742,7 @@ begin
           try
             Header.FileName := AllDirsList.List[I]^.Key;
             Header.ArcName  := ArchiveFileName;
-            Header.FileAttr := faFolder;
+            Header.FileAttr := GENERIC_ATTRIBUTE_FOLDER;
 {$IFDEF MSWINDOWS}
             WinToDosTime(mbFileAge(ArchiveFileName), Header.FileTime);
 {$ELSE}

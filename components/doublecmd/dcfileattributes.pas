@@ -84,6 +84,15 @@ const
   S_ISGID  = $0400;
   S_ISVTX  = $0200;
 
+  // Generic attributes
+{$IF DEFINED(MSWINDOWS)}
+  GENERIC_ATTRIBUTE_FILE   = FILE_ATTRIBUTE_ARCHIVE;
+  GENERIC_ATTRIBUTE_FOLDER = GENERIC_ATTRIBUTE_FILE or FILE_ATTRIBUTE_DIRECTORY;
+{$ELSEIF DEFINED(UNIX)}
+  GENERIC_ATTRIBUTE_FILE   = S_IRUSR or S_IWUSR or S_IRGRP or S_IROTH;
+  GENERIC_ATTRIBUTE_FOLDER = GENERIC_ATTRIBUTE_FILE or S_IFDIR or S_IXUGO;
+{$ENDIF}
+
   function WinToUnixFileAttr(Attr: TFileAttrs): TFileAttrs;
   function UnixToWinFileAttr(Attr: TFileAttrs): TFileAttrs;
   function UnixToWinFileAttr(const FileName: String; Attr: TFileAttrs): TFileAttrs;
