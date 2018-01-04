@@ -58,7 +58,9 @@ type
 
   TToolDataPreparedProc = procedure(const FileList: TStringList; WaitData: TWaitData);
 
-  TPrepareDataResult = (pdrFailed, pdrSynchronous, pdrAsynchronous);
+  // Callback may be called either asynchoronously or synchronously (for modal operations)
+  // pdrInCallback is returned when FunctionToCall either will be called or was already called
+  TPrepareDataResult = (pdrFailed, pdrSynchronous, pdrInCallback);
 
 function PrepareData(FileSource: IFileSource; var SelectedFiles: TFiles;
                      FunctionToCall: TFileSourceOperationStateChangedNotify): TPrepareDataResult;
@@ -681,7 +683,7 @@ begin
 
     OperationsManager.AddOperation(Operation);
 
-    Exit(pdrAsynchronous);
+    Exit(pdrInCallback);
   end;
   Exit(pdrSynchronous);
 end;
@@ -817,15 +819,15 @@ begin
       for I := 0 to SelectedFiles2.Count - 1 do
         FFileList2.Add(SelectedFiles2[I].FullPath);
       FPrepared2 := True;
+      TryFinish;
     end;
   pdrFailed:
     begin
       FPrepared2 := True;
       FFailed := True;
+      TryFinish;
     end;
   end;
-
-  TryFinish;
 end;
 
 procedure TToolDataPreparator2.OnCopyOutStateChanged1(
