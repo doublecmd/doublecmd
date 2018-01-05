@@ -85,7 +85,7 @@ type
 implementation
 
 uses
-  uFileProcs, DCStrUtils, uLng, uWfxModule, uFileSystemUtil, uFileProperty,
+  uFileProcs, StrUtils, DCStrUtils, uLng, uWfxModule, uFileSystemUtil, uFileProperty,
   DCDateTimeUtils, DCBasicTypes;
 
 function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: String): Boolean;
@@ -233,6 +233,14 @@ begin
   end;
 end;
 
+function FileExistsMessage(TargetFile: TFile; SourceFile: TFile): String;
+begin
+  Result:= rsMsgFileExistsOverwrite + LineEnding + TargetFile.FullPath + LineEnding +
+           Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(TargetFile.Size)), DateTimeToStr(TargetFile.ModificationTime)]) + LineEnding;
+  Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + SourceFile.FullPath + LineEnding +
+           Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(SourceFile.Size)), DateTimeToStr(SourceFile.ModificationTime)]);
+end;
+
 function TWfxPluginOperationHelper.FileExists(aFile: TFile;
   AbsoluteTargetFileName: String; AllowResume: Boolean
   ): TFileSourceOperationOptionFileExists;
@@ -244,6 +252,7 @@ const
 var
   Message: String;
   PossibleResponses: array of TFileSourceOperationUIResponse;
+  TargetFile: TFile;
 begin
   case FFileExistsOption of
     fsoofeNone:
@@ -252,10 +261,15 @@ begin
           True :  PossibleResponses := Responses;
           False:  PossibleResponses := ResponsesNoResume;
         end;
-        if FMode <> wpohmCopyOut then
-          Message:= Format(rsMsgFileExistsRwrt, [AbsoluteTargetFileName])
+        if FMode = wpohmCopyOut then
+          Message := uFileSystemUtil.FileExistsMessage(AbsoluteTargetFileName, aFile.FullPath, aFile.Size, aFile.ModificationTime)
+        else if FWfxPluginFileSource.FillSingleFile(AbsoluteTargetFileName, TargetFile) then
+        begin
+          Message := FileExistsMessage(TargetFile, aFile);
+          TargetFile.Free;
+        end
         else
-          Message:= FileExistsMessage(AbsoluteTargetFileName, aFile.FullPath, aFile.Size, aFile.ModificationTime);
+          Message := Format(rsMsgFileExistsRwrt, [AbsoluteTargetFileName]);
         case AskQuestion(Message, '',
                          PossibleResponses, fsourOverwrite, fsourSkip) of
           fsourOverwrite:
