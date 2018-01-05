@@ -21,6 +21,7 @@ type
 
     procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolean;
                            out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
+    function FillSingleFile(const FullPath: String; out aFile: TFile): Boolean;
     function WfxCopyMove(sSourceFile, sTargetFile: String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
 
@@ -85,6 +86,7 @@ type
   public
     procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolean;
                            out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
+    function FillSingleFile(const FullPath: String; out aFile: TFile): Boolean;
     function WfxCopyMove(sSourceFile, sTargetFile: String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
   public
@@ -752,6 +754,34 @@ begin
           Inc(FilesSize, aFile.Size); // in first level we know file size -> use it
         end;
     end;
+  end;
+end;
+
+function TWfxPluginFileSource.FillSingleFile(const FullPath: String; out aFile: TFile): Boolean;
+var
+  FilePath, ExpectedFileName: String;
+  FindData: TWfxFindData;
+  Handle: THandle;
+begin
+  Result := False;
+  aFile := nil;
+  FilePath := ExtractFilePath(FullPath);
+  ExpectedFileName := ExtractFileName(FullPath);
+  with FWfxModule do
+  begin
+    Handle := WfxFindFirst(FilePath, FindData);
+    if Handle = wfxInvalidHandle then Exit;
+
+    repeat
+      if (FindData.FileName = ExpectedFileName) then
+      begin
+        aFile := TWfxPluginFileSource.CreateFile(FilePath, FindData);
+        Result := True;
+        Break;
+      end;
+    until not WfxFindNext(Handle, FindData);
+
+    FsFindClose(Handle);
   end;
 end;
 
