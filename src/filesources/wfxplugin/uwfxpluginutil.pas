@@ -245,10 +245,11 @@ function TWfxPluginOperationHelper.FileExists(aFile: TFile;
   AbsoluteTargetFileName: String; AllowResume: Boolean
   ): TFileSourceOperationOptionFileExists;
 const
-  Responses: array[0..4] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourResume, fsourOverwriteAll, fsourSkipAll);
-  ResponsesNoResume: array[0..3] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll);
+  Responses: array[0..5] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourResume, fsourOverwriteAll, fsourSkipAll,
+       fsourCancel);
+  ResponsesNoResume: array[0..4] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll, fsourCancel);
 var
   Message: String;
   PossibleResponses: array of TFileSourceOperationUIResponse;
@@ -291,6 +292,9 @@ begin
               FFileExistsOption := fsoofeSkip;
               Result := fsoofeSkip;
             end;
+          fsourNone,
+          fsourCancel:
+            AbortOperation;
         end;
       end;
 
