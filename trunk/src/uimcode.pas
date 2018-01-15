@@ -2,7 +2,7 @@ unit uIMCode;
 
 interface
 
-function MakeSpellCode(stText: UnicodeString): String;
+function MakeSpellCode(const stText: String): String;
 { iMode 二进制功能位说明
   X X X X X X X X X X X X X X X X
                             3 2 1
@@ -291,24 +291,23 @@ const
                   'Z左佐繓作坐阼岝岞怍侳柞祚胙唑座袏做葄蓙飵糳咗'
   );
 
-function MakeSpellCode(stText: UnicodeString): String;
+function MakeSpellCode(const stText: String): String;
 var
-  c: UnicodeChar;
-  len: Integer;
-  substr: String;
-  usubstr: UnicodeString;
   I: Integer;
+  len: Integer;
+  c: UnicodeChar;
+  substr: String;
+  usText, usubstr: UnicodeString;
 begin
   Result := '';
-  if stText = '' then
-  begin
-    Exit;
-  end;
 
-  len:= Length(stText);
+  usText:= UTF8Decode(stText);
+  if usText = '' then Exit;
+
+  len:= Length(usText);
   for I:= 1 to len do
   begin
-    c := stText[I];
+    c := usText[I];
     if (Ord(c) >= 19968) and (Ord(c) < 40869) then
     begin
       for substr in strChineseCharList do
@@ -316,8 +315,8 @@ begin
         usubstr:= UTF8Decode(substr);
         if Pos(c, usubstr) <> 0 then
         begin
-           Result:= Result + substr[1];
-           Break;
+          Result:= Result + substr[1];
+          Break;
         end;
       end;
     end

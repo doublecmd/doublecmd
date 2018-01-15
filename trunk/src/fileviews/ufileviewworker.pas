@@ -240,7 +240,7 @@ implementation
 
 uses
   {$IFDEF timeFileView} uDebug, {$ENDIF}
-  LCLProc, Graphics, DCFileAttributes,
+  LCLProc, Graphics, DCFileAttributes, uIMCode,
   uFileSourceOperationTypes, uOSUtils, DCStrUtils, uDCUtils, uExceptions,
   uGlobs, uPixMapManager, uFileSourceProperty,
   uFileSourceCalcStatisticsOperation,
@@ -622,15 +622,9 @@ begin
       Result := False
     else
     begin
-      if aMasks.Matches(AFile.Name) then
-         Result:=False;
-      {
-      if MatchesMask(AFile.Name,
-                     aFileFilter,
-                     aFilterOptions.SearchCase = qscSensitive)
-      then
-        Result := False;
-      }
+      // Match the file name and Pinyin letter
+      if aMasks.Matches(AFile.Name) or aMasks.Matches(MakeSpellCode(AFile.Name)) then
+         Result := False;
     end;
   end
   else
