@@ -531,8 +531,6 @@ var
   sSearchNameNoExt,
   sSearchExt : String;
   AFile: TFile;
-  uFileName: UnicodeString;
-  sPy: String;
   Masks: TMaskList;
   Mask : TMask;
 
@@ -633,12 +631,8 @@ begin
 
         sFileName := AFile.Name;
 
-        // Get the Chinese first letter of Pinyin from the file name
-        uFileName := UTF8Decode(sFileName);
-        sPy := uIMCode.MakeSpellCode(uFileName);
-
-        // Match the filename and pinyin letter
-        if not (Masks.Matches(sFileName) or (MatchesMaskList(sPy, sSearchName))) then
+        // Match the file name and Pinyin letter
+        if not (Masks.Matches(sFileName) or (Masks.Matches(MakeSpellCode(sFileName)))) then
           Result := False;
 
         if Result then
