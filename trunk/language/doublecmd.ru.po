@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.9.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2017-12-06 10:27+0300\n"
+"PO-Revision-Date: 2017-12-23 10:27+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -291,7 +291,7 @@ msgstr "Тест производительности"
 
 #: tfrmbenchmark.lblbenchmarksize.caption
 msgid "Benchmark data size: %d MB"
-msgstr "Объем данных теста: %d Мб"
+msgstr "Объём данных теста: %d Мб"
 
 #: tfrmbenchmark.stgresult.columns[0].title.caption
 msgid "Hash"
@@ -11075,7 +11075,7 @@ msgstr "ПРОВЕРКА:"
 
 #: ulng.rsmsgverifywrong
 msgid "The target file is corrupted, checksum mismatch!"
-msgstr "Целевой файл поврежден, не совпадает контрольная сумма!"
+msgstr "Целевой файл повреждён, не совпадает контрольная сумма!"
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
