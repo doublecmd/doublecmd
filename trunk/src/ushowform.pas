@@ -315,9 +315,11 @@ end;
 procedure TWaitDataDouble.ShowWaitForm;
 begin
   try
-    FWaitData1.ShowWaitForm;
+    if Assigned(FWaitData1) then
+      FWaitData1.ShowWaitForm;
   finally
-    FWaitData2.ShowWaitForm;
+    if Assigned(FWaitData2) then
+      FWaitData2.ShowWaitForm;
   end;
 end;
 
