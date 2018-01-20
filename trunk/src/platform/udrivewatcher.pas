@@ -999,6 +999,8 @@ end;
       Result := dtHardDisk
     else if FSType = 'ufsd_NTFS' then
       Result := dtHardDisk
+    else if FSType = 'tuxera_ntfs' then
+      Result := dtHardDisk
     else if FSType = 'fusefs_txantfs' then
       Result := dtHardDisk
     else if FSType = 'udf' then
