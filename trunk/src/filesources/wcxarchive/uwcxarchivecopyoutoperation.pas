@@ -192,7 +192,6 @@ end;
 
 destructor TWcxArchiveCopyOutOperation.Destroy;
 begin
-  ClearCurrentOperation;
   inherited Destroy;
 end;
 

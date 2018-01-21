@@ -125,7 +125,6 @@ end;
 
 destructor TWcxArchiveDeleteOperation.Destroy;
 begin
-  ClearCurrentOperation;
   inherited Destroy;
 end;
 
