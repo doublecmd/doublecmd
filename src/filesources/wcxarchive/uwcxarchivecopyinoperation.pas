@@ -175,8 +175,6 @@ end;
 
 destructor TWcxArchiveCopyInOperation.Destroy;
 begin
-  ClearCurrentOperation;
-
   inherited Destroy;
 
   FreeAndNil(FFileList);

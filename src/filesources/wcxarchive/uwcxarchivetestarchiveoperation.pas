@@ -141,7 +141,6 @@ end;
 
 destructor TWcxArchiveTestArchiveOperation.Destroy;
 begin
-  ClearCurrentOperation;
   inherited Destroy;
 end;
 
