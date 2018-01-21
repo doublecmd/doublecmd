@@ -87,7 +87,6 @@ begin
       // Get progress percent value to directly set progress bar
       else if Size < 0 then
       begin
-        CurrentFile:= FileName;
         // Total operation percent
         if (Size >= -100) and (Size <= -1) then
         begin
