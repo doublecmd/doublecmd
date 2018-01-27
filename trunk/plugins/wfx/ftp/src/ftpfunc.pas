@@ -479,8 +479,9 @@ begin
           begin
             if Connection.MasterPassword then
             begin
-              if CryptFunc(FS_CRYPT_MOVE_PASSWORD, Connection.ConnectionName, ConnectionName) <> FS_FILE_OK then
-              begin
+              if CryptFunc(FS_CRYPT_MOVE_PASSWORD, Connection.ConnectionName, ConnectionName) = FS_FILE_OK then
+                ConnectionList[I]:= ConnectionName
+              else begin
                 gStartupInfo.MessageBox('Cannot save connection!', 'FTP', MB_OK or MB_ICONERROR);
                 Exit(False);
               end;
