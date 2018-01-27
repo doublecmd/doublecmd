@@ -126,6 +126,7 @@ begin
           begin
             Data:= SendDlgMsg(pDlg, 'chkMasterPassword', DM_GETCHECK, 0, 0);
             gConnection.MasterPassword:= Boolean(Data);
+            gConnection.PasswordChanged:= True;
           end
         else if DlgItemName = 'chkAutoTLS' then
           begin

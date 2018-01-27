@@ -488,6 +488,7 @@ begin
           end;
           if PasswordChanged then
           begin
+            // Master password enabled
             if MasterPassword then
             begin
               if Length(Password) = 0 then
@@ -497,24 +498,12 @@ begin
               else
                 MasterPassword:= False;
             end;
-          end
-          // Master password state changed
-          else if Connection.MasterPassword <> MasterPassword then
-          begin
-            // Master password enabled
-            if MasterPassword then
-            begin
-              if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
-                Password:= EmptyStr
-              else
-                MasterPassword:= False;
-            end
             // Master password disabled
-            else begin
-              Password:= ReadPassword(ConnectionName);
+            if (MasterPassword = False) and (Connection.MasterPassword <> MasterPassword) then
+            begin
               DeletePassword(ConnectionName);
             end;
-          end;
+          end
         end;
         Connection.Assign(ATemp);
         WriteConnectionList;
