@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -30,14 +30,17 @@ unit FtpConfDlg;
 interface
 
 uses
-  SysUtils, Extension;
+  SysUtils, Extension, FtpFunc;
 
-function ShowFtpConfDlg: Boolean;
+function ShowFtpConfDlg(Connection: TConnection): Boolean;
   
 implementation
 
 uses
-  LazUTF8, DynLibs, FtpFunc, FtpUtils, blcksock, ssl_openssl_lib, libssh;
+  LazUTF8, DynLibs, FtpUtils, blcksock, ssl_openssl_lib, libssh;
+
+var
+  gConnection: TConnection;
 
 procedure ShowWarningSSL;
 begin
@@ -123,8 +126,6 @@ begin
           begin
             Data:= SendDlgMsg(pDlg, 'chkMasterPassword', DM_GETCHECK, 0, 0);
             gConnection.MasterPassword:= Boolean(Data);
-            if not gConnection.MasterPassword then
-              DeletePassword(gConnection.ConnectionName);
           end
         else if DlgItemName = 'chkAutoTLS' then
           begin
@@ -235,7 +236,7 @@ begin
   end; // with
 end;
 
-function ShowFtpConfDlg: Boolean;
+function ShowFtpConfDlg(Connection: TConnection): Boolean;
 var
   ResHandle: TFPResourceHandle = 0;
   ResGlobal: TFPResourceHGLOBAL = 0;
@@ -255,6 +256,7 @@ begin
 
         with gStartupInfo do
         begin
+          gConnection := Connection;
           Result := DialogBoxLRS(ResData, ResSize, @DlgProc);
         end;
       end;

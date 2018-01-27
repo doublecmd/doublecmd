@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -33,6 +33,8 @@ uses
 
 type
 
+  { TConnection }
+
   TConnection = class
   public
     ConnectionName, Path, Host: AnsiString;
@@ -49,6 +51,8 @@ type
     InitCommands: AnsiString;
     PasswordChanged: Boolean;
     KeepAliveTransfer: Boolean;
+  public
+    procedure Assign(Connection: TConnection);
   end;
 
 function FsInitW(PluginNr: Integer; pProgressProc: TProgressProcW;
@@ -95,7 +99,6 @@ function DeletePassword(ConnectionName: AnsiString): Boolean;
 
 var
   gStartupInfo: TExtensionStartupInfo;
-  gConnection: TConnection;
 
 var
   LogProc: TLogProcW;
@@ -362,7 +365,7 @@ var
   Temp: UnicodeString;
 begin
   Result:= False;
-  SetLength(Temp, MAX_PATH);
+  SetLength(Temp, MAX_PATH + 1);
   Text:= PWideChar(Temp); Text[0]:= #0;
   if RequestProc(PluginNumber, RT_URL, nil, nil, Text, MAX_PATH) then
   begin
@@ -407,46 +410,48 @@ end;
 function AddConnection: Integer;
 var
   Temp: AnsiString;
-  bCancel: Boolean;
+  Connection: TConnection;
 begin
   Result := -1;
-  bCancel := True;
-  gConnection := TConnection.Create;
-  gConnection.PassiveMode := True;
+  Connection := TConnection.Create;
+  Connection.PassiveMode := True;
 
   if HasDialogAPI then
+  begin
+    if ShowFtpConfDlg(Connection) then
     begin
-      if ShowFtpConfDlg then
-        with gConnection do
-        begin
-          if ConnectionList.IndexOf(ConnectionName) >= 0 then begin
-            ConnectionName += '+' + IntToStr(Random(MaxInt));
-          end;
-          if MasterPassword then
-          begin
-            if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
-              Password:= EmptyStr;
-          end;
-          Result:= ConnectionList.AddObject(ConnectionName, gConnection);
-          bCancel := False;
-        end;
-    end
-  else
-    begin
-      SetLength(Temp, MAX_PATH); Temp[1]:= #0;
-      if RequestProc(PluginNumber, RT_Other, nil, nil, PWideChar(Temp), MAX_PATH) then
+      with Connection do
       begin
-        gConnection.ConnectionName := PAnsiChar(Temp);
-        if AddQuickConnection(gConnection) then
-        begin
-          Result:= ConnectionList.AddObject(gConnection.ConnectionName, gConnection);
-          bCancel := False;
+        if ConnectionList.IndexOf(ConnectionName) >= 0 then begin
+          ConnectionName += '+' + IntToStr(Random(MaxInt));
         end;
+        if MasterPassword then
+        begin
+          if Length(Password) = 0 then
+            MasterPassword:= False
+          else if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
+            Password:= EmptyStr
+          else
+            MasterPassword:= False;
+        end;
+        Result:= ConnectionList.AddObject(ConnectionName, Connection);
       end;
     end;
+  end
+  else begin
+    SetLength(Temp, MAX_PATH + 1); Temp[1]:= #0;
+    if RequestProc(PluginNumber, RT_Other, nil, nil, PWideChar(Temp), MAX_PATH) then
+    begin
+      Connection.ConnectionName := PAnsiChar(Temp);
+      if AddQuickConnection(Connection) then
+      begin
+        Result:= ConnectionList.AddObject(Connection.ConnectionName, Connection);
+      end;
+    end;
+  end;
 
-  if bCancel then
-    FreeAndNil(gConnection)
+  if Result < 0 then
+    FreeAndNil(Connection)
   else
     WriteConnectionList;
 end;
@@ -454,28 +459,70 @@ end;
 function EditConnection(ConnectionName: AnsiString): Boolean;
 var
   I: Integer;
+  ATemp: TConnection;
+  Connection: TConnection;
 begin
   Result:= False;
   if HasDialogAPI then
+  begin
+    I := ConnectionList.IndexOf(ConnectionName);
+    if I >= 0 then
     begin
-      I := ConnectionList.IndexOf(ConnectionName);
-      if I >= 0 then
+      ATemp:= TConnection.Create;
+      Connection:= TConnection(ConnectionList.Objects[I]);
+      ATemp.Assign(Connection);
+      if ShowFtpConfDlg(ATemp) then
+      begin
+        with ATemp do
         begin
-          gConnection:= TConnection(ConnectionList.Objects[I]);
-          if ShowFtpConfDlg then
+          if ConnectionName <> Connection.ConnectionName then
+          begin
+            if Connection.MasterPassword then
             begin
-              with gConnection do
-              if MasterPassword and PasswordChanged then
-                begin
-                  if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
-                    Password:= EmptyStr;
-                end;
-              WriteConnectionList;
-              Result:= True;
+              if CryptFunc(FS_CRYPT_MOVE_PASSWORD, Connection.ConnectionName, ConnectionName) <> FS_FILE_OK then
+              begin
+                gStartupInfo.MessageBox('Cannot save connection!', 'FTP', MB_OK or MB_ICONERROR);
+                Exit(False);
+              end;
             end;
-          gConnection:= nil;
+          end;
+          if PasswordChanged then
+          begin
+            if MasterPassword then
+            begin
+              if Length(Password) = 0 then
+                MasterPassword:= False
+              else if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
+                Password:= EmptyStr
+              else
+                MasterPassword:= False;
+            end;
+          end
+          // Master password state changed
+          else if Connection.MasterPassword <> MasterPassword then
+          begin
+            // Master password enabled
+            if MasterPassword then
+            begin
+              if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
+                Password:= EmptyStr
+              else
+                MasterPassword:= False;
+            end
+            // Master password disabled
+            else begin
+              Password:= ReadPassword(ConnectionName);
+              DeletePassword(ConnectionName);
+            end;
+          end;
         end;
+        Connection.Assign(ATemp);
+        WriteConnectionList;
+        Result:= True;
+      end;
+      FreeAndNil(ATemp);
     end;
+  end;
 end;
 
 function DeleteConnection(ConnectionName: AnsiString): Boolean;
@@ -754,10 +801,10 @@ begin
       sNewName := ExtractRemoteFileName(sNewName);
       ProgressProc(PluginNumber, OldName, NewName, 0);
       if FtpSend.RenameFile(sOldName, sNewName) then
-        begin
-          ProgressProc(PluginNumber, OldName, NewName, 100);
-          Result := FS_FILE_OK;
-        end;
+      begin
+        ProgressProc(PluginNumber, OldName, NewName, 100);
+        Result := FS_FILE_OK;
+      end;
     end;
 end;
 
@@ -1057,6 +1104,28 @@ var
 begin
   Password:= EmptyStr;
   Result:= CryptFunc(FS_CRYPT_DELETE_PASSWORD, ConnectionName, Password) = FS_FILE_OK;
+end;
+
+{ TConnection }
+
+procedure TConnection.Assign(Connection: TConnection);
+begin
+  Path:= Connection.Path;
+  Host:= Connection.Host;
+  Port:= Connection.Port;
+  AutoTLS:= Connection.AutoTLS;
+  FullSSL:= Connection.FullSSL;
+  OpenSSH:= Connection.OpenSSH;
+  UserName:= Connection.UserName;
+  Password:= Connection.Password;
+  Encoding:= Connection.Encoding;
+  PassiveMode:= Connection.PassiveMode;
+  UseAllocate:= Connection.UseAllocate;
+  InitCommands:= Connection.InitCommands;
+  MasterPassword:= Connection.MasterPassword;
+  ConnectionName:= Connection.ConnectionName;
+  PasswordChanged:= Connection.PasswordChanged;
+  KeepAliveTransfer:= Connection.KeepAliveTransfer;
 end;
 
 initialization
