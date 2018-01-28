@@ -2064,24 +2064,26 @@ begin
     end
   else
     begin
+      T:= GetTickCount64;
+      sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU);
+      iSearchParameter:= Length(sSearchTextA);
+
       // Choose search start position.
       if not bSearchBackwards then
       begin
         if FLastSearchPos = -1 then
           FLastSearchPos := 0
-        else if FLastSearchPos < ViewerControl.FileSize - 1 then
-          FLastSearchPos := FLastSearchPos + 1;
+        else if FLastSearchPos < ViewerControl.FileSize - iSearchParameter then
+          FLastSearchPos := FLastSearchPos + iSearchParameter;
       end
       else
       begin
         if FLastSearchPos = -1 then
           FLastSearchPos := ViewerControl.FileSize - 1
-        else if FLastSearchPos > 0 then
-          FLastSearchPos := FLastSearchPos - 1;
+        else if FLastSearchPos > iSearchParameter then
+          FLastSearchPos := FLastSearchPos - iSearchParameter;
       end;
 
-      T:= GetTickCount64;
-      sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU);
       // Using standard search algorithm if case sensitive and multibyte
       if FFindDialog.cbCaseSens.Checked and (ViewerControl.Encoding in ViewerEncodingMultiByte) then
       begin
