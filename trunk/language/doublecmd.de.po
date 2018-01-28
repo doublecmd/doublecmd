@@ -11766,7 +11766,7 @@ msgstr "Nach Namen sortieren und ersten anzeigen;wie Dateien sortieren und erste
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
-msgstr "Alphabetisch;Akzentuierungen beachten;Natürliche Sortierung: alphabetisch und numerisch"
+msgstr "Alphabetisch, Akzentuierungen beachten;Natürliche Sortierung: alphabetisch und numerisch"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
