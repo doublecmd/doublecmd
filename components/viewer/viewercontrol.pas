@@ -201,6 +201,9 @@ const
     veUtf8, veUtf8bom, veUcs2le, veUcs2be,
     veUtf16le, veUtf16be, veUtf32le, veUtf32be];
 
+  ViewerEncodingDoubleByte: TViewerEncodings = [
+    veUcs2le, veUcs2be, veUtf16le, veUtf16be   ];
+
 type
 
 
