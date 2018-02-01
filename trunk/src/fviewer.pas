@@ -2066,11 +2066,11 @@ begin
     begin
       T:= GetTickCount64;
       sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU);
-      iSearchParameter:= Length(sSearchTextA);
 
       // Choose search start position.
       if not bSearchBackwards then
       begin
+        iSearchParameter:= Length(sSearchTextA);
         if FLastSearchPos = -1 then
           FLastSearchPos := 0
         else if FLastSearchPos < ViewerControl.FileSize - iSearchParameter then
@@ -2078,9 +2078,10 @@ begin
       end
       else
       begin
+        iSearchParameter:= IfThen(ViewerControl.Encoding in ViewerEncodingDoubleByte, 2, 1);
         if FLastSearchPos = -1 then
           FLastSearchPos := ViewerControl.FileSize - 1
-        else if FLastSearchPos > iSearchParameter then
+        else if FLastSearchPos >= iSearchParameter then
           FLastSearchPos := FLastSearchPos - iSearchParameter;
       end;
 
