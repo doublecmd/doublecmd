@@ -32,9 +32,12 @@ library wlxMplayer;
 {$ENDIF}
 
 uses
-   {$IFDEF UNIX}
-   cthreads,
-   {$ENDIF}
+  {$IFDEF UNIX}
+  cthreads,
+  {$IFNDEF HEAPTRC}
+  cmem,
+  {$ENDIF}
+  {$ENDIF}
   Classes,
   sysutils,
   x,
