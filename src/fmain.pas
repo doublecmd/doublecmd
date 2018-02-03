@@ -3643,7 +3643,7 @@ begin
   begin
     DisableAutoSizing;
     try
-      ScaleFontsPPI(AYProportion);
+      // ScaleFontsPPI(AYProportion);
       BorderSpacing.AutoAdjustLayout(AXProportion, AYProportion);
       Constraints.AutoAdjustLayout(AXProportion, AYProportion);
     finally
