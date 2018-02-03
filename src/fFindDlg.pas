@@ -687,7 +687,8 @@ begin
   CloneMainAction(frmMain.actConfigSearches, actList, miOptions, 0);
 
 {$IF DEFINED(FIX_DEFAULT)}
-  Application.AddOnKeyDownBeforeHandler(@FormKeyDown);
+  if (ListOffrmFindDlgInstance.Count = 0) then
+    Application.AddOnKeyDownBeforeHandler(@FormKeyDown);
 {$ENDIF}
 end;
 
@@ -1741,7 +1742,8 @@ end;
 procedure TfrmFindDlg.FormDestroy(Sender: TObject);
 begin
 {$IF DEFINED(FIX_DEFAULT)}
-  Application.RemoveOnKeyDownBeforeHandler(@FormKeyDown);
+  if ListOffrmFindDlgInstance.Count = 0 then
+    Application.RemoveOnKeyDownBeforeHandler(@FormKeyDown);
 {$ENDIF}
   FreeAndNil(FoundedStringCopy);
   FreeAndNil(DsxPlugins);
@@ -1750,15 +1752,24 @@ end;
 {$IF DEFINED(FIX_DEFAULT)}
 procedure TfrmFindDlg.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+var
+  AParentForm: TCustomForm;
 begin
   if Key = VK_RETURN then
   begin
-    if (Sender = lsFoundedFiles) then
-      TCustomListBox(Sender).OnKeyDown(Sender, Key, Shift)
-    else if (Sender is TCustomButton) and (Screen.ActiveForm = Self) then
+    if Sender is TControl then
     begin
-      TCustomButton(Sender).Click;
-      Key:= 0;
+      AParentForm := GetParentForm(TControl(Sender));
+      if (AParentForm is TfrmFindDlg) then
+      begin
+        if (Sender = TfrmFindDlg(AParentForm).lsFoundedFiles) then
+          TCustomListBox(Sender).OnKeyDown(Sender, Key, Shift)
+        else if (Sender is TCustomButton) then
+        begin
+          TCustomButton(Sender).Click;
+          Key:= 0;
+        end;
+      end;
     end;
   end;
 end;
