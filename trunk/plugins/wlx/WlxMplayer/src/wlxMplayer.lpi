@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="10"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -13,7 +13,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="1"/>
-      <StringTable FileDescription="MPlayer WLX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2012  Koblov Alexander" ProductVersion=""/>
+      <StringTable FileDescription="MPlayer WLX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2012  Koblov Alexander"/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
@@ -56,11 +56,14 @@ end;"/>
               <OverflowChecks Value="True"/>
               <StackChecks Value="True"/>
             </Checks>
+            <Optimizations>
+              <VariablesInRegisters Value="True"/>
+              <UncertainOptimizations Value="True"/>
+            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
               <DebugInfoType Value="dsDwarf2Set"/>
-              <UseHeaptrc Value="True"/>
               <UseExternalDbgSyms Value="True"/>
             </Debugging>
             <Options>
@@ -136,6 +139,8 @@ end;"/>
       <SmartLinkUnit Value="True"/>
       <Optimizations>
         <OptimizationLevel Value="3"/>
+        <VariablesInRegisters Value="True"/>
+        <UncertainOptimizations Value="True"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>
