@@ -1250,8 +1250,8 @@ var
   sFileName: string;
   ico : TIcon = nil;
   jpg : TJpegImage = nil;
+  fsFileStream: TFileStreamEx;
   pnm : TPortableAnyMapGraphic = nil;
-  fsFileStream: TFileStreamEx = nil;
 begin
   if senderSave then
     sFileName:= FileList.Strings[iActiveFile]
@@ -1263,43 +1263,47 @@ begin
 
   try
     fsFileStream:= TFileStreamEx.Create(sFileName, fmCreate);
-    if (sExt = '.jpg') or (sExt = '.jpeg') then
-      begin
-        jpg := TJpegImage.Create;
-        try
-          jpg.Assign(Image.Picture.Graphic);
-          jpg.CompressionQuality := Quality;
-          jpg.SaveToStream(fsFileStream);
-        finally
-          jpg.Free;
+    try
+      if (sExt = '.jpg') or (sExt = '.jpeg') then
+        begin
+          jpg := TJpegImage.Create;
+          try
+            jpg.Assign(Image.Picture.Graphic);
+            jpg.CompressionQuality := Quality;
+            jpg.SaveToStream(fsFileStream);
+          finally
+            jpg.Free;
+          end;
+        end
+      else if sExt = '.ico' then
+        begin
+          ico := TIcon.Create;
+          try
+            ico.Assign(Image.Picture.Graphic);
+            ico.SaveToStream(fsFileStream);
+          finally
+            ico.Free;
+          end;
+        end
+      else if sExt = '.pnm' then
+        begin
+          pnm := TPortableAnyMapGraphic.Create;
+          try
+            pnm.Assign(Image.Picture.Graphic);
+            pnm.SaveToStream(fsFileStream);
+          finally
+            pnm.Free;
+          end;
+        end
+      else if (sExt = '.png') or (sExt = '.bmp') then
+        begin
+          Image.Picture.SaveToStreamWithFileExt(fsFileStream, sExt);
         end;
-      end;
-    if sExt = '.ico' then
-      begin
-        ico := TIcon.Create;
-        try
-          ico.Assign(Image.Picture.Graphic);
-          ico.SaveToStream(fsFileStream);
-        finally
-          ico.Free;
-        end;
-      end;
-    if sExt = '.pnm' then
-      begin
-        pnm := TPortableAnyMapGraphic.Create;
-        try
-          pnm.Assign(Image.Picture.Graphic);
-          pnm.SaveToStream(fsFileStream);
-        finally
-          pnm.Free;
-        end;
-      end;
-    if (sExt = '.png') or (sExt = '.bmp') then
-      begin
-        Image.Picture.SaveToStreamWithFileExt(fsFileStream, sExt);
-      end;
-  finally
-    FreeThenNil(fsFileStream);
+    finally
+      FreeAndNil(fsFileStream);
+    end;
+  except
+    on E: Exception do msgError(E.Message);
   end;
 end;
 
