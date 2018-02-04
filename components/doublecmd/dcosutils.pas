@@ -596,8 +596,12 @@ begin
                        AccessModes[Mode and 3] or ((Mode and fmOpenNoATime) shr 10),
                        ShareModes[(Mode and $F0) shr 4], nil, OPEN_EXISTING,
                        FILE_ATTRIBUTE_NORMAL, OpenFlags[(Mode shr 16) and 3]);
-  if (Result <> feInvalidHandle) then begin
-    if (Mode and fmOpenNoATime <> 0) then SetFileTime(Result, nil, @ft, @ft);
+  if (Mode and fmOpenNoATime <> 0) then
+  begin
+    if (Result <> feInvalidHandle) then
+      SetFileTime(Result, nil, @ft, @ft)
+    else
+      Result := mbFileOpen(FileName, Mode and not fmOpenNoATime);
   end;
 end;
 {$ELSE}
