@@ -50,8 +50,6 @@ type
                                         ErrorClass: TAbErrorClass; ErrorCode: Integer);
   public
     constructor Create(AOwner: TComponent); override;
-
-    function GetFileName(aFileIndex: Integer): String;
   end;
 
 {Mandatory functions}
@@ -87,7 +85,7 @@ var
 implementation
 
 uses
-  SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCOSUtils, DCStrUtils, DCConvertEncoding;
+  SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCConvertEncoding;
 
 threadvar
   gProcessDataProcW : TProcessDataProcW;
@@ -412,7 +410,7 @@ begin
         then
           Arc.DeleteDirectoriesRecursively(ExtractFilePath(FileNameUTF8))
         else
-          Arc.DeleteFiles(FileNameUTF8);
+          Arc.DeleteFile(FileNameUTF8);
 
         pFileName := pFileName + Length(FileName) + 1; // move after filename and ending #0
         if pFileName^ = #0 then
@@ -469,23 +467,6 @@ begin
   FProcessDataProcW := nil;
 
   TempDirectory := GetTempDir;
-end;
-
-function TAbZipKitEx.GetFileName(aFileIndex: Integer): String;
-begin
-  Result := Items[aFileIndex].FileName;
-  if (ArchiveType in [atGzip, atGzippedTar]) and (Result = 'unknown') then
-  begin
-    Result := ExtractOnlyFileName(FileName);
-    if (ArchiveType = atGzippedTar) then
-    begin
-      if (TarAutoHandle = False) and (ExtractOnlyFileExt(Result) <> 'tar') then
-        Result := Result + '.tar';
-    end;
-  end;
-  DoDirSeparators(Result);
-  Result := ExcludeFrontPathDelimiter(Result);
-  Result := ExcludeTrailingPathDelimiter(Result);
 end;
 
 procedure TAbZipKitEx.AbProcessItemFailureEvent(Sender: TObject;
