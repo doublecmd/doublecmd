@@ -64,6 +64,14 @@ type
   TAbZipKit = class(TAbCustomZipKit)
   public
     {en
+       Delete one file from archive
+    }
+    procedure DeleteFile(const aFileName : String);
+    {en
+       Get the normalized file name
+    }
+    function GetFileName(aFileIndex: Integer): String;
+    {en
         Delete directory entry and all file and directory entries matching
         the same path recursively
     }
@@ -90,7 +98,7 @@ function AbExtractEntry(const Entries : String; var StartPos : Integer) : String
 implementation
 
 uses
-  AbExcept;
+  AbExcept, DCStrUtils;
 
 { TAbArchiveItemHelper }
 
@@ -129,6 +137,50 @@ begin
 end;
 
 { TAbZipKit }
+
+procedure TAbZipKit.DeleteFile(const aFileName: String);
+var
+  I : Integer;
+  CompareName: function(const S1, S2: String): Integer;
+begin
+  TAbArchiveAccess(Archive).CheckValid;
+  if ArchiveType in [atZip, atSpannedZip, atSelfExtZip] then
+    CompareName:= @CompareText
+  else begin
+    CompareName:= @CompareStr;
+  end;
+  if Count > 0 then
+  begin
+    for I := Pred(Count) downto 0 do
+    begin
+      with Archive.ItemList[I] do
+      begin
+        if CompareName(GetFileName(I), aFileName) = 0 then
+        begin
+          DeleteAt(I);
+          Break;
+        end;
+      end;
+    end;
+  end;
+end;
+
+function TAbZipKit.GetFileName(aFileIndex: Integer): String;
+begin
+  Result := Items[aFileIndex].FileName;
+  if (ArchiveType in [atGzip, atGzippedTar]) and (Result = 'unknown') then
+  begin
+    Result := ExtractOnlyFileName(FileName);
+    if (ArchiveType = atGzippedTar) then
+    begin
+      if (TarAutoHandle = False) and (ExtractOnlyFileExt(Result) <> 'tar') then
+        Result := Result + '.tar';
+    end;
+  end;
+  DoDirSeparators(Result);
+  Result := ExcludeFrontPathDelimiter(Result);
+  Result := ExcludeTrailingPathDelimiter(Result);
+end;
 
 procedure TAbZipKit.DeleteDirectoriesRecursively(const Paths: String);
 var
