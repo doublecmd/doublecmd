@@ -141,21 +141,15 @@ end;
 procedure TAbZipKit.DeleteFile(const aFileName: String);
 var
   I : Integer;
-  CompareName: function(const S1, S2: String): Integer;
 begin
   TAbArchiveAccess(Archive).CheckValid;
-  if ArchiveType in [atZip, atSpannedZip, atSelfExtZip] then
-    CompareName:= @CompareText
-  else begin
-    CompareName:= @CompareStr;
-  end;
   if Count > 0 then
   begin
     for I := Pred(Count) downto 0 do
     begin
       with Archive.ItemList[I] do
       begin
-        if CompareName(GetFileName(I), aFileName) = 0 then
+        if CompareStr(GetFileName(I), aFileName) = 0 then
         begin
           DeleteAt(I);
           Break;
