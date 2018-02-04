@@ -600,7 +600,7 @@ begin
   begin
     if (Result <> feInvalidHandle) then
       SetFileTime(Result, nil, @ft, @ft)
-    else
+    else if GetLastError = ERROR_ACCESS_DENIED then
       Result := mbFileOpen(FileName, Mode and not fmOpenNoATime);
   end;
 end;
