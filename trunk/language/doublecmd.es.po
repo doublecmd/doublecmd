@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.8.0 alpha\n"
+"Project-Id-Version: Double Commander 0.8.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2017-05-20 12:00+0200\n"
+"PO-Revision-Date: 2018-02-04 12:00+0100\n"
 "Last-Translator: Pepe López <kuidao@yahoo.es>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -1443,7 +1443,6 @@ msgid "Attributes"
 msgstr "Atributos"
 
 #: tfrmfileproperties.tsplugins.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.tsplugins.caption"
 msgid "Plugins"
 msgstr "Complementos"
@@ -1520,7 +1519,7 @@ msgstr "Ir a la página «Cargar/Guardar»"
 
 #: tfrmfinddlg.actpagenext.caption
 msgid "Switch to Nex&t Page"
-msgstr ""
+msgstr "Cambiar a la página siguien&te"
 
 #: tfrmfinddlg.actpageplugins.caption
 msgid "Go to page \"Plugins\""
@@ -1528,7 +1527,7 @@ msgstr "Ir a la página «Complementos»"
 
 #: tfrmfinddlg.actpageprev.caption
 msgid "Switch to &Previous Page"
-msgstr ""
+msgstr "Cambiar a la &página anterior"
 
 #: tfrmfinddlg.actpageresults.caption
 msgid "Go to page \"Results\""
@@ -4531,15 +4530,15 @@ msgstr "Posición de cuadro de panel después de comparación:"
 
 #: tfrmoptionsdirectoryhotlist.actaddactiveframedir.caption
 msgid "Add directory of the &active frame"
-msgstr ""
+msgstr "Añadir la carpeta del cuadro &activo"
 
 #: tfrmoptionsdirectoryhotlist.actaddbothframedir.caption
 msgid "Add &directories of the active && inactive frames"
-msgstr ""
+msgstr "Añadir carpetas de los cua&dros activo e inactivo"
 
 #: tfrmoptionsdirectoryhotlist.actaddbrowseddir.caption
 msgid "Add directory I will bro&wse to"
-msgstr ""
+msgstr "Añadir car&peta a seleccionar..."
 
 #: tfrmoptionsdirectoryhotlist.actaddcopyofentry.caption
 msgid "Add a copy of the selected entry"
@@ -4547,7 +4546,7 @@ msgstr "Añadir una copia del apunte seleccionado"
 
 #: tfrmoptionsdirectoryhotlist.actaddselectionsfromframe.caption
 msgid "Add current &selected or active directories of active frame"
-msgstr ""
+msgstr "Añadir las carpetas actuales &seleccionadas o activas del cuadro activo"
 
 #: tfrmoptionsdirectoryhotlist.actaddseparator.caption
 msgid "Add a separator"
@@ -4555,7 +4554,7 @@ msgstr "Añadir separador"
 
 #: tfrmoptionsdirectoryhotlist.actaddsubmenu.caption
 msgid "Add a sub menu"
-msgstr ""
+msgstr "Añadir submenú"
 
 #: tfrmoptionsdirectoryhotlist.actaddtypeddir.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actaddtypeddir.caption"
@@ -4565,19 +4564,19 @@ msgstr "Añadir carpeta nueva"
 #: tfrmoptionsdirectoryhotlist.actcollapseall.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actcollapseall.caption"
 msgid "Collapse all"
-msgstr "Colapsar todo"
+msgstr "Contraer todo"
 
 #: tfrmoptionsdirectoryhotlist.actcollapseitem.caption
 msgid "Collapse item"
-msgstr ""
+msgstr "Contraer elemento"
 
 #: tfrmoptionsdirectoryhotlist.actcut.caption
 msgid "Cut selection of entries"
-msgstr ""
+msgstr "Cortar apuntes seleccionados"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteall.caption
 msgid "Delete all!"
-msgstr ""
+msgstr "¡Eliminar todo!"
 
 #: tfrmoptionsdirectoryhotlist.actdeleteselecteditem.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actdeleteselecteditem.caption"
@@ -4586,63 +4585,63 @@ msgstr "Eliminar elemento seleccionado"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenuandelem.caption
 msgid "Delete sub-menu and all its elements"
-msgstr ""
+msgstr "Borrar submenú y todos sus elementos"
 
 #: tfrmoptionsdirectoryhotlist.actdeletesubmenukeepelem.caption
 msgid "Delete just sub-menu but keep elements"
-msgstr ""
+msgstr "Borrar solo submenú pero mantener elementos"
 
 #: tfrmoptionsdirectoryhotlist.actexpanditem.caption
 msgid "Expand item"
-msgstr ""
+msgstr "Expandir elemento"
 
 #: tfrmoptionsdirectoryhotlist.actfocustreewindow.caption
 msgid "Focus tree window"
-msgstr ""
+msgstr "Foco en la ventana del árbol "
 
 #: tfrmoptionsdirectoryhotlist.actgotofirstitem.caption
 msgid "Goto first item"
-msgstr ""
+msgstr "Ir al primer elemento"
 
 #: tfrmoptionsdirectoryhotlist.actgotolastitem.caption
 msgid "Goto last item"
-msgstr ""
+msgstr "Ir al último elemento"
 
 #: tfrmoptionsdirectoryhotlist.actgotonextitem.caption
 msgid "Go to next item"
-msgstr ""
+msgstr "Ir al elemento siguiente"
 
 #: tfrmoptionsdirectoryhotlist.actgotopreviousitem.caption
 msgid "Go to previous item"
-msgstr ""
+msgstr "Ir al elemento anterior"
 
 #: tfrmoptionsdirectoryhotlist.actinsertactiveframedir.caption
 msgid "Insert directory of the &active frame"
-msgstr ""
+msgstr "Insertar carpeta del cuadro &activo"
 
 #: tfrmoptionsdirectoryhotlist.actinsertbothframedir.caption
 msgid "Insert &directories of the active && inactive frames"
-msgstr ""
+msgstr "Insertar carpetas de los cua&dros activo e inactivo"
 
 #: tfrmoptionsdirectoryhotlist.actinsertbrowseddir.caption
 msgid "Insert directory I will bro&wse to"
-msgstr ""
+msgstr "Insertar carpeta a seleccionar..."
 
 #: tfrmoptionsdirectoryhotlist.actinsertcopyofentry.caption
 msgid "Insert a copy of the selected entry"
-msgstr ""
+msgstr "Insertar una copia del apunte seleccionado"
 
 #: tfrmoptionsdirectoryhotlist.actinsertselectionsfromframe.caption
 msgid "Insert current &selected or active directories of active frame"
-msgstr ""
+msgstr "Insertar las carpetas actuales &seleccionadas o activas del cuadro activo"
 
 #: tfrmoptionsdirectoryhotlist.actinsertseparator.caption
 msgid "Insert a separator"
-msgstr ""
+msgstr "Insertar un separador"
 
 #: tfrmoptionsdirectoryhotlist.actinsertsubmenu.caption
 msgid "Insert sub menu"
-msgstr ""
+msgstr "Insertar submenú"
 
 #: tfrmoptionsdirectoryhotlist.actinserttypeddir.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actinserttypeddir.caption"
@@ -4651,11 +4650,11 @@ msgstr "Insertar carpeta nueva"
 
 #: tfrmoptionsdirectoryhotlist.actmovetonext.caption
 msgid "Move to next"
-msgstr ""
+msgstr "Mover al siguiente"
 
 #: tfrmoptionsdirectoryhotlist.actmovetoprevious.caption
 msgid "Move to previous"
-msgstr ""
+msgstr "Mover al anterior"
 
 #: tfrmoptionsdirectoryhotlist.actopenallbranches.caption
 msgctxt "tfrmoptionsdirectoryhotlist.actopenallbranches.caption"
@@ -4664,66 +4663,66 @@ msgstr "Expandir todo"
 
 #: tfrmoptionsdirectoryhotlist.actpaste.caption
 msgid "Paste what was cut"
-msgstr ""
+msgstr "Pegar lo que se cortó"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceinpath.caption
 msgid "Search && replace in &path"
-msgstr ""
+msgstr "Buscar y reem&plazar en la ruta"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceinpathandtarget.caption
 msgid "Search && replace in both path and target"
-msgstr ""
+msgstr "Buscar y reemplazar tanto en ruta como en destino"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceintargetpath.caption
 msgid "Search && replace in &target path"
-msgstr ""
+msgstr "Buscar y reemplazar en la ru&ta de destino"
 
 #: tfrmoptionsdirectoryhotlist.acttweakpath.caption
 msgid "Tweak path"
-msgstr ""
+msgstr "Ajustar ruta"
 
 #: tfrmoptionsdirectoryhotlist.acttweaktargetpath.caption
 msgid "Tweak target path"
-msgstr ""
+msgstr "Ajustar ruta de destino"
 
 #: tfrmoptionsdirectoryhotlist.btnadd.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnadd.caption"
 msgid "A&dd..."
-msgstr "Añadir..."
+msgstr "Aña&dir..."
 
 #: tfrmoptionsdirectoryhotlist.btnbackup.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnbackup.caption"
 msgid "Bac&kup..."
-msgstr "Respaldo..."
+msgstr "Res&paldo..."
 
 #: tfrmoptionsdirectoryhotlist.btndelete.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btndelete.caption"
 msgid "De&lete..."
-msgstr "Borrar..."
+msgstr "Bo&rrar..."
 
 #: tfrmoptionsdirectoryhotlist.btnexport.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnexport.caption"
 msgid "E&xport..."
-msgstr "Exportar..."
+msgstr "E&xportar..."
 
 #: tfrmoptionsdirectoryhotlist.btnhelp.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.BTNHELP.CAPTION"
 msgid "&Help"
-msgstr "Ayuda"
+msgstr "A&yuda"
 
 #: tfrmoptionsdirectoryhotlist.btnimport.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnimport.caption"
 msgid "Impo&rt..."
-msgstr "Importar..."
+msgstr "Impor&tar..."
 
 #: tfrmoptionsdirectoryhotlist.btninsert.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btninsert.caption"
 msgid "&Insert..."
-msgstr "Insertar..."
+msgstr "&Insertar..."
 
 #: tfrmoptionsdirectoryhotlist.btnmiscellaneous.caption
 msgid "&Miscellaneous..."
-msgstr "Miscelánea..."
+msgstr "&Miscelánea..."
 
 #: tfrmoptionsdirectoryhotlist.btnrelativepath.hint
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.BTNRELATIVEPATH.HINT"
@@ -4737,24 +4736,24 @@ msgstr "Algunas funciones para seleccionar el destino apropiado"
 #: tfrmoptionsdirectoryhotlist.btnsort.caption
 msgctxt "tfrmoptionsdirectoryhotlist.btnsort.caption"
 msgid "&Sort..."
-msgstr "Ordenar..."
+msgstr "&Ordenar..."
 
 #: tfrmoptionsdirectoryhotlist.cbaddtarget.caption
 msgid "&When adding directory, add also target"
-msgstr "Al añadir carpeta, agregar también destino"
+msgstr "Al a&ñadir carpeta, agregar también destino"
 
 #: tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption
 msgctxt "tfrmoptionsdirectoryhotlist.cbfullexpandtree.caption"
 msgid "Alwa&ys expand tree"
-msgstr "Expandir siempre el árbol"
+msgstr "Expa&ndir siempre el árbol"
 
 #: tfrmoptionsdirectoryhotlist.cbshowonlyvalidenv.caption
 msgid "Show only &valid environment variables"
-msgstr "Mostrar solo variables de entorno válidas"
+msgstr "Mostrar solo &variables de entorno válidas"
 
 #: tfrmoptionsdirectoryhotlist.cbshowpathinpopup.caption
 msgid "In pop&up, show [path also]"
-msgstr "Mostrar la ruta en el menú emergente"
+msgstr "Mostrar la r&uta en el menú emergente"
 
 #: tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text
 msgctxt "tfrmoptionsdirectoryhotlist.cbsorthotdirpath.text"
@@ -4787,44 +4786,44 @@ msgstr "Ruta:"
 
 #: tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption
 msgid "&Target:"
-msgstr "Destino:"
+msgstr "Des&tino:"
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
 msgctxt "tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption"
 msgid "...current le&vel of item(s) selected only"
-msgstr "...nivel actual de elemento(s) seleccionados solamente"
+msgstr "...ni&vel actual de elemento(s) seleccionados solamente"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathexist.caption
 msgid "Scan all &hotdir's path to validate the ones that actually exist"
-msgstr "Comprobar que existen las rutas de los marcadores"
+msgstr "Comprobar &que existen las rutas de los marcadores"
 
 #: tfrmoptionsdirectoryhotlist.midetectifpathtargetexist.caption
 msgid "&Scan all hotdir's path && target to validate the ones that actually exist"
-msgstr "Comprobar que existen las rutas y destinos de los marcadores"
+msgstr "Comprobar que exi&sten las rutas y destinos de los marcadores"
 
 #: tfrmoptionsdirectoryhotlist.miexporttohotlistfile.caption
 msgid "to a Directory &Hotlist file (.hotlist)"
-msgstr "a un archivo marcadores (.hotlist)"
+msgstr "a un archivo marcadores (.&hotlist)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommanderk.caption"
 msgid "to a \"wincmd.ini\" of TC (&keep existing)"
-msgstr "al «wincmd.ini» de TC (mantener existente)"
+msgstr "al «wincmd.ini» de TC (mant&ener existente)"
 
 #: tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption
 msgctxt "tfrmoptionsdirectoryhotlist.miexporttototalcommandernk.caption"
 msgid "to a \"wincmd.ini\" of TC (&erase existing)"
-msgstr "al «wincmd.ini» de TC (borrando existente)"
+msgstr "al «wincmd.ini» de TC (borrando &existente)"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption
 msgctxt "tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo1.caption"
 msgid "Go to &configure TC related info"
-msgstr "Ir a info configurar TC"
+msgstr "Ir a info &configurar TC"
 
 #: tfrmoptionsdirectoryhotlist.migotoconfiguretcinfo2.caption
 msgctxt "TFRMOPTIONSDIRECTORYHOTLIST.MIGOTOCONFIGURETCINFO2.CAPTION"
 msgid "Go to &configure TC related info"
-msgstr "Ir a info configurar TC"
+msgstr "Ir a info &configurar TC"
 
 #: tfrmoptionsdirectoryhotlist.mihotdirtestmenu.caption
 msgid "HotDirTestMenu"
@@ -4832,65 +4831,65 @@ msgstr "Menú de pruebas para las carpetas de favoritos"
 
 #: tfrmoptionsdirectoryhotlist.miimportfromhotlistfile.caption
 msgid "from a Directory &Hotlist file (.hotlist)"
-msgstr "desde un archivo marcadores (.hotlist)"
+msgstr "desde un archivo marcadores (.&hotlist)"
 
 #: tfrmoptionsdirectoryhotlist.miimporttotalcommander.caption
 msgid "from \"&wincmd.ini\" of TC"
-msgstr "desde «wincmd.ini» de TC"
+msgstr "desde «&wincmd.ini» de TC"
 
 #: tfrmoptionsdirectoryhotlist.minavigate.caption
 msgid "&Navigate..."
-msgstr ""
+msgstr "&Navegar..."
 
 #: tfrmoptionsdirectoryhotlist.mirestorebackuphotlist.caption
 msgid "&Restore a backup of Directory Hotlist"
-msgstr "Recuperar un respaldo de la lista de marcadores"
+msgstr "&Recuperar un respaldo de la lista de marcadores"
 
 #: tfrmoptionsdirectoryhotlist.misavebackuphotlist.caption
 msgid "&Save a backup of current Directory Hotlist"
-msgstr "Guardar un respaldo de la lista de marcadores actual"
+msgstr "Guardar un re&spaldo de la lista de marcadores actual"
 
 #: tfrmoptionsdirectoryhotlist.misearchandreplace.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misearchandreplace.caption"
 msgid "Search and &replace..."
-msgstr "Buscar y reemplazar..."
+msgstr "Buscar y &reemplazar..."
 
 #: tfrmoptionsdirectoryhotlist.misorteverything.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misorteverything.caption"
 msgid "...everything, from A to &Z!"
-msgstr "...todo, de la A a la Z"
+msgstr "...todo, de la A a la &Z"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglegroup.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misortsinglegroup.caption"
 msgid "...single &group of item(s) only"
-msgstr "...solo grupo único de elemento(s)"
+msgstr "...solo &grupo único de elemento(s)"
 
 #: tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misortsinglesubmenu.caption"
 msgid "...&content of submenu(s) selected, no sublevel"
-msgstr "...contenido de submenú(s) seleccionado, sin subnivel"
+msgstr "...&contenido de submenú(s) seleccionado, sin subnivel"
 
 #: tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption
 msgctxt "tfrmoptionsdirectoryhotlist.misortsubmenuandsublevel.caption"
 msgid "...content of submenu(s) selected and &all sublevels"
-msgstr "...contenido de submenú(s) seleccionado y todos sus subniveles"
+msgstr "...contenido de submenú(s) seleccion&ado y todos sus subniveles"
 
 #: tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption
 msgctxt "tfrmoptionsdirectoryhotlist.mitestresultinghotlistmenu.caption"
 msgid "Test resultin&g menu"
-msgstr "Prueba del menú resultante"
+msgstr "Prue&ba del menú resultante"
 
 #: tfrmoptionsdirectoryhotlist.mitweakpath.caption
 msgid "Tweak &path"
-msgstr ""
+msgstr "Ajustar &la ruta"
 
 #: tfrmoptionsdirectoryhotlist.mitweaktargetpath.caption
 msgid "Tweak &target path"
-msgstr ""
+msgstr "Ajustar la ru&ta de destino"
 
 #: tfrmoptionsdirectoryhotlist.rgwheretoadd.caption
 msgid "Addition from main panel"
-msgstr "Adición desde el panel principal:"
+msgstr "Adición desde el panel principal"
 
 #: tfrmoptionsdragdrop.cbdraganddropaskformateachtime.caption
 msgid "From all the supported formats, ask which one to use every time"
@@ -5188,7 +5187,7 @@ msgstr "Añadir submenú"
 #: tfrmoptionsfavoritetabs.micollapseall.caption
 msgctxt "TFRMOPTIONSFAVORITETABS.MICOLLAPSEALL.CAPTION"
 msgid "Collapse all"
-msgstr "Colapsar todo"
+msgstr "Contraer todo"
 
 #: tfrmoptionsfavoritetabs.micurrentlevelofitemonly.caption
 msgctxt "TFRMOPTIONSFAVORITETABS.MICURRENTLEVELOFITEMONLY.CAPTION"
@@ -9747,7 +9746,7 @@ msgstr "Cuenta:"
 
 #: ulng.rsmsgalldcintcmds
 msgid "All Double Commander internal commands"
-msgstr ""
+msgstr "Todos los comandos internos de Double Commander"
 
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
@@ -9797,7 +9796,7 @@ msgstr ""
 
 #: ulng.rsmsgcofirmuserparam
 msgid "Confirmation of parameter"
-msgstr ""
+msgstr "Confirmación de parámetro"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
@@ -10102,6 +10101,7 @@ msgid "Some file operations have not yet finished. Closing Double Commander may 
 msgstr "Algunas operaciones con archivos no han terminado todavía. Si cierra Double Commander puede perder datos."
 
 #: ulng.rsmsgfilepathovermaxpath
+#, fuzzy,badformat
 msgid ""
 "The target name length (%d) is more than %d characters!\n"
 "%s\n"
@@ -10218,7 +10218,7 @@ msgstr "Imp. selección"
 #: ulng.rsmsghotdirjustpath
 msgctxt "ulng.rsmsghotdirjustpath"
 msgid "&Path:"
-msgstr "Ruta"
+msgstr "&Ruta:"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
@@ -10265,12 +10265,12 @@ msgstr "(fin de submenú)"
 #: ulng.rsmsghotdirsimplemenu
 msgctxt "ulng.rsmsghotdirsimplemenu"
 msgid "Menu &name:"
-msgstr "Nombre del menú:"
+msgstr "Nombre del me&nú:"
 
 #: ulng.rsmsghotdirsimplename
 msgctxt "ulng.rsmsghotdirsimplename"
 msgid "&Name:"
-msgstr "Nombre:"
+msgstr "&Nombre:"
 
 #: ulng.rsmsghotdirsimpleseparator
 msgctxt "ulng.rsmsghotdirsimpleseparator"
@@ -10502,7 +10502,7 @@ msgstr "No se ha implementado."
 
 #: ulng.rsmsgobjectnotexists
 msgid "Object does not exist!"
-msgstr ""
+msgstr "¡El objeto no existe!"
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
@@ -10787,11 +10787,11 @@ msgstr "Nombre del usuario (Firewall):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
-msgstr ""
+msgstr "VERIFICACIÓN:"
 
 #: ulng.rsmsgverifywrong
 msgid "The target file is corrupted, checksum mismatch!"
-msgstr ""
+msgstr "El archivo de destino está dañado y la suma de verificación no coincide."
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -11930,10 +11930,8 @@ msgid "Other example of what's possible"
 msgstr "Otro ejemplo de lo que es posible"
 
 #: ulng.rsvarpath
-#, fuzzy
-#| msgid "Path, with ending delimiter"
 msgid "Path, without ending delimiter"
-msgstr "Ruta de acceso, con delimitador final"
+msgstr "Ruta, sin delimitador final"
 
 #: ulng.rsvarpercentchangetopound
 msgid "From here to the end of the line, the percent-variable indicator is the \"#\" sign"
