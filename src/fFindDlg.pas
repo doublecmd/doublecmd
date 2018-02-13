@@ -4,7 +4,7 @@
    Find dialog, with searching in thread
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ uses
   fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
   uSearchTemplate, fSearchPlugin, uFileView, types, DCStrUtils,
   ActnList, uOSForms, uShellContextMenu, uExceptions, uFileSystemFileSource,
-  uFormCommands, uHotkeyManager;
+  uFormCommands, uHotkeyManager, LCLVersion;
 
 {$IF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
   {$DEFINE FIX_DEFAULT}
@@ -1768,7 +1768,16 @@ begin
         begin
           TCustomButton(Sender).Click;
           Key:= 0;
+        end
+{$if (lcl_fullversion < 1090000) and defined(lclgtk2)}
+        else begin
+          Key := 0;
+          if btnStart.Enabled then
+            btnStart.Click
+          else
+            btnStop.Click;
         end;
+{$endif}
       end;
     end;
   end;
