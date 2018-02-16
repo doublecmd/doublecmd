@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains Unix specific functions
 
-   Copyright (C) 2015-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -39,6 +39,10 @@ const
   O_CLOEXEC  = $00400000;
 {$ELSE}
   O_CLOEXEC  = 0;
+{$ENDIF}
+
+{$IF DEFINED(LINUX)}
+  {$I dclinuxmagic.inc}
 {$ENDIF}
 
 {en

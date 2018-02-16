@@ -41,7 +41,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2013 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
 
    TODO:
@@ -510,7 +510,7 @@ uses
   LCLType, LCLVersion, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
   DCUnicodeUtils, LCLIntf, LazUTF8, DCOSUtils , DCConvertEncoding
   {$IF DEFINED(UNIX)}
-  , BaseUnix, Unix
+  , BaseUnix, Unix, DCUnix
   {$ELSEIF DEFINED(WINDOWS)}
   , Windows, DCWindows
   {$ENDIF};
@@ -1430,6 +1430,9 @@ end;
 {$ELSE}
 var
   StatBuf: Stat;
+{$IFDEF LINUX}
+  Sbfs: TStatFS;
+{$ENDIF}
 begin
   Result := False;
   if Assigned(FMappedFile) then
@@ -1450,6 +1453,22 @@ begin
   end;
 
   FFileSize := StatBuf.st_size;
+
+{$IFDEF LINUX}
+  if (fpFStatFS(FFileHandle, @Sbfs) = 0) then
+  begin
+    // Special case for PROC_FS and SYS_FS
+    if (sbfs.fstype = PROC_SUPER_MAGIC) or (sbfs.fstype = SYSFS_MAGIC) then
+    begin
+      FMappedFile := GetMem(MaxMemSize - 1);
+      FFileSize := FileRead(FFileHandle, FMappedFile^, MaxMemSize - 1);
+      Result := (FFileSize > 0);
+      FileClose(FFileHandle);
+      FFileHandle := 0;
+      Exit;
+    end;
+  end;
+{$ENDIF}
 
   if (FFileSize < MaxMemSize) then
   begin
