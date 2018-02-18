@@ -629,6 +629,7 @@ end;
          (mnt_type = 'fusectl') or
          (mnt_type = 'securityfs') or
          (mnt_type = 'binfmt_misc') or
+         (mnt_type = 'fuse.gvfsd-fuse') or
          (mnt_type = 'fuse.gvfs-fuse-daemon') or
          (mnt_type = 'fuse.truecrypt') or
          (mnt_type = 'nfsd') or
