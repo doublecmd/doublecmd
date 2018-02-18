@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Enumerating and monitoring drives in the system.
 
-   Copyright (C) 2006-2017  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -699,16 +699,13 @@ var
   function GetDrive(const DrivesList: TDrivesList;
                     const Device, MountPoint: String): PDrive;
   var
-    i: Integer;
+    K: Integer;
   begin
-    for i := 0 to DrivesList.Count - 1 do
+    for K := 0 to DrivesList.Count - 1 do
     begin
-      // If UDisks not available only check mount points.
-      if (DrivesList[i]^.Path = MountPoint) and
-         (not CheckDevice(Device) or
-          not CheckDevice(DrivesList[i]^.DeviceId) or
-          (DrivesList[i]^.DeviceId = Device)) then
-        Exit(DrivesList[i]);
+      if (DrivesList[K]^.Path = MountPoint) or
+         (DrivesList[K]^.DeviceId = Device) then
+        Exit(DrivesList[K]);
     end;
     Result := nil;
   end;
@@ -799,10 +796,10 @@ const
   MntEntFileList: array[1..2] of PChar = (_PATH_MOUNTED, _PATH_FSTAB);
 var
   Drive : PDrive = nil;
-  ExistingDrive : PDrive;
   fstab: PIOFile;
   pme: PMountEntry;
   I: Integer;
+  UpdateDrive: Boolean;
   UDisksDevices: TUDisksDevicesInfos;
   UDisksDevice: TUDisksDeviceInfo;
   UDisksDeviceObject: String;
@@ -865,9 +862,18 @@ begin
           if not HandledByUDisks then
           begin
             DeviceFile := mbCheckReadLinks(DeviceFile);
-            if CanAddDevice(DeviceFile, MountPoint) then
+            Drive := GetDrive(Result, DeviceFile, MountPoint);
+            if (Drive = nil) then
             begin
               New(Drive);
+              UpdateDrive := False;
+            end
+            else begin
+              UpdateDrive := (Drive^.FileSystem = 'autofs');
+              if not UpdateDrive then Drive:= nil;
+            end;
+            if Assigned(Drive) then
+            begin
               with Drive^ do
               begin
                 DeviceId := DeviceFile;
@@ -903,6 +909,7 @@ begin
                 IsMounted:= (MntEntFileList[I] = _PATH_MOUNTED);
                 AutoMount:= True;
               end;
+              if UpdateDrive then Drive:= nil;
             end;
           end;
 
