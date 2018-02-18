@@ -44,6 +44,7 @@ type
   end;
 
 var
+  Mutex: TRTLCriticalSection;
   PollThread: TPollThread = nil;
 
 procedure Print(const sMessage: String);
@@ -54,26 +55,36 @@ end;
 procedure AddPoll(fd: cint; events: cshort; handler: TNotifyEvent;
   CloseOnDestroy: Boolean);
 begin
-  if not Assigned(PollThread) then begin
-    PollThread:= TPollThread.Create;
+  EnterCriticalSection(Mutex);
+  try
+    if not Assigned(PollThread) then begin
+      PollThread:= TPollThread.Create;
+    end;
+    PollThread.AddPoll(fd, events, handler, CloseOnDestroy);
+    Print('AddPoll ' + IntToStr(fd));
+  finally
+    LeaveCriticalSection(Mutex);
   end;
-  PollThread.AddPoll(fd, events, handler, CloseOnDestroy);
-  Print('AddPoll ' + IntToStr(fd));
 end;
 
 procedure RemovePoll(fd: cint);
 var
   Index: Integer;
 begin
-  for Index:= 0 to PollThread.FCount - 1 do
-  begin
-    if PollThread.FDesc[Index].fd = fd then
+  EnterCriticalSection(Mutex);
+  try
+    for Index:= 0 to PollThread.FCount - 1 do
     begin
-      PollThread.FDesc[Index].events:= 0;
-      Break;
+      if PollThread.FDesc[Index].fd = fd then
+      begin
+        PollThread.FDesc[Index].events:= 0;
+        Break;
+      end;
     end;
+    Print('RemovePoll ' + IntToStr(fd));
+  finally
+    LeaveCriticalSection(Mutex);
   end;
-  Print('RemovePoll ' + IntToStr(fd));
 end;
 
 { TPollThread }
@@ -183,8 +194,12 @@ begin
   Print('Finish polling');
 end;
 
+initialization
+  InitCriticalSection(Mutex);
+
 finalization
   PollThread.Free;
+  DoneCriticalSection(Mutex);
 
 end.
 
