@@ -129,7 +129,11 @@ type
 implementation
 
 uses
-  LazUTF8, LazFileUtils, FtpFunc, FtpUtils, synautil, synsock, blcksock;
+  LazUTF8, LazFileUtils, FtpFunc, FtpUtils, synautil, synsock, blcksock
+{$IF (FPC_FULLVERSION < 30000)}
+  , LazUTF8SysUtils
+{$ENDIF}
+  ;
 
 {$IF NOT DECLARED(EncodingCP1250)}
 const
