@@ -60,7 +60,7 @@ object frmAbout: TfrmAbout
       BorderSpacing.Left = 6
       BorderSpacing.Top = 8
       BorderSpacing.Bottom = 15
-      Caption = 'http://doublecmd.sourceforge.net'
+      Caption = 'https://doublecmd.sourceforge.io'
       Font.Color = clBlue
       ParentColor = False
       ParentFont = False
