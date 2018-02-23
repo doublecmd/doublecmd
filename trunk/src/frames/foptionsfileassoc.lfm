@@ -624,7 +624,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideRight.Control = btnCommands
           Left = 79
           Height = 23
-          Hint = 'Command to execute. Long filename with space should be quoted.'
+          Hint = 'Command to execute. Never quote this string.'
           Top = 27
           Width = 413
           DialogOptions = []
@@ -803,7 +803,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideRight.Control = btnParametersHelper
           Left = 79
           Height = 23
-          Hint = 'Parameter to pass to the command. Long filename with spaces should be quoted.'
+          Hint = 'Parameter to pass to the command. Long filename with spaces should be quoted (manually entering).'
           Top = 52
           Width = 436
           Anchors = [akTop, akLeft, akRight]
