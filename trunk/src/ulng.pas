@@ -102,6 +102,7 @@ resourcestring
   rsMsgArchiverCustomParams = 'Additional parameters for archiver command-line:';
   rsMsgMasterPassword = 'Master Password';
   rsMsgMasterPasswordEnter = 'Please enter the master password:';
+  rsMsgWrongPasswordTryAgain = 'Wrong password!'#13'Please try again!';
   rsMsgPasswordEnter = 'Please enter the password:';
   rsMsgPasswordVerify = 'Please re-enter the password for verification:';
   rsMsgPasswordDiff = 'Passwords are different!';
