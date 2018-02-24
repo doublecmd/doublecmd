@@ -66,7 +66,7 @@ var
 implementation
 
 uses
-  LCLType, Base64, BlowFish, MD5, HMAC, SCRYPT, SHA3_512, Hash,
+  LCLType, LCLStrConsts, Base64, BlowFish, MD5, HMAC, SCRYPT, SHA3_512, Hash,
   DCPrijndael, uShowMsg, uGlobsPaths, uLng, uDebug, uRandom;
 
 const
@@ -339,27 +339,30 @@ var
 begin
   Result:= False;
   if Length(FMasterKey) <> 0 then Exit(True);
-  if not ShowInputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, MasterKey) then
-    Exit;
-  if Length(MasterKey) = 0 then Exit;
-  UpdateMasterKey(MasterKey, MasterKeyHash);
-  if FMasterKeyHash = EmptyStr then
-    begin
-      FMasterKey:= MasterKey;
-      FMasterKeyHash:= MasterKeyHash;
-      WriteString('General', 'MasterKey', FMasterKeyHash);
-      Result:= True;
-    end
-  else if SameText(FMasterKeyHash, MasterKeyHash) then
-    begin
-      FMasterKey:= MasterKey;
-      if not FMasterStrong then ConvertStore;
-      Result:= True;
-    end
-  else
-    begin
-      ShowMessageBox('Wrong password!'#13'Please try again!', 'Error!', MB_OK or MB_ICONERROR);
-    end;
+  while (Result = False) do
+  begin
+    if not ShowInputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, MasterKey) then
+      Exit;
+    if Length(MasterKey) = 0 then Exit;
+    UpdateMasterKey(MasterKey, MasterKeyHash);
+    if FMasterKeyHash = EmptyStr then
+      begin
+        FMasterKey:= MasterKey;
+        FMasterKeyHash:= MasterKeyHash;
+        WriteString('General', 'MasterKey', FMasterKeyHash);
+        Result:= True;
+      end
+    else if SameText(FMasterKeyHash, MasterKeyHash) then
+      begin
+        FMasterKey:= MasterKey;
+        if not FMasterStrong then ConvertStore;
+        Result:= True;
+      end
+    else
+      begin
+        ShowMessageBox(rsMsgWrongPasswordTryAgain, rsMtError, MB_OK or MB_ICONERROR);
+      end;
+  end;
 end;
 
 function TPasswordStore.WritePassword(Prefix, Name, Connection: String;
