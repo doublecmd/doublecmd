@@ -2254,6 +2254,7 @@ end;
 
 procedure TfrmViewer.cm_Reload(const Params: array of string);
 begin
+  ExitPluginMode;
   LoadFile(iActiveFile);
 end;
 
@@ -2298,6 +2299,7 @@ begin
       Exit;
 
   end;
+  ExitPluginMode;
   if pnlPreview.Visible then
     begin
       if DrawPreview.Col = 0  then
@@ -2680,6 +2682,7 @@ end;
 
 procedure TfrmViewer.cm_ShowPlugins(const Params: array of string);
 begin
+  ExitPluginMode;
   bPlugin:= CheckPlugins(FileList.Strings[iActiveFile], True);
   if bPlugin then
   begin
