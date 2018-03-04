@@ -648,7 +648,7 @@ function LuaCheckVersion: Boolean;
 begin
   Result:= True;
   if Assigned(lua_version) then begin
-    Result:= (lua_version(nil)^ = LUA_VERSION_NUM);
+    Result:= (Trunc(lua_version(nil)^) = LUA_VERSION_NUM);
   end;
   Result:= Result and (luaJIT = False);
 end;
