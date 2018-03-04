@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Push some useful functions to Lua
 
-   Copyright (C) 2016-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -522,24 +522,20 @@ begin
     luaL_openlibs(L);
     RegisterPackages(L);
 
-    // Push arguments
-    Count:= Length(Args);
-    if (Count > 0) then
-    begin
-      for Index := 0 to Count - 1 do begin
-        lua_pushstring(L, PAnsiChar(Args[Index]));
-      end;
-      lua_createtable(L, Count, 0);
-      lua_setglobal(L, 'arg');
-    end;
-
-    // Execute script
+    // Load script from file
     Status := luaL_loadfile(L, PAnsiChar(Script));
-    lua_insert(L, -(Count + 1));
     if (Status = 0) then
+    begin
+      // Push arguments
+      Count:= Length(Args);
+      if (Count > 0) then
+      begin
+        for Index := 0 to Count - 1 do begin
+          lua_pushstring(L, PAnsiChar(Args[Index]));
+        end;
+      end;
+      // Execute script
       Status := lua_pcall(L, Count, 0, 0)
-    else begin
-      lua_pop(L, Count);
     end;
 
     // Check execution result
