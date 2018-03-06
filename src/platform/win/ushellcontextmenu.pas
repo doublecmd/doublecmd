@@ -92,6 +92,8 @@ var
 function MyWndProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 begin
   case uiMsg of
+    WM_MENUSELECT:
+      Result := DefWindowProc(hWnd, uiMsg, wParam, lParam);
     (* For working with submenu of context menu *)
     WM_INITMENUPOPUP,
     WM_DRAWITEM,
