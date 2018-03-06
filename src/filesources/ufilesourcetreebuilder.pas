@@ -254,10 +254,10 @@ begin
     end;
   end;
 
-  if aFile.IsDirectory then
-    AddDirectory(aFile, CurrentNode)
-  else if aFile.IsLink then
+  if aFile.IsLink then
     DecideOnLink(aFile, CurrentNode)
+  else if aFile.IsDirectory then
+    AddDirectory(aFile, CurrentNode)
   else
     AddFile(aFile, CurrentNode);
 end;
