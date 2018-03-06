@@ -74,12 +74,7 @@ begin
   FStatistics.CurrentFile := aFile.Path + aFile.Name;
   UpdateStatistics(FStatistics);
 
-  if aFile.IsDirectory then
-  begin
-    Inc(FStatistics.Directories);
-    ProcessSubDirs(aFile.Path + aFile.Name + DirectorySeparator);
-  end
-  else if aFile.IsLink then
+  if aFile.IsLink then
   begin
     Inc(FStatistics.Links);
 
@@ -106,6 +101,11 @@ begin
           end;
         end;
     end;
+  end
+  else if aFile.IsDirectory then
+  begin
+    Inc(FStatistics.Directories);
+    ProcessSubDirs(aFile.Path + aFile.Name + DirectorySeparator);
   end
   else
   begin
