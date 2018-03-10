@@ -1274,7 +1274,8 @@ end;
 
 procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
 var
-  R: Integer;
+  R, Y: Integer;
+  Selection: TGridRect;
   SyncRec: TFileSyncRec;
 
   procedure UpdateAction(NewAction: TSyncRecState);
@@ -1298,6 +1299,20 @@ var
   end;
 
 begin
+  Selection:= MainDrawGrid.Selection;
+  if (MainDrawGrid.HasMultiSelection) or (Selection.Bottom <> Selection.Top) then
+  begin
+    for R:= 0 to MainDrawGrid.SelectedRangeCount - 1 do
+    begin
+      Selection:= MainDrawGrid.SelectedRange[R];
+      for Y := Selection.Top to Selection.Bottom do
+      begin
+        SyncRec := TFileSyncRec(FVisibleItems.Objects[Y]);
+        if Assigned(SyncRec) then UpdateAction(AState);
+      end;
+    end;
+    Exit;
+  end;
   R := MainDrawGrid.Row;
   if (R < 0) or (R >= FVisibleItems.Count) then Exit;
   SyncRec := TFileSyncRec(FVisibleItems.Objects[r]);
