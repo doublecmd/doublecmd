@@ -701,11 +701,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3
       C3FFC3C3C3FFC3C3C3FFC3C3C3FF
     }
-    BitmapAdv = {
-      4C6900000000
-    }
   end
   object pmGridMenu: TPopupMenu
+    OnPopup = pmGridMenuPopup
     left = 121
     top = 217
     object miSelectCopyDefault: TMenuItem
@@ -741,6 +739,12 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       ShortCut = 16498
       OnClick = MainDrawGridDblClick
     end
+    object miSeparator2: TMenuItem
+      Caption = '-'
+    end
+    object miSelectDeleteRight: TMenuItem
+      Action = actSelectDeleteRight
+    end
   end
   object ActionList: TActionList
     left = 376
@@ -763,6 +767,10 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     end
     object actSelectCopyReverse: TAction
       Caption = 'Reverse copy direction'
+      OnExecute = actExecute
+    end
+    object actSelectDeleteRight: TAction
+      Caption = 'Select for deleting -> (right)'
       OnExecute = actExecute
     end
   end

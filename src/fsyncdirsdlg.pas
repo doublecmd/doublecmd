@@ -40,6 +40,7 @@ type
   { TfrmSyncDirsDlg }
 
   TfrmSyncDirsDlg = class(TForm, IFormCommands)
+    actSelectDeleteRight: TAction;
     actSelectCopyReverse: TAction;
     actSelectClear: TAction;
     actSelectCopyLeftToRight: TAction;
@@ -66,6 +67,8 @@ type
     Label1: TLabel;
     LeftPanel1: TPanel;
     LeftPanel2: TPanel;
+    miSelectDeleteRight: TMenuItem;
+    miSeparator2: TMenuItem;
     miSelectCopyReverse: TMenuItem;
     miSeparator1: TMenuItem;
     miSelectCopyLeftToRight: TMenuItem;
@@ -104,6 +107,7 @@ type
       const aIndex, aSize: Integer);
     procedure FilterSpeedButtonClick(Sender: TObject);
     procedure MenuItemViewClick(Sender: TObject);
+    procedure pmGridMenuPopup(Sender: TObject);
   private
     FCommands: TFormCommands;
   private
@@ -144,6 +148,7 @@ type
     destructor Destroy; override;
   published
     procedure cm_SelectClear(const {%H-}Params:array of string);
+    procedure cm_SelectDeleteRight(const {%H-}Params:array of string);
     procedure cm_SelectCopyDefault(const {%H-}Params:array of string);
     procedure cm_SelectCopyReverse(const {%H-}Params:array of string);
     procedure cm_SelectCopyLeftToRight(const {%H-}Params:array of string);
@@ -822,6 +827,12 @@ begin
   end;
 end;
 
+procedure TfrmSyncDirsDlg.pmGridMenuPopup(Sender: TObject);
+begin
+  miSeparator2.Visible := chkAsymmetric.Checked;
+  miSelectDeleteRight.Visible := chkAsymmetric.Checked;
+end;
+
 procedure TfrmSyncDirsDlg.SetSortIndex(AValue: Integer);
 var
   s: string;
@@ -1303,6 +1314,11 @@ var
           if not Assigned(SyncRec.FFileL) then
             NewAction:= srsDoNothing;
         end;
+      srsDeleteRight:
+        begin
+          if not Assigned(SyncRec.FFileR) then
+            NewAction:= srsDoNothing;
+        end;
     end;
     SyncRec.FAction:= NewAction;
     MainDrawGrid.InvalidateRow(R);
@@ -1384,6 +1400,11 @@ end;
 procedure TfrmSyncDirsDlg.cm_SelectClear(const Params: array of string);
 begin
   SetSyncRecState(srsDoNothing);
+end;
+
+procedure TfrmSyncDirsDlg.cm_SelectDeleteRight(const Params: array of string);
+begin
+  SetSyncRecState(srsDeleteRight);
 end;
 
 procedure TfrmSyncDirsDlg.cm_SelectCopyDefault(const Params: array of string);
