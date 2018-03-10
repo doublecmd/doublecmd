@@ -701,6 +701,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3
       C3FFC3C3C3FFC3C3C3FFC3C3C3FF
     }
+    BitmapAdv = {
+      4C6900000000
+    }
   end
   object pmGridMenu: TPopupMenu
     left = 121
@@ -716,6 +719,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     end
     object miSelectCopyRightToLeft: TMenuItem
       Action = actSelectCopyRightToLeft
+    end
+    object miSelectCopyReverse: TMenuItem
+      Action = actSelectCopyReverse
     end
     object miSeparator1: TMenuItem
       Caption = '-'
@@ -753,6 +759,10 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     end
     object actSelectClear: TAction
       Caption = 'Remove selection'
+      OnExecute = actExecute
+    end
+    object actSelectCopyReverse: TAction
+      Caption = 'Reverse copy direction'
       OnExecute = actExecute
     end
   end
