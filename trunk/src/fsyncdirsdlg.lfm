@@ -461,8 +461,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     FixedCols = 0
     FixedRows = 0
     MouseWheelOption = mwGrid
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goSmoothScroll, goHeaderPushedLook, goDontScrollPartCell]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goSmoothScroll, goHeaderPushedLook, goDontScrollPartCell, goRowHighlight]
     PopupMenu = pmGridMenu
+    RangeSelectMode = rsmMulti
     RowCount = 0
     ScrollBars = ssAutoVertical
     TabOrder = 8
