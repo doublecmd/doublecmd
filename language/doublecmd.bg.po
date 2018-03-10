@@ -1471,9 +1471,10 @@ msgid "Name"
 msgstr "Име"
 
 #: tfrmfileproperties.sgimage.columns[1].title.caption
+#, fuzzy
 msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
 msgid "Value"
-msgstr ""
+msgstr "Стойност"
 
 #: tfrmfileproperties.tsattributes.caption
 msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
@@ -1907,9 +1908,10 @@ msgid "&Link name"
 msgstr "&Име на връзката"
 
 #: tfrmhotdirexportimport.btnselectall.caption
+#, fuzzy
 msgctxt "tfrmhotdirexportimport.btnselectall.caption"
 msgid "Import all!"
-msgstr ""
+msgstr "Внасяне на всички"
 
 #: tfrmhotdirexportimport.btnselectiondone.caption
 msgctxt "tfrmhotdirexportimport.btnselectiondone.caption"
@@ -2841,9 +2843,10 @@ msgid "*"
 msgstr "*"
 
 #: tfrmmain.btnleftdirectoryhotlist.hint
+#, fuzzy
 msgctxt "tfrmmain.btnleftdirectoryhotlist.hint"
 msgid "Directory Hotlist"
-msgstr ""
+msgstr "Бързодостъпни папки"
 
 #: tfrmmain.btnleftequalright.caption
 msgctxt "tfrmmain.btnleftequalright.caption"
@@ -6697,9 +6700,10 @@ msgid "Some functions to select appropriate path"
 msgstr ""
 
 #: tfrmoptionslog.btnviewlogfile.hint
+#, fuzzy
 msgctxt "tfrmoptionslog.btnviewlogfile.hint"
 msgid "View log file content"
-msgstr ""
+msgstr "Преглед на дневника на файловото съдържание"
 
 #: tfrmoptionslog.cbincludedateinlogfilename.caption
 msgid "Include date in log filename"
@@ -7255,9 +7259,10 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmoptionstoolbar.btnother.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbar.btnother.caption"
 msgid "Other..."
-msgstr ""
+msgstr "Друго..."
 
 #: tfrmoptionstoolbar.btnremovehotkey.caption
 msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
@@ -8260,9 +8265,10 @@ msgid "Operator"
 msgstr ""
 
 #: tfrmsearchplugin.headercontrol.sections[3].text
+#, fuzzy
 msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
-msgstr ""
+msgstr "Стойност"
 
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
@@ -8586,6 +8592,30 @@ msgstr "Съществуваща &цел, към която да сочи връ
 msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "&Име на връзката"
+
+#: tfrmsyncdirsdlg.actselectclear.caption
+msgid "Remove selection"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopydefault.caption
+msgid "Select for copying (default direction)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopylefttoright.caption
+msgid "Select for copying -> (left to right)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyreverse.caption
+msgid "Reverse copy direction"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyrighttoleft.caption
+msgid "Select for copying <- (right to left)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectdeleteright.caption
+msgid "Select for deleting -> (right)"
+msgstr ""
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
@@ -11224,6 +11254,12 @@ msgstr "Унищожаване на избрания „%s‟?"
 #: ulng.rsmsgwithactionwith
 msgid "with"
 msgstr "с"
+
+#: ulng.rsmsgwrongpasswordtryagain
+msgid ""
+"Wrong password!\n"
+"Please try again!\n"
+msgstr ""
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"

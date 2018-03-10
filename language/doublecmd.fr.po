@@ -8458,6 +8458,30 @@ msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "Nom du lien"
 
+#: tfrmsyncdirsdlg.actselectclear.caption
+msgid "Remove selection"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopydefault.caption
+msgid "Select for copying (default direction)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopylefttoright.caption
+msgid "Select for copying -> (left to right)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyreverse.caption
+msgid "Reverse copy direction"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyrighttoleft.caption
+msgid "Select for copying <- (right to left)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectdeleteright.caption
+msgid "Select for deleting -> (right)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
 msgid "Close"
@@ -9932,6 +9956,7 @@ msgid "New name"
 msgstr "Nouveau nom"
 
 #: ulng.rshotkeyfilesavemodified
+#, fuzzy,badformat
 msgid ""
 "\"%s\" setup has been modified.\n"
 "Do you want to save it now?\n"
@@ -10843,6 +10868,7 @@ msgid "&Delete %s"
 msgstr "&Supprimer %s"
 
 #: ulng.rsmsgpresetalreadyexists
+#, fuzzy,badformat
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Écraser la configuration existante ?"
 
@@ -11031,6 +11057,7 @@ msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Entrez l'emplacement et le nom de fichier pour la barre d'outil TC à sauvegarder"
 
 #: ulng.rsmsgthisisnowinclipboard
+#, fuzzy,badformat
 msgid "\"%s\" is now in the clipboard"
 msgstr "\"%\" est maintenant dans le presse-papier"
 
@@ -11117,6 +11144,12 @@ msgstr "Lancer l'effacement sécurisé pour la sélection \"%s\" ?"
 #: ulng.rsmsgwithactionwith
 msgid "with"
 msgstr "avec"
+
+#: ulng.rsmsgwrongpasswordtryagain
+msgid ""
+"Wrong password!\n"
+"Please try again!\n"
+msgstr ""
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
