@@ -17,9 +17,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fSyncDirsDlg;
@@ -42,6 +40,7 @@ type
   { TfrmSyncDirsDlg }
 
   TfrmSyncDirsDlg = class(TForm, IFormCommands)
+    actSelectCopyReverse: TAction;
     actSelectClear: TAction;
     actSelectCopyLeftToRight: TAction;
     actSelectCopyRightToLeft: TAction;
@@ -67,6 +66,7 @@ type
     Label1: TLabel;
     LeftPanel1: TPanel;
     LeftPanel2: TPanel;
+    miSelectCopyReverse: TMenuItem;
     miSeparator1: TMenuItem;
     miSelectCopyLeftToRight: TMenuItem;
     miSelectCopyRightToLeft: TMenuItem;
@@ -145,6 +145,7 @@ type
   published
     procedure cm_SelectClear(const {%H-}Params:array of string);
     procedure cm_SelectCopyDefault(const {%H-}Params:array of string);
+    procedure cm_SelectCopyReverse(const {%H-}Params:array of string);
     procedure cm_SelectCopyLeftToRight(const {%H-}Params:array of string);
     procedure cm_SelectCopyRightToLeft(const {%H-}Params:array of string);
   end;
@@ -1283,6 +1284,15 @@ var
     case NewAction of
       srsUnknown:
         NewAction:= SyncRec.FState;
+      srsNotEq:
+        begin
+          if SyncRec.FAction = srsCopyLeft then
+            NewAction:= srsCopyRight
+          else if SyncRec.FAction = srsCopyRight then
+            NewAction:= srsCopyLeft
+          else
+            NewAction:= SyncRec.FAction
+        end;
       srsCopyLeft:
         begin
           if not Assigned(SyncRec.FFileR) then
@@ -1302,12 +1312,12 @@ begin
   Selection:= MainDrawGrid.Selection;
   if (MainDrawGrid.HasMultiSelection) or (Selection.Bottom <> Selection.Top) then
   begin
-    for R:= 0 to MainDrawGrid.SelectedRangeCount - 1 do
+    for Y:= 0 to MainDrawGrid.SelectedRangeCount - 1 do
     begin
-      Selection:= MainDrawGrid.SelectedRange[R];
-      for Y := Selection.Top to Selection.Bottom do
+      Selection:= MainDrawGrid.SelectedRange[Y];
+      for R := Selection.Top to Selection.Bottom do
       begin
-        SyncRec := TFileSyncRec(FVisibleItems.Objects[Y]);
+        SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
         if Assigned(SyncRec) then UpdateAction(AState);
       end;
     end;
@@ -1379,6 +1389,11 @@ end;
 procedure TfrmSyncDirsDlg.cm_SelectCopyDefault(const Params: array of string);
 begin
   SetSyncRecState(srsUnknown);
+end;
+
+procedure TfrmSyncDirsDlg.cm_SelectCopyReverse(const Params: array of string);
+begin
+  SetSyncRecState(srsNotEq);
 end;
 
 procedure TfrmSyncDirsDlg.cm_SelectCopyLeftToRight(const Params: array of string);
