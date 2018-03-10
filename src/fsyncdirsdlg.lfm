@@ -14,15 +14,15 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
   Position = poScreenCenter
   SessionProperties = 'Height;Left;Top;Width;WindowState'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.9.0.0'
   object edPath1: TEdit
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = btnSelDir1
     Left = 3
-    Height = 27
+    Height = 23
     Top = 3
-    Width = 254
+    Width = 252
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Around = 3
     TabOrder = 1
@@ -33,9 +33,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = btnSelDir2
     Left = 407
-    Height = 27
+    Height = 23
     Top = 3
-    Width = 251
+    Width = 249
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 3
     BorderSpacing.Around = 3
@@ -46,11 +46,11 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideLeft.Side = asrCenter
     AnchorSideTop.Control = Owner
     Left = 290
-    Height = 27
+    Height = 23
     Top = 3
     Width = 111
     BorderSpacing.Top = 3
-    ItemHeight = 0
+    ItemHeight = 17
     ItemIndex = 0
     Items.Strings = (
       '*.*'
@@ -62,10 +62,10 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideTop.Control = edPath1
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = cbExtFilter
-    Left = 260
-    Height = 27
-    Top = 3
-    Width = 24
+    Left = 258
+    Height = 29
+    Top = 0
+    Width = 26
     Anchors = [akTop, akRight]
     AutoSize = True
     BorderSpacing.Right = 3
@@ -80,10 +80,10 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 661
-    Height = 27
-    Top = 3
-    Width = 24
+    Left = 659
+    Height = 29
+    Top = 0
+    Width = 26
     Anchors = [akTop, akRight]
     AutoSize = True
     BorderSpacing.Right = 3
@@ -99,33 +99,33 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 0
-    Height = 86
-    Top = 33
+    Height = 90
+    Top = 32
     Width = 691
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    ClientHeight = 86
+    ClientHeight = 90
     ClientWidth = 691
     TabOrder = 5
     object LeftPanel1: TPanel
       AnchorSideLeft.Control = TopPanel
       AnchorSideTop.Control = TopPanel
       Left = 1
-      Height = 74
+      Height = 77
       Top = 1
-      Width = 107
+      Width = 106
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 74
-      ClientWidth = 107
+      ClientHeight = 77
+      ClientWidth = 106
       TabOrder = 0
       object btnCompare: TButton
         AnchorSideLeft.Control = LeftPanel1
         AnchorSideTop.Control = LeftPanel1
         Left = 3
-        Height = 27
+        Height = 29
         Top = 3
-        Width = 65
+        Width = 64
         AutoSize = True
         BorderSpacing.Around = 3
         Caption = 'Compare'
@@ -138,9 +138,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         AnchorSideTop.Control = btnCompare
         AnchorSideTop.Side = asrBottom
         Left = 3
-        Height = 21
-        Top = 33
-        Width = 101
+        Height = 22
+        Top = 35
+        Width = 100
         BorderSpacing.Around = 3
         Caption = 'only selected'
         Enabled = False
@@ -152,10 +152,10 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         AnchorSideLeft.Side = asrCenter
         AnchorSideTop.Control = chkOnlySelected
         AnchorSideTop.Side = asrBottom
-        Left = 2
+        Left = 3
         Height = 17
-        Top = 57
-        Width = 102
+        Top = 60
+        Width = 100
         Caption = '(in main window)'
         Enabled = False
         ParentColor = False
@@ -166,23 +166,23 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       AnchorSideLeft.Control = LeftPanel1
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = TopPanel
-      Left = 113
-      Height = 84
+      Left = 112
+      Height = 88
       Top = 1
-      Width = 93
+      Width = 92
       AutoSize = True
       BorderSpacing.Left = 5
       BevelOuter = bvNone
-      ClientHeight = 84
-      ClientWidth = 93
+      ClientHeight = 88
+      ClientWidth = 92
       TabOrder = 1
       object chkAsymmetric: TCheckBox
         AnchorSideLeft.Control = LeftPanel2
         AnchorSideTop.Control = LeftPanel2
         Left = 0
-        Height = 21
+        Height = 22
         Top = 0
-        Width = 93
+        Width = 92
         Caption = 'asymmetric'
         Enabled = False
         TabOrder = 0
@@ -192,8 +192,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         AnchorSideTop.Control = chkAsymmetric
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 21
-        Top = 21
+        Height = 22
+        Top = 22
         Width = 68
         Caption = 'Subdirs'
         TabOrder = 1
@@ -203,9 +203,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         AnchorSideTop.Control = chkSubDirs
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 21
-        Top = 42
-        Width = 88
+        Height = 22
+        Top = 44
+        Width = 87
         Caption = 'by content'
         TabOrder = 2
       end
@@ -214,8 +214,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         AnchorSideTop.Control = chkByContent
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 21
-        Top = 63
+        Height = 22
+        Top = 66
         Width = 91
         Caption = 'ignore date'
         TabOrder = 3
@@ -225,8 +225,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       AnchorSideLeft.Control = LeftPanel2
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = TopPanel
-      Left = 211
-      Height = 64
+      Left = 209
+      Height = 66
       Top = 1
       Width = 202
       AutoSize = True
@@ -335,7 +335,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       AnchorSideRight.Control = TopPanel
       AnchorSideRight.Side = asrBottom
       Left = 601
-      Height = 27
+      Height = 29
       Top = 7
       Width = 83
       Anchors = [akTop, akRight]
@@ -353,8 +353,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       AnchorSideRight.Control = btnSynchronize
       AnchorSideRight.Side = asrBottom
       Left = 601
-      Height = 27
-      Top = 40
+      Height = 29
+      Top = 42
       Width = 83
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
@@ -366,8 +366,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 21
-    Top = 417
+    Height = 22
+    Top = 416
     Width = 691
     Panels = <    
       item
@@ -384,7 +384,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 20
-    Top = 119
+    Top = 122
     Width = 691
     Anchors = [akTop, akLeft, akRight]
     AutoFillColumns = True
@@ -451,8 +451,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = StatusBar1
     Left = 0
-    Height = 278
-    Top = 139
+    Height = 274
+    Top = 142
     Width = 691
     Anchors = [akTop, akLeft, akRight, akBottom]
     AutoFillColumns = True
@@ -704,6 +704,21 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
   object pmGridMenu: TPopupMenu
     left = 121
     top = 217
+    object miSelectCopyDefault: TMenuItem
+      Action = actSelectCopyDefault
+    end
+    object miSelectClear: TMenuItem
+      Action = actSelectClear
+    end
+    object miSelectCopyLeftToRight: TMenuItem
+      Action = actSelectCopyLeftToRight
+    end
+    object miSelectCopyRightToLeft: TMenuItem
+      Action = actSelectCopyRightToLeft
+    end
+    object miSeparator1: TMenuItem
+      Caption = '-'
+    end
     object MenuItemViewLeft: TMenuItem
       Caption = 'View left'
       ShortCut = 114
@@ -718,6 +733,26 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       Caption = 'Compare'
       ShortCut = 16498
       OnClick = MainDrawGridDblClick
+    end
+  end
+  object ActionList: TActionList
+    left = 376
+    top = 208
+    object actSelectCopyLeftToRight: TAction
+      Caption = 'Select for copying -> (left to right)'
+      OnExecute = actExecute
+    end
+    object actSelectCopyRightToLeft: TAction
+      Caption = 'Select for copying <- (right to left)'
+      OnExecute = actExecute
+    end
+    object actSelectCopyDefault: TAction
+      Caption = 'Select for copying (default direction)'
+      OnExecute = actExecute
+    end
+    object actSelectClear: TAction
+      Caption = 'Remove selection'
+      OnExecute = actExecute
     end
   end
 end

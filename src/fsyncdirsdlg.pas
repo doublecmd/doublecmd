@@ -4,7 +4,7 @@
    Directories synchronization utility (specially for DC)
 
    Copyright (C) 2013 Anton Panferov (ast.a_s@mail.ru)
-   Copyright (C) 2014-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,8 +30,9 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Masks, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, ExtCtrls, Buttons, ComCtrls, Grids, Menus, uFileView, uFileSource,
-  uFileSourceCopyOperation, uFile, uFileSourceOperationMessageBoxesUI;
+  StdCtrls, ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, uFileView,
+  uFileSource, uFileSourceCopyOperation, uFile,
+  uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager;
 
 type
 
@@ -40,7 +41,12 @@ type
 
   { TfrmSyncDirsDlg }
 
-  TfrmSyncDirsDlg = class(TForm)
+  TfrmSyncDirsDlg = class(TForm, IFormCommands)
+    actSelectClear: TAction;
+    actSelectCopyLeftToRight: TAction;
+    actSelectCopyRightToLeft: TAction;
+    actSelectCopyDefault: TAction;
+    ActionList: TActionList;
     btnSelDir1: TButton;
     btnSelDir2: TButton;
     btnCompare: TButton;
@@ -61,6 +67,11 @@ type
     Label1: TLabel;
     LeftPanel1: TPanel;
     LeftPanel2: TPanel;
+    miSeparator1: TMenuItem;
+    miSelectCopyLeftToRight: TMenuItem;
+    miSelectCopyRightToLeft: TMenuItem;
+    miSelectCopyDefault: TMenuItem;
+    miSelectClear: TMenuItem;
     MenuItemCompare: TMenuItem;
     MenuItemViewRight: TMenuItem;
     MenuItemViewLeft: TMenuItem;
@@ -73,6 +84,7 @@ type
     sbSingles: TSpeedButton;
     StatusBar1: TStatusBar;
     TopPanel: TPanel;
+    procedure actExecute(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnSelDir1Click(Sender: TObject);
     procedure btnCompareClick(Sender: TObject);
@@ -92,6 +104,8 @@ type
       const aIndex, aSize: Integer);
     procedure FilterSpeedButtonClick(Sender: TObject);
     procedure MenuItemViewClick(Sender: TObject);
+  private
+    FCommands: TFormCommands;
   private
     { private declarations }
     FCancel: Boolean;
@@ -120,12 +134,19 @@ type
     procedure SortFoundItems(sl: TStringList);
     procedure UpdateStatusBar;
     procedure StopCheckContentThread;
+    procedure SetSyncRecState(AState: TSyncRecState);
     property SortIndex: Integer read FSortIndex write SetSortIndex;
+    property Commands: TFormCommands read FCommands implements IFormCommands;
   public
     { public declarations }
     constructor Create(AOwner: TComponent;
       FileView1, FileView2: TFileView); reintroduce;
     destructor Destroy; override;
+  published
+    procedure cm_SelectClear(const {%H-}Params:array of string);
+    procedure cm_SelectCopyDefault(const {%H-}Params:array of string);
+    procedure cm_SelectCopyLeftToRight(const {%H-}Params:array of string);
+    procedure cm_SelectCopyRightToLeft(const {%H-}Params:array of string);
   end;
 
 resourcestring
@@ -326,6 +347,15 @@ begin
 end;
 
 { TfrmSyncDirsDlg }
+
+procedure TfrmSyncDirsDlg.actExecute(Sender: TObject);
+var
+  cmd: string;
+begin
+  cmd := (Sender as TAction).Name;
+  cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
+  Commands.ExecuteCommand(cmd, []);
+end;
 
 procedure TfrmSyncDirsDlg.btnCloseClick(Sender: TObject);
 begin
@@ -616,6 +646,8 @@ begin
   sbSingles.Down         := gSyncDirsShowFilterSingles;
   cbExtFilter.Items.Assign(glsMaskHistory);
   cbExtFilter.Text       := gSyncDirsFileMask;
+
+  FCommands := TFormCommands.Create(Self, ActionList);
 end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridDblClick(Sender: TObject);
@@ -698,8 +730,14 @@ var
   ca: TSyncRecState;
 begin
   MainDrawGrid.MouseToCell(X, Y, c, r);
-  if (r < 0) or (r >= FVisibleItems.Count)
-  or (x - 2 < hCols[3].Left)
+  if (r < 0) or (r >= FVisibleItems.Count) then
+    Exit;
+  if Button = mbRight then
+  begin
+    MainDrawGrid.Row:= r;
+    Exit;
+  end;
+  if (x - 2 < hCols[3].Left)
   or (x - 2 > hCols[3].Left + hCols[3].Width)
   then
     Exit;
@@ -1234,6 +1272,51 @@ begin
   end;
 end;
 
+procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
+var
+  R: Integer;
+  SyncRec: TFileSyncRec;
+
+  procedure UpdateAction(NewAction: TSyncRecState);
+  begin
+    case NewAction of
+      srsUnknown:
+        NewAction:= SyncRec.FState;
+      srsCopyLeft:
+        begin
+          if not Assigned(SyncRec.FFileR) then
+            NewAction:= srsDoNothing;
+        end;
+      srsCopyRight:
+        begin
+          if not Assigned(SyncRec.FFileL) then
+            NewAction:= srsDoNothing;
+        end;
+    end;
+    SyncRec.FAction:= NewAction;
+    MainDrawGrid.InvalidateRow(R);
+  end;
+
+begin
+  R := MainDrawGrid.Row;
+  if (R < 0) or (R >= FVisibleItems.Count) then Exit;
+  SyncRec := TFileSyncRec(FVisibleItems.Objects[r]);
+  if Assigned(SyncRec) then
+  begin
+    UpdateAction(AState);
+  end
+  else begin
+    Inc(R);
+    while R < FVisibleItems.Count do
+    begin
+      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
+      if (SyncRec = nil) then Break;
+      UpdateAction(AState);
+      Inc(R);
+    end;
+  end;
+end;
+
 constructor TfrmSyncDirsDlg.Create(AOwner: TComponent; FileView1,
   FileView2: TFileView);
 begin
@@ -1271,6 +1354,26 @@ begin
   ClearFoundItems;
   FFoundItems.Free;
   inherited Destroy;
+end;
+
+procedure TfrmSyncDirsDlg.cm_SelectClear(const Params: array of string);
+begin
+  SetSyncRecState(srsDoNothing);
+end;
+
+procedure TfrmSyncDirsDlg.cm_SelectCopyDefault(const Params: array of string);
+begin
+  SetSyncRecState(srsUnknown);
+end;
+
+procedure TfrmSyncDirsDlg.cm_SelectCopyLeftToRight(const Params: array of string);
+begin
+  SetSyncRecState(srsCopyRight);
+end;
+
+procedure TfrmSyncDirsDlg.cm_SelectCopyRightToLeft(const Params: array of string);
+begin
+  SetSyncRecState(srsCopyLeft);
 end;
 
 end.
