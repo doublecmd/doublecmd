@@ -8496,6 +8496,30 @@ msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "Nome da &ligação"
 
+#: tfrmsyncdirsdlg.actselectclear.caption
+msgid "Remove selection"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopydefault.caption
+msgid "Select for copying (default direction)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopylefttoright.caption
+msgid "Select for copying -> (left to right)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyreverse.caption
+msgid "Reverse copy direction"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyrighttoleft.caption
+msgid "Select for copying <- (right to left)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectdeleteright.caption
+msgid "Select for deleting -> (right)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
 msgid "Close"
@@ -10249,6 +10273,7 @@ msgid "Delete %d selected files/directories into trash can?"
 msgstr "Excluir %d arquivos/pastas selecionados para a lata de lixo?"
 
 #: ulng.rsmsgdelsel
+#, fuzzy,badformat
 msgid "Delete selected \"%s\"?"
 msgstr "Excluir %d arquivos/pastas selecionados?"
 
@@ -10692,6 +10717,7 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Algumas funções para selecionar caminho adequado relativo, absoluto, janelas pastas especiais, etc."
 
 #: ulng.rsmsghotdirtotalbackuped
+#, fuzzy,badformat
 msgid ""
 "Total entries saved: %d\n"
 "\n"
@@ -11195,12 +11221,19 @@ msgid "Wipe %d selected files/directories?"
 msgstr "Limpar %d arquivos/pastas selecionados?"
 
 #: ulng.rsmsgwipesel
+#, fuzzy,badformat
 msgid "Wipe selected \"%s\"?"
 msgstr "Limpar \"s\" selecionados?"
 
 #: ulng.rsmsgwithactionwith
 msgid "with"
 msgstr "largura"
+
+#: ulng.rsmsgwrongpasswordtryagain
+msgid ""
+"Wrong password!\n"
+"Please try again!\n"
+msgstr ""
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"

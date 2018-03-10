@@ -1508,7 +1508,7 @@ msgstr "&Nieuwe zoekopdracht"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
-msgstr "Nieuwe zoekopdracht (maak filters leeg)\t"
+msgstr "Nieuwe zoekopdracht (maak filters leeg)	"
 
 #: tfrmfinddlg.actpageadvanced.caption
 msgid "Go to page \"Advanced\""
@@ -5552,9 +5552,10 @@ msgid "Extended context menu"
 msgstr "Uitgebreid contextmenu"
 
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
+#, fuzzy
 msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXTENDEDCONTEXTMENU.HINT"
 msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr ""
+msgstr "Bij het benaderen van bestandassociatie, bied aan om selectie toe te voegen aan bestandassociatie wanneer niet reeds opgenomen als ingestelde bestandssoort"
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
@@ -8154,6 +8155,30 @@ msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "Koppelingsnaam"
 
+#: tfrmsyncdirsdlg.actselectclear.caption
+msgid "Remove selection"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopydefault.caption
+msgid "Select for copying (default direction)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopylefttoright.caption
+msgid "Select for copying -> (left to right)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyreverse.caption
+msgid "Reverse copy direction"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyrighttoleft.caption
+msgid "Select for copying <- (right to left)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectdeleteright.caption
+msgid "Select for deleting -> (right)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "TFRMSYNCDIRSDLG.BTNCLOSE.CAPTION"
 msgid "Close"
@@ -10337,6 +10362,7 @@ msgid "This is not a valid plugin!"
 msgstr "Dit is geen geldige invoegtoepassing."
 
 #: ulng.rsmsginvalidpluginarchitecture
+#, fuzzy,badformat
 msgid "This plugin is built for Double Commander for %s.%sIt can not work with Double Commander for %s!"
 msgstr "Deze invoegtoepassing is gemaakt voor Double Commander voor %s.Het werkt niet met Double Commander voor %s."
 
@@ -10638,6 +10664,7 @@ msgid "Use Windows special folder (TC)..."
 msgstr "Gebruik speciale map van Windows (TC)..."
 
 #: ulng.rsmsgtabforopeninginnewtab
+#, fuzzy,badformat
 msgid "This tab (%s) is locked! Open directory in another tab?"
 msgstr "Dit tabblad is vergrendeld. Map openen in ander tabblad?"
 
@@ -10776,6 +10803,12 @@ msgstr "Wis geselecteerde '%s'?"
 #: ulng.rsmsgwithactionwith
 msgid "with"
 msgstr "met"
+
+#: ulng.rsmsgwrongpasswordtryagain
+msgid ""
+"Wrong password!\n"
+"Please try again!\n"
+msgstr ""
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
@@ -11115,6 +11148,7 @@ msgid "float;B;K;M;G"
 msgstr "drijvend;B;K;M;G"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
+#, fuzzy,badformat
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
 msgstr "Sneltoets voor cm_Delete zal geregistreerd worden, zodat het gebruikt kan worden om deze instelling om te keren."
 
@@ -11184,6 +11218,7 @@ msgid "Set shortcut to delete file"
 msgstr "Instellen sneltoets om bestand te verwijderen"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+#, fuzzy,badformat
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Om met deze instelling te werken, moet deze toegewezen worden aan cm_Delete, maar die is reeds toegewezen aan %s. Wilt u dit wijzigen? "
 
@@ -12015,3 +12050,4 @@ msgstr "Aantal vervangingen: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Er vond geen vervanging plaats."
+

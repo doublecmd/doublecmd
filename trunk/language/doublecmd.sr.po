@@ -8594,6 +8594,30 @@ msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "Име &везе"
 
+#: tfrmsyncdirsdlg.actselectclear.caption
+msgid "Remove selection"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopydefault.caption
+msgid "Select for copying (default direction)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopylefttoright.caption
+msgid "Select for copying -> (left to right)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyreverse.caption
+msgid "Reverse copy direction"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyrighttoleft.caption
+msgid "Select for copying <- (right to left)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectdeleteright.caption
+msgid "Select for deleting -> (right)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "TFRMSYNCDIRSDLG.BTNCLOSE.CAPTION"
 msgid "Close"
@@ -11331,6 +11355,12 @@ msgstr "Да ли да потпуно избришем одабрано „%s“
 
 #: ulng.rsmsgwithactionwith
 msgid "with"
+msgstr ""
+
+#: ulng.rsmsgwrongpasswordtryagain
+msgid ""
+"Wrong password!\n"
+"Please try again!\n"
 msgstr ""
 
 #: ulng.rsmulrenautorename

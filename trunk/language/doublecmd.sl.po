@@ -8158,6 +8158,30 @@ msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "Ime &povezave:"
 
+#: tfrmsyncdirsdlg.actselectclear.caption
+msgid "Remove selection"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopydefault.caption
+msgid "Select for copying (default direction)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopylefttoright.caption
+msgid "Select for copying -> (left to right)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyreverse.caption
+msgid "Reverse copy direction"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyrighttoleft.caption
+msgid "Select for copying <- (right to left)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectdeleteright.caption
+msgid "Select for deleting -> (right)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "TFRMSYNCDIRSDLG.BTNCLOSE.CAPTION"
 msgid "Close"
@@ -10789,6 +10813,12 @@ msgstr "Ali naj se »%s« neobnovljivo izbriše?"
 msgid "with"
 msgstr "z"
 
+#: ulng.rsmsgwrongpasswordtryagain
+msgid ""
+"Wrong password!\n"
+"Please try again!\n"
+msgstr ""
+
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
 msgstr "Ali želite predmete samodejno preimenovati v »ime (1).pri«, »ime (2).pri« ... ?"
@@ -11196,6 +11226,7 @@ msgid "Set shortcut to delete file"
 msgstr "Dodaj bližnjico za brisanje datotek"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+#, fuzzy,badformat
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Za povezavo te možnosti s tipkovno bližnjico %s mora biti ta določena za cm_Delete, vendar je povezana z možnostjo %s. Ali jo želite spremeniti."
 

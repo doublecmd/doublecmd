@@ -1,9 +1,9 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha Rev. 6885\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2016-08-12 12:00+0200\n"
+"PO-Revision-Date: 2018-03-05 13:31+0100\n"
 "Last-Translator: Claudio <linuxbastler@users.sourceforge.net>\n"
 "Language-Team: Deutsch <linuxbastler@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Native-Language: Deutsch\n"
 "Language: de\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.4\n"
 
 #: fsyncdirsdlg.rscomparingpercent
 msgid "Comparing... %d%% (ESC to cancel)"
@@ -1146,7 +1146,7 @@ msgstr "Nur den markierten &Text"
 
 #: tfrmeditsearchreplace.cbsearchwholewords.caption
 msgid "&Whole words only"
-msgstr "Nur ganze &Wörter"
+msgstr "Nur ganze &Worte"
 
 #: tfrmeditsearchreplace.gbsearchoptions.caption
 msgid "Option"
@@ -1258,7 +1258,7 @@ msgstr "Eigen&schaften einstellen"
 
 #: tfrmfileproperties.btnsetpropertiestoallfiles.caption
 msgid "Set to &all selected files"
-msgstr "&Auf alle ausgewählten Dateien anwenden"
+msgstr "&Auf ausgewählte Dateien anwenden"
 
 #: tfrmfileproperties.btnskipfile.caption
 msgid "Ski&p this file"
@@ -1286,7 +1286,7 @@ msgstr "SUID"
 
 #: tfrmfileproperties.chkexecutable.caption
 msgid "Allow &executing file as program"
-msgstr ""
+msgstr "als Programm ausführen &erlauben"
 
 #: tfrmfileproperties.gbowner.caption
 msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
@@ -1339,7 +1339,7 @@ msgstr "Ausführen"
 
 #: tfrmfileproperties.lblexecutable.caption
 msgid "Execute:"
-msgstr ""
+msgstr "Ausführen:"
 
 #: tfrmfileproperties.lblfile.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILE.CAPTION"
@@ -1395,7 +1395,7 @@ msgstr "???"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
 msgid "Last status change:"
-msgstr "Letzte Änderung des Status:"
+msgstr "Letzte Statusänderung:"
 
 #: tfrmfileproperties.lbloctal.caption
 msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
@@ -1451,7 +1451,6 @@ msgid "Name"
 msgstr "Name"
 
 #: tfrmfileproperties.sgimage.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmfileproperties.sgimage.columns[1].title.caption"
 msgid "Value"
 msgstr "Wert"
@@ -1660,7 +1659,7 @@ msgstr "Geöffnete Tabs"
 
 #: tfrmfinddlg.cbpartialnamesearch.caption
 msgid "Searc&h for part of file name"
-msgstr "Suc&he nach einem Teil des Dateinamens"
+msgstr "Suc&he nach Teil des Dateinamens"
 
 #: tfrmfinddlg.cbregexp.caption
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
@@ -1716,7 +1715,7 @@ msgstr "Dateien"
 #: tfrmfinddlg.gbfinddata.caption
 msgctxt "tfrmfinddlg.gbfinddata.caption"
 msgid "Find Data"
-msgstr "Suche Daten"
+msgstr "In Dateien suchen"
 
 #: tfrmfinddlg.lblattributes.caption
 msgid "Attri&butes"
@@ -1740,7 +1739,7 @@ msgstr "&Dateimaske"
 
 #: tfrmfinddlg.lblfindpathstart.caption
 msgid "Start in &directory"
-msgstr "Verzeichnis in dem &Double Commander suchen soll"
+msgstr "&In Verzeichnis starten"
 
 #: tfrmfinddlg.lblsearchdepth.caption
 msgid "Search su&bdirectories:"
@@ -1763,7 +1762,6 @@ msgid "Open In New Tab(s)"
 msgstr "In (einem) neuen Tab(s) öffnen"
 
 #: tfrmfinddlg.mioptions.caption
-#, fuzzy
 msgctxt "tfrmfinddlg.mioptions.caption"
 msgid "Options"
 msgstr "Optionen"
@@ -1774,7 +1772,7 @@ msgstr "Von der Liste entfernen"
 
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
-msgstr ""
+msgstr "&Ergebnisse"
 
 #: tfrmfinddlg.miseparator1.caption
 #, fuzzy
@@ -1957,7 +1955,7 @@ msgstr "Dateiname in die Befehlszeile kopieren"
 
 #: tfrmmain.actaddnewsearch.caption
 msgid "New search instance..."
-msgstr ""
+msgstr "Neues Such-Fenster..."
 
 #: tfrmmain.actaddpathandfilenametocmdline.caption
 msgid "Add path and file name to command line"
@@ -2081,11 +2079,11 @@ msgstr "Konfiguration der Verzeichnis-Tabs"
 #: tfrmmain.actconfighotkeys.caption
 msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
-msgstr ""
+msgstr "Konfiguration der Hot-Keys"
 
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
-msgstr ""
+msgstr "Einstellungen speichern"
 
 #: tfrmmain.actconfigsearches.caption
 msgid "Configuration of searches"
@@ -2207,7 +2205,7 @@ msgstr "&Panels tauschen"
 
 #: tfrmmain.actexecutescript.caption
 msgid "Execute Script"
-msgstr ""
+msgstr "Script ausführen"
 
 #: tfrmmain.actexit.caption
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
@@ -2220,7 +2218,7 @@ msgstr "E&ntpacke Dateien..."
 
 #: tfrmmain.actfileassoc.caption
 msgid "Configuration of File &Associations"
-msgstr "Konfiguration von Dateiverkn&üpfungen"
+msgstr "Konfiguration der Dateiverkn&üpfungen"
 
 #: tfrmmain.actfilelinker.caption
 msgid "Com&bine Files..."
@@ -2384,7 +2382,7 @@ msgstr "Fenster minimieren"
 
 #: tfrmmain.actmultirename.caption
 msgid "Multi &Rename Tool"
-msgstr "Meh&rfaches umbenennen"
+msgstr "Meh&rfaches Umbenennen..."
 
 #: tfrmmain.actnetworkconnect.caption
 msgid "Network &Connect..."
@@ -2560,7 +2558,7 @@ msgstr "Thumbnail-Ansicht im rechten Panel"
 
 #: tfrmmain.actrunterm.caption
 msgid "Run &Terminal"
-msgstr "Konsolen-Fens&ter öffnen"
+msgstr "Kommandozeilen-Fens&ter öffnen"
 
 #: tfrmmain.actsavefavoritetabs.caption
 msgid "Save current tabs to a New Favorite Tabs"
@@ -2601,7 +2599,7 @@ msgstr "Alle gesperrten Tabs, in denen Verzeichniswechsel erlaubt sind"
 #: tfrmmain.actsetfileproperties.caption
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
-msgstr "Eigensch&aften ändern..."
+msgstr "Dateieigensch&aften ändern..."
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
@@ -2723,7 +2721,7 @@ msgstr "Anhand von Parametern sortieren"
 
 #: tfrmmain.actunmarkcurrentextension.caption
 msgid "Unselect All with the Same Ex&tension"
-msgstr "Alle mit der gleichen E&ndung abwählen"
+msgstr "Alle mit gleicher E&ndung abwählen"
 
 #: tfrmmain.actunmarkcurrentname.caption
 msgid "Unselect all files with same name"
@@ -2760,7 +2758,7 @@ msgstr "Log-Datei betrachten"
 
 #: tfrmmain.actviewsearches.caption
 msgid "View current search instances"
-msgstr ""
+msgstr "Alle Such-Fenster anzeigen"
 
 #: tfrmmain.actvisithomepage.caption
 msgid "&Visit Double Commander Website"
@@ -3204,7 +3202,7 @@ msgstr "&Netzwerk"
 
 #: tfrmmain.mnushow.caption
 msgid "&Show"
-msgstr "&Anzeigen"
+msgstr "&Ansicht"
 
 #: tfrmmain.mnutaboptions.caption
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
@@ -3773,7 +3771,6 @@ msgid "File Path"
 msgstr "Dateipfad"
 
 #: tfrmmultirenamewait.caption
-#, fuzzy
 msgctxt "tfrmmultirenamewait.caption"
 msgid "Double Commander"
 msgstr "Double Commander"
@@ -3995,7 +3992,7 @@ msgstr "nicht mehr eingehängte Laufwerke automatisc&h ausblenden (Linux: unmoun
 #: tfrmoptionsbehavior.cbminimizetotray.caption
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
 msgid "Mo&ve icon to system tray when minimized"
-msgstr "In den Sys-Tray minimieren"
+msgstr "In den System-Tray minimieren"
 
 #: tfrmoptionsbehavior.cbonlyonce.caption
 msgid "A&llow only one copy of DC at a time"
@@ -4109,7 +4106,6 @@ msgid "Searc&h/Replace history"
 msgstr "Suc&he / Ersetze Verlauf"
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
-#, fuzzy
 msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
 msgid "Directories"
 msgstr "Verzeichnisse"
@@ -4853,7 +4849,7 @@ msgstr "Name, a bis z"
 
 #: tfrmoptionsdirectoryhotlist.gbdirectoryhotlist.caption
 msgid "Directory Hotlist (reorder by drag && drop)"
-msgstr "Verzeichnis hotlist (Umsortieren durch Drag&&Drop"
+msgstr "Hotlist Verzeichnisse (umsortieren durch Drag && Drop)"
 
 #: tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption
 msgctxt "tfrmoptionsdirectoryhotlist.gbhotlistotheroptions.caption"
@@ -5217,7 +5213,7 @@ msgstr "Rechts"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabs.caption
 msgid "Favorite Tabs list (reorder by drag && drop)"
-msgstr "Liste der Favoriten-Tab (umsortieren durch Drag && Drop"
+msgstr "Liste der Favoriten-Tab (umsortieren durch Drag && Drop)"
 
 #: tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption
 msgctxt "tfrmoptionsfavoritetabs.gbfavoritetabsotheroptions.caption"
@@ -5504,10 +5500,14 @@ msgid "Name of the action. It is never passed to the system, it's just a mnemoni
 msgstr "Name der Aktion. Wird nicht an das System übergeben, sondern dient nur der Identifizierung."
 
 #: tfrmoptionsfileassoc.edtparams.hint
+#, fuzzy
+#| msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
 msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
 msgstr "Parameter für den Befehl. Lange Pfade mit Leerzeichen sollten in Anführungsstriche gesetzt werden."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
+#, fuzzy
+#| msgid "Command to execute. Long filename with space should be quoted."
 msgid "Command to execute. Long filename with space should be quoted."
 msgstr "Befehl zum Ausführen. Lange Pfade mit Leerzeichen sollten in Anführungsstriche gesetzt werden."
 
@@ -5572,6 +5572,7 @@ msgid "Start pat&h:"
 msgstr "Start&pfad"
 
 #: tfrmoptionsfileassoc.menuitem1.caption
+#, fuzzy
 msgctxt "tfrmoptionsfileassoc.menuitem1.caption"
 msgid "-"
 msgstr "-"
@@ -5621,6 +5622,7 @@ msgid "Open with..."
 msgstr "Öffnen mit..."
 
 #: tfrmoptionsfileassoc.miseparator.caption
+#, fuzzy
 msgctxt "tfrmoptionsfileassoc.miseparator.caption"
 msgid "-"
 msgstr "-"
@@ -5758,12 +5760,12 @@ msgstr "Puffergröße für die &Hash-Kalkulation (in KB):"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
-msgstr "Ze&ige Operationsfortschritt von Anfang an"
+msgstr "Ze&ige Operationsfortschritt in"
 
 #: tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption
 msgctxt "tfrmoptionsfileoperations.lbltypeofduplicatedrename.caption"
 msgid "Duplicated name auto-rename style:"
-msgstr "Art der Neubenennung bei gleichem Namen:"
+msgstr "Dateiname bei Duplizieren erweitern:"
 
 #: tfrmoptionsfileoperations.lblwipepassnumber.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
@@ -5921,7 +5923,7 @@ msgstr "T&extfarbe"
 
 #: tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption
 msgid "When launching file search, clear file mask filter"
-msgstr ""
+msgstr "Bei Starten der Dateisuche Filter Dateimaske leeren"
 
 #: tfrmoptionsfilesearch.cbpartialnamesearch.caption
 msgid "&Search for part of file name"
@@ -5929,21 +5931,20 @@ msgstr "&Suche nach Teil des Dateinamens"
 
 #: tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption
 msgid "Show menu bar in \"Find files\""
-msgstr ""
+msgstr "Menue-Bar in \"Dateisuche\" anzeigen"
 
 #: tfrmoptionsfilesearch.dbtextsearch.caption
 msgid "Text search in files"
 msgstr "Textsuche in Dateien"
 
 #: tfrmoptionsfilesearch.gbfilesearch.caption
-#, fuzzy
 msgctxt "tfrmoptionsfilesearch.gbfilesearch.caption"
 msgid "File search"
-msgstr "Dateisuche"
+msgstr "Dateien suchen"
 
 #: tfrmoptionsfilesearch.lblnewsearchfilters.caption
 msgid "Current filters with \"New search\" button:"
-msgstr ""
+msgstr "Aktuelle Filter mit \"Neue Suche\" Button:"
 
 #: tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption
 msgid "Default search template:"
@@ -6104,7 +6105,7 @@ msgstr "Vorlage..."
 #: tfrmoptionsfiletypescolors.gbfiletypescolors.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION"
 msgid "File types colors (sort by drag&&drop)"
-msgstr "Dateitypfarben (durch \"Drag & Drop\" anordnen)"
+msgstr "Dateitypfarben (durch \"Drag && Drop\" anordnen)"
 
 #: tfrmoptionsfiletypescolors.lblcategoryattr.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"
@@ -6167,12 +6168,12 @@ msgstr "..."
 
 #: tfrmoptionsfonts.lblconsolefont.caption
 msgid "&Console font"
-msgstr "S&chriftart für die Konsole"
+msgstr "S&chriftart für Kommandozeilen-Fenster"
 
 #: tfrmoptionsfonts.lbleditorfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION"
 msgid "&Editor font"
-msgstr "Schrift für &Editor"
+msgstr "Schriftart für &Editor"
 
 #: tfrmoptionsfonts.lbllogfont.caption
 msgctxt "TFRMOPTIONSFONTS.LBLLOGFONT.CAPTION"
@@ -6186,7 +6187,7 @@ msgstr "Hauptschri&ftart"
 
 #: tfrmoptionsfonts.lblpatheditfont.caption
 msgid "Path font"
-msgstr "Pfad zur Schrift"
+msgstr "Schriftart für Pfade"
 
 #: tfrmoptionsfonts.lblsearchresultsfont.caption
 msgid "Search results font"
@@ -6292,7 +6293,7 @@ msgstr "&Verknüpfungen:"
 
 #: tfrmoptionshotkeys.lblsortorder.caption
 msgid "So&rt order:"
-msgstr ""
+msgstr "So&rtierreihenfolge:"
 
 #: tfrmoptionshotkeys.micategories.caption
 msgid "Categories"
@@ -6330,7 +6331,7 @@ msgstr "16x16"
 
 #: tfrmoptionsicons.cbiconsonbuttons.caption
 msgid "Show icons on buttons"
-msgstr ""
+msgstr "Icons in Buttons anzeigen"
 
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
@@ -6348,11 +6349,11 @@ msgstr "Größe der Icons"
 
 #: tfrmoptionsicons.gbicontheme.caption
 msgid "Icon theme"
-msgstr ""
+msgstr "Icon Thema"
 
 #: tfrmoptionsicons.gbshowicons.caption
 msgid "Show icons"
-msgstr ""
+msgstr "Icons anzeigen"
 
 #: tfrmoptionsicons.gbshowiconsmode.caption
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
@@ -6418,25 +6419,19 @@ msgstr "P&feil nach links, bzw. rechts wechselt das Verzeichnis (Lynx-artiges Na
 
 #: tfrmoptionskeyboard.gbtyping.caption
 msgid "Typing"
-msgstr "Schreiben"
+msgstr "Tippen"
 
 #: tfrmoptionskeyboard.lblalt.caption
-#, fuzzy
-#| msgid "Alt+L&etters"
 msgid "Alt+L&etters:"
-msgstr "Alt-Tast&e+Buchstabe"
+msgstr "Alt+Buchstabe:"
 
 #: tfrmoptionskeyboard.lblctrlalt.caption
-#, fuzzy
-#| msgid "Ctrl+Alt+Le&tters"
 msgid "Ctrl+Alt+Le&tters:"
-msgstr "S&trg+Alt+Buchstabe"
+msgstr "Strg+Alt+Buchstabe:"
 
 #: tfrmoptionskeyboard.lblnomodifier.caption
-#, fuzzy
-#| msgid "&Letters"
 msgid "&Letters:"
-msgstr "&Buchstaben"
+msgstr "Buchstabe:"
 
 #: tfrmoptionslayout.cbflatdiskpanel.caption
 msgctxt "tfrmoptionslayout.cbflatdiskpanel.caption"
@@ -7018,48 +7013,42 @@ msgstr "{Befehl} sollte normalerweise hier angezeigt werden um den Befehl im Ter
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
-msgstr "Befehl um das Terminal auszuführen"
+msgstr "Befehl, um ein Terminal zu öffnen:"
 
 #: tfrmoptionsterminal.gbruninterminalclose.caption
 msgid "Command for running a command in terminal and close after:"
-msgstr "Befehl um einen Befehl im Terminal auszuführen und es anschließend zu schließen:"
+msgstr "Befehl, um einen Befehl im Terminal auszuführen und es anschließend zu schließen:"
 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
-msgstr "Befehl um einen Befehl im Terminal auszuführen und es anschließend offen zu halten:"
+msgstr "Befehl, um einen Befehl im Terminal auszuführen und es anschließend offen zu halten:"
 
 #: tfrmoptionsterminal.lbrunintermclosecmd.caption
-#, fuzzy
 msgctxt "tfrmoptionsterminal.lbrunintermclosecmd.caption"
 msgid "Command:"
 msgstr "Befehl"
 
 #: tfrmoptionsterminal.lbrunintermcloseparams.caption
-#, fuzzy
 msgctxt "tfrmoptionsterminal.lbrunintermcloseparams.caption"
 msgid "Parameters:"
 msgstr "Parameter"
 
 #: tfrmoptionsterminal.lbrunintermstayopencmd.caption
-#, fuzzy
 msgctxt "tfrmoptionsterminal.lbrunintermstayopencmd.caption"
 msgid "Command:"
 msgstr "Befehl"
 
 #: tfrmoptionsterminal.lbrunintermstayopenparams.caption
-#, fuzzy
 msgctxt "tfrmoptionsterminal.lbrunintermstayopenparams.caption"
 msgid "Parameters:"
 msgstr "Parameter"
 
 #: tfrmoptionsterminal.lbruntermcmd.caption
-#, fuzzy
 msgctxt "tfrmoptionsterminal.lbruntermcmd.caption"
 msgid "Command:"
 msgstr "Befehl"
 
 #: tfrmoptionsterminal.lbruntermparams.caption
-#, fuzzy
 msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
 msgstr "Parameter"
@@ -8225,7 +8214,7 @@ msgstr "-----------"
 #: tfrmsetfileproperties.lblattrtextstr.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
-msgstr "Darstellung im Text"
+msgstr "Text:"
 
 #: tfrmsetfileproperties.lblexec.caption
 msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -8399,6 +8388,30 @@ msgstr "Bestehen&des Ziel, auf das die Verknüpfung zeigen soll"
 msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "&Verknüpfungsname"
+
+#: tfrmsyncdirsdlg.actselectclear.caption
+msgid "Remove selection"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopydefault.caption
+msgid "Select for copying (default direction)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopylefttoright.caption
+msgid "Select for copying -> (left to right)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyreverse.caption
+msgid "Reverse copy direction"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectcopyrighttoleft.caption
+msgid "Select for copying <- (right to left)"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actselectdeleteright.caption
+msgid "Select for deleting -> (right)"
+msgstr ""
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
@@ -8721,7 +8734,7 @@ msgstr "Zeigt den 'Über'-Dialog"
 
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
-msgstr ""
+msgstr "Kodierung ändern"
 
 #: tfrmviewer.actcopyfile.caption
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
@@ -9682,7 +9695,7 @@ msgstr "%s Level(s)"
 
 #: ulng.rsfinddepthall
 msgid "all (unlimited depth)"
-msgstr "Alle (Verzeichnistiefe unbegrenzt)"
+msgstr "Alle (Tiefe unbegrenzt)"
 
 #: ulng.rsfinddepthcurdir
 msgid "current dir only"
@@ -9895,7 +9908,7 @@ msgstr ""
 
 #: ulng.rshotkeysortorder
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
-msgstr ""
+msgstr "nach Kommando-Name;nach Shortcut-Key (gruppiert);nach Shortcut-Key (einer pro Zeile)"
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
@@ -10400,11 +10413,11 @@ msgstr "Füge %d markierte Verzeichnisse hinzu"
 
 #: ulng.rsmsghotdiraddselecteddirectory
 msgid "Add selected dir: "
-msgstr "Füge ausgewähltes Verzeichnis hinzu:"
+msgstr "Füge ausgewähltes Verzeichnis hinzu: "
 
 #: ulng.rsmsghotdiraddthisdirectory
 msgid "Add current dir: "
-msgstr "Füge aktuelles Verzeichnis hinzu"
+msgstr "Füge aktuelles Verzeichnis hinzu: "
 
 #: ulng.rsmsghotdircommandname
 msgid "Do command"
@@ -10769,7 +10782,7 @@ msgstr "Unten ist eine Vorschau zu sehen. Der Cursor kann bewegt werden und Date
 
 #: ulng.rsmsgpassword
 msgid "Password:"
-msgstr "Passwort"
+msgstr "Passwort:"
 
 #: ulng.rsmsgpassworddiff
 msgid "Passwords are different!"
@@ -10971,7 +10984,9 @@ msgstr ""
 msgid ""
 "Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
-msgstr "Fehler! Kann den angegebenen gewünschten TC-Toolbar Ausgabeordner nicht finden: %s"
+msgstr ""
+"Fehler! Kann den angegebenen gewünschten TC-Toolbar Ausgabeordner nicht finden:\n"
+"%s\n"
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
@@ -11065,6 +11080,12 @@ msgstr "Markierte \"%s\" sicher löschen?"
 msgid "with"
 msgstr "mit"
 
+#: ulng.rsmsgwrongpasswordtryagain
+msgid ""
+"Wrong password!\n"
+"Please try again!\n"
+msgstr ""
+
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
 msgstr ""
@@ -11083,7 +11104,7 @@ msgstr ""
 
 #: ulng.rsnewsearchclearfilteroptions
 msgid "Keep;Clear;Prompt"
-msgstr ""
+msgstr "erhalten;leeren;fragen"
 
 #: ulng.rsnoequivalentinternalcommand
 msgid "No internal equivalent command"
@@ -11588,10 +11609,9 @@ msgid "File panels"
 msgstr "Dateifenster"
 
 #: ulng.rsoptionseditorfilesearch
-#, fuzzy
 msgctxt "ulng.rsoptionseditorfilesearch"
 msgid "File search"
-msgstr "Dateisuche"
+msgstr "Dateien suchen"
 
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
@@ -11614,7 +11634,7 @@ msgstr "Favoriten-Tabs extra"
 #: ulng.rsoptionseditorfonts
 msgctxt "ulng.rsoptionseditorfonts"
 msgid "Fonts"
-msgstr "Schriftart"
+msgstr "Schriftarten"
 
 #: ulng.rsoptionseditorhighlighters
 msgid "Highlighters"
@@ -11778,7 +11798,7 @@ msgstr "Tr&ennendes Element;&Interner Befehl;E&xterner Befehl;Men&ü"
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
-msgstr "DC Vermächtnis - Kopiere (x) Dateiname.ext;Windows - Dateiname (x).ext;Andere - Dateiname(x).ext"
+msgstr "DC bisher: \"Kopie (x) Dateiname.ext\";Windows: \"Dateiname (x).ext\";Andere: \"Dateiname(x).ext\""
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
@@ -11934,7 +11954,7 @@ msgstr "Terabytes"
 
 #: ulng.rsspacemsg
 msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
-msgstr "Dateien: %d, Verzeichnis: %d, Grösse: %s (%s byte)"
+msgstr "Dateien: %d, Verzeichnisse: %d, Grösse: %s (%s Bytes)"
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"
