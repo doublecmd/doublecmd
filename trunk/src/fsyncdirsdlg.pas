@@ -37,6 +37,13 @@ type
   TSyncRecState = (srsUnknown, srsEqual, srsNotEq, srsCopyLeft, srsCopyRight, srsDeleteRight,
     srsDoNothing);
 
+  { TDrawGrid }
+
+  TDrawGrid = class(Grids.TDrawGrid)
+  protected
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
+  end;
+
   { TfrmSyncDirsDlg }
 
   TfrmSyncDirsDlg = class(TForm, IFormCommands)
@@ -216,6 +223,30 @@ begin
     raise Exception.Create('ShowSyncDirsDlg: FileView2=nil');
   with TfrmSyncDirsDlg.Create(Application, FileView1, FileView2) do
     Show;
+end;
+
+{ TDrawGrid }
+
+procedure TDrawGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  C, R: Integer;
+begin
+  if Button <> mbRight then
+    inherited MouseDown(Button, Shift, X, Y)
+  else begin
+    MouseToCell(X, Y, {%H-}C, {%H-}R);
+    if (R >= 0) and (R < RowCount) then
+    begin
+      if not IsCellSelected[Col, R] then
+        MoveExtend(False, Col, R, False)
+      else begin
+        C:= Row;
+        PInteger(@Row)^:= R;
+        InvalidateRow(C);
+        InvalidateRow(R);
+      end;
+    end;
+  end;
 end;
 
 { TCheckContentThread }
@@ -736,14 +767,8 @@ var
   ca: TSyncRecState;
 begin
   MainDrawGrid.MouseToCell(X, Y, c, r);
-  if (r < 0) or (r >= FVisibleItems.Count) then
-    Exit;
-  if Button = mbRight then
-  begin
-    MainDrawGrid.Row:= r;
-    Exit;
-  end;
-  if (x - 2 < hCols[3].Left)
+  if (r < 0) or (r >= FVisibleItems.Count)
+  or (x - 2 < hCols[3].Left)
   or (x - 2 > hCols[3].Left + hCols[3].Width)
   then
     Exit;
