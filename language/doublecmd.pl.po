@@ -6781,9 +6781,10 @@ msgid "Tabs saved on right will be restored to:"
 msgstr ""
 
 #: tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption
+#, fuzzy
 msgctxt "tfrmoptionstabsextra.lblfavoritetabssavedirhistory.caption"
 msgid "Keep saving dir history with Favorite Tabs:"
-msgstr ""
+msgstr "Zachowaj zapisaną historię katalogów w ulubionych zakładkach"
 
 #: tfrmoptionstabsextra.rgwheretoadd.caption
 msgid "Default position in menu when saving a new Favorite Tabs:"
@@ -9588,6 +9589,10 @@ msgstr "Znajdź pliki"
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr "Główny"
+
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
 
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"

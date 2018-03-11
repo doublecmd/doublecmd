@@ -9587,6 +9587,10 @@ msgstr "Hledat soubory"
 msgid "Main"
 msgstr "Hlavní"
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"

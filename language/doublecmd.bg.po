@@ -1914,9 +1914,10 @@ msgid "Import all!"
 msgstr "Внасяне на всички"
 
 #: tfrmhotdirexportimport.btnselectiondone.caption
+#, fuzzy
 msgctxt "tfrmhotdirexportimport.btnselectiondone.caption"
 msgid "Import selected"
-msgstr ""
+msgstr "Внасяне на избраните"
 
 #: tfrmhotdirexportimport.caption
 msgctxt "tfrmhotdirexportimport.caption"
@@ -10056,6 +10057,10 @@ msgstr "Търсене на файлове"
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr "Основен"
+
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
 
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"

@@ -9940,6 +9940,10 @@ msgstr "Fájlok keresése"
 msgid "Main"
 msgstr "Fő"
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"

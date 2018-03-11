@@ -9583,6 +9583,10 @@ msgstr "Zoek bestanden"
 msgid "Main"
 msgstr "Hoofd"
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"

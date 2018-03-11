@@ -1486,9 +1486,10 @@ msgid "&Close"
 msgstr "Schließen"
 
 #: tfrmfinddlg.actconfigfilesearchhotkeys.caption
+#, fuzzy
 msgctxt "tfrmfinddlg.actconfigfilesearchhotkeys.caption"
 msgid "Configuration of hot keys"
-msgstr ""
+msgstr "Konfiguration der Hot-Keys"
 
 #: tfrmfinddlg.actedit.caption
 msgctxt "tfrmfinddlg.actedit.caption"
@@ -9860,6 +9861,10 @@ msgstr "Dateien suchen"
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr "Haupt-Fenster"
+
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
 
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"

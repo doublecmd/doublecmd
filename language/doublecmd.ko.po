@@ -10055,6 +10055,10 @@ msgstr "파일 찾기"
 msgid "Main"
 msgstr "주요정보"
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"

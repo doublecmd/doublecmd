@@ -10178,6 +10178,10 @@ msgstr "Пошук файлів"
 msgid "Main"
 msgstr "Основний"
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"
