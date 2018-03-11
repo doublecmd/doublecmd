@@ -10067,6 +10067,10 @@ msgstr "Trova file"
 msgid "Main"
 msgstr "Principale"
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"

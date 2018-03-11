@@ -9588,6 +9588,10 @@ msgstr "Najdi datoteke"
 msgid "Main"
 msgstr "Glavno"
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"

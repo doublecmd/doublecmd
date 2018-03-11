@@ -10188,6 +10188,10 @@ msgstr "Find filer"
 msgid "Main"
 msgstr "Hovedvindue"
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"

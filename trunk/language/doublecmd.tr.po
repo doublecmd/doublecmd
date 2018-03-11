@@ -10288,6 +10288,10 @@ msgstr "Dosyaları bul"
 msgid "Main"
 msgstr ""
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"

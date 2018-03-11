@@ -10121,6 +10121,10 @@ msgstr "Нађи датотеке"
 msgid "Main"
 msgstr "Главни"
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"

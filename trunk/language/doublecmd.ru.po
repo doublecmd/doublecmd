@@ -9897,6 +9897,10 @@ msgstr "Поиск файлов"
 msgid "Main"
 msgstr "Основные"
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr "Синхронизация каталогов"
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"
@@ -11125,7 +11129,9 @@ msgstr "с"
 msgid ""
 "Wrong password!\n"
 "Please try again!\n"
-msgstr "Неверный пароль!\nПожалуйста, попробуйте ещё раз!"
+msgstr ""
+"Неверный пароль!\n"
+"Пожалуйста, попробуйте ещё раз!\n"
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"

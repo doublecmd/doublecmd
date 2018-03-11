@@ -9593,6 +9593,10 @@ msgstr "Buscar archivos"
 msgid "Main"
 msgstr "Principal"
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"

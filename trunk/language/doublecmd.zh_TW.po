@@ -10725,6 +10725,10 @@ msgstr "尋找檔案"
 msgid "Main"
 msgstr "主視窗"
 
+#: ulng.rshotkeycategorysyncdirs
+msgid "Synchronize Directories"
+msgstr ""
+
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
 msgid "Viewer"
