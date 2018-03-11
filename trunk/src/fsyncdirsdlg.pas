@@ -32,6 +32,9 @@ uses
   uFileSource, uFileSourceCopyOperation, uFile,
   uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager;
 
+const
+  HotkeysCategory = 'Synchronize Directories';
+
 type
 
   TSyncRecState = (srsUnknown, srsEqual, srsNotEq, srsCopyLeft, srsCopyRight, srsDeleteRight,
@@ -666,12 +669,12 @@ begin
 end;
 
 procedure TfrmSyncDirsDlg.FormCreate(Sender: TObject);
+var
+  HMSync: THMForm;
 begin
   // Initialize property storage
   InitPropStorage(Self);
   { settings }
-  chkByContent.Enabled   := FFileSourceL.IsClass(TFileSystemFileSource) and
-                            FFileSourceR.IsClass(TFileSystemFileSource);
   chkSubDirs.Checked     := gSyncDirsSubdirs;
   chkByContent.Checked   := gSyncDirsByContent and chkByContent.Enabled;
   chkIgnoreDate.Checked  := gSyncDirsIgnoreDate;
@@ -684,6 +687,8 @@ begin
   cbExtFilter.Items.Assign(glsMaskHistory);
   cbExtFilter.Text       := gSyncDirsFileMask;
 
+  HMSync := HotMan.Register(Self, HotkeysCategory);
+  HMSync.RegisterActionList(ActionList);
   FCommands := TFormCommands.Create(Self, ActionList);
 end;
 
@@ -1405,6 +1410,8 @@ begin
   FCancel := True;
   FSortDesc := False;
   MainDrawGrid.RowCount := 0;
+  chkByContent.Enabled := FFileSourceL.IsClass(TFileSystemFileSource) and
+                          FFileSourceR.IsClass(TFileSystemFileSource);
   chkAsymmetric.Enabled := fsoDelete in FileView2.FileSource.GetOperationsTypes;
   FFileSourceOperationMessageBoxesUI := TFileSourceOperationMessageBoxesUI.Create;
   if (FFileSourceL.IsClass(TFileSystemFileSource)) and (FFileSourceR.IsClass(TFileSystemFileSource)) then
@@ -1415,10 +1422,14 @@ end;
 
 destructor TfrmSyncDirsDlg.Destroy;
 begin
+  HotMan.UnRegister(Self);
   FFileSourceOperationMessageBoxesUI.Free;
   FVisibleItems.Free;
-  ClearFoundItems;
-  FFoundItems.Free;
+  if Assigned(FFoundItems) then
+  begin
+    ClearFoundItems;
+    FFoundItems.Free;
+  end;
   inherited Destroy;
 end;
 
@@ -1451,6 +1462,9 @@ procedure TfrmSyncDirsDlg.cm_SelectCopyRightToLeft(const Params: array of string
 begin
   SetSyncRecState(srsCopyLeft);
 end;
+
+initialization
+  TFormCommands.RegisterCommandsForm(TfrmSyncDirsDlg, HotkeysCategory, @rsHotkeyCategorySyncDirs);
 
 end.
 

@@ -641,6 +641,7 @@ resourcestring
   rsHotkeyCategoryFindFiles = 'Find files';
   rsHotkeyCategoryDiffer = 'Differ';
   rsHotkeyCategoryCopyMoveDialog = 'Copy/Move Dialog';
+  rsHotkeyCategorySyncDirs = 'Synchronize Directories';
   rsHotkeyCategoryEditCommentDialog = 'Edit Comment Dialog';
   rsHotkeySortOrder = 'By command name;By shortcut key (grouped);By shortcut key (one per row)';
   rsHotKeyNoSCEnter='No shortcut with "ENTER"';

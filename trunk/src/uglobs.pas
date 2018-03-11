@@ -124,7 +124,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 42;
+  hkVersion = 43;
   // 40 - In "Main" context, added the "Ctrl+Shift+F7" for "cm_AddNewSearch".
   //      In "Find Files" context, changed "cm_Start" that was "Enter" for "F9".
   //      In "Find Files" context, added "Alt+F7" as a valid alternative for "cm_PageStandard".
@@ -1034,6 +1034,15 @@ begin
       AddIfNotExists(['F2'],[],'cm_SaveDescription');
     end;
 
+  HMForm := HotMan.Forms.FindOrCreate('Synchronize Directories');
+  with HMForm.Hotkeys do
+    begin
+      AddIfNotExists(VK_M, [ssModifier], 'cm_SelectClear');
+      AddIfNotExists(VK_D, [ssModifier], 'cm_SelectCopyDefault');
+      AddIfNotExists(VK_W, [ssModifier], 'cm_SelectCopyReverse');
+      AddIfNotExists(VK_L, [ssModifier], 'cm_SelectCopyLeftToRight');
+      AddIfNotExists(VK_R, [ssModifier], 'cm_SelectCopyRightToLeft');
+    end;
 
   HMForm := HotMan.Forms.FindOrCreate('Editor');
   with HMForm.Hotkeys do
