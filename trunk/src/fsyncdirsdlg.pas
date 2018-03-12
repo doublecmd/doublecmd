@@ -27,9 +27,9 @@ unit fSyncDirsDlg;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Masks, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, uFileView,
-  uFileSource, uFileSourceCopyOperation, uFile,
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
+  StdCtrls, ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, LazUTF8Classes,
+  uFileView, uFileSource, uFileSourceCopyOperation, uFile,
   uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager;
 
 const
@@ -129,6 +129,7 @@ type
     FSortDesc: Boolean;
     FNtfsShift: Boolean;
     FFileExists: TSyncRecState;
+    FSelectedItems: TStringListUtf8;
     FFileSourceL, FFileSourceR: IFileSource;
     FCmpFileSourceL, FCmpFileSourceR: IFileSource;
     FCmpFilePathL, FCmpFilePathR: string;
@@ -181,7 +182,7 @@ uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uFileSourceOperation, uDCUtils, uFileSourceUtil, uFileSourceOperationTypes,
-  uShowForm, uFileSourceDeleteOperation, uOSUtils, uLng;
+  uShowForm, uFileSourceDeleteOperation, uOSUtils, uLng, uMasks;
 
 {$R *.lfm}
 
@@ -1034,13 +1035,15 @@ end;
 procedure TfrmSyncDirsDlg.ScanDirs;
 
 var
+  MaskList: TMaskList;
+  LeftFirst: Boolean = True;
+  RightFirst: Boolean = True;
   BaseDirL, BaseDirR: string;
-  MasksStr: string;
   ignoreDate, Subdirs, ByContent: Boolean;
 
   procedure ScanDir(dir: string);
 
-    procedure ProcessOneSide(it, dirs: TStringList; sideLeft: Boolean);
+    procedure ProcessOneSide(it, dirs: TStringList; var ASide: Boolean; sideLeft: Boolean);
     var
       fs: TFiles;
       i, j: Integer;
@@ -1049,13 +1052,23 @@ var
     begin
       if sideLeft then
         fs := FFileSourceL.GetFiles(BaseDirL + dir)
-      else
+      else begin
         fs := FFileSourceR.GetFiles(BaseDirR + dir);
+      end;
+      if chkOnlySelected.Checked and ASide then
+      begin
+        ASide:= False;
+        for I:= fs.Count - 1 downto 0 do
+        begin
+          if FSelectedItems.IndexOf(fs[I].Name) < 0 then
+            fs.Delete(I);
+        end;
+      end;
       try
         for i := 0 to fs.Count - 1 do
         begin
           f := fs.Items[i];
-          if not f.IsDirectory and MatchesMaskList(f.Name, MasksStr) then
+          if not f.IsDirectory and MaskList.Matches(f.Name) then
           begin
             j := it.IndexOf(f.Name);
             if j < 0 then
@@ -1107,8 +1120,8 @@ var
     try
       Application.ProcessMessages;
       if FCancel then Exit;
-      ProcessOneSide(it, dirsLeft, True);
-      ProcessOneSide(it, dirsRight, False);
+      ProcessOneSide(it, dirsLeft, LeftFirst, True);
+      ProcessOneSide(it, dirsRight, RightFirst, False);
       SortFoundItems(it);
       if not Subdirs then Exit;
       tot := dirsLeft.Count + dirsRight.Count;
@@ -1144,8 +1157,8 @@ begin
   FCancel := False;
   FCmpFileSourceL := FFileSourceL;
   FCmpFileSourceR := FFileSourceR;
-  MasksStr := cbExtFilter.Text;
   BaseDirL := AppendPathDelim(edPath1.Text);
+  MaskList := TMaskList.Create(cbExtFilter.Text);
   if (FAddressL <> '') and (Copy(BaseDirL, 1, Length(FAddressL)) = FAddressL) then
     Delete(BaseDirL, 1, Length(FAddressL));
   BaseDirR := AppendPathDelim(edPath2.Text);
@@ -1162,6 +1175,7 @@ begin
     FFileExists:= srsCopyLeft;
   end;
   ScanDir('');
+  MaskList.Free;
   if FCancel then Exit;
   if (FFoundItems.Count > 0) and chkByContent.Checked then
     CheckContentThread := TCheckContentThread.Create(Self);
@@ -1390,6 +1404,9 @@ end;
 
 constructor TfrmSyncDirsDlg.Create(AOwner: TComponent; FileView1,
   FileView2: TFileView);
+var
+  Index: Integer;
+  AFiles: TFiles;
 begin
   inherited Create(AOwner);
   FFoundItems := TStringList.Create;
@@ -1410,6 +1427,31 @@ begin
   FCancel := True;
   FSortDesc := False;
   MainDrawGrid.RowCount := 0;
+  // ---------------------------------------------------------------------------
+  FSelectedItems := TStringListUtf8.Create;
+  FSelectedItems.Sorted := True;
+  FSelectedItems.Duplicates := dupIgnore;
+  FSelectedItems.CaseSensitive := FileNameCaseSensitive;
+  // Get selected items from active panel
+  AFiles := FileView1.CloneSelectedFiles;
+  for Index := 0 to AFiles.Count - 1 do
+  begin
+    FSelectedItems.Add(AFiles[Index].Name);
+  end;
+  AFiles.Free;
+  // Get selected items from passive panel
+  AFiles := FileView2.CloneSelectedFiles;
+  for Index := 0 to AFiles.Count - 1 do
+  begin
+    FSelectedItems.Add(AFiles[Index].Name);
+  end;
+  AFiles.Free;
+  // ---------------------------------------------------------------------------
+  chkOnlySelected.Enabled := (FSelectedItems.Count > 0) and
+                             (FileView1.FlatView = False) and
+                             (FileView2.FlatView = False);
+  chkOnlySelected.Checked := chkOnlySelected.Enabled;
+  // ---------------------------------------------------------------------------
   chkByContent.Enabled := FFileSourceL.IsClass(TFileSystemFileSource) and
                           FFileSourceR.IsClass(TFileSystemFileSource);
   chkAsymmetric.Enabled := fsoDelete in FileView2.FileSource.GetOperationsTypes;
@@ -1425,6 +1467,7 @@ begin
   HotMan.UnRegister(Self);
   FFileSourceOperationMessageBoxesUI.Free;
   FVisibleItems.Free;
+  FSelectedItems.Free;
   if Assigned(FFoundItems) then
   begin
     ClearFoundItems;
