@@ -307,6 +307,40 @@ begin
   end;
 end;
 
+function luaInputListBox(L : Plua_State) : Integer; cdecl;
+var
+  AValue: String = '';
+  AIndex, ACount: Integer;
+  AStringList: TStringList;
+  APrompt, ACaption: PAnsiChar;
+begin
+  Result:= 1;
+  if (lua_gettop(L) < 3) or (not lua_istable(L, 3)) then
+  begin
+    lua_pushnil(L);
+    Exit;
+  end;
+  ACaption:= lua_tostring(L, 1);
+  APrompt:= lua_tostring(L, 2);
+  ACount:= lua_objlen(L, 3);
+  AStringList:= TStringList.Create;
+  for AIndex := 1 to ACount do
+  begin
+    lua_rawgeti(L, 3, AIndex);
+    AStringList.Add(luaL_checkstring(L, -1));
+    lua_pop(L, 1);
+  end;
+  if lua_isstring(L, 4) then begin
+    AValue:= lua_tostring(L, 4);
+  end;
+  if ShowInputListBox(ACaption, APrompt, AStringList, AValue, AIndex) then
+    lua_pushstring(L, PAnsiChar(AValue))
+  else begin
+    lua_pushnil(L);
+  end;
+  AStringList.Free;
+end;
+
 function luaGetEnvironmentVariable(L : Plua_State) : Integer; cdecl;
 var
   AValue: String;
@@ -454,6 +488,7 @@ begin
   lua_newtable(L);
     luaP_register(L, 'MessageBox', @luaMessageBox);
     luaP_register(L, 'InputQuery', @luaInputQuery);
+    luaP_register(L, 'InputListBox', @luaInputListBox);
   lua_setglobal(L, 'Dialogs');
 
   lua_newtable(L);
