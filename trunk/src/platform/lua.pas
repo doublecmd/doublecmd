@@ -247,7 +247,6 @@ var
   lua_lessthan:    function (L : Plua_State; idx1, idx2 : Integer) : LongBool;  cdecl;
   lua_toboolean:   function (L : Plua_State; idx : Integer) : LongBool;  cdecl;
   lua_tolstring:   function (L : Plua_State; idx : Integer; len : Psize_t) : PChar;  cdecl;
-  lua_objlen:      function (L : Plua_State; idx : Integer) : size_t;  cdecl;
   lua_tocfunction: function (L : Plua_State; idx : Integer) : lua_CFunction;  cdecl;
   lua_touserdata:  function (L : Plua_State; idx : Integer) : Pointer;  cdecl;
   lua_tothread:    function (L : Plua_State; idx : Integer) : Plua_State;  cdecl;
@@ -255,6 +254,7 @@ var
 
   function lua_tonumber(L : Plua_State; idx : Integer) : lua_Number;
   function lua_tointeger(L : Plua_State; idx : Integer) : lua_Integer;
+  function lua_objlen(L : Plua_State; idx : Integer) : size_t;
 
 (*
 ** push functions (C -> stack)
@@ -628,6 +628,8 @@ uses
 
 var
   lua_version: function (L: Plua_State): Plua_Number; cdecl;
+  lua_rawlen: function (L : Plua_State; idx : Integer): size_t; cdecl;
+  lua_objlen_: function (L : Plua_State; idx : Integer) : size_t;  cdecl;
   lua_setglobal_: procedure (L: Plua_State; const name: PAnsiChar); cdecl;
   lua_getglobal_: function (L: Plua_State; const name: PAnsiChar): Integer; cdecl;
   lua_tonumber_:    function (L : Plua_State; idx : Integer) : lua_Number;  cdecl;
@@ -778,7 +780,7 @@ begin
   @lua_tointeger_ := GetProcAddress(LuaLibD, 'lua_tointeger');
   @lua_toboolean := GetProcAddress(LuaLibD, 'lua_toboolean');
   @lua_tolstring := GetProcAddress(LuaLibD, 'lua_tolstring');
-  @lua_objlen := GetProcAddress(LuaLibD, 'lua_objlen');
+  @lua_objlen_ := GetProcAddress(LuaLibD, 'lua_objlen');
   @lua_tocfunction := GetProcAddress(LuaLibD, 'lua_tocfunction');
   @lua_touserdata := GetProcAddress(LuaLibD, 'lua_touserdata');
   @lua_tothread := GetProcAddress(LuaLibD, 'lua_tothread');
@@ -793,6 +795,7 @@ begin
   @lua_xmove := GetProcAddress(LuaLibD, 'lua_xmove');
 
   // Lua 5.2 - 5.3 specific stuff
+  @lua_rawlen := GetProcAddress(LuaLibD, 'lua_rawlen');
   @lua_pcallk := GetProcAddress(LuaLibD, 'lua_pcallk');
   @lua_version := GetProcAddress(LuaLibD, 'lua_version');
   @lua_tonumberx := GetProcAddress(LuaLibD, 'lua_tonumberx');
@@ -922,6 +925,14 @@ begin
     Result:= lua_tointegerx(L, idx, nil)
   else
     Result:= lua_tointeger_(L, idx);
+end;
+
+function lua_objlen(L: Plua_State; idx: Integer): size_t;
+begin
+  if Assigned(lua_rawlen) then
+    Result:= lua_rawlen(L, idx)
+  else
+    Result:= lua_objlen_(L, idx);
 end;
 
 procedure lua_setglobal(L: Plua_State; const name: PAnsiChar);
