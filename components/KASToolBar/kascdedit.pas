@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Custom edit control with the look and feel like TLabel
 
-    Copyright (C) 2017 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2017-2018 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -364,7 +364,11 @@ end;
 
 procedure TKASCDEdit.CopyToClipboard;
 begin
-  Clipboard.AsText:= UTF8Copy(Text, FEditState.SelStart.X + 1, FEditState.SelLength);
+  if (FEditState.SelLength >= 0) then
+    Clipboard.AsText:= UTF8Copy(Text, FEditState.SelStart.X + 1, FEditState.SelLength)
+  else begin
+    Clipboard.AsText:= UTF8Copy(Text, FEditState.SelStart.X + FEditState.SelLength + 1, -FEditState.SelLength);
+  end;
 end;
 
 initialization
