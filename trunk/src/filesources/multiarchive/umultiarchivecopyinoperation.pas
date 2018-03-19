@@ -179,7 +179,7 @@ begin
       OnReadLn(sReadyCommand);
 
       // Set archiver current path to file list root
-      FExProcess.Process.CurrentDirectory:= mbFileNameToSysEnc(sRootPath);
+      FExProcess.Process.CurrentDirectory:= sRootPath;
       FExProcess.SetCmdLine(sReadyCommand);
       FExProcess.Execute;
 
@@ -208,7 +208,7 @@ begin
       OnReadLn(sReadyCommand);
 
       // Set archiver current path to file list root
-      FExProcess.Process.CurrentDirectory:= mbFileNameToSysEnc(sRootPath);
+      FExProcess.Process.CurrentDirectory:= sRootPath;
       FExProcess.SetCmdLine(sReadyCommand);
       FExProcess.Execute;
 
