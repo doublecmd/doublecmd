@@ -122,7 +122,6 @@ procedure TOutputParser.OnQueryString(str: string);
 var
   pcPassword: PAnsiChar;
 begin
-  str:= FConvertEncoding(str);
   if not ShowInputQuery(FMultiArcItem.FDescription, rsMsgPasswordEnter, True, FPassword) then
     FExProcess.Stop
   else begin
