@@ -210,7 +210,7 @@ begin
             OnReadLn(sReadyCommand);
 
             // Set target directory as archiver current directory
-            FExProcess.Process.CurrentDirectory:= mbFileNameToSysEnc(sTempDir);
+            FExProcess.Process.CurrentDirectory:= sTempDir;
             FExProcess.SetCmdLine(sReadyCommand);
             FExProcess.Execute;
 
@@ -257,7 +257,7 @@ begin
       OnReadLn(sReadyCommand);
 
       // Set target directory as archiver current directory
-      FExProcess.Process.CurrentDirectory:= mbFileNameToSysEnc(sTempDir);
+      FExProcess.Process.CurrentDirectory:= sTempDir;
       FExProcess.SetCmdLine(sReadyCommand);
       FExProcess.Execute;
 
