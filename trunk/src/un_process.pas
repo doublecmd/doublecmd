@@ -5,7 +5,7 @@ unit un_process;
 interface
 
 uses
-  Process, SysUtils;
+  Process, SysUtils, DCProcessUtf8;
  
 type
 
@@ -95,7 +95,7 @@ end;
 constructor TExProcess.Create(CommandLine: String = '');
 begin
   FOutputLine:= EmptyStr;
-  FProcess:= TProcess.Create(nil);
+  FProcess:= TProcessUtf8.Create(nil);
   FProcess.CommandLine:= CommandLine;
   FProcess.Options:= [poUsePipes, poNoConsole];
 end;

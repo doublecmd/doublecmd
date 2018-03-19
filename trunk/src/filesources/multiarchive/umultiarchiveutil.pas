@@ -251,17 +251,12 @@ var
       Result := '"' + Result + '"';
     if (fmQuoteAny in state.FuncModifiers) then
       Result := '"' + Result + '"';
-    if (fmUTF8 in state.FuncModifiers) then
-      Exit;
-    if (fmAnsi in state.FuncModifiers) then
-      Result := CeUtf8ToSys(Result)
-    else
-      Result := UTF8ToConsole(Result);
   end;
 
   function BuildFileList(bShort: boolean): String;
   var
     I: integer;
+    FileName: String;
     FileList: TStringListEx;
   begin
     if not Assigned(aFiles) then Exit(EmptyStr);
@@ -272,9 +267,16 @@ var
       if aFiles[I].IsDirectory and (fmOnlyFiles in state.FuncModifiers) then
         Continue;
       if bShort then
-        FileList.Add(BuildName(mbFileNameToSysEnc(aFiles[I].FullPath)))
-      else
-        FileList.Add(BuildName(aFiles[I].FullPath));
+        FileName := BuildName(mbFileNameToSysEnc(aFiles[I].FullPath))
+      else begin
+        FileName := BuildName(aFiles[I].FullPath);
+      end;
+      if (fmAnsi in state.FuncModifiers) then
+        FileName := CeUtf8ToSys(FileName)
+      else if not (fmUTF8 in state.FuncModifiers) then begin
+        FileName := UTF8ToConsole(FileName);
+      end;
+      FileList.Add(FileName);
     end;
     try
       FileList.SaveToFile(Result);
@@ -308,7 +310,7 @@ var
       ftVolumeSize:
         Result:= sVolumeSize;
       ftPassword:
-        Result:= UTF8ToConsole(sPassword);
+        Result:= sPassword;
       ftCustomParams:
         Result:= sCustomParams;
       else
