@@ -82,7 +82,7 @@ function GetUnixFileName(const Str: String): String;
 var
   I: Integer;
 begin
-  Result:= ConsoleToUTF8(Str);
+  Result:= Str;
   for I:= 1 to Length(Str) do
     if Result[I] = '/' then Result[I]:= PathDelim;
 end;
@@ -91,9 +91,14 @@ function GetWinFileName(const Str: String): String;
 var
   I: Integer;
 begin
-  Result:= ConsoleToUTF8(Str);
+  Result:= Str;
   for I:= 1 to Length(Str) do
     if Result[I] = '\' then Result[I]:= PathDelim;
+end;
+
+function GetDefFileName(const Str: String): String;
+begin
+  Result:= Str;
 end;
 
 { TMultiArchiveParser }
@@ -129,7 +134,7 @@ begin
     else if ((FFormMode and MAF_WIN_PATH) <> 0) and (PathDelim <> '\') then
       FGetFileName:= @GetWinFileName
     else
-      FGetFileName:= @ConsoleToUTF8;
+      FGetFileName:= @GetDefFileName;
   end;
 end;
 
