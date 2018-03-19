@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform dependent functions dealing with operating system.
 
-    Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ unit DCOSUtils;
 interface
 
 uses
-  SysUtils, Classes, DynLibs, DCClassesUtf8, DCBasicTypes;
+  SysUtils, Classes, DynLibs, DCClassesUtf8, DCBasicTypes, DCConvertEncoding;
 
 const
   fmOpenSync    = $10000;
@@ -114,7 +114,7 @@ procedure UnMapFile(var FileMapRec : TFileMapRec);
 {en
    Convert from console to UTF8 encoding.
 }
-function ConsoleToUTF8(const Str: AnsiString): String;
+function ConsoleToUTF8(const Source: String): RawByteString;
 
 { File handling functions}
 function mbFileOpen(const FileName: String; Mode: LongWord): System.THandle;
@@ -223,7 +223,7 @@ uses
 {$IF DEFINED(UNIX)}
   BaseUnix, Unix, dl, DCUnix,
 {$ENDIF}
-  DCConvertEncoding, DCStrUtils, LazUTF8;
+  DCStrUtils, LazUTF8;
 
 {$IFDEF UNIX}
 function SetModeReadOnly(mode: TMode; ReadOnly: Boolean): TMode;
@@ -572,20 +572,21 @@ begin
 end;
 {$ENDIF}  
 
-function ConsoleToUTF8(const Str: AnsiString): String;
+function ConsoleToUTF8(const Source: String): RawByteString;
 {$IFDEF MSWINDOWS}
 var
-  Dst: PChar;
-{$ENDIF}
+  UnicodeResult: UnicodeString;
 begin
-  Result:= Str;
-  {$IFDEF MSWINDOWS}
-  Dst:= AllocMem((Length(Result) + 1) * SizeOf(Char));
-  if OEMToChar(PChar(Result), Dst) then
-    Result:= SysToUTF8(Dst);
-  FreeMem(Dst);
-  {$ENDIF}
+  if CeTryDecode(Source, CP_OEMCP, UnicodeResult) then
+    Result:= UTF16ToUTF8(UnicodeResult)
+  else
+    Result:= Source;
 end;
+{$ELSE}
+begin
+  Result:= CeSysToUtf8(Source);
+end;
+{$ENDIF}
 
 function mbFileOpen(const FileName: String; Mode: LongWord): System.THandle;
 {$IFDEF MSWINDOWS}

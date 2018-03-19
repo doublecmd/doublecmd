@@ -5,7 +5,8 @@ unit uMultiArchiveUtil;
 interface
 
 uses
-  Classes, SysUtils, uMultiArc, un_process, uFile, uMultiArchiveParser;
+  Classes, SysUtils, DCConvertEncoding, uMultiArc, un_process, uFile,
+  uMultiArchiveParser;
 
 type
 
@@ -16,9 +17,11 @@ type
     FExProcess: TExProcess;
     FMultiArcItem: TMultiArcItem;
     FParser: TMultiArchiveParser;
+    FConvertEncoding: function (const Source: String): RawByteString;
   private
     FArchiveName: String;
     FStartParsing: boolean;
+    function PrepareCommand: String;
     procedure SetOnGetArchiveItem(AValue: TOnGetArchiveItem);
   protected
     procedure OnProcessExit;
@@ -50,10 +53,32 @@ function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: String;
 implementation
 
 uses
-  LazUTF8, DCClassesUtf8, DCConvertEncoding, uDCUtils, DCOSUtils, uOSUtils,
+  LazUTF8, DCClassesUtf8, uDCUtils, DCOSUtils, uOSUtils,
   uDebug, uShowMsg, uLng, uMultiArchiveDynamicParser;
 
+function Utf8ToUtf8(const Source: String): RawByteString;
+begin
+  Result:= Source;
+end;
+
 { TOutputParser }
+
+function TOutputParser.PrepareCommand: String;
+var
+  Index: Integer;
+begin
+  Result:= FMultiArcItem.FList;
+  Index:= Pos('%O', Result);
+  FConvertEncoding:= @DCOSUtils.ConsoleToUTF8;
+  if (Index > 0) and (Index + 2 <= Length(Result)) then
+  begin
+    case (Result[Index + 2]) of
+      'A': FConvertEncoding:= CeSysToUtf8;
+      'U': FConvertEncoding:= @Utf8ToUtf8;
+    end;
+    Delete(Result, Index, 3);
+  end;
+end;
 
 procedure TOutputParser.SetOnGetArchiveItem(AValue: TOnGetArchiveItem);
 begin
@@ -67,6 +92,8 @@ end;
 
 procedure TOutputParser.OnReadLn(str: string);
 begin
+  str:= FConvertEncoding(str);
+
   if FMultiArcItem.FDebug then
     DCDebug(str);
 
@@ -95,6 +122,7 @@ procedure TOutputParser.OnQueryString(str: string);
 var
   pcPassword: PAnsiChar;
 begin
+  str:= FConvertEncoding(str);
   if not ShowInputQuery(FMultiArcItem.FDescription, rsMsgPasswordEnter, True, FPassword) then
     FExProcess.Stop
   else begin
@@ -145,8 +173,9 @@ var
 begin
   FStartParsing:= False;
   FreeAndNil(FExProcess);
+  sCommandLine:= PrepareCommand;
   sCommandLine:= FormatArchiverCommand(FMultiArcItem.FArchiver,
-                                       FMultiArcItem.FList, FArchiveName,
+                                       sCommandLine, FArchiveName,
                                        nil, '', '','', FPassword);
   if FMultiArcItem.FDebug then
     DCDebug(sCommandLine);
