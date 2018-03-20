@@ -458,7 +458,7 @@ begin
   // And not set directory attribute. So delete path
   // delimiter if present and add directory attribute.
   NameLength := Length(ArchiveItem.FileName);
-  if (ArchiveItem.FileName[NameLength] = PathDelim) then
+  if (NameLength > 0) and (ArchiveItem.FileName[NameLength] = PathDelim) then
   begin
     Delete(ArchiveItem.FileName, NameLength, 1);
     ArchiveItem.Attributes := ArchiveItem.Attributes or FDirectoryAttribute;
