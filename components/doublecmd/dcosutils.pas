@@ -574,13 +574,8 @@ end;
 
 function ConsoleToUTF8(const Source: String): RawByteString;
 {$IFDEF MSWINDOWS}
-var
-  UnicodeResult: UnicodeString;
 begin
-  if CeTryDecode(Source, CP_OEMCP, UnicodeResult) then
-    Result:= UTF16ToUTF8(UnicodeResult)
-  else
-    Result:= Source;
+  Result:= CeOemToUtf8(Source);
 end;
 {$ELSE}
 begin
