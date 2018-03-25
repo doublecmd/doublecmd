@@ -180,6 +180,7 @@ type
 
     constructor Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []); override;
     constructor Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []); override;
+    constructor Create(AOwner: TWinControl; AFileView: TFileView; AColumnSet: String; AFlags: TFileViewFlags = []); virtual;
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
 
     destructor Destroy; override;
@@ -764,6 +765,14 @@ end;
 
 constructor TColumnsFileView.Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []);
 begin
+  inherited Create(AOwner, AFileView, AFlags);
+end;
+
+constructor TColumnsFileView.Create(AOwner: TWinControl; AFileView: TFileView;
+  AColumnSet: String; AFlags: TFileViewFlags);
+begin
+  if ColSet.Items.IndexOf(AColumnSet) >= 0 then
+    ActiveColm := AColumnSet;
   inherited Create(AOwner, AFileView, AFlags);
 end;
 

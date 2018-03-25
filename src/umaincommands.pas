@@ -1880,15 +1880,13 @@ var
 begin
   with frmMain do
   begin
-    if not (ActiveFrame is TColumnsFileView) then
-    begin
-      aFileView:= TColumnsFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
+    GetParamValue(Params, 'columnset', AParam);
+    if (ActiveFrame is TColumnsFileView) then
+      TColumnsFileView(ActiveFrame).SetColumnSet(AParam)
+    else begin
+      aFileView:= TColumnsFileView.Create(ActiveNotebook.ActivePage, ActiveFrame, AParam);
       ActiveNotebook.ActivePage.FileView:= aFileView;
       ActiveFrame.SetFocus;
-    end;
-    if GetParamValue(Params, 'columnset', AParam) then
-    begin
-      TColumnsFileView(ActiveFrame).SetColumnSet(AParam);
     end;
   end;
 end;
@@ -1900,14 +1898,12 @@ var
 begin
   with frmMain do
   begin
-    if not (FrameLeft is TColumnsFileView) then
-    begin
-      aFileView:= TColumnsFileView.Create(LeftTabs.ActivePage, FrameLeft);
+    GetParamValue(Params, 'columnset', AParam);
+    if (FrameLeft is TColumnsFileView) then
+      TColumnsFileView(FrameLeft).SetColumnSet(AParam)
+    else begin
+      aFileView:= TColumnsFileView.Create(LeftTabs.ActivePage, FrameLeft, AParam);
       LeftTabs.ActivePage.FileView:= aFileView;
-    end;
-    if GetParamValue(Params, 'columnset', AParam) then
-    begin
-      TColumnsFileView(FrameLeft).SetColumnSet(AParam);
     end;
   end;
 end;
@@ -1919,14 +1915,12 @@ var
 begin
   with frmMain do
   begin
-    if not (FrameRight is TColumnsFileView) then
-    begin
-      aFileView:= TColumnsFileView.Create(RightTabs.ActivePage, FrameRight);
+    GetParamValue(Params, 'columnset', AParam);
+    if (FrameRight is TColumnsFileView) then
+      TColumnsFileView(FrameRight).SetColumnSet(AParam)
+    else begin
+      aFileView:= TColumnsFileView.Create(RightTabs.ActivePage, FrameRight, AParam);
       RightTabs.ActivePage.FileView:= aFileView;
-    end;
-    if GetParamValue(Params, 'columnset', AParam) then
-    begin
-      TColumnsFileView(FrameRight).SetColumnSet(AParam);
     end;
   end;
 end;
