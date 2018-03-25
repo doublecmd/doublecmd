@@ -193,6 +193,7 @@ type
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); override;
 
     procedure UpdateColumnsView;
+    procedure SetColumnSet(const AName: String);
     procedure SetGridFunctionDim(ExternalDimFunction:TFunctionDime);
 
     property OnColumnResized: TColumnResized read FOnColumnResized write FOnColumnResized;
@@ -725,6 +726,16 @@ begin
   if FilePropertiesNeeded >= OldFilePropertiesNeeded then
   begin
     Notify([fvnVisibleFilePropertiesChanged]);
+  end;
+end;
+
+procedure TColumnsFileView.SetColumnSet(const AName: String);
+begin
+  if ColSet.Items.IndexOf(AName) >= 0 then
+  begin
+    ActiveColm:= AName;
+    UpdateColumnsView;
+    RedrawFiles;
   end;
 end;
 

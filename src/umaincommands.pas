@@ -1875,35 +1875,59 @@ end;
 
 procedure TMainCommands.cm_ColumnsView(const Params: array of string);
 var
+  AParam: String;
   aFileView: TFileView;
 begin
   with frmMain do
   begin
-    aFileView:= TColumnsFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
-    ActiveNotebook.ActivePage.FileView:= aFileView;
-    ActiveFrame.SetFocus;
+    if not (ActiveFrame is TColumnsFileView) then
+    begin
+      aFileView:= TColumnsFileView.Create(ActiveNotebook.ActivePage, ActiveFrame);
+      ActiveNotebook.ActivePage.FileView:= aFileView;
+      ActiveFrame.SetFocus;
+    end;
+    if GetParamValue(Params, 'columnset', AParam) then
+    begin
+      TColumnsFileView(ActiveFrame).SetColumnSet(AParam);
+    end;
   end;
 end;
 
 procedure TMainCommands.cm_LeftColumnsView(const Params: array of string);
 var
+  AParam: String;
   aFileView: TFileView;
 begin
   with frmMain do
   begin
-    aFileView:= TColumnsFileView.Create(LeftTabs.ActivePage, FrameLeft);
-    LeftTabs.ActivePage.FileView:= aFileView;
+    if not (FrameLeft is TColumnsFileView) then
+    begin
+      aFileView:= TColumnsFileView.Create(LeftTabs.ActivePage, FrameLeft);
+      LeftTabs.ActivePage.FileView:= aFileView;
+    end;
+    if GetParamValue(Params, 'columnset', AParam) then
+    begin
+      TColumnsFileView(FrameLeft).SetColumnSet(AParam);
+    end;
   end;
 end;
 
 procedure TMainCommands.cm_RightColumnsView(const Params: array of string);
 var
+  AParam: String;
   aFileView: TFileView;
 begin
   with frmMain do
   begin
-    aFileView:= TColumnsFileView.Create(RightTabs.ActivePage, FrameRight);
-    RightTabs.ActivePage.FileView:= aFileView;
+    if not (FrameRight is TColumnsFileView) then
+    begin
+      aFileView:= TColumnsFileView.Create(RightTabs.ActivePage, FrameRight);
+      RightTabs.ActivePage.FileView:= aFileView;
+    end;
+    if GetParamValue(Params, 'columnset', AParam) then
+    begin
+      TColumnsFileView(FrameRight).SetColumnSet(AParam);
+    end;
   end;
 end;
 
