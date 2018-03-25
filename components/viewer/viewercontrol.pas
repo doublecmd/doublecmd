@@ -736,15 +736,13 @@ end;
 
 function TViewerControl.HScroll(iSymbols: Integer): Boolean;
 var
-  newPos: integer;
+  newPos: Integer;
 begin
-  newPos := FHPosition;
-  if (FHLowEnd - FTextWidth) > 0 then
-    begin
-      newPos := newPos+ iSymbols;
-      if newPos < 0 then newPos := 0;
-      if newPos > FHLowEnd-FTextWidth then newPos := FHLowEnd-FTextWidth;
-    end;
+  newPos := FHPosition + iSymbols;
+  if newPos < 0 then
+    newPos := 0
+  else if (newPos > FHLowEnd - FTextWidth) and (FHLowEnd - FTextWidth > 0) then
+    newPos := FHLowEnd - FTextWidth;
   if newPos <> FHPosition then
     SetHPosition(newPos);
 end;
@@ -1645,13 +1643,10 @@ begin
 
   FHPosition := Value;
   // Set new scroll position.
-  if (FHLowEnd - FTextWidth) > 0 then
-  begin
-    if FHPosition > 0 then
-      FHScrollBarPosition := FHPosition * 100 div (FHLowEnd - FTextWidth)
-    else
-      FHScrollBarPosition := 0;
-  end;
+  if (FHPosition > 0) and (FHLowEnd - FTextWidth > 0) then
+    FHScrollBarPosition := FHPosition * 100 div (FHLowEnd - FTextWidth)
+  else
+    FHScrollBarPosition := 0;
   // Update scrollbar position.
   if FUpdateScrollBarPos then
   begin
