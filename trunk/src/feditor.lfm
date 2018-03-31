@@ -1014,6 +1014,7 @@ object frmEditor: TfrmEditor
     object actFileReload: TAction
       Category = 'File'
       Caption = 'Reload'
+      ImageIndex = 17
       OnExecute = actExecute
     end
   end
