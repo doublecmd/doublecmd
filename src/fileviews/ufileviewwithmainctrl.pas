@@ -158,6 +158,7 @@ type
        on directories during drag&drop operations.
     }
     procedure SetDropFileIndex(NewFileIndex: PtrInt);
+    function GetIconRect(FileIndex: PtrInt): TRect; virtual;
     procedure WorkerStarting(const Worker: TFileViewWorker); override;
     procedure WorkerFinished(const Worker: TFileViewWorker); override;
 
@@ -738,8 +739,14 @@ begin
                 end;
               end;
             end;
+            // Select files/folders with a left click on their icons
+            if (gMouseSelectionIconClick > 0) and
+               (PtInRect(GetIconRect(FileIndex), Classes.Point(X, Y))) then
+            begin
+              InvertFileSelection(AFile, False);
+            end
             //  If mark with left button enable
-            if (gMouseSelectionButton = 0) then
+            else if (gMouseSelectionButton = 0) then
             begin
               if not AFile.Selected then
                 MarkFiles(False);
@@ -1128,6 +1135,11 @@ begin
     if IsFileIndexInRange(NewFileIndex) then
       RedrawFile(NewFileIndex);
   end;
+end;
+
+function TFileViewWithMainCtrl.GetIconRect(FileIndex: PtrInt): TRect;
+begin
+  Result:= Classes.Rect(0, 0, 0, 0);
 end;
 
 procedure TFileViewWithMainCtrl.SetFocus;

@@ -159,6 +159,7 @@ type
     function GetActiveFileIndex: PtrInt; override;
     function GetFileIndexFromCursor(X, Y: Integer; out AtFileList: Boolean): PtrInt; override;
     function GetFileRect(FileIndex: PtrInt): TRect; override;
+    function GetIconRect(FileIndex: PtrInt): TRect; override;
     function GetVisibleFilesIndexes: TRange; override;
     procedure RedrawFile(FileIndex: PtrInt); override;
     procedure RedrawFile(DisplayFile: TDisplayFile); override;
@@ -215,6 +216,9 @@ uses
   uFormCommands,
   uFileViewNotebook,
   fOptionsCustomColumns;
+
+const
+  CELL_PADDING = 2;
 
 type
   TEachViewCallbackReason = (evcrUpdateColumns);
@@ -594,6 +598,17 @@ end;
 function TColumnsFileView.GetFileRect(FileIndex: PtrInt): TRect;
 begin
   Result := dgPanel.CellRect(0, FileIndex + dgPanel.FixedRows);
+end;
+
+function TColumnsFileView.GetIconRect(FileIndex: PtrInt): TRect;
+begin
+  FileIndex:= FileIndex + dgPanel.FixedRows;
+  Result := dgPanel.CellRect(0, FileIndex);
+
+  Result.Top:= Result.Top + (dgPanel.RowHeights[FileIndex] - gIconsSize) div 2;
+  Result.Left:= Result.Left + CELL_PADDING;
+  Result.Right:= Result.Left + gIconsSize;
+  Result.Bottom:= Result.Bottom + gIconsSize;
 end;
 
 procedure TColumnsFileView.SetRowCount(Count: Integer);
@@ -1318,9 +1333,6 @@ end;
 
 procedure TDrawGridEx.DrawCell(aCol, aRow: Integer; aRect: TRect;
               aState: TGridDrawState);
-const
-  CELL_PADDING = 2;
-
 var
   //shared variables
   s:   string;

@@ -40,14 +40,14 @@ type
     procedure UpdateView; virtual; abstract;
     procedure CalculateColRowCount; virtual; abstract;
     procedure CalculateColumnWidth; virtual; abstract;
-    function  CellToIndex(ACol, ARow: Integer): Integer; virtual; abstract;
-    procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); virtual; abstract;
     {$if lcl_fullversion >= 1070000}
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                 const AXProportion, AYProportion: Double); override;
     {$endif}
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce; virtual;
+    function  CellToIndex(ACol, ARow: Integer): Integer; virtual; abstract;
+    procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); virtual; abstract;
     property BorderWidth: Integer read GetBorderWidth;
   end;
 
