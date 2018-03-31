@@ -57,6 +57,7 @@ type
     function  PreferedWidth: Integer; override;
     procedure LineCountChanged(Sender: TSynEditStrings; AIndex, ACount: Integer);
     procedure BufferChanged(Sender: TObject);
+    procedure FontChanged(Sender: TObject);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -459,12 +460,18 @@ begin
   LineCountChanged(nil, 0, 0);
 end;
 
+procedure TSynDiffGutterLineNumber.FontChanged(Sender: TObject);
+begin
+  DoAutoSize;
+end;
+
 procedure TSynDiffGutterLineNumber.Init;
 begin
   inherited Init;
   FTextDrawer := Gutter.TextDrawer;
   TSynEditStringList(TextBuffer).AddChangeHandler(senrLineCount, @LineCountChanged);
   TSynEditStringList(TextBuffer).AddNotifyHandler(senrTextBufferChanged, @BufferChanged);
+  FTextDrawer.RegisterOnFontChangeHandler(@FontChanged);
   LineCountchanged(nil, 0, 0);
 end;
 
@@ -478,7 +485,8 @@ end;
 
 destructor TSynDiffGutterLineNumber.Destroy;
 begin
-  TSynEditStringList(TextBuffer).RemoveHanlders(self);
+  TSynEditStringList(TextBuffer).RemoveHanlders(Self);
+  FTextDrawer.UnRegisterOnFontChangeHandler(@FontChanged);
   inherited Destroy;
 end;
 
