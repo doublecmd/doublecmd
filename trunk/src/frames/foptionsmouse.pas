@@ -45,7 +45,6 @@ type
     rbScrollLineByLineCursor: TRadioButton;
     rbScrollPageByPage: TRadioButton;
     seWheelScrollLines: TSpinEdit;
-    procedure cbMouseModeChange(Sender: TObject);
     procedure cbSelectionByMouseChange(Sender: TObject);
   protected
     procedure Init; override;
@@ -68,14 +67,8 @@ uses
 procedure TfrmOptionsMouse.cbSelectionByMouseChange(Sender: TObject);
 begin
   cbMouseMode.Enabled:= cbSelectionByMouse.Checked;
-  chkMouseSelectionIconClick.Enabled:= cbSelectionByMouse.Checked and (cbMouseMode.ItemIndex = 0);
+  chkMouseSelectionIconClick.Enabled:= cbSelectionByMouse.Checked;
   if not cbSelectionByMouse.Checked then chkMouseSelectionIconClick.Checked:= False;
-end;
-
-procedure TfrmOptionsMouse.cbMouseModeChange(Sender: TObject);
-begin
-  chkMouseSelectionIconClick.Enabled:= cbMouseMode.ItemIndex = 0;
-  if cbMouseMode.ItemIndex <> 0 then chkMouseSelectionIconClick.Checked:= False;
 end;
 
 procedure TfrmOptionsMouse.Init;
@@ -101,7 +94,6 @@ begin
       rbScrollLineByLine.Checked:= True;
   end;
 
-  cbMouseModeChange(cbMouseMode);
   cbSelectionByMouseChange(cbSelectionByMouse);
 end;
 
