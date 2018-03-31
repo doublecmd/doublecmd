@@ -4593,6 +4593,10 @@ msgctxt "tfrmoptionsconfiguration.lblcmdlineconfigdir.caption"
 msgid "Set on command line"
 msgstr "Nastaviť v príkazovom riadku"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr ""
@@ -7410,6 +7414,10 @@ msgstr "Veľkosť náhľadu:"
 msgctxt "tfrmoptionsmouse.cbselectionbymouse.caption"
 msgid "&Selection by mouse"
 msgstr "Výber myšou"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgctxt "tfrmoptionsmouse.gbscrolling.caption"

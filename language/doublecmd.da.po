@@ -4227,6 +4227,10 @@ msgstr "Sorteringsrækkefølge af konfigurationsrækkefølgen i venstre træ"
 msgid "Set on command line"
 msgstr "Angiv i kommandolinje"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr ""
@@ -6920,6 +6924,10 @@ msgstr "&Bredde x højde:"
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"
 msgstr "Valg med mus"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgctxt "tfrmoptionsmouse.gbscrolling.caption"

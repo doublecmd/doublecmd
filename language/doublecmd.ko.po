@@ -4182,6 +4182,10 @@ msgstr "왼쪽 트리에 환경설정 명령 정렬"
 msgid "Set on command line"
 msgstr "명령 프롬프트에 준비"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr ""
@@ -6839,6 +6843,10 @@ msgstr "썸네일 크기(&T):"
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"
 msgstr "마우스로 선택(&S)"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"

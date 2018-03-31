@@ -4203,6 +4203,10 @@ msgstr ""
 msgid "Set on command line"
 msgstr "Imposta sulla linea di comando"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr ""
@@ -6856,6 +6860,10 @@ msgstr "&Dimensione anteprime:"
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"
 msgstr "&Selezione da mouse"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"

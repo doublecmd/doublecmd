@@ -4444,6 +4444,10 @@ msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
 msgid "Set on command line"
 msgstr "在指令行設置"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr ""
@@ -7327,6 +7331,10 @@ msgstr "縮圖大小 (&T):"
 msgctxt "TFRMOPTIONSMOUSE.CBSELECTIONBYMOUSE.CAPTION"
 msgid "&Selection by mouse"
 msgstr "使用滑鼠選取項目 (&S)"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgctxt "TFRMOPTIONSMOUSE.GBSCROLLING.CAPTION"

@@ -4206,6 +4206,10 @@ msgstr ""
 msgid "Set on command line"
 msgstr "Uključi naredbenu liniju"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr ""
@@ -6888,6 +6892,10 @@ msgstr "Veličina &umanjenih sličica:"
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"
 msgstr "&Odabir mišem"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"

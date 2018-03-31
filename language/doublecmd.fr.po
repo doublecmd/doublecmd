@@ -4184,6 +4184,10 @@ msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
 msgid "Set on command line"
 msgstr "Ajuster sur la ligne de commande"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr "Thème d'icône:"
@@ -6752,6 +6756,10 @@ msgstr "Taille de vignette :"
 msgctxt "TFRMOPTIONSMOUSE.CBSELECTIONBYMOUSE.CAPTION"
 msgid "&Selection by mouse"
 msgstr "Sélection à la souris"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgctxt "TFRMOPTIONSMOUSE.GBSCROLLING.CAPTION"

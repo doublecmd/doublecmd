@@ -4152,6 +4152,10 @@ msgstr "←左側ツリー中での構成設定要素の並べ替え順序"
 msgid "Set on command line"
 msgstr "コマンドラインで設定"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr ""
@@ -6710,6 +6714,10 @@ msgstr "サムネイルサイズ(&T)："
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"
 msgstr "マウスによる選択(&S)"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"

@@ -4049,6 +4049,10 @@ msgstr "Rangschikvolgorde van instellingenvolgorde in linkerboom"
 msgid "Set on command line"
 msgstr "Instellen op opdrachtregel"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr "Pictogramthema's:"
@@ -6516,6 +6520,10 @@ msgstr "&Miniatuurgrootte:"
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"
 msgstr "&Selectie door muis"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"

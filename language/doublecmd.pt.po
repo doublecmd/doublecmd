@@ -4155,6 +4155,10 @@ msgstr "Ordem da configuração na árvore esquerda"
 msgid "Set on command line"
 msgstr "Definir na linha de comandos"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr "Temas de ícones:"
@@ -6711,6 +6715,10 @@ msgstr "&Tamanho da miniatura:"
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"
 msgstr "&Selecção com o rato"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"
