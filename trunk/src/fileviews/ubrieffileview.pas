@@ -42,6 +42,7 @@ type
     procedure ShowRenameFileEdit(aFile: TFile); override;
     procedure UpdateRenameFileEditPosition; override;
     function GetVisibleFilesIndexes: TRange; override;
+    function GetIconRect(FileIndex: PtrInt): TRect; override;
   public
     function Clone(NewParent: TWinControl): TBriefFileView; override;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); override;
@@ -54,6 +55,9 @@ uses
   uGlobs, uPixmapManager, uKeyboard, fMain,
   uFileSourceProperty,
   uOrderedFileView;
+
+const
+  CELL_PADDING = 1;
 
 { TBriefDrawGrid }
 
@@ -407,7 +411,7 @@ var
         // Draw icon for a file
         PixMapManager.DrawBitmap(IconID,
                                  Canvas,
-                                 aRect.Left + 1,
+                                 aRect.Left + CELL_PADDING,
                                  Y
                                  );
 
@@ -529,6 +533,19 @@ begin
         if Result.Last >= FFiles.Count then Result.Last:= FFiles.Count - 1;
       end;
   end;
+end;
+
+function TBriefFileView.GetIconRect(FileIndex: PtrInt): TRect;
+var
+  ACol, ARow: Integer;
+begin
+  dgPanel.IndexToCell(FileIndex, ACol, ARow);
+  Result := dgPanel.CellRect(ACol, ARow);
+
+  Result.Top:= Result.Top + (dgPanel.RowHeights[ARow] - gIconsSize) div 2;
+  Result.Left:= Result.Left + CELL_PADDING;
+  Result.Right:= Result.Left + gIconsSize;
+  Result.Bottom:= Result.Bottom + gIconsSize;
 end;
 
 function TBriefFileView.Clone(NewParent: TWinControl): TBriefFileView;
