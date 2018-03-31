@@ -83,6 +83,7 @@ type
     function GetVisibleFilesIndexes: TRange; override;
     procedure ShowRenameFileEdit(aFile: TFile); override;
     procedure UpdateRenameFileEditPosition(); override;
+    function GetIconRect(FileIndex: PtrInt): TRect; override;
   public
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
     constructor Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []); override;
@@ -654,6 +655,12 @@ begin
   ARect.Top := ARect.Bottom - dgPanel.Canvas.TextHeight('Wg') - 4;
 
   edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Right - ARect.Left, ARect.Bottom - ARect.Top);
+end;
+
+function TThumbFileView.GetIconRect(FileIndex: PtrInt): TRect;
+begin
+  Result:= GetFileRect(FileIndex);
+  Result.Right:= Result.Left + (Result.Right - Result.Left) div 4;
 end;
 
 constructor TThumbFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig;
