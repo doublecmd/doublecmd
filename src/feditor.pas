@@ -59,6 +59,7 @@ type
     actEditLineEndLf: TAction;
     actEditGotoLine: TAction;
     actEditFindPrevious: TAction;
+    actFileReload: TAction;
     MainMenu1: TMainMenu;
     ActListEdit: TActionList;
     actAbout: TAction;
@@ -69,6 +70,7 @@ type
     actFileNew: TAction;
     actFileExit: TAction;
     MenuItem1: TMenuItem;
+    miFileReload: TMenuItem;
     miFindPrevious: TMenuItem;
     miGotoLine: TMenuItem;
     miEditLineEndCr: TMenuItem;
@@ -198,6 +200,7 @@ type
     property FileName: String read FFileName write SetFileName;
 
    published
+     procedure cm_FileReload(const Params: array of string);
      procedure cm_EditFind(const {%H-}Params:array of string);
      procedure cm_EditFindNext(const {%H-}Params:array of string);
      procedure cm_EditFindPrevious(const {%H-}Params:array of string);
@@ -789,6 +792,15 @@ begin
   end;
 end;
 
+procedure TfrmEditor.cm_FileReload(const Params: array of string);
+begin
+  if bChanged then
+  begin
+    if not msgYesNo(rsMsgFileReloadWarning) then
+      Exit;
+  end;
+  OpenFile(FFileName);
+end;
 
 procedure TfrmEditor.cm_EditFind(const Params: array of string);
 begin

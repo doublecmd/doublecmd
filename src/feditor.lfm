@@ -703,6 +703,9 @@ object frmEditor: TfrmEditor
       object Open1: TMenuItem
         Action = actFileOpen
       end
+      object miFileReload: TMenuItem
+        Action = actFileReload
+      end
       object Save1: TMenuItem
         Action = actFileSave
       end
@@ -1006,6 +1009,11 @@ object frmEditor: TfrmEditor
     object actEditFindPrevious: TAction
       Category = 'Edit'
       Caption = 'Find previous'
+      OnExecute = actExecute
+    end
+    object actFileReload: TAction
+      Category = 'File'
+      Caption = 'Reload'
       OnExecute = actExecute
     end
   end
