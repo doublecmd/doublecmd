@@ -139,8 +139,8 @@ end;
 procedure TdmHighl.dmHighlCreate(Sender: TObject);
 var
   I: Integer;
-  AFileName: String;
   AList: TStringList;
+  AFileName: String = '';
   ACache: TStringListUtf8;
   HighLighter: TSynCustomHighlighter;
 begin
@@ -152,13 +152,12 @@ begin
 {$POP}
   GetHighlighters(Self, SynHighlighterList, False);
 
-  AList:= TStringList.Create;
   ACache:= TStringListUtf8.Create;
   ACache.CaseSensitive:= FileNameCaseSensitive;
   if not gUseConfigInProgramDir then begin
-    FindAllFiles(AList, IncludeTrailingBackslash(GetAppDataDir) + 'highlighters', '*.hgl');
+    AFileName:= IncludeTrailingBackslash(GetAppDataDir) + 'highlighters' + ';';
   end;
-  FindAllFiles(AList, gpHighPath, '*.hgl');
+  AList:= FindAllFiles(AFileName + gpHighPath, '*.hgl');
   for I:= 0 to AList.Count - 1 do
   begin
     AFileName:= ExtractFileName(AList[I]);
