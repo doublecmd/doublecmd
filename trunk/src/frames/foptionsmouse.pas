@@ -37,6 +37,7 @@ type
   TfrmOptionsMouse = class(TOptionsEditor)
     cbMouseMode: TComboBox;
     cbSelectionByMouse: TCheckBox;
+    chkMouseSelectionIconClick: TCheckBox;
     gbScrolling: TGroupBox;
     gbSelection: TGroupBox;
     lblMouseMode: TLabel;
@@ -44,6 +45,8 @@ type
     rbScrollLineByLineCursor: TRadioButton;
     rbScrollPageByPage: TRadioButton;
     seWheelScrollLines: TSpinEdit;
+    procedure cbMouseModeChange(Sender: TObject);
+    procedure cbSelectionByMouseChange(Sender: TObject);
   protected
     procedure Init; override;
     procedure Load; override;
@@ -62,6 +65,19 @@ uses
 
 { TfrmOptionsMouse }
 
+procedure TfrmOptionsMouse.cbSelectionByMouseChange(Sender: TObject);
+begin
+  cbMouseMode.Enabled:= cbSelectionByMouse.Checked;
+  chkMouseSelectionIconClick.Enabled:= cbSelectionByMouse.Checked and (cbMouseMode.ItemIndex = 0);
+  if not cbSelectionByMouse.Checked then chkMouseSelectionIconClick.Checked:= False;
+end;
+
+procedure TfrmOptionsMouse.cbMouseModeChange(Sender: TObject);
+begin
+  chkMouseSelectionIconClick.Enabled:= cbMouseMode.ItemIndex = 0;
+  if cbMouseMode.ItemIndex <> 0 then chkMouseSelectionIconClick.Checked:= False;
+end;
+
 procedure TfrmOptionsMouse.Init;
 begin
   ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
@@ -72,6 +88,7 @@ begin
   cbSelectionByMouse.Checked:=gMouseSelectionEnabled;
   cbMouseMode.ItemIndex := gMouseSelectionButton;
   seWheelScrollLines.Value:= gWheelScrollLines;
+  chkMouseSelectionIconClick.Checked:= Boolean(gMouseSelectionIconClick);
 
   case gScrollMode of
     smLineByLineCursor:
@@ -83,6 +100,9 @@ begin
     else
       rbScrollLineByLine.Checked:= True;
   end;
+
+  cbMouseModeChange(cbMouseMode);
+  cbSelectionByMouseChange(cbSelectionByMouse);
 end;
 
 function TfrmOptionsMouse.Save: TOptionsEditorSaveFlags;
@@ -90,6 +110,7 @@ begin
   gMouseSelectionEnabled := cbSelectionByMouse.Checked;
   gMouseSelectionButton := cbMouseMode.ItemIndex;
   gWheelScrollLines:= seWheelScrollLines.Value;
+  gMouseSelectionIconClick:= Integer(chkMouseSelectionIconClick.Checked);
 
   if rbScrollLineByLineCursor.Checked then
     gScrollMode:= smLineByLineCursor
@@ -112,4 +133,4 @@ begin
 end;
 
 end.
-
+
