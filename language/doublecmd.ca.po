@@ -1096,6 +1096,12 @@ msgctxt "tfrmeditor.actfileopen.hint"
 msgid "Open"
 msgstr "Obre"
 
+#: tfrmeditor.actfilereload.caption
+#, fuzzy
+msgctxt "tfrmeditor.actfilereload.caption"
+msgid "Reload"
+msgstr "Recarrega"
+
 #: tfrmeditor.actfilesave.caption
 msgctxt "TFRMEDITOR.ACTFILESAVE.CAPTION"
 msgid "&Save"
@@ -1134,16 +1140,6 @@ msgctxt "TFRMEDITOR.HELP1.CAPTION"
 msgid "&Help"
 msgstr "A&juda"
 
-#: tfrmeditor.menuitem1.caption
-msgctxt "tfrmeditor.menuitem1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmeditor.midiv.caption
-msgctxt "TFRMEDITOR.MIDIV.CAPTION"
-msgid "-"
-msgstr "-"
-
 #: tfrmeditor.miedit.caption
 msgctxt "TFRMEDITOR.MIEDIT.CAPTION"
 msgid "&Edit"
@@ -1175,36 +1171,6 @@ msgstr "LLenguatge de codificació"
 #: tfrmeditor.milineendtype.caption
 msgid "End Of Line"
 msgstr "Fi de línia"
-
-#: tfrmeditor.miseparator1.caption
-msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmeditor.miseparator2.caption
-msgctxt "TFRMEDITOR.MISEPARATOR2.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmeditor.n1.caption
-msgctxt "TFRMEDITOR.N1.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmeditor.n3.caption
-msgctxt "TFRMEDITOR.N3.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmeditor.n4.caption
-msgctxt "TFRMEDITOR.N4.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmeditor.n5.caption
-msgctxt "tfrmeditor.n5.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmeditsearchreplace.buttonpanel.cancelbutton.caption
 #, fuzzy
@@ -11257,6 +11223,10 @@ msgstr ""
 #| msgid "File %s is marked as read-only. Delete it?"
 msgid "File %s is marked as read-only/hidden/system. Delete it?"
 msgstr "El fitxer %s s'ha marcat com de només lectura, l'esborro?"
+
+#: ulng.rsmsgfilereloadwarning
+msgid "Are you sure you want to reload the current file and lose the changes?"
+msgstr ""
 
 #: ulng.rsmsgfilesizetoobig
 msgid "The file size of \"%s\" is too big for destination file system!"
