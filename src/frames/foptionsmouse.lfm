@@ -60,7 +60,6 @@ inherited frmOptionsMouse: TfrmOptionsMouse
       BorderSpacing.Left = 8
       BorderSpacing.Right = 8
       ItemHeight = 20
-      OnChange = cbMouseModeChange
       Style = csDropDownList
       TabOrder = 2
     end
