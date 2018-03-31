@@ -102,7 +102,7 @@ implementation
 
 uses
   Graphics, SynEditTypes, FileUtil, uHighlighterProcs, DCXmlConfig, uGlobsPaths,
-  DCClassesUtf8, DCOSUtils, DCStrUtils, uLng, uMasks;
+  DCClassesUtf8, LazUTF8Classes, DCOSUtils, DCStrUtils, uLng, uMasks, uGlobs, uOSUtils;
 
 const
   csDefaultName = 'editor.col';
@@ -139,7 +139,9 @@ end;
 procedure TdmHighl.dmHighlCreate(Sender: TObject);
 var
   I: Integer;
+  AFileName: String;
   AList: TStringList;
+  ACache: TStringListUtf8;
   HighLighter: TSynCustomHighlighter;
 begin
   TSynLuaSyn.Create(Self).Tag:= 1;
@@ -150,18 +152,30 @@ begin
 {$POP}
   GetHighlighters(Self, SynHighlighterList, False);
 
-  AList:= FindAllFiles(gpHighPath, '*.hgl');
+  AList:= TStringList.Create;
+  ACache:= TStringListUtf8.Create;
+  ACache.CaseSensitive:= FileNameCaseSensitive;
+  if not gUseConfigInProgramDir then begin
+    FindAllFiles(AList, IncludeTrailingBackslash(GetAppDataDir) + 'highlighters', '*.hgl');
+  end;
+  FindAllFiles(AList, gpHighPath, '*.hgl');
   for I:= 0 to AList.Count - 1 do
   begin
-    HighLighter:= TSynUniSyn.Create(Self);
-    try
-      TSynUniSyn(HighLighter).LoadFromFile(AList[I]);
-      SynHighlighterList.AddObject(TSynUniSyn(HighLighter).Info.General.Name, Highlighter);
-    except
-      FreeAndNil(HighLighter);
+    AFileName:= ExtractFileName(AList[I]);
+    if ACache.IndexOf(AFileName) < 0 then
+    begin
+      HighLighter:= TSynUniSyn.Create(Self);
+      try
+        TSynUniSyn(HighLighter).LoadFromFile(AList[I]);
+        SynHighlighterList.AddObject(TSynUniSyn(HighLighter).Info.General.Name, Highlighter);
+        ACache.Add(AFileName);
+      except
+        FreeAndNil(HighLighter);
+      end;
     end;
   end;
   AList.Free;
+  ACache.Free;
 
   for I:= 0 to SynHighlighterList.Count - 1 do
   begin
