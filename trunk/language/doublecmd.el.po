@@ -4152,6 +4152,10 @@ msgstr "Καθορισμός σειράς της σειράς ρύθμισης �
 msgid "Set on command line"
 msgstr "Καθορισμός στη γραμμή εντολών"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr "Θέμα εικονιδίων:"
@@ -6704,6 +6708,10 @@ msgstr "Μέγεθος Μικρογραφίας:"
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"
 msgstr "Επιλογή με ποντίκι"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"

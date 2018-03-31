@@ -4056,6 +4056,10 @@ msgstr "Razvrščanje razdelkov nastavitev v drevesnem pogledu na levi:"
 msgid "Set on command line"
 msgstr "Nastavi v ukazni vrstici"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr "Tema ikone:"
@@ -6519,6 +6523,10 @@ msgstr "&Velikost sličic:"
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"
 msgstr "&Izbiranje datotek z miško"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"

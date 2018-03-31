@@ -4156,6 +4156,10 @@ msgstr "Ordinea de sortare a ordinii de configurare în arborele stâng"
 msgid "Set on command line"
 msgstr "Setează în linia de comandă"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr ""
@@ -6713,6 +6717,10 @@ msgstr "Dimensiune minia&tură:"
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"
 msgstr "&Selecție cu mausul"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr ""
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"

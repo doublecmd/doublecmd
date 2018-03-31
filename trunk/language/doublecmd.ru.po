@@ -4158,6 +4158,10 @@ msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
 msgid "Set on command line"
 msgstr "Задано через командную строку"
 
+#: tfrmoptionsconfiguration.lblhighlighters.caption
+msgid "Highlighters:"
+msgstr "Файлы подсветки:"
+
 #: tfrmoptionsconfiguration.lbliconthemes.caption
 msgid "Icon themes:"
 msgstr "Темы значков:"
@@ -6734,6 +6738,10 @@ msgstr "&Размер эскизов:"
 #: tfrmoptionsmouse.cbselectionbymouse.caption
 msgid "&Selection by mouse"
 msgstr "&Выбор с помощью мыши"
+
+#: tfrmoptionsmouse.chkmouseselectioniconclick.caption
+msgid "By clic&king on icon"
+msgstr "&Щелчком по значку"
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"
