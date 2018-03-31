@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Configuration options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,8 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsConfiguration;
@@ -41,12 +40,14 @@ type
     cbFileMaskHistory: TCheckBox;
     chkSaveConfiguration: TCheckBox;
     chkSearchReplaceHistory: TCheckBox;
+    edtHighlighters: TEdit;
     edtThumbCache: TEdit;
     edtIconThemes: TEdit;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
     gbDirectories: TGroupBox;
     lblIconThemes: TLabel;
+    lblHighlighters: TLabel;
     lblThumbCache: TLabel;
     lblCmdLineConfigDir: TLabel;
     gbSortOrderConfigurationOption: TRadioGroup;
@@ -147,10 +148,16 @@ begin
     rbUserHomeDir.Checked := True;
 
   edtThumbCache.Text:= gpThumbCacheDir;
+
   if not gUseConfigInProgramDir then begin
     edtIconThemes.Text:= IncludeTrailingBackslash(GetAppDataDir) + 'pixmaps' + PathSep;
   end;
   edtIconThemes.Text:= edtIconThemes.Text + ExcludeTrailingPathDelimiter(gpPixmapPath);
+
+  if not gUseConfigInProgramDir then begin
+    edtHighlighters.Text:= IncludeTrailingBackslash(GetAppDataDir) + 'highlighters' + PathSep;
+  end;
+  edtHighlighters.Text:= edtHighlighters.Text + ExcludeTrailingPathDelimiter(gpHighPath);
 
   chkSaveConfiguration.Checked:= gSaveConfiguration;
   chkSearchReplaceHistory.Checked:= gSaveSearchReplaceHistory;

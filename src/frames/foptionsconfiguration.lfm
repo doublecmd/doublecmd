@@ -1,10 +1,10 @@
 inherited frmOptionsConfiguration: TfrmOptionsConfiguration
-  Height = 462
-  Width = 594
+  Height = 595
+  Width = 626
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 462
-  ClientWidth = 594
+  ClientHeight = 595
+  ClientWidth = 626
   DesignLeft = 537
   DesignTop = 124
   object gbLocConfigFiles: TGroupBox[0]
@@ -13,9 +13,9 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 104
+    Height = 113
     Top = 6
-    Width = 582
+    Width = 614
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     Caption = 'Location of configuration files'
@@ -24,14 +24,14 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     ChildSizing.VerticalSpacing = 5
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 83
-    ClientWidth = 578
+    ClientHeight = 88
+    ClientWidth = 610
     TabOrder = 0
     object rbProgramDir: TRadioButton
       Left = 10
-      Height = 23
+      Height = 24
       Top = 5
-      Width = 229
+      Width = 266
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       Caption = 'P&rogram directory (portable version)'
       Checked = True
@@ -40,18 +40,18 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     end
     object rbUserHomeDir: TRadioButton
       Left = 10
-      Height = 23
-      Top = 33
-      Width = 141
+      Height = 24
+      Top = 34
+      Width = 158
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       Caption = '&User home directory'
       TabOrder = 1
     end
     object lblCmdLineConfigDir: TLabel
       Left = 10
-      Height = 17
-      Top = 61
-      Width = 118
+      Height = 20
+      Top = 63
+      Width = 141
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       Caption = 'Set on command line'
       ParentColor = False
@@ -65,25 +65,25 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 149
-    Top = 152
-    Width = 582
+    Height = 163
+    Top = 161
+    Width = 614
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
     Caption = 'Save on exit'
     ChildSizing.TopBottomSpacing = 5
-    ClientHeight = 128
-    ClientWidth = 578
+    ClientHeight = 138
+    ClientWidth = 610
     TabOrder = 3
     object cbDirHistory: TCheckBox
       AnchorSideLeft.Control = chkSaveConfiguration
       AnchorSideTop.Control = chkSearchReplaceHistory
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 53
-      Width = 119
+      Height = 24
+      Top = 57
+      Width = 133
       BorderSpacing.Top = 2
       Caption = '&Directory history'
       TabOrder = 2
@@ -93,9 +93,9 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
       AnchorSideTop.Control = cbDirHistory
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 77
-      Width = 148
+      Height = 24
+      Top = 83
+      Width = 169
       BorderSpacing.Top = 2
       Caption = 'Co&mmand line history'
       TabOrder = 3
@@ -105,9 +105,9 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
       AnchorSideTop.Control = cbCmdLineHistory
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 101
-      Width = 119
+      Height = 24
+      Top = 109
+      Width = 133
       BorderSpacing.Top = 2
       Caption = '&File mask history'
       TabOrder = 4
@@ -116,9 +116,9 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
       AnchorSideLeft.Control = gbSaveOnExit
       AnchorSideTop.Control = gbSaveOnExit
       Left = 10
-      Height = 22
+      Height = 24
       Top = 5
-      Width = 129
+      Width = 148
       BorderSpacing.Left = 10
       Caption = 'Sa&ve configuration'
       OnChange = chkSaveConfigurationChange
@@ -129,9 +129,9 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
       AnchorSideTop.Control = chkSaveConfiguration
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 29
-      Width = 154
+      Height = 24
+      Top = 31
+      Width = 175
       BorderSpacing.Top = 2
       Caption = 'Searc&h/Replace history'
       TabOrder = 1
@@ -143,7 +143,7 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideTop.Side = asrBottom
     Left = 10
     Height = 30
-    Top = 116
+    Top = 125
     Width = 116
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
@@ -158,7 +158,7 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideTop.Side = asrBottom
     Left = 136
     Height = 30
-    Top = 116
+    Top = 125
     Width = 116
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
@@ -174,9 +174,9 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 67
-    Top = 301
-    Width = 582
+    Height = 73
+    Top = 324
+    Width = 614
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
     AutoSize = True
@@ -188,8 +188,8 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     ChildSizing.ShrinkVertical = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 46
-    ClientWidth = 578
+    ClientHeight = 48
+    ClientWidth = 610
     ItemIndex = 0
     Items.Strings = (
       'Classic, legacy order'
@@ -205,33 +205,34 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 85
-    Top = 368
-    Width = 582
+    Height = 133
+    Top = 397
+    Width = 614
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     Caption = 'Directories'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 64
-    ClientWidth = 578
+    ClientHeight = 108
+    ClientWidth = 610
     TabOrder = 5
     object lblThumbCache: TLabel
       AnchorSideTop.Control = edtThumbCache
       AnchorSideTop.Side = asrCenter
       Left = 6
-      Height = 17
-      Top = 9
-      Width = 105
+      Height = 20
+      Top = 10
+      Width = 121
       Caption = 'Thumbnails cache:'
       ParentColor = False
     end
     object edtThumbCache: TEdit
+      AnchorSideRight.Control = gbDirectories
       AnchorSideRight.Side = asrBottom
       Left = 197
-      Height = 23
+      Height = 28
       Top = 6
-      Width = 375
+      Width = 407
       Anchors = [akTop, akLeft, akRight]
       ReadOnly = True
       TabOrder = 0
@@ -240,24 +241,49 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
       AnchorSideTop.Control = edtIconThemes
       AnchorSideTop.Side = asrCenter
       Left = 6
-      Height = 17
-      Top = 38
-      Width = 73
+      Height = 20
+      Top = 44
+      Width = 83
       Caption = 'Icon themes:'
       ParentColor = False
     end
     object edtIconThemes: TEdit
       AnchorSideTop.Control = edtThumbCache
       AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbDirectories
       AnchorSideRight.Side = asrBottom
       Left = 197
-      Height = 23
-      Top = 35
-      Width = 375
+      Height = 28
+      Top = 40
+      Width = 407
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       ReadOnly = True
       TabOrder = 1
+    end
+    object edtHighlighters: TEdit
+      AnchorSideTop.Control = edtIconThemes
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbDirectories
+      AnchorSideRight.Side = asrBottom
+      Left = 197
+      Height = 28
+      Top = 74
+      Width = 407
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 6
+      ReadOnly = True
+      TabOrder = 2
+    end
+    object lblHighlighters: TLabel
+      AnchorSideTop.Control = edtHighlighters
+      AnchorSideTop.Side = asrCenter
+      Left = 6
+      Height = 20
+      Top = 78
+      Width = 84
+      Caption = 'Highlighters:'
+      ParentColor = False
     end
   end
 end
