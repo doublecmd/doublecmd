@@ -3238,14 +3238,17 @@ begin
       OperationClass := TargetFileSource.GetOperationClass(fsoCopyIn);
     end
     else if (fsoCopyOut in SourceFileSource.GetOperationsTypes) and
-            (fsoCopyIn in TargetFileSource.GetOperationsTypes) and
-            (not (fspCopyOutOnMainThread in SourceFileSource.Properties)) and
-            (not (fspCopyInOnMainThread in TargetFileSource.Properties)) then
+            (fsoCopyIn in TargetFileSource.GetOperationsTypes) then
     begin
       OperationTemp := True;
       OperationType := fsoCopyOut;
       FileSource := SourceFileSource;
       OperationClass := SourceFileSource.GetOperationClass(fsoCopyOut);
+      if (fspCopyOutOnMainThread in SourceFileSource.Properties) or
+         (fspCopyInOnMainThread in TargetFileSource.Properties) then
+      begin
+        QueueIdentifier:= ModalQueueId;
+      end;
     end
     else
     begin
@@ -3262,6 +3265,14 @@ begin
       CopyDialog.edtDst.Text := sDestination;
       CopyDialog.edtDst.ReadOnly := OperationTemp;
       CopyDialog.lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
+
+      if OperationTemp and (QueueIdentifier = ModalQueueId) then
+      begin
+        CopyDialog.QueueIdentifier:= QueueIdentifier;
+        CopyDialog.btnAddToQueue.Visible:= False;
+        CopyDialog.btnCreateSpecialQueue.Visible:= False;
+        CopyDialog.btnOptions.Visible:= False;
+      end;
 
       while True do
       begin
