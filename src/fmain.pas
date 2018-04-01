@@ -767,7 +767,7 @@ type
     procedure ShowFileViewHistory(const Params: array of string);
     procedure ShowFileViewHistory(const Params: array of string; FromFileSourceIndex, FromPathIndex, ToFileSourceIndex, ToPathIndex: Integer);
     procedure miHotAddOrConfigClick(Sender: TObject);
-    procedure OnCopyOutStateChanged(Operation: TFileSourceOperation; State: TFileSourceOperationState);
+    procedure OnCopyOutTempStateChanged(Operation: TFileSourceOperation; State: TFileSourceOperationState);
 
     {en
        Returns @true if copy operation has been successfully started.
@@ -3186,7 +3186,7 @@ begin
   end;
 end;
 
-procedure TfrmMain.OnCopyOutStateChanged(Operation: TFileSourceOperation;
+procedure TfrmMain.OnCopyOutTempStateChanged(Operation: TFileSourceOperation;
   State: TFileSourceOperationState);
 begin
   FModalOperationResult:= Operation.Result = fsorFinished;
@@ -3360,7 +3360,7 @@ begin
 
       if OperationTemp and (QueueIdentifier = ModalQueueId) then
       begin
-        Operation.AddStateChangedListener([fsosStopped], @OnCopyOutStateChanged);
+        Operation.AddStateChangedListener([fsosStopped], @OnCopyOutTempStateChanged);
       end;
 
       // Start operation.
