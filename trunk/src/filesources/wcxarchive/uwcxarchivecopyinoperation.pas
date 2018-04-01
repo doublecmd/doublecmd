@@ -129,7 +129,7 @@ begin
       end;
 
       WcxCopyInOperation.UpdateStatistics(WcxCopyInOperation.FStatistics);
-      if not WcxCopyInOperation.CheckOperationStateSafe then Exit(0);
+      if not WcxCopyInOperation.AppProcessMessages(True) then Exit(0);
     end;
   end;
 end;
