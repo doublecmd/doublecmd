@@ -691,6 +691,7 @@ type
     NumberOfMoveButton, NumberOfNewMoveButton: integer;
     Draging : boolean;
     FUpdateDiskCount: Boolean;
+    FModalOperationResult: Boolean;
 
     procedure CheckCommandLine(ShiftEx: TShiftState; var Key: Word);
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
@@ -766,6 +767,7 @@ type
     procedure ShowFileViewHistory(const Params: array of string);
     procedure ShowFileViewHistory(const Params: array of string; FromFileSourceIndex, FromPathIndex, ToFileSourceIndex, ToPathIndex: Integer);
     procedure miHotAddOrConfigClick(Sender: TObject);
+    procedure OnCopyOutStateChanged(Operation: TFileSourceOperation; State: TFileSourceOperationState);
 
     {en
        Returns @true if copy operation has been successfully started.
@@ -3184,6 +3186,12 @@ begin
   end;
 end;
 
+procedure TfrmMain.OnCopyOutStateChanged(Operation: TFileSourceOperation;
+  State: TFileSourceOperationState);
+begin
+  FModalOperationResult:= Operation.Result = fsorFinished;
+end;
+
 function TfrmMain.CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
                             var SourceFiles: TFiles; TargetPath: String;
                             bShowDialog: Boolean;
@@ -3350,6 +3358,11 @@ begin
       if Assigned(CopyDialog) then
         CopyDialog.SetOperationOptions(Operation);
 
+      if OperationTemp and (QueueIdentifier = ModalQueueId) then
+      begin
+        Operation.AddStateChangedListener([fsosStopped], @OnCopyOutStateChanged);
+      end;
+
       // Start operation.
       OperationsManager.AddOperation(Operation, QueueIdentifier, False, True);
       Result := True;
@@ -3358,7 +3371,7 @@ begin
       msgWarning(rsMsgNotImplemented);
 
     // Copy via temp directory
-    if OperationTemp and Result then
+    if OperationTemp and Result and FModalOperationResult then
     begin
       // CopyIn from temp filesystem
       Operation := FileSource.CreateCopyInOperation(

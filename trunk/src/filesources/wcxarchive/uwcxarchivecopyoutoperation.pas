@@ -300,7 +300,7 @@ begin
         if iResult <> E_SUCCESS then
         begin
           // User aborted operation.
-          if iResult = E_EABORTED then Break;
+          if iResult = E_EABORTED then RaiseAbortOperation;
 
           ShowError(Format(rsMsgLogError + rsMsgLogExtract,
                            [FWcxArchiveFileSource.ArchiveFileName + PathDelim +
