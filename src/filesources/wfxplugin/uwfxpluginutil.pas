@@ -419,6 +419,8 @@ begin
       else
         iResult := ProcessDirectory(aFile, sTargetFile);
 
+      if iResult = FS_FILE_USERABORT then AbortOperation();
+
       if iResult = FS_FILE_OK then CopyProperties(aFile, sTargetFile);
 
       if iResult = FS_FILE_OK then
