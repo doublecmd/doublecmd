@@ -3371,7 +3371,7 @@ begin
       msgWarning(rsMsgNotImplemented);
 
     // Copy via temp directory
-    if OperationTemp and Result and FModalOperationResult then
+    if OperationTemp and Result and ((QueueIdentifier <> ModalQueueId) or FModalOperationResult) then
     begin
       // CopyIn from temp filesystem
       Operation := FileSource.CreateCopyInOperation(
