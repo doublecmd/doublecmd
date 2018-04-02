@@ -744,6 +744,7 @@ begin
                (PtInRect(GetIconRect(FileIndex), Classes.Point(X, Y))) then
             begin
               InvertFileSelection(AFile, False);
+              DoSelectionChanged(FileIndex);
             end
             //  If mark with left button enable
             else if (gMouseSelectionButton = 0) then
