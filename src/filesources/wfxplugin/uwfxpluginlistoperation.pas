@@ -33,7 +33,7 @@ type
 implementation
 
 uses
-  uOSUtils, DCStrUtils, uFile, WfxPlugin, uWfxModule, uLog, uLng;
+  DCFileAttributes, DCStrUtils, uFile, WfxPlugin, uWfxModule, uLog, uLng;
 
 function TWfxPluginListOperation.UpdateProgress(SourceName, TargetName: String;
                                                 PercentDone: Integer): Integer;
@@ -69,34 +69,35 @@ end;
 
 procedure TWfxPluginListOperation.MainExecute;
 var
-  FindData : TWfxFindData;
-  Handle: THandle;
   aFile: TFile;
+  Handle: THandle;
+  FindData : TWfxFindData;
+  HaveUpDir: Boolean = False;
 begin
   with FWfxPluginFileSource.WFXModule do
-  begin
+  try
     FFiles.Clear;
-
-    if not FileSource.IsPathAtRoot(Path) then
-    begin
-      aFile := TWfxPluginFileSource.CreateFile(Path);
-      aFile.Name := '..';
-      aFile.Attributes := faFolder;
-      FFiles.Add(aFile);
-    end;
-
     Handle := WfxFindFirst(FCurrentPath, FindData);
     if Handle <> wfxInvalidHandle then
     try
       repeat
         CheckOperationState;
-        if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;
+        if (FindData.FileName = '.') then Continue;
+        if (FindData.FileName = '..') then HaveUpDir:= True;
 
         aFile := TWfxPluginFileSource.CreateFile(Path, FindData);
         FFiles.Add(aFile);
       until (not WfxFindNext(Handle, FindData));
     finally
       FsFindClose(Handle);
+    end;
+  finally
+    if not HaveUpDir then
+    begin
+      aFile := TWfxPluginFileSource.CreateFile(Path);
+      aFile.Name := '..';
+      aFile.Attributes := GENERIC_ATTRIBUTE_FOLDER;
+      FFiles.Insert(aFile, 0);
     end;
   end; // with
 end;

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WFX plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -51,6 +51,8 @@ type
   TFTPListEx = class(TFTPList)
   private
     FIndex: Integer;
+  protected
+    procedure FillRecord(const Value: TFTPListRec); override;
   public
     procedure Clear; override;
     procedure Assign(Value: TFTPList); override;
@@ -190,6 +192,19 @@ procedure TFTPListEx.Clear;
 begin
   FIndex := 0;
   inherited Clear;
+end;
+
+procedure TFTPListEx.FillRecord(const Value: TFTPListRec);
+var
+  flr: TFTPListRecEx;
+begin
+  inherited FillRecord(Value);
+  if Value.Directory and (Value.FileName = '..') then
+  begin
+    flr := TFTPListRecEx.Create;
+    flr.Assign(Value);
+    FList.Add(flr);
+  end;
 end;
 
 procedure TFTPListEx.Assign(Value: TFTPList);
@@ -549,6 +564,9 @@ begin
     ConvertToUtf8:= @KOI8ToUTF8;
     ConvertFromUtf8:= @UTF8ToKOI8;
   end;
+
+  FFtpList.Free;
+  FFtpList:= TFTPListEx.Create;
 
   // Move mostly used UNIX format to first
   FFtpList.Masks.Exchange(0, 2);
