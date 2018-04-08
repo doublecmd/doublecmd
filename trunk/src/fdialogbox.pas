@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains realization of Dialog API functions.
 
-    Copyright (C) 2008-2015 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Types, Buttons, ExtCtrls, EditBtn, Extension;
+  Types, Buttons, ExtCtrls, EditBtn, Extension, ComCtrls;
 
 type
 
@@ -46,6 +46,8 @@ type
     DialogLabel: TLabel;
     DialogEdit: TEdit;
     DialogImage: TImage;
+    DialogTabSheet: TTabSheet;
+    DialogPageControl: TPageControl;
     // Dialog events
     procedure DialogBoxShow(Sender: TObject);
     // Button events
