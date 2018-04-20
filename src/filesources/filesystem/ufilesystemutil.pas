@@ -814,7 +814,7 @@ function TFileSystemOperationHelper.MoveFile(SourceFile: TFile; TargetFileName: 
   Mode: TFileSystemOperationHelperCopyMode): Boolean;
 var
   Message: String;
-  RetryDelete: Boolean = True;
+  RetryDelete: Boolean;
 begin
   if (Mode in [fsohcmAppend, fsohcmResume]) or
      (not mbRenameFile(SourceFile.FullPath, TargetFileName)) then
@@ -823,12 +823,12 @@ begin
     if CopyFile(SourceFile, TargetFileName, Mode) then
     begin
       repeat
+        RetryDelete := True;
         if FileIsReadOnly(SourceFile.Attributes) then
           mbFileSetReadOnly(SourceFile.FullPath, False);
         Result := mbDeleteFile(SourceFile.FullPath);
         if (not Result) and (FDeleteFileOption = fsourInvalid) then
         begin
-          RetryDelete := True;
           Message := Format(rsMsgNotDelete, [WrapTextSimple(SourceFile.FullPath, 100)]) + LineEnding + LineEnding + mbSysErrorMessage;
           case AskQuestion('', Message, [fsourSkip, fsourRetry, fsourAbort, fsourSkipAll], fsourSkip, fsourAbort) of
             fsourAbort: AbortOperation;
