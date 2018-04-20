@@ -54,7 +54,7 @@ function FileReadLn(hFile: THandle; out S: String): Boolean;
 }
 procedure FileWriteLn(hFile: Integer; S: String);
 
-function GetNextCopyName(FileName: String): String;
+function GetNextCopyName(FileName: String; IsDirectory: Boolean): String;
 
 function mbReadFileToString(const FileName: String): String;
 
@@ -247,25 +247,31 @@ begin
   Result := True;
 end;
 
-function GetNextCopyName(FileName: String): String;
+function GetNextCopyName(FileName: String; IsDirectory: Boolean): String;
 var
   CopyNumber: Int64 = 1;
-  sFilePath,
-  sFileName, SuffixStr: String;
+  sFilePath, sFileName, SuffixStr: String;
 begin
+  SuffixStr:= '';
   sFilePath:= ExtractFilePath(FileName);
   sFileName:= ExtractFileName(FileName);
-  SuffixStr:= '';
   repeat
     case gTypeOfDuplicatedRename of
-      drLegacyWithCopy: Result := sFilePath + Format(rsCopyNameTemplate, [CopyNumber, sFileName]);
-      drLikeWindows7, drLikeTC: Result :=sFilePath + RemoveFileExt(sFileName) + SuffixStr + ExtractFileExt(sFileName);
+      drLegacyWithCopy:
+        Result := sFilePath + Format(rsCopyNameTemplate, [CopyNumber, sFileName]);
+      drLikeWindows7, drLikeTC:
+        begin
+          if IsDirectory then
+            Result := FileName + SuffixStr
+          else
+            Result := sFilePath + RemoveFileExt(sFileName) + SuffixStr + ExtractFileExt(sFileName);
+        end;
     end;
 
     Inc(CopyNumber);
     case gTypeOfDuplicatedRename of
-      drLikeWindows7: SuffixStr:=' ('+IntToStr(CopyNumber)+')';
-      drLikeTC: SuffixStr:='('+IntToStr(CopyNumber)+')';
+      drLikeWindows7: SuffixStr:= ' (' + IntToStr(CopyNumber) + ')';
+      drLikeTC: SuffixStr:= '(' + IntToStr(CopyNumber) + ')';
     end;
 
     until not mbFileSystemEntryExists(Result);

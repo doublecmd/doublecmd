@@ -883,7 +883,7 @@ begin
     if mbSameFile(TargetName, aFile.FullPath) then
     begin
       if (FMode = fsohmCopy) and FAutoRenameItSelf then
-        TargetName := GetNextCopyName(TargetName)
+        TargetName := GetNextCopyName(TargetName, aFile.IsDirectory or aFile.IsLinkToDirectory)
       else
         case AskQuestion(Format(rsMsgCanNotCopyMoveItSelf, [TargetName]), '',
                          [fsourAbort, fsourSkip], fsourAbort, fsourSkip) of
@@ -1451,7 +1451,7 @@ begin
             begin
               Result:= fsoofeAutoRenameSource;
               FFileExistsOption:= fsoofeAutoRenameSource;
-              AbsoluteTargetFileName:= GetNextCopyName(AbsoluteTargetFileName);
+              AbsoluteTargetFileName:= GetNextCopyName(AbsoluteTargetFileName, aFile.IsDirectory or aFile.IsLinkToDirectory);
             end;
           fsourRenameSource:
             begin
@@ -1483,7 +1483,7 @@ begin
     fsoofeAutoRenameSource:
       begin
         Result:= fsoofeAutoRenameSource;
-        AbsoluteTargetFileName:= GetNextCopyName(AbsoluteTargetFileName);
+        AbsoluteTargetFileName:= GetNextCopyName(AbsoluteTargetFileName, aFile.IsDirectory or aFile.IsLinkToDirectory);
       end;
 
     else
