@@ -1516,41 +1516,38 @@ end;
 
 procedure TFileViewWithMainCtrl.ShowRenameFileEdit(AFile: TFile);
 var
-  lenEdtText, lenEdtTextExt, i: Integer;
-  seperatorSet: set of AnsiChar;
-  ca:char;
-  s:string;
+  S: String;
 begin
-  s:=AFile.Name;
-  FRenFile.LenFul := UTF8Length(s);
-  FRenFile.LenExt := UTF8Length(ExtractFileExt(s));
-  FRenFile.LenNam := FRenFile.LenFul-FRenFile.LenExt;
+  S:= AFile.Name;
+  FRenFile.LenFul := UTF8Length(S);
+  FRenFile.LenExt := UTF8Length(ExtractFileExt(S));
+  FRenFile.LenNam := FRenFile.LenFul - FRenFile.LenExt;
 
 
   if edtRename.Visible then
   begin
-
+    if AFile.IsDirectory or AFile.IsLinkToDirectory then Exit;
     if FRenFile.UserManualEdit then FRenFile.CylceFinished:=True;
 
     if not FRenFile.CylceFinished then
     begin
       if gRenameSelOnlyName then
       begin
-        if FRenFile.LastAction=rfatName then
+        if FRenFile.LastAction = rfatName then
            RenameSelectPart(rfatFull)
         else begin
            RenameSelectPart(rfatExt);
-           FRenFile.CylceFinished:=True;
-           exit;
+           FRenFile.CylceFinished:= True;
+           Exit;
         end;
       end else
       begin
-        if FRenFile.LastAction=rfatFull then
+        if FRenFile.LastAction = rfatFull then
            RenameSelectPart(rfatName)
         else begin
            RenameSelectPart(rfatExt);
-           FRenFile.CylceFinished:=True;
-           exit;
+           FRenFile.CylceFinished:= True;
+           Exit;
         end;
       end;
       exit;
@@ -1561,7 +1558,7 @@ begin
     if FRenFile.UserManualEdit then            // if user do something(selecting by mouse or press key) and then press F2 - extend to nearest separators
     begin
        RenameSelectPart(rfatToSeparators);
-       FRenFile.UserManualEdit:=False;
+       FRenFile.UserManualEdit:= False;
     end else                                         // else - select next sepoarated part of file
        RenameSelectPart(rfatNextSeparated);
 
@@ -1572,13 +1569,12 @@ begin
     edtRename.Visible := True;
     edtRename.SetFocus;
 
-    FRenTags:=' -_.';  // separator set
-    i:=length(FRenTags);
+    FRenTags:= ' -_.';  // separator set
 
-    FRenFile.CylceFinished:=False; // cycle of selection Name-FullName-Ext of FullName-Name-Ext, after finish this cycle will be part selection mechanism
-    if FRenFile.LenExt=0 then FRenFile.CylceFinished:=True;  // don't need cycle if no extension
+    FRenFile.CylceFinished:= False; // cycle of selection Name-FullName-Ext of FullName-Name-Ext, after finish this cycle will be part selection mechanism
+    if FRenFile.LenExt = 0 then FRenFile.CylceFinished:= True;  // don't need cycle if no extension
 
-    if gRenameSelOnlyName then
+    if gRenameSelOnlyName and not (AFile.IsDirectory or AFile.IsLinkToDirectory) then
        RenameSelectPart(rfatName)
     else
        RenameSelectPart(rfatFull);
