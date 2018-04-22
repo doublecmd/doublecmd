@@ -654,7 +654,11 @@ object frmFileProperties: TfrmFileProperties
             Width = 215
           end>
         FixedCols = 0
+        MouseWheelOption = mwGrid
+        Options = [goSmoothScroll, goCellHints, goTruncCellHints, goCellEllipsis]
+        ShowHint = True
         TabOrder = 0
+        TitleStyle = tsNative
         ColWidths = (
           215
           215
