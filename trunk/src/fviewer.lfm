@@ -261,6 +261,7 @@ object frmViewer: TfrmViewer
   }
   KeyPreview = True
   OnClose = frmViewerClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyPress = FormKeyPress
@@ -268,7 +269,7 @@ object frmViewer: TfrmViewer
   OnShow = FormShow
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.8.0.4'
+  LCLVersion = '1.8.3.0'
   object pnlFolder: TPanel
     Left = 179
     Height = 435
@@ -1627,9 +1628,9 @@ object frmViewer: TfrmViewer
       object btnCopyFile: TSpeedButton
         Left = 113
         Height = 48
-        Hint = 'Copy'
         Top = 1
         Width = 32
+        Action = actCopyFile
         Align = alLeft
         Glyph.Data = {
           36090000424D3609000000000000360000002800000018000000180000000100
@@ -1707,14 +1708,14 @@ object frmViewer: TfrmViewer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
-        OnClick = btnCopyMoveFileClick
+        ShowCaption = False
       end
       object btnMoveFile: TSpeedButton
         Left = 145
         Height = 48
-        Hint = 'Move'
         Top = 1
         Width = 32
+        Action = actMoveFile
         Align = alLeft
         Glyph.Data = {
           36090000424D3609000000000000360000002800000018000000180000000100
@@ -1792,14 +1793,14 @@ object frmViewer: TfrmViewer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
-        OnClick = btnCopyMoveFileClick
+        ShowCaption = False
       end
       object btnDeleteFile: TSpeedButton
         Left = 177
         Height = 48
-        Hint = 'Delete'
         Top = 1
         Width = 32
+        Action = actDeleteFile
         Align = alLeft
         Glyph.Data = {
           36090000424D3609000000000000360000002800000018000000180000000100
@@ -1877,7 +1878,7 @@ object frmViewer: TfrmViewer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
-        OnClick = btnDeleteFileClick
+        ShowCaption = False
       end
     end
   end
@@ -2171,9 +2172,9 @@ object frmViewer: TfrmViewer
       object btnCopyFile1: TSpeedButton
         Left = 81
         Height = 28
-        Hint = 'Copy'
         Top = 1
         Width = 32
+        Action = actCopyFile
         Align = alLeft
         Glyph.Data = {
           36090000424D3609000000000000360000002800000018000000180000000100
@@ -2251,14 +2252,14 @@ object frmViewer: TfrmViewer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
-        OnClick = btnCopyMoveFileClick
+        ShowCaption = False
       end
       object btnMoveFile1: TSpeedButton
         Left = 145
         Height = 28
-        Hint = 'Move'
         Top = 1
         Width = 31
+        Action = actMoveFile
         Align = alLeft
         Glyph.Data = {
           36090000424D3609000000000000360000002800000018000000180000000100
@@ -2336,14 +2337,14 @@ object frmViewer: TfrmViewer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
-        OnClick = btnCopyMoveFileClick
+        ShowCaption = False
       end
       object btnDeleteFile1: TSpeedButton
         Left = 113
         Height = 28
-        Hint = 'Delete'
         Top = 1
         Width = 32
+        Action = actDeleteFile
         Align = alLeft
         Glyph.Data = {
           36090000424D3609000000000000360000002800000018000000180000000100
@@ -2421,7 +2422,7 @@ object frmViewer: TfrmViewer
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000
         }
-        OnClick = btnDeleteFileClick
+        ShowCaption = False
       end
     end
     object DrawPreview: TDrawGrid

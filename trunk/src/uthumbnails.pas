@@ -109,7 +109,6 @@ begin
       end;
       FileClose(tFile);
     end;
-    Application.ProcessMessages;
   end;
 end;
 

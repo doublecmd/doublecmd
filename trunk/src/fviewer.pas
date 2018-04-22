@@ -203,9 +203,7 @@ type
     TimerViewer: TTimer;
     ViewerControl: TViewerControl;
     procedure actExecute(Sender: TObject);
-    procedure btnCopyMoveFileClick(Sender: TObject);
     procedure btnCutTuImageClick(Sender: TObject);
-    procedure btnDeleteFileClick(Sender: TObject);
     procedure btnFullScreenClick(Sender: TObject);
     procedure btnGifMoveClick(Sender: TObject);
     procedure btnGifToBmpClick(Sender: TObject);
@@ -218,6 +216,7 @@ type
       aRect: TRect; aState: TGridDrawState);
     procedure DrawPreviewSelection(Sender: TObject; aCol, aRow: Integer);
     procedure DrawPreviewTopleftChanged(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormResize(Sender: TObject);
@@ -283,7 +282,6 @@ type
     tmp_all: TCustomBitmap;
     FModSizeDialog: TfrmModView;
     FThumbnailManager: TThumbnailManager;
-    FBitmapList: TBitmapList;
     FCommands: TFormCommands;
     FZoomFactor: Double;
     FExif: TExifReader;
@@ -291,6 +289,7 @@ type
 {$IF DEFINED(LCLWIN32)}
     FWindowBounds: TRect;
 {$ENDIF}
+    FThread: TThread;
 
     //---------------------
     WlxPlugins:TWLXModuleList;
@@ -311,6 +310,7 @@ type
     procedure CutToImage;
     procedure Res(W, H: integer);
     procedure RedEyes;
+    procedure EnableActions(AEnabled: Boolean);
     procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
     procedure CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
 
@@ -412,6 +412,21 @@ const
   sbpCurrentResolution    = 2;
   sbpFullResolution       = 3;
 
+type
+
+  { TThumbThread }
+
+  TThumbThread = class(TThread)
+  private
+    FOwner: TfrmViewer;
+    procedure ClearList;
+    procedure DoOnTerminate(Sender: TObject);
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(Owner: TfrmViewer);
+  end;
+
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource);
 var
   Viewer: TfrmViewer;
@@ -438,6 +453,50 @@ begin
     end;
 end;
 
+{ TThumbThread }
+
+procedure TThumbThread.ClearList;
+var
+  Index: Integer;
+begin
+  for Index:= 0 to FOwner.FileList.Count - 1 do
+  begin
+    FOwner.FileList.Objects[Index].Free;
+    FOwner.FileList.Objects[Index]:= nil;
+  end;
+end;
+
+procedure TThumbThread.DoOnTerminate(Sender: TObject);
+begin
+  FOwner.EnableActions(True);
+  FOwner.FThread := nil;
+  FOwner := nil;
+end;
+
+procedure TThumbThread.Execute;
+var
+  I: Integer = 0;
+begin
+  while (not Terminated) and (I < FOwner.FileList.Count) do
+  begin
+    FOwner.CreatePreview(FOwner.FileList.Strings[I], I);
+    if (I mod 3 = 0) then Synchronize(@FOwner.DrawPreview.Invalidate);
+    Inc(I);
+  end;
+  Synchronize(@FOwner.DrawPreview.Invalidate);
+end;
+
+constructor TThumbThread.Create(Owner: TfrmViewer);
+begin
+  inherited Create(True);
+  Owner.EnableActions(False);
+  OnTerminate := @DoOnTerminate;
+  FreeOnTerminate := True;
+  FOwner := Owner;
+  ClearList;
+  Start;
+end;
+
 constructor TfrmViewer.Create(TheOwner: TComponent; aFileSource: IFileSource;
   aQuickView: Boolean);
 begin
@@ -449,7 +508,6 @@ begin
   FThumbnailManager:= nil;
   FExif:= TExifReader.Create;
   if not bQuickView then Menu:= MainMenu;
-  FBitmapList:= TBitmapList.Create(True);
   FCommands := TFormCommands.Create(Self, actionList);
 
   FontOptionsToFont(gFonts[dcfMain], memFolder.Font);
@@ -464,8 +522,8 @@ end;
 destructor TfrmViewer.Destroy;
 begin
   FExif.Free;
-  FreeThenNil(FileList);
-  FreeThenNil(FThumbnailManager);
+  FreeAndNil(FileList);
+  FreeAndNil(FThumbnailManager);
   inherited Destroy;
   FreeAndNil(WlxPlugins);
   FFileSource := nil; // If this is temp file source, the files will be deleted.
@@ -873,13 +931,16 @@ begin
       if delete then
         begin
           FThumbnailManager.RemovePreview(FullPathToFile); // delete thumb if need
-          if pnlPreview.Visible then FBitmapList.Delete(index);
+          if pnlPreview.Visible then begin
+            FileList.Objects[Index].Free;
+            FileList.Objects[Index]:= nil;
+          end;
         end
       else
         begin
           bmpThumb:= FThumbnailManager.CreatePreview(FullPathToFile);
           // Insert to the BitmapList
-          FBitmapList.Insert(index, bmpThumb);
+          FileList.Objects[Index]:= bmpThumb;
         end;
     end;
 end;
@@ -953,6 +1014,14 @@ begin
   Image.Picture.Bitmap.Canvas.Draw (StartX,StartY,tmp);
   CreateTmp;
   tmp.Free;
+end;
+
+procedure TfrmViewer.EnableActions(AEnabled: Boolean);
+begin
+  actSave.Enabled:= AEnabled;
+  actCopyFile.Enabled:= AEnabled;
+  actMoveFile.Enabled:= AEnabled;
+  actDeleteFile.Enabled:= AEnabled;
 end;
 
 procedure TfrmViewer.CutToImage;
@@ -1385,15 +1454,15 @@ begin
       sName:= ExtractOnlyFileName(FileList.Strings[i]);
       sExt:= ExtractFileExt(FileList.Strings[i]);
       DrawPreview.Canvas.FillRect(aRect); // Clear cell
-      if (i >= 0) and (i < FBitmapList.Count) then
-        begin
-          bmpThumb:= FBitmapList[i];
-          z:= DrawPreview.Canvas.TextHeight('Pp') + 4;
-          X:= aRect.Left + (aRect.Right - aRect.Left - bmpThumb.Width) div 2;
-          Y:= aRect.Top + (aRect.Bottom - aRect.Top - bmpThumb.Height - z) div 2;
-          // Draw thumbnail at center
-          DrawPreview.Canvas.Draw(X, Y, bmpThumb);
-        end;
+      bmpThumb:= TBitmap(FileList.Objects[i]);
+      if Assigned(bmpThumb) then
+      begin
+        z:= DrawPreview.Canvas.TextHeight('Pp') + 4;
+        X:= aRect.Left + (aRect.Right - aRect.Left - bmpThumb.Width) div 2;
+        Y:= aRect.Top + (aRect.Bottom - aRect.Top - bmpThumb.Height - z) div 2;
+        // Draw thumbnail at center
+        DrawPreview.Canvas.Draw(X, Y, bmpThumb);
+      end;
       z:= (DrawPreview.Width - DrawPreview.ColCount * DrawPreview.DefaultColWidth) div DrawPreview.ColCount div 2;
       if DrawPreview.Canvas.GetTextWidth(sName+sExt) < DrawPreview.DefaultColWidth then
         begin
@@ -1427,6 +1496,15 @@ end;
 procedure TfrmViewer.DrawPreviewTopleftChanged(Sender: TObject);
 begin
   DrawPreview.LeftCol:= 0;
+end;
+
+procedure TfrmViewer.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+begin
+  if Assigned(FThread) then
+  begin
+    FThread.Terminate;
+    FThread.WaitFor;
+  end;
 end;
 
 procedure TfrmViewer.TimerViewerTimer(Sender: TObject);
@@ -1529,6 +1607,7 @@ begin
   FontOptionsToFont(gFonts[dcfViewer], ViewerControl.Font);
 
   FileList := TStringList.Create;
+  FileList.OwnsObjects:= True;
 
   WlxPlugins:=TWLXModuleList.Create;
   WlxPlugins.Assign(gWLXPlugins);
@@ -1623,53 +1702,6 @@ end;
 procedure TfrmViewer.btnCutTuImageClick(Sender: TObject);
 begin
   CutToImage;
-end;
-
-procedure TfrmViewer.btnDeleteFileClick(Sender: TObject);
-begin
-  if msgYesNo(Format(rsMsgDelSel, [FileList.Strings[iActiveFile]])) then
-    begin
-      CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
-      mbDeleteFile(FileList.Strings[iActiveFile]);
-      FileList.Delete(iActiveFile);
-      LoadFile(iActiveFile);
-      DrawPreview.Repaint;
-      SplitterChangeBounds;
-    end;
-end;
-
-procedure TfrmViewer.btnCopyMoveFileClick(Sender: TObject);
-begin
-  FModSizeDialog:= TfrmModView.Create(Application);
-  try
-    FModSizeDialog.pnlQuality.Visible:= False;
-    FModSizeDialog.pnlSize.Visible:= False;
-    FModSizeDialog.pnlCopyMoveFile.Visible:= True;
-    if Sender = btnMoveFile then
-      FModSizeDialog.Caption:= rsDlgMv
-    else
-      FModSizeDialog.Caption:= rsDlgCp;
-    if FModSizeDialog.ShowModal = mrOk then
-    begin
-      if FModSizeDialog.Path = '' then
-        msgError(rsMsgInvalidPath)
-      else
-        begin
-          CopyFile(FileList.Strings[iActiveFile],FModSizeDialog.Path+PathDelim+ExtractFileName(FileList.Strings[iActiveFile]));
-          if (Sender = btnMoveFile) or (Sender = btnMoveFile1) then
-          begin
-            CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
-            mbDeleteFile(FileList.Strings[iActiveFile]);
-            FileList.Delete(iActiveFile);
-            LoadFile(iActiveFile);
-            DrawPreview.Repaint;
-            SplitterChangeBounds;
-          end;
-        end;
-    end;
-  finally
-    FreeAndNil(FModSizeDialog);
-  end;
 end;
 
 procedure TfrmViewer.actExecute(Sender: TObject);
@@ -1799,7 +1831,6 @@ begin
 
 
   FreeAndNil(FFindDialog);
-  FreeAndNil(FBitmapList);
   HotMan.UnRegister(Self);
 end;
 
@@ -2315,17 +2346,25 @@ end;
 
 procedure TfrmViewer.cm_MoveFile(const Params: array of string);
 begin
-  CopyMoveFile(vcmaMove);
+  if actMoveFile.Enabled then CopyMoveFile(vcmaMove);
 end;
 
 procedure TfrmViewer.cm_CopyFile(const Params: array of string);
 begin
-  CopyMoveFile(vcmaCopy);
+  if actCopyFile.Enabled then CopyMoveFile(vcmaCopy);
 end;
 
 procedure TfrmViewer.cm_DeleteFile(const Params: array of string);
 begin
-  btnDeleteFileClick(Self);
+  if actDeleteFile.Enabled and msgYesNo(Format(rsMsgDelSel, [FileList.Strings[iActiveFile]])) then
+  begin
+    CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
+    mbDeleteFile(FileList.Strings[iActiveFile]);
+    FileList.Delete(iActiveFile);
+    LoadFile(iActiveFile);
+    DrawPreview.Repaint;
+    SplitterChangeBounds;
+  end;
 end;
 
 procedure TfrmViewer.cm_StretchImage(const Params: array of string);
@@ -2354,14 +2393,17 @@ procedure TfrmViewer.cm_Save(const Params: array of string);
 var
   sExt: String;
 begin
-  DrawPreview.BeginUpdate;
-  try
-    CreatePreview(FileList.Strings[iActiveFile], iActiveFile, True);
-    sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
-    SaveImageAs(sExt, True, 80);
-    CreatePreview(FileList.Strings[iActiveFile], iActiveFile);
-  finally
-    DrawPreview.EndUpdate;
+  if actSave.Enabled then
+  begin
+    DrawPreview.BeginUpdate;
+    try
+      CreatePreview(FileList.Strings[iActiveFile], iActiveFile, True);
+      sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
+      SaveImageAs(sExt, True, 80);
+      CreatePreview(FileList.Strings[iActiveFile], iActiveFile);
+    finally
+      DrawPreview.EndUpdate;
+    end;
   end;
 end;
 
@@ -2615,23 +2657,20 @@ begin
 end;
 
 procedure TfrmViewer.cm_Preview(const Params: array of string);
-var
-  i: integer;
 begin
   miPreview.Checked:= not (miPreview.Checked);
   pnlPreview.Visible := miPreview.Checked;
   Splitter.Visible := pnlPreview.Visible;
-  if not pnlPreview.Visible then
-    FBitmapList.Clear;
-  Application.ProcessMessages;
+
   if miPreview.Checked then
-   begin
-     for i:=0 to FileList.Count-1 do
-     CreatePreview(FileList.Strings[i], i);
-     DrawPreview.FixedRows:= 0;
-     DrawPreview.FixedCols:= 0;
-     DrawPreview.Refresh;
-   end;
+  begin
+    FThread:= TThumbThread.Create(Self)
+  end
+  else if Assigned(FThread) then
+  begin
+    FThread.Terminate;
+    FThread.WaitFor;
+  end;
   if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(GetListerRect);
 end;
 
