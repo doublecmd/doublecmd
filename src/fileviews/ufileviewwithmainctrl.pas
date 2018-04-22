@@ -108,7 +108,9 @@ type
     tmRenameFile: TTimer;
     FMouseRename: Boolean;
     FMouseFocus: Boolean;
+{$IFNDEF LCLWIN32}
     FMouseEnter: Boolean;
+{$ENDIF}
     procedure AfterChangePath; override;
     // Simulates releasing mouse button that started a dragging operation,
     // but was released in another window or another application.
@@ -602,7 +604,9 @@ end;
 procedure TFileViewWithMainCtrl.MainControlEnter(Sender: TObject);
 begin
   Active := True;
+{$IFNDEF LCLWIN32}
   FMouseEnter:= ssLeft in GetKeyShiftStateEx;
+{$ENDIF}
 end;
 
 procedure TFileViewWithMainCtrl.MainControlExit(Sender: TObject);
@@ -660,10 +664,13 @@ begin
   if not AtFileList then
     Exit;
 
+{$IFDEF LCLWIN32}
+  FMouseFocus:= MainControl.Focused;
+  SetFocus;
+{$ELSE}
   FMouseFocus := not FMouseEnter;
   FMouseEnter := False;
-
-  // SetFocus;
+{$ENDIF}
 
   // history navigation for mice with extra buttons
   case Button of
