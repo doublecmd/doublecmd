@@ -83,7 +83,7 @@ type
     procedure RedrawFile(FileIndex: PtrInt); override;
     procedure RedrawFile(DisplayFile: TDisplayFile); override;
     procedure RedrawFiles; override;
-    procedure SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean); override;
+    procedure SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean; aLastTopRowIndex: PtrInt = -1); override;
     procedure DoFileUpdated(AFile: TDisplayFile; UpdatedProperties: TFilePropertiesTypes = []); override;
     procedure DoHandleKeyDown(var Key: Word; Shift: TShiftState); override;
     procedure UpdateFlatFileName; override;
@@ -524,11 +524,11 @@ begin
   dgPanel.CalculateColumnWidth;
   SetFilesDisplayItems;
 
-  if SetActiveFileNow(RequestedActiveFile) then
+  if SetActiveFileNow(RequestedActiveFile, FLastTopRowIndex) then
     RequestedActiveFile := ''
   else
     // Requested file was not found, restore position to last active file.
-    SetActiveFileNow(LastActiveFile);
+    SetActiveFileNow(LastActiveFile, FLastTopRowIndex);
 
   Notify([fvnVisibleFilePropertiesChanged]);
 
@@ -703,7 +703,7 @@ begin
   TabHeader.UpdateSorting(Sorting);
 end;
 
-procedure TFileViewWithGrid.SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean);
+procedure TFileViewWithGrid.SetActiveFile(FileIndex: PtrInt; ScrollTo: Boolean; aLastTopRowIndex: PtrInt = -1);
 var
   ACol, ARow: Integer;
 begin
@@ -756,7 +756,7 @@ end;
 
 procedure TFileViewWithGrid.dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
 begin
-  DoFileIndexChanged(dgPanel.CellToIndex(aCol, aRow));
+  DoFileIndexChanged(dgPanel.CellToIndex(aCol, aRow), dgPanel.TopRow);
   UpdateFooterDetails;
 end;
 
