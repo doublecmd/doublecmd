@@ -70,7 +70,7 @@ unit ViewerControl;
 interface
 
 uses
-  SysUtils, Classes, Controls, StdCtrls, fgl;
+  SysUtils, Classes, Controls, StdCtrls, LCLVersion, fgl;
 
 const
   MaxMemSize = $400000; // 4 Mb
@@ -421,6 +421,9 @@ type
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     function DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
+{$if lcl_fullversion >= 1070000}
+    procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy; const AXProportion, AYProportion: Double); override;
+{$endif}
 
   public
     constructor Create(AOwner: TComponent); override;
@@ -507,7 +510,7 @@ procedure Register;
 implementation
 
 uses
-  LCLType, LCLVersion, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
+  LCLType, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
   DCUnicodeUtils, LCLIntf, LazUTF8, DCOSUtils , DCConvertEncoding
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, DCUnix
@@ -2422,6 +2425,15 @@ begin
   if not Result then
     Result := Scroll(-Mouse.WheelScrollLines);
 end;
+
+{$if lcl_fullversion >= 1070000}
+procedure TViewerControl.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy; const AXProportion, AYProportion: Double);
+begin
+  FScrollBarVert.Width  := LCLIntf.GetSystemMetrics(SM_CYVSCROLL);
+  FScrollBarHorz.Height := LCLIntf.GetSystemMetrics(SM_CYHSCROLL);
+  inherited DoAutoAdjustLayout(AMode, AXProportion, AYProportion);
+end;
+{$endif}
 
 function TViewerControl.XYPos2Adr(x, y: Integer; out CharSide: TCharSide): PtrInt;
 var
