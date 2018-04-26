@@ -421,7 +421,7 @@ end;
 
 procedure TColumnsFileView.dgPanelTopLeftChanged(Sender: TObject);
 begin
-  if not FUpdatingActiveFile then DoFileIndexChanged(dgPanel.Row - dgPanel.FixedRows, dgPanel.TopRow);
+  if not FUpdatingActiveFile then FLastTopRowIndex:= dgPanel.TopRow;
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
