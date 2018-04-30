@@ -2106,6 +2106,16 @@ begin
           Key := 0;
           Scroll(-1);
         end;
+      VK_RIGHT:
+        begin
+          Key := 0;
+          HScroll(1);
+        end;
+      VK_LEFT:
+        begin
+          Key := 0;
+          HScroll(-1);
+        end;
       VK_HOME:
         begin
           Key := 0;
