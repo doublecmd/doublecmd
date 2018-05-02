@@ -37,7 +37,10 @@ uses
 
 procedure TdmComData.DataModuleCreate(Sender: TObject);
 begin
-  LoadEditorImageList;
+  if Assigned(PixMapManager) then
+  begin
+    LoadEditorImageList;
+  end;
 end;
 
 procedure TdmComData.LoadEditorImageList;
