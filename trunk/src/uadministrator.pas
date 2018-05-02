@@ -27,7 +27,8 @@ unit uAdministrator;
 interface
 
 uses
-  Classes, SysUtils, Forms, uFileSystemFileSource, uFile, uFileSystemDeleteOperation;
+  Classes, SysUtils, Forms, Dialogs, uFileSystemFileSource, uFile,
+  uFileSystemDeleteOperation;
 
 type
   EAccessDenied = class(Exception);
@@ -41,7 +42,8 @@ implementation
 uses
   uFileSource, uFileSourceOperationMessageBoxesUI, dmCommonData, uOSUtils,
   uGlobs, uGlobsPaths, uOperationsManager, uFileSourceOperation, DCXmlConfig,
-  uFileSourceOperationOptions, uSpecialDir, uVariableMenuSupport, DCOSUtils;
+  uFileSourceOperationOptions, uSpecialDir, uVariableMenuSupport, DCOSUtils,
+  uDCUtils;
 
 type
 
@@ -127,7 +129,9 @@ begin
   Xml.Save;
   Xml.Free;
 
-  ExecCmdAdmin(ParamStrU(0), '--operation=' + FileName);
+  ExecCmdAdmin(ParamStrU(0), '--config-dir=' + QuoteStr(gpCfgDir) +
+                             ' ' +
+                             '--operation=' + QuoteStr(FileName));
 end;
 
 procedure ExecuteOperation(const FileList: String);
@@ -151,7 +155,11 @@ begin
 
     Halt(0);
   except
-    Halt(1);
+    on E: Exception do
+    begin
+      ShowMessage(E.Message);
+      Halt(1);
+    end;
   end;
 end;
 
