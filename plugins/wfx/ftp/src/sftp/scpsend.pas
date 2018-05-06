@@ -164,8 +164,6 @@ begin
 end;
 
 function TScpSend.SendCommand(const Command: String): Boolean;
-var
-  Ret: Int32;
 begin
   repeat
     FLastError := libssh2_channel_exec(FChannel, PAnsiChar(Command));
@@ -311,15 +309,6 @@ end;
 function TScpSend.GetCurrentDir: String;
 begin
   Result:= FCurrentDir;
-  {
-  if not OpenChannel then
-    Result:= EmptyStr
-  else begin
-    if not SendCommand('pwd', Result) then
-      Result:= EmptyStr;
-    CloseChannel;
-  end;
-  }
 end;
 
 function TScpSend.FileSize(const FileName: String): Int64;
@@ -380,7 +369,6 @@ var
   SendStream: TFileStreamEx;
   TotalBytesToWrite: Int64 = 0;
   TargetHandle: PLIBSSH2_CHANNEL = nil;
-  Flags: cint = LIBSSH2_FXF_CREAT or LIBSSH2_FXF_WRITE;
 begin
   SendStream := TFileStreamEx.Create(FDirectFileName, fmOpenRead or fmShareDenyWrite);
 
@@ -391,19 +379,7 @@ begin
   FBuffer:= GetMem(SMB_BUFFER_SIZE);
   libssh2_session_set_blocking(FSession, 0);
   try
-    if not Restore then
-    begin
-      TotalBytesToWrite:= FileSize;
-      Flags:= Flags or LIBSSH2_FXF_TRUNC
-    end
-    else begin
-      TotalBytesToWrite:= Self.FileSize(FileName);
-      if (FileSize = TotalBytesToWrite) then Exit(True);
-      if TotalBytesToWrite < 0 then TotalBytesToWrite:= 0;
-      SendStream.Seek(TotalBytesToWrite, soBeginning);
-      TotalBytesToWrite := FileSize - TotalBytesToWrite;
-      Flags:= Flags or LIBSSH2_FXF_APPEND;
-    end;
+    TotalBytesToWrite:= FileSize;
 
     // Open remote file
     repeat
@@ -464,16 +440,10 @@ var
   TotalBytesToRead: Int64 = 0;
   SourceHandle: PLIBSSH2_CHANNEL;
 begin
-  if Restore and mbFileExists(FDirectFileName) then
-    RetrStream := TFileStreamEx.Create(FDirectFileName, fmOpenWrite or fmShareExclusive)
-  else begin
-    RetrStream := TFileStreamEx.Create(FDirectFileName, fmCreate or fmShareDenyWrite)
-  end;
+  RetrStream := TFileStreamEx.Create(FDirectFileName, fmCreate or fmShareDenyWrite);
 
   SourceName := PWideChar(ServerToClient(FileName));
   TargetName := PWideChar(UTF8Decode(FDirectFileName));
-
-  if Restore then TotalBytesToRead:= RetrStream.Seek(0, soEnd);
 
   libssh2_session_set_blocking(FSession, 0);
   try
@@ -489,10 +459,6 @@ begin
         FSock.CanRead(10);
       end;
     until not ((SourceHandle = nil) and (FLastError = LIBSSH2_ERROR_EAGAIN));
-
-    if Restore then begin
-      //libssh2_sftp_seek64(SourceHandle, TotalBytesToRead);
-    end;
 
     FBuffer:= GetMem(SMB_BUFFER_SIZE);
     TotalBytesToRead:= FileSize - TotalBytesToRead;
@@ -584,7 +550,7 @@ begin
   if (LastWriteTime = nil) then Exit(False);
   FileTime:= (Int64(LastWriteTime^) / 864000000000.0) - 109205.0;
   DateTime:= FormatDateTime('yyyymmddhhnn.ss', FileTime);
-  Result:= SendCommand('touch -t ' + DateTime + ' ' + EscapeNoQuotes(FileName), FAnswer);
+  Result:= SendCommand('touch -ct ' + DateTime + ' ' + EscapeNoQuotes(FileName), FAnswer);
 end;
 
 end.
