@@ -180,6 +180,11 @@ end;
 if ((LCLWidgetType = 'qt') or (LCLWidgetType = 'qt5')) and (TargetOS &lt;> 'darwin') then
 begin
   UnitPath += 'platform/$(SrcOS)/qt5;';
+end;
+
+if (LCLWidgetType = 'gtk2') and (SrcOS = 'unix') and (TargetOS &lt;> 'darwin') then
+begin
+  UnitPath += 'platform/$(SrcOS)/$(LCLWidgetType);';
 end;"/>
           <Parsing>
             <SyntaxOptions>
