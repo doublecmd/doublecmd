@@ -83,11 +83,6 @@ uses
 const
   SMB_BUFFER_SIZE = 131072;
 
-function EscapeNoQuotes(const Str: String): String;
-begin
-  Result:= Str;
-end;
-
 procedure userauth_kbdint(const name: PAnsiChar; name_len: cint;
                           const instruction: PAnsiChar; instruction_len: cint;
                           num_prompts: cint; const prompts: PLIBSSH2_USERAUTH_KBDINT_PROMPT;
@@ -532,7 +527,7 @@ var
   AEBuffer: array[Byte] of AnsiChar;
 begin
   repeat
-    if libssh2_channel_eof(FChannel) <> 0 then Exit(False);
+    if libssh2_channel_eof(FChannel) <> 0 then Break;
     Ret:= libssh2_channel_read(FChannel, ABuffer, 256);
     ERet:= libssh2_channel_read_stderr(FChannel, AEBuffer, 256);
     if (ERet > 0) then begin
