@@ -112,6 +112,7 @@ type
     function Clone: TFTPSendEx; virtual;
     procedure CloneTo(AValue: TFTPSendEx); virtual;
     procedure ParseRemote(Value: string); override;
+    function FileExists(const FileName: String): Boolean; virtual;
     function CreateDir(const Directory: string): Boolean; override;
     function ExecuteCommand(const Command: String): Boolean; virtual;
     function ChangeMode(const FileName, Mode: String): Boolean; virtual;
@@ -643,6 +644,11 @@ begin
   end;
 end;
 
+function TFTPSendEx.FileExists(const FileName: String): Boolean;
+begin
+  Result:= (Self.FileSize(FileName) >= 0);
+end;
+
 function TFTPSendEx.CreateDir(const Directory: string): Boolean;
 var
   sOldPath: AnsiString;
@@ -783,7 +789,7 @@ begin
   end;
 end;
 
-function TFTPSendEx.NetworkError: Boolean;
+function TFTPSendEx.NetworkError(): Boolean;
 begin
   Result := FSock.CanRead(0);
 end;

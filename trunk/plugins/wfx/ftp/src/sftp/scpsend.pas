@@ -59,6 +59,7 @@ type
     function Logout: Boolean; override;
     function GetCurrentDir: String; override;
     function FileSize(const FileName: String): Int64; override;
+    function FileExists(const FileName: String): Boolean; override;
     function CreateDir(const Directory: string): Boolean; override;
     function DeleteDir(const Directory: string): Boolean; override;
     function DeleteFile(const FileName: string): Boolean; override;
@@ -323,7 +324,12 @@ end;
 
 function TScpSend.FileSize(const FileName: String): Int64;
 begin
-  Result:= 0;
+  Result:= -1;
+end;
+
+function TScpSend.FileExists(const FileName: String): Boolean;
+begin
+  Result:= SendCommand('stat ' + EscapeNoQuotes(FileName), FAnswer);
 end;
 
 function TScpSend.CreateDir(const Directory: string): Boolean;
@@ -556,6 +562,11 @@ begin
       begin
         FDataStream.Position := 0;
         FFTPList.Lines.LoadFromStream(FDataStream);
+        if FFtpList.Lines.Count > 0 then
+        begin
+          if Pos('total', FFtpList.Lines[0]) = 1 then
+            FFtpList.Lines.Delete(0);
+        end;
         FFTPList.ParseLines;
       end;
       FDataStream.Position := 0;

@@ -113,7 +113,7 @@ implementation
 
 uses
   IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs, LazFileUtils,
-  LazUTF8, DCClassesUtf8, SftpSend;
+  LazUTF8, DCClassesUtf8, SftpSend, ScpSend;
 
 var
   DefaultIniName: String;
@@ -846,7 +846,7 @@ begin
   if GetConnectionByPath(RemoteName, FtpSend, sFileName) then
   try
     FileName:= UTF16ToUTF8(UnicodeString(LocalName));
-    if (CopyFlags and FS_COPYFLAGS_FORCE = 0) and (FtpSend.FileSize(sFileName) >= 0) then
+    if (CopyFlags and FS_COPYFLAGS_FORCE = 0) and (FtpSend.FileExists(sFileName)) then
     begin
       if not FtpSend.CanResume then Exit(FS_FILE_EXISTS);
       Exit(FS_FILE_EXISTSRESUMEALLOWED);
