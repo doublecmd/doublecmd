@@ -19,7 +19,18 @@ type
 implementation
 
 uses
-  Forms, Controls, Gtk2Extra, Gtk2Def, Gtk2Proc, Glib2, Gdk2, Gtk2;
+  Forms, Controls, Gtk2Extra, Gtk2Def, Gtk2Proc, Glib2, Gdk2, Gtk2, Gdk2x, XLib;
+
+procedure XSetWindowCursor(AWindow: PGdkWindow; ACursor: PGdkCursor);
+begin
+  gdk_window_set_cursor(AWindow, ACursor);
+  if Assigned(ACursor) then
+  begin
+    XDefineCursor(gdk_x11_get_default_xdisplay,
+                  gdk_x11_drawable_get_xid(AWindow),
+                  gdk_x11_cursor_get_xcursor(ACursor));
+  end;
+end;
 
 {------------------------------------------------------------------------------
   procedure: SetWindowCursor
@@ -57,7 +68,7 @@ begin
     // Override any old default cursor
     g_object_steal_data(PGObject(AWindow), 'havesavedcursor'); // OK?
     g_object_steal_data(PGObject(AWindow), 'savedcursor');
-    gdk_window_set_cursor(AWindow, Cursor);
+    XSetWindowCursor(AWindow, Cursor);
     Exit;
   end;
   if Cursor <> nil then
@@ -74,7 +85,7 @@ begin
     end;
     // gdk_pointer_grab(AWindow, False, 0, AWindow, Cursor, 1);
     try
-      gdk_window_set_cursor(AWindow, Cursor);
+      XSetWindowCursor(AWindow, Cursor);
     finally
       // gdk_pointer_ungrab(0);
     end;
@@ -83,7 +94,7 @@ begin
     if g_object_steal_data(PGObject(AWindow), 'havesavedcursor') <> nil then
     begin
       Cursor := g_object_steal_data(PGObject(AWindow), 'savedcursor');
-      gdk_window_set_cursor(AWindow, Cursor);
+      XSetWindowCursor(AWindow, Cursor);
     end;
   end;
 end;
