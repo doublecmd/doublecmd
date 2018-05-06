@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2013-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -28,28 +28,21 @@ unit SftpSend;
 interface
 
 uses
-  Classes, SysUtils, WfxPlugin, ftpsend, libssh, FtpAdv;
+  Classes, SysUtils, WfxPlugin, ftpsend, ScpSend, libssh, FtpAdv;
 
 type
 
   { TSftpSend }
 
-  TSftpSend = class(TFTPSendEx)
+  TSftpSend = class(TScpSend)
   private
-    FLastError: Integer;
-    FSavedPassword: Boolean;
-    SourceName, TargetName: PWideChar;
-    procedure DoProgress(Percent: Int64);
     function FileClose(Handle: Pointer): Boolean;
   protected
-    FCurrentDir: String;
-    FSession: PLIBSSH2_SESSION;
     FSFTPSession: PLIBSSH2_SFTP;
   protected
     function Connect: Boolean; override;
   public
     constructor Create(const Encoding: String); override;
-    function Login: Boolean; override;
     function Logout: Boolean; override;
     function GetCurrentDir: String; override;
     function FileSize(const FileName: String): Int64; override;
@@ -85,68 +78,7 @@ type
     Handle: PLIBSSH2_SFTP_HANDLE;
   end;
 
-procedure userauth_kbdint(const name: PAnsiChar; name_len: cint;
-                          const instruction: PAnsiChar; instruction_len: cint;
-                          num_prompts: cint; const prompts: PLIBSSH2_USERAUTH_KBDINT_PROMPT;
-                          responses: PLIBSSH2_USERAUTH_KBDINT_RESPONSE; abstract: PPointer); cdecl;
-var
-  S: String;
-  I: Integer;
-  Sender: TSftpSend;
-  Title, Message, Password: UnicodeString;
-begin
-  Sender:= TSftpSend(abstract^);
-  for I:= 0 to num_prompts - 1 do
-  begin
-    if (I = 0) and (Length(Sender.FPassword) > 0) and (not Sender.FSavedPassword) then
-    begin
-      Sender.FSavedPassword:= True;
-      responses^.text:= GetMem(Length(Sender.FPassword) + 1);
-      StrCopy(responses^.text, PAnsiChar(Sender.FPassword));
-      responses^.length:= Length(Sender.FPassword);
-    end
-    else begin
-      Title:= EmptyWideStr;
-      Message:= EmptyWideStr;
-      if Assigned(instruction) and (instruction_len > 0) then
-      begin
-        SetString(S, instruction, instruction_len);
-        Message:= Sender.ServerToClient(S) + LineEnding;
-      end;
-      if Assigned(prompts[I].text) and (prompts[I].length > 0) then
-      begin
-        SetString(S, prompts[I].text, prompts[I].length);
-        Message+= Sender.ServerToClient(S);
-      end;
-      if Assigned(name) and (name_len > 0) then
-      begin
-        SetString(S, name, name_len);
-        Title:= Sender.ServerToClient(S) + #32;
-      end;
-      SetLength(Password, MAX_PATH + 1);
-      Title+= 'sftp://' + UTF8ToUTF16(Sender.UserName + '@' + Sender.TargetHost);
-      if not RequestProc(PluginNumber, RT_Password, PWideChar(Title), PWideChar(Message), PWideChar(Password), MAX_PATH) then
-      begin
-        responses[I].text:= nil;
-        responses[I].length:= 0;
-      end
-      else begin
-        Sender.FPassword:= Sender.ClientToServer(Password);
-        responses[I].text:= GetMem(Length(Sender.FPassword) + 1);
-        StrCopy(responses[I].text, PAnsiChar(Sender.FPassword));
-        responses[I].length:= Length(Sender.FPassword);
-      end;
-    end;
-  end;
-end;
-
 { TSftpSend }
-
-procedure TSftpSend.DoProgress(Percent: Int64);
-begin
-  if ProgressProc(PluginNumber, SourceName, TargetName, Percent) = 1 then
-    raise EUserAbort.Create(EmptyStr);
-end;
 
 function TSftpSend.FileClose(Handle: Pointer): Boolean;
 begin
@@ -161,102 +93,32 @@ begin
 end;
 
 function TSftpSend.Connect: Boolean;
-const
-  HOSTKEY_SIZE = 20;
-var
-  S: String;
-  I: Integer;
-  userauthlist: PAnsiChar;
-  FingerPrint: array [0..Pred(HOSTKEY_SIZE)] of AnsiChar;
 begin
-  FSock.CloseSocket;
-  DoStatus(False, 'Connecting to: ' + FTargetHost);
-  FSock.Connect(FTargetHost, FTargetPort);
-  Result:= (FSock.LastError = 0);
+  Result:= inherited Connect;
+
   if Result then
   begin
-    FSession := libssh2_session_init(Self);
-    if not Assigned(FSession) then Exit(False);
-    try
-      libssh2_session_set_timeout(FSession, FTimeout);
+    FSFTPSession := libssh2_sftp_init(FSession);
 
-      //* Since we have not set non-blocking, tell libssh2 we are blocking */
-      libssh2_session_set_blocking(FSession, 1);
+    Result:= Assigned(FSFTPSession);
 
-      if libssh2_session_handshake(FSession, FSock.Socket) <> 0 then
-      begin
-        DoStatus(False, 'Cannot establishing SSH session');
-        Exit(False);
-      end;
-      DoStatus(False, 'Connection established');
-      FingerPrint := libssh2_hostkey_hash(FSession, LIBSSH2_HOSTKEY_HASH_SHA1);
-      S:= 'Server fingerprint:';
-      for I:= Low(FingerPrint) to High(FingerPrint) do
-      begin
-        S:= S + #32 + IntToHex(Ord(FingerPrint[i]), 2);
-      end;
-      DoStatus(False, S);
-
-      //* check what authentication methods are available */
-      userauthlist := libssh2_userauth_list(FSession, PAnsiChar(FUserName), Length(FUserName));
-
-      if (strpos(userauthlist, 'password') <> nil) then
-      begin
-        I:= libssh2_userauth_password(FSession, PAnsiChar(FUserName), PAnsiChar(FPassword));
-        if I <> 0 then begin
-          DoStatus(False, 'Authentication by password failed');
-          Exit(False);
-        end;
-      end
-      else if (strpos(userauthlist, 'keyboard-interactive') <> nil) then
-      begin
-        FSavedPassword:= False;
-        libssh2_session_set_timeout(FSession, 0);
-        I:= libssh2_userauth_keyboard_interactive(FSession, PAnsiChar(FUserName), @userauth_kbdint);
-        if I <> 0 then begin
-          DoStatus(False, 'Authentication by keyboard-interactive failed');
-          Exit(False);
-        end;
-        libssh2_session_set_timeout(FSession, FTimeout);
-      end
-      else if (strpos(userauthlist, 'publickey') <> nil) then
-      begin
-        DoStatus(False, 'Authentication by publickey is not supported!');
-        Exit(False);
-      end;
-
-      DoStatus(False, 'Authentication succeeded');
-      FSFTPSession := libssh2_sftp_init(FSession);
-
-      Result:= Assigned(FSFTPSession);
-    finally
-      if not Result then begin
-        libssh2_session_free(FSession);
-        FSock.CloseSocket;
-      end;
+    if not Result then begin
+      libssh2_session_free(FSession);
+      FSock.CloseSocket;
     end;
   end;
 end;
 
 constructor TSftpSend.Create(const Encoding: String);
 begin
-  FCurrentDir:= '/';
   inherited Create(Encoding);
-  FTargetPort:= '22';
   FCanResume := True;
-end;
-
-function TSftpSend.Login: Boolean;
-begin
-  Result:= Connect;
 end;
 
 function TSftpSend.Logout: Boolean;
 begin
   Result:= libssh2_sftp_shutdown(FSFTPSession) = 0;
-  libssh2_session_disconnect(FSession, 'Logout');
-  libssh2_session_free(FSession);
-  FSock.CloseSocket;
+  Result:= Result and inherited Logout;
 end;
 
 function TSftpSend.GetCurrentDir: String;
