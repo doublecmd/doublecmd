@@ -80,6 +80,10 @@ const
   LIBSSH2_ERROR_BAD_SOCKET = -(45);
   LIBSSH2_ERROR_KNOWN_HOSTS = -(46);
 
+  //* Channel API */
+  LIBSSH2_CHANNEL_WINDOW_DEFAULT = (2*1024*1024);
+  LIBSSH2_CHANNEL_PACKET_DEFAULT = 32768;
+
   //* Flags for open_ex() */
   _LIBSSH2_SFTP_OPENFILE                        = 0;
   _LIBSSH2_SFTP_OPENDIR                         = 1;
@@ -134,6 +138,8 @@ const
 type
   //* Session API */
   PLIBSSH2_SESSION = type Pointer;
+  //* Channel API */
+  PLIBSSH2_CHANNEL = type Pointer;
   //* SFTP API */
   PLIBSSH2_SFTP = type Pointer;
   PLIBSSH2_SFTP_HANDLE = type Pointer;
@@ -170,6 +176,7 @@ type
     text: PAnsiChar;
     length: cuint;
   end;
+  Plibssh2_struct_stat = type Pointer;
   //* Malloc callbacks */
   LIBSSH2_ALLOC_FUNC = function(count: csize_t; abstract: Pointer): Pointer; cdecl;
   LIBSSH2_REALLOC_FUNC = function(ptr: Pointer; count: csize_t; abstract: Pointer): Pointer; cdecl;
@@ -215,6 +222,27 @@ var
                                                      const username: PAnsiChar;
                                                      username_len: cuint;
                                                      response_callback: LIBSSH2_USERAUTH_KBDINT_RESPONSE_FUNC): cint; cdecl;
+  //* Channel API */
+  libssh2_channel_open_ex: function(session: PLIBSSH2_SESSION; const channel_type: PAnsiChar;
+                          channel_type_len, window_size, packet_size: cuint;
+                          const message: PAnsiChar; message_len: cuint): PLIBSSH2_CHANNEL; cdecl;
+  libssh2_channel_free: function(channel: PLIBSSH2_CHANNEL): cint; cdecl;
+  libssh2_channel_set_blocking: procedure (channel: PLIBSSH2_CHANNEL; blocking: cint); cdecl;
+  libssh2_channel_process_startup: function(channel: PLIBSSH2_CHANNEL;
+                                            const request: PAnsiChar; request_len: cuint;
+                                            const message: PAnsiChar; message_len: cuint): cint; cdecl;
+  libssh2_channel_flush_ex: function(channel: PLIBSSH2_CHANNEL; streamid: cint): cint; cdecl;
+  libssh2_channel_send_eof: function(channel: PLIBSSH2_CHANNEL): cint; cdecl;
+  libssh2_channel_eof: function(channel: PLIBSSH2_CHANNEL): cint; cdecl;
+  libssh2_channel_read_ex: function(channel: PLIBSSH2_CHANNEL; stream_id: cint;
+                                    buf: PAnsiChar; buflen: csize_t): ptrint; cdecl;
+  libssh2_channel_write_ex: function(channel: PLIBSSH2_CHANNEL; stream_id: cint;
+                                     const buf: PAnsiChar; buflen: csize_t): ptrint; cdecl;
+  libssh2_channel_get_exit_status: function(channel: PLIBSSH2_CHANNEL): cint; cdecl;
+  libssh2_scp_send64: function(session: PLIBSSH2_SESSION; const path: PAnsiChar; mode: cint;
+                                size: cuint64; mtime, atime: ptrint): PLIBSSH2_CHANNEL; cdecl;
+  libssh2_scp_recv2: function(session: PLIBSSH2_SESSION; const path: PAnsiChar;
+                              sb: Plibssh2_struct_stat): PLIBSSH2_CHANNEL; cdecl;
   //* SFTP API */
   libssh2_sftp_init: function(session: PLIBSSH2_SESSION): PLIBSSH2_SFTP; cdecl;
   libssh2_sftp_shutdown: function(sftp: PLIBSSH2_SFTP): cint; cdecl;
@@ -270,6 +298,12 @@ var
   function libssh2_session_disconnect(session: PLIBSSH2_SESSION; const description: PAnsiChar): cint; inline;
   function libssh2_userauth_password(session: PLIBSSH2_SESSION; const username: PAnsiChar; const password: PAnsiChar): cint; inline;
   function libssh2_userauth_keyboard_interactive(session: PLIBSSH2_SESSION; const username: PAnsiChar; response_callback: LIBSSH2_USERAUTH_KBDINT_RESPONSE_FUNC): cint; inline;
+  function libssh2_channel_open_session(session: PLIBSSH2_SESSION): PLIBSSH2_CHANNEL; inline;
+  function libssh2_channel_exec(channel: PLIBSSH2_CHANNEL; command: PAnsiChar): cint; inline;
+  function libssh2_channel_flush(channel: PLIBSSH2_CHANNEL): cint; inline;
+  function libssh2_channel_read(channel: PLIBSSH2_CHANNEL; buf: PAnsiChar; buflen: csize_t): ptrint; inline;
+  function libssh2_channel_read_stderr(channel: PLIBSSH2_CHANNEL; buf: PAnsiChar; buflen: csize_t): ptrint; inline;
+  function libssh2_channel_write(channel: PLIBSSH2_CHANNEL; const buf: PAnsiChar; buflen: csize_t): ptrint; inline;
   function libssh2_sftp_open(sftp: PLIBSSH2_SFTP; const filename: PAnsiChar; flags: culong; mode: clong): PLIBSSH2_SFTP_HANDLE; inline;
   function libssh2_sftp_opendir(sftp: PLIBSSH2_SFTP; const path: PAnsiChar): PLIBSSH2_SFTP_HANDLE; inline;
   function libssh2_sftp_close(handle: PLIBSSH2_SFTP_HANDLE): cint; inline;
@@ -342,6 +376,40 @@ function libssh2_userauth_keyboard_interactive(session: PLIBSSH2_SESSION;
   response_callback: LIBSSH2_USERAUTH_KBDINT_RESPONSE_FUNC): cint;
 begin
   Result:= libssh2_userauth_keyboard_interactive_ex(session, username, strlen(username), response_callback);
+end;
+
+function libssh2_channel_open_session(session: PLIBSSH2_SESSION): PLIBSSH2_CHANNEL;
+begin
+  Result:= libssh2_channel_open_ex(session, 'session', Length('session'),
+                                   LIBSSH2_CHANNEL_WINDOW_DEFAULT, LIBSSH2_CHANNEL_PACKET_DEFAULT, nil, 0);
+end;
+
+function libssh2_channel_exec(channel: PLIBSSH2_CHANNEL; command: PAnsiChar): cint;
+begin
+  REsult:= libssh2_channel_process_startup(channel, 'exec', Length('exec'), command, strlen(command));
+end;
+
+function libssh2_channel_flush(channel: PLIBSSH2_CHANNEL): cint;
+begin
+  Result:= libssh2_channel_flush_ex(channel, 0);
+end;
+
+function libssh2_channel_read(channel: PLIBSSH2_CHANNEL; buf: PAnsiChar;
+  buflen: csize_t): ptrint; cdecl;
+begin
+  Result:= libssh2_channel_read_ex(channel, 0, buf, buflen);
+end;
+
+function libssh2_channel_read_stderr(channel: PLIBSSH2_CHANNEL; buf: PAnsiChar;
+  buflen: csize_t): ptrint; cdecl;
+begin
+  Result:= libssh2_channel_read_ex(channel, 1, buf, buflen);
+end;
+
+function libssh2_channel_write(channel: PLIBSSH2_CHANNEL; const buf: PAnsiChar;
+  buflen: csize_t): ptrint;
+begin
+  Result:= libssh2_channel_write_ex(channel, 0, buf, buflen);
 end;
 
 function libssh2_sftp_open(sftp: PLIBSSH2_SFTP; const filename: PAnsiChar;
@@ -449,6 +517,21 @@ begin
     libssh2_userauth_list:= SafeGetProcAddress(libssh2, 'libssh2_userauth_list');
     libssh2_userauth_password_ex:= SafeGetProcAddress(libssh2, 'libssh2_userauth_password_ex');
     libssh2_userauth_keyboard_interactive_ex:= SafeGetProcAddress(libssh2, 'libssh2_userauth_keyboard_interactive_ex');
+
+    //* Channel API */
+    libssh2_channel_open_ex:= SafeGetProcAddress(libssh2, 'libssh2_channel_open_ex');
+    libssh2_channel_free:= SafeGetProcAddress(libssh2, 'libssh2_channel_free');
+    libssh2_channel_set_blocking:= SafeGetProcAddress(libssh2, 'libssh2_channel_set_blocking');
+    libssh2_channel_process_startup:= SafeGetProcAddress(libssh2, 'libssh2_channel_process_startup');
+    libssh2_channel_flush_ex:= SafeGetProcAddress(libssh2, 'libssh2_channel_flush_ex');
+    libssh2_channel_send_eof:= SafeGetProcAddress(libssh2, 'libssh2_channel_send_eof');
+    libssh2_channel_eof:= SafeGetProcAddress(libssh2, 'libssh2_channel_eof');
+    libssh2_channel_read_ex:= SafeGetProcAddress(libssh2, 'libssh2_channel_read_ex');
+    libssh2_channel_write_ex:= SafeGetProcAddress(libssh2, 'libssh2_channel_write_ex');
+    libssh2_channel_get_exit_status:= SafeGetProcAddress(libssh2, 'libssh2_channel_get_exit_status');
+    libssh2_scp_send64:= SafeGetProcAddress(libssh2, 'libssh2_scp_send64');
+    libssh2_scp_recv2:= SafeGetProcAddress(libssh2, 'libssh2_scp_recv2');
+
     //* SFTP API */
     libssh2_sftp_init:= SafeGetProcAddress(libssh2, 'libssh2_sftp_init');
     libssh2_sftp_shutdown:= SafeGetProcAddress(libssh2, 'libssh2_sftp_shutdown');
