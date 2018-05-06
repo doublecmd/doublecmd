@@ -49,6 +49,7 @@ type
     UseAllocate: Boolean;
     Encoding: AnsiString;
     InitCommands: AnsiString;
+    ShowHiddenItems: Boolean;
     PasswordChanged: Boolean;
     KeepAliveTransfer: Boolean;
   public
@@ -168,6 +169,7 @@ begin
     Connection.OpenSSH:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'OpenSSH', False);
     Connection.UseAllocate:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'UseAllocate', False);
     Connection.InitCommands := IniFile.ReadString('FTP', 'Connection' + sIndex + 'InitCommands', EmptyStr);
+    Connection.ShowHiddenItems := IniFile.ReadBool('FTP', 'Connection' + sIndex + 'ShowHiddenItems', True);
     Connection.KeepAliveTransfer := IniFile.ReadBool('FTP', 'Connection' + sIndex + 'KeepAliveTransfer', False);
     // add connection to connection list
     ConnectionList.AddObject(Connection.ConnectionName, Connection);
@@ -204,6 +206,7 @@ begin
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'OpenSSH', Connection.OpenSSH);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'UseAllocate', Connection.UseAllocate);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'InitCommands', Connection.InitCommands);
+    IniFile.WriteBool('FTP', 'Connection' + sIndex + 'ShowHiddenItems', Connection.ShowHiddenItems);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'KeepAliveTransfer', Connection.KeepAliveTransfer);
   end;
   IniFile.UpdateFile;
@@ -314,6 +317,7 @@ begin
           FtpSend := TSftpSend.Create(Connection.Encoding)
         else begin
           FtpSend := TFTPSendEx.Create(Connection.Encoding);
+          FtpSend.ShowHidden := Connection.ShowHiddenItems;
           FtpSend.KeepAliveTransfer := Connection.KeepAliveTransfer;
         end;
         FtpSend.TcpKeepAlive := TcpKeepAlive;
@@ -1115,6 +1119,7 @@ begin
   MasterPassword:= Connection.MasterPassword;
   ConnectionName:= Connection.ConnectionName;
   PasswordChanged:= Connection.PasswordChanged;
+  ShowHiddenItems:= Connection.ShowHiddenItems;
   KeepAliveTransfer:= Connection.KeepAliveTransfer;
 end;
 

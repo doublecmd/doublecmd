@@ -119,6 +119,14 @@ begin
           SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, Data, 0);
           Data:= PtrInt(gConnection.OpenSSH);
           SendDlgMsg(pDlg, 'chkOpenSSH', DM_SETCHECK, Data, 0);
+          Data:= PtrInt(gConnection.ShowHiddenItems);
+          SendDlgMsg(pDlg, 'chkShowHidden', DM_SETCHECK, Data, 0);
+          Data:= PtrInt(gConnection.KeepAliveTransfer);
+          SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_SETCHECK, Data, 0);
+
+          SendDlgMsg(pDlg, 'chkShowHidden', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
+          SendDlgMsg(pDlg, 'chkPassiveMode', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
+          SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
         end;
       DN_CHANGE:
         begin
@@ -150,8 +158,13 @@ begin
             gConnection.OpenSSH:= Boolean(Data);
             if gConnection.OpenSSH then
             begin
-              if libssh2 = NilHandle then
+              if libssh2 <> NilHandle then
               begin
+                SendDlgMsg(pDlg, 'chkShowHidden', DM_SETCHECK, 0, 0);
+                SendDlgMsg(pDlg, 'chkPassiveMode', DM_SETCHECK, 0, 0);
+                SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_SETCHECK, 0, 0);
+              end
+              else begin
                 ShowWarningSSH;
                 gConnection.OpenSSH:= False;
                 Data:= PtrInt(gConnection.OpenSSH);
@@ -159,6 +172,9 @@ begin
                end;
               SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, 0, 0);
             end;
+            SendDlgMsg(pDlg, 'chkShowHidden', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
+            SendDlgMsg(pDlg, 'chkPassiveMode', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
+            SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
           end;
         end;
       DN_CLICK:
@@ -221,6 +237,10 @@ begin
             gConnection.PassiveMode:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkAutoTLS', DM_GETCHECK, 0, 0);
             gConnection.AutoTLS:= Boolean(Data);
+            Data:= SendDlgMsg(pDlg, 'chkShowHidden', DM_GETCHECK, 0, 0);
+            gConnection.ShowHiddenItems:= Boolean(Data);
+            Data:= SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_GETCHECK, 0, 0);
+            gConnection.KeepAliveTransfer:= Boolean(Data);
             if gConnection.FullSSL and (InitSSLInterface = False) then
             begin;
               ShowWarningSSL;
