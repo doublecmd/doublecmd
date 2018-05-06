@@ -73,13 +73,14 @@ type
     function DataRead(const DestStream: TStream): Boolean; override;
   public
     function List(Directory: String; NameList: Boolean): Boolean; override;
-    function FsSetTime(const FileName: String; LastAccessTime, LastWriteTime: PFileTime): BOOL; override;
+    function FsSetTime(const FileName: String; LastAccessTime, LastWriteTime: PWfxFileTime): BOOL; override;
   end;
 
 implementation
 
 uses
-  CTypes, LazUTF8, FtpFunc, DCStrUtils, DCClassesUtf8, DCOSUtils;
+  CTypes, LazUTF8, FtpFunc, DCStrUtils, DCClassesUtf8, DCOSUtils, DCDateTimeUtils,
+  DCBasicTypes;
 
 const
   SMB_BUFFER_SIZE = 131072;
@@ -542,13 +543,13 @@ begin
 end;
 
 function TScpSend.FsSetTime(const FileName: String; LastAccessTime,
-  LastWriteTime: PFileTime): BOOL;
+  LastWriteTime: PWfxFileTime): BOOL;
 var
   DateTime: String;
   FileTime: TDateTime;
 begin
   if (LastWriteTime = nil) then Exit(False);
-  FileTime:= (Int64(LastWriteTime^) / 864000000000.0) - 109205.0;
+  FileTime:= WinFileTimeToDateTime(TWinFileTime(LastWriteTime^));
   DateTime:= FormatDateTime('yyyymmddhhnn.ss', FileTime);
   Result:= SendCommand('touch -ct ' + DateTime + ' ' + EscapeNoQuotes(FileName), FAnswer);
 end;
