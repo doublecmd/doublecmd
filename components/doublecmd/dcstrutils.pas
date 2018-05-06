@@ -29,6 +29,10 @@ interface
 uses
   Classes, SysUtils, DCBasicTypes,LazUtf8;
 
+const
+  NoQuotesSpecialChars     = [' ', '"', '''', '(', ')', ':', '&', '!', '$', '*', '?', '=', '`', '\', '|', ';', #10];
+  DoubleQuotesSpecialChars = ['$', '\', '`', '"', #10];
+
 type
   TPathType = (ptNone, ptRelative, ptAbsolute);
 
@@ -324,6 +328,32 @@ procedure SetValue(var anArray: TDynamicStringArray; Key: String; NewValue: Bool
 function ShortcutsToText(const Shortcuts: TDynamicStringArray): String;
 function GetDateTimeInStrEZSortable(DateTime:TDateTime):string;
 function WrapTextSimple(const S: String; MaxCol: Integer): String;
+
+{en
+   Escapes characters to be inserted between single quotes (')
+   and passed to shell command line.
+   The resulting string is not enclosed with '', only escaped.
+
+   For example <cmd1> needs to be escaped with this function:
+     sh -c '<cmd1>' "<cmd2>" <cmd3>
+}
+function EscapeSingleQuotes(const Str: String): String;
+{en
+   Escapes characters to be inserted between double quotes (")
+   and passed to shell command line.
+   The resulting string is not enclosed with "", only escaped.
+
+   For example <cmd2> needs to be escaped with this function:
+     sh -c '<cmd1>' "<cmd2>" <cmd3>
+}
+function EscapeDoubleQuotes(const Str: String): String;
+{en
+   Escapes characters to be passed to shell command line when no quoting is used.
+
+   For example <cmd3> needs to be escaped with this function:
+     sh -c '<cmd1>' "<cmd2>" <cmd3>
+}
+function EscapeNoQuotes(const Str: String): String;
 
 implementation
 
@@ -1232,6 +1262,46 @@ begin
     Inc(Index, MaxCol); Dec(Len, MaxCol);
   end;
   SetLength(Result, Length(Result) - Length(LineEnding));
+end;
+
+function EscapeString(const Str: String; const EscapeChars: TCharSet; const EscapeWith: String): String;
+var
+  StartPos: Integer = 1;
+  CurPos: Integer = 1;
+begin
+  Result := '';
+  while CurPos <= Length(Str) do
+  begin
+    if Str[CurPos] in EscapeChars then
+    begin
+      Result := Result + Copy(Str, StartPos, CurPos - StartPos) + EscapeWith;
+      // The character being quoted will be copied later.
+      StartPos := CurPos;
+    end;
+    Inc(CurPos);
+  end;
+  Result := Result + Copy(Str, StartPos, CurPos - StartPos);
+end;
+
+function EscapeSingleQuotes(const Str: String): String;
+begin
+  // Single quotes are strong quotes - no special characters are recognized
+  // inside those quotes, so only ' needs to be escaped.
+  Result := EscapeString(Str, [''''], '''\''');
+end;
+
+function EscapeDoubleQuotes(const Str: String): String;
+begin
+  // Double quotes are weak quotes and a few special characters are allowed
+  // which need to be escaped.
+  Result := EscapeString(Str, DoubleQuotesSpecialChars, '\');
+end;
+
+function EscapeNoQuotes(const Str: String): String;
+begin
+  // When neither single nor double quotes are used several special characters
+  // need to be escaped with backslash (single character quote).
+  Result := EscapeString(Str, NoQuotesSpecialChars, '\');
 end;
 
 end.
