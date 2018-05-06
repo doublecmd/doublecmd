@@ -84,7 +84,8 @@ type
     FUnicode: Boolean;
     FSetTime: Boolean;
     FMachine: Boolean;
-    FShowHidden: String;
+    FShowHidden: Boolean;
+    FShowHiddenText: String;
     FUseAllocate: Boolean;
     FTcpKeepAlive: Boolean;
     FKeepAliveTransfer: Boolean;
@@ -121,6 +122,7 @@ type
   public
     property UseAllocate: Boolean write FUseAllocate;
     property TcpKeepAlive: Boolean write FTcpKeepAlive;
+    property ShowHidden: Boolean read FShowHidden write FShowHidden;
     property KeepAliveTransfer: Boolean read FKeepAliveTransfer write FKeepAliveTransfer;
   end;
 
@@ -597,10 +599,10 @@ begin
         FTPCommand('OPTS UTF8 ON');
       end;
     end;
-    if not FMachine then
+    if (not FMachine) and FShowHidden then
     begin
       if inherited List('-la', False) then
-        FShowHidden:= '-la'
+        FShowHiddenText:= '-la'
       else begin
         DoStatus(False, 'Server does not seem to support LIST -a');
       end;
@@ -673,7 +675,7 @@ begin
     if FMachine then
       Result:= ListMachine(EmptyStr)
     else begin
-      Result:= inherited List(FShowHidden, NameList);
+      Result:= inherited List(FShowHiddenText, NameList);
     end;
     if (Result = False) and (FSock.WaitingData > 0) then
     begin
