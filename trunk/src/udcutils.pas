@@ -44,11 +44,6 @@ uses
 const
   TextLineBreakValue: array[TTextLineBreakStyle] of String = (#10, #13#10, #13);
 
-{$IF DEFINED(UNIX)}
-  NoQuotesSpecialChars     = [' ', '"', '''', '(', ')', ':', '&', '!', '$', '*', '?', '=', '`', '\', '|', ';', #10];
-  DoubleQuotesSpecialChars = ['$', '\', '`', '"', #10];
-{$ENDIF}
-
 {$IFDEF MSWINDOWS}
   VARDELIMITER='%';
   VARDELIMITER_END='%';
@@ -160,31 +155,6 @@ function QuoteSingle(const Str: String): String;
 {$ENDIF}
 function QuoteDouble(const Str: String): String;
 {$IFDEF UNIX}
-{en
-   Escapes characters to be inserted between single quotes (')
-   and passed to shell command line.
-   The resulting string is not enclosed with '', only escaped.
-
-   For example <cmd1> needs to be escaped with this function:
-     sh -c '<cmd1>' "<cmd2>" <cmd3>
-}
-function EscapeSingleQuotes(const Str: String): String;
-{en
-   Escapes characters to be inserted between double quotes (")
-   and passed to shell command line.
-   The resulting string is not enclosed with "", only escaped.
-
-   For example <cmd2> needs to be escaped with this function:
-     sh -c '<cmd1>' "<cmd2>" <cmd3>
-}
-function EscapeDoubleQuotes(const Str: String): String;
-{en
-   Escapes characters to be passed to shell command line when no quoting is used.
-
-   For example <cmd3> needs to be escaped with this function:
-     sh -c '<cmd1>' "<cmd2>" <cmd3>
-}
-function EscapeNoQuotes(const Str: String): String;
 {en
    Split command line parameters into argument array
 }
@@ -672,46 +642,6 @@ begin
 end;
 
 {$IF DEFINED(UNIX)}
-function EscapeString(const Str: String; const EscapeChars: TCharSet; const EscapeWith: String): String;
-var
-  StartPos: Integer = 1;
-  CurPos: Integer = 1;
-begin
-  Result := '';
-  while CurPos <= Length(Str) do
-  begin
-    if Str[CurPos] in EscapeChars then
-    begin
-      Result := Result + Copy(Str, StartPos, CurPos - StartPos) + EscapeWith;
-      // The character being quoted will be copied later.
-      StartPos := CurPos;
-    end;
-    Inc(CurPos);
-  end;
-  Result := Result + Copy(Str, StartPos, CurPos - StartPos);
-end;
-
-function EscapeSingleQuotes(const Str: String): String;
-begin
-  // Single quotes are strong quotes - no special characters are recognized
-  // inside those quotes, so only ' needs to be escaped.
-  Result := EscapeString(Str, [''''], '''\''');
-end;
-
-function EscapeDoubleQuotes(const Str: String): String;
-begin
-  // Double quotes are weak quotes and a few special characters are allowed
-  // which need to be escaped.
-  Result := EscapeString(Str, DoubleQuotesSpecialChars, '\');
-end;
-
-function EscapeNoQuotes(const Str: String): String;
-begin
-  // When neither single nor double quotes are used several special characters
-  // need to be escaped with backslash (single character quote).
-  Result := EscapeString(Str, NoQuotesSpecialChars, '\');
-end;
-
 // Helper for RemoveQuotation and SplitCmdLine.
 procedure RemoveQuotationOrSplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TDynamicStringArray; bSplitArgs: Boolean; bNoCmd: Boolean = False);
 var
