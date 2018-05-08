@@ -43,6 +43,7 @@ type
     Password: AnsiString;
     MasterPassword: Boolean;
     PassiveMode: Boolean;
+    OnlySCP: Boolean;
     AutoTLS: Boolean;
     FullSSL: Boolean;
     OpenSSH: Boolean;
@@ -167,6 +168,7 @@ begin
     Connection.AutoTLS:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'AutoTLS', False);
     Connection.FullSSL:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'FullSSL', False);
     Connection.OpenSSH:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'OpenSSH', False);
+    Connection.OnlySCP:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'OnlySCP', False);
     Connection.UseAllocate:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'UseAllocate', False);
     Connection.InitCommands := IniFile.ReadString('FTP', 'Connection' + sIndex + 'InitCommands', EmptyStr);
     Connection.ShowHiddenItems := IniFile.ReadBool('FTP', 'Connection' + sIndex + 'ShowHiddenItems', True);
@@ -204,6 +206,7 @@ begin
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'AutoTLS', Connection.AutoTLS);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'FullSSL', Connection.FullSSL);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'OpenSSH', Connection.OpenSSH);
+    IniFile.WriteBool('FTP', 'Connection' + sIndex + 'OnlySCP', Connection.OnlySCP);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'UseAllocate', Connection.UseAllocate);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'InitCommands', Connection.InitCommands);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'ShowHiddenItems', Connection.ShowHiddenItems);
@@ -314,7 +317,12 @@ begin
       begin
         Connection := TConnection(ConnectionList.Objects[I]);
         if Connection.OpenSSH then
-          FtpSend := TSftpSend.Create(Connection.Encoding)
+        begin
+          if Connection.OnlySCP then
+            FtpSend := TScpSend.Create(Connection.Encoding)
+          else
+            FtpSend := TSftpSend.Create(Connection.Encoding)
+        end
         else begin
           FtpSend := TFTPSendEx.Create(Connection.Encoding);
           FtpSend.ShowHidden := Connection.ShowHiddenItems;
@@ -1110,6 +1118,7 @@ begin
   AutoTLS:= Connection.AutoTLS;
   FullSSL:= Connection.FullSSL;
   OpenSSH:= Connection.OpenSSH;
+  OnlySCP:= Connection.OnlySCP;
   UserName:= Connection.UserName;
   Password:= Connection.Password;
   Encoding:= Connection.Encoding;

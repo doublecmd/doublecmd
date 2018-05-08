@@ -66,6 +66,24 @@ begin
   end;
 end;
 
+procedure EnableControls(pDlg: PtrUInt);
+begin
+  with gStartupInfo do
+  begin
+    SendDlgMsg(pDlg, 'chkOnlySCP', DM_ENABLE, PtrInt(gConnection.OpenSSH), 0);
+    SendDlgMsg(pDlg, 'chkShowHidden', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
+    SendDlgMsg(pDlg, 'chkPassiveMode', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
+    SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
+    if not gConnection.OpenSSH then
+      SendDlgMsg(pDlg, 'chkOnlySCP', DM_SETCHECK, 0, 0)
+    else begin
+      SendDlgMsg(pDlg, 'chkShowHidden', DM_SETCHECK, 0, 0);
+      SendDlgMsg(pDlg, 'chkPassiveMode', DM_SETCHECK, 0, 0);
+      SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_SETCHECK, 0, 0);
+    end;
+  end;
+end;
+
 function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
   Data: PtrInt;
@@ -119,14 +137,14 @@ begin
           SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, Data, 0);
           Data:= PtrInt(gConnection.OpenSSH);
           SendDlgMsg(pDlg, 'chkOpenSSH', DM_SETCHECK, Data, 0);
+          Data:= PtrInt(gConnection.OnlySCP);
+          SendDlgMsg(pDlg, 'chkOnlySCP', DM_SETCHECK, Data, 0);
           Data:= PtrInt(gConnection.ShowHiddenItems);
           SendDlgMsg(pDlg, 'chkShowHidden', DM_SETCHECK, Data, 0);
           Data:= PtrInt(gConnection.KeepAliveTransfer);
           SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_SETCHECK, Data, 0);
 
-          SendDlgMsg(pDlg, 'chkShowHidden', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
-          SendDlgMsg(pDlg, 'chkPassiveMode', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
-          SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
+          EnableControls(pDlg);
         end;
       DN_CHANGE:
         begin
@@ -142,6 +160,7 @@ begin
             gConnection.AutoTLS:= Boolean(Data);
             if gConnection.AutoTLS then
             begin
+              gConnection.OpenSSH:= False;
               if not InitSSLInterface then
               begin
                 ShowWarningSSL;
@@ -151,6 +170,7 @@ begin
               end;
               SendDlgMsg(pDlg, 'chkOpenSSH', DM_SETCHECK, 0, 0);
             end;
+            EnableControls(pDlg);
           end
         else if DlgItemName = 'chkOpenSSH' then
           begin
@@ -158,13 +178,8 @@ begin
             gConnection.OpenSSH:= Boolean(Data);
             if gConnection.OpenSSH then
             begin
-              if libssh2 <> NilHandle then
+              if libssh2 = NilHandle then
               begin
-                SendDlgMsg(pDlg, 'chkShowHidden', DM_SETCHECK, 0, 0);
-                SendDlgMsg(pDlg, 'chkPassiveMode', DM_SETCHECK, 0, 0);
-                SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_SETCHECK, 0, 0);
-              end
-              else begin
                 ShowWarningSSH;
                 gConnection.OpenSSH:= False;
                 Data:= PtrInt(gConnection.OpenSSH);
@@ -172,9 +187,7 @@ begin
                end;
               SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, 0, 0);
             end;
-            SendDlgMsg(pDlg, 'chkShowHidden', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
-            SendDlgMsg(pDlg, 'chkPassiveMode', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
-            SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
+            EnableControls(pDlg);
           end;
         end;
       DN_CLICK:
@@ -237,6 +250,8 @@ begin
             gConnection.PassiveMode:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkAutoTLS', DM_GETCHECK, 0, 0);
             gConnection.AutoTLS:= Boolean(Data);
+            Data:= SendDlgMsg(pDlg, 'chkOnlySCP', DM_GETCHECK, 0, 0);
+            gConnection.OnlySCP:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkShowHidden', DM_GETCHECK, 0, 0);
             gConnection.ShowHiddenItems:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_GETCHECK, 0, 0);
