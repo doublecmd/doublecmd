@@ -19,17 +19,19 @@ type
 implementation
 
 uses
-  Forms, Controls, Gtk2Extra, Gtk2Def, Gtk2Proc, Glib2, Gdk2, Gtk2, Gdk2x, XLib;
+  Forms, Controls, Gtk2Extra, Gtk2Def, Gtk2Proc, Glib2, Gdk2, Gtk2, Gdk2x, X, XLib;
 
 procedure XSetWindowCursor(AWindow: PGdkWindow; ACursor: PGdkCursor);
+var
+  XCursor: TCursor = None;
 begin
   gdk_window_set_cursor(AWindow, ACursor);
-  if Assigned(ACursor) then
-  begin
-    XDefineCursor(gdk_x11_get_default_xdisplay,
-                  gdk_x11_drawable_get_xid(AWindow),
-                  gdk_x11_cursor_get_xcursor(ACursor));
+  if Assigned(ACursor) then begin
+    XCursor:= gdk_x11_cursor_get_xcursor(ACursor)
   end;
+  XDefineCursor(gdk_x11_get_default_xdisplay,
+                gdk_x11_drawable_get_xid(AWindow),
+                XCursor);
 end;
 
 {------------------------------------------------------------------------------
@@ -164,6 +166,7 @@ end;
 
 function TGtk2WidgetSetEx.SetCursor(ACursor: HICON): HCURSOR;
 begin
+  gdk_window_get_cursor:= nil;
   // set global gtk cursor
   Result := FGlobalCursor;
   if ACursor = FGlobalCursor then Exit;
