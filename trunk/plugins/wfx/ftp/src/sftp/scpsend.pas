@@ -485,7 +485,13 @@ begin
       end;
       DoProgress((FileSize - TotalBytesToWrite) * 100 div FileSize);
     end;
-    Result:= True;
+    // Close remote file
+    repeat
+      FLastError:= libssh2_channel_send_eof(TargetHandle);
+      DoProgress(100);
+      FSock.CanRead(10);
+    until FLastError <> LIBSSH2_ERROR_EAGAIN;
+    Result:= (FLastError = 0);
   finally
     SendStream.Free;
     FreeMem(FBuffer);
