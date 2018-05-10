@@ -283,12 +283,10 @@ object DialogBox: TDialogBox
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = chkAutoTLS
         AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = lblName
-        AnchorSideRight.Side = asrBottom
         Left = 63
         Height = 19
         Top = 79
-        Width = 41
+        Width = 48
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 4
         Caption = 'SSH'
