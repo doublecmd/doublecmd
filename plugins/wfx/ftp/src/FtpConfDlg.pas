@@ -144,6 +144,11 @@ begin
           Data:= PtrInt(gConnection.KeepAliveTransfer);
           SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_SETCHECK, Data, 0);
 
+          Data:= PtrInt(PAnsiChar(gConnection.PublicKey));
+          SendDlgMsg(pDlg, 'fnePublicKey', DM_SETTEXT, Data, 0);
+          Data:= PtrInt(PAnsiChar(gConnection.PrivateKey));
+          SendDlgMsg(pDlg, 'fnePrivateKey', DM_SETTEXT, Data, 0);
+
           EnableControls(pDlg);
         end;
       DN_CHANGE:
@@ -256,6 +261,12 @@ begin
             gConnection.ShowHiddenItems:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_GETCHECK, 0, 0);
             gConnection.KeepAliveTransfer:= Boolean(Data);
+
+            Data:= SendDlgMsg(pDlg, 'fnePublicKey', DM_GETTEXT, 0, 0);
+            gConnection.PublicKey:= PAnsiChar(Data);
+            Data:= SendDlgMsg(pDlg, 'fnePrivateKey', DM_GETTEXT, 0, 0);
+            gConnection.PrivateKey:= PAnsiChar(Data);
+
             if gConnection.FullSSL and (InitSSLInterface = False) then
             begin;
               ShowWarningSSL;

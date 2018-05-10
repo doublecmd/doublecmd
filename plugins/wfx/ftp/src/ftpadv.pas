@@ -94,6 +94,7 @@ type
     ConvertFromUtf8: TConvertUTF8ToEncodingFunc;
   protected
     FEncoding: String;
+    FPublicKey, FPrivateKey: String;
     function Connect: Boolean; override;
     function DataSocket: Boolean; override;
     function ListMachine(Directory: String): Boolean;
@@ -123,6 +124,8 @@ type
   public
     property UseAllocate: Boolean write FUseAllocate;
     property TcpKeepAlive: Boolean write FTcpKeepAlive;
+    property PublicKey: String read FPublicKey write FPublicKey;
+    property PrivateKey: String read FPrivateKey write FPrivateKey;
     property ShowHidden: Boolean read FShowHidden write FShowHidden;
     property KeepAliveTransfer: Boolean read FKeepAliveTransfer write FKeepAliveTransfer;
   end;
