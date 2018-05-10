@@ -57,16 +57,16 @@ object DialogBox: TDialogBox
     TabOrder = 0
     object tsGeneral: TTabSheet
       Caption = 'General'
-      ClientHeight = 383
+      ClientHeight = 388
       ClientWidth = 412
       object lblName: TLabel
         AnchorSideLeft.Control = Owner
         AnchorSideTop.Control = edtName
         AnchorSideTop.Side = asrCenter
         Left = 12
-        Height = 20
+        Height = 15
         Top = 16
-        Width = 119
+        Width = 98
         BorderSpacing.Left = 12
         Caption = 'Connection name:'
         ParentColor = False
@@ -77,7 +77,7 @@ object DialogBox: TDialogBox
         AnchorSideTop.Control = Owner
         AnchorSideRight.Side = asrBottom
         Left = 142
-        Height = 28
+        Height = 23
         Top = 12
         Width = 260
         Anchors = [akTop, akLeft, akRight]
@@ -91,9 +91,9 @@ object DialogBox: TDialogBox
         AnchorSideTop.Control = edtHost
         AnchorSideTop.Side = asrCenter
         Left = 12
-        Height = 20
+        Height = 15
         Top = 48
-        Width = 73
+        Width = 61
         BorderSpacing.Left = 12
         Caption = 'Host[:Port]:'
         ParentColor = False
@@ -105,7 +105,7 @@ object DialogBox: TDialogBox
         AnchorSideRight.Control = edtName
         AnchorSideRight.Side = asrBottom
         Left = 142
-        Height = 28
+        Height = 23
         Top = 44
         Width = 260
         Anchors = [akTop, akLeft, akRight]
@@ -117,9 +117,9 @@ object DialogBox: TDialogBox
         AnchorSideTop.Control = edtUserName
         AnchorSideTop.Side = asrCenter
         Left = 12
-        Height = 20
+        Height = 15
         Top = 111
-        Width = 73
+        Width = 59
         BorderSpacing.Left = 12
         Caption = 'User name:'
         ParentColor = False
@@ -131,7 +131,7 @@ object DialogBox: TDialogBox
         AnchorSideRight.Control = btnAnonymous
         AnchorSideRight.Side = asrBottom
         Left = 142
-        Height = 28
+        Height = 23
         Top = 107
         Width = 260
         Anchors = [akTop, akLeft, akRight]
@@ -161,8 +161,8 @@ object DialogBox: TDialogBox
         AnchorSideRight.Control = edtPassword
         AnchorSideRight.Side = asrBottom
         Left = 142
-        Height = 28
-        Top = 239
+        Height = 23
+        Top = 224
         Width = 260
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
@@ -173,9 +173,9 @@ object DialogBox: TDialogBox
         AnchorSideTop.Control = edtRemoteDir
         AnchorSideTop.Side = asrCenter
         Left = 12
-        Height = 20
-        Top = 243
-        Width = 77
+        Height = 15
+        Top = 228
+        Width = 61
         BorderSpacing.Left = 12
         Caption = 'Remote dir:'
         ParentColor = False
@@ -187,7 +187,7 @@ object DialogBox: TDialogBox
         AnchorSideRight.Control = edtUserName
         AnchorSideRight.Side = asrBottom
         Left = 142
-        Height = 28
+        Height = 23
         Top = 139
         Width = 260
         Anchors = [akTop, akLeft, akRight]
@@ -201,9 +201,9 @@ object DialogBox: TDialogBox
         AnchorSideTop.Control = edtPassword
         AnchorSideTop.Side = asrCenter
         Left = 12
-        Height = 20
+        Height = 15
         Top = 143
-        Width = 64
+        Width = 53
         BorderSpacing.Left = 12
         Caption = 'Password:'
         ParentColor = False
@@ -213,9 +213,9 @@ object DialogBox: TDialogBox
         AnchorSideTop.Control = lblPassword
         AnchorSideTop.Side = asrBottom
         Left = 12
-        Height = 24
-        Top = 175
-        Width = 326
+        Height = 19
+        Top = 170
+        Width = 259
         BorderSpacing.Left = 12
         BorderSpacing.Top = 12
         Caption = 'Use master password to protect the password'
@@ -246,8 +246,8 @@ object DialogBox: TDialogBox
         AnchorSideRight.Control = edtRemoteDir
         AnchorSideRight.Side = asrBottom
         Left = 142
-        Height = 28
-        Top = 273
+        Height = 23
+        Top = 253
         Width = 260
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
@@ -258,9 +258,9 @@ object DialogBox: TDialogBox
         AnchorSideTop.Control = edtInitCommands
         AnchorSideTop.Side = asrCenter
         Left = 12
-        Height = 20
-        Top = 277
-        Width = 101
+        Height = 15
+        Top = 257
+        Width = 83
         BorderSpacing.Left = 12
         Caption = 'Init commands:'
         ParentColor = False
@@ -270,9 +270,9 @@ object DialogBox: TDialogBox
         AnchorSideTop.Control = btnAnonymous
         AnchorSideTop.Side = asrCenter
         Left = 12
-        Height = 24
-        Top = 76
-        Width = 47
+        Height = 19
+        Top = 79
+        Width = 39
         BorderSpacing.Left = 12
         Caption = 'TLS'
         OnChange = CheckBoxChange
@@ -286,9 +286,9 @@ object DialogBox: TDialogBox
         AnchorSideRight.Control = lblName
         AnchorSideRight.Side = asrBottom
         Left = 63
-        Height = 24
-        Top = 76
-        Width = 57
+        Height = 19
+        Top = 79
+        Width = 41
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 4
         Caption = 'SSH'
@@ -302,12 +302,12 @@ object DialogBox: TDialogBox
         AnchorSideRight.Control = edtPassword
         AnchorSideRight.Side = asrBottom
         Left = 142
-        Height = 28
-        Top = 205
+        Height = 23
+        Top = 195
         Width = 260
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
-        ItemHeight = 20
+        ItemHeight = 15
         ItemIndex = 0
         Items.Strings = (
           'Auto'
@@ -344,9 +344,9 @@ object DialogBox: TDialogBox
         AnchorSideTop.Control = cmbEncoding
         AnchorSideTop.Side = asrCenter
         Left = 12
-        Height = 20
-        Top = 209
-        Width = 65
+        Height = 15
+        Top = 199
+        Width = 53
         BorderSpacing.Left = 12
         Caption = 'Encoding:'
         ParentColor = False
@@ -354,7 +354,7 @@ object DialogBox: TDialogBox
     end
     object tsAdvanced: TTabSheet
       Caption = 'Advanced'
-      ClientHeight = 383
+      ClientHeight = 388
       ClientWidth = 412
       object gbFTP: TGroupBox
         AnchorSideLeft.Control = tsAdvanced
@@ -362,7 +362,7 @@ object DialogBox: TDialogBox
         AnchorSideRight.Control = tsAdvanced
         AnchorSideRight.Side = asrBottom
         Left = 6
-        Height = 109
+        Height = 89
         Top = 6
         Width = 400
         Anchors = [akTop, akLeft, akRight]
@@ -373,16 +373,16 @@ object DialogBox: TDialogBox
         Caption = 'FTP'
         ChildSizing.LeftRightSpacing = 6
         ChildSizing.TopBottomSpacing = 6
-        ClientHeight = 84
+        ClientHeight = 69
         ClientWidth = 396
         TabOrder = 0
         object chkPassiveMode: TCheckBox
           AnchorSideLeft.Control = gbFTP
           AnchorSideTop.Control = gbFTP
           Left = 6
-          Height = 24
+          Height = 19
           Top = 6
-          Width = 378
+          Width = 299
           Caption = 'Use passive mode for transfers (like a WWW browser)'
           Checked = True
           State = cbChecked
@@ -393,9 +393,9 @@ object DialogBox: TDialogBox
           AnchorSideTop.Control = chkPassiveMode
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 24
-          Top = 30
-          Width = 330
+          Height = 19
+          Top = 25
+          Width = 265
           Caption = 'Use ''LIST -la'' command to reveal hidden items'
           TabOrder = 1
         end
@@ -404,9 +404,9 @@ object DialogBox: TDialogBox
           AnchorSideTop.Control = chkShowHidden
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 24
-          Top = 54
-          Width = 237
+          Height = 19
+          Top = 44
+          Width = 188
           Caption = 'Send keepalive during a transfer'
           TabOrder = 2
         end
@@ -418,8 +418,8 @@ object DialogBox: TDialogBox
         AnchorSideRight.Control = gbFTP
         AnchorSideRight.Side = asrBottom
         Left = 6
-        Height = 201
-        Top = 121
+        Height = 166
+        Top = 101
         Width = 400
         Anchors = [akTop, akLeft, akRight]
         AutoSize = True
@@ -427,16 +427,16 @@ object DialogBox: TDialogBox
         Caption = 'SSH'
         ChildSizing.LeftRightSpacing = 6
         ChildSizing.TopBottomSpacing = 6
-        ClientHeight = 176
+        ClientHeight = 146
         ClientWidth = 396
         TabOrder = 1
         object chkOnlySCP: TCheckBox
           AnchorSideLeft.Control = gbSSH
           AnchorSideTop.Control = gbSSH
           Left = 6
-          Height = 24
+          Height = 19
           Top = 6
-          Width = 241
+          Width = 194
           Caption = 'Use SSH+SCP protocol (no SFTP)'
           TabOrder = 0
         end
@@ -446,8 +446,8 @@ object DialogBox: TDialogBox
           AnchorSideRight.Control = gbSSH
           AnchorSideRight.Side = asrBottom
           Left = 6
-          Height = 20
-          Top = 36
+          Height = 15
+          Top = 31
           Width = 384
           Caption = 'Client certificate for authentication:'
           Anchors = [akTop, akLeft, akRight]
@@ -459,9 +459,9 @@ object DialogBox: TDialogBox
           AnchorSideTop.Control = DividerBevel
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 20
-          Top = 62
-          Width = 143
+          Height = 15
+          Top = 52
+          Width = 116
           BorderSpacing.Top = 6
           Caption = 'Public key file (*.pub):'
           ParentColor = False
@@ -473,8 +473,8 @@ object DialogBox: TDialogBox
           AnchorSideRight.Control = gbSSH
           AnchorSideRight.Side = asrBottom
           Left = 6
-          Height = 28
-          Top = 86
+          Height = 23
+          Top = 71
           Width = 384
           FilterIndex = 0
           HideDirectories = False
@@ -490,9 +490,9 @@ object DialogBox: TDialogBox
           AnchorSideTop.Control = fnePublicKey
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 20
-          Top = 118
-          Width = 152
+          Height = 15
+          Top = 98
+          Width = 122
           BorderSpacing.Top = 4
           Caption = 'Private key file (*.pem):'
           ParentColor = False
@@ -504,8 +504,8 @@ object DialogBox: TDialogBox
           AnchorSideRight.Control = gbSSH
           AnchorSideRight.Side = asrBottom
           Left = 6
-          Height = 28
-          Top = 142
+          Height = 23
+          Top = 117
           Width = 384
           FilterIndex = 0
           HideDirectories = False
