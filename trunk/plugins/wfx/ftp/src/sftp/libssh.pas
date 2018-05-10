@@ -222,6 +222,9 @@ var
                                                      const username: PAnsiChar;
                                                      username_len: cuint;
                                                      response_callback: LIBSSH2_USERAUTH_KBDINT_RESPONSE_FUNC): cint; cdecl;
+  libssh2_userauth_publickey_fromfile_ex: function(session: PLIBSSH2_SESSION;
+                                                   const username: PAnsiChar; username_len: cuint;
+                                                   const publickey, privatekey, passphrase: PAnsiChar): cint; cdecl;
   //* Channel API */
   libssh2_channel_open_ex: function(session: PLIBSSH2_SESSION; const channel_type: PAnsiChar;
                           channel_type_len, window_size, packet_size: cuint;
@@ -298,6 +301,7 @@ var
   function libssh2_session_disconnect(session: PLIBSSH2_SESSION; const description: PAnsiChar): cint; inline;
   function libssh2_userauth_password(session: PLIBSSH2_SESSION; const username: PAnsiChar; const password: PAnsiChar): cint; inline;
   function libssh2_userauth_keyboard_interactive(session: PLIBSSH2_SESSION; const username: PAnsiChar; response_callback: LIBSSH2_USERAUTH_KBDINT_RESPONSE_FUNC): cint; inline;
+  function libssh2_userauth_publickey_fromfile(session: PLIBSSH2_SESSION; const username, publickey, privatekey, passphrase: PAnsiChar): cint; inline;
   function libssh2_channel_open_session(session: PLIBSSH2_SESSION): PLIBSSH2_CHANNEL; inline;
   function libssh2_channel_exec(channel: PLIBSSH2_CHANNEL; command: PAnsiChar): cint; inline;
   function libssh2_channel_flush(channel: PLIBSSH2_CHANNEL): cint; inline;
@@ -376,6 +380,12 @@ function libssh2_userauth_keyboard_interactive(session: PLIBSSH2_SESSION;
   response_callback: LIBSSH2_USERAUTH_KBDINT_RESPONSE_FUNC): cint;
 begin
   Result:= libssh2_userauth_keyboard_interactive_ex(session, username, strlen(username), response_callback);
+end;
+
+function libssh2_userauth_publickey_fromfile(session: PLIBSSH2_SESSION;
+  const username, publickey, privatekey, passphrase: PAnsiChar): cint;
+begin
+  Result:= libssh2_userauth_publickey_fromfile_ex(session, username, strlen(username), publickey, privatekey, passphrase);
 end;
 
 function libssh2_channel_open_session(session: PLIBSSH2_SESSION): PLIBSSH2_CHANNEL;
@@ -517,6 +527,7 @@ begin
     libssh2_userauth_list:= SafeGetProcAddress(libssh2, 'libssh2_userauth_list');
     libssh2_userauth_password_ex:= SafeGetProcAddress(libssh2, 'libssh2_userauth_password_ex');
     libssh2_userauth_keyboard_interactive_ex:= SafeGetProcAddress(libssh2, 'libssh2_userauth_keyboard_interactive_ex');
+    libssh2_userauth_publickey_fromfile_ex:= SafeGetProcAddress(libssh2, 'libssh2_userauth_publickey_fromfile_ex');
 
     //* Channel API */
     libssh2_channel_open_ex:= SafeGetProcAddress(libssh2, 'libssh2_channel_open_ex');

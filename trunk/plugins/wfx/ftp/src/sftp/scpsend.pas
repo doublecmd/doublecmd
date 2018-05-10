@@ -52,6 +52,7 @@ type
     SourceName, TargetName: PWideChar;
     procedure DoProgress(Percent: Int64);
   protected
+    function AuthKey: Boolean;
     function Connect: Boolean; override;
   public
     constructor Create(const Encoding: String); override;
@@ -80,7 +81,7 @@ implementation
 
 uses
   CTypes, LazUTF8, FtpFunc, DCStrUtils, DCClassesUtf8, DCOSUtils, DCDateTimeUtils,
-  DCBasicTypes;
+  DCBasicTypes, DCConvertEncoding, FileUtil, Base64;
 
 const
   SMB_BUFFER_SIZE = 131072;
@@ -213,6 +214,62 @@ begin
     raise EUserAbort.Create(EmptyStr);
 end;
 
+function TScpSend.AuthKey: Boolean;
+const
+  Alphabet = ['a'..'z','A'..'Z','0'..'9','+','/','=', #10, #13];
+var
+  Index: Integer;
+  Memory: PAnsiChar;
+  PrivateStream: String;
+  Encrypted: Boolean = False;
+  Passphrase: AnsiString = '';
+  Title, Message, Password: UnicodeString;
+begin
+  PrivateStream:= ReadFileToString(FPrivateKey);
+  // Check private key format
+  Index:= Pos(#10, PrivateStream);
+  if Index = 0 then Index:= Pos(#13, PrivateStream);
+  if Index > 0 then begin
+    // Skip first line and empty lines
+    Memory:= Pointer(@PrivateStream[Index]) + 1;
+    while Memory^ in [#10, #13] do Inc(Memory);
+    // Check old private key format
+    for Index:= 0 to 31 do
+    begin
+      if (not (Memory[Index] in Alphabet)) then
+      begin
+        Encrypted:= True;
+        Break;
+      end;
+    end;
+    // Check new OpenSSH private key format
+    if not Encrypted then
+    begin
+      if Pos('-----BEGIN OPENSSH PRIVATE KEY-----', PrivateStream) > 0 then
+      begin
+        Passphrase:= DecodeStringBase64(Memory);
+        Index:= Pos('bcrypt', Passphrase);
+        Encrypted:= (Index > 0) and (Index <= 64);
+      end;
+    end;
+  end;
+  // Private key encrypted, request pass phrase
+  if Encrypted then
+  begin
+    SetLength(Password, MAX_PATH + 1);
+    Message:= 'Private key pass phrase:';
+    Title+= 'ssh://' + UTF8ToUTF16(FUserName + '@' + FTargetHost);
+    if RequestProc(PluginNumber, RT_Password, PWideChar(Title), PWideChar(Message), PWideChar(Password), MAX_PATH) then
+    begin
+      Passphrase:= ClientToServer(Password);
+    end;
+  end;
+  Result:= libssh2_userauth_publickey_fromfile(FSession, PAnsiChar(FUserName),
+                                               PAnsiChar(CeUtf8ToSys(FPublicKey)),
+                                               PAnsiChar(CeUtf8ToSys(FPrivateKey)),
+                                               PAnsiChar(Passphrase)) = 0;
+end;
+
 function TScpSend.Connect: Boolean;
 const
   HOSTKEY_SIZE = 20;
@@ -241,6 +298,8 @@ begin
         DoStatus(False, 'Cannot establishing SSH session');
         Exit(False);
       end;
+      LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
+
       DoStatus(False, 'Connection established');
       FingerPrint := libssh2_hostkey_hash(FSession, LIBSSH2_HOSTKEY_HASH_SHA1);
       S:= 'Server fingerprint:';
@@ -253,7 +312,15 @@ begin
       //* check what authentication methods are available */
       userauthlist := libssh2_userauth_list(FSession, PAnsiChar(FUserName), Length(FUserName));
 
-      if (strpos(userauthlist, 'password') <> nil) then
+      if (strpos(userauthlist, 'publickey') <> nil) and (FPublicKey <> '') and (FPrivateKey <> '') then
+      begin
+        DoStatus(False, 'Auth via public key for user: ' + FUserName);
+        if not AuthKey then begin
+          DoStatus(False, 'Authentication by publickey failed');
+          Exit(False);
+        end;
+      end
+      else if (strpos(userauthlist, 'password') <> nil) then
       begin
         I:= libssh2_userauth_password(FSession, PAnsiChar(FUserName), PAnsiChar(FPassword));
         if I <> 0 then begin
@@ -271,11 +338,6 @@ begin
           Exit(False);
         end;
         libssh2_session_set_timeout(FSession, FTimeout);
-      end
-      else if (strpos(userauthlist, 'publickey') <> nil) then
-      begin
-        DoStatus(False, 'Authentication by publickey is not supported!');
-        Exit(False);
       end;
 
       DoStatus(False, 'Authentication succeeded');

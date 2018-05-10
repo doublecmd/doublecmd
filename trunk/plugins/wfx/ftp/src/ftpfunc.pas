@@ -53,6 +53,7 @@ type
     ShowHiddenItems: Boolean;
     PasswordChanged: Boolean;
     KeepAliveTransfer: Boolean;
+    PublicKey, PrivateKey: String;
   public
     procedure Assign(Connection: TConnection);
   end;
@@ -170,6 +171,8 @@ begin
     Connection.OpenSSH:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'OpenSSH', False);
     Connection.OnlySCP:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'OnlySCP', False);
     Connection.UseAllocate:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'UseAllocate', False);
+    Connection.PublicKey := IniFile.ReadString('FTP', 'Connection' + sIndex + 'PublicKey', EmptyStr);
+    Connection.PrivateKey := IniFile.ReadString('FTP', 'Connection' + sIndex + 'PrivateKey', EmptyStr);
     Connection.InitCommands := IniFile.ReadString('FTP', 'Connection' + sIndex + 'InitCommands', EmptyStr);
     Connection.ShowHiddenItems := IniFile.ReadBool('FTP', 'Connection' + sIndex + 'ShowHiddenItems', True);
     Connection.KeepAliveTransfer := IniFile.ReadBool('FTP', 'Connection' + sIndex + 'KeepAliveTransfer', False);
@@ -208,6 +211,8 @@ begin
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'OpenSSH', Connection.OpenSSH);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'OnlySCP', Connection.OnlySCP);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'UseAllocate', Connection.UseAllocate);
+    IniFile.WriteString('FTP', 'Connection' + sIndex + 'PublicKey', Connection.PublicKey);
+    IniFile.WriteString('FTP', 'Connection' + sIndex + 'PrivateKey', Connection.PrivateKey);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'InitCommands', Connection.InitCommands);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'ShowHiddenItems', Connection.ShowHiddenItems);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'KeepAliveTransfer', Connection.KeepAliveTransfer);
@@ -320,8 +325,11 @@ begin
         begin
           if Connection.OnlySCP then
             FtpSend := TScpSend.Create(Connection.Encoding)
-          else
+          else begin
             FtpSend := TSftpSend.Create(Connection.Encoding)
+          end;
+          FtpSend.PublicKey:= Connection.PublicKey;
+          FtpSend.PrivateKey:= Connection.PrivateKey;
         end
         else begin
           FtpSend := TFTPSendEx.Create(Connection.Encoding);
@@ -1122,6 +1130,8 @@ begin
   UserName:= Connection.UserName;
   Password:= Connection.Password;
   Encoding:= Connection.Encoding;
+  PublicKey:= Connection.PublicKey;
+  PrivateKey:= Connection.PrivateKey;
   PassiveMode:= Connection.PassiveMode;
   UseAllocate:= Connection.UseAllocate;
   InitCommands:= Connection.InitCommands;
