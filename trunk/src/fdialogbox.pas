@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Types, Buttons, ExtCtrls, EditBtn, Extension, ComCtrls;
+  Types, Buttons, ExtCtrls, EditBtn, Extension, ComCtrls, DividerBevel;
 
 type
 
@@ -48,6 +48,7 @@ type
     DialogImage: TImage;
     DialogTabSheet: TTabSheet;
     DialogPageControl: TPageControl;
+    DialogDividerBevel: TDividerBevel;
     // Dialog events
     procedure DialogBoxShow(Sender: TObject);
     // Button events
