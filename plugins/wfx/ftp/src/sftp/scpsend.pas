@@ -429,8 +429,34 @@ begin
 end;
 
 function TScpSend.ExecuteCommand(const Command: String): Boolean;
+var
+  Index: Integer;
+  Answer: TStringList;
 begin
-  Result:= SendCommand(Command, FAnswer);
+  FDataStream.Clear;
+  Result:= OpenChannel;
+  if Result then
+  begin
+    Result:= SendCommand(Command);
+    if Result then
+    begin
+      Result:= DataRead(FDataStream);
+      if Result then
+      begin
+        FDataStream.Position:= 0;
+        Answer:= TStringList.Create;
+        try
+          Answer.LoadFromStream(FDataStream);
+          for Index:= 0 to Answer.Count - 1 do
+            DoStatus(True, Answer.Strings[Index]);
+        finally
+          Answer.Free;
+        end;
+      end;
+      FDataStream.Clear;
+    end;
+    CloseChannel(FChannel);
+  end;
 end;
 
 function TScpSend.ChangeWorkingDir(const Directory: string): Boolean;
