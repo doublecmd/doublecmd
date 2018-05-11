@@ -151,9 +151,8 @@ function TScpSend.OpenChannel: Boolean;
 begin
   repeat
     FChannel := libssh2_channel_open_session(FSession);
-    if Assigned(FChannel) then
-      libssh2_channel_set_blocking(FChannel, 0)
-    else begin
+    if not Assigned(FChannel) then
+    begin
       FLastError:= libssh2_session_last_errno(FSession);
       if (FLastError <> LIBSSH2_ERROR_EAGAIN) then Exit(False);
     end;
