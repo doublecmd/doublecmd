@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Version information about DC, building tools and running environment.
 
-   Copyright (C) 2006-2017  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -71,7 +71,7 @@ uses
   , gtk2
   {$ENDIF}
   {$IFDEF MSWINDOWS}
-  , Windows, JwaNative, JwaNtStatus, JwaWinType
+  , Windows, JwaNative, JwaNtStatus, JwaWinType, uMyWindows
   {$ENDIF}
   {$if lcl_fullversion >= 1070000}
   , LCLPlatformDef
@@ -283,9 +283,11 @@ procedure InitializeVersionInfo;
 {$IF DEFINED(MSWINDOWS)}
 const
   PROCESSOR_ARCHITECTURE_AMD64 = 9;
+  CURRENT_VERSION = 'SOFTWARE\Microsoft\Windows NT\CurrentVersion';
 var
   si: SYSTEM_INFO;
   osvi: TOsVersionInfoExW;
+  ReleaseId: UnicodeString;
 {$ENDIF}
 begin
   TargetWS := LCLPlatformDirNames[WidgetSet.LCLPlatform];
@@ -368,6 +370,8 @@ begin
                       OSVersion := OSVersion + ' 10';
                       if (osvi.wSuiteMask and VER_SUITE_PERSONAL <> 0) then
                         OSVersion := OSVersion + ' Home';
+                      if RegReadKey(HKEY_LOCAL_MACHINE, CURRENT_VERSION, 'ReleaseId', ReleaseId) then
+                        OSVersion := OSVersion + ' ' + String(ReleaseId);
                     end
               end;
           end;
