@@ -36,6 +36,8 @@ type
 
   TScpSend = class(TFTPSendEx)
   private
+    FAutoDetect: Boolean;
+    FListCommand: String;
     FChannel: PLIBSSH2_CHANNEL;
   private
     function OpenChannel: Boolean;
@@ -85,6 +87,8 @@ uses
 
 const
   SMB_BUFFER_SIZE = 131072;
+  LIST_TIME_STYLE = ' --time-style=+%Y.%m.%d-%H:%M:%S';
+  LIST_LOCALE_C   = 'export LC_TIME=C' + #10 + 'export LC_MESSAGES=C' + #10;
 
 procedure userauth_kbdint(const name: PAnsiChar; name_len: cint;
                           const instruction: PAnsiChar; instruction_len: cint;
@@ -125,7 +129,7 @@ begin
         Title:= Sender.ServerToClient(S) + #32;
       end;
       SetLength(Password, MAX_PATH + 1);
-      Title+= 'sftp://' + UTF8ToUTF16(Sender.UserName + '@' + Sender.TargetHost);
+      Title+= 'ssh://' + UTF8ToUTF16(Sender.UserName + '@' + Sender.TargetHost);
       if not RequestProc(PluginNumber, RT_Password, PWideChar(Title), PWideChar(Message), PWideChar(Password), MAX_PATH) then
       begin
         responses[I].text:= nil;
@@ -355,11 +359,36 @@ begin
   FCurrentDir:= '/';
   inherited Create(Encoding);
   FTargetPort:= '22';
+  FListCommand:= 'ls -la';
 end;
 
 function TScpSend.Login: Boolean;
+var
+  ACommand: String;
 begin
   Result:= Connect;
+  if Result then
+  begin
+    if not FAutoDetect then
+    begin
+      FAutoDetect:= True;
+      // Try to use custom time style
+      ACommand:= LIST_LOCALE_C + FListCommand + LIST_TIME_STYLE;
+      if SendCommand(ACommand + ' > /dev/null', FAnswer) then
+      begin
+        FListCommand:= ACommand;
+        FFtpList.Masks.Insert(0, 'pppppppppp $!!!S* YYYY MM DD hh mm ss $n*');
+      end
+      else begin
+        // Try to use 'C' locale
+        ACommand:= LIST_LOCALE_C + FListCommand;
+        if SendCommand(ACommand + ' > /dev/null', FAnswer) then
+        begin
+          FListCommand:= ACommand
+        end;
+      end;
+    end;
+  end;
 end;
 
 function TScpSend.Logout: Boolean;
@@ -589,7 +618,7 @@ begin
     if Directory <> '' then begin
       Directory := ' ' + EscapeNoQuotes(Directory);
     end;
-    Result:= SendCommand('ls -la' + Directory);
+    Result:= SendCommand(FListCommand + Directory);
     if Result then
     begin
       Result:= DataRead(FDataStream);
