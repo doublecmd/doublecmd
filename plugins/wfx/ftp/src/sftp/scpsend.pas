@@ -319,7 +319,7 @@ begin
       begin
         DoStatus(False, 'Auth via public key for user: ' + FUserName);
         if not AuthKey then begin
-          DoStatus(False, 'Authentication by publickey failed');
+          LogProc(PluginNumber, msgtype_importanterror, 'Authentication by publickey failed');
           Exit(False);
         end;
       end
@@ -327,7 +327,7 @@ begin
       begin
         I:= libssh2_userauth_password(FSession, PAnsiChar(FUserName), PAnsiChar(FPassword));
         if I <> 0 then begin
-          DoStatus(False, 'Authentication by password failed');
+          LogProc(PluginNumber, msgtype_importanterror, 'Authentication by password failed');
           Exit(False);
         end;
       end
@@ -337,7 +337,7 @@ begin
         libssh2_session_set_timeout(FSession, 0);
         I:= libssh2_userauth_keyboard_interactive(FSession, PAnsiChar(FUserName), @userauth_kbdint);
         if I <> 0 then begin
-          DoStatus(False, 'Authentication by keyboard-interactive failed');
+          LogProc(PluginNumber, msgtype_importanterror, 'Authentication by keyboard-interactive failed');
           Exit(False);
         end;
         libssh2_session_set_timeout(FSession, FTimeout);
