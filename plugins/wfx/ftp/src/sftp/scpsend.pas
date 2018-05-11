@@ -628,7 +628,7 @@ begin
     Ret:= libssh2_channel_read(FChannel, ABuffer, 256);
     ERet:= libssh2_channel_read_stderr(FChannel, AEBuffer, 256);
     if (ERet > 0) then begin
-      DoStatus(True, AEBuffer);
+      LogProc(PluginNumber, msgtype_importanterror, PWideChar(ServerToClient(AEBuffer)));
     end;
     if Ret > 0 then DestStream.Write(ABuffer, Ret);
   until not ((Ret > 0) or (Ret = LIBSSH2_ERROR_EAGAIN));
