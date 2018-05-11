@@ -43,6 +43,7 @@ type
     function Connect: Boolean; override;
   public
     constructor Create(const Encoding: String); override;
+    function Login: Boolean; override;
     function Logout: Boolean; override;
     function GetCurrentDir: String; override;
     function FileSize(const FileName: String): Int64; override;
@@ -113,6 +114,11 @@ constructor TSftpSend.Create(const Encoding: String);
 begin
   inherited Create(Encoding);
   FCanResume := True;
+end;
+
+function TSftpSend.Login: Boolean;
+begin
+  Result:= Connect;
 end;
 
 function TSftpSend.Logout: Boolean;
