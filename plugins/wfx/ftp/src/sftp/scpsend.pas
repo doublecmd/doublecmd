@@ -437,7 +437,8 @@ begin
   Result:= OpenChannel;
   if Result then
   begin
-    Result:= SendCommand(Command);
+    DoStatus(False, Command);
+    Result:= SendCommand('cd ' + EscapeNoQuotes(FCurrentDir) + ' && ' + Command);
     if Result then
     begin
       Result:= DataRead(FDataStream);
