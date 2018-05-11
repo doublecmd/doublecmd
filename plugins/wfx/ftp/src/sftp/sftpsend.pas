@@ -50,7 +50,6 @@ type
     function CreateDir(const Directory: string): Boolean; override;
     function DeleteDir(const Directory: string): Boolean; override;
     function DeleteFile(const FileName: string): Boolean; override;
-    function ExecuteCommand(const Command: String): Boolean; override;
     function ChangeWorkingDir(const Directory: string): Boolean; override;
     function RenameFile(const OldName, NewName: string): Boolean; override;
     function ChangeMode(const FileName, Mode: String): Boolean; override;
@@ -169,11 +168,6 @@ end;
 function TSftpSend.DeleteFile(const FileName: string): Boolean;
 begin
   Result:= libssh2_sftp_unlink(FSFTPSession, PAnsiChar(FileName)) = 0;
-end;
-
-function TSftpSend.ExecuteCommand(const Command: String): Boolean;
-begin
-  Result:= False;
 end;
 
 function TSftpSend.ChangeWorkingDir(const Directory: string): Boolean;
@@ -368,7 +362,7 @@ begin
     FindRec.Handle:= Result;
     FsFindNextW(FindRec, FindData);
     Result:= FindRec;
-  end;
+end;
 end;
 
 function TSftpSend.FsFindNextW(Handle: Pointer; var FindData: TWin32FindDataW): BOOL;
