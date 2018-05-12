@@ -37,7 +37,7 @@ function ShowFtpConfDlg(Connection: TConnection): Boolean;
 implementation
 
 uses
-  LazUTF8, DynLibs, FtpUtils, blcksock, ssl_openssl_lib, libssh, FtpProxy;
+  LazUTF8, DynLibs, FtpUtils, blcksock, ssl_openssl_lib, libssh, FtpProxy, TypInfo;
 
 var
   ProxyIndex: Integer;
@@ -95,6 +95,13 @@ begin
     Result := IntToStr(Random(MaxInt));
 end;
 
+function GetProxyName(Proxy: TFtpProxy): String;
+begin
+  Result:= Proxy.Host;
+  if Proxy.Port <> '' then Result+= ':' + Proxy.Port;
+  Result+= ' (' + GetEnumName(TypeInfo(TProxyType), Integer(Proxy.ProxyType)) + ')';
+end;
+
 procedure LoadProxy(pDlg: PtrUInt);
 var
   Data: PtrInt;
@@ -146,6 +153,7 @@ begin
       Proxy.Port:= ExtractConnectionPort(Text);
       if Length(Text) > 0 then
       begin
+        Text:= GetProxyName(Proxy);
         Data:= PtrInt(PAnsiChar(Text));
         SendDlgMsg(pDlg, 'cmbProxy', DM_LISTUPDATE, ProxyIndex, Data);
       end;
@@ -160,6 +168,7 @@ end;
 procedure LoadProxyList(pDlg: PtrUInt);
 var
   Data: PtrInt;
+  Text: String;
   Index: Integer;
   Proxy: TFtpProxy;
 begin
@@ -171,7 +180,8 @@ begin
     for Index:= 0 to ProxyList.Count - 1 do
     begin
       Proxy:= TFtpProxy(ProxyList.Objects[Index]).Clone;
-      Data:= PtrInt(PAnsiChar(Proxy.Host));
+      Text:= GetProxyName(Proxy);
+      Data:= PtrInt(PAnsiChar(Text));
       SendDlgMsg(pDlg, 'cmbProxy', DM_LISTADD, Data, PtrInt(Proxy));
     end;
     SendDlgMsg(pDlg, 'cmbProxy', DM_LISTSETITEMINDEX, ProxyIndex, 0);
