@@ -516,5 +516,178 @@ object DialogBox: TDialogBox
         end
       end
     end
+    object tsProxy: TTabSheet
+      Caption = 'Proxy'
+      ClientHeight = 388
+      ClientWidth = 412
+      object pnlProxy: TPanel
+        Left = 0
+        Height = 56
+        Top = 0
+        Width = 412
+        Align = alTop
+        AutoSize = True
+        BevelOuter = bvNone
+        ChildSizing.LeftRightSpacing = 4
+        ChildSizing.TopBottomSpacing = 4
+        ClientHeight = 56
+        ClientWidth = 412
+        TabOrder = 0
+        object lblProxy: TLabel
+          AnchorSideLeft.Control = pnlProxy
+          AnchorSideTop.Control = pnlProxy
+          Left = 4
+          Height = 15
+          Top = 4
+          Width = 134
+          Caption = 'Use firewall (proxy server)'
+          ParentColor = False
+        end
+        object cmbProxy: TComboBox
+          AnchorSideLeft.Control = pnlProxy
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnAdd
+          Left = 4
+          Height = 23
+          Top = 28
+          Width = 339
+          Anchors = [akTop, akLeft, akRight]
+          ItemHeight = 15
+          OnChange = ComboBoxChange
+          Style = csDropDownList
+          TabOrder = 0
+        end
+        object btnAdd: TBitBtn
+          AnchorSideTop.Control = cmbProxy
+          AnchorSideTop.Side = asrCenter
+          AnchorSideRight.Control = btnDelete
+          Left = 343
+          Height = 25
+          Top = 27
+          Width = 34
+          Anchors = [akTop, akRight]
+          AutoSize = True
+          Caption = '+'
+          Font.Style = [fsBold]
+          OnClick = ButtonClick
+          ParentFont = False
+          TabOrder = 1
+        end
+        object btnDelete: TBitBtn
+          AnchorSideTop.Control = cmbProxy
+          AnchorSideTop.Side = asrCenter
+          AnchorSideRight.Control = pnlProxy
+          AnchorSideRight.Side = asrBottom
+          Left = 377
+          Height = 25
+          Top = 27
+          Width = 31
+          Anchors = [akTop, akRight]
+          AutoSize = True
+          Caption = '-'
+          Font.Style = [fsBold]
+          OnClick = ButtonClick
+          ParentFont = False
+          TabOrder = 2
+        end
+      end
+      object rgProxyType: TRadioGroup
+        AnchorSideLeft.Control = tsProxy
+        AnchorSideTop.Control = pnlProxy
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = tsProxy
+        AnchorSideRight.Side = asrBottom
+        Left = 0
+        Height = 77
+        Top = 56
+        Width = 412
+        Anchors = [akTop, akLeft, akRight]
+        AutoFill = True
+        AutoSize = True
+        Caption = 'Connect method'
+        ChildSizing.LeftRightSpacing = 6
+        ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+        ChildSizing.EnlargeVertical = crsHomogenousChildResize
+        ChildSizing.ShrinkHorizontal = crsScaleChilds
+        ChildSizing.ShrinkVertical = crsScaleChilds
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 1
+        ClientHeight = 57
+        ClientWidth = 408
+        Items.Strings = (
+          'SOCKS4'
+          'SOCKS5'
+          'HTTP CONNECT'
+        )
+        TabOrder = 1
+      end
+      object gbLogon: TGroupBox
+        AnchorSideLeft.Control = tsProxy
+        AnchorSideTop.Control = rgProxyType
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = tsProxy
+        AnchorSideRight.Side = asrBottom
+        Left = 0
+        Height = 101
+        Top = 133
+        Width = 412
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = True
+        Caption = 'Firewall logon'
+        ChildSizing.LeftRightSpacing = 6
+        ChildSizing.TopBottomSpacing = 6
+        ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 2
+        ClientHeight = 81
+        ClientWidth = 408
+        TabOrder = 2
+        object lblProxyHost: TLabel
+          Left = 6
+          Height = 23
+          Top = 6
+          Width = 189
+          Caption = '&Host name:'
+          ParentColor = False
+        end
+        object edtProxyHost: TEdit
+          Left = 195
+          Height = 23
+          Top = 6
+          Width = 207
+          TabOrder = 0
+        end
+        object lblProxyUser: TLabel
+          Left = 6
+          Height = 23
+          Top = 29
+          Width = 189
+          Caption = '&User name:'
+          ParentColor = False
+        end
+        object edtProxyUser: TEdit
+          Left = 195
+          Height = 23
+          Top = 29
+          Width = 207
+          TabOrder = 1
+        end
+        object lblProxyPassword: TLabel
+          Left = 6
+          Height = 23
+          Top = 52
+          Width = 189
+          Caption = '&Password:'
+          ParentColor = False
+        end
+        object edtProxyPassword: TEdit
+          Left = 195
+          Height = 23
+          Top = 52
+          Width = 207
+          TabOrder = 2
+        end
+      end
+    end
   end
 end
