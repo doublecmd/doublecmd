@@ -198,15 +198,16 @@ begin
   with gStartupInfo do
   begin
     ProxyList.Clear;
+    UpdateProxy(pDlg);
     Count:= SendDlgMsg(pDlg, 'cmbProxy', DM_LISTGETCOUNT, 0, 0);
     for Index:= 1 to Count - 1 do
     begin
       Proxy:= TFtpProxy(SendDlgMsg(pDlg, 'cmbProxy', DM_LISTGETDATA, Index, 0));
-      ProxyList.AddObject(Proxy.Host, Proxy);
+      ProxyList.AddObject(Proxy.ID, Proxy);
     end;
   end;
   if ProxyIndex > 0 then
-    gConnection.Proxy:= TFtpProxy(ProxyList.Objects[ProxyIndex]).ID
+    gConnection.Proxy:= TFtpProxy(ProxyList.Objects[ProxyIndex - 1]).ID
   else
     gConnection.Proxy:= EmptyStr;
 end;
