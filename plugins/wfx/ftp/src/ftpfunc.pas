@@ -270,17 +270,15 @@ var
   sTemp: AnsiString;
 begin
   Result := False;
-  
   if FtpSend.Login then
-    begin
-      sTemp:= Connection.InitCommands;
-      while sTemp <> EmptyStr do
-        FtpSend.FTPCommand(Copy2SymbDel(sTemp, ';'));
-      if Length(Connection.Path) > 0 then
-        FtpSend.ChangeWorkingDir(FtpSend.ClientToServer(UTF8Decode(Connection.Path)));
-      Result := True;
-    end;
-   
+  begin
+    sTemp:= Connection.InitCommands;
+    while sTemp <> EmptyStr do
+      FtpSend.ExecuteCommand(Copy2SymbDel(sTemp, ';'));
+    if Length(Connection.Path) > 0 then
+      FtpSend.ChangeWorkingDir(FtpSend.ClientToServer(UTF8Decode(Connection.Path)));
+    Result := True;
+  end;
 end;
 
 function FtpConnect(const ConnectionName: AnsiString; out FtpSend: TFTPSendEx): Boolean;
