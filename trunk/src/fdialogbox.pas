@@ -44,9 +44,11 @@ type
     DialogCheckBox: TCheckBox;
     DialogGroupBox: TGroupBox;
     DialogLabel: TLabel;
+    DialogPanel: TPanel;
     DialogEdit: TEdit;
     DialogImage: TImage;
     DialogTabSheet: TTabSheet;
+    DialogRadioGroup: TRadioGroup;
     DialogPageControl: TPageControl;
     DialogDividerBevel: TDividerBevel;
     // Dialog events
@@ -286,17 +288,17 @@ begin
     begin
       sText:= PAnsiChar(wParam);
       if Control is TComboBox then
-         (Control as TComboBox).Items.AddObject(sText, TObject(Pointer(lParam)));
-      if Control is TListBox then
-        (Control as TListBox).Items.AddObject(sText, TObject(Pointer(lParam)));
+        Result:= TComboBox(Control).Items.AddObject(sText, TObject(Pointer(lParam)))
+      else if Control is TListBox then
+        Result:= TListBox(Control).Items.AddObject(sText, TObject(Pointer(lParam)));
     end;
   DM_LISTADDSTR:
     begin
       sText:= PAnsiChar(wParam);
       if Control is TComboBox then
-         (Control as TComboBox).Items.Add(sText);
-      if Control is TListBox then
-        (Control as TListBox).Items.Add(sText);
+        Result:= TComboBox(Control).Items.Add(sText)
+      else if Control is TListBox then
+        Result:= TListBox(Control).Items.Add(sText);
     end;
   DM_LISTDELETE:
     begin
@@ -347,18 +349,22 @@ begin
     begin
       Result:= -1;
       if Control is TComboBox then
-        Result:= (Control as TComboBox).ItemIndex;
-      if Control is TListBox then
-        Result:= (Control as TListBox).ItemIndex;
+        Result:= TComboBox(Control).ItemIndex
+      else if Control is TListBox then
+        Result:= TListBox(Control).ItemIndex
+      else if Control is TRadioGroup then
+        Result:= TRadioGroup(Control).ItemIndex;
     end;
   DM_LISTSETITEMINDEX:
     begin
       if Control is TComboBox then
-        (Control as TComboBox).ItemIndex:= wParam;
-      if Control is TListBox then
-        (Control as TListBox).ItemIndex:= wParam;
+        TComboBox(Control).ItemIndex:= wParam
+      else if Control is TListBox then
+        TListBox(Control).ItemIndex:= wParam
+      else if Control is TRadioGroup then
+        TRadioGroup(Control).ItemIndex:= wParam;
     end;
-  DM_LISTUPDATE :
+  DM_LISTUPDATE:
     begin
       sText:= PAnsiChar(lParam);
       if Control is TComboBox then
