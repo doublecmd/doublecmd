@@ -37,9 +37,10 @@ function ShowFtpConfDlg(Connection: TConnection): Boolean;
 implementation
 
 uses
-  LazUTF8, DynLibs, FtpUtils, blcksock, ssl_openssl_lib, libssh;
+  LazUTF8, DynLibs, FtpUtils, blcksock, ssl_openssl_lib, libssh, FtpProxy;
 
 var
+  ProxyIndex: Integer;
   gConnection: TConnection;
 
 procedure ShowWarningSSL;
@@ -84,10 +85,142 @@ begin
   end;
 end;
 
+function CreateProxyID: String;
+var
+  Guid: TGuid;
+begin
+  if CreateGUID(Guid) = 0 then
+    Result := GUIDToString(Guid)
+  else
+    Result := IntToStr(Random(MaxInt));
+end;
+
+procedure LoadProxy(pDlg: PtrUInt);
+var
+  Data: PtrInt;
+  Text: String;
+  Proxy: TFtpProxy;
+begin
+  with gStartupInfo do
+  begin
+    if (ProxyIndex > 0) then
+    begin
+      Proxy:= TFtpProxy(SendDlgMsg(pDlg, 'cmbProxy', DM_LISTGETDATA, ProxyIndex, 0));
+      SendDlgMsg(pDlg, 'rgProxyType', DM_LISTSETITEMINDEX, PtrInt(Proxy.ProxyType) - 1, 0);
+      Text:= Proxy.Host;
+      if Proxy.Port <> EmptyStr then Text+= ':' + Proxy.Port;
+      Data:= PtrInt(PAnsiChar(Text));
+      SendDlgMsg(pDlg, 'edtProxyHost', DM_SETTEXT, Data, 0);
+      Data:= PtrInt(PAnsiChar(Proxy.User));
+      SendDlgMsg(pDlg, 'edtProxyUser', DM_SETTEXT, Data, 0);
+      Data:= PtrInt(PAnsiChar(Proxy.Password));
+      SendDlgMsg(pDlg, 'edtProxyPassword', DM_SETTEXT, Data, 0);
+    end
+    else begin
+      SendDlgMsg(pDlg, 'rgProxyType', DM_LISTSETITEMINDEX, 0, 0);
+      SendDlgMsg(pDlg, 'edtProxyHost', DM_SETTEXT, 0, 0);
+      SendDlgMsg(pDlg, 'edtProxyUser', DM_SETTEXT, 0, 0);
+      SendDlgMsg(pDlg, 'edtProxyPassword', DM_SETTEXT, 0, 0);
+    end;
+    SendDlgMsg(pDlg, 'gbLogon', DM_ENABLE, ProxyIndex, 0);
+    SendDlgMsg(pDlg, 'rgProxyType', DM_ENABLE, ProxyIndex, 0);
+    SendDlgMsg(pDlg, 'btnDelete', DM_ENABLE, ProxyIndex, 0);
+  end;
+end;
+
+procedure UpdateProxy(pDlg: PtrUInt);
+var
+  Data: PtrInt;
+  Text: String;
+  Proxy: TFtpProxy;
+begin
+  if (ProxyIndex > 0) then
+  begin
+    with gStartupInfo do
+    begin
+      Proxy:= TFtpProxy(SendDlgMsg(pDlg, 'cmbProxy', DM_LISTGETDATA, ProxyIndex, 0));
+      Data:= SendDlgMsg(pDlg, 'rgProxyType', DM_LISTGETITEMINDEX, 0, 0);
+      Proxy.ProxyType:= TProxyType(Data + 1);
+      Text:= PAnsiChar(SendDlgMsg(pDlg, 'edtProxyHost', DM_GETTEXT, 0, 0));
+      Proxy.Host:= ExtractConnectionHost(Text);
+      Proxy.Port:= ExtractConnectionPort(Text);
+      if Length(Text) > 0 then
+      begin
+        Data:= PtrInt(PAnsiChar(Text));
+        SendDlgMsg(pDlg, 'cmbProxy', DM_LISTUPDATE, ProxyIndex, Data);
+      end;
+      Data:= SendDlgMsg(pDlg, 'edtProxyUser', DM_GETTEXT, 0, 0);
+      Proxy.User:= PAnsiChar(Data);
+      Data:= SendDlgMsg(pDlg, 'edtProxyPassword', DM_GETTEXT, 0, 0);
+      Proxy.Password:= PAnsiChar(Data);
+    end;
+  end;
+end;
+
+procedure LoadProxyList(pDlg: PtrUInt);
+var
+  Data: PtrInt;
+  Index: Integer;
+  Proxy: TFtpProxy;
+begin
+  ProxyIndex:= ProxyList.IndexOf(gConnection.Proxy) + 1;
+  with gStartupInfo do
+  begin
+    Data:= PtrInt(PAnsiChar('(None)'));
+    SendDlgMsg(pDlg, 'cmbProxy', DM_LISTADDSTR, Data, 0);
+    for Index:= 0 to ProxyList.Count - 1 do
+    begin
+      Proxy:= TFtpProxy(ProxyList.Objects[Index]).Clone;
+      Data:= PtrInt(PAnsiChar(Proxy.Host));
+      SendDlgMsg(pDlg, 'cmbProxy', DM_LISTADD, Data, PtrInt(Proxy));
+    end;
+    SendDlgMsg(pDlg, 'cmbProxy', DM_LISTSETITEMINDEX, ProxyIndex, 0);
+  end;
+  LoadProxy(pDlg);
+end;
+
+procedure SaveProxyList(pDlg: PtrUInt);
+var
+  Count: Integer;
+  Index: Integer;
+  Proxy: TFtpProxy;
+begin
+  with gStartupInfo do
+  begin
+    ProxyList.Clear;
+    Count:= SendDlgMsg(pDlg, 'cmbProxy', DM_LISTGETCOUNT, 0, 0);
+    for Index:= 1 to Count - 1 do
+    begin
+      Proxy:= TFtpProxy(SendDlgMsg(pDlg, 'cmbProxy', DM_LISTGETDATA, Index, 0));
+      ProxyList.AddObject(Proxy.Host, Proxy);
+    end;
+  end;
+  if ProxyIndex > 0 then
+    gConnection.Proxy:= TFtpProxy(ProxyList.Objects[ProxyIndex]).ID
+  else
+    gConnection.Proxy:= EmptyStr;
+end;
+
+procedure FreeProxyList(pDlg: PtrUInt);
+var
+  Count: Integer;
+  Index: Integer;
+begin
+  with gStartupInfo do
+  begin
+    Count:= SendDlgMsg(pDlg, 'cmbProxy', DM_LISTGETCOUNT, 0, 0);
+    for Index:= 1 to Count - 1 do
+    begin
+      TFtpProxy(SendDlgMsg(pDlg, 'cmbProxy', DM_LISTGETDATA, Index, 0)).Free;
+    end;
+  end;
+end;
+
 function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
   Data: PtrInt;
   Text: String;
+  Proxy: TFtpProxy;
 begin
   Result:= 0;
   with gStartupInfo do
@@ -150,6 +283,8 @@ begin
           SendDlgMsg(pDlg, 'fnePrivateKey', DM_SETTEXT, Data, 0);
 
           EnableControls(pDlg);
+
+          LoadProxyList(pDlg);
         end;
       DN_CHANGE:
         begin
@@ -193,6 +328,13 @@ begin
               SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, 0, 0);
             end;
             EnableControls(pDlg);
+          end
+        else if DlgItemName = 'cmbProxy' then
+          begin
+            UpdateProxy(pDlg);
+            ProxyIndex:= SendDlgMsg(pDlg, 'cmbProxy', DM_LISTGETITEMINDEX, 0, 0);
+            // Load current proxy settings
+            LoadProxy(pDlg);
           end;
         end;
       DN_CLICK:
@@ -218,6 +360,25 @@ begin
                 gConnection.PasswordChanged:= True;
               end;
           end
+        else if DlgItemName = 'btnAdd' then
+        begin
+          UpdateProxy(pDlg);
+          Proxy:= TFtpProxy.Create;
+          Proxy.ID:= CreateProxyID;
+          Data:= PtrInt(PAnsiChar(Proxy.ID));
+          ProxyIndex:= SendDlgMsg(pDlg, 'cmbProxy', DM_LISTADD, Data, PtrInt(Proxy));
+          SendDlgMsg(pDlg, 'cmbProxy', DM_LISTSETITEMINDEX, ProxyIndex, 0);
+          LoadProxy(pDlg);
+        end
+        else if DlgItemName = 'btnDelete' then
+        begin
+          Data:= SendDlgMsg(pDlg, 'cmbProxy', DM_LISTGETITEMINDEX, 0, 0);
+          TFtpProxy(SendDlgMsg(pDlg, 'cmbProxy', DM_LISTGETDATA, Data, 0)).Free;
+          SendDlgMsg(pDlg, 'cmbProxy', DM_LISTDELETE, Data, 0);
+          ProxyIndex:= 0;
+          SendDlgMsg(pDlg, 'cmbProxy', DM_LISTSETITEMINDEX, 0, 0);
+          LoadProxy(pDlg);
+        end
         else if DlgItemName = 'btnOK' then
           begin
             Data:= SendDlgMsg(pDlg, 'cmbEncoding', DM_GETTEXT, 0, 0);
@@ -271,11 +432,15 @@ begin
             begin;
               ShowWarningSSL;
             end;
+
+            SaveProxyList(pDlg);
+
             // close dialog
             SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 1, 0);
           end
         else if DlgItemName = 'btnCancel' then
           begin
+            FreeProxyList(pDlg);
             // close dialog
             SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 2, 0);
           end;
