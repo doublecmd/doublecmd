@@ -163,10 +163,12 @@ begin
         end;
 
         FtpSend.Sock.SocksIP:= Proxy.Host;
+        FtpSend.Sock.SocksResolver:= False;
         FtpSend.Sock.SocksUsername:= Proxy.User;
         FtpSend.Sock.SocksPassword:= Proxy.Password;
 
         FtpSend.DSock.SocksIP:= Proxy.Host;
+        FtpSend.DSock.SocksResolver:= False;
         FtpSend.DSock.SocksUsername:= Proxy.User;
         FtpSend.DSock.SocksPassword:= Proxy.Password;
 
