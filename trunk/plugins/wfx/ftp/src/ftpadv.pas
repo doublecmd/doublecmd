@@ -644,6 +644,28 @@ begin
   AValue.PrivateKey:= FPrivateKey;
   AValue.ShowHidden:= FShowHidden;
   AValue.TcpKeepAlive:= FTcpKeepAlive;
+
+  AValue.Sock.HTTPTunnelIP:= Sock.HTTPTunnelIP;
+  AValue.Sock.HTTPTunnelPort:= Sock.HTTPTunnelPort;
+  AValue.Sock.HTTPTunnelUser:= Sock.HTTPTunnelUser;
+  AValue.Sock.HTTPTunnelPass:= Sock.HTTPTunnelPass;
+
+  AValue.Sock.SocksIP:= Sock.SocksIP;
+  AValue.Sock.SocksType:= Sock.SocksType;
+  AValue.Sock.SocksPort:= Sock.SocksPort;
+  AValue.Sock.SocksUsername:= Sock.SocksUsername;
+  AValue.Sock.SocksPassword:= Sock.SocksPassword;
+
+  AValue.DSock.HTTPTunnelIP:= DSock.HTTPTunnelIP;
+  AValue.DSock.HTTPTunnelPort:= DSock.HTTPTunnelPort;
+  AValue.DSock.HTTPTunnelUser:= DSock.HTTPTunnelUser;
+  AValue.DSock.HTTPTunnelPass:= DSock.HTTPTunnelPass;
+
+  AValue.DSock.SocksIP:= DSock.SocksIP;
+  AValue.DSock.SocksType:= DSock.SocksType;
+  AValue.DSock.SocksPort:= DSock.SocksPort;
+  AValue.DSock.SocksUsername:= DSock.SocksUsername;
+  AValue.DSock.SocksPassword:= DSock.SocksPassword;
 end;
 
 procedure TFTPSendEx.ParseRemote(Value: string);

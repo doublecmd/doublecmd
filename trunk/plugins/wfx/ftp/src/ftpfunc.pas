@@ -42,6 +42,7 @@ type
     UserName: AnsiString;
     Password: AnsiString;
     MasterPassword: Boolean;
+    Proxy: String;
     PassiveMode: Boolean;
     OnlySCP: Boolean;
     AutoTLS: Boolean;
@@ -115,7 +116,7 @@ implementation
 
 uses
   IniFiles, StrUtils, FtpAdv, FtpUtils, FtpConfDlg, syncobjs, LazFileUtils,
-  LazUTF8, DCClassesUtf8, SftpSend, ScpSend;
+  LazUTF8, DCClassesUtf8, SftpSend, ScpSend, FtpProxy;
 
 var
   DefaultIniName: String;
@@ -164,6 +165,7 @@ begin
       Connection.Password := EmptyStr
     else
       Connection.Password := DecodeBase64(IniFile.ReadString('FTP', 'Connection' + sIndex + 'Password', EmptyStr));
+    Connection.Proxy := IniFile.ReadString('FTP', 'Connection' + sIndex + 'Proxy', EmptyStr);
     Connection.Encoding := IniFile.ReadString('FTP', 'Connection' + sIndex + 'Encoding', EmptyStr);
     Connection.PassiveMode:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'PassiveMode', True);
     Connection.AutoTLS:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'AutoTLS', False);
@@ -179,6 +181,7 @@ begin
     // add connection to connection list
     ConnectionList.AddObject(Connection.ConnectionName, Connection);
   end;
+  LoadProxyList(IniFile);
 end;
 
 procedure WriteConnectionList;
@@ -204,6 +207,7 @@ begin
       IniFile.DeleteKey('FTP', 'Connection' + sIndex + 'Password')
     else
       IniFile.WriteString('FTP', 'Connection' + sIndex + 'Password', EncodeBase64(Connection.Password));
+    IniFile.WriteString('FTP', 'Connection' + sIndex + 'Proxy', Connection.Proxy);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'Encoding', Connection.Encoding);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'PassiveMode', Connection.PassiveMode);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'AutoTLS', Connection.AutoTLS);
@@ -217,6 +221,7 @@ begin
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'ShowHiddenItems', Connection.ShowHiddenItems);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'KeepAliveTransfer', Connection.KeepAliveTransfer);
   end;
+  SaveProxyList(IniFile);
   IniFile.UpdateFile;
 end;
 
@@ -360,6 +365,7 @@ begin
           end;
         end;
         FtpSend.Password := Connection.Password;
+        SetProxy(FtpSend, Connection.Proxy);
         // try to connect
         if FtpLogin(Connection, FtpSend) then
           begin
@@ -1121,6 +1127,7 @@ begin
   Path:= Connection.Path;
   Host:= Connection.Host;
   Port:= Connection.Port;
+  Proxy:= Connection.Proxy;
   AutoTLS:= Connection.AutoTLS;
   FullSSL:= Connection.FullSSL;
   OpenSSH:= Connection.OpenSSH;
