@@ -80,7 +80,6 @@ type
 
   TFTPSendEx = class(TFTPSend)
   private
-    FAuto: Boolean;
     FUnicode: Boolean;
     FSetTime: Boolean;
     FMachine: Boolean;
@@ -89,10 +88,12 @@ type
     FUseAllocate: Boolean;
     FTcpKeepAlive: Boolean;
     FKeepAliveTransfer: Boolean;
-  private
+    procedure SetEncoding(AValue: String);
+  protected
     ConvertToUtf8: TConvertEncodingFunction;
     ConvertFromUtf8: TConvertUTF8ToEncodingFunc;
   protected
+    FAuto: Boolean;
     FEncoding: String;
     FPublicKey, FPrivateKey: String;
     function Connect: Boolean; override;
@@ -122,6 +123,7 @@ type
     function RetrieveFile(const FileName: string; FileSize: Int64; Restore: Boolean): Boolean; virtual; overload;
     function NetworkError(): Boolean;
   public
+    property Encoding: String write SetEncoding;
     property UseAllocate: Boolean write FUseAllocate;
     property TcpKeepAlive: Boolean write FTcpKeepAlive;
     property PublicKey: String read FPublicKey write FPublicKey;
@@ -265,6 +267,127 @@ begin
 end;
 
 { TFTPSendEx }
+
+procedure TFTPSendEx.SetEncoding(AValue: String);
+begin
+  FEncoding:= AValue;
+
+  if FEncoding = EncodingUTF8 then
+  begin
+    ConvertToUtf8:= @Dummy;
+    ConvertFromUtf8:= @Ymmud;
+  end
+  else if FEncoding = EncodingCPIso1 then
+  begin
+    ConvertToUtf8:= @ISO_8859_1ToUTF8;
+    ConvertFromUtf8:= @UTF8ToISO_8859_1;
+  end
+  else if FEncoding = EncodingCPIso2 then
+  begin
+    ConvertToUtf8:= @ISO_8859_2ToUTF8;
+    ConvertFromUtf8:= @UTF8ToISO_8859_2;
+  end
+  else if FEncoding = EncodingCPIso15 then
+  begin
+    ConvertToUtf8:= @ISO_8859_15ToUTF8;
+    ConvertFromUtf8:= @UTF8ToISO_8859_15;
+  end
+  else if FEncoding = EncodingCP1250 then
+  begin
+    ConvertToUtf8:= @CP1250ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1250;
+  end
+  else if FEncoding = EncodingCP1251 then
+  begin
+    ConvertToUtf8:= @CP1251ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1251;
+  end
+  else if FEncoding = EncodingCP1252 then
+  begin
+    ConvertToUtf8:= @CP1252ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1252;
+  end
+  else if FEncoding = EncodingCP1253 then
+  begin
+    ConvertToUtf8:= @CP1253ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1253;
+  end
+  else if FEncoding = EncodingCP1254 then
+  begin
+    ConvertToUtf8:= @CP1254ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1254;
+  end
+  else if FEncoding = EncodingCP1255 then
+  begin
+    ConvertToUtf8:= @CP1255ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1255;
+  end
+  else if FEncoding = EncodingCP1256 then
+  begin
+    ConvertToUtf8:= @CP1256ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1256;
+  end
+  else if FEncoding = EncodingCP1257 then
+  begin
+    ConvertToUtf8:= @CP1257ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1257;
+  end
+  else if FEncoding = EncodingCP1258 then
+  begin
+    ConvertToUtf8:= @CP1258ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP1258;
+  end
+  else if FEncoding = EncodingCP437 then
+  begin
+    ConvertToUtf8:= @CP437ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP437;
+  end
+  else if FEncoding = EncodingCP850 then
+  begin
+    ConvertToUtf8:= @CP850ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP850;
+  end
+  else if FEncoding = EncodingCP852 then
+  begin
+    ConvertToUtf8:= @CP852ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP852;
+  end
+  else if FEncoding = EncodingCP866 then
+  begin
+    ConvertToUtf8:= @CP866ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP866;
+  end
+  else if FEncoding = EncodingCP874 then
+  begin
+    ConvertToUtf8:= @CP874ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP874;
+  end
+  else if FEncoding = EncodingCP932 then
+  begin
+    ConvertToUtf8:= @CP932ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP932;
+  end
+  else if FEncoding = EncodingCP936 then
+  begin
+    ConvertToUtf8:= @CP936ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP936;
+  end
+  else if FEncoding = EncodingCP949 then
+  begin
+    ConvertToUtf8:= @CP949ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP949;
+  end
+  else if FEncoding = EncodingCP950 then
+  begin
+    ConvertToUtf8:= @CP950ToUTF8;
+    ConvertFromUtf8:= @UTF8ToCP950;
+  end
+  else if FEncoding = EncodingCPKOI8 then
+  begin
+    ConvertToUtf8:= @KOI8ToUTF8;
+    ConvertFromUtf8:= @UTF8ToKOI8;
+  end;
+end;
 
 function TFTPSendEx.Connect: Boolean;
 var
@@ -455,121 +578,7 @@ begin
   FEncoding:= NormalizeEncoding(Encoding);
   FAuto:= (FEncoding = '') or (FEncoding = 'auto');
 
-  if FEncoding = EncodingUTF8 then
-  begin
-    ConvertToUtf8:= @Dummy;
-    ConvertFromUtf8:= @Ymmud;
-  end
-  else if FEncoding = EncodingCPIso1 then
-  begin
-    ConvertToUtf8:= @ISO_8859_1ToUTF8;
-    ConvertFromUtf8:= @UTF8ToISO_8859_1;
-  end
-  else if FEncoding = EncodingCPIso2 then
-  begin
-    ConvertToUtf8:= @ISO_8859_2ToUTF8;
-    ConvertFromUtf8:= @UTF8ToISO_8859_2;
-  end
-  else if FEncoding = EncodingCPIso15 then
-  begin
-    ConvertToUtf8:= @ISO_8859_15ToUTF8;
-    ConvertFromUtf8:= @UTF8ToISO_8859_15;
-  end
-  else if FEncoding = EncodingCP1250 then
-  begin
-    ConvertToUtf8:= @CP1250ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP1250;
-  end
-  else if FEncoding = EncodingCP1251 then
-  begin
-    ConvertToUtf8:= @CP1251ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP1251;
-  end
-  else if FEncoding = EncodingCP1252 then
-  begin
-    ConvertToUtf8:= @CP1252ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP1252;
-  end
-  else if FEncoding = EncodingCP1253 then
-  begin
-    ConvertToUtf8:= @CP1253ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP1253;
-  end
-  else if FEncoding = EncodingCP1254 then
-  begin
-    ConvertToUtf8:= @CP1254ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP1254;
-  end
-  else if FEncoding = EncodingCP1255 then
-  begin
-    ConvertToUtf8:= @CP1255ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP1255;
-  end
-  else if FEncoding = EncodingCP1256 then
-  begin
-    ConvertToUtf8:= @CP1256ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP1256;
-  end
-  else if FEncoding = EncodingCP1257 then
-  begin
-    ConvertToUtf8:= @CP1257ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP1257;
-  end
-  else if FEncoding = EncodingCP1258 then
-  begin
-    ConvertToUtf8:= @CP1258ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP1258;
-  end
-  else if FEncoding = EncodingCP437 then
-  begin
-    ConvertToUtf8:= @CP437ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP437;
-  end
-  else if FEncoding = EncodingCP850 then
-  begin
-    ConvertToUtf8:= @CP850ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP850;
-  end
-  else if FEncoding = EncodingCP852 then
-  begin
-    ConvertToUtf8:= @CP852ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP852;
-  end
-  else if FEncoding = EncodingCP866 then
-  begin
-    ConvertToUtf8:= @CP866ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP866;
-  end
-  else if FEncoding = EncodingCP874 then
-  begin
-    ConvertToUtf8:= @CP874ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP874;
-  end
-  else if FEncoding = EncodingCP932 then
-  begin
-    ConvertToUtf8:= @CP932ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP932;
-  end
-  else if FEncoding = EncodingCP936 then
-  begin
-    ConvertToUtf8:= @CP936ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP936;
-  end
-  else if FEncoding = EncodingCP949 then
-  begin
-    ConvertToUtf8:= @CP949ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP949;
-  end
-  else if FEncoding = EncodingCP950 then
-  begin
-    ConvertToUtf8:= @CP950ToUTF8;
-    ConvertFromUtf8:= @UTF8ToCP950;
-  end
-  else if FEncoding = EncodingCPKOI8 then
-  begin
-    ConvertToUtf8:= @KOI8ToUTF8;
-    ConvertFromUtf8:= @UTF8ToKOI8;
-  end;
+  if not FAuto then SetEncoding(FEncoding);
 
   FFtpList.Free;
   FFtpList:= TFTPListEx.Create;
@@ -631,6 +640,10 @@ begin
   AValue.UserName:= UserName;
   AValue.Password:= Password;
   AValue.KeepAliveTransfer:= KeepAliveTransfer;
+  AValue.PublicKey:= FPublicKey;
+  AValue.PrivateKey:= FPrivateKey;
+  AValue.ShowHidden:= FShowHidden;
+  AValue.TcpKeepAlive:= FTcpKeepAlive;
 end;
 
 procedure TFTPSendEx.ParseRemote(Value: string);
