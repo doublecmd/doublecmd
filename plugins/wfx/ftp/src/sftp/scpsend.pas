@@ -54,6 +54,7 @@ type
     SourceName, TargetName: PWideChar;
     procedure DoProgress(Percent: Int64);
   protected
+    procedure DetectEncoding;
     function AuthKey: Boolean;
     function Connect: Boolean; override;
   public
@@ -83,7 +84,7 @@ implementation
 
 uses
   CTypes, LazUTF8, FtpFunc, DCStrUtils, DCClassesUtf8, DCOSUtils, DCDateTimeUtils,
-  DCBasicTypes, DCConvertEncoding, FileUtil, Base64;
+  DCBasicTypes, DCConvertEncoding, FileUtil, Base64, LConvEncoding;
 
 const
   SMB_BUFFER_SIZE = 131072;
@@ -215,6 +216,18 @@ procedure TScpSend.DoProgress(Percent: Int64);
 begin
   if ProgressProc(PluginNumber, SourceName, TargetName, Percent) = 1 then
     raise EUserAbort.Create(EmptyStr);
+end;
+
+procedure TScpSend.DetectEncoding;
+begin
+  if SendCommand('echo $LANG $LC_CTYPE $LC_ALL', FAnswer) then
+  begin
+    FAuto:= False;
+    if Pos('UTF-8', FAnswer) > 0 then
+    begin
+      Encoding:= EncodingUTF8;
+    end;
+  end;
 end;
 
 function TScpSend.AuthKey: Boolean;
@@ -387,6 +400,7 @@ begin
         end;
       end;
     end;
+    if FAuto then DetectEncoding;
   end;
 end;
 

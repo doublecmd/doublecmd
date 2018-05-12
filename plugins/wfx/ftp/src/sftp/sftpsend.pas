@@ -118,6 +118,7 @@ end;
 function TSftpSend.Login: Boolean;
 begin
   Result:= Connect;
+  if Result and FAuto then DetectEncoding;
 end;
 
 function TSftpSend.Logout: Boolean;
