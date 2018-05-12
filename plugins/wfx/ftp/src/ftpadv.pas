@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, WfxPlugin, FtpSend, LazUTF8Classes, LConvEncoding,
-  DCConvertEncoding;
+  DCConvertEncoding, blcksock;
 
 type
   TConvertUTF8ToEncodingFunc = function(const S: String {$IFDEF FPC_HAS_CPSTRING}; SetTargetCodePage: Boolean = False{$ENDIF}): RawByteString;
@@ -100,6 +100,7 @@ type
     function DataSocket: Boolean; override;
     function ListMachine(Directory: String): Boolean;
     procedure DoStatus(Response: Boolean; const Value: string); override;
+    procedure OnSocketStatus(Sender: TObject; Reason: THookSocketReason; const Value: String);
   public
     function ClientToServer(const Value: UnicodeString): AnsiString;
     function ServerToClient(const Value: AnsiString): UnicodeString;
@@ -139,7 +140,7 @@ type
 implementation
 
 uses
-  LazUTF8, LazFileUtils, FtpFunc, FtpUtils, synautil, synsock, blcksock
+  LazUTF8, LazFileUtils, FtpFunc, FtpUtils, synautil, synsock
 {$IF (FPC_FULLVERSION < 30000)}
   , LazUTF8SysUtils
 {$ENDIF}
@@ -504,6 +505,12 @@ begin
   end;
 end;
 
+procedure TFTPSendEx.OnSocketStatus(Sender: TObject; Reason: THookSocketReason; const Value: String);
+begin
+  if (Reason in [HR_Error]) and (Length(Value) > 0) then
+    LogProc(PluginNumber, msgtype_importanterror, PWideChar(ServerToClient(Value)));
+end;
+
 function TFTPSendEx.ClientToServer(const Value: UnicodeString): AnsiString;
 begin
   Result:= ConvertFromUtf8(UTF16ToUTF8(Value));
@@ -574,6 +581,8 @@ begin
 
   ConvertToUtf8:= @CeSysToUtf8;
   ConvertFromUtf8:= @Utf8ToSys;
+
+  Sock.OnStatus:= OnSocketStatus;
 
   FEncoding:= NormalizeEncoding(Encoding);
   FAuto:= (FEncoding = '') or (FEncoding = 'auto');
