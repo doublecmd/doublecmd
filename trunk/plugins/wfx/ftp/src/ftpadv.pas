@@ -448,6 +448,7 @@ begin
       flr := TFTPListRec.Create;
       v:= FFTPList.Lines[x];
       flr.OriginalLine:= v;
+      // DoStatus(True, v);
       for y:= 1 to Length(v) do
       begin
         if v[y] = '=' then
@@ -463,8 +464,8 @@ begin
             // Skip 'cdir' entry
             if (value = 'cdir') then
             begin
-              flr.Free;
-              Continue;
+              FreeAndNil(flr);
+              Break;
             end;
             // Parent directory entry
             pcdir := (value = 'pdir');
@@ -473,8 +474,8 @@ begin
               // Skip duplicate 'pdir' entry
               if pdir then
               begin
-                flr.Free;
-                Continue;
+                FreeAndNil(flr);
+                Break;
               end;
               pdir := True;
             end;
@@ -503,8 +504,7 @@ begin
           s:= y + 1;
         end;
       end;
-      FFTPList.List.Add(flr);
-      // DoStatus(True, FFTPList.Lines[x]);
+      if Assigned(flr) then FFTPList.List.Add(flr);
     end;
   end;
   FDataStream.Position := 0;
