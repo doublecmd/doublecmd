@@ -1,0 +1,31 @@
+Index: ssfpc.inc
+===================================================================
+--- ssfpc.inc	(revision 207)
++++ ssfpc.inc	(working copy)
+@@ -755,7 +755,7 @@
+ begin
+   Result := 0;
+   FillChar(Sin, Sizeof(Sin), 0);
+-  Sin.sin_port := Resolveport(port, family, SockProtocol, SockType);
++  Sin.sin_port := htons(Resolveport(port, family, SockProtocol, SockType));
+   TwoPass := False;
+   if Family = AF_UNSPEC then
+   begin
+@@ -858,7 +858,7 @@
+   ProtoEnt: TProtocolEntry;
+   ServEnt: TServiceEntry;
+ begin
+-  Result := synsock.htons(StrToIntDef(Port, 0));
++  Result := StrToIntDef(Port, 0);
+   if Result = 0 then
+   begin
+     ProtoEnt.Name := '';
+@@ -865,7 +865,7 @@
+     GetProtocolByNumber(SockProtocol, ProtoEnt);
+     ServEnt.port := 0;
+     GetServiceByName(Port, ProtoEnt.Name, ServEnt);
+-    Result := ServEnt.port;  
++    Result := ntohs(ServEnt.port);
+   end;
+ end;
+ 
