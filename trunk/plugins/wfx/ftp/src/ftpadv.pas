@@ -422,8 +422,9 @@ end;
 function TFTPSendEx.ListMachine(Directory: String): Boolean;
 var
   v: String;
-  s, x, y: Integer;
   flr: TFTPListRec;
+  s, x, y: Integer;
+  pdir, pcdir: Boolean;
   option, value: String;
 begin
   FFTPList.Clear;
@@ -443,6 +444,7 @@ begin
     for x:= 0 to FFTPList.Lines.Count - 1 do
     begin
       s:= 1;
+      pdir := False;
       flr := TFTPListRec.Create;
       v:= FFTPList.Lines[x];
       flr.OriginalLine:= v;
@@ -458,7 +460,25 @@ begin
           value:= LowerCase(Copy(v, s, y - s));
           if (option = 'type') then
           begin
-            flr.Directory:= (value = 'dir');
+            // Skip 'cdir' entry
+            if (value = 'cdir') then
+            begin
+              flr.Free;
+              Continue;
+            end;
+            // Parent directory entry
+            pcdir := (value = 'pdir');
+            if pcdir then
+            begin
+              // Skip duplicate 'pdir' entry
+              if pdir then
+              begin
+                flr.Free;
+                Continue;
+              end;
+              pdir := True;
+            end;
+            flr.Directory:= pcdir or (value = 'dir');
           end
           else if (option = 'modify') then
           begin
@@ -474,8 +494,11 @@ begin
           end;
           if (y < Length(v)) and (v[y + 1] = ' ') then
           begin
-            flr.FileName:= SeparateLeft(Copy(v, y + 2, MaxInt), ' -> ');
-            break;
+            if (flr.Directory and pcdir) then
+              flr.FileName:= '..'
+            else
+              flr.FileName:= SeparateLeft(Copy(v, y + 2, MaxInt), ' -> ');
+            Break;
           end;
           s:= y + 1;
         end;
