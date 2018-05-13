@@ -503,13 +503,13 @@ begin
           begin
             if Connection.MasterPassword then
             begin
-              if CryptFunc(FS_CRYPT_MOVE_PASSWORD, Connection.ConnectionName, ConnectionName) = FS_FILE_OK then
-                ConnectionList[I]:= ConnectionName
-              else begin
+              if CryptFunc(FS_CRYPT_MOVE_PASSWORD, Connection.ConnectionName, ConnectionName) <> FS_FILE_OK then
+              begin
                 gStartupInfo.MessageBox('Cannot save connection!', 'FTP', MB_OK or MB_ICONERROR);
                 Exit(False);
               end;
             end;
+            ConnectionList[I]:= ConnectionName
           end;
           if PasswordChanged then
           begin
