@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, WfxPlugin, FtpSend, LazUTF8Classes, LConvEncoding,
-  DCConvertEncoding, blcksock;
+  DCConvertEncoding, DCFileAttributes, DCBasicTypes, blcksock;
 
 type
   TConvertUTF8ToEncodingFunc = function(const S: String {$IFDEF FPC_HAS_CPSTRING}; SetTargetCodePage: Boolean = False{$ENDIF}): RawByteString;
@@ -42,8 +42,11 @@ type
   { TFTPListRecEx }
 
   TFTPListRecEx = class(TFTPListRec)
+  private
+    FMode: TFileAttrs;
   public
     procedure Assign(Value: TFTPListRec); override;
+    property Mode: TFileAttrs read FMode write FMode;
   end;
 
   { TFTPListEx }
@@ -108,7 +111,7 @@ type
     function FsFindFirstW(const Path: String; var FindData: TWin32FindDataW): Pointer; virtual;
     function FsFindNextW(Handle: Pointer; var FindData: TWin32FindDataW): BOOL; virtual;
     function FsFindClose(Handle: Pointer): Integer; virtual;
-    function FsSetTime(const FileName: String; LastAccessTime, LastWriteTime: PFileTime): BOOL; virtual;
+    function FsSetTime(const FileName: String; LastAccessTime, LastWriteTime: PWfxFileTime): BOOL; virtual;
   public
     constructor Create(const Encoding: String); virtual; reintroduce;
     function Login: Boolean; override;
@@ -140,7 +143,8 @@ type
 implementation
 
 uses
-  LazUTF8, LazFileUtils, FtpFunc, FtpUtils, synautil, synsock
+  LazUTF8, LazFileUtils, FtpFunc, FtpUtils, synautil, synsock, DCStrUtils,
+  DCDateTimeUtils
 {$IF (FPC_FULLVERSION < 30000)}
   , LazUTF8SysUtils
 {$ENDIF}
@@ -193,6 +197,10 @@ procedure TFTPListRecEx.Assign(Value: TFTPListRec);
 begin
   inherited Assign(Value);
   Permission:= Value.Permission;
+  if Value is TFTPListRecEx then
+    Mode:= TFTPListRecEx(Value).Mode
+  else
+    Mode:= UnixStrToFileAttr(Permission);
 end;
 
 { TFTPListEx }
@@ -422,8 +430,8 @@ end;
 function TFTPSendEx.ListMachine(Directory: String): Boolean;
 var
   v: String;
-  flr: TFTPListRec;
   s, x, y: Integer;
+  flr: TFTPListRecEx;
   pdir, pcdir: Boolean;
   option, value: String;
 begin
@@ -439,13 +447,13 @@ begin
   Result := DataRead(FDataStream);
   if Result then
   begin
+    pdir := False;
     FDataStream.Position := 0;
     FFTPList.Lines.LoadFromStream(FDataStream);
     for x:= 0 to FFTPList.Lines.Count - 1 do
     begin
       s:= 1;
-      pdir := False;
-      flr := TFTPListRec.Create;
+      flr := TFTPListRecEx.Create;
       v:= FFTPList.Lines[x];
       flr.OriginalLine:= v;
       // DoStatus(True, v);
@@ -491,7 +499,7 @@ begin
           end
           else if (option = 'unix.mode') then
           begin
-            flr.Permission:= value;
+            flr.Mode:= OctToDec(value);
           end;
           if (y < Length(v)) and (v[y + 1] = ' ') then
           begin
@@ -582,8 +590,8 @@ begin
           FindData.nFileSizeHigh := (FtpList.Items[I].FileSize shr $20);
         end;
       // set Unix permissions
-      FindData.dwReserved0 := ModeStr2Mode(FtpList.Items[I].Permission);
-      FindData.ftLastWriteTime := DateTimeToFileTime(FtpList.Items[I].FileTime);
+      FindData.dwReserved0 := TFTPListRecEx(FtpList.Items[I]).Mode;
+      FindData.ftLastWriteTime := TWfxFileTime(DateTimeToFileTime(FtpList.Items[I].FileTime));
       Inc(FtpList.FIndex);
       Result := True;
     end;
@@ -761,7 +769,7 @@ begin
   end;
 end;
 
-function TFTPSendEx.FsSetTime(const FileName: String; LastAccessTime, LastWriteTime: PFileTime): BOOL;
+function TFTPSendEx.FsSetTime(const FileName: String; LastAccessTime, LastWriteTime: PWfxFileTime): BOOL;
 var
   Time: String;
 begin
