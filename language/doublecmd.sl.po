@@ -7911,6 +7911,7 @@ msgid "Including subfolders"
 msgstr "Vključi podrejene mape"
 
 #: tfrmsetfileproperties.chksystem.caption
+msgctxt "tfrmsetfileproperties.chksystem.caption"
 msgid "System"
 msgstr "Sistemska datoteka"
 
@@ -8663,6 +8664,7 @@ msgid "Show as &Wrap text"
 msgstr "Pokaži kot besedilo v &prelomu"
 
 #: tfrmviewer.actshowgraphics.caption
+msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "Grafični prikaz"
 
@@ -10832,6 +10834,62 @@ msgstr "Ni še začetega okna »iskanja datotek« ..."
 #: ulng.rsnootherfindfileswindowtoclose
 msgid "Sorry, no other \"Find files\" window to close and free from memory..."
 msgstr "Ni še drugih oken »iskanja datotek« za zapiranje in sproščanje pomnilnika ..."
+
+#: ulng.rsopenwithdevelopment
+msgid "Development"
+msgstr ""
+
+#: ulng.rsopenwitheducation
+msgid "Education"
+msgstr ""
+
+#: ulng.rsopenwithgames
+msgid "Games"
+msgstr ""
+
+#: ulng.rsopenwithgraphics
+#, fuzzy
+msgctxt "ulng.rsopenwithgraphics"
+msgid "Graphics"
+msgstr "Grafični prikaz"
+
+#: ulng.rsopenwithmultimedia
+msgid "Multimedia"
+msgstr ""
+
+#: ulng.rsopenwithnetwork
+#, fuzzy
+msgctxt "ulng.rsopenwithnetwork"
+msgid "Network"
+msgstr "Omrežje"
+
+#: ulng.rsopenwithoffice
+msgid "Office"
+msgstr ""
+
+#: ulng.rsopenwithother
+#, fuzzy
+msgctxt "ulng.rsopenwithother"
+msgid "Other"
+msgstr "Drugo"
+
+#: ulng.rsopenwithscience
+msgid "Science"
+msgstr ""
+
+#: ulng.rsopenwithsettings
+msgid "Settings"
+msgstr ""
+
+#: ulng.rsopenwithsystem
+#, fuzzy
+msgctxt "ulng.rsopenwithsystem"
+msgid "System"
+msgstr "Sistemska datoteka"
+
+#: ulng.rsopenwithutility
+msgid "Accessories"
+msgstr ""
 
 #: ulng.rsoperaborted
 msgid "Aborted"

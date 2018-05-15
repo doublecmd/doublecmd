@@ -7908,6 +7908,7 @@ msgid "Including subfolders"
 msgstr "Inclusief submappen"
 
 #: tfrmsetfileproperties.chksystem.caption
+msgctxt "tfrmsetfileproperties.chksystem.caption"
 msgid "System"
 msgstr "Systeem"
 
@@ -8660,6 +8661,7 @@ msgid "Show as &Wrap text"
 msgstr "Toon als inpaktekst"
 
 #: tfrmviewer.actshowgraphics.caption
+msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "Afbeeldingen"
 
@@ -10822,6 +10824,62 @@ msgstr "Helaas, nog geen venster voor 'Bestanden zoeken'..."
 
 #: ulng.rsnootherfindfileswindowtoclose
 msgid "Sorry, no other \"Find files\" window to close and free from memory..."
+msgstr ""
+
+#: ulng.rsopenwithdevelopment
+msgid "Development"
+msgstr ""
+
+#: ulng.rsopenwitheducation
+msgid "Education"
+msgstr ""
+
+#: ulng.rsopenwithgames
+msgid "Games"
+msgstr ""
+
+#: ulng.rsopenwithgraphics
+#, fuzzy
+msgctxt "ulng.rsopenwithgraphics"
+msgid "Graphics"
+msgstr "Afbeeldingen"
+
+#: ulng.rsopenwithmultimedia
+msgid "Multimedia"
+msgstr ""
+
+#: ulng.rsopenwithnetwork
+#, fuzzy
+msgctxt "ulng.rsopenwithnetwork"
+msgid "Network"
+msgstr "Netwerk"
+
+#: ulng.rsopenwithoffice
+msgid "Office"
+msgstr ""
+
+#: ulng.rsopenwithother
+#, fuzzy
+msgctxt "ulng.rsopenwithother"
+msgid "Other"
+msgstr "Overig"
+
+#: ulng.rsopenwithscience
+msgid "Science"
+msgstr ""
+
+#: ulng.rsopenwithsettings
+msgid "Settings"
+msgstr ""
+
+#: ulng.rsopenwithsystem
+#, fuzzy
+msgctxt "ulng.rsopenwithsystem"
+msgid "System"
+msgstr "Systeem"
+
+#: ulng.rsopenwithutility
+msgid "Accessories"
 msgstr ""
 
 #: ulng.rsoperaborted

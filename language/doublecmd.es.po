@@ -7917,6 +7917,7 @@ msgid "Including subfolders"
 msgstr "Incluyendo subcarpetas"
 
 #: tfrmsetfileproperties.chksystem.caption
+msgctxt "tfrmsetfileproperties.chksystem.caption"
 msgid "System"
 msgstr "Sistema"
 
@@ -8669,6 +8670,7 @@ msgid "Show as &Wrap text"
 msgstr "Ajustar texto"
 
 #: tfrmviewer.actshowgraphics.caption
+msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
 msgstr "Gráficos"
 
@@ -10856,6 +10858,62 @@ msgstr "Lo siento, no hay ventana de «Archivos encontrados» todavía..."
 #: ulng.rsnootherfindfileswindowtoclose
 msgid "Sorry, no other \"Find files\" window to close and free from memory..."
 msgstr "Lo siento, no hay ventana de «Archivos encontrados» que cerrar y quitar de la memoria..."
+
+#: ulng.rsopenwithdevelopment
+msgid "Development"
+msgstr ""
+
+#: ulng.rsopenwitheducation
+msgid "Education"
+msgstr ""
+
+#: ulng.rsopenwithgames
+msgid "Games"
+msgstr ""
+
+#: ulng.rsopenwithgraphics
+#, fuzzy
+msgctxt "ulng.rsopenwithgraphics"
+msgid "Graphics"
+msgstr "Gráficos"
+
+#: ulng.rsopenwithmultimedia
+msgid "Multimedia"
+msgstr ""
+
+#: ulng.rsopenwithnetwork
+#, fuzzy
+msgctxt "ulng.rsopenwithnetwork"
+msgid "Network"
+msgstr "Red"
+
+#: ulng.rsopenwithoffice
+msgid "Office"
+msgstr ""
+
+#: ulng.rsopenwithother
+#, fuzzy
+msgctxt "ulng.rsopenwithother"
+msgid "Other"
+msgstr "Otros"
+
+#: ulng.rsopenwithscience
+msgid "Science"
+msgstr ""
+
+#: ulng.rsopenwithsettings
+msgid "Settings"
+msgstr ""
+
+#: ulng.rsopenwithsystem
+#, fuzzy
+msgctxt "ulng.rsopenwithsystem"
+msgid "System"
+msgstr "Sistema"
+
+#: ulng.rsopenwithutility
+msgid "Accessories"
+msgstr ""
 
 #: ulng.rsoperaborted
 msgid "Aborted"

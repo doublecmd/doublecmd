@@ -11165,6 +11165,62 @@ msgstr "Désolé, aucune fenêtre de recherche de fichiers..."
 msgid "Sorry, no other \"Find files\" window to close and free from memory..."
 msgstr "Désolé, il n'y a pas de fenêtre de recherche à fermer et oublier..."
 
+#: ulng.rsopenwithdevelopment
+msgid "Development"
+msgstr ""
+
+#: ulng.rsopenwitheducation
+msgid "Education"
+msgstr ""
+
+#: ulng.rsopenwithgames
+msgid "Games"
+msgstr ""
+
+#: ulng.rsopenwithgraphics
+#, fuzzy
+msgctxt "ulng.rsopenwithgraphics"
+msgid "Graphics"
+msgstr "Graphiques"
+
+#: ulng.rsopenwithmultimedia
+msgid "Multimedia"
+msgstr ""
+
+#: ulng.rsopenwithnetwork
+#, fuzzy
+msgctxt "ulng.rsopenwithnetwork"
+msgid "Network"
+msgstr "Réseau"
+
+#: ulng.rsopenwithoffice
+msgid "Office"
+msgstr ""
+
+#: ulng.rsopenwithother
+#, fuzzy
+msgctxt "ulng.rsopenwithother"
+msgid "Other"
+msgstr "Autres"
+
+#: ulng.rsopenwithscience
+msgid "Science"
+msgstr ""
+
+#: ulng.rsopenwithsettings
+msgid "Settings"
+msgstr ""
+
+#: ulng.rsopenwithsystem
+#, fuzzy
+msgctxt "ulng.rsopenwithsystem"
+msgid "System"
+msgstr "Système"
+
+#: ulng.rsopenwithutility
+msgid "Accessories"
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Annulé"

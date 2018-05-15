@@ -11109,6 +11109,62 @@ msgstr "Desculpe, ainda não há \"Localizar ficheiros\"..."
 msgid "Sorry, no other \"Find files\" window to close and free from memory..."
 msgstr "Desculpe, não há mais \"Localizar ficheiros\" para fechar e libertar memória..."
 
+#: ulng.rsopenwithdevelopment
+msgid "Development"
+msgstr ""
+
+#: ulng.rsopenwitheducation
+msgid "Education"
+msgstr ""
+
+#: ulng.rsopenwithgames
+msgid "Games"
+msgstr ""
+
+#: ulng.rsopenwithgraphics
+#, fuzzy
+msgctxt "ulng.rsopenwithgraphics"
+msgid "Graphics"
+msgstr "Gráficos"
+
+#: ulng.rsopenwithmultimedia
+msgid "Multimedia"
+msgstr ""
+
+#: ulng.rsopenwithnetwork
+#, fuzzy
+msgctxt "ulng.rsopenwithnetwork"
+msgid "Network"
+msgstr "Rede"
+
+#: ulng.rsopenwithoffice
+msgid "Office"
+msgstr ""
+
+#: ulng.rsopenwithother
+#, fuzzy
+msgctxt "ulng.rsopenwithother"
+msgid "Other"
+msgstr "Outro"
+
+#: ulng.rsopenwithscience
+msgid "Science"
+msgstr ""
+
+#: ulng.rsopenwithsettings
+msgid "Settings"
+msgstr ""
+
+#: ulng.rsopenwithsystem
+#, fuzzy
+msgctxt "ulng.rsopenwithsystem"
+msgid "System"
+msgstr "Sistema"
+
+#: ulng.rsopenwithutility
+msgid "Accessories"
+msgstr ""
+
 #: ulng.rsoperaborted
 msgid "Aborted"
 msgstr "Abortado"
