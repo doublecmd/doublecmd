@@ -69,6 +69,7 @@ type
     FFileList: TStringList;
     procedure LoadApplicationList;
     function TreeNodeCompare(Node1, Node2: TTreeNode): Integer;
+    procedure LoadBitmap(ANode: TTreeNode; const AName: String);
   public
     constructor Create(TheOwner: TComponent; AFileList: TStringList); reintroduce;
   end;
@@ -120,19 +121,6 @@ begin
   FFileList:= AFileList;
   inherited Create(TheOwner);
   InitPropStorage(Self);
-
-  tvApplications.Items.AddChild(nil, rsOpenWithMultimedia);
-  tvApplications.Items.AddChild(nil, rsOpenWithDevelopment);
-  tvApplications.Items.AddChild(nil, rsOpenWithEducation);
-  tvApplications.Items.AddChild(nil, rsOpenWithGames);
-  tvApplications.Items.AddChild(nil, rsOpenWithGraphics);
-  tvApplications.Items.AddChild(nil, rsOpenWithNetwork);
-  tvApplications.Items.AddChild(nil, rsOpenWithOffice);
-  tvApplications.Items.AddChild(nil, rsOpenWithScience);
-  tvApplications.Items.AddChild(nil, rsOpenWithSettings);
-  tvApplications.Items.AddChild(nil, rsOpenWithSystem);
-  tvApplications.Items.AddChild(nil, rsOpenWithUtility);
-  tvApplications.Items.AddChild(nil, rsOpenWithOther);
 end;
 
 procedure TfrmOpenWith.FormCreate(Sender: TObject);
@@ -141,6 +129,21 @@ begin
   ImageList.Height:= gIconsSize;
   FMimeType:= GetFileMimeType(FFileList[0]);
   lblMimeType.Caption:= Format(lblMimeType.Caption, [FMimeType]);
+  with tvApplications do
+  begin
+    LoadBitmap(Items.AddChild(nil, rsOpenWithMultimedia), 'applications-multimedia');
+    LoadBitmap(Items.AddChild(nil, rsOpenWithDevelopment), 'applications-development');
+    LoadBitmap(Items.AddChild(nil, rsOpenWithEducation), 'applications-education');
+    LoadBitmap(Items.AddChild(nil, rsOpenWithGames), 'applications-games');
+    LoadBitmap(Items.AddChild(nil, rsOpenWithGraphics), 'applications-graphics');
+    LoadBitmap(Items.AddChild(nil, rsOpenWithNetwork), 'applications-internet');
+    LoadBitmap(Items.AddChild(nil, rsOpenWithOffice), 'applications-office');
+    LoadBitmap(Items.AddChild(nil, rsOpenWithScience), 'applications-science');
+    LoadBitmap(Items.AddChild(nil, rsOpenWithSettings), 'applications-system');
+    LoadBitmap(Items.AddChild(nil, rsOpenWithSystem), 'applications-system');
+    LoadBitmap(Items.AddChild(nil, rsOpenWithUtility), 'applications-accessories');
+    LoadBitmap(Items.AddChild(nil, rsOpenWithOther), 'applications-other');
+  end;
   LoadApplicationList;
   tvApplications.CustomSort(@TreeNodeCompare);
 end;
@@ -250,9 +253,7 @@ const
   Folders: array [1..2] of String = ('/.local/share/applications',
                                          '/usr/share/applications');
 var
-  Bitmap: TBitmap;
   I, J, K: Integer;
-  ImageIndex: PtrInt;
   TreeNode: TTreeNode;
   Index, Count: Integer;
   Applications: TStringList;
@@ -314,18 +315,7 @@ begin
         TreeNode:= tvApplications.Items.AddChild(TreeNode, DesktopFile^.DisplayName);
         TreeNode.Data:= DesktopFile;
 
-        ImageIndex:= PixMapManager.GetIconByName(DesktopFile^.IconName);
-        if ImageIndex >= 0 then
-        begin
-          Bitmap:= PixMapManager.GetBitmap(ImageIndex);
-          if Assigned(Bitmap) then
-          begin
-            TreeNode.ImageIndex:= ImageList.Add(Bitmap, nil);
-            TreeNode.SelectedIndex:= TreeNode.ImageIndex;
-            TreeNode.StateIndex:= TreeNode.ImageIndex;
-            Bitmap.Free;
-          end;
-        end;
+        LoadBitmap(TreeNode, DesktopFile^.IconName);
       end;
     end;
     Applications.Free;
@@ -346,6 +336,25 @@ begin
     Result:= -1
   else
     Result := LazUTF8.Utf8CompareStr(Node1.Text, Node2.Text);
+end;
+
+procedure TfrmOpenWith.LoadBitmap(ANode: TTreeNode; const AName: String);
+var
+  Bitmap: TBitmap;
+  ImageIndex: PtrInt;
+begin
+  ImageIndex:= PixMapManager.GetIconByName(AName);
+  if ImageIndex >= 0 then
+  begin
+    Bitmap:= PixMapManager.GetBitmap(ImageIndex);
+    if Assigned(Bitmap) then
+    begin
+      ANode.ImageIndex:= ImageList.Add(Bitmap, nil);
+      ANode.SelectedIndex:= ANode.ImageIndex;
+      ANode.StateIndex:= ANode.ImageIndex;
+      Bitmap.Free;
+    end;
+  end;
 end;
 
 end.
