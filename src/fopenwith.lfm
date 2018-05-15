@@ -9,6 +9,7 @@ object frmOpenWith: TfrmOpenWith
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  Position = poOwnerFormCenter
   LCLVersion = '1.8.2.0'
   object lblMimeType: TLabel
     Left = 6

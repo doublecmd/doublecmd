@@ -117,7 +117,7 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
    Show open with dialog
    @param(FileList List of files to open with)
 }
-procedure ShowOpenWithDialog(const FileList: TStringList);
+procedure ShowOpenWithDialog(TheOwner: TComponent; const FileList: TStringList);
 {$ENDIF}
 
 implementation
@@ -770,10 +770,10 @@ begin
 end;
 
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-procedure ShowOpenWithDialog(const FileList: TStringList);
+procedure ShowOpenWithDialog(TheOwner: TComponent; const FileList: TStringList);
 begin
   if not (UseKde and uKde.ShowOpenWithDialog(FileList)) then begin
-    fOpenWith.ShowOpenWithDlg(FileList);
+    fOpenWith.ShowOpenWithDlg(TheOwner, FileList);
   end;
 end;
 {$ENDIF}
