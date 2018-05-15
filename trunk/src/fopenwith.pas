@@ -139,7 +139,7 @@ begin
     LoadBitmap(Items.AddChild(nil, rsOpenWithNetwork), 'applications-internet');
     LoadBitmap(Items.AddChild(nil, rsOpenWithOffice), 'applications-office');
     LoadBitmap(Items.AddChild(nil, rsOpenWithScience), 'applications-science');
-    LoadBitmap(Items.AddChild(nil, rsOpenWithSettings), 'applications-system');
+    LoadBitmap(Items.AddChild(nil, rsOpenWithSettings), 'preferences-system');
     LoadBitmap(Items.AddChild(nil, rsOpenWithSystem), 'applications-system');
     LoadBitmap(Items.AddChild(nil, rsOpenWithUtility), 'applications-accessories');
     LoadBitmap(Items.AddChild(nil, rsOpenWithOther), 'applications-other');
