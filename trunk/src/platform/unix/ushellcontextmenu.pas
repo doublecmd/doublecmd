@@ -291,7 +291,7 @@ begin
   FileNames := TStringList.Create;
   for I := 0 to FFiles.Count - 1 do
     FileNames.Add(FFiles[I].FullPath);
-  ShowOpenWithDialog(FileNames);
+  ShowOpenWithDialog(frmMain, FileNames);
 {$ENDIF}
 end;
 

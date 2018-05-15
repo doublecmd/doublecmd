@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Open with other application dialog
 
-    Copyright (C) 2012  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2012-2018  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@ type
     constructor Create(TheOwner: TComponent; AFileList: TStringList); reintroduce;
   end;
 
-procedure ShowOpenWithDlg(const FileList: TStringList);
+procedure ShowOpenWithDlg(TheOwner: TComponent; const FileList: TStringList);
 
 implementation
 
@@ -106,9 +106,9 @@ const
     'Utility'
   );
 
-procedure ShowOpenWithDlg(const FileList: TStringList);
+procedure ShowOpenWithDlg(TheOwner: TComponent; const FileList: TStringList);
 begin
-  with TfrmOpenWith.Create(Application, FileList) do
+  with TfrmOpenWith.Create(TheOwner, FileList) do
   begin
     Show;
   end;
