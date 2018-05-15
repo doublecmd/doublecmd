@@ -8,7 +8,7 @@
     (http://www.freedesktop.org/wiki/Specifications/mime-apps-spec)
 
     Copyright (C) 2009-2010  Przemyslaw Nagay (cobines@gmail.com)
-    Copyright (C) 2011-2017  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2011-2018  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ unit uMimeActions;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, DCBasicTypes;
 
 type
   PDesktopFileEntry = ^TDesktopFileEntry;
@@ -43,7 +43,7 @@ type
     ExecWithParams: String; // with %F, %U etc.
     Exec: String;           // % params resolved
     IconName: String;
-    Categories: String;
+    Categories: TDynamicStringArray;
     Terminal: Boolean;
     Hidden: Boolean;
   end;
@@ -78,7 +78,7 @@ function TranslateAppExecToCmdLine(const entry: PDesktopFileEntry;
 implementation
 
 uses
-  Unix, BaseUnix, DCBasicTypes, DCClassesUtf8, DCStrUtils, uDCUtils, uGlib2,
+  Unix, BaseUnix, DCClassesUtf8, DCStrUtils, uDCUtils, uGlib2,
   uFileProcs, uIconTheme, uClipboard, DCOSUtils, uKeyFile, uGio, uXdg, uMimeType,
   uDebug, uMyUnix;
 
@@ -525,7 +525,7 @@ begin
         Comment         := ReadLocaleString(DESKTOP_GROUP, DESKTOP_KEY_COMMENT, EmptyStr);
         ExecWithParams  := ReadString(DESKTOP_GROUP, DESKTOP_KEY_EXEC, EmptyStr);
         IconName        := ReadString(DESKTOP_GROUP, DESKTOP_KEY_ICON, EmptyStr);
-        Categories      := ReadString(DESKTOP_GROUP, DESKTOP_KEY_CATEGORIES, EmptyStr);
+        Categories      := ReadStringList(DESKTOP_GROUP, DESKTOP_KEY_CATEGORIES);
         Terminal        := ReadBool(DESKTOP_GROUP, DESKTOP_KEY_TERMINAL, False);
         Hidden          := ReadBool(DESKTOP_GROUP, DESKTOP_KEY_NO_DISPLAY, False);
         {

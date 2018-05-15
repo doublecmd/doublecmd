@@ -440,6 +440,19 @@ resourcestring
   rsConfColFieldCont = 'Field contents';
   rsConfColMove='Move';
   rsConfCustHeader='Customize column';
+  // Open with dialog
+  rsOpenWithMultimedia = 'Multimedia';
+  rsOpenWithDevelopment = 'Development';
+  rsOpenWithEducation = 'Education';
+  rsOpenWithGames = 'Games';
+  rsOpenWithGraphics = 'Graphics';
+  rsOpenWithNetwork = 'Network';
+  rsOpenWithOffice = 'Office';
+  rsOpenWithScience = 'Science';
+  rsOpenWithSettings = 'Settings';
+  rsOpenWithSystem = 'System';
+  rsOpenWithUtility = 'Accessories';
+  rsOpenWithOther = 'Other';
   // File properties dialog
   rsPropsFolder = 'Directory';
   rsPropsFile = 'File';
