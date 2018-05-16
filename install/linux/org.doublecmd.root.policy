@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+"-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+"http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+
+<policyconfig>
+
+ <vendor>Double Commander</vendor>
+ <vendor_url>https://doublecmd.sourceforge.io</vendor_url>
+
+ <action id="org.doublecmd.root">
+   <description>Run Double Commander with elevated privileges</description>
+   <message>Please enter your password to run Double Commander as root</message>
+   <icon_name>doublecmd</icon_name>
+   <defaults>
+     <allow_any>no</allow_any>
+     <allow_inactive>no</allow_inactive>
+     <allow_active>auth_admin_keep</allow_active>
+   </defaults>
+   <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/doublecmd</annotate>
+   <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
+ </action>
+
+</policyconfig>
