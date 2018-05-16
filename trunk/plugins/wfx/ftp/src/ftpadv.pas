@@ -591,7 +591,7 @@ begin
         end;
       // set Unix permissions
       FindData.dwReserved0 := TFTPListRecEx(FtpList.Items[I]).Mode;
-      FindData.ftLastWriteTime := TWfxFileTime(DateTimeToFileTime(FtpList.Items[I].FileTime));
+      FindData.ftLastWriteTime := TWfxFileTime(DateTimeToWinFileTime(FtpList.Items[I].FileTime));
       Inc(FtpList.FIndex);
       Result := True;
     end;
