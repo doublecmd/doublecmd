@@ -134,6 +134,8 @@ if [ -z $CK_PORTABLE ]
     install -m 644 install/linux/doublecmd.desktop $DC_INSTALL_PREFIX/usr/share/applications/doublecmd.desktop
     ln -sf ../../../../doublecmd/pixmaps/mainicon/alt/dcfinal.svg \
            $DC_INSTALL_PREFIX/usr/share/icons/hicolor/scalable/apps/doublecmd.svg
+    install -d $DC_INSTALL_PREFIX/usr/share/polkit-1/actions
+    install -m 644 install/linux/org.doublecmd.root.policy $DC_INSTALL_PREFIX/usr/share/polkit-1/actions/
   else
     # Copy documentation
     mkdir -p $DC_INSTALL_DIR/doc
