@@ -71,10 +71,8 @@ procedure EnableControls(pDlg: PtrUInt);
 begin
   with gStartupInfo do
   begin
-    SendDlgMsg(pDlg, 'chkOnlySCP', DM_ENABLE, PtrInt(gConnection.OpenSSH), 0);
-    SendDlgMsg(pDlg, 'chkShowHidden', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
-    SendDlgMsg(pDlg, 'chkPassiveMode', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
-    SendDlgMsg(pDlg, 'chkKeepAliveTransfer', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
+    SendDlgMsg(pDlg, 'gbSSH', DM_ENABLE, PtrInt(gConnection.OpenSSH), 0);
+    SendDlgMsg(pDlg, 'gbFTP', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
     if not gConnection.OpenSSH then
       SendDlgMsg(pDlg, 'chkOnlySCP', DM_SETCHECK, 0, 0)
     else begin
@@ -292,6 +290,12 @@ begin
           SendDlgMsg(pDlg, 'fnePublicKey', DM_SETTEXT, Data, 0);
           Data:= PtrInt(PAnsiChar(gConnection.PrivateKey));
           SendDlgMsg(pDlg, 'fnePrivateKey', DM_SETTEXT, Data, 0);
+
+          if SameText(gConnection.ConnectionName, cQuickConnection) then
+          begin
+            SendDlgMsg(pDlg, 'edtName', DM_ENABLE, 0, 0);
+            SendDlgMsg(pDlg, 'chkMasterPassword', DM_SHOWITEM, 0, 0);
+          end;
 
           EnableControls(pDlg);
 
