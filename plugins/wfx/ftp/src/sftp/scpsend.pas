@@ -50,6 +50,7 @@ type
     FCurrentDir: String;
     FLastError: Integer;
     FSavedPassword: Boolean;
+    FFingerprint: AnsiString;
     FSession: PLIBSSH2_SESSION;
     SourceName, TargetName: PWideChar;
     procedure DoProgress(Percent: Int64);
@@ -62,6 +63,7 @@ type
     function Login: Boolean; override;
     function Logout: Boolean; override;
     function GetCurrentDir: String; override;
+    procedure CloneTo(AValue: TFTPSendEx); override;
     function FileSize(const FileName: String): Int64; override;
     function FileExists(const FileName: String): Boolean; override;
     function CreateDir(const Directory: string): Boolean; override;
@@ -78,6 +80,8 @@ type
   public
     function List(Directory: String; NameList: Boolean): Boolean; override;
     function FsSetTime(const FileName: String; LastAccessTime, LastWriteTime: PWfxFileTime): BOOL; override;
+  public
+    property Fingerprint: AnsiString read FFingerprint write FFingerprint;
   end;
 
 implementation
@@ -290,8 +294,9 @@ function TScpSend.Connect: Boolean;
 const
   HOSTKEY_SIZE = 20;
 var
-  S: String;
   I: Integer;
+  S: String = '';
+  Message: UnicodeString;
   userauthlist: PAnsiChar;
   FingerPrint: array [0..Pred(HOSTKEY_SIZE)] of AnsiChar;
 begin
@@ -318,12 +323,29 @@ begin
 
       DoStatus(False, 'Connection established');
       FingerPrint := libssh2_hostkey_hash(FSession, LIBSSH2_HOSTKEY_HASH_SHA1);
-      S:= 'Server fingerprint:';
       for I:= Low(FingerPrint) to High(FingerPrint) do
       begin
-        S:= S + #32 + IntToHex(Ord(FingerPrint[i]), 2);
+        S+= IntToHex(Ord(FingerPrint[I]), 2) + #32;
       end;
-      DoStatus(False, S);
+      SetLength(S, Length(S) - 1); // Remove space
+      DoStatus(False, 'Server fingerprint: ' + S);
+
+      // Verify server fingerprint
+      if FFingerPrint <> S then
+      begin
+        if FFingerprint = EmptyStr then
+          Message:= 'You are using this connection for the first time.' + LineEnding + 'Please verify that the following host fingerprint matches the fingerprint of your server:'
+        else begin
+          Message:= 'WARNING!' + LineEnding + 'The fingerprint of the host has changed!' + LineEnding + 'Please make sure that the new fingerprint matches your server:';
+        end;
+        Message += UnicodeString(LineEnding + LineEnding + S);
+        if not RequestProc(PluginNumber, RT_MsgYesNo, nil, PWideChar(Message), nil, 0) then
+        begin
+          LogProc(PluginNumber, msgtype_importanterror, 'Wrong server fingerprint!');
+          Exit(False);
+        end;
+        FFingerprint:= S;
+      end;
 
       //* check what authentication methods are available */
       userauthlist := libssh2_userauth_list(FSession, PAnsiChar(FUserName), Length(FUserName));
@@ -414,6 +436,12 @@ end;
 function TScpSend.GetCurrentDir: String;
 begin
   Result:= FCurrentDir;
+end;
+
+procedure TScpSend.CloneTo(AValue: TFTPSendEx);
+begin
+  inherited CloneTo(AValue);
+  TScpSend(AValue).FFingerprint:= FFingerprint;
 end;
 
 function TScpSend.FileSize(const FileName: String): Int64;

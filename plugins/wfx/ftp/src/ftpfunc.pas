@@ -31,6 +31,10 @@ uses
   SysUtils, Classes,
   WfxPlugin, Extension;
 
+const
+  cAddConnection = '<Add connection>';
+  cQuickConnection = '<Quick connection>';
+
 type
 
   { TConnection }
@@ -50,6 +54,7 @@ type
     OpenSSH: Boolean;
     UseAllocate: Boolean;
     Encoding: AnsiString;
+    Fingerprint: AnsiString;
     InitCommands: AnsiString;
     ShowHiddenItems: Boolean;
     PasswordChanged: Boolean;
@@ -123,15 +128,12 @@ var
   TcpKeepAlive: Boolean = True;
   ActiveConnectionList, ConnectionList: TStringList;
   IniFile: TIniFile;
-  HasDialogAPI: Boolean = False;
   ListLock: TCriticalSection;
 
 threadvar
   ThreadCon: TFtpSendEx;
 
 const
-  cAddConnection = '<Add connection>';
-  cQuickConnection = '<Quick connection>';
   FS_COPYFLAGS_FORCE = FS_COPYFLAGS_OVERWRITE or FS_COPYFLAGS_RESUME;
   RootList: array [0 .. 1] of AnsiString = (cAddConnection, cQuickConnection);
 
@@ -175,6 +177,7 @@ begin
     Connection.UseAllocate:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'UseAllocate', False);
     Connection.PublicKey := IniFile.ReadString('FTP', 'Connection' + sIndex + 'PublicKey', EmptyStr);
     Connection.PrivateKey := IniFile.ReadString('FTP', 'Connection' + sIndex + 'PrivateKey', EmptyStr);
+    Connection.Fingerprint:= IniFile.ReadString('FTP', 'Connection' + sIndex + 'Fingerprint', EmptyStr);
     Connection.InitCommands := IniFile.ReadString('FTP', 'Connection' + sIndex + 'InitCommands', EmptyStr);
     Connection.ShowHiddenItems := IniFile.ReadBool('FTP', 'Connection' + sIndex + 'ShowHiddenItems', True);
     Connection.KeepAliveTransfer := IniFile.ReadBool('FTP', 'Connection' + sIndex + 'KeepAliveTransfer', False);
@@ -217,6 +220,7 @@ begin
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'UseAllocate', Connection.UseAllocate);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'PublicKey', Connection.PublicKey);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'PrivateKey', Connection.PrivateKey);
+    IniFile.WriteString('FTP', 'Connection' + sIndex + 'Fingerprint', Connection.Fingerprint);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'InitCommands', Connection.InitCommands);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'ShowHiddenItems', Connection.ShowHiddenItems);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'KeepAliveTransfer', Connection.KeepAliveTransfer);
@@ -333,6 +337,7 @@ begin
           end;
           FtpSend.PublicKey:= Connection.PublicKey;
           FtpSend.PrivateKey:= Connection.PrivateKey;
+          TScpSend(FtpSend).Fingerprint:= Connection.Fingerprint;
         end
         else begin
           FtpSend := TFTPSendEx.Create(Connection.Encoding);
@@ -371,6 +376,15 @@ begin
           begin
             LogProc(PluginNumber, MSGTYPE_CONNECT, PWideChar('CONNECT ' + PathDelim + UTF8Decode(ConnectionName)));
             ActiveConnectionList.AddObject(ConnectionName, FtpSend);
+            if Connection.OpenSSH and (ConnectionName <> cQuickConnection) then
+            begin
+              // Save connection server fingerprint
+              if Connection.Fingerprint <> TScpSend(FtpSend).Fingerprint then
+              begin
+                Connection.Fingerprint:= TScpSend(FtpSend).Fingerprint;
+                WriteConnectionList;
+              end;
+            end;
             Result:= True;
           end
         else
@@ -383,29 +397,6 @@ begin
     end;
 end;
 
-function AddQuickConnection(const Connection: TConnection): Boolean;
-var
-  Text: PWideChar;
-  Temp: UnicodeString;
-begin
-  Result:= False;
-  SetLength(Temp, MAX_PATH + 1);
-  Text:= PWideChar(Temp); Text[0]:= #0;
-  if RequestProc(PluginNumber, RT_URL, nil, nil, Text, MAX_PATH) then
-  begin
-    Connection.Host := Text; Text[0]:= #0;
-    if RequestProc(PluginNumber, RT_TargetDir, nil, nil, Text, MAX_PATH) then
-    begin
-      Connection.Path := Text; Text[0]:= #0;
-      if RequestProc(PluginNumber, RT_UserName, nil, nil, Text, MAX_PATH) then
-      begin
-        Connection.UserName := Text;
-        Result:= True;
-      end;
-    end;
-  end;
-end;
-
 function QuickConnection: Boolean;
 var
   Index: Integer;
@@ -416,16 +407,13 @@ begin
   if not Result then
   begin
     Connection := TConnection.Create;
-    if AddQuickConnection(Connection) then
+    Connection.ConnectionName:= cQuickConnection;
+    if ShowFtpConfDlg(Connection) then
     begin
-      if ShowPasswordDialog(Connection.Password) then
-      begin
-        Connection.PassiveMode:= True;
-        Connection.ConnectionName:= cQuickConnection;
-        Index:= ConnectionList.AddObject(Connection.ConnectionName, Connection);
-        Result:= FtpConnect(Connection.ConnectionName, FtpSend);
-        ConnectionList.Delete(Index);
-      end;
+      Connection.ConnectionName:= cQuickConnection;
+      Index:= ConnectionList.AddObject(Connection.ConnectionName, Connection);
+      Result:= FtpConnect(Connection.ConnectionName, FtpSend);
+      ConnectionList.Delete(Index);
     end;
     Connection.Free;
   end;
@@ -440,37 +428,23 @@ begin
   Connection := TConnection.Create;
   Connection.PassiveMode := True;
 
-  if HasDialogAPI then
+  if ShowFtpConfDlg(Connection) then
   begin
-    if ShowFtpConfDlg(Connection) then
+    with Connection do
     begin
-      with Connection do
-      begin
-        if ConnectionList.IndexOf(ConnectionName) >= 0 then begin
-          ConnectionName += '+' + IntToStr(Random(MaxInt));
-        end;
-        if MasterPassword then
-        begin
-          if Length(Password) = 0 then
-            MasterPassword:= False
-          else if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
-            Password:= EmptyStr
-          else
-            MasterPassword:= False;
-        end;
-        Result:= ConnectionList.AddObject(ConnectionName, Connection);
+      if ConnectionList.IndexOf(ConnectionName) >= 0 then begin
+        ConnectionName += '+' + IntToStr(Random(MaxInt));
       end;
-    end;
-  end
-  else begin
-    SetLength(Temp, MAX_PATH + 1); Temp[1]:= #0;
-    if RequestProc(PluginNumber, RT_Other, nil, nil, PWideChar(Temp), MAX_PATH) then
-    begin
-      Connection.ConnectionName := PAnsiChar(Temp);
-      if AddQuickConnection(Connection) then
+      if MasterPassword then
       begin
-        Result:= ConnectionList.AddObject(Connection.ConnectionName, Connection);
+        if Length(Password) = 0 then
+          MasterPassword:= False
+        else if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
+          Password:= EmptyStr
+        else
+          MasterPassword:= False;
       end;
+      Result:= ConnectionList.AddObject(ConnectionName, Connection);
     end;
   end;
 
@@ -487,55 +461,52 @@ var
   Connection: TConnection;
 begin
   Result:= False;
-  if HasDialogAPI then
+  I := ConnectionList.IndexOf(ConnectionName);
+  if I >= 0 then
   begin
-    I := ConnectionList.IndexOf(ConnectionName);
-    if I >= 0 then
+    ATemp:= TConnection.Create;
+    Connection:= TConnection(ConnectionList.Objects[I]);
+    ATemp.Assign(Connection);
+    if ShowFtpConfDlg(ATemp) then
     begin
-      ATemp:= TConnection.Create;
-      Connection:= TConnection(ConnectionList.Objects[I]);
-      ATemp.Assign(Connection);
-      if ShowFtpConfDlg(ATemp) then
+      with ATemp do
       begin
-        with ATemp do
+        if ConnectionName <> Connection.ConnectionName then
         begin
-          if ConnectionName <> Connection.ConnectionName then
+          if Connection.MasterPassword then
           begin
-            if Connection.MasterPassword then
+            if CryptFunc(FS_CRYPT_MOVE_PASSWORD, Connection.ConnectionName, ConnectionName) <> FS_FILE_OK then
             begin
-              if CryptFunc(FS_CRYPT_MOVE_PASSWORD, Connection.ConnectionName, ConnectionName) <> FS_FILE_OK then
-              begin
-                gStartupInfo.MessageBox('Cannot save connection!', 'FTP', MB_OK or MB_ICONERROR);
-                Exit(False);
-              end;
+              gStartupInfo.MessageBox('Cannot save connection!', 'FTP', MB_OK or MB_ICONERROR);
+              Exit(False);
             end;
-            ConnectionList[I]:= ConnectionName
           end;
-          if PasswordChanged then
-          begin
-            // Master password enabled
-            if MasterPassword then
-            begin
-              if Length(Password) = 0 then
-                MasterPassword:= False
-              else if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
-                Password:= EmptyStr
-              else
-                MasterPassword:= False;
-            end;
-            // Master password disabled
-            if (MasterPassword = False) and (Connection.MasterPassword <> MasterPassword) then
-            begin
-              DeletePassword(ConnectionName);
-            end;
-          end
+          ConnectionList[I]:= ConnectionName
         end;
-        Connection.Assign(ATemp);
-        WriteConnectionList;
-        Result:= True;
+        if PasswordChanged then
+        begin
+          // Master password enabled
+          if MasterPassword then
+          begin
+            if Length(Password) = 0 then
+              MasterPassword:= False
+            else if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
+              Password:= EmptyStr
+            else
+              MasterPassword:= False;
+          end;
+          // Master password disabled
+          if (MasterPassword = False) and (Connection.MasterPassword <> MasterPassword) then
+          begin
+            DeletePassword(ConnectionName);
+          end;
+        end
       end;
-      FreeAndNil(ATemp);
+      Connection.Assign(ATemp);
+      WriteConnectionList;
+      Result:= True;
     end;
+    FreeAndNil(ATemp);
   end;
 end;
 
@@ -1101,8 +1072,6 @@ begin
   TcpKeepAlive := IniFile.ReadBool('General', 'TcpKeepAlive', TcpKeepAlive);
 
   ReadConnectionList;
-
-  HasDialogAPI:= True;
 end;
 
 function ReadPassword(ConnectionName: AnsiString): String;
@@ -1137,6 +1106,7 @@ begin
   Encoding:= Connection.Encoding;
   PublicKey:= Connection.PublicKey;
   PrivateKey:= Connection.PrivateKey;
+  Fingerprint:= Connection.Fingerprint;
   PassiveMode:= Connection.PassiveMode;
   UseAllocate:= Connection.UseAllocate;
   InitCommands:= Connection.InitCommands;
