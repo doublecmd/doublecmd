@@ -932,26 +932,26 @@ const
     {$ENDIF}
   );
 var
-  UserLang, LCLLngDir: String;
   Lang: String =  '';
   FallbackLang: string = '';
+  UserLang, LCLLngDir: String;
 begin
-  LCLLngDir:= gpLngDir + PathDelim + 'lcl' + PathDelim;
+  LCLLngDir:= gpLngDir + 'lcl' + PathDelim;
   if NumCountChars('.', poFileName) >= 2 then
+  begin
+    UserLang:= ExtractDelimited(2, poFileName, ['.']);
+    Application.BidiMode:= BidiModeMap[Application.IsRTLLang(UserLang)];
+    poFileName:= LCLLngDir + Format('lclstrconsts.%s.po', [UserLang]);
+    if not mbFileExists(poFileName) then
     begin
-      UserLang:= ExtractDelimited(2, poFileName, ['.']);
-      Application.BidiMode:= BidiModeMap[Application.IsRTLLang(UserLang)];
-      poFileName:= LCLLngDir + Format('lclstrconsts.%s.po', [UserLang]);
-      if not mbFileExists(poFileName) then
-        begin
-          GetLanguageIDs(Lang,FallbackLang);
-          poFileName:= LCLLngDir + Format('lclstrconsts.%s.po', [Lang]);
-        end;
+      GetLanguageIDs(Lang, FallbackLang);
+      poFileName:= LCLLngDir + Format('lclstrconsts.%s.po', [Lang]);
       if not mbFileExists(poFileName) then
         poFileName:= LCLLngDir + Format('lclstrconsts.%s.po', [FallbackLang]);
-      if mbFileExists(poFileName) then
-          Translations.TranslateUnitResourceStrings('LCLStrConsts', poFileName);
     end;
+    if mbFileExists(poFileName) then
+      Translations.TranslateUnitResourceStrings('LCLStrConsts', poFileName);
+  end;
 end;
 
 procedure lngLoadLng(const sFileName:String);
