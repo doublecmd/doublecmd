@@ -310,6 +310,7 @@ type
     procedure CutToImage;
     procedure Res(W, H: integer);
     procedure RedEyes;
+    procedure DeleteCurrentFile;
     procedure EnableActions(AEnabled: Boolean);
     procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
     procedure CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
@@ -435,6 +436,8 @@ begin
   Viewer := TfrmViewer.Create(Application, aFileSource);
   Viewer.FileList.Assign(FilesToView);// Make a copy of the list
   Viewer.DrawPreview.RowCount:= Viewer.FileList.Count;
+  Viewer.actMoveFile.Enabled := FilesToView.Count > 1;
+  Viewer.actDeleteFile.Enabled := FilesToView.Count > 1;
   with Viewer.ViewerControl do
   case gViewerMode of
     1: Mode:= vcmText;
@@ -1016,12 +1019,28 @@ begin
   tmp.Free;
 end;
 
+procedure TfrmViewer.DeleteCurrentFile;
+begin
+  CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
+  mbDeleteFile(FileList.Strings[iActiveFile]);
+  FileList.Delete(iActiveFile);
+
+  actMoveFile.Enabled := FileList.Count > 1;
+  actDeleteFile.Enabled := FileList.Count > 1;
+  if iActiveFile >= FileList.Count then
+    iActiveFile:= FileList.Count;
+
+  LoadFile(iActiveFile);
+  DrawPreview.Repaint;
+  SplitterChangeBounds;
+end;
+
 procedure TfrmViewer.EnableActions(AEnabled: Boolean);
 begin
   actSave.Enabled:= AEnabled;
   actCopyFile.Enabled:= AEnabled;
-  actMoveFile.Enabled:= AEnabled;
-  actDeleteFile.Enabled:= AEnabled;
+  actMoveFile.Enabled:= AEnabled and (FileList.Count > 1);
+  actDeleteFile.Enabled:= AEnabled and (FileList.Count > 1);
 end;
 
 procedure TfrmViewer.CutToImage;
@@ -1195,12 +1214,7 @@ begin
           CopyFile(FileList.Strings[iActiveFile],FModSizeDialog.Path+PathDelim+ExtractFileName(FileList.Strings[iActiveFile]));
           if AViewerAction = vcmaMove then
           begin
-            CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
-            mbDeleteFile(FileList.Strings[iActiveFile]);
-            FileList.Delete(iActiveFile);
-            LoadFile(iActiveFile);
-            DrawPreview.Repaint;
-            SplitterChangeBounds;
+            DeleteCurrentFile;
           end;
         end;
     end;
@@ -2358,12 +2372,7 @@ procedure TfrmViewer.cm_DeleteFile(const Params: array of string);
 begin
   if actDeleteFile.Enabled and msgYesNo(Format(rsMsgDelSel, [FileList.Strings[iActiveFile]])) then
   begin
-    CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
-    mbDeleteFile(FileList.Strings[iActiveFile]);
-    FileList.Delete(iActiveFile);
-    LoadFile(iActiveFile);
-    DrawPreview.Repaint;
-    SplitterChangeBounds;
+    DeleteCurrentFile;
   end;
 end;
 
