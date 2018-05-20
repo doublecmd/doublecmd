@@ -900,6 +900,7 @@ begin
     MainDrawGrid.RowCount := 0;
     ScanDirs;
     FillFoundItemsDG;
+    MainDrawGrid.SetFocus;
   finally
     TopPanel.Enabled := True;
   end;
