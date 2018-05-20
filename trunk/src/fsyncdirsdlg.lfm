@@ -467,6 +467,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     TabOrder = 8
     OnDblClick = MainDrawGridDblClick
     OnDrawCell = MainDrawGridDrawCell
+    OnKeyDown = MainDrawGridKeyDown
     OnMouseDown = MainDrawGridMouseDown
   end
   object ImageList1: TImageList

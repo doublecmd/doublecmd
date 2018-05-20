@@ -108,6 +108,8 @@ type
     procedure MainDrawGridDblClick(Sender: TObject);
     procedure MainDrawGridDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
+    procedure MainDrawGridKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure MainDrawGridMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -149,6 +151,7 @@ type
     procedure SortFoundItems(sl: TStringList);
     procedure UpdateStatusBar;
     procedure StopCheckContentThread;
+    procedure UpdateSelection(R: Integer);
     procedure SetSyncRecState(AState: TSyncRecState);
     property SortIndex: Integer read FSortIndex write SetSortIndex;
     property Commands: TFormCommands read FCommands implements IFormCommands;
@@ -765,12 +768,19 @@ begin
   end;
 end;
 
+procedure TfrmSyncDirsDlg.MainDrawGridKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case Key of
+    VK_SPACE:
+      UpdateSelection(MainDrawGrid.Row);
+  end;
+end;
+
 procedure TfrmSyncDirsDlg.MainDrawGridMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   c, r: Integer;
-  sr: TFileSyncRec;
-  ca: TSyncRecState;
 begin
   MainDrawGrid.MouseToCell(X, Y, c, r);
   if (r < 0) or (r >= FVisibleItems.Count)
@@ -778,32 +788,7 @@ begin
   or (x - 2 > hCols[3].Left + hCols[3].Width)
   then
     Exit;
-  sr := TFileSyncRec(FVisibleItems.Objects[r]);
-  if not Assigned(sr) or (sr.FState = srsEqual) then Exit;
-  ca := sr.FAction;
-  case ca of
-  srsNotEq:
-    ca := srsCopyRight;
-  srsCopyRight:
-    if Assigned(sr.FFileR) then
-      ca := srsCopyLeft
-    else
-      ca := srsDoNothing;
-  srsCopyLeft:
-    if Assigned(sr.FFileL) then
-      ca := srsNotEq
-    else
-      ca := srsDoNothing;
-  srsDeleteRight:
-    ca := srsDoNothing;
-  srsDoNothing:
-    if Assigned(sr.FFileL) then
-      ca := srsCopyRight
-    else
-      ca := FFileExists;
-  end;
-  sr.FAction := ca;
-  MainDrawGrid.InvalidateRow(r);
+  UpdateSelection(R);
 end;
 
 procedure TfrmSyncDirsDlg.FormKeyDown(Sender: TObject; var Key: Word;
@@ -1326,6 +1311,39 @@ begin
       WaitFor;
     end;
   end;
+end;
+
+procedure TfrmSyncDirsDlg.UpdateSelection(R: Integer);
+var
+  sr: TFileSyncRec;
+  ca: TSyncRecState;
+begin
+  sr := TFileSyncRec(FVisibleItems.Objects[r]);
+  if not Assigned(sr) or (sr.FState = srsEqual) then Exit;
+  ca := sr.FAction;
+  case ca of
+  srsNotEq:
+    ca := srsCopyRight;
+  srsCopyRight:
+    if Assigned(sr.FFileR) then
+      ca := srsCopyLeft
+    else
+      ca := srsDoNothing;
+  srsCopyLeft:
+    if Assigned(sr.FFileL) then
+      ca := srsNotEq
+    else
+      ca := srsDoNothing;
+  srsDeleteRight:
+    ca := srsDoNothing;
+  srsDoNothing:
+    if Assigned(sr.FFileL) then
+      ca := srsCopyRight
+    else
+      ca := FFileExists;
+  end;
+  sr.FAction := ca;
+  MainDrawGrid.InvalidateRow(r);
 end;
 
 procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
