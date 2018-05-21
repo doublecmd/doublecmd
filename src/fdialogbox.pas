@@ -15,9 +15,8 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License along
-    with this program; if not, write to the Free Software Foundation, Inc.,
-    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fDialogBox;
@@ -88,10 +87,14 @@ type
   private
     FDlgProc: TDlgProc;
     FResult: LongBool;
+    FTranslator: TAbstractTranslator;
   protected
     procedure ShowDialogBox;
+    procedure ProcessResource; override;
+    function InitResourceComponent(Instance: TComponent; RootAncestor: TClass): Boolean;
   public
-    { public declarations }
+    constructor Create(DlgProc: TDlgProc); reintroduce;
+    destructor Destroy; override;
   end; 
 
 function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; dcpcall;
@@ -104,7 +107,8 @@ function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: 
 implementation
 
 uses
-  uShowMsg, DCClassesUtf8;
+  LCLStrConsts, LazFileUtils, DCClassesUtf8, DCOSUtils, uShowMsg, uDebug,
+  uTranslator, uGlobs;
 
 function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; dcpcall;
 var
@@ -157,11 +161,10 @@ function DialogBox(DlgProc: TDlgProc): LongBool;
 var
   Dialog: TDialogBox = nil;
 begin
-  Dialog:= TDialogBox.Create(nil);
+  Dialog:= TDialogBox.Create(DlgProc);
   try
     with Dialog do
     begin
-      FDlgProc:= DlgProc;
       TThread.Synchronize(nil, @ShowDialogBox);
       Result:= FResult;
     end;
@@ -510,6 +513,102 @@ end;
 procedure TDialogBox.ShowDialogBox;
 begin
   FResult:= (ShowModal = mrOK);
+end;
+
+procedure TDialogBox.ProcessResource;
+begin
+  if not InitResourceComponent(Self, TForm) then
+    if RequireDerivedFormResource then
+      raise EResNotFound.CreateFmt(rsFormResourceSNotFoundForResourcelessFormsCreateNew, [ClassName])
+  else
+    DCDebug(Format(rsFormResourceSNotFoundForResourcelessFormsCreateNew, [ClassName]));
+end;
+
+function TDialogBox.InitResourceComponent(Instance: TComponent; RootAncestor: TClass): Boolean;
+
+  function InitComponent(ClassType: TClass): Boolean;
+  var
+    ResName: String;
+    Stream: TStream;
+    Reader: TReader;
+    DestroyDriver: Boolean;
+    LazResource: TLResource;
+    Driver: TAbstractObjectReader;
+  begin
+    Result := False;
+    if (ClassType = TComponent) or (ClassType = RootAncestor) then
+      Exit;
+    if Assigned(ClassType.ClassParent) then
+      Result := InitComponent(ClassType.ClassParent);
+
+    Stream := nil;
+    ResName := ClassType.ClassName;
+
+    LazResource := LazarusResources.Find(ResName);
+    if (LazResource <> nil) and (LazResource.Value <> '') then
+      Stream := TLazarusResourceStream.CreateFromHandle(LazResource);
+    //DCDebug('[InitComponent] CompResource found for ', ClassType.Classname);
+
+    if Stream = nil then
+      Exit;
+
+    try
+      //DCDebug('Form Stream "', ClassType.ClassName, '"');
+      DestroyDriver := False;
+      Reader := CreateLRSReader(Stream, DestroyDriver);
+      if Assigned(FTranslator) then begin
+        Reader.OnReadStringProperty:= @FTranslator.TranslateStringProperty;
+      end;
+      try
+        Reader.ReadRootComponent(Instance);
+      finally
+        Driver := Reader.Driver;
+        Reader.Free;
+        if DestroyDriver then
+          Driver.Free;
+      end;
+    finally
+      Stream.Free;
+    end;
+    Result := True;
+  end;
+
+begin
+  if Instance.ComponentState * [csLoading, csInline] <> []
+  then begin
+    // global loading not needed
+    Result := InitComponent(Instance.ClassType);
+  end
+  else try
+    BeginGlobalLoading;
+    Result := InitComponent(Instance.ClassType);
+    NotifyGlobalLoading;
+  finally
+    EndGlobalLoading;
+  end;
+end;
+
+constructor TDialogBox.Create(DlgProc: TDlgProc);
+var
+  Path: String;
+  Language: String;
+  FileName: String;
+begin
+  FDlgProc:= DlgProc;
+
+  FileName:= mbGetModuleName(DlgProc);
+  Path:= ExtractFilePath(FileName) + 'language' + PathDelim;
+  Language:= ExtractFileExt(ExtractFileNameOnly(gPOFileName));
+  FileName:= Path + ExtractFileNameOnly(FileName) + Language + '.po';
+  if mbFileExists(FileName) then FTranslator:= TTranslator.Create(FileName);
+
+  inherited Create(nil);
+end;
+
+destructor TDialogBox.Destroy;
+begin
+  inherited Destroy;
+  FTranslator.Free;
 end;
 
 procedure TDialogBox.DialogBoxShow(Sender: TObject);
