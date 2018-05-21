@@ -54,7 +54,6 @@ constructor TTranslator.Create(const FileName: String);
 begin
   inherited Create;
   FPOFile := TPOFile.Create(FileName);
-  Translations.TranslateResourceStrings(FPOFile);
 end;
 
 destructor TTranslator.Destroy;
