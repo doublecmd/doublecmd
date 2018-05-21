@@ -92,7 +92,6 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
     AnchorSideTop.Side = asrBottom
     Left = 6
     Height = 24
-    Hint = 'When accessing file association, offer to add current selected file if not already included in a configured file type'
     Top = 40
     Width = 185
     BorderSpacing.Top = 10
@@ -100,4 +99,4 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
     OnChange = cbExtendedContextMenuChange
     TabOrder = 2
   end
-end
+end
