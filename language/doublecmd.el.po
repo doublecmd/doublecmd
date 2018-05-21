@@ -5646,11 +5646,6 @@ msgstr "Εκτέλεση  μέσω κελύφους"
 msgid "Extended context menu"
 msgstr "Μενού εκτεταμένων περιεχομένων"
 
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXTENDEDCONTEXTMENU.HINT"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Όταν γίνεται πρόσβαση του συσχετισμού αρχείου, πρόταση για προσθήκη του τρέχοντος επιλεγμένου αρχείου αν δεν έχει ήδη συμπεριληφθεί σε ένα ρυθμισμένο τύπο αρχείου"
-
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Ρυθμίσεις Συσχετισμού Αρχείων"

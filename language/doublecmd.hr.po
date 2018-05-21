@@ -1511,6 +1511,7 @@ msgstr ""
 #: tfrmfinddlg.actclose.caption
 #, fuzzy
 #| msgid "actClose"
+msgctxt "tfrmfinddlg.actclose.caption"
 msgid "&Close"
 msgstr "akcija zatvori"
 
@@ -1522,6 +1523,7 @@ msgstr ""
 #: tfrmfinddlg.actedit.caption
 #, fuzzy
 #| msgid "actEdit"
+msgctxt "tfrmfinddlg.actedit.caption"
 msgid "&Edit"
 msgstr "akcija Uredi"
 
@@ -1548,6 +1550,7 @@ msgstr "akcija Idi na datoteku"
 #: tfrmfinddlg.actintellifocus.caption
 #, fuzzy
 #| msgid "actIntelliFocus"
+msgctxt "tfrmfinddlg.actintellifocus.caption"
 msgid "Find Data"
 msgstr "akcija IntelliFocus"
 
@@ -1608,12 +1611,14 @@ msgstr "akcija Standardna stranica"
 #: tfrmfinddlg.actstart.caption
 #, fuzzy
 #| msgid "actStart"
+msgctxt "tfrmfinddlg.actstart.caption"
 msgid "&Start"
 msgstr "akcija pokrenite radnju"
 
 #: tfrmfinddlg.actview.caption
 #, fuzzy
 #| msgid "actView"
+msgctxt "tfrmfinddlg.actview.caption"
 msgid "&View"
 msgstr "akcija Pregled"
 
@@ -1765,6 +1770,7 @@ msgid "Files"
 msgstr "Datoteke"
 
 #: tfrmfinddlg.gbfinddata.caption
+msgctxt "tfrmfinddlg.gbfinddata.caption"
 msgid "Find Data"
 msgstr "Pronađi podatke"
 
@@ -5977,11 +5983,6 @@ msgstr "Izvrši putem ljuske"
 #: tfrmoptionsfileassocextra.cbextendedcontextmenu.caption
 msgid "Extended context menu"
 msgstr "Dodatni kontekstni izbornik"
-
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "tfrmoptionsfileassocextra.cbextendedcontextmenu.hint"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Kod pridruživanja datoteke, ponudi dodavanje trenutačne odabrane datoteke ako već nije uključena u konfiguriranu vrstu datoteke"
 
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"

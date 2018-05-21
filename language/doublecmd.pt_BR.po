@@ -5697,11 +5697,6 @@ msgstr "Executar via shell."
 msgid "Extended context menu"
 msgstr "Menu de contexto estendido."
 
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "tfrmoptionsfileassocextra.cbextendedcontextmenu.hint"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Quando acessar configuração de arquivo, oferecer para adicionar o arquivo atualmente selecionado se ainda não estiver incluído na configuração tipo de arquivo. "
-
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Configuração de associação de arquivo."

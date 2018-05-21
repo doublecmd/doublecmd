@@ -5679,11 +5679,6 @@ msgstr "Exécuter via l'invite de commande"
 msgid "Extended context menu"
 msgstr "Menu contextuel étendu"
 
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "tfrmoptionsfileassocextra.cbextendedcontextmenu.hint"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Lorsqu'on accès au menu d'association, offrir d'ajouter l'extension du fichier sélectionné courant aux configuration d'extension si  elle ne correspond pas déjà un groupe existant"
-
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Configuration des associations d'extensions"

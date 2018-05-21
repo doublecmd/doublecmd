@@ -5611,11 +5611,6 @@ msgstr "通过系统外壳执行"
 msgid "Extended context menu"
 msgstr "扩展右键菜单"
 
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "tfrmoptionsfileassocextra.cbextendedcontextmenu.hint"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "访问文件关联时，如果尚未包含在已配置的文件类型中，则提供添加当前所选文件的功能"
-
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "文件关联配置"
@@ -8293,9 +8288,10 @@ msgid "&Megabytes"
 msgstr "MB(&M)"
 
 #: tfrmstartingsplash.caption
+#, fuzzy
 msgctxt "tfrmstartingsplash.caption"
 msgid "Double Commander"
-msgstr ""
+msgstr "Double Commander"
 
 #: tfrmstartingsplash.lblbuild.caption
 msgctxt "tfrmstartingsplash.lblbuild.caption"

@@ -5630,11 +5630,6 @@ msgstr "Auf der Befehlszeile ausführen"
 msgid "Extended context menu"
 msgstr "Erweitertes Kontextmenü"
 
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "tfrmoptionsfileassocextra.cbextendedcontextmenu.hint"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Wenn die Dateityp-Verknüpfung genutzt wird, anbieten die aktuelle Datei hinzuzfügen, wenn nicht bereits in einem konfigurierten Typ enthalten"
-
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Konfiguration der Dateitypen"

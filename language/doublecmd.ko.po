@@ -5750,11 +5750,6 @@ msgstr "쉘 명령으로 실행"
 msgid "Extended context menu"
 msgstr "확장 메뉴"
 
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXTENDEDCONTEXTMENU.HINT"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "파일 연결 작성할 때 현재 파일 형식 없으면 추가"
-
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "파일 연결 환경설정"
