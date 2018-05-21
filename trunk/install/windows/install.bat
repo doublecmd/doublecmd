@@ -54,3 +54,4 @@ copy  plugins\wdx\scripts\*               %DC_INSTALL_DIR%\plugins\wdx\scripts\
 copy  plugins\wdx\audioinfo\audioinfo.wdx %DC_INSTALL_DIR%\plugins\wdx\audioinfo\
 rem WFX
 copy  plugins\wfx\ftp\ftp.wfx             %DC_INSTALL_DIR%\plugins\wfx\ftp\
+xcopy /E plugins\wfx\ftp\language         %DC_INSTALL_DIR%\plugins\wfx\ftp\language\
