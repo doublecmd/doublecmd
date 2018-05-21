@@ -5528,11 +5528,6 @@ msgstr "Izvedi prek lupine"
 msgid "Extended context menu"
 msgstr "Razširjen vsebinski meni"
 
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXTENDEDCONTEXTMENU.HINT"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Ob dostopu do programskih vezi z datotekami naj se pokaže tudi pogovorno okno za dodajanje izbrane vrste datoteke med zbrane nastavitve vezi"
-
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Nastavitve datotečnih vezi"

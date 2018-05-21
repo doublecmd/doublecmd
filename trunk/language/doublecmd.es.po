@@ -5527,11 +5527,6 @@ msgstr "&Ejecutar en terminal"
 msgid "Extended context menu"
 msgstr "Menú contextual extendido"
 
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXTENDEDCONTEXTMENU.HINT"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Cuando accede a la asociación de archivos, ofrece añadir el archivo seleccionado en ese momento si no está ya incluido en un tipo de archivo configurado"
-
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Configuración de asociación de archivos"

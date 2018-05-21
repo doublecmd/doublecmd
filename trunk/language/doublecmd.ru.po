@@ -5656,11 +5656,6 @@ msgstr "Запустить с помощью оболочки"
 msgid "Extended context menu"
 msgstr "Расширенное контекстное меню"
 
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "tfrmoptionsfileassocextra.cbextendedcontextmenu.hint"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Если доступна ассоциация файлов, предлагаем добавить текущий выбранный файл, если он ещё не входит в конфигурацию типа файла"
-
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Настроить файловые ассоциации"

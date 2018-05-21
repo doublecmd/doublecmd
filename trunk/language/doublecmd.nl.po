@@ -5521,12 +5521,6 @@ msgstr "Voer uit via schil"
 msgid "Extended context menu"
 msgstr "Uitgebreid contextmenu"
 
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-#, fuzzy
-msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXTENDEDCONTEXTMENU.HINT"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Bij het benaderen van bestandassociatie, bied aan om selectie toe te voegen aan bestandassociatie wanneer niet reeds opgenomen als ingestelde bestandssoort"
-
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Instelling van bestandassociatie"

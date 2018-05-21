@@ -5522,11 +5522,6 @@ msgstr "Spustit přes shell"
 msgid "Extended context menu"
 msgstr "Rozšířená místní nabídka"
 
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "TFRMOPTIONSFILEASSOCEXTRA.CBEXTENDEDCONTEXTMENU.HINT"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Při přidružení souboru, nabídne přidat aktuální vybraný soubor, pokud již není zahrnut v seznamu nakonfigurovaných typů souboru"
-
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "Konfigurační soubor přidružení"

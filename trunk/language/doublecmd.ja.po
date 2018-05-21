@@ -5652,11 +5652,6 @@ msgstr "シェル経由で実行"
 msgid "Extended context menu"
 msgstr "拡張コンテキストメニュー"
 
-#: tfrmoptionsfileassocextra.cbextendedcontextmenu.hint
-msgctxt "tfrmoptionsfileassocextra.cbextendedcontextmenu.hint"
-msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "ファイルの関連付けにアクセスする場合、もしどの設定済みのファイルタイプに属していないなら、現在選択されているファイルを追加することを提案する"
-
 #: tfrmoptionsfileassocextra.cbincludeconfigfileassoc.caption
 msgid "File association configuration"
 msgstr "ファイルの関連付けの設定"
