@@ -137,7 +137,7 @@ type
   protected
     procedure CalculatePreferredSize(var PreferredWidth,
         PreferredHeight: Integer; WithThemeSpace: Boolean); override;
-    procedure ControlsAligned; override;
+    procedure AlignControls(AControl: TControl; var RemainingClientRect: TRect); override;
     procedure FontChanged(Sender: TObject); override;
     function WrapButtons(UseWidth: integer;
         out NewWidth, NewHeight: Integer; Simulate: boolean): Boolean;
@@ -247,16 +247,19 @@ begin
   WrapButtons(Width, PreferredWidth, PreferredHeight, True);
 end;
 
-procedure TKASToolBar.ControlsAligned;
+procedure TKASToolBar.AlignControls(AControl: TControl; var RemainingClientRect: TRect);
 var
   NewWidth, NewHeight: integer;
 begin
   if tbfPlacingControls in FKASToolBarFlags then exit;
   Include(FKASToolBarFlags, tbfPlacingControls);
+  DisableAlign;
   try
+    AdjustClientRect(RemainingClientRect);
     WrapButtons(Width, NewWidth, NewHeight, False);
   finally
     Exclude(FKASToolBarFlags, tbfPlacingControls);
+    EnableAlign;
   end;
 end;
 
