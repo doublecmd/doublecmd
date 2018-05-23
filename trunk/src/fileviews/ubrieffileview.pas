@@ -78,6 +78,8 @@ procedure TBriefDrawGrid.UpdateView;
     NewFont     := TFont.Create;
     Canvas.Font := NewFont;
 
+    Canvas.Font.PixelsPerInch := NewFont.PixelsPerInch;
+
     // Search columns settings for the biggest font (in height).
     Canvas.Font.Name  := gFonts[dcfMain].Name;
     Canvas.Font.Style := gFonts[dcfMain].Style;
@@ -162,9 +164,9 @@ begin
           J:= I;
         end;
       end;
-      Canvas.Font.Name   := gFonts[dcfMain].Name;
-      Canvas.Font.Size   := gFonts[dcfMain].Size;
-      Canvas.Font.Style  := gFonts[dcfMain].Style;
+      Canvas.Font.Name          := gFonts[dcfMain].Name;
+      Canvas.Font.Size          := gFonts[dcfMain].Size;
+      Canvas.Font.Style         := gFonts[dcfMain].Style;
       M:= Canvas.TextWidth(FBriefView.FFiles[J].FSFile.Name + 'WWW');
       if (gShowIcons = sim_none) then
         M:= M + 2

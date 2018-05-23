@@ -296,6 +296,8 @@ var
     NewFont     := TFont.Create;
     Canvas.Font := NewFont;
 
+    Canvas.Font.PixelsPerInch := NewFont.PixelsPerInch;
+
     // Search columns settings for the biggest font (in height).
     Canvas.Font.Name  := gFonts[dcfMain].Name;
     Canvas.Font.Style := gFonts[dcfMain].Style;
