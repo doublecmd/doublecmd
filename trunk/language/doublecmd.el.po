@@ -1676,6 +1676,10 @@ msgstr "Ώρα στο:"
 msgid "&Use search plugin:"
 msgstr "Χρήση προσθέτου αναζήτησης:"
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "Εισαγωγή ονομάτων καταλόγων που θα έπρεπε να αποκλειστούν από την αναζήτηση, διαχωρισμένων με \";\""
@@ -1761,16 +1765,6 @@ msgstr "Απομάκρυνση από τη λίστα"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr "Αποτέλεσμα"
-
-#: tfrmfinddlg.miseparator1.caption
-msgctxt "tfrmfinddlg.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-msgctxt "tfrmfinddlg.miseparator2.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -10606,6 +10600,10 @@ msgstr "Μη Έγκυρο όνομα αρχείου"
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
 msgstr "Άκυρος τύπος αρχείου ρυθμίσεων"
+
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

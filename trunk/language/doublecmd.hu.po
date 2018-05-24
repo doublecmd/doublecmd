@@ -1,4 +1,4 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha r7226\n"
 "Report-Msgid-Bugs-To: \n"
@@ -1677,6 +1677,10 @@ msgstr "I&dőig :"
 msgid "&Use search plugin:"
 msgstr "Kereső &beépülő használata :"
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "Írja be a mappák nevét amelyeket kizár a keresésből, \";\" az elválasztó"
@@ -1763,18 +1767,6 @@ msgstr "Eltávolít a listáról"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr ""
-
-#: tfrmfinddlg.miseparator1.caption
-#, fuzzy
-msgctxt "tfrmfinddlg.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-#, fuzzy
-msgctxt "tfrmfinddlg.miseparator2.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -10667,6 +10659,10 @@ msgstr "Érvénytelen fájlnév"
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
 msgstr "Érvénytelen beállítási fájl formátum"
+
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

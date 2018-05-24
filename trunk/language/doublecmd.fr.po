@@ -1695,6 +1695,10 @@ msgstr "H. fin :"
 msgid "&Use search plugin:"
 msgstr "&Utiliser le \"plugin\" de recherche :"
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "Entrer les noms de dossiers à exclure de la recherche et les séparer par un point-virgule"
@@ -1779,16 +1783,6 @@ msgstr "Supprimer de la liste"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr "&Résultat"
-
-#: tfrmfinddlg.miseparator1.caption
-msgctxt "tfrmfinddlg.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-msgctxt "tfrmfinddlg.miseparator2.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -10666,6 +10660,10 @@ msgstr "Nom de fichier incorrect"
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
 msgstr "Format incorrect du fichier de configuration"
+
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

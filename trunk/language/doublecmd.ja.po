@@ -1675,6 +1675,10 @@ msgstr "終了時間(&m)"
 msgid "&Use search plugin:"
 msgstr "検索プラグインを使用(&U)："
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "検索対象から除外すべきディレクトリ名を”;”で区切って入力"
@@ -1760,16 +1764,6 @@ msgstr "リストから削除"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr "結果（&R）"
-
-#: tfrmfinddlg.miseparator1.caption
-msgctxt "tfrmfinddlg.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-msgctxt "tfrmfinddlg.miseparator2.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -10624,6 +10618,10 @@ msgstr "無効なファイル名"
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
 msgstr "設定ファイルのフォーマットが無効"
+
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

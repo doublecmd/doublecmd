@@ -1747,6 +1747,10 @@ msgstr "Do vre&mena:"
 msgid "&Use search plugin:"
 msgstr "&Koristi priključak za pretragu:"
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "Unesite imena mapa koji bi trebali biti isključeni iz pretrage odvojene znakom \";\""
@@ -1833,18 +1837,6 @@ msgstr "Ukloni sa spiska"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr ""
-
-#: tfrmfinddlg.miseparator1.caption
-#, fuzzy
-msgctxt "tfrmfinddlg.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-#, fuzzy
-msgctxt "tfrmfinddlg.miseparator2.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -4798,7 +4790,6 @@ msgid "Background 2:"
 msgstr "Pozadina 2:"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
-#| msgid "Con&figure columns for file system:"
 msgid "Con&figure columns view:"
 msgstr "Podesi pogled stupaca datoteka:"
 
@@ -11041,6 +11032,10 @@ msgstr "Neispravan naziv datoteke"
 msgid "Invalid format of configuration file"
 msgstr "Neispravan oblik u datoteci podešavanja"
 
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr ""
+
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
 msgstr "Neispravna putanja"
@@ -11931,6 +11926,7 @@ msgid "Command"
 msgstr "Naredba"
 
 #: ulng.rsopthotkeysdeletetrashcanoverrides
+#, fuzzy,badformat
 msgctxt "ulng.rsopthotkeysdeletetrashcanoverrides"
 msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do you want to change this parameter to use the global setting?"
 msgstr "Prečica za „cm_Delete“ ima odrednicu koja zaobilazi ove postavke. Da li želite izmijeniti odrednicu i koristiti opće postavke?"
@@ -11977,6 +11973,7 @@ msgid "Set shortcut to delete file"
 msgstr "Postavi prečicu za brisanje datoteke"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
+#, fuzzy,badformat
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
 msgstr "Da bi ove postavke radile sa prečicom %s, prečica mora biti dodijeljena „cm_Delete“, ali je već dodjeljena za %s. Želite li ju promijeniti?"
 
@@ -12830,6 +12827,7 @@ msgid "with internal viewer"
 msgstr "s unutarnjim preglednikom"
 
 #: ulng.rsxreplacements
+#, fuzzy,badformat
 msgid "Number of replacement: %d"
 msgstr "Broj zamjene"
 

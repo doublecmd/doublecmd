@@ -1,4 +1,4 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
@@ -1681,6 +1681,10 @@ msgstr "Ча&с до:"
 msgid "&Use search plugin:"
 msgstr "Використовувати пошуковий п&лагін"
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "Введіть імена каталогів, які повинні бути виключені з пошуку, через \";\""
@@ -1766,18 +1770,6 @@ msgstr "Видалити зі списку"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr ""
-
-#: tfrmfinddlg.miseparator1.caption
-#, fuzzy
-msgctxt "tfrmfinddlg.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-#, fuzzy
-msgctxt "tfrmfinddlg.miseparator2.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -10947,6 +10939,10 @@ msgstr "Некоректне ім’я файла"
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
 msgstr "Неправильний формат файла конфігурації"
+
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
