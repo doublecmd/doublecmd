@@ -545,44 +545,39 @@ end;
 
 function HexToBin(HexString: String): String;
 var
-  I, H, L, C: Integer;
+  Byte: LongRec;
+  L, J, C: Integer;
   HexValue: PAnsiChar;
   BinValue: PAnsiChar;
 begin
   C:= 0;
-  I:= Length(HexString);
-  SetLength(Result, I);
+  L:= Length(HexString);
+  SetLength(Result, L);
   BinValue:= PAnsiChar(Result);
   HexValue:= PAnsiChar(HexString);
-  while (I > 0) do
+  while (L > 0) do
   begin
     // Skip space
     if HexValue^ = #32 then
     begin
-      Dec(I);
+      Dec(L);
       Inc(HexValue);
       Continue;
     end;
-    // High 4 bits
-    if HexValue^ in ['A'..'F', 'a'..'f'] then
-      H:= ((Ord(HexValue^) + 9) and 15)
-    else if HexValue^ in ['0'..'9'] then
-      H:= ((Ord(HexValue^)) and 15)
-    else
-      raise EConvertError.CreateFmt(rsMsgInvalidHexNumber, [HexValue^]);
-    Dec(I);
-    Inc(HexValue);
-    // Low 4 bits
-    if HexValue^ IN ['A'..'F', 'a'..'f'] then
-      L:= (Ord(HexValue^) + 9) and 15
-    else if HexValue^ IN ['0'..'9'] then
-      L:= (Ord(HexValue^)) and 15
-    else
-      raise EConvertError.CreateFmt(rsMsgInvalidHexNumber, [HexValue^]);
-    Dec(I);
-    Inc(HexValue);
+    // Read high and low 4 bits
+    for J:= 1 downto 0 do
+    begin
+      if HexValue^ in ['A'..'F', 'a'..'f'] then
+        Byte.Bytes[J]:= ((Ord(HexValue^) + 9) and 15)
+      else if HexValue^ in ['0'..'9'] then
+        Byte.Bytes[J]:= ((Ord(HexValue^)) and 15)
+      else
+        raise EConvertError.CreateFmt(rsMsgInvalidHexNumber, [HexValue^]);
+      Dec(L);
+      Inc(HexValue);
+    end;
     // Result 8 bit
-    BinValue^:= Chr(L + (H shl 4));
+    BinValue^:= Chr(Byte.Bytes[0] + (Byte.Bytes[1] shl 4));
     Inc(BinValue);
     Inc(C);
   end;
