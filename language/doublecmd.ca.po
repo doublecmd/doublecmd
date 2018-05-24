@@ -1,4 +1,4 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
@@ -1807,6 +1807,10 @@ msgstr "Hora final:"
 msgid "&Use search plugin:"
 msgstr "Usa complement de cerca:"
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "Entreu el nom de les carpetes a excloure de la cerca separats per \";\""
@@ -1896,16 +1900,6 @@ msgstr "Elimina de la lista"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr ""
-
-#: tfrmfinddlg.miseparator1.caption
-msgctxt "tfrmfinddlg.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-msgctxt "tfrmfinddlg.miseparator2.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -11450,6 +11444,10 @@ msgstr "Nom no vàlid"
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
 msgstr "Format invàlid de fitxer de configuració"
+
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

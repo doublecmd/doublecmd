@@ -148,9 +148,10 @@ msgid "Revision"
 msgstr "修订"
 
 #: tfrmabout.lbltitle.caption
+#, fuzzy
 msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
 msgid "Double Commander"
-msgstr ""
+msgstr "Double Commander"
 
 #: tfrmabout.lblversion.caption
 msgctxt "tfrmabout.lblversion.caption"
@@ -1124,9 +1125,10 @@ msgid "&Unpack path names if stored with files"
 msgstr "如果与文件一起存储, 则解压缩路径名(&U)"
 
 #: tfrmextractdlg.cbfilemask.text
+#, fuzzy
 msgctxt "tfrmextractdlg.cbfilemask.text"
 msgid "*.*"
-msgstr ""
+msgstr "*.*"
 
 #: tfrmextractdlg.cbinseparatefolder.caption
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
@@ -1634,6 +1636,10 @@ msgstr "结束时间："
 msgid "&Use search plugin:"
 msgstr "使用搜索插件(&U)："
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "输入应从搜索中排除的文件夹名称，以分号 (;) 分隔"
@@ -1717,16 +1723,6 @@ msgstr "从列表中移除"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr "结果(&R)"
-
-#: tfrmfinddlg.miseparator1.caption
-msgctxt "TFRMFINDDLG.MISEPARATOR1.CAPTION"
-msgid "-"
-msgstr ""
-
-#: tfrmfinddlg.miseparator2.caption
-msgctxt "TFRMFINDDLG.MISEPARATOR2.CAPTION"
-msgid "-"
-msgstr ""
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -10605,6 +10601,10 @@ msgstr "文件名无效"
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
 msgstr "配置文件格式无效"
+
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

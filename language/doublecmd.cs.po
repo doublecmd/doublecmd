@@ -1639,6 +1639,10 @@ msgstr "Ča&s do:"
 msgid "&Use search plugin:"
 msgstr "Po&užít vyhledávací doplněk:"
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "Zadejte názvy adresářů, které mají být vyloučeny z hledání, oddělených \";\""
@@ -1722,16 +1726,6 @@ msgstr "Odebrat ze seznamu"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr "&Výsledek"
-
-#: tfrmfinddlg.miseparator1.caption
-msgctxt "tfrmfinddlg.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-msgctxt "tfrmfinddlg.miseparator2.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -10336,6 +10330,10 @@ msgstr "Nesprávný název souboru"
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
 msgstr "Neplatný formát konfiguračního souboru"
+
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

@@ -1657,6 +1657,10 @@ msgstr "Zeit &bis:"
 msgid "&Use search plugin:"
 msgstr "Nutze Such-PlugIn"
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "Verzeichnisnamen eingeben, die von der Suche ausgeschlossen werden sollen (Namen mit \";\" trennen)"
@@ -1740,18 +1744,6 @@ msgstr "Von der Liste entfernen"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr "&Ergebnisse"
-
-#: tfrmfinddlg.miseparator1.caption
-#, fuzzy
-msgctxt "tfrmfinddlg.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-#, fuzzy
-msgctxt "tfrmfinddlg.miseparator2.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -10604,6 +10596,10 @@ msgstr "Ungültiger Dateiname"
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
 msgstr "Ungültiges Format der Konfigurationsdatei"
+
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

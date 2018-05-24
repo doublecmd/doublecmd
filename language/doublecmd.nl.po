@@ -1635,6 +1635,10 @@ msgstr "Tijd tot:"
 msgid "&Use search plugin:"
 msgstr "&Gebruik invoegtoepassing voor zoeken:"
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "Geef mapnamen in die uitgesloten zijn van zoekopdrachten, gescheiden door puntkomma"
@@ -1718,16 +1722,6 @@ msgstr "Verwijder uit lijst"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr "Resultaat"
-
-#: tfrmfinddlg.miseparator1.caption
-msgctxt "tfrmfinddlg.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-msgctxt "tfrmfinddlg.miseparator2.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -9155,12 +9149,10 @@ msgid "&Continue"
 msgstr "Doorgaan"
 
 #: ulng.rsdlgbuttoncopyinto
-#| msgid "Copy &Into"
 msgid "&Merge"
 msgstr "Kopieer in"
 
 #: ulng.rsdlgbuttoncopyintoall
-#| msgid "Copy Into &All"
 msgid "Mer&ge All"
 msgstr "Alles samenvoegen"
 
@@ -9361,7 +9353,6 @@ msgid "Exported_from_DC"
 msgstr "Geëxporteerd vanuit DC"
 
 #: ulng.rsfileopdirectoryexistsoptions
-#| msgid "Ask;Overwrite;Copy into;Skip"
 msgid "Ask;Merge;Skip"
 msgstr "Vraag;Overschrijf;Kopieer naar;Overslaan"
 
@@ -10098,7 +10089,6 @@ msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr "De bestandgrootte van '%s' is te groot voor doelbestandssysteem."
 
 #: ulng.rsmsgfolderexistsrwrt
-#| msgid "Folder %s exists, overwrite?"
 msgid "Folder %s exists, merge?"
 msgstr "Map %s bestaat al, overschrijven?"
 
@@ -10326,6 +10316,10 @@ msgstr "Ongeldige bestandnaam"
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
 msgstr "Ongeldige bestandsoort van configuratiebestand"
+
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr ""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

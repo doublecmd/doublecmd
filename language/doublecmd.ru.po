@@ -1670,6 +1670,10 @@ msgstr "В&ремя до:"
 msgid "&Use search plugin:"
 msgstr "&Использовать поисковый плагин:"
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr "Шестнадцатеричное"
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "Введите имена каталогов, которые должны быть исключены из поиска, разделённые символом \";\""
@@ -1755,16 +1759,6 @@ msgstr "Убрать из списка"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr "&Результат"
-
-#: tfrmfinddlg.miseparator1.caption
-msgctxt "tfrmfinddlg.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-msgctxt "tfrmfinddlg.miseparator2.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -10644,6 +10638,10 @@ msgstr "Некорректное имя файла"
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
 msgstr "Неверный формат файла конфигурации"
+
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr "Недопустимое шестнадцатеричное число: \"%s\""
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"

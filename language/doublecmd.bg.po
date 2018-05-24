@@ -1692,6 +1692,10 @@ msgstr "Време &до:"
 msgid "&Use search plugin:"
 msgstr "Използване на приставка за търсене:"
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr ""
@@ -1777,18 +1781,6 @@ msgstr "изтриване от списъка"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr ""
-
-#: tfrmfinddlg.miseparator1.caption
-#, fuzzy
-msgctxt "tfrmfinddlg.miseparator1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-#, fuzzy
-msgctxt "tfrmfinddlg.miseparator2.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -8608,9 +8600,10 @@ msgid ">>"
 msgstr ">>"
 
 #: tfrmsyncdirsdlg.btnsynchronize.caption
+#, fuzzy
 msgctxt "tfrmsyncdirsdlg.btnsynchronize.caption"
 msgid "Synchronize"
-msgstr ""
+msgstr "Съгласуване"
 
 #: tfrmsyncdirsdlg.caption
 msgid "Synchronize directories"
@@ -10787,6 +10780,10 @@ msgstr "Неправилно файлово име"
 
 #: ulng.rsmsginvalidformatofconfigurationfile
 msgid "Invalid format of configuration file"
+msgstr ""
+
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
 msgstr ""
 
 #: ulng.rsmsginvalidpath

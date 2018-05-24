@@ -1642,6 +1642,10 @@ msgstr "&Do časa:"
 msgid "&Use search plugin:"
 msgstr "Uporabi vstavek &iskanja:"
 
+#: tfrmfinddlg.chkhex.caption
+msgid "Hexadecimal"
+msgstr ""
+
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
 msgstr "Vpis imen map, ki naj ne bodo upoštevana v iskanju. Imena morajo biti ločena s podpičjem » ; «."
@@ -1725,16 +1729,6 @@ msgstr "Odstrani s seznama"
 #: tfrmfinddlg.miresult.caption
 msgid "&Result"
 msgstr "&Rezultat"
-
-#: tfrmfinddlg.miseparator1.caption
-msgctxt "TFRMFINDDLG.MISEPARATOR1.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmfinddlg.miseparator2.caption
-msgctxt "TFRMFINDDLG.MISEPARATOR2.CAPTION"
-msgid "-"
-msgstr "-"
 
 #: tfrmfinddlg.mishowallfound.caption
 msgid "Show all found items"
@@ -10338,6 +10332,10 @@ msgstr "Neveljavno ime datoteke"
 msgid "Invalid format of configuration file"
 msgstr "Neveljaven zapis nastavitvene datoteke"
 
+#: ulng.rsmsginvalidhexnumber
+msgid "Invalid hexadecimal number: \"%s\""
+msgstr ""
+
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
 msgstr "Neveljavna pot"
@@ -11972,7 +11970,6 @@ msgid "Other example of what's possible"
 msgstr "Drug primer možnosti"
 
 #: ulng.rsvarpath
-#| msgid "Path, with ending delimiter"
 msgid "Path, without ending delimiter"
 msgstr "Pot brez končnega ločilnika"
 
