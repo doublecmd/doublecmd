@@ -108,10 +108,17 @@ begin
 
     if IsFindText then
     begin
-      TextEncoding := NormalizeEncoding(TextEncoding);
-      if TextRegExp then FRegExpr := TRegExprEx.Create(TextEncoding);
-      FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
-      ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
+      if HexValue then
+      begin
+        TextEncoding := EncodingAnsi;
+        FindText := HexToBin(FindText);
+      end
+      else begin
+        TextEncoding := NormalizeEncoding(TextEncoding);
+        if TextRegExp then FRegExpr := TRegExprEx.Create(TextEncoding);
+        FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
+        ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
+      end;
 
       // Determine search type
       if SingleByteEncoding(TextEncoding) then

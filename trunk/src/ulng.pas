@@ -876,6 +876,8 @@ resourcestring
   rsMsgInsertNextDisk = 'Please insert next disk or something similar.'+#$0A+#$0A+'It is to allow writing this file:'+#$0A+'"%s"'+#$0A+''+#$0A+'Number of bytes still to write: %d';
   msgTryToLocateCRCFile = 'This file cannot be found and could help to validate final combination of files:'+#$0A+'%s'+#$0A+#$0A+'Could you make it available and press "OK" when ready,'+#$0A+'or press "CANCEL" to continue without it?';
 
+  rsMsgInvalidHexNumber = 'Invalid hexadecimal number: "%s"';
+
   // Unhandled error.
   rsUnhandledExceptionMessage =
      'Please report this error to the bug tracker with a description '

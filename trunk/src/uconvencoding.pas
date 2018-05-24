@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Encoding conversion and related stuff
 
-   Copyright (C) 2011-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uConvEncoding;
@@ -36,6 +35,7 @@ const
 type
   TMacroEncoding = (meOEM, meANSI, meUTF8, meUTF8BOM, meUTF16LE, meUTF16BE);
 
+function HexToBin(HexString: String): String;
 function TextIsASCII(const S: String): Boolean;
 procedure GetSupportedEncodings(List: TStrings);
 function DetectEncoding(const S: String): String; overload;
@@ -47,7 +47,7 @@ implementation
 
 uses
   SysUtils, LazUTF8, LConvEncoding, GetText, DCConvertEncoding,
-  nsCore, nsUniversalDetector;
+  nsCore, nsUniversalDetector, uLng;
 
 var
   Lang, FallbackLang: AnsiString;
@@ -541,6 +541,52 @@ begin
       Exit(False);
   end;
   Result:= True;
+end;
+
+function HexToBin(HexString: String): String;
+var
+  I, H, L, C: Integer;
+  HexValue: PAnsiChar;
+  BinValue: PAnsiChar;
+begin
+  C:= 0;
+  I:= Length(HexString);
+  SetLength(Result, I);
+  BinValue:= PAnsiChar(Result);
+  HexValue:= PAnsiChar(HexString);
+  while (I > 0) do
+  begin
+    // Skip space
+    if HexValue^ = #32 then
+    begin
+      Dec(I);
+      Inc(HexValue);
+      Continue;
+    end;
+    // High 4 bits
+    if HexValue^ in ['A'..'F', 'a'..'f'] then
+      H:= ((Ord(HexValue^) + 9) and 15)
+    else if HexValue^ in ['0'..'9'] then
+      H:= ((Ord(HexValue^)) and 15)
+    else
+      raise EConvertError.CreateFmt(rsMsgInvalidHexNumber, [HexValue^]);
+    Dec(I);
+    Inc(HexValue);
+    // Low 4 bits
+    if HexValue^ IN ['A'..'F', 'a'..'f'] then
+      L:= (Ord(HexValue^) + 9) and 15
+    else if HexValue^ IN ['0'..'9'] then
+      L:= (Ord(HexValue^)) and 15
+    else
+      raise EConvertError.CreateFmt(rsMsgInvalidHexNumber, [HexValue^]);
+    Dec(I);
+    Inc(HexValue);
+    // Result 8 bit
+    BinValue^:= Chr(L + (H shl 4));
+    Inc(BinValue);
+    Inc(C);
+  end;
+  SetLength(Result, C);
 end;
 
 initialization
