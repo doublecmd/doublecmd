@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Load/Save search templates
 
-   Copyright (C) 2009-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -231,6 +231,7 @@ begin
           IsReplaceText:= AConfig.GetValue(ANode, 'IsReplaceText', False);
           if IsReplaceText then
             ReplaceText:= AConfig.GetValue(ANode, 'ReplaceText', '');
+          HexValue:= AConfig.GetValue(ANode, 'HexValue', False);
           CaseSensitive:= AConfig.GetValue(ANode, 'CaseSensitive', False);
           NotContainingText:= AConfig.GetValue(ANode, 'NotContainingText', False);
           TextRegExp:= AConfig.GetValue(ANode, 'TextRegExp', False);
@@ -323,6 +324,7 @@ begin
       AConfig.AddValue(SubNode, 'IsReplaceText', IsReplaceText);
       if IsReplaceText then
         AConfig.AddValue(SubNode, 'ReplaceText', ReplaceText);
+      AConfig.AddValue(SubNode, 'HexValue', HexValue);
       AConfig.AddValue(SubNode, 'CaseSensitive', CaseSensitive);
       AConfig.AddValue(SubNode, 'NotContainingText', NotContainingText);
       AConfig.AddValue(SubNode, 'TextRegExp', TextRegExp);

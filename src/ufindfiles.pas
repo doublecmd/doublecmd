@@ -80,6 +80,7 @@ type
     FindText: String;
     IsReplaceText : Boolean;
     ReplaceText: String;
+    HexValue,
     CaseSensitive,
     NotContainingText: Boolean;
     TextRegExp: Boolean;
