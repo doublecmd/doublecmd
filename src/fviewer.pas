@@ -539,26 +539,28 @@ var
   aName: String;
   dwFileAttributes: TFileAttrs;
 begin
+  FLastSearchPos := -1;
+  Caption := aFileName;
+
+  // Clear text on status bar.
+  for i := 0 to Status.Panels.Count - 1 do
+    Status.Panels[i].Text := '';
+
   dwFileAttributes := mbFileGetAttr(aFileName);
 
   if dwFileAttributes = faInvalidAttributes then
   begin
-    ShowMessage(rsMsgErrNoFiles);
+    ActivatePanel(pnlFolder);
+    memFolder.Font.Color:= clRed;
+    memFolder.Lines.Text:= rsMsgErrNoFiles;
     Exit;
   end;
-
-  FLastSearchPos := -1;
-  Caption := aFileName;
 
   if bQuickView then
   begin
     iActiveFile := 0;
     FileList.Text := aFileName;
   end;
-
-  // Clear text on status bar.
-  for i := 0 to Status.Panels.Count - 1 do
-    Status.Panels[i].Text := '';
 
   Screen.Cursor:= crHourGlass;
   try
