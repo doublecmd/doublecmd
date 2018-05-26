@@ -1,6 +1,6 @@
-inherited frmFindView: TfrmFindView
+object frmFindView: TfrmFindView
   Left = 365
-  Height = 104
+  Height = 121
   Top = 311
   Width = 344
   HorzScrollBar.Page = 343
@@ -8,74 +8,97 @@ inherited frmFindView: TfrmFindView
   VertScrollBar.Page = 96
   VertScrollBar.Range = 90
   ActiveControl = cbDataToFind
+  AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Find'
-  ClientHeight = 104
+  ChildSizing.TopBottomSpacing = 6
+  ClientHeight = 121
   ClientWidth = 344
   OnShow = FormShow
-  Position = poScreenCenter
-  object cbDataToFind: TComboBox[0]
+  Position = poOwnerFormCenter
+  LCLVersion = '1.8.2.0'
+  object cbDataToFind: TComboBox
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 28
+    Height = 26
     Top = 12
     Width = 328
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 8
     BorderSpacing.Top = 12
     BorderSpacing.Right = 8
-    ItemHeight = 0
+    Constraints.MinWidth = 328
+    ItemHeight = 18
     OnKeyUp = cbDataToFindKeyUp
     TabOrder = 0
   end
-  object btnFind: TBitBtn[1]
-    AnchorSideTop.Side = asrBottom
+  object btnFind: TBitBtn
+    AnchorSideTop.Control = btnClose
     AnchorSideRight.Control = btnClose
-    AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 150
-    Height = 32
-    Top = 68
+    Height = 29
+    Top = 80
     Width = 90
-    Anchors = [akRight, akBottom]
+    Anchors = [akTop, akRight]
+    AutoSize = True
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 4
     Caption = '&Find'
+    Constraints.MinWidth = 90
     Default = True
     OnClick = btnFindClick
-    TabOrder = 2
+    TabOrder = 3
   end
-  object btnClose: TBitBtn[2]
+  object btnClose: TBitBtn
+    AnchorSideTop.Control = chkHex
+    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 246
-    Height = 32
-    Top = 68
+    Height = 29
+    Top = 80
     Width = 90
-    Anchors = [akRight, akBottom]
+    Anchors = [akTop, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 12
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 4
     Caption = '&Cancel'
+    Constraints.MinWidth = 90
     Kind = bkCancel
     ModalResult = 2
-    TabOrder = 3
+    TabOrder = 4
   end
-  object cbCaseSens: TCheckBox[3]
+  object cbCaseSens: TCheckBox
     AnchorSideLeft.Control = cbDataToFind
     AnchorSideTop.Control = cbDataToFind
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 23
-    Top = 46
-    Width = 115
+    Height = 24
+    Top = 44
+    Width = 111
     BorderSpacing.Top = 6
     Caption = 'C&ase sensitive'
     TabOrder = 1
+  end
+  object chkHex: TCheckBox
+    AnchorSideLeft.Control = cbCaseSens
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = cbCaseSens
+    AnchorSideTop.Side = asrCenter
+    Left = 131
+    Height = 24
+    Top = 44
+    Width = 104
+    BorderSpacing.Left = 12
+    Caption = 'Hexadecimal'
+    OnChange = chkHexChange
+    TabOrder = 2
   end
 end
