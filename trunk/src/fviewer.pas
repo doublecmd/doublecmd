@@ -2082,8 +2082,6 @@ begin
           if WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchDialog(0) = LISTPLUGIN_OK then
             Exit;
         end;
-      FFindDialog.chkHex.Enabled:= ViewerControl.Mode in [vcmDec, vcmHex];
-      if not FFindDialog.chkHex.Enabled then FFindDialog.chkHex.Checked:= False;
       // Load search history
       FFindDialog.cbDataToFind.Items.Assign(glsSearchHistory);
       sSearchTextU:= ViewerControl.Selection;
