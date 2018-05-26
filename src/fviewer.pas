@@ -2072,7 +2072,7 @@ var
 begin
   // in first use create dialog
   if not Assigned(FFindDialog) then
-     FFindDialog:= TfrmFindView.Create(Application);
+     FFindDialog:= TfrmFindView.Create(Self);
 
   if (bQuickSearch and gFirstTextSearch) or not bQuickSearch then
     begin
@@ -2082,6 +2082,8 @@ begin
           if WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchDialog(0) = LISTPLUGIN_OK then
             Exit;
         end;
+      FFindDialog.chkHex.Enabled:= ViewerControl.Mode in [vcmDec, vcmHex];
+      if not FFindDialog.chkHex.Enabled then FFindDialog.chkHex.Checked:= False;
       // Load search history
       FFindDialog.cbDataToFind.Items.Assign(glsSearchHistory);
       sSearchTextU:= ViewerControl.Selection;
@@ -2116,7 +2118,17 @@ begin
   else
     begin
       T:= GetTickCount64;
-      sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU);
+      if not FFindDialog.chkHex.Checked then
+        sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU)
+      else try
+        sSearchTextA:= HexToBin(sSearchTextU);
+      except
+        on E: EConvertError do
+        begin
+          msgError(E.Message);
+          Exit;
+        end;
+      end;
 
       // Choose search start position.
       if not bSearchBackwards then
@@ -2136,8 +2148,8 @@ begin
           FLastSearchPos := FLastSearchPos - iSearchParameter;
       end;
 
-      // Using standard search algorithm if case sensitive and multibyte
-      if FFindDialog.cbCaseSens.Checked and (ViewerControl.Encoding in ViewerEncodingMultiByte) then
+      // Using standard search algorithm if hex or case sensitive and multibyte
+      if FFindDialog.chkHex.Checked or (FFindDialog.cbCaseSens.Checked and (ViewerControl.Encoding in ViewerEncodingMultiByte)) then
       begin
         PAnsiAddr := PosMem(ViewerControl.GetDataAdr, ViewerControl.FileSize,
                             FLastSearchPos, sSearchTextA,

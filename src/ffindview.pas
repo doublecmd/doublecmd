@@ -21,11 +21,16 @@ uses
   SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, uOSForms;
 
 type
+
+  { TfrmFindView }
+
   TfrmFindView = class(TModalForm)
     cbDataToFind: TComboBox;
     btnFind: TBitBtn;
     btnClose: TBitBtn;
     cbCaseSens: TCheckBox;
+    chkHex: TCheckBox;
+    procedure chkHexChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnFindClick(Sender: TObject);
     procedure cbDataToFindKeyUp(Sender: TObject; var Key: Word;
@@ -53,6 +58,17 @@ begin
     end;
   cbDataToFind.SelectAll;
   cbDataToFind.SetFocus;
+end;
+
+procedure TfrmFindView.chkHexChange(Sender: TObject);
+begin
+  if not chkHex.Checked then
+    cbCaseSens.Checked:= Boolean(cbCaseSens.Tag)
+  else begin
+    cbCaseSens.Tag:= Integer(cbCaseSens.Checked);
+    cbCaseSens.Checked:= True;
+  end;
+  cbCaseSens.Enabled:= not chkHex.Checked;
 end;
 
 procedure TfrmFindView.btnFindClick(Sender: TObject);
