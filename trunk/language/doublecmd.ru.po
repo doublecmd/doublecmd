@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.9.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2018-03-22 14:27+0300\n"
+"PO-Revision-Date: 2018-05-31 10:57+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2022,7 +2022,7 @@ msgstr "Подробный"
 
 #: tfrmmain.actcolumnsview.hint
 msgid "Columns View"
-msgstr "Колоночный вид"
+msgstr "Подробный вид"
 
 #: tfrmmain.actcomparecontents.caption
 msgid "Compare by &Contents"
@@ -2255,7 +2255,7 @@ msgstr "Краткий вид в левой панели"
 
 #: tfrmmain.actleftcolumnsview.caption
 msgid "Columns view on left panel"
-msgstr "Колоночный вид в левой панели"
+msgstr "Подробный вид в левой панели"
 
 #: tfrmmain.actleftequalright.caption
 msgid "Left &= Right"
@@ -2492,7 +2492,7 @@ msgstr "Краткий вид в правой панели"
 
 #: tfrmmain.actrightcolumnsview.caption
 msgid "Columns view on right panel"
-msgstr "Колоночный вид в правой панели"
+msgstr "Подробный вид в правой панели"
 
 #: tfrmmain.actrightequalleft.caption
 msgid "Right &= Left"
@@ -5656,12 +5656,12 @@ msgstr "Настроить файловые ассоциации"
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.caption
 msgid "Offer to add selection to file association when not included already"
-msgstr "Предлагать добавить выделенные в файловые ассоциации (если ещё не включены)"
+msgstr "Предлагать добавить в файловые ассоциации файл под курсором (если ещё не включен)"
 
 #: tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint
 msgctxt "tfrmoptionsfileassocextra.cboffertoaddtofileassociations.hint"
 msgid "When accessing file association, offer to add current selected file if not already included in a configured file type"
-msgstr "Если доступна ассоциация файлов, предлагаем добавить текущий выбранный файл, если он ещё не входит в конфигурацию типа файла"
+msgstr "При открытии настроек файловых ассоциаций будет предложено добавить тип с расширением файла под курсором (если оно не найдено в уже существующих типах)"
 
 #: tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption
 msgctxt "tfrmoptionsfileassocextra.cbopensystemwithterminalclose.caption"
@@ -5675,7 +5675,7 @@ msgstr "Запустить в терминале и оставить откры�
 
 #: tfrmoptionsfileassocextra.gbextendedcontextmenuoptions.caption
 msgid "Extended options items:"
-msgstr "Настройки дополнительных пунктов:"
+msgstr "Дополнительные пункты:"
 
 #: tfrmoptionsfileoperations.bvlconfirmations.caption
 msgctxt "tfrmoptionsfileoperations.bvlconfirmations.caption"
@@ -6387,7 +6387,7 @@ msgstr "&Сохранить в:"
 
 #: tfrmoptionskeyboard.cblynxlike.caption
 msgid "Le&ft, Right arrows change directory (Lynx-like movement)"
-msgstr "П&равая и левая стрелки изменяют каталог (Lynx-поведение)"
+msgstr "П&равая и левая стрелки меняют каталог (Lynx-поведение)"
 
 #: tfrmoptionskeyboard.gbtyping.caption
 msgid "Typing"
@@ -6695,7 +6695,7 @@ msgstr "&Выбор с помощью мыши"
 
 #: tfrmoptionsmouse.chkmouseselectioniconclick.caption
 msgid "By clic&king on icon"
-msgstr "&Щелчком по значку"
+msgstr "&Кликом по значку"
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"
@@ -6992,17 +6992,17 @@ msgstr "Позиция в меню по умолчанию при сохране
 #: tfrmoptionsterminal.edrunintermcloseparams.hint
 msgctxt "tfrmoptionsterminal.edrunintermcloseparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} должна присутствовать здесь, чтобы обозначить команду, запуск которой будет произведён в терминале"
+msgstr "Шаблон {command} обозначает команду, запуск которой будет произведён в терминале"
 
 #: tfrmoptionsterminal.edrunintermstayopenparams.hint
 msgctxt "tfrmoptionsterminal.edrunintermstayopenparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} должна присутствовать здесь, чтобы обозначить команду, запуск которой будет произведён в терминале"
+msgstr "Шаблон {command} обозначает команду, запуск которой будет произведён в терминале"
 
 #: tfrmoptionsterminal.edruntermparams.hint
 msgctxt "tfrmoptionsterminal.edruntermparams.hint"
 msgid "{command} should normally be present here to reflect the command to be run in terminal"
-msgstr "{command} должна присутствовать здесь, чтобы обозначить команду, запуск которой будет произведён в терминале"
+msgstr "Шаблон {command} обозначает команду, запуск которой будет произведён в терминале"
 
 #: tfrmoptionsterminal.gbjustrunterminal.caption
 msgid "Command for just running terminal:"
@@ -7010,11 +7010,11 @@ msgstr "Команда запуска терминала:"
 
 #: tfrmoptionsterminal.gbruninterminalclose.caption
 msgid "Command for running a command in terminal and close after:"
-msgstr "Команда для запуска команды в терминале (окно будет закрыто):"
+msgstr "Команда для запуска команд в терминале (окно будет закрыто):"
 
 #: tfrmoptionsterminal.gbruninterminalstayopen.caption
 msgid "Command for running a command in terminal and stay open:"
-msgstr "Команда для запуска команды в терминале (окно останется открытым):"
+msgstr "Команда для запуска команд в терминале (окно останется открытым):"
 
 #: tfrmoptionsterminal.lbrunintermclosecmd.caption
 msgctxt "tfrmoptionsterminal.lbrunintermclosecmd.caption"
@@ -10400,7 +10400,7 @@ msgstr "Файл %s помечен как доступный только для
 #: ulng.rsmsgfilereloadwarning
 msgid "Are you sure you want to reload the current file and lose the changes?"
 msgstr ""
-"Все внесенные изменения будут потеряны!\n"
+"Все внесённые изменения будут потеряны!\n"
 "Продолжить?\n"
 
 #: ulng.rsmsgfilesizetoobig
