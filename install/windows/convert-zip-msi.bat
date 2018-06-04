@@ -12,7 +12,7 @@ if "%1" == "" (
 )
 
 rem Path to Windows Installer XML (WiX) toolset
-set PATH=%PATH%;"C:\Program Files (x86)\WiX Toolset v3.9\bin"
+set PATH=%PATH%;"C:\Program Files (x86)\WiX Toolset v3.11\bin"
 
 rem The new package will be created from here
 set BUILD_PACK_DIR=%TEMP%\doublecmd-%DATE: =%
