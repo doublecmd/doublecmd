@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2017-06-26 22:16-0400\n"
+"PO-Revision-Date: 2018-06-04 22:58-0400\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -6227,9 +6227,7 @@ msgstr "Efface le raccourci-clavier"
 #: tfrmoptionshotkeys.actedithotkey.caption
 msgctxt "tfrmoptionshotkeys.actedithotkey.caption"
 msgid "&Edit hotkey"
-msgstr ""
-"Éditer raccourci-\n"
-"clavier\n"
+msgstr "Éditer raccourci-clavier"
 
 #: tfrmoptionshotkeys.actnextcategory.caption
 msgid "Next category"
@@ -6869,7 +6867,7 @@ msgstr "Rechercher tous ces éléments"
 
 #: tfrmoptionstabs.cbkeeprenamednamebacktonormal.caption
 msgid "Keep renamed name when unlocking a tab"
-msgstr "Conserver le nom donner à l'onglet lorsqu'on le déverouille"
+msgstr "Conserver le nom donné à l'onglet lorsqu'on le déverrouille"
 
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
@@ -9923,12 +9921,11 @@ msgid "New name"
 msgstr "Nouveau nom"
 
 #: ulng.rshotkeyfilesavemodified
-#, fuzzy,badformat
 msgid ""
 "\"%s\" setup has been modified.\n"
 "Do you want to save it now?\n"
 msgstr ""
-"Le fichier de configuration \"%\" a été modifié.\n"
+"Le fichier de configuration \"%s\" a été modifié.\n"
 "Voulez-vous le sauvegarder maintenant?\n"
 
 #: ulng.rshotkeynoscenter
@@ -10843,9 +10840,8 @@ msgid "&Delete %s"
 msgstr "&Supprimer %s"
 
 #: ulng.rsmsgpresetalreadyexists
-#, fuzzy,badformat
 msgid "Preset \"%s\" already exists. Overwrite?"
-msgstr "Écraser la configuration existante ?"
+msgstr "Écraser la configuration \"%s\" existante ?"
 
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
@@ -11032,9 +11028,8 @@ msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Entrez l'emplacement et le nom de fichier pour la barre d'outil TC à sauvegarder"
 
 #: ulng.rsmsgthisisnowinclipboard
-#, fuzzy,badformat
 msgid "\"%s\" is now in the clipboard"
-msgstr "\"%\" est maintenant dans le presse-papier"
+msgstr "\"%s\" est maintenant dans le presse-papier"
 
 #: ulng.rsmsgtitleextnotinfiletype
 msgid "Extension of selected file is not in any recognized file types"
@@ -12461,4 +12456,3 @@ msgstr "Nombre de remplacements : %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
-
