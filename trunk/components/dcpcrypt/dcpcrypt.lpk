@@ -6,8 +6,8 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <IncludeFiles Value="Hashes/Keccak;Ciphers"/>
-        <OtherUnitFiles Value="Ciphers;Hashes;Hashes/Keccak;Random;$(PkgOutDir)"/>
+        <IncludeFiles Value="Hashes/Private;Ciphers"/>
+        <OtherUnitFiles Value="Ciphers;Hashes;Hashes/Private;Random;$(PkgOutDir)"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -133,15 +133,15 @@ www.cityinthesky.co.uk/cryptography.html
         <UnitName Value="DCPsha224"/>
       </Item23>
       <Item24>
-        <Filename Value="Hashes/Keccak/hmac.pas"/>
+        <Filename Value="Hashes/Private/hmac.pas"/>
         <UnitName Value="HMAC"/>
       </Item24>
       <Item25>
-        <Filename Value="Hashes/Keccak/sha3.pas"/>
+        <Filename Value="Hashes/Private/sha3.pas"/>
         <UnitName Value="SHA3"/>
       </Item25>
       <Item26>
-        <Filename Value="Hashes/Keccak/sha3_512.pas"/>
+        <Filename Value="Hashes/Private/sha3_512.pas"/>
         <UnitName Value="SHA3_512"/>
       </Item26>
       <Item27>
@@ -149,7 +149,7 @@ www.cityinthesky.co.uk/cryptography.html
         <UnitName Value="ISAAC"/>
       </Item27>
       <Item28>
-        <Filename Value="Hashes/Keccak/scrypt.pas"/>
+        <Filename Value="Hashes/Private/scrypt.pas"/>
         <UnitName Value="scrypt"/>
       </Item28>
       <Item29>
@@ -161,7 +161,7 @@ www.cityinthesky.co.uk/cryptography.html
         <UnitName Value="DCPrijndael"/>
       </Item30>
       <Item31>
-        <Filename Value="Hashes/Keccak/sha1.pas"/>
+        <Filename Value="Hashes/Private/sha1.pas"/>
         <UnitName Value="SHA1"/>
       </Item31>
     </Files>
