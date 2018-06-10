@@ -1,9 +1,9 @@
 {******************************************************************************}
 {* DCPcrypt v2.0 written by David Barton (crypto@cityinthesky.co.uk) **********}
 {******************************************************************************}
-{* A binary compatible implementation of BLAKE2S and BLAKE2SP *****************}
+{* A binary compatible implementation of BLAKE2S, BLAKE2SP, BLAKE2B, BLAKE2BP *}
 {******************************************************************************}
-{* Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)               *}
+{* Copyright (C) 2014-2018 Alexander Koblov (alexx2000@mail.ru)               *}
 {* Permission is hereby granted, free of charge, to any person obtaining a    *}
 {* copy of this software and associated documentation files (the "Software"), *}
 {* to deal in the Software without restriction, including without limitation  *}
@@ -29,7 +29,7 @@ unit DCPblake2;
 interface
 
 uses
-  Classes, SysUtils, CTypes, DCPcrypt2, DCPconst, DCblake2, Hash, blake2b;
+  Classes, SysUtils, CTypes, DCPcrypt2, DCPconst, DCblake2, Hash;
 
 type
 
@@ -69,7 +69,7 @@ type
 
   TDCP_blake2b = class(TDCP_hash)
   protected
-    S: THashContext;
+    S: blake2b_state;
   public
     class function GetId: integer; override;
     class function GetAlgorithm: string; override;
@@ -154,11 +154,8 @@ begin
 end;
 
 procedure TDCP_blake2s.Update(const Buffer; Size: longword);
-var
-  Bytes: PByte;
 begin
-  Bytes:= @Buffer;
-  if blake2s_update(@S, Bytes, Size) < 0 then
+  if blake2s_update(@S, @Buffer, Size) < 0 then
     raise EDCP_hash.Create('blake2s_update');
 end;
 
@@ -229,11 +226,8 @@ begin
 end;
 
 procedure TDCP_blake2sp.Update(const Buffer; Size: longword);
-var
-  Bytes: PByte;
 begin
-  Bytes:= @Buffer;
-  if blake2sp_update(@S, Bytes, Size) < 0 then
+  if blake2sp_update(@S, @Buffer, Size) < 0 then
     raise EDCP_hash.Create('blake2sp_update');
 end;
 
@@ -267,13 +261,37 @@ begin
 end;
 
 class function TDCP_blake2b.SelfTest: boolean;
+const
+  Test1Out: array[0..63] of byte =
+    ($ba, $80, $a5, $3f, $98, $1c, $4d, $0d, $6a, $27, $97, $b6, $9f, $12, $f6, $e9,
+     $4c, $21, $2f, $14, $68, $5a, $c4, $b7, $4b, $12, $bb, $6f, $db, $ff, $a2, $d1,
+     $7d, $87, $c5, $39, $2a, $ab, $79, $2d, $c2, $52, $d5, $de, $45, $33, $cc, $95,
+     $18, $d3, $8a, $a8, $db, $f1, $92, $5a, $b9, $23, $86, $ed, $d4, $00, $99, $23);
+  Test2Out: array[0..63] of byte =
+    ($72, $85, $ff, $3e, $8b, $d7, $68, $d6, $9b, $e6, $2b, $3b, $f1, $87, $65, $a3,
+     $25, $91, $7f, $a9, $74, $4a, $c2, $f5, $82, $a2, $08, $50, $bc, $2b, $11, $41,
+     $ed, $1b, $3e, $45, $28, $59, $5a, $cc, $90, $77, $2b, $df, $2d, $37, $dc, $8a,
+     $47, $13, $0b, $44, $f3, $3a, $02, $e8, $73, $0e, $5a, $d8, $e1, $66, $e8, $88);
+var
+  TestHash: TDCP_blake2b;
+  TestOut: array[0..63] of byte;
 begin
-  Result:= blake2b_selftest;
+  dcpFillChar(TestOut, SizeOf(TestOut), 0);
+  TestHash:= TDCP_blake2b.Create(nil);
+  TestHash.Init;
+  TestHash.UpdateStr('abc');
+  TestHash.Final(TestOut);
+  Result:= boolean(CompareMem(@TestOut,@Test1Out,Sizeof(Test1Out)));
+  TestHash.Init;
+  TestHash.UpdateStr('abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq');
+  TestHash.Final(TestOut);
+  Result:= boolean(CompareMem(@TestOut,@Test2Out,Sizeof(Test2Out))) and Result;
+  TestHash.Free;
 end;
 
 procedure TDCP_blake2b.Init;
 begin
-  if blake2b_init(S, nil, 0, SizeOf(TBlake2B_512Digest)) <> 0 then
+  if blake2b_init( @S, BLAKE2B_OUTBYTES ) < 0 then
     raise EDCP_hash.Create('blake2b_init');
   fInitialized:= true;
 end;
@@ -285,16 +303,18 @@ end;
 
 procedure TDCP_blake2b.Update(const Buffer; Size: longword);
 begin
-  blake2b_update(S, @Buffer, Size);
+  if blake2b_update(@S, @Buffer, Size) < 0 then
+    raise EDCP_hash.Create('blake2b_update');
 end;
 
 procedure TDCP_blake2b.Final(var Digest);
 var
-  Hash: TBlake2BDigest;
+  Hash: array[0..Pred(BLAKE2B_OUTBYTES)] of cuint8;
 begin
   if not fInitialized then
     raise EDCP_hash.Create('Hash not initialized');
-  blake2b_final(S, Hash);
+  if blake2b_final(@S, Hash, SizeOf(Hash)) < 0 then
+    raise EDCP_hash.Create('blake2b_final');
   Move(Hash, Digest, Sizeof(Hash));
   Burn;
 end;
@@ -317,8 +337,32 @@ begin
 end;
 
 class function TDCP_blake2bp.SelfTest: boolean;
+const
+  Test1Out: array[0..63] of byte =
+    ($b9, $1a, $6b, $66, $ae, $87, $52, $6c, $40, $0b, $0a, $8b, $53, $77, $4d, $c6,
+     $52, $84, $ad, $8f, $65, $75, $f8, $14, $8f, $f9, $3d, $ff, $94, $3a, $6e, $cd,
+     $83, $62, $13, $0f, $22, $d6, $da, $e6, $33, $aa, $0f, $91, $df, $4a, $c8, $9a,
+     $af, $f3, $1d, $0f, $1b, $92, $3c, $89, $8e, $82, $02, $5d, $ed, $bd, $ad, $6e);
+  Test2Out: array[0..63] of byte =
+    ($c5, $a0, $34, $1e, $eb, $b6, $15, $50, $3e, $22, $93, $30, $e0, $6a, $3d, $ce,
+     $88, $05, $b4, $34, $ca, $75, $8e, $89, $9e, $72, $ac, $40, $ba, $c3, $6e, $63,
+     $7b, $70, $09, $8a, $24, $ae, $5c, $3c, $4d, $39, $a1, $83, $a4, $3e, $b9, $74,
+     $82, $3e, $3d, $db, $5b, $09, $e0, $7a, $d1, $e5, $26, $e9, $05, $f6, $5b, $c4);
+var
+  TestHash: TDCP_blake2bp;
+  TestOut: array[0..63] of byte;
 begin
-  Result:= False;
+  dcpFillChar(TestOut, SizeOf(TestOut), 0);
+  TestHash:= TDCP_blake2bp.Create(nil);
+  TestHash.Init;
+  TestHash.UpdateStr('abc');
+  TestHash.Final(TestOut);
+  Result:= boolean(CompareMem(@TestOut,@Test1Out,Sizeof(Test1Out)));
+  TestHash.Init;
+  TestHash.UpdateStr('abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq');
+  TestHash.Final(TestOut);
+  Result:= boolean(CompareMem(@TestOut,@Test2Out,Sizeof(Test2Out))) and Result;
+  TestHash.Free;
 end;
 
 procedure TDCP_blake2bp.Init;
