@@ -63,6 +63,7 @@ const
   DCP_sha256        = 28;
   DCP_sha384        = 29;
   DCP_sha512        = 30;
+  DCP_blake2bp      = 95;
   DCP_blake2b       = 96;
   DCP_blake2s       = 97;
   DCP_blake2sp      = 98;
