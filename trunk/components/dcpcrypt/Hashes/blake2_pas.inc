@@ -1,6 +1,27 @@
 {
-  Implementations of BLAKE2b, BLAKE2s,
-  aimed at portability and simplicity
+  Implementations of BLAKE2b, BLAKE2s, aimed at portability and simplicity
+
+  Copyright (C) 2018 Alexander Koblov (alexx2000@mail.ru)
+
+  Based on blake2*.pas, (C) Copyright 2017 Wolfgang Ehrhardt
+
+  This software is provided 'as-is', without any express or implied warranty.
+  In no event will the authors be held liable for any damages arising from
+  the use of this software.
+
+  Permission is granted to anyone to use this software for any purpose,
+  including commercial applications, and to alter it and redistribute it
+  freely, subject to the following restrictions:
+
+  1. The origin of this software must not be misrepresented; you must not
+    claim that you wrote the original software. If you use this software in
+    a product, an acknowledgment in the product documentation would be
+    appreciated but is not required.
+
+  2. Altered source versions must be plainly marked as such, and must not be
+    misrepresented as being the original software.
+
+  3. This notice may not be removed or altered from any source distribution.
 }
 
 const blake2s_sigma: array[0..9] of array[0..15] of cuint8 =
@@ -36,32 +57,9 @@ const blake2b_sigma: array[0..11] of array[0..15] of cuint8 =
 function blake2s_compress( S: Pblake2s_state; const block: pcuint8 ): cint;
 var
   i: csize_t;
+  tem, round: cint32;
   m: array[0..15] of cuint32;
   v: array[0..15] of cuint32;
-
-  procedure G(r,i: cuint32; var a,b,c,d: cuint32); inline;
-  begin
-    a := a + b + m[blake2s_sigma[r][2*i+0]];
-    d := RorDWord(d xor a, 16);
-    c := c + d;
-    b := RorDWord(b xor c, 12);
-    a := a + b + m[blake2s_sigma[r][2*i+1]];
-    d := RorDWord(d xor a, 8);
-    c := c + d;
-    b := RorDWord(b xor c, 7);
-  end;
-
-  {$define ROUND_MACRO:=
-    G(r_,0,v[ 0],v[ 4],v[ 8],v[12]);
-    G(r_,1,v[ 1],v[ 5],v[ 9],v[13]);
-    G(r_,2,v[ 2],v[ 6],v[10],v[14]);
-    G(r_,3,v[ 3],v[ 7],v[11],v[15]);
-    G(r_,4,v[ 0],v[ 5],v[10],v[15]);
-    G(r_,5,v[ 1],v[ 6],v[11],v[12]);
-    G(r_,6,v[ 2],v[ 7],v[ 8],v[13]);
-    G(r_,7,v[ 3],v[ 4],v[ 9],v[14]);
-  }
-
 begin
   for i := 0 to 15 do
     m[i] := load32( @block[i * sizeof( m[i] )] );
@@ -78,16 +76,129 @@ begin
   v[14] := S^.f[0] xor blake2s_IV[6];
   v[15] := S^.f[1] xor blake2s_IV[7];
 
-  {$define r_:= 0} ROUND_MACRO;
-  {$define r_:= 1} ROUND_MACRO;
-  {$define r_:= 2} ROUND_MACRO;
-  {$define r_:= 3} ROUND_MACRO;
-  {$define r_:= 4} ROUND_MACRO;
-  {$define r_:= 5} ROUND_MACRO;
-  {$define r_:= 6} ROUND_MACRO;
-  {$define r_:= 7} ROUND_MACRO;
-  {$define r_:= 8} ROUND_MACRO;
-  {$define r_:= 9} ROUND_MACRO;
+  {Code contributed by EddyHawk}
+  for round:=0 to 9 do begin
+    {separates BLAKE2s round into quarter-rounds}
+    {replaces the rotr with direct code}
+    {uses tem var for xor-ed words}
+    {moves message-additions to the front}
+    {regroups the rest}
+
+    v[ 0] := (v[ 0] + v[ 4]) + m[blake2s_sigma[round][ 0]];
+    v[ 1] := (v[ 1] + v[ 5]) + m[blake2s_sigma[round][ 2]];
+    v[ 2] := (v[ 2] + v[ 6]) + m[blake2s_sigma[round][ 4]];
+    v[ 3] := (v[ 3] + v[ 7]) + m[blake2s_sigma[round][ 6]];
+
+    tem   := v[12] xor v[ 0];
+    v[12] := (tem shr 16) or (tem shl (32-16));
+    tem   := v[13] xor v[ 1];
+    v[13] := (tem shr 16) or (tem shl (32-16));
+    tem   := v[14] xor v[ 2];
+    v[14] := (tem shr 16) or (tem shl (32-16));
+    tem   := v[15] xor v[ 3];
+    v[15] := (tem shr 16) or (tem shl (32-16));
+
+    v[ 8] := v[ 8] + v[12];
+    v[ 9] := v[ 9] + v[13];
+    v[10] := v[10] + v[14];
+    v[11] := v[11] + v[15];
+
+    tem   := v[ 4] xor v[ 8];
+    v[ 4] := (tem shr 12) or (tem shl (32-12));
+    tem   := v[ 5] xor v[ 9];
+    v[ 5] := (tem shr 12) or (tem shl (32-12));
+    tem   := v[ 6] xor v[10];
+    v[ 6] := (tem shr 12) or (tem shl (32-12));
+    tem   := v[ 7] xor v[11];
+    v[ 7] := (tem shr 12) or (tem shl (32-12));
+
+    {2nd quarter-round}
+    v[ 0]  := (v[ 0] + v[ 4]) + m[blake2s_sigma[round][ 1]];
+    v[ 1]  := (v[ 1] + v[ 5]) + m[blake2s_sigma[round][ 3]];
+    v[ 2]  := (v[ 2] + v[ 6]) + m[blake2s_sigma[round][ 5]];
+    v[ 3]  := (v[ 3] + v[ 7]) + m[blake2s_sigma[round][ 7]];
+
+    tem   := v[12] xor v[ 0];
+    v[12] := (tem shr  8) or (tem shl (32- 8));
+    tem   := v[13] xor v[ 1];
+    v[13] := (tem shr  8) or (tem shl (32- 8));
+    tem   := v[14] xor v[ 2];
+    v[14] := (tem shr  8) or (tem shl (32- 8));
+    tem   := v[15] xor v[ 3];
+    v[15] := (tem shr  8) or (tem shl (32- 8));
+
+    v[ 8] := v[ 8] + v[12];
+    v[ 9] := v[ 9] + v[13];
+    v[10] := v[10] + v[14];
+    v[11] := v[11] + v[15];
+
+    tem   := v[ 4] xor v[ 8];
+    v[ 4] := (tem shr  7) or (tem shl (32- 7));
+    tem   := v[ 5] xor v[ 9];
+    v[ 5] := (tem shr  7) or (tem shl (32- 7));
+    tem   := v[ 6] xor v[10];
+    v[ 6] := (tem shr  7) or (tem shl (32- 7));
+    tem   := v[ 7] xor v[11];
+    v[ 7] := (tem shr  7) or (tem shl (32- 7));
+
+    {3rd quarter-round}
+    v[ 0] := (v[ 0] + v[ 5]) + m[blake2s_sigma[round][ 8]];
+    v[ 1] := (v[ 1] + v[ 6]) + m[blake2s_sigma[round][10]];
+    v[ 2] := (v[ 2] + v[ 7]) + m[blake2s_sigma[round][12]];
+    v[ 3] := (v[ 3] + v[ 4]) + m[blake2s_sigma[round][14]];
+
+    tem   := v[15] xor v[ 0];
+    v[15] := (tem shr 16) or (tem shl (32-16));
+    tem   := v[12] xor v[ 1];
+    v[12] := (tem shr 16) or (tem shl (32-16));
+    tem   := v[13] xor v[ 2];
+    v[13] := (tem shr 16) or (tem shl (32-16));
+    tem   := v[14] xor v[ 3];
+    v[14] := (tem shr 16) or (tem shl (32-16));
+
+    v[10] := v[10] + v[15];
+    v[11] := v[11] + v[12];
+    v[ 8] := v[ 8] + v[13];
+    v[ 9] := v[ 9] + v[14];
+
+    tem   := v[ 5] xor v[10];
+    v[ 5] := (tem shr 12) or (tem shl (32-12));
+    tem   := v[ 6] xor v[11];
+    v[ 6] := (tem shr 12) or (tem shl (32-12));
+    tem   := v[ 7] xor v[ 8];
+    v[ 7] := (tem shr 12) or (tem shl (32-12));
+    tem   := v[ 4] xor v[ 9];
+    v[ 4] := (tem shr 12) or (tem shl (32-12));
+
+    {4th quarter-round}
+    v[ 0] := (v[ 0] + v[ 5]) + m[blake2s_sigma[round][ 9]];
+    v[ 1] := (v[ 1] + v[ 6]) + m[blake2s_sigma[round][11]];
+    v[ 2] := (v[ 2] + v[ 7]) + m[blake2s_sigma[round][13]];
+    v[ 3] := (v[ 3] + v[ 4]) + m[blake2s_sigma[round][15]];
+
+    tem   := v[15] xor v[ 0];
+    v[15] := (tem shr  8) or (tem shl (32- 8));
+    tem   := v[12] xor v[ 1];
+    v[12] := (tem shr  8) or (tem shl (32- 8));
+    tem   := v[13] xor v[ 2];
+    v[13] := (tem shr  8) or (tem shl (32- 8));
+    tem   := v[14] xor v[ 3];
+    v[14] := (tem shr  8) or (tem shl (32- 8));
+
+    v[10] := v[10] + v[15];
+    v[11] := v[11] + v[12];
+    v[ 8] := v[ 8] + v[13];
+    v[ 9] := v[ 9] + v[14];
+
+    tem   := v[ 5] xor v[10];
+    v[ 5] := (tem shr  7) or (tem shl (32- 7));
+    tem   := v[ 6] xor v[11];
+    v[ 6] := (tem shr  7) or (tem shl (32- 7));
+    tem   := v[ 7] xor v[ 8];
+    v[ 7] := (tem shr  7) or (tem shl (32- 7));
+    tem   := v[ 4] xor v[ 9];
+    v[ 4] := (tem shr  7) or (tem shl (32- 7));
+  end;
 
   for i := 0 to 7 do
     S^.h[i] := S^.h[i] xor v[i] xor v[i + 8];
@@ -98,32 +209,9 @@ end;
 procedure blake2b_compress( S: Pblake2b_state; const block: pcuint8 );
 var
   i: csize_t;
+  tem, round: cint64;
   m: array[0..15] of cuint64;
   v: array[0..15] of cuint64;
-
-  procedure G( r, i: cuint64; var a, b, c, d: cuint64 ); inline;
-  begin
-      a := a + b + m[blake2b_sigma[r][2 * i + 0]];
-      d := RorQWord(d xor a, 32);
-      c := c + d;
-      b := RorQWord(b xor c, 24);
-      a := a + b + m[blake2b_sigma[r][2 * i + 1]];
-      d := RorQWord(d xor a, 16);
-      c := c + d;
-      b := RorQWord(b xor c, 63);
-  end;
-
-  {$define ROUND_MACRO:=
-    G(r_,0,v[ 0],v[ 4],v[ 8],v[12]);
-    G(r_,1,v[ 1],v[ 5],v[ 9],v[13]);
-    G(r_,2,v[ 2],v[ 6],v[10],v[14]);
-    G(r_,3,v[ 3],v[ 7],v[11],v[15]);
-    G(r_,4,v[ 0],v[ 5],v[10],v[15]);
-    G(r_,5,v[ 1],v[ 6],v[11],v[12]);
-    G(r_,6,v[ 2],v[ 7],v[ 8],v[13]);
-    G(r_,7,v[ 3],v[ 4],v[ 9],v[14]);
-  }
-
 begin
   for i := 0 to 15 do
     m[i] := load64( block + i * sizeof( m[i] ) );
@@ -140,18 +228,128 @@ begin
   v[14] := cuint64(blake2b_IV[6] xor S^.f[0]);
   v[15] := cuint64(blake2b_IV[7] xor S^.f[1]);
 
-  {$define r_:= 0}  ROUND_MACRO;
-  {$define r_:= 1}  ROUND_MACRO;
-  {$define r_:= 2}  ROUND_MACRO;
-  {$define r_:= 3}  ROUND_MACRO;
-  {$define r_:= 4}  ROUND_MACRO;
-  {$define r_:= 5}  ROUND_MACRO;
-  {$define r_:= 6}  ROUND_MACRO;
-  {$define r_:= 7}  ROUND_MACRO;
-  {$define r_:= 8}  ROUND_MACRO;
-  {$define r_:= 9}  ROUND_MACRO;
-  {$define r_:= 10} ROUND_MACRO;
-  {$define r_:= 11} ROUND_MACRO;
+  {do 12 rounds}
+  for round:=0 to 11 do begin
+    {** EddyHawk speed-ups **}
+    {use same rearrangements as blake2s' 32/64 bit code}
+    v[ 0] := (v[ 0] + v[ 4]) + m[blake2b_sigma[round][ 0]];
+    v[ 1] := (v[ 1] + v[ 5]) + m[blake2b_sigma[round][ 2]];
+    v[ 2] := (v[ 2] + v[ 6]) + m[blake2b_sigma[round][ 4]];
+    v[ 3] := (v[ 3] + v[ 7]) + m[blake2b_sigma[round][ 6]];
+
+    tem   := v[12] xor v[ 0];
+    v[12] := (tem shr 32) or (tem shl (64-32));
+    tem   := v[13] xor v[ 1];
+    v[13] := (tem shr 32) or (tem shl (64-32));
+    tem   := v[14] xor v[ 2];
+    v[14] := (tem shr 32) or (tem shl (64-32));
+    tem   := v[15] xor v[ 3];
+    v[15] := (tem shr 32) or (tem shl (64-32));
+
+    v[ 8] := v[ 8] + v[12];
+    v[ 9] := v[ 9] + v[13];
+    v[10] := v[10] + v[14];
+    v[11] := v[11] + v[15];
+
+    tem   := v[ 4] xor v[ 8];
+    v[ 4] := (tem shr 24) or (tem shl (64-24));
+    tem   := v[ 5] xor v[ 9];
+    v[ 5] := (tem shr 24) or (tem shl (64-24));
+    tem   := v[ 6] xor v[10];
+    v[ 6] := (tem shr 24) or (tem shl (64-24));
+    tem   := v[ 7] xor v[11];
+    v[ 7] := (tem shr 24) or (tem shl (64-24));
+
+    {---}
+
+    v[ 0] := (v[ 0] + v[ 4]) + m[blake2b_sigma[round][ 1]];
+    v[ 1] := (v[ 1] + v[ 5]) + m[blake2b_sigma[round][ 3]];
+    v[ 2] := (v[ 2] + v[ 6]) + m[blake2b_sigma[round][ 5]];
+    v[ 3] := (v[ 3] + v[ 7]) + m[blake2b_sigma[round][ 7]];
+
+    tem   := v[12] xor v[ 0];
+    v[12] := (tem shr 16) or (tem shl (64-16));
+    tem   := v[13] xor v[ 1];
+    v[13] := (tem shr 16) or (tem shl (64-16));
+    tem   := v[14] xor v[ 2];
+    v[14] := (tem shr 16) or (tem shl (64-16));
+    tem   := v[15] xor v[ 3];
+    v[15] := (tem shr 16) or (tem shl (64-16));
+
+    v[ 8] := v[ 8] + v[12];
+    v[ 9] := v[ 9] + v[13];
+    v[10] := v[10] + v[14];
+    v[11] := v[11] + v[15];
+
+    tem   := v[ 4] xor v[ 8];
+    v[ 4] := (tem shr 63) or (tem shl (64-63));
+    tem   := v[ 5] xor v[ 9];
+    v[ 5] := (tem shr 63) or (tem shl (64-63));
+    tem   := v[ 6] xor v[10];
+    v[ 6] := (tem shr 63) or (tem shl (64-63));
+    tem   := v[ 7] xor v[11];
+    v[ 7] := (tem shr 63) or (tem shl (64-63));
+
+    {---}
+
+    v[ 0] := (v[ 0] + v[ 5]) + m[blake2b_sigma[round][ 8]];
+    v[ 1] := (v[ 1] + v[ 6]) + m[blake2b_sigma[round][10]];
+    v[ 2] := (v[ 2] + v[ 7]) + m[blake2b_sigma[round][12]];
+    v[ 3] := (v[ 3] + v[ 4]) + m[blake2b_sigma[round][14]];
+
+    tem   := v[15] xor v[ 0];
+    v[15] := (tem shr 32) or (tem shl (64-32));
+    tem   := v[12] xor v[ 1];
+    v[12] := (tem shr 32) or (tem shl (64-32));
+    tem   := v[13] xor v[ 2];
+    v[13] := (tem shr 32) or (tem shl (64-32));
+    tem   := v[14] xor v[ 3];
+    v[14] := (tem shr 32) or (tem shl (64-32));
+
+    v[10] := v[10] + v[15];
+    v[11] := v[11] + v[12];
+    v[ 8] := v[ 8] + v[13];
+    v[ 9] := v[ 9] + v[14];
+
+    tem   := v[ 5] xor v[10];
+    v[ 5] := (tem shr 24) or (tem shl (64-24));
+    tem   := v[ 6] xor v[11];
+    v[ 6] := (tem shr 24) or (tem shl (64-24));
+    tem   := v[ 7] xor v[ 8];
+    v[ 7] := (tem shr 24) or (tem shl (64-24));
+    tem   := v[ 4] xor v[ 9];
+    v[ 4] := (tem shr 24) or (tem shl (64-24));
+
+    {---}
+
+    v[ 0] := (v[ 0] + v[ 5]) + m[blake2b_sigma[round][ 9]];
+    v[ 1] := (v[ 1] + v[ 6]) + m[blake2b_sigma[round][11]];
+    v[ 2] := (v[ 2] + v[ 7]) + m[blake2b_sigma[round][13]];
+    v[ 3] := (v[ 3] + v[ 4]) + m[blake2b_sigma[round][15]];
+
+    tem   := v[15] xor v[ 0];
+    v[15] := (tem shr 16) or (tem shl (64-16));
+    tem   := v[12] xor v[ 1];
+    v[12] := (tem shr 16) or (tem shl (64-16));
+    tem   := v[13] xor v[ 2];
+    v[13] := (tem shr 16) or (tem shl (64-16));
+    tem   := v[14] xor v[ 3];
+    v[14] := (tem shr 16) or (tem shl (64-16));
+
+    v[10] := v[10] + v[15];
+    v[11] := v[11] + v[12];
+    v[ 8] := v[ 8] + v[13];
+    v[ 9] := v[ 9] + v[14];
+
+    tem   := v[ 5] xor v[10];
+    v[ 5] := (tem shr 63) or (tem shl (64-63));
+    tem   := v[ 6] xor v[11];
+    v[ 6] := (tem shr 63) or (tem shl (64-63));
+    tem   := v[ 7] xor v[ 8];
+    v[ 7] := (tem shr 63) or (tem shl (64-63));
+    tem   := v[ 4] xor v[ 9];
+    v[ 4] := (tem shr 63) or (tem shl (64-63));
+  end;
 
   for i := 0 to 7 do
     S^.h[i] := S^.h[i] xor v[i] xor v[i + 8];
