@@ -208,8 +208,8 @@ end;
 
 procedure blake2b_compress( S: Pblake2b_state; const block: pcuint8 );
 var
-  i: csize_t;
-  tem, round: cint64;
+  tem: cint64;
+  i, round: csize_t;
   m: array[0..15] of cuint64;
   v: array[0..15] of cuint64;
 begin
