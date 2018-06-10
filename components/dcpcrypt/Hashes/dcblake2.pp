@@ -203,6 +203,12 @@ begin
   p^ := cuint8(w); inc(p);
 end;
 
+{$IF DEFINED(CPUX86_64)}
+  {$include blake2_sse.inc}
+{$ELSE}
+  {$include blake2_pas.inc}
+{$ENDIF}
+
 function blake2s_set_lastnode( S: Pblake2s_state ): cint; inline;
 begin
   S^.f[1] := $FFFFFFFF;
@@ -288,12 +294,6 @@ begin
   FillChar( P.personal, sizeof( P.personal ), 0 );
   Result := blake2s_init_param( S, @P );
 end;
-
-{$IF DEFINED(CPUX86_64)}
-  {$include blake2_sse.inc}
-{$ELSE}
-  {$include blake2_pas.inc}
-{$ENDIF}
 
 function blake2s_update( S: Pblake2s_state; inp: pcuint8; inlen: cuint64 ): cint;
 var
