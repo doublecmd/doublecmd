@@ -81,6 +81,22 @@ type
     procedure Final(var Digest); override;
   end;
 
+  { TDCP_blake2bp }
+
+  TDCP_blake2bp = class(TDCP_hash)
+  protected
+    S: blake2bp_state;
+  public
+    class function GetId: integer; override;
+    class function GetAlgorithm: string; override;
+    class function GetHashSize: integer; override;
+    class function SelfTest: boolean; override;
+    procedure Init; override;
+    procedure Burn; override;
+    procedure Update(const Buffer; Size: longword); override;
+    procedure Final(var Digest); override;
+  end;
+
 implementation
 
 { TDCP_blake2s }
@@ -279,6 +295,58 @@ begin
   if not fInitialized then
     raise EDCP_hash.Create('Hash not initialized');
   blake2b_final(S, Hash);
+  Move(Hash, Digest, Sizeof(Hash));
+  Burn;
+end;
+
+{ TDCP_blake2bp }
+
+class function TDCP_blake2bp.GetId: integer;
+begin
+  Result:= DCP_blake2bp;
+end;
+
+class function TDCP_blake2bp.GetAlgorithm: string;
+begin
+  Result:= 'BLAKE2BP';
+end;
+
+class function TDCP_blake2bp.GetHashSize: integer;
+begin
+  Result:= 512;
+end;
+
+class function TDCP_blake2bp.SelfTest: boolean;
+begin
+  Result:= False;
+end;
+
+procedure TDCP_blake2bp.Init;
+begin
+  if blake2bp_init( @S, BLAKE2B_OUTBYTES ) < 0 then
+    raise EDCP_hash.Create('blake2bp_init');
+  fInitialized:= true;
+end;
+
+procedure TDCP_blake2bp.Burn;
+begin
+  fInitialized:= false;
+end;
+
+procedure TDCP_blake2bp.Update(const Buffer; Size: longword);
+begin
+  if blake2bp_update(@S, @Buffer, Size) < 0 then
+    raise EDCP_hash.Create('blake2bp_update');
+end;
+
+procedure TDCP_blake2bp.Final(var Digest);
+var
+  Hash: array[0..Pred(BLAKE2B_OUTBYTES)] of cuint8;
+begin
+  if not fInitialized then
+    raise EDCP_hash.Create('Hash not initialized');
+  if blake2bp_final(@S, Hash, SizeOf(Hash)) < 0 then
+    raise EDCP_hash.Create('blake2bp_final');
   Move(Hash, Digest, Sizeof(Hash));
   Burn;
 end;
