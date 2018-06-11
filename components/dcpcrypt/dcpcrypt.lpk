@@ -38,8 +38,8 @@
     <License Value="DCPcrypt is open source software (released under the MIT license) and as such there is no charge for inclusion in other software.
 www.cityinthesky.co.uk/cryptography.html
 "/>
-    <Version Major="2" Minor="1" Release="1"/>
-    <Files Count="31">
+    <Version Major="2" Minor="2"/>
+    <Files Count="32">
       <Item1>
         <Filename Value="dcpbase64.pas"/>
         <UnitName Value="DCPbase64"/>
@@ -164,6 +164,10 @@ www.cityinthesky.co.uk/cryptography.html
         <Filename Value="Hashes/Private/sha1.pas"/>
         <UnitName Value="SHA1"/>
       </Item31>
+      <Item32>
+        <Filename Value="Hashes/argon2.pas"/>
+        <UnitName Value="Argon2"/>
+      </Item32>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
