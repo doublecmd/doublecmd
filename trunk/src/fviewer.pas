@@ -2669,12 +2669,12 @@ end;
 
 procedure TfrmViewer.cm_FindNext(const Params: array of string);
 begin
-  DoSearch(True, False);
+  if not miGraphics.Checked then DoSearch(True, False);
 end;
 
 procedure TfrmViewer.cm_FindPrev(const Params: array of string);
 begin
-  DoSearch(True, True);
+  if not miGraphics.Checked then DoSearch(True, True);
 end;
 
 procedure TfrmViewer.cm_Preview(const Params: array of string);
