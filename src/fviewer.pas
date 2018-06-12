@@ -2074,14 +2074,16 @@ begin
   if not Assigned(FFindDialog) then
      FFindDialog:= TfrmFindView.Create(Self);
 
-  if (bQuickSearch and gFirstTextSearch) or not bQuickSearch then
+  if (bQuickSearch and gFirstTextSearch) or (not bQuickSearch) or (bPlugin and FFindDialog.chkHex.Checked) then
     begin
       if bPlugin then
-        begin
-          // if plugin has specific search dialog
-          if WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchDialog(0) = LISTPLUGIN_OK then
-            Exit;
-        end;
+      begin
+        FFindDialog.chkHex.Checked:= False;
+        // if plugin has specific search dialog
+        if WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchDialog(0) = LISTPLUGIN_OK then
+          Exit;
+      end;
+      FFindDialog.chkHex.Visible:= not bPlugin;
       // Load search history
       FFindDialog.cbDataToFind.Items.Assign(glsSearchHistory);
       sSearchTextU:= ViewerControl.Selection;
@@ -2096,12 +2098,12 @@ begin
     end
   else
     begin
-      if bPlugin then
-        begin
-          // if plugin has specific search dialog
-          if WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchDialog(1) = LISTPLUGIN_OK then
-            Exit;
-        end;
+        if bPlugin then
+          begin
+            // if plugin has specific search dialog
+            if WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchDialog(1) = LISTPLUGIN_OK then
+              Exit;
+          end;
       if glsSearchHistory.Count > 0 then
         sSearchTextU:= glsSearchHistory[0];
     end;
