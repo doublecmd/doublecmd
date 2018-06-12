@@ -55,7 +55,7 @@ object frmFindView: TfrmFindView
     TabOrder = 3
   end
   object btnClose: TBitBtn
-    AnchorSideTop.Control = chkHex
+    AnchorSideTop.Control = cbCaseSens
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
