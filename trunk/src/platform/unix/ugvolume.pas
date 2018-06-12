@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Interface to GVolumeMonitor
 
-   Copyright (C) 2014-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -39,12 +39,13 @@ procedure Finalize;
 procedure AddObserver(Func: TGVolumeNotify);
 procedure RemoveObserver(Func: TGVolumeNotify);
 
+function Unmount(const Path: String): Boolean;
 function EnumerateVolumes(DrivesList: TDrivesList): Boolean;
 
 implementation
 
 uses
-  typinfo, fgl, uGLib2, uGio2, uGObject2;
+  typinfo, fgl, uGLib2, uGio2, uGObject2, uShowMsg;
 
 type
   TGVolumeObserverList = specialize TFPGList<TGVolumeNotify>;
@@ -225,6 +226,32 @@ begin
     g_object_unref(VolumeMonitor);
     VolumeMonitor:= nil;
   end;
+end;
+
+procedure FinishUnmount(source_object: PGObject; res: PGAsyncResult; user_data: gpointer); cdecl;
+var
+  AError: PGError = nil;
+begin
+   if not g_mount_unmount_with_operation_finish(PGMount(source_object), res, @AError) then
+   begin
+     msgError(nil, AError^.message);
+     g_error_free(AError);
+   end;
+   g_object_unref(source_object);
+end;
+
+function Unmount(const Path: String): Boolean;
+var
+  AFile: PGFile;
+  AMount: PGMount;
+begin
+  AFile:= g_file_new_for_uri(Pgchar(Path));
+  AMount:= g_file_find_enclosing_mount(AFile, nil, nil);
+  Result:= Assigned(AMount);
+  if Result then begin
+    g_mount_unmount_with_operation(AMount, G_MOUNT_UNMOUNT_NONE, nil, nil, @FinishUnmount, nil);
+  end;
+  g_object_unref(PGObject(AFile));
 end;
 
 function EnumerateVolumes(DrivesList: TDrivesList): Boolean;
