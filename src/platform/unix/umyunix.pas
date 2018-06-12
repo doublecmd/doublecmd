@@ -243,7 +243,7 @@ uses
   , SysCall
 {$ENDIF}
 {$IF NOT DEFINED(DARWIN)}
-  , uMimeActions, uMimeType
+  , uMimeActions, uMimeType, uGVolume
 {$ENDIF}
 {$IFDEF LINUX}
   , uUDisks
@@ -600,6 +600,12 @@ function UnmountDrive(Drive: PDrive): Boolean;
 begin
   if Drive^.IsMounted then
   begin
+{$IF NOT DEFINED(DARWIN)}
+    if Drive^.DriveType = dtSpecial then
+    begin
+      Exit(uGVolume.Unmount(Drive^.Path));
+    end;
+{$ENDIF}
 {$IF DEFINED(LINUX)}
     Result := False;
     if HaveUDisksCtl then
