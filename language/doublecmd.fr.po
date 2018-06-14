@@ -12457,3 +12457,4 @@ msgstr "Nombre de remplacements : %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
+
