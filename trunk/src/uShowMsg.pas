@@ -4,7 +4,7 @@
    -------------------------------------------------------------------------
    Implementing of Showing messages with localization
 
-   Copyright (C) 2007-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -122,6 +122,7 @@ function ShowInputQuery(Thread: TThread; const ACaption, APrompt: String; var Va
 
 function ShowInputComboBox(const sCaption, sPrompt : String; slValueList : TStringList; var sValue : String) : Boolean;
 function ShowInputListBox(const sCaption, sPrompt : String; slValueList : TStringList; var sValue : String; var SelectedChoice:integer) : Boolean;
+function ShowInputMultiSelectListBox(const sCaption, sPrompt : String; slValueList, slOutputIndexSelected : TStringList) : Boolean;
 
 procedure msgLoadLng;
 
@@ -584,14 +585,13 @@ begin
   TForm(TComponent(Sender).Owner).ModalResult:=mrOk;
 end;
 
-function ShowInputListBox(const sCaption, sPrompt : String; slValueList : TStringList;
-                           var sValue : String; var SelectedChoice:integer) : Boolean;
+function InnerShowInputListBox(const sCaption, sPrompt: String; bMultiSelect:boolean; slValueList,slOutputIndexSelected:TStringList; var sValue: String; var SelectedChoice:integer) : Boolean;
 var
   frmDialog : TForm;
   lblPrompt : TLabel;
   lbValue : TListBox;
-  bbtnOK,
-  bbtnCancel : TBitBtn;
+  bbtnOK, bbtnCancel, bbtnSelectAll : TBitBtn;
+  iIndex, iModalResult: integer;
   ProcedureHolder:TProcedureHolder;
 begin
   SelectedChoice:=-1;
@@ -625,11 +625,28 @@ begin
               height := (Screen.Height div 2);
           Items.Assign(slValueList);
           ItemIndex:=Items.IndexOf(sValue);
+          lbValue.MultiSelect:=bMultiSelect;
           if (ItemIndex=-1) AND (Items.count>0) then ItemIndex:=0;
           Left := 6;
           AnchorToNeighbour(akTop, 6, lblPrompt);
           Constraints.MinWidth := max(280, Screen.Width div 4);
           OnDblClick:= ProcedureHolder.ListBoxDblClick;
+        end;
+      if bMultiSelect then
+        begin
+          bbtnSelectAll := TBitBtn.Create(frmDialog);
+          with bbtnSelectAll do
+            begin
+              Parent := frmDialog;
+              Kind := bkAll;
+              Cancel := True;
+              Left := 6;
+              Width:= 90;
+              Anchors := [akTop, akLeft];
+              AnchorToNeighbour(akTop, 18, lbValue);
+              AnchorSide[akLeft].Control := lbValue;
+              AnchorSide[akLeft].Side := asrLeft;
+            end;
         end;
       bbtnCancel := TBitBtn.Create(frmDialog);
       with bbtnCancel do
@@ -655,11 +672,21 @@ begin
           AnchorToNeighbour(akTop, 18, lbValue);
           AnchorToNeighbour(akRight, 6, bbtnCancel);
         end;
-      Result := (ShowModal = mrOK) AND (lbValue.ItemIndex<>-1);
+      iModalResult:=ShowModal;
+      Result := (iModalResult = mrOK) AND (lbValue.ItemIndex<>-1);
+      if (not Result) AND (bMultiSelect) AND (iModalResult = mrAll) then
+        begin
+          lbValue.SelectAll;
+          Result:=True;
+        end;
       if Result then
       begin
         sValue:=lbValue.Items.Strings[lbValue.ItemIndex];
-        SelectedChoice:=lbValue.ItemIndex
+        SelectedChoice:=lbValue.ItemIndex;
+        if bMultiSelect then
+          for iIndex:=0 to pred(lbValue.Items.count) do
+            if lbValue.Selected[iIndex] then
+              slOutputIndexSelected.Add(IntToStr(iIndex));
       end;
     finally
       FreeAndNil(frmDialog);
@@ -668,6 +695,20 @@ begin
   finally
     ProcedureHolder.Free;
   end;
+end;
+
+function ShowInputListBox(const sCaption, sPrompt : String; slValueList : TStringList; var sValue : String; var SelectedChoice:integer) : Boolean;
+begin
+  result := InnerShowInputListBox(sCaption, sPrompt, False, slValueList, nil, sValue, SelectedChoice);
+end;
+
+function ShowInputMultiSelectListBox(const sCaption, sPrompt : String; slValueList, slOutputIndexSelected : TStringList) : Boolean;
+var
+  sDummyValue:string;
+  iDummySelectedChoice:integer;
+begin
+  if slValueList.Count>0 then sDummyValue := slValueList.Strings[0];
+  result := InnerShowInputListBox(sCaption, sPrompt, True, slValueList, slOutputIndexSelected, sDummyValue, iDummySelectedChoice);
 end;
 
 function MsgChoiceBox(const Message: String; Buttons: TDynamicStringArray): Integer;

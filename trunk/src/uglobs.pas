@@ -12,7 +12,7 @@
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
    Copyright (C) 2008  Vitaly Zotov (vitalyzotov@mail.ru)
-   Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
 }
 
@@ -145,6 +145,9 @@ const
   // 9   - few new options regarding tabs
   // 10  - changed Icons/CustomDriveIcons to Icons/CustomIcons
   ConfigVersion = 10;
+
+  // Configuration related filenames
+  sMULTIARC_FILENAME = 'multiarc.ini';
 
   TKeyTypingModifierToShift: array[TKeyTypingModifier] of TShiftState =
     ([], [ssAlt], [ssCtrl, ssAlt]);
@@ -720,7 +723,7 @@ end;
 
 function LoadMultiArcConfig(var {%H-}ErrorMessage: String): Boolean;
 begin
-  gMultiArcList.LoadFromFile(gpCfgDir + 'multiarc.ini');
+  gMultiArcList.LoadFromFile(gpCfgDir + sMULTIARC_FILENAME);
   Result := True;
 end;
 
@@ -1200,8 +1203,8 @@ begin
       if not mbFileExists(gpCfgDir + 'pixmaps.txt') then
         CopyFile(gpGlobalCfgDir + 'pixmaps.txt', gpCfgDir + 'pixmaps.txt');
       // multiarc configuration file
-      if not mbFileExists(gpCfgDir + 'multiarc.ini') then
-        CopyFile(gpGlobalCfgDir + 'multiarc.ini', gpCfgDir + 'multiarc.ini');
+      if not mbFileExists(gpCfgDir + sMULTIARC_FILENAME) then
+        CopyFile(gpGlobalCfgDir + sMULTIARC_FILENAME, gpCfgDir + sMULTIARC_FILENAME);
     end;
 end;
 
@@ -1943,8 +1946,8 @@ begin
   LoadConfigCheckErrors(@LoadHotManConfig, gpCfgDir + gNameSCFile, ErrorMessage);
 
   { MultiArc addons }
-  if mbFileExists(gpCfgDir + 'multiarc.ini') then
-    LoadConfigCheckErrors(@LoadMultiArcConfig, gpCfgDir + 'multiarc.ini', ErrorMessage);
+  if mbFileExists(gpCfgDir + sMULTIARC_FILENAME) then
+    LoadConfigCheckErrors(@LoadMultiArcConfig, gpCfgDir + sMULTIARC_FILENAME, ErrorMessage);
 
   { Various history }
   if mbFileExists(gpCfgDir + 'history.xml') then

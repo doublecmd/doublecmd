@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementation of multi archiver support
 
-   Copyright (C) 2010-2013  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2018  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -129,6 +129,7 @@ type
     constructor Create;
     destructor Destroy; override;
     function CanYouHandleThisFile(const FileName: String): Boolean;
+    function Clone: TMultiArcItem;
     property FID: AnsiString read FSignature write SetSignature;
     property FIDPos: AnsiString read FSignaturePosition write SetSignaturePosition;
     property FIDSeekRange: AnsiString read GetSignatureSeekRange write SetSignatureSeekRange;
@@ -151,6 +152,9 @@ type
     procedure LoadFromFile(const FileName: String);
     procedure SaveToFile(const FileName: String);
     function Add(const S: String; aMultiArcItem: TMultiArcItem): Integer;
+    function Insert(Index: integer; const S: string; aMultiArcItem: TMultiArcItem): integer;
+    function Clone: TMultiArcList;
+    function ComputeSignature(Seed: dword = $00000000): dword;
     procedure Delete(Index: Integer);
     property Names[Index: Integer]: String read GetName write SetName;
     property Items[Index: Integer]: TMultiArcItem read GetItem; default;
@@ -160,7 +164,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, Math, FileUtil, DCClassesUtf8, uDCUtils, DCOSUtils;
+  crc, LCLProc, StrUtils, Math, FileUtil, DCClassesUtf8, uDCUtils, DCOSUtils;
 
 { TMultiArcList }
 
@@ -239,6 +243,7 @@ var
   FirstTime: Boolean = True;
   MultiArcItem: TMultiArcItem;
 begin
+  Self.Clear;
   IniFile:= TIniFileEx.Create(FileName, fmOpenRead);
   try
     Sections:= TStringList.Create;
@@ -347,10 +352,67 @@ begin
   Result := FList.AddObject(S, aMultiArcItem);
 end;
 
+function TMultiArcList.Insert(Index: integer; const S: string; aMultiArcItem: TMultiArcItem): integer;
+begin
+  try
+    FList.InsertObject(Index, S, aMultiArcItem);
+    Result := Index;
+  except
+    Result := -1;
+  end;
+end;
 procedure TMultiArcList.Delete(Index: Integer);
 begin
   Items[Index].Free;
   FList.Delete(Index);
+end;
+function TMultiArcList.Clone: TMultiArcList;
+var
+  Index: integer;
+begin
+  Result := TMultiArcList.Create;
+  for Index := 0 to pred(Self.Count) do
+    Result.Add(Self.FList.Strings[Index], Self.Items[Index].Clone);
+end;
+{ TMultiArcList.ComputeSignature }
+// Routine tries to pickup all char chain from element of all entries and compute a unique CRC32.
+// This CRC32 will be a kind of signature of the MultiArc settings.
+function TMultiArcList.ComputeSignature(Seed: dword): dword;
+  procedure UpdateSignature(sInfo: string);
+  begin
+    if length(sInfo) > 0 then
+      Result := crc32(Result, @sInfo[1], length(sInfo));
+  end;
+var
+  Index, iInnerIndex: integer;
+begin
+  Result := Seed;
+  for Index := 0 to pred(Count) do
+  begin
+    UpdateSignature(Self.FList.Strings[Index]);
+    UpdateSignature(Self.Items[Index].FDescription);
+    UpdateSignature(Self.Items[Index].FArchiver);
+    UpdateSignature(Self.Items[Index].FExtension);
+    UpdateSignature(Self.Items[Index].FList);
+    UpdateSignature(Self.Items[Index].FStart);
+    UpdateSignature(Self.Items[Index].FEnd);
+    for iInnerIndex := 0 to pred(Self.Items[Index].FFormat.Count) do
+      UpdateSignature(Self.Items[Index].FFormat.Strings[iInnerIndex]);
+    UpdateSignature(Self.Items[Index].FExtract);
+    UpdateSignature(Self.Items[Index].FAdd);
+    UpdateSignature(Self.Items[Index].FDelete);
+    UpdateSignature(Self.Items[Index].FTest);
+    UpdateSignature(Self.Items[Index].FExtractWithoutPath);
+    UpdateSignature(Self.Items[Index].FAddSelfExtract);
+    UpdateSignature(Self.Items[Index].FPasswordQuery);
+    UpdateSignature(Self.Items[Index].FID);
+    UpdateSignature(Self.Items[Index].FIDPos);
+    UpdateSignature(Self.Items[Index].FIDSeekRange);
+    Result := crc32(Result, @Self.Items[Index].FFormMode, sizeof(Self.Items[Index].FFormMode));
+    Result := crc32(Result, @Self.Items[Index].FEnabled, sizeof(Self.Items[Index].FEnabled));
+    Result := crc32(Result, @Self.Items[Index].FOutput, sizeof(Self.Items[Index].FOutput));
+    Result := crc32(Result, @Self.Items[Index].FDebug, sizeof(Self.Items[Index].FDebug));
+  end;
 end;
 
 { TMultiArcItem }
@@ -510,6 +572,33 @@ begin
       UnMapFile(FileMapRec);
     end;
   end;
+end;
+
+function TMultiArcItem.Clone: TMultiArcItem;
+begin
+  Result := TMultiArcItem.Create;
+  //Keep elements in some ordre a when loading them from the .ini, it will be simpler to validate if we are missing one.
+  Result.FArchiver := Self.FArchiver;
+  Result.FDescription := Self.FDescription;
+  Result.FID := Self.FID;
+  Result.FIDPos := Self.FIDPos;
+  Result.FIDSeekRange := Self.FIDSeekRange;
+  Result.FExtension := Self.FExtension;
+  Result.FStart := Self.FStart;
+  Result.FEnd := Self.FEnd;
+  Result.FFormat.Assign(Self.FFormat);
+  Result.FList := Self.FList;
+  Result.FExtract := Self.FExtract;
+  Result.FExtractWithoutPath := Self.FExtractWithoutPath;
+  Result.FTest := Self.FTest;
+  Result.FDelete := Self.FDelete;
+  Result.FAdd := Self.FAdd;
+  Result.FAddSelfExtract := Self.FAddSelfExtract;
+  Result.FPasswordQuery := Self.FPasswordQuery;
+  Result.FFormMode := Self.FFormMode;
+  Result.FEnabled := Self.FEnabled;
+  Result.FOutput := Self.FOutput;
+  Result.FDebug := Self.FDebug;
 end;
 
 { TSignatureList }

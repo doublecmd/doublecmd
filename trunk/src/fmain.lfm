@@ -20,7 +20,7 @@ object frmMain: TfrmMain
   SessionProperties = 'nbConsole.Height;seLogWindow.Height;TreePanel.Width'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.8.4.0'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
@@ -1404,6 +1404,9 @@ object frmMain: TfrmMain
       object mnuConfigFolderTabs: TMenuItem
         Action = actConfigFolderTabs
       end
+      object miConfigArchivers: TMenuItem
+        Action = actConfigArchivers
+      end
       object miLine55: TMenuItem
         Caption = '-'
       end
@@ -2666,6 +2669,12 @@ object frmMain: TfrmMain
       Category = 'Navigation'
       Caption = 'Swap focus'
       Hint = 'Switch between left and right file list'
+      OnExecute = actExecute
+    end
+    object actConfigArchivers: TAction
+      Tag = 5
+      Category = 'Configuration'
+      Caption = 'Configuration of Archivers'
       OnExecute = actExecute
     end
   end

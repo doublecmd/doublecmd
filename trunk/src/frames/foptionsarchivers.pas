@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Archivers options page
 
-   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,72 +27,140 @@ unit fOptionsArchivers;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, ExtCtrls, ComCtrls, EditBtn, Grids, Buttons,
-  Menus, fOptionsFrame;
-
+  //Lazarus, Free-Pascal, etc.
+  Classes, SysUtils, StdCtrls, ExtCtrls, ComCtrls, EditBtn, Buttons, Menus,
+  Dialogs,
+  //DC
+  uMultiArc, fOptionsFrame, Controls;
 type
 
   { TfrmOptionsArchivers }
-
   TfrmOptionsArchivers = class(TOptionsEditor)
-    btnAutoConfig: TBitBtn;
-    btnMultiArcAdd: TBitBtn;
-    btnMultiArcApply: TBitBtn;
-    btnMultiArcDelete: TBitBtn;
-    btnMultiArcRename: TBitBtn;
-    btnRelativeArchiver: TSpeedButton;
-    chkMultiArcDebug: TCheckBox;
-    chkMultiArcEnabled: TCheckBox;
-    chkMultiArcOutput: TCheckBox;
-    edtArchiveAdd: TEdit;
-    edtArchiveExtension: TEdit;
-    edtArchiveExtract: TEdit;
-    edtArchiveList: TEdit;
-    edtArchiveListEnd: TEdit;
-    edtArchiveListStart: TEdit;
-    edtDescription: TEdit;
-    fneArchiver: TFileNameEdit;
-    gbArchiverOptions: TGroupBox;
-    lblArchiveAdd: TLabel;
-    lblArchiveExtension: TLabel;
-    lblArchiveExtract: TLabel;
-    lblArchiveList: TLabel;
-    lblArchiveListEnd: TLabel;
-    lblArchiveListFormat: TLabel;
-    lblArchiveListStart: TLabel;
-    lblArchiver: TLabel;
-    lblDescription: TLabel;
-    lbxMultiArc: TListBox;
-    memArchiveListFormat: TMemo;
-    pcArchiverCommands: TPageControl;
-    pmPathHelper: TPopupMenu;
+    pnlArchiverListbox: TPanel;
+    lblArchiverListBox: TLabel;
+    lbxArchiver: TListBox;
+    splArchiver: TSplitter;
     pnlArchiverCommands: TPanel;
-    pnlMultiArcButtons: TPanel;
-    splMultiArc: TSplitter;
-    stgArchiverCommands: TStringGrid;
-    tbArchiverAdditional: TTabSheet;
+    pnlArchiverButtons: TPanel;
+    chkArchiverEnabled: TCheckBox;
+    btnArchiverApply: TBitBtn;
+    btnArchiverAdd: TBitBtn;
+    btnArchiverCopy: TBitBtn;
+    btnArchiverRename: TBitBtn;
+    btnArchiverDelete: TBitBtn;
+    btnArchiverOther: TBitBtn;
+    pcArchiverCommands: TPageControl;
     tbArchiverGeneral: TTabSheet;
-    procedure btnAutoConfigClick(Sender: TObject);
-    procedure btnMultiArcAddClick(Sender: TObject);
-    procedure btnMultiArcApplyClick(Sender: TObject);
-    procedure btnMultiArcDeleteClick(Sender: TObject);
-    procedure btnMultiArcRenameClick(Sender: TObject);
-    procedure btnRelativeArchiverClick(Sender: TObject);
-    procedure chkMultiArcEnabledChange(Sender: TObject);
-    procedure lbxMultiArcSelectionChange(Sender: TObject; {%H-}User: boolean);
-    procedure stgArchiverCommandsPrepareCanvas(Sender: TObject; {%H-}aCol,
-      aRow: Integer; {%H-}aState: TGridDrawState);
-    procedure tbArchiverAdditionalShow(Sender: TObject);
+    lblArchiverDescription: TLabel;
+    edtArchiverDescription: TEdit;
+    lblArchiverArchiver: TLabel;
+    fneArchiverArchiver: TFileNameEdit;
+    btnArchiverRelativer: TSpeedButton;
+    lblArchiverExtension: TLabel;
+    edtArchiverExtension: TEdit;
+    lblArchiverList: TLabel;
+    edtArchiverList: TEdit;
+    btnArchiverListHelper: TSpeedButton;
+    lblArchiverListStart: TLabel;
+    edtArchiverListStart: TEdit;
+    lblArchiverListEnd: TLabel;
+    edtArchiverListEnd: TEdit;
+    lblArchiverListFormat: TLabel;
+    memArchiverListFormat: TMemo;
+    lblArchiverExtract: TLabel;
+    edtArchiverExtract: TEdit;
+    btnArchiverExtractHelper: TSpeedButton;
+    lblArchiverAdd: TLabel;
+    edtArchiverAdd: TEdit;
+    btnArchiverAddHelper: TSpeedButton;
+    tbArchiverAdditional: TTabSheet;
+    lblArchiverDelete: TLabel;
+    edtArchiverDelete: TEdit;
+    btnArchiverDeleteHelper: TSpeedButton;
+    lblArchiverTest: TLabel;
+    edtArchiverTest: TEdit;
+    btnArchiverTestHelper: TSpeedButton;
+    lblArchiverExtractWithoutPath: TLabel;
+    edtArchiverExtractWithoutPath: TEdit;
+    btnArchiverExtractWithoutPathHelper: TSpeedButton;
+    lblArchiverSelfExtract: TLabel;
+    edtArchiverSelfExtract: TEdit;
+    btnArchiverSelfExtractHelper: TSpeedButton;
+    lblArchiverPasswordQuery: TLabel;
+    edtArchiverPasswordQuery: TEdit;
+    gbArchiverIds: TGroupBox;
+    lblArchiverIds: TLabel;
+    edtArchiverId: TEdit;
+    lblArchiverIdPosition: TLabel;
+    edtArchiverIdPosition: TEdit;
+    lblArchiverIdSeekRange: TLabel;
+    edtArchiverIdSeekRange: TEdit;
+    gbArchiverFormatParsingMode: TGroupBox;
+    ckbArchiverUnixPath: TCheckBox;
+    ckbArchiverWindowsPath: TCheckBox;
+    ckbArchiverUnixFileAttributes: TCheckBox;
+    ckbArchiverWindowsFileAttributes: TCheckBox;
+    gbArchiverOptions: TGroupBox;
+    chkArchiverMultiArcOutput: TCheckBox;
+    chkArchiverMultiArcDebug: TCheckBox;
+    pmArchiverOther: TPopupMenu;
+    miArchiverAutoConfigure: TMenuItem;
+    miArchiverDiscardModification: TMenuItem;
+    miSeparator1: TMenuItem;
+    miArchiverSortArchivers: TMenuItem;
+    miArchiverDisableAll: TMenuItem;
+    miArchiverEnableAll: TMenuItem;
+    miSeparator2: TMenuItem;
+    miArchiverExport: TMenuItem;
+    miArchiverImport: TMenuItem;
+    pmArchiverPathHelper: TPopupMenu;
+    pmArchiverParamHelper: TPopupMenu;
+    SaveArchiverDialog: TSaveDialog;
+    OpenArchiverDialog: TOpenDialog;
+    procedure lbxArchiverSelectionChange(Sender: TObject; {%H-}User: boolean);
+    procedure lbxArchiverDragOver(Sender, {%H-}Source: TObject; {%H-}X, {%H-}Y: integer; {%H-}State: TDragState; var Accept: boolean);
+    procedure lbxArchiverDragDrop(Sender, {%H-}Source: TObject; {%H-}X, Y: integer);
+    procedure edtAnyChange(Sender: TObject);
+    procedure ckbArchiverUnixPathChange(Sender: TObject);
+    procedure ckbArchiverWindowsPathChange(Sender: TObject);
+    procedure ckbArchiverUnixFileAttributesChange(Sender: TObject);
+    procedure ckbArchiverWindowsFileAttributesChange(Sender: TObject);
+    procedure chkArchiverEnabledChange(Sender: TObject);
+    procedure SetConfigurationState(bConfigurationSaved: boolean);
+    procedure SetControlsState(bWantedState: boolean);
+    procedure SetActiveButtonsBasedOnArchiversQuantity;
+    procedure ActualSaveCurrentMultiArcItem;
+    procedure btnArchiverApplyClick(Sender: TObject);
+    procedure btnArchiverAddClick(Sender: TObject);
+    procedure btnArchiverCopyClick(Sender: TObject);
+    procedure btnArchiverRenameClick(Sender: TObject);
+    procedure btnArchiverDeleteClick(Sender: TObject);
+    procedure btnArchiverOtherClick(Sender: TObject);
+    procedure miArchiverAutoConfigureClick(Sender: TObject);
+    procedure miArchiverDiscardModificationClick(Sender: TObject);
+    procedure miArchiverSortArchiversClick(Sender: TObject);
+    procedure miAdjustEnableAllClick(Sender: TObject);
+    procedure miArchiverExportClick(Sender: TObject);
+    procedure miArchiverImportClick(Sender: TObject);
+    procedure miHelperClick(Sender: TObject);
+    procedure btnHelperClick(Sender: TObject);
+    procedure btnArchiverRelativerClick(Sender: TObject);
+    procedure PopulateParamHelperMenu;
   private
-    procedure FillArchiverList;
+    MultiArcListTemp: TMultiArcList;
+    bCurrentlyFilling: boolean;
+    bCurrentlyLoadingSettings: boolean;
+    edtHelperRequested: TEdit; //Used as a kind of pointer of TEdit when it's time to use the % helper.
+    procedure FillListBoxWithArchiverList;
   protected
-    procedure Init; override;
     procedure Load; override;
+    procedure Done; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
-    class function GetIconIndex: Integer; override;
-    class function GetTitle: String; override;
-    function IsSignatureComputedFromAllWindowComponents: Boolean; override;
+    class function GetIconIndex: integer; override;
+    class function GetTitle: string; override;
+    function IsSignatureComputedFromAllWindowComponents: boolean; override;
+    function ExtraOptionsSignature(CurrentSignature: dword): dword; override;
   end;
 
 implementation
@@ -100,244 +168,663 @@ implementation
 {$R *.lfm}
 
 uses
-  Dialogs, Controls, uGlobs, uLng, uMultiArc, uSpecialDir, uGlobsPaths;
+  //Lazarus, Free-Pascal, etc.
+
+  //DC
+  uGlobs, uLng, uSpecialDir, uGlobsPaths, uShowMsg;
 
 const
-  stgArchiveTitle                = 0;
-  stgArchiveDelete               = 1;
-  stgArchiveTest                 = 2;
-  stgArchiveExtractWithoutPath   = 3;
-  stgArchiveSelfExtract          = 4;
-  stgArchiveID                   = 5;
-  stgArchiveIDPos                = 6;
-  stgArchiveIDSeekRange          = 7;
-  stgArchivePasswordQuery        = 8;
-  stgArchiveFormMode             = 9;
+  CONFIG_NOTSAVED = False;
+  CONFIG_SAVED = True;
+
+var
+  iLastDisplayedIndex: integer = -1;
 
 { TfrmOptionsArchivers }
 
-procedure TfrmOptionsArchivers.btnAutoConfigClick(Sender: TObject);
+{ TfrmOptionsArchivers.Load }
+procedure TfrmOptionsArchivers.Load;
 begin
-  gMultiArcList.AutoConfigure;
-  lbxMultiArcSelectionChange(lbxMultiArc, True);
+  bCurrentlyLoadingSettings := True;
+  bCurrentlyFilling := True;
+  if MultiArcListTemp <> nil then MultiArcListTemp.Free;
+  MultiArcListTemp := gMultiArcList.Clone;
+  FillListBoxWithArchiverList;
+  gSpecialDirList.PopulateMenuWithSpecialDir(pmArchiverPathHelper, mp_PATHHELPER, nil);
+  PopulateParamHelperMenu;
+  pcArchiverCommands.ActivePage := tbArchiverGeneral;
 end;
 
-procedure TfrmOptionsArchivers.btnMultiArcAddClick(Sender: TObject);
-var
-  sName: String;
-  MultiArcItem: TMultiArcItem;
+{ TfrmOptionsArchivers.Done }
+procedure TfrmOptionsArchivers.Done;
 begin
-  if InputQuery(Caption, rsOptArchiveTypeName, sName) then
-    begin
-      MultiArcItem:= TMultiArcItem.Create;
-      lbxMultiArc.Items.AddObject(sName, MultiArcItem);
-      gMultiArcList.Add(sName, MultiArcItem);
-      lbxMultiArc.ItemIndex:= lbxMultiArc.Count - 1;
-      pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
-      chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
-    end;
+  if lbxArchiver.ItemIndex <> -1 then
+    if lbxArchiver.ItemIndex < MultiArcListTemp.Count then
+      iLastDisplayedIndex := lbxArchiver.ItemIndex;
 end;
 
-procedure TfrmOptionsArchivers.btnMultiArcApplyClick(Sender: TObject);
+{ TfrmOptionsArchivers.Save }
+function TfrmOptionsArchivers.Save: TOptionsEditorSaveFlags;
 begin
-  if lbxMultiArc.ItemIndex < 0 then Exit;
-  with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]), stgArchiverCommands do
-  begin
-    FDescription:= edtDescription.Text;
-    FArchiver:= fneArchiver.FileName;
-    FExtension:= edtArchiveExtension.Text;
-    FList:= edtArchiveList.Text;
-    FStart:= edtArchiveListStart.Text;
-    FEnd:= edtArchiveListEnd.Text;
-    FFormat.Assign(memArchiveListFormat.Lines);
-    FExtract:= edtArchiveExtract.Text;
-    FAdd:= edtArchiveAdd.Text;
-    FDelete:= Cells[1, stgArchiveDelete];
-    FTest:= Cells[1, stgArchiveTest];
-    FExtractWithoutPath:= Cells[1, stgArchiveExtractWithoutPath];
-    FAddSelfExtract:= Cells[1, stgArchiveSelfExtract];
-    FID:= Cells[1, stgArchiveID];
-    FIDPos:= Cells[1, stgArchiveIDPos];
-    FIDSeekRange:= Cells[1, stgArchiveIDSeekRange];
-    FPasswordQuery:= Cells[1, stgArchivePasswordQuery];
-    FFormMode:= StrToIntDef(Cells[1, stgArchiveFormMode], 0);
-    FOutput:= chkMultiArcOutput.Checked;
-    FDebug:= chkMultiArcDebug.Checked;
-  end;
+  Result := [];
+  if not lbxArchiver.Enabled then
+    ActualSaveCurrentMultiArcItem;
+  MultiArcListTemp.SaveToFile(gpCfgDir + sMULTIARC_FILENAME);
+  gMultiArcList.Free;
+  gMultiArcList := MultiArcListTemp.Clone;
+  LastLoadedOptionSignature := ComputeCompleteOptionsSignature;
 end;
 
-procedure TfrmOptionsArchivers.btnMultiArcDeleteClick(Sender: TObject);
-var
-  I: Integer;
-begin
-  if lbxMultiArc.ItemIndex < 0 then Exit;
-  I:= lbxMultiArc.ItemIndex;
-  lbxMultiArc.Items.Delete(I);
-  gMultiArcList.Delete(I);
-  lbxMultiArc.ItemIndex:= lbxMultiArc.Count - 1;
-  pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
-  chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
-end;
-
-procedure TfrmOptionsArchivers.btnMultiArcRenameClick(Sender: TObject);
-var
-  sNewName: String;
-begin
-  if lbxMultiArc.ItemIndex < 0 then Exit;
-  sNewName:= lbxMultiArc.Items[lbxMultiArc.ItemIndex];
-  if InputQuery(Caption, rsOptArchiveTypeName, sNewName) then
-    begin
-      lbxMultiArc.Items[lbxMultiArc.ItemIndex]:= sNewName;
-      gMultiArcList.Names[lbxMultiArc.ItemIndex]:= sNewName;
-    end;
-end;
-
-procedure TfrmOptionsArchivers.btnRelativeArchiverClick(Sender: TObject);
-begin
-  fneArchiver.SetFocus;
-  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneArchiver,pfFILE);
-  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
-end;
-
-procedure TfrmOptionsArchivers.chkMultiArcEnabledChange(Sender: TObject);
-begin
-  if lbxMultiArc.ItemIndex < 0 then Exit;
-  with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]) do
-  FEnabled:= chkMultiArcEnabled.Checked;
-end;
-
-procedure TfrmOptionsArchivers.lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
-begin
-  if lbxMultiArc.ItemIndex < 0 then
-  with stgArchiverCommands do
-    begin
-      edtDescription.Text:= EmptyStr;
-      fneArchiver.FileName:= EmptyStr;
-      edtArchiveExtension.Text:= EmptyStr;
-      edtArchiveList.Text:= EmptyStr;
-      edtArchiveListStart.Text:= EmptyStr;
-      edtArchiveListEnd.Text:= EmptyStr;
-      memArchiveListFormat.Lines.Clear;
-      edtArchiveExtract.Text:= EmptyStr;
-      edtArchiveAdd.Text:= EmptyStr;
-      Cells[1, stgArchiveDelete]:= EmptyStr;
-      Cells[1, stgArchiveTest]:= EmptyStr;
-      Cells[1, stgArchiveExtractWithoutPath]:= EmptyStr;
-      Cells[1, stgArchiveSelfExtract]:= EmptyStr;
-      Cells[1, stgArchiveID]:= EmptyStr;
-      Cells[1, stgArchiveIDPos]:= EmptyStr;
-      Cells[1, stgArchiveIDSeekRange]:= EmptyStr;
-      Cells[1, stgArchivePasswordQuery]:= EmptyStr;
-      Cells[1, stgArchiveFormMode]:= EmptyStr;
-      chkMultiArcOutput.Checked:= False;
-      chkMultiArcDebug.Checked:= False;
-      chkMultiArcEnabled.Checked:= False;
-      pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
-      chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
-    end
-  else
-    with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]), stgArchiverCommands  do
-    begin
-      edtDescription.Text:= FDescription;
-      fneArchiver.FileName:= FArchiver;
-      edtArchiveExtension.Text:= FExtension;
-      edtArchiveList.Text:= FList;
-      edtArchiveListStart.Text:= FStart;
-      edtArchiveListEnd.Text:= FEnd;
-      memArchiveListFormat.Lines.Assign(FFormat);
-      edtArchiveExtract.Text:= FExtract;
-      edtArchiveAdd.Text:= FAdd;
-      Cells[1, stgArchiveDelete]:= FDelete;
-      Cells[1, stgArchiveTest]:= FTest;
-      Cells[1, stgArchiveExtractWithoutPath]:= FExtractWithoutPath;
-      Cells[1, stgArchiveSelfExtract]:= FAddSelfExtract;
-      Cells[1, stgArchiveID]:= FID;
-      Cells[1, stgArchiveIDPos]:= FIDPos;
-      Cells[1, stgArchiveIDSeekRange]:= FIDSeekRange;
-      Cells[1, stgArchivePasswordQuery]:= FPasswordQuery;
-      Cells[1, stgArchiveFormMode]:= IntToStr(FFormMode);
-      chkMultiArcOutput.Checked:= FOutput;
-      chkMultiArcDebug.Checked:= FDebug;
-      chkMultiArcEnabled.Checked:= FEnabled;
-  end;
-end;
-
-procedure TfrmOptionsArchivers.stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol, aRow: Integer; aState: TGridDrawState);
-begin
-  if aRow = 0 then
-    stgArchiverCommands.Canvas.Brush.Color:= stgArchiverCommands.FixedColor
-  else
-    stgArchiverCommands.Canvas.Brush.Color:= stgArchiverCommands.Color;
-end;
-
-procedure TfrmOptionsArchivers.tbArchiverAdditionalShow(Sender: TObject);
-var
-  I, J: LongInt;
-  iWidth: LongInt = 0;
-begin
-  for I:= 0 to stgArchiverCommands.RowCount - 1 do
-  begin
-    J:= stgArchiverCommands.Canvas.TextWidth(stgArchiverCommands.Cells[0, I]);
-    if J > iWidth then iWidth:= J;
-  end;
-  stgArchiverCommands.ColWidths[0]:= iWidth + 12;
-end;
-
-procedure TfrmOptionsArchivers.FillArchiverList;
-var
-  I: Integer;
-begin
-  for I:= 0 to gMultiArcList.Count - 1 do
-    lbxMultiArc.Items.AddObject(gMultiArcList.Names[I], gMultiArcList[I]);
-  pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
-  chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
-  if lbxMultiArc.Count > 0 then
-    lbxMultiArc.ItemIndex:= 0;
-end;
-
-class function TfrmOptionsArchivers.GetIconIndex: Integer;
+{ TfrmOptionsArchivers.GetIconIndex }
+class function TfrmOptionsArchivers.GetIconIndex: integer;
 begin
   Result := 18;
 end;
 
-class function TfrmOptionsArchivers.GetTitle: String;
+{ TfrmOptionsArchivers.GetTitle }
+class function TfrmOptionsArchivers.GetTitle: string;
 begin
   Result := rsOptionsEditorArchivers;
 end;
 
 { TfrmOptionsArchivers.IsSignatureComputedFromAllWindowComponents }
-function TfrmOptionsArchivers.IsSignatureComputedFromAllWindowComponents: Boolean;
+function TfrmOptionsArchivers.IsSignatureComputedFromAllWindowComponents: boolean;
 begin
   Result := False;
 end;
 
-procedure TfrmOptionsArchivers.Init;
+{ TfrmOptionsArchivers.ExtraOptionsSignature }
+function TfrmOptionsArchivers.ExtraOptionsSignature(CurrentSignature: dword): dword;
 begin
-  // Localize additional archiver commands.
-  stgArchiverCommands.Cells[0, stgArchiveTitle] := rsOptArchiveParam;
-  stgArchiverCommands.Cells[1, stgArchiveTitle] := rsOptArchiveValue;
-  stgArchiverCommands.Cells[0, stgArchiveDelete] := rsOptArchiveDelete;
-  stgArchiverCommands.Cells[0, stgArchiveTest] := rsOptArchiveTest;
-  stgArchiverCommands.Cells[0, stgArchiveExtractWithoutPath] := rsOptArchiveExtractWithoutPath;
-  stgArchiverCommands.Cells[0, stgArchiveSelfExtract] := rsOptArchiveSelfExtract;
-  stgArchiverCommands.Cells[0, stgArchiveID] := rsOptArchiveID;
-  stgArchiverCommands.Cells[0, stgArchiveIDPos] := rsOptArchiveIDPos;
-  stgArchiverCommands.Cells[0, stgArchiveIDSeekRange] := rsOptArchiveIDSeekRange;
-  stgArchiverCommands.Cells[0, stgArchivePasswordQuery] := rsOptArchivePasswordQuery;
-  stgArchiverCommands.Cells[0, stgArchiveFormMode] := rsOptArchiveFormMode;
+  if not lbxArchiver.Enabled then //If currently our Listbox is disabled, it's because we did at least one modification...
+    Result := (LastLoadedOptionSignature xor $01) //...so let's make sure the reported signature for the whole thing is affected.
+  else
+    Result := MultiArcListTemp.ComputeSignature(CurrentSignature);
 end;
 
-procedure TfrmOptionsArchivers.Load;
+{ TfrmOptionsArchivers.FillListBoxWithArchiverList }
+procedure TfrmOptionsArchivers.FillListBoxWithArchiverList;
+var
+  I, iRememberIndex: integer;
 begin
-  FillArchiverList;
-  gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
+  bCurrentlyFilling := True;
+  iRememberIndex := lbxArchiver.ItemIndex;
+  lbxArchiver.Clear;
+  for I := 0 to MultiArcListTemp.Count - 1 do lbxArchiver.Items.AddObject(MultiArcListTemp.Names[I], MultiArcListTemp[I]);
+  pcArchiverCommands.Enabled := (lbxArchiver.Items.Count <> 0);
+  chkArchiverEnabled.Enabled := (lbxArchiver.Items.Count <> 0);
+  if lbxArchiver.Items.Count > 0 then
+  begin
+    if (iRememberIndex <> -1) and (iRememberIndex < lbxArchiver.Items.Count) then
+      lbxArchiver.ItemIndex := iRememberIndex
+    else
+    if (iLastDisplayedIndex <> -1) and (iLastDisplayedIndex < lbxArchiver.Items.Count) then
+      lbxArchiver.ItemIndex := iLastDisplayedIndex
+    else
+      lbxArchiver.ItemIndex := 0;
+  end;
+  SetActiveButtonsBasedOnArchiversQuantity;
+  btnArchiverApply.Enabled := False;
+  bCurrentlyFilling := False;
+  lbxArchiverSelectionChange(lbxArchiver, False);
 end;
 
-function TfrmOptionsArchivers.Save: TOptionsEditorSaveFlags;
+{ TfrmOptionsArchivers.lbxArchiverSelectionChange }
+procedure TfrmOptionsArchivers.lbxArchiverSelectionChange(Sender: TObject; User: boolean);
 begin
-  Result := [];
-  gMultiArcList.SaveToFile(gpCfgDir + 'multiarc.ini');
+  if not bCurrentlyFilling then
+  begin
+    bCurrentlyLoadingSettings := True;
+
+    if lbxArchiver.ItemIndex < 0 then
+    begin
+      edtArchiverDescription.Text := EmptyStr;
+      fneArchiverArchiver.FileName := EmptyStr;
+      edtArchiverExtension.Text := EmptyStr;
+      edtArchiverList.Text := EmptyStr;
+      edtArchiverListStart.Text := EmptyStr;
+      edtArchiverListEnd.Text := EmptyStr;
+      memArchiverListFormat.Lines.Clear;
+      edtArchiverExtract.Text := EmptyStr;
+      edtArchiverAdd.Text := EmptyStr;
+      edtArchiverDelete.Text := EmptyStr;
+      edtArchiverTest.Text := EmptyStr;
+      edtArchiverExtractWithoutPath.Text := EmptyStr;
+      edtArchiverSelfExtract.Text := EmptyStr;
+      edtArchiverPasswordQuery.Text := EmptyStr;
+      edtArchiverId.Text := EmptyStr;
+      edtArchiverIdPosition.Text := EmptyStr;
+      edtArchiverIdSeekRange.Text := EmptyStr;
+      ckbArchiverUnixPath.Checked := False;
+      ckbArchiverWindowsPath.Checked := False;
+      ckbArchiverUnixFileAttributes.Checked := False;
+      ckbArchiverWindowsFileAttributes.Checked := False;
+      chkArchiverMultiArcOutput.Checked := False;
+      chkArchiverMultiArcDebug.Checked := False;
+      chkArchiverEnabled.Checked := False;
+      pcArchiverCommands.Enabled := (lbxArchiver.Items.Count <> 0);
+      chkArchiverEnabled.Enabled := (lbxArchiver.Items.Count <> 0);
+    end
+    else
+    begin
+      with TMultiArcItem(lbxArchiver.Items.Objects[lbxArchiver.ItemIndex]) do
+      begin
+        edtArchiverDescription.Text := FDescription;
+        fneArchiverArchiver.FileName := FArchiver;
+        edtArchiverExtension.Text := FExtension;
+        edtArchiverList.Text := FList;
+        edtArchiverListStart.Text := FStart;
+        edtArchiverListEnd.Text := FEnd;
+        memArchiverListFormat.Lines.Assign(FFormat);
+        edtArchiverExtract.Text := FExtract;
+        edtArchiverAdd.Text := FAdd;
+        edtArchiverDelete.Text := FDelete;
+        edtArchiverTest.Text := FTest;
+        edtArchiverExtractWithoutPath.Text := FExtractWithoutPath;
+        edtArchiverSelfExtract.Text := FAddSelfExtract;
+        edtArchiverPasswordQuery.Text := FPasswordQuery;
+        edtArchiverId.Text := FID;
+        edtArchiverIdPosition.Text := FIDPos;
+        edtArchiverIdSeekRange.Text := FIDSeekRange;
+        ckbArchiverUnixPath.Checked := (FFormMode and $01 <> $00);
+        ckbArchiverWindowsPath.Checked := (FFormMode and $02 <> $00);
+        ckbArchiverUnixFileAttributes.Checked := (FFormMode and $04 <> $00);
+        ckbArchiverWindowsFileAttributes.Checked := (FFormMode and $08 <> $00);
+        chkArchiverMultiArcOutput.Checked := FOutput;
+        chkArchiverMultiArcDebug.Checked := FDebug;
+        chkArchiverEnabled.Checked := FEnabled;
+      end;
+    end;
+    SetControlsState(chkArchiverEnabled.Checked);
+
+    SetConfigurationState(CONFIG_SAVED);
+    bCurrentlyLoadingSettings := False;
+  end;
+end;
+
+{ TfrmOptionsArchivers.lbxArchiverDragOver }
+procedure TfrmOptionsArchivers.lbxArchiverDragOver(Sender, Source: TObject; X, Y: integer; State: TDragState; var Accept: boolean);
+begin
+  Accept := True;
+end;
+
+{ TfrmOptionsArchivers.lbxArchiverDragDrop }
+procedure TfrmOptionsArchivers.lbxArchiverDragDrop(Sender, Source: TObject; X, Y: integer);
+var
+  SrcIndex, DestIndex: integer;
+begin
+  SrcIndex := lbxArchiver.ItemIndex;
+  if SrcIndex = -1 then
+    Exit;
+  DestIndex := lbxArchiver.GetIndexAtY(Y);
+  if (DestIndex < 0) or (DestIndex >= lbxArchiver.Count) then
+    DestIndex := lbxArchiver.Count - 1;
+
+  lbxArchiver.Items.Move(SrcIndex, DestIndex);
+  MultiArcListTemp.FList.Move(SrcIndex, DestIndex);
+  lbxArchiver.ItemIndex := DestIndex;
+  lbxArchiverSelectionChange(lbxArchiver, False);
+end;
+
+{ TfrmOptionsArchivers.edtAnyChange }
+procedure TfrmOptionsArchivers.edtAnyChange(Sender: TObject);
+begin
+  if not bCurrentlyLoadingSettings then
+    if lbxArchiver.Enabled then
+      SetConfigurationState(CONFIG_NOTSAVED);
+end;
+
+{ TfrmOptionsArchivers.ckbArchiverUnixPathChange }
+procedure TfrmOptionsArchivers.ckbArchiverUnixPathChange(Sender: TObject);
+begin
+  if TCheckBox(Sender).Checked then
+    if ckbArchiverWindowsPath.Checked then
+      ckbArchiverWindowsPath.Checked:=False;
+  edtAnyChange(Sender);
+end;
+
+{ TfrmOptionsArchivers.ckbArchiverWindowsPathChange }
+procedure TfrmOptionsArchivers.ckbArchiverWindowsPathChange(Sender: TObject);
+begin
+  if TCheckbox(Sender).Checked then
+    if ckbArchiverUnixPath.Checked then
+      ckbArchiverUnixPath.Checked:=False;
+  edtAnyChange(Sender);
+end;
+
+{ TfrmOptionsArchivers.ckbArchiverUnixFileAttributesChange }
+procedure TfrmOptionsArchivers.ckbArchiverUnixFileAttributesChange(Sender: TObject);
+begin
+  if TCheckBox(Sender).Checked then
+    if ckbArchiverWindowsFileAttributes.Checked then
+      ckbArchiverWindowsFileAttributes.Checked := False;
+  edtAnyChange(Sender);
+end;
+
+{ TfrmOptionsArchivers.ckbArchiverWindowsFileAttributesChange }
+procedure TfrmOptionsArchivers.ckbArchiverWindowsFileAttributesChange(Sender: TObject);
+begin
+  if TCheckBox(Sender).Checked then
+    if ckbArchiverUnixFileAttributes.Checked then
+      ckbArchiverUnixFileAttributes.Checked := False;
+  edtAnyChange(Sender);
+end;
+
+{ TfrmOptionsArchivers.chkArchiverEnabledChange }
+procedure TfrmOptionsArchivers.chkArchiverEnabledChange(Sender: TObject);
+begin
+  if not bCurrentlyLoadingSettings then
+  begin
+    SetControlsState(chkArchiverEnabled.Checked);
+    edtAnyChange(Sender);
+  end;
+end;
+
+{ TfrmOptionsArchivers.SetConfigurationState }
+procedure TfrmOptionsArchivers.SetConfigurationState(bConfigurationSaved: boolean);
+begin
+  if lbxArchiver.Enabled <> bConfigurationSaved then
+  begin
+    lbxArchiver.Enabled := bConfigurationSaved;
+    btnArchiverApply.Enabled := not bConfigurationSaved;
+    btnArchiverAdd.Enabled := bConfigurationSaved;
+    btnArchiverCopy.Enabled := bConfigurationSaved;
+    btnArchiverRename.Enabled := bConfigurationSaved;
+    miArchiverImport.Enabled := bConfigurationSaved;
+    miArchiverSortArchivers.Enabled := bConfigurationSaved;
+    miArchiverExport.Enabled := bConfigurationSaved;
+    miArchiverDiscardModification.Enabled := not bConfigurationSaved;
+    miArchiverDisableAll.Enabled := bConfigurationSaved;
+    miArchiverEnableAll.Enabled := bConfigurationSaved;
+
+    if bConfigurationSaved = CONFIG_SAVED then
+      lbxArchiver.Hint := ''
+    else
+      lbxArchiver.Hint := rsOptArchiveConfigureSaveToChange;
+  end;
+end;
+
+{ TfrmOptionsArchivers.SetControlsState }
+procedure TfrmOptionsArchivers.SetControlsState(bWantedState: boolean);
+var
+  iComponentIndex: integer;
+begin
+  if lbxArchiver.ItemIndex < 0 then Exit;
+  TMultiArcItem(lbxArchiver.Items.Objects[lbxArchiver.ItemIndex]).FEnabled := bWantedState;
+
+  if bWantedState <> edtArchiverDescription.Enabled then //Let's use "edtDescription" as a reference.
+    for iComponentIndex := 0 to pred(ComponentCount) do
+      if Components[iComponentIndex].Owner <> nil then
+        if Components[iComponentIndex].InheritsFrom(TControl) then
+          if (TControl(Components[iComponentIndex]).Parent = tbArchiverGeneral) or (TControl(Components[iComponentIndex]).Parent = tbArchiverAdditional) then
+            if Components[iComponentIndex].Name <> chkArchiverEnabled.Name then
+              TControl(Components[iComponentIndex]).Enabled := bWantedState;
+end;
+
+{ TfrmOptionsArchivers.SetActiveButtonsBasedOnArchiversQuantity }
+procedure TfrmOptionsArchivers.SetActiveButtonsBasedOnArchiversQuantity;
+begin
+  btnArchiverCopy.Enabled := ((lbxArchiver.Items.Count > 0) and (lbxArchiver.Enabled));
+  btnArchiverRename.Enabled := btnArchiverCopy.Enabled;
+  btnArchiverDelete.Enabled := btnArchiverCopy.Enabled;
+  miArchiverAutoConfigure.Enabled := btnArchiverCopy.Enabled;
+  miArchiverSortArchivers.Enabled := ((lbxArchiver.Items.Count > 1) and (lbxArchiver.Enabled));
+  miArchiverExport.Enabled := btnArchiverCopy.Enabled;
+end;
+
+{ TfrmOptionsArchivers.ActualSaveCurrentMultiArcItem }
+procedure TfrmOptionsArchivers.ActualSaveCurrentMultiArcItem;
+begin
+  if lbxArchiver.ItemIndex < 0 then
+    Exit;
+  with TMultiArcItem(lbxArchiver.Items.Objects[lbxArchiver.ItemIndex]) do
+  begin
+    FDescription := edtArchiverDescription.Text;
+    FArchiver := fneArchiverArchiver.FileName;
+    FExtension := edtArchiverExtension.Text;
+    FList := edtArchiverList.Text;
+    FStart := edtArchiverListStart.Text;
+    FEnd := edtArchiverListEnd.Text;
+    FFormat.Assign(memArchiverListFormat.Lines);
+    FExtract := edtArchiverExtract.Text;
+    FAdd := edtArchiverAdd.Text;
+    FDelete := edtArchiverDelete.Text;
+    FTest := edtArchiverTest.Text;
+    FExtractWithoutPath := edtArchiverExtractWithoutPath.Text;
+    FAddSelfExtract := edtArchiverSelfExtract.Text;
+    FPasswordQuery := edtArchiverPasswordQuery.Text;
+    FID := edtArchiverId.Text;
+    FIDPos := edtArchiverIdPosition.Text;
+    FIDSeekRange := edtArchiverIdSeekRange.Text;
+    FFormMode := 0;
+    if ckbArchiverUnixPath.Checked then  FFormMode := FFormMode or $01;
+    if ckbArchiverWindowsPath.Checked then  FFormMode := FFormMode or $02;
+    if ckbArchiverUnixFileAttributes.Checked then  FFormMode := FFormMode or $04;
+    if ckbArchiverWindowsFileAttributes.Checked then  FFormMode := FFormMode or $08;
+    FOutput := chkArchiverMultiArcOutput.Checked;
+    FDebug := chkArchiverMultiArcDebug.Checked;
+    SetConfigurationState(CONFIG_SAVED);
+  end;
+end;
+
+{ TfrmOptionsArchivers.btnArchiverApplyClick }
+procedure TfrmOptionsArchivers.btnArchiverApplyClick(Sender: TObject);
+begin
+  Save;
+  if lbxArchiver.CanFocus then
+    lbxArchiver.SetFocus;
+end;
+
+{ TfrmOptionsArchivers.btnArchiverAddClick }
+procedure TfrmOptionsArchivers.btnArchiverAddClick(Sender: TObject);
+var
+  sName: string;
+  MultiArcItem: TMultiArcItem;
+begin
+  if InputQuery(Caption, rsOptArchiveTypeName, sName) then
+  begin
+    MultiArcItem := TMultiArcItem.Create;
+    lbxArchiver.Items.AddObject(sName, MultiArcItem);
+    MultiArcListTemp.Add(sName, MultiArcItem);
+    lbxArchiver.ItemIndex := lbxArchiver.Items.Count - 1;
+    lbxArchiverSelectionChange(lbxArchiver, False);
+    pcArchiverCommands.Enabled := (lbxArchiver.Items.Count <> 0);
+    chkArchiverEnabled.Enabled := (lbxArchiver.Items.Count <> 0);
+    SetActiveButtonsBasedOnArchiversQuantity;
+  end;
+end;
+
+{ TfrmOptionsArchivers.btnArchiverCopyClick }
+procedure TfrmOptionsArchivers.btnArchiverCopyClick(Sender: TObject);
+var
+  ANewMultiArcItem: TMultiArcItem;
+  sCurrentSelectedName, sNewName: string;
+  iIndexCopy, iPosOpenPar, iNewInsertedPosition: integer;
+begin
+  if lbxArchiver.ItemIndex < 0 then Exit;
+
+  sCurrentSelectedName := lbxArchiver.Items.Strings[lbxArchiver.ItemIndex];
+  if LastDelimiter(')', sCurrentSelectedName) = length(sCurrentSelectedName) then
+  begin
+    iPosOpenPar := LastDelimiter('(', sCurrentSelectedName);
+    if (iPosOpenPar > 0) and (iPosOpenPar > (length(sCurrentSelectedName) - 4)) then
+      sCurrentSelectedName := LeftStr(sCurrentSelectedName, pred(pred(iPosOpenPar)));
+  end;
+
+  iIndexCopy := 2;
+  while lbxArchiver.Items.IndexOf(Format('%s (%d)', [sCurrentSelectedName, iIndexCopy])) <> -1 do
+    Inc(iIndexCopy);
+  sNewName := Format('%s (%d)', [sCurrentSelectedName, iIndexCopy]);
+
+  ANewMultiArcItem := TMultiArcItem(lbxArchiver.Items.Objects[lbxArchiver.ItemIndex]).Clone;
+  //Let's place our copy right after the original one.
+  iNewInsertedPosition := succ(lbxArchiver.ItemIndex);
+  if iNewInsertedPosition < MultiArcListTemp.Count then
+  begin
+    lbxArchiver.Items.InsertObject(iNewInsertedPosition, sNewName, ANewMultiArcItem);
+    MultiArcListTemp.Insert(iNewInsertedPosition, sNewName, aNewMultiArcItem);
+  end
+  else
+  begin
+    lbxArchiver.Items.AddObject(sNewName, ANewMultiArcItem);
+    MultiArcListTemp.Add(sNewName, aNewMultiArcItem);
+  end;
+  lbxArchiver.ItemIndex := iNewInsertedPosition;
+  SetActiveButtonsBasedOnArchiversQuantity;
+end;
+
+{ TfrmOptionsArchivers.btnArchiverRenameClick }
+procedure TfrmOptionsArchivers.btnArchiverRenameClick(Sender: TObject);
+var
+  sNewName: string;
+begin
+  if lbxArchiver.ItemIndex < 0 then
+    Exit;
+  sNewName := lbxArchiver.Items[lbxArchiver.ItemIndex];
+  if InputQuery(Caption, rsOptArchiveTypeName, sNewName) then
+  begin
+    lbxArchiver.Items[lbxArchiver.ItemIndex] := sNewName;
+    MultiArcListTemp.Names[lbxArchiver.ItemIndex] := sNewName;
+  end;
+end;
+
+{ TfrmOptionsArchivers.btnArchiverDeleteClick }
+procedure TfrmOptionsArchivers.btnArchiverDeleteClick(Sender: TObject);
+var
+  iIndexDelete: integer;
+begin
+  if lbxArchiver.ItemIndex < 0 then
+    Exit;
+
+  if MsgBox(Format(rsOptArchiverConfirmDelete, [lbxArchiver.Items.Strings[lbxArchiver.ItemIndex]]), [msmbYes, msmbCancel], msmbCancel, msmbCancel) = mmrYes then
+  begin
+    iIndexDelete := lbxArchiver.ItemIndex;
+    lbxArchiver.Items.Delete(iIndexDelete);
+    MultiArcListTemp.Delete(iIndexDelete);
+    if iIndexDelete >= MultiArcListTemp.Count then
+      lbxArchiver.ItemIndex := lbxArchiver.Items.Count - 1
+    else
+      lbxArchiver.ItemIndex := iIndexDelete;
+    pcArchiverCommands.Enabled := (lbxArchiver.Items.Count <> 0);
+    chkArchiverEnabled.Enabled := (lbxArchiver.Items.Count <> 0);
+    lbxArchiverSelectionChange(lbxArchiver, False);
+    if lbxArchiver.CanFocus then
+      lbxArchiver.SetFocus;
+  end;
+  SetActiveButtonsBasedOnArchiversQuantity;
+end;
+
+{ TfrmOptionsArchivers.btnArchiverOtherClick }
+procedure TfrmOptionsArchivers.btnArchiverOtherClick(Sender: TObject);
+var
+  pWantedPos:TPoint;
+begin
+  pWantedPos := btnArchiverOther.ClientToScreen(Point(btnArchiverOther.Width div 2,btnArchiverOther.Height-5)); // Position this way instead of using mouse cursor since it will work for keyboard user.
+  pmArchiverOther.PopUp(pWantedPos.X, pWantedPos.Y);
+end;
+
+{ TfrmOptionsArchivers.miArchiverAutoConfigureClick }
+procedure TfrmOptionsArchivers.miArchiverAutoConfigureClick(Sender: TObject);
+begin
+  MultiArcListTemp.AutoConfigure;
+  lbxArchiverSelectionChange(lbxArchiver, False);
+end;
+
+{ TfrmOptionsArchivers.miArchiverDiscardModificationClick }
+procedure TfrmOptionsArchivers.miArchiverDiscardModificationClick(Sender: TObject);
+begin
+  if MultiArcListTemp <> nil then
+    MultiArcListTemp.Free;
+  MultiArcListTemp := gMultiArcList.Clone;
+  lbxArchiverSelectionChange(lbxArchiver, False);
+end;
+
+{ TfrmOptionsArchivers.miArchiverSortArchiversClick }
+procedure TfrmOptionsArchivers.miArchiverSortArchiversClick(Sender: TObject);
+begin
+  if MultiArcListTemp.Count > 0 then
+  begin
+    MultiArcListTemp.FList.Sort;
+    FillListBoxWithArchiverList;
+    lbxArchiver.ItemIndex := 0;
+    lbxArchiverSelectionChange(lbxArchiver, False);
+  end;
+end;
+
+{ TfrmOptionsArchivers.miAdjustEnableAllClick }
+procedure TfrmOptionsArchivers.miAdjustEnableAllClick(Sender: TObject);
+var
+  iIndex: integer;
+begin
+  for iIndex := 0 to pred(MultiArcListTemp.Count) do
+    MultiArcListTemp.Items[iIndex].FEnabled := (TComponent(Sender).Tag = 1);
+  lbxArchiverSelectionChange(lbxArchiver, False);
+end;
+
+{ TfrmOptionsArchivers.miArchiverExportClick }
+procedure TfrmOptionsArchivers.miArchiverExportClick(Sender: TObject);
+var
+  slValueList, slOutputIndexSelected: TStringList;
+  ExportedMultiArcList: TMultiArcList;
+  iIndex, iExportedIndex: integer;
+begin
+  if MultiArcListTemp.Count > 0 then
+  begin
+    slValueList := TStringList.Create;
+    slOutputIndexSelected := TStringList.Create;
+    try
+      for iIndex := 0 to pred(MultiArcListTemp.Count) do
+        slValueList.Add(MultiArcListTemp.FList.Strings[iIndex]);
+
+      if ShowInputMultiSelectListBox(rsOptArchiverExportCaption, rsOptArchiverExportPrompt, slValueList, slOutputIndexSelected) then
+      begin
+        ExportedMultiArcList := TMultiArcList.Create;
+        try
+          for iIndex := 0 to pred(slOutputIndexSelected.Count) do
+          begin
+            iExportedIndex := StrToIntDef(slOutputIndexSelected.Strings[iIndex], -1);
+            if iExportedIndex <> -1 then
+              ExportedMultiArcList.Add(MultiArcListTemp.FList.Strings[iExportedIndex], MultiArcListTemp.Items[iExportedIndex].Clone);
+          end;
+
+          if ExportedMultiArcList.Count > 0 then
+          begin
+            SaveArchiverDialog.DefaultExt := '*.ini';
+            SaveArchiverDialog.FilterIndex := 1;
+            SaveArchiverDialog.Title := rsOptArchiverWhereToSave;
+            SaveArchiverDialog.FileName := rsOptArchiverDefaultExportFilename;
+            if SaveArchiverDialog.Execute then
+            begin
+              ExportedMultiArcList.SaveToFile(SaveArchiverDialog.FileName);
+              msgOK(Format(rsOptArchiverExportDone, [ExportedMultiArcList.Count, SaveArchiverDialog.FileName]));
+            end;
+          end;
+        finally
+          ExportedMultiArcList.Free;
+        end;
+      end;
+    finally
+      slOutputIndexSelected.Free;
+      slValueList.Free;
+    end;
+  end;
+end;
+
+{ TfrmOptionsArchivers.miArchiverImportClick }
+procedure TfrmOptionsArchivers.miArchiverImportClick(Sender: TObject);
+var
+  ImportedMultiArcList: TMultiArcList;
+  slValueList, slOutputIndexSelected: TStringList;
+  iIndex, iImportedIndex, iNbImported: integer;
+begin
+  OpenArchiverDialog.DefaultExt := '*.ini';
+  OpenArchiverDialog.FilterIndex := 1;
+  OpenArchiverDialog.Title := rsOptArchiverImportFile;
+  if OpenArchiverDialog.Execute then
+  begin
+    ImportedMultiArcList := TMultiArcList.Create;
+    try
+      ImportedMultiArcList.LoadFromFile(OpenArchiverDialog.FileName);
+      if ImportedMultiArcList.Count > 0 then
+      begin
+        slValueList := TStringList.Create;
+        slOutputIndexSelected := TStringList.Create;
+        try
+          for iIndex := 0 to pred(ImportedMultiArcList.Count) do
+            slValueList.Add(ImportedMultiArcList.FList.Strings[iIndex]);
+          if ShowInputMultiSelectListBox(rsOptArchiverImportCaption, rsOptArchiverImportPrompt, slValueList, slOutputIndexSelected) then
+          begin
+            iNbImported := 0;
+            for iIndex := 0 to pred(slOutputIndexSelected.Count) do
+            begin
+              iImportedIndex := StrToIntDef(slOutputIndexSelected.Strings[iIndex], -1);
+              if iImportedIndex <> -1 then
+              begin
+                MultiArcListTemp.Add(ImportedMultiArcList.FList.Strings[iImportedIndex], ImportedMultiArcList.Items[iImportedIndex].Clone);
+                lbxArchiver.Items.AddObject(MultiArcListTemp.FList.Strings[pred(MultiArcListTemp.Count)], MultiArcListTemp.Items[pred(MultiArcListTemp.Count)]);
+                MultiArcListTemp.Items[pred(MultiArcListTemp.Count)].FEnabled := True; //;
+                Inc(iNbImported);
+              end;
+            end;
+            lbxArchiver.ItemIndex := lbxArchiver.Items.Count - 1;
+            if iNbImported > 0 then
+            begin
+              SetActiveButtonsBasedOnArchiversQuantity;
+              msgOK(Format(rsOptArchiverImportDone, [iNbImported, OpenArchiverDialog.FileName]));
+            end;
+          end;
+        finally
+          slOutputIndexSelected.Free;
+          slValueList.Free;
+        end;
+      end;
+    finally
+      ImportedMultiArcList.Free;
+    end;
+  end;
+end;
+
+{ TfrmOptionsArchivers.miHelperClick }
+procedure TfrmOptionsArchivers.miHelperClick(Sender: TObject);
+begin
+  if edtHelperRequested <> nil then
+    edtHelperRequested.SelText := Trim(LeftStr(TMenuItem(Sender).Caption, pred(pos('-', TMenuItem(Sender).Caption))));
+end;
+
+{ TfrmOptionsArchivers.btnHelperClick }
+procedure TfrmOptionsArchivers.btnHelperClick(Sender: TObject);
+begin
+  edtHelperRequested := TEdit(TSpeedButton(Sender).AnchorSideTop.Control);
+  pmArchiverParamHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+{ TfrmOptionsArchivers.btnArchiverRelativerClick }
+procedure TfrmOptionsArchivers.btnArchiverRelativerClick(Sender: TObject);
+begin
+  fneArchiverArchiver.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneArchiverArchiver, pfFILE);
+  pmArchiverPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+{ TfrmOptionsArchivers.PopulateParamHelperMenu }
+procedure TfrmOptionsArchivers.PopulateParamHelperMenu;
+
+  procedure AddThisItem(sParameter, sDescription: string);
+  var
+    AMenuItem: TMenuItem;
+  begin
+    AMenuItem := TMenuItem.Create(pmArchiverParamHelper);
+    if sDescription <> '' then
+    begin
+      AMenuItem.Caption := Format('%s - %s', [sParameter, sDescription]);
+      AMenuItem.OnClick := @miHelperClick;
+    end
+    else
+      AMenuItem.Caption := sParameter;
+    pmArchiverParamHelper.Items.Add(AMenuItem);
+  end;
+
+begin
+  pmArchiverParamHelper.Items.Clear;
+  AddThisItem('%P', rsOptArchiverProgramL);
+  AddThisItem('%p', rsOptArchiverProgramS);
+  AddThisItem('%A', rsOptArchiverArchiveL);
+  AddThisItem('%a', rsOptArchiverArchiveS);
+  AddThisItem('%L', rsOptArchiverFileListL);
+  AddThisItem('%l', rsOptArchiverFileListS);
+  AddThisItem('%F', rsOptArchiverSingleFProcess);
+  AddThisItem('%E', rsOptArchiverErrorLevel);
+  AddThisItem('%O', rsOptArchiverChangeEncoding);
+  AddThisItem('%R', rsOptArchiverTargetSubDir);
+  AddThisItem('%S', rsOptArchiverAdditonalCmd);
+  AddThisItem('{}', rsOptArchiverAddOnlyNotEmpty);
+  AddThisItem('-', '');
+  AddThisItem('Q', rsOptArchiverQuoteWithSpace);
+  AddThisItem('q', rsOptArchiverQuoteAll);
+  AddThisItem('W', rsOptArchiverJustName);
+  AddThisItem('P', rsOptArchiverJustPath);
+  AddThisItem('A', rsOptArchiverUseAnsi);
+  AddThisItem('U', rsOptArchiverUseUTF8);
 end;
 
 end.
-

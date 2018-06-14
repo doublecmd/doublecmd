@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Localization core unit
 
-   Copyright (C) 2007-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -100,7 +100,39 @@ resourcestring
   rsMsgSelectOnlyCheckSumFiles = 'Please select only checksum files!';
   rsMsgPresetAlreadyExists = 'Preset "%s" already exists. Overwrite?';
   rsMsgVolumeSizeEnter = 'Please enter the volume size:';
+
+  // Archiver section.
   rsMsgArchiverCustomParams = 'Additional parameters for archiver command-line:';
+  rsOptArchiverConfirmDelete = 'Are you sure you want to delete: %s';
+  rsOptArchiverImportFile = 'Select the file to import archiver configuration(s)';
+  rsOptArchiverWhereToSave = 'Enter location and filename where to save archiver configuration';
+  rsOptArchiverDefaultExportFilename = 'Exported Archiver Configuration';
+  rsOptArchiverImportCaption = 'Import archiver configuration';
+  rsOptArchiverImportPrompt = 'Select the one(s) you want to import';
+  rsOptArchiverImportDone = 'Importation of %d elements from file "%s" completed.';
+  rsOptArchiverExportCaption = 'Export archiver configuration';
+  rsOptArchiverExportPrompt = 'Select the one(s) you want to export';
+  rsOptArchiverExportDone = 'Exportation of %d elements to file "%s" completed.';
+  rsOptArchiverProgramL = 'Archive Program (long name)';
+  rsOptArchiverProgramS = 'Archive Program (short name)';
+  rsOptArchiverArchiveL = 'Archive File (long name)';
+  rsOptArchiverArchiveS = 'Archive file (short name)';
+  rsOptArchiverFileListL = 'Filelist (long names)';
+  rsOptArchiverFileListS = 'Filelist (short names)';
+  rsOptArchiverSingleFProcess = 'Single filename to process';
+  rsOptArchiverErrorLevel = 'errorlevel';
+  rsOptArchiverChangeEncoding = 'Change Archiver Listing Encoding';
+  rsOptArchiverTargetSubDir = 'Target subdirecory';
+  rsOptArchiverAdditonalCmd = 'Mode dependent, additional command';
+  rsOptArchiverAddOnlyNotEmpty = 'Add if it is non-empty';
+  rsOptArchiverQuoteWithSpace = 'Quote names with spaces';
+  rsOptArchiverQuoteAll = 'Quote all names';
+  rsOptArchiverJustName = 'Use name only, without path';
+  rsOptArchiverJustPath = 'Use path only, without name';
+  rsOptArchiverUseAnsi = 'Use ANSI encoding';
+  rsOptArchiverUseUTF8 = 'Use UTF8 encoding';
+  rsOptArchiveConfigureSaveToChange = 'To change current editing archive configuration, either APPLY or DELETE current editing one';
+
   rsMsgMasterPassword = 'Master Password';
   rsMsgMasterPasswordEnter = 'Please enter the master password:';
   rsMsgWrongPasswordTryAgain = 'Wrong password!'#13'Please try again!';
@@ -599,17 +631,7 @@ resourcestring
   rsOptConfigSortOrder = 'Classic, legacy order;Alphabetic order (but language still first)';
   rsOptDifferFramePosition = 'Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right';
   //-------------------------------
-  rsOptArchiveParam = 'Parameter';
-  rsOptArchiveValue = 'Value';
-  rsOptArchiveDelete = 'Delete:';
-  rsOptArchiveTest = 'Test:';
-  rsOptArchiveExtractWithoutPath = 'Extract without path:';
-  rsOptArchiveSelfExtract = 'Create self extracting archive:';
-  rsOptArchiveID = 'ID:';
-  rsOptArchiveIDPos = 'ID Position:';
-  rsOptArchiveIDSeekRange = 'ID Seek Range:';
-  rsOptArchivePasswordQuery = 'Password query string:';
-  rsOptArchiveFormMode = 'Format parsing mode:';
+
   //-------------------------------
   rsOptEnterExt = 'Enter extension';
   rsOptAssocPluginWith = 'Associate plugin "%s" with:';
