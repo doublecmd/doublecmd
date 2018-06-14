@@ -2,7 +2,7 @@
    Double Commander
    -------------------------------------------------------------------------
    Licence  : GNU GPL v 2.0
-   Copyright (C) 2006-2016 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (Alexx2000@mail.ru)
 
    Main Dialog window
 
@@ -106,6 +106,7 @@ type
     actConfigSaveSettings: TAction;
     actExecuteScript: TAction;
     actFocusSwap: TAction;
+    actConfigArchivers: TAction;
     actUnmarkCurrentNameExt: TAction;
     actMarkCurrentNameExt: TAction;
     actUnmarkCurrentName: TAction;
@@ -217,6 +218,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    miConfigArchivers: TMenuItem;
     mnuConfigSaveSettings: TMenuItem;
     miLine55: TMenuItem;
     mnuConfigureFavoriteTabs: TMenuItem;

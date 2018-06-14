@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Creates Total Commander fake window (some plugins don't work without it)
 
-    Copyright (C) 2009-2017 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -211,7 +211,7 @@ const
     (TCCommand: 'cm_ThumbnailsConfig';          TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Thumbnails
     (TCCommand: 'cm_LogConfig';                 TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Log file
     (TCCommand: 'cm_IgnoreConfig';              TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Ignore list
-    (TCCommand: 'cm_PackerConfig';              TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Packer
+    (TCCommand: 'cm_PackerConfig';              TCIcon: 34; DCCommand: 'cm_ConfigArchivers';        DCParameters: ''          ), //Conf: Packer
     (TCCommand: 'cm_ZipPackerConfig';           TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: ZIP packer
     (TCCommand: 'cm_Confirmation';              TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Misc, Confirmation
     (TCCommand: 'cm_ConfigSavePos';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Conf: Save position

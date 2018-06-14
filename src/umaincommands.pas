@@ -4,7 +4,7 @@
    This unit contains DC actions of the main form
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -354,6 +354,7 @@ type
    procedure cm_ExecuteScript(const {%H-}Params: array of string);
    procedure cm_FocusSwap(const {%H-}Params: array of string);
    procedure cm_Benchmark(const {%H-}Params: array of string);
+   procedure cm_ConfigArchivers(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -380,7 +381,7 @@ uses uFindFiles, Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
      fOptionsToolbar, fMainCommandsDlg, uConnectionManager, fOptionsTabs, fOptionsFavoriteTabs,
      fTreeViewMenu, fOptionsTreeViewMenu, fOptionsTreeViewMenuColor, uArchiveFileSource,
-     fOptionsFileSearch, fOptionsHotKeys, fBenchmark
+     fOptionsFileSearch, fOptionsHotKeys, fBenchmark, fOptionsArchivers
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ELSE}
@@ -4823,6 +4824,18 @@ end;
 procedure TMainCommands.cm_Benchmark(const Params: array of string);
 begin
   OperationsManager.AddOperation(TBenchmarkOperation.Create(frmMain));
+end;
+
+{ TMainCommands.cm_ConfigArchivers }
+procedure TMainCommands.cm_ConfigArchivers(const {%H-}Params: array of string);
+var
+  Editor: TOptionsEditor;
+  Options: IOptionsDialog;
+begin
+  Options := ShowOptions(TfrmOptionsArchivers);
+  Editor := Options.GetEditor(TfrmOptionsArchivers);
+  Application.ProcessMessages;
+  if Editor.CanFocus then  Editor.SetFocus;
 end;
 
 { TMainCommands.cm_AddNewSearch }

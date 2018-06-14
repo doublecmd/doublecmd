@@ -1948,6 +1948,10 @@ msgstr "Útvonal és fájlnév hozzáadása a parancssorhoz"
 msgid "Copy path to command line"
 msgstr "Útvonal másolása parancssorba"
 
+#: tfrmmain.actbenchmark.caption
+msgid "&Benchmark"
+msgstr ""
+
 #: tfrmmain.actbriefview.caption
 msgctxt "tfrmmain.actbriefview.caption"
 msgid "Brief view"
@@ -2046,6 +2050,10 @@ msgstr "Mappák összehasonlítása"
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
 msgid "Compare Directories"
 msgstr "Mappák összehasonlítása"
+
+#: tfrmmain.actconfigarchivers.caption
+msgid "Configuration of Archivers"
+msgstr ""
 
 #: tfrmmain.actconfigdirhotlist.caption
 msgctxt "tfrmmain.actconfigdirhotlist.caption"
@@ -2872,11 +2880,6 @@ msgctxt "TFRMMAIN.LBLCOMMANDPATH.CAPTION"
 msgid "Path"
 msgstr "Útvonal"
 
-#: tfrmmain.menuitem2.caption
-msgctxt "TFRMMAIN.MENUITEM2.CAPTION"
-msgid "-"
-msgstr "-"
-
 #: tfrmmain.mi2080.caption
 msgid "&20/80"
 msgstr "&20/80"
@@ -2918,181 +2921,6 @@ msgstr "Másolás..."
 msgctxt "TFRMMAIN.MIHARDLINK.CAPTION"
 msgid "Create link..."
 msgstr "Hivatkozás készítése..."
-
-#: tfrmmain.miline1.caption
-msgctxt "TFRMMAIN.MILINE1.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline10.caption
-msgctxt "tfrmmain.miline10.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline11.caption
-msgctxt "tfrmmain.miline11.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline12.caption
-msgctxt "TFRMMAIN.MILINE12.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline13.caption
-msgctxt "TFRMMAIN.MILINE13.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline14.caption
-msgctxt "TFRMMAIN.MILINE14.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline15.caption
-msgctxt "TFRMMAIN.MILINE15.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline16.caption
-msgctxt "TFRMMAIN.MILINE16.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline17.caption
-msgctxt "TFRMMAIN.MILINE17.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline18.caption
-msgctxt "TFRMMAIN.MILINE18.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline19.caption
-msgctxt "TFRMMAIN.MILINE19.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline2.caption
-msgctxt "TFRMMAIN.MILINE2.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline20.caption
-msgctxt "TFRMMAIN.MILINE20.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline21.caption
-msgctxt "tfrmmain.miline21.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline22.caption
-msgctxt "TFRMMAIN.MILINE22.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline23.caption
-msgctxt "tfrmmain.miline23.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline24.caption
-msgctxt "TFRMMAIN.MILINE24.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline25.caption
-msgctxt "TFRMMAIN.MILINE25.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline26.caption
-msgctxt "tfrmmain.miline26.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline3.caption
-msgctxt "TFRMMAIN.MILINE3.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline32.caption
-msgctxt "TFRMMAIN.MILINE32.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline33.caption
-msgctxt "TFRMMAIN.MILINE33.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline37.caption
-msgctxt "TFRMMAIN.MILINE37.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline38.caption
-msgctxt "tfrmmain.miline38.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline39.caption
-msgctxt "tfrmmain.miline39.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline4.caption
-msgctxt "TFRMMAIN.MILINE4.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline40.caption
-msgctxt "tfrmmain.miline40.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline47.caption
-msgctxt "TFRMMAIN.MILINE47.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline5.caption
-msgctxt "TFRMMAIN.MILINE5.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline50.caption
-msgctxt "tfrmmain.miline50.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline55.caption
-msgctxt "tfrmmain.miline55.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline6.caption
-msgctxt "TFRMMAIN.MILINE6.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline7.caption
-msgctxt "TFRMMAIN.MILINE7.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline8.caption
-msgctxt "TFRMMAIN.MILINE8.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.miline9.caption
-msgctxt "TFRMMAIN.MILINE9.CAPTION"
-msgid "-"
-msgstr "-"
 
 #: tfrmmain.milogclear.caption
 msgid "Clear"
@@ -3157,16 +2985,6 @@ msgstr "&Parancsok"
 msgid "C&onfiguration"
 msgstr "&Beállítások"
 
-#: tfrmmain.mnucontextline1.caption
-msgctxt "tfrmmain.mnucontextline1.caption"
-msgid "-"
-msgstr "-"
-
-#: tfrmmain.mnucontextline2.caption
-msgctxt "tfrmmain.mnucontextline2.caption"
-msgid "-"
-msgstr "-"
-
 #: tfrmmain.mnufavoritetabs.caption
 msgid "Favorites"
 msgstr "Kedvencek"
@@ -3230,11 +3048,6 @@ msgstr "Szerkesztés"
 msgctxt "TFRMMAIN.TBPASTE.CAPTION"
 msgid "Paste"
 msgstr "Beillesztés"
-
-#: tfrmmain.tbseparator.caption
-msgctxt "TFRMMAIN.TBSEPARATOR.CAPTION"
-msgid "-"
-msgstr "-"
 
 #: tfrmmaincommandsdlg.btncancel.caption
 msgctxt "tfrmmaincommandsdlg.btncancel.caption"
@@ -3845,100 +3658,227 @@ msgstr "Opciók"
 msgid "Please select one of the subpages, this page does not contain any settings."
 msgstr "Kérem, válasszon egyet az aloldalak közül, ez az oldal nem tartalmaz beállításokat"
 
-#: tfrmoptionsarchivers.btnautoconfig.caption
-msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
-msgid "A&uto Configure"
-msgstr "A&utomatikus beállítás"
-
-#: tfrmoptionsarchivers.btnmultiarcadd.caption
-msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCADD.CAPTION"
+#: tfrmoptionsarchivers.btnarchiveradd.caption
+msgctxt "tfrmoptionsarchivers.btnarchiveradd.caption"
 msgid "A&dd"
 msgstr "&Hozzáadás"
 
-#: tfrmoptionsarchivers.btnmultiarcapply.caption
-msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCAPPLY.CAPTION"
+#: tfrmoptionsarchivers.btnarchiveraddhelper.hint
+msgctxt "tfrmoptionsarchivers.btnarchiveraddhelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
+
+#: tfrmoptionsarchivers.btnarchiverapply.caption
+msgctxt "tfrmoptionsarchivers.btnarchiverapply.caption"
 msgid "A&pply"
 msgstr "&Alkalmaz"
 
-#: tfrmoptionsarchivers.btnmultiarcdelete.caption
-msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCDELETE.CAPTION"
-msgid "D&elete"
+#: tfrmoptionsarchivers.btnarchivercopy.caption
+msgid "Cop&y"
+msgstr "Másolás"
+
+#: tfrmoptionsarchivers.btnarchiverdelete.caption
+msgctxt "tfrmoptionsarchivers.btnarchiverdelete.caption"
+msgid "Delete"
 msgstr "&Törlés"
 
-#: tfrmoptionsarchivers.btnmultiarcrename.caption
-msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCRENAME.CAPTION"
-msgid "&Rename"
-msgstr "Át&nevezés"
+#: tfrmoptionsarchivers.btnarchiverdeletehelper.hint
+msgctxt "tfrmoptionsarchivers.btnarchiverdeletehelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
 
-#: tfrmoptionsarchivers.btnrelativearchiver.hint
-msgctxt "tfrmoptionsarchivers.btnrelativearchiver.hint"
+#: tfrmoptionsarchivers.btnarchiverextracthelper.hint
+msgctxt "tfrmoptionsarchivers.btnarchiverextracthelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
+
+#: tfrmoptionsarchivers.btnarchiverextractwithoutpathhelper.hint
+msgctxt "tfrmoptionsarchivers.btnarchiverextractwithoutpathhelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
+
+#: tfrmoptionsarchivers.btnarchiverlisthelper.hint
+msgctxt "tfrmoptionsarchivers.btnarchiverlisthelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
+
+#: tfrmoptionsarchivers.btnarchiverother.caption
+msgid "Oth&er..."
+msgstr "Egyéb..."
+
+#: tfrmoptionsarchivers.btnarchiverrelativer.hint
+msgctxt "tfrmoptionsarchivers.btnarchiverrelativer.hint"
 msgid "Some functions to select appropriate path"
 msgstr ""
 
-#: tfrmoptionsarchivers.chkmultiarcdebug.caption
-msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCDEBUG.CAPTION"
-msgid "De&bug mode"
-msgstr "&Hibakereső mód"
+#: tfrmoptionsarchivers.btnarchiverrename.caption
+msgctxt "tfrmoptionsarchivers.btnarchiverrename.caption"
+msgid "&Rename"
+msgstr "Át&nevezés"
 
-#: tfrmoptionsarchivers.chkmultiarcenabled.caption
-msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCENABLED.CAPTION"
+#: tfrmoptionsarchivers.btnarchiverselfextracthelper.hint
+msgctxt "tfrmoptionsarchivers.btnarchiverselfextracthelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
+
+#: tfrmoptionsarchivers.btnarchivertesthelper.hint
+msgctxt "tfrmoptionsarchivers.btnarchivertesthelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
+
+#: tfrmoptionsarchivers.chkarchiverenabled.caption
+msgctxt "tfrmoptionsarchivers.chkarchiverenabled.caption"
 msgid "E&nabled"
 msgstr "E&ngedélyezve"
 
-#: tfrmoptionsarchivers.chkmultiarcoutput.caption
-msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCOUTPUT.CAPTION"
+#: tfrmoptionsarchivers.chkarchivermultiarcdebug.caption
+msgid "De&bug mode"
+msgstr "&Hibakereső mód"
+
+#: tfrmoptionsarchivers.chkarchivermultiarcoutput.caption
+msgctxt "tfrmoptionsarchivers.chkarchivermultiarcoutput.caption"
 msgid "S&how console output"
 msgstr "Konzol kimenet megjelenítése"
 
+#: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
+msgid "Uni&x file attributes"
+msgstr ""
+
+#: tfrmoptionsarchivers.ckbarchiverunixpath.caption
+msgid "&Unix path delimiter \"/\""
+msgstr ""
+
+#: tfrmoptionsarchivers.ckbarchiverwindowsfileattributes.caption
+msgid "Windows &file attributes"
+msgstr ""
+
+#: tfrmoptionsarchivers.ckbarchiverwindowspath.caption
+msgid "Windows path deli&miter \"\\\""
+msgstr ""
+
+#: tfrmoptionsarchivers.gbarchiverformatparsingmode.caption
+msgid "Format parsing mode:"
+msgstr "Formátum értelmezési mód :"
+
+#: tfrmoptionsarchivers.gbarchiverids.caption
+msgid "ID's used with cm_OpenArchive to recognize archive by detecting its content and not via file extension:"
+msgstr ""
+
 #: tfrmoptionsarchivers.gbarchiveroptions.caption
 msgctxt "TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION"
-msgid "Options"
-msgstr "Opciók"
+msgid "Options:"
+msgstr "Opciók:"
 
-#: tfrmoptionsarchivers.lblarchiveadd.caption
-msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEADD.CAPTION"
+#: tfrmoptionsarchivers.lblarchiveradd.caption
+msgctxt "tfrmoptionsarchivers.lblarchiveradd.caption"
 msgid "Add&ing:"
 msgstr "Hozzá&adás"
 
-#: tfrmoptionsarchivers.lblarchiveextension.caption
-msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTENSION.CAPTION"
-msgid "E&xtension:"
-msgstr "&Kiterjesztés :"
-
-#: tfrmoptionsarchivers.lblarchiveextract.caption
-msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTRACT.CAPTION"
-msgid "Ex&tract:"
-msgstr "Ki&bont :"
-
-#: tfrmoptionsarchivers.lblarchivelist.caption
-msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELIST.CAPTION"
-msgid "&List:"
-msgstr "&Lista :"
-
-#: tfrmoptionsarchivers.lblarchivelistend.caption
-msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTEND.CAPTION"
-msgid "Listing &finish (optional):"
-msgstr "Listázás &befejezve (választható) :"
-
-#: tfrmoptionsarchivers.lblarchivelistformat.caption
-msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTFORMAT.CAPTION"
-msgid "Listing for&mat:"
-msgstr "Listázási for&mátum :"
-
-#: tfrmoptionsarchivers.lblarchiveliststart.caption
-msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTSTART.CAPTION"
-msgid "Listin&g start (optional):"
-msgstr "Listázás &kezdése (választható) :"
-
-#: tfrmoptionsarchivers.lblarchiver.caption
-msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVER.CAPTION"
+#: tfrmoptionsarchivers.lblarchiverarchiver.caption
+msgctxt "tfrmoptionsarchivers.lblarchiverarchiver.caption"
 msgid "Arc&hiver:"
 msgstr "Tö&mötírő :"
 
-#: tfrmoptionsarchivers.lbldescription.caption
-msgctxt "TFRMOPTIONSARCHIVERS.LBLDESCRIPTION.CAPTION"
+#: tfrmoptionsarchivers.lblarchiverdelete.caption
+msgid "De&lete:"
+msgstr "Törlés :"
+
+#: tfrmoptionsarchivers.lblarchiverdescription.caption
+msgctxt "tfrmoptionsarchivers.lblarchiverdescription.caption"
 msgid "De&scription:"
 msgstr "Leírá&s :"
+
+#: tfrmoptionsarchivers.lblarchiverextension.caption
+msgctxt "tfrmoptionsarchivers.lblarchiverextension.caption"
+msgid "E&xtension:"
+msgstr "&Kiterjesztés :"
+
+#: tfrmoptionsarchivers.lblarchiverextract.caption
+msgctxt "tfrmoptionsarchivers.lblarchiverextract.caption"
+msgid "Ex&tract:"
+msgstr "Ki&bont :"
+
+#: tfrmoptionsarchivers.lblarchiverextractwithoutpath.caption
+msgid "Extract &without path:"
+msgstr "Útvonal nélküli kibontás"
+
+#: tfrmoptionsarchivers.lblarchiveridposition.caption
+msgid "ID Po&sition:"
+msgstr "ID pozíció :"
+
+#: tfrmoptionsarchivers.lblarchiverids.caption
+msgid "&ID:"
+msgstr "ID : "
+
+#: tfrmoptionsarchivers.lblarchiveridseekrange.caption
+msgid "ID See&k Range:"
+msgstr "ID keresési taromány :"
+
+#: tfrmoptionsarchivers.lblarchiverlist.caption
+msgctxt "tfrmoptionsarchivers.lblarchiverlist.caption"
+msgid "&List:"
+msgstr "&Lista :"
+
+#: tfrmoptionsarchivers.lblarchiverlistbox.caption
+msgid "Archi&vers:"
+msgstr "Archívumok:"
+
+#: tfrmoptionsarchivers.lblarchiverlistend.caption
+msgctxt "tfrmoptionsarchivers.lblarchiverlistend.caption"
+msgid "Listing &finish (optional):"
+msgstr "Listázás &befejezve (választható) :"
+
+#: tfrmoptionsarchivers.lblarchiverlistformat.caption
+msgctxt "tfrmoptionsarchivers.lblarchiverlistformat.caption"
+msgid "Listing for&mat:"
+msgstr "Listázási for&mátum :"
+
+#: tfrmoptionsarchivers.lblarchiverliststart.caption
+msgctxt "tfrmoptionsarchivers.lblarchiverliststart.caption"
+msgid "Listin&g start (optional):"
+msgstr "Listázás &kezdése (választható) :"
+
+#: tfrmoptionsarchivers.lblarchiverpasswordquery.caption
+msgid "Password &query string:"
+msgstr "Jelszó kérdező sztring :"
+
+#: tfrmoptionsarchivers.lblarchiverselfextract.caption
+msgid "Create self extractin&g archive:"
+msgstr "Önkioldó archívum létrehozása :"
+
+#: tfrmoptionsarchivers.lblarchivertest.caption
+msgid "Tes&t:"
+msgstr "Próba :"
+
+#: tfrmoptionsarchivers.miarchiverautoconfigure.caption
+msgid "Auto Configure"
+msgstr "A&utomatikus beállítás"
+
+#: tfrmoptionsarchivers.miarchiverdisableall.caption
+msgid "Disable all"
+msgstr ""
+
+#: tfrmoptionsarchivers.miarchiverdiscardmodification.caption
+msgid "Discard modifications"
+msgstr ""
+
+#: tfrmoptionsarchivers.miarchiverenableall.caption
+msgid "Enable all"
+msgstr ""
+
+#: tfrmoptionsarchivers.miarchiverexport.caption
+msgctxt "tfrmoptionsarchivers.miarchiverexport.caption"
+msgid "Export..."
+msgstr "Exportálás..."
+
+#: tfrmoptionsarchivers.miarchiverimport.caption
+msgctxt "tfrmoptionsarchivers.miarchiverimport.caption"
+msgid "Import..."
+msgstr "Importálás..."
+
+#: tfrmoptionsarchivers.miarchiversortarchivers.caption
+msgid "Sort archivers"
+msgstr ""
 
 #: tfrmoptionsarchivers.tbarchiveradditional.caption
 msgctxt "TFRMOPTIONSARCHIVERS.TBARCHIVERADDITIONAL.CAPTION"
@@ -11419,60 +11359,125 @@ msgstr "Dolgozik"
 msgid "Add at &beginning;Add at the end;Smart add"
 msgstr ""
 
-#: ulng.rsoptarchivedelete
-msgctxt "ulng.rsoptarchivedelete"
-msgid "Delete:"
-msgstr "Törlés :"
+#: ulng.rsoptarchiveconfiguresavetochange
+msgid "To change current editing archive configuration, either APPLY or DELETE current editing one"
+msgstr ""
 
-#: ulng.rsoptarchiveextractwithoutpath
-msgid "Extract without path:"
-msgstr "Útvonal nélküli kibontás"
+#: ulng.rsoptarchiveradditonalcmd
+msgid "Mode dependent, additional command"
+msgstr ""
 
-#: ulng.rsoptarchiveformmode
-msgid "Format parsing mode:"
-msgstr "Formátum értelmezési mód :"
+#: ulng.rsoptarchiveraddonlynotempty
+msgid "Add if it is non-empty"
+msgstr ""
 
-#: ulng.rsoptarchiveid
-msgctxt "ulng.rsoptarchiveid"
-msgid "ID:"
-msgstr "ID : "
+#: ulng.rsoptarchiverarchivel
+msgid "Archive File (long name)"
+msgstr ""
 
-#: ulng.rsoptarchiveidpos
-msgctxt "ulng.rsoptarchiveidpos"
-msgid "ID Position:"
-msgstr "ID pozíció :"
+#: ulng.rsoptarchiverarchives
+msgid "Archive file (short name)"
+msgstr ""
 
-#: ulng.rsoptarchiveidseekrange
-msgctxt "ulng.rsoptarchiveidseekrange"
-msgid "ID Seek Range:"
-msgstr "ID keresési taromány :"
+#: ulng.rsoptarchiverchangeencoding
+msgid "Change Archiver Listing Encoding"
+msgstr ""
 
-#: ulng.rsoptarchiveparam
-msgid "Parameter"
-msgstr "Paraméter"
+#: ulng.rsoptarchiverconfirmdelete
+msgid "Are you sure you want to delete: %s"
+msgstr ""
 
-#: ulng.rsoptarchivepasswordquery
-msgid "Password query string:"
-msgstr "Jelszó kérdező sztring :"
+#: ulng.rsoptarchiverdefaultexportfilename
+msgid "Exported Archiver Configuration"
+msgstr ""
 
-#: ulng.rsoptarchiveselfextract
-msgctxt "ulng.rsoptarchiveselfextract"
-msgid "Create self extracting archive:"
-msgstr "Önkioldó archívum létrehozása :"
+#: ulng.rsoptarchivererrorlevel
+msgid "errorlevel"
+msgstr ""
 
-#: ulng.rsoptarchivetest
-msgctxt "ulng.rsoptarchivetest"
-msgid "Test:"
-msgstr "Próba :"
+#: ulng.rsoptarchiverexportcaption
+msgid "Export archiver configuration"
+msgstr ""
+
+#: ulng.rsoptarchiverexportdone
+msgid "Exportation of %d elements to file \"%s\" completed."
+msgstr ""
+
+#: ulng.rsoptarchiverexportprompt
+msgid "Select the one(s) you want to export"
+msgstr ""
+
+#: ulng.rsoptarchiverfilelistl
+msgid "Filelist (long names)"
+msgstr ""
+
+#: ulng.rsoptarchiverfilelists
+msgid "Filelist (short names)"
+msgstr ""
+
+#: ulng.rsoptarchiverimportcaption
+msgid "Import archiver configuration"
+msgstr ""
+
+#: ulng.rsoptarchiverimportdone
+msgid "Importation of %d elements from file \"%s\" completed."
+msgstr ""
+
+#: ulng.rsoptarchiverimportfile
+msgid "Select the file to import archiver configuration(s)"
+msgstr ""
+
+#: ulng.rsoptarchiverimportprompt
+msgid "Select the one(s) you want to import"
+msgstr ""
+
+#: ulng.rsoptarchiverjustname
+msgid "Use name only, without path"
+msgstr ""
+
+#: ulng.rsoptarchiverjustpath
+msgid "Use path only, without name"
+msgstr ""
+
+#: ulng.rsoptarchiverprograml
+msgid "Archive Program (long name)"
+msgstr ""
+
+#: ulng.rsoptarchiverprograms
+msgid "Archive Program (short name)"
+msgstr ""
+
+#: ulng.rsoptarchiverquoteall
+msgid "Quote all names"
+msgstr ""
+
+#: ulng.rsoptarchiverquotewithspace
+msgid "Quote names with spaces"
+msgstr ""
+
+#: ulng.rsoptarchiversinglefprocess
+msgid "Single filename to process"
+msgstr ""
+
+#: ulng.rsoptarchivertargetsubdir
+msgid "Target subdirecory"
+msgstr ""
+
+#: ulng.rsoptarchiveruseansi
+msgid "Use ANSI encoding"
+msgstr ""
+
+#: ulng.rsoptarchiveruseutf8
+msgid "Use UTF8 encoding"
+msgstr ""
+
+#: ulng.rsoptarchiverwheretosave
+msgid "Enter location and filename where to save archiver configuration"
+msgstr ""
 
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
 msgstr "Archívum típusának neve :"
-
-#: ulng.rsoptarchivevalue
-msgctxt "ulng.rsoptarchivevalue"
-msgid "Value"
-msgstr "Érték"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
