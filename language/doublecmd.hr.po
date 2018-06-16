@@ -3958,6 +3958,21 @@ msgctxt "tfrmoptionsarchivers.btnarchivertesthelper.hint"
 msgid "Variable reminder helper"
 msgstr ""
 
+#: tfrmoptionsarchivers.bvlarchiverids.caption
+msgctxt "tfrmoptionsarchivers.bvlarchiverids.caption"
+msgid "ID's used with cm_OpenArchive to recognize archive by detecting its content and not via file extension:"
+msgstr ""
+
+#: tfrmoptionsarchivers.bvlarchiveroptions.caption
+msgctxt "tfrmoptionsarchivers.bvlarchiveroptions.caption"
+msgid "Options:"
+msgstr "Mogućnosti:"
+
+#: tfrmoptionsarchivers.bvlarchiverparsingmode.caption
+msgctxt "tfrmoptionsarchivers.bvlarchiverparsingmode.caption"
+msgid "Format parsing mode:"
+msgstr "Način rada raščlanjivanja oblika:"
+
 #: tfrmoptionsarchivers.chkarchiverenabled.caption
 msgctxt "tfrmoptionsarchivers.chkarchiverenabled.caption"
 msgid "E&nabled"
@@ -3987,19 +4002,6 @@ msgstr ""
 #: tfrmoptionsarchivers.ckbarchiverwindowspath.caption
 msgid "Windows path deli&miter \"\\\""
 msgstr ""
-
-#: tfrmoptionsarchivers.gbarchiverformatparsingmode.caption
-msgid "Format parsing mode:"
-msgstr "Način rada raščlanjivanja oblika:"
-
-#: tfrmoptionsarchivers.gbarchiverids.caption
-msgid "ID's used with cm_OpenArchive to recognize archive by detecting its content and not via file extension:"
-msgstr ""
-
-#: tfrmoptionsarchivers.gbarchiveroptions.caption
-msgctxt "TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION"
-msgid "Options:"
-msgstr "Mogućnosti:"
 
 #: tfrmoptionsarchivers.lblarchiveradd.caption
 msgctxt "tfrmoptionsarchivers.lblarchiveradd.caption"
@@ -11755,6 +11757,10 @@ msgstr ""
 
 #: ulng.rsoptarchiverarchivel
 msgid "Archive File (long name)"
+msgstr ""
+
+#: ulng.rsoptarchiverarchiver
+msgid "Select archiver executable"
 msgstr ""
 
 #: ulng.rsoptarchiverarchives
