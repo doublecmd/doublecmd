@@ -3744,6 +3744,21 @@ msgctxt "tfrmoptionsarchivers.btnarchivertesthelper.hint"
 msgid "Variable reminder helper"
 msgstr ""
 
+#: tfrmoptionsarchivers.bvlarchiverids.caption
+msgctxt "tfrmoptionsarchivers.bvlarchiverids.caption"
+msgid "ID's used with cm_OpenArchive to recognize archive by detecting its content and not via file extension:"
+msgstr ""
+
+#: tfrmoptionsarchivers.bvlarchiveroptions.caption
+msgctxt "tfrmoptionsarchivers.bvlarchiveroptions.caption"
+msgid "Options:"
+msgstr "옵션:"
+
+#: tfrmoptionsarchivers.bvlarchiverparsingmode.caption
+msgctxt "tfrmoptionsarchivers.bvlarchiverparsingmode.caption"
+msgid "Format parsing mode:"
+msgstr "파싱모드로 포맷:"
+
 #: tfrmoptionsarchivers.chkarchiverenabled.caption
 msgctxt "tfrmoptionsarchivers.chkarchiverenabled.caption"
 msgid "E&nabled"
@@ -3773,19 +3788,6 @@ msgstr ""
 #: tfrmoptionsarchivers.ckbarchiverwindowspath.caption
 msgid "Windows path deli&miter \"\\\""
 msgstr ""
-
-#: tfrmoptionsarchivers.gbarchiverformatparsingmode.caption
-msgid "Format parsing mode:"
-msgstr "파싱모드로 포맷:"
-
-#: tfrmoptionsarchivers.gbarchiverids.caption
-msgid "ID's used with cm_OpenArchive to recognize archive by detecting its content and not via file extension:"
-msgstr ""
-
-#: tfrmoptionsarchivers.gbarchiveroptions.caption
-msgctxt "TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION"
-msgid "Options:"
-msgstr "옵션:"
 
 #: tfrmoptionsarchivers.lblarchiveradd.caption
 msgctxt "tfrmoptionsarchivers.lblarchiveradd.caption"
@@ -11524,6 +11526,10 @@ msgstr ""
 
 #: ulng.rsoptarchiverarchivel
 msgid "Archive File (long name)"
+msgstr ""
+
+#: ulng.rsoptarchiverarchiver
+msgid "Select archiver executable"
 msgstr ""
 
 #: ulng.rsoptarchiverarchives

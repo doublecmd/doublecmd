@@ -103,6 +103,7 @@ resourcestring
 
   // Archiver section.
   rsMsgArchiverCustomParams = 'Additional parameters for archiver command-line:';
+  rsOptArchiverArchiver = 'Select archiver executable';
   rsOptArchiverConfirmDelete = 'Are you sure you want to delete: %s';
   rsOptArchiverImportFile = 'Select the file to import archiver configuration(s)';
   rsOptArchiverWhereToSave = 'Enter location and filename where to save archiver configuration';

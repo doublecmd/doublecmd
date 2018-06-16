@@ -28,8 +28,8 @@ interface
 
 uses
   //Lazarus, Free-Pascal, etc.
-  Classes, SysUtils, StdCtrls, ExtCtrls, ComCtrls, EditBtn, Buttons, Menus,
-  Dialogs,
+  DividerBevel, Classes, SysUtils, StdCtrls, ExtCtrls, ComCtrls, EditBtn,
+  Buttons, Menus, Dialogs,
   //DC
   uMultiArc, fOptionsFrame, Controls;
 type
@@ -54,7 +54,8 @@ type
     lblArchiverDescription: TLabel;
     edtArchiverDescription: TEdit;
     lblArchiverArchiver: TLabel;
-    fneArchiverArchiver: TFileNameEdit;
+    edtArchiverArchiver: TEdit;
+    btnArchiverSelectFileArchiver: TSpeedButton;
     btnArchiverRelativer: TSpeedButton;
     lblArchiverExtension: TLabel;
     edtArchiverExtension: TEdit;
@@ -88,19 +89,19 @@ type
     btnArchiverSelfExtractHelper: TSpeedButton;
     lblArchiverPasswordQuery: TLabel;
     edtArchiverPasswordQuery: TEdit;
-    gbArchiverIds: TGroupBox;
+    bvlArchiverIds: TDividerBevel;
     lblArchiverIds: TLabel;
     edtArchiverId: TEdit;
     lblArchiverIdPosition: TLabel;
     edtArchiverIdPosition: TEdit;
     lblArchiverIdSeekRange: TLabel;
     edtArchiverIdSeekRange: TEdit;
-    gbArchiverFormatParsingMode: TGroupBox;
+    bvlArchiverParsingMode: TDividerBevel;
     ckbArchiverUnixPath: TCheckBox;
     ckbArchiverWindowsPath: TCheckBox;
     ckbArchiverUnixFileAttributes: TCheckBox;
     ckbArchiverWindowsFileAttributes: TCheckBox;
-    gbArchiverOptions: TGroupBox;
+    bvlArchiverOptions: TDividerBevel;
     chkArchiverMultiArcOutput: TCheckBox;
     chkArchiverMultiArcDebug: TCheckBox;
     pmArchiverOther: TPopupMenu;
@@ -144,6 +145,7 @@ type
     procedure miArchiverImportClick(Sender: TObject);
     procedure miHelperClick(Sender: TObject);
     procedure btnHelperClick(Sender: TObject);
+    procedure btnArchiverSelectFileArchiverClick(Sender: TObject);
     procedure btnArchiverRelativerClick(Sender: TObject);
     procedure PopulateParamHelperMenu;
   private
@@ -172,7 +174,6 @@ uses
 
   //DC
   uGlobs, uLng, uSpecialDir, uGlobsPaths, uShowMsg;
-
 const
   CONFIG_NOTSAVED = False;
   CONFIG_SAVED = True;
@@ -187,6 +188,7 @@ procedure TfrmOptionsArchivers.Load;
 begin
   bCurrentlyLoadingSettings := True;
   bCurrentlyFilling := True;
+  btnArchiverSelectFileArchiver.Hint := rsOptArchiverArchiver;
   if MultiArcListTemp <> nil then MultiArcListTemp.Free;
   MultiArcListTemp := gMultiArcList.Clone;
   FillListBoxWithArchiverList;
@@ -279,7 +281,7 @@ begin
     if lbxArchiver.ItemIndex < 0 then
     begin
       edtArchiverDescription.Text := EmptyStr;
-      fneArchiverArchiver.FileName := EmptyStr;
+      edtArchiverArchiver.Text := EmptyStr;
       edtArchiverExtension.Text := EmptyStr;
       edtArchiverList.Text := EmptyStr;
       edtArchiverListStart.Text := EmptyStr;
@@ -310,7 +312,7 @@ begin
       with TMultiArcItem(lbxArchiver.Items.Objects[lbxArchiver.ItemIndex]) do
       begin
         edtArchiverDescription.Text := FDescription;
-        fneArchiverArchiver.FileName := FArchiver;
+        edtArchiverArchiver.Text := FArchiver;
         edtArchiverExtension.Text := FExtension;
         edtArchiverList.Text := FList;
         edtArchiverListStart.Text := FStart;
@@ -379,7 +381,7 @@ procedure TfrmOptionsArchivers.ckbArchiverUnixPathChange(Sender: TObject);
 begin
   if TCheckBox(Sender).Checked then
     if ckbArchiverWindowsPath.Checked then
-      ckbArchiverWindowsPath.Checked:=False;
+      ckbArchiverWindowsPath.Checked := False;
   edtAnyChange(Sender);
 end;
 
@@ -388,7 +390,7 @@ procedure TfrmOptionsArchivers.ckbArchiverWindowsPathChange(Sender: TObject);
 begin
   if TCheckbox(Sender).Checked then
     if ckbArchiverUnixPath.Checked then
-      ckbArchiverUnixPath.Checked:=False;
+      ckbArchiverUnixPath.Checked := False;
   edtAnyChange(Sender);
 end;
 
@@ -480,7 +482,7 @@ begin
   with TMultiArcItem(lbxArchiver.Items.Objects[lbxArchiver.ItemIndex]) do
   begin
     FDescription := edtArchiverDescription.Text;
-    FArchiver := fneArchiverArchiver.FileName;
+    FArchiver := edtArchiverArchiver.Text;
     FExtension := edtArchiverExtension.Text;
     FList := edtArchiverList.Text;
     FStart := edtArchiverListStart.Text;
@@ -617,9 +619,9 @@ end;
 { TfrmOptionsArchivers.btnArchiverOtherClick }
 procedure TfrmOptionsArchivers.btnArchiverOtherClick(Sender: TObject);
 var
-  pWantedPos:TPoint;
+  pWantedPos: TPoint;
 begin
-  pWantedPos := btnArchiverOther.ClientToScreen(Point(btnArchiverOther.Width div 2,btnArchiverOther.Height-5)); // Position this way instead of using mouse cursor since it will work for keyboard user.
+  pWantedPos := btnArchiverOther.ClientToScreen(Point(btnArchiverOther.Width div 2, btnArchiverOther.Height - 5)); // Position this way instead of using mouse cursor since it will work for keyboard user.
   pmArchiverOther.PopUp(pWantedPos.X, pWantedPos.Y);
 end;
 
@@ -778,11 +780,23 @@ begin
   pmArchiverParamHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
 
+{ TfrmOptionsArchivers.btnArchiverSlectFileArchiverClick }
+procedure TfrmOptionsArchivers.btnArchiverSelectFileArchiverClick(Sender: TObject);
+begin
+  OpenArchiverDialog.DefaultExt := '*.*';
+  OpenArchiverDialog.FilterIndex := 2;
+  OpenArchiverDialog.Title := rsOptArchiverArchiver;
+  if OpenArchiverDialog.Execute then
+  begin
+    edtArchiverArchiver.Text := OpenArchiverDialog.FileName;
+  end;
+end;
+
 { TfrmOptionsArchivers.btnArchiverRelativerClick }
 procedure TfrmOptionsArchivers.btnArchiverRelativerClick(Sender: TObject);
 begin
-  fneArchiverArchiver.SetFocus;
-  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneArchiverArchiver, pfFILE);
+  if edtArchiverArchiver.CanFocus then edtArchiverArchiver.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(edtArchiverArchiver, pfFILE);
   pmArchiverPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
 
