@@ -62,7 +62,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
     BevelOuter = bvNone
     ClientHeight = 642
     ClientWidth = 793
-    TabOrder = 1
+    TabOrder = 2
     object pnlArchiverButtons: TPanel
       Left = 0
       Height = 34
@@ -265,7 +265,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Right = 2
           OnChange = edtAnyChange
-          TabOrder = 8
+          TabOrder = 1
         end
         object btnArchiverSelectFileArchiver: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -398,7 +398,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Width = 765
           Anchors = [akTop, akLeft, akRight]
           OnChange = edtAnyChange
-          TabOrder = 1
+          TabOrder = 2
         end
         object lblArchiverList: TLabel
           AnchorSideLeft.Control = lblArchiverDescription
@@ -428,7 +428,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Right = 3
           OnChange = edtAnyChange
-          TabOrder = 2
+          TabOrder = 3
         end
         object btnArchiverListHelper: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -509,7 +509,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Width = 765
           Anchors = [akTop, akLeft, akRight]
           OnChange = edtAnyChange
-          TabOrder = 3
+          TabOrder = 4
         end
         object lblArchiverListEnd: TLabel
           AnchorSideLeft.Control = lblArchiverDescription
@@ -538,7 +538,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Width = 765
           Anchors = [akTop, akLeft, akRight]
           OnChange = edtAnyChange
-          TabOrder = 4
+          TabOrder = 5
         end
         object lblArchiverListFormat: TLabel
           AnchorSideLeft.Control = lblArchiverDescription
@@ -574,7 +574,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           )
           OnChange = edtAnyChange
           ScrollBars = ssAutoBoth
-          TabOrder = 5
+          TabOrder = 6
           WordWrap = False
         end
         object lblArchiverExtract: TLabel
@@ -607,7 +607,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Right = 3
           OnChange = edtAnyChange
-          TabOrder = 6
+          TabOrder = 7
         end
         object btnArchiverExtractHelper: TSpeedButton
           AnchorSideLeft.Side = asrBottom
@@ -690,7 +690,7 @@ inherited frmOptionsArchivers: TfrmOptionsArchivers
           BorderSpacing.Right = 3
           BorderSpacing.Bottom = 6
           OnChange = edtAnyChange
-          TabOrder = 7
+          TabOrder = 8
         end
         object btnArchiverAddHelper: TSpeedButton
           AnchorSideLeft.Side = asrBottom
