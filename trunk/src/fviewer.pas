@@ -541,6 +541,7 @@ var
 begin
   FLastSearchPos := -1;
   Caption := aFileName;
+  ViewerControl.FileName := EmptyStr;
 
   // Clear text on status bar.
   for i := 0 to Status.Panels.Count - 1 do
