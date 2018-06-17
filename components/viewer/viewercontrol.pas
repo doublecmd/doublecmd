@@ -1515,12 +1515,6 @@ begin
     FMappingHandle := 0;
   end;
 
-  if FFileHandle <> 0 then
-  begin
-    FileClose(FFileHandle);
-    FFileHandle := 0;
-  end;
-
 {$ELSE}
 
   if Assigned(FMappedFile) then
@@ -1530,13 +1524,13 @@ begin
     FMappedFile := nil;
   end;
 
+{$ENDIF}
+
   if FFileHandle <> 0 then
   begin
-    fpClose(FFileHandle);
+    FileClose(FFileHandle);
     FFileHandle := 0;
   end;
-
-{$ENDIF}
 
   FFileName  := '';
   FFileSize  := 0;
