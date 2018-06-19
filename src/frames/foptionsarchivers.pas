@@ -189,7 +189,7 @@ begin
   bCurrentlyLoadingSettings := True;
   bCurrentlyFilling := True;
   btnArchiverSelectFileArchiver.Hint := rsOptArchiverArchiver;
-  if MultiArcListTemp <> nil then MultiArcListTemp.Free;
+  FreeAndNil(MultiArcListTemp);
   MultiArcListTemp := gMultiArcList.Clone;
   FillListBoxWithArchiverList;
   gSpecialDirList.PopulateMenuWithSpecialDir(pmArchiverPathHelper, mp_PATHHELPER, nil);
@@ -202,7 +202,8 @@ procedure TfrmOptionsArchivers.Done;
 begin
   if lbxArchiver.ItemIndex <> -1 then
     if lbxArchiver.ItemIndex < MultiArcListTemp.Count then
-      iLastDisplayedIndex := lbxArchiver.ItemIndex;
+      iLastDisplayedIndex := lbxArchiver.ItemIndex; // Let's preserve the last item we were at to select it if we come back here in this session.
+  FreeAndNil(MultiArcListTemp);
 end;
 
 { TfrmOptionsArchivers.Save }
@@ -212,7 +213,7 @@ begin
   if not lbxArchiver.Enabled then
     ActualSaveCurrentMultiArcItem;
   MultiArcListTemp.SaveToFile(gpCfgDir + sMULTIARC_FILENAME);
-  gMultiArcList.Free;
+  FreeAndNil(gMultiArcList);
   gMultiArcList := MultiArcListTemp.Clone;
   LastLoadedOptionSignature := ComputeCompleteOptionsSignature;
 end;
@@ -526,6 +527,7 @@ begin
   if InputQuery(Caption, rsOptArchiveTypeName, sName) then
   begin
     MultiArcItem := TMultiArcItem.Create;
+    MultiArcItem.FEnabled:=True;
     lbxArchiver.Items.AddObject(sName, MultiArcItem);
     MultiArcListTemp.Add(sName, MultiArcItem);
     lbxArchiver.ItemIndex := lbxArchiver.Items.Count - 1;
@@ -533,6 +535,8 @@ begin
     pcArchiverCommands.Enabled := (lbxArchiver.Items.Count <> 0);
     chkArchiverEnabled.Enabled := (lbxArchiver.Items.Count <> 0);
     SetActiveButtonsBasedOnArchiversQuantity;
+    if pcArchiverCommands.ActivePage<>tbArchiverGeneral then pcArchiverCommands.ActivePage:=tbArchiverGeneral;
+    if edtArchiverDescription.CanFocus then edtArchiverDescription.SetFocus;
   end;
 end;
 
