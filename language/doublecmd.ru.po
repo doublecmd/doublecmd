@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.9.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2018-05-31 10:57+0300\n"
+"PO-Revision-Date: 2018-06-20 20:10+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -861,7 +861,7 @@ msgstr "Вырезать"
 #: tfrmeditor.acteditdelete.caption
 msgctxt "TFRMEDITOR.ACTEDITDELETE.CAPTION"
 msgid "Delete"
-msgstr "&Удалить"
+msgstr "Удалить"
 
 #: tfrmeditor.acteditdelete.hint
 msgctxt "tfrmeditor.acteditdelete.hint"
@@ -1171,7 +1171,7 @@ msgstr "В &каталог:"
 
 #: tfrmextractdlg.lblfilemask.caption
 msgid "&Extract files matching file mask:"
-msgstr "&Распаковать файлы согласно маске:"
+msgstr "&Распаковать файлы по маске:"
 
 #: tfrmextractdlg.lblpassword.caption
 msgid "&Password for encrypted files:"
@@ -1941,7 +1941,7 @@ msgstr "Копировать путь в командную строку"
 
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
-msgstr ""
+msgstr "&Тест производительности"
 
 #: tfrmmain.actbriefview.caption
 msgctxt "tfrmmain.actbriefview.caption"
@@ -2044,7 +2044,7 @@ msgstr "Сравнить каталоги"
 
 #: tfrmmain.actconfigarchivers.caption
 msgid "Configuration of Archivers"
-msgstr ""
+msgstr "Настройка архиваторов"
 
 #: tfrmmain.actconfigdirhotlist.caption
 msgctxt "tfrmmain.actconfigdirhotlist.caption"
@@ -2391,7 +2391,7 @@ msgstr "Загрузить следующие в списке избранные
 
 #: tfrmmain.actnexttab.caption
 msgid "Switch to Nex&t Tab"
-msgstr "Переключиться на с&ледующую вкладку"
+msgstr "Переключиться на &следующую вкладку"
 
 #: tfrmmain.actopen.caption
 msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
@@ -2408,7 +2408,7 @@ msgstr "Открыть bar-файл"
 
 #: tfrmmain.actopendirinnewtab.caption
 msgid "Open &Folder in a New Tab"
-msgstr "Открыть &каталог в новой вкладке"
+msgstr "Открыть пап&ку в новой вкладке"
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
@@ -2939,7 +2939,7 @@ msgstr "Создать символьную сс&ылку..."
 
 #: tfrmmain.mitaboptions.caption
 msgid "Tab options"
-msgstr "Параметры вкладки"
+msgstr "Опции вкладки"
 
 #: tfrmmain.mitrayiconexit.caption
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
@@ -3652,7 +3652,7 @@ msgstr "&Добавить"
 #: tfrmoptionsarchivers.btnarchiveraddhelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiveraddhelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Помощник с переменными"
 
 #: tfrmoptionsarchivers.btnarchiverapply.caption
 msgctxt "tfrmoptionsarchivers.btnarchiverapply.caption"
@@ -3671,26 +3671,26 @@ msgstr "&Удалить"
 #: tfrmoptionsarchivers.btnarchiverdeletehelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverdeletehelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Помощник с переменными"
 
 #: tfrmoptionsarchivers.btnarchiverextracthelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverextracthelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Помощник с переменными"
 
 #: tfrmoptionsarchivers.btnarchiverextractwithoutpathhelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverextractwithoutpathhelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Помощник с переменными"
 
 #: tfrmoptionsarchivers.btnarchiverlisthelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverlisthelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Помощник с переменными"
 
 #: tfrmoptionsarchivers.btnarchiverother.caption
 msgid "Oth&er..."
-msgstr "Другие..."
+msgstr "Дру&гое..."
 
 #: tfrmoptionsarchivers.btnarchiverrelativer.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverrelativer.hint"
@@ -3705,17 +3705,17 @@ msgstr "П&ереименовать"
 #: tfrmoptionsarchivers.btnarchiverselfextracthelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchiverselfextracthelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Помощник с переменными"
 
 #: tfrmoptionsarchivers.btnarchivertesthelper.hint
 msgctxt "tfrmoptionsarchivers.btnarchivertesthelper.hint"
 msgid "Variable reminder helper"
-msgstr ""
+msgstr "Помощник с переменными"
 
 #: tfrmoptionsarchivers.bvlarchiverids.caption
 msgctxt "tfrmoptionsarchivers.bvlarchiverids.caption"
 msgid "ID's used with cm_OpenArchive to recognize archive by detecting its content and not via file extension:"
-msgstr ""
+msgstr "ID, сигнатура, используется с cm_OpenArchive для распознавания архива без учёта расширения файла:"
 
 #: tfrmoptionsarchivers.bvlarchiveroptions.caption
 msgctxt "tfrmoptionsarchivers.bvlarchiveroptions.caption"
@@ -3730,7 +3730,7 @@ msgstr "Режим разбора формата:"
 #: tfrmoptionsarchivers.chkarchiverenabled.caption
 msgctxt "tfrmoptionsarchivers.chkarchiverenabled.caption"
 msgid "E&nabled"
-msgstr "В&ключен"
+msgstr "Вкл&ючить"
 
 #: tfrmoptionsarchivers.chkarchivermultiarcdebug.caption
 msgid "De&bug mode"
@@ -3739,23 +3739,23 @@ msgstr "Ре&жим отладки"
 #: tfrmoptionsarchivers.chkarchivermultiarcoutput.caption
 msgctxt "tfrmoptionsarchivers.chkarchivermultiarcoutput.caption"
 msgid "S&how console output"
-msgstr "Пока&зывать консольный вывод"
+msgstr "Показывать консольны&й вывод"
 
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
-msgstr ""
+msgstr "Unix-&атрибуты файлов"
 
 #: tfrmoptionsarchivers.ckbarchiverunixpath.caption
 msgid "&Unix path delimiter \"/\""
-msgstr ""
+msgstr "Unix-разделитель пут&и \"/\""
 
 #: tfrmoptionsarchivers.ckbarchiverwindowsfileattributes.caption
 msgid "Windows &file attributes"
-msgstr ""
+msgstr "Windows-атри&буты файлов"
 
 #: tfrmoptionsarchivers.ckbarchiverwindowspath.caption
 msgid "Windows path deli&miter \"\\\""
-msgstr ""
+msgstr "Windows-разделител&ь пути \"\\\""
 
 #: tfrmoptionsarchivers.lblarchiveradd.caption
 msgctxt "tfrmoptionsarchivers.lblarchiveradd.caption"
@@ -3769,7 +3769,7 @@ msgstr "Ар&хиватор:"
 
 #: tfrmoptionsarchivers.lblarchiverdelete.caption
 msgid "De&lete:"
-msgstr "Удалить:"
+msgstr "Уда&лить:"
 
 #: tfrmoptionsarchivers.lblarchiverdescription.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverdescription.caption"
@@ -3788,11 +3788,11 @@ msgstr "И&звлечь:"
 
 #: tfrmoptionsarchivers.lblarchiverextractwithoutpath.caption
 msgid "Extract &without path:"
-msgstr "Распаковать не учитывая пути:"
+msgstr "Распаковать не у&читывая пути:"
 
 #: tfrmoptionsarchivers.lblarchiveridposition.caption
 msgid "ID Po&sition:"
-msgstr "Смещение ID:"
+msgstr "Сме&щение ID:"
 
 #: tfrmoptionsarchivers.lblarchiverids.caption
 msgid "&ID:"
@@ -3800,16 +3800,16 @@ msgstr "ID:"
 
 #: tfrmoptionsarchivers.lblarchiveridseekrange.caption
 msgid "ID See&k Range:"
-msgstr "Диапазон поиска ID:"
+msgstr "Диапа&зон поиска ID:"
 
 #: tfrmoptionsarchivers.lblarchiverlist.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverlist.caption"
 msgid "&List:"
-msgstr "Сп&исок:"
+msgstr "&Список:"
 
 #: tfrmoptionsarchivers.lblarchiverlistbox.caption
 msgid "Archi&vers:"
-msgstr "Архиваторы:"
+msgstr "Архиватор&ы:"
 
 #: tfrmoptionsarchivers.lblarchiverlistend.caption
 msgctxt "tfrmoptionsarchivers.lblarchiverlistend.caption"
@@ -3828,15 +3828,15 @@ msgstr "На&чало списка (необязательный):"
 
 #: tfrmoptionsarchivers.lblarchiverpasswordquery.caption
 msgid "Password &query string:"
-msgstr "Строка запроса пароля:"
+msgstr "Строка запроса парол&я:"
 
 #: tfrmoptionsarchivers.lblarchiverselfextract.caption
 msgid "Create self extractin&g archive:"
-msgstr "Создать самораспаковывающийся архив:"
+msgstr "Создать са&мораспаковывающийся архив:"
 
 #: tfrmoptionsarchivers.lblarchivertest.caption
 msgid "Tes&t:"
-msgstr "Проверить:"
+msgstr "Про&верить:"
 
 #: tfrmoptionsarchivers.miarchiverautoconfigure.caption
 msgid "Auto Configure"
@@ -3844,15 +3844,15 @@ msgstr "&Автонастройка"
 
 #: tfrmoptionsarchivers.miarchiverdisableall.caption
 msgid "Disable all"
-msgstr ""
+msgstr "Запретить все"
 
 #: tfrmoptionsarchivers.miarchiverdiscardmodification.caption
 msgid "Discard modifications"
-msgstr ""
+msgstr "Отменить изменения"
 
 #: tfrmoptionsarchivers.miarchiverenableall.caption
 msgid "Enable all"
-msgstr ""
+msgstr "Разрешить все"
 
 #: tfrmoptionsarchivers.miarchiverexport.caption
 msgctxt "tfrmoptionsarchivers.miarchiverexport.caption"
@@ -3866,7 +3866,7 @@ msgstr "Импорт..."
 
 #: tfrmoptionsarchivers.miarchiversortarchivers.caption
 msgid "Sort archivers"
-msgstr ""
+msgstr "Сортировать архиваторы"
 
 #: tfrmoptionsarchivers.tbarchiveradditional.caption
 msgctxt "TFRMOPTIONSARCHIVERS.TBARCHIVERADDITIONAL.CAPTION"
@@ -5684,7 +5684,7 @@ msgstr "Ра&змер буфера для файловых операций (К�
 
 #: tfrmoptionsfileoperations.lblhashbuffersize.caption
 msgid "Buffer size for &hash calculation (in KB):"
-msgstr "Размер буфера для вычисления &хэш (Кб):"
+msgstr "Размер буфера для вычисления &хэша (Кб):"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
@@ -7816,7 +7816,7 @@ msgstr "&Цвет фона     "
 #: tfrmoptionsviewer.lblfontcolorviewerbook.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION"
 msgid "&Font color in book viewer"
-msgstr "&Шрифт"
+msgstr "Цвет &текста"
 
 #: tfrmoptionsviewer.lblnumbercolumnsviewer.caption
 msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
@@ -8234,7 +8234,7 @@ msgstr "Имя файла"
 
 #: tfrmsplitter.grbxsize.caption
 msgid "Size and number of parts"
-msgstr "Размер и кол-во частей"
+msgstr "Размер и количество частей"
 
 #: tfrmsplitter.lbdirtarget.caption
 msgid "Directory &target"
@@ -8246,7 +8246,7 @@ msgstr "&Исходный файл"
 
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"
-msgstr "Ко&л-во частей"
+msgstr "Ко&личество частей"
 
 #: tfrmsplitter.rbtnbyte.caption
 msgid "&Bytes"
@@ -10564,10 +10564,10 @@ msgid ""
 msgstr ""
 "Пожалуйста, вставьте следующий диск или что-то похожее.\n"
 "\n"
-"Это разрешит запись этого файла:\n"
+"Это позволит записать файл:\n"
 "\"%s\"\n"
 "\n"
-"Число байтов оставшихся для записи: %d\n"
+"Число оставшихся для записи байт: %d\n"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
@@ -11350,127 +11350,127 @@ msgstr "Добавить в &начало;Добавить в конец;Умн�
 
 #: ulng.rsoptarchiveconfiguresavetochange
 msgid "To change current editing archive configuration, either APPLY or DELETE current editing one"
-msgstr ""
+msgstr "Для изменения редактируемых настроек архиватора нажмите \"Применить\" или \"Удалить\" для удаления"
 
 #: ulng.rsoptarchiveradditonalcmd
 msgid "Mode dependent, additional command"
-msgstr ""
+msgstr "Зависит от режима, дополнение команд"
 
 #: ulng.rsoptarchiveraddonlynotempty
 msgid "Add if it is non-empty"
-msgstr ""
+msgstr "Если не пустая"
 
 #: ulng.rsoptarchiverarchivel
 msgid "Archive File (long name)"
-msgstr ""
+msgstr "Длинное имя архива"
 
 #: ulng.rsoptarchiverarchiver
 msgid "Select archiver executable"
-msgstr ""
+msgstr "Выбрать исполняемый файл"
 
 #: ulng.rsoptarchiverarchives
 msgid "Archive file (short name)"
-msgstr ""
+msgstr "Короткое имя архива"
 
 #: ulng.rsoptarchiverchangeencoding
 msgid "Change Archiver Listing Encoding"
-msgstr ""
+msgstr "Переопределить кодировку вывода"
 
 #: ulng.rsoptarchiverconfirmdelete
 msgid "Are you sure you want to delete: %s"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить: %s"
 
 #: ulng.rsoptarchiverdefaultexportfilename
 msgid "Exported Archiver Configuration"
-msgstr ""
+msgstr "Экспортированные настройки архиватора"
 
 #: ulng.rsoptarchivererrorlevel
 msgid "errorlevel"
-msgstr ""
+msgstr "<код завершения>"
 
 #: ulng.rsoptarchiverexportcaption
 msgid "Export archiver configuration"
-msgstr ""
+msgstr "Экспорт настроек архиватора"
 
 #: ulng.rsoptarchiverexportdone
 msgid "Exportation of %d elements to file \"%s\" completed."
-msgstr ""
+msgstr "Экспортирование завершено: %d в файл \"%s\"."
 
 #: ulng.rsoptarchiverexportprompt
 msgid "Select the one(s) you want to export"
-msgstr ""
+msgstr "Выберите архиватор(ы) для экспорта"
 
 #: ulng.rsoptarchiverfilelistl
 msgid "Filelist (long names)"
-msgstr ""
+msgstr "Список с длинными именами файлов"
 
 #: ulng.rsoptarchiverfilelists
 msgid "Filelist (short names)"
-msgstr ""
+msgstr "Список с короткими именами файлов"
 
 #: ulng.rsoptarchiverimportcaption
 msgid "Import archiver configuration"
-msgstr ""
+msgstr "Импорт настроек архиватора"
 
 #: ulng.rsoptarchiverimportdone
 msgid "Importation of %d elements from file \"%s\" completed."
-msgstr ""
+msgstr "Импортирование завершено: %d из файла \"%s\"."
 
 #: ulng.rsoptarchiverimportfile
 msgid "Select the file to import archiver configuration(s)"
-msgstr ""
+msgstr "Выберите файл для импорта настроек архиватора(ов)"
 
 #: ulng.rsoptarchiverimportprompt
 msgid "Select the one(s) you want to import"
-msgstr ""
+msgstr "Выберите архиватор(ы) для импорта"
 
 #: ulng.rsoptarchiverjustname
 msgid "Use name only, without path"
-msgstr ""
+msgstr "Использовать только имя, без пути"
 
 #: ulng.rsoptarchiverjustpath
 msgid "Use path only, without name"
-msgstr ""
+msgstr "Использовать только путь, без имени"
 
 #: ulng.rsoptarchiverprograml
 msgid "Archive Program (long name)"
-msgstr ""
+msgstr "Длинное имя архиватора"
 
 #: ulng.rsoptarchiverprograms
 msgid "Archive Program (short name)"
-msgstr ""
+msgstr "Короткое имя архиватора"
 
 #: ulng.rsoptarchiverquoteall
 msgid "Quote all names"
-msgstr ""
+msgstr "Заключать в кавычки все имена"
 
 #: ulng.rsoptarchiverquotewithspace
 msgid "Quote names with spaces"
-msgstr ""
+msgstr "Заключать в кавычки имена с пробелами"
 
 #: ulng.rsoptarchiversinglefprocess
 msgid "Single filename to process"
-msgstr ""
+msgstr "Имя одного файла для обработки"
 
 #: ulng.rsoptarchivertargetsubdir
 msgid "Target subdirecory"
-msgstr ""
+msgstr "Целевая поддиректория архива"
 
 #: ulng.rsoptarchiveruseansi
 msgid "Use ANSI encoding"
-msgstr ""
+msgstr "Использовать кодировку ANSI"
 
 #: ulng.rsoptarchiveruseutf8
 msgid "Use UTF8 encoding"
-msgstr ""
+msgstr "Использовать кодировку UTF-8"
 
 #: ulng.rsoptarchiverwheretosave
 msgid "Enter location and filename where to save archiver configuration"
-msgstr ""
+msgstr "Укажите место и имя файла для сохранения настроек архивтора(ов)"
 
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
-msgstr "Наименование типа архива:"
+msgstr "Имя типа архива:"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
