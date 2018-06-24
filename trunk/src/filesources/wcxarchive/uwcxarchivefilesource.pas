@@ -177,51 +177,47 @@ var
 function CryptProc(CryptoNumber: Integer; Mode: Integer; ArchiveName: String; var Password: String): Integer;
 const
   cPrefix = 'wcx';
+  cResult: array[TCryptStoreResult] of Integer = (E_SUCCESS, E_ECREATE, E_EWRITE, E_EREAD, E_NO_FILES);
 var
   sGroup,
   sPassword: AnsiString;
+  MyResult: TCryptStoreResult;
 begin
-  try
-    sGroup:= ExtractOnlyFileExt(ArchiveName);
-    case Mode of
-    PK_CRYPT_SAVE_PASSWORD:
+  MyResult:= csrSuccess;
+  sGroup:= ExtractOnlyFileExt(ArchiveName);
+  case Mode of
+  PK_CRYPT_SAVE_PASSWORD:
+    begin
+      MyResult:= PasswordStore.WritePassword(cPrefix, sGroup, ArchiveName, Password);
+    end;
+  PK_CRYPT_LOAD_PASSWORD,
+  PK_CRYPT_LOAD_PASSWORD_NO_UI:
+    begin
+      if (Mode = PK_CRYPT_LOAD_PASSWORD_NO_UI) and (PasswordStore.HasMasterKey = False) then
+        Exit(E_NO_FILES);
+      MyResult:= PasswordStore.ReadPassword(cPrefix, sGroup, ArchiveName, Password);
+    end;
+  PK_CRYPT_COPY_PASSWORD,
+  PK_CRYPT_MOVE_PASSWORD:
+    begin
+      MyResult:= PasswordStore.ReadPassword(cPrefix, sGroup, ArchiveName, sPassword);
+      if MyResult = csrSuccess then
       begin
-        if PasswordStore.WritePassword(cPrefix, sGroup, ArchiveName, Password) then
-          Result:= E_SUCCESS
-        else
-          Result:= E_EWRITE;
-      end;
-    PK_CRYPT_LOAD_PASSWORD,
-    PK_CRYPT_LOAD_PASSWORD_NO_UI:
-      begin
-        Result:= E_EREAD;
-        if (Mode = PK_CRYPT_LOAD_PASSWORD_NO_UI) and (PasswordStore.HasMasterKey = False) then
-          Exit(E_NO_FILES);
-        if PasswordStore.ReadPassword(cPrefix, sGroup, ArchiveName, Password) then
-          Result:= E_SUCCESS;
-      end;
-    PK_CRYPT_COPY_PASSWORD,
-    PK_CRYPT_MOVE_PASSWORD:
-      begin
-        Result:= E_EREAD;
-        if PasswordStore.ReadPassword(cPrefix, sGroup, ArchiveName, sPassword) then
-          begin
-            if not PasswordStore.WritePassword(cPrefix, sGroup, Password, sPassword) then
-              Exit(E_EWRITE);
-            if Mode = PK_CRYPT_MOVE_PASSWORD then
-              PasswordStore.DeletePassword(cPrefix, sGroup, ArchiveName);
-            Result:= E_SUCCESS;
-          end;
-      end;
-    PK_CRYPT_DELETE_PASSWORD:
-      begin
-        PasswordStore.DeletePassword(cPrefix, sGroup, ArchiveName);
-        Result:= E_SUCCESS;
+        MyResult:= PasswordStore.WritePassword(cPrefix, sGroup, Password, sPassword);
+        if (MyResult = csrSuccess) and (Mode = PK_CRYPT_MOVE_PASSWORD) then
+        begin
+          if not PasswordStore.DeletePassword(cPrefix, sGroup, ArchiveName) then
+            MyResult:= csrWriteError;
+        end;
       end;
     end;
-  except
-    Result:= E_ECREATE;
+  PK_CRYPT_DELETE_PASSWORD:
+    begin
+      if not PasswordStore.DeletePassword(cPrefix, sGroup, ArchiveName) then
+        MyResult:= csrWriteError;
+    end;
   end;
+  Result:= cResult[MyResult];
 end;
 
 function CryptProcA(CryptoNumber: Integer; Mode: Integer; ArchiveName, Password: PAnsiChar; MaxLen: Integer): Integer; dcpcall;

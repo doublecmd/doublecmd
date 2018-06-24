@@ -406,51 +406,47 @@ end;
 function CryptProc(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName: String; var Password: String): Integer;
 const
   cPrefix = 'wfx';
+  cResult: array[TCryptStoreResult] of Integer = (FS_FILE_OK, FS_FILE_NOTSUPPORTED, FS_FILE_WRITEERROR, FS_FILE_READERROR, FS_FILE_NOTFOUND);
 var
   sGroup,
   sPassword: AnsiString;
+  MyResult: TCryptStoreResult;
 begin
-  try
-    sGroup:= WfxOperationList[CryptoNumber];
-    case Mode of
-    FS_CRYPT_SAVE_PASSWORD:
+  MyResult:= csrSuccess;
+  sGroup:= WfxOperationList[CryptoNumber];
+  case Mode of
+  FS_CRYPT_SAVE_PASSWORD:
+    begin
+      MyResult:= PasswordStore.WritePassword(cPrefix, sGroup, ConnectionName, Password);
+    end;
+  FS_CRYPT_LOAD_PASSWORD,
+  FS_CRYPT_LOAD_PASSWORD_NO_UI:
+    begin
+      if (Mode = FS_CRYPT_LOAD_PASSWORD_NO_UI) and (PasswordStore.HasMasterKey = False) then
+        Exit(FS_FILE_NOTFOUND);
+      MyResult:= PasswordStore.ReadPassword(cPrefix, sGroup, ConnectionName, Password);
+    end;
+  FS_CRYPT_COPY_PASSWORD,
+  FS_CRYPT_MOVE_PASSWORD:
+    begin
+      MyResult:= PasswordStore.ReadPassword(cPrefix, sGroup, ConnectionName, sPassword);
+      if MyResult = csrSuccess then
       begin
-        if PasswordStore.WritePassword(cPrefix, sGroup, ConnectionName, Password) then
-          Result:= FS_FILE_OK
-        else
-          Result:= FS_FILE_WRITEERROR;
-      end;
-    FS_CRYPT_LOAD_PASSWORD,
-    FS_CRYPT_LOAD_PASSWORD_NO_UI:
-      begin
-        Result:= FS_FILE_READERROR;
-        if (Mode = FS_CRYPT_LOAD_PASSWORD_NO_UI) and (PasswordStore.HasMasterKey = False) then
-          Exit(FS_FILE_NOTFOUND);
-        if PasswordStore.ReadPassword(cPrefix, sGroup, ConnectionName, Password) then
-          Result:= FS_FILE_OK;
-      end;
-    FS_CRYPT_COPY_PASSWORD,
-    FS_CRYPT_MOVE_PASSWORD:
-      begin
-        Result:= FS_FILE_READERROR;
-        if PasswordStore.ReadPassword(cPrefix, sGroup, ConnectionName, sPassword) then
-          begin
-            if not PasswordStore.WritePassword(cPrefix, sGroup, Password, sPassword) then
-              Exit(FS_FILE_WRITEERROR);
-            if Mode = FS_CRYPT_MOVE_PASSWORD then
-              PasswordStore.DeletePassword(cPrefix, sGroup, ConnectionName);
-            Result:= FS_FILE_OK;
-          end;
-      end;
-    FS_CRYPT_DELETE_PASSWORD:
-      begin
-        PasswordStore.DeletePassword(cPrefix, sGroup, ConnectionName);
-        Result:= FS_FILE_OK;
+        MyResult:= PasswordStore.WritePassword(cPrefix, sGroup, Password, sPassword);
+        if (MyResult = csrSuccess) and (Mode = FS_CRYPT_MOVE_PASSWORD) then
+        begin
+          if not PasswordStore.DeletePassword(cPrefix, sGroup, ConnectionName) then
+            MyResult:= csrWriteError;
+        end;
       end;
     end;
-  except
-    Result:= FS_FILE_NOTSUPPORTED;
+  FS_CRYPT_DELETE_PASSWORD:
+    begin
+      if not PasswordStore.DeletePassword(cPrefix, sGroup, ConnectionName) then
+        MyResult:= csrWriteError;
+    end;
   end;
+  Result:= cResult[MyResult];
 end;
 
 function CryptProcA(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName, Password: PAnsiChar; MaxLen: Integer): Integer; dcpcall;

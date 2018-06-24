@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains Encrypt/Decrypt classes and functions.
 
-    Copyright (C) 2009-2017 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,16 @@ uses
 
 type
 
+  { TCryptStoreResult }
+
+  TCryptStoreResult = (
+     csrSuccess,    // Success
+     csrFailed,     // Encrypt/Decrypt failed
+     csrWriteError, // Could not write password to password store
+     csrNotFound,   // Password not found in password store
+     csrNoMasterKey // No master password entered yet
+  );
+
   { TPasswordStore }
 
   TPasswordStore = class(TIniFileEx)
@@ -46,16 +56,9 @@ type
   public
     function HasMasterKey: Boolean;
     function CheckMasterKey: Boolean;
-    function WritePassword(Prefix, Name, Connection: String; const Password: AnsiString): Boolean;
-    function ReadPassword(Prefix, Name, Connection: String; out Password: AnsiString): Boolean;
+    function WritePassword(Prefix, Name, Connection: String; const Password: AnsiString): TCryptStoreResult;
+    function ReadPassword(Prefix, Name, Connection: String; out Password: AnsiString): TCryptStoreResult;
     function DeletePassword(Prefix, Name, Connection: String): Boolean;
-  end;
-
-  { EEncryptDecryptFailed }
-
-  EEncryptDecryptFailed = class(Exception)
-  public
-    constructor Create; reintroduce;
   end;
 
 procedure InitPasswordStore;
@@ -366,43 +369,44 @@ begin
 end;
 
 function TPasswordStore.WritePassword(Prefix, Name, Connection: String;
-                                      const Password: AnsiString): Boolean;
+                                      const Password: AnsiString): TCryptStoreResult;
 var
   Data: AnsiString;
 begin
-  Result:= False;
-  if ReadOnly then Exit;
-  if CheckMasterKey = False then Exit;
+  if ReadOnly then Exit(csrWriteError);
+  if CheckMasterKey = False then Exit(csrNoMasterKey);
   if not FMasterStrong then
     Data:= Encode(FMasterKey, Password)
   else begin
     Data:= EncodeStrong(FMode, FMasterKey, Password)
   end;
-  if Length(Data) = 0 then raise EEncryptDecryptFailed.Create;
+  if Length(Data) = 0 then Exit(csrFailed);
   try
     WriteString(Prefix + '_' + Name, Connection, Data);
   except
-    Exit;
+    Exit(csrWriteError);
   end;
-  Result:= True;
+  Result:= csrSuccess;
 end;
 
 function TPasswordStore.ReadPassword(Prefix, Name, Connection: String;
-                                     out Password: AnsiString): Boolean;
+                                     out Password: AnsiString): TCryptStoreResult;
 var
   Data: AnsiString = '';
 begin
-  Result:= False;
-  if CheckMasterKey = False then Exit;
+  if CheckMasterKey = False then Exit(csrNoMasterKey);
   Data:= ReadString(Prefix + '_' + Name, Connection, Data);
-  if Length(Data) = 0 then Exit;
+  if Length(Data) = 0 then Exit(csrNotFound);
   if not FMasterStrong then
     Password:= Decode(FMasterKey, Data)
   else begin
     Password:= DecodeStrong(FMode, FMasterKey, Data)
   end;
-  if Length(Password) = 0 then raise EEncryptDecryptFailed.Create;
-  Result:= True;
+  if Length(Password) = 0 then
+    Result:= csrFailed
+  else begin
+    Result:= csrSuccess;
+  end;
 end;
 
 function TPasswordStore.DeletePassword(Prefix, Name, Connection: String): Boolean;
@@ -426,13 +430,6 @@ begin
   except
     DCDebug('Can not create secure password store!');
   end;
-end;
-
-{ EEncryptDecryptFailed }
-
-constructor EEncryptDecryptFailed.Create;
-begin
-  inherited Create('Encrypt/Decrypt failed');
 end;
 
 finalization
