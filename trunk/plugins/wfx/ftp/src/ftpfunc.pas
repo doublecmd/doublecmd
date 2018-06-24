@@ -103,7 +103,7 @@ function FsNetworkOpenConnection(Connection: PAnsiChar; RootDir, RemotePath: PAn
 { Extension API }
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 
-function ReadPassword(ConnectionName: AnsiString): AnsiString;
+function ReadPassword(ConnectionName: AnsiString; out Password: AnsiString): Boolean;
 function DeletePassword(ConnectionName: AnsiString): Boolean;
 
 var
@@ -1074,18 +1074,22 @@ begin
   ReadConnectionList;
 end;
 
-function ReadPassword(ConnectionName: AnsiString): String;
+function ReadPassword(ConnectionName: AnsiString; out Password: AnsiString): Boolean;
 begin
-  Result:= EmptyStr;
-  if CryptFunc(FS_CRYPT_LOAD_PASSWORD, ConnectionName, Result) <> FS_FILE_OK then
-    Result:= EmptyStr;
+  Password:= EmptyStr;
+  case CryptFunc(FS_CRYPT_LOAD_PASSWORD, ConnectionName, Password) of
+    FS_FILE_OK,
+    FS_FILE_READERROR:
+      Result:= True
+    else
+      Result:= False;
+  end;
 end;
 
 function DeletePassword(ConnectionName: AnsiString): Boolean;
 var
-  Password: String;
+  Password: String = '';
 begin
-  Password:= EmptyStr;
   Result:= CryptFunc(FS_CRYPT_DELETE_PASSWORD, ConnectionName, Password) = FS_FILE_OK;
 end;
 

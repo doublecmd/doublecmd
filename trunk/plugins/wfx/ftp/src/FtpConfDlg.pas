@@ -364,16 +364,15 @@ begin
           end
         else if DlgItemName = 'btnChangePassword' then
           begin
-            Text:= ReadPassword(gConnection.ConnectionName);
-            if Text <> EmptyStr then
-              begin
-                Data:= PtrInt(PAnsiChar(Text));
-                SendDlgMsg(pDlg, 'edtPassword', DM_SETTEXT, Data, 0);
-                SendDlgMsg(pDlg, 'edtPassword', DM_SHOWITEM, 1, 0);
-                SendDlgMsg(pDlg, 'btnChangePassword', DM_SHOWITEM, 0, 0);
-                SendDlgMsg(pDlg, 'chkMasterPassword', DM_ENABLE, 1, 0);
-                gConnection.PasswordChanged:= True;
-              end;
+            if ReadPassword(gConnection.ConnectionName, Text) then
+            begin
+              Data:= PtrInt(PAnsiChar(Text));
+              SendDlgMsg(pDlg, 'edtPassword', DM_SETTEXT, Data, 0);
+              SendDlgMsg(pDlg, 'edtPassword', DM_SHOWITEM, 1, 0);
+              SendDlgMsg(pDlg, 'btnChangePassword', DM_SHOWITEM, 0, 0);
+              SendDlgMsg(pDlg, 'chkMasterPassword', DM_ENABLE, 1, 0);
+              gConnection.PasswordChanged:= True;
+            end;
           end
         else if DlgItemName = 'btnAdd' then
         begin
