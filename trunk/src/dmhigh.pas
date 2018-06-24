@@ -511,7 +511,9 @@ begin
   if (Result = nil) and (SynEdit.Lines.Count > 0) then
   begin
     Extension:= SynEdit.Lines[0];
-    if StrBegins(Extension, '#!') then
+    if StrBegins(Extension, '<?xml') then
+      Result:= SynXMLSyn1
+    else if StrBegins(Extension, '#!') then
     begin
       // Unix shell script
       if (Pos('sh', Extension) > 0) then
