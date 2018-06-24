@@ -511,9 +511,18 @@ begin
   if (Result = nil) and (SynEdit.Lines.Count > 0) then
   begin
     Extension:= SynEdit.Lines[0];
-    // Unix shell script
-    if StrBegins(Extension, '#!') and (Pos('sh', Extension) > 0) then
-      Result:= SynUNIXShellScriptSyn1;
+    if StrBegins(Extension, '#!') then
+    begin
+      // Unix shell script
+      if (Pos('sh', Extension) > 0) then
+        Result:= SynUNIXShellScriptSyn1
+      // Python script
+      else if (Pos('python', Extension) > 0) then
+        Result:= SynPythonSyn1
+      // Perl script
+      else if (Pos('perl', Extension) > 0) then
+        Result:= SynPerlSyn1;
+    end;
   end;
   // Default syntax highlighter
   if (Result = nil) then Result:= SynPlainTextHighlighter;
