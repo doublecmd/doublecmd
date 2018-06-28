@@ -31,6 +31,8 @@ type
     procedure PathLabelMouseWheelUp(Sender: TObject;Shift: TShiftState; MousePos: TPoint;var Handled:Boolean);
     procedure PathLabelMouseWheelDown(Sender: TObject;Shift: TShiftState; MousePos: TPoint;var Handled:Boolean);
 
+    procedure EachViewUpdateHeader(AFileView: TFileView; {%H-}UserData: Pointer);
+
   protected
     tmViewHistoryMenu: TTimer;
   public
@@ -38,7 +40,7 @@ type
 
     procedure UpdateAddressLabel;
     procedure UpdatePathLabel;
-    procedure UpdateFontSizes;
+    procedure UpdateFont;
 
     procedure ShowPathEdit;
     procedure SetActive(bActive: Boolean);
@@ -82,7 +84,7 @@ implementation
 uses
   LCLType, ShellCtrls, uDCUtils, DCOSUtils, DCStrUtils, uKeyboard,
   fMain, uFileSourceUtil, uGlobs, uPixMapManager, uLng, uFileFunctions,
-  uArchiveFileSource;
+  uArchiveFileSource, uFileViewWithPanels;
 
 const
   SortingImageIndex: array[TSortDirection] of Integer = (-1, 0, 1);
@@ -170,22 +172,22 @@ end;
 procedure TFileViewHeader.PathLabelMouseWheelUp(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint;var Handled:Boolean);
 begin
-    if (ssCtrl in Shift)and(gFonts[dcfPathEdit].Size<MAX_FONT_SIZE_PATHEDIT) then
-        gFonts[dcfPathEdit].Size:=gFonts[dcfPathEdit].Size+1;
-
-    frmMain.ForEachView(@frmMain.ActiveFrame.EachViewUpdateHeader,nil);
+  if (ssCtrl in Shift) and (gFonts[dcfPathEdit].Size < MAX_FONT_SIZE_PATHEDIT) then
+  begin
+    gFonts[dcfPathEdit].Size:= gFonts[dcfPathEdit].Size + 1;
+    frmMain.ForEachView(@EachViewUpdateHeader, nil);
+  end;
 end;
 
 procedure TFileViewHeader.PathLabelMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint;var Handled:Boolean);
 begin
-    if (ssCtrl in Shift)and(gFonts[dcfPathEdit].Size>MIN_FONT_SIZE_PATHEDIT) then
-       gFonts[dcfPathEdit].Size:=gFonts[dcfPathEdit].Size-1;
-
-    frmMain.ForEachView(@frmMain.ActiveFrame.EachViewUpdateHeader,nil);
+  if (ssCtrl in Shift) and (gFonts[dcfPathEdit].Size > MIN_FONT_SIZE_PATHEDIT) then
+  begin
+     gFonts[dcfPathEdit].Size:= gFonts[dcfPathEdit].Size - 1;
+     frmMain.ForEachView(@EachViewUpdateHeader, nil);
+  end;
 end;
-
-
 
 { TFileViewHeader.PathLabelDblClick }
 { -If we double-click on the the path label, it shows the Hot Dir popup menu at the cursor position.
@@ -242,6 +244,11 @@ begin
   FAddressLabel.AllowHighlight:= FFileView.FileSource is TArchiveFileSource;
 end;
 
+procedure TFileViewHeader.EachViewUpdateHeader(AFileView: TFileView; UserData: Pointer);
+begin
+  TFileViewWithPanels(AFileView).Header.UpdateFont;
+end;
+
 constructor TFileViewHeader.Create(AOwner: TFileView; AParent: TWinControl);
 begin
   inherited Create(AOwner);
@@ -293,9 +300,7 @@ begin
   tmViewHistoryMenu.Interval := 250;
   tmViewHistoryMenu.OnTimer  := @tmViewHistoryMenuTimer;
 
-  FAddressLabel.Font.Size:=gFonts[dcfPathEdit].Size;
-  FPathLabel.Font.Size:=FAddressLabel.Font.Size;
-  FPathEdit.Font.Size:=FAddressLabel.Font.Size;
+  UpdateFont;
 end;
 
 procedure TFileViewHeader.HeaderResize(Sender: TObject);
@@ -306,8 +311,6 @@ end;
 
 procedure TFileViewHeader.UpdateAddressLabel;
 begin
-  FAddressLabel.Font.Size:=gFonts[dcfPathEdit].Size;
-
   if FFileView.CurrentAddress = '' then
   begin
     FAddressLabel.Visible := False;
@@ -322,20 +325,15 @@ end;
 
 procedure TFileViewHeader.UpdatePathLabel;
 begin
-  FAddressLabel.Font.Size:=gFonts[dcfPathEdit].Size;
-  FPathEdit.Font.Size:=FAddressLabel.Font.Size;
-
   FPathLabel.Caption := MinimizeFilePath(FFileView.CurrentPath, FPathLabel.Canvas, FPathLabel.Width);
 end;
 
-procedure TFileViewHeader.UpdateFontSizes;
+procedure TFileViewHeader.UpdateFont;
 begin
-  FAddressLabel.Font.Size:=gFonts[dcfPathEdit].Size;
-  FPathLabel.Font.Size:=FAddressLabel.Font.Size;
-  FPathEdit.Font.Size:=FAddressLabel.Font.Size;
+  FontOptionsToFont(gFonts[dcfPathEdit], FAddressLabel.Font);
+  FPathLabel.Font:= FAddressLabel.Font;
+  FPathEdit.Font:= FAddressLabel.Font;
 end;
-
-
 
 procedure TFileViewHeader.ShowPathEdit;
 begin
@@ -343,8 +341,6 @@ begin
   begin
     FPathEdit.SetBounds(Left, Top, Width, Height);
     FPathEdit.Text := FFileView.CurrentPath;
-    FAddressLabel.Font.Size:=gFonts[dcfPathEdit].Size;
-    FPathEdit.Font.Size:=FAddressLabel.Font.Size;
     FPathEdit.Visible := True;
     FPathEdit.SetFocus;
   end;

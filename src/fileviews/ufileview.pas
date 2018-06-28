@@ -375,8 +375,6 @@ type
     function Clone({%H-}NewParent: TWinControl): TFileView; virtual;
     procedure CloneTo(AFileView: TFileView); virtual;
 
-    procedure EachViewUpdateHeader(AFileView: TFileView; {%H-}UserData: Pointer);
-
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); virtual;
     procedure RemoveCurrentFileSource; virtual;
     procedure RemoveAllFileSources; virtual;
@@ -2210,15 +2208,6 @@ begin
     if Assigned(ThisFileViewPage) and Assigned(OtherFileViewPage) then
       AFileView.SetActive(ThisFileViewPage.Notebook = OtherFileViewPage.Notebook, False);
   end;
-end;
-
-procedure TFileView.EachViewUpdateHeader(AFileView: TFileView; UserData: Pointer);
-begin
-
-//  (Self as TFileViewWithPanels).Header.UpdateFontSizes;
-  TFileViewWithPanels(AFileView).Header.UpdateFontSizes;
-//  UpdateView;
-
 end;
 
 function TFileView.GetCurrentWorkType: TFileViewWorkType;
