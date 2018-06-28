@@ -145,9 +145,9 @@ begin
   inherited DoUpdateView;
   pnlHeader.Visible := gCurDir;     // Current directory
   pnlFooter.Visible := gStatusBar;  // Status bar
+  pnlHeader.UpdateFont;
   pnlHeader.UpdateAddressLabel;
   pnlHeader.UpdatePathLabel;
-  pnlHeader.UpdateFontSizes;
 end;
 
 procedure TFileViewWithPanels.RemoveCurrentFileSource;
