@@ -50,6 +50,14 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       Caption = 'Show special characters'
       TabOrder = 1
     end
+    object chkTrimTrailingSpaces: TCheckBox
+      Left = 6
+      Height = 24
+      Top = 30
+      Width = 259
+      Caption = 'Delete trailing spaces'
+      TabOrder = 2
+    end
   end
   inherited pmPathHelper: TPopupMenu[9]
     left = 424
