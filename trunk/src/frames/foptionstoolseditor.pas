@@ -38,6 +38,7 @@ type
     chkShowSpecialChars: TCheckBox;
     gbInternalEditor: TGroupBox;
     chkScrollPastEndLine: TCheckBox;
+    chkTrimTrailingSpaces: TCheckBox;
   protected
     procedure Init; override;
     procedure Load; override;
@@ -68,6 +69,7 @@ begin
   inherited Load;
   chkScrollPastEndLine.Checked:= eoScrollPastEoL in gEditorSynEditOptions;
   chkShowSpecialChars.Checked:= eoShowSpecialChars in gEditorSynEditOptions;
+  chkTrimTrailingSpaces.Checked:= eoTrimTrailingSpaces in gEditorSynEditOptions;
 end;
 
 function TfrmOptionsEditor.Save: TOptionsEditorSaveFlags;
@@ -84,6 +86,7 @@ begin
   Result:= inherited Save;
   UpdateOptionFromBool(chkScrollPastEndLine.Checked, eoScrollPastEoL);
   UpdateOptionFromBool(chkShowSpecialChars.Checked, eoShowSpecialChars);
+  UpdateOptionFromBool(chkTrimTrailingSpaces.Checked, eoTrimTrailingSpaces);
 end;
 
 constructor TfrmOptionsEditor.Create(TheOwner: TComponent);
