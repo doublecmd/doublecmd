@@ -35,10 +35,13 @@ type
   { TfrmOptionsEditor }
 
   TfrmOptionsEditor = class(TfrmOptionsToolBase)
-    chkShowSpecialChars: TCheckBox;
     gbInternalEditor: TGroupBox;
+    chkShowSpecialChars: TCheckBox;
     chkScrollPastEndLine: TCheckBox;
     chkTrimTrailingSpaces: TCheckBox;
+    chkTabsToSpaces: TCheckBox;
+    chkAutoIndent: TCheckBox;
+    chkTabIndent: TCheckBox;
   protected
     procedure Init; override;
     procedure Load; override;
@@ -67,9 +70,12 @@ end;
 procedure TfrmOptionsEditor.Load;
 begin
   inherited Load;
-  chkScrollPastEndLine.Checked:= eoScrollPastEoL in gEditorSynEditOptions;
-  chkShowSpecialChars.Checked:= eoShowSpecialChars in gEditorSynEditOptions;
-  chkTrimTrailingSpaces.Checked:= eoTrimTrailingSpaces in gEditorSynEditOptions;
+  chkScrollPastEndLine.Checked := eoScrollPastEoL in gEditorSynEditOptions;
+  chkShowSpecialChars.Checked := eoShowSpecialChars in gEditorSynEditOptions;
+  chkTrimTrailingSpaces.Checked := eoTrimTrailingSpaces in gEditorSynEditOptions;
+  chkTabsToSpaces.Checked := eoTabsToSpaces in gEditorSynEditOptions;
+  chkAutoIndent.Checked := eoAutoIndent in gEditorSynEditOptions;
+  chkTabIndent.Checked := eoTabIndent in gEditorSynEditOptions;
 end;
 
 function TfrmOptionsEditor.Save: TOptionsEditorSaveFlags;
@@ -87,6 +93,9 @@ begin
   UpdateOptionFromBool(chkScrollPastEndLine.Checked, eoScrollPastEoL);
   UpdateOptionFromBool(chkShowSpecialChars.Checked, eoShowSpecialChars);
   UpdateOptionFromBool(chkTrimTrailingSpaces.Checked, eoTrimTrailingSpaces);
+  UpdateOptionFromBool(chkTabsToSpaces.Checked, eoTabsToSpaces);
+  UpdateOptionFromBool(chkAutoIndent.Checked, eoAutoIndent);
+  UpdateOptionFromBool(chkTabIndent.Checked, eoTabIndent);
 end;
 
 constructor TfrmOptionsEditor.Create(TheOwner: TComponent);
