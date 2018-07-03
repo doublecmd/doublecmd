@@ -4858,13 +4858,53 @@ msgstr "Mostrar eti&queta"
 msgid "Drives list"
 msgstr "Lista de unidades"
 
+#: tfrmoptionseditor.chkautoindent.caption
+msgid "Auto Indent mode"
+msgstr ""
+
+#: tfrmoptionseditor.chkautoindent.hint
+msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
+msgstr ""
+
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
 msgstr "Al final de la marca de inserción"
 
+#: tfrmoptionseditor.chkscrollpastendline.hint
+msgid "Allows caret to go into empty space beyond end-of-line position"
+msgstr ""
+
 #: tfrmoptionseditor.chkshowspecialchars.caption
 msgid "Show special characters"
 msgstr "Mostrar caracteres especiales"
+
+#: tfrmoptionseditor.chkshowspecialchars.hint
+msgid "Shows special characters for spaces and tabulations"
+msgstr ""
+
+#: tfrmoptionseditor.chktabindent.caption
+msgid "Tab indents blocks"
+msgstr ""
+
+#: tfrmoptionseditor.chktabindent.hint
+msgid "When active <Tab> and <Shift+Tab> act as block indent, unindent when text is selected"
+msgstr ""
+
+#: tfrmoptionseditor.chktabstospaces.caption
+msgid "Use spaces instead tab characters"
+msgstr ""
+
+#: tfrmoptionseditor.chktabstospaces.hint
+msgid "Converts tab characters to a specified number of space characters (when entering)"
+msgstr ""
+
+#: tfrmoptionseditor.chktrimtrailingspaces.caption
+msgid "Delete trailing spaces"
+msgstr ""
+
+#: tfrmoptionseditor.chktrimtrailingspaces.hint
+msgid "Auto delete trailing spaces, this applies only to edited lines"
+msgstr ""
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
