@@ -3,8 +3,10 @@ inherited frmOptionsEditor: TfrmOptionsEditor
   Width = 586
   ClientHeight = 513
   ClientWidth = 586
-  DesignLeft = 384
-  DesignTop = 288
+  ParentShowHint = False
+  ShowHint = True
+  DesignLeft = 117
+  DesignTop = 255
   inherited btnRelativeToolPath: TSpeedButton
     Anchors = [akTop, akRight, akBottom]
   end
@@ -15,8 +17,8 @@ inherited frmOptionsEditor: TfrmOptionsEditor
     AnchorSideRight.Control = edtToolsParameters
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 51
-    Top = 200
+    Height = 111
+    Top = 227
     Width = 571
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -29,34 +31,64 @@ inherited frmOptionsEditor: TfrmOptionsEditor
     ChildSizing.EnlargeHorizontal = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 2
-    ClientHeight = 31
-    ClientWidth = 567
+    ClientHeight = 84
+    ClientWidth = 565
     TabOrder = 5
     object chkScrollPastEndLine: TCheckBox
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 19
+      Height = 24
+      Hint = 'Allows caret to go into empty space beyond end-of-line position'
       Top = 6
-      Width = 259
+      Width = 218
       BorderSpacing.Left = 6
       Caption = 'Caret past end of line'
       TabOrder = 0
     end
     object chkShowSpecialChars: TCheckBox
-      Left = 277
-      Height = 19
+      Left = 236
+      Height = 24
+      Hint = 'Shows special characters for spaces and tabulations'
       Top = 6
-      Width = 284
+      Width = 323
       Caption = 'Show special characters'
       TabOrder = 1
     end
     object chkTrimTrailingSpaces: TCheckBox
       Left = 6
       Height = 24
+      Hint = 'Auto delete trailing spaces, this applies only to edited lines'
       Top = 30
-      Width = 259
+      Width = 218
       Caption = 'Delete trailing spaces'
       TabOrder = 2
+    end
+    object chkTabsToSpaces: TCheckBox
+      Left = 236
+      Height = 24
+      Hint = 'Converts tab characters to a specified number of space characters (when entering)'
+      Top = 30
+      Width = 323
+      Caption = 'Use spaces instead tab characters'
+      TabOrder = 3
+    end
+    object chkAutoIndent: TCheckBox
+      Left = 6
+      Height = 24
+      Hint = 'Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line'
+      Top = 54
+      Width = 218
+      Caption = 'Auto Indent mode'
+      TabOrder = 4
+    end
+    object chkTabIndent: TCheckBox
+      Left = 236
+      Height = 24
+      Hint = 'When active <Tab> and <Shift+Tab> act as block indent, unindent when text is selected'
+      Top = 54
+      Width = 323
+      Caption = 'Tab indents blocks'
+      TabOrder = 5
     end
   end
   inherited pmPathHelper: TPopupMenu[9]
