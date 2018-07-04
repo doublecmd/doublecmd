@@ -1016,22 +1016,34 @@ end;
 //------------------------------------------------------
 procedure TMainCommands.cm_Exchange(const Params: array of string);
 var
-  ActiveView, NotActiveView: TFileView;
+  AFileView: TFileView;
+  NFileView: TFileView;
+  AFree, NFree: Boolean;
 begin
-  ActiveView:= frmMain.ActiveFrame;
-  NotActiveView:= frmMain.NotActiveFrame;
   with frmMain do
   begin
-    ActiveNotebook.ActivePage.RemoveComponent(ActiveView);
-    NotActiveNotebook.ActivePage.RemoveComponent(NotActiveView);
+    if (ActiveNotebook.ActivePage.LockState = tlsPathLocked) or
+       (NotActiveNotebook.ActivePage.LockState = tlsPathLocked) then
+      Exit;
 
-    ActiveNotebook.ActivePage.FileView:= NotActiveView;
-    NotActiveNotebook.ActivePage.FileView:= ActiveView;
+    AFileView:= ActiveFrame;
+    NFileView:= NotActiveFrame;
 
-    ActiveNotebook.ActivePage.InsertComponent(NotActiveView);
-    NotActiveNotebook.ActivePage.InsertComponent(ActiveView);
+    AFree:= ActiveNotebook.ActivePage.LockState <> tlsDirsInNewTab;
+    if AFree then ActiveNotebook.ActivePage.RemoveComponent(AFileView);
+
+    DoTransferPath(NFileView, ActiveNotebook);
+
+    NFree:= NotActiveNotebook.ActivePage.LockState <> tlsDirsInNewTab;
+    if NFree then NotActiveNotebook.ActivePage.RemoveComponent(NFileView);
+
+    DoTransferPath(AFileView, NotActiveNotebook);
+
+    if AFree then AFileView.Free;
+    if NFree then NFileView.Free;
+
+    ActiveFrame.SetFocus;
   end;
-  NotActiveView.SetFocus;
 end;
 
 procedure TMainCommands.cm_ExecuteToolbarItem(const Params: array of string);
