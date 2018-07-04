@@ -4959,7 +4959,7 @@ msgid "Drives list"
 msgstr "ドライブリスト"
 
 #: tfrmoptionseditor.chkautoindent.caption
-msgid "Auto Indent mode"
+msgid "Auto Indent"
 msgstr ""
 
 #: tfrmoptionseditor.chkautoindent.hint

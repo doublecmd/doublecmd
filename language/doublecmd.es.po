@@ -4859,7 +4859,7 @@ msgid "Drives list"
 msgstr "Lista de unidades"
 
 #: tfrmoptionseditor.chkautoindent.caption
-msgid "Auto Indent mode"
+msgid "Auto Indent"
 msgstr ""
 
 #: tfrmoptionseditor.chkautoindent.hint

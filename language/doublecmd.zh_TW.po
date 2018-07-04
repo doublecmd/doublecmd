@@ -5276,7 +5276,7 @@ msgid "Drives list"
 msgstr "磁碟清單"
 
 #: tfrmoptionseditor.chkautoindent.caption
-msgid "Auto Indent mode"
+msgid "Auto Indent"
 msgstr ""
 
 #: tfrmoptionseditor.chkautoindent.hint

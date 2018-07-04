@@ -5049,7 +5049,7 @@ msgid "Drives list"
 msgstr "Списък на устройствата"
 
 #: tfrmoptionseditor.chkautoindent.caption
-msgid "Auto Indent mode"
+msgid "Auto Indent"
 msgstr ""
 
 #: tfrmoptionseditor.chkautoindent.hint

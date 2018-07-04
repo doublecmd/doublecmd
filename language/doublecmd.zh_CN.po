@@ -4916,7 +4916,7 @@ msgid "Drives list"
 msgstr "驱动器列表"
 
 #: tfrmoptionseditor.chkautoindent.caption
-msgid "Auto Indent mode"
+msgid "Auto Indent"
 msgstr ""
 
 #: tfrmoptionseditor.chkautoindent.hint
