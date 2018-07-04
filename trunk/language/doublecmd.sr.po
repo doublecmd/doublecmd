@@ -5058,7 +5058,7 @@ msgid "Drives list"
 msgstr "Списак уређаја"
 
 #: tfrmoptionseditor.chkautoindent.caption
-msgid "Auto Indent mode"
+msgid "Auto Indent"
 msgstr ""
 
 #: tfrmoptionseditor.chkautoindent.hint
