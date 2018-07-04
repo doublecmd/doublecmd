@@ -69,13 +69,18 @@ var
 implementation
 
 uses
-  LCLType, LCLStrConsts, Base64, BlowFish, MD5, HMAC, SCRYPT, SHA3_512, Hash,
-  DCPrijndael, uShowMsg, uGlobsPaths, uLng, uDebug, uRandom;
+  LCLType, LCLStrConsts, Base64, BlowFish, MD5, HMAC, SCRYPT, SHA3_512,
+  Hash, DCPrijndael, Argon2, uShowMsg, uGlobsPaths, uLng, uDebug, uRandom;
 
 const
-  SCRYPT_N = 16384;
+  SCRYPT_N = (1 shl 14);
   SCRYPT_R = 8;
   SCRYPT_P = 1;
+
+const
+  ARGON2_M = (1 shl 16);
+  ARGON2_T = 2;
+  ARGON2_P = 4;
 
 const
   AES_OFFS = 12; // (56 - 32) / 2
@@ -157,6 +162,22 @@ begin
   Move(Buffer[0], Result[1], HashDesc^.HDigestlen);
 end;
 
+procedure DeriveBytes(Mode: Byte; MasterKey, Salt: AnsiString; var Key; KeyLen: Int32);
+begin
+  if (Mode > 1) then
+  begin
+    argon2id_kdf(ARGON2_T, ARGON2_M, ARGON2_P,
+                 Pointer(MasterKey), Length(MasterKey),
+                 Pointer(Salt), Length(Salt), @Key, KeyLen);
+
+  end
+  else begin
+    scrypt_kdf(Pointer(MasterKey), Length(MasterKey),
+               Pointer(Salt), Length(Salt),
+               SCRYPT_N, SCRYPT_R, SCRYPT_P, Key, KeyLen);
+  end;
+end;
+
 function EncodeStrong(Mode: Byte; MasterKey, Data: AnsiString): AnsiString;
 var
   Salt, Hash: AnsiString;
@@ -169,8 +190,7 @@ begin
   SetLength(Salt, SizeOf(TSHA3_256Digest));
   Random(PByte(Salt), SizeOf(TSHA3_256Digest));
   // Generate encryption key
-  scrypt_kdf(Pointer(MasterKey), Length(MasterKey), Pointer(Salt), Length(Salt),
-             SCRYPT_N, SCRYPT_R, SCRYPT_P, {%H-}Buffer[0], SizeOf(Buffer));
+  DeriveBytes(Mode, MasterKey, Salt, {%H-}Buffer[0], SizeOf(Buffer));
   // Encrypt password using encryption key
   StringStream:= TStringStream.Create(EmptyStr);
   try
@@ -184,7 +204,7 @@ begin
   finally
     StringStream.Free;
   end;
-  if (Mode = 1) then
+  if (Mode > 0) then
   begin
     with TDCP_rijndael.Create(nil) do
     begin
@@ -214,15 +234,14 @@ begin
   Salt:= Copy(Data, 1, SizeOf(TSHA3_256Digest));
   Data:= Copy(Data, SizeOf(TSHA3_256Digest) + 1, MaxInt);
   // Generate encryption key
-  scrypt_kdf(Pointer(MasterKey), Length(MasterKey), Pointer(Salt), Length(Salt),
-             SCRYPT_N, SCRYPT_R, SCRYPT_P, {%H-}Buffer[0], SizeOf(Buffer));
+  DeriveBytes(Mode, MasterKey, Salt, {%H-}Buffer[0], SizeOf(Buffer));
   // Verify password using hash message authentication code
   Salt:= hmac_sha3_512(@Buffer[KEY_SIZE], MAC_SIZE, Data);
   if StrLComp(Pointer(Hash), Pointer(Salt), 8) <> 0 then
     Exit(EmptyStr);
   // Decrypt password using encryption key
   SetLength(Result, Length(Data));
-  if (Mode = 1) then
+  if (Mode > 0) then
   begin
     with TDCP_rijndael.Create(nil) do
     begin
@@ -292,7 +311,6 @@ procedure TPasswordStore.UpdateMasterKey(var MasterKey: AnsiString; var
 const
   RAND_SIZE = 16;
 var
-  Hash: TMD5Digest;
   Randata: AnsiString;
 begin
   if not FMasterStrong then
