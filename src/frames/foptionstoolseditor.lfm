@@ -78,7 +78,7 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       Hint = 'Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line'
       Top = 54
       Width = 218
-      Caption = 'Auto Indent mode'
+      Caption = 'Auto Indent'
       TabOrder = 4
     end
     object chkTabIndent: TCheckBox
