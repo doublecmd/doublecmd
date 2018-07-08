@@ -46,6 +46,9 @@ type
     procedure UpdateStatistics(var NewStatistics: TFileSourceMoveOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
 
+    procedure ShowCompareFilesUI(SourceFile: TFile; const TargetFilePath: String);
+    procedure ShowCompareFilesUIByFileObject(SourceFile: TFile; TargetFile: TFile);
+
     property FileSource: IFileSource read FFileSource;
     property SourceFiles: TFiles read FSourceFiles;
     property TargetPath: String read FTargetPath;
@@ -78,7 +81,7 @@ type
 implementation
 
 uses
-  uDCUtils, uLng;
+  uDCUtils, uLng, uShowForm;
 
 // -- TFileSourceMoveOperation ------------------------------------------------
 
@@ -172,6 +175,24 @@ begin
     Result := Self.FStatistics;
   finally
     FStatisticsLock.Release;
+  end;
+end;
+
+procedure TFileSourceMoveOperation.ShowCompareFilesUIByFileObject(SourceFile: TFile; TargetFile: TFile);
+begin
+  PrepareToolData(FFileSource, SourceFile, FFileSource, TargetFile, @ShowDifferByGlobList, True);
+end;
+
+procedure TFileSourceMoveOperation.ShowCompareFilesUI(SourceFile: TFile; const TargetFilePath: String);
+var
+  TargetFile: TFile = nil;
+begin
+  TargetFile := FFileSource.CreateFileObject(ExtractFilePath(TargetFilePath));
+  TargetFile.Name := ExtractFileName(TargetFilePath);
+  try
+    PrepareToolData(FFileSource, SourceFile, FFileSource, TargetFile, @ShowDifferByGlobList, True);
+  finally
+    TargetFile.Free;
   end;
 end;
 

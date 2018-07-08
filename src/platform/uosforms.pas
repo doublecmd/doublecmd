@@ -319,9 +319,9 @@ begin
   end;
 
   // If parent window is normal window then call inherited method
-  if GetWindowLong(ActiveWindow, GWL_HWNDPARENT) <> 0 then
-    Result:= inherited ShowModal
-  else
+//  if GetWindowLong(ActiveWindow, GWL_HWNDPARENT) <> 0 then
+//    Result:= inherited ShowModal
+//  else
     begin
       Include(FFormState, fsModal);
       FParentWindow := ActiveWindow;

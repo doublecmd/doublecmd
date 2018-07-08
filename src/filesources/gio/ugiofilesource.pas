@@ -427,7 +427,7 @@ var
   SourceFileSource: IFileSource;
 begin
   SourceFileSource := Self;
-  SourceFiles.Path:= FCurrentAddress + SourceFiles.Path;
+  if not StrBegins(SourceFiles.Path, FCurrentAddress) then SourceFiles.Path:= FCurrentAddress + SourceFiles.Path;
   Result := TGioCopyOutOperation.Create(SourceFileSource, TargetFileSource, SourceFiles, TargetPath);
 end;
 

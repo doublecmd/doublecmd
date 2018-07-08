@@ -80,6 +80,7 @@ begin
                         @RaiseAbortOperation,
                         @CheckOperationState,
                         @UpdateStatistics,
+                        @ShowCompareFilesUI,
                         g_file_move,
                         TargetPath);
 

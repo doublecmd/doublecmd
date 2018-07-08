@@ -34,7 +34,15 @@ type
      fsourAll,
      fsourRetry,
      fsourAbort,
-     fsourRetryAdmin);
+     fsourRetryAdmin,
+     // Actions will never be returned since they do not close the window, handle them in ActionHandler.
+     fsouaCompare); // The first action, hardcoded. Add new actions after this and new answers before this line.
+
+  TFileSourceOperationUIAnswer = Low(TFileSourceOperationUIResponse)..Pred(fsouaCompare);
+
+  TFileSourceOperationUIAction = fsouaCompare..High(TFileSourceOperationUIResponse);
+
+  TFileSourceOperationUIActionHandler = procedure(Action: TFileSourceOperationUIAction) of object;
 
   {en
      General interface for communication: operation <-> user.
@@ -47,8 +55,9 @@ type
     function AskQuestion(Msg: String; Question: String;
                          PossibleResponses: array of TFileSourceOperationUIResponse;
                          DefaultOKResponse: TFileSourceOperationUIResponse;
-                         DefaultCancelResponse: TFileSourceOperationUIResponse
-                        ) : TFileSourceOperationUIResponse; virtual abstract;
+                         DefaultCancelResponse: TFileSourceOperationUIAnswer;
+                         ActionHandler: TFileSourceOperationUIActionHandler = nil
+                        ) : TFileSourceOperationUIAnswer; virtual abstract;
     // Add possibility to display files properties (for example: to compare older - newer)
     // Add general option "remember this choice for all files of this type" (checkbox)
   end;

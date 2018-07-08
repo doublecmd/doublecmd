@@ -7,8 +7,8 @@ interface
 uses
   Classes, SysUtils, DCStrUtils, uFile, uFileSource, uFileSourceOperation,
   uFileSourceCopyOperation, uFileSystemUtil, uFileSourceOperationOptions,
-  uFileSourceTreeBuilder, uGioFileSource, uGLib2, uGio2, uLog, uGlobs;
-
+  uFileSourceTreeBuilder, uGioFileSource, uGLib2, uGio2, uLog, uGlobs,
+  uFileSourceOperationUI;
 
 const
   CONST_DEFAULT_QUERY_INFO_ATTRIBUTES = FILE_ATTRIBUTE_STANDARD_TYPE + ',' + FILE_ATTRIBUTE_STANDARD_NAME + ',' +
@@ -51,10 +51,14 @@ type
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
 
+    FCurrentFile: TFile;
+    FCurrentTargetFilePath: String;
+
     AskQuestion: TAskQuestionFunction;
     AbortOperation: TAbortOperationFunction;
     CheckOperationState: TCheckOperationStateFunction;
     UpdateStatistics: TUpdateStatisticsFunction;
+    ShowCompareFilesUI: TShowCompareFilesUIFunction;
 
     procedure ShowError(const Message: String; AError: PGError);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -68,6 +72,7 @@ type
     function DirExists(aFile: TFile;
                        AbsoluteTargetFileName: String;
                        AllowCopyInto: Boolean): TFileSourceOperationOptionDirectoryExists;
+    procedure QuestionActionHandler(Action: TFileSourceOperationUIAction);
     function FileExists(aFile: TFile;
                         aTargetInfo: PGFileInfo;
                         var AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
@@ -82,6 +87,7 @@ type
                        AbortOperationFunction: TAbortOperationFunction;
                        CheckOperationStateFunction: TCheckOperationStateFunction;
                        UpdateStatisticsFunction: TUpdateStatisticsFunction;
+                       ShowCompareFilesUIFunction: TShowCompareFilesUIFunction;
                        CopyMoveFileFunction: TCopyMoveFileFunction;
                        TargetPath: String
                        );
@@ -105,7 +111,7 @@ procedure FillAndCount(Files: TFiles; CountDirs: Boolean; out NewFiles: TFiles;
 implementation
 
 uses
-  Forms, StrUtils, DCDateTimeUtils, uFileProperty, uFileSourceOperationUI,
+  Forms, StrUtils, DCDateTimeUtils, uFileProperty,
   uShowMsg, uLng, uGObject2, DCFileAttributes;
 
 procedure ShowError(AError: PGError);
@@ -677,13 +683,20 @@ begin
   end;
 end;
 
+procedure TGioOperationHelper.QuestionActionHandler(
+  Action: TFileSourceOperationUIAction);
+begin
+  if Action = fsouaCompare then
+    ShowCompareFilesUI(FCurrentFile, FCurrentTargetFilePath);
+end;
+
 function TGioOperationHelper.FileExists(aFile: TFile; aTargetInfo: PGFileInfo;
   var AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 const
-  Responses: array[0..8] of TFileSourceOperationUIResponse
+  Responses: array[0..9] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourRenameSource, fsourOverwriteAll,
        fsourSkipAll, fsourOverwriteOlder,fsourOverwriteSmaller,
-       fsourOverwriteLarger, fsourCancel);
+       fsourCancel, fsouaCompare, fsourOverwriteLarger);
 var
   Answer: Boolean;
   Message: String;
@@ -718,8 +731,11 @@ begin
       repeat
         Answer := True;
         Message:= FileExistsMessage(aFile, aTargetInfo, AbsoluteTargetFileName);
+        FCurrentFile := aFile;
+        FCurrentTargetFilePath := AbsoluteTargetFileName;
         case AskQuestion(Message, '',
-                         Responses, fsourOverwrite, fsourSkip) of
+                         Responses, fsourOverwrite, fsourSkip,
+                         @QuestionActionHandler) of
           fsourOverwrite:
             Result := fsoofeOverwrite;
           fsourSkip:
@@ -830,6 +846,7 @@ constructor TGioOperationHelper.Create(FileSource: IFileSource;
   AbortOperationFunction: TAbortOperationFunction;
   CheckOperationStateFunction: TCheckOperationStateFunction;
   UpdateStatisticsFunction: TUpdateStatisticsFunction;
+  ShowCompareFilesUIFunction: TShowCompareFilesUIFunction;
   CopyMoveFileFunction: TCopyMoveFileFunction; TargetPath: String);
 begin
   FGioFileSource:= FileSource as IGioFileSource;
@@ -839,6 +856,7 @@ begin
   AbortOperation := AbortOperationFunction;
   CheckOperationState := CheckOperationStateFunction;
   UpdateStatistics := UpdateStatisticsFunction;
+  ShowCompareFilesUI := ShowCompareFilesUIFunction;
   FCopyMoveFile := CopyMoveFileFunction;
 
   FFileExistsOption := fsoofeNone;

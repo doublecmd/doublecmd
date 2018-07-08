@@ -43,11 +43,12 @@ type
     TargetPath: String;
     SourceFileSource: IFileSource;
     TargetFileSource: IFileSource;
+    FModal: Boolean;
     function GetRelativeFileName(const FullPath: string): string;
     function GetRelativeFileNames: string;
     function GetFromPath: string;
   public
-    constructor Create(aCopyOutOperation: TFileSourceCopyOperation);
+    constructor Create(aCopyOutOperation: TFileSourceCopyOperation; Modal: Boolean = False);
     destructor Destroy; override;
     procedure ShowWaitForm; override;
     procedure Done; override;
@@ -56,14 +57,15 @@ type
                                    State: TFileSourceOperationState);
   end;
 
-  TToolDataPreparedProc = procedure(const FileList: TStringList; WaitData: TWaitData);
+  TToolDataPreparedProc = procedure(const FileList: TStringList; WaitData: TWaitData; Modal: Boolean = False);
 
   // Callback may be called either asynchoronously or synchronously (for modal operations)
   // pdrInCallback is returned when FunctionToCall either will be called or was already called
   TPrepareDataResult = (pdrFailed, pdrSynchronous, pdrInCallback);
 
 function PrepareData(FileSource: IFileSource; var SelectedFiles: TFiles;
-                     FunctionToCall: TFileSourceOperationStateChangedNotify): TPrepareDataResult;
+                     FunctionToCall: TFileSourceOperationStateChangedNotify;
+                     Modal: Boolean = False): TPrepareDataResult;
 
 procedure PrepareToolData(FileSource: IFileSource; var SelectedFiles: TFiles;
                           FunctionToCall: TToolDataPreparedProc); overload;
@@ -74,7 +76,8 @@ procedure PrepareToolData(FileSource1: IFileSource; var SelectedFiles1: TFiles;
 
 procedure PrepareToolData(FileSource1: IFileSource; File1: TFile;
                           FileSource2: IFileSource; File2: TFile;
-                          FunctionToCall: TToolDataPreparedProc); overload;
+                          FunctionToCall: TToolDataPreparedProc;
+                          Modal: Boolean = False); overload;
 
 procedure RunExtDiffer(CompareList: TStringList);
 
@@ -82,7 +85,7 @@ procedure ShowEditorByGlob(const sFileName: String);
 procedure ShowEditorByGlob(WaitData: TEditorWaitData); overload;
 
 procedure ShowDifferByGlob(const LeftName, RightName: String);
-procedure ShowDifferByGlobList(const CompareList: TStringList; WaitData: TWaitData);
+procedure ShowDifferByGlobList(const CompareList: TStringList; WaitData: TWaitData; Modal: Boolean = False);
 
 procedure ShowViewerByGlob(const sFileName: String);
 procedure ShowViewerByGlobList(const FilesToView: TStringList;
@@ -94,7 +97,7 @@ uses
   SysUtils, Process, DCProcessUtf8, Dialogs, LCLIntf,
   uShellExecute, uGlobs, uOSUtils, fEditor, fViewer, uDCUtils,
   uTempFileSystemFileSource, uLng, fDiffer, uDebug, DCOSUtils, uShowMsg,
-  DCStrUtils, uFileSourceProperty,
+  DCStrUtils, uFileSourceProperty, uWfxPluginCopyOutOperation,
   uFileSourceOperationOptions, uOperationsManager, uFileSourceOperationTypes,
   uMultiArchiveFileSource, fFileExecuteYourSelf;
 
@@ -265,7 +268,7 @@ begin
     ShowDiffer(LeftName, RightName);
 end;
 
-procedure ShowDifferByGlobList(const CompareList: TStringList; WaitData: TWaitData);
+procedure ShowDifferByGlobList(const CompareList: TStringList; WaitData: TWaitData; Modal: Boolean = False);
 begin
   if gExternalTools[etDiffer].Enabled then
   begin
@@ -275,7 +278,7 @@ begin
       RunExtDiffer(CompareList);
   end
   else
-    ShowDiffer(CompareList[0], CompareList[1], WaitData);
+    ShowDiffer(CompareList[0], CompareList[1], WaitData, Modal);
 end;
 
 procedure ShowViewerByGlobList(const FilesToView : TStringList;
@@ -351,7 +354,7 @@ end;
 
 { TEditorWaitData }
 
-constructor TEditorWaitData.Create(aCopyOutOperation: TFileSourceCopyOperation);
+constructor TEditorWaitData.Create(aCopyOutOperation: TFileSourceCopyOperation; Modal: Boolean = False);
 var
   I: Integer;
   aFileSource: ITempFileSystemFileSource;
@@ -365,6 +368,7 @@ begin
     FileTimes[I] := mbFileAge(Files[I].FullPath);
   SourceFileSource := aFileSource;
   TargetFileSource := aCopyOutOperation.FileSource as IFileSource;
+  FModal := Modal;
 end;
 
 destructor TEditorWaitData.Destroy;
@@ -391,12 +395,15 @@ end;
 
 function TEditorWaitData.GetFromPath: string;
 begin
-  Result := TargetFileSource.CurrentAddress + TargetPath;
+  if StrBegins(TargetPath, TargetFileSource.CurrentAddress) then
+    Result := TargetPath // Workaround for TGioFileSource
+  else
+    Result := TargetFileSource.CurrentAddress + TargetPath;
 end;
 
 procedure TEditorWaitData.ShowWaitForm;
 begin
-  ShowFileEditExternal(GetRelativeFileNames, GetFromPath, Self);
+  ShowFileEditExternal(GetRelativeFileNames, GetFromPath, Self, FModal);
 end;
 
 procedure TEditorWaitData.Done;
@@ -424,7 +431,10 @@ begin
         begin
           Operation.AddStateChangedListener([fsosStopped], @OnCopyInStateChanged);
           Operation.FileExistsOption:= fsoofeOverwrite;
-          OperationsManager.AddOperation(Operation);
+          if FModal then
+            OperationsManager.AddOperationModal(Operation)
+          else
+            OperationsManager.AddOperation(Operation);
           DoNotFreeYet:= True; // Will be free in operation
         end;
       end
@@ -637,7 +647,8 @@ end;
 { PrepareData }
 
 function PrepareData(FileSource: IFileSource; var SelectedFiles: TFiles;
-                     FunctionToCall: TFileSourceOperationStateChangedNotify): TPrepareDataResult;
+                     FunctionToCall: TFileSourceOperationStateChangedNotify;
+                     Modal: Boolean = False): TPrepareDataResult;
 var
   aFile: TFile;
   I: Integer;
@@ -671,6 +682,8 @@ begin
                        TempFileSource,
                        TempFiles,
                        TempFileSource.FileSystemRoot);
+      if Operation is TWfxPluginCopyOutOperation then
+        (Operation as TWfxPluginCopyOutOperation).NeedsConnection := False; // use separate connection
     finally
       TempFiles.Free;
     end;
@@ -683,7 +696,10 @@ begin
 
     Operation.AddStateChangedListener([fsosStopped], FunctionToCall);
 
-    OperationsManager.AddOperation(Operation);
+    if Modal then
+      OperationsManager.AddOperationModal(Operation)
+    else
+      OperationsManager.AddOperation(Operation);
 
     Exit(pdrInCallback);
   end;
@@ -764,6 +780,7 @@ type
   protected
     FFunc: TToolDataPreparedProc;
     FCallOnFail: Boolean;
+    FModal: Boolean;
     FFailed: Boolean;
     FFileList1: TStringList;
     FFileList2: TStringList;
@@ -779,7 +796,8 @@ type
   public
     constructor Create(FunctionToCall: TToolDataPreparedProc; CallOnFail: Boolean = False);
     procedure Prepare(FileSource1: IFileSource; var SelectedFiles1: TFiles;
-                      FileSource2: IFileSource; var SelectedFiles2: TFiles);
+                      FileSource2: IFileSource; var SelectedFiles2: TFiles;
+                      Modal: Boolean = False);
     destructor Destroy; override;
   end;
 
@@ -790,11 +808,14 @@ begin
 end;
 
 procedure TToolDataPreparator2.Prepare(FileSource1: IFileSource; var SelectedFiles1: TFiles;
-                                       FileSource2: IFileSource; var SelectedFiles2: TFiles);
+                                       FileSource2: IFileSource; var SelectedFiles2: TFiles;
+                                       Modal: Boolean = False);
 var
   I: Integer;
 begin
-  case PrepareData(FileSource1, SelectedFiles1, @OnCopyOutStateChanged1) of
+  FModal := Modal;
+
+  case PrepareData(FileSource1, SelectedFiles1, @OnCopyOutStateChanged1, Modal) of
   pdrSynchronous:
     begin
       FFileList1 := TStringList.Create;
@@ -806,7 +827,7 @@ begin
     begin
       try
         if FCallOnFail then
-          FFunc(nil, nil);
+          FFunc(nil, nil, FModal);
       finally
         Free;
       end;
@@ -814,7 +835,7 @@ begin
     end;
   end;
 
-  case PrepareData(FileSource2, SelectedFiles2, @OnCopyOutStateChanged2) of
+  case PrepareData(FileSource2, SelectedFiles2, @OnCopyOutStateChanged2, Modal) of
   pdrSynchronous:
     begin
       FFileList2 := TStringList.Create;
@@ -842,7 +863,7 @@ begin
   begin
     if Operation.Result = fsorFinished then
     begin
-      FWaitData1 := TEditorWaitData.Create(Operation as TFileSourceCopyOperation);
+      FWaitData1 := TEditorWaitData.Create(Operation as TFileSourceCopyOperation, FModal);
       FFileList1 := FWaitData1.GetFileList;
     end
     else
@@ -865,7 +886,7 @@ begin
   begin
     if Operation.Result = fsorFinished then
     begin
-      FWaitData2 := TEditorWaitData.Create(Operation as TFileSourceCopyOperation);
+      FWaitData2 := TEditorWaitData.Create(Operation as TFileSourceCopyOperation, FModal);
       FFileList2 := FWaitData2.GetFileList;
     end
     else
@@ -888,7 +909,7 @@ begin
     if FFailed then
     begin
       if FCallOnFail then
-        FFunc(nil, nil);
+        FFunc(nil, nil, FModal);
       Exit;
     end;
     if Assigned(FFileList2) then
@@ -899,10 +920,10 @@ begin
       WaitData := TWaitDataDouble.Create(FWaitData1, FWaitData2);
       FWaitData1 := nil;
       FWaitData2 := nil;
-      FFunc(FFileList1, WaitData);
+      FFunc(FFileList1, WaitData, FModal);
     end
     else
-      FFunc(FFileList1, nil);
+      FFunc(FFileList1, nil, FModal);
   finally
     Free;
   end;
@@ -938,7 +959,8 @@ end;
 
 procedure PrepareToolData(FileSource1: IFileSource; File1: TFile;
                           FileSource2: IFileSource; File2: TFile;
-                          FunctionToCall: TToolDataPreparedProc);
+                          FunctionToCall: TToolDataPreparedProc;
+                          Modal: Boolean = False);
 var Files1, Files2: TFiles;
 begin
   Files1 := TFiles.Create(File1.Path);
@@ -948,7 +970,7 @@ begin
     try
       Files2.Add(File2.Clone);
       with TToolDataPreparator2.Create(FunctionToCall) do
-        Prepare(FileSource1, Files1, FileSource2, Files2);
+        Prepare(FileSource1, Files1, FileSource2, Files2, Modal);
     finally
       Files2.Free;
     end;

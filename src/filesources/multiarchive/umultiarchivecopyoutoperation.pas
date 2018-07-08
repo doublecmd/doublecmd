@@ -8,6 +8,7 @@ uses
   LazFileUtils,LazUtf8,Classes, SysUtils, StringHashList, uLog, uGlobs, un_process,
   uFileSourceOperation,
   uFileSourceCopyOperation,
+  uFileSourceOperationUI,
   uFileSourceOperationOptions,
   uFileSourceOperationOptionsUI,
   uFileSource,
@@ -60,6 +61,11 @@ type
     procedure CheckForErrors(const SourceName, TargetName: String; ExitStatus: LongInt);
 
   protected
+    FCurrentFile: TFile;
+    FCurrentTargetFilePath: String;
+    procedure QuestionActionHandler(Action: TFileSourceOperationUIAction);
+
+  protected
     FExProcess: TExProcess;
     FTempFile: String;
     FFileMask: String;
@@ -91,7 +97,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, DCOSUtils, DCStrUtils, uMultiArc, uFileSourceOperationUI,
+  LCLProc, FileUtil, uOSUtils, DCOSUtils, DCStrUtils, uMultiArc,
   fMultiArchiveCopyOperationOptions, uMultiArchiveUtil, uFileProcs, uLng, DCDateTimeUtils,
   DCBasicTypes, uShowMsg, uFileSystemUtil;
 
@@ -445,12 +451,29 @@ begin
   end;
 end;
 
+procedure TMultiArchiveCopyOutOperation.QuestionActionHandler(
+  Action: TFileSourceOperationUIAction);
+var aFile: TFile;
+begin
+  if Action = fsouaCompare then
+  begin
+    aFile := FCurrentFile.Clone;
+    try
+      aFile.FullPath := IncludeFrontPathDelimiter(aFile.FullPath);
+      ShowCompareFilesUI(aFile, FCurrentTargetFilePath);
+    finally
+      aFile.Free;
+    end;
+  end;
+end;
+
 function TMultiArchiveCopyOutOperation.DoFileExists(aFile: TFile;
   const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 const
-  PossibleResponses: array[0..7] of TFileSourceOperationUIResponse
+  PossibleResponses: array[0..8] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourOverwriteLarger, fsourOverwriteAll,
-       fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel);
+       fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsouaCompare,
+       fsourCancel);
 var
   Message: String;
 
@@ -486,8 +509,11 @@ begin
       begin
         Message:= FileExistsMessage(AbsoluteTargetFileName, aFile.FullPath,
                                     aFile.Size, aFile.ModificationTime);
+        FCurrentFile := aFile;
+        FCurrentTargetFilePath := AbsoluteTargetFileName;
         case AskQuestion(Message, '',
-                         PossibleResponses, fsourOverwrite, fsourSkip) of
+                         PossibleResponses, fsourOverwrite, fsourSkip,
+                         @QuestionActionHandler) of
           fsourOverwrite:
             Result := fsoofeOverwrite;
           fsourSkip:

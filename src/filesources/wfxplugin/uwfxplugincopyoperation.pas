@@ -130,6 +130,8 @@ begin
                         @RaiseAbortOperation,
                         @CheckOperationState,
                         @UpdateStatistics,
+                        @ShowCompareFilesUI,
+                        @ShowCompareFilesUIByFileObject,
                         Thread,
                         wpohmCopy,
                         TargetPath);

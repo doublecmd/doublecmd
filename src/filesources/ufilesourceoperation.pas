@@ -25,7 +25,8 @@ uses
   Classes, SysUtils, syncobjs, uLng,
   uFileSourceOperationOptionsUI,
   uFileSourceOperationTypes,
-  uFileSourceOperationUI;
+  uFileSourceOperationUI,
+  uFile;
 
 type
 
@@ -75,11 +76,14 @@ type
       function(Msg: String; Question: String;
                PossibleResponses: array of TFileSourceOperationUIResponse;
                DefaultOKResponse: TFileSourceOperationUIResponse;
-               DefaultCancelResponse: TFileSourceOperationUIResponse
-             ) : TFileSourceOperationUIResponse of object;
+               DefaultCancelResponse: TFileSourceOperationUIAnswer;
+               ActionHandler: TFileSourceOperationUIActionHandler = nil
+             ) : TFileSourceOperationUIAnswer of object;
   TAbortOperationFunction = procedure of object;
   TCheckOperationStateFunction = procedure of object;
   TAppProcessMessagesFunction = function(CheckState: Boolean = False): Boolean of object;
+  TShowCompareFilesUIFunction = procedure(SourceFile: TFile; const TargetFilePath: String) of object;
+  TShowCompareFilesUIByFileObjectFunction = procedure(SourceFile: TFile; TargetFile: TFile) of object;
 
   TFileSourceOperationClass = class of TFileSourceOperation;
   {en
@@ -171,8 +175,9 @@ type
     FUIQuestion: String;
     FUIPossibleResponses: array of TFileSourceOperationUIResponse;
     FUIDefaultOKResponse: TFileSourceOperationUIResponse;
-    FUIDefaultCancelResponse: TFileSourceOperationUIResponse;
-    FUIResponse: TFileSourceOperationUIResponse;
+    FUIDefaultCancelResponse: TFileSourceOperationUIAnswer;
+    FUIActionHandler: TFileSourceOperationUIActionHandler;
+    FUIResponse: TFileSourceOperationUIAnswer;
     FTryAskQuestionResult: Boolean;
 
     {en
@@ -317,8 +322,9 @@ type
                Msg: String; Question: String;
                PossibleResponses: array of TFileSourceOperationUIResponse;
                DefaultOKResponse: TFileSourceOperationUIResponse;
-               DefaultCancelResponse: TFileSourceOperationUIResponse
-             ) : TFileSourceOperationUIResponse;
+               DefaultCancelResponse: TFileSourceOperationUIAnswer;
+               ActionHandler: TFileSourceOperationUIActionHandler = nil
+             ) : TFileSourceOperationUIAnswer;
 
     {en
        Remember statistics at start time (used for estimating remaining time).
@@ -1173,7 +1179,9 @@ function TFileSourceOperation.AskQuestion(
              Msg: String; Question: String;
              PossibleResponses: array of TFileSourceOperationUIResponse;
              DefaultOKResponse: TFileSourceOperationUIResponse;
-             DefaultCancelResponse: TFileSourceOperationUIResponse): TFileSourceOperationUIResponse;
+             DefaultCancelResponse: TFileSourceOperationUIAnswer;
+             ActionHandler: TFileSourceOperationUIActionHandler = nil
+           ) : TFileSourceOperationUIAnswer;
 var
   i: Integer;
   bStateChanged: Boolean = False;
@@ -1203,6 +1211,7 @@ begin
     FUIPossibleResponses[i] := PossibleResponses[i];
   FUIDefaultOKResponse := DefaultOKResponse;
   FUIDefaultCancelResponse := DefaultCancelResponse;
+  FUIActionHandler := ActionHandler;
 
   if GetCurrentThreadID <> MainThreadID then
   begin
@@ -1280,7 +1289,8 @@ begin
                       FUIQuestion,
                       FUIPossibleResponses,
                       FUIDefaultOKResponse,
-                      FUIDefaultCancelResponse);
+                      FUIDefaultCancelResponse,
+                      FUIActionHandler);
 
     FTryAskQuestionResult := True;  // We do have an answer now.
   end;

@@ -116,6 +116,7 @@ begin
                         @RaiseAbortOperation,
                         @CheckOperationState,
                         @UpdateStatistics,
+                        @ShowCompareFilesUI,
                         g_file_copy,
                         TargetPath);
 
