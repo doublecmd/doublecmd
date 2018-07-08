@@ -137,6 +137,7 @@ begin
                         @AppProcessMessages,
                         @CheckOperationState,
                         @UpdateStatistics,
+                        @ShowCompareFilesUI,
                         Thread,
                         fsohmMove,
                         TargetPath,

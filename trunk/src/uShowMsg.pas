@@ -54,8 +54,13 @@ type
                 msmbAppend, msmbResume, msmbCopyInto, msmbCopyIntoAll,
                 msmbOverwrite, msmbOverwriteAll, msmbOverwriteOlder,
                 msmbOverwriteSmaller, msmbOverwriteLarger, msmbAutoRenameSource, msmbRenameSource,
-                msmbSkip, msmbSkipAll, msmbIgnore, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort, msmbRetryAdmin);
+                msmbSkip, msmbSkipAll, msmbIgnore, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort, msmbRetryAdmin,
+                // Actions, they do not close the form and therefore have no corresponding result value:
+                msmbCompare);
 
+  TMyMsgActionButton = msmbCompare..High(TMyMsgButton);
+
+  TMyMsgActionHandler = procedure(Button: TMyMsgActionButton) of object;
 
   { TDialogMainThread }
 
@@ -103,7 +108,7 @@ procedure msgWarning(Thread: TThread; const sMsg: String); overload;
 procedure msgError(const sMsg: String); overload;
 procedure msgError(Thread: TThread; const sMsg: String); overload;
 
-function MsgBox(const sMsg: String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton): TMyMsgResult; overload;
+function MsgBox(const sMsg: String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton; ActionHandler: TMyMsgActionHandler = nil): TMyMsgResult; overload;
 function MsgBox(Thread: TThread; const sMsg: String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton): TMyMsgResult; overload;
 
 function MsgTest:TMyMsgResult;
@@ -284,7 +289,10 @@ begin
       Caption:= cLngButton[Buttons[iIndex]];
       Parent:= frmMsg.pnlButtons;
       Constraints.MinWidth:= MinButtonWidth;
-      Tag:= iIndex;
+      if Buttons[iIndex] >= Low(TMyMsgActionButton) then
+        Tag:= -2-iIndex
+      else
+        Tag:= iIndex;
       OnClick:= frmMsg.ButtonClick;
       OnMouseUp:= frmMsg.MouseUpEvent;
       if Buttons[iIndex] = ButDefault then
@@ -309,9 +317,13 @@ begin
     for iIndex:= 0 to pred(frmMsg.ComponentCount) do
     begin
       if frmMsg.Components[iIndex] is TButton then
-      begin
-        with frmMsg.Components[iIndex] as TButton do TabOrder:=(tag+(iCount+1)-iIndexDefault) mod (iCount+1); //Tricky but it does it, no "if", no negative after to check, etc.
-      end;
+        with frmMsg.Components[iIndex] as TButton do
+        begin
+          if Tag >= 0 then
+            TabOrder:= (Tag+(iCount+1)-iIndexDefault) mod (iCount+1) //Tricky but it does it, no "if", no negative after to check, etc.
+          else
+            TabOrder:= (-2-Tag+(iCount+1)-iIndexDefault) mod (iCount+1);
+        end;
     end;
   end;
 
@@ -333,7 +345,10 @@ begin
       MenuItem:= TMenuItem.Create(frmMsg.mnuOther);
       with MenuItem do
       begin
-        Tag:= iIndex;
+        if Buttons[iIndex] >= Low(TMyMsgActionButton) then
+          Tag:= -2-iIndex
+        else
+          Tag:= iIndex;
         Caption:= cLngButton[Buttons[iIndex]];
         OnClick:= frmMsg.ButtonClick;
         frmMsg.mnuOther.Items.Add(MenuItem);
@@ -342,14 +357,33 @@ begin
   end;
 end;
 
-function MsgBox(const sMsg: String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TMyMsgResult;
+type TMsgBoxHelper = class
+  Buttons: array of TMyMsgButton;
+  ActionHandler: TMyMsgActionHandler;
+  procedure MsgBoxActionHandler(Tag: PtrInt);
+end;
+
+procedure TMsgBoxHelper.MsgBoxActionHandler(Tag: PtrInt);
+begin
+  ActionHandler(Buttons[-Tag-2]);
+end;
+
+function MsgBox(const sMsg: String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton; ActionHandler: TMyMsgActionHandler = nil): TMyMsgResult;
 var
   frmMsg:TfrmMsg;
+  MsgBoxHelper: TMsgBoxHelper = nil;
+  I: Integer;
 begin
   frmMsg:=TfrmMsg.Create(Application);
   try
+    MsgBoxHelper := TMsgBoxHelper.Create();
+    SetLength(MsgBoxHelper.Buttons, Length(Buttons));
+    for I := Low(Buttons) to High(Buttons) do
+      MsgBoxHelper.Buttons[I] := Buttons[I];
+    MsgBoxHelper.ActionHandler := ActionHandler;
+    frmMsg.ActionHandler := MsgBoxHelper.MsgBoxActionHandler;
   
-   SetMsgBoxParams(frmMsg, sMsg, Buttons, ButDefault, ButEscape);
+    SetMsgBoxParams(frmMsg, sMsg, Buttons, ButDefault, ButEscape);
   
     frmMsg.ShowModal;
     if (frmMsg.iSelected)=-1 then
@@ -360,6 +394,7 @@ begin
       Result:=TMyMsgResult(Buttons[frmMsg.iSelected]);
   finally
     frmMsg.Free;
+    MsgBoxHelper.Free;
   end;
 end;
 
@@ -810,6 +845,7 @@ begin
   cLngButton[msmbRetry]            := rsDlgButtonRetry;
   cLngButton[msmbAbort]            := rsDlgButtonAbort;
   cLngButton[msmbRetryAdmin]       := rsDlgButtonRetryAdmin;
+  cLngButton[msmbCompare]          := rsDlgButtonCompare;
 
   for I:= Low(TMyMsgButton) to High(TMyMsgButton) do
   begin

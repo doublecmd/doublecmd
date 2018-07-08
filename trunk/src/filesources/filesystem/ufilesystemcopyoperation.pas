@@ -172,6 +172,7 @@ begin
                         @AppProcessMessages,
                         @CheckOperationState,
                         @UpdateStatistics,
+                        @ShowCompareFilesUI,
                         Thread,
                         fsohmCopy,
                         TargetPath,

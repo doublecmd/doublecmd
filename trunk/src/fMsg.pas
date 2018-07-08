@@ -17,10 +17,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-  private
-    { Private declarations }
   public
-    { Public declarations }
+    ActionHandler: procedure(Tag: PtrInt) of object;
     Escape: Integer;
     iSelected: Integer;
     procedure ButtonClick(Sender:TObject);
@@ -44,7 +42,7 @@ end;
 
 procedure TfrmMsg.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  if (iSelected < 0) and (Escape >= 0) then iSelected:= Escape;
+  if (iSelected = -1) and (Escape >= 0) then iSelected:= Escape;
 end;
 
 procedure TfrmMsg.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -73,9 +71,20 @@ begin
 end;
 
 procedure TfrmMsg.ButtonClick(Sender: TObject);
+var
+  aTag: PtrInt;
 begin
-  iSelected:= (Sender as TComponent).Tag;
-  Close;
+  aTag:= (Sender as TComponent).Tag;
+  if (aTag < -1) then
+  begin
+    if Assigned(ActionHandler) then
+      ActionHandler(aTag);
+  end
+  else
+  begin
+    iSelected:= aTag;
+    Close;
+  end;
 end;
 
 procedure TfrmMsg.MouseUpEvent(Sender: TObject; Button: TMouseButton;
@@ -84,8 +93,7 @@ begin
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
   begin
-    iSelected:= (Sender as TButton).Tag;
-    Close;
+    ButtonClick(Sender);
   end;
 {$ENDIF}
 end;

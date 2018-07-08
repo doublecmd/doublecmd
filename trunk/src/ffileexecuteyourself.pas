@@ -52,7 +52,7 @@ type
     destructor Destroy; override;
   end; 
 
-  procedure ShowFileEditExternal(const FileName, FromPath: string; aWaitData: TWaitData);
+  procedure ShowFileEditExternal(const FileName, FromPath: string; aWaitData: TWaitData; Modal: Boolean = False);
   function ShowFileExecuteYourSelf(aFileView: TFileView; aFile: TFile; bWithAll: Boolean): Boolean;
 
 implementation
@@ -62,14 +62,17 @@ implementation
 uses
   DCOSUtils, DCStrUtils, uTempFileSystemFileSource, uFileSourceOperation, uShellExecute;
 
-procedure ShowFileEditExternal(const FileName, FromPath: string; aWaitData: TWaitData);
+procedure ShowFileEditExternal(const FileName, FromPath: string; aWaitData: TWaitData; Modal: Boolean = False);
 begin
   // Create wait window
   with TfrmFileExecuteYourSelf.Create(Application, nil, FileName, FromPath) do
   begin
     FWaitData:= aWaitData;
     // Show wait window
-    Visible := True;
+    if Modal then
+      ShowModal
+    else
+      Visible := True;
   end;
 end;
 

@@ -249,7 +249,7 @@ type
     procedure cm_SaveRight(const Params: array of string);
   end; 
 
-procedure ShowDiffer(const FileNameLeft, FileNameRight: String; WaitData: TWaitData = nil);
+procedure ShowDiffer(const FileNameLeft, FileNameRight: String; WaitData: TWaitData = nil; Modal: Boolean = False);
 
 implementation
 
@@ -262,7 +262,7 @@ uses
 const
   HotkeysCategory = 'Differ';
 
-procedure ShowDiffer(const FileNameLeft, FileNameRight: String; WaitData: TWaitData = nil);
+procedure ShowDiffer(const FileNameLeft, FileNameRight: String; WaitData: TWaitData = nil; Modal: Boolean = False);
 begin
   with TfrmDiffer.Create(Application) do
   begin
@@ -278,7 +278,13 @@ begin
       OpenFileRight(FileNameRight);
       if actAutoCompare.Checked then actStartCompare.Execute;
     end;
-    if actBinaryCompare.Checked or (FShowIdentical = False) then ShowOnTop;
+    if actBinaryCompare.Checked or (FShowIdentical = False) then
+    begin
+      if Modal then
+        ShowModal
+      else
+        ShowOnTop;
+    end;
   end;
 end;
 

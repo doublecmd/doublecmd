@@ -13,6 +13,7 @@ uses
   uFile,
   uWcxModule,
   uWcxArchiveFileSource,
+  uFileSourceOperationUI,
   uFileSourceOperationOptions,
   uFileSourceOperationOptionsUI;
 
@@ -44,6 +45,10 @@ type
     function Tar: Boolean;
     procedure SetProcessDataProc(hArcData: TArcHandle);
 
+  protected
+    FCurrentFile: TFile;
+    FCurrentTargetFilePath: String;
+    procedure QuestionActionHandler(Action: TFileSourceOperationUIAction);
     function FileExistsMessage(aSourceFile: TFile; aTargetHeader: TWcxHeader): String;
     function FileExists(aSourceFile: TFile; aTargetHeader: TWcxHeader): TFileSourceOperationOptionFileExists;
 
@@ -71,7 +76,7 @@ implementation
 
 uses
   LazUTF8, FileUtil, StrUtils, DCStrUtils, uLng, uShowMsg, fWcxArchiveCopyOperationOptions,
-  uFileSystemFileSource, uFileSourceOperationUI, uFileSystemUtil, DCOSUtils, uTarWriter,
+  uFileSystemFileSource, DCOSUtils, uTarWriter,
   DCConvertEncoding, DCDateTimeUtils, uArchiveFileSourceUtil;
 
 // ----------------------------------------------------------------------------
@@ -407,6 +412,13 @@ begin
   end;
 end;
 
+procedure TWcxArchiveCopyInOperation.QuestionActionHandler(
+  Action: TFileSourceOperationUIAction);
+begin
+  if Action = fsouaCompare then
+    ShowCompareFilesUI(FCurrentFile, IncludeFrontPathDelimiter(FCurrentTargetFilePath));
+end;
+
 function TWcxArchiveCopyInOperation.FileExistsMessage(aSourceFile: TFile; aTargetHeader: TWcxHeader): String;
 begin
   Result:= rsMsgFileExistsOverwrite + LineEnding + aTargetHeader.FileName + LineEnding;
@@ -421,10 +433,10 @@ end;
 function TWcxArchiveCopyInOperation.FileExists(aSourceFile: TFile;
   aTargetHeader: TWcxHeader): TFileSourceOperationOptionFileExists;
 const
-  PossibleResponses: array[0..7] of TFileSourceOperationUIResponse
+  PossibleResponses: array[0..8] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourOverwriteLarger,
        fsourOverwriteAll, fsourSkipAll, fsourOverwriteSmaller,
-       fsourOverwriteOlder, fsourCancel);
+       fsourOverwriteOlder, fsouaCompare, fsourCancel);
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
   begin
@@ -454,8 +466,11 @@ begin
   case FFileExistsOption of
     fsoofeNone:
       begin
+        FCurrentFile := aSourceFile;
+        FCurrentTargetFilePath := aTargetHeader.FileName;
         case AskQuestion(FileExistsMessage(aSourceFile, aTargetHeader), '',
-                         PossibleResponses, fsourOverwrite, fsourSkip) of
+                         PossibleResponses, fsourOverwrite, fsourSkip,
+                         @QuestionActionHandler) of
           fsourOverwrite:
             Result := fsoofeOverwrite;
           fsourSkip:

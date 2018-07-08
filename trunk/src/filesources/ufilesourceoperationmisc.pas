@@ -69,7 +69,8 @@ end;
 
 procedure ShowOperationModal(OpManItem: TOperationsManagerItem);
 begin
-  with TfrmFileOp.Create(OpManItem.Queue.Identifier) do
+//  with TfrmFileOp.Create(OpManItem.Queue.Identifier) do
+  with TfrmFileOp.Create(OpManItem.Handle) do
   try
     ShowModal;
   finally

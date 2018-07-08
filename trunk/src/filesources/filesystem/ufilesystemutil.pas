@@ -83,11 +83,15 @@ type
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
 
+    FCurrentFile: TFile;
+    FCurrentTargetFilePath: String;
+
     AskQuestion: TAskQuestionFunction;
     AbortOperation: TAbortOperationFunction;
     CheckOperationState: TCheckOperationStateFunction;
     UpdateStatistics: TUpdateStatisticsFunction;
     AppProcessMessages: TAppProcessMessagesFunction;
+    ShowCompareFilesUI: TShowCompareFilesUIFunction;
     MoveOrCopy: TFileSystemOperationHelperMoveOrCopy;
 
     procedure ShowError(sMessage: String);
@@ -109,6 +113,7 @@ type
                        AbsoluteTargetFileName: String;
                        AllowCopyInto: Boolean;
                        AllowDelete: Boolean): TFileSourceOperationOptionDirectoryExists;
+    procedure QuestionActionHandler(Action: TFileSourceOperationUIAction);
     function FileExists(aFile: TFile;
                         var AbsoluteTargetFileName: String;
                         AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
@@ -121,6 +126,8 @@ type
                        AppProcessMessagesFunction: TAppProcessMessagesFunction;
                        CheckOperationStateFunction: TCheckOperationStateFunction;
                        UpdateStatisticsFunction: TUpdateStatisticsFunction;
+                       ShowCompareFilesUIFunction: TShowCompareFilesUIFunction;
+
                        OperationThread: TThread;
                        Mode: TFileSystemOperationHelperMode;
                        TargetPath: String;
@@ -315,6 +322,7 @@ constructor TFileSystemOperationHelper.Create(
   AppProcessMessagesFunction: TAppProcessMessagesFunction;
   CheckOperationStateFunction: TCheckOperationStateFunction;
   UpdateStatisticsFunction: TUpdateStatisticsFunction;
+  ShowCompareFilesUIFunction: TShowCompareFilesUIFunction;
   OperationThread: TThread; Mode: TFileSystemOperationHelperMode;
   TargetPath: String; StartingStatistics: TFileSourceCopyOperationStatistics);
 begin
@@ -323,6 +331,7 @@ begin
   AppProcessMessages := AppProcessMessagesFunction;
   CheckOperationState := CheckOperationStateFunction;
   UpdateStatistics := UpdateStatisticsFunction;
+  ShowCompareFilesUI := ShowCompareFilesUIFunction;
 
   FOperationThread := OperationThread;
   FMode := Mode;
@@ -1355,18 +1364,26 @@ begin
       Result := FDirExistsOption;
 end;
 
+procedure TFileSystemOperationHelper.QuestionActionHandler(
+  Action: TFileSourceOperationUIAction);
+begin
+  if Action = fsouaCompare then
+    ShowCompareFilesUI(FCurrentFile, FCurrentTargetFilePath);
+end;
+
 function TFileSystemOperationHelper.FileExists(aFile: TFile;
   var AbsoluteTargetFileName: String; AllowAppend: Boolean
   ): TFileSourceOperationOptionFileExists;
 const
-  Responses: array[0..11] of TFileSourceOperationUIResponse
+  Responses: array[0..12] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourRenameSource, fsourOverwriteAll,
-       fsourSkipAll, fsourResume, fsourOverwriteOlder, fsourCancel, fsourAppend,
-       fsourOverwriteSmaller, fsourOverwriteLarger, fsourAutoRenameSource);
-  ResponsesNoAppend: array[0..9] of TFileSourceOperationUIResponse
+       fsourSkipAll, fsourResume, fsourOverwriteOlder, fsourCancel,
+       fsouaCompare, fsourAppend, fsourOverwriteSmaller, fsourOverwriteLarger,
+       fsourAutoRenameSource);
+  ResponsesNoAppend: array[0..10] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourRenameSource,  fsourOverwriteAll,
        fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
-       fsourOverwriteLarger, fsourAutoRenameSource);
+       fsouaCompare, fsourOverwriteLarger, fsourAutoRenameSource);
 var
   Answer: Boolean;
   Message: String;
@@ -1407,8 +1424,11 @@ begin
         end;
         Message:= FileExistsMessage(AbsoluteTargetFileName, aFile.FullPath,
                                     aFile.Size, aFile.ModificationTime);
+        FCurrentFile := aFile;
+        FCurrentTargetFilePath := AbsoluteTargetFileName;
         case AskQuestion(Message, '',
-                         PossibleResponses, fsourOverwrite, fsourSkip) of
+                         PossibleResponses, fsourOverwrite, fsourSkip,
+                         @QuestionActionHandler) of
           fsourOverwrite:
             Result := fsoofeOverwrite;
           fsourSkip:

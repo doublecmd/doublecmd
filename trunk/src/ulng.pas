@@ -364,6 +364,7 @@ resourcestring
   rsDlgButtonAbort = 'Ab&ort';
   rsDlgButtonOther = 'Ot&her';
   rsDlgButtonRetryAdmin = 'As Ad&ministrator';
+  rsDlgButtonCompare = 'Compare &by content';
 
   rsDlgButtonContinue = '&Continue';
   rsDlgButtonExitProgram = 'E&xit program';
