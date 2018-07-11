@@ -1111,23 +1111,21 @@ end;
 procedure TfrmMain.btnF3MouseWheelDown(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  if (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size>MIN_FONT_SIZE_FUNCTION_BUTTONS) then
+  if (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size > MIN_FONT_SIZE_FUNCTION_BUTTONS) then
   begin
-    dec(gFonts[dcfFunctionButtons].Size);
-    pnlKeys.Height:=pnlKeys.Height-1;
+    Dec(gFonts[dcfFunctionButtons].Size);
+    UpdateGUIFunctionKeys;
   end;
-  UpdateGUIFunctionKeys;
 end;
 
 procedure TfrmMain.btnF3MouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  if (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size<MAX_FONT_SIZE_FUNCTION_BUTTONS) then
+  if (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size < MAX_FONT_SIZE_FUNCTION_BUTTONS) then
   begin
-    inc(gFonts[dcfFunctionButtons].Size);
-    pnlKeys.Height:=pnlKeys.Height+1;
+    Inc(gFonts[dcfFunctionButtons].Size);
+    UpdateGUIFunctionKeys;
   end;
-  UpdateGUIFunctionKeys;
 end;
 
 procedure TfrmMain.btnF8MouseDown(Sender: TObject; Button: TMouseButton;
