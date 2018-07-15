@@ -1056,7 +1056,8 @@ begin
     begin
       case TWdxField(FieldList.Objects[FieldIndex]).FType of
         ft_string,
-        ft_fulltext:
+        ft_fulltext,
+        ft_multiplechoice:
           Result := StrPas(lua_tostring(L, -1));
         ft_numeric_32:
           Result := Int32(lua_tointeger(L, -1));
@@ -1097,7 +1098,8 @@ begin
     begin
       case TWdxField(FieldList.Objects[FieldIndex]).FType of
         ft_string,
-        ft_fulltext:
+        ft_fulltext,
+        ft_multiplechoice:
           Result := lua_tostring(L, -1);
         ft_numeric_32:
           Result := IntToStr(Int32(lua_tointeger(L, -1)));
