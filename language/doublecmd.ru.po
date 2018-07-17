@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.9.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2018-06-20 20:10+0300\n"
+"PO-Revision-Date: 2018-07-06 23:10+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2404,7 +2404,7 @@ msgstr "Попробовать открыть архив"
 
 #: tfrmmain.actopenbar.caption
 msgid "Open bar file"
-msgstr "Открыть bar-файл"
+msgstr "Открыть BAR-файл"
 
 #: tfrmmain.actopendirinnewtab.caption
 msgid "Open &Folder in a New Tab"
@@ -3075,7 +3075,7 @@ msgstr "&Категории:"
 
 #: tfrmmaincommandsdlg.lblcommandname.caption
 msgid "Command &name:"
-msgstr "&Название команды:"
+msgstr "Кома&нда:"
 
 #: tfrmmaincommandsdlg.lbledtfilter.editlabel.caption
 msgid "&Filter:"
@@ -3460,11 +3460,11 @@ msgstr "[MM] Месяц (2 цифры)"
 
 #: tfrmmultirename.mimonth2.caption
 msgid "[MMM] Month name (short, e.g., \"jan\")"
-msgstr "[MMM] Наименование месяца (краткий, т.е., \"янв\")"
+msgstr "[MMM] Название месяца (краткое, т.е., \"янв\")"
 
 #: tfrmmultirename.mimonth3.caption
 msgid "[MMMM] Month name (long, e.g., \"january\")"
-msgstr "[MMMM] Наименование месяца (полный, т.е., \"Январь\")"
+msgstr "[MMMM] Название месяца (полное, т.е., \"Январь\")"
 
 #: tfrmmultirename.miname.caption
 msgid "[N] Name"
@@ -3642,7 +3642,7 @@ msgstr "Настройки"
 
 #: tfrmoptions.lblemptyeditor.caption
 msgid "Please select one of the subpages, this page does not contain any settings."
-msgstr "Выберите одну из подстраниц, эта страница не содержит никаких настроек"
+msgstr "Выберите одну из подстраниц, эта страница не содержит никаких настроек."
 
 #: tfrmoptionsarchivers.btnarchiveradd.caption
 msgctxt "tfrmoptionsarchivers.btnarchiveradd.caption"
@@ -4682,7 +4682,7 @@ msgstr "Развернуть все ветки"
 
 #: tfrmoptionsdirectoryhotlist.actpaste.caption
 msgid "Paste what was cut"
-msgstr "Вставить вырезаннное"
+msgstr "Вставить вырезанное"
 
 #: tfrmoptionsdirectoryhotlist.actsearchandreplaceinpath.caption
 msgid "Search && replace in &path"
@@ -4964,11 +4964,11 @@ msgstr "Список дисков"
 
 #: tfrmoptionseditor.chkautoindent.caption
 msgid "Auto Indent"
-msgstr ""
+msgstr "Автоматический отступ"
 
 #: tfrmoptionseditor.chkautoindent.hint
 msgid "Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line"
-msgstr ""
+msgstr "При нажатии клавиши Enter новая строка будет создана с тем же отступом, что и у предыдущей"
 
 #: tfrmoptionseditor.chkscrollpastendline.caption
 msgid "Caret past end of line"
@@ -4976,7 +4976,7 @@ msgstr "Прокручивать за конец строки"
 
 #: tfrmoptionseditor.chkscrollpastendline.hint
 msgid "Allows caret to go into empty space beyond end-of-line position"
-msgstr ""
+msgstr "Позволяет перемещать каретку в пустое пространство за пределом конца строки"
 
 #: tfrmoptionseditor.chkshowspecialchars.caption
 msgid "Show special characters"
@@ -4984,31 +4984,31 @@ msgstr "Показывать специальные символы"
 
 #: tfrmoptionseditor.chkshowspecialchars.hint
 msgid "Shows special characters for spaces and tabulations"
-msgstr ""
+msgstr "Пробелы и табуляции будут обозначаться специальными символами"
 
 #: tfrmoptionseditor.chktabindent.caption
 msgid "Tab indents blocks"
-msgstr ""
+msgstr "Tab меняет отступ блоков"
 
 #: tfrmoptionseditor.chktabindent.hint
 msgid "When active <Tab> and <Shift+Tab> act as block indent, unindent when text is selected"
-msgstr ""
+msgstr "Нажатия клавиш Tab и Shift+Tab соответственно увеличивают и уменьшают отступ выделенного текста"
 
 #: tfrmoptionseditor.chktabstospaces.caption
 msgid "Use spaces instead tab characters"
-msgstr ""
+msgstr "Использовать пробелы вместо символов табуляции"
 
 #: tfrmoptionseditor.chktabstospaces.hint
 msgid "Converts tab characters to a specified number of space characters (when entering)"
-msgstr ""
+msgstr "Конвертировать символы табуляции в заданное количество пробелов (при вводе)"
 
 #: tfrmoptionseditor.chktrimtrailingspaces.caption
 msgid "Delete trailing spaces"
-msgstr ""
+msgstr "Удалять концевые пробелы"
 
 #: tfrmoptionseditor.chktrimtrailingspaces.hint
 msgid "Auto delete trailing spaces, this applies only to edited lines"
-msgstr ""
+msgstr "Автоматическое удаление концевых пробелов, применяется только к редактируемым строкам"
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
@@ -7632,7 +7632,7 @@ msgstr "&Маска:"
 #: tfrmoptionstooltips.lblfieldsname.caption
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
 msgid "Category &name:"
-msgstr "&Наименование:"
+msgstr "&Имя:"
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfromdoubleclick.caption
 msgid "With double-click on the bar on top of a file panel"
@@ -11506,7 +11506,7 @@ msgstr "Использовать кодировку UTF-8"
 
 #: ulng.rsoptarchiverwheretosave
 msgid "Enter location and filename where to save archiver configuration"
-msgstr "Укажите место и имя файла для сохранения настроек архивтора(ов)"
+msgstr "Укажите место и имя файла для сохранения настроек архиватора(ов)"
 
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
@@ -12282,7 +12282,7 @@ msgstr "Проcмотр"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr "Пожалуйста, сообщите о данной ошибке на багтрекер с описанием ваших действий и файлом:%sНажмите %s для продолжения работы или %s для выхода из программы."
+msgstr "Пожалуйста, сообщите о данной ошибке на баг-трекер с описанием ваших действий и файлом:%sНажмите %s для продолжения работы или %s для выхода из программы."
 
 #: ulng.rsvarbothpanelactivetoinactive
 msgid "Both panels, from active to inactive"
