@@ -258,7 +258,7 @@ begin
   Result:= CryptProc(PluginNumber, CryptoNumber, Mode, PWideChar(AConnection), PWideChar(APassword), MAX_PATH);
   if (Mode = FS_CRYPT_LOAD_PASSWORD) or (Mode = FS_CRYPT_LOAD_PASSWORD_NO_UI) then
   begin
-    Password:= UTF16ToUTF8(APassword);
+    Password:= UTF16ToUTF8(PWideChar(APassword)); // truncate to #0
   end;
 end;
 
