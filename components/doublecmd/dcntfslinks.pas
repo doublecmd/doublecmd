@@ -47,6 +47,7 @@ const
   FILE_DOES_NOT_EXIST = DWORD(-1);
   wsLongFileNamePrefix = UnicodeString('\\?\');
   wsNativeFileNamePrefix = UnicodeString('\??\');
+  wsNetworkFileNamePrefix = UnicodeString('\??\UNC\');
 
 type
   {$packrecords c}
@@ -277,7 +278,7 @@ begin
     hDevice:= CreateFileW(PWideChar(aSymlinkFileName),
                           GENERIC_WRITE, 0, nil, OPEN_EXISTING,
                           FILE_FLAG_BACKUP_SEMANTICS or FILE_FLAG_OPEN_REPARSE_POINT, 0);
-    if hDevice = INVALID_HANDLE_VALUE then Exit;
+    if hDevice = INVALID_HANDLE_VALUE then Exit(False);
     if Pos(wsLongFileNamePrefix, aTargetFileName) <> 1 then
       wsNativeFileName:= wsNativeFileNamePrefix + aTargetFileName
     else begin
@@ -344,7 +345,7 @@ begin
     if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
       Result:= _CreateSymLink_New(ATargetName, ALinkName, SYMBOLIC_LINK_FLAG_FILE)
     else begin
-      if not MayCreateSymLink then
+      if (not MayCreateSymLink) and (Pos('\\', AFullPathName) = 0) then
         Result:= _CreateSymLink_Old(AFullPathName, ALinkName)
       else begin
         Result:= _CreateSymLink_New(ATargetName, ALinkName, SYMBOLIC_LINK_FLAG_DIRECTORY);
@@ -406,7 +407,9 @@ begin
           CopyMemory(PWideChar(aTargetFileName), pwcTargetFileName, SubstituteNameLength);
         end;
       end;
-      if Pos(wsNativeFileNamePrefix, aTargetFileName) = 1 then
+      if Pos(wsNetworkFileNamePrefix, aTargetFileName) = 1 then
+        Delete(aTargetFileName, 2, Length(wsNetworkFileNamePrefix) - 2)
+      else if Pos(wsNativeFileNamePrefix, aTargetFileName) = 1 then
         Delete(aTargetFileName, 1, Length(wsNativeFileNamePrefix));
     end;
   end;

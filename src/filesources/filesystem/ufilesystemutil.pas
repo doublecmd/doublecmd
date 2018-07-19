@@ -936,10 +936,10 @@ begin
       end;
     end;
 
-    if aFile.IsDirectory then
-      ProcessedOk := ProcessDirectory(CurrentSubNode, TargetName)
-    else if aFile.IsLink then
+    if aFile.IsLink then
       ProcessedOk := ProcessLink(CurrentSubNode, TargetName)
+    else if aFile.IsDirectory then
+      ProcessedOk := ProcessDirectory(CurrentSubNode, TargetName)
     else
       ProcessedOk := ProcessFile(CurrentSubNode, TargetName);
 
