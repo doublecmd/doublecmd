@@ -40,6 +40,7 @@ type
     procedure SetGridVertLine(const AValue: Boolean);
 
   protected
+    procedure DoMouseMoveScroll(X, Y: Integer);
     {$IF lcl_fullversion < 1080003}
     function SelectCell(aCol, aRow: Integer): Boolean; override;
     {$ENDIF}
@@ -47,6 +48,8 @@ type
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
+    procedure DragOver(Source: TObject; X,Y: Integer; State: TDragState;
+                       var Accept: Boolean); override;
 
     procedure InitializeWnd; override;
     procedure FinalizeWnd; override;
@@ -1932,6 +1935,12 @@ begin
     end;
 end;
 
+procedure TDrawGridEx.DragOver(Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  inherited DragOver(Source, X, Y, State, Accept);
+  DoMouseMoveScroll(X, Y);
+end;
+
 procedure TDrawGridEx.MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer);
 begin
   if ColumnsView.IsLoadingFileList then Exit;
@@ -1949,28 +1958,9 @@ begin
 end;
 
 procedure TDrawGridEx.MouseMove(Shift: TShiftState; X, Y: Integer);
-  procedure Scroll(ScrollCode: SmallInt);
-  var
-    Msg: TLMVScroll;
-  begin
-    Msg.Msg := LM_VSCROLL;
-    Msg.ScrollCode := ScrollCode;
-    Msg.SmallPos := 1; // How many lines scroll
-    Msg.ScrollBar := Handle;
-    Dispatch(Msg);
-  end;
 begin
   inherited MouseMove(Shift, X, Y);
-  if DragManager.IsDragging or ColumnsView.IsMouseSelecting then
-  begin
-    if Y < DefaultRowHeight then
-      Scroll(SB_LINEUP)
-    else if (Y > ClientHeight - DefaultRowHeight) and (Y - 1 > FMouseDownY) then
-    begin
-      FMouseDownY := -1;
-      Scroll(SB_LINEDOWN);
-    end;
-  end;
+  if ColumnsView.IsMouseSelecting then DoMouseMoveScroll(X, Y);
 end;
 
 function TDrawGridEx.MouseOnGrid(X, Y: LongInt): Boolean;
@@ -2067,6 +2057,29 @@ function TDrawGridEx.IsRowVisible(aRow: Integer): Boolean;
 begin
   with GCache.FullVisibleGrid do
     Result:= (Top<=aRow)and(aRow<=Bottom);
+end;
+
+procedure TDrawGridEx.DoMouseMoveScroll(X, Y: Integer);
+
+  procedure Scroll(ScrollCode: SmallInt);
+  var
+    Msg: TLMVScroll;
+  begin
+    Msg.Msg := LM_VSCROLL;
+    Msg.ScrollCode := ScrollCode;
+    Msg.SmallPos := 1; // How many lines scroll
+    Msg.ScrollBar := Handle;
+    Dispatch(Msg);
+  end;
+
+begin
+  if Y < DefaultRowHeight then
+    Scroll(SB_LINEUP)
+  else if (Y > ClientHeight - DefaultRowHeight) and (Y - 1 > FMouseDownY) then
+  begin
+    FMouseDownY := -1;
+    Scroll(SB_LINEDOWN);
+  end;
 end;
 
 procedure TDrawGridEx.KeyDown(var Key: Word; Shift: TShiftState);
