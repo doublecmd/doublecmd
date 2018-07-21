@@ -9472,6 +9472,10 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "&Mégsem"
 
+#: ulng.rsdlgbuttoncompare
+msgid "Compare &by content"
+msgstr ""
+
 #: ulng.rsdlgbuttoncontinue
 msgid "&Continue"
 msgstr "&Folytat"
