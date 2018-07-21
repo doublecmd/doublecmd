@@ -735,7 +735,7 @@ begin
             lpVerb  := PAnsiChar(PtrUInt(cmd - 1));
             {$POP}
             nShow := SW_NORMAL;
-            if Assigned(FFiles) then
+            if Assigned(FFiles) and (FFiles[0].Path <> FFiles[0].FullPath) then
             begin
               lpDirectory := PAnsiChar(CeUtf8ToSys(sVolumeLabel));
               lpDirectoryW := PWideChar(UTF8ToUTF16(sVolumeLabel));
