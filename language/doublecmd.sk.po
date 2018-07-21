@@ -10283,6 +10283,10 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "&Zrušiť"
 
+#: ulng.rsdlgbuttoncompare
+msgid "Compare &by content"
+msgstr ""
+
 #: ulng.rsdlgbuttoncontinue
 msgid "&Continue"
 msgstr "Pokračovať"

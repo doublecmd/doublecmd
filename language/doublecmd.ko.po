@@ -9584,6 +9584,10 @@ msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
 msgstr "취소(&C)"
 
+#: ulng.rsdlgbuttoncompare
+msgid "Compare &by content"
+msgstr ""
+
 #: ulng.rsdlgbuttoncontinue
 msgid "&Continue"
 msgstr "계속(&C)"
