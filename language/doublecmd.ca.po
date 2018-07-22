@@ -9947,6 +9947,111 @@ msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Selecciona tot"
 
+#: tfrmviewoperations.btnstartpause.caption
+#, fuzzy
+#| msgid "Start"
+msgctxt "tfrmviewoperations.btnstartpause.caption"
+msgid "&Start"
+msgstr "Inicia"
+
+#: tfrmviewoperations.btnstop.caption
+msgid "S&top"
+msgstr ""
+
+#: tfrmviewoperations.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.caption"
+msgid "File operations"
+msgstr "Operacions amb fitxers"
+
+#: tfrmviewoperations.cbalwaysontop.caption
+msgid "Always on top"
+msgstr ""
+
+#: tfrmviewoperations.lblusedragdrop.caption
+msgid "&Use \"drag && drop\" to move operations between queues"
+msgstr ""
+
+#: tfrmviewoperations.mnucanceloperation.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnucanceloperation.caption"
+msgid "Cancel"
+msgstr "Cancel·la"
+
+#: tfrmviewoperations.mnucancelqueue.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnucancelqueue.caption"
+msgid "Cancel"
+msgstr "Cancel·la"
+
+#: tfrmviewoperations.mnunewqueue.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnunewqueue.caption"
+msgid "New queue"
+msgstr "Nova cua"
+
+#: tfrmviewoperations.mnuoperationshowdetached.caption
+msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
+msgid "Show in detached window"
+msgstr ""
+
+#: tfrmviewoperations.mnuputfirstinqueue.caption
+msgid "Put first in queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuputlastinqueue.caption
+msgid "Put last in queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnuqueue.caption"
+msgid "Queue"
+msgstr "Cua"
+
+#: tfrmviewoperations.mnuqueue0.caption
+msgid "Out of queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue1.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnuqueue1.caption"
+msgid "Queue 1"
+msgstr "Cua 1"
+
+#: tfrmviewoperations.mnuqueue2.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnuqueue2.caption"
+msgid "Queue 2"
+msgstr "Cua 2"
+
+#: tfrmviewoperations.mnuqueue3.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnuqueue3.caption"
+msgid "Queue 3"
+msgstr "Cua 3"
+
+#: tfrmviewoperations.mnuqueue4.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnuqueue4.caption"
+msgid "Queue 4"
+msgstr "Cua 4"
+
+#: tfrmviewoperations.mnuqueue5.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnuqueue5.caption"
+msgid "Queue 5"
+msgstr "Cua 5"
+
+#: tfrmviewoperations.mnuqueueshowdetached.caption
+msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
+msgid "Show in detached window"
+msgstr ""
+
+#: tfrmviewoperations.tbpauseall.caption
+msgid "&Pause all"
+msgstr ""
+
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"

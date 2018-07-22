@@ -380,26 +380,32 @@ msgid "Copy file(s)"
 msgstr "复制文件"
 
 #: tfrmcopydlg.mnunewqueue.caption
+msgctxt "tfrmcopydlg.mnunewqueue.caption"
 msgid "New queue"
 msgstr "新队列"
 
 #: tfrmcopydlg.mnuqueue1.caption
+msgctxt "tfrmcopydlg.mnuqueue1.caption"
 msgid "Queue 1"
 msgstr "队列 1"
 
 #: tfrmcopydlg.mnuqueue2.caption
+msgctxt "tfrmcopydlg.mnuqueue2.caption"
 msgid "Queue 2"
 msgstr "队列 2"
 
 #: tfrmcopydlg.mnuqueue3.caption
+msgctxt "tfrmcopydlg.mnuqueue3.caption"
 msgid "Queue 3"
 msgstr "队列 3"
 
 #: tfrmcopydlg.mnuqueue4.caption
+msgctxt "tfrmcopydlg.mnuqueue4.caption"
 msgid "Queue 4"
 msgstr "队列 4"
 
 #: tfrmcopydlg.mnuqueue5.caption
+msgctxt "tfrmcopydlg.mnuqueue5.caption"
 msgid "Queue 5"
 msgstr "队列 5"
 
@@ -9129,6 +9135,110 @@ msgstr "视图(&V)"
 msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "选择全部"
+
+#: tfrmviewoperations.btnstartpause.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.btnstartpause.caption"
+msgid "&Start"
+msgstr "开始(&S)"
+
+#: tfrmviewoperations.btnstop.caption
+msgid "S&top"
+msgstr ""
+
+#: tfrmviewoperations.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.caption"
+msgid "File operations"
+msgstr "文件操作"
+
+#: tfrmviewoperations.cbalwaysontop.caption
+msgid "Always on top"
+msgstr ""
+
+#: tfrmviewoperations.lblusedragdrop.caption
+msgid "&Use \"drag && drop\" to move operations between queues"
+msgstr ""
+
+#: tfrmviewoperations.mnucanceloperation.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnucanceloperation.caption"
+msgid "Cancel"
+msgstr "取消"
+
+#: tfrmviewoperations.mnucancelqueue.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnucancelqueue.caption"
+msgid "Cancel"
+msgstr "取消"
+
+#: tfrmviewoperations.mnunewqueue.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnunewqueue.caption"
+msgid "New queue"
+msgstr "新队列"
+
+#: tfrmviewoperations.mnuoperationshowdetached.caption
+msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
+msgid "Show in detached window"
+msgstr ""
+
+#: tfrmviewoperations.mnuputfirstinqueue.caption
+msgid "Put first in queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuputlastinqueue.caption
+msgid "Put last in queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnuqueue.caption"
+msgid "Queue"
+msgstr "队列"
+
+#: tfrmviewoperations.mnuqueue0.caption
+msgid "Out of queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue1.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnuqueue1.caption"
+msgid "Queue 1"
+msgstr "队列 1"
+
+#: tfrmviewoperations.mnuqueue2.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnuqueue2.caption"
+msgid "Queue 2"
+msgstr "队列 2"
+
+#: tfrmviewoperations.mnuqueue3.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnuqueue3.caption"
+msgid "Queue 3"
+msgstr "队列 3"
+
+#: tfrmviewoperations.mnuqueue4.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnuqueue4.caption"
+msgid "Queue 4"
+msgstr "队列 4"
+
+#: tfrmviewoperations.mnuqueue5.caption
+#, fuzzy
+msgctxt "tfrmviewoperations.mnuqueue5.caption"
+msgid "Queue 5"
+msgstr "队列 5"
+
+#: tfrmviewoperations.mnuqueueshowdetached.caption
+msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
+msgid "Show in detached window"
+msgstr ""
+
+#: tfrmviewoperations.tbpauseall.caption
+msgid "&Pause all"
+msgstr ""
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"

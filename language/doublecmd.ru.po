@@ -9166,6 +9166,99 @@ msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Выделить &всё"
 
+#: tfrmviewoperations.btnstartpause.caption
+msgctxt "tfrmviewoperations.btnstartpause.caption"
+msgid "&Start"
+msgstr "&Старт"
+
+#: tfrmviewoperations.btnstop.caption
+msgid "S&top"
+msgstr ""
+
+#: tfrmviewoperations.caption
+msgctxt "tfrmviewoperations.caption"
+msgid "File operations"
+msgstr "Файловые операции"
+
+#: tfrmviewoperations.cbalwaysontop.caption
+msgid "Always on top"
+msgstr ""
+
+#: tfrmviewoperations.lblusedragdrop.caption
+msgid "&Use \"drag && drop\" to move operations between queues"
+msgstr ""
+
+#: tfrmviewoperations.mnucanceloperation.caption
+msgctxt "tfrmviewoperations.mnucanceloperation.caption"
+msgid "Cancel"
+msgstr "Отмена"
+
+#: tfrmviewoperations.mnucancelqueue.caption
+msgctxt "tfrmviewoperations.mnucancelqueue.caption"
+msgid "Cancel"
+msgstr "Отмена"
+
+#: tfrmviewoperations.mnunewqueue.caption
+msgctxt "tfrmviewoperations.mnunewqueue.caption"
+msgid "New queue"
+msgstr "Новая очередь"
+
+#: tfrmviewoperations.mnuoperationshowdetached.caption
+msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
+msgid "Show in detached window"
+msgstr ""
+
+#: tfrmviewoperations.mnuputfirstinqueue.caption
+msgid "Put first in queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuputlastinqueue.caption
+msgid "Put last in queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue.caption
+msgctxt "tfrmviewoperations.mnuqueue.caption"
+msgid "Queue"
+msgstr "Очередь"
+
+#: tfrmviewoperations.mnuqueue0.caption
+msgid "Out of queue"
+msgstr ""
+
+#: tfrmviewoperations.mnuqueue1.caption
+msgctxt "tfrmviewoperations.mnuqueue1.caption"
+msgid "Queue 1"
+msgstr "Очередь 1"
+
+#: tfrmviewoperations.mnuqueue2.caption
+msgctxt "tfrmviewoperations.mnuqueue2.caption"
+msgid "Queue 2"
+msgstr "Очередь 2"
+
+#: tfrmviewoperations.mnuqueue3.caption
+msgctxt "tfrmviewoperations.mnuqueue3.caption"
+msgid "Queue 3"
+msgstr "Очередь 3"
+
+#: tfrmviewoperations.mnuqueue4.caption
+msgctxt "tfrmviewoperations.mnuqueue4.caption"
+msgid "Queue 4"
+msgstr "Очередь 4"
+
+#: tfrmviewoperations.mnuqueue5.caption
+msgctxt "tfrmviewoperations.mnuqueue5.caption"
+msgid "Queue 5"
+msgstr "Очередь 5"
+
+#: tfrmviewoperations.mnuqueueshowdetached.caption
+msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
+msgid "Show in detached window"
+msgstr ""
+
+#: tfrmviewoperations.tbpauseall.caption
+msgid "&Pause all"
+msgstr ""
+
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
