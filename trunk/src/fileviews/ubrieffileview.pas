@@ -410,12 +410,19 @@ var
         // center icon vertically
         Y:= aRect.Top + (RowHeights[ARow] - gIconsSize) div 2;
 
-        // Draw icon for a file
-        PixMapManager.DrawBitmap(IconID,
-                                 Canvas,
-                                 aRect.Left + CELL_PADDING,
-                                 Y
-                                 );
+        if gShowHiddenDimmed and AFile.FSFile.IsHidden then
+          PixMapManager.DrawBitmapAlpha(IconID,
+                                        Canvas,
+                                        aRect.Left + CELL_PADDING,
+                                        Y
+                                       )
+        else
+          // Draw icon for a file
+          PixMapManager.DrawBitmap(IconID,
+                                   Canvas,
+                                   aRect.Left + CELL_PADDING,
+                                   Y
+                                   );
 
         // Draw overlay icon for a file if needed
         if gIconOverlays then
