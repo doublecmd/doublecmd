@@ -238,6 +238,7 @@ type
     }
     function GetBitmap(iIndex : PtrInt) : TBitmap;
     function DrawBitmap(iIndex: PtrInt; Canvas : TCanvas; X, Y: Integer) : Boolean;
+    function DrawBitmapAlpha(iIndex: PtrInt; Canvas : TCanvas; X, Y: Integer) : Boolean;
     {en
        Draws bitmap stretching it if needed to Width x Height.
        If Width is 0 then full bitmap width is used.
@@ -1542,6 +1543,22 @@ end;
 function TPixMapManager.DrawBitmap(iIndex: PtrInt; Canvas : TCanvas; X, Y: Integer) : Boolean;
 begin
   Result := DrawBitmap(iIndex, Canvas, X, Y, gIconsSize, gIconsSize); // No bitmap stretching.
+end;
+
+function TPixMapManager.DrawBitmapAlpha(iIndex: PtrInt; Canvas: TCanvas; X, Y: Integer): Boolean;
+var
+  ARect: TRect;
+  ABitmap: Graphics.TBitmap;
+begin
+  ABitmap:= GetBitmap(iIndex);
+  Result := Assigned(ABitmap);
+  if Result then
+  begin
+    BitmapAlpha(ABitmap, 0.5);
+    ARect := Classes.Bounds(X, Y, gIconsSize, gIconsSize);
+    Canvas.StretchDraw(aRect, ABitmap);
+    ABitmap.Free;
+  end;
 end;
 
 function TPixMapManager.DrawBitmap(iIndex: PtrInt; Canvas: TCanvas; X, Y, Width, Height: Integer): Boolean;
