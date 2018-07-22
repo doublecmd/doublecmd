@@ -6138,6 +6138,10 @@ msgstr "Zobrazit ikony na tlačítkách"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Zobrazit p&řekryvné i&kony, např. pro odkazy"
 
+#: tfrmoptionsicons.chkshowhiddendimmed.caption
+msgid "&Dimmed hidden files (slower)"
+msgstr ""
+
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Zakázat speciální ikony"

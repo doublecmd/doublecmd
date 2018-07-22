@@ -6137,6 +6137,10 @@ msgstr "Toon pictogrammen op knoppen"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Toon opplakpictogrammen, bijv. voor koppelingen"
 
+#: tfrmoptionsicons.chkshowhiddendimmed.caption
+msgid "&Dimmed hidden files (slower)"
+msgstr ""
+
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Schakel speciale pictogrammen uit"

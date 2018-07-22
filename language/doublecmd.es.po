@@ -6143,6 +6143,10 @@ msgstr "Mostrar iconos en botones"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Mostrar &iconos superpuestos (por ejemplo, para enlaces)"
 
+#: tfrmoptionsicons.chkshowhiddendimmed.caption
+msgid "&Dimmed hidden files (slower)"
+msgstr ""
+
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Deshabilitar iconos especiales"

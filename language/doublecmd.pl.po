@@ -6139,6 +6139,10 @@ msgstr "Pokaż ikony na przyciskach"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Pokazuj ikony nakładkowo (np dla linków symbolicznych)"
 
+#: tfrmoptionsicons.chkshowhiddendimmed.caption
+msgid "&Dimmed hidden files (slower)"
+msgstr ""
+
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Wyłącz specjalne ikony"
