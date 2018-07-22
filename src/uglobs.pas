@@ -381,6 +381,7 @@ var
   gIconsInMenus: Boolean;
   gIconsInMenusSize,
   gIconsInMenusSizeNew: Integer;
+  gShowHiddenDimmed: Boolean;
   gIconTheme: String;
 
   { Keys page }
@@ -1613,6 +1614,7 @@ begin
   gIconsInMenus := False;
   gIconsInMenusSize := 16;
   gIconsInMenusSizeNew := gIconsInMenusSize;
+  gShowHiddenDimmed := False;
   gIconTheme := DC_THEME_NAME;
 
   { Ignore list page }
@@ -2522,6 +2524,7 @@ begin
     if Assigned(Node) then
     begin
       gIconTheme := GetValue(Node, 'Theme', gIconTheme);
+      gShowHiddenDimmed := GetValue(Node, 'ShowHiddenDimmed', gShowHiddenDimmed);
       gShowIcons := TShowIconsMode(GetValue(Node, 'ShowMode', Integer(gShowIcons)));
       gIconOverlays := GetValue(Node, 'ShowOverlays', gIconOverlays);
       gIconsSize := GetValue(Node, 'Size', gIconsSize);
@@ -3026,6 +3029,7 @@ begin
     { Icons page }
     Node := FindNode(Root, 'Icons', True);
     SetValue(Node, 'Theme', gIconTheme);
+    SetValue(Node, 'ShowHiddenDimmed', gShowHiddenDimmed);
     SetValue(Node, 'ShowMode', Integer(gShowIconsNew));
     SetValue(Node, 'ShowOverlays', gIconOverlays);
     SetValue(Node, 'Size', gIconsSizeNew);

@@ -3,15 +3,15 @@ inherited frmOptionsIcons: TfrmOptionsIcons
   Width = 478
   ClientHeight = 590
   ClientWidth = 478
-  DesignLeft = 398
-  DesignTop = 17
+  DesignLeft = 397
+  DesignTop = 37
   object gbShowIconsMode: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 177
+    Height = 219
     Top = 6
     Width = 466
     Anchors = [akTop, akLeft, akRight]
@@ -19,7 +19,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     BorderSpacing.Around = 6
     Caption = ' Show icons to the left of the filename '
     ChildSizing.TopBottomSpacing = 8
-    ClientHeight = 156
+    ClientHeight = 194
     ClientWidth = 462
     TabOrder = 0
     object rbIconsShowAll: TRadioButton
@@ -27,9 +27,9 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideTop.Control = rbIconsShowAllAndExe
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 23
-      Top = 37
-      Width = 39
+      Height = 24
+      Top = 38
+      Width = 42
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
       Caption = 'A&ll'
@@ -42,9 +42,9 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideTop.Control = rbIconsShowAll
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 23
-      Top = 66
-      Width = 135
+      Height = 24
+      Top = 68
+      Width = 154
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
       Caption = 'Only &standard icons'
@@ -55,9 +55,9 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideTop.Control = rbIconsShowStandard
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 23
-      Top = 95
-      Width = 73
+      Height = 24
+      Top = 98
+      Width = 82
       BorderSpacing.Left = 10
       BorderSpacing.Top = 6
       Caption = '&No icons'
@@ -68,9 +68,9 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideLeft.Control = gbShowIconsMode
       AnchorSideTop.Control = gbShowIconsMode
       Left = 10
-      Height = 23
+      Height = 24
       Top = 8
-      Width = 198
+      Width = 236
       BorderSpacing.Left = 10
       Caption = 'All associated + &EXE/LNK (slow)'
       TabOrder = 0
@@ -80,13 +80,25 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideTop.Control = rbIconsShowNone
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 22
-      Top = 126
-      Width = 204
+      Height = 24
+      Top = 130
+      Width = 236
       BorderSpacing.Left = 10
       BorderSpacing.Top = 8
       Caption = 'Show o&verlay icons, e.g. for links'
       TabOrder = 4
+    end
+    object chkShowHiddenDimmed: TCheckBox
+      AnchorSideLeft.Control = cbIconsShowOverlay
+      AnchorSideTop.Control = cbIconsShowOverlay
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 24
+      Top = 162
+      Width = 220
+      BorderSpacing.Top = 8
+      Caption = '&Dimmed hidden files (slower)'
+      TabOrder = 5
     end
   end
   object gbDisableSpecialIcons: TGroupBox[1]
@@ -96,15 +108,15 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 89
-    Top = 189
+    Height = 100
+    Top = 231
     Width = 466
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Around = 6
     Caption = 'Disable special icons'
     ChildSizing.TopBottomSpacing = 8
-    ClientHeight = 68
+    ClientHeight = 75
     ClientWidth = 462
     TabOrder = 1
     object edtIconsExcludeDirs: TEdit
@@ -114,8 +126,8 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideRight.Control = gbDisableSpecialIcons
       AnchorSideRight.Side = asrBottom
       Left = 30
-      Height = 23
-      Top = 30
+      Height = 28
+      Top = 32
       Width = 424
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 20
@@ -127,9 +139,9 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideLeft.Control = gbDisableSpecialIcons
       AnchorSideTop.Control = gbDisableSpecialIcons
       Left = 10
-      Height = 22
+      Height = 24
       Top = 8
-      Width = 290
+      Width = 340
       BorderSpacing.Left = 10
       Caption = 'For the following &paths and their subdirectories:'
       OnChange = cbIconsExcludeChange
@@ -143,8 +155,8 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 88
-    Top = 425
+    Height = 99
+    Top = 482
     Width = 466
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -152,16 +164,16 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     Caption = 'Show icons'
     ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 8
-    ClientHeight = 67
+    ClientHeight = 74
     ClientWidth = 462
     TabOrder = 2
     object cbIconsOnButtons: TCheckBox
       AnchorSideLeft.Control = gbShowIcons
       AnchorSideTop.Control = gbShowIcons
       Left = 10
-      Height = 22
+      Height = 24
       Top = 8
-      Width = 149
+      Width = 173
       Caption = 'Show icons on buttons'
       TabOrder = 0
     end
@@ -170,9 +182,9 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideTop.Control = cbIconsInMenusSize
       AnchorSideTop.Side = asrCenter
       Left = 10
-      Height = 22
-      Top = 36
-      Width = 203
+      Height = 24
+      Top = 40
+      Width = 235
       Caption = 'Show icons for actions in &menus'
       TabOrder = 1
     end
@@ -182,12 +194,12 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideRight.Control = gbShowIcons
       AnchorSideRight.Side = asrBottom
       Left = 321
-      Height = 23
-      Top = 36
+      Height = 28
+      Top = 38
       Width = 131
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 6
-      ItemHeight = 17
+      ItemHeight = 20
       ItemIndex = 0
       Items.Strings = (
         '16x16'
@@ -207,8 +219,8 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 135
-    Top = 284
+    Height = 139
+    Top = 337
     Width = 466
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -227,52 +239,52 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       Left = 10
       Height = 102
       Top = 6
-      Width = 140
+      Width = 146
       BevelOuter = bvNone
       ChildSizing.EnlargeVertical = crsHomogenousSpaceResize
       ChildSizing.Layout = cclTopToBottomThenLeftToRight
       ChildSizing.ControlsPerLine = 2
       ClientHeight = 102
-      ClientWidth = 140
+      ClientWidth = 146
       TabOrder = 0
       object lblFilePanel: TLabel
         Left = 0
-        Height = 17
-        Top = 23
-        Width = 62
+        Height = 20
+        Top = 21
+        Width = 72
         Caption = 'File panel:'
         Layout = tlCenter
         ParentColor = False
       end
       object lblDiskPanel: TLabel
         Left = 0
-        Height = 17
-        Top = 63
-        Width = 62
+        Height = 20
+        Top = 62
+        Width = 72
         Caption = 'Disk panel:'
         Layout = tlCenter
         ParentColor = False
       end
     end
     object pnlComboBox: TPanel
-      Left = 150
+      Left = 156
       Height = 102
       Top = 6
-      Width = 178
+      Width = 174
       BevelOuter = bvNone
       ChildSizing.EnlargeVertical = crsHomogenousSpaceResize
       ChildSizing.Layout = cclTopToBottomThenLeftToRight
       ChildSizing.ControlsPerLine = 2
       ClientHeight = 102
-      ClientWidth = 178
+      ClientWidth = 174
       TabOrder = 1
       object cbIconsSize: TComboBox
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 23
-        Top = 19
+        Height = 28
+        Top = 16
         Width = 100
-        ItemHeight = 17
+        ItemHeight = 20
         OnChange = cbIconsSizeChange
         Style = csDropDownList
         TabOrder = 0
@@ -280,20 +292,20 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       object cbDiskIconsSize: TComboBox
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 23
-        Top = 61
+        Height = 28
+        Top = 60
         Width = 100
-        ItemHeight = 17
+        ItemHeight = 20
         OnChange = cbDiskIconsSizeChange
         Style = csDropDownList
         TabOrder = 1
       end
     end
     object pnlImage: TPanel
-      Left = 328
+      Left = 330
       Height = 102
       Top = 6
-      Width = 124
+      Width = 122
       BevelOuter = bvNone
       ChildSizing.VerticalSpacing = 6
       ChildSizing.EnlargeHorizontal = crsHomogenousSpaceResize
@@ -301,10 +313,10 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       ChildSizing.Layout = cclTopToBottomThenLeftToRight
       ChildSizing.ControlsPerLine = 2
       ClientHeight = 102
-      ClientWidth = 124
+      ClientWidth = 122
       TabOrder = 2
       object imgIconExample: TImage
-        Left = 38
+        Left = 37
         Height = 48
         Top = 0
         Width = 48
@@ -315,7 +327,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
         Constraints.MinWidth = 48
       end
       object imgDiskIconExample: TImage
-        Left = 38
+        Left = 37
         Height = 48
         Top = 54
         Width = 48
@@ -334,8 +346,8 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 63
-    Top = 519
+    Height = 65
+    Top = 587
     Width = 466
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -343,7 +355,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     Caption = 'Icon theme'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 42
+    ClientHeight = 40
     ClientWidth = 462
     TabOrder = 4
     object cmbIconTheme: TComboBox
@@ -352,11 +364,11 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideRight.Control = gbIconTheme
       AnchorSideRight.Side = asrBottom
       Left = 6
-      Height = 23
+      Height = 28
       Top = 6
       Width = 450
       Anchors = [akTop, akLeft, akRight]
-      ItemHeight = 17
+      ItemHeight = 20
       Style = csDropDownList
       TabOrder = 0
     end

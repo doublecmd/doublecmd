@@ -41,6 +41,7 @@ type
     cbIconsInMenusSize: TComboBox;
     cbIconsInMenus: TCheckBox;
     cbIconsSize: TComboBox;
+    chkShowHiddenDimmed: TCheckBox;
     cmbIconTheme: TComboBox;
     edtIconsExcludeDirs: TEdit;
     gbIconsSize: TGroupBox;
@@ -175,6 +176,7 @@ begin
     sim_all_and_exe: rbIconsShowAllAndExe.Checked := True;
   end;
   cmbIconTheme.Text:= gIconTheme;
+  chkShowHiddenDimmed.Checked:= gShowHiddenDimmed;
   cbIconsShowOverlay.Checked:= gIconOverlays;
   cbIconsExclude.Checked:= gIconsExclude;
   cbIconsInMenus.Checked := gIconsInMenus;
@@ -239,6 +241,7 @@ begin
   gIconsExclude := cbIconsExclude.Checked;
   gIconsExcludeDirs := edtIconsExcludeDirs.Text;
   gIconsInMenus := cbIconsInMenus.Checked;
+  gShowHiddenDimmed := chkShowHiddenDimmed.Checked;
 
   if cbIconsOnButtons.Checked then
   begin
