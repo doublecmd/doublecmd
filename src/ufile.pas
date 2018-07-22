@@ -188,6 +188,7 @@ type
     // These functions should probably be moved from here and should not be methods.
     function IsDirectory: Boolean;
     function IsSysFile: Boolean;
+    function IsHidden: Boolean;
     function IsLink: Boolean;
     property IsLinkToDirectory: Boolean read GetIsLinkToDirectory write SetIsLinkToDirectory;
     function IsExecutable: Boolean;   // for ShellExecute
@@ -805,6 +806,20 @@ begin
   // Files beginning with '.' are treated as system/hidden files on Unix.
   Result := (Length(Name) > 1) and (Name[1] = '.') and (Name <> '..');
 {$ENDIF}
+end;
+
+function TFile.IsHidden: Boolean;
+begin
+  if not (fpAttributes in SupportedProperties) then
+    Result := False
+  else begin
+    if Properties[fpAttributes] is TNtfsFileAttributesProperty then
+      Result := TNtfsFileAttributesProperty(Properties[fpAttributes]).IsHidden
+    else begin
+      // Files beginning with '.' are treated as system/hidden files on Unix.
+      Result := (Length(Name) > 1) and (Name[1] = '.') and (Name <> '..');
+    end;
+  end;
 end;
 
 procedure TFile.SplitIntoNameAndExtension(const FileName: string;
