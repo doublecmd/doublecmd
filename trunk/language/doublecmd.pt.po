@@ -6274,6 +6274,10 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "M&ostrar ícones sobrepostos, i.e. para ligações"
 
+#: tfrmoptionsicons.chkshowhiddendimmed.caption
+msgid "&Dimmed hidden files (slower)"
+msgstr ""
+
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Desactivar ícones especiais"

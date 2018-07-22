@@ -6265,6 +6265,10 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Εμφάνιση εικονιδίων επίστρωσης, π.χ. για δεσμούς"
 
+#: tfrmoptionsicons.chkshowhiddendimmed.caption
+msgid "&Dimmed hidden files (slower)"
+msgstr ""
+
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Απενεργοποίηση ειδικών εικονιδίων"

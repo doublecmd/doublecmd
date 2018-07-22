@@ -6435,6 +6435,10 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Приказуј преклапајуће& иконице, нпр. за везе"
 
+#: tfrmoptionsicons.chkshowhiddendimmed.caption
+msgid "&Dimmed hidden files (slower)"
+msgstr ""
+
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Онемогући нарочите иконице"

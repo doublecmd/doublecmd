@@ -6459,6 +6459,10 @@ msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Показувати оверле&йні &іконки (наприклад для ярликів)"
 
+#: tfrmoptionsicons.chkshowhiddendimmed.caption
+msgid "&Dimmed hidden files (slower)"
+msgstr ""
+
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Вимкнути спеціальні іконки"

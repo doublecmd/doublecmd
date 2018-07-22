@@ -6141,6 +6141,10 @@ msgstr "Na gumbih naj se izrisujejo ikone."
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Pokaži prekrivne i&kone za npr. povezave"
 
+#: tfrmoptionsicons.chkshowhiddendimmed.caption
+msgid "&Dimmed hidden files (slower)"
+msgstr ""
+
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Onemogoči posebne ikone"

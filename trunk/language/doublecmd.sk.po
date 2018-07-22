@@ -6866,6 +6866,10 @@ msgctxt "tfrmoptionsicons.cbiconsshowoverlay.caption"
 msgid "Show o&verlay icons, e.g. for links"
 msgstr "Zobraziť prekladané i&kony (pre zástupcov)"
 
+#: tfrmoptionsicons.chkshowhiddendimmed.caption
+msgid "&Dimmed hidden files (slower)"
+msgstr ""
+
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr "Zakáž špeciálne ikony"

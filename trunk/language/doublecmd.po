@@ -6131,6 +6131,10 @@ msgstr ""
 msgid "Show o&verlay icons, e.g. for links"
 msgstr ""
 
+#: tfrmoptionsicons.chkshowhiddendimmed.caption
+msgid "&Dimmed hidden files (slower)"
+msgstr ""
+
 #: tfrmoptionsicons.gbdisablespecialicons.caption
 msgid "Disable special icons"
 msgstr ""
