@@ -634,7 +634,12 @@ end;
 procedure TViewerControl.Paint;
 begin
   if not IsFileOpen then
+  begin
+    Canvas.Pen.Color := Canvas.Font.Color;
+    Canvas.Line(0, 0, ClientWidth - 1, ClientHeight - 1);
+    Canvas.Line(0, ClientHeight - 1, ClientWidth - 1, 0);
     Exit;
+  end;
 
   Canvas.Font := Self.Font;
   Canvas.Brush.Color := Self.Color;
