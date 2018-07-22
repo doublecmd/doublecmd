@@ -283,7 +283,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="237">
+    <Units Count="238">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1115,6 +1115,7 @@ end;"/>
       <Unit125>
         <Filename Value="filesources\ufilesourceoperationui.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceOperationUI"/>
       </Unit125>
       <Unit126>
         <Filename Value="filesources\ufilesourceproperty.pas"/>
@@ -1706,6 +1707,14 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uExifReader"/>
       </Unit236>
+      <Unit237>
+        <Filename Value="fviewoperations.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmViewOperations"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fViewOperations"/>
+      </Unit237>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
