@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.9.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2018-07-06 23:10+0300\n"
+"PO-Revision-Date: 2018-07-22 22:08+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -6290,7 +6290,7 @@ msgstr "Показывать значки на кнопках"
 #: tfrmoptionsicons.cbiconsshowoverlay.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
 msgid "Show o&verlay icons, e.g. for links"
-msgstr "Показывать овер&лейные значки (например, для ярлыков)"
+msgstr "Показывать &оверлейные значки (например, для ярлыков)"
 
 #: tfrmoptionsicons.chkshowhiddendimmed.caption
 msgid "&Dimmed hidden files (slower)"
@@ -9177,7 +9177,7 @@ msgstr "&Старт"
 
 #: tfrmviewoperations.btnstop.caption
 msgid "S&top"
-msgstr ""
+msgstr "С&топ"
 
 #: tfrmviewoperations.caption
 msgctxt "tfrmviewoperations.caption"
@@ -9186,11 +9186,11 @@ msgstr "Файловые операции"
 
 #: tfrmviewoperations.cbalwaysontop.caption
 msgid "Always on top"
-msgstr ""
+msgstr "Поверх всех окон"
 
 #: tfrmviewoperations.lblusedragdrop.caption
 msgid "&Use \"drag && drop\" to move operations between queues"
-msgstr ""
+msgstr "Для перемещения операций между очередями используйте перетаскивание"
 
 #: tfrmviewoperations.mnucanceloperation.caption
 msgctxt "tfrmviewoperations.mnucanceloperation.caption"
@@ -9210,15 +9210,15 @@ msgstr "Новая очередь"
 #: tfrmviewoperations.mnuoperationshowdetached.caption
 msgctxt "tfrmviewoperations.mnuoperationshowdetached.caption"
 msgid "Show in detached window"
-msgstr ""
+msgstr "Показать в отдельном окне"
 
 #: tfrmviewoperations.mnuputfirstinqueue.caption
 msgid "Put first in queue"
-msgstr ""
+msgstr "Переместить в начало очереди"
 
 #: tfrmviewoperations.mnuputlastinqueue.caption
 msgid "Put last in queue"
-msgstr ""
+msgstr "Переместить в конец очереди"
 
 #: tfrmviewoperations.mnuqueue.caption
 msgctxt "tfrmviewoperations.mnuqueue.caption"
@@ -9227,7 +9227,7 @@ msgstr "Очередь"
 
 #: tfrmviewoperations.mnuqueue0.caption
 msgid "Out of queue"
-msgstr ""
+msgstr "Вне очереди"
 
 #: tfrmviewoperations.mnuqueue1.caption
 msgctxt "tfrmviewoperations.mnuqueue1.caption"
@@ -9257,11 +9257,11 @@ msgstr "Очередь 5"
 #: tfrmviewoperations.mnuqueueshowdetached.caption
 msgctxt "tfrmviewoperations.mnuqueueshowdetached.caption"
 msgid "Show in detached window"
-msgstr ""
+msgstr "Показать в отдельном окне"
 
 #: tfrmviewoperations.tbpauseall.caption
 msgid "&Pause all"
-msgstr ""
+msgstr "&Пауза для всех"
 
 #: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
