@@ -2590,6 +2590,7 @@ procedure TfrmMain.GetListOpenedPaths(const APaths: TStringList);
   end;
 
 begin
+  APaths.Clear;
   GetNotebookPaths(nbLeft);
   GetNotebookPaths(nbRight);
 end;
