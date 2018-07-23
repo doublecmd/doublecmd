@@ -44,6 +44,11 @@ const
   LUA_NUMBER_FMT = '%.14g';
 {$ENDIF}
 
+{$IFNDEF LUA_INTEGER_FMT}
+const
+  LUA_INTEGER_FMT = '%d';
+{$ENDIF}
+
 function LoadLuaLib(FileName: String): Boolean;
 procedure UnloadLuaLib;
 function IsLuaLibLoaded: Boolean;
@@ -239,6 +244,7 @@ var
   lua_isnumber:    function (L : Plua_State; idx : Integer) : LongBool;  cdecl;
   lua_isstring:    function (L : Plua_State; idx : Integer) : LongBool;  cdecl;
   lua_iscfunction: function (L : Plua_State; idx : Integer) : LongBool;  cdecl;
+  lua_isinteger:   function (L: Plua_State;  idx: Integer)  : LongBool;  cdecl;
   lua_isuserdata:  function (L : Plua_State; idx : Integer) : LongBool;  cdecl;
   lua_type:        function (L : Plua_State; idx : Integer) : Integer;  cdecl;
   lua_typename:    function (L : Plua_State; tp : Integer) : PChar;  cdecl;
@@ -532,6 +538,7 @@ var
   luaL_newstate:  function  : Plua_State;  cdecl;
   luaL_gsub:  function (L : Plua_State; const s, p, r : PChar) : PChar;  cdecl;
   luaL_findtable:  function (L : Plua_State; idx : Integer; const fname : PChar; szhint : Integer) : PChar;  cdecl;
+  luaL_execresult: function (L: Plua_State; stat: Integer): Integer; cdecl;
 
 function luaL_loadfile(L: Plua_State; const filename: PAnsiChar): Integer;
 
@@ -709,6 +716,7 @@ begin
   @luaL_newstate := GetProcAddress(LuaLibD, 'luaL_newstate');
   @luaL_gsub := GetProcAddress(LuaLibD, 'luaL_gsub');
   @luaL_findtable := GetProcAddress(LuaLibD, 'luaL_findtable');
+  @luaL_execresult := GetProcAddress(LuaLibD, 'luaL_execresult');
   @luaopen_base := GetProcAddress(LuaLibD, 'luaopen_base');
   @luaopen_table := GetProcAddress(LuaLibD, 'luaopen_table');
   @luaopen_io := GetProcAddress(LuaLibD, 'luaopen_io');
@@ -770,6 +778,7 @@ begin
   @lua_isnumber := GetProcAddress(LuaLibD, 'lua_isnumber');
   @lua_isstring := GetProcAddress(LuaLibD, 'lua_isstring');
   @lua_iscfunction := GetProcAddress(LuaLibD, 'lua_iscfunction');
+  @lua_isinteger :=GetProcAddress(LuaLibD, 'lua_isinteger');
   @lua_isuserdata := GetProcAddress(LuaLibD, 'lua_isuserdata');
   @lua_type := GetProcAddress(LuaLibD, 'lua_type');
   @lua_typename := GetProcAddress(LuaLibD, 'lua_typename');
