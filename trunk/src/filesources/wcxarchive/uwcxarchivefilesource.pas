@@ -540,14 +540,14 @@ end;
 
 procedure TWcxArchiveFileSource.SetCryptCallback;
 var
-  iFlags: Integer;
+  AFlags: Integer;
 begin
-  if not PasswordStore.HasMasterKey then
-    iFlags:= 0
-  else
-    iFlags:= PK_CRYPTOPT_MASTERPASS_SET;
-
-  FWcxModule.WcxSetCryptCallback(0, iFlags, @CryptProcA, @CryptProcW);
+  if not PasswordStore.MasterKeySet then
+    AFlags:= 0
+  else begin
+    AFlags:= PK_CRYPTOPT_MASTERPASS_SET;
+  end;
+  FWcxModule.WcxSetCryptCallback(0, AFlags, @CryptProcA, @CryptProcW);
 end;
 
 function TWcxArchiveFileSource.GetArcFileList: TObjectList;
