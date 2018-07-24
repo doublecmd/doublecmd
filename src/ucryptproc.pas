@@ -371,6 +371,11 @@ begin
     if not ShowInputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, MasterKey) then
       Exit;
     if Length(MasterKey) = 0 then Exit;
+    if Length(FMasterKeyHash) = 0 then
+    repeat
+      if not ShowInputQuery(rsMsgMasterPassword, rsMsgPasswordVerify, True, MasterKeyHash) then
+        Exit;
+    until (MasterKey = MasterKeyHash);
     UpdateMasterKey(MasterKey, MasterKeyHash);
     if FMasterKeyHash = EmptyStr then
       begin
