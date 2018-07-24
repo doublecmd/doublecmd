@@ -54,6 +54,7 @@ type
   public
     constructor Create(const AFileName: String); reintroduce;
   public
+    function MasterKeySet: Boolean;
     function HasMasterKey: Boolean;
     function CheckMasterKey: Boolean;
     function WritePassword(Prefix, Name, Connection: String; const Password: AnsiString): TCryptStoreResult;
@@ -348,6 +349,11 @@ begin
   FMasterStrong:= (Length(FMasterKeyHash) = 0) or (FMasterKeyHash[1] = '!');
 end;
 
+function TPasswordStore.MasterKeySet: Boolean;
+begin
+  Result:= (Length(FMasterKeyHash) <> 0);
+end;
+
 function TPasswordStore.HasMasterKey: Boolean;
 begin
   Result:= (Length(FMasterKey) <> 0);
@@ -392,7 +398,7 @@ var
   Data: AnsiString;
 begin
   if ReadOnly then Exit(csrWriteError);
-  if CheckMasterKey = False then Exit(csrNoMasterKey);
+  if CheckMasterKey = False then Exit(csrFailed);
   if not FMasterStrong then
     Data:= Encode(FMasterKey, Password)
   else begin
@@ -412,7 +418,7 @@ function TPasswordStore.ReadPassword(Prefix, Name, Connection: String;
 var
   Data: AnsiString = '';
 begin
-  if CheckMasterKey = False then Exit(csrNoMasterKey);
+  if CheckMasterKey = False then Exit(csrFailed);
   Data:= ReadString(Prefix + '_' + Name, Connection, Data);
   if Length(Data) = 0 then Exit(csrNotFound);
   if not FMasterStrong then
