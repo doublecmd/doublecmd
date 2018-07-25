@@ -980,7 +980,7 @@ begin
   lua_getglobal(L, 'ContentSetDefaultParams');
   if not lua_isfunction(L, -1) then
     exit;
-  lua_pushstring(L, PAnsiChar(mbFileNameToSysEnc(gpCfgDir + WdxIniFileName)));
+  lua_pushstring(L, PAnsiChar(gpCfgDir + WdxIniFileName));
   lua_pushinteger(L, 1);
   lua_pushinteger(L, 50);
   LuaPCall(L, 3, 0);
@@ -993,7 +993,7 @@ begin
   lua_getglobal(L, 'ContentStopGetValue');
   if not lua_isfunction(L, -1) then
     exit;
-  lua_pushstring(L, PAnsiChar(mbFileNameToSysEnc(FileName)));
+  lua_pushstring(L, PAnsiChar(FileName));
   LuaPCall(L, 1, 0);
 end;
 
@@ -1045,7 +1045,7 @@ begin
     lua_getglobal(L, 'ContentGetValue');
     if not lua_isfunction(L, -1) then
       Exit;
-    lua_pushstring(L, PAnsiChar(mbFileNameToSysEnc(FileName)));
+    lua_pushstring(L, PAnsiChar(FileName));
     lua_pushinteger(L, FieldIndex);
     lua_pushinteger(L, UnitIndex);
     lua_pushinteger(L, flags);
@@ -1087,7 +1087,7 @@ begin
     lua_getglobal(L, 'ContentGetValue');
     if not lua_isfunction(L, -1) then
       Exit;
-    lua_pushstring(L, PAnsiChar(mbFileNameToSysEnc(FileName)));
+    lua_pushstring(L, PAnsiChar(FileName));
     lua_pushinteger(L, FieldIndex);
     lua_pushinteger(L, UnitIndex);
     lua_pushinteger(L, flags);
@@ -1129,7 +1129,7 @@ begin
     lua_getglobal(L, 'ContentGetValue');
     if not lua_isfunction(L, -1) then
       Exit;
-    lua_pushstring(L, PAnsiChar(mbFileNameToSysEnc(FileName)));
+    lua_pushstring(L, PAnsiChar(FileName));
     lua_pushinteger(L, FieldIndex);
     lua_pushinteger(L, UnitIndex);
     lua_pushinteger(L, 0);
