@@ -237,9 +237,11 @@ type
     FScrollBarHorz:      TScrollBar;
     FOnPositionChanged:  TNotifyEvent;
     FUpdateScrollBarPos: Boolean; // used to block updating of scrollbar
-    FScrollBarPosition:  Integer;  // for updating vertical scrollbar based on Position
-    FHScrollBarPosition: Integer;  // for updating horizontal scrollbar based on HPosition
+    FScrollBarPosition:  Integer; // for updating vertical scrollbar based on Position
+    FHScrollBarPosition: Integer; // for updating horizontal scrollbar based on HPosition
     FColCount:           Integer;
+    FTabSpaces:          Integer; // tab width in spaces
+    FMaxTextWidth:       Integer; // maximum of chars on one line unwrapped text (max 16384)
     FOnGuessEncoding:    TGuessEncodingEvent;
 
     FHex:TCustomCharsPresentation;
@@ -259,6 +261,8 @@ type
     procedure SetEncodingName(AEncodingName: string);
     procedure SetViewerMode(Value: TViewerControlMode);
     procedure SetColCount(const AValue: Integer);
+    procedure SetMaxTextWidth(const AValue: Integer);
+    procedure SetTabSpaces(const AValue: Integer);
 
     {en
        Returns how many lines (given current FTextHeight) will fit into the window.
@@ -481,6 +485,8 @@ type
     property SelectionEnd: PtrInt Read FBlockEnd Write SetBlockEnd;
     property EncodingName: string Read GetEncodingName Write SetEncodingName;
     property ColCount: Integer Read FColCount Write SetColCount;
+    property MaxTextWidth: Integer read FMaxTextWidth write SetMaxTextWidth;
+    property TabSpaces: Integer read FTabSpaces write SetTabSpaces;
     property OnGuessEncoding: TGuessEncodingEvent Read FOnGuessEncoding Write FOnGuessEncoding;
 
   published
@@ -522,8 +528,6 @@ uses
 const
   //cTextWidth      = 80;  // wrap on 80 chars
   cBinWidth       = 80;
-  cMaxTextWidth   = 1024; // maximum of chars on one line unwrapped text
-  cTabSpaces      = 8;   // tab stop - allow to set in settings
 
   // These strings must be Ascii only.
   sNonCharacter: string = ' !"#$%&''()*+,-./:;<=>?@[\]^`{|}~'#13#10#9;
@@ -581,6 +585,8 @@ begin
   FBOMLength := 0;
   FTextHeight:= 14; // dummy value
   FColCount  := 1;
+  FTabSpaces := 8;
+  FMaxTextWidth := 1024;
 
   FLineList := TPtrIntList.Create;
 
@@ -715,6 +721,26 @@ begin
     else FColCount := 1;
 end;
 
+procedure TViewerControl.SetMaxTextWidth(const AValue: Integer);
+begin
+  if AValue < 80 then
+    FMaxTextWidth := 80
+  else if AValue > 16384 then
+    FMaxTextWidth := 16384
+  else
+    FMaxTextWidth:= AValue;
+end;
+
+procedure TViewerControl.SetTabSpaces(const AValue: Integer);
+begin
+  if AValue < 1 then
+    FTabSpaces := 1
+  else if AValue > 32 then
+    FTabSpaces := 32
+  else
+    FTabSpaces := AValue;
+end;
+
 function TViewerControl.ScrollPosition(var aPosition: PtrInt; iLines: Integer): Boolean;
 var
   i:      Integer;
@@ -783,7 +809,7 @@ begin
   begin
     case GetNextCharAsAscii(iStartPos, CharLenInBytes) of
       9:             // tab
-        Inc(Result, cTabSpaces - Result mod cTabSpaces);
+        Inc(Result, FTabSpaces - Result mod FTabSpaces);
       10:            // stroka
         begin
           DataLength := iStartPos - OldPos;
@@ -815,7 +841,7 @@ begin
     iStartPos := iStartPos + CharLenInBytes;
     DataLength := iStartPos - OldPos;
     case FViewerControlMode of
-    vcmText:   MaxLineLength := Result < cMaxTextWidth;
+    vcmText:   MaxLineLength := Result < FMaxTextWidth;
     vcmWrap:   MaxLineLength := Result < FTextWidth;
     vcmBook:   MaxLineLength := Canvas.TextWidth(GetText(OldPos, DataLength, 0)) < FTextWidth;
     else
@@ -844,7 +870,7 @@ begin
     case c of
       #9:
         Result := Result + StringOfChar(' ',
-                    cTabSpaces - (UTF8Length(Result) + Xoffset) mod cTabSpaces);
+                    FTabSpaces - (UTF8Length(Result) + Xoffset) mod FTabSpaces);
       else
         begin
           if c < ' ' then
@@ -2601,8 +2627,8 @@ var
       begin
         if s = #9 then
         begin
-          s := StringOfChar(' ', cTabSpaces - len mod cTabSpaces);
-          len := len + (cTabSpaces - len mod cTabSpaces);
+          s := StringOfChar(' ', FTabSpaces - len mod FTabSpaces);
+          len := len + (FTabSpaces - len mod FTabSpaces);
         end
         else
           Inc(len); // Assume there is one character after conversion

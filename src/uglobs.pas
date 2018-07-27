@@ -504,7 +504,9 @@ var
   gImagePaintMode: String;
   gImagePaintWidth,
   gColCount,
-  gViewerMode: Integer;
+  gViewerMode,
+  gMaxTextWidth,
+  gTabSpaces : Integer;
   gImagePaintColor,
   gBookBackgroundColor,
   gBookFontColor: TColor;
@@ -1635,6 +1637,8 @@ begin
   gImagePaintMode := 'Pen';
   gImagePaintWidth := 5;
   gColCount := 1;
+  gTabSpaces := 8;
+  gMaxTextWidth := 1024;
   gImagePaintColor := clRed;
   gBookBackgroundColor := clBlack;
   gBookFontColor := clWhite;
@@ -2573,6 +2577,8 @@ begin
       gImagePaintMode := GetValue(Node, 'PaintMode', gImagePaintMode);
       gImagePaintWidth := GetValue(Node, 'PaintWidth', gImagePaintWidth);
       gColCount    := GetValue(Node, 'NumberOfColumns', gColCount);
+      gTabSpaces := GetValue(Node, 'TabSpaces', gTabSpaces);
+      gMaxTextWidth := GetValue(Node, 'MaxTextWidth', gMaxTextWidth);
       gViewerMode  := GetValue(Node, 'ViewerMode'  , gViewerMode);
 
       gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
@@ -3066,6 +3072,8 @@ begin
     SetValue(Node, 'PaintMode', gImagePaintMode);
     SetValue(Node, 'PaintWidth', gImagePaintWidth);
     SetValue(Node, 'NumberOfColumns', gColCount);
+    SetValue(Node, 'TabSpaces', gTabSpaces);
+    SetValue(Node, 'MaxTextWidth', gMaxTextWidth);
     SetValue(Node, 'ViewerMode' , gViewerMode);
 
     SetValue(Node, 'PaintColor', gImagePaintColor);

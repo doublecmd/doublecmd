@@ -515,6 +515,9 @@ begin
 
   FontOptionsToFont(gFonts[dcfMain], memFolder.Font);
   memFolder.Color:= gBackColor;
+
+  ViewerControl.TabSpaces := gTabSpaces;
+  ViewerControl.MaxTextWidth := gMaxTextWidth;
 end;
 
 constructor TfrmViewer.Create(TheOwner: TComponent);
