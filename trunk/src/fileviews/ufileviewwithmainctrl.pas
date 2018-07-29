@@ -879,6 +879,8 @@ begin
       end;
     end;
 
+  if edtRename.Visible then Exit;
+
   // A single click starts programs and opens files
   if (gMouseSingleClickStart in [1..3]) and (FMainControlMouseDown = False) and
      (Shift * [ssShift, ssAlt, ssCtrl] = []) and (not MainControl.Dragging) then
