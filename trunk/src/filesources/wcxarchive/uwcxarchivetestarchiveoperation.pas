@@ -63,7 +63,7 @@ threadvar
   WcxTestArchiveOperationT: TWcxArchiveTestArchiveOperation;
 
 function ProcessDataProc(WcxTestArchiveOperation: TWcxArchiveTestArchiveOperation;
-                         FileName: String; Size: LongInt): LongInt;
+                         FileName: String; Size: LongInt; UpdateName: Pointer): LongInt;
 begin
   //DCDebug('Working (' + IntToStr(GetCurrentThreadId) + ') ' + FileName + ' Size = ' + IntToStr(Size));
 
@@ -76,6 +76,10 @@ begin
 
     with WcxTestArchiveOperation.FStatistics do
     begin
+      // Update file name
+      if Assigned(UpdateName) then begin
+        CurrentFile:= FileName;
+      end;
       // Get the number of bytes processed since the previous call
       if Size > 0 then
       begin
@@ -87,7 +91,6 @@ begin
       // Get progress percent value to directly set progress bar
       else if Size < 0 then
       begin
-        CurrentFile:= FileName;
         // Total operation percent
         if (Size >= -100) and (Size <= -1) then
         begin
@@ -109,22 +112,22 @@ end;
 
 function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxTestArchiveOperationG, CeSysToUtf8(StrPas(FileName)), Size);
+  Result:= ProcessDataProc(WcxTestArchiveOperationG, CeSysToUtf8(StrPas(FileName)), Size, FileName);
 end;
 
 function ProcessDataProcWG(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxTestArchiveOperationG, UTF16ToUTF8(UnicodeString(FileName)), Size);
+  Result:= ProcessDataProc(WcxTestArchiveOperationG, UTF16ToUTF8(UnicodeString(FileName)), Size, FileName);
 end;
 
 function ProcessDataProcAT(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxTestArchiveOperationT, CeSysToUtf8(StrPas(FileName)), Size);
+  Result:= ProcessDataProc(WcxTestArchiveOperationT, CeSysToUtf8(StrPas(FileName)), Size, FileName);
 end;
 
 function ProcessDataProcWT(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxTestArchiveOperationT, UTF16ToUTF8(UnicodeString(FileName)), Size);
+  Result:= ProcessDataProc(WcxTestArchiveOperationT, UTF16ToUTF8(UnicodeString(FileName)), Size, FileName);
 end;
 
 // ----------------------------------------------------------------------------
