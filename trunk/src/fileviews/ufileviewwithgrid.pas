@@ -17,8 +17,11 @@ type
 
   TFileViewGrid = class(TDrawGrid)
   protected
+    FLastMouseMoveTime: QWord;
+    FLastMouseScrollTime: QWord;
     FFileView: TFileViewWithGrid;
   protected
+    procedure Scroll(Message: Cardinal; ScrollCode: SmallInt);
     {$IF lcl_fullversion < 1080003}
     function SelectCell(aCol, aRow: Integer): Boolean; override;
     {$ENDIF}
@@ -109,7 +112,7 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType, LCLProc, LazUTF8, Math,
+  LCLIntf, LCLType, LCLProc, LazUTF8, Math, LMessages,
   DCStrUtils, uGlobs, uPixmapManager, uKeyboard,
   uDCUtils, fMain,
   uFileFunctions;
@@ -186,6 +189,17 @@ begin
   inherited KeyDown(Key, Shift);
 end;
 
+procedure TFileViewGrid.Scroll(Message: Cardinal; ScrollCode: SmallInt);
+var
+  Msg: TLMScroll;
+begin
+  Msg.Msg := Message;
+  Msg.ScrollCode := ScrollCode;
+  Msg.SmallPos := 1; // How many lines scroll
+  Msg.ScrollBar := Handle;
+  Dispatch(Msg);
+end;
+
 {$IF lcl_fullversion < 1080003}
 // Workaround for Lazarus issue 31942.
 function TFileViewGrid.SelectCell(aCol, aRow: Integer): Boolean;
@@ -227,6 +241,9 @@ end;
 procedure TFileViewGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
+  FLastMouseMoveTime := 0;
+  FLastMouseScrollTime := 0;
+
   if FFileView.IsLoadingFileList then Exit;
 
 {$IF DECLARED(lcl_fullversion) and (lcl_fullversion >= 093100)}

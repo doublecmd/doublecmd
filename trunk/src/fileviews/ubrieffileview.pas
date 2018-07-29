@@ -22,6 +22,7 @@ type
     procedure UpdateView; override;
     procedure CalculateColRowCount; override;
     procedure CalculateColumnWidth; override;
+    procedure DoMouseMoveScroll(X, Y: Integer);
     function  CellToIndex(ACol, ARow: Integer): Integer; override;
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); override;
   protected
@@ -29,6 +30,7 @@ type
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     function  DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function  DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
+    procedure DragOver(Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean); override;
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); override;
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState); override;
@@ -177,6 +179,32 @@ begin
     end;
 end;
 
+procedure TBriefDrawGrid.DoMouseMoveScroll(X, Y: Integer);
+var
+  TickCount: QWord;
+  AEvent: SmallInt;
+begin
+  TickCount := GetTickCount64;
+
+  if X < 25 then
+    AEvent := SB_LINEUP
+  else if X > ClientWidth - 25 then
+    AEvent := SB_LINEDOWN
+  else begin
+    Exit;
+  end;
+
+  if (FLastMouseMoveTime = 0) then
+    FLastMouseMoveTime := TickCount
+  else if (FLastMouseScrollTime = 0) then
+    FLastMouseScrollTime := TickCount
+  else if (TickCount - FLastMouseMoveTime > 200) and (TickCount - FLastMouseScrollTime > 50) then
+  begin
+    Scroll(LM_HSCROLL, AEvent);
+    FLastMouseScrollTime := GetTickCount64;
+  end;
+end;
+
 function TBriefDrawGrid.CellToIndex(ACol, ARow: Integer): Integer;
 begin
   if (ARow < 0) or (ARow >= RowCount) or (ACol <  0) or (ACol >= ColCount) then Exit(-1);
@@ -306,25 +334,9 @@ begin
 end;
 
 procedure TBriefDrawGrid.MouseMove(Shift: TShiftState; X, Y: Integer);
-  procedure Scroll(ScrollCode: SmallInt);
-  var
-    Msg: TLMHScroll;
-  begin
-    Msg.Msg := LM_HSCROLL;
-    Msg.ScrollCode := ScrollCode;
-    Msg.SmallPos := 1; // How many lines scroll
-    Msg.ScrollBar := Handle;
-    Dispatch(Msg);
-  end;
 begin
   inherited MouseMove(Shift, X, Y);
-  if DragManager.IsDragging or FBriefView.IsMouseSelecting then
-  begin
-    if X < 25 then
-      Scroll(SB_LINEUP)
-    else if X > ClientWidth - 25 then
-      Scroll(SB_LINEDOWN);
-  end;
+  if FBriefView.IsMouseSelecting then DoMouseMoveScroll(X, Y);
 end;
 
 function TBriefDrawGrid.DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean;
@@ -370,6 +382,13 @@ begin
   end
   else
     Result := True; // Handled
+end;
+
+procedure TBriefDrawGrid.DragOver(Source: TObject; X, Y: Integer;
+  State: TDragState; var Accept: Boolean);
+begin
+  inherited DragOver(Source, X, Y, State, Accept);
+  DoMouseMoveScroll(X, Y);
 end;
 
 constructor TBriefDrawGrid.Create(AOwner: TComponent; AParent: TWinControl);
