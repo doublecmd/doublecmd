@@ -32,6 +32,8 @@ type
   TDrawGridEx = class(TDrawGrid)
   private
     FMouseDownY: Integer;
+    FLastMouseMoveTime: QWord;
+    FLastMouseScrollTime: QWord;
     ColumnsView: TColumnsFileView;
 
     function GetGridHorzLine: Boolean;
@@ -1950,6 +1952,9 @@ end;
 
 procedure TDrawGridEx.MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer);
 begin
+  FLastMouseMoveTime := 0;
+  FLastMouseScrollTime := 0;
+
   if ColumnsView.IsLoadingFileList then Exit;
 {$IFDEF LCLGTK2}
   // Workaround for two doubleclicks being sent on GTK.
@@ -2079,13 +2084,29 @@ procedure TDrawGridEx.DoMouseMoveScroll(X, Y: Integer);
     Dispatch(Msg);
   end;
 
+var
+  TickCount: QWord;
+  AEvent: SmallInt;
 begin
+  TickCount := GetTickCount64;
+
   if Y < DefaultRowHeight then
-    Scroll(SB_LINEUP)
+    AEvent := SB_LINEUP
   else if (Y > ClientHeight - DefaultRowHeight) and (Y - 1 > FMouseDownY) then
+    AEvent := SB_LINEDOWN
+  else begin
+    Exit;
+  end;
+
+  if (FLastMouseMoveTime = 0) then
+    FLastMouseMoveTime := TickCount
+  else if (FLastMouseScrollTime = 0) then
+    FLastMouseScrollTime := TickCount
+  else if (TickCount - FLastMouseMoveTime > 200) and (TickCount - FLastMouseScrollTime > 50) then
   begin
-    FMouseDownY := -1;
-    Scroll(SB_LINEDOWN);
+    Scroll(AEvent);
+    FLastMouseScrollTime := GetTickCount64;
+    if (AEvent = SB_LINEDOWN) then FMouseDownY := -1;
   end;
 end;
 

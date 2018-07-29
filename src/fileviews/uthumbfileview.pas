@@ -56,10 +56,12 @@ type
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
+    procedure DragOver(Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean); override;
   protected
     procedure UpdateView; override;
     procedure CalculateColRowCount; override;
     procedure CalculateColumnWidth; override;
+    procedure DoMouseMoveScroll(X, Y: Integer);
     function  CellToIndex(ACol, ARow: Integer): Integer; override;
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); override;
   public
@@ -241,46 +243,22 @@ begin
 end;
 
 procedure TThumbDrawGrid.MouseMove(Shift: TShiftState; X, Y: Integer);
-const
-  LastPos: Integer = 0;
-
-  procedure Scroll(ScrollCode: SmallInt);
-  var
-    Msg: TLMVScroll;
-  begin
-    Msg.Msg := LM_VSCROLL;
-    Msg.ScrollCode := ScrollCode;
-    Msg.SmallPos := 1; // How many lines scroll
-    Msg.ScrollBar := Handle;
-    Dispatch(Msg);
-  end;
-
-var
-  Delta: Integer;
 begin
   inherited MouseMove(Shift, X, Y);
-  if DragManager.IsDragging or FThumbView.IsMouseSelecting then
-  begin
-    // Scroll at each 8 pixel mouse move
-    if (Abs(LastPos - Y) > 8) then
-    begin
-      LastPos:= Y;
-      Delta := DefaultRowHeight div 3;
-      if Y < Delta then
-        Scroll(SB_LINEUP)
-      else if (Y > ClientHeight - Delta) and (Y - FMouseDownY > 8) then
-      begin
-        FMouseDownY := -1;
-        Scroll(SB_LINEDOWN);
-      end;
-    end;
-  end;
+  if FThumbView.IsMouseSelecting then DoMouseMoveScroll(X, Y);
 end;
 
 procedure TThumbDrawGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   FMouseDownY := Y;
   inherited MouseDown(Button, Shift, X, Y);
+end;
+
+procedure TThumbDrawGrid.DragOver(Source: TObject; X, Y: Integer;
+  State: TDragState; var Accept: Boolean);
+begin
+  inherited DragOver(Source, X, Y, State, Accept);
+  DoMouseMoveScroll(X, Y);
 end;
 
 procedure TThumbDrawGrid.UpdateView;
@@ -382,6 +360,43 @@ end;
 procedure TThumbDrawGrid.CalculateColumnWidth;
 begin
   DefaultColWidth:= gThumbSize.cx + 4;
+end;
+
+procedure TThumbDrawGrid.DoMouseMoveScroll(X, Y: Integer);
+const
+  LastPos: Integer = 0;
+var
+  Delta: Integer;
+  TickCount: QWord;
+  AEvent: SmallInt = -1;
+begin
+  TickCount := GetTickCount64;
+
+  // Scroll at each 8 pixel mouse move
+  if (Abs(LastPos - Y) > 8) then
+  begin
+    LastPos := Y;
+    Delta := DefaultRowHeight div 3;
+    if Y < Delta then
+      AEvent := SB_LINEUP
+    else if (Y > ClientHeight - Delta) and (Y - FMouseDownY > 8) then
+    begin
+      AEvent := SB_LINEDOWN;
+    end;
+  end;
+
+  if (AEvent = -1) then Exit;
+
+  if (FLastMouseMoveTime = 0) then
+    FLastMouseMoveTime := TickCount
+  else if (FLastMouseScrollTime = 0) then
+    FLastMouseScrollTime := TickCount
+  else if (TickCount - FLastMouseMoveTime > 200) and (TickCount - FLastMouseScrollTime > 50) then
+  begin
+    Scroll(LM_VSCROLL, AEvent);
+    FLastMouseScrollTime := GetTickCount64;
+    if (AEvent = SB_LINEDOWN) then FMouseDownY := -1;
+  end;
 end;
 
 function TThumbDrawGrid.CellToIndex(ACol, ARow: Integer): Integer;
