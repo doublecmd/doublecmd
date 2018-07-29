@@ -113,7 +113,7 @@ threadvar
   WcxCopyOutOperationT: TWcxArchiveCopyOutOperation;
 
 function ProcessDataProc(WcxCopyOutOperation: TWcxArchiveCopyOutOperation;
-                         FileName: String; Size: LongInt): LongInt;
+                         FileName: String; Size: LongInt; UpdateName: Pointer): LongInt;
 begin
   //DCDebug('Working (' + IntToStr(GetCurrentThreadId) + ') ' + FileName + ' Size = ' + IntToStr(Size));
 
@@ -126,6 +126,10 @@ begin
 
     with WcxCopyOutOperation.FStatistics do
     begin
+      // Update file name
+      if Assigned(UpdateName) then begin
+        CurrentFileFrom:= FileName;
+      end;
       // Get the number of bytes processed since the previous call
       if Size > 0 then
       begin
@@ -137,7 +141,6 @@ begin
       // Get progress percent value to directly set progress bar
       else if Size < 0 then
       begin
-        CurrentFileFrom:= FileName;
         // Total operation percent
         if (Size >= -100) and (Size <= -1) then
           begin
@@ -161,22 +164,22 @@ end;
 
 function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxCopyOutOperationG, CeSysToUtf8(StrPas(FileName)), Size);
+  Result:= ProcessDataProc(WcxCopyOutOperationG, CeSysToUtf8(StrPas(FileName)), Size, FileName);
 end;
 
 function ProcessDataProcWG(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxCopyOutOperationG, UTF16ToUTF8(UnicodeString(FileName)), Size);
+  Result:= ProcessDataProc(WcxCopyOutOperationG, UTF16ToUTF8(UnicodeString(FileName)), Size, FileName);
 end;
 
 function ProcessDataProcAT(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxCopyOutOperationT, CeSysToUtf8(StrPas(FileName)), Size);
+  Result:= ProcessDataProc(WcxCopyOutOperationT, CeSysToUtf8(StrPas(FileName)), Size, FileName);
 end;
 
 function ProcessDataProcWT(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
 begin
-  Result:= ProcessDataProc(WcxCopyOutOperationT, UTF16ToUTF8(UnicodeString(FileName)), Size);
+  Result:= ProcessDataProc(WcxCopyOutOperationT, UTF16ToUTF8(UnicodeString(FileName)), Size, FileName);
 end;
 
 // ----------------------------------------------------------------------------
