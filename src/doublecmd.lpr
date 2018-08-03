@@ -22,6 +22,9 @@ uses
   gtk2,
   Gtk2Int,
   {$ENDIF}
+  {$IF DEFINED(LCLQT5) and not DEFINED(DARWIN)}
+  uQt5Workaround,
+  {$ENDIF}
   {$ENDIF}
   DCConvertEncoding,
   Interfaces,
