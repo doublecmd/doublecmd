@@ -28,8 +28,9 @@ exports
   ProcessFile,
   ReadHeader,
   SetChangeVolProc,
-  SetProcessDataProc;
-  
+  SetProcessDataProc,
+  GetBackgroundFlags;
+
 {$R *.res}
 
 begin

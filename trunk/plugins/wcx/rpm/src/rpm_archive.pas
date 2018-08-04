@@ -33,9 +33,6 @@ uses
   WcxPlugin,
   rpm_def, rpm_io;
 
-const
-  MAX_ARCHIVE_LIST = 20;
-
 type
   PArchiveRec = ^TArchiveRec;
   TArchiveRec = record
@@ -53,10 +50,8 @@ type
     datasig        : RPM_DataSig;
   end;{ArchiveRec}
 
-var
-  aList : TList;
-
 function  GetPackerCaps : Integer; dcpcall;
+function  GetBackgroundFlags: Integer; dcpcall;
 function  OpenArchive(var ArchiveData : TOpenArchiveData) : TArcHandle; dcpcall;
 function  CloseArchive(hArcData : TArcHandle) : Integer; dcpcall;
 function  ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData) : Integer; dcpcall;
@@ -69,85 +64,70 @@ implementation
 uses
   SysUtils, DCDateTimeUtils, DCBasicTypes, DCFileAttributes;
 
-function GetArchiveID(hArcData : THandle) : Integer;
-var
-  i_rec   : Integer;
-  arec    : PArchiveRec;
-begin
-  Result := -1;
-  if aList.Count = 0 then Exit;
-  for i_rec := 0 to (aList.Count - 1) do begin
-    arec := aList.Items[i_rec];
-    if arec^.handle_io = hArcData then begin
-      Result := i_rec;
-      Break;
-    end;
-  end;
-end;
-
-function GetPackerCaps;
+function GetPackerCaps: Integer;
 begin
   Result := PK_CAPS_MULTIPLE;
 end;
 
-function OpenArchive;
+function GetBackgroundFlags: Integer;
+begin
+  Result := BACKGROUND_UNPACK;
+end;
+
+function OpenArchive(var ArchiveData : TOpenArchiveData) : TArcHandle;
 var
   arch      : THandle;
-  arec      : PArchiveRec;
   filename  : String;
   r_lead    : RPM_Lead;
   signature : RPM_Header;
   fgError   : Boolean;
   headerend : integer;
+  arec      : PArchiveRec absolute Result;
 begin
   arec := nil;
   arch := 0;
   fgError := False;
-  if aList.Count >= MAX_ARCHIVE_LIST then begin
+
+  filename := String(ArchiveData.ArcName);
+  arch := FileOpen(filename, fmOpenRead or fmShareDenyNone);
+  if arch = THandle(-1) then begin
     fgError := True;
   end
   else begin
-    filename := String(ArchiveData.ArcName);
-    arch := FileOpen(filename, fmOpenRead or fmShareDenyNone);
-    if arch = THandle(-1) then begin
+    New(arec);
+    with arec^ do begin
+      handle_io := arch;
+      fname := filename;
+      headers := HDR_INFO;
+      arch_len := 0;
+      fdate := FileAge(filename);
+      process_proc := nil;
+      changevol_proc := nil;
+      if fdate = -1 then fdate := 0;
+    end;
+    AssignFile(arec^.handle_file, filename);
+    FileMode := 0;
+    Reset(arec^.handle_file, 1);
+    if IOResult <> 0 then begin
       fgError := True;
     end
     else begin
-      New(arec);
-      with arec^ do begin
-        handle_io := arch;
-        fname := filename;
-        headers := HDR_INFO;
-        arch_len := 0;
-        fdate := FileAge(filename);
-        process_proc := nil;
-        changevol_proc := nil;
-        if fdate = -1 then fdate := 0;
-      end;
-      AssignFile(arec^.handle_file, filename);
-      FileMode := 0;
-      Reset(arec^.handle_file, 1);
-      if IOResult <> 0 then begin
-        fgError := True;
-      end
+      RPM_ReadLead(arec^.handle_file, r_lead);
+      if r_lead.magic <> RPM_MAGIC then fgError := True
       else begin
-        RPM_ReadLead(arec^.handle_file, r_lead);
-        if r_lead.magic <> RPM_MAGIC then fgError := True
-        else begin
-          if not RPM_ReadSignature(arec^.handle_file, r_lead.signature_type, signature) then fgError := True
+        if not RPM_ReadSignature(arec^.handle_file, r_lead.signature_type, signature) then fgError := True
+        else
+          if not RPM_ReadHeader(arec^.handle_file, False, arec^.header, arec^.info) then fgError := True
           else
-            if not RPM_ReadHeader(arec^.handle_file, False, arec^.header, arec^.info) then fgError := True
-            else
-              arec^.arch_len := FileSize(arec^.handle_file) - FilePos(arec^.handle_file);
-          if not fgError then begin
-            headerend:=FilePos(arec^.handle_file);
-            BlockRead(arec^.handle_file, arec^.datasig, SizeOf(RPM_DataSig));
-            Seek(arec^.handle_file, headerend);
-          end;
+            arec^.arch_len := FileSize(arec^.handle_file) - FilePos(arec^.handle_file);
+        if not fgError then begin
+          headerend:=FilePos(arec^.handle_file);
+          BlockRead(arec^.handle_file, arec^.datasig, SizeOf(RPM_DataSig));
+          Seek(arec^.handle_file, headerend);
         end;
-      end;{ioresult}
-    end;{arch = -1}
-  end;{max count reached}
+      end;
+    end;{ioresult}
+  end;{arch = -1}
   if fgError then begin
     if arec <> nil then begin
       CloseFile(arec^.handle_file);
@@ -156,72 +136,52 @@ begin
     FileClose(arch);
     Result := 0;
     ArchiveData.OpenResult := E_EOPEN
-  end
-  else begin
-    aList.Add(arec);
-    Result := arch;
   end;
 end;
 
-function CloseArchive;
+function CloseArchive(hArcData: TArcHandle): Integer;
 var
-  i_rec   : Integer;
-  arec    : PArchiveRec;
+  arec : PArchiveRec absolute hArcData;
 begin
-  if aList.Count <> 0 then begin
-    i_rec := GetArchiveID(hArcData);
-    if i_rec <> -1 then begin
-      arec := aList.Items[i_rec];
-      CloseFile(arec^.handle_file);
-      FileClose(hArcData);
-      Dispose(arec);
-      aList.Delete(i_rec);
-    end;
-  end;
+  CloseFile(arec^.handle_file);
+  FileClose(arec^.handle_io);
+  Dispose(arec);
   Result := E_SUCCESS;
 end;
 
-function ReadHeader;
+function ReadHeader(hArcData: TArcHandle; var HeaderData: THeaderData): Integer;
 var
-  i_rec    : Integer;
-  arec     : PArchiveRec;
+  arec : PArchiveRec absolute hArcData;
 begin
-  Result := E_END_ARCHIVE;
-  i_rec := GetArchiveID(hArcData);
-  if i_rec <> -1 then begin
-    arec := aList.Items[i_rec];
-    Result := E_SUCCESS;
-    with HeaderData do
-      begin
-        case arec^.headers of
-          HDR_DATA: begin
-              copy_str2buf(TStrBuf(FileName), get_archivename(arec^.fname,arec^.datasig));
-              PackSize := arec^.arch_len;
-              UnpSize  := arec^.arch_len;
-            end;
-          HDR_INFO: begin
-              copy_str2buf(TStrBuf(FileName), 'INFO.TXT');
-              PackSize := 0;
-              UnpSize  := 0;
-            end;
-          else
-            Result := E_END_ARCHIVE;
-        end;
-        if Result = E_SUCCESS then
-          begin
-            copy_str2buf(TStrBuf(ArcName), arec^.fname);
-            FileAttr := GENERIC_ATTRIBUTE_FILE;
-            FileTime := UnixFileTimeToWcxTime(TUnixFileTime(arec^.info.buildtime));
-            Inc(arec^.headers);
+  Result := E_SUCCESS;
+  with HeaderData do
+    begin
+      case arec^.headers of
+        HDR_DATA: begin
+            copy_str2buf(TStrBuf(FileName), get_archivename(arec^.fname,arec^.datasig));
+            PackSize := arec^.arch_len;
+            UnpSize  := arec^.arch_len;
           end;
+        HDR_INFO: begin
+            copy_str2buf(TStrBuf(FileName), 'INFO.TXT');
+            PackSize := 0;
+            UnpSize  := 0;
+          end;
+        else
+          Result := E_END_ARCHIVE;
       end;
-  end;
+      if Result = E_SUCCESS then
+        begin
+          copy_str2buf(TStrBuf(ArcName), arec^.fname);
+          FileAttr := GENERIC_ATTRIBUTE_FILE;
+          FileTime := UnixFileTimeToWcxTime(TUnixFileTime(arec^.info.buildtime));
+          Inc(arec^.headers);
+        end;
+    end;
 end;
 
-function ProcessFile;
+function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath: PChar; DestName: PChar): Integer;
 var
-  i_rec       : Integer;
-  arec        : PArchiveRec;
   rpm_file    : file;
   rpm_name    : String;
   buf         : Pointer;
@@ -231,21 +191,22 @@ var
   fgWriteError: Boolean;
   faborted    : Boolean;
   testonly    : Boolean;
+  arec        : PArchiveRec absolute hArcData;
 
-//Helper function to output one line of text to rpm_file
-function Line(S: AnsiString): Integer;
-begin
-  Result := 0;
-  if not fgReadError and not fgWriteError then 
-    if testonly then
-      Result := Length(S) + 2
-    else
-      begin
-        S := S + #13#10;
-        BlockWrite(rpm_file, S[1], Length(S), Result);
-        if IOResult <> 0 then fgWriteError := True;
-      end;
-end;
+  // Helper function to output one line of text to rpm_file
+  function Line(S: AnsiString): Integer;
+  begin
+    Result := 0;
+    if not fgReadError and not fgWriteError then
+      if testonly then
+        Result := Length(S) + 2
+      else
+        begin
+          S := S + #13#10;
+          BlockWrite(rpm_file, S[1], Length(S), Result);
+          if IOResult <> 0 then fgWriteError := True;
+        end;
+  end;
 
 begin
   case Operation of
@@ -265,8 +226,6 @@ begin
         Result := E_EWRITE
       end
       else begin
-        i_rec := GetArchiveID(hArcData);
-        arec := aList.Items[i_rec];
         fgReadError := False;
         fgWriteError := False;
         faborted:=false;
@@ -347,32 +306,24 @@ begin
   end;{case operation}
 end;
 
-procedure SetProcessDataProc;
+procedure SetProcessDataProc(hArcData: TArcHandle; ProcessDataProc: TProcessDataProc);
 var
-  i_rec    : Integer;
-  arec     : PArchiveRec;
+  arec : PArchiveRec absolute hArcData;
 begin
-  i_rec := GetArchiveID(hArcData);
-  if i_rec <> -1 then begin
-    arec := aList.Items[i_rec];
+  if hArcData <> wcxInvalidHandle then
+  begin
     arec^.process_proc := ProcessDataProc;
   end;
 end;
 
-procedure SetChangeVolProc;
+procedure SetChangeVolProc(hArcData: TArcHandle; ChangeVolProc: TChangeVolProc);
 var
-  i_rec    : Integer;
-  arec     : PArchiveRec;
+  arec : PArchiveRec absolute hArcData;
 begin
-  i_rec := GetArchiveID(hArcData);
-  if i_rec <> -1 then begin
-    arec := aList.Items[i_rec];
+  if hArcData <> wcxInvalidHandle then
+  begin
     arec^.changevol_proc := ChangeVolProc;
   end;
 end;
 
-initialization
-  aList := TList.Create;
-finalization
-  aList.Free;
 end.
