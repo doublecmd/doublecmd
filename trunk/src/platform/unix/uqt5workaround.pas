@@ -11,11 +11,16 @@ uses
 
 procedure _exit(status: cint); cdecl; external clib;
 function atexit(func: pointer): cint; cdecl; external clib;
+function setenv(const name, value: pchar; overwrite: cint): cint; cdecl; external clib;
 
 procedure DoExit; cdecl;
 begin
   _exit(ExitCode);
 end;
+
+initialization
+  if (LowerCase(fpGetEnv(PAnsiChar('XDG_SESSION_TYPE'))) = 'wayland') then
+    setenv('QT_QPA_PLATFORM', 'xcb', 1);
 
 finalization
   // Workaround: https://doublecmd.sourceforge.io/mantisbt/view.php?id=2079
