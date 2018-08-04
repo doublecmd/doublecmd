@@ -1148,7 +1148,7 @@ begin
     // Find before active plugin
     else begin
       I := 0;
-      Count := ActivePlugin;
+      Count := ActivePlugin + 1;
     end;
     while I < Count do
     begin
