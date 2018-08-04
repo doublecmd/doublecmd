@@ -29,6 +29,7 @@ exports
   ReadHeader,
   SetChangeVolProc,
   SetProcessDataProc,
+  GetBackgroundFlags,
   CanYouHandleThisFile;
 
 {$R *.res}
