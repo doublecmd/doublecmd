@@ -4,11 +4,11 @@ interface
 
 type
   deb_Header = record
-    filename : String[16];
+    filename : String;
     time     : longint;
     size     : longint;
+    mode     : longint;
     pos      : longint;
-    crc      : longint;
   end;
 
 const
