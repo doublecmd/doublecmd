@@ -59,7 +59,7 @@ begin
   if Length(tmp_str) > 0 then
     header.Mode:= OctToDec(tmp_str)
   else begin
-    header.Mode:= GENERIC_ATTRIBUTE_FILE;
+    header.Mode:= S_IRUSR or S_IWUSR or S_IRGRP or S_IROTH;
   end;
   // Read file size
   SetLength(tmp_str, 10);
