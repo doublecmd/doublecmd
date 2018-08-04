@@ -32,9 +32,6 @@ uses
   WcxPlugin,
   cpio_def, cpio_io;
 
-const
-  MAX_ARCHIVE_LIST = 20;
-
 type
   PArchiveRec = ^TArchiveRec;
   TArchiveRec = record
@@ -47,9 +44,6 @@ type
     changevol_proc : TChangeVolProc;
     last_header    : CPIO_Header;
   end;{ArchiveRec}
-
-var
-  aList : TList;
 
 function  GetPackerCaps : Integer; dcpcall;
 function  GetBackgroundFlags: Integer; dcpcall;
