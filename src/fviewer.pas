@@ -1130,10 +1130,11 @@ end;
 
 function TfrmViewer.CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
 var
+  I, J: Integer;
   AFileName: String;
   ShowFlags: Integer;
-  I, J, Count: Integer;
   WlxModule: TWlxModule;
+  Start, Finish: Integer;
 begin
   AFileName:= ExcludeTrailingBackslash(sFileName);
   ShowFlags:= IfThen(bForce, lcp_forceshow, 0) or PluginShowFlags;
@@ -1142,15 +1143,15 @@ begin
   begin
     // Find after active plugin
     if (J = 1) then begin
-      I := ActivePlugin + 1;
-      Count :=  WlxPlugins.Count;
+      Start := ActivePlugin + 1;
+      Finish :=  WlxPlugins.Count - 1;
     end
     // Find before active plugin
     else begin
-      I := 0;
-      Count := ActivePlugin + 1;
+      Start := 0;
+      Finish := ActivePlugin;
     end;
-    while I < Count do
+    for I:= Start to Finish do
     begin
       if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(AFileName, bForce) then
       begin
@@ -1170,7 +1171,6 @@ begin
         if not bQuickView then WlxModule.SetFocus;
         Exit(True);
       end;
-      Inc(I);
     end;
   end;
   // Plugin not found
