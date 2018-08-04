@@ -99,8 +99,5 @@ def GetContextMenu(paths):
 
 if __name__ == "__main__":
 
-try:
   status_checker = StatusCheckerStub()
-except:
-  exit(1)
 
