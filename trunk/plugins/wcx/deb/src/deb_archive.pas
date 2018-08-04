@@ -158,8 +158,8 @@ begin
             UnpSize  := header.size;
             UnpVer   := 2;
             HostOS   := 0;
-            FileCRC  := header.CRC;
-            FileAttr := GENERIC_ATTRIBUTE_FILE;
+            FileCRC  := 0;
+            FileAttr := UnixToWcxFileAttr(header.mode);
             FileTime := UnixFileTimeToWcxTime(TUnixFileTime(header.time));
           end;{with}
           Result := E_SUCCESS;
