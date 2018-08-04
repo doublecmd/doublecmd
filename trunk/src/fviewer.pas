@@ -508,6 +508,7 @@ begin
   FFileSource := aFileSource;
   FLastSearchPos := -1;
   FZoomFactor := 1.0;
+  ActivePlugin := -1;
   FThumbnailManager:= nil;
   FExif:= TExifReader.Create;
   if not bQuickView then Menu:= MainMenu;
@@ -1129,32 +1130,48 @@ end;
 
 function TfrmViewer.CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
 var
-  I: Integer;
   AFileName: String;
   ShowFlags: Integer;
+  I, J, Count: Integer;
   WlxModule: TWlxModule;
 begin
   AFileName:= ExcludeTrailingBackslash(sFileName);
   ShowFlags:= IfThen(bForce, lcp_forceshow, 0) or PluginShowFlags;
   // DCDebug('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
-  for I:= 0 to WlxPlugins.Count - 1 do
-  if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(AFileName, bForce) then
+  for J := 1 to 2 do
   begin
-    DCDebug('I = ' + IntToStr(I));
-    if not WlxPlugins.LoadModule(I) then Continue;
-    WlxModule:= WlxPlugins.GetWlxModule(I);
-    DCDebug('WlxModule.Name = ', WlxModule.Name);
-    if WlxModule.CallListLoad(Self.Handle, sFileName, ShowFlags) = 0 then
-    begin
-      WlxModule.UnloadModule;
-      Continue;
+    // Find after active plugin
+    if (J = 1) then begin
+      I := ActivePlugin + 1;
+      Count :=  WlxPlugins.Count;
+    end
+    // Find before active plugin
+    else begin
+      I := 0;
+      Count := ActivePlugin;
     end;
-    ActivePlugin:= I;
-    WlxModule.ResizeWindow(GetListerRect);
-    miPrint.Enabled:= WlxModule.CanPrint;
-    // Set focus to plugin window
-    if not bQuickView then WlxModule.SetFocus;
-    Exit(True);
+    while I < Count do
+    begin
+      if WlxPlugins.GetWlxModule(I).FileParamVSDetectStr(AFileName, bForce) then
+      begin
+        DCDebug('I = ' + IntToStr(I));
+        if not WlxPlugins.LoadModule(I) then Continue;
+        WlxModule:= WlxPlugins.GetWlxModule(I);
+        DCDebug('WlxModule.Name = ', WlxModule.Name);
+        if WlxModule.CallListLoad(Self.Handle, sFileName, ShowFlags) = 0 then
+        begin
+          WlxModule.UnloadModule;
+          Continue;
+        end;
+        ActivePlugin:= I;
+        WlxModule.ResizeWindow(GetListerRect);
+        miPrint.Enabled:= WlxModule.CanPrint;
+        // Set focus to plugin window
+        if not bQuickView then WlxModule.SetFocus;
+        Exit(True);
+      end;
+      Inc(I);
+    end;
   end;
   // Plugin not found
   ActivePlugin:= -1;
@@ -2747,8 +2764,12 @@ begin
 end;
 
 procedure TfrmViewer.cm_ShowPlugins(const Params: array of string);
+var
+  Index: Integer;
 begin
+  Index := ActivePlugin;
   ExitPluginMode;
+  ActivePlugin := Index;
   bPlugin:= CheckPlugins(FileList.Strings[iActiveFile], True);
   if bPlugin then
   begin
