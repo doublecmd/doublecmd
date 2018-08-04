@@ -52,7 +52,7 @@ var
   aList : TList;
 
 function  GetPackerCaps : Integer; dcpcall;
-
+function  GetBackgroundFlags: Integer; dcpcall;
 function  OpenArchive(var ArchiveData : TOpenArchiveData) : TArcHandle; dcpcall;
 function  CloseArchive(hArcData : TArcHandle) : Integer; dcpcall;
 function  ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData) : Integer; dcpcall;
@@ -66,65 +66,50 @@ implementation
 uses
   SysUtils, DCDateTimeUtils, DCBasicTypes, DCFileAttributes;
 
-function GetArchiveID(hArcData : THandle) : Integer;
-var
-  i_rec   : Integer;
-  arec    : PArchiveRec;
+function GetPackerCaps: Integer;
 begin
-  Result := -1;
-  if aList.Count = 0 then Exit;
-  for i_rec := 0 to (aList.Count - 1) do begin
-    arec := aList.Items[i_rec];
-    if arec^.handle_io = hArcData then begin
-      Result := i_rec;
-      Break;
-    end;
-  end;
+  Result := PK_CAPS_MULTIPLE;
 end;
 
-function GetPackerCaps;
+function GetBackgroundFlags: Integer;
 begin
-  Result := 0;
+  Result := BACKGROUND_UNPACK;
 end;
 
-function OpenArchive;
+function OpenArchive(var ArchiveData : TOpenArchiveData) : TArcHandle;
 var
   arch      : THandle;
-  arec      : PArchiveRec;
   filename  : String;
   fgError   : Boolean;
+  arec      : PArchiveRec absolute Result;
 begin
   arec := nil;
   arch := 0;
   fgError := False;
-  if aList.Count >= MAX_ARCHIVE_LIST then begin
+
+  filename := String(ArchiveData.ArcName);
+  arch := FileOpen(filename, fmOpenRead or fmShareDenyNone);
+  if arch = -1 then begin
     fgError := True;
   end
   else begin
-    filename := String(ArchiveData.ArcName);
-    arch := FileOpen(filename, fmOpenRead or fmShareDenyNone);
-    if arch = -1 then begin
+    New(arec);
+    with arec^ do begin
+      handle_io := arch;
+      fname := filename;
+      fdate := FileAge(filename);
+      fgEndArchive := False;
+      process_proc := nil;
+      changevol_proc := nil;
+      if fdate = -1 then fdate := 0;
+    end;
+    AssignFile(arec^.handle_file, filename);
+    FileMode := 0;
+    Reset(arec^.handle_file, 1);
+    if IOResult <> 0 then begin
       fgError := True;
-    end
-    else begin
-      New(arec);
-      with arec^ do begin
-        handle_io := arch;
-        fname := filename;
-        fdate := FileAge(filename);
-        fgEndArchive := False;
-        process_proc := nil;
-        changevol_proc := nil;
-        if fdate = -1 then fdate := 0;
-      end;
-      AssignFile(arec^.handle_file, filename);
-      FileMode := 0;
-      Reset(arec^.handle_file, 1);
-      if IOResult <> 0 then begin
-        fgError := True;
-      end;{ioresult}
-    end;{arch = -1}
-  end;{max count reached}
+    end;{ioresult}
+  end;{arch = -1}
   if fgError then begin
     if arec <> nil then begin
       CloseFile(arec^.handle_file);
@@ -133,80 +118,61 @@ begin
     FileClose(arch);
     Result := 0;
     ArchiveData.OpenResult := E_EOPEN
-  end
-  else begin
-    aList.Add(arec);
-    Result := arch;
   end;
 end;
 
-function CloseArchive;
+function CloseArchive(hArcData: TArcHandle): Integer;
 var
-  i_rec   : Integer;
-  arec    : PArchiveRec;
+  arec : PArchiveRec absolute hArcData;
 begin
-  if aList.Count <> 0 then begin
-    i_rec := GetArchiveID(hArcData);
-    if i_rec <> -1 then begin
-      arec := aList.Items[i_rec];
-      CloseFile(arec^.handle_file);
-      FileClose(hArcData);
-      Dispose(arec);
-      aList.Delete(i_rec);
-    end;
-  end;
+  CloseFile(arec^.handle_file);
+  FileClose(arec^.handle_io);
+  Dispose(arec);
   Result := E_SUCCESS;
 end;
 
 function ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData): Integer;
 var
-  i_rec   : Integer;
-  arec    : PArchiveRec;
   header  : CPIO_Header;
+  arec    : PArchiveRec absolute hArcData;
 begin
   Result := E_EREAD;
-  i_rec := GetArchiveID(hArcData);
-  if i_rec <> -1 then begin
-    arec := aList.Items[i_rec];
-    if arec^.fgEndArchive then Result := E_END_ARCHIVE
-    else begin
-      while True do begin
-        if CPIO_ReadHeader(arec^.handle_file, header) then begin
-          if header.filename = 'TRAILER!!!' then begin
-            Result := E_END_ARCHIVE;
-            Break
-          end
-          else begin
-            if header.filesize <> 0 then begin
-              with HeaderData do begin
-                copy_str2buf(TStrBuf(ArcName), arec^.fname);
-                copy_str2buf(TStrBuf(FileName), header.filename);
-                PackSize := header.filesize;
-                UnpSize  := header.filesize;
-                FileAttr := UnixToWcxFileAttr(header.mode);
-                FileTime := UnixFileTimeToWcxTime(TUnixFileTime(header.mtime));
-              end;{with}
-              Result := 0;
-              Break;
-            end
-            else
-              Continue;
-          end;{not end of file "TRAILER!!!"}
-        end{if header readed}
+  if arec^.fgEndArchive then Result := E_END_ARCHIVE
+  else begin
+    while True do begin
+      if CPIO_ReadHeader(arec^.handle_file, header) then begin
+        if header.filename = 'TRAILER!!!' then begin
+          Result := E_END_ARCHIVE;
+          Break
+        end
         else begin
-          Result := E_EREAD;
-          Break;
-        end;
-      end;{while true}
-      arec^.last_header := header;
-    end;{if not end of archive}
-  end;
+          if header.filesize <> 0 then begin
+            with HeaderData do begin
+              copy_str2buf(TStrBuf(ArcName), arec^.fname);
+              copy_str2buf(TStrBuf(FileName), header.filename);
+              PackSize := header.filesize;
+              UnpSize  := header.filesize;
+              FileAttr := UnixToWcxFileAttr(header.mode);
+              FileTime := UnixFileTimeToWcxTime(TUnixFileTime(header.mtime));
+            end;{with}
+            Result := 0;
+            Break;
+          end
+          else
+            Continue;
+        end;{not end of file "TRAILER!!!"}
+      end{if header readed}
+      else begin
+        Result := E_EREAD;
+        Break;
+      end;
+    end;{while true}
+    arec^.last_header := header;
+  end;{if not end of archive}
 end;
 
-function ProcessFile;
+function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath: PChar; DestName: PChar): Integer;
 var
-  i_rec       : Integer;
-  arec        : PArchiveRec;
   cpio_file   : file;
   cpio_name   : String;
   cpio_dir    : String;
@@ -217,9 +183,8 @@ var
   fgWriteError: Boolean;
   fAborted    : Boolean;
   head        : CPIO_Header;
+  arec        : PArchiveRec absolute hArcData;
 begin
-  i_rec := GetArchiveID(hArcData);
-  arec := aList.Items[i_rec];
   head := arec^.last_header;
   case Operation of
     PK_TEST : begin
@@ -336,26 +301,22 @@ begin
   end;{case operation}
 end;
 
-procedure SetProcessDataProc;
+procedure SetProcessDataProc(hArcData: TArcHandle; ProcessDataProc: TProcessDataProc);
 var
-  i_rec    : Integer;
-  arec     : PArchiveRec;
+  arec : PArchiveRec absolute hArcData;
 begin
-  i_rec := GetArchiveID(hArcData);
-  if i_rec <> -1 then begin
-    arec := aList.Items[i_rec];
+  if hArcData <> wcxInvalidHandle then
+  begin
     arec^.process_proc := ProcessDataProc;
   end;
 end;
 
-procedure SetChangeVolProc;
+procedure SetChangeVolProc(hArcData: TArcHandle; ChangeVolProc: TChangeVolProc);
 var
-  i_rec    : Integer;
-  arec     : PArchiveRec;
+  arec : PArchiveRec absolute hArcData;
 begin
-  i_rec := GetArchiveID(hArcData);
-  if i_rec <> -1 then begin
-    arec := aList.Items[i_rec];
+  if hArcData <> wcxInvalidHandle then
+  begin
     arec^.changevol_proc := ChangeVolProc;
   end;
 end;
@@ -369,8 +330,4 @@ begin
   end;
 end;
 
-initialization
-  aList := TList.Create;
-finalization
-  aList.Free;
 end.
