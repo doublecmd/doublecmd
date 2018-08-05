@@ -590,13 +590,7 @@ begin
     else
       begin
         ViewerControl.FileName := aFileName;
-        if ViewerControl.IsFileOpen then
-          ActivatePanel(pnlText)
-        else begin
-          ActivatePanel(pnlFolder);
-          memFolder.Font.Color:= clRed;
-          memFolder.Lines.Text:= rsMsgErrERead;
-        end;
+        ActivatePanel(pnlText)
       end;
 
     Status.Panels[sbpFileName].Text:= aFileName;
