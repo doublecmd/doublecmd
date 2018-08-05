@@ -317,17 +317,20 @@ var
 begin
   if actBinaryCompare.Checked then
   begin
-    actStartCompare.Enabled := False;
-    actCancelCompare.Enabled := True;
-    actBinaryCompare.Enabled := False;
-    BinaryCompare:= TBinaryCompare.Create(BinaryViewerLeft.GetDataAdr,
-                                          BinaryViewerRight.GetDataAdr,
-                                          BinaryViewerLeft.FileSize,
-                                          BinaryViewerRight.FileSize,
-                                          BinaryDiffList);
+    if (BinaryViewerLeft.IsFileOpen and BinaryViewerRight.IsFileOpen) then
+    begin
+      actStartCompare.Enabled := False;
+      actCancelCompare.Enabled := True;
+      actBinaryCompare.Enabled := False;
+      BinaryCompare:= TBinaryCompare.Create(BinaryViewerLeft.GetDataAdr,
+                                            BinaryViewerRight.GetDataAdr,
+                                            BinaryViewerLeft.FileSize,
+                                            BinaryViewerRight.FileSize,
+                                            BinaryDiffList);
 
-    BinaryCompare.OnFinish:= @BinaryCompareFinish;
-    BinaryCompare.Start;
+      BinaryCompare.OnFinish:= @BinaryCompareFinish;
+      BinaryCompare.Start;
+    end;
   end
   else try
     Inc(ScrollLock);

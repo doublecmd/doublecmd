@@ -243,6 +243,7 @@ type
     FTabSpaces:          Integer; // tab width in spaces
     FMaxTextWidth:       Integer; // maximum of chars on one line unwrapped text (max 16384)
     FOnGuessEncoding:    TGuessEncodingEvent;
+    FLastError:          String;
 
     FHex:TCustomCharsPresentation;
     FDec:TCustomCharsPresentation;
@@ -350,6 +351,8 @@ type
     function  TransformHex(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;virtual;
 
     procedure AddLineOffset(const iOffset: PtrInt); inline;
+
+    procedure DrawLastError;
 
     function MapFile(const sFileName: String): Boolean;
     procedure UnMapFile;
@@ -637,13 +640,24 @@ begin
   inherited Destroy;
 end;
 
+procedure TViewerControl.DrawLastError;
+var
+  AStyle: TTextStyle;
+begin
+  AStyle:= Canvas.TextStyle;
+  AStyle.Alignment:= taCenter;
+  AStyle.Layout:= tlCenter;
+  Canvas.Pen.Color := Canvas.Font.Color;
+  Canvas.Line(0, 0, ClientWidth - 1, ClientHeight - 1);
+  Canvas.Line(0, ClientHeight - 1, ClientWidth - 1, 0);
+  Canvas.TextRect(ClientRect, 0, 0, FLastError, AStyle);
+end;
+
 procedure TViewerControl.Paint;
 begin
   if not IsFileOpen then
   begin
-    Canvas.Pen.Color := Canvas.Font.Color;
-    Canvas.Line(0, 0, ClientWidth - 1, ClientHeight - 1);
-    Canvas.Line(0, ClientHeight - 1, ClientWidth - 1, 0);
+    DrawLastError;
     Exit;
   end;
 
@@ -669,7 +683,6 @@ begin
     vcmWrap: WriteText;
     vcmBook: WriteText;
     vcmDec,vcmHex : WriteCustom;
-
   end;
 end;
 
@@ -1008,7 +1021,6 @@ begin
   while length(Result)<AMaxDigitsCount do
         Result:=' '+Result;
 end;
-
 
 function TViewerControl.GetStartOfLine(aPosition: PtrInt): PtrInt;
 
@@ -1431,6 +1443,7 @@ begin
   if Assigned(FMappedFile) then
     UnMapFile; // if needed
 
+  FLastError  := EmptyStr;
   wFileName   := UTF16LongName(sFileName);
   FFileHandle := CreateFileW(PWChar(wFileName), GENERIC_READ,
       FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE, nil,
@@ -1438,6 +1451,7 @@ begin
 
   if FFileHandle = INVALID_HANDLE_VALUE then
   begin
+    FLastError := mbSysErrorMessage;
     FFileHandle := 0;
     Exit;
   end;
@@ -1452,17 +1466,22 @@ begin
 
   FMappingHandle := CreateFileMapping(FFileHandle, nil, PAGE_READONLY, 0, 0, nil);
 
-  if FMappingHandle <> 0 then
-    FMappedFile := MapViewOfFile(FMappingHandle, FILE_MAP_READ, 0, 0, 0)
-  else
+  if FMappingHandle = 0 then
   begin
+    FLastError := mbSysErrorMessage;
     FMappedFile := nil;
-    FileClose(FFileHandle);
-    FFileHandle := 0;
-    Exit;
+    UnMapFile;
+  end
+  else begin
+    FMappedFile := MapViewOfFile(FMappingHandle, FILE_MAP_READ, 0, 0, 0);
+    if (FMappedFile = nil) then
+    begin
+      FLastError := mbSysErrorMessage;
+      UnMapFile;
+    end;
   end;
 
-  Result := True;
+  Result := Assigned(FMappedFile);
 end;
 {$ELSE}
 var
@@ -1475,15 +1494,18 @@ begin
   if Assigned(FMappedFile) then
     UnMapFile; // if needed
 
+  FLastError  := EmptyStr;
   FFileHandle := mbFileOpen(sFileName, fmOpenRead);
   if FFileHandle = feInvalidHandle then
   begin
+    FLastError := mbSysErrorMessage;
     FFileHandle := 0;
     Exit;
   end;
 
   if fpFStat(FFileHandle, StatBuf) <> 0 then
   begin
+    FLastError := mbSysErrorMessage;
     FileClose(FFileHandle);
     FFileHandle := 0;
     Exit;
@@ -1516,6 +1538,7 @@ begin
   FMappedFile := fpmmap(nil, FFileSize, PROT_READ, MAP_PRIVATE{SHARED}, FFileHandle, 0);
   if FMappedFile = MAP_FAILED then
   begin
+    FLastError := mbSysErrorMessage;
     FMappedFile:= nil;
     FileClose(FFileHandle);
     FFileHandle := 0;
