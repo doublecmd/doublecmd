@@ -469,11 +469,11 @@ begin
       MappingHandle := 0;
       FileHandle := feInvalidHandle;
 
-      FileSize := mbFileSize(sFileName);
-      if FileSize = 0 then Exit;   // Cannot map empty files
-
       FileHandle := mbFileOpen(sFileName, fmOpenRead);
       if FileHandle = feInvalidHandle then Exit;
+
+      Int64Rec(FileSize).Lo := GetFileSize(FileHandle, @Int64Rec(FileSize).Hi);
+      if FileSize = 0 then Exit;   // Cannot map empty files
 
       MappingHandle := CreateFileMapping(FileHandle, nil, PAGE_READONLY, 0, 0, nil);
       if MappingHandle <> 0 then
