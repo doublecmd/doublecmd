@@ -1442,7 +1442,7 @@ begin
     Exit;
   end;
 
-  FFileSize := GetFileSize(FFileHandle, nil);
+  Int64Rec(FFileSize).Lo := GetFileSize(FFileHandle, @Int64Rec(FFileSize).Hi);
 
   if (FFileSize < MaxMemSize) then
   begin
