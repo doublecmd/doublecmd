@@ -183,7 +183,7 @@ begin
   if (FPanel = nil) then
   begin
     FPanel:= THintWindow.Create(Self);
-    FPanel.Color:= clForm;
+    FPanel.Color:= clDefault;
     FListBox.Parent:= FPanel;
 
     with Parent.ClientToScreen(CLasses.Point(Left, Top)) do
@@ -305,6 +305,7 @@ begin
   FListBox:= TListBox.Create(Self);
   FListBox.TabStop:= False;
   FListBox.Align:= alClient;
+  FListBox.ParentFont:= False;
   FListBox.ClickOnSelChange:= False;
   FListBox.OnClick:= ListBoxClick;
   FListBox.OnMouseMove:= ListBoxMouseMove;
