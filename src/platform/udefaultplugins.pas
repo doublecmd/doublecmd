@@ -176,6 +176,15 @@ begin
     gWCXPlugins.FileName[I]:= Folder + 'sevenzip' + PathDelim + 'sevenzip.wcx';
   end;
 
+  I:= gWCXPlugins.IndexOfName('deb');
+  if I < 0 then
+    gWCXPlugins.Add('deb', 4, Folder + 'sevenzip' + PathDelim + 'sevenzip.wcx')
+  else begin
+    gWCXPlugins.Flags[I]:= 4;
+    // For deb used another plugin, so update path too
+    gWCXPlugins.FileName[I]:= Folder + 'sevenzip' + PathDelim + 'sevenzip.wcx';
+  end;
+
   I:= gWCXPlugins.IndexOfName('arj');
   if I < 0 then
     gWCXPlugins.Add('arj', 4, Folder + 'sevenzip' + PathDelim + 'sevenzip.wcx');
@@ -245,13 +254,13 @@ begin
     gWCXPlugins.Add('cpio', 4, Folder + 'cpio' + PathDelim + 'cpio.wcx')
   else
     gWCXPlugins.Flags[I]:= 4;
-  {$ENDIF}
 
   I:= gWCXPlugins.IndexOfName('deb');
   if I < 0 then
     gWCXPlugins.Add('deb', 4, Folder + 'deb' + PathDelim + 'deb.wcx')
   else
     gWCXPlugins.Flags[I]:= 4;
+  {$ENDIF}
 
   I:= gWCXPlugins.IndexOfName('rpm');
   if I < 0 then
