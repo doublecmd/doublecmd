@@ -191,7 +191,11 @@ begin
     HeaderData.UnpSizeHigh:= Int64Rec(Item.FileSize).Hi;
     HeaderData.PackSize:= Int64Rec(Item.PackedSize).Lo;
     HeaderData.PackSizeHigh:= Int64Rec(Item.PackedSize).Hi;
-    HeaderData.FileAttr:= Item.Attributes;
+    if ipAttributes in Item.ValidProperties then
+      HeaderData.FileAttr:= Item.Attributes
+    else begin
+      HeaderData.FileAttr:= FILE_ATTRIBUTE_ARCHIVE;
+    end;
     WinToDosTime(Item.LastWriteTime, LongWord(HeaderData.FileTime));
     if Item.Encrypted then begin
       HeaderData.Flags:= RHDF_ENCRYPTED;
