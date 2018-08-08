@@ -816,18 +816,20 @@ end;
 
 constructor TWfxPluginFileSource.Create(const URI: TURI);
 var
+  Index: Integer;
   sModuleFileName: String;
 begin
-  if gWFXPlugins.Count = 0 then Exit;
   // Check if there is a registered plugin for the name of the file system plugin.
-  sModuleFileName:= gWFXPlugins.Values[URI.Host];
-  if sModuleFileName <> EmptyStr then
-    begin
-      sModuleFileName:= GetCmdDirFromEnvVar(sModuleFileName);
-      Create(sModuleFileName, URI.Host);
+  Index:= gWFXPlugins.FindFirstEnabledByName(URI.Host);
+  if Index < 0 then begin
+    raise EFileSourceException.Create('Cannot find Wfx module ' + URI.Host);
+  end;
 
-      DCDebug('Found registered plugin ' + sModuleFileName + ' for file system ' + URI.Host);
-    end;
+  sModuleFileName:= gWFXPlugins.FileName[Index];
+  sModuleFileName:= GetCmdDirFromEnvVar(sModuleFileName);
+  Create(sModuleFileName, URI.Host);
+
+  DCDebug('Found registered plugin ' + sModuleFileName + ' for file system ' + URI.Host);
 end;
 
 function TWfxPluginFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
