@@ -331,8 +331,8 @@ end;
 procedure TFileViewHeader.UpdateFont;
 begin
   FontOptionsToFont(gFonts[dcfPathEdit], FAddressLabel.Font);
-  FPathLabel.Font:= FAddressLabel.Font;
-  FPathEdit.Font:= FAddressLabel.Font;
+  FontOptionsToFont(gFonts[dcfPathEdit], FPathLabel.Font);
+  FontOptionsToFont(gFonts[dcfPathEdit], FPathEdit.Font);
 end;
 
 procedure TFileViewHeader.ShowPathEdit;
