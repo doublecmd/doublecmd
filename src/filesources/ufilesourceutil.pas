@@ -209,9 +209,11 @@ begin
                                               not SameText(URI.Protocol, 'smb')
                                               );
           if not Assigned(Result) then
-          begin
+          try
             // Create new FileSource with given URI
             Result := aFileSourceClass.Create(URI);
+          except
+            Result := nil;
           end;
         end
       // If found FileSource is same as current then simply change path
