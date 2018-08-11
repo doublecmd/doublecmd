@@ -1,11 +1,12 @@
 inherited frmOptionsMouse: TfrmOptionsMouse
-  Height = 253
-  Width = 426
+  Height = 385
+  Width = 488
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 253
-  ClientWidth = 426
-  DesignTop = 20
+  ClientHeight = 385
+  ClientWidth = 488
+  DesignLeft = 380
+  DesignTop = 148
   object gbSelection: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -14,14 +15,14 @@ inherited frmOptionsMouse: TfrmOptionsMouse
     Left = 6
     Height = 89
     Top = 6
-    Width = 414
+    Width = 476
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     Caption = 'Selection'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 64
-    ClientWidth = 410
+    ClientWidth = 472
     TabOrder = 0
     object cbSelectionByMouse: TCheckBox
       AnchorSideRight.Side = asrBottom
@@ -55,7 +56,7 @@ inherited frmOptionsMouse: TfrmOptionsMouse
       Left = 56
       Height = 28
       Top = 30
-      Width = 346
+      Width = 408
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 8
       BorderSpacing.Right = 8
@@ -86,7 +87,7 @@ inherited frmOptionsMouse: TfrmOptionsMouse
     Left = 6
     Height = 121
     Top = 99
-    Width = 414
+    Width = 476
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 4
@@ -94,7 +95,7 @@ inherited frmOptionsMouse: TfrmOptionsMouse
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 96
-    ClientWidth = 410
+    ClientWidth = 472
     TabOrder = 1
     object rbScrollLineByLineCursor: TRadioButton
       AnchorSideLeft.Control = gbScrolling
@@ -104,7 +105,7 @@ inherited frmOptionsMouse: TfrmOptionsMouse
       Left = 6
       Height = 24
       Top = 6
-      Width = 398
+      Width = 460
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Line by line &with cursor movement'
       Checked = True
@@ -132,7 +133,7 @@ inherited frmOptionsMouse: TfrmOptionsMouse
       Left = 6
       Height = 24
       Top = 66
-      Width = 398
+      Width = 460
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
       Caption = '&Page by page'
@@ -148,7 +149,7 @@ inherited frmOptionsMouse: TfrmOptionsMouse
       Left = 123
       Height = 28
       Top = 34
-      Width = 279
+      Width = 341
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 18
       BorderSpacing.Top = 4
@@ -156,6 +157,60 @@ inherited frmOptionsMouse: TfrmOptionsMouse
       MinValue = 1
       TabOrder = 2
       Value = 1
+    end
+  end
+  object gbOpenWith: TGroupBox[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbScrolling
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 133
+    Top = 220
+    Width = 476
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    Caption = 'Open with'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 108
+    ClientWidth = 472
+    TabOrder = 2
+    object rbDoubleClick: TRadioButton
+      Left = 6
+      Height = 24
+      Top = 6
+      Width = 358
+      Caption = 'Double click'
+      OnChange = rbDoubleClickChange
+      TabOrder = 0
+    end
+    object rbSingleClickBoth: TRadioButton
+      Left = 6
+      Height = 24
+      Top = 30
+      Width = 358
+      Caption = 'Single click (opens files and folders)'
+      TabOrder = 1
+    end
+    object rbSingleClickFolders: TRadioButton
+      Left = 6
+      Height = 24
+      Top = 54
+      Width = 358
+      Caption = 'Single click (opens folders, double click for files)'
+      TabOrder = 2
+    end
+    object chkCursorNoFollow: TCheckBox
+      Left = 6
+      Height = 24
+      Top = 78
+      Width = 358
+      Caption = 'The text cursor no longer follows the mouse cursor'
+      TabOrder = 3
     end
   end
 end
