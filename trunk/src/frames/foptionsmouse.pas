@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Mouse options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils,
-  fOptionsFrame, StdCtrls, Spin;
+  fOptionsFrame, StdCtrls, Spin, ExtCtrls;
 
 type
 
@@ -37,15 +37,21 @@ type
   TfrmOptionsMouse = class(TOptionsEditor)
     cbMouseMode: TComboBox;
     cbSelectionByMouse: TCheckBox;
+    chkCursorNoFollow: TCheckBox;
     chkMouseSelectionIconClick: TCheckBox;
     gbScrolling: TGroupBox;
     gbSelection: TGroupBox;
+    gbOpenWith: TGroupBox;
     lblMouseMode: TLabel;
+    rbDoubleClick: TRadioButton;
+    rbSingleClickBoth: TRadioButton;
+    rbSingleClickFolders: TRadioButton;
     rbScrollLineByLine: TRadioButton;
     rbScrollLineByLineCursor: TRadioButton;
     rbScrollPageByPage: TRadioButton;
     seWheelScrollLines: TSpinEdit;
     procedure cbSelectionByMouseChange(Sender: TObject);
+    procedure rbDoubleClickChange(Sender: TObject);
   protected
     procedure Init; override;
     procedure Load; override;
@@ -71,6 +77,12 @@ begin
   if not cbSelectionByMouse.Checked then chkMouseSelectionIconClick.Checked:= False;
 end;
 
+procedure TfrmOptionsMouse.rbDoubleClickChange(Sender: TObject);
+begin
+  chkCursorNoFollow.Enabled:= not rbDoubleClick.Checked;
+  if rbDoubleClick.Checked then chkCursorNoFollow.Checked:= False;
+end;
+
 procedure TfrmOptionsMouse.Init;
 begin
   ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
@@ -94,6 +106,14 @@ begin
       rbScrollLineByLine.Checked:= True;
   end;
 
+  case gMouseSingleClickStart of
+    0: rbDoubleClick.Checked:= True;
+    1, 5: rbSingleClickBoth.Checked:= True;
+    2, 6: rbSingleClickFolders.Checked:= True;
+  end;
+  chkCursorNoFollow.Enabled:= gMouseSingleClickStart > 0;
+  chkCursorNoFollow.Checked:= gMouseSingleClickStart > 4;
+
   cbSelectionByMouseChange(cbSelectionByMouse);
 end;
 
@@ -110,6 +130,16 @@ begin
     gScrollMode:= smLineByLine
   else if rbScrollPageByPage.Checked then
     gScrollMode:= smPageByPage;
+
+  if rbDoubleClick.Checked then
+    gMouseSingleClickStart:= 0
+  else if rbSingleClickBoth.Checked then
+    gMouseSingleClickStart:= 1
+  else if rbSingleClickFolders.Checked then
+    gMouseSingleClickStart:= 2;
+
+  if chkCursorNoFollow.Checked then
+    gMouseSingleClickStart += 4;
 
   Result := [];
 end;
