@@ -27,7 +27,7 @@ unit uFindThread;
 interface
 
 uses
-  Classes, SysUtils, uFindFiles, uFindEx, uFindByrMr, uMasks, uRegExpr;
+  Classes, SysUtils, uFindFiles, uFindEx, uFindByrMr, uMasks, uRegExprA, uRegExprW;
 
 type
 
@@ -50,7 +50,9 @@ type
     FFilesMasks: TMaskList;
     FExcludeFiles: TMaskList;
     FExcludeDirectories: TMaskList;
-    FRegExpr: TRegExprEx;
+    FFilesMasksRegExp: TRegExprW;
+    FExcludeFilesRegExp: TRegExprW;
+    FRegExpr: TRegExpr;
 
     FTimeSearchStart:TTime;
     FTimeSearchEnd:TTime;
@@ -87,7 +89,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, LConvEncoding, RegExpr, DCStrUtils,
+  LCLProc, StrUtils, LConvEncoding, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
   uLog, uWCXmodule, WcxPlugin, Math, uDCUtils, uConvEncoding, DCDateTimeUtils;
 
@@ -115,7 +117,7 @@ begin
       end
       else begin
         TextEncoding := NormalizeEncoding(TextEncoding);
-        if TextRegExp then FRegExpr := TRegExprEx.Create(TextEncoding);
+        if TextRegExp then FRegExpr := TRegExpr.Create(TextEncoding);
         FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
         ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
       end;
@@ -147,8 +149,14 @@ begin
 
   with FFileChecks do
   begin
-    FFilesMasks := TMaskList.Create(FilesMasks);
-    FExcludeFiles := TMaskList.Create(ExcludeFiles);
+    if RegExp then begin
+      FFilesMasksRegExp := TRegExprW.Create(UTF8Decode(FilesMasks));
+      FExcludeFilesRegExp := TRegExprW.Create(UTF8Decode(ExcludeFiles));
+    end
+    else begin
+      FFilesMasks := TMaskList.Create(FilesMasks);
+      FExcludeFiles := TMaskList.Create(ExcludeFiles);
+    end;
     FExcludeDirectories := TMaskList.Create(ExcludeDirectories);
   end;
 
@@ -164,6 +172,8 @@ begin
   FreeAndNil(FFilesMasks);
   FreeAndNil(FExcludeFiles);
   FreeThenNil(FLinkTargets);
+  FreeAndNil(FFilesMasksRegExp);
+  FreeAndNil(FExcludeFilesRegExp);
   FreeAndNil(FExcludeDirectories);
   inherited Destroy;
 end;
@@ -532,13 +542,16 @@ begin
 end;
 
 function TFindThread.CheckFileName(const FileName: String): Boolean;
+var
+  AFileName: UnicodeString;
 begin
   with FFileChecks do
   begin
     if RegExp then
     begin
-      Result := ((FilesMasks = '') or ExecRegExpr(FilesMasks, FileName)) and
-                ((ExcludeFiles = '') or not ExecRegExpr(ExcludeFiles, FileName));
+      AFileName := UTF8Decode(FileName);
+      Result := ((FilesMasks = '') or FFilesMasksRegExp.Exec(AFileName)) and
+                ((ExcludeFiles = '') or not FExcludeFilesRegExp.Exec(AFileName));
     end
     else
     begin
