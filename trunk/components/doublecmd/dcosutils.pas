@@ -467,29 +467,30 @@ begin
     begin
       MappedFile := nil;
       MappingHandle := 0;
-      FileHandle := feInvalidHandle;
 
       FileHandle := mbFileOpen(sFileName, fmOpenRead);
       if FileHandle = feInvalidHandle then Exit;
 
       Int64Rec(FileSize).Lo := GetFileSize(FileHandle, @Int64Rec(FileSize).Hi);
-      if FileSize = 0 then Exit;   // Cannot map empty files
+      if FileSize = 0 then // Cannot map empty files
+      begin
+        UnMapFile(FileMapRec);
+        Exit;
+      end;
 
       MappingHandle := CreateFileMapping(FileHandle, nil, PAGE_READONLY, 0, 0, nil);
-      if MappingHandle <> 0 then
+      if MappingHandle = 0 then
       begin
-        MappedFile := MapViewOfFile(MappingHandle, FILE_MAP_READ, 0, 0, 0);
-        if not Assigned(MappedFile) then
-        begin
-          UnMapFile(FileMapRec);
-          Exit;
-        end;
-      end
-      else
-        begin
-          UnMapFile(FileMapRec);
-          Exit;
-        end;
+        UnMapFile(FileMapRec);
+        Exit;
+      end;
+
+      MappedFile := MapViewOfFile(MappingHandle, FILE_MAP_READ, 0, 0, 0);
+      if not Assigned(MappedFile) then
+      begin
+        UnMapFile(FileMapRec);
+        Exit;
+      end;
     end;
   Result := True;
 end;
@@ -505,10 +506,10 @@ begin
 
       if FileHandle = feInvalidHandle then Exit;
       if fpfstat(FileHandle, StatInfo) <> 0 then
-        begin
-          UnMapFile(FileMapRec);
-          Exit;
-        end;
+      begin
+        UnMapFile(FileMapRec);
+        Exit;
+      end;
 
       FileSize := StatInfo.st_size;
       if FileSize = 0 then // Cannot map empty files
@@ -519,11 +520,11 @@ begin
 
       MappedFile:= fpmmap(nil,FileSize,PROT_READ, MAP_PRIVATE{SHARED},FileHandle,0 );
       if MappedFile = MAP_FAILED then
-        begin
-          MappedFile := nil;
-          UnMapFile(FileMapRec);
-          Exit;
-        end;
+      begin
+        MappedFile := nil;
+        UnMapFile(FileMapRec);
+        Exit;
+      end;
     end;
   Result := True;
 end;
