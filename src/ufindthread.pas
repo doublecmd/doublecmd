@@ -575,36 +575,37 @@ begin
       Result := CheckFileAttributes(FFileChecks, sr.Attr);
 
     if (Result and IsFindText) then
-       begin
-         if FPS_ISDIR(sr.Attr) then
-           Exit(False);
+    begin
+      if FPS_ISDIR(sr.Attr) or (sr.Size = 0) then
+        Exit(False);
 
-         try
-           Result := FindInFile(Folder + PathDelim + sr.Name, FindText, CaseSensitive, TextRegExp);
+      try
+        Result := FindInFile(Folder + PathDelim + sr.Name, FindText, CaseSensitive, TextRegExp);
 
-           if (Result and IsReplaceText) then
-             FileReplaceString(Folder + PathDelim + sr.Name, FindText, ReplaceText, CaseSensitive, TextRegExp);
+        if (Result and IsReplaceText) then
+          FileReplaceString(Folder + PathDelim + sr.Name, FindText, ReplaceText, CaseSensitive, TextRegExp);
 
-           if NotContainingText then
-             Result := not Result;
+        if NotContainingText then
+          Result := not Result;
 
-         except
-           on E : Exception do
-           begin
-             Result := False;
-             if (log_errors in gLogOptions) then
-             begin
-               logWrite(Self, rsMsgLogError + E.Message + ' (' +
-                        Folder + PathDelim + sr.Name + ')', lmtError);
-             end;
-           end;
-         end;
-       end;
+      except
+        on E : Exception do
+        begin
+          Result := False;
+          if (log_errors in gLogOptions) then
+          begin
+            logWrite(Self, rsMsgLogError + E.Message + ' (' +
+                     Folder + PathDelim + sr.Name + ')', lmtError);
+          end;
+        end;
+      end;
+    end;
+
     if Result and ContentPlugin then
     begin
       Result:= CheckPlugin(FSearchTemplate, Folder + PathDelim + sr.Name);
     end;
-   end;
+  end;
 end;
 
 procedure TFindThread.DoFile(const sNewDir: String; const sr : TSearchRecEx);
