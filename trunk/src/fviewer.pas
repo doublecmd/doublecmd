@@ -292,8 +292,9 @@ type
     FThread: TThread;
 
     //---------------------
-    WlxPlugins:TWLXModuleList;
-    ActivePlugin:Integer;
+    WlxPlugins: TWLXModuleList;
+    FWlxModule: TWlxModule;
+    ActivePlugin: Integer;
     //---------------------
     function GetListerRect: TRect;
     function CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
@@ -602,7 +603,7 @@ end;
 procedure TfrmViewer.LoadNextFile(const aFileName: String);
 begin
   if bPlugin then
-    with WlxPlugins.GetWlxModule(ActivePlugin) do
+    with FWlxModule do
     begin
       if FileParamVSDetectStr(aFileName, False) then
       begin
@@ -636,7 +637,7 @@ end;
 
 procedure TfrmViewer.FormResize(Sender: TObject);
 begin
-  if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(GetListerRect);
+  if bPlugin then FWlxModule.ResizeWindow(GetListerRect);
 end;
 
 procedure TfrmViewer.FormShow(Sender: TObject);
@@ -951,7 +952,7 @@ end;
 
 procedure TfrmViewer.WMSetFocus(var Message: TLMSetFocus);
 begin
-  if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).SetFocus;
+  if bPlugin then FWlxModule.SetFocus;
 end;
 
 procedure TfrmViewer.RedEyes;
@@ -1159,6 +1160,7 @@ begin
           Continue;
         end;
         ActivePlugin:= I;
+        FWlxModule:= WlxModule;
         WlxModule.ResizeWindow(GetListerRect);
         miPrint.Enabled:= WlxModule.CanPrint;
         // Set focus to plugin window
@@ -1169,16 +1171,17 @@ begin
   end;
   // Plugin not found
   ActivePlugin:= -1;
+  FWlxModule:= nil;
   Result:= False;
 end;
 
 procedure TfrmViewer.ExitPluginMode;
 begin
-  if (WlxPlugins.Count > 0) and (ActivePlugin >= 0) then
-  begin
-    WlxPlugins.GetWlxModule(ActivePlugin).CallListCloseWindow;
+  if Assigned(FWlxModule) then begin
+    FWlxModule.CallListCloseWindow;
   end;
   bPlugin:= False;
+  FWlxModule:= nil;
   ActivePlugin:= -1;
   miPrint.Enabled:= False;
 end;
@@ -1460,7 +1463,7 @@ begin
     DrawPreview.RowCount:= FileList.Count div DrawPreview.ColCount + 1
   else
     DrawPreview.RowCount:= FileList.Count div DrawPreview.ColCount;
-  if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(GetListerRect);
+  if bPlugin then FWlxModule.ResizeWindow(GetListerRect);
 end;
 
 procedure TfrmViewer.TimerScreenshotTimer(Sender: TObject);
@@ -1610,7 +1613,9 @@ end;
 
 procedure TfrmViewer.UpdateImagePlacement;
 begin
-  if bImage then
+  if bPlugin then
+    FWlxModule.CallListSendCommand(lc_newparams , PluginShowFlags)
+  else if bImage then
   begin
     if gboxHightlight.Visible then 
     begin
@@ -1620,9 +1625,7 @@ begin
       UndoTmp;
     end;
     AdjustImageSize;
-  end
-  else if bPlugin then
-    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_newparams , PluginShowFlags)
+  end;
 end;
 
 procedure TfrmViewer.FormCreate(Sender: TObject);
@@ -2095,7 +2098,7 @@ begin
       begin
         FFindDialog.chkHex.Checked:= False;
         // if plugin has specific search dialog
-        if WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchDialog(0) = LISTPLUGIN_OK then
+        if FWlxModule.CallListSearchDialog(0) = LISTPLUGIN_OK then
           Exit;
       end;
       FFindDialog.chkHex.Visible:= not bPlugin;
@@ -2113,12 +2116,12 @@ begin
     end
   else
     begin
-        if bPlugin then
-          begin
-            // if plugin has specific search dialog
-            if WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchDialog(1) = LISTPLUGIN_OK then
-              Exit;
-          end;
+      if bPlugin then
+      begin
+        // if plugin has specific search dialog
+        if FWlxModule.CallListSearchDialog(1) = LISTPLUGIN_OK then
+          Exit;
+      end;
       if glsSearchHistory.Count > 0 then
         sSearchTextU:= glsSearchHistory[0];
     end;
@@ -2128,7 +2131,7 @@ begin
       iSearchParameter:= 0;
       if bSearchBackwards then iSearchParameter:= lcs_backwards;
       if FFindDialog.cbCaseSens.Checked then iSearchParameter:= iSearchParameter or lcs_matchcase;
-      WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchText(sSearchTextU, iSearchParameter);
+      FWlxModule.CallListSearchText(sSearchTextU, iSearchParameter);
     end
   else if ViewerControl.IsFileOpen then
     begin
@@ -2275,7 +2278,7 @@ begin
 
   if Panel = nil then
   begin
-    Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
+    Status.Panels[sbpPluginName].Text:= FWlxModule.Name;
   end
   else if Panel = pnlText then
   begin
@@ -2342,7 +2345,7 @@ begin
 
   if bPlugin then
   begin
-    if (WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, FileList[I], PluginShowFlags) <> LISTPLUGIN_ERROR) then
+    if (FWlxModule.CallListLoadNext(Self.Handle, FileList[I], PluginShowFlags) <> LISTPLUGIN_ERROR) then
     Exit;
   end;
   ExitPluginMode;
@@ -2369,9 +2372,8 @@ begin
 
   if bPlugin then
   begin
-    if (WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(Self.Handle, FileList[I], PluginShowFlags) <> LISTPLUGIN_ERROR) then
+    if (FWlxModule.CallListLoadNext(Self.Handle, FileList[I], PluginShowFlags) <> LISTPLUGIN_ERROR) then
       Exit;
-
   end;
   ExitPluginMode;
   if pnlPreview.Visible then
@@ -2648,7 +2650,7 @@ end;
 procedure TfrmViewer.cm_CopyToClipboard(const Params: array of string);
 begin
   if bPlugin then
-   WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_copy, 0)
+   FWlxModule.CallListSendCommand(lc_copy, 0)
   else begin
     if (miGraphics.Checked)and(Image.Picture<>nil)and(Image.Picture.Bitmap<>nil)then
     begin
@@ -2669,9 +2671,9 @@ end;
 procedure TfrmViewer.cm_SelectAll(const Params: array of string);
 begin
   if bPlugin then
-     WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_selectall, 0)
+    FWlxModule.CallListSendCommand(lc_selectall, 0)
   else
-      ViewerControl.SelectAll;
+    ViewerControl.SelectAll;
 end;
 
 procedure TfrmViewer.cm_Find(const Params: array of string);
@@ -2709,7 +2711,7 @@ begin
     FThread.Terminate;
     FThread.WaitFor;
   end;
-  if bPlugin then WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(GetListerRect);
+  if bPlugin then FWlxModule.ResizeWindow(GetListerRect);
 end;
 
 procedure TfrmViewer.cm_ShowAsText(const Params: array of string);
