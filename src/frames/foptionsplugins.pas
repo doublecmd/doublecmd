@@ -601,7 +601,6 @@ begin
       stgPlugins.Cells[3, J]:= tmpWFXPlugins.FileName[I];
       DCDebug('WFX Item Added');
     finally
-      WFXmodule.Free;
       DCDebug('WFX Freed');
     end;
   end;
