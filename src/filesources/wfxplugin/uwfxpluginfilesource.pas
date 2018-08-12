@@ -12,7 +12,7 @@ uses
 
 type
 
-  TUpdateProgress = function(SourceName, TargetName: String; PercentDone: Integer): Integer of object;
+  TUpdateProgress = function(SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer of object;
 
   { IWfxPluginFileSource }
 
@@ -184,7 +184,7 @@ var
 
 { CallBack functions }
 
-function MainProgressProc(PluginNr: Integer; SourceName, TargetName: String; PercentDone: Integer): Integer;
+function MainProgressProc(PluginNr: Integer; SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer;
 var
   CallbackDataClass: TCallbackDataClass;
 begin
@@ -212,22 +212,36 @@ end;
 
 function MainProgressProcA(PluginNr: Integer; SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer; dcpcall;
 var
-  sSourceName,
-  sTargetName: String;
+  sSourceName, sTargetName: String;
 begin
-  sSourceName:= CeSysToUtf8(StrPas(SourceName));
-  sTargetName:= CeSysToUtf8(StrPas(TargetName));
-  Result:= MainProgressProc(PluginNr, sSourceName, sTargetName, PercentDone);
+  if Assigned(SourceName) then
+  begin
+    sSourceName:= CeSysToUtf8(StrPas(SourceName));
+    SourceName:= PAnsiChar(sSourceName);
+  end;
+  if Assigned(TargetName) then
+  begin
+    sTargetName:= CeSysToUtf8(StrPas(TargetName));
+    TargetName:= PAnsiChar(sTargetName);
+  end;
+  Result:= MainProgressProc(PluginNr, SourceName, TargetName, PercentDone);
 end;
 
 function MainProgressProcW(PluginNr: Integer; SourceName, TargetName: PWideChar; PercentDone: Integer): Integer; dcpcall;
 var
-  sSourceName,
-  sTargetName: String;
+  sSourceName, sTargetName: String;
 begin
-  sSourceName:= UTF16ToUTF8(UnicodeString(SourceName));
-  sTargetName:= UTF16ToUTF8(UnicodeString(TargetName));
-  Result:= MainProgressProc(PluginNr, sSourceName, sTargetName, PercentDone);
+  if Assigned(SourceName) then
+  begin
+    sSourceName:= UTF16ToUTF8(UnicodeString(SourceName));
+    SourceName:= Pointer(PAnsiChar(sSourceName));
+  end;
+  if Assigned(TargetName) then
+  begin
+    sTargetName:= UTF16ToUTF8(UnicodeString(TargetName));
+    TargetName:= Pointer(PAnsiChar(sTargetName));
+  end;
+  Result:= MainProgressProc(PluginNr, Pointer(SourceName), Pointer(TargetName), PercentDone);
 end;
 
 procedure MainLogProc(PluginNr, MsgType: Integer; LogString: String);

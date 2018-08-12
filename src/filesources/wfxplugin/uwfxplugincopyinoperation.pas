@@ -32,7 +32,7 @@ type
     procedure SetNeedsConnection(AValue: Boolean);
 
   protected
-    function UpdateProgress(SourceName, TargetName: String; PercentDone: Integer): Integer;
+    function UpdateProgress(SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer;
 
   public
     constructor Create(aSourceFileSource: IFileSource;
@@ -70,7 +70,7 @@ begin
     FInfoOperation:= FS_STATUS_OP_PUT_SINGLE;
 end;
 
-function TWfxPluginCopyInOperation.UpdateProgress(SourceName,TargetName: String;
+function TWfxPluginCopyInOperation.UpdateProgress(SourceName,TargetName: PAnsiChar;
                                                   PercentDone: Integer): Integer;
 var
   iTemp: Int64;
@@ -84,8 +84,12 @@ begin
 
   with FStatistics do
   begin
-    FStatistics.CurrentFileFrom:= SourceName;
-    FStatistics.CurrentFileTo:= TargetName;
+    if Assigned(SourceName) then begin
+      FStatistics.CurrentFileFrom:= SourceName;
+    end;
+    if Assigned(TargetName) then begin
+      FStatistics.CurrentFileTo:= TargetName;
+    end;
 
     iTemp:= CurrentFileTotalBytes * PercentDone div 100;
     DoneBytes := DoneBytes + (iTemp - CurrentFileDoneBytes);
