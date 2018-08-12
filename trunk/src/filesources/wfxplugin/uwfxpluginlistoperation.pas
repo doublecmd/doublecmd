@@ -20,7 +20,7 @@ type
     FCallbackDataClass: TCallbackDataClass;
     FCurrentPath: String;
   protected
-    function UpdateProgress(SourceName, TargetName: String; PercentDone: Integer): Integer;
+    function UpdateProgress(SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer;
   public
     constructor Create(aFileSource: IFileSource; aPath: String); override;
     destructor Destroy; override;
@@ -35,7 +35,7 @@ implementation
 uses
   DCFileAttributes, DCStrUtils, uFile, WfxPlugin, uWfxModule, uLog, uLng;
 
-function TWfxPluginListOperation.UpdateProgress(SourceName, TargetName: String;
+function TWfxPluginListOperation.UpdateProgress(SourceName, TargetName: PAnsiChar;
                                                 PercentDone: Integer): Integer;
 begin
   logWrite(rsMsgLoadingFileList + IntToStr(PercentDone) + '%', lmtInfo, False, False);

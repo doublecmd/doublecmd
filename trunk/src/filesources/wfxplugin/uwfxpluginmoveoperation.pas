@@ -30,7 +30,7 @@ type
     // Options
     FInfoOperation: LongInt;
   protected
-    function UpdateProgress(SourceName, TargetName: String; PercentDone: Integer): Integer;
+    function UpdateProgress(SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer;
 
   public
     constructor Create(aFileSource: IFileSource;
@@ -54,7 +54,7 @@ uses
 
 // -- TWfxPluginMoveOperation ---------------------------------------------
 
-function TWfxPluginMoveOperation.UpdateProgress(SourceName, TargetName: String;
+function TWfxPluginMoveOperation.UpdateProgress(SourceName, TargetName: PAnsiChar;
                                                 PercentDone: Integer): Integer;
 var
   iTemp: Int64;
@@ -68,8 +68,12 @@ begin
 
   with FStatistics do
   begin
-    FStatistics.CurrentFileFrom:= SourceName;
-    FStatistics.CurrentFileTo:= TargetName;
+    if Assigned(SourceName) then begin
+      FStatistics.CurrentFileFrom:= SourceName;
+    end;
+    if Assigned(TargetName) then begin
+      FStatistics.CurrentFileTo:= TargetName;
+    end;
 
     iTemp:= CurrentFileTotalBytes * PercentDone div 100;
     DoneBytes := DoneBytes + (iTemp - CurrentFileDoneBytes);
