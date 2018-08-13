@@ -1,0 +1,15 @@
+{"version":1,"strings":[
+{"hash":45807518,"name":"tfrmoptionsmouse.gbselection.caption","sourcebytes":[83,101,108,101,99,116,105,111,110],"value":"Selection"},
+{"hash":170541445,"name":"tfrmoptionsmouse.cbselectionbymouse.caption","sourcebytes":[38,83,101,108,101,99,116,105,111,110,32,98,121,32,109,111,117,115,101],"value":"&Selection by mouse"},
+{"hash":45374090,"name":"tfrmoptionsmouse.lblmousemode.caption","sourcebytes":[38,77,111,100,101,58],"value":"&Mode:"},
+{"hash":242261230,"name":"tfrmoptionsmouse.chkmouseselectioniconclick.caption","sourcebytes":[66,121,32,99,108,105,99,38,107,105,110,103,32,111,110,32,105,99,111,110],"value":"By clic&king on icon"},
+{"hash":157513703,"name":"tfrmoptionsmouse.gbscrolling.caption","sourcebytes":[83,99,114,111,108,108,105,110,103],"value":"Scrolling"},
+{"hash":116243732,"name":"tfrmoptionsmouse.rbscrolllinebylinecursor.caption","sourcebytes":[76,105,110,101,32,98,121,32,108,105,110,101,32,38,119,105,116,104,32,99,117,114,115,111,114,32,109,111,118,101,109,101,110,116],"value":"Line by line &with cursor movement"},
+{"hash":42428677,"name":"tfrmoptionsmouse.rbscrolllinebyline.caption","sourcebytes":[38,76,105,110,101,32,98,121,32,108,105,110,101],"value":"&Line by line"},
+{"hash":47231125,"name":"tfrmoptionsmouse.rbscrollpagebypage.caption","sourcebytes":[38,80,97,103,101,32,98,121,32,112,97,103,101],"value":"&Page by page"},
+{"hash":201823944,"name":"tfrmoptionsmouse.gbopenwith.caption","sourcebytes":[79,112,101,110,32,119,105,116,104],"value":"Open with"},
+{"hash":65050299,"name":"tfrmoptionsmouse.rbdoubleclick.caption","sourcebytes":[68,111,117,98,108,101,32,99,108,105,99,107],"value":"Double click"},
+{"hash":31955305,"name":"tfrmoptionsmouse.rbsingleclickboth.caption","sourcebytes":[83,105,110,103,108,101,32,99,108,105,99,107,32,40,111,112,101,110,115,32,102,105,108,101,115,32,97,110,100,32,102,111,108,100,101,114,115,41],"value":"Single click (opens files and folders)"},
+{"hash":3492345,"name":"tfrmoptionsmouse.rbsingleclickfolders.caption","sourcebytes":[83,105,110,103,108,101,32,99,108,105,99,107,32,40,111,112,101,110,115,32,102,111,108,100,101,114,115,44,32,100,111,117,98,108,101,32,99,108,105,99,107,32,102,111,114,32,102,105,108,101,115,41],"value":"Single click (opens folders, double click for files)"},
+{"hash":36904834,"name":"tfrmoptionsmouse.chkcursornofollow.caption","sourcebytes":[84,104,101,32,116,101,120,116,32,99,117,114,115,111,114,32,110,111,32,108,111,110,103,101,114,32,102,111,108,108,111,119,115,32,116,104,101,32,109,111,117,115,101,32,99,117,114,115,111,114],"value":"The text cursor no longer follows the mouse cursor"}
+]}
