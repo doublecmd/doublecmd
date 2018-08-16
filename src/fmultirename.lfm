@@ -12,7 +12,7 @@ object frmMultiRename: TfrmMultiRename
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.8.4.0'
   object StringGrid: TStringGrid
     Left = 6
     Height = 244
@@ -271,7 +271,7 @@ object frmMultiRename: TfrmMultiRename
         BorderSpacing.Left = 4
         BorderSpacing.Top = 2
         BorderSpacing.Right = 4
-        OnChange = cmbNameStyleChange
+        OnChange = edFindChange
         TabOrder = 0
       end
       object edReplace: TEdit
