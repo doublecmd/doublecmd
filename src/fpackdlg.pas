@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File packing window
 
-   Copyright (C) 2007-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,9 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fPackDlg;
@@ -135,8 +133,6 @@ var
 
           if Assigned(Operation) then
             begin
-              // TODO: Check if another operation is not running first (for WCX).
-
               if NewTargetFileSource.IsInterface(IWcxArchiveFileSource) then
                 begin
                   with Operation as TWcxArchiveCopyInOperation do
@@ -241,7 +237,7 @@ begin
             begin
               // If create separate archives, one per selected file/dir
               if cbCreateSeparateArchives.Checked then
-                try
+                begin
                   // If files count > 1 then put to queue
                   if (Files.Count > 1) and (QueueIdentifier = FreeOperationsQueueId) then
                     QueueId := OperationsManager.GetNewQueueIdentifier
@@ -253,61 +249,62 @@ begin
                   begin
                     // Fill files to pack
                     aFiles:= TFiles.Create(Files.Path);
-                    aFiles.Add(Files[I].Clone);
-
                     try
+                      aFiles.Add(Files[I].Clone);
+                      FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
                       try
                         // Check if there is an ArchiveFileSource for possible archive.
-                        aFile := SourceFileSource.CreateFileObject(ExtractFilePath(edtPackCmd.Text));
-                        aFile.Name := Files[I].Name + FTarExt + FArchiveExt;
-                        NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
+                        aFile := SourceFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
+                        try
+                          aFile.Name := Files[I].Name + FTarExt + FArchiveExt;
+                          NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
+                        finally
+                          FreeAndNil(aFile);
+                        end;
                       except
-                        on e: EFileSourceException do
-                          begin
-                            MessageDlg(e.Message, mtError, [mbOK], 0);
-                            Exit;
-                          end;
+                        on E: EFileSourceException do
+                        begin
+                          MessageDlg(E.Message, mtError, [mbOK], 0);
+                          Exit;
+                        end;
                       end;
-
                       // Pack current item
                       Pack(aFiles, QueueId);
                     finally
-                      FreeAndNil(aFile);
+                      FreeAndNil(aFiles);
                     end;
-                  end;
-
-                finally
-                  FreeAndNil(aFiles);
+                  end; // for
                 end
               else
                 begin
+                  FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
                   try
                     // Check if there is an ArchiveFileSource for possible archive.
-                    aFile := SourceFileSource.CreateFileObject(ExtractFilePath(edtPackCmd.Text));
-                    aFile.Name := ExtractFileName(edtPackCmd.Text);
-                    NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
+                    aFile := SourceFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
+                    try
+                      aFile.Name := ExtractFileName(FArchiveName);
+                      NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
+                    finally
+                      FreeAndNil(aFile);
+                    end;
                   except
-                    on e: EFileSourceException do
-                      begin
-                        MessageDlg(e.Message, mtError, [mbOK], 0);
-                        Exit;
-                      end;
+                    on E: EFileSourceException do
+                    begin
+                      MessageDlg(E.Message, mtError, [mbOK], 0);
+                      Exit;
+                    end;
                   end;
-
                   // Pack files
                   Pack(Files, QueueIdentifier);
                 end;
             end;
-
             // Save last used packer
             gLastUsedPacker:= FArchiveType;
           end;
       end;
-
   finally
     FreeAndNil(PackDialog);
     FreeAndNil(Files);
-    FreeAndNil(aFile);
   end;
 end;
 
