@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2007-2014  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2018 Alexander Koblov (alexx2000@mail.ru)
 }
 
 unit fMultiRename;
@@ -18,10 +18,10 @@ unit fMultiRename;
 interface
 
 uses
-  LazUtf8, SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, RegExpr,
+  LazUtf8, SysUtils, Classes, Graphics, Forms, StdCtrls, Menus,
   Controls, LCLType, DCClassesUtf8, uClassesEx, uFile, uFileSource,
   StringHashList, Grids, ExtCtrls, Buttons, DCXmlConfig, uOSForms,
-  uFileProperty, uFileSourceSetFilePropertyOperation;
+  uRegExprW, uFileProperty, uFileSourceSetFilePropertyOperation;
 
 type
 
@@ -124,6 +124,7 @@ type
     procedure btnDeletePresetClick(Sender: TObject);
     procedure cbRegExpChange(Sender: TObject);
     procedure cmbNameStyleChange(Sender: TObject);
+    procedure edFindChange(Sender: TObject);
     procedure mnuEditNamesClick(Sender: TObject);
     procedure mnuLoadFromFileClick(Sender: TObject);
     procedure StringGridKeyDown(Sender: TObject; var Key: Word;
@@ -180,6 +181,7 @@ type
     FMoveRow : Boolean;
     FNames: TStringList;
     FLog: TStringListEx;
+    FRegExp: TRegExprW;
 
     {Handles a single formatting string}
     function sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
@@ -260,6 +262,7 @@ end;
 
 constructor TfrmMultiRename.Create(TheOwner: TComponent; aFileSource: IFileSource; var aFiles: TFiles);
 begin
+  FRegExp := TRegExprW.Create;
   FNames := TStringList.Create;
   FPresets := TStringHashList.Create(False);
   FNewNames:= TStringHashList.Create(FileNameCaseSensitive);
@@ -279,6 +282,7 @@ begin
   FreeAndNil(FNewNames);
   FreeAndNil(FFiles);
   FreeAndNil(FNames);
+  FreeAndNil(FRegExp);
 end;
 
 procedure TfrmMultiRename.FormCreate(Sender: TObject);
@@ -434,7 +438,7 @@ begin
   // Find and replace
   if cbRegExp.Checked and (edFind.Text <> '') then
     try
-      Result:= ReplaceRegExpr(edFind.Text, Result, edReplace.Text, cbUseSubs.Checked);
+      Result:= UTF16ToUTF8(FRegExp.Replace(UTF8Decode(Result), UTF8Decode(edReplace.Text), cbUseSubs.Checked));
     except
       Result:= rsMsgErrRegExpSyntax;
       bError:= True;
@@ -466,6 +470,14 @@ end;
 
 procedure TfrmMultiRename.cmbNameStyleChange(Sender: TObject);
 begin
+  StringGridTopLeftChanged(StringGrid);
+end;
+
+procedure TfrmMultiRename.edFindChange(Sender: TObject);
+begin
+  if cbRegExp.Checked then begin
+    FRegExp.Expression:= UTF8Decode(edFind.Text);
+  end;
   StringGridTopLeftChanged(StringGrid);
 end;
 
@@ -621,7 +633,7 @@ begin
       cbUseSubs.Checked:= False;
     end;
   cbUseSubs.Enabled:= cbRegExp.Checked;
-  StringGridTopLeftChanged(StringGrid);
+  edFindChange(edFind);
 end;
 
 procedure TfrmMultiRename.btnLoadPresetClick(Sender: TObject);
@@ -1261,7 +1273,7 @@ begin
 
     FLastPreset := PresetName;
 
-    StringGridTopLeftChanged(StringGrid);
+    edFindChange(edFind);
   end;
 end;
 
