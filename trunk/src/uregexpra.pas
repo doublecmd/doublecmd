@@ -273,6 +273,7 @@ type
     {$ENDIF}
     function IsWordChar(AChar : REChar) : Boolean; inline;
     function IsSpaceChar(AChar : PRegExprChar) : Boolean; inline;
+    function IsDigit(AChar : PRegExprChar) : Boolean; inline;
 
     // Mark programm as having to be [re]compiled
     procedure InvalidateProgramm;
@@ -1449,6 +1450,12 @@ begin
   Result:=Pos(AChar^,fSpaceChars)>0;
 end;
 
+function TRegExpr.IsDigit(AChar: PRegExprChar): Boolean;
+begin
+  // Avoid Unicode char-> ansi char conversion in case of unicode regexp.
+  Result:=Ord(AChar^) in [Ord('0')..Ord('9')]
+end;
+
 procedure TRegExpr.InvalidateProgramm;
  begin
   if programm <> nil then begin
@@ -2156,17 +2163,16 @@ function TRegExpr.ParseAtom (var flagp : integer) : PRegExprChar;
   end;
 
  function HexDig (ch : REChar) : PtrInt;
+
   begin
-   Result := 0;
-   if (ch >= 'a') and (ch <= 'f')
-    then ch := REChar (ord (ch) - (ord ('a') - ord ('A')));
-   if (ch < '0') or (ch > 'F') or ((ch > '9') and (ch < 'A')) then begin
+   Result := Ord(Ch);
+   Case Result of
+     Ord('A')..Ord('F') : Result:=10+Result-Ord('A');
+     Ord('a')..Ord('f') : Result:=10+Result-Ord('a');
+     Ord('0')..Ord('9') : Result:=Result-Ord('0');
+   else
      Error (reeBadHexDigit);
-     EXIT;
-    end;
-   Result := ord (ch) - ord ('0');
-   if ch >= 'A'
-    then Result := Result - (ord ('A') - ord ('9') - 1);
+   end;
   end;
 
  function EmitRange (AOpCode : REChar) : PRegExprChar;
@@ -2742,44 +2748,39 @@ function TRegExpr.regrepeat (p : PRegExprChar; AMax : PtrInt) : PtrInt;
       UNTIL Result >= AMax;
      end;
     ANYDIGIT:
-      while (Result < TheMax) and
-         (scan^ >= '0') and (scan^ <= '9') do begin
+      while (Result < TheMax) and isDigit(Scan) do
+        begin
         inc (Result);
         inc (scan);
        end;
     NOTDIGIT:
-      while (Result < TheMax) and
-         ((scan^ < '0') or (scan^ > '9')) do begin
+      while (Result < TheMax) and not IsDigit(Scan) do
+        begin
         inc (Result);
         inc (scan);
        end;
     {$IFNDEF UseSetOfChar} //###0.929
     ANYLETTER:
-      while (Result < TheMax) and
-         IsWordChar(scan^) //###0.940
-     {  ((scan^ >= 'a') and (scan^ <= 'z') !! I've forgotten (>='0') and (<='9')
-       or (scan^ >= 'A') and (scan^ <= 'Z') or (scan^ = '_'))} do begin
+      while (Result < TheMax) and IsWordChar(scan^) do //###0.940
+        begin
         inc (Result);
         inc (scan);
        end;
     NOTLETTER:
-      while (Result < TheMax) and
-         not IsWordChar(scan^)  //###0.940
-     {   not ((scan^ >= 'a') and (scan^ <= 'z') !! I've forgotten (>='0') and (<='9')
-         or (scan^ >= 'A') and (scan^ <= 'Z')
-         or (scan^ = '_'))} do begin
+      while (Result < TheMax) and  not IsWordChar(scan^) do //###0.940
+        begin
         inc (Result);
         inc (scan);
        end;
     ANYSPACE:
-      while (Result < TheMax) and
-         IsSpaceChar(scan) do begin
+      while (Result < TheMax) and IsSpaceChar(scan) do
+        begin
         inc (Result);
         inc (scan);
        end;
     NOTSPACE:
-      while (Result < TheMax) and
-         Not IsSpaceChar(scan) do begin
+      while (Result < TheMax) and Not IsSpaceChar(scan) do
+        begin
         inc (Result);
         inc (scan);
        end;
@@ -2958,13 +2959,13 @@ function TRegExpr.MatchPrim (prog : PRegExprChar) : boolean;
             inc (reginput);
            end;
          ANYDIGIT: begin
-            if (reginput^ = #0) or (reginput^ < '0') or (reginput^ > '9')
-             then EXIT;
+            if (reginput^ = #0) or Not IsDigit(reginput) then
+              EXIT;
             inc (reginput);
            end;
          NOTDIGIT: begin
-            if (reginput^ = #0) or ((reginput^ >= '0') and (reginput^ <= '9'))
-             then EXIT;
+            if (reginput^ = #0) or IsDigit(reginput) then
+              EXIT;
             inc (reginput);
            end;
          {$IFNDEF UseSetOfChar} //###0.929
@@ -3774,13 +3775,8 @@ var
    if (p < TemplateEnd) and (p^ = '&')
     then inc (p) // this is '$&' or '${&}'
     else
-     while (p < TemplateEnd) and
-      {$IFDEF UniCode} //###0.935
-      (ord (p^) < 256) and (char (p^) in Digits)
-      {$ELSE}
-      (p^ in Digits)
-      {$ENDIF}
-       do begin
+     while (p < TemplateEnd) and IsDigit(p) do
+       begin
        Result := Result * 10 + (ord (p^) - ord ('0')); //###0.939
        inc (p);
       end;
