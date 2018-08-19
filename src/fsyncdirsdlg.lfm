@@ -11,6 +11,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
+  OnResize = FormResize
   Position = poScreenCenter
   SessionProperties = 'Height;Left;Top;Width;WindowState'
   ShowInTaskBar = stAlways
@@ -471,9 +472,72 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     OnKeyDown = MainDrawGridKeyDown
     OnMouseDown = MainDrawGridMouseDown
   end
+  object pnlProgress: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Owner
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Side = asrBottom
+    Left = 225
+    Height = 81
+    Top = 179
+    Width = 240
+    AutoSize = True
+    ChildSizing.LeftRightSpacing = 8
+    ChildSizing.TopBottomSpacing = 8
+    ChildSizing.VerticalSpacing = 8
+    ClientHeight = 81
+    ClientWidth = 240
+    Constraints.MinWidth = 240
+    TabOrder = 9
+    Visible = False
+    object lblProgress: TLabel
+      AnchorSideLeft.Control = pnlProgress
+      AnchorSideTop.Control = pnlProgress
+      AnchorSideRight.Control = pnlProgress
+      AnchorSideRight.Side = asrBottom
+      Left = 9
+      Height = 1
+      Top = 9
+      Width = 222
+      Alignment = taCenter
+      Anchors = [akTop, akLeft, akRight]
+      ParentColor = False
+    end
+    object ProgressBar: TProgressBar
+      AnchorSideLeft.Control = pnlProgress
+      AnchorSideTop.Control = lblProgress
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlProgress
+      AnchorSideRight.Side = asrBottom
+      Left = 9
+      Height = 20
+      Top = 18
+      Width = 222
+      Anchors = [akTop, akLeft, akRight]
+      Style = pbstMarquee
+      TabOrder = 0
+    end
+    object btnAbort: TBitBtn
+      AnchorSideLeft.Control = ProgressBar
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = ProgressBar
+      AnchorSideTop.Side = asrBottom
+      Left = 71
+      Height = 26
+      Top = 46
+      Width = 98
+      AutoSize = True
+      DefaultCaption = True
+      Kind = bkAbort
+      ModalResult = 3
+      OnClick = btnAbortClick
+      TabOrder = 1
+    end
+  end
   object ImageList1: TImageList
-    left = 256
-    top = 195
+    left = 56
+    top = 152
     Bitmap = {
       4C69070000001000000010000000C3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3
       C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3
