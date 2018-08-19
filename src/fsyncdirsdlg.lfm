@@ -511,10 +511,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       AnchorSideRight.Control = pnlProgress
       AnchorSideRight.Side = asrBottom
       Left = 9
-      Height = 20
+      Height = 22
       Top = 18
       Width = 222
-      Anchors = [akTop, akLeft, akRight]
       Style = pbstMarquee
       TabOrder = 0
     end
