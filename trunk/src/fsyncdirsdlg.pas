@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, LazUTF8Classes,
-  uFileView, uFileSource, uFileSourceCopyOperation, uFile,
+  uFileView, uFileSource, uFileSourceCopyOperation, uFile, uFileSourceOperation,
   uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager;
 
 const
@@ -57,6 +57,7 @@ type
     actSelectCopyRightToLeft: TAction;
     actSelectCopyDefault: TAction;
     ActionList: TActionList;
+    btnAbort: TBitBtn;
     btnSelDir1: TButton;
     btnSelDir2: TButton;
     btnCompare: TButton;
@@ -69,6 +70,7 @@ type
     chkOnlySelected: TCheckBox;
     cbExtFilter: TComboBox;
     HeaderDG: TDrawGrid;
+    lblProgress: TLabel;
     MainDrawGrid: TDrawGrid;
     edPath1: TEdit;
     edPath2: TEdit;
@@ -88,7 +90,9 @@ type
     MenuItemCompare: TMenuItem;
     MenuItemViewRight: TMenuItem;
     MenuItemViewLeft: TMenuItem;
+    pnlProgress: TPanel;
     pmGridMenu: TPopupMenu;
+    ProgressBar: TProgressBar;
     sbCopyRight: TSpeedButton;
     sbEqual: TSpeedButton;
     sbNotEqual: TSpeedButton;
@@ -98,6 +102,7 @@ type
     StatusBar1: TStatusBar;
     TopPanel: TPanel;
     procedure actExecute(Sender: TObject);
+    procedure btnAbortClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnSelDir1Click(Sender: TObject);
     procedure btnCompareClick(Sender: TObject);
@@ -105,6 +110,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
+    procedure FormResize(Sender: TObject);
     procedure MainDrawGridDblClick(Sender: TObject);
     procedure MainDrawGridDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
@@ -139,6 +145,7 @@ type
     hCols: array [0..6] of record Left, Width: Integer end;
     CheckContentThread: TObject;
     Ftotal, Fequal, Fnoneq, FuniqueL, FuniqueR: Integer;
+    FOperation: TFileSourceOperation;
     FFileSourceOperationMessageBoxesUI: TFileSourceOperationMessageBoxesUI;
     procedure ClearFoundItems;
     procedure Compare;
@@ -152,6 +159,7 @@ type
     procedure UpdateStatusBar;
     procedure StopCheckContentThread;
     procedure UpdateSelection(R: Integer);
+    procedure EnableControls(AEnabled: Boolean);
     procedure SetSyncRecState(AState: TSyncRecState);
     property SortIndex: Integer read FSortIndex write SetSortIndex;
     property Commands: TFormCommands read FCommands implements IFormCommands;
@@ -184,8 +192,8 @@ implementation
 uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
-  uFileSourceOperation, uDCUtils, uFileSourceUtil, uFileSourceOperationTypes,
-  uShowForm, uFileSourceDeleteOperation, uOSUtils, uLng, uMasks;
+  uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm,
+  uFileSourceDeleteOperation, uOSUtils, uLng, uMasks;
 
 {$R *.lfm}
 
@@ -406,6 +414,15 @@ begin
   Close
 end;
 
+procedure TfrmSyncDirsDlg.btnAbortClick(Sender: TObject);
+begin
+  if Assigned(FOperation) then
+    FOperation.Stop
+  else begin
+    pnlProgress.Hide;
+  end;
+end;
+
 procedure TfrmSyncDirsDlg.btnSelDir1Click(Sender: TObject);
 var w: TEdit;
 begin
@@ -453,8 +470,6 @@ var
   FileExistsOption: TFileSourceOperationOptionFileExists;
 
   function CopyFiles(src, dst: IFileSource; fs: TFiles; Dest: string): Boolean;
-  var
-    Operation: TFileSourceCopyOperation = nil;
   begin
     if not GetCopyOperationType(Src, Dst, OperationType) then
     begin
@@ -470,14 +485,14 @@ var
         fsoCopy:
           begin
             // Copy within the same file source.
-            Operation := Src.CreateCopyOperation(
+            FOperation := Src.CreateCopyOperation(
                            Fs,
                            Dest) as TFileSourceCopyOperation;
           end;
         fsoCopyOut:
           begin
             // CopyOut to filesystem.
-            Operation := Src.CreateCopyOutOperation(
+            FOperation := Src.CreateCopyOutOperation(
                            Dst,
                            Fs,
                            Dest) as TFileSourceCopyOperation;
@@ -485,46 +500,44 @@ var
         fsoCopyIn:
           begin
             // CopyIn from filesystem.
-            Operation := Dst.CreateCopyInOperation(
+            FOperation := Dst.CreateCopyInOperation(
                            Src,
                            Fs,
                            Dest) as TFileSourceCopyOperation;
           end;
       end;
-      if not Assigned(Operation) then
+      if not Assigned(FOperation) then
       begin
         MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
         Exit(False);
       end;
-      Operation.FileExistsOption := FileExistsOption;
-      Operation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
+      TFileSourceCopyOperation(FOperation).FileExistsOption := FileExistsOption;
+      FOperation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
       try
-        Operation.Execute;
-        Result := Operation.Result = fsorFinished;
-        FileExistsOption := Operation.FileExistsOption;
+        FOperation.Execute;
+        Result := FOperation.Result = fsorFinished;
+        FileExistsOption := TFileSourceCopyOperation(FOperation).FileExistsOption;
       finally
-        Operation.Free;
+        FreeAndNil(FOperation);
       end;
     end;
   end;
 
   function DeleteFiles(FileSource: IFileSource; Files: TFiles): Boolean;
-  var
-    Operation: TFileSourceDeleteOperation;
   begin
     Files.Path := Files[0].Path;
-    Operation:= FileSource.CreateDeleteOperation(Files) as TFileSourceDeleteOperation;
-    if not Assigned(Operation) then
+    FOperation:= FileSource.CreateDeleteOperation(Files);
+    if not Assigned(FOperation) then
     begin
       MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
       Exit(False);
     end;
-    Operation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
+    FOperation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
     try
-      Operation.Execute;
-      Result := Operation.Result = fsorFinished;
+      FOperation.Execute;
+      Result := FOperation.Result = fsorFinished;
     finally
-      Operation.Free;
+      FreeAndNil(FOperation);
     end;
   end;
 
@@ -591,6 +604,7 @@ begin
       Format(rsRightToLeftCopy, [CopyLeftCount, CopyLeftSize]);
     if ShowModal = mrOk then
     begin
+      EnableControls(False);
       if chkConfirmOverwrites.Checked then
         FileExistsOption := fsoofeNone
       else begin
@@ -635,11 +649,13 @@ begin
           if not DeleteFiles(FCmpFileSourceR, DeleteRightFiles) then Break;
         end
         else DeleteRightFiles.Free;
+        if not pnlProgress.Visible then Break;
       end;
+      EnableControls(True);
       btnCompare.Click;
     end;
   finally
-    Free
+    Free;
   end;
 end;
 
@@ -664,11 +680,18 @@ end;
 
 procedure TfrmSyncDirsDlg.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
-  CanClose := FCancel;
-  if not FCancel then
+  if Assigned(FOperation) then
   begin
-    FCancel := True;
-    StopCheckContentThread;
+    FOperation.Stop;
+    CanClose := False;
+  end
+  else begin
+    CanClose := FCancel;
+    if not FCancel then
+    begin
+      FCancel := True;
+      StopCheckContentThread;
+    end;
   end;
 end;
 
@@ -678,6 +701,7 @@ var
 begin
   // Initialize property storage
   InitPropStorage(Self);
+  lblProgress.Caption := rsOperWorking;
   { settings }
   chkSubDirs.Checked     := gSyncDirsSubdirs;
   chkByContent.Checked   := gSyncDirsByContent and chkByContent.Enabled;
@@ -694,6 +718,11 @@ begin
   HMSync := HotMan.Register(Self, HotkeysCategory);
   HMSync.RegisterActionList(ActionList);
   FCommands := TFormCommands.Create(Self, ActionList);
+end;
+
+procedure TfrmSyncDirsDlg.FormResize(Sender: TObject);
+begin
+  ProgressBar.Width:= ClientWidth div 3;
 end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridDblClick(Sender: TObject);
@@ -1345,6 +1374,18 @@ begin
   end;
   sr.FAction := ca;
   MainDrawGrid.InvalidateRow(r);
+end;
+
+procedure TfrmSyncDirsDlg.EnableControls(AEnabled: Boolean);
+begin
+  edPath1.Enabled:= AEnabled;
+  edPath2.Enabled:= AEnabled;
+  TopPanel.Enabled:= AEnabled;
+  btnSelDir1.Enabled:= AEnabled;
+  btnSelDir2.Enabled:= AEnabled;
+  cbExtFilter.Enabled:= AEnabled;
+  MainDrawGrid.Enabled:= AEnabled;
+  pnlProgress.Visible:= not AEnabled;
 end;
 
 procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
