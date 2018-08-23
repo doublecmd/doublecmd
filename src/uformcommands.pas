@@ -496,16 +496,16 @@ type
 var
   methodtable : pmethodnametable;
   i : dword;
-  vmt : tclass;
+  vmt : PVmt;
   pentry: pmethodnamerec;
   CommandRec: PCommandRec;
   Command: String;
   Action: TContainedAction;
 begin
-  vmt := Instance.ClassType;
+  vmt := PVmt(Instance.ClassType);
   while assigned(vmt) do
   begin
-    methodtable := pmethodnametable((Pointer(vmt)+vmtMethodTable)^);
+    methodtable := pmethodnametable(vmt^.vMethodTable);
     if assigned(methodtable) then
     begin
       pentry := @methodtable^.entries;
@@ -528,7 +528,7 @@ begin
         end;
       end;
     end;
-    vmt := pclass(pointer(vmt) + vmtParent)^;
+    vmt := vmt^.vParent;
   end;
 end;
 
