@@ -110,28 +110,26 @@ begin
 end;
 {$ELSE}
 var
-  UnixFindData: PUnixFindData;
   WinAttr: LongInt;
+  UnixFindData: PUnixFindData absolute SearchRec.FindHandle;
 begin
   Result:= -1;
-  UnixFindData:= PUnixFindData(SearchRec.FindHandle);
   if UnixFindData = nil then Exit;
-  if not Assigned(UnixFindData^.Mask) or
-     UnixFindData^.Mask.Matches(SearchRec.Name) then
+  if (UnixFindData^.Mask = nil) or UnixFindData^.Mask.Matches(SearchRec.Name) then
+  begin
+    if fpLStat(UTF8ToSys(UnixFindData^.sPath + SearchRec.Name), @UnixFindData^.StatRec) >= 0 then
     begin
-      if fpLStat(UTF8ToSys(UnixFindData^.sPath + SearchRec.Name), @UnixFindData^.StatRec) >= 0 then
+      with UnixFindData^.StatRec do
       begin
-        with UnixFindData^.StatRec do
-        begin
-          WinAttr:= UnixToWinFileAttr(SearchRec.Name, TFileAttrs(UnixFindData^.StatRec.st_mode));
-          if (WinAttr and SearchRec.ExcludeAttr) <> 0 then Exit;
-          SearchRec.Size:= Int64(st_size);
-          SearchRec.Time:= DCBasicTypes.TFileTime(st_mtime);
-          SearchRec.Attr:= DCBasicTypes.TFileAttrs(st_mode);
-        end;
-        Result:= 0;
+        WinAttr:= UnixToWinFileAttr(SearchRec.Name, TFileAttrs(UnixFindData^.StatRec.st_mode));
+        if (WinAttr and SearchRec.ExcludeAttr) <> 0 then Exit;
+        SearchRec.Size:= Int64(st_size);
+        SearchRec.Time:= DCBasicTypes.TFileTime(st_mtime);
+        SearchRec.Attr:= DCBasicTypes.TFileAttrs(st_mode);
       end;
+      Result:= 0;
     end;
+  end;
 end;
 {$ENDIF}
 
@@ -184,7 +182,7 @@ begin
         Mask := TMask.Create(SearchRec.Name);
       end;
 
-    DirPtr:= fpOpenDir(PChar(CeUtf8ToSys(sPath)));
+    DirPtr:= fpOpenDir(PAnsiChar(CeUtf8ToSys(sPath)));
   end;
   Result:= FindNextEx(SearchRec);
 end;
@@ -202,8 +200,8 @@ begin
 end;
 {$ELSE}
 var
-  UnixFindData: PUnixFindData absolute SearchRec.FindHandle;
   PtrDirEnt: pDirent;
+  UnixFindData: PUnixFindData absolute SearchRec.FindHandle;
 begin
   Result:= -1;
   if UnixFindData = nil then Exit;
