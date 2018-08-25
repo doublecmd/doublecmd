@@ -105,6 +105,12 @@ begin
   Sleep(lua_tointeger(L, 1));
 end;
 
+function luaGetTickCount(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 1;
+  lua_pushinteger(L, GetTickCount64);
+end;
+
 function luaFileGetAttr(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 1;
@@ -263,6 +269,7 @@ begin
     luaP_register(L, 'FindClose', @luaFindClose);
     luaP_register(L, 'FileExists', @luaFileExists);
     luaP_register(L, 'FileGetAttr', @luaFileGetAttr);
+    luaP_register(L, 'GetTickCount', @luaGetTickCount);
     luaP_register(L, 'DirectoryExists', @luaDirectoryExists);
     luaC_register(L, 'PathDelim', PathDelim);
   lua_setglobal(L, 'SysUtils');
