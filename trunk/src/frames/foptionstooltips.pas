@@ -553,7 +553,7 @@ begin
       for iIndex := 0 to pred(FFileInfoToolTipTemp.HintItemList.Count) do
         slValueList.Add(FFileInfoToolTipTemp.HintItemList[iIndex].Name);
 
-      if ShowInputMultiSelectListBox(rsOptToolTipFileTypeExportCaption, rsOptToolTipFileTypeExportDone, slValueList, slOutputIndexSelected) then
+      if ShowInputMultiSelectListBox(rsOptToolTipFileTypeExportCaption, rsOptToolTipFileTypeExportPrompt, slValueList, slOutputIndexSelected) then
       begin
         ExportedFileInfoToolTipTemp := TFileInfoToolTip.Create;
         try

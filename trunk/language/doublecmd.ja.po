@@ -11613,6 +11613,7 @@ msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr ""
 
 #: ulng.rsoptarchiverexportprompt
+msgctxt "ulng.rsoptarchiverexportprompt"
 msgid "Select the one(s) you want to export"
 msgstr ""
 
@@ -12135,6 +12136,11 @@ msgstr ""
 #: ulng.rsopttooltipfiletypeexportdone
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
+msgstr ""
+
+#: ulng.rsopttooltipfiletypeexportprompt
+msgctxt "ulng.rsopttooltipfiletypeexportprompt"
+msgid "Select the one(s) you want to export"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypeimportcaption

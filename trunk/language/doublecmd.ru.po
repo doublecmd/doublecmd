@@ -11611,6 +11611,7 @@ msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr "Экспортирование завершено: %d в файл \"%s\"."
 
 #: ulng.rsoptarchiverexportprompt
+msgctxt "ulng.rsoptarchiverexportprompt"
 msgid "Select the one(s) you want to export"
 msgstr "Выберите архиватор(ы) для экспорта"
 
@@ -12130,6 +12131,11 @@ msgstr ""
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr "Экспортирование завершено: %d в файл \"%s\"."
+
+#: ulng.rsopttooltipfiletypeexportprompt
+msgctxt "ulng.rsopttooltipfiletypeexportprompt"
+msgid "Select the one(s) you want to export"
+msgstr "Выберите архиватор(ы) для экспорта"
 
 #: ulng.rsopttooltipfiletypeimportcaption
 msgid "Import tooltip file type configuration"
