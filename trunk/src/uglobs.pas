@@ -520,6 +520,7 @@ var
   { Editor }
   gEditWaitTime: Integer;
   gEditorSynEditOptions: TSynEditorOptions;
+  gEditorSynEditTabWidth: Integer;
 
   {SyncDirs}
   gSyncDirsSubdirs,
@@ -1655,6 +1656,7 @@ begin
   { Editor }
   gEditWaitTime := 2000;
   gEditorSynEditOptions := SYNEDIT_DEFAULT_OPTIONS;
+  gEditorSynEditTabWidth := 8;
 
   {SyncDirs}
   gSyncDirsSubdirs := False;
@@ -2606,6 +2608,7 @@ begin
     begin
       gEditWaitTime := GetValue(Node, 'EditWaitTime', gEditWaitTime);
       gEditorSynEditOptions := TSynEditorOptions(GetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions)));
+      gEditorSynEditTabWidth := GetValue(Node, 'SynEditTabWidth', gEditorSynEditTabWidth);
     end;
 
     { SyncDirs }
@@ -3096,6 +3099,7 @@ begin
     Node := FindNode(Root, 'Editor',True);
     SetValue(Node, 'EditWaitTime', gEditWaitTime);
     SetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions));
+    SetValue(Node, 'SynEditTabWidth', gEditorSynEditTabWidth);
 
     { SyncDirs }
     Node := FindNode(Root, 'SyncDirs', True);

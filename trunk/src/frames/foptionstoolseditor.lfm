@@ -7,9 +7,6 @@ inherited frmOptionsEditor: TfrmOptionsEditor
   ShowHint = True
   DesignLeft = 117
   DesignTop = 255
-  inherited btnRelativeToolPath: TSpeedButton
-    Anchors = [akTop, akRight, akBottom]
-  end
   object gbInternalEditor: TGroupBox[8]
     AnchorSideLeft.Control = fneToolsPath
     AnchorSideTop.Control = cbToolsKeepTerminalOpen
@@ -17,8 +14,8 @@ inherited frmOptionsEditor: TfrmOptionsEditor
     AnchorSideRight.Control = edtToolsParameters
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 111
-    Top = 227
+    Height = 146
+    Top = 200
     Width = 571
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -27,68 +24,121 @@ inherited frmOptionsEditor: TfrmOptionsEditor
     Caption = 'Internal editor options'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ChildSizing.HorizontalSpacing = 12
+    ChildSizing.HorizontalSpacing = 3
     ChildSizing.EnlargeHorizontal = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ChildSizing.ControlsPerLine = 2
-    ClientHeight = 84
-    ClientWidth = 565
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 126
+    ClientWidth = 567
     TabOrder = 5
-    object chkScrollPastEndLine: TCheckBox
-      AnchorSideTop.Side = asrBottom
+    object pnlBooleanOptions: TPanel
       Left = 6
-      Height = 24
-      Hint = 'Allows caret to go into empty space beyond end-of-line position'
+      Height = 88
       Top = 6
-      Width = 218
-      BorderSpacing.Left = 6
-      Caption = 'Caret past end of line'
+      Width = 555
+      AutoSize = True
+      BevelOuter = bvNone
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.TopBottomSpacing = 6
+      ChildSizing.HorizontalSpacing = 12
+      ChildSizing.EnlargeHorizontal = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 2
+      ClientHeight = 88
+      ClientWidth = 555
       TabOrder = 0
+      object chkAutoIndent: TCheckBox
+        Left = 6
+        Height = 19
+        Hint = 'Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line'
+        Top = 6
+        Width = 305
+        Caption = 'Auto Indent'
+        TabOrder = 0
+      end
+      object chkTrimTrailingSpaces: TCheckBox
+        Left = 323
+        Height = 19
+        Hint = 'Auto delete trailing spaces, this applies only to edited lines'
+        Top = 6
+        Width = 226
+        Caption = 'Delete trailing spaces'
+        TabOrder = 1
+      end
+      object chkScrollPastEndLine: TCheckBox
+        AnchorSideTop.Side = asrBottom
+        Left = 6
+        Height = 19
+        Hint = 'Allows caret to go into empty space beyond end-of-line position'
+        Top = 25
+        Width = 305
+        BorderSpacing.Left = 6
+        Caption = 'Caret past end of line'
+        TabOrder = 2
+      end
+      object chkShowSpecialChars: TCheckBox
+        Left = 323
+        Height = 19
+        Hint = 'Shows special characters for spaces and tabulations'
+        Top = 25
+        Width = 226
+        Caption = 'Show special characters'
+        TabOrder = 3
+      end
+      object chkTabsToSpaces: TCheckBox
+        Left = 6
+        Height = 19
+        Hint = 'Converts tab characters to a specified number of space characters (when entering)'
+        Top = 44
+        Width = 305
+        Caption = 'Use spaces instead tab characters'
+        TabOrder = 4
+      end
+      object chkTabIndent: TCheckBox
+        Left = 323
+        Height = 19
+        Hint = 'When active <Tab> and <Shift+Tab> act as block indent, unindent when text is selected'
+        Top = 44
+        Width = 226
+        Caption = 'Tab indents blocks'
+        TabOrder = 5
+      end
+      object chkSmartTabs: TCheckBox
+        Left = 6
+        Height = 19
+        Hint = 'When using <Tab> key, caret will go to the next non-space character of the previous line'
+        Top = 63
+        Width = 305
+        Caption = 'Smart Tabs'
+        TabOrder = 6
+      end
     end
-    object chkShowSpecialChars: TCheckBox
-      Left = 236
-      Height = 24
-      Hint = 'Shows special characters for spaces and tabulations'
-      Top = 6
-      Width = 323
-      Caption = 'Show special characters'
+    object edTabWidth: TEdit
+      AnchorSideLeft.Control = lblTabWidth
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = pnlBooleanOptions
+      AnchorSideTop.Side = asrBottom
+      Left = 64
+      Height = 23
+      Hint = 'Please note that the "Smart Tabs" option takes precedence over the tabulation to be performed'
+      Top = 97
+      Width = 80
+      BorderSpacing.Top = 3
       TabOrder = 1
+      Text = 'edTabWidth'
     end
-    object chkTrimTrailingSpaces: TCheckBox
+    object lblTabWidth: TLabel
+      AnchorSideLeft.Control = pnlBooleanOptions
+      AnchorSideTop.Control = edTabWidth
+      AnchorSideTop.Side = asrCenter
       Left = 6
-      Height = 24
-      Hint = 'Auto delete trailing spaces, this applies only to edited lines'
-      Top = 30
-      Width = 218
-      Caption = 'Delete trailing spaces'
-      TabOrder = 2
-    end
-    object chkTabsToSpaces: TCheckBox
-      Left = 236
-      Height = 24
-      Hint = 'Converts tab characters to a specified number of space characters (when entering)'
-      Top = 30
-      Width = 323
-      Caption = 'Use spaces instead tab characters'
-      TabOrder = 3
-    end
-    object chkAutoIndent: TCheckBox
-      Left = 6
-      Height = 24
-      Hint = 'Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line'
-      Top = 54
-      Width = 218
-      Caption = 'Auto Indent'
-      TabOrder = 4
-    end
-    object chkTabIndent: TCheckBox
-      Left = 236
-      Height = 24
-      Hint = 'When active <Tab> and <Shift+Tab> act as block indent, unindent when text is selected'
-      Top = 54
-      Width = 323
-      Caption = 'Tab indents blocks'
-      TabOrder = 5
+      Height = 15
+      Hint = 'Please note that the "Smart Tabs" option takes precedence over the tabulation to be performed'
+      Top = 101
+      Width = 55
+      Caption = 'Tab width:'
+      FocusControl = edTabWidth
+      ParentColor = False
     end
   end
   inherited pmPathHelper: TPopupMenu[9]

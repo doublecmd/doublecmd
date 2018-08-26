@@ -267,6 +267,7 @@ begin
 
   Editor.Options:= gEditorSynEditOptions;
   FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
+  Editor.TabWidth := gEditorSynEditTabWidth;
 
 // update menu highlighting
   miHighlight.Clear;
