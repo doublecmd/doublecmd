@@ -33,7 +33,7 @@ var
   sr: TSearchRecEx;
 begin
   try
-    if FindFirstEx(APath + '*', faAnyFile, sr) = 0 then
+    if FindFirstEx(APath + '*', 0, sr) = 0 then
     repeat
       CheckOperationState;
 
@@ -73,7 +73,7 @@ begin
 
   IsRootPath := FileSource.IsPathAtRoot(Path);
 
-  Found := FindFirstEx(FFiles.Path + '*', faAnyFile, sr) = 0;
+  Found := FindFirstEx(FFiles.Path + '*', 0, sr) = 0;
   try
     if not Found then
     begin

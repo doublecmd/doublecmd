@@ -111,7 +111,7 @@ begin
     templateDir:= IncludeTrailingPathDelimiter(mbExpandFileName(TrimQuotes(templateDir)));
     if mbDirectoryExists(templateDir) then
     begin
-      if FindFirstEx(templateDir, faAnyFile, searchRec) = 0 then
+      if FindFirstEx(templateDir, 0, searchRec) = 0 then
       begin
         Items:= TStringList.Create;
         repeat
@@ -150,7 +150,7 @@ begin
     for I:= Low(templateDir) to High(templateDir) do
     if mbDirectoryExists(templateDir[I]) then
     begin
-      if FindFirstEx(templateDir[I] + PathDelim + '*.desktop', faAnyFile, searchRec) = 0 then
+      if FindFirstEx(templateDir[I] + PathDelim + '*.desktop', 0, searchRec) = 0 then
       begin
         if not Assigned(Items) then Items:= TStringList.Create;
         repeat

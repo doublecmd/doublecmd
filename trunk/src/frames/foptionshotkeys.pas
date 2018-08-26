@@ -461,7 +461,7 @@ begin
   try
     slSCFileList.Sorted := True;
 
-    Res := FindFirstEx(gpCfgDir + '*.scf', faAnyFile, SR);
+    Res := FindFirstEx(gpCfgDir + '*.scf', 0, SR);
     try
       while Res = 0 do
       begin

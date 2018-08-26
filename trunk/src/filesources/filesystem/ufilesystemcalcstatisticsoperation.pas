@@ -158,7 +158,7 @@ var
   aFile: TFile;
   FindResult: Longint;
 begin
-  FindResult := FindFirstEx(srcPath + '*', faAnyFile, sr);
+  FindResult := FindFirstEx(srcPath + '*', 0, sr);
   try
     if FindResult = 0 then
     repeat

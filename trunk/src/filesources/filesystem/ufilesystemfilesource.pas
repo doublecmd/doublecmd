@@ -381,7 +381,7 @@ begin
 
 {$ELSE}
 
-  FindResult := FindFirstEx(aFilePath, faAnyFile, SearchRecord);
+  FindResult := FindFirstEx(aFilePath, 0, SearchRecord);
   try
     if FindResult <> 0 then
       raise EFileNotFound.Create(aFilePath);
