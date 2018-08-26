@@ -1,207 +1,229 @@
 inherited frmOptionsToolTips: TfrmOptionsToolTips
-  Height = 366
-  Width = 599
+  Height = 480
+  Width = 826
   AutoSize = True
-  ClientHeight = 366
-  ClientWidth = 599
-  DesignLeft = 345
-  DesignTop = 69
-  object chkShowToolTip: TCheckBox[0]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
-    Left = 6
-    Height = 19
-    Top = 6
-    Width = 252
-    BorderSpacing.Around = 6
-    Caption = '&Show tooltip for files in the file panel'
-    OnChange = chkShowToolTipChange
-    TabOrder = 0
-  end
-  object gbCustomFields: TGroupBox[1]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = chkShowToolTip
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Side = asrBottom
-    Left = 6
-    Height = 327
-    Top = 31
-    Width = 587
-    Anchors = [akTop, akLeft, akRight, akBottom]
-    AutoSize = True
-    BorderSpacing.Around = 6
-    Caption = 'Custom fields by file type'
-    ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 309
-    ClientWidth = 583
-    Color = clForm
-    ParentColor = False
+  ClientHeight = 480
+  ClientWidth = 826
+  DesignLeft = 420
+  DesignTop = 145
+  object pnlToolTipsListbox: TPanel[0]
+    Left = 5
+    Height = 441
+    Top = 39
+    Width = 120
+    Align = alLeft
+    BorderSpacing.Left = 5
+    BevelOuter = bvNone
+    ClientHeight = 441
+    ClientWidth = 120
+    Constraints.MinWidth = 120
     TabOrder = 1
-    object btnAddFields: TBitBtn
-      AnchorSideTop.Control = btnApplyFields
-      AnchorSideRight.Control = btnDeleteFields
-      Left = 233
-      Height = 32
-      Top = 269
-      Width = 110
-      Anchors = [akTop, akRight]
-      BorderSpacing.Right = 6
-      Caption = 'A&dd'
-      OnClick = btnAddFieldsClick
-      TabOrder = 2
-    end
-    object btnDeleteFields: TBitBtn
-      AnchorSideTop.Control = btnApplyFields
-      AnchorSideRight.Control = btnApplyFields
-      Left = 349
-      Height = 32
-      Top = 269
-      Width = 110
-      Anchors = [akTop, akRight]
-      BorderSpacing.Right = 6
-      Caption = 'D&elete'
-      Enabled = False
-      OnClick = btnDeleteFieldsClick
-      TabOrder = 3
+    object lblToolTipsListBox: TLabel
+      Left = 0
+      Height = 15
+      Top = 0
+      Width = 120
+      Align = alTop
+      Caption = '&File types:'
+      FocusControl = lsbCustomFields
+      ParentColor = False
     end
     object lsbCustomFields: TListBox
-      AnchorSideTop.Control = gbCustomFields
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = pnlEdit
-      Left = 12
-      Height = 151
-      Top = 6
-      Width = 563
-      Anchors = [akTop, akLeft, akRight, akBottom]
-      BorderSpacing.Top = 6
-      BorderSpacing.Right = 8
-      BorderSpacing.Bottom = 6
+      Left = 0
+      Height = 421
+      Top = 15
+      Width = 120
+      Align = alClient
+      BorderSpacing.Bottom = 5
+      DragMode = dmAutomatic
       ItemHeight = 0
+      OnDragDrop = lsbCustomFieldsDragDrop
+      OnDragOver = lsbCustomFieldsDragOver
       OnSelectionChange = lsbCustomFieldsSelectionChange
       TabOrder = 0
     end
-    object btnApplyFields: TBitBtn
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = pnlEdit
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = gbCustomFields
-      AnchorSideBottom.Side = asrBottom
-      Left = 465
-      Height = 32
-      Top = 269
-      Width = 110
-      Anchors = [akRight, akBottom]
-      BorderSpacing.Bottom = 8
-      Caption = 'A&pply'
-      OnClick = btnApplyFieldsClick
-      TabOrder = 4
-    end
-    object pnlEdit: TPanel
-      AnchorSideLeft.Control = lsbCustomFields
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = lsbCustomFields
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = btnApplyFields
-      Left = 12
-      Height = 100
-      Top = 163
-      Width = 563
-      Anchors = [akLeft, akRight, akBottom]
+  end
+  object splToolTips: TSplitter[1]
+    Left = 125
+    Height = 441
+    Top = 39
+    Width = 5
+  end
+  object pnlConfigurationToolTips: TPanel[2]
+    Left = 130
+    Height = 441
+    Top = 39
+    Width = 696
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 441
+    ClientWidth = 696
+    TabOrder = 3
+    object pnlTooltipButtons: TPanel
+      Left = 0
+      Height = 34
+      Top = 0
+      Width = 696
+      Align = alTop
       AutoSize = True
-      BorderSpacing.Bottom = 6
       BevelOuter = bvNone
-      ChildSizing.TopBottomSpacing = 6
-      ClientHeight = 100
-      ClientWidth = 563
-      Color = clForm
-      Enabled = False
-      ParentColor = False
-      TabOrder = 1
-      object lblFieldsName: TLabel
-        AnchorSideTop.Control = edtFieldsName
+      ChildSizing.LeftRightSpacing = 4
+      ChildSizing.TopBottomSpacing = 4
+      ClientHeight = 34
+      ClientWidth = 696
+      TabOrder = 0
+      object btnApplyToolTipsFileType: TBitBtn
+        AnchorSideLeft.Control = pnlTooltipButtons
+        AnchorSideTop.Control = pnlTooltipButtons
         AnchorSideTop.Side = asrCenter
-        Left = 0
-        Height = 14
-        Top = 15
-        Width = 99
-        Caption = 'Category &name:'
-        FocusControl = edtFieldsName
-        ParentColor = False
-      end
-      object lblFieldsMask: TLabel
-        AnchorSideTop.Control = edtFieldsMask
-        AnchorSideTop.Side = asrCenter
-        Left = 0
-        Height = 14
-        Top = 43
-        Width = 97
-        Caption = 'Category &mask:'
-        FocusControl = edtFieldsMask
-        ParentColor = False
-      end
-      object lblFieldsList: TLabel
-        AnchorSideTop.Control = edtFieldsList
-        AnchorSideTop.Side = asrCenter
-        Left = 0
-        Height = 14
-        Top = 71
-        Width = 88
-        Caption = 'Category &hint:'
-        FocusControl = edtFieldsList
-        ParentColor = False
-      end
-      object edtFieldsName: TEdit
-        AnchorSideTop.Control = pnlEdit
         AnchorSideRight.Side = asrBottom
-        Left = 150
-        Height = 20
-        Top = 12
-        Width = 413
-        Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Top = 12
+        Left = 5
+        Height = 25
+        Top = 5
+        Width = 57
+        AutoSize = True
+        BorderSpacing.Left = 5
+        Caption = 'A&pply'
+        OnClick = btnApplyToolTipsFileTypeClick
         TabOrder = 0
       end
-      object edtFieldsMask: TEdit
-        AnchorSideLeft.Control = edtFieldsName
-        AnchorSideTop.Control = edtFieldsName
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = btnFieldsSearchTemplate
-        Left = 150
-        Height = 20
-        Top = 40
-        Width = 384
-        Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Top = 8
-        BorderSpacing.Right = 6
+      object btnAddToolTipsFileType: TBitBtn
+        AnchorSideLeft.Control = btnApplyToolTipsFileType
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = pnlTooltipButtons
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 65
+        Height = 25
+        Top = 5
+        Width = 48
+        AutoSize = True
+        BorderSpacing.Left = 3
+        Caption = 'A&dd'
+        OnClick = btnAddToolTipsFileTypeClick
         TabOrder = 1
       end
-      object edtFieldsList: TEdit
-        AnchorSideLeft.Control = edtFieldsName
-        AnchorSideTop.Control = edtFieldsMask
+      object btnCopyToolTipsFileType: TBitBtn
+        AnchorSideLeft.Control = btnAddToolTipsFileType
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = pnlTooltipButtons
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 116
+        Height = 25
+        Top = 5
+        Width = 54
+        AutoSize = True
+        BorderSpacing.Left = 3
+        Cancel = True
+        Caption = 'Cop&y'
+        OnClick = btnCopyToolTipsFileTypeClick
+        TabOrder = 2
+      end
+      object btnRenameToolTipsFileType: TBitBtn
+        AnchorSideLeft.Control = btnCopyToolTipsFileType
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = pnlTooltipButtons
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 173
+        Height = 25
+        Top = 5
+        Width = 69
+        AutoSize = True
+        BorderSpacing.Left = 3
+        Caption = '&Rename'
+        OnClick = btnRenameToolTipsFileTypeClick
+        TabOrder = 3
+      end
+      object btnDeleteToolTipsFileType: TBitBtn
+        AnchorSideLeft.Control = btnRenameToolTipsFileType
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = pnlTooltipButtons
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 245
+        Height = 25
+        Top = 5
+        Width = 59
+        AutoSize = True
+        BorderSpacing.Left = 3
+        Caption = 'Delete'
+        OnClick = btnDeleteToolTipsFileTypeClick
+        TabOrder = 4
+      end
+      object btnTooltipOther: TBitBtn
+        AnchorSideLeft.Control = btnDeleteToolTipsFileType
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = pnlTooltipButtons
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 307
+        Height = 25
+        Top = 5
+        Width = 65
+        AutoSize = True
+        BorderSpacing.Left = 3
+        Caption = 'Oth&er...'
+        OnClick = btnTooltipOtherClick
+        TabOrder = 5
+      end
+    end
+    object pnlActualToolTipsConfiguration: TPanel
+      Left = 0
+      Height = 407
+      Top = 34
+      Width = 696
+      Align = alClient
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 407
+      ClientWidth = 696
+      TabOrder = 1
+      object edtFieldsMask: TEdit
+        AnchorSideLeft.Control = bvlToolTips1
+        AnchorSideTop.Control = lblFieldsMask
         AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = btnFieldsList
-        Left = 150
-        Height = 20
-        Top = 68
-        Width = 379
+        AnchorSideRight.Control = btnFieldsSearchTemplate
+        Left = 5
+        Height = 23
+        Top = 45
+        Width = 656
         Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Top = 8
-        BorderSpacing.Right = 6
-        BorderSpacing.Bottom = 12
+        BorderSpacing.Right = 2
+        OnChange = edtAnyChange
+        TabOrder = 0
+      end
+      object btnFieldsList: TButton
+        AnchorSideLeft.Control = bvlToolTips1
+        AnchorSideTop.Control = memFieldsList
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Side = asrBottom
+        Left = 5
+        Height = 23
+        Top = 248
+        Width = 28
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnFieldsListClick
         TabOrder = 3
       end
       object btnFieldsSearchTemplate: TBitBtn
         AnchorSideTop.Control = edtFieldsMask
-        AnchorSideRight.Control = edtFieldsName
+        AnchorSideRight.Control = bvlToolTips1
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = edtFieldsMask
         AnchorSideBottom.Side = asrBottom
-        Left = 540
-        Height = 20
+        Left = 663
+        Height = 23
         Hint = 'Template...'
-        Top = 40
+        Top = 45
         Width = 23
         Anchors = [akTop, akRight, akBottom]
         Glyph.Data = {
@@ -244,29 +266,215 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         OnClick = btnFieldsSearchTemplateClick
         ParentShowHint = False
         ShowHint = True
-        TabOrder = 2
+        TabOrder = 1
       end
-      object btnFieldsList: TButton
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = edtFieldsList
-        AnchorSideRight.Control = edtFieldsName
+      object lblFieldsList: TLabel
+        AnchorSideLeft.Control = bvlToolTips1
+        AnchorSideTop.Control = edtFieldsMask
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = bvlToolTips1
         AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = edtFieldsList
-        AnchorSideBottom.Side = asrBottom
-        Left = 535
-        Height = 20
-        Top = 68
-        Width = 28
-        Anchors = [akTop, akRight, akBottom]
-        BorderSpacing.InnerBorder = 4
-        Caption = '>>'
-        OnClick = btnFieldsListClick
+        Left = 5
+        Height = 15
+        Top = 70
+        Width = 681
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 2
+        Caption = 'Category &hint:'
+        FocusControl = memFieldsList
+        ParentColor = False
+      end
+      object lblFieldsMask: TLabel
+        AnchorSideLeft.Control = bvlToolTips1
+        AnchorSideTop.Control = bvlToolTips1
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = pnlActualToolTipsConfiguration
+        AnchorSideRight.Side = asrBottom
+        Left = 5
+        Height = 15
+        Top = 30
+        Width = 681
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 5
+        BorderSpacing.Right = 10
+        Caption = 'Category &mask:'
+        FocusControl = edtFieldsMask
+        ParentColor = False
+      end
+      object memFieldsList: TMemo
+        AnchorSideLeft.Control = bvlToolTips1
+        AnchorSideTop.Control = lblFieldsList
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = bvlToolTips1
+        AnchorSideRight.Side = asrBottom
+        Left = 5
+        Height = 163
+        Top = 85
+        Width = 681
+        Anchors = [akTop, akLeft, akRight]
+        OnChange = edtAnyChange
+        ScrollBars = ssBoth
+        TabOrder = 2
+        WordWrap = False
+      end
+      object bvlToolTips1: TDividerBevel
+        AnchorSideLeft.Control = pnlActualToolTipsConfiguration
+        AnchorSideTop.Control = pnlActualToolTipsConfiguration
+        AnchorSideRight.Control = pnlActualToolTipsConfiguration
+        AnchorSideRight.Side = asrBottom
+        Left = 5
+        Height = 15
+        Top = 10
+        Width = 681
+        Caption = 'Tooltip configuration for selected file type:'
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 5
+        BorderSpacing.Top = 10
+        BorderSpacing.Right = 10
+        ParentFont = False
+      end
+      object bvlToolTips2: TDividerBevel
+        AnchorSideLeft.Control = bvlToolTips1
+        AnchorSideTop.Control = btnFieldsList
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = bvlToolTips1
+        AnchorSideRight.Side = asrBottom
+        Left = 5
+        Height = 15
+        Top = 281
+        Width = 681
+        Caption = 'General options about tooltips:'
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 10
+        ParentFont = False
+      end
+      object lblTooltipShowingMode: TLabel
+        AnchorSideLeft.Control = bvlToolTips1
+        AnchorSideTop.Control = cbTooltipShowingMode
+        AnchorSideTop.Side = asrCenter
+        Left = 5
+        Height = 15
+        Top = 305
+        Width = 122
+        Caption = 'Tooltip showing mode:'
+        FocusControl = cbTooltipShowingMode
+        ParentColor = False
+      end
+      object cbTooltipShowingMode: TComboBox
+        AnchorSideLeft.Control = lblTooltipShowingMode
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = bvlToolTips2
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = bvlToolTips1
+        AnchorSideRight.Side = asrBottom
+        Left = 132
+        Height = 23
+        Top = 301
+        Width = 554
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 5
+        BorderSpacing.Top = 5
+        ItemHeight = 15
+        Style = csDropDownList
         TabOrder = 4
+      end
+      object lblTooltipHidingDelay: TLabel
+        AnchorSideLeft.Control = bvlToolTips1
+        AnchorSideTop.Control = cbToolTipHideTimeOut
+        AnchorSideTop.Side = asrCenter
+        Left = 5
+        Height = 15
+        Top = 333
+        Width = 108
+        Caption = 'Tooltip hiding delay:'
+        FocusControl = cbToolTipHideTimeOut
+        ParentColor = False
+      end
+      object cbToolTipHideTimeOut: TComboBox
+        AnchorSideLeft.Control = lblTooltipHidingDelay
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbTooltipShowingMode
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = bvlToolTips1
+        AnchorSideRight.Side = asrBottom
+        Left = 118
+        Height = 23
+        Top = 329
+        Width = 568
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 5
+        BorderSpacing.Top = 5
+        ItemHeight = 15
+        Style = csDropDownList
+        TabOrder = 5
       end
     end
   end
-  object pmFields: TPopupMenu[2]
-    left = 128
-    top = 304
+  object pnlShowTooltip: TPanel[3]
+    Left = 0
+    Height = 39
+    Top = 0
+    Width = 826
+    Align = alTop
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 39
+    ClientWidth = 826
+    TabOrder = 0
+    object chkShowToolTip: TCheckBox
+      Left = 10
+      Height = 19
+      Top = 10
+      Width = 213
+      BorderSpacing.Around = 10
+      Caption = '&Show tooltip for files in the file panel'
+      OnChange = chkShowToolTipChange
+      TabOrder = 0
+    end
+  end
+  object pmFields: TPopupMenu[4]
+    left = 160
+    top = 256
+  end
+  object pmTooltipOther: TPopupMenu[5]
+    left = 536
+    top = 40
+    object miToolTipsFileTypeDiscardModification: TMenuItem
+      Caption = 'Discard Modifications'
+      Enabled = False
+      OnClick = miToolTipsFileTypeDiscardModificationClick
+    end
+    object miSeparator1: TMenuItem
+      Caption = '-'
+    end
+    object miToolTipsFileTypeSortFileType: TMenuItem
+      Caption = 'Sort Tooltip File Types'
+      OnClick = miToolTipsFileTypeSortFileTypeClick
+    end
+    object miSeparator2: TMenuItem
+      Caption = '-'
+    end
+    object miToolTipsFileTypeExport: TMenuItem
+      Caption = 'Export...'
+      OnClick = miToolTipsFileTypeExportClick
+    end
+    object miToolTipsFileTypeImport: TMenuItem
+      Caption = 'Import...'
+      OnClick = miToolTipsFileTypeImportClick
+    end
+  end
+  object SaveTooltipFileTypeDialog: TSaveDialog[6]
+    DefaultExt = '.*.tooltip'
+    Filter = 'DC Tooltip files|*.tooltip|Any files|*.*'
+    Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
+    left = 664
+    top = 32
+  end
+  object OpenTooltipFileTypeDialog: TOpenDialog[7]
+    DefaultExt = '.*.tooltip'
+    Filter = 'DC Tooltip Files|*.tooltip|Any files|*.*'
+    Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
+    left = 720
+    top = 136
   end
 end

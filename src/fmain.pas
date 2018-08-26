@@ -107,6 +107,7 @@ type
     actExecuteScript: TAction;
     actFocusSwap: TAction;
     actConfigArchivers: TAction;
+    actConfigTooltips: TAction;
     actUnmarkCurrentNameExt: TAction;
     actMarkCurrentNameExt: TAction;
     actUnmarkCurrentName: TAction;

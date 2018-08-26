@@ -355,6 +355,7 @@ type
    procedure cm_FocusSwap(const {%H-}Params: array of string);
    procedure cm_Benchmark(const {%H-}Params: array of string);
    procedure cm_ConfigArchivers(const {%H-}Params: array of string);
+   procedure cm_ConfigTooltips(const {%H-}Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -4848,6 +4849,12 @@ begin
   Editor := Options.GetEditor(TfrmOptionsArchivers);
   Application.ProcessMessages;
   if Editor.CanFocus then  Editor.SetFocus;
+end;
+
+{ TMainCommands.cm_ConfigTooltip }
+procedure TMainCommands.cm_ConfigTooltips(const {%H-}Params: array of string);
+begin
+  cm_Options(['TfrmOptionsToolTips']);
 end;
 
 { TMainCommands.cm_AddNewSearch }

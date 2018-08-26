@@ -1,3 +1,25 @@
+{
+   Double Commander
+   -------------------------------------------------------------------------
+   This unit contains TFileInfoToolTip class and functions.
+
+   Copyright (C) 2018 Alexander Koblov (alexx2000@mail.ru)
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+}
+
 unit uInfoToolTip;
 
 {$mode objfpc}{$H+}
@@ -38,7 +60,11 @@ type
     function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): String;
 
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
+    procedure LoadFromFile(const FileName: String);
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
+    procedure SaveToFile(const FileName: String);
+    function ComputeSignature(Seed: dword = $00000000): dword;
+    procedure Sort;
 
     property  HintItemList: THintItemList read FHintItemList;
   end;
@@ -48,12 +74,12 @@ function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): Strin
 implementation
 
 uses
-  LCLProc, StrUtils, uMasks, uDebug, uGlobs, uFileProperty, uFileFunctions,
+  crc, LCLProc, StrUtils, uMasks, uDebug, uGlobs, uFileProperty, uFileFunctions,
   uSearchTemplate, uFileSourceProperty
 {$IF DEFINED(MSWINDOWS)}
   , uShlObjAdditional
 {$ENDIF}
-  ;
+  ,DCClassesUtf8;
 
 function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): String;
 
@@ -75,14 +101,30 @@ begin
   Result:= EmptyStr;
 
   if fspDirectAccess in aFileSource.Properties then
-    begin
-      Result:= StringReplace(gFileInfoToolTip.GetFileInfoToolTip(aFileSource, aFile), '\n', LineEnding, [rfReplaceAll]);
-      {$IF DEFINED(MSWINDOWS)}
-      Result:= IfThen(Result = EmptyStr, EmptyStr, Result + LineEnding) + SHGetInfoTip(aFile.Path, aFile.Name)
-      {$ELSE}
-      Result:= GetDefaultToolTip(Result);
-      {$ENDIF}
-    end
+  begin
+    case gShowToolTipMode of
+      tttmCombineDcSystem, tttmDcSystemCombine, tttmDcIfPossThenSystem, tttmDcOnly: Result := StringReplace(gFileInfoToolTip.GetFileInfoToolTip(aFileSource, aFile), '\n', LineEnding, [rfReplaceAll]);
+      tttmSystemOnly: Result := EmptyStr;
+    end;
+
+    {$IF DEFINED(MSWINDOWS)}
+    case gShowToolTipMode of
+      tttmCombineDcSystem: Result := IfThen(Result = EmptyStr, EmptyStr, Result + LineEnding) + SHGetInfoTip(aFile.Path, aFile.Name);
+      tttmDcSystemCombine: Result := SHGetInfoTip(aFile.Path, aFile.Name) + IfThen(Result = EmptyStr, EmptyStr, LineEnding + Result);
+      tttmDcIfPossThenSystem: if Result = EmptyStr then Result := SHGetInfoTip(aFile.Path, aFile.Name);
+      tttmDcOnly: ;
+      tttmSystemOnly: Result := SHGetInfoTip(aFile.Path, aFile.Name);
+    end;
+    {$ELSE}
+    case gShowToolTipMode of
+      tttmCombineDcSystem: Result := IfThen(Result = EmptyStr, EmptyStr, Result + LineEnding) + GetDefaultToolTip(EmptyStr);
+      tttmDcSystemCombine: Result := GetDefaultToolTip(EmptyStr) + IfThen(Result = EmptyStr, EmptyStr, LineEnding + Result);
+      tttmDcIfPossThenSystem: if Result = EmptyStr then Result := GetDefaultToolTip(EmptyStr);
+      tttmDcOnly: ;
+      tttmSystemOnly: Result := GetDefaultToolTip(Result);
+    end;
+    {$ENDIF}
+  end
   else
     begin
       Result:= GetDefaultToolTip(Result);
@@ -205,6 +247,26 @@ begin
   end;
 end;
 
+{ TFileInfoToolTip.LoadFromFile }
+procedure TFileInfoToolTip.LoadFromFile(const FileName: String);
+var
+  TooltipConfig: TXmlConfig = nil;
+  Root, Node: TXmlNode;
+begin
+  TooltipConfig := TXmlConfig.Create(FileName);
+  try
+    if TooltipConfig.Load then
+    begin
+      Root := TooltipConfig.RootNode;
+      Node := Root.FindNode('ToolTips');
+      if Assigned(Node) then
+        Load(TooltipConfig, Node);
+    end;
+  finally
+    TooltipConfig.Free;
+  end;
+end;
+
 procedure TFileInfoToolTip.Save(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   I : Integer;
@@ -222,5 +284,53 @@ begin
     end;
 end;
 
+{ TFileInfoToolTip.SaveToFile }
+procedure TFileInfoToolTip.SaveToFile(const FileName: String);
+var
+  TooltipConfig: TXmlConfig = nil;
+  Root, Node: TXmlNode;
+begin
+  TooltipConfig := TXmlConfig.Create(FileName);
+  try
+    Root := TooltipConfig.RootNode;
+    Node := TooltipConfig.FindNode(Root, 'ToolTips', True);
+    Save(TooltipConfig, Node);
+    TooltipConfig.Save;
+  finally
+    TooltipConfig.Free;
+  end;
+end;
+
+{ TFileInfoToolTip.ComputeSignature }
+function TFileInfoToolTip.ComputeSignature(Seed: dword): dword;
+  procedure UpdateSignature(sInfo: string);
+  begin
+    if length(sInfo) > 0 then
+      Result := crc32(Result, @sInfo[1], length(sInfo));
+  end;
+var
+  Index: integer;
+begin
+  Result := Seed;
+  for Index := 0 to pred(FHintItemList.Count) do
+  begin
+    UpdateSignature(FHintItemList[Index].Name);
+    UpdateSignature(FHintItemList[Index].Mask);
+    UpdateSignature(FHintItemList[Index].Hint);
+  end;
+end;
+
+{ MyHintCompare }
+function MyHintCompare(const Item1, Item2: THintItem): integer;
+begin
+  Result := CompareStr(Item1.Name, Item2.Name);
+end;
+
+{ TFileInfoToolTip.Sort }
+procedure TFileInfoToolTip.Sort;
+begin
+  Self.HintItemList.Sort(@MyHintCompare);
+end;
+
 end.
-
+

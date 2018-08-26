@@ -4,7 +4,7 @@
    Base class for file views which have a main control with a list of files.
 
    Copyright (C) 2012  Przemyslaw Nagay (cobines@gmail.com)
-   Copyright (C) 2015  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2018  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -164,7 +164,6 @@ type
     procedure WorkerStarting(const Worker: TFileViewWorker); override;
     procedure WorkerFinished(const Worker: TFileViewWorker); override;
 
-//    procedure ShowRenameFileEdit(AFile: TFile); virtual;
     procedure ShowRenameFileEdit(AFile: TFile); virtual;
     procedure UpdateRenameFileEditPosition; virtual;abstract;
     procedure RenameSelectPart(AActionType:TRenameFileActionType); virtual;
@@ -974,7 +973,7 @@ var
 begin
   HintInfo^.HintStr:= EmptyStr;
 
-  if not gShowToolTipMode then Exit;
+  if not gShowToolTip then Exit;
   if not IsFileIndexInRange(FHintFileIndex) then Exit;
 
   AFile := FFiles[FHintFileIndex];
@@ -982,8 +981,19 @@ begin
 
   HintInfo^.HintStr:= AFile.FSFile.Name;
   sHint:= GetFileInfoToolTip(FileSource, AFile.FSFile);
-  if (sHint <> EmptyStr) then begin
+  if (sHint <> EmptyStr) then
     HintInfo^.HintStr:= HintInfo^.HintStr + LineEnding + sHint;
+
+  case gToolTipHideTimeOut of
+    ttthtSystem: ;
+    tttht1Sec: HintInfo^.HideTimeout := 1000;
+    tttht2Sec: HintInfo^.HideTimeout := 2000;
+    tttht3Sec: HintInfo^.HideTimeout := 3000;
+    tttht5Sec: HintInfo^.HideTimeout := 5000;
+    tttht10Sec: HintInfo^.HideTimeout := 10000;
+    tttht30Sec: HintInfo^.HideTimeout := 30000;
+    tttht1Min: HintInfo^.HideTimeout := 60000;
+    ttthtNeverHide: HintInfo^.HideTimeout := HintInfo^.HideTimeout.MaxValue;
   end;
 end;
 
@@ -1448,81 +1458,6 @@ begin
   if not (csDestroying in ComponentState) then UpdateInfoPanel;
 end;
 
-   {
-procedure TFileViewWithMainCtrl.ShowRenameFileEdit(AFile: TFile);
-var
-  lenEdtText, lenEdtTextExt, i: Integer;
-  seperatorSet: set of AnsiChar;
-begin
-  if edtRename.Visible then
-    begin
-      lenEdtText := UTF8Length(edtRename.Text);
-      lenEdtTextExt := UTF8Length(ExtractFileExt(edtRename.Text));
-      if (edtRename.SelLength = lenEdtText) then
-        begin
-          // Now all selected, change it to name-only.
-          edtRename.SelStart:= 0;
-          edtRename.SelLength:= lenEdtText - lenEdtTextExt;
-        end
-      else if (edtRename.SelStart = 0) and (edtRename.SelLength = lenEdtText - lenEdtTextExt) then
-        begin
-          // Now name-only selected, change it to ext-only.
-          edtRename.SelStart:= edtRename.SelLength + 1;
-          edtRename.SelLength:= lenEdtText - edtRename.SelStart;
-        end
-      else
-        begin
-          // Partial selection cycle.
-          seperatorSet:= [' ', '-', '_', '.'];
-          i:= edtRename.SelStart + edtRename.SelLength;
-          while true do
-          begin
-            if (edtRename.Text[UTF8CharToByteIndex(PChar(edtRename.Text), length(edtRename.Text), i)] in seperatorSet)
-              and not(edtRename.Text[UTF8CharToByteIndex(PChar(edtRename.Text), length(edtRename.Text), i+1)] in seperatorSet) then
-            begin
-              edtRename.SelStart:= i;
-              Break;
-            end;
-            inc(i);
-            if i >= lenEdtText then
-            begin
-              edtRename.SelStart:= 0;
-              Break;
-            end;
-          end;
-          i:= edtRename.SelStart + 1;
-          while true do
-          begin
-            if (i >= lenEdtText)
-                  or (edtRename.Text[UTF8CharToByteIndex(PChar(edtRename.Text), length(edtRename.Text), i+1)] in seperatorSet) then
-            begin
-              edtRename.SelLength:= i - edtRename.SelStart;
-              Break;
-            end;
-            inc(i);
-          end;
-        end;
-    end
-  else
-    begin
-      edtRename.Hint := aFile.FullPath;
-      edtRename.Text := aFile.Name;
-      edtRename.Visible := True;
-      edtRename.SetFocus;
-      if gRenameSelOnlyName and (aFile.Extension <> EmptyStr) and (aFile.Name <> EmptyStr) then
-        begin
-          {$IFDEF LCLGTK2}
-          edtRename.SelStart:=1;
-          {$ENDIF}
-          edtRename.SelStart:=0;
-          edtRename.SelLength:= UTF8Length(aFile.Name) - UTF8Length(aFile.Extension) - 1;
-        end
-      else
-        edtRename.SelectAll;
-    end;
-end;
-}
-
 procedure TFileViewWithMainCtrl.ShowRenameFileEdit(AFile: TFile);
 var
   S: String;
@@ -1592,8 +1527,7 @@ end;
 
 procedure TFileViewWithMainCtrl.RenameSelectPart(AActionType: TRenameFileActionType);
 var
-  ib,ie,a:integer;
-  s:string;
+  ib,ie:integer;
 begin
   FRenFile.LastAction:=AActionType;
 
@@ -1643,14 +1577,7 @@ begin
         ib:=TagPos(FRenTags,edtRename.Text,edtRename.SelStart+edtRename.SelLength+1,False);
 
         // skip next separators if exist
-        //try
         while (ib>0)and(ib<FRenFile.LenFul)and(Pos(edtRename.Text[ib+1],FRenTags)>0)do inc(ib);
-        {
-        except
-          a:=ib;
-          s:=edtRename.Text[ib];
-        end;
-        }
 
         //UTF8FindNearestCharStart();
         if ib>=FRenFile.LenFul then
