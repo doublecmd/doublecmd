@@ -7313,9 +7313,18 @@ msgctxt "tfrmoptionsmouse.cbselectionbymouse.caption"
 msgid "&Selection by mouse"
 msgstr "Výber myšou"
 
+#: tfrmoptionsmouse.chkcursornofollow.caption
+msgid "The text cursor no longer follows the mouse cursor"
+msgstr ""
+
 #: tfrmoptionsmouse.chkmouseselectioniconclick.caption
 msgid "By clic&king on icon"
 msgstr ""
+
+#: tfrmoptionsmouse.gbopenwith.caption
+msgctxt "tfrmoptionsmouse.gbopenwith.caption"
+msgid "Open with"
+msgstr "Otvoriť s ..."
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgctxt "tfrmoptionsmouse.gbscrolling.caption"
@@ -7332,6 +7341,10 @@ msgstr "Výber"
 msgctxt "tfrmoptionsmouse.lblmousemode.caption"
 msgid "&Mode:"
 msgstr "Mód:"
+
+#: tfrmoptionsmouse.rbdoubleclick.caption
+msgid "Double click"
+msgstr ""
 
 #: tfrmoptionsmouse.rbscrolllinebyline.caption
 #, fuzzy
@@ -7353,6 +7366,14 @@ msgstr "Riadok po riadku s posunom kurzoru"
 msgctxt "tfrmoptionsmouse.rbscrollpagebypage.caption"
 msgid "&Page by page"
 msgstr "Stránka po stránke"
+
+#: tfrmoptionsmouse.rbsingleclickboth.caption
+msgid "Single click (opens files and folders)"
+msgstr ""
+
+#: tfrmoptionsmouse.rbsingleclickfolders.caption
+msgid "Single click (opens folders, double click for files)"
+msgstr ""
 
 #: tfrmoptionsplugins.btnaddplugin.caption
 #, fuzzy
@@ -10998,6 +11019,7 @@ msgstr "Otvoriť"
 #: ulng.rsmnuopenwith
 #, fuzzy
 #| msgid "Open with ..."
+msgctxt "ulng.rsmnuopenwith"
 msgid "Open with"
 msgstr "Otvoriť s ..."
 
