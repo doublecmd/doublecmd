@@ -7251,9 +7251,18 @@ msgctxt "tfrmoptionsmouse.cbselectionbymouse.caption"
 msgid "&Selection by mouse"
 msgstr "Selecció per ratolí"
 
+#: tfrmoptionsmouse.chkcursornofollow.caption
+msgid "The text cursor no longer follows the mouse cursor"
+msgstr ""
+
 #: tfrmoptionsmouse.chkmouseselectioniconclick.caption
 msgid "By clic&king on icon"
 msgstr ""
+
+#: tfrmoptionsmouse.gbopenwith.caption
+msgctxt "tfrmoptionsmouse.gbopenwith.caption"
+msgid "Open with"
+msgstr "Obre amb ..."
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgctxt "tfrmoptionsmouse.gbscrolling.caption"
@@ -7270,6 +7279,10 @@ msgstr "Selecció"
 msgctxt "tfrmoptionsmouse.lblmousemode.caption"
 msgid "&Mode:"
 msgstr "Mode:"
+
+#: tfrmoptionsmouse.rbdoubleclick.caption
+msgid "Double click"
+msgstr ""
 
 #: tfrmoptionsmouse.rbscrolllinebyline.caption
 #, fuzzy
@@ -7291,6 +7304,14 @@ msgstr "Linia a linia amb moviment de cursor"
 msgctxt "tfrmoptionsmouse.rbscrollpagebypage.caption"
 msgid "&Page by page"
 msgstr "Pàgina a pàgina"
+
+#: tfrmoptionsmouse.rbsingleclickboth.caption
+msgid "Single click (opens files and folders)"
+msgstr ""
+
+#: tfrmoptionsmouse.rbsingleclickfolders.caption
+msgid "Single click (opens folders, double click for files)"
+msgstr ""
 
 #: tfrmoptionsplugins.btnaddplugin.caption
 #, fuzzy
@@ -10927,6 +10948,7 @@ msgstr "Obre"
 #: ulng.rsmnuopenwith
 #, fuzzy
 #| msgid "Open with ..."
+msgctxt "ulng.rsmnuopenwith"
 msgid "Open with"
 msgstr "Obre amb ..."
 

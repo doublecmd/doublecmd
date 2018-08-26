@@ -7234,9 +7234,18 @@ msgctxt "TFRMOPTIONSMOUSE.CBSELECTIONBYMOUSE.CAPTION"
 msgid "&Selection by mouse"
 msgstr "使用滑鼠選取項目 (&S)"
 
+#: tfrmoptionsmouse.chkcursornofollow.caption
+msgid "The text cursor no longer follows the mouse cursor"
+msgstr ""
+
 #: tfrmoptionsmouse.chkmouseselectioniconclick.caption
 msgid "By clic&king on icon"
 msgstr ""
+
+#: tfrmoptionsmouse.gbopenwith.caption
+msgctxt "tfrmoptionsmouse.gbopenwith.caption"
+msgid "Open with"
+msgstr "開啟..."
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgctxt "TFRMOPTIONSMOUSE.GBSCROLLING.CAPTION"
@@ -7253,6 +7262,10 @@ msgstr "選取項目"
 msgctxt "TFRMOPTIONSMOUSE.LBLMOUSEMODE.CAPTION"
 msgid "&Mode:"
 msgstr "模式 (&M):"
+
+#: tfrmoptionsmouse.rbdoubleclick.caption
+msgid "Double click"
+msgstr ""
 
 #: tfrmoptionsmouse.rbscrolllinebyline.caption
 #, fuzzy
@@ -7274,6 +7287,14 @@ msgstr "一次捲動一行 + 指標行跟隨移動 (&W)"
 msgctxt "TFRMOPTIONSMOUSE.RBSCROLLPAGEBYPAGE.CAPTION"
 msgid "&Page by page"
 msgstr "一次捲動一頁 (&P)"
+
+#: tfrmoptionsmouse.rbsingleclickboth.caption
+msgid "Single click (opens files and folders)"
+msgstr ""
+
+#: tfrmoptionsmouse.rbsingleclickfolders.caption
+msgid "Single click (opens folders, double click for files)"
+msgstr ""
 
 #: tfrmoptionsplugins.btnaddplugin.caption
 #, fuzzy
@@ -10928,6 +10949,7 @@ msgstr "開啟"
 #: ulng.rsmnuopenwith
 #, fuzzy
 #| msgid "Open with ..."
+msgctxt "ulng.rsmnuopenwith"
 msgid "Open with"
 msgstr "開啟..."
 

@@ -6912,9 +6912,18 @@ msgstr ""
 msgid "&Selection by mouse"
 msgstr ""
 
+#: tfrmoptionsmouse.chkcursornofollow.caption
+msgid "The text cursor no longer follows the mouse cursor"
+msgstr ""
+
 #: tfrmoptionsmouse.chkmouseselectioniconclick.caption
 msgid "By clic&king on icon"
 msgstr ""
+
+#: tfrmoptionsmouse.gbopenwith.caption
+msgctxt "tfrmoptionsmouse.gbopenwith.caption"
+msgid "Open with"
+msgstr "Birlikte aç..."
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgctxt "tfrmoptionsmouse.gbscrolling.caption"
@@ -6929,6 +6938,10 @@ msgstr ""
 msgid "&Mode:"
 msgstr ""
 
+#: tfrmoptionsmouse.rbdoubleclick.caption
+msgid "Double click"
+msgstr ""
+
 #: tfrmoptionsmouse.rbscrolllinebyline.caption
 msgid "&Line by line"
 msgstr ""
@@ -6939,6 +6952,14 @@ msgstr ""
 
 #: tfrmoptionsmouse.rbscrollpagebypage.caption
 msgid "&Page by page"
+msgstr ""
+
+#: tfrmoptionsmouse.rbsingleclickboth.caption
+msgid "Single click (opens files and folders)"
+msgstr ""
+
+#: tfrmoptionsmouse.rbsingleclickfolders.caption
+msgid "Single click (opens folders, double click for files)"
 msgstr ""
 
 #: tfrmoptionsplugins.btnaddplugin.caption
@@ -10527,6 +10548,7 @@ msgstr "Açık"
 #: ulng.rsmnuopenwith
 #, fuzzy
 #| msgid "Open with ..."
+msgctxt "ulng.rsmnuopenwith"
 msgid "Open with"
 msgstr "Birlikte aç..."
 
