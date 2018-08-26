@@ -70,8 +70,8 @@ type
 {$endif}
   end;
 
-function FindFirstEx (const Path : String; Flags : UInt32; out SearchRec : TSearchRecEx) : Longint;
-function FindNextEx (var SearchRec : TSearchRecEx) : Longint;
+function FindFirstEx(const Path: String; Flags: UInt32; out SearchRec: TSearchRecEx): Integer;
+function FindNextEx(var SearchRec: TSearchRecEx): Integer;
 procedure FindCloseEx(var SearchRec: TSearchRecEx);
 
 implementation
@@ -134,7 +134,7 @@ begin
 end;
 {$ENDIF}
 
-function FindFirstEx(const Path: String; Flags: UInt32; out SearchRec: TSearchRecEx): Longint;
+function FindFirstEx(const Path: String; Flags: UInt32; out SearchRec: TSearchRecEx): Integer;
 {$IFDEF MSWINDOWS}
 var
   wsPath: UnicodeString;
@@ -142,19 +142,22 @@ begin
   SearchRec.Flags:= Flags;
   wsPath:= UTF16LongName(Path);
   SearchRec.FindHandle:= FindFirstFileW(PWideChar(wsPath), SearchRec.FindData);
-  // if error then exit
-  if SearchRec.FindHandle = INVALID_HANDLE_VALUE then Exit(GetLastError);
-  Result:= mbFindMatchingFile(SearchRec);
+
+  if SearchRec.FindHandle = INVALID_HANDLE_VALUE then
+    Result:= GetLastError
+  else begin
+    Result:= mbFindMatchingFile(SearchRec);
+  end;
 end;
 {$ELSE}
 var
   UnixFindData: PUnixFindData;
 begin
-  { Allocate UnixFindData }
   New(UnixFindData);
-  FillChar(UnixFindData^, SizeOf(UnixFindData^), 0);
+
   SearchRec.Flags:= Flags;
   SearchRec.FindHandle:= UnixFindData;
+  FillChar(UnixFindData^, SizeOf(TUnixFindData), 0);
 
   with UnixFindData^ do
   begin
@@ -189,15 +192,14 @@ begin
 end;
 {$ENDIF}
 
-function FindNextEx (var SearchRec : TSearchRecEx) : Longint;
+function FindNextEx(var SearchRec: TSearchRecEx): Integer;
 {$IFDEF MSWINDOWS}
 begin
   if FindNextFileW(SearchRec.FindHandle, SearchRec.FindData) then
-    begin
-      Result:= mbFindMatchingFile(SearchRec);
-    end
-  else
+    Result:= mbFindMatchingFile(SearchRec)
+  else begin
     Result:= GetLastError;
+  end;
 end;
 {$ELSE}
 var
@@ -223,7 +225,7 @@ end;
 procedure FindCloseEx(var SearchRec: TSearchRecEx);
 {$IFDEF MSWINDOWS}
 begin
-   if SearchRec.FindHandle <> INVALID_HANDLE_VALUE then
+  if SearchRec.FindHandle <> INVALID_HANDLE_VALUE then
     Windows.FindClose(SearchRec.FindHandle);
 end;
 {$ELSE}
