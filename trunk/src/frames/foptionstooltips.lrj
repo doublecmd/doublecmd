@@ -1,0 +1,22 @@
+{"version":1,"strings":[
+{"hash":86863386,"name":"tfrmoptionstooltips.lbltooltipslistbox.caption","sourcebytes":[38,70,105,108,101,32,116,121,112,101,115,58],"value":"&File types:"},
+{"hash":71137081,"name":"tfrmoptionstooltips.btnapplytooltipsfiletype.caption","sourcebytes":[65,38,112,112,108,121],"value":"A&pply"},
+{"hash":277668,"name":"tfrmoptionstooltips.btnaddtooltipsfiletype.caption","sourcebytes":[65,38,100,100],"value":"A&dd"},
+{"hash":4874969,"name":"tfrmoptionstooltips.btncopytooltipsfiletype.caption","sourcebytes":[67,111,112,38,121],"value":"Cop&y"},
+{"hash":193742869,"name":"tfrmoptionstooltips.btnrenametooltipsfiletype.caption","sourcebytes":[38,82,101,110,97,109,101],"value":"&Rename"},
+{"hash":78392485,"name":"tfrmoptionstooltips.btndeletetooltipsfiletype.caption","sourcebytes":[68,101,108,101,116,101],"value":"Delete"},
+{"hash":181151662,"name":"tfrmoptionstooltips.btntooltipother.caption","sourcebytes":[79,116,104,38,101,114,46,46,46],"value":"Oth&er..."},
+{"hash":1054,"name":"tfrmoptionstooltips.btnfieldslist.caption","sourcebytes":[62,62],"value":">>"},
+{"hash":47236478,"name":"tfrmoptionstooltips.btnfieldssearchtemplate.hint","sourcebytes":[84,101,109,112,108,97,116,101,46,46,46],"value":"Template..."},
+{"hash":141616458,"name":"tfrmoptionstooltips.lblfieldslist.caption","sourcebytes":[67,97,116,101,103,111,114,121,32,38,104,105,110,116,58],"value":"Category &hint:"},
+{"hash":143501786,"name":"tfrmoptionstooltips.lblfieldsmask.caption","sourcebytes":[67,97,116,101,103,111,114,121,32,38,109,97,115,107,58],"value":"Category &mask:"},
+{"hash":153365194,"name":"tfrmoptionstooltips.bvltooltips1.caption","sourcebytes":[84,111,111,108,116,105,112,32,99,111,110,102,105,103,117,114,97,116,105,111,110,32,102,111,114,32,115,101,108,101,99,116,101,100,32,102,105,108,101,32,116,121,112,101,58],"value":"Tooltip configuration for selected file type:"},
+{"hash":85767978,"name":"tfrmoptionstooltips.bvltooltips2.caption","sourcebytes":[71,101,110,101,114,97,108,32,111,112,116,105,111,110,115,32,97,98,111,117,116,32,116,111,111,108,116,105,112,115,58],"value":"General options about tooltips:"},
+{"hash":111140314,"name":"tfrmoptionstooltips.lbltooltipshowingmode.caption","sourcebytes":[84,111,111,108,116,105,112,32,115,104,111,119,105,110,103,32,109,111,100,101,58],"value":"Tooltip showing mode:"},
+{"hash":241931610,"name":"tfrmoptionstooltips.lbltooltiphidingdelay.caption","sourcebytes":[84,111,111,108,116,105,112,32,104,105,100,105,110,103,32,100,101,108,97,121,58],"value":"Tooltip hiding delay:"},
+{"hash":206895052,"name":"tfrmoptionstooltips.chkshowtooltip.caption","sourcebytes":[38,83,104,111,119,32,116,111,111,108,116,105,112,32,102,111,114,32,102,105,108,101,115,32,105,110,32,116,104,101,32,102,105,108,101,32,112,97,110,101,108],"value":"&Show tooltip for files in the file panel"},
+{"hash":38327795,"name":"tfrmoptionstooltips.mitooltipsfiletypediscardmodification.caption","sourcebytes":[68,105,115,99,97,114,100,32,77,111,100,105,102,105,99,97,116,105,111,110,115],"value":"Discard Modifications"},
+{"hash":24150067,"name":"tfrmoptionstooltips.mitooltipsfiletypesortfiletype.caption","sourcebytes":[83,111,114,116,32,84,111,111,108,116,105,112,32,70,105,108,101,32,84,121,112,101,115],"value":"Sort Tooltip File Types"},
+{"hash":124337662,"name":"tfrmoptionstooltips.mitooltipsfiletypeexport.caption","sourcebytes":[69,120,112,111,114,116,46,46,46],"value":"Export..."},
+{"hash":124338510,"name":"tfrmoptionstooltips.mitooltipsfiletypeimport.caption","sourcebytes":[73,109,112,111,114,116,46,46,46],"value":"Import..."}
+]}

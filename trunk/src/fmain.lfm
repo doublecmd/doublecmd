@@ -2677,6 +2677,12 @@ object frmMain: TfrmMain
       Caption = 'Configuration of Archivers'
       OnExecute = actExecute
     end
+    object actConfigTooltips: TAction
+      Tag = 5
+      Category = 'Configuration'
+      Caption = 'Configuration of tooltips'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

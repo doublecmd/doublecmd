@@ -122,6 +122,9 @@ type
 
   THotKeySortOrder = (hksoByCommand, hksoByHotKeyGrouped, hksoByHotKeyOnePerRow);
 
+  TToolTipMode = (tttmCombineDcSystem, tttmDcSystemCombine, tttmDcIfPossThenSystem, tttmDcOnly, tttmSystemOnly);
+  TToolTipHideTimeOut = (ttthtSystem, tttht1Sec, tttht2Sec, tttht3Sec, tttht5Sec, tttht10Sec, tttht30Sec, tttht1Min, ttthtNeverHide);
+
 const
   { Default hotkey list version number }
   hkVersion = 43;
@@ -448,7 +451,9 @@ var
   gInplaceRename,
   gDblClickToParent,
   gGoToRoot: Boolean;
-  gShowToolTipMode: Boolean;
+  gShowToolTip: Boolean;
+  gShowToolTipMode: TToolTipMode;
+  gToolTipHideTimeOut: TToolTipHideTimeOut;
   gThumbSize: TSize;
   gThumbSave: Boolean;
   gSearchDefaultTemplate: String;
@@ -1587,7 +1592,9 @@ begin
   gShowPathInPopup:=FALSE;
   gShowOnlyValidEnv:=TRUE;
   gWhereToAddNewHotDir := ahdSmart;
-  gShowToolTipMode := True;
+  gShowToolTip := True;
+  gShowToolTipMode := tttmCombineDcSystem;
+  gToolTipHideTimeOut := ttthtSystem;
   gThumbSave := True;
   gThumbSize.cx := 128;
   gThumbSize.cy := 128;
@@ -2255,7 +2262,9 @@ begin
     Node := Root.FindNode('ToolTips');
     if Assigned(Node) then
     begin
-      gShowToolTipMode := GetValue(Node, 'ShowToolTipMode', gShowToolTipMode);
+      gShowToolTip := GetValue(Node, 'ShowToolTipMode', gShowToolTip);
+      gShowToolTipMode := TToolTipMode(GetValue(Node, 'ActualToolTipMode', Integer(gShowToolTipMode)));
+      gToolTipHideTimeOut := TToolTipHideTimeOut(GetValue(Node, 'ToolTipHideTimeOut', Integer(gToolTipHideTimeOut)));
       gFileInfoToolTip.Load(gConfig, Node);
     end;
 
@@ -2857,7 +2866,9 @@ begin
 
     { ToolTips page }
     Node := FindNode(Root, 'ToolTips', True);
-    SetValue(Node, 'ShowToolTipMode', gShowToolTipMode);
+    SetValue(Node, 'ShowToolTipMode', gShowToolTip);
+    SetValue(Node, 'ActualToolTipMode', Integer(gShowToolTipMode));
+    SetValue(Node, 'ToolTipHideTimeOut', Integer(gToolTipHideTimeOut));
     gFileInfoToolTip.Save(gConfig, Node);
 
     { Layout page }
