@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2018-08-26 08:31-0400\n"
+"PO-Revision-Date: 2018-08-26 17:14-0400\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -5011,7 +5011,7 @@ msgstr "Affiche les caractères spéciaux pour les espaces et les tabulations"
 
 #: tfrmoptionseditor.chksmarttabs.caption
 msgid "Smart Tabs"
-msgstr ""
+msgstr "Tabulation astucieuse"
 
 #: tfrmoptionseditor.chksmarttabs.hint
 msgid "When using <Tab> key, caret will go to the next non-space character of the previous line"
@@ -5044,11 +5044,7 @@ msgstr "Supprimer automatiquement les espaces de fin, cela s'applique uniquement
 #: tfrmoptionseditor.edtabwidth.hint
 msgctxt "tfrmoptionseditor.edtabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr "Veuillez noter que l'option \"Tab intelligent\" est prioritaire sur la tabulation à effectuer"
-
-#: tfrmoptionseditor.edtabwidth.text
-msgid "edTabWidth"
-msgstr ""
+msgstr "Veuillez noter que l'option \"Tabulation astucieuse\" est prioritaire sur la tabulation à effectuer"
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
@@ -5056,12 +5052,12 @@ msgstr "Options de l'éditeur interne"
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
-msgstr ""
+msgstr "Largeur de tabulation:"
 
 #: tfrmoptionseditor.lbltabwidth.hint
 msgctxt "tfrmoptionseditor.lbltabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr ""
+msgstr "Veuillez noter que l'option \"Tab intelligent\" est prioritaire sur la tabulation à effectuer"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -12779,4 +12775,3 @@ msgstr "Nombre de remplacements : %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
-
