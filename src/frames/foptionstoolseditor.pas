@@ -61,7 +61,7 @@ implementation
 {$R *.lfm}
 
 uses
-  SynEdit, uGlobs, uLng;
+  SynEdit, uGlobs, uLng, fEditor;
 
 { TfrmOptionsEditor }
 
@@ -105,6 +105,8 @@ begin
   UpdateOptionFromBool(chkSmartTabs.Checked, eoSmartTabs);
   edTabWidth.Text := IntToStr(StrToIntDef(edTabWidth.Text,8));
   gEditorSynEditTabWidth := StrToIntDef(edTabWidth.Text,8);
+  if LastEditorUsedForConfiguration<>nil then
+    LastEditorUsedForConfiguration.LoadGlobalOptions;
 end;
 
 constructor TfrmOptionsEditor.Create(TheOwner: TComponent);
