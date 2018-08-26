@@ -150,9 +150,9 @@ resourcestring
   rsOptToolTipFileTypeImportPrompt = 'Select the one(s) you want to import';
   rsOptToolTipFileTypeImportFile = 'Select the file to import tooltip file type configuration(s)';
   rsOptToolTipFileTypeImportDone = 'Importation of %d elements from file "%s" completed.';
+  rsOptToolTipFileTypeExportPrompt = 'Select the one(s) you want to export';
   rsOptToolTipFileTypeExportCaption = 'Export tooltip file type configuration';
   rsOptToolTipFileTypeExportDone = 'Exportation of %d elements to file "%s" completed.';
-
 
   rsMsgMasterPassword = 'Master Password';
   rsMsgMasterPasswordEnter = 'Please enter the master password:';

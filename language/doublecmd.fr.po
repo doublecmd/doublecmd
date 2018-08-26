@@ -11628,6 +11628,7 @@ msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr "Exportation de %s éléments vers le fichier \"%s\" complétée."
 
 #: ulng.rsoptarchiverexportprompt
+msgctxt "ulng.rsoptarchiverexportprompt"
 msgid "Select the one(s) you want to export"
 msgstr "Choisissez ce que vous voulez exporter"
 
@@ -12147,6 +12148,11 @@ msgstr "Exporter la configuration du type de fichier info-bulle"
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr "Exportation de %s éléments vers le fichier \"%s\" complétée."
+
+#: ulng.rsopttooltipfiletypeexportprompt
+msgctxt "ulng.rsopttooltipfiletypeexportprompt"
+msgid "Select the one(s) you want to export"
+msgstr "Choisissez ce que vous voulez exporter"
 
 #: ulng.rsopttooltipfiletypeimportcaption
 msgid "Import tooltip file type configuration"
@@ -12747,3 +12753,4 @@ msgstr "Nombre de remplacements : %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
+
