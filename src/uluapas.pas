@@ -39,64 +39,68 @@ implementation
 uses
   Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, DCOSUtils,
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog,
-  uClipboard, uShowMsg, uLuaStd;
+  uClipboard, uShowMsg, uLuaStd, uFindEx;
 
-procedure luaPushSearchRec(L : Plua_State; var Rec: TSearchRec);
-var
-  FindHandle: PtrInt absolute Rec.FindHandle;
+procedure luaPushSearchRec(L : Plua_State; Rec: PSearchRecEx);
 begin
-  lua_pushinteger(L, FindHandle);
+  lua_pushlightuserdata(L, Rec);
   lua_newtable(L);
-  lua_pushinteger(L, Rec.Time);
+  lua_pushinteger(L, Rec^.Time);
   lua_setfield(L, -2, 'Time');
-  lua_pushinteger(L, Rec.Size);
+  lua_pushinteger(L, Rec^.Size);
   lua_setfield(L, -2, 'Size');
-  lua_pushinteger(L, Rec.Attr);
+  lua_pushinteger(L, Rec^.Attr);
   lua_setfield(L, -2, 'Attr');
-  lua_pushstring(L, PAnsiChar(Rec.Name));
+  lua_pushstring(L, PAnsiChar(Rec^.Name));
   lua_setfield(L, -2, 'Name');
 end;
 
 function luaFindFirst(L : Plua_State) : Integer; cdecl;
 var
   Path: String;
-  Rec: TSearchRec;
+  Rec: PSearchRecEx;
 begin
-  Result:= 2;
-  Path:= String(mbFileNameToNative(lua_tostring(L, 1)));
-  if FindFirst(Path, faAnyFile, Rec) = 0 then
-    luaPushSearchRec(L, Rec)
+  New(Rec);
+  Path:= lua_tostring(L, 1);
+  if FindFirstEx(Path, fffPortable, Rec^) = 0 then
+  begin
+    Result:= 2;
+    luaPushSearchRec(L, Rec);
+  end
   else begin
-    lua_pushnil(L);
+    Result:= 1;
+    Dispose(Rec);
     lua_pushnil(L);
   end;
 end;
 
 function luaFindNext(L : Plua_State) : Integer; cdecl;
 var
-  Rec: TSearchRec;
-  FindHandle: PtrInt absolute Rec.FindHandle;
+  Rec: PSearchRecEx;
 begin
-  Result:= 2;
-  FillChar({%H-}Rec, SizeOf(TSearchRec), 0);
-  FindHandle:= PtrInt(lua_tointeger(L, 1));
-  if FindNext(Rec) = 0 then
-    luaPushSearchRec(L, Rec)
+  Rec:= lua_touserdata(L, 1);
+  if (Rec <> nil) and (FindNextEx(Rec^) = 0) then
+  begin
+    Result:= 2;
+    luaPushSearchRec(L, Rec);
+  end
   else begin
     lua_pushnil(L);
-    lua_pushnil(L);
+    Result:= 1;
   end;
 end;
 
 function luaFindClose(L : Plua_State) : Integer; cdecl;
 var
-  Rec: TSearchRec;
-  FindHandle: PtrInt absolute Rec.FindHandle;
+  Rec: PSearchRecEx;
 begin
+  Rec:= lua_touserdata(L, 1);
+  if Assigned(Rec) then
+  begin
+    FindCloseEx(Rec^);
+    Dispose(Rec);
+  end;
   Result:= 0;
-  FillChar({%H-}Rec, SizeOf(TSearchRec), 0);
-  FindHandle:= PtrInt(lua_tointeger(L, 1));
-  FindClose(Rec);
 end;
 
 function luaSleep(L : Plua_State) : Integer; cdecl;
