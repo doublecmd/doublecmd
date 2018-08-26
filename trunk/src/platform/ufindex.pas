@@ -45,10 +45,10 @@ const
 type
 {$IFDEF UNIX}
   TUnixFindData = record
-    DirPtr: PDir;   //en> directory pointer for reading directory
-    sPath: String;  //en> file name path
-    Mask: TMask;    //en> object that will check mask
-    StatRec: Stat;
+    DirPtr: PDir;      //en> directory pointer for reading directory
+    FindPath: String;  //en> file name path
+    Mask: TMask;       //en> object that will check mask
+    StatRec: Stat;     //en> Unix stat record
   end;
   PUnixFindData = ^TUnixFindData;
 {$ENDIF}
@@ -116,7 +116,7 @@ begin
   if UnixFindData = nil then Exit;
   if (UnixFindData^.Mask = nil) or UnixFindData^.Mask.Matches(SearchRec.Name) then
   begin
-    if fpLStat(UTF8ToSys(UnixFindData^.sPath + SearchRec.Name), @UnixFindData^.StatRec) >= 0 then
+    if fpLStat(UTF8ToSys(UnixFindData^.FindPath + SearchRec.Name), @UnixFindData^.StatRec) >= 0 then
     begin
       with UnixFindData^.StatRec do
       begin
@@ -161,11 +161,11 @@ begin
 
   with UnixFindData^ do
   begin
-    sPath:= ExtractFileDir(Path);
-    if sPath = '' then begin
-      sPath := mbGetCurrentDir;
+    FindPath:= ExtractFileDir(Path);
+    if FindPath = '' then begin
+      FindPath := mbGetCurrentDir;
     end;
-    sPath:= IncludeTrailingBackSlash(sPath);
+    FindPath:= IncludeTrailingBackSlash(FindPath);
 
     // Assignment of SearchRec.Name also needed if the path points to a specific
     // file and only a single mbFindMatchingFile() check needs to be done below.
@@ -186,7 +186,7 @@ begin
       Mask := TMask.Create(SearchRec.Name);
     end;
 
-    DirPtr:= fpOpenDir(PAnsiChar(CeUtf8ToSys(sPath)));
+    DirPtr:= fpOpenDir(PAnsiChar(CeUtf8ToSys(FindPath)));
   end;
   Result:= FindNextEx(SearchRec);
 end;
