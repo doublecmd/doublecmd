@@ -380,9 +380,8 @@ uses uFindFiles, Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs
      fViewOperations, uVfsModule, uMultiListFileSource, uExceptions, uFileProcs,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
-     fOptionsToolbar, fMainCommandsDlg, uConnectionManager, fOptionsTabs, fOptionsFavoriteTabs,
-     fTreeViewMenu, fOptionsTreeViewMenu, fOptionsTreeViewMenuColor, uArchiveFileSource,
-     fOptionsFileSearch, fOptionsHotKeys, fBenchmark, fOptionsArchivers
+     fMainCommandsDlg, uConnectionManager, fOptionsFavoriteTabs, fTreeViewMenu,
+     uArchiveFileSource, fOptionsHotKeys, fBenchmark
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ELSE}
@@ -2507,6 +2506,7 @@ begin
   end;
 end;
 
+{ TMainCommands.cm_FileAssoc }
 procedure TMainCommands.cm_FileAssoc(const Params: array of string);
 var
   Editor: TOptionsEditor;
@@ -4271,15 +4271,8 @@ end;
 
 { TMainCommands.cm_ConfigToolbars }
 procedure TMainCommands.cm_ConfigToolbars(const Params: array of string);
-var
-  Editor: TOptionsEditor;
-  Options: IOptionsDialog;
 begin
-  Options := ShowOptions(TfrmOptionsToolbar);
-  Application.ProcessMessages;
-  Editor := Options.GetEditor(TfrmOptionsToolbar);
-  Application.ProcessMessages;
-  if Editor.CanFocus then  Editor.SetFocus;
+  cm_Options(['TfrmOptionsToolbar']);
 end;
 
 { TMainCommands.cm_DebugShowCommandParameters }
@@ -4586,15 +4579,8 @@ end;
 
 { TMainCommands.cm_ConfigFolderTabs }
 procedure TMainCommands.cm_ConfigFolderTabs(const Params: array of string);
-var
-  Editor: TOptionsEditor;
-  Options: IOptionsDialog;
 begin
-  Options := ShowOptions(TfrmOptionsTabs);
-  Application.ProcessMessages;
-  Editor := Options.GetEditor(TfrmOptionsTabs);
-  Application.ProcessMessages;
-  if Editor.CanFocus then  Editor.SetFocus;
+  cm_Options(['TfrmOptionsTabs']);
 end;
 
 { TMainCommands.DoShowFavoriteTabsOptions }
@@ -4750,27 +4736,14 @@ end;
 
 { TMainCommands.cm_ConfigTreeViewMenus }
 procedure TMainCommands.cm_ConfigTreeViewMenus(const {%H-}Params: array of string);
-var
-  Options: IOptionsDialog;
-  Editor: TOptionsEditor;
 begin
-  Options := ShowOptions(TfrmOptionsTreeViewMenu);
-  Editor := Options.GetEditor(TfrmOptionsTreeViewMenu);
-  Application.ProcessMessages;
-  if Editor.CanFocus then  Editor.SetFocus;
+  cm_Options(['TfrmOptionsTreeViewMenu']);
 end;
-
 
 { TMainCommands.cm_ConfigTreeViewMenusColors }
 procedure TMainCommands.cm_ConfigTreeViewMenusColors(const {%H-}Params: array of string);
-var
-  Options: IOptionsDialog;
-  Editor: TOptionsEditor;
 begin
-  Options := ShowOptions(TfrmOptionsTreeViewMenuColor);
-  Editor := Options.GetEditor(TfrmOptionsTreeViewMenuColor);
-  Application.ProcessMessages;
-  if Editor.CanFocus then  Editor.SetFocus;
+  cm_Options(['TfrmOptionsTreeViewMenuColor']);
 end;
 
 { TMainCommands.cm_ConfigSaveSettings }
@@ -4841,14 +4814,8 @@ end;
 
 { TMainCommands.cm_ConfigArchivers }
 procedure TMainCommands.cm_ConfigArchivers(const {%H-}Params: array of string);
-var
-  Editor: TOptionsEditor;
-  Options: IOptionsDialog;
 begin
-  Options := ShowOptions(TfrmOptionsArchivers);
-  Editor := Options.GetEditor(TfrmOptionsArchivers);
-  Application.ProcessMessages;
-  if Editor.CanFocus then  Editor.SetFocus;
+  cm_Options(['TfrmOptionsArchivers']);
 end;
 
 { TMainCommands.cm_ConfigTooltip }
@@ -4923,14 +4890,8 @@ end;
 
 { TMainCommands.cm_ConfigSearches }
 procedure TMainCommands.cm_ConfigSearches(const Params: array of string);
-var
-  Editor: TOptionsEditor;
-  Options: IOptionsDialog;
 begin
-  Options := ShowOptions(TfrmOptionsFileSearch);
-  Editor := Options.GetEditor(TfrmOptionsFileSearch);
-  Application.ProcessMessages;
-  if Editor.CanFocus then  Editor.SetFocus;
+  cm_Options(['TfrmOptionsFileSearch']);
 end;
 
 { TMainCommands.cm_ConfigHotKeys }
