@@ -5015,7 +5015,7 @@ msgstr ""
 
 #: tfrmoptionseditor.chksmarttabs.hint
 msgid "When using <Tab> key, caret will go to the next non-space character of the previous line"
-msgstr ""
+msgstr "Lorsqu'on utilise la touche <Tab>, le curseur va au caractère non-espace suivant de la ligne précédente."
 
 #: tfrmoptionseditor.chktabindent.caption
 msgid "Tab indents blocks"
@@ -5044,7 +5044,7 @@ msgstr "Supprimer automatiquement les espaces de fin, cela s'applique uniquement
 #: tfrmoptionseditor.edtabwidth.hint
 msgctxt "tfrmoptionseditor.edtabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr ""
+msgstr "Veuillez noter que l'option \"Tab intelligent\" est prioritaire sur la tabulation à effectuer"
 
 #: tfrmoptionseditor.edtabwidth.text
 msgid "edTabWidth"

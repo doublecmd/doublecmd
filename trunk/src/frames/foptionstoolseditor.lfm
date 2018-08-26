@@ -125,7 +125,6 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       Width = 80
       BorderSpacing.Top = 3
       TabOrder = 1
-      Text = 'edTabWidth'
     end
     object lblTabWidth: TLabel
       AnchorSideLeft.Control = pnlBooleanOptions

@@ -4926,10 +4926,6 @@ msgctxt "tfrmoptionseditor.edtabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
 msgstr ""
 
-#: tfrmoptionseditor.edtabwidth.text
-msgid "edTabWidth"
-msgstr ""
-
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
 msgstr "Opcje wewnętrznego edytora"
