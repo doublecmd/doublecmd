@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, StdCtrls, ExtCtrls, Dialogs,
-  Buttons, fOptionsFrame, fOptionsToolBase;
+  Buttons, EditBtn, Menus, fOptionsFrame, fOptionsToolBase;
 
 type
 
@@ -36,12 +36,16 @@ type
 
   TfrmOptionsEditor = class(TfrmOptionsToolBase)
     gbInternalEditor: TGroupBox;
-    chkShowSpecialChars: TCheckBox;
-    chkScrollPastEndLine: TCheckBox;
-    chkTrimTrailingSpaces: TCheckBox;
-    chkTabsToSpaces: TCheckBox;
+    pnlBooleanOptions: TPanel;
     chkAutoIndent: TCheckBox;
+    chkTrimTrailingSpaces: TCheckBox;
+    chkScrollPastEndLine: TCheckBox;
+    chkShowSpecialChars: TCheckBox;
+    chkTabsToSpaces: TCheckBox;
     chkTabIndent: TCheckBox;
+    lblTabWidth: TLabel;
+    edTabWidth: TEdit;
+    chkSmartTabs: TCheckBox;
   protected
     procedure Init; override;
     procedure Load; override;
@@ -76,6 +80,8 @@ begin
   chkTabsToSpaces.Checked := eoTabsToSpaces in gEditorSynEditOptions;
   chkAutoIndent.Checked := eoAutoIndent in gEditorSynEditOptions;
   chkTabIndent.Checked := eoTabIndent in gEditorSynEditOptions;
+  chkSmartTabs.Checked := eoSmartTabs in gEditorSynEditOptions;
+  edTabWidth.Text := IntToStr(gEditorSynEditTabWidth);
 end;
 
 function TfrmOptionsEditor.Save: TOptionsEditorSaveFlags;
@@ -96,6 +102,9 @@ begin
   UpdateOptionFromBool(chkTabsToSpaces.Checked, eoTabsToSpaces);
   UpdateOptionFromBool(chkAutoIndent.Checked, eoAutoIndent);
   UpdateOptionFromBool(chkTabIndent.Checked, eoTabIndent);
+  UpdateOptionFromBool(chkSmartTabs.Checked, eoSmartTabs);
+  edTabWidth.Text := IntToStr(StrToIntDef(edTabWidth.Text,8));
+  gEditorSynEditTabWidth := StrToIntDef(edTabWidth.Text,8);
 end;
 
 constructor TfrmOptionsEditor.Create(TheOwner: TComponent);
