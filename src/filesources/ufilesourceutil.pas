@@ -306,7 +306,7 @@ begin
 
   sPath:= aFileView.CurrentPath + IncludeTrailingPathDelimiter(aFile.Name);
   try
-    if FindFirstEx(sPath + AllFilesMask, faAnyFile, SearchRec) = 0 then
+    if FindFirstEx(sPath + AllFilesMask, 0, SearchRec) = 0 then
       begin
         with aFileView do
         CurrentPath := CurrentPath + IncludeTrailingPathDelimiter(aFile.Name);

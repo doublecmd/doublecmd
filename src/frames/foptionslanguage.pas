@@ -68,7 +68,7 @@ begin
   try
     lngList.Clear;
     DCDebug('Language directory: ' + gpLngDir);
-    if FindFirstEx(gpLngDir + '*.po', faAnyFile, fr) = 0 then
+    if FindFirstEx(gpLngDir + '*.po', 0, fr) = 0 then
     repeat
       sLangName := GetLanguageName(gpLngDir + fr.Name);
       LanguageFileList.Add(Format('%s = %s', [sLangName, fr.Name]));

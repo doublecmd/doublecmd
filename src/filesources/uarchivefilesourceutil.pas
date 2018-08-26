@@ -275,7 +275,7 @@ procedure FillAndCount(Files: TFiles; out NewFiles: TFiles;
     aFolders: TStringList;
   begin
     aFolders:= TStringList.Create;
-    if FindFirstEx(srcPath + '*', faAnyFile, sr) = 0 then
+    if FindFirstEx(srcPath + '*', 0, sr) = 0 then
     begin
       repeat
         if (sr.Name='.') or (sr.Name='..') then Continue;

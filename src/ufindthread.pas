@@ -206,7 +206,7 @@ begin
       begin
         sPath:= FSelectedFiles[I];
         sPath:= ExcludeBackPathDelimiter(sPath);
-        if FindFirstEx(sPath, faAnyFile, sr) = 0 then
+        if FindFirstEx(sPath, 0, sr) = 0 then
         begin
           if FPS_ISDIR(sr.Attr) then
             WalkAdr(sPath)
@@ -651,7 +651,7 @@ begin
   // Search all files to display statistics
   Path := IncludeTrailingBackslash(sNewDir) + '*';
 
-  if FindFirstEx(Path, faAnyFile, sr) = 0 then
+  if FindFirstEx(Path, 0, sr) = 0 then
   repeat
     if not (FPS_ISDIR(sr.Attr) or FileIsLinkToDirectory(sNewDir + PathDelim + sr.Name, sr.Attr)) then
       DoFile(sNewDir, sr)
