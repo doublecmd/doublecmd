@@ -403,7 +403,7 @@ begin
     end;
   end;
 
-  CheckSumCalc(aFile, sCheckSum);
+  if not CheckSumCalc(aFile, sCheckSum) then Exit;
 
   if Algorithm = HASH_SFV then
   begin
