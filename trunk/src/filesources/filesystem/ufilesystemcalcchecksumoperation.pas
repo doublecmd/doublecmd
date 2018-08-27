@@ -28,6 +28,7 @@ type
     FChecksumsList: TObjectList;
 
     // Options.
+    FFileExistsOption: TFileSourceOperationOptionFileExists;
     FSymLinkOption: TFileSourceOperationOptionSymLink;
     FSkipErrors: Boolean;
 
@@ -40,6 +41,7 @@ type
 
     function CalcChecksumProcessFile(aFile: TFile): Boolean;
     function VerifyChecksumProcessFile(aFile: TFile; ExpectedChecksum: String): Boolean;
+    function FileExists(var AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 
   public
     constructor Create(aTargetFileSource: IFileSource;
@@ -57,9 +59,9 @@ type
 implementation
 
 uses
-  LazUTF8, DCConvertEncoding,
+  Forms, LazUTF8, DCConvertEncoding,
   uLng, uFileSystemUtil, uFileSystemFileSource, DCOSUtils, DCStrUtils,
-  uFileProcs, uDCUtils;
+  uFileProcs, uDCUtils, uShowMsg;
 
 type
   TChecksumEntry = class
@@ -81,6 +83,7 @@ constructor TFileSystemCalcChecksumOperation.Create(
 begin
   FBuffer := nil;
   FSymLinkOption := fsooslNone;
+  FFileExistsOption := fsoofeNone;
   FSkipErrors := False;
   FFullFilesTree := nil;
   FCheckSumFile := TStringListEx.Create;
@@ -100,12 +103,9 @@ begin
     FBuffer := nil;
   end;
 
-  if Assigned(FFullFilesTree) then
-    FreeAndNil(FFullFilesTree);
-  if Assigned(FCheckSumFile) then
-    FreeAndNil(FCheckSumFile);
-  if Assigned(FChecksumsList) then
-    FreeAndNil(FChecksumsList);
+  FreeAndNil(FFullFilesTree);
+  FreeAndNil(FCheckSumFile);
+  FreeAndNil(FChecksumsList);
 end;
 
 procedure TFileSystemCalcChecksumOperation.Initialize;
@@ -141,7 +141,17 @@ var
   CurrentFileIndex: Integer;
   OldDoneBytes: Int64; // for if there was an error
   Entry: TChecksumEntry;
+  TargetFileName: String;
 begin
+  if OneFile and (Mode = checksum_calc) then
+  begin
+    TargetFileName:= TargetMask;
+    case FileExists(TargetFileName) of
+      fsoofeSkip: Exit;
+      fsoofeOverwrite: ;
+    end;
+  end;
+
   for CurrentFileIndex := 0 to FFullFilesTree.Count - 1 do
   begin
     aFile := FFullFilesTree[CurrentFileIndex];
@@ -190,13 +200,13 @@ begin
       // make result
       if OneFile then
         try
-          FCheckSumFile.SaveToFile(TargetMask);
+          FCheckSumFile.SaveToFile(TargetFileName);
         except
           on E: EFCreateError do
-            AskQuestion(rsMsgErrECreate + ' ' + TargetMask + ':',
+            AskQuestion(rsMsgErrECreate + ' ' + TargetFileName + ':',
                                  E.Message, [fsourOk], fsourOk, fsourOk);
           on E: EWriteError do
-            AskQuestion(rsMsgErrEWrite + ' ' + TargetMask + ':',
+            AskQuestion(rsMsgErrEWrite + ' ' + TargetFileName + ':',
                                E.Message, [fsourOk], fsourOk, fsourOk);
         end;
 
@@ -373,9 +383,10 @@ function TFileSystemCalcChecksumOperation.CalcChecksumProcessFile(aFile: TFile):
 var
   FileName: String;
   sCheckSum: String;
+  TargetFileName: String;
 begin
   Result := False;
-  FileName := aFile.Path + aFile.Name;
+  FileName := aFile.FullPath;
 
   if not OneFile then
   begin
@@ -384,6 +395,11 @@ begin
     begin
       FCheckSumFile.Add(SFV_HEADER);
       FCheckSumFile.Add(DC_HEADER);
+    end;
+    TargetFileName:= FileName + '.' + HashFileExt[Algorithm];
+    case FileExists(TargetFileName) of
+      fsoofeOverwrite: ;
+      fsoofeSkip: Exit(True);
     end;
   end;
 
@@ -401,13 +417,13 @@ begin
 
   if not OneFile then
     try
-      FCheckSumFile.SaveToFile(FileName + '.' + HashFileExt[Algorithm]);
+      FCheckSumFile.SaveToFile(TargetFileName);
     except
       on E: EFCreateError do
-        AskQuestion(rsMsgErrECreate + ' ' + FileName + '.' + HashFileExt[Algorithm] + ':',
+        AskQuestion(rsMsgErrECreate + ' ' + TargetFileName + LineEnding,
                                  E.Message, [fsourOk], fsourOk, fsourOk);
       on E: EWriteError do
-        AskQuestion(rsMsgErrEWrite + ' ' + FileName + '.' + HashFileExt[Algorithm] + ':',
+        AskQuestion(rsMsgErrEWrite + ' ' + TargetFileName + LineEnding,
                                E.Message, [fsourOk], fsourOk, fsourOk);
     end;
 end;
@@ -430,6 +446,60 @@ begin
       else
         AddString(FResult.Broken, sFileName);
     end;
+end;
+
+function TFileSystemCalcChecksumOperation.FileExists(var AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
+const
+  Responses: array[0..5] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourRenameSource, fsourOverwriteAll,
+       fsourSkipAll, fsourCancel);
+var
+  Answer: Boolean;
+  Message: String;
+begin
+  if not mbFileExists(AbsoluteTargetFileName) then
+    Result:= fsoofeOverwrite
+  else case FFileExistsOption of
+    fsoofeNone:
+      repeat
+        Answer := True;
+        Message:= rsMsgFileExistsOverwrite + LineEnding +
+                  WrapTextSimple(AbsoluteTargetFileName, 100) + LineEnding;
+        case AskQuestion(Message, '',
+                         Responses, fsourOverwrite, fsourSkip) of
+          fsourOverwrite:
+            Result := fsoofeOverwrite;
+          fsourSkip:
+            Result := fsoofeSkip;
+          fsourOverwriteAll:
+            begin
+              FFileExistsOption := fsoofeOverwrite;
+              Result := fsoofeOverwrite;
+            end;
+          fsourSkipAll:
+            begin
+              FFileExistsOption := fsoofeSkip;
+              Result := fsoofeSkip;
+            end;
+          fsourRenameSource:
+            begin
+              Message:= ExtractFileName(AbsoluteTargetFileName);
+              Answer:= ShowInputQuery(Thread, Application.Title, rsEditNewFileName, Message);
+              if Answer then
+              begin
+                Result:= fsoofeAutoRenameSource;
+                AbsoluteTargetFileName:= ExtractFilePath(AbsoluteTargetFileName) + Message;
+                Answer:= not mbFileExists(AbsoluteTargetFileName);
+              end;
+            end;
+          fsourNone,
+          fsourCancel:
+            RaiseAbortOperation;
+        end;
+        until Answer;
+    else
+      Result := FFileExistsOption;
+  end;
 end;
 
 function TFileSystemCalcChecksumOperation.CheckSumCalc(aFile: TFile; out
