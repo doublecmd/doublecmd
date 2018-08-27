@@ -59,7 +59,7 @@ type
 implementation
 
 uses
-  Forms, LazUTF8, DCConvertEncoding,
+  Math, Forms, LazUTF8, DCConvertEncoding,
   uLng, uFileSystemUtil, uFileSystemFileSource, DCOSUtils, DCStrUtils,
   uFileProcs, uDCUtils, uShowMsg;
 
@@ -199,16 +199,18 @@ begin
     checksum_calc:
       // make result
       if OneFile then
-        try
+      try
+        CurrentFileIndex:= IfThen(Algorithm = HASH_SFV, 2, 0);
+        if (FCheckSumFile.Count > CurrentFileIndex) then
           FCheckSumFile.SaveToFile(TargetFileName);
-        except
-          on E: EFCreateError do
-            AskQuestion(rsMsgErrECreate + ' ' + TargetFileName + ':',
-                                 E.Message, [fsourOk], fsourOk, fsourOk);
-          on E: EWriteError do
-            AskQuestion(rsMsgErrEWrite + ' ' + TargetFileName + ':',
+      except
+        on E: EFCreateError do
+          AskQuestion(rsMsgErrECreate + ' ' + TargetFileName + ':',
                                E.Message, [fsourOk], fsourOk, fsourOk);
-        end;
+        on E: EWriteError do
+          AskQuestion(rsMsgErrEWrite + ' ' + TargetFileName + ':',
+                             E.Message, [fsourOk], fsourOk, fsourOk);
+      end;
 
     checksum_verify:
       begin
