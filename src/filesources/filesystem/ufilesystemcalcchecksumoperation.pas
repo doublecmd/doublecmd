@@ -508,86 +508,95 @@ function TFileSystemCalcChecksumOperation.CheckSumCalc(aFile: TFile; out
   aValue: String): Boolean;
 var
   hFile: THandle;
-  Context: THashContext;
-  BytesRead, BytesToRead: Int64;
   bRetryRead: Boolean;
+  Context: THashContext;
   TotalBytesToRead: Int64 = 0;
+  BytesRead, BytesToRead: Int64;
 begin
-  hFile := feInvalidHandle;
   BytesToRead := FBufferSize;
 
-  HashInit(Context, Algorithm);
-  try
+  repeat
     hFile:= mbFileOpen(aFile.FullPath, fmOpenRead or fmShareDenyNone);
-
     Result:= hFile <> feInvalidHandle;
-    if Result then
-      begin
-        TotalBytesToRead := mbFileSize(aFile.FullPath);
+    if not Result then
+    begin
+      case AskQuestion(rsMsgErrEOpen + ' ' + aFile.FullPath + LineEnding + mbSysErrorMessage,
+                       '',
+                       [fsourRetry, fsourSkip, fsourAbort],
+                       fsourRetry, fsourSkip) of
+        fsourRetry:
+          ;
+        fsourAbort:
+          RaiseAbortOperation;
+        fsourSkip:
+          Exit(False);
+      end; // case
+    end;
+  until Result;
 
-        while TotalBytesToRead > 0 do
-        begin
-          // Without the following line the reading is very slow
-          // if it tries to read past end of file.
-          if TotalBytesToRead < BytesToRead then
-            BytesToRead := TotalBytesToRead;
+  HashInit(Context, Algorithm);
 
-          repeat
-            try
-              bRetryRead := False;
-              BytesRead := FileRead(hFile, FBuffer^, BytesToRead);
+  try
+    TotalBytesToRead := mbFileSize(aFile.FullPath);
 
-              if (BytesRead <= 0) then
-                Raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
+    while TotalBytesToRead > 0 do
+    begin
+      // Without the following line the reading is very slow
+      // if it tries to read past end of file.
+      if TotalBytesToRead < BytesToRead then
+        BytesToRead := TotalBytesToRead;
 
-              TotalBytesToRead := TotalBytesToRead - BytesRead;
+      repeat
+        try
+          bRetryRead := False;
+          BytesRead := FileRead(hFile, FBuffer^, BytesToRead);
 
-              HashUpdate(Context, FBuffer^, BytesRead);
+          if (BytesRead <= 0) then
+            Raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
 
-            except
-              on E: EReadError do
-                begin
-                  if gSkipFileOpError then
-                  begin
-                    LogMessage(rsMsgErrERead + ' ' + aFile.FullPath + ': ' + E.Message,
-                               [], lmtError);
-                    Exit(False);
-                  end
-                  else
-                  case AskQuestion(rsMsgErrERead + ' ' + aFile.FullPath + ': ',
-                                   E.Message,
-                                   [fsourRetry, fsourSkip, fsourAbort],
-                                   fsourRetry, fsourSkip) of
-                    fsourRetry:
-                      bRetryRead := True;
-                    fsourAbort:
-                      RaiseAbortOperation;
-                    fsourSkip:
-                      Exit(False);
-                  end; // case
-                end;
+          TotalBytesToRead := TotalBytesToRead - BytesRead;
+
+          HashUpdate(Context, FBuffer^, BytesRead);
+
+        except
+          on E: EReadError do
+            begin
+              if gSkipFileOpError then
+              begin
+                LogMessage(rsMsgErrERead + ' ' + aFile.FullPath + ': ' + E.Message,
+                           [], lmtError);
+                Exit(False);
+              end;
+
+              case AskQuestion(rsMsgErrERead + ' ' + aFile.FullPath + LineEnding + E.Message,
+                               '',
+                               [fsourRetry, fsourSkip, fsourAbort],
+                               fsourRetry, fsourSkip) of
+                fsourRetry:
+                  bRetryRead := True;
+                fsourAbort:
+                  RaiseAbortOperation;
+                fsourSkip:
+                  Exit(False);
+              end; // case
             end;
-          until not bRetryRead;
+        end;
+      until not bRetryRead;
 
-          with FStatistics do
-          begin
-            CurrentFileDoneBytes := CurrentFileDoneBytes + BytesRead;
-            DoneBytes := DoneBytes + BytesRead;
+      with FStatistics do
+      begin
+        CurrentFileDoneBytes := CurrentFileDoneBytes + BytesRead;
+        DoneBytes := DoneBytes + BytesRead;
 
-            UpdateStatistics(FStatistics);
-          end;
-
-          CheckOperationState; // check pause and stop
-        end;//while
+        UpdateStatistics(FStatistics);
       end;
 
+      CheckOperationState; // check pause and stop
+    end;//while
+
   finally
+    FileClose(hFile);
     HashFinal(Context, aValue);
-    if hFile <> feInvalidHandle then
-    begin
-      FileClose(hFile);
-      hFile := feInvalidHandle;
-    end;
   end;
 end;
 
