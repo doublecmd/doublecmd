@@ -11558,7 +11558,7 @@ msgstr ""
 
 #: ulng.rsoptarchiverconfirmdelete
 msgctxt "ulng.rsoptarchiverconfirmdelete"
-msgid "Are you sure you want to delete: %s"
+msgid "Are you sure you want to delete: \"%s\"?"
 msgstr ""
 
 #: ulng.rsoptarchiverdefaultexportfilename
@@ -12082,7 +12082,7 @@ msgstr ""
 
 #: ulng.rsopttooltipfiletypeconfirmdelete
 msgctxt "ulng.rsopttooltipfiletypeconfirmdelete"
-msgid "Are you sure you want to delete: %s"
+msgid "Are you sure you want to delete: \"%s\"?"
 msgstr ""
 
 #: ulng.rsopttooltipfiletypedefaultexportfilename

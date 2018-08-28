@@ -104,7 +104,7 @@ resourcestring
   // Archiver section.
   rsMsgArchiverCustomParams = 'Additional parameters for archiver command-line:';
   rsOptArchiverArchiver = 'Select archiver executable';
-  rsOptArchiverConfirmDelete = 'Are you sure you want to delete: %s';
+  rsOptArchiverConfirmDelete = 'Are you sure you want to delete: "%s"?';
   rsOptArchiverImportFile = 'Select the file to import archiver configuration(s)';
   rsOptArchiverWhereToSave = 'Enter location and filename where to save archiver configuration';
   rsOptArchiverDefaultExportFilename = 'Exported Archiver Configuration';
@@ -145,7 +145,7 @@ resourcestring
   rsOptToolTipFileTypeDefaultExportFilename = 'Exported tooltip file type configuration';
   rsOptToolTipFileTypeWhereToSave = 'Enter location and filename where to save tooltip file type configuration';
   rsOptToolTipFileTypeAlreadyExists = '"%s" already exists!';
-  rsOptToolTipFileTypeConfirmDelete = 'Are you sure you want to delete: %s';
+  rsOptToolTipFileTypeConfirmDelete = 'Are you sure you want to delete: "%s"?';
   rsOptToolTipFileTypeImportCaption = 'Import tooltip file type configuration';
   rsOptToolTipFileTypeImportPrompt = 'Select the one(s) you want to import';
   rsOptToolTipFileTypeImportFile = 'Select the file to import tooltip file type configuration(s)';
