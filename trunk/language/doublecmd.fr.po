@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2018-08-26 17:14-0400\n"
+"PO-Revision-Date: 2018-08-27 20:48-0400\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -11629,8 +11629,8 @@ msgstr "Changer l'encodage"
 
 #: ulng.rsoptarchiverconfirmdelete
 msgctxt "ulng.rsoptarchiverconfirmdelete"
-msgid "Are you sure you want to delete: %s"
-msgstr "Êtes-vous sûr de vouloir effacer: %s"
+msgid "Are you sure you want to delete: \"%s\"?"
+msgstr "Êtes-vous sûr de vouloir effacer: \"%s\"?"
 
 #: ulng.rsoptarchiverdefaultexportfilename
 msgid "Exported Archiver Configuration"
@@ -12155,8 +12155,8 @@ msgstr "\"%s\" existe déjà!"
 
 #: ulng.rsopttooltipfiletypeconfirmdelete
 msgctxt "ulng.rsopttooltipfiletypeconfirmdelete"
-msgid "Are you sure you want to delete: %s"
-msgstr "Êtes-vous sûr de vouloir effacer: %s"
+msgid "Are you sure you want to delete: \"%s\"?"
+msgstr "Êtes-vous sûr de vouloir effacer: \"%s\"?"
 
 #: ulng.rsopttooltipfiletypedefaultexportfilename
 msgid "Exported tooltip file type configuration"
