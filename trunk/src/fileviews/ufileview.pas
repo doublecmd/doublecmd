@@ -165,7 +165,7 @@ type
     function FileListLoaded: Boolean;
     function GetCurrentAddress: String;
     function GetCurrentLocation: String;
-    function GetNotebookPage: TCustomPage;
+    function GetNotebookPage: TControl;
     function GetCurrentFileSource: IFileSource;
     function GetCurrentFileSourceIndex: Integer;
     function GetCurrentPathIndex: Integer;
@@ -526,7 +526,7 @@ type
     property Sorting: TFileSortings read FSortings write SetSorting;
     property WatcherActive: Boolean read GetWatcherActive;
 
-    property NotebookPage: TCustomPage read GetNotebookPage;
+    property NotebookPage: TControl read GetNotebookPage;
     property OnBeforeChangePath : TOnBeforeChangePath read FOnBeforeChangePath write FOnBeforeChangePath;
     property OnAfterChangePath : TOnAfterChangePath read FOnAfterChangePath write FOnAfterChangePath;
     property OnChangeActiveFile : TOnChangeActiveFile read FOnChangeActiveFile write FOnChangeActiveFile;
@@ -1020,10 +1020,10 @@ begin
   end;
 end;
 
-function TFileView.GetNotebookPage: TCustomPage;
+function TFileView.GetNotebookPage: TControl;
 begin
-  if Parent is TCustomPage then
-    Result := Parent as TCustomPage
+  if Parent is TFileViewPage then
+    Result := TFileViewPage(Parent)
   else
     Result := nil;
 end;
