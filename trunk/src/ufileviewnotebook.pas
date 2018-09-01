@@ -625,7 +625,7 @@ begin
           ArrowWidth:= arrow_spacing + scroll_arrow_hlength;
           if (X > ArrowWidth) and (X < ClientWidth - ArrowWidth) then
           {$ENDIF}
-          Notebook.OnDblClick(Self);
+          Notebook.DblClick;
           FStartDrag:= False;
           FLastMouseDownTime:= 0;
           FLastMouseDownPageIndex:= -1;
