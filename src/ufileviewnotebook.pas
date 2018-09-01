@@ -989,6 +989,10 @@ end;
 procedure TFileViewNotebook.SetTabPosition(AValue: TTabPosition);
 begin
   FPageControl.TabPosition:= AValue;
+  case FPageControl.TabPosition of
+    tpTop: FPageControl.Align:= alTop;
+    tpBottom: FPageControl.Align:= alBottom;
+  end;
   FPageControl.TabControlBoundsChange;
 end;
 
