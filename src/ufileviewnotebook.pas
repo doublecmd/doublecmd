@@ -562,7 +562,7 @@ var
 begin
   Result:= inherited GetMinimumTabHeight;
 {$IF DEFINED(LCLGTK2)}
-  if HandleAllocated then
+  if (TabPosition = tpTop) and HandleAllocated then
   begin
     NoteBookWidget:= {%H-}PGtkNotebook(Handle);
     if Assigned(NoteBookWidget) then
