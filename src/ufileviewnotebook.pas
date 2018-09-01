@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains TFileViewPage and TFileViewNotebook objects.
 
-   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,11 +16,10 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
-unit uFileViewNotebook; 
+unit uFileViewNotebook;
 
 {$mode objfpc}{$H+}
 
@@ -28,7 +27,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ComCtrls, LMessages,
-  LCLType, LCLVersion, Forms,
+  LCLType, Forms,
   uFileView, uFilePanelSelect, uDCVersion, DCXmlConfig;
 
 type
@@ -43,13 +42,10 @@ type
 
   { TFileViewPage }
 
-  TFileViewPage = class(TTabSheet)
+  TFileViewPage = class(TWinControl)
   private
     FLockState: TTabLockState;
     FLockPath: String;          //<en Path on which tab is locked
-    {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
-    FSettingCaption: Boolean;
-    {$ENDIF}
     FOnActivate: TNotifyEvent;
     FCurrentTitle: String;
     FPermanentTitle: String;
@@ -65,6 +61,7 @@ type
        Retrieves notebook on which this page is.
     }
     function GetNotebook: TFileViewNotebook;
+    function GetPageIndex: Integer;
     {en
        Frees current file view and assigns a new one.
     }
@@ -76,17 +73,12 @@ type
 
   protected
     procedure PaintWindow(DC: HDC); override;
-  {$IF (DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)) or DEFINED(MSWINDOWS)}
     procedure RealSetText(const AValue: TCaption); override;
-  {$ENDIF}
     procedure WMEraseBkgnd(var Message: TLMEraseBkgnd); message LM_ERASEBKGND;
 
   public
     constructor Create(TheOwner: TComponent); override;
 
-    {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
-    function HandleObjectShouldBeVisible: boolean; override;
-    {$ENDIF}
     function IsActive: Boolean;
     procedure MakeActive;
     procedure UpdateTitle;
@@ -94,6 +86,7 @@ type
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
 
+    property PageIndex: Integer read GetPageIndex;
     property LockState: TTabLockState read FLockState write SetLockState;
     property LockPath: String read FLockPath write FLockPath;
     property FileView: TFileView read GetFileView write SetFileView;
@@ -104,39 +97,35 @@ type
     property BackupViewClass: TFileViewClass read FBackupViewClass write FBackupViewClass;
   end;
 
-  { TFileViewNotebook }
+  { TFileViewPageControl }
 
-  {$IF (LCL_FULLVERSION >= 1020000)}
-  TFileViewNotebook = class(TPageControl)
-  {$ELSE}
-  TFileViewNotebook = class(TCustomTabControl)
-  {$ENDIF}
+  TFileViewPageControl = class(TPageControl)
   private
-    FNotebookSide: TFilePanelSelect;
     FStartDrag: Boolean;
     FDraggedPageIndex: Integer;
     FHintPageIndex: Integer;
     FLastMouseDownTime: TDateTime;
     FLastMouseDownPageIndex: Integer;
-
-    function GetActivePage: TFileViewPage;
-    function GetActiveView: TFileView;
-    function GetFileViewOnPage(Index: Integer): TFileView;
-    function GetPage(Index: Integer): TFileViewPage; reintroduce;
-
+    function GetNoteBook: TFileViewNotebook;
+  private
     procedure DragOverEvent(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
     procedure DragDropEvent(Sender, Source: TObject; X, Y: Integer);
 
   protected
+    procedure CreateHandle; override;
+    procedure TabControlBoundsChange; virtual;
+  protected
     procedure DoChange; override;
+    procedure DblClick; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure WMEraseBkgnd(var Message: TLMEraseBkgnd); message LM_ERASEBKGND;
-
   public
-    constructor Create(ParentControl: TWinControl;
-                       NotebookSide: TFilePanelSelect); reintroduce;
+    constructor Create(ParentControl: TWinControl); reintroduce;
+
+    procedure DoCloseTabClicked(APage: TCustomPage); override;
+
     {$IFDEF MSWINDOWS}
     {en
        Removes the rectangle of the pages contents from erasing background to reduce flickering.
@@ -145,27 +134,80 @@ type
     procedure EraseBackground(DC: HDC); override;
     procedure WndProc(var Message: TLMessage); override;
     {$ENDIF}
+
+    property Notebook: TFileViewNotebook read GetNoteBook;
+  end;
+
+  { TFileViewNotebook }
+
+  TFileViewNotebook = class(TWinControl)
+  private
+    FOnPageChanged: TNotifyEvent;
+    FNotebookSide: TFilePanelSelect;
+    FOnCloseTabClicked: TNotifyEvent;
+    FPageControl: TFileViewPageControl;
+
+    function GetActivePage: TFileViewPage;
+    function GetActiveView: TFileView;
+    function GetFileViewOnPage(Index: Integer): TFileView;
+
+    function GetShowTabs: Boolean;
+    function GetMultiLine: Boolean;
+    function GetPageIndex: Integer;
+    function GetPageCount: Integer;
+    function GetTabPosition: TTabPosition;
+    function GetOptions: TCTabControlOptions;
+    function GetLastMouseDownPageIndex: Integer;
+    function GetPage(Index: Integer): TFileViewPage; reintroduce;
+
+    procedure SetShowTabs(AValue: Boolean);
+    procedure SetPageIndex(AValue: Integer);
+    procedure SetMultiLine(AValue: Boolean);
+    procedure SetTabPosition(AValue: TTabPosition);
+    procedure SetOptions(AValue: TCTabControlOptions);
+
+  protected
+    procedure DoChange;
+    procedure DoSetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
+
+  public
+    constructor Create(ParentControl: TWinControl;
+                       NotebookSide: TFilePanelSelect); reintroduce;
+
     function AddPage: TFileViewPage;
+    function IndexOfPageAt(P: TPoint): Integer;
+    function GetCapabilities: TCTabControlCapabilities;
     function InsertPage(Index: Integer): TFileViewPage; reintroduce;
     function NewEmptyPage: TFileViewPage;
     function NewPage(CloneFromPage: TFileViewPage): TFileViewPage;
     function NewPage(CloneFromView: TFileView): TFileViewPage;
+    procedure DeletePage(Index: Integer);
     procedure RemovePage(Index: Integer); reintroduce;
-    procedure RemovePage(var aPage: TFileViewPage);
+    procedure RemovePage(var APage: TFileViewPage);
     procedure DestroyAllPages;
     procedure ActivatePrevTab;
     procedure ActivateNextTab;
 
     property ActivePage: TFileViewPage read GetActivePage;
     property ActiveView: TFileView read GetActiveView;
-    property DoubleClickPageIndex: Integer read FLastMouseDownPageIndex;
+    property DoubleClickPageIndex: Integer read GetLastMouseDownPageIndex;
     property Page[Index: Integer]: TFileViewPage read GetPage;
     property View[Index: Integer]: TFileView read GetFileViewOnPage; default;
     property Side: TFilePanelSelect read FNotebookSide;
 
+    property PageCount: Integer read GetPageCount;
+    property PageIndex: Integer read GetPageIndex write SetPageIndex;
+
+    property ShowTabs: Boolean read GetShowTabs write SetShowTabs;
+    property MultiLine: Boolean read GetMultiLine write SetMultiLine;
+    property Options: TCTabControlOptions read GetOptions write SetOptions;
+    property TabPosition: TTabPosition read GetTabPosition write SetTabPosition;
+
+    property OnChange: TNotifyEvent read FOnPageChanged write FOnPageChanged;
+    property OnCloseTabClicked: TNotifyEvent read FOnCloseTabClicked write FOnCloseTabClicked;
+
   published
     property OnDblClick;
-    property OnChange;
     property OnMouseDown;
     property OnMouseUp;
   end;
@@ -173,6 +215,7 @@ type
 implementation
 
 uses
+  Math,
   LCLIntf,
   LazUTF8,
   DCStrUtils,
@@ -181,9 +224,6 @@ uses
   uArchiveFileSource
   {$IF DEFINED(LCLGTK2)}
   , Glib2, Gtk2
-  {$ENDIF}
-  {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
-  , qt4, qtwidgets
   {$ENDIF}
   {$IF DEFINED(MSWINDOWS)}
   , win32proc, Windows, Messages
@@ -211,50 +251,22 @@ constructor TFileViewPage.Create(TheOwner: TComponent);
 begin
   FLockState := tlsNormal;
   FBackupViewClass := TColumnsFileView;
-  {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
-  FSettingCaption := False;
-  {$ENDIF}
   inherited Create(TheOwner);
+
+  FCompStyle := csPage;
+  ControlStyle := ControlStyle + [csAcceptsControls, csDesignFixedBounds, csNoDesignVisible, csNoFocus];
+
+  // Height and width depends on parent, align to client rect
+  Align := alClient;
+  Caption := '';
+  Visible := False;
 end;
 
-{$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
-// On QT after handle is created but before the widget is visible
-// setting caption fails unless the notebook and all its parents are
-// set as Visible and the current page is the one of which we set caption.
-// Overriding HandleObjectShouldBeVisible is a indirect workaround for that
-// (see TQtPage.getIndex.CanReturnIndex).
-// QT 4.6 or higher needed for this workaround.
-function TFileViewPage.HandleObjectShouldBeVisible: boolean;
-var
-  AParent: QTabWidgetH;
-begin
-  if not HandleAllocated then
-    Result := inherited
-  else
-  begin
-    AParent := TQtPage(Handle).getTabWidget;
-    Result := (FSettingCaption and ((AParent = nil) or not QWidget_isVisible(AParent))) or
-              inherited;
-  end;
-end;
-{$ENDIF}
-
-{$IF (DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)) or DEFINED(MSWINDOWS)}
 procedure TFileViewPage.RealSetText(const AValue: TCaption);
 begin
-  {$IF DEFINED(LCLQT)}
-  FSettingCaption := True;
-  {$ENDIF}
-  inherited;
-  {$IF DEFINED(MSWINDOWS)}
-  if HandleAllocated then
-    LCLControlSizeNeedsUpdate(Parent, True);
-  {$ENDIF}
-  {$IF DEFINED(LCLQT)}
-  FSettingCaption := False;
-  {$ENDIF}
+  inherited RealSetText(AValue);
+  Notebook.FPageControl.Pages[PageIndex].Caption:= AValue;
 end;
-{$ENDIF}
 
 function TFileViewPage.IsActive: Boolean;
 begin
@@ -390,7 +402,22 @@ end;
 
 function TFileViewPage.GetNotebook: TFileViewNotebook;
 begin
-  Result := Parent as TFileViewNotebook;
+  Result := Owner as TFileViewNotebook;
+end;
+
+function TFileViewPage.GetPageIndex: Integer;
+var
+  Index: Integer;
+begin
+  if Assigned(Notebook) then
+  begin
+    for Index:= 0 to Notebook.PageCount - 1 do
+    begin
+      if (Notebook.GetPage(Index) = Self) then
+        Exit(Index);
+    end;
+  end;
+  Result := -1;
 end;
 
 procedure TFileViewPage.SetLockState(NewLockState: TTabLockState);
@@ -425,21 +452,222 @@ begin
     FOnActivate(Self);
 end;
 
-// -- TFileViewNotebook -------------------------------------------------------
+{ TFileViewPageControl }
 
-constructor TFileViewNotebook.Create(ParentControl: TWinControl;
-                                     NotebookSide: TFilePanelSelect);
+function TFileViewPageControl.GetNoteBook: TFileViewNotebook;
 begin
-  PageClass := TFileViewPage;
+  Result:= TFileViewNotebook(Parent);
+end;
+
+procedure TFileViewPageControl.DragOverEvent(Sender, Source: TObject; X,
+  Y: Integer; State: TDragState; var Accept: Boolean);
+var
+  ATabIndex: Integer;
+begin
+  if (Source is TFileViewPageControl) and (Sender is TFileViewPageControl) then
+  begin
+    ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
+    Accept := (Source <> Sender) or
+              ((ATabIndex <> -1) and (ATabIndex <> FDraggedPageIndex));
+  end
+  else
+    Accept := False;
+end;
+
+procedure TFileViewPageControl.DragDropEvent(Sender, Source: TObject; X, Y: Integer);
+var
+  ATabIndex: Integer;
+  ANewPage, DraggedPage: TFileViewPage;
+  SourcePageControl: TFileViewPageControl;
+begin
+  if (Source is TFileViewPageControl) and (Sender is TFileViewPageControl) then
+  begin
+    ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
+
+    if Source = Sender then
+    begin
+      // Move within the same panel.
+      if ATabIndex <> -1 then
+        Tabs.Move(FDraggedPageIndex, ATabIndex);
+    end
+    else
+    begin
+      // Move page between panels.
+      SourcePageControl:= TFileViewPageControl(Source);
+      DraggedPage := SourcePageControl.Notebook.Page[SourcePageControl.FDraggedPageIndex];
+
+      if ATabIndex = -1 then
+        ATabIndex := PageCount;
+
+      // Create a clone of the page in the panel.
+      ANewPage := Notebook.InsertPage(ATabIndex);
+      ANewPage.AssignPage(DraggedPage);
+      ANewPage.MakeActive;
+
+      if (ssShift in GetKeyShiftState) and (SourcePageControl.Notebook.PageCount > 1) then
+      begin
+        // Remove page from source panel.
+        SourcePageControl.Notebook.RemovePage(DraggedPage);
+      end;
+    end;
+  end;
+end;
+
+procedure TFileViewPageControl.CreateHandle;
+begin
+  inherited CreateHandle;
+  TabControlBoundsChange;
+end;
+
+procedure TFileViewPageControl.TabControlBoundsChange;
+var
+  NewHeight: LongInt;
+  NewWidth: LongInt;
+begin
+  case TabPosition of
+  tpTop, tpBottom:
+    begin
+      NewHeight:= TabHeight;
+      if NewHeight <= 0 then
+        NewHeight:= GetMinimumTabHeight;
+      // NewHeight:= Min(ClientHeight, NewHeight);
+      if TabPosition = tpTop then
+        SetBounds(0, 0, ClientWidth, NewHeight)
+      else
+        SetBounds(0, ClientHeight - NewHeight, ClientWidth, NewHeight);
+    end;
+
+  tpLeft, tpRight:
+    begin
+      NewWidth:= Max(TabHeight, GetMinimumTabWidth);
+      NewWidth:= Min(Width, NewWidth);
+      if TabPosition = tpLeft then
+        SetBounds(0, 0, NewWidth, ClientHeight)
+      else
+        SetBounds(ClientWidth - NewWidth, 0, NewWidth, ClientHeight);
+    end;
+  end;
+
+  Invalidate;
+end;
+
+procedure TFileViewPageControl.DoChange;
+begin
+  inherited DoChange;
+  Notebook.DoChange;
+end;
+
+procedure TFileViewPageControl.DblClick;
+begin
+  inherited DblClick;
+  if Assigned(Notebook.OnDblClick) then
+    Notebook.OnDblClick(Notebook);
+end;
+
+procedure TFileViewPageControl.MouseDown(Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+{$IF DEFINED(LCLGTK2)}
+var
+  ArrowWidth: Integer;
+  arrow_spacing: gint = 0;
+  scroll_arrow_hlength: gint = 16;
+{$ENDIF}
+begin
+  inherited MouseDown(Button, Shift, X, Y);
+
+  if Assigned(Notebook.OnMouseDown) then
+    Notebook.OnMouseDown(Notebook, Button, Shift, X, Y);
+
+  if Button = mbLeft then
+  begin
+    FDraggedPageIndex := IndexOfPageAt(Classes.Point(X, Y));
+    FStartDrag := (FDraggedPageIndex <> -1);
+  end;
+  // Emulate double click
+  if (Button = mbLeft) and Assigned(Notebook.OnDblClick) then
+    begin
+      if ((Now - FLastMouseDownTime) > ((1/86400)*(GetDoubleClickTime/1000))) then
+        begin
+          FLastMouseDownTime:= Now;
+          FLastMouseDownPageIndex:= FDraggedPageIndex;
+        end
+      else if (FDraggedPageIndex = FLastMouseDownPageIndex) then
+        begin
+          {$IF DEFINED(LCLGTK2)}
+          gtk_widget_style_get(PGtkWidget(Self.Handle),
+                               'arrow-spacing', @arrow_spacing,
+                               'scroll-arrow-hlength', @scroll_arrow_hlength,
+                               nil);
+          ArrowWidth:= arrow_spacing + scroll_arrow_hlength;
+          if (X > ArrowWidth) and (X < ClientWidth - ArrowWidth) then
+          {$ENDIF}
+          Notebook.OnDblClick(Self);
+          FStartDrag:= False;
+          FLastMouseDownTime:= 0;
+          FLastMouseDownPageIndex:= -1;
+        end;
+    end;
+end;
+
+procedure TFileViewPageControl.MouseMove(Shift: TShiftState; X, Y: Integer);
+var
+  ATabIndex: Integer;
+begin
+  inherited MouseMove(Shift, X, Y);
+
+  if ShowHint then
+  begin
+    ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
+    if (ATabIndex >= 0) and (ATabIndex <> FHintPageIndex) then
+    begin
+      FHintPageIndex := ATabIndex;
+      Application.CancelHint;
+      if (ATabIndex <> PageIndex) and (Length(Notebook.Page[ATabIndex].LockPath) <> 0) then
+        Hint := Notebook.Page[ATabIndex].LockPath
+      else
+        Hint := Notebook.View[ATabIndex].CurrentPath;
+    end;
+  end;
+
+  if FStartDrag then
+  begin
+    FStartDrag := False;
+    BeginDrag(False);
+  end;
+end;
+
+procedure TFileViewPageControl.MouseUp(Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  inherited MouseUp(Button, Shift, X, Y);
+
+  if Assigned(Notebook.OnMouseUp) then
+    Notebook.OnMouseUp(Notebook, Button, Shift, X, Y);
+
+  FStartDrag := False;
+end;
+
+procedure TFileViewPageControl.WMEraseBkgnd(var Message: TLMEraseBkgnd);
+begin
+  inherited WMEraseBkgnd(Message);
+  // Always set as handled otherwise if not handled Windows will draw background
+  // with hbrBackground brush of the window class. This might cause flickering
+  // because later background will be again be erased but with TControl.Brush.
+  // This is not actually needed on non-Windows because WMEraseBkgnd is not used there.
+  Message.Result := 1;
+end;
+
+constructor TFileViewPageControl.Create(ParentControl: TWinControl);
+begin
   inherited Create(ParentControl);
   ControlStyle := ControlStyle + [csNoFocus];
 
-  Parent := ParentControl;
+  Align := alTop;
   TabStop := False;
   ShowHint := True;
+  Parent := ParentControl;
 
   FHintPageIndex := -1;
-  FNotebookSide := NotebookSide;
   FStartDrag := False;
 
   {$IFDEF MSWINDOWS}
@@ -453,6 +681,70 @@ begin
 
   OnDragOver := @DragOverEvent;
   OnDragDrop := @DragDropEvent;
+
+  TabControlBoundsChange;
+end;
+
+procedure TFileViewPageControl.DoCloseTabClicked(APage: TCustomPage);
+begin
+  inherited DoCloseTabClicked(APage);
+  if Assigned(Notebook.OnCloseTabClicked) then
+    Notebook.OnCloseTabClicked(Notebook.Page[APage.PageIndex]);
+end;
+
+{$IFDEF MSWINDOWS}
+procedure TFileViewPageControl.EraseBackground(DC: HDC);
+var
+  ARect: TRect;
+  SaveIndex: Integer;
+  Clip: Integer;
+begin
+  if HandleAllocated and (DC <> 0) then
+  begin
+    ARect := Classes.Rect(0, 0, Width, Height);
+    Windows.TabCtrl_AdjustRect(Handle, False, ARect);
+    SaveIndex := SaveDC(DC);
+    Clip := ExcludeClipRect(DC, ARect.Left, ARect.Top, ARect.Right, ARect.Bottom);
+    if Clip <> NullRegion then
+    begin
+      ARect := Classes.Rect(0, 0, Width, Height);
+      FillRect(DC, ARect, HBRUSH(Brush.Reference.Handle));
+    end;
+    RestoreDC(DC, SaveIndex);
+  end;
+end;
+
+procedure TFileViewPageControl.WndProc(var Message: TLMessage);
+var
+  ARect: PRect absolute Message.LParam;
+begin
+  inherited WndProc(Message);
+  if Message.Msg = TCM_ADJUSTRECT then
+  begin
+    if Message.WParam = 0 then
+      ARect^.Left := ARect^.Left - 2
+    else begin
+      ARect^.Left := ARect^.Left + 2;
+    end;
+  end;
+end;
+{$ENDIF}
+
+// -- TFileViewNotebook -------------------------------------------------------
+
+constructor TFileViewNotebook.Create(ParentControl: TWinControl;
+                                     NotebookSide: TFilePanelSelect);
+begin
+  inherited Create(ParentControl);
+  ControlStyle := ControlStyle + [csNoFocus];
+
+  FPageControl:= TFileViewPageControl.Create(Self);
+
+  Parent := ParentControl;
+  TabStop := False;
+  ShowHint := True;
+
+  FNotebookSide := NotebookSide;
 end;
 
 function TFileViewNotebook.GetActivePage: TFileViewPage;
@@ -482,9 +774,26 @@ begin
   Result := APage.FileView;
 end;
 
-function TFileViewNotebook.GetPage(Index: Integer): TFileViewPage;
+function TFileViewNotebook.GetLastMouseDownPageIndex: Integer;
 begin
-  Result := TFileViewPage(CustomPage(Index));
+  Result:= FPageControl.FLastMouseDownPageIndex;
+end;
+
+function TFileViewNotebook.GetMultiLine: Boolean;
+begin
+  Result:= FPageControl.MultiLine;
+end;
+
+function TFileViewNotebook.GetOptions: TCTabControlOptions;
+begin
+  Result:= FPageControl.Options;
+end;
+
+function TFileViewNotebook.GetPage(Index: Integer): TFileViewPage;
+var
+  APage: PtrInt absolute Result;
+begin
+  APage:= FPageControl.Page[Index].Tag;
 end;
 
 function TFileViewNotebook.AddPage: TFileViewPage;
@@ -493,10 +802,22 @@ begin
 end;
 
 function TFileViewNotebook.InsertPage(Index: Integer): TFileViewPage;
+var
+  ATag: PtrInt absolute Result;
 begin
-  Tabs.Insert(Index, '');
-  Result := GetPage(Index);
+  Result:= TFileViewPage.Create(Self);
+
+  FPageControl.Tabs.Insert(Index, '');
+
+  FPageControl.Page[Index].Tag:= ATag;
+
+  Result.Parent:= Self;
+
+  Result.Visible:= (PageIndex = Index);
+
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
+
+  FPageControl.TabControlBoundsChange;
 end;
 
 function TFileViewNotebook.NewEmptyPage: TFileViewPage;
@@ -529,6 +850,15 @@ begin
     Result := nil;
 end;
 
+procedure TFileViewNotebook.DeletePage(Index: Integer);
+var
+  APage: TFileViewPage;
+begin
+  APage:= GetPage(Index);
+  FPageControl.Pages[Index].Free;
+  APage.Free;
+end;
+
 procedure TFileViewNotebook.RemovePage(Index: Integer);
 begin
 {$IFDEF LCLGTK2}
@@ -543,7 +873,7 @@ begin
   end;
 {$ENDIF}
 
-  Page[Index].Free;
+  DeletePage(Index);
 
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
 
@@ -554,31 +884,15 @@ begin
 {$ENDIF}
 end;
 
-procedure TFileViewNotebook.RemovePage(var aPage: TFileViewPage);
+procedure TFileViewNotebook.RemovePage(var APage: TFileViewPage);
 begin
-  RemovePage(aPage.PageIndex);
-  aPage := nil;
-end;
-
-procedure TFileViewNotebook.WMEraseBkgnd(var Message: TLMEraseBkgnd);
-begin
-  inherited WMEraseBkgnd(Message);
-  // Always set as handled otherwise if not handled Windows will draw background
-  // with hbrBackground brush of the window class. This might cause flickering
-  // because later background will be again be erased but with TControl.Brush.
-  // This is not actually needed on non-Windows because WMEraseBkgnd is not used there.
-  Message.Result := 1;
+  RemovePage(APage.PageIndex);
+  APage := nil;
 end;
 
 procedure TFileViewNotebook.DestroyAllPages;
-var
-   tPage:TFileViewPage;
 begin
-  while PageCount > 0 do
-  begin
-    tPage:=Page[0];
-    if tPage<>nil then FreeAndNil(tPage);
-  end;
+  while PageCount > 0 do DeletePage(0);
 end;
 
 procedure TFileViewNotebook.ActivatePrevTab;
@@ -597,174 +911,91 @@ begin
     Page[PageIndex + 1].MakeActive;
 end;
 
-procedure TFileViewNotebook.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-{$IF DEFINED(LCLGTK2)}
-var
-  ArrowWidth: Integer;
-  arrow_spacing: gint = 0;
-  scroll_arrow_hlength: gint = 16;
-{$ENDIF}
+function TFileViewNotebook.GetCapabilities: TCTabControlCapabilities;
 begin
-  inherited;
-
-  if Button = mbLeft then
-  begin
-    FDraggedPageIndex := IndexOfPageAt(Classes.Point(X, Y));
-    FStartDrag := (FDraggedPageIndex <> -1);
-  end;
-  // Emulate double click
-  if (Button = mbLeft) and Assigned(OnDblClick) then
-    begin
-      if ((Now - FLastMouseDownTime) > ((1/86400)*(GetDoubleClickTime/1000))) then
-        begin
-          FLastMouseDownTime:= Now;
-          FLastMouseDownPageIndex:= FDraggedPageIndex;
-        end
-      else if (FDraggedPageIndex = FLastMouseDownPageIndex) then
-        begin
-          {$IF DEFINED(LCLGTK2)}
-          gtk_widget_style_get(PGtkWidget(Self.Handle),
-                               'arrow-spacing', @arrow_spacing,
-                               'scroll-arrow-hlength', @scroll_arrow_hlength,
-                               nil);
-          ArrowWidth:= arrow_spacing + scroll_arrow_hlength;
-          if (X > ArrowWidth) and (X < ClientWidth - ArrowWidth) then
-          {$ENDIF}
-          OnDblClick(Self);
-          FStartDrag:= False;
-          FLastMouseDownTime:= 0;
-          FLastMouseDownPageIndex:= -1;
-        end;
-    end;
+  Result:= FPageControl.GetCapabilities;
 end;
 
-procedure TFileViewNotebook.MouseMove(Shift: TShiftState; X, Y: Integer);
-var
-  ATabIndex: Integer;
+function TFileViewNotebook.IndexOfPageAt(P: TPoint): Integer;
 begin
-  inherited;
-
-  if ShowHint then
-  begin
-    ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
-    if (ATabIndex >= 0) and (ATabIndex <> FHintPageIndex) then
-    begin
-      FHintPageIndex := ATabIndex;
-      Application.CancelHint;
-      if (ATabIndex <> PageIndex) and (Length(Page[ATabIndex].LockPath) <> 0) then
-        Hint := Page[ATabIndex].LockPath
-      else
-        Hint := View[ATabIndex].CurrentPath;
-    end;
-  end;
-
-  if FStartDrag then
-  begin
-    FStartDrag := False;
-    BeginDrag(False);
-  end;
+  Result:= FPageControl.IndexOfPageAt(P);
 end;
 
-procedure TFileViewNotebook.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+function TFileViewNotebook.GetPageCount: Integer;
 begin
-  inherited;
-
-  FStartDrag := False;
+  Result:= FPageControl.PageCount;
 end;
 
-procedure TFileViewNotebook.DragOverEvent(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
-var
-  ATabIndex: Integer;
+function TFileViewNotebook.GetShowTabs: Boolean;
 begin
-  if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
-  begin
-    ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
-    Accept := (Source <> Sender) or
-              ((ATabIndex <> -1) and (ATabIndex <> FDraggedPageIndex));
-  end
-  else
-    Accept := False;
+  Result:= FPageControl.Visible;
 end;
 
-{$IFDEF MSWINDOWS}
-procedure TFileViewNotebook.EraseBackground(DC: HDC);
-var
-  ARect: TRect;
-  SaveIndex: Integer;
-  Clip: Integer;
+function TFileViewNotebook.GetPageIndex: Integer;
 begin
-  if HandleAllocated and (DC <> 0) then
-  begin
-    ARect := Classes.Rect(0, 0, Width, Height);
-    Windows.TabCtrl_AdjustRect(Handle, False, ARect);
-    SaveIndex := SaveDC(DC);
-    Clip := ExcludeClipRect(DC, ARect.Left, ARect.Top, ARect.Right, ARect.Bottom);
-    if Clip <> NullRegion then
-    begin
-      ARect := Classes.Rect(0, 0, Width, Height);
-      FillRect(DC, ARect, HBRUSH(Brush.Reference.Handle));
-    end;
-    RestoreDC(DC, SaveIndex);
-  end;
+  Result:= FPageControl.PageIndex;
 end;
 
-procedure TFileViewNotebook.WndProc(var Message: TLMessage);
+function TFileViewNotebook.GetTabPosition: TTabPosition;
 begin
-  inherited WndProc(Message);
-  if Message.Msg = TCM_ADJUSTRECT then
-  begin
-    if Message.WParam = 0 then
-      PRect(Message.LParam)^.Left := PRect(Message.LParam)^.Left - 2
-    else begin
-      PRect(Message.LParam)^.Left := PRect(Message.LParam)^.Left + 2;
-    end;
-  end;
+  Result:= FPageControl.TabPosition;
 end;
-{$ENDIF}
 
-procedure TFileViewNotebook.DragDropEvent(Sender, Source: TObject; X, Y: Integer);
-var
-  SourceNotebook: TFileViewNotebook;
-  ATabIndex: Integer;
-  ANewPage, DraggedPage: TFileViewPage;
+procedure TFileViewNotebook.SetMultiLine(AValue: Boolean);
 begin
-  if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
-  begin
-    ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
+  FPageControl.MultiLine:= AValue;
+  FPageControl.TabControlBoundsChange;
+end;
 
-    if Source = Sender then
-    begin
-      // Move within the same panel.
-      if ATabIndex <> -1 then
-        Tabs.Move(FDraggedPageIndex, ATabIndex);
-    end
-    else
-    begin
-      // Move page between panels.
-      SourceNotebook := (Source as TFileViewNotebook);
-      DraggedPage := SourceNotebook.Page[SourceNotebook.FDraggedPageIndex];
+procedure TFileViewNotebook.SetOptions(AValue: TCTabControlOptions);
+begin
+  FPageControl.Options:= AValue;
+end;
 
-      if ATabIndex = -1 then
-        ATabIndex := PageCount;
+procedure TFileViewNotebook.SetShowTabs(AValue: Boolean);
+begin
+  FPageControl.Visible:= AValue;
+end;
 
-      // Create a clone of the page in the panel.
-      ANewPage := InsertPage(ATabIndex);
-      ANewPage.AssignPage(DraggedPage);
-      ANewPage.MakeActive;
+procedure TFileViewNotebook.SetPageIndex(AValue: Integer);
+begin
+  FPageControl.PageIndex:= AValue;
+end;
 
-      if (ssShift in GetKeyShiftState) and (SourceNotebook.PageCount > 1) then
-      begin
-        // Remove page from source panel.
-        SourceNotebook.RemovePage(DraggedPage);
-      end;
-    end;
-  end;
+procedure TFileViewNotebook.SetTabPosition(AValue: TTabPosition);
+begin
+  FPageControl.TabPosition:= AValue;
+  FPageControl.TabControlBoundsChange;
 end;
 
 procedure TFileViewNotebook.DoChange;
+var
+  Index: Integer;
+  APage: TFileViewPage;
 begin
-  inherited DoChange;
+  if Assigned(FOnPageChanged) then
+    FOnPageChanged(Self);
+
+  for Index:= 0 to PageCount - 1 do
+  begin
+    APage:= GetPage(Index);
+    if Assigned(APage) then
+    begin
+      if Index <> PageIndex then
+        APage.Hide
+      else begin
+        APage.Show;
+      end;
+    end;
+  end;
+
   ActivePage.DoActivate;
+end;
+
+procedure TFileViewNotebook.DoSetBounds(ALeft, ATop, AWidth, AHeight: Integer);
+begin
+  inherited DoSetBounds(ALeft, ATop, AWidth, AHeight);
+  FPageControl.TabControlBoundsChange;
 end;
 
 end.
