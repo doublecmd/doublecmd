@@ -142,7 +142,7 @@ type
 
   { TFileViewNotebook }
 
-  TFileViewNotebook = class(TWinControl)
+  TFileViewNotebook = class(TCustomControl)
   private
     FOnPageChanged: TNotifyEvent;
     FNotebookSide: TFilePanelSelect;
@@ -618,7 +618,7 @@ begin
       else if (FDraggedPageIndex = FLastMouseDownPageIndex) then
         begin
           {$IF DEFINED(LCLGTK2)}
-          gtk_widget_style_get(PGtkWidget(Self.Handle),
+          gtk_widget_style_get({%H-}PGtkWidget(Self.Handle),
                                'arrow-spacing', @arrow_spacing,
                                'scroll-arrow-hlength', @scroll_arrow_hlength,
                                nil);
