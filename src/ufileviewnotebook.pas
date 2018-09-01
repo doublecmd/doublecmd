@@ -28,7 +28,7 @@ interface
 uses
   Classes, SysUtils, Controls, ComCtrls, LMessages,
   LCLType, Forms,
-  uFileView, uFilePanelSelect, uDCVersion, DCXmlConfig;
+  uFileView, uFilePanelSelect, DCXmlConfig;
 
 type
 
@@ -125,6 +125,8 @@ type
     constructor Create(ParentControl: TWinControl); reintroduce;
 
     procedure DoCloseTabClicked(APage: TCustomPage); override;
+
+    function GetMinimumTabHeight: Integer; override;
 
     {$IFDEF MSWINDOWS}
     {en
@@ -223,7 +225,7 @@ uses
   uColumnsFileView,
   uArchiveFileSource
   {$IF DEFINED(LCLGTK2)}
-  , Glib2, Gtk2
+  , Glib2, Gtk2, Gtk2Proc, Gtk2Def
   {$ENDIF}
   {$IF DEFINED(MSWINDOWS)}
   , win32proc, Windows, Messages
@@ -549,6 +551,28 @@ begin
   end;
 
   Invalidate;
+end;
+
+function TFileViewPageControl.GetMinimumTabHeight: Integer;
+{$IF DEFINED(LCLGTK2)}
+var
+  PageWidget: PGtkWidget;
+  NoteBookWidget: PGtkNotebook;
+{$ENDIF}
+begin
+  Result:= inherited GetMinimumTabHeight;
+{$IF DEFINED(LCLGTK2)}
+  if HandleAllocated then
+  begin
+    NoteBookWidget:= {%H-}PGtkNotebook(Handle);
+    if Assigned(NoteBookWidget) then
+    begin
+      PageWidget:= gtk_notebook_get_nth_page(NoteBookWidget, 0);
+      if Assigned(PageWidget) then
+        Result:= Max(Result, PageWidget^.allocation.y);
+    end;
+  end;
+{$ENDIF}
 end;
 
 procedure TFileViewPageControl.DoChange;
