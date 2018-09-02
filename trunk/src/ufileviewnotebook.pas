@@ -591,11 +591,17 @@ begin
             // Get tab label height without close buttons
             StyleObject:= StandardStyles[lgsNotebook];
             NotebookWidget:= PGtkNoteBook(StyleObject^.Widget);
-            PageWidget:= gtk_notebook_get_nth_page(NotebookWidget, PageIndex);
-            TabWidget:= gtk_notebook_get_tab_label(NotebookWidget, PageWidget);
-
-            // Increase height by size difference
-            Result+= (TabOverlap - TabWidget^.allocation.height);
+            if Assigned(NotebookWidget) then
+            begin
+              PageWidget:= gtk_notebook_get_nth_page(NotebookWidget, PageIndex);
+              if Assigned(PageWidget) then
+              begin
+                TabWidget:= gtk_notebook_get_tab_label(NotebookWidget, PageWidget);
+                // Increase height by size difference
+                if Assigned(TabWidget) then
+                  Result+= (TabOverlap - TabWidget^.allocation.height);
+              end;
+            end;
           end;
         end;
       end;
