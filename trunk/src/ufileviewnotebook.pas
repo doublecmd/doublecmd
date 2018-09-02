@@ -556,22 +556,52 @@ end;
 function TFileViewPageControl.GetMinimumTabHeight: Integer;
 {$IF DEFINED(LCLGTK2)}
 var
-  PageWidget: PGtkWidget;
+  TabOverlap: gint;
+  StyleObject: PStyleObject;
   NoteBookWidget: PGtkNotebook;
+  TabWidget, PageWidget: PGtkWidget;
 {$ENDIF}
 begin
   Result:= inherited GetMinimumTabHeight;
 {$IF DEFINED(LCLGTK2)}
-  if (TabPosition = tpTop) and HandleAllocated then
+  if HandleAllocated then
   begin
     NoteBookWidget:= {%H-}PGtkNotebook(Handle);
     if Assigned(NoteBookWidget) then
     begin
-      PageWidget:= gtk_notebook_get_nth_page(NoteBookWidget, 0);
+      PageWidget:= gtk_notebook_get_nth_page(NoteBookWidget, PageIndex);
       if Assigned(PageWidget) then
-        Result:= Max(Result, PageWidget^.allocation.y);
+      begin
+        if (TabPosition = tpBottom) then
+        begin
+          gtk_widget_style_get({%H-}PGtkWidget(Handle),
+                               'tab-overlap', @TabOverlap,
+                               nil);
+          Result:= Result + TabOverlap;
+        end;
+
+        if nboShowCloseButtons in Options then
+        begin
+          // Get tab label height with close buttons
+          TabWidget:= gtk_notebook_get_tab_label(NotebookWidget, PageWidget);
+          if Assigned(TabWidget) then
+          begin
+            TabOverlap:= TabWidget^.allocation.height;
+
+            // Get tab label height without close buttons
+            StyleObject:= StandardStyles[lgsNotebook];
+            NotebookWidget:= PGtkNoteBook(StyleObject^.Widget);
+            PageWidget:= gtk_notebook_get_nth_page(NotebookWidget, PageIndex);
+            TabWidget:= gtk_notebook_get_tab_label(NotebookWidget, PageWidget);
+
+            // Increase height by size difference
+            Result+= (TabOverlap - TabWidget^.allocation.height);
+          end;
+        end;
+      end;
     end;
   end;
+  // WriteLn('GetMinimumTabHeight: ', Result);
 {$ENDIF}
 end;
 
@@ -974,6 +1004,8 @@ end;
 procedure TFileViewNotebook.SetOptions(AValue: TCTabControlOptions);
 begin
   FPageControl.Options:= AValue;
+  Application.ProcessMessages;
+  FPageControl.TabControlBoundsChange;
 end;
 
 procedure TFileViewNotebook.SetShowTabs(AValue: Boolean);
@@ -993,6 +1025,7 @@ begin
     tpTop: FPageControl.Align:= alTop;
     tpBottom: FPageControl.Align:= alBottom;
   end;
+  Application.ProcessMessages;
   FPageControl.TabControlBoundsChange;
 end;
 
