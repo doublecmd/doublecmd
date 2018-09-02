@@ -593,7 +593,7 @@ begin
             NotebookWidget:= PGtkNoteBook(StyleObject^.Widget);
             if Assigned(NotebookWidget) then
             begin
-              PageWidget:= gtk_notebook_get_nth_page(NotebookWidget, PageIndex);
+              PageWidget:= gtk_notebook_get_nth_page(NotebookWidget, 0);
               if Assigned(PageWidget) then
               begin
                 TabWidget:= gtk_notebook_get_tab_label(NotebookWidget, PageWidget);
