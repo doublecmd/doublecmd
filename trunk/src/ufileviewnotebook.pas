@@ -1016,7 +1016,12 @@ end;
 
 procedure TFileViewNotebook.SetShowTabs(AValue: Boolean);
 begin
-  FPageControl.Visible:= AValue;
+  if (FPageControl.Visible <> AValue) then
+  begin
+    FPageControl.Visible:= AValue;
+    Application.ProcessMessages;
+    FPageControl.TabControlBoundsChange;
+  end;
 end;
 
 procedure TFileViewNotebook.SetPageIndex(AValue: Integer);
