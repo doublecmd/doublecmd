@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.9.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2018-07-22 22:08+0300\n"
+"PO-Revision-Date: 2018-08-29 23:28+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -4045,7 +4045,7 @@ msgstr "Каталоги"
 #: tfrmoptionsconfiguration.gblocconfigfiles.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.GBLOCCONFIGFILES.CAPTION"
 msgid "Location of configuration files"
-msgstr "Месторасположение файлов конфигурации"
+msgstr "Расположение файлов конфигурации"
 
 #: tfrmoptionsconfiguration.gbsaveonexit.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.GBSAVEONEXIT.CAPTION"
@@ -4990,11 +4990,11 @@ msgstr "Пробелы и табуляции будут обозначаться
 
 #: tfrmoptionseditor.chksmarttabs.caption
 msgid "Smart Tabs"
-msgstr ""
+msgstr "\"Умные\" табуляции"
 
 #: tfrmoptionseditor.chksmarttabs.hint
 msgid "When using <Tab> key, caret will go to the next non-space character of the previous line"
-msgstr ""
+msgstr "Нажатия клавиши Tab будут перемещать каретку к позиции под следующим непробельным символом предыдущей строки"
 
 #: tfrmoptionseditor.chktabindent.caption
 msgid "Tab indents blocks"
@@ -5023,7 +5023,7 @@ msgstr "Автоматическое удаление концевых проб�
 #: tfrmoptionseditor.edtabwidth.hint
 msgctxt "tfrmoptionseditor.edtabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr ""
+msgstr "Обратите внимание, опция \"Умные табуляции\" имеет преимущество над заданным значением"
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
@@ -5031,12 +5031,12 @@ msgstr "Опции встроенного редактора"
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
-msgstr ""
+msgstr "Ширина табуляции:"
 
 #: tfrmoptionseditor.lbltabwidth.hint
 msgctxt "tfrmoptionseditor.lbltabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr ""
+msgstr "Обратите внимание, опция \"Умные табуляции\" имеет преимущество над заданным значением"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -5722,7 +5722,7 @@ msgstr "О&брабатывать комментарии с файлами/па�
 #: tfrmoptionsfileoperations.cbrenameselonlyname.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION"
 msgid "Select &file name without extension when renaming"
-msgstr "П&ри переименовании выделять имя файла без расширения"
+msgstr "П&ри переименовании выделять только имя файла, без расширения"
 
 #: tfrmoptionsfileoperations.cbshowcopytabselectpanel.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION"
@@ -5962,11 +5962,11 @@ msgstr "Помощ&ь"
 
 #: tfrmoptionsfilesviews.cbdblclicktoparent.caption
 msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr "Разрешить переход в родительский каталог двойным кликом по свободному месту в файловой панели"
+msgstr "Разрешить переход в родительский каталог двойным щелчком по свободному месту в файловой панели"
 
 #: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
 msgid "Do&n't load file list until a tab is activated"
-msgstr "&Не загружать список файлов, пока вкладка активируется"
+msgstr "&Не загружать список файлов, пока вкладка не будет активирована"
 
 #: tfrmoptionsfilesviews.cbdirbrackets.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
@@ -5979,7 +5979,7 @@ msgstr "По&дсвечивать новые и изменённые файлы"
 
 #: tfrmoptionsfilesviews.cbinplacerename.caption
 msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "Включить &переименование прямо в строке по двойному клику по имени"
+msgstr "Разрешить &переименование при щелчке по имени файла под курсором"
 
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
@@ -6705,16 +6705,16 @@ msgstr "&Выбор с помощью мыши"
 
 #: tfrmoptionsmouse.chkcursornofollow.caption
 msgid "The text cursor no longer follows the mouse cursor"
-msgstr ""
+msgstr "Текстовый курсор не следует за курсором мыши"
 
 #: tfrmoptionsmouse.chkmouseselectioniconclick.caption
 msgid "By clic&king on icon"
-msgstr "&Кликом по значку"
+msgstr "Щелч&ком по значку"
 
 #: tfrmoptionsmouse.gbopenwith.caption
 msgctxt "tfrmoptionsmouse.gbopenwith.caption"
 msgid "Open with"
-msgstr "Открыть с помощью"
+msgstr "Открытие файлов и запуск программ"
 
 #: tfrmoptionsmouse.gbscrolling.caption
 msgid "Scrolling"
@@ -6730,7 +6730,7 @@ msgstr "Р&ежим"
 
 #: tfrmoptionsmouse.rbdoubleclick.caption
 msgid "Double click"
-msgstr ""
+msgstr "Двойным щелчком"
 
 #: tfrmoptionsmouse.rbscrolllinebyline.caption
 msgid "&Line by line"
@@ -6746,11 +6746,11 @@ msgstr "Пост&ранично"
 
 #: tfrmoptionsmouse.rbsingleclickboth.caption
 msgid "Single click (opens files and folders)"
-msgstr ""
+msgstr "Одним щелчком"
 
 #: tfrmoptionsmouse.rbsingleclickfolders.caption
 msgid "Single click (opens folders, double click for files)"
-msgstr ""
+msgstr "Одним щелчком открывать папки и двойным файлы"
 
 #: tfrmoptionsplugins.btnaddplugin.caption
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
@@ -6882,7 +6882,7 @@ msgstr "Сохранять изменённое имя при разблокир
 #: tfrmoptionstabs.cbtabsactivateonclick.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
 msgid "Activate target &panel when clicking on one of its Tabs"
-msgstr "Делат&ь панель активной при клике по одной из её вкладок"
+msgstr "Делат&ь панель активной при щелчке по одной из её вкладок"
 
 #: tfrmoptionstabs.cbtabsalwaysvisible.caption
 msgctxt "TFRMOPTIONSTABS.CBTABSALWAYSVISIBLE.CAPTION"
@@ -6952,7 +6952,7 @@ msgstr "символов"
 
 #: tfrmoptionstabs.lbltabsactionondoubleclick.caption
 msgid "Action to do when double click on a tab:"
-msgstr "Действие по двойному клику на вкладке:"
+msgstr "Действие двойного щелчка по вкладке:"
 
 #: tfrmoptionstabs.lbltabsposition.caption
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
@@ -7675,11 +7675,11 @@ msgstr "Дру&гое..."
 
 #: tfrmoptionstooltips.bvltooltips1.caption
 msgid "Tooltip configuration for selected file type:"
-msgstr ""
+msgstr "Параметры подсказки для выбранного типа файлов:"
 
 #: tfrmoptionstooltips.bvltooltips2.caption
 msgid "General options about tooltips:"
-msgstr ""
+msgstr "Общие параметры подсказок:"
 
 #: tfrmoptionstooltips.chkshowtooltip.caption
 msgctxt "tfrmoptionstooltips.chkshowtooltip.caption"
@@ -7698,19 +7698,19 @@ msgstr "&Маска:"
 
 #: tfrmoptionstooltips.lbltooltiphidingdelay.caption
 msgid "Tooltip hiding delay:"
-msgstr ""
+msgstr "Скрыть подсказку через:"
 
 #: tfrmoptionstooltips.lbltooltipshowingmode.caption
 msgid "Tooltip showing mode:"
-msgstr ""
+msgstr "Режим использования:"
 
 #: tfrmoptionstooltips.lbltooltipslistbox.caption
 msgid "&File types:"
-msgstr ""
+msgstr "Типы &файлов:"
 
 #: tfrmoptionstooltips.mitooltipsfiletypediscardmodification.caption
 msgid "Discard Modifications"
-msgstr ""
+msgstr "Отменить изменения"
 
 #: tfrmoptionstooltips.mitooltipsfiletypeexport.caption
 msgctxt "tfrmoptionstooltips.mitooltipsfiletypeexport.caption"
@@ -7724,11 +7724,11 @@ msgstr "Импорт..."
 
 #: tfrmoptionstooltips.mitooltipsfiletypesortfiletype.caption
 msgid "Sort Tooltip File Types"
-msgstr ""
+msgstr "Сортировать типы файлов"
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfromdoubleclick.caption
 msgid "With double-click on the bar on top of a file panel"
-msgstr "Двойной клик по верхней полосе файловой панели"
+msgstr "Двойной щелчок по верхней полосе файловой панели"
 
 #: tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption
 msgctxt "tfrmoptionstreeviewmenu.ckbdirectoryhotlistfrommenucommand.caption"
@@ -7737,7 +7737,7 @@ msgstr "С помощью меню и внутренней команды"
 
 #: tfrmoptionstreeviewmenu.ckbdoubleclickselect.caption
 msgid "Double click in tree select and exit"
-msgstr "Двойной клик по выбранному в дереве и выход"
+msgstr "Двойной щелчок по выбранному в дереве и выход"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption
 msgctxt "tfrmoptionstreeviewmenu.ckbfavoritatabsfrommenucommand.caption"
@@ -7746,7 +7746,7 @@ msgstr "С помощью меню и внутренней команды"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritetabsfromdoubleclick.caption
 msgid "With double-click on a tab (if configured for it)"
-msgstr "Двойной клик по вкладке"
+msgstr "Двойной щелчок по вкладке"
 
 #: tfrmoptionstreeviewmenu.ckbshortcutselectandclose.caption
 msgid "When using the keyboard shortcut, it will exit the window returning the current choice"
@@ -7754,7 +7754,7 @@ msgstr "Если используется комбинация клавиш - в
 
 #: tfrmoptionstreeviewmenu.ckbsingleclickselect.caption
 msgid "Single mouse click in tree select and exit"
-msgstr "Клик мыши по выбранному в дереве и выход"
+msgstr "Щелчок мыши по выбранному в дереве и выход"
 
 #: tfrmoptionstreeviewmenu.ckbuseforcommandlinehistory.caption
 msgid "Use it for Command Line History"
@@ -8003,7 +8003,7 @@ msgstr "Имя архива:"
 
 #: tfrmpackdlg.rgpacker.caption
 msgid "Packer"
-msgstr " Архиватор "
+msgstr "Архиватор"
 
 #: tfrmpackinfodlg.btnclose.caption
 msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
@@ -11576,11 +11576,11 @@ msgstr "Работа"
 
 #: ulng.rsoptaddfrommainpanel
 msgid "Add at &beginning;Add at the end;Smart add"
-msgstr "Добавить в &начало;Добавить в конец;Умное добавление"
+msgstr "Добавить в &начало;Добавить в конец;\"Умное\" добавление"
 
 #: ulng.rsoptaddingtooltipfiletype
 msgid "Adding new tooltip file type"
-msgstr ""
+msgstr "Добавление нового типа файлов"
 
 #: ulng.rsoptarchiveconfiguresavetochange
 msgid "To change current editing archive configuration, either APPLY or DELETE current editing one"
@@ -11613,7 +11613,7 @@ msgstr "Переопределить кодировку вывода"
 #: ulng.rsoptarchiverconfirmdelete
 msgctxt "ulng.rsoptarchiverconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
-msgstr "Вы уверены, что хотите удалить: %s"
+msgstr "Вы уверены, что хотите удалить: \"%s\"?"
 
 #: ulng.rsoptarchiverdefaultexportfilename
 msgid "Exported Archiver Configuration"
@@ -12090,7 +12090,7 @@ msgstr "Ассоциация"
 
 #: ulng.rsoptrenamingtooltipfiletype
 msgid "Renaming tooltip file type"
-msgstr ""
+msgstr "Переименование типа файлов"
 
 #: ulng.rsoptsearchcase
 msgid "&Sensitive;&Insensitive"
@@ -12126,20 +12126,20 @@ msgstr "Разд&елитель;Внутрення&я команда;Вне&шн
 
 #: ulng.rsopttooltipconfiguresavetochange
 msgid "To change file type tooltip configuration, either APPLY or DELETE current editing one"
-msgstr ""
+msgstr "Чтобы изменить настройки всплывающих подсказок ПРИМЕНИТЕ или УДАЛИТЕ текущие изменения"
 
 #: ulng.rsopttooltipfiletype
 msgid "Tooltip file type name:"
-msgstr "&Имя:"
+msgstr "Имя:"
 
 #: ulng.rsopttooltipfiletypealreadyexists
 msgid "\"%s\" already exists!"
-msgstr ""
+msgstr "\"%s\" уже существует!"
 
 #: ulng.rsopttooltipfiletypeconfirmdelete
 msgctxt "ulng.rsopttooltipfiletypeconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
-msgstr "Вы уверены, что хотите удалить: %s"
+msgstr "Вы уверены, что хотите удалить: \"%s\"?"
 
 #: ulng.rsopttooltipfiletypedefaultexportfilename
 msgid "Exported tooltip file type configuration"
@@ -12147,7 +12147,7 @@ msgstr ""
 
 #: ulng.rsopttooltipfiletypeexportcaption
 msgid "Export tooltip file type configuration"
-msgstr ""
+msgstr "Экспорт настроек подсказок"
 
 #: ulng.rsopttooltipfiletypeexportdone
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
@@ -12157,11 +12157,11 @@ msgstr "Экспортирование завершено: %d в файл \"%s\"
 #: ulng.rsopttooltipfiletypeexportprompt
 msgctxt "ulng.rsopttooltipfiletypeexportprompt"
 msgid "Select the one(s) you want to export"
-msgstr "Выберите архиватор(ы) для экспорта"
+msgstr "Выберите тип(ы) файлов для экспорта"
 
 #: ulng.rsopttooltipfiletypeimportcaption
 msgid "Import tooltip file type configuration"
-msgstr ""
+msgstr "Импорт настроек подсказок"
 
 #: ulng.rsopttooltipfiletypeimportdone
 msgctxt "ulng.rsopttooltipfiletypeimportdone"
@@ -12170,20 +12170,20 @@ msgstr "Импортирование завершено: %d из файла \"%s
 
 #: ulng.rsopttooltipfiletypeimportfile
 msgid "Select the file to import tooltip file type configuration(s)"
-msgstr ""
+msgstr "Выберите файл для импорта настроек подсказок"
 
 #: ulng.rsopttooltipfiletypeimportprompt
 msgctxt "ulng.rsopttooltipfiletypeimportprompt"
 msgid "Select the one(s) you want to import"
-msgstr "Выберите архиватор(ы) для импорта"
+msgstr "Выберите тип(ы) файлов для импорта"
 
 #: ulng.rsopttooltipfiletypewheretosave
 msgid "Enter location and filename where to save tooltip file type configuration"
-msgstr ""
+msgstr "Укажите место и имя файла для сохранения настроек подсказок"
 
 #: ulng.rsopttooltipsfiletypename
 msgid "Tooltip file type name"
-msgstr ""
+msgstr "Имя"
 
 #: ulng.rsopttypeofduplicatedrename
 msgid "DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext"
@@ -12199,11 +12199,11 @@ msgstr "Файлов: %d, папок: %d"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
-msgstr "Не удалось изменить права доступа для  \"%s\""
+msgstr "Не удалось изменить права доступа для \"%s\""
 
 #: ulng.rspropserrchown
 msgid "Can not change owner for \"%s\""
-msgstr "Не могу изменить владельца для  \"%s\""
+msgstr "Не удалось изменить владельца для \"%s\""
 
 #: ulng.rspropsfile
 msgctxt "ulng.rspropsfile"
@@ -12541,11 +12541,11 @@ msgstr "Терминал"
 
 #: ulng.rstooltiphidetimeoutlist
 msgid "System default;1 sec;2 sec;3 sec;5 sec;10 sec;30 sec;1 min;Never hide"
-msgstr ""
+msgstr "Значение из системы;1 сек;2 сек;3 сек;5 сек;10 сек;30 сек;1 мин;Никогда не скрывать"
 
 #: ulng.rstooltipmodelist
 msgid "Combine DC and system tooltip, DC first (legacy);Combine DC and system tooltip, system first;Show DC tooltip when possible and system when not;Show DC tooltip only;Show system tooltip only"
-msgstr ""
+msgstr "Объединить подсказку DC и системную, сначала из DC;Объединить подсказку DC и системную, сначала системная;Показать подсказку DC, если возможно, и системную, если нет;Показать только подсказку DC;Показать только системную подсказку"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
