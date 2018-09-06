@@ -369,7 +369,8 @@ begin
 
     // Check execution result
     if Status <> 0 then begin
-      MessageDlg(lua_tostring(L, -1), mtError, [mbOK], 0);
+      Script:= StrPas(lua_tostring(L, -1));
+      MessageDlg(Script, mtError, [mbOK], 0);
     end;
 
     lua_close(L);
