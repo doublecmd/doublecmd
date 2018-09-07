@@ -820,7 +820,7 @@ begin
   with btnDel do
   begin
     //   Glyph.Assign(btnCancel.Glyph);
-    Caption := 'Delete';
+    Caption := rsConfColDelete;
     OnClick := @BitBtnDeleteFieldClick;
   end;
 
