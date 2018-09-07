@@ -171,6 +171,7 @@ type
   protected
     procedure DoChange;
     procedure DoSetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
 
   public
     constructor Create(ParentControl: TWinControl;
@@ -1068,6 +1069,12 @@ procedure TFileViewNotebook.DoSetBounds(ALeft, ATop, AWidth, AHeight: Integer);
 begin
   inherited DoSetBounds(ALeft, ATop, AWidth, AHeight);
   FPageControl.TabControlBoundsChange;
+end;
+
+procedure TFileViewNotebook.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  FPageControl.FLastMouseDownPageIndex:= -1;
+  inherited MouseDown(Button, Shift, X, Y);
 end;
 
 end.
