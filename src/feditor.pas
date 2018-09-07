@@ -552,11 +552,10 @@ end;
 procedure TfrmEditor.EditorReplaceText(Sender: TObject; const ASearch,
   AReplace: string; Line, Column: integer; var ReplaceAction: TSynReplaceAction );
 begin
-
   if ASearch = AReplace then
     ReplaceAction := raSkip
   else begin
-    case MsgBox('Replace this text?',[msmbYes, msmbNo, msmbCancel, msmbAll], msmbYes, msmbNo) of
+    case MsgBox(rsMsgReplaceThisText, [msmbYes, msmbNo, msmbCancel, msmbAll], msmbYes, msmbNo) of
       mmrYes: ReplaceAction := raReplace;
       mmrAll: ReplaceAction := raReplaceAll;
       mmrNo: ReplaceAction := raSkip;
