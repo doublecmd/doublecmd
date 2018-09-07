@@ -11004,6 +11004,10 @@ msgstr "重命名/移动 %d 个选中的文件/文件夹吗？"
 msgid "Rename/move selected \"%s\"?"
 msgstr "重命名/移动所选的 \"%s\" 吗？"
 
+#: ulng.rsmsgreplacethistext
+msgid "Do you want to replace this text?"
+msgstr ""
+
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "请重启 Double Commander，使修改生效"

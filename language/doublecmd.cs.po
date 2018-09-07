@@ -10748,6 +10748,10 @@ msgstr "Přejmenovat/přesunout %d vybraných souborů/adresářů?"
 msgid "Rename/move selected \"%s\"?"
 msgstr "Přejmenovat/přesunout vybrané \"%s\"?"
 
+#: ulng.rsmsgreplacethistext
+msgid "Do you want to replace this text?"
+msgstr ""
+
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Pro provedení změn prosím restartujte Double Commander"

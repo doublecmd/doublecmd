@@ -10739,6 +10739,10 @@ msgstr "Змяніць назву/перамясціць %d абраныя фа�
 msgid "Rename/move selected \"%s\"?"
 msgstr "Змяніць назву/перамясціць абраны \"%s\"?"
 
+#: ulng.rsmsgreplacethistext
+msgid "Do you want to replace this text?"
+msgstr ""
+
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Калі ласка, перазапусціце Double Commander, каб ужыць змены"
