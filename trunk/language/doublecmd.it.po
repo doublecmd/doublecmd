@@ -11182,6 +11182,10 @@ msgstr "Rinominare/spostare %d file/cartelle selezionati?"
 msgid "Rename/move selected \"%s\"?"
 msgstr "Rinomina/sposta selezione  \"%s\"?"
 
+#: ulng.rsmsgreplacethistext
+msgid "Do you want to replace this text?"
+msgstr ""
+
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Prego, riavviare Double Commander per applicare le modifiche"

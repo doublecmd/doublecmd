@@ -11024,6 +11024,10 @@ msgstr "Переименовать/переместить %d выбранных 
 msgid "Rename/move selected \"%s\"?"
 msgstr "Переименовать/переместить выбранный \"%s\"?"
 
+#: ulng.rsmsgreplacethistext
+msgid "Do you want to replace this text?"
+msgstr "Заменить этот текст?"
+
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Перезапустите Double Commander для применения изменений"
