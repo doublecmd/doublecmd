@@ -133,6 +133,59 @@ begin
   lua_pushboolean(L, mbDirectoryExists(lua_tostring(L, 1)));
 end;
 
+function luaPos(L : Plua_State) : Integer; cdecl;
+var
+  Offset: SizeInt = 1;
+  Search, Source: String;
+begin
+  Result:= 1;
+  Search:= lua_tostring(L, 1);
+  Source:= lua_tostring(L, 2);
+  if lua_isinteger(L, 3) then begin
+    Offset:= lua_tointeger(L, 3)
+  end;
+  lua_pushinteger(L, UTF8Pos(Search, Source, Offset));
+end;
+
+function luaCopy(L : Plua_State) : Integer; cdecl;
+var
+  S: String;
+  Start, Count: PtrInt;
+begin
+  Result:= 1;
+  S:= lua_tostring(L, 1);
+  Start:= lua_tointeger(L, 2);
+  Count:= lua_tointeger(L, 3);
+  S:= UTF8Copy(S, Start, Count);
+  lua_pushstring(L, PAnsiChar(S));
+end;
+
+function luaLength(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 1;
+  lua_pushinteger(L, UTF8Length(lua_tostring(L, 1)));
+end;
+
+function luaUpperCase(L : Plua_State) : Integer; cdecl;
+var
+  S: String;
+begin
+  Result:= 1;
+  S:= lua_tostring(L, 1);
+  S:= UTF8UpperCase(S);
+  lua_pushstring(L, PAnsiChar(S));
+end;
+
+function luaLowerCase(L : Plua_State) : Integer; cdecl;
+var
+  S: String;
+begin
+  Result:= 1;
+  S:= lua_tostring(L, 1);
+  S:= UTF8LowerCase(S);
+  lua_pushstring(L, PAnsiChar(S));
+end;
+
 function luaClipbrdClear(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 0;
@@ -277,6 +330,14 @@ begin
     luaP_register(L, 'DirectoryExists', @luaDirectoryExists);
     luaC_register(L, 'PathDelim', PathDelim);
   lua_setglobal(L, 'SysUtils');
+
+  lua_newtable(L);
+    luaP_register(L, 'Pos', @luaPos);
+    luaP_register(L, 'Copy', @luaCopy);
+    luaP_register(L, 'Length', @luaLength);
+    luaP_register(L, 'UpperCase', @luaUpperCase);
+    luaP_register(L, 'LowerCase', @luaLowerCase);
+  lua_setglobal(L, 'LazUtf8');
 
   lua_newtable(L);
     luaP_register(L, 'Clear', @luaClipbrdClear);
