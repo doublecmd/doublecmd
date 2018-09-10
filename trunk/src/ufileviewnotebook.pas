@@ -256,7 +256,6 @@ begin
   FBackupViewClass := TColumnsFileView;
   inherited Create(TheOwner);
 
-  FCompStyle := csPage;
   ControlStyle := ControlStyle + [csAcceptsControls, csDesignFixedBounds, csNoDesignVisible, csNoFocus];
 
   // Height and width depends on parent, align to client rect
