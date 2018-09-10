@@ -171,7 +171,6 @@ object frmMain: TfrmMain
         ClientHeight = 167
         ClientWidth = 511
         TabOrder = 0
-        OnDblClick = pnlLeftRightDblClick
         OnResize = pnlLeftResize
         object pnlDiskLeftInner: TPanel
           Left = 0
@@ -298,7 +297,6 @@ object frmMain: TfrmMain
         ClientHeight = 167
         ClientWidth = 123
         TabOrder = 1
-        OnDblClick = pnlLeftRightDblClick
         OnResize = pnlRightResize
         object pnlDiskRightInner: TPanel
           Left = 0
