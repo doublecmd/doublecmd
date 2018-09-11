@@ -113,7 +113,7 @@ type
 
   protected
     procedure CreateHandle; override;
-    procedure TabControlBoundsChange; virtual;
+    procedure TabControlBoundsChange(Data: PtrInt);
   protected
     procedure DoChange; override;
     procedure DblClick; override;
@@ -518,10 +518,10 @@ end;
 procedure TFileViewPageControl.CreateHandle;
 begin
   inherited CreateHandle;
-  TabControlBoundsChange;
+  TabControlBoundsChange(0);
 end;
 
-procedure TFileViewPageControl.TabControlBoundsChange;
+procedure TFileViewPageControl.TabControlBoundsChange(Data: PtrInt);
 var
   NewHeight: LongInt;
   NewWidth: LongInt;
@@ -742,7 +742,7 @@ begin
   OnDragOver := @DragOverEvent;
   OnDragDrop := @DragDropEvent;
 
-  TabControlBoundsChange;
+  TabControlBoundsChange(0);
 end;
 
 procedure TFileViewPageControl.DoCloseTabClicked(APage: TCustomPage);
@@ -877,7 +877,7 @@ begin
 
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
 
-  FPageControl.TabControlBoundsChange;
+  FPageControl.TabControlBoundsChange(0);
 end;
 
 function TFileViewNotebook.NewEmptyPage: TFileViewPage;
@@ -1004,14 +1004,13 @@ end;
 procedure TFileViewNotebook.SetMultiLine(AValue: Boolean);
 begin
   FPageControl.MultiLine:= AValue;
-  FPageControl.TabControlBoundsChange;
+  Application.QueueAsyncCall(@FPageControl.TabControlBoundsChange, 0);
 end;
 
 procedure TFileViewNotebook.SetOptions(AValue: TCTabControlOptions);
 begin
   FPageControl.Options:= AValue;
-  Application.ProcessMessages;
-  FPageControl.TabControlBoundsChange;
+  Application.QueueAsyncCall(@FPageControl.TabControlBoundsChange, 0);
 end;
 
 procedure TFileViewNotebook.SetShowTabs(AValue: Boolean);
@@ -1019,8 +1018,7 @@ begin
   if (FPageControl.Visible <> AValue) then
   begin
     FPageControl.Visible:= AValue;
-    Application.ProcessMessages;
-    FPageControl.TabControlBoundsChange;
+    Application.QueueAsyncCall(@FPageControl.TabControlBoundsChange, 0);
   end;
 end;
 
@@ -1036,8 +1034,7 @@ begin
     tpTop: FPageControl.Align:= alTop;
     tpBottom: FPageControl.Align:= alBottom;
   end;
-  Application.ProcessMessages;
-  FPageControl.TabControlBoundsChange;
+  Application.QueueAsyncCall(@FPageControl.TabControlBoundsChange, 0);
 end;
 
 procedure TFileViewNotebook.DoChange;
@@ -1067,7 +1064,7 @@ end;
 procedure TFileViewNotebook.DoSetBounds(ALeft, ATop, AWidth, AHeight: Integer);
 begin
   inherited DoSetBounds(ALeft, ATop, AWidth, AHeight);
-  FPageControl.TabControlBoundsChange;
+  FPageControl.TabControlBoundsChange(0);
 end;
 
 procedure TFileViewNotebook.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
