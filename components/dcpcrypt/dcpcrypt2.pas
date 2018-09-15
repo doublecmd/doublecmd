@@ -257,7 +257,7 @@ procedure ZeroMemory(Destination: Pointer; Length: PtrUInt);
 
 {$IF DEFINED(CPUX86_64)}
 
-function SSSE3Support: Boolean;
+function SSSE3Support: LongBool;
 
 {$ENDIF}
 
@@ -705,17 +705,14 @@ end;
 
 {$IF DEFINED(CPUX86_64)}
 
-function SSSE3Support: Boolean;
-var
-  ecx: LongWord;
-begin
-  asm
-    movl $0x00000001,%eax
-    cpuid
-    movl %ecx,ecx
-  end ['rax','rbx','rcx','rdx'];
-  // Check SSSE3 support
-  Result:= (ecx and (1 shl 9) <> 0);
+function SSSE3Support: LongBool; assembler;
+asm
+  pushq %rbx
+  movl $1,%eax
+  cpuid
+  andl $512,%ecx
+  movl %ecx,%eax
+  popq %rbx
 end;
 
 {$ENDIF}
