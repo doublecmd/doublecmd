@@ -3,7 +3,8 @@
 {******************************************************************************}
 {* Main component definitions *************************************************}
 {******************************************************************************}
-{* Copyright (c) 1999-2003 David Barton                                       *}
+{* Copyright (C) 1999-2003 David Barton                                       *}
+{* Copyright (C) 2018 Alexander Koblov (alexx2000@mail.ru)                    *}
 {* Permission is hereby granted, free of charge, to any person obtaining a    *}
 {* copy of this software and associated documentation files (the "Software"), *}
 {* to deal in the Software without restriction, including without limitation  *}
@@ -254,7 +255,11 @@ procedure dcpFillChar(out x; count: SizeInt; Value: Byte); overload;
 procedure dcpFillChar(out x; count: SizeInt; Value: Char); overload;
 procedure ZeroMemory(Destination: Pointer; Length: PtrUInt);
 
+{$IF DEFINED(CPUX86_64)}
 
+function SSSE3Support: Boolean;
+
+{$ENDIF}
 
 implementation
 
@@ -698,5 +703,22 @@ begin
   end;
 end;
 
+{$IF DEFINED(CPUX86_64)}
+
+function SSSE3Support: Boolean;
+var
+  ecx: LongWord;
+begin
+  asm
+    movl $0x00000001,%eax
+    cpuid
+    movl %ecx,ecx
+  end ['rax','rbx','rcx','rdx'];
+  // Check SSSE3 support
+  Result:= (ecx and (1 shl 9) <> 0);
+end;
+
+{$ENDIF}
+
 end.
-
+
