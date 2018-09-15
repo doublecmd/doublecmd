@@ -864,7 +864,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uFileProcs, uShellContextMenu, fTreeViewMenu,
+  uFileProcs, uShellContextMenu, fTreeViewMenu, uSearchResultFileSource,
   Math, LCLIntf, Dialogs, uGlobs, uLng, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uPixMapManager, LazUTF8,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations, uMultiListFileSource,
@@ -3412,6 +3412,10 @@ var
 begin
   Result := False;
   try
+    // Special case for Search Result File Source
+    if SourceFileSource.IsClass(TSearchResultFileSource) then begin
+      SourceFileSource:= ISearchResultFileSource(SourceFileSource).FileSource;
+    end;
     // Only allow moving within the same file source.
     if (SourceFileSource.IsInterface(TargetFileSource) or
         TargetFileSource.IsInterface(SourceFileSource)) and
