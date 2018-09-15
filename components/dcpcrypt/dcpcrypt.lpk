@@ -38,7 +38,7 @@
     <License Value="DCPcrypt is open source software (released under the MIT license) and as such there is no charge for inclusion in other software.
 www.cityinthesky.co.uk/cryptography.html
 "/>
-    <Version Major="2" Minor="2"/>
+    <Version Major="3" Minor="0"/>
     <Files Count="32">
       <Item1>
         <Filename Value="dcpbase64.pas"/>

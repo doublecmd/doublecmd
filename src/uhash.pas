@@ -67,7 +67,7 @@ implementation
 
 uses
   LazUTF8, DCPhaval, DCPmd4, DCPmd5, DCPripemd128, DCPripemd160, DCPcrc32,
-  DCPsha1, DCPsha256, DCPsha512, DCPtiger, DCPblake2, DCPsha3, DCPsha224;
+  DCPsha1, DCPsha256, DCPsha512, DCPtiger, DCPblake2, DCPsha3;
 
 procedure HashInit(out Context: THashContext; const Algorithm: THashAlgorithm);
 begin
