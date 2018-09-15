@@ -46,9 +46,11 @@
 procedure sha512_compress_sse(HashBuffer: PByte; CurrentHash: PInt64; BufferCount: UIntPtr); assembler; nostackframe;
 asm
 {$IF DEFINED(WIN64)}
-  mov   %r8,  %rdx
-  mov   %rdx, %rsi
-  mov   %rcx, %rdi
+  pushq  %rsi
+  pushq  %rdi
+  movq   %rcx, %rdi
+  movq   %rdx, %rsi
+  movq   %r8,  %rdx
 {$ENDIF}
 
   xor    %eax,%eax
@@ -3780,7 +3782,11 @@ asm
   mov    $0x2b8,%rax
 
 .Lnowork:
-        retq
+{$IF DEFINED(WIN64)}
+  popq   %rdi
+  popq   %rsi
+{$ENDIF}
+  retq
 
 //*
 // Binary Data
