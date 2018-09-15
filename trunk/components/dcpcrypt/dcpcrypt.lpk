@@ -38,8 +38,8 @@
     <License Value="DCPcrypt is open source software (released under the MIT license) and as such there is no charge for inclusion in other software.
 www.cityinthesky.co.uk/cryptography.html
 "/>
-    <Version Major="3" Minor="0"/>
-    <Files Count="32">
+    <Version Major="3"/>
+    <Files Count="31">
       <Item1>
         <Filename Value="dcpbase64.pas"/>
         <UnitName Value="DCPbase64"/>
@@ -129,45 +129,41 @@ www.cityinthesky.co.uk/cryptography.html
         <UnitName Value="DCPsha3"/>
       </Item22>
       <Item23>
-        <Filename Value="Hashes/dcpsha224.pas"/>
-        <UnitName Value="DCPsha224"/>
-      </Item23>
-      <Item24>
         <Filename Value="Hashes/Private/hmac.pas"/>
         <UnitName Value="HMAC"/>
-      </Item24>
-      <Item25>
+      </Item23>
+      <Item24>
         <Filename Value="Hashes/Private/sha3.pas"/>
         <UnitName Value="SHA3"/>
-      </Item25>
-      <Item26>
+      </Item24>
+      <Item25>
         <Filename Value="Hashes/Private/sha3_512.pas"/>
         <UnitName Value="SHA3_512"/>
-      </Item26>
-      <Item27>
+      </Item25>
+      <Item26>
         <Filename Value="Random/isaac.pas"/>
         <UnitName Value="ISAAC"/>
-      </Item27>
-      <Item28>
+      </Item26>
+      <Item27>
         <Filename Value="Hashes/Private/scrypt.pas"/>
         <UnitName Value="scrypt"/>
-      </Item28>
-      <Item29>
+      </Item27>
+      <Item28>
         <Filename Value="Ciphers/DCPrijndael.inc"/>
         <Type Value="Include"/>
-      </Item29>
-      <Item30>
+      </Item28>
+      <Item29>
         <Filename Value="Ciphers/dcprijndael.pas"/>
         <UnitName Value="DCPrijndael"/>
-      </Item30>
-      <Item31>
+      </Item29>
+      <Item30>
         <Filename Value="Hashes/Private/sha1.pas"/>
         <UnitName Value="SHA1"/>
-      </Item31>
-      <Item32>
+      </Item30>
+      <Item31>
         <Filename Value="Hashes/argon2.pas"/>
         <UnitName Value="Argon2"/>
-      </Item32>
+      </Item31>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>

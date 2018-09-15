@@ -23,15 +23,16 @@ asm
   pushq  %r12
   pushq  %rbp
   pushq  %rbx
-{$IF DEFINED(UNIX)}
+{$IF DEFINED(WIN64)}
+  // Arguments: RCX, RDX, R8
+  pushq  %rdi
+  pushq  %rsi
+{$ELSE IF DEFINED(UNIX)}
   // Arguments: RDI, RSI, RDX
   movq   %rdx, %r8
   movq   %rsi, %rdx
   movq   %rdi, %rcx
-{$ELSE IF DEFINED(WIN64)}
-  // Arguments: RCX, RDX, R8
-  pushq  %rdi
-  pushq  %rsi
+{$ENDIF}
   subq  $144, %rsp
   movaps  %xmm6, 32(%rsp)
   movaps  %xmm7, 48(%rsp)
@@ -40,7 +41,6 @@ asm
   movaps  %xmm10, 96(%rsp)
   movaps  %xmm11, 112(%rsp)
   movaps  %xmm12, 128(%rsp)
-{$ENDIF}
   // APP
   shl    $0x6,%r8
   je     .Ldone_hash_22
@@ -946,7 +946,6 @@ asm
   jne    .Lloop0_22
 .Ldone_hash_22:
   // NO_APP
-{$IF DEFINED(WIN64)}
   movaps  32(%rsp), %xmm6
   movaps  48(%rsp), %xmm7
   movaps  64(%rsp), %xmm8
@@ -955,6 +954,7 @@ asm
   movaps  112(%rsp), %xmm11
   movaps  128(%rsp), %xmm12
   addq  $144, %rsp
+{$IF DEFINED(WIN64)}
   popq  %rsi
   popq  %rdi
 {$ENDIF}
