@@ -357,6 +357,7 @@ type
    procedure cm_Benchmark(const {%H-}Params: array of string);
    procedure cm_ConfigArchivers(const {%H-}Params: array of string);
    procedure cm_ConfigTooltips(const {%H-}Params: array of string);
+   procedure cm_OpenDriveByIndex(const Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -4860,6 +4861,44 @@ end;
 procedure TMainCommands.cm_ConfigTooltips(const {%H-}Params: array of string);
 begin
   cm_Options(['TfrmOptionsToolTips']);
+end;
+
+procedure TMainCommands.cm_OpenDriveByIndex(const Params: array of string);
+var
+  Param: String;
+  Index: Integer;
+  AValue: String;
+  SelectedPanel: TFilePanelSelect;
+begin
+  if Length(Params) > 0 then
+  begin
+    SelectedPanel:= frmMain.SelectedPanel;
+
+    for Param in Params do
+    begin
+      if GetParamValue(Param, 'index', AValue) then
+      begin
+        Index:= StrToIntDef(AValue, 1) - 1;
+      end
+      else if GetParamValue(Param, 'side', AValue) then
+      begin
+        if AValue = 'left' then SelectedPanel:= fpLeft
+        else if AValue = 'right' then SelectedPanel:= fpRight
+        else if AValue = 'inactive' then
+        begin
+          if frmMain.SelectedPanel = fpLeft then
+            SelectedPanel:= fpRight
+          else if frmMain.SelectedPanel = fpRight then
+            SelectedPanel:= fpLeft;
+        end;
+      end
+    end;
+
+    if (Index >= 0) and (Index < frmMain.Drives.Count) then
+    begin
+      frmMain.SetPanelDrive(SelectedPanel, frmMain.Drives.Items[Index], True);
+    end;
+  end;
 end;
 
 { TMainCommands.cm_AddNewSearch }
