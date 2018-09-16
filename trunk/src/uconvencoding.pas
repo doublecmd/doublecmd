@@ -475,7 +475,16 @@ begin
     end
     else begin
       I:= UTF8CharacterStrictLength(@S[P]);
-      if I = 0 then Exit(ADefault);
+      if (I = 0) then
+      begin
+        // Ignore last char
+        if (L - P > 2) then
+          Result:= ADefault
+        else begin
+          Result:= meUTF8;
+        end;
+        Exit;
+      end;
       Inc(P, I);
     end;
   end;
