@@ -202,6 +202,7 @@ type
     actNewTab: TAction;
     actConfigToolbars: TAction;
     actDebugShowCommandParameters: TAction;
+    actOpenDriveByIndex: TAction;
     btnF10: TSpeedButton;
     btnF3: TSpeedButton;
     btnF4: TSpeedButton;
@@ -721,7 +722,6 @@ type
     procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
     procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
     procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
-    procedure SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
     procedure OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
     procedure AppActivate(Sender: TObject);
     procedure AppDeActivate(Sender: TObject);
@@ -809,6 +809,7 @@ type
     procedure UpdateSelectedDrives;
     procedure UpdateGUIFunctionKeys;
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
+    procedure SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive; ActivateIfNeeded: Boolean);
     function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TXmlConfig; ANode: TXmlNode): TFileView;
     procedure AssignEvents(AFileView: TFileView);
     function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer; CloseLocked: Boolean = True; ConfirmCloseLocked: integer = 0; ShowButtonAll: Boolean = False): LongInt;
@@ -850,6 +851,7 @@ type
                                   var DropParams: TDropParams);
 
 
+    property Drives: TDrivesList read DrivesList;
     property Commands: TMainCommands read FCommands implements IFormCommands;
     property SelectedPanel: TFilePanelSelect read PanelSelected write SetPanelSelected;
     property LeftTabs: TFileViewNotebook read nbLeft;

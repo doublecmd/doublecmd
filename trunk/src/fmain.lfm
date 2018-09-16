@@ -2366,6 +2366,12 @@ object frmMain: TfrmMain
       Caption = 'Go to previous entry in history'
       OnExecute = actExecute
     end
+    object actOpenDriveByIndex: TAction
+      Tag = 14
+      Category = 'Navigation'
+      Caption = 'Open Drive by Index'
+      OnExecute = actExecute
+    end
     object actOpenBar: TAction
       Tag = 16
       Category = 'Window'

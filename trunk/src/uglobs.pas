@@ -948,6 +948,17 @@ begin
          'Alt+9','','index=9','',
          'Alt+`','','index=-1',''],
        'cm_ActivateTabByIndex');
+      AddIfNotExists([
+        'Ctrl+1','','index=1','',
+        'Ctrl+2','','index=2','',
+        'Ctrl+3','','index=3','',
+        'Ctrl+4','','index=4','',
+        'Ctrl+5','','index=5','',
+        'Ctrl+6','','index=6','',
+        'Ctrl+7','','index=7','',
+        'Ctrl+8','','index=8','',
+        'Ctrl+9','','index=9',''],
+      'cm_OpenDriveByIndex');
 
       if HotMan.Version < 38 then
       begin
