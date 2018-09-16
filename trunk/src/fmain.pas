@@ -177,6 +177,7 @@ type
     actKeyboard: TAction;
     actPrevTab: TAction;
     actNextTab: TAction;
+    actActivateTabByIndex: TAction;
     actCloseAllTabs: TAction;
     actSetTabOptionNormal: TAction;
     actSetTabOptionPathLocked: TAction;

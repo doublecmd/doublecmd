@@ -190,6 +190,7 @@ type
     procedure DestroyAllPages;
     procedure ActivatePrevTab;
     procedure ActivateNextTab;
+    procedure ActivateTabByIndex(Index: Integer);
 
     property ActivePage: TFileViewPage read GetActivePage;
     property ActiveView: TFileView read GetActiveView;
@@ -1065,6 +1066,16 @@ procedure TFileViewNotebook.DoSetBounds(ALeft, ATop, AWidth, AHeight: Integer);
 begin
   inherited DoSetBounds(ALeft, ATop, AWidth, AHeight);
   FPageControl.TabControlBoundsChange(0);
+end;
+
+procedure TFileViewNotebook.ActivateTabByIndex(Index: Integer);
+begin
+  if Index < -1 then
+    Exit;
+  if Index = -1 then
+    Page[PageCount - 1].MakeActive
+  else if PageCount >= Index + 1 then
+    Page[Index].MakeActive;
 end;
 
 procedure TFileViewNotebook.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
