@@ -5889,6 +5889,10 @@ msgstr "Vis &valgboks for faner i kopier/flyt-dialog"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Ignorer fejl ved operationer og s&kriv dem i log-vindue"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Udfør handlinger"
@@ -11578,6 +11582,10 @@ msgstr "Brugernavn (firewall):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
 msgstr ""
 
 #: ulng.rsmsgverifywrong

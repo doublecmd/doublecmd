@@ -5728,6 +5728,10 @@ msgstr "Arată panoul de selecție al filei în fereastra de dialog (&w)"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Sari peste erorile din operațiile cu fișiere și scrie-le în fereastra jurnal (&k)"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Operații în executare"
@@ -11190,6 +11194,10 @@ msgstr "Nume utilizator (Paravan de protecție):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
 msgstr ""
 
 #: ulng.rsmsgverifywrong

@@ -5870,6 +5870,10 @@ msgstr "Приказуј картицу површи одабира у проз�
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Занемари грешке радњи над датотекама и уписуј их у прозору дневника"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Извршавање радњи"
@@ -11481,6 +11485,10 @@ msgstr "корисничко име (ватрени зид):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
 msgstr ""
 
 #: ulng.rsmsgverifywrong

@@ -6051,6 +6051,10 @@ msgstr "prikaži karticu ploče odabira u prozoru za umnožavanje premještanje"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Z&anemari greške radnji nad datotekama i upiši ih u datoteku događanja"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Izvršavanje radnji"
@@ -11648,6 +11652,10 @@ msgstr "korisničko ime (vatreni zid):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
 msgstr ""
 
 #: ulng.rsmsgverifywrong

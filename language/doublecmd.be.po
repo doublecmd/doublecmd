@@ -5611,6 +5611,10 @@ msgstr "Паказ&ваць панэль выбару ў дыялогу капі
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Мі&наць памылкі падчас аперацый з файламі і выводзіць іх у акно лога"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Выкананне аперацый"
@@ -10962,6 +10966,10 @@ msgstr "Імя карыстальніка (Firewall):"
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
 msgstr "ПРАВЕРКА:"
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
+msgstr ""
 
 #: ulng.rsmsgverifywrong
 msgid "The target file is corrupted, checksum mismatch!"

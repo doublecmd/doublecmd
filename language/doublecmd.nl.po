@@ -5611,6 +5611,10 @@ msgstr "Toon tabbladselectiepaneel in kopieer/verplaats-dialoogvenster"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Sla fouten bij bestandbewerkingen over en schrijf deze in het logboekvenster"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Uitvoeren van bewerkingen"
@@ -10959,6 +10963,10 @@ msgstr "Gebruikersnaam (Firewall):"
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
 msgstr "VERIFICATIE:"
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
+msgstr ""
 
 #: ulng.rsmsgverifywrong
 msgid "The target file is corrupted, checksum mismatch!"
