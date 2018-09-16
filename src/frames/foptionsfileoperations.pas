@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File operations options page
 
-   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsFileOperations;
@@ -47,6 +46,7 @@ type
     cbMoveConfirmation: TCheckBox;
     cbDeleteConfirmation: TCheckBox;
     cbDeleteToTrashConfirmation: TCheckBox;
+    cbVerifyChecksumConfirmation: TCheckBox;
     cmbTypeOfDuplicatedRename: TComboBoxAutoWidth;
     edtBufferSize: TEdit;
     edtHashBufferSize: TEdit;
@@ -128,11 +128,12 @@ begin
     fopkOperationsPanel:          cbProgressKind.ItemIndex := 2;
   end;
 
-  cbCopyConfirmation.Checked          := focCopy in gFileOperationsConfirmations;
-  cbMoveConfirmation.Checked          := focMove in gFileOperationsConfirmations;
-  cbDeleteConfirmation.Checked        := focDelete in gFileOperationsConfirmations;
-  cbDeleteToTrashConfirmation.Checked := focDeleteToTrash in gFileOperationsConfirmations;
-  cmbTypeOfDuplicatedRename.ItemIndex := Integer(gTypeOfDuplicatedRename);
+  cbCopyConfirmation.Checked           := focCopy in gFileOperationsConfirmations;
+  cbMoveConfirmation.Checked           := focMove in gFileOperationsConfirmations;
+  cbDeleteConfirmation.Checked         := focDelete in gFileOperationsConfirmations;
+  cbDeleteToTrashConfirmation.Checked  := focDeleteToTrash in gFileOperationsConfirmations;
+  cbVerifyChecksumConfirmation.Checked := focVerifyChecksum in gFileOperationsConfirmations;
+  cmbTypeOfDuplicatedRename.ItemIndex  := Integer(gTypeOfDuplicatedRename);
 
   FLoading := False;
 end;
@@ -166,6 +167,8 @@ begin
     Include(gFileOperationsConfirmations, focDelete);
   if cbDeleteToTrashConfirmation.Checked then
     Include(gFileOperationsConfirmations, focDeleteToTrash);
+  if cbVerifyChecksumConfirmation.Checked then
+    Include(gFileOperationsConfirmations, focVerifyChecksum);
   gTypeOfDuplicatedRename := tDuplicatedRename(cmbTypeOfDuplicatedRename.ItemIndex);
 end;
 

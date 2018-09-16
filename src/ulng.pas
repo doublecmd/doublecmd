@@ -47,6 +47,7 @@ resourcestring
   rsMsgNewFile = 'New file';
   rsMsgDelFlDr = 'Delete %d selected files/directories?';
   rsMsgDelSel = 'Delete selected "%s"?';
+  rsMsgVerifyChecksum = 'Do you want to verify selected checksums?';
   rsMsgObjectNotExists = 'Object does not exist!';
   // 12.05.2009 - another message, when deleting to trash
   rsMsgDelFlDrT = 'Delete %d selected files/directories into trash can?';

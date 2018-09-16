@@ -70,7 +70,7 @@ type
   { How initially progress is shown for file operations }
   TFileOperationsProgressKind = (fopkSeparateWindow, fopkSeparateWindowMinimized, fopkOperationsPanel);
   { Operations with confirmation }
-  TFileOperationsConfirmation = (focCopy, focMove, focDelete, focDeleteToTrash);
+  TFileOperationsConfirmation = (focCopy, focMove, focDelete, focDeleteToTrash, focVerifyChecksum);
   TFileOperationsConfirmations = set of TFileOperationsConfirmation;
   { Internal Associations}
   //What the use wish for the context menu
