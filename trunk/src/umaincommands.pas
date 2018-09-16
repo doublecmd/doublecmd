@@ -2426,6 +2426,9 @@ var
   Hash: String;
   SelectedFiles: TFiles;
   Algorithm: THashAlgorithm;
+  Param: String;
+  BoolValue: Boolean;
+  bConfirmation, HasConfirmationParam: Boolean;
   QueueId: TOperationsManagerQueueIdentifier;
   Operation: TFileSourceCalcChecksumOperation;
 begin
@@ -2441,6 +2444,20 @@ begin
       // Create temp file source.
       // CopyOut ActiveFrame.FileSource to TempFileSource.
       // Do command on TempFileSource and later delete it (or leave cached on disk?)
+    end;
+
+    HasConfirmationParam := False;
+
+    for Param in Params do
+    begin
+      if GetParamBoolValue(Param, 'confirmation', BoolValue) then
+      begin
+        HasConfirmationParam := True;
+        bConfirmation := BoolValue;
+      end;
+    end;
+    if not HasConfirmationParam then begin
+      bConfirmation := focVerifyChecksum in gFileOperationsConfirmations;
     end;
 
     SelectedFiles := ActiveFrame.CloneSelectedOrActiveFiles;
@@ -2463,26 +2480,29 @@ begin
           else begin
             if not ShowCalcVerifyCheckSum(Hash, Algorithm, QueueId) then
               Exit;
+            bConfirmation:= False;
           end;
         end;
 
-      Operation := ActiveFrame.FileSource.CreateCalcChecksumOperation(
-                     SelectedFiles, Hash, '') as TFileSourceCalcChecksumOperation;
-
-      if Assigned(Operation) then
+      if (bConfirmation = False) or (ShowDeleteDialog(rsMsgVerifyChecksum, ActiveFrame.FileSource, QueueId)) then
       begin
-        Operation.Algorithm := Algorithm;
-        Operation.AddStateChangedListener([fsosStopped], @OnCalcChecksumStateChanged);
-        Operation.Mode := checksum_verify;
+        Operation := ActiveFrame.FileSource.CreateCalcChecksumOperation(
+                       SelectedFiles, Hash, '') as TFileSourceCalcChecksumOperation;
 
-        // Start operation.
-        OperationsManager.AddOperation(Operation, QueueId, False);
-      end
-      else
-      begin
-        msgWarning(rsMsgNotImplemented);
+        if Assigned(Operation) then
+        begin
+          Operation.Algorithm := Algorithm;
+          Operation.AddStateChangedListener([fsosStopped], @OnCalcChecksumStateChanged);
+          Operation.Mode := checksum_verify;
+
+          // Start operation.
+          OperationsManager.AddOperation(Operation, QueueId, False);
+        end
+        else
+        begin
+          msgWarning(rsMsgNotImplemented);
+        end;
       end;
-
     finally
       if Assigned(SelectedFiles) then
         FreeAndNil(SelectedFiles);
