@@ -574,12 +574,8 @@ begin
   begin
     if edtCommand.Visible then
     begin
-      if not (gCmdLine and frmMain.IsCommandLineVisible) then
-      begin
-        pnlCommand.Show;
-        pnlCmdLine.Show;
-      end;
-      edtCommand.SetFocus;
+      ShowCommandLine(True);
+
       if bNextCmdLine then
       begin
         if edtCommand.ItemIndex > 0 then
@@ -953,6 +949,8 @@ begin
   OldPosition := frmMain.edtCommand.SelStart;
   frmMain.edtCommand.Text := frmMain.edtCommand.Text + sAddedString;
   frmMain.edtCommand.SelStart := OldPosition + Length(sAddedString);
+
+  frmMain.ShowCommandLine(False);
 end;
 
 { TMainCommands.cm_AddPathToCmdLine }
@@ -2493,17 +2491,7 @@ end;
 
 procedure TMainCommands.cm_FocusCmdLine(const Params: array of string);
 begin
-  if frmMain.edtCommand.Visible then
-  begin
-    // Show temporarily command line on user request.
-    if (not gCmdLine) and (frmMain.IsCommandLineVisible = False) then
-    begin
-      frmMain.pnlCommand.Show;
-      frmMain.pnlCmdLine.Show;
-    end;
-
-    frmMain.edtCommand.SetFocus;
-  end;
+  frmMain.ShowCommandLine(True);
 end;
 
 { TMainCommands.cm_FileAssoc }
