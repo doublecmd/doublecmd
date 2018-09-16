@@ -2542,7 +2542,7 @@ procedure TMainCommands.cm_VisitHomePage(const Params: array of string);
 var
   ErrMsg: String = '';
 begin
-  dmHelpMgr.HTMLHelpDatabase.ShowURL('http://doublecmd.sourceforge.net','Double Commander Web Site', ErrMsg);
+  dmHelpMgr.HTMLHelpDatabase.ShowURL('https://doublecmd.sourceforge.io','Double Commander Web Site', ErrMsg);
 end;
 
 procedure TMainCommands.cm_About(const Params: array of string);
