@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Calculate checksum dialog
 
-   Copyright (C) 2009-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,9 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fCheckSumCalc;
@@ -57,8 +55,8 @@ function ShowCalcCheckSum(var sFileName: String; out SeparateFile: Boolean;
                           out HashAlgorithm: THashAlgorithm; out OpenFileAfterJobCompleted: Boolean;
                           out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 
-function ShowCalcVerifyCheckSum(out Hash: String;
-                                out HashAlgorithm: THashAlgorithm): Boolean;
+function ShowCalcVerifyCheckSum(out Hash: String; out HashAlgorithm: THashAlgorithm;
+                                out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 
 implementation
 
@@ -89,8 +87,8 @@ begin
   end;
 end;
 
-function ShowCalcVerifyCheckSum(out Hash: String;
-                                out HashAlgorithm: THashAlgorithm): Boolean;
+function ShowCalcVerifyCheckSum(out Hash: String; out HashAlgorithm: THashAlgorithm;
+  out QueueId: TOperationsManagerQueueIdentifier): Boolean;
 begin
   with TfrmCheckSumCalc.Create(Application) do
   try
@@ -99,8 +97,6 @@ begin
     SessionProperties:= EmptyStr;
     Caption:= rsCheckSumVerifyTitle;
     cbSeparateFile.Visible:= False;
-    btnAddToQueue.Visible:= False;
-    btnCreateSpecialQueue.Visible:= False;
     cbOpenAfterJobIsComplete.Visible:= False;
     lbHashAlgorithm.OnSelectionChange:= nil;
     edtSaveTo.OnChange:= @edtSaveToChange;
@@ -111,6 +107,7 @@ begin
     begin
       Hash:= Trim(edtSaveTo.Text);
       Result:= Length(Hash) > 0;
+      QueueId:= QueueIdentifier;
       HashAlgorithm:= THashAlgorithm(lbHashAlgorithm.ItemIndex);
     end;
   finally
