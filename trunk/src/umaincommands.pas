@@ -2199,10 +2199,10 @@ var
   MsgDelSel, MsgDelFlDr : string;
   Operation: TFileSourceOperation;
   bRecycle: Boolean;
-  QueueId: TOperationsManagerQueueIdentifier;
   bConfirmation, HasConfirmationParam: Boolean;
   Param, ParamTrashCan: String;
   BoolValue: Boolean;
+  QueueId: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
 begin
   with frmMain.ActiveFrame do
   begin
@@ -2424,13 +2424,13 @@ procedure TMainCommands.cm_CheckSumVerify(const Params: array of string);
 var
   I: Integer;
   Hash: String;
-  SelectedFiles: TFiles;
-  Algorithm: THashAlgorithm;
   Param: String;
   BoolValue: Boolean;
-  bConfirmation, HasConfirmationParam: Boolean;
-  QueueId: TOperationsManagerQueueIdentifier;
+  SelectedFiles: TFiles;
+  Algorithm: THashAlgorithm;
   Operation: TFileSourceCalcChecksumOperation;
+  bConfirmation, HasConfirmationParam: Boolean;
+  QueueId: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
 begin
   // This will work only for filesystem.
   // For other file sources use temp file system when it's done.
