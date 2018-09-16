@@ -188,6 +188,10 @@ begin
             DoDriveRemoved(@ADrive);
           end;
         end;
+        DBT_DEVNODES_CHANGED:
+        begin
+          if (lParam = 0) then DoDriveChanged(nil);
+        end;
       end;
   end; // case
   Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
