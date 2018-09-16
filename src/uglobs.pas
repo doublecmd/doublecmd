@@ -936,6 +936,18 @@ begin
       AddIfNotExists(['Alt+Right'],[],'cm_ViewHistoryNext');
       AddIfNotExists(['Alt+Shift+Enter'],[],'cm_CountDirContent');
       AddIfNotExists(['Alt+Shift+F9'],[],'cm_TestArchive');
+      AddIfNotExists([
+         'Alt+1','','index=1','',
+         'Alt+2','','index=2','',
+         'Alt+3','','index=3','',
+         'Alt+4','','index=4','',
+         'Alt+5','','index=5','',
+         'Alt+6','','index=6','',
+         'Alt+7','','index=7','',
+         'Alt+8','','index=8','',
+         'Alt+9','','index=9','',
+         'Alt+`','','index=-1',''],
+       'cm_ActivateTabByIndex');
 
       if HotMan.Version < 38 then
       begin

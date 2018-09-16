@@ -206,6 +206,7 @@ type
    procedure cm_CloseDuplicateTabs(const Params: array of string);
    procedure cm_NextTab(const Params: array of string);
    procedure cm_PrevTab(const Params: array of string);
+   procedure cm_ActivateTabByIndex(const Params: array of string);
    procedure cm_SaveTabs(const Params: array of string);
    procedure cm_LoadTabs(const Params: array of string);
    procedure cm_SetTabOptionNormal(const Params: array of string);
@@ -1543,8 +1544,6 @@ begin
   DoActionOnMultipleTabs(Params,@DoCloseDuplicateTabs);
 end;
 
-
-
 procedure TMainCommands.cm_NextTab(const Params: array of string);
 begin
   frmMain.ActiveNotebook.ActivateNextTab;
@@ -1553,6 +1552,36 @@ end;
 procedure TMainCommands.cm_PrevTab(const Params: array of string);
 begin
   frmMain.ActiveNotebook.ActivatePrevTab;
+end;
+
+procedure TMainCommands.cm_ActivateTabByIndex(const Params: array of string);
+var
+  Param: String;
+  Index: Integer;
+  AValue: String;
+  ANotebook: TFileViewNotebook;
+begin
+  if Length(Params) <> 0 then
+  begin
+    ANotebook:= frmMain.ActiveNotebook;
+    for Param in Params do
+    begin
+      if GetParamValue(Param, 'index', AValue) then
+      begin
+        Index:= StrToIntDef(AValue, 1);
+      end
+      else if GetParamValue(Param, 'side', AValue) then
+      begin
+        if AValue = 'left' then ANotebook:= frmMain.LeftTabs
+        else if AValue = 'right' then ANotebook:= frmMain.RightTabs
+        else if AValue = 'inactive' then ANotebook:= frmMain.NotActiveNotebook;
+      end
+    end;
+    if Index = -1 then
+      ANotebook.ActivateTabByIndex(Index)
+    else
+      ANotebook.ActivateTabByIndex(Index - 1);
+  end;
 end;
 
 { TMainCommands.cm_SaveTabs }

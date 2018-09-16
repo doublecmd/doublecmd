@@ -2624,6 +2624,12 @@ object frmMain: TfrmMain
       Caption = 'Load the Next Favorite Tabs in the list'
       OnExecute = actExecute
     end
+    object actActivateTabByIndex: TAction
+      Tag = 21
+      Category = 'Tabs'
+      Caption = 'Activate Tab By Index'
+      OnExecute = actExecute
+    end
     object actConfigTreeViewMenus: TAction
       Tag = 5
       Category = 'Configuration'
