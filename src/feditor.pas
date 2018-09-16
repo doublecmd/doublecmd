@@ -475,11 +475,11 @@ begin
       if (Editor.Lines.Count = 0) then
       begin
         if (Encoding = EncodingUTF8BOM) then
-          Writer.Write(UTF8BOM, SizeOf(UTF8BOM))
+          Writer.WriteBuffer(UTF8BOM, SizeOf(UTF8BOM))
         else if (Encoding = EncodingUCS2LE) then
-          Writer.Write(UTF16LEBOM, SizeOf(UTF16LEBOM))
+          Writer.WriteBuffer(UTF16LEBOM, SizeOf(UTF16LEBOM))
         else if (Encoding = EncodingUCS2BE) then
-          Writer.Write(UTF16BEBOM, SizeOf(UTF16BEBOM));
+          Writer.WriteBuffer(UTF16BEBOM, SizeOf(UTF16BEBOM));
       end
       else begin
         TextOut := EmptyStr;
@@ -489,7 +489,7 @@ begin
           TextOut := UTF16BEBOM
         end;
         TextOut += ConvertEncoding(Editor.Lines[0], EncodingUTF8, sEncodingOut);
-        Writer.Write(Pointer(TextOut)^, Length(TextOut));
+        Writer.WriteBuffer(Pointer(TextOut)^, Length(TextOut));
 
         // If file has only one line then write it without line break
         if Editor.Lines.Count > 1 then
@@ -500,14 +500,14 @@ begin
           if (Encoding <> EncodingUTF8) and (Encoding <> EncodingUTF8BOM) then begin
             TextOut:= ConvertEncoding(TextOut, EncodingUTF8, sEncodingOut);
           end;
-          Writer.Write(Pointer(TextOut)^, Length(TextOut));
+          Writer.WriteBuffer(Pointer(TextOut)^, Length(TextOut));
           // Write last line without line break
           TextOut:= Editor.Lines[Editor.Lines.Count - 1];
           // Special case for UTF-8 and UTF-8 with BOM
           if (Encoding <> EncodingUTF8) and (Encoding <> EncodingUTF8BOM) then begin
             TextOut:= ConvertEncoding(TextOut, EncodingUTF8, sEncodingOut);
           end;
-          Writer.Write(Pointer(TextOut)^, Length(TextOut));
+          Writer.WriteBuffer(Pointer(TextOut)^, Length(TextOut));
         end;
       end;
     finally
@@ -518,16 +518,8 @@ begin
     Editor.MarkTextAsSaved;
     Result := True;
   except
-    on E: EFCreateError do
-    begin
-      DCDebug(E.Message);
-      msgWarning(rsMsgErrSaveFile + ' ' + aFileName);
-    end;
-    on E: EFOpenError do
-    begin
-      DCDebug(E.Message);
-      msgWarning(rsMsgErrSaveFile + ' ' + aFileName);
-    end;
+    on E: Exception do
+      msgError(rsMsgErrSaveFile + ' ' + aFileName + LineEnding + E.Message);
   end;
 end;
 
