@@ -127,7 +127,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 43;
+  hkVersion = 44;
   // 40 - In "Main" context, added the "Ctrl+Shift+F7" for "cm_AddNewSearch".
   //      In "Find Files" context, changed "cm_Start" that was "Enter" for "F9".
   //      In "Find Files" context, added "Alt+F7" as a valid alternative for "cm_PageStandard".
@@ -877,8 +877,19 @@ begin
       AddIfNotExists(['F8','','',
                       'Shift+F8','','trashcan=reversesetting',''], 'cm_Delete');
       AddIfNotExists(['F9'],[],'cm_RunTerm');
-      AddIfNotExists(['Ctrl+7'],[],'cm_ShowCmdLineHistory');
-      AddIfNotExists(['Ctrl+Down'],'cm_ShowCmdLineHistory',['Ctrl+7'],[]); //Historic backward support reason...
+
+      if HotMan.Version < 44 then
+      begin
+        HMHotKey:= FindByCommand('cm_ShowCmdLineHistory');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['Ctrl+7']) then
+        begin
+          Remove(HMHotKey);
+          AddIfNotExists(['Alt+F8'],'cm_ShowCmdLineHistory',['Ctrl+Down'],[]);
+        end;
+      end;
+
+      AddIfNotExists(['Alt+F8','','',
+                      'Ctrl+Down','',''], 'cm_ShowCmdLineHistory');
       AddIfNotExists(['Ctrl+B'],[],'cm_FlatView');
       AddIfNotExists(['Ctrl+D'],[],'cm_DirHotList');
       AddIfNotExists(['Ctrl+F'],[],'cm_QuickFilter');
