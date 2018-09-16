@@ -2426,6 +2426,7 @@ var
   Hash: String;
   SelectedFiles: TFiles;
   Algorithm: THashAlgorithm;
+  QueueId: TOperationsManagerQueueIdentifier;
   Operation: TFileSourceCalcChecksumOperation;
 begin
   // This will work only for filesystem.
@@ -2460,7 +2461,7 @@ begin
             Exit;
           end
           else begin
-            if not ShowCalcVerifyCheckSum(Hash, Algorithm) then
+            if not ShowCalcVerifyCheckSum(Hash, Algorithm, QueueId) then
               Exit;
           end;
         end;
@@ -2475,7 +2476,7 @@ begin
         Operation.Mode := checksum_verify;
 
         // Start operation.
-        OperationsManager.AddOperation(Operation);
+        OperationsManager.AddOperation(Operation, QueueId, False);
       end
       else
       begin
