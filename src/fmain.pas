@@ -826,6 +826,7 @@ type
     procedure SaveMainToolBar;
     procedure ConfigSaveSettings;
     function  IsCommandLineVisible: Boolean;
+    procedure ShowCommandLine(AFocus: Boolean);
     procedure ShowDrivesList(APanel: TFilePanelSelect);
     procedure ExecuteCommandLine(bRunInTerm: Boolean);
     procedure UpdatePrompt;
@@ -5522,6 +5523,20 @@ end;
 function TfrmMain.IsCommandLineVisible: Boolean;
 begin
   Result := (edtCommand.Visible and pnlCommand.Visible and pnlCmdLine.Visible);
+end;
+
+procedure TfrmMain.ShowCommandLine(AFocus: Boolean);
+begin
+  if edtCommand.Visible then
+  begin
+    // Show temporarily command line on user request.
+    if not (gCmdLine and frmMain.IsCommandLineVisible) then
+    begin
+      pnlCommand.Show;
+      pnlCmdLine.Show;
+    end;
+    if AFocus then edtCommand.SetFocus;
+  end;
 end;
 
 function TfrmMain.FindMatchingDrive(Address, Path: String): Integer;
