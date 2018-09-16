@@ -5767,6 +5767,10 @@ msgstr "Mos&trar painel de seleção de guia no diálogo Copiar/Mover."
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Saltar erros de &operações de arquivos e escrevê-los no log."
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Executando operações."
@@ -11361,6 +11365,10 @@ msgstr "Nome de usuário (Firewall):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
 msgstr ""
 
 #: ulng.rsmsgverifywrong

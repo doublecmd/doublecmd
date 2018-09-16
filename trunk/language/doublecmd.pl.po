@@ -5616,6 +5616,10 @@ msgstr "Pokaż pasek postępu podczas kopiowania/przenoszenia"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Komunikaty o błędach przy operacjach na plikach pokazuj tylko w oknie logów"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Wykonywanie operacji"
@@ -10971,6 +10975,10 @@ msgstr "Nazwa użytkownika (Firewall):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
 msgstr ""
 
 #: ulng.rsmsgverifywrong

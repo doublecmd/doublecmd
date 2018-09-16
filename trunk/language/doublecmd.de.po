@@ -5709,6 +5709,10 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "&Fehler bei Datei-Operationen ignorieren und sie im Log-Fenster anzeigen"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Führe Operationen aus"
@@ -11218,6 +11222,10 @@ msgstr "Nutzername (Firewall):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
 msgstr ""
 
 #: ulng.rsmsgverifywrong

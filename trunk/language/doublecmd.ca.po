@@ -6165,6 +6165,10 @@ msgctxt "tfrmoptionsfileoperations.cbskipfileoperror.caption"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Omet errors d'operació amb Fitxers i els escriu en una finestra de registre"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Executant operacions"
@@ -12014,6 +12018,10 @@ msgstr "Nom d'usuari (Firewall):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
 msgstr ""
 
 #: ulng.rsmsgverifywrong

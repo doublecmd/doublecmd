@@ -6228,6 +6228,10 @@ msgctxt "tfrmoptionsfileoperations.cbskipfileoperror.caption"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Preskočiť chyby súborových operácií a len ich zapísať do okna logov"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Vykonávanie operácií"
@@ -12091,6 +12095,10 @@ msgstr "Užívateľské meno (Firewall):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
 msgstr ""
 
 #: ulng.rsmsgverifywrong

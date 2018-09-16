@@ -5820,6 +5820,10 @@ msgstr "복사/이동 대화상자에 선택된 탭 표시(&W)"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "파일 작업 에러 건너뛰고 로그 파일에 저장하기(&K)"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "작업 실행"
@@ -11417,6 +11421,10 @@ msgstr "사용자명(방화벽):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
 msgstr ""
 
 #: ulng.rsmsgverifywrong

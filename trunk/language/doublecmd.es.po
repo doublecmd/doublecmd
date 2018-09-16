@@ -5617,6 +5617,10 @@ msgstr "Mostrar las pestañas del panel de destino en el diálogo «copiar/mover
 msgid "S&kip file operations errors and write them to log window"
 msgstr "Sa&ltar errores en operaciones con archivos y anotarlos en la ventana de registro"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Ejecución de operaciones"
@@ -10997,6 +11001,10 @@ msgstr "Nombre del usuario (Firewall):"
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
 msgstr "VERIFICACIÓN:"
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
+msgstr ""
 
 #: ulng.rsmsgverifywrong
 msgid "The target file is corrupted, checksum mismatch!"

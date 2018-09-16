@@ -5839,6 +5839,10 @@ msgstr "Mostr&a pannello di selezione nella finestra di dialogo copia/sposta"
 msgid "S&kip file operations errors and write them to log window"
 msgstr "S&alta operazioni sui file con errori e riportali nella finestra di registro operazioni"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "Esecuzione di operazioni"
@@ -11396,6 +11400,10 @@ msgstr "Nome utente (Firewall):"
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
 msgstr ""
 
 #: ulng.rsmsgverifywrong

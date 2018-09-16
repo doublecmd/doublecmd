@@ -5725,6 +5725,10 @@ msgstr "コピー/移動ダイアログボックスにタブ選定パネルを�
 msgid "S&kip file operations errors and write them to log window"
 msgstr "ファイル操作エラーはスキップして、そのエラーをログウィンドウに書く(&k)"
 
+#: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
+msgid "Verify checksum operation"
+msgstr ""
+
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
 msgstr "操作を実行中"
@@ -11245,6 +11249,10 @@ msgstr "ユーザ名（ファイアウォール用）："
 
 #: ulng.rsmsgverify
 msgid "VERIFICATION:"
+msgstr ""
+
+#: ulng.rsmsgverifychecksum
+msgid "Do you want to verify selected checksums?"
 msgstr ""
 
 #: ulng.rsmsgverifywrong
