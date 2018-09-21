@@ -821,6 +821,8 @@ begin
           InitializeTestArchiveOperation(OpManItem);
         fsoCalcStatistics:
           InitializeCalcStatisticsOperation(OpManItem);
+        fsoSetFileProperty:
+          InitializeSetFilePropertyOperation(OpManItem);
 
         else
           begin
