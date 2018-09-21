@@ -1,24 +1,23 @@
 {
-    Double Commander
-    -------------------------------------------------------------------------
-    Window displaying progress for file source operations and queues.
+   Double Commander
+   -------------------------------------------------------------------------
+   Window displaying progress for file source operations and queues.
 
-    Copyright (C) 2008-2015  Alexander Koblov (alexx2000@mail.ru)
-    Copyright (C) 2012       Przemysław Nagay (cobines@gmail.com)
+   Copyright (C) 2008-2018  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2012       Przemysław Nagay (cobines@gmail.com)
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fFileOpDlg;
@@ -116,6 +115,7 @@ type
     procedure InitializeCalcChecksumOperation(OpManItem: TOperationsManagerItem);
     procedure InitializeTestArchiveOperation(OpManItem: TOperationsManagerItem);
     procedure InitializeCalcStatisticsOperation(OpManItem: TOperationsManagerItem);
+    procedure InitializeSetFilePropertyOperation(OpManItem: TOperationsManagerItem);
     procedure UpdateCopyOperation(Operation: TFileSourceOperation);
     procedure UpdateMoveOperation(Operation: TFileSourceOperation);
     procedure UpdateDeleteOperation(Operation: TFileSourceOperation);
@@ -125,6 +125,7 @@ type
     procedure UpdateCalcStatisticsOperation(Operation: TFileSourceOperation);
     procedure UpdateCalcChecksumOperation(Operation: TFileSourceOperation);
     procedure UpdateTestArchiveOperation(Operation: TFileSourceOperation);
+    procedure UpdateSetFilePropertyOperation(Operation: TFileSourceOperation);
 
     class function GetOpenedForm(AOperationHandle: TOperationHandle): TfrmFileOp;
     class function GetOpenedForm(AQueueIdentifier: TOperationsManagerQueueIdentifier): TfrmFileOp;
@@ -172,6 +173,7 @@ uses
    uFileSourceCalcChecksumOperation,
    uFileSourceCalcStatisticsOperation,
    uFileSourceTestArchiveOperation,
+   uFileSourceSetFilePropertyOperation,
    uFileSourceOperationMessageBoxesUI
    ;
 
@@ -838,12 +840,17 @@ end;
 
 procedure TfrmFileOp.InitializeDeleteOperation(OpManItem: TOperationsManagerItem);
 begin
-  InitializeControls(OpManItem, [fodl_total_pb]);
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_total_pb]);
 end;
 
 procedure TfrmFileOp.InitializeCalcStatisticsOperation(OpManItem: TOperationsManagerItem);
 begin
   InitializeControls(OpManItem, [fodl_from_lbl]);
+end;
+
+procedure TfrmFileOp.InitializeSetFilePropertyOperation(OpManItem: TOperationsManagerItem);
+begin
+  InitializeControls(OpManItem, [fodl_from_lbl, fodl_total_pb]);
 end;
 
 procedure TfrmFileOp.InitializeWipeOperation(OpManItem: TOperationsManagerItem);
@@ -933,6 +940,8 @@ begin
       UpdateCalcStatisticsOperation(OpManItem.Operation);
     fsoTestArchive:
       UpdateTestArchiveOperation(OpManItem.Operation);
+    fsoSetFileProperty:
+      UpdateSetFilePropertyOperation(OpManItem.Operation);
 
     else
     begin
@@ -1128,6 +1137,23 @@ begin
     SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
+  end;
+end;
+
+procedure TfrmFileOp.UpdateSetFilePropertyOperation(Operation: TFileSourceOperation);
+var
+  SetOperation: TFileSourceSetFilePropertyOperation;
+  SetStatistics: TFileSourceSetFilePropertyOperationStatistics;
+begin
+  SetOperation := Operation as TFileSourceSetFilePropertyOperation;
+  SetStatistics := SetOperation.RetrieveStatistics;
+
+  with SetStatistics do
+  begin
+    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+
+    SetProgressFiles(Operation, pbTotal, DoneFiles, TotalFiles);
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(FilesPerSecond, True));
   end;
 end;
 
