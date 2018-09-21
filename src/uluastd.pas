@@ -45,6 +45,9 @@ implementation
 uses
   CTypes, DCBasicTypes, DCOSUtils, uMicroLibC, uOSUtils;
 
+var
+  CStdIn, CStdOut, CStdErr: Pointer;
+
 const
   EOF = -1;
   IO_PREFIX = '_IO_';
@@ -258,8 +261,12 @@ var
 begin
   p := tolstream(L);
   // WriteLn('f_gc: ', hexStr(p));
-  if (not isclosed(p)) and (p^.f <> nil) then
-    aux_close(L);  //* ignore closed and incompletely open files */
+  if (p^.f <> CStdIn) and (p^.f <> CStdOut) and (p^.f <> CStdErr) then
+  begin
+    //* ignore closed and incompletely open files */
+    if (not isclosed(p)) and (p^.f <> nil) then
+      aux_close(L);
+  end;
   Result := 0;
 end;
 
@@ -771,8 +778,6 @@ begin
 end;
 
 procedure ReplaceLibrary(L : Plua_State);
-var
-  StdIn, StdOut, StdErr: PPointer;
 begin
   //* Replace functions for 'os' library */
   lua_getglobal(L, LUA_OSLIBNAME);
@@ -799,10 +804,6 @@ begin
     luaP_register(L, 'write', @io_write);
   lua_pop(L, 1);
 
-  //* Remove (clear) default metatable */
-  lua_pushnil(L);
-  lua_setfield(L, LUA_REGISTRYINDEX, LUA_FILEHANDLE);
-
   //* Create metatable for file handles */
   luaL_newmetatable(L, LUA_FILEHANDLE);
     lua_pushvalue(L, -1);  //* push metatable */
@@ -822,18 +823,18 @@ begin
   //* get and set default files */
   lua_getglobal(L, LUA_IOLIBNAME);
     lua_getfield(L, -1, 'stdin');
-      StdIn := lua_touserdata(L, -1);
+      CStdIn := PPointer(lua_touserdata(L, -1))^;
     lua_pop(L, 1);
     lua_getfield(L, -1, 'stdout');
-      StdOut := lua_touserdata(L, -1);
+      CStdOut := PPointer(lua_touserdata(L, -1))^;
     lua_pop(L, 1);
     lua_getfield(L, -1, 'stderr');
-      StdErr := lua_touserdata(L, -1);
+      CStdErr := PPointer(lua_touserdata(L, -1))^;
     lua_pop(L, 1);
 
-    createstdfile(L, stdin^, IO_INPUT_, 'stdin');
-    createstdfile(L, stdout^, IO_OUTPUT_, 'stdout');
-    createstdfile(L, stderr^, nil, 'stderr');
+    createstdfile(L, CStdIn, IO_INPUT_, 'stdin');
+    createstdfile(L, CStdOut, IO_OUTPUT_, 'stdout');
+    createstdfile(L, CStdErr, nil, 'stderr');
   lua_pop(L, 1);
 end;
 
