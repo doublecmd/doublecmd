@@ -1923,6 +1923,10 @@ msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
 msgid "&About"
 msgstr "&О программе..."
 
+#: tfrmmain.actactivatetabbyindex.caption
+msgid "Activate Tab By Index"
+msgstr "Активировать вкладку по индексу"
+
 #: tfrmmain.actaddfilenametocmdline.caption
 msgid "Add file name to command line"
 msgstr "Добавить имя файла в командную строку"
@@ -2075,6 +2079,10 @@ msgstr "Настройка поиска"
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Панель инструментов..."
+
+#: tfrmmain.actconfigtooltips.caption
+msgid "Configuration of tooltips"
+msgstr "Настройка всплывающих подсказок"
 
 #: tfrmmain.actconfigtreeviewmenus.caption
 msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
@@ -2409,6 +2417,10 @@ msgstr "Открыть BAR-файл"
 #: tfrmmain.actopendirinnewtab.caption
 msgid "Open &Folder in a New Tab"
 msgstr "Открыть пап&ку в новой вкладке"
+
+#: tfrmmain.actopendrivebyindex.caption
+msgid "Open Drive by Index"
+msgstr "Открыть диск по индексу"
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"

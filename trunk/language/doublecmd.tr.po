@@ -2067,6 +2067,10 @@ msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
 msgid "&About"
 msgstr "&Hakkında"
 
+#: tfrmmain.actactivatetabbyindex.caption
+msgid "Activate Tab By Index"
+msgstr ""
+
 #: tfrmmain.actaddfilenametocmdline.caption
 msgid "Add file name to command line"
 msgstr "Dosya adını komut satırına ekle"
@@ -2216,6 +2220,10 @@ msgstr ""
 
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
+msgstr ""
+
+#: tfrmmain.actconfigtooltips.caption
+msgid "Configuration of tooltips"
 msgstr ""
 
 #: tfrmmain.actconfigtreeviewmenus.caption
@@ -2561,6 +2569,10 @@ msgstr "Dosya Çubuğu Aç"
 #: tfrmmain.actopendirinnewtab.caption
 msgid "Open &Folder in a New Tab"
 msgstr "Klasörü &Yeni Sekmede Aç"
+
+#: tfrmmain.actopendrivebyindex.caption
+msgid "Open Drive by Index"
+msgstr ""
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"

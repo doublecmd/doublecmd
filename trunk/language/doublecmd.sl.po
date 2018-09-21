@@ -1891,6 +1891,10 @@ msgstr "Navzgor"
 msgid "&About"
 msgstr "&O programu"
 
+#: tfrmmain.actactivatetabbyindex.caption
+msgid "Activate Tab By Index"
+msgstr ""
+
 #: tfrmmain.actaddfilenametocmdline.caption
 msgid "Add file name to command line"
 msgstr "Doda ime datoteke v ukazno vrstico"
@@ -2038,6 +2042,10 @@ msgstr "Nastavitev iskanja"
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Orodna vrstica ..."
+
+#: tfrmmain.actconfigtooltips.caption
+msgid "Configuration of tooltips"
+msgstr ""
 
 #: tfrmmain.actconfigtreeviewmenus.caption
 msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
@@ -2369,6 +2377,10 @@ msgstr "Odpri datoteko orodne vrstice"
 #: tfrmmain.actopendirinnewtab.caption
 msgid "Open &Folder in a New Tab"
 msgstr "O&dpri mapo v novem zavihku"
+
+#: tfrmmain.actopendrivebyindex.caption
+msgid "Open Drive by Index"
+msgstr ""
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"

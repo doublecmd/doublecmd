@@ -1946,6 +1946,10 @@ msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
 msgid "&About"
 msgstr "정보(&A)"
 
+#: tfrmmain.actactivatetabbyindex.caption
+msgid "Activate Tab By Index"
+msgstr ""
+
 #: tfrmmain.actaddfilenametocmdline.caption
 msgid "Add file name to command line"
 msgstr "명령줄에 파일명 추가"
@@ -2098,6 +2102,10 @@ msgstr ""
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "도구 모음..."
+
+#: tfrmmain.actconfigtooltips.caption
+msgid "Configuration of tooltips"
+msgstr ""
 
 #: tfrmmain.actconfigtreeviewmenus.caption
 msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
@@ -2432,6 +2440,10 @@ msgstr "상태바 파일 열기"
 #: tfrmmain.actopendirinnewtab.caption
 msgid "Open &Folder in a New Tab"
 msgstr "새 탭에 폴더 열기(&F)"
+
+#: tfrmmain.actopendrivebyindex.caption
+msgid "Open Drive by Index"
+msgstr ""
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"

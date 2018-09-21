@@ -1909,6 +1909,10 @@ msgstr "Aufw&ärts"
 msgid "&About"
 msgstr "&Über..."
 
+#: tfrmmain.actactivatetabbyindex.caption
+msgid "Activate Tab By Index"
+msgstr ""
+
 #: tfrmmain.actaddfilenametocmdline.caption
 msgid "Add file name to command line"
 msgstr "Dateiname in die Befehlszeile kopieren"
@@ -2060,6 +2064,10 @@ msgstr ""
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Toolbar..."
+
+#: tfrmmain.actconfigtooltips.caption
+msgid "Configuration of tooltips"
+msgstr ""
 
 #: tfrmmain.actconfigtreeviewmenus.caption
 msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
@@ -2392,6 +2400,10 @@ msgstr "Leisten-Datei öffnen"
 #: tfrmmain.actopendirinnewtab.caption
 msgid "Open &Folder in a New Tab"
 msgstr "Verzeichnis in neue&m Tab öffnen"
+
+#: tfrmmain.actopendrivebyindex.caption
+msgid "Open Drive by Index"
+msgstr ""
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"

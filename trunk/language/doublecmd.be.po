@@ -1881,6 +1881,10 @@ msgstr "Уверх"
 msgid "&About"
 msgstr "&Пра праграму"
 
+#: tfrmmain.actactivatetabbyindex.caption
+msgid "Activate Tab By Index"
+msgstr ""
+
 #: tfrmmain.actaddfilenametocmdline.caption
 msgid "Add file name to command line"
 msgstr "Дадаць назву файла ў загадны радок"
@@ -2028,6 +2032,10 @@ msgstr "Наладка гарачых клавіш"
 #: tfrmmain.actconfigtoolbars.caption
 msgid "Toolbar..."
 msgstr "Панэль прылад..."
+
+#: tfrmmain.actconfigtooltips.caption
+msgid "Configuration of tooltips"
+msgstr ""
 
 #: tfrmmain.actconfigtreeviewmenus.caption
 msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
@@ -2359,6 +2367,10 @@ msgstr "Адкрыць файл панэлі"
 #: tfrmmain.actopendirinnewtab.caption
 msgid "Open &Folder in a New Tab"
 msgstr "Адкрыць &каталог у новай укладцы"
+
+#: tfrmmain.actopendrivebyindex.caption
+msgid "Open Drive by Index"
+msgstr ""
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgid "Open &VFS List"
