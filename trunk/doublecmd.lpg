@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectGroup FileVersion="1">
+    <Targets Count="10">
+      <Target0 FileName="components\chsdet\chsdet.lpk"/>
+      <Target1 FileName="components\CmdLine\cmdbox.lpk"/>
+      <Target2 FileName="components\doublecmd\doublecmd_common.lpk"/>
+      <Target3 FileName="components\multithreadprocs\multithreadprocslaz.lpk"/>
+      <Target4 FileName="components\dcpcrypt\dcpcrypt.lpk"/>
+      <Target5 FileName="components\gifanim\pkg_gifanim.lpk"/>
+      <Target6 FileName="components\KASToolBar\kascomp.lpk"/>
+      <Target7 FileName="components\synunihighlighter\synuni.lpk"/>
+      <Target8 FileName="components\viewer\viewerpackage.lpk"/>
+      <Target9 FileName="src\doublecmd.lpi">
+        <BuildModes Count="5"/>
+        <Mode1 Name="Debug" Compile="True"/>
+        <Mode2 Name="Debug + HeapTrc"/>
+        <Mode3 Name="NoDebug Full Optimizations"/>
+        <Mode4 Name="Nightly"/>
+        <Mode5 Name="Beta"/>
+      </Target9>
+    </Targets>
+  </ProjectGroup>
+</CONFIG>
