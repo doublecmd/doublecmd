@@ -1114,7 +1114,7 @@ begin
   // Recommended parameters (the running time about 125ms on Intel Core i5-7400 64 bit)
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_id, 2, 16, 4,
                                 'password','123456789012345678901234567890xy',
-                                '0e1e021f653478ee9d4f87533a3699b8a89077d5fb76ab3c5629088343c1bac82896fc5854875e1fba812a8453a33ee5a5e8d828d6e4b2fb85216ea45bcef2d878456cf2d7b6e0bced4302bf12ae3534b3ba6efc241278bc');
+                                'c80142cbb6076b2d6be20137ddf24679cfc70eb4cde0f242a342e9e63636292eb2efcd907873fc19ca0bee0b7d7e992a7f68ce24a2da379bc41d5eb235f76eaa17220a6fa82d2d4a2e168b021dbfa5ba5a9f232ea0a1e24d');
   WriteLn('Result: ', Result);
 end;
 
