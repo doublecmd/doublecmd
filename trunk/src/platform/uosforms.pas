@@ -129,7 +129,8 @@ uses
   , ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
   , uWinNetFileSource, uVfsModule, uLng, uMyWindows, DCStrUtils
-  , uThumbnailProvider, uDCReadSVG, uFileSourceUtil, Dialogs, Clipbrd
+  , uListGetPreviewBitmap, uThumbnailProvider, uDCReadSVG, uFileSourceUtil
+  , Dialogs, Clipbrd
   {$ENDIF}
   {$IFDEF UNIX}
   , BaseUnix, fFileProperties, uJpegThumb
