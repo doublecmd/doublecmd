@@ -77,6 +77,7 @@ type
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FParser: TParserControl;
     FPluginWindow: HWND;
+    function GetCanPreview: Boolean;
     function GetCanPrint: Boolean;
     function GIsLoaded: Boolean;
   public
@@ -97,7 +98,7 @@ type
     function CallListGetDetectString: String;
     procedure CallListSetDefaultParams;
     procedure CallListCloseWindow;
-    function CallListGetPreviewBitmap(FileToLoad: String; Width, Height: Integer; contentbuf: String): hbitmap;
+    function CallListGetPreviewBitmap(FileToLoad: String; Width, Height: Integer; ContentBuf: String): HBITMAP;
     function CallListNotificationReceived(Msg, wParam, lParam: Integer): Integer;
     function CallListPrint(FileToPrint, DefPrinter: String; PrintFlags: Integer; var Margins: trect): Integer;
     function CallListSearchDialog(FindNext: Integer): Integer;
@@ -111,6 +112,7 @@ type
     //---------------------
     property IsLoaded: Boolean read GIsLoaded;
     property ModuleHandle: TLibHandle read FModuleHandle write FModuleHandle;
+    property CanPreview: Boolean read GetCanPreview;
     property PluginWindow: HWND read FPluginWindow;
     property CanPrint: Boolean read GetCanPrint;
   end;
@@ -199,6 +201,11 @@ end;
 function TWlxModule.GetCanPrint: Boolean;
 begin
   Result := Assigned(ListPrint) or Assigned(ListPrintW);
+end;
+
+function TWlxModule.GetCanPreview: Boolean;
+begin
+  Result:= Assigned(ListGetPreviewBitmap) or Assigned(ListGetPreviewBitmapW);
 end;
 
 constructor TWlxModule.Create;
@@ -449,14 +456,14 @@ begin
   end;
 end;
 
-function TWlxModule.CallListGetPreviewBitmap(FileToLoad: String; Width, Height: Integer; contentbuf: String): hbitmap;
+function TWlxModule.CallListGetPreviewBitmap(FileToLoad: String; Width, Height: Integer; ContentBuf: String): HBITMAP;
 begin
   if Assigned(ListGetPreviewBitmapW) then
-    Result := ListGetPreviewBitmapW(PWideChar(UTF8Decode(FileToLoad)), Width, Height,
-      PChar(contentbuf), length(contentbuf))
+    Result := ListGetPreviewBitmapW(PWideChar(UTF8Decode(FileToLoad)), Width, Height, PByte(ContentBuf), Length(ContentBuf))
   else if Assigned(ListGetPreviewBitmap) then
-    Result := ListGetPreviewBitmap(PAnsiChar(CeUtf8ToSys(FileToLoad)), Width, Height,
-      PChar(contentbuf), length(contentbuf));
+    Result := ListGetPreviewBitmap(PAnsiChar(CeUtf8ToSys(FileToLoad)), Width, Height, PByte(ContentBuf), Length(ContentBuf))
+  else
+    Result := 0;
 end;
 
 { TWLXModuleList }
