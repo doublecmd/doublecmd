@@ -36,7 +36,7 @@ uses
 
 function GetThumbnail(const aFileName: String; aSize: TSize): Graphics.TBitmap;
 const
-  MAX_LEN = 8092;
+  MAX_LEN = 8192;
 var
   Data: String;
   Index: Integer;
