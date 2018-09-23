@@ -1069,7 +1069,7 @@ function argon2_selftest: Boolean;
 
   function hash_test(version: Targon2_version; type_: Targon2_type; t, m, p: cuint32; pwd, salt, hex: String): Boolean;
   var
-    Q: LongWord;
+    Q: QWord;
     out_: String;
     out_hex: String;
     out_len: Integer;
@@ -1079,10 +1079,10 @@ function argon2_selftest: Boolean;
               [version, t, m, p, pwd, salt, out_len]));
 
       SetLength(out_, out_len);
-      Q:= GetTickCount;
+      Q:= GetTickCount64;
       argon2_hash(t, 1 shl m, p, Pointer(pwd), Length(pwd), Pointer(salt), Length(salt),
                   nil, 0, nil, 0, Pointer(out_), OUT_LEN, type_, version);
-      WriteLn('Time:   ', GetTickCount - Q);
+      WriteLn('Time:   ', GetTickCount64 - Q);
       SetLength(out_hex, OUT_LEN * 2);
       BinToHex(PAnsiChar(out_), PAnsiChar(out_hex), OUT_LEN);
       Result:= SameText(hex, out_hex);
@@ -1111,8 +1111,8 @@ begin
                                 '09316115d5cf24ed5a15a31a3ba326e5cf32edc24702987c02b6566f61913cf7');
   Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_id, 2, 16, 2, 'password', 'somesalt',
                                 '6f681ac1c3384a90119d2763a683f9ac79532d999abfab5644aa8aafd3d0d234');
-  // Recommended parameters (the running time about 78ms on Intel Core i5-7400 64 bit)
-  Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_id, 1, 16, 4,
+  // Recommended parameters (the running time about 125ms on Intel Core i5-7400 64 bit)
+  Result:= Result and hash_test(ARGON2_VERSION_NUMBER, Argon2_id, 2, 16, 4,
                                 'password','123456789012345678901234567890xy',
                                 '0e1e021f653478ee9d4f87533a3699b8a89077d5fb76ab3c5629088343c1bac82896fc5854875e1fba812a8453a33ee5a5e8d828d6e4b2fb85216ea45bcef2d878456cf2d7b6e0bced4302bf12ae3534b3ba6efc241278bc');
   WriteLn('Result: ', Result);
