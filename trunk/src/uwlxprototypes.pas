@@ -5,30 +5,30 @@ unit uwlxprototypes;
 interface
 
 uses
-  Classes, SysUtils, WlxPlugin;
+  Classes, SysUtils, WlxPlugin, LCLType;
 
 {$IFDEF MSWINDOWS}{$CALLING STDCALL}{$ELSE}{$CALLING CDECL}{$ENDIF}
 
 type
   { Mandatory }
-  TListLoad = function (ParentWin:thandle;FileToLoad:pchar;ShowFlags:integer):thandle;
+  TListLoad = function (ParentWin: HWND; FileToLoad: PAnsiChar; ShowFlags: Integer): HWND;
   { Optional }
-  TListLoadNext = function (ParentWin,PluginWin:thandle;FileToLoad:pchar;ShowFlags:integer):integer;
-  TListCloseWindow = procedure (ListWin:thandle);
-  TListGetDetectString = procedure (DetectString:pchar;maxlen:integer);
-  TListSearchText = function (ListWin:thandle;SearchString:pchar; SearchParameter:integer):integer;
-  TListSearchDialog = function (ListWin:thandle;FindNext:integer):integer;
-  TListSendCommand = function (ListWin:thandle;Command,Parameter:integer):integer;
-  TListPrint = function (ListWin:thandle;FileToPrint,DefPrinter:pchar; PrintFlags:integer;var Margins:trect):integer;
-  TListNotificationReceived = function (ListWin:thandle;Message,wParam,lParam:integer):integer;
-  TListSetDefaultParams = procedure (dps:pListDefaultParamStruct);
-  TListGetPreviewBitmap = function (FileToLoad:pchar;width,height:integer; contentbuf:pchar;contentbuflen:integer):hbitmap;
+  TListLoadNext = function (ParentWin, PluginWin: HWND; FileToLoad: PAnsiChar; ShowFlags: Integer): Integer;
+  TListCloseWindow = procedure (ListWin: HWND);
+  TListGetDetectString = procedure (DetectString: PAnsiChar; MaxLen: Integer);
+  TListSearchText = function (ListWin: HWND; SearchString: PAnsiChar; SearchParameter: Integer): Integer;
+  TListSearchDialog = function (ListWin: HWND; FindNext: Integer): Integer;
+  TListSendCommand = function (ListWin: HWND; Command, Parameter: Integer): Integer;
+  TListPrint = function (ListWin: HWND; FileToPrint, DefPrinter: PAnsiChar; PrintFlags: Integer; var Margins: TRect): Integer;
+  TListNotificationReceived = function (ListWin: HWND; Message, wParam, lParam: Integer): Integer;
+  TListSetDefaultParams = procedure (dps: PListDefaultParamStruct);
+  TListGetPreviewBitmap = function (FileToLoad: PAnsiChar; Width, Height: Integer; ContentBuf: PByte; ContentBufLen: Integer): HBITMAP;
   { Unicode }
-  TListLoadW = function (ParentWin:thandle;FileToLoad:pwidechar;ShowFlags:integer):thandle;
-  TListLoadNextW = function (ParentWin,PluginWin:thandle;FileToLoad:pwidechar;ShowFlags:integer):integer;
-  TListSearchTextW = function (ListWin:thandle;SearchString:pwidechar; SearchParameter:integer):integer;
-  TListPrintW = function (ListWin:thandle;FileToPrint,DefPrinter:pwidechar; PrintFlags:integer;var Margins:trect):integer;
-  TListGetPreviewBitmapW = function (FileToLoad:pwidechar;width,height:integer; contentbuf:pchar;contentbuflen:integer):hbitmap;
+  TListLoadW = function (ParentWin: HWND; FileToLoad: PWideChar; ShowFlags: Integer): HWND;
+  TListLoadNextW = function (ParentWin, PluginWin: HWND; FileToLoad: PWideChar; ShowFlags: Integer): Integer;
+  TListSearchTextW = function (ListWin: HWND; SearchString: PWideChar; SearchParameter: Integer): Integer;
+  TListPrintW = function (ListWin: HWND; FileToPrint, DefPrinter: PWideChar; PrintFlags: Integer; var Margins: TRect): Integer;
+  TListGetPreviewBitmapW = function (FileToLoad: PWideChar; Width, Height: Integer; ContentBuf: PByte; ContentBufLen: Integer): HBITMAP;
 
 {$CALLING DEFAULT}
 
