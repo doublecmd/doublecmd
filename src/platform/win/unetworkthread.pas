@@ -59,8 +59,8 @@ end;
 
 destructor TNetworkThread.Destroy;
 begin
-  FWaitConnect.Free;
   FWaitFinish.Free;
+  FWaitConnect.Free;
   StrDispose(NetResource.lpLocalName);
   StrDispose(NetResource.lpRemoteName);
   inherited Destroy;
@@ -82,7 +82,6 @@ begin
         Dec(Timeout);
       end;
     finally
-      WriteLn(Result);
       FWaitFinish.SetEvent;
     end;
   end;
