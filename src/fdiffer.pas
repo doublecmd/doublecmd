@@ -335,6 +335,11 @@ begin
   else try
     Inc(ScrollLock);
     Screen.Cursor := crHourGlass;
+
+    if SynDiffEditLeft.Modified then SynDiffEditLeft.Lines.RemoveFake;
+    if SynDiffEditRight.Modified then SynDiffEditRight.Lines.RemoveFake;
+    BuildHashList(SynDiffEditLeft.Modified, SynDiffEditRight.Modified);
+
     if (Length(HashListLeft) = 0) or (Length(HashListRight) = 0) then Exit;
     actStartCompare.Enabled := False;
     actCancelCompare.Enabled := True;
