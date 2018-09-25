@@ -115,6 +115,11 @@ function mbGetCompressedFileSize(const FileName: String): Int64;
 }
 function mbGetFileChangeTime(const FileName: String; out ChangeTime: TFileTime): Boolean;
 {en
+   Determines whether a key is up or down at the time the function is called,
+   and whether the key was pressed after a previous call to GetAsyncKeyStateEx.
+}
+function GetAsyncKeyStateEx(vKey: Integer): Boolean;
+{en
    This routine returns @true if the caller's
    process is a member of the Administrators local group.
    @returns(The function returns @true if caller has Administrators local group, @false otherwise)
@@ -585,6 +590,23 @@ begin
                                   SizeOf(FileInformation), FileBasicInformation) = 0;
   CloseHandle(Handle);
   ChangeTime:= TFileTime(FileInformation.ChangeTime);
+end;
+
+function GetAsyncKeyStateEx(vKey: Integer): Boolean;
+var
+  Handle: HWND;
+  dwProcessId: DWORD = 0;
+begin
+  if (GetAsyncKeyState(vKey) < 0) then
+  begin
+    Handle:= GetForegroundWindow;
+    if (Handle <> 0) then
+    begin
+      GetWindowThreadProcessId(Handle, @dwProcessId);
+      Exit(GetCurrentProcessId = dwProcessId);
+    end;
+  end;
+  Result:= False;
 end;
 
 function IsUserAdmin: LongBool;
