@@ -29,7 +29,7 @@ implementation
 
 uses
   LazUTF8, uFile, Windows, JwaWinNetWk, JwaLmCons, JwaLmShare, JwaLmApiBuf,
-  DCStrUtils, uShowMsg, DCOSUtils, uOSUtils;
+  DCStrUtils, uShowMsg, DCOSUtils, uOSUtils, uNetworkThread;
 
 procedure TWinNetListOperation.WorkgroupEnum;
 var
@@ -96,13 +96,23 @@ procedure TWinNetListOperation.ShareEnum;
 var
   I: DWORD;
   aFile: TFile;
-  ServerPath: UnicodeString;
   dwResult: NET_API_STATUS;
   dwEntriesRead: DWORD = 0;
   dwTotalEntries: DWORD = 0;
+  ServerPath: UnicodeString;
   BufPtr, nFileList: PShareInfo1;
 begin
   ServerPath:= UTF8Decode(ExcludeTrailingPathDelimiter(Path));
+
+  dwResult:= TNetworkThread.Connect(nil, PWideChar(ServerPath), RESOURCETYPE_ANY);
+  if dwResult <> NO_ERROR then
+  begin
+    if dwResult <> ERROR_CANCELLED then
+      msgError(Thread, mbSysErrorMessage(dwResult));
+    Exit;
+  end;
+
+  BufPtr:= nil;
   repeat
     // Call the NetShareEnum function
     dwResult:= NetShareEnum (PWideChar(ServerPath), 1, PByte(BufPtr), MAX_PREFERRED_LENGTH, @dwEntriesRead, @dwTotalEntries, nil);

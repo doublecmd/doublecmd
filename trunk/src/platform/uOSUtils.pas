@@ -230,7 +230,7 @@ uses
   fConfirmCommandLine, uLog, DCConvertEncoding, LazUTF8
   {$IF DEFINED(MSWINDOWS)}
   , JwaWinCon, Windows, uMyWindows, JwaWinNetWk,
-    uShlObjAdditional, shlobj, DCWindows
+    uShlObjAdditional, ShlObj, DCWindows, uNetworkThread
   {$ENDIF}
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix, dl
@@ -897,11 +897,7 @@ begin
     begin
       wsLocalName  := UTF8Decode(ExtractFileDrive(Drive^.Path));
       wsRemoteName := UTF8Decode(Drive^.DriveLabel);
-      FillChar(NetResource, SizeOf(NetResource), #0);
-      NetResource.dwType:= RESOURCETYPE_DISK;
-      NetResource.lpLocalName:= PWideChar(wsLocalName);
-      NetResource.lpRemoteName:= PWideChar(wsRemoteName);
-      WNetAddConnection2W(NetResource, nil, nil, CONNECT_INTERACTIVE);
+      TNetworkThread.Connect(PWideChar(wsLocalName), PWideChar(wsRemoteName), RESOURCETYPE_DISK);
     end;
   Result:= mbDriveReady(Drv);
 end;

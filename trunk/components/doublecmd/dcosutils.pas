@@ -1144,22 +1144,15 @@ var
   Handle: THandle;
   wsNewDir: UnicodeString;
   FindData: TWin32FindDataW;
-  NetResource: TNetResourceW;
 begin
-  // Function WNetAddConnection2W works very slow
-  // when the final character is a backslash ('\')
-  wsNewDir:= UTF8Decode(ExcludeTrailingPathDelimiter(NewDir));
-  if Pos('\\', wsNewDir) = 1 then
-  begin
-    FillChar(NetResource, SizeOf(NetResource), #0);
-    NetResource.dwType:= RESOURCETYPE_ANY;
-    NetResource.lpRemoteName:= PWideChar(wsNewDir);
-    WNetAddConnection2W(NetResource, nil, nil, CONNECT_INTERACTIVE);
+  if (Pos('\\', NewDir) = 1) then
+    Result:= True
+  else begin
+    wsNewDir:= UTF16LongName(IncludeTrailingBackslash(NewDir)) + '*';
+    Handle:= FindFirstFileW(PWideChar(wsNewDir), FindData);
+    Result:= (Handle <> INVALID_HANDLE_VALUE) or (GetLastError = ERROR_FILE_NOT_FOUND);
+    if (Handle <> INVALID_HANDLE_VALUE) then FindClose(Handle);
   end;
-  wsNewDir:= UTF16LongName(IncludeTrailingBackslash(NewDir)) + '*';
-  Handle:= FindFirstFileW(PWideChar(wsNewDir), FindData);
-  Result:= (Handle <> INVALID_HANDLE_VALUE) or (GetLastError = ERROR_FILE_NOT_FOUND);
-  if (Handle <> INVALID_HANDLE_VALUE) then FindClose(Handle);
   if Result then CurrentDirectory:= NewDir;
 end;
 {$ELSE}
