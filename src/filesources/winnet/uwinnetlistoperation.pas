@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSourceListOperation,
+  uFileSystemListOperation,
   uWinNetFileSource,
   uFileSource;
 
@@ -14,12 +14,13 @@ type
 
   { TWinNetListOperation }
 
-  TWinNetListOperation = class(TFileSourceListOperation)
+  TWinNetListOperation = class(TFileSystemListOperation)
   private
     FWinNetFileSource: IWinNetFileSource;
   private
     procedure ShareEnum;
     procedure WorkgroupEnum;
+    function Connect: Boolean;
   public
     constructor Create(aFileSource: IFileSource; aPath: String); override;
     procedure MainExecute; override;
@@ -30,6 +31,22 @@ implementation
 uses
   LazUTF8, uFile, Windows, JwaWinNetWk, JwaLmCons, JwaLmShare, JwaLmApiBuf,
   DCStrUtils, uShowMsg, DCOSUtils, uOSUtils, uNetworkThread;
+
+function TWinNetListOperation.Connect: Boolean;
+var
+  dwResult: DWORD;
+  ServerPath: UnicodeString;
+begin
+  ServerPath:= UTF8Decode(ExcludeTrailingPathDelimiter(Path));
+  dwResult:= TNetworkThread.Connect(nil, PWideChar(ServerPath), RESOURCETYPE_ANY);
+  if dwResult <> NO_ERROR then
+  begin
+    if dwResult <> ERROR_CANCELLED then
+      msgError(Thread, mbSysErrorMessage(dwResult));
+    Exit(False);
+  end;
+  Result:= True;
+end;
 
 procedure TWinNetListOperation.WorkgroupEnum;
 var
@@ -46,7 +63,7 @@ var
 begin
   with FWinNetFileSource do
   try
-    FillChar(nFile, SizeOf(TNetResource), #0);
+    ZeroMemory(@nFile, SizeOf(TNetResourceW));
     nFile.dwScope:= RESOURCE_GLOBALNET;
     nFile.dwType:= RESOURCETYPE_ANY;
     nFile.lpProvider:= PWideChar(ProviderName);
@@ -102,15 +119,9 @@ var
   ServerPath: UnicodeString;
   BufPtr, nFileList: PShareInfo1;
 begin
-  ServerPath:= UTF8Decode(ExcludeTrailingPathDelimiter(Path));
+  if not Connect then Exit;
 
-  dwResult:= TNetworkThread.Connect(nil, PWideChar(ServerPath), RESOURCETYPE_ANY);
-  if dwResult <> NO_ERROR then
-  begin
-    if dwResult <> ERROR_CANCELLED then
-      msgError(Thread, mbSysErrorMessage(dwResult));
-    Exit;
-  end;
+  ServerPath:= UTF8Decode(ExcludeTrailingPathDelimiter(Path));
 
   BufPtr:= nil;
   repeat
@@ -168,12 +179,22 @@ procedure TWinNetListOperation.MainExecute;
 begin
   FFiles.Clear;
   with FWinNetFileSource do
-  // Workstation/Server
-  if (IsPathAtRoot(Path) = False) and (Pos('\\', Path) = 1) then
-    ShareEnum
-  // Root/Domain/Workgroup
-  else
-    WorkgroupEnum;
+  begin
+    // Shared directory
+    if not IsNetworkPath(Path) then
+    begin
+      if Connect then
+        inherited MainExecute;
+    end
+    else begin
+      // Workstation/Server
+      if (IsPathAtRoot(Path) = False) and (Pos('\\', Path) = 1) then
+        ShareEnum
+      // Root/Domain/Workgroup
+      else
+        WorkgroupEnum;
+    end;
+  end;
 end;
 
 end.
