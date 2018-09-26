@@ -67,8 +67,6 @@ begin
 end;
 
 class function TNetworkThread.Connect(lpLocalName, lpRemoteName: LPWSTR; dwType: DWORD): Integer;
-var
-  Timeout: Integer = 10000;
 begin
   with TNetworkThread.Create(lpLocalName, lpRemoteName, dwType) do
   begin
@@ -76,10 +74,8 @@ begin
     try
       while True do
       begin
-        if (Timeout = 0) then Exit(WAIT_TIMEOUT);
         if (GetAsyncKeyStateEx(VK_ESCAPE)) then Exit(ERROR_CANCELLED);
         if (FWaitConnect.WaitFor(1) <> wrTimeout) then Exit(ReturnValue);
-        Dec(Timeout);
       end;
     finally
       FWaitFinish.SetEvent;

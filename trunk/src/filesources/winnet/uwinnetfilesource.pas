@@ -18,6 +18,8 @@ type
 
     function GetProviderName: WideString;
 
+    function IsNetworkPath(const Path: String): Boolean;
+
     property ProviderName: WideString read GetProviderName;
   end;
 
@@ -27,9 +29,9 @@ type
   private
     FProviderName: array[0..MAX_PATH-1] of WideChar;
     function GetProviderName: WideString;
-    function IsNetworkPath(const Path: String): Boolean;
 
   protected
+    function IsNetworkPath(const Path: String): Boolean;
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
   public
@@ -185,10 +187,7 @@ var
   TargetFileSource: IFileSource;
 begin
   TargetFileSource := Self;
-  if IsNetworkPath(TargetPath) then
-    Result:= TWinNetListOperation.Create(TargetFileSource, TargetPath)
-  else
-    Result:= inherited CreateListOperation(TargetPath);
+  Result:= TWinNetListOperation.Create(TargetFileSource, TargetPath);
 end;
 
 function TWinNetFileSource.CreateCopyOperation(var SourceFiles: TFiles;
