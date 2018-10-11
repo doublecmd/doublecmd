@@ -36,13 +36,19 @@ function TWinNetListOperation.Connect: Boolean;
 var
   dwResult: DWORD;
   ServerPath: UnicodeString;
+  AbortMethod: TThreadMethod;
 begin
+  if GetCurrentThreadId = MainThreadID then
+    AbortMethod:= nil
+  else begin
+    AbortMethod:= @CheckOperationState;
+  end;
   ServerPath:= UTF8Decode(ExcludeTrailingPathDelimiter(Path));
-  dwResult:= TNetworkThread.Connect(nil, PWideChar(ServerPath), RESOURCETYPE_ANY);
+  dwResult:= TNetworkThread.Connect(nil, PWideChar(ServerPath), RESOURCETYPE_ANY, AbortMethod);
   if dwResult <> NO_ERROR then
   begin
-    if dwResult <> ERROR_CANCELLED then
-      msgError(Thread, mbSysErrorMessage(dwResult));
+    if dwResult = ERROR_CANCELLED then RaiseAbortOperation;
+    msgError(Thread, mbSysErrorMessage(dwResult));
     Exit(False);
   end;
   Result:= True;

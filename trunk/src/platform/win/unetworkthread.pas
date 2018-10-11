@@ -22,7 +22,7 @@ type
     constructor Create(lpLocalName, lpRemoteName: LPWSTR; dwType: DWORD); reintroduce;
     destructor Destroy; override;
   public
-    class function Connect(lpLocalName, lpRemoteName: LPWSTR; dwType: DWORD): Integer;
+    class function Connect(lpLocalName, lpRemoteName: LPWSTR; dwType: DWORD; CheckOperationState: TThreadMethod = nil): Integer;
   end;
 
 implementation
@@ -66,7 +66,8 @@ begin
   inherited Destroy;
 end;
 
-class function TNetworkThread.Connect(lpLocalName, lpRemoteName: LPWSTR; dwType: DWORD): Integer;
+class function TNetworkThread.Connect(lpLocalName, lpRemoteName: LPWSTR;
+  dwType: DWORD; CheckOperationState: TThreadMethod): Integer;
 begin
   with TNetworkThread.Create(lpLocalName, lpRemoteName, dwType) do
   begin
@@ -74,7 +75,8 @@ begin
     try
       while True do
       begin
-        if (GetAsyncKeyStateEx(VK_ESCAPE)) then Exit(ERROR_CANCELLED);
+        if Assigned(CheckOperationState) then CheckOperationState
+        else if (GetAsyncKeyStateEx(VK_ESCAPE)) then Exit(ERROR_CANCELLED);
         if (FWaitConnect.WaitFor(1) <> wrTimeout) then Exit(ReturnValue);
       end;
     finally
