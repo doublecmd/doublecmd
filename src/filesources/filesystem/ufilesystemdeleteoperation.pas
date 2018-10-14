@@ -316,6 +316,9 @@ begin
         LogMessage(sMessage, logOptions, lmtError)
       else
       begin
+        if (FRecycle = False) or (RemoveDirectly = fsoogYes) then
+          sQuestion+= LineEnding + mbSysErrorMessage;
+
         if AdministratorPrivileges then
           PossibleResponses:= ResponsesError
         else begin
