@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific WINDOWS functions.
 
-    Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -74,6 +74,7 @@ procedure mbWaitLabelChange(const sDrv: String; const sCurLabel: String);
    @param(sDrv  String specifying the root directory of a drive)
 }
 procedure mbCloseCD(const sDrv: String);
+procedure mbDriveUnlock(const sDrv: String);
 {en
    Get remote file name by local file name
    @param(sLocalName String specifying the local file name)
@@ -353,6 +354,48 @@ begin
   mciSendCommandA(0, MCI_OPEN, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
   mciSendCommandA(OpenParms.wDeviceID, MCI_SET, MCI_SET_DOOR_CLOSED, 0);
   mciSendCommandA(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
+end;
+
+procedure mbDriveUnlock(const sDrv: String);
+const
+  FVE_E_LOCKED_VOLUME = HRESULT($80310000);
+  FVE_E_VOLUME_NOT_BOUND = HRESULT($80310017);
+var
+  Msg: TMSG;
+  LastError: HRESULT;
+  wsDrive: UnicodeString;
+  lpExecInfo: TShellExecuteInfoW;
+begin
+  wsDrive:= UTF8Decode(sDrv);
+  if not GetDiskFreeSpaceExW(PWideChar(wsDrive), nil, nil, nil) then
+  begin
+    LastError:= GetLastError;
+    if (LastError = FVE_E_LOCKED_VOLUME) or (LastError = FVE_E_VOLUME_NOT_BOUND) then
+    begin
+      ZeroMemory(@lpExecInfo, SizeOf(lpExecInfo));
+      lpExecInfo.cbSize:= SizeOf(lpExecInfo);
+      lpExecInfo.fMask:= SEE_MASK_NOCLOSEPROCESS;
+      lpExecInfo.lpFile:= PWideChar(wsDrive);
+      lpExecInfo.lpVerb:= 'unlock-bde';
+      if ShellExecuteExW(@lpExecInfo) and (lpExecInfo.hProcess <> 0) then
+      begin
+        while (WaitForSingleObject(lpExecInfo.hProcess, 100) = WAIT_TIMEOUT) do
+        begin
+          if (GetAsyncKeyStateEx(VK_ESCAPE)) then
+          begin
+            TerminateProcess(lpExecInfo.hProcess, 1);
+            Break;
+          end;
+          PeekMessageW({%H-}Msg, 0, 0, 0, PM_REMOVE);
+        end;
+        {
+        if GetExitCodeProcess(lpExecInfo.hProcess, @LastError) then
+          Result:= (LastError = 0);
+        }
+        CloseHandle(lpExecInfo.hProcess);
+      end;
+    end;
+  end;
 end;
 
 function mbGetRemoteFileName(const sLocalName: String): String;
