@@ -7,7 +7,10 @@ interface
 implementation
 
 uses
-  InitC, CTypes, BaseUnix;
+  InitC, BaseUnix;
+
+var
+  __dso_handle: pointer = nil; cvar; public;
 
 procedure _exit(status: cint); cdecl; external clib;
 function atexit(func: pointer): cint; cdecl; external clib;
