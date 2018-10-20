@@ -225,7 +225,10 @@ begin
 
       NewFiles.Add(aFile.Clone);
 
-      if aFile.IsDirectory and (not aFile.IsLinkToDirectory) then
+      if aFile.IsLink then
+      begin
+      end
+      else if aFile.IsDirectory then
       begin
         if CountDirs then
           Inc(FilesCount);
