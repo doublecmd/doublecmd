@@ -627,6 +627,8 @@ end;
 
 procedure TFileViewPageControl.MouseDown(Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
+var
+  APoint: TPoint;
 {$IF DEFINED(LCLGTK2)}
 var
   ArrowWidth: Integer;
@@ -637,7 +639,10 @@ begin
   inherited MouseDown(Button, Shift, X, Y);
 
   if Assigned(Notebook.OnMouseDown) then
-    Notebook.OnMouseDown(Notebook, Button, Shift, X, Y);
+  begin
+    APoint:= ClientToParent(Classes.Point(X, Y));
+    Notebook.OnMouseDown(Notebook, Button, Shift, APoint.X, APoint.Y);
+  end;
 
   if Button = mbLeft then
   begin
@@ -699,11 +704,16 @@ end;
 
 procedure TFileViewPageControl.MouseUp(Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
+var
+  APoint: TPoint;
 begin
   inherited MouseUp(Button, Shift, X, Y);
 
   if Assigned(Notebook.OnMouseUp) then
-    Notebook.OnMouseUp(Notebook, Button, Shift, X, Y);
+  begin
+    APoint:= ClientToParent(Classes.Point(X, Y));
+    Notebook.OnMouseUp(Notebook, Button, Shift, APoint.X, APoint.Y);
+  end;
 
   FStartDrag := False;
 end;
@@ -979,7 +989,8 @@ end;
 
 function TFileViewNotebook.IndexOfPageAt(P: TPoint): Integer;
 begin
-  Result:= FPageControl.IndexOfPageAt(P);
+  P:= ClientToScreen(P);
+  Result:= FPageControl.IndexOfPageAt(FPageControl.ScreenToClient(P));
 end;
 
 function TFileViewNotebook.GetPageCount: Integer;
