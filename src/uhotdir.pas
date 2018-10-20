@@ -657,7 +657,7 @@ begin
               begin
                 LocalHotDir.HotDirName := sName;
                 LocalHotDir.HotDirPath := sPath;
-                if UTF8Pos('cm_', UTF8LowerCase(sPath)) = 0 then
+                if UTF8Pos('cm_', UTF8LowerCase(sPath)) <> 1 then
                 begin
                   LocalHotDir.HotDirPathSort := AConfig.GetAttr(Anode, 'PathSort', 0);
                   LocalHotDir.HotDirTarget := AConfig.GetAttr(ANode, 'Target', '');
