@@ -239,7 +239,7 @@ begin
       begin
         FLastError:= libssh2_session_last_errno(FSession);
         if (FLastError <> LIBSSH2_ERROR_EAGAIN) then Exit(False);
-        DoProgress((FileSize - TotalBytesToWrite) * 100 div FileSize);
+        if (FileSize > 0) then DoProgress((FileSize - TotalBytesToWrite) * 100 div FileSize);
         FSock.CanRead(10);
       end;
     until not ((TargetHandle = nil) and (FLastError = LIBSSH2_ERROR_EAGAIN));
@@ -310,7 +310,7 @@ begin
       begin
         FLastError:= libssh2_session_last_errno(FSession);
         if (FLastError <> LIBSSH2_ERROR_EAGAIN) then Exit(False);
-        DoProgress((FileSize - TotalBytesToRead) * 100 div FileSize);
+        if (FileSize > 0) then DoProgress((FileSize - TotalBytesToRead) * 100 div FileSize);
         FSock.CanRead(10);
       end;
     until not ((SourceHandle = nil) and (FLastError = LIBSSH2_ERROR_EAGAIN));
