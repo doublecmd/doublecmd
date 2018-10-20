@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Simple TAR archive writer
 
-   Copyright (C) 2011-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This unit is based on libtar.pp from the Free Component Library (FCL)
 
@@ -740,12 +740,6 @@ begin
 
         if aFile.IsDirectory or aFile.IsLink then
         begin
-          if aFile.IsLink then
-          begin
-            Statistics.TotalBytes -= aFile.Size * Divider;
-            UpdateStatistics(Statistics);
-          end;
-
           // Add file record only
           AddFile(aFile.FullPath);
         end
