@@ -131,8 +131,8 @@ type
   private
     { private declarations }
     FCancel: Boolean;
-    FFoundItems: TStringList;
-    FVisibleItems: TStringList;
+    FFoundItems: TStringListUtf8;
+    FVisibleItems: TStringListUtf8;
     FSortIndex: Integer;
     FSortDesc: Boolean;
     FNtfsShift: Boolean;
@@ -990,10 +990,12 @@ var
   r: TFileSyncRec;
 
 begin
-  if not Assigned(FVisibleItems) then
-    FVisibleItems := TStringList.Create
-  else
-    FVisibleItems.Clear;
+  if Assigned(FVisibleItems) then
+    FVisibleItems.Clear
+  else begin
+    FVisibleItems := TStringListUtf8.Create;
+    FVisibleItems.CaseSensitive := FileNameCaseSensitive;
+  end;
   { init filter }
   with filter do
   begin
@@ -1116,21 +1118,24 @@ var
   var
     i, j, tot: Integer;
     it: TStringList;
-    dirsLeft, dirsRight: TStringList;
+    dirsLeft, dirsRight: TStringListUtf8;
     d: string;
   begin
     i := FFoundItems.IndexOf(dir);
     if i < 0 then
     begin
-      it := TStringList.Create;
+      it := TStringListUtf8.Create;
+      it.CaseSensitive := FileNameCaseSensitive;
       it.Sorted := True;
       FFoundItems.AddObject(dir, it);
     end else
       it := TStringList(FFoundItems.Objects[i]);
     if dir <> '' then dir := AppendPathDelim(dir);
-    dirsLeft := TStringList.Create;
+    dirsLeft := TStringListUtf8.Create;
+    dirsLeft.CaseSensitive := FileNameCaseSensitive;
     dirsLeft.Sorted := True;
-    dirsRight := TStringList.Create;
+    dirsRight := TStringListUtf8.Create;
+    dirsRight.CaseSensitive := FileNameCaseSensitive;
     dirsRight.Sorted := True;
     try
       Application.ProcessMessages;
@@ -1469,7 +1474,8 @@ var
   AFiles: TFiles;
 begin
   inherited Create(AOwner);
-  FFoundItems := TStringList.Create;
+  FFoundItems := TStringListUtf8.Create;
+  FFoundItems.CaseSensitive := FileNameCaseSensitive;
   FFoundItems.Sorted := True;
   FFileSourceL := FileView1.FileSource;
   FFileSourceR := FileView2.FileSource;
