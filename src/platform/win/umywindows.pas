@@ -396,7 +396,7 @@ end;
 
 procedure ShellExecuteThread(Parameter : Pointer);
 var
-  Result: DWORD;
+  Result: DWORD = 0;
   OldValue: Pointer = nil;
   Status : BOOL absolute Result;
   lpExecInfo: LPShellExecuteInfoW absolute Parameter;
