@@ -332,7 +332,9 @@ begin
             if Length(ProcessInfo) > 0 then
             begin
               sQuestion+= LineEnding + LineEnding + Format(rsMsgProcessId, [ProcessInfo[0].ProcessId]) + LineEnding;
-              sQuestion+= Format(rsMsgApplicationName, [ProcessInfo[0].ApplicationName]) + LineEnding;
+              if (Length(ProcessInfo[0].ApplicationName) > 0) then begin
+                sQuestion+= Format(rsMsgApplicationName, [ProcessInfo[0].ApplicationName]) + LineEnding;
+              end;
               sQuestion+= Format(rsMsgExecutablePath, [ProcessInfo[0].ExecutablePath]) + LineEnding;
             end;
           end;
