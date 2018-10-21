@@ -147,6 +147,10 @@ uses
   ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, JwaNative, JwaVista, LazUTF8,
   DCWindows, uShlObjAdditional;
 
+var
+  Wow64DisableWow64FsRedirection: function(OldValue: PPointer): BOOL; stdcall;
+  Wow64RevertWow64FsRedirection: function(OldValue: Pointer): BOOL; stdcall;
+
 function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UnicodeString;
 var
   miiw: TMenuItemInfoW;
@@ -356,6 +360,55 @@ begin
   mciSendCommandA(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
 end;
 
+function IsWow64: BOOL;
+const
+  Wow64Process: TDuplicates = dupIgnore;
+var
+  IsWow64Process: function(hProcess: HANDLE; Wow64Process: PBOOL): BOOL; stdcall;
+begin
+  if (Wow64Process = dupIgnore) then
+  begin
+    Result:= False;
+    Pointer(IsWow64Process):= GetProcAddress(GetModuleHandle(Kernel32), 'IsWow64Process');
+    if (IsWow64Process <> nil) then IsWow64Process(GetCurrentProcess, @Result);
+    if Result then Wow64Process:= dupAccept else Wow64Process:= dupError;
+  end;
+  Result:= (Wow64Process = dupAccept);
+end;
+
+function Wow64DisableRedirection(OldValue: PPointer): BOOL;
+begin
+  if (IsWow64 = False) then
+    Result:= True
+  else begin
+    Result:= Wow64DisableWow64FsRedirection(OldValue);
+  end;
+end;
+
+function Wow64RevertRedirection(OldValue: Pointer): BOOL;
+begin
+  if (IsWow64 = False) then
+    Result:= True
+  else begin
+    Result:= Wow64RevertWow64FsRedirection(OldValue);
+  end;
+end;
+
+procedure ShellExecuteThread(Parameter : Pointer);
+var
+  Result: DWORD;
+  OldValue: Pointer = nil;
+  Status : BOOL absolute Result;
+  lpExecInfo: LPShellExecuteInfoW absolute Parameter;
+begin
+  if Wow64DisableRedirection(@OldValue) then
+  begin
+    Status:= ShellExecuteExW(lpExecInfo);
+    Wow64RevertRedirection(OldValue);
+  end;
+  EndThread(Result);
+end;
+
 procedure mbDriveUnlock(const sDrv: String);
 const
   FVE_E_LOCKED_VOLUME = HRESULT($80310000);
@@ -363,6 +416,7 @@ const
 var
   Msg: TMSG;
   LastError: HRESULT;
+  ShellThread: TThread;
   wsDrive: UnicodeString;
   lpExecInfo: TShellExecuteInfoW;
 begin
@@ -377,7 +431,8 @@ begin
       lpExecInfo.fMask:= SEE_MASK_NOCLOSEPROCESS;
       lpExecInfo.lpFile:= PWideChar(wsDrive);
       lpExecInfo.lpVerb:= 'unlock-bde';
-      if ShellExecuteExW(@lpExecInfo) and (lpExecInfo.hProcess <> 0) then
+      ShellThread:= TThread.ExecuteInThread(@ShellExecuteThread, @lpExecInfo);
+      if (ShellThread.WaitFor <> 0) and (lpExecInfo.hProcess <> 0) then
       begin
         while (WaitForSingleObject(lpExecInfo.hProcess, 100) = WAIT_TIMEOUT) do
         begin
@@ -781,6 +836,12 @@ begin
     LocalFree(HLOCAL(szArgList));
   end;
 end;
+
+initialization
+  if (IsWow64) then begin
+    Pointer(Wow64DisableWow64FsRedirection):= GetProcAddress(GetModuleHandle(Kernel32), 'Wow64DisableWow64FsRedirection');
+    Pointer(Wow64RevertWow64FsRedirection):= GetProcAddress(GetModuleHandle(Kernel32), 'Wow64RevertWow64FsRedirection');
+  end;
 
 end.
 
