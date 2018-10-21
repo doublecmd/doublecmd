@@ -145,7 +145,7 @@ implementation
 
 uses
   ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, JwaNative, JwaVista, LazUTF8,
-  DCWindows, uShlObjAdditional;
+  ActiveX, DCWindows, uShlObjAdditional;
 
 var
   Wow64DisableWow64FsRedirection: function(OldValue: PPointer): BOOL; stdcall;
@@ -403,7 +403,9 @@ var
 begin
   if Wow64DisableRedirection(@OldValue) then
   begin
+    CoInitializeEx(nil, COINIT_APARTMENTTHREADED);
     Status:= ShellExecuteExW(lpExecInfo);
+    CoUninitialize();
     Wow64RevertRedirection(OldValue);
   end;
   EndThread(Result);
