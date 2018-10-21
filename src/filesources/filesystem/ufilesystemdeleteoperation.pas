@@ -59,7 +59,11 @@ type
 implementation
 
 uses
-  DCOSUtils, uLng, uFileSystemUtil, uTrash, uAdministrator, uOSUtils;
+  DCOSUtils, uLng, uFileSystemUtil, uTrash, uAdministrator, uOSUtils
+{$IF DEFINED(MSWINDOWS)}
+  , uFileUnlock
+{$ENDIF}
+  ;
 
 constructor TFileSystemDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
@@ -169,6 +173,9 @@ var
   logOptions: TLogOptions;
   DeleteResult: Boolean;
   PossibleResponses: array of TFileSourceOperationUIResponse;
+{$IF DEFINED(MSWINDOWS)}
+  ProcessInfo: TProcessInfoArray;
+{$ENDIF}
 begin
   Result := True;
   FileName := aFile.FullPath;
@@ -317,7 +324,20 @@ begin
       else
       begin
         if (FRecycle = False) or (RemoveDirectly = fsoogYes) then
+        begin
           sQuestion+= LineEnding + mbSysErrorMessage;
+{$IF DEFINED(MSWINDOWS)}
+          if GetFileInUseProcess(FileName, GetLastOSError, ProcessInfo) then
+          begin
+            if Length(ProcessInfo) > 0 then
+            begin
+              sQuestion+= LineEnding + LineEnding + Format(rsMsgProcessId, [ProcessInfo[0].ProcessId]) + LineEnding;
+              sQuestion+= Format(rsMsgApplicationName, [ProcessInfo[0].ApplicationName]) + LineEnding;
+              sQuestion+= Format(rsMsgExecutablePath, [ProcessInfo[0].ExecutablePath]) + LineEnding;
+            end;
+          end;
+{$ENDIF}
+        end;
 
         if AdministratorPrivileges then
           PossibleResponses:= ResponsesError
