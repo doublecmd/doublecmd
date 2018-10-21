@@ -315,6 +315,11 @@ resourcestring
   rsFilenameExportedTCBarPrefix = 'Exported_from_DC';
   rsNoEquivalentInternalCommand = 'No internal equivalent command';
 
+  // Locked by another process
+  rsMsgProcessId = 'Process: %d';
+  rsMsgApplicationName = 'Application: %s';
+  rsMsgExecutablePath = 'Executable: %s';
+
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuOpen = 'Open';
