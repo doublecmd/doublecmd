@@ -245,6 +245,7 @@ begin
             if (_wcsnicmp(PWideChar(AOpenName), PWideChar(AFileName), Length(AFileName)) = 0) then
             begin
               AddLock(ProcessInfo, dwProcessList[I], hProcess, 0);
+              Break;
             end;
           end;
         end;
