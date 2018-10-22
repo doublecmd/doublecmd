@@ -10,12 +10,14 @@ uses
 type
   TProcessInfo = record
     ProcessId: DWORD;
+    FileHandle: THandle;
     ApplicationName: String;
     ExecutablePath: String;
   end;
 
   TProcessInfoArray = array of TProcessInfo;
 
+function FileUnlock(ProcessId: DWORD; hFile: THandle): Boolean;
 function GetFileInUseProcess(const FileName: String; LastError: Integer; out ProcessInfo: TProcessInfoArray): Boolean;
 
 implementation
@@ -157,10 +159,29 @@ begin
   end;
 end;
 
-function GetModuleFileName(hProcess: HANDLE): UnicodeString;
+function GetProcessFileName(hProcess: HANDLE): UnicodeString;
+var
+  dwSize: DWORD;
+begin
+  if (Win32MajorVersion < 6) then
+  begin
+    SetLength(Result, maxSmallint + 1);
+    SetLength(Result, GetModuleFileNameExW(hProcess, 0, PWideChar(Result), maxSmallint));
+  end
+  else begin
+    dwSize:= maxSmallint;
+    SetLength(Result, dwSize + 1);
+    if QueryFullProcessImageNameW(hProcess, 0, PWideChar(Result), @dwSize) then
+    begin
+      SetLength(Result, dwSize);
+    end;
+  end;
+end;
+
+function GetModuleFileName(hProcess, hModule: HANDLE): UnicodeString;
 begin
   SetLength(Result, maxSmallint + 1);
-  SetLength(Result, GetModuleFileNameExW(hProcess, 0, PWideChar(Result), maxSmallint));
+  SetLength(Result, GetModuleFileNameExW(hProcess, hModule, PWideChar(Result), maxSmallint));
 end;
 
 function GetNativeName(const FileName: String; out NativeName: UnicodeString): Boolean;
@@ -177,16 +198,74 @@ begin
   end;
 end;
 
-function GetFileInUseProcessOld(const FileName: String; var ProcessInfo: TProcessInfoArray): Boolean;
+procedure AddLock(var ProcessInfo: TProcessInfoArray; ProcessId: DWORD; Process, FileHandle: HANDLE);
+var
+  Index: Integer;
+begin
+  for Index:= 0 to High(ProcessInfo) do
+  begin
+    if (ProcessInfo[Index].ProcessId = ProcessId) then
+    begin
+      if (ProcessInfo[Index].FileHandle = 0) and (FileHandle <> 0) then
+      begin
+        ProcessInfo[Index].FileHandle:= FileHandle;
+        Exit;
+      end;
+    end;
+  end;
+  Index:= Length(ProcessInfo);
+  SetLength(ProcessInfo, Index + 1);
+  ProcessInfo[Index].ProcessId:= ProcessId;
+  ProcessInfo[Index].FileHandle:= FileHandle;
+  ProcessInfo[Index].ExecutablePath:= UTF8Encode(GetProcessFileName(Process));
+end;
+
+procedure GetModuleInUseProcess(const FileName: String; var ProcessInfo: TProcessInfoArray);
+var
+  I, J: Integer;
+  hProcess: HANDLE;
+  cbNeeded: DWORD = 0;
+  AFileName, AOpenName: UnicodeString;
+  dwProcessList: array[0..4095] of DWORD;
+  hModuleList: array [0..4095] of HMODULE;
+begin
+  if EnumProcesses(@dwProcessList[0], SizeOf(dwProcessList), cbNeeded) then
+  begin
+    AFileName:= UTF8Decode(FileName);
+    for I:= 0 to (cbNeeded div SizeOf(DWORD)) do
+    begin
+      hProcess:= OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, dwProcessList[I]);
+      if (hProcess <> 0) then
+      begin
+        if EnumProcessModules(hProcess, @hModuleList[0], SizeOf(hModuleList), cbNeeded) then
+        begin
+          for J:= 0 to (cbNeeded div SizeOf(DWORD)) do
+          begin
+            AOpenName:= GetModuleFileName(hProcess, hModuleList[J]);
+            if (_wcsnicmp(PWideChar(AOpenName), PWideChar(AFileName), Length(AFileName)) = 0) then
+            begin
+              AddLock(ProcessInfo, dwProcessList[I], hProcess, 0);
+            end;
+          end;
+        end;
+        CloseHandle(hProcess);
+      end;
+    end;
+  end;
+end;
+
+procedure GetFileInUseProcessOld(const FileName: String; var ProcessInfo: TProcessInfoArray);
 var
   hFile: HANDLE;
   Index: Integer;
   hProcess: HANDLE;
+  hCurrentProcess: HANDLE;
   AFileName, AOpenName: UnicodeString;
   SystemInformation : PSystemHandleInformationEx;
 begin
   if GetNativeName(FileName, AFileName) and GetFileHandleList(SystemInformation) then
   begin
+    hCurrentProcess:= GetCurrentProcess;
     for Index:= 0 to SystemInformation^.Count - 1 do
     begin
       if (SystemInformation^.Handle[Index].ObjectTypeNumber = FileHandleType) then
@@ -200,14 +279,12 @@ begin
         hProcess:= OpenProcess(PROCESS_DUP_HANDLE or PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, SystemInformation^.Handle[Index].ProcessId);
         if (hProcess <> 0) then
         begin
-          if DuplicateHandle(hProcess, SystemInformation^.Handle[Index].Handle, GetCurrentProcess, @hFile, 0, False, DUPLICATE_SAME_ACCESS) then
+          if DuplicateHandle(hProcess, SystemInformation^.Handle[Index].Handle, hCurrentProcess, @hFile, 0, False, DUPLICATE_SAME_ACCESS) then
           begin
             AOpenName:= GetFileName(hFile);
             if (_wcsnicmp(PWideChar(AOpenName), PWideChar(AFileName), Length(AFileName)) = 0) then
             begin
-              SetLength(ProcessInfo, Length(ProcessInfo) + 1);
-              ProcessInfo[High(ProcessInfo)].ProcessId:= SystemInformation^.Handle[Index].ProcessId;
-              ProcessInfo[High(ProcessInfo)].ExecutablePath:= UTF8Encode(GetModuleFileName(hProcess));
+              AddLock(ProcessInfo, SystemInformation^.Handle[Index].ProcessId, hProcess, SystemInformation^.Handle[Index].Handle);
             end;
             CloseHandle(hFile);
           end;
@@ -217,7 +294,6 @@ begin
     end;
     FreeMem(SystemInformation);
   end;
-  Result:= (Length(ProcessInfo) > 0);
 end;
 
 function GetFileInUseProcessNew(const FileName: String; out ProcessInfo: TProcessInfoArray): Boolean;
@@ -225,20 +301,18 @@ const
   MAX_CNT = 5;
 var
   I: Integer;
-  dwSize: DWORD;
   dwReason: DWORD;
   dwSession: DWORD;
   hProcess: HANDLE;
   nProcInfoNeeded: UINT;
   rgsFileNames: PWideChar;
   nProcInfo: UINT = MAX_CNT;
-  usExecutable: UnicodeString;
-  ftCreation, ftExit, ftKernel, ftUser: TFileTime;
+  ftCreation, ftDummy: TFileTime;
   szSessionKey: array[0..CCH_RM_SESSION_KEY] of WideChar;
   rgAffectedApps: array[0..MAX_CNT - 1] of TRMProcessInfo;
 begin
   if (RstrtMgrLib = 0) then Exit(False);
-  FillChar(szSessionKey, SizeOf(szSessionKey), 0);
+  ZeroMemory(@szSessionKey[0], SizeOf(szSessionKey));
   Result:= (RmStartSession(@dwSession, 0, szSessionKey) = ERROR_SUCCESS);
   if Result then
   try
@@ -256,16 +330,10 @@ begin
         hProcess:= OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, rgAffectedApps[I].Process.dwProcessId);
         if hProcess <> 0 then
         try
-          if GetProcessTimes(hProcess, ftCreation, ftExit, ftKernel, ftUser) and
+          if GetProcessTimes(hProcess, ftCreation, ftDummy, ftDummy, ftDummy) and
              (CompareFileTime(@rgAffectedApps[I].Process.ProcessStartTime, @ftCreation) = 0) then
           begin
-            dwSize:= maxSmallint;
-            SetLength(usExecutable, dwSize + 1);
-            if QueryFullProcessImageNameW(hProcess, 0, PWideChar(usExecutable), @dwSize) then
-            begin
-              SetLength(usExecutable, dwSize);
-              ProcessInfo[I].ExecutablePath:= UTF8Encode(usExecutable);
-            end;
+            ProcessInfo[I].ExecutablePath:= UTF8Encode(GetProcessFileName(hProcess));
           end;
         finally
           CloseHandle(hProcess);
@@ -280,15 +348,34 @@ end;
 function GetFileInUseProcess(const FileName: String; LastError: Integer; out
   ProcessInfo: TProcessInfoArray): Boolean;
 begin
-  if (LastError <> ERROR_SHARING_VIOLATION) then Exit(False);
+  // if (LastError <> ERROR_SHARING_VIOLATION) then Exit(False);
   if Win32MajorVersion < 6 then
-    Result:= GetFileInUseProcessOld(FileName, ProcessInfo)
+    GetModuleInUseProcess(FileName, ProcessInfo)
   else begin
-    Result:= GetFileInUseProcessNew(FileName, ProcessInfo)
+    GetFileInUseProcessNew(FileName, ProcessInfo);
+  end;
+  GetFileInUseProcessOld(FileName, ProcessInfo);
+  Result:= (Length(ProcessInfo) > 0);
+end;
+
+function FileUnlock(ProcessId: DWORD; hFile: THandle): Boolean;
+var
+  hProcess: HANDLE;
+  hDuplicate: HANDLE;
+begin
+  Result:= False;
+  hProcess:= OpenProcess(PROCESS_DUP_HANDLE or PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, ProcessId);
+  if (hProcess <> 0) then
+  begin
+    if (DuplicateHandle(hProcess, hFile, GetCurrentProcess, @hDuplicate, 0, False, DUPLICATE_SAME_ACCESS or DUPLICATE_CLOSE_SOURCE)) then
+    begin
+      Result:= CloseHandle(hDuplicate);
+    end;
+   CloseHandle(hProcess);
   end;
 end;
 
-procedure GetFileHandleTypeThread(Parameter : Pointer);
+procedure GetFileHandleTypeThread({%H-}Parameter : Pointer);
 begin
   FileHandleType:= GetFileHandleType;
 end;
