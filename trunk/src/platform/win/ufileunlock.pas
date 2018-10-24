@@ -198,6 +198,19 @@ begin
   end;
 end;
 
+function CheckHandleType(hFile: HANDLE): Boolean;
+var
+  hFileMap: HANDLE;
+begin
+  hFileMap:= CreateFileMappingW(hFile, nil, PAGE_READONLY, 0, 1, nil);
+  Result:= (hFileMap <> 0);
+  if Result then
+    CloseHandle(hFileMap)
+  else begin
+    Result:= (GetLastError <> ERROR_BAD_EXE_FORMAT);
+  end;
+end;
+
 procedure AddLock(var ProcessInfo: TProcessInfoArray; ProcessId: DWORD; Process, FileHandle: HANDLE);
 var
   Index: Integer;
@@ -271,21 +284,18 @@ begin
     begin
       if (SystemInformation^.Handle[Index].ObjectTypeNumber = FileHandleType) then
       begin
-        { Query the object name (unless it has an access of
-          0x0012019f, on which NtQueryObject could hang. }
-        if (SystemInformation^.Handle[Index].GrantedAccess = $0012019f) then
-        begin
-          Continue;
-        end;
         hProcess:= OpenProcess(PROCESS_DUP_HANDLE or PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, SystemInformation^.Handle[Index].ProcessId);
         if (hProcess <> 0) then
         begin
           if DuplicateHandle(hProcess, SystemInformation^.Handle[Index].Handle, hCurrentProcess, @hFile, 0, False, DUPLICATE_SAME_ACCESS) then
           begin
-            AOpenName:= GetFileName(hFile);
-            if (_wcsnicmp(PWideChar(AOpenName), PWideChar(AFileName), Length(AFileName)) = 0) then
+            if CheckHandleType(hFile) then
             begin
-              AddLock(ProcessInfo, SystemInformation^.Handle[Index].ProcessId, hProcess, SystemInformation^.Handle[Index].Handle);
+              AOpenName:= GetFileName(hFile);
+              if (_wcsnicmp(PWideChar(AOpenName), PWideChar(AFileName), Length(AFileName)) = 0) then
+              begin
+                AddLock(ProcessInfo, SystemInformation^.Handle[Index].ProcessId, hProcess, SystemInformation^.Handle[Index].Handle);
+              end;
             end;
             CloseHandle(hFile);
           end;
