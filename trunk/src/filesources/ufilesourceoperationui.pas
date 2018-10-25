@@ -35,6 +35,7 @@ type
      fsourRetry,
      fsourAbort,
      fsourRetryAdmin,
+     fsourUnlock,
      // Actions will never be returned since they do not close the window, handle them in ActionHandler.
      fsouaCompare); // The first action, hardcoded. Add new actions after this and new answers before this line.
 

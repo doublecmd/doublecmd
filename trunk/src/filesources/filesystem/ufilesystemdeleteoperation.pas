@@ -168,6 +168,7 @@ const
 var
   FileName: String;
   bRetry: Boolean;
+  LastError: Integer;
   RemoveDirectly: TFileSourceOperationOptionGeneral = fsoogNone;
   sMessage, sQuestion: String;
   logOptions: TLogOptions;
@@ -325,20 +326,20 @@ begin
       begin
         if (FRecycle = False) or (RemoveDirectly = fsoogYes) then
         begin
-          sQuestion+= LineEnding + mbSysErrorMessage;
+          LastError:= GetLastOSError;
 {$IF DEFINED(MSWINDOWS)}
-          if GetFileInUseProcess(FileName, GetLastOSError, ProcessInfo) then
+          if GetFileInUseProcessFast(FileName, ProcessInfo) then
           begin
-            if Length(ProcessInfo) > 0 then
-            begin
-              sQuestion+= LineEnding + LineEnding + Format(rsMsgProcessId, [ProcessInfo[0].ProcessId]) + LineEnding;
-              if (Length(ProcessInfo[0].ApplicationName) > 0) then begin
-                sQuestion+= Format(rsMsgApplicationName, [ProcessInfo[0].ApplicationName]) + LineEnding;
-              end;
-              sQuestion+= Format(rsMsgExecutablePath, [ProcessInfo[0].ExecutablePath]) + LineEnding;
+            sQuestion+= LineEnding + LineEnding + rsMsgOpenInAnotherProgram + LineEnding;
+            sQuestion+= LineEnding + Format(rsMsgProcessId, [ProcessInfo[0].ProcessId]) + LineEnding;
+            if (Length(ProcessInfo[0].ApplicationName) > 0) then begin
+              sQuestion+= Format(rsMsgApplicationName, [ProcessInfo[0].ApplicationName]) + LineEnding;
             end;
-          end;
+            sQuestion+= Format(rsMsgExecutablePath, [ProcessInfo[0].ExecutablePath]) + LineEnding;
+          end
+          else
 {$ENDIF}
+          sQuestion+= LineEnding + mbSysErrorMessage(LastError);
         end;
 
         if AdministratorPrivileges then
@@ -359,9 +360,9 @@ begin
             RaiseAbortOperation;
           fsourRetryAdmin:
             Exit(False);
+            end;
         end;
       end;
-    end;
   until bRetry = False;
 end;
 

@@ -319,6 +319,7 @@ resourcestring
   rsMsgProcessId = 'Process: %d';
   rsMsgApplicationName = 'Application: %s';
   rsMsgExecutablePath = 'Executable: %s';
+  rsMsgOpenInAnotherProgram = 'The action cannot be completed because the file is open in another program:';
 
   // for context menu
   rsMnuActions = 'Actions';
@@ -391,6 +392,7 @@ resourcestring
   rsDlgButtonAbort = 'Ab&ort';
   rsDlgButtonOther = 'Ot&her';
   rsDlgButtonRetryAdmin = 'As Ad&ministrator';
+  rsDlgButtonUnlock = '&Unlock';
   rsDlgButtonCompare = 'Compare &by content';
 
   rsDlgButtonContinue = '&Continue';
