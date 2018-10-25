@@ -48,13 +48,15 @@ type
                 mmrAppend, mmrResume, mmrCopyInto, mmrCopyIntoAll,
                 mmrOverwrite, mmrOverwriteAll, mmrOverwriteOlder,
                 mmrOverwriteSmaller, mmrOverwriteLarger, mmrAutoRenameSource, mmrRenameSource,
-                mmrSkip, mmrSkipAll, mmrIgnore, mmrIgnoreAll, mmrAll, mmrRetry, mmrAbort, mmrRetryAdmin);
+                mmrSkip, mmrSkipAll, mmrIgnore, mmrIgnoreAll, mmrAll, mmrRetry, mmrAbort, mmrRetryAdmin,
+                mmrUnlock);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
                 msmbAppend, msmbResume, msmbCopyInto, msmbCopyIntoAll,
                 msmbOverwrite, msmbOverwriteAll, msmbOverwriteOlder,
                 msmbOverwriteSmaller, msmbOverwriteLarger, msmbAutoRenameSource, msmbRenameSource,
                 msmbSkip, msmbSkipAll, msmbIgnore, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort, msmbRetryAdmin,
+                msmbUnlock,
                 // Actions, they do not close the form and therefore have no corresponding result value:
                 msmbCompare);
 
@@ -845,6 +847,7 @@ begin
   cLngButton[msmbRetry]            := rsDlgButtonRetry;
   cLngButton[msmbAbort]            := rsDlgButtonAbort;
   cLngButton[msmbRetryAdmin]       := rsDlgButtonRetryAdmin;
+  cLngButton[msmbUnlock]           := rsDlgButtonUnlock;
   cLngButton[msmbCompare]          := rsDlgButtonCompare;
 
   for I:= Low(TMyMsgButton) to High(TMyMsgButton) do

@@ -1,6 +1,6 @@
 unit uFileUnlock;
 
-{$mode delphi}
+{$mode delphi}{$R-}
 
 interface
 
@@ -18,7 +18,8 @@ type
   TProcessInfoArray = array of TProcessInfo;
 
 function FileUnlock(ProcessId: DWORD; hFile: THandle): Boolean;
-function GetFileInUseProcess(const FileName: String; LastError: Integer; out ProcessInfo: TProcessInfoArray): Boolean;
+function GetFileInUseProcessFast(const FileName: String; out ProcessInfo: TProcessInfoArray): Boolean;
+function GetFileInUseProcessSlow(const FileName: String; LastError: Integer; var ProcessInfo: TProcessInfoArray): Boolean;
 
 implementation
 
@@ -80,6 +81,8 @@ var
   QueryFullProcessImageNameW: function(hProcess: HANDLE; dwFlags: DWORD; lpExeName: LPWSTR; lpdwSize: PDWORD): BOOL; stdcall;
 
   GetFinalPathNameByHandleW: function(hFile: HANDLE; lpszFilePath: LPWSTR; cchFilePath: DWORD; dwFlags: DWORD): DWORD; stdcall;
+
+  NtQueryObject: function(ObjectHandle : HANDLE; ObjectInformationClass : OBJECT_INFORMATION_CLASS; ObjectInformation : PVOID; ObjectInformationLength : ULONG; ReturnLength : PULONG): NTSTATUS; stdcall;
 
 var
   RstrtMgrLib: HMODULE = 0;
@@ -268,7 +271,7 @@ begin
   end;
 end;
 
-procedure GetFileInUseProcessOld(const FileName: String; var ProcessInfo: TProcessInfoArray);
+procedure GetFileInUseProcess(const FileName: String; var ProcessInfo: TProcessInfoArray);
 var
   hFile: HANDLE;
   Index: Integer;
@@ -307,9 +310,9 @@ begin
   end;
 end;
 
-function GetFileInUseProcessNew(const FileName: String; out ProcessInfo: TProcessInfoArray): Boolean;
+function GetFileInUseProcessFast(const FileName: String; out ProcessInfo: TProcessInfoArray): Boolean;
 const
-  MAX_CNT = 5;
+  MAX_CNT = 64;
 var
   I: Integer;
   dwReason: DWORD;
@@ -332,6 +335,7 @@ begin
              (RmGetList(dwSession, @nProcInfoNeeded, @nProcInfo, rgAffectedApps, @dwReason) = ERROR_SUCCESS);
     if Result then
     begin
+      Result:= (nProcInfo > 0);
       SetLength(ProcessInfo, nProcInfo);
       for I:= 0 to nProcInfo - 1 do
       begin
@@ -356,16 +360,16 @@ begin
   end;
 end;
 
-function GetFileInUseProcess(const FileName: String; LastError: Integer; out
-  ProcessInfo: TProcessInfoArray): Boolean;
+function GetFileInUseProcessSlow(const FileName: String; LastError: Integer; var ProcessInfo: TProcessInfoArray): Boolean;
 begin
-  // if (LastError <> ERROR_SHARING_VIOLATION) then Exit(False);
-  if Win32MajorVersion < 6 then
+  if (Win32MajorVersion < 6) and (LastError = ERROR_ACCESS_DENIED) then
+  begin
     GetModuleInUseProcess(FileName, ProcessInfo)
-  else begin
-    GetFileInUseProcessNew(FileName, ProcessInfo);
   end;
-  GetFileInUseProcessOld(FileName, ProcessInfo);
+  if (LastError = ERROR_SHARING_VIOLATION) then
+  begin
+    GetFileInUseProcess(FileName, ProcessInfo);
+  end;
   Result:= (Length(ProcessInfo) > 0);
 end;
 
@@ -396,7 +400,10 @@ var
   SystemDirectory: UnicodeString;
 begin
   if Win32MajorVersion < 6 then
-    GetFileName:= @GetFileNameOld
+  begin
+    GetFileName:= @GetFileNameOld;
+    @NtQueryObject:= GetProcAddress(GetModuleHandleW(ntdll), 'NtQueryObject');
+  end
   else begin
     SetLength(SystemDirectory, maxSmallint + 1);
     SetLength(SystemDirectory, GetSystemDirectoryW(Pointer(SystemDirectory), maxSmallint));
