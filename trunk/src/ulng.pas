@@ -316,8 +316,8 @@ resourcestring
   rsNoEquivalentInternalCommand = 'No internal equivalent command';
 
   // Locked by another process
-  rsMsgProcessId = 'Process: %d';
-  rsMsgApplicationName = 'Application: %s';
+  rsMsgProcessId = 'PID: %d';
+  rsMsgApplicationName = 'Description: %s';
   rsMsgExecutablePath = 'Executable: %s';
   rsMsgOpenInAnotherProgram = 'The action cannot be completed because the file is open in another program:';
 

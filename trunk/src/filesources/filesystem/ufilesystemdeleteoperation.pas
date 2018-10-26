@@ -61,7 +61,7 @@ implementation
 uses
   DCOSUtils, uLng, uFileSystemUtil, uTrash, uAdministrator, uOSUtils
 {$IF DEFINED(MSWINDOWS)}
-  , uFileUnlock
+  , Windows,  uFileUnlock, fFileUnlock
 {$ENDIF}
   ;
 
@@ -343,12 +343,22 @@ begin
         end;
 
         if AdministratorPrivileges then
-          PossibleResponses:= ResponsesError
+        begin
+          SetLength(PossibleResponses, Length(ResponsesError));
+          Move(ResponsesError[0], PossibleResponses[0], SizeOf(ResponsesError));
+        end
         else begin
           SetLength(PossibleResponses, Length(ResponsesError) + 1);
           Move(ResponsesError[0], PossibleResponses[0], SizeOf(ResponsesError));
           PossibleResponses[High(PossibleResponses)]:= fsourRetryAdmin;
         end;
+{$IF DEFINED(MSWINDOWS)}
+        if (Length(ProcessInfo) > 0) or (LastError = ERROR_ACCESS_DENIED) or (LastError = ERROR_SHARING_VIOLATION) then
+        begin
+          SetLength(PossibleResponses, Length(PossibleResponses) + 1);
+          PossibleResponses[High(PossibleResponses)]:= fsourUnlock;
+        end;
+{$ENDIF}
         case AskQuestion(sQuestion, '',
                          PossibleResponses,
                          fsourRetry, fsourAbort) of
@@ -360,9 +370,17 @@ begin
             RaiseAbortOperation;
           fsourRetryAdmin:
             Exit(False);
+{$IF DEFINED(MSWINDOWS)}
+          fsourUnlock:
+            begin
+              bRetry:= True;
+              GetFileInUseProcessSlow(FileName, LastError, ProcessInfo);
+              ShowUnlockForm(ProcessInfo);
             end;
+{$ENDIF}
         end;
       end;
+    end;
   until bRetry = False;
 end;
 
