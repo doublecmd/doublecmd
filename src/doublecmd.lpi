@@ -1719,7 +1719,9 @@ end;"/>
       <Unit238>
         <Filename Value="ffileunlock.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmFileUnlock"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fFileUnlock"/>
       </Unit238>
     </Units>
