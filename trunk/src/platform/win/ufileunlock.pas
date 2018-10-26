@@ -276,6 +276,7 @@ procedure GetFileInUseProcess(const FileName: String; var ProcessInfo: TProcessI
 var
   hFile: HANDLE;
   Index: Integer;
+  ALength: Integer;
   hProcess: HANDLE;
   hCurrentProcess: HANDLE;
   AFileName, AOpenName: UnicodeString;
@@ -283,6 +284,7 @@ var
 begin
   if GetNativeName(FileName, AFileName) and GetFileHandleList(SystemInformation) then
   begin
+    ALength:= Length(AFileName);
     hCurrentProcess:= GetCurrentProcess;
     for Index:= 0 to SystemInformation^.Count - 1 do
     begin
@@ -296,9 +298,13 @@ begin
             if CheckHandleType(hFile) then
             begin
               AOpenName:= GetFileName(hFile);
-              if (_wcsnicmp(PWideChar(AOpenName), PWideChar(AFileName), Length(AFileName)) = 0) then
+              if Length(AOpenName) >= ALength then
               begin
-                AddLock(ProcessInfo, SystemInformation^.Handle[Index].ProcessId, hProcess, SystemInformation^.Handle[Index].Handle);
+                if (_wcsnicmp(PWideChar(AOpenName), PWideChar(AFileName), ALength) = 0) then
+                begin
+                  if (Length(AOpenName) = ALength) or (AOpenName[ALength + 1] = PathDelim) then
+                    AddLock(ProcessInfo, SystemInformation^.Handle[Index].ProcessId, hProcess, SystemInformation^.Handle[Index].Handle);
+                end;
               end;
             end;
             CloseHandle(hFile);
