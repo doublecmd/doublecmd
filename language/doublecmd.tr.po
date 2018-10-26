@@ -1549,6 +1549,42 @@ msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
 msgid "Properties"
 msgstr "Özellikleri"
 
+#: tfrmfileunlock.btnclose.caption
+#, fuzzy
+msgctxt "tfrmfileunlock.btnclose.caption"
+msgid "Close"
+msgstr "Kapat"
+
+#: tfrmfileunlock.btnterminate.caption
+msgid "Terminate"
+msgstr ""
+
+#: tfrmfileunlock.btnunlock.caption
+msgctxt "tfrmfileunlock.btnunlock.caption"
+msgid "Unlock"
+msgstr ""
+
+#: tfrmfileunlock.btnunlockall.caption
+msgid "Unlock All"
+msgstr ""
+
+#: tfrmfileunlock.caption
+msgctxt "tfrmfileunlock.caption"
+msgid "Unlock"
+msgstr ""
+
+#: tfrmfileunlock.stgfilehandles.columns[0].title.caption
+msgid "File Handle"
+msgstr ""
+
+#: tfrmfileunlock.stgfilehandles.columns[1].title.caption
+msgid "Process ID"
+msgstr ""
+
+#: tfrmfileunlock.stgfilehandles.columns[2].title.caption
+msgid "Executable Path"
+msgstr ""
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
 msgid "C&ancel"
@@ -10116,6 +10152,10 @@ msgstr "&Atla"
 msgid "S&kip All"
 msgstr "Tümünü &Atla"
 
+#: ulng.rsdlgbuttonunlock
+msgid "&Unlock"
+msgstr ""
+
 #: ulng.rsdlgbuttonyes
 msgid "&Yes"
 msgstr "&Evet"
@@ -10620,6 +10660,10 @@ msgstr "Hesap:"
 msgid "All Double Commander internal commands"
 msgstr ""
 
+#: ulng.rsmsgapplicationname
+msgid "Description: %s"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Arşiv komut satırı için ek değişkenler:"
@@ -10872,6 +10916,10 @@ msgstr "Sıkıştırma için dosya miktarı çok fazla "
 #: ulng.rsmsgerrunknownformat
 msgid "Archive format unknown"
 msgstr "Arşiv biçimi bilinmiyor"
+
+#: ulng.rsmsgexecutablepath
+msgid "Executable: %s"
+msgstr ""
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
@@ -11361,6 +11409,10 @@ msgstr "Uygulanmamış."
 msgid "Object does not exist!"
 msgstr ""
 
+#: ulng.rsmsgopeninanotherprogram
+msgid "The action cannot be completed because the file is open in another program:"
+msgstr ""
+
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
@@ -11396,6 +11448,10 @@ msgstr "Ön ayar \"%s\" zaten var.Üzerine yazılsın mı?"
 
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
+msgstr ""
+
+#: ulng.rsmsgprocessid
+msgid "PID: %d"
 msgstr ""
 
 #: ulng.rsmsgpromptaskingfilename
@@ -11574,6 +11630,10 @@ msgstr ""
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
+msgstr ""
+
+#: ulng.rsmsgterminateprocess
+msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard

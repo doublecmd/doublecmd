@@ -1456,6 +1456,42 @@ msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
 msgid "Properties"
 msgstr "Ιδιότητες"
 
+#: tfrmfileunlock.btnclose.caption
+#, fuzzy
+msgctxt "tfrmfileunlock.btnclose.caption"
+msgid "Close"
+msgstr "Κλείσιμο"
+
+#: tfrmfileunlock.btnterminate.caption
+msgid "Terminate"
+msgstr ""
+
+#: tfrmfileunlock.btnunlock.caption
+msgctxt "tfrmfileunlock.btnunlock.caption"
+msgid "Unlock"
+msgstr ""
+
+#: tfrmfileunlock.btnunlockall.caption
+msgid "Unlock All"
+msgstr ""
+
+#: tfrmfileunlock.caption
+msgctxt "tfrmfileunlock.caption"
+msgid "Unlock"
+msgstr ""
+
+#: tfrmfileunlock.stgfilehandles.columns[0].title.caption
+msgid "File Handle"
+msgstr ""
+
+#: tfrmfileunlock.stgfilehandles.columns[1].title.caption
+msgid "Process ID"
+msgstr ""
+
+#: tfrmfileunlock.stgfilehandles.columns[2].title.caption
+msgid "Executable Path"
+msgstr ""
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
 msgid "C&ancel"
@@ -9698,6 +9734,10 @@ msgstr "Παράβλεψη"
 msgid "S&kip All"
 msgstr "Παράβλεψη Όλων"
 
+#: ulng.rsdlgbuttonunlock
+msgid "&Unlock"
+msgstr ""
+
 #: ulng.rsdlgbuttonyes
 msgid "&Yes"
 msgstr "Ναι"
@@ -10204,6 +10244,10 @@ msgstr "Λογαριασμός:"
 msgid "All Double Commander internal commands"
 msgstr "Όλες οι εσωτερικές εντολές του Double Commander"
 
+#: ulng.rsmsgapplicationname
+msgid "Description: %s"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Επιπρόσθετες παράμετροι για τη γραμμή εντολών του προγράμματος συμπίεσης:"
@@ -10455,6 +10499,10 @@ msgstr "Πάρα πολλά αρχεία για πακετάρισμα"
 #: ulng.rsmsgerrunknownformat
 msgid "Archive format unknown"
 msgstr "Άγνωστη μορφή Αρχειοθήκης"
+
+#: ulng.rsmsgexecutablepath
+msgid "Executable: %s"
+msgstr ""
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
@@ -10952,6 +11000,10 @@ msgstr "Δεν έχει εφαρμοστεί."
 msgid "Object does not exist!"
 msgstr "Το αντικείμενο δεν υπάρχει!"
 
+#: ulng.rsmsgopeninanotherprogram
+msgid "The action cannot be completed because the file is open in another program:"
+msgstr ""
+
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
@@ -10989,6 +11041,10 @@ msgstr "Τα προκαθορισμένα \"%s\" ήδη υπάρχουν. Αντ
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
 msgstr "Πρόβλημα κατά την εκτέλεση της εντολής (%s)"
+
+#: ulng.rsmsgprocessid
+msgid "PID: %d"
+msgstr ""
 
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
@@ -11173,6 +11229,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Εισαγωγή τοποθεσίας και ονόματος αρχείου που θα αποθηκευθεί ένα αρχείο γραμμής εργαλείων του TC"
+
+#: ulng.rsmsgterminateprocess
+msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
+msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
