@@ -59,7 +59,9 @@ begin
       stgFileHandles.Cells[2, Index]:= ProcessInfo[Index - 1].ExecutablePath;
     end;
     btnUnlockAll.Enabled:= UnlockEnabled;
+    btnTerminate.Enabled:= Length(ProcessInfo) > 0;
     stgFileHandles.Row:= IfThen(UnlockEnabled, 1, 0);
+    btnUnlock.Enabled:= UnlockEnabled and (Length(stgFileHandles.Cells[0, 1]) > 0);
 
     TThread.Synchronize(nil, @ShowThread);
 
@@ -73,7 +75,7 @@ end;
 
 procedure TfrmFileUnlock.stgFileHandlesSelection(Sender: TObject; aCol, aRow: Integer);
 begin
-  btnUnlock.Enabled:= Length(stgFileHandles.Cells[0, aRow]) > 0;
+  btnUnlock.Enabled:= (aRow > 0) and (Length(stgFileHandles.Cells[0, aRow]) > 0);
 end;
 
 procedure TfrmFileUnlock.btnUnlockClick(Sender: TObject);
