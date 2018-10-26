@@ -11,6 +11,7 @@ object frmFileUnlock: TfrmFileUnlock
   ClientWidth = 638
   Constraints.MinWidth = 600
   DesignTimePPI = 120
+  OnShow = FormShow
   Position = poOwnerFormCenter
   LCLVersion = '1.8.4.0'
   object stgFileHandles: TStringGrid
@@ -45,7 +46,7 @@ object frmFileUnlock: TfrmFileUnlock
       end>
     FixedCols = 0
     Flat = True
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect, goSmoothScroll]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goRowSelect, goSmoothScroll]
     TabOrder = 0
     OnDblClick = stgFileHandlesDblClick
     OnSelection = stgFileHandlesSelection

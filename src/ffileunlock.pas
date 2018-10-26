@@ -21,6 +21,7 @@ type
     procedure btnTerminateClick(Sender: TObject);
     procedure btnUnlockAllClick(Sender: TObject);
     procedure btnUnlockClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure stgFileHandlesDblClick(Sender: TObject);
     procedure stgFileHandlesSelection(Sender: TObject; aCol, aRow: Integer);
   private
@@ -82,6 +83,16 @@ begin
   begin
     Close;
     ModalResult:= mrOK;
+  end;
+end;
+
+procedure TfrmFileUnlock.FormShow(Sender: TObject);
+var
+  Index: Integer;
+begin
+  for Index:= 0 to stgFileHandles.Columns.Count - 1 do
+  begin
+    stgFileHandles.Columns[Index].Width:= stgFileHandles.Canvas.TextWidth(stgFileHandles.Columns[Index].Title.Caption + 'W');
   end;
 end;
 
