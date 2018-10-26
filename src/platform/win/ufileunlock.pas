@@ -17,6 +17,7 @@ type
 
   TProcessInfoArray = array of TProcessInfo;
 
+function TerminateProcess(ProcessId: DWORD): Boolean;
 function FileUnlock(ProcessId: DWORD; hFile: THandle): Boolean;
 function GetFileInUseProcessFast(const FileName: String; out ProcessInfo: TProcessInfoArray): Boolean;
 function GetFileInUseProcessSlow(const FileName: String; LastError: Integer; var ProcessInfo: TProcessInfoArray): Boolean;
@@ -371,6 +372,19 @@ begin
     GetFileInUseProcess(FileName, ProcessInfo);
   end;
   Result:= (Length(ProcessInfo) > 0);
+end;
+
+function TerminateProcess(ProcessId: DWORD): Boolean;
+var
+  hProcess: HANDLE;
+begin
+  hProcess:= OpenProcess(SYNCHRONIZE or PROCESS_TERMINATE, False, ProcessId);
+  Result:= (hProcess <> 0);
+  if Result then
+  begin
+    Result:= Windows.TerminateProcess(hProcess, 1);
+    CloseHandle(hProcess);
+  end;
 end;
 
 function FileUnlock(ProcessId: DWORD; hFile: THandle): Boolean;

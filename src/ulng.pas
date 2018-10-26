@@ -320,6 +320,8 @@ resourcestring
   rsMsgApplicationName = 'Description: %s';
   rsMsgExecutablePath = 'Executable: %s';
   rsMsgOpenInAnotherProgram = 'The action cannot be completed because the file is open in another program:';
+  rsMsgTerminateProcess = 'WARNING: Terminating a process can cause undesired results including loss of data and system instability.' + #32 +
+                          'The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?';
 
   // for context menu
   rsMnuActions = 'Actions';

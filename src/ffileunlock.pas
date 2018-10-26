@@ -16,7 +16,9 @@ type
     btnUnlockAll: TButton;
     btnUnlock: TButton;
     btnClose: TButton;
+    btnTerminate: TButton;
     stgFileHandles: TStringGrid;
+    procedure btnTerminateClick(Sender: TObject);
     procedure btnUnlockAllClick(Sender: TObject);
     procedure btnUnlockClick(Sender: TObject);
     procedure stgFileHandlesDblClick(Sender: TObject);
@@ -35,7 +37,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Windows, Math, fMain, uMyWindows;
+  Windows, Math, LCLStrConsts, fMain, uMyWindows, uLng;
 
 function ShowUnlockForm(ProcessInfo: TProcessInfoArray): Boolean;
 var
@@ -108,6 +110,33 @@ begin
   begin
     Close;
     ModalResult:= mrOK;
+  end;
+end;
+
+procedure TfrmFileUnlock.btnTerminateClick(Sender: TObject);
+var
+  Index: Integer;
+  ProcessId: DWORD;
+begin
+  if (stgFileHandles.Row > 0) then
+  begin
+    if MessageBoxW(Handle, PWideChar(UTF8Decode(rsMsgTerminateProcess)), PWideChar(UTF8Decode(rsMtWarning)), MB_YESNO or MB_ICONWARNING) = IDYES then
+    begin
+      ProcessId:= StrToDWord(stgFileHandles.Cells[1, stgFileHandles.Row]);
+      if uFileUnlock.TerminateProcess(ProcessId) then
+      begin
+        for Index:= stgFileHandles.RowCount - 1 downto 1 do
+        begin
+          if (ProcessId = StrToDWord(stgFileHandles.Cells[1, Index])) then
+            stgFileHandles.DeleteRow(Index);
+        end;
+        if (stgFileHandles.RowCount = 1) then
+        begin
+          Close;
+          ModalResult:= mrOK;
+        end;
+      end;
+    end;
   end;
 end;
 
