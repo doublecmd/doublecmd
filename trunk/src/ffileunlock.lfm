@@ -45,6 +45,7 @@ object frmFileUnlock: TfrmFileUnlock
     Flat = True
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect, goSmoothScroll]
     TabOrder = 0
+    OnDblClick = stgFileHandlesDblClick
     OnSelection = stgFileHandlesSelection
     ColWidths = (
       100

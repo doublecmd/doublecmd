@@ -28,6 +28,8 @@ interface
 uses
   Graphics, Classes, SysUtils, JwaWinBase, Windows;
 
+procedure ShowWindowEx(hWnd: HWND);
+function FindMainWindow(ProcessId: DWORD): HWND;
 function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UnicodeString;
 function GetMenuItemType(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UINT;
 function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWideChar; Position, ItemID,  ItemType : UINT; Bitmap:Graphics.TBitmap = nil): boolean;
@@ -150,6 +152,55 @@ uses
 var
   Wow64DisableWow64FsRedirection: function(OldValue: PPointer): BOOL; stdcall;
   Wow64RevertWow64FsRedirection: function(OldValue: Pointer): BOOL; stdcall;
+
+type
+  PHandleData = ^THandleData;
+  THandleData = record
+    ProcessId: DWORD;
+    WindowHandle: HWND;
+end;
+
+function IsMainWindow(Handle: HWND): Boolean;
+begin
+  Result:= (GetWindow(Handle, GW_OWNER) = 0) and IsWindowVisible(Handle);
+end;
+
+function EnumWindowsCallback(Handle: HWND; lParam: LPARAM): BOOL; stdcall;
+var
+  ProcessId: DWORD = 0;
+  Data: PHandleData absolute lParam;
+begin
+  GetWindowThreadProcessId(Handle, @ProcessId);
+  Result:= (Data^.ProcessId <> ProcessId) or (not IsMainWindow(Handle));
+  if not Result then Data^.WindowHandle:= Handle;
+end;
+
+procedure ShowWindowEx(hWnd: HWND);
+var
+  Placement: TWindowPlacement;
+begin
+  ZeroMemory(@Placement, SizeOf(TWindowPlacement));
+  Placement.length:= SizeOf(TWindowPlacement);
+  GetWindowPlacement(hWnd, Placement);
+
+  case (Placement.showCmd) of
+    SW_SHOWMAXIMIZED: ShowWindow(hWnd, SW_SHOWMAXIMIZED);
+    SW_SHOWMINIMIZED: ShowWindow(hWnd, SW_RESTORE);
+    else ShowWindow(hWnd, SW_NORMAL);
+  end;
+
+  SetForegroundWindow(hWnd);
+end;
+
+function FindMainWindow(ProcessId: DWORD): HWND;
+var
+  Data: THandleData;
+begin
+  Data.WindowHandle:= 0;
+  Data.ProcessId:= ProcessId;
+  EnumWindows(@EnumWindowsCallback, {%H-}LPARAM(@Data));
+  Result:= Data.WindowHandle;
+end;
 
 function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UnicodeString;
 var

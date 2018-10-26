@@ -19,6 +19,7 @@ type
     stgFileHandles: TStringGrid;
     procedure btnUnlockAllClick(Sender: TObject);
     procedure btnUnlockClick(Sender: TObject);
+    procedure stgFileHandlesDblClick(Sender: TObject);
     procedure stgFileHandlesSelection(Sender: TObject; aCol, aRow: Integer);
   private
     procedure ShowThread;
@@ -31,8 +32,10 @@ function ShowUnlockForm(ProcessInfo: TProcessInfoArray): Boolean;
 
 implementation
 
+{$R *.lfm}
+
 uses
-  Windows, Math, fMain;
+  Windows, Math, fMain, uMyWindows;
 
 function ShowUnlockForm(ProcessInfo: TProcessInfoArray): Boolean;
 var
@@ -63,8 +66,6 @@ begin
   end;
 end;
 
-{$R *.lfm}
-
 { TfrmFileUnlock }
 
 procedure TfrmFileUnlock.stgFileHandlesSelection(Sender: TObject; aCol, aRow: Integer);
@@ -79,6 +80,19 @@ begin
   begin
     Close;
     ModalResult:= mrOK;
+  end;
+end;
+
+procedure TfrmFileUnlock.stgFileHandlesDblClick(Sender: TObject);
+var
+  AHandle: HWND;
+  ProcessId: DWORD;
+begin
+  if (stgFileHandles.Row > 0) then
+  begin
+    ProcessId:= StrToDWord(stgFileHandles.Cells[1, stgFileHandles.Row]);
+    AHandle:= FindMainWindow(ProcessId);
+    if AHandle <> 0 then ShowWindowEx(AHandle);
   end;
 end;
 
