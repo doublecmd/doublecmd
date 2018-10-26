@@ -1461,6 +1461,42 @@ msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
 msgid "Properties"
 msgstr "Властивості"
 
+#: tfrmfileunlock.btnclose.caption
+#, fuzzy
+msgctxt "tfrmfileunlock.btnclose.caption"
+msgid "Close"
+msgstr "Закрити"
+
+#: tfrmfileunlock.btnterminate.caption
+msgid "Terminate"
+msgstr ""
+
+#: tfrmfileunlock.btnunlock.caption
+msgctxt "tfrmfileunlock.btnunlock.caption"
+msgid "Unlock"
+msgstr ""
+
+#: tfrmfileunlock.btnunlockall.caption
+msgid "Unlock All"
+msgstr ""
+
+#: tfrmfileunlock.caption
+msgctxt "tfrmfileunlock.caption"
+msgid "Unlock"
+msgstr ""
+
+#: tfrmfileunlock.stgfilehandles.columns[0].title.caption
+msgid "File Handle"
+msgstr ""
+
+#: tfrmfileunlock.stgfilehandles.columns[1].title.caption
+msgid "Process ID"
+msgstr ""
+
+#: tfrmfileunlock.stgfilehandles.columns[2].title.caption
+msgid "Executable Path"
+msgstr ""
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
 msgid "C&ancel"
@@ -9995,6 +10031,10 @@ msgstr "Пр&опустити"
 msgid "S&kip All"
 msgstr "Проп&устити все"
 
+#: ulng.rsdlgbuttonunlock
+msgid "&Unlock"
+msgstr ""
+
 #: ulng.rsdlgbuttonyes
 msgid "&Yes"
 msgstr "&Так"
@@ -10509,6 +10549,10 @@ msgstr "Обліковий запис:"
 msgid "All Double Commander internal commands"
 msgstr ""
 
+#: ulng.rsmsgapplicationname
+msgid "Description: %s"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Додаткові параметри для командного рядка архіватора:"
@@ -10766,6 +10810,10 @@ msgstr "Надто багато файлів для запакування"
 #: ulng.rsmsgerrunknownformat
 msgid "Archive format unknown"
 msgstr "Архів пошкоджено або має невідомий формат"
+
+#: ulng.rsmsgexecutablepath
+msgid "Executable: %s"
+msgstr ""
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
@@ -11282,6 +11330,10 @@ msgstr "Не реалізовано"
 msgid "Object does not exist!"
 msgstr ""
 
+#: ulng.rsmsgopeninanotherprogram
+msgid "The action cannot be completed because the file is open in another program:"
+msgstr ""
+
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
@@ -11318,6 +11370,10 @@ msgstr "Шаблон \"%s\" вже існує. Перезаписати?"
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
 msgstr "Проблема виконання команди (%s)"
+
+#: ulng.rsmsgprocessid
+msgid "PID: %d"
+msgstr ""
 
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
@@ -11518,6 +11574,10 @@ msgstr ""
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
 msgstr "Введіть розташування і ім'я файлу, куди зберегти файл панелі інструментів ТС"
+
+#: ulng.rsmsgterminateprocess
+msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
+msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"

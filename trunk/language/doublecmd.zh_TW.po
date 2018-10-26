@@ -1544,6 +1544,42 @@ msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
 msgid "Properties"
 msgstr "內容"
 
+#: tfrmfileunlock.btnclose.caption
+#, fuzzy
+msgctxt "tfrmfileunlock.btnclose.caption"
+msgid "Close"
+msgstr "關閉"
+
+#: tfrmfileunlock.btnterminate.caption
+msgid "Terminate"
+msgstr ""
+
+#: tfrmfileunlock.btnunlock.caption
+msgctxt "tfrmfileunlock.btnunlock.caption"
+msgid "Unlock"
+msgstr ""
+
+#: tfrmfileunlock.btnunlockall.caption
+msgid "Unlock All"
+msgstr ""
+
+#: tfrmfileunlock.caption
+msgctxt "tfrmfileunlock.caption"
+msgid "Unlock"
+msgstr ""
+
+#: tfrmfileunlock.stgfilehandles.columns[0].title.caption
+msgid "File Handle"
+msgstr ""
+
+#: tfrmfileunlock.stgfilehandles.columns[1].title.caption
+msgid "Process ID"
+msgstr ""
+
+#: tfrmfileunlock.stgfilehandles.columns[2].title.caption
+msgid "Executable Path"
+msgstr ""
+
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
 msgid "C&ancel"
@@ -10516,6 +10552,10 @@ msgstr "略過 (&S)"
 msgid "S&kip All"
 msgstr "略過全部 (&K)"
 
+#: ulng.rsdlgbuttonunlock
+msgid "&Unlock"
+msgstr ""
+
 #: ulng.rsdlgbuttonyes
 msgid "&Yes"
 msgstr "是 (&Y)"
@@ -11021,6 +11061,10 @@ msgstr "帳戶:"
 msgid "All Double Commander internal commands"
 msgstr ""
 
+#: ulng.rsmsgapplicationname
+msgid "Description: %s"
+msgstr ""
+
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "壓縮器命令行的額外參數"
@@ -11268,6 +11312,10 @@ msgstr "要壓縮的檔案太多"
 #: ulng.rsmsgerrunknownformat
 msgid "Archive format unknown"
 msgstr "未知的壓縮格式"
+
+#: ulng.rsmsgexecutablepath
+msgid "Executable: %s"
+msgstr ""
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
@@ -11756,6 +11804,10 @@ msgstr "未實現"
 msgid "Object does not exist!"
 msgstr ""
 
+#: ulng.rsmsgopeninanotherprogram
+msgid "The action cannot be completed because the file is open in another program:"
+msgstr ""
+
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
@@ -11791,6 +11843,10 @@ msgstr "預先配置檔【%s】已存在。是否要覆蓋?"
 
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
+msgstr ""
+
+#: ulng.rsmsgprocessid
+msgid "PID: %d"
 msgstr ""
 
 #: ulng.rsmsgpromptaskingfilename
@@ -11969,6 +12025,10 @@ msgstr ""
 
 #: ulng.rsmsgtctoolbarwheretosave
 msgid "Enter location and filename where to save a TC Toolbar file"
+msgstr ""
+
+#: ulng.rsmsgterminateprocess
+msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
 msgstr ""
 
 #: ulng.rsmsgthisisnowinclipboard
