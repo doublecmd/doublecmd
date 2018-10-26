@@ -9,6 +9,8 @@ object frmFileUnlock: TfrmFileUnlock
   ChildSizing.TopBottomSpacing = 12
   ClientHeight = 342
   ClientWidth = 638
+  Constraints.MinWidth = 600
+  DesignTimePPI = 120
   Position = poOwnerFormCenter
   LCLVersion = '1.8.4.0'
   object stgFileHandles: TStringGrid
@@ -18,7 +20,7 @@ object frmFileUnlock: TfrmFileUnlock
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = btnClose
     Left = 12
-    Height = 281
+    Height = 276
     Top = 12
     Width = 614
     Anchors = [akTop, akLeft, akRight, akBottom]
@@ -58,41 +60,58 @@ object frmFileUnlock: TfrmFileUnlock
     AnchorSideRight.Control = btnClose
     AnchorSideBottom.Control = btnClose
     AnchorSideBottom.Side = asrBottom
-    Left = 464
-    Height = 25
-    Top = 305
-    Width = 75
+    Left = 459
+    Height = 30
+    Top = 300
+    Width = 93
     Anchors = [akRight, akBottom]
+    AutoSize = True
     BorderSpacing.Right = 12
     Caption = 'Unlock All'
     OnClick = btnUnlockAllClick
-    TabOrder = 1
+    TabOrder = 2
   end
   object btnUnlock: TButton
     AnchorSideTop.Control = btnUnlockAll
     AnchorSideRight.Control = btnUnlockAll
-    Left = 377
-    Height = 25
-    Top = 305
-    Width = 75
+    Left = 376
+    Height = 30
+    Top = 300
+    Width = 71
     Anchors = [akTop, akRight]
+    AutoSize = True
     BorderSpacing.Right = 12
     Caption = 'Unlock'
     OnClick = btnUnlockClick
-    TabOrder = 2
+    TabOrder = 1
   end
   object btnClose: TButton
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 551
-    Height = 25
-    Top = 305
-    Width = 75
+    Left = 564
+    Height = 30
+    Top = 300
+    Width = 62
     Anchors = [akRight, akBottom]
+    AutoSize = True
     Caption = 'Close'
     ModalResult = 11
     TabOrder = 3
+  end
+  object btnTerminate: TButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 12
+    Height = 30
+    Top = 300
+    Width = 93
+    Anchors = [akLeft, akBottom]
+    AutoSize = True
+    Caption = 'Terminate'
+    OnClick = btnTerminateClick
+    TabOrder = 4
   end
 end
