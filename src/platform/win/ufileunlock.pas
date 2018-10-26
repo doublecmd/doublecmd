@@ -256,13 +256,16 @@ begin
       begin
         if EnumProcessModules(hProcess, @hModuleList[0], SizeOf(hModuleList), cbNeeded) then
         begin
-          for J:= 0 to (cbNeeded div SizeOf(DWORD)) do
+          for J:= 0 to (cbNeeded div SizeOf(HMODULE)) do
           begin
             AOpenName:= GetModuleFileName(hProcess, hModuleList[J]);
-            if (_wcsnicmp(PWideChar(AOpenName), PWideChar(AFileName), Length(AFileName)) = 0) then
+            if (Length(AOpenName) = Length(AFileName)) then
             begin
-              AddLock(ProcessInfo, dwProcessList[I], hProcess, 0);
-              Break;
+              if (_wcsnicmp(PWideChar(AOpenName), PWideChar(AFileName), Length(AFileName)) = 0) then
+              begin
+                AddLock(ProcessInfo, dwProcessList[I], hProcess, 0);
+                Break;
+              end;
             end;
           end;
         end;
