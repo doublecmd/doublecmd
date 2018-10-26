@@ -1,0 +1,97 @@
+object frmFileUnlock: TfrmFileUnlock
+  Left = 326
+  Height = 342
+  Top = 203
+  Width = 638
+  BorderIcons = [biSystemMenu, biMaximize]
+  Caption = 'Unlock'
+  ChildSizing.LeftRightSpacing = 12
+  ChildSizing.TopBottomSpacing = 12
+  ClientHeight = 342
+  ClientWidth = 638
+  Position = poOwnerFormCenter
+  LCLVersion = '1.8.4.0'
+  object stgFileHandles: TStringGrid
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = btnClose
+    Left = 12
+    Height = 281
+    Top = 12
+    Width = 614
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    AutoFillColumns = True
+    BorderSpacing.Top = 12
+    BorderSpacing.Bottom = 12
+    ColCount = 3
+    Columns = <    
+      item
+        SizePriority = 0
+        Title.Caption = 'File Handle'
+        Width = 100
+      end    
+      item
+        SizePriority = 0
+        Title.Caption = 'Process ID'
+        Width = 100
+      end    
+      item
+        Title.Caption = 'Executable Path'
+        Width = 413
+      end>
+    FixedCols = 0
+    Flat = True
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect, goSmoothScroll]
+    TabOrder = 0
+    OnSelection = stgFileHandlesSelection
+    ColWidths = (
+      100
+      100
+      413
+    )
+  end
+  object btnUnlockAll: TButton
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnClose
+    AnchorSideBottom.Control = btnClose
+    AnchorSideBottom.Side = asrBottom
+    Left = 464
+    Height = 25
+    Top = 305
+    Width = 75
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 12
+    Caption = 'Unlock All'
+    OnClick = btnUnlockAllClick
+    TabOrder = 1
+  end
+  object btnUnlock: TButton
+    AnchorSideTop.Control = btnUnlockAll
+    AnchorSideRight.Control = btnUnlockAll
+    Left = 377
+    Height = 25
+    Top = 305
+    Width = 75
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 12
+    Caption = 'Unlock'
+    OnClick = btnUnlockClick
+    TabOrder = 2
+  end
+  object btnClose: TButton
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 551
+    Height = 25
+    Top = 305
+    Width = 75
+    Anchors = [akRight, akBottom]
+    Caption = 'Close'
+    ModalResult = 11
+    TabOrder = 3
+  end
+end

@@ -1,0 +1,9 @@
+{"version":1,"strings":[
+{"hash":96810395,"name":"tfrmfileunlock.caption","sourcebytes":[85,110,108,111,99,107],"value":"Unlock"},
+{"hash":78334293,"name":"tfrmfileunlock.stgfilehandles.columns[0].title.caption","sourcebytes":[70,105,108,101,32,72,97,110,100,108,101],"value":"File Handle"},
+{"hash":164572548,"name":"tfrmfileunlock.stgfilehandles.columns[1].title.caption","sourcebytes":[80,114,111,99,101,115,115,32,73,68],"value":"Process ID"},
+{"hash":165250008,"name":"tfrmfileunlock.stgfilehandles.columns[2].title.caption","sourcebytes":[69,120,101,99,117,116,97,98,108,101,32,80,97,116,104],"value":"Executable Path"},
+{"hash":93881116,"name":"tfrmfileunlock.btnunlockall.caption","sourcebytes":[85,110,108,111,99,107,32,65,108,108],"value":"Unlock All"},
+{"hash":96810395,"name":"tfrmfileunlock.btnunlock.caption","sourcebytes":[85,110,108,111,99,107],"value":"Unlock"},
+{"hash":4863637,"name":"tfrmfileunlock.btnclose.caption","sourcebytes":[67,108,111,115,101],"value":"Close"}
+]}
