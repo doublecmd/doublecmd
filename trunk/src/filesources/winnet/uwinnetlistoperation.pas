@@ -30,7 +30,7 @@ implementation
 
 uses
   LazUTF8, uFile, Windows, JwaWinNetWk, JwaLmCons, JwaLmShare, JwaLmApiBuf,
-  DCStrUtils, uShowMsg, DCOSUtils, uOSUtils, uNetworkThread;
+  StrUtils, DCStrUtils, uShowMsg, DCOSUtils, uOSUtils, uNetworkThread;
 
 function TWinNetListOperation.Connect: Boolean;
 var
@@ -43,7 +43,13 @@ begin
   else begin
     AbortMethod:= @CheckOperationState;
   end;
-  ServerPath:= UTF8Decode(ExcludeTrailingPathDelimiter(Path));
+  if FWinNetFileSource.IsNetworkPath(Path) then
+    ServerPath:= UTF8Decode(ExcludeTrailingPathDelimiter(Path))
+  else begin
+    dwResult:= NPos(PathDelim, Path, 4);
+    if dwResult = 0 then dwResult:= MaxInt;
+    ServerPath:= UTF8Decode(Copy(Path, 1, dwResult - 1));
+  end;
   dwResult:= TNetworkThread.Connect(nil, PWideChar(ServerPath), RESOURCETYPE_ANY, AbortMethod);
   if dwResult <> NO_ERROR then
   begin
