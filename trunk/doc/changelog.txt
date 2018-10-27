@@ -1,4 +1,6 @@
 ﻿--------------------------------------------------------------------------------
+https://doublecmd.sourceforge.io/mantisbt/changelog_page.php
+--------------------------------------------------------------------------------
 08.10.2011 Release Double Commander 0.5.1 beta
 --------------------------------------------------------------------------------
 08.10.2011 FIX: Access violation when open archive with symbolic links
