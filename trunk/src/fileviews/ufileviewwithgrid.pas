@@ -356,9 +356,13 @@ begin
   Canvas.Brush.Style:=bsClear;
 
   // Draw frame cursor.
-  if gUseFrameCursor and (gdSelected in aState) and FFileView.Active then
+  if gUseFrameCursor and (gdSelected in aState) and (FFileView.Active or gUseInactiveSelColor) then
   begin
-    Canvas.Pen.Color := gCursorColor;
+    if FFileView.Active then
+      Canvas.Pen.Color := gCursorColor
+    else begin
+      Canvas.Pen.Color := gInactiveCursorColor;
+    end;
     Canvas.Rectangle(Rect(aRect.Left+delta, aRect.Top+delta , aRect.Right - delta, aRect.Bottom - delta));
   end;
 
