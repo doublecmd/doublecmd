@@ -396,7 +396,7 @@ begin
            (FileSource.CanRetrieveProperties(AFile.FSFile, AFilePropertiesNeeded) or
            (AFile.TextColor = clNone) or
            (HaveIcons and ((AFile.IconID < 0)
-             {$IF DEFINED(MSWINDOWS)}
+             {$IF DEFINED(MSWINDOWS) OR DEFINED(RabbitVCS)}
              or (gIconOverlays and (AFile.IconOverlayID < 0))
              {$ENDIF}
            ))) then
