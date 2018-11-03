@@ -357,6 +357,7 @@ begin
   edtArchiverListStart.Enabled:= not chkFileNameOnlyList.Checked;
   edtArchiverListEnd.Enabled:= not chkFileNameOnlyList.Checked;
   memArchiverListFormat.Enabled:= not chkFileNameOnlyList.Checked;
+  edtAnyChange(Sender);
 end;
 
 { TfrmOptionsArchivers.lbxArchiverDragOver }
