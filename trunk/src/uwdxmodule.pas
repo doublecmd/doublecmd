@@ -5,7 +5,7 @@
    (TC WDX-API v1.5)
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
 
    Some ideas were found in sources of WdxGuide by Alexey Torgashin
    and SuperWDX by Pavel Dubrovsky and Dmitry Vorotilin.
@@ -244,8 +244,10 @@ type
     //---------------------
     procedure Clear;
     procedure Exchange(Index1, Index2: Integer);
+    procedure Move(CurIndex, NewIndex: Integer);
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
+    function ComputeSignature(seed: dword): dword;
     procedure DeleteItem(Index: Integer);
     //---------------------
     function Add(Item: TWDXModule): Integer; overload;
@@ -269,7 +271,11 @@ type
 implementation
 
 uses
-  StrUtils, LazUTF8, uGlobs, uGlobsPaths, FileUtil, uDebug, uDCUtils, uOSUtils,
+  //Lazarus, Free-Pascal, etc.
+  StrUtils, LazUTF8, FileUtil,
+
+  //DC
+  uComponentsSignature, uGlobs, uGlobsPaths, uDebug, uDCUtils, uOSUtils,
   DCBasicTypes, DCOSUtils, DCDateTimeUtils, DCConvertEncoding, uLuaPas;
 
 const
@@ -363,6 +369,11 @@ begin
   FList.Exchange(Index1, Index2);
 end;
 
+procedure TWDXModuleList.Move(CurIndex, NewIndex: Integer);
+begin
+  FList.Move(CurIndex, NewIndex);
+end;
+
 procedure TWDXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   AName, APath: String;
@@ -417,9 +428,23 @@ begin
     begin
       SubNode := AConfig.AddNode(ANode, 'WdxPlugin');
       AConfig.AddValue(SubNode, 'Name', TWDXModule(Flist.Objects[I]).Name);
-      AConfig.AddValue(SubNode, 'Path', SetCmdDirAsEnvVar(TWDXModule(Flist.Objects[I]).FileName));
+      AConfig.AddValue(SubNode, 'Path', TWDXModule(Flist.Objects[I]).FileName);
       AConfig.AddValue(SubNode, 'DetectString', TWDXModule(Flist.Objects[I]).DetectStr);
     end;
+  end;
+end;
+
+{ TWDXModuleList.ComputeSignature }
+function TWDXModuleList.ComputeSignature(seed: dword): dword;
+var
+  iIndex: integer;
+begin
+  result := seed;
+  for iIndex := 0 to pred(Count) do
+  begin
+    result := ComputeSignatureString(result, TWDXModule(Flist.Objects[iIndex]).Name);
+    result := ComputeSignatureString(result, TWDXModule(Flist.Objects[iIndex]).FileName);
+    result := ComputeSignatureString(result, TWDXModule(Flist.Objects[iIndex]).DetectStr);
   end;
 end;
 
@@ -560,7 +585,7 @@ end;
 
 function TPluginWDX.LoadModule: Boolean;
 begin
-  FModuleHandle := mbLoadLibrary(Self.FileName);
+  FModuleHandle := mbLoadLibrary(mbExpandFileName(Self.FileName));
   Result := (FModuleHandle <> 0);
   if FModuleHandle = 0 then
     exit;

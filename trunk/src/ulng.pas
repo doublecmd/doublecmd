@@ -668,8 +668,6 @@ resourcestring
   //-------------------------------
   rsOptEnterExt = 'Enter extension';
   rsOptAssocPluginWith = 'Associate plugin "%s" with:';
-  rsOptEnable = 'Enable';
-  rsOptDisable = 'Disable';
   rsOptMouseSelectionButton = 'Left button;Right button;';
   rsOptAutoSizeColumn = 'First;Last;';
   rsOptTabsPosition = 'Top;Bottom;';
@@ -741,7 +739,14 @@ resourcestring
   rsOptPluginsName = 'Name';
   rsOptPluginsRegisteredFor = 'Registered for';
   rsOptPluginsFileName = 'File name';
+  rsOptPluginsDescription = 'Description';
   rsOptPluginAlreadyAssigned = 'Plugin %s is already assigned for the following extensions:';
+  rsOptPluginEnable = 'E&nable';
+  rsOptPluginDisable = 'D&isable';
+  rsOptPluginShowByPlugin = 'By Plugin';
+  rsOptPluginShowByExtension = 'By extension';
+  rsOptPluginSortOnlyWhenByExtension = 'Sorting WCX plugins is only possible when showing plugins by extension';
+  rsPluginFilenameStyleList = 'With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following';  
   //-------------------------------
   rsOptSortMethod = 'Alphabetical, considering accents;Natural sorting: alphabetical and numbers';
   rsOptSortCaseSens = 'not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)';

@@ -1,0 +1,12 @@
+{"version":1,"strings":[
+{"hash":75149509,"name":"tfrmoptionspluginsbase.stgplugins.columns[0].title.caption","sourcebytes":[65,99,116,105,118,101],"value":"Active"},
+{"hash":91471358,"name":"tfrmoptionspluginsbase.stgplugins.columns[1].title.caption","sourcebytes":[80,108,117,103,105,110],"value":"Plugin"},
+{"hash":56017954,"name":"tfrmoptionspluginsbase.stgplugins.columns[2].title.caption","sourcebytes":[82,101,103,105,115,116,101,114,101,100,32,102,111,114],"value":"Registered for"},
+{"hash":41356085,"name":"tfrmoptionspluginsbase.stgplugins.columns[3].title.caption","sourcebytes":[70,105,108,101,32,110,97,109,101],"value":"File name"},
+{"hash":156067838,"name":"tfrmoptionspluginsbase.lblplugindescription.caption","sourcebytes":[68,101,115,99,114,105,112,116,105,111,110],"value":"Description"},
+{"hash":277668,"name":"tfrmoptionspluginsbase.btnaddplugin.caption","sourcebytes":[65,38,100,100],"value":"A&dd"},
+{"hash":131365221,"name":"tfrmoptionspluginsbase.btnenableplugin.caption","sourcebytes":[69,38,110,97,98,108,101],"value":"E&nable"},
+{"hash":193742565,"name":"tfrmoptionspluginsbase.btnremoveplugin.caption","sourcebytes":[38,82,101,109,111,118,101],"value":"&Remove"},
+{"hash":214649477,"name":"tfrmoptionspluginsbase.btnconfigplugin.caption","sourcebytes":[67,111,110,38,102,105,103,117,114,101],"value":"Con&figure"},
+{"hash":45865851,"name":"tfrmoptionspluginsbase.btntweakplugin.caption","sourcebytes":[38,84,119,101,97,107],"value":"&Tweak"}
+]}

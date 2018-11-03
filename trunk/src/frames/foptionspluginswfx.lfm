@@ -1,0 +1,29 @@
+inherited frmOptionsPluginsWFX: TfrmOptionsPluginsWFX
+  DesignLeft = 291
+  DesignTop = 266
+  inherited stgPlugins: TStringGrid
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+  end
+  inherited pnlPlugIn: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    inherited lblPlugInDescription: TLabel
+      Caption = 'Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC.'
+    end
+  end
+  inherited pnlButton: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideBottom.Control = Owner
+    inherited btnAddPlugin: TBitBtn
+      OnClick = btnAddPluginClick
+    end
+    inherited btnEnablePlugin: TBitBtn
+      OnClick = btnEnablePluginClick
+    end
+    inherited btnConfigPlugin: TBitBtn
+      OnClick = btnConfigPluginClick
+    end
+  end
+end

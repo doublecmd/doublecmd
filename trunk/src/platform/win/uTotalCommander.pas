@@ -207,7 +207,7 @@ const
     (TCCommand: 'cm_RefreshConfig';             TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Refresh file lists
     (TCCommand: 'cm_QuickSearchConfig';         TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Quick Search
     (TCCommand: 'cm_FtpConfig';                 TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //FTP options
-    (TCCommand: 'cm_PluginsConfig';             TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Plugins
+    (TCCommand: 'cm_PluginsConfig';             TCIcon: 34; DCCommand: 'cm_ConfigPlugins';          DCParameters: ''          ), //Conf: Plugins
     (TCCommand: 'cm_ThumbnailsConfig';          TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Thumbnails
     (TCCommand: 'cm_LogConfig';                 TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Log file
     (TCCommand: 'cm_IgnoreConfig';              TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Ignore list

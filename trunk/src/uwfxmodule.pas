@@ -3,8 +3,8 @@
    -------------------------------------------------------------------------
    Virtual File System - class for manage WFX plugins (Version 1.3)
  
-   Copyright (C) 2007-2017 Alexander Koblov (alexx2000@mail.ru)
- 
+   Copyright (C) 2007-2018 Alexander Koblov (alexx2000@mail.ru)
+
    Callback functions based on:
      Total Commander filesystem plugins debugger
      Author: Pavel Dubrovsky
@@ -172,6 +172,7 @@ type
   public
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
+    function ComputeSignature(seed: dword): dword;
     function Add(Ext: String; FileName: String): Integer; reintroduce;
     function FindFirstEnabledByName(Name: String): Integer;
     function LoadModule(const FileName: String): TWfxModule;
@@ -186,8 +187,12 @@ type
 implementation
 
 uses
-  LazUTF8, uLng, FileUtil, uGlobsPaths, uOSUtils, uWfxPluginUtil,
-  fDialogBox, uDebug, DCOSUtils, DCStrUtils, DCConvertEncoding;
+  //Lazarus, Free-Pascal, etc.
+  LazUTF8, FileUtil,
+
+  //DC
+  uDCUtils, uLng, uGlobsPaths, uOSUtils, uWfxPluginUtil, fDialogBox, DCOSUtils,
+  DCStrUtils, DCConvertEncoding, uComponentsSignature;
 
 const
   WfxIniFileName = 'wfx.ini';
@@ -259,7 +264,6 @@ begin
     on E: Exception do
     begin
       Result:= wfxInvalidHandle;
-      DCDebug(ClassName + '.WfxFindFirst(). Error: ' + E.Message);
     end;
   end;
 end;
@@ -461,14 +465,11 @@ end;
 
 function TWFXModule.LoadModule(const sName: String): Boolean;
 begin
-  FModuleHandle := mbLoadLibrary(sName);
+  FModuleHandle := mbLoadLibrary(mbExpandFileName(sName));
   if FModuleHandle = 0 then
   begin
-    DCDebug(GetLoadErrorStr);
     Exit(False);
   end;
-
-  DCDebug('WFX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
 
   FModuleFileName:= sName;
 { Mandatory }
@@ -692,7 +693,6 @@ begin
     on E: Exception do
     begin
       Result:= False;
-      DCDebug(ClassName + '.VFSConfigure(). Error: ' + E.Message);
     end;
   end;
 end;
@@ -788,14 +788,11 @@ begin
     begin
       if ANode.CompareName('WfxPlugin') = 0 then
       begin
-        if AConfig.TryGetValue(ANode, 'Name', AName) and
-           AConfig.TryGetValue(ANode, 'Path', APath) then
+        if AConfig.TryGetValue(ANode, 'Name', AName) and AConfig.TryGetValue(ANode, 'Path', APath) then
         begin
           I := Add(AName, APath);
           Enabled[I] := AConfig.GetAttr(ANode, 'Enabled', True);
-        end
-        else
-          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+        end;
       end;
       ANode := ANode.NextSibling;
     end;
@@ -816,6 +813,20 @@ begin
       AConfig.AddValue(SubNode, 'Name', Name[I]);
       AConfig.AddValue(SubNode, 'Path', FileName[I]);
     end;
+end;
+
+{ TWFXModuleList.ComputeSignature }
+function TWFXModuleList.ComputeSignature(seed: dword): dword;
+var
+  iIndex: integer;
+begin
+  result := seed;
+  for iIndex := 0 to pred(Count) do
+  begin
+    result := ComputeSignatureBoolean(result, Enabled[iIndex]);
+    result := ComputeSignatureString(result, Name[iIndex]);
+    result := ComputeSignatureString(result, FileName[iIndex]);
+  end;
 end;
 
 function TWFXModuleList.Add(Ext: String; FileName: String): Integer;

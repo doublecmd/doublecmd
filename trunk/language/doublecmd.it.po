@@ -2131,6 +2131,10 @@ msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
+#: tfrmmain.actconfigplugins.caption
+msgid "Configuration of Plugins"
+msgstr ""
+
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
 msgstr ""
@@ -6917,99 +6921,213 @@ msgid "Single click (opens folders, double click for files)"
 msgstr ""
 
 #: tfrmoptionsplugins.btnaddplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnaddplugin.caption"
 msgid "A&dd"
 msgstr "A&ggiungi"
 
 #: tfrmoptionsplugins.btnconfigplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnconfigplugin.caption"
 msgid "Con&figure"
 msgstr "Con&figura"
 
 #: tfrmoptionsplugins.btnenableplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnenableplugin.caption"
 msgid "E&nable"
 msgstr "A&bilita"
 
 #: tfrmoptionsplugins.btnremoveplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnremoveplugin.caption"
 msgid "&Remove"
 msgstr "&Elimina"
 
 #: tfrmoptionsplugins.btntweakplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btntweakplugin.caption"
 msgid "&Tweak"
 msgstr "Tweak"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
-msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lbldsxdescription.caption"
 msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "I plugin di ricer&ca consentono di usare algoritmi di ricerca alternativi o strumenti esterni (come \"locate\", ecc.)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
-msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwcxdescription.caption"
 msgid "Pack&er plugins are used to work with archives"
 msgstr "I plugin dei compr&essori sono usati per aprire archivi non supportati internamente da Double Commander."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
-msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwdxdescription.caption"
 msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "I plu&gin di contenuto permettono di visualizzare dettagli estesi sui file come tag mp3 o attributi di immagine nella lista file, o di usarli negli strumenti di ricerca e nello strumento Multi-Rinomina."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
-msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwfxdescription.caption"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgstr "I plugin del Fi&le system permettono l'accesso a dischi altrimenti inaccessibili dal sistema operativo o a dispositivi esterni come Palm/PockePC."
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
-msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwlxdescription.caption"
 msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "I plugin del visualizzatore consentono di aprire formati di file come immagini, fogli elettronici, database ecc. in Visualizza/Mostra (F3, Ctrl+Q)"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
+msgctxt "tfrmoptionsplugins.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Attiva"
 
 #: tfrmoptionsplugins.stgplugins.columns[1].title.caption
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
+msgctxt "tfrmoptionsplugins.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "Plugin"
 
 #: tfrmoptionsplugins.stgplugins.columns[2].title.caption
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
+msgctxt "tfrmoptionsplugins.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "Registrato per"
 
 #: tfrmoptionsplugins.stgplugins.columns[3].title.caption
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION"
+msgctxt "tfrmoptionsplugins.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Nome file"
 
 #: tfrmoptionsplugins.tsdsx.caption
-msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
 msgid "&Search plugins (.DSX)"
 msgstr "&Plugin ricerca (.DSX)"
 
 #: tfrmoptionsplugins.tswcx.caption
-msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
 msgid "Pac&ker plugins (.WCX)"
 msgstr "Plugin &compressori (.WCX)"
 
 #: tfrmoptionsplugins.tswdx.caption
-msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
 msgid "Content pl&ugins (.WDX)"
 msgstr "Pl&ugin contenuto (.WDX)"
 
 #: tfrmoptionsplugins.tswfx.caption
-msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
 msgid "F&ile system plugins (.WFX)"
 msgstr "Plugin F&ile system (.WFX)"
 
 #: tfrmoptionsplugins.tswlx.caption
-msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
 msgid "&Viewer plugins (.WLX)"
 msgstr "Plugin &visualizzatore (.WLX)"
+
+#: tfrmoptionspluginsbase.btnaddplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnaddplugin.caption"
+msgid "A&dd"
+msgstr "Ag&giungi"
+
+#: tfrmoptionspluginsbase.btnconfigplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnconfigplugin.caption"
+msgid "Con&figure"
+msgstr "Con&figura"
+
+#: tfrmoptionspluginsbase.btnenableplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnenableplugin.caption"
+msgid "E&nable"
+msgstr "A&bilita"
+
+#: tfrmoptionspluginsbase.btnremoveplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnremoveplugin.caption"
+msgid "&Remove"
+msgstr "&Elimina"
+
+#: tfrmoptionspluginsbase.btntweakplugin.caption
+msgctxt "tfrmoptionspluginsbase.btntweakplugin.caption"
+msgid "&Tweak"
+msgstr "Tweak"
+
+#: tfrmoptionspluginsbase.lblplugindescription.caption
+msgctxt "tfrmoptionspluginsbase.lblplugindescription.caption"
+msgid "Description"
+msgstr "Descrizione"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[0].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[0].title.caption"
+msgid "Active"
+msgstr "Attiva"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[1].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[1].title.caption"
+msgid "Plugin"
+msgstr "Plugin"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[2].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[2].title.caption"
+msgid "Registered for"
+msgstr "Registrato per"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[3].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[3].title.caption"
+msgid "File name"
+msgstr "Nome file"
+
+#: tfrmoptionspluginsdsx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginsdsx.lblplugindescription.caption"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "I plugin di ricer&ca consentono di usare algoritmi di ricerca alternativi o strumenti esterni (come \"locate\", ecc.)"
+
+#: tfrmoptionspluginsgroup.btnpathtoberelativetoall.caption
+msgid "Apply current settings to all current configured plugins"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.ckbautotweak.caption
+msgid "When adding a new plugin, automatically go in tweak window"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.gbconfiguration.caption
+msgid "Configuration:"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
+msgid "Path to be relative to:"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.lbpluginfilenamestyle.caption
+msgid "Plugin filename style when adding a new plugin:"
+msgstr ""
+
+#: tfrmoptionspluginswcx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswcx.lblplugindescription.caption"
+msgid "Pack&er plugins are used to work with archives"
+msgstr "I plugin dei compr&essori sono usati per aprire archivi non supportati internamente da Double Commander."
+
+#: tfrmoptionspluginswcx.stgplugins.columns[0].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[0].title.caption"
+msgid "Active"
+msgstr "Attiva"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[1].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[1].title.caption"
+msgid "Plugin"
+msgstr "Plugin"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[2].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[2].title.caption"
+msgid "Registered for"
+msgstr "Registrato per"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[3].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[3].title.caption"
+msgid "File name"
+msgstr "Nome file"
+
+#: tfrmoptionspluginswdx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswdx.lblplugindescription.caption"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "I plu&gin di contenuto permettono di visualizzare dettagli estesi sui file come tag mp3 o attributi di immagine nella lista file, o di usarli negli strumenti di ricerca e nello strumento Multi-Rinomina."
+
+#: tfrmoptionspluginswfx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
+msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "I plugin del Fi&le system permettono l'accesso a dischi altrimenti inaccessibili dal sistema operativo o a dispositivi esterni come Palm/PockePC."
+
+#: tfrmoptionspluginswlx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswlx.lblplugindescription.caption"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "I plugin del visualizzatore consentono di aprire formati di file come immagini, fogli elettronici, database ecc. in Visualizza/Mostra (F3, Ctrl+Q)"
 
 #: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTBEGINNING.CAPTION"
@@ -8893,6 +9011,16 @@ msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
+#: tfrmtweakplugin.btnrelativeplugin1.hint
+msgctxt "tfrmtweakplugin.btnrelativeplugin1.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
+#: tfrmtweakplugin.btnrelativeplugin2.hint
+msgctxt "tfrmtweakplugin.btnrelativeplugin2.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
 #: tfrmtweakplugin.btnremove.caption
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
 msgid "&Remove"
@@ -8971,8 +9099,8 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
 msgid "&Plugin:"
 msgstr "&Plugin:"
 
-#: tfrmtweakplugin.lblplugin1.caption
-msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
+#: tfrmtweakplugin.lblplugin2.caption
+msgctxt "tfrmtweakplugin.lblplugin2.caption"
 msgid "&Plugin:"
 msgstr "&Plugin:"
 
@@ -11977,15 +12105,6 @@ msgstr ""
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
 msgstr ""
 
-#: ulng.rsoptdisable
-msgid "Disable"
-msgstr "Disabilita"
-
-#: ulng.rsoptenable
-msgctxt "ulng.rsoptenable"
-msgid "Enable"
-msgstr "Abilita"
-
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Inserire estensione"
@@ -12318,20 +12437,46 @@ msgstr "In alto alla lista file;dopo le cartelle (se le cartelle sono ordinate p
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "Il plugin %s è già assegnato alle seguenti estensioni:"
 
+#: ulng.rsoptplugindisable
+msgid "D&isable"
+msgstr "Disabilita"
+
+#: ulng.rsoptpluginenable
+msgctxt "ulng.rsoptpluginenable"
+msgid "E&nable"
+msgstr "A&bilita"
+
 #: ulng.rsoptpluginsactive
 msgctxt "ulng.rsoptpluginsactive"
 msgid "Active"
 msgstr "Attiva"
+
+#: ulng.rsoptpluginsdescription
+msgctxt "ulng.rsoptpluginsdescription"
+msgid "Description"
+msgstr "Descrizione"
 
 #: ulng.rsoptpluginsfilename
 msgctxt "ulng.rsoptpluginsfilename"
 msgid "File name"
 msgstr "Nome file"
 
+#: ulng.rsoptpluginshowbyextension
+msgid "By extension"
+msgstr ""
+
+#: ulng.rsoptpluginshowbyplugin
+msgid "By Plugin"
+msgstr ""
+
 #: ulng.rsoptpluginsname
 msgctxt "ulng.rsoptpluginsname"
 msgid "Name"
 msgstr "Nome"
+
+#: ulng.rsoptpluginsortonlywhenbyextension
+msgid "Sorting WCX plugins is only possible when showing plugins by extension"
+msgstr ""
 
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
@@ -12444,6 +12589,10 @@ msgstr ""
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "non cambiare posizione;usa le stesse impostazioni per i nuovi file; alla posizione ordinata"
+
+#: ulng.rspluginfilenamestylelist
+msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
+msgstr ""
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"

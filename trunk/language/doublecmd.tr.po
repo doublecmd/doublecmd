@@ -2246,6 +2246,10 @@ msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
+#: tfrmmain.actconfigplugins.caption
+msgid "Configuration of Plugins"
+msgstr ""
+
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
 msgstr ""
@@ -7037,70 +7041,52 @@ msgid "Single click (opens folders, double click for files)"
 msgstr ""
 
 #: tfrmoptionsplugins.btnaddplugin.caption
-#, fuzzy
-#| msgid "Add"
-msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnaddplugin.caption"
 msgid "A&dd"
 msgstr "Ekle"
 
 #: tfrmoptionsplugins.btnconfigplugin.caption
-#, fuzzy
-#| msgid "Configure"
-msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnconfigplugin.caption"
 msgid "Con&figure"
 msgstr "Yapılandırma"
 
 #: tfrmoptionsplugins.btnenableplugin.caption
-#, fuzzy
-#| msgid "Enable"
-msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnenableplugin.caption"
 msgid "E&nable"
 msgstr "Etkinleştir"
 
 #: tfrmoptionsplugins.btnremoveplugin.caption
-#, fuzzy
-#| msgid "Remove"
 msgctxt "tfrmoptionsplugins.btnremoveplugin.caption"
 msgid "&Remove"
 msgstr "Kaldır"
 
 #: tfrmoptionsplugins.btntweakplugin.caption
-#, fuzzy
 msgctxt "tfrmoptionsplugins.btntweakplugin.caption"
 msgid "&Tweak"
 msgstr "Ayarla"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
-#, fuzzy
-#| msgid "Searc&h plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lbldsxdescription.caption"
 msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Alternatif arama algoritmaları kullanmak için arama eklentilerine veya harici araçlara izin ver(\"yerini belirle\",vb.gibi)"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
-#, fuzzy
-#| msgid "Packer plugins are used to work with archives."
 msgctxt "tfrmoptionsplugins.lblwcxdescription.caption"
 msgid "Pack&er plugins are used to work with archives"
 msgstr "Arşivler ile çalışmak için sıkıştırma eklentileri kullanılabilir."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
-#, fuzzy
-#| msgid "Content plu&gins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwdxdescription.caption"
 msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "İçerik eklentilerine izin ver, genişletilmiş dosya ayrıntıları gibi mp3 etiketleri veya resim özniteliklerini dosya listelerinde görüntülemek için veya onları aramada kullan ve çoklu-yeniden adlandırma aracı"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
-#, fuzzy
-#| msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgctxt "TFRMOPTIONSPLUGINS.LBLallow one to displayAPTION"
+msgctxt "tfrmoptionsplugins.lblwfxdescription.caption"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgstr "Dosya sistemi eklentileri işletim sistemi tarafından ulaşılmaz disklere veya allow one to displaygibi harici cihazlara erişim sağlar"
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
-#, fuzzy
-#| msgid "Vie&wer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgctxt "tfrmoptionsplugins.lblwlxdescription.caption"
 msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Görüntüleyici eklentilerine izin ver, dosya tipleri,resimler,elektronik tablolar, veritabanları vb. gibi.gösterilmesini sağlar(F3, Ctrl+Q)"
 
@@ -7125,39 +7111,144 @@ msgid "File name"
 msgstr "Dosya Adı"
 
 #: tfrmoptionsplugins.tsdsx.caption
-#, fuzzy
-#| msgid "Search plugins (.DSX)"
-msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
 msgid "&Search plugins (.DSX)"
 msgstr "Arama eklentileri(.DSX)"
 
 #: tfrmoptionsplugins.tswcx.caption
-#, fuzzy
-#| msgid "Packer plugins (.WCX)"
-msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
 msgid "Pac&ker plugins (.WCX)"
 msgstr "Sıkıştırma eklentileri (.WCX)"
 
 #: tfrmoptionsplugins.tswdx.caption
-#, fuzzy
-#| msgid "Content plugins (.WDX)"
-msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
 msgid "Content pl&ugins (.WDX)"
 msgstr "İçerik eklentileri (.WDX)"
 
 #: tfrmoptionsplugins.tswfx.caption
-#, fuzzy
-#| msgid "File system plugins (.WFX)"
-msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
 msgid "F&ile system plugins (.WFX)"
 msgstr "Dosya sistemi eklentileri (.WFX)"
 
 #: tfrmoptionsplugins.tswlx.caption
-#, fuzzy
-#| msgid "Viewer plugins (.WLX)"
-msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwcxdescription.captionTFRMOPTIONSPLUGINS.LBLallow one to displayAPTIONtfrmoptionsplugins.stgplugins.columns[0].title.captionTFRMOPTIONSPLUGINS.TSWCX.CAPTIONTFRMOPTIONSPLUGINS.TSWFX.CAPTIONTFRMOPTIONSPLUGINS.TSWLX.CAPTIONtfrmoptionspluginsbase.btnaddplugin.caption"
 msgid "&Viewer plugins (.WLX)"
 msgstr "Görüntüleyici eklentileri(.WLX)"
+
+#: tfrmoptionspluginsbase.btnaddplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnaddplugin.caption"
+msgid "A&dd"
+msgstr "Ekle"
+
+#: tfrmoptionspluginsbase.btnconfigplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnconfigplugin.caption"
+msgid "Con&figure"
+msgstr "Yapılandırma"
+
+#: tfrmoptionspluginsbase.btnenableplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnenableplugin.caption"
+msgid "E&nable"
+msgstr "Etkinleştir"
+
+#: tfrmoptionspluginsbase.btnremoveplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnremoveplugin.caption"
+msgid "&Remove"
+msgstr "Kaldır"
+
+#: tfrmoptionspluginsbase.btntweakplugin.caption
+msgctxt "tfrmoptionspluginsbase.btntweakplugin.caption"
+msgid "&Tweak"
+msgstr "Ayarla"
+
+#: tfrmoptionspluginsbase.lblplugindescription.caption
+msgctxt "tfrmoptionspluginsbase.lblplugindescription.caption"
+msgid "Description"
+msgstr ""
+
+#: tfrmoptionspluginsbase.stgplugins.columns[0].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[0].title.caption"
+msgid "Active"
+msgstr "Etkin"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[1].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[1].title.caption"
+msgid "Plugin"
+msgstr "Eklenti"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[2].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[2].title.caption"
+msgid "Registered for"
+msgstr "Kayıtlı"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[3].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[3].title.caption"
+msgid "File name"
+msgstr "Dosya Adı"
+
+#: tfrmoptionspluginsdsx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginsdsx.lblplugindescription.caption"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Alternatif arama algoritmaları kullanmak için arama eklentilerine veya harici araçlara izin ver(\"yerini belirle\",vb.gibi)"
+
+#: tfrmoptionspluginsgroup.btnpathtoberelativetoall.caption
+msgid "Apply current settings to all current configured plugins"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.ckbautotweak.caption
+msgid "When adding a new plugin, automatically go in tweak window"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.gbconfiguration.caption
+msgid "Configuration:"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
+msgid "Path to be relative to:"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.lbpluginfilenamestyle.caption
+msgid "Plugin filename style when adding a new plugin:"
+msgstr ""
+
+#: tfrmoptionspluginswcx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswcx.lblplugindescription.caption"
+msgid "Pack&er plugins are used to work with archives"
+msgstr "Arşivler ile çalışmak için sıkıştırma eklentileri kullanılabilir."
+
+#: tfrmoptionspluginswcx.stgplugins.columns[0].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[0].title.caption"
+msgid "Active"
+msgstr "Etkin"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[1].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[1].title.caption"
+msgid "Plugin"
+msgstr "Eklenti"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[2].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[2].title.caption"
+msgid "Registered for"
+msgstr "Kayıtlı"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[3].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[3].title.caption"
+msgid "File name"
+msgstr "Dosya adı"
+
+#: tfrmoptionspluginswdx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswdx.lblplugindescription.caption"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "İçerik eklentilerine izin ver, genişletilmiş dosya ayrıntıları gibi mp3 etiketleri veya resim özniteliklerini dosya listelerinde görüntülemek için veya onları aramada kullan ve çoklu-yeniden adlandırma aracı"
+
+#: tfrmoptionspluginswfx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
+msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Dosya sistemi eklentileri işletim sistemi tarafından ulaşılmaz disklere veya allow one to displaygibi harici cihazlara erişim sağlar"
+
+#: tfrmoptionspluginswlx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswlx.lblplugindescription.caption"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Görüntüleyici eklentilerine izin ver, dosya tipleri,resimler,elektronik tablolar, veritabanları vb. gibi.gösterilmesini sağlar(F3, Ctrl+Q)"
 
 #: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
 msgctxt "tfrmoptionsquicksearchfilter.cbexactbeginning.caption"
@@ -9092,6 +9183,16 @@ msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "TAMAM"
 
+#: tfrmtweakplugin.btnrelativeplugin1.hint
+msgctxt "tfrmtweakplugin.btnrelativeplugin1.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
+#: tfrmtweakplugin.btnrelativeplugin2.hint
+msgctxt "tfrmtweakplugin.btnrelativeplugin2.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
 #: tfrmtweakplugin.btnremove.caption
 #, fuzzy
 #| msgid "Remove"
@@ -9180,8 +9281,6 @@ msgid "D&etect string:"
 msgstr "Tanım:"
 
 #: tfrmtweakplugin.lblextension.caption
-#, fuzzy
-#| msgid "D&etect string:"
 msgid "&Extension:"
 msgstr "Dizi algıla:"
 
@@ -9200,16 +9299,12 @@ msgid "&Name:"
 msgstr "Adı:"
 
 #: tfrmtweakplugin.lblplugin.caption
-#, fuzzy
-#| msgid "Plugin:"
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
 msgid "&Plugin:"
 msgstr "Eklenti"
 
-#: tfrmtweakplugin.lblplugin1.caption
-#, fuzzy
-#| msgid "Plugin:"
-msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
+#: tfrmtweakplugin.lblplugin2.caption
+msgctxt "tfrmtweakplugin.lblplugin2.caption"
 msgid "&Plugin:"
 msgstr "Eklenti"
 
@@ -12187,15 +12282,6 @@ msgstr ""
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
 msgstr ""
 
-#: ulng.rsoptdisable
-msgid "Disable"
-msgstr "Devre dışı"
-
-#: ulng.rsoptenable
-msgctxt "ulng.rsoptenable"
-msgid "Enable"
-msgstr "Etkinleştir"
-
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Uzantıyı gir"
@@ -12531,20 +12617,46 @@ msgstr ""
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "Eklenti %s aşağıdaki uzantıya zaten atanmış :"
 
+#: ulng.rsoptplugindisable
+msgid "D&isable"
+msgstr "Devre dışı"
+
+#: ulng.rsoptpluginenable
+msgctxt "ulng.rsoptpluginenable"
+msgid "E&nable"
+msgstr "Etkinleştir"
+
 #: ulng.rsoptpluginsactive
 msgctxt "ulng.rsoptpluginsactive"
 msgid "Active"
 msgstr "Etkin"
+
+#: ulng.rsoptpluginsdescription
+msgctxt "ulng.rsoptpluginsdescription"
+msgid "Description"
+msgstr ""
 
 #: ulng.rsoptpluginsfilename
 msgctxt "ulng.rsoptpluginsfilename"
 msgid "File name"
 msgstr "Dosya adı"
 
+#: ulng.rsoptpluginshowbyextension
+msgid "By extension"
+msgstr ""
+
+#: ulng.rsoptpluginshowbyplugin
+msgid "By Plugin"
+msgstr ""
+
 #: ulng.rsoptpluginsname
 msgctxt "ulng.rsoptpluginsname"
 msgid "Name"
 msgstr "Adı"
+
+#: ulng.rsoptpluginsortonlywhenbyextension
+msgid "Sorting WCX plugins is only possible when showing plugins by extension"
+msgstr ""
 
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
@@ -12656,6 +12768,10 @@ msgstr ""
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
+msgstr ""
+
+#: ulng.rspluginfilenamestylelist
+msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
 msgstr ""
 
 #: ulng.rspropscontains

@@ -2061,6 +2061,10 @@ msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr "Konfiguracja skrótów klawiszowych"
 
+#: tfrmmain.actconfigplugins.caption
+msgid "Configuration of Plugins"
+msgstr ""
+
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
 msgstr "Zapisz ustawienia"
@@ -6613,65 +6617,72 @@ msgid "Single click (opens folders, double click for files)"
 msgstr ""
 
 #: tfrmoptionsplugins.btnaddplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnaddplugin.caption"
 msgid "A&dd"
 msgstr "Dodaj"
 
 #: tfrmoptionsplugins.btnconfigplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnconfigplugin.caption"
 msgid "Con&figure"
 msgstr "Konfiguruj"
 
 #: tfrmoptionsplugins.btnenableplugin.caption
+msgctxt "tfrmoptionsplugins.btnenableplugin.caption"
 msgid "E&nable"
 msgstr "Włącz"
 
 #: tfrmoptionsplugins.btnremoveplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnremoveplugin.caption"
 msgid "&Remove"
 msgstr "Usuń"
 
 #: tfrmoptionsplugins.btntweakplugin.caption
+msgctxt "tfrmoptionsplugins.btntweakplugin.caption"
 msgid "&Tweak"
 msgstr "Dostosuj"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
+msgctxt "tfrmoptionsplugins.lbldsxdescription.caption"
 msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Zezwalaj na szukanie wtyczek wg alternatywnych algorytmów i narzędzi zewnętrznych (np. \"locate\")"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
+msgctxt "tfrmoptionsplugins.lblwcxdescription.caption"
 msgid "Pack&er plugins are used to work with archives"
 msgstr "Obsługa archiwów z użyciem wtyczek."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
+msgctxt "tfrmoptionsplugins.lblwdxdescription.caption"
 msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Wtyczki pozwalające wyświetlać dodatkowe informacje o plikach (np. tagi mp3, atrybuty grafiki) w panelach oraz przy szukaniu i zamianie."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
+msgctxt "tfrmoptionsplugins.lblwfxdescription.caption"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgstr "Wtyczki obsługujące niedostępne dla systemu dyski i urządzenia zewnętrzne (np. Palm/PocketPC)"
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
+msgctxt "tfrmoptionsplugins.lblwlxdescription.caption"
 msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Wtyczki pozwalające wyświetlić za pomocą przeglądarki (listera, komendą F3) pliki takie jak np. grafika, bazy danych akusze kalkulacyjne"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
+msgctxt "tfrmoptionsplugins.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Aktywne"
 
 #: tfrmoptionsplugins.stgplugins.columns[1].title.caption
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
+msgctxt "tfrmoptionsplugins.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "Wtyczka"
 
 #: tfrmoptionsplugins.stgplugins.columns[2].title.caption
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
+msgctxt "tfrmoptionsplugins.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "Zarejestrowany dla"
 
 #: tfrmoptionsplugins.stgplugins.columns[3].title.caption
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION"
+msgctxt "tfrmoptionsplugins.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Nazwa pliku"
 
@@ -6694,6 +6705,125 @@ msgstr "Wtyczki systemu plików (.WFX)"
 #: tfrmoptionsplugins.tswlx.caption
 msgid "&Viewer plugins (.WLX)"
 msgstr "Wtyczki przeglądarki (listera) (.WLX)"
+
+#: tfrmoptionspluginsbase.btnaddplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnaddplugin.caption"
+msgid "A&dd"
+msgstr "&Dodaj"
+
+#: tfrmoptionspluginsbase.btnconfigplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnconfigplugin.caption"
+msgid "Con&figure"
+msgstr "Konfiguruj"
+
+#: tfrmoptionspluginsbase.btnenableplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnenableplugin.caption"
+msgid "E&nable"
+msgstr "Włącz"
+
+#: tfrmoptionspluginsbase.btnremoveplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnremoveplugin.caption"
+msgid "&Remove"
+msgstr "Usuń"
+
+#: tfrmoptionspluginsbase.btntweakplugin.caption
+msgctxt "tfrmoptionspluginsbase.btntweakplugin.caption"
+msgid "&Tweak"
+msgstr "Dostosuj"
+
+#: tfrmoptionspluginsbase.lblplugindescription.caption
+msgctxt "tfrmoptionspluginsbase.lblplugindescription.caption"
+msgid "Description"
+msgstr "Opis"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[0].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[0].title.caption"
+msgid "Active"
+msgstr "Aktywne"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[1].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[1].title.caption"
+msgid "Plugin"
+msgstr "Wtyczka"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[2].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[2].title.caption"
+msgid "Registered for"
+msgstr "Zarejestrowany dla"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[3].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[3].title.caption"
+msgid "File name"
+msgstr "Nazwa pliku"
+
+#: tfrmoptionspluginsdsx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginsdsx.lblplugindescription.caption"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Zezwalaj na szukanie wtyczek wg alternatywnych algorytmów i narzędzi zewnętrznych (np. \"locate\")"
+
+#: tfrmoptionspluginsgroup.btnpathtoberelativetoall.caption
+msgid "Apply current settings to all current configured plugins"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.ckbautotweak.caption
+msgid "When adding a new plugin, automatically go in tweak window"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.gbconfiguration.caption
+msgid "Configuration:"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
+msgid "Path to be relative to:"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.lbpluginfilenamestyle.caption
+msgid "Plugin filename style when adding a new plugin:"
+msgstr ""
+
+#: tfrmoptionspluginswcx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswcx.lblplugindescription.caption"
+msgid "Pack&er plugins are used to work with archives"
+msgstr "Obsługa archiwów z użyciem wtyczek."
+
+#: tfrmoptionspluginswcx.stgplugins.columns[0].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[0].title.caption"
+msgid "Active"
+msgstr "Aktywna"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[1].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[1].title.caption"
+msgid "Plugin"
+msgstr "Wtyczka"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[2].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[2].title.caption"
+msgid "Registered for"
+msgstr "Zarejestrowany dla"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[3].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[3].title.caption"
+msgid "File name"
+msgstr "Nazwa pliku"
+
+#: tfrmoptionspluginswdx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswdx.lblplugindescription.caption"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Wtyczki pozwalające wyświetlać dodatkowe informacje o plikach (np. tagi mp3, atrybuty grafiki) w panelach oraz przy szukaniu i zamianie."
+
+#: tfrmoptionspluginswfx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
+msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Wtyczki obsługujące niedostępne dla systemu dyski i urządzenia zewnętrzne (np. Palm/PocketPC)"
+
+#: tfrmoptionspluginswlx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswlx.lblplugindescription.caption"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Wtyczki pozwalające wyświetlić za pomocą przeglądarki (listera, komendą F3) pliki takie jak np. grafika, bazy danych akusze kalkulacyjne"
 
 #: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
 msgid "&Beginning (name must start with first typed character)"
@@ -8521,6 +8651,16 @@ msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "OK"
 
+#: tfrmtweakplugin.btnrelativeplugin1.hint
+msgctxt "tfrmtweakplugin.btnrelativeplugin1.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Niektóre funkcje by wybrać odpowiednią ścieżkę"
+
+#: tfrmtweakplugin.btnrelativeplugin2.hint
+msgctxt "tfrmtweakplugin.btnrelativeplugin2.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Niektóre funkcje by wybrać odpowiednią ścieżkę"
+
 #: tfrmtweakplugin.btnremove.caption
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
 msgid "&Remove"
@@ -8596,8 +8736,8 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
 msgid "&Plugin:"
 msgstr "Wtyczka:"
 
-#: tfrmtweakplugin.lblplugin1.caption
-msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
+#: tfrmtweakplugin.lblplugin2.caption
+msgctxt "tfrmtweakplugin.lblplugin2.caption"
 msgid "&Plugin:"
 msgstr "Wtyczka:"
 
@@ -11536,14 +11676,6 @@ msgstr "Klasyczny, starszy porządek;Kolejność alfabetyczna (ale wciąż pierw
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
 msgstr "Ramka aktywnego panelu po lewej, nieaktywnego po prawej (starsze);Lewa ramka panelu po lewej, prawa po prawej"
 
-#: ulng.rsoptdisable
-msgid "Disable"
-msgstr "Wyłącz"
-
-#: ulng.rsoptenable
-msgid "Enable"
-msgstr "Włącz"
-
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Wpisz rozszerzenie"
@@ -11857,20 +11989,46 @@ msgstr "na początku listy plików;po katalogach(jeśli katalogi są sortowane p
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "Wtyczka %s jest już przypisana do następujących rozszerzeń:"
 
+#: ulng.rsoptplugindisable
+msgid "D&isable"
+msgstr "Wyłącz"
+
+#: ulng.rsoptpluginenable
+msgctxt "ulng.rsoptpluginenable"
+msgid "E&nable"
+msgstr "Włącz"
+
 #: ulng.rsoptpluginsactive
 msgctxt "ulng.rsoptpluginsactive"
 msgid "Active"
 msgstr "Aktywna"
+
+#: ulng.rsoptpluginsdescription
+msgctxt "ulng.rsoptpluginsdescription"
+msgid "Description"
+msgstr "Opis"
 
 #: ulng.rsoptpluginsfilename
 msgctxt "ulng.rsoptpluginsfilename"
 msgid "File name"
 msgstr "Nazwa pliku"
 
+#: ulng.rsoptpluginshowbyextension
+msgid "By extension"
+msgstr ""
+
+#: ulng.rsoptpluginshowbyplugin
+msgid "By Plugin"
+msgstr ""
+
 #: ulng.rsoptpluginsname
 msgctxt "ulng.rsoptpluginsname"
 msgid "Name"
 msgstr "Nazwa"
+
+#: ulng.rsoptpluginsortonlywhenbyextension
+msgid "Sorting WCX plugins is only possible when showing plugins by extension"
+msgstr ""
 
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
@@ -11981,6 +12139,10 @@ msgstr "DC legacy - Kopiuj (x) nazwapliku.roz;Windows - nazwapliku (x).roz;Pozos
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "nie zmieniaj pozycji;użyj takich samych ustawień dla nowych plików; do posortowanej pozycji"
+
+#: ulng.rspluginfilenamestylelist
+msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
+msgstr ""
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"

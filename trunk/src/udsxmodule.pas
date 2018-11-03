@@ -5,6 +5,7 @@
    DSX - Double commander Search eXtentions.
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
+   Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -81,8 +82,10 @@ type
     //---------------------
     procedure Clear;
     procedure Exchange(Index1, Index2: Integer);
+    procedure Move(CurIndex, NewIndex: Integer);
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
+    function ComputeSignature(seed: dword): dword;
     procedure DeleteItem(Index: integer);
     //---------------------
     function Add(Item: TDSXModule): integer; overload;
@@ -106,7 +109,10 @@ type
 implementation
 
 uses
-  DCOSUtils, uDebug, uGlobs, uGlobsPaths;
+  //Lazarus, Free-Pascal, etc.
+
+  //DC
+  DCOSUtils, uDebug, uGlobs, uGlobsPaths, uComponentsSignature;
 
 const
   DsxIniFileName = 'dsx.ini';
@@ -133,7 +139,7 @@ end;
 
 function TDsxModule.LoadModule: boolean;
 begin
-  FModuleHandle := mbLoadLibrary(Self.FileName);
+  FModuleHandle := mbLoadLibrary(mbExpandFileName(Self.FileName));
   Result := (FModuleHandle <> 0);
   if FModuleHandle = 0 then
     exit;
@@ -231,6 +237,11 @@ begin
   FList.Exchange(Index1, Index2);
 end;
 
+procedure TDSXModuleList.Move(CurIndex, NewIndex: Integer);
+begin
+  FList.Move(CurIndex, NewIndex);
+end;
+
 procedure TDSXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   AName, APath: String;
@@ -252,7 +263,7 @@ begin
           ADsxModule := TDsxModule.Create;
           Flist.AddObject(UpCase(AName), ADsxModule);
           ADsxModule.Name := AName;
-          ADsxModule.FileName := GetCmdDirFromEnvVar(APath);
+          ADsxModule.FileName := APath;
           ADsxModule.Descr := AConfig.GetValue(ANode, 'Description', '');
         end
         else
@@ -275,8 +286,22 @@ begin
   begin
     SubNode := AConfig.AddNode(ANode, 'DsxPlugin');
     AConfig.AddValue(SubNode, 'Name', TDSXModule(Flist.Objects[I]).Name);
-    AConfig.AddValue(SubNode, 'Path', SetCmdDirAsEnvVar(TDSXModule(Flist.Objects[I]).FileName));
+    AConfig.AddValue(SubNode, 'Path', TDSXModule(Flist.Objects[I]).FileName);
     AConfig.AddValue(SubNode, 'Description', TDSXModule(Flist.Objects[I]).Descr);
+  end;
+end;
+
+{ TDSXModuleList.ComputeSignature }
+function TDSXModuleList.ComputeSignature(seed: dword): dword;
+var
+  iIndex: integer;
+begin
+  result := seed;
+  for iIndex := 0 to pred(Count) do
+  begin
+    result := ComputeSignatureString(result, TDSXModule(Flist.Objects[iIndex]).Name);
+    result := ComputeSignatureString(result, TDSXModule(Flist.Objects[iIndex]).FileName);
+    result := ComputeSignatureString(result, TDSXModule(Flist.Objects[iIndex]).Descr);
   end;
 end;
 

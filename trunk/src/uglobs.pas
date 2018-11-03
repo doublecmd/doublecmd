@@ -89,6 +89,10 @@ type
   TExternalToolsOptions = array[TExternalTool] of TExternalToolOptions;
   TResultingFramePositionAfterCompare = (rfpacActiveOnLeft, rfpacLeftOnLeft);
 
+  TPluginType = (ptDSX, ptWCX, ptWDX, ptWFX, ptWLX); //*Important: Keep that order to to fit with procedures LoadXmlConfig/SaveXmlConfig when we save/restore widths of "TfrmTweakPlugin".
+  TWcxCfgViewMode = (wcvmByPlugin, wcvmByExtension);
+  TPluginFilenameStyle = (pfsAbsolutePath, pfsRelativeToDC, pfsRelativeToFollowingPath);
+
   TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog, dcfViewerBook, dcfConsole, dcfSearchResults, dcfPathEdit, dcfFunctionButtons, dcfOptionsTree, dcfOptionsMain);
   TDCFontOptions = record
     Name: String;
@@ -204,6 +208,13 @@ var
   gWFXPlugins: TWFXModuleList;
   { WLX plugins }
   gWLXPlugins: TWLXModuleList;
+  gTweakPluginWidth: array[ord(ptDSX)..ord(ptWLX)] of integer;
+  gTweakPluginHeight: array[ord(ptDSX)..ord(ptWLX)] of integer;
+  gPluginInAutoTweak: boolean;
+  gWCXConfigViewMode: TWcxCfgViewMode;
+  gPluginFilenameStyle: TPluginFilenameStyle = pfsAbsolutePath;
+  gPluginPathToBeRelativeTo: string = '%COMMANDER_PATH%';
+  
   { MultiArc addons }
   gMultiArcList: TMultiArcList;
 
@@ -343,6 +354,9 @@ var
   gExts:TExts;
   gColorExt:TColorExt;
   gFileInfoToolTip: TFileInfoToolTip;
+  gFileInfoToolTipValue: array[0..ord(ttthtNeverHide)] of integer = (-1, 1000, 2000, 3000, 5000, 10000, 30000, 60000, integer.MaxValue);
+
+
 
   { Fonts page }
   gFonts: TDCFontsOptions;
@@ -1306,8 +1320,8 @@ begin
   FreeThenNil(gWCXPlugins);
   FreeThenNil(gWDXPlugins);
   FreeThenNil(gWFXPlugins);
-  FreeThenNil(gMultiArcList);
   FreeThenNil(gWLXPlugins);
+  FreeThenNil(gMultiArcList);
   FreeThenNil(ColSet);
   FreeThenNil(HotMan);
 end;
@@ -1606,6 +1620,8 @@ begin
   gSaveDirHistory := True;
   gSaveCmdLineHistory := True;
   gSaveFileMaskHistory := True;
+  gPluginInAutoTweak := False;
+  gWCXConfigViewMode := wcvmByPlugin;
 
   { Quick Search/Filter page }
   gQuickSearchOptions.Match := [qsmBeginning, qsmEnding];
@@ -2768,6 +2784,15 @@ begin
     gWDXPlugins.Load(gConfig, Node);
     gWFXPlugins.Load(gConfig, Node);
     gWLXPlugins.Load(gConfig, Node);
+    for iIndexContextMode:=ord(ptDSX) to ord(ptWLX) do
+    begin
+      gTweakPluginWidth[iIndexContextMode]:=gConfig.GetValue(Node, Format('TweakPluginWidth%d',[iIndexContextMode]), 0);
+      gTweakPluginHeight[iIndexContextMode]:=gConfig.GetValue(Node, Format('TweakPluginHeight%d',[iIndexContextMode]), 0);
+    end;
+    gPluginFilenameStyle := TPluginFilenameStyle(gConfig.GetValue(Node, 'PluginFilenameStyle', ord(gPluginFilenameStyle)));
+    gPluginPathToBeRelativeTo := gConfig.GetValue(Node, 'PluginPathToBeRelativeTo', gPluginPathToBeRelativeTo);
+    gPluginInAutoTweak := gConfig.GetValue(Node, 'AutoTweak', gPluginInAutoTweak);
+    gWCXConfigViewMode :=  TWcxCfgViewMode(gConfig.GetValue(Node, 'WCXConfigViewMode', Integer(gWCXConfigViewMode)));
   end;
   gWDXPlugins.Add(TExifWdx.Create);
 
@@ -3248,6 +3273,15 @@ begin
   gWDXPlugins.Save(gConfig, Node);
   gWFXPlugins.Save(gConfig, Node);
   gWLXPlugins.Save(gConfig, Node);
+  for iIndexContextMode:=ord(ptDSX) to ord(ptWLX) do
+  begin
+    gConfig.SetValue(Node, Format('TweakPluginWidth%d',[iIndexContextMode]), gTweakPluginWidth[iIndexContextMode]);
+    gConfig.SetValue(Node, Format('TweakPluginHeight%d',[iIndexContextMode]), gTweakPluginHeight[iIndexContextMode]);
+  end;
+  gConfig.SetValue(Node, 'AutoTweak', gPluginInAutoTweak);
+  gConfig.SetValue(Node, 'WCXConfigViewMode', Integer(gWCXConfigViewMode));
+  gConfig.SetValue(Node, 'PluginFilenameStyle', ord(gPluginFilenameStyle));
+  gConfig.SetValue(Node,'PluginPathToBeRelativeTo', gPluginPathToBeRelativeTo);  
 end;
 
 function LoadConfig: Boolean;

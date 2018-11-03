@@ -60,7 +60,6 @@ end;
 procedure TVfsExecuteOperation.MainExecute;
 var
   Index: Integer;
-  sFileName: String;
   WfxModule: TWfxModule;
 begin
   FExecuteOperationResult:= fseorSuccess;
@@ -70,8 +69,7 @@ begin
     Index:= VfsFileList.FindFirstEnabledByName(RelativePath);
     if Index >= 0 then
     begin
-      sFileName:= GetCmdDirFromEnvVar(VfsFileList.FileName[Index]);
-      WfxModule:= gWFXPlugins.LoadModule(sFileName);
+      WfxModule:= gWFXPlugins.LoadModule(VfsFileList.FileName[Index]);
       if Assigned(WfxModule) then
       begin
         WfxModule.VFSInit;

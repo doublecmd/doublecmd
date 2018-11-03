@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Compute signature of a form, frame, etc. based on current options set
 
-   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,6 +31,9 @@ uses
 
 function ComputeSignatureBasedOnComponent(aComponent: TComponent; seed: dword): dword;
 function ComputeSignatureSingleComponent(aComponent: TComponent; seed: dword): dword;
+function ComputeSignatureString(seed: dword; sParamString: string): dword;
+function ComputeSignatureBoolean(seed: dword; bParamBoolean: boolean): dword;
+function ComputeSignaturePtrInt(seed: dword; iPtrInt: PtrInt): dword;
 
 implementation
 
@@ -77,6 +80,10 @@ begin
     'TFileNameEdit':
       if length(TFileNameEdit(aComponent).FileName) > 0 then
         Result := crc32(Result, @TFileNameEdit(aComponent).FileName[1], length(TFileNameEdit(aComponent).FileName));
+
+    'TDirectoryEdit':
+      if length(TDirectoryEdit(aComponent).Text) > 0 then
+        Result := crc32(Result, @TDirectoryEdit(aComponent).Text[1], length(TDirectoryEdit(aComponent).Text));
 
     'TComboBox', 'TComboBoxAutoWidth':
     begin
@@ -148,6 +155,27 @@ begin
           Result := ComputeSignatureBasedOnComponent(aComponent.Components[iComponent], Result)
       end;
   end;
+end;
+
+{ ComputeSignatureString }
+function ComputeSignatureString(seed: dword; sParamString: string): dword;
+begin
+  result := seed;
+  if length(sParamString) > 0 then result := crc32(result, @sParamString[1], length(sParamString));
+end;
+
+{ ComputeSignatureBoolean }
+function ComputeSignatureBoolean(seed: dword; bParamBoolean: boolean): dword;
+const
+  SAMPLEBYTES: array[0..1] of byte = ($23, $35);
+begin
+  result := crc32(seed, @SAMPLEBYTES[ifthen(bParamBoolean, 1, 0)], 1);
+end;
+
+{ ComputeSignaturePtrInt }
+function ComputeSignaturePtrInt(seed: dword; iPtrInt: PtrInt): dword;
+begin
+  result := crc32(seed, @iPtrInt, sizeof(PtrInt));
 end;
 
 end.

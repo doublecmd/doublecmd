@@ -2107,6 +2107,10 @@ msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr "ホットキーの設定"
 
+#: tfrmmain.actconfigplugins.caption
+msgid "Configuration of Plugins"
+msgstr ""
+
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
 msgstr "設定を保存する"
@@ -6782,99 +6786,213 @@ msgid "Single click (opens folders, double click for files)"
 msgstr ""
 
 #: tfrmoptionsplugins.btnaddplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnaddplugin.caption"
 msgid "A&dd"
 msgstr "追加(&d)"
 
 #: tfrmoptionsplugins.btnconfigplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnconfigplugin.caption"
 msgid "Con&figure"
 msgstr "構成(&f)"
 
 #: tfrmoptionsplugins.btnenableplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnenableplugin.caption"
 msgid "E&nable"
 msgstr "有効(&n)"
 
 #: tfrmoptionsplugins.btnremoveplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnremoveplugin.caption"
 msgid "&Remove"
 msgstr "削除(&R)"
 
 #: tfrmoptionsplugins.btntweakplugin.caption
-msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btntweakplugin.caption"
 msgid "&Tweak"
 msgstr "微調整(&T)"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
-msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lbldsxdescription.caption"
 msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "検索プラグインは、代替検索アルゴリズムや外部ツール（例えば”locate”等）の利用を可能にします(&h)。"
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
-msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwcxdescription.caption"
 msgid "Pack&er plugins are used to work with archives"
 msgstr "圧縮プラグインはアーカイブの操作に使われます(&e)。"
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
-msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwdxdescription.caption"
 msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "コンテンツ・プラグインは、ファイルリストにおいて、MP3のタグのようなファイルの拡張情報や画像属性の表示を可能にします。またこれは、検索と複数リネームツールで使用します(&g)。"
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
-msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwfxdescription.caption"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgstr "ファイルシステム・プラグインは、OSによってアクセスを禁止されているディスクやPalm/PocketPCのような外部デバイスへのアクセスを可能にします(&l)。"
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
-msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwlxdescription.caption"
 msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "ビューア・プラグインは、ビューアの中で、画像、スプレッドシート、データベース等のフォーマットを表示します(&w)。（F3, Ctrl+Q）"
 
 #: tfrmoptionsplugins.stgplugins.columns[0].title.caption
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
+msgctxt "tfrmoptionsplugins.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "有効"
 
 #: tfrmoptionsplugins.stgplugins.columns[1].title.caption
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
+msgctxt "tfrmoptionsplugins.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "プラグイン"
 
 #: tfrmoptionsplugins.stgplugins.columns[2].title.caption
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
+msgctxt "tfrmoptionsplugins.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "登録済み"
 
 #: tfrmoptionsplugins.stgplugins.columns[3].title.caption
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION"
+msgctxt "tfrmoptionsplugins.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "ファイル名"
 
 #: tfrmoptionsplugins.tsdsx.caption
-msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
 msgid "&Search plugins (.DSX)"
 msgstr "検索プラグイン（.DSX）(&S)"
 
 #: tfrmoptionsplugins.tswcx.caption
-msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
 msgid "Pac&ker plugins (.WCX)"
 msgstr "圧縮プラグイン(&k)"
 
 #: tfrmoptionsplugins.tswdx.caption
-msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
 msgid "Content pl&ugins (.WDX)"
 msgstr "コンテンツ・プラグイン（.WDX）(&u)"
 
 #: tfrmoptionsplugins.tswfx.caption
-msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
 msgid "F&ile system plugins (.WFX)"
 msgstr "ファイルシステム・プラグイン（.WFX）(&i)"
 
 #: tfrmoptionsplugins.tswlx.caption
-msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
 msgid "&Viewer plugins (.WLX)"
 msgstr "ビューア・プラグイン（.WLX）(&V)"
+
+#: tfrmoptionspluginsbase.btnaddplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnaddplugin.caption"
+msgid "A&dd"
+msgstr "追加(&d)"
+
+#: tfrmoptionspluginsbase.btnconfigplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnconfigplugin.caption"
+msgid "Con&figure"
+msgstr "構成(&f)"
+
+#: tfrmoptionspluginsbase.btnenableplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnenableplugin.caption"
+msgid "E&nable"
+msgstr "有効(&n)"
+
+#: tfrmoptionspluginsbase.btnremoveplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnremoveplugin.caption"
+msgid "&Remove"
+msgstr "削除(&R)"
+
+#: tfrmoptionspluginsbase.btntweakplugin.caption
+msgctxt "tfrmoptionspluginsbase.btntweakplugin.caption"
+msgid "&Tweak"
+msgstr "微調整(&T)"
+
+#: tfrmoptionspluginsbase.lblplugindescription.caption
+msgctxt "tfrmoptionspluginsbase.lblplugindescription.caption"
+msgid "Description"
+msgstr "説明"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[0].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[0].title.caption"
+msgid "Active"
+msgstr "有効"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[1].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[1].title.caption"
+msgid "Plugin"
+msgstr "プラグイン"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[2].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[2].title.caption"
+msgid "Registered for"
+msgstr "登録済み"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[3].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[3].title.caption"
+msgid "File name"
+msgstr "ファイル名"
+
+#: tfrmoptionspluginsdsx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginsdsx.lblplugindescription.caption"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "検索プラグインは、代替検索アルゴリズムや外部ツール（例えば”locate”等）の利用を可能にします(&h)。"
+
+#: tfrmoptionspluginsgroup.btnpathtoberelativetoall.caption
+msgid "Apply current settings to all current configured plugins"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.ckbautotweak.caption
+msgid "When adding a new plugin, automatically go in tweak window"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.gbconfiguration.caption
+msgid "Configuration:"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
+msgid "Path to be relative to:"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.lbpluginfilenamestyle.caption
+msgid "Plugin filename style when adding a new plugin:"
+msgstr ""
+
+#: tfrmoptionspluginswcx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswcx.lblplugindescription.caption"
+msgid "Pack&er plugins are used to work with archives"
+msgstr "圧縮プラグインはアーカイブの操作に使われます(&e)。"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[0].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[0].title.caption"
+msgid "Active"
+msgstr "有効"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[1].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[1].title.caption"
+msgid "Plugin"
+msgstr "プラグイン"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[2].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[2].title.caption"
+msgid "Registered for"
+msgstr "登録済み"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[3].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[3].title.caption"
+msgid "File name"
+msgstr "ファイル名"
+
+#: tfrmoptionspluginswdx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswdx.lblplugindescription.caption"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "コンテンツ・プラグインは、ファイルリストにおいて、MP3のタグのようなファイルの拡張情報や画像属性の表示を可能にします。またこれは、検索と複数リネームツールで使用します(&g)。"
+
+#: tfrmoptionspluginswfx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
+msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "ファイルシステム・プラグインは、OSによってアクセスを禁止されているディスクやPalm/PocketPCのような外部デバイスへのアクセスを可能にします(&l)。"
+
+#: tfrmoptionspluginswlx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswlx.lblplugindescription.caption"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "ビューア・プラグインは、ビューアの中で、画像、スプレッドシート、データベース等のフォーマットを表示します(&w)。（F3, Ctrl+Q）"
 
 #: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTBEGINNING.CAPTION"
@@ -8736,6 +8854,16 @@ msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "OK(&O)"
 
+#: tfrmtweakplugin.btnrelativeplugin1.hint
+msgctxt "tfrmtweakplugin.btnrelativeplugin1.hint"
+msgid "Some functions to select appropriate path"
+msgstr "適切なパスを選択するいくつかの機能"
+
+#: tfrmtweakplugin.btnrelativeplugin2.hint
+msgctxt "tfrmtweakplugin.btnrelativeplugin2.hint"
+msgid "Some functions to select appropriate path"
+msgstr "適切なパスを選択するいくつかの機能"
+
 #: tfrmtweakplugin.btnremove.caption
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
 msgid "&Remove"
@@ -8814,8 +8942,8 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
 msgid "&Plugin:"
 msgstr "プラグイン(&P)："
 
-#: tfrmtweakplugin.lblplugin1.caption
-msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
+#: tfrmtweakplugin.lblplugin2.caption
+msgctxt "tfrmtweakplugin.lblplugin2.caption"
 msgid "&Plugin:"
 msgstr "プラグイン(&P)："
 
@@ -11814,15 +11942,6 @@ msgstr "クラッシックな順番;レガシーな順番;アルファベット�
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
 msgstr "アクティブパネルを左に、非アクティブパネルを右に（レガシーな仕様）;左のパネルを左に、右のパネルを右に"
 
-#: ulng.rsoptdisable
-msgid "Disable"
-msgstr "無効にする"
-
-#: ulng.rsoptenable
-msgctxt "ulng.rsoptenable"
-msgid "Enable"
-msgstr "有効にする"
-
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "拡張子を入力"
@@ -12158,20 +12277,46 @@ msgstr "ファイルリストの先頭;ディレクトリの後（ディレク�
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "プラグイン＜%s＞は既に右の拡張子にアサインされています："
 
+#: ulng.rsoptplugindisable
+msgid "D&isable"
+msgstr "無効にする"
+
+#: ulng.rsoptpluginenable
+msgctxt "ulng.rsoptpluginenable"
+msgid "E&nable"
+msgstr "有効(&n)"
+
 #: ulng.rsoptpluginsactive
 msgctxt "ulng.rsoptpluginsactive"
 msgid "Active"
 msgstr "有効"
+
+#: ulng.rsoptpluginsdescription
+msgctxt "ulng.rsoptpluginsdescription"
+msgid "Description"
+msgstr "説明"
 
 #: ulng.rsoptpluginsfilename
 msgctxt "ulng.rsoptpluginsfilename"
 msgid "File name"
 msgstr "ファイル名"
 
+#: ulng.rsoptpluginshowbyextension
+msgid "By extension"
+msgstr ""
+
+#: ulng.rsoptpluginshowbyplugin
+msgid "By Plugin"
+msgstr ""
+
 #: ulng.rsoptpluginsname
 msgctxt "ulng.rsoptpluginsname"
 msgid "Name"
 msgstr "名前"
+
+#: ulng.rsoptpluginsortonlywhenbyextension
+msgid "Sorting WCX plugins is only possible when showing plugins by extension"
+msgstr ""
 
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
@@ -12282,6 +12427,10 @@ msgstr "DCレガシー：　Copy (x) ファイル名.拡張子;Windows：　フ�
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "位置を変えない;新しいファイルには同じ設定を使う;ソートした位置へ"
+
+#: ulng.rspluginfilenamestylelist
+msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
+msgstr ""
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"

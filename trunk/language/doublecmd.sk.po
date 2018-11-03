@@ -2281,6 +2281,10 @@ msgctxt "tfrmmain.actconfighotkeys.caption"
 msgid "Configuration of hot keys"
 msgstr ""
 
+#: tfrmmain.actconfigplugins.caption
+msgid "Configuration of Plugins"
+msgstr ""
+
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
 msgstr ""
@@ -7450,72 +7454,52 @@ msgid "Single click (opens folders, double click for files)"
 msgstr ""
 
 #: tfrmoptionsplugins.btnaddplugin.caption
-#, fuzzy
-#| msgid "Add"
-msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnaddplugin.caption"
 msgid "A&dd"
 msgstr "Pridať"
 
 #: tfrmoptionsplugins.btnconfigplugin.caption
-#, fuzzy
-#| msgid "Configure"
-msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnconfigplugin.caption"
 msgid "Con&figure"
 msgstr "Konfigurovať"
 
 #: tfrmoptionsplugins.btnenableplugin.caption
-#, fuzzy
-#| msgid "Enable"
-msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnenableplugin.caption"
 msgid "E&nable"
 msgstr "Povoliť"
 
 #: tfrmoptionsplugins.btnremoveplugin.caption
-#, fuzzy
-#| msgid "Remove"
-msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btnremoveplugin.caption"
 msgid "&Remove"
 msgstr "Odstrániť"
 
 #: tfrmoptionsplugins.btntweakplugin.caption
-#, fuzzy
-#| msgid "Tweak"
-msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
+msgctxt "tfrmoptionsplugins.btntweakplugin.caption"
 msgid "&Tweak"
 msgstr "Ladenie"
 
 #: tfrmoptionsplugins.lbldsxdescription.caption
-#, fuzzy
-#| msgid "Search plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lbldsxdescription.caption"
 msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Vyhľadávacie zásuvné moduly umožňujú použitie pri hľadaní alternatívnych vyhľadávacích algoritmov alebo externých nástrojov (napr. \"nájsť \", atď.)."
 
 #: tfrmoptionsplugins.lblwcxdescription.caption
-#, fuzzy
-#| msgid "Packer plugins are used to work with archives."
-msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwcxdescription.caption"
 msgid "Pack&er plugins are used to work with archives"
 msgstr "Komprimačné zásuvné moduly pre prácu s archívmi."
 
 #: tfrmoptionsplugins.lblwdxdescription.caption
-#, fuzzy
-#| msgid "Content plugins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwdxdescription.caption"
 msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Obsahové zásuvné moduly umožňujú zobraziť rozšírené informácie ako sú MP3 tagy alebo atribúty obrázkov v zozname súborov, alebo ich používať na vyhľadávanie a \"multi-premenovanie\"."
 
 #: tfrmoptionsplugins.lblwfxdescription.caption
-#, fuzzy
-#| msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwfxdescription.caption"
 msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgstr "Zásuvné moduly súborových systémov umožnia prístup k bežne nedostupným médiám ako sú napr. externé zariadenia (Palm/PocketPC)."
 
 #: tfrmoptionsplugins.lblwlxdescription.caption
-#, fuzzy
-#| msgid "Viewer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
+msgctxt "tfrmoptionsplugins.lblwlxdescription.caption"
 msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Zobrazovacie zásuvné moduly umožňujú prezeranie súborov ako sú napr. obrázky, databázy a pod. v prezerači (F3, alebo Ctrl+Q)."
 
@@ -7540,39 +7524,144 @@ msgid "File name"
 msgstr "Názov súboru"
 
 #: tfrmoptionsplugins.tsdsx.caption
-#, fuzzy
-#| msgid "Search plugins (.DSX)"
-msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
 msgid "&Search plugins (.DSX)"
 msgstr "Vyhľadávacie zásuvné moduly (.DSX)"
 
 #: tfrmoptionsplugins.tswcx.caption
-#, fuzzy
-#| msgid "Packer plugins (.WCX)"
-msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
 msgid "Pac&ker plugins (.WCX)"
 msgstr "Komprimačné zásuvné moduly (.WCX)"
 
 #: tfrmoptionsplugins.tswdx.caption
-#, fuzzy
-#| msgid "Content plugins (.WDX)"
-msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
 msgid "Content pl&ugins (.WDX)"
 msgstr "Zásuvné moduly obsahu (.WDX)"
 
 #: tfrmoptionsplugins.tswfx.caption
-#, fuzzy
-#| msgid "File system plugins (.WFX)"
-msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
 msgid "F&ile system plugins (.WFX)"
 msgstr "Zásuvné moduly súborových systémov (.WFX)"
 
 #: tfrmoptionsplugins.tswlx.caption
-#, fuzzy
-#| msgid "Viewer plugins (.WLX)"
-msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
+msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTIONTFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTIONTFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTIONTFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTIONTFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTIONTFRMOPTIONSPLUGINS.TSWCX.CAPTIONTFRMOPTIONSPLUGINS.TSWFX.CAPTIONTFRMOPTIONSPLUGINS.TSWLX.CAPTIONtfrmoptionspluginsbase.btnaddplugin.caption"
 msgid "&Viewer plugins (.WLX)"
 msgstr "Zobrazovacie zásuvné moduly (.WLX)"
+
+#: tfrmoptionspluginsbase.btnaddplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnaddplugin.caption"
+msgid "A&dd"
+msgstr "Pri&dať"
+
+#: tfrmoptionspluginsbase.btnconfigplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnconfigplugin.caption"
+msgid "Con&figure"
+msgstr "Konfigurovať"
+
+#: tfrmoptionspluginsbase.btnenableplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnenableplugin.caption"
+msgid "E&nable"
+msgstr "Povoliť"
+
+#: tfrmoptionspluginsbase.btnremoveplugin.caption
+msgctxt "tfrmoptionspluginsbase.btnremoveplugin.caption"
+msgid "&Remove"
+msgstr "Odst&rániť"
+
+#: tfrmoptionspluginsbase.btntweakplugin.caption
+msgctxt "tfrmoptionspluginsbase.btntweakplugin.caption"
+msgid "&Tweak"
+msgstr "Ladenie"
+
+#: tfrmoptionspluginsbase.lblplugindescription.caption
+msgctxt "tfrmoptionspluginsbase.lblplugindescription.caption"
+msgid "Description"
+msgstr "Popis"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[0].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[0].title.caption"
+msgid "Active"
+msgstr "Aktívne"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[1].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[1].title.caption"
+msgid "Plugin"
+msgstr "Zásuvný modul"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[2].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[2].title.caption"
+msgid "Registered for"
+msgstr "Registrované pre"
+
+#: tfrmoptionspluginsbase.stgplugins.columns[3].title.caption
+msgctxt "tfrmoptionspluginsbase.stgplugins.columns[3].title.caption"
+msgid "File name"
+msgstr "Názov súboru"
+
+#: tfrmoptionspluginsdsx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginsdsx.lblplugindescription.caption"
+msgid "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Vyhľadávacie zásuvné moduly umožňujú použitie pri hľadaní alternatívnych vyhľadávacích algoritmov alebo externých nástrojov (napr. \"nájsť \", atď.)."
+
+#: tfrmoptionspluginsgroup.btnpathtoberelativetoall.caption
+msgid "Apply current settings to all current configured plugins"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.ckbautotweak.caption
+msgid "When adding a new plugin, automatically go in tweak window"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.gbconfiguration.caption
+msgid "Configuration:"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
+msgid "Path to be relative to:"
+msgstr ""
+
+#: tfrmoptionspluginsgroup.lbpluginfilenamestyle.caption
+msgid "Plugin filename style when adding a new plugin:"
+msgstr ""
+
+#: tfrmoptionspluginswcx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswcx.lblplugindescription.caption"
+msgid "Pack&er plugins are used to work with archives"
+msgstr "Komprimačné zásuvné moduly pre prácu s archívmi."
+
+#: tfrmoptionspluginswcx.stgplugins.columns[0].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[0].title.caption"
+msgid "Active"
+msgstr "Aktívne"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[1].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[1].title.caption"
+msgid "Plugin"
+msgstr "Zásuvný modul"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[2].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[2].title.caption"
+msgid "Registered for"
+msgstr "Registrované pre"
+
+#: tfrmoptionspluginswcx.stgplugins.columns[3].title.caption
+#, fuzzy
+msgctxt "tfrmoptionspluginswcx.stgplugins.columns[3].title.caption"
+msgid "File name"
+msgstr "Názov súboru"
+
+#: tfrmoptionspluginswdx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswdx.lblplugindescription.caption"
+msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Obsahové zásuvné moduly umožňujú zobraziť rozšírené informácie ako sú MP3 tagy alebo atribúty obrázkov v zozname súborov, alebo ich používať na vyhľadávanie a \"multi-premenovanie\"."
+
+#: tfrmoptionspluginswfx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
+msgid "Fi&le system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Zásuvné moduly súborových systémov umožnia prístup k bežne nedostupným médiám ako sú napr. externé zariadenia (Palm/PocketPC)."
+
+#: tfrmoptionspluginswlx.lblplugindescription.caption
+msgctxt "tfrmoptionspluginswlx.lblplugindescription.caption"
+msgid "Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Zobrazovacie zásuvné moduly umožňujú prezeranie súborov ako sú napr. obrázky, databázy a pod. v prezerači (F3, alebo Ctrl+Q)."
 
 #: tfrmoptionsquicksearchfilter.cbexactbeginning.caption
 msgctxt "tfrmoptionsquicksearchfilter.cbexactbeginning.caption"
@@ -9547,6 +9636,16 @@ msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
+#: tfrmtweakplugin.btnrelativeplugin1.hint
+msgctxt "tfrmtweakplugin.btnrelativeplugin1.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
+#: tfrmtweakplugin.btnrelativeplugin2.hint
+msgctxt "tfrmtweakplugin.btnrelativeplugin2.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
 #: tfrmtweakplugin.btnremove.caption
 #, fuzzy
 #| msgid "Remove"
@@ -9633,8 +9732,6 @@ msgid "D&etect string:"
 msgstr "D&etekovaný text:"
 
 #: tfrmtweakplugin.lblextension.caption
-#, fuzzy
-#| msgid "Extension:"
 msgctxt "TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION"
 msgid "&Extension:"
 msgstr "Prípona:"
@@ -9651,16 +9748,12 @@ msgid "&Name:"
 msgstr "Me&no:"
 
 #: tfrmtweakplugin.lblplugin.caption
-#, fuzzy
-#| msgid "Plugin:"
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
 msgid "&Plugin:"
 msgstr "Zásuvný modul:"
 
-#: tfrmtweakplugin.lblplugin1.caption
-#, fuzzy
-#| msgid "Plugin:"
-msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
+#: tfrmtweakplugin.lblplugin2.caption
+msgctxt "tfrmtweakplugin.lblplugin2.caption"
 msgid "&Plugin:"
 msgstr "Zásuvný modul:"
 
@@ -12674,16 +12767,6 @@ msgstr ""
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
 msgstr ""
 
-#: ulng.rsoptdisable
-#, fuzzy
-msgid "Disable"
-msgstr "Zakázať"
-
-#: ulng.rsoptenable
-msgctxt "ulng.rsoptenable"
-msgid "Enable"
-msgstr "Povoliť"
-
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Zadajte príponu"
@@ -13025,20 +13108,46 @@ msgstr "Na vrch zoznamu súborov;Pod adresáre (ak sú adresáre zoradené pred 
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "Zásuvný modul %s je už priradený nasledujúcim príponám:"
 
+#: ulng.rsoptplugindisable
+msgid "D&isable"
+msgstr "Zakázať"
+
+#: ulng.rsoptpluginenable
+msgctxt "ulng.rsoptpluginenable"
+msgid "E&nable"
+msgstr "Povoliť"
+
 #: ulng.rsoptpluginsactive
 msgctxt "ulng.rsoptpluginsactive"
 msgid "Active"
 msgstr "Aktívne"
+
+#: ulng.rsoptpluginsdescription
+msgctxt "ulng.rsoptpluginsdescription"
+msgid "Description"
+msgstr "Popis"
 
 #: ulng.rsoptpluginsfilename
 msgctxt "ulng.rsoptpluginsfilename"
 msgid "File name"
 msgstr "Názov súboru"
 
+#: ulng.rsoptpluginshowbyextension
+msgid "By extension"
+msgstr ""
+
+#: ulng.rsoptpluginshowbyplugin
+msgid "By Plugin"
+msgstr ""
+
 #: ulng.rsoptpluginsname
 msgctxt "ulng.rsoptpluginsname"
 msgid "Name"
 msgstr "Meno"
+
+#: ulng.rsoptpluginsortonlywhenbyextension
+msgid "Sorting WCX plugins is only possible when showing plugins by extension"
+msgstr ""
 
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
@@ -13151,6 +13260,10 @@ msgstr ""
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr "Nemeň pozíciu;Použi také isté nastavenia ako pre nové súbory;Na triedenú pozíciu"
+
+#: ulng.rspluginfilenamestylelist
+msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
+msgstr ""
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"

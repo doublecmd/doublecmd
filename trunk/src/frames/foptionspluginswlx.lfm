@@ -1,0 +1,26 @@
+inherited frmOptionsPluginsWLX: TfrmOptionsPluginsWLX
+  DesignLeft = 291
+  DesignTop = 266
+  inherited stgPlugins: TStringGrid
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+  end
+  inherited pnlPlugIn: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    inherited lblPlugInDescription: TLabel
+      Caption = 'Vie&wer plugins allow one to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)'
+    end
+  end
+  inherited pnlButton: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideBottom.Control = Owner
+    inherited btnAddPlugin: TBitBtn
+      OnClick = btnAddPluginClick
+    end
+    inherited btnEnablePlugin: TBitBtn
+      OnClick = btnEnablePluginClick
+    end
+  end
+end

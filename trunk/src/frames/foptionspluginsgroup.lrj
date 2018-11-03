@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":247865466,"name":"tfrmoptionspluginsgroup.gbconfiguration.caption","sourcebytes":[67,111,110,102,105,103,117,114,97,116,105,111,110,58],"value":"Configuration:"},
+{"hash":216983,"name":"tfrmoptionspluginsgroup.ckbautotweak.caption","sourcebytes":[87,104,101,110,32,97,100,100,105,110,103,32,97,32,110,101,119,32,112,108,117,103,105,110,44,32,97,117,116,111,109,97,116,105,99,97,108,108,121,32,103,111,32,105,110,32,116,119,101,97,107,32,119,105,110,100,111,119],"value":"When adding a new plugin, automatically go in tweak window"},
+{"hash":256553386,"name":"tfrmoptionspluginsgroup.lbpathtoberelativeto.caption","sourcebytes":[80,97,116,104,32,116,111,32,98,101,32,114,101,108,97,116,105,118,101,32,116,111,58],"value":"Path to be relative to:"},
+{"hash":94551482,"name":"tfrmoptionspluginsgroup.lbpluginfilenamestyle.caption","sourcebytes":[80,108,117,103,105,110,32,102,105,108,101,110,97,109,101,32,115,116,121,108,101,32,119,104,101,110,32,97,100,100,105,110,103,32,97,32,110,101,119,32,112,108,117,103,105,110,58],"value":"Plugin filename style when adding a new plugin:"},
+{"hash":251510723,"name":"tfrmoptionspluginsgroup.btnpathtoberelativetoall.caption","sourcebytes":[65,112,112,108,121,32,99,117,114,114,101,110,116,32,115,101,116,116,105,110,103,115,32,116,111,32,97,108,108,32,99,117,114,114,101,110,116,32,99,111,110,102,105,103,117,114,101,100,32,112,108,117,103,105,110,115],"value":"Apply current settings to all current configured plugins"}
+]}
