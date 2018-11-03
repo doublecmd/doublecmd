@@ -300,7 +300,7 @@ end;
 function TMultiArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result := [fsoExecute];
-  if FMultiArcItem.FList <> EmptyStr then
+  if (FMultiArcItem.FList <> EmptyStr) or (mafFileNameList in FMultiArcItem.FFlags) then
     Result := Result + [fsoList, fsoCalcStatistics];
   if FMultiArcItem.FAdd <> EmptyStr then
     Result := Result + [fsoCopyIn];
