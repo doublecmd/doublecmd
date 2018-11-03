@@ -1,0 +1,23 @@
+inherited frmOptionsPluginsWDX: TfrmOptionsPluginsWDX
+  DesignLeft = 291
+  DesignTop = 266
+  inherited stgPlugins: TStringGrid
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+  end
+  inherited pnlPlugIn: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    inherited lblPlugInDescription: TLabel
+      Caption = 'Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool'
+    end
+  end
+  inherited pnlButton: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideBottom.Control = Owner
+    inherited btnAddPlugin: TBitBtn
+      OnClick = btnAddPluginClick
+    end
+  end
+end

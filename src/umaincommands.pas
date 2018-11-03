@@ -357,6 +357,7 @@ type
    procedure cm_Benchmark(const {%H-}Params: array of string);
    procedure cm_ConfigArchivers(const {%H-}Params: array of string);
    procedure cm_ConfigTooltips(const {%H-}Params: array of string);
+   procedure cm_ConfigPlugins(const {%H-}Params: array of string);
    procedure cm_OpenDriveByIndex(const Params: array of string);
 
    // Internal commands
@@ -4899,6 +4900,12 @@ begin
       frmMain.SetPanelDrive(SelectedPanel, frmMain.Drives.Items[Index], True);
     end;
   end;
+end;
+
+{ TMainCommands.cm_ConfigPlugins }
+procedure TMainCommands.cm_ConfigPlugins(const {%H-}Params: array of string);
+begin
+  cm_Options(['TfrmOptionsPluginsGroup']);
 end;
 
 { TMainCommands.cm_AddNewSearch }

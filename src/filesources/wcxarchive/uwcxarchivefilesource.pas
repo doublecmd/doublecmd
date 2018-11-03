@@ -70,7 +70,7 @@ type
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
-    procedure DoReload(const PathsToReload: TPathsArray); override;
+    procedure DoReload(const {%H-}PathsToReload: TPathsArray); override;
 
   public
     constructor Create(anArchiveFileSource: IFileSource;
@@ -148,7 +148,7 @@ type
 implementation
 
 uses
-  LazUTF8, uDebug, DCStrUtils, uDCUtils, uGlobs, DCOSUtils, uOSUtils, uShowMsg,
+  LazUTF8, uDebug, DCStrUtils, uDCUtils, uGlobs, DCOSUtils, uShowMsg,
   DCDateTimeUtils, uLng, uLog,
   DCConvertEncoding,
   DCFileAttributes,
@@ -174,7 +174,7 @@ var
   WcxConnectionsLock: TCriticalSection; // used to synchronize access to connections
   WcxOperationsQueueLock: TCriticalSection; // used to synchronize access to operations queue
 
-function CryptProc(CryptoNumber: Integer; Mode: Integer; ArchiveName: String; var Password: String): Integer;
+function CryptProc({%H-}CryptoNumber: Integer; Mode: Integer; ArchiveName: String; var Password: String): Integer;
 const
   cPrefix = 'wcx';
   cResult: array[TCryptStoreResult] of Integer = (E_SUCCESS, E_ECREATE, E_EWRITE, E_EREAD, E_NO_FILES);
@@ -305,7 +305,7 @@ begin
   begin
     if (gWCXPlugins.Enabled[I]) then
     begin
-      ModuleFileName := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
+      ModuleFileName := gWCXPlugins.FileName[I];
       WcxPlugin := gWCXPlugins.LoadModule(ModuleFileName);
       if Assigned(WcxPlugin) then
         begin
@@ -356,7 +356,7 @@ begin
     if SameText(anArchiveType, gWCXPlugins.Ext[i]) and (gWCXPlugins.Enabled[i]) and
        ((bIncludeHidden) or ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) <> PK_CAPS_HIDE)) then
     begin
-      ModuleFileName := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
+      ModuleFileName := gWCXPlugins.FileName[I];
 
       Result := TWcxArchiveFileSource.Create(anArchiveFileSource,
                                              anArchiveFileName,

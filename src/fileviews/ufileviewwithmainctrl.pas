@@ -984,17 +984,7 @@ begin
   if (sHint <> EmptyStr) then
     HintInfo^.HintStr:= HintInfo^.HintStr + LineEnding + sHint;
 
-  case gToolTipHideTimeOut of
-    ttthtSystem: ;
-    tttht1Sec: HintInfo^.HideTimeout := 1000;
-    tttht2Sec: HintInfo^.HideTimeout := 2000;
-    tttht3Sec: HintInfo^.HideTimeout := 3000;
-    tttht5Sec: HintInfo^.HideTimeout := 5000;
-    tttht10Sec: HintInfo^.HideTimeout := 10000;
-    tttht30Sec: HintInfo^.HideTimeout := 30000;
-    tttht1Min: HintInfo^.HideTimeout := 60000;
-    ttthtNeverHide: HintInfo^.HideTimeout := HintInfo^.HideTimeout.MaxValue;
-  end;
+  if gFileInfoToolTipValue[ord(gToolTipHideTimeOut)] <> -1 then HintInfo^.HideTimeout := gFileInfoToolTipValue[ord(gToolTipHideTimeOut)];
 end;
 
 procedure TFileViewWithMainCtrl.MainControlUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);

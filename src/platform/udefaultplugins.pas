@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Some useful functions to work with plugins
 
-   Copyright (C) 2011-2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -75,7 +75,14 @@ function GetPluginBinaryType(const FileName: String): TBinaryType;
 implementation
 
 uses
-  Forms, Dialogs, DCOSUtils, DCStrUtils, DCClassesUtf8, uGlobs, uLng, uDCUtils;
+  //Lazarus, Free-Pascal, etc.
+  Forms, Dialogs,
+  
+  //DC
+  {$IF NOT DEFINED(MSWINDOWS)}
+  DCStrUtils,
+  {$ENDIF}
+  DCOSUtils, DCClassesUtf8, uGlobs, uLng, uDCUtils;
 
 procedure UpdatePlugins;
 var

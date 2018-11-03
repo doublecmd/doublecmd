@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":108725763,"name":"tfrmoptions.caption","sourcebytes":[79,112,116,105,111,110,115],"value":"Options"},
+{"hash":80592254,"name":"tfrmoptions.lblemptyeditor.caption","sourcebytes":[80,108,101,97,115,101,32,115,101,108,101,99,116,32,111,110,101,32,111,102,32,116,104,101,32,115,117,98,112,97,103,101,115,44,32,116,104,105,115,32,112,97,103,101,32,100,111,101,115,32,110,111,116,32,99,111,110,116,97,105,110,32,97,110,121,32,115,101,116,116,105,110,103,115,46],"value":"Please select one of the subpages, this page does not contain any settings."},
+{"hash":11067,"name":"tfrmoptions.btnok.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":177752476,"name":"tfrmoptions.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"},
+{"hash":44595001,"name":"tfrmoptions.btnapply.caption","sourcebytes":[38,65,112,112,108,121],"value":"&Apply"}
+]}

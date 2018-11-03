@@ -1,0 +1,23 @@
+inherited frmOptionsPluginsDSX: TfrmOptionsPluginsDSX
+  DesignLeft = 291
+  DesignTop = 266
+  inherited stgPlugins: TStringGrid
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+  end
+  inherited pnlPlugIn: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    inherited lblPlugInDescription: TLabel
+      Caption = 'Searc&h plugins allow one to use alternative search algorithms or external tools (like "locate", etc.)'
+    end
+  end
+  inherited pnlButton: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideBottom.Control = Owner
+    inherited btnAddPlugin: TBitBtn
+      OnClick = btnAddPluginClick
+    end
+  end
+end

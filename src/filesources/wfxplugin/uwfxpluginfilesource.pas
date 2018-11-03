@@ -417,7 +417,7 @@ begin
     end;
 end;
 
-function CryptProc(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName: String; var Password: String): Integer;
+function CryptProc({%H-}PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName: String; var Password: String): Integer;
 const
   cPrefix = 'wfx';
   cResult: array[TCryptStoreResult] of Integer = (FS_FILE_OK, FS_FILE_NOTSUPPORTED, FS_FILE_WRITEERROR, FS_FILE_READERROR, FS_FILE_NOTFOUND);
@@ -831,19 +831,14 @@ end;
 constructor TWfxPluginFileSource.Create(const URI: TURI);
 var
   Index: Integer;
-  sModuleFileName: String;
 begin
   // Check if there is a registered plugin for the name of the file system plugin.
   Index:= gWFXPlugins.FindFirstEnabledByName(URI.Host);
   if Index < 0 then begin
     raise EFileSourceException.Create('Cannot find Wfx module ' + URI.Host);
   end;
-
-  sModuleFileName:= gWFXPlugins.FileName[Index];
-  sModuleFileName:= GetCmdDirFromEnvVar(sModuleFileName);
-  Create(sModuleFileName, URI.Host);
-
-  DCDebug('Found registered plugin ' + sModuleFileName + ' for file system ' + URI.Host);
+  Create(gWFXPlugins.FileName[Index], URI.Host);
+  DCDebug('Found registered plugin ' + gWFXPlugins.FileName[Index] + ' for file system ' + URI.Host);
 end;
 
 function TWfxPluginFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
@@ -978,20 +973,16 @@ end;
 class function TWfxPluginFileSource.CreateByRootName(aRootName: String): IWfxPluginFileSource;
 var
   Index: Integer;
-  sModuleFileName: String;
 begin
   Result:= nil;
-
   if gWFXPlugins.Count = 0 then Exit;
 
   // Check if there is a registered plugin for the name of the file system plugin.
   Index:= gWFXPlugins.FindFirstEnabledByName(aRootName);
   if Index >= 0 then
   begin
-    sModuleFileName:= GetCmdDirFromEnvVar(gWFXPlugins.FileName[Index]);
-    Result:= TWfxPluginFileSource.Create(sModuleFileName, aRootName);
-
-    DCDebug('Found registered plugin ' + sModuleFileName + ' for file system ' + aRootName);
+    Result:= TWfxPluginFileSource.Create(gWFXPlugins.FileName[Index], aRootName);
+    DCDebug('Found registered plugin ' + gWFXPlugins.FileName[Index] + ' for file system ' + aRootName);
   end;
 end;
 

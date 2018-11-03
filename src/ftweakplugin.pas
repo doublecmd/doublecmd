@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Plugin tweak window
 
-   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,8 +28,8 @@ unit fTweakPlugin;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, ExtCtrls, StdCtrls,
-  uWCXModule, uTypes;
+  Classes, SysUtils, Forms, Controls, ExtCtrls, StdCtrls, EditBtn, Buttons,
+  Menus, uWCXModule, uGlobs;
 
 type
 
@@ -41,6 +41,8 @@ type
     btnChange: TButton;
     btnDefault: TButton;
     btnOK: TButton;
+    btnRelativePlugin2: TSpeedButton;
+    btnRelativePlugin1: TSpeedButton;
     btnRemove: TButton;
     cbExt: TComboBox;
     cbPK_CAPS_BY_CONTENT: TCheckBox;
@@ -56,7 +58,9 @@ type
     edtDescription: TEdit;
     edtDetectStr: TEdit;
     edtName: TEdit;
-    edtPlugin: TEdit;
+    fnePlugin2: TFileNameEdit;
+    fnePlugin1: TFileNameEdit;
+    pmPathHelper: TPopupMenu;
     pnlTweakOther: TPanel;
     lblDescription: TLabel;
     lblDetectStr: TLabel;
@@ -64,10 +68,9 @@ type
     lblExtension: TLabel;
     lblFlags: TLabel;
     lblFlagsValue: TLabel;
-    lblPlugin1: TLabel;
+    lblPlugin2: TLabel;
     lblPackerPlugin: TLabel;
     lblPlugin: TLabel;
-    edtPlugin1: TEdit;
     nbTweakAll: TNotebook;
     pnlButtons: TPanel;
     pnlFlags: TPanel;
@@ -78,6 +81,8 @@ type
     procedure btnAddClick(Sender: TObject);
     procedure btnChangeClick(Sender: TObject);
     procedure btnDefaultClick(Sender: TObject);
+    procedure btnRelativePlugin1Click(Sender: TObject);
+    procedure btnRelativePlugin2Click(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
     procedure cbExtChange(Sender: TObject);
     procedure cbPackerFlagsClick(Sender: TObject);
@@ -89,6 +94,8 @@ type
     function GetDefaultFlags(PluginFileName: String): PtrInt;
   public
     constructor Create(TheOwner: TComponent); override;
+    procedure LoadConfiguration(PluginIndex:integer);
+    procedure SaveConfiguration(PluginIndex:integer);
     destructor Destroy; override;
   end; 
 
@@ -99,7 +106,13 @@ implementation
 {$R *.lfm}
 
 uses
-  Dialogs, fOptionsPlugins, WcxPlugin, uDCUtils, uLng, LCLVersion, uGlobs;
+  //Lazarus, Free-Pascal, etc.
+  Math, Dialogs, LCLVersion,
+
+  //DC
+  fOptionsPluginsDSX, fOptionsPluginsWCX, fOptionsPluginsWDX,
+  fOptionsPluginsWFX, fOptionsPluginsWLX, WcxPlugin, uDCUtils, uLng,
+  uSpecialDir;
 
 function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Boolean;
 var
@@ -111,11 +124,12 @@ begin
     ptDSX:
       begin
         nbTweakAll.PageIndex:= 1;
-        edtPlugin1.Text:= tmpDSXPlugins.GetDsxModule(PluginIndex).FileName;
+        fnePlugin2.Text:= tmpDSXPlugins.GetDsxModule(PluginIndex).FileName;
         edtDescription.Text:= tmpDSXPlugins.GetDsxModule(PluginIndex).Descr;
         edtName.Text:= tmpDSXPlugins.GetDsxModule(PluginIndex).Name;
         lblDetectStr.Visible:= False;
         edtDetectStr.Visible:= False;
+        ActiveControl:=fnePlugin2;
       end;
     ptWCX:
       begin
@@ -123,50 +137,59 @@ begin
         FWCXPlugins:= TWCXModuleList.Create;
         FWCXPlugins.Assign(tmpWCXPlugins);
         FPluginFileName := FWCXPlugins.FileName[PluginIndex];
-        edtPlugin.Text:= FPluginFileName;
+        fnePlugin1.FileName:= FPluginFileName;
         for I:= 0 to FWCXPlugins.Count - 1 do
-          if FWCXPlugins.FileName[I] = edtPlugin.Text then
-            cbExt.Items.AddObject(FWCXPlugins.Ext[I], TObject(FWCXPlugins.Flags[I]));
+          if FWCXPlugins.FileName[I] = fnePlugin1.FileName then
+            begin
+              if cbExt.Items.Count=0 then lblPlugin.Tag:=IfThen(FWCXPlugins.Enabled[I],1,0);
+              cbExt.Items.AddObject(FWCXPlugins.Ext[I], TObject(FWCXPlugins.Flags[I]));
+            end;
         iPrevIndex:= -1;
-        cbExt.ItemIndex:= 0;
+        cbExt.ItemIndex := cbExt.Items.IndexOf(FWCXPlugins.Ext[PluginIndex]);
+        if (cbExt.ItemIndex = -1) then cbExt.ItemIndex := 0;
         cbExtChange(cbExt);
         btnRemove.Enabled:= (cbExt.Items.Count > 1);
       end;
     ptWDX:
       begin
         nbTweakAll.PageIndex:= 1;
-        edtPlugin1.Text:= tmpWDXPlugins.GetWdxModule(PluginIndex).FileName;
+        fnePlugin2.Text:= tmpWDXPlugins.GetWdxModule(PluginIndex).FileName;
         edtDetectStr.Text:= tmpWDXPlugins.GetWdxModule(PluginIndex).DetectStr;
         edtName.Text:= tmpWDXPlugins.GetWdxModule(PluginIndex).Name;
         lblDescription.Visible:= False;
         edtDescription.Visible:= False;
+        ActiveControl:=fnePlugin2;
       end;
     ptWFX:
       begin
         nbTweakAll.PageIndex:= 1;
-        edtPlugin1.Text:= tmpWFXPlugins.FileName[PluginIndex];
+        fnePlugin2.Text:= tmpWFXPlugins.FileName[PluginIndex];
         edtName.Text:= tmpWFXPlugins.Name[PluginIndex];
         lblDetectStr.Visible:= False;
         edtDetectStr.Visible:= False;
         lblDescription.Visible:= False;
         edtDescription.Visible:= False;
+        ActiveControl:=fnePlugin2;
       end;
     ptWLX:
       begin
         nbTweakAll.PageIndex:= 1;
-        edtPlugin1.Text:= tmpWLXPlugins.GetWlxModule(PluginIndex).FileName;
+        fnePlugin2.Text:= tmpWLXPlugins.GetWlxModule(PluginIndex).FileName;
         edtDetectStr.Text:= tmpWLXPlugins.GetWlxModule(PluginIndex).DetectStr;
         edtName.Text:= tmpWLXPlugins.GetWlxModule(PluginIndex).Name;
         lblDescription.Visible:= False;
         edtDescription.Visible:= False;
+        ActiveControl:=fnePlugin2;
       end;
     end;
+    LoadConfiguration(ord(PluginType));
+    gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
     Result:= (ShowModal = mrOK);
     if Result then
       case PluginType of
       ptDSX:
         begin
-          tmpDSXPlugins.GetDsxModule(PluginIndex).FileName:= edtPlugin1.Text;
+          tmpDSXPlugins.GetDsxModule(PluginIndex).FileName:= fnePlugin2.Text;
           tmpDSXPlugins.GetDsxModule(PluginIndex).Descr := edtDescription.Text;
           tmpDSXPlugins.GetDsxModule(PluginIndex).Name:= edtName.Text;
         end;
@@ -177,7 +200,7 @@ begin
               iIndex:= FWCXPlugins.Find(FPluginFileName, cbExt.Items[I]);
               if iIndex >= 0 then
                 begin
-                  FWCXPlugins.FileName[iIndex]:= edtPlugin.Text;
+                  FWCXPlugins.FileName[iIndex]:= fnePlugin1.FileName;
                   FWCXPlugins.Flags[iIndex]:= PtrInt(cbExt.Items.Objects[I]);
                 end;
             end;
@@ -185,22 +208,23 @@ begin
         end;
       ptWDX:
         begin
-          tmpWDXPlugins.GetWdxModule(PluginIndex).FileName:= edtPlugin1.Text;
+          tmpWDXPlugins.GetWdxModule(PluginIndex).FileName:= fnePlugin2.Text;
           tmpWDXPlugins.GetWdxModule(PluginIndex).DetectStr:= edtDetectStr.Text;
           tmpWDXPlugins.GetWdxModule(PluginIndex).Name:= edtName.Text;
         end;
       ptWFX:
         begin
-          tmpWFXPlugins.FileName[PluginIndex]:= edtPlugin1.Text;
+          tmpWFXPlugins.FileName[PluginIndex]:= fnePlugin2.Text;
           tmpWFXPlugins.Name[PluginIndex]:= edtName.Text;
         end;
       ptWLX:
         begin
-          tmpWLXPlugins.GetWlxModule(PluginIndex).FileName:= edtPlugin1.Text;
+          tmpWLXPlugins.GetWlxModule(PluginIndex).FileName:= fnePlugin2.Text;
           tmpWLXPlugins.GetWlxModule(PluginIndex).DetectStr:= edtDetectStr.Text;
           tmpWLXPlugins.GetWlxModule(PluginIndex).Name:= edtName.Text;
         end;
       end;
+    SaveConfiguration(ord(PluginType));
   finally
     Free;
   end;
@@ -213,6 +237,26 @@ begin
   FWCXPlugins := nil;
   iPrevIndex := -1;
   inherited;
+end;
+
+
+{ TfrmTweakPlugin.LoadConfiguration }
+// Just to save width.
+// Firt time it opens according to "autosize" system will determine, then when we exit it will be saved and then it will be restore to next session.
+procedure TfrmTweakPlugin.LoadConfiguration(PluginIndex:integer);
+begin
+  if (gTweakPluginWidth[PluginIndex]<>0) AND (gTweakPluginHeight[PluginIndex]<>0) then
+  begin
+    AutoSize:=False;
+    width := gTweakPluginWidth[PluginIndex];
+    height := gTweakPluginHeight[PluginIndex];
+  end;
+end;
+
+procedure TfrmTweakPlugin.SaveConfiguration(PluginIndex:integer);
+begin
+  gTweakPluginWidth[PluginIndex] := width;
+  gTweakPluginHeight[PluginIndex] := height;
 end;
 
 destructor TfrmTweakPlugin.Destroy;
@@ -284,9 +328,23 @@ end;
 
 procedure TfrmTweakPlugin.btnDefaultClick(Sender: TObject);
 begin
-  cbExt.Items.Objects[cbExt.ItemIndex]:= TObject(GetDefaultFlags(edtPlugin.Text));
+  cbExt.Items.Objects[cbExt.ItemIndex]:= TObject(GetDefaultFlags(fnePlugin1.FileName));
   iPrevIndex:= -1;
   cbExtChange(cbExt);
+end;
+
+procedure TfrmTweakPlugin.btnRelativePlugin1Click(Sender: TObject);
+begin
+  fnePlugin1.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(fnePlugin1, pfFILE);
+  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+procedure TfrmTweakPlugin.btnRelativePlugin2Click(Sender: TObject);
+begin
+  fnePlugin2.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(fnePlugin2, pfFILE);
+  pmPathHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
 
 procedure TfrmTweakPlugin.btnRemoveClick(Sender: TObject);
@@ -311,14 +369,17 @@ procedure TfrmTweakPlugin.btnAddClick(Sender: TObject);
 var
   sExt: String = '';
   iFlags: PtrInt;
+  I: Integer;
 begin
-  if InputQuery(rsOptEnterExt,Format(rsOptAssocPluginWith, [GetCmdDirFromEnvVar(edtPlugin.Text)]), sExt) then
+  if InputQuery(rsOptEnterExt,Format(rsOptAssocPluginWith, [fnePlugin1.FileName]), sExt) then
     begin
-      iFlags:= GetDefaultFlags(edtPlugin.Text);
+      iFlags:= GetDefaultFlags(fnePlugin1.FileName);
       cbExt.ItemIndex:= cbExt.Items.AddObject(sExt, TObject(iFlags));
-      FWCXPlugins.Add(cbExt.Items[cbExt.ItemIndex], iFlags, FPluginFileName);
+      I := FWCXPlugins.Add(cbExt.Items[cbExt.ItemIndex], iFlags, FPluginFileName);
+      FWCXPlugins.Enabled[I] := (lblPlugin.Tag=1);
       iPrevIndex:= -1;
       cbExtChange(cbExt);
+      btnRemove.Enabled:= (cbExt.Items.Count > 1);
     end;
 end;
 
@@ -330,7 +391,7 @@ begin
   sExt:= cbExt.Items[cbExt.ItemIndex];
   I:= FWCXPlugins.Find(FPluginFileName, sExt);
   if (I >= 0) and
-     InputQuery(rsOptEnterExt,Format(rsOptAssocPluginWith, [GetCmdDirFromEnvVar(edtPlugin.Text)]), sExt) then
+     InputQuery(rsOptEnterExt,Format(rsOptAssocPluginWith, [fnePlugin1.FileName]), sExt) then
     begin
       FWCXPlugins.Ext[I]:= sExt;
       cbExt.Items[cbExt.ItemIndex]:= sExt;
@@ -341,7 +402,7 @@ function TfrmTweakPlugin.GetDefaultFlags(PluginFileName: String): PtrInt;
 var
   WcxModule: TWcxModule;
 begin
-  WcxModule := gWCXPlugins.LoadModule(GetCmdDirFromEnvVar(PluginFileName));
+  WcxModule := gWCXPlugins.LoadModule(PluginFileName);
   if not Assigned(WcxModule) then Exit(0);
   Result := WcxModule.GetPluginCapabilities;
 end;

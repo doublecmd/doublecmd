@@ -4,6 +4,7 @@
    Definitions of some common types.
 
    Copyright (C) 2012 Przemyslaw Nagay (cobines@gmail.com)
+   Copyright (C) 2018 Alexander Koblov (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,9 +28,6 @@ unit uTypes;
 interface
 
 type
-// plugin types
-  TPluginType = (ptDSX, ptWCX, ptWDX, ptWFX, ptWLX);
-
   TCaseSensitivity = (
     cstNotSensitive,
     // According to locale collation specs. Usually it means linguistic sorting

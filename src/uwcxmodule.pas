@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Archive File support - class for manage WCX plugins (Version 2.20)
 
-   Copyright (C) 2006-2015  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -157,6 +157,7 @@ Type
   public
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
+    function ComputeSignature(seed: dword): dword;
     function Add(Ext: String; Flags: PtrInt; FileName: String): Integer; reintroduce;
     function FindFirstEnabledByName(Name: String): Integer;
     function Find(const aFileName, aExt: String): Integer; overload;
@@ -173,8 +174,12 @@ Type
 implementation
 
 uses
-  SysUtils, LazUTF8, uLng, fDialogBox, uGlobsPaths, FileUtil, uOSUtils, DCOSUtils,
-  DCDateTimeUtils, DCConvertEncoding, uDebug;
+  //Lazarus, Free-Pascal, etc.
+  StrUtils, SysUtils, LazUTF8, FileUtil,
+
+  //DC
+  uDCUtils, uComponentsSignature, uGlobsPaths, uLng, uOSUtils, DCOSUtils,
+  DCDateTimeUtils, DCConvertEncoding, fDialogBox, uDebug;
 
 const
   WcxIniFileName = 'wcx.ini';
@@ -333,7 +338,7 @@ var
   PackDefaultParamStruct : TPackDefaultParamStruct;
   StartupInfo: TExtensionStartupInfo;
 begin
-  FModuleHandle := mbLoadLibrary(sName);
+  FModuleHandle := mbLoadLibrary(mbExpandFileName(sName));
   if FModuleHandle = 0 then Exit(False);
 
   DCDebug('WCX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
@@ -681,6 +686,22 @@ begin
     end;
 end;
 
+{ TWCXModuleList.ComputeSignature }
+function TWCXModuleList.ComputeSignature(seed: dword): dword;
+var
+  iIndex: integer;
+begin
+  result := seed;
+  for iIndex := 0 to pred(Count) do
+  begin
+    result := ComputeSignatureBoolean(result, Enabled[iIndex]);
+    result := ComputeSignatureString(result, Ext[iIndex]);
+    result := ComputeSignatureString(result, FileName[iIndex]);
+    result := ComputeSignaturePtrInt(result, Flags[iIndex]);
+  end;
+end;
+
+{ TWCXModuleList.Add }
 function TWCXModuleList.Add(Ext: String; Flags: PtrInt; FileName: String): Integer;
 begin
   Result:= AddObject(Ext + '=' + IntToStr(Flags) + #44 + FileName, TObject(True));

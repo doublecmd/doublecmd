@@ -108,6 +108,7 @@ type
     actFocusSwap: TAction;
     actConfigArchivers: TAction;
     actConfigTooltips: TAction;
+    actConfigPlugins: TAction;
     actUnmarkCurrentNameExt: TAction;
     actMarkCurrentNameExt: TAction;
     actUnmarkCurrentName: TAction;

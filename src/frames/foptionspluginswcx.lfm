@@ -1,0 +1,70 @@
+inherited frmOptionsPluginsWCX: TfrmOptionsPluginsWCX
+  inherited stgPlugins: TStringGrid
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    Columns = <    
+      item
+        Alignment = taCenter
+        MaxSize = 80
+        PickList.Strings = (        )
+        SizePriority = 0
+        Title.Caption = 'Active'
+        Width = 161
+      end    
+      item
+        PickList.Strings = (        )
+        SizePriority = 0
+        Title.Caption = 'Plugin'
+        Width = 183
+      end    
+      item
+        PickList.Strings = (        )
+        SizePriority = 0
+        Title.Caption = 'Registered for'
+        Width = 277
+      end    
+      item
+        PickList.Strings = (        )
+        SizePriority = 0
+        Title.Caption = 'File name'
+        Width = 64
+      end>
+    ColWidths = (
+      161
+      183
+      277
+      64
+    )
+  end
+  inherited pnlPlugIn: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    inherited lblPlugInDescription: TLabel
+      Caption = 'Pack&er plugins are used to work with archives'
+    end
+  end
+  inherited pnlButton: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideBottom.Control = Owner
+    inherited btnAddPlugin: TBitBtn
+      OnClick = btnAddPluginClick
+    end
+    inherited btnEnablePlugin: TBitBtn
+      OnClick = btnEnablePluginClick
+    end
+    inherited btnRemovePlugin: TBitBtn
+      OnClick = btnRemovePluginClick
+    end
+    inherited btnConfigPlugin: TBitBtn
+      OnClick = btnConfigPluginClick
+    end
+  end
+  inherited ImgSwitchEnable: TImage
+    Top = 20
+  end
+  inherited ImgSwitchDisable: TImage
+    Left = 16
+    Top = 20
+  end
+end

@@ -2693,6 +2693,12 @@ object frmMain: TfrmMain
       Caption = 'Configuration of tooltips'
       OnExecute = actExecute
     end
+    object actConfigPlugins: TAction
+      Tag = 5
+      Category = 'Configuration'
+      Caption = 'Configuration of Plugins'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

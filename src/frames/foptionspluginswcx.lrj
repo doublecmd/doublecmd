@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":75149509,"name":"tfrmoptionspluginswcx.stgplugins.columns[0].title.caption","sourcebytes":[65,99,116,105,118,101],"value":"Active"},
+{"hash":91471358,"name":"tfrmoptionspluginswcx.stgplugins.columns[1].title.caption","sourcebytes":[80,108,117,103,105,110],"value":"Plugin"},
+{"hash":56017954,"name":"tfrmoptionspluginswcx.stgplugins.columns[2].title.caption","sourcebytes":[82,101,103,105,115,116,101,114,101,100,32,102,111,114],"value":"Registered for"},
+{"hash":41356085,"name":"tfrmoptionspluginswcx.stgplugins.columns[3].title.caption","sourcebytes":[70,105,108,101,32,110,97,109,101],"value":"File name"},
+{"hash":70897075,"name":"tfrmoptionspluginswcx.lblplugindescription.caption","sourcebytes":[80,97,99,107,38,101,114,32,112,108,117,103,105,110,115,32,97,114,101,32,117,115,101,100,32,116,111,32,119,111,114,107,32,119,105,116,104,32,97,114,99,104,105,118,101,115],"value":"Pack&er plugins are used to work with archives"}
+]}

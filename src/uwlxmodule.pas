@@ -4,7 +4,7 @@
    WLX-API implementation (TC WLX-API v2.0).
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2009-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -130,8 +130,10 @@ type
     //---------------------
     procedure Clear;
     procedure Exchange(Index1, Index2: Integer);
+    procedure Move(CurIndex, NewIndex: Integer);
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
+    function ComputeSignature(seed: dword): dword;
     procedure DeleteItem(Index: Integer);
     //---------------------
     function Add(Item: TWlxModule): Integer; overload;
@@ -157,7 +159,12 @@ type
 implementation
 
 uses
-  FileUtil, uDebug, DCOSUtils, DCConvertEncoding, uOSUtils, uGlobsPaths, uGlobs;
+  //Lazarus, Free-Pascal, etc.
+  FileUtil,
+
+  //DC
+  uComponentsSignature, uDebug, DCOSUtils, DCConvertEncoding, uOSUtils,
+  uGlobsPaths, uGlobs;
 
 const
   WlxIniFileName = 'wlx.ini';
@@ -182,7 +189,7 @@ begin
 end;
 {$ENDIF}
 
-procedure WlxPrepareContainer(var ParentWin: HWND);
+procedure WlxPrepareContainer(var {%H-}ParentWin: HWND);
 begin
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   ParentWin := HWND(GetFixedWidget(Pointer(ParentWin)));
@@ -229,7 +236,7 @@ end;
 function TWlxModule.LoadModule: Boolean;
 begin
   // DCDebug('WLXM LoadModule entered');
-  FModuleHandle := mbLoadLibrary(Self.FileName);
+  FModuleHandle := mbLoadLibrary(mbExpandFileName(Self.FileName));
   Result := (FModuleHandle <> NilHandle);
   if FModuleHandle = NilHandle then Exit;
   { Mandatory }
@@ -503,6 +510,11 @@ begin
   FList.Exchange(Index1, Index2);
 end;
 
+procedure TWLXModuleList.Move(CurIndex, NewIndex: Integer);
+begin
+  FList.Move(CurIndex, NewIndex);
+end;
+
 procedure TWLXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   AName, APath: String;
@@ -524,7 +536,7 @@ begin
           AWlxModule := TWlxModule.Create;
           Flist.AddObject(UpCase(AName), AWlxModule);
           AWlxModule.Name := AName;
-          AWlxModule.FileName := GetCmdDirFromEnvVar(APath);
+          AWlxModule.FileName := APath;
           AWlxModule.DetectStr := AConfig.GetValue(ANode, 'DetectString', '');
           AWlxModule.Enabled:= AConfig.GetAttr(ANode, 'Enabled', True);
         end
@@ -549,8 +561,23 @@ begin
     SubNode := AConfig.AddNode(ANode, 'WlxPlugin');
     AConfig.SetAttr(SubNode, 'Enabled', TWlxModule(Flist.Objects[I]).Enabled);
     AConfig.AddValue(SubNode, 'Name', TWlxModule(Flist.Objects[I]).Name);
-    AConfig.AddValue(SubNode, 'Path', SetCmdDirAsEnvVar(TWlxModule(Flist.Objects[I]).FileName));
+    AConfig.AddValue(SubNode, 'Path', TWlxModule(Flist.Objects[I]).FileName);
     AConfig.AddValue(SubNode, 'DetectString', TWlxModule(Flist.Objects[I]).DetectStr);
+  end;
+end;
+
+{ TWLXModuleList.ComputeSignature }
+function TWLXModuleList.ComputeSignature(seed: dword): dword;
+var
+  iIndex: integer;
+begin
+  result := seed;
+  for iIndex := 0 to pred(Count) do
+  begin
+    result := ComputeSignatureBoolean(result, TWlxModule(Flist.Objects[iIndex]).Enabled);
+    result := ComputeSignatureString(result, TWlxModule(Flist.Objects[iIndex]).Name);
+    result := ComputeSignatureString(result, TWlxModule(Flist.Objects[iIndex]).FileName);
+    result := ComputeSignatureString(result, TWlxModule(Flist.Objects[iIndex]).DetectStr);
   end;
 end;
 
