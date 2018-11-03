@@ -40,6 +40,10 @@ const
   MAF_WIN_ATTR         = 8; // Use Windows file attributes
 
 type
+  TMultiArcFlag = (mafFileNameList);
+  TMultiArcFlags = set of TMultiArcFlag;
+
+type
 
   TSignature = record
     Value: array[0..Pred(MaxSignSize)] of Byte;
@@ -122,6 +126,7 @@ type
     FAddSelfExtract,
     FPasswordQuery: String;
     FFormMode: Integer;
+    FFlags: TMultiArcFlags;
   public
     FEnabled: Boolean;
     FOutput: Boolean;
@@ -284,6 +289,7 @@ begin
         FAddSelfExtract:= TrimQuotes(IniFile.ReadString(Section, 'AddSelfExtract', EmptyStr));
         FPasswordQuery:= IniFile.ReadString(Section, 'PasswordQuery', EmptyStr);
         // optional
+        FFlags:= TMultiArcFlags(IniFile.ReadInteger(Section, 'Flags', 0));
         FFormMode:= IniFile.ReadInteger(Section, 'FormMode', 0);
         FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
         FOutput:= IniFile.ReadBool(Section, 'Output', False);
@@ -334,6 +340,7 @@ begin
         IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
         IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
         // optional
+        IniFile.WriteInteger(Section, 'Flags', Integer(FFlags));
         IniFile.WriteInteger(Section, 'FormMode', FFormMode);
         IniFile.WriteBool(Section, 'Enabled', FEnabled);
         IniFile.WriteBool(Section, 'Output', FOutput);
@@ -408,6 +415,7 @@ begin
     UpdateSignature(Self.Items[Index].FID);
     UpdateSignature(Self.Items[Index].FIDPos);
     UpdateSignature(Self.Items[Index].FIDSeekRange);
+    Result := crc32(Result, @Self.Items[Index].FFlags, sizeof(Self.Items[Index].FFlags));
     Result := crc32(Result, @Self.Items[Index].FFormMode, sizeof(Self.Items[Index].FFormMode));
     Result := crc32(Result, @Self.Items[Index].FEnabled, sizeof(Self.Items[Index].FEnabled));
     Result := crc32(Result, @Self.Items[Index].FOutput, sizeof(Self.Items[Index].FOutput));
@@ -595,6 +603,7 @@ begin
   Result.FAdd := Self.FAdd;
   Result.FAddSelfExtract := Self.FAddSelfExtract;
   Result.FPasswordQuery := Self.FPasswordQuery;
+  Result.FFlags := Self.FFlags;
   Result.FFormMode := Self.FFormMode;
   Result.FEnabled := Self.FEnabled;
   Result.FOutput := Self.FOutput;

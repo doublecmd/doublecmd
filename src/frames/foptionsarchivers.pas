@@ -36,6 +36,8 @@ type
 
   { TfrmOptionsArchivers }
   TfrmOptionsArchivers = class(TOptionsEditor)
+    chkFileNameOnlyList: TCheckBox;
+    pnlFileNameOnlyList: TPanel;
     pnlArchiverListbox: TPanel;
     lblArchiverListBox: TLabel;
     lbxArchiver: TListBox;
@@ -118,6 +120,7 @@ type
     pmArchiverParamHelper: TPopupMenu;
     SaveArchiverDialog: TSaveDialog;
     OpenArchiverDialog: TOpenDialog;
+    procedure chkFileNameOnlyListChange(Sender: TObject);
     procedure lbxArchiverSelectionChange(Sender: TObject; {%H-}User: boolean);
     procedure lbxArchiverDragOver(Sender, {%H-}Source: TObject; {%H-}X, {%H-}Y: integer; {%H-}State: TDragState; var Accept: boolean);
     procedure lbxArchiverDragDrop(Sender, {%H-}Source: TObject; {%H-}X, Y: integer);
@@ -329,6 +332,7 @@ begin
         edtArchiverId.Text := FID;
         edtArchiverIdPosition.Text := FIDPos;
         edtArchiverIdSeekRange.Text := FIDSeekRange;
+        chkFileNameOnlyList.Checked:= mafFileNameList in FFlags;
         ckbArchiverUnixPath.Checked := (FFormMode and $01 <> $00);
         ckbArchiverWindowsPath.Checked := (FFormMode and $02 <> $00);
         ckbArchiverUnixFileAttributes.Checked := (FFormMode and $04 <> $00);
@@ -338,11 +342,21 @@ begin
         chkArchiverEnabled.Checked := FEnabled;
       end;
     end;
+    chkFileNameOnlyListChange(chkFileNameOnlyList);
     SetControlsState(chkArchiverEnabled.Checked);
 
     SetConfigurationState(CONFIG_SAVED);
     bCurrentlyLoadingSettings := False;
   end;
+end;
+
+procedure TfrmOptionsArchivers.chkFileNameOnlyListChange(Sender: TObject);
+begin
+  edtArchiverList.Enabled:= not chkFileNameOnlyList.Checked;
+  btnArchiverListHelper.Enabled:= not chkFileNameOnlyList.Checked;
+  edtArchiverListStart.Enabled:= not chkFileNameOnlyList.Checked;
+  edtArchiverListEnd.Enabled:= not chkFileNameOnlyList.Checked;
+  memArchiverListFormat.Enabled:= not chkFileNameOnlyList.Checked;
 end;
 
 { TfrmOptionsArchivers.lbxArchiverDragOver }
@@ -499,6 +513,8 @@ begin
     FID := edtArchiverId.Text;
     FIDPos := edtArchiverIdPosition.Text;
     FIDSeekRange := edtArchiverIdSeekRange.Text;
+    FFlags := [];
+    if chkFileNameOnlyList.Checked then Include(FFlags, mafFileNameList);
     FFormMode := 0;
     if ckbArchiverUnixPath.Checked then  FFormMode := FFormMode or $01;
     if ckbArchiverWindowsPath.Checked then  FFormMode := FFormMode or $02;
