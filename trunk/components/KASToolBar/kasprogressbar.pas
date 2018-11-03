@@ -4,7 +4,7 @@
    Extended ProgressBar class
 
    Copyright (C) 2010  Przemyslaw Nagay (cobines@gmail.com)
-   Copyright (C) 2011-2012  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2011-2018  Alexander Koblov (alexx2000@mail.ru)
 
    Windows 7 implementation based on "Windows 7 Component Library"
    by Daniel Wischnewski (http://www.gumpi.com/blog)
@@ -20,9 +20,7 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   in a file called COPYING along with this program; if not, write to
-   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA
-   02139, USA.
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit KASProgressBar;
@@ -41,6 +39,9 @@ uses
   {$ENDIF}
   {$IFDEF LCLQT}
   , qt4, qtwidgets
+  {$ENDIF}
+  {$IFDEF LCLQT5}
+  , qt5, qtwidgets
   {$ENDIF}
   ;
 
@@ -134,7 +135,7 @@ procedure TKASProgressBar.SetProgress(CurrentValue: Int64; MaxValue: Int64;
 var
   wText: String;
 {$ENDIF}
-{$IFDEF LCLQT}
+{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5)}
 var
   wText: WideString;
 {$ENDIF}
@@ -166,7 +167,7 @@ begin
   // Have to reset 'show_text' every time because LCLGTK2 will set it according to BarShowText.
   gtk_progress_set_show_text(PGtkProgress(Self.Handle), True);
 {$ENDIF}
-{$IFDEF LCLQT}
+{$IF DEFINED(LCLQT) OR DEFINED(LCLQT5)}
 {
   %p - is replaced by the percentage completed.
   %v - is replaced by the current value.
