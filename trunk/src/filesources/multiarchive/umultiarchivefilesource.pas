@@ -124,7 +124,7 @@ type
 implementation
 
 uses
-  uDebug, uGlobs, DCFileAttributes, DCOSUtils, DCStrUtils,
+  uDebug, uGlobs, DCFileAttributes, DCOSUtils, DCStrUtils, DCDateTimeUtils,
   FileUtil, uMasks,
   uMultiArchiveListOperation,
   uMultiArchiveCopyInOperation,
@@ -491,6 +491,7 @@ end;
 function TMultiArchiveFileSource.ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
 var
   I : Integer;
+  SystemTime: TSystemTime;
   ArchiveItem: TArchiveItem;
 begin
   if not mbFileAccess(ArchiveFileName, fmOpenRead) then
@@ -509,6 +510,23 @@ begin
 
   { Get File List }
   FArcFileList.Clear;
+
+  if mafFileNameList in FMultiArcItem.FFlags then
+  begin
+    ArchiveItem:= TArchiveItem.Create;
+    ArchiveItem.FileName := ExtractOnlyFileName(ArchiveFileName);
+    DateTimeToSystemTime(FileTimeToDateTime(mbFileAge(ArchiveFileName)), SystemTime);
+    ArchiveItem.Year:= SystemTime.Year;
+    ArchiveItem.Month:= SystemTime.Month;
+    ArchiveItem.Day:= SystemTime.Day;
+    ArchiveItem.Hour:= SystemTime.Hour;
+    ArchiveItem.Minute:= SystemTime.Minute;
+    ArchiveItem.Second:= SystemTime.Second;
+    ArchiveItem.Attributes := mbFileGetAttr(ArchiveFileName);
+    FArcFileList.Add(ArchiveItem);
+    Exit(True);
+  end;
+
   FExistsDirList := TStringHashList.Create(True);
   FAllDirsList := TStringHashList.Create(True);
 
@@ -604,4 +622,5 @@ begin
 end;
 
 end.
+
 
