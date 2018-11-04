@@ -4104,6 +4104,10 @@ msgstr "Αποθήκευση κατά την έξοδο"
 msgid "Sort order of configuration order in left tree"
 msgstr "Καθορισμός σειράς της σειράς ρύθμισης στο αριστερό δέντρο"
 
+#: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
+msgid "Tree state when entering in configuration page:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "Καθορισμός στη γραμμή εντολών"
@@ -11820,6 +11824,10 @@ msgstr "Πρώτο;Τελευταίο;"
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
 msgstr "Κλασική, σειρά legacy;Αλφαβητική σειρά (αλλά η γλώσσα ακόμη πρώτη)"
+
+#: ulng.rsoptconfigtreestate
+msgid "Full expand;Full collapse"
+msgstr ""
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"

@@ -4358,6 +4358,10 @@ msgctxt "tfrmoptionsconfiguration.gbsortorderconfigurationoption.caption"
 msgid "Sort order of configuration order in left tree"
 msgstr "Uredi redoslijed konfiguracije na lijevom stablu "
 
+#: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
+msgid "Tree state when entering in configuration page:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgctxt "tfrmoptionsconfiguration.lblcmdlineconfigdir.caption"
 msgid "Set on command line"
@@ -12250,6 +12254,10 @@ msgstr "Prvi;posljednji;"
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
 msgstr "Klasičan, naslijeđeni redoslijed; Abecedni redoslijed"
+
+#: ulng.rsoptconfigtreestate
+msgid "Full expand;Full collapse"
+msgstr ""
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"

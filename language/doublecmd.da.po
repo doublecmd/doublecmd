@@ -4163,6 +4163,10 @@ msgstr "Gem ved afslut"
 msgid "Sort order of configuration order in left tree"
 msgstr "Sorteringsrækkefølge af konfigurationsrækkefølgen i venstre træ"
 
+#: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
+msgid "Tree state when entering in configuration page:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "Angiv i kommandolinje"
@@ -12189,6 +12193,10 @@ msgstr "Først;Sidst"
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
 msgstr "Klassisk, ældre måde;Alfabetisk (men stadig med sprog først)"
+
+#: ulng.rsoptconfigtreestate
+msgid "Full expand;Full collapse"
+msgstr ""
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"

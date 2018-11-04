@@ -4157,6 +4157,10 @@ msgstr "Запис при изход"
 msgid "Sort order of configuration order in left tree"
 msgstr ""
 
+#: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
+msgid "Tree state when entering in configuration page:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
 msgid "Set on command line"
@@ -11990,6 +11994,10 @@ msgstr "Първи;Последен"
 
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
+msgstr ""
+
+#: ulng.rsoptconfigtreestate
+msgid "Full expand;Full collapse"
 msgstr ""
 
 #: ulng.rsoptdifferframeposition

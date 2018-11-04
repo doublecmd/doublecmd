@@ -4108,6 +4108,10 @@ msgstr "Salvați la ieșire"
 msgid "Sort order of configuration order in left tree"
 msgstr "Ordinea de sortare a ordinii de configurare în arborele stâng"
 
+#: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
+msgid "Tree state when entering in configuration page:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "Setează în linia de comandă"
@@ -11789,6 +11793,10 @@ msgstr "Primul;Ultimul;"
 
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
+msgstr ""
+
+#: ulng.rsoptconfigtreestate
+msgid "Full expand;Full collapse"
 msgstr ""
 
 #: ulng.rsoptdifferframeposition

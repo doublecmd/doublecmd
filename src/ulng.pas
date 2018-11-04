@@ -662,6 +662,7 @@ resourcestring
   rsOptionsEditorFileSearch = 'File search';
   //-------------------------------
   rsOptConfigSortOrder = 'Classic, legacy order;Alphabetic order (but language still first)';
+  rsOptConfigTreeState = 'Full expand;Full collapse';
   rsOptDifferFramePosition = 'Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right';
   //-------------------------------
 

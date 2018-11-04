@@ -4146,6 +4146,10 @@ msgstr "Salvar ao sair."
 msgid "Sort order of configuration order in left tree"
 msgstr "Ordem de classificação da ordem de configuração no painel esquerdo."
 
+#: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
+msgid "Tree state when entering in configuration page:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "Definir na linha de comandos"
@@ -11968,6 +11972,10 @@ msgstr "Primeiro;Último;"
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
 msgstr "Clássico, ordem do legado, ordem alfabética (mas a idioma primeiro.)"
+
+#: ulng.rsoptconfigtreestate
+msgid "Full expand;Full collapse"
+msgstr ""
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
