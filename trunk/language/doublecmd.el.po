@@ -10641,7 +10641,7 @@ msgid "Drag here other entries"
 msgstr "Μεταφορά με το ποντίκι εδώ άλλων καταχωρήσεων"
 
 #: ulng.rsmsgfavoritetabsentername
-msgid "Enter a name this Favorite Tabs entry"
+msgid "Enter a name for this new Favorite Tabs entry:"
 msgstr "Εισαγωγή ενός ονόματος για αυτή τη καταχώρηση Αγαπημένης Καρτέλας"
 
 #: ulng.rsmsgfavoritetabsenternametitle

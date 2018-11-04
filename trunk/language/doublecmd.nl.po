@@ -10396,7 +10396,7 @@ msgid "Drag here other entries"
 msgstr "Sleep andere elementen hierheen"
 
 #: ulng.rsmsgfavoritetabsentername
-msgid "Enter a name this Favorite Tabs entry"
+msgid "Enter a name for this new Favorite Tabs entry:"
 msgstr "Geef een naam voor dit element in favoriete tabbladen"
 
 #: ulng.rsmsgfavoritetabsenternametitle

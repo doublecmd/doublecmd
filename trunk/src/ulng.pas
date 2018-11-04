@@ -284,7 +284,7 @@ resourcestring
   rsMsgSpecialDirMakeRelToHotDir = 'Make relative to hotdir path';
 
   //Favorite Tabs related
-  rsMsgFavoriteTabsEnterName = 'Enter a name this Favorite Tabs entry';
+  rsMsgFavoriteTabsEnterName = 'Enter a name for this new Favorite Tabs entry:';
   rsMsgFavoriteTabsEnterNameTitle = 'Saving a new Favorite Tabs entry';
   rsMsgFavoriteTabsSubMenuName = 'Submenu name';
   rsMsgFavoriteTabsImportSubMenuName = 'Legacy tabs imported';

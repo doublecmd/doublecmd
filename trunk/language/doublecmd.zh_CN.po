@@ -10647,7 +10647,7 @@ msgid "Drag here other entries"
 msgstr "在此拖动其他条目"
 
 #: ulng.rsmsgfavoritetabsentername
-msgid "Enter a name this Favorite Tabs entry"
+msgid "Enter a name for this new Favorite Tabs entry:"
 msgstr "输入此 “收藏夹标签” 条目的名称"
 
 #: ulng.rsmsgfavoritetabsenternametitle

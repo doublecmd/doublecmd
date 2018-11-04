@@ -10831,7 +10831,7 @@ msgid "Drag here other entries"
 msgstr "다른 목록을 여기에 드래그"
 
 #: ulng.rsmsgfavoritetabsentername
-msgid "Enter a name this Favorite Tabs entry"
+msgid "Enter a name for this new Favorite Tabs entry:"
 msgstr "이 즐겨찾기탭 목록에 이름 입력"
 
 #: ulng.rsmsgfavoritetabsenternametitle
