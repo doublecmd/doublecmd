@@ -10685,7 +10685,7 @@ msgid "Drag here other entries"
 msgstr "Déplacer ici les autres entrées"
 
 #: ulng.rsmsgfavoritetabsentername
-msgid "Enter a name this Favorite Tabs entry"
+msgid "Enter a name for this new Favorite Tabs entry:"
 msgstr "Entrer un nom pour ce groupes d'onglets favoris"
 
 #: ulng.rsmsgfavoritetabsenternametitle

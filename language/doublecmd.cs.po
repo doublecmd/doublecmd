@@ -10404,7 +10404,7 @@ msgid "Drag here other entries"
 msgstr "Přetáhněte sem další položky"
 
 #: ulng.rsmsgfavoritetabsentername
-msgid "Enter a name this Favorite Tabs entry"
+msgid "Enter a name for this new Favorite Tabs entry:"
 msgstr "Zadání názvu záložky mezi oblíbené"
 
 #: ulng.rsmsgfavoritetabsenternametitle

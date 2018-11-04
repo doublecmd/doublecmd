@@ -439,7 +439,7 @@ begin
     Inc(iIndexInCaseFound);
   end;
 
-  if InputQuery(rsMsgFavoriteTabsEnterName, rsMsgFavoriteTabsEnterNameTitle, SuggestedFavoriteTabsName) then
+  if InputQuery(rsMsgFavoriteTabsEnterNameTitle, rsMsgFavoriteTabsEnterName, SuggestedFavoriteTabsName) then
     Result := (length(SuggestedFavoriteTabsName) > 0);
 end;
 

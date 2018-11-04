@@ -11062,7 +11062,7 @@ msgid "Drag here other entries"
 msgstr "Povucite ovdje druge unose"
 
 #: ulng.rsmsgfavoritetabsentername
-msgid "Enter a name this Favorite Tabs entry"
+msgid "Enter a name for this new Favorite Tabs entry:"
 msgstr "Unesite naziv za ovaj unos omiljenih kartica"
 
 #: ulng.rsmsgfavoritetabsenternametitle
