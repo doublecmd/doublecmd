@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2018-08-27 20:48-0400\n"
+"PO-Revision-Date: 2018-11-03 22:08-0400\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -1474,40 +1474,39 @@ msgid "Properties"
 msgstr "Propriétés"
 
 #: tfrmfileunlock.btnclose.caption
-#, fuzzy
 msgctxt "tfrmfileunlock.btnclose.caption"
 msgid "Close"
 msgstr "Fermer"
 
 #: tfrmfileunlock.btnterminate.caption
 msgid "Terminate"
-msgstr ""
+msgstr "Arrêter"
 
 #: tfrmfileunlock.btnunlock.caption
 msgctxt "tfrmfileunlock.btnunlock.caption"
 msgid "Unlock"
-msgstr ""
+msgstr "Déverrouiller"
 
 #: tfrmfileunlock.btnunlockall.caption
 msgid "Unlock All"
-msgstr ""
+msgstr "Déverrouiller tous"
 
 #: tfrmfileunlock.caption
 msgctxt "tfrmfileunlock.caption"
 msgid "Unlock"
-msgstr ""
+msgstr "Déverrouiller"
 
 #: tfrmfileunlock.stgfilehandles.columns[0].title.caption
 msgid "File Handle"
-msgstr ""
+msgstr "Handle de fichier"
 
 #: tfrmfileunlock.stgfilehandles.columns[1].title.caption
 msgid "Process ID"
-msgstr ""
+msgstr "ID de processus"
 
 #: tfrmfileunlock.stgfilehandles.columns[2].title.caption
 msgid "Executable Path"
-msgstr ""
+msgstr "Emplacement de l'exécutable"
 
 #: tfrmfinddlg.actcancel.caption
 msgctxt "tfrmfinddlg.actcancel.caption"
@@ -1983,7 +1982,7 @@ msgstr "&A propos"
 
 #: tfrmmain.actactivatetabbyindex.caption
 msgid "Activate Tab By Index"
-msgstr ""
+msgstr "Activer l'onglet par index"
 
 #: tfrmmain.actaddfilenametocmdline.caption
 msgid "Add file name to command line"
@@ -2128,7 +2127,7 @@ msgstr "Configurations des raccourcis-clavier"
 
 #: tfrmmain.actconfigplugins.caption
 msgid "Configuration of Plugins"
-msgstr ""
+msgstr "Configuration des \"Plugins\""
 
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
@@ -2144,7 +2143,7 @@ msgstr "Configuation de la barre d'outils"
 
 #: tfrmmain.actconfigtooltips.caption
 msgid "Configuration of tooltips"
-msgstr ""
+msgstr "Configuration des info-bulles"
 
 #: tfrmmain.actconfigtreeviewmenus.caption
 msgctxt "tfrmmain.actconfigtreeviewmenus.caption"
@@ -2482,7 +2481,7 @@ msgstr "Ouvrir le &dossier dans un nouvel onglet"
 
 #: tfrmmain.actopendrivebyindex.caption
 msgid "Open Drive by Index"
-msgstr ""
+msgstr "Ouvrir lecteur par index"
 
 #: tfrmmain.actopenvirtualfilesystemlist.caption
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
@@ -5809,7 +5808,7 @@ msgstr "Continuer en cas d'erreurs lors des opérations et les afficher dans la 
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
-msgstr ""
+msgstr "Vérifier la somme de contrôle"
 
 #: tfrmoptionsfileoperations.gbexecutingoperations.caption
 msgid "Executing operations"
@@ -6975,23 +6974,23 @@ msgstr "Searc&h plugins allow one to use alternative search algorithms or extern
 
 #: tfrmoptionspluginsgroup.btnpathtoberelativetoall.caption
 msgid "Apply current settings to all current configured plugins"
-msgstr ""
+msgstr "Appliquer à tous les \"plugins\" configurés"
 
 #: tfrmoptionspluginsgroup.ckbautotweak.caption
 msgid "When adding a new plugin, automatically go in tweak window"
-msgstr ""
+msgstr "Lorsque vous ajoutez un nouveau plugin, allez automatiquement dans la fenêtre de rafinnement"
 
 #: tfrmoptionspluginsgroup.gbconfiguration.caption
 msgid "Configuration:"
-msgstr ""
+msgstr "Configuration :"
 
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgid "Path to be relative to:"
-msgstr ""
+msgstr "Le chemin doit être relatif à:"
 
 #: tfrmoptionspluginsgroup.lbpluginfilenamestyle.caption
 msgid "Plugin filename style when adding a new plugin:"
-msgstr ""
+msgstr "Style de nom de fichier du plugin lors de l'ajout d'un nouveau plugin:"
 
 #: tfrmoptionspluginswcx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswcx.lblplugindescription.caption"
@@ -6999,25 +6998,21 @@ msgid "Pack&er plugins are used to work with archives"
 msgstr "Les \"plugins\" de compresseur sont utilisés pour travailler avec les archives compressées."
 
 #: tfrmoptionspluginswcx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Actif"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
-msgstr "\"Plugin\""
+msgstr "Plugin"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "Enregistré pour"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Nom de fichier"
@@ -9909,7 +9904,7 @@ msgstr "Passer pour &tous"
 
 #: ulng.rsdlgbuttonunlock
 msgid "&Unlock"
-msgstr ""
+msgstr "Déverrouiller"
 
 #: ulng.rsdlgbuttonyes
 msgid "&Yes"
@@ -10418,7 +10413,7 @@ msgstr "Toutes les commandes internes de Double Commander"
 
 #: ulng.rsmsgapplicationname
 msgid "Description: %s"
-msgstr ""
+msgstr "Description : %s"
 
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
@@ -10674,7 +10669,7 @@ msgstr "Format d'archive inconnu"
 
 #: ulng.rsmsgexecutablepath
 msgid "Executable: %s"
-msgstr ""
+msgstr "Exécutable: %s"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
@@ -11174,7 +11169,7 @@ msgstr "L'oject n'existe pas!"
 
 #: ulng.rsmsgopeninanotherprogram
 msgid "The action cannot be completed because the file is open in another program:"
-msgstr ""
+msgstr "L'action ne peut pas être terminée car le fichier est ouvert dans un autre programme:"
 
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
@@ -11215,7 +11210,7 @@ msgstr "Problème d'exécution de la commande (%s)"
 
 #: ulng.rsmsgprocessid
 msgid "PID: %d"
-msgstr ""
+msgstr "PID:% d"
 
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
@@ -11243,7 +11238,7 @@ msgstr "Renommer/Déplacer la sélection  \"%s\" ?"
 
 #: ulng.rsmsgreplacethistext
 msgid "Do you want to replace this text?"
-msgstr ""
+msgstr "Voulez-vous remplacer ce texte?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
@@ -11403,7 +11398,7 @@ msgstr "Entrez l'emplacement et le nom de fichier pour la barre d'outil TC à sa
 
 #: ulng.rsmsgterminateprocess
 msgid "WARNING: Terminating a process can cause undesired results including loss of data and system instability. The process will not be given the chance to save its state or data before it is terminated. Are you sure you want to terminate the process?"
-msgstr ""
+msgstr "AVERTISSEMENT: la fin d'un processus peut entraîner des résultats indésirables, notamment une perte de données et une instabilité du système. Le processus n'aura pas la possibilité de sauvegarder son état ou ses données avant qu'il ne soit terminé. Êtes-vous sûr de vouloir mettre fin au processus?"
 
 #: ulng.rsmsgthisisnowinclipboard
 msgid "\"%s\" is now in the clipboard"
@@ -11471,7 +11466,7 @@ msgstr "VÉRIFICATION:"
 
 #: ulng.rsmsgverifychecksum
 msgid "Do you want to verify selected checksums?"
-msgstr ""
+msgstr "Voulez-vous vérifier les sommes de contrôle sélectionnées?"
 
 #: ulng.rsmsgverifywrong
 msgid "The target file is corrupted, checksum mismatch!"
@@ -12314,11 +12309,11 @@ msgstr "Nom de fichier"
 
 #: ulng.rsoptpluginshowbyextension
 msgid "By extension"
-msgstr ""
+msgstr "Par extension"
 
 #: ulng.rsoptpluginshowbyplugin
 msgid "By Plugin"
-msgstr ""
+msgstr "Par plugin"
 
 #: ulng.rsoptpluginsname
 msgctxt "ulng.rsoptpluginsname"
@@ -12327,7 +12322,7 @@ msgstr "Nom"
 
 #: ulng.rsoptpluginsortonlywhenbyextension
 msgid "Sorting WCX plugins is only possible when showing plugins by extension"
-msgstr ""
+msgstr "Le tri des plugins WCX n'est possible que si vous affichez les plugins par extension"
 
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
@@ -12441,7 +12436,7 @@ msgstr "ne change pas de position;utilise les mêmes option que pour les nouveau
 
 #: ulng.rspluginfilenamestylelist
 msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
-msgstr ""
+msgstr "Avec chemin absolu complet;Chemin relatif à %COMMANDER_PATH%;Relatif au chemin suivant"
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
@@ -13008,4 +13003,3 @@ msgstr "Nombre de remplacements : %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
-
