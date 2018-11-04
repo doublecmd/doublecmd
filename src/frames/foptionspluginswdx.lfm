@@ -1,6 +1,4 @@
 inherited frmOptionsPluginsWDX: TfrmOptionsPluginsWDX
-  DesignLeft = 291
-  DesignTop = 266
   inherited stgPlugins: TStringGrid
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
