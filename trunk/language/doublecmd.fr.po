@@ -4133,8 +4133,8 @@ msgid "Sort order of configuration order in left tree"
 msgstr "Classement des éléments de configuration de l'arbre de gauche"
 
 #: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
-msgid "Tree state when entering in configuration page:"
-msgstr "État de l'arbre de configuration lorsqu'on y entre:"
+msgid "Tree state when entering in configuration page"
+msgstr "État de l'arbre de configuration lorsqu'on y entre"
 
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
@@ -12921,3 +12921,4 @@ msgstr "Nombre de remplacements : %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
+

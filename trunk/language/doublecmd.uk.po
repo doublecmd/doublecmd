@@ -4148,7 +4148,7 @@ msgid "Sort order of configuration order in left tree"
 msgstr "Сортіування конфігурації в лівому дереві"
 
 #: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
-msgid "Tree state when entering in configuration page:"
+msgid "Tree state when entering in configuration page"
 msgstr ""
 
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
