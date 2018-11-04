@@ -95,6 +95,7 @@ inherited frmOptionsPluginsBase: TfrmOptionsPluginsBase
       Caption = 'Description'
       FocusControl = stgPlugins
       ParentColor = False
+      WordWrap = True
     end
   end
   object pnlButton: TPanel[2]
@@ -231,7 +232,6 @@ inherited frmOptionsPluginsBase: TfrmOptionsPluginsBase
       TabOrder = 2
     end
     object btnConfigPlugin: TBitBtn
-      AnchorSideTop.Control = btnAddPlugin
       AnchorSideRight.Control = pnlButton
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = pnlButton
