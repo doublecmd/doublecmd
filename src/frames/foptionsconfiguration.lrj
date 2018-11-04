@@ -16,5 +16,5 @@
 {"hash":260735466,"name":"tfrmoptionsconfiguration.lblthumbcache.caption","sourcebytes":[84,104,117,109,98,110,97,105,108,115,32,99,97,99,104,101,58],"value":"Thumbnails cache:"},
 {"hash":236084250,"name":"tfrmoptionsconfiguration.lbliconthemes.caption","sourcebytes":[73,99,111,110,32,116,104,101,109,101,115,58],"value":"Icon themes:"},
 {"hash":50805722,"name":"tfrmoptionsconfiguration.lblhighlighters.caption","sourcebytes":[72,105,103,104,108,105,103,104,116,101,114,115,58],"value":"Highlighters:"},
-{"hash":238950154,"name":"tfrmoptionsconfiguration.gpconfigurationtreestate.caption","sourcebytes":[84,114,101,101,32,115,116,97,116,101,32,119,104,101,110,32,101,110,116,101,114,105,110,103,32,105,110,32,99,111,110,102,105,103,117,114,97,116,105,111,110,32,112,97,103,101,58],"value":"Tree state when entering in configuration page:"}
+{"hash":149152117,"name":"tfrmoptionsconfiguration.gpconfigurationtreestate.caption","sourcebytes":[84,114,101,101,32,115,116,97,116,101,32,119,104,101,110,32,101,110,116,101,114,105,110,103,32,105,110,32,99,111,110,102,105,103,117,114,97,116,105,111,110,32,112,97,103,101],"value":"Tree state when entering in configuration page"}
 ]}
