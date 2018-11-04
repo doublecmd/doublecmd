@@ -4130,6 +4130,10 @@ msgstr "저장후 종료"
 msgid "Sort order of configuration order in left tree"
 msgstr "왼쪽 트리에 환경설정 명령 정렬"
 
+#: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
+msgid "Tree state when entering in configuration page:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "명령 프롬프트에 준비"
@@ -12019,6 +12023,10 @@ msgstr "처음;마지막;"
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
 msgstr "종류별, 일반적인 순서; 알파뱃 순서 (이름순 우선)"
+
+#: ulng.rsoptconfigtreestate
+msgid "Full expand;Full collapse"
+msgstr ""
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"

@@ -4104,6 +4104,10 @@ msgstr "終了時に保存"
 msgid "Sort order of configuration order in left tree"
 msgstr "←左側ツリー中での構成設定要素の並べ替え順序"
 
+#: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
+msgid "Tree state when entering in configuration page:"
+msgstr ""
+
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgid "Set on command line"
 msgstr "コマンドラインで設定"
@@ -11847,6 +11851,10 @@ msgstr "最初;最後;"
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
 msgstr "クラッシックな順番;レガシーな順番;アルファベットの順番"
+
+#: ulng.rsoptconfigtreestate
+msgid "Full expand;Full collapse"
+msgstr ""
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"

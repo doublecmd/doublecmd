@@ -33,6 +33,7 @@ uses
 type
   { Configuration options }
   TSortConfigurationOptions = (scoClassicLegacy, scoAlphabeticalButLanguage);
+  TConfigurationTreeState = (ctsFullExpand, ctsFullCollapse);
 
   { Log options }
   TLogOptions = set of (log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
@@ -450,7 +451,8 @@ var
   gSaveDirHistory,
   gSaveCmdLineHistory,
   gSaveFileMaskHistory : Boolean;
-  gSortOrderOfConfigurationOptionsTree:TSortConfigurationOptions;
+  gSortOrderOfConfigurationOptionsTree: TSortConfigurationOptions;
+  gCollapseConfigurationOptionsTree: TConfigurationTreeState;
   
   { Quick Search page }
   gQuickSearchOptions: TQuickSearchOptions;
@@ -2504,6 +2506,7 @@ begin
     gSaveCmdLineHistory := GetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     gSaveFileMaskHistory := GetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
     gSortOrderOfConfigurationOptionsTree := TSortConfigurationOptions(GetAttr(Root, 'Configuration/SortOrder', Integer(scoClassicLegacy)));
+    gCollapseConfigurationOptionsTree := TConfigurationTreeState(GetAttr(Root, 'Configuration/TreeType', Integer(ctsFullExpand)));
 
     { Quick Search/Filter page }
     Node := Root.FindNode('QuickSearch');
@@ -3061,6 +3064,7 @@ begin
     SetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     SetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
     SetAttr(Root, 'Configuration/SortOrder', Integer(gSortOrderOfConfigurationOptionsTree));
+    SetAttr(Root, 'Configuration/TreeType', Integer(gCollapseConfigurationOptionsTree));
 
     { Quick Search/Filter page }
     Node := FindNode(Root, 'QuickSearch', True);

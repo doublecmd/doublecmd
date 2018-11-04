@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementing of Options dialog
 
-   Copyright (C) 2006-2016  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    contributors:
 
@@ -264,6 +264,10 @@ procedure TfrmOptions.CreateOptionsEditorList;
 begin
   FOptionsEditorList:= TOptionsEditorViews.Create;
   AddEditors(OptionsEditorClassList, nil);
+  case gCollapseConfigurationOptionsTree of
+    ctsFullExpand: ; //By legacy, it was doing automaticall the tvTreeView.FullExpand;
+    ctsFullCollapse: tvTreeView.FullCollapse;
+  end;
 end;
 
 function TfrmOptions.GetEditor(EditorClass: TOptionsEditorClass): TOptionsEditor;

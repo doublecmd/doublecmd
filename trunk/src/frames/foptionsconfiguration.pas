@@ -51,12 +51,14 @@ type
     lblThumbCache: TLabel;
     lblCmdLineConfigDir: TLabel;
     gbSortOrderConfigurationOption: TRadioGroup;
+    gpConfigurationTreeState: TRadioGroup;
     rbProgramDir: TRadioButton;
     rbUserHomeDir: TRadioButton;
     procedure btnConfigApplyClick(Sender: TObject);
     procedure btnConfigEditClick(Sender: TObject);
     procedure chkSaveConfigurationChange(Sender: TObject);
     procedure gbSortOrderConfigurationOptionClick(Sender: TObject);
+    procedure gpConfigurationTreeStateClick(Sender: TObject);
   protected
     procedure Init; override;
     procedure Load; override;
@@ -111,6 +113,20 @@ begin
   SortConfigurationOptionsOnLeftTree;
 end;
 
+{ TfrmOptionsConfiguration.gpConfigurationTreeStateClick }
+procedure TfrmOptionsConfiguration.gpConfigurationTreeStateClick(Sender: TObject);
+begin
+  //Exceptionnally for THIS setting, let's apply it immediately, even before quiting since the effect is... in the configuration area, just where we are at this moment!
+  gCollapseConfigurationOptionsTree := TConfigurationTreeState(gpConfigurationTreeState.ItemIndex);
+  if GetOptionsForm<>nil then
+  begin
+    case gCollapseConfigurationOptionsTree of
+      ctsFullExpand : GetOptionsForm.tvTreeView.FullExpand;
+      ctsFullCollapse: GetOptionsForm.tvTreeView.FullCollapse;
+    end;
+  end;
+end;
+
 class function TfrmOptionsConfiguration.GetIconIndex: Integer;
 begin
   Result := 11;
@@ -138,6 +154,7 @@ begin
     lblCmdLineConfigDir.Caption := lblCmdLineConfigDir.Caption + ' - [' + IncludeTrailingPathDelimiter(gpCmdLineCfgDir) + ']';
   end;
   ParseLineToList(rsOptConfigSortOrder, gbSortOrderConfigurationOption.Items);
+  ParseLineToList(rsOptConfigTreeState, gpConfigurationTreeState.Items);
 end;
 
 procedure TfrmOptionsConfiguration.Load;
@@ -165,6 +182,7 @@ begin
   cbCmdLineHistory.Checked := gSaveCmdLineHistory;
   cbFileMaskHistory.Checked := gSaveFileMaskHistory;
   gbSortOrderConfigurationOption.ItemIndex:=Integer(gSortOrderOfConfigurationOptionsTree);
+  gpConfigurationTreeState.ItemIndex := Integer(gCollapseConfigurationOptionsTree);
 end;
 
 function TfrmOptionsConfiguration.Save: TOptionsEditorSaveFlags;
@@ -178,6 +196,7 @@ begin
   gSaveCmdLineHistory := cbCmdLineHistory.Checked;
   gSaveFileMaskHistory := cbFileMaskHistory.Checked;
   gSortOrderOfConfigurationOptionsTree := TSortConfigurationOptions(gbSortOrderConfigurationOption.ItemIndex);
+  gCollapseConfigurationOptionsTree := TConfigurationTreeState(gpConfigurationTreeState.ItemIndex);
 end;
 
 end.
