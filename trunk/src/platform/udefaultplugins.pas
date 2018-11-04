@@ -79,7 +79,7 @@ uses
   Forms, Dialogs,
   
   //DC
-  {$IF NOT DEFINED(MSWINDOWS)}
+  {$IF DEFINED(CPU64)}
   DCStrUtils,
   {$ENDIF}
   DCOSUtils, DCClassesUtf8, uGlobs, uLng, uDCUtils;
