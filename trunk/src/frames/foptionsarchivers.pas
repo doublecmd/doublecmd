@@ -351,12 +351,15 @@ begin
 end;
 
 procedure TfrmOptionsArchivers.chkFileNameOnlyListChange(Sender: TObject);
+var
+  AEnabled: Boolean;
 begin
-  edtArchiverList.Enabled:= not chkFileNameOnlyList.Checked;
-  btnArchiverListHelper.Enabled:= not chkFileNameOnlyList.Checked;
-  edtArchiverListStart.Enabled:= not chkFileNameOnlyList.Checked;
-  edtArchiverListEnd.Enabled:= not chkFileNameOnlyList.Checked;
-  memArchiverListFormat.Enabled:= not chkFileNameOnlyList.Checked;
+  AEnabled:= (not chkFileNameOnlyList.Checked) and chkArchiverEnabled.Checked;
+  edtArchiverList.Enabled:= AEnabled;
+  btnArchiverListHelper.Enabled:= AEnabled;
+  edtArchiverListStart.Enabled:= AEnabled;
+  edtArchiverListEnd.Enabled:= AEnabled;
+  memArchiverListFormat.Enabled:= AEnabled;
   edtAnyChange(Sender);
 end;
 
