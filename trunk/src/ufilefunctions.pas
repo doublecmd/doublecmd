@@ -97,10 +97,12 @@ implementation
 
 uses
   StrUtils, WdxPlugin, uWdxModule, uGlobs, uLng, uDefaultFilePropertyFormatter,
-  uFileSourceProperty, uWfxPluginFileSource, uWfxModule, uColumns, DCFileAttributes;
+  uFileSourceProperty, uWfxPluginFileSource, uWfxModule, uColumns, DCFileAttributes,
+  DCStrUtils, DCBasicTypes, uDCUtils, uTypes;
 
 const
   ATTR_OCTAL = 'OCTAL';
+  FILE_SIZE: array[0..4] of String = ('FLOAT', 'BYTE', 'KILO', 'MEGA', 'GIGA');
 
 // Which file properties must be supported for each file function to work.
 const TFileFunctionToProperty: array [Low(TFileFunction)..fsfInvalid] of TFilePropertiesTypes
@@ -234,7 +236,19 @@ begin
               Result := '<DIR>'
           end
           else if fpSize in AFile.SupportedProperties then
-            Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter);
+          begin
+            if Length(AParam) = 0 then
+              Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter)
+            else
+              for AIndex:= 0 to High(FILE_SIZE) do
+              begin
+                if AParam = FILE_SIZE[AIndex] then
+                begin
+                  Result := cnvFormatFileSize(AFile.Size, TFileSizeFormat(AIndex), gFileSizeDigits);
+                  Break;
+                end;
+              end;
+          end;
         end;
 
       fsfAttr:
@@ -470,9 +484,10 @@ end;
 
 procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent; const FileSystem: String);
 var
-  I: Integer;
+  I, J: Integer;
   MI, MI2: TMenuItem;
   Module: TWDXModule;
+  FileSize: TDynamicStringArray;
 begin
   MenuItem.Clear;
 
@@ -504,6 +519,27 @@ begin
       MI2.Caption:= rsMnuContentOctal;
       MI2.OnClick:= OnMenuItemClick;
       MI.Add(MI2);
+    end;
+    // Special case for size
+    if TFileFunctionStrings[fsfSize] = FileFunctionsStr.Names[I] then
+    begin
+      // Default format
+      MI2:= TMenuItem.Create(MenuItem);
+      MI2.Tag:= 3;
+      MI2.Hint:= '';
+      MI2.Caption:= rsMnuContentDefault;
+      MI2.OnClick:= OnMenuItemClick;
+      MI.Add(MI2);
+      FileSize:= SplitString(rsOptFileSizeFormat, ';');
+      for J:= 0 to High(FILE_SIZE) do
+      begin
+        MI2:= TMenuItem.Create(MenuItem);
+        MI2.Tag:= 3;
+        MI2.Hint:= FILE_SIZE[J];
+        MI2.Caption:= FileSize[J];
+        MI2.OnClick:= OnMenuItemClick;
+        MI.Add(MI2);
+      end;
     end;
     if MI.Count = 0 then MI.OnClick:= OnMenuItemClick;
   end;
