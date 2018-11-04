@@ -106,6 +106,9 @@ type
     FHintPageIndex: Integer;
     FLastMouseDownTime: TDateTime;
     FLastMouseDownPageIndex: Integer;
+    {$IFDEF MSWINDOWS}
+    FRowCount: Integer;
+    {$ENDIF}
     function GetNoteBook: TFileViewNotebook;
   private
     procedure DragOverEvent(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
@@ -120,7 +123,6 @@ type
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
-    procedure WMEraseBkgnd(var Message: TLMEraseBkgnd); message LM_ERASEBKGND;
   public
     constructor Create(ParentControl: TWinControl); reintroduce;
 
@@ -718,16 +720,6 @@ begin
   FStartDrag := False;
 end;
 
-procedure TFileViewPageControl.WMEraseBkgnd(var Message: TLMEraseBkgnd);
-begin
-  inherited WMEraseBkgnd(Message);
-  // Always set as handled otherwise if not handled Windows will draw background
-  // with hbrBackground brush of the window class. This might cause flickering
-  // because later background will be again be erased but with TControl.Brush.
-  // This is not actually needed on non-Windows because WMEraseBkgnd is not used there.
-  Message.Result := 1;
-end;
-
 constructor TFileViewPageControl.Create(ParentControl: TWinControl);
 begin
   inherited Create(ParentControl);
@@ -787,6 +779,7 @@ end;
 
 procedure TFileViewPageControl.WndProc(var Message: TLMessage);
 var
+  ARowCount: Integer;
   ARect: PRect absolute Message.LParam;
 begin
   inherited WndProc(Message);
@@ -797,6 +790,19 @@ begin
     else begin
       ARect^.Left := ARect^.Left + 2;
     end;
+    if MultiLine then
+    begin
+      ARowCount := SendMessage(Handle, TCM_GETROWCOUNT, 0, 0);
+      if (FRowCount <> ARowCount) then
+      begin
+        FRowCount:= ARowCount;
+        PostMessage(Handle, WM_USER, 0, 0);
+      end;
+    end;
+  end
+  else if Message.Msg = WM_USER then
+  begin
+    TabControlBoundsChange(FRowCount);
   end;
 end;
 {$ENDIF}
