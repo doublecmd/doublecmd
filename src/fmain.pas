@@ -4788,6 +4788,8 @@ begin
       pnlLeft.BorderSpacing.Bottom := 0;
       MainSplitter.Cursor := crHSplit;
     end;
+    pnlLeftResize(pnlLeft);
+    pnlNotebooksResize(pnlNotebooks);
 
     (* Disk Panels *)
     if gHorizontalFilePanels and gDriveBar1 and gDriveBar2 then
