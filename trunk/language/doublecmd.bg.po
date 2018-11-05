@@ -2742,7 +2742,7 @@ msgid "Create Symbolic &Link..."
 msgstr "Създаване на &мека връзка..."
 
 #: tfrmmain.actsyncdirs.caption
-msgid "Synchronize dirs..."
+msgid "Syn&chronize dirs..."
 msgstr "Съгласуване на папки..."
 
 #: tfrmmain.acttargetequalsource.caption

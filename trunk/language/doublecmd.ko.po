@@ -2740,7 +2740,7 @@ msgid "Create Symbolic &Link..."
 msgstr "바로 가기 생성(&L)..."
 
 #: tfrmmain.actsyncdirs.caption
-msgid "Synchronize dirs..."
+msgid "Syn&chronize dirs..."
 msgstr "폴더 동기화..."
 
 #: tfrmmain.acttargetequalsource.caption

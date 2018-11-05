@@ -2670,7 +2670,7 @@ msgid "Create Symbolic &Link..."
 msgstr "Ustvari &simbolno povezavo ..."
 
 #: tfrmmain.actsyncdirs.caption
-msgid "Synchronize dirs..."
+msgid "Syn&chronize dirs..."
 msgstr "Uskladi mape ..."
 
 #: tfrmmain.acttargetequalsource.caption

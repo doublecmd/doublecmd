@@ -2667,7 +2667,7 @@ msgid "Create Symbolic &Link..."
 msgstr "Vytvořit symbolický o&dkaz..."
 
 #: tfrmmain.actsyncdirs.caption
-msgid "Synchronize dirs..."
+msgid "Syn&chronize dirs..."
 msgstr "Synchronizovat adresáře..."
 
 #: tfrmmain.acttargetequalsource.caption

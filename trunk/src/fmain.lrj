@@ -49,7 +49,7 @@
 {"hash":196870062,"name":"tfrmmain.actaddnewsearch.caption","sourcebytes":[78,101,119,32,115,101,97,114,99,104,32,105,110,115,116,97,110,99,101,46,46,46],"value":"New search instance..."},
 {"hash":28039203,"name":"tfrmmain.actviewsearches.caption","sourcebytes":[86,105,101,119,32,99,117,114,114,101,110,116,32,115,101,97,114,99,104,32,105,110,115,116,97,110,99,101,115],"value":"View current search instances"},
 {"hash":78460649,"name":"tfrmmain.actdeletesearches.caption","sourcebytes":[70,111,114,32,97,108,108,32,115,101,97,114,99,104,101,115,44,32,99,97,110,99,101,108,44,32,99,108,111,115,101,32,97,110,100,32,102,114,101,101,32,109,101,109,111,114,121],"value":"For all searches, cancel, close and free memory"},
-{"hash":106748302,"name":"tfrmmain.actsyncdirs.caption","sourcebytes":[83,121,110,99,104,114,111,110,105,122,101,32,100,105,114,115,46,46,46],"value":"Synchronize dirs..."},
+{"hash":223665710,"name":"tfrmmain.actsyncdirs.caption","sourcebytes":[83,121,110,38,99,104,114,111,110,105,122,101,32,100,105,114,115,46,46,46],"value":"Syn&chronize dirs..."},
 {"hash":42862446,"name":"tfrmmain.actconfigtoolbars.caption","sourcebytes":[84,111,111,108,98,97,114,46,46,46],"value":"Toolbar..."},
 {"hash":196668100,"name":"tfrmmain.actconfigdirhotlist.caption","sourcebytes":[67,111,110,102,105,103,117,114,97,116,105,111,110,32,111,102,32,68,105,114,101,99,116,111,114,121,32,72,111,116,108,105,115,116],"value":"Configuration of Directory Hotlist"},
 {"hash":25350211,"name":"tfrmmain.actworkwithdirectoryhotlist.caption","sourcebytes":[87,111,114,107,32,119,105,116,104,32,68,105,114,101,99,116,111,114,121,32,72,111,116,108,105,115,116,32,97,110,100,32,112,97,114,97,109,101,116,101,114,115],"value":"Work with Directory Hotlist and parameters"},

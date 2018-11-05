@@ -2660,7 +2660,7 @@ msgid "Create Symbolic &Link..."
 msgstr "Стварыць сімвалічную &спасылку..."
 
 #: tfrmmain.actsyncdirs.caption
-msgid "Synchronize dirs..."
+msgid "Syn&chronize dirs..."
 msgstr "Сінхранізаваць каталогі..."
 
 #: tfrmmain.acttargetequalsource.caption
