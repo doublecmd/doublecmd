@@ -2875,7 +2875,7 @@ msgid "Create Symbolic &Link..."
 msgstr "Simgesel bağlantı &Oluştur"
 
 #: tfrmmain.actsyncdirs.caption
-msgid "Synchronize dirs..."
+msgid "Syn&chronize dirs..."
 msgstr ""
 
 #: tfrmmain.acttargetequalsource.caption

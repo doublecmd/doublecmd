@@ -2749,7 +2749,7 @@ msgid "Create Symbolic &Link..."
 msgstr "Napravi simboličku &vezu..."
 
 #: tfrmmain.actsyncdirs.caption
-msgid "Synchronize dirs..."
+msgid "Syn&chronize dirs..."
 msgstr "Uskladi fascikle..."
 
 #: tfrmmain.acttargetequalsource.caption

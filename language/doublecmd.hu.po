@@ -2726,7 +2726,7 @@ msgid "Create Symbolic &Link..."
 msgstr "&Szimbolikus hivatkozás készítése.."
 
 #: tfrmmain.actsyncdirs.caption
-msgid "Synchronize dirs..."
+msgid "Syn&chronize dirs..."
 msgstr "Könyvtárak szinkronizálása...."
 
 #: tfrmmain.acttargetequalsource.caption

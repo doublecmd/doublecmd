@@ -2876,7 +2876,7 @@ msgstr "Napravi simboličku &vezu..."
 
 #: tfrmmain.actsyncdirs.caption
 msgctxt "tfrmmain.actsyncdirs.caption"
-msgid "Synchronize dirs..."
+msgid "Syn&chronize dirs..."
 msgstr "Usklađivanje mapa..."
 
 #: tfrmmain.acttargetequalsource.caption

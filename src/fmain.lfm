@@ -1553,7 +1553,7 @@ object frmMain: TfrmMain
     object actSyncDirs: TAction
       Tag = 18
       Category = 'Tools'
-      Caption = 'Synchronize dirs...'
+      Caption = 'Syn&chronize dirs...'
       HelpType = htKeyword
       OnExecute = actExecute
     end

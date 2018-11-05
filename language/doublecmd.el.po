@@ -2721,7 +2721,7 @@ msgid "Create Symbolic &Link..."
 msgstr "Δημιουργία Συμβολοδεσμού..."
 
 #: tfrmmain.actsyncdirs.caption
-msgid "Synchronize dirs..."
+msgid "Syn&chronize dirs..."
 msgstr "Συγχρονισμός καταλόγων..."
 
 #: tfrmmain.acttargetequalsource.caption

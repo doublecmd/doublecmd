@@ -2663,7 +2663,7 @@ msgid "Create Symbolic &Link..."
 msgstr "Maak symbolische koppeling..."
 
 #: tfrmmain.actsyncdirs.caption
-msgid "Synchronize dirs..."
+msgid "Syn&chronize dirs..."
 msgstr "Synchroniseer mappen..."
 
 #: tfrmmain.acttargetequalsource.caption
