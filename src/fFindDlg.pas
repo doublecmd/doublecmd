@@ -708,12 +708,16 @@ end;
 
 { TfrmFindDlg.cmbEncodingSelect }
 procedure TfrmFindDlg.cmbEncodingSelect(Sender: TObject);
+var
+  SingleByte: Boolean;
 begin
-  cbTextRegExp.Enabled := cbFindText.Checked and SingleByteEncoding(cmbEncoding.Text);
+  SingleByte:= SingleByteEncoding(cmbEncoding.Text);
+
+  cbTextRegExp.Enabled := cbFindText.Checked and SingleByte;
   if not cbTextRegExp.Enabled then cbTextRegExp.Checked := False;
 
-  cbCaseSens.Enabled:= cbTextRegExp.Enabled or (not cbReplaceText.Checked);
-  if not cbCaseSens.Enabled then cbCaseSens.Checked := True;
+  cbCaseSens.Enabled:= cbFindText.Checked and (SingleByte or (not cbReplaceText.Checked));
+  if cbFindText.Checked and (not cbCaseSens.Enabled) then cbCaseSens.Checked := True;
 end;
 
 { TfrmFindDlg.Create }
