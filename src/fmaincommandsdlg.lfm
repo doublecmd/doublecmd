@@ -264,18 +264,21 @@ object frmMainCommandsDlg: TfrmMainCommandsDlg
       OnClick = lblPlaceCaptionInClipClick
     end
     object lblSelectedCommandHelp: TLabel
-      AnchorSideLeft.Control = pnlImage
-      AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = pnlImage
       AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlImage
+      AnchorSideRight.Side = asrBottom
       Cursor = crHandPoint
-      Left = 444
+      Left = 440
       Height = 15
       Top = 40
-      Width = 25
-      BorderSpacing.Right = 10
+      Width = 32
+      Alignment = taCenter
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 4
       BorderSpacing.Bottom = 3
       Caption = 'Help'
+      Constraints.MinWidth = 32
       Font.Style = [fsUnderline]
       ParentColor = False
       ParentFont = False
