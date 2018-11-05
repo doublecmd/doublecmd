@@ -711,6 +711,9 @@ procedure TfrmFindDlg.cmbEncodingSelect(Sender: TObject);
 begin
   cbTextRegExp.Enabled := cbFindText.Checked and SingleByteEncoding(cmbEncoding.Text);
   if not cbTextRegExp.Enabled then cbTextRegExp.Checked := False;
+
+  cbCaseSens.Enabled:= cbTextRegExp.Enabled or (not cbReplaceText.Checked);
+  if not cbCaseSens.Enabled then cbCaseSens.Checked := False;
 end;
 
 { TfrmFindDlg.Create }
@@ -1305,6 +1308,8 @@ begin
   EnableControl(cmbReplaceText, cbReplaceText.Checked and cbFindText.Checked);
   cbNotContainingText.Checked := False;
   cbNotContainingText.Enabled := (not cbReplaceText.Checked and cbFindText.Checked);
+
+  cmbEncodingSelect(cmbEncoding);
 
   if not FUpdating and cmbReplaceText.Enabled and cmbReplaceText.CanFocus then
   begin
