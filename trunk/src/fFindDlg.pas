@@ -713,7 +713,7 @@ begin
   if not cbTextRegExp.Enabled then cbTextRegExp.Checked := False;
 
   cbCaseSens.Enabled:= cbTextRegExp.Enabled or (not cbReplaceText.Checked);
-  if not cbCaseSens.Enabled then cbCaseSens.Checked := False;
+  if not cbCaseSens.Enabled then cbCaseSens.Checked := True;
 end;
 
 { TfrmFindDlg.Create }
