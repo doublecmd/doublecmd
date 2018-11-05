@@ -76,13 +76,11 @@ begin
   begin
     try
       // Fill file list box
-      lstFile.Sorted:=TRUE;
       for I:= 0 to aFiles.Count - 1 do
       with lstFile.Items do
       begin
         AddObject(aFiles[I].Name, aFiles[I]);
       end;
-      lstFile.Sorted:=FALSE;
 
       // Use first file name without extension as target file name
       edSave.Text:= TargetPath + aFiles[0].NameNoExt;
