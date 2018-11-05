@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.9.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2018-08-29 23:28+0300\n"
+"PO-Revision-Date: 2018-11-05 8:20+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -84,7 +84,7 @@ msgstr "Проверить после &завершения"
 #: tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint
 msgctxt "tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint"
 msgid "What to do when cannot set file time, attributes, etc."
-msgstr "Что делать, когда не удается установить время файла, его атрибуты и т.д."
+msgstr "Что делать, когда не удаётся установить время файла, его атрибуты и т.д."
 
 #: tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption
 msgid "Use file template"
@@ -1711,15 +1711,15 @@ msgstr "Шестнадцатеричное"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
-msgstr "Введите имена каталогов, которые должны быть исключены из поиска, разделённые символом \";\""
+msgstr "Перечислите через \";\" имена каталогов, которые должны быть исключены из поиска"
 
 #: tfrmfinddlg.cmbexcludefiles.hint
 msgid "Enter files names that should be excluded from search separated with \";\""
-msgstr "Введите имена файлов, которые должны быть исключены из поиска, разделённые символом \";\""
+msgstr "Перечислите через \";\" имена файлов, которые должны быть исключены из поиска"
 
 #: tfrmfinddlg.cmbfindfilemask.hint
 msgid "Enter files names separated with \";\""
-msgstr "Введите имена файлов, разделённые символом \";\""
+msgstr "Введите имя файла или несколько имён, разделяя символом \";\""
 
 #: tfrmfinddlg.gbdirectories.caption
 msgctxt "tfrmfinddlg.gbdirectories.caption"
@@ -1898,7 +1898,7 @@ msgstr "При выборе подменю будет выделено всё п
 
 #: tfrmhotdirexportimport.lblhintholdcontrol.caption
 msgid "Hold CTRL and click entries to select multiple ones"
-msgstr "Зажав клавишу CTRL можно выделить сразу несколько записей"
+msgstr "Зажав клавишу Ctrl можно выделить сразу несколько записей"
 
 #: tfrmlinker.btnsave.caption
 msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
@@ -2105,7 +2105,7 @@ msgstr "Настройка горячих клавиш"
 
 #: tfrmmain.actconfigplugins.caption
 msgid "Configuration of Plugins"
-msgstr ""
+msgstr "Настройка плагинов"
 
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
@@ -3982,7 +3982,7 @@ msgstr "&Не запускать более одной копии DC"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr "Введите один или несколько дисков, точек монтирования, разделяемые \";\""
+msgstr "Укажите диски или точки монтирования, перечислив через \";\""
 
 #: tfrmoptionsbehavior.lbldrivesblacklist.caption
 msgid "Drives &blacklist"
@@ -4109,7 +4109,7 @@ msgstr "Сортировка дерева конфигурации (слева)"
 
 #: tfrmoptionsconfiguration.gpconfigurationtreestate.caption
 msgid "Tree state when entering in configuration page"
-msgstr ""
+msgstr "Состояние дерева при открытии окна настроек"
 
 #: tfrmoptionsconfiguration.lblcmdlineconfigdir.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
@@ -6868,49 +6868,45 @@ msgstr "Поз&воляют использовать в поиске альте�
 
 #: tfrmoptionspluginsgroup.btnpathtoberelativetoall.caption
 msgid "Apply current settings to all current configured plugins"
-msgstr ""
+msgstr "Применить настройки ко всем уже добавленным плагинам"
 
 #: tfrmoptionspluginsgroup.ckbautotweak.caption
 msgid "When adding a new plugin, automatically go in tweak window"
-msgstr ""
+msgstr "При добавлении нового плагина автоматически открывать окно настроек"
 
 #: tfrmoptionspluginsgroup.gbconfiguration.caption
 msgid "Configuration:"
-msgstr ""
+msgstr "Общие настройки:"
 
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgid "Path to be relative to:"
-msgstr ""
+msgstr "Путь:"
 
 #: tfrmoptionspluginsgroup.lbpluginfilenamestyle.caption
 msgid "Plugin filename style when adding a new plugin:"
-msgstr ""
+msgstr "Имя файла плагина при добавлении:"
 
 #: tfrmoptionspluginswcx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswcx.lblplugindescription.caption"
 msgid "Pack&er plugins are used to work with archives"
-msgstr "Позволяют р&аботать с архивами."
+msgstr "Позволяют р&аботать с архивами"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Состояние"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
 msgstr "Плагин"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
 msgstr "Ассоциация"
 
 #: tfrmoptionspluginswcx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswcx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Имя файла"
@@ -6918,7 +6914,7 @@ msgstr "Имя файла"
 #: tfrmoptionspluginswdx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswdx.lblplugindescription.caption"
 msgid "Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "Позвол&яют использовать расширенные сведения о файлах (теги mp3, атрибуты изображений и т.д.) в панелях или при поиске/переименовании."
+msgstr "Позвол&яют использовать расширенные сведения о файлах (теги mp3, атрибуты изображений и т.д.) в панелях или при поиске/переименовании"
 
 #: tfrmoptionspluginswfx.lblplugindescription.caption
 msgctxt "tfrmoptionspluginswfx.lblplugindescription.caption"
@@ -10177,7 +10173,7 @@ msgstr ""
 
 #: ulng.rshotkeynoscenter
 msgid "No shortcut with \"ENTER\""
-msgstr "Не использовать \"ENTER\""
+msgstr "Не использовать \"Enter\""
 
 #: ulng.rshotkeysortorder
 msgid "By command name;By shortcut key (grouped);By shortcut key (one per row)"
@@ -10340,7 +10336,7 @@ msgstr "Нельзя скопировать/переместить файл \"%s
 
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
-msgstr "Нельзя удалить каталог %s"
+msgstr "Не удалось удалить каталог %s"
 
 #: ulng.rsmsgcannotoverwritedirectory
 msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
@@ -10348,7 +10344,7 @@ msgstr "Невозможно перезаписать каталог \"%s\" фа
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
-msgstr "Переход в каталог [%s] не удался!"
+msgstr "Переход в каталог \"%s\" не удался!"
 
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
@@ -10580,7 +10576,7 @@ msgstr "Перетащите сюда другие записи"
 
 #: ulng.rsmsgfavoritetabsentername
 msgid "Enter a name for this new Favorite Tabs entry:"
-msgstr "Введите имя этих избранных вкладок"
+msgstr "Введите имя новых избранных вкладок:"
 
 #: ulng.rsmsgfavoritetabsenternametitle
 msgid "Saving a new Favorite Tabs entry"
@@ -10897,7 +10893,7 @@ msgid ""
 "\n"
 "Number of bytes still to write: %d\n"
 msgstr ""
-"Пожалуйста, вставьте следующий диск или что-то похожее.\n"
+"Пожалуйста, вставьте следующий диск или другой носитель.\n"
 "\n"
 "Это позволит записать файл:\n"
 "\"%s\"\n"
@@ -10938,7 +10934,7 @@ msgstr "Этот плагин собран для Double Commander для %s.%s�
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
-msgstr "Неверное цитирование"
+msgstr "Неправильное использование кавычек"
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
@@ -10954,7 +10950,7 @@ msgstr "Укажите файл конфигурации TC (wincmd.ini)"
 
 #: ulng.rsmsglocatetcexecutable
 msgid "Locate TC executable file (totalcmd.exe or totalcmd64.exe)"
-msgstr "Укажите исполняемый файл TC (totalcmd.exe or totalcmd64.exe)"
+msgstr "Укажите исполняемый файл TC (totalcmd.exe или totalcmd64.exe)"
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -11850,7 +11846,7 @@ msgstr "Классическая (по умолчанию);В алфавитно
 
 #: ulng.rsoptconfigtreestate
 msgid "Full expand;Full collapse"
-msgstr ""
+msgstr "Развернуть всё;Свернуть всё"
 
 #: ulng.rsoptdifferframeposition
 msgid "Active frame panel on left, inactive on right (legacy);Left frame panel on left, right on right"
@@ -12190,7 +12186,7 @@ msgstr "Плагин %s уже назначен для следующих рас
 
 #: ulng.rsoptplugindisable
 msgid "D&isable"
-msgstr "Отключить"
+msgstr "От&ключить"
 
 #: ulng.rsoptpluginenable
 msgctxt "ulng.rsoptpluginenable"
@@ -12214,11 +12210,11 @@ msgstr "Имя файла"
 
 #: ulng.rsoptpluginshowbyextension
 msgid "By extension"
-msgstr ""
+msgstr "Расширения"
 
 #: ulng.rsoptpluginshowbyplugin
 msgid "By Plugin"
-msgstr ""
+msgstr "Плагины"
 
 #: ulng.rsoptpluginsname
 msgctxt "ulng.rsoptpluginsname"
@@ -12337,11 +12333,11 @@ msgstr "Штатный - Копия (x) имяфайла.тип;Windows - имя
 
 #: ulng.rsoptupdatedfilesposition
 msgid "don't change position;use the same setting as for new files;to sorted position"
-msgstr "не менять позицию;использовать те же установки, как для новых файлов;в отсортированной позиции"
+msgstr "не менять позицию;использовать то же, что и для новых файлов;в отсортированной позиции"
 
 #: ulng.rspluginfilenamestylelist
 msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
-msgstr ""
+msgstr "С полным абсолютным путём;С путём относительно %COMMANDER_PATH%;С путём относительно указанного"
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
@@ -12427,7 +12423,7 @@ msgstr "Выберите окно"
 
 #: ulng.rsshowhelpfor
 msgid "&Show help for %s"
-msgstr "Показать помощ&ь для %s"
+msgstr "Показат&ь %s в справке"
 
 #: ulng.rssimplewordall
 msgctxt "ulng.rssimplewordall"
@@ -12700,7 +12696,7 @@ msgstr "Объединить подсказку DC и системную, сна
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
 msgid "Viewer"
-msgstr "Проcмотр"
+msgstr "Просмотр"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
