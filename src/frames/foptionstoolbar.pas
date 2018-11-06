@@ -4,7 +4,7 @@
    Toolbar configuration options page
 
    Copyright (C) 2012      Przemyslaw Nagay (cobines@gmail.com)
-   Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1655,7 +1655,7 @@ begin
         SaveDialog.FilterIndex := 2;
         SaveDialog.Title := rsMsgTCToolbarWhereToSave;
         SaveDialog.FileName := 'New TC Toolbar filename';
-        SaveDialog.InitialDir := ExcludeTrailingPathDelimiter(gTotalCommanderToolbarPath);
+        SaveDialog.InitialDir := ExcludeTrailingPathDelimiter(mbExpandFilename(gTotalCommanderToolbarPath));
         FlagKeepGoing := SaveDialog.Execute;
         if FlagKeepGoing then
           FlagKeepGoing := areWeInSituationToPlayWithTCFiles;
