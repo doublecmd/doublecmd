@@ -164,6 +164,7 @@ type
     pmiCopy: TMenuItem;
     pnlImage: TPanel;
     pnlText: TPanel;
+	pnlPlugin: TPanel;
     miDiv3: TMenuItem;
     miEncoding: TMenuItem;
     miPlugins: TMenuItem;
@@ -316,7 +317,6 @@ type
     FWlxModule: TWlxModule;
     ActivePlugin: Integer;
     //---------------------
-    function GetListerRect: TRect;
     function CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
     function CheckGraphics(const sFileName:String):Boolean;
     function LoadGraphics(const sFileName:String): Boolean;
@@ -469,6 +469,7 @@ begin
   end;
   Viewer.LoadFile(0);
   Viewer.Show;
+  Viewer.FormResize(Viewer); //<--Was not supposed to be necessary, but this fix a problem with old "hpg_ed" plugin that needed a resize to be spotted in correct position. Through 27 plugins tried, was the only one required that. :-(
 
   if Viewer.miPreview.Checked then
     begin
@@ -596,7 +597,7 @@ begin
       aName:= aFileName;
     end;
     if CheckPlugins(aName) then
-      ActivatePanel(nil)
+      ActivatePanel(pnlPlugin)
     else if FPS_ISDIR(dwFileAttributes) then
       begin
         ActivatePanel(pnlFolder);
@@ -627,7 +628,7 @@ begin
     begin
       if FileParamVSDetectStr(aFileName, False) then
       begin
-        if CallListLoadNext(Self.Handle, aFileName, PluginShowFlags) <> LISTPLUGIN_ERROR then
+        if CallListLoadNext(pnlPlugin.Handle, aFileName, PluginShowFlags) <> LISTPLUGIN_ERROR then
           Exit;
       end;
     end;
@@ -657,7 +658,7 @@ end;
 
 procedure TfrmViewer.FormResize(Sender: TObject);
 begin
-  if bPlugin then FWlxModule.ResizeWindow(GetListerRect);
+  if bPlugin then FWlxModule.ResizeWindow(pnlPlugin.ClientRect);
 end;
 
 procedure TfrmViewer.FormShow(Sender: TObject);
@@ -1174,14 +1175,14 @@ begin
         if not WlxPlugins.LoadModule(I) then Continue;
         WlxModule:= WlxPlugins.GetWlxModule(I);
         DCDebug('WlxModule.Name = ', WlxModule.Name);
-        if WlxModule.CallListLoad(Self.Handle, sFileName, ShowFlags) = 0 then
+        if WlxModule.CallListLoad(pnlPlugin.Handle, sFileName, ShowFlags) = 0 then
         begin
           WlxModule.UnloadModule;
           Continue;
         end;
         ActivePlugin:= I;
         FWlxModule:= WlxModule;
-        WlxModule.ResizeWindow(GetListerRect);
+        WlxModule.ResizeWindow(pnlPlugin.ClientRect);
         miPrint.Enabled:= WlxModule.CanPrint;
         // Set focus to plugin window
         if not bQuickView then WlxModule.SetFocus;
@@ -1483,7 +1484,7 @@ begin
     DrawPreview.RowCount:= FileList.Count div DrawPreview.ColCount + 1
   else
     DrawPreview.RowCount:= FileList.Count div DrawPreview.ColCount;
-  if bPlugin then FWlxModule.ResizeWindow(GetListerRect);
+  if bPlugin then FWlxModule.ResizeWindow(pnlPlugin.ClientRect);
 end;
 
 procedure TfrmViewer.TimerScreenshotTimer(Sender: TObject);
@@ -2001,16 +2002,6 @@ begin
   Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [Image.Picture.Width,Image.Picture.Height, 100.0]);
 end;
 
-function TfrmViewer.GetListerRect: TRect;
-begin
-  Result:= ClientRect;
-  Dec(Result.Bottom, Status.Height);
-  if Splitter.Visible then
-  begin
-    Inc(Result.Left, Splitter.Left + Splitter.Width);
-  end;
-end;
-
 function TfrmViewer.LoadGraphics(const sFileName:String): Boolean;
 var
   sExt: String;
@@ -2290,13 +2281,13 @@ end;
 
 procedure TfrmViewer.ActivatePanel(Panel: TPanel);
 begin
-  pnlFolder.Hide;
-  pnlImage.Hide;
-  pnlText.Hide;
+  if pnlFolder <> Panel then pnlFolder.Hide;
+  if pnlImage <> Panel then pnlImage.Hide;
+  if pnlText <> Panel then pnlText.Hide;
+  if pnlPlugin <> Panel then pnlPlugin.Hide;
+  if Assigned(Panel) AND (not Panel.Visible) then Panel.Visible := True;
 
-  if Assigned(Panel) then Panel.Visible := True;
-
-  if Panel = nil then
+  if Panel = pnlPlugin then
   begin
     Status.Panels[sbpPluginName].Text:= FWlxModule.Name;
   end
@@ -2326,11 +2317,11 @@ begin
 
   bAnimation           := (Panel = pnlImage) and (GifAnim.Visible);
   bImage               := (Panel = pnlImage) and (bAnimation = False);
-  bPlugin              := (Panel = nil);
-  miPlugins.Checked    := (Panel = nil);
+  bPlugin              := (Panel = pnlPlugin);
+  miPlugins.Checked    := (Panel = pnlPlugin);
   miGraphics.Checked   := (Panel = pnlImage);
   miEncoding.Visible   := (Panel = pnlText);
-  miEdit.Visible       := (Panel = pnlText) or (Panel = nil);
+  miEdit.Visible       := (Panel = pnlText) or (Panel = pnlPlugin);
   miImage.Visible      := (bImage or bPlugin);
   miRotate.Visible     := bImage;
   miZoomIn.Visible     := bImage;
@@ -2365,7 +2356,7 @@ begin
 
   if bPlugin then
   begin
-    if (FWlxModule.CallListLoadNext(Self.Handle, FileList[I], PluginShowFlags) <> LISTPLUGIN_ERROR) then
+    if (FWlxModule.CallListLoadNext(pnlPlugin.Handle, FileList[I], PluginShowFlags) <> LISTPLUGIN_ERROR) then
     Exit;
   end;
   ExitPluginMode;
@@ -2392,7 +2383,7 @@ begin
 
   if bPlugin then
   begin
-    if (FWlxModule.CallListLoadNext(Self.Handle, FileList[I], PluginShowFlags) <> LISTPLUGIN_ERROR) then
+    if (FWlxModule.CallListLoadNext(pnlPlugin.Handle, FileList[I], PluginShowFlags) <> LISTPLUGIN_ERROR) then
       Exit;
   end;
   ExitPluginMode;
@@ -2731,7 +2722,7 @@ begin
     FThread.Terminate;
     FThread.WaitFor;
   end;
-  if bPlugin then FWlxModule.ResizeWindow(GetListerRect);
+  if bPlugin then FWlxModule.ResizeWindow(pnlPlugin.ClientRect);
 end;
 
 procedure TfrmViewer.cm_ShowAsText(const Params: array of string);
@@ -2790,7 +2781,7 @@ begin
   if bPlugin then
   begin
     ViewerControl.FileName := ''; // unload current file if any is loaded
-    ActivatePanel(nil);
+    ActivatePanel(pnlPlugin);
   end;
 end;
 
