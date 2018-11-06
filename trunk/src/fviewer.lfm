@@ -1881,6 +1881,16 @@ object frmViewer: TfrmViewer
       end
     end
   end
+  object pnlPlugin: TPanel
+    Left = 179
+    Height = 435
+    Top = 0
+    Width = 472
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 6
+    Visible = False
+  end
   object Splitter: TSplitter
     Left = 170
     Height = 435
