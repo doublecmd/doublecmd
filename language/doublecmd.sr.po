@@ -9339,30 +9339,10 @@ msgctxt "tfrmviewer.actzoomout.caption"
 msgid "Zoom Out"
 msgstr "Удаљи"
 
-#: tfrmviewer.btncopyfile.hint
-msgctxt "TFRMVIEWER.BTNCOPYFILE.HINT"
-msgid "Copy"
-msgstr "Умножи"
-
-#: tfrmviewer.btncopyfile1.hint
-msgctxt "TFRMVIEWER.BTNCOPYFILE1.HINT"
-msgid "Copy"
-msgstr "Умножи"
-
 #: tfrmviewer.btncuttuimage.hint
 msgctxt "TFRMVIEWER.BTNCUTTUIMAGE.HINT"
 msgid "Crop"
 msgstr "Опсеци"
-
-#: tfrmviewer.btndeletefile.hint
-msgctxt "TFRMVIEWER.BTNDELETEFILE.HINT"
-msgid "Delete"
-msgstr "Обриши"
-
-#: tfrmviewer.btndeletefile1.hint
-msgctxt "TFRMVIEWER.BTNDELETEFILE1.HINT"
-msgid "Delete"
-msgstr "Обриши"
 
 #: tfrmviewer.btnfullscreen.hint
 msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
@@ -9382,16 +9362,6 @@ msgstr "С"
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "Истицање"
-
-#: tfrmviewer.btnmovefile.hint
-msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
-msgid "Move"
-msgstr "Премести"
-
-#: tfrmviewer.btnmovefile1.hint
-msgctxt "TFRMVIEWER.BTNMOVEFILE1.HINT"
-msgid "Move"
-msgstr "Премести"
 
 #: tfrmviewer.btnnextgifframe.caption
 msgid "||>"
@@ -9468,31 +9438,6 @@ msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "О програму"
 
-#: tfrmviewer.midiv1.caption
-msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmviewer.midiv2.caption
-msgctxt "TFRMVIEWER.MIDIV2.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmviewer.midiv3.caption
-msgctxt "TFRMVIEWER.MIDIV3.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmviewer.midiv4.caption
-msgctxt "TFRMVIEWER.MIDIV4.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmviewer.midiv5.caption
-msgctxt "TFRMVIEWER.MIDIV5.CAPTION"
-msgid "-"
-msgstr "-"
-
 #: tfrmviewer.miedit.caption
 msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
 msgid "&Edit"
@@ -9525,11 +9470,6 @@ msgstr "Обрни"
 msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
 msgid "Screenshot"
 msgstr "Слика екрана"
-
-#: tfrmviewer.miseparator.caption
-msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
-msgid "-"
-msgstr "-"
 
 #: tfrmviewer.miview.caption
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"

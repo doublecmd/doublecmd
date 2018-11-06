@@ -268,6 +268,7 @@ object frmViewer: TfrmViewer
   OnResize = FormResize
   OnShow = FormShow
   SessionProperties = 'Height;Width;Left;Top;WindowState'
+  ShowHint = True
   ShowInTaskBar = stAlways
   LCLVersion = '1.8.3.0'
   object pnlFolder: TPanel
@@ -409,8 +410,6 @@ object frmViewer: TfrmViewer
       Alignment = taLeftJustify
       ClientHeight = 50
       ClientWidth = 472
-      ParentShowHint = False
-      ShowHint = True
       TabOrder = 1
       object gboxHightlight: TGroupBox
         Left = 435

@@ -9121,30 +9121,10 @@ msgctxt "tfrmviewer.actzoomout.caption"
 msgid "Zoom Out"
 msgstr "Micșorează"
 
-#: tfrmviewer.btncopyfile.hint
-msgctxt "TFRMVIEWER.BTNCOPYFILE.HINT"
-msgid "Copy"
-msgstr "Copiază"
-
-#: tfrmviewer.btncopyfile1.hint
-msgctxt "TFRMVIEWER.BTNCOPYFILE1.HINT"
-msgid "Copy"
-msgstr "Copiază"
-
 #: tfrmviewer.btncuttuimage.hint
 msgctxt "TFRMVIEWER.BTNCUTTUIMAGE.HINT"
 msgid "Crop"
 msgstr "Decupează"
-
-#: tfrmviewer.btndeletefile.hint
-msgctxt "TFRMVIEWER.BTNDELETEFILE.HINT"
-msgid "Delete"
-msgstr "Șterge"
-
-#: tfrmviewer.btndeletefile1.hint
-msgctxt "TFRMVIEWER.BTNDELETEFILE1.HINT"
-msgid "Delete"
-msgstr "Șterge"
 
 #: tfrmviewer.btnfullscreen.hint
 msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
@@ -9164,16 +9144,6 @@ msgstr "S"
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "Evidențiază"
-
-#: tfrmviewer.btnmovefile.hint
-msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
-msgid "Move"
-msgstr "Mută"
-
-#: tfrmviewer.btnmovefile1.hint
-msgctxt "TFRMVIEWER.BTNMOVEFILE1.HINT"
-msgid "Move"
-msgstr "Mută"
 
 #: tfrmviewer.btnnextgifframe.caption
 msgid "||>"
@@ -9250,31 +9220,6 @@ msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "Despre"
 
-#: tfrmviewer.midiv1.caption
-msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmviewer.midiv2.caption
-msgctxt "TFRMVIEWER.MIDIV2.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmviewer.midiv3.caption
-msgctxt "TFRMVIEWER.MIDIV3.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmviewer.midiv4.caption
-msgctxt "TFRMVIEWER.MIDIV4.CAPTION"
-msgid "-"
-msgstr "-"
-
-#: tfrmviewer.midiv5.caption
-msgctxt "TFRMVIEWER.MIDIV5.CAPTION"
-msgid "-"
-msgstr "-"
-
 #: tfrmviewer.miedit.caption
 msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
 msgid "&Edit"
@@ -9307,11 +9252,6 @@ msgstr "Rotește"
 msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
 msgid "Screenshot"
 msgstr "Captură ecran"
-
-#: tfrmviewer.miseparator.caption
-msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
-msgid "-"
-msgstr "-"
 
 #: tfrmviewer.miview.caption
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
