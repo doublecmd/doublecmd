@@ -47,6 +47,7 @@ const
 
   TCCONFIG_BUTTONBAR_SECTION = 'Buttonbar';
   TCCONFIG_BUTTONBAR_COUNT = 'Buttoncount';
+  TCCONFIG_DEFAULTBAR_FILENAME = 'DEFAULT.bar';
 
   TCCONFIG_BUTTONHEIGHT = 'Buttonheight';
   TCCONFIG_BUTTON_PREFIX = 'button';
@@ -784,18 +785,26 @@ end;
 { GetTotalCommandeMainBarFilename }
 // We'll return the TC main bar filename.
 // At the same time, since we're in the config file, we'll determine the icon size for the button bar.
+// TC attemts to save the "default.bar" file in the same location as the executable.
+// When it can, it will be located there.
+// If not, it will store it in the same location as the ini file.
+// Obviously, if it's somewhere else or no matter what, it will also have it store its location in the ini file in the section "Buttonbar" under the variable "Buttonbar".
+// So the flow to find it would be something like that:
+//   1.Let's attempt to read it from "Buttonbar/Buttonbar" from the ini file. If it's there, we may quick searching and exit with that.
+//   2.If it was not found, let's attempt to see if we have one in the same directory as the ini config file. If it's there, we may quick searching and exit with that.
+//   3.If we still don't have one, let's check if it is in the same folder as the installer... and it will have to be!
 function GetTotalCommandeMainBarFilename: string;
 var
   TCMainConfigFile: TIniFileEx;
 begin
   Result := '';
+
+  //1.Let's attempt to read it from configuration file.
   if mbFileExists(mbExpandFileName(gTotalCommanderConfigFilename)) then
   begin
     TCMainConfigFile := TIniFileEx.Create(mbExpandFileName(gTotalCommanderConfigFilename));
     try
-      Result :=
-        mbExpandFileName(ReplaceTCEnvVars(ConvertTCStringToString(TCMainConfigFile.ReadString(TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_MAINBAR_NOTPRESENT))));
-
+      Result := mbExpandFileName(ReplaceTCEnvVars(ConvertTCStringToString(TCMainConfigFile.ReadString(TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_BUTTONBAR_SECTION, Result))));
       //While we're there, we'll get the button height.
       TCIconSize := TCMainConfigFile.ReadInteger(TCCONFIG_BUTTONBAR_SECTION, TCCONFIG_BUTTONHEIGHT, 32 + 5);
       TCIconSize := TCIconSize - 5; //Yeah... A magic -5...
@@ -803,14 +812,16 @@ begin
       TCMainConfigFile.Free;
     end;
 
-    //If the toolbar section is not present, TC attempts to load "DEFAULT.bar" from application path.
-    //Let's see if there is such file there.
-    if Result = TCCONFIG_MAINBAR_NOTPRESENT then
-    begin
-      if mbFileExists(IncludeTrailingPathDelimiter(ExtractFilePath(mbExpandFileName(gTotalCommanderExecutableFilename))) + 'DEFAULT.bar') then
-        Result := IncludeTrailingPathDelimiter(ExtractFilePath(mbExpandFileName(gTotalCommanderExecutableFilename))) + 'DEFAULT.bar';
-    end;
+    //2.If we have no result, let's let see if we have from one from the same location as the configuration file.
+    if Result = '' then
+      if FileExists(ExtractFilePath(mbExpandFileName(gTotalCommanderConfigFilename)) + TCCONFIG_DEFAULTBAR_FILENAME) then
+        result := ExtractFilePath(mbExpandFileName(gTotalCommanderConfigFilename)) + TCCONFIG_DEFAULTBAR_FILENAME;
   end;
+
+  //3.If we still did not find it, let's finally attempt to take it from the same location as the executable.
+  if Result = '' then
+    if FileExists(ExtractFilePath(mbExpandFileName(gTotalCommanderExecutableFilename)) + TCCONFIG_DEFAULTBAR_FILENAME) then
+      result := ExtractFilePath(mbExpandFileName(gTotalCommanderExecutableFilename)) + TCCONFIG_DEFAULTBAR_FILENAME;
 end;
 
 { EnumTaskWindowsProc }
