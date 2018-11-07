@@ -785,14 +785,14 @@ end;
 { GetTotalCommandeMainBarFilename }
 // We'll return the TC main bar filename.
 // At the same time, since we're in the config file, we'll determine the icon size for the button bar.
-// TC attemts to save the "default.bar" file in the same location as the executable.
+// TC attempts to save the "default.bar" file in the same location as the executable.
 // When it can, it will be located there.
 // If not, it will store it in the same location as the ini file.
-// Obviously, if it's somewhere else or no matter what, it will also have it store its location in the ini file in the section "Buttonbar" under the variable "Buttonbar".
+// Obviously, if it's configured somewhere else by the user, its location will be stored into the ini file in the section "Buttonbar" under the variable "Buttonbar".
 // So the flow to find it would be something like that:
-//   1.Let's attempt to read it from "Buttonbar/Buttonbar" from the ini file. If it's there, we may quick searching and exit with that.
-//   2.If it was not found, let's attempt to see if we have one in the same directory as the ini config file. If it's there, we may quick searching and exit with that.
-//   3.If we still don't have one, let's check if it is in the same folder as the installer... and it will have to be!
+//   1.Let's attempt to read it from "Buttonbar/Buttonbar" from the ini file. If it's there, we may quit searching and exit with that.
+//   2.If it was not found, let's attempt to see if we have one in the same directory as the ini config file. If it's there, we may quit searching and exit with that.
+//   3.If we still don't have one, let's check if it is in the same folder as the executable itself... And it will have to be there!
 function GetTotalCommandeMainBarFilename: string;
 var
   TCMainConfigFile: TIniFileEx;
