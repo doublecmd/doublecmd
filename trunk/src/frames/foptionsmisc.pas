@@ -86,8 +86,8 @@ implementation
 {$R *.lfm}
 
 uses
-  fOptions, Forms, Dialogs, fMain, Controls, uSpecialDir, uShowForm,
-  uGlobs, uLng, uThumbnails, uConvEncoding;
+  fOptions, Forms, Dialogs, fMain, Controls,
+  uDCUtils, uSpecialDir, uShowForm, uGlobs, uLng, uThumbnails, uConvEncoding;
 
 { TfrmOptionsMisc }
 
@@ -190,7 +190,7 @@ end;
 { TfrmOptionsMisc.btnViewConfigFileClick }
 procedure TfrmOptionsMisc.btnViewConfigFileClick(Sender: TObject);
 begin
-  ShowViewerByGlob(fneTCConfigFilename.FileName);
+  ShowViewerByGlob(mbExpandFileName(fneTCConfigFilename.FileName));
 end;
 
 { TfrmOptionsMisc.btnOutputPathForToolbarClick }
