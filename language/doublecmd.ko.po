@@ -10452,7 +10452,7 @@ msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "\"%s\" 디렉토리를 디렉토리가 아닌 \"%s\"로 덮어쓸 수 없음"
 
 #: ulng.rsmsgchdirfailed
-msgid "ChDir to [%s] failed!"
+msgid "Change current directory to \"%s\" failed!"
 msgstr "[%s] 디렉토리 변경 실패!"
 
 #: ulng.rsmsgcloseallinactivetabs

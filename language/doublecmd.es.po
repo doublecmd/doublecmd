@@ -10032,7 +10032,7 @@ msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "No se puede sobrescribir la carpeta «%s» porque «%s» no es una carpeta"
 
 #: ulng.rsmsgchdirfailed
-msgid "ChDir to [%s] failed!"
+msgid "Change current directory to \"%s\" failed!"
 msgstr "¡No se puede cambiar a «%s»!"
 
 #: ulng.rsmsgcloseallinactivetabs

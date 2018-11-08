@@ -10027,7 +10027,7 @@ msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "Mape »%s« ni mogoče prepisati s predmetom »%s«, ki ni mapa!"
 
 #: ulng.rsmsgchdirfailed
-msgid "ChDir to [%s] failed!"
+msgid "Change current directory to \"%s\" failed!"
 msgstr "Ukaz chdir v [%s] je spodletel!"
 
 #: ulng.rsmsgcloseallinactivetabs

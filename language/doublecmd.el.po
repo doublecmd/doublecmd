@@ -10263,7 +10263,7 @@ msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "Δεν είναι δυνατή η αντικατάσταση του καταλόγου \"%s\" με τον μη-κατάλογο \"%s\""
 
 #: ulng.rsmsgchdirfailed
-msgid "ChDir to [%s] failed!"
+msgid "Change current directory to \"%s\" failed!"
 msgstr "ChDir σε [%s] απέτυχε!"
 
 #: ulng.rsmsgcloseallinactivetabs

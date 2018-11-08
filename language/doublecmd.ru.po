@@ -10283,7 +10283,7 @@ msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "Невозможно перезаписать каталог \"%s\" файлом, не являющимся каталогом \"%s\""
 
 #: ulng.rsmsgchdirfailed
-msgid "ChDir to [%s] failed!"
+msgid "Change current directory to \"%s\" failed!"
 msgstr "Переход в каталог \"%s\" не удался!"
 
 #: ulng.rsmsgcloseallinactivetabs

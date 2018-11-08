@@ -10026,7 +10026,7 @@ msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "Nelze přepsat adresář \"%s\" neadresářem \"%s\""
 
 #: ulng.rsmsgchdirfailed
-msgid "ChDir to [%s] failed!"
+msgid "Change current directory to \"%s\" failed!"
 msgstr "Změna adresáře na [%s] selhala!"
 
 #: ulng.rsmsgcloseallinactivetabs
