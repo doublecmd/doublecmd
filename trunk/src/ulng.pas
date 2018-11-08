@@ -77,7 +77,7 @@ resourcestring
   rsFreeMsgShort = '%s bytes free';
   rsMsgPopUpHotDelete = '&Delete %s';
   rsMsgDiskNotAvail = 'Disk is not available';
-  rsMsgChDirFailed = 'ChDir to [%s] failed!';
+  rsMsgChDirFailed = 'Change current directory to "%s" failed!';
   rsMsgNoFreeSpaceCont = 'No enough free space on target drive, Continue?';
   rsMsgNoFreeSpaceRetry = 'No enough free space on target drive, Retry?';
   rsMsgSetVolumeLabel = 'Set volume label';

@@ -10269,7 +10269,7 @@ msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "无法覆盖使用不是文件夹的 \"%s\" 覆盖文件夹 \"%s\""
 
 #: ulng.rsmsgchdirfailed
-msgid "ChDir to [%s] failed!"
+msgid "Change current directory to \"%s\" failed!"
 msgstr "无法转到文件夹 [%s]!"
 
 #: ulng.rsmsgcloseallinactivetabs

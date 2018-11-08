@@ -10277,7 +10277,7 @@ msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "ディレクトリ<%s>をディレクトリでない<%s>で上書きすることはできません"
 
 #: ulng.rsmsgchdirfailed
-msgid "ChDir to [%s] failed!"
+msgid "Change current directory to \"%s\" failed!"
 msgstr "ディレクトリ＜%s＞への移動ができません。"
 
 #: ulng.rsmsgcloseallinactivetabs

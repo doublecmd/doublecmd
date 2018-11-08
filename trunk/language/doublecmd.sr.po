@@ -10516,7 +10516,7 @@ msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr ""
 
 #: ulng.rsmsgchdirfailed
-msgid "ChDir to [%s] failed!"
+msgid "Change current directory to \"%s\" failed!"
 msgstr "Нисам успео да пређем на фасциклу [%s]."
 
 #: ulng.rsmsgcloseallinactivetabs

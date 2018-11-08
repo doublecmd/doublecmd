@@ -10024,7 +10024,7 @@ msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "Nie można nadpisać katalogu \"%s\" nie-katalogiem \"%s\""
 
 #: ulng.rsmsgchdirfailed
-msgid "ChDir to [%s] failed!"
+msgid "Change current directory to \"%s\" failed!"
 msgstr "Nieudane przejście do katalogu [%s] !"
 
 #: ulng.rsmsgcloseallinactivetabs

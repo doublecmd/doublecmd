@@ -10018,7 +10018,7 @@ msgid "Cannot overwrite directory \"%s\" with non-directory \"%s\""
 msgstr "Kan map '%s' niet overschrijven met niet-map '%s'"
 
 #: ulng.rsmsgchdirfailed
-msgid "ChDir to [%s] failed!"
+msgid "Change current directory to \"%s\" failed!"
 msgstr "Wijzigen dir naar [%s] mislukt."
 
 #: ulng.rsmsgcloseallinactivetabs
