@@ -223,7 +223,6 @@ type
     FDone: Boolean;
     procedure UpdateGrid;
     procedure ReapplyFilter;
-    procedure DoOnTerminate(Sender: TObject);
   protected
     procedure Execute; override;
   public
@@ -266,12 +265,6 @@ begin
 end;
 
 { TCheckContentThread }
-
-procedure TCheckContentThread.DoOnTerminate(Sender: TObject);
-begin
-  FOwner.CheckContentThread := nil;
-  FOwner := nil;
-end;
 
 procedure TCheckContentThread.UpdateGrid;
 begin
@@ -354,11 +347,8 @@ end;
 
 constructor TCheckContentThread.Create(Owner: TfrmSyncDirsDlg);
 begin
-  inherited Create(True);
-  OnTerminate := @DoOnTerminate;
-  FreeOnTerminate := True;
   FOwner := Owner;
-  Start;
+  inherited Create(False);
 end;
 
 constructor TFileSyncRec.Create(AForm: TfrmSyncDirsDlg; RelPath: string);
@@ -663,6 +653,7 @@ end;
 procedure TfrmSyncDirsDlg.FormClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
+  StopCheckContentThread;
   CloseAction := caFree;
   { settings }
   gSyncDirsSubdirs              := chkSubDirs.Checked;
@@ -690,7 +681,6 @@ begin
   begin
     FCancel := True;
     CanClose := False;
-    StopCheckContentThread;
   end;
 end;
 
@@ -1350,6 +1340,7 @@ begin
       Terminate;
       WaitFor;
     end;
+    FreeAndNil(CheckContentThread);
   end;
 end;
 
