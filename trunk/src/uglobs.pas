@@ -2505,7 +2505,7 @@ begin
     gSaveDirHistory := GetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     gSaveCmdLineHistory := GetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     gSaveFileMaskHistory := GetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
-    gSortOrderOfConfigurationOptionsTree := TSortConfigurationOptions(GetAttr(Root, 'Configuration/SortOrder', Integer(scoClassicLegacy)));
+    gSortOrderOfConfigurationOptionsTree := TSortConfigurationOptions(GetAttr(Root, 'Configuration/SortOrder', Integer(scoAlphabeticalButLanguage)));
     gCollapseConfigurationOptionsTree := TConfigurationTreeState(GetAttr(Root, 'Configuration/TreeType', Integer(ctsFullExpand)));
 
     { Quick Search/Filter page }
