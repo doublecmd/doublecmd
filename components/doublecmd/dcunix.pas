@@ -23,6 +23,7 @@
 unit DCUnix;
 
 {$mode objfpc}{$H+}
+{$packrecords c}
 
 interface
 
@@ -45,6 +46,22 @@ const
   {$I dclinuxmagic.inc}
 {$ENDIF}
 
+type
+  PTimeStruct = ^TTimeStruct;
+  TTimeStruct = record
+    tm_sec:    cint;      //* Seconds.      [0-60] (1 leap second)
+    tm_min:    cint;      //* Minutes.      [0-59]
+    tm_hour:   cint;      //* Hours.        [0-23]
+    tm_mday:   cint;      //* Day.          [1-31]
+    tm_mon:    cint;      //* Month.        [0-11]
+    tm_year:   cint;      //* Year - 1900.
+    tm_wday:   cint;      //* Day of week.  [0-6]
+    tm_yday:   cint;      //* Days in year. [0-365]
+    tm_isdst:  cint;      //* DST.          [-1/0/1]
+    tm_gmtoff: clong;     //* Seconds east of UTC.
+    tm_zone:   pansichar; //* Timezone abbreviation.
+  end;
+
 {en
    Set the close-on-exec flag to all
 }
@@ -64,6 +81,9 @@ function fpLChown(path : String; owner : TUid; group : TGid): cInt;
 
 function FileLock(Handle: System.THandle; Mode: cInt): System.THandle;
 
+function fpMkTime(tm: PTimeStruct): TTime;
+function fpLocalTime(timer: PTime; tp: PTimeStruct): PTimeStruct;
+
 implementation
 
 uses
@@ -82,7 +102,10 @@ const
   RLIM_INFINITY = rlim_t(High(QWord) shr 1);
   {$ENDIF}
 
+procedure tzset(); cdecl; external clib;
 function sysconf(name: cint): clong; cdecl; external clib;
+function mktime(tp: PTimeStruct): TTime; cdecl; external clib;
+function localtime_r(timer: PTime; tp: PTimeStruct): PTimeStruct; cdecl; external clib;
 function lchown(path : PChar; owner : TUid; group : TGid): cInt; cdecl; external clib name 'lchown';
 
 procedure FileCloseOnExecAll;
@@ -148,6 +171,21 @@ begin
     FileClose(Handle);
   end;
 end;
+
+function fpMkTime(tm: PTimeStruct): TTime;
+begin
+  Result := mktime(tm);
+  if (Result = TTime(-1)) then fpseterrno(fpgetCerrno);
+end;
+
+function fpLocalTime(timer: PTime; tp: PTimeStruct): PTimeStruct;
+begin
+  Result := localtime_r(timer, tp);
+  if (Result = nil) then fpseterrno(fpgetCerrno);
+end;
+
+initialization
+  tzset();
 
 end.
 
