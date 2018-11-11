@@ -129,14 +129,14 @@ implementation
 uses
   DateUtils;
 
+const
+  UnixWinEpoch = TWinFileTime($019DB1DED53E8000); // Unix epoch start
+
 const  { Short names of months. }
   ShortMonthNames: TMonthNameArray = ('Jan','Feb','Mar','Apr','May','Jun',
                                       'Jul','Aug','Sep','Oct','Nov','Dec');
 
 {$IF DEFINED(MSWINDOWS)}
-const
-  SecsPerHour = SecsPerMin * MinsPerHour;
-
 var
   WinTimeZoneBias: LongInt;
   TzSpecificLocalTimeToSystemTime: function(lpTimeZoneInformation: PTimeZoneInformation;
@@ -425,24 +425,10 @@ begin
 end;
 {$ELSE}
 var
-  Hrs, Mins, Secs : Word;
-  TodaysSecs : LongInt;
-  LocalWinFileTime, WinFileTime: TWinFileTime;
+  WinFileTime: TWinFileTime;
 begin
-  TodaysSecs := UnixTime mod SecsPerDay;
-  Hrs := TodaysSecs div SecsPerHour;
-  TodaysSecs := TodaysSecs - (Hrs * SecsPerHour);
-  Mins := TodaysSecs div SecsPerMin;
-  Secs := TodaysSecs - (Mins * SecsPerMin);
-
-  Result := UnixDateDelta + (UnixTime div SecsPerDay) +
-    EncodeTime(Hrs, Mins, Secs, 0);
-
-  // Convert universal to local TDateTime.
-  WinFileTime := DateTimeToWinFileTime(Result);
-  if FileTimeToLocalFileTime(WinFileTime, LocalWinFileTime) then
-    WinFileTime := LocalWinFileTime;
-  Result := WinFileTimeToDateTime(WinFileTime);
+  WinFileTime:= UnixFileTimeToWinTime(UnixTime);
+  Result:= WinFileTimeToDateTime(WinFileTime);
 end;
 {$ENDIF}
 
@@ -476,25 +462,10 @@ begin
 end;
 {$ELSE}
 var
-  Hrs, Mins, Secs, MSecs : Word;
-  Dt, Tm : TDateTime;
-  LocalWinFileTime, WinFileTime: TWinFileTime;
+  WinFileTime: TWinFileTime;
 begin
-  // Convert local to universal TDateTime.
-  LocalWinFileTime := DateTimeToWinFileTime(DateTime);
-  if LocalFileTimeToFileTime(LocalWinFileTime, WinFileTime) then
-    LocalWinFileTime := WinFileTime;
-  DateTime := WinFileTimeToDateTime(LocalWinFileTime);
-
-  Dt := Trunc(DateTime);
-  Tm := DateTime - Dt;
-  if Dt < UnixDateDelta then
-    Result := 0
-  else
-    Result := Trunc(Dt - UnixDateDelta) * SecsPerDay;
-
-  DecodeTime(Tm, Hrs, Mins, Secs, MSecs);
-  Result := Result + (Hrs * SecsPerHour) + (Mins * SecsPerMin) + Secs;
+  WinFileTime:= DateTimeToWinFileTime(DateTime);
+  Result:= WinFileTimeToUnixTime(WinFileTime);
 end;
 {$ENDIF}
 
@@ -507,14 +478,17 @@ function UnixFileTimeToWinTime(UnixTime: TUnixFileTime): TWinFileTime;
 var
   WinFileTime: TWinFileTime;
 begin
-  WinFileTime := $019DB1DED53E8000; // Unix epoch start
+  WinFileTime := UnixWinEpoch;
   if not AdjustWinFileTime(WinFileTime, Result, 10000000 * Int64(UnixTime)) then
     Result := WinFileTime;
 end;
 
 function WinFileTimeToUnixTime(WinTime: TWinFileTime): TUnixFileTime;
 begin
-  Result:= TUnixFileTime((WinTime - $019DB1DED53E8000) div 10000000);
+  if (WinTime < UnixWinEpoch) then
+    Result:= 0
+  else
+    Result:= TUnixFileTime((WinTime - UnixWinEpoch) div 10000000);
 end;
 
 function WcxFileTimeToDateTime(WcxTime: LongInt): TDateTime;
