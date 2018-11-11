@@ -5489,7 +5489,7 @@ msgstr "追加"
 
 #: tfrmoptionsfileassoc.btnaddext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNADDEXT.CAPTION"
-msgid "&Add"
+msgid "Add"
 msgstr "追加(&A)"
 
 #: tfrmoptionsfileassoc.btnaddnewtype.caption
@@ -5498,17 +5498,17 @@ msgid "A&dd"
 msgstr "追加(&d)"
 
 #: tfrmoptionsfileassoc.btncloneact.caption
-msgid "Clone"
+msgid "C&lone"
 msgstr "複製"
 
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNDOWNACT.CAPTION"
-msgid "&Down"
+msgid "Do&wn"
 msgstr "下へ(&D)"
 
 #: tfrmoptionsfileassoc.btneditext.caption
 msgctxt "tfrmoptionsfileassoc.btneditext.caption"
-msgid "Edit"
+msgid "Edi&t"
 msgstr "編集"
 
 #: tfrmoptionsfileassoc.btninsertact.caption
@@ -5518,7 +5518,7 @@ msgstr "挿入"
 
 #: tfrmoptionsfileassoc.btninsertext.caption
 msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
-msgid "Insert"
+msgid "&Insert"
 msgstr "挿入"
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
@@ -5555,15 +5555,19 @@ msgid "Name of the action. It is never passed to the system, it's just a mnemoni
 msgstr "アクションの名称（これはシステムに渡されるものではなく、あなたのための記憶を助けるためのものです）"
 
 #: tfrmoptionsfileassoc.edtparams.hint
-msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+#, fuzzy
+#| msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
 msgstr "コマンドに渡すパラメータ（スペースを含む長いファイル名は引用符で囲むこと）"
 
 #: tfrmoptionsfileassoc.fnecommand.hint
-msgid "Command to execute. Long filename with space should be quoted."
+#, fuzzy
+#| msgid "Command to execute. Long filename with space should be quoted."
+msgid "Command to execute. Never quote this string."
 msgstr "実行するコマンド（スペースを含む長いファイル名は引用符で囲むこと）"
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
-msgid "Action description:"
+msgid "Action description"
 msgstr "アクションの説明："
 
 #: tfrmoptionsfileassoc.gbactions.caption
@@ -5604,12 +5608,12 @@ msgstr "ファイルの種類はドラッグ＆ドロップでソート可能"
 
 #: tfrmoptionsfileassoc.lblaction.caption
 msgctxt "TFRMOPTIONSFILEASSOC.LBLACTION.CAPTION"
-msgid "Action name:"
+msgid "Action &name:"
 msgstr "アクションの名称："
 
 #: tfrmoptionsfileassoc.lblcommand.caption
 msgctxt "TFRMOPTIONSFILEASSOC.LBLCOMMAND.CAPTION"
-msgid "&Command:"
+msgid "Command:"
 msgstr "コマンド(&C)："
 
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
@@ -5621,11 +5625,6 @@ msgstr "パラメータ(&s)："
 msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "開始パス(&h)"
-
-#: tfrmoptionsfileassoc.menuitem1.caption
-msgctxt "tfrmoptionsfileassoc.menuitem1.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmoptionsfileassoc.menuitem3.caption
 msgid "Custom with..."
@@ -5670,11 +5669,6 @@ msgstr "開く"
 #: tfrmoptionsfileassoc.miopenwith.caption
 msgid "Open with..."
 msgstr "開く…"
-
-#: tfrmoptionsfileassoc.miseparator.caption
-msgctxt "tfrmoptionsfileassoc.miseparator.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmoptionsfileassoc.mishell.caption
 msgctxt "TFRMOPTIONSFILEASSOC.MISHELL.CAPTION"
