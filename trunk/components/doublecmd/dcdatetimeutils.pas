@@ -139,6 +139,8 @@ const
 
 var
   WinTimeZoneBias: LongInt;
+  TzSpecificLocalTimeToSystemTime: function(lpTimeZoneInformation: PTimeZoneInformation;
+                                            lpLocalTime, lpUniversalTime: PSystemtime): BOOL; stdcall;
 {$ENDIF}
 
 function AdjustUnixFileTime(const FileTime: DCBasicTypes.TFileTime;
@@ -284,15 +286,45 @@ end;
 {$ENDIF}
 
 function WinFileTimeToDateTime(ft : TWinFileTime) : TDateTime;
+{$IF DEFINED(MSWINDOWS)}
+var
+  lpUniversalTime, lpLocalTime: TSystemTime;
+{$ENDIF}
 begin
-  WinFileTimeToLocalFileTime(ft,ft);
-  Result := (ft / 864000000000.0) - 109205.0;
+{$IF DEFINED(MSWINDOWS)}
+  if (Win32MajorVersion > 5) then
+  begin
+    FileTimeToSystemTime(@ft, @lpUniversalTime);
+    SystemTimeToTzSpecificLocalTime(nil, @lpUniversalTime, @lpLocalTime);
+    Result := SystemTimeToDateTime(lpLocalTime);
+  end
+  else
+{$ENDIF}
+  begin
+    WinFileTimeToLocalFileTime(ft,ft);
+    Result := (ft / 864000000000.0) - 109205.0;
+  end;
 end;
 
 function DateTimeToWinFileTime(dt : TDateTime) : TWinFileTime;
+{$IF DEFINED(MSWINDOWS)}
+var
+  lpUniversalTime, lpLocalTime: TSystemTime;
+{$ENDIF}
 begin
-  Result := Round((Extended(dt) + 109205.0) * 864000000000.0);
-  WinLocalFileTimeToFileTime(Result, Result);
+{$IF DEFINED(MSWINDOWS)}
+  if (Win32MajorVersion > 5) then
+  begin
+    DateTimeToSystemTime(dt, lpLocalTime);
+    TzSpecificLocalTimeToSystemTime(nil, @lpLocalTime, @lpUniversalTime);
+    SystemTimeToFileTime(@lpUniversalTime, @Result);
+  end
+  else
+{$ENDIF}
+  begin
+    Result := Round((Extended(dt) + 109205.0) * 864000000000.0);
+    WinLocalFileTimeToFileTime(Result, Result);
+  end;
 end;
 
 function DosFileTimeToDateTime(const DosTime: TDosFileTime): TDateTime;
@@ -618,6 +650,11 @@ end;
 
 initialization
   InitTimeZoneBias;
+  if (Win32MajorVersion > 5) then
+  begin
+    Pointer(TzSpecificLocalTimeToSystemTime):= GetProcAddress(GetModuleHandle(Kernel32),
+                                                              'TzSpecificLocalTimeToSystemTime');
+  end;
 {$ENDIF}
 
 end.
