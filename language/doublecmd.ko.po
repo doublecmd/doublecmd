@@ -5584,7 +5584,7 @@ msgstr "추가"
 
 #: tfrmoptionsfileassoc.btnaddext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNADDEXT.CAPTION"
-msgid "&Add"
+msgid "Add"
 msgstr "추가(&A)"
 
 #: tfrmoptionsfileassoc.btnaddnewtype.caption
@@ -5593,17 +5593,17 @@ msgid "A&dd"
 msgstr "추가(&A)"
 
 #: tfrmoptionsfileassoc.btncloneact.caption
-msgid "Clone"
+msgid "C&lone"
 msgstr "복제"
 
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNDOWNACT.CAPTION"
-msgid "&Down"
+msgid "Do&wn"
 msgstr "아래 방향키(&D)"
 
 #: tfrmoptionsfileassoc.btneditext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNEDITEXT.CAPTION"
-msgid "Edit"
+msgid "Edi&t"
 msgstr "편집"
 
 #: tfrmoptionsfileassoc.btninsertact.caption
@@ -5613,7 +5613,7 @@ msgstr "삽입"
 
 #: tfrmoptionsfileassoc.btninsertext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNINSERTEXT.CAPTION"
-msgid "Insert"
+msgid "&Insert"
 msgstr "삽입"
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
@@ -5650,15 +5650,19 @@ msgid "Name of the action. It is never passed to the system, it's just a mnemoni
 msgstr "동작명. 시스템에 전달되지 않으며 기억을 위해 본인만 사용함."
 
 #: tfrmoptionsfileassoc.edtparams.hint
-msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+#, fuzzy
+#| msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
 msgstr "명령에 넘길 매개변수. 공백이 있는 긴파일명 인용."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
-msgid "Command to execute. Long filename with space should be quoted."
+#, fuzzy
+#| msgid "Command to execute. Long filename with space should be quoted."
+msgid "Command to execute. Never quote this string."
 msgstr "실행 명령. 공백있는 긴 파일명이 인용되어야 함."
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
-msgid "Action description:"
+msgid "Action description"
 msgstr "동작 설명:"
 
 #: tfrmoptionsfileassoc.gbactions.caption
@@ -5699,12 +5703,12 @@ msgstr "파일 종류는 드래그 & 드롭으로 정렬 가능"
 
 #: tfrmoptionsfileassoc.lblaction.caption
 msgctxt "TFRMOPTIONSFILEASSOC.LBLACTION.CAPTION"
-msgid "Action name:"
+msgid "Action &name:"
 msgstr "동작이름:"
 
 #: tfrmoptionsfileassoc.lblcommand.caption
 msgctxt "TFRMOPTIONSFILEASSOC.LBLCOMMAND.CAPTION"
-msgid "&Command:"
+msgid "Command:"
 msgstr "명령(&C):"
 
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
@@ -5716,11 +5720,6 @@ msgstr "매개변수(&S):"
 msgctxt "TFRMOPTIONSFILEASSOC.LBLSTARTPATH.CAPTION"
 msgid "Start pat&h:"
 msgstr "시작 경로(&H):"
-
-#: tfrmoptionsfileassoc.menuitem1.caption
-msgctxt "TFRMOPTIONSFILEASSOC.MENUITEM1.CAPTION"
-msgid "-"
-msgstr "-"
 
 #: tfrmoptionsfileassoc.menuitem3.caption
 msgid "Custom with..."
@@ -5765,11 +5764,6 @@ msgstr "열기"
 #: tfrmoptionsfileassoc.miopenwith.caption
 msgid "Open with..."
 msgstr "다른 프로그램으로 열기..."
-
-#: tfrmoptionsfileassoc.miseparator.caption
-msgctxt "TFRMOPTIONSFILEASSOC.MISEPARATOR.CAPTION"
-msgid "-"
-msgstr "-"
 
 #: tfrmoptionsfileassoc.mishell.caption
 msgctxt "TFRMOPTIONSFILEASSOC.MISHELL.CAPTION"

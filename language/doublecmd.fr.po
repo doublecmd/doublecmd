@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2018-11-07 22:08-0500\n"
+"PO-Revision-Date: 2018-11-10 21:03-0500\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -5513,7 +5513,7 @@ msgstr "Ajouter"
 
 #: tfrmoptionsfileassoc.btnaddext.caption
 msgctxt "tfrmoptionsfileassoc.btnaddext.caption"
-msgid "&Add"
+msgid "Add"
 msgstr "&Ajouter"
 
 #: tfrmoptionsfileassoc.btnaddnewtype.caption
@@ -5522,17 +5522,17 @@ msgid "A&dd"
 msgstr "Ajouter"
 
 #: tfrmoptionsfileassoc.btncloneact.caption
-msgid "Clone"
+msgid "C&lone"
 msgstr "Dupliquer"
 
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
-msgid "&Down"
+msgid "Do&wn"
 msgstr "En dessous"
 
 #: tfrmoptionsfileassoc.btneditext.caption
 msgctxt "tfrmoptionsfileassoc.btneditext.caption"
-msgid "Edit"
+msgid "Edi&t"
 msgstr "Éditer"
 
 #: tfrmoptionsfileassoc.btninsertact.caption
@@ -5542,7 +5542,7 @@ msgstr "Insérer"
 
 #: tfrmoptionsfileassoc.btninsertext.caption
 msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
-msgid "Insert"
+msgid "&Insert"
 msgstr "Insérer"
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
@@ -5579,15 +5579,15 @@ msgid "Name of the action. It is never passed to the system, it's just a mnemoni
 msgstr "Nom de l'action. Ce ne sera jamais passé au système, c'est simplement un nom idenitifant l'action choisi par vous et pour vous."
 
 #: tfrmoptionsfileassoc.edtparams.hint
-msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
-msgstr "Paramètre à passe à la commande. Les noms longs de fichier doivent être entre guillemets."
+msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
+msgstr "Paramètre à passer à la commande. Les noms longs de fichier avec espaces doivent être entre guillemets (entrer manuellement)."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
-msgid "Command to execute. Long filename with space should be quoted."
-msgstr "Command à exécuter. Les noms long doivent être entre guillemets."
+msgid "Command to execute. Never quote this string."
+msgstr "Commande à exécuter. Ne pas mettre cette chaîne entre guillemets."
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
-msgid "Action description:"
+msgid "Action description"
 msgstr "Description de l'action"
 
 #: tfrmoptionsfileassoc.gbactions.caption
@@ -5628,12 +5628,12 @@ msgstr "Les types de fichier peuvent être trier par glisser et déposer"
 
 #: tfrmoptionsfileassoc.lblaction.caption
 msgctxt "tfrmoptionsfileassoc.lblaction.caption"
-msgid "Action name:"
+msgid "Action &name:"
 msgstr "Action :"
 
 #: tfrmoptionsfileassoc.lblcommand.caption
 msgctxt "tfrmoptionsfileassoc.lblcommand.caption"
-msgid "&Command:"
+msgid "Command:"
 msgstr "&Commande :"
 
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
@@ -5645,11 +5645,6 @@ msgstr "Paramètres :"
 msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "&Chemin de démarrage :"
-
-#: tfrmoptionsfileassoc.menuitem1.caption
-msgctxt "tfrmoptionsfileassoc.menuitem1.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmoptionsfileassoc.menuitem3.caption
 msgid "Custom with..."
@@ -5694,11 +5689,6 @@ msgstr "Ouvrir"
 #: tfrmoptionsfileassoc.miopenwith.caption
 msgid "Open with..."
 msgstr "Ouvir avec..."
-
-#: tfrmoptionsfileassoc.miseparator.caption
-msgctxt "tfrmoptionsfileassoc.miseparator.caption"
-msgid "-"
-msgstr "-"
 
 #: tfrmoptionsfileassoc.mishell.caption
 msgctxt "tfrmoptionsfileassoc.mishell.caption"
@@ -12861,3 +12851,4 @@ msgstr "Nombre de remplacements : %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
+

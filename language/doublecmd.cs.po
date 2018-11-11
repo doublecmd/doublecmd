@@ -1894,6 +1894,7 @@ msgid "&File name"
 msgstr "&Název souboru"
 
 #: tfrmlinker.spbtndown.caption
+msgctxt "tfrmlinker.spbtndown.caption"
 msgid "Do&wn"
 msgstr "Do&lů"
 
@@ -5384,12 +5385,13 @@ msgid "Test resulting menu"
 msgstr "Otestovat výsledné zobrazení nabídky"
 
 #: tfrmoptionsfileassoc.btnaddact.caption
+msgctxt "tfrmoptionsfileassoc.btnaddact.caption"
 msgid "Add"
 msgstr "Přidat"
 
 #: tfrmoptionsfileassoc.btnaddext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNADDEXT.CAPTION"
-msgid "&Add"
+msgid "Add"
 msgstr "&Přidat"
 
 #: tfrmoptionsfileassoc.btnaddnewtype.caption
@@ -5398,16 +5400,17 @@ msgid "A&dd"
 msgstr "P&řidat"
 
 #: tfrmoptionsfileassoc.btncloneact.caption
-msgid "Clone"
+msgid "C&lone"
 msgstr "Klonovat"
 
 #: tfrmoptionsfileassoc.btndownact.caption
-msgid "&Down"
+msgctxt "tfrmoptionsfileassoc.btndownact.caption"
+msgid "Do&wn"
 msgstr "&Dolů"
 
 #: tfrmoptionsfileassoc.btneditext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNEDITEXT.CAPTION"
-msgid "Edit"
+msgid "Edi&t"
 msgstr "Upravit"
 
 #: tfrmoptionsfileassoc.btninsertact.caption
@@ -5417,7 +5420,7 @@ msgstr "Vložit"
 
 #: tfrmoptionsfileassoc.btninsertext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNINSERTEXT.CAPTION"
-msgid "Insert"
+msgid "&Insert"
 msgstr "Vložit"
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
@@ -5452,15 +5455,19 @@ msgid "Name of the action. It is never passed to the system, it's just a mnemoni
 msgstr "Název akce. Není nikdy předán do systému, je to jen symbolické jméno vybrané od vás, pro vás"
 
 #: tfrmoptionsfileassoc.edtparams.hint
-msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+#, fuzzy
+#| msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
 msgstr "Parametr bude předán příkazu. Dlouhý název s mezerami by měly být uzavřen do uvozovek."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
-msgid "Command to execute. Long filename with space should be quoted."
+#, fuzzy
+#| msgid "Command to execute. Long filename with space should be quoted."
+msgid "Command to execute. Never quote this string."
 msgstr "Příkaz k vykonání. Dlouhý název s mezerou by měly být uzavřen do uvozovek."
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
-msgid "Action description:"
+msgid "Action description"
 msgstr "Popis akce:"
 
 #: tfrmoptionsfileassoc.gbactions.caption
@@ -5498,11 +5505,12 @@ msgid "File types may be sorted by drag & drop"
 msgstr "Typy souborů mohou být seřazeny přetáhnutím"
 
 #: tfrmoptionsfileassoc.lblaction.caption
-msgid "Action name:"
+msgid "Action &name:"
 msgstr "Název akce:"
 
 #: tfrmoptionsfileassoc.lblcommand.caption
-msgid "&Command:"
+msgctxt "tfrmoptionsfileassoc.lblcommand.caption"
+msgid "Command:"
 msgstr "&Příkaz:"
 
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
@@ -5514,11 +5522,6 @@ msgstr "Parametr&y:"
 msgctxt "TFRMOPTIONSFILEASSOC.LBLSTARTPATH.CAPTION"
 msgid "Start pat&h:"
 msgstr "Výchozí cest&a:"
-
-#: tfrmoptionsfileassoc.menuitem1.caption
-msgctxt "TFRMOPTIONSFILEASSOC.MENUITEM1.CAPTION"
-msgid "-"
-msgstr "-"
 
 #: tfrmoptionsfileassoc.menuitem3.caption
 msgid "Custom with..."
@@ -5561,11 +5564,6 @@ msgstr "Otevřít"
 #: tfrmoptionsfileassoc.miopenwith.caption
 msgid "Open with..."
 msgstr "Otevřít s..."
-
-#: tfrmoptionsfileassoc.miseparator.caption
-msgctxt "TFRMOPTIONSFILEASSOC.MISEPARATOR.CAPTION"
-msgid "-"
-msgstr "-"
 
 #: tfrmoptionsfileassoc.mishell.caption
 msgid "Run in terminal"

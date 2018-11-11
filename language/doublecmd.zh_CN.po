@@ -1892,6 +1892,7 @@ msgid "&File name"
 msgstr "文件名(&F)"
 
 #: tfrmlinker.spbtndown.caption
+msgctxt "tfrmlinker.spbtndown.caption"
 msgid "Do&wn"
 msgstr "下移(&W)"
 
@@ -5452,7 +5453,7 @@ msgstr "添加"
 
 #: tfrmoptionsfileassoc.btnaddext.caption
 msgctxt "tfrmoptionsfileassoc.btnaddext.caption"
-msgid "&Add"
+msgid "Add"
 msgstr "添加(&A)"
 
 #: tfrmoptionsfileassoc.btnaddnewtype.caption
@@ -5461,17 +5462,17 @@ msgid "A&dd"
 msgstr "添加(&D)"
 
 #: tfrmoptionsfileassoc.btncloneact.caption
-msgid "Clone"
+msgid "C&lone"
 msgstr "克隆"
 
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
-msgid "&Down"
+msgid "Do&wn"
 msgstr "下移(&D)"
 
 #: tfrmoptionsfileassoc.btneditext.caption
 msgctxt "tfrmoptionsfileassoc.btneditext.caption"
-msgid "Edit"
+msgid "Edi&t"
 msgstr "编辑"
 
 #: tfrmoptionsfileassoc.btninsertact.caption
@@ -5481,7 +5482,7 @@ msgstr "插入"
 
 #: tfrmoptionsfileassoc.btninsertext.caption
 msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
-msgid "Insert"
+msgid "&Insert"
 msgstr "插入"
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
@@ -5519,18 +5520,18 @@ msgstr "操作名称。它永远不会传递给系统，它只是由您选择并
 
 #: tfrmoptionsfileassoc.edtparams.hint
 #, fuzzy
-#| msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
-msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+#| msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
 msgstr "传递给命令的参数。带空格的长文件名应该在两端使用双引号（手动输入）。"
 
 #: tfrmoptionsfileassoc.fnecommand.hint
 #, fuzzy
-#| msgid "Command to execute. Never quote this string."
-msgid "Command to execute. Long filename with space should be quoted."
+#| msgid "Command to execute. Long filename with space should be quoted."
+msgid "Command to execute. Never quote this string."
 msgstr "要执行的命令。切勿引用此字符串。"
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
-msgid "Action description:"
+msgid "Action description"
 msgstr "操作说明："
 
 #: tfrmoptionsfileassoc.gbactions.caption
@@ -5571,12 +5572,12 @@ msgstr "文件类型可通过拖放进行排序"
 
 #: tfrmoptionsfileassoc.lblaction.caption
 msgctxt "tfrmoptionsfileassoc.lblaction.caption"
-msgid "Action name:"
+msgid "Action &name:"
 msgstr "操作名称："
 
 #: tfrmoptionsfileassoc.lblcommand.caption
 msgctxt "tfrmoptionsfileassoc.lblcommand.caption"
-msgid "&Command:"
+msgid "Command:"
 msgstr "命令(&C)："
 
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
@@ -5588,11 +5589,6 @@ msgstr "参数(&S)："
 msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "开始路径(&H)："
-
-#: tfrmoptionsfileassoc.menuitem1.caption
-msgctxt "tfrmoptionsfileassoc.menuitem1.caption"
-msgid "-"
-msgstr ""
 
 #: tfrmoptionsfileassoc.menuitem3.caption
 msgid "Custom with..."
@@ -5637,11 +5633,6 @@ msgstr "打开"
 #: tfrmoptionsfileassoc.miopenwith.caption
 msgid "Open with..."
 msgstr "打开方式..."
-
-#: tfrmoptionsfileassoc.miseparator.caption
-msgctxt "tfrmoptionsfileassoc.miseparator.caption"
-msgid "-"
-msgstr ""
 
 #: tfrmoptionsfileassoc.mishell.caption
 msgctxt "tfrmoptionsfileassoc.mishell.caption"

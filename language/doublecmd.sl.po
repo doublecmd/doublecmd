@@ -1897,6 +1897,7 @@ msgid "&File name"
 msgstr "&Ime datoteke"
 
 #: tfrmlinker.spbtndown.caption
+msgctxt "tfrmlinker.spbtndown.caption"
 msgid "Do&wn"
 msgstr "&Dol"
 
@@ -5390,12 +5391,13 @@ msgid "Test resulting menu"
 msgstr "Preizkus menija"
 
 #: tfrmoptionsfileassoc.btnaddact.caption
+msgctxt "tfrmoptionsfileassoc.btnaddact.caption"
 msgid "Add"
 msgstr "Dodaj"
 
 #: tfrmoptionsfileassoc.btnaddext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNADDEXT.CAPTION"
-msgid "&Add"
+msgid "Add"
 msgstr "&Dodaj"
 
 #: tfrmoptionsfileassoc.btnaddnewtype.caption
@@ -5404,16 +5406,17 @@ msgid "A&dd"
 msgstr "&Dodaj"
 
 #: tfrmoptionsfileassoc.btncloneact.caption
-msgid "Clone"
+msgid "C&lone"
 msgstr "Kloniraj"
 
 #: tfrmoptionsfileassoc.btndownact.caption
-msgid "&Down"
+msgctxt "tfrmoptionsfileassoc.btndownact.caption"
+msgid "Do&wn"
 msgstr "&Dol"
 
 #: tfrmoptionsfileassoc.btneditext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNEDITEXT.CAPTION"
-msgid "Edit"
+msgid "Edi&t"
 msgstr "Uredi"
 
 #: tfrmoptionsfileassoc.btninsertact.caption
@@ -5423,7 +5426,7 @@ msgstr "Vstavi"
 
 #: tfrmoptionsfileassoc.btninsertext.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNINSERTEXT.CAPTION"
-msgid "Insert"
+msgid "&Insert"
 msgstr "Vstavi"
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
@@ -5458,15 +5461,19 @@ msgid "Name of the action. It is never passed to the system, it's just a mnemoni
 msgstr "Ime opravila. Niz ni sistemska vrednost, zato je lahko poljuben."
 
 #: tfrmoptionsfileassoc.edtparams.hint
-msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+#, fuzzy
+#| msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
+msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
 msgstr "Parametri za ukaz. Daljše ime datoteke, ki vključuje presledke, mora biti zapisan v navednicah."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
-msgid "Command to execute. Long filename with space should be quoted."
+#, fuzzy
+#| msgid "Command to execute. Long filename with space should be quoted."
+msgid "Command to execute. Never quote this string."
 msgstr "Ukaz za izvršitev. Daljše ime datoteke, ki vključuje presledke, mora biti zapisan v navednicah."
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
-msgid "Action description:"
+msgid "Action description"
 msgstr "Opis dejanja:"
 
 #: tfrmoptionsfileassoc.gbactions.caption
@@ -5504,11 +5511,12 @@ msgid "File types may be sorted by drag & drop"
 msgstr "Vrste datotek je mogoče razvrščati z vlečenjem"
 
 #: tfrmoptionsfileassoc.lblaction.caption
-msgid "Action name:"
+msgid "Action &name:"
 msgstr "Ime dejanja:"
 
 #: tfrmoptionsfileassoc.lblcommand.caption
-msgid "&Command:"
+msgctxt "tfrmoptionsfileassoc.lblcommand.caption"
+msgid "Command:"
 msgstr "&Ukaz:"
 
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
@@ -5520,11 +5528,6 @@ msgstr "Parametr&i:"
 msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "Začetna &pot:"
-
-#: tfrmoptionsfileassoc.menuitem1.caption
-msgctxt "TFRMOPTIONSFILEASSOC.MENUITEM1.CAPTION"
-msgid "-"
-msgstr "-"
 
 #: tfrmoptionsfileassoc.menuitem3.caption
 msgid "Custom with..."
@@ -5567,11 +5570,6 @@ msgstr "Odpri"
 #: tfrmoptionsfileassoc.miopenwith.caption
 msgid "Open with..."
 msgstr "Odpri s programom …"
-
-#: tfrmoptionsfileassoc.miseparator.caption
-msgctxt "TFRMOPTIONSFILEASSOC.MISEPARATOR.CAPTION"
-msgid "-"
-msgstr "-"
 
 #: tfrmoptionsfileassoc.mishell.caption
 msgid "Run in terminal"
