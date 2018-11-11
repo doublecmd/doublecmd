@@ -113,6 +113,7 @@ uses
   ------------------------------------------------------------------------------
   %X[<nr>] - where X is function
     <nr> is 1..n, where n is number of selected files.
+    Also <nr> can be 0, file under cursor is used in this case.
     If there are no selected files, currently active file is nr 1.
     If <nr> is invalid or there is no selected file by that number the result for the whole function will be empty string.
 
@@ -193,6 +194,10 @@ type
     leftFiles: TFiles = nil;
     rightFiles: TFiles = nil;
     singleFileFiles: TFiles = nil;
+    leftFile: TFile;
+    rightFile: TFile;
+    activeFile: TFile;
+    inactiveFile: TFile;
     activeFiles: TFiles;
     inactiveFiles: TFiles;
     activeDir: string;
@@ -219,6 +224,8 @@ type
       functMod: TFuncModifiers;
       files: TFiles;
       otherfiles: TFiles;
+      fil: TFile;
+      otherfil: TFile;
       dir: string;
       address: string;
       sFileIndex: string;
@@ -385,6 +392,8 @@ type
       with aState do
       begin
         pos := spNone;
+        fil := activeFile;
+        otherfil := nil;
         if paramFile <> nil then
           files := singleFileFiles
         else
@@ -488,7 +497,7 @@ type
 
     procedure DoFunction;
     var
-      fileIndex: integer = -1;
+      fileIndex: integer = -2;
       OffsetFromStart: integer = 0;
     begin
       AddParsedText(state.functStartIndex);
@@ -499,10 +508,17 @@ type
           fileIndex := fileIndex - 1; // Files are counted from 0, but user enters 1..n.
         except
           on EConvertError do
-            fileIndex := -1;
+            fileIndex := -2;
         end;
 
-      if fileIndex <> -1 then
+      if fileIndex = -1 then
+      begin
+        if Assigned(state.fil) then
+          sOutput := sOutput + BuildName(state.fil);
+        if Assigned(state.otherfil) then
+          sOutput := ConcatenateStrWithSpace(sOutput, BuildName(state.otherfil));
+      end
+      else if fileIndex > -1 then
       begin
         if (fileIndex >= 0) and Assigned(state.files) then
         begin
@@ -653,16 +669,21 @@ type
             'l', 'b':
             begin
               state.files := leftFiles;
+              state.fil := leftFile;
               state.dir := frmMain.FrameLeft.CurrentPath;
               state.address := frmMain.FrameLeft.CurrentAddress;
               state.pos := spSide;
               if sSourceStr[index] = 'b' then
+              begin
                 state.otherfiles := rightFiles;
+                state.otherfil := rightFile;
+              end;
             end;
 
             'r':
             begin
               state.files := rightFiles;
+              state.fil := rightFile;
               state.dir := frmMain.FrameRight.CurrentPath;
               state.address := frmMain.FrameRight.CurrentAddress;
               state.pos := spSide;
@@ -671,16 +692,21 @@ type
             's', 'p':
             begin
               state.files := activeFiles;
+              state.fil := activeFile;
               state.dir := activeDir;
               state.address := activeAddress;
               state.pos := spSide;
               if sSourceStr[index] = 'p' then
+              begin
+                state.otherfil := inactiveFile;
                 state.otherfiles := inactiveFiles;
+              end;
             end;
 
             't':
             begin
               state.files := inactiveFiles;
+              state.fil := inactiveFile;
               state.dir := inactiveDir;
               state.address := inactiveAddress;
               state.pos := spSide;
@@ -846,10 +872,14 @@ begin
       singleFileFiles := TFiles.Create(paramFile.Path);
       singleFileFiles.Add(paramFile.Clone);
     end;
+    leftFile:= frmMain.FrameLeft.CloneActiveFile;
+    rightFile:= frmMain.FrameRight.CloneActiveFile;
 
     if frmMain.ActiveFrame = frmMain.FrameLeft then
     begin
       activeFiles := leftFiles;
+      activeFile:= leftFile;
+      inactiveFile:= rightFile;
       activeDir := frmMain.FrameLeft.CurrentPath;
       activeAddress := frmMain.FrameLeft.CurrentAddress;
       inactiveFiles := rightFiles;
@@ -859,6 +889,8 @@ begin
     else
     begin
       activeFiles := rightFiles;
+      activeFile:= rightFile;
+      inactiveFile:= leftFile;
       activeDir := frmMain.FrameRight.CurrentPath;
       activeAddress := frmMain.FrameRight.CurrentAddress;
       inactiveFiles := leftFiles;
@@ -869,12 +901,11 @@ begin
     result:=InnerRecursiveReplaceVarParams(sSourceStr, paramFile, pbShowCommandLinePriorToExecute, pbRunInTerminal, pbKeepTerminalOpen, pbAbortOperation);
 
   finally
-    if Assigned(leftFiles) then
-      FreeAndNil(leftFiles);
-    if Assigned(rightFiles) then
-      FreeAndNil(rightFiles);
-    if Assigned(singleFileFiles) then
-      FreeAndNil(singleFileFiles);
+    FreeAndNil(leftFile);
+    FreeAndNil(rightFile);
+    FreeAndNil(leftFiles);
+    FreeAndNil(rightFiles);
+    FreeAndNil(singleFileFiles);
   end;
 end;
 
