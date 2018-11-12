@@ -1114,7 +1114,8 @@ begin
       AddIfNotExists(['F2'],[],'cm_FileSave');
       AddIfNotExists(['F3'],[],'cm_EditFindNext');
       AddIfNotExists(['Shift+F3'],[],'cm_EditFindPrevious');
-      AddIfNotExists(['Esc'],[],'cm_FileExit');
+      AddIfNotExists(['Alt+X', '', '', //Let is be first since by legacy what we get used to see in main menu as shortcut was "Alt+X".
+                      'Esc', '', ''], 'cm_FileExit');
 
       AddIfNotExists(VK_X, [ssModifier], 'cm_EditCut');
       AddIfNotExists(VK_N, [ssModifier], 'cm_FileNew');
@@ -1127,6 +1128,7 @@ begin
       AddIfNotExists(VK_V, [ssModifier], 'cm_EditPaste');
       AddIfNotExists(VK_A, [ssModifier], 'cm_EditSelectAll');
       AddIfNotExists(VK_Z, [ssModifier, ssShift], 'cm_EditRedo');
+      AddIfNotExists(VK_G, [ssModifier], 'cm_EditGotoLine');
     end;
 
 
