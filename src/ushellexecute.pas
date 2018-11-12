@@ -872,8 +872,13 @@ begin
       singleFileFiles := TFiles.Create(paramFile.Path);
       singleFileFiles.Add(paramFile.Clone);
     end;
+
     leftFile:= frmMain.FrameLeft.CloneActiveFile;
     rightFile:= frmMain.FrameRight.CloneActiveFile;
+    if Assigned(leftFile) and (not leftFile.IsNameValid) then
+      FreeAndNil(leftFile);
+    if Assigned(rightFile) and (not rightFile.IsNameValid) then
+      FreeAndNil(rightFile);
 
     if frmMain.ActiveFrame = frmMain.FrameLeft then
     begin
