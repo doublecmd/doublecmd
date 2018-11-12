@@ -809,8 +809,8 @@ end;
 
 function TNtfsFileAttributesProperty.IsSysFile: boolean;
 begin
-  Result := ((FAttributes and faSysFile) <> 0) or
-            ((FAttributes and faHidden) <> 0);
+  Result := ((FAttributes and FILE_ATTRIBUTE_SYSTEM) <> 0) or
+            ((FAttributes and FILE_ATTRIBUTE_HIDDEN) <> 0);
 end;
 
 function TNtfsFileAttributesProperty.IsLink: Boolean;
@@ -820,12 +820,12 @@ end;
 
 function TNtfsFileAttributesProperty.IsReadOnly: Boolean;
 begin
-  Result := (FAttributes and faReadOnly) <> 0;
+  Result := (FAttributes and FILE_ATTRIBUTE_READONLY) <> 0;
 end;
 
 function TNtfsFileAttributesProperty.IsHidden: Boolean;
 begin
-  Result := (FAttributes and faHidden) <> 0;
+  Result := (FAttributes and FILE_ATTRIBUTE_HIDDEN) <> 0;
 end;
 
 class function TNtfsFileAttributesProperty.GetDescription: String;
