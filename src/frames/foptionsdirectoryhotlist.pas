@@ -435,7 +435,7 @@ var
       end;
       if NodeToSelect <> nil then NodeToSelect.Selected := True;
     end;
-    NodeToSelect := ActualAddDirectories(hd_CHANGEPATH, GetLastDir(DirectoryPath), DirectoryPath, sTempo, TypeOfAddition);
+    NodeToSelect := ActualAddDirectories(hd_CHANGEPATH, GetLastDir(DirectoryPath).Replace('&','&&'), DirectoryPath, sTempo, TypeOfAddition);
   end;
 
 begin

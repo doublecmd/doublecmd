@@ -2806,8 +2806,8 @@ begin
   for I:= 0 to Min(gDirHistoryCount, glsDirHistory.Count - 1) do
   begin
     MenuItem:= TMenuItem.Create(pmDirHistory);
-    MenuItem.Caption:= glsDirHistory[I];
-    MenuItem.Hint:= MenuItem.Caption;
+    MenuItem.Caption:= glsDirHistory[I].Replace('&','&&');
+    MenuItem.Hint:= glsDirHistory[I];
     MenuItem.OnClick:= @HistorySelected;
     pmDirHistory.Items.Add(MenuItem);
   end;
@@ -2972,7 +2972,7 @@ begin
     mi := TMenuItem.Create(pmDirHistory);
     pmDirHistory.Items.Add(mi);
 
-    mi.Caption := ActiveFrame.Path[FromFileSourceIndex, FromPathIndex];
+    mi.Caption := ActiveFrame.Path[FromFileSourceIndex, FromPathIndex].Replace('&','&&');
     mi.OnClick := @ViewHistorySelected;
     // Remember indexes into history.
     mi.Tag := HistoryIndexesToTag(FromFileSourceIndex, FromPathIndex);
@@ -2988,7 +2988,7 @@ begin
     if FromPathIndex = 0 then
     begin
       AddCaptionItem('-');
-      AddCaptionItem('- ' + ActiveFrame.FileSources[FromFileSourceIndex].CurrentAddress + ' -');
+      AddCaptionItem('- ' + ActiveFrame.FileSources[FromFileSourceIndex].CurrentAddress.Replace('&','&&') + ' -');
     end;
   end;
 
