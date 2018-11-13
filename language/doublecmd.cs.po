@@ -3048,6 +3048,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaincommandsdlg.caption
+msgctxt "tfrmmaincommandsdlg.caption"
 msgid "Select your internal command"
 msgstr "Vyberte vnitřní příkaz"
 
@@ -5403,6 +5404,11 @@ msgstr "P&řidat"
 msgid "C&lone"
 msgstr "Klonovat"
 
+#: tfrmoptionsfileassoc.btncommands.hint
+msgctxt "tfrmoptionsfileassoc.btncommands.hint"
+msgid "Select your internal command"
+msgstr "Vyberte vnitřní příkaz"
+
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
 msgid "Do&wn"
@@ -5423,6 +5429,16 @@ msgctxt "TFRMOPTIONSFILEASSOC.BTNINSERTEXT.CAPTION"
 msgid "&Insert"
 msgstr "Vložit"
 
+#: tfrmoptionsfileassoc.btnparametershelper.hint
+msgctxt "tfrmoptionsfileassoc.btnparametershelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
+
+#: tfrmoptionsfileassoc.btnrelativecommand.hint
+msgctxt "tfrmoptionsfileassoc.btnrelativecommand.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Některé funkce pro výběr příslušné cesty"
+
 #: tfrmoptionsfileassoc.btnremoveact.caption
 msgid "Remo&ve"
 msgstr "Sma&zat"
@@ -5440,6 +5456,16 @@ msgstr "&Smazat"
 msgctxt "TFRMOPTIONSFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "R&ename"
 msgstr "Př&ejmenovat"
+
+#: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Některé funkce pro výběr příslušné cesty"
+
+#: tfrmoptionsfileassoc.btnstartpathvarhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathvarhelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
 
 #: tfrmoptionsfileassoc.btnupact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNUPACT.CAPTION"

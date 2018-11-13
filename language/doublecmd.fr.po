@@ -3124,6 +3124,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaincommandsdlg.caption
+msgctxt "tfrmmaincommandsdlg.caption"
 msgid "Select your internal command"
 msgstr "Choisissez vore commande interne"
 
@@ -5525,6 +5526,11 @@ msgstr "Ajouter"
 msgid "C&lone"
 msgstr "Dupliquer"
 
+#: tfrmoptionsfileassoc.btncommands.hint
+msgctxt "tfrmoptionsfileassoc.btncommands.hint"
+msgid "Select your internal command"
+msgstr "Choisissez vore commande interne"
+
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
 msgid "Do&wn"
@@ -5545,6 +5551,16 @@ msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
 msgid "&Insert"
 msgstr "Insérer"
 
+#: tfrmoptionsfileassoc.btnparametershelper.hint
+msgctxt "tfrmoptionsfileassoc.btnparametershelper.hint"
+msgid "Variable reminder helper"
+msgstr "Aide-mémoire des variables"
+
+#: tfrmoptionsfileassoc.btnrelativecommand.hint
+msgctxt "tfrmoptionsfileassoc.btnrelativecommand.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Quelques fonctions pour choisir le chemin approprié"
+
 #: tfrmoptionsfileassoc.btnremoveact.caption
 msgctxt "tfrmoptionsfileassoc.btnremoveact.caption"
 msgid "Remo&ve"
@@ -5564,6 +5580,16 @@ msgstr "Supprimer"
 msgctxt "tfrmoptionsfileassoc.btnrenametype.caption"
 msgid "R&ename"
 msgstr "Renommer"
+
+#: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Quelques fonctions pour choisir le chemin approprié"
+
+#: tfrmoptionsfileassoc.btnstartpathvarhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathvarhelper.hint"
+msgid "Variable reminder helper"
+msgstr "Aide-mémoire des variables"
 
 #: tfrmoptionsfileassoc.btnupact.caption
 msgctxt "tfrmoptionsfileassoc.btnupact.caption"

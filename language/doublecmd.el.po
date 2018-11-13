@@ -3107,6 +3107,7 @@ msgid "&OK"
 msgstr "OK"
 
 #: tfrmmaincommandsdlg.caption
+msgctxt "tfrmmaincommandsdlg.caption"
 msgid "Select your internal command"
 msgstr "Επιλέξτε την εσωτερική σας εντολή"
 
@@ -5495,6 +5496,11 @@ msgstr "Προσθήκη"
 msgid "C&lone"
 msgstr "Κλωνοποίηση"
 
+#: tfrmoptionsfileassoc.btncommands.hint
+msgctxt "tfrmoptionsfileassoc.btncommands.hint"
+msgid "Select your internal command"
+msgstr "Επιλέξτε την εσωτερική σας εντολή"
+
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNDOWNACT.CAPTION"
 msgid "Do&wn"
@@ -5515,6 +5521,16 @@ msgctxt "TFRMOPTIONSFILEASSOC.BTNINSERTEXT.CAPTION"
 msgid "&Insert"
 msgstr "Εισάγετε"
 
+#: tfrmoptionsfileassoc.btnparametershelper.hint
+msgctxt "tfrmoptionsfileassoc.btnparametershelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
+
+#: tfrmoptionsfileassoc.btnrelativecommand.hint
+msgctxt "tfrmoptionsfileassoc.btnrelativecommand.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Κάποιες λειτουργίες για την επιλογή κατάλληλης διαδρομής"
+
 #: tfrmoptionsfileassoc.btnremoveact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNREMOVEACT.CAPTION"
 msgid "Remo&ve"
@@ -5534,6 +5550,16 @@ msgstr "Αφαίρεση"
 msgctxt "TFRMOPTIONSFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "R&ename"
 msgstr "Μετονομασία"
+
+#: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Κάποιες λειτουργίες για την επιλογή κατάλληλης διαδρομής"
+
+#: tfrmoptionsfileassoc.btnstartpathvarhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathvarhelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
 
 #: tfrmoptionsfileassoc.btnupact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNUPACT.CAPTION"

@@ -3106,6 +3106,7 @@ msgid "&OK"
 msgstr "OK(&O)"
 
 #: tfrmmaincommandsdlg.caption
+msgctxt "tfrmmaincommandsdlg.caption"
 msgid "Select your internal command"
 msgstr "内部コマンドを選択"
 
@@ -5501,6 +5502,11 @@ msgstr "追加(&d)"
 msgid "C&lone"
 msgstr "複製"
 
+#: tfrmoptionsfileassoc.btncommands.hint
+msgctxt "tfrmoptionsfileassoc.btncommands.hint"
+msgid "Select your internal command"
+msgstr "内部コマンドを選択"
+
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNDOWNACT.CAPTION"
 msgid "Do&wn"
@@ -5521,6 +5527,16 @@ msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
 msgid "&Insert"
 msgstr "挿入"
 
+#: tfrmoptionsfileassoc.btnparametershelper.hint
+msgctxt "tfrmoptionsfileassoc.btnparametershelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
+
+#: tfrmoptionsfileassoc.btnrelativecommand.hint
+msgctxt "tfrmoptionsfileassoc.btnrelativecommand.hint"
+msgid "Some functions to select appropriate path"
+msgstr "適切なパスを選択するいくつかの機能"
+
 #: tfrmoptionsfileassoc.btnremoveact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNREMOVEACT.CAPTION"
 msgid "Remo&ve"
@@ -5540,6 +5556,16 @@ msgstr "削除(&R)"
 msgctxt "TFRMOPTIONSFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "R&ename"
 msgstr "名前の変更(&e)"
+
+#: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
+msgid "Some functions to select appropriate path"
+msgstr "適切なパスを選択するいくつかの機能"
+
+#: tfrmoptionsfileassoc.btnstartpathvarhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathvarhelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
 
 #: tfrmoptionsfileassoc.btnupact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNUPACT.CAPTION"

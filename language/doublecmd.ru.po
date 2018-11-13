@@ -3099,6 +3099,7 @@ msgid "&OK"
 msgstr "&ОК"
 
 #: tfrmmaincommandsdlg.caption
+msgctxt "tfrmmaincommandsdlg.caption"
 msgid "Select your internal command"
 msgstr "Выберите внутреннюю команду"
 
@@ -5504,6 +5505,11 @@ msgstr "&Добавить"
 msgid "C&lone"
 msgstr "Клонировать"
 
+#: tfrmoptionsfileassoc.btncommands.hint
+msgctxt "tfrmoptionsfileassoc.btncommands.hint"
+msgid "Select your internal command"
+msgstr "Выберите внутреннюю команду"
+
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
 msgid "Do&wn"
@@ -5524,6 +5530,16 @@ msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
 msgid "&Insert"
 msgstr "Вставить"
 
+#: tfrmoptionsfileassoc.btnparametershelper.hint
+msgctxt "tfrmoptionsfileassoc.btnparametershelper.hint"
+msgid "Variable reminder helper"
+msgstr "Помощник с переменными"
+
+#: tfrmoptionsfileassoc.btnrelativecommand.hint
+msgctxt "tfrmoptionsfileassoc.btnrelativecommand.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Некоторые функции для выбора подходящего пути"
+
 #: tfrmoptionsfileassoc.btnremoveact.caption
 msgctxt "tfrmoptionsfileassoc.btnremoveact.caption"
 msgid "Remo&ve"
@@ -5543,6 +5559,16 @@ msgstr "Уда&лить"
 msgctxt "tfrmoptionsfileassoc.btnrenametype.caption"
 msgid "R&ename"
 msgstr "Пе&реименовать"
+
+#: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Некоторые функции для выбора подходящего пути"
+
+#: tfrmoptionsfileassoc.btnstartpathvarhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathvarhelper.hint"
+msgid "Variable reminder helper"
+msgstr "Помощник с переменными"
 
 #: tfrmoptionsfileassoc.btnupact.caption
 msgctxt "tfrmoptionsfileassoc.btnupact.caption"
