@@ -3387,6 +3387,7 @@ msgid "&OK"
 msgstr "&OK"
 
 #: tfrmmaincommandsdlg.caption
+msgctxt "tfrmmaincommandsdlg.caption"
 msgid "Select your internal command"
 msgstr ""
 
@@ -5970,6 +5971,11 @@ msgstr "Pridať"
 msgid "C&lone"
 msgstr ""
 
+#: tfrmoptionsfileassoc.btncommands.hint
+msgctxt "tfrmoptionsfileassoc.btncommands.hint"
+msgid "Select your internal command"
+msgstr ""
+
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "tfrmoptionsfileassoc.btndownact.caption"
 msgid "Do&wn"
@@ -5988,6 +5994,16 @@ msgstr ""
 #: tfrmoptionsfileassoc.btninsertext.caption
 msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
 msgid "&Insert"
+msgstr ""
+
+#: tfrmoptionsfileassoc.btnparametershelper.hint
+msgctxt "tfrmoptionsfileassoc.btnparametershelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
+
+#: tfrmoptionsfileassoc.btnrelativecommand.hint
+msgctxt "tfrmoptionsfileassoc.btnrelativecommand.hint"
+msgid "Some functions to select appropriate path"
 msgstr ""
 
 #: tfrmoptionsfileassoc.btnremoveact.caption
@@ -6017,6 +6033,16 @@ msgstr "Odst&rániť"
 msgctxt "tfrmoptionsfileassoc.btnrenametype.caption"
 msgid "R&ename"
 msgstr "Pr&emenovať"
+
+#: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
+#: tfrmoptionsfileassoc.btnstartpathvarhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathvarhelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
 
 #: tfrmoptionsfileassoc.btnupact.caption
 #, fuzzy

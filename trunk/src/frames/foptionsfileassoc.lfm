@@ -649,6 +649,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideBottom.Side = asrBottom
           Left = 492
           Height = 23
+          Hint = 'Select your internal command'
           Top = 27
           Width = 23
           Anchors = [akTop, akRight, akBottom]
@@ -698,6 +699,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideBottom.Side = asrBottom
           Left = 515
           Height = 23
+          Hint = 'Some functions to select appropriate path'
           Top = 27
           Width = 23
           Anchors = [akTop, akRight, akBottom]
@@ -747,6 +749,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideBottom.Side = asrBottom
           Left = 515
           Height = 23
+          Hint = 'Variable reminder helper'
           Top = 52
           Width = 23
           Anchors = [akTop, akRight, akBottom]
@@ -855,6 +858,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideBottom.Side = asrBottom
           Left = 515
           Height = 23
+          Hint = 'Variable reminder helper'
           Top = 77
           Width = 23
           Anchors = [akTop, akRight, akBottom]
@@ -903,6 +907,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           AnchorSideBottom.Side = asrBottom
           Left = 492
           Height = 23
+          Hint = 'Some functions to select appropriate path'
           Top = 77
           Width = 23
           Anchors = [akTop, akRight, akBottom]

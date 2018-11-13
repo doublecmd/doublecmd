@@ -1773,6 +1773,11 @@ end;"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsPluginsWLX"/>
       </Unit244>
+      <Unit245>
+        <Filename Value="uhotdir.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uHotDir"/>
+      </Unit245>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

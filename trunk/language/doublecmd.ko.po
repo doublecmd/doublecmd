@@ -3128,6 +3128,7 @@ msgid "&OK"
 msgstr "확인(&O)"
 
 #: tfrmmaincommandsdlg.caption
+msgctxt "tfrmmaincommandsdlg.caption"
 msgid "Select your internal command"
 msgstr "내부명령어 선택"
 
@@ -5596,6 +5597,11 @@ msgstr "추가(&A)"
 msgid "C&lone"
 msgstr "복제"
 
+#: tfrmoptionsfileassoc.btncommands.hint
+msgctxt "tfrmoptionsfileassoc.btncommands.hint"
+msgid "Select your internal command"
+msgstr "내부명령어 선택"
+
 #: tfrmoptionsfileassoc.btndownact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNDOWNACT.CAPTION"
 msgid "Do&wn"
@@ -5616,6 +5622,16 @@ msgctxt "TFRMOPTIONSFILEASSOC.BTNINSERTEXT.CAPTION"
 msgid "&Insert"
 msgstr "삽입"
 
+#: tfrmoptionsfileassoc.btnparametershelper.hint
+msgctxt "tfrmoptionsfileassoc.btnparametershelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
+
+#: tfrmoptionsfileassoc.btnrelativecommand.hint
+msgctxt "tfrmoptionsfileassoc.btnrelativecommand.hint"
+msgid "Some functions to select appropriate path"
+msgstr "적절한 경로를 선택하기위한 기능"
+
 #: tfrmoptionsfileassoc.btnremoveact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNREMOVEACT.CAPTION"
 msgid "Remo&ve"
@@ -5635,6 +5651,16 @@ msgstr "제거(&R)"
 msgctxt "TFRMOPTIONSFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "R&ename"
 msgstr "이름 바꾸기(&E)"
+
+#: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
+msgid "Some functions to select appropriate path"
+msgstr "적절한 경로를 선택하기위한 기능"
+
+#: tfrmoptionsfileassoc.btnstartpathvarhelper.hint
+msgctxt "tfrmoptionsfileassoc.btnstartpathvarhelper.hint"
+msgid "Variable reminder helper"
+msgstr ""
 
 #: tfrmoptionsfileassoc.btnupact.caption
 msgctxt "TFRMOPTIONSFILEASSOC.BTNUPACT.CAPTION"
