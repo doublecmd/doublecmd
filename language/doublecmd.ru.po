@@ -3795,6 +3795,10 @@ msgctxt "tfrmoptionsarchivers.chkarchivermultiarcoutput.caption"
 msgid "S&how console output"
 msgstr "Показывать консольны&й вывод"
 
+#: tfrmoptionsarchivers.chkfilenameonlylist.caption
+msgid "Use archive name without extension as list"
+msgstr ""
+
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
 msgstr "Unix-&атрибуты файлов"
