@@ -955,7 +955,7 @@ var
         fte_ACTUALFAVTABS:
         begin
           localmi := TMenuItem.Create(ParamMenuItem);
-          localmi.Caption := FavoriteTabs[I - 1].FFavoriteTabsName;
+          localmi.Caption := FavoriteTabs[I - 1].FFavoriteTabsName.Replace('&', '&&', [rfReplaceAll]);
           localmi.tag := (I - 1) + TagOffset;
           localmi.OnClick := ProcedureWhenFavoriteTabItemClicked;
           localmi.Checked := IsEqualGUID(FavoriteTabs[I - 1].UniqueID, FLastFavoriteTabsLoadedUniqueId);
@@ -989,7 +989,7 @@ var
         fte_STARTMENU:
         begin
           localmi := TMenuItem.Create(ParamMenuItem);
-          localmi.Caption := FavoriteTabs[I - 1].FavoriteTabsName;
+          localmi.Caption := FavoriteTabs[I - 1].FavoriteTabsName.Replace('&', '&&', [rfReplaceAll]);
           //if gIconsInMenus then
           //  localmi.ImageIndex := frmMain.miLoadFavoriteTabs.ImageIndex;
           if ParamMenuItem.ClassType = TPopupMenu then
