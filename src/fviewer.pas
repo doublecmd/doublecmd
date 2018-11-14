@@ -874,19 +874,25 @@ begin
             Pen.Color := ColorBoxPaint.Selected;
             Pen.Style := psSolid;
             tmp:= Pen.Width+10;
-            if ComboBoxPaint.text='Pen' then LineTo (x,y)
-            else
+
+            case TViewerPaintTool(ComboBoxPaint.ItemIndex) of
+              vptPen: LineTo (x,y);
+              vptRectangle, vptEllipse:
               begin
-                if (startX>x) and (startY<y) then
-                CopyRect (Rect(UndoSX+tmp,UndoSY-tmp,UndoEX-tmp,UndoEY+tmp), tmp_all.canvas,Rect(UndoSX+tmp,UndoSY-tmp,UndoEX-tmp,UndoEY+tmp));
-                if (startX<x) and (startY>y) then
-                CopyRect (Rect(UndoSX-tmp,UndoSY+tmp,UndoEX+tmp,UndoEY-tmp), tmp_all.canvas,Rect(UndoSX-tmp,UndoSY+tmp,UndoEX+tmp,UndoEY-tmp));
+                if (startX>x) and (startY<y) then CopyRect (Rect(UndoSX+tmp,UndoSY-tmp,UndoEX-tmp,UndoEY+tmp), tmp_all.canvas,Rect(UndoSX+tmp,UndoSY-tmp,UndoEX-tmp,UndoEY+tmp));
+                if (startX<x) and (startY>y) then CopyRect (Rect(UndoSX-tmp,UndoSY+tmp,UndoEX+tmp,UndoEY-tmp), tmp_all.canvas,Rect(UndoSX-tmp,UndoSY+tmp,UndoEX+tmp,UndoEY-tmp));
                 if (startX>x) and (startY>y) then
-                CopyRect (Rect(UndoSX+tmp,UndoSY+tmp,UndoEX-tmp,UndoEY-tmp), tmp_all.canvas,Rect(UndoSX+tmp,UndoSY+tmp,UndoEX-tmp,UndoEY-tmp))
+                  CopyRect (Rect(UndoSX+tmp,UndoSY+tmp,UndoEX-tmp,UndoEY-tmp), tmp_all.canvas,Rect(UndoSX+tmp,UndoSY+tmp,UndoEX-tmp,UndoEY-tmp))
                 else
-                CopyRect (Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp), tmp_all.canvas,Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp));//UndoTmp;
-                if ComboBoxPaint.text='Rect' then Rectangle(Rect(StartX,StartY,X,Y))else Ellipse(StartX,StartY,X,Y);
+                  CopyRect (Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp), tmp_all.canvas,Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp));//UndoTmp;
+
+                case TViewerPaintTool(ComboBoxPaint.ItemIndex) of
+                  vptRectangle: Rectangle(Rect(StartX,StartY,X,Y));
+                  vptEllipse:Ellipse(StartX,StartY,X,Y);
+                end;
               end;
+            end;
+
             UndoSX:=StartX;
             UndoSY:=StartY;
             UndoEX:=X;
@@ -1610,7 +1616,7 @@ begin
   gImageStretchOnlyLarge:= miStretchOnlyLarge.Checked;
   gImageCenter:= miCenter.Checked;
   gPreviewVisible := miPreview.Checked;
-  gImagePaintMode := ComboBoxPaint.text;
+  gImagePaintMode := TViewerPaintTool(ComboBoxPaint.ItemIndex);
   gImagePaintWidth := StrToInt(ComboBoxWidth.Text) ;
   gImagePaintColor := ColorBoxPaint.Selected;
   case ViewerControl.Mode of
@@ -1657,6 +1663,9 @@ begin
   HMViewer := HotMan.Register(Self, HotkeysCategory);
   HMViewer.RegisterActionList(actionList);
 
+  ParseLineToList(rsViewPaintToolsList, ComboBoxPaint.Items);
+  SetComboWidthToLargestElement(ComboBoxPaint, 30);
+
   ViewerControl.OnGuessEncoding:= @DetectEncoding;
 
   FontOptionsToFont(gFonts[dcfViewer], ViewerControl.Font);
@@ -1675,7 +1684,7 @@ begin
   miStretchOnlyLarge.Checked := gImageStretchOnlyLarge;
   miCenter.Checked := gImageCenter;
   miPreview.Checked := gPreviewVisible;
-  ComboBoxPaint.Text := gImagePaintMode;
+  ComboBoxPaint.ItemIndex := Integer(gImagePaintMode);
   ComboBoxWidth.Text := IntToStr(gImagePaintWidth);
   ColorBoxPaint.Selected := gImagePaintColor;
 

@@ -12574,6 +12574,10 @@ msgstr "Nova velikost"
 msgid "%s not found!"
 msgstr "%s ni mogoče najti!"
 
+#: ulng.rsviewpainttoolslist
+msgid "Pen;Rect;Ellipse"
+msgstr ""
+
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
 msgstr "z zunanjim pregledovalnikom"

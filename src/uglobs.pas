@@ -90,6 +90,9 @@ type
   TExternalToolsOptions = array[TExternalTool] of TExternalToolOptions;
   TResultingFramePositionAfterCompare = (rfpacActiveOnLeft, rfpacLeftOnLeft);
 
+  //Related with the Viewer
+  TViewerPaintTool = (vptPen, vptRectangle, vptEllipse);
+
   TPluginType = (ptDSX, ptWCX, ptWDX, ptWFX, ptWLX); //*Important: Keep that order to to fit with procedures LoadXmlConfig/SaveXmlConfig when we save/restore widths of "TfrmTweakPlugin".
   TWcxCfgViewMode = (wcvmByPlugin, wcvmByExtension);
   TPluginFilenameStyle = (pfsAbsolutePath, pfsRelativeToDC, pfsRelativeToFollowingPath);
@@ -521,8 +524,8 @@ var
   gCopyMovePath2,
   gCopyMovePath3,
   gCopyMovePath4,
-  gCopyMovePath5,
-  gImagePaintMode: String;
+  gCopyMovePath5: String;
+  gImagePaintMode: TViewerPaintTool;
   gImagePaintWidth,
   gColCount,
   gViewerMode,
@@ -1696,7 +1699,7 @@ begin
   gCopyMovePath3 := '';
   gCopyMovePath4 := '';
   gCopyMovePath5 := '';
-  gImagePaintMode := 'Pen';
+  gImagePaintMode := vptPen;
   gImagePaintWidth := 5;
   gColCount := 1;
   gTabSpaces := 8;
@@ -2640,7 +2643,7 @@ begin
       gCopyMovePath3 := GetValue(Node, 'CopyMovePath3', gCopyMovePath3);
       gCopyMovePath4 := GetValue(Node, 'CopyMovePath4', gCopyMovePath4);
       gCopyMovePath5 := GetValue(Node, 'CopyMovePath5', gCopyMovePath5);
-      gImagePaintMode := GetValue(Node, 'PaintMode', gImagePaintMode);
+      gImagePaintMode := TViewerPaintTool(GetValue(Node, 'PaintMode', Integer(gImagePaintMode)));
       gImagePaintWidth := GetValue(Node, 'PaintWidth', gImagePaintWidth);
       gColCount    := GetValue(Node, 'NumberOfColumns', gColCount);
       gTabSpaces := GetValue(Node, 'TabSpaces', gTabSpaces);
@@ -3148,7 +3151,7 @@ begin
     SetValue(Node, 'CopyMovePath3', gCopyMovePath3);
     SetValue(Node, 'CopyMovePath4', gCopyMovePath4);
     SetValue(Node, 'CopyMovePath5', gCopyMovePath5);
-    SetValue(Node, 'PaintMode', gImagePaintMode);
+    SetValue(Node, 'PaintMode', Integer(gImagePaintMode));
     SetValue(Node, 'PaintWidth', gImagePaintWidth);
     SetValue(Node, 'NumberOfColumns', gColCount);
     SetValue(Node, 'TabSpaces', gTabSpaces);

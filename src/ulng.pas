@@ -447,6 +447,8 @@ resourcestring
   rsViewNewSize = 'New Size';
   rsViewImageType = 'Image Type';
   rsViewBadQuality = 'Bad Quality';
+  rsViewPaintToolsList = 'Pen;Rect;Ellipse';
+
   // Editor
   rsEditGotoLineTitle = 'Goto Line';
   rsEditGotoLineQuery = 'Goto line:';

@@ -13088,6 +13088,10 @@ msgstr "Нова величина"
 msgid "%s not found!"
 msgstr "Нисам успео да пронађем %s."
 
+#: ulng.rsviewpainttoolslist
+msgid "Pen;Rect;Ellipse"
+msgstr ""
+
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
 msgstr ""

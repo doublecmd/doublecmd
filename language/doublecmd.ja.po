@@ -12866,6 +12866,10 @@ msgstr "新しいサイズ"
 msgid "%s not found!"
 msgstr "＜%s＞はありません！"
 
+#: ulng.rsviewpainttoolslist
+msgid "Pen;Rect;Ellipse"
+msgstr ""
+
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
 msgstr "外部ビューアで"

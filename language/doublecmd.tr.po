@@ -13199,6 +13199,10 @@ msgstr "Yeni Boyut"
 msgid "%s not found!"
 msgstr "%s bulunamadı!"
 
+#: ulng.rsviewpainttoolslist
+msgid "Pen;Rect;Ellipse"
+msgstr ""
+
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
 msgstr ""

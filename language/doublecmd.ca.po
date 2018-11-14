@@ -13591,6 +13591,10 @@ msgstr "Nova Mida"
 msgid "%s not found!"
 msgstr "%s no trobat!"
 
+#: ulng.rsviewpainttoolslist
+msgid "Pen;Rect;Ellipse"
+msgstr ""
+
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
 msgstr ""

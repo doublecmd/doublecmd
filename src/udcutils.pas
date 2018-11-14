@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Several useful functions
    
-   Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    contributors:
    
@@ -215,6 +215,7 @@ function LightColor(AColor: TColor; APercent: Byte): TColor;
 procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor);
 procedure UpdateColor(Control: TControl; Checked: Boolean);
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
+procedure SetComboWidthToLargestElement(AComboBox: TCustomComboBox; iExtraWidthToAdd: integer = 0);
 
 procedure SplitCmdLineToCmdParams(sCmdLine : String; var sCmd, sParams : String);
 
@@ -1119,6 +1120,23 @@ begin
       Control.Font.Color:= clGrayText;
     end;
   {$ENDIF}
+end;
+
+{ SetComboWidthToLargestElement }
+// Set the width of a TComboBox to fit to the largest element in it.
+procedure SetComboWidthToLargestElement(AComboBox: TCustomComboBox; iExtraWidthToAdd: integer = 0);
+var
+  iElementIndex, iCurrentElementWidth, iLargestWidth: integer;
+begin
+  iLargestWidth := 0;
+  iElementIndex := 0;
+  while (iElementIndex < AComboBox.Items.Count) do
+  begin
+    iCurrentElementWidth := AComboBox.Canvas.TextWidth(AComboBox.Items.Strings[iElementIndex]);
+    if iCurrentElementWidth > iLargestWidth then iLargestWidth := iCurrentElementWidth;
+    inc(iElementIndex);
+  end;
+  if iLargestWidth > 0 then AComboBox.Width := (iLargestWidth + iExtraWidthToAdd);
 end;
 
 function GuessLineBreakStyle(const S: String): TTextLineBreakStyle;
