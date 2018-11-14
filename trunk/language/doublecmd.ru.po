@@ -12853,6 +12853,10 @@ msgstr "Новый размер"
 msgid "%s not found!"
 msgstr "%s не найден!"
 
+#: ulng.rsviewpainttoolslist
+msgid "Pen;Rect;Ellipse"
+msgstr ""
+
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
 msgstr "во внешнем просмотрщике"

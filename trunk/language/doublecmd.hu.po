@@ -12874,6 +12874,10 @@ msgstr "Új méret"
 msgid "%s not found!"
 msgstr "%s nem található!"
 
+#: ulng.rsviewpainttoolslist
+msgid "Pen;Rect;Ellipse"
+msgstr ""
+
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
 msgstr "külső nézőkével"

@@ -270,7 +270,7 @@ object frmViewer: TfrmViewer
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '1.8.3.0'
+  LCLVersion = '1.8.4.0'
   object pnlFolder: TPanel
     Left = 179
     Height = 435
@@ -333,6 +333,7 @@ object frmViewer: TfrmViewer
       Height = 435
       Top = 0
       Width = 472
+      Mode = vcmText
       OnPositionChanged = ViewerPositionChanged
       OnMouseUp = ViewerControlMouseUp
       OnMouseWheelUp = ViewerControlMouseWheelUp
@@ -540,35 +541,43 @@ object frmViewer: TfrmViewer
         Left = 473
         Height = 47
         Top = 1
-        Width = 203
+        Width = 187
         Align = alLeft
+        AutoSize = True
         BorderSpacing.Left = 5
         BorderSpacing.Bottom = 1
         Caption = 'Paint'
-        ChildSizing.LeftRightSpacing = 2
+        ChildSizing.LeftRightSpacing = 4
         ChildSizing.TopBottomSpacing = 2
+        ChildSizing.HorizontalSpacing = 2
+        ChildSizing.VerticalSpacing = 2
+        ChildSizing.EnlargeHorizontal = crsHomogenousSpaceResize
+        ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
+        ChildSizing.ControlsPerLine = 1
         ClientHeight = 27
-        ClientWidth = 199
+        ClientWidth = 183
         TabOrder = 1
         Visible = False
         object ColorBoxPaint: TColorBox
           AnchorSideLeft.Control = ComboBoxWidth
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = gboxPaint
-          Left = 154
+          AnchorSideTop.Side = asrCenter
+          Left = 140
           Height = 22
           Top = 2
           Width = 39
           DefaultColorColor = clRed
           NoneColorColor = clRed
-          BorderSpacing.Left = 6
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
           ItemHeight = 16
           TabOrder = 0
         end
         object btnUndo: TSpeedButton
-          AnchorSideTop.Control = ComboBoxPaint
+          AnchorSideLeft.Control = gboxPaint
+          AnchorSideTop.Control = gboxPaint
           AnchorSideTop.Side = asrCenter
-          Left = 2
+          Left = 4
           Height = 20
           Hint = 'Undo'
           Top = 3
@@ -616,11 +625,11 @@ object frmViewer: TfrmViewer
           AnchorSideLeft.Control = btnUndo
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = gboxPaint
-          Left = 32
+          AnchorSideTop.Side = asrCenter
+          Left = 26
           Height = 23
           Top = 2
           Width = 63
-          BorderSpacing.Left = 10
           ItemHeight = 15
           ItemIndex = 0
           Items.Strings = (
@@ -636,11 +645,11 @@ object frmViewer: TfrmViewer
           AnchorSideLeft.Control = ComboBoxPaint
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = gboxPaint
-          Left = 101
+          AnchorSideTop.Side = asrCenter
+          Left = 91
           Height = 23
           Top = 2
           Width = 47
-          BorderSpacing.Left = 6
           ItemHeight = 15
           ItemIndex = 0
           Items.Strings = (

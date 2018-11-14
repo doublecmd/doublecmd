@@ -12835,6 +12835,10 @@ msgstr "Νέο Μέγεθος"
 msgid "%s not found!"
 msgstr "%s δεν βρέθηκαν!"
 
+#: ulng.rsviewpainttoolslist
+msgid "Pen;Rect;Ellipse"
+msgstr ""
+
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
 msgstr "με εξωτερικό προβολέα"

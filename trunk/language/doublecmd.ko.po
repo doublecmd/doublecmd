@@ -13031,6 +13031,10 @@ msgstr "새 크기"
 msgid "%s not found!"
 msgstr "%s 찾지 못함!"
 
+#: ulng.rsviewpainttoolslist
+msgid "Pen;Rect;Ellipse"
+msgstr ""
+
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
 msgstr "외장뷰어로"

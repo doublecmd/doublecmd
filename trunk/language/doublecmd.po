@@ -12491,6 +12491,10 @@ msgstr ""
 msgid "%s not found!"
 msgstr ""
 
+#: ulng.rsviewpainttoolslist
+msgid "Pen;Rect;Ellipse"
+msgstr ""
+
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
 msgstr ""

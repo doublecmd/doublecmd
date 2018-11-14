@@ -13015,6 +13015,10 @@ msgstr "Nuova Dimensione"
 msgid "%s not found!"
 msgstr "%s non trovato!"
 
+#: ulng.rsviewpainttoolslist
+msgid "Pen;Rect;Ellipse"
+msgstr ""
+
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
 msgstr ""
