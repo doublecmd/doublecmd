@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.9.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2018-11-05 8:20+0300\n"
+"PO-Revision-Date: 2018-11-14 10:14+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -3797,7 +3797,7 @@ msgstr "Показывать консольны&й вывод"
 
 #: tfrmoptionsarchivers.chkfilenameonlylist.caption
 msgid "Use archive name without extension as list"
-msgstr ""
+msgstr "Использовать имя архива без расширения как список"
 
 #: tfrmoptionsarchivers.ckbarchiverunixfileattributes.caption
 msgid "Uni&x file attributes"
@@ -5581,27 +5581,23 @@ msgstr "Вв&ерх"
 
 #: tfrmoptionsfileassoc.destartpath.hint
 msgid "Starting path of the command. Never quote this string."
-msgstr "Путь запуска команды. Не использовать кавычки."
+msgstr "Путь запуска команды. Не используйте кавычки."
 
 #: tfrmoptionsfileassoc.edbactionname.hint
 msgid "Name of the action. It is never passed to the system, it's just a mnemonic name chosen by you, for you"
 msgstr "Название действия. Оно никогда не передаётся в систему, это просто выбранное вами мнемоническое имя, для вас"
 
 #: tfrmoptionsfileassoc.edtparams.hint
-#, fuzzy
-#| msgid "Parameter to pass to the command. Long filename with spaces should be quoted."
 msgid "Parameter to pass to the command. Long filename with spaces should be quoted (manually entering)."
-msgstr "Параметры, передаваемые команде. Имя файла с пробелами должно быть заключено в кавычки."
+msgstr "Параметры, передаваемые команде. Имя файла с пробелами должно быть заключено в кавычки (вручную)."
 
 #: tfrmoptionsfileassoc.fnecommand.hint
-#, fuzzy
-#| msgid "Command to execute. Long filename with space should be quoted."
 msgid "Command to execute. Never quote this string."
-msgstr "Команда для выполнения. Имя файла с пробелами должно быть заключено в кавычки."
+msgstr "Команда для выполнения. Не используйте кавычки."
 
 #: tfrmoptionsfileassoc.gbactiondescription.caption
 msgid "Action description"
-msgstr "Описание действия:"
+msgstr "Описание действия"
 
 #: tfrmoptionsfileassoc.gbactions.caption
 msgctxt "tfrmoptionsfileassoc.gbactions.caption"
@@ -12855,7 +12851,7 @@ msgstr "%s не найден!"
 
 #: ulng.rsviewpainttoolslist
 msgid "Pen;Rect;Ellipse"
-msgstr ""
+msgstr "Карандаш;Прямоугольник;Эллипс"
 
 #: ulng.rsviewwithexternalviewer
 msgid "with external viewer"
@@ -12872,4 +12868,3 @@ msgstr "Число замен: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Замена не состоялась."
-
