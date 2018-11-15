@@ -1079,8 +1079,6 @@ begin
 
       if sName <> TERMINATORNOTPRESENT then
       begin
-        sName := StringReplace(sName, '&', '', [rfReplaceAll, rfIgnoreCase]); //Let's remove the amperstand
-
         FlagAvortInsertion := False;
         LocalHotDir := THotDir.Create;
 
