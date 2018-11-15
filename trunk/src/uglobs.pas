@@ -135,7 +135,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 44;
+  hkVersion = 45;
   // 40 - In "Main" context, added the "Ctrl+Shift+F7" for "cm_AddNewSearch".
   //      In "Find Files" context, changed "cm_Start" that was "Enter" for "F9".
   //      In "Find Files" context, added "Alt+F7" as a valid alternative for "cm_PageStandard".
@@ -1113,8 +1113,23 @@ begin
   HMForm := HotMan.Forms.FindOrCreate('Editor');
   with HMForm.Hotkeys do
     begin
-      AddIfNotExists(['F7'],[],'cm_EditFind');
-      AddIfNotExists(['F2'],[],'cm_FileSave');
+      if HotMan.Version < 45 then
+      begin
+        HMHotKey:= FindByCommand('cm_EditFind');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['F7']) then
+          Remove(HMHotKey);
+        HMHotKey:= FindByCommand('cm_FileSave');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['F2']) then
+          Remove(HMHotKey);
+        HMHotKey:= FindByCommand('cm_FileExit');
+        if Assigned(HMHotKey) and HMHotKey.SameShortcuts(['Esc']) then
+          Remove(HMHotKey);
+      end;
+
+      AddIfNotExists([SmkcSuper + 'F' ,'','',
+                      'F7'            ,'',''],'cm_EditFind');
+      AddIfNotExists(['F2'            ,'','',
+                      SmkcSuper + 'S' ,'',''],'cm_FileSave');
       AddIfNotExists(['F3'],[],'cm_EditFindNext');
       AddIfNotExists(['Shift+F3'],[],'cm_EditFindPrevious');
       AddIfNotExists(['Alt+X', '', '', //Let is be first since by legacy what we get used to see in main menu as shortcut was "Alt+X".
@@ -1123,8 +1138,6 @@ begin
       AddIfNotExists(VK_X, [ssModifier], 'cm_EditCut');
       AddIfNotExists(VK_N, [ssModifier], 'cm_FileNew');
       AddIfNotExists(VK_O, [ssModifier], 'cm_FileOpen');
-      AddIfNotExists(VK_S, [ssModifier], 'cm_FileSave');
-      AddIfNotExists(VK_F, [ssModifier], 'cm_EditFind');
       AddIfNotExists(VK_R, [ssModifier], 'cm_EditRplc');
       AddIfNotExists(VK_C, [ssModifier], 'cm_EditCopy');
       AddIfNotExists(VK_Z, [ssModifier], 'cm_EditUndo');
