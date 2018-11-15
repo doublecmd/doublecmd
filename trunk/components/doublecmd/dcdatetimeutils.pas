@@ -606,24 +606,8 @@ begin
 end;
 
 {$IF DEFINED(MSWINDOWS)}
-procedure InitTimeZoneBias;
-var
-  TZInfo: TTimeZoneInformation;
-begin
-  case GetTimeZoneInformation(@TZInfo) of
-    TIME_ZONE_ID_UNKNOWN:
-      WinTimeZoneBias := TZInfo.Bias;
-    TIME_ZONE_ID_STANDARD:
-      WinTimeZoneBias := TZInfo.Bias + TZInfo.StandardBias;
-    TIME_ZONE_ID_DAYLIGHT:
-      WinTimeZoneBias := TZInfo.Bias + TZInfo.DaylightBias;
-    else
-      WinTimeZoneBias := 0;
-  end;
-end;
-
 initialization
-  InitTimeZoneBias;
+  WinTimeZoneBias := GetLocalTimeOffset;
   if (Win32MajorVersion > 5) then
   begin
     Pointer(TzSpecificLocalTimeToSystemTime):= GetProcAddress(GetModuleHandle(Kernel32),
