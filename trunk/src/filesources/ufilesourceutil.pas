@@ -273,7 +273,7 @@ begin
     begin
       if not bForce then
       begin
-        msgError(E.Message);
+        msgError(E.Message + LineEnding + aFile.FullPath);
         Exit(True);
       end;
     end;

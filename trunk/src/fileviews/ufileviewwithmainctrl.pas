@@ -369,9 +369,12 @@ begin
               TargetPath := TargetPath + AFile.FSFile.Name + DirectorySeparator;
           end
           else if FileIsArchive(AFile.FSFile.FullPath) then
-            begin
+            try
               TargetFileSource:= GetArchiveFileSource(FileSource, AFile.FSFile, EmptyStr, False, False);
               if Assigned(TargetFileSource) then TargetPath:= TargetFileSource.GetRootDir;
+            except
+              on E: Exception do
+                msgError(E.Message + LineEnding + AFile.FSFile.FullPath);
             end;
         end;
       end;

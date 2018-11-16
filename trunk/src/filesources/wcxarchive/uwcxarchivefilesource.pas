@@ -415,7 +415,7 @@ begin
   if mbFileExists(anArchiveFileName) then
   begin
     if not ReadArchive then
-      raise Exception.Create(GetErrorMsg(FOpenResult));
+      raise EFileSourceException.Create(GetErrorMsg(FOpenResult));
   end;
 
   CreateConnections;
