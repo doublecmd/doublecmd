@@ -9876,6 +9876,10 @@ msgstr "Não;Sim"
 msgid "Exported_from_DC"
 msgstr "Exportado_Do_DC"
 
+#: ulng.rsfileopcopymovefileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Merge;Skip"
 msgstr "Perguntar;Unir;Saltar"

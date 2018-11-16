@@ -9633,6 +9633,10 @@ msgstr "Nee;Ja"
 msgid "Exported_from_DC"
 msgstr "Geëxporteerd vanuit DC"
 
+#: ulng.rsfileopcopymovefileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Merge;Skip"
 msgstr "Vraag;Overschrijf;Kopieer naar;Overslaan"

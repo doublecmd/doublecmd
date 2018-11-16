@@ -9642,6 +9642,10 @@ msgstr "Da;Ne"
 msgid "Exported_from_DC"
 msgstr "Izvozi iz DC"
 
+#: ulng.rsfileopcopymovefileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Merge;Skip"
 msgstr "vprašaj;združi;preskoči"

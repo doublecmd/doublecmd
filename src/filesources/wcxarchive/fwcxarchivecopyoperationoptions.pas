@@ -27,13 +27,14 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uFileSourceOperationOptions, uFileSourceCopyOperation;
+  DCStrUtils, uLng, uGlobs, uFileSourceOperationOptions, uFileSourceCopyOperation;
 
 { TWcxArchiveCopyOperationOptionsUI }
 
 constructor TWcxArchiveCopyOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
   inherited;
+  ParseLineToList(rsFileOpCopyMoveFileExistsOptions, cmbFileExists.Items);
 
   // Load default options.
   case gOperationOptionFileExists of

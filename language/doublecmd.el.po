@@ -9870,6 +9870,10 @@ msgstr "Όχι;Ναι"
 msgid "Exported_from_DC"
 msgstr "Έχει_Εξαχθεί_από_DC"
 
+#: ulng.rsfileopcopymovefileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Merge;Skip"
 msgstr "Ερώτηση;Συγχώνευση;Παράβλεψη"

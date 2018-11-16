@@ -9641,6 +9641,10 @@ msgstr "Ne;Ano"
 msgid "Exported_from_DC"
 msgstr "Exportováno_z_DC"
 
+#: ulng.rsfileopcopymovefileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Merge;Skip"
 msgstr "Zeptat se;Přepsat;Přeskočit"

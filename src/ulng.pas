@@ -438,6 +438,7 @@ resourcestring
   // File operations
   rsFileOpDirectoryExistsOptions = 'Ask;Merge;Skip';
   rsFileOpFileExistsOptions = 'Ask;Overwrite;Overwrite Older;Skip';
+  rsFileOpCopyMoveFileExistsOptions = 'Ask;Overwrite;Skip';
   rsFileOpSetPropertyErrorOptions = 'Ask;Don''t set anymore;Ignore errors';
 
   // Viewer

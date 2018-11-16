@@ -1238,7 +1238,8 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="MultiArchiveCopyOperationOptionsUI"/>
         <HasResources Value="True"/>
-        <ResourceBaseClass Value="Frame"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fMultiArchiveCopyOperationOptions"/>
       </Unit151>
       <Unit152>
         <Filename Value="filesources\multiarchive\umultiarchivecalcstatisticsoperation.pas"/>
@@ -1324,7 +1325,8 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="WcxArchiveCopyOperationOptionsUI"/>
         <HasResources Value="True"/>
-        <ResourceBaseClass Value="Frame"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fWcxArchiveCopyOperationOptions"/>
       </Unit169>
       <Unit170>
         <Filename Value="filesources\wcxarchive\uwcxarchivecalcstatisticsoperation.pas"/>
@@ -1370,7 +1372,8 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="WfxPluginCopyMoveOperationOptionsUI"/>
         <HasResources Value="True"/>
-        <ResourceBaseClass Value="Frame"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fWfxPluginCopyMoveOperationOptions"/>
       </Unit178>
       <Unit179>
         <Filename Value="filesources\wfxplugin\uwfxplugincopyinoperation.pas"/>

@@ -9888,6 +9888,10 @@ msgstr "Нет;Да"
 msgid "Exported_from_DC"
 msgstr ""
 
+#: ulng.rsfileopcopymovefileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Merge;Skip"
 msgstr "Спрашивать;Объединять;Пропускать"
@@ -12868,3 +12872,4 @@ msgstr "Число замен: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Замена не состоялась."
+

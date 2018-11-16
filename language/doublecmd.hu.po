@@ -9946,6 +9946,10 @@ msgstr "Nem;Igen"
 msgid "Exported_from_DC"
 msgstr ""
 
+#: ulng.rsfileopcopymovefileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 #, fuzzy
 #| msgid "Ask;Overwrite;Copy into;Skip"
