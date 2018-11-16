@@ -10247,6 +10247,10 @@ msgstr ""
 msgid "Exported_from_DC"
 msgstr ""
 
+#: ulng.rsfileopcopymovefileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Merge;Skip"
 msgstr ""

@@ -9875,6 +9875,10 @@ msgstr "否;是"
 msgid "Exported_from_DC"
 msgstr ""
 
+#: ulng.rsfileopcopymovefileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Merge;Skip"
 msgstr "询问;合并;跳过"

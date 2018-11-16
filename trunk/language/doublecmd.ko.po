@@ -10058,6 +10058,10 @@ msgstr "아니요;예"
 msgid "Exported_from_DC"
 msgstr "DC에서 내보내기된"
 
+#: ulng.rsfileopcopymovefileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 #, fuzzy
 #| msgid "Ask;Overwrite;Copy into;Skip"

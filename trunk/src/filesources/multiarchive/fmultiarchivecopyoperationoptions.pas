@@ -32,13 +32,14 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uFileSourceOperationOptions;
+  DCStrUtils, uLng, uGlobs, uFileSourceOperationOptions;
 
 { TMultiArchiveCopyOperationOptionsUI }
 
 constructor TMultiArchiveCopyOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
   inherited;
+  ParseLineToList(rsFileOpCopyMoveFileExistsOptions, cmbFileExists.Items);
 
   // Load default options.
   case gOperationOptionFileExists of

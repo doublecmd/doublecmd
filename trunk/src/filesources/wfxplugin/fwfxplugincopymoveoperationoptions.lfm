@@ -6,7 +6,7 @@ object WfxPluginCopyMoveOperationOptionsUI: TWfxPluginCopyMoveOperationOptionsUI
   AutoSize = True
   ClientHeight = 158
   ClientWidth = 549
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.8.4.0'
   object pnlComboBoxes: TPanel
     AnchorSideLeft.Control = Owner
     Left = 0
@@ -37,11 +37,6 @@ object WfxPluginCopyMoveOperationOptionsUI: TWfxPluginCopyMoveOperationOptionsUI
       Top = 0
       Width = 100
       ItemHeight = 15
-      Items.Strings = (
-        'Ask'
-        'Overwrite'
-        'Skip'
-      )
       Style = csDropDownList
       TabOrder = 0
     end

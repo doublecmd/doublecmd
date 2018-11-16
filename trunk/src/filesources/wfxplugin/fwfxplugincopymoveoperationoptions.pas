@@ -63,7 +63,7 @@ implementation
 {$R *.lfm}
 
 uses
-  DCOSUtils, WfxPlugin, fCopyMoveDlg, uGlobs, uWfxPluginFileSource,
+  DCStrUtils, uLng, DCOSUtils, WfxPlugin, fCopyMoveDlg, uGlobs, uWfxPluginFileSource,
   uFileSourceOperationOptions, uOperationsManager;
 
 { TWfxPluginCopyMoveOperationOptionsUI }
@@ -71,6 +71,7 @@ uses
 constructor TWfxPluginCopyMoveOperationOptionsUI.Create(AOwner: TComponent; AFileSource: IInterface);
 begin
   inherited Create(AOwner, AFileSource);
+  ParseLineToList(rsFileOpCopyMoveFileExistsOptions, cmbFileExists.Items);
 
   // Load default options.
   case gOperationOptionFileExists of

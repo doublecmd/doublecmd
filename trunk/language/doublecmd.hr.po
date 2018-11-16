@@ -10292,6 +10292,10 @@ msgstr "Ne;Da"
 msgid "Exported_from_DC"
 msgstr "Izvoz iz DC"
 
+#: ulng.rsfileopcopymovefileexistsoptions
+msgid "Ask;Overwrite;Skip"
+msgstr ""
+
 #: ulng.rsfileopdirectoryexistsoptions
 #, fuzzy
 #| msgid "Ask;Overwrite;Copy into;Skip"
