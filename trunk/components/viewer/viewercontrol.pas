@@ -2631,14 +2631,15 @@ var
   function XYPos2AdrText: PtrInt;
   var
     i: Integer;
-    px: Integer = 0;
     charWidth: Integer;
+    textWidth: Integer;
     len: Integer = 0;
     CharLenInBytes: Integer;
     s: String;
+    ss: String;
   begin
+    ss := '';
     i := StartLine;
-
     while i < EndLine do
     begin
       s := GetNextCharAsUtf8(i, CharLenInBytes);
@@ -2664,17 +2665,17 @@ var
         end;
 
         charWidth := Canvas.TextWidth(s);
-        if px + charWidth > x then
+        ss := ss + s;
+        textWidth := Canvas.TextWidth(ss);
+        if textWidth > x then
         begin
-          if px + charWidth div 2 > x then
+          if textWidth - charWidth div 2 > x then
             CharSide := csLeft
           else
             CharSide := csRight;
 
           Exit(i);
         end;
-
-        px := px + charWidth;
       end;
 
       i := i + CharLenInBytes;
