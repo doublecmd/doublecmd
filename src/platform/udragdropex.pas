@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Interface unit for Drag&Drop to external applications.
 
-    Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 {en
@@ -179,6 +178,9 @@ implementation
 {$IF DEFINED(MSWINDOWS)}
 uses 
   uOleDragDrop;
+{$ELSEIF DEFINED(LCLCOCOA)}
+uses
+  uDragDropCocoa;
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
 uses
   uDragDropGtk;
@@ -343,6 +345,8 @@ function IsExternalDraggingSupported: Boolean;
 begin
 {$IF DEFINED(MSWINDOWS)}
   Result := True;
+{$ELSEIF DEFINED(LCLCOCOA)}
+  Result := True;
 {$ELSEIF DEFINED(LCLGTK) OR DEFINED(LCLGTK2)}
   Result := True;
 {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
@@ -356,6 +360,8 @@ function CreateDragDropSource(Control: TWinControl): TDragDropSource;
 begin
 {$IF DEFINED(MSWINDOWS)}
   Result := TDragDropSourceWindows.Create(Control);
+{$ELSEIF DEFINED(LCLCOCOA)}
+  Result := TDragDropSourceCocoa.Create(Control);
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   Result := TDragDropSourceGTK.Create(Control);
 {$ELSEIF DEFINED(LCLQT) and DEFINED(DARWIN)}
