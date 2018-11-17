@@ -137,17 +137,16 @@ begin
   Module:= gWdxPlugins.GetWdxModule(FPlugin.Text);
   J:= Module.GetFieldIndex(FField.Text);
   if J < 0 then Exit;
+  
   I:= TWdxField(Module.FieldList.Objects[J]).FType;
   if (I <> FT_MULTIPLECHOICE) then
   begin
     sUnits:= TWdxField(Module.FieldList.Objects[J]).FUnits;
-    while sUnits <> EmptyStr do
-    begin
-      FUnit.Items.Add(Copy2SymbDel(sUnits, '|'));
-    end;
-    FUnit.Enabled:= FUnit.Items.Count > 0;
-    if FUnit.Enabled then FUnit.ItemIndex:= 0;
+    while sUnits <> EmptyStr do FUnit.Items.Add(Copy2SymbDel(sUnits, '|'));
   end;
+  FUnit.Enabled := (I <> FT_MULTIPLECHOICE) AND (FUnit.Items.Count > 0);
+  if FUnit.Enabled then FUnit.ItemIndex:= 0;
+
   case I of
   FT_NUMERIC_32,
   FT_NUMERIC_64,

@@ -8024,6 +8024,10 @@ msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "Waarde"
 
+#: tfrmsearchplugin.headercontrol.sections[4].text
+msgid "Unit"
+msgstr ""
+
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr "&EN (alle overeenkomsten)"

@@ -8222,6 +8222,10 @@ msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "值"
 
+#: tfrmsearchplugin.headercontrol.sections[4].text
+msgid "Unit"
+msgstr ""
+
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr "与（全部匹配）(&A)"
