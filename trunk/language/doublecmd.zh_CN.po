@@ -12293,6 +12293,18 @@ msgstr "不更改位置;使用与新文件相同的设置;要排序位置"
 msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
 msgstr ""
 
+#: ulng.rspluginsearchfieldnotfound
+msgid "Field \"%s\" not found!"
+msgstr ""
+
+#: ulng.rspluginsearchpluginnotfound
+msgid "Plugin \"%s\" not found!"
+msgstr ""
+
+#: ulng.rspluginsearchunitnotfound
+msgid "Unit \"%s\" not found!"
+msgstr ""
+
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
 msgstr "文件：%d 个，文件夹：%d 个"

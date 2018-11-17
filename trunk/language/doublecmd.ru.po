@@ -12303,6 +12303,18 @@ msgstr "не менять позицию;использовать то же, ч�
 msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
 msgstr "С полным абсолютным путём;С путём относительно %COMMANDER_PATH%;С путём относительно указанного"
 
+#: ulng.rspluginsearchfieldnotfound
+msgid "Field \"%s\" not found!"
+msgstr ""
+
+#: ulng.rspluginsearchpluginnotfound
+msgid "Plugin \"%s\" not found!"
+msgstr ""
+
+#: ulng.rspluginsearchunitnotfound
+msgid "Unit \"%s\" not found!"
+msgstr ""
+
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
 msgstr "Файлов: %d, папок: %d"
