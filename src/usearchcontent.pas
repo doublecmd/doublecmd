@@ -70,7 +70,7 @@ type
 implementation
 
 uses
-  Variants, StrUtils, WdxPlugin, uGlobs, uWDXModule, Graphics, uShowMsg;
+  uLng, Variants, StrUtils, WdxPlugin, uGlobs, uWDXModule, Graphics, uShowMsg;
 
 { TPluginPanel }
 
@@ -222,18 +222,18 @@ end;
 
 procedure TPluginPanel.SetField(AValue: String);
 begin
-  SetComboBox(FField, AValue, Format('Field %s not found!', [AValue]));
+  SetComboBox(FField, AValue, Format(rsPluginSearchFieldNotFound, [AValue]));
 end;
 
 procedure TPluginPanel.SetPlugin(AValue: String);
 begin
-  SetComboBox(FPlugin, AValue, Format('Plugin %s not found!', [AValue]));
+  SetComboBox(FPlugin, AValue, Format(rsPluginSearchPluginNotFound, [AValue]));
 end;
 
 procedure TPluginPanel.SetUnitName(AValue: String);
 begin
   if FUnit.Enabled then
-    SetComboBox(FUnit, AValue, Format('Unit %s not found!', [AValue]));
+    SetComboBox(FUnit, AValue, Format(rsPluginSearchUnitNotFound, [AValue]));
 end;
 
 procedure TPluginPanel.SetValue(AValue: Variant);

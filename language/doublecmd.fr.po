@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2018-11-15 21:41-0500\n"
+"PO-Revision-Date: 2018-11-16 21:16-0500\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -10629,7 +10629,7 @@ msgstr "Avec fichier :"
 
 #: ulng.rsmsgfilenotfound
 msgid "File \"%s\" not found."
-msgstr "Ce fichier est introuvable : %s"
+msgstr "Ce fichier est introuvable : \"%s\"."
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"
@@ -12319,6 +12319,18 @@ msgstr "ne change pas de position;utilise les mêmes option que pour les nouveau
 #: ulng.rspluginfilenamestylelist
 msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
 msgstr "Avec chemin absolu complet;Chemin relatif à %COMMANDER_PATH%;Relatif au chemin suivant"
+
+#: ulng.rspluginsearchfieldnotfound
+msgid "Field \"%s\" not found!"
+msgstr "Champ \"%s\" introuvable!"
+
+#: ulng.rspluginsearchpluginnotfound
+msgid "Plugin \"%s\" not found!"
+msgstr "Plugin \"%s\" introuvable!"
+
+#: ulng.rspluginsearchunitnotfound
+msgid "Unit \"%s\" not found!"
+msgstr "Unité \"%s\" introuvable!"
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"

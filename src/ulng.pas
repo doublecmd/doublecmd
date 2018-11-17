@@ -562,6 +562,9 @@ resourcestring
   rsClearFiltersOrNot = 'Do you want to clear filters for this new search?';
   rsSearchWithDSXPluginInProgress = 'A file search using DSX plugin is already in progress.'+#$0A+'We need that one to be completed before to launch a new one.';
   rsSearchWithWDXPluginInProgress = 'A file search using WDX plugin is already in progress.'+#$0A+'We need that one to be completed before to launch a new one.';
+  rsPluginSearchFieldNotFound = 'Field "%s" not found!';
+  rsPluginSearchPluginNotFound = 'Plugin "%s" not found!';
+  rsPluginSearchUnitNotFound = 'Unit "%s" not found!';
 
   rsTimeUnitSecond = 'Second(s)';
   rsTimeUnitMinute = 'Minute(s)';

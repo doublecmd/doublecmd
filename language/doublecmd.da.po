@@ -12653,6 +12653,18 @@ msgstr "bevar positionen;brug samme indstilling som for nye filer;til sorteret p
 msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
 msgstr ""
 
+#: ulng.rspluginsearchfieldnotfound
+msgid "Field \"%s\" not found!"
+msgstr ""
+
+#: ulng.rspluginsearchpluginnotfound
+msgid "Plugin \"%s\" not found!"
+msgstr ""
+
+#: ulng.rspluginsearchunitnotfound
+msgid "Unit \"%s\" not found!"
+msgstr ""
+
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
 msgstr "Filer: %d, mapper: %d"
