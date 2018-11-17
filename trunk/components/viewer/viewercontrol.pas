@@ -237,8 +237,8 @@ type
     FScrollBarHorz:      TScrollBar;
     FOnPositionChanged:  TNotifyEvent;
     FUpdateScrollBarPos: Boolean; // used to block updating of scrollbar
-    FScrollBarPosition:  Integer; // for updating vertical scrollbar based on Position
-    FHScrollBarPosition: Integer; // for updating horizontal scrollbar based on HPosition
+    FScrollBarPosition:  Integer;  // for updating vertical scrollbar based on Position
+    FHScrollBarPosition: Integer;  // for updating horizontal scrollbar based on HPosition
     FColCount:           Integer;
     FTabSpaces:          Integer; // tab width in spaces
     FMaxTextWidth:       Integer; // maximum of chars on one line unwrapped text (max 16384)
@@ -333,7 +333,7 @@ type
     }
     function XYPos2Adr(x, y: Integer; out CharSide: TCharSide): PtrInt;
 
-    procedure OutText(x, y: Integer; StartPos: PtrInt; DataLength: Integer);
+    procedure OutText(x, y: Integer; sText: String; StartPos: PtrInt; DataLength: Integer);
     procedure OutBin(x, y: Integer; sText: string; StartPos: PtrInt; DataLength: Integer);
 
     procedure OutCustom(x, y: Integer; sText: string;StartPos: PtrInt; DataLength: Integer);  // render one line
@@ -1606,30 +1606,43 @@ var
   yIndex, xIndex, w, scrollTab, i: Integer;
   LineStart, iPos: PtrInt;
   DataLength: PtrInt;
+  sText: String;
 begin
   iPos := FPosition;
   if Mode = vcmBook then
      w := Width div FColCount
-  else
+  else begin
      w := 0;
-  if (Mode = vcmText) and (FHPosition>0) then
-    scrollTab := -FHPosition * Canvas.TextWidth('W')
-  else
-    scrollTab :=0;
+  end;
+
   for xIndex := 0 to FColCount-1 do
+  begin
+    for yIndex := 0 to GetClientHeightInLines - 1 do
     begin
-      for yIndex := 0 to GetClientHeightInLines - 1 do
+      if iPos >= FHighLimit then
+        Break;
+
+      AddLineOffset(iPos);
+      LineStart := iPos;
+
+      i := CalcTextLineLength(iPos, FHighLimit, DataLength);
+
+      if i > FHLowEnd then FHLowEnd:= i;
+
+      if DataLength > 0 then
       begin
-        if iPos >= FHighLimit then
-          Break;
-        AddLineOffset(iPos);
-        LineStart := iPos;
-        i := CalcTextLineLength(iPos, FHighLimit, DataLength);
-        if i > FHLowEnd then FHLowEnd:=i;
-        if DataLength > 0 then
-          OutText(scrollTab+xIndex*w, yIndex * FTextHeight, LineStart, DataLength)
+        sText := GetText(LineStart, DataLength, 0);
+
+        if (Mode = vcmText) and (FHPosition > 0) then
+          scrollTab := -Canvas.TextWidth(UTF8Copy(sText, 1, FHPosition))
+        else begin
+          scrollTab := 0;
+        end;
+
+        OutText(scrollTab + xIndex * w, yIndex * FTextHeight, sText, LineStart, DataLength);
       end;
     end;
+  end;
 end;
 
 procedure TViewerControl.WriteCustom;
@@ -1888,51 +1901,47 @@ begin
   end;
 end;
 
-procedure TViewerControl.OutText(x, y: Integer;
+procedure TViewerControl.OutText(x, y: Integer; sText: String;
   StartPos: PtrInt; DataLength: Integer);
 var
+  sBefore: String;
+  iBefore: Integer = 0;
   pBegLine, pEndLine: PtrInt;
   iBegDrawIndex, iEndDrawIndex: PtrInt;
-  xOffset: Integer;
-  sText: string;
 begin
   pBegLine := StartPos;
   pEndLine := pBegLine + DataLength;
 
+  Canvas.Font.Color := Font.Color;
+  Canvas.TextOut(x, y, sText);
+
+  // Out of selection, exit
   if ((FBlockEnd - FBlockBeg) = 0) or ((FBlockBeg < pBegLine) and (FBlockEnd < pBegLine)) or // before
-     ((FBlockBeg > pEndLine) and (FBlockEnd > pEndLine)) then //after
+     ((FBlockBeg > pEndLine) and (FBlockEnd > pEndLine)) then // after
   begin
-    // out of selection, draw normal
-    Canvas.Font.Color := Font.Color;
-    Canvas.TextOut(x, y, GetText(StartPos, DataLength, 0));
     Exit;
   end;
 
-  // Get selection start/end.
+  // Get selection start
   if (FBlockBeg <= pBegLine) then
     iBegDrawIndex := pBegLine
   else
     iBegDrawIndex := FBlockBeg;
+  // Get selection end
   if (FBlockEnd < pEndLine) then
     iEndDrawIndex := FBlockEnd
   else
     iEndDrawIndex := pEndLine;
 
-  xOffset := 0;
-
-  // Text before selection.
+  // Text before selection
   if iBegDrawIndex - pBegLine > 0 then
   begin
-    sText := GetText(StartPos, iBegDrawIndex - pBegLine, xOffset);
-    Canvas.Font.Color := Font.Color;
-    Canvas.TextOut(x, y, sText);
-    x := x + Canvas.TextWidth(sText);
-    xOffset := xOffset + UTF8Length(sText);
+    sBefore := GetText(StartPos, iBegDrawIndex - pBegLine, 0);
+    iBefore := Canvas.TextWidth(sBefore);
   end;
 
-  // Selected text.
-  sText := GetText(StartPos + iBegDrawIndex - pBegLine,
-                   iEndDrawIndex - iBegDrawIndex, xOffset);
+  // Text before selection + selected text
+  sText := GetText(StartPos, iEndDrawIndex - pBegLine, 0);
 
   Canvas.Brush.Color := clHighlight;
   Canvas.Font.Color  := clHighlightText;
@@ -1940,32 +1949,23 @@ begin
   // Cannot simply draw text with brush with TextOut
   // because it differs between widgetsets.
   Canvas.Brush.Style := bsSolid;
-  Canvas.FillRect(Bounds(x, y, Canvas.TextWidth(sText), FTextHeight));
+  Canvas.FillRect(Bounds(X + iBefore, Y, Canvas.TextWidth(sText) - iBefore, FTextHeight));
   Canvas.Brush.Style := bsClear;
+  Canvas.TextOut(X, Y, sText);
 
-  // Or use TextRect instead of TextOut with Opaque = True.
-  //ts := Canvas.TextStyle;
-  //ts.Opaque := True;
-  //ts.Clipping := True;
-  //Canvas.TextRect(Bounds(X, Y, Canvas.TextWidth(sText), FTextHeight), X, Y, sText, ts);
-
-  Canvas.TextOut(x, y, sText);
-  x := x + Canvas.TextWidth(sText);
-  xOffset := xOffset + UTF8Length(sText);
-
-  // restore previous canvas settings
+  // Restore previous canvas settings
   Canvas.Brush.Color := Color;
   Canvas.Font.Color  := Font.Color;
 
-  // Text after selection.
-  if pEndLine - iEndDrawIndex > 0 then
+  // Text before selection
+  if iBefore > 0 then
   begin
-    sText := GetText(StartPos + iEndDrawIndex - pBegLine,
-                     pEndLine - iEndDrawIndex, xOffset);
-    Canvas.TextOut(x, y, sText);
+    Canvas.Brush.Style := bsSolid;
+    Canvas.FillRect(Bounds(X, Y, iBefore, FTextHeight));
+    Canvas.Brush.Style := bsClear;
+    Canvas.TextOut(X, Y, sBefore);
   end;
 end;
-
 
 procedure TViewerControl.OutCustom(x, y: Integer; sText: string;
   StartPos: PtrInt; DataLength: Integer);
