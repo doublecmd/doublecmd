@@ -8216,6 +8216,10 @@ msgctxt "TFRMSEARCHPLUGIN.HEADERCONTROL.SECTIONS[3].TEXT"
 msgid "Value"
 msgstr "Τιμή"
 
+#: tfrmsearchplugin.headercontrol.sections[4].text
+msgid "Unit"
+msgstr ""
+
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr "ΚΑΙ (όσα ταιριάζουν)"

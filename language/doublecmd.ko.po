@@ -8368,6 +8368,10 @@ msgctxt "TFRMSEARCHPLUGIN.HEADERCONTROL.SECTIONS[3].TEXT"
 msgid "Value"
 msgstr "값"
 
+#: tfrmsearchplugin.headercontrol.sections[4].text
+msgid "Unit"
+msgstr ""
+
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr "AND (모두 일치) (&A)"

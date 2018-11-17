@@ -8017,6 +8017,10 @@ msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "Значэнне"
 
+#: tfrmsearchplugin.headercontrol.sections[4].text
+msgid "Unit"
+msgstr ""
+
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr "&І (усе супадзенні)"
