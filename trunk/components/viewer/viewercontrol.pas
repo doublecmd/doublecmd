@@ -2664,11 +2664,11 @@ var
           Continue;
         end;
 
-        charWidth := Canvas.TextWidth(s);
         ss := ss + s;
         textWidth := Canvas.TextWidth(ss);
         if textWidth > x then
         begin
+          charWidth := Canvas.TextWidth(s);
           if textWidth - charWidth div 2 > x then
             CharSide := csLeft
           else
