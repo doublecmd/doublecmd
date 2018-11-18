@@ -4,8 +4,8 @@
    Structures and functions for searching files.   
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010 Przemys³aw Nagay (cobines@gmail.com)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,8 +18,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uFindFiles;
@@ -35,9 +34,9 @@ type
   TTextSearch = (tsAnsi, tsUtf8, tsUtf16le, tsUtf16be, tsOther);
   TTimeUnit = (tuSecond, tuMinute, tuHour, tuDay, tuWeek, tuMonth, tuYear);
   TFileSizeUnit = (suBytes, suKilo, suMega, suGiga, suTera);
-  TPluginOperator = (poEqual, poNotEqual, poMore, poLess, poMoreEqual, poLessEqual,
-                     poEqualCase, poNotEqualCase, poContains, poNotContains,
-                     poContainsCase, poNotContainsCase);
+  TPluginOperator = (poEqualCaseSensitive, poNotEqualCaseSensitive, poMore, poLess, poMoreEqual, poLessEqual,
+                     poEqualCaseInsensitive, poNotEqualCaseInsensitive, poContainsCaseSensitive, poNotContainsCaseSensitive,
+                     poContainsCaseInsensitive, poNotContainsCaseInsensitive);
 
   TPluginSearchRec = record
     Plugin: String;
@@ -340,8 +339,8 @@ var
 begin
   // Prepare find text
   case ContentPlugin.Compare of
-    poContainsCase,
-    poNotContainsCase: FindText := UTF8LowerCase(ContentPlugin.Value);
+    poContainsCaseInsensitive,
+    poNotContainsCaseInsensitive: FindText := UTF8LowerCase(ContentPlugin.Value);
     else FindText:= ContentPlugin.Value;
   end;
   // Find field index
@@ -352,10 +351,10 @@ begin
     Old+= Value;
     DCUnicodeUtils.Utf8FixBroken(Old);
     case ContentPlugin.Compare of
-      poContains: Result := Pos(FindText, Old) > 0;
-      poNotContains: Result := Pos(FindText, Old) = 0;
-      poContainsCase: Result := Pos(FindText, UTF8LowerCase(Old)) > 0;
-      poNotContainsCase: Result := Pos(FindText, UTF8LowerCase(Old)) = 0;
+      poContainsCaseSensitive: Result := Pos(FindText, Old) > 0;
+      poNotContainsCaseSensitive: Result := Pos(FindText, Old) = 0;
+      poContainsCaseInsensitive: Result := Pos(FindText, UTF8LowerCase(Old)) > 0;
+      poNotContainsCaseInsensitive: Result := Pos(FindText, UTF8LowerCase(Old)) = 0;
     end;
     if Result then begin
        Module.CallContentGetValue(FileName, FieldIndex, -1, 0);
@@ -386,18 +385,18 @@ begin
     else begin
       Value:= Module.CallContentGetValueV(FileName, ContentPlugins[I].Field, ContentPlugins[I].UnitName, 0);
       case ContentPlugins[I].Compare of
-        poEqual: Work:= (ContentPlugins[I].Value = Value);
-        poNotEqual: Work:= (ContentPlugins[I].Value <> Value);
+        poEqualCaseSensitive: Work:= (ContentPlugins[I].Value = Value);
+        poNotEqualCaseSensitive: Work:= (ContentPlugins[I].Value <> Value);
         poMore: Work := (Value > ContentPlugins[I].Value);
         poLess: Work := (Value < ContentPlugins[I].Value);
         poMoreEqual: Work := (Value >= ContentPlugins[I].Value);
         poLessEqual: Work := (Value <= ContentPlugins[I].Value);
-        poEqualCase: Work:= UTF8CompareText(Value, ContentPlugins[I].Value) = 0;
-        poNotEqualCase: Work:= UTF8CompareText(Value, ContentPlugins[I].Value) <> 0;
-        poContains: Work := UTF8Pos(ContentPlugins[I].Value, Value) > 0;
-        poNotContains: Work := UTF8Pos(ContentPlugins[I].Value, Value) = 0;
-        poContainsCase: Work := UTF8Pos(UTF8LowerCase(ContentPlugins[I].Value), UTF8LowerCase(Value)) > 0;
-        poNotContainsCase: Work := UTF8Pos(UTF8LowerCase(ContentPlugins[I].Value), UTF8LowerCase(Value)) = 0;
+        poEqualCaseInsensitive: Work:= UTF8CompareText(Value, ContentPlugins[I].Value) = 0;
+        poNotEqualCaseInsensitive: Work:= UTF8CompareText(Value, ContentPlugins[I].Value) <> 0;
+        poContainsCaseSensitive: Work := UTF8Pos(ContentPlugins[I].Value, Value) > 0;
+        poNotContainsCaseSensitive: Work := UTF8Pos(ContentPlugins[I].Value, Value) = 0;
+        poContainsCaseInsensitive: Work := UTF8Pos(UTF8LowerCase(ContentPlugins[I].Value), UTF8LowerCase(Value)) > 0;
+        poNotContainsCaseInsensitive: Work := UTF8Pos(UTF8LowerCase(ContentPlugins[I].Value), UTF8LowerCase(Value)) = 0;
       end;
     end;
     if ContentPluginCombine then

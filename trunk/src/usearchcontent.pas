@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Content plugin search control
 
-   Copyright (C) 2014-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,8 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uSearchContent;
@@ -156,8 +155,8 @@ begin
   FT_DATETIME:
     begin
       FValue.Style:= csDropDown;
-      FOperator.Items.AddObject('=', TObject(PtrInt(poEqual)));
-      FOperator.Items.AddObject('!=', TObject(PtrInt(poNotEqual)));
+      FOperator.Items.AddObject('=', TObject(PtrInt(poEqualCaseSensitive)));
+      FOperator.Items.AddObject('!=', TObject(PtrInt(poNotEqualCaseSensitive)));
       FOperator.Items.AddObject('>', TObject(PtrInt(poMore)));
       FOperator.Items.AddObject('<', TObject(PtrInt(poLess)));
       FOperator.Items.AddObject('>=', TObject(PtrInt(poMoreEqual)));
@@ -165,18 +164,18 @@ begin
     end;
   FT_BOOLEAN:
     begin
-      FValue.Items.Add('True');
-      FValue.Items.Add('False');
+      FValue.Items.Add(rsSimpleWordTrue);
+      FValue.Items.Add(rsSimpleWordFalse);
       FValue.ItemIndex:= 0;
       FValue.Style:= csDropDownList;
-      FOperator.Items.AddObject('=', TObject(PtrInt(poEqual)));
+      FOperator.Items.AddObject('=', TObject(PtrInt(poEqualCaseSensitive)));
     end;
   FT_MULTIPLECHOICE:
     begin
       begin
         FValue.Style:= csDropDownList;
-        FOperator.Items.AddObject('=', TObject(PtrInt(poEqual)));
-        FOperator.Items.AddObject('!=', TObject(PtrInt(poNotEqual)));
+        FOperator.Items.AddObject('=', TObject(PtrInt(poEqualCaseSensitive)));
+        FOperator.Items.AddObject('!=', TObject(PtrInt(poNotEqualCaseSensitive)));
         sUnits:= TWdxField(Module.FieldList.Objects[J]).FUnits;
         while sUnits <> EmptyStr do
         begin
@@ -189,23 +188,23 @@ begin
   FT_STRINGW:
     begin
       FValue.Style:= csDropDown;
-      FOperator.Items.AddObject('=', TObject(PtrInt(poEqual)));
-      FOperator.Items.AddObject('!=', TObject(PtrInt(poNotEqual)));
-      FOperator.Items.AddObject('=(case)', TObject(PtrInt(poEqualCase)));
-      FOperator.Items.AddObject('!=(case)', TObject(PtrInt(poNotEqualCase)));
-      FOperator.Items.AddObject('contains', TObject(PtrInt(poContains)));
-      FOperator.Items.AddObject('!contains', TObject(PtrInt(poNotContains)));
-      FOperator.Items.AddObject('contains(case)', TObject(PtrInt(poContainsCase)));
-      FOperator.Items.AddObject('!contains(case)', TObject(PtrInt(poNotContainsCase)));
+      FOperator.Items.AddObject(rsPluginSearchEqualNotCase, TObject(PtrInt(poEqualCaseInsensitive)));
+      FOperator.Items.AddObject(rsPluginSearchNotEqualNotCase, TObject(PtrInt(poNotEqualCaseInsensitive)));
+      FOperator.Items.AddObject(rsPluginSearchEqualCaseSensitive, TObject(PtrInt(poEqualCaseSensitive)));
+      FOperator.Items.AddObject(rsPluginSearchNotEquaCaseSensitive, TObject(PtrInt(poNotEqualCaseSensitive)));
+      FOperator.Items.AddObject(rsPluginSearchContainsNotCase, TObject(PtrInt(poContainsCaseInsensitive)));
+      FOperator.Items.AddObject(rsPluginSearchNotContainsNotCase, TObject(PtrInt(poNotContainsCaseInsensitive)));
+      FOperator.Items.AddObject(rsPluginSearchContainsCaseSenstive, TObject(PtrInt(poContainsCaseSensitive)));
+      FOperator.Items.AddObject(rsPluginSearchNotContainsCaseSenstive, TObject(PtrInt(poNotContainsCaseSensitive)));
     end;
   FT_FULLTEXT,
   FT_FULLTEXTW:
     begin
       FValue.Style:= csDropDown;
-      FOperator.Items.AddObject('contains', TObject(PtrInt(poContains)));
-      FOperator.Items.AddObject('!contains', TObject(PtrInt(poNotContains)));
-      FOperator.Items.AddObject('contains(case)', TObject(PtrInt(poContainsCase)));
-      FOperator.Items.AddObject('!contains(case)', TObject(PtrInt(poNotContainsCase)));
+      FOperator.Items.AddObject(rsPluginSearchContainsNotCase, TObject(PtrInt(poContainsCaseInsensitive)));
+      FOperator.Items.AddObject(rsPluginSearchNotContainsNotCase, TObject(PtrInt(poNotContainsCaseInsensitive)));
+      FOperator.Items.AddObject(rsPluginSearchContainsCaseSenstive, TObject(PtrInt(poContainsCaseSensitive)));
+      FOperator.Items.AddObject(rsPluginSearchNotContainsCaseSenstive, TObject(PtrInt(poNotContainsCaseSensitive)));
     end;
   end;
   if FOperator.Items.Count > 0 then FOperator.ItemIndex:= 0;

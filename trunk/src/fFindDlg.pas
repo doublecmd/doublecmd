@@ -2059,6 +2059,19 @@ begin
     // plugins
     cmbPlugin.Text := SearchPlugin;
     frmContentPlugins.Load(Template);
+
+    //Let's switch to the most pertinent tab after having load the template.
+    //If we would just load and no switching, user has not a real feedback visually he loaded something.
+    //1. If we're using at least plug in, switch to it.
+    //2. If not but we're using at least something from the "Advanced" tab, switch to it.
+    //3. If nothing above, at least switch to "Standard" tab.
+    if (cbUsePlugin.Checked OR frmContentPlugins.chkUsePlugins.Checked) then
+      pgcSearch.ActivePage := tsPlugins
+    else
+      if (cbNotOlderThan.Checked OR cbFileSizeFrom.Checked OR cbFileSizeTo.Checked OR cbDateFrom.Checked OR cbDateTo.Checked OR cbTimeFrom.Checked OR cbTimeTo.Checked OR (edtAttrib.Text<>'')) then
+        pgcSearch.ActivePage := tsAdvanced
+      else
+        pgcSearch.ActivePage := tsStandard;
   end;
 end;
 
