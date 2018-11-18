@@ -565,6 +565,14 @@ resourcestring
   rsPluginSearchFieldNotFound = 'Field "%s" not found!';
   rsPluginSearchPluginNotFound = 'Plugin "%s" not found!';
   rsPluginSearchUnitNotFound = 'Unit "%s" not found!';
+  rsPluginSearchContainsNotCase = 'contains';
+  rsPluginSearchNotContainsNotCase = '!contains';
+  rsPluginSearchContainsCaseSenstive = 'contains(case)';
+  rsPluginSearchNotContainsCaseSenstive = '!contains(case)';
+  rsPluginSearchEqualNotCase = '=';
+  rsPluginSearchNotEqualNotCase = '!=';
+  rsPluginSearchEqualCaseSensitive = '=(case)';
+  rsPluginSearchNotEquaCaseSensitive = '!=(case)';
 
   rsTimeUnitSecond = 'Second(s)';
   rsTimeUnitMinute = 'Minute(s)';
@@ -740,6 +748,8 @@ resourcestring
   rsSimpleWordResult = 'Result';
   rsSimpleWordColumnSingular = 'Column';
   rsSimpleWordLetter = 'Letter';
+  rsSimpleWordTrue = 'True';
+  rsSimpleWordFalse = 'False';
 
   // Plugins
   rsOptPluginsActive = 'Active';

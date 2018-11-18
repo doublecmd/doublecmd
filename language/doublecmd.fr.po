@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.1 beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2018-11-16 23:35-0500\n"
+"PO-Revision-Date: 2018-11-17 23:27-0500\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -8742,10 +8742,12 @@ msgid "duplicates"
 msgstr "dupliqué"
 
 #: tfrmsyncdirsdlg.sbequal.caption
+msgctxt "tfrmsyncdirsdlg.sbequal.caption"
 msgid "="
 msgstr "="
 
 #: tfrmsyncdirsdlg.sbnotequal.caption
+msgctxt "tfrmsyncdirsdlg.sbnotequal.caption"
 msgid "!="
 msgstr "!="
 
@@ -12324,9 +12326,43 @@ msgstr "ne change pas de position;utilise les mêmes option que pour les nouveau
 msgid "With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following"
 msgstr "Avec chemin absolu complet;Chemin relatif à %COMMANDER_PATH%;Relatif au chemin suivant"
 
+#: ulng.rspluginsearchcontainscasesenstive
+msgid "contains(case)"
+msgstr "contient(exact)"
+
+#: ulng.rspluginsearchcontainsnotcase
+msgid "contains"
+msgstr "contient"
+
+#: ulng.rspluginsearchequalcasesensitive
+msgid "=(case)"
+msgstr "=(exact)"
+
+#: ulng.rspluginsearchequalnotcase
+msgctxt "ulng.rspluginsearchequalnotcase"
+msgid "="
+msgstr "="
+
 #: ulng.rspluginsearchfieldnotfound
 msgid "Field \"%s\" not found!"
 msgstr "Champ \"%s\" introuvable!"
+
+#: ulng.rspluginsearchnotcontainscasesenstive
+msgid "!contains(case)"
+msgstr "!contient(exact)"
+
+#: ulng.rspluginsearchnotcontainsnotcase
+msgid "!contains"
+msgstr "!contient"
+
+#: ulng.rspluginsearchnotequacasesensitive
+msgid "!=(case)"
+msgstr "!=(exact)"
+
+#: ulng.rspluginsearchnotequalnotcase
+msgctxt "ulng.rspluginsearchnotequalnotcase"
+msgid "!="
+msgstr "!="
 
 #: ulng.rspluginsearchpluginnotfound
 msgid "Plugin \"%s\" not found!"
@@ -12441,6 +12477,10 @@ msgctxt "ulng.rssimplewordcommand"
 msgid "Command"
 msgstr "Commande"
 
+#: ulng.rssimplewordfalse
+msgid "False"
+msgstr "Faux"
+
 #: ulng.rssimplewordfilename
 msgid "Filename"
 msgstr "Nom de fichier"
@@ -12460,6 +12500,10 @@ msgstr "Paramètre"
 #: ulng.rssimplewordresult
 msgid "Result"
 msgstr "Résultat"
+
+#: ulng.rssimplewordtrue
+msgid "True"
+msgstr "Vrai"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
