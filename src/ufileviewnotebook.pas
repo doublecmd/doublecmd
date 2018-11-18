@@ -128,8 +128,6 @@ type
 
     procedure DoCloseTabClicked(APage: TCustomPage); override;
 
-    function GetMinimumTabHeight: Integer; override;
-
     {$IFDEF MSWINDOWS}
     {en
        Removes the rectangle of the pages contents from erasing background to reduce flickering.
@@ -172,6 +170,7 @@ type
 
   protected
     procedure DoChange;
+    procedure UpdatePagePosition(AIndex, ASpacing: Integer);
     procedure DoSetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
 
@@ -262,7 +261,6 @@ begin
   ControlStyle := ControlStyle + [csAcceptsControls, csDesignFixedBounds, csNoDesignVisible, csNoFocus];
 
   // Height and width depends on parent, align to client rect
-  Align := alClient;
   Caption := '';
   Visible := False;
 end;
@@ -526,92 +524,27 @@ end;
 
 procedure TFileViewPageControl.TabControlBoundsChange(Data: PtrInt);
 var
-  NewHeight: LongInt;
-  NewWidth: LongInt;
+  AIndex: Integer;
+  ASpacing: Integer;
 begin
-  case TabPosition of
-  tpTop, tpBottom:
-    begin
-      NewHeight:= TabHeight;
-      if NewHeight <= 0 then
-        NewHeight:= GetMinimumTabHeight;
-      // NewHeight:= Min(ClientHeight, NewHeight);
-      if TabPosition = tpTop then
-        SetBounds(0, 0, ClientWidth, NewHeight)
-      else
-        SetBounds(0, ClientHeight - NewHeight, ClientWidth, NewHeight);
+  if PageIndex >= 0 then
+  begin
+    if not Visible then
+      ASpacing:= 0
+    else begin
+      case TabPosition of
+        tpTop:    ASpacing:= (Page[PageIndex].ClientOrigin.Y - Notebook.ClientOrigin.Y);
+        tpBottom: ASpacing:= (Notebook.ClientOrigin.Y + Notebook.Height) - (Page[PageIndex].ClientOrigin.Y + Page[PageIndex].Height);
+      end;
     end;
 
-  tpLeft, tpRight:
+    for AIndex:= 0 to PageCount - 1 do
     begin
-      NewWidth:= Max(TabHeight, GetMinimumTabWidth);
-      NewWidth:= Min(Width, NewWidth);
-      if TabPosition = tpLeft then
-        SetBounds(0, 0, NewWidth, ClientHeight)
-      else
-        SetBounds(ClientWidth - NewWidth, 0, NewWidth, ClientHeight);
+      Notebook.UpdatePagePosition(AIndex, ASpacing);
     end;
   end;
 
   Invalidate;
-end;
-
-function TFileViewPageControl.GetMinimumTabHeight: Integer;
-{$IF DEFINED(LCLGTK2)}
-var
-  TabOverlap: gint;
-  StyleObject: PStyleObject;
-  NoteBookWidget: PGtkNotebook;
-  TabWidget, PageWidget: PGtkWidget;
-{$ENDIF}
-begin
-  Result:= inherited GetMinimumTabHeight;
-{$IF DEFINED(LCLGTK2)}
-  if HandleAllocated then
-  begin
-    NoteBookWidget:= {%H-}PGtkNotebook(Handle);
-    if Assigned(NoteBookWidget) then
-    begin
-      PageWidget:= gtk_notebook_get_nth_page(NoteBookWidget, PageIndex);
-      if Assigned(PageWidget) then
-      begin
-        if (TabPosition = tpBottom) then
-        begin
-          gtk_widget_style_get({%H-}PGtkWidget(Handle),
-                               'tab-overlap', @TabOverlap,
-                               nil);
-          Result:= Result + TabOverlap;
-        end;
-
-        if nboShowCloseButtons in Options then
-        begin
-          // Get tab label height with close buttons
-          TabWidget:= gtk_notebook_get_tab_label(NotebookWidget, PageWidget);
-          if Assigned(TabWidget) then
-          begin
-            TabOverlap:= TabWidget^.allocation.height;
-
-            // Get tab label height without close buttons
-            StyleObject:= StandardStyles[lgsNotebook];
-            NotebookWidget:= PGtkNoteBook(StyleObject^.Widget);
-            if Assigned(NotebookWidget) then
-            begin
-              PageWidget:= gtk_notebook_get_nth_page(NotebookWidget, 0);
-              if Assigned(PageWidget) then
-              begin
-                TabWidget:= gtk_notebook_get_tab_label(NotebookWidget, PageWidget);
-                // Increase height by size difference
-                if Assigned(TabWidget) then
-                  Result+= (TabOverlap - TabWidget^.allocation.height);
-              end;
-            end;
-          end;
-        end;
-      end;
-    end;
-  end;
-  // WriteLn('GetMinimumTabHeight: ', Result);
-{$ENDIF}
 end;
 
 procedure TFileViewPageControl.DoChange;
@@ -725,7 +658,7 @@ begin
   inherited Create(ParentControl);
   ControlStyle := ControlStyle + [csNoFocus];
 
-  Align := alTop;
+  Align := alClient;
   TabStop := False;
   ShowHint := True;
   Parent := ParentControl;
@@ -890,6 +823,10 @@ begin
 
   Result.Parent:= Self;
 
+  Result.BringToFront;
+
+  Result.AnchorAsAlign(alClient, 0);
+
   Result.Visible:= (PageIndex = Index);
 
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
@@ -1047,12 +984,14 @@ end;
 
 procedure TFileViewNotebook.SetTabPosition(AValue: TTabPosition);
 begin
-  FPageControl.TabPosition:= AValue;
-  case FPageControl.TabPosition of
-    tpTop: FPageControl.Align:= alTop;
-    tpBottom: FPageControl.Align:= alBottom;
+  if FPageControl.TabPosition <> AValue then
+  begin
+    FPageControl.TabPosition:= AValue;
+{$IF DEFINED(LCLCARBON)}
+    RecreateWnd(Self);
+{$ENDIF}
+    Application.QueueAsyncCall(@FPageControl.TabControlBoundsChange, 0);
   end;
-  Application.QueueAsyncCall(@FPageControl.TabControlBoundsChange, 0);
 end;
 
 procedure TFileViewNotebook.DoChange;
@@ -1077,6 +1016,26 @@ begin
   end;
 
   ActivePage.DoActivate;
+end;
+
+procedure TFileViewNotebook.UpdatePagePosition(AIndex, ASpacing: Integer);
+begin
+  with Page[AIndex] do
+  begin
+    case FPageControl.TabPosition of
+      tpTop:
+        begin
+          BorderSpacing.Bottom:= 0;
+          BorderSpacing.Top:= ASpacing;
+        end;
+      tpBottom:
+        begin
+          BorderSpacing.Top:= 0;
+          BorderSpacing.Bottom:= ASpacing;
+        end;
+    end;
+    BringToFront;
+  end;
 end;
 
 procedure TFileViewNotebook.DoSetBounds(ALeft, ATop, AWidth, AHeight: Integer);
