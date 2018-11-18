@@ -762,7 +762,7 @@ resourcestring
   rsOptPluginDisable = 'D&isable';
   rsOptPluginShowByPlugin = 'By Plugin';
   rsOptPluginShowByExtension = 'By extension';
-  rsOptPluginSortOnlyWhenByExtension = 'Sorting WCX plugins is only possible when showing plugins by extension';
+  rsOptPluginSortOnlyWhenByExtension = 'Sorting WCX plugins is only possible when showing plugins by extension!';
   rsPluginFilenameStyleList = 'With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following';  
   //-------------------------------
   rsOptSortMethod = 'Alphabetical, considering accents;Natural sorting: alphabetical and numbers';
