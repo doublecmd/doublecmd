@@ -12172,7 +12172,7 @@ msgid "Name"
 msgstr "Name"
 
 #: ulng.rsoptpluginsortonlywhenbyextension
-msgid "Sorting WCX plugins is only possible when showing plugins by extension"
+msgid "Sorting WCX plugins is only possible when showing plugins by extension!"
 msgstr ""
 
 #: ulng.rsoptpluginsregisteredfor

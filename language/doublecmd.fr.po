@@ -12209,8 +12209,8 @@ msgid "Name"
 msgstr "Nom"
 
 #: ulng.rsoptpluginsortonlywhenbyextension
-msgid "Sorting WCX plugins is only possible when showing plugins by extension"
-msgstr "Le tri des plugins WCX n'est possible que si vous affichez les plugins par extension"
+msgid "Sorting WCX plugins is only possible when showing plugins by extension!"
+msgstr "Le tri des plugins WCX n'est possible que si vous affichez les plugins par extension!"
 
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
@@ -12949,3 +12949,4 @@ msgstr "Nombre de remplacements : %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Aucun remplacement n'a eu lieu."
+
