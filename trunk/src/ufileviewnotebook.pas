@@ -987,8 +987,9 @@ begin
   if FPageControl.TabPosition <> AValue then
   begin
     FPageControl.TabPosition:= AValue;
-{$IF DEFINED(LCLCARBON)}
-    RecreateWnd(Self);
+{$IF DEFINED(LCLWIN32) or DEFINED(LCLCARBON)}
+    // Fix Z-order, it's wrong when only one tab
+    if PageCount = 1 then RecreateWnd(Self);
 {$ENDIF}
     Application.QueueAsyncCall(@FPageControl.TabControlBoundsChange, 0);
   end;
