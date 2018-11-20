@@ -2497,6 +2497,13 @@ object frmMain: TfrmMain
       Caption = '&Tree View Panel'
       OnExecute = actExecute
     end
+    object actFocusTreeView: TAction
+      Tag = 16
+      Category = 'Window'
+      Caption = 'Focus on tree view'
+      Hint = 'Switch between current file list and tree view (if enabled)'
+      OnExecute = actExecute
+    end
     object actConfigFolderTabs: TAction
       Tag = 5
       Category = 'Configuration'

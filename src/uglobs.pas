@@ -135,7 +135,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 45;
+  hkVersion = 46;
   // 40 - In "Main" context, added the "Ctrl+Shift+F7" for "cm_AddNewSearch".
   //      In "Find Files" context, changed "cm_Start" that was "Enter" for "F9".
   //      In "Find Files" context, added "Alt+F7" as a valid alternative for "cm_PageStandard".
@@ -952,6 +952,7 @@ begin
       AddIfNotExists(['Shift+F5'],[],'cm_CopySamePanel');
       AddIfNotExists(['Shift+F10'],[],'cm_ContextMenu');
       AddIfNotExists(['Shift+F12'],[],'cm_DoAnyCmCommand');
+      AddIfNotExists(['Shift+Tab'],[],'cm_FocusTreeView');
       AddIfNotExists(['Alt+V'],[],'cm_OperationsViewer');
       AddIfNotExists(['Alt+X'],[],'cm_Exit');
       AddIfNotExists(['Alt+Z'],[],'cm_TargetEqualSource');
@@ -1015,7 +1016,12 @@ begin
       AddIfNotExists(['Ctrl+Shift+Home'],[],'cm_ChangeDirToHome');
       AddIfNotExists(['Ctrl+Left'],[],'cm_TransferLeft');
       AddIfNotExists(['Ctrl+Right'],[],'cm_TransferRight');
-      AddIfNotExists(['Shift+Tab'],[],'cm_NextGroup');
+
+      if HotMan.Version < 46 then
+      begin
+        HMHotKey:= FindByCommand('cm_NextGroup');
+        if Assigned(HMHotKey) then Remove(HMHotKey);
+      end;
 
       AddIfNotExists(VK_C, [ssModifier], 'cm_CopyToClipboard');
       AddIfNotExists(VK_V, [ssModifier], 'cm_PasteFromClipboard');

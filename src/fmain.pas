@@ -116,6 +116,7 @@ type
     actUnmarkCurrentPath: TAction;
     actMarkCurrentPath: TAction;
     actTreeView: TAction;
+    actFocusTreeView: TAction;
     actToggleFullscreenConsole: TAction;
     actSrcOpenDrives: TAction;
     actRightReverseOrder: TAction;
