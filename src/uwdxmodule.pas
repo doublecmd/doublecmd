@@ -393,9 +393,6 @@ begin
            AConfig.TryGetValue(ANode, 'Path', APath) then
         begin
           // Create a correct object based on plugin file extension.
-          APath := GetCmdDirFromEnvVar(APath);
-          DCDebug('WDX: LOAD: ' + APath);
-
           if UpCase(ExtractFileExt(APath)) = '.LUA' then
             AWdxModule := TLuaWdx.Create
           else
@@ -909,6 +906,8 @@ begin
 end;
 
 function TLuaWdx.LoadModule: Boolean;
+var
+  sAbsolutePathFilename: string;
 begin
   Result := False;
   if not IsLuaLibLoaded then
@@ -922,9 +921,11 @@ begin
 
   RegisterPackages(L);
 
-  SetPackagePath(L, ExtractFilePath(FFileName));
+  sAbsolutePathFilename := mbExpandFileName(FFilename);
+  DCDebug('FFilename=' + sAbsolutePathFilename);
+  SetPackagePath(L, ExtractFilePath(sAbsolutePathFilename));
 
-  if DoScript(Self.FFileName) = 0 then
+  if DoScript(sAbsolutePathFilename) = 0 then
     Result := True
   else
     Result := False;
