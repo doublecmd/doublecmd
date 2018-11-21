@@ -1036,7 +1036,7 @@ begin
           BorderSpacing.Bottom:= ASpacing;
         end;
     end;
-{$IF DEFINED(CARBON) or DEFINED(COCOA)}
+{$IF DEFINED(LCLCARBON) or DEFINED(LCLCOCOA)}
     if Visible then BringToFront;
 {$ELSEIF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
     BringToFront;
