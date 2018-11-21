@@ -2240,6 +2240,14 @@ msgstr "交换焦点"
 msgid "Switch between left and right file list"
 msgstr "在左侧和右侧文件列表之间切换"
 
+#: tfrmmain.actfocustreeview.caption
+msgid "Focus on tree view"
+msgstr ""
+
+#: tfrmmain.actfocustreeview.hint
+msgid "Switch between current file list and tree view (if enabled)"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "将光标置于列表中的第一个文件"
