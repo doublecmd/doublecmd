@@ -58,6 +58,7 @@ type
     procedure FillRecord(const Value: TFTPListRec); override;
   public
     procedure Clear; override;
+    procedure ParseLines; override;
     procedure Assign(Value: TFTPList); override;
   end;
 
@@ -209,6 +210,21 @@ procedure TFTPListEx.Clear;
 begin
   FIndex := 0;
   inherited Clear;
+end;
+
+procedure TFTPListEx.ParseLines;
+var
+  ATotal: Int64;
+begin
+  if FLines.Count > 0 then
+  begin
+    if Pos('total', FLines[0]) = 1 then
+    begin
+      if TryStrToInt64(Trim(Copy(FLines[0], 6, MaxInt)), ATotal) then
+        FLines.Delete(0);
+    end;
+  end;
+  inherited ParseLines;
 end;
 
 procedure TFTPListEx.FillRecord(const Value: TFTPListRec);
