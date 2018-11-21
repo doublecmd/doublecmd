@@ -2279,6 +2279,14 @@ msgstr "Сменить фокус"
 msgid "Switch between left and right file list"
 msgstr "Переключиться на другую файловую панель"
 
+#: tfrmmain.actfocustreeview.caption
+msgid "Focus on tree view"
+msgstr "Перейти в дерево каталогов"
+
+#: tfrmmain.actfocustreeview.hint
+msgid "Switch between current file list and tree view (if enabled)"
+msgstr "Переключиться между списком файлов и деревом (если включено)"
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Поместить курсор на первый файл в списке"

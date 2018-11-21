@@ -2235,6 +2235,14 @@ msgstr "Scherpstelling omwisselen"
 msgid "Switch between left and right file list"
 msgstr "Schakel tussen linker- en rechterbestandenlijst"
 
+#: tfrmmain.actfocustreeview.caption
+msgid "Focus on tree view"
+msgstr ""
+
+#: tfrmmain.actfocustreeview.hint
+msgid "Switch between current file list and tree view (if enabled)"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Plaats aanwijzer op eerste bestand in lijst"
