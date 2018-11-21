@@ -171,7 +171,6 @@ type
   protected
     procedure DoChange;
     procedure UpdatePagePosition(AIndex, ASpacing: Integer);
-    procedure DoSetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
 
   public
@@ -750,6 +749,8 @@ begin
 
   FPageControl:= TFileViewPageControl.Create(Self);
 
+  Constraints.MinHeight:= FPageControl.GetMinimumTabHeight * 2;
+
   Parent := ParentControl;
   TabStop := False;
   ShowHint := True;
@@ -988,8 +989,8 @@ begin
   begin
     FPageControl.TabPosition:= AValue;
 {$IF DEFINED(LCLWIN32) or DEFINED(LCLCARBON)}
-    // Fix Z-order, it's wrong when only one tab
-    if PageCount = 1 then RecreateWnd(Self);
+    // Fix Z-order, it's wrong after tab position change
+    RecreateWnd(Self);
 {$ENDIF}
     Application.QueueAsyncCall(@FPageControl.TabControlBoundsChange, 0);
   end;
@@ -1035,14 +1036,12 @@ begin
           BorderSpacing.Bottom:= ASpacing;
         end;
     end;
+{$IF DEFINED(CARBON) or DEFINED(COCOA)}
+    if Visible then BringToFront;
+{$ELSEIF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
     BringToFront;
+{$ENDIF}
   end;
-end;
-
-procedure TFileViewNotebook.DoSetBounds(ALeft, ATop, AWidth, AHeight: Integer);
-begin
-  inherited DoSetBounds(ALeft, ATop, AWidth, AHeight);
-  FPageControl.TabControlBoundsChange(0);
 end;
 
 procedure TFileViewNotebook.ActivateTabByIndex(Index: Integer);
