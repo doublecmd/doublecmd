@@ -207,6 +207,8 @@
 {"hash":15440613,"name":"tfrmmain.actcountdircontent.caption","sourcebytes":[83,104,111,38,119,32,79,99,99,117,112,105,101,100,32,83,112,97,99,101],"value":"Sho&w Occupied Space"},
 {"hash":135333461,"name":"tfrmmain.acttogglefullscreenconsole.caption","sourcebytes":[84,111,103,103,108,101,32,102,117,108,108,115,99,114,101,101,110,32,109,111,100,101,32,99,111,110,115,111,108,101],"value":"Toggle fullscreen mode console"},
 {"hash":35721468,"name":"tfrmmain.acttreeview.caption","sourcebytes":[38,84,114,101,101,32,86,105,101,119,32,80,97,110,101,108],"value":"&Tree View Panel"},
+{"hash":149035031,"name":"tfrmmain.actfocustreeview.caption","sourcebytes":[70,111,99,117,115,32,111,110,32,116,114,101,101,32,118,105,101,119],"value":"Focus on tree view"},
+{"hash":145180425,"name":"tfrmmain.actfocustreeview.hint","sourcebytes":[83,119,105,116,99,104,32,98,101,116,119,101,101,110,32,99,117,114,114,101,110,116,32,102,105,108,101,32,108,105,115,116,32,97,110,100,32,116,114,101,101,32,118,105,101,119,32,40,105,102,32,101,110,97,98,108,101,100,41],"value":"Switch between current file list and tree view (if enabled)"},
 {"hash":34270371,"name":"tfrmmain.actconfigfoldertabs.caption","sourcebytes":[67,111,110,102,105,103,117,114,97,116,105,111,110,32,111,102,32,102,111,108,100,101,114,32,116,97,98,115],"value":"Configuration of folder tabs"},
 {"hash":110317811,"name":"tfrmmain.actconfigfavoritetabs.caption","sourcebytes":[67,111,110,102,105,103,117,114,97,116,105,111,110,32,111,102,32,70,97,118,111,114,105,116,101,32,84,97,98,115],"value":"Configuration of Favorite Tabs"},
 {"hash":110489666,"name":"tfrmmain.actclosetab.caption","sourcebytes":[38,67,108,111,115,101,32,84,97,98],"value":"&Close Tab"},
