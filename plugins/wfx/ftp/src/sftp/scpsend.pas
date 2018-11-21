@@ -694,11 +694,6 @@ begin
       begin
         FDataStream.Position := 0;
         FFTPList.Lines.LoadFromStream(FDataStream);
-        if FFtpList.Lines.Count > 0 then
-        begin
-          if Pos('total', FFtpList.Lines[0]) = 1 then
-            FFtpList.Lines.Delete(0);
-        end;
         FFTPList.ParseLines;
       end;
       FDataStream.Position := 0;
