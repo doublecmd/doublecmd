@@ -71,7 +71,6 @@ mkdir -p $DC_INSTALL_DIR/plugins/dsx/dsxlocate
 # Copy files
 cp -a doublecmd                    $DC_INSTALL_DIR/
 cp -a doublecmd.zdli               $DC_INSTALL_DIR/
-cp -a install/linux/doublecmd.xml  $DC_INSTALL_DIR/
 cp -a doublecmd.ext.example        $DC_INSTALL_DIR/
 cp -a pixmaps.txt                  $DC_INSTALL_DIR/
 cp -a multiarc.ini                 $DC_INSTALL_DIR/
@@ -138,6 +137,8 @@ if [ -z $CK_PORTABLE ]
     install -d $DC_INSTALL_PREFIX/usr/share/polkit-1/actions
     install -m 644 install/linux/org.doublecmd.root.policy $DC_INSTALL_PREFIX/usr/share/polkit-1/actions/
   else
+    # Mark as portable version
+    touch $DC_INSTALL_DIR/doublecmd.inf
     # Copy documentation
     mkdir -p $DC_INSTALL_DIR/doc
     cp -a doc/*.txt $DC_INSTALL_DIR/doc/

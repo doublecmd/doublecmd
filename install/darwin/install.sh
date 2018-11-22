@@ -33,7 +33,6 @@ mkdir -p $DC_INSTALL_DIR/plugins/wfx/ftp
 cp -r doublecmd.app/*              $DC_APP_DIR/
 cp -a doublecmd                    $DC_INSTALL_DIR/
 cp -a doublecmd.zdli               $DC_INSTALL_DIR/
-cp -a install/darwin/doublecmd.xml $DC_INSTALL_DIR/
 cp -a doublecmd.ext.example        $DC_INSTALL_DIR/
 cp -a pixmaps.txt                  $DC_INSTALL_DIR/
 cp -a multiarc.ini                 $DC_INSTALL_DIR/

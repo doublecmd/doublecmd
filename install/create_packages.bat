@@ -62,7 +62,7 @@ rem Move created package
 move release\*.exe %PACK_DIR%
 
 rem Create *.zip package
-patch doublecmd/doublecmd.xml portable.diff
+copy NUL doublecmd\doublecmd.inf
 zip -9 -Dr %PACK_DIR%\doublecmd-%DC_VER%.%CPU_TARGET%-%OS_TARGET%.zip doublecmd 
 
 rem Create help packages
