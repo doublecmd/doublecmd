@@ -13,7 +13,7 @@ object DialogBox: TDialogBox
   ClientWidth = 440
   OnShow = DialogBoxShow
   Position = poScreenCenter
-  LCLVersion = '1.8.2.0'
+  LCLVersion = '1.8.4.0'
   object btnCancel: TButton
     AnchorSideTop.Control = PageControl
     AnchorSideTop.Side = asrBottom
@@ -26,6 +26,7 @@ object DialogBox: TDialogBox
     Width = 75
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 12
+    Cancel = True
     Caption = 'Cancel'
     ModalResult = 2
     OnClick = ButtonClick
