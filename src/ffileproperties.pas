@@ -5,7 +5,7 @@
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
    Copyright (C) 2003 Martin Matusu <xmat@volny.cz>
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -18,9 +18,7 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   in a file called COPYING along with this program; if not, write to
-   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA
-   02139, USA.
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fFileProperties;
@@ -592,22 +590,22 @@ begin
   aFiles.Add(FFiles.Items[iCurrent].Clone);
   FFileSourceCalcStatisticsOperation:= FFileSource.CreateCalcStatisticsOperation(aFiles) as TFileSourceCalcStatisticsOperation;
   if Assigned(FFileSourceCalcStatisticsOperation) then
-    begin
-      FFileSourceCalcStatisticsOperation.SkipErrors:= True;
-      FFileSourceCalcStatisticsOperation.SymLinkOption:= fsooslDontFollow;
-      FFileSourceCalcStatisticsOperation.AddStateChangedListener([fsosStopped], @FileSourceOperationStateChangedNotify);
-      OperationsManager.AddOperation(FFileSourceCalcStatisticsOperation);
-      tmUpdateFolderSize.Enabled:= True;
-    end;
+  begin
+    FFileSourceCalcStatisticsOperation.SkipErrors:= True;
+    FFileSourceCalcStatisticsOperation.SymLinkOption:= fsooslDontFollow;
+    FFileSourceCalcStatisticsOperation.AddStateChangedListener([fsosStopped], @FileSourceOperationStateChangedNotify);
+    OperationsManager.AddOperation(FFileSourceCalcStatisticsOperation, False);
+    tmUpdateFolderSize.Enabled:= True;
+  end;
 end;
 
 procedure TfrmFileProperties.StopCalcFolderSize;
 begin
   if Assigned(FFileSourceCalcStatisticsOperation) then
-    begin
-      tmUpdateFolderSize.Enabled:= False;
-      FFileSourceCalcStatisticsOperation.Stop;
-    end;
+  begin
+    tmUpdateFolderSize.Enabled:= False;
+    FFileSourceCalcStatisticsOperation.Stop;
+  end;
   FFileSourceCalcStatisticsOperation:= nil;
 end;
 
