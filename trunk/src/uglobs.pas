@@ -1869,34 +1869,41 @@ begin
     Exit(True);
 
   // Check global directory for XML config.
-  if (gpCmdLineCfgDir = EmptyStr) and
-     mbFileExists(gpGlobalCfgDir + 'doublecmd.xml') then
+  if (gpCmdLineCfgDir = EmptyStr) then
   begin
-    gConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml');
-    gUseConfigInProgramDir := True;
-    if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenRead or fmShareDenyWrite) then
+    gUseConfigInProgramDir:= mbFileExists(gpGlobalCfgDir + 'doublecmd.inf');
+
+    if gUseConfigInProgramDir or mbFileExists(gpGlobalCfgDir + 'doublecmd.xml') then
     begin
-      LoadConfigCheckErrors(@LoadGlobalConfig, gpGlobalCfgDir + 'doublecmd.xml', ErrorMessage);
-      gUseConfigInProgramDir := gConfig.GetValue(gConfig.RootNode, 'Configuration/UseConfigInProgramDir', False);
-      if not gUseConfigInProgramDir then
+      gConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml');
+      if mbFileExists(gpGlobalCfgDir + 'doublecmd.xml') then
       begin
-        if mbFileExists(gpCfgDir + 'doublecmd.xml') then
-          // Close global config so that the local config is opened below.
-          FreeAndNil(gConfig)
+        if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenRead or fmShareDenyWrite) then
+        begin
+          LoadConfigCheckErrors(@LoadGlobalConfig, gpGlobalCfgDir + 'doublecmd.xml', ErrorMessage);
+          gConfig.TryGetValue(gConfig.RootNode, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDir);
+
+          if not gUseConfigInProgramDir then
+          begin
+            if mbFileExists(gpCfgDir + 'doublecmd.xml') then
+              // Close global config so that the local config is opened below.
+              FreeAndNil(gConfig)
+            else
+              // Local config is used but it doesn't exist. Use global config that has just
+              // been read but set file name accordingly and later save to local config.
+              gConfig.FileName := gpCfgDir + 'doublecmd.xml';
+          end;
+        end
         else
-          // Local config is used but it doesn't exist. Use global config that has just
-          // been read but set file name accordingly and later save to local config.
-          gConfig.FileName := gpCfgDir + 'doublecmd.xml';
+        begin
+          // Configuration file is not readable.
+          AddStrWithSep(ErrorMessage,
+              'Config file "' + gpGlobalCfgDir + 'doublecmd.xml' +
+              '" exists but is not readable.',
+              LineEnding);
+          Exit(False);
+        end;
       end;
-    end
-    else
-    begin
-      // Configuration file is not readable.
-      AddStrWithSep(ErrorMessage,
-          'Config file "' + gpGlobalCfgDir + 'doublecmd.xml' +
-          '" exists but is not readable.',
-          LineEnding);
-      Exit(False);
     end;
   end;
 
@@ -2064,18 +2071,24 @@ begin
      (gpCmdLineCfgDir = EmptyStr) then
     begin
       LoadPaths;
+
       if gUseConfigInProgramDirNew then
       begin
         gpCfgDir := gpGlobalCfgDir;
         UpdateEnvironmentVariable;
+        FileClose(mbFileCreate(gpGlobalCfgDir + 'doublecmd.inf'));
+      end
+      else begin
+        if mbFileExists(gpGlobalCfgDir + 'doublecmd.inf') then
+          mbDeleteFile(gpGlobalCfgDir + 'doublecmd.inf')
       end;
 
-      { Save location of configuration files }
+      { Remove location of configuration files from XML}
       if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenWrite or fmShareDenyWrite) then
       begin
         TmpConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml', True);
         try
-          TmpConfig.SetValue(TmpConfig.RootNode, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDirNew);
+          TmpConfig.DeleteNode(TmpConfig.RootNode, 'Configuration/UseConfigInProgramDir');
           TmpConfig.Save;
         finally
           TmpConfig.Free;
