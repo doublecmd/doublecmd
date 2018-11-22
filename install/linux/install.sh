@@ -137,7 +137,7 @@ if [ -z $CK_PORTABLE ]
     install -d $DC_INSTALL_PREFIX/usr/share/polkit-1/actions
     install -m 644 install/linux/org.doublecmd.root.policy $DC_INSTALL_PREFIX/usr/share/polkit-1/actions/
   else
-    # Mark as portable version
+    # Make portable version
     touch $DC_INSTALL_DIR/doublecmd.inf
     # Copy documentation
     mkdir -p $DC_INSTALL_DIR/doc

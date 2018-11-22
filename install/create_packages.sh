@@ -116,7 +116,6 @@ if [ "$CK_PORTABLE" ]; then
   install/linux/install.sh --portable-prefix=$BUILD_PACK_DIR
   cp -r doc/en   $BUILD_PACK_DIR/doublecmd/doc
   cd $BUILD_PACK_DIR
-  sed -i -e 's/<UseConfigInProgramDir>False/<UseConfigInProgramDir>True/' doublecmd/doublecmd.xml
   tar -cJvf $PACK_DIR/doublecmd-$DC_VER.$lcl.$CPU_TARGET.tar.xz doublecmd
 fi
 
