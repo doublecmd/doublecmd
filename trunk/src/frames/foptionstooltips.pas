@@ -650,6 +650,7 @@ begin
     0: sMask := '[DC().' + MenuItem.Hint + '{}]';
     1: sMask := '[Plugin(' + MenuItem.Parent.Caption + ').' + MenuItem.Caption + '{}]';
     2: sMask := '[Plugin(' + MenuItem.Parent.Parent.Caption + ').' + MenuItem.Parent.Caption + '{' + MenuItem.Caption + '}]';
+    3: sMask := '[DC().' + MenuItem.Parent.Hint + '{' + MenuItem.Hint + '}] ';
     else
       sMask := EmptyStr;
   end;
