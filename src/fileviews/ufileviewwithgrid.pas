@@ -312,7 +312,7 @@ begin
         end;
     end
   { Open folder in new tab on middle click }
-  else if (Button = mbMiddle) then
+  else if (Button = mbMiddle) and MouseOnGrid(X, Y) then
     begin
       frmMain.Commands.cm_OpenDirInNewTab([]);
     end;
