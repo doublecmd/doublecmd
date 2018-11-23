@@ -1938,7 +1938,7 @@ begin
         end;
     end
   { Open folder in new tab on middle click }
-  else if (Button = mbMiddle) and (Y > GetHeaderHeight) then
+  else if (Button = mbMiddle) and (Y > GetHeaderHeight) and MouseOnGrid(X, Y) then
     begin
       frmMain.Commands.cm_OpenDirInNewTab([]);
     end;
