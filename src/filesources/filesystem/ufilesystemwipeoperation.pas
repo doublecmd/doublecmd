@@ -12,7 +12,7 @@
    degauss of the disk, or by disintegrating, incinerating,
    pulverizing, shreding, or melting the disk.
 
-   Copyright (C) 2008-2017  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
 
    Based on:
 
@@ -31,8 +31,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uFileSystemWipeOperation;
@@ -43,6 +42,7 @@ interface
 
 uses
   Classes, SysUtils,
+  ISAAC,
   uFileSourceWipeOperation,
   uFileSource,
   uFileSourceOperationOptions,
@@ -56,28 +56,27 @@ type
 
   TFileSystemWipeOperation = class(TFileSourceWipeOperation)
   private
-    FEverythingOK: Boolean;
-    FErrors,
-    files,
-    directories: Integer;
-    buffer: array [0..4095] of Byte;
-    procedure Fill(chr: Integer);
-    procedure SecureDelete(pass: Integer; FileName: String);
-    procedure WipeDir(dir: string);
-    procedure WipeFile(filename: String);
+    FRandom: isaac_ctx;
+    FBuffer: array [0..2, 0..4095] of Byte;
   private
-    FFullFilesTreeToDelete: TFiles;  // source files including all files/dirs in subdirectories
-    FStatistics: TFileSourceWipeOperationStatistics; // local copy of statistics
+    procedure Fill(Step: Integer);
+    function WipeDir(const FileName: String): Boolean;
+    function WipeFile(const FileName: String): Boolean;
+    function Rename(const FileName: String; out NewName: String): Boolean;
+  private
     FDescription: TDescription;
+    FFullFilesTreeToDelete: TFiles; // source files including all files/dirs in subdirectories
+    FStatistics: TFileSourceWipeOperationStatistics; // local copy of statistics
 
-    // Options.
-    FSymLinkOption: TFileSourceOperationOptionSymLink;
+    // Options
     FSkipErrors: Boolean;
+    FWipePassNumber: Integer;
+    FSymLinkOption: TFileSourceOperationOptionSymLink;
     FDeleteReadOnly: TFileSourceOperationOptionGeneral;
 
   protected
     procedure Wipe(aFile: TFile);
-    function ShowError(sMessage: String): TFileSourceOperationUIResponse;
+    function HandleError(const Message: String): Boolean;
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
   public
@@ -88,21 +87,21 @@ type
 
     procedure Initialize; override;
     procedure MainExecute; override;
-    procedure Finalize; override;
   end;
 
 implementation
 
 uses
-  uDebug, uLng, uFindEx, DCClassesUtf8, uFileSystemUtil, uRandom, DCOSUtils;
+  uDebug, uLng, DCClassesUtf8, uFileSystemUtil, uRandom, DCOSUtils;
 
 constructor TFileSystemWipeOperation.Create(aTargetFileSource: IFileSource;
                                             var theFilesToWipe: TFiles);
 begin
-  FSymLinkOption := fsooslNone;
   FSkipErrors := False;
+  FSymLinkOption := fsooslNone;
   FDeleteReadOnly := fsoogNone;
   FFullFilesTreeToDelete := nil;
+  FWipePassNumber:= gWipePassNumber;
 
   if gProcessComments then
     FDescription := TDescription.Create(True)
@@ -122,12 +121,14 @@ begin
     FreeAndNil(FDescription);
   end;
 
-  if Assigned(FFullFilesTreeToDelete) then
-    FreeAndNil(FFullFilesTreeToDelete);
+  FreeAndNil(FFullFilesTreeToDelete);
 end;
 
 procedure TFileSystemWipeOperation.Initialize;
 begin
+  Fill(0); Fill(1);
+  isaac_init(FRandom, Int32(GetTickCount64));
+
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
@@ -138,8 +139,6 @@ begin
 
   if gProcessComments then
     FDescription.Clear;
-
-  FEverythingOK := True;
 end;
 
 procedure TFileSystemWipeOperation.MainExecute;
@@ -175,252 +174,274 @@ begin
   end;
 end;
 
-procedure TFileSystemWipeOperation.Finalize;
-begin
-end;
-
 //fill buffer with characters
 //0 = with 0, 1 = with 1 and 2 = random
-procedure TFileSystemWipeOperation.Fill(chr: Integer);
+procedure TFileSystemWipeOperation.Fill(Step: Integer);
 var
+  Index: Integer;
   Count: Integer;
 begin
-  Count:= Length(buffer);
-  case chr of
+  Count:= SizeOf(FBuffer[Step]);
+  case Step of
     0:
       begin
         Count:= Count div SizeOf(DWord);
-        FillDWord(buffer[0], Count, $00000000);
+        FillDWord(FBuffer[Step, 0], Count, $00000000);
       end;
     1:
       begin
         Count:= Count div SizeOf(DWord);
-        FillDWord(buffer[0], Count, $FFFFFFFF);
+        FillDWord(FBuffer[Step, 0], Count, $FFFFFFFF);
       end;
     2:
       begin
-        Random(buffer, Count);
+        Index:= 0;
+        while Index < Count do
+        begin
+          Move(FRandom.randrsl[0], FBuffer[Step, Index], SizeOf(FRandom.randrsl));
+          Inc(Index, SizeOf(FRandom.randrsl));
+          isaac_generate(FRandom);
+        end;
       end;
   end;
 end;
 
-procedure TFileSystemWipeOperation.SecureDelete(pass: Integer; FileName: String);
+function TFileSystemWipeOperation.Rename(const FileName: String; out NewName: String): Boolean;
 var
-  i, j, n: Integer;
-  max: Int64;
-  fs: TFileStreamEx;
-  sTempFileName: String; // renames file to delete
+  bRetry: Boolean;
 begin
-  if mbFileAccess(FileName, fmOpenWrite) then
-    begin
-      sTempFileName:= GetTempName(ExtractFilePath(FileName)) + '.tmp';
-      if mbRenameFile(FileName, sTempFileName) then
-        begin
-          FileName:= sTempFileName;
-        end
-      else
-        begin
-          ShowError(Format(rsMsgErrRename, [FileName, sTempFileName]));
-          Exit;
-        end;
-    end
-  else
-    begin
-      ShowError(rsMsgErrEOpen + #32 + FileName);
-      Exit;
-    end;
+  repeat
+    bRetry := False;
+    NewName:= GetTempName(ExtractFilePath(FileName)) + '.tmp';
+    Result := mbRenameFile(FileName, NewName);
+    if not Result then
+      bRetry := HandleError(Format(rsMsgErrRename, [FileName, NewName]));
+  until not bRetry;
+end;
 
-  fs := TFilestreamEx.Create(FileName, fmOpenReadWrite or fmShareExclusive);
+function TFileSystemWipeOperation.WipeDir(const FileName: String): Boolean;
+var
+  bRetry: Boolean;
+  sTempFileName: String;
+begin
+  Result:= Rename(FileName, sTempFileName);
+  if Result then
+  begin
+    repeat
+      bRetry := False;
+      Result:= mbRemoveDir(sTempFileName);
+      if not Result then
+        bRetry := HandleError(Format(rsMsgCannotDeleteDirectory, [sTempFileName]));
+    until not bRetry;
+  end;
+end;
+
+function TFileSystemWipeOperation.WipeFile(const FileName: String): Boolean;
+var
+  i, j: Integer;
+  bRetry: Boolean;
+  sTempFileName: String;
+  TotalBytesToWrite: Int64;
+  TargetFileStream: TFileStreamEx;
+  BytesToWrite, BytesWrittenTry, BytesWritten: Int64;
+begin
+  // Check file access
+  repeat
+    bRetry := False;
+    Result:= mbFileAccess(FileName, fmOpenWrite);
+    if not Result then begin
+      bRetry := HandleError(rsMsgErrEOpen + ' ' + FileName);
+      if not bRetry then Exit(False);
+    end;
+  until not bRetry;
+
+  if not Rename(FileName, sTempFileName) then
+    Exit(False);
+
+  // Try to open file
+  repeat
+    bRetry := False;
+    try
+      TargetFileStream := TFilestreamEx.Create(sTempFileName, fmOpenReadWrite or fmShareExclusive);
+    except
+      on E: Exception do
+      begin
+        bRetry := HandleError(rsMsgErrEOpen + ' ' + sTempFileName + LineEnding + E.Message);
+        if not bRetry then Exit(False);
+      end;
+    end;
+  until not bRetry;
+
   try
-    for i := 1 to pass do
+    for i := 1 to FWipePassNumber do
     begin
-      //---------------Progress--------------
       CheckOperationState; // check pause and stop
-      FStatistics.CurrentFileTotalBytes:= fs.Size * 3;
+      FStatistics.CurrentFileTotalBytes:= TargetFileStream.Size * 3;
       FStatistics.CurrentFileDoneBytes:= 0;
       UpdateStatistics(FStatistics);
-      //-------------------------------------
+
       for j:= 0 to 2 do
       begin
-        fill(j);
-        max := fs.Size;
-        fs.Position := 0;
-        while max > 0 do
+        TargetFileStream.Position := 0;
+        TotalBytesToWrite := TargetFileStream.Size;
+
+        while TotalBytesToWrite > 0 do
         begin
-          if max > SizeOf(buffer) then
-             n := SizeOf(buffer)
-          else
-            n := max;
-          fs.Write(Buffer, n);
-          max := max - n;
-          //---------------Progress--------------
+          BytesWritten := 0;
+
+          if (j = 2) then Fill(j);
+
+          if TotalBytesToWrite > SizeOf(FBuffer[j]) then
+            BytesToWrite := SizeOf(FBuffer[j])
+          else begin
+            BytesToWrite := TotalBytesToWrite;
+          end;
+
+          repeat
+            bRetry := False;
+            try
+              BytesWrittenTry := TargetFileStream.Write(FBuffer[j, BytesWritten], BytesToWrite);
+              BytesWritten := BytesWritten + BytesWrittenTry;
+              if BytesWrittenTry = 0 then
+              begin
+                raise EWriteError.Create(mbSysErrorMessage(GetLastOSError));
+              end
+              else if BytesWritten < BytesToWrite then
+              begin
+                bRetry := True; // repeat and try to write the rest
+                Dec(BytesToWrite, BytesWrittenTry);
+              end;
+            except
+              on E: Exception do
+              begin
+                bRetry:= HandleError(rsMsgErrEWrite + ' ' + sTempFileName + LineEnding + E.Message);
+                if not bRetry then Exit(False);
+              end;
+            end;
+          until not bRetry;
+          Dec(TotalBytesToWrite, BytesWritten);
+
           with FStatistics do
           begin
-            Inc(CurrentFileDoneBytes, n);
-            Inc(DoneBytes, n div (3 * pass));
+            Inc(CurrentFileDoneBytes, BytesWritten);
+            Inc(DoneBytes, BytesWritten div (3 * Int64(FWipePassNumber)));
             UpdateStatistics(FStatistics);
             CheckOperationState; // check pause and stop
           end;
-          //-------------------------------------
         end;
-        FileFlush(fs.Handle);
+        // Flush data to disk
+        repeat
+          bRetry := False;
+          Result := FileFlush(TargetFileStream.Handle);
+          if not Result then begin
+            bRetry := HandleError(rsMsgErrEWrite + ' ' + sTempFileName + LineEnding + mbSysErrorMessage);
+            if not bRetry then Exit;
+          end;
+        until not bRetry;
         CheckOperationState; // check pause and stop
       end;
     end;
-    FileTruncate(fs.Handle, 0);
-    FreeAndNil(fs);
-  except
-    on E: Exception do
-    begin
-      FreeAndNil(fs);
-      ShowError(E.Message);
-      Exit;
-    end;
+    // Truncate file size to zero
+    repeat
+      bRetry := False;
+      Result := FileTruncate(TargetFileStream.Handle, 0);
+      if not Result then begin
+        bRetry := HandleError(rsMsgErrEWrite + ' ' + sTempFileName + LineEnding + mbSysErrorMessage);
+        if not bRetry then Exit;
+      end;
+    until not bRetry;
+  finally
+    FreeAndNil(TargetFileStream);
   end;
 
-  if not mbDeleteFile(FileName) then
-    begin
-      ShowError(Format(rsMsgNotDelete, [FileName]));
-      Exit;
+  if Result then
+  repeat
+    bRetry := False;
+    Result := mbDeleteFile(sTempFileName);
+    if not Result then begin
+      bRetry := HandleError(Format(rsMsgNotDelete, [sTempFileName]) + LineEnding + mbSysErrorMessage);
     end;
-  files:= files+1;
-  // DCDebug('OK');
-  FEverythingOK:= True;
-end;
-
-procedure TFileSystemWipeOperation.WipeDir(dir: string);
-var
-  Search: TSearchRecEx;
-  ok: Integer;
-  sPath: String;
-begin
-  sPath:= IncludeTrailingPathDelimiter(dir);
-  ok:= FindFirstEx(sPath + '*', faAnyFile, Search);
-  while ok = 0 do  begin
-    if ((Search.Name <> '.' ) and (Search.Name <> '..')) then
-      begin
-        //remove read-only attr
-        try
-          if not mbFileSetReadOnly(sPath + Search.Name, False) then
-            DCDebug('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
-        except
-          DCDebug('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
-        end;
-
-        if fpS_ISDIR(Search.Attr) then
-          begin
-            // DCDebug('Entering '+ sPath + Search.Name);
-            WipeDir(sPath + Search.Name);
-          end
-        else
-          begin
-            // DCDebug('Wiping '+ sPath + Search.Name);
-            SecureDelete(gWipePassNumber, sPath + Search.Name);
-          end;
-      end;
-    ok:= FindNextEx(Search);
-  end;
-  FindCloseEx(Search);
-  try
-    if FEverythingOK then
-      begin
-        // DCDebug('Wiping ' + dir);
-
-        if not mbRemoveDir(dir) then
-          begin
-            DCDebug('wp: error wiping directory ' + dir);
-            // write log -------------------------------------------------------------------
-            LogMessage(Format(rsMsgLogError+rsMsgLogWipeDir, [dir]), [log_dir_op, log_delete], lmtError);
-            //------------------------------------------------------------------------------
-          end
-        else
-          begin
-            directories:= directories + 1;
-            // DCDebug('OK');
-            // write log -------------------------------------------------------------------
-            LogMessage(Format(rsMsgLogSuccess+rsMsgLogWipeDir, [dir]), [log_dir_op, log_delete], lmtSuccess);
-            //------------------------------------------------------------------------------
-          end;
-      end;
-  except
-    on EInOutError do DCDebug('Couldn''t remove '+ dir);
-  end;
-end;
-
-procedure TFileSystemWipeOperation.WipeFile(filename: String);
-var
-  Found: Integer;
-  SRec: TSearchRecEx;
-  sPath: String;
-begin
-  sPath:= ExtractFilePath(filename);
-  { Use FindFirst so we can specify wild cards in the filename }
-  Found:= FindFirstEx(filename,faReadOnly or faSysFile or faArchive or faHidden, SRec);
-  if Found <> 0 then
-    begin
-      DCDebug('wp: file not found: ', filename);
-      FErrors:= FErrors + 1;
-      Exit;
-    end;
-    while Found = 0 do
-    begin
-      //remove read-only attr
-      try
-        if not mbFileSetReadOnly(sPath + SRec.Name, False) then
-          DCDebug('wp: FAILED when trying to remove read-only attr on '+ sPath + SRec.Name);
-      except
-        DCDebug('wp: can''t wipe '+ sPath + SRec.Name + ', file might be in use.');
-        FEverythingOK:= False;
-        FErrors:= FErrors + 1;
-        Exit;
-      end;
-
-      // DCDebug('Wiping ' + sPath + SRec.Name);
-      SecureDelete(gWipePassNumber, sPath + SRec.Name);
-      // write log -------------------------------------------------------------------
-      if FEverythingOK then
-        LogMessage(Format(rsMsgLogSuccess+rsMsgLogWipe, [sPath + SRec.Name]), [log_delete], lmtSuccess)
-      else
-        LogMessage(Format(rsMsgLogError+rsMsgLogWipe, [sPath + SRec.Name]), [log_delete], lmtError);
-      // -----------------------------------------------------------------------------
-      Found:= FindNextEx(SRec);   { Find the next file }
-    end;
-    FindCloseEx(SRec);
+  until not bRetry;
 end;
 
 procedure TFileSystemWipeOperation.Wipe(aFile: TFile);
 var
   FileName: String;
+  WipeResult: Boolean;
 begin
-  try
-    FileName:= aFile.Path + aFile.Name;
-    if aFile.AttributesProperty.IsDirectory then // directory
-      WipeDir(FileName)
-    else // files
-      WipeFile(FileName);
+  FileName := aFile.FullPath;
 
-    // process comments if need
-    if gProcessComments then
-      FDescription.DeleteDescription(FileName);
-  except
-    DCDebug('Can not wipe ', FileName);
+  if FileIsReadOnly(aFile.Attributes) then
+  begin
+    case FDeleteReadOnly of
+      fsoogNone:
+        case AskQuestion(Format(rsMsgFileReadOnly, [FileName]), '',
+                         [fsourYes, fsourSkip, fsourAbort, fsourAll, fsourSkipAll],
+                         fsourYes, fsourAbort) of
+          fsourAll:
+            FDeleteReadOnly := fsoogYes;
+          fsourSkip:
+            Exit;
+          fsourSkipAll:
+            begin
+              FDeleteReadOnly := fsoogNo;
+              Exit;
+            end;
+          fsourAbort:
+            RaiseAbortOperation;
+        end;
+
+       fsoogNo:
+         Exit;
+    end;
   end;
+
+  if FileIsReadOnly(aFile.Attributes) then
+    mbFileSetReadOnly(FileName, False);
+
+  if aFile.IsDirectory then // directory
+  begin
+    WipeResult := WipeDir(FileName);
+    if not WipeResult then
+      LogMessage(Format(rsMsgLogError + rsMsgLogWipeDir, [FileName]), [log_dir_op, log_delete], lmtError)
+    else begin
+      LogMessage(Format(rsMsgLogSuccess + rsMsgLogWipeDir, [FileName]), [log_dir_op, log_delete], lmtSuccess);
+    end;
+  end
+  else begin // files and other stuff
+    WipeResult := WipeFile(FileName);
+    if not WipeResult then
+      LogMessage(Format(rsMsgLogError + rsMsgLogWipe, [FileName]), [log_delete], lmtError)
+    else begin
+      LogMessage(Format(rsMsgLogSuccess + rsMsgLogWipe, [FileName]), [log_delete], lmtSuccess);
+    end;
+  end;
+
+  // Process comments if need
+  if WipeResult and gProcessComments then
+    FDescription.DeleteDescription(FileName);
 end;
 
-function TFileSystemWipeOperation.ShowError(sMessage: String): TFileSourceOperationUIResponse;
+function TFileSystemWipeOperation.HandleError(const Message: String): Boolean;
 begin
-  FEverythingOK:= False;
-  Inc(FErrors);
+  Result := False;
   if gSkipFileOpError then
   begin
-    logWrite(Thread, sMessage, lmtError, True);
-    Result := fsourSkip;
+    logWrite(Thread, Message, lmtError, True);
   end
-  else
+  else if not FSkipErrors then
   begin
-    Result := AskQuestion(sMessage, '', [fsourSkip, fsourCancel], fsourSkip, fsourCancel);
-    if Result = fsourCancel then
-      RaiseAbortOperation;
+    case AskQuestion(Message, '',
+                     [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
+                     fsourRetry, fsourSkip) of
+      fsourRetry:
+        Result := True;
+      fsourAbort:
+        RaiseAbortOperation;
+      fsourSkip: ; // Do nothing
+      fsourSkipAll:
+        FSkipErrors := True;
+    end;
   end;
 end;
 
