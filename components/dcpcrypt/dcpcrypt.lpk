@@ -30,7 +30,7 @@
         </Debugging>
       </Linking>
       <Other>
-        <CustomOptions Value="-Xd"/>
+        <CustomOptions Value="-Xd -dtesting"/>
       </Other>
     </CompilerOptions>
     <Description Value="DCPcrypt Cryptographic Component Library
