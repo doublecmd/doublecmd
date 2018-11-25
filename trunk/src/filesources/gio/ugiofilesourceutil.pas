@@ -576,7 +576,7 @@ var
         begin
           g_object_unref(PGObject(aTargetFile));
           aTargetFile:= g_file_new_for_commandline_arg(Pgchar(AbsoluteTargetFileName));
-          Exit(fsoterNotExists);
+          Exit(fsoterRenamed);
         end;
       fsoofeOverwrite: Exit(fsoterDeleted);
       else
@@ -585,44 +585,46 @@ var
   end;
 
 begin
-  AInfo:= g_file_query_info(aTargetFile, FILE_ATTRIBUTE_STANDARD_TYPE + ',' +  FILE_ATTRIBUTE_STANDARD_SIZE +','+ FILE_ATTRIBUTE_TIME_MODIFIED, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, nil);
+  repeat
+    AInfo:= g_file_query_info(aTargetFile, FILE_ATTRIBUTE_STANDARD_TYPE + ',' +  FILE_ATTRIBUTE_STANDARD_SIZE +','+ FILE_ATTRIBUTE_TIME_MODIFIED, G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, nil);
 
-  if Assigned(AInfo) then
-  begin
-    SourceFile:= aNode.TheFile;
-    AFileType:= g_file_info_get_file_type(AInfo);
+    if Assigned(AInfo) then
+    begin
+      SourceFile:= aNode.TheFile;
+      AFileType:= g_file_info_get_file_type(AInfo);
 
-    // Target exists - ask user what to do.
-    if AFileType = G_FILE_TYPE_DIRECTORY then
-    begin
-      Result := DoDirectoryExists(SourceFile.IsDirectory)
-    end
-    else if AFileType = G_FILE_TYPE_SYMBOLIC_LINK then
-    begin
-      // Check if target of the link exists.
-      ASymlinkInfo:= g_file_query_info(aTargetFile, FILE_ATTRIBUTE_STANDARD_TYPE, G_FILE_QUERY_INFO_NONE, nil, nil);
-      if Assigned(ASymlinkInfo) then
+      // Target exists - ask user what to do.
+      if AFileType = G_FILE_TYPE_DIRECTORY then
       begin
-        AFileType:= g_file_info_get_file_type(ASymlinkInfo);
-        if AFileType = G_FILE_TYPE_DIRECTORY then
-          Result := DoDirectoryExists(SourceFile.IsDirectory)
-        else begin
-          Result := DoFileExists();
-        end;
-        g_object_unref(ASymlinkInfo);
+        Result := DoDirectoryExists(SourceFile.IsDirectory)
       end
-      else
-        // Target of link doesn't exist. Treat link as file.
+      else if AFileType = G_FILE_TYPE_SYMBOLIC_LINK then
+      begin
+        // Check if target of the link exists.
+        ASymlinkInfo:= g_file_query_info(aTargetFile, FILE_ATTRIBUTE_STANDARD_TYPE, G_FILE_QUERY_INFO_NONE, nil, nil);
+        if Assigned(ASymlinkInfo) then
+        begin
+          AFileType:= g_file_info_get_file_type(ASymlinkInfo);
+          if AFileType = G_FILE_TYPE_DIRECTORY then
+            Result := DoDirectoryExists(SourceFile.IsDirectory)
+          else begin
+            Result := DoFileExists();
+          end;
+          g_object_unref(ASymlinkInfo);
+        end
+        else
+          // Target of link doesn't exist. Treat link as file.
+          Result := DoFileExists();
+      end
+      else begin
+        // Existing target is a file.
         Result := DoFileExists();
+      end;
+      g_object_unref(AInfo);
     end
-    else begin
-      // Existing target is a file.
-      Result := DoFileExists();
-    end;
-    g_object_unref(AInfo);
-  end
-  else
-    Result := fsoterNotExists;
+    else
+      Result := fsoterNotExists;
+  until Result <> fsoterRenamed;
 end;
 
 function TGioOperationHelper.DirExists(aFile: TFile;

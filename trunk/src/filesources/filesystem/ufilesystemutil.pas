@@ -29,7 +29,7 @@ type
 
   TFileSystemOperationTargetExistsResult =
     (fsoterNotExists, fsoterDeleted, fsoterAddToTarget, fsoterResume,
-     fsoterSkip);
+     fsoterSkip, fsoterRenamed);
 
   TFileSystemOperationHelperMode =
     (fsohmCopy, fsohmMove);
@@ -1226,7 +1226,7 @@ var
         end;
       fsoofeAutoRenameSource:
         begin
-          Exit(fsoterNotExists);
+          Exit(fsoterRenamed);
         end
       else
         raise Exception.Create('Invalid file exists option');
@@ -1253,37 +1253,39 @@ var
   end;
 
 begin
-  Attrs := mbFileGetAttr(AbsoluteTargetFileName);
-  if Attrs <> faInvalidAttributes then
-  begin
-    SourceFile := aNode.TheFile;
-
-    // Target exists - ask user what to do.
-    if FPS_ISLNK(Attrs) then
+  repeat
+    Attrs := mbFileGetAttr(AbsoluteTargetFileName);
+    if Attrs <> faInvalidAttributes then
     begin
-      // Check if target of the link exists.
-      LinkTargetAttrs := mbFileGetAttrNoLinks(AbsoluteTargetFileName);
-      if (LinkTargetAttrs <> faInvalidAttributes) then
+      SourceFile := aNode.TheFile;
+
+      // Target exists - ask user what to do.
+      if FPS_ISLNK(Attrs) then
       begin
-        if FPS_ISDIR(LinkTargetAttrs) then
-          Result := DoDirectoryExists(AllowCopyInto, False)
+        // Check if target of the link exists.
+        LinkTargetAttrs := mbFileGetAttrNoLinks(AbsoluteTargetFileName);
+        if (LinkTargetAttrs <> faInvalidAttributes) then
+        begin
+          if FPS_ISDIR(LinkTargetAttrs) then
+            Result := DoDirectoryExists(AllowCopyInto, False)
+          else
+            Result := DoFileExists(AllowAppendFile);
+        end
         else
-          Result := DoFileExists(AllowAppendFile);
+          // Target of link doesn't exist. Treat link as file and don't allow append.
+          Result := DoFileExists(False);
+      end
+      else if FPS_ISDIR(Attrs) then
+      begin
+        Result := DoDirectoryExists(AllowCopyInto, False)
       end
       else
-        // Target of link doesn't exist. Treat link as file and don't allow append.
-        Result := DoFileExists(False);
-    end
-    else if FPS_ISDIR(Attrs) then
-    begin
-      Result := DoDirectoryExists(AllowCopyInto, False)
+        // Existing target is a file.
+        Result := DoFileExists(AllowAppendFile);
     end
     else
-      // Existing target is a file.
-      Result := DoFileExists(AllowAppendFile);
-  end
-  else
-    Result := fsoterNotExists;
+      Result := fsoterNotExists;
+  until Result <> fsoterRenamed;
 end;
 
 function TFileSystemOperationHelper.DirExists(
