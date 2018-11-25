@@ -61,6 +61,7 @@ type
   private
     procedure Fill(Step: Integer);
     function WipeDir(const FileName: String): Boolean;
+    function WipeLink(const FileName: String): Boolean;
     function WipeFile(const FileName: String): Boolean;
     function Rename(const FileName: String; out NewName: String): Boolean;
   private
@@ -236,6 +237,22 @@ begin
   end;
 end;
 
+function TFileSystemWipeOperation.WipeLink(const FileName: String): Boolean;
+var
+  bRetry: Boolean;
+  sTempFileName: String;
+begin
+  Result:= Rename(FileName, sTempFileName);
+  if Result then
+  repeat
+    bRetry := False;
+    Result := mbDeleteFile(sTempFileName);
+    if not Result then begin
+      bRetry := HandleError(Format(rsMsgNotDelete, [sTempFileName]) + LineEnding + mbSysErrorMessage);
+    end;
+  until not bRetry;
+end;
+
 function TFileSystemWipeOperation.WipeFile(const FileName: String): Boolean;
 var
   i, j: Integer;
@@ -400,21 +417,25 @@ begin
     mbFileSetReadOnly(FileName, False);
 
   if aFile.IsDirectory then // directory
+    WipeResult := WipeDir(FileName)
+  else if aFile.IsLink then // symbolic link
+    WipeResult := WipeLink(FileName)
+  else begin // normal file
+    WipeResult := WipeFile(FileName);
+  end;
+
+  if aFile.IsDirectory then
   begin
-    WipeResult := WipeDir(FileName);
     if not WipeResult then
       LogMessage(Format(rsMsgLogError + rsMsgLogWipeDir, [FileName]), [log_dir_op, log_delete], lmtError)
-    else begin
+    else
       LogMessage(Format(rsMsgLogSuccess + rsMsgLogWipeDir, [FileName]), [log_dir_op, log_delete], lmtSuccess);
-    end;
   end
-  else begin // files and other stuff
-    WipeResult := WipeFile(FileName);
+  else begin
     if not WipeResult then
       LogMessage(Format(rsMsgLogError + rsMsgLogWipe, [FileName]), [log_delete], lmtError)
-    else begin
+    else
       LogMessage(Format(rsMsgLogSuccess + rsMsgLogWipe, [FileName]), [log_delete], lmtSuccess);
-    end;
   end;
 
   // Process comments if need
