@@ -61,11 +61,11 @@ type
     procedure UpdateView; override;
     procedure CalculateColRowCount; override;
     procedure CalculateColumnWidth; override;
-    procedure DoMouseMoveScroll(X, Y: Integer);
-    function  CellToIndex(ACol, ARow: Integer): Integer; override;
-    procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); override;
+    procedure DoMouseMoveScroll(Sender: TObject; X, Y: Integer);
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); override;
+    function  CellToIndex(ACol, ARow: Integer): Integer; override;
+    procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); override;
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState); override;
   end;
 
@@ -86,6 +86,7 @@ type
     procedure ShowRenameFileEdit(aFile: TFile); override;
     procedure UpdateRenameFileEditPosition(); override;
     function GetIconRect(FileIndex: PtrInt): TRect; override;
+    procedure MouseScrollTimer(Sender: TObject); override;
   public
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
     constructor Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []); override;
@@ -245,7 +246,7 @@ end;
 procedure TThumbDrawGrid.MouseMove(Shift: TShiftState; X, Y: Integer);
 begin
   inherited MouseMove(Shift, X, Y);
-  if FThumbView.IsMouseSelecting then DoMouseMoveScroll(X, Y);
+  if FThumbView.IsMouseSelecting then DoMouseMoveScroll(nil, X, Y);
 end;
 
 procedure TThumbDrawGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -258,7 +259,7 @@ procedure TThumbDrawGrid.DragOver(Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
 begin
   inherited DragOver(Source, X, Y, State, Accept);
-  DoMouseMoveScroll(X, Y);
+  DoMouseMoveScroll(nil, X, Y);
 end;
 
 procedure TThumbDrawGrid.UpdateView;
@@ -362,7 +363,7 @@ begin
   DefaultColWidth:= gThumbSize.cx + 4;
 end;
 
-procedure TThumbDrawGrid.DoMouseMoveScroll(X, Y: Integer);
+procedure TThumbDrawGrid.DoMouseMoveScroll(Sender: TObject; X, Y: Integer);
 const
   LastPos: Integer = 0;
 var
@@ -372,20 +373,25 @@ var
 begin
   TickCount := GetTickCount64;
 
-  // Scroll at each 8 pixel mouse move
-  if (Abs(LastPos - Y) > 8) then
+  Delta := DefaultRowHeight div 3;
+  if Y < Delta then
+    AEvent := SB_LINEUP
+  else if (Y > ClientHeight - Delta) and (Y - FMouseDownY > 8) then
   begin
-    LastPos := Y;
-    Delta := DefaultRowHeight div 3;
-    if Y < Delta then
-      AEvent := SB_LINEUP
-    else if (Y > ClientHeight - Delta) and (Y - FMouseDownY > 8) then
-    begin
-      AEvent := SB_LINEDOWN;
-    end;
+    AEvent := SB_LINEDOWN;
   end;
 
-  if (AEvent = -1) then Exit;
+  // Scroll at each 8 pixel mouse move
+  if (Abs(LastPos - Y) < 8) and (Sender <> FThumbView.tmMouseScroll) then
+    Exit;
+
+  if (AEvent = -1) then
+  begin
+    FThumbView.tmMouseScroll.Enabled := False;
+    Exit;
+  end;
+
+  LastPos := Y;
 
   if (FLastMouseMoveTime = 0) then
     FLastMouseMoveTime := TickCount
@@ -395,6 +401,7 @@ begin
   begin
     Scroll(LM_VSCROLL, AEvent);
     FLastMouseScrollTime := GetTickCount64;
+    FThumbView.tmMouseScroll.Enabled := True;
     if (AEvent = SB_LINEDOWN) then FMouseDownY := -1;
   end;
 end;
@@ -546,6 +553,7 @@ procedure TThumbFileView.CreateDefault(AOwner: TWinControl);
 begin
   inherited CreateDefault(AOwner);
 
+  tmMouseScroll.Interval := 200;
   FBitmapList:= TBitmapList.Create(True);
   FThumbnailManager:= TThumbnailManager.Create(gBackColor);
 end;
@@ -664,7 +672,7 @@ begin
   inherited ShowRenameFileEdit(AFile);
 end;
 
-procedure TThumbFileView.UpdateRenameFileEditPosition;
+procedure TThumbFileView.UpdateRenameFileEditPosition();
 var
   ARect: TRect;
 begin
@@ -678,6 +686,17 @@ function TThumbFileView.GetIconRect(FileIndex: PtrInt): TRect;
 begin
   Result:= GetFileRect(FileIndex);
   Result.Right:= Result.Left + (Result.Right - Result.Left) div 4;
+end;
+
+procedure TThumbFileView.MouseScrollTimer(Sender: TObject);
+var
+  APoint: TPoint;
+begin
+  if DragManager.IsDragging or IsMouseSelecting then
+  begin
+    APoint := dgPanel.ScreenToClient(Mouse.CursorPos);
+    TThumbDrawGrid(dgPanel).DoMouseMoveScroll(tmMouseScroll, APoint.X, APoint.Y);
+  end;
 end;
 
 constructor TThumbFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig;
