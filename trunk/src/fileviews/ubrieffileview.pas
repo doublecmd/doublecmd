@@ -23,8 +23,6 @@ type
     procedure CalculateColRowCount; override;
     procedure CalculateColumnWidth; override;
     procedure DoMouseMoveScroll(X, Y: Integer);
-    function  CellToIndex(ACol, ARow: Integer): Integer; override;
-    procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); override;
   protected
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
@@ -33,6 +31,8 @@ type
     procedure DragOver(Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean); override;
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); override;
+    function  CellToIndex(ACol, ARow: Integer): Integer; override;
+    procedure IndexToCell(Index: Integer; out ACol, ARow: Integer); override;
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState); override;
   end;
 
@@ -516,7 +516,7 @@ end;
 procedure TBriefFileView.CreateDefault(AOwner: TWinControl);
 begin
   inherited CreateDefault(AOwner);
-  tmMouseScroll.Interval := 300;
+  tmMouseScroll.Interval := 350;
 end;
 
 function TBriefFileView.GetFileViewGridClass: TFileViewGridClass;
