@@ -40,11 +40,13 @@ type
 
   TBriefFileView = class (TFileViewWithGrid)
   protected
+    procedure CreateDefault(AOwner: TWinControl); override;
     function GetFileViewGridClass: TFileViewGridClass; override;
     procedure ShowRenameFileEdit(aFile: TFile); override;
     procedure UpdateRenameFileEditPosition; override;
     function GetVisibleFilesIndexes: TRange; override;
     function GetIconRect(FileIndex: PtrInt): TRect; override;
+    procedure MouseScrollTimer(Sender: TObject); override;
   public
     function Clone(NewParent: TWinControl): TBriefFileView; override;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode; ASaveHistory:boolean); override;
@@ -191,6 +193,7 @@ begin
   else if X > ClientWidth - 25 then
     AEvent := SB_LINEDOWN
   else begin
+    FBriefView.tmMouseScroll.Enabled := False;
     Exit;
   end;
 
@@ -202,6 +205,7 @@ begin
   begin
     Scroll(LM_HSCROLL, AEvent);
     FLastMouseScrollTime := GetTickCount64;
+    FBriefView.tmMouseScroll.Enabled := True;
   end;
 end;
 
@@ -509,6 +513,12 @@ end;
 
 { TBriefFileView }
 
+procedure TBriefFileView.CreateDefault(AOwner: TWinControl);
+begin
+  inherited CreateDefault(AOwner);
+  tmMouseScroll.Interval := 300;
+end;
+
 function TBriefFileView.GetFileViewGridClass: TFileViewGridClass;
 begin
   Result:= TBriefDrawGrid;
@@ -574,6 +584,17 @@ begin
   Result.Left:= Result.Left + CELL_PADDING;
   Result.Right:= Result.Left + gIconsSize;
   Result.Bottom:= Result.Bottom + gIconsSize;
+end;
+
+procedure TBriefFileView.MouseScrollTimer(Sender: TObject);
+var
+  APoint: TPoint;
+begin
+  if DragManager.IsDragging or IsMouseSelecting then
+  begin
+    APoint := dgPanel.ScreenToClient(Mouse.CursorPos);
+    TBriefDrawGrid(dgPanel).DoMouseMoveScroll(APoint.X, APoint.Y);
+  end;
 end;
 
 function TBriefFileView.Clone(NewParent: TWinControl): TBriefFileView;

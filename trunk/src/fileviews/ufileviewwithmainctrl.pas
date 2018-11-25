@@ -103,6 +103,7 @@ type
     FDropFileIndex: PtrInt;
     FStartDrag: Boolean;
     tmContextMenu: TTimer;
+    tmMouseScroll: TTimer;
     // Needed for rename on mouse
     FRenameFileIndex: PtrInt;
     tmRenameFile: TTimer;
@@ -134,6 +135,7 @@ type
     }
     function GetFileIndexFromCursor(X, Y: Integer; out AtFileList: Boolean): PtrInt; virtual; abstract;
     procedure InitializeDragDropEx(AControl: TWinControl);
+    procedure MouseScrollTimer(Sender: TObject); virtual; abstract;
     {en
        Returns @true if currently selecting with right mouse button.
     }
@@ -219,6 +221,7 @@ type
 
 procedure TFileViewWithMainCtrl.ClearAfterDragDrop;
 begin
+  tmMouseScroll.Enabled := False;
   // Clear some control specific flags.
   MainControl.ControlState := MainControl.ControlState - [csClicked, csLButtonDown];
 end;
@@ -277,6 +280,11 @@ begin
   edtRename.OnMouseDown:=@edtRenameMouseDown;
   edtRename.OnEnter := @edtRenameEnter;
   edtRename.OnExit := @edtRenameExit;
+
+  tmMouseScroll := TTimer.Create(Self);
+  tmMouseScroll.Enabled  := False;
+  tmMouseScroll.Interval := 100;
+  tmMouseScroll.OnTimer  := @MouseScrollTimer;
 
   tmContextMenu := TTimer.Create(Self);
   tmContextMenu.Enabled  := False;
