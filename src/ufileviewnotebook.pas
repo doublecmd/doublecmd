@@ -227,7 +227,7 @@ uses
   uColumnsFileView,
   uArchiveFileSource
   {$IF DEFINED(LCLGTK2)}
-  , Glib2, Gtk2, Gtk2Proc, Gtk2Def
+  , InterfaceBase, Glib2, Gtk2, Gtk2Proc, Gtk2Def
   {$ENDIF}
   {$IF DEFINED(MSWINDOWS)}
   , win32proc, Windows, Messages
@@ -822,12 +822,15 @@ begin
 
   FPageControl.Page[Index].Tag:= ATag;
 
+{$IF DEFINED(LCLGTK2)}
+  if FPageControl.PageCount = 1 then
+    WidgetSet.AppProcessMessages;
+{$ENDIF}
+
   Result.Parent:= Self;
 
   Result.BringToFront;
-
   Result.AnchorAsAlign(alClient, 0);
-
   Result.Visible:= (PageIndex = Index);
 
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
