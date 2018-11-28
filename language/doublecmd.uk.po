@@ -8454,10 +8454,6 @@ msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "Значення"
 
-#: tfrmsearchplugin.headercontrol.sections[4].text
-msgid "Unit"
-msgstr ""
-
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr "&AND (всі правила)"
@@ -12691,8 +12687,9 @@ msgstr "!="
 msgid "Plugin \"%s\" not found!"
 msgstr ""
 
-#: ulng.rspluginsearchunitnotfound
-msgid "Unit \"%s\" not found!"
+#: ulng.rspluginsearchunitnotfoundforfield
+msgctxt "ulng.rspluginsearchunitnotfoundforfield"
+msgid "Unit \"%s\" not found for field \"%s\" !"
 msgstr ""
 
 #: ulng.rspropscontains

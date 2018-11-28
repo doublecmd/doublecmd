@@ -8277,10 +8277,6 @@ msgctxt "tfrmsearchplugin.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "Valeur"
 
-#: tfrmsearchplugin.headercontrol.sections[4].text
-msgid "Unit"
-msgstr "Unité"
-
 #: tfrmsearchplugin.rband.caption
 msgid "&AND (all match)"
 msgstr "ET (tout correspond)"
@@ -12376,9 +12372,10 @@ msgstr "!="
 msgid "Plugin \"%s\" not found!"
 msgstr "Plugin \"%s\" introuvable!"
 
-#: ulng.rspluginsearchunitnotfound
-msgid "Unit \"%s\" not found!"
-msgstr "Unité \"%s\" introuvable!"
+#: ulng.rspluginsearchunitnotfoundforfield
+msgctxt "ulng.rspluginsearchunitnotfoundforfield"
+msgid "Unit \"%s\" not found for field \"%s\" !"
+msgstr ""
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
