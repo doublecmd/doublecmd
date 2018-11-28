@@ -7261,7 +7261,7 @@ msgstr "移除已不存在檔案的縮圖快取 (&R)"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
-msgid "View log file content"
+msgid "View configuration file content"
 msgstr ""
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption

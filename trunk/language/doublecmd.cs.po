@@ -6533,8 +6533,10 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "&Odstranit miniatury už existujících souborů"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
+#, fuzzy
+#| msgid "View log file content"
 msgctxt "TFRMOPTIONSMISC.BTNVIEWCONFIGFILE.HINT"
-msgid "View log file content"
+msgid "View configuration file content"
 msgstr "Zobrazí obsah souboru s protokolem"
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption

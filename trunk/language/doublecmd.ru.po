@@ -6720,8 +6720,10 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "&Удалить эскизы для отсутствующих файлов"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
+#, fuzzy
+#| msgid "View log file content"
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
-msgid "View log file content"
+msgid "View configuration file content"
 msgstr "Просмотреть содержимое файла протокола"
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption

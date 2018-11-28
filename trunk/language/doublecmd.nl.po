@@ -6532,8 +6532,10 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "Verwijder miniaturen van niet langer bestaande bestanden"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
+#, fuzzy
+#| msgid "View log file content"
 msgctxt "TFRMOPTIONSMISC.BTNVIEWCONFIGFILE.HINT"
-msgid "View log file content"
+msgid "View configuration file content"
 msgstr "Toon inhoud van logboekbestand"
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption

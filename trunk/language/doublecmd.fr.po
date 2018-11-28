@@ -6736,8 +6736,10 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "Efface les vignettes pour les fichiers qui n'existent plus"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
+#, fuzzy
+#| msgid "View log file content"
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
-msgid "View log file content"
+msgid "View configuration file content"
 msgstr "Voir le contenu du fichier-journal"
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption

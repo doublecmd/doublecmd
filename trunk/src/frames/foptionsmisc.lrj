@@ -12,7 +12,7 @@
 {"hash":164330666,"name":"tfrmoptionsmisc.lbltcexecutable.caption","sourcebytes":[84,67,32,101,120,101,99,117,116,97,98,108,101,58],"value":"TC executable:"},
 {"hash":109093002,"name":"tfrmoptionsmisc.lbltcconfig.caption","sourcebytes":[67,111,110,102,105,103,117,114,97,116,105,111,110,32,102,105,108,101,58],"value":"Configuration file:"},
 {"hash":15252584,"name":"tfrmoptionsmisc.btnrelativetcconfigfile.hint","sourcebytes":[83,111,109,101,32,102,117,110,99,116,105,111,110,115,32,116,111,32,115,101,108,101,99,116,32,97,112,112,114,111,112,114,105,97,116,101,32,112,97,116,104],"value":"Some functions to select appropriate path"},
-{"hash":68945492,"name":"tfrmoptionsmisc.btnviewconfigfile.hint","sourcebytes":[86,105,101,119,32,108,111,103,32,102,105,108,101,32,99,111,110,116,101,110,116],"value":"View log file content"},
+{"hash":246620964,"name":"tfrmoptionsmisc.btnviewconfigfile.hint","sourcebytes":[86,105,101,119,32,99,111,110,102,105,103,117,114,97,116,105,111,110,32,102,105,108,101,32,99,111,110,116,101,110,116],"value":"View configuration file content"},
 {"hash":125350026,"name":"tfrmoptionsmisc.lbltcpathfortool.caption","sourcebytes":[84,111,111,108,98,97,114,32,111,117,116,112,117,116,32,112,97,116,104,58],"value":"Toolbar output path:"},
 {"hash":1054,"name":"tfrmoptionsmisc.btnoutputpathfortoolbar.caption","sourcebytes":[62,62],"value":">>"},
 {"hash":15252584,"name":"tfrmoptionsmisc.btnrelativeoutputpathfortoolbar.hint","sourcebytes":[83,111,109,101,32,102,117,110,99,116,105,111,110,115,32,116,111,32,115,101,108,101,99,116,32,97,112,112,114,111,112,114,105,97,116,101,32,112,97,116,104],"value":"Some functions to select appropriate path"},

@@ -6,6 +6,8 @@ inherited frmOptionsMisc: TfrmOptionsMisc
   AutoScroll = True
   ClientHeight = 572
   ClientWidth = 719
+  ParentShowHint = False
+  ShowHint = True
   DesignLeft = 398
   DesignTop = 42
   object gbExtended: TGroupBox[0]
@@ -345,7 +347,7 @@ inherited frmOptionsMisc: TfrmOptionsMisc
       AnchorSideBottom.Side = asrBottom
       Left = 673
       Height = 23
-      Hint = 'View log file content'
+      Hint = 'View configuration file content'
       Top = 69
       Width = 24
       Anchors = [akTop, akRight, akBottom]
