@@ -7340,7 +7340,7 @@ msgstr "Odober náhľady pre už neexistujúce súbory"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
-msgid "View log file content"
+msgid "View configuration file content"
 msgstr ""
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption

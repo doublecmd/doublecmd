@@ -6887,8 +6887,10 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "Видалити мініат&юри для не існуючих файлів"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
+#, fuzzy
+#| msgid "View log file content"
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
-msgid "View log file content"
+msgid "View configuration file content"
 msgstr "Переглянути вміст звіту"
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption

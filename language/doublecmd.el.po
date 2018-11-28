@@ -6696,8 +6696,10 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "Αφαίρεση μικρογραφιών για τα αρχεία που δεν υπάρχουν πλέον"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
+#, fuzzy
+#| msgid "View log file content"
 msgctxt "TFRMOPTIONSMISC.BTNVIEWCONFIGFILE.HINT"
-msgid "View log file content"
+msgid "View configuration file content"
 msgstr "Προβολή περιεχομένων αρχείου καταγραφής"
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption

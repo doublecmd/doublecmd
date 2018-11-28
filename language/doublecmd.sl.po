@@ -6536,8 +6536,10 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "&Odstrani sličice neobstoječih datotek"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
+#, fuzzy
+#| msgid "View log file content"
 msgctxt "TFRMOPTIONSMISC.BTNVIEWCONFIGFILE.HINT"
-msgid "View log file content"
+msgid "View configuration file content"
 msgstr "Preglej vsebino datoteke dnevnika"
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption

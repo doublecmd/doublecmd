@@ -6829,8 +6829,10 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "더 이상 존재하지 않는 파일 썸네일 제거(&R)"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
+#, fuzzy
+#| msgid "View log file content"
 msgctxt "TFRMOPTIONSMISC.BTNVIEWCONFIGFILE.HINT"
-msgid "View log file content"
+msgid "View configuration file content"
 msgstr "로그 파일 내용 보기"
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption

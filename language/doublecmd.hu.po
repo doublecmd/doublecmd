@@ -6748,8 +6748,10 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "&Nem létező fájlok bélyegképeinek eltávolítása"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
+#, fuzzy
+#| msgid "View log file content"
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
-msgid "View log file content"
+msgid "View configuration file content"
 msgstr "Naplófájl tartalmának megtekintése"
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption

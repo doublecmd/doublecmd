@@ -6686,8 +6686,10 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "删除不再存在的文件的缩略图(&R)"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
+#, fuzzy
+#| msgid "View log file content"
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
-msgid "View log file content"
+msgid "View configuration file content"
 msgstr "查看日志文件内容"
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption
