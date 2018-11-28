@@ -1041,7 +1041,7 @@ begin
     end;
 {$IF DEFINED(LCLCOCOA)}
     if Visible then BringToFront;
-{$ELSEIF DEFINED(LCLCARBON) or DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
+{$ELSE}
     BringToFront;
 {$ENDIF}
   end;
