@@ -564,7 +564,7 @@ resourcestring
   rsSearchWithWDXPluginInProgress = 'A file search using WDX plugin is already in progress.'+#$0A+'We need that one to be completed before to launch a new one.';
   rsPluginSearchFieldNotFound = 'Field "%s" not found!';
   rsPluginSearchPluginNotFound = 'Plugin "%s" not found!';
-  rsPluginSearchUnitNotFound = 'Unit "%s" not found!';
+  rsPluginSearchUnitNotFoundForField = 'Unit "%s" not found for field "%s" !';
   rsPluginSearchContainsNotCase = 'contains';
   rsPluginSearchNotContainsNotCase = '!contains';
   rsPluginSearchContainsCaseSenstive = 'contains(case)';

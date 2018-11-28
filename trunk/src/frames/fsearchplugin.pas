@@ -77,11 +77,11 @@ begin
   begin
     Plugin:= TPluginPanel(pnlTable.Controls[I]);
     SearchTemplate.ContentPlugins[I].Plugin:= Plugin.Plugin;
-    SearchTemplate.ContentPlugins[I].Field:= Plugin.Field;
-    SearchTemplate.ContentPlugins[I].UnitName:= Plugin.UnitName;
-    SearchTemplate.ContentPlugins[I].Compare:= Plugin.Compare;
     SearchTemplate.ContentPlugins[I].FieldType:= Plugin.FieldType;
+    SearchTemplate.ContentPlugins[I].Field:= Plugin.Field;
+    SearchTemplate.ContentPlugins[I].Compare:= Plugin.Compare;
     SearchTemplate.ContentPlugins[I].Value:= Plugin.Value;
+    SearchTemplate.ContentPlugins[I].UnitName:= Plugin.UnitName; //Set the unit *after* the field has been set so if we have error setting the unit, the error message gives the "field" has a hint.
   end;
 end;
 
@@ -99,9 +99,9 @@ begin
     Panel.Parent:= pnlTable;
     Panel.Plugin:= SearchTemplate.ContentPlugins[I].Plugin;
     Panel.Field:= SearchTemplate.ContentPlugins[I].Field;
-    Panel.UnitName:= SearchTemplate.ContentPlugins[I].UnitName;
     Panel.Compare:= SearchTemplate.ContentPlugins[I].Compare;
     Panel.Value:= SearchTemplate.ContentPlugins[I].Value;
+    Panel.UnitName:= SearchTemplate.ContentPlugins[I].UnitName;
   end;
 end;
 

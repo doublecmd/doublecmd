@@ -231,7 +231,7 @@ end;
 procedure TPluginPanel.SetUnitName(AValue: String);
 begin
   if FUnit.Enabled then
-    SetComboBox(FUnit, AValue, Format(rsPluginSearchUnitNotFound, [AValue]));
+    SetComboBox(FUnit, AValue, Format(rsPluginSearchUnitNotFoundForField, [AValue, Self.Field]));
 end;
 
 procedure TPluginPanel.SetValue(AValue: Variant);

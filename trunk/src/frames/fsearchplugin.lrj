@@ -5,7 +5,6 @@
 {"hash":5045284,"name":"tfrmsearchplugin.headercontrol.sections[1].text","sourcebytes":[70,105,101,108,100],"value":"Field"},
 {"hash":113807362,"name":"tfrmsearchplugin.headercontrol.sections[2].text","sourcebytes":[79,112,101,114,97,116,111,114],"value":"Operator"},
 {"hash":6063029,"name":"tfrmsearchplugin.headercontrol.sections[3].text","sourcebytes":[86,97,108,117,101],"value":"Value"},
-{"hash":378116,"name":"tfrmsearchplugin.headercontrol.sections[4].text","sourcebytes":[85,110,105,116],"value":"Unit"},
 {"hash":157776522,"name":"tfrmsearchplugin.chkuseplugins.caption","sourcebytes":[85,115,101,32,38,99,111,110,116,101,110,116,32,112,108,117,103,105,110,115,44,32,99,111,109,98,105,110,101,32,119,105,116,104,58],"value":"Use &content plugins, combine with:"},
 {"hash":18107753,"name":"tfrmsearchplugin.rband.caption","sourcebytes":[38,65,78,68,32,40,97,108,108,32,109,97,116,99,104,41],"value":"&AND (all match)"},
 {"hash":51824473,"name":"tfrmsearchplugin.rbor.caption","sourcebytes":[38,79,82,32,40,97,110,121,32,109,97,116,99,104,41],"value":"&OR (any match)"}

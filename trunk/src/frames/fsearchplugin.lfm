@@ -93,7 +93,6 @@ object frmSearchPlugin: TfrmSearchPlugin
       end    
       item
         Alignment = taLeftJustify
-        Text = 'Unit'
         Width = 30
         Visible = True
       end>
