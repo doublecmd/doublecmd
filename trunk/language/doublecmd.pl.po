@@ -5912,75 +5912,26 @@ msgstr "Użyj mapowania pamięci dla wyszukiwanego tekstu w plikach"
 msgid "&Use stream for search text in files"
 msgstr ""
 
-#: tfrmoptionsfilesviews.btnaddattribute.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.BTNADDATTRIBUTE.CAPTION"
-msgid "&Add"
-msgstr "Dod&aj"
-
-#: tfrmoptionsfilesviews.btnattrshelp.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.BTNATTRSHELP.CAPTION"
-msgid "&Help"
-msgstr "Pomoc"
-
-#: tfrmoptionsfilesviews.cbdblclicktoparent.caption
-msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr ""
-
-#: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
-msgid "Do&n't load file list until a tab is activated"
-msgstr "Nie ładuj listy plików aż zakładka zostanie wybrana"
-
-#: tfrmoptionsfilesviews.cbdirbrackets.caption
-msgid "S&how square brackets around directories"
-msgstr "Pokazuj nazwy katalogów w nawiasach kwadratowych"
-
-#: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
-msgid "Hi&ghlight new and updated files"
-msgstr "Wyróżnij nowe i zaktualizowane pliki"
-
-#: tfrmoptionsfilesviews.cbinplacerename.caption
-msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr ""
-
-#: tfrmoptionsfilesviews.cblistfilesinthread.caption
-msgid "Load &file list in separate thread"
-msgstr "Wczytuj listę plików w oddzielnym wątku"
-
-#: tfrmoptionsfilesviews.cbloadiconsseparately.caption
-msgid "Load icons af&ter file list"
-msgstr "Wczytuj ikony po liście plików"
-
-#: tfrmoptionsfilesviews.cbshowsystemfiles.caption
-msgid "Show s&ystem and hidden files"
-msgstr "Pokaż pliki ukryte/systemowe"
-
-#: tfrmoptionsfilesviews.cbspacemovesdown.caption
-msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "Klawisz <spacja> przenosi do następnego pliku (tak jak <INSERT>)"
-
-#: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
-
-#: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
-msgid "Use an independent attribute filter in mask input dialog each time"
-msgstr ""
+#: tfrmoptionsfilesviews.btndefault.caption
+msgctxt "tfrmoptionsfilesviews.btndefault.caption"
+msgid "De&fault"
+msgstr "Domyślny"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
 msgstr "Formatowanie"
 
-#: tfrmoptionsfilesviews.gbmarking.caption
-msgid "Marking/Unmarking entries"
-msgstr "Zaznaczenie/Odznaczenie wpisów"
+#: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
+msgid "Personalized abreviations to use:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
 msgstr "Sortowanie"
 
-#: tfrmoptionsfilesviews.lbattributemask.caption
-msgid "Default attribute mask value to use:"
-msgstr "Domyślna wartość atrybutu maski do użycia:"
+#: tfrmoptionsfilesviews.lblbyte.caption
+msgid "&Byte:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"
@@ -5998,9 +5949,29 @@ msgstr "Format daty i czasu:"
 msgid "File si&ze format:"
 msgstr "Format rozmiaru pliku:"
 
+#: tfrmoptionsfilesviews.lblgigabyte.caption
+msgid "&Gigabyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblheaderfootersizeformat.caption
+msgid "&Header/footer format:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblkilobyte.caption
+msgid "&Kilobyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblmegabyte.caption
+msgid "Megab&yte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files:"
 msgstr "Wstaw nowe pliki:"
+
+#: tfrmoptionsfilesviews.lbloperationsizeformat.caption
+msgid "O&peration size format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -6010,9 +5981,88 @@ msgstr "Sortowanie katalogów:"
 msgid "&Sort method:"
 msgstr "&Metoda sortowania:"
 
+#: tfrmoptionsfilesviews.lblterabyte.caption
+msgid "&Terabyte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "Przenieś zaktualizowane pliki:"
+
+#: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
+msgid "&Add"
+msgstr "Dod&aj"
+
+#: tfrmoptionsfilesviewscomplement.btnattrshelp.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnattrshelp.caption"
+msgid "&Help"
+msgstr "Pomoc"
+
+#: tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption"
+msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption"
+msgid "Do&n't load file list until a tab is activated"
+msgstr "Nie ładuj listy plików aż zakładka zostanie wybrana"
+
+#: tfrmoptionsfilesviewscomplement.cbdirbrackets.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdirbrackets.caption"
+msgid "S&how square brackets around directories"
+msgstr "Pokazuj nazwy katalogów w nawiasach kwadratowych"
+
+#: tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption"
+msgid "Hi&ghlight new and updated files"
+msgstr "Wyróżnij nowe i zaktualizowane pliki"
+
+#: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbinplacerename.caption"
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption"
+msgid "Load &file list in separate thread"
+msgstr "Wczytuj listę plików w oddzielnym wątku"
+
+#: tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption"
+msgid "Load icons af&ter file list"
+msgstr "Wczytuj ikony po liście plików"
+
+#: tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption"
+msgid "Show s&ystem and hidden files"
+msgstr "Pokaż pliki ukryte/systemowe"
+
+#: tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption"
+msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "Klawisz <spacja> przenosi do następnego pliku (tak jak <INSERT>)"
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption"
+msgid "Use an independent attribute filter in mask input dialog each time"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.gbmarking.caption
+msgctxt "tfrmoptionsfilesviewscomplement.gbmarking.caption"
+msgid "Marking/Unmarking entries"
+msgstr "Zaznaczenie/Odznaczenie wpisów"
+
+#: tfrmoptionsfilesviewscomplement.lbattributemask.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
+msgid "Default attribute mask value to use:"
+msgstr "Domyślna wartość atrybutu maski do użycia:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -8593,6 +8643,7 @@ msgid "C&hange"
 msgstr "Zmień"
 
 #: tfrmtweakplugin.btndefault.caption
+msgctxt "tfrmtweakplugin.btndefault.caption"
 msgid "De&fault"
 msgstr "Domyślny"
 
@@ -9230,6 +9281,14 @@ msgid ""
 "or press \"CANCEL\" to continue without it?\n"
 msgstr ""
 
+#: ulng.rsabbrevdisplaydir
+msgid "<DIR>"
+msgstr ""
+
+#: ulng.rsabbrevdisplaylink
+msgid "<LNK>"
+msgstr ""
+
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
 msgstr "Anuluj szybki filtr"
@@ -9367,6 +9426,27 @@ msgstr "Zaimportowany pasek narzędzi DC"
 #: ulng.rsdefaultimportedtctoolbarhint
 msgid "Imported TC toolbar"
 msgstr "Zaimportowany pasek narzędi TC"
+
+#: ulng.rsdefaultpersonalizedabbrevbyte
+msgctxt "ulng.rsdefaultpersonalizedabbrevbyte"
+msgid "B"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevgiga
+msgid "GB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevkilo
+msgid "KB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevmega
+msgid "MB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevtera
+msgid "TB"
+msgstr ""
 
 #: ulng.rsdefaultsuffixdroppedtext
 msgid "_DroppedText"
@@ -9725,12 +9805,14 @@ msgid "Begin at"
 msgstr "Zacznij w"
 
 #: ulng.rsfreemsg
-msgid "Free %s from %s bytes"
+#, fuzzy
+msgid "%s of %s free"
 msgstr "Wolne %s z %s"
 
 #: ulng.rsfreemsgshort
-msgid "%s bytes free"
-msgstr "%s bajtów wolnych"
+#, fuzzy
+msgid "%s free"
+msgstr "%s wolnych"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
@@ -9903,6 +9985,27 @@ msgstr "Wg nazwy polecenia;Wg klawisza skrótu (pogrupowane);Wg klawisza skrótu
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "Nie można znaleźć odniesienia do domyślnego pliku bar"
+
+#: ulng.rslegacydisplaysizesinglelettergiga
+msgid "G"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesingleletterkilo
+msgid "K"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettermega
+msgid "M"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettertera
+msgid "T"
+msgstr ""
+
+#: ulng.rslegacyoperationbytesuffixletter
+msgctxt "ulng.rslegacyoperationbytesuffixletter"
+msgid "B"
+msgstr ""
 
 #: ulng.rslistoffindfileswindows
 msgid "List of \"Find files\" windows"
@@ -11586,9 +11689,9 @@ msgstr "Dodaj na początku;Dodaj na końcu;Alfabetyczne sortowanie"
 msgid "separate window;minimized separate window;operations panel"
 msgstr "oddzielnym oknie;zminimalizowanym oddzielnym oknie;panelu operacji"
 
-#: ulng.rsoptfilesizeformat
-msgid "float;B;K;M;G"
-msgstr "dynamiczny;bajty;kbajty;Mbajty;Gbajty"
+#: ulng.rsoptfilesizefloat
+msgid "float"
+msgstr "dynamiczny"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
@@ -11769,6 +11872,10 @@ msgstr "Wyszukiwanie pliku"
 msgid "Files views"
 msgstr "Widoki plików"
 
+#: ulng.rsoptionseditorfilesviewscomplement
+msgid "Files views extra"
+msgstr ""
+
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
 msgid "File types"
@@ -11882,6 +11989,10 @@ msgstr "Lewy klawisz;Prawy klawisz;"
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
 msgstr "na początku listy plików;po katalogach(jeśli katalogi są sortowane przed plikami);od sortowanej pozycji;na końcu listy plików"
+
+#: ulng.rsoptpersonalizedfilesizeformat
+msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
+msgstr ""
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -12192,6 +12303,10 @@ msgstr "Kolumna"
 msgctxt "ulng.rssimplewordcommand"
 msgid "Command"
 msgstr "Polecenie"
+
+#: ulng.rssimpleworderror
+msgid "Error"
+msgstr ""
 
 #: ulng.rssimplewordfalse
 msgid "False"

@@ -5918,75 +5918,26 @@ msgstr "Uporabi preslikavo pomnilnika za iskanje &besedila v datotekah"
 msgid "&Use stream for search text in files"
 msgstr "&Uporabi pretok za iskanje besedila v datotekah"
 
-#: tfrmoptionsfilesviews.btnaddattribute.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.BTNADDATTRIBUTE.CAPTION"
-msgid "&Add"
-msgstr "Dod&aj"
-
-#: tfrmoptionsfilesviews.btnattrshelp.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.BTNATTRSHELP.CAPTION"
-msgid "&Help"
-msgstr "Pomo&č"
-
-#: tfrmoptionsfilesviews.cbdblclicktoparent.caption
-msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr "Omogoči prehod v &nadrejeno mapo, kadar je izveden dvojni klik na prazni del okna datotek"
-
-#: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
-msgid "Do&n't load file list until a tab is activated"
-msgstr "&Ne naloži datoteke, dokler zavihek ni omogočen"
-
-#: tfrmoptionsfilesviews.cbdirbrackets.caption
-msgid "S&how square brackets around directories"
-msgstr "&Izpiši oglate oklepaje okoli imena mape v seznamu okna"
-
-#: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
-msgid "Hi&ghlight new and updated files"
-msgstr "&Poudari nove in posodobljene datoteke"
-
-#: tfrmoptionsfilesviews.cbinplacerename.caption
-msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "Omogoči takojšnje &preimenovanje z dvoklikom na ime datoteke"
-
-#: tfrmoptionsfilesviews.cblistfilesinthread.caption
-msgid "Load &file list in separate thread"
-msgstr "Naloži &seznam datotek v ločeni niti"
-
-#: tfrmoptionsfilesviews.cbloadiconsseparately.caption
-msgid "Load icons af&ter file list"
-msgstr "Naloži ikone &za seznamom datotek"
-
-#: tfrmoptionsfilesviews.cbshowsystemfiles.caption
-msgid "Show s&ystem and hidden files"
-msgstr "Pokaže skrite in &sistemske datoteke"
-
-#: tfrmoptionsfilesviews.cbspacemovesdown.caption
-msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "&Med izbiranjem datotek s preslednico, se premakni na naslednjo datoteko v seznamu (kot z vstavljalko)"
-
-#: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr "Filter v slogu sistema Windows za označevanje datotek (»*.*« izbere tudi datoteke brez pripone ...)"
-
-#: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
-msgid "Use an independent attribute filter in mask input dialog each time"
-msgstr "Vsakič uporabi neodvisen filter atributa v maski"
+#: tfrmoptionsfilesviews.btndefault.caption
+msgctxt "tfrmoptionsfilesviews.btndefault.caption"
+msgid "De&fault"
+msgstr "Pri&vzeto"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
 msgstr "Oblikovanje"
 
-#: tfrmoptionsfilesviews.gbmarking.caption
-msgid "Marking/Unmarking entries"
-msgstr "Označevanje/Preklic oznake vnosov"
+#: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
+msgid "Personalized abreviations to use:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
 msgstr "Razvrščanje"
 
-#: tfrmoptionsfilesviews.lbattributemask.caption
-msgid "Default attribute mask value to use:"
-msgstr "Privzeta maska za uporabo:"
+#: tfrmoptionsfilesviews.lblbyte.caption
+msgid "&Byte:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"
@@ -6004,9 +5955,29 @@ msgstr "&Zapis datuma in časa:"
 msgid "File si&ze format:"
 msgstr "Zapis velikosti datoteke:"
 
+#: tfrmoptionsfilesviews.lblgigabyte.caption
+msgid "&Gigabyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblheaderfootersizeformat.caption
+msgid "&Header/footer format:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblkilobyte.caption
+msgid "&Kilobyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblmegabyte.caption
+msgid "Megab&yte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files:"
 msgstr "&Vstavi nove datoteke:"
+
+#: tfrmoptionsfilesviews.lbloperationsizeformat.caption
+msgid "O&peration size format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -6016,9 +5987,88 @@ msgstr "Razvrščanje map:"
 msgid "&Sort method:"
 msgstr "&Način razvrščanja:"
 
+#: tfrmoptionsfilesviews.lblterabyte.caption
+msgid "&Terabyte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "&Premakni posodobljene datoteke:"
+
+#: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
+msgid "&Add"
+msgstr "Dod&aj"
+
+#: tfrmoptionsfilesviewscomplement.btnattrshelp.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnattrshelp.caption"
+msgid "&Help"
+msgstr "Pomo&č"
+
+#: tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption"
+msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
+msgstr "Omogoči prehod v &nadrejeno mapo, kadar je izveden dvojni klik na prazni del okna datotek"
+
+#: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption"
+msgid "Do&n't load file list until a tab is activated"
+msgstr "&Ne naloži datoteke, dokler zavihek ni omogočen"
+
+#: tfrmoptionsfilesviewscomplement.cbdirbrackets.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdirbrackets.caption"
+msgid "S&how square brackets around directories"
+msgstr "&Izpiši oglate oklepaje okoli imena mape v seznamu okna"
+
+#: tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption"
+msgid "Hi&ghlight new and updated files"
+msgstr "&Poudari nove in posodobljene datoteke"
+
+#: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbinplacerename.caption"
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr "Omogoči takojšnje &preimenovanje z dvoklikom na ime datoteke"
+
+#: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption"
+msgid "Load &file list in separate thread"
+msgstr "Naloži &seznam datotek v ločeni niti"
+
+#: tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption"
+msgid "Load icons af&ter file list"
+msgstr "Naloži ikone &za seznamom datotek"
+
+#: tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption"
+msgid "Show s&ystem and hidden files"
+msgstr "Pokaže skrite in &sistemske datoteke"
+
+#: tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption"
+msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "&Med izbiranjem datotek s preslednico, se premakni na naslednjo datoteko v seznamu (kot z vstavljalko)"
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr "Filter v slogu sistema Windows za označevanje datotek (»*.*« izbere tudi datoteke brez pripone ...)"
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption"
+msgid "Use an independent attribute filter in mask input dialog each time"
+msgstr "Vsakič uporabi neodvisen filter atributa v maski"
+
+#: tfrmoptionsfilesviewscomplement.gbmarking.caption
+msgctxt "tfrmoptionsfilesviewscomplement.gbmarking.caption"
+msgid "Marking/Unmarking entries"
+msgstr "Označevanje/Preklic oznake vnosov"
+
+#: tfrmoptionsfilesviewscomplement.lbattributemask.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
+msgid "Default attribute mask value to use:"
+msgstr "Privzeta maska za uporabo:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -8593,6 +8643,7 @@ msgid "C&hange"
 msgstr "S&premeni"
 
 #: tfrmtweakplugin.btndefault.caption
+msgctxt "tfrmtweakplugin.btndefault.caption"
 msgid "De&fault"
 msgstr "Pri&vzeto"
 
@@ -9233,6 +9284,14 @@ msgstr ""
 "Omogočite dostop do datoteke in pritisnite gumb »V redu«,\n"
 "ali pa pritisnite »Prekliči« in nadaljujte brez nje?\n"
 
+#: ulng.rsabbrevdisplaydir
+msgid "<DIR>"
+msgstr ""
+
+#: ulng.rsabbrevdisplaylink
+msgid "<LNK>"
+msgstr ""
+
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
 msgstr "Prekliči hitri filter"
@@ -9370,6 +9429,27 @@ msgstr "Uvožena orodna vrstica DC"
 #: ulng.rsdefaultimportedtctoolbarhint
 msgid "Imported TC toolbar"
 msgstr "Uvožena orodna vrstica TC"
+
+#: ulng.rsdefaultpersonalizedabbrevbyte
+msgctxt "ulng.rsdefaultpersonalizedabbrevbyte"
+msgid "B"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevgiga
+msgid "GB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevkilo
+msgid "KB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevmega
+msgid "MB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevtera
+msgid "TB"
+msgstr ""
 
 #: ulng.rsdefaultsuffixdroppedtext
 msgid "_DroppedText"
@@ -9728,12 +9808,14 @@ msgid "Begin at"
 msgstr "Začni pri"
 
 #: ulng.rsfreemsg
-msgid "Free %s from %s bytes"
-msgstr "Sprosti %s od %s bajtov"
+#, fuzzy
+msgid "%s of %s free"
+msgstr "Sprosti %s od %s"
 
 #: ulng.rsfreemsgshort
-msgid "%s bytes free"
-msgstr "%sB prostora"
+#, fuzzy
+msgid "%s free"
+msgstr "%s prostora"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
@@ -9910,6 +9992,27 @@ msgstr "po imenu ukaza;po tipkovni bližnjici (skupinjeno);po tipkovni bližnjic
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "Ni mogoče najti sklica na privzeto datoteko orodne vrstice"
+
+#: ulng.rslegacydisplaysizesinglelettergiga
+msgid "G"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesingleletterkilo
+msgid "K"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettermega
+msgid "M"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettertera
+msgid "T"
+msgstr ""
+
+#: ulng.rslegacyoperationbytesuffixletter
+msgctxt "ulng.rslegacyoperationbytesuffixletter"
+msgid "B"
+msgstr ""
 
 #: ulng.rslistoffindfileswindows
 msgid "List of \"Find files\" windows"
@@ -11591,9 +11694,9 @@ msgstr "dodaj na začetek;dodaj na konec;abecedno razvrščanje"
 msgid "separate window;minimized separate window;operations panel"
 msgstr "ločenem oknu;skrčenem ločenem oknu;oknu opravil"
 
-#: ulng.rsoptfilesizeformat
-msgid "float;B;K;M;G"
-msgstr "plavajoče;B;K;M;G"
+#: ulng.rsoptfilesizefloat
+msgid "float"
+msgstr "plavajoče"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
@@ -11774,6 +11877,10 @@ msgstr "Iskanje datotek"
 msgid "Files views"
 msgstr "Pogled datotek"
 
+#: ulng.rsoptionseditorfilesviewscomplement
+msgid "Files views extra"
+msgstr ""
+
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
 msgid "File types"
@@ -11887,6 +11994,10 @@ msgstr "z desnim gumbom;z levim gumbom;"
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
 msgstr "na vrhu seznama datotek;za mapami (če so mape razvrščene pred datotekami);na mestu razvrščanja;na dnu seznama datotek"
+
+#: ulng.rsoptpersonalizedfilesizeformat
+msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
+msgstr ""
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -12197,6 +12308,10 @@ msgstr "Stolpec"
 msgctxt "ulng.rssimplewordcommand"
 msgid "Command"
 msgstr "Ukaz"
+
+#: ulng.rssimpleworderror
+msgid "Error"
+msgstr ""
 
 #: ulng.rssimplewordfalse
 msgid "False"

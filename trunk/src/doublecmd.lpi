@@ -284,7 +284,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="246">
+    <Units Count="248">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1144,6 +1144,7 @@ end;"/>
       <Unit131>
         <Filename Value="filesources\ufilesourcewipeoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceWipeOperation"/>
       </Unit131>
       <Unit132>
         <Filename Value="filesources\ulocalfilesource.pas"/>
@@ -1781,6 +1782,19 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uHotDir"/>
       </Unit245>
+      <Unit246>
+        <Filename Value="ufilefunctions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileFunctions"/>
+      </Unit246>
+      <Unit247>
+        <Filename Value="frames\foptionsfilesviewscomplement.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsFilesViewsComplement"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsFilesViewsComplement"/>
+      </Unit247>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

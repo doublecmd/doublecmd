@@ -4,7 +4,7 @@
    Filepanel columns implementation unit
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,8 +17,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uFileFunctions;
@@ -102,7 +101,8 @@ uses
 
 const
   ATTR_OCTAL = 'OCTAL';
-  FILE_SIZE: array[0..4] of String = ('FLOAT', 'BYTE', 'KILO', 'MEGA', 'GIGA');
+  //***Note: Number of elements in "FILE_SIZE" should normally fit with the number of element in "TFileSizeFormat" we have in "uTypes" unit.:
+  FILE_SIZE: array[0..11] of String = ('FLOAT', 'BYTE', 'KILO', 'MEGA', 'GIGA', 'TERA', 'PERSFLOAT', 'PERSBYTE', 'PERSKILO', 'PERSMEGA', 'PERSGIGA', 'PERSTERA');
 
 // Which file properties must be supported for each file function to work.
 const TFileFunctionToProperty: array [Low(TFileFunction)..fsfInvalid] of TFilePropertiesTypes
@@ -231,9 +231,9 @@ begin
             ((not (fpSize in AFile.SupportedProperties)) or (AFile.Size = 0))
           then begin
             if AFile.IsLinkToDirectory then
-              Result := '<LNK>'
+              Result := rsAbbrevDisplayLink
             else
-              Result := '<DIR>'
+              Result := rsAbbrevDisplayDir;
           end
           else if fpSize in AFile.SupportedProperties then
           begin
@@ -319,9 +319,9 @@ begin
             ((not (fpCompressedSize in AFile.SupportedProperties)) or (AFile.CompressedSize = 0))
           then begin
             if AFile.IsLinkToDirectory then
-              Result := '<LNK>'
+              Result := rsAbbrevDisplayLink
             else
-              Result := '<DIR>'
+              Result := rsAbbrevDisplayDir;
           end
           else if fpCompressedSize in AFile.SupportedProperties then
             Result := AFile.Properties[fpCompressedSize].Format(DefaultFilePropertyFormatter);
@@ -530,7 +530,7 @@ begin
       MI2.Caption:= rsMnuContentDefault;
       MI2.OnClick:= OnMenuItemClick;
       MI.Add(MI2);
-      FileSize:= SplitString(rsOptFileSizeFormat, ';');
+      FileSize:= SplitString(rsOptFileSizeFloat + ';' + rsLegacyOperationByteSuffixLetter + ';' + rsLegacyDisplaySizeSingleLetterKilo + ';' + rsLegacyDisplaySizeSingleLetterMega + ';' + rsLegacyDisplaySizeSingleLetterGiga + ';' + rsLegacyDisplaySizeSingleLetterTera + ';' + rsOptPersonalizedFileSizeFormat, ';');
       for J:= 0 to High(FILE_SIZE) do
       begin
         MI2:= TMenuItem.Create(MenuItem);

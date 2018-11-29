@@ -1,5 +1,24 @@
 {
    Double Commander
+   -------------------------------------------------------------------------
+   Globals variables and some consts
+
+   Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+   Original comment:
    ------------------------------------------------------------
    Seksi Commander
    ----------------------------
@@ -315,7 +334,12 @@ var
   gAlwaysShowTrayIcon: Boolean;
   gMinimizeToTray: Boolean;
   gFileSizeFormat: TFileSizeFormat;
+  gHeaderFooterSizeFormat: TFileSizeFormat;
+  gOperationSizeFormat: TFileSizeFormat;
   gFileSizeDigits: Integer;
+  gHeaderFooterDigits: Integer;
+  gOperationSizeDigits: Integer;
+  gSizeDisplayUnits: array[LOW(TFileSizeFormat) .. HIGH(TFileSizeFormat)] of string;
   gDateTimeFormat : String;
   gDriveBlackList: String;
   gDriveBlackListUnmounted: Boolean; // Automatically black list unmounted devices
@@ -1406,7 +1430,13 @@ begin
   gNewFilesPosition := nfpSortedPosition;
   gUpdatedFilesPosition := ufpNoChange;
   gFileSizeFormat := fsfFloat;
+  gHeaderFooterSizeFormat := fsfPersonalizedFloat;
+  gOperationSizeFormat := fsfPersonalizedFloat;
   gFileSizeDigits := 1;
+  gHeaderFooterDigits := 1;
+  gOperationSizeDigits := 1;
+  //NOTES: We're intentionnaly not setting our default memory immediately because language file has not been loaded yet.
+  //       We'll set them *after* after language has been loaded since we'll know the correct default to use.
   gMinimizeToTray := False;
   gAlwaysShowTrayIcon := False;
   gMouseSelectionEnabled := True;
@@ -2189,6 +2219,21 @@ begin
 
     DoLoadLng;
 
+    { Since language file has been loaded, we'll not set our default memory size string. They will be in the correct language }
+    gSizeDisplayUnits[fsfFloat] := ''; //Not used, but at least it will be defined.
+    gSizeDisplayUnits[fsfByte] := Trim(rsLegacyDisplaySizeSingleLetterByte); //Not user changeable by legacy, taken from language file since 2018-11.
+    if gSizeDisplayUnits[fsfByte] <> '' then gSizeDisplayUnits[fsfByte] := ' ' + gSizeDisplayUnits[fsfByte];
+    gSizeDisplayUnits[fsfKilo] := ' ' + Trim(rsLegacyDisplaySizeSingleLetterKilo); //Not user changeable by legacy, taken from language file since 2018-11.
+    gSizeDisplayUnits[fsfMega] := ' ' + Trim(rsLegacyDisplaySizeSingleLetterMega); //Not user changeable by legacy, taken from language file since 2018-11.
+    gSizeDisplayUnits[fsfGiga] := ' ' + Trim(rsLegacyDisplaySizeSingleLetterGiga); //Not user changeable by legacy, taken from language file since 2018-11.
+    gSizeDisplayUnits[fsfTera] := ' ' + Trim(rsLegacyDisplaySizeSingleLetterTera); //Not user changeable by legacy, taken from language file since 2018-11.
+    gSizeDisplayUnits[fsfPersonalizedFloat] := ''; //Not used, but at least it will be defined.
+    gSizeDisplayUnits[fsfPersonalizedByte] := rsDefaultPersonalizedAbbrevByte;
+    gSizeDisplayUnits[fsfPersonalizedKilo] := rsDefaultPersonalizedAbbrevKilo;
+    gSizeDisplayUnits[fsfPersonalizedMega] := rsDefaultPersonalizedAbbrevMega;
+    gSizeDisplayUnits[fsfPersonalizedGiga] := rsDefaultPersonalizedAbbrevGiga;
+    gSizeDisplayUnits[fsfPersonalizedTera] := rsDefaultPersonalizedAbbrevTera;
+
     { Behaviours page }
     Node := Root.FindNode('Behaviours');
     if Assigned(Node) then
@@ -2266,7 +2311,17 @@ begin
       begin
         gFileSizeFormat := TFileSizeFormat(GetValue(Node, 'FileSizeFormat', Ord(gFileSizeFormat)));
       end;
+      gHeaderFooterSizeFormat := TFileSizeFormat(GetValue(Node,'HeaderFooterSizeFormat', ord(gHeaderFooterSizeFormat)));
+      gOperationSizeFormat := TFileSizeFormat(GetValue(Node, 'OperationSizeFormat', Ord(gOperationSizeFormat)));
       gFileSizeDigits := GetValue(Node, 'FileSizeDigits', gFileSizeDigits);
+      gHeaderFooterDigits := GetValue(Node, 'HeaderFooterDigits', gHeaderFooterDigits);
+      gOperationSizeDigits := GetValue(Node, 'OperationSizeDigits', gOperationSizeDigits);
+      gSizeDisplayUnits[fsfPersonalizedByte] := Trim(GetValue(Node, 'PersonalizedByte', gSizeDisplayUnits[fsfPersonalizedByte]));
+      if gSizeDisplayUnits[fsfPersonalizedByte]<>'' then gSizeDisplayUnits[fsfPersonalizedByte] := ' ' + gSizeDisplayUnits[fsfPersonalizedByte];
+      gSizeDisplayUnits[fsfPersonalizedKilo] := ' ' + Trim(GetValue(Node, 'PersonalizedKilo', gSizeDisplayUnits[fsfPersonalizedKilo]));
+      gSizeDisplayUnits[fsfPersonalizedMega] := ' ' + Trim(GetValue(Node, 'PersonalizedMega', gSizeDisplayUnits[fsfPersonalizedMega]));
+      gSizeDisplayUnits[fsfPersonalizedGiga] := ' ' + Trim(GetValue(Node, 'PersonalizedGiga', gSizeDisplayUnits[fsfPersonalizedGiga]));
+      gSizeDisplayUnits[fsfPersonalizedTera] := ' ' + Trim(GetValue(Node, 'PersonalizedTera', gSizeDisplayUnits[fsfPersonalizedTera]));
       gMinimizeToTray := GetValue(Node, 'MinimizeToTray', gMinimizeToTray);
       gAlwaysShowTrayIcon := GetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
       gMouseSelectionEnabled := GetAttr(Node, 'Mouse/Selection/Enabled', gMouseSelectionEnabled);
@@ -2890,7 +2945,16 @@ begin
     SetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
     SetValue(Node, 'LynxLike', gLynxLike);
     SetValue(Node, 'FileSizeFormat', Ord(gFileSizeFormat));
+    SetValue(Node, 'OperationSizeFormat', Ord(gOperationSizeFormat));
+    SetValue(Node, 'HeaderFooterSizeFormat', Ord(gHeaderFooterSizeFormat));
     SetValue(Node, 'FileSizeDigits', gFileSizeDigits);
+    SetValue(Node, 'HeaderFooterDigits', gHeaderFooterDigits);
+    SetValue(Node, 'OperationSizeDigits', gOperationSizeDigits);
+    SetValue(Node, 'PersonalizedByte', Trim(gSizeDisplayUnits[fsfPersonalizedByte]));
+    SetValue(Node, 'PersonalizedKilo', Trim(gSizeDisplayUnits[fsfPersonalizedKilo]));
+    SetValue(Node, 'PersonalizedMega', Trim(gSizeDisplayUnits[fsfPersonalizedMega]));
+    SetValue(Node, 'PersonalizedGiga', Trim(gSizeDisplayUnits[fsfPersonalizedGiga]));
+    SetValue(Node, 'PersonalizedTera', Trim(gSizeDisplayUnits[fsfPersonalizedTera]));
     SetValue(Node, 'MinimizeToTray', gMinimizeToTray);
     SetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
     SubNode := FindNode(Node, 'Mouse', True);

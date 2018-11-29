@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Files views options page
 
-   Copyright (C) 2006-2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,8 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsFilesViews;
@@ -27,7 +26,7 @@ unit fOptionsFilesViews;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, Graphics, ExtCtrls, Spin,
+  uTypes, Classes, SysUtils, StdCtrls, Graphics, ExtCtrls, Spin,
   fOptionsFrame;
 
 type
@@ -35,27 +34,33 @@ type
   { TfrmOptionsFilesViews }
 
   TfrmOptionsFilesViews = class(TOptionsEditor)
-    btnAddAttribute: TButton;
-    btnAttrsHelp: TButton;
+    btnDefault: TButton;
     cbDateTimeFormat: TComboBox;
-    cbDblClickToParent: TCheckBox;
-    cbHighlightUpdatedFiles: TCheckBox;
-    cbDirBrackets: TCheckBox;
-    cbListFilesInThread: TCheckBox;
-    cbLoadIconsSeparately: TCheckBox;
-    cbDelayLoadingTabs: TCheckBox;
+    cbHeaderFooterSizeFormat: TComboBox;
+    cbOperationSizeFormat: TComboBox;
     cbUpdatedFilesPosition: TComboBox;
-    cbShowSystemFiles: TCheckBox;
     cbNewFilesPosition: TComboBox;
     cbSortMethod: TComboBox;
-    cbSpaceMovesDown: TCheckBox;
     cbCaseSensitivity: TComboBox;
     cbSortFolderMode: TComboBox;
     cbFileSizeFormat: TComboBox;
-    cbInplaceRename: TCheckBox;
+    edByte: TEdit;
+    edKilo: TEdit;
+    edMega: TEdit;
+    edGiga: TEdit;
+    edTera: TEdit;
     gbFormatting: TGroupBox;
     gbSorting: TGroupBox;
-    gbMisc: TGroupBox;
+    gbPersonalizedAbbreviationToUse: TGroupBox;
+    lblByte: TLabel;
+    lblKilobyte: TLabel;
+    lblMegabyte: TLabel;
+    lblGigabyte: TLabel;
+    lblTerabyte: TLabel;
+    lblHeaderFooterSizeExample: TLabel;
+    lblHeaderFooterSizeFormat: TLabel;
+    lblOperationSizeExample: TLabel;
+    lblOperationSizeFormat: TLabel;
     lblFileSizeExample: TLabel;
     lblDateTimeExample: TLabel;
     lblUpdatedFilesPosition: TLabel;
@@ -66,28 +71,23 @@ type
     lblSortMethod: TLabel;
     lblFileSizeFormat: TLabel;
     pnlDateTime: TPanel;
-    pnlDefaultAttribute: TPanel;
-    chkMarkMaskFilterWindows: TCheckBox;
-    gbMarking: TGroupBox;
-    lbAttributeMask: TLabel;
-    edtDefaultAttribute: TEdit;
-    chkMarkMaskShowAttribute: TCheckBox;
-    speNumberOfDigits: TSpinEdit;
-    procedure btnAddAttributeClick(Sender: TObject);
-    procedure btnAttrsHelpClick(Sender: TObject);
+    speNumberOfDigitsFile: TSpinEdit;
+    speNumberOfDigitsHeaderFooter: TSpinEdit;
+    speNumberOfDigitsOperation: TSpinEdit;
+    procedure btnDefaultClick(Sender: TObject);
     procedure cbDateTimeFormatChange(Sender: TObject);
-    procedure cbFileSizeFormatChange(Sender: TObject);
+    procedure RefreshOurExamples(Sender: TObject);
+    procedure TransferUnitsToOfficialUnits;
   private
     FIncorrectFormatMessage: string;
-    procedure OnAddAttribute(Sender: TObject);
   protected
     procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
     procedure AfterConstruction; override;
-    class function GetIconIndex: Integer; override;
-    class function GetTitle: String; override;
+    class function GetIconIndex: integer; override;
+    class function GetTitle: string; override;
   end;
 
 implementation
@@ -95,7 +95,7 @@ implementation
 {$R *.lfm}
 
 uses
-  HelpIntfs, fAttributesEdit, DCStrUtils, uGlobs, uLng, uTypes, uDCUtils;
+  DCStrUtils, uGlobs, uLng, uDCUtils;
 
 const
   cFileSizeExample = 1335875825;
@@ -105,22 +105,33 @@ const
 procedure TfrmOptionsFilesViews.cbDateTimeFormatChange(Sender: TObject);
 begin
   try
-    lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
+    lblDateTimeExample.Caption := FormatDateTime(cbDateTimeFormat.Text, Now);
     lblDateTimeExample.Font.Color := clDefault;
   except
     on E: EConvertError do
     begin
-      lblDateTimeExample.Caption:= FIncorrectFormatMessage;
+      lblDateTimeExample.Caption := FIncorrectFormatMessage;
       lblDateTimeExample.Font.Color := clRed;
     end;
   end;
 end;
 
-procedure TfrmOptionsFilesViews.cbFileSizeFormatChange(Sender: TObject);
+procedure TfrmOptionsFilesViews.RefreshOurExamples(Sender: TObject);
+var
+  PreserveUnits: array[fsfPersonalizedByte .. fsfPersonalizedTera] of string;
+  iFileSizeFormat: TFileSizeFormat;
 begin
-  lblFileSizeExample.Caption:= cnvFormatFileSize(cFileSizeExample,
-                                 TFileSizeFormat(cbFileSizeFormat.ItemIndex),
-                                 speNumberOfDigits.Value);
+  //We will temporary switch our units with official ones the time to show the preview.
+  for iFileSizeFormat := fsfPersonalizedByte to fsfPersonalizedTera do PreserveUnits[iFileSizeFormat] := gSizeDisplayUnits[iFileSizeFormat];
+  try
+    TransferUnitsToOfficialUnits;
+    lblFileSizeExample.Caption := CnvFormatFileSize(cFileSizeExample, TFileSizeFormat(cbFileSizeFormat.ItemIndex), speNumberOfDigitsFile.Value);
+    lblHeaderFooterSizeExample.Caption := CnvFormatFileSize(cFileSizeExample, TFileSizeFormat(cbHeaderFooterSizeFormat.ItemIndex), speNumberOfDigitsHeaderFooter.Value);
+    lblOperationSizeExample.Caption := CnvFormatFileSize(cFileSizeExample, TFileSizeFormat(cbOperationSizeFormat.ItemIndex), speNumberOfDigitsOperation.Value);
+  finally
+    //We restore the previous units.
+    for iFileSizeFormat := fsfPersonalizedByte to fsfPersonalizedTera do gSizeDisplayUnits[iFileSizeFormat] := PreserveUnits[iFileSizeFormat];
+  end;
 end;
 
 procedure TfrmOptionsFilesViews.Init;
@@ -130,65 +141,57 @@ begin
   ParseLineToList(rsOptSortFolderMode, cbSortFolderMode.Items);
   ParseLineToList(rsOptNewFilesPosition, cbNewFilesPosition.Items);
   ParseLineToList(rsOptUpdatedFilesPosition, cbUpdatedFilesPosition.Items);
-  ParseLineToList(rsOptFileSizeFormat, cbFileSizeFormat.Items);
+  ParseLineToList(rsOptFileSizeFloat + ';' + rsLegacyOperationByteSuffixLetter + ';' + rsLegacyDisplaySizeSingleLetterKilo + ';' + rsLegacyDisplaySizeSingleLetterMega + ';' + rsLegacyDisplaySizeSingleLetterGiga + ';' + rsLegacyDisplaySizeSingleLetterTera + ';' + rsOptPersonalizedFileSizeFormat, cbFileSizeFormat.Items);
+  cbHeaderFooterSizeFormat.Items.Assign(cbFileSizeFormat.Items);
+  cbOperationSizeFormat.Items.Assign(cbFileSizeFormat.Items);
 end;
 
 procedure TfrmOptionsFilesViews.Load;
 begin
   case gSortCaseSensitivity of
     cstNotSensitive: cbCaseSensitivity.ItemIndex := 0;
-    cstLocale:       cbCaseSensitivity.ItemIndex := 1;
-    cstCharValue:    cbCaseSensitivity.ItemIndex := 2;
+    cstLocale: cbCaseSensitivity.ItemIndex := 1;
+    cstCharValue: cbCaseSensitivity.ItemIndex := 2;
   end;
   if not gSortNatural then
-    cbSortMethod.ItemIndex:= 0
+    cbSortMethod.ItemIndex := 0
   else
-    cbSortMethod.ItemIndex:= 1;
+    cbSortMethod.ItemIndex := 1;
   case gSortFolderMode of
-    sfmSortNameShowFirst:      cbSortFolderMode.ItemIndex := 0;
-    sfmSortLikeFileShowFirst:  cbSortFolderMode.ItemIndex := 1;
-    sfmSortLikeFile:           cbSortFolderMode.ItemIndex := 2;
+    sfmSortNameShowFirst: cbSortFolderMode.ItemIndex := 0;
+    sfmSortLikeFileShowFirst: cbSortFolderMode.ItemIndex := 1;
+    sfmSortLikeFile: cbSortFolderMode.ItemIndex := 2;
   end;
   case gNewFilesPosition of
-    nfpTop:                 cbNewFilesPosition.ItemIndex := 0;
+    nfpTop: cbNewFilesPosition.ItemIndex := 0;
     nfpTopAfterDirectories: cbNewFilesPosition.ItemIndex := 1;
-    nfpSortedPosition:      cbNewFilesPosition.ItemIndex := 2;
-    nfpBottom:              cbNewFilesPosition.ItemIndex := 3;
+    nfpSortedPosition: cbNewFilesPosition.ItemIndex := 2;
+    nfpBottom: cbNewFilesPosition.ItemIndex := 3;
   end;
   case gUpdatedFilesPosition of
-    ufpNoChange:       cbUpdatedFilesPosition.ItemIndex := 0;
+    ufpNoChange: cbUpdatedFilesPosition.ItemIndex := 0;
     ufpSameAsNewFiles: cbUpdatedFilesPosition.ItemIndex := 1;
     ufpSortedPosition: cbUpdatedFilesPosition.ItemIndex := 2;
   end;
   cbFileSizeFormat.ItemIndex := Ord(gFileSizeFormat);
-  speNumberOfDigits.Value:= gFileSizeDigits;
+  cbHeaderFooterSizeFormat.ItemIndex := Ord(gHeaderFooterSizeFormat);
+  cbOperationSizeFormat.ItemIndex := Ord(gOperationSizeFormat);
+  speNumberOfDigitsFile.Value := gFileSizeDigits;
+  speNumberOfDigitsHeaderFooter.Value := gHeaderFooterDigits;
+  speNumberOfDigitsOperation.Value := gOperationSizeDigits;
+  edByte.Text := Trim(gSizeDisplayUnits[fsfPersonalizedByte]);
+  edKilo.Text := Trim(gSizeDisplayUnits[fsfPersonalizedKilo]);
+  edMega.Text := Trim(gSizeDisplayUnits[fsfPersonalizedMega]);
+  edGiga.Text := Trim(gSizeDisplayUnits[fsfPersonalizedGiga]);
+  edTera.Text := Trim(gSizeDisplayUnits[fsfPersonalizedTera]);
   cbDateTimeFormat.Text := gDateTimeFormat;
-  lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
-  cbSpaceMovesDown.Checked := gSpaceMovesDown;
-  cbDirBrackets.Checked := gDirBrackets;
-  cbShowSystemFiles.Checked:= gShowSystemFiles;
-  {$IFDEF LCLCARBON}
-  // Under Mac OS X loading file list in separate thread are very very slow
-  // so disable and hide this option under Mac OS X Carbon
-  cbListFilesInThread.Visible:= False;
-  {$ELSE}
-  cbListFilesInThread.Checked:= gListFilesInThread;
-  {$ENDIF}
-  cbLoadIconsSeparately.Checked:= gLoadIconsSeparately;
-  cbDelayLoadingTabs.Checked:= gDelayLoadingTabs;
-  cbHighlightUpdatedFiles.Checked:= gHighlightUpdatedFiles;
-  cbInplaceRename.Checked := gInplaceRename;
-  cbDblClickToParent.Checked := gDblClickToParent;
+  lblDateTimeExample.Caption := FormatDateTime(cbDateTimeFormat.Text, Now);
 
-  chkMarkMaskFilterWindows.Checked := gMarkMaskFilterWindows;
-  chkMarkMaskShowAttribute.Checked := gMarkShowWantedAttribute;
-  edtDefaultAttribute.Text := gMarkDefaultWantedAttribute;
+  lblFileSizeExample.Constraints.MinWidth := lblFileSizeExample.Canvas.TextWidth(CnvFormatFileSize(cFileSizeExample, fsfKilo, speNumberOfDigitsFile.MaxValue) + 'WWW');
+  lblHeaderFooterSizeExample.Constraints.MinWidth := lblHeaderFooterSizeExample.Canvas.TextWidth(CnvFormatFileSize(cFileSizeExample, fsfKilo, speNumberOfDigitsHeaderFooter.MaxValue) + 'WWW');
+  lblOperationSizeExample.Constraints.MinWidth := lblOperationSizeExample.Canvas.TextWidth(CnvFormatFileSize(cFileSizeExample, fsfKilo, speNumberOfDigitsOperation.MaxValue) + 'WWW');
 
-  with lblFileSizeExample do begin
-    Constraints.MinWidth:= Canvas.TextWidth(cnvFormatFileSize(cFileSizeExample,
-                                            fsfKilo, speNumberOfDigits.MaxValue));
-  end;
-  cbFileSizeFormatChange(cbFileSizeFormat);
+  Self.RefreshOurExamples(nil);
 end;
 
 function TfrmOptionsFilesViews.Save: TOptionsEditorSaveFlags;
@@ -216,22 +219,13 @@ begin
     2: gUpdatedFilesPosition := ufpSortedPosition;
   end;
   gFileSizeFormat := TFileSizeFormat(cbFileSizeFormat.ItemIndex);
-  gFileSizeDigits := speNumberOfDigits.Value;
+  gHeaderFooterSizeFormat := TFileSizeFormat(cbHeaderFooterSizeFormat.ItemIndex);
+  gOperationSizeFormat := TFileSizeFormat(cbOperationSizeFormat.ItemIndex);
+  gFileSizeDigits := speNumberOfDigitsFile.Value;
+  gHeaderFooterDigits := speNumberOfDigitsHeaderFooter.Value;
+  gOperationSizeDigits := speNumberOfDigitsOperation.Value;
+  TransferUnitsToOfficialUnits;
   gDateTimeFormat := GetValidDateTimeFormat(cbDateTimeFormat.Text, gDateTimeFormat);
-
-  gSpaceMovesDown := cbSpaceMovesDown.Checked;
-  gDirBrackets := cbDirBrackets.Checked;
-  gShowSystemFiles:= cbShowSystemFiles.Checked;
-  gListFilesInThread:= cbListFilesInThread.Checked;
-  gLoadIconsSeparately:= cbLoadIconsSeparately.Checked;
-  gDelayLoadingTabs := cbDelayLoadingTabs.Checked;
-  gHighlightUpdatedFiles := cbHighlightUpdatedFiles.Checked;
-  gInplaceRename := cbInplaceRename.Checked;
-  gDblClickToParent := cbDblClickToParent.Checked;
-
-  gMarkMaskFilterWindows := chkMarkMaskFilterWindows.Checked;
-  gMarkShowWantedAttribute := chkMarkMaskShowAttribute.Checked;
-  gMarkDefaultWantedAttribute := edtDefaultAttribute.Text;
 
   Result := [];
 end;
@@ -243,47 +237,34 @@ begin
   FIncorrectFormatMessage := lblDateTimeExample.Caption;
 end;
 
-class function TfrmOptionsFilesViews.GetIconIndex: Integer;
+class function TfrmOptionsFilesViews.GetIconIndex: integer;
 begin
   Result := 29;
 end;
 
-class function TfrmOptionsFilesViews.GetTitle: String;
+class function TfrmOptionsFilesViews.GetTitle: string;
 begin
   Result := rsOptionsEditorFilesViews;
 end;
 
 
-procedure TfrmOptionsFilesViews.btnAddAttributeClick(Sender: TObject);
-var
-  FFrmAttributesEdit: TfrmAttributesEdit;
+procedure TfrmOptionsFilesViews.btnDefaultClick(Sender: TObject);
 begin
-  FFrmAttributesEdit := TfrmAttributesEdit.Create(Self);
-  try
-  FFrmAttributesEdit.OnOk := @OnAddAttribute;
-  FFrmAttributesEdit.Reset;
-  FFrmAttributesEdit.ShowModal;
-  finally
-    FFrmAttributesEdit.Free;
-  end;
+  Self.edByte.Text := Trim(rsDefaultPersonalizedAbbrevByte);
+  Self.edKilo.Text := Trim(rsDefaultPersonalizedAbbrevKilo);
+  Self.edMega.Text := Trim(rsDefaultPersonalizedAbbrevMega);
+  Self.edGiga.Text := Trim(rsDefaultPersonalizedAbbrevGiga);
+  Self.edTera.Text := Trim(rsDefaultPersonalizedAbbrevTera);
 end;
 
-procedure TfrmOptionsFilesViews.btnAttrsHelpClick(Sender: TObject);
+procedure TfrmOptionsFilesViews.TransferUnitsToOfficialUnits;
 begin
-  ShowHelpOrErrorForKeyword('', edtDefaultAttribute.HelpKeyword);
-end;
-
-
-procedure TfrmOptionsFilesViews.OnAddAttribute(Sender: TObject);
-var
-  sAttr: String;
-begin
-  sAttr := edtDefaultAttribute.Text;
-  if edtDefaultAttribute.SelStart > 0 then
-    Insert((Sender as TfrmAttributesEdit).AttrsAsText, sAttr, edtDefaultAttribute.SelStart + 1) // Insert at caret position.
-  else
-    sAttr := sAttr + (Sender as TfrmAttributesEdit).AttrsAsText;
-  edtDefaultAttribute.Text := sAttr;
+  gSizeDisplayUnits[fsfPersonalizedByte] := Trim(edByte.Text);
+  if gSizeDisplayUnits[fsfPersonalizedByte] <> '' then gSizeDisplayUnits[fsfPersonalizedByte] := ' ' + gSizeDisplayUnits[fsfPersonalizedByte];
+  gSizeDisplayUnits[fsfPersonalizedKilo] := ' ' + Trim(edKilo.Text);
+  gSizeDisplayUnits[fsfPersonalizedMega] := ' ' + Trim(edMega.Text);
+  gSizeDisplayUnits[fsfPersonalizedGiga] := ' ' + Trim(edGiga.Text);
+  gSizeDisplayUnits[fsfPersonalizedTera] := ' ' + Trim(edTera.Text);
 end;
 
 end.

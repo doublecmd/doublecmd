@@ -3,6 +3,7 @@
    -------------------------------------------------------------------------
    Control that shows drives list and allows selecting a drive.
 
+   Copyright (C) 2009-2018  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2009-2011  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -16,8 +17,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uDrivesList;
@@ -59,13 +59,13 @@ type
     function GetLowestRow: Integer;
     function GetHighestRow: Integer;
 
-    procedure PrepareCanvasEvent(Sender: TObject; aCol, aRow: Integer;
-      aState: TGridDrawState);
-    procedure SelectCellEvent(Sender: TObject; aCol, aRow: Integer;
+    procedure PrepareCanvasEvent(Sender: TObject; aCol, {%H-}aRow: Integer;
+      {%H-}aState: TGridDrawState);
+    procedure SelectCellEvent(Sender: TObject; {%H-}aCol, aRow: Integer;
       var CanSelect: Boolean);
     procedure EnterEvent(Sender: TObject);
     procedure ExitEvent(Sender: TObject);
-    procedure KeyDownEvent(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure KeyDownEvent(Sender: TObject; var Key: Word; {%H-}Shift: TShiftState);
 {$IFNDEF ForceVirtualKeysShortcuts}
     procedure KeyPressEvent(Sender: TObject; var Key: Char);
     procedure UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
@@ -92,10 +92,10 @@ type
   protected
     procedure DrawCell(aCol, aRow: Integer; aRect: TRect;
        aState: TGridDrawState); override;
-    procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
+    procedure MouseDown(Button: TMouseButton; {%H-}Shift: TShiftState;
       X, Y: Integer); override;
-    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
-    procedure MouseUp(Button: TMouseButton; Shift: TShiftState;
+    procedure MouseMove({%H-}Shift: TShiftState; X, Y: Integer); override;
+    procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState;
       X, Y: Integer); override;
     procedure Paint; override;
 
@@ -588,8 +588,8 @@ begin
          GetDiskFreeSpace(Drive^.Path, FreeSize, TotalSize) then
       begin
         Cells[4, RowNr] :=
-          Format('%s/%s', [cnvFormatFileSize(FreeSize, True),
-                           cnvFormatFileSize(TotalSize, True)])
+          Format('%s/%s', [cnvFormatFileSize(FreeSize, uoscHeaderFooter),
+                           cnvFormatFileSize(TotalSize, uoscHeaderFooter)])
       end;
     end; // for
 end;

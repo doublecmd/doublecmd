@@ -1,13 +1,33 @@
 {
-Seksi Commander
-----------------------------
-Licence  : GNU GPL v 2.0
-Author   : Pavel Letko (letcuv@centrum.cz)
+   Double Commander
+   -------------------------------------------------------------------------
+   Take a single file and split it in part based on few parameters.
 
-File splitter
+   Copyright (C) 2018  Alexander Koblov (alexx2000@mail.ru)
 
-contributors:
-  Radek Cervinka
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+   Original comment:
+   -----------------
+   Seksi Commander
+   ----------------------------
+   Licence  : GNU GPL v 2.0
+   Author   : Pavel Letko (letcuv@centrum.cz)
+   File splitter
+   contributors:
+   Radek Cervinka
 }
 
 unit fSplitter;
@@ -53,7 +73,7 @@ type
     procedure rbtnByteChange(Sender: TObject);
     procedure teNumberPartsChange(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormClose(Sender: TObject; var {%H-}CloseAction: TCloseAction);
   private
     { Private declarations }
     MyModalResult: integer;
@@ -74,7 +94,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  LCLType, LCLProc,
+  LazUTF8, LCLType, LCLProc,
   //DC
   DCStrUtils, uLng, uFileProcs, uOperationsManager, uFileSourceSplitOperation,
   uShowMsg, DCOSUtils, uGlobs, uSpecialDir, uDCUtils;
@@ -131,7 +151,7 @@ begin
       end
       else
       begin
-        teNumberParts.Text:='Error';
+        teNumberParts.Text:=rsSimpleWordError;
       end;
     end
   else
@@ -146,13 +166,13 @@ begin
   if StrToInt64Def(teNumberParts.Text,0)>0 then
   begin
     if mbFileSize(edFileSource.Text) mod StrToInt64Def(teNumberParts.Text,0)>0 then
-      cmbxSize.Text := IntToStr(mbFileSize(edFileSource.Text) div StrToInt64Def(teNumberParts.Text,0)+1)+'B'
+      cmbxSize.Text := IntToStr(mbFileSize(edFileSource.Text) div StrToInt64Def(teNumberParts.Text,0)+1)+rsLegacyOperationByteSuffixLetter
     else
-      cmbxSize.Text := IntToStr(mbFileSize(edFileSource.Text) div StrToInt64Def(teNumberParts.Text,0))+'B';
+      cmbxSize.Text := IntToStr(mbFileSize(edFileSource.Text) div StrToInt64Def(teNumberParts.Text,0))+rsLegacyOperationByteSuffixLetter;
   end
   else
   begin
-    cmbxSize.Text:='Error';
+    cmbxSize.Text:=rsSimpleWordError;
   end;
 end;
 
@@ -175,8 +195,8 @@ var iRet:int64;
     iPos,iMult:integer;
     sStr:string;
 begin
-  str:=UpperCase(str);
-  iPos:=Pos('B',str);
+  str := UTF8StringReplace(str,' ','',[rfReplaceAll]);
+  iPos := Utf8Pos(rsLegacyOperationByteSuffixLetter, str);
   if iPos>1 then
   begin
     rbtnByte.Enabled:=false;
@@ -188,16 +208,16 @@ begin
     rbtnMegaB.Checked:=false;
     rbtnGigaB.Checked:=false;
     dec(iPos);
-    case str[iPos] of
-      'K':iMult:=1024; //Kilo
-      'M':iMult:=1024*1024; //Mega
-      'G':iMult:=1024*1024*1024; //Giga
+    if UTF8Copy(str,iPos,1)=rsLegacyDisplaySizeSingleLetterKilo then iMult:=1024 //Kilo
+    else if UTF8Copy(str,iPos,1)=rsLegacyDisplaySizeSingleLetterMega then iMult:=1024*1024 //Mega
+    else if UTF8Copy(str,iPos,1)=rsLegacyDisplaySizeSingleLetterGiga then iMult:=1024*1024*1024 //Giga
     else
-      iMult:=1;
-      inc(iPos);
-    end;
+      begin
+        iMult:=1;
+        inc(iPos);
+      end;
     dec(iPos);
-    sStr:=Copy(str,1,iPos);
+    sStr:=Utf8Copy(str,1,iPos);
     iRet:=StrToInt64Def(sStr,0)*iMult;
   end
   else
@@ -257,28 +277,25 @@ end;
 { TfrmSplitter.btnOKClick }
 procedure TfrmSplitter.btnOKClick(Sender: TObject);
 var
-  iFileSize : Int64;
-  Operation: TFileSourceSplitOperation = nil;
-  WindowResult: ShortInt;
   isTooManyFiles: boolean;
 begin
   if cmbxSize.ItemIndex<>0 then iVolumeSize:= StrConvert(cmbxSize.Text) else iVolumeSize:=0;
   if (iVolumeSize <= 0) AND (cmbxSize.ItemIndex<>0) then
   begin
-    ShowMessageBox(rsSplitErrFileSize, 'Error!', MB_OK or MB_ICONERROR); //Incorrect file size format! (Used "ShowMessageBox" instead of "MsgError" 'cause with "MsgError", user can still click on the frmSplitter form and type in it).
+    ShowMessageBox(rsSplitErrFileSize, rsSimpleWordError+'!', MB_OK or MB_ICONERROR); //Incorrect file size format! (Used "ShowMessageBox" instead of "MsgError" 'cause with "MsgError", user can still click on the frmSplitter form and type in it).
   end
   else
   begin
     if not mbForceDirectory(IncludeTrailingPathDelimiter(mbExpandFileName(edDirTarget.Text))) then
     begin
-      ShowMessageBox(rsSplitErrDirectory, 'Error!', MB_OK or MB_ICONERROR); //Unable to create target directory!
+      ShowMessageBox(rsSplitErrDirectory, rsSimpleWordError+'!', MB_OK or MB_ICONERROR); //Unable to create target directory!
     end
     else
     begin
       if teNumberParts.Text <> rsMSgUndeterminedNumberOfFile then iVolumeNumber := StrToInt(teNumberParts.Text) else iVolumeNumber := 0;
       if (iVolumeNumber < 1) AND (teNumberParts.Text <> rsMSgUndeterminedNumberOfFile) then
       begin
-        ShowMessageBox(rsSplitErrSplitFile, 'Error!', MB_OK or MB_ICONERROR); //Unable to split the file!
+        ShowMessageBox(rsSplitErrSplitFile, rsSimpleWordError+'!', MB_OK or MB_ICONERROR); //Unable to split the file!
       end
       else
       begin
