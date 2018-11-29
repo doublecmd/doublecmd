@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.9.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2018-11-14 10:14+0300\n"
+"PO-Revision-Date: 2018-11-29 15:30+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -5506,7 +5506,7 @@ msgstr "Добавить"
 #: tfrmoptionsfileassoc.btnaddext.caption
 msgctxt "tfrmoptionsfileassoc.btnaddext.caption"
 msgid "Add"
-msgstr "&Добавить"
+msgstr "Добавить"
 
 #: tfrmoptionsfileassoc.btnaddnewtype.caption
 msgctxt "tfrmoptionsfileassoc.btnaddnewtype.caption"
@@ -5515,7 +5515,7 @@ msgstr "&Добавить"
 
 #: tfrmoptionsfileassoc.btncloneact.caption
 msgid "C&lone"
-msgstr "Клонировать"
+msgstr "&Клонировать"
 
 #: tfrmoptionsfileassoc.btncommands.hint
 msgctxt "tfrmoptionsfileassoc.btncommands.hint"
@@ -5530,7 +5530,7 @@ msgstr "&Вниз"
 #: tfrmoptionsfileassoc.btneditext.caption
 msgctxt "tfrmoptionsfileassoc.btneditext.caption"
 msgid "Edi&t"
-msgstr "Редактировать"
+msgstr "&Редактировать"
 
 #: tfrmoptionsfileassoc.btninsertact.caption
 msgctxt "tfrmoptionsfileassoc.btninsertact.caption"
@@ -5540,7 +5540,7 @@ msgstr "Вставить"
 #: tfrmoptionsfileassoc.btninsertext.caption
 msgctxt "tfrmoptionsfileassoc.btninsertext.caption"
 msgid "&Insert"
-msgstr "Вставить"
+msgstr "Вставит&ь"
 
 #: tfrmoptionsfileassoc.btnparametershelper.hint
 msgctxt "tfrmoptionsfileassoc.btnparametershelper.hint"
@@ -5570,7 +5570,7 @@ msgstr "Уда&лить"
 #: tfrmoptionsfileassoc.btnrenametype.caption
 msgctxt "tfrmoptionsfileassoc.btnrenametype.caption"
 msgid "R&ename"
-msgstr "Пе&реименовать"
+msgstr "Пере&именовать"
 
 #: tfrmoptionsfileassoc.btnstartpathpathhelper.hint
 msgctxt "tfrmoptionsfileassoc.btnstartpathpathhelper.hint"
@@ -5646,22 +5646,22 @@ msgstr "Типы файлов могут быть отсортированы п�
 #: tfrmoptionsfileassoc.lblaction.caption
 msgctxt "tfrmoptionsfileassoc.lblaction.caption"
 msgid "Action &name:"
-msgstr "Название:"
+msgstr "&Название:"
 
 #: tfrmoptionsfileassoc.lblcommand.caption
 msgctxt "tfrmoptionsfileassoc.lblcommand.caption"
 msgid "Command:"
-msgstr "&Команда:"
+msgstr "Команда:"
 
 #: tfrmoptionsfileassoc.lblexternalparameters.caption
 msgctxt "tfrmoptionsfileassoc.lblexternalparameters.caption"
 msgid "Parameter&s:"
-msgstr "Параметры:"
+msgstr "Пара&метры:"
 
 #: tfrmoptionsfileassoc.lblstartpath.caption
 msgctxt "tfrmoptionsfileassoc.lblstartpath.caption"
 msgid "Start pat&h:"
-msgstr "П&уть запуска:"
+msgstr "Путь &запуска:"
 
 #: tfrmoptionsfileassoc.menuitem3.caption
 msgid "Custom with..."
@@ -6040,7 +6040,7 @@ msgstr "Испо&льзовать поток"
 #: tfrmoptionsfilesviews.btndefault.caption
 msgctxt "tfrmoptionsfilesviews.btndefault.caption"
 msgid "De&fault"
-msgstr "По умол&чанию"
+msgstr "По умолчани&ю"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
@@ -6048,7 +6048,7 @@ msgstr "Форматирование"
 
 #: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
 msgid "Personalized abbreviations to use:"
-msgstr ""
+msgstr "Пользовательские сокращения:"
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
@@ -6057,7 +6057,7 @@ msgstr "Сортировка"
 
 #: tfrmoptionsfilesviews.lblbyte.caption
 msgid "&Byte:"
-msgstr ""
+msgstr "&Байт:"
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"
@@ -6070,27 +6070,27 @@ msgstr "Неверный формат"
 #: tfrmoptionsfilesviews.lbldatetimeformat.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
 msgid "&Date and time format:"
-msgstr "&Формат даты и времени:"
+msgstr "Формат &даты и времени:"
 
 #: tfrmoptionsfilesviews.lblfilesizeformat.caption
 msgid "File si&ze format:"
-msgstr "Формат ра&змера файла:"
+msgstr "Формат &размера файла:"
 
 #: tfrmoptionsfilesviews.lblgigabyte.caption
 msgid "&Gigabyte:"
-msgstr ""
+msgstr "&Гигабайт:"
 
 #: tfrmoptionsfilesviews.lblheaderfootersizeformat.caption
 msgid "&Header/footer format:"
-msgstr ""
+msgstr "Общи&й/строка состояния:"
 
 #: tfrmoptionsfilesviews.lblkilobyte.caption
 msgid "&Kilobyte:"
-msgstr ""
+msgstr "&Килобайт:"
 
 #: tfrmoptionsfilesviews.lblmegabyte.caption
 msgid "Megab&yte:"
-msgstr ""
+msgstr "&Мегабайт:"
 
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files:"
@@ -6098,7 +6098,7 @@ msgstr "&Вставлять новые файлы:"
 
 #: tfrmoptionsfilesviews.lbloperationsizeformat.caption
 msgid "O&peration size format:"
-msgstr ""
+msgstr "&Файловые операции:"
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -6111,7 +6111,7 @@ msgstr "Метод &сортировки:"
 
 #: tfrmoptionsfilesviews.lblterabyte.caption
 msgid "&Terabyte:"
-msgstr ""
+msgstr "Тераба&йт:"
 
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
@@ -6140,7 +6140,7 @@ msgstr "&Не загружать список файлов, пока вклад�
 #: tfrmoptionsfilesviewscomplement.cbdirbrackets.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbdirbrackets.caption"
 msgid "S&how square brackets around directories"
-msgstr "Показыват&ь квадратные скобки вокруг имён папок"
+msgstr "Показывать &квадратные скобки вокруг имён папок"
 
 #: tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption"
@@ -6150,7 +6150,7 @@ msgstr "По&дсвечивать новые и изменённые файлы"
 #: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cbinplacerename.caption"
 msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "Разрешить &переименование при щелчке по имени файла под курсором"
+msgstr "Разрешить переименование при щелчке по &имени файла под курсором"
 
 #: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
 msgctxt "tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption"
@@ -6763,11 +6763,9 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "&Удалить эскизы для отсутствующих файлов"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
-#, fuzzy
-#| msgid "View log file content"
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
 msgid "View configuration file content"
-msgstr "Просмотреть содержимое файла протокола"
+msgstr "Просмотреть содержимое файла настроек"
 
 #: tfrmoptionsmisc.chkdesccreateunicode.caption
 msgctxt "tfrmoptionsmisc.chkdesccreateunicode.caption"
@@ -9522,11 +9520,11 @@ msgstr ""
 
 #: ulng.rsabbrevdisplaydir
 msgid "<DIR>"
-msgstr ""
+msgstr "<Папка>"
 
 #: ulng.rsabbrevdisplaylink
 msgid "<LNK>"
-msgstr ""
+msgstr "<Ссылка>"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
@@ -9669,23 +9667,23 @@ msgstr "Импортированная панель инструментов TC"
 #: ulng.rsdefaultpersonalizedabbrevbyte
 msgctxt "ulng.rsdefaultpersonalizedabbrevbyte"
 msgid "B"
-msgstr ""
+msgstr "Б"
 
 #: ulng.rsdefaultpersonalizedabbrevgiga
 msgid "GB"
-msgstr ""
+msgstr "Гб"
 
 #: ulng.rsdefaultpersonalizedabbrevkilo
 msgid "KB"
-msgstr ""
+msgstr "Кб"
 
 #: ulng.rsdefaultpersonalizedabbrevmega
 msgid "MB"
-msgstr ""
+msgstr "Мб"
 
 #: ulng.rsdefaultpersonalizedabbrevtera
 msgid "TB"
-msgstr ""
+msgstr "Тб"
 
 #: ulng.rsdefaultsuffixdroppedtext
 msgid "_DroppedText"
@@ -9975,7 +9973,7 @@ msgstr ""
 
 #: ulng.rsfileopcopymovefileexistsoptions
 msgid "Ask;Overwrite;Skip"
-msgstr ""
+msgstr "Спрашивать;Перезаписывать;Пропускать"
 
 #: ulng.rsfileopdirectoryexistsoptions
 msgid "Ask;Merge;Skip"
@@ -10048,12 +10046,10 @@ msgid "Begin at"
 msgstr "Начинать у"
 
 #: ulng.rsfreemsg
-#, fuzzy
 msgid "%s of %s free"
-msgstr "Свободно %s из %s"
+msgstr "%s из %s свободно"
 
 #: ulng.rsfreemsgshort
-#, fuzzy
 msgid "%s free"
 msgstr "%s свободно"
 
@@ -10746,7 +10742,7 @@ msgstr "Файл %s помечен как доступный только для
 msgid "Are you sure you want to reload the current file and lose the changes?"
 msgstr ""
 "Все внесённые изменения будут потеряны!\n"
-"Продолжить?\n"
+"Продолжить?"
 
 #: ulng.rsmsgfilesizetoobig
 msgid "The file size of \"%s\" is too big for destination file system!"
@@ -12128,7 +12124,7 @@ msgstr "Список файлов"
 
 #: ulng.rsoptionseditorfilesviewscomplement
 msgid "Files views extra"
-msgstr ""
+msgstr "Список файлов (дополнительно)"
 
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
@@ -12258,7 +12254,7 @@ msgstr "сверху списка файлов;после каталогов (е
 
 #: ulng.rsoptpersonalizedfilesizeformat
 msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
-msgstr ""
+msgstr "плавающий (пользовательский);байты (пользовательский);килобайты (пользовательский);мегабайты (пользовательский);гигабайты (пользовательский);терабайты (пользовательский)"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -12365,7 +12361,7 @@ msgstr "Вы уверены, что хотите удалить: \"%s\"?"
 
 #: ulng.rsopttooltipfiletypedefaultexportfilename
 msgid "Exported tooltip file type configuration"
-msgstr ""
+msgstr "Экспортированные настройки подсказок"
 
 #: ulng.rsopttooltipfiletypeexportcaption
 msgid "Export tooltip file type configuration"
@@ -12421,15 +12417,15 @@ msgstr "С полным абсолютным путём;С путём относ
 
 #: ulng.rspluginsearchcontainscasesenstive
 msgid "contains(case)"
-msgstr ""
+msgstr "содержит(с учётом регистра)"
 
 #: ulng.rspluginsearchcontainsnotcase
 msgid "contains"
-msgstr ""
+msgstr "содержит"
 
 #: ulng.rspluginsearchequalcasesensitive
 msgid "=(case)"
-msgstr ""
+msgstr "=(с учётом регистра)"
 
 #: ulng.rspluginsearchequalnotcase
 msgctxt "ulng.rspluginsearchequalnotcase"
@@ -12438,19 +12434,19 @@ msgstr "="
 
 #: ulng.rspluginsearchfieldnotfound
 msgid "Field \"%s\" not found!"
-msgstr ""
+msgstr "Поле \"%s\" не найдено!"
 
 #: ulng.rspluginsearchnotcontainscasesenstive
 msgid "!contains(case)"
-msgstr ""
+msgstr "!содержит(с учётом регистра)"
 
 #: ulng.rspluginsearchnotcontainsnotcase
 msgid "!contains"
-msgstr ""
+msgstr "!содержит"
 
 #: ulng.rspluginsearchnotequacasesensitive
 msgid "!=(case)"
-msgstr ""
+msgstr "!=(с учётом регистра)"
 
 #: ulng.rspluginsearchnotequalnotcase
 msgctxt "ulng.rspluginsearchnotequalnotcase"
@@ -12459,12 +12455,12 @@ msgstr "!="
 
 #: ulng.rspluginsearchpluginnotfound
 msgid "Plugin \"%s\" not found!"
-msgstr ""
+msgstr "Плагин \"%s\" не найден!"
 
 #: ulng.rspluginsearchunitnotfoundforfield
 msgctxt "ulng.rspluginsearchunitnotfoundforfield"
 msgid "Unit \"%s\" not found for field \"%s\" !"
-msgstr ""
+msgstr "Значение \"%s\" поля \"%s\" не найдено!"
 
 #: ulng.rspropscontains
 msgid "Files: %d, folders: %d"
@@ -12573,11 +12569,11 @@ msgstr "Команда"
 
 #: ulng.rssimpleworderror
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 #: ulng.rssimplewordfalse
 msgid "False"
-msgstr ""
+msgstr "Нет"
 
 #: ulng.rssimplewordfilename
 msgid "Filename"
@@ -12601,7 +12597,7 @@ msgstr "Результат"
 
 #: ulng.rssimplewordtrue
 msgid "True"
-msgstr ""
+msgstr "Да"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
@@ -13047,4 +13043,3 @@ msgstr "Число замен: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Замена не состоялась."
-
