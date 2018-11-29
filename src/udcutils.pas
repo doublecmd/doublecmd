@@ -24,8 +24,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uDCUtils;
@@ -58,6 +57,9 @@ const
   EnvVarConfigPath    = '%DC_CONFIG_PATH%'; // Using '%' for backward compatibility
   EnvVarTodaysDate    = VARDELIMITER + 'DC_TODAYSDATE' + VARDELIMITER_END;
 
+type
+  TUsageOfSizeConversion = (uoscFile, uoscHeaderFooter, uoscOperation, uoscNoUnit);
+
 function GetCmdDirFromEnvVar(const sPath : String) : String;
 function SetCmdDirAsEnvVar(const sPath : String) : String;
 {en
@@ -84,7 +86,7 @@ function mbExpandFileName(const sFileName: String): String;
    @returns(File size in string representation)
 }
 function cnvFormatFileSize(iSize: Int64; FSF: TFileSizeFormat; Number: Integer): String;
-function cnvFormatFileSize(iSize: Int64; {%H-}FSF: Boolean): String;
+function cnvFormatFileSize(iSize: Int64; UsageOfSizeConversion: TUsageOfSizeConversion): String;
 function cnvFormatFileSize(iSize: Int64): String; inline;
 {en
    Minimize file path
@@ -226,7 +228,7 @@ function DCGetNewGUID: TGUID;
 implementation
 
 uses
-  LCLProc, LCLType, uMasks, FileUtil, StrUtils, uOSUtils, uGlobs, uGlobsPaths,
+  uLng, LCLProc, LCLType, uMasks, FileUtil, StrUtils, uOSUtils, uGlobs, uGlobsPaths,
   DCStrUtils, DCOSUtils, LazUTF8;
 
 var
@@ -325,53 +327,53 @@ begin
   end;
 end;
 
-function cnvFormatFileSize(iSize: Int64; FSF: TFileSizeFormat; Number: Integer): String;
+function cnvFormatFileSize(iSize: int64; FSF: TFileSizeFormat; Number: integer): string;
+const
+  DIVISORS: array[LOW(TFileSizeFormat) .. HIGH(TFileSizeFormat)] of uint64 = (1, 1, 1024, (1024*1024), (1024*1024*1024), (1024*1024*1024*1024), 1, 1, 1024, (1024*1024), (1024*1024*1024), (1024*1024*1024*1024));
 var
-  FloatSize: Extended;
+  FloatSize: extended;
 begin
-  FloatSize:= iSize;
+  FloatSize := iSize;
+  if FSF = fsfPersonalizedFloat then
+  begin
+    if iSize div (1024 * 1024 * 1024 * 1024) > 0 then FSF := fsfPersonalizedTera
+    else if iSize div (1024 * 1024 * 1024) > 0 then FSF := fsfPersonalizedGiga
+    else if iSize div (1024 * 1024) > 0 then FSF := fsfPersonalizedMega
+    else if iSize div 1024 > 0 then FSF := fsfPersonalizedKilo
+    else FSF := fsfPersonalizedByte;
+  end
+  else if FSF = fsfFloat then
+  begin
+    if iSize div (1024 * 1024 * 1024 * 1024) > 0 then FSF := fsfTera
+    else if iSize div (1024 * 1024 * 1024) > 0 then FSF := fsfGiga
+    else if iSize div (1024 * 1024) > 0 then FSF := fsfMega
+    else if iSize div 1024 > 0 then FSF := fsfKilo
+    else FSF := fsfByte;
+  end;
+
   case FSF of
-  fsfFloat:
-  begin
-    if iSize div (1024 * 1024 * 1024) > 0 then
-    begin
-      Result:= FloatToStrF(FloatSize / (1024 * 1024 * 1024), ffFixed, 15, Number) + ' G'
-    end
+    fsfByte, fsfPersonalizedByte: Result := Format('%.0n%s', [FloatSize, gSizeDisplayUnits[FSF]]);
     else
-    if iSize div (1024 * 1024) > 0 then
-    begin
-      Result:= FloatToStrF(FloatSize / (1024 * 1024), ffFixed, 15, Number) + ' M'
-    end
-    else
-    if iSize div 1024 > 0 then
-    begin
-      Result:= FloatToStrF(FloatSize / 1024, ffFixed, 15, Number) + ' K'
-    end
-    else
-      Result:= Format('%.0n', [FloatSize]);
-  end;
-  fsfByte:
-  begin
-    Result:= Format('%.0n', [FloatSize]);
-  end;
-  fsfKilo:
-  begin
-    Result:=FloatToStrF(FloatSize / 1024, ffFixed, 15, Number) + ' K'
-  end;
-  fsfMega:
-  begin
-    Result:=FloatToStrF(FloatSize / (1024 * 1024), ffFixed, 15, Number) + ' M'
-  end;
-  fsfGiga:
-  begin
-    Result:=FloatToStrF(FloatSize / (1024 * 1024 * 1024), ffFixed, 15, Number) + ' G'
-  end;
+      Result := FloatToStrF(FloatSize / DIVISORS[FSF], ffFixed, 15, Number) + gSizeDisplayUnits[FSF];
   end;
 end;
 
-function cnvFormatFileSize(iSize: Int64; FSF: Boolean): String;
+function cnvFormatFileSize(iSize: Int64; UsageOfSizeConversion: TUsageOfSizeConversion): String;
 begin
-  Result := cnvFormatFileSize(iSize, fsfFloat, gFileSizeDigits);
+  case UsageOfSizeConversion of
+    uoscOperation: //By legacy, it was simply adding a "B" to single size letter so we will do the samefor legacy mode.
+      begin
+        Result := cnvFormatFileSize(iSize, gOperationSizeFormat, gOperationSizeDigits);
+        case gOperationSizeFormat of
+          fsfFloat: if iSize div 1024 > 0 then Result := Result + rsLegacyOperationByteSuffixLetter else Result := Result + ' ' + rsLegacyOperationByteSuffixLetter;
+          fsfByte: Result := Result + ' ' + rsLegacyOperationByteSuffixLetter;
+          fsfKilo, fsfMega, fsfGiga, fsfTera: Result := Result + rsLegacyOperationByteSuffixLetter;
+        end;
+      end;
+    uoscFile: Result := cnvFormatFileSize(iSize, gFileSizeFormat, gFileSizeDigits);
+    uoscHeaderFooter: Result := cnvFormatFileSize(iSize, gHeaderFooterSizeFormat, gHeaderFooterDigits);
+    uoscNoUnit: Result := IntToStr(iSize);
+  end;
 end;
 
 function cnvFormatFileSize(iSize: Int64): String;
@@ -451,7 +453,6 @@ Begin
           End;
     sl.Free;
   End;
-  //DCDebug('PathX ' , Result);
   if Canvas.TextWidth(Result) > MaxLen + Canvas.TextWidth('XXX') then
        begin
          while (Length(Result) > 0) and (Canvas.TextWidth(Result) > MaxLen) do

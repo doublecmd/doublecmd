@@ -6028,81 +6028,26 @@ msgstr "ファイル中のテキスト検索にメモリマッピングを使っ
 msgid "&Use stream for search text in files"
 msgstr "ファイル中のテキスト検索をストリームを使って実行(&U)"
 
-#: tfrmoptionsfilesviews.btnaddattribute.caption
-msgctxt "tfrmoptionsfilesviews.btnaddattribute.caption"
-msgid "&Add"
-msgstr "追加(&A)"
-
-#: tfrmoptionsfilesviews.btnattrshelp.caption
-msgctxt "tfrmoptionsfilesviews.btnattrshelp.caption"
-msgid "&Help"
-msgstr "ヘルプ(&H)"
-
-#: tfrmoptionsfilesviews.cbdblclicktoparent.caption
-msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr "ファイルリストの余白部分にダブルクリックした際に親フォルダへ遷移するか(&p)"
-
-#: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
-msgid "Do&n't load file list until a tab is activated"
-msgstr "タブが有効になるまではファイルリストをロードしない(&n)"
-
-#: tfrmoptionsfilesviews.cbdirbrackets.caption
-msgid "S&how square brackets around directories"
-msgstr "ディレクトリ名を[角かっこ]で囲んで表示(&n)"
-
-#: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
-msgid "Hi&ghlight new and updated files"
-msgstr "新規ファイルと更新されたファイルをハイライト(&g)"
-
-#: tfrmoptionsfilesviews.cbinplacerename.caption
-msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "名前を２回クリックしたら（ダブルクリックではない）、その場所での名前の編集を可能にする(&r)"
-
-#: tfrmoptionsfilesviews.cblistfilesinthread.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
-msgid "Load &file list in separate thread"
-msgstr "別のスレッドでファイルリストをロード(&f)"
-
-#: tfrmoptionsfilesviews.cbloadiconsseparately.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
-msgid "Load icons af&ter file list"
-msgstr "ファイルリストの後でアイコンをロード(&t)"
-
-#: tfrmoptionsfilesviews.cbshowsystemfiles.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
-msgid "Show s&ystem and hidden files"
-msgstr "システムファイルと隠しファイルを表示(&y)"
-
-#: tfrmoptionsfilesviews.cbspacemovesdown.caption
-msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "<SPACE BAR>でファイルを検索するとき下のファイルに移動（＜INSERT＞と同様）(&W)"
-
-#: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
-msgctxt "tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption"
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr "ファイル作成時にWindowsスタイルのフィルタを使用（「*.*」で拡張子なしのファイルを選択、等）"
-
-#: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
-msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
-msgid "Use an independent attribute filter in mask input dialog each time"
-msgstr "マスク入力ダイアログで毎回独立した属性フィルターを使用"
+#: tfrmoptionsfilesviews.btndefault.caption
+msgctxt "tfrmoptionsfilesviews.btndefault.caption"
+msgid "De&fault"
+msgstr "デフォルト(&f)"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
 msgstr "フォーマット中"
 
-#: tfrmoptionsfilesviews.gbmarking.caption
-msgid "Marking/Unmarking entries"
-msgstr "エントリーのマーク/マーク解除"
+#: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
+msgid "Personalized abreviations to use:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
 msgstr "ソート中"
 
-#: tfrmoptionsfilesviews.lbattributemask.caption
-msgctxt "tfrmoptionsfilesviews.lbattributemask.caption"
-msgid "Default attribute mask value to use:"
-msgstr "デフォルトで使用する属性マスクの値："
+#: tfrmoptionsfilesviews.lblbyte.caption
+msgid "&Byte:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"
@@ -6120,9 +6065,29 @@ msgstr "日付と時刻のフォーマット(&D)："
 msgid "File si&ze format:"
 msgstr "ファイルサイズのフォーマット(&z)："
 
+#: tfrmoptionsfilesviews.lblgigabyte.caption
+msgid "&Gigabyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblheaderfootersizeformat.caption
+msgid "&Header/footer format:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblkilobyte.caption
+msgid "&Kilobyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblmegabyte.caption
+msgid "Megab&yte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files:"
 msgstr "新しいファイルの挿入(&I):"
+
+#: tfrmoptionsfilesviews.lbloperationsizeformat.caption
+msgid "O&peration size format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -6132,9 +6097,88 @@ msgstr "ディレクトリをソート中(&r)："
 msgid "&Sort method:"
 msgstr "ソート方法(&S)："
 
+#: tfrmoptionsfilesviews.lblterabyte.caption
+msgid "&Terabyte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "更新されたファイルを移動(&M)："
+
+#: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
+msgid "&Add"
+msgstr "追加(&A)"
+
+#: tfrmoptionsfilesviewscomplement.btnattrshelp.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnattrshelp.caption"
+msgid "&Help"
+msgstr "ヘルプ(&H)"
+
+#: tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption"
+msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
+msgstr "ファイルリストの余白部分にダブルクリックした際に親フォルダへ遷移するか(&p)"
+
+#: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption"
+msgid "Do&n't load file list until a tab is activated"
+msgstr "タブが有効になるまではファイルリストをロードしない(&n)"
+
+#: tfrmoptionsfilesviewscomplement.cbdirbrackets.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdirbrackets.caption"
+msgid "S&how square brackets around directories"
+msgstr "ディレクトリ名を[角かっこ]で囲んで表示(&n)"
+
+#: tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption"
+msgid "Hi&ghlight new and updated files"
+msgstr "新規ファイルと更新されたファイルをハイライト(&g)"
+
+#: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbinplacerename.caption"
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr "名前を２回クリックしたら（ダブルクリックではない）、その場所での名前の編集を可能にする(&r)"
+
+#: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption"
+msgid "Load &file list in separate thread"
+msgstr "別のスレッドでファイルリストをロード(&f)"
+
+#: tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption"
+msgid "Load icons af&ter file list"
+msgstr "ファイルリストの後でアイコンをロード(&t)"
+
+#: tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption"
+msgid "Show s&ystem and hidden files"
+msgstr "システムファイルと隠しファイルを表示(&y)"
+
+#: tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption"
+msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "<SPACE BAR>でファイルを検索するとき下のファイルに移動（＜INSERT＞と同様）(&W)"
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr "ファイル作成時にWindowsスタイルのフィルタを使用（「*.*」で拡張子なしのファイルを選択、等）"
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption"
+msgid "Use an independent attribute filter in mask input dialog each time"
+msgstr "マスク入力ダイアログで毎回独立した属性フィルターを使用"
+
+#: tfrmoptionsfilesviewscomplement.gbmarking.caption
+msgctxt "tfrmoptionsfilesviewscomplement.gbmarking.caption"
+msgid "Marking/Unmarking entries"
+msgstr "エントリーのマーク/マーク解除"
+
+#: tfrmoptionsfilesviewscomplement.lbattributemask.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
+msgid "Default attribute mask value to use:"
+msgstr "デフォルトで使用する属性マスクの値："
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -8796,6 +8840,7 @@ msgid "C&hange"
 msgstr "変更(&h)"
 
 #: tfrmtweakplugin.btndefault.caption
+msgctxt "tfrmtweakplugin.btndefault.caption"
 msgid "De&fault"
 msgstr "デフォルト(&f)"
 
@@ -9463,6 +9508,14 @@ msgstr ""
 "そうでない場合は、”キャンセル”を押して継続する。\n"
 " \n"
 
+#: ulng.rsabbrevdisplaydir
+msgid "<DIR>"
+msgstr ""
+
+#: ulng.rsabbrevdisplaylink
+msgid "<LNK>"
+msgstr ""
+
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
 msgstr "クイックフィルタをキャンセル"
@@ -9600,6 +9653,27 @@ msgstr "インポートされたDCのツールバー"
 #: ulng.rsdefaultimportedtctoolbarhint
 msgid "Imported TC toolbar"
 msgstr "インポートされたTCのツールバー"
+
+#: ulng.rsdefaultpersonalizedabbrevbyte
+msgctxt "ulng.rsdefaultpersonalizedabbrevbyte"
+msgid "B"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevgiga
+msgid "GB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevkilo
+msgid "KB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevmega
+msgid "MB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevtera
+msgid "TB"
+msgstr ""
 
 # どの文脈か不明
 #: ulng.rsdefaultsuffixdroppedtext
@@ -9973,12 +10047,14 @@ msgid "Begin at"
 msgstr "開始時刻"
 
 #: ulng.rsfreemsg
-msgid "Free %s from %s bytes"
-msgstr "空き領域 %s バイト（%s バイト中）"
+#, fuzzy
+msgid "%s of %s free"
+msgstr "空き領域 %s （%s 中）"
 
 #: ulng.rsfreemsgshort
-msgid "%s bytes free"
-msgstr "%s バイトの空き領域"
+#, fuzzy
+msgid "%s free"
+msgstr "%s の空き領域"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
@@ -10155,6 +10231,27 @@ msgstr "コマンド名;ショートカットキー（グループ化して）;�
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "デフォルトのバーファイルへの参照を見つけることができません"
+
+#: ulng.rslegacydisplaysizesinglelettergiga
+msgid "G"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesingleletterkilo
+msgid "K"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettermega
+msgid "M"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettertera
+msgid "T"
+msgstr ""
+
+#: ulng.rslegacyoperationbytesuffixletter
+msgctxt "ulng.rslegacyoperationbytesuffixletter"
+msgid "B"
+msgstr ""
 
 #: ulng.rslistoffindfileswindows
 msgid "List of \"Find files\" windows"
@@ -11852,9 +11949,9 @@ msgstr "最初に追加;最後に追加;アルファベット順にソート"
 msgid "separate window;minimized separate window;operations panel"
 msgstr "独立ウィンドウ;最小化した独立ウインドウ;操作パネル"
 
-#: ulng.rsoptfilesizeformat
-msgid "float;B;K;M;G"
-msgstr "小数;B;K;M;G"
+#: ulng.rsoptfilesizefloat
+msgid "float"
+msgstr "小数"
 
 # 元の英語の質が悪い。
 #: ulng.rsopthotkeysadddeleteshortcutlong
@@ -12045,6 +12142,10 @@ msgstr "ファイル検索"
 msgid "Files views"
 msgstr "ファイルビュー"
 
+#: ulng.rsoptionseditorfilesviewscomplement
+msgid "Files views extra"
+msgstr ""
+
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
 msgid "File types"
@@ -12170,6 +12271,10 @@ msgstr "左ボタン;右ボタン;"
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
 msgstr "ファイルリストの先頭;ディレクトリの後（ディレクトリがファイルの前にソートされている場合）;ソートされた位置;ファイルリストの末尾"
+
+#: ulng.rsoptpersonalizedfilesizeformat
+msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
+msgstr ""
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -12481,6 +12586,10 @@ msgstr "カラム"
 msgctxt "ulng.rssimplewordcommand"
 msgid "Command"
 msgstr "コマンド"
+
+#: ulng.rssimpleworderror
+msgid "Error"
+msgstr ""
 
 #: ulng.rssimplewordfalse
 msgid "False"

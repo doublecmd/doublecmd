@@ -5925,9 +5925,9 @@ begin
             sboxDrive.Tag := -1;
           sboxDrive.Invalidate;
         end;
-      lblDriveInfo.Hint := Format(rsFreeMsg, [cnvFormatFileSize(FreeSize), cnvFormatFileSize(TotalSize)]);
+      lblDriveInfo.Hint := Format(rsFreeMsg, [cnvFormatFileSize(FreeSize, uoscHeaderFooter), cnvFormatFileSize(TotalSize, uoscHeaderFooter)]); //It's not an "operation" but most probably the closest wanted form.
       if gShortFormatDriveInfo then
-        lblDriveInfo.Caption := Format(rsFreeMsgShort, [cnvFormatFileSize(FreeSize)])
+        lblDriveInfo.Caption := Format(rsFreeMsgShort, [cnvFormatFileSize(TotalSize, uoscHeaderFooter)])
       else
         lblDriveInfo.Caption := lblDriveInfo.Hint;
       sboxDrive.Hint := lblDriveInfo.Hint;

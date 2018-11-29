@@ -1,0 +1,21 @@
+{"version":1,"strings":[
+{"hash":174698519,"name":"tfrmoptionsfilesviews.gbsorting.caption","sourcebytes":[83,111,114,116,105,110,103],"value":"Sorting"},
+{"hash":141329194,"name":"tfrmoptionsfilesviews.lblsortmethod.caption","sourcebytes":[38,83,111,114,116,32,109,101,116,104,111,100,58],"value":"&Sort method:"},
+{"hash":207209658,"name":"tfrmoptionsfilesviews.lblcasesensitivity.caption","sourcebytes":[67,97,115,101,32,115,38,101,110,115,105,116,105,118,105,116,121,58],"value":"Case s&ensitivity:"},
+{"hash":35834186,"name":"tfrmoptionsfilesviews.lblsortfoldermode.caption","sourcebytes":[83,111,38,114,116,105,110,103,32,100,105,114,101,99,116,111,114,105,101,115,58],"value":"So&rting directories:"},
+{"hash":219756858,"name":"tfrmoptionsfilesviews.lblnewfilesposition.caption","sourcebytes":[38,73,110,115,101,114,116,32,110,101,119,32,102,105,108,101,115,58],"value":"&Insert new files:"},
+{"hash":67957370,"name":"tfrmoptionsfilesviews.lblupdatedfilesposition.caption","sourcebytes":[38,77,111,118,101,32,117,112,100,97,116,101,100,32,102,105,108,101,115,58],"value":"&Move updated files:"},
+{"hash":59734743,"name":"tfrmoptionsfilesviews.gbformatting.caption","sourcebytes":[70,111,114,109,97,116,116,105,110,103],"value":"Formatting"},
+{"hash":45474298,"name":"tfrmoptionsfilesviews.lbldatetimeformat.caption","sourcebytes":[38,68,97,116,101,32,97,110,100,32,116,105,109,101,32,102,111,114,109,97,116,58],"value":"&Date and time format:"},
+{"hash":34019434,"name":"tfrmoptionsfilesviews.lblfilesizeformat.caption","sourcebytes":[70,105,108,101,32,115,105,38,122,101,32,102,111,114,109,97,116,58],"value":"File si&ze format:"},
+{"hash":7032132,"name":"tfrmoptionsfilesviews.lbldatetimeexample.caption","sourcebytes":[73,110,99,111,114,114,101,99,116,32,102,111,114,109,97,116],"value":"Incorrect format"},
+{"hash":11339658,"name":"tfrmoptionsfilesviews.lblheaderfootersizeformat.caption","sourcebytes":[38,72,101,97,100,101,114,47,102,111,111,116,101,114,32,102,111,114,109,97,116,58],"value":"&Header/footer format:"},
+{"hash":70585306,"name":"tfrmoptionsfilesviews.lbloperationsizeformat.caption","sourcebytes":[79,38,112,101,114,97,116,105,111,110,32,115,105,122,101,32,102,111,114,109,97,116,58],"value":"O&peration size format:"},
+{"hash":82978810,"name":"tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption","sourcebytes":[80,101,114,115,111,110,97,108,105,122,101,100,32,97,98,114,101,118,105,97,116,105,111,110,115,32,116,111,32,117,115,101,58],"value":"Personalized abreviations to use:"},
+{"hash":44698250,"name":"tfrmoptionsfilesviews.lblbyte.caption","sourcebytes":[38,66,121,116,101,58],"value":"&Byte:"},
+{"hash":56408202,"name":"tfrmoptionsfilesviews.lblkilobyte.caption","sourcebytes":[38,75,105,108,111,98,121,116,101,58],"value":"&Kilobyte:"},
+{"hash":122237274,"name":"tfrmoptionsfilesviews.lblmegabyte.caption","sourcebytes":[77,101,103,97,98,38,121,116,101,58],"value":"Megab&yte:"},
+{"hash":226273146,"name":"tfrmoptionsfilesviews.lblgigabyte.caption","sourcebytes":[38,71,105,103,97,98,121,116,101,58],"value":"&Gigabyte:"},
+{"hash":130846868,"name":"tfrmoptionsfilesviews.btndefault.caption","sourcebytes":[68,101,38,102,97,117,108,116],"value":"De&fault"},
+{"hash":142389322,"name":"tfrmoptionsfilesviews.lblterabyte.caption","sourcebytes":[38,84,101,114,97,98,121,116,101,58],"value":"&Terabyte:"}
+]}

@@ -151,6 +151,7 @@ uses
   fOptionsFilePanelsColors,
   fOptionsFileTypesColors,
   fOptionsFilesViews,
+  fOptionsFilesViewsComplement,
   fOptionsFonts,
   fOptionsGroups,
   fOptionsHotkeys,
@@ -372,6 +373,7 @@ begin
   Mouse := Main.Add(TfrmOptionsMouse);
   Mouse.Add(TfrmOptionsDragDrop);
   FilesViews := Main.Add(TfrmOptionsFilesViews);
+  FilesViews.Add(TfrmOptionsFilesViewsComplement);
   FilesViews.Add(TfrmOptionsBriefView);
   ColumnsView := FilesViews.Add(TfrmOptionsColumnsView);
   ColumnsView.Add(TfrmOptionsCustomColumns);

@@ -6170,82 +6170,25 @@ msgstr "Користи карту меморије за претраге по т
 msgid "&Use stream for search text in files"
 msgstr "Користи ток за претраге по текстовима"
 
-#: tfrmoptionsfilesviews.btnaddattribute.caption
-#, fuzzy
-msgctxt "tfrmoptionsfilesviews.btnaddattribute.caption"
-msgid "&Add"
-msgstr "Додај&"
-
-#: tfrmoptionsfilesviews.btnattrshelp.caption
-#, fuzzy
-msgctxt "tfrmoptionsfilesviews.btnattrshelp.caption"
-msgid "&Help"
-msgstr "&Помоћ"
-
-#: tfrmoptionsfilesviews.cbdblclicktoparent.caption
-msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr ""
-
-#: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
-msgid "Do&n't load file list until a tab is activated"
-msgstr "Немој да учитаваш списак датотека док се картица не покрене"
-
-#: tfrmoptionsfilesviews.cbdirbrackets.caption
-msgid "S&how square brackets around directories"
-msgstr "Приказуј& угласте заграде око фасцикли"
-
-#: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
-msgid "Hi&ghlight new and updated files"
-msgstr "Истакни& нове и освежене датотеке"
-
-#: tfrmoptionsfilesviews.cbinplacerename.caption
-msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "Омогући &преименовање на месту при двоклику на име"
-
-#: tfrmoptionsfilesviews.cblistfilesinthread.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
-msgid "Load &file list in separate thread"
-msgstr "Учитај списак &датотека у посебном процесу"
-
-#: tfrmoptionsfilesviews.cbloadiconsseparately.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
-msgid "Load icons af&ter file list"
-msgstr "Учитавај иконе након& списка датотека"
-
-#: tfrmoptionsfilesviews.cbshowsystemfiles.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
-msgid "Show s&ystem and hidden files"
-msgstr "Прикажи системске и скривене датотеке"
-
-#: tfrmoptionsfilesviews.cbspacemovesdown.caption
-msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "Приликом одабира датотека помоћу <SPACEBAR>, пређи на следећу датотеку ( као и са <INSERT>)"
-
-#: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
-msgctxt "tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption"
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
-
-#: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
-msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
-msgid "Use an independent attribute filter in mask input dialog each time"
-msgstr ""
+#: tfrmoptionsfilesviews.btndefault.caption
+msgctxt "tfrmoptionsfilesviews.btndefault.caption"
+msgid "De&fault"
+msgstr "&Подразумевано"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
 msgstr "Обликујем"
 
-#: tfrmoptionsfilesviews.gbmarking.caption
-msgid "Marking/Unmarking entries"
+#: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
+msgid "Personalized abreviations to use:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
 msgstr "Ређање"
 
-#: tfrmoptionsfilesviews.lbattributemask.caption
-msgctxt "tfrmoptionsfilesviews.lbattributemask.caption"
-msgid "Default attribute mask value to use:"
+#: tfrmoptionsfilesviews.lblbyte.caption
+msgid "&Byte:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
@@ -6264,9 +6207,29 @@ msgstr "Облик датума и времена:"
 msgid "File si&ze format:"
 msgstr "Облик величине& датотека:"
 
+#: tfrmoptionsfilesviews.lblgigabyte.caption
+msgid "&Gigabyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblheaderfootersizeformat.caption
+msgid "&Header/footer format:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblkilobyte.caption
+msgid "&Kilobyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblmegabyte.caption
+msgid "Megab&yte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files:"
 msgstr "Уметни& нове датотеке:"
+
+#: tfrmoptionsfilesviews.lbloperationsizeformat.caption
+msgid "O&peration size format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -6276,9 +6239,88 @@ msgstr "Распоред фасцикли:"
 msgid "&Sort method:"
 msgstr "Начин распоређивања:"
 
+#: tfrmoptionsfilesviews.lblterabyte.caption
+msgid "&Terabyte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "&Премести освежене датотеке:"
+
+#: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
+msgid "&Add"
+msgstr "Додај&"
+
+#: tfrmoptionsfilesviewscomplement.btnattrshelp.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnattrshelp.caption"
+msgid "&Help"
+msgstr "&Помоћ"
+
+#: tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption"
+msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption"
+msgid "Do&n't load file list until a tab is activated"
+msgstr "Немој да учитаваш списак датотека док се картица не покрене"
+
+#: tfrmoptionsfilesviewscomplement.cbdirbrackets.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdirbrackets.caption"
+msgid "S&how square brackets around directories"
+msgstr "Приказуј& угласте заграде око фасцикли"
+
+#: tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption"
+msgid "Hi&ghlight new and updated files"
+msgstr "Истакни& нове и освежене датотеке"
+
+#: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbinplacerename.caption"
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr "Омогући &преименовање на месту при двоклику на име"
+
+#: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption"
+msgid "Load &file list in separate thread"
+msgstr "Учитај списак &датотека у посебном процесу"
+
+#: tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption"
+msgid "Load icons af&ter file list"
+msgstr "Учитавај иконе након& списка датотека"
+
+#: tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption"
+msgid "Show s&ystem and hidden files"
+msgstr "Прикажи системске и скривене датотеке"
+
+#: tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption"
+msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "Приликом одабира датотека помоћу <SPACEBAR>, пређи на следећу датотеку ( као и са <INSERT>)"
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption"
+msgid "Use an independent attribute filter in mask input dialog each time"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.gbmarking.caption
+msgctxt "tfrmoptionsfilesviewscomplement.gbmarking.caption"
+msgid "Marking/Unmarking entries"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.lbattributemask.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
+msgid "Default attribute mask value to use:"
+msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -8975,6 +9017,7 @@ msgid "C&hange"
 msgstr "&Измени"
 
 #: tfrmtweakplugin.btndefault.caption
+msgctxt "tfrmtweakplugin.btndefault.caption"
 msgid "De&fault"
 msgstr "&Подразумевано"
 
@@ -9684,6 +9727,14 @@ msgstr ""
 "Да ли можете да омогућите то и притисните „У реду“ када буде спремно,\n"
 "или притисните „ОТКАЖИ“ за наставак без тога?\n"
 
+#: ulng.rsabbrevdisplaydir
+msgid "<DIR>"
+msgstr ""
+
+#: ulng.rsabbrevdisplaylink
+msgid "<LNK>"
+msgstr ""
+
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
 msgstr "Откажи брзи услов"
@@ -9820,6 +9871,27 @@ msgstr ""
 
 #: ulng.rsdefaultimportedtctoolbarhint
 msgid "Imported TC toolbar"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevbyte
+msgctxt "ulng.rsdefaultpersonalizedabbrevbyte"
+msgid "B"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevgiga
+msgid "GB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevkilo
+msgid "KB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevmega
+msgid "MB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevtera
+msgid "TB"
 msgstr ""
 
 #: ulng.rsdefaultsuffixdroppedtext
@@ -10191,12 +10263,14 @@ msgid "Begin at"
 msgstr "Почни са"
 
 #: ulng.rsfreemsg
-msgid "Free %s from %s bytes"
-msgstr "Слободно је %s од %s бајта"
+#, fuzzy
+msgid "%s of %s free"
+msgstr "Слободно је %s од %s"
 
 #: ulng.rsfreemsgshort
-msgid "%s bytes free"
-msgstr "%s бајта је слободно"
+#, fuzzy
+msgid "%s free"
+msgstr "%s је слободно"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
@@ -10377,6 +10451,27 @@ msgstr ""
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettergiga
+msgid "G"
+msgstr "Г"
+
+#: ulng.rslegacydisplaysizesingleletterkilo
+msgid "K"
+msgstr "К"
+
+#: ulng.rslegacydisplaysizesinglelettermega
+msgid "M"
+msgstr "М"
+
+#: ulng.rslegacydisplaysizesinglelettertera
+msgid "T"
+msgstr ""
+
+#: ulng.rslegacyoperationbytesuffixletter
+msgctxt "ulng.rslegacyoperationbytesuffixletter"
+msgid "B"
+msgstr "Б"
 
 #: ulng.rslistoffindfileswindows
 msgid "List of \"Find files\" windows"
@@ -12075,9 +12170,9 @@ msgstr ""
 msgid "separate window;minimized separate window;operations panel"
 msgstr "Одвојен прозор;умањен одвојен прозор;површ радњи"
 
-#: ulng.rsoptfilesizeformat
-msgid "float;B;K;M;G"
-msgstr "покретна тачка;Б;К;М;Г"
+#: ulng.rsoptfilesizefloat
+msgid "float"
+msgstr "покретна тачка"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
@@ -12270,6 +12365,10 @@ msgstr "Претрага датотека"
 msgid "Files views"
 msgstr "Прегледи датотека"
 
+#: ulng.rsoptionseditorfilesviewscomplement
+msgid "Files views extra"
+msgstr ""
+
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
 msgid "File types"
@@ -12392,6 +12491,10 @@ msgstr "Лево дугме;Десно дугме;"
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
 msgstr "на врху списка датотека:после фасцикли (ако се фасцикле приказују пре датотека); на одређеном положају;на дну списка датотека"
+
+#: ulng.rsoptpersonalizedfilesizeformat
+msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
+msgstr ""
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -12702,6 +12805,10 @@ msgstr ""
 msgctxt "ulng.rssimplewordcommand"
 msgid "Command"
 msgstr "Наредба"
+
+#: ulng.rssimpleworderror
+msgid "Error"
+msgstr ""
 
 #: ulng.rssimplewordfalse
 msgid "False"

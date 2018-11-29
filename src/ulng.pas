@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uLng;
@@ -73,8 +72,6 @@ resourcestring
   rsMarkPlus = 'Select mask';
   rsMarkMinus = 'Unselect mask';
   rsMaskInput = 'Input mask:';
-  rsFreeMsg = 'Free %s from %s bytes';
-  rsFreeMsgShort = '%s bytes free';
   rsMsgPopUpHotDelete = '&Delete %s';
   rsMsgDiskNotAvail = 'Disk is not available';
   rsMsgChDirFailed = 'Change current directory to "%s" failed!';
@@ -586,6 +583,23 @@ resourcestring
   rsSizeUnitMBytes = 'Megabytes';
   rsSizeUnitGBytes = 'Gigabytes';
   rsSizeUnitTBytes = 'Terabytes';
+  rsLegacyOperationByteSuffixLetter = 'B'; //Must be 1 character. Respecting legacy, letter added to following single letters for size when not empty.
+  rsLegacyDisplaySizeSingleLetterByte = ''; //By legacy before 2018-11 it was empty. If for a language it would have been better with a letter, it's now changeable in language file.
+  rsLegacyDisplaySizeSingleLetterKilo = 'K'; //Must be 1 character. By legacy before 2018-11 it was a 'K'. If for a language a different letter was better, it's now changeable in language file.
+  rsLegacyDisplaySizeSingleLetterMega = 'M'; //Must be 1 character. By legacy before 2018-11 it was a 'M'. If for a language a different letter was better, it's now changeable in language file.
+  rsLegacyDisplaySizeSingleLetterGiga = 'G'; //Must be 1 character. By legacy before 2018-11 it was a 'G'. If for a language a different letter was better, it's now changeable in language file.
+  rsLegacyDisplaySizeSingleLetterTera = 'T'; //Must be 1 character. By legacy it was not present before 2018-11. It's also now changeable in language file.
+  rsDefaultPersonalizedAbbrevByte = 'B';
+  rsDefaultPersonalizedAbbrevKilo = 'KB';
+  rsDefaultPersonalizedAbbrevMega = 'MB';
+  rsDefaultPersonalizedAbbrevGiga = 'GB';
+  rsDefaultPersonalizedAbbrevTera = 'TB';
+  rsAbbrevDisplayDir = '<DIR>';
+  rsAbbrevDisplayLink = '<LNK>';
+  rsOptPersonalizedFileSizeFormat = 'Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte';
+  rsOptFileSizeFloat = 'float';
+  rsFreeMsg = '%s of %s free';
+  rsFreeMsgShort = '%s free';
 
   // Other
   rsCopyNameTemplate = 'Copy (%d) %s';
@@ -649,6 +663,7 @@ resourcestring
   rsOptionsEditorFileTypes = 'File types';
   rsOptionsEditorFileNewFileTypes = 'New';
   rsOptionsEditorFilesViews = 'Files views';
+  rsOptionsEditorFilesViewsComplement = 'Files views extra';
   rsOptionsEditorFolderTabs = 'Folder tabs';
   rsOptionsEditorFolderTabsExtra = 'Folder tabs extra';
   rsOptionsEditorFonts = 'Fonts';
@@ -750,6 +765,7 @@ resourcestring
   rsSimpleWordLetter = 'Letter';
   rsSimpleWordTrue = 'True';
   rsSimpleWordFalse = 'False';
+  rsSimpleWordError = 'Error';
 
   // Plugins
   rsOptPluginsActive = 'Active';
@@ -772,7 +788,6 @@ resourcestring
   rsOptUpdatedFilesPosition = 'don''t change position;use the same setting as for new files;to sorted position';
   rsOptFileOperationsProgressKind = 'separate window;minimized separate window;operations panel';
   rsOptTypeOfDuplicatedRename = 'DC legacy - Copy (x) filename.ext;Windows - filename (x).ext;Other - filename(x).ext';
-  rsOptFileSizeFormat = 'float;B;K;M;G';
   // Keyboard
   rsOptLetters = 'None;Command Line;Quick Search;Quick Filter';
   // Directory hotlist

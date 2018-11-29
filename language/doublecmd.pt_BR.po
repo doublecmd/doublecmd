@@ -6081,79 +6081,25 @@ msgctxt "tfrmoptionsfilesearch.rbusestreaminsearch.caption"
 msgid "&Use stream for search text in files"
 msgstr "&Usar stream para procurar texto em arquivos."
 
-#: tfrmoptionsfilesviews.btnaddattribute.caption
-#, fuzzy
-msgctxt "tfrmoptionsfilesviews.btnaddattribute.caption"
-msgid "&Add"
-msgstr "&Adicionar"
-
-#: tfrmoptionsfilesviews.btnattrshelp.caption
-#, fuzzy
-msgctxt "tfrmoptionsfilesviews.btnattrshelp.caption"
-msgid "&Help"
-msgstr "A&juda"
-
-#: tfrmoptionsfilesviews.cbdblclicktoparent.caption
-msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr ""
-
-#: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
-msgid "Do&n't load file list until a tab is activated"
-msgstr "&Não carregar lista de arquivos até um guia estar ativo."
-
-#: tfrmoptionsfilesviews.cbdirbrackets.caption
-msgid "S&how square brackets around directories"
-msgstr "Mostrar pastas entre parênteses retos."
-
-#: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
-msgid "Hi&ghlight new and updated files"
-msgstr "Rea&lçar arquivos novos e atualizados."
-
-#: tfrmoptionsfilesviews.cbinplacerename.caption
-msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "Ativar inplace e renomear ao clicar duas vezes em um nome."
-
-#: tfrmoptionsfilesviews.cblistfilesinthread.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
-msgid "Load &file list in separate thread"
-msgstr "Carregar lista de &arquivos em linha separada."
-
-#: tfrmoptionsfilesviews.cbloadiconsseparately.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
-msgid "Load icons af&ter file list"
-msgstr "Carregar ícones depois da lis&ta de arquivos."
-
-#: tfrmoptionsfilesviews.cbshowsystemfiles.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
-msgid "Show s&ystem and hidden files"
-msgstr "Mostrar arquivos ocultos e de s&istema."
-
-#: tfrmoptionsfilesviews.cbspacemovesdown.caption
-msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "Ao selecionar arquivos com a <BARRA DE ESPAÇO>, mover para o próximo arquivo (tal como com <INSERT>)."
-
-#: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
-
-#: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
-msgid "Use an independent attribute filter in mask input dialog each time"
-msgstr ""
+#: tfrmoptionsfilesviews.btndefault.caption
+msgctxt "tfrmoptionsfilesviews.btndefault.caption"
+msgid "De&fault"
+msgstr "Prede&finição"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
 msgstr "Formatação"
 
-#: tfrmoptionsfilesviews.gbmarking.caption
-msgid "Marking/Unmarking entries"
+#: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
+msgid "Personalized abreviations to use:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
 msgstr "Ordenando"
 
-#: tfrmoptionsfilesviews.lbattributemask.caption
-msgid "Default attribute mask value to use:"
+#: tfrmoptionsfilesviews.lblbyte.caption
+msgid "&Byte:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
@@ -6172,11 +6118,31 @@ msgstr "Formato de &data e hora:"
 msgid "File si&ze format:"
 msgstr "Formato do ta&manho de arquivo:"
 
+#: tfrmoptionsfilesviews.lblgigabyte.caption
+msgid "&Gigabyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblheaderfootersizeformat.caption
+msgid "&Header/footer format:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblkilobyte.caption
+msgid "&Kilobyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblmegabyte.caption
+msgid "Megab&yte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 #, fuzzy
 #| msgid "&Insert new files"
 msgid "&Insert new files:"
 msgstr "&Inserir novos arquivos:"
+
+#: tfrmoptionsfilesviews.lbloperationsizeformat.caption
+msgid "O&peration size format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -6186,11 +6152,90 @@ msgstr "Ordenando pastas:"
 msgid "&Sort method:"
 msgstr "Método de &ordenação:"
 
+#: tfrmoptionsfilesviews.lblterabyte.caption
+msgid "&Terabyte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 #, fuzzy
 #| msgid "&Move updated files"
 msgid "&Move updated files:"
 msgstr "&Mover arquivos atualizados:"
+
+#: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
+msgid "&Add"
+msgstr "&Adicionar"
+
+#: tfrmoptionsfilesviewscomplement.btnattrshelp.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnattrshelp.caption"
+msgid "&Help"
+msgstr "A&juda"
+
+#: tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption"
+msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption"
+msgid "Do&n't load file list until a tab is activated"
+msgstr "&Não carregar lista de arquivos até um guia estar ativo."
+
+#: tfrmoptionsfilesviewscomplement.cbdirbrackets.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdirbrackets.caption"
+msgid "S&how square brackets around directories"
+msgstr "Mostrar pastas entre parênteses retos."
+
+#: tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption"
+msgid "Hi&ghlight new and updated files"
+msgstr "Rea&lçar arquivos novos e atualizados."
+
+#: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbinplacerename.caption"
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr "Ativar inplace e renomear ao clicar duas vezes em um nome."
+
+#: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption"
+msgid "Load &file list in separate thread"
+msgstr "Carregar lista de &arquivos em linha separada."
+
+#: tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption"
+msgid "Load icons af&ter file list"
+msgstr "Carregar ícones depois da lis&ta de arquivos."
+
+#: tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption"
+msgid "Show s&ystem and hidden files"
+msgstr "Mostrar arquivos ocultos e de s&istema."
+
+#: tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption"
+msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "Ao selecionar arquivos com a <BARRA DE ESPAÇO>, mover para o próximo arquivo (tal como com <INSERT>)."
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption"
+msgid "Use an independent attribute filter in mask input dialog each time"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.gbmarking.caption
+msgctxt "tfrmoptionsfilesviewscomplement.gbmarking.caption"
+msgid "Marking/Unmarking entries"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.lbattributemask.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
+msgid "Default attribute mask value to use:"
+msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -8891,6 +8936,7 @@ msgid "C&hange"
 msgstr "Al&terar"
 
 #: tfrmtweakplugin.btndefault.caption
+msgctxt "tfrmtweakplugin.btndefault.caption"
 msgid "De&fault"
 msgstr "Prede&finição"
 
@@ -9595,6 +9641,14 @@ msgstr ""
 "Você poderia disponibilizá-lo e pressionar \"OK\" quando pronto,\n"
 "ou pressionar \"CANCELAR\" para contnuar sem ele?\n"
 
+#: ulng.rsabbrevdisplaydir
+msgid "<DIR>"
+msgstr ""
+
+#: ulng.rsabbrevdisplaylink
+msgid "<LNK>"
+msgstr ""
+
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
 msgstr "Cancelar filtro rápido"
@@ -9732,6 +9786,27 @@ msgstr "Barra de Ferramentas DC importada"
 #: ulng.rsdefaultimportedtctoolbarhint
 msgid "Imported TC toolbar"
 msgstr "Barra de Ferramentas DC importada"
+
+#: ulng.rsdefaultpersonalizedabbrevbyte
+msgctxt "ulng.rsdefaultpersonalizedabbrevbyte"
+msgid "B"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevgiga
+msgid "GB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevkilo
+msgid "KB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevmega
+msgid "MB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevtera
+msgid "TB"
+msgstr ""
 
 #: ulng.rsdefaultsuffixdroppedtext
 msgid "_DroppedText"
@@ -10102,12 +10177,14 @@ msgid "Begin at"
 msgstr "Iniciar em"
 
 #: ulng.rsfreemsg
-msgid "Free %s from %s bytes"
-msgstr "Livres %s de %s bytes"
+#, fuzzy
+msgid "%s of %s free"
+msgstr "Livres %s de %s"
 
 #: ulng.rsfreemsgshort
-msgid "%s bytes free"
-msgstr "%s bytes livres"
+#, fuzzy
+msgid "%s free"
+msgstr "%s livres"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
@@ -10281,6 +10358,27 @@ msgstr ""
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "Não é possível encontrar referência ao arquivo de barra de ferramentas padrão"
+
+#: ulng.rslegacydisplaysizesinglelettergiga
+msgid "G"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesingleletterkilo
+msgid "K"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettermega
+msgid "M"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettertera
+msgid "T"
+msgstr ""
+
+#: ulng.rslegacyoperationbytesuffixletter
+msgctxt "ulng.rslegacyoperationbytesuffixletter"
+msgid "B"
+msgstr ""
 
 #: ulng.rslistoffindfileswindows
 msgid "List of \"Find files\" windows"
@@ -11973,9 +12071,9 @@ msgstr "Adicionar no início;Adicionar no final;Ordenação alfabética"
 msgid "separate window;minimized separate window;operations panel"
 msgstr "janela separada;janela separada minimizada;painel de operações"
 
-#: ulng.rsoptfilesizeformat
-msgid "float;B;K;M;G"
-msgstr "flutuante;B;K;M;G"
+#: ulng.rsoptfilesizefloat
+msgid "float"
+msgstr "flutuante"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
@@ -12166,6 +12264,10 @@ msgstr "Localizar arquivo"
 msgid "Files views"
 msgstr "Visões de arquivos."
 
+#: ulng.rsoptionseditorfilesviewscomplement
+msgid "Files views extra"
+msgstr ""
+
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
 msgid "File types"
@@ -12288,6 +12390,10 @@ msgstr "Botão esquerdo;Botão direito;"
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
 msgstr "no cimo da lista de arquivos;após as pastas (se as pastas estão ordenadas antes dos arquivos);na posiçõ ordenada;no final da lista de arquivos"
+
+#: ulng.rsoptpersonalizedfilesizeformat
+msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
+msgstr ""
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -12595,6 +12701,10 @@ msgstr "Coluna"
 msgctxt "ulng.rssimplewordcommand"
 msgid "Command"
 msgstr "Commando"
+
+#: ulng.rssimpleworderror
+msgid "Error"
+msgstr ""
 
 #: ulng.rssimplewordfalse
 msgid "False"

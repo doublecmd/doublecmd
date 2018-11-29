@@ -1,0 +1,18 @@
+{"version":1,"strings":[
+{"hash":120635234,"name":"tfrmsplitter.caption","sourcebytes":[83,112,108,105,116,116,101,114],"value":"Splitter"},
+{"hash":41356085,"name":"tfrmsplitter.grbxfile.caption","sourcebytes":[70,105,108,101,32,110,97,109,101],"value":"File name"},
+{"hash":156692405,"name":"tfrmsplitter.lbfilesource.caption","sourcebytes":[70,105,108,101,32,38,115,111,117,114,99,101],"value":"File &source"},
+{"hash":123018836,"name":"tfrmsplitter.lbdirtarget.caption","sourcebytes":[68,105,114,101,99,116,111,114,121,32,38,116,97,114,103,101,116],"value":"Directory &target"},
+{"hash":12558,"name":"tfrmsplitter.btnftchoice.caption","sourcebytes":[46,46,46],"value":"..."},
+{"hash":15252584,"name":"tfrmsplitter.btnrelativeftchoice.hint","sourcebytes":[83,111,109,101,32,102,117,110,99,116,105,111,110,115,32,116,111,32,115,101,108,101,99,116,32,97,112,112,114,111,112,114,105,97,116,101,32,112,97,116,104],"value":"Some functions to select appropriate path"},
+{"hash":136166403,"name":"tfrmsplitter.grbxsize.caption","sourcebytes":[83,105,122,101,32,97,110,100,32,110,117,109,98,101,114,32,111,102,32,112,97,114,116,115],"value":"Size and number of parts"},
+{"hash":173739330,"name":"tfrmsplitter.cmbxsize.text","sourcebytes":[49,52,53,55,54,54,52,66,32,45,32,51,46,53,34],"value":"1457664B - 3.5\""},
+{"hash":44698307,"name":"tfrmsplitter.rbtnbyte.caption","sourcebytes":[38,66,121,116,101,115],"value":"&Bytes"},
+{"hash":56408259,"name":"tfrmsplitter.rbtnkilob.caption","sourcebytes":[38,75,105,108,111,98,121,116,101,115],"value":"&Kilobytes"},
+{"hash":226277747,"name":"tfrmsplitter.rbtnmegab.caption","sourcebytes":[38,77,101,103,97,98,121,116,101,115],"value":"&Megabytes"},
+{"hash":200834339,"name":"tfrmsplitter.lblnumberparts.caption","sourcebytes":[38,78,117,109,98,101,114,32,111,102,32,112,97,114,116,115],"value":"&Number of parts"},
+{"hash":226273075,"name":"tfrmsplitter.rbtngigab.caption","sourcebytes":[38,71,105,103,97,98,121,116,101,115],"value":"&Gigabytes"},
+{"hash":118175221,"name":"tfrmsplitter.cbrequireacrc32verificationfile.caption","sourcebytes":[82,101,113,117,105,114,101,32,97,32,67,82,67,51,50,32,118,101,114,105,102,105,99,97,116,105,111,110,32,102,105,108,101],"value":"Require a CRC32 verification file"},
+{"hash":11067,"name":"tfrmsplitter.btnok.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":177752476,"name":"tfrmsplitter.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"}
+]}

@@ -6027,80 +6027,25 @@ msgstr "Utilizează maparea memoriei pentru căutarea te&xtului în fișiere"
 msgid "&Use stream for search text in files"
 msgstr "&Utilizează fluxarea pentru căutarea textului în fișiere"
 
-#: tfrmoptionsfilesviews.btnaddattribute.caption
-msgctxt "tfrmoptionsfilesviews.btnaddattribute.caption"
-msgid "&Add"
-msgstr "&Adaugă"
-
-#: tfrmoptionsfilesviews.btnattrshelp.caption
-msgctxt "tfrmoptionsfilesviews.btnattrshelp.caption"
-msgid "&Help"
-msgstr "Ajutor (&h)"
-
-#: tfrmoptionsfilesviews.cbdblclicktoparent.caption
-msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr ""
-
-#: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
-msgid "Do&n't load file list until a tab is activated"
-msgstr "&Nu încărca lista de fișiere până când o filă este activă"
-
-#: tfrmoptionsfilesviews.cbdirbrackets.caption
-msgid "S&how square brackets around directories"
-msgstr "Arată paranteze pătrate în jurul dosarelor (&h)"
-
-#: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
-msgid "Hi&ghlight new and updated files"
-msgstr "Evidențiază fișiere noi și actualizate (&g)"
-
-#: tfrmoptionsfilesviews.cbinplacerename.caption
-msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "Activează &redenumirea când se face click de două ori pe un nume"
-
-#: tfrmoptionsfilesviews.cblistfilesinthread.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
-msgid "Load &file list in separate thread"
-msgstr "Încarcă lista de &fișiere într-un fir de execuție separat"
-
-#: tfrmoptionsfilesviews.cbloadiconsseparately.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
-msgid "Load icons af&ter file list"
-msgstr "Încarcă iconițele după lis&ta de fișiere"
-
-#: tfrmoptionsfilesviews.cbshowsystemfiles.caption
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
-msgid "Show s&ystem and hidden files"
-msgstr "Arată fișierele ascunse și de sistem (&y)"
-
-#: tfrmoptionsfilesviews.cbspacemovesdown.caption
-msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "Când (&w) se selectează fișiere cu <SPACEBAR>, mergi în jos la următorul fișier (ca și cu <INSERT>)"
-
-#: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
-msgctxt "tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption"
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr ""
-
-#: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
-msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
-msgid "Use an independent attribute filter in mask input dialog each time"
-msgstr ""
+#: tfrmoptionsfilesviews.btndefault.caption
+msgctxt "tfrmoptionsfilesviews.btndefault.caption"
+msgid "De&fault"
+msgstr "Implicit (&f)"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
 msgstr "Formatare"
 
-#: tfrmoptionsfilesviews.gbmarking.caption
-msgid "Marking/Unmarking entries"
+#: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
+msgid "Personalized abreviations to use:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
 msgstr "Sortare"
 
-#: tfrmoptionsfilesviews.lbattributemask.caption
-msgctxt "tfrmoptionsfilesviews.lbattributemask.caption"
-msgid "Default attribute mask value to use:"
+#: tfrmoptionsfilesviews.lblbyte.caption
+msgid "&Byte:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
@@ -6119,9 +6064,29 @@ msgstr "Format &dată și timp:"
 msgid "File si&ze format:"
 msgstr "Format mărime fișier (&z):"
 
+#: tfrmoptionsfilesviews.lblgigabyte.caption
+msgid "&Gigabyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblheaderfootersizeformat.caption
+msgid "&Header/footer format:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblkilobyte.caption
+msgid "&Kilobyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblmegabyte.caption
+msgid "Megab&yte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files:"
 msgstr "&Inserează fișiere noi:"
+
+#: tfrmoptionsfilesviews.lbloperationsizeformat.caption
+msgid "O&peration size format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -6131,9 +6096,88 @@ msgstr "So&rtarea dosarelor:"
 msgid "&Sort method:"
 msgstr "Metodă &sortare:"
 
+#: tfrmoptionsfilesviews.lblterabyte.caption
+msgid "&Terabyte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "&Mută fișierele actualizate:"
+
+#: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
+msgid "&Add"
+msgstr "&Adaugă"
+
+#: tfrmoptionsfilesviewscomplement.btnattrshelp.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnattrshelp.caption"
+msgid "&Help"
+msgstr "Ajutor (&h)"
+
+#: tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption"
+msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption"
+msgid "Do&n't load file list until a tab is activated"
+msgstr "&Nu încărca lista de fișiere până când o filă este activă"
+
+#: tfrmoptionsfilesviewscomplement.cbdirbrackets.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdirbrackets.caption"
+msgid "S&how square brackets around directories"
+msgstr "Arată paranteze pătrate în jurul dosarelor (&h)"
+
+#: tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption"
+msgid "Hi&ghlight new and updated files"
+msgstr "Evidențiază fișiere noi și actualizate (&g)"
+
+#: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbinplacerename.caption"
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr "Activează &redenumirea când se face click de două ori pe un nume"
+
+#: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption"
+msgid "Load &file list in separate thread"
+msgstr "Încarcă lista de &fișiere într-un fir de execuție separat"
+
+#: tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption"
+msgid "Load icons af&ter file list"
+msgstr "Încarcă iconițele după lis&ta de fișiere"
+
+#: tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption"
+msgid "Show s&ystem and hidden files"
+msgstr "Arată fișierele ascunse și de sistem (&y)"
+
+#: tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption"
+msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "Când (&w) se selectează fișiere cu <SPACEBAR>, mergi în jos la următorul fișier (ca și cu <INSERT>)"
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption"
+msgid "Use an independent attribute filter in mask input dialog each time"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.gbmarking.caption
+msgctxt "tfrmoptionsfilesviewscomplement.gbmarking.caption"
+msgid "Marking/Unmarking entries"
+msgstr ""
+
+#: tfrmoptionsfilesviewscomplement.lbattributemask.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
+msgid "Default attribute mask value to use:"
+msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -8793,6 +8837,7 @@ msgid "C&hange"
 msgstr "Sc&himbă"
 
 #: tfrmtweakplugin.btndefault.caption
+msgctxt "tfrmtweakplugin.btndefault.caption"
 msgid "De&fault"
 msgstr "Implicit (&f)"
 
@@ -9458,6 +9503,14 @@ msgid ""
 "or press \"CANCEL\" to continue without it?\n"
 msgstr ""
 
+#: ulng.rsabbrevdisplaydir
+msgid "<DIR>"
+msgstr ""
+
+#: ulng.rsabbrevdisplaylink
+msgid "<LNK>"
+msgstr ""
+
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
 msgstr "Anulează Filtrul Rapid"
@@ -9594,6 +9647,27 @@ msgstr ""
 
 #: ulng.rsdefaultimportedtctoolbarhint
 msgid "Imported TC toolbar"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevbyte
+msgctxt "ulng.rsdefaultpersonalizedabbrevbyte"
+msgid "B"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevgiga
+msgid "GB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevkilo
+msgid "KB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevmega
+msgid "MB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevtera
+msgid "TB"
 msgstr ""
 
 #: ulng.rsdefaultsuffixdroppedtext
@@ -9959,12 +10033,14 @@ msgid "Begin at"
 msgstr "Începi la"
 
 #: ulng.rsfreemsg
-msgid "Free %s from %s bytes"
-msgstr "Liber %s din %s octeți"
+#, fuzzy
+msgid "%s of %s free"
+msgstr "Liber %s din %s"
 
 #: ulng.rsfreemsgshort
-msgid "%s bytes free"
-msgstr "%s octeți liberi"
+#, fuzzy
+msgid "%s free"
+msgstr "%s liberi"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
@@ -10134,6 +10210,27 @@ msgstr ""
 
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettergiga
+msgid "G"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesingleletterkilo
+msgid "K"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettermega
+msgid "M"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettertera
+msgid "T"
+msgstr ""
+
+#: ulng.rslegacyoperationbytesuffixletter
+msgctxt "ulng.rslegacyoperationbytesuffixletter"
+msgid "B"
 msgstr ""
 
 #: ulng.rslistoffindfileswindows
@@ -11789,9 +11886,9 @@ msgstr ""
 msgid "separate window;minimized separate window;operations panel"
 msgstr "separă fereastra;minimizează fereastra separată;panou de operații"
 
-#: ulng.rsoptfilesizeformat
-msgid "float;B;K;M;G"
-msgstr "float;B;K;M;G"
+#: ulng.rsoptfilesizefloat
+msgid "float"
+msgstr "float"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
@@ -11980,6 +12077,10 @@ msgstr "Căutare de fișiere"
 msgid "Files views"
 msgstr "Vedere fișiere"
 
+#: ulng.rsoptionseditorfilesviewscomplement
+msgid "Files views extra"
+msgstr ""
+
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
 msgid "File types"
@@ -12102,6 +12203,10 @@ msgstr "Buton stânga;Buton Dreapta"
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
 msgstr "în vârful listei de fișiere;după dosare (dacă acestea sunt sortate înaintea fișierelor);la poziția sortată;la baza listei de fișiere"
+
+#: ulng.rsoptpersonalizedfilesizeformat
+msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
+msgstr ""
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -12409,6 +12514,10 @@ msgstr ""
 msgctxt "ulng.rssimplewordcommand"
 msgid "Command"
 msgstr "Comandă"
+
+#: ulng.rssimpleworderror
+msgid "Error"
+msgstr ""
 
 #: ulng.rssimplewordfalse
 msgid "False"

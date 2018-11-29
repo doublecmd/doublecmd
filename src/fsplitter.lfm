@@ -18,7 +18,7 @@ object frmSplitter: TfrmSplitter
   OnCreate = FormCreate
   Position = poScreenCenter
   SessionProperties = 'cmbxSize.Text;rbtnByte.Checked;rbtnGigaB.Checked;rbtnKiloB.Checked;rbtnMegaB.Checked;teNumberParts.Text;Width;cbRequireACRC32VerificationFile.Checked'
-  LCLVersion = '1.0.14.0'
+  LCLVersion = '1.8.4.0'
   object grbxFile: TGroupBox
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -35,14 +35,14 @@ object frmSplitter: TfrmSplitter
     Caption = 'File name'
     ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 4
-    ClientHeight = 106
+    ClientHeight = 104
     ClientWidth = 443
     TabOrder = 0
     object lbFileSource: TLabel
       Left = 10
-      Height = 16
+      Height = 15
       Top = 4
-      Width = 57
+      Width = 56
       Caption = 'File &source'
       FocusControl = edFileSource
       ParentColor = False
@@ -51,9 +51,9 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Control = edFileSource
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 16
-      Top = 59
-      Width = 83
+      Height = 15
+      Top = 58
+      Width = 82
       BorderSpacing.Top = 12
       Caption = 'Directory &target'
       FocusControl = edDirTarget
@@ -65,7 +65,7 @@ object frmSplitter: TfrmSplitter
       AnchorSideRight.Side = asrBottom
       Left = 10
       Height = 23
-      Top = 24
+      Top = 23
       Width = 422
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
@@ -78,7 +78,7 @@ object frmSplitter: TfrmSplitter
       AnchorSideRight.Control = btnFTChoice
       Left = 10
       Height = 23
-      Top = 79
+      Top = 77
       Width = 372
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
@@ -92,7 +92,7 @@ object frmSplitter: TfrmSplitter
       AnchorSideBottom.Side = asrBottom
       Left = 382
       Height = 23
-      Top = 79
+      Top = 77
       Width = 24
       Anchors = [akTop, akRight, akBottom]
       Caption = '...'
@@ -109,7 +109,7 @@ object frmSplitter: TfrmSplitter
       Left = 406
       Height = 23
       Hint = 'Some functions to select appropriate path'
-      Top = 79
+      Top = 77
       Width = 26
       Anchors = [akTop, akRight, akBottom]
       Glyph.Data = {
@@ -148,7 +148,6 @@ object frmSplitter: TfrmSplitter
         FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
         FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
       }
-      NumGlyphs = 0
       OnClick = btnRelativeFTChoiceClick
     end
   end
@@ -157,7 +156,7 @@ object frmSplitter: TfrmSplitter
     AnchorSideTop.Control = grbxFile
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 136
+    Height = 138
     Top = 136
     Width = 362
     Anchors = [akTop, akLeft, akRight]
@@ -242,7 +241,7 @@ object frmSplitter: TfrmSplitter
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = rbtnKiloB
       AnchorSideTop.Side = asrBottom
-      Left = 98
+      Left = 97
       Height = 23
       Top = 60
       Width = 128
@@ -256,9 +255,9 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Control = teNumberParts
       AnchorSideTop.Side = asrCenter
       Left = 6
-      Height = 16
-      Top = 63
-      Width = 88
+      Height = 15
+      Top = 64
+      Width = 87
       Caption = '&Number of parts'
       FocusControl = teNumberParts
       ParentColor = False
@@ -297,7 +296,7 @@ object frmSplitter: TfrmSplitter
     AnchorSideBottom.Control = btnCancel
     Left = 378
     Height = 32
-    Top = 202
+    Top = 204
     Width = 75
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 6
@@ -314,7 +313,7 @@ object frmSplitter: TfrmSplitter
     AnchorSideBottom.Side = asrBottom
     Left = 378
     Height = 32
-    Top = 240
+    Top = 242
     Width = 75
     Anchors = [akLeft, akBottom]
     BorderSpacing.Left = 10

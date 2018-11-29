@@ -5912,78 +5912,26 @@ msgstr "Použít mapování paměti pro hledání te&xtu v souborech"
 msgid "&Use stream for search text in files"
 msgstr "&Použit proud pro hledání textu v souborech"
 
-#: tfrmoptionsfilesviews.btnaddattribute.caption
-msgctxt "tfrmoptionsfilesviews.btnaddattribute.caption"
-msgid "&Add"
-msgstr "Přid&at"
-
-#: tfrmoptionsfilesviews.btnattrshelp.caption
-msgctxt "tfrmoptionsfilesviews.btnattrshelp.caption"
-msgid "&Help"
-msgstr "&Nápověda"
-
-#: tfrmoptionsfilesviews.cbdblclicktoparent.caption
-msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
-msgstr "Umožnit &přechod do nadřazené složky, poklikáním na prázdnou část prohlížení souboru"
-
-#: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
-msgid "Do&n't load file list until a tab is activated"
-msgstr "Nevklá&dat seznam souborů, dokud se karta neaktivuje"
-
-#: tfrmoptionsfilesviews.cbdirbrackets.caption
-msgid "S&how square brackets around directories"
-msgstr "N&ázvy adresářů v hranatých závorkách"
-
-#: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
-msgid "Hi&ghlight new and updated files"
-msgstr "Zvý&raznit nové a aktualizované soubory"
-
-#: tfrmoptionsfilesviews.cbinplacerename.caption
-msgid "Enable inplace &renaming when clicking twice on a name"
-msgstr "Povoli&t při dvojkliknutí na název přejmenování"
-
-#: tfrmoptionsfilesviews.cblistfilesinthread.caption
-msgid "Load &file list in separate thread"
-msgstr "Načíst &seznam souborů v odděleném vlákně"
-
-#: tfrmoptionsfilesviews.cbloadiconsseparately.caption
-msgid "Load icons af&ter file list"
-msgstr "Načíst ikony p&o seznam souborů"
-
-#: tfrmoptionsfilesviews.cbshowsystemfiles.caption
-msgid "Show s&ystem and hidden files"
-msgstr "Zobrazit s&ystémové a skryté soubory"
-
-#: tfrmoptionsfilesviews.cbspacemovesdown.caption
-msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "&Při výběru souboru <mezerníkem> posunout kurzor dolů na další soubor, jako při výběru klávesou <Insert>"
-
-#: tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption
-msgctxt "tfrmoptionsfilesviews.chkmarkmaskfilterwindows.caption"
-msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
-msgstr "Styl filtrování Windows při označení souborů (\"*.*\" také vybírá soubory bez přípony, atd.)"
-
-#: tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption
-msgctxt "tfrmoptionsfilesviews.chkmarkmaskshowattribute.caption"
-msgid "Use an independent attribute filter in mask input dialog each time"
-msgstr "Vždy použít samostatný atributový filtr v dialogovém okně masky"
+#: tfrmoptionsfilesviews.btndefault.caption
+msgctxt "tfrmoptionsfilesviews.btndefault.caption"
+msgid "De&fault"
+msgstr "Vý&chozí"
 
 #: tfrmoptionsfilesviews.gbformatting.caption
 msgid "Formatting"
 msgstr "Formátování"
 
-#: tfrmoptionsfilesviews.gbmarking.caption
-msgid "Marking/Unmarking entries"
-msgstr "Označení/odznačení položek"
+#: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
+msgid "Personalized abreviations to use:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.gbsorting.caption
 msgid "Sorting"
 msgstr "Řazení"
 
-#: tfrmoptionsfilesviews.lbattributemask.caption
-msgctxt "tfrmoptionsfilesviews.lbattributemask.caption"
-msgid "Default attribute mask value to use:"
-msgstr "Výchozí hodnota atributové masky:"
+#: tfrmoptionsfilesviews.lblbyte.caption
+msgid "&Byte:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblcasesensitivity.caption
 msgid "Case s&ensitivity:"
@@ -6001,9 +5949,29 @@ msgstr "&Formát data a času:"
 msgid "File si&ze format:"
 msgstr "Formát veli&kosti souboru:"
 
+#: tfrmoptionsfilesviews.lblgigabyte.caption
+msgid "&Gigabyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblheaderfootersizeformat.caption
+msgid "&Header/footer format:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblkilobyte.caption
+msgid "&Kilobyte:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblmegabyte.caption
+msgid "Megab&yte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblnewfilesposition.caption
 msgid "&Insert new files:"
 msgstr "&Vložit nové soubory:"
+
+#: tfrmoptionsfilesviews.lbloperationsizeformat.caption
+msgid "O&peration size format:"
+msgstr ""
 
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "So&rting directories:"
@@ -6013,9 +5981,88 @@ msgstr "Řazení a&dresářů:"
 msgid "&Sort method:"
 msgstr "&Metoda řazení:"
 
+#: tfrmoptionsfilesviews.lblterabyte.caption
+msgid "&Terabyte:"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
 msgid "&Move updated files:"
 msgstr "&Přesun aktualizovaných souborů:"
+
+#: tfrmoptionsfilesviewscomplement.btnaddattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnaddattribute.caption"
+msgid "&Add"
+msgstr "Přid&at"
+
+#: tfrmoptionsfilesviewscomplement.btnattrshelp.caption
+msgctxt "tfrmoptionsfilesviewscomplement.btnattrshelp.caption"
+msgid "&Help"
+msgstr "&Nápověda"
+
+#: tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdblclicktoparent.caption"
+msgid "Enable changing to &parent folder when double-clicking on empty part of file view"
+msgstr "Umožnit &přechod do nadřazené složky, poklikáním na prázdnou část prohlížení souboru"
+
+#: tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdelayloadingtabs.caption"
+msgid "Do&n't load file list until a tab is activated"
+msgstr "Nevklá&dat seznam souborů, dokud se karta neaktivuje"
+
+#: tfrmoptionsfilesviewscomplement.cbdirbrackets.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbdirbrackets.caption"
+msgid "S&how square brackets around directories"
+msgstr "N&ázvy adresářů v hranatých závorkách"
+
+#: tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbhighlightupdatedfiles.caption"
+msgid "Hi&ghlight new and updated files"
+msgstr "Zvý&raznit nové a aktualizované soubory"
+
+#: tfrmoptionsfilesviewscomplement.cbinplacerename.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbinplacerename.caption"
+msgid "Enable inplace &renaming when clicking twice on a name"
+msgstr "Povoli&t při dvojkliknutí na název přejmenování"
+
+#: tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cblistfilesinthread.caption"
+msgid "Load &file list in separate thread"
+msgstr "Načíst &seznam souborů v odděleném vlákně"
+
+#: tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbloadiconsseparately.caption"
+msgid "Load icons af&ter file list"
+msgstr "Načíst ikony p&o seznam souborů"
+
+#: tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbshowsystemfiles.caption"
+msgid "Show s&ystem and hidden files"
+msgstr "Zobrazit s&ystémové a skryté soubory"
+
+#: tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption
+msgctxt "tfrmoptionsfilesviewscomplement.cbspacemovesdown.caption"
+msgid "&When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "&Při výběru souboru <mezerníkem> posunout kurzor dolů na další soubor, jako při výběru klávesou <Insert>"
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskfilterwindows.caption"
+msgid "Windows style filter when marking files (\"*.*\" also select files without extension, etc.)"
+msgstr "Styl filtrování Windows při označení souborů (\"*.*\" také vybírá soubory bez přípony, atd.)"
+
+#: tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption
+msgctxt "tfrmoptionsfilesviewscomplement.chkmarkmaskshowattribute.caption"
+msgid "Use an independent attribute filter in mask input dialog each time"
+msgstr "Vždy použít samostatný atributový filtr v dialogovém okně masky"
+
+#: tfrmoptionsfilesviewscomplement.gbmarking.caption
+msgctxt "tfrmoptionsfilesviewscomplement.gbmarking.caption"
+msgid "Marking/Unmarking entries"
+msgstr "Označení/odznačení položek"
+
+#: tfrmoptionsfilesviewscomplement.lbattributemask.caption
+msgctxt "tfrmoptionsfilesviewscomplement.lbattributemask.caption"
+msgid "Default attribute mask value to use:"
+msgstr "Výchozí hodnota atributové masky:"
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -8590,6 +8637,7 @@ msgid "C&hange"
 msgstr "Z&měnit"
 
 #: tfrmtweakplugin.btndefault.caption
+msgctxt "tfrmtweakplugin.btndefault.caption"
 msgid "De&fault"
 msgstr "Vý&chozí"
 
@@ -9232,6 +9280,14 @@ msgstr ""
 "Mohl byste ho dát jen k dispozici, a kliknout tlačítko \"OK\", pokud jste připraveni,\n"
 "nebo pokračovat bez něj kliknutím na \"ZRUŠIT\"?\n"
 
+#: ulng.rsabbrevdisplaydir
+msgid "<DIR>"
+msgstr ""
+
+#: ulng.rsabbrevdisplaylink
+msgid "<LNK>"
+msgstr ""
+
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
 msgstr "Zrušit rychlý filtr"
@@ -9369,6 +9425,27 @@ msgstr "Importovaná nástrojová lišta DC"
 #: ulng.rsdefaultimportedtctoolbarhint
 msgid "Imported TC toolbar"
 msgstr "Importovaná nástrojová lišta TC"
+
+#: ulng.rsdefaultpersonalizedabbrevbyte
+msgctxt "ulng.rsdefaultpersonalizedabbrevbyte"
+msgid "B"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevgiga
+msgid "GB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevkilo
+msgid "KB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevmega
+msgid "MB"
+msgstr ""
+
+#: ulng.rsdefaultpersonalizedabbrevtera
+msgid "TB"
+msgstr ""
 
 #: ulng.rsdefaultsuffixdroppedtext
 msgid "_DroppedText"
@@ -9727,12 +9804,14 @@ msgid "Begin at"
 msgstr "Začít v"
 
 #: ulng.rsfreemsg
-msgid "Free %s from %s bytes"
-msgstr "Volno %s z %s bytů"
+#, fuzzy
+msgid "%s of %s free"
+msgstr "Volno %s z %s"
 
 #: ulng.rsfreemsgshort
-msgid "%s bytes free"
-msgstr "%s bajtů volných"
+#, fuzzy
+msgid "%s free"
+msgstr "%s volných"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
@@ -9909,6 +9988,27 @@ msgstr "podle názvu příkazu;podle zkratky (seskupeno);podle zkratky (jedna na
 #: ulng.rsimporttoolbarproblem
 msgid "Cannot find reference to default bar file"
 msgstr "Nemohu najít odkaz na výchozí BAR soubor"
+
+#: ulng.rslegacydisplaysizesinglelettergiga
+msgid "G"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesingleletterkilo
+msgid "K"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettermega
+msgid "M"
+msgstr ""
+
+#: ulng.rslegacydisplaysizesinglelettertera
+msgid "T"
+msgstr ""
+
+#: ulng.rslegacyoperationbytesuffixletter
+msgctxt "ulng.rslegacyoperationbytesuffixletter"
+msgid "B"
+msgstr ""
 
 #: ulng.rslistoffindfileswindows
 msgid "List of \"Find files\" windows"
@@ -11589,9 +11689,9 @@ msgstr "Přidat na začátek;Přidat na konec;Abecedně seřadit"
 msgid "separate window;minimized separate window;operations panel"
 msgstr "samostatné okno;minimalizované samostatné okno;záložka operace"
 
-#: ulng.rsoptfilesizeformat
-msgid "float;B;K;M;G"
-msgstr "plovoucí;B;K;M;G"
+#: ulng.rsoptfilesizefloat
+msgid "float"
+msgstr "plovoucí"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
@@ -11771,6 +11871,10 @@ msgstr "Hledání souborů"
 msgid "Files views"
 msgstr "Zobrazení souborů"
 
+#: ulng.rsoptionseditorfilesviewscomplement
+msgid "Files views extra"
+msgstr ""
+
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
 msgid "File types"
@@ -11884,6 +11988,10 @@ msgstr "Levé tlačítko;Pravé tlačítko;"
 #: ulng.rsoptnewfilesposition
 msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
 msgstr "nahoře v seznamu souborů;po adresářích (pokud jsou adresáře řazeny před soubory);na řazené pozici;v dolní části seznamu souborů"
+
+#: ulng.rsoptpersonalizedfilesizeformat
+msgid "Personalized float;Personalized byte;Personalized kilobyte;Personalized megabyte;Personalized gigabyte;Personalized terabyte"
+msgstr ""
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
@@ -12194,6 +12302,10 @@ msgstr "Sloupec"
 msgctxt "ulng.rssimplewordcommand"
 msgid "Command"
 msgstr "Příkaz"
+
+#: ulng.rssimpleworderror
+msgid "Error"
+msgstr ""
 
 #: ulng.rssimplewordfalse
 msgid "False"
