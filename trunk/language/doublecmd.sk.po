@@ -6554,7 +6554,7 @@ msgid "Formatting"
 msgstr "Formátovanie"
 
 #: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
-msgid "Personalized abreviations to use:"
+msgid "Personalized abbreviations to use:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.gbsorting.caption

@@ -11,7 +11,7 @@
 {"hash":7032132,"name":"tfrmoptionsfilesviews.lbldatetimeexample.caption","sourcebytes":[73,110,99,111,114,114,101,99,116,32,102,111,114,109,97,116],"value":"Incorrect format"},
 {"hash":11339658,"name":"tfrmoptionsfilesviews.lblheaderfootersizeformat.caption","sourcebytes":[38,72,101,97,100,101,114,47,102,111,111,116,101,114,32,102,111,114,109,97,116,58],"value":"&Header/footer format:"},
 {"hash":70585306,"name":"tfrmoptionsfilesviews.lbloperationsizeformat.caption","sourcebytes":[79,38,112,101,114,97,116,105,111,110,32,115,105,122,101,32,102,111,114,109,97,116,58],"value":"O&peration size format:"},
-{"hash":82978810,"name":"tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption","sourcebytes":[80,101,114,115,111,110,97,108,105,122,101,100,32,97,98,114,101,118,105,97,116,105,111,110,115,32,116,111,32,117,115,101,58],"value":"Personalized abreviations to use:"},
+{"hash":78125914,"name":"tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption","sourcebytes":[80,101,114,115,111,110,97,108,105,122,101,100,32,97,98,98,114,101,118,105,97,116,105,111,110,115,32,116,111,32,117,115,101,58],"value":"Personalized abbreviations to use:"},
 {"hash":44698250,"name":"tfrmoptionsfilesviews.lblbyte.caption","sourcebytes":[38,66,121,116,101,58],"value":"&Byte:"},
 {"hash":56408202,"name":"tfrmoptionsfilesviews.lblkilobyte.caption","sourcebytes":[38,75,105,108,111,98,121,116,101,58],"value":"&Kilobyte:"},
 {"hash":122237274,"name":"tfrmoptionsfilesviews.lblmegabyte.caption","sourcebytes":[77,101,103,97,98,38,121,116,101,58],"value":"Megab&yte:"},

@@ -453,7 +453,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     Width = 628
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Around = 6
-    Caption = 'Personalized abreviations to use:'
+    Caption = 'Personalized abbreviations to use:'
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.HorizontalSpacing = 2
