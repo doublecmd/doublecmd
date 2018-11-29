@@ -21,7 +21,7 @@
 }
 
 {
-Equivalence of some abreviation here:
+Equivalence of some abbreviation here:
 
 TC = Total Commander
 DC = Double Commander

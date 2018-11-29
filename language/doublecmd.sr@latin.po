@@ -6179,7 +6179,7 @@ msgid "Formatting"
 msgstr "Oblikujem"
 
 #: tfrmoptionsfilesviews.gbpersonalizedabbreviationtouse.caption
-msgid "Personalized abreviations to use:"
+msgid "Personalized abbreviations to use:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.gbsorting.caption
