@@ -540,9 +540,12 @@ begin
 
     if fpChangeTime in PropertiesToSet then
     begin
-      ChangeTimeProperty := TFileChangeDateTimeProperty.Create;
-      if mbGetFileChangeTime(sFullPath, FindData.ftCreationTime) then
+      ChangeTimeProperty := TFileChangeDateTimeProperty.Create(MinDateTime);
+      ChangeTimeProperty.IsValid := mbGetFileChangeTime(sFullPath, FindData.ftCreationTime);
+      if ChangeTimeProperty.IsValid then
+      begin
         ChangeTimeProperty.Value := WinFileTimeToDateTime(FindData.ftCreationTime);
+      end;
     end;
 {$ELSEIF DEFINED(UNIX)}
 
@@ -621,13 +624,12 @@ begin
     {$IF DEFINED(LINUX)}
     if fpCreationTime in PropertiesToSet then
     begin
-      if HasStatX and (fpstatx(0, sFullPath, 0, STATX_BTIME, @StatXInfo) >= 0) then
+      CreationTimeProperty := TFileCreationDateTimeProperty.Create(MinDateTime);
+      CreationTimeProperty.IsValid := HasStatX and (fpstatx(0, sFullPath, 0, STATX_BTIME, @StatXInfo) >= 0) and
+                                      (StatXInfo.stx_mask and STATX_BTIME <> 0) and (StatXInfo.stx_btime.tv_sec > 0);
+      if CreationTimeProperty.IsValid then
       begin
-        if (StatXInfo.stx_mask and STATX_BTIME <> 0) and (StatXInfo.stx_btime.tv_sec > 0) then
-        begin
-          CreationTimeProperty := TFileCreationDateTimeProperty.Create(
-                                       FileTimeToDateTime(DCBasicTypes.TFileTime(StatXInfo.stx_btime.tv_sec)));
-        end;
+        CreationTimeProperty.Value:= FileTimeToDateTime(DCBasicTypes.TFileTime(StatXInfo.stx_btime.tv_sec));
       end;
     end;
     {$ENDIF}
