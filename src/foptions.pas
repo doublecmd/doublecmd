@@ -19,9 +19,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptions;
@@ -196,6 +195,8 @@ begin
 end;
 
 function TfrmOptions.CompareTwoNodeOfConfigurationOptionTree(Node1, Node2: TTreeNode): integer;
+const
+  sCLASSFIRST = 'TfrmOptionsLanguage|TfrmOptionsFilesViewsComplement';
 begin
   case gSortOrderOfConfigurationOptionsTree of
     scoClassicLegacy:
@@ -205,16 +206,15 @@ begin
 
     scoAlphabeticalButLanguage:
       begin
-        if TOptionsEditorView(Node1.Data).EditorClass.ClassName='TfrmOptionsLanguage' then
+        if pos(TOptionsEditorView(Node1.Data).EditorClass.ClassName,sCLASSFIRST)<>0 then
           result:=-1
         else
-          if TOptionsEditorView(Node2.Data).EditorClass.ClassName='TfrmOptionsLanguage' then
+          if pos(TOptionsEditorView(Node2.Data).EditorClass.ClassName,sCLASSFIRST)<>0 then
             result:=1
           else
             result:=CompareStrings(Node1.Text,Node2.Text, gSortNatural, gSortCaseSensitivity)
       end;
   end;
-
 end;
 
 procedure TfrmOptions.CreateOptionsEditorList;
