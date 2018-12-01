@@ -195,8 +195,6 @@ begin
 end;
 
 function TfrmOptions.CompareTwoNodeOfConfigurationOptionTree(Node1, Node2: TTreeNode): integer;
-const
-  sCLASSFIRST = 'TfrmOptionsLanguage|TfrmOptionsFilesViewsComplement';
 begin
   case gSortOrderOfConfigurationOptionsTree of
     scoClassicLegacy:
@@ -206,10 +204,10 @@ begin
 
     scoAlphabeticalButLanguage:
       begin
-        if pos(TOptionsEditorView(Node1.Data).EditorClass.ClassName,sCLASSFIRST)<>0 then
+        if (TOptionsEditorView(Node1.Data).EditorClass.ClassName='TfrmOptionsLanguage') or (TOptionsEditorView(Node1.Data).EditorClass.ClassName='TfrmOptionsFilesViewsComplement') then
           result:=-1
         else
-          if pos(TOptionsEditorView(Node2.Data).EditorClass.ClassName,sCLASSFIRST)<>0 then
+          if (TOptionsEditorView(Node2.Data).EditorClass.ClassName='TfrmOptionsLanguage') or (TOptionsEditorView(Node1.Data).EditorClass.ClassName='TfrmOptionsFilesViewsComplement') then
             result:=1
           else
             result:=CompareStrings(Node1.Text,Node2.Text, gSortNatural, gSortCaseSensitivity)
