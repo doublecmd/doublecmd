@@ -865,15 +865,17 @@ begin
           end;
 
         // save to cache
-        cache := TFileStreamEx.Create(gpCfgDir + pixmaps_cache, fmCreate);
-        cache.WriteDWord(NtoBE(cache_signature));
-        cache.WriteDWord(cache_version);
-        cache.WriteDWord(EntriesCount);
-        for I := 0 to FExtToMimeIconName.HashTable.Count - 1 do
-          begin
-            nodeList := TFPObjectList(FExtToMimeIconName.HashTable.Items[I]);
-            if Assigned(nodeList) then
-              for J := 0 to nodeList.Count - 1 do
+        try
+          cache := TFileStreamEx.Create(gpCfgDir + pixmaps_cache, fmCreate);
+          try
+            cache.WriteDWord(NtoBE(cache_signature));
+            cache.WriteDWord(cache_version);
+            cache.WriteDWord(EntriesCount);
+            for I := 0 to FExtToMimeIconName.HashTable.Count - 1 do
+            begin
+              nodeList := TFPObjectList(FExtToMimeIconName.HashTable.Items[I]);
+              if Assigned(nodeList) then
+                for J := 0 to nodeList.Count - 1 do
                 begin
                   node := THtDataNode(nodeList.Items[J]);
                   iconsList := TStringList(node.Data);
@@ -882,9 +884,15 @@ begin
                   for K := 0 to iconsList.Count - 1 do
                     cache.WriteAnsiString(iconsList.Strings[K]);
                 end;
+            end;
+          finally
+            FreeAndNil(cache); // Close file
           end;
-        FreeAndNil(cache); // Close file
-        mbFileSetTime(gpCfgDir + pixmaps_cache, mTime, 0, 0);
+          mbFileSetTime(gpCfgDir + pixmaps_cache, mTime, 0, 0);
+        except
+          on E: Exception do
+            DCDebug(Format('Error: Cannot save pixmaps cache [%s] : %s',[gpCfgDir + pixmaps_cache, E.Message]));
+        end;
       end;
 
   finally
