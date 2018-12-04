@@ -210,6 +210,8 @@ resourcestring
   rsMsgCopyBackward = 'The file %s has changed. Do you want to copy it backward?';
   rsMsgCouldNotCopyBackward = 'Could not copy backward - do you want to keep the changed file?';
   rsMsgFilePathOverMaxPath = 'The target name length (%d) is more than %d characters!' + #13 + '%s' + #13 + 'Most programs will not be able to access a file/directory with such a long name!';
+  rsExtsClosedBracketNoFound = '"]" not found in line %s';
+  rsExtsCommandWithNoExt = 'No extension defined before command "%s". It will be ignored.';
 
   //Hot Dir related
   rsMsgHotDirWhatToDelete = 'Do you want to delete all elements inside the sub-menu [%s]?'+#$0A+'Answering NO will delete only menu delimiters but will keep element inside sub-menu.';
@@ -415,6 +417,9 @@ resourcestring
   rsMsgLogTest = 'Test file integrity %s';
   rsMsgLogExtCmdLaunch = 'Launch external';
   rsMsgLogExtCmdResult = 'Result external';
+  rsMsgLogProgramStart = 'Program start';
+  rsMsgLogProgramShutdown = 'Program shutdown';
+  rsMsgExitStatusCode = 'Exit status:';
 
   rsSearchResult = 'Search result';
   rsShowHelpFor = '&Show help for %s';
@@ -766,6 +771,8 @@ resourcestring
   rsSimpleWordTrue = 'True';
   rsSimpleWordFalse = 'False';
   rsSimpleWordError = 'Error';
+  rsSimpleWordSuccessExcla = 'Success!';
+  rsSimpleWordFailedExcla = 'Failed!';
 
   // Plugins
   rsOptPluginsActive = 'Active';

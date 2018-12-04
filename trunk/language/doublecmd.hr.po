@@ -10367,6 +10367,14 @@ msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr "Izvrši putem terminala i ostavi ga otvorenim"
 
+#: ulng.rsextsclosedbracketnofound
+msgid "\"]\" not found in line %s"
+msgstr ""
+
+#: ulng.rsextscommandwithnoext
+msgid "No extension defined before command \"%s\". It will be ignored."
+msgstr ""
+
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
 msgstr "Lijevo:Desno;Aktivno;Neaktivno;Oba;Nijedno"
@@ -11044,6 +11052,10 @@ msgstr "Nije poznat oblik željene datoteke za sažimanje"
 msgid "Executable: %s"
 msgstr ""
 
+#: ulng.rsmsgexitstatuscode
+msgid "Exit status:"
+msgstr ""
+
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
 msgstr "Sigurni ste da želite ukloniti sve unose omiljenih kartica? (Ne postoji \"poništavanje\" ove radnje)?"
@@ -11478,6 +11490,14 @@ msgstr "Premjesti datoteku %s"
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "Putanja do datoteke %s"
+
+#: ulng.rsmsglogprogramshutdown
+msgid "Program shutdown"
+msgstr ""
+
+#: ulng.rsmsglogprogramstart
+msgid "Program start"
+msgstr ""
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory %s"
@@ -12989,6 +13009,10 @@ msgstr "Naredba"
 msgid "Error"
 msgstr ""
 
+#: ulng.rssimplewordfailedexcla
+msgid "Failed!"
+msgstr ""
+
 #: ulng.rssimplewordfalse
 msgid "False"
 msgstr ""
@@ -13012,6 +13036,10 @@ msgstr "Parametri"
 #: ulng.rssimplewordresult
 msgid "Result"
 msgstr "Rezultat"
+
+#: ulng.rssimplewordsuccessexcla
+msgid "Success!"
+msgstr ""
 
 #: ulng.rssimplewordtrue
 msgid "True"

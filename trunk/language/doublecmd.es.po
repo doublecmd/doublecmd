@@ -9724,6 +9724,14 @@ msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr "Ejecutar en terminal y dejar abierto"
 
+#: ulng.rsextsclosedbracketnofound
+msgid "\"]\" not found in line %s"
+msgstr ""
+
+#: ulng.rsextscommandwithnoext
+msgid "No extension defined before command \"%s\". It will be ignored."
+msgstr ""
+
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
 msgstr "Izquierda;Derecha;Activa;Inactiva;Ambas;Ninguna"
@@ -10403,6 +10411,10 @@ msgstr "Formato de fichero desconocido"
 msgid "Executable: %s"
 msgstr ""
 
+#: ulng.rsmsgexitstatuscode
+msgid "Exit status:"
+msgstr ""
+
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
 msgstr "¿Seguro que quieres eliminar todos los apuntes de la lista de pestañas favoritas?) (¡No es posible deshacer esta acción!)"
@@ -10842,6 +10854,14 @@ msgstr "Mover archivo «%s»"
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "Comprimir en archivo «%s»"
+
+#: ulng.rsmsglogprogramshutdown
+msgid "Program shutdown"
+msgstr ""
+
+#: ulng.rsmsglogprogramstart
+msgid "Program start"
+msgstr ""
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory %s"
@@ -12333,6 +12353,10 @@ msgstr "Comando"
 msgid "Error"
 msgstr ""
 
+#: ulng.rssimplewordfailedexcla
+msgid "Failed!"
+msgstr ""
+
 #: ulng.rssimplewordfalse
 msgid "False"
 msgstr ""
@@ -12356,6 +12380,10 @@ msgstr "Parámetro"
 #: ulng.rssimplewordresult
 msgid "Result"
 msgstr "Resultado"
+
+#: ulng.rssimplewordsuccessexcla
+msgid "Success!"
+msgstr ""
 
 #: ulng.rssimplewordtrue
 msgid "True"

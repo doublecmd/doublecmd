@@ -9944,6 +9944,14 @@ msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr ""
 
+#: ulng.rsextsclosedbracketnofound
+msgid "\"]\" not found in line %s"
+msgstr ""
+
+#: ulng.rsextscommandwithnoext
+msgid "No extension defined before command \"%s\". It will be ignored."
+msgstr ""
+
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
 msgstr ""
@@ -10612,6 +10620,10 @@ msgstr "Format necunoscut de arhivă"
 msgid "Executable: %s"
 msgstr ""
 
+#: ulng.rsmsgexitstatuscode
+msgid "Exit status:"
+msgstr ""
+
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
 msgstr ""
@@ -11025,6 +11037,14 @@ msgstr "Mută fișierul %s"
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "Împachetează în fișierul %s"
+
+#: ulng.rsmsglogprogramshutdown
+msgid "Program shutdown"
+msgstr ""
+
+#: ulng.rsmsglogprogramstart
+msgid "Program start"
+msgstr ""
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory %s"
@@ -12519,6 +12539,10 @@ msgstr "Comandă"
 msgid "Error"
 msgstr ""
 
+#: ulng.rssimplewordfailedexcla
+msgid "Failed!"
+msgstr ""
+
 #: ulng.rssimplewordfalse
 msgid "False"
 msgstr ""
@@ -12541,6 +12565,10 @@ msgstr ""
 
 #: ulng.rssimplewordresult
 msgid "Result"
+msgstr ""
+
+#: ulng.rssimplewordsuccessexcla
+msgid "Success!"
 msgstr ""
 
 #: ulng.rssimplewordtrue

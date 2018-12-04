@@ -9947,6 +9947,14 @@ msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr "通过终端执行并保持打开状态"
 
+#: ulng.rsextsclosedbracketnofound
+msgid "\"]\" not found in line %s"
+msgstr ""
+
+#: ulng.rsextscommandwithnoext
+msgid "No extension defined before command \"%s\". It will be ignored."
+msgstr ""
+
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
 msgstr "左侧;右侧;活动;非活动;全部;无"
@@ -10624,6 +10632,10 @@ msgstr "位置的压缩格式"
 msgid "Executable: %s"
 msgstr ""
 
+#: ulng.rsmsgexitstatuscode
+msgid "Exit status:"
+msgstr ""
+
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
 msgstr "您确定要删除 “收藏夹标签” 的所有条目吗？（此操作无法撤消！）"
@@ -11052,6 +11064,14 @@ msgstr "移动文件 %s"
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "压缩到文件 %s"
+
+#: ulng.rsmsglogprogramshutdown
+msgid "Program shutdown"
+msgstr ""
+
+#: ulng.rsmsglogprogramstart
+msgid "Program start"
+msgstr ""
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory %s"
@@ -12564,6 +12584,10 @@ msgstr "命令"
 msgid "Error"
 msgstr ""
 
+#: ulng.rssimplewordfailedexcla
+msgid "Failed!"
+msgstr ""
+
 #: ulng.rssimplewordfalse
 msgid "False"
 msgstr ""
@@ -12587,6 +12611,10 @@ msgstr "参数"
 #: ulng.rssimplewordresult
 msgid "Result"
 msgstr "结果"
+
+#: ulng.rssimplewordsuccessexcla
+msgid "Success!"
+msgstr ""
 
 #: ulng.rssimplewordtrue
 msgid "True"

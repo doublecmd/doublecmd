@@ -9944,6 +9944,14 @@ msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr "Εκτέλεση μέσω τερματικού και παραμονή αυτού ανοικτό"
 
+#: ulng.rsextsclosedbracketnofound
+msgid "\"]\" not found in line %s"
+msgstr ""
+
+#: ulng.rsextscommandwithnoext
+msgid "No extension defined before command \"%s\". It will be ignored."
+msgstr ""
+
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
 msgstr "Αριστερά;Δεξιά;Ενεργό;Ανενεργό;Και τα δύο;Κανένα"
@@ -10623,6 +10631,10 @@ msgstr "Άγνωστη μορφή Αρχειοθήκης"
 msgid "Executable: %s"
 msgstr ""
 
+#: ulng.rsmsgexitstatuscode
+msgid "Exit status:"
+msgstr ""
+
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
 msgstr "Είστε βέβαιοι οτι επιθυμείτε να αφαιρέσετε όλες τις καταχωρήσεις των Αγαπημένων Καρτελών σας; (Δεν υπάρχει \"αναίρεση\" σε αυτή την ενέργεια!)"
@@ -11050,6 +11062,14 @@ msgstr "Μετακίνηση αρχείου %s"
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "Πακετάρισμα στο αρχείο %s"
+
+#: ulng.rsmsglogprogramshutdown
+msgid "Program shutdown"
+msgstr ""
+
+#: ulng.rsmsglogprogramstart
+msgid "Program start"
+msgstr ""
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory %s"
@@ -12562,6 +12582,10 @@ msgstr "Εντολή"
 msgid "Error"
 msgstr ""
 
+#: ulng.rssimplewordfailedexcla
+msgid "Failed!"
+msgstr ""
+
 #: ulng.rssimplewordfalse
 msgid "False"
 msgstr ""
@@ -12585,6 +12609,10 @@ msgstr "Παράμετρος"
 #: ulng.rssimplewordresult
 msgid "Result"
 msgstr "Αποτέλεσμα"
+
+#: ulng.rssimplewordsuccessexcla
+msgid "Success!"
+msgstr ""
 
 #: ulng.rssimplewordtrue
 msgid "True"

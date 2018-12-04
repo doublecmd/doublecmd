@@ -285,9 +285,9 @@ begin
     if (log_commandlineexecution in gLogOptions) then
     begin
       if Result then
-        logWrite(rsMsgLogExtCmdResult+': '+rsSimpleWordResult+'='+'Success!'+' / '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath)
+        logWrite(rsMsgLogExtCmdResult + ': ' + rsSimpleWordResult + '=' + rsSimpleWordSuccessExcla + ' / ' + rsSimpleWordFilename + '=' + sCmd + ' / ' + rsSimpleWordParameter + '=' + sParams + ' / ' + rsSimpleWordWorkDir + '=' + sStartPath)
       else
-        logWrite(rsMsgLogExtCmdResult+': '+rsSimpleWordResult+'='+'Failed!'+' / '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath);
+        logWrite(rsMsgLogExtCmdResult + ': ' + rsSimpleWordResult + '=' + rsSimpleWordFailedExcla + ' / ' + rsSimpleWordFilename + '=' + sCmd + ' / ' + rsSimpleWordParameter + '=' + sParams + ' / ' + rsSimpleWordWorkDir + '=' + sStartPath);
     end;
   end
   else
@@ -375,9 +375,9 @@ begin
   if (log_commandlineexecution in gLogOptions) then
   begin
     if Result then
-      logWrite(rsMsgLogExtCmdResult + ': ' + rsSimpleWordResult + '=' + 'Success!' + ' / ' + rsSimpleWordCommand + '=' + sCmd)
+      logWrite(rsMsgLogExtCmdResult + ': ' + rsSimpleWordResult + '=' + rsSimpleWordSuccessExcla + ' / ' + rsSimpleWordCommand + '=' + sCmd)
     else
-      logWrite(rsMsgLogExtCmdResult + ': ' + rsSimpleWordResult + '=' + 'Failed!' + ' / ' + rsSimpleWordCommand + '=' + sCmd);
+      logWrite(rsMsgLogExtCmdResult + ': ' + rsSimpleWordResult + '=' + rsSimpleWordFailedExcla + ' / ' + rsSimpleWordCommand + '=' + sCmd);
   end;
 end;
 {$ELSE}
@@ -398,9 +398,7 @@ begin
 
   if (log_commandlineexecution in gLogOptions) then
   begin
-    logWrite(rsMsgLogExtCmdResult + ': ' + rsSimpleWordResult + '=' + IfThen((ExecutionResult > 32), 'Success!',
-             IntToStr(ExecutionResult) + ':' + SysErrorMessage(ExecutionResult)) +' / ' + rsSimpleWordFilename +
-             '=' + sCmd + ' / ' + rsSimpleWordParameter + '=' + sParams);
+    logWrite(rsMsgLogExtCmdResult + ': ' + rsSimpleWordResult + '=' + IfThen((ExecutionResult > 32), rsSimpleWordSuccessExcla, IntToStr(ExecutionResult) + ':' + SysErrorMessage(ExecutionResult)) + ' / ' + rsSimpleWordFilename + '=' + sCmd + ' / ' + rsSimpleWordParameter + '=' + sParams);
   end;
 
   Result := (ExecutionResult > 32);
@@ -515,6 +513,8 @@ end;
 var
   wPath: UnicodeString;
 begin
+  FreeSize := 0;
+  TotalSize := 0;
   wPath:= UTF16LongName(Path);
   Result:= GetDiskFreeSpaceExW(PWideChar(wPath), FreeSize, TotalSize, nil);
 end;
@@ -541,9 +541,9 @@ end;
 {$ELSE}
 var
  lpVolumeNameBuffer,
- lpFileSystemNameBuffer  : array [0..255] of WideChar;
- lpMaximumComponentLength,
- lpFileSystemFlags     : DWORD;
+ lpFileSystemNameBuffer: array [0..255] of WideChar;
+ lpMaximumComponentLength: DWORD = 0;
+ lpFileSystemFlags: DWORD = 0;
 begin
  Result := High(Int64);
  if GetVolumeInformationW(PWideChar(UTF8Decode(ExtractFileDrive(Path)) + PathDelim),

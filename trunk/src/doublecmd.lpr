@@ -62,7 +62,8 @@ uses
   uspecialdir,
   fstartingsplash,
   ulog,
-  uVariableMenuSupport
+  uVariableMenuSupport,
+  uLng
   {$IFDEF MSWINDOWS}
   , uMyWindows
   {$ENDIF}
@@ -182,7 +183,7 @@ begin
     InitInstance;
     if IsInstanceAllowed then
     begin
-      if (log_start_shutdown in gLogOptions) then logWrite('Program start ('+GetCurrentUserName+'/'+GetComputerNetName+')');
+      if (log_start_shutdown in gLogOptions) then logWrite(rsMsgLogProgramStart + ' (' + GetCurrentUserName + '/' + GetComputerNetName + ')');
 
       InitPasswordStore;
       LoadPixMapManager;
@@ -218,7 +219,7 @@ begin
 
       FreeMemoryFromOurAccentLookupTableList;
 
-      if (log_start_shutdown in gLogOptions) then logWrite('Program shutdown ('+GetCurrentUserName+'/'+GetComputerNetName+')');
+      if (log_start_shutdown in gLogOptions) then logWrite(rsMsgLogProgramShutdown + ' (' + GetCurrentUserName + '/' + GetComputerNetName + ')');
     end
     else
     begin

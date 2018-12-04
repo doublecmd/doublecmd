@@ -1,3 +1,24 @@
+{
+   Double commander
+   -------------------------------------------------------------------------
+   Archive test operation for mutiarchive manager
+
+   Copyright (C) 2018 Alexander Koblov (alexx2000@mail.ru)
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+}
+
 unit uMultiArchiveTestArchiveOperation;
 
 {$mode objfpc}{$H+}
@@ -35,7 +56,7 @@ type
     FErrorLevel: LongInt;
     procedure OnReadLn(str: string);
     procedure UpdateProgress(SourceName: String; IncSize: Int64);
-    procedure FileSourceOperationStateChangedNotify(Operation: TFileSourceOperation;
+    procedure FileSourceOperationStateChangedNotify({%H-}Operation: TFileSourceOperation;
                                                     AState: TFileSourceOperationState);
 
   public
@@ -196,16 +217,13 @@ end;
 
 procedure TMultiArchiveTestArchiveOperation.CheckForErrors(const FileName: String; ExitStatus: LongInt);
 begin
-  if ExitStatus > FErrorLevel then
+  if (ExitStatus > FErrorLevel) then
     begin
-      ShowError(Format(rsMsgLogError + rsMsgLogTest,
-                 [FileName +
-                  ' - Exit status: ' + IntToStr(ExitStatus)]), [log_arc_op]);
+      ShowError(Format(rsMsgLogError + rsMsgLogTest, [FileName + ' - ' + rsMsgExitStatusCode + ' ' + IntToStr(ExitStatus)]), [log_arc_op]);
     end
   else
     begin
-      LogMessage(Format(rsMsgLogSuccess + rsMsgLogTest,
-                  [FileName]), [log_arc_op], lmtSuccess);
+      LogMessage(Format(rsMsgLogSuccess + rsMsgLogTest, [FileName]), [log_arc_op], lmtSuccess);
     end;
 end;
 
