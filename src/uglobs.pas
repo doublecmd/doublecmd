@@ -2221,8 +2221,7 @@ begin
 
     { Since language file has been loaded, we'll not set our default memory size string. They will be in the correct language }
     gSizeDisplayUnits[fsfFloat] := ''; //Not used, but at least it will be defined.
-    gSizeDisplayUnits[fsfByte] := Trim(rsLegacyDisplaySizeSingleLetterByte); //Not user changeable by legacy, taken from language file since 2018-11.
-    if gSizeDisplayUnits[fsfByte] <> '' then gSizeDisplayUnits[fsfByte] := ' ' + gSizeDisplayUnits[fsfByte];
+    gSizeDisplayUnits[fsfByte] := ''; //Not user changeable by legacy and empty by legacy.
     gSizeDisplayUnits[fsfKilo] := ' ' + Trim(rsLegacyDisplaySizeSingleLetterKilo); //Not user changeable by legacy, taken from language file since 2018-11.
     gSizeDisplayUnits[fsfMega] := ' ' + Trim(rsLegacyDisplaySizeSingleLetterMega); //Not user changeable by legacy, taken from language file since 2018-11.
     gSizeDisplayUnits[fsfGiga] := ' ' + Trim(rsLegacyDisplaySizeSingleLetterGiga); //Not user changeable by legacy, taken from language file since 2018-11.
