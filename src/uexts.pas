@@ -1,14 +1,32 @@
 {
+   Double commander
+   -------------------------------------------------------------------------
+   Manager for commands associated to file extension.
+
+   Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+   Original comment:
+   ----------------------------
    Seksi Commander
    ----------------------------
    Licence  : GNU GPL v 2.0
    Author   : radek.cervinka@centrum.cz
 
    storing commands (by file extensions)
-
-   contributors:
-
-   Copyright (C) 2008-2015 Alexander Koblov (alexx2000@mail.ru)
 }
 
 unit uExts;
@@ -263,7 +281,7 @@ begin
         if iIndex > 0 then
           sLine := Copy(sLine, 1, iIndex)
         else
-          logWrite('] not found in line ' + sLine);
+          logWrite(Format(rsExtsClosedBracketNoFound, [sLine]));
 
         extCurrentFileType.Name:=sLine; // Just in case we don't have a name later on, let's named the file type based on the extension defined.
 
@@ -284,7 +302,7 @@ begin
       begin // this must be a command
         if not assigned(extCurrentFileType) then
         begin
-          logWrite('Command ' + sLine + ' have not defined extension - ignored.');
+          logWrite(Format(rsExtsCommandWithNoExt, [sLine]));
           Continue;
         end;
 
@@ -297,7 +315,6 @@ begin
           s[iIndex] := LowerCase(s[iIndex]);
         end;
 
-        // DCDebug(sLine);
         if Pos('name', s) = 1 then // File type name
           extCurrentFileType.Name := Copy(sLine, iIndex + 1, Length(sLine))
         else if Pos('icon', s) = 1 then // File type icon

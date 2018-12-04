@@ -1356,7 +1356,7 @@ msgstr "???"
 #: tfrmfileproperties.lblfilestr.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILESTR.CAPTION"
 msgid "File name"
-msgstr "Nom du fichier : "
+msgstr "Nom du fichier"
 
 #: tfrmfileproperties.lblfolder.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFOLDER.CAPTION"
@@ -9730,11 +9730,11 @@ msgstr "_TexteUnicodeUTF8Déposé"
 
 #: ulng.rsdiffadds
 msgid " Adds: "
-msgstr "Adjouté :"
+msgstr "Adjouté: "
 
 #: ulng.rsdiffdeletes
 msgid " Deletes: "
-msgstr "Effacé :"
+msgstr "Effacé: "
 
 #: ulng.rsdifffilesidentical
 msgid "The two files are identical!"
@@ -9742,11 +9742,11 @@ msgstr "Les deux fichiers sont identiques!"
 
 #: ulng.rsdiffmatches
 msgid " Matches: "
-msgstr "Corresponde :"
+msgstr "Corresponde: "
 
 #: ulng.rsdiffmodifies
 msgid " Modifies: "
-msgstr "Modifie :"
+msgstr "Modifie: "
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -9978,6 +9978,14 @@ msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr "Exécuter via le terminal et demeurer actif"
 
+#: ulng.rsextsclosedbracketnofound
+msgid "\"]\" not found in line %s"
+msgstr ""
+
+#: ulng.rsextscommandwithnoext
+msgid "No extension defined before command \"%s\". It will be ignored."
+msgstr ""
+
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
 msgstr "Gauche;Droite;Actif;Inactif;Les deux;Aucun"
@@ -10060,7 +10068,7 @@ msgstr "Rechercher les fichiers"
 
 #: ulng.rsfindtimeofscan
 msgid "Time of scan: "
-msgstr "Durée du balayage :"
+msgstr "Durée du balayage: "
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -10654,6 +10662,10 @@ msgstr "Format d'archive inconnu"
 msgid "Executable: %s"
 msgstr "Exécutable: %s"
 
+#: ulng.rsmsgexitstatuscode
+msgid "Exit status:"
+msgstr ""
+
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
 msgstr "Êtes-vous sûr que vous vous détruire toutes les entrées de vos onglets-favoris? (On ne pourra pas défaire cette action!)"
@@ -10788,7 +10800,7 @@ msgstr "Ajoute le dossier sélectionné: "
 
 #: ulng.rsmsghotdiraddthisdirectory
 msgid "Add current dir: "
-msgstr "Ajoute le dossier courant : "
+msgstr "Ajoute le dossier courant: "
 
 #: ulng.rsmsghotdircommandname
 msgid "Do command"
@@ -10884,11 +10896,11 @@ msgstr "Chemin du dossier"
 
 #: ulng.rsmsghotdirreaddselecteddirectory
 msgid "Re-Add selected dir: "
-msgstr "Ajoute à nouveau le dossier sélectionné : "
+msgstr "Ajoute à nouveau le dossier sélectionné: "
 
 #: ulng.rsmsghotdirreaddthisdirectory
 msgid "Re-Add current dir: "
-msgstr "Ajoute à nouveau le dossier courant : "
+msgstr "Ajoute à nouveau le dossier courant: "
 
 #: ulng.rsmsghotdirrestorewhat
 msgid "Enter location and filename of Directory Hotlist to restore"
@@ -10952,7 +10964,7 @@ msgstr ""
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
-msgstr "Nombre d''entrées exportées : "
+msgstr "Nombre d''entrées exportées: "
 
 #: ulng.rsmsghotdirwhattodelete
 msgid ""
@@ -11048,7 +11060,7 @@ msgstr "Suppression du fichier %s"
 
 #: ulng.rsmsglogerror
 msgid "Error: "
-msgstr "Erreur :"
+msgstr "Erreur: "
 
 #: ulng.rsmsglogextcmdlaunch
 msgid "Launch external"
@@ -11064,7 +11076,7 @@ msgstr "Extraction du fichier %s"
 
 #: ulng.rsmsgloginfo
 msgid "Info: "
-msgstr "Information :"
+msgstr "Information: "
 
 #: ulng.rsmsgloglink
 msgid "Create link %s"
@@ -11082,13 +11094,21 @@ msgstr "Déplacer le fichier %s"
 msgid "Pack to file %s"
 msgstr "Archiver dans le fichier %s"
 
+#: ulng.rsmsglogprogramshutdown
+msgid "Program shutdown"
+msgstr "Fermeture de l'application"
+
+#: ulng.rsmsglogprogramstart
+msgid "Program start"
+msgstr "Démarrage de l'application"
+
 #: ulng.rsmsglogrmdir
 msgid "Remove directory %s"
 msgstr "Supprimer le dossier %s"
 
 #: ulng.rsmsglogsuccess
 msgid "Done: "
-msgstr "Effectué :"
+msgstr "Effectué: "
 
 #: ulng.rsmsglogsymlink
 msgid "Create symlink %s"
@@ -12589,6 +12609,10 @@ msgstr "Commande"
 msgid "Error"
 msgstr ""
 
+#: ulng.rssimplewordfailedexcla
+msgid "Failed!"
+msgstr ""
+
 #: ulng.rssimplewordfalse
 msgid "False"
 msgstr "Faux"
@@ -12612,6 +12636,10 @@ msgstr "Paramètre"
 #: ulng.rssimplewordresult
 msgid "Result"
 msgstr "Résultat"
+
+#: ulng.rssimplewordsuccessexcla
+msgid "Success!"
+msgstr ""
 
 #: ulng.rssimplewordtrue
 msgid "True"

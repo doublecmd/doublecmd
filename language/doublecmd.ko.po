@@ -10133,6 +10133,14 @@ msgctxt "ulng.rsexecuteviaterminalstayopen"
 msgid "Execute via terminal and stay open"
 msgstr "명령프롬프트창에서 실행 후 계속 열린 상태로 두기"
 
+#: ulng.rsextsclosedbracketnofound
+msgid "\"]\" not found in line %s"
+msgstr ""
+
+#: ulng.rsextscommandwithnoext
+msgid "No extension defined before command \"%s\". It will be ignored."
+msgstr ""
+
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
 msgstr "왼쪽;오른쪽;활성;비활성;양쪽;없음"
@@ -10814,6 +10822,10 @@ msgstr "압축 포맷 알 수 없음"
 msgid "Executable: %s"
 msgstr ""
 
+#: ulng.rsmsgexitstatuscode
+msgid "Exit status:"
+msgstr ""
+
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
 msgstr "즐겨찾기탭 목록을 모두 삭제하시겠습니까? (\"되돌리기\" 실행되지 않음!)"
@@ -11249,6 +11261,14 @@ msgstr "%s 파일 이동"
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
 msgstr "%s 파일로 압축"
+
+#: ulng.rsmsglogprogramshutdown
+msgid "Program shutdown"
+msgstr ""
+
+#: ulng.rsmsglogprogramstart
+msgid "Program start"
+msgstr ""
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory %s"
@@ -12757,6 +12777,10 @@ msgstr "명령어"
 msgid "Error"
 msgstr ""
 
+#: ulng.rssimplewordfailedexcla
+msgid "Failed!"
+msgstr ""
+
 #: ulng.rssimplewordfalse
 msgid "False"
 msgstr ""
@@ -12780,6 +12804,10 @@ msgstr "매개변수"
 #: ulng.rssimplewordresult
 msgid "Result"
 msgstr "결과"
+
+#: ulng.rssimplewordsuccessexcla
+msgid "Success!"
+msgstr ""
 
 #: ulng.rssimplewordtrue
 msgid "True"
