@@ -179,6 +179,7 @@ object frmSplitter: TfrmSplitter
       Top = 6
       Width = 338
       Anchors = [akTop, akLeft, akRight]
+      DropDownCount = 16
       ItemHeight = 15
       Items.Strings = (
         'Automatic'

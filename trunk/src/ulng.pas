@@ -589,7 +589,6 @@ resourcestring
   rsSizeUnitGBytes = 'Gigabytes';
   rsSizeUnitTBytes = 'Terabytes';
   rsLegacyOperationByteSuffixLetter = 'B'; //Must be 1 character. Respecting legacy, letter added to following single letters for size when not empty.
-  rsLegacyDisplaySizeSingleLetterByte = ''; //By legacy before 2018-11 it was empty. If for a language it would have been better with a letter, it's now changeable in language file.
   rsLegacyDisplaySizeSingleLetterKilo = 'K'; //Must be 1 character. By legacy before 2018-11 it was a 'K'. If for a language a different letter was better, it's now changeable in language file.
   rsLegacyDisplaySizeSingleLetterMega = 'M'; //Must be 1 character. By legacy before 2018-11 it was a 'M'. If for a language a different letter was better, it's now changeable in language file.
   rsLegacyDisplaySizeSingleLetterGiga = 'G'; //Must be 1 character. By legacy before 2018-11 it was a 'G'. If for a language a different letter was better, it's now changeable in language file.
