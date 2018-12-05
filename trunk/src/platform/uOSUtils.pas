@@ -336,7 +336,7 @@ begin
 
     ExecutionResult:=ShellExecuteW(0, nil, PWChar(wFileName), PWChar(wParams), PWChar(wStartPath), SW_SHOW);
 
-    if (log_commandlineexecution in gLogOptions) then logWrite(rsMsgLogExtCmdResult+': '+rsSimpleWordResult+'='+ifThen((ExecutionResult > 32),'Success!',IntToStr(ExecutionResult)+':'+SysErrorMessage(ExecutionResult))+' / '+rsSimpleWordFilename+'='+sCmd+' / '+rsSimpleWordParameter+'='+sParams+' / '+rsSimpleWordWorkDir+'='+sStartPath);
+    if (log_commandlineexecution in gLogOptions) then logWrite(rsMsgLogExtCmdResult + ': ' + rsSimpleWordResult + '=' + ifThen((ExecutionResult > 32), rsSimpleWordSuccessExcla, IntToStr(ExecutionResult) + ':' + SysErrorMessage(ExecutionResult)) + ' / ' + rsSimpleWordFilename + '=' + sCmd + ' / ' + rsSimpleWordParameter + '=' + sParams + ' / ' + rsSimpleWordWorkDir + '=' + sStartPath);
 
     Result := (ExecutionResult > 32);
   end
