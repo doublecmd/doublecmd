@@ -2613,6 +2613,8 @@ procedure TfrmMain.AppShowHint(var HintStr: string; var CanShow: Boolean;
 begin
   // Refresh monitor list
   Screen.UpdateMonitors;
+  // Show hint only when application is active
+  CanShow:= Application.Active;
 end;
 
 constructor TfrmMain.Create(TheOwner: TComponent);
@@ -6120,6 +6122,7 @@ begin
   begin
     frmTreeViewMenu.Close;
   end;
+  Application.CancelHint;
 end;
 
 procedure TfrmMain.AppEndSession(Sender: TObject);
