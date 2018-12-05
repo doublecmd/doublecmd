@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.9.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2018-11-29 15:30+0300\n"
+"PO-Revision-Date: 2018-12-05 05:30+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -9961,11 +9961,11 @@ msgstr "Запустить в терминале и оставить откры�
 
 #: ulng.rsextsclosedbracketnofound
 msgid "\"]\" not found in line %s"
-msgstr ""
+msgstr "\"]\" не найдена в строке %s"
 
 #: ulng.rsextscommandwithnoext
 msgid "No extension defined before command \"%s\". It will be ignored."
-msgstr ""
+msgstr "Не определено расширение до команды \"%s\". Будет проигнорировано."
 
 #: ulng.rsfavtabspanelsideselection
 msgid "Left;Right;Active;Inactive;Both;None"
@@ -10644,7 +10644,7 @@ msgstr "Путь: %s"
 
 #: ulng.rsmsgexitstatuscode
 msgid "Exit status:"
-msgstr ""
+msgstr "Код выхода:"
 
 #: ulng.rsmsgfavoritetabsdeleteallentries
 msgid "Are you sure you want to remove all entries of your Favorite Tabs? (There is no \"undo\" to this action!)"
@@ -10754,7 +10754,7 @@ msgstr "Файл %s помечен как доступный только для
 msgid "Are you sure you want to reload the current file and lose the changes?"
 msgstr ""
 "Все внесённые изменения будут потеряны!\n"
-"Продолжить?\n"
+"Продолжить?"
 
 #: ulng.rsmsgfilesizetoobig
 msgid "The file size of \"%s\" is too big for destination file system!"
@@ -11078,11 +11078,11 @@ msgstr "Упаковка в файл %s"
 
 #: ulng.rsmsglogprogramshutdown
 msgid "Program shutdown"
-msgstr ""
+msgstr "Завершение программы"
 
 #: ulng.rsmsglogprogramstart
 msgid "Program start"
-msgstr ""
+msgstr "Запуск программы"
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory %s"
@@ -12593,7 +12593,7 @@ msgstr "Ошибка"
 
 #: ulng.rssimplewordfailedexcla
 msgid "Failed!"
-msgstr ""
+msgstr "Не удалось!"
 
 #: ulng.rssimplewordfalse
 msgid "False"
@@ -12621,7 +12621,7 @@ msgstr "Результат"
 
 #: ulng.rssimplewordsuccessexcla
 msgid "Success!"
-msgstr ""
+msgstr "Успешно!"
 
 #: ulng.rssimplewordtrue
 msgid "True"
@@ -13071,4 +13071,3 @@ msgstr "Число замен: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Замена не состоялась."
-
