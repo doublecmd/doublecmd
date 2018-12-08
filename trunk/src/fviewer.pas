@@ -2001,10 +2001,13 @@ begin
   // Update scrollbars
   // TODO: fix - calculations are correct but it seems like scroll bars
   // are being updated only after a second call to Form.Resize
-  if (iLeft < 0) then
-    sboxImage.HorzScrollBar.Position:= -iLeft;
-  if (iTop < 0) then
-    sboxImage.VertScrollBar.Position:= -iTop;
+  if sboxImage.HandleAllocated then
+  begin
+    if (iLeft < 0) then
+      sboxImage.HorzScrollBar.Position:= -iLeft;
+    if (iTop < 0) then
+      sboxImage.VertScrollBar.Position:= -iTop;
+  end;
 
   // Update status bar
   Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [iWidth,iHeight,  100.0 * dScaleFactor]);
