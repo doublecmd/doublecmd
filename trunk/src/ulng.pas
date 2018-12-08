@@ -575,6 +575,8 @@ resourcestring
   rsPluginSearchNotEqualNotCase = '!=';
   rsPluginSearchEqualCaseSensitive = '=(case)';
   rsPluginSearchNotEquaCaseSensitive = '!=(case)';
+  rsPluginSearchRegExpr = 'regexp';
+  rsPluginSearchNotRegExpr = '!regexp';
 
   rsTimeUnitSecond = 'Second(s)';
   rsTimeUnitMinute = 'Minute(s)';
