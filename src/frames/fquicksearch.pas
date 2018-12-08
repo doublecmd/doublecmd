@@ -99,7 +99,11 @@ uses
   LazUTF8,
   uKeyboard,
   uGlobs,
-  uFormCommands;
+  uFormCommands
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
+  , uFileView
+{$ENDIF}
+  ;
 
 const
 {
@@ -643,6 +647,12 @@ end;
 
 procedure TfrmQuickSearch.FrameExit(Sender: TObject);
 begin
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
+  // Workaround: QuickSearch frame lose focus on SpeedButton click
+  if Screen.ActiveControl is TFileView then
+    edtSearch.SetFocus
+  else
+{$ENDIF}
   if not Finalizing then
   begin
     Finalizing := True;
@@ -656,7 +666,6 @@ begin
 
     Finalizing := False;
   end;
-
 end;
 
 procedure TfrmQuickSearch.sbCaseSensitiveClick(Sender: TObject);
