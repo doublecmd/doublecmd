@@ -1911,12 +1911,12 @@ begin
   pEndLine := pBegLine + DataLength;
 
   Canvas.Font.Color := Font.Color;
-  Canvas.TextOut(x, y, sText);
 
-  // Out of selection, exit
+  // Out of selection, draw normal
   if ((FBlockEnd - FBlockBeg) = 0) or ((FBlockBeg < pBegLine) and (FBlockEnd < pBegLine)) or // before
      ((FBlockBeg > pEndLine) and (FBlockEnd > pEndLine)) then // after
   begin
+    Canvas.TextOut(x, y, sText);
     Exit;
   end;
 
@@ -1930,6 +1930,10 @@ begin
     iEndDrawIndex := FBlockEnd
   else
     iEndDrawIndex := pEndLine;
+
+  // Text after selection.
+  if pEndLine - iEndDrawIndex > 0 then
+    Canvas.TextOut(x, y, sText);
 
   // Text before selection + selected text
   Canvas.Brush.Color := clHighlight;
@@ -2067,12 +2071,12 @@ begin
   pEndLine := pBegLine + DataLength;
 
   Canvas.Font.Color := Font.Color;
-  Canvas.TextOut(x, y, sText);
 
-  // Out of selection, exit
+  // Out of selection, draw normal
   if ((FBlockEnd - FBlockBeg) = 0) or ((FBlockBeg < pBegLine) and (FBlockEnd < pBegLine)) or // before
      ((FBlockBeg > pEndLine) and (FBlockEnd > pEndLine)) then //after
   begin
+    Canvas.TextOut(x, y, sText);
     Exit;
   end;
 
@@ -2085,6 +2089,10 @@ begin
     iEndDrawIndex := FBlockEnd
   else
     iEndDrawIndex := pEndLine;
+
+  // Text after selection.
+  if pEndLine - iEndDrawIndex > 0 then
+    Canvas.TextOut(x, y, sText);
 
   // Text before selection + selected text
   Canvas.Brush.Color := clHighlight;
