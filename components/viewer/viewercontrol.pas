@@ -333,7 +333,7 @@ type
     }
     function XYPos2Adr(x, y: Integer; out CharSide: TCharSide): PtrInt;
 
-    procedure OutText(x, y: Integer; sText: String; StartPos: PtrInt; DataLength: Integer);
+    procedure OutText(x, y: Integer; const sText: String; StartPos: PtrInt; DataLength: Integer);
     procedure OutBin(x, y: Integer; sText: string; StartPos: PtrInt; DataLength: Integer);
 
     procedure OutCustom(x, y: Integer; sText: string;StartPos: PtrInt; DataLength: Integer);  // render one line
@@ -1901,11 +1901,9 @@ begin
   end;
 end;
 
-procedure TViewerControl.OutText(x, y: Integer; sText: String;
+procedure TViewerControl.OutText(x, y: Integer; const sText: String;
   StartPos: PtrInt; DataLength: Integer);
 var
-  sBefore: String;
-  iBefore: Integer = 0;
   pBegLine, pEndLine: PtrInt;
   iBegDrawIndex, iEndDrawIndex: PtrInt;
 begin
@@ -1933,38 +1931,19 @@ begin
   else
     iEndDrawIndex := pEndLine;
 
-  // Text before selection
-  if iBegDrawIndex - pBegLine > 0 then
-  begin
-    sBefore := GetText(StartPos, iBegDrawIndex - pBegLine, 0);
-    iBefore := Canvas.TextWidth(sBefore);
-  end;
-
   // Text before selection + selected text
-  sText := GetText(StartPos, iEndDrawIndex - pBegLine, 0);
-
   Canvas.Brush.Color := clHighlight;
   Canvas.Font.Color  := clHighlightText;
 
-  // Cannot simply draw text with brush with TextOut
-  // because it differs between widgetsets.
-  Canvas.Brush.Style := bsSolid;
-  Canvas.FillRect(Bounds(X + iBefore, Y, Canvas.TextWidth(sText) - iBefore, FTextHeight));
-  Canvas.Brush.Style := bsClear;
-  Canvas.TextOut(X, Y, sText);
+  Canvas.TextOut(X, Y, GetText(StartPos, iEndDrawIndex - pBegLine, 0));
 
   // Restore previous canvas settings
   Canvas.Brush.Color := Color;
   Canvas.Font.Color  := Font.Color;
 
   // Text before selection
-  if iBefore > 0 then
-  begin
-    Canvas.Brush.Style := bsSolid;
-    Canvas.FillRect(Bounds(X, Y, iBefore, FTextHeight));
-    Canvas.Brush.Style := bsClear;
-    Canvas.TextOut(X, Y, sBefore);
-  end;
+  if iBegDrawIndex - pBegLine > 0 then
+    Canvas.TextOut(X, Y, GetText(StartPos, iBegDrawIndex - pBegLine, 0));
 end;
 
 procedure TViewerControl.OutCustom(x, y: Integer; sText: string;
