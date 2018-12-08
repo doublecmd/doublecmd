@@ -12642,8 +12642,16 @@ msgctxt "ulng.rspluginsearchnotequalnotcase"
 msgid "!="
 msgstr ""
 
+#: ulng.rspluginsearchnotregexpr
+msgid "!regexp"
+msgstr ""
+
 #: ulng.rspluginsearchpluginnotfound
 msgid "Plugin \"%s\" not found!"
+msgstr ""
+
+#: ulng.rspluginsearchregexpr
+msgid "regexp"
 msgstr ""
 
 #: ulng.rspluginsearchunitnotfoundforfield
