@@ -196,6 +196,8 @@ begin
       FOperator.Items.AddObject(rsPluginSearchNotContainsNotCase, TObject(PtrInt(poNotContainsCaseInsensitive)));
       FOperator.Items.AddObject(rsPluginSearchContainsCaseSenstive, TObject(PtrInt(poContainsCaseSensitive)));
       FOperator.Items.AddObject(rsPluginSearchNotContainsCaseSenstive, TObject(PtrInt(poNotContainsCaseSensitive)));
+      FOperator.Items.AddObject(rsPluginSearchRegExpr, TObject(PtrInt(poRegExpr)));
+      FOperator.Items.AddObject(rsPluginSearchNotRegExpr, TObject(PtrInt(poNotRegExpr)));
     end;
   FT_FULLTEXT,
   FT_FULLTEXTW:

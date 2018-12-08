@@ -36,7 +36,7 @@ type
   TFileSizeUnit = (suBytes, suKilo, suMega, suGiga, suTera);
   TPluginOperator = (poEqualCaseSensitive, poNotEqualCaseSensitive, poMore, poLess, poMoreEqual, poLessEqual,
                      poEqualCaseInsensitive, poNotEqualCaseInsensitive, poContainsCaseSensitive, poNotContainsCaseSensitive,
-                     poContainsCaseInsensitive, poNotContainsCaseInsensitive);
+                     poContainsCaseInsensitive, poNotContainsCaseInsensitive, poRegExpr, poNotRegExpr);
 
   TPluginSearchRec = record
     Plugin: String;
@@ -130,7 +130,8 @@ implementation
 
 uses
   strutils, DateUtils, DCDateTimeUtils, DCFileAttributes, RegExpr, uMasks,
-  DCStrUtils, DCUnicodeUtils, uFileProperty, uGlobs, uWDXModule, LazUTF8, WdxPlugin;
+  DCStrUtils, DCUnicodeUtils, uFileProperty, uGlobs, uWDXModule, LazUTF8,
+  WdxPlugin, uRegExprW;
 
 const
   cKilo = 1024;
@@ -397,6 +398,8 @@ begin
         poNotContainsCaseSensitive: Work := UTF8Pos(ContentPlugins[I].Value, Value) = 0;
         poContainsCaseInsensitive: Work := UTF8Pos(UTF8LowerCase(ContentPlugins[I].Value), UTF8LowerCase(Value)) > 0;
         poNotContainsCaseInsensitive: Work := UTF8Pos(UTF8LowerCase(ContentPlugins[I].Value), UTF8LowerCase(Value)) = 0;
+        poRegExpr: Work := ExecRegExpr(UTF8ToUTF16(ContentPlugins[I].Value), UTF8ToUTF16(Value));
+        poNotRegExpr: Work := not ExecRegExpr(UTF8ToUTF16(ContentPlugins[I].Value), UTF8ToUTF16(Value));
       end;
     end;
     if ContentPluginCombine then
