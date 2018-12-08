@@ -334,7 +334,7 @@ type
     function XYPos2Adr(x, y: Integer; out CharSide: TCharSide): PtrInt;
 
     procedure OutText(x, y: Integer; const sText: String; StartPos: PtrInt; DataLength: Integer);
-    procedure OutBin(x, y: Integer; sText: string; StartPos: PtrInt; DataLength: Integer);
+    procedure OutBin(x, y: Integer; const sText: String; StartPos: PtrInt; DataLength: Integer);
 
     procedure OutCustom(x, y: Integer; sText: string;StartPos: PtrInt; DataLength: Integer);  // render one line
     function  TransformCustom(var APosition: PtrInt; ALimit: PtrInt;AWithAdditionalData:boolean=True): AnsiString;
@@ -2057,22 +2057,22 @@ begin
   end;
 end;
 
-procedure TViewerControl.OutBin(x, y: Integer; sText: string; StartPos: PtrInt;
-  DataLength: Integer);
+procedure TViewerControl.OutBin(x, y: Integer; const sText: String;
+  StartPos: PtrInt; DataLength: Integer);
 var
   pBegLine, pEndLine: PtrInt;
   iBegDrawIndex, iEndDrawIndex: PtrInt;
-  sTmpText: String;
 begin
   pBegLine := StartPos;
   pEndLine := pBegLine + DataLength;
 
+  Canvas.Font.Color := Font.Color;
+  Canvas.TextOut(x, y, sText);
+
+  // Out of selection, exit
   if ((FBlockEnd - FBlockBeg) = 0) or ((FBlockBeg < pBegLine) and (FBlockEnd < pBegLine)) or // before
      ((FBlockBeg > pEndLine) and (FBlockEnd > pEndLine)) then //after
   begin
-    // out of selection, draw normal
-    Canvas.Font.Color := Font.Color;
-    Canvas.TextOut(x, y, sText);
     Exit;
   end;
 
@@ -2086,36 +2086,19 @@ begin
   else
     iEndDrawIndex := pEndLine;
 
-  // Text before selection.
-  if iBegDrawIndex - pBegLine > 0 then
-  begin
-    sTmpText := Copy(sText, 1, iBegDrawIndex - pBegLine);
-    Canvas.Font.Color := Font.Color;
-    Canvas.TextOut(x, y, sTmpText);
-    x := x + Canvas.TextWidth(sTmpText);
-  end;
-
-  // Selected text.
-  sTmpText := Copy(sText, 1 + iBegDrawIndex - pBegLine, iEndDrawIndex - iBegDrawIndex);
-
+  // Text before selection + selected text
   Canvas.Brush.Color := clHighlight;
   Canvas.Font.Color  := clHighlightText;
-  Canvas.Brush.Style := bsSolid;
-  Canvas.FillRect(Bounds(x, y, Canvas.TextWidth(sTmpText), FTextHeight));
-  Canvas.Brush.Style := bsClear;
-  Canvas.TextOut(x, y, sTmpText);
-  x := x + Canvas.TextWidth(sTmpText);
 
-  // restore previous canvas settings
+  Canvas.TextOut(X, Y, Copy(sText, 1, iEndDrawIndex - pBegLine));
+
+  // Restore previous canvas settings
   Canvas.Brush.Color := Color;
   Canvas.Font.Color  := Font.Color;
 
-  // Text after selection.
-  if pEndLine - iEndDrawIndex > 0 then
-  begin
-    sTmpText := Copy(sText, 1 + iEndDrawIndex - pBegLine, pEndLine - iEndDrawIndex);
-    Canvas.TextOut(x, y, sTmpText);
-  end;
+  // Text before selection
+  if iBegDrawIndex - pBegLine > 0 then
+    Canvas.TextOut(X, Y, Copy(sText, 1, iBegDrawIndex - pBegLine));
 end;
 
 procedure TViewerControl.AddLineOffset(const iOffset: PtrInt);
@@ -2484,27 +2467,29 @@ var
 
   function XYPos2AdrBin: PtrInt;
   var
-    i:  Integer;
-    px: Integer = 0;
+    I:  Integer;
     charWidth: Integer;
-    sText: String;
+    textWidth: Integer;
     tmpPosition: PtrInt;
+    s, ss, sText: String;
   begin
     tmpPosition := StartLine;
     sText := TransformBin(tmpPosition, EndLine);
-    for i := 1 to Length(sText) do
+    for I := 1 to Length(sText) do
     begin
-      charWidth := Canvas.TextWidth(string(sText[i]));
-      if px + charWidth > x then
+      s:= sText[I];
+      ss := ss + s;
+      textWidth := Canvas.TextWidth(ss);
+      if textWidth > x then
       begin
-        if px + charWidth div 2 > x then
+        charWidth := Canvas.TextWidth(s);
+        if textWidth - charWidth div 2 > x then
           CharSide := csLeft
         else
           CharSide := csRight;
 
-        Exit(StartLine + i - 1);  // -1 because we count from 1
+        Exit(StartLine + I - 1);  // -1 because we count from 1
       end;
-      px  := px + charWidth;
     end;
     CharSide := csBefore;
     Result := EndLine;
