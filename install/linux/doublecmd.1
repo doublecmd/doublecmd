@@ -1,21 +1,82 @@
-.TH "doublecmd" "1" "16 October 2011" "Double Commander"
-.SH "NAME"
+.TH "doublecmd" "1" "6 June 2018" "Double Commander"
+.SH NAME
 doublecmd \- Twin-panel (commander-style) file manager.
 
-.SH "SYNOPSIS"
+.SH SYNOPSIS
+.\" General
 .B doublecmd
-.I "[options]"
+[\-C] [\-T] [\-P L|R] [
+.I path1
+] [
+.I path2
+]
+.br
+.\" Alternative form
+.B doublecmd
+[\-C] [\-T] [\-P L|R] [\-L
+.I path1
+] [\-R
+.I path2
+]
 
-.SH "DESCRIPTION"
-Double Commander is a cross platform open source file manager with two panels side by side.
+.SH DESCRIPTION
+Double Commander is a free cross platform open source file manager with two panels side by side.
 It is inspired by Total Commander and features some new ideas.
 
-.SH "OPTIONS"
-.TP 
-.BI " \-\-config\-dir=<path>"
-config directory, where Double Commander stores its config files. Default is $HOME/.config/doublecmd.
+.SH OPTIONS
+The switches are NOT case sensitive.
+.TP
+.B "<path1> [<path2>]"
+If one path passed then load it into the active panel. If two paths are passed then load first path into left panel and second in the right panel.
+.br
+Directory names containing spaces must be put in double quotes.
+.br
+Always specify the full path name.
+.TP
+.B "\-C, \-\-client"
+If Double Commander is already running, activate it and pass the path(s) in the command line to that instance.
+.TP
+.B "\-L <path>"
+Set directory to show in the left panel.
+.TP
+.B "\-R <path>"
+Set directory to show in the right panel.
+.TP
+.B "\-P L|R"
+Sets the active panel when program starts:
+.B \-P L
+for left and
+.B \-P R
+for right.
+.TP
+.B "\-T"
+Opens the passed directory(ies) in new tab(s)
+.TP
+.B "\-\-no\-console"
+Run Double Commander without console debug window.
+.TP
+.B "\-\-config\-dir=<path>"
+Set custom directory path with Double Commander configurations files.
+.br
+Default is $HOME/.config/doublecmd.
+.TP
+.B "\-\-servername=x"
+Sets the name of the instance (server) Double Commander, which can then be used to pass parameters.
+.br
+If there is no already existing instance, then create it.
+.br
+If there is already existing instance, and the current one is a client, then send params to the server (i.e. to the existing instance).
+.br
+If there is already existing instance, and the current one is not a client, (i.e. "Allow only one copy of DC at a time" is false and no
+.B \-\-client
+/
+.B \-c
+options were given), then user-provided servername is altered: firstly, just add a trailing number "2".
+.br
+If there is already some trailing number, then increase it by 1, until we found a servername that isn't busy yet, and then create instance with this servername.
+.TP
+.B "\-\-no\-splash"
+Disables the splash screen at startup DC.
 
-.SH "Websites"
-.IP 
-.BR  http://doublecmd.sourceforge.net
-
+.SH Homepage
+https://doublecmd.sourceforge.io
