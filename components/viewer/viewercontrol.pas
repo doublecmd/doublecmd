@@ -2510,20 +2510,19 @@ var
 
   var
     i:  Integer;
-    px: Integer = 0;
     charWidth: Integer;
-    sText, sPartialText: String;
+    textWidth: Integer;
     tmpPosition: PtrInt;
+    ss, sText, sPartialText: String;
   begin
     tmpPosition  := StartLine;
     sText := TransformCustom(tmpPosition, EndLine);
-    if sText='' then exit;
+    if sText = '' then Exit;
 
     // Clicked on offset part
-    sPartialText := Copy(sText, 1, FCustom.StartOfs);
-    charWidth := Canvas.TextWidth(sPartialText);
-    px := px + charWidth;
-    if px > x then
+    ss := Copy(sText, 1, FCustom.StartOfs);
+    textWidth := Canvas.TextWidth(ss);
+    if textWidth > x then
     begin
       CharSide := csBefore;
       Exit(StartLine);
@@ -2532,9 +2531,10 @@ var
     // Clicked on custom part
     for i := 0 to FCustom.ValuesPerLine - 1 do
     begin
-      sPartialText := Copy(sText, 1 + FCustom.StartOfs + i * (FCustom.MaxValueDigits+FCustom.SpaceCount), FCustom.MaxValueDigits);
-      charWidth := Canvas.TextWidth(sPartialText);
-      if px + charWidth > x then
+      sPartialText := Copy(sText, 1 + FCustom.StartOfs + i * (FCustom.MaxValueDigits + FCustom.SpaceCount), FCustom.MaxValueDigits);
+      ss := ss + sPartialText;
+      textWidth := Canvas.TextWidth(ss);
+      if textWidth > x then
       begin
         // Check if we're not after end of data.
         if StartLine + i >= EndLine then
@@ -2543,7 +2543,9 @@ var
           Exit(EndLine);
         end;
 
-        if px + charWidth div 2 > x then
+        charWidth := Canvas.TextWidth(sPartialText);
+
+        if textWidth - charWidth div 2 > x then
           CharSide := csLeft
         else
           CharSide := csRight;
@@ -2552,32 +2554,32 @@ var
       end;
 
       // Space after hex number.
-      charWidth := charWidth +
-                   Canvas.TextWidth(string(sText[1 + FCustom.StartOfs + i * (FCustom.MaxValueDigits+1) + FCustom.MaxValueDigits]));
+      ss := ss + string(sText[1 + FCustom.StartOfs + i * (FCustom.MaxValueDigits + 1) + FCustom.MaxValueDigits]);
+      textWidth := Canvas.TextWidth(ss);
 
-      if px + charWidth > x then
+      if textWidth > x then
       begin
         CharSide := csAfter;
         Exit(StartLine + i);
       end;
-
-      px := px + charWidth;
     end;
 
     // Clicked between hex and ascii.
     sPartialText := Copy(sText, 1 + FCustom.StartOfs, FCustom.StartAscii - FCustom.EndOfs);
-    charWidth := Canvas.TextWidth(sPartialText);
-    if px + charWidth > x then
+    ss := ss + sPartialText;
+    textWidth := Canvas.TextWidth(ss);
+    if textWidth > x then
     begin
       Exit(-1); // No position.
     end;
-    px := px + charWidth;
 
     // Clicked on ascii part.
     for i := 0 to FCustom.ValuesPerLine - 1 do
     begin
-      charWidth := Canvas.TextWidth(string(sText[1 + FCustom.StartAscii + i]));
-      if px + charWidth > x then
+      sPartialText := string(sText[1 + FCustom.StartAscii + i]);
+      ss := ss + sPartialText;
+      textWidth := Canvas.TextWidth(ss);
+      if textWidth > x then
       begin
         // Check if we're not after end of data.
         if StartLine + i >= EndLine then
@@ -2586,14 +2588,15 @@ var
           Exit(EndLine);
         end;
 
-        if px + charWidth div 2 > x then
+        charWidth := Canvas.TextWidth(sPartialText);
+
+        if textWidth - charWidth div 2 > x then
           CharSide := csLeft
         else
           CharSide := csRight;
 
         Exit(StartLine + i);
       end;
-      px := px + charWidth;
     end;
 
     CharSide := csBefore;
