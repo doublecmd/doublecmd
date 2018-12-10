@@ -1,0 +1,13 @@
+{"version":1,"strings":[
+{"hash":4691652,"name":"tfrmabout.caption","sourcebytes":[65,98,111,117,116],"value":"About"},
+{"hash":122850234,"name":"tfrmabout.lblhomepage.caption","sourcebytes":[72,111,109,101,32,80,97,103,101,58],"value":"Home Page:"},
+{"hash":92749407,"name":"tfrmabout.lblhomepageaddress.caption","sourcebytes":[104,116,116,112,115,58,47,47,100,111,117,98,108,101,99,109,100,46,115,111,117,114,99,101,102,111,114,103,101,46,105,111],"value":"https://doublecmd.sourceforge.io"},
+{"hash":185879090,"name":"tfrmabout.lbltitle.caption","sourcebytes":[68,111,117,98,108,101,32,67,111,109,109,97,110,100,101,114],"value":"Double Commander"},
+{"hash":214540302,"name":"tfrmabout.lblversion.caption","sourcebytes":[86,101,114,115,105,111,110],"value":"Version"},
+{"hash":214997982,"name":"tfrmabout.lblrevision.caption","sourcebytes":[82,101,118,105,115,105,111,110],"value":"Revision"},
+{"hash":4833316,"name":"tfrmabout.lblbuild.caption","sourcebytes":[66,117,105,108,100],"value":"Build"},
+{"hash":43026835,"name":"tfrmabout.lbllazarusver.caption","sourcebytes":[76,97,122,97,114,117,115],"value":"Lazarus"},
+{"hash":86315532,"name":"tfrmabout.lblfreepascalver.caption","sourcebytes":[70,114,101,101,32,80,97,115,99,97,108],"value":"Free Pascal"},
+{"hash":127162148,"name":"tfrmabout.btncopytoclipboard.caption","sourcebytes":[67,111,112,121,32,116,111,32,99,108,105,112,98,111,97,114,100],"value":"Copy to clipboard"},
+{"hash":44709525,"name":"tfrmabout.btnclose.caption","sourcebytes":[38,67,108,111,115,101],"value":"&Close"}
+]}
