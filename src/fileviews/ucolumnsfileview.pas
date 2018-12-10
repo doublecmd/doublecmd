@@ -434,6 +434,10 @@ end;
 
 procedure TColumnsFileView.dgPanelResize(Sender: TObject);
 begin
+{$IF DEFINED(LCLGTK2)}
+  // Workaround: https://doublecmd.sourceforge.io/mantisbt/view.php?id=1992
+  if dgPanel.Flat then dgPanel.Invalidate;
+{$ENDIF}
   Notify([fvnVisibleFilePropertiesChanged]);
 end;
 
