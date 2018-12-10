@@ -101,7 +101,7 @@ const
     '- Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)' + LineEnding +
     '- Silk icon set 1.3 by Mark James (http://www.famfamfam.com/lab/icons/silk/)' + LineEnding +
     '- Elementary icon theme 2.7.1 (https://github.com/elementary/icons)' + LineEnding +
-    '- Farm-Fresh Web Icons (http://www.fatcow.com/free-icons)' + LineEnding +
+    '- Farm-Fresh Web Icons (https://www.fatcow.com/free-icons)' + LineEnding +
     '- Oxygen icon theme (http://oxygen-icons.org)' + LineEnding + LineEnding +
     'Big thanks to Lazarus and Free Pascal Team!';
 
@@ -144,7 +144,7 @@ procedure TfrmAbout.lblHomePageAddressClick(Sender: TObject);
 var
   ErrMsg: String;
 begin
-  dmHelpMgr.HTMLHelpDatabase.ShowURL('http://doublecmd.sourceforge.net','Double Commander Web Site', ErrMsg);
+  dmHelpMgr.HTMLHelpDatabase.ShowURL('https://doublecmd.sourceforge.io','Double Commander Web Site', ErrMsg);
 end;
 
 procedure TfrmAbout.btnCopyToClipboardClick(Sender: TObject);
