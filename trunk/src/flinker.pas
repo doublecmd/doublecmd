@@ -1,13 +1,32 @@
 {
-Seksi Commander
-----------------------------
-Licence  : GNU GPL v 2.0
-Author   : Pavel Letko (letcuv@centrum.cz)
+   Double Commander
+   -------------------------------------------------------------------------
+   Take selected files and put them together to form one single file.
 
-File combiner
+   Copyright (C) 2018 Alexander Koblov (alexx2000@mail.ru)
 
-contributors:
-  Radek Cervinka
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+   Original comment:
+   ----------------------------
+   Seksi Commander
+   ----------------------------
+   Licence  : GNU GPL v 2.0
+   Author   : Pavel Letko (letcuv@centrum.cz)
+   File combiner
+   contributors:
+   Radek Cervinka
 }
 
 unit fLinker;
@@ -62,7 +81,8 @@ uses
   //Lazarus, Free-Pascal, etc.
   LCLProc, Controls,
   //DC
-  uFileProcs, uOperationsManager, uFileSourceCombineOperation, uGlobs;
+  DCStrUtils, uLng, uFileProcs, uOperationsManager, uFileSourceCombineOperation,
+  uGlobs;
 
 { ShowLinkerFilesForm:
   "TMainCommands.cm_FileLinker" function from "uMainCommands.pas" is calling this routine.}
@@ -180,6 +200,7 @@ end;
 procedure TfrmLinker.FormCreate(Sender: TObject);
 begin
   InitPropStorage(Self); // Initialize property storage
+  dlgSaveAll.Filter := ParseLineToFileFilter([rsFilterAnyFiles, '*.*']);
 end;
 
 end.

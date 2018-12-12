@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Miscellaneous options page
 
-   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsMisc;
@@ -72,6 +71,7 @@ type
     procedure btnRelativeOutputPathForToolbarClick(Sender: TObject);
     procedure chkDescCreateUnicodeChange(Sender: TObject);
   protected
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -87,7 +87,8 @@ implementation
 
 uses
   fOptions, Forms, Dialogs, fMain, Controls,
-  uDCUtils, uSpecialDir, uShowForm, uGlobs, uLng, uThumbnails, uConvEncoding;
+  DCStrUtils, uDCUtils, uSpecialDir, uShowForm, uGlobs, uLng, uThumbnails,
+  uConvEncoding;
 
 { TfrmOptionsMisc }
 
@@ -104,6 +105,12 @@ end;
 procedure TfrmOptionsMisc.btnThumbCompactCacheClick(Sender: TObject);
 begin
   TThumbnailManager.CompactCache;
+end;
+
+procedure TfrmOptionsMisc.Init;
+begin
+  fneTCExecutableFilename.Filter := ParseLineToFileFilter([rsFilterExecutableFiles, '*.exe', rsFilterAnyFiles, '*.*']);
+  fneTCConfigFilename.Filter := ParseLineToFileFilter([rsFilterIniConfigFiles, '*.ini', rsFilterAnyFiles, '*.*']);
 end;
 
 procedure TfrmOptionsMisc.Load;

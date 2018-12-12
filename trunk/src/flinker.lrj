@@ -1,0 +1,13 @@
+{"version":1,"strings":[
+{"hash":87052738,"name":"tfrmlinker.caption","sourcebytes":[76,105,110,107,101,114],"value":"Linker"},
+{"hash":125868494,"name":"tfrmlinker.gbsaveto.caption","sourcebytes":[83,97,118,101,32,116,111,46,46,46],"value":"Save to..."},
+{"hash":41282357,"name":"tfrmlinker.lblfilename.caption","sourcebytes":[38,70,105,108,101,32,110,97,109,101],"value":"&File name"},
+{"hash":12558,"name":"tfrmlinker.btnsave.caption","sourcebytes":[46,46,46],"value":"..."},
+{"hash":330429,"name":"tfrmlinker.grbxcontrol.caption","sourcebytes":[73,116,101,109],"value":"Item"},
+{"hash":1472,"name":"tfrmlinker.spbtnup.hint","sourcebytes":[85,112],"value":"Up"},
+{"hash":11200,"name":"tfrmlinker.spbtnup.caption","sourcebytes":[38,85,112],"value":"&Up"},
+{"hash":308958,"name":"tfrmlinker.spbtndown.hint","sourcebytes":[68,111,119,110],"value":"Down"},
+{"hash":4922846,"name":"tfrmlinker.spbtndown.caption","sourcebytes":[68,111,38,119,110],"value":"Do&wn"},
+{"hash":78392485,"name":"tfrmlinker.spbtnrem.hint","sourcebytes":[68,101,108,101,116,101],"value":"Delete"},
+{"hash":193742565,"name":"tfrmlinker.spbtnrem.caption","sourcebytes":[38,82,101,109,111,118,101],"value":"&Remove"}
+]}

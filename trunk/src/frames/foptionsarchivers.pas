@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsArchivers;
@@ -158,6 +157,7 @@ type
     edtHelperRequested: TEdit; //Used as a kind of pointer of TEdit when it's time to use the % helper.
     procedure FillListBoxWithArchiverList;
   protected
+    procedure Init; override;
     procedure Load; override;
     procedure Done; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -176,7 +176,8 @@ uses
   //Lazarus, Free-Pascal, etc.
 
   //DC
-  uGlobs, uLng, uSpecialDir, uGlobsPaths, uShowMsg;
+  DCStrUtils, uGlobs, uLng, uSpecialDir, uGlobsPaths, uShowMsg;
+
 const
   CONFIG_NOTSAVED = False;
   CONFIG_SAVED = True;
@@ -185,6 +186,13 @@ var
   iLastDisplayedIndex: integer = -1;
 
 { TfrmOptionsArchivers }
+
+{ TfrmOptionsArchivers.Init }
+procedure TfrmOptionsArchivers.Init;
+begin
+  OpenArchiverDialog.Filter := ParseLineToFileFilter([rsFilterArchiverConfigFiles, '*.ini;*.addon', rsFilterAnyFiles, '*.*']);
+  SaveArchiverDialog.Filter := ParseLineToFileFilter([rsFilterArchiverConfigFiles, '*.ini', rsFilterAnyFiles, '*.*']);
+end;
 
 { TfrmOptionsArchivers.Load }
 procedure TfrmOptionsArchivers.Load;

@@ -15,9 +15,8 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program. If not, see <http://www.gnu.org/licenses/>.
-
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsFileAssoc;
@@ -191,8 +190,8 @@ uses
   LCLProc, Math, LCLType, LazUTF8,
 
   //DC
-  uOSForms, fMain, uFile, uGlobs, uPixMapManager, uLng, uDCUtils, DCOSUtils,
-  uShowMsg, uSpecialDir;
+  DCStrUtils, uOSForms, fMain, uFile, uGlobs, uPixMapManager, uLng, uDCUtils,
+  DCOSUtils, uShowMsg, uSpecialDir;
 const
   ACTUAL_ADD_ACTION = 1;
   SET_ACTION_WORD = 2;
@@ -206,6 +205,7 @@ begin
   Exts := TExts.Create;
   FUpdatingControls := False;
   btnIconSelectFilename.Hint := sbtnIcon.Hint;
+  OpenDialog.Filter := ParseLineToFileFilter([rsFilterExecutableFiles, '*.exe;*.com;*.bat', rsFilterAnyFiles, '*.*']);
 
   // The following section is to help to speed up the the user with keyboard to pass to a section to another.
   // Each TGroupBox has their caption with 1, 2, 3... with underscore under each digit.

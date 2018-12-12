@@ -99,6 +99,16 @@ resourcestring
   rsMsgSelectOnlyCheckSumFiles = 'Please select only checksum files!';
   rsMsgPresetAlreadyExists = 'Preset "%s" already exists. Overwrite?';
   rsMsgVolumeSizeEnter = 'Please enter the volume size:';
+  rsFilterAnyFiles = 'Any files';
+  rsFilterDCToolTipFiles = 'DC Tooltip files';
+  rsFilterToolbarFiles = 'DC Toolbar files';
+  rsFilterXmlConfigFiles = '.xml Config files';
+  rsFilterTCToolbarFiles = 'TC Toolbar files';
+  rsFilterExecutableFiles = 'Executables files';
+  rsFilterIniConfigFiles = '.ini Config files';
+  rsFilterLegacyTabFiles = 'Legacy DC .tab files';
+  rsFilterDirectoryHotListFiles = 'Directory Hotlist files';
+  rsFilterArchiverConfigFiles = 'Archiver config files';
 
   // Archiver section.
   rsMsgArchiverCustomParams = 'Additional parameters for archiver command-line:';

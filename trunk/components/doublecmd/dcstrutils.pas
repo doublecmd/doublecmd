@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Useful functions dealing with strings.
    
-   Copyright (C) 2006-2017  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2018  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -273,6 +273,7 @@ function StrEnds(const StringToCheck, StringToMatch: String): Boolean;
 procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: Char = ' ');
 procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: String);
 procedure ParseLineToList(sLine: String; ssItems: TStrings);
+function ParseLineToFileFilter(sFilterPair: array of string): string;
 
 {en
    Convert a number specified as an octal number to it's decimal value.
@@ -1016,6 +1017,17 @@ begin
           Exit;
         end;
     end;
+end;
+
+function ParseLineToFileFilter(sFilterPair: array of string): string;
+var
+  iPairIndex: integer;
+begin
+  result:='';
+  for iPairIndex := 0 to pred(length(sFilterPair) div 2) do
+    result := result + sFilterPair[iPairIndex*2] + '|' + sFilterPair[succ(iPairIndex*2)] + '|';
+  if length(result)>0 then
+    result := LeftStr(result, pred(length(result)));
 end;
 
 function ContainsOneOf(StringToCheck: String; PossibleCharacters: String): Boolean;

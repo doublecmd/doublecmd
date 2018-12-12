@@ -9984,9 +9984,49 @@ msgctxt "ulng.rsfileopsetpropertyerroroptions"
 msgid "Ask;Don't set anymore;Ignore errors"
 msgstr "询问;不再设置;忽略错误"
 
+#: ulng.rsfilteranyfiles
+msgid "Any files"
+msgstr ""
+
+#: ulng.rsfilterarchiverconfigfiles
+msgid "Archiver config files"
+msgstr ""
+
+#: ulng.rsfilterdctooltipfiles
+msgid "DC Tooltip files"
+msgstr ""
+
+#: ulng.rsfilterdirectoryhotlistfiles
+msgid "Directory Hotlist files"
+msgstr ""
+
+#: ulng.rsfilterexecutablefiles
+msgid "Executables files"
+msgstr ""
+
+#: ulng.rsfilteriniconfigfiles
+msgid ".ini Config files"
+msgstr ""
+
+#: ulng.rsfilterlegacytabfiles
+msgid "Legacy DC .tab files"
+msgstr ""
+
 #: ulng.rsfilterstatus
 msgid "FILTER"
 msgstr "过滤器"
+
+#: ulng.rsfiltertctoolbarfiles
+msgid "TC Toolbar files"
+msgstr ""
+
+#: ulng.rsfiltertoolbarfiles
+msgid "DC Toolbar files"
+msgstr ""
+
+#: ulng.rsfilterxmlconfigfiles
+msgid ".xml Config files"
+msgstr ""
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
