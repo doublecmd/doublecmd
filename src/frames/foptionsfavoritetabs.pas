@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Configuration of Favorite Tabs
 
-   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,11 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-   -This unit has been added in 2016, inspired a lot from "foptionsDirectoryHotlist".
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsFavoriteTabs;
@@ -172,6 +169,7 @@ begin
   ParseLineToList(rsFavTabsPanelSideSelection, cbTargetPanelRightSavedTabs.Items);
   ParseLineToList(rsFavTabsPanelSideSelection, cbExistingTabsToKeep.Items);
   ParseLineToList(rsFavTabsSaveDirHistory, cbSaveDirHistory.Items);
+  OpenDialog.Filter := ParseLineToFileFilter([rsFilterLegacyTabFiles, '*.tab', rsFilterAnyFiles, '*.*']);
 end;
 
 { TfrmOptionsFavoriteTabs.Load }
