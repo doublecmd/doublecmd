@@ -133,7 +133,7 @@ msgid "Home Page:"
 msgstr ""
 
 #: tfrmabout.lblhomepageaddress.caption
-msgid "http://doublecmd.sourceforge.net"
+msgid "https://doublecmd.sourceforge.io"
 msgstr ""
 
 #: tfrmabout.lbllazarusver.caption

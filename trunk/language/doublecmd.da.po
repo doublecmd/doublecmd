@@ -137,7 +137,7 @@ msgid "Home Page:"
 msgstr "Hjemmeside"
 
 #: tfrmabout.lblhomepageaddress.caption
-msgid "http://doublecmd.sourceforge.net"
+msgid "https://doublecmd.sourceforge.io"
 msgstr ""
 
 #: tfrmabout.lbllazarusver.caption

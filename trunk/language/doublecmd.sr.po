@@ -140,8 +140,8 @@ msgid "Home Page:"
 msgstr "почетна страница:"
 
 #: tfrmabout.lblhomepageaddress.caption
-msgid "http://doublecmd.sourceforge.net"
-msgstr "http://doublecmd.sourceforge.net"
+msgid "https://doublecmd.sourceforge.io"
+msgstr "https://doublecmd.sourceforge.io"
 
 #: tfrmabout.lbllazarusver.caption
 msgctxt "tfrmabout.lbllazarusver.caption"
