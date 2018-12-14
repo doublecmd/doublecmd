@@ -167,7 +167,13 @@ begin
     Position := 0;
 
 {$IFDEF LCLWIN32}
-  if BarShowText then FBarText:= BarText;
+  if BarShowText then
+  begin
+    if BarText = '' then
+      FBarText :=  FloatToStrF((CurrentValue / MaxValue) * 100, ffFixed, 0, 0) + '%'
+    else
+      FBarText := BarText + ' (' + FloatToStrF((CurrentValue / MaxValue) * 100, ffFixed, 0, 0) + '%)';
+  end;
 
   if FShowInTaskbar and (FTaskBarEntryHandle <> INVALID_HANDLE_VALUE) and Assigned(FTaskbarList3) then
   begin
