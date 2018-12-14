@@ -137,7 +137,8 @@ var
                 begin
                   with Operation as TWcxArchiveCopyInOperation do
                   begin
-                    PackingFlags := aFlags;
+                    PackingFlags:= aFlags;
+                    CreateNew:= bNewArchive;
                     TarBefore:= cbPutInTarFirst.Checked;
                   end;
                 end
@@ -164,6 +165,7 @@ var
                     if cbMultivolume.Checked then
                       VolumeSize:= InputBox(Caption, rsMsgVolumeSizeEnter, EmptyStr);
                     PackingFlags := aFlags;
+                    CreateNew:= bNewArchive;
                     CustomParams:= FCustomParams;
                     TarBefore:= cbPutInTarFirst.Checked;
                   end;

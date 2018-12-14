@@ -10,26 +10,22 @@ uses
   uFileSourceCopyOperation,
   uFileSource,
   uFile,
+  uArchiveCopyInOperation,
   uMultiArchiveFileSource;
 
 type
 
   { TMultiArchiveCopyInOperation }
 
-  TMultiArchiveCopyInOperation = class(TFileSourceCopyInOperation)
+  TMultiArchiveCopyInOperation = class(TArchiveCopyInOperation)
 
   private
     FMultiArchiveFileSource: IMultiArchiveFileSource;
-    FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
-    FFullFilesTree,
     FRemoveFilesTree: TFiles;
-    FPackingFlags: Integer;
     FPassword: String;
     FVolumeSize: String;
     FCustomParams: String;
-    FCallResult,
-    FTarBefore: Boolean;      // Create TAR archive first
-    FTarFileName: String; // Temporary TAR archive name
+    FCallResult: Boolean;
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -45,6 +41,7 @@ type
     function Tar: Boolean;
     procedure OnReadLn(str: string);
     procedure OperationProgressHandler;
+    procedure OnQueryString(str: string);
     procedure UpdateProgress(SourceName, TargetName: String; IncSize: Int64);
     procedure FileSourceOperationStateChangedNotify(Operation: TFileSourceOperation;
                                                     AState: TFileSourceOperationState);
@@ -71,8 +68,9 @@ type
 implementation
 
 uses
-  LCLProc, DCStrUtils, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
-  uFileSystemFileSource, uFileSystemUtil, uMultiArchiveUtil, DCOSUtils, uOSUtils, uTarWriter;
+  LazUTF8, DCStrUtils, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
+  uFileSystemFileSource, uFileSystemUtil, uMultiArchiveUtil, DCOSUtils, uOSUtils,
+  uTarWriter, uShowMsg;
 
 constructor TMultiArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
                                               aTargetFileSource: IFileSource;
@@ -80,10 +78,10 @@ constructor TMultiArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
                                               aTargetPath: String);
 begin
   FMultiArchiveFileSource := aTargetFileSource as IMultiArchiveFileSource;
+  FPassword:= FMultiArchiveFileSource.Password;
   FFullFilesTree := nil;
   FRemoveFilesTree := nil;
   FPackingFlags := 0;
-  FPassword := EmptyStr;
   FVolumeSize := EmptyStr;
   FTarBefore:= False;
 
@@ -118,6 +116,13 @@ begin
   FExProcess.OnReadLn:= @OnReadLn;
   FExProcess.OnOperationProgress:= @OperationProgressHandler;
   FTempFile:= GetTempName(GetTempFolder);
+
+  with FMultiArchiveFileSource.MultiArcItem do
+  if Length(FPasswordQuery) <> 0 then
+  begin
+    FExProcess.QueryString:= UTF8ToConsole(FPasswordQuery);
+    FExProcess.OnQueryString:= @OnQueryString;
+  end;
 
   AddStateChangedListener([fsosStarting, fsosPausing, fsosStopping], @FileSourceOperationStateChangedNotify);
 
@@ -231,7 +236,7 @@ end;
 
 procedure TMultiArchiveCopyInOperation.Finalize;
 begin
-  FreeThenNil(FExProcess);
+  FreeAndNil(FExProcess);
   with FMultiArchiveFileSource.MultiArcItem do
   if not FDebug then
     mbDeleteFile(FTempFile);
@@ -357,6 +362,15 @@ begin
 
     UpdateStatistics(FStatistics);
   end;
+end;
+
+procedure TMultiArchiveCopyInOperation.OnQueryString(str: string);
+var
+  pcPassword: PAnsiChar;
+begin
+  ShowInputQuery(FMultiArchiveFileSource.MultiArcItem.FDescription, rsMsgPasswordEnter, True, FPassword);
+  pcPassword:= PAnsiChar(UTF8ToConsole(FPassword + LineEnding));
+  FExProcess.Process.Input.Write(pcPassword^, Length(pcPassword));
 end;
 
 procedure TMultiArchiveCopyInOperation.UpdateProgress(SourceName,
