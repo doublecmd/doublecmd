@@ -169,7 +169,9 @@ begin
 {$IFDEF LCLWIN32}
   if BarShowText then
   begin
-    if BarText = '' then
+    if MaxValue = 0 then
+      FBarText := BarText
+    else if BarText = '' then
       FBarText :=  FloatToStrF((CurrentValue / MaxValue) * 100, ffFixed, 0, 0) + '%'
     else
       FBarText := BarText + ' (' + FloatToStrF((CurrentValue / MaxValue) * 100, ffFixed, 0, 0) + '%)';
