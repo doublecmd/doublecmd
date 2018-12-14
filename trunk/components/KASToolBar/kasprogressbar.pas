@@ -97,6 +97,7 @@ begin
     else
       FTaskBarEntryHandle := Widgetset.AppHandle;
   end;
+  BarShowText:= BarShowText and CheckWin32Version(8);
 end;
 
 procedure TKASProgressBar.WMPaint(var Msg: TLMPaint);
@@ -107,7 +108,7 @@ var
 begin
   inherited WMPaint(Msg);
 
-  if BarShowText and (CheckWin32Version(8) and ThemeServices.ThemesEnabled) then
+  if BarShowText and ThemeServices.ThemesEnabled then
   begin
     OldBkMode:= SetBkMode(Msg.DC, TRANSPARENT);
     Details:= ThemeServices.GetElementDetails(tpBar);
