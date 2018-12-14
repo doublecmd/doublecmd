@@ -14,6 +14,7 @@ uses
   uWcxModule,
   uWcxArchiveFileSource,
   uFileSourceOperationUI,
+  uArchiveCopyInOperation,
   uFileSourceOperationOptions,
   uFileSourceOperationOptionsUI;
 
@@ -21,15 +22,10 @@ type
 
   { TWcxArchiveCopyInOperation }
 
-  TWcxArchiveCopyInOperation = class(TFileSourceCopyInOperation)
+  TWcxArchiveCopyInOperation = class(TArchiveCopyInOperation)
 
   private
     FWcxArchiveFileSource: IWcxArchiveFileSource;
-    FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
-    FFullFilesTree: TFiles;
-    FPackingFlags: Integer; // Packing flags passed to plugin
-    FTarBefore: Boolean;      // Create TAR archive first
-    FTarFileName: String; // Temporary TAR archive name
     FFileList: TStringHashList;
 
     {en
