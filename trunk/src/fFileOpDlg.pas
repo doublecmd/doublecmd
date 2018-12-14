@@ -57,6 +57,7 @@ type
     btnPauseStart: TBitBtn;
     btnViewOperations: TBitBtn;
     btnMinimizeToPanel: TBitBtn;
+    lblFileCount: TLabel;
     lblCurrentOperationText: TLabel;
     lblEstimated: TLabel;
     lblFileNameFrom: TLabel;
@@ -890,6 +891,7 @@ begin
 
   with CopyStatistics do
   begin
+    lblFileCount.Caption := IntToStr(DoneFiles) + ' / ' + IntToStr(TotalFiles);
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
@@ -909,6 +911,7 @@ begin
 
   with MoveStatistics do
   begin
+    lblFileCount.Caption := IntToStr(DoneFiles) + ' / ' + IntToStr(TotalFiles);
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 

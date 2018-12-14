@@ -10,7 +10,7 @@ object frmFileOp: TfrmFileOp
   OnCreate = FormCreate
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '2.0.0.2'
   object pnlClient: TPanel
     Left = 3
     Height = 141
@@ -217,6 +217,20 @@ object frmFileOp: TfrmFileOp
         OnClick = btnPauseStartClick
         Spacing = 0
         TabOrder = 3
+      end
+      object lblFileCount: TLabel
+        AnchorSideLeft.Control = btnViewOperations
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnCancel
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnCancel
+        Left = 144
+        Height = 1
+        Top = 15
+        Width = 230
+        Alignment = taCenter
+        Anchors = [akTop, akLeft, akRight]
+        ParentColor = False
       end
     end
   end
