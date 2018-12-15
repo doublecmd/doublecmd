@@ -685,6 +685,7 @@ begin
   lblFileNameFrom.Caption := '';
   lblFileNameTo.Caption   := '';
   lblEstimated.Caption    := #32;
+  lblFileCount.Caption    := EmptyStr;
 end;
 
 procedure TfrmFileOp.NotifyEvents(Events: TOperationProgressWindowEvents);
