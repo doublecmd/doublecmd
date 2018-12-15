@@ -35,12 +35,14 @@ type
 
   TKASCDEdit = class(TCDEdit)
   private
+    FDragDropStarted: Boolean;
     FEditMenu: TPopupMenu; static;
   private
     procedure CreatePopupMenu;
     procedure ShowMenu(Data: PtrInt);
     procedure MenuCopy(Sender: TObject);
     procedure MenuSelectAll(Sender: TObject);
+    function MousePosToCaretPos(X, Y: Integer): TPoint;
   protected
     procedure RealSetText(const Value: TCaption); override;
     procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: Integer;
@@ -49,6 +51,7 @@ type
     procedure KeyDown(var Key: word; Shift: TShiftState); override;
   public
     constructor Create(AOwner: TComponent); override;
+    procedure MouseMove(Shift: TShiftState; X, Y: integer); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
   public
@@ -113,8 +116,8 @@ procedure TKASCDDrawer.DrawEdit(ADest: TCanvas; ASize: TSize;
   AState: TCDControlState; AStateEx: TCDEditStateEx);
 var
   lVisibleText, lControlText: TCaption;
-  lSelLeftPos, lSelLeftPixelPos, lSelLength, lSelRightPos: Integer;
-  lTextWidth, lLineHeight, lLineTop: Integer;
+  lSelLeftPos, lSelLength, lSelRightPos: Integer;
+  lLineHeight, lLineTop: Integer;
   lControlTextLen: PtrInt;
   lTextLeftSpacing, lTextTopSpacing, lTextBottomSpacing: Integer;
   lTextColor: TColor;
@@ -183,29 +186,23 @@ begin
       lSelLength := AStateEx.SelLength;
       if lSelLength < 0 then lSelLength := lSelLength * -1;
 
-      // Text left of the selection
-      lVisibleText := UTF8Copy(lControlText, AStateEx.VisibleTextStart.X, lSelLeftPos-AStateEx.VisibleTextStart.X+1);
+      // Text right of the selection
+      ADest.Font.Color := lTextColor;
+      ADest.Brush.Color := AStateEx.RGBColor;
+      lVisibleText := UTF8Copy(lControlText, AStateEx.VisibleTextStart.X, lControlTextLen);
       ADest.TextOut(lTextLeftSpacing, lLineTop, lVisibleText);
-      lSelLeftPixelPos := ADest.TextWidth(lVisibleText)+lTextLeftSpacing;
-
-      // The selection background
-      lVisibleText := UTF8Copy(lControlText, lSelLeftPos+1, lSelLength);
-      lTextWidth := ADest.TextWidth(lVisibleText);
-      ADest.Brush.Color := clHighlight;
-      ADest.Brush.Style := bsSolid;
-      ADest.Rectangle(Bounds(lSelLeftPixelPos, lLineTop, lTextWidth, lLineHeight));
-      ADest.Brush.Style := bsClear;
 
       // The selection text
+      ADest.Brush.Color := clHighlight;
       ADest.Font.Color := clHighlightText;
-      ADest.TextOut(lSelLeftPixelPos, lLineTop, lVisibleText);
-      lSelLeftPixelPos := lSelLeftPixelPos + lTextWidth;
+      lVisibleText := UTF8Copy(lControlText, AStateEx.VisibleTextStart.X, lSelLeftPos + lSelLength);
+      ADest.TextOut(lTextLeftSpacing, lLineTop, lVisibleText);
 
-      // Text right of the selection
-      ADest.Brush.Color := AStateEx.RGBColor;
+      // Text left of the selection
       ADest.Font.Color := lTextColor;
-      lVisibleText := UTF8Copy(lControlText, lSelLeftPos+lSelLength+1, lControlTextLen);
-      ADest.TextOut(lSelLeftPixelPos, lLineTop, lVisibleText);
+      ADest.Brush.Color := AStateEx.RGBColor;
+      lVisibleText := UTF8Copy(lControlText, AStateEx.VisibleTextStart.X, lSelLeftPos-AStateEx.VisibleTextStart.X + 1);
+      ADest.TextOut(lTextLeftSpacing, lLineTop, lVisibleText);
     end;
   end;
 
@@ -250,6 +247,64 @@ end;
 procedure TKASCDEdit.MenuSelectAll(Sender: TObject);
 begin
   TKASCDEdit(TMenuItem(Sender).Owner.Tag).SelectAll;
+end;
+
+function TKASCDEdit.MousePosToCaretPos(X, Y: Integer): TPoint;
+var
+  lStrLen, i: PtrInt;
+  lBeforeStr: String;
+  lVisibleStr, lCurChar: String;
+  lPos: Integer;
+  lBestDiff: Cardinal = $FFFFFFFF;
+  lLastDiff: Cardinal = $FFFFFFFF;
+  lCurDiff, lBestMatch: Integer;
+begin
+  // Find the best Y position
+  lPos := Y - FDrawer.GetMeasures(TCDEDIT_TOP_TEXT_SPACING);
+  Result.Y := lPos div FEditState.LineHeight;
+  Result.Y := Min(Result.Y, FEditState.FullyVisibleLinesCount);
+  Result.Y := Min(Result.Y, FEditState.Lines.Count-1);
+  if Result.Y < 0 then
+  begin
+    Result.X := 1;
+    Result.Y := 0;
+    Exit;
+  end;
+
+  // Find the best X position
+  Canvas.Font := Font;
+  lVisibleStr := Lines.Strings[Result.Y];
+  lVisibleStr := LazUTF8.UTF8Copy(lVisibleStr, FEditState.VisibleTextStart.X, Length(lVisibleStr));
+  lVisibleStr := TCDDrawer.VisibleText(lVisibleStr, FEditState.PasswordChar);
+  lStrLen := LazUTF8.UTF8Length(lVisibleStr);
+  lPos := FDrawer.GetMeasures(TCDEDIT_LEFT_TEXT_SPACING);
+  lBestMatch := 0;
+  lBeforeStr := EmptyStr;
+  for i := 0 to lStrLen do
+  begin
+    lCurDiff := X - lPos;
+    if lCurDiff < 0 then lCurDiff := lCurDiff * -1;
+
+    if lCurDiff < lBestDiff then
+    begin
+      lBestDiff := lCurDiff;
+      lBestMatch := i;
+    end;
+
+    // When the diff starts to grow we already found the caret pos, so exit
+    if lCurDiff > lLastDiff then Break
+    else lLastDiff := lCurDiff;
+
+    if i <> lStrLen then
+    begin
+      lCurChar := LazUTF8.UTF8Copy(lVisibleStr, i+1, 1);
+      lBeforeStr := lBeforeStr + lCurChar;
+      lPos := Canvas.TextWidth(lBeforeStr);
+    end;
+  end;
+
+  Result.X := lBestMatch+(FEditState.VisibleTextStart.X-1);
+  Result.X := Min(Result.X, FEditState.VisibleTextStart.X+lStrLen-1);
 end;
 
 procedure TKASCDEdit.RealSetText(const Value: TCaption);
@@ -338,10 +393,34 @@ begin
   DrawStyle:= dsExtra1;
 end;
 
-procedure TKASCDEdit.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TKASCDEdit.MouseMove(Shift: TShiftState; X, Y: integer);
+begin
+  inherited MouseMove(Shift, X, Y);
+
+  // Mouse dragging selection
+  if FDragDropStarted then
+  begin
+    FEditState.CaretPos := MousePosToCaretPos(X, Y);
+    FEditState.SelLength := FEditState.CaretPos.X - FEditState.SelStart.X;
+    Invalidate;
+  end;
+end;
+
+procedure TKASCDEdit.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
+  Y: integer);
 begin
   if (Button = mbLeft) or (GetSelLength = 0) then
-    inherited MouseDown(Button, Shift, X, Y)
+  begin
+    inherited MouseDown(Button, Shift, X, Y);
+
+    FDragDropStarted := True;
+
+    // Caret positioning
+    FEditState.CaretPos := MousePosToCaretPos(X, Y);
+    FEditState.SelStart.X := FEditState.CaretPos.X;
+    FEditState.SelStart.Y := FEditState.CaretPos.Y;
+    Invalidate;
+  end
   else if Assigned(OnMouseDown) then begin
     OnMouseDown(Self, Button, Shift, X, Y);
   end;
@@ -350,6 +429,9 @@ end;
 procedure TKASCDEdit.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   inherited MouseUp(Button, Shift, X, Y);
+
+  FDragDropStarted := False;
+
   if Button = mbRight then begin
     Application.QueueAsyncCall(ShowMenu, PtrInt(Self));
   end;
