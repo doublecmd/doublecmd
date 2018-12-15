@@ -253,6 +253,7 @@ function TKASCDEdit.MousePosToCaretPos(X, Y: Integer): TPoint;
 var
   lStrLen, i: PtrInt;
   lBeforeStr: String;
+  lTextLeftSpacing: Integer;
   lVisibleStr, lCurChar: String;
   lPos: Integer;
   lBestDiff: Cardinal = $FFFFFFFF;
@@ -277,9 +278,10 @@ begin
   lVisibleStr := LazUTF8.UTF8Copy(lVisibleStr, FEditState.VisibleTextStart.X, Length(lVisibleStr));
   lVisibleStr := TCDDrawer.VisibleText(lVisibleStr, FEditState.PasswordChar);
   lStrLen := LazUTF8.UTF8Length(lVisibleStr);
-  lPos := FDrawer.GetMeasures(TCDEDIT_LEFT_TEXT_SPACING);
+  lTextLeftSpacing := FDrawer.GetMeasures(TCDEDIT_LEFT_TEXT_SPACING);
   lBestMatch := 0;
   lBeforeStr := EmptyStr;
+  lPos := lTextLeftSpacing;
   for i := 0 to lStrLen do
   begin
     lCurDiff := X - lPos;
@@ -297,9 +299,9 @@ begin
 
     if i <> lStrLen then
     begin
-      lCurChar := LazUTF8.UTF8Copy(lVisibleStr, i+1, 1);
+      lCurChar := LazUTF8.UTF8Copy(lVisibleStr, i + 1, 1);
       lBeforeStr := lBeforeStr + lCurChar;
-      lPos := Canvas.TextWidth(lBeforeStr);
+      lPos := lTextLeftSpacing + Canvas.TextWidth(lBeforeStr);
     end;
   end;
 
