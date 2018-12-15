@@ -657,6 +657,7 @@ begin
   CloseAction := caFree;
   { settings }
   gSyncDirsSubdirs              := chkSubDirs.Checked;
+  gSyncDirsAsymmetric           := chkAsymmetric.Checked;
   gSyncDirsIgnoreDate           := chkIgnoreDate.Checked;
   gSyncDirsShowFilterCopyRight  := sbCopyRight.Down;
   gSyncDirsShowFilterEqual      := sbEqual.Down;
@@ -693,6 +694,7 @@ begin
   lblProgress.Caption := rsOperWorking;
   { settings }
   chkSubDirs.Checked     := gSyncDirsSubdirs;
+  chkAsymmetric.Checked  := gSyncDirsAsymmetric;
   chkByContent.Checked   := gSyncDirsByContent and chkByContent.Enabled;
   chkIgnoreDate.Checked  := gSyncDirsIgnoreDate;
   sbCopyRight.Down       := gSyncDirsShowFilterCopyRight;
