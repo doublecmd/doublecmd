@@ -10111,6 +10111,10 @@ msgstr "Osmiško"
 msgid "Copy names with UNC path"
 msgstr "Kopiraj imena s potjo UNC"
 
+#: ulng.rsmnucreateshortcut
+msgid "Create Shortcut..."
+msgstr ""
+
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
 msgstr "Odklopi omrežno pogon ..."

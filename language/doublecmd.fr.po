@@ -10368,6 +10368,10 @@ msgstr "Octale"
 msgid "Copy names with UNC path"
 msgstr "Copie les noms avec chemin UNC"
 
+#: ulng.rsmnucreateshortcut
+msgid "Create Shortcut..."
+msgstr ""
+
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
 msgstr "Déconnecté les lecteurs-réseaux"
