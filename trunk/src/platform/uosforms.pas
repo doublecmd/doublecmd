@@ -130,7 +130,7 @@ uses
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
   , uWinNetFileSource, uVfsModule, uLng, uMyWindows, DCStrUtils
   , uListGetPreviewBitmap, uThumbnailProvider, uDCReadSVG, uFileSourceUtil
-  , Dialogs, Clipbrd
+  , Dialogs, Clipbrd, uShowMsg
   {$ENDIF}
   {$IFDEF UNIX}
   , BaseUnix, fFileProperties, uJpegThumb
@@ -448,6 +448,35 @@ begin
     FreeAndNil(SelectedFiles);
   end;
 end;
+
+procedure CreateShortcut(Self, Sender: TObject);
+var
+  ShortcutName: String;
+  SelectedFiles: TFiles;
+begin
+  SelectedFiles := frmMain.ActiveFrame.CloneSelectedOrActiveFiles;
+  try
+    if SelectedFiles.Count > 0 then
+    begin
+      ShortcutName:= frmMain.NotActiveFrame.CurrentPath + SelectedFiles[0].NameNoExt + '.lnk';
+      if ShowInputQuery(rsMnuCreateShortcut, EmptyStr, ShortcutName) then
+      begin
+        if mbFileExists(ShortcutName) then
+        begin
+          if not msgYesNo(Format(rsMsgFileExistsRwrt, [WrapTextSimple(ShortcutName, 100)])) then
+            Exit;
+        end;
+        try
+          uMyWindows.CreateShortcut(SelectedFiles[0].FullPath, ShortcutName);
+        except
+          on E: Exception do msgError(E.Message);
+        end;
+      end;
+    end;
+  finally
+    FreeAndNil(SelectedFiles);
+  end;
+end;
 {$ENDIF}
 
 {$IF DEFINED(LCLGTK2) or (DEFINED(LCLQT) and not DEFINED(DARWIN))}
@@ -536,6 +565,12 @@ begin
     Handler.Code:= @CopyNetNamesToClip;
     MenuItem.OnClick:= TNotifyEvent(Handler);
     mnuNetwork.Add(MenuItem);
+
+    MenuItem:= TMenuItem.Create(mnuMain);
+    MenuItem.Caption:= rsMnuCreateShortcut;
+    Handler.Code:= @CreateShortcut;
+    MenuItem.OnClick:= TNotifyEvent(Handler);
+    mnuFiles.Insert(mnuFiles.IndexOf(miMakeDir) + 1, MenuItem);
   end;
 end;
 {$ELSE}

@@ -133,6 +133,10 @@ function IsUserAdmin: LongBool;
 }
 function RemoteSession: Boolean;
 {en
+   Creates windows shortcut file (.lnk)
+}
+procedure CreateShortcut(const Target, Shortcut: String);
+{en
    Extract file attributes from find data record.
    Removes reparse point attribute if a reparse point tag is not a name surrogate.
    @param(FindData Find data record from FindFirstFile/FindNextFile function.)
@@ -147,7 +151,7 @@ implementation
 
 uses
   ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, JwaNative, JwaVista, LazUTF8,
-  ActiveX, DCWindows, uShlObjAdditional;
+  ActiveX, ShlObj, ComObj, DCWindows, uShlObjAdditional;
 
 var
   Wow64DisableWow64FsRedirection: function(OldValue: PPointer): BOOL; stdcall;
@@ -826,6 +830,34 @@ begin
       end;
     end;
   end;
+end;
+
+procedure CreateShortcut(const Target, Shortcut: String);
+var
+  IObject: IUnknown;
+  ISLink: IShellLinkW;
+  IPFile: IPersistFile;
+  LinkName: WideString;
+  TargetArguments: WideString;
+begin
+  TargetArguments:= EmptyWideStr;
+
+  { Creates an instance of IShellLink }
+  IObject := CreateComObject(CLSID_ShellLink);
+  IPFile := IObject as IPersistFile;
+  ISLink := IObject as IShellLinkW;
+
+  OleCheckUTF8(ISLink.SetPath(PWideChar(UTF8Decode(Target))));
+  OleCheckUTF8(ISLink.SetArguments(PWideChar(TargetArguments)));
+  OleCheckUTF8(ISLink.SetWorkingDirectory(PWideChar(UTF8Decode(ExtractFilePath(Target)))));
+
+  { Get the desktop location }
+  LinkName := UTF8Decode(Shortcut);
+  if LowerCase(ExtractFileExt(LinkName)) <> '.lnk' then
+    LinkName := LinkName + '.lnk';
+
+  { Create the link }
+  OleCheckUTF8(IPFile.Save(PWideChar(LinkName), False));
 end;
 
 function ExtractFileAttributes(const FindData: TWin32FindDataW): DWORD; inline;

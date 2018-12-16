@@ -348,6 +348,7 @@ resourcestring
   rsMnuPackHere = 'Pack here...';
   rsMnuExtractHere = 'Extract here...';
   // for main menu
+  rsMnuCreateShortcut = 'Create Shortcut...';
   rsMnuMapNetworkDrive = 'Map Network Drive...';
   rsMnuDisconnectNetworkDrive = 'Disconnect Network Drive...';
   rsMnuCopyNetNamesToClip = 'Copy names with UNC path';
