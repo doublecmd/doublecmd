@@ -113,6 +113,15 @@ begin
   FExtractWithoutPath:= False;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
+
+  // Get initialized statistics; then we change only what is needed.
+  FStatistics := RetrieveStatistics;
+  with FStatistics do
+  begin
+    DoneFiles := -1;
+    CurrentFileDoneBytes := -1;
+    UpdateStatistics(FStatistics);
+  end;
 end;
 
 destructor TMultiArchiveCopyOutOperation.Destroy;
@@ -136,9 +145,6 @@ begin
   end;
 
   AddStateChangedListener([fsosStarting, fsosPausing, fsosStopping], @FileSourceOperationStateChangedNotify);
-
-  // Get initialized statistics; then we change only what is needed.
-  FStatistics := RetrieveStatistics;
 
   FFileMask := ExtractFileName(TargetPath);
   if FFileMask = '' then FFileMask := '*';  // extract all selected files/folders
