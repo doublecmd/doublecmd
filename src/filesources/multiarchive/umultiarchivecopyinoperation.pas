@@ -86,6 +86,15 @@ begin
   FTarBefore:= False;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
+
+  // Get initialized statistics; then we change only what is needed.
+  FStatistics := RetrieveStatistics;
+  with FStatistics do
+  begin
+    DoneFiles := -1;
+    CurrentFileDoneBytes := -1;
+    UpdateStatistics(FStatistics);
+  end;
 end;
 
 destructor TMultiArchiveCopyInOperation.Destroy;
@@ -126,14 +135,13 @@ begin
 
   AddStateChangedListener([fsosStarting, fsosPausing, fsosStopping], @FileSourceOperationStateChangedNotify);
 
-  // Get initialized statistics; then we change only what is needed.
-  FStatistics := RetrieveStatistics;
   with FStatistics do
   begin
     if SourceFiles.Count = 1 then
       CurrentFileFrom:= SourceFiles[0].FullPath
-    else
+    else begin
       CurrentFileFrom:= SourceFiles.Path + AllFilesMask;
+    end;
     CurrentFileTo:= FMultiArchiveFileSource.ArchiveFileName;
   end;
 

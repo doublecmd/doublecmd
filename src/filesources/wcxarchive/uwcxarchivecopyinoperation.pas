@@ -172,6 +172,15 @@ begin
   FNeedsConnection:= (FWcxArchiveFileSource.WcxModule.BackgroundFlags and BACKGROUND_PACK = 0);
 
   FFileList:= TStringHashList.Create(True);
+
+  // Get initialized statistics; then we change only what is needed.
+  FStatistics := RetrieveStatistics;
+  with FStatistics do
+  begin
+    DoneFiles := -1;
+    CurrentFileDoneBytes := -1;
+    UpdateStatistics(FStatistics);
+  end;
 end;
 
 destructor TWcxArchiveCopyInOperation.Destroy;
@@ -192,10 +201,6 @@ begin
     WcxCopyInOperationG := Self
   else
     WcxCopyInOperationT := Self;
-
-  // Get initialized statistics; then we change only what is needed.
-  FStatistics := RetrieveStatistics;
-  FStatistics.CurrentFileDoneBytes := -1;
 
   // Gets full list of files (recursive)
   FillAndCount(SourceFiles,

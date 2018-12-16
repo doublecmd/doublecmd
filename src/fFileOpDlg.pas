@@ -102,6 +102,7 @@ type
     procedure UpdateOperation(OpManItem: TOperationsManagerItem);
     procedure UpdatePauseStartButton(OpManItem: TOperationsManagerItem);
     procedure SetProgressBarStyle(const AValue: TProgressBarStyle);
+    procedure SetProgressCount(Operation: TFileSourceOperation; DoneFiles: Int64; TotalFiles: Int64);
     procedure SetProgressBytes(Operation: TFileSourceOperation; ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
     procedure SetProgressFiles(Operation: TFileSourceOperation; ProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
     procedure SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
@@ -892,10 +893,10 @@ begin
 
   with CopyStatistics do
   begin
-    lblFileCount.Caption := IntToStr(DoneFiles) + ' / ' + IntToStr(TotalFiles);
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
+    SetProgressCount(Operation, DoneFiles, TotalFiles);
     SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, uoscOperation));
@@ -912,10 +913,10 @@ begin
 
   with MoveStatistics do
   begin
-    lblFileCount.Caption := IntToStr(DoneFiles) + ' / ' + IntToStr(TotalFiles);
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
     lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
+    SetProgressCount(Operation, DoneFiles, TotalFiles);
     SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, uoscOperation));
@@ -1175,6 +1176,16 @@ procedure TfrmFileOp.SetProgressBarStyle(const AValue: TProgressBarStyle);
 begin
   pbCurrent.Style:= AValue;
   pbTotal.Style:= AValue;
+end;
+
+procedure TfrmFileOp.SetProgressCount(Operation: TFileSourceOperation;
+  DoneFiles: Int64; TotalFiles: Int64);
+begin
+  if (DoneFiles < 0) or (TotalFiles = 0) then
+    lblFileCount.Caption := EmptyStr
+  else begin
+    lblFileCount.Caption := IntToStr(DoneFiles) + ' / ' + IntToStr(TotalFiles);
+  end;
 end;
 
 initialization

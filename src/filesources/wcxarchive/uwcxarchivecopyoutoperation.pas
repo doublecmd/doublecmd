@@ -318,6 +318,13 @@ begin
                             [FWcxArchiveFileSource.ArchiveFileName + PathDelim +
                              Header.FileName +' -> ' + TargetFileName]), [log_arc_op], lmtSuccess);
         end; // Success
+
+        with FStatistics do
+        begin
+          DoneFiles := DoneFiles + 1;
+
+          UpdateStatistics(FStatistics);
+        end;
       end // Extract
       else // Skip
       begin
