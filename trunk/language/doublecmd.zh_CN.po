@@ -10338,6 +10338,10 @@ msgstr ""
 msgid "Copy names with UNC path"
 msgstr "使用网络路径复制名称"
 
+#: ulng.rsmnucreateshortcut
+msgid "Create Shortcut..."
+msgstr ""
+
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
 msgstr "断开网络驱动器连接..."

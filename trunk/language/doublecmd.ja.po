@@ -10350,6 +10350,10 @@ msgstr ""
 msgid "Copy names with UNC path"
 msgstr "UNCパスで名前をコピー"
 
+#: ulng.rsmnucreateshortcut
+msgid "Create Shortcut..."
+msgstr ""
+
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
 msgstr "ネットワークドライブの切断…"

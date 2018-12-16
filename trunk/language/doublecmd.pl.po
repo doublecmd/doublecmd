@@ -10104,6 +10104,10 @@ msgstr ""
 msgid "Copy names with UNC path"
 msgstr "Kopiuj nazwy ze ścieżką UNC"
 
+#: ulng.rsmnucreateshortcut
+msgid "Create Shortcut..."
+msgstr ""
+
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
 msgstr "Odłącz dysk sieciowy"

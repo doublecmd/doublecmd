@@ -10348,6 +10348,10 @@ msgstr "Восьмеричный"
 msgid "Copy names with UNC path"
 msgstr "Копировать в буфер имена с UNC-путём"
 
+#: ulng.rsmnucreateshortcut
+msgid "Create Shortcut..."
+msgstr "Создать ярлык..."
+
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
 msgstr "Отключить сетевой диск..."

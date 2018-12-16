@@ -10337,6 +10337,10 @@ msgstr "Octal"
 msgid "Copy names with UNC path"
 msgstr "Αντιγραφή ονομάτων με UNC διαδρομή"
 
+#: ulng.rsmnucreateshortcut
+msgid "Create Shortcut..."
+msgstr ""
+
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
 msgstr "Αποσύνδεση Δικτυακού Οδηγού..."
