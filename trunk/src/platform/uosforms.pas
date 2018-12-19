@@ -454,6 +454,12 @@ var
   ShortcutName: String;
   SelectedFiles: TFiles;
 begin
+  if not (frmMain.ActiveFrame.FileSource.IsClass(TFileSystemFileSource)) then
+  begin
+    msgWarning(rsMsgErrNotSupported);
+    Exit;
+  end;
+
   SelectedFiles := frmMain.ActiveFrame.CloneSelectedOrActiveFiles;
   try
     if SelectedFiles.Count > 0 then
