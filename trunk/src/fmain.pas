@@ -745,6 +745,7 @@ type
     procedure SetDragCursor(Shift: TShiftState);
 
   protected
+    procedure CreateWnd; override;
 {$if lcl_fullversion >= 1070000}
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                             const AXProportion, AYProportion: Double); override;
@@ -978,9 +979,6 @@ begin
   Application.OnEndSession := @AppEndSession;
   Application.OnQueryEndSession := @AppQueryEndSession;
 
-  // Save real main form handle
-  Application.MainForm.Tag:= Handle;
-
   // Use LCL's method of dropping files from external
   // applications if we don't support it ourselves.
   if not IsExternalDraggingSupported then
@@ -1070,8 +1068,6 @@ begin
   // Register action list for main form hotkeys.
   HMMainForm.RegisterActionList(actionlst);
   { *HotKeys* }
-
-  LoadWindowState;
 
   // frost_asm begin
     lastWindowState:=WindowState;
@@ -3671,6 +3667,17 @@ procedure TfrmMain.SetDragCursor(Shift: TShiftState);
 begin
   FrameLeft.SetDragCursor(Shift);
   FrameRight.SetDragCursor(Shift);
+end;
+
+procedure TfrmMain.CreateWnd;
+begin
+  // Must be before CreateWnd
+  LoadWindowState;
+
+  inherited CreateWnd;
+
+  // Save real main form handle
+  Application.MainForm.Tag:= Handle;
 end;
 
 {$if lcl_fullversion >= 1070000}
