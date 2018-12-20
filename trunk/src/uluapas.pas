@@ -39,7 +39,7 @@ implementation
 uses
   Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, DCOSUtils,
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog,
-  uClipboard, uShowMsg, uLuaStd, uFindEx;
+  uClipboard, uShowMsg, uLuaStd, uFindEx, uConvEncoding;
 
 procedure luaPushSearchRec(L : Plua_State; Rec: PSearchRecEx);
 begin
@@ -183,6 +183,18 @@ begin
   Result:= 1;
   S:= lua_tostring(L, 1);
   S:= UTF8LowerCase(S);
+  lua_pushstring(L, PAnsiChar(S));
+end;
+
+function luaConvertEncoding(L : Plua_State) : Integer; cdecl;
+var
+  S, FromEnc, ToEnc: String;
+begin
+  Result:= 1;
+  S:= lua_tostring(L, 1);
+  FromEnc:= lua_tostring(L, 2);
+  ToEnc:= lua_tostring(L, 3);
+  S:= ConvertEncoding(S, FromEnc, ToEnc);
   lua_pushstring(L, PAnsiChar(S));
 end;
 
@@ -337,6 +349,7 @@ begin
     luaP_register(L, 'Length', @luaLength);
     luaP_register(L, 'UpperCase', @luaUpperCase);
     luaP_register(L, 'LowerCase', @luaLowerCase);
+    luaP_register(L, 'ConvertEncoding', @luaConvertEncoding);
   lua_setglobal(L, 'LazUtf8');
 
   lua_newtable(L);
