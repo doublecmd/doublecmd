@@ -312,7 +312,7 @@ begin
   if (p^.f <> nil) then
     Result := 1
   else begin
-    luaL_fileresult(L, false, filename);
+    Result := luaL_fileresult(L, false, filename);
   end;
 end;
 
@@ -345,7 +345,7 @@ begin
   if (p^.f <> nil) then
     Result := 1
   else begin
-    luaL_fileresult(L, false, filename);
+    Result := luaL_fileresult(L, false, filename);
   end;
 end;
 
@@ -358,7 +358,7 @@ begin
   if (p^.f <> nil) then
     Result := 1
   else begin
-    luaL_fileresult(L, false, nil);
+    Result := luaL_fileresult(L, false, nil);
   end;
 end;
 
