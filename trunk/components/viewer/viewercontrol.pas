@@ -336,7 +336,7 @@ type
     procedure OutText(x, y: Integer; const sText: String; StartPos: PtrInt; DataLength: Integer);
     procedure OutBin(x, y: Integer; const sText: String; StartPos: PtrInt; DataLength: Integer);
 
-    procedure OutCustom(x, y: Integer; sText: string;StartPos: PtrInt; DataLength: Integer);  // render one line
+    procedure OutCustom(x, y: Integer; const sText: string;StartPos: PtrInt; DataLength: Integer);  // render one line
     function  TransformCustom(var APosition: PtrInt; ALimit: PtrInt;AWithAdditionalData:boolean=True): AnsiString;
     function  TransformCustomBlock(var APosition: PtrInt; DataLength: integer ; ASeparatorsOn, AAlignData:boolean; out AChars:AnsiString): AnsiString;
 
@@ -1950,113 +1950,89 @@ begin
     Canvas.TextOut(X, Y, GetText(StartPos, iBegDrawIndex - pBegLine, 0));
 end;
 
-procedure TViewerControl.OutCustom(x, y: Integer; sText: string;
+procedure TViewerControl.OutCustom(x, y: Integer; const sText: string;
   StartPos: PtrInt; DataLength: Integer);
 var
+  sTmpText: String;
   pBegLine, pEndLine: PtrInt;
   iBegDrawIndex, iEndDrawIndex: PtrInt;
-  sNextText: String = '';
-  sTmpText: String;
-
 begin
   pBegLine := StartPos;
   pEndLine := pBegLine + DataLength;
 
+  Canvas.Font.Color := Font.Color;
+
+  // Out of selection, draw normal
   if ((FBlockEnd - FBlockBeg) = 0) or ((FBlockBeg < pBegLine) and (FBlockEnd <= pBegLine)) or // before
-     ((FBlockBeg > pEndLine) and (FBlockEnd > pEndLine)) then //after
+     ((FBlockBeg > pEndLine) and (FBlockEnd > pEndLine)) then // after
   begin
-    // out of selection, draw normal
-    Canvas.Font.Color := Font.Color;
-    Canvas.TextOut(x, y, sText);
+    // Offset + hex part + space between hex and ascii
+    sTmpText:= Copy(sText, 1, FCustom.EndOfs) + '  ';
+    Canvas.TextOut(x, y, sTmpText);
+    x := x + Canvas.TextWidth(sTmpText);
+    // Ascii part
+    sTmpText := Copy(sText, 1 + FCustom.StartAscii, MaxInt);
+    Canvas.TextOut(x, y, sTmpText);
     Exit;
   end;
 
-  // Get selection start/end.
+  // Get selection start
   if (FBlockBeg <= pBegLine) then
     iBegDrawIndex := pBegLine
   else
     iBegDrawIndex := FBlockBeg;
+  // Get selection end
   if (FBlockEnd < pEndLine) then
     iEndDrawIndex := FBlockEnd
   else
     iEndDrawIndex := pEndLine;
 
-  // Text before selection (offset and hex part).
-  sTmpText := Copy(sText, 1, FCustom.StartOfs + (iBegDrawIndex - pBegLine) * (FCustom.MaxValueDigits+FCustom.SpaceCount));
-  Canvas.Font.Color := Font.Color;
-  Canvas.TextOut(x, y, sTmpText);
-  x := x + Canvas.TextWidth(sTmpText);
+  // Text after selection (hex part)
+  if pEndLine - iEndDrawIndex > 0 then
+  begin
+    sTmpText := Copy(sText, 1, FCustom.StartOfs + (pEndLine - pBegLine) * (FCustom.MaxValueDigits + FCustom.SpaceCount));
+    Canvas.TextOut(x, y, sTmpText);
+  end;
 
-  // Selected text (hex part).
-  sTmpText := Copy(sText, 1 + FCustom.StartOfs + (iBegDrawIndex - pBegLine) * (FCustom.MaxValueDigits+FCustom.SpaceCount),
-                                             (iEndDrawIndex - iBegDrawIndex)* (FCustom.MaxValueDigits+FCustom.SpaceCount));
-
-  // Move last character from selection to not selected text.
-  sNextText := Copy(sTmpText, Length(sTmpText), 1);
-  Delete(sTmpText, Length(sTmpText), 1);
-
+  // Text before selection + selected text (hex part)
+  sTmpText := Copy(sText, 1, FCustom.StartOfs + (iEndDrawIndex - pBegLine) * (FCustom.MaxValueDigits + FCustom.SpaceCount) - 1);
   Canvas.Brush.Color := clHighlight;
   Canvas.Font.Color  := clHighlightText;
-
-  Canvas.Brush.Style := bsSolid;
-  Canvas.FillRect(Bounds(x, y, Canvas.TextWidth(sTmpText), FTextHeight));
-  Canvas.Brush.Style := bsClear;
   Canvas.TextOut(x, y, sTmpText);
-  x := x + Canvas.TextWidth(sTmpText);
 
-  // restore previous canvas settings
+  // Restore previous canvas settings
   Canvas.Brush.Color := Color;
   Canvas.Font.Color  := Font.Color;
 
-  // Text after selection (hex part).
-  if pEndLine - iEndDrawIndex > 0 then
-  begin
-    sTmpText := sNextText +
-      Copy(sText, 1 + FCustom.StartOfs + (iEndDrawIndex - pBegLine) * (FCustom.MaxValueDigits+FCustom.SpaceCount),
-                                     (pEndLine - iEndDrawIndex) * (FCustom.MaxValueDigits+FCustom.SpaceCount));
-    sNextText := '';
-    Canvas.TextOut(x, y, sTmpText);
-    x := x + Canvas.TextWidth(sTmpText);
-  end;
-
-  // Space after hex if data doesn't span full line.
-  if DataLength < FHex.ValuesPerLine then
-    sNextText := sNextText + Copy(sText, 1 + FCustom.StartOfs + DataLength * (FCustom.MaxValueDigits+FCustom.SpaceCount),
-                                              (FCustom.ValuesPerLine - DataLength) * (FCustom.MaxValueDigits+FCustom.SpaceCount));
-
-  // Space between hex and ascii.
-  sTmpText := sNextText + '  ';
+  // Offset + text before selection (hex part)
+  sTmpText := Copy(sText, 1, FCustom.StartOfs + (iBegDrawIndex - pBegLine) * (FCustom.MaxValueDigits + FCustom.SpaceCount));
   Canvas.TextOut(x, y, sTmpText);
+
+  // Offset + hex part + space between hex and ascii
+  sTmpText:= Copy(sText, 1, FCustom.EndOfs) + '  ';
   x := x + Canvas.TextWidth(sTmpText);
 
-  // Text before selection (ascii part).
+  // Text after selection (ascii part)
+  if pEndLine - iEndDrawIndex > 0 then
+  begin
+    sTmpText := Copy(sText, FCustom.StartAscii + 1, MaxInt);
+    Canvas.TextOut(x, y, sTmpText);
+  end;
+
+  // Text before selection + selected text (ascii part)
+  sTmpText := Copy(sText, 1 + FCustom.StartAscii, iEndDrawIndex - pBegLine);
+  Canvas.Brush.Color := clHighlight;
+  Canvas.Font.Color  := clHighlightText;
+  Canvas.TextOut(x, y, sTmpText);
+
+  // Restore background color
+  Canvas.Brush.Color := Color;
+  Canvas.Font.Color  := Font.Color;
+
+  // Text before selection (ascii part)
   if iBegDrawIndex - pBegLine > 0 then
   begin
     sTmpText := Copy(sText, 1 + FCustom.StartAscii, iBegDrawIndex - pBegLine);
-    Canvas.TextOut(x, y, sTmpText);
-    x := x + Canvas.TextWidth(sTmpText);
-  end;
-
-  // Selected text (ascii part).
-  sTmpText := Copy(sText, 1 + FCustom.StartAscii + iBegDrawIndex - pBegLine,
-                                               iEndDrawIndex - iBegDrawIndex);
-  Canvas.Brush.Color := clHighlight;
-  Canvas.Font.Color  := clHighlightText;
-  Canvas.Brush.Style := bsSolid;
-  Canvas.FillRect(Bounds(x, y, Canvas.TextWidth(sTmpText), FTextHeight));
-  Canvas.Brush.Style := bsClear;
-  Canvas.TextOut(x, y, sTmpText);
-  x := x + Canvas.TextWidth(sTmpText);
-
-  // restore background color
-  Canvas.Brush.Color := Color;
-  Canvas.Font.Color  := Font.Color;
-
-  // Text after selection.
-  if pEndLine - iEndDrawIndex > 0 then
-  begin
-    sTmpText := Copy(sText, 1 + FCustom.StartAscii + iEndDrawIndex - pBegLine,
-                                                 pEndLine - iEndDrawIndex);
     Canvas.TextOut(x, y, sTmpText);
   end;
 end;
