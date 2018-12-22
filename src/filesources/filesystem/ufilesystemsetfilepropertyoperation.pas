@@ -322,7 +322,14 @@ var
     end;
   end;
 
-  {$IFDEF MSWINDOWS}
+{$IFDEF MSWINDOWS}
+  function CanShellRename: Boolean;
+  begin
+    Result := (FFullFilesTree.Count = 1) and
+              (UTF8Length(OldName) < MAX_PATH - 1) and (UTF8Length(NewName) < MAX_PATH - 1) and
+              (not StrBegins(ExtractFileName(OldName), ' ')) and (StrBegins(ExtractFileName(NewName), ' '));
+  end;
+
   function ShellRename: Boolean;
   var
     wsFromName, wsToName: WideString;
@@ -344,7 +351,7 @@ var
     end;
     Result := (SHFileOperationW(@FileOpStruct) = 0) and (not FileOpStruct.fAnyOperationsAborted);
   end;
-  {$ENDIF}
+{$ENDIF}
 
 var
 {$IFDEF UNIX}
@@ -457,8 +464,7 @@ begin
 
 {$ELSE}
 
-  if gUseShellForFileOperations and (FFullFilesTree.Count = 1) and
-     (UTF8Length(OldName) < MAX_PATH - 1) and (UTF8Length(NewName) < MAX_PATH - 1) then
+  if gUseShellForFileOperations and CanShellRename then
   begin
     if ShellRename then
       Result := sfprSuccess
