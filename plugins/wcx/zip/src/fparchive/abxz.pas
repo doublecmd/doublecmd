@@ -269,7 +269,7 @@ end;
 constructor TLzmaCompression.Create(ASource, ATarget: TStream);
 begin
   inherited Create(ASource, ATarget);
-  Check(lzma_easy_encoder(FLzmaRec, 0, LZMA_CHECK_CRC64));
+  Check(lzma_easy_encoder(FLzmaRec, 6, LZMA_CHECK_CRC64));
 end;
 
 { TLzmaDecompression }
