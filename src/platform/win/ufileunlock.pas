@@ -66,10 +66,28 @@ type
     bRestartable: BOOL;
   end;
 
-  PSystemHandleInformationEx = ^TSystemHandleInformationEx;
-  TSystemHandleInformationEx = record
+  PSystemHandleInformationFx = ^TSystemHandleInformationFx;
+  TSystemHandleInformationFx = record
     Count: ULONG;
     Handle: array[0..0] of TSystemHandleInformation;
+  end;
+
+  TSystemHandleTableEntryInfoEx = record
+    Object_: PVOID;
+    ProcessId: ULONG_PTR;
+    Handle: ULONG_PTR;
+    GrantedAccess: ULONG;
+    CreatorBackTraceIndex: USHORT;
+    ObjectTypeNumber: USHORT;
+    HandleAttributes: ULONG;
+    Reserved: ULONG;
+  end;
+
+  PSystemHandleInformationEx = ^TSystemHandleInformationEx;
+  TSystemHandleInformationEx = record
+    Count: ULONG_PTR;
+    Reserved: ULONG_PTR;
+    Handle: array[0..0] of TSystemHandleTableEntryInfoEx;
   end;
 
 var
@@ -95,19 +113,58 @@ function GetFileHandleList(out SystemInformation : PSystemHandleInformationEx): 
 const
   MEM_SIZE = SizeOf(TSystemHandleInformationEx);
 var
+  Index: Integer;
   Status: NTSTATUS;
   SystemInformationLength : ULONG = MEM_SIZE;
+  SystemInformationOld : PSystemHandleInformationFx;
 begin
-  SystemInformation:= GetMem(MEM_SIZE);
-  repeat
-    Status:= NtQuerySystemInformation(SystemHandleInformation, SystemInformation,
-                                      SystemInformationLength, @SystemInformationLength);
-    if Status = STATUS_INFO_LENGTH_MISMATCH then begin
-      ReAllocMem(SystemInformation, SystemInformationLength + SizeOf(TSystemHandleInformation) * 100)
-     end;
-  until Status <> STATUS_INFO_LENGTH_MISMATCH;
-  Result:= (Status = STATUS_SUCCESS);
-  if not Result then FreeMem(SystemInformation);
+  if CheckWin32Version(5, 1) then
+  begin
+    SystemInformation:= GetMem(MEM_SIZE);
+    repeat
+      Status:= NtQuerySystemInformation(TSystemInformationClass(64), SystemInformation,
+                                        SystemInformationLength, @SystemInformationLength);
+      if Status = STATUS_INFO_LENGTH_MISMATCH then
+      begin
+        SystemInformationLength+= SizeOf(TSystemHandleTableEntryInfoEx) * 100;
+        ReAllocMem(SystemInformation, SystemInformationLength);
+      end;
+    until Status <> STATUS_INFO_LENGTH_MISMATCH;
+    Result:= (Status = STATUS_SUCCESS);
+    if not Result then FreeMem(SystemInformation);
+  end
+  else begin
+    SystemInformationOld:= GetMem(MEM_SIZE);
+    repeat
+      Status:= NtQuerySystemInformation(SystemHandleInformation, SystemInformationOld,
+                                        SystemInformationLength, @SystemInformationLength);
+      if Status = STATUS_INFO_LENGTH_MISMATCH then
+      begin
+        SystemInformationLength+= SizeOf(TSystemHandleInformation) * 100;
+        ReAllocMem(SystemInformationOld, SystemInformationLength);
+      end;
+    until Status <> STATUS_INFO_LENGTH_MISMATCH;
+    Result:= (Status = STATUS_SUCCESS);
+    if Result then
+    begin
+      SystemInformation:= GetMem(SystemInformationOld.Count *
+                                 SizeOf(TSystemHandleTableEntryInfoEx) +
+                                 SizeOf(TSystemHandleInformationEx));
+      for Index := 0 to SystemInformationOld.Count - 1 do
+      begin
+        with SystemInformation.Handle[Index] do
+        begin
+          Handle:= SystemInformationOld.Handle[Index].Handle;
+          Object_:= SystemInformationOld.Handle[Index].Object_;
+          ProcessId:= SystemInformationOld.Handle[Index].ProcessId;
+          GrantedAccess:= SystemInformationOld.Handle[Index].GrantedAccess;
+          ObjectTypeNumber:= SystemInformationOld.Handle[Index].ObjectTypeNumber;
+        end;
+      end;
+      SystemInformation.Count:= SystemInformationOld.Count;
+    end;
+    FreeMem(SystemInformationOld);
+  end;
 end;
 
 function GetFileNameOld(hFile: HANDLE): UnicodeString;
@@ -151,7 +208,7 @@ begin
       ProcessId:= GetCurrentProcessId;
       for Index:= 0 to SystemInformation^.Count - 1 do
       begin
-        if (SystemInformation^.Handle[Index].Handle = USHORT(Handle)) and (SystemInformation^.Handle[Index].ProcessId = ProcessId) then
+        if (SystemInformation^.Handle[Index].Handle = Handle) and (SystemInformation^.Handle[Index].ProcessId = ProcessId) then
         begin
           Result:= SystemInformation^.Handle[Index].ObjectTypeNumber;
           Break;
