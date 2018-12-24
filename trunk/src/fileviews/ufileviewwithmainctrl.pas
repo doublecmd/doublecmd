@@ -468,7 +468,7 @@ begin
 {$ENDIF}
     ChooseFile(FFiles[FileIndex]);
   end
-  else if gDblClickToParent then
+  else if gDblClickToParent and AtFileList then
   begin
     ChangePathToParent(True);
   end;
