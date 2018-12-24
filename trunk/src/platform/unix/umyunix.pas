@@ -162,6 +162,12 @@ function getgrgid(gid: gid_t): PGroupRecord; cdecl; external libc name 'getgrgid
 }
 function getgrnam(name: PChar): PGroupRecord; cdecl; external libc name 'getgrnam';
 {en
+   The getenv() function searches the environment list to find the
+   environment variable name, and returns a pointer to the corresponding
+   value string.
+}
+function getenv(name: PAnsiChar): PAnsiChar; cdecl; external libc name 'getenv';
+{en
    Change or add an environment variable
    @param(name Environment variable name)
    @param(value Environment variable value)

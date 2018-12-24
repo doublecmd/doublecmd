@@ -1001,7 +1001,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= SysToUTF8(GetEnvironmentVariable(UTF8ToSys(sName)));
+  Result:= CeSysToUtf8(getenv(PAnsiChar(CeUtf8ToSys(sName))));
 end;
 {$ENDIF}
 
