@@ -3,7 +3,7 @@
 # This script updates Double Commander Open Build Service (OBS) repository
 
 # Set Double Commander version
-DC_VER=0.9.0
+DC_VER=1.0.0
 
 # Temp directory
 DC_TEMP_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
