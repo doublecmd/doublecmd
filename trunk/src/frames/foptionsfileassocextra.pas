@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Extra File Associations Configuration
 
-    Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2016-2019 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,9 +15,8 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 
@@ -29,22 +28,38 @@ interface
 
 uses
   Classes, SysUtils,
-  fOptionsFrame, StdCtrls, ExtCtrls;
-
+  fOptionsFrame, StdCtrls, ExtCtrls, Buttons, EditBtn, Menus;
+  
 type
 
   { TfrmOptionsFileAssocExtra }
 
   TfrmOptionsFileAssocExtra = class(TOptionsEditor)
+    btnPathToBeRelativeToAll: TButton;
+    btnPathToBeRelativeToHelper: TSpeedButton;
     cbOfferToAddToFileAssociations: TCheckBox;
     cbExecuteViaShell: TCheckBox;
     cbExtendedContextMenu: TCheckBox;
     cbOpenSystemWithTerminalClose: TCheckBox;
     cbOpenSystemWithTerminalStayOpen: TCheckBox;
     cbIncludeConfigFileAssoc: TCheckBox;
+    cbFileAssocFilenameStyle: TComboBox;
+    ckbFileAssocCommand: TCheckBox;
+    ckbFileAssocIcons: TCheckBox;
+    ckbFileAssocStartPath: TCheckBox;
+    dePathToBeRelativeTo: TDirectoryEdit;
     gbExtendedContextMenuOptions: TGroupBox;
+    gbToolbarOptionsExtra: TGroupBox;
+    lblApplySettingsFor: TLabel;
+    lbPathToBeRelativeTo: TLabel;
+    lbFileAssocFilenameStyle: TLabel;
+    pmPathToBeRelativeToHelper: TPopupMenu;
+    procedure btnPathToBeRelativeToAllClick(Sender: TObject);
+    procedure btnPathToBeRelativeToHelperClick(Sender: TObject);
     procedure cbExtendedContextMenuChange(Sender: TObject);
+    procedure cbFileAssocFilenameStyleChange(Sender: TObject);
   protected
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -57,9 +72,18 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng;
+  //Lazarus, Free-Pascal, etc.
+  Controls,
+
+  //DC
+  DCStrUtils, uGlobs, uLng, uSpecialDir, fOptions, fOptionsFileAssoc;
 
 {TfrmOptionsFileAssocExtra}
+
+procedure TfrmOptionsFileAssocExtra.Init;
+begin
+  ParseLineToList(rsPluginFilenameStyleList, cbFileAssocFilenameStyle.Items);
+end;
 
 { TfrmOptionsFileAssocExtra.GetTitle }
 class function TfrmOptionsFileAssocExtra.GetTitle: string;
@@ -89,6 +113,14 @@ begin
   cbExecuteViaShell.Checked := gOpenExecuteViaShell;
   cbIncludeConfigFileAssoc.Checked := gIncludeFileAssociation;
   cbExtendedContextMenuChange(cbExtendedContextMenu);
+  cbFileAssocFilenameStyle.ItemIndex := integer(gFileAssocFilenameStyle);
+  cbFileAssocFilenameStyleChange(cbFileAssocFilenameStyle);
+  dePathToBeRelativeTo.Text := gFileAssocPathToBeRelativeTo;
+  ckbFileAssocIcons.Checked := fameIcon in gFileAssocPathModifierElements;
+  ckbFileAssocCommand.Checked := fameCommand in gFileAssocPathModifierElements;
+  ckbFileAssocStartPath.Checked := fameStartingPath in gFileAssocPathModifierElements;
+  gSpecialDirList.PopulateMenuWithSpecialDir(pmPathToBeRelativeToHelper, mp_PATHHELPER, nil);
+
 end;
 
 { TfrmOptionsFileAssocExtra.Save }
@@ -100,7 +132,43 @@ begin
   gExecuteViaTerminalClose := cbOpenSystemWithTerminalClose.Checked;
   gOpenExecuteViaShell := cbExecuteViaShell.Checked;
   gIncludeFileAssociation := cbIncludeConfigFileAssoc.Checked;
+  gFileAssocFilenameStyle := TConfigFilenameStyle(cbFileAssocFilenameStyle.ItemIndex);
+  gFileAssocPathToBeRelativeTo := dePathToBeRelativeTo.Text;
+  gFileAssocPathModifierElements := [];
+  if ckbFileAssocIcons.Checked then gFileAssocPathModifierElements := gFileAssocPathModifierElements + [fameIcon];
+  if ckbFileAssocCommand.Checked then gFileAssocPathModifierElements := gFileAssocPathModifierElements + [fameCommand];
+  if ckbFileAssocStartPath.Checked then gFileAssocPathModifierElements := gFileAssocPathModifierElements + [fameStartingPath];
   Result := [];
 end;
+
+{ TfrmOptionsFileAssocExtra.btnPathToBeRelativeToHelperClick }
+procedure TfrmOptionsFileAssocExtra.btnPathToBeRelativeToHelperClick(Sender: TObject);
+begin
+  dePathToBeRelativeTo.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(dePathToBeRelativeTo, pfPATH);
+  pmPathToBeRelativeToHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+{ TfrmOptionsFileAssocExtra.cbFileAssocFilenameStyleChange }
+procedure TfrmOptionsFileAssocExtra.cbFileAssocFilenameStyleChange(Sender: TObject);
+begin
+  lbPathToBeRelativeTo.Visible := (TConfigFilenameStyle(cbFileAssocFilenameStyle.ItemIndex) = TConfigFilenameStyle.pfsRelativeToFollowingPath);
+  dePathToBeRelativeTo.Visible := lbPathToBeRelativeTo.Visible;
+  btnPathToBeRelativeToHelper.Visible := lbPathToBeRelativeTo.Visible;
+end;
+
+{ TfrmOptionsFileAssocExtra.btnPathToBeRelativeToAllClick }
+procedure TfrmOptionsFileAssocExtra.btnPathToBeRelativeToAllClick(Sender: TObject);
+var
+  Options: IOptionsDialog;
+  Editor: TOptionsEditor;
+begin
+  Self.SaveSettings; //Call "SaveSettings" instead of just "Save" to get option signature set right away do we don't bother user for that page when close.
+  Options := ShowOptions(TfrmOptionsFileAssoc);
+  Editor := Options.GetEditor(TfrmOptionsFileAssoc);
+  TfrmOptionsFileAssoc(Editor).ScanFileAssocForFilenameAndPath;
+  ShowOptions(TfrmOptionsFileAssoc);
+end;
+
 
 end.

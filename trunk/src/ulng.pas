@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Localization core unit
 
-   Copyright (C) 2007-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -698,11 +698,13 @@ resourcestring
   rsOptionsEditorQuickSearch = 'Quick search/filter';
   rsOptionsEditorTerminal = 'Terminal';
   rsOptionsEditorToolbar = 'Toolbar';
+  rsOptionsEditorToolbarExtra = 'Toolbar Extra';
   rsOptionsEditorTools = 'Tools';
   rsOptionsEditorTooltips = 'Tooltips';
   rsOptionsEditorFileAssoc = 'File associations';
   rsOptionsEditorFileAssicExtra = 'File associations extra';
   rsOptionsEditorDirectoryHotlist = 'Directory Hotlist';
+  rsOptionsEditorDirectoryHotlistExtra = 'Directory Hotlist Extra';
   rsOptionsEditorFavoriteTabs = 'Favorite Tabs';
   rsOptionsEditorOptionsChanged = 'Options have changed in "%s"'+#$0A+#$0A+'Do you want to save modifications?';
   rsOptionsEditorFileSearch = 'File search';

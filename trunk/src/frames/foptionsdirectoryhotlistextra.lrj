@@ -1,0 +1,9 @@
+{"version":1,"strings":[
+{"hash":5671667,"name":"tfrmoptionsdirectoryhotlistextra.gbdirectoryhotlistoptionsextra.caption","sourcebytes":[80,97,116,104,115],"value":"Paths"},
+{"hash":197101002,"name":"tfrmoptionsdirectoryhotlistextra.lbdirectoryhotlistfilenamestyle.caption","sourcebytes":[87,97,121,32,116,111,32,115,101,116,32,112,97,116,104,115,32,119,104,101,110,32,97,100,100,105,110,103,32,116,104,101,109,58],"value":"Way to set paths when adding them:"},
+{"hash":256553386,"name":"tfrmoptionsdirectoryhotlistextra.lbpathtoberelativeto.caption","sourcebytes":[80,97,116,104,32,116,111,32,98,101,32,114,101,108,97,116,105,118,101,32,116,111,58],"value":"Path to be relative to:"},
+{"hash":171552500,"name":"tfrmoptionsdirectoryhotlistextra.btnpathtoberelativetoall.caption","sourcebytes":[65,112,112,108,121,32,99,117,114,114,101,110,116,32,115,101,116,116,105,110,103,115,32,116,111,32,100,105,114,101,99,116,111,114,121,32,104,111,116,108,105,115,116],"value":"Apply current settings to directory hotlist"},
+{"hash":94816405,"name":"tfrmoptionsdirectoryhotlistextra.ckbdirectoryhotlistsource.caption","sourcebytes":[83,111,117,114,99,101],"value":"Source"},
+{"hash":104754538,"name":"tfrmoptionsdirectoryhotlistextra.lblapplysettingsfor.caption","sourcebytes":[68,111,32,116,104,105,115,32,102,111,114,32,112,97,116,104,115,32,111,102,58],"value":"Do this for paths of:"},
+{"hash":94932420,"name":"tfrmoptionsdirectoryhotlistextra.ckbdirectoryhotlisttarget.caption","sourcebytes":[84,97,114,103,101,116],"value":"Target"}
+]}

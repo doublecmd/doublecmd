@@ -631,6 +631,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Hint = 'Command to execute. Never quote this string.'
           Top = 27
           Width = 413
+          OnAcceptFileName = fneCommandAcceptFileName
           DialogOptions = []
           FilterIndex = 0
           HideDirectories = False
@@ -841,6 +842,7 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
           Hint = 'Starting path of the command. Never quote this string.'
           Top = 77
           Width = 413
+          OnAcceptDirectory = deStartPathAcceptDirectory
           ShowHidden = False
           ButtonWidth = 23
           NumGlyphs = 1

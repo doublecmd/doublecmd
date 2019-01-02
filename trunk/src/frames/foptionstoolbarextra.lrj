@@ -1,0 +1,11 @@
+{"version":1,"strings":[
+{"hash":5671667,"name":"tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption","sourcebytes":[80,97,116,104,115],"value":"Paths"},
+{"hash":75021338,"name":"tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption","sourcebytes":[87,97,121,32,116,111,32,115,101,116,32,112,97,116,104,115,32,119,104,101,110,32,97,100,100,105,110,103,32,101,108,101,109,101,110,116,115,32,102,111,114,32,105,99,111,110,115,44,32,99,111,109,109,97,110,100,115,32,97,110,100,32,115,116,97,114,116,105,110,103,32,112,97,116,104,115,58],"value":"Way to set paths when adding elements for icons, commands and starting paths:"},
+{"hash":210292016,"name":"tfrmoptionstoolbarextra.cbtoolbarfilenamestyle.hint","sourcebytes":[116,101,114,98,102,100,103,32],"value":"terbfdg "},
+{"hash":256553386,"name":"tfrmoptionstoolbarextra.lbpathtoberelativeto.caption","sourcebytes":[80,97,116,104,32,116,111,32,98,101,32,114,101,108,97,116,105,118,101,32,116,111,58],"value":"Path to be relative to:"},
+{"hash":163913811,"name":"tfrmoptionstoolbarextra.btnpathtoberelativetoall.caption","sourcebytes":[65,112,112,108,121,32,99,117,114,114,101,110,116,32,115,101,116,116,105,110,103,115,32,116,111,32,97,108,108,32,99,111,110,102,105,103,117,114,101,100,32,102,105,108,101,110,97,109,101,115,32,97,110,100,32,112,97,116,104,115],"value":"Apply current settings to all configured filenames and paths"},
+{"hash":5219923,"name":"tfrmoptionstoolbarextra.ckbtoolbaricons.caption","sourcebytes":[73,99,111,110,115],"value":"Icons"},
+{"hash":47274650,"name":"tfrmoptionstoolbarextra.lblapplysettingsfor.caption","sourcebytes":[68,111,32,116,104,105,115,32,102,111,114,32,102,105,108,101,115,32,97,110,100,32,112,97,116,104,115,32,102,111,114,58],"value":"Do this for files and paths for:"},
+{"hash":105086995,"name":"tfrmoptionstoolbarextra.ckbtoolbarcommand.caption","sourcebytes":[67,111,109,109,97,110,100,115],"value":"Commands"},
+{"hash":67051795,"name":"tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption","sourcebytes":[83,116,97,114,116,105,110,103,32,112,97,116,104,115],"value":"Starting paths"}
+]}

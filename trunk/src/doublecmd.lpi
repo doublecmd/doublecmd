@@ -284,7 +284,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="249">
+    <Units Count="251">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -466,7 +466,9 @@ end;"/>
       <Unit24>
         <Filename Value="frames\foptionsfileassocextra.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsFileAssocExtra"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsFileAssocExtra"/>
       </Unit24>
       <Unit25>
@@ -1796,10 +1798,26 @@ end;"/>
         <UnitName Value="fOptionsFilesViewsComplement"/>
       </Unit247>
       <Unit248>
+        <Filename Value="frames\foptionstoolbarextra.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsToolbarExtra"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsToolbarExtra"/>
+      </Unit248>
+      <Unit249>
+        <Filename Value="frames\foptionsdirectoryhotlistextra.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsDirectoryHotlistExtra"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsDirectoryHotlistExtra"/>
+      </Unit249>
+      <Unit250>
         <Filename Value="uvariablemenusupport.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uVariableMenuSupport"/>
-      </Unit248>
+      </Unit250>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
