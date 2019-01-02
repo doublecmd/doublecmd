@@ -5951,7 +5951,7 @@ msgid "Icons"
 msgstr "Іконки"
 
 #: tfrmoptionsfileassocextra.ckbfileassocstartpath.caption
-msgid "Starting path"
+msgid "Starting paths"
 msgstr ""
 
 #: tfrmoptionsfileassocextra.gbextendedcontextmenuoptions.caption
@@ -5970,7 +5970,7 @@ msgstr ""
 
 #: tfrmoptionsfileassocextra.lblapplysettingsfor.caption
 msgctxt "tfrmoptionsfileassocextra.lblapplysettingsfor.caption"
-msgid "Do this for fles and path for:"
+msgid "Do this for files and path for:"
 msgstr ""
 
 #: tfrmoptionsfileassocextra.lbpathtoberelativeto.caption

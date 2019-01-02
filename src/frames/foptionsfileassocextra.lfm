@@ -241,7 +241,7 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = dePathToBeRelativeTo
       AnchorSideTop.Side = asrBottom
-      Left = 159
+      Left = 162
       Height = 19
       Top = 85
       Width = 48
@@ -256,8 +256,8 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
       Left = 6
       Height = 15
       Top = 87
-      Width = 147
-      Caption = 'Do this for fles and path for:'
+      Width = 150
+      Caption = 'Do this for files and path for:'
       ParentColor = False
     end
     object ckbFileAssocCommand: TCheckBox
@@ -265,7 +265,7 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = dePathToBeRelativeTo
       AnchorSideTop.Side = asrBottom
-      Left = 213
+      Left = 216
       Height = 19
       Top = 85
       Width = 82
@@ -278,12 +278,12 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = dePathToBeRelativeTo
       AnchorSideTop.Side = asrBottom
-      Left = 301
+      Left = 304
       Height = 19
       Top = 85
-      Width = 88
+      Width = 93
       BorderSpacing.Left = 6
-      Caption = 'Starting path'
+      Caption = 'Starting paths'
       TabOrder = 5
     end
   end
