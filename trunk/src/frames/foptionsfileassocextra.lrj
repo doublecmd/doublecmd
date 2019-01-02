@@ -12,7 +12,7 @@
 {"hash":256553386,"name":"tfrmoptionsfileassocextra.lbpathtoberelativeto.caption","sourcebytes":[80,97,116,104,32,116,111,32,98,101,32,114,101,108,97,116,105,118,101,32,116,111,58],"value":"Path to be relative to:"},
 {"hash":49744051,"name":"tfrmoptionsfileassocextra.btnpathtoberelativetoall.caption","sourcebytes":[65,112,112,108,121,32,99,117,114,114,101,110,116,32,115,101,116,116,105,110,103,115,32,116,111,32,97,108,108,32,99,117,114,114,101,110,116,32,99,111,110,102,105,103,117,114,101,100,32,102,105,108,101,110,97,109,101,115,32,97,110,100,32,112,97,116,104,115],"value":"Apply current settings to all current configured filenames and paths"},
 {"hash":5219923,"name":"tfrmoptionsfileassocextra.ckbfileassocicons.caption","sourcebytes":[73,99,111,110,115],"value":"Icons"},
-{"hash":215337226,"name":"tfrmoptionsfileassocextra.lblapplysettingsfor.caption","sourcebytes":[68,111,32,116,104,105,115,32,102,111,114,32,102,108,101,115,32,97,110,100,32,112,97,116,104,32,102,111,114,58],"value":"Do this for fles and path for:"},
+{"hash":209637018,"name":"tfrmoptionsfileassocextra.lblapplysettingsfor.caption","sourcebytes":[68,111,32,116,104,105,115,32,102,111,114,32,102,105,108,101,115,32,97,110,100,32,112,97,116,104,32,102,111,114,58],"value":"Do this for files and path for:"},
 {"hash":105086995,"name":"tfrmoptionsfileassocextra.ckbfileassoccommand.caption","sourcebytes":[67,111,109,109,97,110,100,115],"value":"Commands"},
-{"hash":239071768,"name":"tfrmoptionsfileassocextra.ckbfileassocstartpath.caption","sourcebytes":[83,116,97,114,116,105,110,103,32,112,97,116,104],"value":"Starting path"}
+{"hash":67051795,"name":"tfrmoptionsfileassocextra.ckbfileassocstartpath.caption","sourcebytes":[83,116,97,114,116,105,110,103,32,112,97,116,104,115],"value":"Starting paths"}
 ]}
