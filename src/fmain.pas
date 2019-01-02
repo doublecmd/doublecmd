@@ -2,7 +2,7 @@
    Double Commander
    -------------------------------------------------------------------------
    Licence  : GNU GPL v 2.0
-   Copyright (C) 2006-2018 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (Alexx2000@mail.ru)
 
    Main Dialog window
 
@@ -2063,11 +2063,11 @@ begin
         if Assigned(aFile) and aFile.IsNameValid then
         begin
           ToolItem := TKASProgramItem.Create;
-          ToolItem.Command := aFile.FullPath;
-          ToolItem.StartPath := aFile.Path;
+          ToolItem.Command := GetToolbarFilenameToSave(tpmeCommand, aFile.FullPath);
+          ToolItem.StartPath := GetToolbarFilenameToSave(tpmeStartingPath, aFile.Path);
           ToolItem.Hint := ExtractOnlyFileName(aFile.Name);
           // ToolItem.Text := ExtractOnlyFileName(aFile.Name);
-          ToolItem.Icon := aFile.FullPath;
+          ToolItem.Icon := GetToolbarFilenameToSave(tpmeIcon, aFile.FullPath);
           MainToolBar.AddButton(ToolItem);
         end;
       finally

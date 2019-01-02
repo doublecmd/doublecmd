@@ -1,114 +1,21 @@
-inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
-  Height = 508
-  Width = 937
-  AutoSize = True
-  BorderSpacing.Around = 6
+inherited frmOptionsToolbarExtra: TfrmOptionsToolbarExtra
+  Height = 573
+  Width = 850
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 508
-  ClientWidth = 937
-  ParentShowHint = False
-  ShowHint = True
-  DesignLeft = 141
-  DesignTop = 288
-  object cbOfferToAddToFileAssociations: TCheckBox[0]
+  ClientHeight = 573
+  ClientWidth = 850
+  DesignLeft = 221
+  DesignTop = 229
+  object gbToolbarOptionsExtra: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
-    Left = 6
-    Height = 19
-    Hint = 'When accessing file association, offer to add current selected file if not already included in a configured file type'
-    Top = 6
-    Width = 372
-    Caption = 'Offer to add selection to file association when not included already'
-    TabOrder = 0
-  end
-  object gbExtendedContextMenuOptions: TGroupBox[1]
-    AnchorSideLeft.Control = cbOfferToAddToFileAssociations
-    AnchorSideTop.Control = cbExtendedContextMenu
-    AnchorSideTop.Side = asrBottom
-    Left = 6
-    Height = 124
-    Top = 58
-    Width = 222
-    AutoSize = True
-    BorderSpacing.Top = 4
-    Caption = 'Extended options items:'
-    ChildSizing.LeftRightSpacing = 8
-    ChildSizing.TopBottomSpacing = 8
-    ClientHeight = 104
-    ClientWidth = 218
-    TabOrder = 1
-    object cbExecuteViaShell: TCheckBox
-      AnchorSideLeft.Control = gbExtendedContextMenuOptions
-      AnchorSideTop.Control = gbExtendedContextMenuOptions
-      Left = 8
-      Height = 19
-      Top = 8
-      Width = 105
-      BorderSpacing.Top = 4
-      Caption = 'Execute via shell'
-      TabOrder = 0
-    end
-    object cbOpenSystemWithTerminalClose: TCheckBox
-      AnchorSideLeft.Control = cbExecuteViaShell
-      AnchorSideTop.Control = cbExecuteViaShell
-      AnchorSideTop.Side = asrBottom
-      Left = 8
-      Height = 19
-      Top = 31
-      Width = 178
-      BorderSpacing.Top = 4
-      Caption = 'Execute via terminal and close'
-      TabOrder = 1
-    end
-    object cbOpenSystemWithTerminalStayOpen: TCheckBox
-      AnchorSideLeft.Control = cbExecuteViaShell
-      AnchorSideTop.Control = cbOpenSystemWithTerminalClose
-      AnchorSideTop.Side = asrBottom
-      Left = 8
-      Height = 19
-      Top = 54
-      Width = 202
-      BorderSpacing.Top = 4
-      Caption = 'Execute via terminal and stay open'
-      TabOrder = 2
-    end
-    object cbIncludeConfigFileAssoc: TCheckBox
-      AnchorSideLeft.Control = cbExecuteViaShell
-      AnchorSideTop.Control = cbOpenSystemWithTerminalStayOpen
-      AnchorSideTop.Side = asrBottom
-      Left = 8
-      Height = 19
-      Top = 77
-      Width = 175
-      BorderSpacing.Top = 4
-      Caption = 'File association configuration'
-      TabOrder = 3
-    end
-  end
-  object cbExtendedContextMenu: TCheckBox[2]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = cbOfferToAddToFileAssociations
-    AnchorSideTop.Side = asrBottom
-    Left = 6
-    Height = 19
-    Top = 35
-    Width = 144
-    BorderSpacing.Top = 10
-    Caption = 'Extended context menu'
-    OnChange = cbExtendedContextMenuChange
-    TabOrder = 2
-  end
-  object gbToolbarOptionsExtra: TGroupBox[3]
-    AnchorSideLeft.Control = cbOfferToAddToFileAssociations
-    AnchorSideTop.Control = gbExtendedContextMenuOptions
-    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 161
-    Top = 182
-    Width = 925
+    Top = 6
+    Width = 838
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     Caption = 'Paths'
@@ -117,9 +24,9 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
     ChildSizing.HorizontalSpacing = 2
     ChildSizing.VerticalSpacing = 6
     ClientHeight = 141
-    ClientWidth = 921
-    TabOrder = 3
-    object lbFileAssocFilenameStyle: TLabel
+    ClientWidth = 834
+    TabOrder = 0
+    object lbToolbarFilenameStyle: TLabel
       AnchorSideLeft.Control = gbToolbarOptionsExtra
       AnchorSideTop.Control = gbToolbarOptionsExtra
       Left = 6
@@ -129,29 +36,30 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
       Caption = 'Way to set paths when adding elements for icons, commands and starting paths:'
       ParentColor = False
     end
-    object cbFileAssocFilenameStyle: TComboBox
-      AnchorSideLeft.Control = lbFileAssocFilenameStyle
-      AnchorSideTop.Control = lbFileAssocFilenameStyle
+    object cbToolbarFilenameStyle: TComboBox
+      AnchorSideLeft.Control = lbToolbarFilenameStyle
+      AnchorSideTop.Control = lbToolbarFilenameStyle
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = gbToolbarOptionsExtra
       AnchorSideRight.Side = asrBottom
       Left = 6
       Height = 23
+      Hint = 'terbfdg '
       Top = 27
-      Width = 909
+      Width = 822
       Anchors = [akTop, akLeft, akRight]
       ItemHeight = 15
-      OnChange = cbFileAssocFilenameStyleChange
+      OnChange = cbToolbarFilenameStyleChange
       Style = csDropDownList
       TabOrder = 0
     end
     object btnPathToBeRelativeToHelper: TSpeedButton
       AnchorSideTop.Control = dePathToBeRelativeTo
-      AnchorSideRight.Control = cbFileAssocFilenameStyle
+      AnchorSideRight.Control = cbToolbarFilenameStyle
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = dePathToBeRelativeTo
       AnchorSideBottom.Side = asrBottom
-      Left = 892
+      Left = 805
       Height = 23
       Top = 56
       Width = 23
@@ -197,13 +105,13 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
     object dePathToBeRelativeTo: TDirectoryEdit
       AnchorSideLeft.Control = lbPathToBeRelativeTo
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbFileAssocFilenameStyle
+      AnchorSideTop.Control = cbToolbarFilenameStyle
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnPathToBeRelativeToHelper
       Left = 120
       Height = 23
       Top = 56
-      Width = 770
+      Width = 683
       ShowHidden = False
       ButtonWidth = 23
       NumGlyphs = 1
@@ -213,7 +121,7 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
       TabOrder = 1
     end
     object lbPathToBeRelativeTo: TLabel
-      AnchorSideLeft.Control = lbFileAssocFilenameStyle
+      AnchorSideLeft.Control = lbToolbarFilenameStyle
       AnchorSideTop.Control = dePathToBeRelativeTo
       AnchorSideTop.Side = asrCenter
       Left = 6
@@ -224,24 +132,24 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
       ParentColor = False
     end
     object btnPathToBeRelativeToAll: TButton
-      AnchorSideLeft.Control = lbFileAssocFilenameStyle
-      AnchorSideTop.Control = ckbFileAssocIcons
+      AnchorSideLeft.Control = lbToolbarFilenameStyle
+      AnchorSideTop.Control = ckbToolbarIcons
       AnchorSideTop.Side = asrBottom
       Left = 6
       Height = 25
       Top = 110
-      Width = 382
+      Width = 341
       AutoSize = True
-      Caption = 'Apply current settings to all current configured filenames and paths'
+      Caption = 'Apply current settings to all configured filenames and paths'
       OnClick = btnPathToBeRelativeToAllClick
       TabOrder = 2
     end
-    object ckbFileAssocIcons: TCheckBox
+    object ckbToolbarIcons: TCheckBox
       AnchorSideLeft.Control = lblApplySettingsFor
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = dePathToBeRelativeTo
       AnchorSideTop.Side = asrBottom
-      Left = 159
+      Left = 167
       Height = 19
       Top = 85
       Width = 48
@@ -250,22 +158,22 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
       TabOrder = 3
     end
     object lblApplySettingsFor: TLabel
-      AnchorSideLeft.Control = lbFileAssocFilenameStyle
-      AnchorSideTop.Control = ckbFileAssocIcons
+      AnchorSideLeft.Control = lbToolbarFilenameStyle
+      AnchorSideTop.Control = ckbToolbarIcons
       AnchorSideTop.Side = asrCenter
       Left = 6
       Height = 15
       Top = 87
-      Width = 147
-      Caption = 'Do this for fles and path for:'
+      Width = 155
+      Caption = 'Do this for files and paths for:'
       ParentColor = False
     end
-    object ckbFileAssocCommand: TCheckBox
-      AnchorSideLeft.Control = ckbFileAssocIcons
+    object ckbToolbarCommand: TCheckBox
+      AnchorSideLeft.Control = ckbToolbarIcons
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = dePathToBeRelativeTo
       AnchorSideTop.Side = asrBottom
-      Left = 213
+      Left = 221
       Height = 19
       Top = 85
       Width = 82
@@ -273,22 +181,22 @@ inherited frmOptionsFileAssocExtra: TfrmOptionsFileAssocExtra
       Caption = 'Commands'
       TabOrder = 4
     end
-    object ckbFileAssocStartPath: TCheckBox
-      AnchorSideLeft.Control = ckbFileAssocCommand
+    object ckbToolbarStartPath: TCheckBox
+      AnchorSideLeft.Control = ckbToolbarCommand
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = dePathToBeRelativeTo
       AnchorSideTop.Side = asrBottom
-      Left = 301
+      Left = 309
       Height = 19
       Top = 85
-      Width = 88
+      Width = 93
       BorderSpacing.Left = 6
-      Caption = 'Starting path'
+      Caption = 'Starting paths'
       TabOrder = 5
     end
   end
-  object pmPathToBeRelativeToHelper: TPopupMenu[4]
-    left = 596
-    top = 140
+  object pmPathToBeRelativeToHelper: TPopupMenu[1]
+    left = 568
+    top = 112
   end
 end

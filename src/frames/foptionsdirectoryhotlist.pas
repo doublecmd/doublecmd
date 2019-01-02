@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Configuration of HotDir
 
-   Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,12 +26,15 @@ unit foptionsDirectoryHotlist;
 interface
 
 uses
+  //Lazarus, Free-Pascal, etc.
+  ActnList, SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls,
+  Menus, Dialogs, ComCtrls, types,
+
+  //DC
   {$IFDEF MSWINDOWS}
   uTotalCommander,
   {$ENDIF}
-  ActnList, SysUtils, Classes, Controls, Forms, StdCtrls, Buttons,
-  ExtCtrls, Menus, Dialogs, ComCtrls, uHotDir, types, fOptionsFrame,
-  uFile;
+  uGlobs, fOptionsFrame, uFile, uHotDir;
 
 type
   TProcedureWhenClickingAMenuItem = procedure(Sender: TObject) of object;
@@ -257,6 +260,8 @@ type
     function ExtraOptionsSignature(CurrentSignature: dword): dword; override;
     destructor Destroy; override;
     procedure SubmitToAddOrConfigToHotDirDlg(paramActionDispatcher: integer; paramPath, paramTarget: string; paramOptionalIndex: integer);
+    procedure ScanHotDirForFilenameAndPath;
+    function GetHotDirFilenameToSave(AHotDirPathModifierElement: tHotDirPathModifierElement; sParamFilename: string): string;
   end;
 
 implementation
@@ -268,7 +273,7 @@ uses
   Graphics, LCLType, LazUTF8, LCLIntf, LCLMessageGlue, helpintfs,
 
   //DC
-  fEditSearch, fOptionsMisc, DCStrUtils, uGlobs, uLng, uDCUtils, fmain,
+  fEditSearch, fOptionsMisc, DCStrUtils, uLng, uDCUtils, fmain,
   uFormCommands, uFileProcs, uShowMsg, DCOSUtils, uSpecialDir,
   fhotdirexportimport, uComponentsSignature;
 
@@ -1755,8 +1760,8 @@ begin
   LocalHotDir := THotDir.Create;
   LocalHotDir.Dispatcher := ParamDispatcher;
   LocalHotDir.HotDirName := sName;
-  LocalHotDir.HotDirPath := IncludeTrailingPathDelimiter(sPath);
-  if sTarget <> '' then LocalHotDir.HotDirTarget := IncludeTrailingPathDelimiter(sTarget);
+  LocalHotDir.HotDirPath := IncludeTrailingPathDelimiter(GetHotDirFilenameToSave(hdpmSource, sPath));
+  if sTarget <> '' then LocalHotDir.HotDirTarget := IncludeTrailingPathDelimiter(GetHotDirFilenameToSave(hdpmTarget, sTarget));
   DirectoryHotlistTemp.Add(LocalHotDir);
   WorkingTreeNode := tvDirectoryHotlist.Selected;
   if WorkingTreeNode <> nil then
@@ -2142,6 +2147,46 @@ function TfrmOptionsDirectoryHotlist.GetNextGroupNumber: integer;
 begin
   GlobalGroupNumber := GlobalGroupNumber + 1;
   Result := GlobalGroupNumber;
+end;
+
+procedure TfrmOptionsDirectoryHotlist.ScanHotDirForFilenameAndPath;
+var
+  Index: integer;
+begin
+  for Index := 0 to pred(DirectoryHotlistTemp.Count) do
+  begin
+    case THotDir(DirectoryHotlistTemp.HotDir[Index]).Dispatcher of
+      hd_CHANGEPATH:
+      begin
+        DirectoryHotlistTemp.HotDir[Index].HotDirPath := GetHotDirFilenameToSave(hdpmSource ,DirectoryHotlistTemp.HotDir[Index].HotDirPath);
+        if DirectoryHotlistTemp.HotDir[Index].HotDirTarget <> '' then DirectoryHotlistTemp.HotDir[Index].HotDirTarget := GetHotDirFilenameToSave(hdpmTarget, DirectoryHotlistTemp.HotDir[Index].HotDirTarget);
+      end;
+    end;
+  end;
+  tvDirectoryHotlistSelectionChanged(tvDirectoryHotlist);
+end;
+
+function TfrmOptionsDirectoryHotlist.GetHotDirFilenameToSave(AHotDirPathModifierElement: tHotDirPathModifierElement; sParamFilename: string): string;
+var
+  sMaybeBasePath, SubWorkingPath, MaybeSubstitionPossible: string;
+begin
+  sParamFilename := mbExpandFileName(sParamFilename);
+  Result := sParamFilename;
+
+  if AHotDirPathModifierElement in gHotDirPathModifierElements then
+  begin
+    if gHotDirFilenameStyle = pfsRelativeToDC then sMaybeBasePath := EnvVarCommanderPath else sMaybeBasePath := gHotDirPathToBeRelativeTo;
+    case gHotDirFilenameStyle of
+      pfsAbsolutePath: ;
+      pfsRelativeToDC, pfsRelativeToFollowingPath:
+      begin
+        SubWorkingPath := IncludeTrailingPathDelimiter(mbExpandFileName(sMaybeBasePath));
+        MaybeSubstitionPossible := ExtractRelativePath(IncludeTrailingPathDelimiter(SubWorkingPath), sParamFilename);
+        if MaybeSubstitionPossible <> sParamFilename then
+          Result := IncludeTrailingPathDelimiter(sMaybeBasePath) + MaybeSubstitionPossible;
+      end;
+    end;
+  end;
 end;
 
 end.
