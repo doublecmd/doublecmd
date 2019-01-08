@@ -291,6 +291,24 @@ begin
   AStringList.Free;
 end;
 
+function luaLogWrite(L : Plua_State) : Integer; cdecl;
+var
+  sText: String;
+  bForce: Boolean = True;
+  bLogFile: Boolean = False;
+  LogMsgType: TLogMsgType = lmtInfo;
+begin
+  Result:= 0;
+  sText:= lua_tostring(L, 1);
+  if lua_isnumber(L, 2) then
+    LogMsgType:= TLogMsgType(lua_tointeger(L, 2));
+  if lua_isboolean(L, 3) then
+    bForce:= lua_toboolean(L, 3);
+  if lua_isboolean(L, 4) then
+    bLogFile:= lua_toboolean(L, 4);
+  logWrite(sText, LogMsgType, bForce, bLogFile);
+end;
+
 function luaExecuteCommand(L : Plua_State) : Integer; cdecl;
 var
   Index,
@@ -368,6 +386,7 @@ begin
   lua_setglobal(L, 'Dialogs');
 
   lua_newtable(L);
+    luaP_register(L, 'LogWrite', @luaLogWrite);
     luaP_register(L, 'ExecuteCommand', @luaExecuteCommand);
   lua_setglobal(L, 'DC');
 
