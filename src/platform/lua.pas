@@ -17,9 +17,8 @@ uses
   DynLibs;
 
 type
-  size_t   = type Cardinal;
+  size_t = SizeUInt;
   Psize_t  = ^size_t;
-  PPointer = ^Pointer;
 
   lua_State = record end;
   Plua_State = ^lua_State;
