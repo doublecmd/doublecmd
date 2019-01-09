@@ -194,8 +194,7 @@ begin
   S:= lua_tostring(L, 1);
   FromEnc:= lua_tostring(L, 2);
   ToEnc:= lua_tostring(L, 3);
-  S:= ConvertEncoding(S, FromEnc, ToEnc);
-  lua_pushstring(L, PAnsiChar(S));
+  lua_pushstring(L, ConvertEncoding(S, FromEnc, ToEnc));
 end;
 
 function luaClipbrdClear(L : Plua_State) : Integer; cdecl;
@@ -270,8 +269,8 @@ begin
     lua_pushnil(L);
     Exit;
   end;
-  ACaption:= lua_tostring(L, 1);
-  APrompt:= lua_tostring(L, 2);
+  ACaption:= lua_tocstring(L, 1);
+  APrompt:= lua_tocstring(L, 2);
   ACount:= lua_objlen(L, 3);
   AStringList:= TStringList.Create;
   for AIndex := 1 to ACount do
@@ -462,7 +461,7 @@ begin
 
     // Check execution result
     if Status <> 0 then begin
-      Script:= StrPas(lua_tostring(L, -1));
+      Script:= lua_tostring(L, -1);
       MessageDlg(CeRawToUtf8(Script), mtError, [mbOK], 0);
     end;
 

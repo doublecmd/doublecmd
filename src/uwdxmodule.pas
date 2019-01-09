@@ -1084,7 +1084,7 @@ begin
         ft_string,
         ft_fulltext,
         ft_multiplechoice:
-          Result := StrPas(lua_tostring(L, -1));
+          Result := lua_tostring(L, -1);
         ft_numeric_32:
           Result := Int32(lua_tointeger(L, -1));
         ft_numeric_64:
