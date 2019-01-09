@@ -379,7 +379,7 @@ var
 begin
   if (not lua_isnoneornil(L, 1)) then
   begin
-    filename := lua_tostring(L, 1);
+    filename := lua_tocstring(L, 1);
     if Assigned(filename) then
       opencheck(L, filename, mode)
     else begin
@@ -633,7 +633,7 @@ begin
   begin
     //* is there error information? */
     //* 2nd result is error message */
-    Exit(luaL_error(L, '%s', lua_tostring(L, -n + 1)));
+    Exit(luaL_error(L, '%s', lua_tocstring(L, -n + 1)));
   end;
   if (lua_toboolean(L, lua_upvalueindex(3))) then
   begin  //* generator created file? */
