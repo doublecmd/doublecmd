@@ -4,7 +4,7 @@
    This unit contains DC actions of the main form
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,8 +17,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uMainCommands;
@@ -360,6 +359,7 @@ type
    procedure cm_ConfigTooltips(const {%H-}Params: array of string);
    procedure cm_ConfigPlugins(const {%H-}Params: array of string);
    procedure cm_OpenDriveByIndex(const Params: array of string);
+   procedure cm_AddPlugin(const Params: array of string);
 
    // Internal commands
    procedure cm_ExecuteToolbarItem(const Params: array of string);
@@ -367,7 +367,9 @@ type
 
 implementation
 
-uses uFindFiles, Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHashList,
+uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
+     fOptionsPluginsWDX, fOptionsPluginsWFX, fOptionsPluginsWLX,
+     uFindFiles, Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHashList,
      dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, DCDateTimeUtils, KASToolBar, KASToolItems,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
@@ -5008,6 +5010,97 @@ begin
     GetParamValue(Param, 'category', sCategoryName);
   TfrmOptionsHotkeys(Editor).TryToSelectThatCategory(sCategoryName);
   if Editor.CanFocus then  Editor.SetFocus;
+end;
+
+{ TMainCommands.cm_AddPlugin }
+procedure TMainCommands.cm_AddPlugin(const Params: array of string);
+const
+  sPLUGIN_FAMILY = 'DSX|WCX|WDX|WFX|WLX|';
+  sPLUGIN64_FAMILY = 'DSX64|WCX64|WDX64|WFX64|WLX64|';
+var
+  Param, sValue, sMaybeFilename, sPluginFilename: string;
+  PluginType: TPluginType;
+  Editor: TOptionsEditor;
+  Options: IOptionsDialog;
+  sPluginSuffix: string;
+  iPluginDispatcher: integer = -1;
+
+  procedure SetPluginTypeBasedOnThisString(sSubString:string);
+  begin
+    sSubString := UpperCase(StringReplace(sSubString, '.', '', [rfReplaceAll]));
+    if pos((sSubString+'|'), sPLUGIN_FAMILY) <> 0 then
+    begin
+      sPluginSuffix := sSubString;
+      iPluginDispatcher := ((pos(sPluginSuffix, sPLUGIN_FAMILY) - 1) div 4);
+    end
+    else
+    begin
+      if pos((sSubString+'|'), sPLUGIN64_FAMILY) <> 0 then
+      begin
+        sPluginSuffix := LeftStr(sSubString, 3);
+        iPluginDispatcher := ((pos(sPluginSuffix, sPLUGIN64_FAMILY) - 1) div 6);
+      end;
+    end;
+  end;
+
+begin
+  //1. We initialize our seeking variables.
+  sPluginSuffix := '';
+  sPluginFilename := '';
+
+  //2. Let's parse the parameter to get the wanted ones.
+  for Param in Params do
+  begin
+    if GetParamValue(Param, 'type', sValue) then
+      SetPluginTypeBasedOnThisString(sValue)
+    else if GetParamValue(Param, 'file', sValue) then
+      sPluginFilename := RemoveQuotation(PrepareParameter(sValue));
+  end;
+
+  //3. If user provided no parameter, let's launch the file requester to have user point a file.
+  if Length(Params) = 0 then
+  begin
+    dmComData.OpenDialog.Filter:= ParseLineToFileFilter([rsFilterPluginFiles, '*.dsx;*.wcx;*.wdx;*.wfx;*.wlx;*.dsx64;*.wcx64;*.wdx64;*.wfx64;*.wlx64', rsFilterAnyFiles, '*.*']);
+    dmComData.OpenDialog.InitialDir := frmMain.ActiveNotebook.ActivePage.FileView.CurrentPath;
+    if dmComData.OpenDialog.Execute then
+      sPluginFilename := dmComData.OpenDialog.FileName;
+  end;
+
+  //3. If user provided just the filename, let's guess the plugin type based on file's extension.
+  if (sPluginSuffix = '') AND (sPluginFilename <> '') then
+    SetPluginTypeBasedOnThisString(ExtractFileExt(sPluginFilename));
+
+  //4. If user provided something but did not specify clear parematers, let's assume it's simply directly a filename.
+  if (sPluginSuffix = '') AND (sPluginFilename = '') and (Length(Params) > 0) then
+  begin
+    sMaybeFilename := RemoveQuotation(PrepareParameter(Params[0]));
+    if FileExists(sMaybeFilename) then
+    begin
+      sPluginFilename := sMaybeFilename;
+      SetPluginTypeBasedOnThisString(ExtractFileExt(sPluginFilename));
+    end;
+  end;
+
+  //5. At this point, if we have a filename and have determine plugin type, let's attempt to add the plugin.
+  if (sPluginSuffix <> '') AND (sPluginFilename <> '') then
+  begin
+    if FileExists(sPluginFilename) then
+    begin
+      Options := ShowOptions('TfrmOptionsPlugins' + sPluginSuffix);
+      Application.ProcessMessages;
+      case iPluginDispatcher of
+        0: Editor := Options.GetEditor(TfrmOptionsPluginsDSX);
+        1: Editor := Options.GetEditor(TfrmOptionsPluginsWCX);
+        2: Editor := Options.GetEditor(TfrmOptionsPluginsWDX);
+        3: Editor := Options.GetEditor(TfrmOptionsPluginsWFX);
+        4: Editor := Options.GetEditor(TfrmOptionsPluginsWLX);
+        else exit;
+      end;
+
+      if Editor.CanFocus then Editor.SetFocus;
+      TfrmOptionsPluginsBase(Editor).ActualAddPlugin(sPluginFilename);
+    end;
+  end;
 end;
 
 end.

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Plugins WLX options page
 
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsPluginsWLX;
@@ -44,6 +43,7 @@ type
     function Save: TOptionsEditorSaveFlags; override;
     procedure Done; override;
     procedure stgPluginsOnSelection(Sender: TObject; {%H-}aCol, aRow: integer); override;
+    procedure ActualAddPlugin(sPluginFilename: string); override;
     procedure ActualDeletePlugin(iIndex: integer); override;
     procedure ActualPluginsMove(iSource, iDestination: integer); override;
   public
@@ -154,42 +154,45 @@ begin
   btnConfigPlugin.Enabled := bEnable;
 end;
 
-{ TfrmOptionsPluginsWLX.btnAddPluginClick }
+{ TfrmOptionsPluginsWFX.btnAddPluginClick }
 procedure TfrmOptionsPluginsWLX.btnAddPluginClick(Sender: TObject);
+begin
+  dmComData.OpenDialog.Filter := Format('Viewer plugins (%s)|%s', [WlxMask, WlxMask]);
+  if dmComData.OpenDialog.Execute then
+    ActualAddPlugin(dmComData.OpenDialog.FileName);
+end;
+
+{ TfrmOptionsPluginsWLX.ActualAddPlugin }
+procedure TfrmOptionsPluginsWLX.ActualAddPlugin(sPluginFilename: string);
 const
   cNextLine = LineEnding + LineEnding;
 var
   I, J: integer;
-  sFileName, sPluginName: string;
+  sPluginName: string;
 begin
-  dmComData.OpenDialog.Filter := Format('Viewer plugins (%s)|%s', [WlxMask, WlxMask]);
-  if dmComData.OpenDialog.Execute then
+  if not CheckPlugin(sPluginFilename) then
+    Exit;
+
+  sPluginName := ExtractOnlyFileName(sPluginFilename);
+  I := tmpWLXPlugins.Add(sPluginName, GetPluginFilenameToSave(sPluginFilename), EmptyStr);
+
+  if not tmpWLXPlugins.LoadModule(pred(tmpWLXPlugins.Count)) then
   begin
-    sFileName := dmComData.OpenDialog.FileName;
-    if not CheckPlugin(sFileName) then
-      Exit;
-
-    sPluginName := ExtractOnlyFileName(sFileName);
-    I := tmpWLXPlugins.Add(sPluginName, GetPluginFilenameToSave(sFileName), EmptyStr);
-
-    if not tmpWLXPlugins.LoadModule(pred(tmpWLXPlugins.Count)) then
-    begin
-      MessageDlg(Application.Title, rsMsgInvalidPlugin + cNextLine + GetLoadErrorStr, mtError, [mbOK], 0, mbOK);
-      tmpWLXPlugins.DeleteItem(I);
-      Exit;
-    end;
-    tmpWLXPlugins.GetWlxModule(pred(tmpWLXPlugins.Count)).DetectStr := tmpWLXPlugins.GetWlxModule(pred(tmpWLXPlugins.Count)).CallListGetDetectString;
-
-    stgPlugins.RowCount := stgPlugins.RowCount + 1;
-    J := pred(stgPlugins.RowCount);
-    stgPlugins.Cells[COLNO_ACTIVE, J] := '+';
-    stgPlugins.Cells[COLNO_NAME, J] := tmpWLXPlugins.GetWlxModule(I).Name;
-    stgPlugins.Cells[COLNO_EXT, J] := tmpWLXPlugins.GetWlxModule(I).DetectStr;
-    stgPlugins.Cells[COLNO_FILENAME, J] := tmpWLXPlugins.GetWlxModule(I).FileName;
-    stgPlugins.Row := J; //This will trig automatically the "OnSelection" event.
-    if gPluginInAutoTweak then
-      btnTweakPlugin.click;
+    MessageDlg(Application.Title, rsMsgInvalidPlugin + cNextLine + GetLoadErrorStr, mtError, [mbOK], 0, mbOK);
+    tmpWLXPlugins.DeleteItem(I);
+    Exit;
   end;
+  tmpWLXPlugins.GetWlxModule(pred(tmpWLXPlugins.Count)).DetectStr := tmpWLXPlugins.GetWlxModule(pred(tmpWLXPlugins.Count)).CallListGetDetectString;
+
+  stgPlugins.RowCount := stgPlugins.RowCount + 1;
+  J := pred(stgPlugins.RowCount);
+  stgPlugins.Cells[COLNO_ACTIVE, J] := '+';
+  stgPlugins.Cells[COLNO_NAME, J] := tmpWLXPlugins.GetWlxModule(I).Name;
+  stgPlugins.Cells[COLNO_EXT, J] := tmpWLXPlugins.GetWlxModule(I).DetectStr;
+  stgPlugins.Cells[COLNO_FILENAME, J] := tmpWLXPlugins.GetWlxModule(I).FileName;
+  stgPlugins.Row := J; //This will trig automatically the "OnSelection" event.
+  if gPluginInAutoTweak then
+    btnTweakPlugin.click;
 end;
 
 { TfrmOptionsPluginsWLX.ActualDeletePlugin }

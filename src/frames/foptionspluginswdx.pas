@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Plugins WDX options page
 
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsPluginsWDX;
@@ -43,6 +42,7 @@ type
     function Save: TOptionsEditorSaveFlags; override;
     procedure Done; override;
     procedure stgPluginsOnSelection(Sender: TObject; {%H-}aCol, aRow: integer); override;
+    procedure ActualAddPlugin(sPluginFilename: string); override;
     procedure ActualDeletePlugin(iIndex: integer); override;
     procedure ActualPluginsMove(iSource, iDestination: integer); override;
   public
@@ -151,37 +151,40 @@ end;
 
 { TfrmOptionsPluginsWDX.btnAddPluginClick }
 procedure TfrmOptionsPluginsWDX.btnAddPluginClick(Sender: TObject);
-var
-  I, J: integer;
-  sFileName, sPluginName: string;
 begin
   dmComData.OpenDialog.Filter := Format('Content plugins (%s;*.lua)|%s;*.lua', [WdxMask, WdxMask]);
   if dmComData.OpenDialog.Execute then
+    ActualAddPlugin(dmComData.OpenDialog.FileName);
+end;
+
+{ TfrmOptionsPluginsWDX.ActualAddPlugin }
+procedure TfrmOptionsPluginsWDX.ActualAddPlugin(sPluginFilename: string);
+var
+  I, J: integer;
+  sPluginName: string;
+begin
+  if not (StrEnds(sPluginFilename, '.lua') or CheckPlugin(sPluginFilename)) then
+    Exit;
+
+  sPluginName := ExtractOnlyFileName(sPluginFilename);
+  I := tmpWDXPlugins.Add(sPluginName, GetPluginFilenameToSave(sPluginFilename), EmptyStr);
+
+  if not tmpWDXPlugins.LoadModule(pred(tmpWDXPlugins.Count)) then
   begin
-    sFileName := dmComData.OpenDialog.FileName;
-    if not (StrEnds(sFileName, '.lua') or CheckPlugin(sFileName)) then
-      Exit;
-
-    sPluginName := ExtractOnlyFileName(sFileName);
-    I := tmpWDXPlugins.Add(sPluginName, GetPluginFilenameToSave(sFileName), EmptyStr);
-
-    if not tmpWDXPlugins.LoadModule(pred(tmpWDXPlugins.Count)) then
-    begin
-      MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
-      tmpWDXPlugins.DeleteItem(I);
-      Exit;
-    end;
-    tmpWDXPlugins.GetWdxModule(pred(tmpWDXPlugins.Count)).DetectStr := tmpWDXPlugins.GetWdxModule(pred(tmpWDXPlugins.Count)).CallContentGetDetectString;
-
-    stgPlugins.RowCount := stgPlugins.RowCount + 1;
-    J := stgPlugins.RowCount - 1;
-    stgPlugins.Cells[COLNO_NAME, J] := tmpWDXPlugins.GetWdxModule(I).Name;
-    stgPlugins.Cells[COLNO_EXT, J] := tmpWDXPlugins.GetWdxModule(I).DetectStr;
-    stgPlugins.Cells[COLNO_FILENAME, J] := tmpWDXPlugins.GetWdxModule(I).FileName;
-    stgPlugins.Row := J; //This will trig automatically the "OnSelection" event.
-    if gPluginInAutoTweak then
-      btnTweakPlugin.Click;
+    MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
+    tmpWDXPlugins.DeleteItem(I);
+    Exit;
   end;
+  tmpWDXPlugins.GetWdxModule(pred(tmpWDXPlugins.Count)).DetectStr := tmpWDXPlugins.GetWdxModule(pred(tmpWDXPlugins.Count)).CallContentGetDetectString;
+
+  stgPlugins.RowCount := stgPlugins.RowCount + 1;
+  J := stgPlugins.RowCount - 1;
+  stgPlugins.Cells[COLNO_NAME, J] := tmpWDXPlugins.GetWdxModule(I).Name;
+  stgPlugins.Cells[COLNO_EXT, J] := tmpWDXPlugins.GetWdxModule(I).DetectStr;
+  stgPlugins.Cells[COLNO_FILENAME, J] := tmpWDXPlugins.GetWdxModule(I).FileName;
+  stgPlugins.Row := J; //This will trig automatically the "OnSelection" event.
+  if gPluginInAutoTweak then
+    btnTweakPlugin.Click;
 end;
 
 { TfrmOptionsPluginsWDX.ActualDeletePlugin }

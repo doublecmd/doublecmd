@@ -1947,6 +1947,10 @@ msgstr "Añadir ruta y nombre del archivo a la línea de comandos"
 msgid "Copy path to command line"
 msgstr "Copiar ruta a la línea de comandos"
 
+#: tfrmmain.actaddplugin.caption
+msgid "Add Plugin"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr ""
@@ -5707,6 +5711,7 @@ msgid "Icons"
 msgstr "Iconos"
 
 #: tfrmoptionsfileassocextra.ckbfileassocstartpath.caption
+msgctxt "tfrmoptionsfileassocextra.ckbfileassocstartpath.caption"
 msgid "Starting paths"
 msgstr ""
 
@@ -7565,6 +7570,7 @@ msgid "Icons"
 msgstr "Iconos"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption
+msgctxt "tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption"
 msgid "Starting paths"
 msgstr ""
 
@@ -9817,6 +9823,10 @@ msgstr ""
 
 #: ulng.rsfilterlegacytabfiles
 msgid "Legacy DC .tab files"
+msgstr ""
+
+#: ulng.rsfilterpluginfiles
+msgid "Plugin files"
 msgstr ""
 
 #: ulng.rsfilterstatus

@@ -109,6 +109,7 @@ resourcestring
   rsFilterLegacyTabFiles = 'Legacy DC .tab files';
   rsFilterDirectoryHotListFiles = 'Directory Hotlist files';
   rsFilterArchiverConfigFiles = 'Archiver config files';
+  rsFilterPluginFiles = 'Plugin files';
 
   // Archiver section.
   rsMsgArchiverCustomParams = 'Additional parameters for archiver command-line:';

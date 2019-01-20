@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Plugins WFX options page
 
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsPluginsWFX;
@@ -45,6 +44,7 @@ type
     function Save: TOptionsEditorSaveFlags; override;
     procedure Done; override;
     procedure stgPluginsOnSelection(Sender: TObject; {%H-}aCol, aRow: integer); override;
+    procedure ActualAddPlugin(sPluginFilename: string); override;
     procedure ActualDeletePlugin(iIndex: integer); override;
     procedure ActualPluginsMove(iSource, iDestination: integer); override;
   public
@@ -157,45 +157,48 @@ end;
 
 { TfrmOptionsPluginsWFX.btnAddPluginClick }
 procedure TfrmOptionsPluginsWFX.btnAddPluginClick(Sender: TObject);
-var
-  I, J: integer;
-  WfxModule: TWFXmodule;
-  sFileName, sPluginName, sRootName: string;
 begin
   dmComData.OpenDialog.Filter := Format('File system plugins (%s)|%s', [WfxMask, WfxMask]);
   if dmComData.OpenDialog.Execute then
-  begin
-    sFileName := dmComData.OpenDialog.FileName;
-    if not CheckPlugin(sFileName) then
+    ActualAddPlugin(dmComData.OpenDialog.FileName);
+end;
+
+{ TfrmOptionsPluginsWFX.ActualAddPlugin }
+procedure TfrmOptionsPluginsWFX.ActualAddPlugin(sPluginFilename: string);
+var
+  I, J: integer;
+  WfxModule: TWFXmodule;
+  sPluginName, sRootName: string;
+begin
+  if not CheckPlugin(sPluginFilename) then
+    Exit;
+  sPluginFilename := GetPluginFilenameToSave(sPluginFilename);
+
+  WfxModule := gWFXPlugins.LoadModule(sPluginFilename);
+  try
+    if not Assigned(WfxModule) then
+    begin
+      MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
       Exit;
-    sFileName := GetPluginFilenameToSave(sFileName);
-
-    WfxModule := gWFXPlugins.LoadModule(sFileName);
-    try
-      if not Assigned(WfxModule) then
-      begin
-        MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
-        Exit;
-      end;
-
-      sRootName := WfxModule.VFSRootName;
-      if Length(sRootName) = 0 then
-      begin
-        sRootName := ExtractOnlyFileName(sFileName);
-      end;
-      sPluginName := sRootName + '=' + sFileName;
-
-      I := tmpWFXPlugins.AddObject(sPluginName, TObject(True));
-      stgPlugins.RowCount := tmpWFXPlugins.Count + 1;
-      J := stgPlugins.RowCount - 1;
-      stgPlugins.Cells[COLNO_ACTIVE, J] := '+';
-      stgPlugins.Cells[COLNO_NAME, J] := tmpWFXPlugins.Name[I];
-      stgPlugins.Cells[COLNO_FILENAME, J] := tmpWFXPlugins.FileName[I];
-      stgPlugins.Row := J; //This will trig automatically the "OnSelection" event.
-      if gPluginInAutoTweak then
-        btnTweakPlugin.Click;
-    finally
     end;
+
+    sRootName := WfxModule.VFSRootName;
+    if Length(sRootName) = 0 then
+    begin
+      sRootName := ExtractOnlyFileName(sPluginFilename);
+    end;
+    sPluginName := sRootName + '=' + sPluginFilename;
+
+    I := tmpWFXPlugins.AddObject(sPluginName, TObject(True));
+    stgPlugins.RowCount := tmpWFXPlugins.Count + 1;
+    J := stgPlugins.RowCount - 1;
+    stgPlugins.Cells[COLNO_ACTIVE, J] := '+';
+    stgPlugins.Cells[COLNO_NAME, J] := tmpWFXPlugins.Name[I];
+    stgPlugins.Cells[COLNO_FILENAME, J] := tmpWFXPlugins.FileName[I];
+    stgPlugins.Row := J; //This will trig automatically the "OnSelection" event.
+    if gPluginInAutoTweak then
+      btnTweakPlugin.Click;
+  finally
   end;
 end;
 

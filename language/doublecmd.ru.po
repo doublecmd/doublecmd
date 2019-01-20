@@ -1978,6 +1978,10 @@ msgstr "Добавить путь и имя файла в командную с�
 msgid "Copy path to command line"
 msgstr "Копировать путь в командную строку"
 
+#: tfrmmain.actaddplugin.caption
+msgid "Add Plugin"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Тест производительности"
@@ -5808,6 +5812,7 @@ msgid "Icons"
 msgstr "Значки"
 
 #: tfrmoptionsfileassocextra.ckbfileassocstartpath.caption
+msgctxt "tfrmoptionsfileassocextra.ckbfileassocstartpath.caption"
 msgid "Starting paths"
 msgstr ""
 
@@ -7762,6 +7767,7 @@ msgid "Icons"
 msgstr "Значки"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption
+msgctxt "tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption"
 msgid "Starting paths"
 msgstr ""
 
@@ -10054,6 +10060,10 @@ msgstr "INI-файлы"
 #: ulng.rsfilterlegacytabfiles
 msgid "Legacy DC .tab files"
 msgstr "TAB-файлы"
+
+#: ulng.rsfilterpluginfiles
+msgid "Plugin files"
+msgstr ""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
