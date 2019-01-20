@@ -68,9 +68,10 @@ begin
     luaPushSearchRec(L, Rec);
   end
   else begin
-    Result:= 1;
-    Dispose(Rec);
+    FindCloseEx(Rec^);
     lua_pushnil(L);
+    Dispose(Rec);
+    Result:= 1;
   end;
 end;
 
