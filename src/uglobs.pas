@@ -1454,8 +1454,8 @@ begin
   gNewFilesPosition := nfpSortedPosition;
   gUpdatedFilesPosition := ufpNoChange;
   gFileSizeFormat := fsfFloat;
-  gHeaderFooterSizeFormat := fsfPersonalizedFloat;
-  gOperationSizeFormat := fsfPersonalizedFloat;
+  gHeaderFooterSizeFormat := fsfFloat;
+  gOperationSizeFormat := fsfFloat;
   gFileSizeDigits := 1;
   gHeaderFooterDigits := 1;
   gOperationSizeDigits := 1;
