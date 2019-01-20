@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Plugins DSX options page
 
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsPluginsDSX;
@@ -43,6 +42,7 @@ type
     function Save: TOptionsEditorSaveFlags; override;
     procedure Done; override;
     procedure stgPluginsOnSelection(Sender: TObject; {%H-}aCol, aRow: integer); override;
+    procedure ActualAddPlugin(sPluginFilename: string); override;
     procedure ActualDeletePlugin(iIndex: integer); override;
     procedure ActualPluginsMove(iSource, iDestination: integer); override;
   public
@@ -160,34 +160,39 @@ end;
 
 { TfrmOptionsPluginsDSX.btnAddPluginClick }
 procedure TfrmOptionsPluginsDSX.btnAddPluginClick(Sender: TObject);
-var
-  I, J: integer;
-  sFileName, sPluginName: string;
 begin
   dmComData.OpenDialog.Filter := 'Search plugins (*.dsx)|*.dsx';
   if dmComData.OpenDialog.Execute then
+    ActualAddPlugin(dmComData.OpenDialog.FileName);
+end;
+
+{ TfrmOptionsPluginsDSX.ActualAddPlugin }
+procedure TfrmOptionsPluginsDSX.ActualAddPlugin(sPluginFilename: string);
+var
+  I, J: integer;
+  sPluginName: string;
+begin
+  if not CheckPlugin(sPluginFilename) then
+    Exit;
+
+  sPluginName := ExtractOnlyFileName(sPluginFilename);
+  I := tmpDSXPlugins.Add(sPluginName, GetPluginFilenameToSave(sPluginFilename), EmptyStr);
+
+  if not tmpDSXPlugins.LoadModule(sPluginName) then
   begin
-    sFileName := dmComData.OpenDialog.FileName;
-    if not CheckPlugin(sFileName) then
-      Exit;
-
-    sPluginName := ExtractOnlyFileName(sFileName);
-    I := tmpDSXPlugins.Add(sPluginName, GetPluginFilenameToSave(sFileName), EmptyStr);
-
-    if not tmpDSXPlugins.LoadModule(sPluginName) then
-    begin
-      MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
-      tmpDSXPlugins.DeleteItem(I);
-      Exit;
-    end;
-
-    stgPlugins.RowCount := stgPlugins.RowCount + 1;
-    J := stgPlugins.RowCount - stgPlugins.FixedRows;
-    stgPlugins.Cells[COLNO_NAME, J] := tmpDSXPlugins.GetDsxModule(I).Name;
-    stgPlugins.Cells[COLNO_DESCRIPTION, J] := tmpDSXPlugins.GetDsxModule(I).Descr;
-    stgPlugins.Cells[COLNO_FILENAME, J] := tmpDSXPlugins.GetDsxModule(I).FileName;
-    stgPlugins.Row := J; //This will trig automatically the "OnSelection" event.
+    MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
+    tmpDSXPlugins.DeleteItem(I);
+    Exit;
   end;
+
+  stgPlugins.RowCount := stgPlugins.RowCount + 1;
+  J := stgPlugins.RowCount - stgPlugins.FixedRows;
+  stgPlugins.Cells[COLNO_NAME, J] := tmpDSXPlugins.GetDsxModule(I).Name;
+  stgPlugins.Cells[COLNO_DESCRIPTION, J] := tmpDSXPlugins.GetDsxModule(I).Descr;
+  stgPlugins.Cells[COLNO_FILENAME, J] := tmpDSXPlugins.GetDsxModule(I).FileName;
+  stgPlugins.Row := J; //This will trig automatically the "OnSelection" event.
+  if gPluginInAutoTweak then
+    btnTweakPlugin.click;
 end;
 
 end.

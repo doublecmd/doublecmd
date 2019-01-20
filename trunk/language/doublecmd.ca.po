@@ -2146,6 +2146,10 @@ msgstr "Afegeix ruta i nom de fitxer a la linia d'ordres"
 msgid "Copy path to command line"
 msgstr "Copia ruta a linia d'ordres"
 
+#: tfrmmain.actaddplugin.caption
+msgid "Add Plugin"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr ""
@@ -6225,6 +6229,7 @@ msgid "Icons"
 msgstr "Icones"
 
 #: tfrmoptionsfileassocextra.ckbfileassocstartpath.caption
+msgctxt "tfrmoptionsfileassocextra.ckbfileassocstartpath.caption"
 msgid "Starting paths"
 msgstr ""
 
@@ -8337,6 +8342,7 @@ msgid "Icons"
 msgstr "Icones"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption
+msgctxt "tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption"
 msgid "Starting paths"
 msgstr ""
 
@@ -10798,6 +10804,10 @@ msgstr ""
 
 #: ulng.rsfilterlegacytabfiles
 msgid "Legacy DC .tab files"
+msgstr ""
+
+#: ulng.rsfilterpluginfiles
+msgid "Plugin files"
 msgstr ""
 
 #: ulng.rsfilterstatus

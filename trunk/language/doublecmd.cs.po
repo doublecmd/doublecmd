@@ -1945,6 +1945,10 @@ msgstr "Uložit cestu a název souboru do příkazového řádku"
 msgid "Copy path to command line"
 msgstr "Kopírovat cestu do příkazového řádku"
 
+#: tfrmmain.actaddplugin.caption
+msgid "Add Plugin"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr ""
@@ -5702,6 +5706,7 @@ msgid "Icons"
 msgstr "Ikony"
 
 #: tfrmoptionsfileassocextra.ckbfileassocstartpath.caption
+msgctxt "tfrmoptionsfileassocextra.ckbfileassocstartpath.caption"
 msgid "Starting paths"
 msgstr ""
 
@@ -7556,6 +7561,7 @@ msgid "Icons"
 msgstr "Ikony"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption
+msgctxt "tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption"
 msgid "Starting paths"
 msgstr ""
 
@@ -9811,6 +9817,10 @@ msgstr ""
 
 #: ulng.rsfilterlegacytabfiles
 msgid "Legacy DC .tab files"
+msgstr ""
+
+#: ulng.rsfilterpluginfiles
+msgid "Plugin files"
 msgstr ""
 
 #: ulng.rsfilterstatus

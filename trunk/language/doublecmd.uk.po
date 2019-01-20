@@ -1993,6 +1993,10 @@ msgstr "Додати шлях і ім'я файлу в командний ряд
 msgid "Copy path to command line"
 msgstr "Копіювати шлях в командний рядок"
 
+#: tfrmmain.actaddplugin.caption
+msgid "Add Plugin"
+msgstr ""
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr ""
@@ -5951,6 +5955,7 @@ msgid "Icons"
 msgstr "Іконки"
 
 #: tfrmoptionsfileassocextra.ckbfileassocstartpath.caption
+msgctxt "tfrmoptionsfileassocextra.ckbfileassocstartpath.caption"
 msgid "Starting paths"
 msgstr ""
 
@@ -7940,6 +7945,7 @@ msgid "Icons"
 msgstr "Іконки"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption
+msgctxt "tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption"
 msgid "Starting paths"
 msgstr ""
 
@@ -10325,6 +10331,10 @@ msgstr ""
 
 #: ulng.rsfilterlegacytabfiles
 msgid "Legacy DC .tab files"
+msgstr ""
+
+#: ulng.rsfilterpluginfiles
+msgid "Plugin files"
 msgstr ""
 
 #: ulng.rsfilterstatus

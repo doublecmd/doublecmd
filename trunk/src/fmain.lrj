@@ -243,6 +243,7 @@
 {"hash":9348211,"name":"tfrmmain.actconfigarchivers.caption","sourcebytes":[67,111,110,102,105,103,117,114,97,116,105,111,110,32,111,102,32,65,114,99,104,105,118,101,114,115],"value":"Configuration of Archivers"},
 {"hash":81417667,"name":"tfrmmain.actconfigtooltips.caption","sourcebytes":[67,111,110,102,105,103,117,114,97,116,105,111,110,32,111,102,32,116,111,111,108,116,105,112,115],"value":"Configuration of tooltips"},
 {"hash":122831395,"name":"tfrmmain.actconfigplugins.caption","sourcebytes":[67,111,110,102,105,103,117,114,97,116,105,111,110,32,111,102,32,80,108,117,103,105,110,115],"value":"Configuration of Plugins"},
+{"hash":91735966,"name":"tfrmmain.actaddplugin.caption","sourcebytes":[65,100,100,32,80,108,117,103,105,110],"value":"Add Plugin"},
 {"hash":310020,"name":"tfrmmain.tbedit.caption","sourcebytes":[69,100,105,116],"value":"Edit"},
 {"hash":78392485,"name":"tfrmmain.tbdelete.caption","sourcebytes":[68,101,108,101,116,101],"value":"Delete"},
 {"hash":1140,"name":"tfrmmain.tbchangedir.caption","sourcebytes":[67,68],"value":"CD"},

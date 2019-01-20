@@ -2706,6 +2706,12 @@ object frmMain: TfrmMain
       Caption = 'Configuration of Plugins'
       OnExecute = actExecute
     end
+    object actAddPlugin: TAction
+      Tag = 5
+      Category = 'Configuration'
+      Caption = 'Add Plugin'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     Images = imgLstDirectoryHotlist

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Plugins WCX options page
 
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,10 +15,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-}
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+   }
 
 unit fOptionsPluginsWCX;
 
@@ -49,6 +48,7 @@ type
     function Save: TOptionsEditorSaveFlags; override;
     procedure Done; override;
     procedure stgPluginsOnSelection(Sender: TObject; {%H-}aCol, aRow: integer); override;
+    procedure ActualAddPlugin(sPluginFilename: string); override;
   public
     class function GetTitle: string; override;
     function ExtraOptionsSignature(CurrentSignature: dword): dword; override;
@@ -248,72 +248,74 @@ end;
 
 { TfrmOptionsPluginsWCX.btnAddPluginClick }
 procedure TfrmOptionsPluginsWCX.btnAddPluginClick(Sender: TObject);
+begin
+  dmComData.OpenDialog.Filter := Format('Archive plugins (%s)|%s', [WcxMask, WcxMask]);
+  if dmComData.OpenDialog.Execute then
+    ActualAddPlugin(dmComData.OpenDialog.FileName);
+end;
+
+{ v.ActualAddPlugin }
+procedure TfrmOptionsPluginsWCX.ActualAddPlugin(sPluginFilename: string);
 var
   J, iPluginIndex, iFlags, iNbItemOnStart: integer;
   sExt: string;
   sExts: string;
   sExtsTemp: string;
-  sFileName: string;
   sPluginName: string;
   sAlreadyAssignedExts: string;
   WCXmodule: TWCXmodule;
 begin
   iNbItemOnStart := tmpWCXPlugins.Count;
-  dmComData.OpenDialog.Filter := Format('Archive plugins (%s)|%s', [WcxMask, WcxMask]);
 
-  if dmComData.OpenDialog.Execute then
+  if not CheckPlugin(sPluginFilename) then
+    Exit;
+  sPluginFilename := GetPluginFilenameToSave(sPluginFilename);
+  WCXmodule := gWCXPlugins.LoadModule(sPluginFilename);
+
+  if not Assigned(WCXmodule) then
   begin
-    sFileName := dmComData.OpenDialog.FileName;
-    if not CheckPlugin(sFileName) then
-      Exit;
-    sFileName := GetPluginFilenameToSave(sFileName);
-    WCXmodule := gWCXPlugins.LoadModule(sFileName);
+    MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
+    Exit;
+  end;
 
-    if not Assigned(WCXmodule) then
-    begin
-      MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
-      Exit;
-    end;
+  iFlags := WCXmodule.GetPluginCapabilities;
 
-    iFlags := WCXmodule.GetPluginCapabilities;
-
-    sPluginName := sFileName;
+  sPluginName := sPluginFilename;
+  sExts := '';
+  if InputQuery(rsOptEnterExt, Format(rsOptAssocPluginWith, [sPluginFilename]), sExts) then
+  begin
+    sExtsTemp := sExts;
     sExts := '';
-    if InputQuery(rsOptEnterExt, Format(rsOptAssocPluginWith, [sFileName]), sExts) then
-    begin
-      sExtsTemp := sExts;
-      sExts := '';
-      sAlreadyAssignedExts := '';
-      sExt := Copy2SpaceDel(sExtsTemp);
-      repeat
-        iPluginIndex := tmpWCXPlugins.Find(sPluginName, sExt);
-        if iPluginIndex <> -1 then
-        begin
-          AddStrWithSep(sAlreadyAssignedExts, sExt);
-        end
-        else
-        begin
-          tmpWCXPlugins.AddObject(sExt + '=' + IntToStr(iFlags) + ',' + sPluginName, TObject(True));
-          AddStrWithSep(sExts, sExt);
-        end;
-        sExt := Copy2SpaceDel(sExtsTemp);
-      until sExt = '';
-
-      if sAlreadyAssignedExts <> '' then
-        MessageDlg(Format(rsOptPluginAlreadyAssigned, [sFileName]) + LineEnding + sAlreadyAssignedExts, mtWarning, [mbOK], 0);
-
-      if iNbItemOnStart <> tmpWCXPlugins.Count then
+    sAlreadyAssignedExts := '';
+    sExt := Copy2SpaceDel(sExtsTemp);
+    repeat
+      iPluginIndex := tmpWCXPlugins.Find(sPluginName, sExt);
+      if iPluginIndex <> -1 then
       begin
-        stgPlugins.RowCount := stgPlugins.RowCount + 1; // Add new row
-        J := pred(stgPlugins.RowCount);
-        stgPlugins.Cells[COLNO_ACTIVE, J] := '+'; // Enabled
-        stgPlugins.Cells[COLNO_NAME, J] := ExtractOnlyFileName(sFileName);
-        stgPlugins.Cells[COLNO_EXT, J] := sExts;
-        stgPlugins.Cells[COLNO_FILENAME, J] := sPluginName;
-        stgPlugins.Row := J; //This will trig automatically the "OnSelection" event.
-        if gPluginInAutoTweak then
-          btnTweakPlugin.Click;
+        AddStrWithSep(sAlreadyAssignedExts, sExt);
+      end
+      else
+      begin
+        tmpWCXPlugins.AddObject(sExt + '=' + IntToStr(iFlags) + ',' + sPluginName, TObject(True));
+        AddStrWithSep(sExts, sExt);
       end;
+      sExt := Copy2SpaceDel(sExtsTemp);
+    until sExt = '';
+
+    if sAlreadyAssignedExts <> '' then
+      MessageDlg(Format(rsOptPluginAlreadyAssigned, [sPluginFilename]) + LineEnding + sAlreadyAssignedExts, mtWarning, [mbOK], 0);
+
+    if iNbItemOnStart <> tmpWCXPlugins.Count then
+    begin
+      stgPlugins.RowCount := stgPlugins.RowCount + 1; // Add new row
+      J := pred(stgPlugins.RowCount);
+      stgPlugins.Cells[COLNO_ACTIVE, J] := '+'; // Enabled
+      stgPlugins.Cells[COLNO_NAME, J] := ExtractOnlyFileName(sPluginFilename);
+      stgPlugins.Cells[COLNO_EXT, J] := sExts;
+      stgPlugins.Cells[COLNO_FILENAME, J] := sPluginName;
+      stgPlugins.Row := J; //This will trig automatically the "OnSelection" event.
+      if gPluginInAutoTweak then
+        btnTweakPlugin.Click;
     end;
   end;
 end;
