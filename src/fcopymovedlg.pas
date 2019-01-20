@@ -1,3 +1,24 @@
+{
+   Double Commander
+   -------------------------------------------------------------------------
+   Dialog window when copying/moving files confirming filenames and other options
+
+   Copyright (C) 2009-2019  Alexander Koblov (alexx2000@mail.ru)
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+}
+
 unit fCopyMoveDlg;
 
 {$mode objfpc}{$H+}
@@ -5,17 +26,15 @@ unit fCopyMoveDlg;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus, KASPathEdit,
-  uFileSource,
-  uFileViewNotebook,
-  uFileSourceOperation,
-  uFileSourceOperationOptionsUI,
-  uOperationsManager,
-  uFormCommands;
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus,
+  ActnList, KASPathEdit, uFileSource, uFileViewNotebook, uFileSourceOperation,
+  uFileSourceOperationOptionsUI, uOperationsManager, uFormCommands;
 
 type
 
   TCopyMoveDlgType = (cmdtCopy, cmdtMove);
+
+  TCurrentCopyDlgNameSelectionStep = (ccdnssWholeCompleteFilename, ccdnssJustFilenameNoExt, ccdnssJustFilenameWithExt, ccdnssJustExtension, ccdnssJustPath, ccdnssInvalid); //Note: ccdnssInvalid *must* be the last one.
 
   { TfrmCopyDlg }
 
@@ -60,17 +79,18 @@ type
     FFileSource: IFileSource;
     FOperationOptionsUIClass: TFileSourceOperationOptionsUIClass;
     FOperationOptionsUI: TFileSourceOperationOptionsUI;
+    FCurrentCopyDlgNameSelectionStep: TCurrentCopyDlgNameSelectionStep;
 
     function GetQueueIdentifier: TOperationsManagerQueueIdentifier;
     procedure SetQueueIdentifier(AValue: TOperationsManagerQueueIdentifier);
     function ShowTabsSelector: integer;
     procedure TabsSelector(Sender: TObject);
-    procedure TabsSelectorMouseDown(Sender: TObject; Button: TMouseButton;
-                                    Shift: TShiftState; X, Y: Integer);
+    procedure TabsSelectorMouseDown(Sender: TObject; {%H-}Button: TMouseButton;
+                                    {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);
     procedure ShowOptions(bShow: Boolean);
     procedure UpdateSize;
 
-    property Commands: TFormCommands read FCommands implements IFormCommands;
+    property {%H-}Commands: TFormCommands read FCommands implements IFormCommands;
 
   public
     constructor Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
@@ -83,6 +103,7 @@ type
 
   published
     procedure cm_AddToQueue(const Params: array of String);
+    procedure cm_ToggleSelectionInName(const {%H-}Params: array of string);
   end;
 
 
@@ -91,7 +112,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fMain, uFileSourceProperty, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager, DCStrUtils;
+  LazUTF8, fMain, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager, DCStrUtils;
 
 const
   HotkeysCategory = 'Copy/Move Dialog';
@@ -137,6 +158,59 @@ begin
   else
     FQueueIdentifier := SingleQueueId;
   ModalResult := btnAddToQueue.ModalResult;
+end;
+
+{ TfrmCopyDlg.cm_ToggleSelectionInName }
+procedure TfrmCopyDlg.cm_ToggleSelectionInName(const Params: array of string);
+var
+  iInitialStart, iInitialLength, iFullLength, iPath, iExtension, iSelStart, iSelLenght: integer;
+
+begin
+  iFullLength := UTF8Length(edtDst.Text);
+  iPath := UTF8Length(ExtractFilePath(edtDst.Text));
+  iExtension := UTF8Length(ExtractFileExt(edtDst.Text));
+
+  iInitialStart := edtDst.SelStart;
+  iInitialLength := edtDst.SelLength;
+
+  repeat
+    FCurrentCopyDlgNameSelectionStep := TCurrentCopyDlgNameSelectionStep((ord(FCurrentCopyDlgNameSelectionStep)+1) mod ord(ccdnssInvalid));
+
+    case FCurrentCopyDlgNameSelectionStep of
+      ccdnssJustFilenameNoExt:
+      begin
+        iSelStart := iPath;
+        iSelLenght := iFullLength - (iPath+iExtension);
+      end;
+
+      ccdnssJustFilenameWithExt:
+      begin
+        iSelStart := iPath;
+        iSelLenght := iFullLength - iPath;
+      end;
+
+      ccdnssJustExtension:
+      begin
+        iSelStart := succ(iPath + (iFullLength - (iPath+iExtension)));
+        iSelLenght := pred(iExtension);
+      end;
+
+      ccdnssJustPath:
+      begin
+        iSelStart := 0;
+        iSelLenght := pred(iPath);
+      end;
+
+      else //Which includes also "ccdnssWholeCompleteFilename".
+        begin
+          iSelStart := 0;
+          iSelLenght := iFullLength;
+        end;
+    end;
+  until ((iSelStart <> iInitialStart) OR (iInitialLength <> iSelLenght)) AND (iSelLenght > 0);
+
+  edtDst.SelStart := iSelStart;
+  edtDst.SelLength := iSelLenght;
 end;
 
 procedure TfrmCopyDlg.TabsSelector(Sender: TObject);
@@ -246,6 +320,7 @@ begin
     ShowTabsSelector;
 
   edtDst.SelectAll;
+  FCurrentCopyDlgNameSelectionStep := ccdnssWholeCompleteFilename;
   edtDst.SetFocus;
 
   btnCreateSpecialQueue.Left:= btnAddToQueue.BoundsRect.Right;

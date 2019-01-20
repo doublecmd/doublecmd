@@ -164,7 +164,8 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 46;
+  hkVersion = 47;
+  // 47 - In "Copy/Move Dialog" context, add the shortcuts "F5" and "F6" for "cm_ToggleSelectionInName".
   // 40 - In "Main" context, added the "Ctrl+Shift+F7" for "cm_AddNewSearch".
   //      In "Find Files" context, changed "cm_Start" that was "Enter" for "F9".
   //      In "Find Files" context, added "Alt+F7" as a valid alternative for "cm_PageStandard".
@@ -1142,7 +1143,9 @@ begin
   HMForm := HotMan.Forms.FindOrCreate('Copy/Move Dialog');
   with HMForm.Hotkeys do
     begin
-      AddIfNotExists(['F2'],[],'cm_AddToQueue');
+      AddIfNotExists(['F2'], [],'cm_AddToQueue');
+      AddIfNotExists(['F5', '', '',
+                      'F6', '', ''], 'cm_ToggleSelectionInName');
     end;
 
   HMForm := HotMan.Forms.FindOrCreate('Edit Comment Dialog');
