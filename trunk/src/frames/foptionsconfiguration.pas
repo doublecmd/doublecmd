@@ -166,11 +166,13 @@ begin
 
   edtThumbCache.Text:= gpThumbCacheDir;
 
+  edtIconThemes.Text:= EmptyStr;
   if not gUseConfigInProgramDir then begin
     edtIconThemes.Text:= IncludeTrailingBackslash(GetAppDataDir) + 'pixmaps' + PathSep;
   end;
   edtIconThemes.Text:= edtIconThemes.Text + ExcludeTrailingPathDelimiter(gpPixmapPath);
 
+  edtHighlighters.Text:= EmptyStr;
   if not gUseConfigInProgramDir then begin
     edtHighlighters.Text:= IncludeTrailingBackslash(GetAppDataDir) + 'highlighters' + PathSep;
   end;
