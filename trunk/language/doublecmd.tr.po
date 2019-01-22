@@ -4288,12 +4288,22 @@ msgstr ""
 msgid "&File mask history"
 msgstr ""
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Klasör sekmeleri"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
 msgstr ""
 
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
+msgstr ""
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
 msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption

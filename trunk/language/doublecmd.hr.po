@@ -4343,6 +4343,12 @@ msgctxt "TFRMOPTIONSCONFIGURATION.CBDIRHISTORY.CAPTION"
 msgid "&File mask history"
 msgstr "Povijest maski datoteka&"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Kartice datoteka"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgctxt "tfrmoptionsconfiguration.chksaveconfiguration.caption"
 msgid "Sa&ve configuration"
@@ -4352,6 +4358,10 @@ msgstr "Sačuvaj& postavke"
 msgctxt "tfrmoptionsconfiguration.chksearchreplacehistory.caption"
 msgid "Searc&h/Replace history"
 msgstr "Povijest pretrage& i zamene"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 #, fuzzy

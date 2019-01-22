@@ -4441,6 +4441,12 @@ msgctxt "tfrmoptionsconfiguration.cbfilemaskhistory.caption"
 msgid "&File mask history"
 msgstr "Historial de màscares"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Pestanyes de carpeta"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 #, fuzzy
 #| msgid "Save configuration"
@@ -4454,6 +4460,10 @@ msgstr "Desa configuració"
 msgctxt "tfrmoptionsconfiguration.chksearchreplacehistory.caption"
 msgid "Searc&h/Replace history"
 msgstr "Història de Cerca/Reemplaçar"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 #, fuzzy

@@ -4095,6 +4095,12 @@ msgstr "ディレクトリ履歴(&D)"
 msgid "&File mask history"
 msgstr "ファイルマスクの履歴(&F)"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "フォルダのタブ"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
 msgstr "設定を保存(&v)"
@@ -4102,6 +4108,10 @@ msgstr "設定を保存(&v)"
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
 msgstr "検索と置換の履歴(&h)"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 #, fuzzy

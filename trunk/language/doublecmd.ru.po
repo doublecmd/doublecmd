@@ -4095,6 +4095,11 @@ msgctxt "TFRMOPTIONSCONFIGURATION.CBFILEMASKHISTORY.CAPTION"
 msgid "&File mask history"
 msgstr "Историю &масок файлов"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Вкладки каталогов"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSAVECONFIGURATION.CAPTION"
 msgid "Sa&ve configuration"
@@ -4104,6 +4109,10 @@ msgstr "Со&хранять конфигурацию"
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
 msgid "Searc&h/Replace history"
 msgstr "Истори&ю поиска/замены"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr "Состояние главного окна"
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
@@ -5812,6 +5821,7 @@ msgid "Icons"
 msgstr "Значки"
 
 #: tfrmoptionsfileassocextra.ckbfileassocstartpath.caption
+msgctxt "tfrmoptionsfileassocextra.ckbfileassocstartpath.caption"
 msgid "Starting paths"
 msgstr "Пути запуска"
 
@@ -7766,6 +7776,7 @@ msgid "Icons"
 msgstr "Значки"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption
+msgctxt "tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption"
 msgid "Starting paths"
 msgstr "Пути запуска"
 
@@ -10837,7 +10848,7 @@ msgstr "Файл %s помечен как доступный только для
 msgid "Are you sure you want to reload the current file and lose the changes?"
 msgstr ""
 "Все внесённые изменения будут потеряны!\n"
-"Продолжить?"
+"Продолжить?\n"
 
 #: ulng.rsmsgfilesizetoobig
 msgid "The file size of \"%s\" is too big for destination file system!"

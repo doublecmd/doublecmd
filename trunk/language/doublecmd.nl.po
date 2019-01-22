@@ -4013,6 +4013,12 @@ msgstr "Mapgeschiedenis"
 msgid "&File mask history"
 msgstr "Bestandmaskergeschiedenis"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Maptabbladen"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
 msgstr "Instellingen opslaan"
@@ -4020,6 +4026,10 @@ msgstr "Instellingen opslaan"
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
 msgstr "Geschiedenis van zoeken en vervangen"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
@@ -11980,6 +11990,7 @@ msgid "File types"
 msgstr "Bestandsoorten"
 
 #: ulng.rsoptionseditorfoldertabs
+msgctxt "ulng.rsoptionseditorfoldertabs"
 msgid "Folder tabs"
 msgstr "Maptabbladen"
 

@@ -4017,6 +4017,12 @@ msgstr "&Historie adresářů"
 msgid "&File mask history"
 msgstr "&Historie použitých masek"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Záložky adresářů"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
 msgstr "Ul&ožit nastavení"
@@ -4024,6 +4030,10 @@ msgstr "Ul&ožit nastavení"
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
 msgstr "Historie hle&dání/nahrazení"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 #, fuzzy
@@ -11990,6 +12000,7 @@ msgid "File types"
 msgstr "Typy souborů"
 
 #: ulng.rsoptionseditorfoldertabs
+msgctxt "ulng.rsoptionseditorfoldertabs"
 msgid "Folder tabs"
 msgstr "Záložky adresářů"
 
