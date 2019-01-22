@@ -526,10 +526,7 @@ var
   NewSelectedState,
   FirstFound,
   Result: Boolean;
-  sFileName,
-  sSearchName,
-  sSearchNameNoExt,
-  sSearchExt : String;
+  sFileName : String;
   AFile: TFile;
   Masks: TMaskList;
 
@@ -550,8 +547,6 @@ var
 begin
   if IsEmpty then
     Exit;
-
-  sSearchName := SearchTerm;
 
   Index := GetActiveFileIndex; // start search from current position
   if not IsFileIndexInRange(Index) then
