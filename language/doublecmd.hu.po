@@ -2121,6 +2121,10 @@ msgstr ""
 msgid "Configuration of Plugins"
 msgstr ""
 
+#: tfrmmain.actconfigsavepos.caption
+msgid "Save Position"
+msgstr ""
+
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
 msgstr "Beállítások mentése"

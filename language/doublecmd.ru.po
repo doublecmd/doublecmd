@@ -2111,6 +2111,10 @@ msgstr "Настройка горячих клавиш"
 msgid "Configuration of Plugins"
 msgstr "Настройка плагинов"
 
+#: tfrmmain.actconfigsavepos.caption
+msgid "Save Position"
+msgstr "Сохранить позицию"
+
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
 msgstr "Со&хранить настройки"
