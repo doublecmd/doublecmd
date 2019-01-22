@@ -346,6 +346,7 @@ type
    procedure cm_CopyAllTabsToOpposite(const {%H-}Params: array of string);
    procedure cm_ConfigTreeViewMenus(const {%H-}Params: array of string);
    procedure cm_ConfigTreeViewMenusColors(const {%H-}Params: array of string);
+   procedure cm_ConfigSavePos(const {%H-}Params: array of string);
    procedure cm_ConfigSaveSettings(const {%H-}Params: array of string);
    procedure cm_AddNewSearch(const Params: array of string);
    procedure cm_ViewSearches(const {%H-}Params: array of string);
@@ -4801,6 +4802,16 @@ end;
 procedure TMainCommands.cm_ConfigTreeViewMenusColors(const {%H-}Params: array of string);
 begin
   cm_Options(['TfrmOptionsTreeViewMenuColor']);
+end;
+
+procedure TMainCommands.cm_ConfigSavePos(const Params: array of string);
+begin
+  frmMain.SaveWindowState;
+  try
+    gConfig.Save;
+  except
+    on E: Exception do msgError(E.Message);
+  end;
 end;
 
 { TMainCommands.cm_ConfigSaveSettings }
