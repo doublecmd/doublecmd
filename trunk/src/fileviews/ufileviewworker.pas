@@ -667,80 +667,44 @@ class procedure TFileListBuilder.MakeDisplayFileList(
   filteredDisplayFiles: TDisplayFiles;
   aFileFilter: String;
   const aFilterOptions: TQuickSearchOptions);
-{var
-  i: Integer;
+var
+  S: String;
+  I: Integer;
   AFile: TFile;
-  filter: Boolean;
+  AFilter: Boolean;
+  Masks: TMaskList;
+  CaseSence: Boolean;
 begin
   filteredDisplayFiles.Clear;
+  CaseSence:= qscSensitive in [aFilterOptions.SearchCase];
 
   if Assigned(allDisplayFiles) then
-  begin
-    aFileFilter := PrepareFilter(aFileFilter, aFilterOptions);
-    for i := 0 to allDisplayFiles.Count - 1 do
+  try
+    Masks:= TMaskList.Create(aFileFilter, ';,', CaseSence);
+
+    for I := 0 to Masks.Count - 1 do
     begin
-      AFile := allDisplayFiles[i].FSFile;
+      S:= Masks.Items[I].Template;
+      S:= PrepareFilter(S, aFilterOptions);
+      Masks.Items[I].Template:= S;
+    end;
+
+    for I := 0 to allDisplayFiles.Count - 1 do
+    begin
+      AFile := allDisplayFiles[I].FSFile;
 
       try
-        filter := InternalMatchesFilter(AFile, aFileFilter, aFilterOptions);
+        AFilter := InternalMatchesFilter(AFile, Masks, aFilterOptions);
       except
         on EConvertError do
           aFileFilter := EmptyStr;
       end;
 
-      if not filter then
-        filteredDisplayFiles.Add(allDisplayFiles[i]);
+      if not AFilter then
+        filteredDisplayFiles.Add(allDisplayFiles[I]);
     end;
-  end;
-end;
-}
-
-var
-  i: Integer;
-  s :string;
-  AFile: TFile;
-  filter: Boolean;
-  CaseSence:boolean;
-  Masks:TMaskList;  // filters
-begin
-  filteredDisplayFiles.Clear;
-  CaseSence:=qscSensitive in [aFilterOptions.SearchCase];
-
-  try
-    Masks:=TMaskList.Create(aFileFilter,';,', CaseSence);
-
-    i:=0;
-    while(i<Masks.Count)do
-    begin
-      s:=Masks.Items[i].Template;
-      s:=PrepareFilter(s, aFilterOptions);
-      Masks.Items[i].Template:=s;
-    inc(i);
-    end;
-
-    if Assigned(allDisplayFiles) then
-    begin
-//      aFileFilter := PrepareFilter(aFileFilter, aFilterOptions);
-      for i := 0 to allDisplayFiles.Count - 1 do
-      begin
-        AFile := allDisplayFiles[i].FSFile;
-
-        try
-//          filter := InternalMatchesFilter(AFile, aFileFilter, aFilterOptions);
-          filter := InternalMatchesFilter(AFile, Masks, aFilterOptions);
-        except
-          on EConvertError do
-            aFileFilter := EmptyStr;
-        end;
-
-        if not filter then
-          filteredDisplayFiles.Add(allDisplayFiles[i]);
-      end;
-    end;
-
   finally
     Masks.Free;
-    Masks:=nil;
   end;
 end;
 
