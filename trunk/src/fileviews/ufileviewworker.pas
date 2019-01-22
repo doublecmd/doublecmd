@@ -642,15 +642,13 @@ begin
   begin
     if (Pos('.', Result) > 0) then
       begin
+        sFileExt := ExtractFileExt(Result);
         sFilterNameNoExt := ExtractOnlyFileName(Result);
-         if not (qsmBeginning in aFilterOptions.Match) then
+        if not (qsmBeginning in aFilterOptions.Match) then
           sFilterNameNoExt := '*' + sFilterNameNoExt;
         if not (qsmEnding in aFilterOptions.Match) then
           sFilterNameNoExt := sFilterNameNoExt + '*';
-        sFileExt := ExtractFileExt(Result);
-        if sFileExt = EmptyStr then
-          sFileExt := Result + '*';
-        Result := sFilterNameNoExt + sFileExt;
+        Result := sFilterNameNoExt + sFileExt + '*';
       end
     else
       begin
