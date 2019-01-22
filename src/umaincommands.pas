@@ -4806,7 +4806,7 @@ end;
 { TMainCommands.cm_ConfigSaveSettings }
 procedure TMainCommands.cm_ConfigSaveSettings(const Params: array of string);
 begin
-  frmMain.ConfigSaveSettings;
+  frmMain.ConfigSaveSettings(True);
 end;
 
 { TMainCommands.cm_ExecuteScript }

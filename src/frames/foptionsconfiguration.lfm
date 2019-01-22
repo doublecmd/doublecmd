@@ -65,7 +65,7 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 133
+    Height = 175
     Top = 141
     Width = 614
     Anchors = [akTop, akLeft, akRight]
@@ -73,7 +73,7 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     BorderSpacing.Top = 6
     Caption = 'Save on exit'
     ChildSizing.TopBottomSpacing = 5
-    ClientHeight = 113
+    ClientHeight = 155
     ClientWidth = 610
     TabOrder = 3
     object cbDirHistory: TCheckBox
@@ -82,11 +82,11 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 19
-      Top = 47
+      Top = 89
       Width = 107
       BorderSpacing.Top = 2
       Caption = '&Directory history'
-      TabOrder = 2
+      TabOrder = 4
     end
     object cbCmdLineHistory: TCheckBox
       AnchorSideLeft.Control = chkSaveConfiguration
@@ -94,11 +94,11 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 19
-      Top = 68
+      Top = 110
       Width = 138
       BorderSpacing.Top = 2
       Caption = 'Co&mmand line history'
-      TabOrder = 3
+      TabOrder = 5
     end
     object cbFileMaskHistory: TCheckBox
       AnchorSideLeft.Control = chkSaveConfiguration
@@ -106,11 +106,11 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 19
-      Top = 89
+      Top = 131
       Width = 108
       BorderSpacing.Top = 2
       Caption = '&File mask history'
-      TabOrder = 4
+      TabOrder = 6
     end
     object chkSaveConfiguration: TCheckBox
       AnchorSideLeft.Control = gbSaveOnExit
@@ -126,14 +126,38 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     end
     object chkSearchReplaceHistory: TCheckBox
       AnchorSideLeft.Control = chkSaveConfiguration
+      AnchorSideTop.Control = chkFolderTabs
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 19
+      Top = 68
+      Width = 140
+      BorderSpacing.Top = 2
+      Caption = 'Searc&h/Replace history'
+      TabOrder = 3
+    end
+    object chkFolderTabs: TCheckBox
+      AnchorSideLeft.Control = chkSaveConfiguration
+      AnchorSideTop.Control = chkWindowState
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 19
+      Top = 47
+      Width = 78
+      BorderSpacing.Top = 2
+      Caption = 'Folder tabs'
+      TabOrder = 2
+    end
+    object chkWindowState: TCheckBox
+      AnchorSideLeft.Control = chkSaveConfiguration
       AnchorSideTop.Control = chkSaveConfiguration
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 19
       Top = 26
-      Width = 140
+      Width = 120
       BorderSpacing.Top = 2
-      Caption = 'Searc&h/Replace history'
+      Caption = 'Main window state'
       TabOrder = 1
     end
   end
@@ -175,7 +199,7 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 58
-    Top = 280
+    Top = 322
     Width = 614
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
@@ -207,7 +231,7 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 113
-    Top = 408
+    Top = 450
     Width = 614
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -296,7 +320,7 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 58
-    Top = 344
+    Top = 386
     Width = 614
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True

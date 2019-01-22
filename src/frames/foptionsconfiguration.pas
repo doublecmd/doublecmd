@@ -38,6 +38,8 @@ type
     cbCmdLineHistory: TCheckBox;
     cbDirHistory: TCheckBox;
     cbFileMaskHistory: TCheckBox;
+    chkWindowState: TCheckBox;
+    chkFolderTabs: TCheckBox;
     chkSaveConfiguration: TCheckBox;
     chkSearchReplaceHistory: TCheckBox;
     edtHighlighters: TEdit;
@@ -100,6 +102,8 @@ end;
 
 procedure TfrmOptionsConfiguration.chkSaveConfigurationChange(Sender: TObject);
 begin
+  chkWindowState.Enabled:= chkSaveConfiguration.Checked;
+  chkFolderTabs.Enabled:= chkSaveConfiguration.Checked;
   cbDirHistory.Enabled:= chkSaveConfiguration.Checked;
   cbCmdLineHistory.Enabled:= chkSaveConfiguration.Checked;
   cbFileMaskHistory.Enabled:= chkSaveConfiguration.Checked;
@@ -179,6 +183,8 @@ begin
   edtHighlighters.Text:= edtHighlighters.Text + ExcludeTrailingPathDelimiter(gpHighPath);
 
   chkSaveConfiguration.Checked:= gSaveConfiguration;
+  chkWindowState.Checked:= gSaveWindowState;
+  chkFolderTabs.Checked:= gSaveFolderTabs;
   chkSearchReplaceHistory.Checked:= gSaveSearchReplaceHistory;
   cbDirHistory.Checked := gSaveDirHistory;
   cbCmdLineHistory.Checked := gSaveCmdLineHistory;
@@ -193,6 +199,8 @@ begin
 
   gUseConfigInProgramDirNew := rbProgramDir.Checked;
   gSaveConfiguration := chkSaveConfiguration.Checked;
+  gSaveWindowState := chkWindowState.Checked;
+  gSaveFolderTabs := chkFolderTabs.Checked;
   gSaveSearchReplaceHistory := chkSearchReplaceHistory.Checked;
   gSaveDirHistory := cbDirHistory.Checked;
   gSaveCmdLineHistory := cbCmdLineHistory.Checked;

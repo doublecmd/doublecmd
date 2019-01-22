@@ -826,12 +826,12 @@ type
     procedure LoadTabs;
     procedure LoadTabsCommandLine(Params: TCommandLineParams);
     procedure LoadWindowState;
-    procedure SaveWindowState;
+    procedure SaveWindowState(bForce: Boolean = False);
     procedure LoadMainToolbar;
     procedure SaveMainToolBar;
-    procedure ConfigSaveSettings;
     function  IsCommandLineVisible: Boolean;
     procedure ShowCommandLine(AFocus: Boolean);
+    procedure ConfigSaveSettings(bForce: Boolean);
     procedure ShowDrivesList(APanel: TFilePanelSelect);
     procedure ExecuteCommandLine(bRunInTerm: Boolean);
     procedure UpdatePrompt;
@@ -2172,7 +2172,7 @@ begin
     Commands.cm_CloseDuplicateTabs(['RightTabs']);
   end;
 
-  if gSaveConfiguration then ConfigSaveSettings;
+  if gSaveConfiguration then ConfigSaveSettings(False);
 
   FreeAndNil(Cons);
 
@@ -2632,7 +2632,7 @@ begin
   pnlNotebooksResize(pnlNotebooks);
 end;
 
-procedure TfrmMain.UpdateActionIcons();
+procedure TfrmMain.UpdateActionIcons;
 var
   I: Integer;
   imgIndex: Integer;
@@ -5471,27 +5471,33 @@ begin
   end;
 end;
 
-procedure TfrmMain.SaveWindowState;
+procedure TfrmMain.SaveWindowState(bForce: Boolean);
 var
   ANode: TXmlNode;
 begin
   (* Save all tabs *)
-  SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
-  SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbRight, gSaveDirHistory);
+  if gSaveFolderTabs or bForce then
+  begin
+    SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
+    SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbRight, gSaveDirHistory);
+  end;
 
   (* Save window bounds and state *)
-  ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
-  // save window size only if it's not Maximized (for not break normal size)
-  if (WindowState <> wsMaximized) then
+  if gSaveWindowState then
   begin
-    gConfig.SetValue(ANode, 'Left', Left);
-    gConfig.SetValue(ANode, 'Top', Top);
-    gConfig.SetValue(ANode, 'Width', Width);
-    gConfig.SetValue(ANode, 'Height', Height);
-    gConfig.SetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
+    ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
+    // save window size only if it's not Maximized (for not break normal size)
+    if (WindowState <> wsMaximized) then
+    begin
+      gConfig.SetValue(ANode, 'Left', Left);
+      gConfig.SetValue(ANode, 'Top', Top);
+      gConfig.SetValue(ANode, 'Width', Width);
+      gConfig.SetValue(ANode, 'Height', Height);
+      gConfig.SetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
+    end;
+    gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
+    gConfig.SetValue(ANode, 'Splitter', FMainSplitterPos);
   end;
-  gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
-  gConfig.SetValue(ANode, 'Splitter', FMainSplitterPos);
 end;
 
 procedure TfrmMain.LoadMainToolbar;
@@ -5521,13 +5527,13 @@ begin
   MainToolBar.SaveConfiguration(gConfig, ToolBarNode);
 end;
 
-procedure TfrmMain.ConfigSaveSettings;
+procedure TfrmMain.ConfigSaveSettings(bForce: Boolean);
 begin
   try
     DebugLn('Saving configuration');
     if gSaveCmdLineHistory then
       glsCmdLineHistory.Assign(edtCommand.Items);
-    SaveWindowState;
+    SaveWindowState(bForce);
     if gButtonBar then SaveMainToolBar;
     SaveGlobs; // Should be last, writes configuration file
   except

@@ -492,6 +492,8 @@ var
   gUseConfigInProgramDir,
   gUseConfigInProgramDirNew,
   gSaveConfiguration,
+  gSaveWindowState,
+  gSaveFolderTabs,
   gSaveSearchReplaceHistory,
   gSaveDirHistory,
   gSaveCmdLineHistory,
@@ -1700,6 +1702,8 @@ begin
 
   { Configuration page }
   gSaveConfiguration := True;
+  gSaveWindowState := True;
+  gSaveFolderTabs := True;
   gSaveSearchReplaceHistory := True;
   gSaveDirHistory := True;
   gSaveCmdLineHistory := True;
@@ -2631,6 +2635,8 @@ begin
 
     { Configuration page }
     gSaveConfiguration := GetAttr(Root, 'Configuration/Save', gSaveConfiguration);
+    gSaveWindowState := GetAttr(Root, 'MainWindow/Position/Save', gSaveWindowState);
+    gSaveFolderTabs := GetAttr(Root, 'Configuration/FolderTabs/Save', gSaveFolderTabs);
     gSaveSearchReplaceHistory:= GetAttr(Root, 'History/SearchReplaceHistory/Save', gSaveSearchReplaceHistory);
     gSaveDirHistory := GetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     gSaveCmdLineHistory := GetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
@@ -3209,6 +3215,8 @@ begin
 
     { Configuration page }
     SetAttr(Root, 'Configuration/Save', gSaveConfiguration);
+    SetAttr(Root, 'MainWindow/Position/Save', gSaveWindowState);
+    SetAttr(Root, 'Configuration/FolderTabs/Save', gSaveFolderTabs);
     SetAttr(Root, 'History/SearchReplaceHistory/Save', gSaveSearchReplaceHistory);
     SetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     SetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
