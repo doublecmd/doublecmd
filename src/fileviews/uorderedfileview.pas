@@ -521,8 +521,8 @@ end;
 
 procedure TOrderedFileView.SearchFile(SearchTerm,SeparatorCharset: String; SearchOptions: TQuickSearchOptions; InvertSelection: Boolean);
 var
-  i, Index, StopIndex, ActiveIndex: PtrInt;
-  s :string;
+  I, Index, StopIndex, ActiveIndex: PtrInt;
+  S: String;
   NewSelectedState,
   FirstFound,
   Result: Boolean;
@@ -532,7 +532,6 @@ var
   sSearchExt : String;
   AFile: TFile;
   Masks: TMaskList;
-  Mask : TMask;
 
   function NextIndexWrap(Index: PtrInt): PtrInt;
   begin
@@ -552,26 +551,7 @@ begin
   if IsEmpty then
     Exit;
 
-
   sSearchName := SearchTerm;
-  {
-  if Pos('.', sSearchName) <> 0 then
-  begin
-    sSearchNameNoExt := ExtractOnlyFileName(sSearchName);
-    sSearchExt := ExtractFileExt(sSearchName);
-    if not (qsmBeginning in SearchOptions.Match) then
-      sSearchNameNoExt := '*' + sSearchNameNoExt;
-    if not (qsmEnding in SearchOptions.Match) then
-      sSearchNameNoExt := sSearchNameNoExt + '*';
-    sSearchName := sSearchNameNoExt + sSearchExt + '*';
-  end
-  else
-  begin
-    if not (qsmBeginning in SearchOptions.Match) then
-      sSearchName := '*' + sSearchName;
-    sSearchName := sSearchName + '*';
-  end;
-  }
 
   Index := GetActiveFileIndex; // start search from current position
   if not IsFileIndexInRange(Index) then
@@ -602,16 +582,13 @@ begin
 
   StopIndex := Index;
   try
-//    Mask := TMask.Create(sSearchName, SearchOptions.SearchCase = qscSensitive);
-    Masks:=TMaskList.Create(SearchTerm,';,', SearchOptions.SearchCase = qscSensitive);
+    Masks:= TMaskList.Create(SearchTerm, ';,', SearchOptions.SearchCase = qscSensitive);
 
-    i:=0;
-    while(i<Masks.Count)do
+    for I := 0 to Masks.Count - 1 do
     begin
-      s:=Masks.Items[i].Template;
-      s:=TFileListBuilder.PrepareFilter(s, SearchOptions);
-      Masks.Items[i].Template:=s;
-    inc(i);
+      S:= Masks.Items[I].Template;
+      S:= TFileListBuilder.PrepareFilter(S, SearchOptions);
+      Masks.Items[I].Template:= S;
     end;
 
     try
@@ -667,9 +644,7 @@ begin
 
       until Index = StopIndex;
     finally
-//      Mask.Free;
       Masks.Free;
-      Masks:=nil;
     end;
   except
     on EConvertError do; // bypass
