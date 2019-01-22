@@ -2075,6 +2075,10 @@ msgstr "Configuración de atajos de teclado"
 msgid "Configuration of Plugins"
 msgstr ""
 
+#: tfrmmain.actconfigsavepos.caption
+msgid "Save Position"
+msgstr ""
+
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
 msgstr "Guardar ajustes"
