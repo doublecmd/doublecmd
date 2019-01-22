@@ -4337,6 +4337,12 @@ msgctxt "TFRMOPTIONSCONFIGURATION.CBFILEMASKHISTORY.CAPTION"
 msgid "&File mask history"
 msgstr "檔案遮罩歷史記錄 (&F)"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "資料夾分頁"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 #, fuzzy
 #| msgid "Save configuration"
@@ -4350,6 +4356,10 @@ msgstr "儲存設置 (&V)"
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
 msgid "Searc&h/Replace history"
 msgstr "搜尋/取代歷史記錄 (&H)"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 #, fuzzy

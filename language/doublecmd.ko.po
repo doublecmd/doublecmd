@@ -4121,6 +4121,12 @@ msgstr "폴더 히스토리(&D)"
 msgid "&File mask history"
 msgstr "찾은 파일 히스토리(&F)"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "폴더탭"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
 msgstr "환경설정 저장(&V)"
@@ -4128,6 +4134,10 @@ msgstr "환경설정 저장(&V)"
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
 msgstr "검색/바꾸기 히스토리(&H)"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 #, fuzzy

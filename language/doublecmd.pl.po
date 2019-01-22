@@ -4014,6 +4014,12 @@ msgstr "Historię katalogów"
 msgid "&File mask history"
 msgstr "Historię masek plików"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Zakładki katalogów"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
 msgstr "Konfigurację"
@@ -4021,6 +4027,10 @@ msgstr "Konfigurację"
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
 msgstr "Historię znajdź/zamień"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 #, fuzzy
@@ -11991,6 +12001,7 @@ msgid "File types"
 msgstr "Typy plików"
 
 #: ulng.rsoptionseditorfoldertabs
+msgctxt "ulng.rsoptionseditorfoldertabs"
 msgid "Folder tabs"
 msgstr "Zakładki katalogów"
 

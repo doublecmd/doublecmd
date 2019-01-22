@@ -4070,6 +4070,12 @@ msgctxt "TFRMOPTIONSCONFIGURATION.CBFILEMASKHISTORY.CAPTION"
 msgid "&File mask history"
 msgstr "Dateimasken-Verlau&f"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Verzeichnis-Tabs"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSAVECONFIGURATION.CAPTION"
 msgid "Sa&ve configuration"
@@ -4079,6 +4085,10 @@ msgstr "&Konfiguration speichern"
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
 msgid "Searc&h/Replace history"
 msgstr "Suc&he / Ersetze Verlauf"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"

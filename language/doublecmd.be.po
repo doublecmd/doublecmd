@@ -4009,6 +4009,12 @@ msgstr "&Гісторыя каталога"
 msgid "&File mask history"
 msgstr "Гісторыя &файлавай маскі"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Укладкі каталогаў"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
 msgstr "Захава&ць канфігурацыю"
@@ -4016,6 +4022,10 @@ msgstr "Захава&ць канфігурацыю"
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
 msgstr "Шукаць/замяніць гісторыю"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 msgctxt "TFRMOPTIONSCONFIGURATION.GBDIRECTORIES.CAPTION"
@@ -11978,6 +11988,7 @@ msgid "File types"
 msgstr "Тыпы файлаў"
 
 #: ulng.rsoptionseditorfoldertabs
+msgctxt "ulng.rsoptionseditorfoldertabs"
 msgid "Folder tabs"
 msgstr "Укладкі каталогаў"
 

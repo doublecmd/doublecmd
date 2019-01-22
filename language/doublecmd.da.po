@@ -4154,6 +4154,12 @@ msgstr "Mappehistorik"
 msgid "&File mask history"
 msgstr "Søge&filterets historik"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Faneblade"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
 msgstr "Indstillinger"
@@ -4161,6 +4167,10 @@ msgstr "Indstillinger"
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
 msgstr "Søg/erstat historik"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 #, fuzzy

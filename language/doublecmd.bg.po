@@ -4140,6 +4140,12 @@ msgctxt "TFRMOPTIONSCONFIGURATION.CBFILEMASKHISTORY.CAPTION"
 msgid "&File mask history"
 msgstr "Дневник на търсените файловете"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Папкови подпрозорци"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 #, fuzzy
 #| msgid "Save configuration"
@@ -4153,6 +4159,10 @@ msgstr "Запис на настройките"
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
 msgid "Searc&h/Replace history"
 msgstr "Дневник на търсенията/ замените"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 #, fuzzy

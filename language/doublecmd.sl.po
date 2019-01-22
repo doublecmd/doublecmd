@@ -4020,6 +4020,12 @@ msgstr "zgodovino &map"
 msgid "&File mask history"
 msgstr "zgodovino mask &imen datotek"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Zavihki map"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
 msgstr "&nastavitve"
@@ -4027,6 +4033,10 @@ msgstr "&nastavitve"
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
 msgstr "zgodovino iskanj in zamenjav"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
@@ -11996,6 +12006,7 @@ msgid "File types"
 msgstr "Vrste datotek"
 
 #: ulng.rsoptionseditorfoldertabs
+msgctxt "ulng.rsoptionseditorfoldertabs"
 msgid "Folder tabs"
 msgstr "Zavihki map"
 

@@ -4096,6 +4096,12 @@ msgstr "Ιστορικό Καταλόγου"
 msgid "&File mask history"
 msgstr "Ιστορικό μάσκας αρχείου"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Καρτέλες Φακέλων"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
 msgstr "Αποθήκευση Ρυθμίσεων"
@@ -4103,6 +4109,10 @@ msgstr "Αποθήκευση Ρυθμίσεων"
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
 msgstr "Αναζήτηση/Αντικατάσταση Ιστορικό"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"

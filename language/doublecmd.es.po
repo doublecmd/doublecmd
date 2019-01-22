@@ -4021,6 +4021,12 @@ msgstr "Historial de carpetas"
 msgid "&File mask history"
 msgstr "Historial de &máscaras de archivos"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Pestañas"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
 msgstr "&Guardar la configuración"
@@ -4028,6 +4034,10 @@ msgstr "&Guardar la configuración"
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
 msgstr "&Historial de buscar/reemplazar"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
@@ -12016,6 +12026,7 @@ msgid "File types"
 msgstr "Tipos de archivos"
 
 #: ulng.rsoptionseditorfoldertabs
+msgctxt "ulng.rsoptionseditorfoldertabs"
 msgid "Folder tabs"
 msgstr "Pestañas"
 

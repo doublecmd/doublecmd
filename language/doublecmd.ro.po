@@ -4099,6 +4099,12 @@ msgstr "Istoricul &dosarului"
 msgid "&File mask history"
 msgstr "Istoricul măștii &fișierului"
 
+#: tfrmoptionsconfiguration.chkfoldertabs.caption
+#, fuzzy
+msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
+msgid "Folder tabs"
+msgstr "Filele dosarelor"
+
 #: tfrmoptionsconfiguration.chksaveconfiguration.caption
 msgid "Sa&ve configuration"
 msgstr "Sal&vează configurația"
@@ -4106,6 +4112,10 @@ msgstr "Sal&vează configurația"
 #: tfrmoptionsconfiguration.chksearchreplacehistory.caption
 msgid "Searc&h/Replace history"
 msgstr "Istoricul (&h) Caută/Înlocuiește"
+
+#: tfrmoptionsconfiguration.chkwindowstate.caption
+msgid "Main window state"
+msgstr ""
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 #, fuzzy
