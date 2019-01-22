@@ -215,7 +215,7 @@ const
     (TCCommand: 'cm_PackerConfig';              TCIcon: 34; DCCommand: 'cm_ConfigArchivers';        DCParameters: ''          ), //Conf: Packer
     (TCCommand: 'cm_ZipPackerConfig';           TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: ZIP packer
     (TCCommand: 'cm_Confirmation';              TCIcon: 34; DCCommand: '';                          DCParameters: ''          ), //Conf: Misc, Confirmation
-    (TCCommand: 'cm_ConfigSavePos';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Conf: Save position
+    (TCCommand: 'cm_ConfigSavePos';             TCIcon: -1; DCCommand: 'cm_ConfigSavePos';          DCParameters: ''          ), //Conf: Save position
     (TCCommand: 'cm_ButtonConfig';              TCIcon: 14; DCCommand: 'cm_ConfigToolbars';         DCParameters: ''          ), //Conf: Button bar
     (TCCommand: 'cm_ConfigSaveSettings';        TCIcon: -1; DCCommand: 'cm_ConfigSaveSettings';     DCParameters: ''          ), //Save current paths etc.
     (TCCommand: 'cm_ConfigChangeIniFiles';      TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Open ini files in notepad

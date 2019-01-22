@@ -1408,6 +1408,9 @@ object frmMain: TfrmMain
       object miLine55: TMenuItem
         Caption = '-'
       end
+      object mnuConfigSavePos: TMenuItem
+        Action = actConfigSavePos
+      end
       object mnuConfigSaveSettings: TMenuItem
         Action = actConfigSaveSettings
       end
@@ -2667,6 +2670,12 @@ object frmMain: TfrmMain
       Category = 'Configuration'
       Caption = 'Configuration of hot keys'
       HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actConfigSavePos: TAction
+      Tag = 5
+      Category = 'Configuration'
+      Caption = 'Save Position'
       OnExecute = actExecute
     end
     object actConfigSaveSettings: TAction

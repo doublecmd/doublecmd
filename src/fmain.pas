@@ -103,6 +103,7 @@ type
     actCopyAllTabsToOpposite: TAction;
     actConfigTreeViewMenus: TAction;
     actConfigTreeViewMenusColors: TAction;
+    actConfigSavePos: TAction;
     actConfigSaveSettings: TAction;
     actExecuteScript: TAction;
     actFocusSwap: TAction;
@@ -224,6 +225,7 @@ type
     lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
     miConfigArchivers: TMenuItem;
+    mnuConfigSavePos: TMenuItem;
     mnuConfigSaveSettings: TMenuItem;
     miLine55: TMenuItem;
     mnuConfigureFavoriteTabs: TMenuItem;
@@ -826,7 +828,7 @@ type
     procedure LoadTabs;
     procedure LoadTabsCommandLine(Params: TCommandLineParams);
     procedure LoadWindowState;
-    procedure SaveWindowState(bForce: Boolean = False);
+    procedure SaveWindowState;
     procedure LoadMainToolbar;
     procedure SaveMainToolBar;
     function  IsCommandLineVisible: Boolean;
@@ -5457,47 +5459,35 @@ begin
     ATop := gConfig.GetValue(ANode, 'Top', 48);
     AWidth := gConfig.GetValue(ANode, 'Width', 800);
     AHeight := gConfig.GetValue(ANode, 'Height', 480);
-{$if lcl_fullversion >= 1070000}
     FPixelsPerInch := gConfig.GetValue(ANode, 'PixelsPerInch', DesignTimePPI);
     if Scaled and (Screen.PixelsPerInch <> FPixelsPerInch) then
     begin
       AWidth := MulDiv(AWidth, Screen.PixelsPerInch, FPixelsPerInch);
       AHeight := MulDiv(AHeight, Screen.PixelsPerInch, FPixelsPerInch);
     end;
-{$endif}
     SetBounds(ALeft, ATop, AWidth, AHeight);
     if gConfig.GetValue(ANode, 'Maximized', True) then
       Self.WindowState := wsMaximized;
   end;
 end;
 
-procedure TfrmMain.SaveWindowState(bForce: Boolean);
+procedure TfrmMain.SaveWindowState;
 var
   ANode: TXmlNode;
 begin
-  (* Save all tabs *)
-  if gSaveFolderTabs or bForce then
-  begin
-    SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
-    SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbRight, gSaveDirHistory);
-  end;
-
   (* Save window bounds and state *)
-  if gSaveWindowState then
+  ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
+  // save window size only if it's not Maximized (for not break normal size)
+  if (WindowState <> wsMaximized) then
   begin
-    ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
-    // save window size only if it's not Maximized (for not break normal size)
-    if (WindowState <> wsMaximized) then
-    begin
-      gConfig.SetValue(ANode, 'Left', Left);
-      gConfig.SetValue(ANode, 'Top', Top);
-      gConfig.SetValue(ANode, 'Width', Width);
-      gConfig.SetValue(ANode, 'Height', Height);
-      gConfig.SetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
-    end;
-    gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
-    gConfig.SetValue(ANode, 'Splitter', FMainSplitterPos);
+    gConfig.SetValue(ANode, 'Left', Left);
+    gConfig.SetValue(ANode, 'Top', Top);
+    gConfig.SetValue(ANode, 'Width', Width);
+    gConfig.SetValue(ANode, 'Height', Height);
+    gConfig.SetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
   end;
+  gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
+  gConfig.SetValue(ANode, 'Splitter', FMainSplitterPos);
 end;
 
 procedure TfrmMain.LoadMainToolbar;
@@ -5531,10 +5521,21 @@ procedure TfrmMain.ConfigSaveSettings(bForce: Boolean);
 begin
   try
     DebugLn('Saving configuration');
+
     if gSaveCmdLineHistory then
       glsCmdLineHistory.Assign(edtCommand.Items);
-    SaveWindowState(bForce);
+
+    (* Save all tabs *)
+    if gSaveFolderTabs or bForce then
+    begin
+      SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbLeft, gSaveDirHistory);
+      SaveTabsXml(gConfig, 'Tabs/OpenedTabs/', nbRight, gSaveDirHistory);
+    end;
+
+    if gSaveWindowState then SaveWindowState;
+
     if gButtonBar then SaveMainToolBar;
+
     SaveGlobs; // Should be last, writes configuration file
   except
     on E: Exception do
