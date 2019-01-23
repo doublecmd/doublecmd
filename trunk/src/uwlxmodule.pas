@@ -4,7 +4,7 @@
    WLX-API implementation (TC WLX-API v2.0).
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,8 +17,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uWlxModule;
@@ -31,7 +30,7 @@ uses
   Classes, SysUtils, dynlibs, uDetectStr, uWlxPrototypes, WlxPlugin,
   DCClassesUtf8, uDCUtils, LCLProc, LCLType, DCXmlConfig
   {$IFDEF LCLWIN32}
-  , Windows
+  , Windows, LCLIntf, Controls
   {$ENDIF}
   {$IFDEF LCLGTK}
   , gtk, glib, gdk, gtkproc
@@ -187,6 +186,23 @@ begin
   else
     Result := DefWindowProc(hWnd, Msg, wParam, lParam);
 end;
+
+function ListerProc(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
+var
+  Lister: TControl;
+  WindowProc: WNDPROC;
+begin
+  if Msg = WM_COMMAND then
+  begin
+    Lister:= TControl(GetLCLOwnerObject(hWnd));
+    if Assigned(Lister) then Lister.Perform(Msg, wParam, lParam);
+  end;
+  WindowProc := WNDPROC(GetPropW(hWnd, WindowProcAtom));
+  if Assigned(WindowProc) then
+    Result := CallWindowProc(WindowProc, hWnd, Msg, wParam, lParam)
+  else
+    Result := DefWindowProc(hWnd, Msg, wParam, lParam);
+end;
 {$ENDIF}
 
 procedure WlxPrepareContainer(var {%H-}ParentWin: HWND);
@@ -305,8 +321,11 @@ begin
     Exit(wlxInvalidHandle);
 
 {$IF DEFINED(LCLWIN32)}
+  // Subclass viewer window to catch WM_COMMAND message.
+  Result:= HWND(SetWindowLongPtr(ParentWin, GWL_WNDPROC, LONG_PTR(@ListerProc)));
+  Windows.SetPropW(ParentWin, WindowProcAtom, Result);
   // Subclass plugin window to catch some hotkeys like 'n' or 'p'.
-  Result := SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(@PluginProc));
+  Result := HWND(SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(@PluginProc)));
   Windows.SetPropW(FPluginWindow, WindowProcAtom, Result);
 {$ENDIF}
 
@@ -330,7 +349,7 @@ begin
   //  DCDebug('Try to call ListCloseWindow');
   try
 {$IF DEFINED(LCLWIN32)}
-    SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, RemovePropW(FPluginWindow, WindowProcAtom));
+    SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(RemovePropW(FPluginWindow, WindowProcAtom)));
 {$ENDIF}
     if Assigned(ListCloseWindow) then
       ListCloseWindow(FPluginWindow)
