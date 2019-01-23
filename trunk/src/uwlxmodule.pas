@@ -192,16 +192,17 @@ var
   Lister: TControl;
   WindowProc: WNDPROC;
 begin
-  if Msg = WM_COMMAND then
+  WindowProc := WNDPROC(GetPropW(hWnd, WindowProcAtom));
+  if Assigned(WindowProc) then
+    Result := CallWindowProc(WindowProc, hWnd, Msg, wParam, lParam)
+  else begin
+    Result := DefWindowProc(hWnd, Msg, wParam, lParam);
+  end;
+  if (Result = 0) and (Msg = WM_COMMAND) and (lParam <> 0) then
   begin
     Lister:= TControl(GetLCLOwnerObject(hWnd));
     if Assigned(Lister) then Lister.Perform(Msg, wParam, lParam);
   end;
-  WindowProc := WNDPROC(GetPropW(hWnd, WindowProcAtom));
-  if Assigned(WindowProc) then
-    Result := CallWindowProc(WindowProc, hWnd, Msg, wParam, lParam)
-  else
-    Result := DefWindowProc(hWnd, Msg, wParam, lParam);
 end;
 {$ENDIF}
 
@@ -350,6 +351,7 @@ begin
   try
 {$IF DEFINED(LCLWIN32)}
     SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(RemovePropW(FPluginWindow, WindowProcAtom)));
+    SetWindowLongPtr(GetParent(FPluginWindow), GWL_WNDPROC, LONG_PTR(RemovePropW(GetParent(FPluginWindow), WindowProcAtom)));
 {$ENDIF}
     if Assigned(ListCloseWindow) then
       ListCloseWindow(FPluginWindow)
