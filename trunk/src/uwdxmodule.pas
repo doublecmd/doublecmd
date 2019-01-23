@@ -1128,7 +1128,7 @@ begin
         ft_numeric_floating:
           Result := FloatToStr(lua_tonumber(L, -1));
         ft_boolean:
-          Result := BoolToStr(lua_toboolean(L, -1), True);
+          Result := IfThen(lua_toboolean(L, -1), rsSimpleWordTrue, rsSimpleWordFalse);
       end;
     end;
 
