@@ -319,6 +319,7 @@ type
     function CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
     function CheckGraphics(const sFileName:String):Boolean;
     function LoadGraphics(const sFileName:String): Boolean;
+    function ListLoadNext(Index: Integer): Boolean;
     procedure AdjustImageSize;
     procedure DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
     procedure MakeTextEncodingsMenu;
@@ -2117,6 +2118,19 @@ begin
   ImgEdit:= False;
 end;
 
+function TfrmViewer.ListLoadNext(Index: Integer): Boolean;
+begin
+  if FWlxModule.FileParamVSDetectStr(FileList[Index], False) then
+  begin
+    if (FWlxModule.CallListLoadNext(Self.Handle, FileList[Index], PluginShowFlags) <> LISTPLUGIN_ERROR) then
+    begin
+      iActiveFile := Index;
+      Exit(True);
+    end;
+  end;
+  Result:= False;
+end;
+
 procedure TfrmViewer.DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
 var
   T: QWord;
@@ -2385,8 +2399,8 @@ begin
 
   if bPlugin then
   begin
-    if (FWlxModule.CallListLoadNext(Self.Handle, FileList[I], PluginShowFlags) <> LISTPLUGIN_ERROR) then
-    Exit;
+    if ListLoadNext(I) then
+      Exit;
   end;
   ExitPluginMode;
   if pnlPreview.Visible then
@@ -2412,7 +2426,7 @@ begin
 
   if bPlugin then
   begin
-    if (FWlxModule.CallListLoadNext(Self.Handle, FileList[I], PluginShowFlags) <> LISTPLUGIN_ERROR) then
+    if ListLoadNext(I) then
       Exit;
   end;
   ExitPluginMode;
