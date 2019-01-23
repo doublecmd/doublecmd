@@ -176,15 +176,16 @@ function PluginProc(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LPARAM): LRES
 var
   WindowProc: WNDPROC;
 begin
-  if Msg = WM_KEYDOWN then
-  begin
-    PostMessage(GetParent(hWnd), Msg, wParam, lParam);
-  end;
   WindowProc := WNDPROC(GetPropW(hWnd, WindowProcAtom));
   if Assigned(WindowProc) then
     Result := CallWindowProc(WindowProc, hWnd, Msg, wParam, lParam)
-  else
+  else begin
     Result := DefWindowProc(hWnd, Msg, wParam, lParam);
+  end;
+  if (Result = 0) and (Msg = WM_KEYDOWN) then
+  begin
+    PostMessage(GetParent(hWnd), Msg, wParam, lParam);
+  end;
 end;
 
 function ListerProc(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
@@ -322,12 +323,15 @@ begin
     Exit(wlxInvalidHandle);
 
 {$IF DEFINED(LCLWIN32)}
-  // Subclass viewer window to catch WM_COMMAND message.
-  Result:= HWND(SetWindowLongPtr(ParentWin, GWL_WNDPROC, LONG_PTR(@ListerProc)));
-  Windows.SetPropW(ParentWin, WindowProcAtom, Result);
-  // Subclass plugin window to catch some hotkeys like 'n' or 'p'.
-  Result := HWND(SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(@PluginProc)));
-  Windows.SetPropW(FPluginWindow, WindowProcAtom, Result);
+  if FPluginWindow <> 0 then
+  begin
+    // Subclass viewer window to catch WM_COMMAND message.
+    Result:= HWND(SetWindowLongPtr(ParentWin, GWL_WNDPROC, LONG_PTR(@ListerProc)));
+    Windows.SetPropW(ParentWin, WindowProcAtom, Result);
+    // Subclass plugin window to catch some hotkeys like 'n' or 'p'.
+    Result := HWND(SetWindowLongPtr(FPluginWindow, GWL_WNDPROC, LONG_PTR(@PluginProc)));
+    Windows.SetPropW(FPluginWindow, WindowProcAtom, Result);
+  end;
 {$ENDIF}
 
   Result := FPluginWindow;
