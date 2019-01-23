@@ -5,7 +5,7 @@
    (TC WDX-API v1.5)
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2019 Alexander Koblov (alexx2000@mail.ru)
 
    Some ideas were found in sources of WdxGuide by Alexey Torgashin
    and SuperWDX by Pavel Dubrovsky and Dmitry Vorotilin.
@@ -21,9 +21,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 
@@ -34,9 +32,11 @@ unit uWDXModule;
 interface
 
 uses
-  Classes, SysUtils, DCClassesUtf8,
-  uWdxPrototypes, WdxPlugin,
-  dynlibs, uDetectStr, lua, uFile, DCXmlConfig;
+  //Lazarus, Free-Pascal, etc.
+  Classes, SysUtils, dynlibs,
+
+  //DC
+  uLng, uWdxPrototypes, WdxPlugin, uDetectStr, lua, uFile, DCXmlConfig;
 
 const
   WDX_MAX_LEN = 2048;
@@ -213,9 +213,9 @@ type
     function GetAName: String; override;
     function GetAFileName: String; override;
     function GetADetectStr: String; override;
-    procedure SetAName(AValue: String); override;
-    procedure SetAFileName(AValue: String); override;
-    procedure SetADetectStr(const AValue: String); override;
+    procedure SetAName({%H-}AValue: String); override;
+    procedure SetAFileName({%H-}AValue: String); override;
+    procedure SetADetectStr(const {%H-}AValue: String); override;
   protected
     procedure AddField(const AName: String; AType: Integer);
   public
@@ -294,8 +294,7 @@ begin
   ft_date: Result := StrToDate(Value);
   ft_time: Result := StrToTime(Value);
   ft_datetime: Result := StrToDateTime(Value);
-  ft_boolean: Result := StrToBool(Value);
-
+  ft_boolean: Result := ((LowerCase(Value) = 'true') OR (Value = rsSimpleWordTrue));
   ft_multiplechoice,
   ft_string,
   ft_fulltext,
@@ -792,12 +791,7 @@ begin
       ft_date: Result :=  Format('%2.2d.%2.2d.%4.4d', [fdate.wDay, fdate.wMonth, fdate.wYear]);
       ft_time: Result := Format('%2.2d:%2.2d:%2.2d', [ftime.wHour, ftime.wMinute, ftime.wSecond]);
       ft_datetime: Result := DateTimeToStr(WinFileTimeToDateTime(wtime));
-
-      ft_boolean: if fnval = 0 then
-          Result := 'FALSE'
-        else
-          Result := 'TRUE';
-
+      ft_boolean: Result := ifThen((fnval = 0), rsSimpleWordFalse, rsSimpleWordTrue);
       ft_multiplechoice,
       ft_string,
       ft_fulltext: Result := CeSysToUtf8(AnsiString(PAnsiChar(@Buf[0])));

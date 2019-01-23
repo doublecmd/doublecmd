@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Content plugin search control
 
-   Copyright (C) 2014-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -238,7 +238,13 @@ end;
 
 procedure TPluginPanel.SetValue(AValue: Variant);
 begin
-  FValue.Text:= VarToStr(AValue)
+  if not VarIsBool(AValue) then
+    FValue.Text := AValue
+  else
+    if AValue then
+      FValue.Text := rsSimpleWordTrue
+    else
+      FValue.Text := rsSimpleWordFalse;
 end;
 
 procedure TPluginPanel.SetComboBox(ComboBox: TComboBox; const Value,
