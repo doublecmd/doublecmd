@@ -236,6 +236,7 @@
 {"hash":255739843,"name":"tfrmmain.actconfigtreeviewmenuscolors.caption","sourcebytes":[67,111,110,102,105,103,117,114,97,116,105,111,110,32,111,102,32,84,114,101,101,32,86,105,101,119,32,77,101,110,117,32,67,111,108,111,114,115],"value":"Configuration of Tree View Menu Colors"},
 {"hash":219249491,"name":"tfrmmain.actconfigsearches.caption","sourcebytes":[67,111,110,102,105,103,117,114,97,116,105,111,110,32,111,102,32,115,101,97,114,99,104,101,115],"value":"Configuration of searches"},
 {"hash":16841203,"name":"tfrmmain.actconfighotkeys.caption","sourcebytes":[67,111,110,102,105,103,117,114,97,116,105,111,110,32,111,102,32,104,111,116,32,107,101,121,115],"value":"Configuration of hot keys"},
+{"hash":254597918,"name":"tfrmmain.actconfigsavepos.caption","sourcebytes":[83,97,118,101,32,80,111,115,105,116,105,111,110],"value":"Save Position"},
 {"hash":87462179,"name":"tfrmmain.actconfigsavesettings.caption","sourcebytes":[83,97,118,101,32,83,101,116,116,105,110,103,115],"value":"Save Settings"},
 {"hash":186670788,"name":"tfrmmain.actexecutescript.caption","sourcebytes":[69,120,101,99,117,116,101,32,83,99,114,105,112,116],"value":"Execute Script"},
 {"hash":40564547,"name":"tfrmmain.actfocusswap.caption","sourcebytes":[83,119,97,112,32,102,111,99,117,115],"value":"Swap focus"},
