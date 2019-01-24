@@ -22,10 +22,10 @@
 # Cela vient d'être corrigé partout. Ce fut un peu long et fastidieux. Essayons de continuer cela.
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.5.1 beta\n"
+"Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2018-12-22 19:01-0500\n"
+"PO-Revision-Date: 2019-01-23 22:29-0500\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -2002,7 +2002,7 @@ msgstr "Copier le chemin vers la ligne de commande"
 
 #: tfrmmain.actaddplugin.caption
 msgid "Add Plugin"
-msgstr ""
+msgstr "Ajoute un \"Plugin\""
 
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
@@ -2135,7 +2135,7 @@ msgstr "Configuration des \"Plugins\""
 
 #: tfrmmain.actconfigsavepos.caption
 msgid "Save Position"
-msgstr ""
+msgstr "Enregistrer la position"
 
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
@@ -4125,7 +4125,6 @@ msgid "&File mask history"
 msgstr "Historique des masques de fichier"
 
 #: tfrmoptionsconfiguration.chkfoldertabs.caption
-#, fuzzy
 msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
 msgid "Folder tabs"
 msgstr "Onglets"
@@ -4142,7 +4141,7 @@ msgstr "Historique des Recherches/Remplacements"
 
 #: tfrmoptionsconfiguration.chkwindowstate.caption
 msgid "Main window state"
-msgstr ""
+msgstr "État de la fenêtre principale"
 
 #: tfrmoptionsconfiguration.gbdirectories.caption
 msgctxt "tfrmoptionsconfiguration.gbdirectories.caption"
@@ -5025,29 +5024,29 @@ msgstr "Ajout du panneau principal"
 
 #: tfrmoptionsdirectoryhotlistextra.btnpathtoberelativetoall.caption
 msgid "Apply current settings to directory hotlist"
-msgstr ""
+msgstr "Appliquer les paramètres aux dossiers favoris"
 
 #: tfrmoptionsdirectoryhotlistextra.ckbdirectoryhotlistsource.caption
 msgid "Source"
-msgstr ""
+msgstr "Source"
 
 #: tfrmoptionsdirectoryhotlistextra.ckbdirectoryhotlisttarget.caption
 msgid "Target"
-msgstr ""
+msgstr "Destination"
 
 #: tfrmoptionsdirectoryhotlistextra.gbdirectoryhotlistoptionsextra.caption
 msgctxt "tfrmoptionsdirectoryhotlistextra.gbdirectoryhotlistoptionsextra.caption"
 msgid "Paths"
-msgstr ""
+msgstr "Chemins"
 
 #: tfrmoptionsdirectoryhotlistextra.lbdirectoryhotlistfilenamestyle.caption
 msgid "Way to set paths when adding them:"
-msgstr ""
+msgstr "Manière de définir les chemins lors de leur ajout:"
 
 #: tfrmoptionsdirectoryhotlistextra.lblapplysettingsfor.caption
 msgctxt "tfrmoptionsdirectoryhotlistextra.lblapplysettingsfor.caption"
 msgid "Do this for paths of:"
-msgstr ""
+msgstr "Faire ceci pour les chemins de:"
 
 #: tfrmoptionsdirectoryhotlistextra.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionsdirectoryhotlistextra.lbpathtoberelativeto.caption"
@@ -5802,7 +5801,7 @@ msgstr "Cliquez-moi pour changer l'icône!"
 
 #: tfrmoptionsfileassocextra.btnpathtoberelativetoall.caption
 msgid "Apply current settings to all current configured filenames and paths"
-msgstr ""
+msgstr "Appliquer les paramètres aux noms de fichiers et chemins configurés"
 
 #: tfrmoptionsfileassocextra.cbexecuteviashell.caption
 msgctxt "tfrmoptionsfileassocextra.cbexecuteviashell.caption"
@@ -5839,7 +5838,7 @@ msgstr "Exécuter via le terminal et demeurer actif"
 #: tfrmoptionsfileassocextra.ckbfileassoccommand.caption
 msgctxt "tfrmoptionsfileassocextra.ckbfileassoccommand.caption"
 msgid "Commands"
-msgstr ""
+msgstr "Commandes"
 
 #: tfrmoptionsfileassocextra.ckbfileassocicons.caption
 msgctxt "tfrmoptionsfileassocextra.ckbfileassocicons.caption"
@@ -5849,7 +5848,7 @@ msgstr "Icônes"
 #: tfrmoptionsfileassocextra.ckbfileassocstartpath.caption
 msgctxt "tfrmoptionsfileassocextra.ckbfileassocstartpath.caption"
 msgid "Starting paths"
-msgstr ""
+msgstr "Chemins de démarrage"
 
 #: tfrmoptionsfileassocextra.gbextendedcontextmenuoptions.caption
 msgid "Extended options items:"
@@ -5858,17 +5857,17 @@ msgstr "Options étendues :"
 #: tfrmoptionsfileassocextra.gbtoolbaroptionsextra.caption
 msgctxt "tfrmoptionsfileassocextra.gbtoolbaroptionsextra.caption"
 msgid "Paths"
-msgstr ""
+msgstr "Chemins"
 
 #: tfrmoptionsfileassocextra.lbfileassocfilenamestyle.caption
 msgctxt "tfrmoptionsfileassocextra.lbfileassocfilenamestyle.caption"
 msgid "Way to set paths when adding elements for icons, commands and starting paths:"
-msgstr ""
+msgstr "Manière de définir les chemins lors de l'ajout des icônes, des commandes et des chemins:"
 
 #: tfrmoptionsfileassocextra.lblapplysettingsfor.caption
 msgctxt "tfrmoptionsfileassocextra.lblapplysettingsfor.caption"
 msgid "Do this for files and path for:"
-msgstr ""
+msgstr "Faire ceci pour les fichiers et chemins:"
 
 #: tfrmoptionsfileassocextra.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionsfileassocextra.lbpathtoberelativeto.caption"
@@ -7780,12 +7779,12 @@ msgstr "Type de bouton"
 
 #: tfrmoptionstoolbarextra.btnpathtoberelativetoall.caption
 msgid "Apply current settings to all configured filenames and paths"
-msgstr ""
+msgstr "Appliquer les paramètres aux noms de fichiers et chemins  configurés"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarcommand.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarcommand.caption"
 msgid "Commands"
-msgstr ""
+msgstr "Commandes"
 
 #: tfrmoptionstoolbarextra.ckbtoolbaricons.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbaricons.caption"
@@ -7795,16 +7794,16 @@ msgstr "Icônes"
 #: tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption"
 msgid "Starting paths"
-msgstr ""
+msgstr "Chemins de démarrage"
 
 #: tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption
 msgctxt "tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption"
 msgid "Paths"
-msgstr ""
+msgstr "Chemins"
 
 #: tfrmoptionstoolbarextra.lblapplysettingsfor.caption
 msgid "Do this for files and paths for:"
-msgstr ""
+msgstr "Faire cela pour les fichiers et les chemins:"
 
 #: tfrmoptionstoolbarextra.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionstoolbarextra.lbpathtoberelativeto.caption"
@@ -7814,7 +7813,7 @@ msgstr "Le chemin doit être relatif à:"
 #: tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption
 msgctxt "tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption"
 msgid "Way to set paths when adding elements for icons, commands and starting paths:"
-msgstr ""
+msgstr "Manière de définir les chemins lors des ajout d'icônes, de commandes et de chemins:"
 
 #: tfrmoptionstoolbase.btnrelativetoolpath.hint
 msgctxt "tfrmoptionstoolbase.btnrelativetoolpath.hint"
@@ -10090,7 +10089,7 @@ msgstr "Fichiers .TAB"
 
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
-msgstr ""
+msgstr "Fichiers de \"Plugin\""
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -12210,7 +12209,7 @@ msgstr "Dossiers favoris"
 
 #: ulng.rsoptionseditordirectoryhotlistextra
 msgid "Directory Hotlist Extra"
-msgstr ""
+msgstr "Dossiers favoris (suite)"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"
@@ -12358,7 +12357,7 @@ msgstr "Barre d'outils"
 
 #: ulng.rsoptionseditortoolbarextra
 msgid "Toolbar Extra"
-msgstr ""
+msgstr "Barre d'outils (suite)"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
