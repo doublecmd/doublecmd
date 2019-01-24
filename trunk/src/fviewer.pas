@@ -2124,6 +2124,8 @@ begin
   begin
     if (FWlxModule.CallListLoadNext(Self.Handle, FileList[Index], PluginShowFlags) <> LISTPLUGIN_ERROR) then
     begin
+      Status.Panels[sbpFileNr].Text:= Format('%d/%d', [Index + 1, FileList.Count]);
+      Caption:= FileList[Index];
       iActiveFile := Index;
       Exit(True);
     end;
