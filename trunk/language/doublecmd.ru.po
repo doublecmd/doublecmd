@@ -7765,10 +7765,6 @@ msgstr "Тип кнопки"
 msgid "Apply current settings to all configured filenames and paths"
 msgstr "Применить настройки ко всем именам файлов и путям"
 
-#: tfrmoptionstoolbarextra.cbtoolbarfilenamestyle.hint
-msgid "terbfdg "
-msgstr ""
-
 #: tfrmoptionstoolbarextra.ckbtoolbarcommand.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarcommand.caption"
 msgid "Commands"

@@ -7531,10 +7531,6 @@ msgstr ""
 msgid "Apply current settings to all configured filenames and paths"
 msgstr ""
 
-#: tfrmoptionstoolbarextra.cbtoolbarfilenamestyle.hint
-msgid "terbfdg "
-msgstr ""
-
 #: tfrmoptionstoolbarextra.ckbtoolbarcommand.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarcommand.caption"
 msgid "Commands"
