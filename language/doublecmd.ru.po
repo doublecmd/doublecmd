@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-01-17 17:24+0300\n"
+"PO-Revision-Date: 2019-01-24 00:24+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1980,7 +1980,7 @@ msgstr "Копировать путь в командную строку"
 
 #: tfrmmain.actaddplugin.caption
 msgid "Add Plugin"
-msgstr ""
+msgstr "Добавить плагин"
 
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
@@ -10072,7 +10072,7 @@ msgstr "TAB-файлы"
 
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
-msgstr ""
+msgstr "Файлы плагинов"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
