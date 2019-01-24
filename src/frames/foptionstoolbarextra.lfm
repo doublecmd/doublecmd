@@ -44,7 +44,6 @@ inherited frmOptionsToolbarExtra: TfrmOptionsToolbarExtra
       AnchorSideRight.Side = asrBottom
       Left = 6
       Height = 23
-      Hint = 'terbfdg '
       Top = 27
       Width = 822
       Anchors = [akTop, akLeft, akRight]
