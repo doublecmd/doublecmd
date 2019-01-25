@@ -66,6 +66,20 @@ type
 
   TViewerCopyMoveAction=(vcmaCopy,vcmaMove);
 
+  { TDrawGrid }
+
+  TDrawGrid = class(Grids.TDrawGrid)
+  private
+    FMutex: Integer;
+  private
+    function GetIndex: Integer;
+    procedure SetIndex(AValue: Integer);
+  protected
+    procedure MoveSelection; override;
+  public
+    property Index: Integer read GetIndex write SetIndex;
+  end;
+
   { TfrmViewer }
 
   TfrmViewer = class(TAloneForm, IFormCommands)
@@ -319,7 +333,6 @@ type
     function CheckPlugins(const sFileName: String; bForce: Boolean = False): Boolean;
     function CheckGraphics(const sFileName:String):Boolean;
     function LoadGraphics(const sFileName:String): Boolean;
-    function ListLoadNext(Index: Integer): Boolean;
     procedure AdjustImageSize;
     procedure DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
     procedure MakeTextEncodingsMenu;
@@ -346,9 +359,12 @@ type
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource; aQuickView: Boolean = False); overload;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
+
+    procedure LoadFile(iIndex: Integer);
     procedure LoadFile(const aFileName: String);
+    procedure LoadNextFile(Index: Integer);
     procedure LoadNextFile(const aFileName: String);
-    procedure LoadFile(iIndex:Integer);
+
     procedure ExitPluginMode;
 
     procedure ShowTextViewer(AMode: TViewerControlMode);
@@ -477,6 +493,35 @@ begin
       Viewer.miPreview.Checked := not(Viewer.miPreview.Checked);
       Viewer.cm_Preview(['']);
     end;
+end;
+
+{ TDrawGrid }
+
+function TDrawGrid.GetIndex: Integer;
+begin
+  Result:= Row * ColCount + Col;
+end;
+
+procedure TDrawGrid.SetIndex(AValue: Integer);
+begin
+  if (FMutex = 0) then
+  try
+    Inc(FMutex);
+    MoveExtend(False, AValue mod ColCount, AValue div ColCount);
+  finally
+    Dec(FMutex)
+  end;
+end;
+
+procedure TDrawGrid.MoveSelection;
+begin
+  if (FMutex = 0) then
+  try
+    Inc(FMutex);
+    inherited MoveSelection;
+  finally
+    Dec(FMutex)
+  end;
 end;
 
 { TThumbThread }
@@ -619,6 +664,27 @@ begin
     Status.Panels[sbpFileName].Text:= aFileName;
   finally
     Screen.Cursor:= crDefault;
+  end;
+end;
+
+procedure TfrmViewer.LoadNextFile(Index: Integer);
+begin
+  try
+    if bPlugin and FWlxModule.FileParamVSDetectStr(FileList[Index], False) then
+    begin
+      if (FWlxModule.CallListLoadNext(Self.Handle, FileList[Index], PluginShowFlags) <> LISTPLUGIN_ERROR) then
+      begin
+        Status.Panels[sbpFileNr].Text:= Format('%d/%d', [Index + 1, FileList.Count]);
+        Caption:= FileList[Index];
+        iActiveFile := Index;
+        Exit;
+      end;
+    end;
+    ExitPluginMode;
+    LoadFile(Index);
+  finally
+    if pnlPreview.Visible then
+      DrawPreview.Index:= iActiveFile;
   end;
 end;
 
@@ -1563,13 +1629,8 @@ begin
 end;
 
 procedure TfrmViewer.DrawPreviewSelection(Sender: TObject; aCol, aRow: Integer);
-var
-  I: Integer;
 begin
-  gboxHightlight.Visible:= False;
-  gboxPaint.Visible:= False;
-  I:= DrawPreview.Row * DrawPreview.ColCount + DrawPreview.Col;
-  if I < Filelist.Count then LoadNextFile(FileList.Strings[I]);
+  LoadNextFile(DrawPreview.Index);
 end;
 
 procedure TfrmViewer.DrawPreviewTopleftChanged(Sender: TObject);
@@ -2128,21 +2189,6 @@ begin
   ImgEdit:= False;
 end;
 
-function TfrmViewer.ListLoadNext(Index: Integer): Boolean;
-begin
-  if FWlxModule.FileParamVSDetectStr(FileList[Index], False) then
-  begin
-    if (FWlxModule.CallListLoadNext(Self.Handle, FileList[Index], PluginShowFlags) <> LISTPLUGIN_ERROR) then
-    begin
-      Status.Panels[sbpFileNr].Text:= Format('%d/%d', [Index + 1, FileList.Count]);
-      Caption:= FileList[Index];
-      iActiveFile := Index;
-      Exit(True);
-    end;
-  end;
-  Result:= False;
-end;
-
 procedure TfrmViewer.DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
 var
   T: QWord;
@@ -2403,56 +2449,24 @@ end;
 
 procedure TfrmViewer.cm_LoadNextFile(const Params: array of string);
 var
-  I : Integer;
+  Index : Integer;
 begin
-  I:= iActiveFile + 1;
-  if I >= FileList.Count then
-    I:= 0;
+  Index:= iActiveFile + 1;
+  if Index >= FileList.Count then
+    Index:= 0;
 
-  if bPlugin then
-  begin
-    if ListLoadNext(I) then
-      Exit;
-  end;
-  ExitPluginMode;
-  if pnlPreview.Visible then
-    begin
-      if DrawPreview.Col = DrawPreview.ColCount-1 then
-        begin
-          DrawPreview.Col:=0;
-          DrawPreview.Row:= DrawPreview.Row+1;
-        end
-      else
-        DrawPreview.Col:=DrawPreview.Col+1
-    end
-  else LoadFile(I);
+  LoadNextFile(Index);
 end;
 
 procedure TfrmViewer.cm_LoadPrevFile(const Params: array of string);
 var
-  I: Integer;
+  Index: Integer;
 begin
-  I:= iActiveFile - 1;
-  if I < 0 then
-    I:= FileList.Count - 1;
+  Index:= iActiveFile - 1;
+  if Index < 0 then
+    Index:= FileList.Count - 1;
 
-  if bPlugin then
-  begin
-    if ListLoadNext(I) then
-      Exit;
-  end;
-  ExitPluginMode;
-  if pnlPreview.Visible then
-    begin
-      if DrawPreview.Col = 0  then
-        begin
-          DrawPreview.Col:=DrawPreview.ColCount-1;
-          DrawPreview.Row:= DrawPreview.Row-1;
-        end
-      else
-        DrawPreview.Col:=DrawPreview.Col-1
-    end
-  else LoadFile(I);
+  LoadNextFile(Index);
 end;
 
 procedure TfrmViewer.cm_MoveFile(const Params: array of string);
