@@ -658,7 +658,12 @@ begin
   Status.Panels[sbpFileNr].Text:= Format('%d/%d', [iIndex + 1, FileList.Count]);
 
   if ANewFile then begin
-    if ViewerControl.IsFileOpen then ViewerControl.GoHome;
+    if ViewerControl.IsFileOpen then
+    begin
+      ViewerControl.GoHome;
+      if (ViewerControl.Mode = vcmText) then
+        ViewerControl.HGoHome;
+    end;
   end;
 end;
 
