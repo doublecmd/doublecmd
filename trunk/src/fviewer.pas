@@ -2451,22 +2451,28 @@ procedure TfrmViewer.cm_LoadNextFile(const Params: array of string);
 var
   Index : Integer;
 begin
-  Index:= iActiveFile + 1;
-  if Index >= FileList.Count then
-    Index:= 0;
+  if not bQuickView then
+  begin
+    Index:= iActiveFile + 1;
+    if Index >= FileList.Count then
+      Index:= 0;
 
-  LoadNextFile(Index);
+    LoadNextFile(Index);
+  end;
 end;
 
 procedure TfrmViewer.cm_LoadPrevFile(const Params: array of string);
 var
   Index: Integer;
 begin
-  Index:= iActiveFile - 1;
-  if Index < 0 then
-    Index:= FileList.Count - 1;
+  if not bQuickView then
+  begin
+    Index:= iActiveFile - 1;
+    if Index < 0 then
+      Index:= FileList.Count - 1;
 
-  LoadNextFile(Index);
+    LoadNextFile(Index);
+  end;
 end;
 
 procedure TfrmViewer.cm_MoveFile(const Params: array of string);
