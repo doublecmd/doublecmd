@@ -636,7 +636,12 @@ begin
   ExitPluginMode;
   ViewerControl.ResetEncoding;
   LoadFile(aFileName);
-  if ViewerControl.IsFileOpen then ViewerControl.GoHome;
+  if ViewerControl.IsFileOpen then
+  begin
+    ViewerControl.GoHome;
+    if (ViewerControl.Mode = vcmText) then
+      ViewerControl.HGoHome;
+  end;
 end;
 
 procedure TfrmViewer.LoadFile(iIndex: Integer);
