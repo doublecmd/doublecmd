@@ -1266,6 +1266,7 @@ begin
   with TWdxField(FFieldsList.Objects[I]) do
   begin
     FName := AName;
+    LName := FName;
     FType := AType;
   end;
 end;
@@ -1343,6 +1344,7 @@ begin
   with WdxField do
   begin
     FName := AName;
+    LName := FName;
     OUnits := AUnits;
     FUnits := SplitString(OUnits, '|');
     LUnits := CopyArray(FUnits);
