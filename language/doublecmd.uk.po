@@ -1983,6 +1983,7 @@ msgstr "Копіювати шлях в командний рядок"
 #: tfrmmain.actaddplugin.caption
 msgid "Add Plugin"
 msgstr "Додати плагін"
+
 #: tfrmmain.actbenchmark.caption
 msgid "&Benchmark"
 msgstr "&Тест продуктивності"
@@ -2116,6 +2117,7 @@ msgstr "Налаштування плагінів"
 #: tfrmmain.actconfigsavepos.caption
 msgid "Save Position"
 msgstr "Зберегти позицію"
+
 #: tfrmmain.actconfigsavesettings.caption
 msgid "Save Settings"
 msgstr "З&берігти налаштування"
@@ -4105,6 +4107,7 @@ msgstr "Історія катало&гів"
 msgctxt "TFRMOPTIONSCONFIGURATION.CBFILEMASKHISTORY.CAPTION"
 msgid "&File mask history"
 msgstr "Історія масок &файлів"
+
 #: tfrmoptionsconfiguration.chkfoldertabs.caption
 #, fuzzy
 msgctxt "tfrmoptionsconfiguration.chkfoldertabs.caption"
@@ -4120,6 +4123,7 @@ msgstr "З&берегти налаштування"
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
 msgid "Searc&h/Replace history"
 msgstr "Іст&орія пошуку/заміни"
+
 #: tfrmoptionsconfiguration.chkwindowstate.caption
 msgid "Main window state"
 msgstr "Стан головного вікна"
@@ -7237,7 +7241,7 @@ msgstr "Перейти до улюбленої вкладки Конфігура
 
 #: tfrmoptionstabsextra.cbusefavoritetabsextraoptions.caption
 msgid "Enable Favorite Tabs extra options (select target side when restore, etc.)"
-msgstr "Увімкнути додаткові опції "Улюблені вкладки" (вибір панелі при відновленні і т.д.)"
+msgstr "Увімкнути додаткові опції \"Улюблені вкладки\" (вибір панелі при відновленні і т.д.)"
 
 #: tfrmoptionstabsextra.gbdefaulttabsavedrestoration.caption
 msgid "Default extra settings when saving new Favorite Tabs:"
@@ -7777,10 +7781,6 @@ msgstr "Тип кнопки"
 #: tfrmoptionstoolbarextra.btnpathtoberelativetoall.caption
 msgid "Apply current settings to all configured filenames and paths"
 msgstr "Застосовуйте поточні налаштування до всіх налаштованих імен файлів і шляхів"
-
-#: tfrmoptionstoolbarextra.cbtoolbarfilenamestyle.hint
-msgid "terbfdg "
-msgstr "terbfdg"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarcommand.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarcommand.caption"
@@ -10114,6 +10114,7 @@ msgstr "TAB-файли"
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr "Файли плагінів"
+
 #: ulng.rsfilterstatus
 msgid "FILTER"
 msgstr "Фільтр"
@@ -10890,7 +10891,7 @@ msgstr "Файл %s помічений як доступний лише для �
 msgid "Are you sure you want to reload the current file and lose the changes?"
 msgstr ""
 "Все внесені зміни будуть втрачені!\n"
-"Продовжити?"
+"Продовжити?\n"
 
 #: ulng.rsmsgfilesizetoobig
 msgid "The file size of \"%s\" is too big for destination file system!"
@@ -12535,7 +12536,7 @@ msgstr "Експорт налаштувань підказок"
 #: ulng.rsopttooltipfiletypeexportdone
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
-msgstr "Експорт завершено: %d в файл \"%s\."
+msgstr "Експорт завершено: %d в файл \"%s."
 
 #: ulng.rsopttooltipfiletypeexportprompt
 msgctxt "ulng.rsopttooltipfiletypeexportprompt"
@@ -13049,6 +13050,14 @@ msgstr "Допомога зі змінними \"%\""
 #: ulng.rsvarinputparam
 msgid "Will request request user to enter a parameter with a default suggested value"
 msgstr "Буде пропонувати користувачу ввести необхідне значення параметра (типово)"
+
+#: ulng.rsvarlastdircurrentpath
+msgid "Last directory of panel's path"
+msgstr ""
+
+#: ulng.rsvarlastdirofpath
+msgid "Last directory of file's path"
+msgstr ""
 
 #: ulng.rsvarleftpanel
 msgid "Left panel"

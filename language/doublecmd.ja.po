@@ -13028,6 +13028,14 @@ msgstr "変数＜”%”＞のヘルプ"
 msgid "Will request request user to enter a parameter with a default suggested value"
 msgstr "デフォルトの推奨値つきでパラメータを入力するようユーザに求めます"
 
+#: ulng.rsvarlastdircurrentpath
+msgid "Last directory of panel's path"
+msgstr ""
+
+#: ulng.rsvarlastdirofpath
+msgid "Last directory of file's path"
+msgstr ""
+
 #: ulng.rsvarleftpanel
 msgid "Left panel"
 msgstr "左パネル"

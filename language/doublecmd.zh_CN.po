@@ -13001,6 +13001,14 @@ msgstr "帮助使用 \"%\" 变量"
 msgid "Will request request user to enter a parameter with a default suggested value"
 msgstr "将请求用户输入具有默认建议值的参数"
 
+#: ulng.rsvarlastdircurrentpath
+msgid "Last directory of panel's path"
+msgstr ""
+
+#: ulng.rsvarlastdirofpath
+msgid "Last directory of file's path"
+msgstr ""
+
 #: ulng.rsvarleftpanel
 msgid "Left panel"
 msgstr "左侧面板"

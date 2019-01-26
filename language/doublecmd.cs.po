@@ -12740,6 +12740,14 @@ msgstr "Nápověda k proměnným s \"%\""
 msgid "Will request request user to enter a parameter with a default suggested value"
 msgstr "bude požadovat od uživatele zadání parametru s výchozí navrhovanou hodnotou"
 
+#: ulng.rsvarlastdircurrentpath
+msgid "Last directory of panel's path"
+msgstr ""
+
+#: ulng.rsvarlastdirofpath
+msgid "Last directory of file's path"
+msgstr ""
+
 #: ulng.rsvarleftpanel
 msgid "Left panel"
 msgstr "levá záložka"

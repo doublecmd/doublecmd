@@ -12726,6 +12726,14 @@ msgstr "Hulp met '%s' variabelen"
 msgid "Will request request user to enter a parameter with a default suggested value"
 msgstr "Zal gebruiker vragen om een parameter in te voeren met een voorgestelde standaardwaarde"
 
+#: ulng.rsvarlastdircurrentpath
+msgid "Last directory of panel's path"
+msgstr ""
+
+#: ulng.rsvarlastdirofpath
+msgid "Last directory of file's path"
+msgstr ""
+
 #: ulng.rsvarleftpanel
 msgid "Left panel"
 msgstr "Linkerpaneel"
