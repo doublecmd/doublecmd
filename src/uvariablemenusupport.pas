@@ -98,15 +98,17 @@ type
   end;
 
 const
-  NbOfFunctions = 10;
+  NbOfFunctions = 12;
   FunctionHelper: array[1..NbOfFunctions] of tFunctionHelper = (
     (sLetter: 'f'; sDescription: rsVarOnlyFilename; HelperMenuDispatcher: []),
     (sLetter: 'd'; sDescription: rsVarPath; HelperMenuDispatcher: []),
+    (sLetter: 'z'; sDescription: rsVarLastDirOfPath; HelperMenuDispatcher: []),
     (sLetter: 'p'; sDescription: rsVarFullPath; HelperMenuDispatcher: []),
     (sLetter: 'o'; sDescription: rsVarFilenameNoExt; HelperMenuDispatcher: []),
     (sLetter: 'e'; sDescription: rsVarOnlyExtension; HelperMenuDispatcher: []),
     (sLetter: 'v'; sDescription: rsVarRelativePathAndFilename; HelperMenuDispatcher: [hmdSeparator]),
-    (sLetter: 'D'; sDescription: rsVarCurrentPath; HelperMenuDispatcher: [hmdSeparator]),
+    (sLetter: 'D'; sDescription: rsVarCurrentPath; HelperMenuDispatcher: []),
+    (sLetter: 'Z'; sDescription: rsVarLastDirCurrentPath; HelperMenuDispatcher: [hmdSeparator]),
     (sLetter: 'L'; sDescription: rsVarListFullFilename; HelperMenuDispatcher: [hmdListLevel]),
     (sLetter: 'F'; sDescription: rsVarListFilename; HelperMenuDispatcher: [hmdListLevel]),
     (sLetter: 'R'; sDescription: rsVarListRelativeFilename; HelperMenuDispatcher: [hmdListLevel, hmdSeparator]));
