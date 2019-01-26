@@ -432,7 +432,7 @@ implementation
 uses
   FileUtil, IntfGraphics, Math, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding,
   DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
-  uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr,
+  uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
   fMain;
 
 const
@@ -1588,44 +1588,35 @@ end;
 procedure TfrmViewer.DrawPreviewDrawCell(Sender: TObject; aCol, aRow: Integer;
   aRect: TRect; aState: TGridDrawState);
 var
-  i,z,t, X, Y: Integer;
-  sExt, sName, shortName: String;
+  ATextSize: TSize;
+  sFileName: String;
   bmpThumb: TBitmap;
+  Index, X, Y: Integer;
 begin
-  aRect:= Classes.Rect(aRect.Left + 2, aRect.Top + 2, aRect.Right - 2, aRect.Bottom - 2);
-  i:= (aRow * DrawPreview.ColCount) + aCol; // Calculate FileList index
-  if (i >= 0) and (i < FileList.Count) then
+  LCLIntf.InflateRect(aRect, -2, -2);
+  // Calculate FileList index
+  Index:= (aRow * DrawPreview.ColCount) + aCol;
+  if (Index >= 0) and (Index < FileList.Count) then
+  begin
+    DrawPreview.Canvas.FillRect(aRect);
+    bmpThumb:= TBitmap(FileList.Objects[Index]);
+    sFileName:= ExtractFileName(FileList.Strings[Index]);
+    sFileName:= FitOtherCellText(sFileName, DrawPreview.Canvas, aRect.Width);
+    ATextSize:= DrawPreview.Canvas.TextExtent(sFileName);
+
+    if Assigned(bmpThumb) then
     begin
-      sName:= ExtractOnlyFileName(FileList.Strings[i]);
-      sExt:= ExtractFileExt(FileList.Strings[i]);
-      DrawPreview.Canvas.FillRect(aRect); // Clear cell
-      bmpThumb:= TBitmap(FileList.Objects[i]);
-      if Assigned(bmpThumb) then
-      begin
-        z:= DrawPreview.Canvas.TextHeight('Pp') + 4;
-        X:= aRect.Left + (aRect.Right - aRect.Left - bmpThumb.Width) div 2;
-        Y:= aRect.Top + (aRect.Bottom - aRect.Top - bmpThumb.Height - z) div 2;
-        // Draw thumbnail at center
-        DrawPreview.Canvas.Draw(X, Y, bmpThumb);
-      end;
-      z:= (DrawPreview.Width - DrawPreview.ColCount * DrawPreview.DefaultColWidth) div DrawPreview.ColCount div 2;
-      if DrawPreview.Canvas.GetTextWidth(sName+sExt) < DrawPreview.DefaultColWidth then
-        begin
-          t:= (DrawPreview.DefaultColWidth-DrawPreview.Canvas.GetTextWidth(sName+sExt)) div 2;
-          DrawPreview.Canvas.TextOut(aRect.Left+z+t, aRect.Top + FThumbSize.cy + 2, sName+sExt);
-        end
-      else
-        begin
-          shortName:= '';
-          t:= 1;
-          while DrawPreview.Canvas.GetTextWidth(shortName+'...'+sExt) < (DrawPreview.DefaultColWidth-15) do
-            begin
-              shortName:= shortName + sName[t];
-              Inc(t);
-            end;
-          DrawPreview.Canvas.TextOut(aRect.Left+z, aRect.Top + FThumbSize.cy + 2, shortName+'...'+sExt);
-        end;
+      // Draw thumbnail at center
+      X:= aRect.Left + (aRect.Width - FThumbSize.cx) div 2;
+      Y:= aRect.Top + (aRect.Height - FThumbSize.cy - ATextSize.Height - 4) div 2;
+      DrawPreview.Canvas.Draw(X, Y, bmpThumb);
     end;
+
+    // Draw file name at center
+    Y:= (aRect.Bottom - ATextSize.Height) - 2;
+    X:= aRect.Left + (aRect.Width - ATextSize.Width) div 2;
+    DrawPreview.Canvas.TextOut(X, Y, sFileName);
+  end;
 end;
 
 procedure TfrmViewer.DrawPreviewSelection(Sender: TObject; aCol, aRow: Integer);
