@@ -1607,8 +1607,8 @@ begin
     if Assigned(bmpThumb) then
     begin
       // Draw thumbnail at center
-      X:= aRect.Left + (aRect.Width - FThumbSize.cx) div 2;
-      Y:= aRect.Top + (aRect.Height - FThumbSize.cy - ATextSize.Height - 4) div 2;
+      X:= aRect.Left + (aRect.Width - bmpThumb.Width) div 2;
+      Y:= aRect.Top + (aRect.Height - bmpThumb.Height - ATextSize.Height - 4) div 2;
       DrawPreview.Canvas.Draw(X, Y, bmpThumb);
     end;
 
