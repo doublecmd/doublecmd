@@ -3924,9 +3924,9 @@ begin
       if (not Assigned(aFile)) or (aFile.IsDirectory or aFile.IsLinkToDirectory) then
         msgWarning(rsMsgInvalidSelection)
       else
-        ShowSplitterFileForm(FileSource, aFile, NotActiveFrame.CurrentPath);
+        ShowSplitterFileForm(frmMain, FileSource, aFile, NotActiveFrame.CurrentPath);
     finally
-      FreeThenNil(aFile);
+      FreeAndNil(aFile);
     end; // try
   end; // with
 end;

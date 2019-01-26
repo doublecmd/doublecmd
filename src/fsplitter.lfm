@@ -1,115 +1,207 @@
-object frmSplitter: TfrmSplitter
-  Left = 359
-  Height = 311
-  Top = 326
-  Width = 461
+inherited frmSplitter: TfrmSplitter
+  Left = 920
+  Height = 247
+  Top = 374
+  Width = 500
   HorzScrollBar.Page = 464
   HorzScrollBar.Range = 369
   VertScrollBar.Page = 301
   VertScrollBar.Range = 227
   ActiveControl = cmbxSize
+  AutoSize = True
   BorderIcons = [biSystemMenu]
   Caption = 'Splitter'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 311
-  ClientWidth = 461
-  OnClose = FormClose
+  ClientHeight = 247
+  ClientWidth = 500
+  Constraints.MinWidth = 500
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   SessionProperties = 'cmbxSize.Text;rbtnByte.Checked;rbtnGigaB.Checked;rbtnKiloB.Checked;rbtnMegaB.Checked;teNumberParts.Text;Width;cbRequireACRC32VerificationFile.Checked'
-  LCLVersion = '1.8.4.0'
-  object grbxFile: TGroupBox
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
-    AnchorSideRight.Control = btnCancel
-    AnchorSideRight.Side = asrBottom
+  inherited pnlContent: TPanel
     Left = 6
-    Height = 124
+    Height = 197
     Top = 6
-    Width = 447
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = True
-    BorderSpacing.Left = 6
-    BorderSpacing.Bottom = 6
-    Caption = 'File name'
-    ChildSizing.LeftRightSpacing = 10
-    ChildSizing.TopBottomSpacing = 4
-    ClientHeight = 104
-    ClientWidth = 443
-    TabOrder = 0
-    object lbFileSource: TLabel
-      Left = 10
-      Height = 15
-      Top = 4
-      Width = 56
-      Caption = 'File &source'
-      FocusControl = edFileSource
-      ParentColor = False
-    end
-    object lbDirTarget: TLabel
-      AnchorSideTop.Control = edFileSource
+    Width = 488
+    ClientHeight = 197
+    ClientWidth = 488
+    object grbxSize: TGroupBox[0]
+      AnchorSideTop.Control = edDirTarget
       AnchorSideTop.Side = asrBottom
-      Left = 10
+      AnchorSideRight.Control = pnlContent
+      AnchorSideRight.Side = asrBottom
+      Left = -4
+      Height = 138
+      Top = 52
+      Width = 492
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      BorderSpacing.Top = 10
+      Caption = 'Size and number of parts'
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.TopBottomSpacing = 6
+      ClientHeight = 118
+      ClientWidth = 488
+      Constraints.MinWidth = 300
+      TabOrder = 1
+      object cmbxSize: TComboBoxAutoWidth
+        AnchorSideLeft.Control = grbxSize
+        AnchorSideTop.Control = grbxSize
+        Left = 6
+        Height = 23
+        Top = 6
+        Width = 338
+        DropDownCount = 16
+        ItemHeight = 15
+        Items.Strings = (
+          'Automatic'
+          '1457664B - 3.5" High Density 1.44M'
+          '1213952B - 5.25" High Density 1.2M'
+          '730112B - 3.5" Double Density 720K'
+          '362496B - 5.25" Double Density 360K'
+          '98078KB - ZIP 100MB'
+          '650MB - CD 650MB'
+          '700MB - CD 700MB'
+          '4482MB - DVD+R'
+        )
+        OnChange = cmbxSizeChange
+        TabOrder = 0
+        Text = '1457664B - 3.5"'
+      end
+      object rbtnByte: TRadioButton
+        AnchorSideLeft.Control = cmbxSize
+        AnchorSideTop.Control = cmbxSize
+        AnchorSideTop.Side = asrBottom
+        Left = 6
+        Height = 19
+        Top = 31
+        Width = 48
+        BorderSpacing.Top = 2
+        Caption = '&Bytes'
+        Checked = True
+        OnChange = rbtnByteChange
+        TabOrder = 1
+        TabStop = True
+      end
+      object rbtnKiloB: TRadioButton
+        AnchorSideLeft.Control = rbtnByte
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = rbtnByte
+        Left = 56
+        Height = 19
+        Top = 31
+        Width = 68
+        BorderSpacing.Left = 2
+        Caption = '&Kilobytes'
+        OnChange = rbtnByteChange
+        TabOrder = 2
+      end
+      object rbtnMegaB: TRadioButton
+        AnchorSideLeft.Control = rbtnKiloB
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = rbtnKiloB
+        Left = 126
+        Height = 19
+        Top = 31
+        Width = 78
+        BorderSpacing.Left = 2
+        Caption = '&Megabytes'
+        OnChange = rbtnByteChange
+        TabOrder = 3
+      end
+      object teNumberParts: TEdit
+        AnchorSideLeft.Control = lblNumberParts
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = rbtnKiloB
+        AnchorSideTop.Side = asrBottom
+        Left = 97
+        Height = 23
+        Top = 60
+        Width = 128
+        BorderSpacing.Left = 4
+        BorderSpacing.Top = 10
+        OnChange = teNumberPartsChange
+        TabOrder = 5
+      end
+      object lblNumberParts: TLabel
+        AnchorSideLeft.Control = rbtnByte
+        AnchorSideTop.Control = teNumberParts
+        AnchorSideTop.Side = asrCenter
+        Left = 6
+        Height = 15
+        Top = 64
+        Width = 87
+        Caption = '&Number of parts'
+        FocusControl = teNumberParts
+        ParentColor = False
+      end
+      object rbtnGigaB: TRadioButton
+        AnchorSideLeft.Control = rbtnMegaB
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = rbtnKiloB
+        Left = 206
+        Height = 19
+        Top = 31
+        Width = 72
+        BorderSpacing.Left = 2
+        Caption = '&Gigabytes'
+        OnChange = rbtnByteChange
+        TabOrder = 4
+      end
+      object cbRequireACRC32VerificationFile: TCheckBox
+        AnchorSideLeft.Control = cmbxSize
+        AnchorSideTop.Control = teNumberParts
+        AnchorSideTop.Side = asrBottom
+        Left = 6
+        Height = 19
+        Top = 93
+        Width = 188
+        BorderSpacing.Top = 10
+        Caption = 'Require a CRC32 verification file'
+        Checked = True
+        State = cbChecked
+        TabOrder = 6
+      end
+    end
+    object lbDirTarget: TLabel[1]
+      AnchorSideTop.Control = pnlContent
+      Left = 0
       Height = 15
-      Top = 58
-      Width = 82
-      BorderSpacing.Top = 12
-      Caption = 'Directory &target'
+      Top = 0
+      Width = 129
+      Caption = 'Split the file to directory:'
       FocusControl = edDirTarget
       ParentColor = False
     end
-    object edFileSource: TEdit
-      AnchorSideTop.Control = lbFileSource
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Side = asrBottom
-      Left = 10
-      Height = 23
-      Top = 23
-      Width = 422
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Top = 4
-      ReadOnly = True
-      TabOrder = 0
-    end
-    object edDirTarget: TEdit
+    object edDirTarget: TDirectoryEdit[2]
       AnchorSideTop.Control = lbDirTarget
       AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = btnFTChoice
-      Left = 10
+      AnchorSideRight.Control = btnRelativeFTChoice
+      Left = 0
       Height = 23
-      Top = 77
-      Width = 372
+      Top = 19
+      Width = 462
+      ShowHidden = False
+      ButtonWidth = 23
+      NumGlyphs = 1
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
-      TabOrder = 1
+      MaxLength = 0
+      TabOrder = 0
     end
-    object btnFTChoice: TButton
+    object btnRelativeFTChoice: TSpeedButton[3]
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = edDirTarget
-      AnchorSideRight.Control = btnRelativeFTChoice
-      AnchorSideBottom.Control = edDirTarget
-      AnchorSideBottom.Side = asrBottom
-      Left = 382
-      Height = 23
-      Top = 77
-      Width = 24
-      Anchors = [akTop, akRight, akBottom]
-      Caption = '...'
-      OnClick = btnFTChoiceClick
-      TabOrder = 2
-    end
-    object btnRelativeFTChoice: TSpeedButton
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = edDirTarget
-      AnchorSideRight.Control = edFileSource
+      AnchorSideRight.Control = pnlContent
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = edDirTarget
       AnchorSideBottom.Side = asrBottom
-      Left = 406
+      Left = 462
       Height = 23
       Hint = 'Some functions to select appropriate path'
-      Top = 77
+      Top = 19
       Width = 26
       Anchors = [akTop, akRight, akBottom]
       Glyph.Data = {
@@ -151,180 +243,23 @@ object frmSplitter: TfrmSplitter
       OnClick = btnRelativeFTChoiceClick
     end
   end
-  object grbxSize: TGroupBox
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = grbxFile
-    AnchorSideTop.Side = asrBottom
+  inherited pnlButtons: TPanel
     Left = 6
-    Height = 138
-    Top = 136
-    Width = 362
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = True
-    BorderSpacing.Left = 6
-    BorderSpacing.Right = 6
-    Caption = 'Size and number of parts'
-    ChildSizing.LeftRightSpacing = 6
-    ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 118
-    ClientWidth = 358
-    Constraints.MinWidth = 300
-    TabOrder = 1
-    object cmbxSize: TComboBox
-      AnchorSideLeft.Control = grbxSize
-      AnchorSideTop.Control = grbxSize
-      AnchorSideRight.Side = asrBottom
-      Left = 6
-      Height = 23
-      Top = 6
-      Width = 338
-      Anchors = [akTop, akLeft, akRight]
-      DropDownCount = 16
-      ItemHeight = 15
-      Items.Strings = (
-        'Automatic'
-        '1457664B - 3.5" High Density 1.44M'
-        '1213952B - 5.25" High Density 1.2M'
-        '730112B - 3.5" Double Density 720K'
-        '362496B - 5.25" Double Density 360K'
-        '98078KB - ZIP 100MB'
-        '650MB - CD 650MB'
-        '700MB - CD 700MB'
-        '4482MB - DVD+R'
-      )
-      OnChange = cmbxSizeChange
-      TabOrder = 0
-      Text = '1457664B - 3.5"'
+    Top = 207
+    Width = 488
+    ClientWidth = 488
+    inherited btnCancel: TBitBtn
+      Left = 306
     end
-    object rbtnByte: TRadioButton
-      AnchorSideLeft.Control = cmbxSize
-      AnchorSideTop.Control = cmbxSize
-      AnchorSideTop.Side = asrBottom
-      Left = 6
-      Height = 19
-      Top = 31
-      Width = 48
-      BorderSpacing.Top = 2
-      Caption = '&Bytes'
-      Checked = True
-      OnChange = rbtnByteChange
-      TabOrder = 1
-      TabStop = True
-    end
-    object rbtnKiloB: TRadioButton
-      AnchorSideLeft.Control = rbtnByte
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = rbtnByte
-      Left = 56
-      Height = 19
-      Top = 31
-      Width = 68
-      BorderSpacing.Left = 2
-      Caption = '&Kilobytes'
-      OnChange = rbtnByteChange
-      TabOrder = 2
-    end
-    object rbtnMegaB: TRadioButton
-      AnchorSideLeft.Control = rbtnKiloB
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = rbtnKiloB
-      Left = 126
-      Height = 19
-      Top = 31
-      Width = 78
-      BorderSpacing.Left = 2
-      Caption = '&Megabytes'
-      OnChange = rbtnByteChange
-      TabOrder = 3
-    end
-    object teNumberParts: TEdit
-      AnchorSideLeft.Control = lblNumberParts
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = rbtnKiloB
-      AnchorSideTop.Side = asrBottom
-      Left = 97
-      Height = 23
-      Top = 60
-      Width = 128
-      BorderSpacing.Left = 4
-      BorderSpacing.Top = 10
-      OnChange = teNumberPartsChange
-      TabOrder = 4
-    end
-    object lblNumberParts: TLabel
-      AnchorSideLeft.Control = rbtnByte
-      AnchorSideTop.Control = teNumberParts
-      AnchorSideTop.Side = asrCenter
-      Left = 6
-      Height = 15
-      Top = 64
-      Width = 87
-      Caption = '&Number of parts'
-      FocusControl = teNumberParts
-      ParentColor = False
-    end
-    object rbtnGigaB: TRadioButton
-      AnchorSideLeft.Control = rbtnMegaB
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = rbtnKiloB
-      Left = 206
-      Height = 19
-      Top = 31
-      Width = 72
-      BorderSpacing.Left = 2
-      Caption = '&Gigabytes'
-      OnChange = rbtnByteChange
-      TabOrder = 5
-    end
-    object cbRequireACRC32VerificationFile: TCheckBox
-      AnchorSideLeft.Control = cmbxSize
-      AnchorSideTop.Control = teNumberParts
-      AnchorSideTop.Side = asrBottom
-      Left = 6
-      Height = 19
-      Top = 93
-      Width = 188
-      BorderSpacing.Top = 10
-      Caption = 'Require a CRC32 verification file'
-      Checked = True
-      State = cbChecked
-      TabOrder = 6
+    inherited btnOK: TBitBtn
+      Left = 400
     end
   end
-  object btnOK: TButton
-    AnchorSideRight.Control = btnCancel
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = btnCancel
-    Left = 378
-    Height = 32
-    Top = 204
-    Width = 75
-    Anchors = [akRight, akBottom]
-    BorderSpacing.Bottom = 6
-    Caption = '&OK'
-    Default = True
-    OnClick = btnOKClick
-    TabOrder = 2
+  inherited pmQueuePopup: TPopupMenu
+    left = 192
   end
-  object btnCancel: TButton
-    AnchorSideLeft.Control = grbxSize
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = grbxSize
-    AnchorSideBottom.Side = asrBottom
-    Left = 378
-    Height = 32
-    Top = 242
-    Width = 75
-    Anchors = [akLeft, akBottom]
-    BorderSpacing.Left = 10
-    Cancel = True
-    Caption = '&Cancel'
-    ModalResult = 2
-    TabOrder = 3
-  end
-  object pmPathHelper: TPopupMenu
-    left = 408
-    top = 128
+  object pmPathHelper: TPopupMenu[3]
+    left = 368
+    top = 104
   end
 end
