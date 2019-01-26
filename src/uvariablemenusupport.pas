@@ -1,9 +1,18 @@
 {
     Double Commander
     -------------------------------------------------------------------------
-    Support for popup menu to help to enter variable parameters.
+    Support for popup menu to help to enter percent variable parameters.
 
-    Copyright (C) 2015-2018  Alexander Koblov (alexx2000@mail.ru)
+    The idea here is:
+      -Have something to help user who wants to use "%..." variable to have a quick hint built-in the application instead of having to seach in help of doc files.
+      -Next to an edit box where we could type in "%...", have a speed button that would popup a menu where user sees to possible percent variables available.
+      -User sees what he could use, select one and then it would type in the edit box the select "%...".
+      -This unit is to build that popup instead of having it in different unit.
+      -It creates the popup only the first time use click on "%" button.
+      -If in the main session use again a "%" button, the popup menu is already created and almost ready.
+      -"Almost", because we simply need to re-assign the possible different target edit box.
+
+    Copyright (C) 2015-2019  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,89 +41,47 @@ uses
   //DC
   dmHelpManager;
 type
-  TSupportForVariableHelperMenu = class(TObject)
-  public
-    constructor Create;
-    destructor Destroy; override;
-    procedure PopulateMenuWithVariableHelper(pmToPopulate: TComponent; ParamAssociatedComponent: TComponent);
-  end;
-
   TVariableMenuItem = class(TMenuItem)
   private
-    FAssociatedTComponent: TComponent;
     FSubstitutionText: string;
   public
-    constructor MyCreate(TheOwner: TComponent; ParamTComponent: TComponent; ParamCaption, ParamSubstitutionText: string);
+    constructor MyCreate(TheOwner: TComponent; ParamCaption, ParamSubstitutionText: string);
     procedure VariableHelperClick(Sender: TObject);
     procedure HelpOnVariablesClick(Sender: TObject);
   end;
 
-procedure LoadVariableMenuSupport;
+  TPercentVariablePopupMenu = class(TPopUpMenu)
+  private
+    FAssociatedComponent: TComponent;
+    procedure PopulateMenuWithVariableHelper;
+  public
+    constructor Create(AOnwer: TComponent); override;
+    property AssociatedTComponent: TComponent read FAssociatedComponent write FAssociatedComponent;
+  end;
+
+procedure BringPercentVariablePopupMenu(AComponent: TComponent);
 
 implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  SysUtils, Dialogs,
+  EditBtn, SysUtils, Dialogs,
 
   //DC
-  uGlobs, uLng;
-procedure LoadVariableMenuSupport;
+  uLng;
+var
+  PercentVariablePopupMenu: TPercentVariablePopupMenu = nil;
+
+{ TPercentVariablePopupMenu.Create }
+constructor TPercentVariablePopupMenu.Create(AOnwer: TComponent);
 begin
-  gSupportForVariableHelperMenu := TSupportForVariableHelperMenu.Create;
+  inherited Create(AOnwer);
+  FAssociatedComponent := nil;
+  PopulateMenuWithVariableHelper;
 end;
 
-{ TVariableMenuItem.MyCreate }
-constructor TVariableMenuItem.MyCreate(TheOwner: TComponent; ParamTComponent: TComponent; ParamCaption, ParamSubstitutionText: string);
-begin
-  inherited Create(TheOwner);
-
-  Caption := ParamCaption;
-  if ParamCaption <> rsVarHelpWith then
-  begin
-    if ParamSubstitutionText <> '' then
-    begin
-      FAssociatedTComponent := ParamTComponent;
-      FSubstitutionText := ParamSubstitutionText;
-      OnClick := @VariableHelperClick;
-    end;
-  end
-  else
-  begin
-    OnClick := @HelpOnVariablesClick;
-  end;
-end;
-
-{ TVariableMenuItem.VariableHelperClick }
-//Our intention:
-//-If something is selected, we replace what's selected by the helper string
-//-If nothing is selected, we insert our helper string at the current cursor pos
-//-If nothing is there at all, we add, simply
-procedure TVariableMenuItem.VariableHelperClick(Sender: TObject);
-begin
-  TCustomEdit(FAssociatedTComponent).SelText := FSubstitutionText;
-end;
-
-{ TVariableMenuItem.HelpOnVariablesClick }
-procedure TVariableMenuItem.HelpOnVariablesClick(Sender: TObject);
-begin
-  ShowHelpForKeywordWithAnchor('/variables.html');
-end;
-
-{ TSupportForVariableHelperMenu.Create }
-constructor TSupportForVariableHelperMenu.Create;
-begin
-  inherited Create;
-end;
-
-{ TSupportForVariableHelperMenu.Destroy }
-destructor TSupportForVariableHelperMenu.Destroy;
-begin
-  inherited Destroy;
-end;
-
-{ TSupportForVariableHelperMenu.PopulateMenuWithVariableHelper }
-procedure TSupportForVariableHelperMenu.PopulateMenuWithVariableHelper(pmToPopulate: TComponent; ParamAssociatedComponent: TComponent);
+{ TPercentVariablePopupMenu.PopulateMenuWithVariableHelper }
+procedure TPercentVariablePopupMenu.PopulateMenuWithVariableHelper;
 type
   tHelperMenuDispatcher = set of (hmdNothing, hmdSeparator, hmdListLevel);
 
@@ -142,14 +109,14 @@ const
     (sLetter: 'D'; sDescription: rsVarCurrentPath; HelperMenuDispatcher: [hmdSeparator]),
     (sLetter: 'L'; sDescription: rsVarListFullFilename; HelperMenuDispatcher: [hmdListLevel]),
     (sLetter: 'F'; sDescription: rsVarListFilename; HelperMenuDispatcher: [hmdListLevel]),
-    (sLetter: 'R'; sDescription: rsVarListRelativeFilename; HelperMenuDispatcher: [hmdListLevel,hmdSeparator]));
+    (sLetter: 'R'; sDescription: rsVarListRelativeFilename; HelperMenuDispatcher: [hmdListLevel, hmdSeparator]));
 
   NbOfSubListLevel = 4;
   SubListLevelHelper: array[1..NbOfSubListLevel] of tFirstSubLevelHelper = (
-  (sLetter: 'U'; sDescription: rsVarListInUTF8; HelperMenuDispatcher: []),
-  (sLetter: 'W'; sDescription: rsVarListInUTF16; HelperMenuDispatcher: []),
-  (sLetter: 'UQ'; sDescription: rsVarListInUTF8Quoted; HelperMenuDispatcher: []),
-  (sLetter: 'WQ'; sDescription: rsVarListInUTF16Quoted; HelperMenuDispatcher: []));
+    (sLetter: 'U'; sDescription: rsVarListInUTF8; HelperMenuDispatcher: []),
+    (sLetter: 'W'; sDescription: rsVarListInUTF16; HelperMenuDispatcher: []),
+    (sLetter: 'UQ'; sDescription: rsVarListInUTF8Quoted; HelperMenuDispatcher: []),
+    (sLetter: 'WQ'; sDescription: rsVarListInUTF16Quoted; HelperMenuDispatcher: []));
 
   NbOfSubLevel = 6;
   SubLevelHelper: array[1..NbOfSubLevel] of tFirstSubLevelHelper = (
@@ -184,37 +151,36 @@ var
 
   procedure InsertSeparatorInMainMenu;
   begin
-    miMainTree := TVariableMenuItem.MyCreate(pmToPopulate, nil, '-', '');
-    TPopupMenu(pmToPopulate).Items.Add(miMainTree);
+    miMainTree := TVariableMenuItem.MyCreate(Self, '-', '');
+    Self.Items.Add(miMainTree);
   end;
 
   procedure InsertSeparatorInSubMenu;
   begin
-    miSubTree := TVariableMenuItem.MyCreate(miMainTree, nil, '-', '');
+    miSubTree := TVariableMenuItem.MyCreate(Self, '-', '');
     miMainTree.Add(miSubTree);
   end;
 
   procedure InsertSeparatorInSubListMenu;
   begin
-    miSubTree := TVariableMenuItem.MyCreate(miSubListTree, nil, '-', '');
+    miSubTree := TVariableMenuItem.MyCreate(Self, '-', '');
     miSubListTree.Add(miSubTree);
   end;
-
 
 begin
   //Add the automatic helper
   for iFunction := 1 to NbOfFunctions do
   begin
-    miMainTree := TVariableMenuItem.MyCreate(pmToPopulate, nil, '%' + FunctionHelper[iFunction].sLetter + ' - ' + FunctionHelper[iFunction].sDescription, '');
-    TPopupMenu(pmToPopulate).Items.Add(miMainTree);
+    miMainTree := TVariableMenuItem.MyCreate(Self, '%' + FunctionHelper[iFunction].sLetter + ' - ' + FunctionHelper[iFunction].sDescription, '');
+    TPopupMenu(Self).Items.Add(miMainTree);
 
-    miSubTree := TVariableMenuItem.MyCreate(miMainTree, ParamAssociatedComponent, '%' + FunctionHelper[iFunction].sLetter + ' - ' + FunctionHelper[iFunction].sDescription, '%' + FunctionHelper[iFunction].sLetter);
+    miSubTree := TVariableMenuItem.MyCreate(Self, '%' + FunctionHelper[iFunction].sLetter + ' - ' + FunctionHelper[iFunction].sDescription, '%' + FunctionHelper[iFunction].sLetter);
     miMainTree.Add(miSubTree);
     InsertSeparatorInSubMenu;
 
     for iSubLevel := 1 to NbOfSubLevel do
     begin
-      miSubTree := TVariableMenuItem.MyCreate(miMainTree, ParamAssociatedComponent, '%' + FunctionHelper[iFunction].sLetter + SubLevelHelper[iSubLevel].sLetter + ' - ' + '...' + SubLevelHelper[iSubLevel].sDescription, '%' + FunctionHelper[iFunction].sLetter + SubLevelHelper[iSubLevel].sLetter);
+      miSubTree := TVariableMenuItem.MyCreate(Self, '%' + FunctionHelper[iFunction].sLetter + SubLevelHelper[iSubLevel].sLetter + ' - ' + '...' + SubLevelHelper[iSubLevel].sDescription, '%' + FunctionHelper[iFunction].sLetter + SubLevelHelper[iSubLevel].sLetter);
       miMainTree.Add(miSubTree);
       if hmdSeparator in SubLevelHelper[iSubLevel].HelperMenuDispatcher then InsertSeparatorInSubMenu;
     end;
@@ -223,18 +189,20 @@ begin
     begin
       InsertSeparatorInSubMenu;
 
-      for iSubListLevel:=1 to NbOfSubListLevel do
+      for iSubListLevel := 1 to NbOfSubListLevel do
       begin
-        miSubListTree := TVariableMenuItem.MyCreate(miMainTree, ParamAssociatedComponent, '%' +FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter + ' - ' + '...' + SubListLevelHelper[iSubListLevel].sDescription + '...', '');
+        miSubListTree := TVariableMenuItem.MyCreate(Self, '%' + FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter + ' - ' + '...' + SubListLevelHelper[iSubListLevel].sDescription + '...', '');
         miMainTree.Add(miSubListTree);
 
-        miSubTree := TVariableMenuItem.MyCreate(miSubListTree, ParamAssociatedComponent, '%' +FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter + ' - ' + SubListLevelHelper[iSubListLevel].sDescription, '%' +FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter);
+        miSubTree := TVariableMenuItem.MyCreate(Self, '%' + FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter + ' - ' + SubListLevelHelper[iSubListLevel].sDescription, '%' + FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter);
         miSubListTree.Add(miSubTree);
         InsertSeparatorInSubListMenu;
 
         for iSubLevel := 1 to NbOfSubLevel do
         begin
-          miSubTree := TVariableMenuItem.MyCreate(miSubListTree, ParamAssociatedComponent, '%' +FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter + SubLevelHelper[iSubLevel].sLetter + ' - ' + '...' + SubLevelHelper[iSubLevel].sDescription, '%' +FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter + SubLevelHelper[iSubLevel].sLetter);
+          miSubTree := TVariableMenuItem.MyCreate(Self, '%' + FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter + SubLevelHelper[iSubLevel].sLetter + ' - ' + '...' + SubLevelHelper[iSubLevel].sDescription,
+            '%' + FunctionHelper[iFunction].sLetter + SubListLevelHelper[iSubListLevel].sLetter + SubLevelHelper[iSubLevel].sLetter);
+
           miSubListTree.Add(miSubTree);
           if hmdSeparator in SubLevelHelper[iSubLevel].HelperMenuDispatcher then InsertSeparatorInSubListMenu;
         end;
@@ -245,20 +213,74 @@ begin
   end;
 
   //Add the more complex-not-so-complex other examples
-  miMainTree := TVariableMenuItem.MyCreate(pmToPopulate, nil, rsVarOtherExamples, '');
-  TPopupMenu(pmToPopulate).Items.Add(miMainTree);
+  miMainTree := TVariableMenuItem.MyCreate(Self, rsVarOtherExamples, '');
+  TPopupMenu(Self).Items.Add(miMainTree);
   for iSubLevel := 1 to NbOfSubLevelExamples do
   begin
-    miSubTree := TVariableMenuItem.MyCreate(miMainTree, ParamAssociatedComponent, SubLevelHelperExamples[iSubLevel].sLetter + ' - ' + SubLevelHelperExamples[iSubLevel].sDescription, SubLevelHelperExamples[iSubLevel].sLetter);
+    miSubTree := TVariableMenuItem.MyCreate(Self, SubLevelHelperExamples[iSubLevel].sLetter + ' - ' + SubLevelHelperExamples[iSubLevel].sDescription, SubLevelHelperExamples[iSubLevel].sLetter);
     miMainTree.Add(miSubTree);
     if hmdSeparator in SubLevelHelperExamples[iSubLevel].HelperMenuDispatcher then InsertSeparatorInSubMenu;
   end;
 
   //Add link for the help at the end
   InsertSeparatorInMainMenu;
-  miMainTree := TVariableMenuItem.MyCreate(pmToPopulate, nil, rsVarHelpWith, '');
+  miMainTree := TVariableMenuItem.MyCreate(Self, rsVarHelpWith, '');
 
-  TPopupMenu(pmToPopulate).Items.Add(miMainTree);
+  TPopupMenu(Self).Items.Add(miMainTree);
 end;
+
+{ TVariableMenuItem.MyCreate }
+constructor TVariableMenuItem.MyCreate(TheOwner: TComponent; ParamCaption, ParamSubstitutionText: string);
+begin
+  inherited Create(TheOwner);
+
+  Caption := ParamCaption;
+  if ParamCaption <> rsVarHelpWith then
+  begin
+    if ParamSubstitutionText <> '' then
+    begin
+      FSubstitutionText := ParamSubstitutionText;
+      OnClick := @VariableHelperClick;
+    end;
+  end
+  else
+  begin
+    OnClick := @HelpOnVariablesClick;
+  end;
+end;
+
+{ TVariableMenuItem.VariableHelperClick }
+//Our intention:
+//-If something is selected, we replace what's selected by the helper string
+//-If nothing is selected, we insert our helper string at the current cursor pos
+//-If nothing is there at all, we add, simply
+//Since "TDirectoryEdit" is not a descendant of "TCustomEdit", we need to treat it separately.
+procedure TVariableMenuItem.VariableHelperClick(Sender: TObject);
+begin
+  if TPercentVariablePopupMenu(Owner).FAssociatedComponent.ClassNameIs('TDirectoryEdit') then
+    TDirectoryEdit(TPercentVariablePopupMenu(Owner).FAssociatedComponent).SelText := FSubstitutionText
+  else
+    TCustomEdit(TPercentVariablePopupMenu(Owner).FAssociatedComponent).SelText := FSubstitutionText;
+end;
+
+{ TVariableMenuItem.HelpOnVariablesClick }
+procedure TVariableMenuItem.HelpOnVariablesClick(Sender: TObject);
+begin
+  ShowHelpForKeywordWithAnchor('/variables.html');
+end;
+
+{ BringPercentVariablePopupMenu }
+procedure BringPercentVariablePopupMenu(AComponent: TComponent);
+begin
+  if PercentVariablePopupMenu = nil then PercentVariablePopupMenu := TPercentVariablePopupMenu.Create(nil);
+  PercentVariablePopupMenu.AssociatedTComponent := AComponent;
+  PercentVariablePopupMenu.PopUp;
+end;
+
+initialization
+  //JEDI code formatter doesn't like a "finalization" section without prior an "initialization" one...
+
+finalization
+  if PercentVariablePopupMenu <> nil then FreeAndNil(PercentVariablePopupMenu);
 
 end.
