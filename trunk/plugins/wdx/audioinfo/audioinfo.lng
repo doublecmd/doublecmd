@@ -22,3 +22,27 @@ Full text=Весь текст
 Unknown|Mono|Stereo|Joint Stereo|Dual Channel=Неизвестно|Моно|Стерео|Joint Стерео|Dual Channel
 Hz|kHz=Гц|КГц
 CBR|VBR|Unknown=CBR|VBR|Неизвестно
+
+[FRA]
+Channels=Canaux
+Duration=Duree
+Duration (H/M/S)=Duree (H/M/S)
+Sample rate=Échantillonnage
+Bitrate=Débit
+Bitrate type=Type de débit
+Title=Titre
+Artist=Artiste
+Album=Album
+Track=Piste
+Track (zero-filled)=Piste (zero-filled)
+Date=Date
+Genre=Genre
+Comment=Commentaire
+Composer=Compositeur
+Copyright=Copyright
+Link=Lien
+Encoder=Encodeur
+Tags=Tags
+Full text=Texte
+Inconnu|Mono|Stereo|Joint Stereo|Deux cannaux=Inconnu|Mono|Stereo|Joint Stereo|Deux canaux
+Hz|KHz=Hz|kHz
