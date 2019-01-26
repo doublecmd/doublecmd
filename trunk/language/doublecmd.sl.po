@@ -12746,6 +12746,14 @@ msgstr "Pomoč z uporabo spremenljivk »%«"
 msgid "Will request request user to enter a parameter with a default suggested value"
 msgstr "Zahteva od uporabnika vpis parametra s predlagano privzeto vrednostjo"
 
+#: ulng.rsvarlastdircurrentpath
+msgid "Last directory of panel's path"
+msgstr ""
+
+#: ulng.rsvarlastdirofpath
+msgid "Last directory of file's path"
+msgstr ""
+
 #: ulng.rsvarleftpanel
 msgid "Left panel"
 msgstr "Levo okno"

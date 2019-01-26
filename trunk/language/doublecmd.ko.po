@@ -13194,6 +13194,14 @@ msgstr "\"%\"변수와 도움말"
 msgid "Will request request user to enter a parameter with a default suggested value"
 msgstr "요청된 사용자 기본 제시된 값으로 매개변수 입력이 요청됨"
 
+#: ulng.rsvarlastdircurrentpath
+msgid "Last directory of panel's path"
+msgstr ""
+
+#: ulng.rsvarlastdirofpath
+msgid "Last directory of file's path"
+msgstr ""
+
 #: ulng.rsvarleftpanel
 msgid "Left panel"
 msgstr "왼쪽창"
