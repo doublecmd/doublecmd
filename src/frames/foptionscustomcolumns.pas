@@ -1034,11 +1034,11 @@ begin
     end;
     1:
     begin
-      stgColumns.Cells[4, btnAdd.Tag] := stgColumns.Cells[4, btnAdd.Tag] + '[Plugin(' + MenuItem.Parent.Caption + ').' + MenuItem.Caption + '{}] ';
+      stgColumns.Cells[4, btnAdd.Tag] := stgColumns.Cells[4, btnAdd.Tag] + '[Plugin(' + MenuItem.Parent.Caption + ').' + MenuItem.Hint + '{}] ';
     end;
     2:
     begin
-      stgColumns.Cells[4, btnAdd.Tag] := stgColumns.Cells[4, btnAdd.Tag] + '[Plugin(' + MenuItem.Parent.Parent.Caption + ').' + MenuItem.Parent.Caption + '{' + MenuItem.Caption + '}] ';
+      stgColumns.Cells[4, btnAdd.Tag] := stgColumns.Cells[4, btnAdd.Tag] + '[Plugin(' + MenuItem.Parent.Parent.Caption + ').' + MenuItem.Parent.Hint + '{' + MenuItem.Hint + '}] ';
     end;
     3:
     begin

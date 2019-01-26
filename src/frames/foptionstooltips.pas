@@ -649,8 +649,8 @@ var
 begin
   case MenuItem.Tag of
     0: sMask := '[DC().' + MenuItem.Hint + '{}]';
-    1: sMask := '[Plugin(' + MenuItem.Parent.Caption + ').' + MenuItem.Caption + '{}]';
-    2: sMask := '[Plugin(' + MenuItem.Parent.Parent.Caption + ').' + MenuItem.Parent.Caption + '{' + MenuItem.Caption + '}]';
+    1: sMask := '[Plugin(' + MenuItem.Parent.Caption + ').' + MenuItem.Hint + '{}]';
+    2: sMask := '[Plugin(' + MenuItem.Parent.Parent.Caption + ').' + MenuItem.Parent.Hint + '{' + MenuItem.Hint + '}]';
     3: sMask := '[DC().' + MenuItem.Parent.Hint + '{' + MenuItem.Hint + '}] ';
     else
       sMask := EmptyStr;
