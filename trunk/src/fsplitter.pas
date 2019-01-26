@@ -50,6 +50,7 @@ type
     pmPathHelper: TPopupMenu;
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure SetNumberOfPart;
     procedure SetSizeOfPart;
     procedure cmbxSizeChange(Sender: TObject);
@@ -238,6 +239,14 @@ begin
   MyModalResult:=mrCancel;
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
   ParseLineToList(rsSplitPreDefinedSizes, cmbxSize.Items);
+end;
+
+procedure TfrmSplitter.FormShow(Sender: TObject);
+begin
+  if (rbtnGigaB.Left + rbtnGigaB.Width > cmbxSize.Left + cmbxSize.Width) then
+  begin
+    cmbxSize.AnchorParallel(akRight, 0, rbtnGigaB);
+  end;
 end;
 
 { TfrmSplitter.rbtnByteChange }
