@@ -1289,8 +1289,4 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
     left = 288
     top = 112
   end
-  object pmparameteresHelper: TPopupMenu[10]
-    left = 687
-    top = 483
-  end
 end

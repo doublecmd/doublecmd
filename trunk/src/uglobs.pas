@@ -46,8 +46,7 @@ uses
   DCClassesUtf8, uMultiArc, uColumns, uHotkeyManager, uSearchTemplate,
   uFileSourceOperationOptions, uWFXModule, uWCXModule, uWDXModule, uwlxmodule,
   udsxmodule, DCXmlConfig, uInfoToolTip, fQuickSearch, uTypes, uClassesEx,
-  uHotDir, uSpecialDir, uVariableMenuSupport, SynEdit, uFavoriteTabs,
-  fTreeViewMenu, uConvEncoding;
+  uHotDir, uSpecialDir, SynEdit, uFavoriteTabs, fTreeViewMenu, uConvEncoding;
 
 type
   { Configuration options }
@@ -319,8 +318,6 @@ var
   gColumnsTitleStyle: TTitleStyle;
   gCustomColumnsChangeAllColumns: Boolean;
   
-
-  gSupportForVariableHelperMenu:TSupportForVariableHelperMenu=nil;
   gSpecialDirList:TSpecialDirList=nil;
   gDirectoryHotlist:TDirectoryHotlist;
   gHotDirAddTargetOrNot: Boolean;
@@ -1376,7 +1373,6 @@ begin
   FreeThenNil(gFileInfoToolTip);
   FreeThenNil(glsDirHistory);
   FreeThenNil(glsCmdLineHistory);
-  FreeThenNil(gSupportForVariableHelperMenu);
   FreeThenNil(gSpecialDirList);
   FreeThenNil(gDirectoryHotlist);
   FreeThenNil(gFavoriteTabsList);

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Executes file operations with administrator privileges
 
-   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uAdministrator;
@@ -42,7 +41,7 @@ implementation
 uses
   uFileSource, uFileSourceOperationMessageBoxesUI, dmCommonData, uOSUtils,
   uGlobs, uGlobsPaths, uOperationsManager, uFileSourceOperation, DCXmlConfig,
-  uFileSourceOperationOptions, uSpecialDir, uVariableMenuSupport, DCOSUtils,
+  uFileSourceOperationOptions, uSpecialDir, DCOSUtils,
   uDCUtils;
 
 type
@@ -61,7 +60,6 @@ procedure Initialize;
 begin
   LoadPaths;
   LoadWindowsSpecialDir;
-  LoadVariableMenuSupport;
   InitGlobs;
   Dummy:= TDummy.Create;
   Application.CreateForm(TdmComData, dmComData); // common data

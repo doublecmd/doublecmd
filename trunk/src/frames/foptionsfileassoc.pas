@@ -92,9 +92,7 @@ type
     miOpen: TMenuItem;
     OpenDialog: TOpenDialog;
     OpenPictureDialog: TOpenPictureDialog;
-    pmVariableStartPathHelper: TPopupMenu;
     pnlBottomSettings: TPanel;
-    pmVariableParamsHelper: TPopupMenu;
     pmPathHelper: TPopupMenu;
     pnlLeftSettings: TPanel;
     pnlActsEdits: TPanel;
@@ -196,8 +194,8 @@ uses
   LCLProc, Math, LCLType, LazUTF8,
 
   //DC
-  DCStrUtils, uOSForms, fMain, uFile, uPixMapManager, uLng, uDCUtils, DCOSUtils,
-  uShowMsg, uSpecialDir;
+  uVariableMenuSupport, DCStrUtils, uOSForms, fMain, uFile, uPixMapManager,
+  uLng, uDCUtils, DCOSUtils, uShowMsg, uSpecialDir;
 
 const
   ACTUAL_ADD_ACTION = 1;
@@ -308,8 +306,6 @@ begin
 
   // Populate helper menu
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper, mp_PATHHELPER, nil);
-  gSupportForVariableHelperMenu.PopulateMenuWithVariableHelper(pmVariableParamsHelper, edtParams);
-  gSupportForVariableHelperMenu.PopulateMenuWithVariableHelper(pmVariableStartPathHelper, deStartPath);
 
   inherited Load;
 end;
@@ -971,7 +967,7 @@ end;
 { TfrmOptionsFileAssoc.btnParametersHelperClick }
 procedure TfrmOptionsFileAssoc.btnParametersHelperClick(Sender: TObject);
 begin
-  pmVariableParamsHelper.PopUp;
+  BringPercentVariablePopupMenu(edtParams);
 end;
 
 { TfrmOptionsFileAssoc.btnRelativeCommandClick }
@@ -1001,7 +997,7 @@ end;
 { TfrmOptionsFileAssoc.btnStartPathVarHelperClick }
 procedure TfrmOptionsFileAssoc.btnStartPathVarHelperClick(Sender: TObject);
 begin
-  pmVariableStartPathHelper.PopUp;
+  BringPercentVariablePopupMenu(deStartPath);
 end;
 
 procedure TfrmOptionsFileAssoc.deStartPathAcceptDirectory(Sender: TObject; var Value: String);

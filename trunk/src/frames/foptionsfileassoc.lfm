@@ -1058,16 +1058,8 @@ inherited frmOptionsFileAssoc: TfrmOptionsFileAssoc
     left = 65
     top = 60
   end
-  object pmVariableParamsHelper: TPopupMenu[5]
-    left = 175
-    top = 193
-  end
-  object pmPathHelper: TPopupMenu[6]
+  object pmPathHelper: TPopupMenu[5]
     left = 65
     top = 187
-  end
-  object pmVariableStartPathHelper: TPopupMenu[7]
-    left = 165
-    top = 263
   end
 end

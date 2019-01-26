@@ -172,7 +172,6 @@ begin
   LoadInMemoryOurAccentLookupTableList; // Used for conversion of string to remove accents.
   LoadPaths; // before loading config
   LoadWindowsSpecialDir; // Load the list with special path. *Must* be located AFTER "LoadPaths" and BEFORE "InitGlobs"
-  LoadVariableMenuSupport; //Load support for the popup menu with variable
 
   if InitGlobs then
     //-- NOTE: before, only IsInstanceAllowed was called, and all the magic on creation

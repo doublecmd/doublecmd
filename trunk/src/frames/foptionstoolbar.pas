@@ -110,7 +110,6 @@ type
     pnlEditToolbar: TPanel;
     pnlToolbarButtons: TPanel;
     pmInsertButtonMenu: TPopupMenu;
-    pmparameteresHelper: TPopupMenu;
     ReplaceDialog: TReplaceDialog;
     rgToolItemType: TRadioGroup;
     btnOpenIcon: TSpeedButton;
@@ -277,8 +276,8 @@ uses
   {$IFDEF MSWINDOWS}
   uTotalCommander,
   {$ENDIF}
-  uComponentsSignature, fEditSearch, fMainCommandsDlg, uFileProcs, uDebug,
-  DCOSUtils, uShowMsg, DCStrUtils, uLng, uOSForms, uDCUtils,
+  uVariableMenuSupport, uComponentsSignature, fEditSearch, fMainCommandsDlg,
+  uFileProcs, uDebug, DCOSUtils, uShowMsg, DCStrUtils, uLng, uOSForms, uDCUtils,
   uPixMapManager, uKASToolItemsExtended, fMain, uSpecialDir, dmHelpManager,
   uGlobsPaths;
 
@@ -414,7 +413,6 @@ begin
   if ToolBar.ButtonCount > 0 then
     PressButtonDown(ToolBar.Buttons[0]);
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
-  gSupportForVariableHelperMenu.PopulateMenuWithVariableHelper(pmparameteresHelper,edtExternalParameters);
 
   FUpdateHotKey := False;
 end;
@@ -711,6 +709,12 @@ begin
   pmInsertButtonMenu.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
 end;
 
+{ TfrmOptionsToolbar.btnParametersHelperClick }
+procedure TfrmOptionsToolbar.btnParametersHelperClick(Sender: TObject);
+begin
+  BringPercentVariablePopupMenu(edtExternalParameters);
+end;
+
 { TfrmOptionsToolbar.btnOpenCmdDlgClick }
 procedure TfrmOptionsToolbar.btnOpenCmdDlgClick(Sender: TObject);
 var
@@ -732,11 +736,6 @@ begin
       cbInternalCommandSelect(cbInternalCommand);
     end;
   end;
-end;
-
-procedure TfrmOptionsToolbar.btnParametersHelperClick(Sender: TObject);
-begin
-  pmparameteresHelper.PopUp;
 end;
 
 procedure TfrmOptionsToolbar.miInsertButtonClick(Sender: TObject);
