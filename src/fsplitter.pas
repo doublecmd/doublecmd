@@ -353,6 +353,8 @@ begin
     CanClose:= (MyModalResult = mrOK);
   end;
   ModalResult := MyModalResult;
+  // Don't save properties when cancel operation
+  if ModalResult = mrCancel then SessionProperties:= EmptyStr;
 end;
 
 end.
