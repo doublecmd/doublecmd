@@ -1,0 +1,24 @@
+[RUS]
+Channels=Каналы
+Duration=Время
+Duration (H/M/S)=Время (Ч/М/С)
+Sample rate=Частота
+Bitrate=Битрейт
+Bitrate type=Тип битрейта
+Title=Название
+Artist=Исполнитель
+Album=Альбом
+Track=Трек
+Track (zero-filled)=Трек (ведущий ноль)
+Date=Дата
+Genre=Жанр
+Comment=Комментарий
+Composer=Композитор
+Copyright=Авторское право
+Link=Ссылка
+Encoder=Кодировщик
+Tags=Теги
+Full text=Весь текст
+Unknown|Mono|Stereo|Joint Stereo|Dual Channel=Неизвестно|Моно|Стерео|Joint Стерео|Dual Channel
+Hz|kHz=Гц|КГц
+CBR|VBR|Unknown=CBR|VBR|Неизвестно
