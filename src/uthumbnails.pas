@@ -87,7 +87,7 @@ end;
 
 procedure TThumbnailManager.DoCreatePreviewText;
 var
-  x: LongInt;
+  Y: Int32;
   sStr: String;
   tFile: THandle;
 begin
@@ -102,10 +102,12 @@ begin
     tFile:= mbFileOpen(FFileName, fmOpenRead or fmShareDenyNone);
     if (tFile <> feInvalidHandle) then
     begin
-      for x:= 0 to 8 do
+      Y:= 0;
+      while (Y < gThumbSize.cy) do
       begin
         if not FileReadLn(tFile, sStr) then Break;
-        Canvas.TextOut(0, x * Canvas.Font.Size * 3 div 2, sStr);
+        Canvas.TextOut(0, Y, sStr);
+        Y += Canvas.TextHeight(sStr) + 2;
       end;
       FileClose(tFile);
     end;
