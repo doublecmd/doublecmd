@@ -12514,7 +12514,7 @@ msgstr "Експорт налаштувань підказок"
 #: ulng.rsopttooltipfiletypeexportdone
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
-msgstr "Експорт завершено: %d в файл \"%s."
+msgstr "Експорт завершено: %d в файл \"%s\"."
 
 #: ulng.rsopttooltipfiletypeexportprompt
 msgctxt "ulng.rsopttooltipfiletypeexportprompt"
