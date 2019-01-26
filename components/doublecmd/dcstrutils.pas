@@ -1084,6 +1084,7 @@ var
   Len, Finish: Integer;
 begin
   Len:= Length(S);
+  SetLength(Result, 0);
   for Finish:= 1 to Len - 1 do
   begin
     if S[Finish] = Delimiter then
