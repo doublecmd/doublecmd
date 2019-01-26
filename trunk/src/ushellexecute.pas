@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains some functions for open files in associated applications.
 
-    Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uShellExecute;
@@ -78,12 +77,14 @@ uses
   ------------------------------------------------------------------------------
     %f - only filename
     %d - only path of the file
+    %z - last directory of path of the file
     %p - path + filename
     %o - only the filename with no extension
     %e - only the file extension
     %v - only relative path + filename
 
     %D - current path in active or chosen panel
+    %Z - last directory of path of active or chosen panel
     %a - address + path + filename
     %A - current address in active or chosen panel
     %F - file list with file name only
@@ -178,7 +179,7 @@ uses
 *)
 function ReplaceVarParams(sSourceStr: string; paramFile: TFile; pbShowCommandLinePriorToExecute: PBoolean; pbRunInTerminal: PBoolean; pbKeepTerminalOpen: PBoolean; pbAbortOperation: PBoolean = nil): string;
 type
-  TFunctType = (ftNone, ftName, ftDir, ftPath, ftSingleDir, ftSource, ftSourcePath,
+  TFunctType = (ftNone, ftName, ftDir, ftLastDir, ftPath, ftSingleDir, ftLastSingleDir, ftSource, ftSourcePath,
     ftFileFullList, ftFileNameList, ftRelativeFileNameList,
     ftNameNoExt, ftExtension, ftRelativePath,
     ftProcessPercentSignIndicator, ftJustSetTheShowFlag,
@@ -245,7 +246,7 @@ type
     begin
       //1. Processing according to function requested
       case state.funct of
-        ftName, ftDir, ftPath, ftNameNoExt, ftExtension, ftRelativePath, ftSingleDir, ftSource, ftSourcePath:
+        ftName, ftDir, ftLastDir, ftPath, ftNameNoExt, ftExtension, ftSingleDir, ftLastSingleDir, ftRelativePath, ftSource, ftSourcePath:
         begin
           case state.funct of
             ftName:
@@ -253,6 +254,9 @@ type
 
             ftDir:
               Result := aFile.Path;
+
+            ftLastDir:
+              Result := GetLastDir(aFile.Path);
 
             ftPath:
               Result := aFile.FullPath;
@@ -268,6 +272,9 @@ type
 
             ftSingleDir:
               Result := state.dir;
+
+            ftLastSingleDir:
+              Result := GetLastDir(state.dir);
 
             ftSource:
               Result := state.address;
@@ -285,7 +292,7 @@ type
 
       //3. Processing the trailing path delimiter requested
       case state.funct of
-        ftDir, ftSingleDir:
+        ftDir, ftLastDir, ftSingleDir, ftLastSingleDir:
         begin
           if bTrailingDelimiter then
             Result := IncludeTrailingPathDelimiter(Result)
@@ -533,9 +540,9 @@ type
       end
       else
       begin
-        if state.funct in [ftName, ftPath, ftDir, ftNameNoExt, ftSourcePath, ftExtension, ftRelativePath] then
+        if state.funct in [ftName, ftPath, ftDir, ftLastDir, ftNameNoExt, ftSourcePath, ftExtension, ftRelativePath] then
           sOutput := sOutput + BuildAllNames
-        else if state.funct in [ftSingleDir, ftSource] then // only single current dir
+        else if state.funct in [ftSingleDir, ftLastSingleDir, ftSource] then // only single current dir
           sOutput := sOutput + BuildName(nil)
         else if state.funct in [ftFileFullList, ftFileNameList, ftRelativeFileNameList] then // for list of file
           sOutput := sOutput + BuildFileList
@@ -566,7 +573,7 @@ type
     procedure ProcessNumber;
     begin
       case state.funct of
-        ftSingleDir: state.pos := spComplete; // Numbers not allowed for %D
+        ftSingleDir, ftLastSingleDir: state.pos := spComplete; // Numbers not allowed for %D and %Z
         ftSetTrailingDelimiter, ftSetQuoteOrNot, ftSetTerminalOptions:
         begin
           state.sSubParam := state.sSubParam + sSourceStr[index];
@@ -622,16 +629,18 @@ type
               Inc(Index);
             end;
 
-            'f', 'd', 'p', 'o', 'e', 'v', 'D', 'A', 'a', 'n', 'h', '/', '"', 't':
+            'f', 'd', 'z', 'p', 'o', 'e', 'v', 'D', 'Z', 'A', 'a', 'n', 'h', '/', '"', 't':
             begin
               case sSourceStr[index] of
                 'f': state.funct := ftName;
                 'd': state.funct := ftDir;
+                'z': state.funct := ftLastDir;
                 'p': state.funct := ftPath;
                 'o': state.funct := ftNameNoExt;
                 'e': state.funct := ftExtension;
                 'v': state.funct := ftRelativePath;
                 'D': state.funct := ftSingleDir;
+                'Z': state.funct := ftLastSingleDir;
                 'A': state.funct := ftSource;
                 'a': state.funct := ftSourcePath;
                 '/': state.funct := ftSetTrailingDelimiter;

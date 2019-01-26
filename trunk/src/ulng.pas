@@ -836,11 +836,13 @@ resourcestring
 
   rsVarOnlyFilename = 'Only filename';
   rsVarPath = 'Path, without ending delimiter';
+  rsVarLastDirOfPath = 'Last directory of file''s path';
   rsVarFullPath = 'Complete filename (path+filename)';
   rsVarFilenameNoExt = 'Just filename, no extension';
   rsVarOnlyExtension = 'Only file extension';
   rsVarRelativePathAndFilename = 'Filename with relative path';
   rsVarCurrentPath = 'Path of panel';
+  rsVarLastDirCurrentPath = 'Last directory of panel''s path';
   rsVarListFilename = 'Temporary filename of list of filenames';
   rsVarListFullFilename = 'Temporary filename of list of complete filenames (path+filename)';
   rsVarListRelativeFilename = 'Temporary filename of list of filenames with relative path';
