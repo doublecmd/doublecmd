@@ -9208,25 +9208,6 @@ msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Zápis"
 
-#: tfrmsplitter.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Zrušiť"
-
-#: tfrmsplitter.btnftchoice.caption
-msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: tfrmsplitter.btnok.caption
-#, fuzzy
-#| msgid "OK"
-msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "OK"
-
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
 msgid "Some functions to select appropriate path"
@@ -9245,11 +9226,6 @@ msgstr ""
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
 
-#: tfrmsplitter.grbxfile.caption
-msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
-msgid "File name"
-msgstr "Názov súboru"
-
 #: tfrmsplitter.grbxsize.caption
 #, fuzzy
 #| msgid "File size"
@@ -9258,15 +9234,9 @@ msgstr "Veľkosť a počet častí"
 
 #: tfrmsplitter.lbdirtarget.caption
 #, fuzzy
-#| msgid "Directory target"
-msgid "Directory &target"
+#| msgid "Directory &target"
+msgid "Split the file to directory:"
 msgstr "Cieľový adresár"
-
-#: tfrmsplitter.lbfilesource.caption
-#, fuzzy
-#| msgid "File source"
-msgid "File &source"
-msgstr "Zdroj &súboru"
 
 #: tfrmsplitter.lblnumberparts.caption
 #, fuzzy

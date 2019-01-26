@@ -8667,21 +8667,6 @@ msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Пиши"
 
-#: tfrmsplitter.btncancel.caption
-msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Откажи"
-
-#: tfrmsplitter.btnftchoice.caption
-msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: tfrmsplitter.btnok.caption
-msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&У реду"
-
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
 msgid "Some functions to select appropriate path"
@@ -8700,22 +8685,15 @@ msgstr ""
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
 
-#: tfrmsplitter.grbxfile.caption
-msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
-msgid "File name"
-msgstr "Име датотеке"
-
 #: tfrmsplitter.grbxsize.caption
 msgid "Size and number of parts"
 msgstr "Величина и број делова"
 
 #: tfrmsplitter.lbdirtarget.caption
-msgid "Directory &target"
+#, fuzzy
+#| msgid "Directory &target"
+msgid "Split the file to directory:"
 msgstr "Циљна фасцикла&"
-
-#: tfrmsplitter.lbfilesource.caption
-msgid "File &source"
-msgstr "Изворна& фасцикла"
 
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"

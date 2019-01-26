@@ -8493,21 +8493,6 @@ msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Scrie"
 
-#: tfrmsplitter.btncancel.caption
-msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "Revo&care"
-
-#: tfrmsplitter.btnftchoice.caption
-msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: tfrmsplitter.btnok.caption
-msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
 msgid "Some functions to select appropriate path"
@@ -8526,22 +8511,15 @@ msgstr ""
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
 
-#: tfrmsplitter.grbxfile.caption
-msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
-msgid "File name"
-msgstr "Nume fișier"
-
 #: tfrmsplitter.grbxsize.caption
 msgid "Size and number of parts"
 msgstr "Mărime și număr de părți"
 
 #: tfrmsplitter.lbdirtarget.caption
-msgid "Directory &target"
+#, fuzzy
+#| msgid "Directory &target"
+msgid "Split the file to directory:"
 msgstr "Țin&tă dosar"
-
-#: tfrmsplitter.lbfilesource.caption
-msgid "File &source"
-msgstr "&Sursă fișier"
 
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"

@@ -8494,21 +8494,6 @@ msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "写入"
 
-#: tfrmsplitter.btncancel.caption
-msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "取消(&C)"
-
-#: tfrmsplitter.btnftchoice.caption
-msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
-msgid "..."
-msgstr ""
-
-#: tfrmsplitter.btnok.caption
-msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "确定(&O)"
-
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
 msgid "Some functions to select appropriate path"
@@ -8527,22 +8512,15 @@ msgstr "需要一个 CRC32 验证文件"
 msgid "1457664B - 3.5\""
 msgstr ""
 
-#: tfrmsplitter.grbxfile.caption
-msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
-msgid "File name"
-msgstr "文件名"
-
 #: tfrmsplitter.grbxsize.caption
 msgid "Size and number of parts"
 msgstr "文件大小"
 
 #: tfrmsplitter.lbdirtarget.caption
-msgid "Directory &target"
+#, fuzzy
+#| msgid "Directory &target"
+msgid "Split the file to directory:"
 msgstr "目标文件夹"
-
-#: tfrmsplitter.lbfilesource.caption
-msgid "File &source"
-msgstr "文件来源(&S)"
 
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"

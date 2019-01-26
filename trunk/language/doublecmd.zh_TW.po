@@ -9154,25 +9154,6 @@ msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "寫入"
 
-#: tfrmsplitter.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "取消 (&C)"
-
-#: tfrmsplitter.btnftchoice.caption
-msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: tfrmsplitter.btnok.caption
-#, fuzzy
-#| msgid "OK"
-msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "確定 (&O)"
-
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
 msgid "Some functions to select appropriate path"
@@ -9191,26 +9172,15 @@ msgstr ""
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
 
-#: tfrmsplitter.grbxfile.caption
-msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
-msgid "File name"
-msgstr "檔案名稱"
-
 #: tfrmsplitter.grbxsize.caption
 msgid "Size and number of parts"
 msgstr "分割檔大小及數量"
 
 #: tfrmsplitter.lbdirtarget.caption
 #, fuzzy
-#| msgid "Directory target"
-msgid "Directory &target"
+#| msgid "Directory &target"
+msgid "Split the file to directory:"
 msgstr "目標資料夾 (&T)"
-
-#: tfrmsplitter.lbfilesource.caption
-#, fuzzy
-#| msgid "File source"
-msgid "File &source"
-msgstr "來源檔案 (&S)"
 
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"

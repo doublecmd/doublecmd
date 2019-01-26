@@ -9147,25 +9147,6 @@ msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Escriptura"
 
-#: tfrmsplitter.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "&Cancel·la"
-
-#: tfrmsplitter.btnftchoice.caption
-msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: tfrmsplitter.btnok.caption
-#, fuzzy
-#| msgid "OK"
-msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&Accepta"
-
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
 msgid "Some functions to select appropriate path"
@@ -9184,11 +9165,6 @@ msgstr ""
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
 
-#: tfrmsplitter.grbxfile.caption
-msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
-msgid "File name"
-msgstr "Nom de Fitxer"
-
 #: tfrmsplitter.grbxsize.caption
 #, fuzzy
 #| msgid "File size"
@@ -9197,15 +9173,9 @@ msgstr "Mida"
 
 #: tfrmsplitter.lbdirtarget.caption
 #, fuzzy
-#| msgid "Directory target"
-msgid "Directory &target"
+#| msgid "Directory &target"
+msgid "Split the file to directory:"
 msgstr "Ruta de desti"
-
-#: tfrmsplitter.lbfilesource.caption
-#, fuzzy
-#| msgid "File source"
-msgid "File &source"
-msgstr "Fitxer orígen"
 
 #: tfrmsplitter.lblnumberparts.caption
 #, fuzzy

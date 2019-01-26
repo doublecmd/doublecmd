@@ -8268,21 +8268,6 @@ msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr ""
 
-#: tfrmsplitter.btncancel.caption
-msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr ""
-
-#: tfrmsplitter.btnftchoice.caption
-msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
-msgid "..."
-msgstr ""
-
-#: tfrmsplitter.btnok.caption
-msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
-msgid "&OK"
-msgstr ""
-
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "TFRMSPLITTER.BTNRELATIVEFTCHOICE.HINT"
 msgid "Some functions to select appropriate path"
@@ -8300,21 +8285,12 @@ msgstr ""
 msgid "1457664B - 3.5\""
 msgstr ""
 
-#: tfrmsplitter.grbxfile.caption
-msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
-msgid "File name"
-msgstr ""
-
 #: tfrmsplitter.grbxsize.caption
 msgid "Size and number of parts"
 msgstr ""
 
 #: tfrmsplitter.lbdirtarget.caption
-msgid "Directory &target"
-msgstr ""
-
-#: tfrmsplitter.lbfilesource.caption
-msgid "File &source"
+msgid "Split the file to directory:"
 msgstr ""
 
 #: tfrmsplitter.lblnumberparts.caption

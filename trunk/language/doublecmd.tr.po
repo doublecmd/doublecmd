@@ -8772,25 +8772,6 @@ msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Yazma"
 
-#: tfrmsplitter.btncancel.caption
-#, fuzzy
-#| msgid "Cancel"
-msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "&Cancel"
-msgstr "İptal"
-
-#: tfrmsplitter.btnftchoice.caption
-msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: tfrmsplitter.btnok.caption
-#, fuzzy
-#| msgid "OK"
-msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "TAMAM"
-
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
 msgid "Some functions to select appropriate path"
@@ -8809,26 +8790,15 @@ msgstr ""
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
 
-#: tfrmsplitter.grbxfile.caption
-msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
-msgid "File name"
-msgstr "Dosya Adı"
-
 #: tfrmsplitter.grbxsize.caption
 msgid "Size and number of parts"
 msgstr "Boyut ve parça sayıları"
 
 #: tfrmsplitter.lbdirtarget.caption
 #, fuzzy
-#| msgid "Directory target"
-msgid "Directory &target"
+#| msgid "Directory &target"
+msgid "Split the file to directory:"
 msgstr "Hedef dizin"
-
-#: tfrmsplitter.lbfilesource.caption
-#, fuzzy
-#| msgid "File source"
-msgid "File &source"
-msgstr "Dosya kaynağı"
 
 #: tfrmsplitter.lblnumberparts.caption
 #, fuzzy
