@@ -447,9 +447,8 @@ end;
 
 procedure AddModule(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent; Module: TWDXModule);
 var
-  J: Integer;
-  sUnits: String;
-  Mi, mi2: TMenuItem;
+  J, K: Integer;
+  MI, MI2: TMenuItem;
   WdxField: TWdxField;
 begin
   MI:= TMenuItem.Create(MenuItem);
@@ -463,16 +462,17 @@ begin
     begin
       MI:= TMenuItem.Create(MenuItem);
       MI.Tag:= 1;
-      MI.Caption:= Module.FieldList[J];
+      MI.Caption:= WdxField.LName;
+      MI.Hint:= Module.FieldList[J];
       MenuItem.Items[MenuItem.Count - 1].Add(MI);
       if WdxField.FType <> ft_multiplechoice then
       begin
-        sUnits:= WdxField.FUnits;
-        while sUnits <> EmptyStr do
+        for K:= 0 to High(WdxField.FUnits) do
         begin
           MI2:=TMenuItem.Create(MenuItem);
           MI2.Tag:= 2;
-          MI2.Caption:= Copy2SymbDel(sUnits, '|');
+          MI2.Caption:= WdxField.LUnits[K];
+          MI2.Hint:= WdxField.FUnits[K];
           MI2.OnClick:= OnMenuItemClick;
           MI.Add(MI2);
         end;

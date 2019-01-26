@@ -942,10 +942,10 @@ begin
          sMask := '[=DC().' + MenuItem.Hint + '{}]';
        end;
     1: begin
-         sMask := '[=Plugin(' + MenuItem.Parent.Caption + ').' + MenuItem.Caption + '{}]';
+         sMask := '[=Plugin(' + MenuItem.Parent.Caption + ').' + MenuItem.Hint + '{}]';
        end;
     2: begin
-         sMask := '[=Plugin(' + MenuItem.Parent.Parent.Caption + ').' + MenuItem.Parent.Caption + '{' + MenuItem.Caption + '}]';
+         sMask := '[=Plugin(' + MenuItem.Parent.Parent.Caption + ').' + MenuItem.Parent.Hint + '{' + MenuItem.Hint + '}]';
        end;
     3: begin
          sMask := '[=DC().' + MenuItem.Parent.Hint + '{' + MenuItem.Hint + '}]';

@@ -127,7 +127,6 @@ end;
 procedure TPluginPanel.FieldChange(Sender: TObject);
 var
   I, J: Integer;
-  sUnits: String;
   Module: TWDXModule;
 begin
   FUnit.Items.Clear;
@@ -140,8 +139,7 @@ begin
   I:= TWdxField(Module.FieldList.Objects[J]).FType;
   if (I <> FT_MULTIPLECHOICE) then
   begin
-    sUnits:= TWdxField(Module.FieldList.Objects[J]).FUnits;
-    while sUnits <> EmptyStr do FUnit.Items.Add(Copy2SymbDel(sUnits, '|'));
+    FUnit.Items.AddStrings(TWdxField(Module.FieldList.Objects[J]).FUnits);
   end;
   FUnit.Enabled := (I <> FT_MULTIPLECHOICE) AND (FUnit.Items.Count > 0);
   if FUnit.Enabled then FUnit.ItemIndex:= 0;
@@ -176,11 +174,7 @@ begin
         FValue.Style:= csDropDownList;
         FOperator.Items.AddObject('=', TObject(PtrInt(poEqualCaseSensitive)));
         FOperator.Items.AddObject('!=', TObject(PtrInt(poNotEqualCaseSensitive)));
-        sUnits:= TWdxField(Module.FieldList.Objects[J]).FUnits;
-        while sUnits <> EmptyStr do
-        begin
-          FValue.Items.Add(Copy2SymbDel(sUnits, '|'));
-        end;
+        FValue.Items.AddStrings(TWdxField(Module.FieldList.Objects[J]).FUnits);
         if FValue.Items.Count > 0 then FValue.ItemIndex:= 0;
       end;
     end;
