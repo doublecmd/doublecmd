@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Take a single file and split it in part based on few parameters.
 
-   Copyright (C) 2018  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2018  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,17 +17,6 @@
 
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-   Original comment:
-   -----------------
-   Seksi Commander
-   ----------------------------
-   Licence  : GNU GPL v 2.0
-   Author   : Pavel Letko (letcuv@centrum.cz)
-   File splitter
-   contributors:
-   Radek Cervinka
 }
 
 unit fSplitter;
@@ -39,32 +28,27 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, Buttons, Menus,
+  EditBtn, ExtCtrls,
   //DC
-  uFileSource, uFile;
+  fButtonForm, uFileSource, uFile, KASComboBox;
 
 type
   { TfrmSplitter }
-  TfrmSplitter = class(TForm)
-    teNumberParts: TEdit;
-    grbxFile: TGroupBox;
-    edFileSource: TEdit;
-    lblNumberParts: TLabel;
-    lbFileSource: TLabel;
-    edDirTarget: TEdit;
+  TfrmSplitter = class(TfrmButtonForm)
+    btnRelativeFTChoice: TSpeedButton;
+    edDirTarget: TDirectoryEdit;
     lbDirTarget: TLabel;
-    btnFTChoice: TButton;
+    teNumberParts: TEdit;
+    lblNumberParts: TLabel;
     grbxSize: TGroupBox;
-    cmbxSize: TComboBox;
-    btnOK: TButton;
-    btnCancel: TButton;
+    cmbxSize: TComboBoxAutoWidth;
     rbtnKiloB: TRadioButton;
     rbtnMegaB: TRadioButton;
     rbtnGigaB: TRadioButton;
     rbtnByte: TRadioButton;
-    btnRelativeFTChoice: TSpeedButton;
     cbRequireACRC32VerificationFile: TCheckBox;
     pmPathHelper: TPopupMenu;
-    procedure btnFTChoiceClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure SetNumberOfPart;
     procedure SetSizeOfPart;
@@ -72,21 +56,19 @@ type
     procedure btnRelativeFTChoiceClick(Sender: TObject);
     procedure rbtnByteChange(Sender: TObject);
     procedure teNumberPartsChange(Sender: TObject);
-    procedure btnOKClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var {%H-}CloseAction: TCloseAction);
   private
-    { Private declarations }
+    FFileName: String;
+    iVolumeSize: Int64;
     MyModalResult: integer;
+    iVolumeNumber: Integer;
     function StrConvert(sExpression: String): Int64;
   public
     { Public declarations }
-    iVolumeNumber: Integer;
-    iVolumeSize: int64;
   end;
 
 { ShowSplitterFileForm:
   "TMainCommands.cm_FileSpliter" function from "uMainCommands.pas" is calling this routine.}
-function ShowSplitterFileForm(aFileSource: IFileSource; var aFile: TFile; const TargetPath: String): Boolean;
+function ShowSplitterFileForm(TheOwner: TComponent; aFileSource: IFileSource; var aFile: TFile; const TargetPath: String): Boolean;
 
 implementation
 
@@ -102,14 +84,14 @@ uses
 
 { ShowSplitterFileForm:
   "TMainCommands.cm_FileSpliter" function from "uMainCommands.pas" is calling this routine.}
-function ShowSplitterFileForm(aFileSource: IFileSource; var aFile: TFile; const TargetPath: String): Boolean;
+function ShowSplitterFileForm(TheOwner: TComponent; aFileSource: IFileSource; var aFile: TFile; const TargetPath: String): Boolean;
 var
-  Operation: TFileSourceSplitOperation = nil;
   frmSplitter:TfrmSplitter;
+  Operation: TFileSourceSplitOperation = nil;
 begin
-  frmSplitter:=TfrmSplitter.Create(Application); //Did not use the "with..." here to make absolutely sure of what is referenced in the following.
+  frmSplitter:=TfrmSplitter.Create(TheOwner); //Did not use the "with..." here to make absolutely sure of what is referenced in the following.
   try
-    frmSplitter.edFileSource.Text:= aFile.FullPath;
+    frmSplitter.FFileName:= aFile.FullPath;
     frmSplitter.edDirTarget.Text:= TargetPath;
     frmSplitter.SetNumberOfPart;
 
@@ -126,10 +108,10 @@ begin
           Operation.VolumeNumber:= frmSplitter.iVolumeNumber;
           Operation.RequireACRC32VerificationFile:= frmSplitter.cbRequireACRC32VerificationFile.Checked;
           Operation.AutomaticSplitMode:=(frmSplitter.cmbxSize.ItemIndex=0);
-          OperationsManager.AddOperation(Operation);
+          OperationsManager.AddOperation(Operation, frmSplitter.QueueIdentifier, False);
         end;
       finally
-        FreeThenNil(aFile);
+        FreeAndNil(aFile);
       end;
     end;
   finally
@@ -144,10 +126,10 @@ begin
     begin
       if StrConvert(cmbxSize.Text)>0 then
       begin
-        if mbFileSize(edFileSource.Text) mod StrConvert(cmbxSize.Text)>0 then
-          teNumberParts.Text:= IntToStr( (mbFileSize(edFileSource.Text) div StrConvert(cmbxSize.Text)) +1)
+        if mbFileSize(FFileName) mod StrConvert(cmbxSize.Text)>0 then
+          teNumberParts.Text:= IntToStr( (mbFileSize(FFileName) div StrConvert(cmbxSize.Text)) +1)
         else
-          teNumberParts.Text:= IntToStr(mbFileSize(edFileSource.Text) div StrConvert(cmbxSize.Text));
+          teNumberParts.Text:= IntToStr(mbFileSize(FFileName) div StrConvert(cmbxSize.Text));
       end
       else
       begin
@@ -165,10 +147,10 @@ procedure TfrmSplitter.SetSizeOfPart;
 begin
   if StrToInt64Def(teNumberParts.Text,0)>0 then
   begin
-    if mbFileSize(edFileSource.Text) mod StrToInt64Def(teNumberParts.Text,0)>0 then
-      cmbxSize.Text := IntToStr(mbFileSize(edFileSource.Text) div StrToInt64Def(teNumberParts.Text, 0) + 1)
+    if mbFileSize(FFileName) mod StrToInt64Def(teNumberParts.Text,0)>0 then
+      cmbxSize.Text := IntToStr(mbFileSize(FFileName) div StrToInt64Def(teNumberParts.Text, 0) + 1)
     else
-      cmbxSize.Text := IntToStr(mbFileSize(edFileSource.Text) div StrToInt64Def(teNumberParts.Text, 0));
+      cmbxSize.Text := IntToStr(mbFileSize(FFileName) div StrToInt64Def(teNumberParts.Text, 0));
     rbtnByte.Checked := True;
     rbtnByte.Enabled := True;
     rbtnKiloB.Enabled := True;
@@ -181,22 +163,9 @@ begin
   end;
 end;
 
-{ TfrmSplitter.btnFTChoiceClick }
-procedure TfrmSplitter.btnFTChoiceClick(Sender: TObject);
-var
-  sDir: string;
-begin
-  if SelectDirectory(rsSplitSelDir, edDirTarget.Text, sDir) then
-  // Select directory:
-  // must change on linux!!!
-  begin
-    edDirTarget.Text:= sDir;
-  end;
-end;
-
 { TfrmSplitter.StrConvert }
 //Let's do a basic conversion that maybe is not a full idiot-proof, but versatile and simple enough to fit in a few lines.
-function TfrmSplitter.StrConvert(sExpression:string):int64;
+function TfrmSplitter.StrConvert(sExpression: String): Int64;
 var
   iMult: int64 = 1;
   bUseRadioButtons: boolean = True;
@@ -259,8 +228,7 @@ begin
   end;
 
   //7.Since we're now supposed to have just numbers in our string, we should be ready to do our conversion.
-  result := StrToInt64Def(sExpression, 0) * iMult;
-
+  Result := StrToInt64Def(sExpression, 0) * iMult;
 end;
 
 { TfrmSplitter.FormCreate }
@@ -341,51 +309,51 @@ begin
   if teNumberParts.Focused then SetSizeOfPart; //Do the function ONLY-IF it's the result of someone typing in the field
 end;
 
-{ TfrmSplitter.btnOKClick }
-procedure TfrmSplitter.btnOKClick(Sender: TObject);
+{ TfrmSplitter.FormCloseQuery }
+procedure TfrmSplitter.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 var
   isTooManyFiles: boolean;
 begin
-  if cmbxSize.ItemIndex<>0 then iVolumeSize:= StrConvert(cmbxSize.Text) else iVolumeSize:=0;
-  if (iVolumeSize <= 0) AND (cmbxSize.ItemIndex<>0) then
+  if (ModalResult <> mrCancel) then
   begin
-    ShowMessageBox(rsSplitErrFileSize, rsSimpleWordError+'!', MB_OK or MB_ICONERROR); //Incorrect file size format! (Used "ShowMessageBox" instead of "MsgError" 'cause with "MsgError", user can still click on the frmSplitter form and type in it).
-  end
-  else
-  begin
-    if not mbForceDirectory(IncludeTrailingPathDelimiter(mbExpandFileName(edDirTarget.Text))) then
+    if cmbxSize.ItemIndex <> 0 then
+      iVolumeSize:= StrConvert(cmbxSize.Text)
+    else begin
+      iVolumeSize:= 0;
+    end;
+    if (iVolumeSize <= 0) AND (cmbxSize.ItemIndex<>0) then
     begin
-      ShowMessageBox(rsSplitErrDirectory, rsSimpleWordError+'!', MB_OK or MB_ICONERROR); //Unable to create target directory!
+      ShowMessageBox(rsSplitErrFileSize, rsSimpleWordError+'!', MB_OK or MB_ICONERROR); //Incorrect file size format! (Used "ShowMessageBox" instead of "MsgError" 'cause with "MsgError", user can still click on the frmSplitter form and type in it).
     end
     else
     begin
-      if teNumberParts.Text <> rsMSgUndeterminedNumberOfFile then iVolumeNumber := StrToInt(teNumberParts.Text) else iVolumeNumber := 0;
-      if (iVolumeNumber < 1) AND (teNumberParts.Text <> rsMSgUndeterminedNumberOfFile) then
+      if not mbForceDirectory(IncludeTrailingPathDelimiter(mbExpandFileName(edDirTarget.Text))) then
       begin
-        ShowMessageBox(rsSplitErrSplitFile, rsSimpleWordError+'!', MB_OK or MB_ICONERROR); //Unable to split the file!
+        ShowMessageBox(rsSplitErrDirectory, rsSimpleWordError+'!', MB_OK or MB_ICONERROR); //Unable to create target directory!
       end
       else
       begin
-        isTooManyFiles:=(iVolumeNumber > 100);
-        if isTooManyFiles then isTooManyFiles:=(MessageDlg(Caption, rsSplitMsgManyParts, mtWarning, mbYesNo, 0) <> mrYes);
-
-        if not isTooManyFiles then
+        if teNumberParts.Text <> rsMSgUndeterminedNumberOfFile then iVolumeNumber := StrToInt(teNumberParts.Text) else iVolumeNumber := 0;
+        if (iVolumeNumber < 1) AND (teNumberParts.Text <> rsMSgUndeterminedNumberOfFile) then
         begin
-          MyModalResult:=mrOk;
-          close;
-        end; //if isTooManyFiles then
-      end; //if (iVolumeNumber = 0) then
-    end; //if not mbForceDirectory(edDirTarget.Text) then
-  end; //if iVolumeSize <= 0 then
-end;
+          ShowMessageBox(rsSplitErrSplitFile, rsSimpleWordError+'!', MB_OK or MB_ICONERROR); //Unable to split the file!
+        end
+        else
+        begin
+          isTooManyFiles:=(iVolumeNumber > 100);
+          if isTooManyFiles then isTooManyFiles:=(MessageDlg(Caption, rsSplitMsgManyParts, mtWarning, mbYesNo, 0) <> mrYes);
 
-{ TfrmSplitter.FormClose }
-procedure TfrmSplitter.FormClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
-  modalResult := MyModalResult;
+          if not isTooManyFiles then
+          begin
+            MyModalResult:= mrOk;
+          end; //if isTooManyFiles then
+        end; //if (iVolumeNumber = 0) then
+      end; //if not mbForceDirectory(edDirTarget.Text) then
+    end; //if iVolumeSize <= 0 then
+    CanClose:= (MyModalResult = mrOK);
+  end;
+  ModalResult := MyModalResult;
 end;
 
 end.
-
-
 
