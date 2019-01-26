@@ -43,6 +43,7 @@ type
     btnCloneButton: TButton;
     btnDeleteButton: TButton;
     btnParametersHelper: TSpeedButton;
+    btnInternalParametersHelper: TSpeedButton;
     btnSuggestionTooltip: TButton;
     btnOpenFile: TButton;
     btnEditHotkey: TButton;
@@ -179,6 +180,7 @@ type
     miImportBackupAddMenuCurrent: TMenuItem;
     procedure btnEditHotkeyClick(Sender: TObject);
     procedure btnInsertButtonClick(Sender: TObject);
+    procedure btnInternalParametersHelperClick(Sender: TObject);
     procedure btnOpenCmdDlgClick(Sender: TObject);
     procedure btnParametersHelperClick(Sender: TObject);
     procedure btnRelativeExternalCommandClick(Sender: TObject);
@@ -522,6 +524,7 @@ begin
   btnOpenCmdDlg.Visible := EnableCommand;
   lblHelpOnInternalCommand.Visible := EnableCommand;
   lblInternalParameters.Visible := EnableCommand;
+  btnInternalParametersHelper.Visible := EnableCommand;
   edtInternalParameters.Visible := EnableCommand;
   lblExternalCommand.Visible := EnableProgram;
   edtExternalCommand.Visible := EnableProgram;
@@ -707,6 +710,12 @@ end;
 procedure TfrmOptionsToolbar.btnInsertButtonClick(Sender: TObject);
 begin
   pmInsertButtonMenu.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+{ TfrmOptionsToolbar.btnInternalParametersHelperClick }
+procedure TfrmOptionsToolbar.btnInternalParametersHelperClick(Sender: TObject);
+begin
+  BringPercentVariablePopupMenu(edtInternalParameters);
 end;
 
 { TfrmOptionsToolbar.btnParametersHelperClick }
