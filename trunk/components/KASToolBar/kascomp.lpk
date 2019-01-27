@@ -26,8 +26,8 @@
 "/>
     <License Value="GNU GPL 2
 "/>
-    <Version Major="1" Minor="8" Release="1"/>
-    <Files Count="6">
+    <Version Major="1" Minor="9"/>
+    <Files Count="7">
       <Item1>
         <Filename Value="kastoolbar.pas"/>
         <HasRegisterProc Value="True"/>
@@ -57,6 +57,11 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="KASCDEdit"/>
       </Item6>
+      <Item7>
+        <Filename Value="kasstatusbar.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="KASStatusBar"/>
+      </Item7>
     </Files>
     <RequiredPkgs Count="3">
       <Item1>
@@ -65,7 +70,7 @@
       </Item1>
       <Item2>
         <PackageName Value="LCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <MinVersion Major="1" Minor="8" Valid="True"/>
       </Item2>
       <Item3>
         <PackageName Value="FCL"/>
