@@ -432,24 +432,23 @@ implementation
 uses
   FileUtil, IntfGraphics, Math, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding,
   DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
-  uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
-  fMain;
+  uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid;
 
 const
   HotkeysCategory = 'Viewer';
 
   // Status bar panels indexes.
-  sbpFileName             = 0;
-  sbpFileNr               = 1;
+  sbpFileName             = 4;
+  sbpFileNr               = 0;
   // Text
-  sbpPosition             = 2;
-  sbpFileSize             = 3;
-  sbpTextEncoding         = 4;
+  sbpPosition             = 1;
+  sbpFileSize             = 2;
+  sbpTextEncoding         = 3;
   // WLX
-  sbpPluginName           = 2;
+  sbpPluginName           = 1;
   // Graphics
-  sbpCurrentResolution    = 2;
-  sbpFullResolution       = 3;
+  sbpCurrentResolution    = 1;
+  sbpFullResolution       = 2;
 
 type
 
@@ -2724,7 +2723,7 @@ begin
     begin
       MenuItem.Checked := True;
       ViewerControl.EncodingName := Params[0];
-      Status.Panels[4].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+      Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
     end;
   end;
 end;
