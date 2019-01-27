@@ -464,6 +464,7 @@ type
     procedure Execute; override;
   public
     constructor Create(Owner: TfrmViewer);
+    class procedure Finish(var Thread: TThread);
   end;
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource);
@@ -540,7 +541,6 @@ end;
 procedure TThumbThread.DoOnTerminate(Sender: TObject);
 begin
   FOwner.EnableActions(True);
-  FOwner.FThread := nil;
   FOwner := nil;
 end;
 
@@ -562,10 +562,19 @@ begin
   inherited Create(True);
   Owner.EnableActions(False);
   OnTerminate := @DoOnTerminate;
-  FreeOnTerminate := True;
   FOwner := Owner;
   ClearList;
   Start;
+end;
+
+class procedure TThumbThread.Finish(var Thread: TThread);
+begin
+  if Assigned(Thread) then
+  begin
+    Thread.Terminate;
+    Thread.WaitFor;
+    FreeAndNil(Thread);
+  end;
 end;
 
 constructor TfrmViewer.Create(TheOwner: TComponent; aFileSource: IFileSource;
@@ -1631,11 +1640,7 @@ end;
 
 procedure TfrmViewer.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
-  if Assigned(FThread) then
-  begin
-    FThread.Terminate;
-    FThread.WaitFor;
-  end;
+  TThumbThread.Finish(FThread);
 end;
 
 procedure TfrmViewer.TimerViewerTimer(Sender: TObject);
@@ -2780,14 +2785,11 @@ begin
   Splitter.Visible := pnlPreview.Visible;
 
   if miPreview.Checked then
-  begin
     FThread:= TThumbThread.Create(Self)
-  end
-  else if Assigned(FThread) then
-  begin
-    FThread.Terminate;
-    FThread.WaitFor;
+  else begin
+    TThumbThread.Finish(FThread);
   end;
+
   if bPlugin then FWlxModule.ResizeWindow(GetListerRect);
 end;
 
