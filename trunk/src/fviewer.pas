@@ -60,7 +60,7 @@ uses
   LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
   Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
   uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd,
-  uExifReader;
+  uExifReader, KASStatusBar;
 
 type
 
@@ -208,7 +208,7 @@ type
     btnNextGifFrame: TSpeedButton;
     btnPrevGifFrame: TSpeedButton;
     Splitter: TSplitter;
-    Status: TStatusBar;
+    Status: TKASStatusBar;
     MainMenu: TMainMenu;
     miFile: TMenuItem;
     miPrev: TMenuItem;

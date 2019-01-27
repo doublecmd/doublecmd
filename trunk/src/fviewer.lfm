@@ -293,7 +293,7 @@ object frmViewer: TfrmViewer
       TabOrder = 0
     end
   end
-  object Status: TStatusBar
+  object Status: TKASStatusBar
     Left = 0
     Height = 23
     Top = 435
