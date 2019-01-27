@@ -29,16 +29,13 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
   ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls,
   uPariterControls, uDiffOND, uFormCommands, uHotkeyManager, uOSForms,
-  uBinaryDiffViewer, uShowForm;
+  uBinaryDiffViewer, uShowForm, KASStatusBar;
 
 type
 
   { TStatusBar }
 
-  TStatusBar = class(ComCtrls.TStatusBar)
-  protected
-    procedure InvalidatePanel(PanelIndex: Integer; PanelParts: TPanelParts); override;
-  end;
+  TStatusBar = class(TKASStatusBar);
 
   { TfrmDiffer }
 
@@ -293,18 +290,6 @@ begin
         ShowOnTop;
     end;
   end;
-end;
-
-{ TStatusBar }
-
-procedure TStatusBar.InvalidatePanel(PanelIndex: Integer; PanelParts: TPanelParts);
-begin
-  if (PanelIndex >= 0) and (ppText in PanelParts) then
-  begin
-    if Length(Panels[PanelIndex].Text) > 0 then
-      Panels[PanelIndex].Width:= Canvas.TextWidth('WW' + Panels[PanelIndex].Text);
-  end;
-  inherited InvalidatePanel(PanelIndex, PanelParts);
 end;
 
 { TfrmDiffer }
