@@ -29,14 +29,15 @@ inherited frmSplitter: TfrmSplitter
     ClientHeight = 197
     ClientWidth = 488
     object grbxSize: TGroupBox[0]
+      AnchorSideLeft.Control = pnlContent
       AnchorSideTop.Control = edDirTarget
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = pnlContent
       AnchorSideRight.Side = asrBottom
-      Left = -4
+      Left = 0
       Height = 138
       Top = 52
-      Width = 492
+      Width = 488
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       BorderSpacing.Top = 10
@@ -44,7 +45,7 @@ inherited frmSplitter: TfrmSplitter
       ChildSizing.LeftRightSpacing = 6
       ChildSizing.TopBottomSpacing = 6
       ClientHeight = 118
-      ClientWidth = 488
+      ClientWidth = 484
       Constraints.MinWidth = 300
       TabOrder = 1
       object cmbxSize: TComboBoxAutoWidth

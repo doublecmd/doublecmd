@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Take a single file and split it in part based on few parameters.
 
-   Copyright (C) 2007-2018  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
