@@ -731,9 +731,11 @@ const
   MAX_LEN = 256;
 var
   sFieldName: String;
-  I, Index, Rez: Integer;
+  Index, Rez: Integer;
   xFieldName, xUnits: array[0..Pred(MAX_LEN)] of AnsiChar;
 begin
+  FFieldsList.Clear;
+
   if Assigned(ContentGetSupportedField) then
   begin
     Index := 0;
@@ -1017,9 +1019,11 @@ end;
 
 procedure TLuaWdx.CallContentGetSupportedField;
 var
-  Index, Rez, tmp: Integer;
+  Index, Rez: Integer;
   xFieldName, xUnits: String;
 begin
+  FFieldsList.Clear;
+
   Index := 0;
   repeat
     Rez := WdxLuaContentGetSupportedField(Index, xFieldName, xUnits);
@@ -1357,6 +1361,7 @@ begin
   InitCriticalSection(FMutex);
   FParser:= TParserControl.Create;
   FFieldsList:= TStringList.Create;
+  FFieldsList.OwnsObjects:= True;
 end;
 
 destructor TWDXModule.Destroy;
@@ -1364,12 +1369,7 @@ var
   I: Integer;
 begin
   FParser.Free;
-  if Assigned(FFieldsList) then
-  begin
-    for I := 0 to FFieldsList.Count - 1 do
-      TWdxField(FFieldsList.Objects[I]).Free;
-    FFieldsList.Free;
-  end;
+  FFieldsList.Free;
   Self.UnloadModule;
   inherited Destroy;
   DoneCriticalSection(FMutex);
