@@ -80,12 +80,12 @@ end;
 
 function TPluginPanel.GetField: String;
 begin
-  Result := TWdxField(PtrInt(FComboField.Items.Objects[FComboField.ItemIndex])).FName;
+  Result := TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]).FName;
 end;
 
 function TPluginPanel.GetFieldType: Integer;
 begin
-  Result := TWdxField(PtrInt(FComboField.Items.Objects[FComboField.ItemIndex])).FType
+  Result := TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]).FType
 end;
 
 function TPluginPanel.GetPlugin: String;
@@ -95,12 +95,23 @@ end;
 
 function TPluginPanel.GetUnitName: String;
 begin
-  Result:= FComboUnit.Text;
+  if (FComboField.ItemIndex < 0) or (FComboUnit.ItemIndex < 0) then
+    Result:= FComboUnit.Text
+  else begin
+    Result:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]).FUnits[FComboUnit.ItemIndex];
+  end;
 end;
 
 function TPluginPanel.GetValue: Variant;
+var
+  WdxField: TWdxField;
 begin
-  Result:= StrToVar(FComboValue.Text, TWdxField(PtrInt(FComboField.Items.Objects[FComboField.ItemIndex])).FType);
+  WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
+  if (WdxField.FType <> ft_multiplechoice) then
+    Result:= StrToVar(FComboValue.Text, WdxField.FType)
+  else begin
+    Result:= StrToVar(WdxField.FUnits[FComboValue.ItemIndex], WdxField.FType)
+  end;
 end;
 
 // When a plugin is selected from the plugin combo, we populate the others in cascade.
@@ -128,29 +139,23 @@ end;
 
 procedure TPluginPanel.FieldChange(Sender: TObject);
 var
-  I, J: Integer;
-  Module: TWDXModule;
+  WdxField: TWdxField;
 begin
   FComboUnit.Items.Clear;
   FComboValue.Items.Clear;
   FComboOperator.Items.Clear;
-  Module:= gWdxPlugins.GetWdxModule(FComboPlugin.Text);
   if (FComboField.ItemIndex < 0) then Exit;
 
-  //This items in the field combo are localized string.
-  //To search field index, we must get its non-localized name which is store in the TWdxField object present in objects referenced by combo list.
-  J := Module.GetFieldIndex(TWdxField(PtrInt(FComboField.Items.Objects[FComboField.ItemIndex])).FName);
-  if J < 0 then Exit;
-  
-  I:= TWdxField(Module.FieldList.Objects[J]).FType;
-  if (I <> FT_MULTIPLECHOICE) then
+  WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
+
+  if (WdxField.FType <> FT_MULTIPLECHOICE) then
   begin
-    FComboUnit.Items.AddStrings(TWdxField(Module.FieldList.Objects[J]).FUnits);
+    FComboUnit.Items.AddStrings(WdxField.LUnits);
   end;
-  FComboUnit.Enabled := (I <> FT_MULTIPLECHOICE) AND (FComboUnit.Items.Count > 0);
+  FComboUnit.Enabled := (WdxField.FType <> FT_MULTIPLECHOICE) and (FComboUnit.Items.Count > 0);
   if FComboUnit.Enabled then FComboUnit.ItemIndex:= 0;
 
-  case I of
+  case WdxField.FType of
   FT_NUMERIC_32,
   FT_NUMERIC_64,
   FT_NUMERIC_FLOATING,
@@ -180,7 +185,7 @@ begin
         FComboValue.Style:= csDropDownList;
         FComboOperator.Items.AddObject('=', TObject(PtrInt(poEqualCaseSensitive)));
         FComboOperator.Items.AddObject('!=', TObject(PtrInt(poNotEqualCaseSensitive)));
-        FComboValue.Items.AddStrings(TWdxField(Module.FieldList.Objects[J]).FUnits);
+        FComboValue.Items.AddStrings(WdxField.LUnits);
         if FComboValue.Items.Count > 0 then FComboValue.ItemIndex:= 0;
       end;
     end;
@@ -234,8 +239,7 @@ begin
   begin
     if Assigned(FComboField.OnChange) then FComboField.OnChange(FComboField);
   end
-  else
-  begin
+  else begin
     msgError(rsPluginSearchFieldNotFound);
   end;
 end;
@@ -246,20 +250,43 @@ begin
 end;
 
 procedure TPluginPanel.SetUnitName(AValue: String);
+var
+  Index: Integer;
+  WdxField: TWdxField;
 begin
   if FComboUnit.Enabled then
+  begin
+    WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
+    Index := WdxField.GetUnitIndex(AValue);
+    if Index >= 0 then AValue:= WdxField.LUnits[Index];
     SetComboBox(FComboUnit, AValue, Format(rsPluginSearchUnitNotFoundForField, [AValue, Self.Field]));
+  end;
 end;
 
 procedure TPluginPanel.SetValue(AValue: Variant);
+var
+  Index: Integer;
+  WdxField: TWdxField;
 begin
-  if not VarIsBool(AValue) then
-    FComboValue.Text := AValue
-  else
+  if VarIsBool(AValue) then
+  begin
     if AValue then
       FComboValue.Text := rsSimpleWordTrue
     else
       FComboValue.Text := rsSimpleWordFalse;
+  end
+  else begin
+    WdxField:= TWdxField(FComboField.Items.Objects[FComboField.ItemIndex]);
+    if (WdxField.FType <> FT_MULTIPLECHOICE) then
+      FComboValue.Text := AValue
+    else begin
+      Index:= WdxField.GetUnitIndex(AValue);
+      if Index < 0 then
+        FComboValue.Text := AValue
+      else
+        FComboValue.Text := WdxField.LUnits[Index];
+    end;
+  end;
 end;
 
 procedure TPluginPanel.SetComboBox(ComboBox: TComboBox; const Value, Error: String);
