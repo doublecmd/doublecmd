@@ -683,6 +683,7 @@ begin
       if (FWlxModule.CallListLoadNext(Self.Handle, FileList[Index], PluginShowFlags) <> LISTPLUGIN_ERROR) then
       begin
         Status.Panels[sbpFileNr].Text:= Format('%d/%d', [Index + 1, FileList.Count]);
+        Status.Panels[sbpFileName].Text:= FileList[Index];
         Caption:= FileList[Index];
         iActiveFile := Index;
         Exit;
@@ -704,7 +705,10 @@ begin
       if FileParamVSDetectStr(aFileName, False) then
       begin
         if CallListLoadNext(Self.Handle, aFileName, PluginShowFlags) <> LISTPLUGIN_ERROR then
+        begin
+          Status.Panels[sbpFileName].Text:= aFileName;
           Exit;
+        end;
       end;
     end;
   ExitPluginMode;
