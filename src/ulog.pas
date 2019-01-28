@@ -109,14 +109,17 @@ procedure TLogWriter.WriteInMainThread(Data: PtrInt);
 var
   Msg: PLogMessage absolute Data;
 begin
-  with fMain.frmMain do
-  try
-    if Msg^.Force and (not seLogWindow.Visible) then
-      ShowLogWindow(True);
+  if not Application.Terminated then
+  begin
+    with fMain.frmMain do
+    try
+      if Msg^.Force and (not seLogWindow.Visible) then
+        ShowLogWindow(True);
 
-    seLogWindow.CaretY:= seLogWindow.Lines.AddObject(Msg^.Message, Msg^.ObjectType) + 1;
-  finally
-    Dispose(Msg);
+      seLogWindow.CaretY:= seLogWindow.Lines.AddObject(Msg^.Message, Msg^.ObjectType) + 1;
+    finally
+      Dispose(Msg);
+    end;
   end;
 end;
 
