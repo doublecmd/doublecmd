@@ -279,7 +279,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  StrUtils, LazUTF8, FileUtil,
+  Math, StrUtils, LazUTF8, FileUtil,
 
   //DC
   DCClassesUtf8, DCStrUtils,
@@ -1461,7 +1461,7 @@ begin
     if SameText(UnitName, FUnits[Index]) then
       Exit(Index);
   end;
-  Result := 0;
+  Result := IfThen(FType = FT_MULTIPLECHOICE, -1, 0);
 end;
 
 end.
