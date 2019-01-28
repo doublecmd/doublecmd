@@ -1,27 +1,22 @@
 {
-    Double Commander
-    -------------------------------------------------------------------------
-    This unit contains log write functions.
+   Double Commander
+   -------------------------------------------------------------------------
+   This unit contains log write functions
 
-    Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2019 Alexander Koblov (alexx2000@mail.ru)
 
-    contributors:
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
 
-    Radek Cervinka  <radek.cervinka@centrum.cz>
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uLog;
@@ -35,132 +30,153 @@ uses
   
 type
   TLogMsgType = (lmtInfo, lmtSuccess, lmtError);
-  
-type
-  { TLogWriteThread }
 
-  TLogWriteThread = class
-  private
-    procedure LogWriteInTheThread;
-  protected
-    FThread: TThread;
-    FMsg: String;
-    FLogMsgType: TLogMsgType;
-    FForce,
-    FLogFile: Boolean;
-  public
-    constructor Create(Thread: TThread);
-    destructor Destroy; override;
-    procedure WriteLog(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
-  end;
-
-function GetActualLogFilename: string;
+function GetActualLogFileName: String;
 procedure ShowLogWindow(bShow: Boolean);
-procedure logWrite(const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True); overload;
-procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True); overload;
+procedure LogWrite(const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True); overload;
+procedure LogWrite({%H-}Thread: TThread; const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True); overload;
 
 implementation
 
 uses
   SysUtils, Forms, fMain, uDebug, uGlobs, uFileProcs, DCOSUtils, uDCUtils;
 
-procedure ShowLogWindow(bShow: Boolean);
-begin
-  if Assigned(fMain.frmMain) then
-  with fMain.frmMain do
-  begin
-    LogSplitter.Visible:= bShow;
-    seLogWindow.Visible:= bShow;
-    LogSplitter.Top := seLogWindow.Top - LogSplitter.Height;
+type
+  PLogMessage = ^TLogMessage;
+  TLogMessage = record
+    Force: Boolean;
+    Message: String;
+    case Boolean of
+      True: (ObjectType: TObject);
+      False: (MessageType: TLogMsgType);
   end;
-end;
 
-procedure logWrite(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
-begin
-  logWrite(nil, sText, LogMsgType, bForce, bLogFile);
-end;
+type
 
-procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
+  { TLogWriter }
+
+  TLogWriter = class
+  private
+    FMutex: TRTLCriticalSection;
+  private
+    procedure WriteInMainThread(Data: PtrInt);
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Write(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
+  end;
+
 var
-  LogWriteThread: TLogWriteThread;
-begin
-  try
-    LogWriteThread:= TLogWriteThread.Create(Thread);
-    LogWriteThread.WriteLog(sText, LogMsgType, bForce, bLogFile);
-  finally
-    LogWriteThread.Free;
-  end
-end;
+  LogWriter: TLogWriter;
 
-function GetActualLogFilename: string;
+function GetActualLogFileName: String;
 begin
-  result:=ReplaceEnvVars(gLogFileName);
+  Result:= ReplaceEnvVars(gLogFileName);
 
   if gLogFileWithDateInName then
   begin
-    result:=copy(result,1,length(result)-length(ExtractFileExt(result)))+
-                   '_'+ReplaceEnvVars(EnvVarTodaysDate)+
-                   ExtractFileExt(result);
+    Result:= Copy(Result, 1, Length(Result) - Length(ExtractFileExt(Result))) +
+                   '_' + ReplaceEnvVars(EnvVarTodaysDate) + ExtractFileExt(Result);
   end;
 end;
 
-{ TLogWriteThread }
-
-procedure TLogWriteThread.LogWriteInTheThread;
-var
-  hLogFile: THandle;
-  LogMsgTypeObject: TObject;
-  ActualLogFilename: string;
+procedure ShowLogWindow(bShow: Boolean);
 begin
-  LogMsgTypeObject:= TObject(PtrInt(FLogMsgType));
   if Assigned(fMain.frmMain) then
-  with fMain.frmMain do
   begin
-    if FForce and (not seLogWindow.Visible) then
+    with fMain.frmMain do
+    begin
+      LogSplitter.Visible:= bShow;
+      seLogWindow.Visible:= bShow;
+      LogSplitter.Top:= seLogWindow.Top - LogSplitter.Height;
+    end;
+  end;
+end;
+
+procedure LogWrite(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean); inline;
+begin
+  LogWriter.Write(sText, LogMsgType, bForce, bLogFile);
+end;
+
+procedure LogWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType; bForce: Boolean; bLogFile: Boolean); inline;
+begin
+  LogWriter.Write(sText, LogMsgType, bForce, bLogFile);
+end;
+
+{ TLogWriter }
+
+procedure TLogWriter.WriteInMainThread(Data: PtrInt);
+var
+  Msg: PLogMessage absolute Data;
+begin
+  with fMain.frmMain do
+  try
+    if Msg^.Force and (not seLogWindow.Visible) then
       ShowLogWindow(True);
 
-    if (gLogWindow or FForce) then // if write log to window
-      seLogWindow.CaretY:= seLogWindow.Lines.AddObject(FMsg, LogMsgTypeObject) + 1;
+    seLogWindow.CaretY:= seLogWindow.Lines.AddObject(Msg^.Message, Msg^.ObjectType) + 1;
+  finally
+    Dispose(Msg);
+  end;
+end;
+
+constructor TLogWriter.Create;
+begin
+  InitCriticalSection(FMutex);
+end;
+
+destructor TLogWriter.Destroy;
+begin
+  inherited Destroy;
+  DoneCriticalsection(FMutex);
+end;
+
+procedure TLogWriter.Write(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
+var
+  Message: String;
+  hLogFile: THandle;
+  LogMessage: PLogMessage;
+  ActualLogFileName: String;
+begin
+  if Assigned(fMain.frmMain) and (bForce or gLogWindow) then
+  begin
+    New(LogMessage);
+    LogMessage^.Force:= bForce;
+    LogMessage^.Message:= sText;
+    LogMessage^.MessageType:= LogMsgType;
+    Application.QueueAsyncCall(@WriteInMainThread, {%H-}PtrInt(LogMessage));
   end;
 
-  if gLogFile and FLogFile then // if write log to file
+  if gLogFile and bLogFile then
+  begin
+    EnterCriticalsection(FMutex);
     try
-      ActualLogFilename:= GetActualLogFilename;
-      if mbFileExists(ActualLogFilename) then
-        hLogFile:= mbFileOpen(ActualLogFilename, fmOpenReadWrite)
+      ActualLogFileName:= GetActualLogFileName;
+      Message:= Format('%s %s', [DateTimeToStr(Now), sText]);
+
+      if mbFileExists(ActualLogFileName) then
+        hLogFile:= mbFileOpen(ActualLogFileName, fmOpenWrite)
       else
-        hLogFile:= mbFileCreate(ActualLogFilename);
+        hLogFile:= mbFileCreate(ActualLogFileName);
 
-      FileSeek(hLogFile, 0, soFromEnd);
-      FileWriteLn(hLogFile, Format('%s %s', [DateTimeToStr(Now), FMsg]));
-
-      DCDebug(Format('%s %s',[DateTimeToStr(Now), FMsg]));
-
-      FileClose(hLogFile);
-    except
-      on E: Exception do
-        DCDebug('Error writing to log: ' + E.Message);
-    end; // gLogWriteFile
+      if (hLogFile = feInvalidHandle) then
+        DCDebug('LogWrite: ' + mbSysErrorMessage)
+      else begin
+        FileSeek(hLogFile, 0, soFromEnd);
+        FileWriteLn(hLogFile, Message);
+        FileClose(hLogFile);
+      end;
+      DCDebug(Message);
+    finally
+      LeaveCriticalsection(FMutex);
+    end;
+  end;
 end;
 
-constructor TLogWriteThread.Create(Thread: TThread);
-begin
-  FThread:= Thread;
-end;
+initialization
+  LogWriter:= TLogWriter.Create;
 
-destructor TLogWriteThread.Destroy;
-begin
-  FMsg:= '';
-  inherited Destroy;
-end;
-
-procedure TLogWriteThread.WriteLog(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
-begin
-  FMsg:= sText;
-  FLogMsgType:= LogMsgType;
-  FForce:= bForce;
-  FLogFile:= bLogFile;
-  TThread.Synchronize(FThread, @LogWriteInTheThread);
-end;
+finalization
+  LogWriter.Free;
 
 end.
