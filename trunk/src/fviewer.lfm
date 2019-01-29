@@ -300,7 +300,7 @@ object frmViewer: TfrmViewer
     Width = 651
     Panels = <    
       item
-        Width = 200
+        Width = 50
       end    
       item
         Width = 50
@@ -312,7 +312,7 @@ object frmViewer: TfrmViewer
         Width = 100
       end    
       item
-        Width = 100
+        Width = 200
       end>
     SimplePanel = False
   end
