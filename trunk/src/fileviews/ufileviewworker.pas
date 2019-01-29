@@ -634,13 +634,15 @@ end;
 class function TFileListBuilder.PrepareFilter(const aFileFilter: String;
                                               const aFilterOptions: TQuickSearchOptions): String;
 var
-  sFileExt,
+  Index: Integer;
+  sFileExt: String;
   sFilterNameNoExt: String;
 begin
   Result := aFileFilter;
   if Result <> EmptyStr then
   begin
-    if (Pos('.', Result) > 0) then
+    Index:= Pos('.', Result);
+    if (Index > 0) and ((Index > 1) or FirstDotAtFileNameStartIsExtension) then
       begin
         sFileExt := ExtractFileExt(Result);
         sFilterNameNoExt := ExtractOnlyFileName(Result);
