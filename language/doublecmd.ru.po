@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-01-24 00:24+0300\n"
+"PO-Revision-Date: 2019-01-27 03:48+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -12985,11 +12985,11 @@ msgstr "Запрос ввода параметра со значением по 
 
 #: ulng.rsvarlastdircurrentpath
 msgid "Last directory of panel's path"
-msgstr ""
+msgstr "Последняя папка в пути панели"
 
 #: ulng.rsvarlastdirofpath
 msgid "Last directory of file's path"
-msgstr ""
+msgstr "Последняя папка в пути файла"
 
 #: ulng.rsvarleftpanel
 msgid "Left panel"
