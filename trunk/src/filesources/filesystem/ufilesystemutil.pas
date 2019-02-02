@@ -592,7 +592,7 @@ begin
   SourceFileStream := nil;
   TargetFileStream := nil; // for safety exception handling
   BytesToRead := FBufferSize;
-  if FVerify then HashInit(Context, HASH_SHA3_224);
+  if FVerify then HashInit(Context, HASH_BLAKE2S);
   try
     try
       OpenSourceFile;
