@@ -147,12 +147,11 @@ const
   (* option for multiple returns in `lua_pcall' and `lua_call' *)
   LUA_MULTRET = -1;
 
+const
   (*
   ** pseudo-indices
   *)
-  LUA_REGISTRYINDEX = -10000;
-  LUA_ENVIRONINDEX  = -10001;
-  LUA_GLOBALSINDEX  = -10002;
+  LUA_REGISTRYINDEX: Integer = 0;
 
 function lua_upvalueindex(idx : Integer) : Integer;   // a marco
 
@@ -634,6 +633,13 @@ uses
 {$ENDIF}
   ;
 
+const
+  (*
+  ** pseudo-indices
+  *)
+  LUA_ENVIRONINDEX  = -10001;
+  LUA_GLOBALSINDEX  = -10002;
+
 var
   lua_version: function (L: Plua_State): Plua_Number; cdecl;
   lua_rawlen: function (L : Plua_State; idx : Integer): size_t; cdecl;
@@ -671,6 +677,9 @@ begin
 end;
 
 function LoadLuaLib(FileName: String): Boolean;
+const
+  LUA_REGISTRYINDEX_OLD = -10000;   // Lua 5.1, LuaJIT
+  LUA_REGISTRYINDEX_NEW = -1001000; // Lua 5.2, Lua 5.3
 begin
 {$IF DEFINED(UNIX)}
   LuaLibD:= TLibHandle(dlopen(PAnsiChar(FileName), RTLD_NOW or RTLD_GLOBAL));
@@ -817,6 +826,13 @@ begin
 
   // luaJIT specific stuff
   luaJIT := GetProcAddress(LuaLibD, 'luaJIT_setmode') <> nil;
+
+  // Determine registry index
+  if Assigned(lua_version) then
+    LUA_REGISTRYINDEX:= LUA_REGISTRYINDEX_NEW
+  else begin
+    LUA_REGISTRYINDEX:= LUA_REGISTRYINDEX_OLD;
+  end;
 end;
 
 (*****************************************************************************)
