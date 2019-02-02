@@ -4,7 +4,7 @@
  * Created by Geo Massar, 2006
  * Distributed as free/open source.
  * 2008 Added dinamicly library loading by Dmitry Kolomiets (B4rr4cuda@rambler.ru)
- * 2018 Added Lua 5.2 - 5.3 library support by Alexander Koblov (alexx2000@mail.ru)
+ * 2018-2019 Added Lua 5.2 - 5.3 library support by Alexander Koblov (alexx2000@mail.ru)
  *)
 
 unit lua;
@@ -147,11 +147,11 @@ const
   (* option for multiple returns in `lua_pcall' and `lua_call' *)
   LUA_MULTRET = -1;
 
-const
+var
   (*
   ** pseudo-indices
   *)
-  LUA_REGISTRYINDEX: Integer = 0;
+  LUA_REGISTRYINDEX: Integer;
 
 function lua_upvalueindex(idx : Integer) : Integer;   // a marco
 
@@ -637,8 +637,10 @@ const
   (*
   ** pseudo-indices
   *)
-  LUA_ENVIRONINDEX  = -10001;
   LUA_GLOBALSINDEX  = -10002;
+
+var
+  LUA_UPVALUEINDEX_: Integer;
 
 var
   lua_version: function (L: Plua_State): Plua_Number; cdecl;
@@ -827,10 +829,14 @@ begin
   // luaJIT specific stuff
   luaJIT := GetProcAddress(LuaLibD, 'luaJIT_setmode') <> nil;
 
-  // Determine registry index
-  if Assigned(lua_version) then
-    LUA_REGISTRYINDEX:= LUA_REGISTRYINDEX_NEW
+  // Determine pseudo-indices values
+  if Assigned(lua_version) and (Trunc(lua_version(nil)^) > LUA_VERSION_NUM) then
+  begin
+    LUA_UPVALUEINDEX_:= LUA_REGISTRYINDEX_NEW;
+    LUA_REGISTRYINDEX:= LUA_REGISTRYINDEX_NEW;
+  end
   else begin
+    LUA_UPVALUEINDEX_:= LUA_GLOBALSINDEX;
     LUA_REGISTRYINDEX:= LUA_REGISTRYINDEX_OLD;
   end;
 end;
@@ -864,7 +870,7 @@ end;
 
 function lua_upvalueindex(idx : Integer) : Integer;
 begin
-  lua_upvalueindex := LUA_GLOBALSINDEX - idx;
+  lua_upvalueindex := LUA_UPVALUEINDEX_ - idx;
 end;
 
 procedure lua_pop(L : Plua_State; n : Integer);
