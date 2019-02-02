@@ -354,7 +354,7 @@ begin
   case FSF of
     fsfByte, fsfPersonalizedByte: Result := Format('%.0n%s', [FloatSize, gSizeDisplayUnits[FSF]]);
     else
-      Result := FloatToStrF(FloatSize / DIVISORS[FSF], ffFixed, 15, Number) + gSizeDisplayUnits[FSF];
+      Result := FloatToStrF(FloatSize / DIVISORS[FSF], ffNumber, 15, Number) + gSizeDisplayUnits[FSF];
   end;
 end;
 
