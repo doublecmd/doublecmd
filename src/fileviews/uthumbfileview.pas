@@ -83,7 +83,7 @@ type
     procedure EnsureDisplayProperties; override;
     function GetFileViewGridClass: TFileViewGridClass; override;
     function GetVisibleFilesIndexes: TRange; override;
-    procedure ShowRenameFileEdit(aFile: TFile); override;
+    procedure ShowRenameFileEdit(var aFile: TFile); override;
     procedure UpdateRenameFileEditPosition(); override;
     function GetIconRect(FileIndex: PtrInt): TRect; override;
     procedure MouseScrollTimer(Sender: TObject); override;
@@ -658,7 +658,7 @@ begin
   end;
 end;
 
-procedure TThumbFileView.ShowRenameFileEdit(aFile: TFile);
+procedure TThumbFileView.ShowRenameFileEdit(var aFile: TFile);
 begin
   if not edtRename.Visible then
   begin
@@ -676,6 +676,8 @@ procedure TThumbFileView.UpdateRenameFileEditPosition();
 var
   ARect: TRect;
 begin
+  inherited UpdateRenameFileEditPosition;
+
   ARect := dgPanel.CellRect(dgPanel.Col, dgPanel.Row);
   ARect.Top := ARect.Bottom - dgPanel.Canvas.TextHeight('Wg') - 4;
 
