@@ -82,6 +82,7 @@ type
 
   protected
     edtRename: TEdit;
+    FRenameFile: TFile;
     FRenFile:TRenameFileEditInfo;
     FRenTags:string;  // rename separators
 
@@ -166,8 +167,8 @@ type
     procedure WorkerStarting(const Worker: TFileViewWorker); override;
     procedure WorkerFinished(const Worker: TFileViewWorker); override;
 
-    procedure ShowRenameFileEdit(AFile: TFile); virtual;
-    procedure UpdateRenameFileEditPosition; virtual;abstract;
+    procedure ShowRenameFileEdit(var AFile: TFile); virtual;
+    procedure UpdateRenameFileEditPosition; virtual;
     procedure RenameSelectPart(AActionType:TRenameFileActionType); virtual;
 
     property MainControl: TWinControl read FMainControl write SetMainControl;
@@ -208,7 +209,7 @@ uses
   Gtk2Proc,  // for ReleaseMouseCapture
   GTK2Globals,  // for DblClickTime
 {$ENDIF}
-  LCLIntf, LCLProc, LazUTF8, Forms, Dialogs,
+  LCLIntf, LCLProc, LazUTF8, Forms, Dialogs, DCOSUtils,
   fMain, uShowMsg, uLng, uFileProperty, uFileSource, uFileSourceOperationTypes,
   uGlobs, uInfoToolTip, uDisplayFile, uFileSystemFileSource, uFileSourceUtil,
   uArchiveFileSourceUtil, uFormCommands, uKeyboard, uFileSourceSetFilePropertyOperation;
@@ -1306,6 +1307,7 @@ begin
   end;
   FRenameFileIndex := -1;
 end;
+
 procedure TFileViewWithMainCtrl.TransformDraggingToExternal(ScreenPoint: TPoint);
 begin
   // Set flag temporarily before stopping internal dragging,
@@ -1345,6 +1347,7 @@ end;
 
 procedure TFileViewWithMainCtrl.edtRenameExit(Sender: TObject);
 begin
+  FreeAndNil(FRenameFile);
   edtRename.Visible := False;
   MainControl.WindowProc:= FWindowProc;
 
@@ -1358,7 +1361,6 @@ procedure TFileViewWithMainCtrl.edtRenameKeyDown(Sender: TObject;
 var
   NewFileName: String;
   OldFileNameAbsolute: String;
-  aFile: TFile = nil;
 begin
 
   case Key of
@@ -1377,26 +1379,21 @@ begin
         NewFileName         := edtRename.Text;
         OldFileNameAbsolute := edtRename.Hint;
 
-        aFile := CloneActiveFile;
         try
-          try
-            case RenameFile(FileSource, aFile, NewFileName, True) of
-              sfprSuccess:
-                begin
-                  edtRename.Visible:=False;
-                  SetActiveFile(CurrentPath + NewFileName);
-                  SetFocus;
-                end;
-              sfprError:
-                msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileNameAbsolute), NewFileName]));
-            end;
-
-          except
-            on e: EInvalidFileProperty do
-              msgError(Format(rsMsgErrRename + ':' + LineEnding + '%s (%s)', [ExtractFileName(OldFileNameAbsolute), NewFileName, rsMsgInvalidFileName, e.Message]));
+          case RenameFile(FileSource, FRenameFile, NewFileName, True) of
+            sfprSuccess:
+              begin
+                edtRename.Visible:=False;
+                SetActiveFile(CurrentPath + NewFileName);
+                SetFocus;
+              end;
+            sfprError:
+              msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileNameAbsolute), NewFileName]));
           end;
-        finally
-          FreeAndNil(aFile);
+
+        except
+          on e: EInvalidFileProperty do
+            msgError(Format(rsMsgErrRename + ':' + LineEnding + '%s (%s)', [ExtractFileName(OldFileNameAbsolute), NewFileName, rsMsgInvalidFileName, e.Message]));
         end;
       end;
 
@@ -1459,7 +1456,7 @@ begin
   if not (csDestroying in ComponentState) then UpdateInfoPanel;
 end;
 
-procedure TFileViewWithMainCtrl.ShowRenameFileEdit(AFile: TFile);
+procedure TFileViewWithMainCtrl.ShowRenameFileEdit(var AFile: TFile);
 var
   S: String;
 begin
@@ -1521,8 +1518,27 @@ begin
 
     if gRenameSelOnlyName and not (AFile.IsDirectory or AFile.IsLinkToDirectory) then
        RenameSelectPart(rfatName)
-    else
+    else begin
        RenameSelectPart(rfatFull);
+    end;
+    FRenameFile:= aFile;
+    aFile:= nil;
+  end;
+end;
+
+procedure TFileViewWithMainCtrl.UpdateRenameFileEditPosition;
+var
+  AFile: TDisplayFile;
+begin
+  if edtRename.Visible then
+  begin
+    AFile:= GetActiveDisplayFile;
+    // Cannot find original file, cancel rename
+    if (AFile = nil) or (not mbCompareFileNames(AFile.FSFile.FullPath, FRenameFile.FullPath)) then
+    begin
+      edtRename.Hide;
+      SetFocus;
+    end;
   end;
 end;
 
