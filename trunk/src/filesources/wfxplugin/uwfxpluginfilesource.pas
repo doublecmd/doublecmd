@@ -254,7 +254,7 @@ var
   CallbackDataClass: TCallbackDataClass;
 Begin
   sMsg:= rsMsgLogInfo;
-  bLogWindow:= frmMain.seLogWindow.Visible;
+  bLogWindow:= gLogWindow;
   bLogFile:= ((log_vfs_op in gLogOptions) and (log_info in gLogOptions));
   CallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNr]);
   case MsgType of
@@ -281,7 +281,6 @@ Begin
           sName:= WfxOperationList[PluginNr];
           sPath:= Copy(LogString, I + 1, MaxInt);
           RemoveNetworkConnection(sName, sPath);
-          bLogWindow:= frmMain.seLogWindow.Visible;
         end;
         sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
       end;
