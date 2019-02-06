@@ -5,6 +5,7 @@ object frmFileProperties: TfrmFileProperties
   Width = 458
   ActiveControl = pcPageControl
   Caption = 'Properties'
+  ChildSizing.LeftRightSpacing = 8
   ClientHeight = 471
   ClientWidth = 458
   Constraints.MinHeight = 432
@@ -16,6 +17,9 @@ object frmFileProperties: TfrmFileProperties
   SessionProperties = 'Height;Width'
   LCLVersion = '1.6.4.0'
   object pcPageControl: TPageControl
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = gbOwner
     Left = 8
     Height = 300
