@@ -1,6 +1,6 @@
 inherited frmExtractDlg: TfrmExtractDlg
   Left = 552
-  Height = 262
+  Height = 222
   Top = 162
   Width = 516
   HelpContext = 160
@@ -16,38 +16,34 @@ inherited frmExtractDlg: TfrmExtractDlg
   Caption = 'Unpack files'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 262
+  ClientHeight = 222
   ClientWidth = 516
-  Constraints.MinWidth = 500
   OnCreate = FormCreate
   Position = poOwnerFormCenter
   SessionProperties = 'cbOverwrite.Checked'
   inherited pnlContent: TPanel
-    AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 180
+    Height = 148
     Top = 5
     Width = 500
     Align = alNone
-    Anchors = [akTop, akLeft, akRight]
     ChildSizing.TopBottomSpacing = 4
-    ClientHeight = 180
+    ClientHeight = 148
     ClientWidth = 500
-    Constraints.MinWidth = 500
     object pnlLabels: TPanel[0]
       AnchorSideLeft.Control = pnlContent
       AnchorSideTop.Control = cbFileMask
       AnchorSideBottom.Control = edtPassword
       AnchorSideBottom.Side = asrBottom
       Left = 0
-      Height = 172
-      Top = 4
-      Width = 208
+      Height = 140
+      Top = 5
+      Width = 166
       Anchors = [akTop, akLeft, akBottom]
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 172
-      ClientWidth = 208
+      ClientHeight = 140
+      ClientWidth = 166
       Color = clForm
       ParentColor = False
       TabOrder = 4
@@ -55,9 +51,9 @@ inherited frmExtractDlg: TfrmExtractDlg
         AnchorSideLeft.Control = pnlLabels
         AnchorSideTop.Control = pnlLabels
         Left = 0
-        Height = 20
+        Height = 15
         Top = 3
-        Width = 208
+        Width = 166
         BorderSpacing.Top = 3
         Caption = '&Extract files matching file mask:'
         FocusControl = cbFileMask
@@ -68,9 +64,9 @@ inherited frmExtractDlg: TfrmExtractDlg
         AnchorSideBottom.Control = pnlLabels
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 20
-        Top = 149
-        Width = 188
+        Height = 15
+        Top = 122
+        Width = 151
         Anchors = [akLeft, akBottom]
         BorderSpacing.Bottom = 3
         Caption = '&Password for encrypted files:'
@@ -81,9 +77,9 @@ inherited frmExtractDlg: TfrmExtractDlg
         AnchorSideTop.Control = lblFileMask
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 20
-        Top = 31
-        Width = 107
+        Height = 15
+        Top = 26
+        Width = 86
         BorderSpacing.Top = 8
         Caption = 'To the &directory:'
         FocusControl = edtExtractTo
@@ -93,15 +89,15 @@ inherited frmExtractDlg: TfrmExtractDlg
     object cbFileMask: TComboBox[1]
       AnchorSideLeft.Control = pnlLabels
       AnchorSideLeft.Side = asrBottom
-      AnchorSideRight.Control = pnlContent
       AnchorSideRight.Side = asrBottom
-      Left = 214
-      Height = 28
-      Top = 4
-      Width = 286
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Left = 6
-      ItemHeight = 20
+      Left = 171
+      Height = 23
+      Top = 5
+      Width = 260
+      BorderSpacing.Left = 5
+      BorderSpacing.Top = 2
+      Constraints.MinWidth = 260
+      ItemHeight = 15
       ParentFont = False
       TabOrder = 0
       Text = '*.*'
@@ -112,10 +108,10 @@ inherited frmExtractDlg: TfrmExtractDlg
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = cbFileMask
       AnchorSideRight.Side = asrBottom
-      Left = 214
-      Height = 28
-      Top = 36
-      Width = 286
+      Left = 171
+      Height = 23
+      Top = 30
+      Width = 321
       ShowHidden = False
       ButtonWidth = 23
       NumGlyphs = 1
@@ -130,10 +126,10 @@ inherited frmExtractDlg: TfrmExtractDlg
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = edtExtractTo
       AnchorSideRight.Side = asrBottom
-      Left = 214
-      Height = 28
-      Top = 148
-      Width = 286
+      Left = 171
+      Height = 23
+      Top = 122
+      Width = 321
       Anchors = [akTop, akLeft, akRight]
       EchoMode = emPassword
       Enabled = False
@@ -146,15 +142,14 @@ inherited frmExtractDlg: TfrmExtractDlg
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 84
-      Top = 64
+      Height = 69
+      Top = 53
       Width = 506
-      Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.TopBottomSpacing = 6
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ClientHeight = 84
+      ClientHeight = 69
       ClientWidth = 506
       Color = clForm
       ParentColor = False
@@ -162,9 +157,9 @@ inherited frmExtractDlg: TfrmExtractDlg
       object cbInSeparateFolder: TCheckBox
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 24
+        Height = 19
         Top = 6
-        Width = 440
+        Width = 351
         BorderSpacing.Top = 2
         Caption = 'Unpack each archive to a &separate subdir (name of the archive)'
         TabOrder = 0
@@ -172,9 +167,9 @@ inherited frmExtractDlg: TfrmExtractDlg
       object cbExtractPath: TCheckBox
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 24
-        Top = 30
-        Width = 440
+        Height = 19
+        Top = 25
+        Width = 351
         Caption = '&Unpack path names if stored with files'
         Checked = True
         OnChange = cbExtractPathChange
@@ -184,9 +179,9 @@ inherited frmExtractDlg: TfrmExtractDlg
       object cbOverwrite: TCheckBox
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 24
-        Top = 54
-        Width = 440
+        Height = 19
+        Top = 44
+        Width = 351
         Caption = 'O&verwrite existing files'
         Checked = True
         State = cbChecked
@@ -200,20 +195,13 @@ inherited frmExtractDlg: TfrmExtractDlg
     AnchorSideRight.Control = pnlContent
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Top = 213
+    Top = 176
     Width = 500
     Align = alNone
     Anchors = [akTop, akLeft, akRight]
     ClientWidth = 500
-    inherited btnAddToQueue: TBitBtn
-      Width = 146
-    end
-    inherited btnCreateSpecialQueue: TBitBtn
-      Left = 146
-    end
     inherited btnCancel: TBitBtn
-      Left = 310
-      Width = 94
+      Left = 318
     end
     inherited btnOK: TBitBtn
       Left = 412
@@ -226,8 +214,8 @@ inherited frmExtractDlg: TfrmExtractDlg
     AnchorSideRight.Control = pnlContent
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 20
-    Top = 189
+    Height = 15
+    Top = 157
     Width = 500
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 4
