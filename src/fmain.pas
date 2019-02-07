@@ -831,6 +831,7 @@ type
     procedure SaveWindowState;
     procedure LoadMainToolbar;
     procedure SaveMainToolBar;
+    procedure ShowLogWindow(Data: PtrInt);
     function  IsCommandLineVisible: Boolean;
     procedure ShowCommandLine(AFocus: Boolean);
     procedure ConfigSaveSettings(bForce: Boolean);
@@ -1478,7 +1479,7 @@ begin
     2:
       Commands.cm_ClearLogWindow([]);
     3:
-      ShowLogWindow(False);
+      ShowLogWindow(PtrInt(False));
   end;
 end;
 
@@ -5515,6 +5516,15 @@ begin
   ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', True);
   gConfig.ClearNode(ToolBarNode);
   MainToolBar.SaveConfiguration(gConfig, ToolBarNode);
+end;
+
+procedure TfrmMain.ShowLogWindow(Data: PtrInt);
+var
+  bShow: Boolean absolute Data;
+begin
+  LogSplitter.Visible:= bShow;
+  seLogWindow.Visible:= bShow;
+  LogSplitter.Top:= seLogWindow.Top - LogSplitter.Height;
 end;
 
 procedure TfrmMain.ConfigSaveSettings(bForce: Boolean);

@@ -277,11 +277,11 @@ Begin
       begin
         if Assigned(CallbackDataClass) then
         begin
+          bLogWindow:= False;
           I:= Pos(#32, LogString);
           sName:= WfxOperationList[PluginNr];
           sPath:= Copy(LogString, I + 1, MaxInt);
           RemoveNetworkConnection(sName, sPath);
-          bLogWindow:= frmMain.seLogWindow.Visible;
         end;
         sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
       end;
