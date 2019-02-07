@@ -82,15 +82,7 @@ end;
 
 procedure ShowLogWindow(bShow: Boolean);
 begin
-  if Assigned(fMain.frmMain) then
-  begin
-    with fMain.frmMain do
-    begin
-      LogSplitter.Visible:= bShow;
-      seLogWindow.Visible:= bShow;
-      LogSplitter.Top:= seLogWindow.Top - LogSplitter.Height;
-    end;
-  end;
+  if Assigned(frmMain) then frmMain.ShowLogWindow(PtrInt(bShow));
 end;
 
 procedure LogWrite(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean); inline;
@@ -114,7 +106,7 @@ begin
     with fMain.frmMain do
     try
       if Msg^.Force and (not seLogWindow.Visible) then
-        ShowLogWindow(True);
+        ShowLogWindow(PtrInt(True));
 
       seLogWindow.CaretY:= seLogWindow.Lines.AddObject(Msg^.Message, Msg^.ObjectType) + 1;
     finally

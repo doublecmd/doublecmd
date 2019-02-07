@@ -30,7 +30,8 @@ var
 implementation
 
 uses
-  Menus, StrUtils, DCStrUtils, fMain, uWfxPluginFileSource, uLog, uGlobs, uFileSourceUtil, uFileView;
+  Forms, Menus, StrUtils, DCStrUtils, fMain, uWfxPluginFileSource, uLog,
+  uGlobs, uFileSourceUtil, uFileView;
 
 var
   ContextMenu: TPopupMenu = nil;
@@ -191,7 +192,8 @@ begin
     miNetworkDisconnect.Enabled:= WfxConnectionList.Count > 0;
     if WfxConnectionList.Count = 0 then
     begin
-      if gLogWindow = False then ShowLogWindow(False);
+      if gLogWindow = False then
+        Application.QueueAsyncCall(ShowLogWindow, PtrInt(False));
     end;
     UpdateDiskCount;
   end;
