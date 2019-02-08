@@ -2494,18 +2494,9 @@ end;
 
 procedure TfrmViewer.cm_StretchImage(const Params: array of string);
 begin
-  miStretch.Checked:=not miStretch.Checked;
-  if bImage then
-  begin
-    if miStretch.Checked then
-    begin
-      FZoomFactor:= 1.0;
-      UpdateImagePlacement;
-    end else
-    begin
-      UpdateImagePlacement;
-    end;
-  end;
+  miStretch.Checked:= not miStretch.Checked;
+  if miStretch.Checked then FZoomFactor:= 1.0;
+  UpdateImagePlacement;
 end;
 
 procedure TfrmViewer.cm_StretchOnlyLarge(const Params: array of string);
