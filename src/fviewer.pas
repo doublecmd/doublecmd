@@ -2389,6 +2389,8 @@ begin
 
   if Panel = nil then
   begin
+    Status.Panels[sbpFileSize].Text:= EmptyStr;
+    Status.Panels[sbpTextEncoding].Text:= EmptyStr;
     Status.Panels[sbpPluginName].Text:= FWlxModule.Name;
   end
   else if Panel = pnlText then
@@ -2411,8 +2413,9 @@ begin
   else if Panel = pnlImage then
   begin
     pnlImage.TabStop:= True;
+    Status.Panels[sbpTextEncoding].Text:= EmptyStr;
     if CanFocus and pnlImage.CanFocus then pnlImage.SetFocus;
-    PanelEditImage.Visible:= not (bQuickView or (miFullScreen.Checked and not PanelEditImage.MouseEntered));
+    PanelEditImage.Visible:= not (bQuickView or (miFullScreen.Checked and not PanelEditImage.MouseInClient));
   end;
 
   bAnimation           := (Panel = pnlImage) and (GifAnim.Visible);
@@ -2711,7 +2714,7 @@ procedure TfrmViewer.cm_ChangeEncoding(const Params: array of string);
 var
   MenuItem: TMenuItem;
 begin
-  if Length(Params) > 0 then
+  if miEncoding.Visible and (Length(Params) > 0) then
   begin
     MenuItem:= miEncoding.Find(Params[0]);
     if Assigned(MenuItem) then
