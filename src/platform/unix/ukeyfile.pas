@@ -187,14 +187,15 @@ end;
 
 function TKeyFile.ReadStringList(const Section, Ident: String): TDynamicStringArray;
 var
+  ALength: gsize;
+  AIndex: Integer;
   AValue: PPgchar;
-  AIndex, ALength: gsize;
 begin
   AValue:= g_key_file_get_string_list(FGKeyFile, Pgchar(Section), Pgchar(Ident), @ALength, nil);
   if Assigned(AValue) then
   begin
     SetLength(Result, ALength);
-    for AIndex:= 0 to Pred(ALength) do
+    for AIndex:= 0 to Pred(Integer(ALength)) do
     begin
       Result[AIndex]:= StrPas(AValue[AIndex]);
     end;
