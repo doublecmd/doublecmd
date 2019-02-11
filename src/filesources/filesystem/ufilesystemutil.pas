@@ -158,6 +158,9 @@ uses
   DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty,
   StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash;
 
+const
+  HASH_TYPE = HASH_BLAKE2S;
+
 function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String; overload;
 begin
   // Only change name for files.
@@ -592,7 +595,7 @@ begin
   SourceFileStream := nil;
   TargetFileStream := nil; // for safety exception handling
   BytesToRead := FBufferSize;
-  if FVerify then HashInit(Context, HASH_BLAKE2S);
+  if FVerify then HashInit(Context, HASH_TYPE);
   try
     try
       OpenSourceFile;
@@ -1573,7 +1576,7 @@ begin
   {$PUSH}{$HINTS OFF}{$WARNINGS OFF}
   Aligned:= Pointer(PtrUInt(Buffer + BytesToRead - 1) and not (BytesToRead - 1));
   {$POP}
-  HashInit(Context, HASH_SHA3_224);
+  HashInit(Context, HASH_TYPE);
   try
     Handle:= mbFileOpen(FileName, fmOpenRead or fmShareDenyWrite or fmOpenSync or fmOpenDirect);
 
