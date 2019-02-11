@@ -1209,7 +1209,7 @@ begin
       try
         if aFile.IsNameValid then
           ShowRenameFileEdit(aFile)
-        else
+        else if gCurDir then
           ShowPathEdit;
       finally
         FreeAndNil(aFile);
