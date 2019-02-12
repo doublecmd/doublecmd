@@ -426,6 +426,10 @@ var
   gIndForeColor, // foreColor of use space on drive label
   gIndBackColor: TColor; // backColor of free space on drive label
 
+  gLogInfoColor,
+  gLogErrorColor,
+  gLogSuccessColor: TColor;
+
   gShowIcons: TShowIconsMode;
   gShowIconsNew: TShowIconsMode;
   gIconOverlays : Boolean;
@@ -1578,6 +1582,10 @@ begin
   gIndForeColor := clBlack;
   gIndBackColor := clWhite;
 
+  gLogInfoColor:= clNavy;
+  gLogErrorColor:= clRed;
+  gLogSuccessColor:= clGreen;
+
   { Layout page }
   gMainMenu := True;
   gButtonBar := True;
@@ -2436,6 +2444,11 @@ begin
       gIndUseGradient := GetValue(Node, 'FreeSpaceIndicator/UseGradient', gIndUseGradient);
       gIndForeColor := GetValue(Node, 'FreeSpaceIndicator/ForeColor', gIndForeColor);
       gIndBackColor := GetValue(Node, 'FreeSpaceIndicator/BackColor', gIndBackColor);
+
+      gLogInfoColor:= GetValue(Node, 'LogWindow/Info', gLogInfoColor);
+      gLogErrorColor:= GetValue(Node, 'LogWindow/Error', gLogErrorColor);
+      gLogSuccessColor:= GetValue(Node, 'LogWindow/Success', gLogSuccessColor);
+
       gColorExt.Load(gConfig, Node);
     end;
 
@@ -3075,6 +3088,11 @@ begin
     SetValue(Node, 'FreeSpaceIndicator/UseGradient', gIndUseGradient);
     SetValue(Node, 'FreeSpaceIndicator/ForeColor', gIndForeColor);
     SetValue(Node, 'FreeSpaceIndicator/BackColor', gIndBackColor);
+
+    SetValue(Node, 'LogWindow/Info', gLogInfoColor);
+    SetValue(Node, 'LogWindow/Error', gLogErrorColor);
+    SetValue(Node, 'LogWindow/Success', gLogSuccessColor);
+
     gColorExt.Save(gConfig, Node);
 
     { ToolTips page }
