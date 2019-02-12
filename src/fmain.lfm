@@ -541,6 +541,8 @@ object frmMain: TfrmMain
     Top = 299
     Width = 760
     Align = alBottom
+    Color = clWindow
+    Font.Color = clWindowText
     Font.Height = -16
     Font.Name = 'courier'
     Font.Pitch = fpFixed
