@@ -3971,11 +3971,11 @@ begin
   Special := True;
   case LogMsgType of
   lmtInfo:
-    FG := clNavy;
+    FG := gLogInfoColor;
   lmtSuccess:
-    FG := clGreen;
+    FG := gLogSuccessColor;
   lmtError:
-    FG := clRed
+    FG := gLogErrorColor
   else
     FG := clWindowText;
   end;
