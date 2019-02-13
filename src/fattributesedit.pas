@@ -102,6 +102,9 @@ implementation
 
 {$R *.lfm}
 
+uses
+  LCLVersion;
+
 procedure TfrmAttributesEdit.btnOkClick(Sender: TObject);
 begin
   if Assigned(FOnOk) then
@@ -121,6 +124,10 @@ end;
 
 procedure TfrmAttributesEdit.cbAttrCheckBoxChanged(Sender: TObject);
 begin
+{$if lcl_fullversion = 2000004}
+  // Workaround: https://bugs.freepascal.org/view.php?id=35018
+  if csLoading in TCheckBox(Sender).ComponentState then Exit;
+{$endif}
   // Note: OnChange may work incorrectly with tri-state checkboxes,
   // so OnClick is also used.
   UpdateText;
@@ -128,6 +135,10 @@ end;
 
 procedure TfrmAttributesEdit.cbAttrCheckBoxClicked(Sender: TObject);
 begin
+{$if lcl_fullversion = 2000004}
+  // Workaround: https://bugs.freepascal.org/view.php?id=35018
+  if csLoading in TCheckBox(Sender).ComponentState then Exit;
+{$endif}
   UpdateText;
 end;
 
