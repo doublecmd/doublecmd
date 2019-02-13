@@ -2415,7 +2415,7 @@ begin
     pnlImage.TabStop:= True;
     Status.Panels[sbpTextEncoding].Text:= EmptyStr;
     if CanFocus and pnlImage.CanFocus then pnlImage.SetFocus;
-    PanelEditImage.Visible:= not (bQuickView or (miFullScreen.Checked and not PanelEditImage.MouseInClient));
+    PanelEditImage.Visible:= not (bQuickView or (miFullScreen.Checked and not PanelEditImage.MouseEntered));
   end;
 
   bAnimation           := (Panel = pnlImage) and (GifAnim.Visible);
