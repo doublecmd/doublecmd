@@ -781,12 +781,14 @@ begin
       CopyAttrResult := mbFileCopyAttr(SourceFile.FullPath, TargetFileName, ACopyAttributesOptions);
     end;
     if ACopyTime then
-    begin
+    try
       // Copy time from properties because move operation change time of original folder
       if not mbFileSetTime(TargetFileName, DateTimeToFileTime(SourceFile.ModificationTime),
                    {$IF DEFINED(MSWINDOWS)}DateTimeToFileTime(SourceFile.CreationTime){$ELSE}0{$ENDIF},
                                            DateTimeToFileTime(SourceFile.LastAccessTime)) then
         CopyAttrResult += [caoCopyTime];
+    except
+      on E: EDateOutOfRange do CopyAttrResult += [caoCopyTime];
     end;
     if CopyAttrResult <> [] then
     begin
