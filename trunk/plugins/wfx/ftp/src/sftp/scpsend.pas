@@ -602,6 +602,7 @@ function TScpSend.RetrieveFile(const FileName: string; FileSize: Int64;
 var
   FBuffer: PByte;
   BytesRead: PtrInt;
+  BytesToRead: Integer;
   RetrStream: TFileStreamEx;
   TotalBytesToRead: Int64 = 0;
   SourceHandle: PLIBSSH2_CHANNEL;
@@ -629,10 +630,14 @@ begin
     FBuffer:= GetMem(SMB_BUFFER_SIZE);
     TotalBytesToRead:= FileSize - TotalBytesToRead;
     try
+      BytesToRead:= SMB_BUFFER_SIZE;
       while TotalBytesToRead > 0 do
       begin
+        if (BytesToRead > TotalBytesToRead) then begin
+          BytesToRead := TotalBytesToRead;
+        end;
         repeat
-          BytesRead := libssh2_channel_read(SourceHandle, PAnsiChar(FBuffer), SMB_BUFFER_SIZE);
+          BytesRead := libssh2_channel_read(SourceHandle, PAnsiChar(FBuffer), BytesToRead);
           if BytesRead = LIBSSH2_ERROR_EAGAIN then begin
             DoProgress((FileSize - TotalBytesToRead) * 100 div FileSize);
             FSock.CanRead(10);
