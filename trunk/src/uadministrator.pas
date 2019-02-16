@@ -119,7 +119,7 @@ begin
 
   ANode := Xml.AddNode(Xml.RootNode, 'FileList');
   Xml.SetAttr(ANode, 'Path', Files.Path);
-  for I:= Index to Files.Count - 1 do
+  for I:= 0 to Index do
   begin
     SubNode := Xml.AddNode(ANode, 'Item');
     Xml.SetAttr(SubNode, 'Name', Files[I].FullPath);
