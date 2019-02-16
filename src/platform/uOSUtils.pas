@@ -220,7 +220,9 @@ function GetCurrentUserName : String;
 function GetComputerNetName: String;
 
 var
-  AdministratorPrivileges: Boolean = False;
+  // While elevated operations is not implemented
+  // https://doublecmd.sourceforge.io/mantisbt/view.php?id=110
+  AdministratorPrivileges: Boolean = True;
 
 implementation
 
@@ -1148,12 +1150,5 @@ begin
   Result:= Utf8ToSys(FileName);
 end;
 {$ENDIF}
-
-initialization
-  {$IF DEFINED(UNIX)}
-  AdministratorPrivileges:= True; // (fpGetUID = 0); temporary while ExecCmdAdmin not implemented
-  {$ELSE}
-  AdministratorPrivileges:= IsUserAdmin;
-  {$ENDIF}
 
 end.
