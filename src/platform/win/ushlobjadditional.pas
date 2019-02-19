@@ -189,6 +189,9 @@ begin
             begin
               // Get the overlay icon index.
               if IconOverlay.GetOverlayIconIndex(Pidl, Result) <> S_OK then
+                Result:= -1
+              // Microsoft OneDrive returns invalid zero index, ignore
+              else if (Result = 0) and (Win32MajorVersion >= 10) then
                 Result:= -1;
 
               CoTaskMemFree(Pidl);
