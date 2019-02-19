@@ -66,7 +66,7 @@ begin
   begin
     seCheckSumVerify.Lines.BeginUpdate;
     try
-      seCheckSumVerify.Lines.Add(rsCheckSumVerifyGeneral);
+      seCheckSumVerify.Lines.AddObject(rsCheckSumVerifyGeneral, TObject(PtrInt(clWindowText)));
       aTotalCount:= Length(VerifyResult.Success) + Length(VerifyResult.ReadError) +
                     Length(VerifyResult.Broken) + Length(VerifyResult.Missing);
 
