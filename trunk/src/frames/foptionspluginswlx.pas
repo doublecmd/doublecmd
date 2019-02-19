@@ -64,7 +64,7 @@ uses
   StrUtils, LCLProc, Forms, Dialogs, DynLibs,
 
   //DC
-  uLng, uGlobs, dmCommonData, DCStrUtils, uDefaultPlugins;
+  uLng, uGlobs, dmCommonData, DCStrUtils, DCConvertEncoding, uDefaultPlugins;
 
 const
   COLNO_ACTIVE = 0;
@@ -178,7 +178,7 @@ begin
 
   if not tmpWLXPlugins.LoadModule(pred(tmpWLXPlugins.Count)) then
   begin
-    MessageDlg(Application.Title, rsMsgInvalidPlugin + cNextLine + GetLoadErrorStr, mtError, [mbOK], 0, mbOK);
+    MessageDlg(Application.Title, rsMsgInvalidPlugin + cNextLine + CeSysToUtf8(GetLoadErrorStr), mtError, [mbOK], 0, mbOK);
     tmpWLXPlugins.DeleteItem(I);
     Exit;
   end;
