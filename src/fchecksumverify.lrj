@@ -1,0 +1,4 @@
+{"version":1,"strings":[
+{"hash":202286430,"name":"tfrmchecksumverify.caption","sourcebytes":[86,101,114,105,102,121,32,99,104,101,99,107,115,117,109,46,46,46],"value":"Verify checksum..."},
+{"hash":44709525,"name":"tfrmchecksumverify.btnclose.caption","sourcebytes":[38,67,108,111,115,101],"value":"&Close"}
+]}

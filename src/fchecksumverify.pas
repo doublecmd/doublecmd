@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Verify checksum dialog
 
-   Copyright (C) 2009-2016  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,9 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fCheckSumVerify;
@@ -58,7 +56,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uLng, uClassesEx;
+  uLng, uGlobs, uClassesEx;
 
 procedure ShowVerifyCheckSum(const VerifyResult: TVerifyChecksumResult);
 var
@@ -73,20 +71,20 @@ begin
                     Length(VerifyResult.Broken) + Length(VerifyResult.Missing);
 
       // Add header information
-      AddHeader(rsCheckSumVerifyTotal, aTotalCount, clBlack);
-      AddHeader(rsCheckSumVerifySuccess, Length(VerifyResult.Success), clGreen);
-      AddHeader(rsCheckSumVerifyMissing, Length(VerifyResult.Missing), clRed);
-      AddHeader(rsCheckSumVerifyBroken, Length(VerifyResult.Broken), clRed);
-      AddHeader(rsCheckSumVerifyReadError, Length(VerifyResult.ReadError), clRed);
+      AddHeader(rsCheckSumVerifyTotal, aTotalCount, clWindowText);
+      AddHeader(rsCheckSumVerifySuccess, Length(VerifyResult.Success), gLogSuccessColor);
+      AddHeader(rsCheckSumVerifyMissing, Length(VerifyResult.Missing), gLogErrorColor);
+      AddHeader(rsCheckSumVerifyBroken, Length(VerifyResult.Broken), gLogErrorColor);
+      AddHeader(rsCheckSumVerifyReadError, Length(VerifyResult.ReadError), gLogErrorColor);
 
       // Add broken files
-      ProcessResult(VerifyResult.Broken, rsCheckSumVerifyBroken, clRed);
+      ProcessResult(VerifyResult.Broken, rsCheckSumVerifyBroken, gLogErrorColor);
       // Add read error files
-      ProcessResult(VerifyResult.ReadError, rsCheckSumVerifyReadError, clRed);
+      ProcessResult(VerifyResult.ReadError, rsCheckSumVerifyReadError, gLogErrorColor);
       // Add missing files
-      ProcessResult(VerifyResult.Missing, rsCheckSumVerifyMissing, clRed);
+      ProcessResult(VerifyResult.Missing, rsCheckSumVerifyMissing, gLogErrorColor);
       // Add good files
-      ProcessResult(VerifyResult.Success, rsCheckSumVerifySuccess, clGreen);
+      ProcessResult(VerifyResult.Success, rsCheckSumVerifySuccess, gLogSuccessColor);
     finally
       seCheckSumVerify.Lines.EndUpdate;
     end;
