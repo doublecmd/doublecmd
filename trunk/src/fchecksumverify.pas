@@ -119,10 +119,8 @@ end;
 
 procedure TfrmCheckSumVerify.AddHeader(const aText: String; aCount: Integer; aColor: TColor);
 begin
-  if aCount = 0 then
-    seCheckSumVerify.Lines.Add(#32 + aText + #32 + IntToStr(aCount))
-  else
-    seCheckSumVerify.Lines.AddObject(#32 + aText + #32 + IntToStr(aCount), TObject(PtrInt(aColor)));
+  if aCount = 0 then aColor:= clWindowText;
+  seCheckSumVerify.Lines.AddObject(#32 + aText + #32 + IntToStr(aCount), TObject(PtrInt(aColor)));
 end;
 
 procedure TfrmCheckSumVerify.ProcessResult(const aResult: TDynamicStringArray;
