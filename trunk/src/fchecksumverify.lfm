@@ -29,6 +29,8 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     BorderSpacing.Right = 10
     BorderSpacing.Bottom = 10
     Anchors = [akTop, akLeft, akRight, akBottom]
+    Color = clWindow
+    Font.Color = clWindowText
     ParentColor = False
     ParentFont = False
     TabOrder = 0
