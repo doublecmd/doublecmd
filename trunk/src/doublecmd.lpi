@@ -284,7 +284,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="251">
+    <Units Count="252">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1818,6 +1818,14 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uVariableMenuSupport"/>
       </Unit250>
+      <Unit251>
+        <Filename Value="fbenchmark.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmBenchmark"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fBenchmark"/>
+      </Unit251>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

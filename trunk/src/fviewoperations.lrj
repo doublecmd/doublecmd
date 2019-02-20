@@ -1,0 +1,22 @@
+{"version":1,"strings":[
+{"hash":184414099,"name":"tfrmviewoperations.caption","sourcebytes":[70,105,108,101,32,111,112,101,114,97,116,105,111,110,115],"value":"File operations"},
+{"hash":211145388,"name":"tfrmviewoperations.tbpauseall.caption","sourcebytes":[38,80,97,117,115,101,32,97,108,108],"value":"&Pause all"},
+{"hash":5626720,"name":"tfrmviewoperations.btnstop.caption","sourcebytes":[83,38,116,111,112],"value":"S&top"},
+{"hash":45787284,"name":"tfrmviewoperations.btnstartpause.caption","sourcebytes":[38,83,116,97,114,116],"value":"&Start"},
+{"hash":45418739,"name":"tfrmviewoperations.lblusedragdrop.caption","sourcebytes":[38,85,115,101,32,34,100,114,97,103,32,38,38,32,100,114,111,112,34,32,116,111,32,109,111,118,101,32,111,112,101,114,97,116,105,111,110,115,32,98,101,116,119,101,101,110,32,113,117,101,117,101,115],"value":"&Use \"drag && drop\" to move operations between queues"},
+{"hash":259910512,"name":"tfrmviewoperations.cbalwaysontop.caption","sourcebytes":[65,108,119,97,121,115,32,111,110,32,116,111,112],"value":"Always on top"},
+{"hash":5815477,"name":"tfrmviewoperations.mnuqueue.caption","sourcebytes":[81,117,101,117,101],"value":"Queue"},
+{"hash":219470821,"name":"tfrmviewoperations.mnuqueue0.caption","sourcebytes":[79,117,116,32,111,102,32,113,117,101,117,101],"value":"Out of queue"},
+{"hash":146585441,"name":"tfrmviewoperations.mnuqueue1.caption","sourcebytes":[81,117,101,117,101,32,49],"value":"Queue 1"},
+{"hash":146585442,"name":"tfrmviewoperations.mnuqueue2.caption","sourcebytes":[81,117,101,117,101,32,50],"value":"Queue 2"},
+{"hash":146585443,"name":"tfrmviewoperations.mnuqueue3.caption","sourcebytes":[81,117,101,117,101,32,51],"value":"Queue 3"},
+{"hash":146585444,"name":"tfrmviewoperations.mnuqueue4.caption","sourcebytes":[81,117,101,117,101,32,52],"value":"Queue 4"},
+{"hash":146585445,"name":"tfrmviewoperations.mnuqueue5.caption","sourcebytes":[81,117,101,117,101,32,53],"value":"Queue 5"},
+{"hash":158918773,"name":"tfrmviewoperations.mnunewqueue.caption","sourcebytes":[78,101,119,32,113,117,101,117,101],"value":"New queue"},
+{"hash":186662487,"name":"tfrmviewoperations.mnuoperationshowdetached.caption","sourcebytes":[83,104,111,119,32,105,110,32,100,101,116,97,99,104,101,100,32,119,105,110,100,111,119],"value":"Show in detached window"},
+{"hash":94289029,"name":"tfrmviewoperations.mnuputfirstinqueue.caption","sourcebytes":[80,117,116,32,102,105,114,115,116,32,105,110,32,113,117,101,117,101],"value":"Put first in queue"},
+{"hash":44375077,"name":"tfrmviewoperations.mnuputlastinqueue.caption","sourcebytes":[80,117,116,32,108,97,115,116,32,105,110,32,113,117,101,117,101],"value":"Put last in queue"},
+{"hash":77089212,"name":"tfrmviewoperations.mnucanceloperation.caption","sourcebytes":[67,97,110,99,101,108],"value":"Cancel"},
+{"hash":186662487,"name":"tfrmviewoperations.mnuqueueshowdetached.caption","sourcebytes":[83,104,111,119,32,105,110,32,100,101,116,97,99,104,101,100,32,119,105,110,100,111,119],"value":"Show in detached window"},
+{"hash":77089212,"name":"tfrmviewoperations.mnucancelqueue.caption","sourcebytes":[67,97,110,99,101,108],"value":"Cancel"}
+]}

@@ -1,0 +1,9 @@
+{"version":1,"strings":[
+{"hash":227436834,"name":"tfrmconnectionmanager.caption","sourcebytes":[67,111,110,110,101,99,116,105,111,110,32,109,97,110,97,103,101,114],"value":"Connection manager"},
+{"hash":200024170,"name":"tfrmconnectionmanager.gbconnectto.caption","sourcebytes":[67,111,110,110,101,99,116,32,116,111,58],"value":"Connect to:"},
+{"hash":224743412,"name":"tfrmconnectionmanager.btnconnect.caption","sourcebytes":[67,38,111,110,110,101,99,116],"value":"C&onnect"},
+{"hash":277668,"name":"tfrmconnectionmanager.btnadd.caption","sourcebytes":[65,38,100,100],"value":"A&dd"},
+{"hash":2800388,"name":"tfrmconnectionmanager.btnedit.caption","sourcebytes":[38,69,100,105,116],"value":"&Edit"},
+{"hash":179055749,"name":"tfrmconnectionmanager.btndelete.caption","sourcebytes":[38,68,101,108,101,116,101],"value":"&Delete"},
+{"hash":177752476,"name":"tfrmconnectionmanager.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"}
+]}

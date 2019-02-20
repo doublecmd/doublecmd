@@ -1,0 +1,13 @@
+{"version":1,"strings":[
+{"hash":186617562,"name":"tfrmeditsearchreplace.lblsearchfor.caption","sourcebytes":[38,83,101,97,114,99,104,32,102,111,114,58],"value":"&Search for:"},
+{"hash":263925658,"name":"tfrmeditsearchreplace.lblreplacewith.caption","sourcebytes":[38,82,101,112,108,97,99,101,32,119,105,116,104,58],"value":"&Replace with:"},
+{"hash":90681438,"name":"tfrmeditsearchreplace.gbsearchoptions.caption","sourcebytes":[79,112,116,105,111,110],"value":"Option"},
+{"hash":128736681,"name":"tfrmeditsearchreplace.cbsearchcasesensitive.caption","sourcebytes":[67,38,97,115,101,32,115,101,110,115,105,116,105,118,105,116,121],"value":"C&ase sensitivity"},
+{"hash":151740121,"name":"tfrmeditsearchreplace.cbsearchwholewords.caption","sourcebytes":[38,87,104,111,108,101,32,119,111,114,100,115,32,111,110,108,121],"value":"&Whole words only"},
+{"hash":231163145,"name":"tfrmeditsearchreplace.cbsearchselectedonly.caption","sourcebytes":[83,101,108,101,99,116,101,100,32,38,116,101,120,116,32,111,110,108,121],"value":"Selected &text only"},
+{"hash":60025108,"name":"tfrmeditsearchreplace.cbsearchfromcursor.caption","sourcebytes":[83,38,101,97,114,99,104,32,102,114,111,109,32,99,97,114,101,116],"value":"S&earch from caret"},
+{"hash":8115171,"name":"tfrmeditsearchreplace.cbsearchregexp.caption","sourcebytes":[38,82,101,103,117,108,97,114,32,101,120,112,114,101,115,115,105,111,110,115],"value":"&Regular expressions"},
+{"hash":146466142,"name":"tfrmeditsearchreplace.rgsearchdirection.caption","sourcebytes":[68,105,114,101,99,116,105,111,110],"value":"Direction"},
+{"hash":11067,"name":"tfrmeditsearchreplace.buttonpanel.okbutton.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":177752476,"name":"tfrmeditsearchreplace.buttonpanel.cancelbutton.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"}
+]}

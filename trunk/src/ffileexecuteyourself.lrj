@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":226521438,"name":"tfrmfileexecuteyourself.caption","sourcebytes":[87,97,105,116,46,46,46],"value":"Wait..."},
+{"hash":30419601,"name":"tfrmfileexecuteyourself.lblprompt.caption","sourcebytes":[67,108,105,99,107,32,111,110,32,67,108,111,115,101,32,119,104,101,110,32,116,104,101,32,116,101,109,112,111,114,97,114,121,32,102,105,108,101,32,99,97,110,32,98,101,32,100,101,108,101,116,101,100,33],"value":"Click on Close when the temporary file can be deleted!"},
+{"hash":44709525,"name":"tfrmfileexecuteyourself.btnclose.caption","sourcebytes":[38,67,108,111,115,101],"value":"&Close"},
+{"hash":124826538,"name":"tfrmfileexecuteyourself.lblfilename.caption","sourcebytes":[70,105,108,101,32,110,97,109,101,58],"value":"File name:"},
+{"hash":5084682,"name":"tfrmfileexecuteyourself.lblfrompath.caption","sourcebytes":[70,114,111,109,58],"value":"From:"}
+]}
