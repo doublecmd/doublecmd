@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":315460,"name":"tfrmfindview.caption","sourcebytes":[70,105,110,100],"value":"Find"},
+{"hash":2805828,"name":"tfrmfindview.btnfind.caption","sourcebytes":[38,70,105,110,100],"value":"&Find"},
+{"hash":177752476,"name":"tfrmfindview.btnclose.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"},
+{"hash":219655237,"name":"tfrmfindview.cbcasesens.caption","sourcebytes":[67,38,97,115,101,32,115,101,110,115,105,116,105,118,101],"value":"C&ase sensitive"},
+{"hash":183979276,"name":"tfrmfindview.chkhex.caption","sourcebytes":[72,101,120,97,100,101,99,105,109,97,108],"value":"Hexadecimal"}
+]}

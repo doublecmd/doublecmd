@@ -1,4 +1,0 @@
-TFRMCHECKSUMCALC.CAPTION=Calculate checksum...
-TFRMCHECKSUMCALC.LBLSAVETO.CAPTION=&Save checksum file(s) to:
-TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION=C&reate separate checksum file for each file
-TFRMCHECKSUMCALC.CBOPENAFTERJOBISCOMPLETE.CAPTION=Open checksum file after job is completed
