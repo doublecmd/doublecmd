@@ -9,7 +9,7 @@
    
    contributors:
    
-   Copyright (C) 2006-2014  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -22,11 +22,8 @@
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   in a file called COPYING along with this program; if not, write to
-   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA
-   02139, USA.
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
-
 
 unit uPixMapManager;
 
@@ -53,7 +50,7 @@ uses
       , uDCTiffImage
       {$ENDIF}
     {$ELSE}
-    , contnrs, uDCReadSVG, uGio
+    , contnrs, DCFileAttributes, uDCReadSVG, uGio
       {$IFDEF LCLGTK2}
       , gtk2
       {$ELSE}
@@ -1790,7 +1787,27 @@ begin
       end;
 
       if (Extension = '') then
+      begin
+        {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+        if IconsMode = sim_all_and_exe then
+        begin
+          if DirectAccess and (Attributes and S_IXUGO <> 0) then
+          begin
+            if not LoadIcon then
+              Result := -1
+            else begin
+              Ext := GioFileGetIcon(FullPath);
+              if Ext = 'application-x-sharedlib' then
+                Result := FiExeIconID
+              else
+                Result := CheckAddThemePixmap(Ext);
+            end;
+            Exit;
+          end;
+        end;
+        {$ENDIF}
         Exit(FiDefaultIconID);
+      end;
 
       Ext := UTF8LowerCase(Extension);
 
