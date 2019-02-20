@@ -75,6 +75,7 @@ type
                        AThread: TOperationThread);
     destructor Destroy; override;
 
+    procedure Start;
     {en
        Moves the item and places it before or after another operation.
        @param(TargetOperation
@@ -299,6 +300,25 @@ begin
   FOperation.Free;
 end;
 
+procedure TOperationsManagerItem.Start;
+begin
+  if (FThread = nil) then
+  begin
+    FThread := TOperationThread.Create(True, Operation);
+
+    if Assigned(FThread.FatalException) then
+      raise FThread.FatalException;
+
+    // Set OnTerminate event so that we can cleanup when thread finishes.
+    // Or instead of this create a timer for each thread and do:
+    //  Thread.WaitFor  (or WaitForThreadTerminate(Thread.ThreadID))
+    FThread.OnTerminate := @OperationsManager.ThreadTerminatedEvent;
+
+    FThread.Start;
+  end;
+  Operation.Start;
+end;
+
 procedure TOperationsManagerItem.Move(TargetOperation: TOperationHandle; PlaceBefore: Boolean);
 var
   TargetItem: TOperationsManagerItem;
@@ -473,7 +493,7 @@ begin
     FList.Move(FromIndex, ToIndex);
 
     if (not Paused) and ((FromIndex = 0) or (ToIndex = 0)) and not IsFree then
-      Items[0].Operation.Start;
+      Items[0].Start;
 
     OperationsManager.NotifyEvents(SourceItem, [omevOperationMoved]);
   end;
@@ -494,7 +514,7 @@ begin
 
   if (not Paused) and (IsFree or (InsertAt = 0)) then
   begin
-    Item.Operation.Start;
+    Item.Start;
   end
   else
     Item.Operation.Pause;
@@ -544,7 +564,7 @@ begin
      (not IsFree) and
      (Index = 0) and (Count > 0) then
   begin
-    Items[0].Operation.Start;
+    Items[0].Start;
   end;
 end;
 
@@ -571,12 +591,12 @@ begin
   if IsFree then
   begin
     for Index := 0 to Count - 1 do
-      Items[Index].Operation.Start;
+      Items[Index].Start;
   end
   else
   begin
     if Count > 0 then
-      Items[0].Operation.Start;
+      Items[0].Start;
     FPaused := False;
   end;
 end;
@@ -632,7 +652,6 @@ function TOperationsManager.AddOperation(
   InsertAtFrontOfQueue: Boolean;
   ShowProgress: Boolean = True): TOperationHandle;
 var
-  Thread: TOperationThread;
   Item: TOperationsManagerItem;
 begin
   if QueueIdentifier = ModalQueueId then
@@ -645,35 +664,21 @@ begin
 
   if Assigned(Operation) then
   begin
-    Thread := TOperationThread.Create(True, Operation);
-    if Assigned(Thread) then
-    begin
-      if Assigned(Thread.FatalException) then
-        raise Thread.FatalException;
+    Item := TOperationsManagerItem.Create(GetNextUnusedHandle, Operation, nil);
+    if Assigned(Item) then
+    try
+      Operation.PreventStart;
 
-      Item := TOperationsManagerItem.Create(GetNextUnusedHandle, Operation, Thread);
-      if Assigned(Item) then
-      try
-        Operation.PreventStart;
+      Result := Item.Handle;
 
-        Result := Item.Handle;
+      Item.SetQueue(GetOrCreateQueue(QueueIdentifier), InsertAtFrontOfQueue);
 
-        // Set OnTerminate event so that we can cleanup when thread finishes.
-        // Or instead of this create a timer for each thread and do:
-        //  Thread.WaitFor  (or WaitForThreadTerminate(Thread.ThreadID))
-        Thread.OnTerminate := @ThreadTerminatedEvent;
+      NotifyEvents(Item, [omevOperationAdded]);
 
-        Item.SetQueue(GetOrCreateQueue(QueueIdentifier), InsertAtFrontOfQueue);
+      if ShowProgress then ShowOperation(Item);
 
-        NotifyEvents(Item, [omevOperationAdded]);
-
-        if ShowProgress then ShowOperation(Item);
-
-        Thread.Start;
-
-      except
-        Item.Free;
-      end;
+    except
+      Item.Free;
     end;
   end;
 end;
