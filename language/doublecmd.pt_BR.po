@@ -12142,7 +12142,7 @@ msgstr "Primeiro;Último;"
 
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
-msgstr "Clássico, ordem do legado, ordem alfabética (mas a idioma primeiro.)"
+msgstr "Clássico, ordem do legado;Ordem alfabética (mas a idioma primeiro.)"
 
 #: ulng.rsoptconfigtreestate
 msgid "Full expand;Full collapse"

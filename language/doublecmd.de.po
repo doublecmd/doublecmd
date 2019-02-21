@@ -11987,7 +11987,7 @@ msgstr "Erste;Letzte;"
 
 #: ulng.rsoptconfigsortorder
 msgid "Classic, legacy order;Alphabetic order (but language still first)"
-msgstr "Klassisch, Vermächtnis-Reihenfolge, Alphabetische Reihenfolge (aber Sprache immer zuerst)"
+msgstr "Klassisch, Vermächtnis-Reihenfolge;Alphabetische Reihenfolge (aber Sprache immer zuerst)"
 
 #: ulng.rsoptconfigtreestate
 msgid "Full expand;Full collapse"
