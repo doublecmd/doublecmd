@@ -664,14 +664,14 @@ procedure TDialogBox.ButtonKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), PtrInt(Shift));
+    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ButtonKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), PtrInt(Shift));
+    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ComboBoxClick(Sender: TObject);
@@ -710,14 +710,14 @@ procedure TDialogBox.ComboBoxKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), PtrInt(Shift));
+    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ComboBoxKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), PtrInt(Shift));
+    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.EditClick(Sender: TObject);
@@ -758,13 +758,13 @@ end;
 procedure TDialogBox.EditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), PtrInt(Shift));
+    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.EditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), PtrInt(Shift));
+    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ListBoxClick(Sender: TObject);
@@ -807,14 +807,14 @@ procedure TDialogBox.ListBoxKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), PtrInt(Shift));
+    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYDOWN, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.ListBoxKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Assigned(fDlgProc) then
-    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), PtrInt(Shift));
+    fDlgProc(PtrUInt(Pointer(Self)), PAnsiChar((Sender as TControl).Name), DN_KEYUP, PtrInt(@Key), Integer(Shift));
 end;
 
 procedure TDialogBox.CheckBoxChange(Sender: TObject);
