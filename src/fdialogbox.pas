@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains realization of Dialog API functions.
 
-    Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2008-2019 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ type
     DialogLabel: TLabel;
     DialogPanel: TPanel;
     DialogEdit: TEdit;
+    DialogMemo: TMemo;
     DialogImage: TImage;
     DialogTabSheet: TTabSheet;
     DialogRadioGroup: TRadioGroup;
@@ -221,7 +222,7 @@ begin
     Result := False;
 end;
 
-function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt;dcpcall;
+function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
   DialogBox: TDialogBox;
   Control: TControl;
@@ -293,7 +294,9 @@ begin
       if Control is TComboBox then
         Result:= TComboBox(Control).Items.AddObject(sText, TObject(Pointer(lParam)))
       else if Control is TListBox then
-        Result:= TListBox(Control).Items.AddObject(sText, TObject(Pointer(lParam)));
+        Result:= TListBox(Control).Items.AddObject(sText, TObject(Pointer(lParam)))
+      else if Control is TMemo then
+        Result:= TMemo(Control).Lines.AddObject(sText, TObject(Pointer(lParam)));
     end;
   DM_LISTADDSTR:
     begin
@@ -301,51 +304,65 @@ begin
       if Control is TComboBox then
         Result:= TComboBox(Control).Items.Add(sText)
       else if Control is TListBox then
-        Result:= TListBox(Control).Items.Add(sText);
+        Result:= TListBox(Control).Items.Add(sText)
+      else if Control is TMemo then
+        Result:= TMemo(Control).Lines.Add(sText);
     end;
   DM_LISTDELETE:
     begin
       if Control is TComboBox then
-         (Control as TComboBox).Items.Delete(wParam);
-      if Control is TListBox then
-        (Control as TListBox).Items.Delete(wParam);
+        TComboBox(Control).Items.Delete(wParam)
+      else if Control is TListBox then
+        TListBox(Control).Items.Delete(wParam)
+      else if Control is TMemo then
+        TMemo(Control).Lines.Delete(wParam);
     end;
   DM_LISTINDEXOF:
     begin
       sText:= PAnsiChar(lParam);
       if Control is TComboBox then
-        Result:= (Control as TComboBox).Items.IndexOf(sText);
-      if Control is TListBox then
-        Result:= (Control as TListBox).Items.IndexOf(sText);
+        Result:= TComboBox(Control).Items.IndexOf(sText)
+      else if Control is TListBox then
+        Result:= TListBox(Control).Items.IndexOf(sText)
+      else if Control is TMemo then
+        Result:= TMemo(Control).Lines.IndexOf(sText);
     end;
   DM_LISTINSERT:
     begin
       sText:= PAnsiChar(lParam);
       if Control is TComboBox then
-        (Control as TComboBox).Items.Insert(wParam, sText);
-      if Control is TListBox then
-        (Control as TListBox).Items.Insert(wParam, sText);
+        TComboBox(Control).Items.Insert(wParam, sText)
+      else if Control is TListBox then
+        TListBox(Control).Items.Insert(wParam, sText)
+      else if Control is TMemo then
+        TMemo(Control).Lines.Insert(wParam, sText);
     end;
   DM_LISTGETCOUNT:
     begin
       if Control is TComboBox then
-        Result:= (Control as TComboBox).Items.Count;
-      if Control is TListBox then
-        Result:= (Control as TListBox).Items.Count;
+        Result:= TComboBox(Control).Items.Count
+      else if Control is TListBox then
+        Result:= TListBox(Control).Items.Count
+      else if Control is TMemo then
+        Result:= TMemo(Control).Lines.Count;
     end;
   DM_LISTGETDATA:
     begin
       if Control is TComboBox then
-        Result:= PtrInt((Control as TComboBox).Items.Objects[wParam]);
-      if Control is TListBox then
-        Result:= PtrInt((Control as TListBox).Items.Objects[wParam]);
+        Result:= PtrInt(TComboBox(Control).Items.Objects[wParam])
+      else if Control is TListBox then
+        Result:= PtrInt(TListBox(Control).Items.Objects[wParam])
+      else if Control is TMemo then
+        Result:= PtrInt(TMemo(Control).Lines.Objects[wParam]);
     end;
   DM_LISTGETITEM:
     begin
       if Control is TComboBox then
-        sText:= (Control as TComboBox).Items[wParam];
-      if Control is TListBox then
-        sText:= (Control as TListBox).Items[wParam];
+        sText:= TComboBox(Control).Items[wParam]
+      else if Control is TListBox then
+        sText:= TListBox(Control).Items[wParam]
+      else if Control is TMemo then
+        sText:= TMemo(Control).Lines[wParam];
       Result:= PtrInt(PAnsiChar(sText));
     end;
   DM_LISTGETITEMINDEX:
@@ -371,23 +388,27 @@ begin
     begin
       sText:= PAnsiChar(lParam);
       if Control is TComboBox then
-        (Control as TComboBox).Items[wParam]:= sText;
-      if Control is TListBox then
-        (Control as TListBox).Items[wParam]:= sText;
+        TComboBox(Control).Items[wParam]:= sText
+      else if Control is TListBox then
+        TListBox(Control).Items[wParam]:= sText
+      else if Control is TMemo then
+        TMemo(Control).Lines[wParam]:= sText;
     end;
   DM_GETTEXT:
     begin
       if Control is TButton then
-        sText:= (Control as TButton).Caption;
-      if Control is TComboBox then
-        sText:= (Control as TComboBox).Text;
-      if Control is TEdit then
-        sText:= (Control as TEdit).Text;
-      if Control is TGroupBox then
-        sText:= (Control as TGroupBox).Caption;
-      if Control is TLabel then
-        sText:= (Control as TLabel).Caption;
-      if Control is TFileNameEdit then
+        sText:= TButton(Control).Caption
+      else if Control is TComboBox then
+        sText:= TComboBox(Control).Text
+      else if Control is TMemo then
+        sText:= TMemo(Control).Text
+      else if Control is TEdit then
+        sText:= TEdit(Control).Text
+      else if Control is TGroupBox then
+        sText:= TGroupBox(Control).Caption
+      else if Control is TLabel then
+        sText:= TLabel(Control).Caption
+      else if Control is TFileNameEdit then
         sText:= TFileNameEdit(Control).Text;
       Result:= PtrInt(PAnsiChar(sText));
     end;
@@ -423,9 +444,11 @@ begin
   DM_LISTSETDATA:
     begin
       if Control is TComboBox then
-        (Control as TComboBox).Items.Objects[wParam]:= TObject(Pointer(lParam));
-      if Control is TListBox then
-        (Control as TListBox).Items.Objects[wParam]:= TObject(Pointer(lParam));
+        TComboBox(Control).Items.Objects[wParam]:= TObject(Pointer(lParam))
+      else if Control is TListBox then
+        TListBox(Control).Items.Objects[wParam]:= TObject(Pointer(lParam))
+      else if Control is TMemo then
+        TMemo(Control).Lines.Objects[wParam]:= TObject(Pointer(lParam));
     end;
   DM_SETDLGBOUNDS:
     begin
@@ -480,16 +503,18 @@ begin
     begin
       sText:= PAnsiChar(wParam);
       if Control is TButton then
-        (Control as TButton).Caption:= sText;
-      if Control is TComboBox then
-        (Control as TComboBox).Text:= sText;
-      if Control is TEdit then
-        (Control as TEdit).Text:= sText;
-      if Control is TGroupBox then
-        (Control as TGroupBox).Caption:= sText;
-      if Control is TLabel then
-        (Control as TLabel).Caption:= sText;
-      if Control is TFileNameEdit then
+        TButton(Control).Caption:= sText
+      else if Control is TComboBox then
+        TComboBox(Control).Text:= sText
+      else if Control is TMemo then
+        TMemo(Control).Text:= sText
+      else if Control is TEdit then
+        TEdit(Control).Text:= sText
+      else if Control is TGroupBox then
+        TGroupBox(Control).Caption:= sText
+      else if Control is TLabel then
+        TLabel(Control).Caption:= sText
+      else if Control is TFileNameEdit then
         TFileNameEdit(Control).Text:= sText;
     end;
   DM_SHOWDIALOG:
