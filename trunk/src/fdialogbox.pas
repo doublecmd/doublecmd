@@ -88,6 +88,7 @@ type
   private
     FRect: TRect;
     FText: String;
+    FLRSData: String;
     FResult: LongBool;
     FDlgProc: TDlgProc;
     FTranslator: TAbstractTranslator;
@@ -96,7 +97,7 @@ type
     procedure ProcessResource; override;
     function InitResourceComponent(Instance: TComponent; RootAncestor: TClass): Boolean;
   public
-    constructor Create(DlgProc: TDlgProc); reintroduce;
+    constructor Create(const LRSData: String; DlgProc: TDlgProc); reintroduce;
     destructor Destroy; override;
   end; 
 
@@ -117,13 +118,9 @@ function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiC
 var
   sValue: String;
 begin
-  Result:= False;
   sValue:= StrPas(Value);
-  if ShowInputQuery(Caption, Prompt, MaskInput, sValue) then
-    begin
-      StrLCopy(Value, PAnsiChar(sValue), ValueMaxLen);
-      Result:= True;
-    end;
+  Result:= ShowInputQuery(Caption, Prompt, MaskInput, sValue);
+  if Result then StrLCopy(Value, PAnsiChar(sValue), ValueMaxLen);
 end;
 
 function MessageBox(Text, Caption: PAnsiChar; Flags: Longint): Integer; dcpcall;
@@ -131,40 +128,27 @@ begin
   Result:= ShowMessageBox(Text, Caption, Flags);
 end;
 
-procedure SetDialogBoxResourceLRS(LRSData: String);
-var
-  LResource: TLResource;
-begin
-  LResource := LazarusResources.Find('TDialogBox','FORMDATA');
-  if Assigned(LResource) then
-    LResource.Value:= LRSData
-  else
-    LazarusResources.Add('TDialogBox','FORMDATA', LRSData);
-end;
-
-procedure SetDialogBoxResourceLFM(LFMData: String);
+function LFMToLRS(const LFMData: String): String;
 var
   LFMStream: TStringStream = nil;
-  BinStream: TStringStream = nil;
+  LRSStream: TStringStream = nil;
 begin
   try
+    LRSStream:= TStringStream.Create('');
     LFMStream:= TStringStream.Create(LFMData);
-    BinStream:= TStringStream.Create('');
-    LRSObjectTextToBinary(LFMStream, BinStream);
-    SetDialogBoxResourceLRS(BinStream.DataString);
+    LRSObjectTextToBinary(LFMStream, LRSStream);
+    Result:= LRSStream.DataString;
   finally
-    if Assigned(LFMStream) then
-      FreeAndNil(LFMStream);
-    if Assigned(BinStream) then
-      FreeAndNil(BinStream);
+    FreeAndNil(LFMStream);
+    FreeAndNil(LRSStream);
   end;
 end;
 
-function DialogBox(DlgProc: TDlgProc): LongBool;
+function DialogBox(const LRSData: String; DlgProc: TDlgProc): LongBool;
 var
-  Dialog: TDialogBox = nil;
+  Dialog: TDialogBox;
 begin
-  Dialog:= TDialogBox.Create(DlgProc);
+  Dialog:= TDialogBox.Create(LRSData, DlgProc);
   try
     with Dialog do
     begin
@@ -172,20 +156,18 @@ begin
       Result:= FResult;
     end;
   finally
-    if Assigned(Dialog) then
-      FreeAndNil(Dialog);
+    FreeAndNil(Dialog);
   end;
 end;
 
-function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool;dcpcall;
+function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
 var
   DataString: String;
 begin
   if Assigned(LFMData) and (DataSize > 0) then
   begin
     SetString(DataString, LFMData, DataSize);
-    SetDialogBoxResourceLFM(DataString);
-    Result := DialogBox(DlgProc);
+    Result := DialogBox(LFMToLRS(DataString), DlgProc);
   end
   else
     Result := False;
@@ -198,14 +180,13 @@ begin
   if Assigned(LRSData) and (DataSize > 0) then
   begin
     SetString(DataString, LRSData, DataSize);
-    SetDialogBoxResourceLRS(DataString);
-    Result := DialogBox(DlgProc);
+    Result := DialogBox(DataString, DlgProc);
   end
   else
     Result := False;
 end;
 
-function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool;dcpcall;
+function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; dcpcall;
 var
   lfmStringList: TStringListEx;
 begin
@@ -214,8 +195,7 @@ begin
     lfmStringList:= TStringListEx.Create;
     try
       lfmStringList.LoadFromFile(lfmFileName);
-      SetDialogBoxResourceLFM(lfmStringList.Text);
-      Result := DialogBox(DlgProc);
+      Result := DialogBox(LFMToLRS(lfmStringList.Text), DlgProc);
     finally
       FreeAndNil(lfmStringList);
     end;
@@ -574,11 +554,9 @@ function TDialogBox.InitResourceComponent(Instance: TComponent; RootAncestor: TC
 
   function InitComponent(ClassType: TClass): Boolean;
   var
-    ResName: String;
     Stream: TStream;
     Reader: TReader;
     DestroyDriver: Boolean;
-    LazResource: TLResource;
     Driver: TAbstractObjectReader;
   begin
     Result := False;
@@ -587,16 +565,7 @@ function TDialogBox.InitResourceComponent(Instance: TComponent; RootAncestor: TC
     if Assigned(ClassType.ClassParent) then
       Result := InitComponent(ClassType.ClassParent);
 
-    Stream := nil;
-    ResName := ClassType.ClassName;
-
-    LazResource := LazarusResources.Find(ResName);
-    if (LazResource <> nil) and (LazResource.Value <> '') then
-      Stream := TLazarusResourceStream.CreateFromHandle(LazResource);
-    //DCDebug('[InitComponent] CompResource found for ', ClassType.Classname);
-
-    if Stream = nil then
-      Exit;
+    Stream := TStringStream.Create(FLRSData);
 
     try
       //DCDebug('Form Stream "', ClassType.ClassName, '"');
@@ -634,12 +603,13 @@ begin
   end;
 end;
 
-constructor TDialogBox.Create(DlgProc: TDlgProc);
+constructor TDialogBox.Create(const LRSData: String; DlgProc: TDlgProc);
 var
   Path: String;
   Language: String;
   FileName: String;
 begin
+  FLRSData:= LRSData;
   FDlgProc:= DlgProc;
 
   FileName:= mbGetModuleName(DlgProc);
