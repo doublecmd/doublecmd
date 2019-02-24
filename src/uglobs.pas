@@ -283,6 +283,7 @@ var
   { Toolbar }
   gToolBarButtonSize,
   gToolBarIconSize: Integer;
+  gToolBarShowCaptions: Boolean;
   gToolbarReportErrorWithCommands: boolean;
   gToolbarFilenameStyle: TConfigFilenameStyle;
   gToolbarPathToBeRelativeTo: string;
@@ -1592,6 +1593,7 @@ begin
   gToolBarFlat := True;
   gToolBarButtonSize := 24;
   gToolBarIconSize := 16;
+  gToolBarShowCaptions := False;
   gToolbarReportErrorWithCommands := FALSE;
   gToolbarFilenameStyle := pfsAbsolutePath;
   gToolbarPathToBeRelativeTo := EnvVarCommanderPath;
@@ -2477,6 +2479,7 @@ begin
           gToolBarIconSize := GetValue(SubNode, 'SmallIconSize', gToolBarIconSize)
         else
           gToolBarIconSize := GetValue(SubNode, 'IconSize', gToolBarIconSize);
+        gToolBarShowCaptions := GetValue(SubNode, 'ShowCaptions', gToolBarShowCaptions);
         gToolbarReportErrorWithCommands := GetValue(SubNode,'ReportErrorWithCommands',gToolbarReportErrorWithCommands);
         gToolbarFilenameStyle := TConfigFilenameStyle(GetValue(SubNode, 'FilenameStyle', ord(gToolbarFilenameStyle)));
         gToolbarPathToBeRelativeTo := gConfig.GetValue(SubNode, 'PathToBeRelativeTo', gToolbarPathToBeRelativeTo);
@@ -3111,6 +3114,7 @@ begin
     SetValue(SubNode, 'FlatIcons', gToolBarFlat);
     SetValue(SubNode, 'ButtonHeight', gToolBarButtonSize);
     SetValue(SubNode, 'IconSize', gToolBarIconSize);
+    SetValue(SubNode, 'ShowCaptions', gToolBarShowCaptions);
     SetValue(SubNode, 'ReportErrorWithCommands', gToolbarReportErrorWithCommands);
     SetValue(SubNode, 'FilenameStyle', ord(gToolbarFilenameStyle));
     SetValue(SubNode, 'PathToBeRelativeTo', gToolbarPathToBeRelativeTo);

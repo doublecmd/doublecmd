@@ -54,6 +54,7 @@ type
     btnRemoveHotkey: TButton;
     cbInternalCommand: TComboBox;
     cbFlatButtons: TCheckBox;
+    cbShowCaptions: TCheckBox;
     edtExternalParameters: TEdit;
     edtExternalCommand: TEdit;
     lblHelpOnInternalCommand: TLabel;
@@ -401,6 +402,7 @@ begin
   trbBarSize.Position   := gToolBarButtonSize div 2;
   trbIconSize.Position  := gToolBarIconSize div 2;
   cbFlatButtons.Checked := gToolBarFlat;
+  cbShowCaptions.Checked := gToolBarShowCaptions;
   cbReportErrorWithCommands.Checked := gToolbarReportErrorWithCommands;
 
   lblBarSizeValue.Caption  := IntToStr(trbBarSize.Position*2);
@@ -601,10 +603,11 @@ var
 begin
   ApplyEditControls;
 
-  gToolBarFlat       := cbFlatButtons.Checked;
+  gToolBarFlat         := cbFlatButtons.Checked;
+  gToolBarShowCaptions := cbShowCaptions.Checked;
   gToolbarReportErrorWithCommands := cbReportErrorWithCommands.Checked;
-  gToolBarButtonSize := trbBarSize.Position * 2;
-  gToolBarIconSize   := trbIconSize.Position * 2;
+  gToolBarButtonSize   := trbBarSize.Position * 2;
+  gToolBarIconSize     := trbIconSize.Position * 2;
 
   ToolBar := GetTopToolbar;
   if Assigned(ToolBar) then

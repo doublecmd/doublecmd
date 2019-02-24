@@ -4840,6 +4840,7 @@ begin
     MainToolBar.Visible:= gButtonBar;
     MainToolBar.Flat:= gToolBarFlat;
     MainToolBar.GlyphSize:= gToolBarIconSize;
+    MainToolBar.ShowCaptions:= gToolBarShowCaptions;
     MainToolBar.SetButtonSize(gToolBarButtonSize, gToolBarButtonSize);
     MainToolBar.ChangePath:= gpExePath;
     MainToolBar.EnvVar:= '%commander_path%';
