@@ -1,0 +1,8 @@
+{"version":1,"strings":[
+{"hash":155261978,"name":"tfrmfileop.lblcurrentoperation.caption","sourcebytes":[67,117,114,114,101,110,116,32,111,112,101,114,97,116,105,111,110,58],"value":"Current operation:"},
+{"hash":5084682,"name":"tfrmfileop.lblfrom.caption","sourcebytes":[70,114,111,109,58],"value":"From:"},
+{"hash":23338,"name":"tfrmfileop.lblto.caption","sourcebytes":[84,111,58],"value":"To:"},
+{"hash":24538892,"name":"tfrmfileop.btnminimizetopanel.caption","sourcebytes":[38,84,111,32,112,97,110,101,108],"value":"&To panel"},
+{"hash":264850924,"name":"tfrmfileop.btnviewoperations.caption","sourcebytes":[38,86,105,101,119,32,97,108,108],"value":"&View all"},
+{"hash":177752476,"name":"tfrmfileop.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"}
+]}

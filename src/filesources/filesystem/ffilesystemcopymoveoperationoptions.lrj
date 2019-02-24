@@ -1,0 +1,20 @@
+{"version":1,"strings":[
+{"hash":73409731,"name":"tfilesystemcopymoveoperationoptionsui.lblfileexists.caption","sourcebytes":[87,104,101,110,32,38,102,105,108,101,32,101,120,105,115,116,115],"value":"When &file exists"},
+{"hash":219592963,"name":"tfilesystemcopymoveoperationoptionsui.lbldirectoryexists.caption","sourcebytes":[87,104,101,110,32,100,105,114,38,101,99,116,111,114,121,32,101,120,105,115,116,115],"value":"When dir&ectory exists"},
+{"hash":46399081,"name":"tfilesystemcopymoveoperationoptionsui.lblsetpropertyerror.caption","sourcebytes":[87,104,101,110,32,99,97,38,110,110,111,116,32,115,101,116,32,112,114,111,112,101,114,116,121],"value":"When ca&nnot set property"},
+{"hash":171515630,"name":"tfilesystemcopymoveoperationoptionsui.cmbsetpropertyerror.hint","sourcebytes":[87,104,97,116,32,116,111,32,100,111,32,119,104,101,110,32,99,97,110,110,111,116,32,115,101,116,32,102,105,108,101,32,116,105,109,101,44,32,97,116,116,114,105,98,117,116,101,115,44,32,101,116,99,46],"value":"What to do when cannot set file time, attributes, etc."},
+{"hash":250179989,"name":"tfilesystemcopymoveoperationoptionsui.cbcheckfreespace.caption","sourcebytes":[67,38,104,101,99,107,32,102,114,101,101,32,115,112,97,99,101],"value":"C&heck free space"},
+{"hash":76535811,"name":"tfilesystemcopymoveoperationoptionsui.cbfollowlinks.caption","sourcebytes":[70,111,38,108,108,111,119,32,108,105,110,107,115],"value":"Fo&llow links"},
+{"hash":28881891,"name":"tfilesystemcopymoveoperationoptionsui.cbcorrectlinks.caption","sourcebytes":[67,111,114,114,101,99,116,32,108,105,110,38,107,115],"value":"Correct lin&ks"},
+{"hash":88860499,"name":"tfilesystemcopymoveoperationoptionsui.cbcopyattributes.caption","sourcebytes":[67,111,112,38,121,32,97,116,116,114,105,98,117,116,101,115],"value":"Cop&y attributes"},
+{"hash":193111863,"name":"tfilesystemcopymoveoperationoptionsui.cbdropreadonlyflag.caption","sourcebytes":[68,114,111,112,32,114,101,97,100,111,110,108,121,32,102,108,97,38,103],"value":"Drop readonly fla&g"},
+{"hash":231770837,"name":"tfilesystemcopymoveoperationoptionsui.cbcopytime.caption","sourcebytes":[67,111,112,121,32,100,38,97,116,101,47,116,105,109,101],"value":"Copy d&ate/time"},
+{"hash":58641088,"name":"tfilesystemcopymoveoperationoptionsui.cbcopyownership.caption","sourcebytes":[67,111,112,121,32,111,38,119,110,101,114,115,104,105,112],"value":"Copy o&wnership"},
+{"hash":263433445,"name":"tfilesystemcopymoveoperationoptionsui.cbreservespace.caption","sourcebytes":[38,82,101,115,101,114,118,101,32,115,112,97,99,101],"value":"&Reserve space"},
+{"hash":37050051,"name":"tfilesystemcopymoveoperationoptionsui.cbcopypermissions.caption","sourcebytes":[67,111,112,121,32,38,112,101,114,109,105,115,115,105,111,110,115],"value":"Copy &permissions"},
+{"hash":197955577,"name":"tfilesystemcopymoveoperationoptionsui.chkverify.caption","sourcebytes":[38,86,101,114,105,102,121],"value":"&Verify"},
+{"hash":150587493,"name":"tfilesystemcopymoveoperationoptionsui.gbfiletemplate.caption","sourcebytes":[85,115,101,32,102,105,108,101,32,116,101,109,112,108,97,116,101],"value":"Use file template"},
+{"hash":24093710,"name":"tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint","sourcebytes":[67,104,111,111,115,101,32,116,101,109,112,108,97,116,101,46,46,46],"value":"Choose template..."},
+{"hash":121893262,"name":"tfilesystemcopymoveoperationoptionsui.lbltemplatename.caption","sourcebytes":[60,110,111,32,116,101,109,112,108,97,116,101,62],"value":"<no template>"},
+{"hash":190840595,"name":"tfilesystemcopymoveoperationoptionsui.cbexcludeemptydirectories.caption","sourcebytes":[69,38,120,99,108,117,100,101,32,101,109,112,116,121,32,100,105,114,101,99,116,111,114,105,101,115],"value":"E&xclude empty directories"}
+]}
