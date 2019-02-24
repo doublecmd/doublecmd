@@ -9296,6 +9296,32 @@ msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Če datoteka obstaja"
 
+#: ttfrmconfirmcommandline.btncancel.caption
+#, fuzzy
+msgctxt "ttfrmconfirmcommandline.btncancel.caption"
+msgid "&Cancel"
+msgstr "&Prekliči"
+
+#: ttfrmconfirmcommandline.btnok.caption
+#, fuzzy
+msgctxt "ttfrmconfirmcommandline.btnok.caption"
+msgid "&OK"
+msgstr "V &redu"
+
+#: ttfrmconfirmcommandline.lblecommandline.editlabel.caption
+msgid "Command line:"
+msgstr ""
+
+#: ttfrmconfirmcommandline.lbleparameters.editlabel.caption
+#, fuzzy
+msgctxt "ttfrmconfirmcommandline.lbleparameters.editlabel.caption"
+msgid "Parameters:"
+msgstr "Parametri:"
+
+#: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
+msgid "Start path:"
+msgstr ""
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"

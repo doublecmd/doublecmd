@@ -9527,6 +9527,29 @@ msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Если файл существует"
 
+#: ttfrmconfirmcommandline.btncancel.caption
+msgctxt "ttfrmconfirmcommandline.btncancel.caption"
+msgid "&Cancel"
+msgstr "О&тмена"
+
+#: ttfrmconfirmcommandline.btnok.caption
+msgctxt "ttfrmconfirmcommandline.btnok.caption"
+msgid "&OK"
+msgstr "&ОК"
+
+#: ttfrmconfirmcommandline.lblecommandline.editlabel.caption
+msgid "Command line:"
+msgstr "Командная строка:"
+
+#: ttfrmconfirmcommandline.lbleparameters.editlabel.caption
+msgctxt "ttfrmconfirmcommandline.lbleparameters.editlabel.caption"
+msgid "Parameters:"
+msgstr "Параметры:"
+
+#: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
+msgid "Start path:"
+msgstr "Путь запуска:"
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"

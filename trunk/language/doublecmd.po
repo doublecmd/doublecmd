@@ -9216,6 +9216,29 @@ msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr ""
 
+#: ttfrmconfirmcommandline.btncancel.caption
+msgctxt "ttfrmconfirmcommandline.btncancel.caption"
+msgid "&Cancel"
+msgstr ""
+
+#: ttfrmconfirmcommandline.btnok.caption
+msgctxt "ttfrmconfirmcommandline.btnok.caption"
+msgid "&OK"
+msgstr ""
+
+#: ttfrmconfirmcommandline.lblecommandline.editlabel.caption
+msgid "Command line:"
+msgstr ""
+
+#: ttfrmconfirmcommandline.lbleparameters.editlabel.caption
+msgctxt "ttfrmconfirmcommandline.lbleparameters.editlabel.caption"
+msgid "Parameters:"
+msgstr ""
+
+#: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
+msgid "Start path:"
+msgstr ""
+
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "TWCXARCHIVECOPYOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
