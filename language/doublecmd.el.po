@@ -7358,6 +7358,10 @@ msgstr "Επίπεδα Κουμπιά"
 msgid "Report errors with commands"
 msgstr "Αναφορά λαθών με εντολές"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Εισαγωγή παραμέτρων εντολής, καθεμία σε ξεχωριστή γραμμή. Πιέστε F1 για βοήθεια στις παραμέτρους."

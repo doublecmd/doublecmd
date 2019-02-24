@@ -7150,6 +7150,10 @@ msgstr "&Płaskie przyciski"
 msgid "Report errors with commands"
 msgstr "Raportuj błędy z poleceń"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Wprowadź parametry polecenia, każde w osobnym wierszu. Naciśnij F1, aby wyświetlić pomoc dotyczącą parametrów."
@@ -11116,6 +11120,7 @@ msgid "Use Windows special folder (TC)..."
 msgstr "Użyj specjalnego folderu Windows (TC)..."
 
 #: ulng.rsmsgtabforopeninginnewtab
+#, fuzzy,badformat
 msgid "This tab (%s) is locked! Open directory in another tab?"
 msgstr "Ta zakładka (5s) jest zablokowana! Otworzyć katalog w innej zakładce?"
 
@@ -11770,6 +11775,7 @@ msgid "Shortcut %s for cm_Delete has a parameter that overrides this setting. Do
 msgstr "Skrót %s do cm_Delete ma parametr, który zastępuje to ustawienie. Czy chcesz zmienić ten parametr, aby używać ustawienia globalnego?"
 
 #: ulng.rsopthotkeysdeletetrashcanparameterexists
+#, fuzzy,badformat
 msgid "Shortcut %s for cm_Delete needs to have a parameter changed to match shortcut %s. Do you want to change it?"
 msgstr "Skrót %s do cm_Delete musi mieć parametr zmieniajacy trafność skrótu % s. Czy chcesz zmienić?"
 

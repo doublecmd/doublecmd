@@ -7950,6 +7950,10 @@ msgstr "Botons plans"
 msgid "Report errors with commands"
 msgstr ""
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Entra paràmetres de comandament, cadascun en una línia separada. Premeu F1 per veure l'ajuda sobre paràmetres"

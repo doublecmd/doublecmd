@@ -7446,6 +7446,10 @@ msgstr "Botões p&lanos."
 msgid "Report errors with commands"
 msgstr "Relatório de erros com comandos."
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Introduzir parâmetros de comandos, cada um em sua linha. Prima F1 para ajuda dos parâmetros."

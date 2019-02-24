@@ -7499,6 +7499,10 @@ msgstr "기본 버튼(&F)"
 msgid "Report errors with commands"
 msgstr "명령어와 함께 오류 보고"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "명령어 매개변수 각 줄에 입력. F1키 도움말 보기"

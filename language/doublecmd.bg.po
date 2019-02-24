@@ -7524,6 +7524,10 @@ msgstr "Плоски бутони"
 msgid "Report errors with commands"
 msgstr "Докладване на грешки в заповедите"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr ""
@@ -9859,9 +9863,10 @@ msgid "Imported TC toolbar"
 msgstr ""
 
 #: ulng.rsdefaultpersonalizedabbrevbyte
+#, fuzzy
 msgctxt "ulng.rsdefaultpersonalizedabbrevbyte"
 msgid "B"
-msgstr ""
+msgstr "Б"
 
 #: ulng.rsdefaultpersonalizedabbrevgiga
 msgid "GB"

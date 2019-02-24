@@ -7392,6 +7392,10 @@ msgstr "Bo&utons simples"
 msgid "Report errors with commands"
 msgstr "Rapporter les erreurs avec les commandes"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Entrez les paramètres, un sur chaque ligne. Appuyez F1 pour obtenir de l'aide sur les paramètres."
@@ -11282,6 +11286,7 @@ msgid "Problem executing command (%s)"
 msgstr "Problème d'exécution de la commande (%s)"
 
 #: ulng.rsmsgprocessid
+#, fuzzy,badformat
 msgid "PID: %d"
 msgstr "PID:% d"
 
@@ -11925,6 +11930,7 @@ msgid "Export archiver configuration"
 msgstr "Exporter configuration d'outil d'archivage"
 
 #: ulng.rsoptarchiverexportdone
+#, fuzzy,badformat
 msgctxt "ulng.rsoptarchiverexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr "Exportation de %s éléments vers le fichier \"%s\" complétée."
@@ -12484,6 +12490,7 @@ msgid "Export tooltip file type configuration"
 msgstr "Exporter la configuration du type de fichier info-bulle"
 
 #: ulng.rsopttooltipfiletypeexportdone
+#, fuzzy,badformat
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
 msgstr "Exportation de %s éléments vers le fichier \"%s\" complétée."

@@ -7376,6 +7376,10 @@ msgstr "&Плоские кнопки"
 msgid "Report errors with commands"
 msgstr "Сообщить об ошибках с командами"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr "Показывать надписи"
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Параметры команды, каждый на отдельной строке. F1 - помощь"
