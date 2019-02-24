@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":60646548,"name":"tfrmhotdirexportimport.caption","sourcebytes":[83,101,108,101,99,116,32,116,104,101,32,101,110,116,114,105,101,115,32,121,111,117,114,32,119,97,110,116,32,116,111,32,105,109,112,111,114,116],"value":"Select the entries your want to import"},
+{"hash":131520499,"name":"tfrmhotdirexportimport.lblhintholdcontrol.caption","sourcebytes":[72,111,108,100,32,67,84,82,76,32,97,110,100,32,99,108,105,99,107,32,101,110,116,114,105,101,115,32,116,111,32,115,101,108,101,99,116,32,109,117,108,116,105,112,108,101,32,111,110,101,115],"value":"Hold CTRL and click entries to select multiple ones"},
+{"hash":232028565,"name":"tfrmhotdirexportimport.lbhint.caption","sourcebytes":[87,104,101,110,32,99,108,105,99,107,105,110,103,32,97,32,115,117,98,45,109,101,110,117,44,32,105,116,32,119,105,108,108,32,115,101,108,101,99,116,32,116,104,101,32,119,104,111,108,101,32,109,101,110,117],"value":"When clicking a sub-menu, it will select the whole menu"},
+{"hash":154551681,"name":"tfrmhotdirexportimport.btnselectall.caption","sourcebytes":[73,109,112,111,114,116,32,97,108,108,33],"value":"Import all!"},
+{"hash":222469476,"name":"tfrmhotdirexportimport.btnselectiondone.caption","sourcebytes":[73,109,112,111,114,116,32,115,101,108,101,99,116,101,100],"value":"Import selected"}
+]}

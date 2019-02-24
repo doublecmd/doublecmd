@@ -1,0 +1,9 @@
+{"version":1,"strings":[
+{"hash":25983908,"name":"tfrmdescredit.caption","sourcebytes":[70,105,108,101,47,102,111,108,100,101,114,32,99,111,109,109,101,110,116],"value":"File/folder comment"},
+{"hash":127690170,"name":"tfrmdescredit.lbleditcommentfor.caption","sourcebytes":[69,38,100,105,116,32,99,111,109,109,101,110,116,32,102,111,114,58],"value":"E&dit comment for:"},
+{"hash":173566186,"name":"tfrmdescredit.lblencoding.caption","sourcebytes":[38,69,110,99,111,100,105,110,103,58],"value":"&Encoding:"},
+{"hash":17199,"name":"tfrmdescredit.lblfilename.caption","sourcebytes":[63,63,63],"value":"???"},
+{"hash":11067,"name":"tfrmdescredit.btnok.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":177752476,"name":"tfrmdescredit.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"},
+{"hash":4783918,"name":"tfrmdescredit.actsavedescription.caption","sourcebytes":[83,97,118,101,32,68,101,115,99,114,105,112,116,105,111,110],"value":"Save Description"}
+]}

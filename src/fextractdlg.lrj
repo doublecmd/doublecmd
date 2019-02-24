@@ -1,0 +1,10 @@
+{"version":1,"strings":[
+{"hash":145335635,"name":"tfrmextractdlg.caption","sourcebytes":[85,110,112,97,99,107,32,102,105,108,101,115],"value":"Unpack files"},
+{"hash":134744266,"name":"tfrmextractdlg.lblfilemask.caption","sourcebytes":[38,69,120,116,114,97,99,116,32,102,105,108,101,115,32,109,97,116,99,104,105,110,103,32,102,105,108,101,32,109,97,115,107,58],"value":"&Extract files matching file mask:"},
+{"hash":106032954,"name":"tfrmextractdlg.lblpassword.caption","sourcebytes":[38,80,97,115,115,119,111,114,100,32,102,111,114,32,101,110,99,114,121,112,116,101,100,32,102,105,108,101,115,58],"value":"&Password for encrypted files:"},
+{"hash":154698666,"name":"tfrmextractdlg.lblextractto.caption","sourcebytes":[84,111,32,116,104,101,32,38,100,105,114,101,99,116,111,114,121,58],"value":"To the &directory:"},
+{"hash":11530,"name":"tfrmextractdlg.cbfilemask.text","sourcebytes":[42,46,42],"value":"*.*"},
+{"hash":45675769,"name":"tfrmextractdlg.cbinseparatefolder.caption","sourcebytes":[85,110,112,97,99,107,32,101,97,99,104,32,97,114,99,104,105,118,101,32,116,111,32,97,32,38,115,101,112,97,114,97,116,101,32,115,117,98,100,105,114,32,40,110,97,109,101,32,111,102,32,116,104,101,32,97,114,99,104,105,118,101,41],"value":"Unpack each archive to a &separate subdir (name of the archive)"},
+{"hash":211866595,"name":"tfrmextractdlg.cbextractpath.caption","sourcebytes":[38,85,110,112,97,99,107,32,112,97,116,104,32,110,97,109,101,115,32,105,102,32,115,116,111,114,101,100,32,119,105,116,104,32,102,105,108,101,115],"value":"&Unpack path names if stored with files"},
+{"hash":212923379,"name":"tfrmextractdlg.cboverwrite.caption","sourcebytes":[79,38,118,101,114,119,114,105,116,101,32,101,120,105,115,116,105,110,103,32,102,105,108,101,115],"value":"O&verwrite existing files"}
+]}
