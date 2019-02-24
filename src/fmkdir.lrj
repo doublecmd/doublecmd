@@ -1,0 +1,6 @@
+{"version":1,"strings":[
+{"hash":80444489,"name":"tfrmmkdir.caption","sourcebytes":[67,114,101,97,116,101,32,110,101,119,32,100,105,114,101,99,116,111,114,121],"value":"Create new directory"},
+{"hash":122714874,"name":"tfrmmkdir.lblmakedir.caption","sourcebytes":[38,73,110,112,117,116,32,110,101,119,32,100,105,114,101,99,116,111,114,121,32,110,97,109,101,58],"value":"&Input new directory name:"},
+{"hash":11067,"name":"tfrmmkdir.btnok.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":177752476,"name":"tfrmmkdir.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"}
+]}

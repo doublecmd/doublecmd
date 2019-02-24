@@ -1,0 +1,6 @@
+{"version":1,"strings":[
+{"hash":203341924,"name":"tfrmoptionsdriveslistbutton.gbdriveslist.caption","sourcebytes":[68,114,105,118,101,115,32,108,105,115,116],"value":"Drives list"},
+{"hash":44797484,"name":"tfrmoptionsdriveslistbutton.cbshowlabel.caption","sourcebytes":[83,104,111,119,32,38,108,97,98,101,108],"value":"Show &label"},
+{"hash":88456797,"name":"tfrmoptionsdriveslistbutton.cbshowfilesystem.caption","sourcebytes":[83,104,111,119,32,38,102,105,108,101,32,115,121,115,116,101,109],"value":"Show &file system"},
+{"hash":236106821,"name":"tfrmoptionsdriveslistbutton.cbshowfreespace.caption","sourcebytes":[83,104,111,119,32,102,114,38,101,101,32,115,112,97,99,101],"value":"Show fr&ee space"}
+]}

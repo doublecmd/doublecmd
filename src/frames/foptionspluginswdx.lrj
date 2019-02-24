@@ -1,3 +1,7 @@
 {"version":1,"strings":[
+{"hash":75149509,"name":"tfrmoptionspluginswdx.stgplugins.columns[0].title.caption","sourcebytes":[65,99,116,105,118,101],"value":"Active"},
+{"hash":91471358,"name":"tfrmoptionspluginswdx.stgplugins.columns[1].title.caption","sourcebytes":[80,108,117,103,105,110],"value":"Plugin"},
+{"hash":56017954,"name":"tfrmoptionspluginswdx.stgplugins.columns[2].title.caption","sourcebytes":[82,101,103,105,115,116,101,114,101,100,32,102,111,114],"value":"Registered for"},
+{"hash":41356085,"name":"tfrmoptionspluginswdx.stgplugins.columns[3].title.caption","sourcebytes":[70,105,108,101,32,110,97,109,101],"value":"File name"},
 {"hash":2805628,"name":"tfrmoptionspluginswdx.lblplugindescription.caption","sourcebytes":[67,111,110,116,101,110,116,32,112,108,117,38,103,105,110,115,32,97,108,108,111,119,32,111,110,101,32,116,111,32,100,105,115,112,108,97,121,32,101,120,116,101,110,100,101,100,32,102,105,108,101,32,100,101,116,97,105,108,115,32,108,105,107,101,32,109,112,51,32,116,97,103,115,32,111,114,32,105,109,97,103,101,32,97,116,116,114,105,98,117,116,101,115,32,105,110,32,102,105,108,101,32,108,105,115,116,115,44,32,111,114,32,117,115,101,32,116,104,101,109,32,105,110,32,115,101,97,114,99,104,32,97,110,100,32,109,117,108,116,105,45,114,101,110,97,109,101,32,116,111,111,108],"value":"Content plu&gins allow one to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"}
 ]}

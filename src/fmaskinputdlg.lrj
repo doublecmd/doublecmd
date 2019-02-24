@@ -1,0 +1,12 @@
+{"version":1,"strings":[
+{"hash":103013930,"name":"tfrmmaskinputdlg.lblprompt.caption","sourcebytes":[73,110,112,117,116,32,77,97,115,107,58],"value":"Input Mask:"},
+{"hash":219672053,"name":"tfrmmaskinputdlg.chkcasesensitive.caption","sourcebytes":[67,97,115,101,32,115,101,110,115,105,116,105,118,101],"value":"Case sensitive"},
+{"hash":76256915,"name":"tfrmmaskinputdlg.chkignoreaccentsandligatures.caption","sourcebytes":[73,103,110,111,114,101,32,97,99,99,101,110,116,115,32,97,110,100,32,108,105,103,97,116,117,114,101,115],"value":"Ignore accents and ligatures"},
+{"hash":228881322,"name":"tfrmmaskinputdlg.lblsearchtemplate.caption","sourcebytes":[79,38,114,32,115,101,108,101,99,116,32,112,114,101,100,101,102,105,110,101,100,32,115,101,108,101,99,116,105,111,110,32,116,121,112,101,58],"value":"O&r select predefined selection type:"},
+{"hash":218557374,"name":"tfrmmaskinputdlg.btndefinetemplate.caption","sourcebytes":[38,68,101,102,105,110,101,46,46,46],"value":"&Define..."},
+{"hash":11067,"name":"tfrmmaskinputdlg.btnok.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":177752476,"name":"tfrmmaskinputdlg.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"},
+{"hash":135730394,"name":"tfrmmaskinputdlg.lblattributes.caption","sourcebytes":[65,116,116,114,105,38,98,117,116,101,115,58],"value":"Attri&butes:"},
+{"hash":173988,"name":"tfrmmaskinputdlg.btnaddattribute.caption","sourcebytes":[38,65,100,100],"value":"&Add"},
+{"hash":2812976,"name":"tfrmmaskinputdlg.btnattrshelp.caption","sourcebytes":[38,72,101,108,112],"value":"&Help"}
+]}

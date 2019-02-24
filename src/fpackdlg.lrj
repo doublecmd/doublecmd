@@ -1,0 +1,14 @@
+{"version":1,"strings":[
+{"hash":225027411,"name":"tfrmpackdlg.caption","sourcebytes":[80,97,99,107,32,102,105,108,101,115],"value":"Pack files"},
+{"hash":157530954,"name":"tfrmpackdlg.lblprompt.caption","sourcebytes":[80,97,99,107,32,102,105,108,101,40,115,41,32,116,111,32,116,104,101,32,102,105,108,101,58],"value":"Pack file(s) to the file:"},
+{"hash":90677698,"name":"tfrmpackdlg.rgpacker.caption","sourcebytes":[80,97,99,107,101,114],"value":"Packer"},
+{"hash":214649477,"name":"tfrmpackdlg.btnconfig.caption","sourcebytes":[67,111,110,38,102,105,103,117,114,101],"value":"Con&figure"},
+{"hash":1038,"name":"tfrmpackdlg.cbotherplugins.caption","sourcebytes":[61,62],"value":"=>"},
+{"hash":148783881,"name":"tfrmpackdlg.cbstoredir.caption","sourcebytes":[65,108,115,111,32,38,112,97,99,107,32,112,97,116,104,32,110,97,109,101,115,32,40,111,110,108,121,32,114,101,99,117,114,115,101,100,41],"value":"Also &pack path names (only recursed)"},
+{"hash":229354261,"name":"tfrmpackdlg.cbmultivolume.caption","sourcebytes":[38,77,117,108,116,105,112,108,101,32,100,105,115,107,32,97,114,99,104,105,118,101],"value":"&Multiple disk archive"},
+{"hash":83566709,"name":"tfrmpackdlg.cbmovetoarchive.caption","sourcebytes":[77,111,38,118,101,32,116,111,32,97,114,99,104,105,118,101],"value":"Mo&ve to archive"},
+{"hash":149668741,"name":"tfrmpackdlg.cbcreatesfx.caption","sourcebytes":[67,114,101,97,116,101,32,115,101,108,102,32,101,38,120,116,114,97,99,116,105,110,103,32,97,114,99,104,105,118,101],"value":"Create self e&xtracting archive"},
+{"hash":77915316,"name":"tfrmpackdlg.cbencrypt.caption","sourcebytes":[69,110,99,114,38,121,112,116],"value":"Encr&ypt"},
+{"hash":235944836,"name":"tfrmpackdlg.cbputintarfirst.caption","sourcebytes":[80,38,117,116,32,105,110,32,116,104,101,32,84,65,82,32,97,114,99,104,105,118,101,32,102,105,114,115,116],"value":"P&ut in the TAR archive first"},
+{"hash":150077090,"name":"tfrmpackdlg.cbcreateseparatearchives.caption","sourcebytes":[67,38,114,101,97,116,101,32,115,101,112,97,114,97,116,101,32,97,114,99,104,105,118,101,115,44,32,111,110,101,32,112,101,114,32,115,101,108,101,99,116,101,100,32,102,105,108,101,47,100,105,114],"value":"C&reate separate archives, one per selected file/dir"}
+]}

@@ -1,0 +1,8 @@
+{"version":1,"strings":[
+{"hash":142894469,"name":"tfrmoptionsbehavior.cbonlyonce.caption","sourcebytes":[65,38,108,108,111,119,32,111,110,108,121,32,111,110,101,32,99,111,112,121,32,111,102,32,68,67,32,97,116,32,97,32,116,105,109,101],"value":"A&llow only one copy of DC at a time"},
+{"hash":225240468,"name":"tfrmoptionsbehavior.cbminimizetotray.caption","sourcebytes":[77,111,38,118,101,32,105,99,111,110,32,116,111,32,115,121,115,116,101,109,32,116,114,97,121,32,119,104,101,110,32,109,105,110,105,109,105,122,101,100],"value":"Mo&ve icon to system tray when minimized"},
+{"hash":206285982,"name":"tfrmoptionsbehavior.cbalwaysshowtrayicon.caption","sourcebytes":[65,108,38,119,97,121,115,32,115,104,111,119,32,116,114,97,121,32,105,99,111,110],"value":"Al&ways show tray icon"},
+{"hash":194611524,"name":"tfrmoptionsbehavior.lbldrivesblacklist.caption","sourcebytes":[68,114,105,118,101,115,32,38,98,108,97,99,107,108,105,115,116],"value":"Drives &blacklist"},
+{"hash":228532606,"name":"tfrmoptionsbehavior.edtdrivesblacklist.hint","sourcebytes":[72,101,114,101,32,121,111,117,32,99,97,110,32,101,110,116,101,114,32,111,110,101,32,111,114,32,109,111,114,101,32,100,114,105,118,101,115,32,111,114,32,109,111,117,110,116,32,112,111,105,110,116,115,44,32,115,101,112,97,114,97,116,101,100,32,98,121,32,34,59,34,46],"value":"Here you can enter one or more drives or mount points, separated by \";\"."},
+{"hash":217108627,"name":"tfrmoptionsbehavior.cbblacklistunmounteddevices.caption","sourcebytes":[65,117,116,111,109,97,116,105,99,97,108,108,121,32,38,104,105,100,101,32,117,110,109,111,117,110,116,101,100,32,100,101,118,105,99,101,115],"value":"Automatically &hide unmounted devices"}
+]}

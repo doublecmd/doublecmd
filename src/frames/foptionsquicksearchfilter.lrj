@@ -1,0 +1,8 @@
+{"version":1,"strings":[
+{"hash":219152600,"name":"tfrmoptionsquicksearchfilter.gbexactnamematch.caption","sourcebytes":[69,120,97,99,116,32,110,97,109,101,32,109,97,116,99,104],"value":"Exact name match"},
+{"hash":216088953,"name":"tfrmoptionsquicksearchfilter.cbexactbeginning.caption","sourcebytes":[38,66,101,103,105,110,110,105,110,103,32,40,110,97,109,101,32,109,117,115,116,32,115,116,97,114,116,32,119,105,116,104,32,102,105,114,115,116,32,116,121,112,101,100,32,99,104,97,114,97,99,116,101,114,41],"value":"&Beginning (name must start with first typed character)"},
+{"hash":126009481,"name":"tfrmoptionsquicksearchfilter.cbexactending.caption","sourcebytes":[69,110,38,100,105,110,103,32,40,108,97,115,116,32,99,104,97,114,97,99,116,101,114,32,98,101,102,111,114,101,32,97,32,116,121,112,101,100,32,100,111,116,32,46,32,109,117,115,116,32,109,97,116,99,104,41],"value":"En&ding (last character before a typed dot . must match)"},
+{"hash":194363443,"name":"tfrmoptionsquicksearchfilter.rgpsearchitems.caption","sourcebytes":[83,101,97,114,99,104,32,102,111,114,32,116,104,101,115,101,32,105,116,101,109,115],"value":"Search for these items"},
+{"hash":167714837,"name":"tfrmoptionsquicksearchfilter.rgpsearchcase.caption","sourcebytes":[83,101,97,114,99,104,32,99,97,115,101],"value":"Search case"},
+{"hash":108725763,"name":"tfrmoptionsquicksearchfilter.cgpoptions.caption","sourcebytes":[79,112,116,105,111,110,115],"value":"Options"}
+]}

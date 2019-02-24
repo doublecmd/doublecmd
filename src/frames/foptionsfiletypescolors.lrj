@@ -1,0 +1,12 @@
+{"version":1,"strings":[
+{"hash":239267657,"name":"tfrmoptionsfiletypescolors.gbfiletypescolors.caption","sourcebytes":[70,105,108,101,32,116,121,112,101,115,32,99,111,108,111,114,115,32,40,115,111,114,116,32,98,121,32,100,114,97,103,38,38,100,114,111,112,41],"value":"File types colors (sort by drag&&drop)"},
+{"hash":143287226,"name":"tfrmoptionsfiletypescolors.lblcategoryname.caption","sourcebytes":[67,97,116,101,103,111,114,121,32,38,110,97,109,101,58],"value":"Category &name:"},
+{"hash":143501786,"name":"tfrmoptionsfiletypescolors.lblcategorymask.caption","sourcebytes":[67,97,116,101,103,111,114,121,32,38,109,97,115,107,58],"value":"Category &mask:"},
+{"hash":67057050,"name":"tfrmoptionsfiletypescolors.lblcategorycolor.caption","sourcebytes":[67,97,116,101,103,111,114,121,32,99,111,38,108,111,114,58],"value":"Category co&lor:"},
+{"hash":52377562,"name":"tfrmoptionsfiletypescolors.lblcategoryattr.caption","sourcebytes":[67,97,116,101,103,111,114,121,32,97,38,116,116,114,105,98,117,116,101,115,58],"value":"Category a&ttributes:"},
+{"hash":277668,"name":"tfrmoptionsfiletypescolors.btnaddcategory.caption","sourcebytes":[65,38,100,100],"value":"A&dd"},
+{"hash":114044133,"name":"tfrmoptionsfiletypescolors.btndeletecategory.caption","sourcebytes":[68,38,101,108,101,116,101],"value":"D&elete"},
+{"hash":1054,"name":"tfrmoptionsfiletypescolors.btncategorycolor.caption","sourcebytes":[62,62],"value":">>"},
+{"hash":71137081,"name":"tfrmoptionsfiletypescolors.btnapplycategory.caption","sourcebytes":[65,38,112,112,108,121],"value":"A&pply"},
+{"hash":47236478,"name":"tfrmoptionsfiletypescolors.btnsearchtemplate.hint","sourcebytes":[84,101,109,112,108,97,116,101,46,46,46],"value":"Template..."}
+]}

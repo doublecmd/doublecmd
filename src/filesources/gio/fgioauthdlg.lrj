@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":74566218,"name":"tfrmgioauthdialog.lblusername.caption","sourcebytes":[85,115,101,114,32,110,97,109,101,58],"value":"User name:"},
+{"hash":191070298,"name":"tfrmgioauthdialog.lbldomain.caption","sourcebytes":[68,111,109,97,105,110,58],"value":"Domain:"},
+{"hash":179191546,"name":"tfrmgioauthdialog.lblpassword.caption","sourcebytes":[80,97,115,115,119,111,114,100,58],"value":"Password:"},
+{"hash":71686025,"name":"tfrmgioauthdialog.rbanonymous.caption","sourcebytes":[67,111,110,110,101,99,116,32,97,110,111,110,121,109,111,117,115,108,121],"value":"Connect anonymously"},
+{"hash":29514890,"name":"tfrmgioauthdialog.rbconnetas.caption","sourcebytes":[67,111,110,110,101,99,116,32,97,115,32,117,115,101,114,58],"value":"Connect as user:"}
+]}

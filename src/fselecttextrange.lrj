@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":155530970,"name":"tfrmselecttextrange.lblselecttext.caption","sourcebytes":[38,83,101,108,101,99,116,32,116,104,101,32,99,104,97,114,97,99,116,101,114,115,32,116,111,32,105,110,115,101,114,116,58],"value":"&Select the characters to insert:"},
+{"hash":11067,"name":"tfrmselecttextrange.btppanel.okbutton.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":2812976,"name":"tfrmselecttextrange.btppanel.helpbutton.caption","sourcebytes":[38,72,101,108,112],"value":"&Help"},
+{"hash":44709525,"name":"tfrmselecttextrange.btppanel.closebutton.caption","sourcebytes":[38,67,108,111,115,101],"value":"&Close"},
+{"hash":77089212,"name":"tfrmselecttextrange.btppanel.cancelbutton.caption","sourcebytes":[67,97,110,99,101,108],"value":"Cancel"}
+]}

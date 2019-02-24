@@ -1,0 +1,19 @@
+{"version":1,"strings":[
+{"hash":203478128,"name":"tfrmoptionsicons.gbshowiconsmode.caption","sourcebytes":[32,83,104,111,119,32,105,99,111,110,115,32,116,111,32,116,104,101,32,108,101,102,116,32,111,102,32,116,104,101,32,102,105,108,101,110,97,109,101,32],"value":" Show icons to the left of the filename "},
+{"hash":277804,"name":"tfrmoptionsicons.rbiconsshowall.caption","sourcebytes":[65,38,108,108],"value":"A&ll"},
+{"hash":154150419,"name":"tfrmoptionsicons.rbiconsshowstandard.caption","sourcebytes":[79,110,108,121,32,38,115,116,97,110,100,97,114,100,32,105,99,111,110,115],"value":"Only &standard icons"},
+{"hash":24104707,"name":"tfrmoptionsicons.rbiconsshownone.caption","sourcebytes":[38,78,111,32,105,99,111,110,115],"value":"&No icons"},
+{"hash":264383097,"name":"tfrmoptionsicons.rbiconsshowallandexe.caption","sourcebytes":[65,108,108,32,97,115,115,111,99,105,97,116,101,100,32,43,32,38,69,88,69,47,76,78,75,32,40,115,108,111,119,41],"value":"All associated + &EXE/LNK (slow)"},
+{"hash":25699715,"name":"tfrmoptionsicons.cbiconsshowoverlay.caption","sourcebytes":[83,104,111,119,32,111,38,118,101,114,108,97,121,32,105,99,111,110,115,44,32,101,46,103,46,32,102,111,114,32,108,105,110,107,115],"value":"Show o&verlay icons, e.g. for links"},
+{"hash":256005833,"name":"tfrmoptionsicons.chkshowhiddendimmed.caption","sourcebytes":[38,68,105,109,109,101,100,32,104,105,100,100,101,110,32,102,105,108,101,115,32,40,115,108,111,119,101,114,41],"value":"&Dimmed hidden files (slower)"},
+{"hash":226326355,"name":"tfrmoptionsicons.gbdisablespecialicons.caption","sourcebytes":[68,105,115,97,98,108,101,32,115,112,101,99,105,97,108,32,105,99,111,110,115],"value":"Disable special icons"},
+{"hash":105351658,"name":"tfrmoptionsicons.cbiconsexclude.caption","sourcebytes":[70,111,114,32,116,104,101,32,102,111,108,108,111,119,105,110,103,32,38,112,97,116,104,115,32,97,110,100,32,116,104,101,105,114,32,115,117,98,100,105,114,101,99,116,111,114,105,101,115,58],"value":"For the following &paths and their subdirectories:"},
+{"hash":157948723,"name":"tfrmoptionsicons.gbshowicons.caption","sourcebytes":[83,104,111,119,32,105,99,111,110,115],"value":"Show icons"},
+{"hash":168408451,"name":"tfrmoptionsicons.cbiconsonbuttons.caption","sourcebytes":[83,104,111,119,32,105,99,111,110,115,32,111,110,32,98,117,116,116,111,110,115],"value":"Show icons on buttons"},
+{"hash":165512787,"name":"tfrmoptionsicons.cbiconsinmenus.caption","sourcebytes":[83,104,111,119,32,105,99,111,110,115,32,102,111,114,32,97,99,116,105,111,110,115,32,105,110,32,38,109,101,110,117,115],"value":"Show icons for actions in &menus"},
+{"hash":3464006,"name":"tfrmoptionsicons.cbiconsinmenussize.text","sourcebytes":[49,54,120,49,54],"value":"16x16"},
+{"hash":6228496,"name":"tfrmoptionsicons.gbiconssize.caption","sourcebytes":[32,73,99,111,110,32,115,105,122,101,32],"value":" Icon size "},
+{"hash":120277386,"name":"tfrmoptionsicons.lblfilepanel.caption","sourcebytes":[70,105,108,101,32,112,97,110,101,108,58],"value":"File panel:"},
+{"hash":120406570,"name":"tfrmoptionsicons.lbldiskpanel.caption","sourcebytes":[68,105,115,107,32,112,97,110,101,108,58],"value":"Disk panel:"},
+{"hash":8262229,"name":"tfrmoptionsicons.gbicontheme.caption","sourcebytes":[73,99,111,110,32,116,104,101,109,101],"value":"Icon theme"}
+]}

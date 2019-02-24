@@ -1,8 +1,0 @@
-TFRMOPTIONSDRAGDROP.CBSHOWCONFIRMATIONDIALOG.CAPTION=&Show confirmation dialog after drop
-TFRMOPTIONSDRAGDROP.GBTEXTDRAGANDDROPRELATEDOPTIONS.CAPTION=When drag && dropping text into panels:
-TFRMOPTIONSDRAGDROP.LBLMOSTDESIREDTEXTFORMAT1.CAPTION=Place the most desired format on top of list (use dag && drop):
-TFRMOPTIONSDRAGDROP.LBLMOSTDESIREDTEXTFORMAT2.CAPTION=(if the most desired is not present, we'll take second one and so on)
-TFRMOPTIONSDRAGDROP.CBDRAGANDDROPASKFORMATEACHTIME.CAPTION=From all the supported formats, ask which one to use every time
-TFRMOPTIONSDRAGDROP.CBDRAGANDDROPTEXTAUTOFILENAME.CAPTION=When dropping text, generate filename automatically (otherwise will prompt the user)
-TFRMOPTIONSDRAGDROP.CBDRAGANDDROPSAVEUNICODETEXTINUFT8.CAPTION=When saving Unicode text, save it in UTF8 format (will be UTF16 otherwise)
-TFRMOPTIONSDRAGDROP.LBLWARNINGFORASKFORMAT.CAPTION=(will not work with some source application, so try to uncheck if problem)

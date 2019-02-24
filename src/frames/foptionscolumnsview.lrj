@@ -1,0 +1,10 @@
+{"version":1,"strings":[
+{"hash":248156179,"name":"tfrmoptionscolumnsview.grpautosizecolumns.caption","sourcebytes":[65,117,116,111,45,115,105,122,101,32,99,111,108,117,109,110,115],"value":"Auto-size columns"},
+{"hash":212887331,"name":"tfrmoptionscolumnsview.chkautofillcolumns.caption","sourcebytes":[65,38,117,116,111,32,102,105,108,108,32,99,111,108,117,109,110,115],"value":"A&uto fill columns"},
+{"hash":91297290,"name":"tfrmoptionscolumnsview.lblautosizecolumn.caption","sourcebytes":[65,117,116,111,32,115,105,38,122,101,32,99,111,108,117,109,110,58],"value":"Auto si&ze column:"},
+{"hash":110539012,"name":"tfrmoptionscolumnsview.gbshowgrid.caption","sourcebytes":[83,104,111,119,32,103,114,105,100],"value":"Show grid"},
+{"hash":50869875,"name":"tfrmoptionscolumnsview.cbgridvertline.caption","sourcebytes":[38,86,101,114,116,105,99,97,108,32,108,105,110,101,115],"value":"&Vertical lines"},
+{"hash":254961699,"name":"tfrmoptionscolumnsview.cbgridhorzline.caption","sourcebytes":[38,72,111,114,105,122,111,110,116,97,108,32,108,105,110,101,115],"value":"&Horizontal lines"},
+{"hash":13344632,"name":"tfrmoptionscolumnsview.cbcuttexttocolwidth.caption","sourcebytes":[67,117,116,32,38,116,101,120,116,32,116,111,32,99,111,108,117,109,110,32,119,105,100,116,104],"value":"Cut &text to column width"},
+{"hash":124929006,"name":"tfrmoptionscolumnsview.cbextendcellwidth.caption","sourcebytes":[38,69,120,116,101,110,100,32,99,101,108,108,32,119,105,100,116,104,32,105,102,32,116,101,120,116,32,105,115,32,110,111,116,32,102,105,116,116,105,110,103,32,105,110,116,111,32,99,111,108,117,109,110],"value":"&Extend cell width if text is not fitting into column"}
+]}

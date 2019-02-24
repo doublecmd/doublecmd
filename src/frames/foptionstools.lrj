@@ -1,0 +1,9 @@
+{"version":1,"strings":[
+{"hash":135712005,"name":"tfrmoptionsviewer.gbviewerbookmode.caption","sourcebytes":[86,105,101,119,101,114,32,66,111,111,107,32,77,111,100,101],"value":"Viewer Book Mode"},
+{"hash":179221570,"name":"tfrmoptionsviewer.lblbackgroundcolorviewerbook.caption","sourcebytes":[38,66,97,99,107,103,114,111,117,110,100,32,99,111,108,111,114,32,105,110,32,98,111,111,107,32,118,105,101,119,101,114],"value":"&Background color in book viewer"},
+{"hash":70997378,"name":"tfrmoptionsviewer.lblnumbercolumnsviewer.caption","sourcebytes":[38,78,117,109,98,101,114,32,111,102,32,99,111,108,117,109,110,115,32,105,110,32,98,111,111,107,32,118,105,101,119,101,114],"value":"&Number of columns in book viewer"},
+{"hash":216549221,"name":"tfrmoptionsviewer.gbviewerexample.caption","sourcebytes":[69,120,97,109,112,108,101],"value":"Example"},
+{"hash":1054,"name":"tfrmoptionsviewer.btnfontviewercolor.caption","sourcebytes":[62,62],"value":">>"},
+{"hash":1054,"name":"tfrmoptionsviewer.btnbackviewercolor.caption","sourcebytes":[62,62],"value":">>"},
+{"hash":250825426,"name":"tfrmoptionsviewer.lblfontcolorviewerbook.caption","sourcebytes":[38,70,111,110,116,32,99,111,108,111,114,32,105,110,32,98,111,111,107,32,118,105,101,119,101,114],"value":"&Font color in book viewer"}
+]}

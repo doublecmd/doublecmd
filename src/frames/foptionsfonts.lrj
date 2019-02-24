@@ -1,0 +1,18 @@
+{"version":1,"strings":[
+{"hash":2756180,"name":"tfrmoptionsfonts.lblmainfont.caption","sourcebytes":[77,97,105,110,32,38,102,111,110,116],"value":"Main &font"},
+{"hash":82675428,"name":"tfrmoptionsfonts.lbleditorfont.caption","sourcebytes":[38,69,100,105,116,111,114,32,102,111,110,116],"value":"&Editor font"},
+{"hash":251284100,"name":"tfrmoptionsfonts.lblviewerfont.caption","sourcebytes":[38,86,105,101,119,101,114,32,102,111,110,116],"value":"&Viewer font"},
+{"hash":12558,"name":"tfrmoptionsfonts.btnselmainfnt.caption","sourcebytes":[46,46,46],"value":"..."},
+{"hash":12558,"name":"tfrmoptionsfonts.btnseleditfnt.caption","sourcebytes":[46,46,46],"value":"..."},
+{"hash":12558,"name":"tfrmoptionsfonts.btnselviewfnt.caption","sourcebytes":[46,46,46],"value":"..."},
+{"hash":93781860,"name":"tfrmoptionsfonts.lbllogfont.caption","sourcebytes":[38,76,111,103,32,102,111,110,116],"value":"&Log font"},
+{"hash":12558,"name":"tfrmoptionsfonts.btnsellogfnt.caption","sourcebytes":[46,46,46],"value":"..."},
+{"hash":135642868,"name":"tfrmoptionsfonts.lblviewerbookfont.caption","sourcebytes":[86,105,101,119,101,114,38,66,111,111,107,32,70,111,110,116],"value":"Viewer&Book Font"},
+{"hash":12558,"name":"tfrmoptionsfonts.btnselviewerbookfnt.caption","sourcebytes":[46,46,46],"value":"..."},
+{"hash":12558,"name":"tfrmoptionsfonts.btnselconsolefnt.caption","sourcebytes":[46,46,46],"value":"..."},
+{"hash":147894484,"name":"tfrmoptionsfonts.lblconsolefont.caption","sourcebytes":[38,67,111,110,115,111,108,101,32,102,111,110,116],"value":"&Console font"},
+{"hash":178693332,"name":"tfrmoptionsfonts.lblpatheditfont.caption","sourcebytes":[80,97,116,104,32,102,111,110,116],"value":"Path font"},
+{"hash":12558,"name":"tfrmoptionsfonts.btnpatheditfnt.caption","sourcebytes":[46,46,46],"value":"..."},
+{"hash":90371988,"name":"tfrmoptionsfonts.lblsearchresultsfont.caption","sourcebytes":[83,101,97,114,99,104,32,114,101,115,117,108,116,115,32,102,111,110,116],"value":"Search results font"},
+{"hash":12558,"name":"tfrmoptionsfonts.btnsearchresultsfnt.caption","sourcebytes":[46,46,46],"value":"..."}
+]}

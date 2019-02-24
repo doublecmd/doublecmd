@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":96497735,"name":"tfrmoptionskeyboard.gbtyping.caption","sourcebytes":[84,121,112,105,110,103],"value":"Typing"},
+{"hash":213574218,"name":"tfrmoptionskeyboard.lblnomodifier.caption","sourcebytes":[38,76,101,116,116,101,114,115,58],"value":"&Letters:"},
+{"hash":76298218,"name":"tfrmoptionskeyboard.lblalt.caption","sourcebytes":[65,108,116,43,76,38,101,116,116,101,114,115,58],"value":"Alt+L&etters:"},
+{"hash":153568746,"name":"tfrmoptionskeyboard.lblctrlalt.caption","sourcebytes":[67,116,114,108,43,65,108,116,43,76,101,38,116,116,101,114,115,58],"value":"Ctrl+Alt+Le&tters:"},
+{"hash":20000009,"name":"tfrmoptionskeyboard.cblynxlike.caption","sourcebytes":[76,101,38,102,116,44,32,82,105,103,104,116,32,97,114,114,111,119,115,32,99,104,97,110,103,101,32,100,105,114,101,99,116,111,114,121,32,40,76,121,110,120,45,108,105,107,101,32,109,111,118,101,109,101,110,116,41],"value":"Le&ft, Right arrows change directory (Lynx-like movement)"}
+]}

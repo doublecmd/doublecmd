@@ -1,0 +1,4 @@
+{"version":1,"strings":[
+{"hash":185879090,"name":"tfrmmultirenamewait.caption","sourcebytes":[68,111,117,98,108,101,32,67,111,109,109,97,110,100,101,114],"value":"Double Commander"},
+{"hash":58920577,"name":"tfrmmultirenamewait.lblmessage.caption","sourcebytes":[67,108,105,99,107,32,79,75,32,119,104,101,110,32,121,111,117,32,104,97,118,101,32,99,108,111,115,101,100,32,116,104,101,32,101,100,105,116,111,114,32,116,111,32,108,111,97,100,32,116,104,101,32,99,104,97,110,103,101,100,32,110,97,109,101,115,33],"value":"Click OK when you have closed the editor to load the changed names!"}
+]}

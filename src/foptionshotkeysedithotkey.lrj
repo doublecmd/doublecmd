@@ -1,0 +1,10 @@
+{"version":1,"strings":[
+{"hash":162485258,"name":"tfrmedithotkey.lblshortcuts.caption","sourcebytes":[83,104,111,114,116,99,117,116,115,58],"value":"Shortcuts:"},
+{"hash":150847754,"name":"tfrmedithotkey.lblparameters.caption","sourcebytes":[38,80,97,114,97,109,101,116,101,114,115,32,40,101,97,99,104,32,105,110,32,97,32,115,101,112,97,114,97,116,101,32,108,105,110,101,41,58],"value":"&Parameters (each in a separate line):"},
+{"hash":238221475,"name":"tfrmedithotkey.cghkcontrols.caption","sourcebytes":[79,110,108,121,32,102,111,114,32,116,104,101,115,101,32,99,111,110,116,114,111,108,115],"value":"Only for these controls"},
+{"hash":11067,"name":"tfrmedithotkey.btnok.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":177752476,"name":"tfrmedithotkey.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"},
+{"hash":14152757,"name":"tfrmedithotkey.btnaddshortcut.hint","sourcebytes":[65,100,100,32,110,101,119,32,115,104,111,114,116,99,117,116,32,116,111,32,115,101,113,117,101,110,99,101],"value":"Add new shortcut to sequence"},
+{"hash":68285637,"name":"tfrmedithotkey.btnremoveshortcut.hint","sourcebytes":[82,101,109,111,118,101,32,108,97,115,116,32,115,104,111,114,116,99,117,116,32,102,114,111,109,32,115,101,113,117,101,110,99,101],"value":"Remove last shortcut from sequence"},
+{"hash":224712627,"name":"tfrmedithotkey.btnselectfromlist.hint","sourcebytes":[83,101,108,101,99,116,32,115,104,111,114,116,99,117,116,32,102,114,111,109,32,108,105,115,116,32,111,102,32,114,101,109,97,105,110,105,110,103,32,102,114,101,101,32,97,118,97,105,108,97,98,108,101,32,107,101,121,115],"value":"Select shortcut from list of remaining free available keys"}
+]}

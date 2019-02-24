@@ -1,0 +1,15 @@
+{"version":1,"strings":[
+{"hash":242912677,"name":"tfrmpackinfodlg.caption","sourcebytes":[80,114,111,112,101,114,116,105,101,115,32,111,102,32,112,97,99,107,101,100,32,102,105,108,101],"value":"Properties of packed file"},
+{"hash":5046922,"name":"tfrmpackinfodlg.lblpackedfile.caption","sourcebytes":[70,105,108,101,58],"value":"File:"},
+{"hash":108665866,"name":"tfrmpackinfodlg.lblpacker.caption","sourcebytes":[80,97,99,107,101,114,58],"value":"Packer:"},
+{"hash":109580698,"name":"tfrmpackinfodlg.lbloriginalsize.caption","sourcebytes":[79,114,105,103,105,110,97,108,32,115,105,122,101,58],"value":"Original size:"},
+{"hash":52408634,"name":"tfrmpackinfodlg.lblpackedsize.caption","sourcebytes":[80,97,99,107,101,100,32,115,105,122,101,58],"value":"Packed size:"},
+{"hash":260533674,"name":"tfrmpackinfodlg.lblcompressionratio.caption","sourcebytes":[67,111,109,112,114,101,115,115,105,111,110,32,114,97,116,105,111,58],"value":"Compression ratio:"},
+{"hash":63632682,"name":"tfrmpackinfodlg.lblmethod.caption","sourcebytes":[77,101,116,104,111,100,58],"value":"Method:"},
+{"hash":4885130,"name":"tfrmpackinfodlg.lbldate.caption","sourcebytes":[68,97,116,101,58],"value":"Date:"},
+{"hash":5964682,"name":"tfrmpackinfodlg.lbltime.caption","sourcebytes":[84,105,109,101,58],"value":"Time:"},
+{"hash":265557994,"name":"tfrmpackinfodlg.lblattributes.caption","sourcebytes":[65,116,116,114,105,98,117,116,101,115,58],"value":"Attributes:"},
+{"hash":44709525,"name":"tfrmpackinfodlg.btnclose.caption","sourcebytes":[38,67,108,111,115,101],"value":"&Close"},
+{"hash":172526965,"name":"tfrmpackinfodlg.btnunpackandexec.caption","sourcebytes":[38,85,110,112,97,99,107,32,97,110,100,32,101,120,101,99,117,116,101],"value":"&Unpack and execute"},
+{"hash":184645781,"name":"tfrmpackinfodlg.btnunpackallandexec.caption","sourcebytes":[85,110,112,97,99,107,32,38,97,108,108,32,97,110,100,32,101,120,101,99,117,116,101],"value":"Unpack &all and execute"}
+]}
