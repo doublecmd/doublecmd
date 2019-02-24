@@ -1,0 +1,11 @@
+{"version":1,"strings":[
+{"hash":131500776,"name":"tfrmoptionsfilesearch.gbfilesearch.caption","sourcebytes":[70,105,108,101,32,115,101,97,114,99,104],"value":"File search"},
+{"hash":166353845,"name":"tfrmoptionsfilesearch.cbpartialnamesearch.caption","sourcebytes":[38,83,101,97,114,99,104,32,102,111,114,32,112,97,114,116,32,111,102,32,102,105,108,101,32,110,97,109,101],"value":"&Search for part of file name"},
+{"hash":184749170,"name":"tfrmoptionsfilesearch.cbinitiallyclearfilemask.caption","sourcebytes":[87,104,101,110,32,108,97,117,110,99,104,105,110,103,32,102,105,108,101,32,115,101,97,114,99,104,44,32,99,108,101,97,114,32,102,105,108,101,32,109,97,115,107,32,102,105,108,116,101,114],"value":"When launching file search, clear file mask filter"},
+{"hash":103938922,"name":"tfrmoptionsfilesearch.lblnewsearchfilters.caption","sourcebytes":[67,117,114,114,101,110,116,32,102,105,108,116,101,114,115,32,119,105,116,104,32,34,78,101,119,32,115,101,97,114,99,104,34,32,98,117,116,116,111,110,58],"value":"Current filters with \"New search\" button:"},
+{"hash":189097922,"name":"tfrmoptionsfilesearch.cbshowmenubarinfindfiles.caption","sourcebytes":[83,104,111,119,32,109,101,110,117,32,98,97,114,32,105,110,32,34,70,105,110,100,32,102,105,108,101,115,34],"value":"Show menu bar in \"Find files\""},
+{"hash":189046922,"name":"tfrmoptionsfilesearch.lblsearchdefaulttemplate.caption","sourcebytes":[68,101,102,97,117,108,116,32,115,101,97,114,99,104,32,116,101,109,112,108,97,116,101,58],"value":"Default search template:"},
+{"hash":68368435,"name":"tfrmoptionsfilesearch.dbtextsearch.caption","sourcebytes":[84,101,120,116,32,115,101,97,114,99,104,32,105,110,32,102,105,108,101,115],"value":"Text search in files"},
+{"hash":182075603,"name":"tfrmoptionsfilesearch.rbusemmapinsearch.caption","sourcebytes":[85,115,101,32,109,101,109,111,114,121,32,109,97,112,112,105,110,103,32,102,111,114,32,115,101,97,114,99,104,32,116,101,38,120,116,32,105,110,32,102,105,108,101,115],"value":"Use memory mapping for search te&xt in files"},
+{"hash":268007779,"name":"tfrmoptionsfilesearch.rbusestreaminsearch.caption","sourcebytes":[38,85,115,101,32,115,116,114,101,97,109,32,102,111,114,32,115,101,97,114,99,104,32,116,101,120,116,32,105,110,32,102,105,108,101,115],"value":"&Use stream for search text in files"}
+]}

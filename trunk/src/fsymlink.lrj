@@ -1,0 +1,8 @@
+{"version":1,"strings":[
+{"hash":219027899,"name":"tfrmsymlink.caption","sourcebytes":[67,114,101,97,116,101,32,115,121,109,98,111,108,105,99,32,108,105,110,107],"value":"Create symbolic link"},
+{"hash":37813087,"name":"tfrmsymlink.lblexistingfile.caption","sourcebytes":[38,68,101,115,116,105,110,97,116,105,111,110,32,116,104,97,116,32,116,104,101,32,108,105,110,107,32,119,105,108,108,32,112,111,105,110,116,32,116,111],"value":"&Destination that the link will point to"},
+{"hash":81130805,"name":"tfrmsymlink.lbllinktocreate.caption","sourcebytes":[38,76,105,110,107,32,110,97,109,101],"value":"&Link name"},
+{"hash":11067,"name":"tfrmsymlink.btnok.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":177752476,"name":"tfrmsymlink.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"},
+{"hash":131237333,"name":"tfrmsymlink.chkuserelativepath.caption","sourcebytes":[85,115,101,32,38,114,101,108,97,116,105,118,101,32,112,97,116,104,32,119,104,101,110,32,112,111,115,115,105,98,108,101],"value":"Use &relative path when possible"}
+]}

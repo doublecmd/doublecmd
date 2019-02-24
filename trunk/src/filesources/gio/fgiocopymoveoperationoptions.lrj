@@ -1,0 +1,5 @@
+{"version":1,"strings":[
+{"hash":111687171,"name":"tgiocopymoveoperationoptionsui.lblfileexists.caption","sourcebytes":[87,104,101,110,32,102,105,108,101,32,101,120,105,115,116,115],"value":"When file exists"},
+{"hash":219592963,"name":"tgiocopymoveoperationoptionsui.lbldirectoryexists.caption","sourcebytes":[87,104,101,110,32,100,105,114,38,101,99,116,111,114,121,32,101,120,105,115,116,115],"value":"When dir&ectory exists"},
+{"hash":76535811,"name":"tgiocopymoveoperationoptionsui.cbfollowlinks.caption","sourcebytes":[70,111,38,108,108,111,119,32,108,105,110,107,115],"value":"Fo&llow links"}
+]}

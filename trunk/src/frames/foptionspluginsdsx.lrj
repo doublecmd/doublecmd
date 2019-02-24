@@ -1,3 +1,7 @@
 {"version":1,"strings":[
+{"hash":75149509,"name":"tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption","sourcebytes":[65,99,116,105,118,101],"value":"Active"},
+{"hash":91471358,"name":"tfrmoptionspluginsdsx.stgplugins.columns[1].title.caption","sourcebytes":[80,108,117,103,105,110],"value":"Plugin"},
+{"hash":56017954,"name":"tfrmoptionspluginsdsx.stgplugins.columns[2].title.caption","sourcebytes":[82,101,103,105,115,116,101,114,101,100,32,102,111,114],"value":"Registered for"},
+{"hash":41356085,"name":"tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption","sourcebytes":[70,105,108,101,32,110,97,109,101],"value":"File name"},
 {"hash":216158153,"name":"tfrmoptionspluginsdsx.lblplugindescription.caption","sourcebytes":[83,101,97,114,99,38,104,32,112,108,117,103,105,110,115,32,97,108,108,111,119,32,111,110,101,32,116,111,32,117,115,101,32,97,108,116,101,114,110,97,116,105,118,101,32,115,101,97,114,99,104,32,97,108,103,111,114,105,116,104,109,115,32,111,114,32,101,120,116,101,114,110,97,108,32,116,111,111,108,115,32,40,108,105,107,101,32,34,108,111,99,97,116,101,34,44,32,101,116,99,46,41],"value":"Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"}
 ]}

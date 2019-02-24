@@ -1,0 +1,17 @@
+{"version":1,"strings":[
+{"hash":176342841,"name":"tfrmquicksearch.edtsearch.hint","sourcebytes":[69,110,116,101,114,32,116,101,120,116,32,116,111,32,115,101,97,114,99,104,32,102,111,114,32,111,114,32,102,105,108,116,101,114,32,98,121],"value":"Enter text to search for or filter by"},
+{"hash":159680658,"name":"tfrmquicksearch.tglfilter.hint","sourcebytes":[84,111,103,103,108,101,32,98,101,116,119,101,101,110,32,115,101,97,114,99,104,32,111,114,32,102,105,108,116,101,114],"value":"Toggle between search or filter"},
+{"hash":80755394,"name":"tfrmquicksearch.tglfilter.caption","sourcebytes":[70,105,108,116,101,114],"value":"Filter"},
+{"hash":102446860,"name":"tfrmquicksearch.btncancel.hint","sourcebytes":[67,108,111,115,101,32,102,105,108,116,101,114,32,112,97,110,101,108],"value":"Close filter panel"},
+{"hash":88,"name":"tfrmquicksearch.btncancel.caption","sourcebytes":[88],"value":"X"},
+{"hash":125785463,"name":"tfrmquicksearch.sbmatchbeginning.hint","sourcebytes":[77,97,116,99,104,32,66,101,103,105,110,110,105,110,103],"value":"Match Beginning"},
+{"hash":123,"name":"tfrmquicksearch.sbmatchbeginning.caption","sourcebytes":[123],"value":"{"},
+{"hash":27002855,"name":"tfrmquicksearch.sbmatchending.hint","sourcebytes":[77,97,116,99,104,32,69,110,100,105,110,103],"value":"Match Ending"},
+{"hash":125,"name":"tfrmquicksearch.sbmatchending.caption","sourcebytes":[125],"value":"}"},
+{"hash":219680245,"name":"tfrmquicksearch.sbcasesensitive.hint","sourcebytes":[67,97,115,101,32,83,101,110,115,105,116,105,118,101],"value":"Case Sensitive"},
+{"hash":1137,"name":"tfrmquicksearch.sbcasesensitive.caption","sourcebytes":[65,97],"value":"Aa"},
+{"hash":5046979,"name":"tfrmquicksearch.sbfiles.hint","sourcebytes":[70,105,108,101,115],"value":"Files"},
+{"hash":70,"name":"tfrmquicksearch.sbfiles.caption","sourcebytes":[70],"value":"F"},
+{"hash":184387443,"name":"tfrmquicksearch.sbdirectories.hint","sourcebytes":[68,105,114,101,99,116,111,114,105,101,115],"value":"Directories"},
+{"hash":68,"name":"tfrmquicksearch.sbdirectories.caption","sourcebytes":[68],"value":"D"}
+]}

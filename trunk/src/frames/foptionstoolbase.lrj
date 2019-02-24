@@ -1,0 +1,8 @@
+{"version":1,"strings":[
+{"hash":80679221,"name":"tfrmoptionstoolbase.lbltoolspath.caption","sourcebytes":[38,80,97,116,104,32,116,111,32,112,114,111,103,114,97,109,32,116,111,32,101,120,101,99,117,116,101],"value":"&Path to program to execute"},
+{"hash":215293683,"name":"tfrmoptionstoolbase.lbltoolsparameters.caption","sourcebytes":[65,38,100,100,105,116,105,111,110,97,108,32,112,97,114,97,109,101,116,101,114,115],"value":"A&dditional parameters"},
+{"hash":177722141,"name":"tfrmoptionstoolbase.cbtoolskeepterminalopen.caption","sourcebytes":[38,75,101,101,112,32,116,101,114,109,105,110,97,108,32,119,105,110,100,111,119,32,111,112,101,110,32,97,102,116,101,114,32,101,120,101,99,117,116,105,110,103,32,112,114,111,103,114,97,109],"value":"&Keep terminal window open after executing program"},
+{"hash":118910428,"name":"tfrmoptionstoolbase.cbtoolsruninterminal.caption","sourcebytes":[38,69,120,101,99,117,116,101,32,105,110,32,116,101,114,109,105,110,97,108],"value":"&Execute in terminal"},
+{"hash":26702445,"name":"tfrmoptionstoolbase.cbtoolsuseexternalprogram.caption","sourcebytes":[38,85,115,101,32,101,120,116,101,114,110,97,108,32,112,114,111,103,114,97,109],"value":"&Use external program"},
+{"hash":15252584,"name":"tfrmoptionstoolbase.btnrelativetoolpath.hint","sourcebytes":[83,111,109,101,32,102,117,110,99,116,105,111,110,115,32,116,111,32,115,101,108,101,99,116,32,97,112,112,114,111,112,114,105,97,116,101,32,112,97,116,104],"value":"Some functions to select appropriate path"}
+]}

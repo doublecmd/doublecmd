@@ -1,0 +1,4 @@
+{"version":1,"strings":[
+{"hash":267343253,"name":"tfrmsyncdirsperformdlg.caption","sourcebytes":[83,121,110,99,104,114,111,110,105,122,101],"value":"Synchronize"},
+{"hash":96086787,"name":"tfrmsyncdirsperformdlg.chkconfirmoverwrites.caption","sourcebytes":[67,111,110,102,105,114,109,32,111,118,101,114,119,114,105,116,101,115],"value":"Confirm overwrites"}
+]}

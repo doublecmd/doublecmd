@@ -1,0 +1,9 @@
+{"version":1,"strings":[
+{"hash":122053763,"name":"tfrmoptionsbriefview.gbshowfileext.caption","sourcebytes":[83,104,111,119,32,102,105,108,101,32,101,120,116,101,110,115,105,111,110,115],"value":"Show file extensions"},
+{"hash":262172725,"name":"tfrmoptionsbriefview.rbdirectly.caption","sourcebytes":[100,105,38,114,101,99,116,108,121,32,97,102,116,101,114,32,102,105,108,101,110,97,109,101],"value":"di&rectly after filename"},
+{"hash":166499177,"name":"tfrmoptionsbriefview.rbaligned.caption","sourcebytes":[97,108,105,38,103,110,101,100,32,40,119,105,116,104,32,84,97,98,41],"value":"ali&gned (with Tab)"},
+{"hash":32619845,"name":"tfrmoptionsbriefview.gbcolumns.caption","sourcebytes":[67,111,108,117,109,110,115,32,115,105,122,101],"value":"Columns size"},
+{"hash":298159,"name":"tfrmoptionsbriefview.rbuseautosize.caption","sourcebytes":[65,117,116,111],"value":"Auto"},
+{"hash":1109464,"name":"tfrmoptionsbriefview.rbusefixedwidth.caption","sourcebytes":[70,105,120,101,100,32,99,111,108,117,109,110,115,32,119,105,100,116,104],"value":"Fixed columns width"},
+{"hash":359972,"name":"tfrmoptionsbriefview.rbusefixedcount.caption","sourcebytes":[70,105,120,101,100,32,99,111,108,117,109,110,115,32,99,111,117,110,116],"value":"Fixed columns count"}
+]}

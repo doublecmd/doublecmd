@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":147277194,"name":"tfrmoptionsignorelist.lblsavein.caption","sourcebytes":[38,83,97,118,101,32,105,110,58],"value":"&Save in:"},
+{"hash":240235098,"name":"tfrmoptionsignorelist.chkignoreenable.caption","sourcebytes":[38,73,103,110,111,114,101,32,40,100,111,110,39,116,32,115,104,111,119,41,32,116,104,101,32,102,111,108,108,111,119,105,110,103,32,102,105,108,101,115,32,97,110,100,32,102,111,108,100,101,114,115,58],"value":"&Ignore (don't show) the following files and folders:"},
+{"hash":261476003,"name":"tfrmoptionsignorelist.btnaddsel.caption","sourcebytes":[65,38,100,100,32,115,101,108,101,99,116,101,100,32,110,97,109,101,115],"value":"A&dd selected names"},
+{"hash":110533672,"name":"tfrmoptionsignorelist.btnaddselwithpath.caption","sourcebytes":[65,100,100,32,115,101,108,101,99,116,101,100,32,110,97,109,101,115,32,119,105,116,104,32,38,102,117,108,108,32,112,97,116,104],"value":"Add selected names with &full path"},
+{"hash":15252584,"name":"tfrmoptionsignorelist.btnrelativesavein.hint","sourcebytes":[83,111,109,101,32,102,117,110,99,116,105,111,110,115,32,116,111,32,115,101,108,101,99,116,32,97,112,112,114,111,112,114,105,97,116,101,32,112,97,116,104],"value":"Some functions to select appropriate path"}
+]}
