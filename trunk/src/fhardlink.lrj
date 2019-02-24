@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":13036155,"name":"tfrmhardlink.caption","sourcebytes":[67,114,101,97,116,101,32,104,97,114,100,32,108,105,110,107],"value":"Create hard link"},
+{"hash":37813087,"name":"tfrmhardlink.lblexistingfile.caption","sourcebytes":[38,68,101,115,116,105,110,97,116,105,111,110,32,116,104,97,116,32,116,104,101,32,108,105,110,107,32,119,105,108,108,32,112,111,105,110,116,32,116,111],"value":"&Destination that the link will point to"},
+{"hash":81130805,"name":"tfrmhardlink.lbllinktocreate.caption","sourcebytes":[38,76,105,110,107,32,110,97,109,101],"value":"&Link name"},
+{"hash":11067,"name":"tfrmhardlink.btnok.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":177752476,"name":"tfrmhardlink.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"}
+]}

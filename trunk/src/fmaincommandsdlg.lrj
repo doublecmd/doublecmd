@@ -1,0 +1,19 @@
+{"version":1,"strings":[
+{"hash":53701060,"name":"tfrmmaincommandsdlg.caption","sourcebytes":[83,101,108,101,99,116,32,121,111,117,114,32,105,110,116,101,114,110,97,108,32,99,111,109,109,97,110,100],"value":"Select your internal command"},
+{"hash":12678826,"name":"tfrmmaincommandsdlg.lblcategory.caption","sourcebytes":[38,67,97,116,101,103,111,114,105,101,115,58],"value":"&Categories:"},
+{"hash":77071178,"name":"tfrmmaincommandsdlg.lblcommandname.caption","sourcebytes":[67,111,109,109,97,110,100,32,38,110,97,109,101,58],"value":"Command &name:"},
+{"hash":5178746,"name":"tfrmmaincommandsdlg.lblhint.caption","sourcebytes":[72,105,110,116,58],"value":"Hint:"},
+{"hash":218345210,"name":"tfrmmaincommandsdlg.lbledtfilter.editlabel.caption","sourcebytes":[38,70,105,108,116,101,114,58],"value":"&Filter:"},
+{"hash":11067,"name":"tfrmmaincommandsdlg.btnok.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":177752476,"name":"tfrmmaincommandsdlg.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"},
+{"hash":87810132,"name":"tfrmmaincommandsdlg.cbcategorysortornot.text","sourcebytes":[76,101,103,97,99,121,32,115,111,114,116,101,100],"value":"Legacy sorted"},
+{"hash":87810132,"name":"tfrmmaincommandsdlg.cbcommandssortornot.text","sourcebytes":[76,101,103,97,99,121,32,115,111,114,116,101,100],"value":"Legacy sorted"},
+{"hash":196049466,"name":"tfrmmaincommandsdlg.gbselection.caption","sourcebytes":[83,101,108,101,99,116,105,111,110,58],"value":"Selection:"},
+{"hash":171329621,"name":"tfrmmaincommandsdlg.lblselectedcommand.caption","sourcebytes":[99,109,95,110,97,109,101],"value":"cm_name"},
+{"hash":323668,"name":"tfrmmaincommandsdlg.lblselectedcommandhint.caption","sourcebytes":[72,105,110,116],"value":"Hint"},
+{"hash":322608,"name":"tfrmmaincommandsdlg.lblselectedcommandhelp.caption","sourcebytes":[72,101,108,112],"value":"Help"},
+{"hash":83276233,"name":"tfrmmaincommandsdlg.lblselectedcommandhotkey.caption","sourcebytes":[72,111,116,107,101,121],"value":"Hotkey"},
+{"hash":145482249,"name":"tfrmmaincommandsdlg.lblselectedcommandcategory.caption","sourcebytes":[67,97,116,101,103,111,114,121],"value":"Category"},
+{"hash":5485524,"name":"tfrmmaincommandsdlg.cbselectallcategorydefault.caption","sourcebytes":[83,101,108,101,99,116,32,97,108,108,32,99,97,116,101,103,111,114,105,101,115,32,98,121,32,100,101,102,97,117,108,116],"value":"Select all categories by default"},
+{"hash":258677898,"name":"tfrmmaincommandsdlg.lblhotkey.caption","sourcebytes":[72,111,116,107,101,121,58],"value":"Hotkey:"}
+]}
