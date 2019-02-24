@@ -129,17 +129,29 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
       State = cbChecked
       TabOrder = 2
     end
-    object cbReportErrorWithCommands: TCheckBox
+    object cbShowCaptions: TCheckBox
       AnchorSideLeft.Control = cbFlatButtons
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = cbFlatButtons
-      Left = 103
-      Height = 19
+      Left = 122
+      Height = 24
       Top = 58
-      Width = 177
+      Width = 120
+      BorderSpacing.Left = 12
+      Caption = 'Sho&w captions'
+      TabOrder = 3
+    end
+    object cbReportErrorWithCommands: TCheckBox
+      AnchorSideLeft.Control = cbShowCaptions
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbFlatButtons
+      Left = 254
+      Height = 24
+      Top = 58
+      Width = 220
       BorderSpacing.Left = 12
       Caption = 'Report errors with commands'
-      TabOrder = 3
+      TabOrder = 4
     end
   end
   object pnlFullToolbarButtons: TPanel[1]
