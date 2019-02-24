@@ -4,7 +4,6 @@ object TfrmConfirmCommandLine: TTfrmConfirmCommandLine
   Top = 360
   Width = 500
   ActiveControl = btnOK
-  Caption = 'TfrmConfirmCommandLine'
   ChildSizing.LeftRightSpacing = 8
   ChildSizing.TopBottomSpacing = 8
   ClientHeight = 205
@@ -67,7 +66,6 @@ object TfrmConfirmCommandLine: TTfrmConfirmCommandLine
     EditLabel.Caption = 'Command line:'
     EditLabel.ParentColor = False
     TabOrder = 0
-    Text = 'lbleCommandLine'
   end
   object lbleParameters: TLabeledEdit
     AnchorSideLeft.Control = Owner
@@ -89,7 +87,6 @@ object TfrmConfirmCommandLine: TTfrmConfirmCommandLine
     EditLabel.Caption = 'Parameters:'
     EditLabel.ParentColor = False
     TabOrder = 3
-    Text = 'lbleParameters'
   end
   object lbleStartPath: TLabeledEdit
     AnchorSideLeft.Control = Owner
@@ -111,6 +108,5 @@ object TfrmConfirmCommandLine: TTfrmConfirmCommandLine
     EditLabel.Caption = 'Start path:'
     EditLabel.ParentColor = False
     TabOrder = 4
-    Text = 'lbleStartPath'
   end
 end
