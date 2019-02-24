@@ -949,7 +949,7 @@ begin
 
   // A single click is used to open items
   if (gMouseSingleClickStart > 0) and (Button = mbLeft) and
-     (Shift * [ssShift, ssAlt, ssCtrl] = []) and FMouseFocus then
+     (Shift * [ssShift, ssAlt, ssCtrl, ssDouble] = []) and FMouseFocus then
   begin
     // A single click only opens folders. For files, a double click is needed.
     if (gMouseSingleClickStart and 2 <> 0) then
