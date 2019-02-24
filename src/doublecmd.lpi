@@ -284,7 +284,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="252">
+    <Units Count="254">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1826,6 +1826,18 @@ end;"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fBenchmark"/>
       </Unit251>
+      <Unit252>
+        <Filename Value="filesources\gio\fgioauthdlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fGioAuthDlg"/>
+      </Unit252>
+      <Unit253>
+        <Filename Value="filesources\gio\fgiocopymoveoperationoptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fGioCopyMoveOperationOptions"/>
+      </Unit253>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
