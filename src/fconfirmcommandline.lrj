@@ -1,0 +1,11 @@
+{"version":1,"strings":[
+{"hash":250801893,"name":"ttfrmconfirmcommandline.caption","sourcebytes":[84,102,114,109,67,111,110,102,105,114,109,67,111,109,109,97,110,100,76,105,110,101],"value":"TfrmConfirmCommandLine"},
+{"hash":177752476,"name":"ttfrmconfirmcommandline.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"},
+{"hash":11067,"name":"ttfrmconfirmcommandline.btnok.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":202824842,"name":"ttfrmconfirmcommandline.lblecommandline.editlabel.caption","sourcebytes":[67,111,109,109,97,110,100,32,108,105,110,101,58],"value":"Command line:"},
+{"hash":114499301,"name":"ttfrmconfirmcommandline.lblecommandline.text","sourcebytes":[108,98,108,101,67,111,109,109,97,110,100,76,105,110,101],"value":"lbleCommandLine"},
+{"hash":60572138,"name":"ttfrmconfirmcommandline.lbleparameters.editlabel.caption","sourcebytes":[80,97,114,97,109,101,116,101,114,115,58],"value":"Parameters:"},
+{"hash":253150003,"name":"ttfrmconfirmcommandline.lbleparameters.text","sourcebytes":[108,98,108,101,80,97,114,97,109,101,116,101,114,115],"value":"lbleParameters"},
+{"hash":103555626,"name":"ttfrmconfirmcommandline.lblestartpath.editlabel.caption","sourcebytes":[83,116,97,114,116,32,112,97,116,104,58],"value":"Start path:"},
+{"hash":168542840,"name":"ttfrmconfirmcommandline.lblestartpath.text","sourcebytes":[108,98,108,101,83,116,97,114,116,80,97,116,104],"value":"lbleStartPath"}
+]}

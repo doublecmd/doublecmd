@@ -284,7 +284,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="254">
+    <Units Count="255">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1838,6 +1838,14 @@ end;"/>
         <HasResources Value="True"/>
         <UnitName Value="fGioCopyMoveOperationOptions"/>
       </Unit253>
+      <Unit254>
+        <Filename Value="fconfirmcommandline.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="TfrmConfirmCommandLine"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fConfirmCommandLine"/>
+      </Unit254>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
