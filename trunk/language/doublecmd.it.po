@@ -7487,6 +7487,10 @@ msgstr "Pulsanti &piatti"
 msgid "Report errors with commands"
 msgstr ""
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Inserisci parametri di comando, ognuno in una linea separata. Premi F1 per visualizzare l'aiuto sui parametri"

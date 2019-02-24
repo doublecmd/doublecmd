@@ -7949,6 +7949,10 @@ msgstr "平面按鈕 (&F)"
 msgid "Report errors with commands"
 msgstr ""
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "輸入指令參數 (每指令一行)"

@@ -7551,6 +7551,10 @@ msgstr "Fla&de ikoner"
 msgid "Report errors with commands"
 msgstr "Rapportér fejl med kommandolinje"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Indtast kommandoparamertre, kun én pr. linje. Tryk F1 for mere hjælp til prametre."

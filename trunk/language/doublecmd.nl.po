@@ -7178,6 +7178,10 @@ msgstr "Platte knoppen"
 msgid "Report errors with commands"
 msgstr "Rapporteer fouten bij opdrachten"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "geef opdrachtparameters, elk in een afzonderlijke regel. Tik op F1 om hulptekst bij de parameters te tonen."

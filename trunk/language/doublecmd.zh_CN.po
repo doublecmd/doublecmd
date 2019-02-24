@@ -7154,6 +7154,10 @@ msgstr "扁平按钮"
 msgid "Report errors with commands"
 msgstr "使用命令报告错误"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "输入命令参数，每个命令参数单独一行。按 F1 查看参数帮助。"

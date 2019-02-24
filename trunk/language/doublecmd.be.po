@@ -12,6 +12,7 @@ msgstr ""
 "X-Native-Language: Беларуская\n"
 
 #: fsyncdirsdlg.rscomparingpercent
+#, fuzzy,badformat
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Параўнанне... ‰d%% (ESC каб скасаваць)"
 
@@ -7174,6 +7175,10 @@ msgstr "&Плоскія кнопкі"
 msgid "Report errors with commands"
 msgstr "Паведаміць пра памылкі з загадамі"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Увядзіце параметры загаду, кожны ў асобным радку. F1- дапамога."
@@ -10351,6 +10356,7 @@ msgid "There already exists a directory named \"%s\"."
 msgstr "Каталог з назвай \"%s\" ужо існуе."
 
 #: ulng.rsmsgerrdatenotsupported
+#, fuzzy,badformat
 msgid "Date %s is not supported"
 msgstr "Дата % не падтрымліваецца"
 

@@ -7185,6 +7185,10 @@ msgstr "&Ploski gumbi"
 msgid "Report errors with commands"
 msgstr "Pokaži napake ukazov"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Vnos parametrov ukaza, ki so podani vsak v svoji vrstici. Pritisnite tipko F1 za več pomoči o parametrih."

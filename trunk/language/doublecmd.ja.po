@@ -7364,6 +7364,10 @@ msgstr "平らなボタン(&F)"
 msgid "Report errors with commands"
 msgstr "コマンドのエラーを報告"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "コマンドのパラメータを１行に１項目入力。F1キーを押してパラメータについてのヘルプを参照。"

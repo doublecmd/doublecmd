@@ -327,7 +327,6 @@ msgid "&Close"
 msgstr "&Закрити"
 
 #: tfrmchecksumverify.caption
-#| msgid "Verify check sum..."
 msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
 msgid "Verify checksum..."
 msgstr "Перевірка контрольної суми..."
@@ -870,7 +869,6 @@ msgid "Delete"
 msgstr "Видалити"
 
 #: tfrmeditor.acteditfind.caption
-#| msgid "&Find "
 msgctxt "tfrmeditor.acteditfind.caption"
 msgid "&Find"
 msgstr "З&найти"
@@ -1033,7 +1031,6 @@ msgid "Save"
 msgstr "Зберегти"
 
 #: tfrmeditor.actfilesaveas.caption
-#| msgid "Save &As.."
 msgid "Save &As..."
 msgstr "Зберегти &як.."
 
@@ -1989,7 +1986,6 @@ msgid "&Benchmark"
 msgstr "&Тест продуктивності"
 
 #: tfrmmain.actbriefview.caption
-#| msgid "Brief"
 msgctxt "tfrmmain.actbriefview.caption"
 msgid "Brief view"
 msgstr "Короткий"
@@ -2258,7 +2254,6 @@ msgid "&Extract Files..."
 msgstr "Розпак&увати файли..."
 
 #: tfrmmain.actfileassoc.caption
-#| msgid "File &Associations..."
 msgid "Configuration of File &Associations"
 msgstr "Асоціаці&ї з файлами..."
 
@@ -2855,7 +2850,6 @@ msgid "*"
 msgstr "*"
 
 #: tfrmmain.btnleftdirectoryhotlist.hint
-#| msgid "Directory hotlist"
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.HINT"
 msgid "Directory Hotlist"
 msgstr "Вибрані каталоги"
@@ -3075,7 +3069,6 @@ msgid "&Show"
 msgstr "Ви&гляд"
 
 #: tfrmmain.mnutaboptions.caption
-#| msgid "&Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
 msgid "Tab &Options"
 msgstr "&Налаштування"
@@ -4576,7 +4569,6 @@ msgid "Background 2:"
 msgstr "Фон 2:"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
-#| msgid "Con&figure columns for file system:"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
 msgid "Con&figure columns view:"
 msgstr "На&лаштувати колонки для файлової системи:"
@@ -6717,7 +6709,6 @@ msgid "Show &main menu"
 msgstr "Показувати &головне меню"
 
 #: tfrmoptionslayout.cbshowmaintoolbar.caption
-#| msgid "Show &button bar"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
 msgid "Show tool&bar"
 msgstr "Показувати &панель кнопок"
@@ -6863,7 +6854,6 @@ msgid "&Remove thumbnails for no longer existing files"
 msgstr "Видалити мініат&юри для не існуючих файлів"
 
 #: tfrmoptionsmisc.btnviewconfigfile.hint
-#| msgid "View log file content"
 msgctxt "tfrmoptionsmisc.btnviewconfigfile.hint"
 msgid "View configuration file content"
 msgstr "Переглянути вміст звіту"
@@ -7390,6 +7380,10 @@ msgstr "П&ласкі кнопки"
 msgid "Report errors with commands"
 msgstr "Звітувати про помилки з командами"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Введіть параметри команди, кожен в окремому рядку. Натисніть F1, щоб отримати довідку по параметрах."
@@ -7580,7 +7574,6 @@ msgid "to add to current toolbar"
 msgstr "додати до поточної панелі інструментів"
 
 #: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
-#| msgid "to add to a new toobar to current toolbar"
 msgctxt "tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "додати до нової панелі на поточній панелі інструментів"
@@ -7639,7 +7632,6 @@ msgid "to add to current toolbar"
 msgstr "додати до поточної панелі інструментів"
 
 #: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
-#| msgid "to add to a new toobar to current toolbar"
 msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "додати до нової панелі на поточній панелі інструментів"
@@ -7669,7 +7661,6 @@ msgid "to add to current toolbar"
 msgstr "додати до поточної панелі інструментів"
 
 #: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
-#| msgid "to add to a new toobar to current toolbar"
 msgctxt "tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "додати до нової панелі на поточній панелі інструментів"
@@ -7895,7 +7886,6 @@ msgid "General options about tooltips:"
 msgstr "Параметри підкладки для виборного типу файлів:"
 
 #: tfrmoptionstooltips.chkshowtooltip.caption
-#| msgid "Show tool tip"
 msgctxt "tfrmoptionstooltips.chkshowtooltip.caption"
 msgid "&Show tooltip for files in the file panel"
 msgstr "Показати спливаючі підказки"
@@ -9139,37 +9129,31 @@ msgid "Reload current file"
 msgstr "Перезавантажити поточний файл"
 
 #: tfrmviewer.actrotate180.caption
-#| msgid "Rotate 180"
 msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
 msgid "+ 180"
 msgstr "Повернути на 180"
 
 #: tfrmviewer.actrotate180.hint
-#| msgid "Rotate 180"
 msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
 msgid "Rotate 180 degrees"
 msgstr "Повернути на 180"
 
 #: tfrmviewer.actrotate270.caption
-#| msgid "Rotate 270"
 msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
 msgid "- 90"
 msgstr "Повернути на 270"
 
 #: tfrmviewer.actrotate270.hint
-#| msgid "Rotate 270"
 msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
 msgid "Rotate -90 degrees"
 msgstr "Повернути на 270"
 
 #: tfrmviewer.actrotate90.caption
-#| msgid "Rotate 90"
 msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
 msgid "+ 90"
 msgstr "Повернути на 90"
 
 #: tfrmviewer.actrotate90.hint
-#| msgid "Rotate 90"
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
 msgid "Rotate +90 degrees"
 msgstr "Повернути на 90"
@@ -9821,12 +9805,10 @@ msgid "&Continue"
 msgstr "Продов&жити"
 
 #: ulng.rsdlgbuttoncopyinto
-#| msgid "Copy &Into"
 msgid "&Merge"
 msgstr "&Об'єднати в"
 
 #: ulng.rsdlgbuttoncopyintoall
-#| msgid "Copy Into &All"
 msgid "Mer&ge All"
 msgstr "Об'&єднати у всі"
 
@@ -10048,7 +10030,6 @@ msgid "Ask;Overwrite;Skip"
 msgstr "Запитувати;Перезаписувати;Пропускати"
 
 #: ulng.rsfileopdirectoryexistsoptions
-#| msgid "Ask;Overwrite;Copy into;Skip"
 msgid "Ask;Merge;Skip"
 msgstr "Запитати;Замінити;Копіювати в; Пропустити"
 
@@ -12153,6 +12134,7 @@ msgid "Shortcut in use"
 msgstr "Гаряча клавіша вже використовується"
 
 #: ulng.rsopthotkeysshortcutusedtext1
+#, fuzzy,badformat
 #| msgid "Shortcut %s is already used for %s."
 msgid "Shortcut %s is already used."
 msgstr "Гаряча клавіша %s вже використовується для %s."
@@ -13082,7 +13064,6 @@ msgid "Other example of what's possible"
 msgstr "Інший приклад можливостей"
 
 #: ulng.rsvarpath
-#| msgid "Path, with ending delimiter"
 msgid "Path, without ending delimiter"
 msgstr "Шлях з  роздільником в кінці"
 

@@ -7354,6 +7354,10 @@ msgstr "&Flache Buttons"
 msgid "Report errors with commands"
 msgstr "Berichte Fehler mit Befehlen"
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Befehlsparameter eingeben, jeden in einer eigenen Zeile. [F1] drücken um Hilfe zu Parametern zu erhalten."

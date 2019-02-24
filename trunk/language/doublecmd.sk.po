@@ -8009,6 +8009,10 @@ msgstr "Ploché tlačítka"
 msgid "Report errors with commands"
 msgstr ""
 
+#: tfrmoptionstoolbar.cbshowcaptions.caption
+msgid "Sho&w captions"
+msgstr ""
+
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Zadaj parametre príkazu, každý v samostatnom riadku. Stlač F1 na pozretie pomoci k parametrom"
