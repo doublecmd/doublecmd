@@ -34,6 +34,9 @@ type
   public
     constructor Create(AOwner : TComponent); override;
     procedure Execute; override;
+    function Resume : Integer; override;
+    function Suspend : Integer; override;
+    function Terminate (AExitCode : Integer): Boolean; override;
   end;
   {$ELSEIF DEFINED(MSWINDOWS)}
   TProcessUtf8 = class(TProcess)
@@ -69,7 +72,34 @@ procedure TProcessUtf8.Execute;
 begin
   inherited Execute;
   if (poNewProcessGroup in Options) then
-    PPid(@Handle)^:= -Handle;
+    PInteger(@ProcessId)^:= -ProcessId;
+end;
+
+function TProcessUtf8.Resume: Integer;
+begin
+  if fpKill(ProcessId, SIGCONT) <> 0 then
+    Result:= -1
+  else
+    Result:= 0;
+end;
+
+function TProcessUtf8.Suspend: Integer;
+begin
+  if fpKill(ProcessId, SIGSTOP) <> 0 then
+    Result:= -1
+  else
+    Result:= 1;
+end;
+
+function TProcessUtf8.Terminate(AExitCode: Integer): Boolean;
+begin
+  Result:= fpKill(ProcessId, SIGTERM) = 0;
+  if Result then
+  begin
+    if Running then
+      Result:= fpKill(ProcessId, SIGKILL) = 0;
+  end;
+  if Result then WaitOnExit;
 end;
 
 {$ELSEIF DEFINED(MSWINDOWS)}
