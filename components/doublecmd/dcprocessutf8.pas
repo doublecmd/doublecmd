@@ -33,7 +33,7 @@ type
     procedure DoForkEvent(Sender : TObject);
   public
     constructor Create(AOwner : TComponent); override;
-    function Terminate(AExitCode : Integer): Boolean; override;
+    procedure Execute; override;
   end;
   {$ELSEIF DEFINED(MSWINDOWS)}
   TProcessUtf8 = class(TProcess)
@@ -65,14 +65,11 @@ begin
   {$ENDIF}
 end;
 
-function TProcessUtf8.Terminate(AExitCode: Integer): Boolean;
+procedure TProcessUtf8.Execute;
 begin
+  inherited Execute;
   if (poNewProcessGroup in Options) then
-  begin
-    // Terminate process group
     PPid(@Handle)^:= -Handle;
-  end;
-  Result:= inherited Terminate(AExitCode);
 end;
 
 {$ELSEIF DEFINED(MSWINDOWS)}
