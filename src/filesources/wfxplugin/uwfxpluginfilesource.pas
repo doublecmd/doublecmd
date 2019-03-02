@@ -618,15 +618,18 @@ var
   AProp: TFilePropertyType;
   AVariant: TFileVariantProperty;
 begin
-  PropertiesToSet:= PropertiesToSet * fpVariantAll;
-  for AProp in PropertiesToSet do
+  if WfxModule.ContentPlugin then
   begin
-    AIndex:= Ord(AProp) - Ord(fpVariant);
-    if (AIndex >= 0) and (AIndex <= High(AVariantProperties)) then
+    PropertiesToSet:= PropertiesToSet * fpVariantAll;
+    for AProp in PropertiesToSet do
     begin
-      AVariant:= TFileVariantProperty.Create(AVariantProperties[AIndex]);
-      AVariant.Value:= GetVariantFileProperty(AVariantProperties[AIndex], AFile, Self);
-      AFile.Properties[AProp]:= AVariant;
+      AIndex:= Ord(AProp) - Ord(fpVariant);
+      if (AIndex >= 0) and (AIndex <= High(AVariantProperties)) then
+      begin
+        AVariant:= TFileVariantProperty.Create(AVariantProperties[AIndex]);
+        AVariant.Value:= GetVariantFileProperty(AVariantProperties[AIndex], AFile, Self);
+        AFile.Properties[AProp]:= AVariant;
+      end;
     end;
   end;
 end;
