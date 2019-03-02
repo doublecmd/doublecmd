@@ -753,6 +753,7 @@ begin
     AFileView.OnAfterChangePath := Self.OnAfterChangePath;
     AFileView.OnActivate := Self.OnActivate;
     AFileView.OnFileListChanged := Self.OnFileListChanged;
+    AFileView.FOnChangeActiveFile := Self.FOnChangeActiveFile;
 
     for I := 0 to FSavedSelection.Count - 1 do
       AFileView.FSavedSelection.Add(FSavedSelection.Strings[I]);

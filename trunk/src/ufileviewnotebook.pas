@@ -49,6 +49,7 @@ type
     FOnActivate: TNotifyEvent;
     FCurrentTitle: String;
     FPermanentTitle: String;
+    FOnChangeFileView: TNotifyEvent;
     FBackupViewClass: TFileViewClass;
 
     procedure AssignPage(OtherPage: TFileViewPage);
@@ -92,9 +93,10 @@ type
     property FileView: TFileView read GetFileView write SetFileView;
     property Notebook: TFileViewNotebook read GetNotebook;
     property PermanentTitle: String read FPermanentTitle write SetPermanentTitle;
+    property BackupViewClass: TFileViewClass read FBackupViewClass write FBackupViewClass;
     property CurrentTitle: String read FCurrentTitle;
     property OnActivate: TNotifyEvent read FOnActivate write FOnActivate;
-    property BackupViewClass: TFileViewClass read FBackupViewClass write FBackupViewClass;
+    property OnChangeFileView: TNotifyEvent read FOnChangeFileView write FOnChangeFileView;
   end;
 
   { TFileViewPageControl }
@@ -399,6 +401,8 @@ begin
   if Assigned(aFileView) then
   begin
     aFileView.Parent := Self;
+    if Assigned(FOnChangeFileView) then
+      FOnChangeFileView(aFileView);
   end;
 end;
 
