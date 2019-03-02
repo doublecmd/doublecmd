@@ -1,3 +1,24 @@
+{
+   Double Commander
+   -------------------------------------------------------------------------
+   Quick view panel
+
+   Copyright (C) 2009-2019 Alexander Koblov (alexx2000@mail.ru)
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+}
+
 unit uQuickViewPanel;
 
 {$mode objfpc}{$H+}
@@ -20,12 +41,14 @@ type
     FFileSource: IFileSource;
     FViewer: TfrmViewer;
     FFileName: String;
+  private
+    procedure LoadFile(const aFileName: String);
+    procedure OnChangeFileView(Sender: TObject);
+    procedure CreateViewer(aFileView: TFileView);
+    procedure FileViewChangeActiveFile(Sender: TFileView; const aFile : TFile);
   public
     constructor Create(TheOwner: TComponent; aParent: TFileViewPage); reintroduce;
     destructor Destroy; override;
-    procedure CreateViewer(aFileView: TFileView);
-    procedure LoadFile(const aFileName: String);
-    procedure FileViewChangeActiveFile(Sender: TFileView; const aFile : TFile);
   end;
 
 procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
@@ -52,12 +75,11 @@ begin
   finally
     FreeAndNil(aFile);
   end;
-  aFileView.OnChangeActiveFile:= @QuickViewPanel.FileViewChangeActiveFile;
 end;
 
 procedure QuickViewClose;
 begin
-  FreeThenNil(QuickViewPanel);
+  FreeAndNil(QuickViewPanel);
 end;
 
 { TQuickViewPanel }
@@ -75,6 +97,7 @@ end;
 destructor TQuickViewPanel.Destroy;
 begin
   FFileView.OnChangeActiveFile:= nil;
+  TFileViewPage(FFileView.NotebookPage).OnChangeFileView:= nil;
   FViewer.ExitPluginMode;
   FFileViewPage.FileView.Visible:= True;
   FreeThenNil(FViewer);
@@ -93,6 +116,8 @@ begin
   FFileView:= aFileView;
   FFileSource:= aFileView.FileSource;
   FFileViewPage.FileView.Visible:= False;
+  FFileView.OnChangeActiveFile:= @FileViewChangeActiveFile;
+  TFileViewPage(FFileView.NotebookPage).OnChangeFileView:= @OnChangeFileView;
 end;
 
 procedure TQuickViewPanel.LoadFile(const aFileName: String);
@@ -109,6 +134,11 @@ begin
     end;
   // Viewer can steal focus, so restore it
   if not FFileView.Focused then FFileView.SetFocus;
+end;
+
+procedure TQuickViewPanel.OnChangeFileView(Sender: TObject);
+begin
+  FFileView:= TFileView(Sender);
 end;
 
 procedure TQuickViewPanel.FileViewChangeActiveFile(Sender: TFileView; const aFile: TFile);
@@ -167,8 +197,8 @@ begin
   LoadFile(ActiveFile.FullPath);
 
   finally
-    FreeThenNil(TempFiles);
-    FreeThenNil(ActiveFile);
+    FreeAndNil(TempFiles);
+    FreeAndNil(ActiveFile);
   end;
 end;
 
