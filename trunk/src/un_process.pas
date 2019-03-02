@@ -97,7 +97,7 @@ begin
   FOutputLine:= EmptyStr;
   FProcess:= TProcessUtf8.Create(nil);
   FProcess.CommandLine:= CommandLine;
-  FProcess.Options:= [poUsePipes, poNoConsole];
+  FProcess.Options:= [poUsePipes, poNoConsole, poNewProcessGroup];
 end;
 
 procedure TExProcess.Execute;
@@ -171,8 +171,7 @@ end;
 
 procedure TExProcess.Stop;
 begin
-  FStop:= True;
-  FProcess.Terminate(-1);
+  FStop:= FProcess.Terminate(-1);
 end;
 
 procedure TExProcess.SetCmdLine(CommandLine: String);
