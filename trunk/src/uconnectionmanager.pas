@@ -193,7 +193,10 @@ begin
     if WfxConnectionList.Count = 0 then
     begin
       if gLogWindow = False then
+      begin
+        ShowLogWindow(PtrInt(False));
         Application.QueueAsyncCall(ShowLogWindow, PtrInt(False));
+      end;
     end;
     UpdateDiskCount;
   end;
