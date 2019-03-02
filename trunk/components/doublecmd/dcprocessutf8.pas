@@ -21,7 +21,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   , Process, Windows, Pipes
   {$ELSEIF DEFINED(UNIX)}
-  , UTF8Process, DCUnix
+  , BaseUnix, Process, UTF8Process, DCUnix
   {$ENDIF}
   ;
 
@@ -33,6 +33,7 @@ type
     procedure DoForkEvent(Sender : TObject);
   public
     constructor Create(AOwner : TComponent); override;
+    function Terminate(AExitCode : Integer): Boolean; override;
   end;
   {$ELSEIF DEFINED(MSWINDOWS)}
   TProcessUtf8 = class(TProcess)
@@ -50,6 +51,8 @@ implementation
 procedure TProcessUtf8.DoForkEvent(Sender: TObject);
 begin
   FileCloseOnExecAll;
+  if (poNewProcessGroup in Options) then
+    if (setpgid(0, 0) < 0) then fpExit(127);
 end;
 
 constructor TProcessUtf8.Create(AOwner: TComponent);
@@ -60,6 +63,16 @@ begin
   {$ELSE}
   OnForkEvent:= @FileCloseOnExecAll;
   {$ENDIF}
+end;
+
+function TProcessUtf8.Terminate(AExitCode: Integer): Boolean;
+begin
+  if (poNewProcessGroup in Options) then
+  begin
+    // Terminate process group
+    PPid(@Handle)^:= -Handle;
+  end;
+  Result:= inherited Terminate(AExitCode);
 end;
 
 {$ELSEIF DEFINED(MSWINDOWS)}
