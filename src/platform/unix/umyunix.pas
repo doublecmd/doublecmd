@@ -130,10 +130,6 @@ function getmntent(stream: PFILE): PMountEntry; cdecl; external libc name 'getmn
 function endmntent(stream: PFILE): LongInt; cdecl; external libc name 'endmntent';
 {$ENDIF}
 {en
-   Set process group ID for job control
-}
-function setpgid(pid, pgid: pid_t): cint; cdecl; external libc name 'setpgid';
-{en
    Get password file entry
    @param(uid User ID)
    @returns(The function returns a pointer to a structure containing the broken-out
