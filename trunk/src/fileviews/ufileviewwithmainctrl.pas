@@ -1506,6 +1506,7 @@ begin
 
   end else
   begin
+    FRenameFile := aFile;
     edtRename.Hint := aFile.FullPath;
     edtRename.Text := aFile.Name;
     edtRename.Visible := True;
@@ -1521,7 +1522,6 @@ begin
     else begin
        RenameSelectPart(rfatFull);
     end;
-    FRenameFile:= aFile;
     aFile:= nil;
   end;
 end;
