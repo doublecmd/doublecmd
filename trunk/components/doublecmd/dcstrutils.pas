@@ -328,7 +328,7 @@ procedure SetValue(var anArray: TDynamicStringArray; Key, NewValue: String);
 procedure SetValue(var anArray: TDynamicStringArray; Key: String; NewValue: Boolean);
 function ShortcutsToText(const Shortcuts: TDynamicStringArray): String;
 function GetDateTimeInStrEZSortable(DateTime:TDateTime):string;
-function WrapTextSimple(const S: String; MaxCol: Integer): String;
+function WrapTextSimple(const S: String; MaxCol: Integer = 100): String;
 
 {en
    Escapes characters to be inserted between single quotes (')
