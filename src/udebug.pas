@@ -4,6 +4,7 @@
     This unit contains functions used for debugging.
 
     Copyright (C) 2011  Przemysław Nagay (cobines@gmail.com)
+    Copyright (C) 2019  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +17,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uDebug;
@@ -29,9 +29,9 @@ interface
 uses
   Classes, SysUtils, LCLVersion;
 
-// For Lazarus < 0.9.31.
-// Thread-safe DebugLn via DCDebug functions.
-// Still not fully safe because may conflict with DebugLn called by LCL.
+// DebugLn and DbgOut are thread-safe due to TDCLogger but since TLazLogger
+// itself is designed for single-thread then DebugLnEnter, DebugLnExit cannot
+// be used from multiple threads.
 
 procedure DCDebug(Args: array of const);
 procedure DCDebug(const S: String; Args: array of const);// similar to Format(s,Args)
@@ -41,21 +41,11 @@ procedure DCDebug(const s1,s2,s3: String);
 procedure DCDebug(const s1,s2,s3,s4: String);
 procedure DCDebug(const s1,s2,s3,s4,s5: String);
 
-// For Lazarus >= 0.9.31.
-// DebugLn and DbgOut are thread-safe due to TDCLogger but since TLazLogger
-// itself is designed for single-thread then DebugLnEnter, DebugLnExit cannot
-// be used from multiple threads.
-
 implementation
 
 uses
-  LCLProc, syncobjs
-  {$IF lcl_fullversion >= 093100}
-  , LazLogger, LazLoggerBase, LazClasses
-  {$ENDIF}
-  ;
+  LCLProc, SyncObjs, LazLogger, LazLoggerBase, LazClasses;
 
-{$IF lcl_fullversion >= 093100}
 type
   {en
      Logger with thread-safe DebugLn and DbgOut.
@@ -64,8 +54,8 @@ type
   private
     DebugLnLock: TCriticalSection;
   protected
-    procedure DoDbgOut(const s: string); override;
-    procedure DoDebugLn(const s: string); override;
+    procedure DoDbgOut({$if lcl_fullversion < 2010000}const{$endif} s: string); override;
+    procedure DoDebugLn({$if lcl_fullversion < 2010000}const{$endif} s: string); override;
   public
     constructor Create;
     destructor Destroy; override;
@@ -79,7 +69,7 @@ end;
 
 { TDCLogger }
 
-procedure TDCLogger.DoDbgOut(const s: string);
+procedure TDCLogger.DoDbgOut({$if lcl_fullversion < 2010000}const{$endif} s: string);
 begin
   DebugLnLock.Acquire;
   try
@@ -89,7 +79,7 @@ begin
   end;
 end;
 
-procedure TDCLogger.DoDebugLn(const s: string);
+procedure TDCLogger.DoDebugLn({$if lcl_fullversion < 2010000}const{$endif} s: string);
 begin
   DebugLnLock.Acquire;
   try
@@ -151,104 +141,9 @@ begin
   DebugLn(s1, s2, s3, s4, s5, s6);
 end;
 
-{$ELSE}
-
-var
-  DebugLnLock: TCriticalSection;
-
-procedure DCDebug(Args: array of const);
-begin
-  DebugLnLock.Acquire;
-  try
-    DebugLn(Args);
-  finally
-    DebugLnLock.Release;
-  end;
-end;
-
-procedure DCDebug(const S: String; Args: array of const);// similar to Format(s,Args)
-begin
-  DebugLnLock.Acquire;
-  try
-    DebugLn(S, Args);
-  finally
-    DebugLnLock.Release;
-  end;
-end;
-
-procedure DCDebug(const s: String);
-begin
-  DebugLnLock.Acquire;
-  try
-    DebugLn(s);
-  finally
-    DebugLnLock.Release;
-  end;
-end;
-
-procedure DCDebug(const s1,s2: String);
-begin
-  DebugLnLock.Acquire;
-  try
-    DebugLn(s1, s2);
-  finally
-    DebugLnLock.Release;
-  end;
-end;
-
-procedure DCDebug(const s1,s2,s3: String);
-begin
-  DebugLnLock.Acquire;
-  try
-    DebugLn(s1, s2, s3);
-  finally
-    DebugLnLock.Release;
-  end;
-end;
-
-procedure DCDebug(const s1,s2,s3,s4: String);
-begin
-  DebugLnLock.Acquire;
-  try
-    DebugLn(s1, s2, s3, s4);
-  finally
-    DebugLnLock.Release;
-  end;
-end;
-
-procedure DCDebug(const s1,s2,s3,s4,s5: String);
-begin
-  DebugLnLock.Acquire;
-  try
-    DebugLn(s1, s2, s3, s4, s5);
-  finally
-    DebugLnLock.Release;
-  end;
-end;
-
-procedure DCDebug(const s1,s2,s3,s4,s5,s6: String);
-begin
-  DebugLnLock.Acquire;
-  try
-    DebugLn(s1, s2, s3, s4, s5, s6);
-  finally
-    DebugLnLock.Release;
-  end;
-end;
-{$ENDIF}
-
 initialization
-  {$IF lcl_fullversion >= 093100}
   LazDebugLoggerCreator := @CreateDCLogger;
   RecreateDebugLogger;
-  {$ELSE}
-  DebugLnLock := TCriticalSection.Create;
-  {$ENDIF}
-
-{$IF lcl_fullversion < 093100}
-finalization
-  DebugLnLock.Free;
-{$ENDIF}
 
 end.
 
