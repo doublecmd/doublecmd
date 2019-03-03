@@ -99,7 +99,7 @@ uses
   uTempFileSystemFileSource, uLng, fDiffer, uDebug, DCOSUtils, uShowMsg,
   DCStrUtils, uFileSourceProperty, uWfxPluginCopyOutOperation,
   uFileSourceOperationOptions, uOperationsManager, uFileSourceOperationTypes,
-  uMultiArchiveFileSource, fFileExecuteYourSelf;
+  uMultiArchiveFileSource, fFileExecuteYourSelf, uFileProcs;
 
 type
 
@@ -650,8 +650,9 @@ function PrepareData(FileSource: IFileSource; var SelectedFiles: TFiles;
                      FunctionToCall: TFileSourceOperationStateChangedNotify;
                      Modal: Boolean = False): TPrepareDataResult;
 var
-  aFile: TFile;
   I: Integer;
+  aFile: TFile;
+  Directory: String;
   TempFiles: TFiles = nil;
   TempFileSource: ITempFileSystemFileSource = nil;
   Operation: TFileSourceOperation;
@@ -674,7 +675,14 @@ begin
       Exit(pdrFailed);
     end;
 
-    TempFileSource := TTempFileSystemFileSource.GetFileSource;
+    Directory := GetTempName(GetTempFolderDeletableAtTheEnd);
+    if not mbForceDirectory(Directory) then
+    begin
+      MessageDlg(mbSysErrorMessage(GetLastOSError), mtError, [mbOK], 0);
+      Exit(pdrFailed);
+    end;
+
+    TempFileSource := TTempFileSystemFileSource.Create(Directory);
 
     TempFiles := SelectedFiles.Clone;
     try
