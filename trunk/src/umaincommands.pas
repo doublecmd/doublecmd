@@ -491,6 +491,7 @@ begin
                 // TODO:
                 // If TempFileSource is used, create a wait thread that will
                 // keep the TempFileSource alive until the command is finished.
+                aCopyOutOperation.SourceFileSource.AddChild(aFileSource);
               end;
           end; // if selected
         end; // for

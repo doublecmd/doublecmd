@@ -93,6 +93,7 @@ type
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation);
 
+    procedure AddChild(AFileSource: IFileSource);
     procedure Reload(const PathsToReload: TPathsArray);
     procedure Reload(const PathToReload: String);
     procedure AddReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
@@ -130,6 +131,10 @@ type
     FURI: TURI;
     FCurrentAddress: String;
     FOperationsClasses: TFileSourceOperationsClasses;
+    {en
+       Children file source list
+    }
+    FChildrenFileSource: TInterfaceList;
 
     function GetURI: TURI;
     {en
@@ -272,6 +277,7 @@ type
     }
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation); virtual;
 
+    procedure AddChild(AFileSource: IFileSource);
     {en
        Reloads the file list from the file source.
        This is used if a file source has any internal cache or file list.
@@ -434,6 +440,7 @@ begin
   else
     DCDebug('Error: Cannot remove file source - manager already destroyed!');
 
+  FreeAndNil(FChildrenFileSource);
   FreeAndNil(FReloadEventListeners);
 
   inherited Destroy;
@@ -734,6 +741,19 @@ end;
 procedure TFileSource.RemoveOperationFromQueue(Operation: TFileSourceOperation);
 begin
   // Nothing by default.
+end;
+
+procedure TFileSource.AddChild(AFileSource: IFileSource);
+begin
+  if (FChildrenFileSource = nil) then
+  begin
+    FChildrenFileSource:= TInterfaceList.Create;
+  end
+  else if FChildrenFileSource.Count > 32 then
+  begin
+    FChildrenFileSource.Delete(0);
+  end;
+  FChildrenFileSource.Add(AFileSource);
 end;
 
 procedure TFileSource.OperationFinishedCallback(Operation: TFileSourceOperation;
