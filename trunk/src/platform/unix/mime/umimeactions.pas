@@ -601,7 +601,7 @@ begin
       // Update added associations
       // Read current actions of this mime type
       Value:= DesktopFile.ReadString(MIME_APPS[magAdded], MimeType, EmptyStr);
-      if not StrEnds(Value, ';') then Value += ';';
+      if (Length(Value) > 0) and (not StrEnds(Value, ';')) then Value += ';';
       if (Pos(CustomFile, Value) = 0) then
       begin
         // Save chosen action as last
@@ -613,7 +613,7 @@ begin
       begin
         // Read current actions of this mime type
         Value:= DesktopFile.ReadString(MIME_APPS[magDefault], MimeType, EmptyStr);
-        if not StrEnds(Value, ';') then Value += ';';
+        if (Length(Value) > 0) and (not StrEnds(Value, ';')) then Value += ';';
         // Remove chosen action if it exists
         Value:= StringReplace(Value, CustomFile, EmptyStr, [rfReplaceAll]);
         // Save chosen action as first
