@@ -8,7 +8,7 @@
     (http://www.freedesktop.org/wiki/Specifications/mime-apps-spec)
 
     Copyright (C) 2009-2010  Przemyslaw Nagay (cobines@gmail.com)
-    Copyright (C) 2011-2018  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2011-2019  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -85,6 +85,13 @@ uses
 type
   TMimeAppsGroup = (magDefault, magAdded, magRemoved);
   TMimeAppsGroupSet = set of TMimeAppsGroup;
+
+const
+  MIME_APPS: array[TMimeAppsGroup] of String = (
+    'Default Applications',
+    'Added Associations',
+    'Removed Associations'
+  );
 
 type
   TMimeAppsList = record
@@ -276,17 +283,17 @@ begin
       try
         if magDefault in Flags then
         begin
-          Actions:= MimeApps.ReadStringList('Default Applications', MimeType);
+          Actions:= MimeApps.ReadStringList(MIME_APPS[magDefault], MimeType);
           if (Length(Actions) > 0) then ParseActions(Actions, Result.Defaults);
         end;
         if magAdded in Flags then
         begin
-          Actions:= MimeApps.ReadStringList('Added Associations', MimeType);
+          Actions:= MimeApps.ReadStringList(MIME_APPS[magAdded], MimeType);
           if (Length(Actions) > 0) then ParseActions(Actions, Result.Added);
         end;
         if magRemoved in Flags then
         begin
-          Actions:= MimeApps.ReadStringList('Removed Associations', MimeType);
+          Actions:= MimeApps.ReadStringList(MIME_APPS[magRemoved], MimeType);
           if (Length(Actions) > 0) then ParseActions(Actions, Result.Removed);
         end;
       finally
@@ -550,22 +557,11 @@ end;
 
 function AddDesktopEntry(const MimeType, DesktopEntry: String; DefaultAction: Boolean): Boolean;
 var
+  Value: String;
   CustomFile: String;
   UserDataDir: String;
   DesktopFile: TIniFileEx;
-  MimeTypeValue: String;
-  MimeApps: String = '/applications/mimeapps.list';
-
-  procedure UpdateDesktop(const Group: String);
-  begin
-    // Read current actions of this mime type
-    MimeTypeValue:= DesktopFile.ReadString(Group, MimeType, EmptyStr);
-    // Remove chosen action if it exists
-    MimeTypeValue:= StringReplace(MimeTypeValue, CustomFile, EmptyStr, [rfReplaceAll]);
-    // Save chosen action as first
-    DesktopFile.WriteString(Group, MimeType, CustomFile + MimeTypeValue);
-  end;
-
+  MimeApps: String = '/mimeapps.list';
 begin
   CustomFile:= DesktopEntry;
   UserDataDir:= GetUserDataDir;
@@ -596,23 +592,38 @@ begin
   end;
   // Save association in MimeApps
   CustomFile:= CustomFile + ';';
+  UserDataDir:= GetUserConfigDir;
   MimeApps:= UserDataDir + MimeApps;
   try
+    mbForceDirectory(UserDataDir);
     DesktopFile:= TIniFileEx.Create(MimeApps, fmOpenReadWrite);
     try
       // Update added associations
-      UpdateDesktop('Added Associations');
+      // Read current actions of this mime type
+      Value:= DesktopFile.ReadString(MIME_APPS[magAdded], MimeType, EmptyStr);
+      if not StrEnds(Value, ';') then Value += ';';
+      if (Pos(CustomFile, Value) = 0) then
+      begin
+        // Save chosen action as last
+        DesktopFile.WriteString(MIME_APPS[magAdded], MimeType, Value + CustomFile);
+      end;
+      // Update default applications
       // Set as default action if needed
       if DefaultAction then
       begin
-        // Update default applications
-        UpdateDesktop('Default Applications');
+        // Read current actions of this mime type
+        Value:= DesktopFile.ReadString(MIME_APPS[magDefault], MimeType, EmptyStr);
+        if not StrEnds(Value, ';') then Value += ';';
+        // Remove chosen action if it exists
+        Value:= StringReplace(Value, CustomFile, EmptyStr, [rfReplaceAll]);
+        // Save chosen action as first
+        DesktopFile.WriteString(MIME_APPS[magDefault], MimeType, CustomFile + Value);
       end;
       DesktopFile.UpdateFile;
-      Result:= True;
     finally
       DesktopFile.Free;
     end;
+    Result:= True;
   except
     on E: Exception do
     begin
