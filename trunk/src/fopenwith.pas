@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Open with other application dialog
 
-    Copyright (C) 2012-2018  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2012-2019 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOpenWith;
@@ -82,7 +81,7 @@ implementation
 
 uses
   LCLProc, DCStrUtils, uOSUtils, uPixMapManager, uGlobs, uMimeActions,
-  uMimeType, uLng, LazUTF8, Math;
+  uMimeType, uLng, LazUTF8, Math, uXdg;
 
 const
   CATEGORY_OTHER = 11; // 'Other' category index
@@ -250,14 +249,14 @@ end;
 
 procedure TfrmOpenWith.LoadApplicationList;
 const
-  Folders: array [1..2] of String = ('/.local/share/applications',
-                                         '/usr/share/applications');
+  APPS = 'applications';
 var
   I, J, K: Integer;
   TreeNode: TTreeNode;
   Index, Count: Integer;
   Applications: TStringList;
   DesktopFile: PDesktopFileEntry;
+  Folders, DataDirs: TStringArray;
 
   function GetCategoryIndex(const Category: String): Integer;
   var
@@ -279,7 +278,14 @@ var
   end;
 
 begin
-  Folders[1]:= GetHomeDir + Folders[1];
+  // $XDG_DATA_HOME
+  AddString(Folders, IncludeTrailingBackslash(GetUserDataDir) + APPS);
+  // $XDG_DATA_DIRS
+  DataDirs:= GetSystemDataDirs;
+  for I:= Low(DataDirs) to High(DataDirs) do
+  begin
+    AddString(Folders, IncludeTrailingBackslash(DataDirs[I]) + APPS);
+  end;
   for I:= Low(Folders) to High(Folders) do
   begin
     Applications:= FindAllFiles(Folders[I], '*.desktop', True);
