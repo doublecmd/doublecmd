@@ -23,7 +23,7 @@ type
 implementation
 
 uses
-  LCLProc, uFile, uVfsModule;
+  LCLProc, DCFileAttributes, uFile, uVfsModule, uDCUtils;
 
 constructor TVfsListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
@@ -47,7 +47,8 @@ begin
       begin
         aFile := TVfsFileSource.CreateFile(Path);
         aFile.Name:= VfsFileList.Name[I];
-        //aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));
+        aFile.Attributes:= FILE_ATTRIBUTE_NORMAL or FILE_ATTRIBUTE_VIRTUAL;
+        aFile.LinkProperty.LinkTo:= mbExpandFileName(VfsFileList.FileName[I]);
         FFiles.Add(aFile);
       end;
     end;
@@ -58,7 +59,6 @@ begin
       begin
         aFile := TVfsFileSource.CreateFile(Path);
         aFile.Name:= gVfsModuleList.Strings[I];
-        //aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));
         FFiles.Add(aFile);
       end;
     end;

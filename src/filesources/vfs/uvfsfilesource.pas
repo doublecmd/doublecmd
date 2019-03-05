@@ -75,7 +75,8 @@ begin
 
   with Result do
   begin
-    AttributesProperty := TFileAttributesProperty.CreateOSAttributes;
+    LinkProperty:= TFileLinkProperty.Create;
+    AttributesProperty := TNtfsFileAttributesProperty.Create;
   end;
 end;
 
@@ -92,7 +93,7 @@ end;
 function TVfsFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := inherited GetSupportedFileProperties +
-            [fpAttributes];
+            [fpAttributes, fpLink];
 end;
 
 function TVfsFileSource.GetWfxModuleList: TWFXModuleList;
