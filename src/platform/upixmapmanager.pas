@@ -1775,17 +1775,14 @@ begin
     end;
 
 {$IF DEFINED(MSWINDOWS)}
-    if IconsMode = sim_all_and_exe then
+    if (DirectAccess = False) and (AFile.Attributes = (FILE_ATTRIBUTE_NORMAL or FILE_ATTRIBUTE_VIRTUAL)) and Assigned(AFile.LinkProperty) then
     begin
-      if (DirectAccess = False) and (AFile.Attributes = (FILE_ATTRIBUTE_NORMAL or FILE_ATTRIBUTE_VIRTUAL)) and Assigned(AFile.LinkProperty) then
-      begin
-        if not LoadIcon then
-          Result := -1
-        else begin
-          Result := GetPluginIcon(AFile.LinkProperty.LinkTo, FiDefaultIconID);
-        end;
-        Exit;
+      if not LoadIcon then
+        Result := -1
+      else begin
+        Result := GetPluginIcon(AFile.LinkProperty.LinkTo, FiDefaultIconID);
       end;
+      Exit;
     end;
 {$ENDIF}
 
