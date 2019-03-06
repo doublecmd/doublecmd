@@ -743,13 +743,13 @@ begin
     xFieldName[0] := #0;
     repeat
       Rez := ContentGetSupportedField(Index, xFieldName, xUnits, MAX_LEN);
-      if Rez <> ft_nomorefields then
+      if Rez > ft_nomorefields then
       begin
         sFieldName := CeSysToUtf8(xFieldName);
         AddField(sFieldName, xUnits, Rez);
       end;
       Inc(Index);
-    until Rez = ft_nomorefields;
+    until (Rez = ft_nomorefields) or (Rez < 0);
 
     Translate;
   end;
