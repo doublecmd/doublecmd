@@ -749,7 +749,7 @@ begin
         AddField(sFieldName, xUnits, Rez);
       end;
       Inc(Index);
-    until (Rez = ft_nomorefields) or (Rez < 0);
+    until (Rez <= ft_nomorefields);
 
     Translate;
   end;
