@@ -485,11 +485,8 @@ var
   TargetFileSource: IFileSource;
 begin
   TargetFileSource := Self;
-  theTargetFiles.Path:= FCurrentAddress + theTargetFiles.Path;
-  Result := TGioSetFilePropertyOperation.Create(
-                TargetFileSource,
-                theTargetFiles,
-                theNewProperties);
+  if not StrBegins(theTargetFiles.Path, FCurrentAddress) then theTargetFiles.Path:= FCurrentAddress + theTargetFiles.Path;
+  Result := TGioSetFilePropertyOperation.Create(TargetFileSource, theTargetFiles, theNewProperties);
 end;
 
 end.
