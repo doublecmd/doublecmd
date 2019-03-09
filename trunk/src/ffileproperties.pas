@@ -580,6 +580,8 @@ procedure TfrmFileProperties.AllowChange(Allow: Boolean);
 begin
   btnSetPropertiesToAllFiles.Enabled := Allow;
   btnSetProperties.Enabled := Allow;
+  tsAttributes.Enabled:= Allow;
+  gbOwner.Enabled:= Allow;
 end;
 
 procedure TfrmFileProperties.StartCalcFolderSize;
