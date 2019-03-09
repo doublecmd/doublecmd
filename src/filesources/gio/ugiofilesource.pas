@@ -130,21 +130,25 @@ begin
   else if AFileType =  G_FILE_TYPE_SYMBOLIC_LINK then
     begin
       ATarget:= g_file_info_get_symlink_target(AFileInfo);
-      AFile:= g_file_get_child(AFolder, ATarget);
-
-      ASymlinkInfo := g_file_query_info (AFile, FILE_ATTRIBUTE_STANDARD_TYPE,
-                                         G_FILE_QUERY_INFO_NONE, nil, nil);
-
-      Result.LinkProperty.LinkTo := ATarget;
-      Result.LinkProperty.IsValid := Assigned(ASymlinkInfo);
-
-      if (Result.LinkProperty.IsValid) then
+      Result.LinkProperty.IsValid := Assigned(ATarget);
+      if Assigned(ATarget) then
       begin
-        AFileType:= g_file_info_get_file_type(ASymlinkInfo);
-        Result.LinkProperty.IsLinkToDirectory := (AFileType = G_FILE_TYPE_DIRECTORY);
-        g_object_unref(ASymlinkInfo);
+        AFile:= g_file_get_child(AFolder, ATarget);
+
+        ASymlinkInfo := g_file_query_info (AFile, FILE_ATTRIBUTE_STANDARD_TYPE,
+                                           G_FILE_QUERY_INFO_NONE, nil, nil);
+
+        Result.LinkProperty.LinkTo := ATarget;
+        Result.LinkProperty.IsValid := Assigned(ASymlinkInfo);
+
+        if (Result.LinkProperty.IsValid) then
+        begin
+          AFileType:= g_file_info_get_file_type(ASymlinkInfo);
+          Result.LinkProperty.IsLinkToDirectory := (AFileType = G_FILE_TYPE_DIRECTORY);
+          g_object_unref(ASymlinkInfo);
+        end;
+        g_object_unref(PGObject(AFile));
       end;
-      g_object_unref(PGObject(AFile));
     end
   else if AFileType in [G_FILE_TYPE_SHORTCUT, G_FILE_TYPE_MOUNTABLE] then
   begin
