@@ -66,6 +66,7 @@ type
       function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
       function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; override;
       function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
+      function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; override;
       function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
                                               var theNewProperties: TFileProperties): TFileSourceOperation; override;
     end;
@@ -76,13 +77,14 @@ uses
   DCFileAttributes, DCDateTimeUtils, uGioListOperation, uGioCopyOperation,
   uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation,
   uGioMoveOperation, uGioSetFilePropertyOperation, uDebug, fGioAuthDlg,
-  DCBasicTypes, DCStrUtils, uShowMsg;
+  DCBasicTypes, DCStrUtils, uShowMsg, uGioCalcStatisticsOperation;
 
 { TGioFileSource }
 
 function TGioFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result:= [fsoList, fsoCopy, fsoCopyIn, fsoCopyOut, fsoDelete, fsoExecute, fsoCreateDirectory, fsoMove, fsoSetFileProperty];
+  Result:= [fsoList, fsoCopy, fsoCopyIn, fsoCopyOut, fsoDelete, fsoExecute,
+            fsoCreateDirectory, fsoMove, fsoCalcStatistics, fsoSetFileProperty];
 end;
 
 class function TGioFileSource.CreateFile(const APath: String): TFile;
@@ -466,6 +468,14 @@ var
 begin
   TargetFileSource := Self;
   Result:=  TGioExecuteOperation.Create(TargetFileSource, ExecutableFile, BasePath, Verb);
+end;
+
+function TGioFileSource.CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result := TGioCalcStatisticsOperation.Create(TargetFileSource, theFiles);
 end;
 
 function TGioFileSource.CreateSetFilePropertyOperation(
