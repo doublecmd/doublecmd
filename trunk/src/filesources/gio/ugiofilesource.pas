@@ -125,6 +125,7 @@ begin
 
   if AFileType = G_FILE_TYPE_DIRECTORY then
     begin
+      Result.Size:= 0;
       Result.Attributes:= Result.Attributes or S_IFDIR;
     end
   else if AFileType =  G_FILE_TYPE_SYMBOLIC_LINK then
@@ -145,6 +146,7 @@ begin
         begin
           AFileType:= g_file_info_get_file_type(ASymlinkInfo);
           Result.LinkProperty.IsLinkToDirectory := (AFileType = G_FILE_TYPE_DIRECTORY);
+          if Result.LinkProperty.IsLinkToDirectory then Result.Size := 0;
           g_object_unref(ASymlinkInfo);
         end;
         g_object_unref(PGObject(AFile));
