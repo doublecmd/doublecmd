@@ -165,6 +165,7 @@ var
                 Inc(FilesCount);
               end;
            end;
+           g_object_unref(AInfo);
 
           AInfo:= g_file_enumerator_next_file (AFileEnum, nil, @AError);
         end;

@@ -127,6 +127,7 @@ begin
             FreeAndNil(aFile);
           end;
         end;
+        g_object_unref(AInfo);
         CheckOperationState;
 
         AInfo:= g_file_enumerator_next_file (AFileEnum, nil, @AError);
