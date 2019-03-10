@@ -157,6 +157,7 @@ function mbDeleteFile(const FileName: String): Boolean;
 function mbRenameFile(const OldName: String; NewName: String): Boolean;
 function mbFileSize(const FileName: String): Int64;
 function FileFlush(Handle: System.THandle): Boolean;
+function FileAllocate(Handle: System.THandle; Size: Int64): Boolean;
 { Directory handling functions}
 function mbGetCurrentDir: String;
 function mbSetCurrentDir(const NewDir: String): Boolean;
@@ -1109,7 +1110,35 @@ begin
   Result:= (fpfsync(Handle) = 0);
 end;  
 {$ENDIF}
-  
+
+function FileAllocate(Handle: System.THandle; Size: Int64): Boolean;
+{$IF DEFINED(LINUX)}
+var
+  Ret: cint;
+  Sta: TStat;
+begin
+  if (Size > 0) then
+  begin
+    repeat
+      Ret:= fpFStat(Handle, Sta);
+    until (Ret <> -1) or (fpgeterrno <> ESysEINTR);
+    if (Ret = 0) and (Sta.st_size < Size) then
+    begin
+      // New size should be aligned to block size
+      Sta.st_size:= (Size + Sta.st_blksize - 1) and not (Sta.st_blksize - 1);
+      repeat
+        Ret:= fpFAllocate(Handle, 0, 0, Sta.st_size);
+      until (Ret <> -1) or (fpgeterrno <> ESysEINTR) or (fpgeterrno <> ESysEAGAIN);
+    end;
+  end;
+  Result:= FileTruncate(Handle, Size);
+end;
+{$ELSE}
+begin
+  Result:= FileTruncate(Handle, Size);
+end;
+{$ENDIF}
+
 function mbGetCurrentDir: String;
 {$IFDEF MSWINDOWS}
 var
