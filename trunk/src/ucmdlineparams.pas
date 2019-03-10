@@ -26,7 +26,7 @@ implementation
 
 uses
   Forms, Dialogs, SysUtils, uOSUtils, uDCUtils, uGlobsPaths, getopts, uDebug,
-  uLng, uClipboard, uAdministrator;
+  uLng, uClipboard, uAdministrator, DCStrUtils;
 
 function DecodePath(const Path: String): String;
 begin
@@ -35,6 +35,7 @@ begin
   begin
     Result:= URIDecode(Copy(Result, 8, MaxInt));
   end;
+  Result:= GetAbsoluteFileName(IncludeTrailingBackslash(GetCurrentDir), Result);
 end;
 
 procedure ProcessCommandLineParams;
