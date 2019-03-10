@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -12,6 +12,7 @@
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
       <UseAppBundle Value="False"/>
+      <Icon Value="0"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
