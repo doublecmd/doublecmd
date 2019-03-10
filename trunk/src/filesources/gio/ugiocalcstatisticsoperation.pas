@@ -36,7 +36,7 @@ type
 implementation
 
 uses
-  uGLib2, uGObject2, uGio2, uGioFileSourceUtil;
+  uGLib2, uGObject2, uGio2, uGioFileSourceUtil, uGio;
 
 constructor TGioCalcStatisticsOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -106,13 +106,13 @@ var
   AError: PGError = nil;
   AFileEnum: PGFileEnumerator;
 begin
-  AFolder:= g_file_new_for_commandline_arg (Pgchar(srcPath));
+  AFolder:= GioNewFile(srcPath);
   try
     AFileEnum:= g_file_enumerate_children (AFolder, CONST_DEFAULT_QUERY_INFO_ATTRIBUTES,
                                            G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, @AError);
 
     if Assigned(AFileEnum) then
-    begin
+    try
       AInfo:= g_file_enumerator_next_file (AFileEnum, nil, @AError);
       while Assigned(AInfo) do
       begin
@@ -132,12 +132,13 @@ begin
 
         AInfo:= g_file_enumerator_next_file (AFileEnum, nil, @AError);
       end;
+    finally
+      if Assigned(AError) then
+      begin
+        LogMessage(AError^.message, [log_errors], lmtError);
+        g_error_free(AError);
+      end;
       g_object_unref(AFileEnum);
-    end;
-    if Assigned(AError) then
-    begin
-      LogMessage(AError^.message, [log_errors], lmtError);
-      g_error_free(AError);
     end;
   finally
     g_object_unref(PGObject(AFolder));

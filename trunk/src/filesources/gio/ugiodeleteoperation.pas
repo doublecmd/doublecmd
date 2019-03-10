@@ -47,7 +47,7 @@ type
 implementation
 
 uses
-  DCOSUtils, uLng, uGlib2, uGio2, uGObject2, uGioFileSourceUtil;
+  DCOSUtils, uLng, uGlib2, uGio2, uGObject2, uGio, uGioFileSourceUtil;
 
 constructor TGioDeleteOperation.Create(aTargetFileSource: IFileSource;
                                              var theFilesToDelete: TFiles);
@@ -148,7 +148,7 @@ begin
     //if FileIsReadOnly(aFile.Attributes) then
     //  mbFileSetReadOnly(FileName, False);
 
-    AGFile:= g_file_new_for_commandline_arg(Pgchar(FileName));
+    AGFile:= GioNewFile(FileName);
     Result:= g_file_delete(AGFile, nil, nil);
     g_object_unref(PGObject(AGFile));
 

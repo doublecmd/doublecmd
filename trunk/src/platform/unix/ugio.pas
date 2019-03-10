@@ -4,7 +4,7 @@
    Interface to GIO - GLib Input, Output and Streaming Library
    This unit loads all libraries dynamically so it can work without it
 
-   Copyright (C) 2011-2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,9 +29,10 @@ unit uGio;
 interface
 
 uses
-  Classes, SysUtils, DCBasicTypes;
+  Classes, SysUtils, DCBasicTypes, uGio2;
 
 function GioOpen(const Uri: String): Boolean;
+function GioNewFile(const Address: String): PGFile;
 function GioGetIconTheme(const Scheme: String): String;
 function GioFileGetIcon(const FileName: String): String;
 function GioMimeTypeGetActions(const MimeType: String): TDynamicStringArray;
@@ -43,7 +44,7 @@ var
 implementation
 
 uses
-  DCStrUtils, DCClassesUtf8, uGlib2, uGObject2, uGio2;
+  DCStrUtils, DCClassesUtf8, uGlib2, uGObject2;
 
 function GioOpen(const Uri: String): Boolean;
 var
@@ -55,7 +56,7 @@ begin
   AFileList.next:= nil;
   AFileList.prev:= nil;
   if not HasGio then Exit;
-  AFile:= g_file_new_for_commandline_arg(Pgchar(Uri));
+  AFile:= GioNewFile(Pgchar(Uri));
   try
     AppInfo:= g_file_query_default_handler(AFile, nil, nil);
     if (AppInfo = nil) then Exit;
@@ -72,6 +73,23 @@ begin
     g_object_unref(PGObject(AppInfo));
   finally
     g_object_unref(PGObject(AFile));
+  end;
+end;
+
+function GioNewFile(const Address: String): PGFile;
+var
+  URI: Pgchar;
+begin
+  if Pos('://', Address) = 0 then
+    Result:= g_file_new_for_path(Pgchar(Address))
+  else begin
+    URI:= g_uri_escape_string(Pgchar(Address), ':/', True);
+    if (URI = nil) then
+      Result:= g_file_new_for_path(Pgchar(Address))
+    else begin
+      Result:= g_file_new_for_uri(URI);
+      g_free(URI);
+    end;
   end;
 end;
 
@@ -114,7 +132,7 @@ var
   GFileInfo: PGFileInfo;
 begin
   Result:= EmptyStr;
-  GFile:= g_file_new_for_commandline_arg(Pgchar(FileName));
+  GFile:= GioNewFile(Pgchar(FileName));
   GFileInfo:= g_file_query_info(GFile, FILE_ATTRIBUTE_STANDARD_ICON, 0, nil, nil);
   if Assigned(GFileInfo) then
   begin

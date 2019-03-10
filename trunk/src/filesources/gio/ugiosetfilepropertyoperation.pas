@@ -46,7 +46,7 @@ type
 implementation
 
 uses
-  DCBasicTypes, DCDateTimeUtils, uGioFileSourceUtil, uGObject2;
+  DCBasicTypes, DCDateTimeUtils, uGioFileSourceUtil, uGObject2, uGio;
 
 constructor TGioSetFilePropertyOperation.Create(aTargetFileSource: IFileSource;
                                                       var theTargetFiles: TFiles;
@@ -142,7 +142,7 @@ var
 begin
   Result := sfprSuccess;
 
-  AGFile:= g_file_new_for_commandline_arg(Pgchar(aFile.FullPath));
+  AGFile:= GioNewFile(aFile.FullPath);
   case aTemplateProperty.GetID of
     fpName:
       if (aTemplateProperty as TFileNameProperty).Value <> aFile.Name then
