@@ -88,6 +88,10 @@ function FileLock(Handle: System.THandle; Mode: cInt): System.THandle;
 function fpMkTime(tm: PTimeStruct): TTime;
 function fpLocalTime(timer: PTime; tp: PTimeStruct): PTimeStruct;
 
+{$IF DEFINED(LINUX)}
+function fpFAllocate(fd: cint; mode: cint; offset, len: coff_t): cint;
+{$ENDIF}
+
 implementation
 
 uses
@@ -110,7 +114,10 @@ procedure tzset(); cdecl; external clib;
 function sysconf(name: cint): clong; cdecl; external clib;
 function mktime(tp: PTimeStruct): TTime; cdecl; external clib;
 function localtime_r(timer: PTime; tp: PTimeStruct): PTimeStruct; cdecl; external clib;
-function lchown(path : PChar; owner : TUid; group : TGid): cInt; cdecl; external clib name 'lchown';
+function lchown(path : PChar; owner : TUid; group : TGid): cInt; cdecl; external clib;
+{$IF DEFINED(LINUX)}
+function fallocate(fd: cint; mode: cint; offset, len: coff_t): cint; cdecl; external clib;
+{$ENDIF}
 
 procedure FileCloseOnExecAll;
 var
@@ -187,6 +194,14 @@ begin
   Result := localtime_r(timer, tp);
   if (Result = nil) then fpseterrno(fpgetCerrno);
 end;
+
+{$IF DEFINED(LINUX)}
+function fpFAllocate(fd: cint; mode: cint; offset, len: coff_t): cint;
+begin
+  Result := fallocate(fd, mode, offset, len);
+  if Result = -1 then fpseterrno(fpgetCerrno);
+end;
+{$ENDIF}
 
 initialization
   tzset();

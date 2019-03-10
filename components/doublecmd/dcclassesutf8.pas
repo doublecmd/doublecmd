@@ -37,6 +37,8 @@ type
   private
     FHandle: THandle;
     FFileName: String;
+  protected
+    procedure SetSize64(const NewSize: Int64); override;
   public
     constructor Create(const AFileName: String; Mode: LongWord);
     destructor Destroy; override;
@@ -73,6 +75,11 @@ uses
   DCOSUtils;
 
 { TFileStreamEx }
+
+procedure TFileStreamEx.SetSize64(const NewSize: Int64);
+begin
+  FileAllocate(FHandle, NewSize);
+end;
 
 constructor TFileStreamEx.Create(const AFileName: String; Mode: LongWord);
 begin
