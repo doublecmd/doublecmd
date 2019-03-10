@@ -1642,7 +1642,7 @@ msgstr "编码(&G)："
 
 #: tfrmfinddlg.lblexcludedirectories.caption
 msgid "E&xclude subdirectories"
-msgstr "不含子文件夹(&X)"
+msgstr "排除子文件夹(&X)"
 
 #: tfrmfinddlg.lblexcludefiles.caption
 msgid "&Exclude files"
