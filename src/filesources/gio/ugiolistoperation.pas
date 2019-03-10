@@ -27,7 +27,7 @@ type
 implementation
 
 uses
-  LCLProc, Dialogs, uFile, DCDateTimeUtils, uGioFileSourceUtil, uGObject2;
+  LCLProc, Dialogs, uFile, DCDateTimeUtils, uGioFileSourceUtil, uGObject2, uGio;
 
 {$DEFINE G_IO_ERROR:= g_io_error_quark()}
 
@@ -49,7 +49,7 @@ begin
   FFiles.Clear;
   with FGioFileSource do
   begin
-    AFolder:= g_file_new_for_commandline_arg(Pgchar(Path));
+    AFolder:= GioNewFile(Path);
     try
       while True do
       begin

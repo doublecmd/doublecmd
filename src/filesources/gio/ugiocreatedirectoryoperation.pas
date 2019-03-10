@@ -19,7 +19,7 @@ type
 implementation
 
 uses
-  uFileSourceOperationUI, uLog, uLng, uGlobs, uGio2, uGLib2, uGObject2;
+  uFileSourceOperationUI, uLog, uLng, uGlobs, uGio2, uGio, uGLib2, uGObject2;
 
 procedure TGioCreateDirectoryOperation.MainExecute;
 var
@@ -27,7 +27,7 @@ var
   AResult: Boolean;
   AError: PGError = nil;
 begin
-  AGFile:= g_file_new_for_commandline_arg(Pgchar(AbsolutePath));
+  AGFile:= GioNewFile(AbsolutePath);
   AResult:= g_file_make_directory_with_parents(AGFile, nil, @AError);
   g_object_unref(PGObject(AGFile));
   if Assigned(AError) then

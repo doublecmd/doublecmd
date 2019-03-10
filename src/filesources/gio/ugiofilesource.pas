@@ -77,7 +77,7 @@ uses
   DCFileAttributes, DCDateTimeUtils, uGioListOperation, uGioCopyOperation,
   uGioDeleteOperation, uGioExecuteOperation, uGioCreateDirectoryOperation,
   uGioMoveOperation, uGioSetFilePropertyOperation, uDebug, fGioAuthDlg,
-  DCBasicTypes, DCStrUtils, uShowMsg, uGioCalcStatisticsOperation;
+  DCBasicTypes, DCStrUtils, uShowMsg, uGioCalcStatisticsOperation, uGio;
 
 { TGioFileSource }
 
@@ -354,7 +354,7 @@ function TGioFileSource.CreateDirectory(const Path: String): Boolean;
 var
   AGFile: PGFile;
 begin
-  AGFile:= g_file_new_for_commandline_arg(Pgchar(Path));
+  AGFile:= GioNewFile(Path);
   Result:= g_file_make_directory_with_parents(AGFile, nil, nil);
   g_object_unref(PGObject(AGFile));
 end;
@@ -364,7 +364,7 @@ var
   AFile: PGFile;
   AInfo: PGFileInfo;
 begin
-  AFile := g_file_new_for_commandline_arg(Pgchar(Path));
+  AFile := GioNewFile(Path);
   AInfo := g_file_query_filesystem_info (AFile, FILE_ATTRIBUTE_FILESYSTEM_FREE + ',' + FILE_ATTRIBUTE_FILESYSTEM_SIZE, nil, nil);
   Result := Assigned(AInfo);
   if Result then

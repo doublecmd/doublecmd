@@ -112,7 +112,7 @@ implementation
 
 uses
   Forms, StrUtils, DCDateTimeUtils, uFileProperty,
-  uShowMsg, uLng, uGObject2, DCFileAttributes;
+  uShowMsg, uLng, uGObject2, uGio, DCFileAttributes;
 
 procedure ShowError(AError: PGError);
 begin
@@ -134,7 +134,7 @@ var
     AError: PGError = nil;
     AFileEnum: PGFileEnumerator;
   begin
-    AFolder:= g_file_new_for_commandline_arg (Pgchar(srcPath));
+    AFolder:= GioNewFile(srcPath);
     try
       AFileEnum:= g_file_enumerate_children (AFolder, CONST_DEFAULT_QUERY_INFO_ATTRIBUTES,
                                              G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, @AError);
@@ -267,7 +267,7 @@ var
   AError: PGError = nil;
   AFileEnum: PGFileEnumerator;
 begin
-  AFolder:= g_file_new_for_commandline_arg(Pgchar(srcPath));
+  AFolder:= GioNewFile(srcPath);
   try
     AFileEnum := g_file_enumerate_children (AFolder, CONST_DEFAULT_QUERY_INFO_ATTRIBUTES,
                                             G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, nil, @AError);
@@ -388,8 +388,8 @@ var
 begin
   NodeData := aNode.Data as TFileTreeNodeData;
 
-  SourceFile:= g_file_new_for_commandline_arg(Pgchar(aNode.TheFile.FullPath));
-  TargetFile:= g_file_new_for_commandline_arg(Pgchar(AbsoluteTargetFileName));
+  SourceFile:= GioNewFile(aNode.TheFile.FullPath);
+  TargetFile:= GioNewFile(AbsoluteTargetFileName);
   try
   // If some files will not be moved then source directory cannot be deleted.
   bRemoveDirectory := (FCopyMoveFile = g_file_move) and (NodeData.SubnodesHaveExclusions = False);
@@ -470,8 +470,8 @@ begin
   FOldDoneBytes:= FStatistics.DoneBytes;
 
   FCancel:= g_cancellable_new();
-  SourceFile:= g_file_new_for_commandline_arg(Pgchar(aNode.TheFile.FullPath));
-  TargetFile:= g_file_new_for_commandline_arg(Pgchar(AbsoluteTargetFileName));
+  SourceFile:= GioNewFile(aNode.TheFile.FullPath);
+  TargetFile:= GioNewFile(AbsoluteTargetFileName);
 
   try
     repeat
@@ -576,7 +576,7 @@ var
       fsoofeAutoRenameSource:
         begin
           g_object_unref(PGObject(aTargetFile));
-          aTargetFile:= g_file_new_for_commandline_arg(Pgchar(AbsoluteTargetFileName));
+          aTargetFile:= GioNewFile(AbsoluteTargetFileName);
           Exit(fsoterRenamed);
         end;
       fsoofeOverwrite: Exit(fsoterDeleted);
