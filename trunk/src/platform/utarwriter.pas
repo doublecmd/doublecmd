@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Simple TAR archive writer
 
-   Copyright (C) 2011-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2011-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This unit is based on libtar.pp from the Free Component Library (FCL)
 
@@ -376,7 +376,7 @@ begin
     // GID
     OctalN(FileInfo.st_gid, HR.GID, 8);
     // File size
-    if fpS_ISLNK(FileInfo.st_mode) then
+    if fpS_ISLNK(FileInfo.st_mode) or fpS_ISDIR(FileInfo.st_mode) then
       OctalN(0, HR.Size, 12)
     else
       OctalN(FileInfo.st_size, HR.Size, 12);
