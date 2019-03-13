@@ -338,14 +338,14 @@ begin
 
     sPackedFile := UTF16ToUTF8(UnicodeString(PackedFile));
 
-    if ((Flags and PK_PACK_ENCRYPT) <> 0) and
-       (LowerCase(ExtractFileExt(sPackedFile)) = '.zip') then // only zip supports encryption
-    begin
-      Arc.AbNeedPasswordEvent(Arc, sPassword);
-      Arc.Password:= sPassword;
-    end;
-
     try
+      if ((Flags and PK_PACK_ENCRYPT) <> 0) and
+         (LowerCase(ExtractFileExt(sPackedFile)) = '.zip') then // only zip supports encryption
+      begin
+        Arc.AbNeedPasswordEvent(Arc, sPassword);
+        Arc.Password:= sPassword;
+      end;
+
       Arc.OpenArchive(sPackedFile);
 
       Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
