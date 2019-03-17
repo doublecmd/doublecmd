@@ -2341,6 +2341,18 @@ object frmMain: TfrmMain
       Caption = 'Add path and file name to command line'
       OnExecute = actExecute
     end
+    object actGoToFirstEntry: TAction
+      Tag = 14
+      Category = 'Navigation'
+      Caption = 'Place cursor on first folder or file'
+      OnExecute = actExecute
+    end
+    object actGoToLastEntry: TAction
+      Tag = 14
+      Category = 'Navigation'
+      Caption = 'Place cursor on last folder or file'
+      OnExecute = actExecute
+    end
     object actGoToFirstFile: TAction
       Tag = 14
       Category = 'Navigation'

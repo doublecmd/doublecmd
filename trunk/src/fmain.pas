@@ -85,6 +85,8 @@ type
     actChangeDirToParent: TAction;
     actEditPath: TAction;
     actHorizontalFilePanels: TAction;
+    actGoToFirstEntry: TAction;
+    actGoToLastEntry: TAction;
     actGoToFirstFile: TAction;
     actGoToLastFile: TAction;
     actCompareDirectories: TAction;
