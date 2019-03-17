@@ -104,6 +104,8 @@ type
   published  // commands
     procedure cm_QuickSearch(const Params: array of string);
     procedure cm_QuickFilter(const Params: array of string);
+    procedure cm_GoToFirstEntry(const {%H-}Params: array of string);
+    procedure cm_GoToLastEntry(const {%H-}Params: array of string);
     procedure cm_GoToFirstFile(const Params: array of string);
     procedure cm_GoToLastFile(const Params: array of string);
   end;
@@ -155,7 +157,7 @@ begin
   end;
 end;
 
-procedure TOrderedFileView.cm_GoToFirstFile(const Params: array of string);
+procedure TOrderedFileView.cm_GoToFirstEntry(const Params: array of string);
 begin
   if not (IsEmpty or IsLoadingFileList) then
   begin
@@ -164,12 +166,44 @@ begin
   end;
 end;
 
-procedure TOrderedFileView.cm_GoToLastFile(const Params: array of string);
+procedure TOrderedFileView.cm_GoToLastEntry(const Params: array of string);
 begin
   if not (IsEmpty or IsLoadingFileList) then
   begin
     SetFocus;
     SetActiveFile(FFiles.Count - 1);
+  end;
+end;
+
+procedure TOrderedFileView.cm_GoToFirstFile(const Params: array of string);
+var
+  I: Integer;
+begin
+  if not (IsEmpty or IsLoadingFileList) then
+  begin
+    SetFocus;
+    for I:= 0 to FFiles.Count - 1 do
+      if not (FFiles[I].FSFile.IsDirectory or FFiles[I].FSFile.IsLinkToDirectory) then
+      begin
+        SetActiveFile(I);
+        Exit;
+      end;
+  end;
+end;
+
+procedure TOrderedFileView.cm_GoToLastFile(const Params: array of string);
+var
+  I: Integer;
+begin
+  if not (IsEmpty or IsLoadingFileList) then
+  begin
+    SetFocus;
+    for I:= FFiles.Count - 1 downto 0 do
+      if not (FFiles[I].FSFile.IsDirectory or FFiles[I].FSFile.IsLinkToDirectory) then
+      begin
+        SetActiveFile(I);
+        Exit;
+      end;
   end;
 end;
 

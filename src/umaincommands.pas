@@ -193,6 +193,8 @@ type
    procedure cm_ShowButtonMenu(const Params: array of string);
    procedure cm_TransferLeft(const {%H-}Params: array of string);
    procedure cm_TransferRight(const {%H-}Params: array of string);
+   procedure cm_GoToFirstEntry(const {%H-}Params: array of string);
+   procedure cm_GoToLastEntry(const {%H-}Params: array of string);
    procedure cm_GoToFirstFile(const {%H-}Params: array of string);
    procedure cm_GoToLastFile(const {%H-}Params: array of string);
    procedure cm_Minimize(const {%H-}Params: array of string);
@@ -1462,6 +1464,16 @@ begin
   DoTransferPath(frmMain.LeftTabs.ActivePage,
                  frmMain.RightTabs.ActivePage,
                  frmMain.SelectedPanel = fpLeft);
+end;
+
+procedure TMainCommands.cm_GoToFirstEntry(const Params: array of string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_GoToFirstEntry', []);
+end;
+
+procedure TMainCommands.cm_GoToLastEntry(const Params: array of string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_GoToLastEntry', []);
 end;
 
 procedure TMainCommands.cm_GoToFirstFile(const Params: array of string);
