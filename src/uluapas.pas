@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Push some useful functions to Lua
 
-   Copyright (C) 2016-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -398,12 +398,20 @@ var
   APath: String;
 begin
   lua_getglobal(L, 'package');
+    // Set package.path
     lua_getfield(L, -1, 'path');
       APath := lua_tostring(L, -1);
-      APath := APath + ';' + Path + '?.lua';
+      APath := StringReplace(APath, '.' + PathDelim, Path, []);
     lua_pop(L, 1);
     lua_pushstring(L, PAnsiChar(APath));
     lua_setfield(L, -2, 'path');
+    // Set package.cpath
+    lua_getfield(L, -1, 'cpath');
+      APath := lua_tostring(L, -1);
+      APath := StringReplace(APath, '.' + PathDelim, Path, []);
+    lua_pop(L, 1);
+    lua_pushstring(L, PAnsiChar(APath));
+    lua_setfield(L, -2, 'cpath');
   lua_pop(L, 1);
 end;
 
@@ -443,6 +451,7 @@ begin
   begin
     luaL_openlibs(L);
     RegisterPackages(L);
+    SetPackagePath(L, ExtractFilePath(Script));
 
     // Load script from file
     Status := luaL_loadfile(L, PAnsiChar(Script));
