@@ -95,12 +95,13 @@ begin
 
   pnlHeader := TFileViewHeader.Create(Self, Self);
 
-  pnlFooter            := TPanel.Create(Self);
-  pnlFooter.Parent     := Self;
-  pnlFooter.Align      := alBottom;
-  pnlFooter.BevelInner := bvNone;
-  pnlFooter.BevelOuter := bvNone;
-  pnlFooter.AutoSize   := True;
+  pnlFooter                := TPanel.Create(Self);
+  pnlFooter.Parent         := Self;
+  pnlFooter.Align          := alBottom;
+  pnlFooter.BevelInner     := bvNone;
+  pnlFooter.BevelOuter     := bvNone;
+  pnlFooter.AutoSize       := True;
+  pnlFooter.DoubleBuffered := True;
 
   lblInfo          := TLabel.Create(pnlFooter);
   lblInfo.Parent   := pnlFooter;
