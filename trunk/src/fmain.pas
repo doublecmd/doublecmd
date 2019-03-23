@@ -5377,6 +5377,12 @@ begin
   LoadTabsXml(gConfig,'Tabs/OpenedTabs/Left', nbLeft);
   LoadTabsXml(gConfig,'Tabs/OpenedTabs/Right', nbRight);
 
+  if not CommandLineParams.ActivePanelSpecified then
+  begin
+    CommandLineParams.ActivePanelSpecified:= True;
+    CommandLineParams.ActiveRight:= gActiveRight;
+  end;
+
   LoadTabsCommandLine(CommandLineParams);
 
   if gDelayLoadingTabs then
