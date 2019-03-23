@@ -36,6 +36,10 @@ exports
 
 begin
   ModuleHandle := LoadLibrary(_unrar);
+{$IF DEFINED(LINUX)}
+  if ModuleHandle = NilHandle then
+    ModuleHandle := LoadLibrary(_unrar + '.5');
+{$ENDIF}
   if ModuleHandle = NilHandle then
     ModuleHandle := LoadLibrary(GetEnvironmentVariable('COMMANDER_PATH') + PathDelim + _unrar);
   if ModuleHandle <> NilHandle then
