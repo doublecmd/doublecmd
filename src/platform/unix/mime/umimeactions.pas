@@ -562,6 +562,26 @@ var
   UserDataDir: String;
   DesktopFile: TIniFileEx;
   MimeApps: String = '/mimeapps.list';
+
+  procedure UpdateDesktop(const Group: String);
+  begin
+    // Read current actions of this mime type
+    Value:= DesktopFile.ReadString(Group, MimeType, EmptyStr);
+    if (Length(Value) > 0) and (not StrEnds(Value, ';')) then Value += ';';
+    if DefaultAction then
+    begin
+      // Remove chosen action if it exists
+      Value:= StringReplace(Value, CustomFile, EmptyStr, [rfReplaceAll]);
+      // Save chosen action as first
+      DesktopFile.WriteString(Group, MimeType, CustomFile + Value);
+    end
+    else if (Pos(CustomFile, Value) = 0) then
+    begin
+      // Save chosen action as last
+      DesktopFile.WriteString(Group, MimeType, Value + CustomFile);
+    end;
+  end;
+
 begin
   CustomFile:= DesktopEntry;
   UserDataDir:= GetUserDataDir;
@@ -599,27 +619,16 @@ begin
     DesktopFile:= TIniFileEx.Create(MimeApps, fmOpenReadWrite);
     try
       // Update added associations
-      // Read current actions of this mime type
-      Value:= DesktopFile.ReadString(MIME_APPS[magAdded], MimeType, EmptyStr);
-      if (Length(Value) > 0) and (not StrEnds(Value, ';')) then Value += ';';
-      if (Pos(CustomFile, Value) = 0) then
-      begin
-        // Save chosen action as last
-        DesktopFile.WriteString(MIME_APPS[magAdded], MimeType, Value + CustomFile);
-      end;
-      // Update default applications
+      UpdateDesktop(MIME_APPS[magAdded]);
       // Set as default action if needed
       if DefaultAction then
       begin
-        // Read current actions of this mime type
-        Value:= DesktopFile.ReadString(MIME_APPS[magDefault], MimeType, EmptyStr);
-        if (Length(Value) > 0) and (not StrEnds(Value, ';')) then Value += ';';
-        // Remove chosen action if it exists
-        Value:= StringReplace(Value, CustomFile, EmptyStr, [rfReplaceAll]);
-        // Save chosen action as first
-        DesktopFile.WriteString(MIME_APPS[magDefault], MimeType, CustomFile + Value);
+        // Update default applications
+        UpdateDesktop(MIME_APPS[magDefault]);
       end;
       DesktopFile.UpdateFile;
+      if DesktopEnv = DE_KDE then
+        fpSystem('kbuildsycoca5');
     finally
       DesktopFile.Free;
     end;
