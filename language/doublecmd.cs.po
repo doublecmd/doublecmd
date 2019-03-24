@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2019-01-27 14:36+0100\n"
+"PO-Revision-Date: 2019-03-23 16:02+0100\n"
 "Last-Translator: Zdeněk Fuchs <zephycz@centrum.cz>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1055,7 +1055,7 @@ msgstr "Možnost"
 
 #: tfrmeditsearchreplace.lblreplacewith.caption
 msgid "&Replace with:"
-msgstr "&Nahradit čím:"
+msgstr "Nahradit:"
 
 #: tfrmeditsearchreplace.lblsearchfor.caption
 msgid "&Search for:"
@@ -1233,7 +1233,7 @@ msgstr "Spustit"
 
 #: tfrmfileproperties.lblexecutable.caption
 msgid "Execute:"
-msgstr ""
+msgstr "Spustit:"
 
 #: tfrmfileproperties.lblfile.caption
 msgctxt "TFRMFILEPROPERTIES.LBLFILE.CAPTION"
@@ -1370,7 +1370,7 @@ msgstr "Z&rušit"
 
 #: tfrmfinddlg.actcancelclose.caption
 msgid "Cancel search and close window"
-msgstr "&Zavřít"
+msgstr "Přerušit hledání a zavřít okno"
 
 #: tfrmfinddlg.actclose.caption
 msgctxt "tfrmfinddlg.actclose.caption"
@@ -1393,11 +1393,11 @@ msgstr "Výsledek do panelu"
 
 #: tfrmfinddlg.actfreefrommem.caption
 msgid "Cancel search, close and free from memory"
-msgstr "Zrušit hledání, zavřít a uvolnit paměť"
+msgstr "Přerušit hledání, zavřít okno a uvolnit z paměti"
 
 #: tfrmfinddlg.actfreefrommemallothers.caption
 msgid "For all other \"Find files\", cancel, close and free from memory"
-msgstr "Pro všechny ostatní \"Najít soubory\", zrušit, zavřít a uvolnit paměť"
+msgstr "Všechna ostatní \"Hledání souborů\", zrušit, zavřít a uvolnit paměť"
 
 #: tfrmfinddlg.actgotofile.caption
 msgid "&Go to file"
@@ -1557,7 +1557,7 @@ msgstr "&Regulární výrazy"
 
 #: tfrmfinddlg.cbreplacetext.caption
 msgid "Re&place by"
-msgstr "Nahradit &pomocí"
+msgstr "Nahradit za"
 
 #: tfrmfinddlg.cbselectedfiles.caption
 msgid "Selected directories and &files"
@@ -1645,15 +1645,15 @@ msgstr "Kódován&í:"
 
 #: tfrmfinddlg.lblexcludedirectories.caption
 msgid "E&xclude subdirectories"
-msgstr "V&yloučené podsložky"
+msgstr "Vyloučit podsložky"
 
 #: tfrmfinddlg.lblexcludefiles.caption
 msgid "&Exclude files"
-msgstr "&Vyloučené soubory"
+msgstr "Vyloučit soubory"
 
 #: tfrmfinddlg.lblfindfilemask.caption
 msgid "&File mask"
-msgstr "Souborová maska"
+msgstr "Maska souboru"
 
 #: tfrmfinddlg.lblfindpathstart.caption
 msgid "Start in &directory"
@@ -1673,7 +1673,7 @@ msgstr "&Akce"
 
 #: tfrmfinddlg.mifreefrommemallothers.caption
 msgid "For all others, cancel, close and free from memory"
-msgstr "Pro všechny ostatní, zrušit, zavřít a uvolnit paměť"
+msgstr "Všechna ostatní hledání, zrušit, zavřít a uvolnit paměť"
 
 #: tfrmfinddlg.miopeninnewtab.caption
 msgid "Open In New Tab(s)"
@@ -1757,7 +1757,7 @@ msgstr "Hexadecimální řetězec"
 
 #: tfrmgioauthdialog.lbldomain.caption
 msgid "Domain:"
-msgstr ""
+msgstr "Doména:"
 
 #: tfrmgioauthdialog.lblpassword.caption
 #, fuzzy
@@ -1773,11 +1773,11 @@ msgstr "Jméno uživatele:"
 
 #: tfrmgioauthdialog.rbanonymous.caption
 msgid "Connect anonymously"
-msgstr ""
+msgstr "Anonymní připojení"
 
 #: tfrmgioauthdialog.rbconnetas.caption
 msgid "Connect as user:"
-msgstr ""
+msgstr "Připojit jako uživatel:"
 
 #: tfrmhardlink.btncancel.caption
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
@@ -2120,7 +2120,7 @@ msgstr "Smazat"
 
 #: tfrmmain.actdeletesearches.caption
 msgid "For all searches, cancel, close and free memory"
-msgstr "Pro všechny hledání, zrušit, zavřit a uvolnit paměť"
+msgstr "Všechna hledání, zrušit, zavřít a uvolnit paměť"
 
 #: tfrmmain.actdirhistory.caption
 msgid "Directory history"
@@ -4723,7 +4723,7 @@ msgstr "Cesta:"
 
 #: tfrmoptionsdirectoryhotlist.lbledithotdirtarget.editlabel.caption
 msgid "&Target:"
-msgstr "Cíl:"
+msgstr "Cesta cíl:"
 
 #: tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption
 msgctxt "tfrmoptionsdirectoryhotlist.micurrentlevelofitemonly.caption"
@@ -4966,7 +4966,7 @@ msgstr "Automaticky odstranit zbytečné mezery, platí pouze pro upravené řá
 #: tfrmoptionseditor.edtabwidth.hint
 msgctxt "tfrmoptionseditor.edtabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr ""
+msgstr "Volba \"Smart Tab\" má přednost před klasickým tabelátorem"
 
 #: tfrmoptionseditor.gbinternaleditor.caption
 msgid "Internal editor options"
@@ -4979,7 +4979,7 @@ msgstr "Tab mezery:"
 #: tfrmoptionseditor.lbltabwidth.hint
 msgctxt "tfrmoptionseditor.lbltabwidth.hint"
 msgid "Please note that the \"Smart Tabs\" option takes precedence over the tabulation to be performed"
-msgstr ""
+msgstr "Volba \"Smart Tab\" má přednost před klasickým tabelátorem"
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -9276,7 +9276,7 @@ msgstr "&OK"
 
 #: ttfrmconfirmcommandline.lblecommandline.editlabel.caption
 msgid "Command line:"
-msgstr ""
+msgstr "Příkazový řádek:"
 
 #: ttfrmconfirmcommandline.lbleparameters.editlabel.caption
 #, fuzzy
@@ -10129,7 +10129,7 @@ msgstr "B"
 
 #: ulng.rslistoffindfileswindows
 msgid "List of \"Find files\" windows"
-msgstr ""
+msgstr "Seznam hledacích oken"
 
 #: ulng.rsmarkminus
 msgid "Unselect mask"
@@ -10725,7 +10725,7 @@ msgstr "Importovat vybrané"
 #: ulng.rsmsghotdirjustpath
 msgctxt "ulng.rsmsghotdirjustpath"
 msgid "&Path:"
-msgstr "Cesta:"
+msgstr "Cesta zdroj:"
 
 #: ulng.rsmsghotdirlocatehotlistfile
 msgid "Locate \".hotlist\" file to import"
@@ -11400,7 +11400,7 @@ msgstr ""
 
 #: ulng.rsopenwithgames
 msgid "Games"
-msgstr ""
+msgstr "Hry"
 
 #: ulng.rsopenwithgraphics
 msgctxt "ulng.rsopenwithgraphics"
@@ -12942,4 +12942,3 @@ msgstr "Počet nahrazených: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Žádné nahrazení se nekonalo."
-
