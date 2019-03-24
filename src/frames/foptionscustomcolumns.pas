@@ -1017,6 +1017,19 @@ end;
 procedure TfrmOptionsCustomColumns.MenuFieldsClick(Sender: TObject);
 var
   MenuItem: TMenuItem absolute Sender;
+
+  procedure UpdateCell(const AText: String);
+  begin
+    if Length(stgColumns.Cells[4, btnAdd.Tag]) = 0 then
+      stgColumns.Cells[4, btnAdd.Tag] := AText
+    else begin
+      if StrEnds(stgColumns.Cells[4, btnAdd.Tag], ' ') then
+        stgColumns.Cells[4, btnAdd.Tag] := stgColumns.Cells[4, btnAdd.Tag] + AText
+      else
+        stgColumns.Cells[4, btnAdd.Tag] := stgColumns.Cells[4, btnAdd.Tag] + ' ' + AText;
+    end;
+  end;
+
 begin
   if Length(stgColumns.Cells[1, btnAdd.Tag]) = 0 then
   begin
@@ -1028,22 +1041,10 @@ begin
     end;
   end;
   case MenuItem.Tag of
-    0:
-    begin
-      stgColumns.Cells[4, btnAdd.Tag] := stgColumns.Cells[4, btnAdd.Tag] + '[DC().' + MenuItem.Hint + '{}] ';
-    end;
-    1:
-    begin
-      stgColumns.Cells[4, btnAdd.Tag] := stgColumns.Cells[4, btnAdd.Tag] + '[Plugin(' + MenuItem.Parent.Caption + ').' + MenuItem.Hint + '{}] ';
-    end;
-    2:
-    begin
-      stgColumns.Cells[4, btnAdd.Tag] := stgColumns.Cells[4, btnAdd.Tag] + '[Plugin(' + MenuItem.Parent.Parent.Caption + ').' + MenuItem.Parent.Hint + '{' + MenuItem.Hint + '}] ';
-    end;
-    3:
-    begin
-      stgColumns.Cells[4, btnAdd.Tag] := stgColumns.Cells[4, btnAdd.Tag] + '[DC().' + MenuItem.Parent.Hint + '{' + MenuItem.Hint + '}] ';
-    end;
+    0: UpdateCell('[DC().' + MenuItem.Hint + '{}]');
+    1: UpdateCell('[Plugin(' + MenuItem.Parent.Caption + ').' + MenuItem.Hint + '{}]');
+    2: UpdateCell('[Plugin(' + MenuItem.Parent.Parent.Caption + ').' + MenuItem.Parent.Hint + '{' + MenuItem.Hint + '}]');
+    3: UpdateCell('[DC().' + MenuItem.Parent.Hint + '{' + MenuItem.Hint + '}]');
   end;
   EditorSaveResult(Sender);
 end;
