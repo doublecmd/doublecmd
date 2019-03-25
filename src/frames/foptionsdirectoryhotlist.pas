@@ -1605,9 +1605,12 @@ begin
   btnRelativeTarget.Visible := lbleditHotDirTarget.Visible;
   cbSortHotDirTarget.Visible := lbleditHotDirTarget.Visible;
 
-  if TForm(Self.Parent.Parent.Parent).ActiveControl.Name = 'tvTreeView' then
-    if lbleditHotDirName.CanFocus then
-      TForm(Self.Parent.Parent.Parent).ActiveControl := lbleditHotDirName;
+  if Assigned(TForm(Self.Parent.Parent.Parent).ActiveControl) then
+  begin
+    if TForm(Self.Parent.Parent.Parent).ActiveControl.Name = 'tvTreeView' then
+      if lbleditHotDirName.CanFocus then
+        TForm(Self.Parent.Parent.Parent).ActiveControl := lbleditHotDirName;
+  end;
 end;
 
 { TfrmOptionsDirectoryHotlist.RefreshTreeView }
