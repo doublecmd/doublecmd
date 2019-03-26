@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Creates Total Commander fake window (some plugins don't work without it)
 
-    Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2019 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,9 +15,8 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 {
@@ -93,7 +92,7 @@ type
   end;
 
 const
-  NUMBEROFCOMMANDS = 458;
+  NUMBEROFCOMMANDS = 459;
 
   //jcf:format=off
   COMMANDS_LIST_TC: array[1..NUMBEROFCOMMANDS] of TTCommandEquivalence =
@@ -337,6 +336,7 @@ const
     (TCCommand: 'cm_TransferLeft';              TCIcon: -1; DCCommand: 'cm_TransferLeft';           DCParameters: ''          ), //Transfer dir under cursor to left window
     (TCCommand: 'cm_TransferRight';             TCIcon: -1; DCCommand: 'cm_TransferRight';          DCParameters: ''          ), //Transfer dir under cursor to right window
     (TCCommand: 'cm_EditPath';                  TCIcon: -1; DCCommand: 'cm_EditPath';               DCParameters: ''          ), //Edit path field above file list
+    (TCCommand: 'cm_GoToFirstEntry';            TCIcon: -1; DCCommand: 'cm_GoToFirstEntry';         DCParameters: ''          ), //Place cursor on first folder or file
     (TCCommand: 'cm_GoToFirstFile';             TCIcon: -1; DCCommand: 'cm_GoToFirstFile';          DCParameters: ''          ), //Place cursor on first file in list
     (TCCommand: 'cm_GotoNextDrive';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Go one drive up (C->D)
     (TCCommand: 'cm_GotoPreviousDrive';         TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Go one drive down
