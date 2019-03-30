@@ -9,12 +9,12 @@
 
 # Edit the path below to point to the base of your Zlib sources.
 ifndef ZLIB_PATH
-ZLIB_PATH = ../../zlib-1.2.8
+ZLIB_PATH = ../../zlib-1.2.11
 endif
 
 # Edit the path below to point to the base of your Libgcrypt package.
 ifndef MBEDTLS_PATH
-MBEDTLS_PATH = ../../mbedtls-2.5.1
+MBEDTLS_PATH = ../../mbedtls-2.16.1
 endif
 
 # Edit the path below to point to your Distribution folder.
