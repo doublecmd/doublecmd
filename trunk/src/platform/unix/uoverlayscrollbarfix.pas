@@ -7,7 +7,7 @@ interface
 implementation
 
 uses
-  BaseUnix;
+  BaseUnix, XLib;
 
 function setenv(const name, value: pchar; overwrite: longint): longint; cdecl; external 'c' name 'setenv';
 
@@ -18,5 +18,6 @@ initialization
     setenv('GTK_IM_MODULE', '', 1);
     WriteLn('Warning: Unsupported input method (xim)');
   end;
+  WriteLn('XInitThreads: ', XInitThreads);
 
 end.
