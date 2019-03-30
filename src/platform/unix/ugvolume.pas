@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Interface to GVolumeMonitor
 
-   Copyright (C) 2014-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -93,7 +93,6 @@ begin
         begin
           New(Result);
           Result^.IsMounted:= True;
-          Result^.Path:= StrPas(Path);
           Result^.DriveType:= dtSpecial;
           Result^.IsMediaAvailable:= True;
           Result^.IsMediaEjectable:= g_volume_can_eject(Volume);
@@ -105,6 +104,13 @@ begin
           else
           begin
             Result^.DisplayName := StrPas(Name);
+            g_free(Name);
+          end;
+          Name:= g_uri_unescape_string(Path, nil);
+          if (Name = nil) then
+            Result^.Path:= StrPas(Path)
+          else begin
+            Result^.Path:= StrPas(Name);
             g_free(Name);
           end;
           g_free(Path);
@@ -133,7 +139,6 @@ begin
         begin
           New(Result);
           Result^.IsMounted:= True;
-          Result^.Path:= StrPas(Path);
           Result^.DriveType:= dtSpecial;
           Result^.IsMediaAvailable:= True;
           Result^.IsMediaEjectable:= g_mount_can_eject(Mount);
@@ -143,6 +148,13 @@ begin
           else
           begin
             Result^.DisplayName := StrPas(Name);
+            g_free(Name);
+          end;
+          Name:= g_uri_unescape_string(Path, nil);
+          if (Name = nil) then
+            Result^.Path:= StrPas(Path)
+          else begin
+            Result^.Path:= StrPas(Name);
             g_free(Name);
           end;
           g_free(Path);
