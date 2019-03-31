@@ -44,7 +44,7 @@ var
 implementation
 
 uses
-  DCStrUtils, DCClassesUtf8, uGlib2, uGObject2;
+  StrUtils, DCStrUtils, DCClassesUtf8, uGlib2, uGObject2;
 
 function GioOpen(const Uri: String): Boolean;
 var
@@ -79,16 +79,23 @@ end;
 function GioNewFile(const Address: String): PGFile;
 var
   URI: Pgchar;
+  Index: Integer;
 begin
-  if Pos('://', Address) = 0 then
+  Index:= Pos('://', Address);
+  if Index = 0 then
     Result:= g_file_new_for_path(Pgchar(Address))
   else begin
-    URI:= g_uri_escape_string(Pgchar(Address), ':/', True);
-    if (URI = nil) then
-      Result:= g_file_new_for_path(Pgchar(Address))
+    Index:= PosEx('/', Address, Index + 3);
+    if (Index = 0) or (Index = Length(Address)) then
+      Result:= g_file_new_for_uri(Pgchar(Address))
     else begin
-      Result:= g_file_new_for_uri(URI);
-      g_free(URI);
+      URI:= g_uri_escape_string(Pgchar(Address) + Index, ':/', True);
+      if (URI = nil) then
+        Result:= g_file_new_for_uri(Pgchar(Address))
+      else begin
+        Result:= g_file_new_for_uri(Pgchar(Copy(Address, 1, Index) + URI));
+        g_free(URI);
+      end;
     end;
   end;
 end;
