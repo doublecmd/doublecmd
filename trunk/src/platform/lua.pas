@@ -633,7 +633,7 @@ procedure lua_getref(L : Plua_State; ref : Integer);
 (******************************************************************************)
 
 var
-  LuaLibD: TLibHandle;
+  LuaLibD: TLibHandle = NilHandle;
   luaJIT: Boolean;
 
 implementation
@@ -678,7 +678,10 @@ var
 procedure UnloadLuaLib;
 begin
  if LuaLibD <> NilHandle then
+ begin
    FreeLibrary(LuaLibD);
+   LuaLibD := NilHandle;
+ end;
 end;
 
 function IsLuaLibLoaded: Boolean;

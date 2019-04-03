@@ -4,15 +4,15 @@ inherited frmOptionsPluginsGroup: TfrmOptionsPluginsGroup
   ClientHeight = 244
   ClientWidth = 622
   OnExit = FrameExit
-  DesignLeft = 349
-  DesignTop = 294
+  DesignLeft = 134
+  DesignTop = 310
   object gbConfiguration: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 140
+    Height = 200
     Top = 6
     Width = 610
     Anchors = [akTop, akLeft, akRight]
@@ -23,7 +23,7 @@ inherited frmOptionsPluginsGroup: TfrmOptionsPluginsGroup
     ChildSizing.TopBottomSpacing = 6
     ChildSizing.HorizontalSpacing = 2
     ChildSizing.VerticalSpacing = 6
-    ClientHeight = 120
+    ClientHeight = 180
     ClientWidth = 606
     ParentShowHint = False
     ShowHint = True
@@ -157,9 +157,91 @@ inherited frmOptionsPluginsGroup: TfrmOptionsPluginsGroup
       OnClick = btnPathToBeRelativeToAllClick
       TabOrder = 3
     end
+    object fneLuaLibraryFilename: TFileNameEdit
+      AnchorSideLeft.Control = ckbAutoTweak
+      AnchorSideTop.Control = lblLuaLibraryFilename
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = btnLuaLibraryFilename
+      Left = 6
+      Height = 23
+      Top = 151
+      Width = 569
+      OnAcceptFileName = fneLuaLibraryFilenameAcceptFileName
+      DialogTitle = 'Select Lua library file'
+      DialogOptions = []
+      FilterIndex = 0
+      HideDirectories = False
+      ButtonWidth = 23
+      NumGlyphs = 1
+      Anchors = [akTop, akLeft, akRight]
+      MaxLength = 0
+      TabOrder = 4
+      OnButtonClick = fneLuaLibraryFilenameButtonClick
+    end
+    object lblLuaLibraryFilename: TLabel
+      AnchorSideLeft.Control = ckbAutoTweak
+      AnchorSideTop.Control = btnPathToBeRelativeToAll
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 15
+      Top = 130
+      Width = 112
+      BorderSpacing.Top = 16
+      Caption = 'Lua library file to use:'
+      ParentColor = False
+    end
+    object btnLuaLibraryFilename: TSpeedButton
+      AnchorSideTop.Control = fneLuaLibraryFilename
+      AnchorSideRight.Control = cbPluginFilenameStyle
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = fneLuaLibraryFilename
+      AnchorSideBottom.Side = asrBottom
+      Left = 577
+      Height = 23
+      Top = 151
+      Width = 23
+      Anchors = [akTop, akRight, akBottom]
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        20000000000000040000640000006400000000000000000000002C86D8702D88
+        D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+        D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+        FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+        F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+        FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+        F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+        FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+        F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+        FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+        F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+        FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+        F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+        FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+        E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+        FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+        DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+        FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+        A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+        FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+        7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+        E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+        A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+        94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+        9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+        9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+        9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+      }
+      OnClick = btnLuaLibraryFilenameClick
+    end
   end
   object pmPathToBeRelativeToHelper: TPopupMenu[1]
-    left = 432
-    top = 168
+    left = 424
+    top = 32
   end
 end

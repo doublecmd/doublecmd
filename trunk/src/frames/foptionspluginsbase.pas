@@ -57,8 +57,7 @@ type
     procedure stgPluginsDragDrop(Sender, {%H-}Source: TObject; X, Y: integer);
     procedure stgPluginsGetCellHint(Sender: TObject; ACol, ARow: integer; var HintText: string);
     procedure stgPluginsShowHint(Sender: TObject; HintInfo: PHintInfo);
-    function GetPluginFilenameToSave(const Filename: string): string;
-    procedure ActualAddPlugin(sPluginFilename: string); virtual;
+    procedure ActualAddPlugin({%H-}sPluginFilename: string); virtual;
   private
     FPluginType: TPluginType;
   protected
@@ -72,6 +71,8 @@ type
     class function GetIconIndex: integer; override;
     function IsSignatureComputedFromAllWindowComponents: boolean; override;
   end;
+
+  function GetPluginFilenameToSave(const Filename: string): string;
 
 implementation
 
@@ -225,7 +226,7 @@ begin
 end;
 
 { GetPluginFilenameToSave }
-function TfrmOptionsPluginsBase.GetPluginFilenameToSave(const Filename: string): string;
+function GetPluginFilenameToSave(const Filename: string): string;
 var
   sMaybeBasePath, SubWorkingPath, MaybeSubstitionPossible: string;
 begin
@@ -246,3 +247,4 @@ begin
 end;
 
 end.
+

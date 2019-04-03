@@ -941,38 +941,42 @@ constructor TLuaWdx.Create;
 begin
   inherited Create;
   if not IsLuaLibLoaded then
-    LoadLuaLib(gLuaLib); //Todo вынести загрузку либы в VmClass
+    LoadLuaLib(mbExpandFileName(gLuaLib)); //Todo вынести загрузку либы в VmClass
 end;
 
 function TLuaWdx.LoadModule: Boolean;
 var
   sAbsolutePathFilename: string;
 begin
-  Result := False;
-  if not IsLuaLibLoaded then
-    exit;
-
-  L := lua_open;
-  if not Assigned(L) then
-    exit;
-
-  luaL_openlibs(L);
-
-  RegisterPackages(L);
-
-  sAbsolutePathFilename := mbExpandFileName(FFilename);
-  DCDebug('FFilename=' + sAbsolutePathFilename);
-  SetPackagePath(L, ExtractFilePath(sAbsolutePathFilename));
-
-  if DoScript(sAbsolutePathFilename) = 0 then
-    Result := True
-  else
+  EnterCriticalSection(FMutex);
+  try
     Result := False;
+    if (not IsLuaLibLoaded) or (L <> nil) then
+      exit;
+    L := lua_open;
 
-  CallContentSetDefaultParams;
-  CallContentGetSupportedField;
-  if Length(Self.DetectStr) = 0 then
-    Self.DetectStr := CallContentGetDetectString;
+    if not Assigned(L) then
+      exit;
+
+    luaL_openlibs(L);
+
+    RegisterPackages(L);
+
+    sAbsolutePathFilename := mbExpandFileName(FFilename);
+    SetPackagePath(L, ExtractFilePath(sAbsolutePathFilename));
+
+    if DoScript(sAbsolutePathFilename) = 0 then
+      Result := True
+    else
+      Result := False;
+
+    CallContentSetDefaultParams;
+    CallContentGetSupportedField;
+    if Length(Self.DetectStr) = 0 then
+      Self.DetectStr := CallContentGetDetectString;
+  finally
+    LeaveCriticalSection(FMutex);
+  end;
 end;
 
 procedure TLuaWdx.UnloadModule;
@@ -988,7 +992,7 @@ end;
 
 function TLuaWdx.IsLoaded: Boolean;
 begin
-  Result := IsLuaLibLoaded and Assigned(Self.L);
+  Result := IsLuaLibLoaded and Assigned(L);
 end;
 
 function TLuaWdx.WdxLuaContentGetSupportedField(Index: Integer; var xFieldName, xUnits: String): Integer;
@@ -1365,8 +1369,6 @@ begin
 end;
 
 destructor TWDXModule.Destroy;
-var
-  I: Integer;
 begin
   FParser.Free;
   FFieldsList.Free;
