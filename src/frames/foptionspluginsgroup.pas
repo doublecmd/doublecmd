@@ -44,10 +44,18 @@ type
     btnPathToBeRelativeToHelper: TSpeedButton;
     btnPathToBeRelativeToAll: TButton;
     pmPathToBeRelativeToHelper: TPopupMenu;
+    lblLuaLibraryFilename: TLabel;
+    fneLuaLibraryFilename: TFileNameEdit;
+    btnLuaLibraryFilename: TSpeedButton;
     procedure cbPluginFilenameStyleChange(Sender: TObject);
     procedure btnPathToBeRelativeToHelperClick(Sender: TObject);
     procedure btnPathToBeRelativeToAllClick(Sender: TObject);
+    procedure fneLuaLibraryFilenameAcceptFileName(Sender: TObject; var Value: String);
+    procedure fneLuaLibraryFilenameButtonClick(Sender: TObject);
+    procedure btnLuaLibraryFilenameClick(Sender: TObject);
     procedure FrameExit(Sender: TObject);
+  private
+    FResultForWhenWeExit: TOptionsEditorSaveFlags;
   protected
     procedure Init; override;
     procedure Load; override;
@@ -66,6 +74,7 @@ uses
   Controls, Forms,
 
   //DC
+  fOptionsPluginsBase, uDebug, lua, uWDXModule,
   uGlobs, uDCUtils, uSpecialDir, uLng, uDefaultPlugins, fOptions,
   fOptionsPluginsDSX, fOptionsPluginsWCX, fOptionsPluginsWDX,
   fOptionsPluginsWFX, fOptionsPluginsWLX;
@@ -76,6 +85,16 @@ uses
 procedure TfrmOptionsPluginsGroup.Init;
 begin
   ParseLineToList(rsPluginFilenameStyleList, cbPluginFilenameStyle.Items);
+  {$IF DEFINED(MSWINDOWS)}
+  fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.dll', rsFilterAnyFiles, '*.*']);
+  {$ELSEIF DEFINED(DARWIN)}
+  fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.dylib', rsFilterAnyFiles, '*.*']);
+  {$ELSEIF DEFINED(UNIX)}
+  fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.so', rsFilterAnyFiles, '*.*']);
+  {$ELSE}
+  fneLuaLibraryFilename.Filter := ParseLineToFileFilter([rsFilterLibraries, '*.dll;*.dylib;*.so', rsFilterAnyFiles, '*.*']);
+  {$ENDIF}
+  FResultForWhenWeExit := [];
 end;
 
 { TfrmOptionsPluginsGroup.Load }
@@ -85,16 +104,29 @@ begin
   cbPluginFilenameStyle.ItemIndex := integer(gPluginFilenameStyle);
   cbPluginFilenameStyleChange(cbPluginFilenameStyle);
   dePathToBeRelativeTo.Text := gPluginPathToBeRelativeTo;
+  fneLuaLibraryFilename.FileName := gLuaLib;
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathToBeRelativeToHelper, mp_PATHHELPER, nil);
 end;
 
 { TfrmOptionsPluginsGroup.Save }
 function TfrmOptionsPluginsGroup.Save: TOptionsEditorSaveFlags;
+var
+  iIndexPlugin:integer;
 begin
   gPluginInAutoTweak := ckbAutoTweak.Checked;
   gPluginFilenameStyle := TConfigFilenameStyle(cbPluginFilenameStyle.ItemIndex);
   gPluginPathToBeRelativeTo := dePathToBeRelativeTo.Text;
-  Result := [];
+  if gLuaLib <> fneLuaLibraryFilename.FileName then
+  begin
+    for iIndexPlugin:=0 to pred(gWDXPlugins.Count) do
+      if gWDXPlugins.GetWdxModule(iIndexPlugin).ClassType = TLuaWdx then
+        TLuaWdx(gWDXPlugins.GetWdxModule(iIndexPlugin)).UnloadModule;
+    UnloadLuaLib;
+    gLuaLib := fneLuaLibraryFilename.FileName;
+    LoadLuaLib(mbExpandFileName(gLuaLib));
+    Include(FResultForWhenWeExit, oesfNeedsRestart);
+  end;
+  Result := FResultForWhenWeExit;
 end;
 
 { TfrmOptionsPluginsGroup.GetIconIndex }
@@ -140,32 +172,34 @@ begin
   Options := ShowOptions(TfrmOptionsPluginsDSX);
   Editor := Options.GetEditor(TfrmOptionsPluginsDSX);
   for iIndexPlugin := 0 to pred(tmpDSXPlugins.Count) do
-    tmpDSXPlugins.GetDSXModule(iIndexPlugin).FileName := TfrmOptionsPluginsDSX(Editor).GetPluginFilenameToSave(mbExpandFileName(tmpDSXPlugins.GetDSXModule(iIndexPlugin).FileName));
+    tmpDSXPlugins.GetDSXModule(iIndexPlugin).FileName := GetPluginFilenameToSave(mbExpandFileName(tmpDSXPlugins.GetDSXModule(iIndexPlugin).FileName));
   TfrmOptionsPluginsDSX(Editor).ShowPluginsTable;
 
   Options := ShowOptions(TfrmOptionsPluginsWCX);
   Editor := Options.GetEditor(TfrmOptionsPluginsWCX);
   for iIndexPlugin := 0 to pred(tmpWCXPlugins.Count) do
-    tmpWCXPlugins.FileName[iIndexPlugin] := TfrmOptionsPluginsWCX(Editor).GetPluginFilenameToSave(mbExpandFileName(tmpWCXPlugins.FileName[iIndexPlugin]));
+    tmpWCXPlugins.FileName[iIndexPlugin] := GetPluginFilenameToSave(mbExpandFileName(tmpWCXPlugins.FileName[iIndexPlugin]));
   TfrmOptionsPluginsWCX(Editor).ShowPluginsTable;
 
   Options := ShowOptions(TfrmOptionsPluginsWDX);
   Editor := Options.GetEditor(TfrmOptionsPluginsWDX);
   for iIndexPlugin := 0 to pred(tmpWDXPlugins.Count) do
-    tmpWDXPlugins.GetWdxModule(iIndexPlugin).FileName := TfrmOptionsPluginsWDX(Editor).GetPluginFilenameToSave(mbExpandFileName(tmpWDXPlugins.GetWdxModule(iIndexPlugin).FileName));
+    tmpWDXPlugins.GetWdxModule(iIndexPlugin).FileName := GetPluginFilenameToSave(mbExpandFileName(tmpWDXPlugins.GetWdxModule(iIndexPlugin).FileName));
   TfrmOptionsPluginsWDX(Editor).ShowPluginsTable;
 
   Options := ShowOptions(TfrmOptionsPluginsWFX);
   Editor := Options.GetEditor(TfrmOptionsPluginsWFX);
   for iIndexPlugin := 0 to pred(tmpWFXPlugins.Count) do
-    tmpWFXPlugins.FileName[iIndexPlugin] := TfrmOptionsPluginsWFX(Editor).GetPluginFilenameToSave(mbExpandFileName(tmpWFXPlugins.FileName[iIndexPlugin]));
+    tmpWFXPlugins.FileName[iIndexPlugin] := GetPluginFilenameToSave(mbExpandFileName(tmpWFXPlugins.FileName[iIndexPlugin]));
   TfrmOptionsPluginsWFX(Editor).ShowPluginsTable;
 
   Options := ShowOptions(TfrmOptionsPluginsWLX);
   Editor := Options.GetEditor(TfrmOptionsPluginsWLX);
   for iIndexPlugin := 0 to pred(tmpWLXPlugins.Count) do
-    tmpWLXPlugins.GetWlxModule(iIndexPlugin).FileName := TfrmOptionsPluginsWLX(Editor).GetPluginFilenameToSave(mbExpandFileName(tmpWLXPlugins.GetWlxModule(iIndexPlugin).FileName));
+    tmpWLXPlugins.GetWlxModule(iIndexPlugin).FileName := GetPluginFilenameToSave(mbExpandFileName(tmpWLXPlugins.GetWlxModule(iIndexPlugin).FileName));
   TfrmOptionsPluginsWLX(Editor).ShowPluginsTable;
+
+  fneLuaLibraryFilename.FileName := GetPluginFilenameToSave(mbExpandFileName(fneLuaLibraryFilename.FileName));
 
   //Let's switch to plugin configuration tab with at least one configure element.
   if tmpDSXPlugins.Count > 0 then
@@ -188,6 +222,31 @@ procedure TfrmOptionsPluginsGroup.FrameExit(Sender: TObject);
 begin
   Self.SaveSettings; //Call "SaveSettings" instead of just "Save" to get option signature set right away do we don't bother user for that page when close.
 end;
+
+{ TfrmOptionsPluginsGroup.btnLuaDllFilenameClick }
+procedure TfrmOptionsPluginsGroup.btnLuaLibraryFilenameClick(Sender: TObject);
+begin
+  fneLuaLibraryFilename.SetFocus;
+  gSpecialDirList.SetSpecialDirRecipientAndItsType(fneLuaLibraryFilename, pfFILE);
+  pmPathToBeRelativeToHelper.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+{ TfrmOptionsPluginsGroup.fneLuaDllFilenameButtonClick }
+procedure TfrmOptionsPluginsGroup.fneLuaLibraryFilenameButtonClick(Sender: TObject);
+var
+  sInitialDirectory: string;
+begin
+  sInitialDirectory := ExcludeTrailingPathDelimiter(ExtractFilePath(mbExpandFileName(fneLuaLibraryFilename.FileName)));
+  if DirectoryExists(sInitialDirectory) then fneLuaLibraryFilename.InitialDir := sInitialDirectory;
+end;
+
+{ TfrmOptionsPluginsGroup.fneLuaDllFilenameAcceptFileName }
+procedure TfrmOptionsPluginsGroup.fneLuaLibraryFilenameAcceptFileName(Sender: TObject; var Value: String);
+begin
+  Value := GetPluginFilenameToSave(Value);
+end;
+
+
 
 end.
 

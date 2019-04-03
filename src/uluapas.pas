@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uLuaPas;
@@ -27,7 +26,7 @@ unit uLuaPas;
 interface
 
 uses
-  Classes, SysUtils, Lua;
+  uDCUtils, Classes, SysUtils, Lua;
 
 procedure RegisterPackages(L : Plua_State);
 procedure SetPackagePath(L: Plua_State; const Path: String);
@@ -228,7 +227,7 @@ begin
   lua_pushstring(L, ConvertEncoding(S, FromEnc, ToEnc));
 end;
 
-function luaClipbrdClear(L : Plua_State) : Integer; cdecl;
+function luaClipbrdClear({%H-}L : Plua_State) : Integer; cdecl;
 begin
   Result:= 0;
   Clipboard.Clear;
@@ -477,7 +476,7 @@ begin
   // Load Lua library
   if not IsLuaLibLoaded then
   begin
-    if not LoadLuaLib(gLuaLib) then Exit;
+    if not LoadLuaLib(mbExpandFileName(gLuaLib)) then Exit;
   end;
 
   // Get script file name

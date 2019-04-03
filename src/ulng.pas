@@ -110,6 +110,7 @@ resourcestring
   rsFilterDirectoryHotListFiles = 'Directory Hotlist files';
   rsFilterArchiverConfigFiles = 'Archiver config files';
   rsFilterPluginFiles = 'Plugin files';
+  rsFilterLibraries = 'Library files';
 
   // Archiver section.
   rsMsgArchiverCustomParams = 'Additional parameters for archiver command-line:';
