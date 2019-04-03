@@ -284,7 +284,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="255">
+    <Units Count="257">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1846,6 +1846,16 @@ end;"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fConfirmCommandLine"/>
       </Unit254>
+      <Unit255>
+        <Filename Value="uwdxmodule.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWDXModule"/>
+      </Unit255>
+      <Unit256>
+        <Filename Value="uluapas.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uLuaPas"/>
+      </Unit256>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
