@@ -63,7 +63,7 @@ uses
   LCLProc, Forms, Dialogs,
 
   //DC
-  uLng, uGlobs, dmCommonData, DCStrUtils, uDefaultPlugins;
+  uShowMsg, fOptions, lua, uLng, uGlobs, dmCommonData, DCStrUtils, uDefaultPlugins;
 
 const
   COLNO_NAME = 0;
@@ -171,7 +171,13 @@ begin
 
   if not tmpWDXPlugins.LoadModule(pred(tmpWDXPlugins.Count)) then
   begin
-    MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
+    if tmpWDXPlugins.GetWdxModule(pred(tmpWDXPlugins.Count)).ClassNameIs('TLuaWdx') and (not IsLuaLibLoaded) then
+    begin
+      if msgYesNo(Format(rsMsgScriptCantFindLibrary, [gLuaLib]) + #$0A + rsMsgWantToConfigureLibraryLocation) then
+        ShowOptions('TfrmOptionsPluginsGroup');
+    end
+    else
+      MessageDlg(Application.Title, rsMsgInvalidPlugin, mtError, [mbOK], 0, mbOK);
     tmpWDXPlugins.DeleteItem(I);
     Exit;
   end;

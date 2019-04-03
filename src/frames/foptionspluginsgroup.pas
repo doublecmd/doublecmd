@@ -74,7 +74,7 @@ uses
   Controls, Forms,
 
   //DC
-  fOptionsPluginsBase, uDebug, lua, uWDXModule,
+  uShowMsg, fOptionsPluginsBase, uDebug, lua, uWDXModule,
   uGlobs, uDCUtils, uSpecialDir, uLng, uDefaultPlugins, fOptions,
   fOptionsPluginsDSX, fOptionsPluginsWCX, fOptionsPluginsWDX,
   fOptionsPluginsWFX, fOptionsPluginsWLX;
@@ -123,7 +123,7 @@ begin
         TLuaWdx(gWDXPlugins.GetWdxModule(iIndexPlugin)).UnloadModule;
     UnloadLuaLib;
     gLuaLib := fneLuaLibraryFilename.FileName;
-    LoadLuaLib(mbExpandFileName(gLuaLib));
+    if not LoadLuaLib(mbExpandFileName(gLuaLib)) then MsgError(Format(rsMsgScriptCantFindLibrary, [gLuaLib]));
     Include(FResultForWhenWeExit, oesfNeedsRestart);
   end;
   Result := FResultForWhenWeExit;
