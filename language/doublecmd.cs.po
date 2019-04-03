@@ -6778,6 +6778,10 @@ msgstr "Po přidání nového doplňku automaticky zobrazit okno s nastavením v
 msgid "Configuration:"
 msgstr "Nastavení:"
 
+#: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
+msgid "Lua library file to use:"
+msgstr ""
+
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
@@ -9849,6 +9853,10 @@ msgstr ".ini soubor"
 msgid "Legacy DC .tab files"
 msgstr "standardní DC .tab soubory"
 
+#: ulng.rsfilterlibraries
+msgid "Library files"
+msgstr ""
+
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr ""
@@ -11101,6 +11109,10 @@ msgstr "Přejete si nahradit tento text?"
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Pro provedení změn prosím restartujte Double Commander"
 
+#: ulng.rsmsgscriptcantfindlibrary
+msgid "ERROR: Problem loading Lua library file \"%s\""
+msgstr ""
+
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
 msgstr "Zvolte ke kterému typu souboru přiřadit příponu \"%s\""
@@ -11337,6 +11349,10 @@ msgstr "Název disku:"
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "Prosím zadejte velikost disku:"
+
+#: ulng.rsmsgwanttoconfigurelibrarylocation
+msgid "Do you want to configure Lua library location?"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
@@ -12942,3 +12958,4 @@ msgstr "Počet nahrazených: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Žádné nahrazení se nekonalo."
+

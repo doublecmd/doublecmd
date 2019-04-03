@@ -6961,6 +6961,10 @@ msgstr ""
 msgid "Configuration:"
 msgstr ""
 
+#: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
+msgid "Lua library file to use:"
+msgstr ""
+
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
@@ -10115,6 +10119,10 @@ msgstr ""
 msgid "Legacy DC .tab files"
 msgstr ""
 
+#: ulng.rsfilterlibraries
+msgid "Library files"
+msgstr ""
+
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr ""
@@ -11371,6 +11379,10 @@ msgstr ""
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Por favor, reinicie o Double Commander para aplicar as alterações"
 
+#: ulng.rsmsgscriptcantfindlibrary
+msgid "ERROR: Problem loading Lua library file \"%s\""
+msgstr ""
+
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
 msgstr "Seleccione a que tipo de ficheiro adicionar a extensão \"%s\""
@@ -11607,6 +11619,10 @@ msgstr "Rótulo do volume:"
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "Por favor, insira o tamanho do volume:"
+
+#: ulng.rsmsgwanttoconfigurelibrarylocation
+msgid "Do you want to configure Lua library location?"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
