@@ -31,12 +31,12 @@ uses
 procedure RegisterPackages(L : Plua_State);
 procedure SetPackagePath(L: Plua_State; const Path: String);
 function LuaPCall(L : Plua_State; nargs, nresults : Integer): Boolean;
-function ExecuteScript(const FileName: String; Args: array of String): Boolean;
+function ExecuteScript(const FileName: String; Args: array of String; var sErrorToReportIfAny:string): Boolean;
 
 implementation
 
 uses
-  Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, DCOSUtils,
+  Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, uLng, DCOSUtils,
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog,
   uClipboard, uShowMsg, uLuaStd, uFindEx, uConvEncoding;
 
@@ -227,7 +227,7 @@ begin
   lua_pushstring(L, ConvertEncoding(S, FromEnc, ToEnc));
 end;
 
-function luaClipbrdClear({%H-}L : Plua_State) : Integer; cdecl;
+function luaClipbrdClear(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 0;
   Clipboard.Clear;
@@ -463,7 +463,7 @@ begin
   Result:= (Status = 0);
 end;
 
-function ExecuteScript(const FileName: String; Args: array of String): Boolean;
+function ExecuteScript(const FileName: String; Args: array of String; var sErrorToReportIfAny:string): Boolean;
 var
   L: Plua_State;
   Index: Integer;
@@ -472,11 +472,16 @@ var
   Status: Integer;
 begin
   Result:= False;
+  sErrorToReportIfAny := '';
 
   // Load Lua library
   if not IsLuaLibLoaded then
   begin
-    if not LoadLuaLib(mbExpandFileName(gLuaLib)) then Exit;
+    if not LoadLuaLib(mbExpandFileName(gLuaLib)) then
+    begin
+      sErrorToReportIfAny := Format(rsMsgScriptCantFindLibrary, [gLuaLib]);
+      Exit;
+    end;
   end;
 
   // Get script file name

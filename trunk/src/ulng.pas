@@ -995,6 +995,10 @@ resourcestring
 
   rsMsgInvalidHexNumber = 'Invalid hexadecimal number: "%s"';
 
+  //LUA and script related messages
+  rsMsgScriptCantFindLibrary = 'ERROR: Problem loading Lua library file "%s"';
+  rsMsgWantToConfigureLibraryLocation = 'Do you want to configure Lua library location?';
+
   // Unhandled error.
   rsUnhandledExceptionMessage =
      'Please report this error to the bug tracker with a description '

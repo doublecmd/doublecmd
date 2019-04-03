@@ -4836,7 +4836,7 @@ end;
 { TMainCommands.cm_ExecuteScript }
 procedure TMainCommands.cm_ExecuteScript(const Params: array of string);
 var
-  FileName: String;
+  FileName, sErrorMessage: String;
   Index, Count: Integer;
   Args: array of String;
 begin
@@ -4857,7 +4857,10 @@ begin
     end;
 
     // Execute script
-    ExecuteScript(FileName, Args);
+    if not ExecuteScript(FileName, Args, sErrorMessage) then
+      if sErrorMessage <> '' then
+        if msgYesNo(sErrorMessage + #$0A + rsMsgWantToConfigureLibraryLocation) then
+          cm_Options(['TfrmOptionsPluginsGroup']);
   end;
 end;
 
