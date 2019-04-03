@@ -7183,6 +7183,10 @@ msgstr ""
 msgid "Configuration:"
 msgstr ""
 
+#: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
+msgid "Lua library file to use:"
+msgstr ""
+
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
@@ -9833,14 +9837,18 @@ msgid "&Pause all"
 msgstr ""
 
 #: tgiocopymoveoperationoptionsui.cbfollowlinks.caption
+#, fuzzy
+#| msgid "Follow links"
 msgctxt "tgiocopymoveoperationoptionsui.cbfollowlinks.caption"
 msgid "Fo&llow links"
-msgstr ""
+msgstr "Bağlantıları İzle"
 
 #: tgiocopymoveoperationoptionsui.lbldirectoryexists.caption
+#, fuzzy
+#| msgid "When directory exists"
 msgctxt "tgiocopymoveoperationoptionsui.lbldirectoryexists.caption"
 msgid "When dir&ectory exists"
-msgstr ""
+msgstr "Dizin mevcutsa"
 
 #: tgiocopymoveoperationoptionsui.lblfileexists.caption
 #, fuzzy
@@ -10452,6 +10460,10 @@ msgstr ""
 
 #: ulng.rsfilterlegacytabfiles
 msgid "Legacy DC .tab files"
+msgstr ""
+
+#: ulng.rsfilterlibraries
+msgid "Library files"
 msgstr ""
 
 #: ulng.rsfilterpluginfiles
@@ -11698,6 +11710,10 @@ msgstr ""
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Lütfen,değişiklikleri uygulamak için Double Commander´ı yeniden başlatın"
 
+#: ulng.rsmsgscriptcantfindlibrary
+msgid "ERROR: Problem loading Lua library file \"%s\""
+msgstr ""
+
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
 msgstr ""
@@ -11926,6 +11942,10 @@ msgstr "Birim etiketi:"
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "Lütfen birimin boyutu girin:"
+
+#: ulng.rsmsgwanttoconfigurelibrarylocation
+msgid "Do you want to configure Lua library location?"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"

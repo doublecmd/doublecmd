@@ -7583,6 +7583,10 @@ msgstr ""
 msgid "Configuration:"
 msgstr ""
 
+#: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
+msgid "Lua library file to use:"
+msgstr ""
+
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
@@ -10289,14 +10293,18 @@ msgid "&Pause all"
 msgstr ""
 
 #: tgiocopymoveoperationoptionsui.cbfollowlinks.caption
+#, fuzzy
+#| msgid "Follow links"
 msgctxt "tgiocopymoveoperationoptionsui.cbfollowlinks.caption"
 msgid "Fo&llow links"
-msgstr ""
+msgstr "Nas&ledovať odkazy"
 
 #: tgiocopymoveoperationoptionsui.lbldirectoryexists.caption
+#, fuzzy
+#| msgid "When directory exists"
 msgctxt "tgiocopymoveoperationoptionsui.lbldirectoryexists.caption"
 msgid "When dir&ectory exists"
-msgstr ""
+msgstr "Ak adresár &existuje"
 
 #: tgiocopymoveoperationoptionsui.lblfileexists.caption
 #, fuzzy
@@ -10908,6 +10916,10 @@ msgstr ""
 
 #: ulng.rsfilterlegacytabfiles
 msgid "Legacy DC .tab files"
+msgstr ""
+
+#: ulng.rsfilterlibraries
+msgid "Library files"
 msgstr ""
 
 #: ulng.rsfilterpluginfiles
@@ -12154,6 +12166,10 @@ msgstr ""
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Prosím, na uplatnenie zmien reštartujte program"
 
+#: ulng.rsmsgscriptcantfindlibrary
+msgid "ERROR: Problem loading Lua library file \"%s\""
+msgstr ""
+
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
 msgstr ""
@@ -12382,6 +12398,10 @@ msgstr "Názov disku:"
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "Prosím, zadajte veľkosť zväzku:"
+
+#: ulng.rsmsgwanttoconfigurelibrarylocation
+msgid "Do you want to configure Lua library location?"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 #, fuzzy

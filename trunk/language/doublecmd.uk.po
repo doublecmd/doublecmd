@@ -6976,6 +6976,10 @@ msgstr "При додаванні нового плагіна автоматич
 msgid "Configuration:"
 msgstr "Загальні налаштування:"
 
+#: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
+msgid "Lua library file to use:"
+msgstr ""
+
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
@@ -10139,6 +10143,10 @@ msgstr "INI-файли"
 msgid "Legacy DC .tab files"
 msgstr "TAB-файли"
 
+#: ulng.rsfilterlibraries
+msgid "Library files"
+msgstr ""
+
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr "Файли плагінів"
@@ -11395,6 +11403,10 @@ msgstr "Замінити цей текст?"
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Будь ласка, перезапустіть Double Commander для того щоб зміни вступили в дію"
 
+#: ulng.rsmsgscriptcantfindlibrary
+msgid "ERROR: Problem loading Lua library file \"%s\""
+msgstr ""
+
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
 msgstr "Виберіть тип файлу до якого треба додати розширення \"%s\""
@@ -11631,6 +11643,10 @@ msgstr "Мітка диску:"
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "Будь ласка, введіть розмір тому:"
+
+#: ulng.rsmsgwanttoconfigurelibrarylocation
+msgid "Do you want to configure Lua library location?"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"

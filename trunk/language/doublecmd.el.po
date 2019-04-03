@@ -6953,6 +6953,10 @@ msgstr "Όταν γίνεται προσθήκη προσθέτου, αυτόμ�
 msgid "Configuration:"
 msgstr "Διαμόρφωση:"
 
+#: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
+msgid "Lua library file to use:"
+msgstr ""
+
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
@@ -10107,6 +10111,10 @@ msgstr "Αρχεία Διαμόρφωσης .ini"
 msgid "Legacy DC .tab files"
 msgstr "Αρχεία Legacy DC .tab"
 
+#: ulng.rsfilterlibraries
+msgid "Library files"
+msgstr ""
+
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr ""
@@ -11363,6 +11371,10 @@ msgstr "Επιθυμείτε αντικατάσταση αυτού του κει
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Παρακαλώ επανεκκινείστε τον Double Commander ώστε να εφαρμοστούν οι αλλαγές"
 
+#: ulng.rsmsgscriptcantfindlibrary
+msgid "ERROR: Problem loading Lua library file \"%s\""
+msgstr ""
+
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
 msgstr "Επιλογή σε ποιους τύπους αρχείων να προστεθεί επέκταση \"%s\""
@@ -11599,6 +11611,10 @@ msgstr "Ετικέτα τόμου:"
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "Παρακαλώ εισαγάγετε το μέγεθος τόμου:"
+
+#: ulng.rsmsgwanttoconfigurelibrarylocation
+msgid "Do you want to configure Lua library location?"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"

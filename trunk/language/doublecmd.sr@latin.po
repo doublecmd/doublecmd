@@ -7095,6 +7095,10 @@ msgstr ""
 msgid "Configuration:"
 msgstr ""
 
+#: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
+msgid "Lua library file to use:"
+msgstr ""
+
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
@@ -9733,9 +9737,10 @@ msgid "Command line:"
 msgstr ""
 
 #: ttfrmconfirmcommandline.lbleparameters.editlabel.caption
+#, fuzzy
 msgctxt "ttfrmconfirmcommandline.lbleparameters.editlabel.caption"
 msgid "Parameters:"
-msgstr ""
+msgstr "Odrednice:"
 
 #: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
 msgid "Start path:"
@@ -10320,6 +10325,10 @@ msgstr ""
 
 #: ulng.rsfilterlegacytabfiles
 msgid "Legacy DC .tab files"
+msgstr ""
+
+#: ulng.rsfilterlibraries
+msgid "Library files"
 msgstr ""
 
 #: ulng.rsfilterpluginfiles
@@ -11607,6 +11616,10 @@ msgstr ""
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Molim, ponovo pokrenite Double Commander-a da bi se primenile izmene"
 
+#: ulng.rsmsgscriptcantfindlibrary
+msgid "ERROR: Problem loading Lua library file \"%s\""
+msgstr ""
+
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
 msgstr ""
@@ -11833,6 +11846,10 @@ msgstr "Oznaka uređaja:"
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "Unesite veličinu uređaja:"
+
+#: ulng.rsmsgwanttoconfigurelibrarylocation
+msgid "Do you want to configure Lua library location?"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"

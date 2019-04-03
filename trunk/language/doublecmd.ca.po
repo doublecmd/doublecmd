@@ -7534,6 +7534,10 @@ msgstr ""
 msgid "Configuration:"
 msgstr ""
 
+#: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
+msgid "Lua library file to use:"
+msgstr ""
+
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
@@ -10232,14 +10236,18 @@ msgid "&Pause all"
 msgstr ""
 
 #: tgiocopymoveoperationoptionsui.cbfollowlinks.caption
+#, fuzzy
+#| msgid "Follow links"
 msgctxt "tgiocopymoveoperationoptionsui.cbfollowlinks.caption"
 msgid "Fo&llow links"
-msgstr ""
+msgstr "Segueix enllaços"
 
 #: tgiocopymoveoperationoptionsui.lbldirectoryexists.caption
+#, fuzzy
+#| msgid "When directory exists"
 msgctxt "tgiocopymoveoperationoptionsui.lbldirectoryexists.caption"
 msgid "When dir&ectory exists"
-msgstr ""
+msgstr "Quan la carpeta existeixi"
 
 #: tgiocopymoveoperationoptionsui.lblfileexists.caption
 #, fuzzy
@@ -10850,6 +10858,10 @@ msgstr ""
 
 #: ulng.rsfilterlegacytabfiles
 msgid "Legacy DC .tab files"
+msgstr ""
+
+#: ulng.rsfilterlibraries
+msgid "Library files"
 msgstr ""
 
 #: ulng.rsfilterpluginfiles
@@ -12090,6 +12102,10 @@ msgstr ""
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Per favor, reinicieu Double Commander per aplicar els canvis"
 
+#: ulng.rsmsgscriptcantfindlibrary
+msgid "ERROR: Problem loading Lua library file \"%s\""
+msgstr ""
+
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
 msgstr ""
@@ -12318,6 +12334,10 @@ msgstr "Etiqueta del Volum:"
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "Si us plau, introduiu el nom del volum:"
+
+#: ulng.rsmsgwanttoconfigurelibrarylocation
+msgid "Do you want to configure Lua library location?"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"

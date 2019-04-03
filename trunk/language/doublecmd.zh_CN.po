@@ -6769,6 +6769,10 @@ msgstr "添加新插件时，自动进入调整窗口"
 msgid "Configuration:"
 msgstr "配置："
 
+#: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
+msgid "Lua library file to use:"
+msgstr ""
+
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
@@ -9844,6 +9848,10 @@ msgstr ".INI 配置文件"
 msgid "Legacy DC .tab files"
 msgstr "传统 DC .tab 文件"
 
+#: ulng.rsfilterlibraries
+msgid "Library files"
+msgstr ""
+
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr ""
@@ -11096,6 +11104,10 @@ msgstr "您希望替换此文本吗？"
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "请重启 Double Commander，使修改生效"
 
+#: ulng.rsmsgscriptcantfindlibrary
+msgid "ERROR: Problem loading Lua library file \"%s\""
+msgstr ""
+
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
 msgstr "选择要添加扩展名 \"%s\" 的文件类型"
@@ -11332,6 +11344,10 @@ msgstr "卷标："
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "请输入分卷大小："
+
+#: ulng.rsmsgwanttoconfigurelibrarylocation
+msgid "Do you want to configure Lua library location?"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"

@@ -6765,6 +6765,10 @@ msgstr "Podczas dodawania nowej wtyczki, automatycznie przejdź do okna ustawie�
 msgid "Configuration:"
 msgstr "Konfiguracja:"
 
+#: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
+msgid "Lua library file to use:"
+msgstr ""
+
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
@@ -9838,6 +9842,10 @@ msgstr "Pliki konfiguracyjne .ini"
 msgid "Legacy DC .tab files"
 msgstr "Starsze pliki DC .tab"
 
+#: ulng.rsfilterlibraries
+msgid "Library files"
+msgstr ""
+
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr "Pliki wtyczek"
@@ -11089,6 +11097,10 @@ msgstr "Czy chcesz zamienić ten tekst?"
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Proszę ponownie uruchomić Double Commander, aby zastosować zmiany"
 
+#: ulng.rsmsgscriptcantfindlibrary
+msgid "ERROR: Problem loading Lua library file \"%s\""
+msgstr ""
+
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
 msgstr "Wybierz, aby dodać rozszerzenie typu pliku \"%s\""
@@ -11326,6 +11338,10 @@ msgstr "Etykieta woluminu:"
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "Proszę wpisać rozmiar części:"
+
+#: ulng.rsmsgwanttoconfigurelibrarylocation
+msgid "Do you want to configure Lua library location?"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"

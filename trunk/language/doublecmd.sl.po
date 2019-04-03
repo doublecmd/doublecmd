@@ -6795,6 +6795,10 @@ msgstr ""
 msgid "Configuration:"
 msgstr ""
 
+#: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
+msgid "Lua library file to use:"
+msgstr ""
+
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
@@ -9883,6 +9887,10 @@ msgstr ""
 msgid "Legacy DC .tab files"
 msgstr ""
 
+#: ulng.rsfilterlibraries
+msgid "Library files"
+msgstr ""
+
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
 msgstr ""
@@ -11136,6 +11144,10 @@ msgstr ""
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Za uveljavitev sprememb je treba program ponovno zagnati."
 
+#: ulng.rsmsgscriptcantfindlibrary
+msgid "ERROR: Problem loading Lua library file \"%s\""
+msgstr ""
+
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
 msgstr "Izberite vrsto datoteke za dodajanje razširitve »%s«"
@@ -11372,6 +11384,10 @@ msgstr "Oznaka dela arhiva:"
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "Velikost dela arhiva:"
+
+#: ulng.rsmsgwanttoconfigurelibrarylocation
+msgid "Do you want to configure Lua library location?"
+msgstr ""
 
 # This should be multiple plural !!!!
 #: ulng.rsmsgwipefldr
