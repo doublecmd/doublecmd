@@ -1722,11 +1722,11 @@ msgid "Re&place by"
 msgstr "Reemplaça text"
 
 #: tfrmfinddlg.cbselectedfiles.caption
-msgid "Selected directories and &files"
+msgid "Selected directories and files"
 msgstr "Carpetes i &fitxers seleccionats"
 
 #: tfrmfinddlg.cbtextregexp.caption
-msgid "Regular &expression"
+msgid "Reg&ular expression"
 msgstr ""
 
 #: tfrmfinddlg.cbtimefrom.caption
@@ -1747,7 +1747,7 @@ msgstr "Usa complement de cerca:"
 
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
-msgid "Hexadecimal"
+msgid "Hexadeci&mal"
 msgstr ""
 
 #: tfrmfinddlg.cmbexcludedirectories.hint

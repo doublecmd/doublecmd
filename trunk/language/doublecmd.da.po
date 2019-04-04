@@ -1620,11 +1620,11 @@ msgid "Re&place by"
 msgstr "Erst&at med:"
 
 #: tfrmfinddlg.cbselectedfiles.caption
-msgid "Selected directories and &files"
+msgid "Selected directories and files"
 msgstr "Søg kun i &valgte mapper/filer"
 
 #: tfrmfinddlg.cbtextregexp.caption
-msgid "Regular &expression"
+msgid "Reg&ular expression"
 msgstr "Regulære &udtryk"
 
 #: tfrmfinddlg.cbtimefrom.caption
@@ -1641,7 +1641,7 @@ msgstr "Anvend søge-plug&in:"
 
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
-msgid "Hexadecimal"
+msgid "Hexadeci&mal"
 msgstr ""
 
 #: tfrmfinddlg.cmbexcludedirectories.hint

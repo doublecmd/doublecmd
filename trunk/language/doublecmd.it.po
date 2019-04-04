@@ -1610,11 +1610,11 @@ msgid "Re&place by"
 msgstr "So&stituisci con"
 
 #: tfrmfinddlg.cbselectedfiles.caption
-msgid "Selected directories and &files"
+msgid "Selected directories and files"
 msgstr "Cartelle e &file selezionati"
 
 #: tfrmfinddlg.cbtextregexp.caption
-msgid "Regular &expression"
+msgid "Reg&ular expression"
 msgstr ""
 
 #: tfrmfinddlg.cbtimefrom.caption
@@ -1631,7 +1631,7 @@ msgstr "&Utilizza plugin per le ricerche:"
 
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
-msgid "Hexadecimal"
+msgid "Hexadeci&mal"
 msgstr ""
 
 #: tfrmfinddlg.cmbexcludedirectories.hint

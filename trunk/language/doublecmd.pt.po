@@ -1596,11 +1596,11 @@ msgid "Re&place by"
 msgstr "Substituir &por"
 
 #: tfrmfinddlg.cbselectedfiles.caption
-msgid "Selected directories and &files"
+msgid "Selected directories and files"
 msgstr "Pastas e &ficheiros seleccionados"
 
 #: tfrmfinddlg.cbtextregexp.caption
-msgid "Regular &expression"
+msgid "Reg&ular expression"
 msgstr "&Expressão regular"
 
 #: tfrmfinddlg.cbtimefrom.caption
@@ -1617,7 +1617,7 @@ msgstr "&Usar extensão de procura:"
 
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
-msgid "Hexadecimal"
+msgid "Hexadeci&mal"
 msgstr ""
 
 #: tfrmfinddlg.cmbexcludedirectories.hint

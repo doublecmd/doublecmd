@@ -1567,11 +1567,11 @@ msgid "Re&place by"
 msgstr "&Zamenjaj besedilo z"
 
 #: tfrmfinddlg.cbselectedfiles.caption
-msgid "Selected directories and &files"
+msgid "Selected directories and files"
 msgstr "Izbrane &datoteke in mape"
 
 #: tfrmfinddlg.cbtextregexp.caption
-msgid "Regular &expression"
+msgid "Reg&ular expression"
 msgstr "Logični &izraz"
 
 #: tfrmfinddlg.cbtimefrom.caption
@@ -1588,7 +1588,7 @@ msgstr "Uporabi vstavek &iskanja:"
 
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
-msgid "Hexadecimal"
+msgid "Hexadeci&mal"
 msgstr ""
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
