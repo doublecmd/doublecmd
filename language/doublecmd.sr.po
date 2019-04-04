@@ -1615,11 +1615,11 @@ msgid "Re&place by"
 msgstr "Замени& са"
 
 #: tfrmfinddlg.cbselectedfiles.caption
-msgid "Selected directories and &files"
+msgid "Selected directories and files"
 msgstr "Означеним фасциклама и &датотекама"
 
 #: tfrmfinddlg.cbtextregexp.caption
-msgid "Regular &expression"
+msgid "Reg&ular expression"
 msgstr "&Регуларни израз"
 
 #: tfrmfinddlg.cbtimefrom.caption
@@ -1636,7 +1636,7 @@ msgstr "&Користи прикључак за претрагу:"
 
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
-msgid "Hexadecimal"
+msgid "Hexadeci&mal"
 msgstr ""
 
 #: tfrmfinddlg.cmbexcludedirectories.hint

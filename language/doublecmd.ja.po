@@ -1594,11 +1594,11 @@ msgid "Re&place by"
 msgstr "置き換え(&p)"
 
 #: tfrmfinddlg.cbselectedfiles.caption
-msgid "Selected directories and &files"
+msgid "Selected directories and files"
 msgstr "選択したディレクトリとファイル(&f)"
 
 #: tfrmfinddlg.cbtextregexp.caption
-msgid "Regular &expression"
+msgid "Reg&ular expression"
 msgstr "正規表現(&e)"
 
 #: tfrmfinddlg.cbtimefrom.caption
@@ -1615,7 +1615,7 @@ msgstr "検索プラグインを使用(&U)："
 
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
-msgid "Hexadecimal"
+msgid "Hexadeci&mal"
 msgstr ""
 
 #: tfrmfinddlg.cmbexcludedirectories.hint

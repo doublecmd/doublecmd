@@ -1557,11 +1557,11 @@ msgid "Re&place by"
 msgstr "替换为(&P)"
 
 #: tfrmfinddlg.cbselectedfiles.caption
-msgid "Selected directories and &files"
+msgid "Selected directories and files"
 msgstr "选定的文件夹和文件(&F)"
 
 #: tfrmfinddlg.cbtextregexp.caption
-msgid "Regular &expression"
+msgid "Reg&ular expression"
 msgstr "正则表达式(&E)"
 
 #: tfrmfinddlg.cbtimefrom.caption
@@ -1578,7 +1578,7 @@ msgstr "使用搜索插件(&U)："
 
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
-msgid "Hexadecimal"
+msgid "Hexadeci&mal"
 msgstr "十六进制"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint

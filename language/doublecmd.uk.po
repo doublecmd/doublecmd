@@ -1588,11 +1588,11 @@ msgid "Re&place by"
 msgstr "За&мінити на"
 
 #: tfrmfinddlg.cbselectedfiles.caption
-msgid "Selected directories and &files"
+msgid "Selected directories and files"
 msgstr "Вибрані &файли і каталоги"
 
 #: tfrmfinddlg.cbtextregexp.caption
-msgid "Regular &expression"
+msgid "Reg&ular expression"
 msgstr "Р&егулярний вираз"
 
 #: tfrmfinddlg.cbtimefrom.caption
@@ -1609,7 +1609,7 @@ msgstr "Використовувати пошуковий п&лагін"
 
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
-msgid "Hexadecimal"
+msgid "Hexadeci&mal"
 msgstr "Шістнадцяткове"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
