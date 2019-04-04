@@ -972,7 +972,7 @@ end;
 { TfrmFindDlg.cbOpenedTabsChange }
 procedure TfrmFindDlg.cbOpenedTabsChange(Sender: TObject);
 begin
-  cbSelectedFiles.Enabled := not cbOpenedTabs.Checked;
+  cbSelectedFiles.Enabled := not cbOpenedTabs.Checked AND (FSelectedFiles.Count > 0);
   cbFollowSymLinks.Enabled := not cbOpenedTabs.Checked;
   cmbFindPathStart.Enabled := not cbOpenedTabs.Checked;
 end;

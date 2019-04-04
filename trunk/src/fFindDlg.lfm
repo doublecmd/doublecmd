@@ -193,7 +193,7 @@ object frmFindDlg: TfrmFindDlg
             Width = 169
             Anchors = [akRight, akBottom]
             BorderSpacing.Right = 6
-            Caption = 'Selected directories and &files'
+            Caption = 'Selected directories and files'
             OnChange = cbSelectedFilesChange
             TabOrder = 4
           end
@@ -504,7 +504,7 @@ object frmFindDlg: TfrmFindDlg
             Top = 55
             Width = 118
             BorderSpacing.Left = 12
-            Caption = 'Regular &expression'
+            Caption = 'Reg&ular expression'
             OnChange = cbTextRegExpChange
             TabOrder = 5
           end
@@ -516,7 +516,7 @@ object frmFindDlg: TfrmFindDlg
             Height = 19
             Top = 79
             Width = 88
-            Caption = 'Hexadecimal'
+            Caption = 'Hexadeci&mal'
             OnChange = chkHexChange
             TabOrder = 7
           end
