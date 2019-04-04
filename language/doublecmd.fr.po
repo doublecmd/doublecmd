@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2019-01-23 22:29-0500\n"
+"PO-Revision-Date: 2019-04-03 21:13-0400\n"
 "Last-Translator: Denis Bisson <denis.bisson@denisbisson.org>\n"
 "Language-Team: Zebulon Tourneboulle <zebulon.tourneboulle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -1611,11 +1611,11 @@ msgid "Re&place by"
 msgstr "Rem&placer par"
 
 #: tfrmfinddlg.cbselectedfiles.caption
-msgid "Selected directories and &files"
+msgid "Selected directories and files"
 msgstr "Dossiers et fichiers sélectionnés"
 
 #: tfrmfinddlg.cbtextregexp.caption
-msgid "Regular &expression"
+msgid "Reg&ular expression"
 msgstr "Expression régulière"
 
 #: tfrmfinddlg.cbtimefrom.caption
@@ -1632,7 +1632,7 @@ msgstr "&Utiliser le \"plugin\" de recherche :"
 
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
-msgid "Hexadecimal"
+msgid "Hexadeci&mal"
 msgstr "Hexadécimal"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
@@ -1648,25 +1648,21 @@ msgid "Enter files names separated with \";\""
 msgstr "Entrer les noms de fichiers séparés par un point-virgule"
 
 #: tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text
-#, fuzzy
 msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[0].text"
 msgid "Plugin"
 msgstr "\"Plugin\""
 
 #: tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text
-#, fuzzy
 msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[1].text"
 msgid "Field"
 msgstr "Champ"
 
 #: tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text
-#, fuzzy
 msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[2].text"
 msgid "Operator"
 msgstr "Opérateur"
 
 #: tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text
-#, fuzzy
 msgctxt "tfrmfinddlg.frmcontentplugins.headercontrol.sections[3].text"
 msgid "Value"
 msgstr "Valeur"
@@ -1802,34 +1798,31 @@ msgid "C&ase sensitive"
 msgstr "Sensible à la casse"
 
 #: tfrmfindview.chkhex.caption
-#, fuzzy
 msgctxt "tfrmfindview.chkhex.caption"
 msgid "Hexadecimal"
 msgstr "Hexadécimal"
 
 #: tfrmgioauthdialog.lbldomain.caption
 msgid "Domain:"
-msgstr ""
+msgstr "Nom de domaine:"
 
 #: tfrmgioauthdialog.lblpassword.caption
-#, fuzzy
 msgctxt "tfrmgioauthdialog.lblpassword.caption"
 msgid "Password:"
-msgstr "Mot de passe :"
+msgstr "Mot de passe:"
 
 #: tfrmgioauthdialog.lblusername.caption
-#, fuzzy
 msgctxt "tfrmgioauthdialog.lblusername.caption"
 msgid "User name:"
-msgstr "Nom d'utilisateur :"
+msgstr "Nom d'utilisateur:"
 
 #: tfrmgioauthdialog.rbanonymous.caption
 msgid "Connect anonymously"
-msgstr ""
+msgstr "Connexion anonyme"
 
 #: tfrmgioauthdialog.rbconnetas.caption
 msgid "Connect as user:"
-msgstr ""
+msgstr "Connexion en tant que:"
 
 #: tfrmhardlink.btncancel.caption
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
@@ -4518,11 +4511,9 @@ msgid "Background 2:"
 msgstr "Arrière-plan 2 :"
 
 #: tfrmoptionscustomcolumns.lblconfigcolumns.caption
-#, fuzzy
-#| msgid "Con&figure columns view:"
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
 msgid "&Columns view:"
-msgstr "Configurer les colonnes pour l'affichage des dossiers/fichiers"
+msgstr "Vue colonne:"
 
 #: tfrmoptionscustomcolumns.lblcurrentcolumn.caption
 msgid "[Current Column Name]"
@@ -4540,7 +4531,7 @@ msgstr "Caractère du curseur :"
 
 #: tfrmoptionscustomcolumns.lblfilesystem.caption
 msgid "&File system:"
-msgstr ""
+msgstr "Système de fichiers:"
 
 #: tfrmoptionscustomcolumns.lblfontname.caption
 msgctxt "tfrmoptionscustomcolumns.lblfontname.caption"
@@ -6407,38 +6398,33 @@ msgid "Sort order"
 msgstr "Orde de tri"
 
 #: tfrmoptionshotkeys.stgcommands.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[0].title.caption"
 msgid "Command"
 msgstr "Commande"
 
 #: tfrmoptionshotkeys.stgcommands.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[1].title.caption"
 msgid "Hotkeys"
 msgstr "Raccourcis clavier"
 
 #: tfrmoptionshotkeys.stgcommands.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stgcommands.columns[2].title.caption"
 msgid "Description"
 msgstr "Description"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stghotkeys.columns[0].title.caption"
 msgid "Hotkey"
 msgstr "Raccourci clavier"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionshotkeys.stghotkeys.columns[1].title.caption"
 msgid "Parameters"
 msgstr "Paramètres"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[2].title.caption
 msgid "Controls"
-msgstr ""
+msgstr "Module"
 
 #: tfrmoptionsicons.cbiconsexclude.caption
 msgctxt "TFRMOPTIONSICONS.CBICONSEXCLUDE.CAPTION"
@@ -6956,25 +6942,21 @@ msgid "Searc&h plugins allow one to use alternative search algorithms or externa
 msgstr "Searc&h plugins allow one to use alternative search algorithms or external tools (like \"locate\", etc.)"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Actif"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
-msgstr "\"Plugin\""
+msgstr "Plugin"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "Enregistré pour"
+msgstr "Associé à"
 
 #: tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginsdsx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Nom du fichier"
@@ -6993,7 +6975,7 @@ msgstr "Configuration :"
 
 #: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
 msgid "Lua library file to use:"
-msgstr ""
+msgstr "Fichier de bibliothèque Lua à utiliser:"
 
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
@@ -7035,25 +7017,21 @@ msgid "Content plu&gins allow one to display extended file details like mp3 tags
 msgstr "Les \"plugins\" de contenu permettent d'afficher la liste des métadonnées des fichiers comme les tags mp3 ou les attributs des images. Ils permettent aussi d'utiliser ces métadonnées dans les recherches ou l'outil de renommage en lots."
 
 #: tfrmoptionspluginswdx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Actif"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
-msgstr "\"Plugin\""
+msgstr "Plugin"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "Enregistré pour"
+msgstr "Associé à"
 
 #: tfrmoptionspluginswdx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswdx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Nom du fichier"
@@ -7064,25 +7042,21 @@ msgid "Fi&le system plugins allow access to disks inaccessible by operating syst
 msgstr "Les \"plugins\" de dystème de fichier permettent d'accéder à des systèmes de fichiers qui ne sont pas pris en charge par le système d'exploitation ou sur des périphériques externes comme les Palm et PocketPC."
 
 #: tfrmoptionspluginswfx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Actif"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
-msgstr "\"Plugin\""
+msgstr "Plugin"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "Enregistré pour"
+msgstr "Associé à"
 
 #: tfrmoptionspluginswfx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswfx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Nom du fichier"
@@ -7093,25 +7067,21 @@ msgid "Vie&wer plugins allow one to display file formats like images, spreadshee
 msgstr "Les \"plugins\" de visualisation permettent d'afficher différents formats de fichiers comme les images, les tableurs, les bases de données, etc, dans une visionneuse intégrée. (F3, Ctrl+Q)"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[0].title.caption"
 msgid "Active"
 msgstr "Actif"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[1].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[1].title.caption"
 msgid "Plugin"
-msgstr "\"Plugin\""
+msgstr "Plugin"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[2].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[2].title.caption"
 msgid "Registered for"
-msgstr "Enregistré pour"
+msgstr "Associé à"
 
 #: tfrmoptionspluginswlx.stgplugins.columns[3].title.caption
-#, fuzzy
 msgctxt "tfrmoptionspluginswlx.stgplugins.columns[3].title.caption"
 msgid "File name"
 msgstr "Nom du fichier"
@@ -7406,7 +7376,7 @@ msgstr "Rapporter les erreurs avec les commandes"
 
 #: tfrmoptionstoolbar.cbshowcaptions.caption
 msgid "Sho&w captions"
-msgstr ""
+msgstr "Afficher les légendes"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
@@ -8559,17 +8529,17 @@ msgstr "Écrire"
 #: tfrmsetfileproperties.zvcreationdatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvcreationdatetime.textfornulldate"
 msgid " "
-msgstr ""
+msgstr " "
 
 #: tfrmsetfileproperties.zvlastaccessdatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvlastaccessdatetime.textfornulldate"
 msgid " "
-msgstr ""
+msgstr " "
 
 #: tfrmsetfileproperties.zvlastwritedatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
-msgstr ""
+msgstr " "
 
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
@@ -8594,10 +8564,8 @@ msgid "Size and number of parts"
 msgstr "Taille et nombre de parts"
 
 #: tfrmsplitter.lbdirtarget.caption
-#, fuzzy
-#| msgid "Directory &target"
 msgid "Split the file to directory:"
-msgstr "Dossier-cible"
+msgstr "Fractionner le fichier vers le dossier:"
 
 #: tfrmsplitter.lblnumberparts.caption
 msgid "&Number of parts"
@@ -9529,19 +9497,16 @@ msgid "&Pause all"
 msgstr "Une pause pour tous"
 
 #: tgiocopymoveoperationoptionsui.cbfollowlinks.caption
-#, fuzzy
 msgctxt "tgiocopymoveoperationoptionsui.cbfollowlinks.caption"
 msgid "Fo&llow links"
 msgstr "Suivre les liens"
 
 #: tgiocopymoveoperationoptionsui.lbldirectoryexists.caption
-#, fuzzy
 msgctxt "tgiocopymoveoperationoptionsui.lbldirectoryexists.caption"
 msgid "When dir&ectory exists"
 msgstr "Quand le dossier existe"
 
 #: tgiocopymoveoperationoptionsui.lblfileexists.caption
-#, fuzzy
 msgctxt "tgiocopymoveoperationoptionsui.lblfileexists.caption"
 msgid "When file exists"
 msgstr "Quand le fichier existe"
@@ -9552,30 +9517,27 @@ msgid "When file exists"
 msgstr "Quand le fichier existe"
 
 #: ttfrmconfirmcommandline.btncancel.caption
-#, fuzzy
 msgctxt "ttfrmconfirmcommandline.btncancel.caption"
 msgid "&Cancel"
-msgstr "&Annuler"
+msgstr "Annuler"
 
 #: ttfrmconfirmcommandline.btnok.caption
-#, fuzzy
 msgctxt "ttfrmconfirmcommandline.btnok.caption"
 msgid "&OK"
-msgstr "&OK"
+msgstr "OK"
 
 #: ttfrmconfirmcommandline.lblecommandline.editlabel.caption
 msgid "Command line:"
-msgstr ""
+msgstr "Ligne de commande :"
 
 #: ttfrmconfirmcommandline.lbleparameters.editlabel.caption
-#, fuzzy
 msgctxt "ttfrmconfirmcommandline.lbleparameters.editlabel.caption"
 msgid "Parameters:"
-msgstr "Paramètres :"
+msgstr "Paramètres:"
 
 #: ttfrmconfirmcommandline.lblestartpath.editlabel.caption
 msgid "Start path:"
-msgstr ""
+msgstr "Chemin de départ:"
 
 #: twcxarchivecopyoperationoptionsui.lblfileexists.caption
 msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
@@ -10144,11 +10106,11 @@ msgstr "Fichiers .TAB"
 
 #: ulng.rsfilterlibraries
 msgid "Library files"
-msgstr ""
+msgstr "Fichiers de bibliothèque"
 
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
-msgstr "Fichiers de \"Plugin\""
+msgstr "Fichiers de Plugin"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
@@ -11402,7 +11364,7 @@ msgstr "Vous devez redémarrer Double Commander pour activer les changements."
 
 #: ulng.rsmsgscriptcantfindlibrary
 msgid "ERROR: Problem loading Lua library file \"%s\""
-msgstr ""
+msgstr "ERREUR: Problème de chargement du fichier de bibliothèque Lua \"%s\""
 
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
@@ -11643,7 +11605,7 @@ msgstr "Entrez la taille du volume :"
 
 #: ulng.rsmsgwanttoconfigurelibrarylocation
 msgid "Do you want to configure Lua library location?"
-msgstr ""
+msgstr "Voulez-vous configurer l'emplacement du fichier de bibliothèque Lua?"
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
@@ -13097,11 +13059,11 @@ msgstr "Va demander à l'utilisateur d'entre un paramètre avec une valeur par d
 
 #: ulng.rsvarlastdircurrentpath
 msgid "Last directory of panel's path"
-msgstr ""
+msgstr "Dernier répertoire du chemin du panneau"
 
 #: ulng.rsvarlastdirofpath
 msgid "Last directory of file's path"
-msgstr ""
+msgstr "Dernier répertoire du chemin du fichier"
 
 #: ulng.rsvarleftpanel
 msgid "Left panel"
