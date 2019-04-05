@@ -477,7 +477,7 @@ inherited frmOptionsToolbar: TfrmOptionsToolbar
         Top = 191
         Width = 62
         Alignment = taRightJustify
-        Caption = 'Comman&d:'
+        Caption = 'Co&mmand:'
         FocusControl = edtExternalCommand
         ParentColor = False
         Visible = False
