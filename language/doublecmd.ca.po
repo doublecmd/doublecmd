@@ -7979,7 +7979,7 @@ msgstr "Mida de Ba&rra"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "Ordres:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

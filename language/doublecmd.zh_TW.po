@@ -7967,7 +7967,7 @@ msgstr "工具列大小 (&B):"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "指令 (&D):"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

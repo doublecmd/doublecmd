@@ -7213,7 +7213,8 @@ msgid "&Bar size:"
 msgstr "Velikost orodne &vrstice:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
-msgid "Comman&d:"
+msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+msgid "Co&mmand:"
 msgstr "&Ukaz:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
@@ -7239,6 +7240,7 @@ msgid "Icon si&ze:"
 msgstr "Veli&kost ikone:"
 
 #: tfrmoptionstoolbar.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "&Ukaz:"
 

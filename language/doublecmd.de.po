@@ -7382,7 +7382,8 @@ msgid "&Bar size:"
 msgstr "Höhe de&r Leiste:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
-msgid "Comman&d:"
+msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+msgid "Co&mmand:"
 msgstr "&Befehl:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

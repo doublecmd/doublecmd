@@ -7378,7 +7378,7 @@ msgstr "Р&азмер панели:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "Команда:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

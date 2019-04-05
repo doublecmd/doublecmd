@@ -7753,7 +7753,7 @@ msgstr "Veličina &trake:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALCOMMAND.CAPTION"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "&Naredba:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

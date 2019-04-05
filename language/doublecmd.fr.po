@@ -7394,7 +7394,7 @@ msgstr "&Taille de la barre"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "Commande :"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

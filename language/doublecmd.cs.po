@@ -7192,7 +7192,8 @@ msgid "&Bar size:"
 msgstr "&Velikost lišty:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
-msgid "Comman&d:"
+msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+msgid "Co&mmand:"
 msgstr "Příka&z"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
@@ -7218,6 +7219,7 @@ msgid "Icon si&ze:"
 msgstr "Ve&likost ikony:"
 
 #: tfrmoptionstoolbar.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "Pří&kaz:"
 

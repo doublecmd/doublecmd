@@ -8027,7 +8027,7 @@ msgstr "Veľkosť lišty:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "Príkaz:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

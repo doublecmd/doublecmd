@@ -7393,7 +7393,7 @@ msgstr "バーのサイズ(&B)："
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALCOMMAND.CAPTION"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "コマンド(&d)："
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

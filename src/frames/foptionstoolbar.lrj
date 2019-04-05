@@ -15,7 +15,7 @@
 {"hash":222514794,"name":"tfrmoptionstoolbar.lblinternalcommand.caption","sourcebytes":[67,111,38,109,109,97,110,100,58],"value":"Co&mmand:"},
 {"hash":24920554,"name":"tfrmoptionstoolbar.lblinternalparameters.caption","sourcebytes":[38,80,97,114,97,109,101,116,101,114,115,58],"value":"&Parameters:"},
 {"hash":116981518,"name":"tfrmoptionstoolbar.edtinternalparameters.hint","sourcebytes":[69,110,116,101,114,32,99,111,109,109,97,110,100,32,112,97,114,97,109,101,116,101,114,115,44,32,101,97,99,104,32,105,110,32,97,32,115,101,112,97,114,97,116,101,32,108,105,110,101,46,32,80,114,101,115,115,32,70,49,32,116,111,32,115,101,101,32,104,101,108,112,32,111,110,32,112,97,114,97,109,101,116,101,114,115,46],"value":"Enter command parameters, each in a separate line. Press F1 to see help on parameters."},
-{"hash":70796826,"name":"tfrmoptionstoolbar.lblexternalcommand.caption","sourcebytes":[67,111,109,109,97,110,38,100,58],"value":"Comman&d:"},
+{"hash":222514794,"name":"tfrmoptionstoolbar.lblexternalcommand.caption","sourcebytes":[67,111,38,109,109,97,110,100,58],"value":"Co&mmand:"},
 {"hash":1054,"name":"tfrmoptionstoolbar.btnopenfile.caption","sourcebytes":[62,62],"value":">>"},
 {"hash":163890522,"name":"tfrmoptionstoolbar.lblexternalparameters.caption","sourcebytes":[80,97,114,97,109,101,116,101,114,38,115,58],"value":"Parameter&s:"},
 {"hash":46327258,"name":"tfrmoptionstoolbar.lblstartpath.caption","sourcebytes":[83,116,97,114,116,32,112,97,116,38,104,58],"value":"Start pat&h:"},
