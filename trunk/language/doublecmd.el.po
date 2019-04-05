@@ -7389,7 +7389,7 @@ msgstr "Μέγεθος Μπάρας:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALCOMMAND.CAPTION"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "Εντολή:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

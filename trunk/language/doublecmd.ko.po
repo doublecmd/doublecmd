@@ -7527,7 +7527,7 @@ msgstr "도구바 크기(&B):"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALCOMMAND.CAPTION"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "명령어(&D):"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

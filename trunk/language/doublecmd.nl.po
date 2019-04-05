@@ -7206,7 +7206,8 @@ msgid "&Bar size:"
 msgstr "&Balkgrootte:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
-msgid "Comman&d:"
+msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+msgid "Co&mmand:"
 msgstr "Opdracht:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
@@ -7232,6 +7233,7 @@ msgid "Icon si&ze:"
 msgstr "Pictogramgrootte:"
 
 #: tfrmoptionstoolbar.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "Opdracht:"
 

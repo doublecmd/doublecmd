@@ -7397,7 +7397,7 @@ msgstr "Tamanho da &barra:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALCOMMAND.CAPTION"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "Coman&do:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

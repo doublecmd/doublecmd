@@ -7179,7 +7179,8 @@ msgid "&Bar size:"
 msgstr "&Rozmiar paska:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
-msgid "Comman&d:"
+msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+msgid "Co&mmand:"
 msgstr "Pole&cenie:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
@@ -7205,6 +7206,7 @@ msgid "Icon si&ze:"
 msgstr "Ro&zmiar ikon:"
 
 #: tfrmoptionstoolbar.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "Po&lecenie:"
 

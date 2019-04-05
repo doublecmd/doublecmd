@@ -7203,7 +7203,8 @@ msgid "&Bar size:"
 msgstr "Памер &панэлі:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
-msgid "Comman&d:"
+msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+msgid "Co&mmand:"
 msgstr "Зага&д:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
@@ -7229,6 +7230,7 @@ msgid "Icon si&ze:"
 msgstr "&Памер значка:"
 
 #: tfrmoptionstoolbar.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "За&гад:"
 

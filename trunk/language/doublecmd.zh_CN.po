@@ -7183,7 +7183,8 @@ msgid "&Bar size:"
 msgstr "工具栏大小(&B)："
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
-msgid "Comman&d:"
+msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+msgid "Co&mmand:"
 msgstr "命令(&D)："
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
@@ -7209,6 +7210,7 @@ msgid "Icon si&ze:"
 msgstr "图标大小(&Z)："
 
 #: tfrmoptionstoolbar.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "命令(&M)："
 

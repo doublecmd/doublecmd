@@ -7438,7 +7438,7 @@ msgstr "&Sáv mérete :"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALCOMMAND.CAPTION"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "Para&ncs :"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

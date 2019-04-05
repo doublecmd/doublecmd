@@ -7543,7 +7543,7 @@ msgstr "&Размер на лентата:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "&Заповед:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption

@@ -7412,7 +7412,7 @@ msgstr "Розмір п&анелі:"
 
 #: tfrmoptionstoolbar.lblexternalcommand.caption
 msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
-msgid "Comman&d:"
+msgid "Co&mmand:"
 msgstr "Коман&да:"
 
 #: tfrmoptionstoolbar.lblexternalparameters.caption
