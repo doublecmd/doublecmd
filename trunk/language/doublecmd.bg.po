@@ -3341,7 +3341,7 @@ msgstr "Из&триване"
 
 #: tfrmmultirename.btnedit.caption
 msgctxt "tfrmmultirename.btnedit.caption"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "Об&работка"
 
 #: tfrmmultirename.btnextmenu.caption

@@ -3316,7 +3316,7 @@ msgstr "Ви&далити"
 
 #: tfrmmultirename.btnedit.caption
 msgctxt "tfrmmultirename.btnedit.caption"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "Р&едагувати"
 
 #: tfrmmultirename.btnextmenu.caption

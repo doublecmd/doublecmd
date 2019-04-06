@@ -3320,7 +3320,7 @@ msgstr "削除(&D)"
 
 #: tfrmmultirename.btnedit.caption
 msgctxt "tfrmmultirename.btnedit.caption"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "編集(&E)"
 
 #: tfrmmultirename.btnextmenu.caption

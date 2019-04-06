@@ -3321,7 +3321,7 @@ msgstr "Διαγραφή"
 
 #: tfrmmultirename.btnedit.caption
 msgctxt "tfrmmultirename.btnedit.caption"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "Επεξεργασία"
 
 #: tfrmmultirename.btnextmenu.caption

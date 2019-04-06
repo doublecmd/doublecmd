@@ -3369,9 +3369,8 @@ msgid "&Delete"
 msgstr "&Slet maske"
 
 #: tfrmmultirename.btnedit.caption
-#, fuzzy
 msgctxt "tfrmmultirename.btnedit.caption"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "&Rediger"
 
 #: tfrmmultirename.btnextmenu.caption

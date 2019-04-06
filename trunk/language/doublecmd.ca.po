@@ -3577,10 +3577,8 @@ msgid "&Delete"
 msgstr "&Esborra"
 
 #: tfrmmultirename.btnedit.caption
-#, fuzzy
-#| msgid "Edit"
 msgctxt "tfrmmultirename.btnedit.caption"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "Edita"
 
 #: tfrmmultirename.btnextmenu.caption
