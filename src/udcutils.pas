@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Several useful functions
    
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
    contributors:
    
@@ -224,6 +224,7 @@ procedure SplitCmdLineToCmdParams(sCmdLine : String; var sCmd, sParams : String)
 function GuessLineBreakStyle(const S: String): TTextLineBreakStyle;
 function GetTextRange(Strings: TStrings; Start, Finish: Integer): String;
 function DCGetNewGUID: TGUID;
+procedure DCPlaceCursorNearControlIfNecessary(AControl: TControl);
 
 implementation
 
@@ -1213,6 +1214,18 @@ begin
     Result.Data3 := random($FFFF);
     for iIndex := 0 to 7 do Result.Data4[iIndex] := random($FF);
   end;
+end;
+
+{ DCPlaceCursorNearControlIfNecessary }
+//Note: Programmatically move cursor position near a control if it's not around it.
+//      This is for those who would use the keyboard accelerator key for making popup at a logical place.
+procedure DCPlaceCursorNearControlIfNecessary(AControl: TControl);
+var
+  ptControlCenter: TPoint;
+begin
+  ptControlCenter := AControl.ClientToScreen(Point(AControl.Width div 2, AControl.Height div 2));
+  if (abs(Mouse.CursorPos.x - ptControlCenter.x) > (AControl.Width div 2)) or  (abs(Mouse.CursorPos.y - ptControlCenter.y) > (AControl.Height div 2)) then
+    Mouse.CursorPos := Point((ptControlCenter.x + (AControl.width div 2)) - 10, ptControlCenter.y);
 end;
 
 end.
