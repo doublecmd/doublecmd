@@ -317,7 +317,7 @@ begin
   if Length(FServernameByUser) > 0 then
     FInstanceName+= '-' + FServernameByUser;
 {$IF DEFINED(UNIX)}
-  FInstanceName:= IncludeTrailingBackslash(GetUserRuntimeDir) + FInstanceName;
+  FInstanceName:= IncludeTrailingBackslash(GetUserRuntimeDir) + FInstanceName + '.pipe';
 {$ENDIF}
 end;
 
