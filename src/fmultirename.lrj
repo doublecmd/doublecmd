@@ -29,7 +29,7 @@
 {"hash":2831732,"name":"tfrmmultirename.btnloadpreset.caption","sourcebytes":[38,76,111,97,100],"value":"&Load"},
 {"hash":2857157,"name":"tfrmmultirename.btnsavepreset.caption","sourcebytes":[38,83,97,118,101],"value":"&Save"},
 {"hash":179055749,"name":"tfrmmultirename.btndeletepreset.caption","sourcebytes":[38,68,101,108,101,116,101],"value":"&Delete"},
-{"hash":2800388,"name":"tfrmmultirename.btnedit.caption","sourcebytes":[38,69,100,105,116],"value":"&Edit"},
+{"hash":196111650,"name":"tfrmmultirename.btnedit.caption","sourcebytes":[69,100,105,116,38,111,114],"value":"Edit&or"},
 {"hash":75727198,"name":"tfrmmultirename.minextname.caption","sourcebytes":[78,97,109,101,46,46,46],"value":"Name..."},
 {"hash":66404917,"name":"tfrmmultirename.miname.caption","sourcebytes":[91,78,93,32,78,97,109,101],"value":"[N] Name"},
 {"hash":3022792,"name":"tfrmmultirename.minamex.caption","sourcebytes":[91,78,120,93,32,67,104,97,114,97,99,116,101,114,32,97,116,32,112,111,115,105,116,105,111,110,32,120],"value":"[Nx] Character at position x"},

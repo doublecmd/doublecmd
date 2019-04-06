@@ -427,10 +427,10 @@ object frmMultiRename: TfrmMultiRename
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnRestore
       AnchorSideRight.Control = btnClose
-      Left = 506
+      Left = 517
       Height = 25
       Top = 178
-      Width = 179
+      Width = 168
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       BorderSpacing.Left = 6
@@ -511,7 +511,7 @@ object frmMultiRename: TfrmMultiRename
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbFindReplace
       AnchorSideTop.Side = asrBottom
-      Left = 400
+      Left = 411
       Height = 25
       Top = 178
       Width = 100
@@ -611,10 +611,10 @@ object frmMultiRename: TfrmMultiRename
       Left = 348
       Height = 25
       Top = 178
-      Width = 46
+      Width = 57
       AutoSize = True
       BorderSpacing.Top = 6
-      Caption = '&Edit'
+      Caption = 'Edit&or'
       OnClick = btnEditClick
       PopupMenu = pmEditDirect
       TabOrder = 8
