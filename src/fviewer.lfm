@@ -2631,6 +2631,7 @@ object frmViewer: TfrmViewer
     end
   end
   object pmEditMenu: TPopupMenu
+    OnPopup = pmEditMenuPopup
     left = 152
     top = 64
     object pmiCopy: TMenuItem
