@@ -70,7 +70,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   Windows,
   {$ELSEIF DEFINED(UNIX)}
-  ipc, baseunix, uPipeServer,
+  ipc, baseunix, uPipeServer, uXdg,
   {$ENDIF}
   Forms, StrUtils, FileUtil, uGlobs, uDebug;
 
@@ -312,11 +312,13 @@ end;
 
 constructor TUniqueInstance.Create(aInstanceName: String; aServernameByUser: String);
 begin
-  FServernameByUser := aServernameByUser;
-  FInstanceName:= aInstanceName + '-' + FServernameByUser;
-  {$IF DEFINED(UNIX)}
-  FInstanceName+= '-' + IntToStr(fpGetUID);
-  {$ENDIF}
+  FInstanceName:= aInstanceName;
+  FServernameByUser:= aServernameByUser;
+  if Length(FServernameByUser) > 0 then
+    FInstanceName+= '-' + FServernameByUser;
+{$IF DEFINED(UNIX)}
+  FInstanceName:= IncludeTrailingBackslash(GetUserRuntimeDir) + FInstanceName;
+{$ENDIF}
 end;
 
 destructor TUniqueInstance.Destroy;

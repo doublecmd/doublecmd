@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Unix implementation of one-way IPC between 2 processes
 
-   Copyright (C) 2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2019 Alexander Koblov (alexx2000@mail.ru)
 
    Based on simpleipc.inc from Free Component Library.
    Copyright (c) 2005 by Michael Van Canneyt, member of
@@ -65,19 +65,14 @@ begin
 end;
 
 constructor TPipeServerComm.Create(AOWner: TSimpleIPCServer);
-
-Var
-  D : String;
-
 begin
   inherited Create(AOWner);
-  FFileName:=Owner.ServerID;
-  If Not Owner.Global then
-    FFileName:=FFileName+'-'+IntToStr(fpGetPID);
-  D:='/tmp/'; // Change to something better later
-  FFileName:=D+FFileName;
+  FFileName:= Owner.ServerID;
+  if not Owner.Global then
+    FFileName:= FFileName + '-' + IntToStr(fpGetPID);
+  if FFileName[1] <> '/' then
+    FFileName:= GetTempDir(Owner.Global) + FFileName;
 end;
-
 
 procedure TPipeServerComm.StartServer;
 
