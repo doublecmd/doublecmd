@@ -270,6 +270,7 @@ type
     procedure ImageMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure miLookBookClick(Sender: TObject);
+    procedure pmEditMenuPopup(Sender: TObject);
     procedure pnlImageResize(Sender: TObject);
 
     procedure pnlTextMouseWheelUp(Sender: TObject; Shift: TShiftState;
@@ -1038,6 +1039,11 @@ procedure TfrmViewer.miLookBookClick(Sender: TObject);
 begin
   cm_ShowAsBook(['']);
 //  miLookBook.Checked:=not miLookBook.Checked;
+end;
+
+procedure TfrmViewer.pmEditMenuPopup(Sender: TObject);
+begin
+  pmiCopyFormatted.Visible:= ViewerControl.Mode in [vcmHex, vcmDec];
 end;
 
 procedure TfrmViewer.CreatePreview(FullPathToFile: string; index: integer;
@@ -2751,7 +2757,7 @@ end;
 
 procedure TfrmViewer.cm_CopyToClipboardFormatted(const Params: array of string);
 begin
-  ViewerControl.CopyToClipboardF;
+  if ViewerControl.Mode in [vcmHex, vcmDec] then ViewerControl.CopyToClipboardF;
 end;
 
 procedure TfrmViewer.cm_SelectAll(const Params: array of string);
