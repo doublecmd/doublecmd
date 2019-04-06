@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Miscellaneous freedesktop.org compatible utility functions
 
-   Copyright (C) 2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,8 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uXdg;
@@ -29,6 +28,11 @@ interface
 uses
   Classes, SysUtils, DCBasicTypes;
 
+{en
+   Returns a base directory in which to store non-essential,
+   cached data specific to particular user.
+}
+function GetUserCacheDir: String;
 {en
    Returns a base directory relative to which user-specific data
    files should be written.
@@ -44,6 +48,10 @@ function GetSystemDataDirs: TDynamicStringArray;
    configuration information such as user preferences and settings.
 }
 function GetUserConfigDir: String;
+{en
+   Returns a directory that is unique to the current user on the local system.
+}
+function GetUserRuntimeDir: String;
 {en
   Returns an ordered list of base directories in which to access
   system-wide configuration information.
@@ -61,7 +69,15 @@ function GetDesktopPath(const DesktopName: String): String;
 implementation
 
 uses
-  DCStrUtils, DCOSUtils, uOSUtils;
+  BaseUnix, DCStrUtils, DCOSUtils, uOSUtils;
+
+function GetUserCacheDir: String;
+begin
+  Result:= mbGetEnvironmentVariable('XDG_CACHE_HOME');
+  if Length(Result) = 0 then begin
+    Result:= GetHomeDir + '/.cache';
+  end;
+end;
 
 function GetUserDataDir: String;
 begin
@@ -88,6 +104,21 @@ begin
   Result:= mbGetEnvironmentVariable('XDG_CONFIG_HOME');
   if Length(Result) = 0 then begin
     Result:= GetHomeDir + '/.config';
+  end;
+end;
+
+function GetUserRuntimeDir: String;
+begin
+  Result:= mbGetEnvironmentVariable('XDG_RUNTIME_DIR');
+  if Length(Result) = 0 then
+  begin
+    if fpGetUID = 0 then
+      Result:= '/run'
+    else begin
+      Result:= '/run/user/' + IntToStr(fpGetUID);
+      if not mbDirectoryExists(Result) then
+        Result:= GetUserCacheDir;
+    end;
   end;
 end;
 
