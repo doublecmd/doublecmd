@@ -3506,10 +3506,8 @@ msgid "&Delete"
 msgstr "刪除 (&D)"
 
 #: tfrmmultirename.btnedit.caption
-#, fuzzy
-#| msgid "Edit"
 msgctxt "tfrmmultirename.btnedit.caption"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "編輯 (&E)"
 
 #: tfrmmultirename.btnextmenu.caption

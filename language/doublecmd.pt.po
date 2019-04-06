@@ -3324,7 +3324,7 @@ msgstr "&Eliminar"
 
 #: tfrmmultirename.btnedit.caption
 msgctxt "tfrmmultirename.btnedit.caption"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "&Editar"
 
 #: tfrmmultirename.btnextmenu.caption

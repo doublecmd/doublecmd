@@ -3609,10 +3609,8 @@ msgid "&Delete"
 msgstr "&Vymazať"
 
 #: tfrmmultirename.btnedit.caption
-#, fuzzy
-#| msgid "Edit"
 msgctxt "tfrmmultirename.btnedit.caption"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "&Upraviť"
 
 #: tfrmmultirename.btnextmenu.caption

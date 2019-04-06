@@ -3328,7 +3328,7 @@ msgstr "&Törlés"
 
 #: tfrmmultirename.btnedit.caption
 msgctxt "tfrmmultirename.btnedit.caption"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "&Szerkesztés"
 
 #: tfrmmultirename.btnextmenu.caption

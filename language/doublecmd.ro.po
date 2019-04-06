@@ -3322,7 +3322,7 @@ msgstr "Șterge (&d)"
 
 #: tfrmmultirename.btnedit.caption
 msgctxt "tfrmmultirename.btnedit.caption"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "&Editează"
 
 #: tfrmmultirename.btnextmenu.caption

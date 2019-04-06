@@ -3253,7 +3253,7 @@ msgstr "&Usuń"
 
 #: tfrmmultirename.btnedit.caption
 msgctxt "TFRMMULTIRENAME.BTNEDIT.CAPTION"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "&Edytuj"
 
 #: tfrmmultirename.btnextmenu.caption

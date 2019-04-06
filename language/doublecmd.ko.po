@@ -3343,9 +3343,8 @@ msgid "&Delete"
 msgstr "삭제(&D)"
 
 #: tfrmmultirename.btnedit.caption
-#, fuzzy
 msgctxt "tfrmmultirename.btnedit.caption"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "편집(&E)"
 
 #: tfrmmultirename.btnextmenu.caption

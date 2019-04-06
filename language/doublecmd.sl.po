@@ -3263,7 +3263,7 @@ msgstr "&Izbriši"
 
 #: tfrmmultirename.btnedit.caption
 msgctxt "TFRMMULTIRENAME.BTNEDIT.CAPTION"
-msgid "&Edit"
+msgid "Edit&or"
 msgstr "&&Uredi"
 
 #: tfrmmultirename.btnextmenu.caption
