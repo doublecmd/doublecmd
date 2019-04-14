@@ -282,11 +282,11 @@ var
 
 function GetServerIdNameToCheck:string;
 begin
-  result:=ApplicationName+'-';
-  if IndexInstance>1 then result:=result+IntToStr(IndexInstance);
-  {$IF DEFINED(UNIX)}
-  result := result + '-' + IntToStr(fpGetUID);
-  {$ENDIF}
+  Result:= ApplicationName;
+  if IndexInstance > 1 then Result+= '-' + IntToStr(IndexInstance);
+{$IF DEFINED(UNIX)}
+  Result:= IncludeTrailingBackslash(GetUserRuntimeDir) + Result + '.pipe';
+{$ENDIF}
 end;
 
 begin
