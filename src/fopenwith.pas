@@ -81,7 +81,7 @@ implementation
 
 uses
   LCLProc, DCStrUtils, uOSUtils, uPixMapManager, uGlobs, uMimeActions,
-  uMimeType, uLng, LazUTF8, Math, uXdg;
+  uMimeType, uLng, LazUTF8, Math, uXdg, uGraphics;
 
 const
   CATEGORY_OTHER = 11; // 'Other' category index
@@ -355,6 +355,7 @@ begin
     Bitmap:= PixMapManager.GetBitmap(ImageIndex);
     if Assigned(Bitmap) then
     begin
+      BitmapCenter(Bitmap, ImageList.Width, ImageList.Height);
       ANode.ImageIndex:= ImageList.Add(Bitmap, nil);
       ANode.SelectedIndex:= ANode.ImageIndex;
       ANode.StateIndex:= ANode.ImageIndex;

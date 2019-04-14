@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Graphic functions
 
-   Copyright (C) 2013-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -40,11 +40,12 @@ type
 
 procedure BitmapAssign(Bitmap: TBitmap; Image: TRasterImage);
 procedure BitmapAlpha(var ABitmap: TBitmap; APercent: Single);
+procedure BitmapCenter(var Bitmap: TBitmap; Width, Height: Integer);
 
 implementation
 
 uses
-  GraphType, FPimage, IntfGraphics, uPixMapManager;
+  GraphType, FPimage, FPImgCanv, IntfGraphics, uPixMapManager;
 
 type
   TRawAccess = class(TRasterImage) end;
@@ -80,6 +81,28 @@ begin
     end;
     ABitmap.LoadFromIntfImage(AImage);
     AImage.Free;
+  end;
+end;
+
+procedure BitmapCenter(var Bitmap: TBitmap; Width, Height: Integer);
+var
+  X, Y: Integer;
+  Canvas: TFPImageCanvas;
+  Source, Target: TLazIntfImage;
+begin
+  if (Bitmap.Width <> Width) or (Bitmap.Height <> Height) then
+  begin
+    Source:= Bitmap.CreateIntfImage;
+    Target:= TLazIntfImage.Create(Width, Height, [riqfRGB, riqfAlpha]);
+    Target.CreateData;
+    Canvas:= TFPImageCanvas.Create(Target);
+    X:= (Width - Bitmap.Width) div 2;
+    Y:= (Height - Bitmap.Height) div 2;
+    Canvas.Erase;
+    Canvas.Draw(X, Y, Source);
+    Bitmap.LoadFromIntfImage(Target);
+    Target.Free;
+    Source.Free;
   end;
 end;
 
