@@ -347,15 +347,9 @@ begin
     if (FExtractWithoutPath = False) then SetDirsAttributes(CreatedPaths);
 
   finally
-    // Close archive
+    // Close archive, ignore function result, see:
+    // https://www.ghisler.ch/board/viewtopic.php?p=299809#p299809
     iResult := WcxModule.CloseArchive(ArcHandle);
-    // Check for errors
-    if iResult <> E_SUCCESS then
-    begin
-      ShowError(Format(rsMsgLogError + rsMsgLogExtract,
-                       [FWcxArchiveFileSource.ArchiveFileName +
-                        ' : ' + GetErrorMsg(iResult)]), iResult, [log_arc_op]);
-    end;
     // Free memory
     FreeAndNil(Files);
     FreeAndNil(CreatedPaths);
