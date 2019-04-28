@@ -425,6 +425,8 @@ begin
       GetDeviceAttribute(Device, 'removable', DeviceIsRemovable);
     end;
 
+    GetDeviceAttribute(Device, 'size', DeviceSize);
+
     UpdateDriveConnectionInterface(SystemPath, Info);
 
     DeviceIsMediaAvailable:= (Length(IdUsage) > 0) or (Length(IdType) > 0) or

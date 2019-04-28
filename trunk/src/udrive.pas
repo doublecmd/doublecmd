@@ -53,6 +53,7 @@ type
     DriveLabel,             //<en Drive label if filesystem on the drive supports it.
     DeviceId: String;       //<en Device ID that can be used for mounting, ejecting, etc.
     DriveType : TDriveType;
+    DriveSize : Int64;      //<en Drive size
     FileSystem: String;     //<en Filesystem on the drive
     IsMediaAvailable: Boolean; //<en Is media available in a drive with removable media.
     IsMediaEjectable: Boolean; //<en Can eject media by a command.

@@ -583,14 +583,18 @@ begin
 
       // Display free space only for some drives
       // (removable, network, etc. may be slow).
-      if (Drive^.DriveType in [dtHardDisk, dtOptical, dtRamDisk]) and
+      if (Drive^.DriveType in [dtHardDisk, dtOptical, dtRamDisk, dtRemovableUsb]) and
          IsAvailable(Drive, False) and
          GetDiskFreeSpace(Drive^.Path, FreeSize, TotalSize) then
       begin
         Cells[4, RowNr] :=
           Format('%s/%s', [cnvFormatFileSize(FreeSize, uoscHeaderFooter),
                            cnvFormatFileSize(TotalSize, uoscHeaderFooter)])
-      end;
+      end
+      else if (Drive^.DriveSize > 0) then
+      begin
+        Cells[4, RowNr] := cnvFormatFileSize(Drive^.DriveSize, uoscHeaderFooter);
+      end
     end; // for
 end;
 

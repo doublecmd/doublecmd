@@ -58,6 +58,7 @@ type
     IdVersion,
     IdUuid,
     IdLabel,
+    DeviceSize,
     PartitionSlave: String; // Owner device if this is a partition
   end;
 
