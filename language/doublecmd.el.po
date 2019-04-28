@@ -2256,9 +2256,17 @@ msgstr "Επικέντρωση σε προβολή δέντρου"
 msgid "Switch between current file list and tree view (if enabled)"
 msgstr "Εναλλαγή μεταξύ τρέχουσας λίστας αρχείων και προβολής δέντρου (αν είναι ενεργοποιημένη)"
 
+#: tfrmmain.actgotofirstentry.caption
+msgid "Place cursor on first folder or file"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Τοποθέτηση του κέρσορα στο πρώτο αρχείο της λίστας"
+
+#: tfrmmain.actgotolastentry.caption
+msgid "Place cursor on last folder or file"
+msgstr ""
 
 #: tfrmmain.actgotolastfile.caption
 msgid "Place cursor on last file in list"

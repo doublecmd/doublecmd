@@ -2204,9 +2204,17 @@ msgstr "Koncentracja na widoku drzewa"
 msgid "Switch between current file list and tree view (if enabled)"
 msgstr "Przełącz między bieżącą listą plików, a widokiem drzewa (jeśli włączone)"
 
+#: tfrmmain.actgotofirstentry.caption
+msgid "Place cursor on first folder or file"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Umieść kursor na pierwszym pliku listy"
+
+#: tfrmmain.actgotolastentry.caption
+msgid "Place cursor on last folder or file"
+msgstr ""
 
 #: tfrmmain.actgotolastfile.caption
 msgid "Place cursor on last file in list"

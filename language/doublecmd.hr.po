@@ -2335,10 +2335,18 @@ msgstr ""
 msgid "Switch between current file list and tree view (if enabled)"
 msgstr ""
 
+#: tfrmmain.actgotofirstentry.caption
+msgid "Place cursor on first folder or file"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgctxt "tfrmmain.actgotofirstfile.caption"
 msgid "Place cursor on first file in list"
 msgstr "Postavi pokazivač na prvu datoteku kartice"
+
+#: tfrmmain.actgotolastentry.caption
+msgid "Place cursor on last folder or file"
+msgstr ""
 
 #: tfrmmain.actgotolastfile.caption
 msgctxt "tfrmmain.actgotolastfile.caption"

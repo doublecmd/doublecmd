@@ -2208,9 +2208,17 @@ msgstr "Fokus na strom"
 msgid "Switch between current file list and tree view (if enabled)"
 msgstr "Zaměnit aktuální seznam a stromové zobrazení"
 
+#: tfrmmain.actgotofirstentry.caption
+msgid "Place cursor on first folder or file"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Umístit kurzor na první soubor v seznamu"
+
+#: tfrmmain.actgotolastentry.caption
+msgid "Place cursor on last folder or file"
+msgstr ""
 
 #: tfrmmain.actgotolastfile.caption
 msgid "Place cursor on last file in list"
