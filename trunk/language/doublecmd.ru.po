@@ -2245,9 +2245,17 @@ msgstr "Перейти в дерево каталогов"
 msgid "Switch between current file list and tree view (if enabled)"
 msgstr "Переключиться между списком файлов и деревом (если включено)"
 
+#: tfrmmain.actgotofirstentry.caption
+msgid "Place cursor on first folder or file"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Поместить курсор на первый файл в списке"
+
+#: tfrmmain.actgotolastentry.caption
+msgid "Place cursor on last folder or file"
+msgstr ""
 
 #: tfrmmain.actgotolastfile.caption
 msgid "Place cursor on last file in list"

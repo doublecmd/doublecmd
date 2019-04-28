@@ -2207,9 +2207,17 @@ msgstr ""
 msgid "Switch between current file list and tree view (if enabled)"
 msgstr ""
 
+#: tfrmmain.actgotofirstentry.caption
+msgid "Place cursor on first folder or file"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Plaats aanwijzer op eerste bestand in lijst"
+
+#: tfrmmain.actgotolastentry.caption
+msgid "Place cursor on last folder or file"
+msgstr ""
 
 #: tfrmmain.actgotolastfile.caption
 msgid "Place cursor on last file in list"

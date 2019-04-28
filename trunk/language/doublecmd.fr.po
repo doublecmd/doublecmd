@@ -2267,9 +2267,17 @@ msgstr "Bascule vers la vue en arborescence"
 msgid "Switch between current file list and tree view (if enabled)"
 msgstr "Basculer entre la liste de fichiers actuelle et l'arborescence (si activé)"
 
+#: tfrmmain.actgotofirstentry.caption
+msgid "Place cursor on first folder or file"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "Placer le curseur sur le premier fichier de la liste"
+
+#: tfrmmain.actgotolastentry.caption
+msgid "Place cursor on last folder or file"
+msgstr ""
 
 #: tfrmmain.actgotolastfile.caption
 msgid "Place cursor on last file in list"

@@ -2205,9 +2205,17 @@ msgstr "聚集到树状视图"
 msgid "Switch between current file list and tree view (if enabled)"
 msgstr "切换当前文件列表和树状视图（如果已启用）"
 
+#: tfrmmain.actgotofirstentry.caption
+msgid "Place cursor on first folder or file"
+msgstr ""
+
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
 msgstr "将光标置于列表中的第一个文件"
+
+#: tfrmmain.actgotolastentry.caption
+msgid "Place cursor on last folder or file"
+msgstr ""
 
 #: tfrmmain.actgotolastfile.caption
 msgid "Place cursor on last file in list"
