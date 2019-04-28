@@ -398,6 +398,7 @@ begin
     end;
     Drive^.DriveLabel := IdLabel;
     Drive^.FileSystem := IdType;
+    Drive^.DriveSize := StrToInt64Def(DeviceSize, 0) * 512;
 
     if DeviceIsPartition then
     begin
@@ -900,7 +901,7 @@ begin
                   DriveType := dtFloppy else
                 if IsPartOfString(['ZIP', 'USB', 'CAMERA'], UpperCase(FileSystem)) then
                   DriveType := dtFlash else
-                if IsPartOfString(['/MEDIA/'], UpperCase(MountPoint)) then
+                if IsPartOfString(['/MEDIA/', '/RUN/MEDIA/'], UpperCase(MountPoint)) then
                     DriveType := dtFlash else
                 if IsPartOfString(['NFS', 'SMB', 'NETW', 'CIFS'], UpperCase(FileSystem)) then
                   DriveType := dtNetwork
