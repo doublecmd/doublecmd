@@ -418,9 +418,20 @@ function UnixFileTimeToDateTime(UnixTime: TUnixFileTime) : TDateTime;
 var
   ATime: TTimeStruct;
 begin
-  if (fpLocalTime(@UnixTime, @ATime) = nil) then RaiseLastOSError;
+  if (fpLocalTime(@UnixTime, @ATime) = nil) then
+    Exit(UnixEpoch);
 
-  Result := ComposeDateTime(EncodeDate(ATime.tm_year + 1900, ATime.tm_mon + 1, ATime.tm_mday),
+  ATime.tm_mon += 1;
+  ATime.tm_year += 1900;
+
+  if (ATime.tm_year < 1) then
+    ATime.tm_year := 1
+  else if (ATime.tm_year > 9999) then
+    ATime.tm_year := 9999;
+  if ATime.tm_sec > 59 then
+    ATime.tm_sec := 59;
+
+  Result := ComposeDateTime(EncodeDate(ATime.tm_year, ATime.tm_mon, ATime.tm_mday),
                             EncodeTime(ATime.tm_hour, ATime.tm_min, ATime.tm_sec, 0));
 end;
 {$ELSE}
