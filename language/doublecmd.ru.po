@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-02-26 07:35+0300\n"
+"PO-Revision-Date: 2019-04-07 00:45+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -1589,7 +1589,7 @@ msgstr "З&аменить текст"
 
 #: tfrmfinddlg.cbselectedfiles.caption
 msgid "Selected directories and files"
-msgstr "&Выбранные файлы и каталоги"
+msgstr "Выделенные файлы и каталоги"
 
 #: tfrmfinddlg.cbtextregexp.caption
 msgid "Reg&ular expression"
@@ -1610,7 +1610,7 @@ msgstr "&Использовать поисковый плагин:"
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
 msgid "Hexadeci&mal"
-msgstr "Шестнадцатеричное"
+msgstr "&Шестнадцатеричное"
 
 #: tfrmfinddlg.cmbexcludedirectories.hint
 msgid "Enter directories names that should be excluded from search separated with \";\""
@@ -2247,7 +2247,7 @@ msgstr "Переключиться между списком файлов и д�
 
 #: tfrmmain.actgotofirstentry.caption
 msgid "Place cursor on first folder or file"
-msgstr ""
+msgstr "Поместить курсор на первую папку или файл в списке"
 
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
@@ -2255,7 +2255,7 @@ msgstr "Поместить курсор на первый файл в списк
 
 #: tfrmmain.actgotolastentry.caption
 msgid "Place cursor on last folder or file"
-msgstr ""
+msgstr "Поместить курсор на последнюю папку или файл в списке"
 
 #: tfrmmain.actgotolastfile.caption
 msgid "Place cursor on last file in list"
@@ -6964,7 +6964,7 @@ msgstr "Общие настройки:"
 
 #: tfrmoptionspluginsgroup.lbllualibraryfilename.caption
 msgid "Lua library file to use:"
-msgstr ""
+msgstr "Библиотека Lua:"
 
 #: tfrmoptionspluginsgroup.lbpathtoberelativeto.caption
 msgctxt "tfrmoptionspluginsgroup.lbpathtoberelativeto.caption"
@@ -7308,7 +7308,7 @@ msgstr "Параметры:"
 #: tfrmoptionstoolbar.btnclonebutton.caption
 msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
 msgid "C&lone button"
-msgstr "&Дублировать"
+msgstr "Дублиро&вать"
 
 #: tfrmoptionstoolbar.btndeletebutton.caption
 msgctxt "tfrmoptionstoolbar.btndeletebutton.caption"
@@ -7323,7 +7323,7 @@ msgstr "&Редактировать"
 #: tfrmoptionstoolbar.btninsertbutton.caption
 msgctxt "tfrmoptionstoolbar.btninsertbutton.caption"
 msgid "&Insert new button"
-msgstr "Доба&вить"
+msgstr "&Добавить"
 
 #: tfrmoptionstoolbar.btnopencmddlg.caption
 msgid "Select"
@@ -7342,7 +7342,7 @@ msgstr "Другое..."
 #: tfrmoptionstoolbar.btnremovehotkey.caption
 msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
 msgid "Remove hotke&y"
-msgstr "У&далить"
+msgstr "Удалит&ь"
 
 #: tfrmoptionstoolbar.btnstartpath.caption
 msgctxt "tfrmoptionstoolbar.btnstartpath.caption"
@@ -10097,7 +10097,7 @@ msgstr "TAB-файлы"
 
 #: ulng.rsfilterlibraries
 msgid "Library files"
-msgstr ""
+msgstr "Файлы библиотек"
 
 #: ulng.rsfilterpluginfiles
 msgid "Plugin files"
@@ -11355,7 +11355,7 @@ msgstr "Перезапустите Double Commander для применения 
 
 #: ulng.rsmsgscriptcantfindlibrary
 msgid "ERROR: Problem loading Lua library file \"%s\""
-msgstr ""
+msgstr "ОШИБКА: Проблема с загрузкой библиотеки Lua \"%s\""
 
 #: ulng.rsmsgsekectfiletype
 msgid "Select to which file type to add extension \"%s\""
@@ -11596,7 +11596,7 @@ msgstr "Введите размер тома:"
 
 #: ulng.rsmsgwanttoconfigurelibrarylocation
 msgid "Do you want to configure Lua library location?"
-msgstr ""
+msgstr "Хотите настроить расположение библиотеки Lua?"
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
