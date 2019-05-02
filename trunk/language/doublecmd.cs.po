@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2019-03-23 16:02+0100\n"
+"PO-Revision-Date: 2019-04-07 08:18+0200\n"
 "Last-Translator: Zdeněk Fuchs <zephycz@centrum.cz>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -186,7 +186,7 @@ msgstr "Archivovat"
 
 #: tfrmattributesedit.cbcompressed.caption
 msgid "Co&mpressed"
-msgstr "Ko&mprimováno"
+msgstr "Komprimovaný"
 
 #: tfrmattributesedit.cbdirectory.caption
 msgid "&Directory"
@@ -194,7 +194,7 @@ msgstr "Složka"
 
 #: tfrmattributesedit.cbencrypted.caption
 msgid "&Encrypted"
-msgstr "Š&ifrováno"
+msgstr "Šifrovaný"
 
 #: tfrmattributesedit.cbhidden.caption
 msgid "&Hidden"
@@ -211,7 +211,7 @@ msgstr "SGID"
 
 #: tfrmattributesedit.cbsparse.caption
 msgid "S&parse"
-msgstr "Ř&ídké"
+msgstr "Řídký"
 
 #: tfrmattributesedit.cbsticky.caption
 msgctxt "TFRMATTRIBUTESEDIT.CBSTICKY.CAPTION"
@@ -233,7 +233,7 @@ msgstr "Systémový"
 
 #: tfrmattributesedit.cbtemporary.caption
 msgid "&Temporary"
-msgstr "&Dočasné"
+msgstr "&Dočasný"
 
 #: tfrmattributesedit.gbntfsattributes.caption
 msgid "NTFS attributes"
@@ -275,7 +275,7 @@ msgstr "Čtení"
 
 #: tfrmattributesedit.lbltextattrs.caption
 msgid "As te&xt:"
-msgstr "Jako te&xt:"
+msgstr "Textově:"
 
 #: tfrmattributesedit.lblwrite.caption
 msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
@@ -1071,7 +1071,7 @@ msgstr "Rozbalení souborů"
 
 #: tfrmextractdlg.cbextractpath.caption
 msgid "&Unpack path names if stored with files"
-msgstr "&Rozbalit i s cestou, pokud je uložena"
+msgstr "&Rozbalit soubory včetně cesty (pokud je uložena)"
 
 #: tfrmextractdlg.cbfilemask.text
 msgctxt "tfrmextractdlg.cbfilemask.text"
@@ -1080,7 +1080,7 @@ msgstr "*.*"
 
 #: tfrmextractdlg.cbinseparatefolder.caption
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
-msgstr "Rozbalit do oddělených podsložek (podle názvu archívu)"
+msgstr "Rozbalit do podsložky podle názvu archívu"
 
 #: tfrmextractdlg.cboverwrite.caption
 msgid "O&verwrite existing files"
@@ -1092,7 +1092,7 @@ msgstr "Do složky:"
 
 #: tfrmextractdlg.lblfilemask.caption
 msgid "&Extract files matching file mask:"
-msgstr "Rozbalit soubory odpovídající masc&e souborů:"
+msgstr "Rozbalit tyto soubory:"
 
 #: tfrmextractdlg.lblpassword.caption
 msgid "&Password for encrypted files:"
@@ -1265,7 +1265,7 @@ msgstr "Poslední přístup:"
 
 #: tfrmfileproperties.lbllastmodifstr.caption
 msgid "Last modification:"
-msgstr "Poslední změna:"
+msgstr "Poslední změny:"
 
 #: tfrmfileproperties.lbllaststchangestr.caption
 msgid "Last status change:"
@@ -2354,15 +2354,15 @@ msgstr "Nástroj pro h&romadné přejmenování"
 
 #: tfrmmain.actnetworkconnect.caption
 msgid "Network &Connect..."
-msgstr "&Připojit síť..."
+msgstr "Síť - nové připojení..."
 
 #: tfrmmain.actnetworkdisconnect.caption
 msgid "Network &Disconnect"
-msgstr "&Odpojit síť"
+msgstr "Síť - ukončit připojení"
 
 #: tfrmmain.actnetworkquickconnect.caption
 msgid "Network &Quick Connect..."
-msgstr "Síť &rychle připojit..."
+msgstr "Síť - rychlé připojení..."
 
 #: tfrmmain.actnewtab.caption
 msgid "&New Tab"
@@ -2411,7 +2411,7 @@ msgstr "M&ožnosti..."
 
 #: tfrmmain.actpackfiles.caption
 msgid "&Pack Files..."
-msgstr "&Zabalit soubory..."
+msgstr "&Komprimovat soubory..."
 
 #: tfrmmain.actpanelssplitterperpos.caption
 msgid "Set splitter position"
@@ -2573,19 +2573,19 @@ msgstr "Změnit &atributy..."
 
 #: tfrmmain.actsettaboptiondirsinnewtab.caption
 msgid "Locked with Directories Opened in New &Tabs"
-msgstr "Zamčená, při změně složky vytvoří novou záložku"
+msgstr "Zamknout, při změně složky vytvořit novou záložku"
 
 #: tfrmmain.actsettaboptionnormal.caption
 msgid "&Normal"
-msgstr "&Normální"
+msgstr "Odemknout tuto záložku"
 
 #: tfrmmain.actsettaboptionpathlocked.caption
 msgid "&Locked"
-msgstr "&Zamčená"
+msgstr "&Zamknout tuto záložku"
 
 #: tfrmmain.actsettaboptionpathresets.caption
 msgid "Locked with &Directory Changes Allowed"
-msgstr "Zamčená, ale dovolí změnu složky"
+msgstr "Zamknout, ale dovolit změnit složku"
 
 #: tfrmmain.actshellexecute.caption
 msgctxt "TFRMMAIN.ACTSHELLEXECUTE.CAPTION"
@@ -3107,7 +3107,7 @@ msgstr "&Zrušit"
 
 #: tfrmmaskinputdlg.btndefinetemplate.caption
 msgid "&Define..."
-msgstr "&Určit..."
+msgstr "&Definovat..."
 
 #: tfrmmaskinputdlg.btnok.caption
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
@@ -3120,7 +3120,7 @@ msgstr "Rozlišovat velikost"
 
 #: tfrmmaskinputdlg.chkignoreaccentsandligatures.caption
 msgid "Ignore accents and ligatures"
-msgstr "Ignorovat přízvuky a zpřežky"
+msgstr "Ignorovat diakritiku"
 
 #: tfrmmaskinputdlg.lblattributes.caption
 msgid "Attri&butes:"
@@ -3150,7 +3150,7 @@ msgstr "Vytvoření nové složky"
 
 #: tfrmmkdir.lblmakedir.caption
 msgid "&Input new directory name:"
-msgstr "&Zadejte název nové složky:"
+msgstr "&Nový název složky:"
 
 #: tfrmmodview.btnpath1.caption
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
@@ -3264,6 +3264,8 @@ msgid "&Delete"
 msgstr "&Smazat"
 
 #: tfrmmultirename.btnedit.caption
+#, fuzzy
+#| msgid "&Edit"
 msgctxt "tfrmmultirename.btnedit.caption"
 msgid "Edit&or"
 msgstr "&Upravit"
@@ -6498,7 +6500,7 @@ msgstr "Název souboru bude obsahovat datum"
 
 #: tfrmoptionslog.cblogarcop.caption
 msgid "&Pack/Unpack"
-msgstr "&Komprese/Dekomprese"
+msgstr "&Komprimovat/Rozbalit"
 
 #: tfrmoptionslog.cblogcommandlineexecution.caption
 msgid "External command line execution"
@@ -7776,7 +7778,7 @@ msgstr "Kde zobrazit stromovou nabídku:"
 
 #: tfrmoptionstreeviewmenu.lblnote.caption
 msgid "*NOTE: Regarding the options like the case sensitivity, ignoring accents or not, these are saved and restored individually for each context from a usage and session to another."
-msgstr "*POZNÁMKA: Ohledně voleb jako velikost písmen, ignorování nebo neignorování přízvuku, tyto jsou uloženy a obnoveny samostatně pro každý kontext použití a sezení do jiného."
+msgstr "*POZNÁMKA: Volby jako rozlišování velikosti písmen, ignorování diakritiky, se ukládají samostatně při každém použití a přenáší se do dalšího."
 
 #: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
 msgid "With Directory Hotlist:"
@@ -7947,15 +7949,15 @@ msgstr "&Počet sloupců v prohlížeči knih"
 #: tfrmpackdlg.btnconfig.caption
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "Con&figure"
-msgstr "Konfi&gurovat"
+msgstr "Nastavit..."
 
 #: tfrmpackdlg.caption
 msgid "Pack files"
-msgstr "Komprimovat soubory"
+msgstr "Zkomprimovat soubory"
 
 #: tfrmpackdlg.cbcreateseparatearchives.caption
 msgid "C&reate separate archives, one per selected file/dir"
-msgstr "V&ytvořit oddělené archívy, jeden na vybraný soubor/adresář"
+msgstr "Vytvořit samostatný archív pro každý vybraný soubor/složku"
 
 #: tfrmpackdlg.cbcreatesfx.caption
 msgid "Create self e&xtracting archive"
@@ -7963,7 +7965,7 @@ msgstr "Sa&morozbalovací archív"
 
 #: tfrmpackdlg.cbencrypt.caption
 msgid "Encr&ypt"
-msgstr "Zaši&frovat"
+msgstr "Nastavit heslo"
 
 #: tfrmpackdlg.cbmovetoarchive.caption
 msgid "Mo&ve to archive"
@@ -7971,7 +7973,7 @@ msgstr "Pře&sunout do archívu"
 
 #: tfrmpackdlg.cbmultivolume.caption
 msgid "&Multiple disk archive"
-msgstr "&Vícesvazkový archív"
+msgstr "&Dělený archív na více médií"
 
 #: tfrmpackdlg.cbotherplugins.caption
 msgid "=>"
@@ -7983,11 +7985,11 @@ msgstr "N&ejdříve vložit do TAR archívu"
 
 #: tfrmpackdlg.cbstoredir.caption
 msgid "Also &pack path names (only recursed)"
-msgstr "Také kom&primovat se jmény cest (pouze rekurzivně)"
+msgstr "Uložit soubory včetně cesty"
 
 #: tfrmpackdlg.lblprompt.caption
 msgid "Pack file(s) to the file:"
-msgstr "Komprimovat soubor(y) do souboru:"
+msgstr "Zkomprimovat do archívu:"
 
 #: tfrmpackdlg.rgpacker.caption
 msgid "Packer"
@@ -8208,7 +8210,7 @@ msgstr "Archivovat"
 
 #: tfrmsetfileproperties.chkcreationtime.caption
 msgid "Created:"
-msgstr "Vytvořeno:"
+msgstr "Vytvoření:"
 
 #: tfrmsetfileproperties.chkhidden.caption
 msgid "Hidden"
@@ -8216,11 +8218,11 @@ msgstr "Skrytý"
 
 #: tfrmsetfileproperties.chklastaccesstime.caption
 msgid "Accessed:"
-msgstr "Zpřístupněno:"
+msgstr "Posledního otevření:"
 
 #: tfrmsetfileproperties.chklastwritetime.caption
 msgid "Modified:"
-msgstr "Změněno:"
+msgstr "Poslední změna:"
 
 #: tfrmsetfileproperties.chkreadonly.caption
 msgid "Read only"
@@ -8228,7 +8230,7 @@ msgstr "Jen pro čtení"
 
 #: tfrmsetfileproperties.chkrecursive.caption
 msgid "Including subfolders"
-msgstr "Včetně podsložek"
+msgstr "Včetně souborů v podsložkách"
 
 #: tfrmsetfileproperties.chksystem.caption
 msgctxt "tfrmsetfileproperties.chksystem.caption"
@@ -8237,7 +8239,7 @@ msgstr "Systémový"
 
 #: tfrmsetfileproperties.gbtimesamp.caption
 msgid "Timestamp properties"
-msgstr "Vlastnosti časové známky"
+msgstr "Datum a čas"
 
 #: tfrmsetfileproperties.gbunixattributes.caption
 msgctxt "TFRMSETFILEPROPERTIES.GBUNIXATTRIBUTES.CAPTION"
@@ -9889,7 +9891,7 @@ msgstr ".xml soubor"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
-msgstr "Určit šablonu"
+msgstr "Definice výběru"
 
 #: ulng.rsfinddepth
 msgid "%s level(s)"
@@ -10200,7 +10202,7 @@ msgstr "Vytvořit zástupce..."
 
 #: ulng.rsmnudisconnectnetworkdrive
 msgid "Disconnect Network Drive..."
-msgstr "Odpojit síťový disk..."
+msgstr "Odpojit síťovou jednotku..."
 
 #: ulng.rsmnuedit
 msgctxt "ulng.rsmnuedit"
@@ -10217,7 +10219,7 @@ msgstr "Rozbalit zde..."
 
 #: ulng.rsmnumapnetworkdrive
 msgid "Map Network Drive..."
-msgstr "Mapovat síťový disk..."
+msgstr "Připojit síťovou jednotku..."
 
 #: ulng.rsmnumount
 msgid "Mount"
@@ -10249,7 +10251,7 @@ msgstr "Ostatní..."
 
 #: ulng.rsmnupackhere
 msgid "Pack here..."
-msgstr "Zabalit zde..."
+msgstr "Komprimovat zde..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
@@ -10963,7 +10965,7 @@ msgstr "Přesunout soubor %s"
 
 #: ulng.rsmsglogpack
 msgid "Pack to file %s"
-msgstr "Komprimovat do souboru %s"
+msgstr "Zkomprimovat do souboru %s"
 
 #: ulng.rsmsglogprogramshutdown
 msgid "Program shutdown"
@@ -11233,7 +11235,7 @@ msgstr "Přejmenovat záložku"
 
 #: ulng.rsmsgtabrenameprompt
 msgid "New tab name:"
-msgstr "Název nové záložky:"
+msgstr "Nový název záložky:"
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
@@ -11578,15 +11580,15 @@ msgstr "Nespuštěno"
 
 #: ulng.rsoperpacking
 msgid "Packing"
-msgstr "Zabalení"
+msgstr "Komprimace"
 
 #: ulng.rsoperpackingfromto
 msgid "Packing from \"%s\" to \"%s\""
-msgstr "Zabalení z \"%s\" do \"%s\""
+msgstr "Komprimace z \"%s\" do \"%s\""
 
 #: ulng.rsoperpackingsomethingto
 msgid "Packing \"%s\" to \"%s\""
-msgstr "Zabalení \"%s\" do \"%s\""
+msgstr "Komprimace \"%s\" do \"%s\""
 
 #: ulng.rsoperpaused
 msgid "Paused"
