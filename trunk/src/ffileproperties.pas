@@ -680,7 +680,7 @@ begin
             begin
               Inc(J);
               sgImage.Cells[1, J]:= Value;
-              sgImage.Cells[0, J]:= WdxModule.FieldList[I];
+              sgImage.Cells[0, J]:= TWdxField(WdxModule.FieldList.Objects[I]).LName;
             end;
           end;
         end;
