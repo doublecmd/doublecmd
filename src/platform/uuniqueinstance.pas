@@ -70,7 +70,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   Windows,
   {$ELSEIF DEFINED(UNIX)}
-  ipc, baseunix, uPipeServer, uXdg,
+  ipc, baseunix, uPipeServer,
   {$ENDIF}
   Forms, StrUtils, FileUtil, uGlobs, uDebug;
 
@@ -285,7 +285,7 @@ begin
   Result:= ApplicationName;
   if IndexInstance > 1 then Result+= '-' + IntToStr(IndexInstance);
 {$IF DEFINED(UNIX)}
-  Result:= IncludeTrailingBackslash(GetUserRuntimeDir) + Result + '.pipe';
+  Result:= GetPipeFileName(Result, True);
 {$ENDIF}
 end;
 
@@ -317,7 +317,7 @@ begin
   if Length(FServernameByUser) > 0 then
     FInstanceName+= '-' + FServernameByUser;
 {$IF DEFINED(UNIX)}
-  FInstanceName:= IncludeTrailingBackslash(GetUserRuntimeDir) + FInstanceName + '.pipe';
+  FInstanceName:= GetPipeFileName(FInstanceName, True);
 {$ENDIF}
 end;
 
