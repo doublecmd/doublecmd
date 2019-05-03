@@ -97,7 +97,7 @@ begin
   Directory:= ExtractFileDir(FFileName);
   if not DirectoryExists(Directory) then
   begin
-    if fpMkDir(Directory, &755) <> 0 then
+    if fpMkDir(Directory, &700) <> 0 then
       raise EIPCError.Create(SysErrorMessage(GetLastOSError));
   end
   else begin
@@ -118,7 +118,7 @@ const
 
 begin
   If not FileExists(FFileName) then
-    If (fpmkFifo(FFileName,438)<>0) then
+    If (fpmkFifo(FFileName, &600)<>0) then
       DoError(SErrFailedToCreatePipe,[FFileName]);
   FStream:=TFileStream.Create(FFileName,fmOpenReadWrite+fmShareDenyNone,Rights[Owner.Global]);
   AddPoll(FStream.Handle, POLLIN, @Handler, False);
