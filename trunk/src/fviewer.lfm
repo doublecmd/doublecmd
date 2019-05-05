@@ -2494,6 +2494,9 @@ object frmViewer: TfrmViewer
       object miReload: TMenuItem
         Action = actReload
       end
+      object miAutoReload: TMenuItem
+        Action = actAutoReload
+      end
       object miSeparator: TMenuItem
         Caption = '-'
       end
@@ -2877,11 +2880,23 @@ object frmViewer: TfrmViewer
       Caption = 'Change encoding'
       OnExecute = actExecute
     end
+    object actAutoReload: TAction
+      Category = 'File'
+      Caption = 'Auto Reload'
+      OnExecute = actExecute
+    end
   end
   object TimerScreenshot: TTimer
     Enabled = False
     OnTimer = TimerScreenshotTimer
     left = 196
     top = 165
+  end
+  object TimerReload: TTimer
+    Enabled = False
+    Interval = 2000
+    OnTimer = TimerReloadTimer
+    left = 592
+    top = 80
   end
 end

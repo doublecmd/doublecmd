@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform dependent functions dealing with operating system.
 
-    Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -156,6 +156,7 @@ function mbDeleteFile(const FileName: String): Boolean;
 
 function mbRenameFile(const OldName: String; NewName: String): Boolean;
 function mbFileSize(const FileName: String): Int64;
+function FileGetSize(Handle: System.THandle): Int64;
 function FileFlush(Handle: System.THandle): Boolean;
 function FileAllocate(Handle: System.THandle; Size: Int64): Boolean;
 { Directory handling functions}
@@ -1097,6 +1098,22 @@ begin
   Result:= 0;
   if fpStat(UTF8ToSys(FileName), Info) >= 0 then
     Result:= Info.st_size;
+end;
+{$ENDIF}
+
+function FileGetSize(Handle: System.THandle): Int64;
+{$IFDEF MSWINDOWS}
+begin
+  Int64Rec(Result).Lo := GetFileSize(Handle, @Int64Rec(Result).Hi);
+end;
+{$ELSE}
+var
+  Info: BaseUnix.Stat;
+begin
+  if fpFStat(Handle, Info) < 0 then
+    Result := 0
+  else
+    Result := Info.st_size;
 end;
 {$ENDIF}
 
