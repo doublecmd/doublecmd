@@ -8817,6 +8817,10 @@ msgstr "O pregledovalniku ..."
 msgid "Displays the About message"
 msgstr "Prikaže pogovorno okno podrobnosti"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr "Spremeni nabor"

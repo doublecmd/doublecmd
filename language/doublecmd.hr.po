@@ -9390,6 +9390,10 @@ msgstr "O pregledniku..."
 msgid "Displays the About message"
 msgstr "prikažie poruku o programu"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr ""

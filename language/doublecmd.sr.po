@@ -9177,6 +9177,10 @@ msgstr "О прегледнику..."
 msgid "Displays the About message"
 msgstr "Приказује поруку о програму"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr ""

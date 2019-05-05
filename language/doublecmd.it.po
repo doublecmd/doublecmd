@@ -9144,6 +9144,10 @@ msgstr "Info visualizzatore..."
 msgid "Displays the About message"
 msgstr "Mostra il messagio Info"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr ""

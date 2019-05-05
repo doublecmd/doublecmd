@@ -8810,6 +8810,10 @@ msgstr "Over Kijker..."
 msgid "Displays the About message"
 msgstr "Toont het Over-bericht"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr "Codering veranderen"

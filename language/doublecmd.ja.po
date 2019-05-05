@@ -9016,6 +9016,10 @@ msgstr "ビューアについて…"
 msgid "Displays the About message"
 msgstr "「この製品について」メッセージを表示"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr ""

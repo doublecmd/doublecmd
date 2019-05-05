@@ -9717,6 +9717,10 @@ msgstr "Quant al Visualitzador..."
 msgid "Displays the About message"
 msgstr "Mostra el missatge Quant a"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr ""

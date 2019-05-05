@@ -8789,6 +8789,10 @@ msgstr "关于查看器"
 msgid "Displays the About message"
 msgstr "显示关于消息"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr "更改编码"

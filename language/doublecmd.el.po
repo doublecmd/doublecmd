@@ -9011,6 +9011,10 @@ msgstr "Σχετικά με τον Προβολέα..."
 msgid "Displays the About message"
 msgstr "Εμφανίζει το \"Σχετικά\" μήνυμα"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr "Αλλαγή κωδικοποίησης"

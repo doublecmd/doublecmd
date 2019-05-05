@@ -9188,6 +9188,10 @@ msgstr "За прегледа..."
 msgid "Displays the About message"
 msgstr "Показване на прозорец „За приложението‟"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr ""

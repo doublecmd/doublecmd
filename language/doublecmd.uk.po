@@ -9047,6 +9047,10 @@ msgstr "Про переглядач..."
 msgid "Displays the About message"
 msgstr "Відображає інформаційне повідомлення"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr "Змінити кодування"

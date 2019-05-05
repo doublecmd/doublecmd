@@ -8807,6 +8807,10 @@ msgstr "Пра праграму для прагляду..."
 msgid "Displays the About message"
 msgstr "Паказвае паведамленне пра праграму"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr "Змяніць кадаванне"
