@@ -91,6 +91,7 @@ type
     actFullscreen: TAction;
     actCopyToClipboardFormatted: TAction;
     actChangeEncoding: TAction;
+    actAutoReload: TAction;
     actShowAsDec: TAction;
     actScreenShotDelay5sec: TAction;
     actScreenShotDelay3Sec: TAction;
@@ -141,6 +142,7 @@ type
     gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
     memFolder: TMemo;
+    miAutoReload: TMenuItem;
     pmiCopyFormatted: TMenuItem;
     miDec: TMenuItem;
     MenuItem2: TMenuItem;
@@ -232,6 +234,7 @@ type
     miEdit: TMenuItem;
     miSelectAll: TMenuItem;
     miCopyToClipboard: TMenuItem;
+    TimerReload: TTimer;
     TimerScreenshot: TTimer;
     TimerViewer: TTimer;
     ViewerControl: TViewerControl;
@@ -281,6 +284,7 @@ type
       Y: Integer);
     procedure btnNextGifFrameClick(Sender: TObject);
     procedure SplitterChangeBounds;
+    procedure TimerReloadTimer(Sender: TObject);
     procedure TimerScreenshotTimer(Sender: TObject);
     procedure TimerViewerTimer(Sender: TObject);
     procedure ViewerControlMouseUp(Sender: TObject; Button: TMouseButton;
@@ -377,6 +381,7 @@ type
     // Commands for hotkey manager
     procedure cm_About(const Params: array of string);
     procedure cm_Reload(const Params: array of string);
+    procedure cm_AutoReload(const Params: array of string);
     procedure cm_LoadNextFile(const Params: array of string);
     procedure cm_LoadPrevFile(const Params: array of string);
     procedure cm_MoveFile(const Params: array of string);
@@ -721,6 +726,7 @@ begin
     if (ViewerControl.Mode = vcmText) then
       ViewerControl.HGoHome;
   end;
+  if actAutoReload.Checked then cm_AutoReload([]);
 end;
 
 procedure TfrmViewer.LoadFile(iIndex: Integer);
@@ -743,6 +749,7 @@ begin
       if (ViewerControl.Mode = vcmText) then
         ViewerControl.HGoHome;
     end;
+    if actAutoReload.Checked then cm_AutoReload([]);
   end;
 end;
 
@@ -1595,6 +1602,25 @@ begin
   if bPlugin then FWlxModule.ResizeWindow(GetListerRect);
 end;
 
+procedure TfrmViewer.TimerReloadTimer(Sender: TObject);
+var
+  NewSize: Int64;
+begin
+  if ViewerControl.IsFileOpen then
+  begin
+    if ViewerControl.FileHandle <> 0 then
+      NewSize:= FileGetSize(ViewerControl.FileHandle)
+    else begin
+      NewSize:= mbFileSize(ViewerControl.FileName);
+    end;
+    if (NewSize <> ViewerControl.FileSize) then
+    begin
+      cm_Reload([]);
+      ViewerControl.GoEnd;
+    end;
+  end;
+end;
+
 procedure TfrmViewer.TimerScreenshotTimer(Sender: TObject);
 begin
   cm_Screenshot(['']);
@@ -2430,6 +2456,7 @@ begin
   miPlugins.Checked    := (Panel = nil);
   miGraphics.Checked   := (Panel = pnlImage);
   miEncoding.Visible   := (Panel = pnlText);
+  miAutoReload.Visible := (Panel = pnlText);
   miEdit.Visible       := (Panel = pnlText) or (Panel = nil);
   miImage.Visible      := (bImage or bPlugin);
   miRotate.Visible     := bImage;
@@ -2442,6 +2469,9 @@ begin
 
   pmiSelectAll.Visible     := (Panel = pnlText);
   pmiCopyFormatted.Visible := (Panel = pnlText);
+
+  if (Panel <> pnlText) and actAutoReload.Checked then
+    cm_AutoReload([]);
 end;
 
 procedure TfrmViewer.cm_About(const Params: array of string);
@@ -2453,6 +2483,12 @@ procedure TfrmViewer.cm_Reload(const Params: array of string);
 begin
   ExitPluginMode;
   LoadFile(iActiveFile);
+end;
+
+procedure TfrmViewer.cm_AutoReload(const Params: array of string);
+begin
+  actAutoReload.Checked := not actAutoReload.Checked;
+  TimerReload.Enabled := actAutoReload.Checked;
 end;
 
 procedure TfrmViewer.cm_LoadNextFile(const Params: array of string);

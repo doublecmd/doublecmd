@@ -82,5 +82,6 @@
 {"hash":315460,"name":"tfrmviewer.actfind.caption","sourcebytes":[70,105,110,100],"value":"Find"},
 {"hash":73859572,"name":"tfrmviewer.actfindnext.caption","sourcebytes":[70,105,110,100,32,110,101,120,116],"value":"Find next"},
 {"hash":97034739,"name":"tfrmviewer.actfindprev.caption","sourcebytes":[70,105,110,100,32,112,114,101,118,105,111,117,115],"value":"Find previous"},
-{"hash":216568103,"name":"tfrmviewer.actchangeencoding.caption","sourcebytes":[67,104,97,110,103,101,32,101,110,99,111,100,105,110,103],"value":"Change encoding"}
+{"hash":216568103,"name":"tfrmviewer.actchangeencoding.caption","sourcebytes":[67,104,97,110,103,101,32,101,110,99,111,100,105,110,103],"value":"Change encoding"},
+{"hash":96796260,"name":"tfrmviewer.actautoreload.caption","sourcebytes":[65,117,116,111,32,82,101,108,111,97,100],"value":"Auto Reload"}
 ]}

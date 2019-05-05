@@ -484,6 +484,7 @@ type
     property Percent: Integer Read GetPercent Write SetPercent;
     property Position: PtrInt Read FPosition Write SetPosition;
     property FileSize: Int64 Read FFileSize;
+    property FileHandle: THandle read FFileHandle;
     property SelectionStart: PtrInt Read FBlockBeg Write SetBlockBegin;
     property SelectionEnd: PtrInt Read FBlockEnd Write SetBlockEnd;
     property EncodingName: string Read GetEncodingName Write SetEncodingName;
