@@ -460,8 +460,7 @@ var
   begin
     IconID := AFile.Tag;
 
-    if (AFile.FSFile.IsDirectory = False) and (IconID >= 0) and
-       (IconID < FThumbView.FBitmapList.Count) then
+    if (IconID >= 0) and (IconID < FThumbView.FBitmapList.Count) then
       begin
         Bitmap:= FThumbView.FBitmapList[IconID];
         X:= aRect.Left + (aRect.Right - aRect.Left - Bitmap.Width) div 2;
@@ -588,7 +587,7 @@ begin
       begin
         AFile := FFiles[i];
 
-        if (AFile.Tag < 0) and (AFile.FSFile.IsDirectory = False) then
+        if (AFile.Tag < 0) then
         begin
           Bitmap:= FThumbnailManager.CreatePreview(AFile.FSFile);
           if Assigned(Bitmap) then
@@ -604,7 +603,7 @@ begin
         for i := VisibleFiles.First to VisibleFiles.Last do
         begin
           AFile := FFiles[i];
-          if (AFile.Tag < 0) and (AFile.FSFile.IsDirectory = False) then
+          if (AFile.Tag < 0) then
           begin
             if not Assigned(AFileList) then
               AFileList := TFVWorkerFileList.Create;
