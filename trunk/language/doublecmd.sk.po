@@ -9773,6 +9773,10 @@ msgstr "O prezerači..."
 msgid "Displays the About message"
 msgstr "Zobraziť About správu"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr ""

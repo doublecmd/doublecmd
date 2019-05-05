@@ -8820,6 +8820,10 @@ msgstr "Acerca del Visor..."
 msgid "Displays the About message"
 msgstr "Mostrar el mensaje «Acerca de...»"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr "Cambiar codificación"

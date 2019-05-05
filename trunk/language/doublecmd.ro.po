@@ -9011,6 +9011,10 @@ msgstr "Despre Vizualizator..."
 msgid "Displays the About message"
 msgstr "Afișează mesajul despre"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr ""

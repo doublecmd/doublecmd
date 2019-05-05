@@ -9161,6 +9161,10 @@ msgstr "뷰어 정보..."
 msgid "Displays the About message"
 msgstr "정보 메시지 화면 표시"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr ""

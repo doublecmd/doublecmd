@@ -9707,6 +9707,10 @@ msgstr "關於檢視器..."
 msgid "Displays the About message"
 msgstr "顯示關於訊息"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr ""

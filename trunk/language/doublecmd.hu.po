@@ -9080,6 +9080,10 @@ msgstr "Nézőke névjegye..."
 msgid "Displays the About message"
 msgstr "A névjegy megjelenítése"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr ""

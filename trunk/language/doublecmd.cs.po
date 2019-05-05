@@ -8796,6 +8796,10 @@ msgstr "O prohlížeči..."
 msgid "Displays the About message"
 msgstr "Zobrazit zprávu o programu"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr "Kódování"

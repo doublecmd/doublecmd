@@ -9027,6 +9027,10 @@ msgstr "A propos de la visionneuse"
 msgid "Displays the About message"
 msgstr "Affiche le message d'À propos"
 
+#: tfrmviewer.actautoreload.caption
+msgid "Auto Reload"
+msgstr ""
+
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
 msgstr "Changer encodage"
