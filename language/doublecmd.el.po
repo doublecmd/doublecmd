@@ -5078,6 +5078,10 @@ msgstr "Παρακαλώ σημειώσατε οτι η ιδιότητα \"Smart
 msgid "Internal editor options"
 msgstr "Ιδιότητες Εσωτερικού επεξεργαστή"
 
+#: tfrmoptionseditor.lblrightedge.caption
+msgid "Right margin:"
+msgstr ""
+
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
 msgstr "Φάρδος Καρτέλας:"
