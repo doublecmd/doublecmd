@@ -2047,8 +2047,8 @@ begin
     begin
       SFI.hIcon := 0;
       Result := Graphics.TBitMap.Create;
-      iIconSmall:= GetSystemMetrics(SM_CXSMICON);
       iIconLarge:= GetSystemMetrics(SM_CXICON);
+      iIconSmall:= GetSystemMetrics(SM_CXSMICON);
 
       if (IconSize <= iIconSmall) then
         uFlags := SHGFI_SMALLICON  // Use small icon
@@ -2057,29 +2057,20 @@ begin
       end;
 
       if (SHGetFileInfoW(PWideChar(UTF8Decode(Drive^.Path)), 0, SFI,
-                         SizeOf(SFI), uFlags or SHGFI_ICON) <> 0) and
-         (SFI.hIcon <> 0) then
-        begin
-          if (IconSize = iIconSmall) or (IconSize = iIconLarge) then // standart icon size
-            try
-              Icon := CreateIconFromHandle(SFI.hIcon);
-              Result.Assign(Icon);
-              Result.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
-            finally
-              FreeThenNil(Icon);
-              DestroyIcon(SFI.hIcon);
-            end
-          else // non standart icon size
-            try
-              Icon := CreateIconFromHandle(SFI.hIcon);
-              Result.Assign(Icon);
-              Result.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
-              Result := StretchBitmap(Result, IconSize, clBackColor, True);
-            finally
-              FreeAndNil(Icon);
-              DestroyIcon(SFI.hIcon);
-            end
+                         SizeOf(SFI), uFlags or SHGFI_ICON) <> 0) then
+      begin
+        if (SFI.hIcon <> 0) then
+        try
+          Icon := CreateIconFromHandle(SFI.hIcon);
+          Result.Assign(Icon);
+          Result.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
+          if (IconSize <> iIconSmall) and (IconSize <> iIconLarge) then // non standart icon size
+            Result := StretchBitmap(Result, IconSize, clBackColor, True);
+        finally
+          FreeAndNil(Icon);
+          DestroyIcon(SFI.hIcon);
         end;
+      end;
     end // not gCustomDriveIcons
   else
 {$ENDIF}
