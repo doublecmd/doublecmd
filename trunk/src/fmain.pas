@@ -3849,8 +3849,24 @@ end;
 
 procedure TfrmMain.pnlLeftRightDblClick(Sender: TObject);
 var
+  APanel: TPanel;
+  APoint: TPoint;
   FileViewNotebook: TFileViewNotebook;
 begin
+  if Sender is TPanel then
+  begin
+    APanel := Sender as TPanel;
+    if APanel = pnlLeft then
+      begin
+        APoint := FrameLeft.ClientToScreen(Classes.Point(0, FrameLeft.Top));
+        if Mouse.CursorPos.Y < APoint.Y then Commands.DoNewTab(nbLeft);
+      end
+    else if APanel = pnlRight then
+      begin
+        APoint := FrameRight.ClientToScreen(Classes.Point(0, FrameRight.Top));
+        if Mouse.CursorPos.Y < APoint.Y then Commands.DoNewTab(nbRight);
+      end;
+  end;
   if Sender is TFileViewNotebook then
   begin
     FileViewNotebook:= Sender as TFileViewNotebook;
