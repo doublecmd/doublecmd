@@ -4982,6 +4982,10 @@ msgstr "Volba \"Smart Tab\" má přednost před klasickým tabelátorem"
 msgid "Internal editor options"
 msgstr "Možnosti interního editoru"
 
+#: tfrmoptionseditor.lblrightedge.caption
+msgid "Right margin:"
+msgstr ""
+
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
 msgstr "Tab mezery:"

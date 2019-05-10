@@ -5170,6 +5170,10 @@ msgstr ""
 msgid "Internal editor options"
 msgstr "Възможности на вътрешния обработчик"
 
+#: tfrmoptionseditor.lblrightedge.caption
+msgid "Right margin:"
+msgstr ""
+
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
 msgstr ""
