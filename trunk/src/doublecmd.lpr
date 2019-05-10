@@ -33,6 +33,7 @@ uses
   {$ENDIF}
   {$IFDEF LCLWIN32}
   uDClass,
+  uWin32WidgetSetFix,
   {$ENDIF}
   LCLProc,
   Classes,
