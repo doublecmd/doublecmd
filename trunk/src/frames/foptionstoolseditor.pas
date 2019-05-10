@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Tools options page for the editor tool
 
-   Copyright (C) 2006-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, StdCtrls, ExtCtrls, Dialogs,
-  Buttons, EditBtn, Menus, fOptionsFrame, fOptionsToolBase;
+  Buttons, EditBtn, Menus, SpinEx, fOptionsFrame, fOptionsToolBase;
 
 type
 
@@ -36,6 +36,7 @@ type
 
   TfrmOptionsEditor = class(TfrmOptionsToolBase)
     gbInternalEditor: TGroupBox;
+    lblRightEdge: TLabel;
     pnlBooleanOptions: TPanel;
     chkAutoIndent: TCheckBox;
     chkTrimTrailingSpaces: TCheckBox;
@@ -46,6 +47,7 @@ type
     lblTabWidth: TLabel;
     edTabWidth: TEdit;
     chkSmartTabs: TCheckBox;
+    seeRightEdge: TSpinEditEx;
   protected
     procedure Init; override;
     procedure Load; override;
@@ -82,6 +84,7 @@ begin
   chkTabIndent.Checked := eoTabIndent in gEditorSynEditOptions;
   chkSmartTabs.Checked := eoSmartTabs in gEditorSynEditOptions;
   edTabWidth.Text := IntToStr(gEditorSynEditTabWidth);
+  seeRightEdge.Value := gEditorSynEditRightEdge;
 end;
 
 function TfrmOptionsEditor.Save: TOptionsEditorSaveFlags;
@@ -105,6 +108,7 @@ begin
   UpdateOptionFromBool(chkSmartTabs.Checked, eoSmartTabs);
   edTabWidth.Text := IntToStr(StrToIntDef(edTabWidth.Text,8));
   gEditorSynEditTabWidth := StrToIntDef(edTabWidth.Text,8);
+  gEditorSynEditRightEdge := seeRightEdge.Value;
   if LastEditorUsedForConfiguration<>nil then
     LastEditorUsedForConfiguration.LoadGlobalOptions;
 end;

@@ -14,8 +14,8 @@ inherited frmOptionsEditor: TfrmOptionsEditor
     AnchorSideRight.Control = edtToolsParameters
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 146
-    Top = 200
+    Height = 176
+    Top = 235
     Width = 571
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -28,12 +28,12 @@ inherited frmOptionsEditor: TfrmOptionsEditor
     ChildSizing.EnlargeHorizontal = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 126
+    ClientHeight = 151
     ClientWidth = 567
     TabOrder = 5
     object pnlBooleanOptions: TPanel
       Left = 6
-      Height = 88
+      Height = 108
       Top = 6
       Width = 555
       AutoSize = True
@@ -44,71 +44,71 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       ChildSizing.EnlargeHorizontal = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 2
-      ClientHeight = 88
+      ClientHeight = 108
       ClientWidth = 555
       TabOrder = 0
       object chkAutoIndent: TCheckBox
         Left = 6
-        Height = 19
+        Height = 24
         Hint = 'Allows to indent the caret, when new line is created with <Enter>, with the same amount of leading white space as the preceding line'
         Top = 6
-        Width = 305
+        Width = 306
         Caption = 'Auto Indent'
         TabOrder = 0
       end
       object chkTrimTrailingSpaces: TCheckBox
-        Left = 323
-        Height = 19
+        Left = 324
+        Height = 24
         Hint = 'Auto delete trailing spaces, this applies only to edited lines'
         Top = 6
-        Width = 226
+        Width = 225
         Caption = 'Delete trailing spaces'
         TabOrder = 1
       end
       object chkScrollPastEndLine: TCheckBox
         AnchorSideTop.Side = asrBottom
         Left = 6
-        Height = 19
+        Height = 24
         Hint = 'Allows caret to go into empty space beyond end-of-line position'
-        Top = 25
-        Width = 305
+        Top = 30
+        Width = 306
         BorderSpacing.Left = 6
         Caption = 'Caret past end of line'
         TabOrder = 2
       end
       object chkShowSpecialChars: TCheckBox
-        Left = 323
-        Height = 19
+        Left = 324
+        Height = 24
         Hint = 'Shows special characters for spaces and tabulations'
-        Top = 25
-        Width = 226
+        Top = 30
+        Width = 225
         Caption = 'Show special characters'
         TabOrder = 3
       end
       object chkTabsToSpaces: TCheckBox
         Left = 6
-        Height = 19
+        Height = 24
         Hint = 'Converts tab characters to a specified number of space characters (when entering)'
-        Top = 44
-        Width = 305
+        Top = 54
+        Width = 306
         Caption = 'Use spaces instead tab characters'
         TabOrder = 4
       end
       object chkTabIndent: TCheckBox
-        Left = 323
-        Height = 19
+        Left = 324
+        Height = 24
         Hint = 'When active <Tab> and <Shift+Tab> act as block indent, unindent when text is selected'
-        Top = 44
-        Width = 226
+        Top = 54
+        Width = 225
         Caption = 'Tab indents blocks'
         TabOrder = 5
       end
       object chkSmartTabs: TCheckBox
         Left = 6
-        Height = 19
+        Height = 24
         Hint = 'When using <Tab> key, caret will go to the next non-space character of the previous line'
-        Top = 63
-        Width = 305
+        Top = 78
+        Width = 306
         Caption = 'Smart Tabs'
         TabOrder = 6
       end
@@ -118,11 +118,12 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = pnlBooleanOptions
       AnchorSideTop.Side = asrBottom
-      Left = 64
-      Height = 23
+      Left = 77
+      Height = 28
       Hint = 'Please note that the "Smart Tabs" option takes precedence over the tabulation to be performed'
-      Top = 97
-      Width = 80
+      Top = 117
+      Width = 100
+      BorderSpacing.Left = 4
       BorderSpacing.Top = 3
       TabOrder = 1
     end
@@ -131,13 +132,42 @@ inherited frmOptionsEditor: TfrmOptionsEditor
       AnchorSideTop.Control = edTabWidth
       AnchorSideTop.Side = asrCenter
       Left = 6
-      Height = 15
+      Height = 20
       Hint = 'Please note that the "Smart Tabs" option takes precedence over the tabulation to be performed'
-      Top = 101
-      Width = 55
+      Top = 121
+      Width = 67
       Caption = 'Tab width:'
       FocusControl = edTabWidth
       ParentColor = False
+    end
+    object lblRightEdge: TLabel
+      AnchorSideLeft.Control = edTabWidth
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblTabWidth
+      AnchorSideTop.Side = asrCenter
+      Left = 189
+      Height = 20
+      Top = 121
+      Width = 89
+      BorderSpacing.Left = 12
+      Caption = 'Right margin:'
+      ParentColor = False
+    end
+    object seeRightEdge: TSpinEditEx
+      AnchorSideLeft.Control = lblRightEdge
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = edTabWidth
+      AnchorSideTop.Side = asrCenter
+      Left = 282
+      Height = 28
+      Top = 117
+      Width = 129
+      BorderSpacing.Left = 4
+      MaxLength = 0
+      TabOrder = 2
+      MaxValue = 512
+      MinValue = 16
+      Value = 80
     end
   end
   inherited pmPathHelper: TPopupMenu[9]
