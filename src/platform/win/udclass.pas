@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Setup unique window class name for main form
 
-   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -30,7 +30,7 @@ implementation
 
 uses
   Classes, SysUtils, Win32Int, WSLCLClasses, Forms, Windows, Win32Proc,
-  Controls, Win32WSForms, LCLType, fMain;
+  Controls, WSForms, Win32WSForms, LCLType, fMain;
 
 const
   ClassNameW: UnicodeString = 'DClass'#0;
@@ -86,7 +86,7 @@ procedure Initialize;
 begin
   WinRegister;
   // Replace TCustomForm widgetset class
-  with TCustomForm.CreateNew(nil) do Free;
+  RegisterCustomForm;
   RegisterWSComponent(TCustomForm, TWin32WSCustomFormEx);
 end;
 
