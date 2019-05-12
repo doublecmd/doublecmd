@@ -401,7 +401,7 @@ begin
     // Try to guess line break style
     with Editor.Lines do
     begin
-      if (sEncodingIn <> EncodingUCS2LE) and (sEncodingIn <> EncodingUCS2BE) then
+      if (sEncodingIn <> EncodingUTF16LE) and (sEncodingIn <> EncodingUTF16BE) then
         TextLineBreakStyle := GuessLineBreakStyle(Buffer)
       else begin
         sOriginalText := Copy(sOriginalText, 3, MaxInt); // Skip BOM
@@ -476,16 +476,16 @@ begin
       begin
         if (Encoding = EncodingUTF8BOM) then
           Writer.WriteBuffer(UTF8BOM, SizeOf(UTF8BOM))
-        else if (Encoding = EncodingUCS2LE) then
+        else if (Encoding = EncodingUTF16LE) then
           Writer.WriteBuffer(UTF16LEBOM, SizeOf(UTF16LEBOM))
-        else if (Encoding = EncodingUCS2BE) then
+        else if (Encoding = EncodingUTF16BE) then
           Writer.WriteBuffer(UTF16BEBOM, SizeOf(UTF16BEBOM));
       end
       else begin
         TextOut := EmptyStr;
-        if (Encoding = EncodingUCS2LE) then
+        if (Encoding = EncodingUTF16LE) then
           TextOut := UTF16LEBOM
-        else if (Encoding = EncodingUCS2BE) then begin
+        else if (Encoding = EncodingUTF16BE) then begin
           TextOut := UTF16BEBOM
         end;
         TextOut += ConvertEncoding(Editor.Lines[0], EncodingUTF8, sEncodingOut);

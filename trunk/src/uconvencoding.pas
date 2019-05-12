@@ -31,6 +31,8 @@ uses
 const
   EncodingOem = 'oem';
   EncodingDefault = 'default';
+  EncodingUTF16LE = 'utf16le';
+  EncodingUTF16BE = 'utf16be';
 
 type
   TMacroEncoding = (meOEM, meANSI, meUTF8, meUTF8BOM, meUTF16LE, meUTF16BE);
@@ -47,7 +49,7 @@ implementation
 
 uses
   SysUtils, LazUTF8, LConvEncoding, GetText, DCConvertEncoding,
-  nsCore, nsUniversalDetector, uLng;
+  DCUnicodeUtils, nsCore, nsUniversalDetector, uLng;
 
 var
   Lang, FallbackLang: AnsiString;
@@ -366,6 +368,10 @@ begin
     Index:= List.IndexOf(EncodingAnsi);
     List[Index] := UpperCase(EncodingAnsi);
     List.Insert(Index + 1, UpperCase(EncodingOem));
+    Index:= List.IndexOf('UCS-2LE');
+    List[Index] := 'UTF16-2LE';
+    Index:= List.IndexOf('UCS-2BE');
+    List[Index] := 'UTF16-2BE';
   end;
 end;
 
@@ -407,8 +413,8 @@ begin
   case DetectEncoding(S, meOEM, False) of
     meUTF8:    Exit(EncodingUTF8);
     meUTF8BOM: Exit(EncodingUTF8BOM);
-    meUTF16LE: Exit(EncodingUCS2LE);
-    meUTF16BE: Exit(EncodingUCS2BE);
+    meUTF16LE: Exit(EncodingUTF16LE);
+    meUTF16BE: Exit(EncodingUTF16BE);
   end;
 
   // Try {%encoding eee}
@@ -431,7 +437,7 @@ begin
   TextEncoding := NormalizeEncoding(TextEncoding);
   if TextEncoding = EncodingDefault then TextEncoding := GetDefaultTextEncoding;
   Result := (TextEncoding <> EncodingUTF8) and (TextEncoding <> EncodingUTF8BOM) and
-            (TextEncoding <> EncodingUCS2LE) and (TextEncoding <> EncodingUCS2BE);
+            (TextEncoding <> EncodingUTF16LE) and (TextEncoding <> EncodingUTF16BE);
 end;
 
 function DetectEncoding(const S: String; ADefault: TMacroEncoding;
@@ -519,6 +525,8 @@ begin
     if ATo = EncodingAnsi then Result:= CeUtf8ToAnsi(S)
     else if ATo = EncodingOem then Result:= CeUtf8ToOem(S)
     else if ATo = EncodingDefault then Result:= CeUtf8ToSys(S)
+    else if ATo = EncodingUTF16LE then Result:= Utf8ToUtf16LE(S)
+    else if ATo = EncodingUTF16BE then Result:= Utf8ToUtf16BE(S)
     else Result:= ConvertEncodingFromUTF8(S, ATo, Encoded{$ifdef FPC_HAS_CPSTRING}, SetTargetCodePage{$endif});
     if Encoded then Exit;
   end
@@ -527,6 +535,8 @@ begin
     if AFrom = EncodingAnsi then Result:= CeAnsiToUtf8(S)
     else if AFrom = EncodingOem then Result:= CeOemToUtf8(S)
     else if AFrom = EncodingDefault then Result:= CeSysToUtf8(S)
+    else if AFrom = EncodingUTF16LE then Result:= Utf16LEToUtf8(S)
+    else if AFrom = EncodingUTF16BE then Result:= Utf16BEToUtf8(S)
     else Result:= ConvertEncodingToUTF8(S, AFrom, Encoded);
     if Encoded then Exit;
   end
