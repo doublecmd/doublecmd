@@ -825,7 +825,7 @@ end;
 function TfrmMultiRename.sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
 var
   aFile: TFile;
-  Index: Integer;
+  Index: Int64;
   Counter: Int64;
   Dirs: TStringArray;
 begin
@@ -848,8 +848,10 @@ begin
         end;
       'C':
         begin
-          Counter := StrToInt64Def(edPoc.Text, 1) +
-                     StrToInt64Def(edInterval.Text, 1) * ItemNr;
+          // Check for start value after C, e.g. C12
+          if not TryStrToInt64(Copy(sFormatStr, 2, MaxInt), Index) then
+            Index := StrToInt64Def(edPoc.Text, 1);
+          Counter := Index + StrToInt64Def(edInterval.Text, 1) * ItemNr;
           Result := Format('%.' + cmbxWidth.Items[cmbxWidth.ItemIndex] + 'd', [Counter]);
         end;
       'A':  // full path
