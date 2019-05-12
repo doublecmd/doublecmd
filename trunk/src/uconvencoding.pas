@@ -369,9 +369,9 @@ begin
     List[Index] := UpperCase(EncodingAnsi);
     List.Insert(Index + 1, UpperCase(EncodingOem));
     Index:= List.IndexOf('UCS-2LE');
-    List[Index] := 'UTF16-2LE';
+    List[Index] := 'UTF-16LE';
     Index:= List.IndexOf('UCS-2BE');
-    List[Index] := 'UTF16-2BE';
+    List[Index] := 'UTF-16BE';
   end;
 end;
 
