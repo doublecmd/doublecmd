@@ -930,26 +930,39 @@ begin
     Result := sOrig
   else
   begin
-    iDelim := Pos('-', sFormatStr);
-    if iDelim = 2 then  // Negative: N-1 etc. until end
+    iDelim := Pos(':', sFormatStr);
+    if iDelim = 0 then
     begin
-      iTo   := sOrig.Length;
-      iFrom := StrToIntDef(Copy(sFormatStr, 2, MaxInt), 0) + 1;
-      iFrom := Max(1, sOrig.Length + iFrom);
-    end
-    else begin
-      if iDelim = 0 then begin
-        iDelim := Pos(':', sFormatStr);
-      end;
-      if iDelim = 0 then  // Not found
+      iDelim := Pos(',', sFormatStr);
+      // Not found
+      if iDelim = 0 then
       begin
         iFrom := StrToIntDef(Copy(sFormatStr, 2, MaxInt), 1);
         iTo   := iFrom;
       end
-      else  // Range e.g. N1-2
-      begin
+      // Range e.g. N1,3 (from 1, 3 symbols)
+      else begin
         iFrom := StrToIntDef(Copy(sFormatStr, 2, iDelim - 2), 1);
-        iTo   := StrToIntDef(Copy(sFormatStr, iDelim + 1, MaxInt), MaxInt);
+        iDelim := Abs(StrToIntDef(Copy(sFormatStr, iDelim + 1, MaxSmallint), MaxSmallint));
+        if iFrom >= 0 then
+          iTo := iDelim + iFrom - 1
+        else begin
+          iTo := sOrig.Length + iFrom + 1;
+          iFrom:= Max(iTo - iDelim + 1, 1);
+        end;
+      end;
+    end
+    // Range e.g. N1:2 (from 1 to 2)
+    else begin
+      iFrom := StrToIntDef(Copy(sFormatStr, 2, iDelim - 2), 1);
+      if iFrom < 0 then iFrom := sOrig.Length + iFrom + 1;
+      iTo := StrToIntDef(Copy(sFormatStr, iDelim + 1, MaxSmallint), MaxSmallint);
+      if iTo < 0 then iTo := sOrig.Length + iTo + 1;;
+      if iTo < iFrom then
+      begin
+        iDelim:= iTo;
+        iTo:= iFrom;
+        iFrom:= iDelim;
       end;
     end;
     Result := UTF8Copy(sOrig, iFrom, iTo - iFrom + 1);
