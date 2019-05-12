@@ -288,7 +288,7 @@ object frmMultiRename: TfrmMultiRename
         BorderSpacing.Left = 4
         BorderSpacing.Top = 2
         BorderSpacing.Right = 4
-        OnChange = cmbNameStyleChange
+        OnChange = edReplaceChange
         TabOrder = 1
       end
       object cbRegExp: TCheckBox
