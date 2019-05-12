@@ -208,6 +208,8 @@ type
     FFindText: TStringArray;
     FReplaceText: TStringArray;
 
+    {Replace bad path chars in string}
+    procedure sReplaceBadChars(var sPath: string);
     {Handles a single formatting string}
     function sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
     {Function sReplace call sReplaceXX with parametres}
@@ -809,11 +811,23 @@ begin
   StringGridTopLeftChanged(StringGrid);
 end;
 
+procedure TfrmMultiRename.sReplaceBadChars(var sPath: string);
+var
+  Index: Integer;
+begin
+  for Index := 1 to Length(sPath) - 1 do
+  begin
+    if sPath[Index] in ['\', '/', ':', '*', '?', '"', '<', '>', '|'] then
+      sPath[Index] := '.';
+  end;
+end;
+
 function TfrmMultiRename.sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
 var
   aFile: TFile;
   Index: Integer;
   Counter: Int64;
+  Dirs: TStringArray;
 begin
   Result := '';
   if Length(sFormatStr) > 0 then
@@ -838,14 +852,24 @@ begin
                      StrToInt64Def(edInterval.Text, 1) * ItemNr;
           Result := Format('%.' + cmbxWidth.Items[cmbxWidth.ItemIndex] + 'd', [Counter]);
         end;
+      'A':  // full path
+        begin
+          Result := sReplaceXX(sFormatStr, aFile.FullPath);
+          sReplaceBadChars(Result);
+        end;
+      'P':  // sub path index
+        begin
+          Index := StrToIntDef(Copy(sFormatStr, 2, MaxInt), 0);
+          Dirs := SplitString(aFile.Path, PathDelim);
+          if Index < 0 then
+            Result := Dirs[Max(0, High(Dirs) + Index)]
+          else
+            Result := Dirs[Min(Index, High(Dirs))];
+        end;
       '=':
         begin
           Result := FormatFileFunction(UTF8Copy(sFormatStr, 2, UTF8Length(sFormatStr) - 1), FFiles.Items[ItemNr], FFileSource, True);
-          for Index := 1 to Length(Result) - 1 do
-          begin
-            if Result[Index] in ['\', '/', ':', '*', '?', '"', '<', '>', '|'] then
-              Result[Index] := '.';
-          end;
+          sReplaceBadChars(Result);
         end;
       else
       begin
