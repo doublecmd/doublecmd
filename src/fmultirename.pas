@@ -268,7 +268,7 @@ implementation
 uses
   Math, uDCUtils, uDebug, uLng, uGlobs, uFileProcs, DCOSUtils, DCStrUtils,
   fSelectTextRange, uShowMsg, uFileFunctions, dmCommonData, fMultiRenameWait,
-  uOSUtils, uFileSourceOperation, uOperationsManager, Dialogs, StrUtils;
+  uOSUtils, uFileSourceOperation, uOperationsManager, Dialogs;
 
 const
   sPresetsSection = 'MultiRenamePresets';
@@ -869,9 +869,10 @@ begin
       'P':  // sub path index
         begin
           Index := StrToIntDef(Copy(sFormatStr, 2, MaxInt), 0);
-          Dirs := TrimSet(aFile.Path, [PathDelim]).Split([PathDelim]);
+          Dirs := aFile.FullPath.Split([PathDelim]);
+          Dirs[High(Dirs)] := EmptyStr;
           if Index < 0 then
-            Result := Dirs[Max(0, Length(Dirs) + Index)]
+            Result := Dirs[Max(0, High(Dirs) + Index)]
           else
             Result := Dirs[Min(Index, High(Dirs))];
         end;
