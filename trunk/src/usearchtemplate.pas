@@ -237,6 +237,8 @@ begin
           TextRegExp:= AConfig.GetValue(ANode, 'TextRegExp', False);
           TextEncoding:= AConfig.GetValue(ANode, 'TextEncoding', '');
           if TextEncoding = 'UTF-8BOM' then TextEncoding:= 'UTF-8';
+          if TextEncoding = 'UCS-2LE' then TextEncoding:= 'UTF-16LE';
+          if TextEncoding = 'UCS-2BE' then TextEncoding:= 'UTF-16BE';
           // plugins
           SearchPlugin:= AConfig.GetValue(ANode, 'SearchPlugin', '');
           Node := AConfig.FindNode(ANode, 'ContentPlugins', True);
