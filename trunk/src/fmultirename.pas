@@ -147,6 +147,7 @@ type
     procedure cbRegExpChange(Sender: TObject);
     procedure cmbNameStyleChange(Sender: TObject);
     procedure edFindChange(Sender: TObject);
+    procedure edReplaceChange(Sender: TObject);
     procedure mnuEditNamesClick(Sender: TObject);
     procedure mnuLoadFromFileClick(Sender: TObject);
     procedure StringGridKeyDown(Sender: TObject; var Key: Word;
@@ -204,6 +205,8 @@ type
     FNames: TStringList;
     FLog: TStringListEx;
     FRegExp: TRegExprW;
+    FFindText: TStringArray;
+    FReplaceText: TStringArray;
 
     {Handles a single formatting string}
     function sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
@@ -261,7 +264,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCUtils, uDebug, uLng, uGlobs, uFileProcs, DCOSUtils, DCStrUtils,
+  Math, uDCUtils, uDebug, uLng, uGlobs, uFileProcs, DCOSUtils, DCStrUtils,
   fSelectTextRange, uShowMsg, uFileSourceUtil, uFileFunctions,
   dmCommonData, fMultiRenameWait, uOSUtils, uFileSourceOperation,
   uOperationsManager, Dialogs;
@@ -439,6 +442,7 @@ end;
 
 function TfrmMultiRename.FreshText(ItemIndex: Integer): String;
 var
+  I: Integer;
   bError: Boolean;
   sTmpName, sTmpExt: String;
 begin
@@ -458,15 +462,23 @@ begin
   end;
 
   // Find and replace
-  if cbRegExp.Checked and (edFind.Text <> '') then
+  if (edFind.Text <> '') then
+  begin
+    if cbRegExp.Checked then
     try
       Result:= UTF16ToUTF8(FRegExp.Replace(UTF8Decode(Result), UTF8Decode(edReplace.Text), cbUseSubs.Checked));
     except
       Result:= rsMsgErrRegExpSyntax;
       bError:= True;
     end
-  else
-    Result:=StringReplace(Result,edFind.Text,edReplace.Text,[rfReplaceAll,rfIgnoreCase]);
+    else begin
+      // Many at once, split find and replace by |
+      if Length(FReplaceText) = 0 then
+        AddString(FReplaceText, '');
+      for I:= Low(FFindText) to High(FFindText) do
+        Result:= StringReplace(Result, FFindText[I], FReplaceText[Min(I, High(FReplaceText))], [rfReplaceAll, rfIgnoreCase]);
+    end;
+  end;
 
   // File name style
   sTmpExt  := ExtractFileExt(Result);
@@ -497,8 +509,18 @@ end;
 
 procedure TfrmMultiRename.edFindChange(Sender: TObject);
 begin
-  if cbRegExp.Checked then begin
-    FRegExp.Expression:= UTF8Decode(edFind.Text);
+  if cbRegExp.Checked then
+    FRegExp.Expression:= UTF8Decode(edFind.Text)
+  else begin
+    FFindText:= SplitString(edFind.Text, '|');
+  end;
+  StringGridTopLeftChanged(StringGrid);
+end;
+
+procedure TfrmMultiRename.edReplaceChange(Sender: TObject);
+begin
+  if not cbRegExp.Checked then begin
+    FReplaceText:= SplitString(edReplace.Text, '|');
   end;
   StringGridTopLeftChanged(StringGrid);
 end;
@@ -1299,6 +1321,7 @@ begin
     FLastPreset := PresetName;
 
     edFindChange(edFind);
+    edReplaceChange(edReplace);
   end;
 end;
 
