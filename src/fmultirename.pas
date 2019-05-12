@@ -869,7 +869,7 @@ begin
       'P':  // sub path index
         begin
           Index := StrToIntDef(Copy(sFormatStr, 2, MaxInt), 0);
-          Dirs := aFile.FullPath.Split([PathDelim]);
+          Dirs := (aFile.Path + ' ').Split([PathDelim]);
           Dirs[High(Dirs)] := EmptyStr;
           if Index < 0 then
             Result := Dirs[Max(0, High(Dirs) + Index)]
