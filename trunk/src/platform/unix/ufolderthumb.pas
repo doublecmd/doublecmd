@@ -63,7 +63,7 @@ var
   InnerSize: TSize;
   sFileName: String;
   PtrDirEnt: pDirent;
-  Bitmap: TBitmap = nil;
+  ABitmap: TBitmap = nil;
   Canvas: TFPImageCanvas;
   Picture: TPicture = nil;
   FileStream: TFileStreamEx;
@@ -90,19 +90,18 @@ begin
           sFileName+= CeSysToUtf8(PtrDirEnt^.d_name);
 
           // Try to create thumnail using providers
-          Bitmap:= TThumbnailManager.GetPreviewFromProvider(sFileName, InnerSize, ProviderIndex);
-          if Assigned(Bitmap) then Break;
+          ABitmap:= TThumbnailManager.GetPreviewFromProvider(sFileName, InnerSize, ProviderIndex);
+          if Assigned(ABitmap) then Break;
 
           // Create thumnail for image files
           AExt:= ExtractOnlyFileExt(sFileName);
           if GetGraphicClassForFileExtension(AExt) <> nil then
           try
             FileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone or fmOpenNoATime);
-            with Picture do
             try
-              LoadFromStreamWithFileExt(FileStream, AExt);
-              Bitmap:= TBitmap.Create;
-              Bitmap.Assign(Graphic);
+              Picture.LoadFromStreamWithFileExt(FileStream, AExt);
+              ABitmap:= TBitmap.Create;
+              ABitmap.Assign(Picture.Graphic);
               Break;
             finally
               FreeAndNil(FileStream);
@@ -117,7 +116,7 @@ begin
       fpCloseDir(DirPtr^);
       Picture.Free;
     end;
-    if Assigned(Bitmap) then
+    if Assigned(ABitmap) then
     begin
       Target:= TLazIntfImage.Create(aSize.cx, aSize.cy, [riqfRGB, riqfAlpha]);
       try
@@ -138,18 +137,18 @@ begin
           end;
 
           // Draw folder inner icon
-          Source:= Bitmap.CreateIntfImage;
+          Source:= ABitmap.CreateIntfImage;
           try
-            if (Bitmap.Width > InnerSize.cx) or (Bitmap.Height > InnerSize.cy) then
+            if (ABitmap.Width > InnerSize.cx) or (ABitmap.Height > InnerSize.cy) then
             begin
-              InnerSize:= GetPreviewScaleSize(InnerSize, Bitmap.Width, Bitmap.Height);
+              InnerSize:= GetPreviewScaleSize(InnerSize, ABitmap.Width, ABitmap.Height);
               X:= (aSize.cx - InnerSize.cx) div 2;
               Y:= (aSize.cy - InnerSize.cy) div 2;
               Canvas.StretchDraw(X, Y, InnerSize.cx, InnerSize.cy, Source);
             end
             else begin
-              X:= (aSize.cx - Bitmap.Width) div 2;
-              Y:= (aSize.cy - Bitmap.Height) div 2;
+              X:= (aSize.cx - ABitmap.Width) div 2;
+              Y:= (aSize.cy - ABitmap.Height) div 2;
               Canvas.Draw(X, Y, Source);
             end;
           finally
