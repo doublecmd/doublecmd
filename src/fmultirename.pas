@@ -822,7 +822,7 @@ procedure TfrmMultiRename.sReplaceBadChars(var sPath: string);
 var
   Index: Integer;
 begin
-  for Index := 1 to Length(sPath) - 1 do
+  for Index := 1 to Length(sPath) do
   begin
     if sPath[Index] in ['\', '/', ':', '*', '?', '"', '<', '>', '|'] then
       sPath[Index] := '.';
