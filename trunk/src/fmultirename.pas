@@ -205,8 +205,8 @@ type
     FNames: TStringList;
     FLog: TStringListEx;
     FRegExp: TRegExprW;
-    FFindText: TStringArray;
-    FReplaceText: TStringArray;
+    FFindText: TStringList;
+    FReplaceText: TStringList;
 
     {Replace bad path chars in string}
     procedure sReplaceBadChars(var sPath: string);
@@ -267,9 +267,8 @@ implementation
 
 uses
   Math, uDCUtils, uDebug, uLng, uGlobs, uFileProcs, DCOSUtils, DCStrUtils,
-  fSelectTextRange, uShowMsg, uFileSourceUtil, uFileFunctions,
-  dmCommonData, fMultiRenameWait, uOSUtils, uFileSourceOperation,
-  uOperationsManager, Dialogs, StrUtils;
+  fSelectTextRange, uShowMsg, uFileFunctions, dmCommonData, fMultiRenameWait,
+  uOSUtils, uFileSourceOperation, uOperationsManager, Dialogs, StrUtils;
 
 const
   sPresetsSection = 'MultiRenamePresets';
@@ -291,6 +290,12 @@ constructor TfrmMultiRename.Create(TheOwner: TComponent; aFileSource: IFileSourc
 begin
   FRegExp := TRegExprW.Create;
   FNames := TStringList.Create;
+  FFindText := TStringList.Create;
+  FFindText.StrictDelimiter := True;
+  FFindText.Delimiter := '|';
+  FReplaceText:= TStringList.Create;
+  FReplaceText.StrictDelimiter := True;
+  FReplaceText.Delimiter := '|';
   FPresets := TStringHashList.Create(False);
   FNewNames:= TStringHashList.Create(FileNameCaseSensitive);
   FFileSource := aFileSource;
@@ -310,6 +315,8 @@ begin
   FreeAndNil(FFiles);
   FreeAndNil(FNames);
   FreeAndNil(FRegExp);
+  FreeAndNil(FFindText);
+  FreeAndNil(FReplaceText);
 end;
 
 procedure TfrmMultiRename.FormCreate(Sender: TObject);
@@ -475,10 +482,10 @@ begin
     end
     else begin
       // Many at once, split find and replace by |
-      if Length(FReplaceText) = 0 then
-        AddString(FReplaceText, '');
-      for I:= Low(FFindText) to High(FFindText) do
-        Result:= StringReplace(Result, FFindText[I], FReplaceText[Min(I, High(FReplaceText))], [rfReplaceAll, rfIgnoreCase]);
+      if (FReplaceText.Count = 0) then
+        FReplaceText.Add('');
+      for I:= 0 to FFindText.Count - 1 do
+        Result:= StringReplace(Result, FFindText[I], FReplaceText[Min(I, FReplaceText.Count - 1)], [rfReplaceAll, rfIgnoreCase]);
     end;
   end;
 
@@ -514,7 +521,7 @@ begin
   if cbRegExp.Checked then
     FRegExp.Expression:= UTF8Decode(edFind.Text)
   else begin
-    FFindText:= SplitString(edFind.Text, '|');
+    FFindText.DelimitedText := edFind.Text;
   end;
   StringGridTopLeftChanged(StringGrid);
 end;
@@ -522,7 +529,7 @@ end;
 procedure TfrmMultiRename.edReplaceChange(Sender: TObject);
 begin
   if not cbRegExp.Checked then begin
-    FReplaceText:= SplitString(edReplace.Text, '|');
+    FReplaceText.DelimitedText := edReplace.Text;
   end;
   StringGridTopLeftChanged(StringGrid);
 end;
