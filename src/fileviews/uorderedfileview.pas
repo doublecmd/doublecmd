@@ -822,8 +822,11 @@ begin
         begin
           if FLastActiveFileIndex < FFiles.Count then
             SetUpdate(FLastActiveFileIndex)
-          else
+          else begin
             SetUpdate(FFiles.Count - 1);
+          end;
+          if Assigned(OnChangeActiveFile) then
+            OnChangeActiveFile(Self, FFiles[FLastActiveFileIndex].FSFile);
         end;
       end;
     end;
