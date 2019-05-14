@@ -139,6 +139,7 @@ end;
 procedure TQuickViewPanel.OnChangeFileView(Sender: TObject);
 begin
   FFileView:= TFileView(Sender);
+  FFileView.OnChangeActiveFile:= @FileViewChangeActiveFile;
 end;
 
 procedure TQuickViewPanel.FileViewChangeActiveFile(Sender: TFileView; const aFile: TFile);
