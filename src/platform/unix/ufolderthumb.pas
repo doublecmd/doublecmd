@@ -29,9 +29,9 @@ interface
 implementation
 
 uses
-  Math, Classes, SysUtils, Graphics, FPimage, FPImgCanv, IntfGraphics, GraphType,
-  BaseUnix, Unix, Types, DCClassesUtf8, DCOSUtils, DCStrUtils, DCConvertEncoding,
-  uThumbnails, uPixMapManager;
+  Math, Classes, SysUtils, Graphics, IntfGraphics, GraphType, BaseUnix, Unix,
+  Types, DCClassesUtf8, DCOSUtils, DCStrUtils, DCConvertEncoding,
+  uThumbnails, uPixMapManager, uReSample;
 
 var
   ProviderIndex: Integer;
@@ -60,11 +60,11 @@ var
   AExt: String;
   DirPtr: pDir;
   X, Y: Integer;
+  OBitmap: TBitmap;
   InnerSize: TSize;
   sFileName: String;
   PtrDirEnt: pDirent;
   ABitmap: TBitmap = nil;
-  Canvas: TFPImageCanvas;
   Picture: TPicture = nil;
   FileStream: TFileStreamEx;
   Source, Target: TLazIntfImage;
@@ -121,46 +121,48 @@ begin
       Target:= TLazIntfImage.Create(aSize.cx, aSize.cy, [riqfRGB, riqfAlpha]);
       try
         Target.CreateData;
-        Canvas:= TFPImageCanvas.Create(Target);
-        try
-          Canvas.Erase;
 
-          // Draw default folder icon
-          Result:= PixMapManager.GetThemeIcon('folder', Min(aSize.cx, aSize.cy));
+        // Draw default folder icon
+        Result:= PixMapManager.GetThemeIcon('folder', Min(aSize.cx, aSize.cy));
+        Source:= Result.CreateIntfImage;
+        try
           X:= (aSize.cx - Result.Width) div 2;
           Y:= (aSize.cy - Result.Height) div 2;
-          Source:= Result.CreateIntfImage;
-          try
-            Canvas.Draw(X, Y, Source);
-          finally
-            Source.Free;
-          end;
-
-          // Draw folder inner icon
-          Source:= ABitmap.CreateIntfImage;
-          try
-            if (ABitmap.Width > InnerSize.cx) or (ABitmap.Height > InnerSize.cy) then
-            begin
-              InnerSize:= GetPreviewScaleSize(InnerSize, ABitmap.Width, ABitmap.Height);
-              X:= (aSize.cx - InnerSize.cx) div 2;
-              Y:= (aSize.cy - InnerSize.cy) div 2;
-              Canvas.StretchDraw(X, Y, InnerSize.cx, InnerSize.cy, Source);
-            end
-            else begin
-              X:= (aSize.cx - ABitmap.Width) div 2;
-              Y:= (aSize.cy - ABitmap.Height) div 2;
-              Canvas.Draw(X, Y, Source);
-            end;
-          finally
-            Source.Free;
-          end;
-          Result.LoadFromIntfImage(Target);
+          Target.CopyPixels(Source, X, Y);
         finally
-          Canvas.Free;
+          Source.Free;
         end;
+
+        // Scale folder inner icon
+        if (ABitmap.Width > InnerSize.cx) or (ABitmap.Height > InnerSize.cy) then
+        begin
+          InnerSize:= GetPreviewScaleSize(InnerSize, ABitmap.Width, ABitmap.Height);
+
+          OBitmap:= TBitmap.Create;
+          try
+            OBitmap.SetSize(InnerSize.cx, InnerSize.cy);
+            Stretch(ABitmap, OBitmap, ResampleFilters[2].Filter, ResampleFilters[2].Width);
+          finally
+            ABitmap.Free;
+            ABitmap:= OBitmap;
+          end;
+        end;
+
+        // Draw folder inner icon
+        Source:= ABitmap.CreateIntfImage;
+        try
+          X:= (aSize.cx - ABitmap.Width) div 2;
+          Y:= (aSize.cy - ABitmap.Height) div 2;
+          Target.AlphaBlend(Source, nil, X, Y);
+        finally
+          Source.Free;
+        end;
+
+        Result.LoadFromIntfImage(Target);
       finally
         Target.Free;
       end;
+      ABitmap.Free;
     end;
   end;
 end;
