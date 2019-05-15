@@ -27,7 +27,7 @@ unit uGraphics;
 interface
 
 uses
-  Classes, SysUtils, Graphics, Controls;
+  Classes, SysUtils, Graphics, Controls, IntfGraphics;
 
 type
 
@@ -39,13 +39,14 @@ type
   end;
 
 procedure BitmapAssign(Bitmap: TBitmap; Image: TRasterImage);
+procedure BitmapAssign(Bitmap: TBitmap; Image: TLazIntfImage);
 procedure BitmapAlpha(var ABitmap: TBitmap; APercent: Single);
 procedure BitmapCenter(var Bitmap: TBitmap; Width, Height: Integer);
 
 implementation
 
 uses
-  GraphType, FPimage, FPImgCanv, IntfGraphics, uPixMapManager;
+  GraphType, FPimage, FPImgCanv, uPixMapManager;
 
 type
   TRawAccess = class(TRasterImage) end;
@@ -59,6 +60,15 @@ begin
   Bitmap.LoadFromRawImage(RawImage^, True);
   // Set image data pointer to nil, so it will not free double
   RawImage^.ReleaseData;
+end;
+
+procedure BitmapAssign(Bitmap: TBitmap; Image: TLazIntfImage);
+var
+  ARawImage: TRawImage;
+begin
+  Image.GetRawImage(ARawImage, True);
+  // Simply change raw image owner without data copy
+  Bitmap.LoadFromRawImage(ARawImage, True);
 end;
 
 procedure BitmapAlpha(var ABitmap: TBitmap; APercent: Single);
