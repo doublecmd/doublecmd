@@ -14,7 +14,7 @@ function PixBufToBitmap(Pixbuf: PGdkPixbuf): TBitmap;
 implementation
 
 uses
-  GraphType;
+  GraphType, uGraphics;
 
 procedure DrawPixbufAtCanvas(Canvas: TCanvas; Pixbuf : PGdkPixbuf; SrcX, SrcY, DstX, DstY, Width, Height: Integer);
 var
@@ -94,7 +94,7 @@ begin
     end;
 
     Result := TBitmap.Create;
-    Result.LoadFromIntfImage(BmpData);
+    BitmapAssign(Result, BmpData);
     if not hasAlphaChannel then
       Result.Transparent := True;
 
