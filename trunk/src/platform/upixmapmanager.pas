@@ -464,7 +464,7 @@ begin
     gdk_pixmap_unref(pbPicture);
 
     // if unsupported BitsPerPixel then exit
-    if ABitmap.RawImage.Description.BitsPerPixel > 32 then
+    if (ABitmap = nil) or (ABitmap.RawImage.Description.BitsPerPixel > 32) then
       raise EInvalidGraphic.Create('Unsupported bits per pixel');
 
     Result:= True;
