@@ -611,6 +611,8 @@ type
       State: TDragState; var Accept: Boolean);
     function MainToolBarLoadButtonGlyph(ToolItem: TKASToolItem;
       iIconSize: Integer; clBackColor: TColor): TBitmap;
+    function MainToolBarLoadButtonOverlay(ToolItem: TKASToolItem;
+      iIconSize: Integer; clBackColor: TColor): TBitmap;
     procedure MainToolBarMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -2105,6 +2107,15 @@ function TfrmMain.MainToolBarLoadButtonGlyph(ToolItem: TKASToolItem;
 begin
   if ToolItem is TKASNormalItem then
     Result := PixMapManager.LoadBitmapEnhanced(TKASNormalItem(ToolItem).Icon, iIconSize, True, clBackColor, nil)
+  else
+    Result := nil;
+end;
+
+function TfrmMain.MainToolBarLoadButtonOverlay(ToolItem: TKASToolItem;
+  iIconSize: Integer; clBackColor: TColor): TBitmap;
+begin
+  if ToolItem is TKASMenuItem then
+    Result := PixMapManager.LoadBitmapEnhanced('emblem-symbolic-link', iIconSize, True, clBackColor, nil)
   else
     Result := nil;
 end;

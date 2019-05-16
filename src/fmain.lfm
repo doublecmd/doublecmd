@@ -37,6 +37,7 @@ object frmMain: TfrmMain
     OnDragOver = MainToolBarDragOver
     OnMouseUp = MainToolBarMouseUp
     OnLoadButtonGlyph = MainToolBarLoadButtonGlyph
+    OnLoadButtonOverlay = MainToolBarLoadButtonOverlay
     OnToolButtonMouseDown = MainToolBarToolButtonMouseDown
     OnToolButtonMouseUp = MainToolBarToolButtonMouseUp
     OnToolButtonDragDrop = MainToolBarToolButtonDragDrop
