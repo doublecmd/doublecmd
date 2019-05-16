@@ -205,6 +205,8 @@ type
     procedure ToolbarDragDrop(Sender, Source: TObject; {%H-}X, {%H-}Y: Integer);
     function ToolbarLoadButtonGlyph(ToolItem: TKASToolItem; iIconSize: Integer;
       clBackColor: TColor): TBitmap;
+    function ToolbarLoadButtonOverlay(ToolItem: TKASToolItem; iIconSize: Integer;
+      clBackColor: TColor): TBitmap;
     procedure ToolbarToolButtonClick(Sender: TObject);
     procedure ToolbarToolButtonDragDrop(Sender, Source: TObject; {%H-}X, {%H-}Y: Integer);
     procedure ToolbarToolButtonDragOver(Sender, Source: TObject; {%H-}X, {%H-}Y: Integer;
@@ -650,6 +652,7 @@ begin
   Result.OnDragDrop              := @ToolbarDragDrop;
   Result.OnLoadButtonGlyph       := @ToolbarLoadButtonGlyph;
   Result.OnToolButtonClick       := @ToolbarToolButtonClick;
+  Result.OnLoadButtonOverlay     := @ToolbarLoadButtonOverlay;
   Result.OnToolButtonMouseDown   := @ToolbarToolButtonMouseDown;
   Result.OnToolButtonMouseUp     := @ToolbarToolButtonMouseUp;
   Result.OnToolButtonMouseMove   := @ToolbarToolButtonMouseMove;
@@ -1323,6 +1326,15 @@ begin
     end
   else if ToolItem is TKASNormalItem then
     Result := PixMapManager.LoadBitmapEnhanced(TKASNormalItem(ToolItem).Icon, iIconSize, True, clBackColor, nil)
+  else
+    Result := nil;
+end;
+
+function TfrmOptionsToolbar.ToolbarLoadButtonOverlay(ToolItem: TKASToolItem;
+  iIconSize: Integer; clBackColor: TColor): TBitmap;
+begin
+  if ToolItem is TKASMenuItem then
+    Result := PixMapManager.LoadBitmapEnhanced('emblem-symbolic-link', iIconSize, True, clBackColor, nil)
   else
     Result := nil;
 end;

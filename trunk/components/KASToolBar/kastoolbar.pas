@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Toolbar panel class
 
-   Copyright (C) 2006-2016  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
    
    contributors:
      2012 Przemyslaw Nagay (cobines@gmail.com)
@@ -55,13 +55,18 @@ type
 
   TKASToolButton = class(TSpeedButton)
   private
+    FOverlay: TBitmap;
     FToolItem: TKASToolItem;
     function GetToolBar: TKASToolBar;
   protected
     procedure CalculatePreferredSize(var PreferredWidth,
       PreferredHeight: integer; WithThemeSpace: Boolean); override;
+    function DrawGlyph(ACanvas: TCanvas; const AClient: TRect; const AOffset: TPoint;
+      AState: TButtonState; ATransparent: Boolean; BiDiFlags: Longint): TRect; override;
   public
     constructor Create(AOwner: TComponent; Item: TKASToolItem); reintroduce;
+    destructor Destroy; override;
+  public
     property ToolBar: TKASToolBar read GetToolBar;
     property ToolItem: TKASToolItem read FToolItem;
   end;
@@ -101,6 +106,7 @@ type
     FOnToolButtonDragDrop: TOnToolButtonDragDrop;
     FOnToolButtonEndDrag: TOnToolButtonEndDrag;
     FOnLoadButtonGlyph: TOnLoadButtonGlyph;
+    FOnLoadButtonOverlay: TOnLoadButtonGlyph;
     FOnToolItemExecute: TOnToolItemExecute;
     FOnToolItemShortcutsHint: TOnToolItemShortcutsHint;
     FKASToolBarFlags: TToolBarFlags;
@@ -114,7 +120,6 @@ type
     function GetEnvVar: String;
     function GetToolItemShortcutsHint(Item: TKASToolItem): String;
     function LoadBtnIcon(IconPath: String): TBitMap;
-    procedure DrawLinkIcon(Image: TBitMap);
     function GetButton(Index: Integer): TKASToolButton;
     procedure InsertButton(InsertAt: Integer; ToolButton: TKASToolButton);
     procedure SetButtonHeight(const AValue: Integer);
@@ -177,6 +182,7 @@ type
   published
     property OnLoadButtonGlyph : TOnLoadButtonGlyph read FOnLoadButtonGlyph write FOnLoadButtonGlyph;
     property OnToolButtonClick: TOnToolButtonClick read FOnToolButtonClick write FOnToolButtonClick;
+    property OnLoadButtonOverlay: TOnLoadButtonGlyph read FOnLoadButtonOverlay write FOnLoadButtonOverlay;
     property OnToolButtonMouseDown: TOnToolButtonMouseUpDown read FOnToolButtonMouseDown write FOnToolButtonMouseDown;
     property OnToolButtonMouseUp: TOnToolButtonMouseUpDown read FOnToolButtonMouseUp write FOnToolButtonMouseUp;
     property OnToolButtonMouseMove: TOnToolButtonMouseMove read FOnToolButtonMouseMove write FOnToolButtonMouseMove;
@@ -419,40 +425,6 @@ begin
       Item := TKASToolButton(Buttons[i]).ToolItem;
       Item.Save(Config, Node);
     end;
-  end;
-end;
-
-procedure TKASToolBar.DrawLinkIcon(Image: TBitMap);
-var
-  sizeLink : Integer;
-  bmLinkIcon : TBitmap;
-{$IFDEF LCLGTK2}
-  bmTempIcon : TBitmap;
-{$ENDIF}
-  ToolItem: TKASNormalItem;
-begin
-  if (Image = nil) or (FOnLoadButtonGlyph = nil) then Exit;
-  sizeLink := FGlyphSize div 2;
-  ToolItem := TKASNormalItem.Create;
-  ToolItem.Icon := 'emblem-symbolic-link';
-  bmLinkIcon:= FOnLoadButtonGlyph(ToolItem, sizeLink, clBtnFace);
-  ToolItem.Free;
-  if Assigned(bmLinkIcon) then
-  begin
-{$IFDEF LCLGTK2} // Under GTK2 can not draw over alpha transparent pixels
-    bmTempIcon := TBitmap.Create;
-    bmTempIcon.Assign(Image);
-    Image.FreeImage;
-    Image.SetSize(FGlyphSize, FGlyphSize);
-    Image.Canvas.Brush.Color := clBtnFace;
-    Image.Canvas.FillRect(0, 0, FGlyphSize, FGlyphSize);
-    Image.Canvas.Draw(0, 0, bmTempIcon);
-    bmTempIcon.Free;
-{$ENDIF}
-    Image.Canvas.Draw(FGlyphSize-sizeLink+2,FGlyphSize-sizeLink+2, bmLinkIcon);
-    Image.TransparentColor:= clBtnFace;
-    Image.Transparent:= True;
-    bmLinkIcon.Free;
   end;
 end;
 
@@ -722,8 +694,11 @@ begin
       Bitmap := LoadBtnIcon(TKASNormalItem(ToolButton.ToolItem).Icon);
 
     try
-      if (ToolButton.ToolItem is TKASMenuItem) and Assigned(Bitmap) then
-        DrawLinkIcon(Bitmap);
+      if Assigned(Bitmap) and Assigned(FOnLoadButtonOverlay) and (not (ToolButton.ToolItem is TKASSeparatorItem)) then
+      begin
+        FreeAndNil(ToolButton.FOverlay);
+        ToolButton.FOverlay := FOnLoadButtonOverlay(ToolButton.ToolItem, FGlyphSize div 2, clBtnFace);
+      end;
 
       ToolButton.Glyph.Assign(Bitmap);
     finally
@@ -1044,10 +1019,33 @@ begin
     inherited;
 end;
 
+function TKASToolButton.DrawGlyph(ACanvas: TCanvas; const AClient: TRect;
+  const AOffset: TPoint; AState: TButtonState; ATransparent: Boolean;
+  BiDiFlags: Longint): TRect;
+var
+  X, Y: Integer;
+  AWidth : Integer;
+begin
+  Result := inherited DrawGlyph(ACanvas, AClient, AOffset, AState, ATransparent, BiDiFlags);
+  if Assigned(FOverlay) then
+  begin
+    AWidth := FOverlay.Width;
+    X := AClient.Left + AOffset.X + ToolBar.FGlyphSize - AWidth;
+    Y := AClient.Top + AOffset.Y + ToolBar.FGlyphSize - AWidth;
+    Canvas.Draw(X, Y, FOverlay);
+  end;
+end;
+
 constructor TKASToolButton.Create(AOwner: TComponent; Item: TKASToolItem);
 begin
   inherited Create(AOwner);
   FToolItem := Item;
+end;
+
+destructor TKASToolButton.Destroy;
+begin
+  inherited Destroy;
+  FOverlay.Free;
 end;
 
 function TKASToolButton.GetToolBar: TKASToolBar;
