@@ -124,7 +124,7 @@ begin
 
         // Draw default folder icon
         Result:= PixMapManager.GetThemeIcon('folder', Min(aSize.cx, aSize.cy));
-        Source:= Result.CreateIntfImage;
+        Source:= TLazIntfImage.Create(Result.RawImage, False);
         try
           X:= (aSize.cx - Result.Width) div 2;
           Y:= (aSize.cy - Result.Height) div 2;
@@ -149,7 +149,7 @@ begin
         end;
 
         // Draw folder inner icon
-        Source:= ABitmap.CreateIntfImage;
+        Source:= TLazIntfImage.Create(ABitmap.RawImage, False);
         try
           X:= (aSize.cx - ABitmap.Width) div 2;
           Y:= (aSize.cy - ABitmap.Height) div 2;
