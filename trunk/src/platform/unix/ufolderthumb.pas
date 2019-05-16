@@ -31,7 +31,7 @@ implementation
 uses
   Math, Classes, SysUtils, Graphics, IntfGraphics, GraphType, BaseUnix, Unix,
   Types, DCClassesUtf8, DCOSUtils, DCStrUtils, DCConvertEncoding,
-  uThumbnails, uPixMapManager, uReSample;
+  uThumbnails, uPixMapManager, uReSample, uGraphics;
 
 var
   ProviderIndex: Integer;
@@ -158,7 +158,7 @@ begin
           Source.Free;
         end;
 
-        Result.LoadFromIntfImage(Target);
+        BitmapAssign(Result, Target);
       finally
         Target.Free;
       end;
