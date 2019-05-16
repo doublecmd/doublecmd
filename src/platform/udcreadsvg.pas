@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Scalable Vector Graphics reader implementation (via rsvg and cairo)
 
-   Copyright (C) 2012-2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2012-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -58,7 +58,7 @@ implementation
 
 uses
   DynLibs, IntfGraphics, GraphType, Types, CTypes, LazUTF8, DCOSUtils,
-  uThumbnails, uIconTheme;
+  uThumbnails, uIconTheme, uGraphics;
 
 type
   cairo_format_t = (
@@ -170,7 +170,7 @@ begin
       end;
       RsvgHandleRender(RsvgHandle, CairoSurface, Cairo, Image);
       Result:= TBitmap.Create;
-      Result.LoadFromIntfImage(Image);
+      BitmapAssign(Result, Image);
     finally
       Image.Free;
     end;
@@ -217,7 +217,7 @@ begin
       Image:= TLazIntfImage.Create(aSize.cx, aSize.cy);
       try
         RsvgHandleRender(RsvgHandle, CairoSurface, Cairo, Image);
-        Result.LoadFromIntfImage(Image);
+        BitmapAssign(Result, Image);
       finally
         Image.Free;
       end;
