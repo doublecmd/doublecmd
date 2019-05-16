@@ -46,7 +46,7 @@ procedure BitmapCenter(var Bitmap: TBitmap; Width, Height: Integer);
 implementation
 
 uses
-  GraphType, FPimage, FPImgCanv, uPixMapManager;
+  GraphType, FPimage, uPixMapManager;
 
 type
   TRawAccess = class(TRasterImage) end;
@@ -79,7 +79,7 @@ var
 begin
   if ABitmap.RawImage.Description.AlphaPrec <> 0 then
   begin
-    AImage:= ABitmap.CreateIntfImage();
+    AImage:= TLazIntfImage.Create(ABitmap.RawImage, False);
     for X:= 0 to AImage.Width - 1 do
     begin
       for Y:= 0 to AImage.Height - 1 do
@@ -89,7 +89,6 @@ begin
         AImage.Colors[X, Y]:= Color;
       end;
     end;
-    ABitmap.LoadFromIntfImage(AImage);
     AImage.Free;
   end;
 end;
@@ -97,22 +96,26 @@ end;
 procedure BitmapCenter(var Bitmap: TBitmap; Width, Height: Integer);
 var
   X, Y: Integer;
-  Canvas: TFPImageCanvas;
   Source, Target: TLazIntfImage;
 begin
   if (Bitmap.Width <> Width) or (Bitmap.Height <> Height) then
   begin
-    Source:= Bitmap.CreateIntfImage;
-    Target:= TLazIntfImage.Create(Width, Height, [riqfRGB, riqfAlpha]);
-    Target.CreateData;
-    Canvas:= TFPImageCanvas.Create(Target);
-    X:= (Width - Bitmap.Width) div 2;
-    Y:= (Height - Bitmap.Height) div 2;
-    Canvas.Erase;
-    Canvas.Draw(X, Y, Source);
-    Bitmap.LoadFromIntfImage(Target);
-    Target.Free;
-    Source.Free;
+    Source:= TLazIntfImage.Create(Bitmap.RawImage, False);
+    try
+      Target:= TLazIntfImage.Create(Width, Height, [riqfRGB, riqfAlpha]);
+      try
+        Target.CreateData;
+        Target.FillPixels(colTransparent);
+        X:= (Width - Bitmap.Width) div 2;
+        Y:= (Height - Bitmap.Height) div 2;
+        Target.CopyPixels(Source, X, Y);
+        BitmapAssign(Bitmap, Target);
+      finally
+        Target.Free;
+      end;
+    finally
+      Source.Free;
+    end;
   end;
 end;
 
