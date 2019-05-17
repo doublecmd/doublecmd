@@ -617,7 +617,8 @@ end;
          (StrBegins(mnt_dir, '/dev/')) or
          (StrBegins(mnt_dir, '/sys/')) or
          (StrBegins(mnt_dir, '/proc/')) or
-         (StrBegins(mnt_dir, '/snap/')) then Exit;
+         (StrBegins(mnt_dir, '/snap/')) or
+         (StrBegins(ExtractFileName(mnt_dir), '.')) then Exit;
 
       // check file system type
       if (mnt_type = 'ignore') or
