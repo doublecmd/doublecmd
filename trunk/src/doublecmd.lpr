@@ -17,6 +17,9 @@ uses
   {$ENDIF}
   cwstring,
   clocale,
+  {$IFDEF LINUX}
+  uAppImage,
+  {$ENDIF}
   {$IFDEF LCLGTK2}
   uOverlayScrollBarFix,
   gtk2,
@@ -119,7 +122,7 @@ begin
   // see http://bugs.freepascal.org/view.php?id=22044
   Application.BidiMode:= bdLeftToRight;
 
-  Application.Title:= 'Double Commander';
+  Application.Title:='Double Commander';
   Application.Initialize;
   uDCVersion.InitializeVersionInfo;
   // Initializing keyboard module on GTK needs GTKProc.InitKeyboardTables
