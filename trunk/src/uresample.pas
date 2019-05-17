@@ -345,6 +345,7 @@ var
   SrcHeight		,
   DstWidth		,
   DstHeight		: integer;
+  ARawImage		: TRawImage;
 
   function Color2RGBA(Color: TFPColor): TColorRGBA; inline;
   begin
@@ -667,7 +668,8 @@ begin
 
     FreeMem(contrib);
 
-    Dst.LoadFromIntfImage(DstIntfImage);
+    DstIntfImage.GetRawImage(ARawImage, True);
+    Dst.LoadFromRawImage(ARawImage, True);
 
   finally
     FreeMem(Work);
