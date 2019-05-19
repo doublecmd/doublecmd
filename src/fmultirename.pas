@@ -200,6 +200,7 @@ type
     FFiles: TFiles;
     FPresets: TStringHashList; // of PMultiRenamePreset
     FNewNames: TStringHashList;
+    FOldNames: TStringHashList;
     FSourceRow: Integer;
     FMoveRow : Boolean;
     FNames: TStringList;
@@ -299,6 +300,7 @@ begin
   FReplaceText.Delimiter := '|';
   FPresets := TStringHashList.Create(False);
   FNewNames:= TStringHashList.Create(FileNameCaseSensitive);
+  FOldNames:= TStringHashList.Create(FileNameCaseSensitive);
   FFileSource := aFileSource;
   FFiles := aFiles;
   aFiles := nil;
@@ -313,6 +315,7 @@ begin
   ClearPresetsList;
   FreeAndNil(FPresets);
   FreeAndNil(FNewNames);
+  FreeAndNil(FOldNames);
   FreeAndNil(FFiles);
   FreeAndNil(FNames);
   FreeAndNil(FRegExp);
@@ -1094,7 +1097,12 @@ begin
       sfprSuccess:
         begin
           S:= 'OK      ' + aFile.Name + ' -> ' + Value;
-          FFiles[Index].Name := Value; // Write new name to the file object
+          if Index < FFiles.Count then
+            FFiles[Index].Name := Value // Write new name to the file object
+          else begin
+            Index:= StrToInt(aFile.Extension);
+            FFiles[Index].Name := Value // Write new name to the file object
+          end;
         end;
       sfprError: S:= 'FAILED  ' + aFile.Name + ' -> ' + Value;
       sfprSkipped: S:= 'SKIPPED ' + aFile.Name + ' -> ' + Value;
@@ -1108,6 +1116,7 @@ var
   AFile: TFile;
   NewName: String;
   I, J, K: Integer;
+  TempFiles: TStringList;
   OldFiles, NewFiles: TFiles;
   AutoRename: Boolean = False;
   Operation: TFileSourceOperation;
@@ -1122,7 +1131,13 @@ begin
   end;
 
   OldFiles:= FFiles.Clone;
+  TempFiles:= TStringList.Create;
   NewFiles:= TFiles.Create(EmptyStr);
+
+  // OldNames
+  FOldNames.Clear;
+  for I:= 0 to OldFiles.Count -1 do
+    FOldNames.Add(OldFiles[I].Name);
 
   try
     FNewNames.Clear;
@@ -1130,6 +1145,7 @@ begin
     begin
       AFile:= TFile.Create(EmptyStr);
       AFile.Name:= FreshText(I);
+
       // Checking duplicates
       NewName:= FFiles[I].Path + AFile.Name;
       J:= FNewNames.Find(NewName);
@@ -1155,8 +1171,35 @@ begin
         FNewNames.Add(NewName);
         AFile.Name:= ExtractFileName(NewName);
       end;
+
+      // Avoid collisions with OldNames
+      J:= FOldNames.Find(AFile.Name);
+      if J >= 0 then
+      begin
+        NewName:= AFile.Name;
+        // Generate temp file name, save file index as extension
+        AFile.Name:= ExtractFileName(GetTempName(FFiles[I].Path)) + ExtensionSeparator + IntToStr(I);
+        TempFiles.AddObject(NewName, AFile.Clone);
+      end;
+
       NewFiles.Add(AFile);
     end;
+
+    // Rename temp files back
+    if TempFiles.Count > 0 then
+    begin
+      for I:= 0 to TempFiles.Count - 1 do
+      begin
+        // Temp file name
+        OldFiles.Add(TFile(TempFiles.Objects[I]));
+        // Real new file name
+        AFile:= TFile.Create(EmptyStr);
+        AFile.Name:= TempFiles[I];
+        NewFiles.Add(AFile);
+      end;
+    end;
+
+    // Rename files
     FillChar({%H-}theNewProperties, SizeOf(TFileProperties), 0);
     Operation:= FFileSource.CreateSetFilePropertyOperation(OldFiles, theNewProperties);
     if Assigned(Operation) then
@@ -1180,6 +1223,7 @@ begin
     end;
     OldFiles.Free;
     NewFiles.Free;
+    TempFiles.Free;
   end;
 
   StringGridTopLeftChanged(StringGrid);
