@@ -272,6 +272,7 @@ uses
 
 const
   sPresetsSection = 'MultiRenamePresets';
+  sLastPreset = '{BC322BF1-2185-47F6-9F99-D27ED1E23E53}';
 
 function ShowMultiRenameForm(aFileSource: IFileSource; var aFiles: TFiles):Boolean;
 begin
@@ -342,7 +343,6 @@ begin
   // Initialize presets.
   LoadPresets;
   FillPresetsList;
-  cbPresets.Text := FLastPreset;
   LoadPreset(FLastPreset);
 end;
 
@@ -358,7 +358,7 @@ end;
 
 procedure TfrmMultiRename.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  SavePresets;
+  SavePreset(sLastPreset);
 
   CloseAction:= caFree;
   with StringGrid.Columns do
@@ -691,7 +691,10 @@ end;
 
 procedure TfrmMultiRename.btnLoadPresetClick(Sender: TObject);
 begin
-  LoadPreset(cbPresets.Text);
+  if cbPresets.ItemIndex = 0 then
+    LoadPreset(sLastPreset)
+  else
+    LoadPreset(cbPresets.Text);
 end;
 
 procedure TfrmMultiRename.btnEditClick(Sender: TObject);
@@ -702,7 +705,9 @@ end;
 
 procedure TfrmMultiRename.btnSavePresetClick(Sender: TObject);
 begin
-  if cbPresets.Text <> '' then
+  if cbPresets.ItemIndex = 0 then
+    SavePreset(sLastPreset)
+  else if cbPresets.Text <> '' then
   begin
     if FPresets.Find(cbPresets.Text) <> -1 then
     begin
@@ -721,7 +726,7 @@ procedure TfrmMultiRename.btnDeletePresetClick(Sender: TObject);
 var
   Index: Integer;
 begin
-  if cbPresets.Text <> '' then
+  if (cbPresets.ItemIndex > 0) and (cbPresets.Text <> '') then
   begin
     DeletePreset(cbPresets.Text);
 
@@ -810,7 +815,6 @@ begin
     edFile.Text:= 'default.log';
   edFile.SelStart:= UTF8Length(edFile.Text);
   cbPresets.Text:='';
-  FLastPreset:='';
   FNames.Clear;
   gbMaska.Enabled:= True;
   gbPresets.Enabled:= True;
@@ -1271,7 +1275,7 @@ begin
   ClearPresetsList;
 
   ANode := AConfig.FindNode(AConfig.RootNode, sPresetsSection);
-  FLastPreset := AConfig.GetValue(ANode, 'LastPreset', '');
+  FLastPreset := AConfig.GetValue(ANode, 'LastPreset', sLastPreset);
 
   ANode := AConfig.FindNode(ANode, 'Presets');
   if Assigned(ANode) then
@@ -1323,7 +1327,6 @@ var
 begin
   ANode := AConfig.FindNode(AConfig.RootNode, sPresetsSection, True);
   AConfig.ClearNode(ANode);
-  AConfig.SetValue(ANode, 'LastPreset', FLastPreset);
 
   ANode := AConfig.FindNode(ANode, 'Presets', True);
   for i := 0 to FPresets.Count - 1 do
@@ -1376,8 +1379,6 @@ begin
       edFile.Text := LogFile;
     end;
 
-    FLastPreset := PresetName;
-
     edFindChange(edFind);
     edReplaceChange(edReplace);
   end;
@@ -1410,7 +1411,6 @@ begin
       LogFile := edFile.Text;
     end;
 
-    FLastPreset := PresetName;
     SavePresets;
   end;
 end;
@@ -1426,7 +1426,6 @@ begin
     begin
       Dispose(PMultiRenamePreset(FPresets.List[PresetIndex]^.Data));
       FPresets.Remove(PresetName);
-      FLastPreset := '';
       SavePresets;
     end;
   end;
@@ -1438,13 +1437,22 @@ var
   PresetName: String;
 begin
   cbPresets.Clear;
+  cbPresets.Items.Insert(0, rsMulRenLastPreset);
 
   for i := 0 to FPresets.Count - 1 do
   begin
     PresetName := FPresets.List[i]^.Key;
-    if cbPresets.Items.IndexOf(PresetName) = -1 then
-      cbPresets.Items.Add(PresetName);
+    if (PresetName <> sLastPreset) then
+    begin
+      if cbPresets.Items.IndexOf(PresetName) = -1 then
+        cbPresets.Items.Add(PresetName);
+    end;
   end;
+
+  if (FLastPreset = sLastPreset) then
+    cbPresets.ItemIndex := 0
+  else
+    cbPresets.ItemIndex := cbPresets.Items.IndexOf(FLastPreset);
 end;
 
 procedure TfrmMultiRename.ClearPresetsList;
