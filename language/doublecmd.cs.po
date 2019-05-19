@@ -11402,6 +11402,10 @@ msgstr "Automaticky přejmenovat na \"název (1).ext\", \"název (2).ext\" atd.?
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Neměnit;VELKÁ;malá;1. znak velkým;1. znak každého slova velkým;"
 
+#: ulng.rsmulrenlastpreset
+msgid "[The last used]"
+msgstr ""
+
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
 msgstr "Pozor, nalezeny stejné názvy!"

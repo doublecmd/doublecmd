@@ -11634,6 +11634,10 @@ msgstr "Автоматически переименовывать в \"name (1).
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С прописной;Каждое Слово С Прописной;"
 
+#: ulng.rsmulrenlastpreset
+msgid "[The last used]"
+msgstr ""
+
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
 msgstr "Внимание, одинаковые имена!"

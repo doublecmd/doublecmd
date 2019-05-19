@@ -11455,6 +11455,10 @@ msgstr "¿Cambiar automáticamente el nombre a «nombre (1).ext», «nombre (2).
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Sin cambios;MAYÚSCULAS;minúsculas;Primera letra en mayúscula;Primera Letra De Cada Palabra En Mayúsculas"
 
+#: ulng.rsmulrenlastpreset
+msgid "[The last used]"
+msgstr ""
+
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
 msgstr "¡Advertencia, nombres duplicados!"

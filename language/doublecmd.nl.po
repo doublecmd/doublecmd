@@ -11417,6 +11417,10 @@ msgstr "Automatisch hernoemen naar 'naam (1).ext', 'naam (2).ext' enz.?"
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Geen wijziging;HOOFDLETTERS;kleine letters;Eerste letter hoofdletter;Ieder Woord Begint Met Hoofdletter;"
 
+#: ulng.rsmulrenlastpreset
+msgid "[The last used]"
+msgstr ""
+
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
 msgstr "Waarschuwing: dubbele namen."

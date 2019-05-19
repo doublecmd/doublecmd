@@ -11389,6 +11389,10 @@ msgstr "Zmienić automatycznie nazwy na \"nazwa (1).roz\", \"nazwa (2).roz\" itp
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Bez zmian;WIELKIMI ZNAKAMI;małymi znakami;Pierwsza wielka;Pierwszy Znak Każdego Słowa Wielki;"
 
+#: ulng.rsmulrenlastpreset
+msgid "[The last used]"
+msgstr ""
+
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
 msgstr "Ostrzeżenie, zduplikowane nazwy!"

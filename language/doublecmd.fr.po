@@ -11651,6 +11651,10 @@ msgstr "Renommage automatique sous forme de \"nom (1).ext\", \"nom (2).ext\", et
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Pas de changement;MAJUSCULE;minuscule;Premier caractère majuscule;Premier Caractère De Chaque Mot Majuscule;"
 
+#: ulng.rsmulrenlastpreset
+msgid "[The last used]"
+msgstr ""
+
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
 msgstr "Attention, il y a des doubons!"
