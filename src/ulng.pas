@@ -634,6 +634,7 @@ resourcestring
   rsSplitMsgManyParts = 'The number of parts is more than 100! Continue?';
   rsSplitPreDefinedSizes = 'Automatic;1457664B - 3.5" High Density 1.44M;1213952B - 5.25" High Density 1.2M;730112B - 3.5" Double Density 720K;362496B - 5.25" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R';
   // MultiRename dialog
+  rsMulRenLastPreset = '[The last used]';
   rsMulRenWarningDuplicate = 'Warning, duplicate names!';
   rsMulRenAutoRename = 'Do auto-rename to "name (1).ext", "name (2).ext" etc.?';
   rsMulRenWrongLinesNumber = 'File contains wrong number of lines: %d, should be %d!';
