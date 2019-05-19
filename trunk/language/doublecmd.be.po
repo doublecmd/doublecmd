@@ -11421,6 +11421,10 @@ msgstr "Аўтаматычна змяняць назву на \"name (1).ext\", 
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Без змен;ВЕРХНІ РЭГІСТР;ніжні рэгістр;З вялікай;Кожнае Слова З Вялікай;"
 
+#: ulng.rsmulrenlastpreset
+msgid "[The last used]"
+msgstr ""
+
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
 msgstr "Увага, назвы дублюцца!"

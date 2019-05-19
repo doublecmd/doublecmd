@@ -11395,6 +11395,10 @@ msgstr "自动重命名为 \"name (1).ext\"、\"name (2).ext\" 等等吗？"
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "不修改;大写;小写;首字大写;"
 
+#: ulng.rsmulrenlastpreset
+msgid "[The last used]"
+msgstr ""
+
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
 msgstr "警告，重名！"

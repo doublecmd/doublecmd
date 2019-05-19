@@ -12447,6 +12447,10 @@ msgstr ""
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Nemeniť;VEĽKÝM;malým;Prvý znak veľkým;Prvý Znak Každého Slova Veľkým;"
 
+#: ulng.rsmulrenlastpreset
+msgid "[The last used]"
+msgstr ""
+
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
 msgstr ""

@@ -11620,6 +11620,10 @@ msgstr ""
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Nicio schimbare: MAJUSCULE;minuscule;Majuscule primul char; Primul char din fiecare cuvânt Majusculă"
 
+#: ulng.rsmulrenlastpreset
+msgid "[The last used]"
+msgstr ""
+
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
 msgstr ""

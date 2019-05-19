@@ -11660,6 +11660,10 @@ msgstr "Εκτέλεση αυτόματης μετονομασίας του \"na
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Χωρίς αλλαγή;ΚΕΦΑΛΑΙΟ;μικρό;Πρώτο γράμμα κεφαλαίο;Πρώτο Γράμμα κάθε Λέξης Κεφαλαίο;"
 
+#: ulng.rsmulrenlastpreset
+msgid "[The last used]"
+msgstr ""
+
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
 msgstr "Προσοχή, διπλότυπες ονομασίες!"

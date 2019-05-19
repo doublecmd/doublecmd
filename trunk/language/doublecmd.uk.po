@@ -11692,6 +11692,10 @@ msgstr "Автоматично перейменовувати в \"name (1).ext\
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Без змін;ПРОПИСНІ;рядкові;З Прописної;Кожне Слово З Прописної;"
 
+#: ulng.rsmulrenlastpreset
+msgid "[The last used]"
+msgstr ""
+
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
 msgstr "Увага, однакові імена!"
