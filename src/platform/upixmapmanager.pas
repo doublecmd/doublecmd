@@ -114,6 +114,7 @@ type
     FiSortDescID : PtrInt;
     {$IF DEFINED(MSWINDOWS)}
     FSysImgList : THandle;
+    FiSysDirIconID : PtrInt;
     {$ELSEIF DEFINED(DARWIN)}
     FUseSystemTheme: Boolean;
     {$ELSEIF DEFINED(UNIX)}
@@ -1424,6 +1425,9 @@ begin
 
   // add some standard icons
   FiDefaultIconID:=CheckAddThemePixmap('unknown');
+  {$IF DEFINED(MSWINDOWS)}
+  FiSysDirIconID := GetSystemFolderIcon;
+  {$ENDIF}
   {$IF DEFINED(MSWINDOWS) or DEFINED(DARWIN)}
   FiDirIconID := -1;
   if (gShowIcons > sim_standart) and (not (cimFolder in gCustomIcons)) then
@@ -1957,13 +1961,18 @@ begin
     begin
       Result := FileInfo.iIcon + SystemIconIndexStart;
 
-      if (not IsDirectory) and
-         (Ext <> 'exe') and
-         (Ext <> 'ico') and
-         (Ext <> 'ani') and
-         (Ext <> 'cur') and
-         (Ext <> 'lnk') and
-         (Ext <> 'url') then
+      if IsDirectory then
+      begin
+        // In the fact the folder does not have a special icon
+        if (cimFolder in gCustomIcons) and (Result = FiSysDirIconID) then
+          Result := FiDirIconID;
+      end
+      else if (Ext <> 'exe') and
+        (Ext <> 'ico') and
+        (Ext <> 'ani') and
+        (Ext <> 'cur') and
+        (Ext <> 'lnk') and
+        (Ext <> 'url') then
       begin
         FPixmapsLock.Acquire;
         try
