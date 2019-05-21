@@ -1174,11 +1174,11 @@ begin
 
       // Avoid collisions with OldNames
       J:= FOldNames.Find(AFile.Name);
-      if J >= 0 then
+      if (J >= 0) and (J <> I) then
       begin
         NewName:= AFile.Name;
         // Generate temp file name, save file index as extension
-        AFile.Name:= ExtractFileName(GetTempName(FFiles[I].Path)) + ExtensionSeparator + IntToStr(I);
+        AFile.FullPath:= GetTempName(FFiles[I].Path) + ExtensionSeparator + IntToStr(I);
         TempFiles.AddObject(NewName, AFile.Clone);
       end;
 
