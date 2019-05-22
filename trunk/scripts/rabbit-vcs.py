@@ -27,7 +27,6 @@ import sys
 try:
   from rabbitvcs.util.contextmenuitems import *
   from rabbitvcs.util.contextmenu import MenuBuilder, MainContextMenu, MainContextMenuCallbacks
-  from rabbitvcs.services.checkerservice import StatusCheckerStub
 except:
   exit(1)
 
@@ -98,6 +97,8 @@ def GetContextMenu(paths):
   return DCMainContextMenu(sender, base_dir, upaths, None)
 
 if __name__ == "__main__":
-
-  status_checker = StatusCheckerStub()
-
+  try:
+    from rabbitvcs.services.checkerservice import StatusCheckerStub
+    status_checker = StatusCheckerStub()
+  except:
+    exit(1)
