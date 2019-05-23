@@ -945,6 +945,7 @@ begin
       if iDelim = 0 then
       begin
         iFrom := StrToIntDef(Copy(sFormatStr, 2, MaxInt), 1);
+        if iFrom < 0 then iFrom := sOrig.Length + iFrom + 1;
         iTo   := iFrom;
       end
       // Range e.g. N1,3 (from 1, 3 symbols)
