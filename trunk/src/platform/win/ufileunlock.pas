@@ -235,6 +235,9 @@ begin
     if QueryFullProcessImageNameW(hProcess, 0, PWideChar(Result), @dwSize) then
     begin
       SetLength(Result, dwSize);
+    end
+    else begin
+      SetLength(Result, 0);
     end;
   end;
 end;

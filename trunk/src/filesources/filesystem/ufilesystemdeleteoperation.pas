@@ -335,7 +335,9 @@ begin
             if (Length(ProcessInfo[0].ApplicationName) > 0) then begin
               sQuestion+= Format(rsMsgApplicationName, [ProcessInfo[0].ApplicationName]) + LineEnding;
             end;
-            sQuestion+= Format(rsMsgExecutablePath, [ProcessInfo[0].ExecutablePath]) + LineEnding;
+            if (Length(ProcessInfo[0].ExecutablePath) > 0) then begin
+              sQuestion+= Format(rsMsgExecutablePath, [ProcessInfo[0].ExecutablePath]) + LineEnding;
+            end;
           end
           else
 {$ENDIF}
