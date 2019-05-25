@@ -1485,19 +1485,24 @@ begin
     Message:= EmptyStr;
     UpdateList(ALeftList, ARightList, False, False);
 
-    if ALeft and (ALeftList.Count > 0) then
+    ALeft:= ALeft and (ALeftList.Count > 0);
+    ARight:= ARight and (ARightList.Count > 0);
+
+    if (ALeft = False) and (ARight = False) then Exit;
+
+    if ALeft then
       Message:= Format(rsVarLeftPanel + ': ' + rsMsgDelFlDr, [ALeftList.Count]) + LineEnding;
 
-    if ARight and (ARightList.Count > 0) then
+    if ARight then
       Message+= Format(rsVarRightPanel + ': ' + rsMsgDelFlDr, [ARightList.Count]) + LineEnding;
 
     if MessageDlg(Message, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then
     begin
-      ALeft:= ALeft and (ALeftList.Count > 0);
-      ARight:= ARight and (ARightList.Count > 0);
+      EnableControls(False);
       if ALeft then DeleteFiles(FCmpFileSourceL, ALeftList);
       if ARight then DeleteFiles(FCmpFileSourceR, ARightList);
       UpdateList(nil, nil, ALeft, ARight);
+      EnableControls(True);
     end;
   finally
     ALeftList.Free;
