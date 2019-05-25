@@ -35,5 +35,8 @@
 {"hash":14033049,"name":"tfrmsyncdirsdlg.actselectcopydefault.caption","sourcebytes":[83,101,108,101,99,116,32,102,111,114,32,99,111,112,121,105,110,103,32,40,100,101,102,97,117,108,116,32,100,105,114,101,99,116,105,111,110,41],"value":"Select for copying (default direction)"},
 {"hash":74996318,"name":"tfrmsyncdirsdlg.actselectclear.caption","sourcebytes":[82,101,109,111,118,101,32,115,101,108,101,99,116,105,111,110],"value":"Remove selection"},
 {"hash":39665470,"name":"tfrmsyncdirsdlg.actselectcopyreverse.caption","sourcebytes":[82,101,118,101,114,115,101,32,99,111,112,121,32,100,105,114,101,99,116,105,111,110],"value":"Reverse copy direction"},
-{"hash":38619657,"name":"tfrmsyncdirsdlg.actselectdeleteright.caption","sourcebytes":[83,101,108,101,99,116,32,102,111,114,32,100,101,108,101,116,105,110,103,32,45,62,32,40,114,105,103,104,116,41],"value":"Select for deleting -> (right)"}
+{"hash":38619657,"name":"tfrmsyncdirsdlg.actselectdeleteright.caption","sourcebytes":[83,101,108,101,99,116,32,102,111,114,32,100,101,108,101,116,105,110,103,32,45,62,32,40,114,105,103,104,116,41],"value":"Select for deleting -> (right)"},
+{"hash":87943924,"name":"tfrmsyncdirsdlg.actdeleteleft.caption","sourcebytes":[60,45,32,68,101,108,101,116,101,32,108,101,102,116],"value":"<- Delete left"},
+{"hash":64282708,"name":"tfrmsyncdirsdlg.actdeleteright.caption","sourcebytes":[45,62,32,68,101,108,101,116,101,32,114,105,103,104,116],"value":"-> Delete right"},
+{"hash":5492659,"name":"tfrmsyncdirsdlg.actdeleteboth.caption","sourcebytes":[68,101,108,101,116,101,32,111,110,32,98,111,116,104,32,115,105,100,101,115],"value":"Delete on both sides"}
 ]}
