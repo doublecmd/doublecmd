@@ -4,7 +4,7 @@
    Directories synchronization utility (specially for DC)
 
    Copyright (C) 2013 Anton Panferov (ast.a_s@mail.ru)
-   Copyright (C) 2014-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -50,6 +50,9 @@ type
   { TfrmSyncDirsDlg }
 
   TfrmSyncDirsDlg = class(TForm, IFormCommands)
+    actDeleteLeft: TAction;
+    actDeleteRight: TAction;
+    actDeleteBoth: TAction;
     actSelectDeleteRight: TAction;
     actSelectCopyReverse: TAction;
     actSelectClear: TAction;
@@ -79,6 +82,10 @@ type
     Label1: TLabel;
     LeftPanel1: TPanel;
     LeftPanel2: TPanel;
+    miDeleteBoth: TMenuItem;
+    miDeleteRight: TMenuItem;
+    miDeleteLeft: TMenuItem;
+    miSeparator3: TMenuItem;
     miSelectDeleteRight: TMenuItem;
     miSeparator2: TMenuItem;
     miSelectCopyReverse: TMenuItem;
@@ -162,6 +169,10 @@ type
     procedure UpdateSelection(R: Integer);
     procedure EnableControls(AEnabled: Boolean);
     procedure SetSyncRecState(AState: TSyncRecState);
+    procedure DeleteFiles(ALeft, ARight: Boolean);
+    function DeleteFiles(FileSource: IFileSource; var Files: TFiles): Boolean;
+    procedure UpdateList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
+  private
     property SortIndex: Integer read FSortIndex write SetSortIndex;
     property Commands: TFormCommands read FCommands implements IFormCommands;
   public
@@ -176,6 +187,11 @@ type
     procedure cm_SelectCopyReverse(const {%H-}Params:array of string);
     procedure cm_SelectCopyLeftToRight(const {%H-}Params:array of string);
     procedure cm_SelectCopyRightToLeft(const {%H-}Params:array of string);
+
+
+    procedure cm_DeleteLeft(const {%H-}Params:array of string);
+    procedure cm_DeleteRight(const {%H-}Params:array of string);
+    procedure cm_DeleteBoth(const {%H-}Params:array of string);
   end;
 
 resourcestring
@@ -194,7 +210,7 @@ uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm,
-  uFileSourceDeleteOperation, uOSUtils, uLng, uMasks;
+  uFileSourceDeleteOperation, uOSUtils, uLng, uMasks, Math;
 
 {$R *.lfm}
 
@@ -511,24 +527,6 @@ var
       finally
         FreeAndNil(FOperation);
       end;
-    end;
-  end;
-
-  function DeleteFiles(FileSource: IFileSource; Files: TFiles): Boolean;
-  begin
-    Files.Path := Files[0].Path;
-    FOperation:= FileSource.CreateDeleteOperation(Files);
-    if not Assigned(FOperation) then
-    begin
-      MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
-      Exit(False);
-    end;
-    FOperation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
-    try
-      FOperation.Execute;
-      Result := FOperation.Result = fsorFinished;
-    finally
-      FreeAndNil(FOperation);
     end;
   end;
 
@@ -1465,6 +1463,143 @@ begin
   end;
 end;
 
+procedure TfrmSyncDirsDlg.DeleteFiles(ALeft, ARight: Boolean);
+var
+  Message: String;
+  ALeftList: TFiles;
+  ARightList: TFiles;
+begin
+  if not ALeft then
+    ALeftList:= nil
+  else begin
+    ALeftList:= TFiles.Create(EmptyStr);
+  end;
+
+  if not ARight then
+    ARightList:= nil
+  else begin
+    ARightList:= TFiles.Create(EmptyStr);
+  end;
+
+  try
+    Message:= EmptyStr;
+    UpdateList(ALeftList, ARightList, False, False);
+
+    if ALeft and (ALeftList.Count > 0) then
+      Message:= Format(rsVarLeftPanel + ': ' + rsMsgDelFlDr, [ALeftList.Count]) + LineEnding;
+
+    if ARight and (ARightList.Count > 0) then
+      Message+= Format(rsVarRightPanel + ': ' + rsMsgDelFlDr, [ARightList.Count]) + LineEnding;
+
+    if MessageDlg(Message, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then
+    begin
+      ALeft:= ALeft and (ALeftList.Count > 0);
+      ARight:= ARight and (ARightList.Count > 0);
+      if ALeft then DeleteFiles(FCmpFileSourceL, ALeftList);
+      if ARight then DeleteFiles(FCmpFileSourceR, ARightList);
+      UpdateList(nil, nil, ALeft, ARight);
+    end;
+  finally
+    ALeftList.Free;
+    ARightList.Free;
+  end;
+end;
+
+function TfrmSyncDirsDlg.DeleteFiles(FileSource: IFileSource; var Files: TFiles): Boolean;
+begin
+  Files.Path := Files[0].Path;
+  FOperation:= FileSource.CreateDeleteOperation(Files);
+  if not Assigned(FOperation) then
+  begin
+    MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
+    Exit(False);
+  end;
+  FOperation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
+  try
+    FOperation.Execute;
+    Result := FOperation.Result = fsorFinished;
+  finally
+    FreeAndNil(FOperation);
+  end;
+end;
+
+procedure TfrmSyncDirsDlg.UpdateList(ALeft, ARight: TFiles; ARemoveLeft,
+  ARemoveRight: Boolean);
+var
+  R, Y: Integer;
+  ARemove: Boolean;
+  Selection: TGridRect;
+  SyncRec: TFileSyncRec;
+
+  procedure AddRemoveItem;
+  begin
+    if Assigned(ALeft) and Assigned(SyncRec.FFileL) then
+      ALeft.Add(SyncRec.FFileL.Clone);
+
+    if Assigned(ARight) and Assigned(SyncRec.FFileR) then
+      ARight.Add(SyncRec.FFileR.Clone);
+
+    if ARemove then
+    begin
+      if ARemoveLeft and Assigned(SyncRec.FFileL) then
+        FreeAndNil(SyncRec.FFileL);
+      if ARemoveRight and Assigned(SyncRec.FFileR) then
+        FreeAndNil(SyncRec.FFileR);
+
+      if Assigned(SyncRec.FFileL) or Assigned(SyncRec.FFileR) then
+        SyncRec.UpdateState(chkIgnoreDate.Checked)
+      else begin
+        MainDrawGrid.DeleteRow(R);
+        FVisibleItems.Delete(R);
+      end;
+    end;
+  end;
+
+begin
+  Selection:= MainDrawGrid.Selection;
+  ARemove:= ARemoveLeft or ARemoveRight;
+  if (MainDrawGrid.HasMultiSelection) or (Selection.Bottom <> Selection.Top) then
+  begin
+    if ARemove then MainDrawGrid.BeginUpdate;
+    for Y:= 0 to MainDrawGrid.SelectedRangeCount - 1 do
+    begin
+      Selection:= MainDrawGrid.SelectedRange[Y];
+      for R := Selection.Bottom downto Selection.Top do
+      begin
+        SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
+        if Assigned(SyncRec) then AddRemoveItem;
+      end;
+    end;
+    if ARemove then MainDrawGrid.EndUpdate;
+    Exit;
+  end;
+  R := MainDrawGrid.Row;
+  if (R < 0) or (R >= FVisibleItems.Count) then Exit;
+  SyncRec := TFileSyncRec(FVisibleItems.Objects[r]);
+  if ARemove then MainDrawGrid.BeginUpdate;
+  if Assigned(SyncRec) then
+  begin
+    AddRemoveItem;
+  end
+  else begin
+    Y:= R;
+    Inc(R);
+    while R < FVisibleItems.Count do
+    begin
+      if (FVisibleItems.Objects[R] = nil) then Break;
+      Inc(R);
+    end;
+    Dec(R);
+    while R > Y do
+    begin
+      SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
+      AddRemoveItem;
+      Dec(R);
+    end;
+  end;
+  if ARemove then MainDrawGrid.EndUpdate;
+end;
+
 constructor TfrmSyncDirsDlg.Create(AOwner: TComponent; FileView1,
   FileView2: TFileView);
 var
@@ -1519,6 +1654,11 @@ begin
   chkByContent.Enabled := FFileSourceL.IsClass(TFileSystemFileSource) and
                           FFileSourceR.IsClass(TFileSystemFileSource);
   chkAsymmetric.Enabled := fsoDelete in FileView2.FileSource.GetOperationsTypes;
+  // ---------------------------------------------------------------------------
+  actDeleteLeft.Enabled := fsoDelete in FileView1.FileSource.GetOperationsTypes;
+  actDeleteRight.Enabled := fsoDelete in FileView2.FileSource.GetOperationsTypes;
+  actDeleteBoth.Enabled := actDeleteLeft.Enabled and actDeleteRight.Enabled;
+  // ---------------------------------------------------------------------------
   FFileSourceOperationMessageBoxesUI := TFileSourceOperationMessageBoxesUI.Create;
   if (FFileSourceL.IsClass(TFileSystemFileSource)) and (FFileSourceR.IsClass(TFileSystemFileSource)) then
   begin
@@ -1568,6 +1708,21 @@ end;
 procedure TfrmSyncDirsDlg.cm_SelectCopyRightToLeft(const Params: array of string);
 begin
   SetSyncRecState(srsCopyLeft);
+end;
+
+procedure TfrmSyncDirsDlg.cm_DeleteLeft(const Params: array of string);
+begin
+  DeleteFiles(True, False);
+end;
+
+procedure TfrmSyncDirsDlg.cm_DeleteRight(const Params: array of string);
+begin
+  DeleteFiles(False, True);
+end;
+
+procedure TfrmSyncDirsDlg.cm_DeleteBoth(const Params: array of string);
+begin
+  DeleteFiles(True, True);
 end;
 
 initialization
