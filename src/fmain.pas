@@ -4276,7 +4276,7 @@ var
 begin
   (*virtual drive button*)
   ToolItem := TKASNormalItem.Create;
-  ToolItem.Hint := actOpenVirtualFileSystemList.Caption;
+  ToolItem.Hint := StripHotkey(actOpenVirtualFileSystemList.Caption);
   ToolItem.Text := btnCaption;
   Button := dskPanel.AddButton(ToolItem);
   bmpBitmap:= PixMapManager.GetVirtualDriveIcon(dskPanel.GlyphSize, clBtnFace);
