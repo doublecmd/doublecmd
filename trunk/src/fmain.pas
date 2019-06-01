@@ -1040,9 +1040,6 @@ begin
   FDrivesListPopup.OnDriveSelected := @DriveListDriveSelected;
   FDrivesListPopup.OnClose := @DriveListClose;
 
-  TDriveWatcher.Initialize(Handle);
-  TDriveWatcher.AddObserver(@OnDriveWatcherEvent);
-
   //NOTE: we don't check gOnlyOneAppInstance anymore, because cmdline option "--client" was implemented,
   //      so, we should always listen for the messages
   if Assigned(UniqueInstance) then
@@ -1076,13 +1073,15 @@ begin
   HMMainForm.RegisterActionList(actionlst);
   { *HotKeys* }
 
-  // frost_asm begin
-    lastWindowState:=WindowState;
-  // frost_asm end
+  lastWindowState:= WindowState;
 
   UpdateActionIcons;
 
-  UpdateWindowView;
+  LoadTabs;
+
+  // Must be after LoadTabs
+  TDriveWatcher.Initialize(Handle);
+  TDriveWatcher.AddObserver(@OnDriveWatcherEvent);
 
 {$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   // Fixes bug - [0000033] "DC cancels shutdown in KDE"
@@ -1091,7 +1090,7 @@ begin
   QObject_hook_hook_events(QEventHook, @QObjectEventFilter);
 {$ENDIF}
 
-  LoadTabs;
+  UpdateWindowView;
   gFavoriteTabsList.AssociatedMainMenuItem := mnuFavoriteTabs;
   gFavoriteTabsList.RefreshAssociatedMainMenu;
 
