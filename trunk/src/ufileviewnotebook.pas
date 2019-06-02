@@ -115,9 +115,6 @@ type
     function GetFileViewOnPage(Index: Integer): TFileView;
     function GetPage(Index: Integer): TFileViewPage; reintroduce;
 
-    procedure DragOverEvent(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
-    procedure DragDropEvent(Sender, Source: TObject; X, Y: Integer);
-
   protected
     procedure DoChange; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
@@ -147,6 +144,10 @@ type
     procedure ActivatePrevTab;
     procedure ActivateNextTab;
     procedure ActivateTabByIndex(Index: Integer);
+
+    procedure DragDrop(Source: TObject; X,Y: Integer); override;
+    procedure DragOver(Source: TObject; X,Y: Integer; State: TDragState;
+                       var Accept: Boolean); override;
 
     property ActivePage: TFileViewPage read GetActivePage;
     property ActiveView: TFileView read GetActiveView;
@@ -408,9 +409,6 @@ begin
   // not where pages contents start (after applying TCM_ADJUSTRECT).
   //DoubleBuffered := True;
   {$ENDIF}
-
-  OnDragOver := @DragOverEvent;
-  OnDragDrop := @DragDropEvent;
 end;
 
 function TFileViewNotebook.GetActivePage: TFileViewPage;
@@ -640,18 +638,19 @@ begin
   FStartDrag := False;
 end;
 
-procedure TFileViewNotebook.DragOverEvent(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
+procedure TFileViewNotebook.DragOver(Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean);
 var
   ATabIndex: Integer;
 begin
-  if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
+  if (Source is TFileViewNotebook) then
   begin
     ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
-    Accept := (Source <> Sender) or
+    Accept := (Source <> Self) or
               ((ATabIndex <> -1) and (ATabIndex <> FDraggedPageIndex));
   end
-  else
-    Accept := False;
+  else begin
+    inherited DragOver(Source, X, Y, State, Accept);
+  end;
 end;
 
 {$IFDEF MSWINDOWS}
@@ -690,17 +689,17 @@ begin
 end;
 {$ENDIF}
 
-procedure TFileViewNotebook.DragDropEvent(Sender, Source: TObject; X, Y: Integer);
+procedure TFileViewNotebook.DragDrop(Source: TObject; X,Y: Integer);
 var
-  SourceNotebook: TFileViewNotebook;
   ATabIndex: Integer;
+  SourceNotebook: TFileViewNotebook;
   ANewPage, DraggedPage: TFileViewPage;
 begin
-  if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
+  if (Source is TFileViewNotebook) then
   begin
     ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
 
-    if Source = Sender then
+    if Source = Self then
     begin
       // Move within the same panel.
       if ATabIndex <> -1 then
@@ -727,6 +726,7 @@ begin
       end;
     end;
   end;
+  inherited DragDrop(Source, X, Y);
 end;
 
 procedure TFileViewNotebook.DoChange;
