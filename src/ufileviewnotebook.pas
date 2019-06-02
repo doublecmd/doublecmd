@@ -725,8 +725,10 @@ begin
         SourceNotebook.RemovePage(DraggedPage);
       end;
     end;
+  end
+  else begin
+    inherited DragDrop(Source, X, Y);
   end;
-  inherited DragDrop(Source, X, Y);
 end;
 
 procedure TFileViewNotebook.DoChange;
