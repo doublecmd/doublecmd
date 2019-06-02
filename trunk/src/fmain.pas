@@ -628,6 +628,9 @@ type
     procedure nbPageChanged(Sender: TObject);
     procedure nbPageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure NotebookDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure NotebookDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
     procedure NotebookCloseTabClicked(Sender: TObject);
     procedure pmDropMenuClose(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -957,6 +960,8 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     Result.OnMouseUp := @nbPageMouseUp;
     Result.OnChange := @nbPageChanged;
     Result.OnDblClick := @pnlLeftRightDblClick;
+    Result.OnDragOver:= @NotebookDragOver;
+    Result.OnDragDrop:= @NotebookDragDrop;
   end;
   function GenerateTitle():String;
   var 
@@ -2426,6 +2431,58 @@ begin
         end;
       end;
 
+  end;
+end;
+
+procedure TfrmMain.NotebookDragDrop(Sender, Source: TObject; X, Y: Integer);
+var
+  ATabIndex: Integer;
+  TargetPath: String;
+  SourceFiles: TFiles;
+  TargetFileSource: IFileSource;
+  ANotebook: TFileViewNotebook absolute Sender;
+begin
+  if (Source is TWinControl) and (TWinControl(Source).Parent is TFileView) then
+  begin
+    ATabIndex := ANotebook.IndexOfPageAt(Classes.Point(X, Y));
+    if (ATabIndex > -1) then
+    begin
+      SourceFiles := ActiveFrame.CloneSelectedOrActiveFiles;
+      try
+        begin
+          TargetPath := ANotebook.View[ATabIndex].CurrentPath;
+          TargetFileSource := ANotebook.View[ATabIndex].FileSource;
+          case GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft) of
+            DropCopyEffect:
+              Self.CopyFiles(ActiveFrame.FileSource, TargetFileSource, SourceFiles, TargetPath, gShowDialogOnDragDrop);
+            DropMoveEffect:
+              Self.MoveFiles(ActiveFrame.FileSource, TargetFileSource, SourceFiles, TargetPath, gShowDialogOnDragDrop);
+          end;
+        end;
+      finally
+        SourceFiles.Free;
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmMain.NotebookDragOver(Sender, Source: TObject; X, Y: Integer;
+  State: TDragState; var Accept: Boolean);
+var
+  ATabIndex: Integer;
+  APage: TFileViewPage;
+  ANotebook: TFileViewNotebook absolute Sender;
+begin
+  Accept := False;
+  if (Source is TWinControl) and (TWinControl(Source).Parent is TFileView) then
+  begin
+    ATabIndex := ANotebook.IndexOfPageAt(Classes.Point(X, Y));
+    if (ATabIndex > -1) then
+    begin
+      APage:= ANotebook.Page[ATabIndex];
+      Accept := (APage.FileView <> TWinControl(Source).Parent) and
+                ((APage.LockState = tlsNormal) or (APage.LockPath = APage.FileView.CurrentPath));
+    end;
   end;
 end;
 
