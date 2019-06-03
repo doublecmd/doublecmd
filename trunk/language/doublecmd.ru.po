@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-04-07 00:45+0300\n"
+"PO-Revision-Date: 2019-06-02 15:24+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -9017,7 +9017,7 @@ msgstr "Показывает сообщение о..."
 
 #: tfrmviewer.actautoreload.caption
 msgid "Auto Reload"
-msgstr ""
+msgstr "Автообновление"
 
 #: tfrmviewer.actchangeencoding.caption
 msgid "Change encoding"
@@ -9823,7 +9823,7 @@ msgstr "&Дописать"
 
 #: ulng.rsdlgbuttonautorenamesource
 msgid "A&uto-rename source files"
-msgstr "&Автоматически переименовывать копируемые файлы"
+msgstr "Автоматич&ески переименовывать копируемые файлы"
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
@@ -9873,7 +9873,7 @@ msgstr "&OK"
 
 #: ulng.rsdlgbuttonother
 msgid "Ot&her"
-msgstr "&Другое"
+msgstr "Друго&е"
 
 #: ulng.rsdlgbuttonoverwrite
 msgid "&Overwrite"
@@ -10921,7 +10921,7 @@ msgstr "Выполнить команду"
 
 #: ulng.rsmsghotdircommandsample
 msgid "cm_somthing"
-msgstr ""
+msgstr "cm_something"
 
 #: ulng.rsmsghotdirconfighotlist
 msgctxt "ulng.rsmsghotdirconfighotlist"
@@ -11636,7 +11636,7 @@ msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С про�
 
 #: ulng.rsmulrenlastpreset
 msgid "[The last used]"
-msgstr ""
+msgstr "[Последние использованные]"
 
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
