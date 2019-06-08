@@ -233,6 +233,7 @@ type
     procedure SetEncodingLeft(Sender: TObject);
     procedure SetEncodingRight(Sender: TObject);
     procedure SynDiffEditEnter(Sender: TObject);
+    procedure ShowFirstDifference(Data: PtrInt);
     procedure SynDiffEditLeftStatusChange(Sender: TObject; Changes: TSynStatusChanges);
     procedure SynDiffEditRightStatusChange(Sender: TObject; Changes: TSynStatusChanges);
 
@@ -373,7 +374,12 @@ begin
       if FShowIdentical then
       begin
         FShowIdentical:= (modifies = 0) and (adds = 0) and (deletes = 0);
-        if FShowIdentical then ShowIdentical;
+        if FShowIdentical then
+          ShowIdentical
+        else begin
+          FShowIdentical:= False;
+          Application.QueueAsyncCall(@ShowFirstDifference, 0);
+        end;
       end;
     end;
   finally
@@ -730,7 +736,12 @@ begin
   if FShowIdentical then
   begin
     FShowIdentical:= (BinaryDiffList.Count = 0);
-    if FShowIdentical then ShowIdentical;
+    if FShowIdentical then
+      ShowIdentical
+    else begin
+      FShowIdentical:= False;
+      Application.QueueAsyncCall(@ShowFirstDifference, 0);
+    end;
   end;
 end;
 
@@ -1189,6 +1200,11 @@ end;
 procedure TfrmDiffer.SynDiffEditEnter(Sender: TObject);
 begin
   SynDiffEditActive:= (Sender as TSynDiffEdit);
+end;
+
+procedure TfrmDiffer.ShowFirstDifference(Data: PtrInt);
+begin
+  cm_FirstDifference([]);
 end;
 
 procedure TfrmDiffer.SynDiffEditLeftStatusChange(Sender: TObject;
