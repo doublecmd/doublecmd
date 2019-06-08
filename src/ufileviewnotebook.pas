@@ -49,6 +49,7 @@ type
     FOnActivate: TNotifyEvent;
     FCurrentTitle: String;
     FPermanentTitle: String;
+    FBackupColumnSet: String;
     FOnChangeFileView: TNotifyEvent;
     FBackupViewClass: TFileViewClass;
 
@@ -95,6 +96,7 @@ type
     property PermanentTitle: String read FPermanentTitle write SetPermanentTitle;
     property CurrentTitle: String read FCurrentTitle;
     property OnActivate: TNotifyEvent read FOnActivate write FOnActivate;
+    property BackupColumnSet: String read FBackupColumnSet write FBackupColumnSet;
     property BackupViewClass: TFileViewClass read FBackupViewClass write FBackupViewClass;
     property OnChangeFileView: TNotifyEvent read FOnChangeFileView write FOnChangeFileView;
   end;

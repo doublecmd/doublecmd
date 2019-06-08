@@ -2006,13 +2006,20 @@ begin
   begin
     // Save current file view type
     WorkingNotebook.ActivePage.BackupViewClass := TFileViewClass(WorkingFileView.ClassType);
+    // Save current columns set name
+    if (WorkingFileView is TColumnsFileView) then begin
+      WorkingNotebook.ActivePage.BackupColumnSet:= TColumnsFileView(WorkingFileView).ActiveColm;
+    end;
     // Create thumbnails view
     aFileView:= TThumbFileView.Create(WorkingNotebook.ActivePage, WorkingFileView);
   end
   else
   begin
     // Restore previous file view type
-    aFileView:= WorkingNotebook.ActivePage.BackupViewClass.Create(WorkingNotebook.ActivePage, WorkingFileView);
+    if WorkingNotebook.ActivePage.BackupViewClass <> TColumnsFileView then
+      aFileView:= WorkingNotebook.ActivePage.BackupViewClass.Create(WorkingNotebook.ActivePage, WorkingFileView)
+    else
+      aFileView:= TColumnsFileView.Create(WorkingNotebook.ActivePage, WorkingFileView, WorkingNotebook.ActivePage.BackupColumnSet);
   end;
   WorkingNotebook.ActivePage.FileView:= aFileView;
 end;
