@@ -147,7 +147,7 @@ begin
 
     // Register thumbnail provider
     TThumbnailManager.RegisterProvider(@GetThumbnail);
-    MaskList:= TMaskList.Create('*.avi;*.flv;*.mkv;*.mp4;*.mpg;*.mov;*.wmv;*.vob;*.mpeg');
+    MaskList:= TMaskList.Create('*.avi;*.flv;*.mkv;*.mp4;*.mpg;*.mov;*.wmv;*.vob;*.mpeg;*.webm');
   except
     // Skip
   end;
