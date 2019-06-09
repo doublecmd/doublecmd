@@ -1,7 +1,7 @@
 const
-	ISO2022KRCharLenTable: array [0..5] of PRUint32 = (0, 0, 0, 0, 0, 0);
+	ISO2022KRCharLenTable: array [0..5] of uInt32 = (0, 0, 0, 0, 0, 0);
 
-  ISO2022KR_cls: array [Char] of Byte = (
+  ISO2022KR_cls: array [AnsiChar] of Byte = (
     2,0,0,0,0,0,0,0,  // 00 - 07
     0,0,0,0,0,0,0,0,  // 08 - 0f
     0,0,0,0,0,0,0,0,  // 10 - 17
