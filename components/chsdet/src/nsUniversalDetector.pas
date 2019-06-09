@@ -16,91 +16,90 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: nsUniversalDetector.pas,v 1.5 2008/06/22 09:04:20 ya_nick Exp $
+// $Id: nsUniversalDetector.pas,v 1.7 2013/05/16 15:41:14 ya_nick Exp $
 
 unit nsUniversalDetector;
 
 interface
 uses
-  {$I dbg.inc}
-	nsCore,
+{$I dbg.inc}
+  nsCore,
   CustomDetector;
 
-
 const
-	NUM_OF_CHARSET_PROBERS = 4;
+  NUM_OF_CHARSET_PROBERS = 4;
 
-type nsInputState = (
-  ePureAscii = 0,
-  eEscAscii  = 1,
-  eHighbyte  = 2
-	) ;
+type
+  eInputState = (
+    isPureAscii = 0,
+    isEscAscii = 1,
+    isHighbyte = 2
+    );
 
-	TnsUniversalDetector  = class (TObject)
-    protected
-      mInputState: nsInputState;
-      mDone: Boolean;
-      mStart: Boolean;
-      mGotData: Boolean;
-      mLastChar: Char;
-      mDetectedCharset: eInternalCharsetID;
-      mCharSetProbers: array [0..Pred(NUM_OF_CHARSET_PROBERS)] of TCustomDetector;
-      mEscCharSetProber: TCustomDetector;
-      mDetectedBOM: eBOMKind;
+  TnsUniversalDetector = class(TObject)
+  protected
+    mInputState: eInputState;
+    mDone: Boolean;
+    mStart: Boolean;
+    mGotData: Boolean;
+    mLastChar: AnsiChar;
+    mDetectedCharset: eInternalCharsetID;
+    mCharSetProbers: array[0..Pred(NUM_OF_CHARSET_PROBERS)] of TCustomDetector;
+    mEscCharSetProber: TCustomDetector;
+    mDetectedBOM: eBOMKind;
 
-		  procedure Report(aCharsetID: eInternalCharsetID);
-      function CheckBOM(aBuf: pChar; aLen: integer): integer;
-      function GetCharsetID(CodePage: integer): eInternalCharsetID;
-      procedure DoEnableCharset(Charset: eInternalCharsetID; SetEnabledTo: Boolean);
-		public
-    	constructor Create;
-      destructor Destroy; override;
+    procedure Report(aCharsetID: eInternalCharsetID);
+    function CheckBOM(aBuf: pAnsiChar; aLen: integer): integer;
+    function GetCharsetID(CodePage: integer): eInternalCharsetID;
+    procedure DoEnableCharset(Charset: eInternalCharsetID; SetEnabledTo: Boolean);
+  public
+    constructor Create;
+    destructor Destroy; override;
 
-		  procedure Reset;
-		  function HandleData(aBuf: PChar; aLen: integer): nsResult;
-		  procedure DataEnd;
+    procedure Reset;
+    function HandleData(aBuf: pAnsiChar; aLen: integer): nsResult;
+    procedure DataEnd;
 
-      function GetDetectedCharsetInfo: nsCore.rCharsetInfo;
+    function GetDetectedCharsetInfo: nsCore.rCharsetInfo;
 
-      function GetKnownCharset(out KnownCharsets: pChar): integer;
-      procedure GetAbout(out About: rAboutHolder);
-      procedure DisableCharset(CodePage: integer);
+    function GetKnownCharset(out KnownCharsets: String): integer;
+    procedure GetAbout(out About: rAboutHolder);
+    procedure DisableCharset(CodePage: integer);
 
-      property Done: Boolean read mDone;
-      property BOMDetected: eBOMKind read mDetectedBOM;
-end;
+    property Done: Boolean read mDone;
+    property BOMDetected: eBOMKind read mDetectedBOM;
+  end;
 
 implementation
 uses
   SysUtils,
   nsGroupProber,
-	nsMBCSMultiProber,
-	nsSBCSGroupProber,
-	nsEscCharsetProber,
-	nsLatin1Prober,
+  nsMBCSMultiProber,
+  nsSBCSGroupProber,
+  nsEscCharsetProber,
+  nsLatin1Prober,
   MBUnicodeMultiProber;
 
-
 const
-	MINIMUM_THRESHOLD: float  = 0.20;
+  MINIMUM_THRESHOLD: float = 0.20;
 
   AboutInfo: rAboutHolder = (
     MajorVersionNr: 0;
     MinorVersionNr: 2;
-    BuildVersionNr: 6;
-    About: 'Charset Detector Library. Copyright (C) 2006 - 2008, Nick Yakowlew. http://chsdet.sourceforge.net';
+    BuildVersionNr: 8;
+    About: 'Charset Detector Library. Copyright (C) 2006 - 2013, Nick Yakowlew. http://chsdet.sourceforge.net';
   );
-{ TnsUniversalDetector }
+  { TnsUniversalDetector }
 
 constructor TnsUniversalDetector.Create;
 begin
-	inherited Create;
+  inherited Create;
 
   mCharSetProbers[0] := TnsMBCSMultiProber.Create;
   mCharSetProbers[1] := TnsSBCSGroupProber.Create;
   mCharSetProbers[2] := TnsLatin1Prober.Create;
   mCharSetProbers[3] := TMBUnicodeMultiProber.Create;
-  mEscCharSetProber  := TnsEscCharSetProber.Create;
+  mEscCharSetProber := TnsEscCharSetProber.Create;
   Reset;
 end;
 
@@ -108,7 +107,7 @@ destructor TnsUniversalDetector.Destroy;
 var
   i: integer;
 begin
-	for i := 0 to Pred(NUM_OF_CHARSET_PROBERS) do
+  for i := 0 to Pred(NUM_OF_CHARSET_PROBERS) do
     mCharSetProbers[i].Free;
 
   mEscCharSetProber.Free;
@@ -118,9 +117,9 @@ end;
 
 procedure TnsUniversalDetector.DataEnd;
 var
-	proberConfidence: float;
+  proberConfidence: float;
   maxProberConfidence: float;
-  maxProber: PRInt32;
+  maxProber: int32;
   i: integer;
 begin
   if not mGotData then
@@ -135,7 +134,7 @@ begin
       exit;
     end;
   case mInputState of
-    eHighbyte:
+    isHighbyte:
       begin
         maxProberConfidence := 0.0;
         maxProber := 0;
@@ -143,72 +142,49 @@ begin
           begin
             proberConfidence := mCharSetProbers[i].GetConfidence;
             if proberConfidence > maxProberConfidence then
-            begin
-              maxProberConfidence := proberConfidence;
-              maxProber := i;
-            end;
+              begin
+                maxProberConfidence := proberConfidence;
+                maxProber := i;
+              end;
           end;
         (*do not report anything because we are not confident of it, that's in fact a negative answer*)
         if maxProberConfidence > MINIMUM_THRESHOLD then
-	        Report(mCharSetProbers[maxProber].GetDetectedCharset);
+          Report(mCharSetProbers[maxProber].GetDetectedCharset);
       end;
-    eEscAscii:
-	    begin
+    isEscAscii:
+      begin
         mDetectedCharset := mEscCharSetProber.GetDetectedCharset;
       end;
-    else
-      begin
-      	mDetectedCharset := PURE_ASCII_CHARSET;
-      end;
-  end;{case}
-  {$ifdef DEBUG_chardet}
+  else
+    begin
+      mDetectedCharset := PURE_ASCII_CHARSET;
+    end;
+  end;                                  {case}
+{$IFDEF DEBUG_chardet}
   AddDump('Universal detector - DataEnd');
-  {$endif}
+{$ENDIF}
 end;
 
-function TnsUniversalDetector.HandleData(aBuf: PChar; aLen: integer): nsResult;
+function TnsUniversalDetector.HandleData(aBuf: pAnsiChar; aLen: integer): nsResult;
 var
   i: integer;
   st: eProbingState;
-//  startAt: integer;
-//newBuf: pChar;
-//BufPtr: pChar;
-//b: integer;
-//tmpBOM: eBOMKind;
 begin
-//  startAt := 0;
   if mDone then
     begin
       Result := NS_OK;
       exit;
     end;
   if aLen > 0 then
-	  mGotData := TRUE;
+    mGotData := TRUE;
 
-  (*If the data starts with BOM, we know it is Unicode*)
+  (*If the data starts with BOM, it should be Unicode, but we continue check*)
+
   if mStart then
     begin
       mStart := FALSE;
-//      startAt := CheckBOM(aBuf, aLen);
       CheckBOM(aBuf, aLen);
-//     case mDetectedBOM of
-//        BOM_UCS4_BE: mDetectedCharset   := UCS4_BE_CHARSET;
-//        BOM_UCS4_LE: mDetectedCharset   := UCS4_LE_CHARSET;
-//        BOM_UTF16_BE: mDetectedCharset  := UTF16_BE_CHARSET;
-//        BOM_UTF16_LE: mDetectedCharset  := UTF16_LE_CHARSET;
-//        BOM_UTF8: mDetectedCharset      := UTF8_CHARSET;
-//
-//        BOM_UCS4_2143: mDetectedCharset := UCS4_BE_CHARSET;
-//        BOM_UCS4_3412: mDetectedCharset := UCS4_LE_CHARSET;
-//      end;
-// TODO - some stuppid ASCII text can starts with BOM. What to do?
-      if mDetectedCharset <> UNKNOWN_CHARSET then
-        begin
-//          mDone := TRUE;
-//         Result := NS_OK;
-//          exit;
-        end;
-    end; {if mStart}
+    end;                                {if mStart}
 
   for i := 0 to Pred(aLen) do
     (*other than 0xa0, if every othe character is ascii, the page is ascii*)
@@ -216,100 +192,70 @@ begin
       begin
         (*Since many Ascii only page contains NBSP *)
         (*we got a non-ascii byte (high-byte)*)
-        if mInputState <> eHighbyte then
+        if mInputState <> isHighbyte then
           begin
             (*adjust state*)
-            mInputState := eHighbyte;
+            mInputState := isHighbyte;
           end;
       end
     else
       begin
         (*ok, just pure ascii so *)
-        if (mInputState = ePureAscii) and
-        	 ((aBuf[i] = #$1B) or
-           	(aBuf[i] = '{') and
-            (mLastChar = '~')) then
+        if (mInputState = isPureAscii) and
+          ((aBuf[i] = #$1B) or
+          (aBuf[i] = '{') and
+          (mLastChar = '~')) then
           (*found escape character or HZ "~{"*)
-          mInputState := eEscAscii;
+          mInputState := isEscAscii;
 
         mLastChar := aBuf[i];
       end;
 
   case mInputState of
-    eEscAscii:
+    isEscAscii:
       begin
-        {$ifdef DEBUG_chardet}
+{$IFDEF DEBUG_chardet}
         AddDump('Universal detector - Escape Detector started');
-        {$endif}
-        st := mEscCharSetProber.HandleData(aBuf,aLen);
+{$ENDIF}
+        st := mEscCharSetProber.HandleData(aBuf, aLen);
         if st = psFoundIt then
           begin
             mDone := TRUE;
             mDetectedCharset := mEscCharSetProber.GetDetectedCharset;
           end;
       end;
-    eHighbyte:
+    isHighbyte:
       begin
-        {$ifdef DEBUG_chardet}
+{$IFDEF DEBUG_chardet}
         AddDump('Universal detector - HighByte Detector started');
-        {$endif}
+{$ENDIF}
         for i := 0 to Pred(NUM_OF_CHARSET_PROBERS) do
           begin
-//newBuf := AllocMem(aLen+StartAt);
-//BufPtr := newBuf;
-//try
-//tmpBOM := BOM_Not_Found;
-//if mDetectedBOM = BOM_Not_Found then
-//begin
-////case mCharSetProbers[i].GetDetectedCharset of
-//// UTF16_BE_CHARSET: tmpBOM := BOM_UCS4_BE;
-//// UTF16_LE_CHARSET: tmpBOM := BOM_UCS4_LE;
-//// else
-////  tmpBOM := BOM_Not_Found;
-////end;
-//tmpBOM := BOM_UTF16_BE;
-//end;
-//for b:=0 to integer(KnownBOM[tmpBOM][0])-1 do
-//begin
-//BufPtr^ := KnownBOM[tmpBOM][b+1];
-//inc(BufPtr);
-//end;
-//
-//for b:=0 to aLen do
-//begin
-//BufPtr^ := aBuf[b];
-//inc(BufPtr);
-//end;
-          st := mCharSetProbers[i].HandleData(aBuf,aLen);
-//          st := mCharSetProbers[i].HandleData(newBuf,aLen+startAt);
-          if st = psFoundIt then
-            begin
-              mDone:= TRUE;
-              mDetectedCharset := mCharSetProbers[i].GetDetectedCharset;
-//              Result := NS_OK;
-              break;
-            end;
-//finally
-//FreeMem(newBuf, aLen);
-//end;
-        end;
+            st := mCharSetProbers[i].HandleData(aBuf, aLen);
+            if st = psFoundIt then
+              begin
+                mDone := TRUE;
+                mDetectedCharset := mCharSetProbers[i].GetDetectedCharset;
+                break;
+              end;
+          end;
       end;
-    else
+  else
     (*pure ascii*)
     begin
       (*do nothing here*)
     end;
-  end;{case}
+  end;                                  {case}
   Result := NS_OK;
 end;
 
 procedure TnsUniversalDetector.Report(aCharsetID: eInternalCharsetID);
 begin
 
-	if (aCharsetID <> UNKNOWN_CHARSET) and
-  	 (mDetectedCharset = UNKNOWN_CHARSET) then
+  if (aCharsetID <> UNKNOWN_CHARSET) and
+    (mDetectedCharset = UNKNOWN_CHARSET) then
 
-  mDetectedCharset := aCharsetID;  
+    mDetectedCharset := aCharsetID;
 end;
 
 procedure TnsUniversalDetector.Reset;
@@ -320,11 +266,11 @@ begin
   mStart := TRUE;
   mDetectedCharset := UNKNOWN_CHARSET;
   mGotData := FALSE;
-  mInputState := ePureAscii;
-  mLastChar := #0; (*illegal value as signal*)
+  mInputState := isPureAscii;
+  mLastChar := #0;                      (*illegal value as signal*)
   mEscCharSetProber.Reset;
   for i := 0 to Pred(NUM_OF_CHARSET_PROBERS) do
-	  mCharSetProbers[i].Reset;
+    mCharSetProbers[i].Reset;
   mDetectedBOM := BOM_Not_Found;
 end;
 
@@ -333,18 +279,16 @@ begin
   Result := KNOWN_CHARSETS[mDetectedCharset];
 end;
 
-function TnsUniversalDetector.GetKnownCharset(out KnownCharsets: pChar): integer;
+function TnsUniversalDetector.GetKnownCharset(out KnownCharsets: String): integer;
 var
-  s: ANSIstring;
-  i: integer;
+  i: eInternalCharsetID;
 begin
-  s := '';
-  for i := integer(low(KNOWN_CHARSETS)) to integer(High(KNOWN_CHARSETS)) do
-    s := s + #10 + KNOWN_CHARSETS[eInternalCharsetID(i)].Name +
-             ' - ' + inttostr(KNOWN_CHARSETS[eInternalCharsetID(i)].CodePage);
+  KnownCharsets := '';
+  for i := low(KNOWN_CHARSETS) to high(KNOWN_CHARSETS) do
+    KnownCharsets := KnownCharsets + #10 + KNOWN_CHARSETS[i].Name +
+      ' - ' + IntToStr(KNOWN_CHARSETS[i].CodePage);
 
-  KnownCharsets := pChar(s);
-  Result := Length(s);
+  Result := Length(KnownCharsets);
 end;
 
 procedure TnsUniversalDetector.GetAbout(out About: rAboutHolder);
@@ -352,30 +296,28 @@ begin
   About := AboutInfo;
 end;
 
-function TnsUniversalDetector.CheckBOM(aBuf: pChar; aLen: integer): integer;
-  function BOMLength(BOM: eBOMKind): integer;
-  begin
-    Result := integer(KnownBOM[BOM, 0]);
-  end;
+function TnsUniversalDetector.CheckBOM(aBuf: pAnsiChar; aLen: integer): integer;
 var
-  i, b: integer;
-  Same: Boolean;
+  bom: eBOMKind;
+  i: integer;
+  same: Boolean;
 begin
   Result := 0;
-  for i := integer(low(KnownBOM))+1 to integer(high(KnownBOM)) do
-    if aLen > BOMLength(eBOMKind(i)) then
+  mDetectedBOM := BOM_Not_Found;
+  for bom := Succ(low(eBOMKind)) to high(eBomKind) do
+    if aLen > KNOWN_BOM[bom].Length then
       begin
-        Same := true;
-        for b := 0 to BOMLength(eBOMKind(i)) - 1 do
-          if (aBuf[b] <> KnownBOM[eBOMKind(i), b+1]) then
+        same := true;
+        for i := 0 to KNOWN_BOM[bom].Length - 1 do
+          if (aBuf[i] <> KNOWN_BOM[bom].BOM[i]) then
             begin
-              Same := false;
+              same := false;
               break;
             end;
-        if Same then
+        if same then
           begin
-            mDetectedBOM := eBOMKind(i);
-            Result := BOMLength(mDetectedBOM);
+            mDetectedBOM := bom;
+            Result := KNOWN_BOM[bom].Length;
             exit;
           end;
       end;
@@ -390,7 +332,7 @@ function TnsUniversalDetector.GetCharsetID(CodePage: integer): eInternalCharsetI
 var
   i: integer;
 begin
-  for i := integer(low(KNOWN_CHARSETS))+1 to integer(high(KNOWN_CHARSETS)) do
+  for i := integer(low(KNOWN_CHARSETS)) + 1 to integer(high(KNOWN_CHARSETS)) do
     if (KNOWN_CHARSETS[eInternalCharsetID(i)].CodePage = CodePage) then
       begin
         Result := eInternalCharsetID(i);
@@ -423,11 +365,7 @@ begin
         end;
     end;
 
-end;                                                                    
+end;
 
 end.
-
-
-
-
 

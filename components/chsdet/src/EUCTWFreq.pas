@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: EUCTWFreq.pas,v 1.2 2007/05/20 15:46:04 ya_nick Exp $
+// $Id: EUCTWFreq.pas,v 1.3 2013/04/23 19:47:10 ya_nick Exp $
 
 unit EUCTWFreq;
 
@@ -51,7 +51,7 @@ const
 //Char to FreqOrder table ,
 	EUCTW_TABLE_SIZE = 8102-2742+16;
 
-	EUCTWCharToFreqOrder: array [0..EUCTW_TABLE_SIZE-1] of PRInt16 =
+	EUCTWCharToFreqOrder: array [0..EUCTW_TABLE_SIZE-1] of int16 =
 (
    1,1800,1506, 255,1431, 198,   9,  82,   6,7310, 177, 202,3615,1256,2808, 110, // 2742
 3735,  33,3241, 261,  76,  44,2113,  16,2931,2184,1176, 659,3868,  26,3404,2643, // 2758

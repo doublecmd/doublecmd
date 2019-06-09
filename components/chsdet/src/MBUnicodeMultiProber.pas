@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: MBUnicodeMultiProber.pas,v 1.2 2007/05/26 13:09:38 ya_nick Exp $
+// $Id: MBUnicodeMultiProber.pas,v 1.3 2013/04/23 19:47:10 ya_nick Exp $
 
 unit MBUnicodeMultiProber;
 
@@ -32,7 +32,7 @@ type
 		public
 			constructor Create; reintroduce;
       destructor Destroy; override;
-		  function HandleData(aBuf: PChar; aLen: integer): eProbingState; override;
+		  function HandleData(aBuf: pAnsiChar; aLen: integer): eProbingState; override;
 //      function GetConfidence: double; override;
 end;
 
@@ -50,6 +50,7 @@ uses
 { TMBUnicodeMultiProber }
 const
 	NUM_OF_PROBERS = 3;
+    {$IFDEF FPC}{$NOTES OFF}{$ENDIF}
 	ONE_CHAR_PROB: float = 0.50;
 
 {$ifdef DEBUG_chardet}
@@ -69,11 +70,11 @@ begin
   inherited;
 end;
 
-function TMBUnicodeMultiProber.HandleData(aBuf: PChar; aLen: integer): eProbingState;
+function TMBUnicodeMultiProber.HandleData(aBuf: pAnsiChar; aLen: integer): eProbingState;
 var
   i: integer; (*do filtering to reduce load to probers*)
-  highbyteBuf: PChar;
-  hptr: PChar;
+  highbyteBuf: pAnsiChar;
+  hptr: pAnsiChar;
   keepNext: Boolean;
 begin
 	keepNext := TRUE;

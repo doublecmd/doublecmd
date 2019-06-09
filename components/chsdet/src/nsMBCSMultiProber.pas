@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: nsMBCSMultiProber.pas,v 1.2 2007/05/26 13:09:38 ya_nick Exp $
+// $Id: nsMBCSMultiProber.pas,v 1.3 2013/04/23 19:47:10 ya_nick Exp $
 
 unit nsMBCSMultiProber;
 
@@ -36,12 +36,12 @@ type
       mContextAnalysis: array of TJapaneseContextAnalysis;
       mBestGuess: integer;
 
-      function RunStatAnalyse(aBuf: PChar; aLen: integer): eProbingState;
+      function RunStatAnalyse(aBuf: pAnsiChar; aLen: integer): eProbingState;
       function GetConfidenceFor(index: integer): double; reintroduce;
 		public
 			constructor Create; reintroduce;
       destructor Destroy; override;
-		  function HandleData(aBuf: PChar; aLen: integer): eProbingState; override;
+		  function HandleData(aBuf: pAnsiChar; aLen: integer): eProbingState; override;
       function GetConfidence: double; override;
       procedure Reset; override;
       {$ifdef DEBUG_chardet}
@@ -141,11 +141,11 @@ begin
 end;
 {$endif}
 
-function TnsMBCSMultiProber.HandleData(aBuf: PChar; aLen: integer): eProbingState;
+function TnsMBCSMultiProber.HandleData(aBuf: pAnsiChar; aLen: integer): eProbingState;
 var
   i: integer; (*do filtering to reduce load to probers*)
-  highbyteBuf: PChar;
-  hptr: PChar;
+  highbyteBuf: pAnsiChar;
+  hptr: pAnsiChar;
   keepNext: Boolean;
 begin
 	keepNext := TRUE;
@@ -197,12 +197,12 @@ begin
 	Result := mState;
 end;
 
-function TnsMBCSMultiProber.RunStatAnalyse(aBuf: PChar; aLen: integer): eProbingState;
+function TnsMBCSMultiProber.RunStatAnalyse(aBuf: pAnsiChar; aLen: integer): eProbingState;
 var
   i, c: integer;
   codingState: nsSMState;
   charLen: byte;
-  mLastChar: array [0..1] of Char;
+  mLastChar: array [0..1] of AnsiChar;
 begin
   {$IFDEF DEBUG_chardet}
    AddDump('MultiByte - Stat Analyse - start');

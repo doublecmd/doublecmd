@@ -21,7 +21,7 @@ type
       constructor Create; override;
       destructor Destroy; override;
 
-	 	  function HandleData(aBuf: PChar;  aLen: integer): eProbingState;  override;
+	 	  function HandleData(aBuf: pAnsiChar;  aLen: integer): eProbingState;  override;
 		  function GetDetectedCharset: eInternalCharsetID; override;
       procedure Reset; override;
       function EnableCharset(Charset: eInternalCharsetID; NewValue: Boolean): Boolean;
@@ -76,7 +76,7 @@ begin
 	Result := mDetectedCharset;
 end;
 
-function TMultiModelProber.HandleData(aBuf: PChar; aLen: integer): eProbingState;
+function TMultiModelProber.HandleData(aBuf: pAnsiChar; aLen: integer): eProbingState;
 var
   codingState: nsSMState;
   j: integer;
@@ -227,4 +227,3 @@ end;
 {$endif}
 
 end.
-

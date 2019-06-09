@@ -31,7 +31,7 @@ type
       constructor Create;
       destructor Destroy; override;
 
-      function Sample(aIn: pChar; aLen: integer): Boolean;
+      function Sample(aIn: pAnsiChar; aLen: integer): Boolean;
       function GetSomeData: Boolean;
       function EnoughData: Boolean;
       procedure CalFreq;
@@ -114,12 +114,12 @@ begin
     end;
 end;
 
-function TEUCSampler.Sample(aIn: pChar; aLen: integer): Boolean;
+function TEUCSampler.Sample(aIn: pAnsiChar; aLen: integer): Boolean;
 const
   MAX_LENGTH: integer = MaxInt;// $80000000;  
 var
   i: integer;
-  p: pChar;
+  p: pAnsiChar;
 begin
     if (mState = 1) then
       begin

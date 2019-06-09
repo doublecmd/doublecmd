@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: EUCKRFreq.pas,v 1.2 2007/05/20 15:46:03 ya_nick Exp $
+// $Id: EUCKRFreq.pas,v 1.3 2013/04/23 19:47:10 ya_nick Exp $
 
 unit EUCKRFreq;
 interface
@@ -45,7 +45,7 @@ const
 	EUCKR_TABLE_SIZE = 2352;
 
 //Char to FreqOrder table ,
-	EUCKRCharToFreqOrder: array [0..EUCKR_TABLE_SIZE-1] of PRInt16 =
+	EUCKRCharToFreqOrder: array [0..EUCKR_TABLE_SIZE-1] of int16 =
 (
   13, 130, 120,1396, 481,1719,1720, 328, 609, 212,1721, 707, 400, 299,1722,  87,
 1397,1723, 104, 536,1117,1203,1724,1267, 685,1268, 508,1725,1726,1727,1728,1398,
@@ -603,4 +603,3 @@ const
 );
 implementation
 end.
-

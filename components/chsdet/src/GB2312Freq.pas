@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: GB2312Freq.pas,v 1.2 2007/05/20 15:46:04 ya_nick Exp $
+// $Id: GB2312Freq.pas,v 1.3 2013/04/23 19:47:10 ya_nick Exp $
 
 unit GB2312Freq;
 
@@ -47,7 +47,7 @@ const
 
 	GB2312_TABLE_SIZE = 3760;
 
-	GB2312CharToFreqOrder: array [0..GB2312_TABLE_SIZE-1] of PRInt16 =
+	GB2312CharToFreqOrder: array [0..GB2312_TABLE_SIZE-1] of int16 =
 (
 1671, 749,1443,2364,3924,3807,2330,3921,1704,3463,2691,1511,1515, 572,3191,2205,
 2361, 224,2558, 479,1711, 963,3162, 440,4060,1905,2966,2947,3580,2647,3961,3842,
@@ -481,6 +481,5 @@ const
 );
 implementation
 end.
-
 
 
