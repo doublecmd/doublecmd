@@ -2,7 +2,7 @@ const
   UCS2BECharLenTable: array [0..5] of Byte = (2, 2, 2, 2, 2, 2);
 
 
-  UCS2BE_cls: array [Char] of Byte = (
+  UCS2BE_cls: array [AnsiChar] of Byte = (
     0,0,0,0,0,0,0,0,  // 00 - 07  //allow 0x00 as a legal value
     0,0,1,0,0,2,0,0,  // 08 - 0f
     0,0,0,0,0,0,0,0,  // 10 - 17

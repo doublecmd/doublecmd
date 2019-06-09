@@ -1,5 +1,5 @@
 const
-	HZCharLenTable: array [0..5] of PRUint32 = (0, 0, 0, 0, 0, 0);
+	HZCharLenTable: array [0..5] of uInt32 = (0, 0, 0, 0, 0, 0);
 
   HZ_cls: array [0..255] of Byte = (
     1,0,0,0,0,0,0,0,  // 00 - 07

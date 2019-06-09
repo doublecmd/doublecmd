@@ -1,8 +1,8 @@
 const
-	ISO2022JPCharLenTable: array [0..7] of PRUint32 = (0, 0, 0, 0, 0, 0, 0, 0);
+	ISO2022JPCharLenTable: array [0..7] of uInt32 = (0, 0, 0, 0, 0, 0, 0, 0);
 
 
-  ISO2022JP_cls: array [Char] of Byte = (
+  ISO2022JP_cls: array [AnsiChar] of Byte = (
     2,0,0,0,0,0,0,0,  // 00 - 07
     0,0,0,0,0,0,2,2,  // 08 - 0f
     0,0,0,0,0,0,0,0,  // 10 - 17
