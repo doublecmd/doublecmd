@@ -6,8 +6,13 @@ Based on Mozilla's i18n component - https://dxr.mozilla.org/mozilla/source/exten
 
 -----------State
 Version 0.2.9 stable.
-The original version can be found at http://chsdet.sourceforge.net.
-https://sourceforge.net/p/doublecmd/code/HEAD/tree/trunk/components/chsdet/.
+Copyright (C) 2011-2019 Alexander Koblov
+The latest version can be found at https://sourceforge.net/p/doublecmd/code/HEAD/tree/trunk/components/chsdet/.
+
+-----------Original
+Based on
+Charset Detector - http://chsdet.sourceforge.net
+Copyright (C) 2006-2013 Nikolaj Yakowlew
 
 -----------Requirements
 Charset Detector doesn't need any external components.
@@ -88,6 +93,3 @@ begin
     FreeAndNil(Detector);
   end;
 end;
-
-Copyright (C) 2006-2013 Nikolaj Yakowlew
-Copyright (C) 2011-2019 Alexander Koblov
