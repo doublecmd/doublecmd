@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: nsPkg.pas,v 1.2 2007/05/20 15:46:11 ya_nick Exp $
+// $Id: nsPkg.pas,v 1.3 2013/04/23 19:47:10 ya_nick Exp $
 
 unit nsPkg;
 
@@ -59,7 +59,7 @@ type
     sftmsk: nsSftMsk;
     bitsft: nsBitSft;
     unitmsk: nsUnitMsk;
-    data: pPRUint32;
+    data: puInt32;
   end;
 	pnsPkgInt = ^nsPkgInt;
 
@@ -88,7 +88,7 @@ end;
 
 function GETFROMPCK(i: integer; c: pnsPkgInt): integer;
 begin
-  Result:= (((aPRUint32(c^.data)[i shr integer(c^.idxsft)]) shr (i and integer(c^.sftmsk) shl integer(c^.bitsft))) and integer(c^.unitmsk));
+  Result:= (((auInt32(c^.data)[i shr integer(c^.idxsft)]) shr (i and integer(c^.sftmsk) shl integer(c^.bitsft))) and integer(c^.unitmsk));
 end;
 
 end.

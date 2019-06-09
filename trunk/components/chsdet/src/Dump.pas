@@ -1,30 +1,28 @@
 unit Dump;
 
 interface
-const
-  nl = #13#10;
 
-var
-  DumpStr: string;
+uses
+	Classes
+  ;
+
   procedure AddDump(Dump: string);
-  procedure ShowDump;
+	procedure SetDumpOutput(DumpOutput: TStrings);
 
 implementation
-uses
-//  Windows;
-UNIT1;
 
+var
+  _DumpOutput: TStrings = nil;
+
+procedure SetDumpOutput(DumpOutput: TStrings);
+begin
+  _DumpOutput := DumpOutput;
+end;
 
 procedure AddDump(Dump: string);
 begin
-  UNIT1.Form1.Memo1.Lines.Add(Dump);
-//  DumpStr := DumpStr + Dump + nl;
-end;
-
-procedure ShowDump;
-begin
-//  OutputDebugString(pChar(DumpStr));
-//  DumpStr := '';
+	if (_DumpOutput <> nil) then
+	  _DumpOutput.Add(Dump);
 end;
 
 end.

@@ -16,13 +16,14 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: JpCntx.pas,v 1.2 2007/05/20 15:46:05 ya_nick Exp $
+// $Id: JpCntx.pas,v 1.3 2013/04/23 19:47:10 ya_nick Exp $
 
 unit JpCntx;
 
 interface
 uses
 	nsCore;
+  {$HINTS OFF} // Kylix gives an invalid unused hint for TJapaneseContextAnalysis.GetOrder(str: pAnsiChar)
 
 const
 	NUM_OF_CATEGORY = 6;
@@ -31,9 +32,9 @@ type
 	TJapaneseContextAnalysis = class (TObject)
 		private
       (*category counters, each interger counts sequence in its category*)
-      mRelSample: array [0..Pred(NUM_OF_CATEGORY)] of PRUint32;
+      mRelSample: array [0..Pred(NUM_OF_CATEGORY)] of uInt32;
       (*total sequence received*)
-      mTotalRel: PRUint32;
+      mTotalRel: uInt32;
       (*The order of previous char*)
       mLastCharOrder: integer;
       (*if last byte in current buffer is not the last byte of a character, we*)
@@ -42,29 +43,29 @@ type
       (*If this flag is set to PR_TRUE, detection is done and conclusion has been made*)
       mDone: Boolean;
 
- 			function GetOrder(str: PChar;  charLen: pPRUint32): PRInt32; overload; virtual; abstract;
-  		function GetOrder(str: PChar): PRInt32; overload; virtual; abstract;
+ 			function GetOrder(str: pAnsiChar;  charLen: puInt32): int32; overload; virtual; abstract;
+  		function GetOrder(str: pAnsiChar): int32; overload; virtual; abstract;
 		public
     	constructor Create;
       destructor Destroy; override;
 			procedure Reset;
-		  procedure HandleData(const aBuf: PChar;  aLen: integer);
-		  procedure HandleOneChar(aStr: PChar;  aCharLen: integer);
+		  procedure HandleData(const aBuf: pAnsiChar;  aLen: integer);
+		  procedure HandleOneChar(aStr: pAnsiChar;  aCharLen: integer);
 			function GotEnoughData: Boolean;
 			function GetConfidence: float;
 	end;
 
   TSJISContextAnalysis = class (TJapaneseContextAnalysis)
     public
-      function GetOrder(str: PChar;  charLen: pPRUint32): PRInt32; overload; override;
-      function GetOrder(str: PChar): PRInt32; overload; override;
+      function GetOrder(str: pAnsiChar;  charLen: puInt32): int32; overload; override;
+      function GetOrder(str: pAnsiChar): int32; overload; override;
   end;
   
   TEUCJPContextAnalysis = class (TJapaneseContextAnalysis)
 		public
-      function GetOrder(str: PChar;  charLen: pPRUint32): PRInt32; overload; override;
+      function GetOrder(str: pAnsiChar;  charLen: puInt32): int32; overload; override;
       (*We only interested in Hiragana, so first byte is '\244'*)
-      function GetOrder(str: PChar): PRInt32; overload; override;
+      function GetOrder(str: pAnsiChar): int32; overload; override;
 	end;
 
 implementation
@@ -174,9 +175,9 @@ begin
   inherited;
 end;
 
-procedure TJapaneseContextAnalysis.HandleOneChar(aStr: PChar;  aCharLen: integer);
+procedure TJapaneseContextAnalysis.HandleOneChar(aStr: pAnsiChar;  aCharLen: integer);
 var
-  order: PRInt32; (*if we received enough data, stop here   *)
+  order: int32; (*if we received enough data, stop here   *)
 begin
   if mTotalRel > MAX_REL_THRESHOLD then
     mDone:= TRUE;
@@ -210,10 +211,10 @@ begin
     Result := DONT_KNOW;
 end;
 
-procedure TJapaneseContextAnalysis.HandleData(const aBuf: PChar; aLen: integer);
+procedure TJapaneseContextAnalysis.HandleData(const aBuf: pAnsiChar; aLen: integer);
 var
-  charLen: PRUint32;
-  order: PRInt32;
+  charLen: uInt32;
+  order: int32;
   i: integer;
 begin
   if mDone then
@@ -265,7 +266,7 @@ end;
 
 		{ TSJISContextAnalysis }
 
-function TSJISContextAnalysis.GetOrder(str: PChar; charLen: pPRUint32): PRInt32;
+function TSJISContextAnalysis.GetOrder(str: pAnsiChar; charLen: puInt32): int32;
 begin
   (*find out current char's byte length*)
   if (byte(str^) >= $81) and
@@ -284,7 +285,7 @@ begin
     Result:= -1;
 end;
 
-function TSJISContextAnalysis.GetOrder(str: PChar): PRInt32;
+function TSJISContextAnalysis.GetOrder(str: pAnsiChar): int32;
 begin
 	(*We only interested in Hiragana, so first byte is '\202'*)
   if (str[0]=#$82) and
@@ -297,7 +298,7 @@ end;
 
 		{ TEUCJPContextAnalysis }
 
-function TEUCJPContextAnalysis.GetOrder(str: PChar;  charLen: pPRUint32): PRInt32;
+function TEUCJPContextAnalysis.GetOrder(str: pAnsiChar;  charLen: puInt32): int32;
 begin
   (*find out current char's byte length*)
   if (byte(str^) = $8e) or
@@ -318,7 +319,7 @@ begin
     Result:= -1;
 end;
 
-function TEUCJPContextAnalysis.GetOrder(str: PChar): PRInt32;
+function TEUCJPContextAnalysis.GetOrder(str: pAnsiChar): int32;
 begin
   if (str[0]=#$A4) and
   		(byte(str[1]) >= $a1) and

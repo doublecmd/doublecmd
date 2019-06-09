@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Big5Freq.pas,v 1.2 2007/05/20 15:46:02 ya_nick Exp $
+// $Id: Big5Freq.pas,v 1.3 2013/04/23 19:47:10 ya_nick Exp $
 
 unit Big5Freq;
 
@@ -49,7 +49,7 @@ const
 //Char to FreqOrder table ,
 	BIG5_TABLE_SIZE = 5376;
 
-	Big5CharToFreqOrder: array [0..BIG5_TABLE_SIZE-1] of PRInt16 =
+	Big5CharToFreqOrder: array [0..BIG5_TABLE_SIZE-1] of int16 =
 (
    1,1801,1506, 255,1431, 198,   9,  82,   6,5008, 177, 202,3681,1256,2821, 110, //   16
 3814,  33,3274, 261,  76,  44,2114,  16,2946,2187,1176, 659,3971,  26,3451,2653, //   32

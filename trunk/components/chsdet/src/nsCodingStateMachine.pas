@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: nsCodingStateMachine.pas,v 1.3 2007/05/26 13:09:38 ya_nick Exp $
+// $Id: nsCodingStateMachine.pas,v 1.4 2013/04/23 19:47:10 ya_nick Exp $
 
 unit nsCodingStateMachine;
 
@@ -38,9 +38,9 @@ type
 type
   SMModel = record
     classTable: Pointer; //nsPkgInt;
-    classFactor: PRUint32;
+    classFactor: uInt32;
     stateTable: Pointer; //nsPkgInt;
-    charLenTable: Pointer; // pByteArray; // array of byte; // pPRUint32;
+    charLenTable: Pointer; // aByteArray; // array of byte; // puInt32;
 		CharsetID: eInternalCharsetID;
   end;
   pSMModel = ^SMModel;
@@ -49,16 +49,16 @@ type
 	TnsCodingStateMachine = class (TObject)
 		protected
       mCurrentState: nsSMState;
-      mCurrentCharLen: PRUint32;
-      mCurrentBytePos: PRUint32;
+      mCurrentCharLen: uInt32;
+      mCurrentBytePos: uInt32;
       mModel: SMModel;
 
   	public
       Enabled: Boolean;
 		  constructor Create(sm: SMModel);
       destructor Destroy; override;
-			function NextState(c: char): nsSMState;
-			function GetCurrentCharLen: PRUint32;
+			function NextState(c: AnsiChar): nsSMState;
+			function GetCurrentCharLen: uInt32;
 		  procedure Reset;
 			function GetCharsetID: eInternalCharsetID;
 
@@ -85,9 +85,9 @@ begin
   inherited;
 end;
 
-function TnsCodingStateMachine.NextState(c: char): nsSMState;
+function TnsCodingStateMachine.NextState(c: AnsiChar): nsSMState;
 var
-  byteCls: PRUint32;
+  byteCls: uInt32;
 begin
   if not Enabled then
     begin
@@ -95,14 +95,14 @@ begin
       exit;
     end;
 	(*for each byte we get its class , if it is first byte, we also get byte length*)
-  byteCls  := pByteArray(mModel.classTable)[integer(c)];
+  byteCls  := aByteArray(mModel.classTable)[integer(c)];
   if mCurrentState = eStart then
     begin
       mCurrentBytePos := 0;
-      mCurrentCharLen := pByteArray(mModel.charLenTable)[byteCls];
+      mCurrentCharLen := aByteArray(mModel.charLenTable)[byteCls];
     end;
   (*from byte's class and stateTable, we get its next state*)
-  mCurrentState := nsSMState(pByteArray(mModel.stateTable)[cardinal(mCurrentState) * mModel.classFactor + byteCls]);
+  mCurrentState := nsSMState(aByteArray(mModel.stateTable)[cardinal(mCurrentState) * mModel.classFactor + byteCls]);
   inc(mCurrentBytePos);
 
 //if mCurrentBytePos > mCurrentCharLen then
@@ -111,7 +111,7 @@ begin
   Result:= mCurrentState;
 end;
 
-function TnsCodingStateMachine.GetCurrentCharLen: PRUint32;
+function TnsCodingStateMachine.GetCurrentCharLen: uInt32;
 begin
   Result:= mCurrentCharLen;
 end;

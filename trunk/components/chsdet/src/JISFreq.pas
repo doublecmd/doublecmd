@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: JISFreq.pas,v 1.2 2007/05/20 15:46:04 ya_nick Exp $
+// $Id: JISFreq.pas,v 1.3 2013/04/23 19:47:10 ya_nick Exp $
 
 unit JISFreq;
 
@@ -49,7 +49,7 @@ const
 //Char to FreqOrder table ,
 	JIS_TABLE_SIZE = 4368;
 
-	JISCharToFreqOrder: array [0..JIS_TABLE_SIZE-1] of PRInt16 =
+	JISCharToFreqOrder: array [0..JIS_TABLE_SIZE-1] of int16 =
 (
   40,   1,   6, 182, 152, 180, 295,2127, 285, 381,3295,4304,3068,4606,3165,3510, //   16
 3511,1822,2785,4607,1193,2226,5070,4608, 171,2996,1247,  18, 179,5071, 856,1661, //   32

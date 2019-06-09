@@ -16,24 +16,23 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: nsCore.pas,v 1.4 2008/06/22 09:04:20 ya_nick Exp $
+// $Id: nsCore.pas,v 1.5 2013/04/23 19:47:10 ya_nick Exp $
 
 unit nsCore;
 
 interface
 
 type
-  PRInt16 = smallint;
-  PRUint16 = word;
-  PRInt32 = integer;
-  PRUint32 = cardinal;
+  int16 = smallint;
+  int32 = integer;
+  uInt32 = cardinal;
 
-  pByteArray = array of Byte;
-  pPRUint32 = ^PRUint32;
-  aPRUint32 = array of PRUint32;
+  aByteArray = array of Byte;
+  puInt32 = ^uInt32;
+  auInt32 = array of uInt32;
 
-  pPRint16 = ^PRint16;
-  aPRint16 = array of PRint16;
+  pInt16 = ^int16;
+  aInt16 = array of int16;
 
 const
   SURE_YES: double = 0.99;
@@ -50,7 +49,7 @@ type
 	);
 
 type
-	nsResult = PRUint32;
+	nsResult = uInt32;
 const
   NS_OK = 0;
   NS_ERROR_OUT_OF_MEMORY = $8007000e;
@@ -76,25 +75,28 @@ type
     BOM_UTF8        // EF BB BF              UTF-8
   );
 
+  rBOMDef = record
+    Length: integer;
+    BOM: array [0..3] of AnsiChar;
+  end;
 const
-  KnownBOM: array [eBOMKind] of array [0..4] of Char = (
-  // first element = byte count
-    (#$00, #$00, #$00, #$00, #$00),
-    (#$04, #$00, #$00, #$FE, #$FF),
-    (#$04, #$FF, #$FE, #$00, #$00),
-    (#$04, #$00, #$00, #$FF, #$FE),
-    (#$04, #$FE, #$FF, #$00, #$00),
-    (#$02, #$FE, #$FF, #$00, #$00),
-    (#$02, #$FF, #$FE, #$00, #$00),
-    (#$03, #$EF, #$BB, #$BF, #$00)
+  KNOWN_BOM: array [eBOMKind] of rBOMDef = (
+    (Length: 00; BOM: (#$00, #$00, #$00, #$00)),
+    (Length: 04; BOM: (#$00, #$00, #$FE, #$FF)),
+    (Length: 04; BOM: (#$FF, #$FE, #$00, #$00)),
+    (Length: 04; BOM: (#$00, #$00, #$FF, #$FE)),
+    (Length: 04; BOM: (#$FE, #$FF, #$00, #$00)),
+    (Length: 02; BOM: (#$FE, #$FF, #$00, #$00)),
+    (Length: 02; BOM: (#$FF, #$FE, #$00, #$00)),
+    (Length: 03; BOM: (#$EF, #$BB, #$BF, #$00))
   );
 
 // "extended" charset info
 type
-	rCharsetInfo = record
-  	Name: pChar;
-    CodePage: integer;
-    Language: pChar;
+  rCharsetInfo = record
+    Name: PAnsiChar;
+    CodePage: Integer;
+    Language: PAnsiChar;
   end;
 
   eInternalCharsetID = (
@@ -333,16 +335,16 @@ const
   (* both functions Allocate a new buffer for newBuf. This buffer should be *)
   (* freed by the caller using PR_FREEIF.*)
   (* Both functions return PR_FALSE in case of memory allocation failure.*)
-  function FilterWithoutEnglishLetters(aBuf: PChar;  aLen: integer; var newBuf: PChar; var newLen: integer): Boolean;
-  function FilterWithEnglishLetters(aBuf: PChar;  aLen: integer; var newBuf: PChar; var newLen: integer): Boolean;
+  function FilterWithoutEnglishLetters(aBuf: pAnsiChar;  aLen: integer; var newBuf: pAnsiChar; var newLen: integer): Boolean;
+  function FilterWithEnglishLetters(aBuf: pAnsiChar;  aLen: integer; var newBuf: pAnsiChar; var newLen: integer): Boolean;
 implementation
 
-function FilterWithEnglishLetters(aBuf: PChar;
-  aLen: integer; var newBuf: PChar; var newLen: integer): Boolean;
+function FilterWithEnglishLetters(aBuf: pAnsiChar;
+  aLen: integer; var newBuf: pAnsiChar; var newLen: integer): Boolean;
 var
-  newptr: pChar;
-  prevPtr: pChar;
-  curPtr: pChar;
+  newptr: pAnsiChar;
+  prevPtr: pAnsiChar;
+  curPtr: pAnsiChar;
   isInTag: Boolean;
 begin
   //do filtering to reduce load to probers
@@ -403,12 +405,12 @@ begin
   Result := TRUE;
 end;
 
-function FilterWithoutEnglishLetters(aBuf: PChar;
-  aLen: integer; var newBuf: PChar; var newLen: integer): Boolean;
+function FilterWithoutEnglishLetters(aBuf: pAnsiChar;
+  aLen: integer; var newBuf: pAnsiChar; var newLen: integer): Boolean;
 var
-	newPtr: pChar;
-  prevPtr: pChar;
-  curPtr: pChar;
+	newPtr: pAnsiChar;
+  prevPtr: pAnsiChar;
+  curPtr: pAnsiChar;
   meetMSB: Boolean;
 begin
 (*This filter applies to all scripts which do not use English characters*)
@@ -464,8 +466,3 @@ begin
 end;
 
 end.
-
-
-
-
-

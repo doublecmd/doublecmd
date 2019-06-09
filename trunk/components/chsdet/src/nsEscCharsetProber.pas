@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: nsEscCharsetProber.pas,v 1.3 2007/05/26 13:09:38 ya_nick Exp $
+// $Id: nsEscCharsetProber.pas,v 1.4 2013/04/23 19:47:10 ya_nick Exp $
 
 unit nsEscCharsetProber;
 
