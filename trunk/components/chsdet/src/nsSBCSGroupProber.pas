@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: nsSBCSGroupProber.pas,v 1.3 2007/05/26 13:09:38 ya_nick Exp $
+// $Id: nsSBCSGroupProber.pas,v 1.4 2013/04/23 19:47:10 ya_nick Exp $
 
 unit nsSBCSGroupProber;
 
@@ -29,7 +29,7 @@ type
 	TnsSBCSGroupProber = class(TnsGroupProber)
 		public
       constructor Create; reintroduce;
-      function HandleData(aBuf: PChar;  aLen: integer): eProbingState; override;
+      function HandleData(aBuf: pAnsiChar;  aLen: integer): eProbingState; override;
 //      {$ifdef DEBUG_chardet}
 //      procedure DumpStatus; override;
 //      {$endif}
@@ -94,9 +94,9 @@ begin
   // mProbers[11] = new nsSingleByteCharSetProber(&Win1250HungarianModel);
 end;
 
-function TnsSBCSGroupProber.HandleData(aBuf: PChar; aLen: integer): eProbingState;
+function TnsSBCSGroupProber.HandleData(aBuf: pAnsiChar; aLen: integer): eProbingState;
 var
-  newBuf1: PChar;
+  newBuf1: pAnsiChar;
   newLen1: integer;
 begin
   newBuf1 := AllocMem(aLen);

@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: nsHebrewProber.pas,v 1.3 2007/05/26 13:09:38 ya_nick Exp $
+// $Id: nsHebrewProber.pas,v 1.4 2013/04/23 19:47:10 ya_nick Exp $
 
 unit nsHebrewProber;
 
@@ -30,11 +30,11 @@ uses
 type
 	TnsHebrewProber = class(TCustomDetector)
 		protected
-      mFinalCharLogicalScore: PRInt32;
-      mFinalCharVisualScore: PRInt32;
+      mFinalCharLogicalScore: int32;
+      mFinalCharVisualScore: int32;
       (* The two last characters seen in the previous buffer.*)
-      mPrev: char;
-      mBeforePrev: char;
+      mPrev: AnsiChar;
+      mBeforePrev: AnsiChar;
       (* These probers are owned by the group prober.*)
       mLogicalProb: TCustomDetector;
       mVisualProb: TCustomDetector;
@@ -42,7 +42,7 @@ type
 		public
     	constructor Create; override;
       destructor Destroy; override;
-      function HandleData(aBuf: PChar; aLen: integer): eProbingState; override;
+      function HandleData(aBuf: pAnsiChar; aLen: integer): eProbingState; override;
       function GetDetectedCharset: eInternalCharsetID; override;
       procedure Reset; override;
       function GetState: eProbingState; override;
@@ -50,8 +50,8 @@ type
       {$ifdef DEBUG_chardet}
       procedure DumpStatus; override;
       {$endif}
-      function isFinal(c: char): Boolean;
-      function isNonFinal(c: char): Boolean;
+      function isFinal(c: AnsiChar): Boolean;
+      function isNonFinal(c: AnsiChar): Boolean;
       function GetConfidence: float; override;
 
   end;
@@ -110,7 +110,7 @@ end;
 (* Make the decision: is it Logical or Visual?*)
 function TnsHebrewProber.GetDetectedCharset: eInternalCharsetID;
 var
-	finalsub: PRInt32;
+	finalsub: int32;
   modelsub: float;
 begin
   (* If the final letter score distance is dominant enough, rely on it.*)
@@ -164,7 +164,7 @@ begin
   Result := psDetecting;
 end;
 
-function TnsHebrewProber.HandleData(aBuf: PChar; aLen: integer): eProbingState;
+function TnsHebrewProber.HandleData(aBuf: pAnsiChar; aLen: integer): eProbingState;
 (*
  * Final letter analysis for logical-visual decision.
  * Look for evidence that the received buffer is either logical Hebrew or
@@ -191,9 +191,9 @@ function TnsHebrewProber.HandleData(aBuf: PChar; aLen: integer): eProbingState;
  * or any low-ascii punctuation marks.
  *)
 var
-  curPtr: PChar;
-	endPtr: PChar;
-	cur: char;
+  curPtr: pAnsiChar;
+	endPtr: pAnsiChar;
+	cur: AnsiChar;
 begin
   (* check prober enabled*)
   inherited HandleData(aBuf, aLen);
@@ -243,12 +243,12 @@ begin
   Result := psDetecting;
 end;
 
-function TnsHebrewProber.isFinal(c: char): Boolean;
+function TnsHebrewProber.isFinal(c: AnsiChar): Boolean;
 begin
   Result := ((c=FINAL_KAF))or((c=FINAL_MEM))or((c=FINAL_NUN))or((c=FINAL_PE))or((c=FINAL_TSADI)); 
 end;
 
-function TnsHebrewProber.isNonFinal(c: char): Boolean;
+function TnsHebrewProber.isNonFinal(c: AnsiChar): Boolean;
 begin
   Result:= ((c=NORMAL_KAF))or((c=NORMAL_MEM))or((c=NORMAL_NUN))or((c=NORMAL_PE));
   (* The normal Tsadi is not a good Non-Final letter due to words like *)

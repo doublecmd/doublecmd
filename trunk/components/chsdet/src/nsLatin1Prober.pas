@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: nsLatin1Prober.pas,v 1.3 2007/05/26 13:09:38 ya_nick Exp $
+// $Id: nsLatin1Prober.pas,v 1.4 2013/04/23 19:47:10 ya_nick Exp $
 
 unit nsLatin1Prober;
 
@@ -29,13 +29,13 @@ uses
 type
 	TnsLatin1Prober = class(TCustomDetector)
 		private
-      mLastCharClass: Char;
-      mFreqCounter: array of PRUint32;
+      mLastCharClass: AnsiChar;
+      mFreqCounter: array of uInt32;
 		public
     	constructor Create; override;
       destructor Destroy; override;
 
-      function HandleData(aBuf: PChar;  aLen: integer): eProbingState; override;
+      function HandleData(aBuf: pAnsiChar;  aLen: integer): eProbingState; override;
       function GetDetectedCharset: eInternalCharsetID; override;
       procedure Reset; override;
       function GetConfidence: float; override;
@@ -178,11 +178,11 @@ begin
   Result := confidence;
 end;
 
-function TnsLatin1Prober.HandleData(aBuf: PChar; aLen: integer): eProbingState;
+function TnsLatin1Prober.HandleData(aBuf: pAnsiChar; aLen: integer): eProbingState;
 var
-  newBuf1: PChar;
+  newBuf1: pAnsiChar;
   newLen1: integer;
-  charClass: char;
+  charClass: AnsiChar;
   freq: byte;
   i: integer;
 begin
@@ -201,7 +201,7 @@ begin
       end;
     for i := 0 to Pred(newLen1) do
       begin
-        charClass := char(Latin1_CharToClass[integer(newBuf1[i])]);
+        charClass := AnsiChar(Latin1_CharToClass[integer(newBuf1[i])]);
         freq := Latin1ClassModel[byte(mLastCharClass) * CLASS_NUM + byte(charClass)];
         if freq = 0 then
           begin
@@ -222,10 +222,9 @@ var
 	i: integer;
 begin
   mState := psDetecting;
-  mLastCharClass := Char(OTH);
+  mLastCharClass := AnsiChar(OTH);
   for i := 0 to Pred(FREQ_CAT_NUM) do
   	mFreqCounter[i] := 0;
 end;
 
 end.
-

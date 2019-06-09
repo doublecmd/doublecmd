@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: nsSBCharSetProber.pas,v 1.3 2007/05/26 13:09:38 ya_nick Exp $
+// $Id: nsSBCharSetProber.pas,v 1.4 2013/04/23 19:47:10 ya_nick Exp $
 
 unit nsSBCharSetProber;
 
@@ -33,8 +33,8 @@ const
 
 type
   SequenceModel = record
-    charToOrderMap: PChar; (* [256] table use to find a char's order*)
-    precedenceMatrix: PChar; (* [SAMPLE_SIZE][SAMPLE_SIZE]; table to find a 2-char sequence's frequency*)
+	charToOrderMap: pAnsiChar; (* [256] table use to find a char's order*)
+	precedenceMatrix: pAnsiChar; (* [SAMPLE_SIZE][SAMPLE_SIZE]; table to find a 2-char sequence's frequency*)
     mTypicalPositiveRatio: float; (* = freqSeqs / totalSeqs *)
     keepEnglishLetter: Boolean; (* says if this script contains English characters (not implemented)*)
     CharsetID: eInternalCharsetID;
@@ -45,17 +45,17 @@ type
       mModel: SequenceModel;
       mReversed: Boolean; (* TRUE if we need to reverse every pair in the model lookup*)
       mLastOrder: byte;   (*char order of last character*)
-      mTotalSeqs: PRUint32;
-      mSeqCounters: array [0..Pred(NUMBER_OF_SEQ_CAT)] of PRUint32;
-      mTotalChar: PRUint32; (*characters that fall in our sampling range*)
-      mFreqChar: PRUint32; (* Optional auxiliary prober for name decision. created and destroyed by the GroupProber*)
+      mTotalSeqs: uInt32;
+      mSeqCounters: array [0..Pred(NUMBER_OF_SEQ_CAT)] of uInt32;
+      mTotalChar: uInt32; (*characters that fall in our sampling range*)
+      mFreqChar: uInt32; (* Optional auxiliary prober for name decision. created and destroyed by the GroupProber*)
       mNameProber: TCustomDetector;
 
 		public
     	constructor Create(model: SequenceModel; reversed: Boolean = FALSE; nameProber: TCustomDetector = nil); reintroduce;
       destructor Destroy; override;
 		  function GetDetectedCharset: eInternalCharsetID; override;
-		  function HandleData(aBuf: PChar;  aLen: integer): eProbingState; override;
+		  function HandleData(aBuf: pAnsiChar;  aLen: integer): eProbingState; override;
 		  procedure Reset; override;
 
 		  function GetConfidence: float; override;
@@ -147,7 +147,7 @@ begin
 {$endif}
 end;
 
-function TnsSingleByteCharSetProber.HandleData(aBuf: PChar; aLen: integer): eProbingState;
+function TnsSingleByteCharSetProber.HandleData(aBuf: pAnsiChar; aLen: integer): eProbingState;
 var
   order: byte;
   i: integer;
@@ -224,4 +224,3 @@ begin
 end;
 
 end.
-
