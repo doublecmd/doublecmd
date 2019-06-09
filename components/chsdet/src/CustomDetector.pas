@@ -18,7 +18,7 @@ type
 		public
       constructor Create; virtual;
 		  function GetDetectedCharset: eInternalCharsetID; virtual; abstract;
-		  function HandleData(aBuf: PChar;  aLen: integer): eProbingState; virtual;
+		  function HandleData(aBuf: pAnsiChar;  aLen: integer): eProbingState; virtual;
 		  function GetState: eProbingState; virtual;
       function GetConfidence: float; virtual; abstract;
 			procedure Reset; virtual;
@@ -52,7 +52,7 @@ begin
 	Result := mState;
 end;
 
-function TCustomDetector.HandleData(aBuf: PChar; aLen: integer): eProbingState;
+function TCustomDetector.HandleData(aBuf: pAnsiChar; aLen: integer): eProbingState;
 begin
   if not mEnabled then
     begin
@@ -74,7 +74,6 @@ end;
 {$endif}
 
 end.
-
 
 
 

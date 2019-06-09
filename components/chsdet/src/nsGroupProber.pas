@@ -16,7 +16,7 @@
 // | http://www.opensource.org/licenses/lgpl-license.php                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: nsGroupProber.pas,v 1.2 2007/05/26 13:09:38 ya_nick Exp $
+// $Id: nsGroupProber.pas,v 1.3 2013/04/23 19:47:10 ya_nick Exp $
 
 unit nsGroupProber;
 
@@ -41,7 +41,7 @@ type
       constructor Create; override;
       destructor Destroy; override;
       procedure Reset; override;
-      function HandleData(aBuf: PChar;  aLen: integer): eProbingState; override;
+      function HandleData(aBuf: pAnsiChar;  aLen: integer): eProbingState; override;
       function GetDetectedCharset: eInternalCharsetID; override;
       function GetConfidence: float; override;
       function EnableCharset(Charset: eInternalCharsetID; NewValue: Boolean): Boolean;
@@ -96,7 +96,7 @@ begin
 	Result := mProbers[mBestGuess].GetDetectedCharset;
 end;
 
-function TnsGroupProber.HandleData(aBuf: PChar; aLen: integer): eProbingState;
+function TnsGroupProber.HandleData(aBuf: pAnsiChar; aLen: integer): eProbingState;
 var
   i: integer;
 begin
@@ -238,7 +238,6 @@ end;
 {$endif}
 
 end.
-
 
 
 
