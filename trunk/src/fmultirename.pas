@@ -1138,7 +1138,7 @@ begin
   // OldNames
   FOldNames.Clear;
   for I:= 0 to OldFiles.Count -1 do
-    FOldNames.Add(OldFiles[I].Name);
+    FOldNames.Add(OldFiles[I].Name, Pointer(PtrInt(I)));
 
   try
     FNewNames.Clear;
@@ -1175,7 +1175,7 @@ begin
 
       // Avoid collisions with OldNames
       J:= FOldNames.Find(AFile.Name);
-      if (J >= 0) and (J <> I) then
+      if (J >= 0) and (PtrInt(FOldNames.List[J]^.Data) <> I) then
       begin
         NewName:= AFile.Name;
         // Generate temp file name, save file index as extension
