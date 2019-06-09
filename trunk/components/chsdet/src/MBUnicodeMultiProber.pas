@@ -61,8 +61,8 @@ begin
   inherited Create;
 
   AddCharsetModel(UTF8LangModel);
-  AddCharsetModel(UCS2BELangModel);
-  AddCharsetModel(UCS2LELangModel);
+  // AddCharsetModel(UCS2BELangModel);
+  // AddCharsetModel(UCS2LELangModel);
 end;
 
 destructor TMBUnicodeMultiProber.Destroy;

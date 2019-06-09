@@ -178,12 +178,25 @@ begin
   if aLen > 0 then
     mGotData := TRUE;
 
-  (*If the data starts with BOM, it should be Unicode, but we continue check*)
-
+  (*If the data starts with BOM, we know it is UTF*)
   if mStart then
     begin
       mStart := FALSE;
-      CheckBOM(aBuf, aLen);
+      if CheckBOM(aBuf, aLen) > 0 then
+      begin
+        case mDetectedBOM of
+          BOM_UTF8:      mDetectedCharset := UTF8_CHARSET;
+          BOM_UTF16_LE:  mDetectedCharset := UTF16_LE_CHARSET;
+          BOM_UTF16_BE:  mDetectedCharset := UTF16_BE_CHARSET;
+          BOM_UCS4_LE:   mDetectedCharset := UTF32_LE_CHARSET;
+          BOM_UCS4_BE:   mDetectedCharset := UTF32_BE_CHARSET;
+          BOM_UCS4_2143: mDetectedCharset := UCS4_LE_CHARSET;
+          BOM_UCS4_3412: mDetectedCharset := UCS4_BE_CHARSET
+        end;
+        mDone := TRUE;
+        Result := NS_OK;
+        Exit;
+      end;
     end;                                {if mStart}
 
   for i := 0 to Pred(aLen) do
