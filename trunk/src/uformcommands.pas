@@ -27,7 +27,7 @@ unit uFormCommands;
 interface
 
 uses
-  Classes, SysUtils, StringHashList, ActnList, Menus;
+  Classes, SysUtils, DCStringHashListUtf8, ActnList, Menus;
 
 type
   TCommandFuncResult = (cfrSuccess, cfrDisabled, cfrNotFound);
@@ -100,7 +100,7 @@ type
   {en
      Stores association between method name and its address.
 
-     StringHashList is used for this purpose, which may be faster
+     StringHashListUtf8 is used for this purpose, which may be faster
      than linear scanning by using MethodAddress on the given object.
   }
 
@@ -110,10 +110,10 @@ type
   private
     FFilterFunc: TCommandFilterFunc;
     FInstanceObject: TObject;
-    FMethods: TStringHashList;
+    FMethods: TStringHashListUtf8;
     FTranslatableCommandCategory: TStringList;
 
-    class procedure GetMethodsList(Instance: TObject; MethodsList: TStringHashList; ActionList: TActionList);
+    class procedure GetMethodsList(Instance: TObject; MethodsList: TStringHashListUtf8; ActionList: TActionList);
 
   public
     {en
@@ -194,7 +194,7 @@ constructor TFormCommands.Create(TheOwner: TComponent; ActionList: TActionList);
 begin
   inherited Create(TheOwner);
   FInstanceObject := TheOwner;
-  FMethods := TStringHashList.Create(False); // False = not case-sensitive
+  FMethods := TStringHashListUtf8.Create(False); // False = not case-sensitive
   GetMethodsList(FInstanceObject, FMethods, ActionList);
   FTranslatableCommandCategory:=TStringList.Create;
   ParseLineToList(rsCmdCategoryListInOrder, FTranslatableCommandCategory);
@@ -477,7 +477,7 @@ begin
   end;
 end;
 
-class procedure TFormCommands.GetMethodsList(Instance: TObject; MethodsList: TStringHashList; ActionList: TActionList);
+class procedure TFormCommands.GetMethodsList(Instance: TObject; MethodsList: TStringHashListUtf8; ActionList: TActionList);
 type
   pmethodnamerec = ^tmethodnamerec;
   tmethodnamerec = packed record

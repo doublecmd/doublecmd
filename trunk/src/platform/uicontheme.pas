@@ -28,7 +28,7 @@ unit uIconTheme;
 interface
 
 uses
-  SysUtils, Classes, StringHashList, DCClassesUtf8;
+  SysUtils, Classes, DCStringHashListUtf8, DCClassesUtf8;
 
 type
   TIconType = (itFixed, itScalable, itThreshold);
@@ -41,7 +41,7 @@ type
     IconMaxSize,
     IconMinSize,
     IconThreshold: Integer;
-    FileListCache: array of TStringHashList;
+    FileListCache: array of TStringHashListUtf8;
   end;
   PIconDirInfo = ^TIconDirInfo;
 
@@ -438,10 +438,10 @@ procedure TIconTheme.CacheDirectoryFiles(SubDirIndex: Integer; BaseDirIndex: Int
 var
   SearchDir, FoundName, FoundExt: String;
   SearchRec: TSearchRecEx;
-  DirList: TStringHashList;
+  DirList: TStringHashListUtf8;
   I: Integer;
 begin
-  DirList:= TStringHashList.Create(True);
+  DirList:= TStringHashListUtf8.Create(True);
   FDirectories.Items[SubDirIndex]^.FileListCache[BaseDirIndex]:= DirList;
 
   SearchDir := FBaseDirList[BaseDirIndex] + PathDelim +

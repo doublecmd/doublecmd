@@ -42,7 +42,7 @@ interface
 }
 
 uses
-  Classes, SysUtils, Graphics, syncobjs, uFileSorting, StringHashList,
+  Classes, SysUtils, Graphics, syncobjs, uFileSorting, DCStringHashListUtf8,
   uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils
   {$IF DEFINED(UNIX)}
     {$IF DEFINED(DARWIN)}
@@ -82,12 +82,12 @@ type
     {en
        Maps file extension to index of bitmap (in FPixmapList) for this file extension.
     }
-    FExtList : TStringHashList;
+    FExtList : TStringHashListUtf8;
     {en
        Maps icon filename to index of bitmap (in FPixmapList) for this icon.
        Uses absolute file names.
     }
-    FPixmapsFileNames : TStringHashList;
+    FPixmapsFileNames : TStringHashListUtf8;
     {en
        A list of loaded bitmaps.
        Stores TBitmap objects (on GTK2 it stores PGdkPixbuf pointers).
@@ -132,7 +132,7 @@ type
     {en
        Maps theme icon name to index of bitmap (in FPixmapList) for this icon.
     }
-    FThemePixmapsFileNames: TStringHashList;
+    FThemePixmapsFileNames: TStringHashListUtf8;
     FDCIconTheme: TIconTheme;
 
     procedure CreateIconTheme;
@@ -1282,8 +1282,8 @@ var
   iIconSize : Integer;
 {$ENDIF}
 begin
-  FExtList := TStringHashList.Create(True);
-  FPixmapsFileNames := TStringHashList.Create(True);
+  FExtList := TStringHashListUtf8.Create(True);
+  FPixmapsFileNames := TStringHashListUtf8.Create(True);
   FPixmapList := TFPList.Create;
 
   {$IF DEFINED(DARWIN)}
@@ -1293,7 +1293,7 @@ begin
   FHomeFolder := IncludeTrailingBackslash(GetHomeDir);
   {$ENDIF}
 
-  FThemePixmapsFileNames := TStringHashList.Create(True);
+  FThemePixmapsFileNames := TStringHashListUtf8.Create(True);
   CreateIconTheme;
 
   {$IFDEF MSWINDOWS}

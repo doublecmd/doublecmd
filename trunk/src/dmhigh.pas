@@ -5,7 +5,7 @@ unit dmHigh;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, SynEdit, StringHashList, LCLVersion,
+  Classes, SysUtils, Forms, Controls, SynEdit, DCStringHashListUtf8, LCLVersion,
   SynEditHighlighter, SynHighlighterPas, SynHighlighterCPP, SynHighlighterJava,
   SynHighlighterHTML, SynHighlighterXML, SynHighlighterLFM,
   SynHighlighterUNIXShellScript, SynHighlighterPHP, SynHighlighterTeX,
@@ -56,7 +56,7 @@ type
     procedure ImportFromOldFormat;
   public
     SynHighlighterList: TStringList;
-    SynHighlighterHashList: TStringHashList;
+    SynHighlighterHashList: TStringHashListUtf8;
     SynPlainTextHighlighter: TSynPlainTextHighlighter;
     function GetSampleSource(Highlighter: TSynCustomHighlighter): string;
   public
@@ -146,7 +146,7 @@ var
 begin
   TSynLuaSyn.Create(Self).Tag:= 1;
   SynHighlighterList:= TStringList.Create;
-  SynHighlighterHashList:= TStringHashList.Create(True);
+  SynHighlighterHashList:= TStringHashListUtf8.Create(True);
 {$PUSH}{$HINTS OFF}{$WARNINGS OFF}
   SynPlainTextHighlighter:= TSynPlainTextHighlighter.Create(Self);
 {$POP}

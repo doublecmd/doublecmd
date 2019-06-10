@@ -6,7 +6,7 @@ unit uWcxArchiveFileSource;
 interface
 
 uses
-  Classes, SysUtils, contnrs, syncobjs, StringHashList,
+  Classes, SysUtils, contnrs, syncobjs, DCStringHashListUtf8,
   WcxPlugin, uWCXmodule, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation;
 
@@ -646,7 +646,7 @@ end;
 
 function TWcxArchiveFileSource.ReadArchive(anArchiveHandle: TArcHandle): Boolean;
 
-  procedure CollectDirs(Path: PAnsiChar; var DirsList: TStringHashList);
+  procedure CollectDirs(Path: PAnsiChar; var DirsList: TStringHashListUtf8);
   var
     I : Integer;
     Dir : AnsiString;
@@ -671,7 +671,7 @@ function TWcxArchiveFileSource.ReadArchive(anArchiveHandle: TArcHandle): Boolean
 var
   ArcHandle : TArcHandle;
   Header: TWCXHeader;
-  AllDirsList, ExistsDirList : TStringHashList;
+  AllDirsList, ExistsDirList : TStringHashListUtf8;
   I : Integer;
   NameLength: Integer;
 begin
@@ -697,8 +697,8 @@ begin
   DCDebug('Get File List');
   (*Get File List*)
   FArcFileList.Clear;
-  ExistsDirList := TStringHashList.Create(True);
-  AllDirsList := TStringHashList.Create(True);
+  ExistsDirList := TStringHashListUtf8.Create(True);
+  AllDirsList := TStringHashListUtf8.Create(True);
 
   try
     while (WcxModule.ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do

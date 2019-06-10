@@ -31,7 +31,7 @@ uses
   uFindFiles, Classes, SysUtils, Controls, ExtCtrls, Graphics, ComCtrls, contnrs, fgl, LMessages,
   uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, DCXmlConfig, DCBasicTypes,
   DCClassesUtf8, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
-  uFunctionThread, uFileSystemWatcher, fQuickSearch, StringHashList, uGlobs;
+  uFunctionThread, uFileSystemWatcher, fQuickSearch, DCStringHashListUtf8, uGlobs;
 
 type
 
@@ -110,7 +110,7 @@ type
     FFileViewWorkers: TFileViewWorkers;
     FFlags: TFileViewFlags;
     FHashedFiles: TBucketList;  //<en Contains pointers to file source files for quick checking if a file object is still valid
-    FHashedNames: TStringHashList;
+    FHashedNames: TStringHashListUtf8;
     FPendingFilesChanges: TFPList;
     FPendingFilesTimer: TTimer;
     FReloadNeeded: Boolean;     //<en If file list should be reloaded
@@ -665,7 +665,7 @@ begin
   FLastMarkIgnoreAccents := gbMarkMaskIgnoreAccents;
   FFiles := TDisplayFiles.Create(False);
   FFilterOptions := gQuickSearchOptions;
-  FHashedNames := TStringHashList.Create(True);
+  FHashedNames := TStringHashListUtf8.Create(True);
   FFileViewWorkers := TFileViewWorkers.Create(False);
   FReloadTimer := TTimer.Create(Self);
   FReloadTimer.Enabled := False;
@@ -2018,7 +2018,7 @@ var
   Worker: TFileViewWorker;
   AThread: TFunctionThread = nil;
   ClonedDisplayFiles: TDisplayFiles = nil;
-  DisplayFilesHashed: TStringHashList = nil;
+  DisplayFilesHashed: TStringHashListUtf8 = nil;
   i: Integer;
 begin
   if (csDestroying in ComponentState) or (FileSourcesCount = 0) or
@@ -2043,7 +2043,7 @@ begin
     // Clone all properties of display files, but don't clone the FS files
     // themselves because new ones will be retrieved from FileSource.
     ClonedDisplayFiles := FAllDisplayFiles.Clone(False);
-    DisplayFilesHashed := TStringHashList.Create(True);
+    DisplayFilesHashed := TStringHashListUtf8.Create(True);
     // Map filename to display file.
     for i := 0 to FAllDisplayFiles.Count - 1 do
       DisplayFilesHashed.Add(FAllDisplayFiles[i].FSFile.FullPath, ClonedDisplayFiles[i]);

@@ -6,7 +6,7 @@ unit uWcxArchiveCopyInOperation;
 interface
 
 uses
-  Classes, SysUtils, StringHashList, WcxPlugin, uLog, uGlobs,
+  Classes, SysUtils, DCStringHashListUtf8, WcxPlugin, uLog, uGlobs,
   uFileSourceCopyOperation,
   uFileSource,
   uFileSourceOperation,
@@ -26,7 +26,7 @@ type
 
   private
     FWcxArchiveFileSource: IWcxArchiveFileSource;
-    FFileList: TStringHashList;
+    FFileList: TStringHashListUtf8;
 
     {en
       Convert TFiles into a string separated with #0 (format used by WCX).
@@ -171,7 +171,7 @@ begin
 
   FNeedsConnection:= (FWcxArchiveFileSource.WcxModule.BackgroundFlags and BACKGROUND_PACK = 0);
 
-  FFileList:= TStringHashList.Create(True);
+  FFileList:= TStringHashListUtf8.Create(True);
 
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;

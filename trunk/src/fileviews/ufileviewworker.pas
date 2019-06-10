@@ -5,7 +5,7 @@ unit uFileViewWorker;
 interface
 
 uses
-  Classes, SysUtils, contnrs, syncobjs, StringHashList,
+  Classes, SysUtils, contnrs, syncobjs, DCStringHashListUtf8,
   uDisplayFile, uFile, uFileSource, uFileSorting, uFileProperty,
   DCBasicTypes,
   uFileSourceOperation,
@@ -81,7 +81,7 @@ type
   private
     FFilteredDisplayFiles: TDisplayFiles;
     FAllDisplayFiles: TDisplayFiles;
-    FExistingDisplayFilesHashed: TStringHashList;
+    FExistingDisplayFilesHashed: TStringHashListUtf8;
     FSetFileListMethod: TSetFileListMethod;
     FListOperation: TFileSourceListOperation;
     FListOperationLock: TCriticalSection;
@@ -132,7 +132,7 @@ type
                        AVariantProperties: TDynamicStringArray;
                        ASetFileListMethod: TSetFileListMethod;
                        var ExistingDisplayFiles: TDisplayFiles;
-                       var ExistingDisplayFilesHashed: TStringHashList); reintroduce;
+                       var ExistingDisplayFilesHashed: TStringHashListUtf8); reintroduce;
     destructor Destroy; override;
     procedure Abort; override;
 
@@ -161,7 +161,7 @@ type
                                            aFileSourceFiles: TFiles;
                                            aExistingDisplayFiles: TDisplayFiles;
                                            const aSortings: TFileSortings;
-                                           aExistingDisplayFilesHashed: TStringHashList);
+                                           aExistingDisplayFilesHashed: TStringHashListUtf8);
 
     class function MatchesFilter(aFile: TFile;
                                  aFileFilter: String;
@@ -369,7 +369,7 @@ constructor TFileListBuilder.Create(AFileSource: IFileSource;
   AVariantProperties: TDynamicStringArray;
   ASetFileListMethod: TSetFileListMethod;
   var ExistingDisplayFiles: TDisplayFiles;
-  var ExistingDisplayFilesHashed: TStringHashList);
+  var ExistingDisplayFilesHashed: TStringHashListUtf8);
 begin
   inherited Create(AThread);
 
@@ -755,7 +755,7 @@ class procedure TFileListBuilder.MakeAllDisplayFileList(
   aFileSourceFiles: TFiles;
   aExistingDisplayFiles: TDisplayFiles;
   const aSortings: TFileSortings;
-  aExistingDisplayFilesHashed: TStringHashList);
+  aExistingDisplayFilesHashed: TStringHashListUtf8);
 var
   i: PtrInt;
   j: Integer;
