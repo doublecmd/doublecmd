@@ -9,7 +9,7 @@ interface
 uses
   DCClassesUtf8, DCOSUtils, DCStrUtils, DCBasicTypes, DCFileAttributes, 
   DCConvertEncoding, DCDateTimeUtils, DCXmlConfig, DCProcessUtf8, 
-  DCUnicodeUtils;
+  DCUnicodeUtils, DCStringHashListUtf8;
 
 implementation
 
