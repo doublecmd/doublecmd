@@ -82,15 +82,21 @@ end;
 
 function TStringHashListUtf8.Add(const S: String; ItemData: Pointer): Integer;
 var
+  Text: String;
   Item: PStringHashItem;
   First, Last, I: Integer;
   Val: Cardinal;
   Larger: boolean;
 begin
+  if fCaseSensitive then
+    Text := S
+  else begin
+    Text:= UTF8LowerCase(S);
+  end;
   New(Item);
-  Val:= HashOf(S);
+  Val:= HashOf(Text);
   Item^.HashValue := Val;
-  Item^.Key := S;
+  Item^.Key := Text;
   Item^.Data := ItemData;
   if FCount > 0 then
   begin
