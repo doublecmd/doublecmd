@@ -5,7 +5,7 @@ unit uMultiArchiveFileSource;
 interface
 
 uses
-  Classes, SysUtils, contnrs, StringHashList, uOSUtils,
+  Classes, SysUtils, contnrs, DCStringHashListUtf8, uOSUtils,
   uMultiArc, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation,
   uMultiArchiveUtil, DCBasicTypes;
@@ -43,7 +43,7 @@ type
     FArcFileList : TObjectList;
     FMultiArcItem: TMultiArcItem;
     FAllDirsList,
-    FExistsDirList: TStringHashList;
+    FExistsDirList: TStringHashListUtf8;
     FLinkAttribute,
     FDirectoryAttribute: TFileAttrs;
 
@@ -429,7 +429,7 @@ end;
 
 procedure TMultiArchiveFileSource.OnGetArchiveItem(ArchiveItem: TArchiveItem);
 
-  procedure CollectDirs(Path: PAnsiChar; var DirsList: TStringHashList);
+  procedure CollectDirs(Path: PAnsiChar; var DirsList: TStringHashListUtf8);
   var
     I : Integer;
     Dir : AnsiString;
@@ -527,8 +527,8 @@ begin
     Exit(True);
   end;
 
-  FExistsDirList := TStringHashList.Create(True);
-  FAllDirsList := TStringHashList.Create(True);
+  FExistsDirList := TStringHashListUtf8.Create(True);
+  FAllDirsList := TStringHashListUtf8.Create(True);
 
   try
     DCDebug('Get File List');

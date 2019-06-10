@@ -5,7 +5,7 @@ unit uMultiArchiveCopyOutOperation;
 interface
 
 uses
-  LazFileUtils,LazUtf8,Classes, SysUtils, StringHashList, uLog, uGlobs, un_process,
+  LazFileUtils,LazUtf8,Classes, SysUtils, DCStringHashListUtf8, uLog, uGlobs, un_process,
   uFileSourceOperation,
   uFileSourceCopyOperation,
   uFileSourceOperationUI,
@@ -44,7 +44,7 @@ type
              that were created, together with their attributes.)}
     procedure CreateDirs(const theFiles: TFiles; sDestPath: String;
                                       CurrentArchiveDir: String;
-                                      var CreatedPaths: TStringHashList);
+                                      var CreatedPaths: TStringHashListUtf8);
 
     {en
       Sets attributes for directories.
@@ -52,7 +52,7 @@ type
              The list of absolute paths, which attributes are to be set.
              Each list item's data field must be a pointer to TMultiArchiveFile,
              from where the attributes are retrieved.}
-    function SetDirsAttributes(const Paths: TStringHashList): Boolean;
+    function SetDirsAttributes(const Paths: TStringHashListUtf8): Boolean;
 
     function DoFileExists(aFile: TFile; const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 
@@ -162,7 +162,7 @@ var
   TargetFileName,
   SourcePath,
   sTempDir: String;
-  CreatedPaths: TStringHashList = nil;
+  CreatedPaths: TStringHashListUtf8 = nil;
   I: Integer;
   aFile: TFile;
   MultiArcItem: TMultiArcItem;
@@ -180,7 +180,7 @@ begin
     else
       begin
         // Create needed directories.
-        CreatedPaths := TStringHashList.Create(True);
+        CreatedPaths := TStringHashListUtf8.Create(True);
         CreateDirs(FFullFilesTreeToExtract, TargetPath, SourcePath, CreatedPaths);
         sCommandLine:= MultiArcItem.FExtract;
       end;
@@ -314,14 +314,14 @@ end;
 procedure TMultiArchiveCopyOutOperation.CreateDirs(
               const theFiles: TFiles;
               sDestPath: String; CurrentArchiveDir: String;
-              var CreatedPaths: TStringHashList);
+              var CreatedPaths: TStringHashListUtf8);
 var
   // List of paths that we know must be created.
-  PathsToCreate: TStringHashList;
+  PathsToCreate: TStringHashListUtf8;
 
   // List of possible directories to create with their attributes.
   // This hash list is created to speed up searches for attributes in archive file list.
-  DirsAttributes: TStringHashList;
+  DirsAttributes: TStringHashListUtf8;
 
   i: Integer;
   CurrentFileName: String;
@@ -333,8 +333,8 @@ var
 begin
   { First, collect all the paths that need to be created and their attributes. }
 
-  PathsToCreate := TStringHashList.Create(True);
-  DirsAttributes := TStringHashList.Create(True);
+  PathsToCreate := TStringHashListUtf8.Create(True);
+  DirsAttributes := TStringHashListUtf8.Create(True);
 
   for I := 0 to theFiles.Count - 1 do
   begin
@@ -422,7 +422,7 @@ begin
   end;
 end;
 
-function TMultiArchiveCopyOutOperation.SetDirsAttributes(const Paths: TStringHashList): Boolean;
+function TMultiArchiveCopyOutOperation.SetDirsAttributes(const Paths: TStringHashListUtf8): Boolean;
 var
   PathIndex: Integer;
   TargetDir: String;

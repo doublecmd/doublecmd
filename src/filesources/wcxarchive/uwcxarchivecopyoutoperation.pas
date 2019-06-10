@@ -6,7 +6,7 @@ unit uWcxArchiveCopyOutOperation;
 interface
 
 uses
-  Classes, LazFileUtils,SysUtils, StringHashList, WcxPlugin, uLog, uGlobs,
+  Classes, LazFileUtils,SysUtils, DCStringHashListUtf8, WcxPlugin, uLog, uGlobs,
   uFileSourceCopyOperation,
   uFileSource,
   uFileSourceOperation,
@@ -49,7 +49,7 @@ type
              that were created, together with their attributes.)}
     procedure CreateDirsAndCountFiles(const theFiles: TFiles; FileMask: String;
                                       sDestPath: String; CurrentArchiveDir: String;
-                                      var CreatedPaths: TStringHashList);
+                                      var CreatedPaths: TStringHashListUtf8);
 
     {en
       Sets attributes for directories.
@@ -57,7 +57,7 @@ type
              The list of absolute paths, which attributes are to be set.
              Each list item's data field must be a pointer to THeaderData,
              from where the attributes are retrieved.}
-    function SetDirsAttributes(const Paths: TStringHashList): Boolean;
+    function SetDirsAttributes(const Paths: TStringHashListUtf8): Boolean;
 
     function DoFileExists(Header: TWcxHeader; var AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 	
@@ -227,7 +227,7 @@ var
   Header: TWCXHeader;
   TargetFileName: String;
   FileMask: String;
-  CreatedPaths: TStringHashList;
+  CreatedPaths: TStringHashListUtf8;
   OpenResult: Longint;
   iResult: Integer;
   Files: TFiles = nil;
@@ -251,7 +251,7 @@ begin
   Files := SourceFiles.Clone;
   ChangeFileListRoot(PathDelim, Files);
 
-  CreatedPaths := TStringHashList.Create(True);
+  CreatedPaths := TStringHashListUtf8.Create(True);
 
   try
     // Count total files size and create needed directories.
@@ -374,14 +374,14 @@ end;
 procedure TWcxArchiveCopyOutOperation.CreateDirsAndCountFiles(
               const theFiles: TFiles; FileMask: String;
               sDestPath: String; CurrentArchiveDir: String;
-              var CreatedPaths: TStringHashList);
+              var CreatedPaths: TStringHashListUtf8);
 var
   // List of paths that we know must be created.
-  PathsToCreate: TStringHashList;
+  PathsToCreate: TStringHashListUtf8;
 
   // List of possible directories to create with their attributes.
   // This hash list is created to speed up searches for attributes in archive file list.
-  DirsAttributes: TStringHashList;
+  DirsAttributes: TStringHashListUtf8;
 
   i: Integer;
   CurrentFileName: String;
@@ -396,8 +396,8 @@ begin
 
   { First, collect all the paths that need to be created and their attributes. }
 
-  PathsToCreate := TStringHashList.Create(True);
-  DirsAttributes := TStringHashList.Create(True);
+  PathsToCreate := TStringHashListUtf8.Create(True);
+  DirsAttributes := TStringHashListUtf8.Create(True);
 
   for i := 0 to FileList.Count - 1 do
   begin
@@ -503,7 +503,7 @@ begin
   end;
 end;
 
-function TWcxArchiveCopyOutOperation.SetDirsAttributes(const Paths: TStringHashList): Boolean;
+function TWcxArchiveCopyOutOperation.SetDirsAttributes(const Paths: TStringHashListUtf8): Boolean;
 var
   PathIndex: Integer;
   TargetDir: String;

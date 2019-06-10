@@ -42,7 +42,7 @@ interface
 uses
   LazUtf8, SysUtils, Classes, Graphics, Forms, StdCtrls, Menus,
   Controls, LCLType, DCClassesUtf8, uClassesEx, uFile, uFileSource,
-  StringHashList, Grids, ExtCtrls, Buttons, DCXmlConfig, uOSForms,
+  DCStringHashListUtf8, Grids, ExtCtrls, Buttons, DCXmlConfig, uOSForms,
   uRegExprW, uFileProperty, uFileSourceSetFilePropertyOperation;
 
 type
@@ -198,9 +198,9 @@ type
     FLastPreset: String;
     FFileSource: IFileSource;
     FFiles: TFiles;
-    FPresets: TStringHashList; // of PMultiRenamePreset
-    FNewNames: TStringHashList;
-    FOldNames: TStringHashList;
+    FPresets: TStringHashListUtf8; // of PMultiRenamePreset
+    FNewNames: TStringHashListUtf8;
+    FOldNames: TStringHashListUtf8;
     FSourceRow: Integer;
     FMoveRow : Boolean;
     FNames: TStringList;
@@ -298,9 +298,9 @@ begin
   FReplaceText:= TStringList.Create;
   FReplaceText.StrictDelimiter := True;
   FReplaceText.Delimiter := '|';
-  FPresets := TStringHashList.Create(False);
-  FNewNames:= TStringHashList.Create(FileNameCaseSensitive);
-  FOldNames:= TStringHashList.Create(FileNameCaseSensitive);
+  FPresets := TStringHashListUtf8.Create(False);
+  FNewNames:= TStringHashListUtf8.Create(FileNameCaseSensitive);
+  FOldNames:= TStringHashListUtf8.Create(FileNameCaseSensitive);
   FFileSource := aFileSource;
   FFiles := aFiles;
   aFiles := nil;

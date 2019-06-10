@@ -372,7 +372,7 @@ implementation
 
 uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      fOptionsPluginsWDX, fOptionsPluginsWFX, fOptionsPluginsWLX,
-     uFindFiles, Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHashList,
+     uFindFiles, Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, DCStringHashListUtf8,
      dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, DCDateTimeUtils, KASToolBar, KASToolItems,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
@@ -4301,11 +4301,11 @@ var
   NtfsShift: Boolean;
   SourceFile: TDisplayFile;
   TargetFile: TDisplayFile;
-  SourceList: TStringHashList;
+  SourceList: TStringHashListUtf8;
   SourceFiles: TDisplayFiles = nil;
   TargetFiles: TDisplayFiles = nil;
 begin
-  SourceList:= TStringHashList.Create(FileNameCaseSensitive);
+  SourceList:= TStringHashListUtf8.Create(FileNameCaseSensitive);
   with frmMain do
   try
     NtfsShift:= gNtfsHourTimeDelay and NtfsHourTimeDelay(ActiveFrame.CurrentPath, NotActiveFrame.CurrentPath);
