@@ -2145,7 +2145,7 @@ end;
 procedure TPixMapManager.LoadApplicationThemeIcon;
 var
   AIcon: TIcon;
-  SmallIcon, LargeIcon: TBitmap;
+  SmallIcon, LargeIcon: Graphics.TBitmap;
 begin
   LargeIcon:= LoadIconThemeBitmapLocked('doublecmd', GetSystemMetrics(SM_CXICON));
   SmallIcon:= LoadIconThemeBitmapLocked('doublecmd', GetSystemMetrics(SM_CXSMICON));
@@ -2156,12 +2156,14 @@ begin
     begin
       AIcon.Add(pf32bit, SmallIcon.Height, SmallIcon.Width);
       AIcon.AssignImage(SmallIcon);
+      SmallIcon.Free;
     end;
     if Assigned(LargeIcon) then
     begin
       AIcon.Add(pf32bit, LargeIcon.Height, LargeIcon.Width);
       AIcon.Current := AIcon.Current + 1;
       AIcon.AssignImage(LargeIcon);
+      LargeIcon.Free;
     end;
     Application.Icon.Assign(AIcon);
     AIcon.Free;
