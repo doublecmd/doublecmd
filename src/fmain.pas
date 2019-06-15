@@ -2691,6 +2691,10 @@ begin
   inherited Create(TheOwner);
   FCommands := TMainCommands.Create(Self, actionLst);
 
+  if Assigned(Application.Icon) then begin
+    MainTrayIcon.Icon.Assign(Application.Icon);
+  end;
+
   Screen.Cursors[crArrowCopy] := LoadCursorFromLazarusResource('ArrowCopy');
   Screen.Cursors[crArrowMove] := LoadCursorFromLazarusResource('ArrowMove');
   Screen.Cursors[crArrowLink] := LoadCursorFromLazarusResource('ArrowLink');
