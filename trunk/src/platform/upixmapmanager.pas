@@ -203,6 +203,10 @@ type
   {$ENDIF}
     function GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 
+{$IF NOT DEFINED(DARWIN)}
+    procedure LoadApplicationThemeIcon;
+{$ENDIF}
+
   public
     constructor Create;
     destructor Destroy; override;
@@ -1539,6 +1543,10 @@ begin
     end;
 
   (* /Set archive icons *)
+
+{$IF NOT DEFINED(DARWIN)}
+  LoadApplicationThemeIcon;
+{$ENDIF}
 end;
 
 function TPixMapManager.GetBitmap(iIndex: PtrInt): Graphics.TBitmap;
@@ -2131,6 +2139,36 @@ begin
     end;
   // 'Bitmap' should not be freed, because it only points to DriveIconList.
 end;
+
+{$IF NOT DEFINED(DARWIN)}
+
+procedure TPixMapManager.LoadApplicationThemeIcon;
+var
+  AIcon: TIcon;
+  SmallIcon, LargeIcon: TBitmap;
+begin
+  LargeIcon:= LoadIconThemeBitmapLocked('doublecmd', GetSystemMetrics(SM_CXICON));
+  SmallIcon:= LoadIconThemeBitmapLocked('doublecmd', GetSystemMetrics(SM_CXSMICON));
+  if Assigned(LargeIcon) or Assigned(SmallIcon) then
+  begin
+    AIcon:= TIcon.Create;
+    if Assigned(SmallIcon) then
+    begin
+      AIcon.Add(pf32bit, SmallIcon.Height, SmallIcon.Width);
+      AIcon.AssignImage(SmallIcon);
+    end;
+    if Assigned(LargeIcon) then
+    begin
+      AIcon.Add(pf32bit, LargeIcon.Height, LargeIcon.Width);
+      AIcon.Current := AIcon.Current + 1;
+      AIcon.AssignImage(LargeIcon);
+    end;
+    Application.Icon.Assign(AIcon);
+    AIcon.Free;
+  end;
+end;
+
+{$ENDIF}
 
 function TPixMapManager.GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 var
