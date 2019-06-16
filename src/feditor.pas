@@ -37,7 +37,7 @@ interface
 uses
   SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit,
   ComCtrls, SynEditSearch, SynEditHighlighter, uDebug, uOSForms, uShowForm, types, Graphics,
-  uFormCommands, uHotkeyManager, LCLVersion;
+  uFormCommands, uHotkeyManager, LCLVersion, SynPluginMultiCaret;
 
 const
   HotkeysCategory = 'Editor';
@@ -164,6 +164,7 @@ type
     sOriginalText: String;
     FWaitData: TWaitData;
     FCommands: TFormCommands;
+    FMultiCaret: TSynPluginMultiCaret;
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
 
@@ -321,6 +322,8 @@ begin
   HMEditor := HotMan.Register(Self, HotkeysCategory);
   HMEditor.RegisterActionList(ActListEdit);
   FCommands := TFormCommands.Create(Self, ActListEdit);
+
+  FMultiCaret := TSynPluginMultiCaret.Create(Editor);
 end;
 
 procedure TfrmEditor.LoadGlobalOptions;
