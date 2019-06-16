@@ -529,6 +529,7 @@ end;
 
 procedure TfrmQuickSearch.edtSearchChange(Sender: TObject);
 begin
+  Options.Direction := qsdNone;
   DoOnChangeSearch;
 end;
 
