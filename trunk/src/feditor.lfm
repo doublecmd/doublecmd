@@ -53,7 +53,7 @@ object frmEditor: TfrmEditor
   OnCreate = FormCreate
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '2.0.2.0'
   object StatusBar: TStatusBar
     Left = 0
     Height = 23
@@ -435,6 +435,54 @@ object frmEditor: TfrmEditor
       item
         Command = ecMatchBracket
         ShortCut = 24642
+      end
+      item
+        Command = ecColSelUp
+        ShortCut = 40998
+      end
+      item
+        Command = ecColSelDown
+        ShortCut = 41000
+      end
+      item
+        Command = ecColSelLeft
+        ShortCut = 40997
+      end
+      item
+        Command = ecColSelRight
+        ShortCut = 40999
+      end
+      item
+        Command = ecColSelPageDown
+        ShortCut = 40994
+      end
+      item
+        Command = ecColSelPageBottom
+        ShortCut = 57378
+      end
+      item
+        Command = ecColSelPageUp
+        ShortCut = 40993
+      end
+      item
+        Command = ecColSelPageTop
+        ShortCut = 57377
+      end
+      item
+        Command = ecColSelLineStart
+        ShortCut = 40996
+      end
+      item
+        Command = ecColSelLineEnd
+        ShortCut = 40995
+      end
+      item
+        Command = ecColSelEditorTop
+        ShortCut = 57380
+      end
+      item
+        Command = ecColSelEditorBottom
+        ShortCut = 57379
       end>
     MouseActions = <    
       item
@@ -505,6 +553,7 @@ object frmEditor: TfrmEditor
         ClickDir = cdDown
         Command = emcStartDragMove
       end>
+    MouseOptions = [emAltSetsColumnMode]
     VisibleSpecialChars = [vscSpace, vscTabAtLast]
     SelectedColor.BackPriority = 50
     SelectedColor.ForePriority = 50
