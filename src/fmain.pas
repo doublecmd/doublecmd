@@ -4931,8 +4931,6 @@ begin
     MainToolBar.GlyphSize:= gToolBarIconSize;
     MainToolBar.ShowCaptions:= gToolBarShowCaptions;
     MainToolBar.SetButtonSize(gToolBarButtonSize, gToolBarButtonSize);
-    MainToolBar.ChangePath:= gpExePath;
-    MainToolBar.EnvVar:= '%commander_path%';
     LoadMainToolbar;
 
     btnLeftDrive.Visible := gDrivesListButton;
