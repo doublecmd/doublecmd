@@ -1644,7 +1644,7 @@ begin
   gUseTrash := True;
   gSkipFileOpError := False;
   gTypeOfDuplicatedRename := drLegacyWithCopy;
-  gShowDialogOnDragDrop := False;
+  gShowDialogOnDragDrop := True;
   gDragAndDropDesiredTextFormat[DropTextRichText_Index].Name:='Richtext format';
   gDragAndDropDesiredTextFormat[DropTextRichText_Index].DesireLevel:=0;
   gDragAndDropDesiredTextFormat[DropTextHtml_Index].Name:='HTML format';
