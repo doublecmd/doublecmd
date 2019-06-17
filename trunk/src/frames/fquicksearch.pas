@@ -52,6 +52,8 @@ type
     procedure sbMatchBeginningClick(Sender: TObject);
     procedure sbMatchEndingClick(Sender: TObject);
     procedure tglFilterChange(Sender: TObject);
+    procedure btnMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     Options: TQuickSearchOptions;
     Mode: TQuickSearchMode;
@@ -741,6 +743,12 @@ begin
     ClearFilter;
 
   DoOnChangeSearch;
+end;
+
+procedure TfrmQuickSearch.btnMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  edtSearch.SetFocus;
 end;
 
 end.

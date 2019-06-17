@@ -20,6 +20,7 @@ object frmQuickSearch: TfrmQuickSearch
     Top = 2
     Width = 211
     Anchors = [akTop, akLeft, akRight]
+    AutoSelect = False
     BorderSpacing.Around = 2
     OnChange = edtSearchChange
     OnKeyDown = edtSearchKeyDown
@@ -42,6 +43,7 @@ object frmQuickSearch: TfrmQuickSearch
     BorderSpacing.Right = 2
     Caption = 'Filter'
     OnChange = tglFilterChange
+    OnMouseUp = btnMouseUp
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
@@ -64,6 +66,7 @@ object frmQuickSearch: TfrmQuickSearch
     Cancel = True
     Caption = 'X'
     OnClick = btnCancelClick
+    OnMouseUp = btnMouseUp
     ParentShowHint = False
     ShowHint = True
     TabOrder = 3
