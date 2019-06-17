@@ -680,6 +680,8 @@ begin
 
   if gQuickFilterSaveSessionModifications then gQuickSearchOptions.SearchCase := Options.SearchCase;
 
+  Options.Direction := qsdNone;
+
   DoOnChangeSearch;
 end;
 
@@ -699,6 +701,8 @@ begin
 
   if gQuickFilterSaveSessionModifications then gQuickSearchOptions.Items := Options.Items;
 
+  Options.Direction := qsdNone;
+
   DoOnChangeSearch;
 end;
 
@@ -711,6 +715,8 @@ begin
 
   if gQuickFilterSaveSessionModifications then gQuickSearchOptions.Match := Options.Match;
 
+  Options.Direction := qsdNone;
+
   DoOnChangeSearch;
 end;
 
@@ -722,6 +728,8 @@ begin
     Exclude(Options.Match, qsmEnding);
 
   if gQuickFilterSaveSessionModifications then gQuickSearchOptions.Match := Options.Match;
+
+  Options.Direction := qsdNone;
 
   DoOnChangeSearch;
 end;
