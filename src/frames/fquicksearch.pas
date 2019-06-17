@@ -54,6 +54,8 @@ type
     procedure tglFilterChange(Sender: TObject);
     procedure btnMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure btnCancelMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     Options: TQuickSearchOptions;
     Mode: TQuickSearchMode;
@@ -759,6 +761,13 @@ procedure TfrmQuickSearch.btnMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   edtSearch.SetFocus;
+end;
+
+procedure TfrmQuickSearch.btnCancelMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if Self.Visible then
+    edtSearch.SetFocus;
 end;
 
 end.
