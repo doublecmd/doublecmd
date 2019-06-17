@@ -407,7 +407,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     BorderSpacing.Top = 6
     Caption = 'U&se Inverted Selection'
     OnChange = cbColorBoxChange
-    TabOrder = 16
+    TabOrder = 19
   end
   object cbbUseInactiveSelColor: TCheckBox[26]
     AnchorSideLeft.Control = cbbUseInvertedSelection
@@ -421,7 +421,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     BorderSpacing.Top = 6
     Caption = 'Use Inactive Sel Color'
     OnChange = cbbUseInactiveSelColorChange
-    TabOrder = 17
+    TabOrder = 20
   end
   object cbbUseFrameCursor: TCheckBox[27]
     AnchorSideLeft.Control = cbbUseInvertedSelection
@@ -434,7 +434,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     BorderSpacing.Top = 5
     Caption = 'Use &Frame Cursor'
     OnChange = cbbUseFrameCursorChange
-    TabOrder = 18
+    TabOrder = 21
   end
   object lblInactivePanelBrightness: TLabel[28]
     AnchorSideLeft.Control = cbbUseFrameCursor
@@ -467,7 +467,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     TickStyle = tsNone
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    TabOrder = 19
+    TabOrder = 24
   end
   object dbFreeSpaceIndicator: TDividerBevel[30]
     AnchorSideLeft.Control = lblInactivePanelBrightness
@@ -494,7 +494,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     BorderSpacing.Top = 6
     Caption = 'Use &Gradient Indicator'
     OnChange = cbbUseGradientIndChange
-    TabOrder = 20
+    TabOrder = 25
   end
   object pbxFakeDrive: TPaintBox[32]
     Tag = 83
@@ -537,7 +537,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
     ItemHeight = 16
     OnChange = cbIndColorChange
-    TabOrder = 21
+    TabOrder = 26
   end
   object btnIndColor: TButton[35]
     AnchorSideLeft.Control = cbIndColor
@@ -554,7 +554,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     BorderSpacing.Left = 6
     Caption = '>>'
     OnClick = btnIndColorClick
-    TabOrder = 22
+    TabOrder = 27
   end
   object lblIndBackColor: TLabel[36]
     AnchorSideLeft.Control = lblIndColor
@@ -586,7 +586,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     BorderSpacing.Top = 4
     ItemHeight = 16
     OnChange = cbIndColorChange
-    TabOrder = 23
+    TabOrder = 28
   end
   object btnIndBackColor: TButton[38]
     AnchorSideLeft.Control = btnIndColor
@@ -602,7 +602,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     Anchors = [akTop, akLeft, akRight, akBottom]
     Caption = '>>'
     OnClick = btnIndBackColorClick
-    TabOrder = 24
+    TabOrder = 29
   end
   object pnlPreviewCont: TPanel[39]
     AnchorSideLeft.Control = Owner
@@ -625,7 +625,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     Color = clInactiveCaption
     Constraints.MinHeight = 250
     ParentColor = False
-    TabOrder = 25
+    TabOrder = 30
     TabStop = True
     object lblPreview: TLabel
       Left = 8
@@ -687,7 +687,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     Anchors = [akTop, akRight]
     Caption = 'Cursor border'
     OnChange = cbUseCursorBorderChange
-    TabOrder = 26
+    TabOrder = 16
   end
   object cbCursorBorderColor: TColorBox[41]
     AnchorSideLeft.Control = cbInactiveMarkColor
@@ -704,7 +704,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     BorderSpacing.Top = 4
     ItemHeight = 16
     OnChange = cbColorBoxChange
-    TabOrder = 27
+    TabOrder = 17
   end
   object btnCursorBorderColor: TButton[42]
     AnchorSideLeft.Control = btnForeColor
@@ -721,7 +721,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     BorderSpacing.InnerBorder = 4
     Caption = '>>'
     OnClick = btnCursorBorderColorClick
-    TabOrder = 28
+    TabOrder = 18
   end
   object btnResetToDCDefault: TButton[43]
     AnchorSideTop.Control = cbAllowOverColor
@@ -737,7 +737,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     BorderSpacing.Top = 6
     Caption = 'Reset to DC default'
     OnClick = btnResetToDCDefaultClick
-    TabOrder = 29
+    TabOrder = 23
   end
   object cbAllowOverColor: TCheckBox[44]
     AnchorSideLeft.Control = cbbUseInactiveSelColor
@@ -749,7 +749,7 @@ inherited frmOptionsFilePanelsColors: TfrmOptionsFilePanelsColors
     Width = 105
     Caption = 'Allow Overcolor'
     OnChange = cbbUseInactiveSelColorChange
-    TabOrder = 30
+    TabOrder = 22
   end
   object optColorDialog: TColorDialog[45]
     Color = clBlack

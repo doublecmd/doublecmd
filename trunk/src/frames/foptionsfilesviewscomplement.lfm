@@ -25,7 +25,7 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 215
     ClientWidth = 624
-    TabOrder = 0
+    TabOrder = 1
     object cbSpaceMovesDown: TCheckBox
       Left = 6
       Height = 19
@@ -118,7 +118,7 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
     ChildSizing.VerticalSpacing = 4
     ClientHeight = 89
     ClientWidth = 624
-    TabOrder = 1
+    TabOrder = 0
     object chkMarkMaskFilterWindows: TCheckBox
       AnchorSideLeft.Control = gbMarking
       AnchorSideTop.Control = gbMarking
@@ -145,7 +145,7 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ClientHeight = 27
       ClientWidth = 600
-      TabOrder = 2
+      TabOrder = 1
       object lbAttributeMask: TLabel
         AnchorSideLeft.Control = pnlDefaultAttribute
         AnchorSideTop.Control = edtDefaultAttribute
@@ -188,7 +188,7 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
         Caption = '&Help'
         Constraints.MinHeight = 26
         OnClick = btnAttrsHelpClick
-        TabOrder = 1
+        TabOrder = 2
       end
       object btnAddAttribute: TButton
         AnchorSideLeft.Side = asrBottom
@@ -204,7 +204,7 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
         Caption = '&Add'
         Constraints.MinHeight = 26
         OnClick = btnAddAttributeClick
-        TabOrder = 2
+        TabOrder = 1
       end
     end
     object chkMarkMaskShowAttribute: TCheckBox
@@ -216,7 +216,7 @@ inherited frmOptionsFilesViewsComplement: TfrmOptionsFilesViewsComplement
       Top = 62
       Width = 366
       Caption = 'Use an independent attribute filter in mask input dialog each time'
-      TabOrder = 1
+      TabOrder = 2
     end
   end
 end

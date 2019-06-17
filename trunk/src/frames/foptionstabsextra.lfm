@@ -180,7 +180,7 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
       Width = 499
       BorderSpacing.Top = 10
       Caption = 'Goto to Favorite Tabs Configuration after saving a new one'
-      TabOrder = 2
+      TabOrder = 4
     end
     object cbGoToConfigAfterReSave: TCheckBox
       AnchorSideLeft.Control = gbDefaultTabSavedRestoration
@@ -192,7 +192,7 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
       Top = 409
       Width = 428
       Caption = 'Goto to Favorite Tabs Configuration after resaving'
-      TabOrder = 3
+      TabOrder = 5
     end
     object rgWhereToAdd: TRadioGroup
       AnchorSideLeft.Control = cbUseFavoriteTabsExtraOptions
@@ -225,7 +225,7 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
         'Add at the end'
         'Alphabetical order'
       )
-      TabOrder = 4
+      TabOrder = 3
     end
     object cbDefaultSaveDirHistory: TComboBox
       AnchorSideLeft.Control = lblFavoriteTabsSaveDirHistory
@@ -244,7 +244,7 @@ inherited frmOptionsTabsExtra: TfrmOptionsTabsExtra
         'Yes'
       )
       Style = csDropDownList
-      TabOrder = 5
+      TabOrder = 2
       Text = 'No'
     end
     object lblFavoriteTabsSaveDirHistory: TLabel
