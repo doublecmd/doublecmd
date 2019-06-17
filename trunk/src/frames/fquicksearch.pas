@@ -742,6 +742,8 @@ begin
   else if Active then
     ClearFilter;
 
+  Options.Direction := qsdNone;
+
   DoOnChangeSearch;
 end;
 
