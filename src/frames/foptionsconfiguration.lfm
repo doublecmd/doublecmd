@@ -241,7 +241,7 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 93
     ClientWidth = 610
-    TabOrder = 5
+    TabOrder = 6
     object lblThumbCache: TLabel
       AnchorSideTop.Control = edtThumbCache
       AnchorSideTop.Side = asrCenter
@@ -342,6 +342,6 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
       'Full collapse'
     )
     OnClick = gpConfigurationTreeStateClick
-    TabOrder = 6
+    TabOrder = 5
   end
 end
