@@ -36,13 +36,15 @@ type
 
   PStringHashItemList = ^PStringHashItem;
 
+  { TStringHashListUtf8 }
+
   TStringHashListUtf8 = class(TObject)
   private
     FList: PStringHashItemList;
     FCount: Integer;
     fCaseSensitive: Boolean;
     function BinarySearch(HashValue: Cardinal): Integer;
-    function CompareString(const Value1, Value2: String): Boolean;
+    function CompareString(const Low, Key: String): Boolean;
     function CompareValue(const Value1, Value2: Cardinal): Integer;
     procedure FindHashBoundaries(HashValue: Cardinal; StartFrom: Integer; out First, Last: Integer);
     function GetData(const S: String): Pointer;
@@ -96,7 +98,7 @@ begin
   New(Item);
   Val:= HashOf(Text);
   Item^.HashValue := Val;
-  Item^.Key := Text;
+  Item^.Key := S;
   Item^.Data := ItemData;
   if FCount > 0 then
   begin
@@ -159,26 +161,23 @@ begin
   fCount:= 0;
 end;
 
-function TStringHashListUtf8.CompareString(const Value1, Value2: String): Boolean;
+function TStringHashListUtf8.CompareString(const Low, Key: String): Boolean;
 var
-  I, Len: Integer;
-  P1, P2: PAnsiChar;
+  P: Pointer;
+  Len: Integer;
+  LKey: String;
 begin
-  Result:= False;
-  P1:= PAnsiChar(Value1);
-  Len:= Length(Value1);
-  P2:= PAnsiChar(Value2);
-  if Len = Length(Value2) then
+  P:= Pointer(Low);
+  Len:= Length(Low);
+  if fCaseSensitive then
   begin
-    Result:= True;
-    for I:= Len - 1 downto 0 do
-    begin
-      if P1[I] <> P2[I] then
-      begin
-        Result:= False;
-        Break;
-      end;
-    end;
+    Result:= (Len = Length(Key));
+    if Result then Result:= (CompareByte(P^, Pointer(Key)^, Len) = 0);
+  end
+  else begin
+    LKey:= UTF8LowerCase(Key);
+    Result:= (Len = Length(LKey));
+    if Result then Result:= (CompareByte(P^, Pointer(LKey)^, Len) = 0);
   end;
 end;
 
