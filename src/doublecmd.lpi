@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -229,14 +229,19 @@ end;"/>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
-      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
-      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
     </PublishOptions>
     <RunParams>
       <local>
-        <FormatVersion Value="1"/>
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default">
+          <local>
+            <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+          </local>
+        </Mode0>
+      </Modes>
     </RunParams>
     <RequiredPackages Count="12">
       <Item1>
@@ -284,7 +289,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="257">
+    <Units Count="258">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1856,6 +1861,14 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLuaPas"/>
       </Unit256>
+      <Unit257>
+        <Filename Value="fprintsetup.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmPrintSetup"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fPrintSetup"/>
+      </Unit257>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

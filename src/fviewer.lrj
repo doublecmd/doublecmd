@@ -20,7 +20,6 @@
 {"hash":175127959,"name":"tfrmviewer.gboxslideshow.caption","sourcebytes":[83,108,105,100,101,32,83,104,111,119],"value":"Slide Show"},
 {"hash":175127959,"name":"tfrmviewer.cbslideshow.caption","sourcebytes":[83,108,105,100,101,32,83,104,111,119],"value":"Slide Show"},
 {"hash":2805797,"name":"tfrmviewer.mifile.caption","sourcebytes":[38,70,105,108,101],"value":"&File"},
-{"hash":151352958,"name":"tfrmviewer.miprint.caption","sourcebytes":[80,114,105,110,116,46,46,46],"value":"Print..."},
 {"hash":2800388,"name":"tfrmviewer.miedit.caption","sourcebytes":[38,69,100,105,116],"value":"&Edit"},
 {"hash":2871239,"name":"tfrmviewer.miview.caption","sourcebytes":[38,86,105,101,119],"value":"&View"},
 {"hash":212198471,"name":"tfrmviewer.miencoding.caption","sourcebytes":[69,110,38,99,111,100,105,110,103],"value":"En&coding"},
@@ -83,5 +82,7 @@
 {"hash":73859572,"name":"tfrmviewer.actfindnext.caption","sourcebytes":[70,105,110,100,32,110,101,120,116],"value":"Find next"},
 {"hash":97034739,"name":"tfrmviewer.actfindprev.caption","sourcebytes":[70,105,110,100,32,112,114,101,118,105,111,117,115],"value":"Find previous"},
 {"hash":216568103,"name":"tfrmviewer.actchangeencoding.caption","sourcebytes":[67,104,97,110,103,101,32,101,110,99,111,100,105,110,103],"value":"Change encoding"},
-{"hash":96796260,"name":"tfrmviewer.actautoreload.caption","sourcebytes":[65,117,116,111,32,82,101,108,111,97,100],"value":"Auto Reload"}
+{"hash":96796260,"name":"tfrmviewer.actautoreload.caption","sourcebytes":[65,117,116,111,32,82,101,108,111,97,100],"value":"Auto Reload"},
+{"hash":216689422,"name":"tfrmviewer.actprintsetup.caption","sourcebytes":[80,114,105,110,116,32,38,115,101,116,117,112,46,46,46],"value":"Print &setup..."},
+{"hash":151339998,"name":"tfrmviewer.actprint.caption","sourcebytes":[80,38,114,105,110,116,46,46,46],"value":"P&rint..."}
 ]}

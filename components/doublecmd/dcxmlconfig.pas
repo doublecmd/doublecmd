@@ -73,6 +73,7 @@ type
     function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Integer): Integer;
     function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Int64): Int64;
     function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Double): Double;
+    function GetValue(const RootNode: TDOMNode; const Path: DOMString; constref ADefault: TRect): TRect;
 
     // The Try... functions return True if the attribute/node was found and only then set AValue.
     function TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: String): Boolean;
@@ -111,6 +112,7 @@ type
     procedure SetValue(const RootNode: TDOMNode; const Path: DOMString; const AValue: Integer);
     procedure SetValue(const RootNode: TDOMNode; const Path: DOMString; const AValue: Int64);
     procedure SetValue(const RootNode: TDOMNode; const Path: DOMString; const AValue: Double);
+    procedure SetValue(const RootNode: TDOMNode; const Path: DOMString; constref AValue: TRect);
 
     // ------------------------------------------------------------------------
 
@@ -317,6 +319,21 @@ begin
   Result := StrToFloatDef(GetValue(RootNode, Path, ''), ADefault);
 end;
 
+function TXmlConfig.GetValue(const RootNode: TDOMNode; const Path: DOMString;
+  constref ADefault: TRect): TRect;
+var
+  I: Integer;
+  ARect: TStringArray;
+begin
+  ARect:= GetValue(RootNode, Path, '').Split(['|']);
+  if Length(ARect) <> 4 then
+    Result:= ADefault
+  else begin
+    for I:= 0 to 3 do
+      Result.Vector[I]:= StrToIntDef(ARect[I], ADefault.Vector[I]);
+  end;
+end;
+
 function TXmlConfig.TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: String): Boolean;
 var
   Node: TDOMNode;
@@ -485,6 +502,16 @@ end;
 procedure TXmlConfig.SetValue(const RootNode: TDOMNode; const Path: DOMString; const AValue: Double);
 begin
   SetValue(RootNode, Path, FloatToStr(AValue));
+end;
+
+procedure TXmlConfig.SetValue(const RootNode: TDOMNode; const Path: DOMString;
+  constref AValue: TRect);
+var
+  S: String;
+begin
+  S:= IntToStr(AValue.Vector[0]) + '|' + IntToStr(AValue.Vector[1]) + '|' +
+      IntToStr(AValue.Vector[2]) + '|' + IntToStr(AValue.Vector[3]);
+  SetValue(RootNode, Path, S);
 end;
 
 // ----------------------------------------------------------------------------
