@@ -8410,6 +8410,30 @@ msgstr "Сажималац:"
 msgid "Time:"
 msgstr "Време:"
 
+#: tfrmprintsetup.caption
+msgid "Print configuration"
+msgstr ""
+
+#: tfrmprintsetup.gbmargins.caption
+msgid "Margins (mm)"
+msgstr ""
+
+#: tfrmprintsetup.lblbottom.caption
+msgid "&Bottom:"
+msgstr ""
+
+#: tfrmprintsetup.lblleft.caption
+msgid "&Left:"
+msgstr ""
+
+#: tfrmprintsetup.lblright.caption
+msgid "&Right:"
+msgstr ""
+
+#: tfrmprintsetup.lbltop.caption
+msgid "&Top:"
+msgstr ""
+
 #: tfrmquicksearch.btncancel.caption
 msgctxt "TFRMQUICKSEARCH.BTNCANCEL.CAPTION"
 msgid "X"
@@ -8820,6 +8844,18 @@ msgstr "&Одредиште на које ће указивати веза"
 msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "Име &везе"
+
+#: tfrmsyncdirsdlg.actdeleteboth.caption
+msgid "Delete on both sides"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actdeleteleft.caption
+msgid "<- Delete left"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actdeleteright.caption
+msgid "-> Delete right"
+msgstr ""
 
 #: tfrmsyncdirsdlg.actselectclear.caption
 msgid "Remove selection"
@@ -9302,6 +9338,14 @@ msgctxt "tfrmviewer.actpreview.caption"
 msgid "Preview"
 msgstr "Преглед"
 
+#: tfrmviewer.actprint.caption
+msgid "P&rint..."
+msgstr ""
+
+#: tfrmviewer.actprintsetup.caption
+msgid "Print &setup..."
+msgstr ""
+
 #: tfrmviewer.actreload.caption
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
 msgid "Reload"
@@ -9581,10 +9625,6 @@ msgstr "&Датотека"
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "&Слика"
-
-#: tfrmviewer.miprint.caption
-msgid "Print..."
-msgstr "Штампај..."
 
 #: tfrmviewer.mirotate.caption
 msgctxt "TFRMVIEWER.MIROTATE.CAPTION"

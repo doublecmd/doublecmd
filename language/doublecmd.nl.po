@@ -8064,6 +8064,30 @@ msgstr "Inpakker:"
 msgid "Time:"
 msgstr "Tijd:"
 
+#: tfrmprintsetup.caption
+msgid "Print configuration"
+msgstr ""
+
+#: tfrmprintsetup.gbmargins.caption
+msgid "Margins (mm)"
+msgstr ""
+
+#: tfrmprintsetup.lblbottom.caption
+msgid "&Bottom:"
+msgstr ""
+
+#: tfrmprintsetup.lblleft.caption
+msgid "&Left:"
+msgstr ""
+
+#: tfrmprintsetup.lblright.caption
+msgid "&Right:"
+msgstr ""
+
+#: tfrmprintsetup.lbltop.caption
+msgid "&Top:"
+msgstr ""
+
 #: tfrmquicksearch.btncancel.caption
 msgctxt "TFRMQUICKSEARCH.BTNCANCEL.CAPTION"
 msgid "X"
@@ -8463,6 +8487,18 @@ msgstr "Bestemming waar de koppeling naar zal verwijzen"
 msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
 msgid "&Link name"
 msgstr "Koppelingsnaam"
+
+#: tfrmsyncdirsdlg.actdeleteboth.caption
+msgid "Delete on both sides"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actdeleteleft.caption
+msgid "<- Delete left"
+msgstr ""
+
+#: tfrmsyncdirsdlg.actdeleteright.caption
+msgid "-> Delete right"
+msgstr ""
 
 #: tfrmsyncdirsdlg.actselectclear.caption
 msgid "Remove selection"
@@ -8923,6 +8959,14 @@ msgctxt "tfrmviewer.actpreview.caption"
 msgid "Preview"
 msgstr "Voorbeeldweergave"
 
+#: tfrmviewer.actprint.caption
+msgid "P&rint..."
+msgstr ""
+
+#: tfrmviewer.actprintsetup.caption
+msgid "Print &setup..."
+msgstr ""
+
 #: tfrmviewer.actreload.caption
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
 msgid "Reload"
@@ -9160,10 +9204,6 @@ msgstr "Bestand"
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "Afbeelding"
-
-#: tfrmviewer.miprint.caption
-msgid "Print..."
-msgstr "Afdrukken..."
 
 #: tfrmviewer.mirotate.caption
 msgid "Rotate"
