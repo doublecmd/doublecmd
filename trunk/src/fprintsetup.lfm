@@ -1,0 +1,152 @@
+object frmPrintSetup: TfrmPrintSetup
+  Left = 356
+  Height = 209
+  Top = 178
+  Width = 432
+  AutoSize = True
+  BorderStyle = bsDialog
+  Caption = 'Print configuration'
+  ChildSizing.LeftRightSpacing = 12
+  ChildSizing.TopBottomSpacing = 12
+  ClientHeight = 209
+  ClientWidth = 432
+  DesignTimePPI = 120
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.2.0'
+  object gbMargins: TGroupBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 12
+    Height = 113
+    Top = 12
+    Width = 383
+    AutoSize = True
+    Caption = 'Margins (mm)'
+    ChildSizing.LeftRightSpacing = 8
+    ChildSizing.TopBottomSpacing = 10
+    ChildSizing.HorizontalSpacing = 8
+    ChildSizing.VerticalSpacing = 12
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 4
+    ClientHeight = 88
+    ClientWidth = 379
+    ParentFont = False
+    TabOrder = 0
+    object lblLeft: TLabel
+      Left = 8
+      Height = 28
+      Top = 10
+      Width = 28
+      Caption = '&Left:'
+      FocusControl = seeLeft
+      ParentColor = False
+      ParentFont = False
+    end
+    object seeLeft: TFloatSpinEditEx
+      Left = 44
+      Height = 28
+      Top = 10
+      Width = 129
+      MaxLength = 0
+      ParentFont = False
+      TabOrder = 0
+      MinValue = 0
+      NullValue = 0
+      Value = 0
+    end
+    object lblRight: TLabel
+      Left = 181
+      Height = 28
+      Top = 10
+      Width = 53
+      Caption = '&Right:'
+      FocusControl = seeRight
+      ParentColor = False
+      ParentFont = False
+    end
+    object seeRight: TFloatSpinEditEx
+      Left = 242
+      Height = 28
+      Top = 10
+      Width = 129
+      MaxLength = 0
+      ParentFont = False
+      TabOrder = 1
+      MinValue = 0
+      NullValue = 0
+      Value = 0
+    end
+    object lblTop: TLabel
+      Left = 8
+      Height = 28
+      Top = 50
+      Width = 28
+      Caption = '&Top:'
+      FocusControl = seeTop
+      ParentColor = False
+      ParentFont = False
+    end
+    object seeTop: TFloatSpinEditEx
+      Left = 44
+      Height = 28
+      Top = 50
+      Width = 129
+      MaxLength = 0
+      ParentFont = False
+      TabOrder = 2
+      MinValue = 0
+      NullValue = 0
+      Value = 0
+    end
+    object lblBottom: TLabel
+      Left = 181
+      Height = 28
+      Top = 50
+      Width = 53
+      Caption = '&Bottom:'
+      FocusControl = seeBottom
+      ParentColor = False
+      ParentFont = False
+    end
+    object seeBottom: TFloatSpinEditEx
+      Left = 242
+      Height = 28
+      Top = 50
+      Width = 129
+      MaxLength = 0
+      ParentFont = False
+      TabOrder = 3
+      MinValue = 0
+      NullValue = 0
+      Value = 0
+    end
+  end
+  object ButtonPanel: TButtonPanel
+    AnchorSideLeft.Control = gbMargins
+    AnchorSideTop.Control = gbMargins
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbMargins
+    AnchorSideRight.Side = asrBottom
+    Left = 20
+    Height = 30
+    Top = 148
+    Width = 367
+    Align = alNone
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 15
+    BorderSpacing.Around = 8
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 1
+    ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
+  end
+end

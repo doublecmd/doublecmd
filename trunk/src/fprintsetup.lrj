@@ -1,0 +1,8 @@
+{"version":1,"strings":[
+{"hash":56375182,"name":"tfrmprintsetup.caption","sourcebytes":[80,114,105,110,116,32,99,111,110,102,105,103,117,114,97,116,105,111,110],"value":"Print configuration"},
+{"hash":6979065,"name":"tfrmprintsetup.gbmargins.caption","sourcebytes":[77,97,114,103,105,110,115,32,40,109,109,41],"value":"Margins (mm)"},
+{"hash":45268346,"name":"tfrmprintsetup.lblleft.caption","sourcebytes":[38,76,101,102,116,58],"value":"&Left:"},
+{"hash":193978202,"name":"tfrmprintsetup.lblright.caption","sourcebytes":[38,82,105,103,104,116,58],"value":"&Right:"},
+{"hash":2864698,"name":"tfrmprintsetup.lbltop.caption","sourcebytes":[38,84,111,112,58],"value":"&Top:"},
+{"hash":158054570,"name":"tfrmprintsetup.lblbottom.caption","sourcebytes":[38,66,111,116,116,111,109,58],"value":"&Bottom:"}
+]}

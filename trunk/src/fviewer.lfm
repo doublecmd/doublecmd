@@ -270,7 +270,7 @@ object frmViewer: TfrmViewer
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '2.0.3.0'
   object pnlFolder: TPanel
     Left = 179
     Height = 435
@@ -2487,9 +2487,10 @@ object frmViewer: TfrmViewer
         Action = actSaveAs
       end
       object miPrint: TMenuItem
-        Caption = 'Print...'
-        Enabled = False
-        ShortCut = 16464
+        Action = actPrint
+      end
+      object miPrintSetup: TMenuItem
+        Action = actPrintSetup
       end
       object miReload: TMenuItem
         Action = actReload
@@ -2883,6 +2884,17 @@ object frmViewer: TfrmViewer
     object actAutoReload: TAction
       Category = 'File'
       Caption = 'Auto Reload'
+      OnExecute = actExecute
+    end
+    object actPrintSetup: TAction
+      Category = 'File'
+      Caption = 'Print &setup...'
+      OnExecute = actExecute
+    end
+    object actPrint: TAction
+      Category = 'File'
+      Caption = 'P&rint...'
+      Enabled = False
       OnExecute = actExecute
     end
   end

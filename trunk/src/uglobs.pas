@@ -163,7 +163,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 47;
+  hkVersion = 48;
   // 47 - In "Copy/Move Dialog" context, add the shortcuts "F5" and "F6" for "cm_ToggleSelectionInName".
   // 40 - In "Main" context, added the "Ctrl+Shift+F7" for "cm_AddNewSearch".
   //      In "Find Files" context, changed "cm_Start" that was "Enter" for "F9".
@@ -582,6 +582,7 @@ var
   gBookBackgroundColor,
   gBookFontColor: TColor;
   gTextPosition:PtrInt;
+  gPrintMargins: TRect;
 
   { Editor }
   gEditWaitTime: Integer;
@@ -1123,6 +1124,7 @@ begin
       //AddIfNotExists(['Up'],[],'cm_Rotate270');  // how at once add this keys only to Image control?
       //AddIfNotExists(['Down'],[],'cm_Rotate90');
 
+      AddIfNotExists(VK_P, [ssModifier], 'cm_Print');
       AddIfNotExists(VK_A, [ssModifier], 'cm_SelectAll');
       AddIfNotExists(VK_C, [ssModifier], 'cm_CopyToClipboard');
 
@@ -1802,6 +1804,7 @@ begin
   gBookFontColor := clWhite;
   gTextPosition:= 0;
   gViewerMode:= 0;
+  gPrintMargins:= Classes.Rect(200, 200, 200, 200);
 
   { Editor }
   gEditWaitTime := 2000;
@@ -2800,6 +2803,7 @@ begin
       gTabSpaces := GetValue(Node, 'TabSpaces', gTabSpaces);
       gMaxTextWidth := GetValue(Node, 'MaxTextWidth', gMaxTextWidth);
       gViewerMode  := GetValue(Node, 'ViewerMode'  , gViewerMode);
+      gPrintMargins := GetValue(Node, 'PrintMargins'  , gPrintMargins);
 
       gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
       gBookBackgroundColor := GetValue(Node, 'BackgroundColor', gBookBackgroundColor);
@@ -3338,6 +3342,7 @@ begin
     SetValue(Node, 'TabSpaces', gTabSpaces);
     SetValue(Node, 'MaxTextWidth', gMaxTextWidth);
     SetValue(Node, 'ViewerMode' , gViewerMode);
+    SetValue(Node, 'PrintMargins', gPrintMargins);
 
     SetValue(Node, 'PaintColor', gImagePaintColor);
     SetValue(Node, 'BackgroundColor', gBookBackgroundColor);

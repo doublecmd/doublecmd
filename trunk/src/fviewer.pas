@@ -92,6 +92,8 @@ type
     actCopyToClipboardFormatted: TAction;
     actChangeEncoding: TAction;
     actAutoReload: TAction;
+    actPrint: TAction;
+    actPrintSetup: TAction;
     actShowAsDec: TAction;
     actScreenShotDelay5sec: TAction;
     actScreenShotDelay3Sec: TAction;
@@ -142,6 +144,7 @@ type
     gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
     memFolder: TMemo;
+    miPrintSetup: TMenuItem;
     miAutoReload: TMenuItem;
     pmiCopyFormatted: TMenuItem;
     miDec: TMenuItem;
@@ -427,6 +430,9 @@ type
 
     procedure cm_ExitViewer      (const Params: array of string);
 
+    procedure cm_Print(const Params:array of string);
+    procedure cm_PrintSetup(const Params:array of string);
+
   end;
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource = nil);
@@ -438,7 +444,8 @@ implementation
 uses
   FileUtil, IntfGraphics, Math, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding,
   DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
-  uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid;
+  uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
+  fPrintSetup;
 
 const
   HotkeysCategory = 'Viewer';
@@ -1298,7 +1305,7 @@ begin
         ActivePlugin:= I;
         FWlxModule:= WlxModule;
         WlxModule.ResizeWindow(GetListerRect);
-        miPrint.Enabled:= WlxModule.CanPrint;
+        actPrint.Enabled:= WlxModule.CanPrint;
         // Set focus to plugin window
         if not bQuickView then WlxModule.SetFocus;
         Exit(True);
@@ -1319,7 +1326,7 @@ begin
   bPlugin:= False;
   FWlxModule:= nil;
   ActivePlugin:= -1;
-  miPrint.Enabled:= False;
+  actPrint.Enabled:= False;
 end;
 
 procedure TfrmViewer.ShowTextViewer(AMode: TViewerControlMode);
@@ -2902,6 +2909,22 @@ end;
 procedure TfrmViewer.cm_ExitViewer(const Params: array of string);
 begin
   Close;
+end;
+
+procedure TfrmViewer.cm_Print(const Params: array of string);
+begin
+  if bPlugin and actPrint.Enabled then
+    FWlxModule.CallListPrint(ExtractFileName(FileList.Strings[iActiveFile]), '', 0, gPrintMargins);
+end;
+
+procedure TfrmViewer.cm_PrintSetup(const Params: array of string);
+begin
+  with TfrmPrintSetup.Create(Self) do
+  try
+    ShowModal;
+  finally
+    Free;
+  end;
 end;
 
 initialization
