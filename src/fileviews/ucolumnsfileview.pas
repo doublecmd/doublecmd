@@ -1309,9 +1309,16 @@ begin
     begin
       // First reduce number of rows so that the 0'th row, which will be changed
       // to not-fixed, won't be counted as a row having a file.
-      if RowCount > 0 then
+      if RowCount > 1 then
+      begin
         RowCount := RowCount - 1;
-      FixedRows := 0;
+        FixedRows := 0;
+      end
+      else
+      begin
+        FixedRows := 0;
+        RowCount := 0;
+      end;
     end;
   end;
 
