@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-06-02 15:24+0300\n"
+"PO-Revision-Date: 2019-06-20 11:05+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2517,7 +2517,7 @@ msgstr "Восс&тановить выделение"
 
 #: tfrmmain.actreverseorder.caption
 msgid "Re&verse Order"
-msgstr "Обра&тный п&орядок"
+msgstr "Обра&тный порядок"
 
 #: tfrmmain.actrightbriefview.caption
 msgid "Brief view on right panel"
@@ -8255,27 +8255,27 @@ msgstr "Время:"
 
 #: tfrmprintsetup.caption
 msgid "Print configuration"
-msgstr ""
+msgstr "Параметры печати"
 
 #: tfrmprintsetup.gbmargins.caption
 msgid "Margins (mm)"
-msgstr ""
+msgstr "Поля (мм)"
 
 #: tfrmprintsetup.lblbottom.caption
 msgid "&Bottom:"
-msgstr ""
+msgstr "&Нижнее:"
 
 #: tfrmprintsetup.lblleft.caption
 msgid "&Left:"
-msgstr ""
+msgstr "&Левое:"
 
 #: tfrmprintsetup.lblright.caption
 msgid "&Right:"
-msgstr ""
+msgstr "&Правое:"
 
 #: tfrmprintsetup.lbltop.caption
 msgid "&Top:"
-msgstr ""
+msgstr "&Верхнее:"
 
 #: tfrmquicksearch.btncancel.caption
 msgctxt "tfrmquicksearch.btncancel.caption"
@@ -8687,15 +8687,15 @@ msgstr "&Имя ссылки"
 
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
-msgstr ""
+msgstr "Удалить с обеих сторон"
 
 #: tfrmsyncdirsdlg.actdeleteleft.caption
 msgid "<- Delete left"
-msgstr ""
+msgstr "<- Удалить слева"
 
 #: tfrmsyncdirsdlg.actdeleteright.caption
 msgid "-> Delete right"
-msgstr ""
+msgstr "-> Удалить справа"
 
 #: tfrmsyncdirsdlg.actselectclear.caption
 msgid "Remove selection"
@@ -9166,11 +9166,11 @@ msgstr "Предварительный просмотр"
 
 #: tfrmviewer.actprint.caption
 msgid "P&rint..."
-msgstr ""
+msgstr "Пе&чать..."
 
 #: tfrmviewer.actprintsetup.caption
 msgid "Print &setup..."
-msgstr ""
+msgstr "Парам&етры печати..."
 
 #: tfrmviewer.actreload.caption
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
