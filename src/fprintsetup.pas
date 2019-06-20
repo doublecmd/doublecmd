@@ -25,6 +25,7 @@ type
     seeBottom: TFloatSpinEditEx;
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
 
   public
@@ -36,7 +37,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs;
+  LCLType, uGlobs;
 
 { TfrmPrintSetup }
 
@@ -57,6 +58,12 @@ begin
   seeTop.Value:= gPrintMargins.Top / 10;
   seeRight.Value:= gPrintMargins.Right / 10;
   seeBottom.Value:= gPrintMargins.Bottom / 10;
+end;
+
+procedure TfrmPrintSetup.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then ModalResult:= mrCancel;
 end;
 
 end.

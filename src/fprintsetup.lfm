@@ -11,8 +11,10 @@ object frmPrintSetup: TfrmPrintSetup
   ClientHeight = 209
   ClientWidth = 432
   DesignTimePPI = 120
+  KeyPreview = True
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   Position = poOwnerFormCenter
   LCLVersion = '2.0.2.0'
   object gbMargins: TGroupBox
