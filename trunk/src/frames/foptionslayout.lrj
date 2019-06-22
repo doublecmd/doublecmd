@@ -20,5 +20,6 @@
 {"hash":151685554,"name":"tfrmoptionslayout.cbproginmenubar.caption","sourcebytes":[83,104,111,119,32,99,111,109,109,111,110,32,112,114,111,103,114,101,115,115,32,105,110,32,109,101,110,117,32,98,97,114],"value":"Show common progress in menu bar"},
 {"hash":11318116,"name":"tfrmoptionslayout.cbpanelofoperations.caption","sourcebytes":[83,104,111,119,32,112,97,110,101,108,32,111,102,32,111,112,101,114,97,116,105,111,110,32,105,110,32,98,97,99,107,103,114,111,117,110,100],"value":"Show panel of operation in background"},
 {"hash":157748028,"name":"tfrmoptionslayout.cbshowdrivefreespace.caption","sourcebytes":[83,104,111,119,32,102,114,101,101,32,115,38,112,97,99,101,32,108,97,98,101,108],"value":"Show free s&pace label"},
-{"hash":176489292,"name":"tfrmoptionslayout.cbshowshortdrivefreespace.caption","sourcebytes":[83,104,111,119,32,115,104,111,114,116,32,102,114,101,101,32,115,112,97,99,101,32,38,108,97,98,101,108],"value":"Show short free space &label"}
+{"hash":176489292,"name":"tfrmoptionslayout.cbshowshortdrivefreespace.caption","sourcebytes":[83,104,111,119,32,115,104,111,114,116,32,102,114,101,101,32,115,112,97,99,101,32,38,108,97,98,101,108],"value":"Show short free space &label"},
+{"hash":219781266,"name":"tfrmoptionslayout.chkshowmiddletoolbar.caption","sourcebytes":[83,104,111,119,32,109,105,100,100,108,101,32,116,111,111,108,98,97,114],"value":"Show middle toolbar"}
 ]}

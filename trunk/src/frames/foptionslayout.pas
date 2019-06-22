@@ -56,6 +56,7 @@ type
     cbTermWindow: TCheckBox;
     cbTwoDiskPanels: TCheckBox;
     cbShowShortDriveFreeSpace: TCheckBox;
+    chkShowMiddleToolBar: TCheckBox;
     gbScreenLayout: TGroupBox;
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbShowDriveFreeSpaceChange(Sender: TObject);
@@ -109,6 +110,7 @@ begin
   cbShowMainMenu.Checked := gMainMenu;
   cbShowMainToolBar.Checked := gButtonBar;
   cbFlatToolBar.Checked := gToolBarFlat;
+  chkShowMiddleToolBar.Checked := gMiddleToolBar;
   cbShowDiskPanel.Checked := gDriveBar1;
   cbTwoDiskPanels.Checked := gDriveBar2;
   cbFlatDiskPanel.Checked := gDriveBarFlat;
@@ -136,6 +138,7 @@ begin
   gMainMenu := cbShowMainMenu.Checked;
   gButtonBar := cbShowMainToolBar.Checked;
   gToolBarFlat := cbFlatToolBar.Checked;
+  gMiddleToolBar := chkShowMiddleToolBar.Checked;
   gDriveBar1 := cbShowDiskPanel.Checked;
   gDriveBar2 := cbTwoDiskPanels.Checked;
   gDriveBarFlat := cbFlatDiskPanel.Checked;

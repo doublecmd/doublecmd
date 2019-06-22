@@ -289,6 +289,24 @@ object frmMain: TfrmMain
           end
         end
       end
+      object MiddleToolBar: TKASToolBar
+        Left = 511
+        Height = 161
+        Top = 0
+        Width = 20
+        Align = alLeft
+        AutoSize = True
+        Constraints.MinHeight = 20
+        Constraints.MinWidth = 20
+        EdgeBorders = []
+        Flat = True
+        TabOrder = 3
+        Visible = False
+        OnLoadButtonGlyph = MainToolBarLoadButtonGlyph
+        OnLoadButtonOverlay = MainToolBarLoadButtonOverlay
+        OnToolItemShortcutsHint = MainToolBarToolItemShortcutsHint
+        GlyphSize = 16
+      end
       object pnlRight: TPanel
         Left = 511
         Height = 167

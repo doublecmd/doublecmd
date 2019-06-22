@@ -258,6 +258,7 @@ var
   gMainMenu,
   gButtonBar,
   gToolBarFlat,
+  gMiddleToolBar,
   gDriveBar1,
   gDriveBar2,
   gDriveBarFlat,
@@ -1595,6 +1596,7 @@ begin
   gMainMenu := True;
   gButtonBar := True;
   gToolBarFlat := True;
+  gMiddleToolBar := False;
   gToolBarButtonSize := 24;
   gToolBarIconSize := 16;
   gToolBarShowCaptions := False;
@@ -2493,6 +2495,11 @@ begin
         gToolbarPathToBeRelativeTo := gConfig.GetValue(SubNode, 'PathToBeRelativeTo', gToolbarPathToBeRelativeTo);
         gToolbarPathModifierElements := tToolbarPathModifierElements(GetValue(SubNode, 'PathModifierElements', Integer(gToolbarPathModifierElements)));
       end;
+      SubNode := Node.FindNode('MiddleBar');
+      if Assigned(SubNode) then
+      begin
+        gMiddleToolBar := GetAttr(SubNode, 'Enabled', gMiddleToolBar);
+      end;
       gDriveBar1 := GetValue(Node, 'DriveBar1', gDriveBar1);
       gDriveBar2 := GetValue(Node, 'DriveBar2', gDriveBar2);
       gDriveBarFlat := GetValue(Node, 'DriveBarFlat', gDriveBarFlat);
@@ -3130,6 +3137,9 @@ begin
     SetValue(SubNode, 'FilenameStyle', ord(gToolbarFilenameStyle));
     SetValue(SubNode, 'PathToBeRelativeTo', gToolbarPathToBeRelativeTo);
     SetValue(SubNode, 'PathModifierElements', Integer(gToolbarPathModifierElements));
+
+    SubNode := FindNode(Node, 'MiddleBar', True);
+    SetAttr(SubNode, 'Enabled', gMiddleToolBar);
 
     SetValue(Node, 'DriveBar1', gDriveBar1);
     SetValue(Node, 'DriveBar2', gDriveBar2);

@@ -367,6 +367,7 @@ type
     pnlCmdLine: TPanel;
     MainSplitter: TPanel;
     MainToolBar: TKASToolBar;
+    MiddleToolBar: TKASToolBar;
     mnuOpenVFSList: TMenuItem;
     mnuExtractFiles: TMenuItem;
     pmContextMenu: TPopupMenu;
@@ -836,8 +837,14 @@ type
     procedure LoadTabsCommandLine(Params: TCommandLineParams);
     procedure LoadWindowState;
     procedure SaveWindowState;
+
+    procedure LoadToolbar(AToolBar: TKASToolBar; const APath: String);
+    procedure SaveToolBar(AToolBar: TKASToolBar; const APath: String);
+
     procedure LoadMainToolbar;
     procedure SaveMainToolBar;
+    procedure LoadMiddleToolbar;
+    procedure SaveMiddleToolBar;
     procedure ShowLogWindow(Data: PtrInt);
     function  IsCommandLineVisible: Boolean;
     procedure ShowCommandLine(AFocus: Boolean);
@@ -1063,6 +1070,9 @@ begin
 
   MainToolBar.AddToolItemExecutor(TKASCommandItem, @ToolbarExecuteCommand);
   MainToolBar.AddToolItemExecutor(TKASProgramItem, @ToolbarExecuteProgram);
+
+  MiddleToolBar.AddToolItemExecutor(TKASCommandItem, @ToolbarExecuteCommand);
+  MiddleToolBar.AddToolItemExecutor(TKASProgramItem, @ToolbarExecuteProgram);
 
   // Use the same tooltips for some left and right panel butttons.
   btnRightDirectoryHotlist.Hint := btnLeftDirectoryHotlist.Hint;
@@ -1969,9 +1979,9 @@ begin
 
       // calculate percent
       if not gHorizontalFilePanels then
-        FMainSplitterPos:= MainSplitter.Left * 100 / (pnlNotebooks.Width-MainSplitter.Width)
+        FMainSplitterPos:= MainSplitter.Left * 100 / (pnlNotebooks.Width-MainSplitter.Width - MiddleToolBar.Width)
       else
-        FMainSplitterPos:= MainSplitter.Top * 100 / (pnlNotebooks.Height-MainSplitter.Height);
+        FMainSplitterPos:= MainSplitter.Top * 100 / (pnlNotebooks.Height-MainSplitter.Height - MiddleToolBar.Height);
 
       // generate hint text
       sHint:= FloatToStrF(FMainSplitterPos, ffFixed, 15, 1) + '%';
@@ -2804,7 +2814,8 @@ begin
 end;
 
 procedure TfrmMain.CreateDefaultToolbar;
-  procedure AddCommand(Command: String);
+
+  procedure AddCommand(AToolbar: TKASToolBar; Command: String);
   var
     CommandItem: TKASCommandItem;
   begin
@@ -2812,12 +2823,14 @@ procedure TfrmMain.CreateDefaultToolbar;
     CommandItem.Icon := UTF8LowerCase(Command);
     CommandItem.Command := Command;
     // Leave CommandItem.Hint empty. It will be loaded at startup based on language.
-    MainToolBar.AddButton(CommandItem);
+    AToolbar.AddButton(CommandItem);
   end;
-  procedure AddSeparator;
+
+  procedure AddSeparator(AToolbar: TKASToolBar);
   begin
-    MainToolBar.AddButton(TKASSeparatorItem.Create);
+    AToolbar.AddButton(TKASSeparatorItem.Create);
   end;
+
 var
   MainToolBarNode: TXmlNode;
 begin
@@ -2826,31 +2839,46 @@ begin
     MainToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', False);
     if not Assigned(MainToolBarNode) then
     begin
-      AddCommand('cm_Refresh');
-      AddCommand('cm_RunTerm');
-      AddCommand('cm_Options');
-      AddSeparator;
-      AddCommand('cm_BriefView');
-      AddCommand('cm_ColumnsView');
-      AddCommand('cm_ThumbnailsView');
-      AddSeparator;
-      AddCommand('cm_FlatView');
-      AddSeparator;
-      AddCommand('cm_ViewHistoryPrev');
-      AddCommand('cm_ViewHistoryNext');
-      AddSeparator;
-      AddCommand('cm_MarkPlus');
-      AddCommand('cm_MarkMinus');
-      AddCommand('cm_MarkInvert');
-      AddSeparator;
-      AddCommand('cm_PackFiles');
-      AddCommand('cm_ExtractFiles');
-      AddSeparator;
-      AddCommand('cm_Search');
-      AddCommand('cm_MultiRename');
-      AddCommand('cm_SyncDirs');
-      AddCommand('cm_CopyFullNamesToClip');
+      AddCommand(MainToolBar, 'cm_Refresh');
+      AddCommand(MainToolBar, 'cm_RunTerm');
+      AddCommand(MainToolBar, 'cm_Options');
+      AddSeparator(MainToolBar);
+      AddCommand(MainToolBar, 'cm_BriefView');
+      AddCommand(MainToolBar, 'cm_ColumnsView');
+      AddCommand(MainToolBar, 'cm_ThumbnailsView');
+      AddSeparator(MainToolBar);
+      AddCommand(MainToolBar, 'cm_FlatView');
+      AddSeparator(MainToolBar);
+      AddCommand(MainToolBar, 'cm_ViewHistoryPrev');
+      AddCommand(MainToolBar, 'cm_ViewHistoryNext');
+      AddSeparator(MainToolBar);
+      AddCommand(MainToolBar, 'cm_MarkPlus');
+      AddCommand(MainToolBar, 'cm_MarkMinus');
+      AddCommand(MainToolBar, 'cm_MarkInvert');
+      AddSeparator(MainToolBar);
+      AddCommand(MainToolBar, 'cm_PackFiles');
+      AddCommand(MainToolBar, 'cm_ExtractFiles');
+      AddSeparator(MainToolBar);
+      AddCommand(MainToolBar, 'cm_Search');
+      AddCommand(MainToolBar, 'cm_MultiRename');
+      AddCommand(MainToolBar, 'cm_SyncDirs');
+      AddCommand(MainToolBar, 'cm_CopyFullNamesToClip');
       SaveMainToolBar;
+    end;
+  end;
+  if MiddleToolBar.ButtonCount = 0 then
+  begin
+    MainToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MiddleToolbar', False);
+    if not Assigned(MainToolBarNode) then
+    begin
+      AddCommand(MiddleToolBar, 'cm_View');
+      AddCommand(MiddleToolBar, 'cm_Edit');
+      AddCommand(MiddleToolBar, 'cm_Copy');
+      AddCommand(MiddleToolBar, 'cm_Rename');
+      AddSeparator(MiddleToolBar);
+      AddCommand(MiddleToolBar, 'cm_PackFiles');
+      AddCommand(MiddleToolBar, 'cm_MakeDir');
+      SaveMiddleToolBar;
     end;
   end;
 end;
@@ -3976,9 +4004,9 @@ begin
   begin
     FResizingFilePanels := True;
     if not gHorizontalFilePanels then
-      pnlLeft.Width := Round(Double(pnlNotebooks.Width - MainSplitter.Width) * FMainSplitterPos / 100.0)
+      pnlLeft.Width := Round(Double(pnlNotebooks.Width - MainSplitter.Width - MiddleToolBar.Width) * FMainSplitterPos / 100.0)
     else
-      pnlLeft.Height := Round(Double(pnlNotebooks.Height - MainSplitter.Height) * FMainSplitterPos / 100.0);
+      pnlLeft.Height := Round(Double(pnlNotebooks.Height - MainSplitter.Height - MiddleToolBar.Height) * FMainSplitterPos / 100.0);
     FResizingFilePanels := False;
   end;
 end;
@@ -4882,6 +4910,8 @@ begin
       pnlLeft.BorderSpacing.Right  := 0;
       pnlLeft.BorderSpacing.Bottom := 3;
       MainSplitter.Cursor := crVSplit;
+      MiddleToolBar.Align:= alTop;
+      MiddleToolBar.Top:= pnlLeft.Height + 1;
     end
     else
     begin
@@ -4889,6 +4919,8 @@ begin
       pnlLeft.BorderSpacing.Right  := 3;
       pnlLeft.BorderSpacing.Bottom := 0;
       MainSplitter.Cursor := crHSplit;
+      MiddleToolBar.Align:= alLeft;
+      MiddleToolBar.Left:= pnlLeft.Width + 1;
     end;
     pnlLeftResize(pnlLeft);
     pnlNotebooksResize(pnlNotebooks);
@@ -4925,13 +4957,18 @@ begin
     (*Main menu*)
     Commands.DoShowMainMenu(gMainMenu);
 
-    (*Tool Bar*)
+    (*Main Tool Bar*)
     MainToolBar.Visible:= gButtonBar;
     MainToolBar.Flat:= gToolBarFlat;
     MainToolBar.GlyphSize:= gToolBarIconSize;
     MainToolBar.ShowCaptions:= gToolBarShowCaptions;
     MainToolBar.SetButtonSize(gToolBarButtonSize, gToolBarButtonSize);
     LoadMainToolbar;
+
+    (*Middle Tool Bar*)
+    MiddleToolbar.Visible:= gMiddleToolBar;
+    MiddleToolbar.Flat:= gToolBarFlat;
+    LoadMiddleToolbar;
 
     btnLeftDrive.Visible := gDrivesListButton;
     btnLeftDrive.Flat := gInterfaceFlat;
@@ -5585,31 +5622,51 @@ begin
   gConfig.SetValue(ANode, 'Splitter', FMainSplitterPos);
 end;
 
-procedure TfrmMain.LoadMainToolbar;
+procedure TfrmMain.LoadToolbar(AToolBar: TKASToolBar; const APath: String);
 var
   ToolBarLoader: TKASToolBarExtendedLoader;
   ToolBarNode: TXmlNode;
 begin
-  MainToolBar.BeginUpdate;
+  AToolBar.BeginUpdate;
   ToolBarLoader := TKASToolBarExtendedLoader.Create(Commands.Commands);
   try
-    MainToolBar.Clear;
-    ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', False);
+    AToolBar.Clear;
+    ToolBarNode := gConfig.FindNode(gConfig.RootNode, APath, False);
     if Assigned(ToolBarNode) then
-      MainToolBar.LoadConfiguration(gConfig, ToolBarNode, ToolBarLoader, tocl_FlushCurrentToolbarContent);
+      AToolBar.LoadConfiguration(gConfig, ToolBarNode, ToolBarLoader, tocl_FlushCurrentToolbarContent);
   finally
     ToolBarLoader.Free;
-    MainToolBar.EndUpdate;
+    AToolBar.EndUpdate;
   end;
 end;
 
-procedure TfrmMain.SaveMainToolBar;
+procedure TfrmMain.SaveToolBar(AToolBar: TKASToolBar; const APath: String);
 var
   ToolBarNode: TXmlNode;
 begin
-  ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', True);
+  ToolBarNode := gConfig.FindNode(gConfig.RootNode, APath, True);
   gConfig.ClearNode(ToolBarNode);
-  MainToolBar.SaveConfiguration(gConfig, ToolBarNode);
+  AToolBar.SaveConfiguration(gConfig, ToolBarNode);
+end;
+
+procedure TfrmMain.LoadMainToolbar;
+begin
+  LoadToolbar(MainToolBar, 'Toolbars/MainToolbar');
+end;
+
+procedure TfrmMain.SaveMainToolBar;
+begin
+  SaveToolBar(MainToolBar, 'Toolbars/MainToolbar');
+end;
+
+procedure TfrmMain.LoadMiddleToolbar;
+begin
+  LoadToolbar(MiddleToolBar, 'Toolbars/MiddleToolbar');
+end;
+
+procedure TfrmMain.SaveMiddleToolBar;
+begin
+  SaveToolBar(MiddleToolBar, 'Toolbars/MiddleToolbar');
 end;
 
 procedure TfrmMain.ShowLogWindow(Data: PtrInt);
