@@ -13,7 +13,6 @@
 {"hash":216809273,"name":"tfrmoptionslayout.cbtwodiskpanels.caption","sourcebytes":[83,104,111,119,32,116,119,111,32,100,114,105,118,101,32,98,117,116,116,111,110,32,98,97,114,115,32,40,102,105,38,120,101,100,32,119,105,100,116,104,44,32,97,98,111,118,101,32,102,105,108,101,32,119,105,110,100,111,119,115,41],"value":"Show two drive button bars (fi&xed width, above file windows)"},
 {"hash":91296995,"name":"tfrmoptionslayout.cbshowtabs.caption","sourcebytes":[83,104,111,38,119,32,102,111,108,100,101,114,32,116,97,98,115],"value":"Sho&w folder tabs"},
 {"hash":44971493,"name":"tfrmoptionslayout.cbflatinterface.caption","sourcebytes":[70,108,97,116,32,105,38,110,116,101,114,102,97,99,101],"value":"Flat i&nterface"},
-{"hash":14931027,"name":"tfrmoptionslayout.cbflattoolbar.caption","sourcebytes":[70,108,97,116,32,98,38,117,116,116,111,110,115],"value":"Flat b&uttons"},
 {"hash":245942935,"name":"tfrmoptionslayout.cblogwindow.caption","sourcebytes":[83,104,111,119,32,108,111,38,103,32,119,105,110,100,111,119],"value":"Show lo&g window"},
 {"hash":142079143,"name":"tfrmoptionslayout.cbtermwindow.caption","sourcebytes":[83,104,111,119,32,116,101,38,114,109,105,110,97,108,32,119,105,110,100,111,119],"value":"Show te&rminal window"},
 {"hash":140527132,"name":"tfrmoptionslayout.cbfreespaceind.caption","sourcebytes":[83,104,111,119,32,102,114,38,101,101,32,115,112,97,99,101,32,105,110,100,105,99,97,116,111,114,32,111,110,32,100,114,105,118,101,32,108,97,98,101,108],"value":"Show fr&ee space indicator on drive label"},
