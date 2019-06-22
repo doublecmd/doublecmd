@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2019-04-07 08:18+0200\n"
+"PO-Revision-Date: 2019-06-22 11:50+0200\n"
 "Last-Translator: Zdeněk Fuchs <zephycz@centrum.cz>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -470,22 +470,22 @@ msgstr "Zrušit"
 #: tfrmdiffer.actcopylefttoright.caption
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
 msgid "Copy Block Right"
-msgstr "Kopírovat pravý blok"
+msgstr "Kopírovat doprava"
 
 #: tfrmdiffer.actcopylefttoright.hint
 msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT"
 msgid "Copy Block Right"
-msgstr "Kopírovat pravý blok"
+msgstr "Kopírovat doprava"
 
 #: tfrmdiffer.actcopyrighttoleft.caption
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.CAPTION"
 msgid "Copy Block Left"
-msgstr "Kopírovat levý blok"
+msgstr "Kopírovat doleva"
 
 #: tfrmdiffer.actcopyrighttoleft.hint
 msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT"
 msgid "Copy Block Left"
-msgstr "Kopírovat levý blok"
+msgstr "Kopírovat doleva"
 
 #: tfrmdiffer.acteditcopy.caption
 msgctxt "TFRMDIFFER.ACTEDITCOPY.CAPTION"
@@ -2210,7 +2210,7 @@ msgstr "Zaměnit aktuální seznam a stromové zobrazení"
 
 #: tfrmmain.actgotofirstentry.caption
 msgid "Place cursor on first folder or file"
-msgstr ""
+msgstr "Kurzor umístit na první položku"
 
 #: tfrmmain.actgotofirstfile.caption
 msgid "Place cursor on first file in list"
@@ -2218,7 +2218,7 @@ msgstr "Umístit kurzor na první soubor v seznamu"
 
 #: tfrmmain.actgotolastentry.caption
 msgid "Place cursor on last folder or file"
-msgstr ""
+msgstr "Kurzor umístit na poslední položku"
 
 #: tfrmmain.actgotolastfile.caption
 msgid "Place cursor on last file in list"
@@ -4984,7 +4984,7 @@ msgstr "Možnosti interního editoru"
 
 #: tfrmoptionseditor.lblrightedge.caption
 msgid "Right margin:"
-msgstr ""
+msgstr "Pravý okraj:"
 
 #: tfrmoptionseditor.lbltabwidth.caption
 msgid "Tab width:"
@@ -6339,7 +6339,7 @@ msgstr "Panel disků:"
 
 #: tfrmoptionsicons.lblfilepanel.caption
 msgid "File panel:"
-msgstr ""
+msgstr "Panel souborů:"
 
 #: tfrmoptionsicons.rbiconsshowall.caption
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"
@@ -6952,7 +6952,7 @@ msgstr "Aktivovat cílový &panel při kliknutí na jeho libovolnou záložku"
 
 #: tfrmoptionstabs.cbtabsalwaysvisible.caption
 msgid "&Show tab header also when there is only one tab"
-msgstr "&Zobrazit záložku, i když bude pouze 1"
+msgstr "&Zobrazit záložku, i když bude pouze jedna"
 
 #: tfrmoptionstabs.cbtabscloseduplicatewhenclosing.caption
 msgid "Close duplicate tabs when closing application"
@@ -6960,11 +6960,11 @@ msgstr "Zavřít stejné záložky při ukončování aplikace"
 
 #: tfrmoptionstabs.cbtabsconfirmcloseall.caption
 msgid "Con&firm close all tabs"
-msgstr "Potv&rdit uzavření všech záložek"
+msgstr "Potvrzovat zavření všech záložek"
 
 #: tfrmoptionstabs.cbtabsconfirmcloselocked.caption
 msgid "Confirm close locked tabs"
-msgstr "Potvrdit zavření uzamčené záložky"
+msgstr "Potvrzovat zavření zamknuté záložky"
 
 #: tfrmoptionstabs.cbtabslimitoption.caption
 msgid "&Limit tab title length to"
@@ -6972,7 +6972,7 @@ msgstr "&Omezit šířku záložky na"
 
 #: tfrmoptionstabs.cbtabslockedasterisk.caption
 msgid "Show locked tabs &with an asterisk *"
-msgstr "Zobrazit u uzamčené záložky znak *"
+msgstr "U zamknuté záložky zobrazit znak *"
 
 #: tfrmoptionstabs.cbtabsmultilines.caption
 msgid "&Tabs on multiple lines"
@@ -6984,7 +6984,7 @@ msgstr "Ctrl+&Nahoru otevře novou záložku na pozadí"
 
 #: tfrmoptionstabs.cbtabsopennearcurrent.caption
 msgid "Open &new tabs near current tab"
-msgstr "Otevřít &novou záložku vedle aktuální"
+msgstr "&Novou záložku otevřít vedle aktuální"
 
 #: tfrmoptionstabs.cbtabsreusetabwhenpossible.caption
 msgid "Reuse existing tab when possible"
@@ -7008,7 +7008,7 @@ msgstr "znaky"
 
 #: tfrmoptionstabs.lbltabsactionondoubleclick.caption
 msgid "Action to do when double click on a tab:"
-msgstr "Akce k provedení když poklikáme na záložku:"
+msgstr "Akce při dvojkliku na záložku:"
 
 #: tfrmoptionstabs.lbltabsposition.caption
 msgid "Ta&bs position"
@@ -7147,7 +7147,7 @@ msgstr "Upravit kláveso&vou zkratku"
 
 #: tfrmoptionstoolbar.btninsertbutton.caption
 msgid "&Insert new button"
-msgstr "&Vložit nové tlačítko"
+msgstr "&Přidat nové tlačítko"
 
 #: tfrmoptionstoolbar.btnopencmddlg.caption
 msgid "Select"
@@ -7191,7 +7191,7 @@ msgstr "Oznámit chyby a příkazy"
 
 #: tfrmoptionstoolbar.cbshowcaptions.caption
 msgid "Sho&w captions"
-msgstr ""
+msgstr "Zobrazit popisky"
 
 #: tfrmoptionstoolbar.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
@@ -7256,19 +7256,19 @@ msgstr "Přidat nástrojovou lištu se VŠEMI příkazy DC"
 
 #: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
-msgstr "pro externí příkaz"
+msgstr "externí příkaz"
 
 #: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
 msgid "for an internal command"
-msgstr "pro vnitřní příkaz"
+msgstr "vnitřní příkaz"
 
 #: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
 msgid "for a separator"
-msgstr "pro oddělovač"
+msgstr "oddělovač"
 
 #: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
-msgstr "pro podnabídku nástrojové lišty"
+msgstr "podnabídka nástrojové lišty"
 
 #: tfrmoptionstoolbar.mibackup.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIBACKUP.CAPTION"
@@ -7345,22 +7345,22 @@ msgstr "do Total Commanderu (\"wincmd.ini\") - smazat existující"
 #: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDAFTERCURRENT.CAPTION"
 msgid "just after current selection"
-msgstr "hned za aktuální výběr"
+msgstr "za aktuálně vybraný"
 
 #: tfrmoptionstoolbar.miexternalcommandfirstelement.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDFIRSTELEMENT.CAPTION"
 msgid "as first element"
-msgstr "jako první prvek"
+msgstr "na začátek"
 
 #: tfrmoptionstoolbar.miexternalcommandlastelement.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDLASTELEMENT.CAPTION"
 msgid "as last element"
-msgstr "jako poslední prvek"
+msgstr "na konec"
 
 #: tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
-msgstr "hned před aktuální výběr"
+msgstr "před aktuálně vybraný"
 
 #: tfrmoptionstoolbar.miimport.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORT.CAPTION"
@@ -7486,22 +7486,22 @@ msgstr "nahradit horní nástrojovou lištu"
 #: tfrmoptionstoolbar.miinternalcommandaftercurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDAFTERCURRENT.CAPTION"
 msgid "just after current selection"
-msgstr "hned za aktuální výběr"
+msgstr "za aktuálně vybraný"
 
 #: tfrmoptionstoolbar.miinternalcommandfirstelement.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDFIRSTELEMENT.CAPTION"
 msgid "as first element"
-msgstr "jako první prvek"
+msgstr "na začátek"
 
 #: tfrmoptionstoolbar.miinternalcommandlastelement.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDLASTELEMENT.CAPTION"
 msgid "as last element"
-msgstr "jako poslední prvek"
+msgstr "na konec"
 
 #: tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
-msgstr "hned před aktuální výběr"
+msgstr "před aktuálně vybraný"
 
 #: tfrmoptionstoolbar.misearchandreplace.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MISEARCHANDREPLACE.CAPTION"
@@ -7511,22 +7511,22 @@ msgstr "Vyhledat a nahradit..."
 #: tfrmoptionstoolbar.miseparatoraftercurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
 msgid "just after current selection"
-msgstr "hned za aktuální výběr"
+msgstr "za aktuálně vybraný"
 
 #: tfrmoptionstoolbar.miseparatorfirstitem.caption
 msgctxt "tfrmoptionstoolbar.miseparatorfirstitem.caption"
 msgid "as first element"
-msgstr "jako první prvek"
+msgstr "na začátek"
 
 #: tfrmoptionstoolbar.miseparatorlastelement.caption
 msgctxt "tfrmoptionstoolbar.miseparatorlastelement.caption"
 msgid "as last element"
-msgstr "jako poslední prvek"
+msgstr "na konec"
 
 #: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
 msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
-msgstr "hned před aktuální výběr"
+msgstr "před aktuálně vybraný"
 
 #: tfrmoptionstoolbar.misrcrplallofall.caption
 msgid "in all of all the above..."
@@ -7551,22 +7551,22 @@ msgstr "ve všech spouštěcích cestách..."
 #: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARAFTERCURRENT.CAPTION"
 msgid "just after current selection"
-msgstr "hned za aktuální výběr"
+msgstr "za aktuálně vybraný"
 
 #: tfrmoptionstoolbar.misubtoolbarfirstelement.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARFIRSTELEMENT.CAPTION"
 msgid "as first element"
-msgstr "jako první prvek"
+msgstr "na začátek"
 
 #: tfrmoptionstoolbar.misubtoolbarlastelement.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARLASTELEMENT.CAPTION"
 msgid "as last element"
-msgstr "jako poslední prvek"
+msgstr "na konec"
 
 #: tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption
 msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
-msgstr "hned před aktuální výběr"
+msgstr "před aktuálně vybraný"
 
 #: tfrmoptionstoolbar.rgtoolitemtype.caption
 msgid "Button type"
@@ -8054,27 +8054,27 @@ msgstr "Čas:"
 
 #: tfrmprintsetup.caption
 msgid "Print configuration"
-msgstr ""
+msgstr "Nastavení tisku"
 
 #: tfrmprintsetup.gbmargins.caption
 msgid "Margins (mm)"
-msgstr ""
+msgstr "Okraje (mm)"
 
 #: tfrmprintsetup.lblbottom.caption
 msgid "&Bottom:"
-msgstr ""
+msgstr "Dolní:"
 
 #: tfrmprintsetup.lblleft.caption
 msgid "&Left:"
-msgstr ""
+msgstr "Levý:"
 
 #: tfrmprintsetup.lblright.caption
 msgid "&Right:"
-msgstr ""
+msgstr "Pravý:"
 
 #: tfrmprintsetup.lbltop.caption
 msgid "&Top:"
-msgstr ""
+msgstr "Horní:"
 
 #: tfrmquicksearch.btncancel.caption
 msgctxt "TFRMQUICKSEARCH.BTNCANCEL.CAPTION"
@@ -8476,15 +8476,15 @@ msgstr "&Název odkazu"
 
 #: tfrmsyncdirsdlg.actdeleteboth.caption
 msgid "Delete on both sides"
-msgstr ""
+msgstr "Smazat na obou stranách"
 
 #: tfrmsyncdirsdlg.actdeleteleft.caption
 msgid "<- Delete left"
-msgstr ""
+msgstr "<- Smazat levý"
 
 #: tfrmsyncdirsdlg.actdeleteright.caption
 msgid "-> Delete right"
-msgstr ""
+msgstr "-> Smazat pravý"
 
 #: tfrmsyncdirsdlg.actselectclear.caption
 msgid "Remove selection"
@@ -8537,7 +8537,7 @@ msgstr "Synchronizovat"
 
 #: tfrmsyncdirsdlg.caption
 msgid "Synchronize directories"
-msgstr "Synchronizovat adresáře"
+msgstr "Synchronizovat složky"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
 msgctxt "TFRMSYNCDIRSDLG.CBEXTFILTER.TEXT"
@@ -8658,7 +8658,7 @@ msgstr "Synchronizovat"
 
 #: tfrmsyncdirsperformdlg.chkconfirmoverwrites.caption
 msgid "Confirm overwrites"
-msgstr "Ověření přepsání"
+msgstr "Potvrzovat přepsání"
 
 #: tfrmtreeviewmenu.caption
 msgctxt "tfrmtreeviewmenu.caption"
@@ -8947,11 +8947,11 @@ msgstr "Miniatury souborů"
 
 #: tfrmviewer.actprint.caption
 msgid "P&rint..."
-msgstr ""
+msgstr "Tisk..."
 
 #: tfrmviewer.actprintsetup.caption
 msgid "Print &setup..."
-msgstr ""
+msgstr "Nastavení tisku..."
 
 #: tfrmviewer.actreload.caption
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
@@ -9903,7 +9903,7 @@ msgstr "soubory Oblíbených složek"
 
 #: ulng.rsfilterexecutablefiles
 msgid "Executables files"
-msgstr ""
+msgstr "Spustitelné soubory"
 
 #: ulng.rsfilteriniconfigfiles
 msgid ".ini Config files"
@@ -10801,7 +10801,7 @@ msgstr "Nalezení souboru \".hotlist\" pro import"
 
 #: ulng.rsmsghotdirname
 msgid "Hotdir name"
-msgstr "Název rychlého adresáře"
+msgstr "Název složky"
 
 #: ulng.rsmsghotdirnbnewentries
 msgid "Number of new entries: %d"
@@ -10813,7 +10813,7 @@ msgstr "Pro import není nic vybráno!"
 
 #: ulng.rsmsghotdirpath
 msgid "Hotdir path"
-msgstr "Cesta rychlého adresáře"
+msgstr "Cesta ke složce ve zdrojovém panelu"
 
 #: ulng.rsmsghotdirreaddselecteddirectory
 msgid "Re-Add selected dir: "
@@ -10859,7 +10859,7 @@ msgstr "Název podnabídky"
 
 #: ulng.rsmsghotdirtarget
 msgid "Hotdir target"
-msgstr "Cíl rychlého adresáře"
+msgstr "Cesta ke složce v cílovém panelu"
 
 #: ulng.rsmsghotdirtiporderpath
 msgid "Determine if you want the active frame to be sorted in a specified order after changing directory"
@@ -11444,7 +11444,7 @@ msgstr "Neměnit;VELKÁ;malá;1. znak velkým;1. znak každého slova velkým;"
 
 #: ulng.rsmulrenlastpreset
 msgid "[The last used]"
-msgstr ""
+msgstr "[Poslední použitý]"
 
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
@@ -12302,7 +12302,7 @@ msgstr "Nahoře;Dole;"
 
 #: ulng.rsopttoolbarbuttontype
 msgid "S&eparator;Inte&rnal command;E&xternal command;Men&u"
-msgstr "O&ddělovač;Vni&třní příkaz;V&nější příkaz;Nabíd&ka"
+msgstr "O&ddělovač;Vni&třní příkaz;V&nější příkaz;Podnabíd&ka"
 
 #: ulng.rsopttooltipconfiguresavetochange
 msgid "To change file type tooltip configuration, either APPLY or DELETE current editing one"
@@ -12722,7 +12722,7 @@ msgstr "Prostý text"
 
 #: ulng.rstabsactionondoubleclickchoices
 msgid "Do nothing;Close tab;Access Favorite Tabs;Tabs popup menu"
-msgstr "Žádná;Zavřít záložku;Přístup k oblíbeným záložkám;Roletovou nabídku záložek"
+msgstr "Žádná;Zavřít záložku;Zobrazit oblíbené záložky;Zobrazit menu s akcemi pro záložky"
 
 #: ulng.rstimeunitday
 msgid "Day(s)"
@@ -13022,4 +13022,3 @@ msgstr "Počet nahrazených: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Žádné nahrazení se nekonalo."
-
