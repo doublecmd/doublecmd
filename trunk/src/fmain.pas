@@ -4922,6 +4922,12 @@ begin
       MiddleToolBar.Align:= alLeft;
       MiddleToolBar.Left:= pnlLeft.Width + 1;
     end;
+
+    (* Middle Tool Bar *)
+    MiddleToolbar.Visible:= gMiddleToolBar;
+    MiddleToolbar.Flat:= gToolBarFlat;
+    LoadMiddleToolbar;
+
     pnlLeftResize(pnlLeft);
     pnlNotebooksResize(pnlNotebooks);
 
@@ -4964,11 +4970,6 @@ begin
     MainToolBar.ShowCaptions:= gToolBarShowCaptions;
     MainToolBar.SetButtonSize(gToolBarButtonSize, gToolBarButtonSize);
     LoadMainToolbar;
-
-    (*Middle Tool Bar*)
-    MiddleToolbar.Visible:= gMiddleToolBar;
-    MiddleToolbar.Flat:= gToolBarFlat;
-    LoadMiddleToolbar;
 
     btnLeftDrive.Visible := gDrivesListButton;
     btnLeftDrive.Flat := gInterfaceFlat;
