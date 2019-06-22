@@ -239,11 +239,7 @@ begin
     TDCBuildEngine(BuildEngine).SysDeleteTree('doublecmd.dSYM');
   end;
   // Clean fpmake output files
-  TDCBuildEngine(BuildEngine).SysDeleteTree('lib');
-  if Defaults.OS in AllUnixOSes then
-  begin
-    TDCBuildEngine(BuildEngine).SysDeleteFile('fpmake');
-  end;
+  TDCBuildEngine(BuildEngine).SysDeleteFile('fpmake.o');
 end;
 
 procedure TDCInstaller.Build;
@@ -302,7 +298,6 @@ var
   OptionIndex: LongInt = 0;
   Options: array[1..4] of TOption;
 begin
-  WriteLn('Run!!!');
   with Installer(TDCInstaller) as TDCInstaller do
   begin
     CreateBuildEngine;
