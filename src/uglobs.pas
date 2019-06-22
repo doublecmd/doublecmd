@@ -596,6 +596,7 @@ var
   gSyncDirsByContent,
   gSyncDirsAsymmetric,
   gSyncDirsIgnoreDate,
+  gSyncDirsAsymmetricSave,
   gSyncDirsShowFilterCopyRight,
   gSyncDirsShowFilterEqual,
   gSyncDirsShowFilterNotEqual,
@@ -1819,6 +1820,7 @@ begin
   gSyncDirsByContent := False;
   gSyncDirsAsymmetric := False;
   gSyncDirsIgnoreDate := False;
+  gSyncDirsAsymmetricSave := False;
   gSyncDirsShowFilterCopyRight := True;
   gSyncDirsShowFilterEqual := True;
   gSyncDirsShowFilterNotEqual := True;
@@ -2839,6 +2841,7 @@ begin
       gSyncDirsSubdirs := GetValue(Node, 'Subdirs', gSyncDirsSubdirs);
       gSyncDirsByContent := GetValue(Node, 'ByContent', gSyncDirsByContent);
       gSyncDirsAsymmetric := GetValue(Node, 'Asymmetric', gSyncDirsAsymmetric);
+      gSyncDirsAsymmetricSave := GetAttr(Node, 'Asymmetric/Save', gSyncDirsAsymmetricSave);
       gSyncDirsIgnoreDate := GetValue(Node, 'IgnoreDate', gSyncDirsIgnoreDate);
       gSyncDirsShowFilterCopyRight := GetValue(Node, 'FilterCopyRight', gSyncDirsShowFilterCopyRight);
       gSyncDirsShowFilterEqual := GetValue(Node, 'FilterEqual', gSyncDirsShowFilterEqual);
@@ -3370,7 +3373,8 @@ begin
     Node := FindNode(Root, 'SyncDirs', True);
     SetValue(Node, 'Subdirs', gSyncDirsSubdirs);
     SetValue(Node, 'ByContent', gSyncDirsByContent);
-    SetValue(Node, 'Asymmetric', gSyncDirsAsymmetric);
+    SetValue(Node, 'Asymmetric', gSyncDirsAsymmetric and gSyncDirsAsymmetricSave);
+    SetAttr(Node, 'Asymmetric/Save', gSyncDirsAsymmetricSave);
     SetValue(Node, 'IgnoreDate', gSyncDirsIgnoreDate);
     SetValue(Node, 'FilterCopyRight', gSyncDirsShowFilterCopyRight);
     SetValue(Node, 'FilterEqual', gSyncDirsShowFilterEqual);
