@@ -13,4 +13,4 @@ components: fpmake
 fpmake:
 	fpc fpmake.pp
 
-.PHONY: all clean components
+.PHONY: all clean plugins components
