@@ -618,14 +618,40 @@ end;
 procedure TfrmOptionsHotkeys.FillCommandList(Filter: string);
 var
   lcFilter: string;
+  FilterParts: TStringList;
   slCommandsForGrid, slDescriptionsForGrid, slHotKeyForGrid: TStringList;
 
   procedure AddOrFilterOut(const Command, HotKeys, Description: string);
+
+    function CheckHotKeys: Boolean;
+    var
+      lcHotKeys: string;
+      i: integer;
+    begin
+      lcHotKeys := UTF8LowerCase(HotKeys);
+      for i := 0 to pred(FilterParts.Count) do // Get filter parts split by '+' character
+      begin
+        if FilterParts[i] = '' then
+          Continue;
+        if Length(FilterParts[i]) = 1 then // Heurstics to make filtering more handy
+        begin
+          if FilterParts[i][1] in ['c','s','a','m'] then // Ctrl Shift Alt Meta first letters
+            Result := Pos('+' + FilterParts[i] + ';', '+' + lcHotKeys + ';') <> 0
+          else // other single letters
+            Result := Pos('+' + FilterParts[i], '+' + lcHotKeys) <> 0;
+        end
+        else // plain substring search for two or more letters
+          Result := Pos(FilterParts[i], lcHotKeys) <> 0;
+        if not Result then
+          Break;
+      end;
+    end;
+
   begin
     if (lcFilter = '') or
-      (UTF8Pos(lcFilter, UTF8LowerCase(Command)) <> 0) or
-      (UTF8Pos(lcFilter, UTF8LowerCase(HotKeys)) <> 0) or
-      (UTF8Pos(lcFilter, UTF8LowerCase(Description)) <> 0) then
+      (Pos(lcFilter, UTF8LowerCase(Command)) <> 0) or
+      (Pos(lcFilter, UTF8LowerCase(Description)) <> 0) or
+      ((HotKeys <> '') and CheckHotKeys) then
     begin
       slCommandsForGrid.Add(Command);
       slHotKeyForGrid.Add(HotKeys);
@@ -681,6 +707,9 @@ begin
 
   // 2. Prepare filter to use in the next step.
   lcFilter := UTF8LowerCase(Filter);
+  FilterParts := TStringList.Create;
+  FilterParts.Delimiter := '+';
+  FilterParts.DelimitedText := lcFilter;
 
   // 3. Based on all the commands we got, populate "equally" our three string list of commands, hotkeys and descrition used to fill our grid.
   for i := 0 to pred(slAllCommands.Count) do
@@ -750,6 +779,7 @@ begin
   slHotKeyForGrid.Free;
   slDescriptionsForGrid.Free;
   slTmp.Free;
+  FilterParts.Free;
 
   if CommandsFormCreated then
     CommandsForm.Free;
