@@ -608,6 +608,20 @@ begin
       end;
     end;
 
+    VK_INSERT:
+    begin
+      if Shift = [] then // no modifiers pressed, to not capture Ctrl+Insert and Shift+Insert
+      begin
+        Key := 0;
+
+        if Assigned(Self.OnChangeSearch) then
+        begin
+          Options.Direction := qsdNext;
+          Self.OnChangeSearch(Self, edtSearch.Text, Options, True);
+        end;
+      end;
+    end;
+
     VK_RETURN, VK_SELECT:
     begin
       Key := 0;
