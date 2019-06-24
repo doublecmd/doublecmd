@@ -86,6 +86,7 @@ type
     OnHide: TOnHide;
     constructor Create(TheOwner: TWinControl); reintroduce;
     destructor Destroy; override;
+    procedure CloneTo(AQuickSearch: TfrmQuickSearch);
     procedure Execute(SearchMode: TQuickSearchMode; const Params: array of String; Char: TUTF8Char = #0);
     procedure Finalize;
     function CheckSearchOrFilter(var Key: Word): Boolean; overload;
@@ -194,6 +195,26 @@ begin
     HotMan.UnRegister(Self.edtSearch);
 
   inherited Destroy;
+end;
+
+procedure TfrmQuickSearch.CloneTo(AQuickSearch: TfrmQuickSearch);
+var
+  TempEvent: TNotifyEvent;
+begin
+  AQuickSearch.Options := Self.Options;
+  AQuickSearch.LoadControlStates;
+  AQuickSearch.FilterOptions := Self.FilterOptions;
+  AQuickSearch.FilterText := Self.FilterText;
+  TempEvent := AQuickSearch.edtSearch.OnChange;
+  AQuickSearch.edtSearch.OnChange := nil;
+  AQuickSearch.edtSearch.Text := Self.edtSearch.Text;
+  AQuickSearch.edtSearch.SelStart := Self.edtSearch.SelStart;
+  AQuickSearch.edtSearch.SelLength := Self.edtSearch.SelLength;
+  AQuickSearch.edtSearch.OnChange := TempEvent;
+  TempEvent := AQuickSearch.tglFilter.OnChange;
+  AQuickSearch.tglFilter.OnChange := nil;
+  AQuickSearch.tglFilter.Checked := Self.tglFilter.Checked;
+  AQuickSearch.tglFilter.OnChange := TempEvent;
 end;
 
 procedure TfrmQuickSearch.DoOnChangeSearch;

@@ -1169,6 +1169,11 @@ begin
   // CanFocus checks parent controls, but not parent form.
   if GetParentForm(Self).CanFocus and MainControl.CanFocus then
   begin
+    if FFocusQuickSearch then
+    begin
+      inherited SetFocus;
+      Exit;
+    end;
     inherited SetFocus;
     MainControl.SetFocus;
   end;

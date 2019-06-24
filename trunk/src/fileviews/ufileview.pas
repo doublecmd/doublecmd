@@ -771,8 +771,12 @@ begin
       AFileView.Request([fvrqHashFileList]);
     end;
 
+    AFileView.FFileFilter := Self.FFileFilter;
+    AFileView.FFilterOptions := Self.FFilterOptions;
+
     // FFiles need to be recreated because the filter is not cloned.
     // This is done in AFileView.UpdateView.
+    // UPDATE: Added filter cloning, is the aforementioned statement relevant now?
   end;
 end;
 
