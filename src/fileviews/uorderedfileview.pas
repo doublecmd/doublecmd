@@ -54,6 +54,7 @@ type
   protected
     lblFilter: TLabel;
     quickSearch: TfrmQuickSearch;
+    FFocusQuickSearch: Boolean;
     FLastActiveFileIndex: PtrInt;
     FLastTopRowIndex: PtrInt;
     FRangeSelecting: Boolean;
@@ -100,6 +101,7 @@ type
     procedure CloneTo(AFileView: TFileView); override;
     procedure SetActiveFile(aFilePath: String); override; overload;
     procedure ChangePathAndSetActiveFile(aFilePath: String); override; overload;
+    procedure SetFocus; override;
 
   published  // commands
     procedure cm_QuickSearch(const Params: array of string);
@@ -153,6 +155,12 @@ begin
       FRangeSelectionStartIndex := Self.FRangeSelectionStartIndex;
       FRangeSelectionEndIndex := Self.FRangeSelectionEndIndex;
       FRangeSelectionState := Self.FRangeSelectionState;
+
+      lblFilter.Caption := Self.lblFilter.Caption;
+      lblFilter.Visible := Self.lblFilter.Visible;
+      Self.quickSearch.CloneTo(quickSearch);
+      quickSearch.Visible := Self.quickSearch.Visible;
+      FFocusQuickSearch := Self.quickSearch.edtSearch.Focused;
     end;
   end;
 end;
@@ -781,6 +789,17 @@ begin
   begin
     CurrentPath := ExtractFileDir(aFilePath);
     SetActiveFile(ExtractFileName(aFilePath));
+  end;
+end;
+
+procedure TOrderedFileView.SetFocus;
+begin
+  inherited SetFocus;
+  if FFocusQuickSearch then
+  begin
+    FFocusQuickSearch := False;
+    if quickSearch.Visible then
+      quickSearch.edtSearch.SetFocus;
   end;
 end;
 
