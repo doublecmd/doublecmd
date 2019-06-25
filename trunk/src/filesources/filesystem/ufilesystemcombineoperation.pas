@@ -28,7 +28,7 @@ type
     function Combine(aSourceFile: TFile; aTargetFileStream: TFileStreamEx): Boolean;
     procedure ShowError(sMessage: String);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
-    function TryToGetInfroFromTheCRC32VerificationFile:boolean;
+    function TryToGetInfoFromTheCRC32VerificationFile: Boolean;
     procedure BegForPresenceOfThisFile(aFilename: String);
 
   public
@@ -130,7 +130,7 @@ begin
 
   //If we're under "RequireDynamicMode", check if we have a summary file like TC
   //We do that *after* the standard statistic in case we need to correct them from info in the summary file
-  if RequireDynamicMode AND (not WeGotTheCRC32VerificationFile) then TryToGetInfroFromTheCRC32VerificationFile;
+  if RequireDynamicMode AND (not WeGotTheCRC32VerificationFile) then TryToGetInfoFromTheCRC32VerificationFile;
 end;
 
 { TFileSystemCombineOperation.MainExecute }
@@ -406,13 +406,14 @@ begin
 end;
 
 { TFileSystemCombineOperation.TryToGetInfroFromTheCRC32VerificationFile }
-function TFileSystemCombineOperation.TryToGetInfroFromTheCRC32VerificationFile:boolean;
+function TFileSystemCombineOperation.TryToGetInfoFromTheCRC32VerificationFile: Boolean;
 var
   PosOfEqualSign: integer;
   MaybeSummaryFilename: String;
-  hSummaryFile: THandle;
+  SummaryLines: TStringList;
   LineToParse: string;
   UserAnswer: TFileSourceOperationUIResponse;
+  i: integer;
 begin
   Result:= False;
 
@@ -432,10 +433,12 @@ begin
 
   if mbFileExists(MaybeSummaryFilename) then
   begin
-    hSummaryFile:= mbFileOpen(MaybeSummaryFilename, fmOpenRead);
+    SummaryLines := TStringListEx.Create;
     try
-      while FileReadLn(hSummaryFile, LineToParse) do //"FileReadLn" return FALSE when we're at the end of the file! Wow! Let's use it for the loop control then!
+      SummaryLines.LoadFromFile(MaybeSummaryFilename);
+      for i := 0 to SummaryLines.Count - 1 do
       begin
+        LineToParse := SummaryLines[i];
         PosOfEqualSign := UTF8Pos('=', LineToParse);
         if PosOfEqualSign > 0 then //Investiguate *only* if the equal sign is present
         begin
@@ -462,7 +465,7 @@ begin
       end;
 
     finally
-      FileClose(hSummaryFile);
+      SummaryLines.Free;
     end;
 
     WeGotTheCRC32VerificationFile:=TRUE;
