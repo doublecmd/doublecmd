@@ -117,6 +117,9 @@ begin
       end
       else begin
         TextEncoding := NormalizeEncoding(TextEncoding);
+        if TextEncoding = EncodingDefault then begin
+          TextEncoding := GetDefaultTextEncoding;
+        end;
         if TextRegExp then FRegExpr := TRegExpr.Create(TextEncoding);
         FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
         ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
