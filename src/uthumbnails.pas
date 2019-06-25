@@ -91,6 +91,7 @@ var
   Y: Int32;
   sStr: String;
   tFile: THandle;
+  LastLine: Boolean;
 begin
   FBitmap:= TBitmap.Create;
   with FBitmap do
@@ -104,12 +105,11 @@ begin
     if (tFile <> feInvalidHandle) then
     begin
       Y:= 0;
-      while (Y < gThumbSize.cy) do
-      begin
-        if not FileReadLn(tFile, sStr) then Break;
+      repeat
+        LastLine := not FileReadLn(tFile, sStr);
         Canvas.TextOut(0, Y, sStr);
         Y += Canvas.TextHeight(sStr) + 2;
-      end;
+      until (Y >= gThumbSize.cy) or LastLine;
       FileClose(tFile);
     end;
   end;
