@@ -1171,6 +1171,7 @@ begin
   begin
     if FFocusQuickSearch then
     begin
+      MainControl.SetFocus;
       inherited SetFocus;
       Exit;
     end;
