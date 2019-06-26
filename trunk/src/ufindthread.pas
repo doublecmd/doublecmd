@@ -117,9 +117,6 @@ begin
       end
       else begin
         TextEncoding := NormalizeEncoding(TextEncoding);
-        if TextEncoding = EncodingDefault then begin
-          TextEncoding := GetDefaultTextEncoding;
-        end;
         if TextRegExp then FRegExpr := TRegExpr.Create(TextEncoding);
         FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
         ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
@@ -133,6 +130,9 @@ begin
       end
       else if (CaseSensitive = False) then
       begin
+        if TextEncoding = EncodingDefault then begin
+          TextEncoding := GetDefaultTextEncoding;
+        end;
         if ((TextEncoding = EncodingUTF8) or (TextEncoding = EncodingUTF8BOM)) then
           FTextSearchType:= tsUtf8
         else if (TextEncoding = EncodingUTF16LE) then
