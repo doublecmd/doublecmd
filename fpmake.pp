@@ -58,6 +58,10 @@ const
     'tools\extractdwrflnfo'
   );
 
+var
+  FLazBuild: String = 'lazbuild';
+
+
 type
 
   { TDCDefaults }
@@ -116,7 +120,6 @@ begin
   AValue:= GetEnvironmentVariable('LCL_PLATFORM');
   if Length(AValue) > 0 then (Defaults as TDCDefaults).FWS:= AValue;
   inherited CompilerDefaults;
-  Compiler:= 'lazbuild';
 end;
 
 procedure TDCInstaller.BuildComponents;
@@ -127,7 +130,7 @@ begin
   for I:= Low(CommonComponents) to High(CommonComponents) do
   begin
     Args:= SetDirSeparators(CommonComponents[I]) + FLazBuildParams;
-    BuildEngine.ExecuteCommand(Defaults.Compiler, Args);
+    BuildEngine.ExecuteCommand(FLazBuild, Args);
   end;
 end;
 
@@ -194,18 +197,18 @@ var
   I: Integer;
 begin
   for I:= Low(CommonPlugins) to High(CommonPlugins) do
-    BuildEngine.ExecuteCommand(Defaults.Compiler, SetDirSeparators(CommonPlugins[I]) + FLazBuildParams);
+    BuildEngine.ExecuteCommand(FLazBuild, SetDirSeparators(CommonPlugins[I]) + FLazBuildParams);
 
   if Defaults.OS in AllMyUnixOSes then
   begin
     for I:= Low(UnixPlugins) to High(UnixPlugins) do
-      BuildEngine.ExecuteCommand(Defaults.Compiler, SetDirSeparators(UnixPlugins[I]) + FLazBuildParams);
+      BuildEngine.ExecuteCommand(FLazBuild, SetDirSeparators(UnixPlugins[I]) + FLazBuildParams);
   end;
 
   if Defaults.OS in AllWindowsOSes then
   begin
     for I:= Low(WindowsPlugins) to High(WindowsPlugins) do
-      BuildEngine.ExecuteCommand(Defaults.Compiler, SetDirSeparators(WindowsPlugins[I]) + FLazBuildParams);
+      BuildEngine.ExecuteCommand(FLazBuild, SetDirSeparators(WindowsPlugins[I]) + FLazBuildParams);
   end;
 end;
 
@@ -246,11 +249,11 @@ begin
   if Pos('--bm=', FLazBuildParams) = 0 then
     FLazBuildParams+= ' --bm=beta';
   // Build Double Commander
-  BuildEngine.ExecuteCommand(Defaults.Compiler, SetDirSeparators('src/doublecmd.lpi') + FLazBuildParams);
+  BuildEngine.ExecuteCommand(FLazBuild, SetDirSeparators('src/doublecmd.lpi') + FLazBuildParams);
   if Pos('--bm=beta', FLazBuildParams) > 0 then
   begin
     // Build Dwarf LineInfo Extractor
-    BuildEngine.ExecuteCommand(Defaults.Compiler, SetDirSeparators('tools/extractdwrflnfo.lpi'));
+    BuildEngine.ExecuteCommand(FLazBuild, SetDirSeparators('tools/extractdwrflnfo.lpi'));
     // Extract debug line info
     if Defaults.OS = Darwin then
     begin
@@ -285,6 +288,8 @@ end;
 
 var
   I: Integer;
+
+var
   OptArg: String;
   BuildTarget: String;
 begin
@@ -328,7 +333,7 @@ begin
     if (Pos('--ws', FLazBuildParams) = 0) and (Length((Defaults as TDCDefaults).WS) > 0) then
       FLazBuildParams+= ' --ws=' + (Defaults as TDCDefaults).WS;
 
-    WriteLn(Defaults.Compiler + ' ' + FLazBuildParams);
+    WriteLn(FLazBuildParams);
 
     if BuildTarget = 'components' then
       BuildComponents
