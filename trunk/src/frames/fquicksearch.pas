@@ -201,6 +201,8 @@ procedure TfrmQuickSearch.CloneTo(AQuickSearch: TfrmQuickSearch);
 var
   TempEvent: TNotifyEvent;
 begin
+  AQuickSearch.Active := Self.Active;
+  AQuickSearch.Mode := Self.Mode;
   AQuickSearch.Options := Self.Options;
   AQuickSearch.LoadControlStates;
   AQuickSearch.FilterOptions := Self.FilterOptions;
