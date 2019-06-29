@@ -4,10 +4,7 @@ program fpmake;
 {$mode objfpc}{$H+}
 
 uses
-  {$IFDEF UNIX}
-  cthreads,
-  {$ENDIF}
-  SysUtils, Classes, getopts, fpmkunit;
+  fpmkunit, SysUtils, Classes;
 
 const
   AllMyUnixOSes = AllUnixOSes - [Darwin];
@@ -293,11 +290,12 @@ var
   I: Integer;
 
 var
+  OptArg: String;
   BuildTarget: String;
-  Option: AnsiChar = #0;
-  OptionIndex: LongInt = 0;
-  Options: array[1..4] of TOption;
 begin
+  AddCustomFpmakeCommandlineOption('bm', 'Override the project build mode.');
+  AddCustomFpmakeCommandlineOption('ws', 'Override the project widgetset, e.g. gtk2 qt qt5 win32 cocoa.');
+
   with Installer(TDCInstaller) as TDCInstaller do
   begin
     CreateBuildEngine;
@@ -312,84 +310,37 @@ begin
       Exit;
     end;
 
-  for I:= 0 to ParamCount do
-  WriteLn(ParamStr(I));
+    for I:= 0 to ParamCount do WriteLn(ParamStr(I));
 
-  FillChar(Options, SizeOf(Options), 0);
-  with Options[1] do
-  begin
-    Name:= 'bm';
-    Has_arg:= 1;
-  end;
-  with Options[2] do
-  begin
-    Name:= 'ws';
-    Has_arg:= 1;
-  end;
-  with Options[3] do
-  begin
-    Name:= 'options';
-    Has_arg:= 1;
-  end;
-  with Options[4] do
-  begin
-    Name:= 'verbose';
-  end;
-
-  repeat
-    try
-      Option:= GetLongOpts('v', @Options[1], OptionIndex);
-    except
-      on E: Exception do
-      begin
-        WriteLn(E.Message);
-        Exit;
-      end;
+    OptArg:= GetCustomFpmakeCommandlineOptionValue('bm');
+    if Length(OptArg) > 0 then begin
+      FLazBuildParams+= ' --bm=' + OptArg;
     end;
-    case Option of
-      #0:
-        begin
-          case OptionIndex of
-            1:
-              begin
-                FLazBuildParams+= ' --bm=' + OptArg;
-                WriteLn(FLazBuildParams);
-              end;
-            2:
-              begin
-                FLazBuildParams+= ' --ws=' + OptArg;
-                WriteLn(FLazBuildParams);
-              end;
-            3:
-              begin
-                FLazBuildParams+= ' ' + OptArg;
-                WriteLn(FLazBuildParams);
-              end;
-            4:
-              begin
-                FLazBuildParams+= ' --verbose';
-                WriteLn(FLazBuildParams);
-              end;
-          end;
-        end;
-      'v':
-        begin
-          FLazBuildParams+= ' --verbose';
-          WriteLn(FLazBuildParams);
-        end;
-      '?', ':': WriteLn ('Error with opt : ', OptOpt);
-    end; { case }
-  until Option = EndOfOptions;
 
-  if (Pos('--ws', FLazBuildParams) = 0) and (Length((Defaults as TDCDefaults).WS) > 0) then
-    FLazBuildParams+= ' --ws=' + (Defaults as TDCDefaults).WS;
+    OptArg:= GetCustomFpmakeCommandlineOptionValue('ws');
+    if Length(OptArg) > 0 then begin
+      FLazBuildParams+= ' --ws=' + OptArg;
+    end;
 
-  if BuildTarget = 'components' then
-    BuildComponents
-  else if BuildTarget = 'plugins' then
-    BuildPlugins
-  else
-    Build;
+    if (Defaults.HaveOptions) then begin
+      FLazBuildParams+= ' ' + TDCDefaults(Defaults).CmdLineOptions;
+    end;
+
+    if BuildEngine.Verbose then begin
+      FLazBuildParams+= ' --verbose';
+    end;
+
+    if (Pos('--ws', FLazBuildParams) = 0) and (Length((Defaults as TDCDefaults).WS) > 0) then
+      FLazBuildParams+= ' --ws=' + (Defaults as TDCDefaults).WS;
+
+    WriteLn(FLazBuildParams);
+
+    if BuildTarget = 'components' then
+      BuildComponents
+    else if BuildTarget = 'plugins' then
+      BuildPlugins
+    else
+      Build;
 
   end;
 end.
