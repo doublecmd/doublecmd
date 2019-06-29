@@ -520,7 +520,8 @@ end;
 
 procedure TOrderedFileView.quickSearchChangeFilter(Sender: TObject; AFilterText: String; const AFilterOptions: TQuickSearchOptions);
 begin
-  Active := True;
+  if not ((FFileFilter = '') and (AFilterText = '')) then
+    Active := True;
 
   // position in file before filtering, otherwise position could be lost if
   // current file is filtered out causing jumps
