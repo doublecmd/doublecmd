@@ -38,7 +38,7 @@ implementation
 uses
   Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, uLng, DCOSUtils,
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog,
-  uClipboard, uShowMsg, uLuaStd, uFindEx, uConvEncoding;
+  uClipboard, uShowMsg, uLuaStd, uFindEx, uConvEncoding, uFileProcs;
 
 procedure luaPushSearchRec(L : Plua_State; Rec: PSearchRecEx);
 begin
@@ -131,6 +131,12 @@ function luaDirectoryExists(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 1;
   lua_pushboolean(L, mbDirectoryExists(lua_tostring(L, 1)));
+end;
+
+function luaCreateDirectory(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 1;
+  lua_pushboolean(L, mbForceDirectory(lua_tostring(L, 1)));
 end;
 
 function luaExtractFilePath(L : Plua_State) : Integer; cdecl;
@@ -387,6 +393,7 @@ begin
     luaP_register(L, 'FileGetAttr', @luaFileGetAttr);
     luaP_register(L, 'GetTickCount', @luaGetTickCount);
     luaP_register(L, 'DirectoryExists', @luaDirectoryExists);
+    luaP_register(L, 'CreateDirectory', @luaCreateDirectory);
 
     luaP_register(L, 'ExtractFileExt', @luaExtractFileExt);
     luaP_register(L, 'ExtractFileDir', @luaExtractFileDir);
