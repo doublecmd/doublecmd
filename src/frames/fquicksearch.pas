@@ -65,6 +65,7 @@ type
     Finalizing: Boolean;
     FUpdateCount: Integer;
     FNeedsChangeSearch: Boolean;
+    FIntendedLeave: Boolean;
     procedure BeginUpdate;
     procedure CheckFilesOrDirectoriesDown;
     procedure EndUpdate;
@@ -80,6 +81,7 @@ type
     procedure CancelFilter;
     procedure ProcessParams(const SearchMode: TQuickSearchMode; const Params: array of String);
   public
+    LimitedAutoHide: Boolean;
     OnChangeSearch: TOnChangeSearch;
     OnChangeFilter: TOnChangeFilter;
     OnExecute: TOnExecute;
@@ -88,6 +90,7 @@ type
     destructor Destroy; override;
     procedure CloneTo(AQuickSearch: TfrmQuickSearch);
     procedure Execute(SearchMode: TQuickSearchMode; const Params: array of String; Char: TUTF8Char = #0);
+    procedure Reset;
     procedure Finalize;
     function CheckSearchOrFilter(var Key: Word): Boolean; overload;
     function CheckSearchOrFilter(var UTF8Key: TUTF8Char): Boolean; overload;
@@ -217,6 +220,11 @@ begin
   AQuickSearch.tglFilter.OnChange := nil;
   AQuickSearch.tglFilter.Checked := Self.tglFilter.Checked;
   AQuickSearch.tglFilter.OnChange := TempEvent;
+  AQuickSearch.Visible := Self.Visible;
+
+  // Do not clone LimitedAutoHide but honor it instead, because it depends on the parent fileview
+  if Self.Visible and not Self.edtSearch.Focused and Self.LimitedAutoHide and not AQuickSearch.LimitedAutoHide then
+    AQuickSearch.FrameExit(nil); // do autohide if needed
 end;
 
 procedure TfrmQuickSearch.DoOnChangeSearch;
@@ -257,14 +265,19 @@ begin
   ProcessParams(SearchMode, Params);
 end;
 
-procedure TfrmQuickSearch.Finalize;
+procedure TfrmQuickSearch.Reset;
 begin
   PopFilter;
-  Self.Visible := False;
 
   Options.LastSearchMode := qsNone;
   Options.Direction := qsdNone;
   Options.CancelSearchMode:=qscmNode;
+end;
+
+procedure TfrmQuickSearch.Finalize;
+begin
+  Reset;
+  Hide;
 end;
 
 { TfrmQuickSearch.ProcessParams }
@@ -659,6 +672,7 @@ begin
     begin
       Key := 0;
 
+      FIntendedLeave := True;
       DoHide;
     end;
 
@@ -688,6 +702,8 @@ begin
 end;
 
 procedure TfrmQuickSearch.FrameExit(Sender: TObject);
+var
+  DontHide: Boolean;
 begin
 {$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   // Workaround: QuickSearch frame lose focus on SpeedButton click
@@ -701,10 +717,18 @@ begin
 
     Self.Active := False;
 
-    if (Mode = qsFilter) and (edtSearch.Text <> EmptyStr) then
-      Self.Visible := not gQuickFilterAutoHide
+    if FIntendedLeave then
+    begin
+      FIntendedLeave := False;
+      DontHide := False;
+    end
     else
-      Finalize;
+      DontHide := LimitedAutoHide;
+
+    if (Mode = qsFilter) and (edtSearch.Text <> EmptyStr) then
+      Self.Visible := DontHide or not gQuickFilterAutoHide
+    else
+      if DontHide then Reset else Finalize;
 
     Finalizing := False;
   end;
