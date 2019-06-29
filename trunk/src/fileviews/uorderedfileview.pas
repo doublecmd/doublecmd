@@ -134,7 +134,7 @@ const
 
 procedure TOrderedFileView.AfterChangePath;
 begin
-  if Filtered then
+  if Filtered or quickSearch.Visible then
   begin
     FFileFilter:= EmptyStr;
     quickSearch.Finalize;
@@ -159,7 +159,6 @@ begin
       lblFilter.Caption := Self.lblFilter.Caption;
       lblFilter.Visible := Self.lblFilter.Visible;
       Self.quickSearch.CloneTo(quickSearch);
-      quickSearch.Visible := Self.quickSearch.Visible;
       FFocusQuickSearch := Self.quickSearch.edtSearch.Focused;
     end;
   end;
@@ -286,6 +285,11 @@ begin
   case Key of
     VK_ESCAPE:
       begin
+        if quickSearch.Visible and not Filtered then
+        begin
+          quickSearch.Finalize;
+          Key := 0;
+        end;
         if Filtered and (GetCurrentWorkType <> fvwtNone) then
         begin
           pmOperationsCancel.Items.Clear;
