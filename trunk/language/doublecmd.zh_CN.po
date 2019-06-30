@@ -6397,10 +6397,6 @@ msgstr "扁平按钮(&F)"
 msgid "Flat i&nterface"
 msgstr "扁平界面(&N)"
 
-#: tfrmoptionslayout.cbflattoolbar.caption
-msgid "Flat b&uttons"
-msgstr "扁平按钮(&U)"
-
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgid "Show fr&ee space indicator on drive label"
 msgstr "在驱动器标签上显示可用空间指示器(&E)"
@@ -6472,6 +6468,10 @@ msgstr "显示终端窗口(&R)"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "显示两个驱动按钮栏"
+
+#: tfrmoptionslayout.chkshowmiddletoolbar.caption
+msgid "Show middle toolbar"
+msgstr ""
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgid " Screen layout "

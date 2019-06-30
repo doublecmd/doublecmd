@@ -6411,10 +6411,6 @@ msgstr "&Плоскія кнопкі"
 msgid "Flat i&nterface"
 msgstr "Плоскі ін&тэрфейс"
 
-#: tfrmoptionslayout.cbflattoolbar.caption
-msgid "Flat b&uttons"
-msgstr "Плоскія кно&пкі"
-
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgid "Show fr&ee space indicator on drive label"
 msgstr "Паказваць індыкатар воль&нага месца на адмецінах дыскаў"
@@ -6486,6 +6482,10 @@ msgstr "Паказваць акно тэр&мінала"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Дзве панэлі кнопак дыскаў (па-над файлавымі панэлямі)"
+
+#: tfrmoptionslayout.chkshowmiddletoolbar.caption
+msgid "Show middle toolbar"
+msgstr ""
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgid " Screen layout "

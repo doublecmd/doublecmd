@@ -6421,10 +6421,6 @@ msgstr "&Ploski gumbi"
 msgid "Flat i&nterface"
 msgstr "&Ploski vmesnik"
 
-#: tfrmoptionslayout.cbflattoolbar.caption
-msgid "Flat b&uttons"
-msgstr "Ploski &gumbi"
-
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgid "Show fr&ee space indicator on drive label"
 msgstr "Pokaži vrstico &zasedenosti prostora"
@@ -6496,6 +6492,10 @@ msgstr "Pokaži okno &terminala"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Pokaži dve orodni vrstici gumbov pogonov (&določene širine nad okni)"
+
+#: tfrmoptionslayout.chkshowmiddletoolbar.caption
+msgid "Show middle toolbar"
+msgstr ""
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgid " Screen layout "

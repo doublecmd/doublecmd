@@ -6408,10 +6408,6 @@ msgstr "&Plochá tlačítka"
 msgid "Flat i&nterface"
 msgstr "Ploché &rozhraní"
 
-#: tfrmoptionslayout.cbflattoolbar.caption
-msgid "Flat b&uttons"
-msgstr "Plochá t&lačítka"
-
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgid "Show fr&ee space indicator on drive label"
 msgstr "Zobrazit ukazatel volného místa"
@@ -6483,6 +6479,10 @@ msgstr "Zobrazit okno te&rminálu"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Zobrazit 2 seznamy disků (pe&vná šířka, nad souborovými okny)"
+
+#: tfrmoptionslayout.chkshowmiddletoolbar.caption
+msgid "Show middle toolbar"
+msgstr ""
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgid " Screen layout "
@@ -13022,3 +13022,4 @@ msgstr "Počet nahrazených: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Žádné nahrazení se nekonalo."
+

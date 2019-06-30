@@ -6420,10 +6420,6 @@ msgstr "&Botones planos"
 msgid "Flat i&nterface"
 msgstr "&Interfaz plana"
 
-#: tfrmoptionslayout.cbflattoolbar.caption
-msgid "Flat b&uttons"
-msgstr "Bo&tones planos"
-
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgid "Show fr&ee space indicator on drive label"
 msgstr "Mostrar i&ndicador de espacio libre en la etiqueta de unidad"
@@ -6495,6 +6491,10 @@ msgstr "Mostrar la &ventana de terminal"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Mostrar &dos barras de botones de unidad (ancho fijo, sobre la lista de archivos)"
+
+#: tfrmoptionslayout.chkshowmiddletoolbar.caption
+msgid "Show middle toolbar"
+msgstr ""
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgid " Screen layout "

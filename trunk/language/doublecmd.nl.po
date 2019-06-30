@@ -6414,10 +6414,6 @@ msgstr "Platte knoppen"
 msgid "Flat i&nterface"
 msgstr "Platte gebruikersschil"
 
-#: tfrmoptionslayout.cbflattoolbar.caption
-msgid "Flat b&uttons"
-msgstr "Platte knoppen"
-
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgid "Show fr&ee space indicator on drive label"
 msgstr "Toon vrije ruimte-indicator op schijfetiket"
@@ -6489,6 +6485,10 @@ msgstr "Toon terminalvenster"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Toon twee schijfknoppenbalken (vaste breedte, boven bestandenvensters)"
+
+#: tfrmoptionslayout.chkshowmiddletoolbar.caption
+msgid "Show middle toolbar"
+msgstr ""
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgid " Screen layout "
