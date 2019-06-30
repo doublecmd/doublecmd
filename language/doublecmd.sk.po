@@ -7122,13 +7122,6 @@ msgctxt "tfrmoptionslayout.cbflatinterface.caption"
 msgid "Flat i&nterface"
 msgstr "Ploché rozhranie"
 
-#: tfrmoptionslayout.cbflattoolbar.caption
-#, fuzzy
-#| msgid "Flat buttons"
-msgctxt "tfrmoptionslayout.cbflattoolbar.caption"
-msgid "Flat b&uttons"
-msgstr "Ploché tlačítka"
-
 #: tfrmoptionslayout.cbfreespaceind.caption
 #, fuzzy
 #| msgid "Show free space indicator on drive label"
@@ -7238,6 +7231,10 @@ msgstr "Zobraziť okno terminálu"
 msgctxt "tfrmoptionslayout.cbtwodiskpanels.caption"
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Zobraziť 2 zoznamy diskov (pevná šírka, nad oknami so súbormi)"
+
+#: tfrmoptionslayout.chkshowmiddletoolbar.caption
+msgid "Show middle toolbar"
+msgstr ""
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgctxt "tfrmoptionslayout.gbscreenlayout.caption"

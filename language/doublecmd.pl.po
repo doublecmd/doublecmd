@@ -6393,10 +6393,6 @@ msgstr "&Płaskie przyciski"
 msgid "Flat i&nterface"
 msgstr "Płaski interfe&js"
 
-#: tfrmoptionslayout.cbflattoolbar.caption
-msgid "Flat b&uttons"
-msgstr "Płaskie p&rzyciski"
-
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgid "Show fr&ee space indicator on drive label"
 msgstr "Pokaż wskaźnik wolneg&o miejsca na etykiecie dysku"
@@ -6468,6 +6464,10 @@ msgstr "Pokaż okno &terminalu"
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Pokaż dwa paski napędów (st&ałej szerokości, powyżej okien z plikami)"
+
+#: tfrmoptionslayout.chkshowmiddletoolbar.caption
+msgid "Show middle toolbar"
+msgstr ""
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgid " Screen layout "

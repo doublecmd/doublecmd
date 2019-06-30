@@ -6711,11 +6711,6 @@ msgctxt "TFRMOPTIONSLAYOUT.CBFLATINTERFACE.CAPTION"
 msgid "Flat i&nterface"
 msgstr "Flad &brugerflade"
 
-#: tfrmoptionslayout.cbflattoolbar.caption
-msgctxt "tfrmoptionslayout.cbflattoolbar.caption"
-msgid "Flat b&uttons"
-msgstr "Flade iko&ner"
-
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBFREESPACEIND.CAPTION"
 msgid "Show fr&ee space indicator on drive label"
@@ -6805,6 +6800,10 @@ msgstr "Vis te&rminalvindue"
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "V&is to knappaneler for drev (fast bredde, over filvindue)"
+
+#: tfrmoptionslayout.chkshowmiddletoolbar.caption
+msgid "Show middle toolbar"
+msgstr ""
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 #, fuzzy

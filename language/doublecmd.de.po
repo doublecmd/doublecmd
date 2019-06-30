@@ -6548,10 +6548,6 @@ msgstr "&Flache Buttons"
 msgid "Flat i&nterface"
 msgstr "Flaches Erschei&nungsbild"
 
-#: tfrmoptionslayout.cbflattoolbar.caption
-msgid "Flat b&uttons"
-msgstr "Fla&che Buttons"
-
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgid "Show fr&ee space indicator on drive label"
 msgstr "Z&eige den 'Freien Speicher'-Indikator über den Panels"
@@ -6634,6 +6630,10 @@ msgstr "Konsolenfenste&r zeigen"
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Zeige zwei &Laufwerksleisten (feste Breite, über den Dateifenstern)"
+
+#: tfrmoptionslayout.chkshowmiddletoolbar.caption
+msgid "Show middle toolbar"
+msgstr ""
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgctxt "TFRMOPTIONSLAYOUT.GBSCREENLAYOUT.CAPTION"

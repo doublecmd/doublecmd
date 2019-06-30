@@ -7073,13 +7073,6 @@ msgctxt "tfrmoptionslayout.cbflatinterface.caption"
 msgid "Flat i&nterface"
 msgstr "Interfície plana"
 
-#: tfrmoptionslayout.cbflattoolbar.caption
-#, fuzzy
-#| msgid "Flat buttons"
-msgctxt "tfrmoptionslayout.cbflattoolbar.caption"
-msgid "Flat b&uttons"
-msgstr "Botons plans"
-
 #: tfrmoptionslayout.cbfreespaceind.caption
 #, fuzzy
 #| msgid "Show free space indicator on drive label"
@@ -7189,6 +7182,10 @@ msgstr "Mostra finestra de terminal"
 msgctxt "tfrmoptionslayout.cbtwodiskpanels.caption"
 msgid "Show two drive button bars (fi&xed width, above file windows)"
 msgstr "Barra de &botons d'unitats (amplada fixa, sobre llista de fitxers)"
+
+#: tfrmoptionslayout.chkshowmiddletoolbar.caption
+msgid "Show middle toolbar"
+msgstr ""
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgctxt "tfrmoptionslayout.gbscreenlayout.caption"

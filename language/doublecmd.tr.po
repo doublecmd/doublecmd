@@ -6796,11 +6796,6 @@ msgstr ""
 msgid "Flat i&nterface"
 msgstr ""
 
-#: tfrmoptionslayout.cbflattoolbar.caption
-msgctxt "tfrmoptionslayout.cbflattoolbar.caption"
-msgid "Flat b&uttons"
-msgstr "Yassı düğmeler"
-
 #: tfrmoptionslayout.cbfreespaceind.caption
 msgid "Show fr&ee space indicator on drive label"
 msgstr ""
@@ -6879,6 +6874,10 @@ msgstr ""
 
 #: tfrmoptionslayout.cbtwodiskpanels.caption
 msgid "Show two drive button bars (fi&xed width, above file windows)"
+msgstr ""
+
+#: tfrmoptionslayout.chkshowmiddletoolbar.caption
+msgid "Show middle toolbar"
 msgstr ""
 
 #: tfrmoptionslayout.gbscreenlayout.caption
