@@ -9,7 +9,6 @@ uses
   uFileSourceCopyOperation,
   uFileSource,
   uFileSourceOperation,
-  uFileSourceOperationOptions,
   uFileSourceOperationOptionsUI,
   uFile,
   uWfxPluginFileSource,
@@ -125,7 +124,7 @@ procedure TWfxPluginCopyInOperation.Initialize;
 begin
   with FWfxPluginFileSource do
   begin
-    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_START, FInfoOperation);
+    WfxModule.WfxStatusInfo(TargetPath, FS_STATUS_START, FInfoOperation);
     FCallbackDataClass.UpdateProgressFunction:= @UpdateProgress;
     UpdateProgressFunction:= @UpdateProgress;
   end;
@@ -168,7 +167,7 @@ procedure TWfxPluginCopyInOperation.Finalize;
 begin
   with FWfxPluginFileSource do
   begin
-    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_END, FInfoOperation);
+    WfxModule.WfxStatusInfo(TargetPath, FS_STATUS_END, FInfoOperation);
     FCallbackDataClass.UpdateProgressFunction:= nil;
     UpdateProgressFunction:= nil;
   end;
