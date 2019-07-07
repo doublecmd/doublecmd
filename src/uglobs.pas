@@ -282,6 +282,11 @@ var
   gSeparateTree: Boolean;
 
   { Toolbar }
+  gMiddleToolBarFlat,
+  gMiddleToolBarShowCaptions,
+  gMiddleToolbarReportErrorWithCommands: Boolean;
+  gMiddleToolBarButtonSize,
+  gMiddleToolBarIconSize,
   gToolBarButtonSize,
   gToolBarIconSize: Integer;
   gToolBarShowCaptions: Boolean;
@@ -1602,6 +1607,13 @@ begin
   gToolBarIconSize := 16;
   gToolBarShowCaptions := False;
   gToolbarReportErrorWithCommands := FALSE;
+
+  gMiddleToolBarFlat := True;
+  gMiddleToolBarButtonSize := 24;
+  gMiddleToolBarIconSize := 16;
+  gMiddleToolBarShowCaptions := False;
+  gMiddleToolbarReportErrorWithCommands := FALSE;
+
   gToolbarFilenameStyle := pfsAbsolutePath;
   gToolbarPathToBeRelativeTo := EnvVarCommanderPath;
   gToolbarPathModifierElements := [];
@@ -2501,6 +2513,11 @@ begin
       if Assigned(SubNode) then
       begin
         gMiddleToolBar := GetAttr(SubNode, 'Enabled', gMiddleToolBar);
+        gMiddleToolBarFlat := GetValue(SubNode, 'FlatIcons', gMiddleToolBarFlat);
+        gMiddleToolBarButtonSize := GetValue(SubNode, 'ButtonHeight', gMiddleToolBarButtonSize);
+        gMiddleToolBarIconSize := GetValue(SubNode, 'IconSize', gMiddleToolBarIconSize);
+        gMiddleToolBarShowCaptions := GetValue(SubNode, 'ShowCaptions', gMiddleToolBarShowCaptions);
+        gMiddleToolbarReportErrorWithCommands := GetValue(SubNode,'ReportErrorWithCommands', gMiddleToolbarReportErrorWithCommands);
       end;
       gDriveBar1 := GetValue(Node, 'DriveBar1', gDriveBar1);
       gDriveBar2 := GetValue(Node, 'DriveBar2', gDriveBar2);
@@ -3143,6 +3160,11 @@ begin
 
     SubNode := FindNode(Node, 'MiddleBar', True);
     SetAttr(SubNode, 'Enabled', gMiddleToolBar);
+    SetValue(SubNode, 'FlatIcons', gMiddleToolBarFlat);
+    SetValue(SubNode, 'ButtonHeight', gMiddleToolBarButtonSize);
+    SetValue(SubNode, 'IconSize', gMiddleToolBarIconSize);
+    SetValue(SubNode, 'ShowCaptions', gMiddleToolBarShowCaptions);
+    SetValue(SubNode,'ReportErrorWithCommands', gMiddleToolbarReportErrorWithCommands);
 
     SetValue(Node, 'DriveBar1', gDriveBar1);
     SetValue(Node, 'DriveBar2', gDriveBar2);

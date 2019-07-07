@@ -4926,7 +4926,10 @@ begin
 
     (* Middle Tool Bar *)
     MiddleToolbar.Visible:= gMiddleToolBar;
-    MiddleToolbar.Flat:= gToolBarFlat;
+    MiddleToolbar.Flat:= gMiddleToolBarFlat;
+    MiddleToolbar.GlyphSize:= gMiddleToolBarIconSize;
+    MiddleToolbar.ShowCaptions:= gMiddleToolBarShowCaptions;
+    MiddleToolbar.SetButtonSize(gMiddleToolBarButtonSize, gMiddleToolBarButtonSize);
     LoadMiddleToolbar;
 
     pnlLeftResize(pnlLeft);
