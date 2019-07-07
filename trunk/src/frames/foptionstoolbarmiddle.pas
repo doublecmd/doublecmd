@@ -37,11 +37,11 @@ var
   ToolBarNode: TXmlNode;
   ToolBar: TKASToolBar;
 begin
-  trbBarSize.Position   := gToolBarButtonSize div 2;
-  trbIconSize.Position  := gToolBarIconSize div 2;
-  cbFlatButtons.Checked := gToolBarFlat;
-  cbShowCaptions.Checked := gToolBarShowCaptions;
-  cbReportErrorWithCommands.Checked := gToolbarReportErrorWithCommands;
+  trbBarSize.Position   := gMiddleToolBarButtonSize div 2;
+  trbIconSize.Position  := gMiddleToolBarIconSize div 2;
+  cbFlatButtons.Checked := gMiddleToolBarFlat;
+  cbShowCaptions.Checked := gMiddleToolBarShowCaptions;
+  cbReportErrorWithCommands.Checked := gMiddleToolbarReportErrorWithCommands;
 
   lblBarSizeValue.Caption  := IntToStr(trbBarSize.Position*2);
   lblIconSizeValue.Caption := IntToStr(trbIconSize.Position*2);
@@ -66,11 +66,11 @@ var
 begin
   ApplyEditControls;
 
-//  gToolBarFlat         := cbFlatButtons.Checked;
-//  gToolBarShowCaptions := cbShowCaptions.Checked;
-//  gToolbarReportErrorWithCommands := cbReportErrorWithCommands.Checked;
-//  gToolBarButtonSize   := trbBarSize.Position * 2;
-//  gToolBarIconSize     := trbIconSize.Position * 2;
+  gMiddleToolBarFlat         := cbFlatButtons.Checked;
+  gMiddleToolBarShowCaptions := cbShowCaptions.Checked;
+  gMiddleToolbarReportErrorWithCommands := cbReportErrorWithCommands.Checked;
+  gMiddleToolBarButtonSize   := trbBarSize.Position * 2;
+  gMiddleToolBarIconSize     := trbIconSize.Position * 2;
 
   ToolBar := GetTopToolbar;
   if Assigned(ToolBar) then
