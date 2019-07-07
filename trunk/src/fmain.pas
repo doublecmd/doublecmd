@@ -894,7 +894,7 @@ uses
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil, uTempFileSystemFileSource,
   Laz2_XMLRead, DCOSUtils, DCStrUtils, fOptions, fOptionsFrame, fOptionsToolbar, uClassesEx,
   uHotDir, uFileSorting, DCBasicTypes, foptionsDirectoryHotlist, uConnectionManager,
-  fOptionsToolbarBase
+  fOptionsToolbarBase, fOptionsToolbarMiddle
   {$IFDEF COLUMNSFILEVIEW_VTV}
   , uColumnsFileViewVtv
   {$ELSE}
@@ -1333,16 +1333,22 @@ procedure TfrmMain.EditToolbarButton(Button: TKASToolButton);
 var
   Editor: TOptionsEditor;
   Options: IOptionsDialog;
+  EditorClass: TOptionsEditorClass;
 begin
-  Options := ShowOptions(TfrmOptionsToolbar);
+  if Button.ToolBar = MainToolBar then
+    EditorClass := TfrmOptionsToolbar
+  else begin
+    EditorClass := TfrmOptionsToolbarMiddle;
+  end;
+  Options := ShowOptions(EditorClass);
   Application.ProcessMessages;
-  Editor := Options.GetEditor(TfrmOptionsToolbar);
+  Editor := Options.GetEditor(EditorClass);
   if Assigned(Button) then
   begin
-    (Editor as TfrmOptionsToolbar).SelectButton(Button.Tag);
+    (Editor as TfrmOptionsToolbarBase).SelectButton(Button.Tag);
   end;
   Application.ProcessMessages;
-  if Editor.CanFocus then  Editor.SetFocus;
+  if Editor.CanFocus then Editor.SetFocus;
 end;
 
 procedure TfrmMain.lblAllProgressPctClick(Sender: TObject);
