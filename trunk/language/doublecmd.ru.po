@@ -12433,6 +12433,10 @@ msgstr "Панель инструментов"
 msgid "Toolbar Extra"
 msgstr "Панель инструментов (дополнительно)"
 
+#: ulng.rsoptionseditortoolbarmiddle
+msgid "Toolbar Middle"
+msgstr ""
+
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
 msgid "Tools"

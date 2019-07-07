@@ -12451,6 +12451,10 @@ msgstr "Barre d'outils"
 msgid "Toolbar Extra"
 msgstr "Barre d'outils (suite)"
 
+#: ulng.rsoptionseditortoolbarmiddle
+msgid "Toolbar Middle"
+msgstr ""
+
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
 msgid "Tools"

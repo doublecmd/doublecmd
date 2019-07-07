@@ -12172,6 +12172,10 @@ msgstr "Pasek narzędzi"
 msgid "Toolbar Extra"
 msgstr "Dodatkowy pasek narzędzi"
 
+#: ulng.rsoptionseditortoolbarmiddle
+msgid "Toolbar Middle"
+msgstr ""
+
 #: ulng.rsoptionseditortools
 msgid "Tools"
 msgstr "Narzędzia"

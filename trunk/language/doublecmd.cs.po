@@ -12185,6 +12185,10 @@ msgstr "Nástrojová lišta"
 msgid "Toolbar Extra"
 msgstr "Rozšířené nastavení"
 
+#: ulng.rsoptionseditortoolbarmiddle
+msgid "Toolbar Middle"
+msgstr ""
+
 #: ulng.rsoptionseditortools
 msgid "Tools"
 msgstr "Nástroje"
