@@ -7326,447 +7326,447 @@ msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
 msgstr "パラメータ："
 
-#: tfrmoptionstoolbar.btnclonebutton.caption
+#: tfrmoptionstoolbarbase.btnclonebutton.caption
 msgid "C&lone button"
 msgstr "ボタンを複製(&l)"
 
-#: tfrmoptionstoolbar.btndeletebutton.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNDELETEBUTTON.CAPTION"
+#: tfrmoptionstoolbarbase.btndeletebutton.caption
+msgctxt "tfrmoptionstoolbarbase.BTNDELETEBUTTON.CAPTION"
 msgid "&Delete"
 msgstr "削除(&D)"
 
-#: tfrmoptionstoolbar.btnedithotkey.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNEDITHOTKEY.CAPTION"
+#: tfrmoptionstoolbarbase.btnedithotkey.caption
+msgctxt "tfrmoptionstoolbarbase.BTNEDITHOTKEY.CAPTION"
 msgid "Edit hot&key"
 msgstr "ホットキーを編集(&k)"
 
-#: tfrmoptionstoolbar.btninsertbutton.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNINSERTBUTTON.CAPTION"
+#: tfrmoptionstoolbarbase.btninsertbutton.caption
+msgctxt "tfrmoptionstoolbarbase.BTNINSERTBUTTON.CAPTION"
 msgid "&Insert new button"
 msgstr "新しいボタンを挿入(&I)"
 
-#: tfrmoptionstoolbar.btnopencmddlg.caption
+#: tfrmoptionstoolbarbase.btnopencmddlg.caption
 msgid "Select"
 msgstr "選択"
 
-#: tfrmoptionstoolbar.btnopenfile.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENFILE.CAPTION"
+#: tfrmoptionstoolbarbase.btnopenfile.caption
+msgctxt "tfrmoptionstoolbarbase.BTNOPENFILE.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-#: tfrmoptionstoolbar.btnother.caption
-msgctxt "tfrmoptionstoolbar.btnother.caption"
+#: tfrmoptionstoolbarbase.btnother.caption
+msgctxt "tfrmoptionstoolbarbase.btnother.caption"
 msgid "Other..."
 msgstr "その他…"
 
-#: tfrmoptionstoolbar.btnremovehotkey.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNREMOVEHOTKEY.CAPTION"
+#: tfrmoptionstoolbarbase.btnremovehotkey.caption
+msgctxt "tfrmoptionstoolbarbase.BTNREMOVEHOTKEY.CAPTION"
 msgid "Remove hotke&y"
 msgstr "ホットキーを削除(&y)"
 
-#: tfrmoptionstoolbar.btnstartpath.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNSTARTPATH.CAPTION"
+#: tfrmoptionstoolbarbase.btnstartpath.caption
+msgctxt "tfrmoptionstoolbarbase.BTNSTARTPATH.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-#: tfrmoptionstoolbar.btnsuggestiontooltip.caption
+#: tfrmoptionstoolbarbase.btnsuggestiontooltip.caption
 msgid "Suggest"
 msgstr "提案"
 
-#: tfrmoptionstoolbar.btnsuggestiontooltip.hint
+#: tfrmoptionstoolbarbase.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
 msgstr "ボタンの種類、コマンド、パラメータに基づいてDCにツールチップを提案させる"
 
-#: tfrmoptionstoolbar.cbflatbuttons.caption
-msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
+#: tfrmoptionstoolbarbase.cbflatbuttons.caption
+msgctxt "tfrmoptionstoolbarbase.cbflatbuttons.caption"
 msgid "&Flat buttons"
 msgstr "平らなボタン(&F)"
 
-#: tfrmoptionstoolbar.cbreporterrorwithcommands.caption
+#: tfrmoptionstoolbarbase.cbreporterrorwithcommands.caption
 msgid "Report errors with commands"
 msgstr "コマンドのエラーを報告"
 
-#: tfrmoptionstoolbar.cbshowcaptions.caption
+#: tfrmoptionstoolbarbase.cbshowcaptions.caption
 msgid "Sho&w captions"
 msgstr ""
 
-#: tfrmoptionstoolbar.edtinternalparameters.hint
+#: tfrmoptionstoolbarbase.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "コマンドのパラメータを１行に１項目入力。F1キーを押してパラメータについてのヘルプを参照。"
 
-#: tfrmoptionstoolbar.gbgroupbox.caption
+#: tfrmoptionstoolbarbase.gbgroupbox.caption
 msgid "Appearance"
 msgstr "外観"
 
-#: tfrmoptionstoolbar.lblbarsize.caption
+#: tfrmoptionstoolbarbase.lblbarsize.caption
 msgid "&Bar size:"
 msgstr "バーのサイズ(&B)："
 
-#: tfrmoptionstoolbar.lblexternalcommand.caption
-msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALCOMMAND.CAPTION"
+#: tfrmoptionstoolbarbase.lblexternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.LBLEXTERNALCOMMAND.CAPTION"
 msgid "Co&mmand:"
 msgstr "コマンド(&d)："
 
-#: tfrmoptionstoolbar.lblexternalparameters.caption
-msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALPARAMETERS.CAPTION"
+#: tfrmoptionstoolbarbase.lblexternalparameters.caption
+msgctxt "tfrmoptionstoolbarbase.LBLEXTERNALPARAMETERS.CAPTION"
 msgid "Parameter&s:"
 msgstr "パラメータ(&s)："
 
-#: tfrmoptionstoolbar.lblhelponinternalcommand.caption
-msgctxt "tfrmoptionstoolbar.lblhelponinternalcommand.caption"
+#: tfrmoptionstoolbarbase.lblhelponinternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.lblhelponinternalcommand.caption"
 msgid "Help"
 msgstr "ヘルプ"
 
-#: tfrmoptionstoolbar.lblhotkey.caption
+#: tfrmoptionstoolbarbase.lblhotkey.caption
 msgid "Hot key:"
 msgstr "ホットキー"
 
-#: tfrmoptionstoolbar.lbliconfile.caption
+#: tfrmoptionstoolbarbase.lbliconfile.caption
 msgid "Ico&n:"
 msgstr "アイコン(&n)："
 
-#: tfrmoptionstoolbar.lbliconsize.caption
+#: tfrmoptionstoolbarbase.lbliconsize.caption
 msgid "Icon si&ze:"
 msgstr "アイコンのサイズ(&s)"
 
-#: tfrmoptionstoolbar.lblinternalcommand.caption
-msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
+#: tfrmoptionstoolbarbase.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.lblinternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "コマンド(&m)"
 
-#: tfrmoptionstoolbar.lblinternalparameters.caption
-msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
+#: tfrmoptionstoolbarbase.lblinternalparameters.caption
+msgctxt "tfrmoptionstoolbarbase.lblinternalparameters.caption"
 msgid "&Parameters:"
 msgstr "パラメータ(&P)"
 
-#: tfrmoptionstoolbar.lblstartpath.caption
-msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
+#: tfrmoptionstoolbarbase.lblstartpath.caption
+msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "開始パス(&h)"
 
-#: tfrmoptionstoolbar.lbltooltip.caption
+#: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr "ツールのヒント(&T)："
 
-#: tfrmoptionstoolbar.miaddallcmds.caption
+#: tfrmoptionstoolbarbase.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
 msgstr "全てのDCコマンドを含むツールバーを追加する"
 
-#: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
 msgstr "外部コマンドを"
 
-#: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddinternalcommandsubmenu.caption
 msgid "for an internal command"
 msgstr "内部コマンドを"
 
-#: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddseparatorsubmenu.caption
 msgid "for a separator"
 msgstr "区切りを"
 
-#: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
 msgstr "サブツールバーを"
 
-#: tfrmoptionstoolbar.mibackup.caption
-msgctxt "tfrmoptionstoolbar.mibackup.caption"
+#: tfrmoptionstoolbarbase.mibackup.caption
+msgctxt "tfrmoptionstoolbarbase.mibackup.caption"
 msgid "Backup..."
 msgstr "バックアップ…"
 
-#: tfrmoptionstoolbar.miexport.caption
-msgctxt "tfrmoptionstoolbar.miexport.caption"
+#: tfrmoptionstoolbarbase.miexport.caption
+msgctxt "tfrmoptionstoolbarbase.miexport.caption"
 msgid "Export..."
 msgstr "エクスポート…"
 
-#: tfrmoptionstoolbar.miexportcurrent.caption
+#: tfrmoptionstoolbarbase.miexportcurrent.caption
 msgid "Current toolbar..."
 msgstr "現在のツールバー"
 
-#: tfrmoptionstoolbar.miexportcurrenttodcbar.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTODCBAR.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttodcbar.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTODCBAR.CAPTION"
 msgid "to a Toolbar File (.toolbar)"
 msgstr "ツールバーファイル (.toolbar)へ"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTOTCBARKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcbarkeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCBARKEEP.CAPTION"
 msgid "to a TC .BAR file (keep existing)"
 msgstr "TCの.BARファイルへ（既存のものは維持）"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTOTCBARNOKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCBARNOKEEP.CAPTION"
 msgid "to a TC .BAR file (erase existing)"
 msgstr "TCの.BARファイルへ（既存のものは削除）"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTOTCINIKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcinikeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCINIKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgstr "TCの\"wincmd.ini\"ファイルへ（既存のものは維持）"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTOTCININOKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcininokeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCININOKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
 msgstr "TCの\"wincmd.ini\"ファイルへ（既存のものは削除）"
 
-#: tfrmoptionstoolbar.miexporttop.caption
+#: tfrmoptionstoolbarbase.miexporttop.caption
 msgid "Top toolbar..."
 msgstr "トップツールバー"
 
-#: tfrmoptionstoolbar.miexporttoptobackup.caption
+#: tfrmoptionstoolbarbase.miexporttoptobackup.caption
 msgid "Save a backup of Toolbar"
 msgstr "ツールバーのバックアップを保存"
 
-#: tfrmoptionstoolbar.miexporttoptodcbar.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptodcbar.caption"
+#: tfrmoptionstoolbarbase.miexporttoptodcbar.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
 msgstr "ツールバーファイル (.toolbar)へ"
 
-#: tfrmoptionstoolbar.miexporttoptotcbarkeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcbarkeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
 msgstr "TCの.BARファイルへ（既存のものは維持）"
 
-#: tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
 msgstr "TCの.BARファイルへ（既存のものは削除）"
 
-#: tfrmoptionstoolbar.miexporttoptotcinikeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTTOPTOTCINIKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexporttoptotcinikeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTTOPTOTCINIKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgstr "TCの\"wincmd.ini\"ファイルへ（既存のものは維持）"
 
-#: tfrmoptionstoolbar.miexporttoptotcininokeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTTOPTOTCININOKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexporttoptotcininokeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTTOPTOTCININOKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
 msgstr "TCの\"wincmd.ini\"ファイルへ（既存のものは削除）"
 
-#: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDAFTERCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDAFTERCURRENT.CAPTION"
 msgid "just after current selection"
 msgstr "現在の選択の直後に"
 
-#: tfrmoptionstoolbar.miexternalcommandfirstelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDFIRSTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDFIRSTELEMENT.CAPTION"
 msgid "as first element"
 msgstr "最初の要素として"
 
-#: tfrmoptionstoolbar.miexternalcommandlastelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDLASTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.miexternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDLASTELEMENT.CAPTION"
 msgid "as last element"
 msgstr "最後の要素として"
 
-#: tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDPRIORCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miexternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "現在の選択の直前に"
 
-#: tfrmoptionstoolbar.miimport.caption
-msgctxt "tfrmoptionstoolbar.miimport.caption"
+#: tfrmoptionstoolbarbase.miimport.caption
+msgctxt "tfrmoptionstoolbarbase.miimport.caption"
 msgid "Import..."
 msgstr "インポート…"
 
-#: tfrmoptionstoolbar.miimportbackup.caption
+#: tfrmoptionstoolbarbase.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
 msgstr "ツールバーのバックアップから復元"
 
-#: tfrmoptionstoolbar.miimportbackupaddcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDCURRENT.CAPTION"
 msgid "to add to current toolbar"
 msgstr "現在のツールバーに追加"
 
-#: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDMENUCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "現在のツールバーに新しいツールバーを追加"
 
-#: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDMENUTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupaddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "トップツールバーに新しいツールバーを追加"
 
-#: tfrmoptionstoolbar.miimportbackupaddtop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupaddtop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDTOP.CAPTION"
 msgid "to add to top toolbar"
 msgstr "トップツールバーに追加"
 
-#: tfrmoptionstoolbar.miimportbackupreplacetop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPREPLACETOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPREPLACETOP.CAPTION"
 msgid "to replace top toolbar"
 msgstr "トップツールバーを入れ替え"
 
-#: tfrmoptionstoolbar.miimportdcbar.caption
+#: tfrmoptionstoolbarbase.miimportdcbar.caption
 msgid "from a Toolbar File (.toolbar)"
 msgstr "ツールバーファイル (.toolbar)から"
 
-#: tfrmoptionstoolbar.miimportdcbaraddcurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddcurrent.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption"
 msgid "to add to current toolbar"
 msgstr "現在のツールバーに追加"
 
-#: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "現在のツールバーに新しいツールバーを追加"
 
-#: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenutop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "トップツールバーに新しいツールバーを追加"
 
-#: tfrmoptionstoolbar.miimportdcbaraddtop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddtop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddtop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddtop.caption"
 msgid "to add to top toolbar"
 msgstr "トップツールバーに追加"
 
-#: tfrmoptionstoolbar.miimportdcbarreplacetop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbarreplacetop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "トップツールバーを入れ替え"
 
-#: tfrmoptionstoolbar.miimporttcbar.caption
+#: tfrmoptionstoolbarbase.miimporttcbar.caption
 msgid "from a single TC .BAR file"
 msgstr "TCの.BARファイル(1つ）から"
 
-#: tfrmoptionstoolbar.miimporttcbaraddcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDCURRENT.CAPTION"
 msgid "to add to current toolbar"
 msgstr "現在のツールバーに追加"
 
-#: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDMENUCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "現在のツールバーに新しいツールバーを追加"
 
-#: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDMENUTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "トップツールバーに新しいツールバーを追加"
 
-#: tfrmoptionstoolbar.miimporttcbaraddtop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbaraddtop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDTOP.CAPTION"
 msgid "to add to top toolbar"
 msgstr "トップツールバーに追加"
 
-#: tfrmoptionstoolbar.miimporttcbarreplacetop.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbarreplacetop.caption"
+#: tfrmoptionstoolbarbase.miimporttcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcbarreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "トップツールバーを入れ替え"
 
-#: tfrmoptionstoolbar.miimporttcini.caption
+#: tfrmoptionstoolbarbase.miimporttcini.caption
 msgid "from \"wincmd.ini\" of TC..."
 msgstr "TC の”wincmd.ini”から"
 
-#: tfrmoptionstoolbar.miimporttciniaddcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttciniaddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDCURRENT.CAPTION"
 msgid "to add to current toolbar"
 msgstr "現在のツールバーに追加"
 
-#: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDMENUCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttciniaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "現在のツールバーに新しいツールバーを追加"
 
-#: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDMENUTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttciniaddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "トップツールバーに新しいツールバーを追加"
 
-#: tfrmoptionstoolbar.miimporttciniaddtop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttciniaddtop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDTOP.CAPTION"
 msgid "to add to top toolbar"
 msgstr "トップツールバーに追加"
 
-#: tfrmoptionstoolbar.miimporttcinireplacetop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIREPLACETOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcinireplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIREPLACETOP.CAPTION"
 msgid "to replace top toolbar"
 msgstr "トップツールバーを入れ替え"
 
-#: tfrmoptionstoolbar.miinternalcommandaftercurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDAFTERCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDAFTERCURRENT.CAPTION"
 msgid "just after current selection"
 msgstr "現在の選択の直後に"
 
-#: tfrmoptionstoolbar.miinternalcommandfirstelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDFIRSTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDFIRSTELEMENT.CAPTION"
 msgid "as first element"
 msgstr "最初の要素として"
 
-#: tfrmoptionstoolbar.miinternalcommandlastelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDLASTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.miinternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDLASTELEMENT.CAPTION"
 msgid "as last element"
 msgstr "最後の要素として"
 
-#: tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDPRIORCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miinternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "現在の選択の直前に"
 
-#: tfrmoptionstoolbar.misearchandreplace.caption
-msgctxt "tfrmoptionstoolbar.misearchandreplace.caption"
+#: tfrmoptionstoolbarbase.misearchandreplace.caption
+msgctxt "tfrmoptionstoolbarbase.misearchandreplace.caption"
 msgid "Search and replace..."
 msgstr "検索と置換…"
 
-#: tfrmoptionstoolbar.miseparatoraftercurrent.caption
-msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
+#: tfrmoptionstoolbarbase.miseparatoraftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatoraftercurrent.caption"
 msgid "just after current selection"
 msgstr "現在の選択の直後に"
 
-#: tfrmoptionstoolbar.miseparatorfirstitem.caption
-msgctxt "tfrmoptionstoolbar.miseparatorfirstitem.caption"
+#: tfrmoptionstoolbarbase.miseparatorfirstitem.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorfirstitem.caption"
 msgid "as first element"
 msgstr "最初の要素として"
 
-#: tfrmoptionstoolbar.miseparatorlastelement.caption
-msgctxt "tfrmoptionstoolbar.miseparatorlastelement.caption"
+#: tfrmoptionstoolbarbase.miseparatorlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorlastelement.caption"
 msgid "as last element"
 msgstr "最後の要素として"
 
-#: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
-msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
+#: tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "現在の選択の直前に"
 
-#: tfrmoptionstoolbar.misrcrplallofall.caption
+#: tfrmoptionstoolbarbase.misrcrplallofall.caption
 msgid "in all of all the above..."
 msgstr "上にある全ての項目の全てで…"
 
-#: tfrmoptionstoolbar.misrcrplcommands.caption
+#: tfrmoptionstoolbarbase.misrcrplcommands.caption
 msgid "in all commands..."
 msgstr "全てのコマンドで…"
 
-#: tfrmoptionstoolbar.misrcrpliconnames.caption
+#: tfrmoptionstoolbarbase.misrcrpliconnames.caption
 msgid "in all icon names..."
 msgstr "全てのアイコン名で…"
 
-#: tfrmoptionstoolbar.misrcrplparameters.caption
+#: tfrmoptionstoolbarbase.misrcrplparameters.caption
 msgid "in all parameters..."
 msgstr "全てのパラメータで…"
 
-#: tfrmoptionstoolbar.misrcrplstartpath.caption
+#: tfrmoptionstoolbarbase.misrcrplstartpath.caption
 msgid "in all start path..."
 msgstr "全ての開始パスで…"
 
-#: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARAFTERCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.misubtoolbaraftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARAFTERCURRENT.CAPTION"
 msgid "just after current selection"
 msgstr "現在の選択の直後に"
 
-#: tfrmoptionstoolbar.misubtoolbarfirstelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARFIRSTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARFIRSTELEMENT.CAPTION"
 msgid "as first element"
 msgstr "最初の要素として"
 
-#: tfrmoptionstoolbar.misubtoolbarlastelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARLASTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.misubtoolbarlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARLASTELEMENT.CAPTION"
 msgid "as last element"
 msgstr "最後の要素として"
 
-#: tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARPRIORCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "現在の選択の直前に"
 
-#: tfrmoptionstoolbar.rgtoolitemtype.caption
+#: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"
 msgstr "ボタンタイプ"
 

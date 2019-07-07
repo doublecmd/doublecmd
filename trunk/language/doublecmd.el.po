@@ -7322,447 +7322,447 @@ msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
 msgstr "Παράμετροι:"
 
-#: tfrmoptionstoolbar.btnclonebutton.caption
+#: tfrmoptionstoolbarbase.btnclonebutton.caption
 msgid "C&lone button"
 msgstr "Κουμπί κλωνοποίησης"
 
-#: tfrmoptionstoolbar.btndeletebutton.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNDELETEBUTTON.CAPTION"
+#: tfrmoptionstoolbarbase.btndeletebutton.caption
+msgctxt "tfrmoptionstoolbarbase.BTNDELETEBUTTON.CAPTION"
 msgid "&Delete"
 msgstr "Διαγραφή"
 
-#: tfrmoptionstoolbar.btnedithotkey.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNEDITHOTKEY.CAPTION"
+#: tfrmoptionstoolbarbase.btnedithotkey.caption
+msgctxt "tfrmoptionstoolbarbase.BTNEDITHOTKEY.CAPTION"
 msgid "Edit hot&key"
 msgstr "Ρύθμιση ειδικού πλήκτρου"
 
-#: tfrmoptionstoolbar.btninsertbutton.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNINSERTBUTTON.CAPTION"
+#: tfrmoptionstoolbarbase.btninsertbutton.caption
+msgctxt "tfrmoptionstoolbarbase.BTNINSERTBUTTON.CAPTION"
 msgid "&Insert new button"
 msgstr "Εισαγωγή νέου κουμπιού"
 
-#: tfrmoptionstoolbar.btnopencmddlg.caption
+#: tfrmoptionstoolbarbase.btnopencmddlg.caption
 msgid "Select"
 msgstr "Επιλέξτε"
 
-#: tfrmoptionstoolbar.btnopenfile.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENFILE.CAPTION"
+#: tfrmoptionstoolbarbase.btnopenfile.caption
+msgctxt "tfrmoptionstoolbarbase.BTNOPENFILE.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-#: tfrmoptionstoolbar.btnother.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNOTHER.CAPTION"
+#: tfrmoptionstoolbarbase.btnother.caption
+msgctxt "tfrmoptionstoolbarbase.BTNOTHER.CAPTION"
 msgid "Other..."
 msgstr "Άλλα..."
 
-#: tfrmoptionstoolbar.btnremovehotkey.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNREMOVEHOTKEY.CAPTION"
+#: tfrmoptionstoolbarbase.btnremovehotkey.caption
+msgctxt "tfrmoptionstoolbarbase.BTNREMOVEHOTKEY.CAPTION"
 msgid "Remove hotke&y"
 msgstr "Αφαίρεση ειδικού πλήκτρου"
 
-#: tfrmoptionstoolbar.btnstartpath.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNSTARTPATH.CAPTION"
+#: tfrmoptionstoolbarbase.btnstartpath.caption
+msgctxt "tfrmoptionstoolbarbase.BTNSTARTPATH.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-#: tfrmoptionstoolbar.btnsuggestiontooltip.caption
+#: tfrmoptionstoolbarbase.btnsuggestiontooltip.caption
 msgid "Suggest"
 msgstr "Πρόταση"
 
-#: tfrmoptionstoolbar.btnsuggestiontooltip.hint
+#: tfrmoptionstoolbarbase.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
 msgstr "Πρόταση από τον DC υπόδειξης βασισμένης στον τύπο κουμπιού, εντολής και παραμέτρων"
 
-#: tfrmoptionstoolbar.cbflatbuttons.caption
-msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
+#: tfrmoptionstoolbarbase.cbflatbuttons.caption
+msgctxt "tfrmoptionstoolbarbase.cbflatbuttons.caption"
 msgid "&Flat buttons"
 msgstr "Επίπεδα Κουμπιά"
 
-#: tfrmoptionstoolbar.cbreporterrorwithcommands.caption
+#: tfrmoptionstoolbarbase.cbreporterrorwithcommands.caption
 msgid "Report errors with commands"
 msgstr "Αναφορά λαθών με εντολές"
 
-#: tfrmoptionstoolbar.cbshowcaptions.caption
+#: tfrmoptionstoolbarbase.cbshowcaptions.caption
 msgid "Sho&w captions"
 msgstr ""
 
-#: tfrmoptionstoolbar.edtinternalparameters.hint
+#: tfrmoptionstoolbarbase.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Εισαγωγή παραμέτρων εντολής, καθεμία σε ξεχωριστή γραμμή. Πιέστε F1 για βοήθεια στις παραμέτρους."
 
-#: tfrmoptionstoolbar.gbgroupbox.caption
+#: tfrmoptionstoolbarbase.gbgroupbox.caption
 msgid "Appearance"
 msgstr "Εμφάνιση"
 
-#: tfrmoptionstoolbar.lblbarsize.caption
+#: tfrmoptionstoolbarbase.lblbarsize.caption
 msgid "&Bar size:"
 msgstr "Μέγεθος Μπάρας:"
 
-#: tfrmoptionstoolbar.lblexternalcommand.caption
-msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALCOMMAND.CAPTION"
+#: tfrmoptionstoolbarbase.lblexternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.LBLEXTERNALCOMMAND.CAPTION"
 msgid "Co&mmand:"
 msgstr "Εντολή:"
 
-#: tfrmoptionstoolbar.lblexternalparameters.caption
-msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALPARAMETERS.CAPTION"
+#: tfrmoptionstoolbarbase.lblexternalparameters.caption
+msgctxt "tfrmoptionstoolbarbase.LBLEXTERNALPARAMETERS.CAPTION"
 msgid "Parameter&s:"
 msgstr "Παράμετροι:"
 
-#: tfrmoptionstoolbar.lblhelponinternalcommand.caption
-msgctxt "TFRMOPTIONSTOOLBAR.LBLHELPONINTERNALCOMMAND.CAPTION"
+#: tfrmoptionstoolbarbase.lblhelponinternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.LBLHELPONINTERNALCOMMAND.CAPTION"
 msgid "Help"
 msgstr "Βοήθεια"
 
-#: tfrmoptionstoolbar.lblhotkey.caption
+#: tfrmoptionstoolbarbase.lblhotkey.caption
 msgid "Hot key:"
 msgstr "Ειδικό Πλήκτρο:"
 
-#: tfrmoptionstoolbar.lbliconfile.caption
+#: tfrmoptionstoolbarbase.lbliconfile.caption
 msgid "Ico&n:"
 msgstr "Εικονίδιο:"
 
-#: tfrmoptionstoolbar.lbliconsize.caption
+#: tfrmoptionstoolbarbase.lbliconsize.caption
 msgid "Icon si&ze:"
 msgstr "Μέγεθος εικόνας:"
 
-#: tfrmoptionstoolbar.lblinternalcommand.caption
-msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
+#: tfrmoptionstoolbarbase.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.lblinternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "Εντολή:"
 
-#: tfrmoptionstoolbar.lblinternalparameters.caption
-msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
+#: tfrmoptionstoolbarbase.lblinternalparameters.caption
+msgctxt "tfrmoptionstoolbarbase.lblinternalparameters.caption"
 msgid "&Parameters:"
 msgstr "Παράμετροι:"
 
-#: tfrmoptionstoolbar.lblstartpath.caption
-msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
+#: tfrmoptionstoolbarbase.lblstartpath.caption
+msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "Διαδρομή Εκκίνησης:"
 
-#: tfrmoptionstoolbar.lbltooltip.caption
+#: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr "Υπόδειξη:"
 
-#: tfrmoptionstoolbar.miaddallcmds.caption
+#: tfrmoptionstoolbarbase.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
 msgstr "Προσθήκη γραμμής εργαλείων με ΟΛΕΣ τις DC εντολές"
 
-#: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
 msgstr "για μία εξωτερική εντολή"
 
-#: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddinternalcommandsubmenu.caption
 msgid "for an internal command"
 msgstr "για μία εσωτερική εντολή"
 
-#: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddseparatorsubmenu.caption
 msgid "for a separator"
 msgstr "για ένα διαχωριστικό"
 
-#: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
 msgstr "για μια υπο-σειρά εργαλείων"
 
-#: tfrmoptionstoolbar.mibackup.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIBACKUP.CAPTION"
+#: tfrmoptionstoolbarbase.mibackup.caption
+msgctxt "tfrmoptionstoolbarbase.MIBACKUP.CAPTION"
 msgid "Backup..."
 msgstr "Αντίγραφο Ασφαλείας..."
 
-#: tfrmoptionstoolbar.miexport.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORT.CAPTION"
+#: tfrmoptionstoolbarbase.miexport.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORT.CAPTION"
 msgid "Export..."
 msgstr "Εξαγωγή..."
 
-#: tfrmoptionstoolbar.miexportcurrent.caption
+#: tfrmoptionstoolbarbase.miexportcurrent.caption
 msgid "Current toolbar..."
 msgstr "Τρέχουσα γραμμή εργαλείων..."
 
-#: tfrmoptionstoolbar.miexportcurrenttodcbar.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTODCBAR.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttodcbar.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTODCBAR.CAPTION"
 msgid "to a Toolbar File (.toolbar)"
 msgstr "σε ένα αρχείο Γραμμής Εργαλείων (.toolbar)"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTOTCBARKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcbarkeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCBARKEEP.CAPTION"
 msgid "to a TC .BAR file (keep existing)"
 msgstr "σε ένα TC .BAR αρχείο (διατήρηση υπάρχοντος)"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTOTCBARNOKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCBARNOKEEP.CAPTION"
 msgid "to a TC .BAR file (erase existing)"
 msgstr "σε ένα TC .BAR αρχείο (διαγραφή υπάρχοντος)"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTOTCINIKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcinikeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCINIKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgstr "σε ένα \"wincmd.ini\" του TC (διατήρηση υπάρχοντος)"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTOTCININOKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcininokeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCININOKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
 msgstr "σε ένα \"wincmd.ini\" του TC (διαγραφή υπάρχοντος)"
 
-#: tfrmoptionstoolbar.miexporttop.caption
+#: tfrmoptionstoolbarbase.miexporttop.caption
 msgid "Top toolbar..."
 msgstr "Γραμμή Εργαλείων κορυφής..."
 
-#: tfrmoptionstoolbar.miexporttoptobackup.caption
+#: tfrmoptionstoolbarbase.miexporttoptobackup.caption
 msgid "Save a backup of Toolbar"
 msgstr "Αποθήκευση ενός αντιγράφου ασφαλείας της Γραμμής Εργαλείων"
 
-#: tfrmoptionstoolbar.miexporttoptodcbar.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptodcbar.caption"
+#: tfrmoptionstoolbarbase.miexporttoptodcbar.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
 msgstr "σε ένα αρχείο Γραμμής Εργαλείων (.toolbar)"
 
-#: tfrmoptionstoolbar.miexporttoptotcbarkeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcbarkeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
 msgstr "σε ένα TC .BAR αρχείο (διατήρηση υπάρχοντος)"
 
-#: tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
 msgstr "σε ένα TC .BAR αρχείο (διαγραφή υπάρχοντος)"
 
-#: tfrmoptionstoolbar.miexporttoptotcinikeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTTOPTOTCINIKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexporttoptotcinikeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTTOPTOTCINIKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgstr "σε ένα \"wincmd.ini\" του TC (διατήρηση υπάρχοντος)"
 
-#: tfrmoptionstoolbar.miexporttoptotcininokeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTTOPTOTCININOKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexporttoptotcininokeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTTOPTOTCININOKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
 msgstr "σε ένα \"wincmd.ini\" του TC (διαγραφή υπάρχοντος)"
 
-#: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDAFTERCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDAFTERCURRENT.CAPTION"
 msgid "just after current selection"
 msgstr "αμέσως μετά την τρέχουσα επιλογή"
 
-#: tfrmoptionstoolbar.miexternalcommandfirstelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDFIRSTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDFIRSTELEMENT.CAPTION"
 msgid "as first element"
 msgstr "ως πρώτο στοιχείο"
 
-#: tfrmoptionstoolbar.miexternalcommandlastelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDLASTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.miexternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDLASTELEMENT.CAPTION"
 msgid "as last element"
 msgstr "ως τελευταίο στοιχείο"
 
-#: tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDPRIORCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miexternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "αμέσως πριν την τρέχουσα επιλογή"
 
-#: tfrmoptionstoolbar.miimport.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORT.CAPTION"
+#: tfrmoptionstoolbarbase.miimport.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORT.CAPTION"
 msgid "Import..."
 msgstr "Εισάγετε..."
 
-#: tfrmoptionstoolbar.miimportbackup.caption
+#: tfrmoptionstoolbarbase.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
 msgstr "Επαναφορά ενός αντιγράφου ασφαλείας της Σειράς Εργαλείων"
 
-#: tfrmoptionstoolbar.miimportbackupaddcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDCURRENT.CAPTION"
 msgid "to add to current toolbar"
 msgstr "για προσθήκη στη τρέχουσα σειρά εργαλείων"
 
-#: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDMENUCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "προσθήκη νέας γραμμής εργαλείων στη τρέχουσα γραμμή εργαλείων"
 
-#: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDMENUTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupaddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "προσθήκη νέας γραμμής εργαλείων στη γραμμή εργαλείων που είναι στη κορυφή"
 
-#: tfrmoptionstoolbar.miimportbackupaddtop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupaddtop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDTOP.CAPTION"
 msgid "to add to top toolbar"
 msgstr "για προσθήκη στη σειρά εργαλείων της κορυφής"
 
-#: tfrmoptionstoolbar.miimportbackupreplacetop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPREPLACETOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPREPLACETOP.CAPTION"
 msgid "to replace top toolbar"
 msgstr "για αντικατάσταση της σειράς εργαλείων της κορυφής"
 
-#: tfrmoptionstoolbar.miimportdcbar.caption
+#: tfrmoptionstoolbarbase.miimportdcbar.caption
 msgid "from a Toolbar File (.toolbar)"
 msgstr "από ένα Αρχείο Γραμμής Εργαλείων (.toolbar)"
 
-#: tfrmoptionstoolbar.miimportdcbaraddcurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddcurrent.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption"
 msgid "to add to current toolbar"
 msgstr "για προσθήκη στη τρέχουσα σειρά εργαλείων"
 
-#: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "προσθήκη νέας γραμμής εργαλείων στη τρέχουσα γραμμή εργαλείων"
 
-#: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenutop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "προσθήκη νέας γραμμής εργαλείων στη γραμμή εργαλείων που είναι στη κορυφή"
 
-#: tfrmoptionstoolbar.miimportdcbaraddtop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddtop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddtop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddtop.caption"
 msgid "to add to top toolbar"
 msgstr "για προσθήκη στη σειρά εργαλείων της κορυφής"
 
-#: tfrmoptionstoolbar.miimportdcbarreplacetop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbarreplacetop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "για αντικατάσταση της σειράς εργαλείων της κορυφής"
 
-#: tfrmoptionstoolbar.miimporttcbar.caption
+#: tfrmoptionstoolbarbase.miimporttcbar.caption
 msgid "from a single TC .BAR file"
 msgstr "από ένα απλό TC .BAR αρχείο"
 
-#: tfrmoptionstoolbar.miimporttcbaraddcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDCURRENT.CAPTION"
 msgid "to add to current toolbar"
 msgstr "για προσθήκη στη τρέχουσα σειρά εργαλείων"
 
-#: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDMENUCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "προσθήκη νέας γραμμής εργαλείων στη τρέχουσα γραμμή εργαλείων"
 
-#: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDMENUTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "προσθήκη νέας γραμμής εργαλείων στη γραμμή εργαλείων που είναι στη κορυφή"
 
-#: tfrmoptionstoolbar.miimporttcbaraddtop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbaraddtop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDTOP.CAPTION"
 msgid "to add to top toolbar"
 msgstr "για προσθήκη στη σειρά εργαλείων της κορυφής"
 
-#: tfrmoptionstoolbar.miimporttcbarreplacetop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARREPLACETOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARREPLACETOP.CAPTION"
 msgid "to replace top toolbar"
 msgstr "για αντικατάσταση της σειράς εργαλείων της κορυφής"
 
-#: tfrmoptionstoolbar.miimporttcini.caption
+#: tfrmoptionstoolbarbase.miimporttcini.caption
 msgid "from \"wincmd.ini\" of TC..."
 msgstr "από \"wincmd.ini\" του TC..."
 
-#: tfrmoptionstoolbar.miimporttciniaddcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttciniaddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDCURRENT.CAPTION"
 msgid "to add to current toolbar"
 msgstr "για προσθήκη στη τρέχουσα σειρά εργαλείων"
 
-#: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDMENUCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttciniaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "προσθήκη νέας γραμμής εργαλείων στην τρέχουσα γραμμή εργαλείων"
 
-#: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDMENUTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttciniaddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "προσθήκη νέας γραμμής εργαλείων στη γραμμή εργαλείων που είναι στη κορυφή"
 
-#: tfrmoptionstoolbar.miimporttciniaddtop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttciniaddtop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDTOP.CAPTION"
 msgid "to add to top toolbar"
 msgstr "για προσθήκη στη σειρά εργαλείων της κορυφής"
 
-#: tfrmoptionstoolbar.miimporttcinireplacetop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIREPLACETOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcinireplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIREPLACETOP.CAPTION"
 msgid "to replace top toolbar"
 msgstr "για αντικατάσταση της σειράς εργαλείων της κορυφής"
 
-#: tfrmoptionstoolbar.miinternalcommandaftercurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDAFTERCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDAFTERCURRENT.CAPTION"
 msgid "just after current selection"
 msgstr "αμέσως μετά την τρέχουσα επιλογή"
 
-#: tfrmoptionstoolbar.miinternalcommandfirstelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDFIRSTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDFIRSTELEMENT.CAPTION"
 msgid "as first element"
 msgstr "ως πρώτο στοιχείο"
 
-#: tfrmoptionstoolbar.miinternalcommandlastelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDLASTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.miinternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDLASTELEMENT.CAPTION"
 msgid "as last element"
 msgstr "ως τελευταίο στοιχείο"
 
-#: tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDPRIORCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miinternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "αμέσως πριν την τρέχουσα επιλογή"
 
-#: tfrmoptionstoolbar.misearchandreplace.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISEARCHANDREPLACE.CAPTION"
+#: tfrmoptionstoolbarbase.misearchandreplace.caption
+msgctxt "tfrmoptionstoolbarbase.MISEARCHANDREPLACE.CAPTION"
 msgid "Search and replace..."
 msgstr "Αναζήτηση και αντικατάσταση..."
 
-#: tfrmoptionstoolbar.miseparatoraftercurrent.caption
-msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
+#: tfrmoptionstoolbarbase.miseparatoraftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatoraftercurrent.caption"
 msgid "just after current selection"
 msgstr "αμέσως μετά την τρέχουσα επιλογή"
 
-#: tfrmoptionstoolbar.miseparatorfirstitem.caption
-msgctxt "tfrmoptionstoolbar.miseparatorfirstitem.caption"
+#: tfrmoptionstoolbarbase.miseparatorfirstitem.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorfirstitem.caption"
 msgid "as first element"
 msgstr "ως πρώτο στοιχείο"
 
-#: tfrmoptionstoolbar.miseparatorlastelement.caption
-msgctxt "tfrmoptionstoolbar.miseparatorlastelement.caption"
+#: tfrmoptionstoolbarbase.miseparatorlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorlastelement.caption"
 msgid "as last element"
 msgstr "ως τελευταίο στοιχείο"
 
-#: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
-msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
+#: tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "αμέσως πριν την τρέχουσα επιλογή"
 
-#: tfrmoptionstoolbar.misrcrplallofall.caption
+#: tfrmoptionstoolbarbase.misrcrplallofall.caption
 msgid "in all of all the above..."
 msgstr "σε όλα τα ανωτέρω..."
 
-#: tfrmoptionstoolbar.misrcrplcommands.caption
+#: tfrmoptionstoolbarbase.misrcrplcommands.caption
 msgid "in all commands..."
 msgstr "σε όλες τις εντολές..."
 
-#: tfrmoptionstoolbar.misrcrpliconnames.caption
+#: tfrmoptionstoolbarbase.misrcrpliconnames.caption
 msgid "in all icon names..."
 msgstr "σε όλα τα ονόματα εικονιδίων..."
 
-#: tfrmoptionstoolbar.misrcrplparameters.caption
+#: tfrmoptionstoolbarbase.misrcrplparameters.caption
 msgid "in all parameters..."
 msgstr "σε όλες τις παραμέτρους..."
 
-#: tfrmoptionstoolbar.misrcrplstartpath.caption
+#: tfrmoptionstoolbarbase.misrcrplstartpath.caption
 msgid "in all start path..."
 msgstr "σε όλες τις διαδρομές εκκίνησης...."
 
-#: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARAFTERCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.misubtoolbaraftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARAFTERCURRENT.CAPTION"
 msgid "just after current selection"
 msgstr "αμέσως μετά την τρέχουσα επιλογή"
 
-#: tfrmoptionstoolbar.misubtoolbarfirstelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARFIRSTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARFIRSTELEMENT.CAPTION"
 msgid "as first element"
 msgstr "ως πρώτο στοιχείο"
 
-#: tfrmoptionstoolbar.misubtoolbarlastelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARLASTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.misubtoolbarlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARLASTELEMENT.CAPTION"
 msgid "as last element"
 msgstr "ως τελευταίο στοιχείο"
 
-#: tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARPRIORCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "αμέσως πριν την τρέχουσα επιλογή"
 
-#: tfrmoptionstoolbar.rgtoolitemtype.caption
+#: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"
 msgstr "Τύπος Κουμπιού"
 

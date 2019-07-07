@@ -7121,443 +7121,443 @@ msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
 msgstr "参数："
 
-#: tfrmoptionstoolbar.btnclonebutton.caption
+#: tfrmoptionstoolbarbase.btnclonebutton.caption
 msgid "C&lone button"
 msgstr "克隆按钮(&L)"
 
-#: tfrmoptionstoolbar.btndeletebutton.caption
-msgctxt "tfrmoptionstoolbar.btndeletebutton.caption"
+#: tfrmoptionstoolbarbase.btndeletebutton.caption
+msgctxt "tfrmoptionstoolbarbase.btndeletebutton.caption"
 msgid "&Delete"
 msgstr "删除(&D)"
 
-#: tfrmoptionstoolbar.btnedithotkey.caption
+#: tfrmoptionstoolbarbase.btnedithotkey.caption
 msgid "Edit hot&key"
 msgstr "编辑热键(&K)"
 
-#: tfrmoptionstoolbar.btninsertbutton.caption
+#: tfrmoptionstoolbarbase.btninsertbutton.caption
 msgid "&Insert new button"
 msgstr "插入新的按钮(&I)"
 
-#: tfrmoptionstoolbar.btnopencmddlg.caption
+#: tfrmoptionstoolbarbase.btnopencmddlg.caption
 msgid "Select"
 msgstr "选择"
 
-#: tfrmoptionstoolbar.btnopenfile.caption
-msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
+#: tfrmoptionstoolbarbase.btnopenfile.caption
+msgctxt "tfrmoptionstoolbarbase.btnopenfile.caption"
 msgid ">>"
 msgstr ""
 
-#: tfrmoptionstoolbar.btnother.caption
-msgctxt "tfrmoptionstoolbar.btnother.caption"
+#: tfrmoptionstoolbarbase.btnother.caption
+msgctxt "tfrmoptionstoolbarbase.btnother.caption"
 msgid "Other..."
 msgstr "其他..."
 
-#: tfrmoptionstoolbar.btnremovehotkey.caption
+#: tfrmoptionstoolbarbase.btnremovehotkey.caption
 msgid "Remove hotke&y"
 msgstr "移除热键(&Y)"
 
-#: tfrmoptionstoolbar.btnstartpath.caption
-msgctxt "tfrmoptionstoolbar.btnstartpath.caption"
+#: tfrmoptionstoolbarbase.btnstartpath.caption
+msgctxt "tfrmoptionstoolbarbase.btnstartpath.caption"
 msgid ">>"
 msgstr ""
 
-#: tfrmoptionstoolbar.btnsuggestiontooltip.caption
+#: tfrmoptionstoolbarbase.btnsuggestiontooltip.caption
 msgid "Suggest"
 msgstr "建议"
 
-#: tfrmoptionstoolbar.btnsuggestiontooltip.hint
+#: tfrmoptionstoolbarbase.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
 msgstr "包含 DC 根据按钮类型、命令和参数建议的工具提示"
 
-#: tfrmoptionstoolbar.cbflatbuttons.caption
-msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
+#: tfrmoptionstoolbarbase.cbflatbuttons.caption
+msgctxt "tfrmoptionstoolbarbase.cbflatbuttons.caption"
 msgid "&Flat buttons"
 msgstr "扁平按钮"
 
-#: tfrmoptionstoolbar.cbreporterrorwithcommands.caption
+#: tfrmoptionstoolbarbase.cbreporterrorwithcommands.caption
 msgid "Report errors with commands"
 msgstr "使用命令报告错误"
 
-#: tfrmoptionstoolbar.cbshowcaptions.caption
+#: tfrmoptionstoolbarbase.cbshowcaptions.caption
 msgid "Sho&w captions"
 msgstr ""
 
-#: tfrmoptionstoolbar.edtinternalparameters.hint
+#: tfrmoptionstoolbarbase.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "输入命令参数，每个命令参数单独一行。按 F1 查看参数帮助。"
 
-#: tfrmoptionstoolbar.gbgroupbox.caption
+#: tfrmoptionstoolbarbase.gbgroupbox.caption
 msgid "Appearance"
 msgstr "外观"
 
-#: tfrmoptionstoolbar.lblbarsize.caption
+#: tfrmoptionstoolbarbase.lblbarsize.caption
 msgid "&Bar size:"
 msgstr "工具栏大小(&B)："
 
-#: tfrmoptionstoolbar.lblexternalcommand.caption
-msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+#: tfrmoptionstoolbarbase.lblexternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.lblexternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "命令(&D)："
 
-#: tfrmoptionstoolbar.lblexternalparameters.caption
-msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
+#: tfrmoptionstoolbarbase.lblexternalparameters.caption
+msgctxt "tfrmoptionstoolbarbase.lblexternalparameters.caption"
 msgid "Parameter&s:"
 msgstr "参数(&S)："
 
-#: tfrmoptionstoolbar.lblhelponinternalcommand.caption
-msgctxt "tfrmoptionstoolbar.lblhelponinternalcommand.caption"
+#: tfrmoptionstoolbarbase.lblhelponinternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.lblhelponinternalcommand.caption"
 msgid "Help"
 msgstr "帮助"
 
-#: tfrmoptionstoolbar.lblhotkey.caption
+#: tfrmoptionstoolbarbase.lblhotkey.caption
 msgid "Hot key:"
 msgstr "热键："
 
-#: tfrmoptionstoolbar.lbliconfile.caption
+#: tfrmoptionstoolbarbase.lbliconfile.caption
 msgid "Ico&n:"
 msgstr "图标(&N)："
 
-#: tfrmoptionstoolbar.lbliconsize.caption
+#: tfrmoptionstoolbarbase.lbliconsize.caption
 msgid "Icon si&ze:"
 msgstr "图标大小(&Z)："
 
-#: tfrmoptionstoolbar.lblinternalcommand.caption
-msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
+#: tfrmoptionstoolbarbase.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.lblinternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "命令(&M)："
 
-#: tfrmoptionstoolbar.lblinternalparameters.caption
+#: tfrmoptionstoolbarbase.lblinternalparameters.caption
 msgid "&Parameters:"
 msgstr "参数(&P)："
 
-#: tfrmoptionstoolbar.lblstartpath.caption
-msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
+#: tfrmoptionstoolbarbase.lblstartpath.caption
+msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "开始路径(&S)"
 
-#: tfrmoptionstoolbar.lbltooltip.caption
+#: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr "工具提示(&T)："
 
-#: tfrmoptionstoolbar.miaddallcmds.caption
+#: tfrmoptionstoolbarbase.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
 msgstr "添加带有所有 DC 命令的工具栏"
 
-#: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
 msgstr "用于外部命令"
 
-#: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddinternalcommandsubmenu.caption
 msgid "for an internal command"
 msgstr "用于内部命令"
 
-#: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddseparatorsubmenu.caption
 msgid "for a separator"
 msgstr "用于分隔符"
 
-#: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
 msgstr "用于子工具栏"
 
-#: tfrmoptionstoolbar.mibackup.caption
-msgctxt "tfrmoptionstoolbar.mibackup.caption"
+#: tfrmoptionstoolbarbase.mibackup.caption
+msgctxt "tfrmoptionstoolbarbase.mibackup.caption"
 msgid "Backup..."
 msgstr "备份..."
 
-#: tfrmoptionstoolbar.miexport.caption
-msgctxt "tfrmoptionstoolbar.miexport.caption"
+#: tfrmoptionstoolbarbase.miexport.caption
+msgctxt "tfrmoptionstoolbarbase.miexport.caption"
 msgid "Export..."
 msgstr "导出..."
 
-#: tfrmoptionstoolbar.miexportcurrent.caption
+#: tfrmoptionstoolbarbase.miexportcurrent.caption
 msgid "Current toolbar..."
 msgstr "当前工具栏..."
 
-#: tfrmoptionstoolbar.miexportcurrenttodcbar.caption
-msgctxt "tfrmoptionstoolbar.miexportcurrenttodcbar.caption"
+#: tfrmoptionstoolbarbase.miexportcurrenttodcbar.caption
+msgctxt "tfrmoptionstoolbarbase.miexportcurrenttodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
 msgstr "到工具栏文件 (.toolbar)"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption
-msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcbarkeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexportcurrenttotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
 msgstr "到 TC .BAR 文件（保留现有文件）"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption
-msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexportcurrenttotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
 msgstr "到 TC .BAR 文件（删除现有文件）"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption
-msgctxt "tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcinikeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexportcurrenttotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgstr "到 TC 的 \"wincmd.ini\" 文件（保留现有文件）"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption
-msgctxt "tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcininokeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexportcurrenttotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
 msgstr "到 TC 的 \"wincmd.ini\" 文件（删除现有文件）"
 
-#: tfrmoptionstoolbar.miexporttop.caption
+#: tfrmoptionstoolbarbase.miexporttop.caption
 msgid "Top toolbar..."
 msgstr "顶部工具栏..."
 
-#: tfrmoptionstoolbar.miexporttoptobackup.caption
+#: tfrmoptionstoolbarbase.miexporttoptobackup.caption
 msgid "Save a backup of Toolbar"
 msgstr "保存工具栏备份"
 
-#: tfrmoptionstoolbar.miexporttoptodcbar.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptodcbar.caption"
+#: tfrmoptionstoolbarbase.miexporttoptodcbar.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
 msgstr "到工具栏文件 (.toolbar)"
 
-#: tfrmoptionstoolbar.miexporttoptotcbarkeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcbarkeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
 msgstr "到 TC .BAR 文件（保留现有文件）"
 
-#: tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
 msgstr "到 TC .BAR 文件（删除现有文件）"
 
-#: tfrmoptionstoolbar.miexporttoptotcinikeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcinikeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcinikeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgstr "到 TC 的 \"wincmd.ini\" 文件（保留现有文件）"
 
-#: tfrmoptionstoolbar.miexporttoptotcininokeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcininokeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcininokeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
 msgstr "到 TC 的 \"wincmd.ini\" 文件（删除现有文件）"
 
-#: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
-msgctxt "tfrmoptionstoolbar.miexternalcommandaftercurrent.caption"
+#: tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption"
 msgid "just after current selection"
 msgstr "在当前选择之后"
 
-#: tfrmoptionstoolbar.miexternalcommandfirstelement.caption
-msgctxt "tfrmoptionstoolbar.miexternalcommandfirstelement.caption"
+#: tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption"
 msgid "as first element"
 msgstr "作为第一个元素"
 
-#: tfrmoptionstoolbar.miexternalcommandlastelement.caption
-msgctxt "tfrmoptionstoolbar.miexternalcommandlastelement.caption"
+#: tfrmoptionstoolbarbase.miexternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.miexternalcommandlastelement.caption"
 msgid "as last element"
 msgstr "作为最后的元素"
 
-#: tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption
-msgctxt "tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption"
+#: tfrmoptionstoolbarbase.miexternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miexternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "在当前选择之前"
 
-#: tfrmoptionstoolbar.miimport.caption
-msgctxt "tfrmoptionstoolbar.miimport.caption"
+#: tfrmoptionstoolbarbase.miimport.caption
+msgctxt "tfrmoptionstoolbarbase.miimport.caption"
 msgid "Import..."
 msgstr "导入..."
 
-#: tfrmoptionstoolbar.miimportbackup.caption
+#: tfrmoptionstoolbarbase.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
 msgstr "恢复工具栏备份"
 
-#: tfrmoptionstoolbar.miimportbackupaddcurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportbackupaddcurrent.caption"
+#: tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption"
 msgid "to add to current toolbar"
 msgstr "添加到当前工具栏"
 
-#: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption"
+#: tfrmoptionstoolbarbase.miimportbackupaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportbackupaddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "添加新的工具栏到当前工具栏"
 
-#: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
-msgctxt "tfrmoptionstoolbar.miimportbackupaddmenutop.caption"
+#: tfrmoptionstoolbarbase.miimportbackupaddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportbackupaddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "添加新的工具栏到顶部工具栏"
 
-#: tfrmoptionstoolbar.miimportbackupaddtop.caption
-msgctxt "tfrmoptionstoolbar.miimportbackupaddtop.caption"
+#: tfrmoptionstoolbarbase.miimportbackupaddtop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportbackupaddtop.caption"
 msgid "to add to top toolbar"
 msgstr "添加到顶部工具栏"
 
-#: tfrmoptionstoolbar.miimportbackupreplacetop.caption
-msgctxt "tfrmoptionstoolbar.miimportbackupreplacetop.caption"
+#: tfrmoptionstoolbarbase.miimportbackupreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportbackupreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "替换顶部工具栏"
 
-#: tfrmoptionstoolbar.miimportdcbar.caption
+#: tfrmoptionstoolbarbase.miimportdcbar.caption
 msgid "from a Toolbar File (.toolbar)"
 msgstr "从工具栏文件 (.toolbar)"
 
-#: tfrmoptionstoolbar.miimportdcbaraddcurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddcurrent.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption"
 msgid "to add to current toolbar"
 msgstr "添加到当前工具栏"
 
-#: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "添加新的工具栏到当前工具栏"
 
-#: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenutop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "添加新的工具栏到顶部工具栏"
 
-#: tfrmoptionstoolbar.miimportdcbaraddtop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddtop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddtop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddtop.caption"
 msgid "to add to top toolbar"
 msgstr "添加到顶部工具栏"
 
-#: tfrmoptionstoolbar.miimportdcbarreplacetop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbarreplacetop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "替换顶部工具栏"
 
-#: tfrmoptionstoolbar.miimporttcbar.caption
+#: tfrmoptionstoolbarbase.miimporttcbar.caption
 msgid "from a single TC .BAR file"
 msgstr "从单个 TC .BAR 文件"
 
-#: tfrmoptionstoolbar.miimporttcbaraddcurrent.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbaraddcurrent.caption"
+#: tfrmoptionstoolbarbase.miimporttcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcbaraddcurrent.caption"
 msgid "to add to current toolbar"
 msgstr "添加到当前工具栏"
 
-#: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption"
+#: tfrmoptionstoolbarbase.miimporttcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "添加新的工具栏到当前工具栏"
 
-#: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenutop.caption"
+#: tfrmoptionstoolbarbase.miimporttcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "添加新的工具栏到顶部工具栏"
 
-#: tfrmoptionstoolbar.miimporttcbaraddtop.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbaraddtop.caption"
+#: tfrmoptionstoolbarbase.miimporttcbaraddtop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcbaraddtop.caption"
 msgid "to add to top toolbar"
 msgstr "添加到顶部工具栏"
 
-#: tfrmoptionstoolbar.miimporttcbarreplacetop.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbarreplacetop.caption"
+#: tfrmoptionstoolbarbase.miimporttcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcbarreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "替换顶部工具栏"
 
-#: tfrmoptionstoolbar.miimporttcini.caption
+#: tfrmoptionstoolbarbase.miimporttcini.caption
 msgid "from \"wincmd.ini\" of TC..."
 msgstr "从 TC 的 \"wincmd.ini\" 文件"
 
-#: tfrmoptionstoolbar.miimporttciniaddcurrent.caption
-msgctxt "tfrmoptionstoolbar.miimporttciniaddcurrent.caption"
+#: tfrmoptionstoolbarbase.miimporttciniaddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttciniaddcurrent.caption"
 msgid "to add to current toolbar"
 msgstr "添加到当前工具栏"
 
-#: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
-msgctxt "tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption"
+#: tfrmoptionstoolbarbase.miimporttciniaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttciniaddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "添加新的工具栏到当前工具栏"
 
-#: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
-msgctxt "tfrmoptionstoolbar.miimporttciniaddmenutop.caption"
+#: tfrmoptionstoolbarbase.miimporttciniaddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttciniaddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "添加新的工具栏到顶部工具栏"
 
-#: tfrmoptionstoolbar.miimporttciniaddtop.caption
-msgctxt "tfrmoptionstoolbar.miimporttciniaddtop.caption"
+#: tfrmoptionstoolbarbase.miimporttciniaddtop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttciniaddtop.caption"
 msgid "to add to top toolbar"
 msgstr "添加到顶部工具栏"
 
-#: tfrmoptionstoolbar.miimporttcinireplacetop.caption
-msgctxt "tfrmoptionstoolbar.miimporttcinireplacetop.caption"
+#: tfrmoptionstoolbarbase.miimporttcinireplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcinireplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "替换顶部工具栏"
 
-#: tfrmoptionstoolbar.miinternalcommandaftercurrent.caption
-msgctxt "tfrmoptionstoolbar.miinternalcommandaftercurrent.caption"
+#: tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption"
 msgid "just after current selection"
 msgstr "在当前选择之后"
 
-#: tfrmoptionstoolbar.miinternalcommandfirstelement.caption
-msgctxt "tfrmoptionstoolbar.miinternalcommandfirstelement.caption"
+#: tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption"
 msgid "as first element"
 msgstr "作为第一个元素"
 
-#: tfrmoptionstoolbar.miinternalcommandlastelement.caption
-msgctxt "tfrmoptionstoolbar.miinternalcommandlastelement.caption"
+#: tfrmoptionstoolbarbase.miinternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.miinternalcommandlastelement.caption"
 msgid "as last element"
 msgstr "作为最后一个元素"
 
-#: tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption
-msgctxt "tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption"
+#: tfrmoptionstoolbarbase.miinternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miinternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "在当前选择之前"
 
-#: tfrmoptionstoolbar.misearchandreplace.caption
-msgctxt "tfrmoptionstoolbar.misearchandreplace.caption"
+#: tfrmoptionstoolbarbase.misearchandreplace.caption
+msgctxt "tfrmoptionstoolbarbase.misearchandreplace.caption"
 msgid "Search and replace..."
 msgstr "搜索并替换..."
 
-#: tfrmoptionstoolbar.miseparatoraftercurrent.caption
-msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
+#: tfrmoptionstoolbarbase.miseparatoraftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatoraftercurrent.caption"
 msgid "just after current selection"
 msgstr "在当前选择之后"
 
-#: tfrmoptionstoolbar.miseparatorfirstitem.caption
-msgctxt "tfrmoptionstoolbar.miseparatorfirstitem.caption"
+#: tfrmoptionstoolbarbase.miseparatorfirstitem.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorfirstitem.caption"
 msgid "as first element"
 msgstr "作为第一个元素"
 
-#: tfrmoptionstoolbar.miseparatorlastelement.caption
-msgctxt "tfrmoptionstoolbar.miseparatorlastelement.caption"
+#: tfrmoptionstoolbarbase.miseparatorlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorlastelement.caption"
 msgid "as last element"
 msgstr "作为最后一个元素"
 
-#: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
-msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
+#: tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "在当前选择之前"
 
-#: tfrmoptionstoolbar.misrcrplallofall.caption
+#: tfrmoptionstoolbarbase.misrcrplallofall.caption
 msgid "in all of all the above..."
 msgstr "在所有上述中..."
 
-#: tfrmoptionstoolbar.misrcrplcommands.caption
+#: tfrmoptionstoolbarbase.misrcrplcommands.caption
 msgid "in all commands..."
 msgstr "在所有命令中..."
 
-#: tfrmoptionstoolbar.misrcrpliconnames.caption
+#: tfrmoptionstoolbarbase.misrcrpliconnames.caption
 msgid "in all icon names..."
 msgstr "在所有图标名称中..."
 
-#: tfrmoptionstoolbar.misrcrplparameters.caption
+#: tfrmoptionstoolbarbase.misrcrplparameters.caption
 msgid "in all parameters..."
 msgstr "在所有参数中..."
 
-#: tfrmoptionstoolbar.misrcrplstartpath.caption
+#: tfrmoptionstoolbarbase.misrcrplstartpath.caption
 msgid "in all start path..."
 msgstr "在所有的开始路径..."
 
-#: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
-msgctxt "tfrmoptionstoolbar.misubtoolbaraftercurrent.caption"
+#: tfrmoptionstoolbarbase.misubtoolbaraftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.misubtoolbaraftercurrent.caption"
 msgid "just after current selection"
 msgstr "在当前选择之后"
 
-#: tfrmoptionstoolbar.misubtoolbarfirstelement.caption
-msgctxt "tfrmoptionstoolbar.misubtoolbarfirstelement.caption"
+#: tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption"
 msgid "as first element"
 msgstr "作为第一个元素"
 
-#: tfrmoptionstoolbar.misubtoolbarlastelement.caption
-msgctxt "tfrmoptionstoolbar.misubtoolbarlastelement.caption"
+#: tfrmoptionstoolbarbase.misubtoolbarlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.misubtoolbarlastelement.caption"
 msgid "as last element"
 msgstr "作为最后一个元素"
 
-#: tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption
-msgctxt "tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption"
+#: tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "在当前选择之前"
 
-#: tfrmoptionstoolbar.rgtoolitemtype.caption
+#: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"
 msgstr "按钮类型"
 
