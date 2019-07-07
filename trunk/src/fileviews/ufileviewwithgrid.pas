@@ -750,7 +750,8 @@ var
   AFile: TFile;
   AFileName: String;
 begin
-  if (FSelectedCount > 0) then
+  if not Assigned(FAllDisplayFiles) or (FAllDisplayFiles.Count = 0)
+     or (FSelectedCount > 0) then
     lblDetails.Caption:= EmptyStr
   else
     begin
