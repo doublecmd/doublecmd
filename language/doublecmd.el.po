@@ -12463,6 +12463,10 @@ msgstr "Γραμμή εργαλείων"
 msgid "Toolbar Extra"
 msgstr ""
 
+#: ulng.rsoptionseditortoolbarmiddle
+msgid "Toolbar Middle"
+msgstr ""
+
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
 msgid "Tools"

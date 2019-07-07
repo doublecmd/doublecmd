@@ -12178,6 +12178,10 @@ msgstr "工具栏"
 msgid "Toolbar Extra"
 msgstr ""
 
+#: ulng.rsoptionseditortoolbarmiddle
+msgid "Toolbar Middle"
+msgstr ""
+
 #: ulng.rsoptionseditortools
 msgid "Tools"
 msgstr "工具"
