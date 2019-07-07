@@ -302,8 +302,15 @@ object frmMain: TfrmMain
         Flat = True
         TabOrder = 3
         Visible = False
+        OnDragDrop = MainToolBarDragDrop
+        OnDragOver = MainToolBarDragOver
+        OnMouseUp = MainToolBarMouseUp
         OnLoadButtonGlyph = MainToolBarLoadButtonGlyph
         OnLoadButtonOverlay = MainToolBarLoadButtonOverlay
+        OnToolButtonMouseDown = MainToolBarToolButtonMouseDown
+        OnToolButtonMouseUp = MainToolBarToolButtonMouseUp
+        OnToolButtonDragDrop = MainToolBarToolButtonDragDrop
+        OnToolButtonDragOver = MainToolBarToolButtonDragOver
         OnToolItemShortcutsHint = MainToolBarToolItemShortcutsHint
         GlyphSize = 16
       end
