@@ -2818,8 +2818,10 @@ begin
 end;
 
 procedure TfrmMain.CreateDefaultToolbar;
+var
+  AToolbar: TKASToolBar;
 
-  procedure AddCommand(AToolbar: TKASToolBar; Command: String);
+  procedure AddCommand(const Command: String);
   var
     CommandItem: TKASCommandItem;
   begin
@@ -2830,7 +2832,7 @@ procedure TfrmMain.CreateDefaultToolbar;
     AToolbar.AddButton(CommandItem);
   end;
 
-  procedure AddSeparator(AToolbar: TKASToolBar);
+  procedure AddSeparator;
   begin
     AToolbar.AddButton(TKASSeparatorItem.Create);
   end;
@@ -2840,48 +2842,50 @@ var
 begin
   if MainToolBar.ButtonCount = 0 then
   begin
-    MainToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', False);
+    MainToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/' + MainToolBar.Name, False);
     if not Assigned(MainToolBarNode) then
     begin
-      AddCommand(MainToolBar, 'cm_Refresh');
-      AddCommand(MainToolBar, 'cm_RunTerm');
-      AddCommand(MainToolBar, 'cm_Options');
-      AddSeparator(MainToolBar);
-      AddCommand(MainToolBar, 'cm_BriefView');
-      AddCommand(MainToolBar, 'cm_ColumnsView');
-      AddCommand(MainToolBar, 'cm_ThumbnailsView');
-      AddSeparator(MainToolBar);
-      AddCommand(MainToolBar, 'cm_FlatView');
-      AddSeparator(MainToolBar);
-      AddCommand(MainToolBar, 'cm_ViewHistoryPrev');
-      AddCommand(MainToolBar, 'cm_ViewHistoryNext');
-      AddSeparator(MainToolBar);
-      AddCommand(MainToolBar, 'cm_MarkPlus');
-      AddCommand(MainToolBar, 'cm_MarkMinus');
-      AddCommand(MainToolBar, 'cm_MarkInvert');
-      AddSeparator(MainToolBar);
-      AddCommand(MainToolBar, 'cm_PackFiles');
-      AddCommand(MainToolBar, 'cm_ExtractFiles');
-      AddSeparator(MainToolBar);
-      AddCommand(MainToolBar, 'cm_Search');
-      AddCommand(MainToolBar, 'cm_MultiRename');
-      AddCommand(MainToolBar, 'cm_SyncDirs');
-      AddCommand(MainToolBar, 'cm_CopyFullNamesToClip');
+      AToolbar := MainToolBar;
+      AddCommand('cm_Refresh');
+      AddCommand('cm_RunTerm');
+      AddCommand('cm_Options');
+      AddSeparator;
+      AddCommand('cm_BriefView');
+      AddCommand('cm_ColumnsView');
+      AddCommand('cm_ThumbnailsView');
+      AddSeparator;
+      AddCommand('cm_FlatView');
+      AddSeparator;
+      AddCommand('cm_ViewHistoryPrev');
+      AddCommand('cm_ViewHistoryNext');
+      AddSeparator;
+      AddCommand('cm_MarkPlus');
+      AddCommand('cm_MarkMinus');
+      AddCommand('cm_MarkInvert');
+      AddSeparator;
+      AddCommand('cm_PackFiles');
+      AddCommand('cm_ExtractFiles');
+      AddSeparator;
+      AddCommand('cm_Search');
+      AddCommand('cm_MultiRename');
+      AddCommand('cm_SyncDirs');
+      AddCommand('cm_CopyFullNamesToClip');
       SaveToolBar(MainToolBar);
     end;
   end;
   if MiddleToolBar.ButtonCount = 0 then
   begin
-    MainToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MiddleToolbar', False);
+    MainToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/' + MiddleToolBar.Name, False);
     if not Assigned(MainToolBarNode) then
     begin
-      AddCommand(MiddleToolBar, 'cm_View');
-      AddCommand(MiddleToolBar, 'cm_Edit');
-      AddCommand(MiddleToolBar, 'cm_Copy');
-      AddCommand(MiddleToolBar, 'cm_Rename');
-      AddSeparator(MiddleToolBar);
-      AddCommand(MiddleToolBar, 'cm_PackFiles');
-      AddCommand(MiddleToolBar, 'cm_MakeDir');
+      AToolbar := MiddleToolBar;
+      AddCommand('cm_View');
+      AddCommand('cm_Edit');
+      AddCommand('cm_Copy');
+      AddCommand('cm_Rename');
+      AddSeparator;
+      AddCommand('cm_PackFiles');
+      AddCommand('cm_MakeDir');
       SaveToolBar(MiddleToolBar);
     end;
   end;

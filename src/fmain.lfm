@@ -22,7 +22,7 @@ object frmMain: TfrmMain
   ShowInTaskBar = stAlways
   LCLVersion = '1.8.4.0'
   Visible = True
-  object MainToolBar: TKASToolBar
+  object MainToolbar: TKASToolBar
     AnchorSideTop.Control = Owner
     Left = 0
     Height = 20
@@ -289,7 +289,7 @@ object frmMain: TfrmMain
           end
         end
       end
-      object MiddleToolBar: TKASToolBar
+      object MiddleToolbar: TKASToolBar
         Left = 511
         Height = 161
         Top = 0
