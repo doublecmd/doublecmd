@@ -702,6 +702,7 @@ resourcestring
   rsOptionsEditorTerminal = 'Terminal';
   rsOptionsEditorToolbar = 'Toolbar';
   rsOptionsEditorToolbarExtra = 'Toolbar Extra';
+  rsOptionsEditorToolbarMiddle = 'Toolbar Middle';
   rsOptionsEditorTools = 'Tools';
   rsOptionsEditorTooltips = 'Tooltips';
   rsOptionsEditorFileAssoc = 'File associations';

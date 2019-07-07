@@ -1,0 +1,1352 @@
+inherited frmOptionsToolbarBase: TfrmOptionsToolbarBase
+  Height = 573
+  Width = 850
+  ClientHeight = 573
+  ClientWidth = 850
+  OnEnter = FrameEnter
+  DesignLeft = 440
+  DesignTop = 255
+  object gbGroupBox: TGroupBox[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 111
+    Top = 0
+    Width = 838
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
+    Caption = 'Appearance'
+    ChildSizing.LeftRightSpacing = 8
+    ChildSizing.TopBottomSpacing = 4
+    ClientHeight = 86
+    ClientWidth = 834
+    TabOrder = 0
+    object lblBarSize: TLabel
+      AnchorSideLeft.Control = gbGroupBox
+      AnchorSideTop.Control = trbBarSize
+      AnchorSideTop.Side = asrCenter
+      Left = 8
+      Height = 20
+      Top = 17
+      Width = 54
+      Caption = '&Bar size:'
+      FocusControl = trbBarSize
+      ParentColor = False
+    end
+    object lblBarSizeValue: TLabel
+      AnchorSideLeft.Control = lblBarSize
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = trbBarSize
+      AnchorSideTop.Side = asrCenter
+      Left = 64
+      Height = 1
+      Top = 27
+      Width = 1
+      BorderSpacing.Left = 2
+      ParentColor = False
+    end
+    object trbBarSize: TTrackBar
+      AnchorSideLeft.Control = lblBarSizeValue
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbGroupBox
+      Left = 68
+      Height = 46
+      Top = 4
+      Width = 150
+      Frequency = 4
+      Max = 40
+      Min = 10
+      OnChange = trbBarSizeChange
+      Position = 18
+      ScalePos = trRight
+      BorderSpacing.Around = 3
+      Constraints.MinWidth = 40
+      TabOrder = 0
+    end
+    object lblIconSize: TLabel
+      AnchorSideLeft.Control = trbBarSize
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = trbIconSize
+      AnchorSideTop.Side = asrCenter
+      Left = 233
+      Height = 20
+      Top = 17
+      Width = 60
+      BorderSpacing.Left = 15
+      Caption = 'Icon si&ze:'
+      FocusControl = trbIconSize
+      ParentColor = False
+    end
+    object lblIconSizeValue: TLabel
+      AnchorSideLeft.Control = lblIconSize
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = trbIconSize
+      AnchorSideTop.Side = asrCenter
+      Left = 295
+      Height = 1
+      Top = 27
+      Width = 1
+      BorderSpacing.Left = 2
+      ParentColor = False
+    end
+    object trbIconSize: TTrackBar
+      AnchorSideLeft.Control = lblIconSizeValue
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbGroupBox
+      AnchorSideBottom.Side = asrBottom
+      Left = 299
+      Height = 46
+      Top = 4
+      Width = 150
+      Frequency = 4
+      Max = 32
+      Min = 8
+      OnChange = trbIconSizeChange
+      Position = 16
+      ScalePos = trRight
+      BorderSpacing.Around = 3
+      Constraints.MinWidth = 40
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 1
+    end
+    object cbFlatButtons: TCheckBox
+      AnchorSideLeft.Control = gbGroupBox
+      AnchorSideTop.Control = trbIconSize
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 24
+      Top = 58
+      Width = 102
+      BorderSpacing.Top = 8
+      Caption = '&Flat buttons'
+      Checked = True
+      OnChange = cbFlatButtonsChange
+      State = cbChecked
+      TabOrder = 2
+    end
+    object cbShowCaptions: TCheckBox
+      AnchorSideLeft.Control = cbFlatButtons
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbFlatButtons
+      Left = 122
+      Height = 24
+      Top = 58
+      Width = 120
+      BorderSpacing.Left = 12
+      Caption = 'Sho&w captions'
+      TabOrder = 3
+    end
+    object cbReportErrorWithCommands: TCheckBox
+      AnchorSideLeft.Control = cbShowCaptions
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbFlatButtons
+      Left = 254
+      Height = 24
+      Top = 58
+      Width = 220
+      BorderSpacing.Left = 12
+      Caption = 'Report errors with commands'
+      TabOrder = 4
+    end
+  end
+  object pnlFullToolbarButtons: TPanel[1]
+    AnchorSideLeft.Control = gbGroupBox
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbGroupBox
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = pnlEditToolbar
+    Left = 6
+    Height = 30
+    Top = 208
+    Width = 838
+    Anchors = [akLeft, akRight, akBottom]
+    AutoSize = True
+    BorderSpacing.Top = 2
+    BorderSpacing.Bottom = 2
+    BevelOuter = bvNone
+    ClientHeight = 30
+    ClientWidth = 838
+    TabOrder = 1
+    object pnlToolbarButtons: TPanel
+      AnchorSideLeft.Control = pnlFullToolbarButtons
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = pnlFullToolbarButtons
+      AnchorSideBottom.Side = asrBottom
+      Left = 181
+      Height = 30
+      Top = 0
+      Width = 476
+      AutoSize = True
+      BevelOuter = bvNone
+      ChildSizing.HorizontalSpacing = 8
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
+      ChildSizing.ShrinkVertical = crsHomogenousChildResize
+      ChildSizing.Layout = cclTopToBottomThenLeftToRight
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 30
+      ClientWidth = 476
+      TabOrder = 0
+      object btnInsertButton: TButton
+        Left = 0
+        Height = 30
+        Top = 0
+        Width = 141
+        AutoSize = True
+        Caption = '&Insert new button'
+        OnClick = btnInsertButtonClick
+        TabOrder = 0
+      end
+      object btnCloneButton: TButton
+        Left = 149
+        Height = 30
+        Top = 0
+        Width = 112
+        AutoSize = True
+        Caption = 'C&lone button'
+        OnClick = btnCloneButtonClick
+        TabOrder = 1
+      end
+      object btnDeleteButton: TButton
+        Left = 269
+        Height = 30
+        Top = 0
+        Width = 70
+        AutoSize = True
+        Caption = '&Delete'
+        OnClick = btnDeleteButtonClick
+        TabOrder = 2
+      end
+      object btnOther: TButton
+        Left = 404
+        Height = 30
+        Top = 0
+        Width = 72
+        AutoSize = True
+        BorderSpacing.Left = 65
+        Caption = 'Other...'
+        OnClick = btnOtherClick
+        TabOrder = 3
+      end
+    end
+  end
+  object pnlEditToolbar: TPanel[2]
+    AnchorSideLeft.Control = gbGroupBox
+    AnchorSideRight.Control = gbGroupBox
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 327
+    Top = 240
+    Width = 838
+    Anchors = [akLeft, akRight, akBottom]
+    AutoSize = True
+    BorderSpacing.Bottom = 6
+    BevelOuter = bvNone
+    ClientHeight = 327
+    ClientWidth = 838
+    TabOrder = 2
+    object rgToolItemType: TRadioGroup
+      AnchorSideLeft.Control = pnlEditToolbar
+      AnchorSideTop.Control = pnlEditToolbar
+      AnchorSideBottom.Control = pnlEditToolbar
+      AnchorSideBottom.Side = asrBottom
+      Left = 0
+      Height = 327
+      Top = 0
+      Width = 96
+      Anchors = [akTop, akLeft, akBottom]
+      AutoFill = True
+      AutoSize = True
+      Caption = 'Button type'
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.TopBottomSpacing = 6
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsScaleChilds
+      ChildSizing.ShrinkVertical = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      TabOrder = 0
+    end
+    object pnlEditControls: TPanel
+      AnchorSideLeft.Control = rgToolItemType
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = pnlEditToolbar
+      AnchorSideRight.Control = pnlEditToolbar
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = pnlEditToolbar
+      AnchorSideBottom.Side = asrBottom
+      Left = 102
+      Height = 327
+      Top = 0
+      Width = 730
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Left = 6
+      BorderSpacing.Right = 6
+      BevelOuter = bvNone
+      ChildSizing.TopBottomSpacing = 6
+      ChildSizing.VerticalSpacing = 10
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 327
+      ClientWidth = 730
+      TabOrder = 1
+      object lblIconFile: TLabel
+        Left = 0
+        Height = 20
+        Top = 6
+        Width = 76
+        Alignment = taRightJustify
+        Caption = 'Ico&n:'
+        FocusControl = edtIconFileName
+        ParentColor = False
+        Visible = False
+      end
+      object edtIconFileName: TEdit
+        AnchorSideLeft.Control = lblIconFile
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblIconFile
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnOpenIcon
+        Left = 78
+        Height = 28
+        Top = 2
+        Width = 588
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        MaxLength = 259
+        OnChange = edtIconFileNameChange
+        TabOrder = 0
+        Visible = False
+      end
+      object btnOpenIcon: TSpeedButton
+        AnchorSideTop.Control = edtIconFileName
+        AnchorSideRight.Control = btnRelativeIconFileName
+        AnchorSideBottom.Control = edtIconFileName
+        AnchorSideBottom.Side = asrBottom
+        Left = 666
+        Height = 28
+        Top = 2
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          200000000000000400006400000064000000000000000000000000000000328B
+          D83F328BD83F328BD83F328BD83F328BD83F328BD83F328BD83F328BD83F328B
+          D83F328BD83F328BD83F328BD83F328BD83F328BD83F000000004994D7FF328B
+          D8FF328AD8FF328BD8FF328BD8FF328BD8FF328BD8FF328BD8FF328BD8FF328B
+          D8FF328BD8FF328AD8FF328BD8FF4994D7FF328BD83F00000000358FD8FFDCF0
+          FAFF98E1F6FF95E0F6FF92DFF6FF8EDEF5FF89DCF5FF85DAF4FF80D9F4FF79D7
+          F3FF73D5F3FF6FD3F2FFC2EAF8FF3494DAFF328BD83F000000003A96DAFFEFFA
+          FEFF93E5F8FF8FE4F8FF89E3F8FF82E1F7FF79DFF7FF70DEF6FF66DBF5FF5AD8
+          F4FF4CD4F3FF3FD1F2FFCAF2FBFF3494DAFF328BD83F000000003A9CDAFFF2FA
+          FDFF94E6F8FF92E5F8FF90E5F8FF8BE3F8FF86E2F7FF7EE1F7FF76DEF6FF6BDC
+          F6FF5DD9F4FF4ED5F3FFCCF2FBFF3494DAFF328BD83F0000000039A2DAFFF6FC
+          FEFF94E5F8FF93E5F8FF93E5F8FF91E5F8FF86E2F7FF7EE1F7FF76DEF6FF6BDC
+          F6FF5DD9F4FF4ED5F3FFCCF2FBFF3494DAFF328BD83F0000000039A7D9FFFEFF
+          FFFFF8FDFFFFF6FDFFFFF5FCFFFFF3FCFEFF9AE4F4FF9AE6F7FF9BE6F6FF3176
+          B3FF2F72B1FF2D71B2FF2B72B6FF2C73B9FF1C476DFF0000000037ABD9FFE8F6
+          FBFF6FBCE7FF54AAE2FF4CA5E0FF91C9EBFFFDFEFDFFFDFEFDFFFFFDFCFF2F72
+          B1FF6FD1F6FF6ACEF8FF84BFB3FFA0AC64FF3684C7FF193D5EFF3EACDAFFF1FA
+          FDFF94DEF5FF93DCF4FF63BCE9FF3494DAFF3494DAFF3494DAFF3494DAFF2E70
+          AFFF65C4EDFF5FBFF1FF9DA461FFDD8A00FF5BBCF3FF2E6FAEFF3FB3DBFFF7FC
+          FEFF8EE4F8FF91DEF5FF9FE0F5FFACE1F6FF1E486EFF3075B1FF3075AFFF4492
+          C6FF5FBAE6FF5DB5E9FF40C0D7FF20CCBFFF66BDF1FF2E72B2FF3AB4DAFFFDFE
+          FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFF2F74B2FF6EC1E5FF2F6EEDFF4791
+          E5FF5CB0DEFF5CABE1FF24C3B0FF00DF7CFF83C3F0FF2D71B1FF56BFDDFF60C3
+          E1FF62C4E2FF62C4E2FF62C4E2FF61C4E2FF2C72B0FFA2DAEDFF001AF4FF126C
+          F1FF24B9EEFF3DBAE4FF22D3F3FF58A2DFFFACD4F0FF2C71B1FF000000000000
+          0000000000000000000000000000000000002C71AEFFA4CFE7FF87ACEEFF25B0
+          F5FF00C5FFFF2AD6EEFF00FFFFFFB8D5F0FF73A7D2FF1E4D77FF000000000000
+          000000000000000000000000000000000000000000003378B3FF84B5D8FFBCDB
+          EFFFBDD8EDFFBDD6EEFFABCAE7FF699CCCFF27659FFF00000000000000000000
+          0000000000000000000000000000000000000000000000000000215583FF2A70
+          B0FF2A6FAFFF2A6FB0FF2B70B0FF1F4D77FF0000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000
+        }
+        Visible = False
+        OnClick = btnOpenIconClick
+      end
+      object lblToolTip: TLabel
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 20
+        Top = 36
+        Width = 76
+        Alignment = taRightJustify
+        Caption = '&Tooltip:'
+        FocusControl = edtToolTip
+        ParentColor = False
+        Visible = False
+      end
+      object edtToolTip: TEdit
+        AnchorSideLeft.Control = lblToolTip
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblToolTip
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnSuggestionTooltip
+        Left = 78
+        Height = 28
+        Top = 32
+        Width = 562
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        MaxLength = 259
+        TabOrder = 1
+        Visible = False
+      end
+      object lblInternalCommand: TLabel
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 20
+        Top = 66
+        Width = 76
+        Alignment = taRightJustify
+        Caption = 'Co&mmand:'
+        FocusControl = cbInternalCommand
+        ParentColor = False
+        Visible = False
+      end
+      object cbInternalCommand: TComboBox
+        AnchorSideLeft.Control = lblInternalCommand
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblInternalCommand
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnOpenCmdDlg
+        Left = 78
+        Height = 28
+        Top = 62
+        Width = 540
+        HelpType = htKeyword
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        DropDownCount = 20
+        ItemHeight = 20
+        OnSelect = cbInternalCommandSelect
+        Style = csDropDownList
+        TabOrder = 2
+        Visible = False
+      end
+      object lblInternalParameters: TLabel
+        Left = 0
+        Height = 100
+        Top = 96
+        Width = 76
+        Alignment = taRightJustify
+        Caption = '&Parameters:'
+        Constraints.MinHeight = 100
+        FocusControl = edtInternalParameters
+        ParentColor = False
+        Visible = False
+      end
+      object edtInternalParameters: TMemo
+        AnchorSideLeft.Control = lblInternalParameters
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblInternalParameters
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnInternalParametersHelper
+        Left = 78
+        Height = 100
+        Hint = 'Enter command parameters, each in a separate line. Press F1 to see help on parameters.'
+        Top = 96
+        Width = 617
+        HelpType = htKeyword
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        Constraints.MinWidth = 100
+        ParentShowHint = False
+        ScrollBars = ssAutoBoth
+        ShowHint = True
+        TabOrder = 3
+        Visible = False
+        WordWrap = False
+      end
+      object lblExternalCommand: TLabel
+        AnchorSideTop.Side = asrBottom
+        Left = 0
+        Height = 20
+        Top = 206
+        Width = 76
+        Alignment = taRightJustify
+        Caption = 'Co&mmand:'
+        FocusControl = edtExternalCommand
+        ParentColor = False
+        Visible = False
+      end
+      object edtExternalCommand: TEdit
+        AnchorSideLeft.Control = lblExternalCommand
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblExternalCommand
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnOpenFile
+        Left = 78
+        Height = 28
+        Top = 202
+        Width = 588
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        MaxLength = 259
+        TabOrder = 4
+        Visible = False
+      end
+      object btnOpenFile: TButton
+        AnchorSideTop.Control = edtExternalCommand
+        AnchorSideRight.Control = btnRelativeExternalCommand
+        AnchorSideBottom.Control = edtExternalCommand
+        AnchorSideBottom.Side = asrBottom
+        Left = 666
+        Height = 28
+        Top = 202
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnOpenFileClick
+        TabOrder = 5
+        Visible = False
+      end
+      object lblExternalParameters: TLabel
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 20
+        Top = 236
+        Width = 76
+        Alignment = taRightJustify
+        Caption = 'Parameter&s:'
+        FocusControl = edtExternalParameters
+        ParentColor = False
+        Visible = False
+      end
+      object edtExternalParameters: TEdit
+        AnchorSideLeft.Control = lblExternalParameters
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblExternalParameters
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnParametersHelper
+        Left = 78
+        Height = 28
+        Top = 232
+        Width = 620
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        MaxLength = 259
+        TabOrder = 6
+        Visible = False
+      end
+      object lblStartPath: TLabel
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 20
+        Top = 266
+        Width = 76
+        Alignment = taRightJustify
+        Caption = 'Start pat&h:'
+        FocusControl = edtStartPath
+        ParentColor = False
+        Visible = False
+      end
+      object edtStartPath: TEdit
+        AnchorSideLeft.Control = lblStartPath
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblStartPath
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = btnStartPath
+        Left = 78
+        Height = 28
+        Top = 262
+        Width = 588
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        MaxLength = 259
+        TabOrder = 7
+        Visible = False
+      end
+      object lblHotkey: TLabel
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 20
+        Top = 296
+        Width = 76
+        Alignment = taRightJustify
+        Caption = 'Hot key:'
+        ParentColor = False
+        Visible = False
+      end
+      object lblHotkeyValue: TLabel
+        AnchorSideLeft.Control = lblHotkey
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblHotkey
+        Left = 78
+        Height = 1
+        Top = 296
+        Width = 1
+        BorderSpacing.Left = 2
+        BorderSpacing.Right = 10
+        ParentColor = False
+        Visible = False
+      end
+      object btnEditHotkey: TButton
+        AnchorSideLeft.Control = lblHotkeyValue
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblHotkey
+        AnchorSideTop.Side = asrCenter
+        Left = 89
+        Height = 30
+        Top = 291
+        Width = 100
+        AutoSize = True
+        BorderSpacing.Left = 2
+        Caption = 'Edit hot&key'
+        OnClick = btnEditHotkeyClick
+        TabOrder = 8
+        Visible = False
+      end
+      object btnRemoveHotkey: TButton
+        AnchorSideLeft.Control = btnEditHotkey
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblHotkey
+        AnchorSideTop.Side = asrCenter
+        Left = 191
+        Height = 30
+        Top = 291
+        Width = 128
+        AutoSize = True
+        BorderSpacing.Left = 2
+        Caption = 'Remove hotke&y'
+        OnClick = btnRemoveHotKeyClick
+        TabOrder = 9
+        Visible = False
+      end
+      object btnRelativeExternalCommand: TSpeedButton
+        AnchorSideTop.Control = edtExternalCommand
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtExternalCommand
+        AnchorSideBottom.Side = asrBottom
+        Left = 698
+        Height = 28
+        Top = 202
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          20000000000000040000640000006400000000000000000000002C86D8702D88
+          D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+          D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+          FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+          F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+          FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+          F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+          FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+          F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+          FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+          F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+          FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+          F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+          FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+          E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+          FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+          DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+          FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+          A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+          FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+          7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+          E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+          A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+          94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+          9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+          9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+          9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+        }
+        Visible = False
+        OnClick = btnRelativeExternalCommandClick
+      end
+      object btnRelativeIconFileName: TSpeedButton
+        AnchorSideTop.Control = edtIconFileName
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtIconFileName
+        AnchorSideBottom.Side = asrBottom
+        Left = 698
+        Height = 28
+        Top = 2
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          20000000000000040000640000006400000000000000000000002C86D8702D88
+          D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+          D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+          FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+          F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+          FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+          F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+          FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+          F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+          FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+          F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+          FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+          F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+          FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+          E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+          FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+          DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+          FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+          A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+          FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+          7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+          E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+          A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+          94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+          9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+          9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+          9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+        }
+        Visible = False
+        OnClick = btnRelativeIconFileNameClick
+      end
+      object btnStartPath: TButton
+        AnchorSideTop.Control = edtStartPath
+        AnchorSideRight.Control = btnRelativeStartPath
+        AnchorSideBottom.Control = edtStartPath
+        AnchorSideBottom.Side = asrBottom
+        Left = 666
+        Height = 28
+        Top = 262
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = btnStartPathClick
+        TabOrder = 10
+        Visible = False
+      end
+      object btnRelativeStartPath: TSpeedButton
+        AnchorSideTop.Control = edtStartPath
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtStartPath
+        AnchorSideBottom.Side = asrBottom
+        Left = 698
+        Height = 28
+        Top = 262
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          20000000000000040000640000006400000000000000000000002C86D8702D88
+          D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+          D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+          FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+          F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+          FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+          F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+          FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+          F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+          FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+          F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+          FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+          F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+          FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+          E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+          FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+          DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+          FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+          A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+          FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+          7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+          E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+          A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+          94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+          9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+          9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+          9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+        }
+        Visible = False
+        OnClick = btnRelativeStartPathClick
+      end
+      object btnOpenCmdDlg: TButton
+        AnchorSideLeft.Control = cbInternalCommand
+        AnchorSideTop.Control = cbInternalCommand
+        AnchorSideRight.Control = lblHelpOnInternalCommand
+        AnchorSideBottom.Control = cbInternalCommand
+        AnchorSideBottom.Side = asrBottom
+        Left = 621
+        Height = 28
+        Top = 62
+        Width = 74
+        Anchors = [akTop, akRight, akBottom]
+        AutoSize = True
+        BorderSpacing.Left = 3
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Select'
+        OnClick = btnOpenCmdDlgClick
+        TabOrder = 12
+        Visible = False
+      end
+      object lblHelpOnInternalCommand: TLabel
+        AnchorSideTop.Control = lblInternalCommand
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        Cursor = crHandPoint
+        Left = 698
+        Height = 20
+        Top = 66
+        Width = 32
+        Anchors = [akTop, akRight]
+        BorderSpacing.Left = 3
+        Caption = 'Help'
+        Font.Style = [fsUnderline]
+        ParentColor = False
+        ParentFont = False
+        Visible = False
+        OnClick = lblHelpOnInternalCommandClick
+      end
+      object btnSuggestionTooltip: TButton
+        AnchorSideTop.Control = edtToolTip
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtToolTip
+        AnchorSideBottom.Side = asrBottom
+        Left = 643
+        Height = 28
+        Hint = 'Have DC suggest the tooltip based on button type, command and parameters'
+        Top = 32
+        Width = 87
+        Anchors = [akTop, akRight, akBottom]
+        AutoSize = True
+        BorderSpacing.Left = 3
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Suggest'
+        OnClick = btnSuggestionTooltipClick
+        TabOrder = 11
+        Visible = False
+      end
+      object btnParametersHelper: TSpeedButton
+        AnchorSideTop.Control = edtExternalParameters
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = edtExternalParameters
+        AnchorSideBottom.Side = asrBottom
+        Left = 698
+        Height = 28
+        Top = 232
+        Width = 32
+        Anchors = [akTop, akRight, akBottom]
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000064000000640000000000000000000000FFFFFF000000
+          0033000000000000000000000000000000000000000000000000000000000000
+          00070000003300000033000000330000000700000000FFFFFF00FFFFFF00BB87
+          47FF000000330000000000000000000000000000000000000000000000005C43
+          2349BB8747FFBB8747FFBB8747FF5C43234900000000FFFFFF00FFFFFF00BB87
+          47FFBB8747FF000000330000000000000000000000000000000000000000B482
+          44DDBB8747FF00000000BB8747FFB48244DD00000000FFFFFF00FFFFFF000000
+          0000BB8747FFBB8747FF0000003300000000000000000000000000000000BB87
+          47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+          000000000000BB8747FFBB8747FF00000033000000000000000000000000BB87
+          47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+          00000000000000000000BB8747FFBB8747FF000000330000000000000000BB87
+          47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+          0000000000000000000000000000BB8747FFBB8747FF0000003300000000BA86
+          47D4BB8747FF00000033BB8747FFBA8647D600000000FFFFFF00FFFFFF000000
+          000000000000000000000000000000000000BB8747FFBB8747FF00000033BB87
+          4719BB8747FFBB8747FFBB8747FFBB87472400000000FFFFFF00FFFFFF000000
+          00000000000700000033000000330000003300000005BB8747FFBB8747FF0000
+          00330000000000000000000000000000000000000000FFFFFF00FFFFFF000000
+          00005C432349BB8747FFBB8747FFBB8747FF4A351C3F00000000BB8747FFBB87
+          47FF0000003300000000000000000000000000000000FFFFFF00FFFFFF000000
+          0000B48244DDBB8747FF00000000BB8747FFB48244DC0000000000000000BB87
+          47FFBB8747FF00000033000000000000000000000000FFFFFF00FFFFFF000000
+          0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+          0000BB8747FFBB8747FF000000330000000000000000FFFFFF00FFFFFF000000
+          0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+          000000000000BB8747FFBB8747FF0000003300000000FFFFFF00FFFFFF000000
+          0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+          00000000000000000000BB8747FFBB8747FF00000033FFFFFF00FFFFFF000000
+          0000BA8647D6BB8747FF00000033BB8747FFBA8647D600000000000000000000
+          0000000000000000000000000000BB8747FFBB8747FFFFFFFF00FFFFFF000000
+          0000BB874724BB8747FFBB8747FFBB8747FFBB87472400000000000000000000
+          000000000000000000000000000000000000BB8747FFFFFFFF00
+        }
+        Visible = False
+        OnClick = btnParametersHelperClick
+      end
+      object btnInternalParametersHelper: TSpeedButton
+        AnchorSideTop.Control = lblInternalParameters
+        AnchorSideRight.Control = pnlEditControls
+        AnchorSideRight.Side = asrBottom
+        Left = 698
+        Height = 23
+        Top = 96
+        Width = 32
+        Anchors = [akTop, akRight]
+        BorderSpacing.Left = 3
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000064000000640000000000000000000000FFFFFF000000
+          0033000000000000000000000000000000000000000000000000000000000000
+          00070000003300000033000000330000000700000000FFFFFF00FFFFFF00BB87
+          47FF000000330000000000000000000000000000000000000000000000005C43
+          2349BB8747FFBB8747FFBB8747FF5C43234900000000FFFFFF00FFFFFF00BB87
+          47FFBB8747FF000000330000000000000000000000000000000000000000B482
+          44DDBB8747FF00000000BB8747FFB48244DD00000000FFFFFF00FFFFFF000000
+          0000BB8747FFBB8747FF0000003300000000000000000000000000000000BB87
+          47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+          000000000000BB8747FFBB8747FF00000033000000000000000000000000BB87
+          47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+          00000000000000000000BB8747FFBB8747FF000000330000000000000000BB87
+          47FFBB8747FF00000000BB8747FFBB8747FF00000000FFFFFF00FFFFFF000000
+          0000000000000000000000000000BB8747FFBB8747FF0000003300000000BA86
+          47D4BB8747FF00000033BB8747FFBA8647D600000000FFFFFF00FFFFFF000000
+          000000000000000000000000000000000000BB8747FFBB8747FF00000033BB87
+          4719BB8747FFBB8747FFBB8747FFBB87472400000000FFFFFF00FFFFFF000000
+          00000000000700000033000000330000003300000005BB8747FFBB8747FF0000
+          00330000000000000000000000000000000000000000FFFFFF00FFFFFF000000
+          00005C432349BB8747FFBB8747FFBB8747FF4A351C3F00000000BB8747FFBB87
+          47FF0000003300000000000000000000000000000000FFFFFF00FFFFFF000000
+          0000B48244DDBB8747FF00000000BB8747FFB48244DC0000000000000000BB87
+          47FFBB8747FF00000033000000000000000000000000FFFFFF00FFFFFF000000
+          0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+          0000BB8747FFBB8747FF000000330000000000000000FFFFFF00FFFFFF000000
+          0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+          000000000000BB8747FFBB8747FF0000003300000000FFFFFF00FFFFFF000000
+          0000BB8747FFBB8747FF00000000BB8747FFBB8747FF00000000000000000000
+          00000000000000000000BB8747FFBB8747FF00000033FFFFFF00FFFFFF000000
+          0000BA8647D6BB8747FF00000033BB8747FFBA8647D600000000000000000000
+          0000000000000000000000000000BB8747FFBB8747FFFFFFFF00FFFFFF000000
+          0000BB874724BB8747FFBB8747FFBB8747FFBB87472400000000000000000000
+          000000000000000000000000000000000000BB8747FFFFFFFF00
+        }
+        Visible = False
+        OnClick = btnInternalParametersHelperClick
+      end
+    end
+  end
+  object pnToolbars: TPanel[3]
+    AnchorSideLeft.Control = gbGroupBox
+    AnchorSideTop.Control = gbGroupBox
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbGroupBox
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = pnlFullToolbarButtons
+    Left = 6
+    Height = 93
+    Top = 113
+    Width = 838
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Top = 2
+    ParentColor = False
+    TabOrder = 3
+  end
+  object OpenDialog: TOpenDialog[4]
+    Filter = 'DC Toolbar files|*.toolbar|.xml Config files|*.xml|TC Toolbar files|*.BAR|Any files|*.*'
+    Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
+    left = 48
+    top = 104
+  end
+  object pmPathHelper: TPopupMenu[5]
+    left = 784
+    top = 216
+  end
+  object pmInsertButtonMenu: TPopupMenu[6]
+    left = 256
+    top = 176
+    object miAddSeparatorSubMenu: TMenuItem
+      Caption = 'for a separator'
+      object miSeparatorFirstItem: TMenuItem
+        Tag = 17
+        Caption = 'as first element'
+        OnClick = miInsertButtonClick
+      end
+      object miSeparatorPriorCurrent: TMenuItem
+        Tag = 18
+        Caption = 'just prior current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miSeparatorAfterCurrent: TMenuItem
+        Tag = 19
+        Caption = 'just after current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miSeparatorLastElement: TMenuItem
+        Tag = 20
+        Caption = 'as last element'
+        OnClick = miInsertButtonClick
+      end
+    end
+    object miAddInternalCommandSubMenu: TMenuItem
+      Caption = 'for an internal command'
+      object miInternalCommandFirstElement: TMenuItem
+        Tag = 33
+        Caption = 'as first element'
+        OnClick = miInsertButtonClick
+      end
+      object miInternalCommandPriorCurrent: TMenuItem
+        Tag = 34
+        Caption = 'just prior current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miInternalCommandAfterCurrent: TMenuItem
+        Tag = 35
+        Caption = 'just after current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miInternalCommandLastElement: TMenuItem
+        Tag = 36
+        Caption = 'as last element'
+        OnClick = miInsertButtonClick
+      end
+    end
+    object miAddExternalCommandSubMenu: TMenuItem
+      Caption = 'for an external command'
+      object miExternalCommandFirstElement: TMenuItem
+        Tag = 49
+        Caption = 'as first element'
+        OnClick = miInsertButtonClick
+      end
+      object miExternalCommandPriorCurrent: TMenuItem
+        Tag = 50
+        Caption = 'just prior current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miExternalCommandAfterCurrent: TMenuItem
+        Tag = 51
+        Caption = 'just after current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miExternalCommandLastElement: TMenuItem
+        Tag = 52
+        Caption = 'as last element'
+        OnClick = miInsertButtonClick
+      end
+    end
+    object miAddSubToolBarSubMenu: TMenuItem
+      Caption = 'for a sub-tool bar'
+      object miSubToolBarFirstElement: TMenuItem
+        Tag = 65
+        Caption = 'as first element'
+        OnClick = miInsertButtonClick
+      end
+      object miSubToolBarPriorCurrent: TMenuItem
+        Tag = 66
+        Caption = 'just prior current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miSubToolBarAfterCurrent: TMenuItem
+        Tag = 67
+        Caption = 'just after current selection'
+        OnClick = miInsertButtonClick
+      end
+      object miSubToolBarLastElement: TMenuItem
+        Tag = 68
+        Caption = 'as last element'
+        OnClick = miInsertButtonClick
+      end
+    end
+  end
+  object pmOtherClickToolbar: TPopupMenu[7]
+    left = 592
+    top = 176
+    object miAddAllCmds: TMenuItem
+      Caption = 'Add toolbar with ALL DC commands'
+      OnClick = miAddAllCmdsClick
+    end
+    object miSearchAndReplace: TMenuItem
+      Caption = 'Search and replace...'
+      object miSrcRplIconNames: TMenuItem
+        Tag = 1
+        Caption = 'in all icon names...'
+        OnClick = miSrcRplClick
+      end
+      object miSrcRplCommands: TMenuItem
+        Tag = 2
+        Caption = 'in all commands...'
+        OnClick = miSrcRplClick
+      end
+      object miSrcRplParameters: TMenuItem
+        Tag = 4
+        Caption = 'in all parameters...'
+        OnClick = miSrcRplClick
+      end
+      object miSrcRplStartPath: TMenuItem
+        Tag = 8
+        Caption = 'in all start path...'
+        OnClick = miSrcRplClick
+      end
+      object miSrcRplClickSeparator: TMenuItem
+        Caption = '-'
+      end
+      object miSrcRplAllOfAll: TMenuItem
+        Tag = 15
+        Caption = 'in all of all the above...'
+        OnClick = miSrcRplClick
+      end
+    end
+    object miSeparator1: TMenuItem
+      Caption = '-'
+    end
+    object miExport: TMenuItem
+      Caption = 'Export...'
+      object miExportTop: TMenuItem
+        Caption = 'Top toolbar...'
+        object miExportTopToDCBar: TMenuItem
+          Tag = 2
+          Caption = 'to a Toolbar File (.toolbar)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportSeparator1: TMenuItem
+          Caption = '-'
+        end
+        object miExportTopToTCIniKeep: TMenuItem
+          Caption = 'to a "wincmd.ini" of TC (keep existing)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportTopToTCIniNoKeep: TMenuItem
+          Tag = 128
+          Caption = 'to a "wincmd.ini" of TC (erase existing)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportSeparator2: TMenuItem
+          Caption = '-'
+        end
+        object miExportTopToTCBarKeep: TMenuItem
+          Tag = 1
+          Caption = 'to a TC .BAR file (keep existing)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportTopToTCBarNoKeep: TMenuItem
+          Tag = 129
+          Caption = 'to a TC .BAR file (erase existing)'
+          OnClick = miExportToAnythingClick
+        end
+      end
+      object miExportCurrent: TMenuItem
+        Caption = 'Current toolbar...'
+        object miExportCurrentToDCBar: TMenuItem
+          Tag = 34
+          Caption = 'to a Toolbar File (.toolbar)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportSeparator3: TMenuItem
+          Caption = '-'
+        end
+        object miExportCurrentToTCIniKeep: TMenuItem
+          Tag = 32
+          Caption = 'to a "wincmd.ini" of TC (keep existing)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportCurrentToTCIniNoKeep: TMenuItem
+          Tag = 160
+          Caption = 'to a "wincmd.ini" of TC (erase existing)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportSeparator4: TMenuItem
+          Caption = '-'
+        end
+        object miExportCurrentToTCBarKeep: TMenuItem
+          Tag = 33
+          Caption = 'to a TC .BAR file (keep existing)'
+          OnClick = miExportToAnythingClick
+        end
+        object miExportCurrentToTCBarNoKeep: TMenuItem
+          Tag = 161
+          Caption = 'to a TC .BAR file (erase existing)'
+          OnClick = miExportToAnythingClick
+        end
+      end
+    end
+    object miImport: TMenuItem
+      Caption = 'Import...'
+      object miImportDCBAR: TMenuItem
+        Caption = 'from a Toolbar File (.toolbar)'
+        object miImportDCBARReplaceTop: TMenuItem
+          Tag = 130
+          Caption = 'to replace top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator8: TMenuItem
+          Caption = '-'
+        end
+        object miImportDCBARAddTop: TMenuItem
+          Tag = 2
+          Caption = 'to add to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportDCBARAddMenuTop: TMenuItem
+          Tag = 18
+          Caption = 'to add to a new toolbar to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator9: TMenuItem
+          Caption = '-'
+        end
+        object miImportDCBARAddCurrent: TMenuItem
+          Tag = 34
+          Caption = 'to add to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportDCBARAddMenuCurrent: TMenuItem
+          Tag = 50
+          Caption = 'to add to a new toolbar to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+      end
+      object miImportSeparator: TMenuItem
+        Caption = '-'
+      end
+      object miImportTCINI: TMenuItem
+        Caption = 'from "wincmd.ini" of TC...'
+        object miImportTCINIReplaceTop: TMenuItem
+          Tag = 128
+          Caption = 'to replace top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator6: TMenuItem
+          Caption = '-'
+        end
+        object miImportTCINIAddTop: TMenuItem
+          Caption = 'to add to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportTCINIAddMenuTop: TMenuItem
+          Tag = 16
+          Caption = 'to add to a new toolbar to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator7: TMenuItem
+          Caption = '-'
+        end
+        object miImportTCINIAddCurrent: TMenuItem
+          Tag = 32
+          Caption = 'to add to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportTCINIAddMenuCurrent: TMenuItem
+          Tag = 48
+          Caption = 'to add to a new toolbar to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+      end
+      object miImportTCBAR: TMenuItem
+        Caption = 'from a single TC .BAR file'
+        object miImportTCBARReplaceTop: TMenuItem
+          Tag = 129
+          Caption = 'to replace top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator10: TMenuItem
+          Caption = '-'
+        end
+        object miImportTCBARAddTop: TMenuItem
+          Tag = 1
+          Caption = 'to add to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportTCBARAddMenuTop: TMenuItem
+          Tag = 17
+          Caption = 'to add to a new toolbar to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator11: TMenuItem
+          Caption = '-'
+        end
+        object miImportTCBARAddCurrent: TMenuItem
+          Tag = 33
+          Caption = 'to add to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportTCBARAddMenuCurrent: TMenuItem
+          Tag = 49
+          Caption = 'to add to a new toolbar to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+      end
+    end
+    object miSeparator2: TMenuItem
+      Caption = '-'
+    end
+    object miBackup: TMenuItem
+      Caption = 'Backup...'
+      object miExportTopToBackup: TMenuItem
+        Tag = 3
+        Caption = 'Save a backup of Toolbar'
+        OnClick = miExportToAnythingClick
+      end
+      object miImportBackup: TMenuItem
+        Caption = 'Restore a backup of Toolbar'
+        object miImportBackupReplaceTop: TMenuItem
+          Tag = 131
+          Caption = 'to replace top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator13: TMenuItem
+          Caption = '-'
+        end
+        object miImportBackupAddTop: TMenuItem
+          Tag = 3
+          Caption = 'to add to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportBackupAddMenuTop: TMenuItem
+          Tag = 19
+          Caption = 'to add to a new toolbar to top toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miSeparator14: TMenuItem
+          Caption = '-'
+        end
+        object miImportBackupAddCurrent: TMenuItem
+          Tag = 35
+          Caption = 'to add to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+        object miImportBackupAddMenuCurrent: TMenuItem
+          Tag = 51
+          Caption = 'to add to a new toolbar to current toolbar'
+          OnClick = miImportFromAnythingClick
+        end
+      end
+    end
+  end
+  object SaveDialog: TSaveDialog[8]
+    DefaultExt = '.hotlist'
+    Filter = 'DC Toolbar files|*.toolbar|TC Toolbar files|*.BAR|Any files|*.*'
+    Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
+    left = 152
+    top = 104
+  end
+  object ReplaceDialog: TReplaceDialog[9]
+    Options = [frHideWholeWord, frHideUpDown, frDisableUpDown, frDisableWholeWord, frHideEntireScope, frHidePromptOnReplace]
+    left = 288
+    top = 112
+  end
+end

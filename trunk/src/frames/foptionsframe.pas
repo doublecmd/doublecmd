@@ -175,6 +175,7 @@ uses
   fOptionsTerminal,
   fOptionsToolbar,
   fOptionsToolbarExtra,
+  fOptionsToolbarMiddle,
   fOptionsTools,
   fOptionsToolsEditor,
   fOptionsToolsDiffer,
@@ -390,6 +391,7 @@ begin
   Layout.Add(TfrmOptionsTreeViewMenu);
   Layout.Add(TfrmOptionsTreeViewMenuColor);
   ToolbarConfig := Main.Add(TfrmOptionsToolbar);
+  ToolbarConfig.Add(TfrmOptionsToolbarMiddle);
   ToolbarConfig.Add(TfrmOptionsToolbarExtra);
   FileOperation := Main.Add(TfrmOptionsFileOperations);
   FileOperation.Add(TfrmOptionsFileSearch);
