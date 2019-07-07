@@ -4299,7 +4299,7 @@ end;
 
 procedure TfrmMain.UpdateTreeViewPath;
 begin
-  if (gSeparateTree = False) then Exit;
+  if (ShellTreeView = nil) then Exit;
   if (ShellTreeView.Tag <> 0) then Exit;
   if (fspDirectAccess in ActiveFrame.FileSource.Properties) then
   try
