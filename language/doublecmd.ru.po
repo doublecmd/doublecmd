@@ -7308,453 +7308,453 @@ msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
 msgstr "Параметры:"
 
-#: tfrmoptionstoolbar.btnclonebutton.caption
-msgctxt "tfrmoptionstoolbar.btnclonebutton.caption"
+#: tfrmoptionstoolbarbase.btnclonebutton.caption
+msgctxt "tfrmoptionstoolbarbase.btnclonebutton.caption"
 msgid "C&lone button"
 msgstr "Дублиро&вать"
 
-#: tfrmoptionstoolbar.btndeletebutton.caption
-msgctxt "tfrmoptionstoolbar.btndeletebutton.caption"
+#: tfrmoptionstoolbarbase.btndeletebutton.caption
+msgctxt "tfrmoptionstoolbarbase.btndeletebutton.caption"
 msgid "&Delete"
 msgstr "&Удалить"
 
-#: tfrmoptionstoolbar.btnedithotkey.caption
-msgctxt "tfrmoptionstoolbar.btnedithotkey.caption"
+#: tfrmoptionstoolbarbase.btnedithotkey.caption
+msgctxt "tfrmoptionstoolbarbase.btnedithotkey.caption"
 msgid "Edit hot&key"
 msgstr "&Редактировать"
 
-#: tfrmoptionstoolbar.btninsertbutton.caption
-msgctxt "tfrmoptionstoolbar.btninsertbutton.caption"
+#: tfrmoptionstoolbarbase.btninsertbutton.caption
+msgctxt "tfrmoptionstoolbarbase.btninsertbutton.caption"
 msgid "&Insert new button"
 msgstr "&Добавить"
 
-#: tfrmoptionstoolbar.btnopencmddlg.caption
+#: tfrmoptionstoolbarbase.btnopencmddlg.caption
 msgid "Select"
 msgstr "Выбрать"
 
-#: tfrmoptionstoolbar.btnopenfile.caption
-msgctxt "tfrmoptionstoolbar.btnopenfile.caption"
+#: tfrmoptionstoolbarbase.btnopenfile.caption
+msgctxt "tfrmoptionstoolbarbase.btnopenfile.caption"
 msgid ">>"
 msgstr ">>"
 
-#: tfrmoptionstoolbar.btnother.caption
-msgctxt "tfrmoptionstoolbar.btnother.caption"
+#: tfrmoptionstoolbarbase.btnother.caption
+msgctxt "tfrmoptionstoolbarbase.btnother.caption"
 msgid "Other..."
 msgstr "Другое..."
 
-#: tfrmoptionstoolbar.btnremovehotkey.caption
-msgctxt "tfrmoptionstoolbar.btnremovehotkey.caption"
+#: tfrmoptionstoolbarbase.btnremovehotkey.caption
+msgctxt "tfrmoptionstoolbarbase.btnremovehotkey.caption"
 msgid "Remove hotke&y"
 msgstr "Удалит&ь"
 
-#: tfrmoptionstoolbar.btnstartpath.caption
-msgctxt "tfrmoptionstoolbar.btnstartpath.caption"
+#: tfrmoptionstoolbarbase.btnstartpath.caption
+msgctxt "tfrmoptionstoolbarbase.btnstartpath.caption"
 msgid ">>"
 msgstr ">>"
 
-#: tfrmoptionstoolbar.btnsuggestiontooltip.caption
+#: tfrmoptionstoolbarbase.btnsuggestiontooltip.caption
 msgid "Suggest"
 msgstr "Подсказка"
 
-#: tfrmoptionstoolbar.btnsuggestiontooltip.hint
+#: tfrmoptionstoolbarbase.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
 msgstr "Всплывающая подсказка на основе типа, команды и параметров кнопки"
 
-#: tfrmoptionstoolbar.cbflatbuttons.caption
-msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
+#: tfrmoptionstoolbarbase.cbflatbuttons.caption
+msgctxt "tfrmoptionstoolbarbase.cbflatbuttons.caption"
 msgid "&Flat buttons"
 msgstr "&Плоские кнопки"
 
-#: tfrmoptionstoolbar.cbreporterrorwithcommands.caption
+#: tfrmoptionstoolbarbase.cbreporterrorwithcommands.caption
 msgid "Report errors with commands"
 msgstr "Сообщить об ошибках с командами"
 
-#: tfrmoptionstoolbar.cbshowcaptions.caption
+#: tfrmoptionstoolbarbase.cbshowcaptions.caption
 msgid "Sho&w captions"
 msgstr "Показывать надписи"
 
-#: tfrmoptionstoolbar.edtinternalparameters.hint
+#: tfrmoptionstoolbarbase.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "Параметры команды, каждый на отдельной строке. F1 - помощь"
 
-#: tfrmoptionstoolbar.gbgroupbox.caption
-msgctxt "tfrmoptionstoolbar.gbgroupbox.caption"
+#: tfrmoptionstoolbarbase.gbgroupbox.caption
+msgctxt "tfrmoptionstoolbarbase.gbgroupbox.caption"
 msgid "Appearance"
 msgstr "Вид кнопок"
 
-#: tfrmoptionstoolbar.lblbarsize.caption
-msgctxt "tfrmoptionstoolbar.lblbarsize.caption"
+#: tfrmoptionstoolbarbase.lblbarsize.caption
+msgctxt "tfrmoptionstoolbarbase.lblbarsize.caption"
 msgid "&Bar size:"
 msgstr "Р&азмер панели:"
 
-#: tfrmoptionstoolbar.lblexternalcommand.caption
-msgctxt "tfrmoptionstoolbar.lblexternalcommand.caption"
+#: tfrmoptionstoolbarbase.lblexternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.lblexternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "Команда:"
 
-#: tfrmoptionstoolbar.lblexternalparameters.caption
-msgctxt "tfrmoptionstoolbar.lblexternalparameters.caption"
+#: tfrmoptionstoolbarbase.lblexternalparameters.caption
+msgctxt "tfrmoptionstoolbarbase.lblexternalparameters.caption"
 msgid "Parameter&s:"
 msgstr "Параметры:"
 
-#: tfrmoptionstoolbar.lblhelponinternalcommand.caption
-msgctxt "tfrmoptionstoolbar.lblhelponinternalcommand.caption"
+#: tfrmoptionstoolbarbase.lblhelponinternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.lblhelponinternalcommand.caption"
 msgid "Help"
 msgstr "Помощь"
 
-#: tfrmoptionstoolbar.lblhotkey.caption
+#: tfrmoptionstoolbarbase.lblhotkey.caption
 msgid "Hot key:"
 msgstr "Горячая клавиша:"
 
-#: tfrmoptionstoolbar.lbliconfile.caption
-msgctxt "tfrmoptionstoolbar.lbliconfile.caption"
+#: tfrmoptionstoolbarbase.lbliconfile.caption
+msgctxt "tfrmoptionstoolbarbase.lbliconfile.caption"
 msgid "Ico&n:"
 msgstr "&Файл значка:"
 
-#: tfrmoptionstoolbar.lbliconsize.caption
-msgctxt "tfrmoptionstoolbar.lbliconsize.caption"
+#: tfrmoptionstoolbarbase.lbliconsize.caption
+msgctxt "tfrmoptionstoolbarbase.lbliconsize.caption"
 msgid "Icon si&ze:"
 msgstr "Ра&змер значков:"
 
-#: tfrmoptionstoolbar.lblinternalcommand.caption
-msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
+#: tfrmoptionstoolbarbase.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.lblinternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "Кома&нда:"
 
-#: tfrmoptionstoolbar.lblinternalparameters.caption
-msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
+#: tfrmoptionstoolbarbase.lblinternalparameters.caption
+msgctxt "tfrmoptionstoolbarbase.lblinternalparameters.caption"
 msgid "&Parameters:"
 msgstr "Пара&метры:"
 
-#: tfrmoptionstoolbar.lblstartpath.caption
-msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
+#: tfrmoptionstoolbarbase.lblstartpath.caption
+msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "П&уть запуска:"
 
-#: tfrmoptionstoolbar.lbltooltip.caption
-msgctxt "tfrmoptionstoolbar.lbltooltip.caption"
+#: tfrmoptionstoolbarbase.lbltooltip.caption
+msgctxt "tfrmoptionstoolbarbase.lbltooltip.caption"
 msgid "&Tooltip:"
 msgstr "Подс&казка:"
 
-#: tfrmoptionstoolbar.miaddallcmds.caption
+#: tfrmoptionstoolbarbase.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
 msgstr "Добавить панель со ВСЕМИ командами DC"
 
-#: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
 msgstr "внешнюю команду"
 
-#: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddinternalcommandsubmenu.caption
 msgid "for an internal command"
 msgstr "внутреннюю команду"
 
-#: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddseparatorsubmenu.caption
 msgid "for a separator"
 msgstr "разделитель"
 
-#: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
 msgstr "меню"
 
-#: tfrmoptionstoolbar.mibackup.caption
-msgctxt "tfrmoptionstoolbar.mibackup.caption"
+#: tfrmoptionstoolbarbase.mibackup.caption
+msgctxt "tfrmoptionstoolbarbase.mibackup.caption"
 msgid "Backup..."
 msgstr "Резервирование..."
 
-#: tfrmoptionstoolbar.miexport.caption
-msgctxt "tfrmoptionstoolbar.miexport.caption"
+#: tfrmoptionstoolbarbase.miexport.caption
+msgctxt "tfrmoptionstoolbarbase.miexport.caption"
 msgid "Export..."
 msgstr "Экспорт..."
 
-#: tfrmoptionstoolbar.miexportcurrent.caption
+#: tfrmoptionstoolbarbase.miexportcurrent.caption
 msgid "Current toolbar..."
 msgstr "Текущая панель инструментов..."
 
-#: tfrmoptionstoolbar.miexportcurrenttodcbar.caption
-msgctxt "tfrmoptionstoolbar.miexportcurrenttodcbar.caption"
+#: tfrmoptionstoolbarbase.miexportcurrenttodcbar.caption
+msgctxt "tfrmoptionstoolbarbase.miexportcurrenttodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
 msgstr "в файл панели инструментов (.toolbar)"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption
-msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcbarkeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexportcurrenttotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
 msgstr "в файл TC .BAR (оставить существующий)"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption
-msgctxt "tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexportcurrenttotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
 msgstr "в файл TC .BAR (удалить существующий)"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption
-msgctxt "tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcinikeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexportcurrenttotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgstr "в файл \"wincmd.ini\" TC (оставить существующий)"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption
-msgctxt "tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcininokeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexportcurrenttotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
 msgstr "в файл \"wincmd.ini\" TC (удалить существующий)"
 
-#: tfrmoptionstoolbar.miexporttop.caption
+#: tfrmoptionstoolbarbase.miexporttop.caption
 msgid "Top toolbar..."
 msgstr "Наивысшая панель инструментов..."
 
-#: tfrmoptionstoolbar.miexporttoptobackup.caption
+#: tfrmoptionstoolbarbase.miexporttoptobackup.caption
 msgid "Save a backup of Toolbar"
 msgstr "Сохранить резервную копию панели инструментов"
 
-#: tfrmoptionstoolbar.miexporttoptodcbar.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptodcbar.caption"
+#: tfrmoptionstoolbarbase.miexporttoptodcbar.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
 msgstr "в файл панели инструментов (.toolbar)"
 
-#: tfrmoptionstoolbar.miexporttoptotcbarkeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcbarkeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
 msgstr "в файл TC .BAR (оставить существующий)"
 
-#: tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
 msgstr "в файл TC .BAR (удалить существующий)"
 
-#: tfrmoptionstoolbar.miexporttoptotcinikeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcinikeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcinikeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcinikeep.caption"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgstr "в файл \"wincmd.ini\" TC (оставить существующий)"
 
-#: tfrmoptionstoolbar.miexporttoptotcininokeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcininokeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcininokeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcininokeep.caption"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
 msgstr "в файл \"wincmd.ini\" TC (удалить существующий)"
 
-#: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
-msgctxt "tfrmoptionstoolbar.miexternalcommandaftercurrent.caption"
+#: tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption"
 msgid "just after current selection"
 msgstr "сразу после выбранного"
 
-#: tfrmoptionstoolbar.miexternalcommandfirstelement.caption
-msgctxt "tfrmoptionstoolbar.miexternalcommandfirstelement.caption"
+#: tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption"
 msgid "as first element"
 msgstr "как первый элемент"
 
-#: tfrmoptionstoolbar.miexternalcommandlastelement.caption
-msgctxt "tfrmoptionstoolbar.miexternalcommandlastelement.caption"
+#: tfrmoptionstoolbarbase.miexternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.miexternalcommandlastelement.caption"
 msgid "as last element"
 msgstr "как последний элемент"
 
-#: tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption
-msgctxt "tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption"
+#: tfrmoptionstoolbarbase.miexternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miexternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "сразу перед выбранным"
 
-#: tfrmoptionstoolbar.miimport.caption
-msgctxt "tfrmoptionstoolbar.miimport.caption"
+#: tfrmoptionstoolbarbase.miimport.caption
+msgctxt "tfrmoptionstoolbarbase.miimport.caption"
 msgid "Import..."
 msgstr "Импорт..."
 
-#: tfrmoptionstoolbar.miimportbackup.caption
+#: tfrmoptionstoolbarbase.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
 msgstr "Восстановить панель инструментов из резервной копии"
 
-#: tfrmoptionstoolbar.miimportbackupaddcurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportbackupaddcurrent.caption"
+#: tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption"
 msgid "to add to current toolbar"
 msgstr "добавить в текущую панель инструментов"
 
-#: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption"
+#: tfrmoptionstoolbarbase.miimportbackupaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportbackupaddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "добавить в новую панель в текущей панели инструментов"
 
-#: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
-msgctxt "tfrmoptionstoolbar.miimportbackupaddmenutop.caption"
+#: tfrmoptionstoolbarbase.miimportbackupaddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportbackupaddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "добавить в новую панель в наивысшей панели инструментов"
 
-#: tfrmoptionstoolbar.miimportbackupaddtop.caption
-msgctxt "tfrmoptionstoolbar.miimportbackupaddtop.caption"
+#: tfrmoptionstoolbarbase.miimportbackupaddtop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportbackupaddtop.caption"
 msgid "to add to top toolbar"
 msgstr "добавить в наивысшую панель инструментов"
 
-#: tfrmoptionstoolbar.miimportbackupreplacetop.caption
-msgctxt "tfrmoptionstoolbar.miimportbackupreplacetop.caption"
+#: tfrmoptionstoolbarbase.miimportbackupreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportbackupreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "заменить наивысшую панель инструментов"
 
-#: tfrmoptionstoolbar.miimportdcbar.caption
+#: tfrmoptionstoolbarbase.miimportdcbar.caption
 msgid "from a Toolbar File (.toolbar)"
 msgstr "из файла панели инструментов (.toolbar)"
 
-#: tfrmoptionstoolbar.miimportdcbaraddcurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddcurrent.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption"
 msgid "to add to current toolbar"
 msgstr "добавить в текущую панель инструментов"
 
-#: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "добавить в новую панель в текущей панели инструментов"
 
-#: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenutop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "добавить в новую панель в наивысшей панели инструментов"
 
-#: tfrmoptionstoolbar.miimportdcbaraddtop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddtop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddtop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddtop.caption"
 msgid "to add to top toolbar"
 msgstr "добавить в наивысшую панель инструментов"
 
-#: tfrmoptionstoolbar.miimportdcbarreplacetop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbarreplacetop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "заменить наивысшую панель инструментов"
 
-#: tfrmoptionstoolbar.miimporttcbar.caption
+#: tfrmoptionstoolbarbase.miimporttcbar.caption
 msgid "from a single TC .BAR file"
 msgstr "из одного файла TC .BAR"
 
-#: tfrmoptionstoolbar.miimporttcbaraddcurrent.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbaraddcurrent.caption"
+#: tfrmoptionstoolbarbase.miimporttcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcbaraddcurrent.caption"
 msgid "to add to current toolbar"
 msgstr "добавить в текущую панель инструментов"
 
-#: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption"
+#: tfrmoptionstoolbarbase.miimporttcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "добавить в новую панель в текущую панель инструментов"
 
-#: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbaraddmenutop.caption"
+#: tfrmoptionstoolbarbase.miimporttcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "добавить в новую панель в наивысшей панели инструментов"
 
-#: tfrmoptionstoolbar.miimporttcbaraddtop.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbaraddtop.caption"
+#: tfrmoptionstoolbarbase.miimporttcbaraddtop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcbaraddtop.caption"
 msgid "to add to top toolbar"
 msgstr "добавить в наивысшую панель инструментов"
 
-#: tfrmoptionstoolbar.miimporttcbarreplacetop.caption
-msgctxt "tfrmoptionstoolbar.miimporttcbarreplacetop.caption"
+#: tfrmoptionstoolbarbase.miimporttcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcbarreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "заменить наивысшую панель инструментов"
 
-#: tfrmoptionstoolbar.miimporttcini.caption
+#: tfrmoptionstoolbarbase.miimporttcini.caption
 msgid "from \"wincmd.ini\" of TC..."
 msgstr "из файла \"wincmd.ini\" TC..."
 
-#: tfrmoptionstoolbar.miimporttciniaddcurrent.caption
-msgctxt "tfrmoptionstoolbar.miimporttciniaddcurrent.caption"
+#: tfrmoptionstoolbarbase.miimporttciniaddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttciniaddcurrent.caption"
 msgid "to add to current toolbar"
 msgstr "добавить в текущую панель"
 
-#: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
-msgctxt "tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption"
+#: tfrmoptionstoolbarbase.miimporttciniaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttciniaddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "добавить в новую панель в текущую панель инструментов"
 
-#: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
-msgctxt "tfrmoptionstoolbar.miimporttciniaddmenutop.caption"
+#: tfrmoptionstoolbarbase.miimporttciniaddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttciniaddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "добавить в новую панель в наивысшую панель инструментов"
 
-#: tfrmoptionstoolbar.miimporttciniaddtop.caption
-msgctxt "tfrmoptionstoolbar.miimporttciniaddtop.caption"
+#: tfrmoptionstoolbarbase.miimporttciniaddtop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttciniaddtop.caption"
 msgid "to add to top toolbar"
 msgstr "добавить в наивысшую панель инструментов"
 
-#: tfrmoptionstoolbar.miimporttcinireplacetop.caption
-msgctxt "tfrmoptionstoolbar.miimporttcinireplacetop.caption"
+#: tfrmoptionstoolbarbase.miimporttcinireplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.miimporttcinireplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "заменить наивысшую панель инструментов"
 
-#: tfrmoptionstoolbar.miinternalcommandaftercurrent.caption
-msgctxt "tfrmoptionstoolbar.miinternalcommandaftercurrent.caption"
+#: tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption"
 msgid "just after current selection"
 msgstr "сразу после выбранного"
 
-#: tfrmoptionstoolbar.miinternalcommandfirstelement.caption
-msgctxt "tfrmoptionstoolbar.miinternalcommandfirstelement.caption"
+#: tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption"
 msgid "as first element"
 msgstr "как первый элемент"
 
-#: tfrmoptionstoolbar.miinternalcommandlastelement.caption
-msgctxt "tfrmoptionstoolbar.miinternalcommandlastelement.caption"
+#: tfrmoptionstoolbarbase.miinternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.miinternalcommandlastelement.caption"
 msgid "as last element"
 msgstr "как последний элемент"
 
-#: tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption
-msgctxt "tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption"
+#: tfrmoptionstoolbarbase.miinternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miinternalcommandpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "сразу перед выбранным"
 
-#: tfrmoptionstoolbar.misearchandreplace.caption
-msgctxt "tfrmoptionstoolbar.misearchandreplace.caption"
+#: tfrmoptionstoolbarbase.misearchandreplace.caption
+msgctxt "tfrmoptionstoolbarbase.misearchandreplace.caption"
 msgid "Search and replace..."
 msgstr "Найти и заменить..."
 
-#: tfrmoptionstoolbar.miseparatoraftercurrent.caption
-msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
+#: tfrmoptionstoolbarbase.miseparatoraftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatoraftercurrent.caption"
 msgid "just after current selection"
 msgstr "сразу после выбранного"
 
-#: tfrmoptionstoolbar.miseparatorfirstitem.caption
-msgctxt "tfrmoptionstoolbar.miseparatorfirstitem.caption"
+#: tfrmoptionstoolbarbase.miseparatorfirstitem.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorfirstitem.caption"
 msgid "as first element"
 msgstr "как первый элемент"
 
-#: tfrmoptionstoolbar.miseparatorlastelement.caption
-msgctxt "tfrmoptionstoolbar.miseparatorlastelement.caption"
+#: tfrmoptionstoolbarbase.miseparatorlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorlastelement.caption"
 msgid "as last element"
 msgstr "как последний элемент"
 
-#: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
-msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
+#: tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "сразу перед выбранным"
 
-#: tfrmoptionstoolbar.misrcrplallofall.caption
+#: tfrmoptionstoolbarbase.misrcrplallofall.caption
 msgid "in all of all the above..."
 msgstr "во всём вышеперечисленном..."
 
-#: tfrmoptionstoolbar.misrcrplcommands.caption
+#: tfrmoptionstoolbarbase.misrcrplcommands.caption
 msgid "in all commands..."
 msgstr "во всех командах..."
 
-#: tfrmoptionstoolbar.misrcrpliconnames.caption
+#: tfrmoptionstoolbarbase.misrcrpliconnames.caption
 msgid "in all icon names..."
 msgstr "во всех файлах значка..."
 
-#: tfrmoptionstoolbar.misrcrplparameters.caption
+#: tfrmoptionstoolbarbase.misrcrplparameters.caption
 msgid "in all parameters..."
 msgstr "во всех параметрах..."
 
-#: tfrmoptionstoolbar.misrcrplstartpath.caption
+#: tfrmoptionstoolbarbase.misrcrplstartpath.caption
 msgid "in all start path..."
 msgstr "во всех путях запуска..."
 
-#: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
-msgctxt "tfrmoptionstoolbar.misubtoolbaraftercurrent.caption"
+#: tfrmoptionstoolbarbase.misubtoolbaraftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.misubtoolbaraftercurrent.caption"
 msgid "just after current selection"
 msgstr "сразу после выбранного"
 
-#: tfrmoptionstoolbar.misubtoolbarfirstelement.caption
-msgctxt "tfrmoptionstoolbar.misubtoolbarfirstelement.caption"
+#: tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption"
 msgid "as first element"
 msgstr "как первый элемент"
 
-#: tfrmoptionstoolbar.misubtoolbarlastelement.caption
-msgctxt "tfrmoptionstoolbar.misubtoolbarlastelement.caption"
+#: tfrmoptionstoolbarbase.misubtoolbarlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.misubtoolbarlastelement.caption"
 msgid "as last element"
 msgstr "как последний элемент"
 
-#: tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption
-msgctxt "tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption"
+#: tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "сразу перед выбранным"
 
-#: tfrmoptionstoolbar.rgtoolitemtype.caption
+#: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"
 msgstr "Тип кнопки"
 

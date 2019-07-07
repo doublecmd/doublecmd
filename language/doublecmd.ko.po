@@ -7459,447 +7459,447 @@ msgctxt "tfrmoptionsterminal.lbruntermparams.caption"
 msgid "Parameters:"
 msgstr "매개변수:"
 
-#: tfrmoptionstoolbar.btnclonebutton.caption
+#: tfrmoptionstoolbarbase.btnclonebutton.caption
 msgid "C&lone button"
 msgstr "버튼 복제(&L)"
 
-#: tfrmoptionstoolbar.btndeletebutton.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNDELETEBUTTON.CAPTION"
+#: tfrmoptionstoolbarbase.btndeletebutton.caption
+msgctxt "tfrmoptionstoolbarbase.BTNDELETEBUTTON.CAPTION"
 msgid "&Delete"
 msgstr "삭제(&D)"
 
-#: tfrmoptionstoolbar.btnedithotkey.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNEDITHOTKEY.CAPTION"
+#: tfrmoptionstoolbarbase.btnedithotkey.caption
+msgctxt "tfrmoptionstoolbarbase.BTNEDITHOTKEY.CAPTION"
 msgid "Edit hot&key"
 msgstr "단축키 편집(&K)"
 
-#: tfrmoptionstoolbar.btninsertbutton.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNINSERTBUTTON.CAPTION"
+#: tfrmoptionstoolbarbase.btninsertbutton.caption
+msgctxt "tfrmoptionstoolbarbase.BTNINSERTBUTTON.CAPTION"
 msgid "&Insert new button"
 msgstr "새 버튼 삽입(&I)"
 
-#: tfrmoptionstoolbar.btnopencmddlg.caption
+#: tfrmoptionstoolbarbase.btnopencmddlg.caption
 msgid "Select"
 msgstr "선택"
 
-#: tfrmoptionstoolbar.btnopenfile.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNOPENFILE.CAPTION"
+#: tfrmoptionstoolbarbase.btnopenfile.caption
+msgctxt "tfrmoptionstoolbarbase.BTNOPENFILE.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-#: tfrmoptionstoolbar.btnother.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNOTHER.CAPTION"
+#: tfrmoptionstoolbarbase.btnother.caption
+msgctxt "tfrmoptionstoolbarbase.BTNOTHER.CAPTION"
 msgid "Other..."
 msgstr "다른 옵션..."
 
-#: tfrmoptionstoolbar.btnremovehotkey.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNREMOVEHOTKEY.CAPTION"
+#: tfrmoptionstoolbarbase.btnremovehotkey.caption
+msgctxt "tfrmoptionstoolbarbase.BTNREMOVEHOTKEY.CAPTION"
 msgid "Remove hotke&y"
 msgstr "단축키 제거(&Y)"
 
-#: tfrmoptionstoolbar.btnstartpath.caption
-msgctxt "TFRMOPTIONSTOOLBAR.BTNSTARTPATH.CAPTION"
+#: tfrmoptionstoolbarbase.btnstartpath.caption
+msgctxt "tfrmoptionstoolbarbase.BTNSTARTPATH.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-#: tfrmoptionstoolbar.btnsuggestiontooltip.caption
+#: tfrmoptionstoolbarbase.btnsuggestiontooltip.caption
 msgid "Suggest"
 msgstr "제안"
 
-#: tfrmoptionstoolbar.btnsuggestiontooltip.hint
+#: tfrmoptionstoolbarbase.btnsuggestiontooltip.hint
 msgid "Have DC suggest the tooltip based on button type, command and parameters"
 msgstr "버튼형태, 명령어와 매개변수에 따라 풍선도움말 제공"
 
-#: tfrmoptionstoolbar.cbflatbuttons.caption
-msgctxt "tfrmoptionstoolbar.cbflatbuttons.caption"
+#: tfrmoptionstoolbarbase.cbflatbuttons.caption
+msgctxt "tfrmoptionstoolbarbase.cbflatbuttons.caption"
 msgid "&Flat buttons"
 msgstr "기본 버튼(&F)"
 
-#: tfrmoptionstoolbar.cbreporterrorwithcommands.caption
+#: tfrmoptionstoolbarbase.cbreporterrorwithcommands.caption
 msgid "Report errors with commands"
 msgstr "명령어와 함께 오류 보고"
 
-#: tfrmoptionstoolbar.cbshowcaptions.caption
+#: tfrmoptionstoolbarbase.cbshowcaptions.caption
 msgid "Sho&w captions"
 msgstr ""
 
-#: tfrmoptionstoolbar.edtinternalparameters.hint
+#: tfrmoptionstoolbarbase.edtinternalparameters.hint
 msgid "Enter command parameters, each in a separate line. Press F1 to see help on parameters."
 msgstr "명령어 매개변수 각 줄에 입력. F1키 도움말 보기"
 
-#: tfrmoptionstoolbar.gbgroupbox.caption
+#: tfrmoptionstoolbarbase.gbgroupbox.caption
 msgid "Appearance"
 msgstr "모양"
 
-#: tfrmoptionstoolbar.lblbarsize.caption
+#: tfrmoptionstoolbarbase.lblbarsize.caption
 msgid "&Bar size:"
 msgstr "도구바 크기(&B):"
 
-#: tfrmoptionstoolbar.lblexternalcommand.caption
-msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALCOMMAND.CAPTION"
+#: tfrmoptionstoolbarbase.lblexternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.LBLEXTERNALCOMMAND.CAPTION"
 msgid "Co&mmand:"
 msgstr "명령어(&D):"
 
-#: tfrmoptionstoolbar.lblexternalparameters.caption
-msgctxt "TFRMOPTIONSTOOLBAR.LBLEXTERNALPARAMETERS.CAPTION"
+#: tfrmoptionstoolbarbase.lblexternalparameters.caption
+msgctxt "tfrmoptionstoolbarbase.LBLEXTERNALPARAMETERS.CAPTION"
 msgid "Parameter&s:"
 msgstr "매개변수(&S):"
 
-#: tfrmoptionstoolbar.lblhelponinternalcommand.caption
-msgctxt "TFRMOPTIONSTOOLBAR.LBLHELPONINTERNALCOMMAND.CAPTION"
+#: tfrmoptionstoolbarbase.lblhelponinternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.LBLHELPONINTERNALCOMMAND.CAPTION"
 msgid "Help"
 msgstr "도움말"
 
-#: tfrmoptionstoolbar.lblhotkey.caption
+#: tfrmoptionstoolbarbase.lblhotkey.caption
 msgid "Hot key:"
 msgstr "단축키:"
 
-#: tfrmoptionstoolbar.lbliconfile.caption
+#: tfrmoptionstoolbarbase.lbliconfile.caption
 msgid "Ico&n:"
 msgstr "아이콘(&N):"
 
-#: tfrmoptionstoolbar.lbliconsize.caption
+#: tfrmoptionstoolbarbase.lbliconsize.caption
 msgid "Icon si&ze:"
 msgstr "아이콘 크기(&Z):"
 
-#: tfrmoptionstoolbar.lblinternalcommand.caption
-msgctxt "tfrmoptionstoolbar.lblinternalcommand.caption"
+#: tfrmoptionstoolbarbase.lblinternalcommand.caption
+msgctxt "tfrmoptionstoolbarbase.lblinternalcommand.caption"
 msgid "Co&mmand:"
 msgstr "명령어(&M):"
 
-#: tfrmoptionstoolbar.lblinternalparameters.caption
-msgctxt "tfrmoptionstoolbar.lblinternalparameters.caption"
+#: tfrmoptionstoolbarbase.lblinternalparameters.caption
+msgctxt "tfrmoptionstoolbarbase.lblinternalparameters.caption"
 msgid "&Parameters:"
 msgstr "매개변수(&P):"
 
-#: tfrmoptionstoolbar.lblstartpath.caption
-msgctxt "tfrmoptionstoolbar.lblstartpath.caption"
+#: tfrmoptionstoolbarbase.lblstartpath.caption
+msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "시작 경로(&H):"
 
-#: tfrmoptionstoolbar.lbltooltip.caption
+#: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr "풍선도움말(&T):"
 
-#: tfrmoptionstoolbar.miaddallcmds.caption
+#: tfrmoptionstoolbarbase.miaddallcmds.caption
 msgid "Add toolbar with ALL DC commands"
 msgstr "모든 더블커맨더 명령 도구상자 추가"
 
-#: tfrmoptionstoolbar.miaddexternalcommandsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddexternalcommandsubmenu.caption
 msgid "for an external command"
 msgstr "외부명령"
 
-#: tfrmoptionstoolbar.miaddinternalcommandsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddinternalcommandsubmenu.caption
 msgid "for an internal command"
 msgstr "내부명령"
 
-#: tfrmoptionstoolbar.miaddseparatorsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddseparatorsubmenu.caption
 msgid "for a separator"
 msgstr "구분자"
 
-#: tfrmoptionstoolbar.miaddsubtoolbarsubmenu.caption
+#: tfrmoptionstoolbarbase.miaddsubtoolbarsubmenu.caption
 msgid "for a sub-tool bar"
 msgstr "하위 도구상자"
 
-#: tfrmoptionstoolbar.mibackup.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIBACKUP.CAPTION"
+#: tfrmoptionstoolbarbase.mibackup.caption
+msgctxt "tfrmoptionstoolbarbase.MIBACKUP.CAPTION"
 msgid "Backup..."
 msgstr "백업..."
 
-#: tfrmoptionstoolbar.miexport.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORT.CAPTION"
+#: tfrmoptionstoolbarbase.miexport.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORT.CAPTION"
 msgid "Export..."
 msgstr "내보내기..."
 
-#: tfrmoptionstoolbar.miexportcurrent.caption
+#: tfrmoptionstoolbarbase.miexportcurrent.caption
 msgid "Current toolbar..."
 msgstr "현재 도구상자..."
 
-#: tfrmoptionstoolbar.miexportcurrenttodcbar.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTODCBAR.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttodcbar.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTODCBAR.CAPTION"
 msgid "to a Toolbar File (.toolbar)"
 msgstr "툴바 파일(.toolbar)로"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcbarkeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTOTCBARKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcbarkeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCBARKEEP.CAPTION"
 msgid "to a TC .BAR file (keep existing)"
 msgstr "TC.BAR 파일로(기존 파일 유지)"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcbarnokeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTOTCBARNOKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCBARNOKEEP.CAPTION"
 msgid "to a TC .BAR file (erase existing)"
 msgstr "TC.BAR 파일로(기존 파일 지우기)"
 
-#: tfrmoptionstoolbar.miexportcurrenttotcinikeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTOTCINIKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcinikeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCINIKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgstr "TC \"wincmd.ini로 (기존파일 유지)\""
 
-#: tfrmoptionstoolbar.miexportcurrenttotcininokeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTCURRENTTOTCININOKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexportcurrenttotcininokeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTCURRENTTOTCININOKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
 msgstr "TC \"wincmd.ini로 (기존파일 지우기)"
 
-#: tfrmoptionstoolbar.miexporttop.caption
+#: tfrmoptionstoolbarbase.miexporttop.caption
 msgid "Top toolbar..."
 msgstr "최상위 도구상자..."
 
-#: tfrmoptionstoolbar.miexporttoptobackup.caption
+#: tfrmoptionstoolbarbase.miexporttoptobackup.caption
 msgid "Save a backup of Toolbar"
 msgstr "도구상자 백업 저장"
 
-#: tfrmoptionstoolbar.miexporttoptodcbar.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptodcbar.caption"
+#: tfrmoptionstoolbarbase.miexporttoptodcbar.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptodcbar.caption"
 msgid "to a Toolbar File (.toolbar)"
 msgstr "도구상자 파일로(.toolbar)"
 
-#: tfrmoptionstoolbar.miexporttoptotcbarkeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcbarkeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarkeep.caption"
 msgid "to a TC .BAR file (keep existing)"
 msgstr "TC .BAR 파일로(기존파일 유지)"
 
-#: tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption
-msgctxt "tfrmoptionstoolbar.miexporttoptotcbarnokeep.caption"
+#: tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption
+msgctxt "tfrmoptionstoolbarbase.miexporttoptotcbarnokeep.caption"
 msgid "to a TC .BAR file (erase existing)"
 msgstr "TC .BAR 파일로(기존파일 지우기)"
 
-#: tfrmoptionstoolbar.miexporttoptotcinikeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTTOPTOTCINIKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexporttoptotcinikeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTTOPTOTCINIKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (keep existing)"
 msgstr "TC \"wincmd.ini로 (기존파일 유지)"
 
-#: tfrmoptionstoolbar.miexporttoptotcininokeep.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXPORTTOPTOTCININOKEEP.CAPTION"
+#: tfrmoptionstoolbarbase.miexporttoptotcininokeep.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXPORTTOPTOTCININOKEEP.CAPTION"
 msgid "to a \"wincmd.ini\" of TC (erase existing)"
 msgstr "TC \"wincmd.ini로 (기존파일 지우기)"
 
-#: tfrmoptionstoolbar.miexternalcommandaftercurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDAFTERCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miexternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDAFTERCURRENT.CAPTION"
 msgid "just after current selection"
 msgstr "현재 선택 바로 다음"
 
-#: tfrmoptionstoolbar.miexternalcommandfirstelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDFIRSTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.miexternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDFIRSTELEMENT.CAPTION"
 msgid "as first element"
 msgstr "첫번째 요소로"
 
-#: tfrmoptionstoolbar.miexternalcommandlastelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDLASTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.miexternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDLASTELEMENT.CAPTION"
 msgid "as last element"
 msgstr "마지막 요소로"
 
-#: tfrmoptionstoolbar.miexternalcommandpriorcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIEXTERNALCOMMANDPRIORCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miexternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIEXTERNALCOMMANDPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "바로 전 선택"
 
-#: tfrmoptionstoolbar.miimport.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORT.CAPTION"
+#: tfrmoptionstoolbarbase.miimport.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORT.CAPTION"
 msgid "Import..."
 msgstr "가져오기..."
 
-#: tfrmoptionstoolbar.miimportbackup.caption
+#: tfrmoptionstoolbarbase.miimportbackup.caption
 msgid "Restore a backup of Toolbar"
 msgstr "도구상자 백업 복구"
 
-#: tfrmoptionstoolbar.miimportbackupaddcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupaddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDCURRENT.CAPTION"
 msgid "to add to current toolbar"
 msgstr "현재 도구상자에 추가"
 
-#: tfrmoptionstoolbar.miimportbackupaddmenucurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDMENUCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "현재 도구상자에 새 도구상자 추가"
 
-#: tfrmoptionstoolbar.miimportbackupaddmenutop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDMENUTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupaddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "최상위 도구상자에 새 도구상자 추가"
 
-#: tfrmoptionstoolbar.miimportbackupaddtop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPADDTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupaddtop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPADDTOP.CAPTION"
 msgid "to add to top toolbar"
 msgstr "최상위 도구상자에 추가"
 
-#: tfrmoptionstoolbar.miimportbackupreplacetop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTBACKUPREPLACETOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimportbackupreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTBACKUPREPLACETOP.CAPTION"
 msgid "to replace top toolbar"
 msgstr "최상위 도구상자 교체"
 
-#: tfrmoptionstoolbar.miimportdcbar.caption
+#: tfrmoptionstoolbarbase.miimportdcbar.caption
 msgid "from a Toolbar File (.toolbar)"
 msgstr "도구상자(.toolbar)파일로 부터"
 
-#: tfrmoptionstoolbar.miimportdcbaraddcurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddcurrent.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddcurrent.caption"
 msgid "to add to current toolbar"
 msgstr "현재 도구상자 추가"
 
-#: tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenucurrent.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenucurrent.caption"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "현재 도구상자에 새로운 도구상자 추가"
 
-#: tfrmoptionstoolbar.miimportdcbaraddmenutop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddmenutop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddmenutop.caption"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "최상위 도구상자에 새로운 도구상자 추가"
 
-#: tfrmoptionstoolbar.miimportdcbaraddtop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbaraddtop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbaraddtop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbaraddtop.caption"
 msgid "to add to top toolbar"
 msgstr "최상위 도구상자에 추가"
 
-#: tfrmoptionstoolbar.miimportdcbarreplacetop.caption
-msgctxt "tfrmoptionstoolbar.miimportdcbarreplacetop.caption"
+#: tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.miimportdcbarreplacetop.caption"
 msgid "to replace top toolbar"
 msgstr "최상위 도구상자 교체"
 
-#: tfrmoptionstoolbar.miimporttcbar.caption
+#: tfrmoptionstoolbarbase.miimporttcbar.caption
 msgid "from a single TC .BAR file"
 msgstr "단일 TC.BAR 파일로 부터"
 
-#: tfrmoptionstoolbar.miimporttcbaraddcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbaraddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDCURRENT.CAPTION"
 msgid "to add to current toolbar"
 msgstr "현재 도구상자 추가"
 
-#: tfrmoptionstoolbar.miimporttcbaraddmenucurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDMENUCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbaraddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "현재 도구상자에 새로운 도구상자 추가"
 
-#: tfrmoptionstoolbar.miimporttcbaraddmenutop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDMENUTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbaraddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "최상위 도구상자에 새 도구상자 추가"
 
-#: tfrmoptionstoolbar.miimporttcbaraddtop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARADDTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbaraddtop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARADDTOP.CAPTION"
 msgid "to add to top toolbar"
 msgstr "최상위 도구상자 추가"
 
-#: tfrmoptionstoolbar.miimporttcbarreplacetop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCBARREPLACETOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcbarreplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCBARREPLACETOP.CAPTION"
 msgid "to replace top toolbar"
 msgstr "최상위 도구상자 교체"
 
-#: tfrmoptionstoolbar.miimporttcini.caption
+#: tfrmoptionstoolbarbase.miimporttcini.caption
 msgid "from \"wincmd.ini\" of TC..."
 msgstr "TC \"wincmd.ini\"로 부터..."
 
-#: tfrmoptionstoolbar.miimporttciniaddcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttciniaddcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDCURRENT.CAPTION"
 msgid "to add to current toolbar"
 msgstr "현재 도구상자 추가"
 
-#: tfrmoptionstoolbar.miimporttciniaddmenucurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDMENUCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttciniaddmenucurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDMENUCURRENT.CAPTION"
 msgid "to add to a new toolbar to current toolbar"
 msgstr "현재 도구상자에 새 도구상자 추가"
 
-#: tfrmoptionstoolbar.miimporttciniaddmenutop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDMENUTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttciniaddmenutop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDMENUTOP.CAPTION"
 msgid "to add to a new toolbar to top toolbar"
 msgstr "최상위 도구상자에 새 도구상자 추가"
 
-#: tfrmoptionstoolbar.miimporttciniaddtop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIADDTOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttciniaddtop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIADDTOP.CAPTION"
 msgid "to add to top toolbar"
 msgstr "최상위 도구상자에 추가"
 
-#: tfrmoptionstoolbar.miimporttcinireplacetop.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIIMPORTTCINIREPLACETOP.CAPTION"
+#: tfrmoptionstoolbarbase.miimporttcinireplacetop.caption
+msgctxt "tfrmoptionstoolbarbase.MIIMPORTTCINIREPLACETOP.CAPTION"
 msgid "to replace top toolbar"
 msgstr "최상위 도구상자 교체"
 
-#: tfrmoptionstoolbar.miinternalcommandaftercurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDAFTERCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miinternalcommandaftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDAFTERCURRENT.CAPTION"
 msgid "just after current selection"
 msgstr "현재 선택 바로 뒤"
 
-#: tfrmoptionstoolbar.miinternalcommandfirstelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDFIRSTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.miinternalcommandfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDFIRSTELEMENT.CAPTION"
 msgid "as first element"
 msgstr "첫번째 요소로서"
 
-#: tfrmoptionstoolbar.miinternalcommandlastelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDLASTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.miinternalcommandlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDLASTELEMENT.CAPTION"
 msgid "as last element"
 msgstr "마지막 요소로서"
 
-#: tfrmoptionstoolbar.miinternalcommandpriorcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MIINTERNALCOMMANDPRIORCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.miinternalcommandpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MIINTERNALCOMMANDPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "현재 선택 바로 이전"
 
-#: tfrmoptionstoolbar.misearchandreplace.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISEARCHANDREPLACE.CAPTION"
+#: tfrmoptionstoolbarbase.misearchandreplace.caption
+msgctxt "tfrmoptionstoolbarbase.MISEARCHANDREPLACE.CAPTION"
 msgid "Search and replace..."
 msgstr "찾아 바꾸기..."
 
-#: tfrmoptionstoolbar.miseparatoraftercurrent.caption
-msgctxt "tfrmoptionstoolbar.miseparatoraftercurrent.caption"
+#: tfrmoptionstoolbarbase.miseparatoraftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatoraftercurrent.caption"
 msgid "just after current selection"
 msgstr "현재 선택 바로 뒤"
 
-#: tfrmoptionstoolbar.miseparatorfirstitem.caption
-msgctxt "tfrmoptionstoolbar.miseparatorfirstitem.caption"
+#: tfrmoptionstoolbarbase.miseparatorfirstitem.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorfirstitem.caption"
 msgid "as first element"
 msgstr "첫번째 요소로서"
 
-#: tfrmoptionstoolbar.miseparatorlastelement.caption
-msgctxt "tfrmoptionstoolbar.miseparatorlastelement.caption"
+#: tfrmoptionstoolbarbase.miseparatorlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorlastelement.caption"
 msgid "as last element"
 msgstr "마지막 요소로서"
 
-#: tfrmoptionstoolbar.miseparatorpriorcurrent.caption
-msgctxt "tfrmoptionstoolbar.miseparatorpriorcurrent.caption"
+#: tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.miseparatorpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "현재 선택 바로 이전"
 
-#: tfrmoptionstoolbar.misrcrplallofall.caption
+#: tfrmoptionstoolbarbase.misrcrplallofall.caption
 msgid "in all of all the above..."
 msgstr "모든 것 위에..."
 
-#: tfrmoptionstoolbar.misrcrplcommands.caption
+#: tfrmoptionstoolbarbase.misrcrplcommands.caption
 msgid "in all commands..."
 msgstr "모든 명령..."
 
-#: tfrmoptionstoolbar.misrcrpliconnames.caption
+#: tfrmoptionstoolbarbase.misrcrpliconnames.caption
 msgid "in all icon names..."
 msgstr "모든 아이콘명..."
 
-#: tfrmoptionstoolbar.misrcrplparameters.caption
+#: tfrmoptionstoolbarbase.misrcrplparameters.caption
 msgid "in all parameters..."
 msgstr "모든 매개변수..."
 
-#: tfrmoptionstoolbar.misrcrplstartpath.caption
+#: tfrmoptionstoolbarbase.misrcrplstartpath.caption
 msgid "in all start path..."
 msgstr "모든 시작경로에..."
 
-#: tfrmoptionstoolbar.misubtoolbaraftercurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARAFTERCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.misubtoolbaraftercurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARAFTERCURRENT.CAPTION"
 msgid "just after current selection"
 msgstr "현재 선택 바로 뒤"
 
-#: tfrmoptionstoolbar.misubtoolbarfirstelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARFIRSTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.misubtoolbarfirstelement.caption
+msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARFIRSTELEMENT.CAPTION"
 msgid "as first element"
 msgstr "첫번째 요소로서"
 
-#: tfrmoptionstoolbar.misubtoolbarlastelement.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARLASTELEMENT.CAPTION"
+#: tfrmoptionstoolbarbase.misubtoolbarlastelement.caption
+msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARLASTELEMENT.CAPTION"
 msgid "as last element"
 msgstr "마지막 요소로서"
 
-#: tfrmoptionstoolbar.misubtoolbarpriorcurrent.caption
-msgctxt "TFRMOPTIONSTOOLBAR.MISUBTOOLBARPRIORCURRENT.CAPTION"
+#: tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption
+msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "현재 선택 바로 이전"
 
-#: tfrmoptionstoolbar.rgtoolitemtype.caption
+#: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"
 msgstr "버튼 형태"
 
