@@ -838,13 +838,9 @@ type
     procedure LoadWindowState;
     procedure SaveWindowState;
 
-    procedure LoadToolbar(AToolBar: TKASToolBar; const APath: String);
-    procedure SaveToolBar(AToolBar: TKASToolBar; const APath: String);
+    procedure LoadToolbar(AToolBar: TKASToolBar);
+    procedure SaveToolBar(AToolBar: TKASToolBar);
 
-    procedure LoadMainToolbar;
-    procedure SaveMainToolBar;
-    procedure LoadMiddleToolbar;
-    procedure SaveMiddleToolBar;
     procedure ShowLogWindow(Data: PtrInt);
     function  IsCommandLineVisible: Boolean;
     procedure ShowCommandLine(AFocus: Boolean);
@@ -1263,7 +1259,7 @@ begin
       ToolBarLoader := TKASToolBarIniLoader.Create(Commands.Commands);
       try
         ToolBarLoader.Load(BarFileName, MainToolBar, nil, @ConvertIniToolbarItem);
-        SaveMainToolBar;
+        SaveToolBar(MainToolBar);
         SaveGlobs; // Save toolbar and hotkeys
         mbRenameFile(BarFileName, BarFileName + '.obsolete');
       finally
@@ -1360,10 +1356,12 @@ var
   SelectedFiles: TFiles = nil;
   Param: string;
   ToolItem: TKASToolItem;
+  Toolbar: TKASToolBar;
 begin
+  Toolbar:= (Sender as TKASToolButton).ToolBar;
   if (ssShift in GetKeyShiftState) then
     // Button was moved.
-    SaveMainToolBar
+    SaveToolBar(Toolbar)
   else
     if Sender is TKASToolButton and not Draging then
       begin
@@ -1403,7 +1401,9 @@ var
   aFile: TFile;
   tmp: Integer;
   ToolItem: TKASProgramItem;
+  Toolbar: TKASToolBar;
 begin
+  Toolbar:= (Sender as TKASToolButton).ToolBar;
   if (ssShift in GetKeyShiftState) then
     begin
       if not (Source is TKASToolButton) and not Draging then
@@ -1418,7 +1418,7 @@ begin
                 ToolItem.Icon := aFile.FullPath;
                 ToolItem.Hint := ExtractOnlyFileName(aFile.Name);
                 // ToolItem.Text := ExtractOnlyFileName(aFile.Name);
-                MainToolBar.InsertButton(Sender as TKASToolButton, ToolItem);
+                Toolbar.InsertButton(Sender as TKASToolButton, ToolItem);
 
                 NumberOfMoveButton := (Sender as TSpeedButton).Tag;
                 NumberOfNewMoveButton := (Sender as TSpeedButton).Tag-1;
@@ -1438,11 +1438,11 @@ begin
         begin
           Draging := True;
           if Source is TSpeedButton then
-            MainToolBar.MoveButton((Source as TSpeedButton).Tag, (Sender as TSpeedButton).Tag)
+            Toolbar.MoveButton((Source as TSpeedButton).Tag, (Sender as TSpeedButton).Tag)
           else
             begin
               tmp:= (Sender as TSpeedButton).Tag;
-              MainToolBar.MoveButton(NumberOfNewMoveButton, (Sender as TSpeedButton).Tag);
+              Toolbar.MoveButton(NumberOfNewMoveButton, (Sender as TSpeedButton).Tag);
               NumberOfNewMoveButton := tmp;
             end;
           NumberOfMoveButton := (Sender as TSpeedButton).Tag;
@@ -2077,6 +2077,7 @@ procedure TfrmMain.MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
   aFile: TFile;
   ToolItem: TKASProgramItem;
+  Toolbar: TKASToolBar absolute Sender;
 begin
   if not (Source is TSpeedButton) and not Draging and (ssShift in GetKeyShiftState) then
     begin
@@ -2090,13 +2091,13 @@ begin
           ToolItem.Hint := ExtractOnlyFileName(aFile.Name);
           // ToolItem.Text := ExtractOnlyFileName(aFile.Name);
           ToolItem.Icon := GetToolbarFilenameToSave(tpmeIcon, aFile.FullPath);
-          MainToolBar.AddButton(ToolItem);
+          Toolbar.AddButton(ToolItem);
         end;
       finally
         FreeAndNil(aFile);
       end;
     end;
-  SaveMainToolBar;
+  SaveToolBar(Toolbar);
   Draging := False;
 end;
 
@@ -2137,6 +2138,7 @@ end;
 
 procedure TfrmMain.tbDeleteClick(Sender: TObject);
 var
+  Toolbar: TKASToolBar;
   Button: TKASToolButton;
 begin
   Button := TKASToolButton(pmToolBar.Tag);
@@ -2144,8 +2146,9 @@ begin
   begin
     if msgYesNo(Format(rsMsgDelSel, [Button.Hint])) then
     begin
-       MainToolBar.RemoveButton(Button);
-       SaveMainToolBar;
+       Toolbar:= Button.ToolBar;
+       ToolBar.RemoveButton(Button);
+       SaveToolBar(Toolbar);
     end;
   end;
 end;
@@ -2864,7 +2867,7 @@ begin
       AddCommand(MainToolBar, 'cm_MultiRename');
       AddCommand(MainToolBar, 'cm_SyncDirs');
       AddCommand(MainToolBar, 'cm_CopyFullNamesToClip');
-      SaveMainToolBar;
+      SaveToolBar(MainToolBar);
     end;
   end;
   if MiddleToolBar.ButtonCount = 0 then
@@ -2879,7 +2882,7 @@ begin
       AddSeparator(MiddleToolBar);
       AddCommand(MiddleToolBar, 'cm_PackFiles');
       AddCommand(MiddleToolBar, 'cm_MakeDir');
-      SaveMiddleToolBar;
+      SaveToolBar(MiddleToolBar);
     end;
   end;
 end;
@@ -4930,7 +4933,7 @@ begin
     MiddleToolbar.GlyphSize:= gMiddleToolBarIconSize;
     MiddleToolbar.ShowCaptions:= gMiddleToolBarShowCaptions;
     MiddleToolbar.SetButtonSize(gMiddleToolBarButtonSize, gMiddleToolBarButtonSize);
-    LoadMiddleToolbar;
+    LoadToolbar(MiddleToolBar);
 
     pnlLeftResize(pnlLeft);
     pnlNotebooksResize(pnlNotebooks);
@@ -4973,7 +4976,7 @@ begin
     MainToolBar.GlyphSize:= gToolBarIconSize;
     MainToolBar.ShowCaptions:= gToolBarShowCaptions;
     MainToolBar.SetButtonSize(gToolBarButtonSize, gToolBarButtonSize);
-    LoadMainToolbar;
+    LoadToolbar(MainToolBar);
 
     btnLeftDrive.Visible := gDrivesListButton;
     btnLeftDrive.Flat := gInterfaceFlat;
@@ -5193,10 +5196,12 @@ var
   Serializer: TKASToolBarSerializer = nil;
   Stream: TStringStream = nil;
   Button: TKASToolButton;
+  Toolbar: TKASToolBar;
 begin
   Button := TKASToolButton(pmToolBar.Tag);
   if Assigned(Button) then
   try
+    Toolbar := Button.ToolBar;
     ToolItem := Button.ToolItem;
 
     // Create a copy so that ID of the button is different.
@@ -5213,9 +5218,9 @@ begin
     Clipboard.SetFormat(PredefinedClipboardFormat(pcfText), Stream);
 
     if Sender = tbCut then
-      MainToolBar.RemoveButton(Button);
+      Toolbar.RemoveButton(Button);
 
-    SaveMainToolBar;
+    SaveToolBar(Toolbar);
   finally
     ItemClone.Free;
     Serializer.Free;
@@ -5244,11 +5249,13 @@ var
   Stream: TStringStream = nil;
   Pasted: Boolean = False;
   Button: TKASToolButton;
+  Toolbar: TKASToolBar;
 begin
   Stream := TStringStream.Create('');
   if Clipboard.GetFormat(PredefinedClipboardFormat(pcfText), Stream) then
   try
     Button := TKASToolButton(pmToolBar.Tag);
+    Toolbar := Button.ToolBar;
 
     // Cut any trailing zeros.
     while Stream.DataString[Length(Stream.DataString)] = #0 do
@@ -5269,8 +5276,8 @@ begin
         ProgramItem.Icon      := Data[3];
         ProgramItem.Hint      := Data[4];
         ProgramItem.StartPath := Data[5];
-        MainToolBar.InsertButton(Button, ProgramItem);
-        SaveMainToolBar;
+        Toolbar.InsertButton(Button, ProgramItem);
+        SaveToolBar(Toolbar);
         Pasted := True;
       end;
     end
@@ -5281,8 +5288,8 @@ begin
       Loader := TKASToolBarExtendedLoader.Create(Commands.Commands);
       try
         ToolItem := Serializer.Deserialize(Stream, Loader);
-        MainToolBar.InsertButton(Button, ToolItem);
-        SaveMainToolBar;
+        Toolbar.InsertButton(Button, ToolItem);
+        SaveToolBar(Toolbar);
         Pasted := True;
       except
         on EXMLReadError do;
@@ -5627,7 +5634,7 @@ begin
   gConfig.SetValue(ANode, 'Splitter', FMainSplitterPos);
 end;
 
-procedure TfrmMain.LoadToolbar(AToolBar: TKASToolBar; const APath: String);
+procedure TfrmMain.LoadToolbar(AToolBar: TKASToolBar);
 var
   ToolBarLoader: TKASToolBarExtendedLoader;
   ToolBarNode: TXmlNode;
@@ -5636,7 +5643,7 @@ begin
   ToolBarLoader := TKASToolBarExtendedLoader.Create(Commands.Commands);
   try
     AToolBar.Clear;
-    ToolBarNode := gConfig.FindNode(gConfig.RootNode, APath, False);
+    ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/' + AToolBar.Name, False);
     if Assigned(ToolBarNode) then
       AToolBar.LoadConfiguration(gConfig, ToolBarNode, ToolBarLoader, tocl_FlushCurrentToolbarContent);
   finally
@@ -5645,33 +5652,13 @@ begin
   end;
 end;
 
-procedure TfrmMain.SaveToolBar(AToolBar: TKASToolBar; const APath: String);
+procedure TfrmMain.SaveToolBar(AToolBar: TKASToolBar);
 var
   ToolBarNode: TXmlNode;
 begin
-  ToolBarNode := gConfig.FindNode(gConfig.RootNode, APath, True);
+  ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/' + AToolBar.Name, True);
   gConfig.ClearNode(ToolBarNode);
   AToolBar.SaveConfiguration(gConfig, ToolBarNode);
-end;
-
-procedure TfrmMain.LoadMainToolbar;
-begin
-  LoadToolbar(MainToolBar, 'Toolbars/MainToolbar');
-end;
-
-procedure TfrmMain.SaveMainToolBar;
-begin
-  SaveToolBar(MainToolBar, 'Toolbars/MainToolbar');
-end;
-
-procedure TfrmMain.LoadMiddleToolbar;
-begin
-  LoadToolbar(MiddleToolBar, 'Toolbars/MiddleToolbar');
-end;
-
-procedure TfrmMain.SaveMiddleToolBar;
-begin
-  SaveToolBar(MiddleToolBar, 'Toolbars/MiddleToolbar');
 end;
 
 procedure TfrmMain.ShowLogWindow(Data: PtrInt);
@@ -5700,7 +5687,7 @@ begin
 
     if gSaveWindowState then SaveWindowState;
 
-    if gButtonBar then SaveMainToolBar;
+    if gButtonBar then SaveToolBar(MainToolBar);
 
     SaveGlobs; // Should be last, writes configuration file
   except
