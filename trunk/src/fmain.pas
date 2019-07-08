@@ -747,7 +747,7 @@ type
     procedure ConvertToolbarBarConfig(BarFileName: String);
     procedure ConvertIniToolbarItem(Loader: TKASToolBarIniLoader; var Item: TKASToolItem; const Shortcut: String);
     procedure CreateDefaultToolbar;
-    procedure EditToolbarButton(Button: TKASToolButton);
+    procedure EditToolbarButton(Toolbar: TKASToolBar; Button: TKASToolButton);
     procedure ToolbarExecuteCommand(ToolItem: TKASToolItem);
     procedure ToolbarExecuteProgram(ToolItem: TKASToolItem);
     procedure LeftDriveBarExecuteDrive(ToolItem: TKASToolItem);
@@ -1329,13 +1329,14 @@ begin
   btnDriveMouseUp(Sender, Button, Shift, X, Y);
 end;
 
-procedure TfrmMain.EditToolbarButton(Button: TKASToolButton);
+procedure TfrmMain.EditToolbarButton(Toolbar: TKASToolBar;
+  Button: TKASToolButton);
 var
   Editor: TOptionsEditor;
   Options: IOptionsDialog;
   EditorClass: TOptionsEditorClass;
 begin
-  if Button.ToolBar = MainToolBar then
+  if ToolBar = MainToolBar then
     EditorClass := TfrmOptionsToolbar
   else begin
     EditorClass := TfrmOptionsToolbarMiddle;
@@ -2192,9 +2193,14 @@ begin
         Point.Y := Y;
         Point := (Sender as TControl).ClientToScreen(Point);
         if Sender is TKASToolButton then
-          pmToolBar.Tag := PtrInt(Sender)
-        else
+        begin
+          pmToolBar.Tag := PtrInt(Sender);
+          pmToolBar.PopupComponent := TKASToolButton(Sender).ToolBar;
+        end
+        else begin
           pmToolBar.Tag := 0;
+          pmToolBar.PopupComponent := TComponent(Sender);
+        end;
         pmToolBar.PopUp(Point.X, Point.Y);
       end;
   end;
@@ -5240,7 +5246,7 @@ end;
 
 procedure TfrmMain.tbEditClick(Sender: TObject);
 begin
-  EditToolbarButton(TKASToolButton(pmToolBar.Tag));
+  EditToolbarButton(TKASToolBar(pmToolBar.PopupComponent), TKASToolButton(pmToolBar.Tag));
 end;
 
 procedure TfrmMain.OnUniqueInstanceMessage(Sender: TObject; Params: TCommandLineParams);
