@@ -301,13 +301,14 @@ begin
             DCDebug(['Cannot save thumbnail to file "', sThumbFileName, '": ', e.Message]);
         end;
       end;
-      if not Assigned(Result) then Raise Exception.Create(EmptyStr);
     finally
       FreeAndNil(Picture);
     end;
   except
-    Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, True, FBackColor);
+    Result:= nil;
   end;
+  if not Assigned(Result) then
+    Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, True, FBackColor);
 end;
 
 function TThumbnailManager.CreatePreview(const FullPathToFile: String): TBitmap;
