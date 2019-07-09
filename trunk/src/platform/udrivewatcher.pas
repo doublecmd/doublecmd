@@ -555,8 +555,10 @@ begin
         end;
         if DriveType in [dtFlash, dtHardDisk] then
         begin
-          if mbDriveUsb(DriveLetter) then
-            DriveType:= dtRemovableUsb;
+          case mbDriveBusType(DriveLetter) of
+            BusTypeUsb: DriveType := dtRemovableUsb;
+            BusTypeSd, BusTypeMmc: DriveType := dtFlash;
+          end;
         end;
       end;
     end;
