@@ -117,6 +117,7 @@ procedure TfrmOptionsIcons.rbIconsShowNoneChange(Sender: TObject);
 begin
   cbIconsSize.Enabled := not rbIconsShowNone.Checked;
   cbIconsShowOverlay.Enabled := not rbIconsShowNone.Checked;
+  chkShowHiddenDimmed.Enabled := not rbIconsShowNone.Checked;
   gbDisableSpecialIcons.Enabled := not rbIconsShowNone.Checked;
 end;
 
