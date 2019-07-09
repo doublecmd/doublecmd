@@ -282,7 +282,10 @@ var
     Canvas.Font.Style := gFonts[dcfMain].Style;
     Canvas.Font.Size  := gFonts[dcfMain].Size;
 
-    Result := gThumbSize.cy + Canvas.GetTextHeight('Wg') + 6;
+    if gUseFrameCursor then
+      Result := gThumbSize.cy + Canvas.GetTextHeight('Wg') + gBorderFrameWidth*2 + 4
+    else
+      Result := gThumbSize.cy + Canvas.GetTextHeight('Wg') + 6;
 
     // Restore old font.
     Canvas.Font := OldFont;
@@ -360,7 +363,10 @@ end;
 
 procedure TThumbDrawGrid.CalculateColumnWidth;
 begin
-  DefaultColWidth:= gThumbSize.cx + 4;
+  if gUseFrameCursor then
+    DefaultColWidth := gThumbSize.cx + gBorderFrameWidth*2 + 2
+  else
+    DefaultColWidth := gThumbSize.cx + 4;
 end;
 
 procedure TThumbDrawGrid.DoMouseMoveScroll(Sender: TObject; X, Y: Integer);
@@ -443,8 +449,6 @@ procedure TThumbDrawGrid.DrawCell(aCol, aRow: Integer; aRect: TRect;
 var
   Idx: Integer;
   //shared variables
-  s:   string;
-  iTextTop: Integer;
   AFile: TDisplayFile;
   FileSourceDirectAccess: Boolean;
 
@@ -452,12 +456,16 @@ var
   //begin subprocedures
   //------------------------------------------------------
 
-  procedure DrawIconCell;
+  procedure DrawIconCell(aRect: TRect);
   var
+    iTextTop: Integer;
     X, Y: Integer;
+    s: string;
     IconID: PtrInt;
     Bitmap: TBitmap;
   begin
+    iTextTop := aRect.Bottom - Canvas.TextHeight('Wg');
+
     IconID := AFile.Tag;
 
     if (AFile.FSFile.IsNameValid) and (IconID >= 0) and
@@ -495,11 +503,11 @@ var
     end;
 
     s:= AFile.DisplayStrings[0];
-    Y:= (ColWidths[ACol] - Canvas.TextWidth('W'));
-    s:= FitFileName(s, Canvas, AFile.FSFile, Y);
+    s:= FitFileName(s, Canvas, AFile.FSFile, aRect.Width - 4);
 
-    Canvas.TextOut(aRect.Left + 2, iTextTop, s);
+    Canvas.TextOut(aRect.Left + 2, iTextTop - 1, s);
     Canvas.Pen.Color:= InvertColor(gBackColor);
+    Canvas.Pen.Width := 1;
     Canvas.Frame(aRect.Left + 1, aRect.Top + 1, aRect.Right - 1, aRect.Bottom - Canvas.TextHeight('Pp') - 1);
   end; //of DrawIconCell
 
@@ -518,9 +526,11 @@ begin
 
       PrepareColors(AFile, aCol, aRow, aRect, aState);
 
-      iTextTop := aRect.Top + (RowHeights[aRow] - Canvas.TextHeight('Wg'));
-
-      DrawIconCell;
+      if gUseFrameCursor then
+        DrawIconCell(Rect(aRect.Left + gBorderFrameWidth - 1, aRect.Top + gBorderFrameWidth - 1,
+                          aRect.Right - gBorderFrameWidth + 1, aRect.Bottom - gBorderFrameWidth + 1))
+      else
+        DrawIconCell(aRect);
     end
   else
     begin
