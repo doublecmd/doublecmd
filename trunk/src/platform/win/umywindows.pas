@@ -76,6 +76,7 @@ procedure mbWaitLabelChange(const sDrv: String; const sCurLabel: String);
    @param(sDrv  String specifying the root directory of a drive)
 }
 procedure mbCloseCD(const sDrv: String);
+function mbDriveUsb(Drive: AnsiChar): Boolean;
 procedure mbDriveUnlock(const sDrv: String);
 {en
    Get remote file name by local file name
@@ -413,6 +414,68 @@ begin
   mciSendCommandA(0, MCI_OPEN, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
   mciSendCommandA(OpenParms.wDeviceID, MCI_SET, MCI_SET_DOOR_CLOSED, 0);
   mciSendCommandA(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
+end;
+
+const
+  // STORAGE_BUS_TYPE
+  BusTypeUnknown = $00;
+  BusTypeUsb     = $07;
+  // dwIoControlCode
+  IOCTL_STORAGE_QUERY_PROPERTY = $2D1400;
+
+type
+  STORAGE_PROPERTY_QUERY = record
+    PropertyId: DWORD;
+    QueryType: DWORD;
+    AdditionalParameters: array[0..0] of Byte;
+  end;
+
+  STORAGE_DEVICE_DESCRIPTOR = record
+    Version: DWORD;
+    Size: DWORD;
+    DeviceType: Byte;
+    DeviceTypeModifier: Byte;
+    RemovableMedia: Boolean;
+    CommandQueueing: Boolean;
+    VendorIdOffset: DWORD;
+    ProductIdOffset: DWORD;
+    ProductRevisionOffset: DWORD;
+    SerialNumberOffset: DWORD;
+    BusType: DWORD;
+    RawPropertiesLength: DWORD;
+    RawDeviceProperties: array[0..0] of Byte;
+  end;
+
+function mbDriveUsb(Drive: AnsiChar): Boolean;
+var
+  Dummy: DWORD;
+  Handle: THandle;
+  Query: STORAGE_PROPERTY_QUERY;
+  BusType: DWORD = BusTypeUnknown;
+  Descr: STORAGE_DEVICE_DESCRIPTOR;
+  VolumePath: UnicodeString = '\\.\X:';
+begin
+  VolumePath[5] := WideChar(Drive);
+
+  Handle := CreateFileW(PWideChar(VolumePath), 0,
+    FILE_SHARE_READ or FILE_SHARE_WRITE,
+    nil, OPEN_EXISTING, 0, 0);
+
+  if (Handle <> INVALID_HANDLE_VALUE) then
+  begin
+    ZeroMemory(@Query, SizeOf(STORAGE_PROPERTY_QUERY));
+
+    if (DeviceIoControl(Handle, IOCTL_STORAGE_QUERY_PROPERTY,
+                        @Query, SizeOf(STORAGE_PROPERTY_QUERY),
+                        @Descr, SizeOf(STORAGE_DEVICE_DESCRIPTOR),
+                        @Dummy, nil)) then
+    begin
+      BusType := Descr.BusType;
+    end;
+
+    CloseHandle(Handle);
+  end;
+  Result := (BusType = BusTypeUsb);
 end;
 
 function IsWow64: BOOL;
