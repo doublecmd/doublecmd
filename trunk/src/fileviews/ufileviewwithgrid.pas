@@ -133,7 +133,7 @@ begin
       if gDirBrackets and (AFile.IsDirectory or AFile.IsLinkToDirectory) then
         S:= '..]'
       else begin
-        S:= '...';
+        S:= '..';
       end;
       Index:= ACanvas.TextFitInfo(AFileName, ATargetWidth - ACanvas.TextWidth(S));
       Result:= UTF8Copy(AFileName, 1, Index) + S;
@@ -143,7 +143,7 @@ end;
 { FitOtherCellText }
 function FitOtherCellText(const sStringToFit:String; ACanvas:TCanvas; ATargetWidth: Integer): String;
 const
-  ELLIPSIS = '...';
+  ELLIPSIS = '..';
 var
   Index: Integer;
   AMaxWidth: Integer;
