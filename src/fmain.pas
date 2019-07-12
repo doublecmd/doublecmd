@@ -5271,7 +5271,7 @@ begin
   if Clipboard.GetFormat(PredefinedClipboardFormat(pcfText), Stream) then
   try
     Button := TKASToolButton(pmToolBar.Tag);
-    Toolbar := Button.ToolBar;
+    Toolbar := TKASToolBar(pmToolBar.PopupComponent);
 
     // Cut any trailing zeros.
     while Stream.DataString[Length(Stream.DataString)] = #0 do
