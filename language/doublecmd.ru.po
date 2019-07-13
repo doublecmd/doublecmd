@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-06-20 11:05+0300\n"
+"PO-Revision-Date: 2019-07-13 11:05+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -6645,7 +6645,7 @@ msgstr "Д&ве панели кнопок дисков (над файловым�
 
 #: tfrmoptionslayout.chkshowmiddletoolbar.caption
 msgid "Show middle toolbar"
-msgstr ""
+msgstr "Центральная панель"
 
 #: tfrmoptionslayout.gbscreenlayout.caption
 msgctxt "TFRMOPTIONSLAYOUT.GBSCREENLAYOUT.CAPTION"
@@ -12435,7 +12435,7 @@ msgstr "Панель инструментов (дополнительно)"
 
 #: ulng.rsoptionseditortoolbarmiddle
 msgid "Toolbar Middle"
-msgstr ""
+msgstr "Центральная панель"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
