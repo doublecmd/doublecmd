@@ -726,7 +726,7 @@ begin
       begin
         if gMouseSelectionEnabled then
         begin
-          if ssCtrl in Shift then
+          if ssModifier in Shift then
             begin
               // if there is no selected files then select also previous file
               if not HasSelectedFiles then
@@ -894,7 +894,7 @@ begin
 
   // A single click starts programs and opens files
   if (gMouseSingleClickStart in [1..3]) and (FMainControlMouseDown = False) and
-     (Shift * [ssShift, ssAlt, ssCtrl] = []) and (not MainControl.Dragging) then
+     (Shift * [ssShift, ssAlt, ssModifier] = []) and (not MainControl.Dragging) then
   begin
     FileIndex := GetFileIndexFromCursor(X, Y, AtFileList);
     if IsFileIndexInRange(FileIndex) and
@@ -949,7 +949,7 @@ begin
 
   // A single click is used to open items
   if (gMouseSingleClickStart > 0) and (Button = mbLeft) and
-     (Shift * [ssShift, ssAlt, ssCtrl, ssDouble] = []) and FMouseFocus then
+     (Shift * [ssShift, ssAlt, ssModifier, ssDouble] = []) and FMouseFocus then
   begin
     // A single click only opens folders. For files, a double click is needed.
     if (gMouseSingleClickStart and 2 <> 0) then
