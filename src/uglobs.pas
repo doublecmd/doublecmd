@@ -163,7 +163,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 48;
+  hkVersion = 49;
   // 47 - In "Copy/Move Dialog" context, add the shortcuts "F5" and "F6" for "cm_ToggleSelectionInName".
   // 40 - In "Main" context, added the "Ctrl+Shift+F7" for "cm_AddNewSearch".
   //      In "Find Files" context, changed "cm_Start" that was "Enter" for "F9".
@@ -1109,6 +1109,7 @@ begin
       AddIfNotExists(['6'],[],'cm_ShowGraphics');
       AddIfNotExists(['7'],[],'cm_ShowPlugins');
 
+      AddIfNotExists(['F6'],[],'cm_ShowCaret');
 
       AddIfNotExists(['Q'   ,'','',
                       'Esc','',''],'cm_ExitViewer');

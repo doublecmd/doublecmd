@@ -2897,6 +2897,11 @@ object frmViewer: TfrmViewer
       Enabled = False
       OnExecute = actExecute
     end
+    object actShowCaret: TAction
+      Category = 'View'
+      Caption = 'Show text c&ursor'
+      OnExecute = actExecute
+    end
   end
   object TimerScreenshot: TTimer
     Enabled = False
