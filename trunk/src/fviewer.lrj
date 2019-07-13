@@ -84,5 +84,6 @@
 {"hash":216568103,"name":"tfrmviewer.actchangeencoding.caption","sourcebytes":[67,104,97,110,103,101,32,101,110,99,111,100,105,110,103],"value":"Change encoding"},
 {"hash":96796260,"name":"tfrmviewer.actautoreload.caption","sourcebytes":[65,117,116,111,32,82,101,108,111,97,100],"value":"Auto Reload"},
 {"hash":216689422,"name":"tfrmviewer.actprintsetup.caption","sourcebytes":[80,114,105,110,116,32,38,115,101,116,117,112,46,46,46],"value":"Print &setup..."},
-{"hash":151339998,"name":"tfrmviewer.actprint.caption","sourcebytes":[80,38,114,105,110,116,46,46,46],"value":"P&rint..."}
+{"hash":151339998,"name":"tfrmviewer.actprint.caption","sourcebytes":[80,38,114,105,110,116,46,46,46],"value":"P&rint..."},
+{"hash":36280978,"name":"tfrmviewer.actshowcaret.caption","sourcebytes":[83,104,111,119,32,116,101,120,116,32,99,38,117,114,115,111,114],"value":"Show text c&ursor"}
 ]}

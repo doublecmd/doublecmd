@@ -92,6 +92,7 @@ type
     actCopyToClipboardFormatted: TAction;
     actChangeEncoding: TAction;
     actAutoReload: TAction;
+    actShowCaret: TAction;
     actPrint: TAction;
     actPrintSetup: TAction;
     actShowAsDec: TAction;
@@ -432,7 +433,7 @@ type
 
     procedure cm_Print(const Params:array of string);
     procedure cm_PrintSetup(const Params:array of string);
-
+    procedure cm_ShowCaret(const Params: array of string);
   end;
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource = nil);
@@ -2924,6 +2925,15 @@ begin
     ShowModal;
   finally
     Free;
+  end;
+end;
+
+procedure TfrmViewer.cm_ShowCaret(const Params: array of string);
+begin
+  if not miGraphics.Checked then
+  begin
+    ViewerControl.ShowCaret:= not ViewerControl.ShowCaret;
+    actShowCaret.Checked:= ViewerControl.ShowCaret;
   end;
 end;
 
