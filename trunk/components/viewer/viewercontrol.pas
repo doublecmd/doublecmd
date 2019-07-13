@@ -41,7 +41,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
 
    TODO:
@@ -70,7 +70,7 @@ unit ViewerControl;
 interface
 
 uses
-  SysUtils, Classes, Controls, StdCtrls, LCLVersion, fgl;
+  SysUtils, Classes, Controls, StdCtrls, LCLVersion, LMessages, fgl;
 
 const
   MaxMemSize = $400000; // 4 Mb
@@ -228,6 +228,7 @@ type
     FLineList:           TPtrIntList;
     FBlockBeg:           PtrInt;
     FBlockEnd:           PtrInt;
+    FCaretPos:           PtrInt;
     FMouseBlockBeg:      PtrInt;
     FMouseBlockSide:     TCharSide;
     FSelecting:          Boolean;
@@ -243,6 +244,7 @@ type
     FTabSpaces:          Integer; // tab width in spaces
     FMaxTextWidth:       Integer; // maximum of chars on one line unwrapped text (max 16384)
     FOnGuessEncoding:    TGuessEncodingEvent;
+    FShowCaret:          Boolean;
     FLastError:          String;
 
     FHex:TCustomCharsPresentation;
@@ -264,6 +266,7 @@ type
     procedure SetColCount(const AValue: Integer);
     procedure SetMaxTextWidth(const AValue: Integer);
     procedure SetTabSpaces(const AValue: Integer);
+    procedure SetShowCaret(AValue: Boolean);
 
     {en
        Returns how many lines (given current FTextHeight) will fit into the window.
@@ -422,6 +425,9 @@ type
     function GetText(const StartPos, Len: PtrInt; const Xoffset: Integer): string;
 
   protected
+    procedure WMSetFocus(var Message: TLMSetFocus); message LM_SETFOCUS;
+    procedure WMKillFocus(var Message: TLMKillFocus); message LM_KILLFOCUS;
+    procedure FontChanged(Sender: TObject); override;
     procedure KeyDown(var Key: word; Shift: TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
@@ -498,6 +504,7 @@ type
     property FileName: String Read FFileName Write SetFileName;
     property Encoding: TViewerEncoding Read FEncoding Write SetEncoding default veAutoDetect;
     property OnPositionChanged: TNotifyEvent Read FOnPositionChanged Write FOnPositionChanged;
+    property ShowCaret: Boolean read FShowCaret write SetShowCaret;
 
     property OnClick;
     property OnMouseDown;
@@ -662,6 +669,8 @@ begin
     Exit;
   end;
 
+  if FShowCaret then LCLIntf.HideCaret(Handle);
+
   Canvas.Font := Self.Font;
   Canvas.Brush.Color := Self.Color;
   {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
@@ -685,6 +694,8 @@ begin
     vcmBook: WriteText;
     vcmDec,vcmHex : WriteCustom;
   end;
+
+  if FShowCaret then LCLIntf.ShowCaret(Handle);
 end;
 
 procedure TViewerControl.SetViewerMode(Value: TViewerControlMode);
@@ -804,6 +815,29 @@ function TViewerControl.GetText(const StartPos, Len: PtrInt; const Xoffset: Inte
 begin
   SetString(Result, GetDataAdr + StartPos, Len);
   Result := TransformText(ConvertToUTF8(Result), Xoffset);
+end;
+
+procedure TViewerControl.WMSetFocus(var Message: TLMSetFocus);
+begin
+  if FShowCaret then
+  begin
+    LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
+    LCLIntf.ShowCaret(Handle);
+  end;
+end;
+
+procedure TViewerControl.WMKillFocus(var Message: TLMKillFocus);
+begin
+  if FShowCaret then LCLIntf.DestroyCaret(Handle);
+end;
+
+procedure TViewerControl.FontChanged(Sender: TObject);
+begin
+  inherited FontChanged(Sender);
+
+  Canvas.Font := Self.Font;
+  FTextHeight := Canvas.TextHeight('Wg') + 2;
+  if FShowCaret then LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
 end;
 
 function TViewerControl.CalcTextLineLength(var iStartPos: PtrInt; const aLimit: Int64; out DataLength: PtrInt): Integer;
@@ -1864,6 +1898,24 @@ begin
   LastLineReached := (iPos >= FHighLimit);
 end;
 
+procedure TViewerControl.SetShowCaret(AValue: Boolean);
+begin
+  if FShowCaret <> AValue then
+  begin
+    FShowCaret:= AValue;
+    if FShowCaret then
+    begin
+      LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
+      LCLIntf.ShowCaret(Handle);
+      Invalidate;
+    end
+    else begin
+      LCLIntf.HideCaret(Handle);
+      LCLIntf.DestroyCaret(Handle);
+    end;
+  end;
+end;
+
 function TViewerControl.GetPercent: Integer;
 begin
   if FHighLimit - FLowLimit > 0 then
@@ -1912,6 +1964,11 @@ begin
   pEndLine := pBegLine + DataLength;
 
   Canvas.Font.Color := Font.Color;
+
+  if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
+  begin
+    SetCaretPos(X + Canvas.TextWidth(GetText(StartPos, FCaretPos - pBegLine, 0)), Y);
+  end;
 
   // Out of selection, draw normal
   if ((FBlockEnd - FBlockBeg) = 0) or ((FBlockBeg < pBegLine) and (FBlockEnd < pBegLine)) or // before
@@ -1962,6 +2019,11 @@ begin
   pEndLine := pBegLine + DataLength;
 
   Canvas.Font.Color := Font.Color;
+
+  if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
+  begin
+    SetCaretPos(X + Canvas.TextWidth(Copy(sText, 1, FCustom.StartAscii + (FCaretPos - pBegLine))), Y);
+  end;
 
   // Out of selection, draw normal
   if ((FBlockEnd - FBlockBeg) = 0) or ((FBlockBeg < pBegLine) and (FBlockEnd <= pBegLine)) or // before
@@ -2048,6 +2110,11 @@ begin
   pEndLine := pBegLine + DataLength;
 
   Canvas.Font.Color := Font.Color;
+
+  if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
+  begin
+    SetCaretPos(X + Canvas.TextWidth(Copy(sText, 1, FCaretPos - pBegLine)), Y);
+  end;
 
   // Out of selection, draw normal
   if ((FBlockEnd - FBlockBeg) = 0) or ((FBlockBeg < pBegLine) and (FBlockEnd < pBegLine)) or // before
@@ -2249,6 +2316,7 @@ var
   LineBegin, LineEnd: PtrInt;
   ClickPos: PtrInt;
   CharSide: TCharSide;
+  CharLenInBytes: Integer;
 begin
   inherited;
 
@@ -2268,9 +2336,17 @@ begin
           begin
             FBlockBeg       := ClickPos;
             FBlockEnd       := ClickPos;
+            FCaretPos       := ClickPos;
             FMouseBlockBeg  := ClickPos;
             FMouseBlockSide := CharSide;
             FSelecting      := True;
+
+            if CharSide in [csRight, csAfter] then
+            begin
+              GetNextCharAsAscii(FCaretPos, CharLenInBytes);
+              FCaretPos := FCaretPos + CharLenInBytes;
+            end;
+
             Invalidate;
           end
           else
@@ -2365,6 +2441,7 @@ begin
           // Move beginning after first character.
           MoveOneChar(FBlockBeg);
         end;
+        FCaretPos:= FBlockBeg;
       end
       else if ClickPos > FMouseBlockBeg then
       begin
@@ -2383,6 +2460,7 @@ begin
           // Move end beyond last character.
           MoveOneChar(FBlockEnd);
         end;
+        FCaretPos:= FBlockEnd;
       end
       else if FMouseBlockSide <> CharSide then
       begin
@@ -2398,6 +2476,7 @@ begin
           // Move end beyond last character.
           MoveOneChar(FBlockEnd);
         end;
+        FCaretPos:= FBlockEnd;
       end
       else
       begin
