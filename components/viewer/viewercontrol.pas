@@ -267,6 +267,7 @@ type
     procedure SetMaxTextWidth(const AValue: Integer);
     procedure SetTabSpaces(const AValue: Integer);
     procedure SetShowCaret(AValue: Boolean);
+    procedure SetCaretPos(AValue: PtrInt);
 
     {en
        Returns how many lines (given current FTextHeight) will fit into the window.
@@ -491,6 +492,7 @@ type
     property Position: PtrInt Read FPosition Write SetPosition;
     property FileSize: Int64 Read FFileSize;
     property FileHandle: THandle read FFileHandle;
+    property CaretPos: PtrInt Read FCaretPos Write SetCaretPos;
     property SelectionStart: PtrInt Read FBlockBeg Write SetBlockBegin;
     property SelectionEnd: PtrInt Read FBlockEnd Write SetBlockEnd;
     property EncodingName: string Read GetEncodingName Write SetEncodingName;
@@ -1418,12 +1420,14 @@ end;
 
 procedure TViewerControl.GoHome;
 begin
+  CaretPos := FLowLimit;
   Position := FLowLimit;
 end;
 
 procedure TViewerControl.GoEnd;
 begin
   Position := FHighLimit;
+  CaretPos := FHighLimit - 1;
 end;
 
 procedure TViewerControl.HGoHome;
@@ -1916,6 +1920,15 @@ begin
   end;
 end;
 
+procedure TViewerControl.SetCaretPos(AValue: PtrInt);
+begin
+  if FCaretPos <> AValue then
+  begin
+    FCaretPos := AValue;
+    if FShowCaret then Invalidate;
+  end;
+end;
+
 function TViewerControl.GetPercent: Integer;
 begin
   if FHighLimit - FLowLimit > 0 then
@@ -1967,7 +1980,7 @@ begin
 
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
-    SetCaretPos(X + Canvas.TextWidth(GetText(StartPos, FCaretPos - pBegLine, 0)), Y);
+    LCLIntf.SetCaretPos(X + Canvas.TextWidth(GetText(StartPos, FCaretPos - pBegLine, 0)), Y);
   end;
 
   // Out of selection, draw normal
@@ -2022,7 +2035,7 @@ begin
 
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
-    SetCaretPos(X + Canvas.TextWidth(Copy(sText, 1, FCustom.StartAscii + (FCaretPos - pBegLine))), Y);
+    LCLIntf.SetCaretPos(X + Canvas.TextWidth(Copy(sText, 1, FCustom.StartAscii + (FCaretPos - pBegLine))), Y);
   end;
 
   // Out of selection, draw normal
@@ -2113,7 +2126,7 @@ begin
 
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
-    SetCaretPos(X + Canvas.TextWidth(Copy(sText, 1, FCaretPos - pBegLine)), Y);
+    LCLIntf.SetCaretPos(X + Canvas.TextWidth(Copy(sText, 1, FCaretPos - pBegLine)), Y);
   end;
 
   // Out of selection, draw normal
