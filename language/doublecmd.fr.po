@@ -9282,6 +9282,10 @@ msgstr "Vue en mode Texte"
 msgid "Show as &Wrap text"
 msgstr "Vue en mode Texte avec retour à la ligne"
 
+#: tfrmviewer.actshowcaret.caption
+msgid "Show text c&ursor"
+msgstr ""
+
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"

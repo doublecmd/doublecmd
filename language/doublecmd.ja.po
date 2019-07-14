@@ -9272,6 +9272,10 @@ msgstr "テキストとして表示(&T)"
 msgid "Show as &Wrap text"
 msgstr "ラップテキストとして表示(&W)"
 
+#: tfrmviewer.actshowcaret.caption
+msgid "Show text c&ursor"
+msgstr ""
+
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"

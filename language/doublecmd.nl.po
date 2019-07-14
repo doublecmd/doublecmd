@@ -9055,6 +9055,10 @@ msgstr "Toon als &tekst"
 msgid "Show as &Wrap text"
 msgstr "Toon als inpaktekst"
 
+#: tfrmviewer.actshowcaret.caption
+msgid "Show text c&ursor"
+msgstr ""
+
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
