@@ -145,6 +145,7 @@ type
     gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
     memFolder: TMemo;
+    miShowCaret: TMenuItem;
     miPrintSetup: TMenuItem;
     miAutoReload: TMenuItem;
     pmiCopyFormatted: TMenuItem;
