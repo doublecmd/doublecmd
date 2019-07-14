@@ -589,6 +589,7 @@ var
   gBookFontColor: TColor;
   gTextPosition:PtrInt;
   gPrintMargins: TRect;
+  gShowCaret: Boolean;
 
   { Editor }
   gEditWaitTime: Integer;
@@ -1820,6 +1821,7 @@ begin
   gBookFontColor := clWhite;
   gTextPosition:= 0;
   gViewerMode:= 0;
+  gShowCaret := False;
   gPrintMargins:= Classes.Rect(200, 200, 200, 200);
 
   { Editor }
@@ -2831,6 +2833,7 @@ begin
       gMaxTextWidth := GetValue(Node, 'MaxTextWidth', gMaxTextWidth);
       gViewerMode  := GetValue(Node, 'ViewerMode'  , gViewerMode);
       gPrintMargins := GetValue(Node, 'PrintMargins'  , gPrintMargins);
+      gShowCaret := GetValue(Node, 'ShowCaret'  , gShowCaret);
 
       gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
       gBookBackgroundColor := GetValue(Node, 'BackgroundColor', gBookBackgroundColor);
@@ -3379,6 +3382,7 @@ begin
     SetValue(Node, 'MaxTextWidth', gMaxTextWidth);
     SetValue(Node, 'ViewerMode' , gViewerMode);
     SetValue(Node, 'PrintMargins', gPrintMargins);
+    SetValue(Node, 'ShowCaret'  , gShowCaret);
 
     SetValue(Node, 'PaintColor', gImagePaintColor);
     SetValue(Node, 'BackgroundColor', gBookBackgroundColor);
