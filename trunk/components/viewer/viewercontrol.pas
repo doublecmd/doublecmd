@@ -1420,24 +1420,40 @@ end;
 
 procedure TViewerControl.GoHome;
 begin
-  CaretPos := FLowLimit;
   Position := FLowLimit;
 end;
 
 procedure TViewerControl.GoEnd;
 begin
   Position := FHighLimit;
-  CaretPos := FHighLimit - 1;
 end;
 
 procedure TViewerControl.HGoHome;
 begin
   HScroll (-FHPosition);
+  CaretPos := GetStartOfLine(CaretPos);
 end;
 
 procedure TViewerControl.HGoEnd;
 begin
-  HScroll (FHLowEnd-FHPosition);
+  if FViewerControlMode in [vcmBin, vcmHex, vcmDec] then
+    CaretPos := GetEndOfLine(CaretPos) - 1
+  else begin
+    CaretPos := GetEndOfLine(CaretPos);
+  end;
+
+  if FViewerControlMode = vcmText then
+  begin
+    if not IsVisible(CaretPos) then
+    begin
+      if (FVisibleOffset < FHPosition) or
+         (FVisibleOffset > FHPosition + FTextWidth) then
+      begin
+        SetHPosition(FVisibleOffset);
+        HScroll(-1);
+      end;
+    end;
+  end;
 end;
 
 procedure TViewerControl.SetFileName(const sFileName: String);
@@ -2199,12 +2215,12 @@ begin
       VK_HOME:
         begin
           Key := 0;
-          GoHome;
+          HGoHome;
         end;
       VK_END:
         begin
           Key := 0;
-          GoEnd;
+          HGoEnd;
         end;
       VK_PRIOR:
         begin
@@ -2226,12 +2242,14 @@ begin
       VK_HOME:
         begin
           Key := 0;
-          GoHome;
+          CaretPos := FLowLimit;
+          MakeVisible(FCaretPos)
         end;
       VK_END:
         begin
           Key := 0;
-          GoEnd;
+          CaretPos := FHighLimit - 1;
+          MakeVisible(FCaretPos);
         end;
       else
         inherited KeyDown(Key, Shift);
