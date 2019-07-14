@@ -10059,6 +10059,10 @@ msgctxt "tfrmviewer.actshowaswraptext.caption"
 msgid "Show as &Wrap text"
 msgstr "Zobraziť &ako zalamovaný text"
 
+#: tfrmviewer.actshowcaret.caption
+msgid "Show text c&ursor"
+msgstr ""
+
 #: tfrmviewer.actshowgraphics.caption
 #, fuzzy
 msgctxt "tfrmviewer.actshowgraphics.caption"

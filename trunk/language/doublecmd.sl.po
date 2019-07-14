@@ -9062,6 +9062,10 @@ msgstr "Pokaži kot &besedilo"
 msgid "Show as &Wrap text"
 msgstr "Pokaži kot besedilo v &prelomu"
 
+#: tfrmviewer.actshowcaret.caption
+msgid "Show text c&ursor"
+msgstr ""
+
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"

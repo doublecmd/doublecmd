@@ -9266,6 +9266,10 @@ msgstr "Показать как &текст"
 msgid "Show as &Wrap text"
 msgstr "Показать как текст с &разрывами строк"
 
+#: tfrmviewer.actshowcaret.caption
+msgid "Show text c&ursor"
+msgstr "Показывать текстовый к&урсор"
+
 #: tfrmviewer.actshowgraphics.caption
 msgctxt "tfrmviewer.actshowgraphics.caption"
 msgid "Graphics"
