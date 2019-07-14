@@ -244,6 +244,7 @@ type
     FTabSpaces:          Integer; // tab width in spaces
     FMaxTextWidth:       Integer; // maximum of chars on one line unwrapped text (max 16384)
     FOnGuessEncoding:    TGuessEncodingEvent;
+    FCaretVisible:       Boolean;
     FShowCaret:          Boolean;
     FLastError:          String;
 
@@ -674,7 +675,10 @@ begin
     Exit;
   end;
 
-  if FShowCaret then LCLIntf.HideCaret(Handle);
+  if FShowCaret and FCaretVisible then
+  begin
+    FCaretVisible := not LCLIntf.HideCaret(Handle);
+  end;
 
   Canvas.Font := Self.Font;
   Canvas.Brush.Color := Self.Color;
@@ -699,8 +703,6 @@ begin
     vcmBook: WriteText;
     vcmDec,vcmHex : WriteCustom;
   end;
-
-  if FShowCaret then LCLIntf.ShowCaret(Handle);
 end;
 
 procedure TViewerControl.SetViewerMode(Value: TViewerControlMode);
@@ -828,12 +830,17 @@ begin
   begin
     LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
     LCLIntf.ShowCaret(Handle);
+    FCaretVisible:= True;
   end;
 end;
 
 procedure TViewerControl.WMKillFocus(var Message: TLMKillFocus);
 begin
-  if FShowCaret then LCLIntf.DestroyCaret(Handle);
+  if FShowCaret then
+  begin
+    FCaretVisible:= False;
+    LCLIntf.DestroyCaret(Handle);
+  end;
 end;
 
 procedure TViewerControl.FontChanged(Sender: TObject);
@@ -1940,9 +1947,11 @@ begin
     begin
       LCLIntf.CreateCaret(Handle, 0, 2, FTextHeight);
       LCLIntf.ShowCaret(Handle);
+      FCaretVisible:= True;
       Invalidate;
     end
     else begin
+      FCaretVisible:= False;
       LCLIntf.HideCaret(Handle);
       LCLIntf.DestroyCaret(Handle);
     end;
@@ -2009,6 +2018,7 @@ begin
 
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
+    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
     LCLIntf.SetCaretPos(X + Canvas.TextWidth(GetText(StartPos, FCaretPos - pBegLine, 0)), Y);
   end;
 
@@ -2064,6 +2074,7 @@ begin
 
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
+    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
     LCLIntf.SetCaretPos(X + Canvas.TextWidth(Copy(sText, 1, FCustom.StartAscii + (FCaretPos - pBegLine))), Y);
   end;
 
@@ -2155,6 +2166,7 @@ begin
 
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
+    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
     LCLIntf.SetCaretPos(X + Canvas.TextWidth(Copy(sText, 1, FCaretPos - pBegLine)), Y);
   end;
 
