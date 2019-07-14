@@ -467,6 +467,9 @@ type
     procedure HGoHome;
     procedure HGoEnd;
 
+    procedure CaretGoHome;
+    procedure CaretGoEnd;
+
     function GetDataAdr: Pointer;
 
     procedure SelectAll;
@@ -1431,10 +1434,20 @@ end;
 procedure TViewerControl.HGoHome;
 begin
   HScroll (-FHPosition);
-  CaretPos := GetStartOfLine(CaretPos);
 end;
 
 procedure TViewerControl.HGoEnd;
+begin
+  HScroll (FHLowEnd-FHPosition);
+end;
+
+procedure TViewerControl.CaretGoHome;
+begin
+  HScroll (-FHPosition);
+  CaretPos := GetStartOfLine(CaretPos);
+end;
+
+procedure TViewerControl.CaretGoEnd;
 begin
   if FViewerControlMode in [vcmBin, vcmHex, vcmDec] then
     CaretPos := GetEndOfLine(CaretPos) - 1
@@ -2215,12 +2228,12 @@ begin
       VK_HOME:
         begin
           Key := 0;
-          HGoHome;
+          CaretGoHome;
         end;
       VK_END:
         begin
           Key := 0;
-          HGoEnd;
+          CaretGoEnd;
         end;
       VK_PRIOR:
         begin
