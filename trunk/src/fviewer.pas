@@ -607,6 +607,8 @@ begin
   FontOptionsToFont(gFonts[dcfMain], memFolder.Font);
   memFolder.Color:= gBackColor;
 
+  actShowCaret.Checked := gShowCaret;
+  ViewerControl.ShowCaret := gShowCaret;
   ViewerControl.TabSpaces := gTabSpaces;
   ViewerControl.MaxTextWidth := gMaxTextWidth;
 end;
@@ -2932,8 +2934,9 @@ procedure TfrmViewer.cm_ShowCaret(const Params: array of string);
 begin
   if not miGraphics.Checked then
   begin
-    ViewerControl.ShowCaret:= not ViewerControl.ShowCaret;
-    actShowCaret.Checked:= ViewerControl.ShowCaret;
+    gShowCaret:= not gShowCaret;
+    actShowCaret.Checked:= gShowCaret;
+    ViewerControl.ShowCaret:= gShowCaret;
   end;
 end;
 
