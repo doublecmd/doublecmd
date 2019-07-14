@@ -2565,12 +2565,15 @@ object frmViewer: TfrmViewer
         Action = actShowGraphics
         RadioItem = True
       end
-      object miDiv1: TMenuItem
-        Caption = '-'
-      end
       object miPlugins: TMenuItem
         Action = actShowPlugins
         RadioItem = True
+      end
+      object miDiv1: TMenuItem
+        Caption = '-'
+      end
+      object miShowCaret: TMenuItem
+        Action = actShowCaret
       end
     end
     object miEncoding: TMenuItem
