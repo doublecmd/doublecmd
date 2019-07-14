@@ -2018,8 +2018,8 @@ begin
 
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
-    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
     LCLIntf.SetCaretPos(X + Canvas.TextWidth(GetText(StartPos, FCaretPos - pBegLine, 0)), Y);
+    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
   end;
 
   // Out of selection, draw normal
@@ -2074,8 +2074,8 @@ begin
 
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
-    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
     LCLIntf.SetCaretPos(X + Canvas.TextWidth(Copy(sText, 1, FCustom.StartAscii + (FCaretPos - pBegLine))), Y);
+    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
   end;
 
   // Out of selection, draw normal
@@ -2166,8 +2166,8 @@ begin
 
   if FShowCaret and (FCaretPos >= pBegLine) and (FCaretPos <= pEndLine) then
   begin
-    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
     LCLIntf.SetCaretPos(X + Canvas.TextWidth(Copy(sText, 1, FCaretPos - pBegLine)), Y);
+    if not FCaretVisible then FCaretVisible:= LCLIntf.ShowCaret(Handle);
   end;
 
   // Out of selection, draw normal
