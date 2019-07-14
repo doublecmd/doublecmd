@@ -2231,6 +2231,8 @@ begin
 end;
 
 procedure TfrmViewer.DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
+const
+  bNewSearch: Boolean = False;
 var
   T: QWord;
   PAdr: PtrInt;
@@ -2302,22 +2304,24 @@ begin
       end;
 
       // Choose search start position.
-      if not bSearchBackwards then
+      if FLastSearchPos <> ViewerControl.CaretPos then
+        FLastSearchPos := ViewerControl.CaretPos
+      else if not bSearchBackwards then
       begin
         iSearchParameter:= Length(sSearchTextA);
-        if FLastSearchPos = -1 then
+        if bNewSearch then
           FLastSearchPos := 0
         else if FLastSearchPos < ViewerControl.FileSize - iSearchParameter then
           FLastSearchPos := FLastSearchPos + iSearchParameter;
       end
-      else
-      begin
+      else begin
         iSearchParameter:= IfThen(ViewerControl.Encoding in ViewerEncodingDoubleByte, 2, 1);
-        if FLastSearchPos = -1 then
+        if bNewSearch then
           FLastSearchPos := ViewerControl.FileSize - 1
         else if FLastSearchPos >= iSearchParameter then
           FLastSearchPos := FLastSearchPos - iSearchParameter;
       end;
+      bNewSearch := False;
 
       // Using standard search algorithm if hex or case sensitive and multibyte
       if FFindDialog.chkHex.Checked or (FFindDialog.cbCaseSens.Checked and (ViewerControl.Encoding in ViewerEncodingMultiByte)) then
@@ -2369,6 +2373,7 @@ begin
           // Text found, show it in ViewerControl if not visible
           ViewerControl.MakeVisible(FLastSearchPos);
           // Select found text.
+          ViewerControl.CaretPos := FLastSearchPos;
           ViewerControl.SelectText(FLastSearchPos, FLastSearchPos + Length(sSearchTextA));
         end
       else
@@ -2377,7 +2382,8 @@ begin
           if (ViewerControl.Selection <> sSearchTextU) then begin
             ViewerControl.SelectText(0, 0);
           end;
-          FLastSearchPos := -1;
+          bNewSearch := True;
+          FLastSearchPos := ViewerControl.CaretPos;
         end;
     end;
 end;
@@ -2816,12 +2822,7 @@ end;
 
 procedure TfrmViewer.cm_Find(const Params: array of string);
 begin
-  //if (not (bImage or bAnimation)) then
-  if not miGraphics.Checked then
-  begin
-    FLastSearchPos := -1;
-    DoSearch(False, False);
-  end;
+  if not miGraphics.Checked then DoSearch(False, False);
 end;
 
 procedure TfrmViewer.cm_FindNext(const Params: array of string);
