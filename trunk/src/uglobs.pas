@@ -564,6 +564,9 @@ var
   gOperationOptionCopyPermissions: Boolean;
   gOperationOptionExcludeEmptyDirectories: Boolean;
 
+  {Extract dialog options}
+  gExtractOverwrite: Boolean;
+
   {Error file}
   gErrorFile: String;
 
@@ -1695,6 +1698,8 @@ begin
   gOperationOptionCopyPermissions := False;
   gOperationOptionExcludeEmptyDirectories := True;
 
+  // Extract
+  gExtractOverwrite := False;
 
   { Tabs page }
   gDirTabOptions := [tb_always_visible,
@@ -2653,6 +2658,12 @@ begin
         gOperationOptionCopyPermissions := GetValue(SubNode, 'CopyPermissions', gOperationOptionCopyPermissions);
         gOperationOptionExcludeEmptyDirectories := GetValue(SubNode, 'ExcludeEmptyTemplateDirectories', gOperationOptionExcludeEmptyDirectories);
       end;
+      // Extract
+      SubNode := Node.FindNode('Extract');
+      if Assigned(SubNode) then
+      begin
+        gExtractOverwrite := GetValue(SubNode, 'Overwrite', gExtractOverwrite);
+      end;
     end;
 
     { Tabs page }
@@ -3266,6 +3277,12 @@ begin
     SetValue(SubNode, 'CopyOwnership', gOperationOptionCopyOwnership);
     SetValue(SubNode, 'CopyPermissions', gOperationOptionCopyPermissions);
     SetValue(SubNode, 'ExcludeEmptyTemplateDirectories', gOperationOptionExcludeEmptyDirectories);
+    // Extract
+    SubNode := FindNode(Node, 'Extract', True);
+    if Assigned(SubNode) then
+    begin
+      SetValue(SubNode, 'Overwrite', gExtractOverwrite);
+    end;
 
     { Tabs page }
     Node := FindNode(Root, 'Tabs', True);
