@@ -20,7 +20,6 @@ inherited frmExtractDlg: TfrmExtractDlg
   ClientWidth = 516
   OnCreate = FormCreate
   Position = poOwnerFormCenter
-  SessionProperties = 'cbOverwrite.Checked'
   inherited pnlContent: TPanel
     Left = 6
     Height = 148
@@ -184,7 +183,6 @@ inherited frmExtractDlg: TfrmExtractDlg
         Width = 351
         Caption = 'O&verwrite existing files'
         Checked = True
-        State = cbChecked
         TabOrder = 2
       end
     end
