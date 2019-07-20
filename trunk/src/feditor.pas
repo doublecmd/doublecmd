@@ -254,8 +254,11 @@ begin
     if not Editor.OpenFile(sFileName) then
       Exit;
   end;
-
-  Editor.ShowOnTop;
+  if (WaitData = nil) then
+    Editor.ShowOnTop
+  else begin
+    WaitData.ShowOnTop(Editor);
+  end;
   LastEditorUsedForConfiguration := Editor;
 end;
 

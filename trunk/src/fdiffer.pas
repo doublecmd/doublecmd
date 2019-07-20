@@ -268,8 +268,11 @@ const
   HotkeysCategory = 'Differ';
 
 procedure ShowDiffer(const FileNameLeft, FileNameRight: String; WaitData: TWaitData = nil; Modal: Boolean = False);
+var
+  Differ: TfrmDiffer;
 begin
-  with TfrmDiffer.Create(Application) do
+  Differ := TfrmDiffer.Create(Application);
+  with Differ do
   begin
     FWaitData := WaitData;
     edtFileNameLeft.Text:= FileNameLeft;
@@ -287,8 +290,10 @@ begin
     begin
       if Modal then
         ShowModal
+      else if (WaitData = nil) then
+        ShowOnTop
       else
-        ShowOnTop;
+        WaitData.ShowOnTop(Differ);
     end;
   end;
 end;
