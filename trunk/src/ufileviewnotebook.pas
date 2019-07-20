@@ -146,6 +146,7 @@ type
     procedure ActivatePrevTab;
     procedure ActivateNextTab;
     procedure ActivateTabByIndex(Index: Integer);
+    function IndexOfPageAt(P: TPoint): Integer; override;
 
     procedure DragDrop(Source: TObject; X,Y: Integer); override;
     procedure DragOver(Source: TObject; X,Y: Integer; State: TDragState;
@@ -563,6 +564,12 @@ begin
     Page[PageCount - 1].MakeActive
   else if PageCount >= Index + 1 then
     Page[Index].MakeActive;
+end;
+
+function TFileViewNotebook.IndexOfPageAt(P: TPoint): Integer;
+begin
+  Result:= inherited IndexOfPageAt(P);
+  if (Result >= PageCount) then Result:= -1;
 end;
 
 procedure TFileViewNotebook.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
