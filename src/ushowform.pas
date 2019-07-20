@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 }
 
 
@@ -19,7 +19,7 @@ unit uShowForm;
 interface
 
 uses
-  Classes, DCBasicTypes, uFileSource, uFileSourceOperation, uFile,
+  Classes, Forms, DCBasicTypes, uFileSource, uFileSourceOperation, uFile,
   uFileSourceCopyOperation;
 
 type
@@ -27,9 +27,24 @@ type
   { TWaitData }
 
   TWaitData = class
+  private
+    procedure ShowOnTopAsync(Data: PtrInt);
   public
+    procedure ShowOnTop(AForm: TCustomForm);
     procedure ShowWaitForm; virtual; abstract;
     procedure Done; virtual; abstract;
+  end;
+
+  { TViewerWaitData }
+
+  TViewerWaitData = class(TWaitData)
+  private
+    FFileSource: IFileSource;
+  public
+    constructor Create(aFileSource: IFileSource);
+    destructor Destroy; override;
+    procedure ShowWaitForm; override;
+    procedure Done; override;
   end;
 
   { TEditorWaitData }
@@ -303,8 +318,51 @@ begin
         RunExtTool(gExternalTools[etViewer], FilesToView.Strings[i]);
     end;
   end // gUseExtView
-  else
-    ShowViewer(FilesToView, aFileSource);
+  else begin
+    if aFileSource.IsClass(TTempFileSystemFileSource) then
+      ShowViewer(FilesToView, TViewerWaitData.Create(aFileSource))
+    else
+      ShowViewer(FilesToView);
+  end;
+end;
+
+{ TWaitData }
+
+procedure TWaitData.ShowOnTopAsync(Data: PtrInt);
+var
+  Form: TCustomForm absolute Data;
+begin
+  Form.ShowOnTop;
+end;
+
+procedure TWaitData.ShowOnTop(AForm: TCustomForm);
+var
+  Data: PtrInt absolute AForm;
+begin
+  Application.QueueAsyncCall(@ShowOnTopAsync, Data);
+end;
+
+{ TViewerWaitData }
+
+constructor TViewerWaitData.Create(aFileSource: IFileSource);
+begin
+  FFileSource:= aFileSource;
+end;
+
+destructor TViewerWaitData.Destroy;
+begin
+  inherited Destroy;
+  FFileSource:= nil;
+end;
+
+procedure TViewerWaitData.ShowWaitForm;
+begin
+
+end;
+
+procedure TViewerWaitData.Done;
+begin
+
 end;
 
 { TWaitDataDouble }
