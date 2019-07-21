@@ -40,7 +40,7 @@ uses
 
 const
   AB_VMSPageSize = 4096; {must be a power of two}
-  AB_VMSMaxPages = 2048; {makes 8MB with the above value}
+  AB_VMSMaxPages = 16384; {makes 64MB with the above value}
 
 type
   PvmsPage = ^TvmsPage;
@@ -418,6 +418,7 @@ begin
   except
     if CreatedNewPage then
       Dispose(Page);
+    raise;
   end;{try..except}
 end;
 {--------}

@@ -2343,6 +2343,15 @@ Index: AbVMStrm.pas
 ===================================================================
 --- AbVMStrm.pas	(revision 512)
 +++ AbVMStrm.pas	(working copy)
+@@ -40,7 +40,7 @@
+
+ const
+   AB_VMSPageSize = 4096; {must be a power of two}
+-  AB_VMSMaxPages = 2048; {makes 8MB with the above value}
++  AB_VMSMaxPages = 16384; {makes 64MB with the above value}
+
+ type
+   PvmsPage = ^TvmsPage;
 @@ -109,7 +109,8 @@
    {$ENDIF}
    SysUtils,
@@ -2350,10 +2359,18 @@ Index: AbVMStrm.pas
 -  AbUtils;
 +  AbUtils,
 +  DCOSUtils;
- 
+
  const
    LastLRUValue = $7FFFFFFF;
-@@ -429,10 +430,10 @@
+@@ -417,6 +418,7 @@
+   except
+     if CreatedNewPage then
+       Dispose(Page);
++    raise;
+   end;{try..except}
+ end;
+ {--------}
+@@ -429,10 +431,10 @@
  begin
    if (vmsSwapHandle = 0) then begin
      vmsSwapFileName := AbCreateTempFile(vmsSwapFileDir);
@@ -2363,10 +2380,10 @@ Index: AbVMStrm.pas
        vmsSwapHandle := 0;
 -      DeleteFile(vmsSwapFileName);
 +      mbDeleteFile(vmsSwapFileName);
-       raise EAbVMSErrorOpenSwap.Create( vmsSwapFileName );             
+       raise EAbVMSErrorOpenSwap.Create( vmsSwapFileName );
      end;
      vmsSwapFileSize := 0;
-@@ -443,7 +444,7 @@
+@@ -443,7 +445,7 @@
  begin
    if (vmsSwapHandle <> 0) then begin
      FileClose(vmsSwapHandle);

@@ -158,6 +158,11 @@ begin
     begin
       Arc.Free;
       ArchiveData.OpenResult := GetArchiveError(E);
+      if (ArchiveData.OpenResult = E_UNKNOWN) then
+      begin
+        ArchiveData.OpenResult := E_HANDLED;
+        gStartupInfo.MessageBox(PAnsiChar(E.Message), nil, MB_OK or MB_ICONERROR);
+      end;
     end;
   end;
 end;
