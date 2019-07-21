@@ -53,7 +53,8 @@ uses
   uWfxPluginFileSource,
   uArchiveFileSourceUtil,
   uFileSourceOperationMessageBoxesUI,
-  uFileProperty, URIParser;
+  uFileProperty, URIParser,
+  WcxPlugin, uWcxModule;
 
 procedure ChooseFile(aFileView: TFileView; aFileSource: IFileSource;
   aFile: TFile);
@@ -271,6 +272,8 @@ begin
   except
     on E: Exception do
     begin
+      if (E is EWcxModuleException) and (EWcxModuleException(E).ErrorCode = E_HANDLED) then
+        Exit(True);
       if not bForce then
       begin
         msgError(E.Message + LineEnding + aFile.FullPath);

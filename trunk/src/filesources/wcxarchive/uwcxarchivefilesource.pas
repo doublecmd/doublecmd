@@ -425,7 +425,7 @@ begin
   if mbFileExists(anArchiveFileName) then
   begin
     if not ReadArchive then
-      raise EFileSourceException.Create(GetErrorMsg(FOpenResult));
+      raise EWcxModuleException.Create(FOpenResult);
   end;
 
   CreateConnections;
@@ -449,7 +449,7 @@ begin
   if mbFileExists(anArchiveFileName) then
   begin
     if not ReadArchive(anArchiveHandle) then
-      raise Exception.Create(GetErrorMsg(FOpenResult));
+      raise EWcxModuleException.Create(FOpenResult);
   end;
 
   CreateConnections;

@@ -28,11 +28,18 @@ unit uWCXmodule;
 interface
 
 uses
-  LCLType, Classes, Dialogs, LazUTF8Classes, dynlibs,
+  LCLType, Classes, Dialogs, LazUTF8Classes, dynlibs, SysUtils,
   uWCXprototypes, WcxPlugin, Extension, DCClassesUtf8, DCBasicTypes, DCXmlConfig;
 
 Type
   TWCXOperation = (OP_EXTRACT, OP_PACK, OP_DELETE);
+
+  { EWcxModuleException }
+
+  EWcxModuleException = class(EOSError)
+  public
+    constructor Create(AErrorCode: Integer);
+  end;
 
   { TWCXHeaderData }
 
@@ -175,7 +182,7 @@ implementation
 
 uses
   //Lazarus, Free-Pascal, etc.
-  StrUtils, SysUtils, LazUTF8, FileUtil,
+  SysConst, StrUtils, LazUTF8, FileUtil,
 
   //DC
   uDCUtils, uComponentsSignature, uGlobsPaths, uLng, uOSUtils, DCOSUtils,
@@ -183,6 +190,14 @@ uses
 
 const
   WcxIniFileName = 'wcx.ini';
+
+{ EWcxModuleException }
+
+constructor EWcxModuleException.Create(AErrorCode: Integer);
+begin
+  ErrorCode:= AErrorCode;
+  inherited Create(GetErrorMsg(ErrorCode));
+end;
 
 constructor TWcxModule.Create;
 begin
@@ -498,7 +513,7 @@ begin
     E_NO_FILES       :   Result := rsMsgErrNoFiles;
     E_TOO_MANY_FILES :   Result := rsMsgErrTooManyFiles;
     E_NOT_SUPPORTED  :   Result := rsMsgErrNotSupported;
-    else                 Result := IntToStr(iErrorMsg);
+    else                 Result := Format(SUnknownErrorCode, [iErrorMsg]);
   end;
 end;
 
