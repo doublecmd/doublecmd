@@ -457,181 +457,195 @@ begin
       ContentPluginUnloading;
     if Assigned(ExtensionFinalize) then
       ExtensionFinalize(nil);
-    //------------------------------------------------------
-    UnloadModule;
   end;
-  inherited;
+  inherited Destroy;
 end;
 
 function TWFXModule.LoadModule(const sName: String): Boolean;
+var
+  AHandle: TLibHandle;
 begin
-  FModuleHandle := mbLoadLibrary(mbExpandFileName(sName));
-  if FModuleHandle = 0 then
-  begin
-    Exit(False);
+  EnterCriticalSection(FMutex);
+  try
+    AHandle := mbLoadLibrary(mbExpandFileName(sName));
+    Result := AHandle <> NilHandle;
+    if not Result then Exit;
+
+    FModuleFileName:= sName;
+  { Mandatory }
+    FsInit := TFsInit(GetProcAddress(AHandle,'FsInit'));
+    FsFindFirst := TFsFindFirst(GetProcAddress(AHandle,'FsFindFirst'));
+    FsFindNext := TFsFindNext(GetProcAddress(AHandle,'FsFindNext'));
+    FsFindClose := TFsFindClose(GetProcAddress(AHandle,'FsFindClose'));
+  { Unicode }
+    FsInitW := TFsInitW(GetProcAddress(AHandle,'FsInitW'));
+    FsFindFirstW := TFsFindFirstW(GetProcAddress(AHandle,'FsFindFirstW'));
+    FsFindNextW := TFsFindNextW(GetProcAddress(AHandle,'FsFindNextW'));
+
+    Result:= (FsInit <> nil) and (FsFindFirst <> nil) and (FsFindNext <> nil);
+    if (Result = False) then
+    begin
+      FsInit:= nil;
+      FsFindFirst:= nil;
+      FsFindNext:= nil;
+      Result:= (FsInitW <> nil) and (FsFindFirstW <> nil) and (FsFindNextW <> nil);
+    end;
+
+    if (Result = False) or (FsFindClose = nil) then
+    begin
+      FsInitW:= nil;
+      FsFindFirstW:= nil;
+      FsFindNextW:= nil;
+      FsFindClose:= nil;
+      Exit(False);
+    end;
+
+  { Optional }
+    FsSetCryptCallback:= TFsSetCryptCallback(GetProcAddress(AHandle,'FsSetCryptCallback'));
+    FsGetDefRootName := TFsGetDefRootName(GetProcAddress(AHandle,'FsGetDefRootName'));
+    FsExecuteFile := TFsExecuteFile(GetProcAddress(AHandle,'FsExecuteFile'));
+    FsGetFile := TFsGetFile(GetProcAddress(AHandle,'FsGetFile'));
+    FsPutFile := TFsPutFile(GetProcAddress(AHandle,'FsPutFile'));
+    FsDeleteFile := TFsDeleteFile(GetProcAddress(AHandle,'FsDeleteFile'));
+    FsMkDir := TFsMkDir(GetProcAddress(AHandle,'FsMkDir'));
+    FsRemoveDir := TFsRemoveDir(GetProcAddress(AHandle,'FsRemoveDir'));
+    FsStatusInfo := TFsStatusInfo(GetProcAddress(AHandle,'FsStatusInfo'));
+    FsSetDefaultParams := TFsSetDefaultParams(GetProcAddress(AHandle,'FsSetDefaultParams'));
+    //---------------------
+    FsSetAttr := TFsSetAttr (GetProcAddress(AHandle,'FsSetAttr'));
+    FsSetTime := TFsSetTime (GetProcAddress(AHandle,'FsSetTime'));
+    FsExtractCustomIcon := TFsExtractCustomIcon (GetProcAddress(AHandle,'FsExtractCustomIcon'));
+    FsRenMovFile := TFsRenMovFile (GetProcAddress(AHandle,'FsRenMovFile'));
+    FsDisconnect := TFsDisconnect (GetProcAddress(AHandle,'FsDisconnect'));
+    FsGetPreviewBitmap := TFsGetPreviewBitmap (GetProcAddress(AHandle,'FsGetPreviewBitmap'));
+    FsLinksToLocalFiles := TFsLinksToLocalFiles (GetProcAddress(AHandle,'FsLinksToLocalFiles'));
+    FsGetLocalName := TFsGetLocalName (GetProcAddress(AHandle,'FsGetLocalName'));
+    //---------------------
+    FsGetBackgroundFlags := TFsGetBackgroundFlags (GetProcAddress(AHandle,'FsGetBackgroundFlags'));
+    //---------------------
+    FsContentGetDefaultView := TFsContentGetDefaultView (GetProcAddress(AHandle,'FsContentGetDefaultView'));
+    ContentSetDefaultParams := TContentSetDefaultParams (GetProcAddress(AHandle,'FsContentSetDefaultParams'));
+    ContentGetDetectString := TFsContentGetDetectString (GetProcAddress(AHandle,'FsContentGetDetectString'));
+    ContentGetSupportedField := TFsContentGetSupportedField (GetProcAddress(AHandle,'FsContentGetSupportedField'));
+    ContentGetValue := TFsContentGetValue (GetProcAddress(AHandle,'FsContentGetValue'));
+    ContentStopGetValue := TFsContentStopGetValue (GetProcAddress(AHandle,'FsContentStopGetValue'));
+    ContentGetDefaultSortOrder := TFsContentGetDefaultSortOrder (GetProcAddress(AHandle,'FsContentGetDefaultSortOrder'));
+    ContentGetSupportedFieldFlags := TFsContentGetSupportedFieldFlags (GetProcAddress(AHandle,'FsContentGetSupportedFieldFlags'));
+    ContentSetValue := TFsContentSetValue (GetProcAddress(AHandle,'FsContentSetValue'));
+    ContentPluginUnloading := TFsContentPluginUnloading(GetProcAddress(AHandle,'FsContentPluginUnloading'));
+  { Unicode }
+    FsSetCryptCallbackW:= TFsSetCryptCallbackW(GetProcAddress(AHandle,'FsSetCryptCallbackW'));
+    FsMkDirW := TFsMkDirW(GetProcAddress(AHandle,'FsMkDirW'));
+    FsExecuteFileW := TFsExecuteFileW(GetProcAddress(AHandle,'FsExecuteFileW'));
+    FsRenMovFileW := TFsRenMovFileW(GetProcAddress(AHandle,'FsRenMovFileW'));
+    FsGetFileW := TFsGetFileW(GetProcAddress(AHandle,'FsGetFileW'));
+    FsPutFileW := TFsPutFileW(GetProcAddress(AHandle,'FsPutFileW'));
+    FsDeleteFileW := TFsDeleteFileW(GetProcAddress(AHandle,'FsDeleteFileW'));
+    FsRemoveDirW := TFsRemoveDirW(GetProcAddress(AHandle,'FsRemoveDirW'));
+    FsDisconnectW := TFsDisconnectW(GetProcAddress(AHandle,'FsDisconnectW'));
+    FsSetAttrW := TFsSetAttrW (GetProcAddress(AHandle,'FsSetAttrW'));
+    FsSetTimeW := TFsSetTimeW (GetProcAddress(AHandle,'FsSetTimeW'));
+    FsStatusInfoW := TFsStatusInfoW(GetProcAddress(AHandle,'FsStatusInfoW'));
+    FsExtractCustomIconW := TFsExtractCustomIconW(GetProcAddress(AHandle,'FsExtractCustomIconW'));
+    FsGetLocalNameW := TFsGetLocalNameW(GetProcAddress(AHandle,'FsGetLocalNameW'));
+    //--------------------------
+    FsContentGetDefaultViewW := TFsContentGetDefaultViewW(GetProcAddress(AHandle,'FsContentGetDefaultViewW'));
+    ContentGetValueW := TFsContentGetValueW(GetProcAddress(AHandle, 'FsContentGetValueW'));
+    ContentStopGetValueW := TFsContentStopGetValueW(GetProcAddress(AHandle, 'FsContentStopGetValueW'));
+    ContentSetValueW := TFsContentSetValueW(GetProcAddress(AHandle, 'FsContentSetValueW'));
+    { Extension API }
+    ExtensionInitialize:= TExtensionInitializeProc(GetProcAddress(AHandle,'ExtensionInitialize'));
+    ExtensionFinalize:= TExtensionFinalizeProc(GetProcAddress(AHandle,'ExtensionFinalize'));
+
+    VFSInit;
+
+    FModuleHandle := AHandle;
+  finally
+    LeaveCriticalSection(FMutex);
   end;
-
-  FModuleFileName:= sName;
-{ Mandatory }
-  FsInit := TFsInit(GetProcAddress(FModuleHandle,'FsInit'));
-  FsFindFirst := TFsFindFirst(GetProcAddress(FModuleHandle,'FsFindFirst'));
-  FsFindNext := TFsFindNext(GetProcAddress(FModuleHandle,'FsFindNext'));
-  FsFindClose := TFsFindClose(GetProcAddress(FModuleHandle,'FsFindClose'));
-{ Unicode }
-  FsInitW := TFsInitW(GetProcAddress(FModuleHandle,'FsInitW'));
-  FsFindFirstW := TFsFindFirstW(GetProcAddress(FModuleHandle,'FsFindFirstW'));
-  FsFindNextW := TFsFindNextW(GetProcAddress(FModuleHandle,'FsFindNextW'));
-
-  Result:= (FsInit <> nil) and (FsFindFirst <> nil) and (FsFindNext <> nil);
-  if (Result = False) then
-  begin
-    FsInit:= nil;
-    FsFindFirst:= nil;
-    FsFindNext:= nil;
-    Result:= (FsInitW <> nil) and (FsFindFirstW <> nil) and (FsFindNextW <> nil);
-  end;
-
-  if (Result = False) or (FsFindClose = nil) then
-  begin
-    FsInitW:= nil;
-    FsFindFirstW:= nil;
-    FsFindNextW:= nil;
-    FsFindClose:= nil;
-    Exit(False);
-  end;
-
-{ Optional }
-  FsSetCryptCallback:= TFsSetCryptCallback(GetProcAddress(FModuleHandle,'FsSetCryptCallback'));
-  FsGetDefRootName := TFsGetDefRootName(GetProcAddress(FModuleHandle,'FsGetDefRootName'));
-  FsExecuteFile := TFsExecuteFile(GetProcAddress(FModuleHandle,'FsExecuteFile'));
-  FsGetFile := TFsGetFile(GetProcAddress(FModuleHandle,'FsGetFile'));
-  FsPutFile := TFsPutFile(GetProcAddress(FModuleHandle,'FsPutFile'));
-  FsDeleteFile := TFsDeleteFile(GetProcAddress(FModuleHandle,'FsDeleteFile'));
-  FsMkDir := TFsMkDir(GetProcAddress(FModuleHandle,'FsMkDir'));
-  FsRemoveDir := TFsRemoveDir(GetProcAddress(FModuleHandle,'FsRemoveDir'));
-  FsStatusInfo := TFsStatusInfo(GetProcAddress(FModuleHandle,'FsStatusInfo'));
-  FsSetDefaultParams := TFsSetDefaultParams(GetProcAddress(FModuleHandle,'FsSetDefaultParams'));
-  //---------------------
-  FsSetAttr := TFsSetAttr (GetProcAddress(FModuleHandle,'FsSetAttr'));
-  FsSetTime := TFsSetTime (GetProcAddress(FModuleHandle,'FsSetTime'));
-  FsExtractCustomIcon := TFsExtractCustomIcon (GetProcAddress(FModuleHandle,'FsExtractCustomIcon'));
-  FsRenMovFile := TFsRenMovFile (GetProcAddress(FModuleHandle,'FsRenMovFile'));
-  FsDisconnect := TFsDisconnect (GetProcAddress(FModuleHandle,'FsDisconnect'));
-  FsGetPreviewBitmap := TFsGetPreviewBitmap (GetProcAddress(FModuleHandle,'FsGetPreviewBitmap'));
-  FsLinksToLocalFiles := TFsLinksToLocalFiles (GetProcAddress(FModuleHandle,'FsLinksToLocalFiles'));
-  FsGetLocalName := TFsGetLocalName (GetProcAddress(FModuleHandle,'FsGetLocalName'));
-  //---------------------
-  FsGetBackgroundFlags := TFsGetBackgroundFlags (GetProcAddress(FModuleHandle,'FsGetBackgroundFlags'));
-  //---------------------
-  FsContentGetDefaultView := TFsContentGetDefaultView (GetProcAddress(FModuleHandle,'FsContentGetDefaultView'));
-  ContentSetDefaultParams := TContentSetDefaultParams (GetProcAddress(FModuleHandle,'FsContentSetDefaultParams'));
-  ContentGetDetectString := TFsContentGetDetectString (GetProcAddress(FModuleHandle,'FsContentGetDetectString'));
-  ContentGetSupportedField := TFsContentGetSupportedField (GetProcAddress(FModuleHandle,'FsContentGetSupportedField'));
-  ContentGetValue := TFsContentGetValue (GetProcAddress(FModuleHandle,'FsContentGetValue'));
-  ContentStopGetValue := TFsContentStopGetValue (GetProcAddress(FModuleHandle,'FsContentStopGetValue'));
-  ContentGetDefaultSortOrder := TFsContentGetDefaultSortOrder (GetProcAddress(FModuleHandle,'FsContentGetDefaultSortOrder'));
-  ContentGetSupportedFieldFlags := TFsContentGetSupportedFieldFlags (GetProcAddress(FModuleHandle,'FsContentGetSupportedFieldFlags'));
-  ContentSetValue := TFsContentSetValue (GetProcAddress(FModuleHandle,'FsContentSetValue'));
-  ContentPluginUnloading := TFsContentPluginUnloading(GetProcAddress(FModuleHandle,'FsContentPluginUnloading'));
-{ Unicode }
-  FsSetCryptCallbackW:= TFsSetCryptCallbackW(GetProcAddress(FModuleHandle,'FsSetCryptCallbackW'));
-  FsMkDirW := TFsMkDirW(GetProcAddress(FModuleHandle,'FsMkDirW'));
-  FsExecuteFileW := TFsExecuteFileW(GetProcAddress(FModuleHandle,'FsExecuteFileW'));
-  FsRenMovFileW := TFsRenMovFileW(GetProcAddress(FModuleHandle,'FsRenMovFileW'));
-  FsGetFileW := TFsGetFileW(GetProcAddress(FModuleHandle,'FsGetFileW'));
-  FsPutFileW := TFsPutFileW(GetProcAddress(FModuleHandle,'FsPutFileW'));
-  FsDeleteFileW := TFsDeleteFileW(GetProcAddress(FModuleHandle,'FsDeleteFileW'));
-  FsRemoveDirW := TFsRemoveDirW(GetProcAddress(FModuleHandle,'FsRemoveDirW'));
-  FsDisconnectW := TFsDisconnectW(GetProcAddress(FModuleHandle,'FsDisconnectW'));
-  FsSetAttrW := TFsSetAttrW (GetProcAddress(FModuleHandle,'FsSetAttrW'));
-  FsSetTimeW := TFsSetTimeW (GetProcAddress(FModuleHandle,'FsSetTimeW'));
-  FsStatusInfoW := TFsStatusInfoW(GetProcAddress(FModuleHandle,'FsStatusInfoW'));
-  FsExtractCustomIconW := TFsExtractCustomIconW(GetProcAddress(FModuleHandle,'FsExtractCustomIconW'));
-  FsGetLocalNameW := TFsGetLocalNameW(GetProcAddress(FModuleHandle,'FsGetLocalNameW'));
-  //--------------------------
-  FsContentGetDefaultViewW := TFsContentGetDefaultViewW(GetProcAddress(FModuleHandle,'FsContentGetDefaultViewW'));
-  ContentGetValueW := TFsContentGetValueW(GetProcAddress(FModuleHandle, 'FsContentGetValueW'));
-  ContentStopGetValueW := TFsContentStopGetValueW(GetProcAddress(FModuleHandle, 'FsContentStopGetValueW'));
-  ContentSetValueW := TFsContentSetValueW(GetProcAddress(FModuleHandle, 'FsContentSetValueW'));
-  { Extension API }
-  ExtensionInitialize:= TExtensionInitializeProc(GetProcAddress(FModuleHandle,'ExtensionInitialize'));
-  ExtensionFinalize:= TExtensionFinalizeProc(GetProcAddress(FModuleHandle,'ExtensionFinalize'));
-
-  VFSInit;
 end;
 
 procedure TWFXModule.UnloadModule;
+var
+  AHandle: TLibHandle;
 begin
-{$IF (not DEFINED(LINUX)) or ((FPC_VERSION > 2) or ((FPC_VERSION=2) and (FPC_RELEASE >= 5)))}
-  if FModuleHandle <> 0 then
-    FreeLibrary(FModuleHandle);
-{$ENDIF}
-  FModuleHandle := 0;
-{ Mandatory }
-  FsInit := nil;
-  FsFindFirst := nil;
-  FsFindNext := nil;
-  FsFindClose := nil;
-{ Optional }
-  FsSetCryptCallback := nil;
-  FsGetDefRootName := nil;
-  FsGetFile := nil;
-  FsPutFile := nil;
-  FsDeleteFile := nil;
-  FsRemoveDir := nil;
-  FsExecuteFile := nil;
-  FsMkDir := nil;
-  FsStatusInfo := nil;
-  FsSetDefaultParams:=nil;
-  //---------------------
-  FsSetAttr := nil;
-  FsSetTime := nil;
-  FsExtractCustomIcon := nil;
-  FsRenMovFile := nil;
-  FsDisconnect := nil;
-  FsGetPreviewBitmap := nil;
-  FsLinksToLocalFiles := nil;
-  FsGetLocalName := nil;
-  //---------------------
-  FsGetBackgroundFlags := nil;
-  //---------------------
-  FsContentGetDefaultView := nil;
-  ContentGetDetectString := nil;
-  ContentGetSupportedField := nil;
-  ContentGetValue := nil;
-  ContentSetDefaultParams := nil;
-  ContentStopGetValue := nil;
-  ContentGetDefaultSortOrder := nil;
-  ContentGetSupportedFieldFlags := nil;
-  ContentSetValue := nil;
-  ContentPluginUnloading := nil;
-{ Unicode }
-  FsInitW := nil;
-  FsFindFirstW := nil;
-  FsFindNextW := nil;
-  //---------------------
-  FsSetCryptCallbackW:= nil;
-  FsMkDirW := nil;
-  FsExecuteFileW := nil;
-  FsRenMovFileW := nil;
-  FsGetFileW := nil;
-  FsPutFileW := nil;
-  FsDeleteFileW := nil;
-  FsRemoveDirW := nil;
-  FsDisconnectW := nil;
-  FsSetAttrW := nil;
-  FsSetTimeW := nil;
-  FsStatusInfoW := nil;
-  FsExtractCustomIconW := nil;
-  FsGetLocalNameW := nil;
-  //---------------------
-  FsContentGetDefaultViewW := nil;
-  ContentGetValueW := nil;
-  ContentStopGetValueW := nil;
-  ContentSetValueW := nil;
-  // Extension API
-  ExtensionInitialize:= nil;
-  ExtensionFinalize:= nil;
+  EnterCriticalSection(FMutex);
+  try
+    if FModuleHandle <> NilHandle then
+    begin
+      AHandle:= FModuleHandle;
+      FModuleHandle := NilHandle;
+      FreeLibrary(AHandle);
+    end;
+
+  { Mandatory }
+    FsInit := nil;
+    FsFindFirst := nil;
+    FsFindNext := nil;
+    FsFindClose := nil;
+  { Optional }
+    FsSetCryptCallback := nil;
+    FsGetDefRootName := nil;
+    FsGetFile := nil;
+    FsPutFile := nil;
+    FsDeleteFile := nil;
+    FsRemoveDir := nil;
+    FsExecuteFile := nil;
+    FsMkDir := nil;
+    FsStatusInfo := nil;
+    FsSetDefaultParams:=nil;
+    //---------------------
+    FsSetAttr := nil;
+    FsSetTime := nil;
+    FsExtractCustomIcon := nil;
+    FsRenMovFile := nil;
+    FsDisconnect := nil;
+    FsGetPreviewBitmap := nil;
+    FsLinksToLocalFiles := nil;
+    FsGetLocalName := nil;
+    //---------------------
+    FsGetBackgroundFlags := nil;
+    //---------------------
+    FsContentGetDefaultView := nil;
+    ContentGetDetectString := nil;
+    ContentGetSupportedField := nil;
+    ContentGetValue := nil;
+    ContentSetDefaultParams := nil;
+    ContentStopGetValue := nil;
+    ContentGetDefaultSortOrder := nil;
+    ContentGetSupportedFieldFlags := nil;
+    ContentSetValue := nil;
+    ContentPluginUnloading := nil;
+  { Unicode }
+    FsInitW := nil;
+    FsFindFirstW := nil;
+    FsFindNextW := nil;
+    //---------------------
+    FsSetCryptCallbackW:= nil;
+    FsMkDirW := nil;
+    FsExecuteFileW := nil;
+    FsRenMovFileW := nil;
+    FsGetFileW := nil;
+    FsPutFileW := nil;
+    FsDeleteFileW := nil;
+    FsRemoveDirW := nil;
+    FsDisconnectW := nil;
+    FsSetAttrW := nil;
+    FsSetTimeW := nil;
+    FsStatusInfoW := nil;
+    FsExtractCustomIconW := nil;
+    FsGetLocalNameW := nil;
+    //---------------------
+    FsContentGetDefaultViewW := nil;
+    ContentGetValueW := nil;
+    ContentStopGetValueW := nil;
+    ContentSetValueW := nil;
+    // Extension API
+    ExtensionInitialize:= nil;
+    ExtensionFinalize:= nil;
+  finally
+    LeaveCriticalSection(FMutex);
+  end;
 end;
 
 procedure TWFXModule.VFSInit;

@@ -167,7 +167,7 @@ type
          ContentEditValue
          ContentSendStateInformation}
     //------------------------------------------------------
-    property ModuleHandle: TLibHandle read FModuleHandle write FModuleHandle;
+    property ModuleHandle: TLibHandle read FModuleHandle;
     property Force: Boolean read FForce write FForce;
     //---------------------
   end;
@@ -593,7 +593,7 @@ end;
 
 function TPluginWDX.IsLoaded: Boolean;
 begin
-  Result := FModuleHandle <> 0;
+  Result := FModuleHandle <> NilHandle;
 end;
 
 function TPluginWDX.GetADetectStr: String;
@@ -627,34 +627,43 @@ begin
 end;
 
 function TPluginWDX.LoadModule: Boolean;
+var
+  AHandle: TLibHandle;
 begin
-  FModuleHandle := mbLoadLibrary(mbExpandFileName(Self.FileName));
-  Result := (FModuleHandle <> 0);
-  if FModuleHandle = 0 then
-    exit;
-  { Mandatory }
-  ContentGetSupportedField := TContentGetSupportedField(GetProcAddress(FModuleHandle, 'ContentGetSupportedField'));
-  ContentGetValue := TContentGetValue(GetProcAddress(FModuleHandle, 'ContentGetValue'));
-  { Optional (must NOT be implemented if unsupported!) }
-  ContentGetDetectString := TContentGetDetectString(GetProcAddress(FModuleHandle, 'ContentGetDetectString'));
-  ContentSetDefaultParams := TContentSetDefaultParams(GetProcAddress(FModuleHandle, 'ContentSetDefaultParams'));
-  ContentStopGetValue := TContentStopGetValue(GetProcAddress(FModuleHandle, 'ContentStopGetValue'));
-  ContentGetDefaultSortOrder := TContentGetDefaultSortOrder(GetProcAddress(FModuleHandle, 'ContentGetDefaultSortOrder'));
-  ContentPluginUnloading := TContentPluginUnloading(GetProcAddress(FModuleHandle, 'ContentPluginUnloading'));
-  ContentGetSupportedFieldFlags := TContentGetSupportedFieldFlags(GetProcAddress(FModuleHandle, 'ContentGetSupportedFieldFlags'));
-  ContentSetValue := TContentSetValue(GetProcAddress(FModuleHandle, 'ContentSetValue'));
-  ContentEditValue := TContentEditValue(GetProcAddress(FModuleHandle, 'ContentEditValue'));
-  ContentSendStateInformation := TContentSendStateInformation(GetProcAddress(FModuleHandle, 'ContentSendStateInformation'));
-  { Unicode }
-  ContentGetValueW := TContentGetValueW(GetProcAddress(FModuleHandle, 'ContentGetValueW'));
-  ContentStopGetValueW := TContentStopGetValueW(GetProcAddress(FModuleHandle, 'ContentStopGetValueW'));
-  ContentSetValueW := TContentSetValueW(GetProcAddress(FModuleHandle, 'ContentSetValueW'));
-  ContentSendStateInformationW := TContentSendStateInformationW(GetProcAddress(FModuleHandle, 'ContentSendStateInformationW'));
+  EnterCriticalSection(FMutex);
+  try
+    AHandle := mbLoadLibrary(mbExpandFileName(Self.FileName));
+    Result := (AHandle <> NilHandle);
+    if not Result then Exit;
 
-  CallContentSetDefaultParams;
-  CallContentGetSupportedField;
-  if Length(Self.DetectStr) = 0 then
-    Self.DetectStr := CallContentGetDetectString;
+    { Mandatory }
+    ContentGetSupportedField := TContentGetSupportedField(GetProcAddress(AHandle, 'ContentGetSupportedField'));
+    ContentGetValue := TContentGetValue(GetProcAddress(AHandle, 'ContentGetValue'));
+    { Optional (must NOT be implemented if unsupported!) }
+    ContentGetDetectString := TContentGetDetectString(GetProcAddress(AHandle, 'ContentGetDetectString'));
+    ContentSetDefaultParams := TContentSetDefaultParams(GetProcAddress(AHandle, 'ContentSetDefaultParams'));
+    ContentStopGetValue := TContentStopGetValue(GetProcAddress(AHandle, 'ContentStopGetValue'));
+    ContentGetDefaultSortOrder := TContentGetDefaultSortOrder(GetProcAddress(AHandle, 'ContentGetDefaultSortOrder'));
+    ContentPluginUnloading := TContentPluginUnloading(GetProcAddress(AHandle, 'ContentPluginUnloading'));
+    ContentGetSupportedFieldFlags := TContentGetSupportedFieldFlags(GetProcAddress(AHandle, 'ContentGetSupportedFieldFlags'));
+    ContentSetValue := TContentSetValue(GetProcAddress(AHandle, 'ContentSetValue'));
+    ContentEditValue := TContentEditValue(GetProcAddress(AHandle, 'ContentEditValue'));
+    ContentSendStateInformation := TContentSendStateInformation(GetProcAddress(AHandle, 'ContentSendStateInformation'));
+    { Unicode }
+    ContentGetValueW := TContentGetValueW(GetProcAddress(AHandle, 'ContentGetValueW'));
+    ContentStopGetValueW := TContentStopGetValueW(GetProcAddress(AHandle, 'ContentStopGetValueW'));
+    ContentSetValueW := TContentSetValueW(GetProcAddress(AHandle, 'ContentSetValueW'));
+    ContentSendStateInformationW := TContentSendStateInformationW(GetProcAddress(AHandle, 'ContentSendStateInformationW'));
+
+    CallContentSetDefaultParams;
+    CallContentGetSupportedField;
+    if Length(Self.DetectStr) = 0 then
+      Self.DetectStr := CallContentGetDetectString;
+
+    FModuleHandle := AHandle;
+  finally
+    LeaveCriticalSection(FMutex);
+  end;
 end;
 
 
@@ -696,34 +705,42 @@ begin
 end;
 
 procedure TPluginWDX.UnloadModule;
+var
+  AHandle: TLibHandle;
 begin
-  if assigned(ContentPluginUnloading) then
-    ContentPluginUnloading;
+  EnterCriticalSection(FMutex);
+  try
+    if Assigned(ContentPluginUnloading) then
+      ContentPluginUnloading;
 
-{$IF (not DEFINED(LINUX)) or ((FPC_VERSION > 2) or ((FPC_VERSION=2) and (FPC_RELEASE >= 5)))}
-  if FModuleHandle <> 0 then
-    FreeLibrary(FModuleHandle);
-{$ENDIF}
-  FModuleHandle := 0;
+    if FModuleHandle <> NilHandle then
+    begin
+      AHandle:= FModuleHandle;
+      FModuleHandle := NilHandle;
+      FreeLibrary(AHandle);
+    end;
 
-  { Mandatory }
-  ContentGetSupportedField := nil;
-  ContentGetValue := nil;
-  { Optional (must NOT be implemented if unsupported!) }
-  ContentGetDetectString := nil;
-  ContentSetDefaultParams := nil;
-  ContentStopGetValue := nil;
-  ContentGetDefaultSortOrder := nil;
-  ContentPluginUnloading := nil;
-  ContentGetSupportedFieldFlags := nil;
-  ContentSetValue := nil;
-  ContentEditValue := nil;
-  ContentSendStateInformation := nil;
-  { Unicode }
-  ContentGetValueW := nil;
-  ContentStopGetValueW := nil;
-  ContentSetValueW := nil;
-  ContentSendStateInformationW := nil;
+    { Mandatory }
+    ContentGetSupportedField := nil;
+    ContentGetValue := nil;
+    { Optional (must NOT be implemented if unsupported!) }
+    ContentGetDetectString := nil;
+    ContentSetDefaultParams := nil;
+    ContentStopGetValue := nil;
+    ContentGetDefaultSortOrder := nil;
+    ContentPluginUnloading := nil;
+    ContentGetSupportedFieldFlags := nil;
+    ContentSetValue := nil;
+    ContentEditValue := nil;
+    ContentSendStateInformation := nil;
+    { Unicode }
+    ContentGetValueW := nil;
+    ContentStopGetValueW := nil;
+    ContentSetValueW := nil;
+    ContentSendStateInformationW := nil;
+  finally
+    LeaveCriticalSection(FMutex);
+  end;
 end;
 
 procedure TPluginWDX.CallContentGetSupportedField;
