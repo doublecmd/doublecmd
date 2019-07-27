@@ -424,6 +424,9 @@ begin
   SetLength(FileTimes, Files.Count);
   for I := 0 to Files.Count - 1 do
     FileTimes[I] := mbFileAge(Files[I].FullPath);
+  // Special case for bzip2 like archivers which don't store file size
+  if Files.Count = 1 then
+    Files[0].Size  := mbFileSize(Files[0].FullPath);
   SourceFileSource := aFileSource;
   TargetFileSource := aCopyOutOperation.FileSource as IFileSource;
   FModal := Modal;
