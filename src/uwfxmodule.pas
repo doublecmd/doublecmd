@@ -467,6 +467,7 @@ var
 begin
   EnterCriticalSection(FMutex);
   try
+    if FModuleHandle <> NilHandle then Exit(True);
     AHandle := mbLoadLibrary(mbExpandFileName(sName));
     Result := AHandle <> NilHandle;
     if not Result then Exit;
@@ -497,6 +498,7 @@ begin
       FsFindFirstW:= nil;
       FsFindNextW:= nil;
       FsFindClose:= nil;
+      FreeLibrary(AHandle);
       Exit(False);
     end;
 

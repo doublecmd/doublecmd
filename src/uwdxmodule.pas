@@ -632,6 +632,7 @@ var
 begin
   EnterCriticalSection(FMutex);
   try
+    if FModuleHandle <> NilHandle then Exit(True);
     AHandle := mbLoadLibrary(mbExpandFileName(Self.FileName));
     Result := (AHandle <> NilHandle);
     if not Result then Exit;
