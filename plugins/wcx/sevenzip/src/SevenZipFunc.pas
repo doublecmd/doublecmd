@@ -3,7 +3,7 @@
   -------------------------------------------------------------------------
   SevenZip archiver plugin
 
-  Copyright (C) 2014-2017 Alexander Koblov (alexx2000@mail.ru)
+  Copyright (C) 2014-2019 Alexander Koblov (alexx2000@mail.ru)
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -48,7 +48,7 @@ procedure ConfigurePacker(Parent: HWND; DllInstance: THandle); stdcall;
 implementation
 
 uses
-  JwaWinBase, Windows, SysUtils, Classes, JclCompression, SevenZip, SevenZipAdv,
+  JwaWinBase, Windows, SysUtils, Classes, JclCompression, SevenZip, SevenZipAdv, fpTimer,
   SevenZipDlg, SevenZipLng, SevenZipOpt, LazFileUtils, SyncObjs, LazUTF8, SevenZipCodecs;
 
 type
@@ -97,6 +97,31 @@ type
     function JclCompressionExtract(Sender: TObject; AIndex: Integer;
       var AFileName: TFileName; var Stream: TStream; var AOwnsStream: Boolean): Boolean;
   end;
+
+  { TPasswordCache }
+
+  TPasswordCache = class
+  private
+    FTimer: TFPTimer;
+    FArchiveSize: Int64;
+    FArchiveName: String;
+    FArchiveTime: Integer;
+    FMutex: TCriticalSection;
+    FArchivePassword: WideString;
+    const FInterval: Cardinal = 120000;
+  private
+    procedure ResetTimer;
+    procedure ZeroPassword;
+    procedure TimerEvent(Sender: TObject);
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function GetPassword(const Archive: String): WideString;
+    procedure SetPassword(const Archive: String; const Password: WideString);
+  end;
+
+var
+  PasswordCache: TPasswordCache;
 
 threadvar
   ProcessDataProcT: TProcessDataProcW;
@@ -149,7 +174,11 @@ begin
       try
         SetArchive(Archive);
 
+        Archive.Password:= PasswordCache.GetPassword(ArchiveName);
+
         Archive.ListFiles;
+
+        PasswordCache.SetPassword(ArchiveName, Archive.Password);
 
         Count:= Archive.ItemCount;
 
@@ -484,6 +513,8 @@ begin
   else begin
     MessageBoxW(0, PWideChar(UTF8Decode(rsSevenZipLoadError)), 'SevenZip', MB_OK or MB_ICONERROR);
   end;
+  // Create password cache object
+  PasswordCache:= TPasswordCache.Create;
 end;
 
 procedure ConfigurePacker(Parent: WcxPlugin.HWND; DllInstance: THandle); stdcall;
@@ -614,6 +645,91 @@ function TSevenZipHandle.JclCompressionExtract(Sender: TObject; AIndex: Integer;
 begin
   Result:= True;
   AFileName:= FileName[AIndex];
+end;
+
+{ TPasswordCache }
+
+procedure TPasswordCache.ResetTimer;
+begin
+  if FTimer.Interval > FInterval then
+    FTimer.Interval:= FTimer.Interval - 1
+  else
+    FTimer.Interval:= FTimer.Interval + 1;
+end;
+
+procedure TPasswordCache.ZeroPassword;
+begin
+  if (Length(FArchivePassword) > 0) then
+  begin
+    FillDWord(FArchivePassword[1], Length(FArchivePassword), 0);
+    SetLength(FArchivePassword, 0);
+  end;
+end;
+
+procedure TPasswordCache.TimerEvent(Sender: TObject);
+begin
+  FMutex.Acquire;
+  try
+    ZeroPassword;
+    FTimer.Enabled:= False;
+  finally
+    FMutex.Release;
+  end;
+end;
+
+function TPasswordCache.GetPassword(const Archive: String): WideString;
+begin
+  FMutex.Acquire;
+  try
+    if (SameText(FArchiveName, Archive)) and
+       (FArchiveSize = FileSizeUtf8(Archive)) and
+       (FArchiveTime = FileAgeUtf8(Archive)) then
+    begin
+      ResetTimer;
+      Result:= FArchivePassword
+    end
+    else begin
+      FTimer.Enabled:= False;
+      Result:= EmptyWideStr;
+      ZeroPassword;
+    end;
+  finally
+    FMutex.Release;
+  end;
+end;
+
+procedure TPasswordCache.SetPassword(const Archive: String; const Password: WideString);
+begin
+  FMutex.Acquire;
+  try
+    if (Length(Password) > 0) then
+    begin
+      FArchiveName:= Archive;
+      FArchivePassword:= Password;
+      FArchiveTime:= FileAgeUtf8(Archive);
+      FArchiveSize:= FileSizeUtf8(Archive);
+      FTimer.Enabled:= True;
+      ResetTimer;
+    end;
+  finally
+    FMutex.Release;
+  end;
+end;
+
+constructor TPasswordCache.Create;
+begin
+  FTimer:= TFPTimer.Create(nil);
+  FTimer.UseTimerThread:= True;
+  FTimer.OnTimer:= TimerEvent;
+  FTimer.Interval:= FInterval;
+  FMutex:= TCriticalSection.Create;
+end;
+
+destructor TPasswordCache.Destroy;
+begin
+  FTimer.Free;
+  FMutex.Free;
+  inherited Destroy;
 end;
 
 end.
