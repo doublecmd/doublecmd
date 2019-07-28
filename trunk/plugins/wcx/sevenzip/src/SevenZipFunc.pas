@@ -661,7 +661,7 @@ procedure TPasswordCache.ZeroPassword;
 begin
   if (Length(FArchivePassword) > 0) then
   begin
-    FillDWord(FArchivePassword[1], Length(FArchivePassword), 0);
+    FillWord(FArchivePassword[1], Length(FArchivePassword), 0);
     SetLength(FArchivePassword, 0);
   end;
 end;
