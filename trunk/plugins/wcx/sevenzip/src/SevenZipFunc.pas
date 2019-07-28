@@ -702,8 +702,9 @@ procedure TPasswordCache.SetPassword(const Archive: String; const Password: Wide
 begin
   FMutex.Acquire;
   try
-    if (Length(Password) > 0) then
-    begin
+    if (Length(Password) = 0) then
+      FArchiveName:= EmptyStr
+    else begin
       FArchiveName:= Archive;
       FArchivePassword:= Password;
       FArchiveTime:= FileAgeUtf8(Archive);
