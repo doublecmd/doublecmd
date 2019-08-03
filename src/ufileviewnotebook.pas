@@ -706,6 +706,7 @@ var
 begin
   if (Source is TFileViewNotebook) then
   begin
+    SourceNotebook := TFileViewNotebook(Source);
     ATabIndex := IndexOfPageAt(Classes.Point(X, Y));
 
     if Source = Self then
@@ -714,10 +715,9 @@ begin
       if ATabIndex <> -1 then
         Tabs.Move(FDraggedPageIndex, ATabIndex);
     end
-    else
+    else if (SourceNotebook.FDraggedPageIndex < SourceNotebook.PageCount) then
     begin
       // Move page between panels.
-      SourceNotebook := (Source as TFileViewNotebook);
       DraggedPage := SourceNotebook.Page[SourceNotebook.FDraggedPageIndex];
 
       if ATabIndex = -1 then
