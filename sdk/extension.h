@@ -54,6 +54,38 @@
 
 #define DM_USER 0x4000 /* Starting value for user defined messages */
 
+// MessageBox: To indicate the buttons displayed in the message box,
+// specify one of the following values.
+#define MB_OK               0x00000000
+#define MB_OKCANCEL         0x00000001
+#define MB_ABORTRETRYIGNORE 0x00000002
+#define MB_YESNOCANCEL      0x00000003
+#define MB_YESNO            0x00000004
+#define MB_RETRYCANCEL      0x00000005
+#define MB_ICONHAND         0x00000010
+#define MB_ICONQUESTION     0x00000020
+#define MB_ICONEXCLAMATION  0x00000030
+#define MB_ICONASTERICK     0x00000040
+#define MB_ICONWARNING      MB_ICONEXCLAMATION
+#define MB_ICONERROR        MB_ICONHAND
+#define MB_ICONSTOP         MB_ICONHAND
+#define MB_ICONINFORMATION  MB_ICONASTERICK
+// MessageBox: To indicate the default button, specify one of the following values.
+#define MB_DEFBUTTON1       0x00000000
+#define MB_DEFBUTTON2       0x00000100
+#define MB_DEFBUTTON3       0x00000200
+#define MB_DEFBUTTON4       0x00000300
+// MessageBox: Return values
+#define ID_OK     1
+#define ID_CANCEL 2
+#define ID_ABORT  3
+#define ID_RETRY  4
+#define ID_IGNORE 5
+#define ID_YES    6
+#define ID_NO     7
+#define ID_CLOSE  8
+#define ID_HELP   9
+
 /* other */
 #define EXT_MAX_PATH  16384 /* 16 Kb */
 
