@@ -75,20 +75,49 @@ procedure BitmapAlpha(var ABitmap: TBitmap; APercent: Single);
 var
   X, Y: Integer;
   Color: TFPColor;
+  Masked: Boolean;
   AImage: TLazIntfImage;
+  SrcIntfImage: TLazIntfImage;
 begin
   if ABitmap.RawImage.Description.AlphaPrec <> 0 then
   begin
-    AImage:= TLazIntfImage.Create(ABitmap.RawImage, False);
+    ABitmap.BeginUpdate;
+    try
+      AImage:= TLazIntfImage.Create(ABitmap.RawImage, False);
+      for X:= 0 to AImage.Width - 1 do
+      begin
+        for Y:= 0 to AImage.Height - 1 do
+        begin
+          Color:= AImage.Colors[X, Y];
+          Color.Alpha:= Round(Color.Alpha * APercent);
+          AImage.Colors[X, Y]:= Color;
+        end;
+      end;
+      AImage.Free;
+    finally
+      ABitmap.EndUpdate;
+    end;
+  end
+  else begin
+    Masked:= ABitmap.RawImage.Description.MaskBitsPerPixel > 0;
+    SrcIntfImage:= TLazIntfImage.Create(ABitmap.RawImage, False);
+    AImage:= TLazIntfImage.Create(ABitmap.Width, ABitmap.Height, [riqfRGB, riqfAlpha]);
+    AImage.CreateData;
     for X:= 0 to AImage.Width - 1 do
     begin
       for Y:= 0 to AImage.Height - 1 do
       begin
-        Color:= AImage.Colors[X, Y];
-        Color.Alpha:= Round(Color.Alpha * APercent);
+        Color := SrcIntfImage.Colors[X, Y];
+        if Masked and SrcIntfImage.Masked[X, Y] then
+          Color.Alpha:= Low(Color.Alpha)
+        else begin
+          Color.Alpha:= Round(High(Color.Alpha) * APercent);
+        end;
         AImage.Colors[X, Y]:= Color;
-      end;
+      end
     end;
+    SrcIntfImage.Free;
+    BitmapAssign(ABitmap, AImage);
     AImage.Free;
   end;
 end;
