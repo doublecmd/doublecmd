@@ -142,7 +142,6 @@ function mbFileExists(const FileName: String): Boolean;
 function mbFileAccess(const FileName: String; Mode: Word): Boolean;
 function mbFileGetAttr(const FileName: String): TFileAttrs; overload;
 function mbFileSetAttr(const FileName: String; Attr: TFileAttrs) : LongInt;
-function mbFileGetAttr(const FileName: String; out Attr: TSearchRec): Boolean; overload;
 {en
    If any operation in Options is performed and does not succeed it is included
    in the result set. If all performed operations succeed the function returns empty set.
@@ -906,35 +905,6 @@ end;
 {$ELSE}
 begin
   Result:= fpchmod(UTF8ToSys(FileName), Attr);
-end;
-{$ENDIF}
-
-function mbFileGetAttr(const FileName: String; out Attr: TSearchRec): Boolean;
-{$IFDEF MSWINDOWS}
-var
-  FileInfo: Windows.TWin32FileAttributeData;
-begin
-  Result:= GetFileAttributesExW(PWideChar(UTF16LongName(FileName)),
-                                GetFileExInfoStandard, @FileInfo);
-  if Result then
-  begin
-    WinToDosTime(FileInfo.ftLastWriteTime, Attr.Time);
-    Int64Rec(Attr.Size).Lo:= FileInfo.nFileSizeLow;
-    Int64Rec(Attr.Size).Hi:= FileInfo.nFileSizeHigh;
-    Attr.Attr:= FileInfo.dwFileAttributes;
-  end;
-end;
-{$ELSE}
-var
-  StatInfo: BaseUnix.Stat;
-begin
-  Result:= fpLStat(UTF8ToSys(FileName), StatInfo) >= 0;
-  if Result then
-  begin
-    Attr.Time:= StatInfo.st_mtime;
-    Attr.Size:= StatInfo.st_size;
-    Attr.Attr:= StatInfo.st_mode;
-  end;
 end;
 {$ENDIF}
 
