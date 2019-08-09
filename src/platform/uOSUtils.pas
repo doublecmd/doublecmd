@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLType, uDrive, DCBasicTypes
+    SysUtils, Classes, LCLType, uDrive, DCBasicTypes, uFindEx
     {$IF DEFINED(UNIX)}
     , DCFileAttributes
       {$IFDEF DARWIN}
@@ -143,6 +143,7 @@ function mbReadAllLinks(const PathToLink : String) : String;
    If PathToLink does not point to a link then PathToLink value is returned.
 }
 function mbCheckReadLinks(const PathToLink : String) : String;
+function mbFileGetAttr(const FileName: String; out Attr: TSearchRecEx): Boolean; overload;
 {en
    Get the user home directory
    @returns(The user home directory)
@@ -649,6 +650,35 @@ begin
   else
     Result := PathToLink;
 end;
+
+function mbFileGetAttr(const FileName: String; out Attr: TSearchRecEx): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  FileInfo: Windows.TWin32FileAttributeData;
+begin
+  Result:= GetFileAttributesExW(PWideChar(UTF16LongName(FileName)),
+                                GetFileExInfoStandard, @FileInfo);
+  if Result then
+  begin
+    Attr.Time:= TWinFileTime(FileInfo.ftLastWriteTime);
+    Int64Rec(Attr.Size).Lo:= FileInfo.nFileSizeLow;
+    Int64Rec(Attr.Size).Hi:= FileInfo.nFileSizeHigh;
+    Attr.Attr:= FileInfo.dwFileAttributes;
+  end;
+end;
+{$ELSE}
+var
+  StatInfo: BaseUnix.Stat;
+begin
+  Result:= fpLStat(UTF8ToSys(FileName), StatInfo) >= 0;
+  if Result then
+  begin
+    Attr.Time:= StatInfo.st_mtime;
+    Attr.Size:= StatInfo.st_size;
+    Attr.Attr:= StatInfo.st_mode;
+  end;
+end;
+{$ENDIF}
 
 function GetHomeDir : String;
 {$IFDEF MSWINDOWS}
