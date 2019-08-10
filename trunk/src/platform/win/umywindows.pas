@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific WINDOWS functions.
 
-    Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -152,6 +152,8 @@ procedure CreateShortcut(const Target, Shortcut: String);
 function ExtractFileAttributes(const FindData: TWin32FindDataW): DWORD;
 
 procedure InitErrorMode;
+
+procedure UpdateEnvironment;
 
 procedure FixCommandLineToUTF8;
 
@@ -938,6 +940,39 @@ end;
 procedure InitErrorMode;
 begin
   SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
+end;
+
+procedure UpdateEnvironment;
+var
+  dwSize: DWORD;
+  ASysPath: UnicodeString;
+  AUserPath: UnicodeString;
+  APath: UnicodeString = '';
+begin
+  // System environment
+  if RegReadKey(HKEY_LOCAL_MACHINE, 'System\CurrentControlSet\Control\Session Manager\Environment', 'Path', ASysPath) then
+  begin
+    APath := ASysPath;
+    if (Length(APath) > 0) and (APath[Length(APath)] <> PathSeparator) then APath += PathSeparator;
+  end;
+  // User environment
+  if RegReadKey(HKEY_CURRENT_USER, 'Environment', 'Path', AUserPath) then
+  begin
+    APath := APath + AUserPath;
+    if (Length(APath) > 0) and (APath[Length(APath)] <> PathSeparator) then APath += PathSeparator;
+  end;
+  // Update path environment variable
+  if Length(APath) > 0 then
+  begin
+    SetLength(ASysPath, MaxSmallInt + 1);
+    dwSize:= ExpandEnvironmentStringsW(PWideChar(APath), PWideChar(ASysPath), MaxSmallInt);
+    if (dwSize = 0) or (dwSize > MaxSmallInt) then
+      ASysPath:= APath
+    else begin
+      SetLength(ASysPath, dwSize - 1);
+    end;
+    SetEnvironmentVariableW('Path', PWideChar(ASysPath));
+  end;
 end;
 
 procedure FixCommandLineToUTF8;
