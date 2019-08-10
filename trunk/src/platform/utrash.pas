@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Some functions for working with trash
 
-    Copyright (C) 2009-2013  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2019 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,22 +16,25 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uTrash;
 
 {$mode objfpc}{$H+}
 
+{$IF DEFINED(DARWIN)}
+{$modeswitch objectivec1}
+{$ENDIF}
+
 interface
 
 uses
-  LazUtf8,Classes, SysUtils; 
+  LazUtf8, Classes, SysUtils;
 
-// 30.04.2009 - this function move files and folders to trash can.
+// this function move files and folders to trash can.
 function mbDeleteToTrash(const FileName: String): Boolean;
-// 14.05.2009 - this funсtion checks trash availability.
+// this funсtion checks trash availability.
 function mbCheckTrash(sPath: String): Boolean;
 
 var
@@ -46,11 +49,25 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   BaseUnix, uMyUnix, DCStrUtils, uOSUtils, FileUtil
     {$IFDEF DARWIN}
-    , MacOSAll, DynLibs, StrUtils
+    , MacOSAll, DynLibs, CocoaAll, uMyDarwin
     {$ELSE}
     , uFileProcs, uClipboard, uXdg
     {$ENDIF}
-  {$ENDIF};
+  {$ENDIF}
+  ;
+
+{$IF DEFINED(DARWIN)}
+type
+  NSFileManager = objcclass external (NSObject)
+  public
+    class function defaultManager: NSFileManager; message 'defaultManager';
+    function trashItemAtURL_resultingItemURL_error(url: NSURL; outResultingURL: NSURLPtr; error: NSErrorPtr): Boolean; message 'trashItemAtURL:resultingItemURL:error:';
+  end;
+
+var
+  CoreLib: TLibHandle;
+  FSMoveObjectToTrash: function( const (*var*) source: FSRef; var target: FSRef; options: OptionBits ): OSStatus; stdcall;
+{$ENDIF}
 
 function mbDeleteToTrash(const FileName: String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
@@ -78,58 +95,44 @@ begin
   Result := (SHFileOperationW(@FileOp) = 0) and (not FileOp.fAnyOperationsAborted);
 end;
 {$ELSEIF DEFINED(DARWIN)}
-type
-  TFSMoveObjectToTrashSync = function( const (*var*) source: FSRef; var target: FSRef; options: OptionBits ): OSStatus; stdcall;
 var
-  FSMoveObjectToTrash: TFSMoveObjectToTrashSync;
-  CarbonLib: THandle;
   theSourceFSRef,
   theTargetFSRef: FSRef;
-
   newFileName: String;
-  fullFileName: String;
   trashDir: String;
-  dirList: array[0..100] of PChar;
 begin
-  Result := False;
-
-  CarbonLib := LoadLibrary('Carbon.framework/Versions/A/Carbon');
-  if CarbonLib <> NilHandle then
+  // Mac OS X >= 10.8
+  if (NSAppKitVersionNumber >= 1187) then
   begin
-    try
-      FSMoveObjectToTrash := TFSMoveObjectToTrashSync(GetProcedureAddress(CarbonLib, 'FSMoveObjectToTrashSync'));
-      if Assigned(FSMoveObjectToTrash) then
-      begin
-        if (FSPathMakeRefWithOptions(PAnsiChar(FileName), kFSPathMakeRefDoNotFollowLeafSymlink, theSourceFSRef, nil) = noErr) then
-        begin
-          Result:= (FSMoveObjectToTrash(theSourceFSRef, theTargetFSRef, kFSFileOperationDefaultOptions) = noErr);
-          Exit;
-        end;
-      end; { if }
+    Result:= NSFileManager.defaultManager.trashItemAtURL_resultingItemURL_error(NSURL(NSURL.fileURLWithPath(StringToNSString(FileName))), nil, nil);
+    Exit;
+  end;
 
-    finally
-      UnloadLibrary(CarbonLib);
-    end; { try - finally }
+  // Mac OS X >= 10.5
+  if Assigned(FSMoveObjectToTrash) then
+  begin
+    if (FSPathMakeRefWithOptions(PAnsiChar(FileName), kFSPathMakeRefDoNotFollowLeafSymlink, theSourceFSRef, nil) = noErr) then
+    begin
+      Result:= (FSMoveObjectToTrash(theSourceFSRef, theTargetFSRef, kFSFileOperationDefaultOptions) = noErr);
+      Exit;
+    end;
   end; { if }
 
-{
+ {
   MacOSX 10.4 and below compatibility mode:
-  - If file is in base drive, it gets moved to $HOME/.Trash
-  - If file is in some other local drive, it gets moved to /Volumes/.Trashes/uid/
+  - If file is in base drive, it gets moved to $HOME/.Trash/
+  - If file is in some other local drive, it gets moved to /Volumes/$(Volume)/.Trashes/$UID/
   - If file is in network, it can't be moved to trash
   Trash folders are automatically created by OS at login and deleted if empty at logout.
   If a file with same name exists in trash folder, time is appended to filename
 }
-  fullFileName := ExpandFileName(FileName);
-  if AnsiStartsStr('/Volumes/', fullFileName) then
-  begin
+  trashDir := FindMountPointPath(FileName);
+  if (trashDir = PathDelim) then
+    trashDir := GetHomeDir + '/.Trash'
+  else begin
     // file is not located at base drive
-    FillChar(dirList, SizeOf(dirList), 0);
-    SysUtils.GetDirs(fullFileName, dirList);
-    trashDir := Format('/Volumes/%s/.Trashes/%d/', [StrPas(dirList[1]), FpGetuid]);
-  end { if }
-  else
-    trashDir := GetHomeDir + '/.Trash/';
+    trashDir += '.Trashes/' + IntToStr(fpGetUID);
+  end; { if }
 
   // check if trash folder exists (e.g. network drives don't have one)
   if not mbDirectoryExists(trashDir) then
@@ -138,7 +141,7 @@ begin
     Exit;
   end; { if }
 
-  newFileName := trashDir + ExtractFileName(FileName);
+  newFileName := trashDir + PathDelim + ExtractFileName(FileName);
   if mbFileSystemEntryExists(newFileName) then
     newFileName := Format('%s %s', [newFileName, FormatDateTime('hh-nn-ss', Time)]);
 
@@ -312,6 +315,12 @@ end;
 
 initialization
   FileTrashUtf8:= @mbDeleteToTrash;
+{$IF DEFINED(DARWIN)}
+  CoreLib := LoadLibrary('CoreServices.framework/CoreServices');
+  if CoreLib <> NilHandle then begin
+    Pointer(FSMoveObjectToTrash) := GetProcedureAddress(CoreLib, 'FSMoveObjectToTrashSync');
+  end;
+{$ENDIF}
 
 end.
 
