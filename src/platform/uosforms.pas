@@ -129,7 +129,7 @@ uses
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
   , uWinNetFileSource, uVfsModule, uLng, uMyWindows, DCStrUtils
   , uListGetPreviewBitmap, uThumbnailProvider, uDCReadSVG, uFileSourceUtil
-  , Dialogs, Clipbrd, uShowMsg
+  , Dialogs, Clipbrd, uShowMsg, uDebug, JwaDbt
   {$ENDIF}
   {$IFDEF UNIX}
   , BaseUnix, fFileProperties, uJpegThumb
@@ -374,6 +374,27 @@ var
   ShellContextMenu : TShellContextMenu = nil;
 
 {$IFDEF MSWINDOWS}
+
+var
+  OldWProc: WNDPROC;
+
+function MyWndProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
+begin
+  if (uiMsg = WM_SETTINGCHANGE) and (lParam <> 0) and (StrComp('Environment', {%H-}PAnsiChar(lParam)) = 0) then
+  begin
+    UpdateEnvironment;
+    DCDebug('WM_SETTINGCHANGE:Environment');
+  end;
+
+  if (uiMsg = WM_DEVICECHANGE) and (wParam = DBT_DEVNODES_CHANGED) and (lParam = 0) then
+  begin
+    Screen.UpdateMonitors; // Refresh monitor list
+    DCDebug('WM_DEVICECHANGE:DBT_DEVNODES_CHANGED');
+  end;
+
+  Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
+end;
+
 procedure ActivateHandler(Self, Sender: TObject);
 var
   I: Integer = 0;
@@ -534,12 +555,15 @@ begin
   // Disable application button on taskbar
   with Widgetset do
   SetWindowLong(AppHandle, GWL_EXSTYLE, GetWindowLong(AppHandle, GWL_EXSTYLE) or WS_EX_TOOLWINDOW);
-  // Emulate Total Commander window
-  CreateTotalCommanderWindow(MainForm.Handle);
   // Register network file source
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
   if (Win32MajorVersion > 5) and IsUserAdmin then // if run under administrator
     MainForm.Caption:= MainForm.Caption + ' - Administrator';
+
+  // Add main window message handler
+  {$PUSH}{$HINTS OFF}
+  OldWProc := WNDPROC(SetWindowLongPtr(Application.MainForm.Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
+  {$POP}
 
   with frmMain do
   begin

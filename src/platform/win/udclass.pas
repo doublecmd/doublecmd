@@ -30,38 +30,10 @@ implementation
 
 uses
   Classes, SysUtils, Win32Int, WSLCLClasses, Forms, Windows, Win32Proc,
-  Controls, WSForms, Win32WSForms, LCLType, fMain;
+  Controls, LCLType, fMain, Win32WSControls, uImport;
 
 const
-  ClassNameW: UnicodeString = 'DClass'#0;
-
-type
-
-  { TWin32WSCustomFormEx }
-
-  TWin32WSCustomFormEx = class(TWin32WSCustomForm)
-  published
-    class function CreateHandle(const AWinControl: TWinControl;
-          const AParams: TCreateParams): HWND; override;
-  end;
-
-{ TWin32WSCustomFormEx }
-
-class function TWin32WSCustomFormEx.CreateHandle(const AWinControl: TWinControl;
-                                                 const AParams: TCreateParams): HWND;
-var
-  AClass: String;
-  AMainForm: Boolean;
-begin
-  AMainForm := AWinControl is TfrmMain;
-  if AMainForm then
-  begin
-    AClass := ClsName;
-    ClsName := String(ClassNameW);
-  end;
-  Result := inherited CreateHandle(AWinControl, AParams);
-  if AMainForm then ClsName := AClass;
-end;
+  ClassNameW: PWideChar = 'TTOTAL_CMD'; // for compatibility with plugins
 
 function WinRegister: Boolean;
 var
@@ -77,17 +49,79 @@ begin
     if hIcon = 0 then
      hIcon := Windows.LoadIcon(0, IDI_APPLICATION);
     hCursor := Windows.LoadCursor(0, IDC_ARROW);
-    LPSzClassName := PWideChar(ClassNameW);
+    LPSzClassName := ClassNameW;
   end;
   Result := Windows.RegisterClassW(@WindowClassW) <> 0;
 end;
 
+var
+  __GetProp: function(hWnd: HWND; lpString: LPCSTR): HANDLE; stdcall;
+  __SetProp: function(hWnd: HWND; lpString: LPCSTR; hData: HANDLE): WINBOOL; stdcall;
+  __CreateWindowExW: function(dwExStyle: DWORD; lpClassName: LPCWSTR; lpWindowName: LPCWSTR; dwStyle: DWORD; X: longint; Y: longint; nWidth: longint; nHeight: longint; hWndParent: HWND; hMenu: HMENU; hInstance: HINST; lpParam: LPVOID): HWND; stdcall;
+
+function _GetProp(hWnd: HWND; lpString: LPCSTR): HANDLE; stdcall;
+var
+  Atom: UIntPtr absolute lpString;
+begin
+  if (Atom > MAXWORD) and (lpString = 'WinControl') then
+    Result:= __GetProp(hWnd, 'WinControlDC')
+  else
+    Result:= __GetProp(hWnd, lpString);
+end;
+
+function _SetProp(hWnd: HWND; lpString: LPCSTR; hData: HANDLE): WINBOOL; stdcall;
+var
+  Atom: UIntPtr absolute lpString;
+begin
+  if (Atom > MAXWORD) and (lpString = 'WinControl') then
+    Result:= __SetProp(hWnd, 'WinControlDC', hData)
+  else
+    Result:= __SetProp(hWnd, lpString, hData);
+end;
+
+function _CreateWindowExW(dwExStyle: DWORD; lpClassName: LPCWSTR; lpWindowName: LPCWSTR; dwStyle: DWORD; X: longint; Y: longint; nWidth: longint; nHeight: longint; hWndParent: HWND; hMenu: HMENU; hInstance: HINST; lpParam: LPVOID): HWND; stdcall;
+var
+  AParams: PNCCreateParams absolute lpParam;
+begin
+  if (hWndParent = 0) and Assigned(AParams) and (AParams^.WinControl is TfrmMain) then lpClassName:= ClassNameW;
+  Result:= __CreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+end;
+
 procedure Initialize;
+var
+  hModule: THandle;
+  pLibrary, pFunction: PPointer;
 begin
   WinRegister;
-  // Replace TCustomForm widgetset class
-  RegisterCustomForm;
-  RegisterWSComponent(TCustomForm, TWin32WSCustomFormEx);
+
+  pLibrary:= FindImportLibrary(MainInstance, user32);
+  if Assigned(pLibrary) then
+  begin
+    hModule:= GetModuleHandle(user32);
+
+    pFunction:= FindImportFunction(pLibrary, GetProcAddress(hModule, 'CreateWindowExW'));
+    if Assigned(pFunction) then
+    begin
+      Pointer(__CreateWindowExW):= ReplaceImportFunction(pFunction, @_CreateWindowExW);
+    end;
+
+    // Prevent plugins written in Lazarus from crashing by changing the name for
+    // GetProp/SetProp to store control data from 'WinControl' to 'WinControlDC'
+
+    pFunction:= FindImportFunction(pLibrary, GetProcAddress(hModule, 'GetPropA'));
+    if Assigned(pFunction) then
+    begin
+      Pointer(__GetProp):= ReplaceImportFunction(pFunction, @_GetProp);
+    end;
+
+    pFunction:= FindImportFunction(pLibrary, GetProcAddress(hModule, 'SetPropA'));
+    if Assigned(pFunction) then
+    begin
+      Pointer(__SetProp):= ReplaceImportFunction(pFunction, @_SetProp);
+    end;
+  end;
+  Windows.GlobalDeleteAtom(WindowInfoAtom);
+  WindowInfoAtom := Windows.GlobalAddAtom('WindowInfoDC');
 end;
 
 initialization
