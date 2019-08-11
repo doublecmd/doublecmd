@@ -266,7 +266,6 @@ var
 var
   lua_pushnil:  procedure (L : Plua_State);  cdecl;
   lua_pushnumber:  procedure (L : Plua_State; n : lua_Number);  cdecl;
-  lua_pushinteger:  procedure (L : Plua_State; n : lua_Integer);  cdecl;
   lua_pushlstring:  procedure (L : Plua_State; const s : PChar; ls : size_t);  cdecl;
   lua_pushvfstring:  function  (L : Plua_State; const fmt : PChar; argp : Pointer) : PChar;  cdecl;
   lua_pushfstring:  function  (L : Plua_State; const fmt : PChar) : PChar; varargs;  cdecl;
@@ -275,6 +274,9 @@ var
   lua_pushlightuserdata:  procedure (L : Plua_State; p : Pointer);  cdecl;
   lua_pushthread:  function  (L : Plua_state) : Cardinal;  cdecl;
 
+  procedure lua_pushinteger(L : Plua_State; n : lua_Integer);
+
+var
 (*
 ** get functions (Lua -> stack)
 *)
@@ -520,8 +522,6 @@ var
   luaL_optlstring:  function (L : Plua_State; numArg : Integer; const def: PChar; ls: Psize_t) : PChar;  cdecl;
   luaL_checknumber:  function (L : Plua_State; numArg : Integer) : lua_Number;  cdecl;
   luaL_optnumber:  function (L : Plua_State; nArg : Integer; def : lua_Number) : lua_Number;  cdecl;
-  luaL_checkinteger:  function (L : Plua_State; numArg : Integer) : lua_Integer; cdecl;
-  luaL_optinteger:  function (L : Plua_State; nArg : Integer; def : lua_Integer) : lua_Integer;  cdecl;
   luaL_checkstack:  procedure (L : Plua_State; sz : Integer; const msg : PChar); cdecl;
   luaL_checktype:  procedure (L : Plua_State; narg, t : Integer);  cdecl;
   luaL_checkany:  procedure (L : Plua_State; narg : Integer);  cdecl;
@@ -541,6 +541,8 @@ var
   luaL_execresult: function (L: Plua_State; stat: Integer): Integer; cdecl;
 
 function luaL_loadfile(L: Plua_State; const filename: PAnsiChar): Integer;
+function luaL_checkinteger(L : Plua_State; numArg : Integer) : lua_Integer;
+function luaL_optinteger(L : Plua_State; nArg : Integer; def : lua_Integer) : lua_Integer;
 
 (*
 ** ===============================================================
@@ -667,13 +669,26 @@ var
   luaL_prepbuffsize: function (B: PluaL_Buffer; sz: size_t): PAnsiChar; cdecl;
   lua_getglobal_: function (L: Plua_State; const name: PAnsiChar): Integer; cdecl;
   lua_tonumber_:    function (L : Plua_State; idx : Integer) : lua_Number;  cdecl;
-  lua_tointeger_:   function (L : Plua_State; idx : Integer) : lua_Integer;  cdecl;
   luaL_loadfile_: function (L: Plua_State; const filename: PAnsiChar): Integer; cdecl;
   lua_tonumberx: function(L: Plua_State; idx: Integer; isnum: PLongBool): lua_Number; cdecl;
   luaL_loadfilex_: function (L: Plua_State; const filename, mode: PAnsiChar): Integer; cdecl;
   lua_pcall_: function (L : Plua_State; nargs, nresults, errfunc : Integer) : Integer; cdecl;
-  lua_tointegerx: function(L: Plua_State; idx: Integer; isnum: PLongBool): lua_Integer; cdecl;
   lua_pcallk: function(L: Plua_State; nargs, nresults, errfunc: Integer; ctx: lua_KContext; k: lua_KFunction): Integer; cdecl;
+
+var
+  lua_tointeger_: function (L : Plua_State; idx : Integer) : IntPtr;  cdecl;
+
+  lua_tointegerx64:  function(L: Plua_State; idx: Integer; isnum: PLongBool): Int64; cdecl;
+  lua_tointegerxPtr: function(L: Plua_State; idx: Integer; isnum: PLongBool): IntPtr; cdecl;
+
+  lua_pushinteger64:  procedure (L : Plua_State; n : Int64);  cdecl;
+  lua_pushintegerPtr: procedure (L : Plua_State; n : IntPtr);  cdecl;
+
+  luaL_checkinteger64:  function (L : Plua_State; numArg : Integer) : Int64; cdecl;
+  luaL_checkintegerPtr: function (L : Plua_State; numArg : Integer) : IntPtr; cdecl;
+
+  luaL_optinteger64:  function (L : Plua_State; nArg : Integer; def : Int64) : Int64;  cdecl;
+  luaL_optintegerPtr: function (L : Plua_State; nArg : Integer; def : IntPtr) : IntPtr;  cdecl;
 
 procedure UnloadLuaLib;
 begin
@@ -731,8 +746,6 @@ begin
   @luaL_optlstring := GetProcAddress(LuaLibD, 'luaL_optlstring');
   @luaL_checknumber := GetProcAddress(LuaLibD, 'luaL_checknumber');
   @luaL_optnumber := GetProcAddress(LuaLibD, 'luaL_optnumber');
-  @luaL_checkinteger := GetProcAddress(LuaLibD, 'luaL_checkinteger');
-  @luaL_optinteger := GetProcAddress(LuaLibD, 'luaL_optinteger');
   @luaL_checkstack := GetProcAddress(LuaLibD, 'luaL_checkstack');
   @luaL_checktype := GetProcAddress(LuaLibD, 'luaL_checktype');
   @luaL_checkany := GetProcAddress(LuaLibD, 'luaL_checkany');
@@ -799,7 +812,6 @@ begin
   @lua_getfenv := GetProcAddress(LuaLibD, 'lua_getfenv');
   @lua_pushnil := GetProcAddress(LuaLibD, 'lua_pushnil');
   @lua_pushnumber := GetProcAddress(LuaLibD, 'lua_pushnumber');
-  @lua_pushinteger := GetProcAddress(LuaLibD, 'lua_pushinteger');
   @lua_pushlstring := GetProcAddress(LuaLibD, 'lua_pushlstring');
   @lua_pushstring_ := GetProcAddress(LuaLibD, 'lua_pushstring');
   @lua_pushvfstring := GetProcAddress(LuaLibD, 'lua_pushvfstring');
@@ -843,7 +855,6 @@ begin
   @lua_tonumberx := GetProcAddress(LuaLibD, 'lua_tonumberx');
   @lua_setglobal_ := GetProcAddress(LuaLibD, 'lua_setglobal');
   @lua_getglobal_ := GetProcAddress(LuaLibD, 'lua_getglobal');
-  @lua_tointegerx := GetProcAddress(LuaLibD, 'lua_tointegerx');
   @luaL_loadfilex_ := GetProcAddress(LuaLibD, 'luaL_loadfilex');
   @luaL_prepbuffsize := GetProcAddress(LuaLibD, 'luaL_prepbuffsize');
 
@@ -867,6 +878,21 @@ begin
     LUAL_BUFFERSIZE  := LUAL_BUFFERSIZE_OLD;
     LUA_UPVALUEINDEX_:= LUA_GLOBALSINDEX;
     LUA_REGISTRYINDEX:= LUA_REGISTRYINDEX_OLD;
+  end;
+
+  // Determine integer type
+  if (LUA_VERSION_DYN >= 503) then
+  begin
+    @lua_pushinteger64 := GetProcAddress(LuaLibD, 'lua_pushinteger');
+    @luaL_checkinteger64 := GetProcAddress(LuaLibD, 'luaL_checkinteger');
+    @luaL_optinteger64 := GetProcAddress(LuaLibD, 'luaL_optinteger');
+    @lua_tointegerx64 := GetProcAddress(LuaLibD, 'lua_tointegerx');
+  end
+  else begin
+    @lua_pushintegerPtr := GetProcAddress(LuaLibD, 'lua_pushinteger');
+    @luaL_checkintegerPtr := GetProcAddress(LuaLibD, 'luaL_checkinteger');
+    @luaL_optintegerPtr := GetProcAddress(LuaLibD, 'luaL_optinteger');
+    @lua_tointegerxPtr := GetProcAddress(LuaLibD, 'lua_tointegerx');
   end;
 end;
 
@@ -993,8 +1019,10 @@ end;
 
 function lua_tointeger(L: Plua_State; idx: Integer): lua_Integer;
 begin
-  if Assigned(lua_tointegerx) then
-    Result:= lua_tointegerx(L, idx, nil)
+  if Assigned(lua_tointegerx64) then
+    Result:= lua_tointegerx64(L, idx, nil)
+  else if Assigned(lua_tointegerxPtr) then
+    Result:= lua_tointegerxPtr(L, idx, nil)
   else
     Result:= lua_tointeger_(L, idx);
 end;
@@ -1005,6 +1033,14 @@ begin
     Result:= lua_rawlen(L, idx)
   else
     Result:= lua_objlen_(L, idx);
+end;
+
+procedure lua_pushinteger(L: Plua_State; n: lua_Integer);
+begin
+  if Assigned(lua_pushinteger64) then
+    lua_pushinteger64(L, n)
+  else
+    lua_pushintegerPtr(L, IntPtr(n));
 end;
 
 procedure lua_setglobal(L: Plua_State; const name: PAnsiChar);
@@ -1132,6 +1168,22 @@ begin
     Result:= luaL_loadfilex_(L, filename, nil)
   else
     Result:= luaL_loadfile_(L, filename);
+end;
+
+function luaL_checkinteger(L: Plua_State; numArg: Integer): lua_Integer;
+begin
+  if Assigned(luaL_checkinteger64) then
+    Result:= luaL_checkinteger64(L, numArg)
+  else
+    Result:= luaL_checkintegerPtr(L, numArg);
+end;
+
+function luaL_optinteger(L: Plua_State; nArg: Integer; def: lua_Integer): lua_Integer;
+begin
+  if Assigned(luaL_optinteger64) then
+    Result:= luaL_optinteger64(L, nArg, def)
+  else
+    Result:= luaL_optintegerPtr(L, nArg, IntPtr(def));
 end;
 
 function luaL_dofile(L : Plua_State; fn : PChar) : Integer;
