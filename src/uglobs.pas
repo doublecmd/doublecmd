@@ -1758,7 +1758,7 @@ begin
   gSpaceMovesDown := False;
   gDirBrackets := True;
   gInplaceRename := False;
-  gInplaceRenameButton := False;
+  gInplaceRenameButton := True;
   gDblClickToParent := False;
   gHotDirAddTargetOrNot := False;
   gHotDirFullExpandOrNot:=False;
