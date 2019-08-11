@@ -691,6 +691,9 @@ begin
   ARect := dgPanel.CellRect(dgPanel.Col, dgPanel.Row);
   ARect.Top := ARect.Bottom - dgPanel.Canvas.TextHeight('Wg') - 4;
 
+  if gInplaceRenameButton and (ARect.Right + edtRename.ButtonWidth < dgPanel.ClientWidth) then
+    Inc(ARect.Right, edtRename.ButtonWidth);
+
   edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Right - ARect.Left, ARect.Bottom - ARect.Top);
 end;
 

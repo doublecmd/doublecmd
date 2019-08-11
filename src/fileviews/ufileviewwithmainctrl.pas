@@ -28,7 +28,8 @@ unit uFileViewWithMainCtrl;
 interface
 
 uses
-  Classes, SysUtils, Controls, ExtCtrls, StdCtrls, LCLType, LMessages,
+  Classes, SysUtils, Controls, ExtCtrls, StdCtrls, LCLType, LMessages, EditBtn,
+  Graphics,
   uFile,
   uFileViewWorker,
   uOrderedFileView,
@@ -48,6 +49,19 @@ type
     UserManualEdit:boolean; // true if user press a key or click/select part of filename, false - if pressed F2(or assigned key)
 
     LastAction:TRenameFileActionType;  // need for organize correct cycle Name-FullName-Ext (or FullName-Name-Ext)
+  end;
+
+  { TEditButtonEx }
+
+  TEditButtonEx = class(TEditButton)
+  private
+    function GetFont: TFont;
+    procedure SetFont(AValue: TFont);
+  protected
+    function CalcButtonVisible: Boolean; override;
+    function GetDefaultGlyphName: String; override;
+  public
+    property Font: TFont read GetFont write SetFont;
   end;
 
   { TFileViewWithMainCtrl }
@@ -77,11 +91,12 @@ type
 
     procedure edtRenameEnter(Sender: TObject);
     procedure edtRenameExit(Sender: TObject);
+    procedure edtRenameButtonClick(Sender: TObject);
     procedure edtRenameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtRenameMouseDown(Sender: TObject; Button: TMouseButton;Shift: TShiftState; X, Y: Integer);
 
   protected
-    edtRename: TEdit;
+    edtRename: TEditButtonEx;
     FRenameFile: TFile;
     FRenFile:TRenameFileEditInfo;
     FRenTags:string;  // rename separators
@@ -209,7 +224,7 @@ uses
   Gtk2Proc,  // for ReleaseMouseCapture
   GTK2Globals,  // for DblClickTime
 {$ENDIF}
-  LCLIntf, LCLProc, LazUTF8, Forms, Dialogs, DCOSUtils,
+  LCLIntf, LCLProc, LazUTF8, Forms, Dialogs, Buttons, DCOSUtils,
   fMain, uShowMsg, uLng, uFileProperty, uFileSource, uFileSourceOperationTypes,
   uGlobs, uInfoToolTip, uDisplayFile, uFileSystemFileSource, uFileSourceUtil,
   uArchiveFileSourceUtil, uFormCommands, uKeyboard, uFileSourceSetFilePropertyOperation;
@@ -217,6 +232,28 @@ uses
 type
   TControlHandlersHack = class(TWinControl)
   end;
+
+{ TEditButtonEx }
+
+function TEditButtonEx.GetFont: TFont;
+begin
+  Result:= BaseEditor.Font;
+end;
+
+procedure TEditButtonEx.SetFont(AValue: TFont);
+begin
+  BaseEditor.Font:= AValue;
+end;
+
+function TEditButtonEx.GetDefaultGlyphName: String;
+begin
+  Result:= BitBtnResNames[idButtonOk];
+end;
+
+function TEditButtonEx.CalcButtonVisible: Boolean;
+begin
+  Result:= (inherited CalcButtonVisible) and gInplaceRenameButton;
+end;
 
 { TFileViewWithMainCtrl }
 
@@ -273,7 +310,7 @@ begin
 
   inherited CreateDefault(AOwner);
 
-  edtRename := TEdit.Create(Self);
+  edtRename := TEditButtonEx.Create(Self);
   edtRename.Visible := False;
   edtRename.TabStop := False;
   edtRename.AutoSize := False;
@@ -281,6 +318,7 @@ begin
   edtRename.OnMouseDown:=@edtRenameMouseDown;
   edtRename.OnEnter := @edtRenameEnter;
   edtRename.OnExit := @edtRenameExit;
+  edtRename.OnButtonClick := @edtRenameButtonClick;
 
   tmMouseScroll := TTimer.Create(Self);
   tmMouseScroll.Enabled  := False;
@@ -1360,6 +1398,13 @@ begin
   // OnEnter don't called automatically (bug?)
   // TODO: Check on which widgetset/OS this is needed.
   FMainControl.OnEnter(Self);
+end;
+
+procedure TFileViewWithMainCtrl.edtRenameButtonClick(Sender: TObject);
+var
+  Key: Word = VK_RETURN;
+begin
+  edtRenameKeyDown(Sender, Key, []);
 end;
 
 procedure TFileViewWithMainCtrl.edtRenameKeyDown(Sender: TObject;

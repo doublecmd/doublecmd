@@ -496,6 +496,9 @@ begin
   if Succ(FFileNameColumn) = FExtensionColumn then
     Inc(ARect.Right, dgPanel.ColWidths[FExtensionColumn]);
 
+  if gInplaceRenameButton and (ARect.Right + edtRename.ButtonWidth < dgPanel.ClientWidth) then
+    Inc(ARect.Right, edtRename.ButtonWidth);
+
   edtRename.SetBounds(ARect.Left, ARect.Top, ARect.Right - ARect.Left, ARect.Bottom - ARect.Top);
 end;
 

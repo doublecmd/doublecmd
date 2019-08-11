@@ -520,6 +520,7 @@ var
   gShowWarningMessages,
   gDirBrackets,
   gInplaceRename,
+  gInplaceRenameButton,
   gDblClickToParent,
   gGoToRoot: Boolean;
   gActiveRight: Boolean;
@@ -1757,6 +1758,7 @@ begin
   gSpaceMovesDown := False;
   gDirBrackets := True;
   gInplaceRename := False;
+  gInplaceRenameButton := False;
   gDblClickToParent := False;
   gHotDirAddTargetOrNot := False;
   gHotDirFullExpandOrNot:=False;
@@ -2748,6 +2750,7 @@ begin
       gSpaceMovesDown := GetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
       gDirBrackets := GetValue(Node, 'DirBrackets', gDirBrackets);
       gInplaceRename := GetValue(Node, 'InplaceRename', gInplaceRename);
+      gInplaceRenameButton := GetValue(Node, 'InplaceRenameButton', gInplaceRenameButton);
       gDblClickToParent := GetValue(Node, 'DblClickToParent', gDblClickToParent);
       gHotDirAddTargetOrNot:=GetValue(Node, 'HotDirAddTargetOrNot', gHotDirAddTargetOrNot);
       gHotDirFullExpandOrNot:=GetValue(Node, 'HotDirFullExpandOrNot', gHotDirFullExpandOrNot);
@@ -3327,6 +3330,7 @@ begin
     SetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
     SetValue(Node, 'DirBrackets', gDirBrackets);
     SetValue(Node, 'InplaceRename', gInplaceRename);
+    SetValue(Node, 'InplaceRenameButton', gInplaceRenameButton);
     SetValue(Node, 'DblClickToParent', gDblClickToParent);
     SetValue(Node, 'HotDirAddTargetOrNot',gHotDirAddTargetOrNot);
     SetValue(Node, 'HotDirFullExpandOrNot', gHotDirFullExpandOrNot);
