@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Quick Look thumbnail provider
 
-   Copyright (C) 2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -34,32 +34,27 @@ implementation
 
 uses
   DynLibs, FileUtil, Types, Graphics, MacOSAll, CocoaAll, uThumbnails, uDebug,
-  uClassesEx, uGraphics
-  {$IF (FPC_FULLVERSION >= 30000)}
-  , CGImage
-  {$ENDIF}
-  ;
+  uClassesEx, uGraphics;
 
 const
   libQuickLook = '/System/Library/Frameworks/QuickLook.framework/Versions/Current/QuickLook';
 
 var
-  QuickLook: TLibHandle = NIlHandle;
+  QuickLook: TLibHandle = NilHandle;
 
 var
   QLThumbnailImageCreate: function(allocator: CFAllocatorRef; url: CFURLRef; maxThumbnailSize: CGSize; options: CFDictionaryRef): CGImageRef; cdecl;
 
 function GetThumbnail(const aFileName: String; aSize: TSize): Graphics.TBitmap;
 var
-  ImageData: NSData;
-  Bitmap: TTiffImage;
-  NewImage: NSImage = nil;
+  ImageRef: CGImageRef;
   WorkStream: TBlobStream;
   maxThumbnailSize: CGSize;
-  ImageRef: CGImageRef = nil;
-  BitmapImageRep: NSBitmapImageRep;
-  theFileNameUrlRef: CFURLRef = nil;
-  theFileNameCFRef: CFStringRef = nil;
+  ImageData: CFMutableDataRef;
+  theFileNameUrlRef: CFURLRef;
+  theFileNameCFRef: CFStringRef;
+  Bitmap: TPortableNetworkGraphic;
+  ImageDest: CGImageDestinationRef;
 begin
   theFileNameCFRef:= CFStringCreateWithFileSystemRepresentation(nil, PAnsiChar(aFileName));
   theFileNameUrlRef:= CFURLCreateWithFileSystemPath(nil, theFileNameCFRef, kCFURLPOSIXPathStyle, False);
@@ -67,36 +62,36 @@ begin
     maxThumbnailSize.width:= aSize.cx; maxThumbnailSize.height:= aSize.cy;
     ImageRef:= QLThumbnailImageCreate(kCFAllocatorDefault, theFileNameUrlRef, maxThumbnailSize, nil);
     if ImageRef = nil then Exit(nil);
-    BitmapImageRep:= NSBitmapImageRep.alloc();
-    BitmapImageRep.initWithCGImage(ImageRef);
-    // Create NSImage
-    NewImage:= NSImage.alloc();
-    NewImage.initWithSize(BitmapImageRep.size);
-    NewImage.addRepresentation(BitmapImageRep);
-    BitmapImageRep.release();
-    // Get image data in TIFF format
-    Bitmap:= TTiffImage.Create;
-    ImageData:= NewImage.TIFFRepresentation;
-    WorkStream:= TBlobStream.Create(ImageData.Bytes, ImageData.Length);
-    try
-      Bitmap.LoadFromStream(WorkStream);
-      Result:= TBitmap.Create;
+
+    ImageData:= CFDataCreateMutable(nil, 0);
+    // Get image data in PNG format
+    ImageDest:= CGImageDestinationCreateWithData(ImageData, kUTTypePNG, 1, nil);
+    CGImageDestinationAddImage(ImageDest, ImageRef, nil);
+
+    if (CGImageDestinationFinalize(ImageDest) = 0) then
+      Result:= nil
+    else begin
+      Bitmap:= TPortableNetworkGraphic.Create;
+      WorkStream:= TBlobStream.Create(CFDataGetBytePtr(ImageData), CFDataGetLength(ImageData));
       try
-        BitmapAssign(Result, Bitmap);
-      except
-        FreeAndNil(Result);
+        Result:= TBitmap.Create;
+        try
+          Bitmap.LoadFromStream(WorkStream);
+          BitmapAssign(Result, Bitmap);
+        except
+          FreeAndNil(Result);
+        end;
+      finally
+        Bitmap.Free;
+        WorkStream.Free;
       end;
-    finally
-      Bitmap.Free;
-      WorkStream.Free;
     end;
-    NewImage.release();
     CFRelease(ImageRef);
+    CFRelease(ImageData);
+    CFRelease(ImageDest);
   finally
-    if Assigned(theFileNameCFRef) then
-      CFRelease(theFileNameCFRef);
-    if Assigned(theFileNameUrlRef) then
-      CFRelease(theFileNameUrlRef);
+    CFRelease(theFileNameCFRef);
+    CFRelease(theFileNameUrlRef);
   end;
 end;
 
