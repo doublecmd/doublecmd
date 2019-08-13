@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.tar, *.tgz archives
 
-   Copyright (C) 2007-2014 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -41,6 +41,7 @@ type
   TAbZipKitEx = class (TAbZipKit)
   private
     FOperationResult: LongInt;
+    FChangeVolProcW: TChangeVolProcW;
     FProcessDataProcW : TProcessDataProcW;
     procedure AbArchiveItemProgressEvent(Sender : TObject; Item : TAbArchiveItem; Progress : Byte;
                                          var Abort : Boolean);
@@ -48,6 +49,8 @@ type
     procedure AbNeedPasswordEvent(Sender : TObject; var NewPassword : AnsiString);
     procedure AbProcessItemFailureEvent(Sender: TObject; Item: TAbArchiveItem; ProcessType: TAbProcessType;
                                         ErrorClass: TAbErrorClass; ErrorCode: Integer);
+    procedure AbRequestImageEvent(Sender : TObject; ImageNumber : Integer;
+                                  var ImageName : String; var Abort : Boolean);
   public
     constructor Create(AOwner: TComponent); override;
   end;
@@ -85,7 +88,7 @@ var
 implementation
 
 uses
-  SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCConvertEncoding;
+  SysUtils, LazUTF8, ZipConfDlg, AbBrowse, DCConvertEncoding, DCOSUtils;
 
 threadvar
   gProcessDataProcW : TProcessDataProcW;
@@ -148,6 +151,7 @@ begin
     Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
     Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
     Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
+    Arc.OnRequestImage:= @Arc.AbRequestImageEvent;
 
     Arc.TarAutoHandle := gTarAutoHandle;
     Arc.OpenArchive(UTF16ToUTF8(UnicodeString(ArchiveData.ArcName)));
@@ -297,7 +301,13 @@ begin
 end;
 
 procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);dcpcall;
+var
+ Arc : TAbZipKitEx absolute hArcData;
 begin
+  if (hArcData <> wcxInvalidHandle) then
+   begin
+     Arc.FChangeVolProcW := pChangeVolProc;
+   end;
 end;
 
 procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall;
@@ -530,6 +540,19 @@ begin
     else begin
       raise EAbUserAbort.Create;
     end;
+  end;
+end;
+
+procedure TAbZipKitEx.AbRequestImageEvent(Sender: TObject;
+  ImageNumber: Integer; var ImageName: String; var Abort: Boolean);
+var
+  AVolume: array[0..MAX_PATH] of WideChar;
+begin
+  if (not mbFileExists(ImageName)) and Assigned(FChangeVolProcW) then
+  begin
+    StrPCopy(AVolume, UTF8Decode(ImageName));
+    Abort := (FChangeVolProcW(AVolume, PK_VOL_ASK) = 0);
+    if not Abort then ImageName:= UTF8Encode(UnicodeString(AVolume));
   end;
 end;
 
