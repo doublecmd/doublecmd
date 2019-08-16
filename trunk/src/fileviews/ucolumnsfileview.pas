@@ -928,16 +928,20 @@ begin
 end;
 
 procedure TColumnsFileView.DisplayFileListChanged;
+var
+  ScrollTo: Boolean;
 begin
+  ScrollTo := IsActiveFileVisible;
+
   // Update grid row count.
   SetRowCount(FFiles.Count);
   SetFilesDisplayItems;
   RedrawFiles;
 
-  if SetActiveFileNow(RequestedActiveFile, FLastTopRowIndex) then
+  if SetActiveFileNow(RequestedActiveFile, True, FLastTopRowIndex) then
     RequestedActiveFile := ''
   // Requested file was not found, restore position to last active file.
-  else if not SetActiveFileNow(LastActiveFile, FLastTopRowIndex) then
+  else if not SetActiveFileNow(LastActiveFile, ScrollTo, FLastTopRowIndex) then
   // Make sure at least that the previously active file is still visible after displaying file list.
     MakeActiveVisible;
 
