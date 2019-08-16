@@ -75,7 +75,9 @@ type
     function GetActiveFileIndex: PtrInt; virtual; abstract;
     function GetFileRect(FileIndex: PtrInt): TRect; virtual; abstract;
     function GetVisibleFilesIndexes: TRange; virtual; abstract;
+    function IsFileIndexVisible(FileIndex: PtrInt): Boolean;
     function IsFileIndexInRange(FileIndex: PtrInt): Boolean; inline;
+    function IsActiveFileVisible: Boolean;
     {en
        If marking a single file only redraws that file.
        Otherwise files are marked and full update is performed.
@@ -95,7 +97,7 @@ type
        Sets a file as active if the file currently exists.
        @returns(@true if the file was found and selected.)
     }
-    function SetActiveFileNow(aFilePath: String; aLastTopRowIndex: PtrInt = -1): Boolean;
+    function SetActiveFileNow(aFilePath: String; ScrollTo: Boolean = True; aLastTopRowIndex: PtrInt = -1): Boolean;
 
   public
     procedure CloneTo(AFileView: TFileView); override;
@@ -484,9 +486,22 @@ begin
     Result := nil;
 end;
 
+function TOrderedFileView.IsFileIndexVisible(FileIndex: PtrInt): Boolean;
+var
+  VisibleFiles: TRange;
+begin
+  VisibleFiles := GetVisibleFilesIndexes;
+  Result := InRange(FileIndex, VisibleFiles.First, VisibleFiles.Last);
+end;
+
 function TOrderedFileView.IsFileIndexInRange(FileIndex: PtrInt): Boolean;
 begin
   Result := InRange(FileIndex, 0, FFiles.Count - 1);
+end;
+
+function TOrderedFileView.IsActiveFileVisible: Boolean;
+begin
+  Result := IsFileIndexVisible(GetActiveFileIndex);
 end;
 
 procedure TOrderedFileView.lblFilterClick(Sender: TObject);
@@ -808,12 +823,13 @@ begin
   end;
 end;
 
-function TOrderedFileView.SetActiveFileNow(aFilePath: String; aLastTopRowIndex: PtrInt = -1): Boolean;
+function TOrderedFileView.SetActiveFileNow(aFilePath: String;
+  ScrollTo: Boolean; aLastTopRowIndex: PtrInt): Boolean;
 
   procedure SetUpdate(Index: PtrInt);
   begin
     FUpdatingActiveFile := True;
-    SetActiveFile(Index, True, aLastTopRowIndex);
+    SetActiveFile(Index, ScrollTo, aLastTopRowIndex);
     FUpdatingActiveFile := False;
     SetLastActiveFile(Index, aLastTopRowIndex);
   end;

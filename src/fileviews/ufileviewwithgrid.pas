@@ -537,7 +537,11 @@ begin
 end;
 
 procedure TFileViewWithGrid.DisplayFileListChanged;
+var
+  ScrollTo: Boolean;
 begin
+  ScrollTo := IsActiveFileVisible;
+
   // Update grid col and row count
   dgPanel.SetColRowCount(FFiles.Count);
 
@@ -545,11 +549,11 @@ begin
   dgPanel.CalculateColumnWidth;
   SetFilesDisplayItems;
 
-  if SetActiveFileNow(RequestedActiveFile, FLastTopRowIndex) then
+  if SetActiveFileNow(RequestedActiveFile, True, FLastTopRowIndex) then
     RequestedActiveFile := ''
   else
     // Requested file was not found, restore position to last active file.
-    SetActiveFileNow(LastActiveFile, FLastTopRowIndex);
+    SetActiveFileNow(LastActiveFile, ScrollTo, FLastTopRowIndex);
 
   Notify([fvnVisibleFilePropertiesChanged]);
 
