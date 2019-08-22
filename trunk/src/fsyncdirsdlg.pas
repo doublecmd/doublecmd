@@ -788,10 +788,23 @@ end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+var
+  ASelection: TGridRect;
 begin
   case Key of
     VK_SPACE:
       UpdateSelection(MainDrawGrid.Row);
+    VK_A:
+    begin
+      if (Shift = [ssModifier]) then
+      begin
+        ASelection.Top:= 0;
+        ASelection.Left:= 0;
+        ASelection.Right:= MainDrawGrid.ColCount - 1;
+        ASelection.Bottom:= MainDrawGrid.RowCount - 1;
+        MainDrawGrid.Selection:= ASelection;
+      end;
+    end;
   end;
 end;
 
