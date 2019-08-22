@@ -1402,9 +1402,9 @@ var
         NewAction:= SyncRec.FState;
       srsNotEq:
         begin
-          if SyncRec.FAction = srsCopyLeft then
+          if (SyncRec.FAction = srsCopyLeft) and Assigned(SyncRec.FFileL) then
             NewAction:= srsCopyRight
-          else if SyncRec.FAction = srsCopyRight then
+          else if (SyncRec.FAction = srsCopyRight) and Assigned(SyncRec.FFileR) then
             NewAction:= srsCopyLeft
           else
             NewAction:= SyncRec.FAction
