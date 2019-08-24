@@ -402,7 +402,11 @@ begin
       if FileTimeDiff < 0 then
         FState := srsCopyLeft;
   end;
-  FAction := FState;
+  if FForm.chkAsymmetric.Checked and (FState = srsCopyLeft) then
+    FAction := srsDoNothing
+  else begin
+    FAction := FState;
+  end;
 end;
 
 { TfrmSyncDirsDlg }
