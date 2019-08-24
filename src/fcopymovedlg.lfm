@@ -21,7 +21,7 @@ object frmCopyDlg: TfrmCopyDlg
   OnKeyDown = FormKeyDown
   OnPaint = FormPaint
   OnShow = frmCopyDlgShow
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   LCLVersion = '1.2.4.0'
   object lblCopySrc: TLabel
     AnchorSideLeft.Control = Owner

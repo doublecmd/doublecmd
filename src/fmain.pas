@@ -3399,7 +3399,7 @@ begin
       if Assigned(OperationClass) then
         OperationOptionsUIClass := OperationClass.GetOptionsUIClass;
 
-      CopyDialog := TfrmCopyDlg.Create(Application, cmdtCopy, FileSource, OperationOptionsUIClass);
+      CopyDialog := TfrmCopyDlg.Create(Self, cmdtCopy, FileSource, OperationOptionsUIClass);
       CopyDialog.edtDst.Text := sDestination;
       CopyDialog.edtDst.ReadOnly := OperationTemp;
       CopyDialog.lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
@@ -3578,7 +3578,7 @@ begin
 
     if bShowDialog then
     begin
-      MoveDialog := TfrmCopyDlg.Create(Application, cmdtMove, SourceFileSource,
+      MoveDialog := TfrmCopyDlg.Create(Self, cmdtMove, SourceFileSource,
         SourceFileSource.GetOperationClass(fsoMove).GetOptionsUIClass);
       MoveDialog.edtDst.Text := sDestination;
       MoveDialog.lblCopySrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr, SourceFiles);
