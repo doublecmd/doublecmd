@@ -1176,17 +1176,34 @@ begin
 end;
 
 procedure TfrmViewer.DeleteCurrentFile;
+var
+  OldIndex, NewIndex: Integer;
 begin
-  CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
-  mbDeleteFile(FileList.Strings[iActiveFile]);
-  FileList.Delete(iActiveFile);
+  if (iActiveFile + 1) < FileList.Count then
+    NewIndex := iActiveFile + 1
+  else begin
+    NewIndex := iActiveFile - 1;
+  end;
+  OldIndex:= iActiveFile;
+
+  LoadNextFile(NewIndex);
+
+  CreatePreview(FileList.Strings[OldIndex], OldIndex, True);
+  mbDeleteFile(FileList.Strings[OldIndex]);
+  FileList.Delete(OldIndex);
+
+  if OldIndex < FileList.Count then
+    iActiveFile := OldIndex
+  else begin
+    iActiveFile := FileList.Count - 1;
+  end;
+
+  if pnlPreview.Visible then
+    DrawPreview.Index := iActiveFile;
 
   actMoveFile.Enabled := FileList.Count > 1;
   actDeleteFile.Enabled := FileList.Count > 1;
-  if iActiveFile >= FileList.Count then
-    iActiveFile:= FileList.Count;
 
-  LoadFile(iActiveFile);
   DrawPreview.Repaint;
   SplitterChangeBounds;
 end;
