@@ -38,7 +38,8 @@ implementation
 uses
   Forms, Dialogs, Clipbrd, LazUTF8, LCLVersion, uLng, DCOSUtils,
   DCConvertEncoding, fMain, uFormCommands, uOSUtils, uGlobs, uLog,
-  uClipboard, uShowMsg, uLuaStd, uFindEx, uConvEncoding, uFileProcs;
+  uClipboard, uShowMsg, uLuaStd, uFindEx, uConvEncoding, uFileProcs,
+  uFilePanelSelect;
 
 procedure luaPushSearchRec(L : Plua_State; Rec: PSearchRecEx);
 begin
@@ -370,6 +371,17 @@ begin
   lua_pushboolean(L, Res = cfrSuccess);
 end;
 
+function luaWindowCurrentPanel(L : Plua_State) : Integer; cdecl;
+var
+  Count: Integer;
+begin
+  Result:= 1;
+  Count:= lua_gettop(L);
+  lua_pushinteger(L, Integer(frmMain.SelectedPanel));
+  if (Count > 0) then
+    frmMain.SetActiveFrame(TFilePanelSelect(lua_tointeger(L, 1)));
+end;
+
 procedure luaP_register(L : Plua_State; n : PChar; f : lua_CFunction);
 begin
   lua_pushcfunction(L, f);
@@ -431,6 +443,12 @@ begin
   lua_newtable(L);
     luaP_register(L, 'LogWrite', @luaLogWrite);
     luaP_register(L, 'ExecuteCommand', @luaExecuteCommand);
+
+    lua_pushstring(L, 'Window');
+    lua_newtable(L);
+      luaP_register(L, 'CurrentPanel', @luaWindowCurrentPanel);
+    lua_settable(L, -3);
+
   lua_setglobal(L, 'DC');
 
   ReplaceLibrary(L);
