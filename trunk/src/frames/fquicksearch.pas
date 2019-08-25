@@ -79,6 +79,7 @@ type
     procedure PopFilter;
     procedure ClearFilter;
     procedure CancelFilter;
+    procedure SetFocus(Data: PtrInt);
     procedure ProcessParams(const SearchMode: TQuickSearchMode; const Params: array of String);
   public
     LimitedAutoHide: Boolean;
@@ -553,6 +554,11 @@ begin
   DoHide;
 end;
 
+procedure TfrmQuickSearch.SetFocus(Data: PtrInt);
+begin
+  if edtSearch.CanFocus then edtSearch.SetFocus;
+end;
+
 procedure TfrmQuickSearch.CheckFilesOrDirectoriesDown;
 begin
   if not (sbFiles.Down or sbDirectories.Down) then
@@ -821,14 +827,13 @@ end;
 procedure TfrmQuickSearch.btnMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  edtSearch.SetFocus;
+  Application.QueueAsyncCall(@SetFocus, 0);
 end;
 
 procedure TfrmQuickSearch.btnCancelMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
-  if Self.Visible then
-    edtSearch.SetFocus;
+  if Self.Visible then Application.QueueAsyncCall(@SetFocus, 0);
 end;
 
 end.
