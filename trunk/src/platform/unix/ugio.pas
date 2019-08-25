@@ -35,6 +35,7 @@ function GioOpen(const Uri: String): Boolean;
 function GioNewFile(const Address: String): PGFile;
 function GioGetIconTheme(const Scheme: String): String;
 function GioFileGetIcon(const FileName: String): String;
+function GioFileGetEmblem(const FileName: String): String;
 function GioMimeTypeGetActions(const MimeType: String): TDynamicStringArray;
 function GioGetMimeType(const FileName: String; MaxExtent: LongWord): String;
 
@@ -149,6 +150,26 @@ begin
       AIconList:= g_themed_icon_get_names(PGThemedIcon(GIcon));
       if Assigned(AIconList) then Result:= AIconList[0];
     end;
+    g_object_unref(GFileInfo);
+  end;
+  g_object_unref(PGObject(GFile));
+end;
+
+function GioFileGetEmblem(const FileName: String): String;
+const
+  FILE_ATTRIBUTE_METADATA_EMBLEMS = 'metadata::emblems';
+var
+  GFile: PGFile;
+  AIconList: PPgchar;
+  GFileInfo: PGFileInfo;
+begin
+  Result:= EmptyStr;
+  GFile:= GioNewFile(Pgchar(FileName));
+  GFileInfo:= g_file_query_info(GFile, FILE_ATTRIBUTE_METADATA_EMBLEMS, 0, nil, nil);
+  if Assigned(GFileInfo) then
+  begin
+    AIconList:= g_file_info_get_attribute_stringv(GFileInfo, FILE_ATTRIBUTE_METADATA_EMBLEMS);
+    if Assigned(AIconList) then Result:= AIconList[0];
     g_object_unref(GFileInfo);
   end;
   g_object_unref(PGObject(GFile));
