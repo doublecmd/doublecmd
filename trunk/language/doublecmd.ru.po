@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-07-13 11:05+0300\n"
+"PO-Revision-Date: 2019-08-26 01:25+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -4549,7 +4549,7 @@ msgstr "Выделение:"
 #: tfrmoptionscustomcolumns.lblpreviewtop.caption
 msgctxt "tfrmoptionscustomcolumns.lblpreviewtop.caption"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr "Ниже находится предварительный просмотр. Вы можете перемещать курсор и выбирать файлы, чтобы получить полное представление о выбранных настройках."
+msgstr "Предварительный просмотр, можно перемещать курсор и выбирать файлы, получив полное представление о выбранных настройках:"
 
 #: tfrmoptionscustomcolumns.lblworkingcolumn.caption
 msgid "Settings for column:"
@@ -5966,7 +5966,7 @@ msgstr "&Выделение:"
 
 #: tfrmoptionsfilepanelscolors.lblpreview.caption
 msgid "Below is a preview. You may move cursor, select file and get immediately an actual look and feel of the various settings."
-msgstr "Ниже находится предварительный просмотр. Вы можете перемещать курсор и выбирать файлы, чтобы получить полное представление о выбранных настройках."
+msgstr "Предварительный просмотр, можно перемещать курсор и выбирать файлы, получив полное представление о выбранных настройках:"
 
 #: tfrmoptionsfilepanelscolors.lbltextcolor.caption
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
@@ -10264,7 +10264,7 @@ msgstr "Группа"
 
 #: ulng.rsfunchtime
 msgid "Change date/time"
-msgstr "Изменение даты/времени"
+msgstr "Дата/время изменения"
 
 #: ulng.rsfunclinkto
 msgid "Link to"
@@ -11333,7 +11333,7 @@ msgstr "Действие не может быть выполнено, так к�
 #: ulng.rsmsgpanelpreview
 msgctxt "ulng.rsmsgpanelpreview"
 msgid "Below is a preview. You may move cursor and select files to get immediately an actual look and feel of the various settings."
-msgstr "Ниже находится предварительный просмотр. Вы можете перемещать курсор и выбирать файлы, чтобы получить полное представление о выбранных настройках."
+msgstr "Предварительный просмотр, можно перемещать курсор и выбирать файлы, получив полное представление о выбранных настройках:"
 
 #: ulng.rsmsgpassword
 msgctxt "ulng.rsmsgpassword"
