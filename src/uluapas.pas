@@ -371,7 +371,7 @@ begin
   lua_pushboolean(L, Res = cfrSuccess);
 end;
 
-function luaWindowCurrentPanel(L : Plua_State) : Integer; cdecl;
+function luaCurrentPanel(L : Plua_State) : Integer; cdecl;
 var
   Count: Integer;
 begin
@@ -442,13 +442,8 @@ begin
 
   lua_newtable(L);
     luaP_register(L, 'LogWrite', @luaLogWrite);
+    luaP_register(L, 'CurrentPanel', @luaCurrentPanel);
     luaP_register(L, 'ExecuteCommand', @luaExecuteCommand);
-
-    lua_pushstring(L, 'Window');
-    lua_newtable(L);
-      luaP_register(L, 'CurrentPanel', @luaWindowCurrentPanel);
-    lua_settable(L, -3);
-
   lua_setglobal(L, 'DC');
 
   ReplaceLibrary(L);
