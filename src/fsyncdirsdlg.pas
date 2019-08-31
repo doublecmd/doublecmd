@@ -30,7 +30,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, LazUTF8Classes,
   uFileView, uFileSource, uFileSourceCopyOperation, uFile, uFileSourceOperation,
-  uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager;
+  uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager, uClassesEx;
 
 const
   HotkeysCategory = 'Synchronize Directories';
@@ -114,6 +114,7 @@ type
     procedure btnSelDir1Click(Sender: TObject);
     procedure btnCompareClick(Sender: TObject);
     procedure btnSynchronizeClick(Sender: TObject);
+    procedure RestoreProperties(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
@@ -135,6 +136,7 @@ type
     procedure pmGridMenuPopup(Sender: TObject);
   private
     FCommands: TFormCommands;
+    FIniPropStorage: TIniPropStorageEx;
   private
     { private declarations }
     FCancel: Boolean;
@@ -213,6 +215,9 @@ uses
   uFileSourceDeleteOperation, uOSUtils, uLng, uMasks, Math;
 
 {$R *.lfm}
+
+const
+  GRID_COLUMN_FMT = 'HeaderDG_Column%d_Width';
 
 type
 
@@ -652,8 +657,22 @@ begin
   end;
 end;
 
+procedure TfrmSyncDirsDlg.RestoreProperties(Sender: TObject);
+var
+  Index: Integer;
+begin
+  with HeaderDG.Columns do
+  begin
+    for Index := 0 to Count - 1 do
+      Items[Index].Width:= StrToIntDef(FIniPropStorage.StoredValue[Format(GRID_COLUMN_FMT, [Index])], Items[Index].Width);
+  end;
+  RecalcHeaderCols;
+end;
+
 procedure TfrmSyncDirsDlg.FormClose(Sender: TObject;
   var CloseAction: TCloseAction);
+var
+  Index: Integer;
 begin
   StopCheckContentThread;
   CloseAction := caFree;
@@ -671,6 +690,12 @@ begin
   if chkByContent.Enabled then
     gSyncDirsByContent          := chkByContent.Checked;
   glsMaskHistory.Assign(cbExtFilter.Items);
+
+  with HeaderDG.Columns do
+  begin
+    for Index := 0 to Count - 1 do
+      FIniPropStorage.StoredValue[Format(GRID_COLUMN_FMT, [Index])]:= IntToStr(Items[Index].Width);
+  end;
 end;
 
 procedure TfrmSyncDirsDlg.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -689,11 +714,18 @@ end;
 
 procedure TfrmSyncDirsDlg.FormCreate(Sender: TObject);
 var
+  Index: Integer;
   HMSync: THMForm;
 begin
   // Initialize property storage
-  InitPropStorage(Self);
-  lblProgress.Caption := rsOperWorking;
+  FIniPropStorage := InitPropStorage(Self);
+  FIniPropStorage.OnRestoreProperties:= @RestoreProperties;
+  for Index := 0 to HeaderDG.Columns.Count - 1 do
+  begin
+    FIniPropStorage.StoredValues.Add.DisplayName:= Format(GRID_COLUMN_FMT, [Index]);
+  end;
+
+  lblProgress.Caption    := rsOperWorking;
   { settings }
   chkSubDirs.Checked     := gSyncDirsSubdirs;
   chkAsymmetric.Checked  := gSyncDirsAsymmetric;
