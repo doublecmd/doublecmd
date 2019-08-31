@@ -833,8 +833,7 @@ begin
         // Change file source, if the file under cursor can be opened as another file source.
         try
           if not ChooseFileSource(TargetPage.FileView, SourcePage.FileView.FileSource, aFile) then
-            TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource,
-                                              SourcePage.FileView.CurrentPath);
+            TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource, aFile.Path);
           TargetPage.FileView.SetActiveFile(aFile.Name);
         except
           on e: EFileSourceException do
