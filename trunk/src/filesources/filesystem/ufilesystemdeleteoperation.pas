@@ -34,7 +34,7 @@ type
     procedure DeleteSubDirectory(const aFile: TFile);
 
   protected
-    function ProcessFile(aFile: TFile): Boolean;
+    procedure ProcessFile(aFile: TFile);
     procedure ProcessList(aFiles: TFiles);
     function ShowError(sMessage: String): TFileSourceOperationUIResponse;
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -59,7 +59,7 @@ type
 implementation
 
 uses
-  DCOSUtils, DCStrUtils, uLng, uFileSystemUtil, uTrash, uAdministrator, uOSUtils
+  DCOSUtils, DCStrUtils, uLng, uFileSystemUtil, uTrash
 {$IF DEFINED(MSWINDOWS)}
   , Windows,  uFileUnlock, fFileUnlock
 {$ENDIF}
@@ -159,10 +159,8 @@ begin
   end;
 end;
 
-function TFileSystemDeleteOperation.ProcessFile(aFile: TFile): Boolean;
+procedure TFileSystemDeleteOperation.ProcessFile(aFile: TFile);
 const
-  ResponsesTrash: array[0..4] of TFileSourceOperationUIResponse
-    = (fsourYes, fsourAll, fsourSkip, fsourSkipAll, fsourAbort);
   ResponsesError: array[0..3] of TFileSourceOperationUIResponse
     = (fsourRetry, fsourSkip, fsourSkipAll, fsourAbort);
 var
@@ -178,7 +176,6 @@ var
   ProcessInfo: TProcessInfoArray;
 {$ENDIF}
 begin
-  Result := True;
   FileName := aFile.FullPath;
 
   if FileIsReadOnly(aFile.Attributes) then
@@ -235,15 +232,8 @@ begin
           case FDeleteDirectly of
             fsoogNone:
               begin
-                if AdministratorPrivileges then
-                  PossibleResponses:= ResponsesTrash
-                else begin
-                  SetLength(PossibleResponses, Length(ResponsesTrash) + 1);
-                  Move(ResponsesTrash[0], PossibleResponses[0], SizeOf(ResponsesTrash));
-                  PossibleResponses[High(PossibleResponses)]:= fsourRetryAdmin;
-                end;
                 case AskQuestion(Format(rsMsgDelToTrashForce, [WrapTextSimple(FileName)]), '',
-                                 PossibleResponses,
+                                 [fsourYes, fsourAll, fsourSkip, fsourSkipAll, fsourAbort],
                                  fsourYes, fsourAbort) of
                   fsourYes:
                     RemoveDirectly:= fsoogYes;
@@ -261,8 +251,6 @@ begin
                     end;
                   fsourAbort:
                     RaiseAbortOperation;
-                  fsourRetryAdmin:
-                    Exit(False);
                 end;
               end;
             fsoogYes:
@@ -344,16 +332,8 @@ begin
           sQuestion+= LineEnding + mbSysErrorMessage(LastError);
         end;
 
-        if AdministratorPrivileges then
-        begin
-          SetLength(PossibleResponses, Length(ResponsesError));
-          Move(ResponsesError[0], PossibleResponses[0], SizeOf(ResponsesError));
-        end
-        else begin
-          SetLength(PossibleResponses, Length(ResponsesError) + 1);
-          Move(ResponsesError[0], PossibleResponses[0], SizeOf(ResponsesError));
-          PossibleResponses[High(PossibleResponses)]:= fsourRetryAdmin;
-        end;
+        SetLength(PossibleResponses, Length(ResponsesError));
+        Move(ResponsesError[0], PossibleResponses[0], SizeOf(ResponsesError));
 {$IF DEFINED(MSWINDOWS)}
         if (Length(ProcessInfo) > 0) or (LastError = ERROR_ACCESS_DENIED) or (LastError = ERROR_SHARING_VIOLATION) then
         begin
@@ -370,8 +350,6 @@ begin
             FSkipErrors := True;
           fsourAbort:
             RaiseAbortOperation;
-          fsourRetryAdmin:
-            Exit(False);
 {$IF DEFINED(MSWINDOWS)}
           fsourUnlock:
             begin
@@ -398,11 +376,7 @@ begin
     FStatistics.CurrentFile := aFile.FullPath;
     UpdateStatistics(FStatistics);
 
-    if not ProcessFile(aFile) then
-    begin
-      Delete(Self, aFiles, CurrentFileIndex);
-      Exit;
-    end;
+    ProcessFile(aFile);
 
     with FStatistics do
     begin
