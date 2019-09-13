@@ -55,7 +55,7 @@ var
 implementation
 
 uses
-  Windows;
+  uOSUtils, uDebug;
 
 const
   MasterAddress = 'doublecmd-master-';
@@ -253,7 +253,7 @@ begin
   Result:= TWorkerProxy(AProxy^);
   if MasterService.ClientCount = 0 then
   begin
-    ShellExecute(0, 'runas', PAnsiChar(ParamStr(0)), PAnsiChar('--service ' + IntToStr(GetProcessID)), nil, 1);
+    ExecCmdAdmin(ParamStrU(0), ['--service', IntToStr(GetProcessID)]);
     MasterService.Wait;
     Result.FClient.Disconnect;
   end;
@@ -265,7 +265,7 @@ begin
   begin
     if ParamStr(1) = '--service' then
     begin
-      WriteLn('StartWorkerServer');
+      DCDebug('Start worker server');
       StartWorkerServer(ParamStr(2));
       CreateMasterProxy(ParamStr(2));
       ReadLn;
