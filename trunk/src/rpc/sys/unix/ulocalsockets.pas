@@ -227,7 +227,7 @@ begin
 
   nbytes := SendMessage(sock, @msg, MSG_NOSIGNAL);
   if (nbytes = -1) then
-     WriteLn('Error');
+    WriteLn('SendHandle: ', SysErrorMessage(fpgetCerrno));
 
   FileClose(fd);
 end;
@@ -257,7 +257,7 @@ begin
 
   nbytes := RecvMessage(sock, @msg, MSG_NOSIGNAL);
   if (nbytes = -1) then
-    WriteLn('Error');
+    WriteLn('RecvHandle: ', SysErrorMessage(fpgetCerrno));
 
   Result:= cmsga.fd;
 end;
