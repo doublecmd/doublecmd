@@ -16,6 +16,9 @@ function RenameFileUAC(const OldName, NewName: String): LongBool;
 function CreateDirectoryUAC(const Directory: String): Boolean;
 function RemoveDirectoryUAC(const Directory: String): Boolean;
 
+function CreateSymbolicLinkUAC(const Path, LinkName: String) : Boolean;
+function CreateHardLinkUAC(const Path, LinkName: String) : Boolean;
+
 type
 
   { TFileStreamUAC class }
@@ -45,6 +48,8 @@ resourcestring
   rsElevationRequiredOpen = 'to open this object:';
   rsElevationRequiredCreate = 'to create this object:';
   rsElevationRequiredRename = 'to rename this object:';
+  rsElevationRequiredHardLink = 'to create this hard link:';
+  rsElevationRequiredSymLink = 'to create this symbolic link:';
 
 function RequestElevation(const Message, FileName: String): Boolean;
 var
@@ -112,6 +117,26 @@ begin
   begin
     if RequestElevation(rsElevationRequiredDelete, Directory) then
       Result:= TWorkerProxy.Instance.RemoveDirectory(Directory);
+  end;
+end;
+
+function CreateHardLinkUAC(const Path, LinkName: String): Boolean;
+begin
+  Result:= CreateHardLink(Path, LinkName);
+  if (not Result) and ElevationRequired then
+  begin
+    if RequestElevation(rsElevationRequiredHardLink, LinkName) then
+      Result:= TWorkerProxy.Instance.CreateHardLink(Path, LinkName);
+  end;
+end;
+
+function CreateSymbolicLinkUAC(const Path, LinkName: String): Boolean;
+begin
+  Result:= CreateSymLink(Path, LinkName);
+  if (not Result) and ElevationRequired then
+  begin
+    if RequestElevation(rsElevationRequiredSymLink, LinkName) then
+      Result:= TWorkerProxy.Instance.CreateSymbolicLink(Path, LinkName);
   end;
 end;
 

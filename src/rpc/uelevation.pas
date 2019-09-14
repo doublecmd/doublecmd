@@ -19,6 +19,7 @@ type
     function Execute: LongBool;
   public
     constructor Create(const AName: String);
+    destructor Destroy; override;
     class function Instance: TMasterProxy;
   end;
 
@@ -28,12 +29,15 @@ type
   private
     FClient: TBaseTransport;
     function ProcessObject(ACommand: UInt32; const ObjectName: String): LongBool;
+    function ProcessObject(ACommand: UInt32; const OldName, NewName: String): LongBool;
     function ProcessObject(ACommand: UInt32; const ObjectName: String; Mode: Integer): THandle;
   public
     function FileOpen(const FileName: String; Mode: Integer): THandle; inline;
     function FileCreate(const FileName: String; Mode: Integer): THandle; inline;
     function DeleteFile(const FileName: String): LongBool; inline;
-    function RenameFile(const OldName, NewName: String): LongBool;
+    function RenameFile(const OldName, NewName: String): LongBool; inline;
+    function CreateHardLink(const Path, LinkName: String): LongBool; inline;
+    function CreateSymbolicLink(const Path, LinkName: String): LongBool; inline;
     function CreateDirectory(const Directory: String): LongBool; inline;
     function RemoveDirectory(const Directory: String): LongBool; inline;
   public
@@ -125,6 +129,12 @@ begin
   FClient:= TPipeTransport.Create(MasterAddress + AName);
 end;
 
+destructor TMasterProxy.Destroy;
+begin
+  inherited Destroy;
+  FClient.Free;
+end;
+
 class function TMasterProxy.Instance: TMasterProxy;
 begin
   Result:= MasterProxy;
@@ -144,6 +154,32 @@ begin
     Stream.Seek(SizeOf(UInt32), soFromCurrent);
     // Write arguments
     Stream.WriteAnsiString(ObjectName);
+    // Write data size
+    Stream.Seek(SizeOf(UInt32), soFromBeginning);
+    Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
+    // Send command
+    FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+    // Receive command result
+    FClient.ReadBuffer(Result, SizeOf(Result));
+  finally
+    Stream.Free;
+  end;
+end;
+
+function TWorkerProxy.ProcessObject(ACommand: UInt32; const OldName,
+  NewName: String): LongBool;
+var
+  Stream: TMemoryStream;
+begin
+  Result:= False;
+  Stream:= TMemoryStream.Create;
+  try
+    // Write header
+    Stream.WriteDWord(ACommand);
+    Stream.Seek(SizeOf(UInt32), soFromCurrent);
+    // Write arguments
+    Stream.WriteAnsiString(OldName);
+    Stream.WriteAnsiString(NewName);
     // Write data size
     Stream.Seek(SizeOf(UInt32), soFromBeginning);
     Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
@@ -198,28 +234,18 @@ begin
 end;
 
 function TWorkerProxy.RenameFile(const OldName, NewName: String): LongBool;
-var
-  Stream: TMemoryStream;
 begin
-  Result:= False;
-  Stream:= TMemoryStream.Create;
-  try
-    // Write header
-    Stream.WriteDWord(RPC_RenameFile);
-    Stream.Seek(SizeOf(UInt32), soFromCurrent);
-    // Write arguments
-    Stream.WriteAnsiString(OldName);
-    Stream.WriteAnsiString(NewName);
-    // Write data size
-    Stream.Seek(SizeOf(UInt32), soFromBeginning);
-    Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
-    // Send command
-    FClient.WriteBuffer(Stream.Memory^, Stream.Size);
-    // Receive command result
-    FClient.ReadBuffer(Result, SizeOf(Result));
-  finally
-    Stream.Free;
-  end;
+  Result:= ProcessObject(RPC_RenameFile, OldName, NewName);
+end;
+
+function TWorkerProxy.CreateHardLink(const Path, LinkName: String): LongBool;
+begin
+  Result:= ProcessObject(RPC_CreateHardLink, Path, LinkName);
+end;
+
+function TWorkerProxy.CreateSymbolicLink(const Path, LinkName: String): LongBool;
+begin
+  Result:= ProcessObject(RPC_CreateSymbolicLink, Path, LinkName);
 end;
 
 function TWorkerProxy.CreateDirectory(const Directory: String): LongBool;

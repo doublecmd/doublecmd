@@ -30,6 +30,9 @@ const
   RPC_DeleteFile = 3;
   RPC_RenameFile = 4;
 
+  RPC_CreateHardLink = 8;
+  RPC_CreateSymbolicLink = 7;
+
   RPC_CreateDirectory = 5;
   RPC_RemoveDirectory = 6;
 
@@ -91,9 +94,10 @@ end;
 procedure TWorkerService.ProcessRequest(ATransport: TBaseTransport; ACommand: Int32;
   ARequest: TStream);
 var
-  Handle: THandle;
-  FileName: String;
   Mode: Integer;
+  Handle: THandle;
+  NewName: String;
+  FileName: String;
   Result: LongBool;
 begin
   case ACommand of
@@ -119,6 +123,30 @@ begin
       DCDebug('FileCreate ', FileName);
       Handle:= mbFileCreate(FileName, Mode);
       ATransport.WriteHandle(Handle);
+    end;
+  RPC_RenameFile:
+    begin
+      FileName:= ARequest.ReadAnsiString;
+      NewName:= ARequest.ReadAnsiString;
+      DCDebug('RenameFile ', FileName);
+      Result:= mbRenameFile(FileName, NewName);
+      ATransport.WriteBuffer(Result, SizeOf(Result));
+    end;
+  RPC_CreateHardLink:
+    begin
+      FileName:= ARequest.ReadAnsiString;
+      NewName:= ARequest.ReadAnsiString;
+      DCDebug('CreateHardLink ', NewName);
+      Result:= CreateHardLink(FileName, NewName);
+      ATransport.WriteBuffer(Result, SizeOf(Result));
+    end;
+  RPC_CreateSymbolicLink:
+    begin
+      FileName:= ARequest.ReadAnsiString;
+      NewName:= ARequest.ReadAnsiString;
+      DCDebug('CreateSymbolicLink ', NewName);
+      Result:= CreateSymLink(FileName, NewName);
+      ATransport.WriteBuffer(Result, SizeOf(Result));
     end;
   RPC_CreateDirectory:
     begin
