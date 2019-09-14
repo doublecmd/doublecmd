@@ -4,15 +4,16 @@ unit uSuperUser;
 
 interface
 
+function TerminateProcess(Process: PtrInt): Boolean;
 function ElevationRequired(LastError: Integer = 0): Boolean;
-function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String = ''): Boolean;
+function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String = ''): PtrInt;
 
 implementation
 
 uses
   SysUtils
 {$IF DEFINED(MSWINDOWS)}
-  , Windows, DCOSUtils
+  , Windows, DCOSUtils, ShellApi
 {$ELSEIF DEFINED(UNIX)}
   , Unix, BaseUnix, DCUnix
   {$IF DEFINED(DARWIN)}
@@ -35,6 +36,17 @@ begin
 end;
 {$ENDIF}
 
+function TerminateProcess(Process: PtrInt): Boolean;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  Result:= Windows.TerminateProcess(Process, 1);
+end;
+{$ELSE}
+begin
+  Result:= fpKill(Process, SIGTERM) = 0;
+end;
+{$ENDIF}
+
 {$IF DEFINED(UNIX)}
 
 function WaitForPidThread(Parameter : Pointer): PtrInt;
@@ -47,7 +59,7 @@ begin
   Result:= Status; EndThread(Result);
 end;
 
-function ExecuteCommand(Command: String; Args: TStringArray; StartPath: String): Boolean;
+function ExecuteCommand(Command: String; Args: TStringArray; StartPath: String): PtrInt;
 var
   ProcessId : TPid;
 begin
@@ -79,16 +91,29 @@ begin
       {$POP}
     end;
 
-  Result := (ProcessId > 0);
+  Result := ProcessId;
+end;
+
+{$ELSEIF DEFINED(MSWINDOWS)}
+
+function WaitProcessThread(Parameter : Pointer): PtrInt;
+var
+  hProcess: THandle absolute Parameter;
+begin
+  Result:= 0;
+  WaitForSingleObject(hProcess, INFINITE);
+  CloseHandle(hProcess);
+  EndThread(Result);
 end;
 
 {$ENDIF}
 
-function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String): Boolean;
+function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String): PtrInt;
 {$IF DEFINED(MSWINDOWS)}
 var
   Index: Integer;
   AParams: String;
+  lpExecInfo: TShellExecuteInfoW;
 begin
   AParams := EmptyStr;
   for Index := Low(Args) to High(Args) do
@@ -97,9 +122,25 @@ begin
   if sStartPath = EmptyStr then
     sStartPath:= mbGetCurrentDir;
 
-  Result:= ShellExecuteW(0, 'runas', PWideChar(UTF8Decode(Exe)),
-                         PWideChar(UTF8Decode(AParams)),
-                         PWideChar(UTF8Decode(sStartPath)), SW_SHOW) > 32;
+  ZeroMemory(@lpExecInfo, SizeOf(lpExecInfo));
+  lpExecInfo.cbSize:= SizeOf(lpExecInfo);
+  lpExecInfo.fMask:= SEE_MASK_NOCLOSEPROCESS;
+  lpExecInfo.lpFile:= PWideChar(UTF8Decode(Exe));
+  lpExecInfo.lpDirectory:= PWideChar(UTF8Decode(sStartPath));
+  lpExecInfo.lpParameters:= PWideChar(UTF8Decode(AParams));
+  lpExecInfo.lpVerb:= 'runas';
+
+  if ShellExecuteExW(@lpExecInfo) then
+    Result:= lpExecInfo.hProcess
+  else
+    Result:= -1;
+
+  if (lpExecInfo.hProcess <> 0) then
+  begin
+    {$PUSH}{$WARNINGS OFF}{$HINTS OFF}
+    BeginThread(@WaitProcessThread, Pointer(lpExecInfo.hProcess));
+    {$POP}
+  end;
 end;
 {$ELSEIF DEFINED(DARWIN)}
 var

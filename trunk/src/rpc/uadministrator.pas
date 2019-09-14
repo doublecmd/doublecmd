@@ -55,6 +55,11 @@ function RequestElevation(const Message, FileName: String): Boolean;
 var
   Text: String;
 begin
+  if GetCurrentThreadId <> MainThreadID then
+  begin
+    if Assigned(TThread.CurrentThread.FatalException) then
+      Exit(True);
+  end;
   Text:= rsElevationRequired + LineEnding;
   Text += Message + LineEnding + FileName;
   Result:= ShowMessageBox(Text, mbSysErrorMessage, MB_OKCANCEL) = IDOK;
@@ -187,9 +192,12 @@ begin
     raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
 end;
 
+var
+  ChildProcess: PtrInt = 0;
+
 procedure ElevateProcedure;
 begin
-  ExecCmdAdmin(ParamStr(0), ['--service', IntToStr(GetProcessID)]);
+  ChildProcess:= ExecCmdAdmin(ParamStr(0), ['--service', IntToStr(GetProcessID)]);
 end;
 
 procedure Initialize;
@@ -199,6 +207,9 @@ end;
 
 initialization
   Initialize;
+
+finalization
+  TerminateProcess(ChildProcess);
 
 end.
 
