@@ -56,7 +56,7 @@ var
 implementation
 
 uses
-  uSuperUser, uDebug;
+  uDebug;
 
 const
   MasterAddress = 'doublecmd-master-';
@@ -269,7 +269,7 @@ begin
       DCDebug('Start worker server');
       StartWorkerServer(ParamStr(2));
       CreateMasterProxy(ParamStr(2));
-      ReadLn;
+      Sleep(MaxInt);
       Halt;
     end;
   end;

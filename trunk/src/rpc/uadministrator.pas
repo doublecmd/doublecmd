@@ -37,7 +37,7 @@ type
 implementation
 
 uses
-  RtlConsts, DCOSUtils, Dialogs, UITypes, uElevation, uSuperUser;
+  RtlConsts, DCOSUtils, LCLType, uShowMsg, uElevation, uSuperUser;
 
 resourcestring
   rsElevationRequired = 'You need to provide administrator permission';
@@ -52,7 +52,7 @@ var
 begin
   Text:= rsElevationRequired + LineEnding;
   Text += Message + LineEnding + FileName;
-  Result:= MessageDlg(mbSysErrorMessage, Text, mtConfirmation, [mbYes, mbNo], 0) = mrYes;
+  Result:= ShowMessageBox(Text, mbSysErrorMessage, MB_OKCANCEL) = IDOK;
 end;
 
 function FileOpenUAC(const FileName: String; Mode: LongWord): System.THandle;
