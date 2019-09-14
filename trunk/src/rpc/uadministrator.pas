@@ -37,7 +37,7 @@ type
 implementation
 
 uses
-  RtlConsts, DCOSUtils, uElevation;
+  RtlConsts, DCOSUtils, uElevation, uSuperUser;
 
 resourcestring
   rsElevationRequired = 'You need to provide administrator permission';
