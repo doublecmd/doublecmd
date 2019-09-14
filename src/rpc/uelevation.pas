@@ -38,6 +38,7 @@ type
     function RemoveDirectory(const Directory: String): LongBool; inline;
   public
     constructor Create;
+    destructor Destroy; override;
     class function Instance: TWorkerProxy;
   end;
 
@@ -234,6 +235,13 @@ end;
 constructor TWorkerProxy.Create;
 begin
   FClient:= TPipeTransport.Create(WorkerAddress + IntToStr(GetProcessID));
+end;
+
+destructor TWorkerProxy.Destroy;
+begin
+  DCDebug('TWorkerProxy.Destroy');
+  inherited Destroy;
+  FClient.Free;
 end;
 
 class function TWorkerProxy.Instance: TWorkerProxy;
