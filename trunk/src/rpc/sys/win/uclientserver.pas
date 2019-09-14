@@ -68,7 +68,7 @@ type
 implementation
 
 uses 
-  JwaWinBase, Windows, uNamedPipes;
+  JwaWinBase, Windows, uNamedPipes, uDebug;
 
 { TPipeTransport }
 
@@ -76,7 +76,7 @@ procedure TPipeTransport.Connect;
 begin
   if (FPipe = 0) then
   begin
-    WriteLn('Connect to ', FAddress,'_');
+    DCDebug('Connect to ', FAddress,'_');
 
     FPipe:= CreateFileW(PWideChar('\\.\pipe\' + FAddress),
       GENERIC_WRITE or
@@ -221,7 +221,7 @@ constructor TClientHandlerThread.Create(APipe: THandle; AOwner: TBaseService);
 begin
   FOwner := AOwner;
   FreeOnTerminate := True;
-  WriteLn('Connected success');
+  DCDebug('Connected success');
   FTransport:= TPipeTransport.Create(APipe, FOwner.ProcessID);
   inherited Create(False);
 end;
@@ -267,7 +267,7 @@ begin
     if hPipe = INVALID_HANDLE_VALUE then
       Halt;
 
-    WriteLn('Start server ', AName);
+    DCDebug('Start server ', AName);
 
     // Wait client connection
     if not (ConnectNamedPipe(hPipe, nil) or (GetLastError() = ERROR_PIPE_CONNECTED)) then

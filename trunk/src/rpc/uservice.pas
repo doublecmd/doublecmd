@@ -69,7 +69,7 @@ type
 implementation
 
 uses
-  uClientServer;
+  uClientServer, uDebug;
 
 { TServerThread }
 
@@ -162,7 +162,7 @@ begin
   FTransport.Free;
   inherited Destroy;
   InterLockedDecrement(FOwner.ClientCount);
-  WriteLn('TClientThread.Destroy ', FOwner.ClientCount);
+  DCDebug('TClientThread.Destroy ', IntToStr(FOwner.ClientCount));
 end;
 
 end.
