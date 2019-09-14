@@ -38,7 +38,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS)"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -81,7 +81,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS)"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -120,7 +120,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS)"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -162,7 +162,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS)"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -1895,7 +1895,7 @@ end;"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\units"/>
-      <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS)"/>
+      <OtherUnitFiles Value="platform;platform\$(SrcOS);platform\$(SrcOS)\$(TargetOS);..\sdk;frames;fileviews;filesources;filesources\filesystem;filesources\multiarchive;filesources\multilist;filesources\searchresult;filesources\tempfilesystem;filesources\vfs;filesources\wcxarchive;filesources\wfxplugin;filesources\winnet;platform\unix\glib;platform\unix\mime;filesources\gio;rpc;rpc\sys\$(SrcOS);rpc\sys"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
     </SearchPaths>
