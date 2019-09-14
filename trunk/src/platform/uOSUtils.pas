@@ -113,8 +113,6 @@ function ExecCmdFork(sCmd: String): Boolean;
 }
 function ExecCmdFork(sCmd: String; sParams: String; sStartPath: String = ''; bShowCommandLinePriorToExecute: Boolean = False;
                      bTerm: Boolean = False; bKeepTerminalOpen: tTerminalEndindMode = termStayOpen): Boolean;
-
-function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String = ''): Boolean;
 {en
    Opens a file or URL in the user's preferred application
    @param(URL File name or URL)
@@ -405,58 +403,6 @@ begin
   end;
 
   Result := (ExecutionResult > 32);
-end;
-{$ENDIF}
-
-function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String): Boolean;
-{$IF DEFINED(MSWINDOWS)}
-var
-  Index: Integer;
-  AParams: String;
-begin
-  AParams := EmptyStr;
-  for Index := Low(Args) to High(Args) do
-    AParams += QuoteDouble(Args[Index]) + ' ';
-
-  if sStartPath = EmptyStr then
-    sStartPath:= mbGetCurrentDir;
-
-  Result:= ShellExecuteW(0, 'runas', PWideChar(UTF8Decode(Exe)),
-                         PWideChar(UTF8Decode(AParams)),
-                         PWideChar(UTF8Decode(sStartPath)), SW_SHOW) > 32;
-end;
-{$ELSEIF DEFINED(DARWIN)}
-var
-  Index: Integer;
-  ACommand: String;
-  AParams: TStringArray;
-begin
-  ACommand:= EscapeNoQuotes(Exe);
-  for Index := Low(Args) to High(Args) do
-    ACommand += ' ' + EscapeNoQuotes(Args[Index]);
-
-  SetLength(AParams, 7);
-  AParams[0]:= '-e';
-  AParams[1]:= 'on run argv';
-  AParams[2]:= '-e';
-  AParams[3]:= 'do shell script (item 1 of argv) with administrator privileges';
-  AParams[4]:= '-e';
-  AParams[5]:='end run';
-  AParams[6]:= ACommand;
-
-  Result:= ExecuteCommand('/usr/bin/osascript', AParams, sStartPath);
-end;
-{$ELSE}
-var
-  Index: Integer;
-  AParams: TStringArray;
-begin
-  SetLength(AParams, Length(Args) + 1);
-  for Index := Low(Args) to High(Args) do
-    AParams[Index + 1]:= Args[Index];
-  AParams[0] := Exe;
-
-  Result:= ExecuteCommand('/usr/bin/pkexec', AParams, sStartPath);
 end;
 {$ENDIF}
 

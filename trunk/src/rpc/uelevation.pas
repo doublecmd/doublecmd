@@ -49,13 +49,14 @@ procedure CreateWorkerProxy();
 procedure CreateMasterProxy(const AName: String);
 
 var
+  ElevateSelf: TProcedure;
   MasterService: TMasterService;
   WorkerService: TWorkerService;
 
 implementation
 
 uses
-  uOSUtils, uDebug;
+  uSuperUser, uDebug;
 
 const
   MasterAddress = 'doublecmd-master-';
@@ -253,7 +254,7 @@ begin
   Result:= TWorkerProxy(AProxy^);
   if MasterService.ClientCount = 0 then
   begin
-    ExecCmdAdmin(ParamStrU(0), ['--service', IntToStr(GetProcessID)]);
+    ElevateSelf();
     MasterService.Wait;
     Result.FClient.Disconnect;
   end;

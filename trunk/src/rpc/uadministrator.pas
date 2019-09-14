@@ -168,5 +168,18 @@ begin
     raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
 end;
 
+procedure ElevateProcedure;
+begin
+  ExecCmdAdmin(ParamStr(0), ['--service', IntToStr(GetProcessID)]);
+end;
+
+procedure Initialize;
+begin
+  ElevateSelf:= @ElevateProcedure;
+end;
+
+initialization
+  Initialize;
+
 end.
 
