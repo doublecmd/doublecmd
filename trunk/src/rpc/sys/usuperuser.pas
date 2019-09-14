@@ -4,6 +4,7 @@ unit uSuperUser;
 
 interface
 
+function ElevationRequired(LastError: Integer = 0): Boolean;
 function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String = ''): Boolean;
 
 implementation
@@ -19,6 +20,19 @@ uses
   {$ENDIF}
 {$ENDIF}
   ;
+
+function ElevationRequired(LastError: Integer = 0): Boolean;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  if LastError = 0 then LastError:= GetLastError;
+  Result:= (LastError = ERROR_ACCESS_DENIED) or (LastError = ERROR_PRIVILEGE_NOT_HELD) or (LastError = ERROR_INVALID_OWNER);
+end;
+{$ELSE}
+begin
+  if LastError = 0 then LastError:= GetLastOSError;
+  Result:= (LastError = ESysEPERM) or (LastError = ESysEACCES);
+end;
+{$ENDIF}
 
 {$IF DEFINED(UNIX)}
 

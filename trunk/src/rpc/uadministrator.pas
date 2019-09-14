@@ -5,7 +5,7 @@ unit uAdministrator;
 interface
 
 uses
-  Windows, Classes, SysUtils;
+  Classes, SysUtils;
 
 function FileOpenUAC(const FileName: String; Mode: LongWord): System.THandle;
 function FileCreateUAC(const FileName: String; Mode: LongWord): System.THandle;
@@ -37,7 +37,7 @@ type
 implementation
 
 uses
-  RtlConsts, DCOSUtils, uElevation, uSuperUser;
+  RtlConsts, DCOSUtils, Dialogs, UITypes, uElevation, uSuperUser;
 
 resourcestring
   rsElevationRequired = 'You need to provide administrator permission';
@@ -52,13 +52,7 @@ var
 begin
   Text:= rsElevationRequired + LineEnding;
   Text += Message + LineEnding + FileName;
-  REsult:= MessageBox(0, PAnsiChar(Text), nil, MB_OKCANCEL) = IDOK;
-end;
-
-function ElevationRequired(LastError: Integer = 0): Boolean;
-begin
-  if LastError = 0 then LastError:= GetLastError;
-  Result:= (LastError = ERROR_ACCESS_DENIED) or (LastError = ERROR_PRIVILEGE_NOT_HELD) or (LastError = ERROR_INVALID_OWNER);
+  Result:= MessageDlg(mbSysErrorMessage, Text, mtConfirmation, [mbYes, mbNo], 0) = mrYes;
 end;
 
 function FileOpenUAC(const FileName: String; Mode: LongWord): System.THandle;
