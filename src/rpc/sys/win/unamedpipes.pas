@@ -13,7 +13,7 @@ function VerifyParent(hPipe: THandle): Boolean;
 implementation
 
 uses
-  Windows, uProcessInfo;
+  Windows, uProcessInfo, uDebug;
 
 var
   GetNamedPipeClientProcessId: function(Pipe: HANDLE; ClientProcessId: PULONG): BOOL; stdcall;
@@ -27,9 +27,8 @@ begin
     // Allow to connect from child process and same executable only
     if GetCurrentProcessId = GetParentProcessId(ClientProcessId) then
     begin
-
-      WriteLn('My: ', GetProcessFileName(GetCurrentProcess));
-      WriteLn('Client: ', GetProcessFileNameEx(ClientProcessId));
+      DCDebug('My: ', GetProcessFileName(GetCurrentProcess));
+      DCDebug('Client: ', GetProcessFileNameEx(ClientProcessId));
 
       if UnicodeSameText(GetProcessFileName(GetCurrentProcess), GetProcessFileNameEx(ClientProcessId)) then
         Exit(True);
@@ -47,8 +46,8 @@ begin
     if ClientProcessId = GetParentProcessId(GetCurrentProcessId) then
     begin
 
-      WriteLn('My: ', GetProcessFileName(GetCurrentProcess));
-      WriteLn('Client: ', GetProcessFileNameEx(ClientProcessId));
+      DCDebug('My: ', GetProcessFileName(GetCurrentProcess));
+      DCDebug('Client: ', GetProcessFileNameEx(ClientProcessId));
 
       if UnicodeSameText(GetProcessFileName(GetCurrentProcess), GetProcessFileNameEx(ClientProcessId)) then
         Exit(True);

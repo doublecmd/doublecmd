@@ -49,7 +49,7 @@ var
 implementation
 
 uses
-  DCOSUtils;
+  DCOSUtils, uDebug;
 
 { TMasterService }
 
@@ -100,7 +100,7 @@ begin
   RPC_DeleteFile:
     begin
       FileName:= ARequest.ReadAnsiString;
-      WriteLn('DeleteFile ', FileName);
+      DCDebug('DeleteFile ', FileName);
       Result:= mbDeleteFile(FileName);
       ATransport.WriteBuffer(Result, SizeOf(Result));
     end;
@@ -108,7 +108,7 @@ begin
     begin
       FileName:= ARequest.ReadAnsiString;
       Mode:= ARequest.ReadDWord;
-      WriteLn('FileOpen ', FileName);
+      DCDebug('FileOpen ', FileName);
       Handle:= mbFileOpen(FileName, Mode);
       ATransport.WriteHandle(Handle);
     end;
@@ -116,21 +116,21 @@ begin
     begin
       FileName:= ARequest.ReadAnsiString;
       Mode:= ARequest.ReadDWord;
-      WriteLn('FileCreate ', FileName);
+      DCDebug('FileCreate ', FileName);
       Handle:= mbFileCreate(FileName, Mode);
       ATransport.WriteHandle(Handle);
     end;
   RPC_CreateDirectory:
     begin
       FileName:= ARequest.ReadAnsiString;
-      WriteLn('CreateDirectory ', FileName);
+      DCDebug('CreateDirectory ', FileName);
       Result:= mbCreateDir(FileName);
       ATransport.WriteBuffer(Result, SizeOf(Result));
     end;
   RPC_RemoveDirectory:
     begin
       FileName:= ARequest.ReadAnsiString;
-      WriteLn('RemoveDirectory ', FileName);
+      DCDebug('RemoveDirectory ', FileName);
       Result:= mbRemoveDir(FileName);
       ATransport.WriteBuffer(Result, SizeOf(Result));
     end;
