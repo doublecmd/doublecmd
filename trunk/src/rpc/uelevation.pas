@@ -96,9 +96,9 @@ begin
   if not MasterProxy.Execute then Halt;
 end;
 
-procedure CreateWorkerProxy();
+procedure CreateWorkerProxy;
 begin
-
+  WorkerProxy:= TWorkerProxy.Create;
 end;
 
 { TMasterProxy }
@@ -298,16 +298,16 @@ var
   AThread: TThread;
 begin
   if GetCurrentThreadId = MainThreadID then
-    AProxy:= @WorkerProxy
+    Result:= WorkerProxy
   else begin
     AThread:= TThread.CurrentThread;
     AProxy:= @AThread.FatalException;
+    if (AProxy^ = nil) then
+    begin
+      AProxy^:= TWorkerProxy.Create;
+    end;
+    Result:= TWorkerProxy(AProxy^);
   end;
-  if (AProxy^ = nil) then
-  begin
-    AProxy^:= TWorkerProxy.Create;
-  end;
-  Result:= TWorkerProxy(AProxy^);
   if MasterService.ClientCount = 0 then
   begin
     ElevateSelf();

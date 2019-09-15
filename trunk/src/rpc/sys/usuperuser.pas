@@ -106,6 +106,14 @@ begin
   EndThread(Result);
 end;
 
+function MaybeQuoteIfNotQuoted(const S: String): String;
+begin
+  if (Pos(' ', S) <> 0) and (pos('"', S) = 0) then
+    Result := '"' + S + '"'
+  else
+    Result := S;
+end;
+
 {$ENDIF}
 
 function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String): PtrInt;
@@ -117,7 +125,7 @@ var
 begin
   AParams := EmptyStr;
   for Index := Low(Args) to High(Args) do
-    AParams += '"' + Args[Index] + '" ';
+    AParams += MaybeQuoteIfNotQuoted(Args[Index]) + ' ';
 
   if sStartPath = EmptyStr then
     sStartPath:= mbGetCurrentDir;
