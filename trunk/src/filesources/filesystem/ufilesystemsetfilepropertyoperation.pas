@@ -53,7 +53,7 @@ uses
   uGlobs, uLng, DCDateTimeUtils, uFileSystemUtil,
   DCOSUtils, DCStrUtils, DCBasicTypes
   {$IF DEFINED(MSWINDOWS)}
-    , Windows, ShellAPI
+    , uAdministrator
   {$ELSEIF DEFINED(UNIX)}
     , BaseUnix, DCUnix
   {$ENDIF}
@@ -322,37 +322,6 @@ var
     end;
   end;
 
-{$IFDEF MSWINDOWS}
-  function CanShellRename: Boolean;
-  begin
-    Result := (FFullFilesTree.Count = 1) and
-              (UTF8Length(OldName) < MAX_PATH - 1) and (UTF8Length(NewName) < MAX_PATH - 1) and
-              (not StrBegins(ExtractFileName(OldName), ' ')) and (StrBegins(ExtractFileName(NewName), ' '));
-  end;
-
-  function ShellRename: Boolean;
-  var
-    wsFromName, wsToName: WideString;
-    FileOpStruct: TSHFileOpStructW;
-  begin
-    wsFromName := UTF8Decode(OldName) + #0;
-    wsToName   := UTF8Decode(NewName) + #0;
-    FillByte(FileOpStruct, SizeOf(FileOpStruct), 0);
-    with FileOpStruct do
-    begin
-      Wnd   := GetForegroundWindow;
-      // Use rename operation when only file name case is changed
-      if UTF8LowerCase(OldName) = UTF8LowerCase(NewName) then
-        wFunc := FO_RENAME
-      else
-        wFunc := FO_MOVE;
-      pFrom := PWideChar(wsFromName);
-      pTo   := PWideChar(wsToName);
-    end;
-    Result := (SHFileOperationW(@FileOpStruct) = 0) and (not FileOpStruct.fAnyOperationsAborted);
-  end;
-{$ENDIF}
-
 var
 {$IFDEF UNIX}
   tmpFileName: String;
@@ -464,36 +433,26 @@ begin
 
 {$ELSE}
 
-  if gUseShellForFileOperations and CanShellRename then
+  // Windows XP doesn't allow two filenames that differ only by case (even on NTFS).
+  if UTF8LowerCase(OldName) <> UTF8LowerCase(NewName) then
   begin
-    if ShellRename then
-      Result := sfprSuccess
-    else
-      Result := sfprError;
-  end
-  else
-  begin
-    // Windows XP doesn't allow two filenames that differ only by case (even on NTFS).
-    if UTF8LowerCase(OldName) <> UTF8LowerCase(NewName) then
+    NewFileAttrs := mbFileGetAttr(NewName);
+    if NewFileAttrs <> faInvalidAttributes then  // If target file exists.
     begin
-      NewFileAttrs := mbFileGetAttr(NewName);
-      if NewFileAttrs <> faInvalidAttributes then  // If target file exists.
-      begin
-        case AskIfOverwrite(NewFileAttrs) of
-          fsourOverwrite: ; // continue
-          fsourSkip:
-            Exit(sfprSkipped);
-          fsourAbort:
-            RaiseAbortOperation;
-        end;
+      case AskIfOverwrite(NewFileAttrs) of
+        fsourOverwrite: ; // continue
+        fsourSkip:
+          Exit(sfprSkipped);
+        fsourAbort:
+          RaiseAbortOperation;
       end;
     end;
-
-    if mbRenameFile(OldName, NewName) then
-      Result := sfprSuccess
-    else
-      Result := sfprError;
   end;
+
+  if RenameFileUAC(OldName, NewName) then
+    Result := sfprSuccess
+  else
+    Result := sfprError;
 {$ENDIF}
 end;
 
