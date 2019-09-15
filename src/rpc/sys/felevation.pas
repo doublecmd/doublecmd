@@ -28,6 +28,11 @@ function ShowElevation(const ATitle, AText: String): TMyMsgResult;
 
 implementation
 
+{$IF DEFINED(MSWINDOWS)}
+uses
+  Windows, uIcoFiles;
+{$ENDIF}
+
 {$R *.lfm}
 
 function ShowElevation(const ATitle, AText: String): TMyMsgResult;
@@ -56,7 +61,23 @@ end;
 { TfrmElevation }
 
 procedure TfrmElevation.ShowModalSync;
+{$IF DEFINED(MSWINDOWS)}
+const
+  IDI_SHIELD = PAnsiChar(32518);
+var
+  hIcon: THandle;
+  AIcon: Graphics.TIcon;
+{$ENDIF}
 begin
+{$IF DEFINED(MSWINDOWS)}
+  hIcon:= LoadImage(0, IDI_SHIELD, IMAGE_ICON, 0, 0, LR_DEFAULTSIZE or LR_SHARED);
+  if (hIcon <> 0) then
+  begin
+    AIcon:= CreateIconFromHandle(hIcon);
+    imgShield.Picture.Assign(AIcon);
+    AIcon.Free;
+  end;
+{$ENDIF}
   ModalResult:= ShowModal;
 end;
 
