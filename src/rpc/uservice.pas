@@ -136,6 +136,7 @@ var
   ARequest : TMemoryStream;
 begin
   InterLockedIncrement(FOwner.ClientCount);
+
   while not Terminated do
   begin
     try
@@ -152,17 +153,19 @@ begin
       on E: Exception do
       begin
         Terminate;
+        DCDebug(E.Message);
       end;
     end;
   end;
+
+  InterLockedDecrement(FOwner.ClientCount);
 end;
 
 destructor TClientThread.Destroy;
 begin
   FTransport.Free;
   inherited Destroy;
-  InterLockedDecrement(FOwner.ClientCount);
-  DCDebug('TClientThread.Destroy ', IntToStr(FOwner.ClientCount));
+  DCDebug('TClientThread.Destroy');
 end;
 
 end.
