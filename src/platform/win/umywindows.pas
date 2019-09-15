@@ -84,6 +84,10 @@ procedure mbWaitLabelChange(const sDrv: String; const sCurLabel: String);
 }
 procedure mbCloseCD(const sDrv: String);
 function mbDriveBusType(Drive: AnsiChar): UInt32;
+{en
+   Get physical drive serial number
+}
+function mbGetDriveSerialNumber(Drive: AnsiChar): String;
 procedure mbDriveUnlock(const sDrv: String);
 {en
    Get remote file name by local file name
@@ -425,6 +429,9 @@ begin
   mciSendCommandA(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
 end;
 
+const
+  IOCTL_STORAGE_QUERY_PROPERTY = $2D1400;
+
 type
   STORAGE_PROPERTY_QUERY = record
     PropertyId: DWORD;
@@ -449,8 +456,6 @@ type
   end;
 
 function mbDriveBusType(Drive: AnsiChar): UInt32;
-const
-  IOCTL_STORAGE_QUERY_PROPERTY = $2D1400;
 var
   Dummy: DWORD;
   Handle: THandle;
@@ -475,6 +480,37 @@ begin
                         @Dummy, nil)) then
     begin
       Result := Descr.BusType;
+    end;
+
+    CloseHandle(Handle);
+  end;
+end;
+
+function mbGetDriveSerialNumber(Drive: AnsiChar): String;
+var
+  Handle: THandle;
+  dwBytesReturned: DWORD;
+  Query: STORAGE_PROPERTY_QUERY;
+  ABuffer: array[0..4095] of Byte;
+  VolumePath: UnicodeString = '\\.\X:';
+  Descr: STORAGE_DEVICE_DESCRIPTOR absolute ABuffer;
+begin
+  Result:= EmptyStr;
+  VolumePath[5] := WideChar(Drive);
+  Handle:= CreateFileW(PWideChar(VolumePath), 0,
+                      FILE_SHARE_READ or FILE_SHARE_WRITE, nil, OPEN_EXISTING, 0, 0);
+
+  if Handle <> INVALID_HANDLE_VALUE then
+  begin
+    ZeroMemory(@ABuffer[0], SizeOf(ABuffer));
+    ZeroMemory(@Query, SizeOf(STORAGE_PROPERTY_QUERY));
+
+    if DeviceIoControl(Handle, IOCTL_STORAGE_QUERY_PROPERTY,
+                       @Query, SizeOf(STORAGE_PROPERTY_QUERY),
+                       @ABuffer[0], SizeOf(ABuffer), @dwBytesReturned, nil) then
+    begin
+      if (Descr.SerialNumberOffset > 0) then
+        Result := StrPas(PAnsiChar(@ABuffer[0] + Descr.SerialNumberOffset));
     end;
 
     CloseHandle(Handle);
