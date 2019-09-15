@@ -59,7 +59,7 @@ type
 implementation
 
 uses
-  DCOSUtils, DCStrUtils, uLng, uFileSystemUtil, uTrash
+  DCOSUtils, DCStrUtils, uLng, uFileSystemUtil, uTrash, uAdministrator
 {$IF DEFINED(MSWINDOWS)}
   , Windows,  uFileUnlock, fFileUnlock
 {$ENDIF}
@@ -213,11 +213,11 @@ begin
 
       if aFile.IsDirectory then // directory
       begin
-        DeleteResult := mbRemoveDir(FileName);
+        DeleteResult := RemoveDirectoryUAC(FileName);
       end
       else
       begin // files and other stuff
-        DeleteResult := mbDeleteFile(FileName);
+        DeleteResult := DeleteFileUAC(FileName);
       end;
     end
     else
@@ -262,7 +262,7 @@ begin
             begin
               if aFile.IsLinkToDirectory then
                 begin
-                  DeleteResult := mbRemoveDir(FileName);
+                  DeleteResult := RemoveDirectoryUAC(FileName);
                 end
               else if aFile.IsDirectory then // directory
                 begin
@@ -272,7 +272,7 @@ begin
                 end
               else  // files and other stuff
                 begin
-                  DeleteResult := mbDeleteFile(FileName);
+                  DeleteResult := DeleteFileUAC(FileName);
                 end;
             end;
         end;

@@ -4,6 +4,9 @@ program doublecmd;
 
 {.$APPTYPE GUI}
 uses
+  {$IFDEF MSWINDOWS}
+  uElevation,
+  {$ENDIF}
   {$IFDEF DARWIN}
   uAppleMagnifiedModeFix,
   {$ENDIF}
@@ -17,6 +20,7 @@ uses
   {$ENDIF}
   cwstring,
   clocale,
+  uElevation,
   {$IFDEF LINUX}
   uAppImage,
   {$ENDIF}
