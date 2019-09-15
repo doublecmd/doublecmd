@@ -99,6 +99,7 @@ var
   NewName: String;
   FileName: String;
   Result: LongBool;
+  LastError: Integer;
 begin
   case ACommand of
   RPC_DeleteFile:
@@ -106,7 +107,9 @@ begin
       FileName:= ARequest.ReadAnsiString;
       DCDebug('DeleteFile ', FileName);
       Result:= mbDeleteFile(FileName);
+      LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
     end;
   RPC_FileOpen:
     begin
@@ -130,7 +133,9 @@ begin
       NewName:= ARequest.ReadAnsiString;
       DCDebug('RenameFile ', FileName);
       Result:= mbRenameFile(FileName, NewName);
+      LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
     end;
   RPC_CreateHardLink:
     begin
@@ -138,7 +143,9 @@ begin
       NewName:= ARequest.ReadAnsiString;
       DCDebug('CreateHardLink ', NewName);
       Result:= CreateHardLink(FileName, NewName);
+      LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
     end;
   RPC_CreateSymbolicLink:
     begin
@@ -146,21 +153,27 @@ begin
       NewName:= ARequest.ReadAnsiString;
       DCDebug('CreateSymbolicLink ', NewName);
       Result:= CreateSymLink(FileName, NewName);
+      LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
     end;
   RPC_CreateDirectory:
     begin
       FileName:= ARequest.ReadAnsiString;
       DCDebug('CreateDirectory ', FileName);
       Result:= mbCreateDir(FileName);
+      LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
     end;
   RPC_RemoveDirectory:
     begin
       FileName:= ARequest.ReadAnsiString;
       DCDebug('RemoveDirectory ', FileName);
       Result:= mbRemoveDir(FileName);
+      LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
     end;
   RPC_Terminate: Halt;
   end;
