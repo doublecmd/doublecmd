@@ -851,7 +851,7 @@ begin
     if Result then
     begin
       case ElevationType of
-        TokenElevationTypeDefault: Result:= False; // The token does not have a linked token. (UAC disabled)
+        TokenElevationTypeDefault: Result:= True;  // The token does not have a linked token. (UAC disabled)
         TokenElevationTypeFull:    Result:= True;  // The token is an elevated token. (Administrator)
         TokenElevationTypeLimited: Result:= False; // The token is a limited token. (User)
       end;

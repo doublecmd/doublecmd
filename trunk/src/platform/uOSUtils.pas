@@ -218,11 +218,6 @@ function GetCurrentUserName : String;
 }
 function GetComputerNetName: String;
 
-var
-  // While elevated operations is not implemented
-  // https://doublecmd.sourceforge.io/mantisbt/view.php?id=110
-  AdministratorPrivileges: Boolean = True;
-
 implementation
 
 uses
