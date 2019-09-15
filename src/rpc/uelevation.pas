@@ -61,7 +61,7 @@ var
 implementation
 
 uses
-  uDebug;
+  DCOSUtils, uDebug;
 
 const
   MasterAddress = 'doublecmd-master-';
@@ -144,6 +144,7 @@ end;
 
 function TWorkerProxy.ProcessObject(ACommand: UInt32; const ObjectName: String): LongBool;
 var
+  LastError: Integer;
   Stream: TMemoryStream;
 begin
   Result:= False;
@@ -161,6 +162,8 @@ begin
     FClient.WriteBuffer(Stream.Memory^, Stream.Size);
     // Receive command result
     FClient.ReadBuffer(Result, SizeOf(Result));
+    FClient.ReadBuffer(LastError, SizeOf(LastError));
+    SetLastOSError(LastError);
   finally
     Stream.Free;
   end;
@@ -169,6 +172,7 @@ end;
 function TWorkerProxy.ProcessObject(ACommand: UInt32; const OldName,
   NewName: String): LongBool;
 var
+  LastError: Integer;
   Stream: TMemoryStream;
 begin
   Result:= False;
@@ -187,6 +191,8 @@ begin
     FClient.WriteBuffer(Stream.Memory^, Stream.Size);
     // Receive command result
     FClient.ReadBuffer(Result, SizeOf(Result));
+    FClient.ReadBuffer(LastError, SizeOf(LastError));
+    SetLastOSError(LastError);
   finally
     Stream.Free;
   end;
