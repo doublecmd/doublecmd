@@ -239,11 +239,25 @@ begin
 end;
 
 var
-  ChildProcess: PtrInt = 0;
+  ChildProcess: UIntPtr = 0;
+
+function WaitProcessThread(Parameter : Pointer): PtrInt;
+begin
+  Result:= 0;
+  WaitProcess(ChildProcess);
+  ChildProcess:= 0;
+  EndThread(Result);
+end;
 
 procedure ElevateProcedure;
 begin
   ChildProcess:= ExecCmdAdmin(ParamStr(0), ['--service', IntToStr(GetProcessID)]);
+  if ChildProcess > 0 then
+  begin
+    {$PUSH}{$WARNINGS OFF}{$HINTS OFF}
+    BeginThread(@WaitProcessThread);
+    {$POP}
+  end;
 end;
 
 procedure Initialize;
@@ -255,7 +269,7 @@ initialization
   Initialize;
 
 finalization
-  TerminateProcess(ChildProcess);
+  if ChildProcess > 0 then TerminateProcess(ChildProcess);
 
 end.
 

@@ -4,9 +4,10 @@ unit uSuperUser;
 
 interface
 
-function TerminateProcess(Process: PtrInt): Boolean;
+procedure WaitProcess(Process: UIntPtr);
+function TerminateProcess(Process: UIntPtr): Boolean;
 function ElevationRequired(LastError: Integer = 0): Boolean;
-function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String = ''): PtrInt;
+function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String = ''): UIntPtr;
 
 implementation
 
@@ -22,6 +23,20 @@ uses
 {$ENDIF}
   ;
 
+procedure WaitProcess(Process: UIntPtr);
+{$IF DEFINED(MSWINDOWS)}
+begin
+  WaitForSingleObject(Process, INFINITE);
+  CloseHandle(Process);
+end;
+{$ELSE}
+var
+  Status : cInt = 0;
+begin
+  while (FpWaitPid(Process, @Status, 0) = -1) and (fpgeterrno() = ESysEINTR) do;
+end;
+{$ENDIF}
+
 function ElevationRequired(LastError: Integer = 0): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 begin
@@ -36,7 +51,7 @@ begin
 end;
 {$ENDIF}
 
-function TerminateProcess(Process: PtrInt): Boolean;
+function TerminateProcess(Process: UIntPtr): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 begin
   Result:= Windows.TerminateProcess(Process, 1);
@@ -49,17 +64,7 @@ end;
 
 {$IF DEFINED(UNIX)}
 
-function WaitForPidThread(Parameter : Pointer): PtrInt;
-var
-  Status : cInt = 0;
-  PID: PtrInt absolute Parameter;
-begin
-  while (FpWaitPid(PID, @Status, 0) = -1) and (fpgeterrno() = ESysEINTR) do;
-  WriteLn('Process ', PID, ' finished, exit status ', Status);
-  Result:= Status; EndThread(Result);
-end;
-
-function ExecuteCommand(Command: String; Args: TStringArray; StartPath: String): PtrInt;
+function ExecuteCommand(Command: String; Args: TStringArray; StartPath: String): UIntPtr;
 var
   ProcessId : TPid;
 begin
@@ -83,28 +88,15 @@ begin
   else if ProcessId = -1 then         { Fork failed }
     begin
       WriteLn('Fork failed: ' + Command, LineEnding, SysErrorMessage(fpgeterrno));
-    end
-  else if ProcessId > 0 then          { Parent }
-    begin
-      {$PUSH}{$WARNINGS OFF}{$HINTS OFF}
-      BeginThread(@WaitForPidThread, Pointer(PtrInt(ProcessId)));
-      {$POP}
     end;
 
-  Result := ProcessId;
+  if ProcessId < 0 then
+    Result := 0
+  else
+    Result := ProcessId;
 end;
 
 {$ELSEIF DEFINED(MSWINDOWS)}
-
-function WaitProcessThread(Parameter : Pointer): PtrInt;
-var
-  hProcess: THandle absolute Parameter;
-begin
-  Result:= 0;
-  WaitForSingleObject(hProcess, INFINITE);
-  CloseHandle(hProcess);
-  EndThread(Result);
-end;
 
 function MaybeQuoteIfNotQuoted(const S: String): String;
 begin
@@ -116,7 +108,7 @@ end;
 
 {$ENDIF}
 
-function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String): PtrInt;
+function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String): UIntPtr;
 {$IF DEFINED(MSWINDOWS)}
 var
   Index: Integer;
@@ -141,14 +133,7 @@ begin
   if ShellExecuteExW(@lpExecInfo) then
     Result:= lpExecInfo.hProcess
   else
-    Result:= -1;
-
-  if (lpExecInfo.hProcess <> 0) then
-  begin
-    {$PUSH}{$WARNINGS OFF}{$HINTS OFF}
-    BeginThread(@WaitProcessThread, Pointer(lpExecInfo.hProcess));
-    {$POP}
-  end;
+    Result:= 0;
 end;
 {$ELSEIF DEFINED(DARWIN)}
 var
