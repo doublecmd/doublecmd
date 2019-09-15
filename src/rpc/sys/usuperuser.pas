@@ -14,7 +14,7 @@ implementation
 uses
   SysUtils
 {$IF DEFINED(MSWINDOWS)}
-  , Windows, DCOSUtils, ShellApi
+  , Windows, DCOSUtils, ShellApi, uMyWindows
 {$ELSEIF DEFINED(UNIX)}
   , Unix, BaseUnix, DCUnix
   {$IF DEFINED(DARWIN)}
@@ -22,6 +22,9 @@ uses
   {$ENDIF}
 {$ENDIF}
   ;
+
+var
+  AdministratorPrivileges: Boolean;
 
 procedure WaitProcess(Process: UIntPtr);
 {$IF DEFINED(MSWINDOWS)}
@@ -40,12 +43,13 @@ end;
 function ElevationRequired(LastError: Integer = 0): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 begin
-  if (Win32MajorVersion < 6) then Exit(False);
+  if AdministratorPrivileges then Exit(False);
   if LastError = 0 then LastError:= GetLastError;
   Result:= (LastError = ERROR_ACCESS_DENIED) or (LastError = ERROR_PRIVILEGE_NOT_HELD) or (LastError = ERROR_INVALID_OWNER);
 end;
 {$ELSE}
 begin
+  if AdministratorPrivileges then Exit(False);
   if LastError = 0 then LastError:= GetLastOSError;
   Result:= (LastError = ESysEPERM) or (LastError = ESysEACCES);
 end;
@@ -168,6 +172,13 @@ begin
 
   Result:= ExecuteCommand('/usr/bin/pkexec', AParams, sStartPath);
 end;
+{$ENDIF}
+
+initialization
+{$IF DEFINED(UNIX)}
+  AdministratorPrivileges:= (fpGetUID = 0);
+{$ELSE}
+  AdministratorPrivileges:= (Win32MajorVersion < 6) or IsUserAdmin;
 {$ENDIF}
 
 end.
