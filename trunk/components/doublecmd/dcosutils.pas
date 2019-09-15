@@ -214,6 +214,11 @@ function CreateSymLink(const Path, LinkName: string) : Boolean;
 }
 function ReadSymLink(const LinkName : String) : String;
 
+{en
+   Sets the last-error code for the calling thread
+}
+procedure SetLastOSError(LastError: Integer);
+
 implementation
 
 uses
@@ -1472,6 +1477,17 @@ end;
 {$ELSE}
 begin
   Result := SysToUTF8(fpReadlink(UTF8ToSys(LinkName)));
+end;
+{$ENDIF}
+
+procedure SetLastOSError(LastError: Integer);
+{$IFDEF MSWINDOWS}
+begin
+  SetLastError(UInt32(LastError));
+end;
+{$ELSE}
+begin
+  fpseterrno(LastError);
 end;
 {$ENDIF}
 
