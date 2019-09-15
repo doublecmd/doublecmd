@@ -616,7 +616,6 @@ var
   gSyncDirsFileMask: string;
 
   { Internal Associations}
-  gUseShellForFileOperations: Boolean;
   gFileAssociationLastCustomAction: string;
   gOfferToAddToFileAssociations: boolean;
   gExtendedContextMenu: boolean;
@@ -1902,8 +1901,6 @@ begin
   gHotKeySortOrder := hksoByCommand;
   gUseEnterToCloseHotKeyEditor := True;
   gLastUsedPacker := 'zip';
-  gUseShellForFileOperations :=
-    {$IF DEFINED(MSWINDOWS)}WindowsVersion >= wvVista{$ELSE}False{$ENDIF};
   gLastDoAnyCommand := 'cm_Refresh';
   gbMarkMaskCaseSensitive := False;
   gbMarkMaskIgnoreAccents := False;
@@ -2961,7 +2958,6 @@ begin
     gHotKeySortOrder := THotKeySortOrder(GetValue(Root, 'HotKeySortOrder', Integer(hksoByCommand)));
     gUseEnterToCloseHotKeyEditor := GetValue(Root,'UseEnterToCloseHotKeyEditor',gUseEnterToCloseHotKeyEditor);
     gLastUsedPacker:= GetValue(Root, 'LastUsedPacker', gLastUsedPacker);
-    gUseShellForFileOperations:= GetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
     gLastDoAnyCommand:=GetValue(Root, 'LastDoAnyCommand', gLastDoAnyCommand);
     gbMarkMaskCaseSensitive := GetValue(Root, 'MarkMaskCaseSensitive', gbMarkMaskCaseSensitive);
     gbMarkMaskIgnoreAccents := GetValue(Root, 'MarkMaskIgnoreAccents', gbMarkMaskIgnoreAccents);
@@ -3497,7 +3493,6 @@ begin
     SetValue(Root, 'HotKeySortOrder', Integer(gHotKeySortOrder));
     SetValue(Root, 'UseEnterToCloseHotKeyEditor', gUseEnterToCloseHotKeyEditor);
     SetValue(Root, 'LastUsedPacker', gLastUsedPacker);
-    SetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
     SetValue(Root, 'LastDoAnyCommand', gLastDoAnyCommand);
     SetValue(Root, 'MarkMaskCaseSensitive', gbMarkMaskCaseSensitive);
     SetValue(Root, 'MarkMaskIgnoreAccents', gbMarkMaskIgnoreAccents);
