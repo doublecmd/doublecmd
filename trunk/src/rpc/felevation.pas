@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
-  uShowMsg;
+  ExtCtrls, uShowMsg;
 
 type
 
@@ -16,7 +16,7 @@ type
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
     chkElevateAll: TCheckBox;
-    ImageList: TImageList;
+    imgShield: TImage;
     lblText: TLabel;
   private
     procedure ShowModalSync;
