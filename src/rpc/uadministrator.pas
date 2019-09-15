@@ -37,10 +37,13 @@ type
     property FileName: String read FFileName;
   end;
 
+threadvar
+  ElevateAction: Boolean;
+
 implementation
 
 uses
-  RtlConsts, DCOSUtils, LCLType, uShowMsg, uElevation, uSuperUser;
+  RtlConsts, DCOSUtils, LCLType, uShowMsg, uElevation, uSuperUser, fElevation;
 
 resourcestring
   rsElevationRequired = 'You need to provide administrator permission';
@@ -55,93 +58,136 @@ function RequestElevation(const Message, FileName: String): Boolean;
 var
   Text: String;
 begin
-  if GetCurrentThreadId <> MainThreadID then
-  begin
-    if Assigned(TThread.CurrentThread.FatalException) then
-      Exit(True);
-  end;
+  if ElevateAction then Exit(True);
   Text:= rsElevationRequired + LineEnding;
   Text += Message + LineEnding + FileName;
-  Result:= ShowMessageBox(Text, mbSysErrorMessage, MB_OKCANCEL) = IDOK;
+  case ShowElevation(mbSysErrorMessage, Text) of
+    mmrOK: Result:= True;
+    mmrCancel: Result:= False;
+    mmrAll: begin
+      Result:= True;
+      ElevateAction:= True;
+    end;
+  end;
 end;
 
 function FileOpenUAC(const FileName: String; Mode: LongWord): System.THandle;
+var
+  LastError: Integer;
 begin
   Result:= mbFileOpen(FileName, Mode);
   if (Result = feInvalidHandle) and ElevationRequired then
   begin
+    LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredOpen, FileName) then
-      Result:= TWorkerProxy.Instance.FileOpen(FileName, Mode);
+      Result:= TWorkerProxy.Instance.FileOpen(FileName, Mode)
+    else
+      SetLastOSError(LastError);
   end;
 end;
 
 function FileCreateUAC(const FileName: String; Mode: LongWord): System.THandle;
+var
+  LastError: Integer;
 begin
   Result:= mbFileCreate(FileName, Mode);
   if (Result = feInvalidHandle) and ElevationRequired then
   begin
+    LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredCreate, FileName) then
-      Result:= TWorkerProxy.Instance.FileCreate(FileName, Mode);
+      Result:= TWorkerProxy.Instance.FileCreate(FileName, Mode)
+    else
+      SetLastOSError(LastError);
   end;
 end;
 
 function DeleteFileUAC(const FileName: String): LongBool;
+var
+  LastError: Integer;
 begin
   Result:= mbDeleteFile(FileName);
   if (not Result) and ElevationRequired then
   begin
+    LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredDelete, FileName) then
-      Result:= TWorkerProxy.Instance.DeleteFile(FileName);
+      Result:= TWorkerProxy.Instance.DeleteFile(FileName)
+    else
+      SetLastOSError(LastError);
   end;
 end;
 
 function RenameFileUAC(const OldName, NewName: String): LongBool;
+var
+  LastError: Integer;
 begin
   Result:= mbRenameFile(OldName, NewName);
   if (not Result) and ElevationRequired then
   begin
+    LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredRename, OldName) then
-      Result:= TWorkerProxy.Instance.RenameFile(OldName, NewName);
+      Result:= TWorkerProxy.Instance.RenameFile(OldName, NewName)
+    else
+      SetLastOSError(LastError);
   end;
 end;
 
 function CreateDirectoryUAC(const Directory: String): Boolean;
+var
+  LastError: Integer;
 begin
   Result:= mbCreateDir(Directory);
   if (not Result) and ElevationRequired then
   begin
+    LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredCreate, Directory) then
-      Result:= TWorkerProxy.Instance.CreateDirectory(Directory);
+      Result:= TWorkerProxy.Instance.CreateDirectory(Directory)
+    else
+      SetLastOSError(LastError);
   end;
 end;
 
 function RemoveDirectoryUAC(const Directory: String): Boolean;
+var
+  LastError: Integer;
 begin
   Result:= mbRemoveDir(Directory);
   if (not Result) and ElevationRequired then
   begin
+    LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredDelete, Directory) then
-      Result:= TWorkerProxy.Instance.RemoveDirectory(Directory);
+      Result:= TWorkerProxy.Instance.RemoveDirectory(Directory)
+    else
+      SetLastOSError(LastError);
   end;
 end;
 
 function CreateHardLinkUAC(const Path, LinkName: String): Boolean;
+var
+  LastError: Integer;
 begin
   Result:= CreateHardLink(Path, LinkName);
   if (not Result) and ElevationRequired then
   begin
+    LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredHardLink, LinkName) then
-      Result:= TWorkerProxy.Instance.CreateHardLink(Path, LinkName);
+      Result:= TWorkerProxy.Instance.CreateHardLink(Path, LinkName)
+    else
+      SetLastOSError(LastError);
   end;
 end;
 
 function CreateSymbolicLinkUAC(const Path, LinkName: String): Boolean;
+var
+  LastError: Integer;
 begin
   Result:= CreateSymLink(Path, LinkName);
   if (not Result) and ElevationRequired then
   begin
+    LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredSymLink, LinkName) then
-      Result:= TWorkerProxy.Instance.CreateSymbolicLink(Path, LinkName);
+      Result:= TWorkerProxy.Instance.CreateSymbolicLink(Path, LinkName)
+    else
+      SetLastOSError(LastError);
   end;
 end;
 
