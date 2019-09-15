@@ -108,19 +108,23 @@ var
   Stream: TMemoryStream;
 begin
   Result:= False;
-  Stream:= TMemoryStream.Create;
   try
-    // Write header
-    Stream.WriteDWord(UInt32(RPC_Execute));
-    Stream.WriteDWord(SizeOf(SizeUInt));
-    // Write process identifier
-    Stream.WriteBuffer(GetProcessID, SizeOf(SizeUInt));
-    // Send command
-    FClient.WriteBuffer(Stream.Memory^, Stream.Size);
-    // Receive command result
-    FClient.ReadBuffer(Result, SizeOf(Result));
-  finally
-    Stream.Free;
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(UInt32(RPC_Execute));
+      Stream.WriteDWord(SizeOf(SizeUInt));
+      // Write process identifier
+      Stream.WriteBuffer(GetProcessID, SizeOf(SizeUInt));
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+      // Receive command result
+      FClient.ReadBuffer(Result, SizeOf(Result));
+    finally
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
   end;
 end;
 
@@ -148,24 +152,28 @@ var
   Stream: TMemoryStream;
 begin
   Result:= False;
-  Stream:= TMemoryStream.Create;
   try
-    // Write header
-    Stream.WriteDWord(ACommand);
-    Stream.Seek(SizeOf(UInt32), soFromCurrent);
-    // Write arguments
-    Stream.WriteAnsiString(ObjectName);
-    // Write data size
-    Stream.Seek(SizeOf(UInt32), soFromBeginning);
-    Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
-    // Send command
-    FClient.WriteBuffer(Stream.Memory^, Stream.Size);
-    // Receive command result
-    FClient.ReadBuffer(Result, SizeOf(Result));
-    FClient.ReadBuffer(LastError, SizeOf(LastError));
-    SetLastOSError(LastError);
-  finally
-    Stream.Free;
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(ACommand);
+      Stream.Seek(SizeOf(UInt32), soFromCurrent);
+      // Write arguments
+      Stream.WriteAnsiString(ObjectName);
+      // Write data size
+      Stream.Seek(SizeOf(UInt32), soFromBeginning);
+      Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+      // Receive command result
+      FClient.ReadBuffer(Result, SizeOf(Result));
+      FClient.ReadBuffer(LastError, SizeOf(LastError));
+      SetLastOSError(LastError);
+    finally
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
   end;
 end;
 
@@ -176,25 +184,29 @@ var
   Stream: TMemoryStream;
 begin
   Result:= False;
-  Stream:= TMemoryStream.Create;
   try
-    // Write header
-    Stream.WriteDWord(ACommand);
-    Stream.Seek(SizeOf(UInt32), soFromCurrent);
-    // Write arguments
-    Stream.WriteAnsiString(OldName);
-    Stream.WriteAnsiString(NewName);
-    // Write data size
-    Stream.Seek(SizeOf(UInt32), soFromBeginning);
-    Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
-    // Send command
-    FClient.WriteBuffer(Stream.Memory^, Stream.Size);
-    // Receive command result
-    FClient.ReadBuffer(Result, SizeOf(Result));
-    FClient.ReadBuffer(LastError, SizeOf(LastError));
-    SetLastOSError(LastError);
-  finally
-    Stream.Free;
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(ACommand);
+      Stream.Seek(SizeOf(UInt32), soFromCurrent);
+      // Write arguments
+      Stream.WriteAnsiString(OldName);
+      Stream.WriteAnsiString(NewName);
+      // Write data size
+      Stream.Seek(SizeOf(UInt32), soFromBeginning);
+      Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+      // Receive command result
+      FClient.ReadBuffer(Result, SizeOf(Result));
+      FClient.ReadBuffer(LastError, SizeOf(LastError));
+      SetLastOSError(LastError);
+    finally
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
   end;
 end;
 
@@ -204,23 +216,27 @@ var
   Stream: TMemoryStream;
 begin
   Result:= feInvalidHandle;
-  Stream:= TMemoryStream.Create;
   try
-    // Write header
-    Stream.WriteDWord(ACommand);
-    Stream.Seek(SizeOf(UInt32), soFromCurrent);
-    // Write arguments
-    Stream.WriteAnsiString(ObjectName);
-    Stream.WriteDWord(Mode);
-    // Write data size
-    Stream.Seek(SizeOf(UInt32), soFromBeginning);
-    Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
-    // Send command
-    FClient.WriteBuffer(Stream.Memory^, Stream.Size);
-    // Receive command result
-    FClient.ReadHandle(Result);
-  finally
-    Stream.Free;
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(ACommand);
+      Stream.Seek(SizeOf(UInt32), soFromCurrent);
+      // Write arguments
+      Stream.WriteAnsiString(ObjectName);
+      Stream.WriteDWord(Mode);
+      // Write data size
+      Stream.Seek(SizeOf(UInt32), soFromBeginning);
+      Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+      // Receive command result
+      FClient.ReadHandle(Result);
+    finally
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
   end;
 end;
 
