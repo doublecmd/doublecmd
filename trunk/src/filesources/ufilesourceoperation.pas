@@ -195,6 +195,11 @@ type
     }
     FFileSource: IInterface;
 
+    {en
+       Execute operation elevated.
+    }
+    FElevate: Boolean;
+
     // This function is called from main thread.
 {$IFDEF fsoSynchronizeEvents}
     procedure CallEventsListeners;
@@ -441,6 +446,7 @@ type
     property StartTime: TDateTime read FStartTime;
     property Result: TFileSourceOperationResult read FOperationResult;
     property FileSource: IInterface read FFileSource;
+    property Elevate: Boolean read FElevate write FElevate;
     property WantsNewConnection: Boolean read FWantsNewConnection write FWantsNewConnection;
   end;
 
@@ -452,7 +458,7 @@ type
 implementation
 
 uses
-  InterfaceBase, Forms, uFileSource, uFileSourceProperty, uDebug, uExceptions
+  InterfaceBase, Forms, uFileSource, uFileSourceProperty, uDebug, uExceptions, uAdministrator
   {$IFNDEF fsoSynchronizeEvents}
   , uGuiMessageQueue
   {$ENDIF}
@@ -593,6 +599,7 @@ begin
 
       Initialize;
       FOperationInitialized := True;
+      ElevateAction:= FElevate;
 
       UpdateStartTime(SysUtils.Now);
       UpdateState(fsosRunning);
@@ -616,7 +623,10 @@ begin
     end;
 
     if FOperationInitialized then
+    begin
+      FElevate:= ElevateAction;
       Finalize;
+    end;
 
     UpdateProgress(1);
 
