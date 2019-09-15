@@ -1,0 +1,4 @@
+{"version":1,"strings":[
+{"hash":234500131,"name":"tfrmelevation.chkelevateall.caption","sourcebytes":[68,111,32,116,104,105,115,32,102,111,114,32,38,97,108,108,32,99,117,114,114,101,110,116,32,111,98,106,101,99,116,115],"value":"Do this for &all current objects"},
+{"hash":11067,"name":"tfrmelevation.btnok.caption","sourcebytes":[38,79,75],"value":"&OK"}
+]}
