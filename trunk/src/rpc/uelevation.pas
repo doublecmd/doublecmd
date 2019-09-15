@@ -32,6 +32,7 @@ type
     function ProcessObject(ACommand: UInt32; const OldName, NewName: String): LongBool;
     function ProcessObject(ACommand: UInt32; const ObjectName: String; Mode: Integer): THandle;
   public
+    function Terminate: Boolean;
     function FileOpen(const FileName: String; Mode: Integer): THandle; inline;
     function FileCreate(const FileName: String; Mode: Integer): THandle; inline;
     function DeleteFile(const FileName: String): LongBool; inline;
@@ -232,6 +233,31 @@ begin
       FClient.WriteBuffer(Stream.Memory^, Stream.Size);
       // Receive command result
       FClient.ReadHandle(Result);
+    finally
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
+  end;
+end;
+
+function TWorkerProxy.Terminate: Boolean;
+var
+  Stream: TMemoryStream;
+begin
+  Result:= False;
+  try
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(RPC_Terminate);
+      Stream.WriteDWord(SizeOf(SizeUInt));
+      // Write process identifier
+      Stream.WriteBuffer(GetProcessID, SizeOf(SizeUInt));
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+      // Receive command result
+      FClient.ReadBuffer(Result, SizeOf(Result));
     finally
       Stream.Free;
     end;

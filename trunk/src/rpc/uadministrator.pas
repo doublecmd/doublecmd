@@ -269,7 +269,7 @@ initialization
   Initialize;
 
 finalization
-  if ChildProcess > 0 then TerminateProcess(ChildProcess);
+  if ChildProcess > 0 then TWorkerProxy.Instance.Terminate;
 
 end.
 
