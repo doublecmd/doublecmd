@@ -55,14 +55,13 @@ procedure CreateWorkerProxy();
 procedure CreateMasterProxy(const AName: String);
 
 var
-  ElevateSelf: TProcedure;
   MasterService: TMasterService;
   WorkerService: TWorkerService;
 
 implementation
 
 uses
-  DCOSUtils, uDebug;
+  LazUtf8, DCOSUtils, uSuperUser, uDebug;
 
 const
   MasterAddress = 'doublecmd-master-';
@@ -100,6 +99,26 @@ end;
 procedure CreateWorkerProxy;
 begin
   WorkerProxy:= TWorkerProxy.Create;
+end;
+
+var
+  Mutex: TRTLCriticalSection;
+  WorkerProcess: UIntPtr = 0;
+
+function WaitProcessThread({%H-}Parameter: Pointer): PtrInt;
+begin
+  Result:= 0;
+  WaitProcess(WorkerProcess);
+  WorkerProcess:= 0;
+  MasterService.Event.SetEvent;
+  EndThread(Result);
+end;
+
+function ElevateSelf: Boolean;
+begin
+  WorkerProcess:= ExecCmdAdmin(ParamStrUtf8(0), ['--service', IntToStr(GetProcessID)]);
+  Result := (WorkerProcess > 0);
+  if Result then BeginThread(@WaitProcessThread);
 end;
 
 { TMasterProxy }
@@ -334,11 +353,19 @@ begin
     end;
     Result:= TWorkerProxy(AProxy^);
   end;
-  if MasterService.ClientCount = 0 then
-  begin
-    ElevateSelf();
-    MasterService.Wait;
-    Result.FClient.Disconnect;
+
+  EnterCriticalSection(Mutex);
+  try
+    if MasterService.ClientCount = 0 then
+    begin
+      MasterService.Event.ResetEvent;
+      if ElevateSelf then begin
+        MasterService.Event.WaitFor(60000);
+      end;
+      Result.FClient.Disconnect;
+    end;
+  finally
+    LeaveCriticalSection(Mutex);
   end;
 end;
 
@@ -355,12 +382,17 @@ begin
       Halt;
     end;
   end;
+  InitCriticalSection(Mutex);
   StartMasterServer;
   CreateWorkerProxy;
 end;
 
 initialization
   Initialize;
+
+finalization
+  if WorkerProcess > 0 then WorkerProxy.Terminate;
+  DoneCriticalSection(Mutex);
 
 end.
 
