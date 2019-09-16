@@ -436,7 +436,7 @@ begin
   // Windows XP doesn't allow two filenames that differ only by case (even on NTFS).
   if UTF8LowerCase(OldName) <> UTF8LowerCase(NewName) then
   begin
-    NewFileAttrs := mbFileGetAttr(NewName);
+    NewFileAttrs := FileGetAttrUAC(NewName);
     if NewFileAttrs <> faInvalidAttributes then  // If target file exists.
     begin
       case AskIfOverwrite(NewFileAttrs) of
