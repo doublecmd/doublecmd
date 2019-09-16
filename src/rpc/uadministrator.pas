@@ -5,7 +5,10 @@ unit uAdministrator;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, DCBasicTypes;
+
+function FileExistsUAC(const FileName: String): Boolean;
+function FileGetAttrUAC(const FileName: String): TFileAttrs;
 
 function FileOpenUAC(const FileName: String; Mode: LongWord): System.THandle;
 function FileCreateUAC(const FileName: String; Mode: LongWord): System.THandle;
@@ -53,6 +56,7 @@ resourcestring
   rsElevationRequiredRename = 'to rename this object:';
   rsElevationRequiredHardLink = 'to create this hard link:';
   rsElevationRequiredSymLink = 'to create this symbolic link:';
+  rsElevationRequiredGetAttributes = 'to get attributes of this object:';
 
 function RequestElevation(const Message, FileName: String): Boolean;
 var
@@ -68,6 +72,36 @@ begin
       Result:= True;
       ElevateAction:= True;
     end;
+  end;
+end;
+
+function FileExistsUAC(const FileName: String): Boolean;
+var
+  LastError: Integer;
+begin
+  Result:= mbFileExists(FileName);
+  if (not Result) and ElevationRequired then
+  begin
+    LastError:= GetLastOSError;
+    if RequestElevation(rsElevationRequiredGetAttributes, FileName) then
+      Result:= TWorkerProxy.Instance.FileExists(FileName)
+    else
+      SetLastOSError(LastError);
+  end;
+end;
+
+function FileGetAttrUAC(const FileName: String): TFileAttrs;
+var
+  LastError: Integer;
+begin
+  Result:= mbFileGetAttr(FileName);
+  if (Result = faInvalidAttributes) and ElevationRequired then
+  begin
+    LastError:= GetLastOSError;
+    if RequestElevation(rsElevationRequiredGetAttributes, FileName) then
+      Result:= TWorkerProxy.Instance.FileGetAttr(FileName)
+    else
+      SetLastOSError(LastError);
   end;
 end;
 

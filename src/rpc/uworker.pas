@@ -29,6 +29,8 @@ const
   RPC_FileCreate = 2;
   RPC_DeleteFile = 3;
   RPC_RenameFile = 4;
+  RPC_FileExists = 9;
+  RPC_FileGetAttr = 10;
 
   RPC_CreateHardLink = 8;
   RPC_CreateSymbolicLink = 7;
@@ -102,6 +104,24 @@ begin
       FileName:= ARequest.ReadAnsiString;
       DCDebug('DeleteFile ', FileName);
       Result:= mbDeleteFile(FileName);
+      LastError:= GetLastOSError;
+      ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
+    end;
+  RPC_FileExists:
+    begin
+      FileName:= ARequest.ReadAnsiString;
+      DCDebug('FileExists ', FileName);
+      Result:= mbFileExists(FileName);
+      LastError:= GetLastOSError;
+      ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
+    end;
+  RPC_FileGetAttr:
+    begin
+      FileName:= ARequest.ReadAnsiString;
+      DCDebug('FileGetAttr ', FileName);
+      Result:= LongBool(mbFileGetAttr(FileName));
       LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));

@@ -5,7 +5,7 @@ unit uElevation;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, DCBasicTypes,
   uClientServer, uService, uWorker;
 
 type
@@ -33,6 +33,8 @@ type
     function ProcessObject(ACommand: UInt32; const ObjectName: String; Mode: Integer): THandle;
   public
     function Terminate: Boolean;
+    function FileExists(const FileName: String): LongBool; inline;
+    function FileGetAttr(const FileName: String): TFileAttrs; inline;
     function FileOpen(const FileName: String; Mode: Integer): THandle; inline;
     function FileCreate(const FileName: String; Mode: Integer): THandle; inline;
     function DeleteFile(const FileName: String): LongBool; inline;
@@ -283,6 +285,16 @@ begin
   except
     on E: Exception do DCDebug(E.Message);
   end;
+end;
+
+function TWorkerProxy.FileExists(const FileName: String): LongBool;
+begin
+  Result:= ProcessObject(RPC_FileExists, FileName);
+end;
+
+function TWorkerProxy.FileGetAttr(const FileName: String): TFileAttrs;
+begin
+  Result:= TFileAttrs(ProcessObject(RPC_FileGetAttr, FileName));
 end;
 
 function TWorkerProxy.FileOpen(const FileName: String; Mode: Integer): THandle;
