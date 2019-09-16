@@ -238,38 +238,5 @@ begin
     raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
 end;
 
-var
-  ChildProcess: UIntPtr = 0;
-
-function WaitProcessThread(Parameter : Pointer): PtrInt;
-begin
-  Result:= 0;
-  WaitProcess(ChildProcess);
-  ChildProcess:= 0;
-  EndThread(Result);
-end;
-
-procedure ElevateProcedure;
-begin
-  ChildProcess:= ExecCmdAdmin(ParamStr(0), ['--service', IntToStr(GetProcessID)]);
-  if ChildProcess > 0 then
-  begin
-    {$PUSH}{$WARNINGS OFF}{$HINTS OFF}
-    BeginThread(@WaitProcessThread);
-    {$POP}
-  end;
-end;
-
-procedure Initialize;
-begin
-  ElevateSelf:= @ElevateProcedure;
-end;
-
-initialization
-  Initialize;
-
-finalization
-  if ChildProcess > 0 then TWorkerProxy.Instance.Terminate;
-
 end.
 

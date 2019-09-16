@@ -18,9 +18,9 @@ type
   private
     FEvent: TEvent;
   public
-    function Wait: Boolean;
     constructor Create(const AName: String); override;
     procedure ProcessRequest(ATransport: TBaseTransport; ACommand: Int32; ARequest: TStream); override;
+    property Event: TEvent read FEvent;
   end;
 
 const
@@ -55,11 +55,6 @@ uses
   DCOSUtils, uDebug;
 
 { TMasterService }
-
-function TMasterService.Wait: Boolean;
-begin
-  Result:= FEvent.WaitFor(60000) = wrSignaled;
-end;
 
 constructor TMasterService.Create(const AName: String);
 begin
