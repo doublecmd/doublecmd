@@ -18,7 +18,7 @@ uses
 {$ELSEIF DEFINED(UNIX)}
   , Unix, BaseUnix, DCUnix
   {$IF DEFINED(DARWIN)}
-  , DCStrUtils,
+  , DCStrUtils
   {$ENDIF}
 {$ENDIF}
   ;
