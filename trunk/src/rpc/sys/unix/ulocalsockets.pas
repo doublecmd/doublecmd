@@ -47,7 +47,23 @@ type
 function sendmsg(__fd: cInt; __message: pmsghdr; __flags: cInt): ssize_t; cdecl; external clib name 'sendmsg';
 function recvmsg(__fd: cInt; __message: pmsghdr; __flags: cInt): ssize_t; cdecl; external clib name 'recvmsg';
 
-{$IF DEFINED(BSD)}
+{$IF DEFINED(LINUX)}
+
+type
+  ucred = record
+    pid : pid_t;
+    uid : uid_t;
+    gid : gid_t;
+  end;
+
+{$ELSEIF DEFINED(DARWIN)}
+
+const
+  MSG_NOSIGNAL = $20000;
+  LOCAL_PEERPID = $002; //* retrieve peer pid */
+  SOL_LOCAL = 0; //* Level number of get/setsockopt for local domain sockets */
+
+{$ELSEIF DEFINED(BSD)}
 
 const
   SCM_CREDS = 	$03;		//* process creds (struct cmsgcred) */
@@ -70,22 +86,6 @@ type
 
 {$ENDIF}
 
-{$IF DEFINED(DARWIN)}
-const
-  MSG_NOSIGNAL = $20000;
-{$ENDIF}
-
-{$IF DEFINED(LINUX)}
-
-type
-  ucred = record
-    pid : pid_t;
-    uid : uid_t;
-    gid : gid_t;
-  end;
-
-{$ENDIF}
-
 function SendMessage(__fd: cInt; __message: pmsghdr; __flags: cInt): ssize_t;
 begin
   repeat
@@ -101,7 +101,7 @@ begin
 end;
 
 procedure SetSocketClientProcessId(fd: cint);
-{$IF DEFINED(LINUX)}
+{$IF DEFINED(LINUX) OR DEFINED(DARWIN)}
 begin
 
 end;
@@ -153,6 +153,14 @@ begin
   if (fpgetsockopt(fd, SOL_SOCKET, SO_PEERCRED, @cred, @ALength) = -1) then
     Exit(-1);
   Result:= cred.pid;
+end;
+{$ELSEIF DEFINED(DARWIN)}
+var
+  ALength: TSockLen;
+begin
+  ALength:= SizeOf(Result);
+  if (fpgetsockopt(fd, SOL_LOCAL, LOCAL_PEERPID, @Result, @ALength) = -1) then
+    Exit(-1);
 end;
 {$ELSE}
 var
