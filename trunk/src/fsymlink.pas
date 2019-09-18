@@ -73,6 +73,8 @@ begin
     sSrc:= CreateRelativePath(sSrc, ExtractFileDir(sDst));
   end;
 
+  ElevateAction:= False;
+
   if CreateSymbolicLinkUAC(sSrc, sDst) then
     begin
       // write log
