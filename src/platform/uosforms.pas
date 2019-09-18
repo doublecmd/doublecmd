@@ -557,7 +557,7 @@ begin
   SetWindowLong(AppHandle, GWL_EXSTYLE, GetWindowLong(AppHandle, GWL_EXSTYLE) or WS_EX_TOOLWINDOW);
   // Register network file source
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
-  if (Win32MajorVersion > 5) and IsUserAdmin then // if run under administrator
+  if (IsUserAdmin = dupAccept) then // if run under administrator
     MainForm.Caption:= MainForm.Caption + ' - Administrator';
 
   // Add main window message handler
