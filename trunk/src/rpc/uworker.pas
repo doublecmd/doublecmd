@@ -39,6 +39,7 @@ const
 
   RPC_CreateDirectory = 5;
   RPC_RemoveDirectory = 6;
+  RPC_DirectoryExists = 13;
 
 type
 
@@ -218,6 +219,15 @@ begin
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));
     end;
+  RPC_DirectoryExists:
+  begin
+    FileName:= ARequest.ReadAnsiString;
+    DCDebug('DirectoryExists ', FileName);
+    Result:= mbDirectoryExists(FileName);
+    LastError:= GetLastOSError;
+    ATransport.WriteBuffer(Result, SizeOf(Result));
+    ATransport.WriteBuffer(LastError, SizeOf(LastError));
+  end;
   RPC_Terminate: Halt;
   end;
 end;
