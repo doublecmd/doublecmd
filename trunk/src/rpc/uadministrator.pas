@@ -5,7 +5,7 @@ unit uAdministrator;
 interface
 
 uses
-  Classes, SysUtils, DCBasicTypes;
+  Classes, SysUtils, DCBasicTypes, DCClassesUtf8;
 
 function FileExistsUAC(const FileName: String): Boolean;
 function FileGetAttrUAC(const FileName: String): TFileAttrs;
@@ -45,6 +45,14 @@ type
     function Flush: Boolean;
     function Read(var Buffer; Count: LongInt): LongInt; override;
     property FileName: String read FFileName;
+  end;
+
+  { TStringListUAC }
+
+  TStringListUAC = class(TStringListEx)
+  public
+    procedure LoadFromFile(const FileName: String); override;
+    procedure SaveToFile(const FileName: String); override;
   end;
 
 threadvar
@@ -363,6 +371,43 @@ begin
   Result:= FileRead(FHandle, Buffer, Count);
   if Result = -1 then
     raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
+end;
+
+{ TStringListUAC }
+
+procedure TStringListUAC.LoadFromFile(const FileName: String);
+var
+  fsFileStream: TFileStreamUAC;
+begin
+  fsFileStream:= TFileStreamUAC.Create(FileName, fmOpenRead or fmShareDenyNone);
+  try
+    LoadFromStream(fsFileStream);
+  finally
+    fsFileStream.Free;
+  end;
+end;
+
+procedure TStringListUAC.SaveToFile(const FileName: String);
+var
+  AMode: LongWord;
+  fsFileStream: TFileStreamUAC;
+begin
+  if not FileExistsUAC(FileName) then
+    AMode:= fmCreate
+  else begin
+    AMode:= fmOpenWrite or fmShareDenyWrite;
+  end;
+  fsFileStream:= TFileStreamUAC.Create(FileName, AMode);
+  try
+    if (AMode <> fmCreate) then
+    begin
+      fsFileStream.Position:= 0;
+      fsFileStream.Size:= 0;
+    end;
+    SaveToStream(fsFileStream);
+  finally
+    fsFileStream.Free;
+  end;
 end;
 
 end.
