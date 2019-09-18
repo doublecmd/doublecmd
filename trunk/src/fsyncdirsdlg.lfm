@@ -54,10 +54,10 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     ItemHeight = 18
     ItemIndex = 0
     Items.Strings = (
-      '*.*'
+      '*'
     )
     TabOrder = 3
-    Text = '*.*'
+    Text = '*'
   end
   object btnSelDir1: TButton
     AnchorSideTop.Control = edPath1
