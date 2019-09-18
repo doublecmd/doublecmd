@@ -182,6 +182,8 @@ type
     constructor Create(AOwner: TComponent;
       FileView1, FileView2: TFileView); reintroduce;
     destructor Destroy; override;
+  public
+    procedure CopyToClipboard;
   published
     procedure cm_SelectClear(const {%H-}Params:array of string);
     procedure cm_SelectDeleteRight(const {%H-}Params:array of string);
@@ -212,7 +214,7 @@ uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm,
-  uFileSourceDeleteOperation, uOSUtils, uLng, uMasks, Math;
+  uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList;
 
 {$R *.lfm}
 
@@ -841,6 +843,16 @@ begin
         MainDrawGrid.Selection:= ASelection;
       end;
     end;
+    VK_C:
+      if (Shift = [ssModifier]) then
+      begin
+        CopyToClipboard;
+      end;
+    VK_INSERT:
+      if (Shift = [ssModifier]) then
+      begin
+        CopyToClipboard;
+      end;
   end;
 end;
 
@@ -1732,6 +1744,107 @@ begin
     FFoundItems.Free;
   end;
   inherited Destroy;
+end;
+
+procedure TfrmSyncDirsDlg.CopyToClipboard;
+var
+  sl: TStringList;
+  RowList: TIntegerList;
+  I: Integer;
+
+  procedure FillRowList(RowList: TIntegerList);
+  var
+    R, Y: Integer;
+    Selection: TGridRect;
+  begin
+    Selection := MainDrawGrid.Selection;
+    if (MainDrawGrid.HasMultiSelection) or (Selection.Bottom <> Selection.Top) then
+    begin
+      for Y:= 0 to MainDrawGrid.SelectedRangeCount - 1 do
+      begin
+        Selection:= MainDrawGrid.SelectedRange[Y];
+        for R := Selection.Top to Selection.Bottom do
+        begin
+          if RowList.IndexOf(R) = -1 then
+          begin
+            RowList.Add(R);
+          end;
+        end;
+      end;
+    end
+    else
+    begin
+      R := MainDrawGrid.Row;
+      if RowList.IndexOf(R) = -1 then
+      begin
+        RowList.Add(R);
+      end;
+    end;
+    RowList.Sort;
+  end;
+
+  procedure PrintRow(R: Integer);
+  var
+    s: string;
+    SyncRec: TFileSyncRec;
+  begin
+    s := '';
+    SyncRec := TFileSyncRec(FVisibleItems.Objects[R]);
+    if not Assigned(SyncRec) then
+    begin
+      s := s + FVisibleItems[R];
+    end
+    else
+    begin
+      if Assigned(SyncRec.FFileL) then
+      begin
+        s := s + FVisibleItems[R];
+        s := s + #9;
+        s := s + IntToStr(SyncRec.FFileL.Size);
+        s := s + #9;
+        s := s + DateTimeToStr(SyncRec.FFileL.ModificationTime);
+      end;
+      if Length(s) <> 0 then
+        s := s + #9;
+      case SyncRec.FState of
+        srsUnknown:
+          s := s + '?';
+        srsEqual:
+          s := s + '=';
+        srsNotEq:
+          s := s + '!=';
+        srsCopyLeft:
+          s := s + '<-';
+        srsCopyRight:
+          s := s + '->';
+      end;
+      if Length(s) <> 0 then
+        s := s + #9;
+      if Assigned(SyncRec.FFileR) then
+      begin
+        s := s + DateTimeToStr(SyncRec.FFileR.ModificationTime);
+        s := s + #9;
+        s := s + IntToStr(SyncRec.FFileR.Size);
+        s := s + #9;
+        s := s + FVisibleItems[R];
+      end;
+    end;
+    sl.Add(s);
+  end;
+begin
+  sl := TStringList.Create;
+  RowList := TIntegerList.Create;
+  try
+    FillRowList(RowList);
+    for I := 0 to RowList.Count - 1 do
+    begin
+      PrintRow(RowList[I]);
+    end;
+    ClipboardSetText(sl.Text);
+  finally
+    FreeAndNil(sl);
+    FreeAndNil(RowList);
+  end;
 end;
 
 procedure TfrmSyncDirsDlg.cm_SelectClear(const Params: array of string);
