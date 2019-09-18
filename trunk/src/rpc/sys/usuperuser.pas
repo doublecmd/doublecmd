@@ -14,7 +14,7 @@ implementation
 uses
   SysUtils
 {$IF DEFINED(MSWINDOWS)}
-  , Windows, DCOSUtils, ShellApi, uMyWindows
+  , Types, Windows, DCOSUtils, ShellApi, uMyWindows
 {$ELSEIF DEFINED(UNIX)}
   , Unix, BaseUnix, DCUnix
   {$IF DEFINED(DARWIN)}
@@ -178,7 +178,7 @@ initialization
 {$IF DEFINED(UNIX)}
   AdministratorPrivileges:= (fpGetUID = 0);
 {$ELSE}
-  AdministratorPrivileges:= (Win32MajorVersion < 6) or IsUserAdmin;
+  AdministratorPrivileges:= (IsUserAdmin <> dupError);
 {$ENDIF}
 
 end.

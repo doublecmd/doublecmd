@@ -139,7 +139,7 @@ function GetAsyncKeyStateEx(vKey: Integer): Boolean;
    process is a member of the Administrators local group.
    @returns(The function returns @true if caller has Administrators local group, @false otherwise)
 }
-function IsUserAdmin: LongBool;
+function IsUserAdmin: TDuplicates;
 {en
    This routine returns @true if the caller's process is running in the remote desktop session
 }
@@ -866,33 +866,36 @@ begin
   Result:= False;
 end;
 
-function IsUserAdmin: LongBool;
+function IsUserAdmin: TDuplicates;
 var
+  Success: Boolean;
   ReturnLength: DWORD = 0;
   TokenHandle: HANDLE = INVALID_HANDLE_VALUE;
   TokenInformation: array [0..1023] of Byte;
   ElevationType: JwaVista.TTokenElevationType absolute TokenInformation;
 begin
-  Result:= OpenThreadToken(GetCurrentThread, TOKEN_QUERY, True, TokenHandle);
-  if not Result then
+  if (Win32MajorVersion < 6) then Exit(dupIgnore);
+  Success:= OpenThreadToken(GetCurrentThread, TOKEN_QUERY, True, TokenHandle);
+  if not Success then
   begin
     if GetLastError = ERROR_NO_TOKEN then
-      Result:= OpenProcessToken(GetCurrentProcess, TOKEN_QUERY, TokenHandle);
+      Success:= OpenProcessToken(GetCurrentProcess, TOKEN_QUERY, TokenHandle);
   end;
-  if Result then
+  if Success then
   begin
-    Result:= GetTokenInformation(TokenHandle, Windows.TTokenInformationClass(TokenElevationType),
+    Success:= GetTokenInformation(TokenHandle, Windows.TTokenInformationClass(TokenElevationType),
                                  @TokenInformation, SizeOf(TokenInformation), ReturnLength);
     CloseHandle(TokenHandle);
-    if Result then
+    if Success then
     begin
       case ElevationType of
-        TokenElevationTypeDefault: Result:= True;  // The token does not have a linked token. (UAC disabled)
-        TokenElevationTypeFull:    Result:= True;  // The token is an elevated token. (Administrator)
-        TokenElevationTypeLimited: Result:= False; // The token is a limited token. (User)
+        TokenElevationTypeDefault: Result:= dupIgnore;  // The token does not have a linked token. (UAC disabled)
+        TokenElevationTypeFull:    Result:= dupAccept;  // The token is an elevated token. (Administrator)
+        TokenElevationTypeLimited: Result:= dupError;   // The token is a limited token. (User)
       end;
     end;
   end;
+  if not Success then Result:= dupError;
 end;
 
 function RemoteSession: Boolean;
