@@ -27,7 +27,7 @@ type
 implementation
 
 uses
-  uFileSourceOperationUI, uFileProcs, uLog, uLng, uGlobs, DCOSUtils;
+  uFileSourceOperationUI, uLog, uLng, uGlobs, DCOSUtils, uAdministrator;
 
 constructor TFileSystemCreateDirectoryOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -44,11 +44,11 @@ end;
 
 procedure TFileSystemCreateDirectoryOperation.MainExecute;
 begin
-  if mbFileGetAttr(AbsolutePath) <> faInvalidAttributes then
+  if FileGetAttrUAC(AbsolutePath) <> faInvalidAttributes then
   begin
     AskQuestion(Format(rsMsgErrDirExists, [AbsolutePath]), '', [fsourOk], fsourOk, fsourOk);
   end
-  else if uFileProcs.mbForceDirectory(AbsolutePath) = False then
+  else if ForceDirectoriesUAC(AbsolutePath) = False then
   begin
     if (log_dir_op in gLogOptions) and (log_errors in gLogOptions) then
       logWrite(Thread, Format(rsMsgLogError+rsMsgLogMkDir, [AbsolutePath]), lmtError);

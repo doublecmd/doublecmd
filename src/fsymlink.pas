@@ -35,7 +35,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LazFileUtils, uLng, uGlobs, uLog, uShowMsg, uOSUtils, DCStrUtils, DCOSUtils;
+  LazFileUtils, uLng, uGlobs, uLog, uShowMsg, DCStrUtils, DCOSUtils, uAdministrator;
 
 function ShowSymLinkForm(const sExistingFile, sLinkToCreate, CurrentPath: String): Boolean;
 begin
@@ -73,7 +73,7 @@ begin
     sSrc:= CreateRelativePath(sSrc, ExtractFileDir(sDst));
   end;
 
-  if CreateSymLink(sSrc, sDst) then
+  if CreateSymbolicLinkUAC(sSrc, sDst) then
     begin
       // write log
       if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then

@@ -21,8 +21,10 @@ function FileCreateUAC(const FileName: String; Mode: LongWord): System.THandle;
 function DeleteFileUAC(const FileName: String): LongBool;
 function RenameFileUAC(const OldName, NewName: String): LongBool;
 
+function ForceDirectoriesUAC(const Path: String): Boolean;
 function CreateDirectoryUAC(const Directory: String): Boolean;
 function RemoveDirectoryUAC(const Directory: String): Boolean;
+function DirectoryExistsUAC(const Directory : String): Boolean;
 
 function CreateSymbolicLinkUAC(const Path, LinkName: String) : Boolean;
 function CreateHardLinkUAC(const Path, LinkName: String) : Boolean;
@@ -51,7 +53,8 @@ threadvar
 implementation
 
 uses
-  RtlConsts, DCOSUtils, LCLType, uShowMsg, uElevation, uSuperUser, fElevation;
+  RtlConsts, DCStrUtils, DCOSUtils, LCLType, uShowMsg, uElevation, uSuperUser,
+  fElevation;
 
 resourcestring
   rsElevationRequired = 'You need to provide administrator permission';
@@ -234,6 +237,21 @@ begin
   end;
 end;
 
+function DirectoryExistsUAC(const Directory: String): Boolean;
+var
+  LastError: Integer;
+begin
+  Result:= mbDirectoryExists(Directory);
+  if (not Result) and ElevationRequired then
+  begin
+    LastError:= GetLastOSError;
+    if RequestElevation(rsElevationRequiredGetAttributes, Directory) then
+      Result:= TWorkerProxy.Instance.DirectoryExists(Directory)
+    else
+      SetLastOSError(LastError);
+  end;
+end;
+
 function CreateHardLinkUAC(const Path, LinkName: String): Boolean;
 var
   LastError: Integer;
@@ -262,6 +280,42 @@ begin
     else
       SetLastOSError(LastError);
   end;
+end;
+
+function ForceDirectoriesUAC(const Path: String): Boolean;
+var
+  Index: Integer;
+  ADirectory: String;
+  ADirectoryPath: String;
+begin
+  if Path = '' then Exit;
+  ADirectoryPath := IncludeTrailingPathDelimiter(Path);
+  Index:= 1;
+  if Pos('\\', ADirectoryPath) = 1 then // if network path
+  begin
+    Index := CharPos(PathDelim, ADirectoryPath, 3); // index of the end of computer name
+    Index := CharPos(PathDelim, ADirectoryPath, Index + 1); // index of the end of first remote directory
+  end;
+
+  // Move past path delimiter at the beginning.
+  if (Index = 1) and (ADirectoryPath[Index] = PathDelim) then
+    Index := Index + 1;
+
+  while Index <= Length(ADirectoryPath) do
+  begin
+    if ADirectoryPath[Index] = PathDelim then
+    begin
+      ADirectory:= Copy(ADirectoryPath, 1, Index - 1);
+
+      if not DirectoryExistsUAC(ADirectory) then
+      begin
+        Result:= CreateDirectoryUAC(ADirectory);
+        if not Result then Exit;
+      end;
+    end;
+    Inc(Index);
+  end;
+  Result := True;
 end;
 
 { TFileStreamUAC }

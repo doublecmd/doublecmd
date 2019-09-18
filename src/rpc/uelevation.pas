@@ -48,6 +48,7 @@ type
     function CreateSymbolicLink(const Path, LinkName: String): LongBool; inline;
     function CreateDirectory(const Directory: String): LongBool; inline;
     function RemoveDirectory(const Directory: String): LongBool; inline;
+    function DirectoryExists(const Directory: String): LongBool; inline;
   public
     constructor Create;
     destructor Destroy; override;
@@ -409,6 +410,11 @@ end;
 function TWorkerProxy.RemoveDirectory(const Directory: String): LongBool;
 begin
   Result:= ProcessObject(RPC_RemoveDirectory, Directory);
+end;
+
+function TWorkerProxy.DirectoryExists(const Directory: String): LongBool;
+begin
+  Result:= ProcessObject(RPC_DirectoryExists, Directory);
 end;
 
 constructor TWorkerProxy.Create;

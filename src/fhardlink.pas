@@ -34,7 +34,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LazFileUtils, uLng, uGlobs, uLog, uShowMsg, uOSUtils, DCStrUtils, DCOSUtils;
+  LazFileUtils, uLng, uGlobs, uLog, uShowMsg, DCStrUtils, DCOSUtils, uAdministrator;
 
 function ShowHardLinkForm(const sExistingFile, sLinkToCreate, CurrentPath: String): Boolean;
 begin
@@ -69,7 +69,7 @@ begin
   sSrc := GetAbsoluteFileName(FCurrentPath, sSrc);
   sDst := GetAbsoluteFileName(FCurrentPath, sDst);
 
-  if CreateHardLink(sSrc, sDst) then
+  if CreateHardLinkUAC(sSrc, sDst) then
     begin
       // write log
       if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
