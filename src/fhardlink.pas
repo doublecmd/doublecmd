@@ -69,6 +69,8 @@ begin
   sSrc := GetAbsoluteFileName(FCurrentPath, sSrc);
   sDst := GetAbsoluteFileName(FCurrentPath, sDst);
 
+  ElevateAction:= False;
+
   if CreateHardLinkUAC(sSrc, sDst) then
     begin
       // write log
