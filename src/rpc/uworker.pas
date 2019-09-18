@@ -31,6 +31,8 @@ const
   RPC_RenameFile = 4;
   RPC_FileExists = 9;
   RPC_FileGetAttr = 10;
+  RPC_FileSetAttr = 11;
+  RPC_FileSetTime = 12;
 
   RPC_CreateHardLink = 8;
   RPC_CreateSymbolicLink = 7;
@@ -54,7 +56,7 @@ var
 implementation
 
 uses
-  DCOSUtils, uDebug;
+  DCBasicTypes, DCOSUtils, uDebug;
 
 { TMasterService }
 
@@ -96,7 +98,11 @@ var
   NewName: String;
   FileName: String;
   Result: LongBool;
+  Attr: TFileAttrs;
   LastError: Integer;
+  CreationTime: TFileTime;
+  LastAccessTime: TFileTime;
+  ModificationTime: TFileTime;
 begin
   case ACommand of
   RPC_DeleteFile:
@@ -122,6 +128,28 @@ begin
       FileName:= ARequest.ReadAnsiString;
       DCDebug('FileGetAttr ', FileName);
       Result:= LongBool(mbFileGetAttr(FileName));
+      LastError:= GetLastOSError;
+      ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
+    end;
+  RPC_FileSetAttr:
+    begin
+      FileName:= ARequest.ReadAnsiString;
+      Attr:= ARequest.ReadDWord;
+      DCDebug('FileSetAttr ', FileName);
+      Result:= LongBool(mbFileSetAttr(FileName, Attr));
+      LastError:= GetLastOSError;
+      ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
+    end;
+  RPC_FileSetTime:
+    begin
+      FileName:= ARequest.ReadAnsiString;
+      ModificationTime:= ARequest.ReadQWord;
+      CreationTime:= ARequest.ReadQWord;
+      LastAccessTime:= ARequest.ReadQWord;
+      DCDebug('FileSetTime ', FileName);
+      Result:= mbFileSetTime(FileName, ModificationTime, CreationTime, LastAccessTime);
       LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));

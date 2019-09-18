@@ -9,6 +9,11 @@ uses
 
 function FileExistsUAC(const FileName: String): Boolean;
 function FileGetAttrUAC(const FileName: String): TFileAttrs;
+function FileSetAttrUAC(const FileName: String; Attr: TFileAttrs): Integer;
+function FileSetTimeUAC(const FileName: String;
+                        ModificationTime: DCBasicTypes.TFileTime;
+                        CreationTime    : DCBasicTypes.TFileTime = 0;
+                        LastAccessTime  : DCBasicTypes.TFileTime = 0): LongBool;
 
 function FileOpenUAC(const FileName: String; Mode: LongWord): System.THandle;
 function FileCreateUAC(const FileName: String; Mode: LongWord): System.THandle;
@@ -57,6 +62,7 @@ resourcestring
   rsElevationRequiredHardLink = 'to create this hard link:';
   rsElevationRequiredSymLink = 'to create this symbolic link:';
   rsElevationRequiredGetAttributes = 'to get attributes of this object:';
+  rsElevationRequiredSetAttributes = 'to set attributes of this object:';
 
 function RequestElevation(const Message, FileName: String): Boolean;
 var
@@ -100,6 +106,39 @@ begin
     LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredGetAttributes, FileName) then
       Result:= TWorkerProxy.Instance.FileGetAttr(FileName)
+    else
+      SetLastOSError(LastError);
+  end;
+end;
+
+function FileSetAttrUAC(const FileName: String; Attr: TFileAttrs): Integer;
+var
+  LastError: Integer;
+begin
+  Result:= mbFileSetAttr(FileName, Attr);
+  if (Result <> 0) and ElevationRequired then
+  begin
+    LastError:= GetLastOSError;
+    if RequestElevation(rsElevationRequiredSetAttributes, FileName) then
+      Result:= TWorkerProxy.Instance.FileSetAttr(FileName, Attr)
+    else
+      SetLastOSError(LastError);
+  end;
+end;
+
+function FileSetTimeUAC(const FileName: String;
+                        ModificationTime: DCBasicTypes.TFileTime;
+                        CreationTime    : DCBasicTypes.TFileTime;
+                        LastAccessTime  : DCBasicTypes.TFileTime): LongBool;
+var
+  LastError: Integer;
+begin
+  Result:= mbFileSetTime(FileName, ModificationTime, CreationTime, LastAccessTime);
+  if (not Result) and ElevationRequired then
+  begin
+    LastError:= GetLastOSError;
+    if RequestElevation(rsElevationRequiredSetAttributes, FileName) then
+      Result:= TWorkerProxy.Instance.FileSetTime(FileName, ModificationTime, CreationTime, LastAccessTime)
     else
       SetLastOSError(LastError);
   end;
