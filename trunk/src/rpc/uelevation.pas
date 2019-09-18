@@ -35,6 +35,11 @@ type
     function Terminate: Boolean;
     function FileExists(const FileName: String): LongBool; inline;
     function FileGetAttr(const FileName: String): TFileAttrs; inline;
+    function FileSetAttr(const FileName: String; Attr: TFileAttrs): Integer;
+    function FileSetTime(const FileName: String;
+                            ModificationTime: DCBasicTypes.TFileTime;
+                            CreationTime    : DCBasicTypes.TFileTime;
+                            LastAccessTime  : DCBasicTypes.TFileTime): LongBool;
     function FileOpen(const FileName: String; Mode: Integer): THandle; inline;
     function FileCreate(const FileName: String; Mode: Integer): THandle; inline;
     function DeleteFile(const FileName: String): LongBool; inline;
@@ -295,6 +300,75 @@ end;
 function TWorkerProxy.FileGetAttr(const FileName: String): TFileAttrs;
 begin
   Result:= TFileAttrs(ProcessObject(RPC_FileGetAttr, FileName));
+end;
+
+function TWorkerProxy.FileSetAttr(const FileName: String; Attr: TFileAttrs): Integer;
+var
+  LastError: Integer;
+  Stream: TMemoryStream;
+begin
+  Result:= -1;
+  try
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(RPC_FileSetAttr);
+      Stream.Seek(SizeOf(UInt32), soFromCurrent);
+      // Write arguments
+      Stream.WriteAnsiString(FileName);
+      Stream.WriteDWord(Attr);
+      // Write data size
+      Stream.Seek(SizeOf(UInt32), soFromBeginning);
+      Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+      // Receive command result
+      FClient.ReadBuffer(Result, SizeOf(Result));
+      FClient.ReadBuffer(LastError, SizeOf(LastError));
+      SetLastOSError(LastError);
+    finally
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
+  end;
+end;
+
+function TWorkerProxy.FileSetTime(const FileName: String;
+  ModificationTime: DCBasicTypes.TFileTime;
+  CreationTime: DCBasicTypes.TFileTime; LastAccessTime: DCBasicTypes.TFileTime
+  ): LongBool;
+var
+  LastError: Integer;
+  Stream: TMemoryStream;
+begin
+  Result:= False;
+  try
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(RPC_FileSetTime);
+      Stream.Seek(SizeOf(UInt32), soFromCurrent);
+      // Write arguments
+      Stream.WriteAnsiString(FileName);
+      Stream.WriteQWord(ModificationTime);
+      Stream.WriteQWord(CreationTime);
+      Stream.WriteQWord(LastAccessTime);
+      // Write data size
+      Stream.Seek(SizeOf(UInt32), soFromBeginning);
+      Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+      // Receive command result
+      FClient.ReadBuffer(Result, SizeOf(Result));
+      FClient.ReadBuffer(LastError, SizeOf(LastError));
+      SetLastOSError(LastError);
+    finally
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
+  end;
 end;
 
 function TWorkerProxy.FileOpen(const FileName: String; Mode: Integer): THandle;
