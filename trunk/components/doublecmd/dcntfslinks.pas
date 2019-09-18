@@ -132,29 +132,17 @@ type
 var
   HasNewApi: Boolean = False;
   MayCreateSymLink: Boolean = False;
+  CreateHardLinkW: TCreateHardLinkW = nil;
+  CreateSymbolicLinkW: TCreateSymbolicLinkW = nil;
 
 function _CreateHardLink_New(AFileName : UnicodeString; ALinkName: UnicodeString): Boolean;
-var
-  hLib: THandle;
-  CreateHardLinkW: TCreateHardLinkW;
 begin
-  Result:= False;
-
-  hLib:= GetModuleHandle('kernel32.dll');
-  if hLib = 0 then
-    begin
-      Assert(False, 'Can not load library "kernel32.dll"');
-      Exit;
-    end;
-
-  CreateHardLinkW:= TCreateHardLinkW(GetProcAddress(hLib, 'CreateHardLinkW'));
-  if not Assigned(CreateHardLinkW) then
-    begin
-      Assert(False, 'Can not get function address for "CreateHardLinkW"');
-      Exit;
-    end;
-
-  Result:= CreateHardLinkW(PWideChar(ALinkName), PWideChar(AFileName), nil);
+  if Assigned(CreateHardLinkW) then
+    Result:= CreateHardLinkW(PWideChar(ALinkName), PWideChar(AFileName), nil)
+  else begin
+    Result:= False;
+    SetLastError(ERROR_NOT_SUPPORTED);
+  end;
 end;
 
 function _CreateHardLink_Old(aExistingFileName, aFileName: UnicodeString): Boolean;
@@ -239,28 +227,23 @@ begin
     Result:= _CreateHardLink_Old(AFileName, ALinkName)
 end;
 
-function _CreateSymLink_New(const ATargetFileName, ASymlinkFileName: UnicodeString; dwFlags: DWORD): boolean;
-var
-  hLib: THandle;
-  CreateSymbolicLinkW: TCreateSymbolicLinkW;
+function _CreateSymLink_New(const ATargetFileName, ASymlinkFileName: UnicodeString; dwFlags: DWORD): Boolean;
 begin
-  Result:= False;
-
-  hLib:= GetModuleHandle('kernel32.dll');
-  if hLib = 0 then
-    begin
-      Assert(False, 'Can not load library "kernel32.dll"');
-      Exit;
-    end;
-
-  CreateSymbolicLinkW:= TCreateSymbolicLinkW(GetProcAddress(hLib, 'CreateSymbolicLinkW'));
   if not Assigned(CreateSymbolicLinkW) then
-    begin
-      Assert(False, 'Can not get function address for "CreateSymbolicLinkW"');
-      Exit;
-    end;
-
-  Result:= CreateSymbolicLinkW(PWideChar(ASymlinkFileName), PWideChar(ATargetFileName), dwFlags);
+  begin
+    Result:= False;
+    SetLastError(ERROR_NOT_SUPPORTED);
+  end
+  // CreateSymbolicLinkW under Windows 10 1903 does not return error if user doesn't have
+  // SeCreateSymbolicLinkPrivilege, so we make manual check and return error in this case
+  else begin
+    if MayCreateSymLink then
+      Result:= CreateSymbolicLinkW(PWideChar(ASymlinkFileName), PWideChar(ATargetFileName), dwFlags)
+    else begin
+      Result:= False;
+      SetLastError(ERROR_PRIVILEGE_NOT_HELD);
+    end
+  end;
 end;
 
 function _CreateSymLink_Old(aTargetFileName, aSymlinkFileName: UnicodeString): Boolean;
@@ -448,8 +431,20 @@ begin
   Result:= False;
 end;
 
-initialization
+procedure Initialize;
+var
+  AHandle: HMODULE;
+begin
   MayCreateSymLink:= MayCreateSymbolicLink;
   HasNewApi:= (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6);
+  if HasNewApi then begin
+    AHandle:= GetModuleHandle('kernel32.dll');
+    CreateHardLinkW:= TCreateHardLinkW(GetProcAddress(AHandle, 'CreateHardLinkW'));
+    CreateSymbolicLinkW:= TCreateSymbolicLinkW(GetProcAddress(AHandle, 'CreateSymbolicLinkW'));
+  end;
+end;
+
+initialization
+  Initialize;
 
 end.
