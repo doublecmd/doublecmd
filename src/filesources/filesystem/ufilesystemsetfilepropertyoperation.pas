@@ -51,10 +51,8 @@ implementation
 
 uses
   uGlobs, uLng, DCDateTimeUtils, uFileSystemUtil,
-  DCOSUtils, DCStrUtils, DCBasicTypes
-  {$IF DEFINED(MSWINDOWS)}
-    , uAdministrator
-  {$ELSEIF DEFINED(UNIX)}
+  DCOSUtils, DCStrUtils, DCBasicTypes, uAdministrator
+  {$IF DEFINED(UNIX)}
     , BaseUnix, DCUnix
   {$ENDIF}
   ;
@@ -182,7 +180,7 @@ begin
         if (aTemplateProperty as TFileAttributesProperty).Value <>
            (aFile.Properties[fpAttributes] as TFileAttributesProperty).Value then
         begin
-          if mbFileSetAttr(
+          if FileSetAttrUAC(
             aFile.FullPath,
             (aTemplateProperty as TFileAttributesProperty).Value) <> 0 then
           begin
@@ -196,7 +194,7 @@ begin
         if (aTemplateProperty as TFileModificationDateTimeProperty).Value <>
            (aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value then
         begin
-          if not mbFileSetTime(
+          if not FileSetTimeUAC(
             aFile.FullPath,
             DateTimeToFileTime((aTemplateProperty as TFileModificationDateTimeProperty).Value),
             0,
@@ -212,7 +210,7 @@ begin
         if (aTemplateProperty as TFileCreationDateTimeProperty).Value <>
            (aFile.Properties[fpCreationTime] as TFileCreationDateTimeProperty).Value then
         begin
-          if not mbFileSetTime(
+          if not FileSetTimeUAC(
             aFile.FullPath,
             0,
             DateTimeToFileTime((aTemplateProperty as TFileCreationDateTimeProperty).Value),
@@ -228,7 +226,7 @@ begin
         if (aTemplateProperty as TFileLastAccessDateTimeProperty).Value <>
            (aFile.Properties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value then
         begin
-          if not mbFileSetTime(
+          if not FileSetTimeUAC(
             aFile.FullPath,
             0,
             0,
