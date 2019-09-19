@@ -69,7 +69,7 @@ var
 implementation
 
 uses
-  LazUtf8, DCOSUtils, uSuperUser, uDebug;
+  SyncObjs, LazUtf8, DCOSUtils, uSuperUser, uDebug;
 
 const
   MasterAddress = 'doublecmd-master-';
@@ -461,24 +461,6 @@ begin
   end;
 end;
 
-procedure Initialize;
-begin
-  if ParamCount > 0 then
-  begin
-    if ParamStr(1) = '--service' then
-    begin
-      DCDebug('Start worker server');
-      StartWorkerServer(ParamStr(2));
-      CreateMasterProxy(ParamStr(2));
-      Sleep(MaxInt);
-      Halt;
-    end;
-  end;
-  InitCriticalSection(Mutex);
-  StartMasterServer;
-  CreateWorkerProxy;
-end;
-
 procedure Finalize;
 begin
   if WorkerProcess > 0 then begin
@@ -490,6 +472,25 @@ begin
     MasterService.Free;
   end;
   WorkerService.Free;
+end;
+
+procedure Initialize;
+begin
+  if ParamCount > 0 then
+  begin
+    if ParamStr(1) = '--service' then
+    begin
+      DCDebug('Start worker server');
+      StartWorkerServer(ParamStr(2));
+      CreateMasterProxy(ParamStr(2));
+      WorkerService.Event.WaitFor(INFINITE);
+      Finalize;
+      Halt;
+    end;
+  end;
+  InitCriticalSection(Mutex);
+  StartMasterServer;
+  CreateWorkerProxy;
 end;
 
 initialization

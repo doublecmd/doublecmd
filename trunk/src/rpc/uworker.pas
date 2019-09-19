@@ -15,12 +15,9 @@ type
   { TMasterService }
 
   TMasterService = class(TBaseService)
-  private
-    FEvent: TEvent;
   public
     constructor Create(const AName: String); override;
     procedure ProcessRequest(ATransport: TBaseTransport; ACommand: Int32; ARequest: TStream); override;
-    property Event: TEvent read FEvent;
   end;
 
 const
@@ -65,7 +62,6 @@ constructor TMasterService.Create(const AName: String);
 begin
   inherited Create(AName);
   Self.FVerifyChild:= True;
-  FEvent:= TEvent.Create(nil, False, False, '');
 end;
 
 procedure TMasterService.ProcessRequest(ATransport: TBaseTransport; ACommand: Int32;
@@ -228,7 +224,7 @@ begin
     ATransport.WriteBuffer(Result, SizeOf(Result));
     ATransport.WriteBuffer(LastError, SizeOf(LastError));
   end;
-  RPC_Terminate: Halt;
+  RPC_Terminate: FEvent.SetEvent;
   end;
 end;
 

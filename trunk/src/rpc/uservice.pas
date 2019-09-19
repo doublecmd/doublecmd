@@ -25,6 +25,7 @@ type
   TBaseService = class
   protected
     FName: String;
+    FEvent: TEvent;
     FProcessId: UInt32;
     FVerifyChild: Boolean;
     FVerifyParent: Boolean;
@@ -38,6 +39,7 @@ type
   public
     ClientCount: Integer;
     property Name: String read FName;
+    property Event: TEvent read FEvent;
     property ProcessId: UInt32 read FProcessId write FProcessId;
     property VerifyChild: Boolean read FVerifyChild write FVerifyChild;
     property VerifyParent: Boolean read FVerifyParent write FVerifyParent;
@@ -93,6 +95,7 @@ end;
 constructor TBaseService.Create(const AName: String);
 begin
   FName:= AName;
+  FEvent:= TEvent.Create(nil, False, False, '');
 end;
 
 destructor TBaseService.Destroy;
@@ -102,6 +105,7 @@ begin
     FServerThread.Terminate;
     FServerThread.Free;
   end;
+  FEvent.Free;
   inherited Destroy;
 end;
 
