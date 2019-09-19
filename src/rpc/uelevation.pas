@@ -101,7 +101,7 @@ end;
 procedure CreateMasterProxy(const AName: String);
 begin
   MasterProxy:= TMasterProxy.Create(AName);
-  if not MasterProxy.Execute then Halt;
+  if not MasterProxy.Execute then WorkerService.Event.SetEvent;
 end;
 
 procedure CreateWorkerProxy;
