@@ -461,19 +461,6 @@ begin
   end;
 end;
 
-procedure Finalize;
-begin
-  if WorkerProcess > 0 then begin
-    WorkerProxy.Terminate;
-  end;
-  if Assigned(MasterService) then
-  begin
-    DoneCriticalSection(Mutex);
-    MasterService.Free;
-  end;
-  WorkerService.Free;
-end;
-
 procedure Initialize;
 begin
   if ParamCount > 0 then
@@ -484,13 +471,25 @@ begin
       StartWorkerServer(ParamStr(2));
       CreateMasterProxy(ParamStr(2));
       WorkerService.Event.WaitFor(INFINITE);
-      Finalize;
+      WorkerService.Free;
       Halt;
     end;
   end;
   InitCriticalSection(Mutex);
   StartMasterServer;
   CreateWorkerProxy;
+end;
+
+procedure Finalize;
+begin
+  if WorkerProcess > 0 then begin
+    WorkerProxy.Terminate;
+  end;
+  if Assigned(MasterService) then
+  begin
+    DoneCriticalSection(Mutex);
+    MasterService.Free;
+  end;
 end;
 
 initialization
