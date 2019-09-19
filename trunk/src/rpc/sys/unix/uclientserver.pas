@@ -200,7 +200,8 @@ end;
 
 destructor TServerListnerThread.Destroy;
 begin
-  FreeAndNil(FSocketObject);
+  WriteLn('TServerListnerThread.Destroy');
+  FSocketObject.StopAccepting(True);
   inherited Destroy;
 end;
 
@@ -210,10 +211,11 @@ begin
     FSocketObject:= TUnixServer.Create('/tmp/' + FOwner.Name);
     try
       FSocketObject.Bind;
+      FReadyEvent.SetEvent;
       FSocketObject.OnConnect:= @DoConnect;
       FSocketObject.StartAccepting;
     finally
-      FSocketObject.Free;
+      FreeAndNil(FSocketObject);
     end;
   except
      on e : Exception do

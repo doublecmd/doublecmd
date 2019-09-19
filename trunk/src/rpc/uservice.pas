@@ -5,7 +5,7 @@ unit uService;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, SyncObjs;
 
 type
 
@@ -61,9 +61,11 @@ type
 
   TServerThread = class(TThread)
   protected
+    FReadyEvent: TEvent;
     FOwner : TBaseService;
   public
     constructor Create(AOwner : TBaseService);
+    destructor Destroy; override;
   end;
 
 implementation
@@ -76,7 +78,14 @@ uses
 constructor TServerThread.Create(AOwner: TBaseService);
 begin
   FOwner := AOwner;
+  FReadyEvent:= TSimpleEvent.Create;
   inherited Create(False);
+end;
+
+destructor TServerThread.Destroy;
+begin
+  inherited Destroy;
+  FReadyEvent.Free;
 end;
 
 { TBaseService }
@@ -99,6 +108,7 @@ end;
 procedure TBaseService.Start;
 begin
   FServerThread:= TServerListnerThread.Create(Self);
+  TServerThread(FServerThread).FReadyEvent.WaitFor(30000);
 end;
 
 { TClientThread }
