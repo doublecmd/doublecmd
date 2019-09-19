@@ -269,6 +269,8 @@ begin
 
     DCDebug('Start server ', AName);
 
+    FReadyEvent.SetEvent;
+
     // Wait client connection
     if not (ConnectNamedPipe(hPipe, nil) or (GetLastError() = ERROR_PIPE_CONNECTED)) then
       CloseHandle(hPipe)

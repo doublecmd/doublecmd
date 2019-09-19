@@ -63,8 +63,8 @@ procedure CreateWorkerProxy();
 procedure CreateMasterProxy(const AName: String);
 
 var
-  MasterService: TMasterService;
-  WorkerService: TWorkerService;
+  MasterService: TMasterService = nil;
+  WorkerService: TWorkerService = nil;
 
 implementation
 
@@ -479,12 +479,24 @@ begin
   CreateWorkerProxy;
 end;
 
+procedure Finalize;
+begin
+  if WorkerProcess > 0 then begin
+    WorkerProxy.Terminate;
+  end;
+  if Assigned(MasterService) then
+  begin
+    DoneCriticalSection(Mutex);
+    MasterService.Free;
+  end;
+  WorkerService.Free;
+end;
+
 initialization
   Initialize;
 
 finalization
-  if WorkerProcess > 0 then WorkerProxy.Terminate;
-  DoneCriticalSection(Mutex);
+  Finalize;
 
 end.
 
