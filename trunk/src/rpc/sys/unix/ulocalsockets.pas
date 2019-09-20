@@ -26,20 +26,22 @@ const
   SCM_RIGHTS = $01;  //* Transfer file descriptors.  */
 
 type
+  msglen_t = {$IFDEF BSD}cint{$ELSE}size_t{$ENDIF};
+
   Pmsghdr = ^msghdr;
   msghdr = record
      msg_name : pointer;
-     msg_namelen : csize_t;
+     msg_namelen : socklen_t;
      msg_iov : piovec;
-     msg_iovlen : size_t;
+     msg_iovlen : msglen_t;
      msg_control : pointer;
-     msg_controllen : csize_t;
+     msg_controllen : msglen_t;
      msg_flags : cInt;
   end;
 
   Pcmsghdr = ^cmsghdr;
   cmsghdr = record
-    cmsg_len   : csize_t;
+    cmsg_len   : msglen_t;
     cmsg_level : cInt;
     cmsg_type  : cInt;
   end;
