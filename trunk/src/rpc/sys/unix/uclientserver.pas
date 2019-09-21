@@ -78,7 +78,7 @@ type
 implementation
 
 uses 
-  BaseUnix, Unix, uLocalSockets;
+  BaseUnix, Unix, uLocalSockets, uDebug;
 
 { TUnixServer }
 
@@ -200,7 +200,7 @@ end;
 
 destructor TServerListnerThread.Destroy;
 begin
-  WriteLn('TServerListnerThread.Destroy');
+  DCDebug('TServerListnerThread.Destroy');
   FSocketObject.StopAccepting(True);
   inherited Destroy;
 end;

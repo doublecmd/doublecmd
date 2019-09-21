@@ -20,7 +20,7 @@ function RecvHandle(sock: cint): cint;
 implementation
 
 uses
-  InitC, uProcessInfo;
+  InitC, uProcessInfo, uDebug;
 
 const
   SCM_RIGHTS = $01;  //* Transfer file descriptors.  */
@@ -141,7 +141,7 @@ begin
 
   nbytes := SendMessage(fd, @msg, MSG_NOSIGNAL);
   if (nbytes = -1) then
-     WriteLn('Error');
+     DCDebug('SendMessage: ', SysErrorMessage(fpgetCerrno));
 end;
 {$ENDIF}
 
@@ -189,7 +189,7 @@ begin
 
   nbytes := RecvMessage(fd, @msg, MSG_NOSIGNAL);
   if (nbytes = -1) then
-    WriteLn('Error');
+    DCDebug('RecvMessage: ', SysErrorMessage(fpgetCerrno));
 
   Result:= cmsga.cred.cmcred_pid;
 end;
@@ -237,7 +237,7 @@ begin
 
   nbytes := SendMessage(sock, @msg, MSG_NOSIGNAL);
   if (nbytes = -1) then
-    WriteLn('SendHandle: ', SysErrorMessage(fpgetCerrno));
+    DCDebug('SendHandle: ', SysErrorMessage(fpgetCerrno));
 
   FileClose(fd);
 end;
@@ -267,7 +267,7 @@ begin
 
   nbytes := RecvMessage(sock, @msg, MSG_NOSIGNAL);
   if (nbytes = -1) then
-    WriteLn('RecvHandle: ', SysErrorMessage(fpgetCerrno));
+    DCDebug('RecvHandle: ', SysErrorMessage(fpgetCerrno));
 
   Result:= cmsga.fd;
 end;
@@ -275,11 +275,11 @@ end;
 
 function CheckParent(ProcessId, ParentId: pid_t): Boolean;
 begin
-  WriteLn('ProcessId: ', ProcessId);
+  DCDebug(['ProcessId: ', ProcessId]);
   while (ProcessId <> ParentId) and (ProcessId > 1) do
   begin
     ProcessId:= GetParentProcessId(ProcessId);
-    WriteLn('ProcessId: ', ProcessId);
+    DCDebug(['ProcessId: ', ProcessId]);
   end;
   Result:= (ProcessId = ParentId);
 end;
@@ -288,25 +288,25 @@ function VerifyChild(Handle: THandle): Boolean;
 var
   ProcessId: pid_t;
 begin
-    WriteLn('VerifyChild');
+  DCDebug('VerifyChild');
   ProcessId:= GetSocketClientProcessId(Handle);
-  WriteLn('Credentials from SO_PEERCRED: pid=', ProcessId);
+  DCDebug(['Credentials from socket: pid=', ProcessId]);
   Result:= CheckParent(ProcessId, GetProcessId);{ and
            (GetProcessFileName(ProcessId) = GetProcessFileName(GetProcessId));}
 
-  WriteLn('VerifyChild: ', Result);
+  DCDebug(['VerifyChild: ', Result]);
 end;
 
 function VerifyParent(Handle: THandle): Boolean;
 var
   ProcessId: pid_t;
 begin
-    WriteLn('VerifyParent');
+  DCDebug('VerifyParent');
   ProcessId:= GetSocketClientProcessId(Handle);
-  WriteLn('Credentials from SO_PEERCRED: pid=', ProcessId);
+  DCDebug(['Credentials from socket: pid=', ProcessId]);
   Result:= CheckParent(FpGetppid, ProcessId) and
            (GetProcessFileName(ProcessId) = GetProcessFileName(GetProcessId));
-  WriteLn('VerifyParent: ', Result);
+  DCDebug(['VerifyParent: ', Result]);
 end;
 
 end.
