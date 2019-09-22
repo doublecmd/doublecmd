@@ -1,0 +1,151 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: tdialogbox.btnadd.caption
+msgid "+"
+msgstr "+"
+
+#: tdialogbox.btnanonymous.caption
+msgid "Anonymous"
+msgstr "Ананімна"
+
+#: tdialogbox.btncancel.caption
+msgid "Cancel"
+msgstr "Скасаваць"
+
+#: tdialogbox.btnchangepassword.caption
+msgid "Change password..."
+msgstr "Змяніць пароль..."
+
+#: tdialogbox.btndelete.caption
+msgid "-"
+msgstr "-"
+
+#: tdialogbox.btnok.caption
+msgid "&OK"
+msgstr "&ОК"
+
+#: tdialogbox.caption
+msgctxt "tdialogbox.caption"
+msgid "FTP"
+msgstr "FTP"
+
+#: tdialogbox.chkautotls.caption
+msgid "TLS"
+msgstr "TLS"
+
+#: tdialogbox.chkkeepalivetransfer.caption
+msgid "Send keepalive during a transfer"
+msgstr "Падтрымліваць злучэнне ў час перадачы"
+
+#: tdialogbox.chkmasterpassword.caption
+msgid "Use master password to protect the password"
+msgstr "Выкарыcтоўваць &галоўны пароль для абароны пароля"
+
+#: tdialogbox.chkonlyscp.caption
+msgid "Use SSH+SCP protocol (no SFTP)"
+msgstr "Выкарыcтоўваць пратакол SSH+SCP (няма SFTP)"
+
+#: tdialogbox.chkopenssh.caption
+msgctxt "tdialogbox.chkopenssh.caption"
+msgid "SSH"
+msgstr "SSH"
+
+#: tdialogbox.chkpassivemode.caption
+msgid "Use passive mode for transfers (like a WWW browser)"
+msgstr "Пасіўны рэжым &перадачы (як Web-браўзер)"
+
+#: tdialogbox.chkshowhidden.caption
+msgid "Use 'LIST -la' command to reveal hidden items"
+msgstr "Выкарыcтоўваць 'LIST -la' для схаваных элементаў"
+
+#: tdialogbox.cmbencoding.text
+msgid "Auto"
+msgstr "Аўтаматычна"
+
+#: tdialogbox.dividerbevel.caption
+msgid "Client certificate for authentication:"
+msgstr "Аўтэнтыфікацыя па кліенцкаму сертыфікату:"
+
+#: tdialogbox.gbftp.caption
+msgctxt "tdialogbox.gbftp.caption"
+msgid "FTP"
+msgstr "FTP"
+
+#: tdialogbox.gblogon.caption
+msgid "Firewall logon"
+msgstr "Злучэнне праз проксі"
+
+#: tdialogbox.gbssh.caption
+msgctxt "tdialogbox.gbssh.caption"
+msgid "SSH"
+msgstr "SSH"
+
+#: tdialogbox.lblencoding.caption
+msgid "Encoding:"
+msgstr "Кадаванне:"
+
+#: tdialogbox.lblhost.caption
+msgid "Host[:Port]:"
+msgstr "Сервер [:Порт]:"
+
+#: tdialogbox.lblinitcommands.caption
+msgid "Init commands:"
+msgstr "Адправіць &загады:"
+
+#: tdialogbox.lblname.caption
+msgid "Connection name:"
+msgstr "Ім&я злучэння:"
+
+#: tdialogbox.lblpassword.caption
+msgid "Password:"
+msgstr "&Пароль:"
+
+#: tdialogbox.lblprivatekey.caption
+msgid "Private key file (*.pem):"
+msgstr "Файл прыватнага ключа (*.pem):"
+
+#: tdialogbox.lblproxy.caption
+msgid "Use firewall (proxy server)"
+msgstr "&Выкарыcтоўваць проксі-сервер"
+
+#: tdialogbox.lblproxyhost.caption
+msgid "&Host name:"
+msgstr "Сервер [:Порт]:"
+
+#: tdialogbox.lblproxypassword.caption
+msgid "&Password:"
+msgstr "&Пароль:"
+
+#: tdialogbox.lblproxyuser.caption
+msgid "&User name:"
+msgstr "&Імя карыстальніка:"
+
+#: tdialogbox.lblpublickey.caption
+msgid "Public key file (*.pub):"
+msgstr "Файл публічнага ключа (*.pub):"
+
+#: tdialogbox.lblremotedir.caption
+msgid "Remote dir:"
+msgstr "Aдд&алены каталог:"
+
+#: tdialogbox.lblusername.caption
+msgid "User name:"
+msgstr "&Імя карыстальніка:"
+
+#: tdialogbox.rgproxytype.caption
+msgid "Connect method"
+msgstr "Спосаб злучэння"
+
+#: tdialogbox.tsadvanced.caption
+msgid "Advanced"
+msgstr "Пашыраныя"
+
+#: tdialogbox.tsgeneral.caption
+msgid "General"
+msgstr "Асноўныя"
+
+#: tdialogbox.tsproxy.caption
+msgid "Proxy"
+msgstr "Проксі"
+
