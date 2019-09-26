@@ -148,7 +148,7 @@ var
 begin
   WcxModule := FWcxArchiveFileSource.WcxModule;
 
-  FWcxArchiveFileSource.SetChangeVolProc(wcxInvalidHandle);
+  WcxModule.WcxSetChangeVolProc(wcxInvalidHandle);
   WcxModule.WcxSetProcessDataProc(wcxInvalidHandle, @ProcessDataProcA, @ProcessDataProcW);
 
   iResult := WcxModule.WcxDeleteFiles(FWcxArchiveFileSource.ArchiveFileName,
