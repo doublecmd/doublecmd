@@ -37,8 +37,8 @@ const
 
 type
 
-  TSyncRecState = (srsUnknown, srsEqual, srsNotEq, srsCopyLeft, srsCopyRight, srsDeleteRight,
-    srsDoNothing);
+  TSyncRecState = (srsUnknown, srsEqual, srsNotEq, srsCopyLeft, srsCopyRight, srsDeleteLeft,
+    srsDeleteRight, srsDeleteBoth, srsDoNothing);
 
   { TDrawGrid }
 
@@ -53,7 +53,9 @@ type
     actDeleteLeft: TAction;
     actDeleteRight: TAction;
     actDeleteBoth: TAction;
+    actSelectDeleteLeft: TAction;
     actSelectDeleteRight: TAction;
+    actSelectDeleteBoth: TAction;
     actSelectCopyReverse: TAction;
     actSelectClear: TAction;
     actSelectCopyLeftToRight: TAction;
@@ -86,7 +88,9 @@ type
     miDeleteRight: TMenuItem;
     miDeleteLeft: TMenuItem;
     miSeparator3: TMenuItem;
+    miSelectDeleteLeft: TMenuItem;
     miSelectDeleteRight: TMenuItem;
+    miSelectDeleteBoth: TMenuItem;
     miSeparator2: TMenuItem;
     miSelectCopyReverse: TMenuItem;
     miSeparator1: TMenuItem;
@@ -186,7 +190,9 @@ type
     procedure CopyToClipboard;
   published
     procedure cm_SelectClear(const {%H-}Params:array of string);
+    procedure cm_SelectDeleteLeft(const {%H-}Params:array of string);
     procedure cm_SelectDeleteRight(const {%H-}Params:array of string);
+    procedure cm_SelectDeleteBoth(const {%H-}Params:array of string);
     procedure cm_SelectCopyDefault(const {%H-}Params:array of string);
     procedure cm_SelectCopyReverse(const {%H-}Params:array of string);
     procedure cm_SelectCopyLeftToRight(const {%H-}Params:array of string);
@@ -202,6 +208,7 @@ resourcestring
   rsComparingPercent = 'Comparing... %d%% (ESC to cancel)';
   rsLeftToRightCopy = 'Left to Right: Copy %d files, total size: %d bytes';
   rsRightToLeftCopy = 'Right to Left: Copy %d files, total size: %d bytes';
+  rsDeleteLeft = 'Left: Delete %d file(s)';
   rsDeleteRight = 'Right: Delete %d file(s)';
   rsFilesFound = 'Files found: %d  (Identical: %d, Different: %d, '
     + 'Unique left: %d, Unique right: %d)';
@@ -543,17 +550,17 @@ var
 
 var
   i,
-  DeleteRightCount,
+  DeleteLeftCount, DeleteRightCount,
   CopyLeftCount, CopyRightCount: Integer;
   CopyLeftSize, CopyRightSize: Int64;
   fsr: TFileSyncRec;
-  DeleteRight,
+  DeleteLeft, DeleteRight,
   CopyLeft, CopyRight: Boolean;
-  DeleteRightFiles,
+  DeleteLeftFiles, DeleteRightFiles,
   CopyLeftFiles, CopyRightFiles: TFiles;
   Dest: string;
 begin
-  DeleteRightCount := 0;
+  DeleteLeftCount := 0; DeleteRightCount := 0;
   CopyLeftCount := 0; CopyRightCount := 0;
   CopyLeftSize := 0;  CopyRightSize := 0;
   for i := 0 to FVisibleItems.Count - 1 do
@@ -571,8 +578,17 @@ begin
           Inc(CopyRightCount);
           Inc(CopyRightSize, fsr.FFileL.Size);
         end;
+      srsDeleteLeft:
+        begin
+          Inc(DeleteLeftCount);
+        end;
       srsDeleteRight:
         begin
+          Inc(DeleteRightCount);
+        end;
+      srsDeleteBoth:
+        begin
+          Inc(DeleteLeftCount);
           Inc(DeleteRightCount);
         end;
       end;
@@ -595,8 +611,11 @@ begin
       chkLeftToRight.Checked := True;
       edRightPath.Enabled := True;
     end;
+    chkDeleteLeft.Enabled := DeleteLeftCount > 0;
+    chkDeleteLeft.Checked := chkDeleteLeft.Enabled;
     chkDeleteRight.Enabled := DeleteRightCount > 0;
     chkDeleteRight.Checked := chkDeleteRight.Enabled;
+    chkDeleteLeft.Caption := Format(rsDeleteLeft, [DeleteLeftCount]);
     chkDeleteRight.Caption := Format(rsDeleteRight, [DeleteRightCount]);
     chkLeftToRight.Caption :=
       Format(rsLeftToRightCopy, [CopyRightCount, CopyRightSize]);
@@ -612,12 +631,14 @@ begin
       end;
       CopyLeft := chkRightToLeft.Checked;
       CopyRight := chkLeftToRight.Checked;
+      DeleteLeft := chkDeleteLeft.Checked;
       DeleteRight := chkDeleteRight.Checked;
       i := 0;
       while i < FVisibleItems.Count do
       begin
         CopyLeftFiles := TFiles.Create('');
         CopyRightFiles := TFiles.Create('');
+        DeleteLeftFiles := TFiles.Create('');
         DeleteRightFiles := TFiles.Create('');
         if FVisibleItems.Objects[i] <> nil then
           repeat
@@ -630,6 +651,13 @@ begin
               if CopyLeft then CopyLeftFiles.Add(fsr.FFileR.Clone);
             srsDeleteRight:
               if DeleteRight then DeleteRightFiles.Add(fsr.FFileR.Clone);
+            srsDeleteLeft:
+              if DeleteLeft then DeleteLeftFiles.Add(fsr.FFileL.Clone);
+            srsDeleteBoth:
+              begin
+                if DeleteRight then DeleteRightFiles.Add(fsr.FFileR.Clone);
+                if DeleteLeft then DeleteLeftFiles.Add(fsr.FFileL.Clone);
+              end;
             end;
             i := i + 1;
           until (i = FVisibleItems.Count) or (FVisibleItems.Objects[i] = nil);
@@ -644,6 +672,11 @@ begin
           if not CopyFiles(FCmpFileSourceL, FCmpFileSourceR, CopyRightFiles,
             FCmpFilePathR + Dest) then Break;
         end else CopyRightFiles.Free;
+        if DeleteLeftFiles.Count > 0 then
+        begin
+          if not DeleteFiles(FCmpFileSourceL, DeleteLeftFiles) then Break;
+        end
+        else DeleteLeftFiles.Free;
         if DeleteRightFiles.Count > 0 then
         begin
           if not DeleteFiles(FCmpFileSourceR, DeleteRightFiles) then Break;
@@ -792,6 +825,7 @@ begin
       srsNotEq:       Font.Color := clRed;
       srsCopyLeft:    Font.Color := clBlue;
       srsCopyRight:   Font.Color := clGreen;
+      srsDeleteLeft:  Font.Color := clGreen;
       srsDeleteRight: Font.Color := clBlue;
       else Font.Color := clWindowText;
       end;
@@ -924,8 +958,8 @@ end;
 
 procedure TfrmSyncDirsDlg.pmGridMenuPopup(Sender: TObject);
 begin
-  miSeparator2.Visible := chkAsymmetric.Checked;
-  miSelectDeleteRight.Visible := chkAsymmetric.Checked;
+  miSelectDeleteLeft.Visible := not chkAsymmetric.Checked;
+  miSelectDeleteBoth.Visible := not chkAsymmetric.Checked;
 end;
 
 procedure TfrmSyncDirsDlg.SetSortIndex(AValue: Integer);
@@ -1070,6 +1104,7 @@ begin
            and
            ((r.FState = srsCopyLeft) and filter.copyLeft or
             (r.FState = srsCopyRight) and filter.copyRight or
+            (r.FState = srsDeleteLeft) and filter.copyRight or
             (r.FState = srsDeleteRight) and filter.copyLeft or
             (r.FState = srsEqual) and filter.eq or
             (r.FState = srsNotEq) and filter.neq or
@@ -1427,7 +1462,14 @@ begin
     else
       ca := srsDoNothing;
   srsDeleteRight:
-    ca := srsDoNothing;
+    if not chkAsymmetric.Checked then
+      ca := sr.FState
+    else
+      ca := srsDoNothing;
+  srsDeleteLeft:
+    ca := sr.FState;
+  srsDeleteBoth:
+    ca := sr.FState;
   srsDoNothing:
     if Assigned(sr.FFileL) then
       ca := srsCopyRight
@@ -1464,9 +1506,9 @@ var
       srsNotEq:
         begin
           if (SyncRec.FAction = srsCopyLeft) and Assigned(SyncRec.FFileL) then
-            NewAction:= srsCopyRight
+              NewAction:= srsCopyRight
           else if (SyncRec.FAction = srsCopyRight) and Assigned(SyncRec.FFileR) then
-            NewAction:= srsCopyLeft
+              NewAction:= srsCopyLeft
           else
             NewAction:= SyncRec.FAction
         end;
@@ -1480,10 +1522,22 @@ var
           if not Assigned(SyncRec.FFileL) then
             NewAction:= srsDoNothing;
         end;
+      srsDeleteLeft:
+        begin
+          if not Assigned(SyncRec.FFileL) then
+            NewAction:= srsDoNothing;
+        end;
       srsDeleteRight:
         begin
           if not Assigned(SyncRec.FFileR) then
             NewAction:= srsDoNothing;
+        end;
+      srsDeleteBoth:
+        begin
+          if not Assigned(SyncRec.FFileL) then
+            NewAction:= srsDeleteRight;
+          if not Assigned(SyncRec.FFileR) then
+            NewAction:= srsDeleteLeft;
         end;
     end;
     SyncRec.FAction:= NewAction;
@@ -1852,9 +1906,19 @@ begin
   SetSyncRecState(srsDoNothing);
 end;
 
+procedure TfrmSyncDirsDlg.cm_SelectDeleteLeft(const Params: array of string);
+begin
+  SetSyncRecState(srsDeleteLeft);
+end;
+
 procedure TfrmSyncDirsDlg.cm_SelectDeleteRight(const Params: array of string);
 begin
   SetSyncRecState(srsDeleteRight);
+end;
+
+procedure TfrmSyncDirsDlg.cm_SelectDeleteBoth(const Params: array of string);
+begin
+  SetSyncRecState(srsDeleteBoth);
 end;
 
 procedure TfrmSyncDirsDlg.cm_SelectCopyDefault(const Params: array of string);

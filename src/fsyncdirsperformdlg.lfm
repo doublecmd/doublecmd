@@ -1,6 +1,6 @@
 object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
   Left = 234
-  Height = 200
+  Height = 219
   Top = 137
   Width = 326
   AutoSize = True
@@ -73,7 +73,7 @@ object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
     AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 6
-    Top = 121
+    Top = 140
     Width = 326
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 3
@@ -85,7 +85,7 @@ object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
     AnchorSideTop.Side = asrBottom
     Left = 6
     Height = 19
-    Top = 133
+    Top = 152
     Width = 121
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -99,7 +99,7 @@ object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
     AnchorSideTop.Side = asrBottom
     Left = 6
     Height = 26
-    Top = 158
+    Top = 177
     Width = 314
     Align = alNone
     Anchors = [akTop, akLeft, akRight]
@@ -115,13 +115,24 @@ object frmSyncDirsPerformDlg: TfrmSyncDirsPerformDlg
     ShowButtons = [pbOK, pbCancel]
     ShowBevel = False
   end
-  object chkDeleteRight: TCheckBox
+  object chkDeleteLeft: TCheckBox
     AnchorSideLeft.Control = chkLeftToRight
     AnchorSideTop.Control = edLeftPath
     AnchorSideTop.Side = asrBottom
     Left = 6
     Height = 19
     Top = 99
+    Width = 20
+    BorderSpacing.Top = 6
+    TabOrder = 4
+  end
+  object chkDeleteRight: TCheckBox
+    AnchorSideLeft.Control = chkLeftToRight
+    AnchorSideTop.Control = chkDeleteLeft
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 19
+    Top = 118
     Width = 20
     BorderSpacing.Top = 6
     TabOrder = 4
