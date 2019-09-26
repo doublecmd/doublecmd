@@ -15,6 +15,10 @@ msgstr ""
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "正在比较... %d%%（按下 ESC 键可取消）"
 
+#: fsyncdirsdlg.rsdeleteleft
+msgid "Left: Delete %d file(s)"
+msgstr ""
+
 #: fsyncdirsdlg.rsdeleteright
 msgid "Right: Delete %d file(s)"
 msgstr "右侧：删除 %d 个文件"

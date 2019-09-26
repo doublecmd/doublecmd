@@ -19,6 +19,10 @@ msgctxt "fsyncdirsdlg.rscomparingpercent"
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Uspoređujem... %d%% (ESC za otkazivanje)"
 
+#: fsyncdirsdlg.rsdeleteleft
+msgid "Left: Delete %d file(s)"
+msgstr ""
+
 #: fsyncdirsdlg.rsdeleteright
 msgctxt "fsyncdirsdlg.rsdeleteright"
 msgid "Right: Delete %d file(s)"

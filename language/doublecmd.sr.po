@@ -20,6 +20,10 @@ msgstr ""
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Упоређујем... %d%% (ЕСЦ за отказивање)"
 
+#: fsyncdirsdlg.rsdeleteleft
+msgid "Left: Delete %d file(s)"
+msgstr ""
+
 #: fsyncdirsdlg.rsdeleteright
 msgid "Right: Delete %d file(s)"
 msgstr ""

@@ -19,6 +19,10 @@ msgstr ""
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "Se compară... %d%% (ESC pentru a renunța)"
 
+#: fsyncdirsdlg.rsdeleteleft
+msgid "Left: Delete %d file(s)"
+msgstr ""
+
 #: fsyncdirsdlg.rsdeleteright
 msgid "Right: Delete %d file(s)"
 msgstr ""

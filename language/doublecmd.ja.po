@@ -17,6 +17,10 @@ msgstr ""
 msgid "Comparing... %d%% (ESC to cancel)"
 msgstr "比較しています…  %d (ESCでキャンセル)"
 
+#: fsyncdirsdlg.rsdeleteleft
+msgid "Left: Delete %d file(s)"
+msgstr ""
+
 #: fsyncdirsdlg.rsdeleteright
 msgid "Right: Delete %d file(s)"
 msgstr "右：%d 個のファイルを削除"
