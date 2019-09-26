@@ -66,7 +66,7 @@ type
     FReadyEvent: TEvent;
     FOwner : TBaseService;
   public
-    constructor Create(AOwner : TBaseService);
+    constructor Create(AOwner : TBaseService); virtual;
     destructor Destroy; override;
   end;
 
