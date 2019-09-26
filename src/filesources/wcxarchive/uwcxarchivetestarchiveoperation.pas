@@ -186,7 +186,7 @@ begin
 
   try
     SetProcessDataProc(ArcHandle);
-    FWcxArchiveFileSource.SetChangeVolProc(ArcHandle);
+    WcxModule.WcxSetChangeVolProc(ArcHandle);
 
     while (WcxModule.ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
     try

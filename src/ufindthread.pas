@@ -4,7 +4,7 @@
    Thread for search files (called from frmSearchDlg)
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 unit uFindThread;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 interface
 
@@ -92,6 +93,22 @@ uses
   LCLProc, StrUtils, LConvEncoding, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
   uLog, uWCXmodule, WcxPlugin, Math, uDCUtils, uConvEncoding, DCDateTimeUtils;
+
+function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
+begin
+  if TThread.CheckTerminated then
+    Result:= 0
+  else
+    Result:= 1;
+end;
+
+function ProcessDataProcWG(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
+begin
+  if TThread.CheckTerminated then
+    Result:= 0
+  else
+    Result:= 1;
+end;
 
 { TFindThread }
 
@@ -508,8 +525,8 @@ begin
       TargetPath:= GetTempName(GetTempFolder);
       if not mbCreateDir(TargetPath) then Exit;
 
-      WcxModule.WcxSetChangeVolProc(ArcHandle, nil, nil);
-      WcxModule.WcxSetProcessDataProc(ArcHandle, nil, nil);
+      WcxModule.WcxSetChangeVolProc(ArcHandle);
+      WcxModule.WcxSetProcessDataProc(ArcHandle, @ProcessDataProcAG, @ProcessDataProcWG);
 
       while (WcxModule.ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
       begin

@@ -244,7 +244,7 @@ begin
   end;
 
   SetProcessDataProc(wcxInvalidHandle);
-  FWcxArchiveFileSource.SetChangeVolProc(wcxInvalidHandle);
+  WcxModule.WcxSetChangeVolProc(wcxInvalidHandle);
 
   // Convert TFiles into String;
   sFileList:= GetFileList(FFullFilesTree);

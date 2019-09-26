@@ -23,8 +23,6 @@ type
     function GetPluginCapabilities: PtrInt;
     function GetWcxModule: TWcxModule;
 
-    procedure SetChangeVolProc(hArcData: TArcHandle);
-
     property ArchiveFileList: TObjectList read GetArcFileList;
     property PluginCapabilities: PtrInt read GetPluginCapabilities;
     property WcxModule: TWCXModule read GetWcxModule;
@@ -123,8 +121,6 @@ type
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; override;
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation); override;
-
-    procedure SetChangeVolProc(hArcData: TArcHandle);
 
     property ArchiveFileList: TObjectList read FArcFileList;
     property PluginCapabilities: PtrInt read FPluginCapabilities;
@@ -248,41 +244,6 @@ begin
       if Password <> nil then
         StrPLCopyW(Password, UTF8Decode(sPassword), MaxLen);
     end;
-end;
-
-function ChangeVolProc(var ArcName : String; Mode: LongInt): LongInt;
-begin
-  Result:= 1;
-  case Mode of
-  PK_VOL_ASK:
-    begin
-      if not ShowInputQuery('Double Commander', rsMsgSelLocNextVol, ArcName) then
-        Result := 0; // Abort operation
-    end;
-  PK_VOL_NOTIFY:
-    if log_arc_op in gLogOptions then
-      LogWrite(rsMsgNextVolUnpack + #32 + ArcName);
-  end;
-end;
-
-function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; dcpcall;
-var
-  sArcName: String;
-begin
-  sArcName:= CeSysToUtf8(StrPas(ArcName));
-  Result:= ChangeVolProc(sArcName, Mode);
-  if (Mode = PK_VOL_ASK) and (Result <> 0) then
-    StrPLCopy(ArcName, CeUtf8ToSys(sArcName), MAX_PATH);
-end;
-
-function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; dcpcall;
-var
-  sArcName: String;
-begin
-  sArcName:= UTF16ToUTF8(UnicodeString(ArcName));
-  Result:= ChangeVolProc(sArcName, Mode);
-  if (Mode = PK_VOL_ASK) and (Result <> 0) then
-    StrPLCopyW(ArcName, UTF8Decode(sArcName), MAX_PATH);
 end;
 
 function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
@@ -691,7 +652,7 @@ begin
     if ArcHandle = 0 then Exit;
   end;
 
-  Self.SetChangeVolProc(ArcHandle);
+  WcxModule.WcxSetChangeVolProc(ArcHandle);
   WcxModule.WcxSetProcessDataProc(ArcHandle, @ProcessDataProcAG, @ProcessDataProcWG);
 
   DCDebug('Get File List');
@@ -849,11 +810,6 @@ end;
 procedure TWcxArchiveFileSource.RemoveOperationFromQueue(Operation: TFileSourceOperation);
 begin
   RemoveFromConnectionQueue(Operation);
-end;
-
-procedure TWcxArchiveFileSource.SetChangeVolProc(hArcData: TArcHandle);
-begin
-  WcxModule.WcxSetChangeVolProc(hArcData, @ChangeVolProcA, @ChangeVolProcW);
 end;
 
 function TWcxArchiveFileSource.CreateConnection: TFileSourceConnection;
