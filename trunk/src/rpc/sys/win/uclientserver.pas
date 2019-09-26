@@ -61,7 +61,11 @@ type
   { TServerListnerThread }
 
   TServerListnerThread = class(TServerThread)
+  private
+    FEvent: THandle;
   public
+    constructor Create(AOwner : TBaseService); override;
+    destructor Destroy; override;
     procedure Execute; override;
   end;
 
@@ -228,15 +232,30 @@ end;
 
 { TServerListnerThread }
 
+constructor TServerListnerThread.Create(AOwner: TBaseService);
+begin
+  FEvent:= CreateEvent(nil, False, False, nil);
+  inherited Create(AOwner);
+end;
+
+destructor TServerListnerThread.Destroy;
+begin
+  Terminate;
+  SetEvent(FEvent);
+  inherited Destroy;
+  CloseHandle(FEvent);
+end;
+
 procedure TServerListnerThread.Execute;
-const
-  IN_BUF_SIZE = maxSmallint;
-  OUT_BUF_SIZE = maxSmallint;
 var
+  dwWait: DWORD;
   hPipe: THandle;
+  bPending: Boolean;
   AName: UnicodeString;
+  Overlapped: TOverlapped;
   SA: SECURITY_ATTRIBUTES;
   SD: SECURITY_DESCRIPTOR;
+  Events: array[0..1] of THandle;
 begin
   AName:= UTF8Decode(FOwner.Name);
 
@@ -244,6 +263,13 @@ begin
     Halt;
   if not SetSecurityDescriptorDacl(@SD, True, nil, False) then
     Halt;
+
+  ZeroMemory(@Overlapped, SizeOf(TOverlapped));
+
+  Overlapped.hEvent:= CreateEvent(nil, True, True, nil);
+
+  Events[0]:= Overlapped.hEvent;
+  Events[1]:= FEvent;
 
   while not Terminated do
   begin
@@ -259,38 +285,65 @@ begin
       PIPE_READMODE_BYTE or
       PIPE_TYPE_BYTE,
       PIPE_UNLIMITED_INSTANCES,
-      OUT_BUF_SIZE,
-      IN_BUF_SIZE,
+      maxSmallint,
+      maxSmallint,
       0,
       @SA);
 
     if hPipe = INVALID_HANDLE_VALUE then
       Halt;
 
-    DCDebug('Start server ', AName);
+    DCDebug('Start server ', FOwner.Name);
 
     FReadyEvent.SetEvent;
 
-    // Wait client connection
-    if not (ConnectNamedPipe(hPipe, nil) or (GetLastError() = ERROR_PIPE_CONNECTED)) then
-      CloseHandle(hPipe)
-    else begin
+    while not Terminated do
+    begin
+      bPending:= False;
+
+      if not ConnectNamedPipe(hPipe, @Overlapped) then
+      begin
+        case (GetLastError()) of
+        ERROR_IO_PENDING:
+          bPending:= True;
+        ERROR_PIPE_CONNECTED:
+          SetEvent(Overlapped.hEvent);
+        else
+          begin
+            DisconnectNamedPipe(hPipe);
+            Continue;
+          end;
+        end;
+      end;
+
+      // Wait client connection
+      dwWait := WaitForMultipleObjectsEx(Length(Events), Events, False, INFINITE, True);
+
+      if (dwWait = 1) or ((dwWait = 0) and bPending and (not GetOverlappedResult(hPipe, Overlapped, dwWait, False))) then
+      begin
+        DisconnectNamedPipe(hPipe);
+        Continue;
+      end;
+
       if (FOwner.VerifyChild and not VerifyChild(hPipe)) or
          (FOwner.VerifyParent and not VerifyParent(hPipe)) then
       begin
         DisconnectNamedPipe(hPipe);
-        CloseHandle(hPipe);
         Continue;
       end;
 
-      if not Terminated then
-        TClientHandlerThread.Create(hPipe, FOwner)
-      else begin
-        DisconnectNamedPipe(hPipe);
-        CloseHandle(hPipe);
-      end;
+      Break;
+    end; // while
+
+    if not Terminated then
+      TClientHandlerThread.Create(hPipe, FOwner)
+    else begin
+      DisconnectNamedPipe(hPipe);
     end;
-  end;
+  end; // while
+
+  CloseHandle(hPipe);
+  CloseHandle(Events[0]);
 end;
 
 end.
