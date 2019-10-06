@@ -4,7 +4,7 @@
    xpi_wdx is destined to obtainin the information from xpi-files
    in which extensions and themes for Gecko-based applications are distributed.
 
-   Copyright (C) 2010 Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU Lesser General Public License as 
@@ -78,6 +78,7 @@ begin
     8:   Result:= 'Locale';
     16:  Result:= 'Plugin';
     32:  Result:= 'Multiple Item Package';
+    64:  Result:= 'Spell check dictionary';
   else
     Result:= 'Unknown';
   end;

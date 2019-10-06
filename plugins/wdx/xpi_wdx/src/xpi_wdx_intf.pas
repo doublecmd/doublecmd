@@ -4,7 +4,7 @@
    xpi_wdx is destined to obtainin the information from xpi-files
    in which extensions and themes for Gecko-based applications are distributed.
 
-   Copyright (C) 2010 Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU Lesser General Public License as 
@@ -62,8 +62,9 @@ const
   IDX_FLOCK          = 17;
   IDX_SUNBIRD        = 18;
   IDX_FENNEC         = 19;
+  IDX_PALEMOON       = 20;
 
-  FIELD_COUNT        = 20;
+  FIELD_COUNT        = 21;
 
 var
   CurrentFileName: AnsiString;       // Current *.xpi file
@@ -119,6 +120,7 @@ begin
       IDX_FLOCK:                Field := 'Flock';
       IDX_SUNBIRD:              Field := 'Sunbird';
       IDX_FENNEC:               Field := 'Fennec';
+      IDX_PALEMOON:             Field := 'Pale Moon';
   end;
 
   StrPLCopy(FieldName, Field, MaxLen);
@@ -166,6 +168,7 @@ begin
         IDX_FLOCK:             Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[4]];
         IDX_SUNBIRD:           Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[5]];
         IDX_FENNEC:            Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[6]];
+        IDX_PALEMOON:          Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[7]];
     else
         Result := FT_FIELDEMPTY;
         Exit;
