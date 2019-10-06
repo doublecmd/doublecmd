@@ -4,7 +4,7 @@
    xpi_wdx is destined to obtainin the information from xpi-files
    in which extensions and themes for Gecko-based applications are distributed.
 
-   Copyright (C) 2010 Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU Lesser General Public License as 
@@ -99,7 +99,7 @@ initialization
   ApplicationList.Add('{a463f10c-3994-11da-9945-000d60ca027b}=fl'); // Flock
   ApplicationList.Add('{718e30fb-e89b-41dd-9da7-e25a45638b28}=sb'); // Sunbird
   ApplicationList.Add('{a23983c0-fd0e-11dc-95ff-0800200c9a66}=fc'); // Fennec
-  //ApplicationList.Add('');
+  ApplicationList.Add('{8de7fcbb-c55c-4fbe-bfc5-fc555c87dbc4}=pm'); // Pale Moon
 
 finalization
   FreeAndNil(ApplicationList);
