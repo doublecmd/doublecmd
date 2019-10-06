@@ -8497,6 +8497,10 @@ msgstr "Odwróć kierunek kopiowania"
 msgid "Select for copying <- (right to left)"
 msgstr "Wybierz do kopiowania <- (od prawej do lewej)"
 
+#: tfrmsyncdirsdlg.actselectdeleteleft.caption
+msgid "Select for deleting <- (left)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
 msgstr "Wybierz do usunięcia -> (po prawej)"

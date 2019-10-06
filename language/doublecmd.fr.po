@@ -8736,9 +8736,17 @@ msgstr "Inverse le sens de la copie"
 msgid "Select for copying <- (right to left)"
 msgstr "Choisir pour copie <- (droite vers gauche)"
 
+#: tfrmsyncdirsdlg.actselectdeleteleft.caption
+msgid "Select for deleting <- (left)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
 msgstr "Choisir pour effacement -> (droite)"
+
+#: tfrmsyncdirsdlg.actselectdeleteboth.caption
+msgid "Select for deleting <-> (both)"
+msgstr ""
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
