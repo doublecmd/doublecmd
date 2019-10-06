@@ -8720,9 +8720,17 @@ msgstr "Ανάποδη κατεύθυνση αντιγραφής"
 msgid "Select for copying <- (right to left)"
 msgstr "Επιλογή για αντιγραφή <- (από δεξιά προς αριστερά)"
 
+#: tfrmsyncdirsdlg.actselectdeleteleft.caption
+msgid "Select for deleting <- (left)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
 msgstr "Επιλογή για διαγραφή -> (δεξιά)"
+
+#: tfrmsyncdirsdlg.actselectdeleteboth.caption
+msgid "Select for deleting <-> (both)"
+msgstr ""
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "TFRMSYNCDIRSDLG.BTNCLOSE.CAPTION"

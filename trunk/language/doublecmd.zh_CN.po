@@ -8503,9 +8503,17 @@ msgstr "反转复制方向"
 msgid "Select for copying <- (right to left)"
 msgstr "选择复制方向 <- （从右到左）"
 
+#: tfrmsyncdirsdlg.actselectdeleteleft.caption
+msgid "Select for deleting <- (left)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
 msgstr "选择删除方向 ->（右）"
+
+#: tfrmsyncdirsdlg.actselectdeleteboth.caption
+msgid "Select for deleting <-> (both)"
+msgstr ""
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
