@@ -51,20 +51,21 @@ const
   IDX_DEVELOPER      = 6;
   IDX_CONTRIBUTOR    = 7;
   IDX_TRANSLATOR     = 8;
-  IDX_HOMEPAGEURL    = 9;
-  IDX_UPDATEURL      = 10;
-  IDX_PLATFORM       = 11;
-  IDX_COMPATIBILITY  = 12;
-  IDX_FIREFOX        = 13;
-  IDX_MOZILLA        = 14;
-  IDX_SEAMONKEY      = 15;
-  IDX_THUNDERBIRD    = 16;
-  IDX_FLOCK          = 17;
-  IDX_SUNBIRD        = 18;
-  IDX_FENNEC         = 19;
-  IDX_PALEMOON       = 20;
+  IDX_UNPACK         = 9;
+  IDX_HOMEPAGEURL    = 10;
+  IDX_UPDATEURL      = 11;
+  IDX_PLATFORM       = 12;
+  IDX_COMPATIBILITY  = 13;
+  IDX_FIREFOX        = 14;
+  IDX_MOZILLA        = 15;
+  IDX_SEAMONKEY      = 16;
+  IDX_THUNDERBIRD    = 17;
+  IDX_FLOCK          = 18;
+  IDX_SUNBIRD        = 19;
+  IDX_FENNEC         = 20;
+  IDX_PALEMOON       = 21;
 
-  FIELD_COUNT        = 21;
+  FIELD_COUNT        = 22;
 
 var
   CurrentFileName: AnsiString;       // Current *.xpi file
@@ -93,12 +94,19 @@ begin
   StrPCopy(Units, EmptyStr);
 
   if FieldIndex >= FIELD_COUNT then
-    begin
-      Result := FT_NOMOREFIELDS;
-      Exit;
-    end;
+  begin
+    Result := FT_NOMOREFIELDS;
+    Exit;
+  end;
+
+  if (FieldIndex = IDX_UNPACK) then
+  begin
+    StrPLCopy(FieldName, 'Unpack', MaxLen);
+    Exit(FT_BOOLEAN);
+  end;
 
   Result := FT_STRING;
+
   case FieldIndex of
       IDX_ID:                   Field := 'ID';
       IDX_NAME:                 Field := 'Name';
@@ -136,43 +144,50 @@ begin
 
   if CurrentFileName <> FileName then
   begin
-     if not ParseInsatallManifest(FileName, InstallManifest) then Exit;
-     CurrentFileName := FileName;
+    if not ParseInsatallManifest(FileName, InstallManifest) then Exit;
+    CurrentFileName := FileName;
   end;
 
   if (FieldIndex >= FIELD_COUNT) then
-   begin
-      Result := FT_NOSUCHFIELD;
-      Exit;
-   end;
+  begin
+    Result := FT_NOSUCHFIELD;
+    Exit;
+  end;
+
+  if (FieldIndex = IDX_UNPACK) then
+  begin
+    PBoolean(FieldValue)^:= InstallManifest.Unpack;
+    Exit(FT_BOOLEAN);
+  end;
 
   Result := FT_STRING;
-    case FieldIndex of
-        IDX_ID:                Value := InstallManifest.ID;
-        IDX_NAME:              Value := InstallManifest.Name;
-        IDX_VERSION:           Value := InstallManifest.Version;
-        IDX_TYPE:              Value := InstallManifest.AddonType;
-        IDX_DESCRIPTION:       Value := InstallManifest.Description;
-        IDX_CREATOR:           Value := InstallManifest.Creator;
-        IDX_DEVELOPER:         Value := InstallManifest.Developer;
-        IDX_CONTRIBUTOR:       Value := InstallManifest.Contributor;
-        IDX_TRANSLATOR:        Value := InstallManifest.Translator;
-        IDX_HOMEPAGEURL:       Value := InstallManifest.HomePageURL;
-        IDX_UPDATEURL:         Value := InstallManifest.UpdateURL;
-        IDX_PLATFORM:          Value := InstallManifest.TargetPlatform;
-        IDX_COMPATIBILITY:     Value := InstallManifest.Compatibility;
-        IDX_FIREFOX:           Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[0]];
-        IDX_MOZILLA:           Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[1]];
-        IDX_SEAMONKEY:         Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[2]];
-        IDX_THUNDERBIRD:       Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[3]];
-        IDX_FLOCK:             Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[4]];
-        IDX_SUNBIRD:           Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[5]];
-        IDX_FENNEC:            Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[6]];
-        IDX_PALEMOON:          Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[7]];
-    else
-        Result := FT_FIELDEMPTY;
-        Exit;
-    end;
+
+  case FieldIndex of
+      IDX_ID:                Value := InstallManifest.ID;
+      IDX_NAME:              Value := InstallManifest.Name;
+      IDX_VERSION:           Value := InstallManifest.Version;
+      IDX_TYPE:              Value := InstallManifest.AddonType;
+      IDX_DESCRIPTION:       Value := InstallManifest.Description;
+      IDX_CREATOR:           Value := InstallManifest.Creator;
+      IDX_DEVELOPER:         Value := InstallManifest.Developer;
+      IDX_CONTRIBUTOR:       Value := InstallManifest.Contributor;
+      IDX_TRANSLATOR:        Value := InstallManifest.Translator;
+      IDX_HOMEPAGEURL:       Value := InstallManifest.HomePageURL;
+      IDX_UPDATEURL:         Value := InstallManifest.UpdateURL;
+      IDX_PLATFORM:          Value := InstallManifest.TargetPlatform;
+      IDX_COMPATIBILITY:     Value := InstallManifest.Compatibility;
+      IDX_FIREFOX:           Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[0]];
+      IDX_MOZILLA:           Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[1]];
+      IDX_SEAMONKEY:         Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[2]];
+      IDX_THUNDERBIRD:       Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[3]];
+      IDX_FLOCK:             Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[4]];
+      IDX_SUNBIRD:           Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[5]];
+      IDX_FENNEC:            Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[6]];
+      IDX_PALEMOON:          Value := InstallManifest.TargetApplication.Values[ApplicationList.Names[7]];
+  else
+      Result := FT_FIELDEMPTY;
+      Exit;
+  end;
 
   StrPLCopy(PAnsiChar(FieldValue), EnsureLength(Value, MaxLen), MaxLen);
 end;

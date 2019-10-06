@@ -181,6 +181,8 @@ begin
                InstallManifest.TargetPlatform:= AddString(InstallManifest.TargetPlatform, FirstChild.NodeValue)
              else if nodeName = 'em:targetApplication' then
                AddApplication(InstallManifest, childNode)
+             else if nodeName = 'em:unpack' then
+               InstallManifest.Unpack:= StrToBoolDef(FirstChild.NodeValue, False);
            end;
          end;
          Result:= True;

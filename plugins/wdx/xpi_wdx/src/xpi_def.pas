@@ -48,6 +48,7 @@ type
     TargetPlatform,
     Compatibility,
     AddonType: AnsiString;
+    Unpack: Boolean;
     TargetApplication: TStringList;
   public
     constructor Create;
