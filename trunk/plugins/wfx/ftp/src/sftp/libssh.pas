@@ -10,8 +10,9 @@ uses
 
 const
   //* Hash Types */
-  LIBSSH2_HOSTKEY_HASH_MD5   = 1;
-  LIBSSH2_HOSTKEY_HASH_SHA1  = 2;
+  LIBSSH2_HOSTKEY_HASH_MD5    = 1;
+  LIBSSH2_HOSTKEY_HASH_SHA1   = 2;
+  LIBSSH2_HOSTKEY_HASH_SHA256 = 3;
 
   //* Disconnect Codes (defined by SSH protocol) */
   SSH_DISCONNECT_HOST_NOT_ALLOWED_TO_CONNECT    = 1;
@@ -194,6 +195,7 @@ var
   //* Global API */
   libssh2_init: function(flags: cint): cint; cdecl;
   libssh2_exit: procedure(); cdecl;
+  libssh2_version: function(required_version: cint): PAnsiChar; cdecl;
   //* Session API */
   libssh2_session_init_ex: function(my_alloc: LIBSSH2_ALLOC_FUNC;
                                     my_free: LIBSSH2_FREE_FUNC;
@@ -514,6 +516,7 @@ begin
     //* Global API */
     libssh2_init:= SafeGetProcAddress(libssh2, 'libssh2_init');
     libssh2_exit:= SafeGetProcAddress(libssh2, 'libssh2_exit');
+    libssh2_version:= SafeGetProcAddress(libssh2, 'libssh2_version');
     //* Session API */
     libssh2_session_init_ex:= SafeGetProcAddress(libssh2, 'libssh2_session_init_ex');
     libssh2_session_handshake:= SafeGetProcAddress(libssh2, 'libssh2_session_handshake');
