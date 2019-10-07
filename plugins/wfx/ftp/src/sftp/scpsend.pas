@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2013-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -88,7 +88,7 @@ implementation
 
 uses
   CTypes, LazUTF8, FtpFunc, DCStrUtils, DCClassesUtf8, DCOSUtils, DCDateTimeUtils,
-  DCBasicTypes, DCConvertEncoding, FileUtil, Base64, LConvEncoding;
+  DCBasicTypes, DCConvertEncoding, FileUtil, Base64, LConvEncoding, SynaCode, StrUtils;
 
 const
   SMB_BUFFER_SIZE = 131072;
@@ -278,7 +278,7 @@ begin
   begin
     SetLength(Password, MAX_PATH + 1);
     Message:= 'Private key pass phrase:';
-    Title+= 'ssh://' + UTF8ToUTF16(FUserName + '@' + FTargetHost);
+    Title:= 'ssh://' + UTF8ToUTF16(FUserName + '@' + FTargetHost);
     if RequestProc(PluginNumber, RT_Password, PWideChar(Title), PWideChar(Message), PWideChar(Password), MAX_PATH) then
     begin
       Passphrase:= ClientToServer(Password);
@@ -292,13 +292,16 @@ end;
 
 function TScpSend.Connect: Boolean;
 const
-  HOSTKEY_SIZE = 20;
+  HASH_SIZE: array[1..3] of Byte = (16, 20, 32);
+  HASH_NAME: array[1..3] of String = ('(MD5) ', '(SHA1) ', '(SHA256) ');
 var
-  I: Integer;
-  S: String = '';
+  S: String;
+  F: String = '';
+  SS: String = '';
+  I, J, Finish: Integer;
   Message: UnicodeString;
+  FingerPrint: PAnsiChar;
   userauthlist: PAnsiChar;
-  FingerPrint: array [0..Pred(HOSTKEY_SIZE)] of AnsiChar;
 begin
   FSock.CloseSocket;
   DoStatus(False, 'Connecting to: ' + FTargetHost);
@@ -322,29 +325,52 @@ begin
       LogProc(PluginNumber, MSGTYPE_CONNECT, nil);
 
       DoStatus(False, 'Connection established');
-      FingerPrint := libssh2_hostkey_hash(FSession, LIBSSH2_HOSTKEY_HASH_SHA1);
-      for I:= Low(FingerPrint) to High(FingerPrint) do
-      begin
-        S+= IntToHex(Ord(FingerPrint[I]), 2) + #32;
+
+      if libssh2_version($010900) = nil then
+        Finish:= LIBSSH2_HOSTKEY_HASH_SHA1
+      else begin
+        Finish:= LIBSSH2_HOSTKEY_HASH_SHA256;
       end;
-      SetLength(S, Length(S) - 1); // Remove space
-      DoStatus(False, 'Server fingerprint: ' + S);
+
+      for J:= LIBSSH2_HOSTKEY_HASH_MD5 to Finish do
+      begin
+        FingerPrint := libssh2_hostkey_hash(FSession, J);
+        if Assigned(FingerPrint) then
+        begin
+          if (J >= LIBSSH2_HOSTKEY_HASH_SHA256) then
+          begin
+            SetString(S, FingerPrint, HASH_SIZE[J]);
+            S := TrimRightSet(EncodeBase64(S), ['=']);
+          end
+          else begin
+            S:= EmptyStr;
+            for I:= 0 to HASH_SIZE[J] - 1 do
+            begin
+              S+= IntToHex(Ord(FingerPrint[I]), 2) + #32;
+            end;
+            SetLength(S, Length(S) - 1); // Remove space
+          end;
+          SS += HASH_NAME[J] + S + LineEnding;
+          DoStatus(False, 'Server fingerprint: ' + HASH_NAME[J] + S);
+          if (J > LIBSSH2_HOSTKEY_HASH_MD5) and (Length(F) = 0) then F:= S;
+        end;
+      end;
 
       // Verify server fingerprint
-      if FFingerPrint <> S then
+      if FFingerPrint <> F then
       begin
         if FFingerprint = EmptyStr then
           Message:= 'You are using this connection for the first time.' + LineEnding + 'Please verify that the following host fingerprint matches the fingerprint of your server:'
         else begin
           Message:= 'WARNING!' + LineEnding + 'The fingerprint of the host has changed!' + LineEnding + 'Please make sure that the new fingerprint matches your server:';
         end;
-        Message += UnicodeString(LineEnding + LineEnding + S);
+        Message += UnicodeString(LineEnding + LineEnding + SS);
         if not RequestProc(PluginNumber, RT_MsgYesNo, nil, PWideChar(Message), nil, 0) then
         begin
           LogProc(PluginNumber, msgtype_importanterror, 'Wrong server fingerprint!');
           Exit(False);
         end;
-        FFingerprint:= S;
+        FFingerprint:= F;
       end;
 
       //* check what authentication methods are available */
