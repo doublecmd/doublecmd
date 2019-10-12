@@ -61,7 +61,7 @@ implementation
 uses
   DCOSUtils, DCStrUtils, uLng, uFileSystemUtil, uTrash, uAdministrator
 {$IF DEFINED(MSWINDOWS)}
-  , Windows,  uFileUnlock, fFileUnlock
+  , Windows,  uFileUnlock, fFileUnlock, uSuperUser
 {$ENDIF}
   ;
 
@@ -203,6 +203,10 @@ begin
     end;
   end;
 
+{$IF DEFINED(MSWINDOWS)}
+  ElevateAction:= dupError;
+{$ENDIF}
+
   repeat
     bRetry := False;
 
@@ -332,8 +336,19 @@ begin
           sQuestion+= LineEnding + mbSysErrorMessage(LastError);
         end;
 
-        SetLength(PossibleResponses, Length(ResponsesError));
-        Move(ResponsesError[0], PossibleResponses[0], SizeOf(ResponsesError));
+{$IF DEFINED(MSWINDOWS)}
+        if ElevationRequired(LastError) then
+        begin
+          SetLength(PossibleResponses, Length(ResponsesError) + 1);
+          Move(ResponsesError[0], PossibleResponses[0], SizeOf(ResponsesError));
+          PossibleResponses[High(PossibleResponses)]:= fsourRetryAdmin;
+        end
+        else
+{$ENDIF}
+        begin
+          SetLength(PossibleResponses, Length(ResponsesError));
+          Move(ResponsesError[0], PossibleResponses[0], SizeOf(ResponsesError));
+        end;
 {$IF DEFINED(MSWINDOWS)}
         if (Length(ProcessInfo) > 0) or (LastError = ERROR_ACCESS_DENIED) or (LastError = ERROR_SHARING_VIOLATION) then
         begin
@@ -351,6 +366,11 @@ begin
           fsourAbort:
             RaiseAbortOperation;
 {$IF DEFINED(MSWINDOWS)}
+          fsourRetryAdmin:
+            begin
+              bRetry:= True;
+              ElevateAction:= dupAccept;
+            end;
           fsourUnlock:
             begin
               bRetry:= True;
