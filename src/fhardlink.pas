@@ -69,7 +69,7 @@ begin
   sSrc := GetAbsoluteFileName(FCurrentPath, sSrc);
   sDst := GetAbsoluteFileName(FCurrentPath, sDst);
 
-  ElevateAction:= False;
+  ElevateAction:= dupIgnore;
 
   if CreateHardLinkUAC(sSrc, sDst) then
     begin

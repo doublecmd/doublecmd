@@ -56,7 +56,7 @@ type
   end;
 
 threadvar
-  ElevateAction: Boolean;
+  ElevateAction: TDuplicates;
 
 implementation
 
@@ -79,7 +79,10 @@ function RequestElevation(const Message, FileName: String): Boolean;
 var
   Text: String;
 begin
-  if ElevateAction then Exit(True);
+  case ElevateAction of
+    dupAccept: Exit(True);
+    dupError: Exit(False);
+  end;
   Text:= rsElevationRequired + LineEnding;
   Text += Message + LineEnding + FileName;
   case ShowElevation(mbSysErrorMessage, Text) of
@@ -87,7 +90,7 @@ begin
     mmrCancel: Result:= False;
     mmrAll: begin
       Result:= True;
-      ElevateAction:= True;
+      ElevateAction:= dupAccept;
     end;
   end;
 end;

@@ -198,7 +198,7 @@ type
     {en
        Execute operation elevated.
     }
-    FElevate: Boolean;
+    FElevate: TDuplicates;
 
     // This function is called from main thread.
 {$IFDEF fsoSynchronizeEvents}
@@ -446,7 +446,7 @@ type
     property StartTime: TDateTime read FStartTime;
     property Result: TFileSourceOperationResult read FOperationResult;
     property FileSource: IInterface read FFileSource;
-    property Elevate: Boolean read FElevate write FElevate;
+    property Elevate: TDuplicates read FElevate write FElevate;
     property WantsNewConnection: Boolean read FWantsNewConnection write FWantsNewConnection;
   end;
 
