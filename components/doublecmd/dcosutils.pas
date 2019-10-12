@@ -141,7 +141,7 @@ function mbFileSetTime(const FileName: String;
 function mbFileExists(const FileName: String): Boolean;
 function mbFileAccess(const FileName: String; Mode: Word): Boolean;
 function mbFileGetAttr(const FileName: String): TFileAttrs; overload;
-function mbFileSetAttr(const FileName: String; Attr: TFileAttrs) : LongInt;
+function mbFileSetAttr(const FileName: String; Attr: TFileAttrs): Boolean;
 {en
    If any operation in Options is performed and does not succeed it is included
    in the result set. If all performed operations succeed the function returns empty set.
@@ -371,7 +371,7 @@ begin
     begin
       if (caoRemoveReadOnlyAttr in Options) and ((Attr and faReadOnly) <> 0) then
         Attr := (Attr and not faReadOnly);
-      if mbFileSetAttr(sDst, Attr) <> 0 then
+      if not mbFileSetAttr(sDst, Attr) then
         Include(Result, caoCopyAttributes);
     end
     else
@@ -899,17 +899,14 @@ begin
 end;
 {$ENDIF}
 
-function mbFileSetAttr(const FileName: String; Attr: TFileAttrs): LongInt;
+function mbFileSetAttr(const FileName: String; Attr: TFileAttrs): Boolean;
 {$IFDEF MSWINDOWS}
 begin
-  if SetFileAttributesW(PWideChar(UTF16LongName(FileName)), Attr) then
-    Result:= 0
-  else
-    Result:= GetLastError;
+  Result:= SetFileAttributesW(PWideChar(UTF16LongName(FileName)), Attr);
 end;
 {$ELSE}
 begin
-  Result:= fpchmod(UTF8ToSys(FileName), Attr);
+  Result:= fpchmod(UTF8ToSys(FileName), Attr) = 0;
 end;
 {$ENDIF}
 

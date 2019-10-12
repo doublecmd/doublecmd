@@ -180,9 +180,9 @@ begin
         if (aTemplateProperty as TFileAttributesProperty).Value <>
            (aFile.Properties[fpAttributes] as TFileAttributesProperty).Value then
         begin
-          if FileSetAttrUAC(
+          if not FileSetAttrUAC(
             aFile.FullPath,
-            (aTemplateProperty as TFileAttributesProperty).Value) <> 0 then
+            (aTemplateProperty as TFileAttributesProperty).Value) then
           begin
             Result := sfprError;
           end;

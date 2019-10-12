@@ -213,7 +213,7 @@ begin
     if (FRecycle = False) then
     begin
       if FileIsReadOnly(aFile.Attributes) then
-        mbFileSetReadOnly(FileName, False);
+        FileSetReadOnlyUAC(FileName, False);
 
       if aFile.IsDirectory then // directory
       begin
