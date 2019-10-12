@@ -73,7 +73,7 @@ begin
     sSrc:= CreateRelativePath(sSrc, ExtractFileDir(sDst));
   end;
 
-  ElevateAction:= False;
+  ElevateAction:= dupIgnore;
 
   if CreateSymbolicLinkUAC(sSrc, sDst) then
     begin
