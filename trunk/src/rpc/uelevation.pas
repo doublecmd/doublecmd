@@ -30,16 +30,18 @@ type
     FClient: TBaseTransport;
     function ProcessObject(ACommand: UInt32; const ObjectName: String): LongBool;
     function ProcessObject(ACommand: UInt32; const OldName, NewName: String): LongBool;
+    function ProcessObject(ACommand: UInt32; const ObjectName: String; Attr: UInt32): LongBool;
     function ProcessObject(ACommand: UInt32; const ObjectName: String; Mode: Integer): THandle;
   public
     function Terminate: Boolean;
     function FileExists(const FileName: String): LongBool; inline;
     function FileGetAttr(const FileName: String): TFileAttrs; inline;
-    function FileSetAttr(const FileName: String; Attr: TFileAttrs): Integer;
+    function FileSetAttr(const FileName: String; Attr: TFileAttrs): LongBool; inline;
     function FileSetTime(const FileName: String;
                             ModificationTime: DCBasicTypes.TFileTime;
                             CreationTime    : DCBasicTypes.TFileTime;
                             LastAccessTime  : DCBasicTypes.TFileTime): LongBool;
+    function FileSetReadOnly(const FileName: String; ReadOnly: Boolean): LongBool; inline;
     function FileOpen(const FileName: String; Mode: Integer): THandle; inline;
     function FileCreate(const FileName: String; Mode: Integer): THandle; inline;
     function DeleteFile(const FileName: String): LongBool; inline;
@@ -239,6 +241,39 @@ begin
 end;
 
 function TWorkerProxy.ProcessObject(ACommand: UInt32; const ObjectName: String;
+  Attr: UInt32): LongBool;
+var
+  LastError: Integer;
+  Stream: TMemoryStream;
+begin
+  Result:= False;
+  try
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(ACommand);
+      Stream.Seek(SizeOf(UInt32), soFromCurrent);
+      // Write arguments
+      Stream.WriteAnsiString(ObjectName);
+      Stream.WriteDWord(Attr);
+      // Write data size
+      Stream.Seek(SizeOf(UInt32), soFromBeginning);
+      Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+      // Receive command result
+      FClient.ReadBuffer(Result, SizeOf(Result));
+      FClient.ReadBuffer(LastError, SizeOf(LastError));
+      SetLastOSError(LastError);
+    finally
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
+  end;
+end;
+
+function TWorkerProxy.ProcessObject(ACommand: UInt32; const ObjectName: String;
   Mode: Integer): THandle;
 var
   Stream: TMemoryStream;
@@ -303,36 +338,9 @@ begin
   Result:= TFileAttrs(ProcessObject(RPC_FileGetAttr, FileName));
 end;
 
-function TWorkerProxy.FileSetAttr(const FileName: String; Attr: TFileAttrs): Integer;
-var
-  LastError: Integer;
-  Stream: TMemoryStream;
+function TWorkerProxy.FileSetAttr(const FileName: String; Attr: TFileAttrs): LongBool;
 begin
-  Result:= -1;
-  try
-    Stream:= TMemoryStream.Create;
-    try
-      // Write header
-      Stream.WriteDWord(RPC_FileSetAttr);
-      Stream.Seek(SizeOf(UInt32), soFromCurrent);
-      // Write arguments
-      Stream.WriteAnsiString(FileName);
-      Stream.WriteDWord(Attr);
-      // Write data size
-      Stream.Seek(SizeOf(UInt32), soFromBeginning);
-      Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
-      // Send command
-      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
-      // Receive command result
-      FClient.ReadBuffer(Result, SizeOf(Result));
-      FClient.ReadBuffer(LastError, SizeOf(LastError));
-      SetLastOSError(LastError);
-    finally
-      Stream.Free;
-    end;
-  except
-    on E: Exception do DCDebug(E.Message);
-  end;
+  Result:= ProcessObject(RPC_FileSetAttr, FileName, Attr);
 end;
 
 function TWorkerProxy.FileSetTime(const FileName: String;
@@ -370,6 +378,11 @@ begin
   except
     on E: Exception do DCDebug(E.Message);
   end;
+end;
+
+function TWorkerProxy.FileSetReadOnly(const FileName: String; ReadOnly: Boolean): LongBool;
+begin
+  Result:= ProcessObject(RPC_FileSetReadOnly, FileName, UInt32(ReadOnly));
 end;
 
 function TWorkerProxy.FileOpen(const FileName: String; Mode: Integer): THandle;

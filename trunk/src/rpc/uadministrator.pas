@@ -9,11 +9,12 @@ uses
 
 function FileExistsUAC(const FileName: String): Boolean;
 function FileGetAttrUAC(const FileName: String): TFileAttrs;
-function FileSetAttrUAC(const FileName: String; Attr: TFileAttrs): Integer;
+function FileSetAttrUAC(const FileName: String; Attr: TFileAttrs): Boolean;
 function FileSetTimeUAC(const FileName: String;
                         ModificationTime: DCBasicTypes.TFileTime;
                         CreationTime    : DCBasicTypes.TFileTime = 0;
                         LastAccessTime  : DCBasicTypes.TFileTime = 0): LongBool;
+function FileSetReadOnlyUAC(const FileName: String; ReadOnly: Boolean): Boolean;
 
 function FileOpenUAC(const FileName: String; Mode: LongWord): System.THandle;
 function FileCreateUAC(const FileName: String; Mode: LongWord): System.THandle;
@@ -125,12 +126,12 @@ begin
   end;
 end;
 
-function FileSetAttrUAC(const FileName: String; Attr: TFileAttrs): Integer;
+function FileSetAttrUAC(const FileName: String; Attr: TFileAttrs): Boolean;
 var
   LastError: Integer;
 begin
   Result:= mbFileSetAttr(FileName, Attr);
-  if (Result <> 0) and ElevationRequired then
+  if (not Result) and ElevationRequired then
   begin
     LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredSetAttributes, FileName) then
@@ -153,6 +154,21 @@ begin
     LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredSetAttributes, FileName) then
       Result:= TWorkerProxy.Instance.FileSetTime(FileName, ModificationTime, CreationTime, LastAccessTime)
+    else
+      SetLastOSError(LastError);
+  end;
+end;
+
+function FileSetReadOnlyUAC(const FileName: String; ReadOnly: Boolean): Boolean;
+var
+  LastError: Integer;
+begin
+  Result:= mbFileSetReadOnly(FileName, ReadOnly);
+  if (not Result) and ElevationRequired then
+  begin
+    LastError:= GetLastOSError;
+    if RequestElevation(rsElevationRequiredSetAttributes, FileName) then
+      Result:= TWorkerProxy.Instance.FileSetReadOnly(FileName, ReadOnly)
     else
       SetLastOSError(LastError);
   end;

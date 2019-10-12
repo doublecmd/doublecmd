@@ -30,6 +30,7 @@ const
   RPC_FileGetAttr = 10;
   RPC_FileSetAttr = 11;
   RPC_FileSetTime = 12;
+  RPC_FileSetReadOnly = 14;
 
   RPC_CreateHardLink = 8;
   RPC_CreateSymbolicLink = 7;
@@ -134,7 +135,7 @@ begin
       FileName:= ARequest.ReadAnsiString;
       Attr:= ARequest.ReadDWord;
       DCDebug('FileSetAttr ', FileName);
-      Result:= LongBool(mbFileSetAttr(FileName, Attr));
+      Result:= mbFileSetAttr(FileName, Attr);
       LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));
@@ -147,6 +148,16 @@ begin
       LastAccessTime:= ARequest.ReadQWord;
       DCDebug('FileSetTime ', FileName);
       Result:= mbFileSetTime(FileName, ModificationTime, CreationTime, LastAccessTime);
+      LastError:= GetLastOSError;
+      ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
+    end;
+  RPC_FileSetReadOnly:
+    begin
+      FileName:= ARequest.ReadAnsiString;
+      Attr:= ARequest.ReadDWord;
+      DCDebug('FileSetReadOnly ', FileName);
+      Result:= mbFileSetReadOnly(FileName, Boolean(Attr));
       LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));
