@@ -220,7 +220,7 @@ implementation
 uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
-  uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm,
+  uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
   uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList;
 
 {$R *.lfm}
@@ -536,6 +536,7 @@ var
         MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
         Exit(False);
       end;
+      FOperation.Elevate:= ElevateAction;
       TFileSourceCopyOperation(FOperation).FileExistsOption := FileExistsOption;
       FOperation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
       try
@@ -1634,6 +1635,7 @@ begin
     MessageDlg(rsMsgErrNotSupported, mtError, [mbOK], 0);
     Exit(False);
   end;
+  FOperation.Elevate:= ElevateAction;
   FOperation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
   try
     FOperation.Execute;
