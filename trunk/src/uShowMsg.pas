@@ -239,8 +239,8 @@ procedure SetMsgBoxParams(var frmMsg: TfrmMsg; const sMsg: String;
 
   procedure FormShowEvent(Self, Sender: TCustomForm);
   begin
-    if (Sender.Tag <> 0) and (TObject(Sender.Tag) is TButton) then
-      SendMessage(TButton(Sender.Tag).Handle, $160C, 0, 1);
+    if (Self.Tag <> 0) and (TObject(Self.Tag) is TButton) then
+      SendMessage(TButton(Self.Tag).Handle, $160C, 0, 1);
   end;
 
 const
