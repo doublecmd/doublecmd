@@ -8720,16 +8720,16 @@ msgstr ""
 msgid "Select for copying <- (right to left)"
 msgstr ""
 
+#: tfrmsyncdirsdlg.actselectdeleteboth.caption
+msgid "Select for deleting <-> (both)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.actselectdeleteleft.caption
 msgid "Select for deleting <- (left)"
 msgstr ""
 
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
-msgstr ""
-
-#: tfrmsyncdirsdlg.actselectdeleteboth.caption
-msgid "Select for deleting <-> (both)"
 msgstr ""
 
 #: tfrmsyncdirsdlg.btnclose.caption
@@ -8762,8 +8762,10 @@ msgid "Synchronize directories"
 msgstr "Sincronizează dosarele"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
+#, fuzzy
+#| msgid "*.*"
 msgctxt "TFRMSYNCDIRSDLG.CBEXTFILTER.TEXT"
-msgid "*.*"
+msgid "*"
 msgstr "*.*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption

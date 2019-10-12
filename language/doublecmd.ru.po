@@ -8720,17 +8720,18 @@ msgstr "Поменять направление копирования"
 msgid "Select for copying <- (right to left)"
 msgstr "Отметить для копирования <- (справа налево)"
 
-#: tfrmsyncdirsdlg.actselectdeleterleft.caption
+#: tfrmsyncdirsdlg.actselectdeleteboth.caption
+msgid "Select for deleting <-> (both)"
+msgstr "Отметить для удаления <-> (оба)"
+
+#: tfrmsyncdirsdlg.actselectdeleteleft.caption
+msgctxt "tfrmsyncdirsdlg.actselectdeleteleft.caption"
 msgid "Select for deleting <- (left)"
 msgstr "Отметить для удаления <- (слева)"
 
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
 msgstr "Отметить для удаления -> (справа)"
-
-#: tfrmsyncdirsdlg.actselectdeleteboth.caption
-msgid "Select for deleting <-> (both)"
-msgstr "Отметить для удаления <-> (оба)"
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
@@ -8763,8 +8764,8 @@ msgstr "Синхронизация каталогов"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
 msgctxt "tfrmsyncdirsdlg.cbextfilter.text"
-msgid "*.*"
-msgstr "*.*"
+msgid "*"
+msgstr "*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption
 msgid "asymmetric"

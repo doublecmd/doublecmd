@@ -8510,6 +8510,10 @@ msgstr "Otočit směr kopírování"
 msgid "Select for copying <- (right to left)"
 msgstr "Směr kopírování <- (zprava doleva)"
 
+#: tfrmsyncdirsdlg.actselectdeleteboth.caption
+msgid "Select for deleting <-> (both)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.actselectdeleteleft.caption
 msgid "Select for deleting <- (left)"
 msgstr ""
@@ -8517,10 +8521,6 @@ msgstr ""
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
 msgstr "Označit pro výmaz -> (vpravo)"
-
-#: tfrmsyncdirsdlg.actselectdeleteboth.caption
-msgid "Select for deleting <-> (both)"
-msgstr ""
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "TFRMSYNCDIRSDLG.BTNCLOSE.CAPTION"
@@ -8552,8 +8552,10 @@ msgid "Synchronize directories"
 msgstr "Synchronizovat složky"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
+#, fuzzy
+#| msgid "*.*"
 msgctxt "TFRMSYNCDIRSDLG.CBEXTFILTER.TEXT"
-msgid "*.*"
+msgid "*"
 msgstr "*.*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption
