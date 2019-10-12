@@ -8497,6 +8497,10 @@ msgstr "Odwróć kierunek kopiowania"
 msgid "Select for copying <- (right to left)"
 msgstr "Wybierz do kopiowania <- (od prawej do lewej)"
 
+#: tfrmsyncdirsdlg.actselectdeleteboth.caption
+msgid "Select for deleting <-> (both)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.actselectdeleteleft.caption
 msgid "Select for deleting <- (left)"
 msgstr ""
@@ -8535,8 +8539,10 @@ msgid "Synchronize directories"
 msgstr "Synchronizuj katalogi"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
+#, fuzzy
+#| msgid "*.*"
 msgctxt "TFRMSYNCDIRSDLG.CBEXTFILTER.TEXT"
-msgid "*.*"
+msgid "*"
 msgstr "*.*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption

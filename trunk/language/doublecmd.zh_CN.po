@@ -8503,6 +8503,10 @@ msgstr "反转复制方向"
 msgid "Select for copying <- (right to left)"
 msgstr "选择复制方向 <- （从右到左）"
 
+#: tfrmsyncdirsdlg.actselectdeleteboth.caption
+msgid "Select for deleting <-> (both)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.actselectdeleteleft.caption
 msgid "Select for deleting <- (left)"
 msgstr ""
@@ -8510,10 +8514,6 @@ msgstr ""
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
 msgstr "选择删除方向 ->（右）"
-
-#: tfrmsyncdirsdlg.actselectdeleteboth.caption
-msgid "Select for deleting <-> (both)"
-msgstr ""
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
@@ -8546,7 +8546,7 @@ msgstr "同步文件夹"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
 msgctxt "tfrmsyncdirsdlg.cbextfilter.text"
-msgid "*.*"
+msgid "*"
 msgstr ""
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption

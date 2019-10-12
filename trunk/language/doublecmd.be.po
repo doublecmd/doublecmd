@@ -8521,6 +8521,10 @@ msgstr "Змяніць напрамак капіравання"
 msgid "Select for copying <- (right to left)"
 msgstr "Абраць для капіравання <- (справа налева)"
 
+#: tfrmsyncdirsdlg.actselectdeleteboth.caption
+msgid "Select for deleting <-> (both)"
+msgstr "Абраць для выдалення <-> (абодва)"
+
 #: tfrmsyncdirsdlg.actselectdeleteleft.caption
 msgid "Select for deleting <- (left)"
 msgstr "Абраць для выдалення <- (злева)"
@@ -8528,10 +8532,6 @@ msgstr "Абраць для выдалення <- (злева)"
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
 msgstr "Абраць для выдалення -> (зправа)"
-
-#: tfrmsyncdirsdlg.actselectdeleteboth.caption
-msgid "Select for deleting <-> (both)"
-msgstr "Абраць для выдалення <-> (абодва)"
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "TFRMSYNCDIRSDLG.BTNCLOSE.CAPTION"
@@ -8563,8 +8563,10 @@ msgid "Synchronize directories"
 msgstr "Сінхранізаваць каталогі"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
+#, fuzzy
+#| msgid "*.*"
 msgctxt "TFRMSYNCDIRSDLG.CBEXTFILTER.TEXT"
-msgid "*.*"
+msgid "*"
 msgstr "*.*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption

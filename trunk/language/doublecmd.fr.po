@@ -8736,6 +8736,10 @@ msgstr "Inverse le sens de la copie"
 msgid "Select for copying <- (right to left)"
 msgstr "Choisir pour copie <- (droite vers gauche)"
 
+#: tfrmsyncdirsdlg.actselectdeleteboth.caption
+msgid "Select for deleting <-> (both)"
+msgstr ""
+
 #: tfrmsyncdirsdlg.actselectdeleteleft.caption
 msgid "Select for deleting <- (left)"
 msgstr ""
@@ -8743,10 +8747,6 @@ msgstr ""
 #: tfrmsyncdirsdlg.actselectdeleteright.caption
 msgid "Select for deleting -> (right)"
 msgstr "Choisir pour effacement -> (droite)"
-
-#: tfrmsyncdirsdlg.actselectdeleteboth.caption
-msgid "Select for deleting <-> (both)"
-msgstr ""
 
 #: tfrmsyncdirsdlg.btnclose.caption
 msgctxt "tfrmsyncdirsdlg.btnclose.caption"
@@ -8778,8 +8778,10 @@ msgid "Synchronize directories"
 msgstr "Appairer les dossiers"
 
 #: tfrmsyncdirsdlg.cbextfilter.text
+#, fuzzy
+#| msgid "*.*"
 msgctxt "tfrmsyncdirsdlg.cbextfilter.text"
-msgid "*.*"
+msgid "*"
 msgstr "*.*"
 
 #: tfrmsyncdirsdlg.chkasymmetric.caption
