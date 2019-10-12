@@ -236,12 +236,20 @@ end;
 
 procedure SetMsgBoxParams(var frmMsg: TfrmMsg; const sMsg: String;
                           const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton);
+
+  procedure FormShowEvent(Self, Sender: TCustomForm);
+  begin
+    if (Sender.Tag <> 0) and (TObject(Sender.Tag) is TButton) then
+      SendMessage(TButton(Sender.Tag).Handle, $160C, 0, 1);
+  end;
+
 const
   cButtonCount = 8;
   cButtonSpace = 8;
 var
   iIndex: Integer;
   iCount: Integer;
+  Handler: TMethod;
   MenuItem: TMenuItem;
   CaptionWidth: Integer;
   More: Boolean = False;
@@ -291,10 +299,21 @@ begin
       Caption:= cLngButton[Buttons[iIndex]];
       Parent:= frmMsg.pnlButtons;
       Constraints.MinWidth:= MinButtonWidth;
+
       if Buttons[iIndex] >= Low(TMyMsgActionButton) then
         Tag:= -2-iIndex
       else
         Tag:= iIndex;
+
+      if Buttons[iIndex] = msmbRetryAdmin then
+      begin
+        Handler.Data:= frmMsg;
+        frmMsg.Tag:= GetHashCode;
+        Handler.Code:= @FormShowEvent;
+        frmMsg.OnShow:= TNotifyEvent(Handler);
+        Constraints.MinWidth:= MinButtonWidth + GetSystemMetrics(49);
+      end;
+
       OnClick:= frmMsg.ButtonClick;
       OnMouseUp:= frmMsg.MouseUpEvent;
       if Buttons[iIndex] = ButDefault then
