@@ -315,7 +315,7 @@ end;
 function PackFilesW(PackedFile: PWideChar; SubPath: PWideChar;
   SrcPath: PWideChar; AddList: PWideChar; Flags: Integer): Integer; stdcall;
 var
-  I: Integer;
+  I, J: Integer;
   Encrypt: Boolean;
   AMessage: String;
   Password: WideString;
@@ -323,11 +323,11 @@ var
   FileName: WideString;
   SfxModule: String = '';
   FileNameUTF8: String;
+  AItem: TJclCompressionItem;
   AProgress: TSevenZipUpdate;
   Archive: TJclCompressArchive;
   AFormats: TJclCompressArchiveClassArray;
 begin
-  if (Flags and PK_PACK_MOVE_FILES) <> 0 then Exit(E_NOT_SUPPORTED);
   FileNameUTF8 := Utf16ToUtf8(WideString(PackedFile));
 
   // If update existing archive
@@ -408,7 +408,26 @@ begin
       end;
 
       AProgress.Start;
-      Exit(AProgress.Update);
+      Result:= AProgress.Update;
+
+      // If move files requested
+      if (Result = E_SUCCESS) and (Flags and PK_PACK_MOVE_FILES <> 0) then
+      begin
+        // First remove files
+        for J:= 0 to Archive.ItemCount - 1 do
+        begin
+          AItem:= Archive.Items[J];
+          if not AItem.Directory then DeleteFileUtf8(AItem.FileName);
+        end;
+        // Second remove directories
+        for J:= Archive.ItemCount - 1 downto 0 do
+        begin
+          AItem:= Archive.Items[J];
+          if AItem.Directory then RemoveDirUtf8(AItem.FileName);
+        end;
+      end;
+
+      Exit;
     finally
       Archive.Free;
       AProgress.Free;
