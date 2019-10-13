@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains Windows specific functions
 
-   Copyright (C) 2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -47,11 +47,20 @@ function EnablePrivilege(hToken: HANDLE; lpszPrivilege: LPCTSTR): Boolean;
    like read and write permissions, and the file owner
 }
 function CopyNtfsPermissions(const Source, Target: String): Boolean;
+{en
+   Retrieves the final path for the specified file
+}
+function GetFinalPathNameByHandle(hFile: THandle): UnicodeString;
 
 implementation
 
 uses
-  JwaAclApi, JwaWinNT, JwaAccCtrl, JwaWinBase, JwaWinType;
+  SysUtils, JwaAclApi, JwaWinNT, JwaAccCtrl, JwaWinBase, JwaWinType, JwaNative,
+  JwaNtStatus;
+
+var
+  GetFinalPathNameByHandleW: function(hFile: HANDLE; lpszFilePath: LPWSTR; cchFilePath: DWORD; dwFlags: DWORD): DWORD; stdcall;
+  NtQueryObject: function(ObjectHandle : HANDLE; ObjectInformationClass : OBJECT_INFORMATION_CLASS; ObjectInformation : PVOID; ObjectInformationLength : ULONG; ReturnLength : PULONG): NTSTATUS; stdcall;
 
 function UTF16LongName(const FileName: String): UnicodeString;
 var
@@ -143,6 +152,43 @@ begin
     {$POP}
   end;
 end;
+
+function GetFinalPathNameByHandle(hFile: THandle): UnicodeString;
+const
+  VOLUME_NAME_NT = $02;
+  MAX_SIZE = SizeOf(TObjectNameInformation) + MAXWORD;
+var
+  ReturnLength : ULONG;
+  ObjectInformation : PObjectNameInformation;
+begin
+  if (Win32MajorVersion > 5) then
+  begin
+    SetLength(Result, maxSmallint + 1);
+    SetLength(Result, GetFinalPathNameByHandleW(hFile, PWideChar(Result), maxSmallint, VOLUME_NAME_NT));
+  end
+  else begin
+    ObjectInformation:= GetMem(MAX_SIZE);
+    if (NtQueryObject(hFile, ObjectNameInformation, ObjectInformation, MAXWORD, @ReturnLength) <> STATUS_SUCCESS) then
+      Result:= EmptyWideStr
+    else begin
+      SetLength(Result, ObjectInformation^.Name.Length div SizeOf(WideChar));
+      Move(ObjectInformation^.Name.Buffer^, Result[1], ObjectInformation^.Name.Length);
+    end;
+    FreeMem(ObjectInformation);
+  end;
+end;
+
+procedure Initialize;
+begin
+  if Win32MajorVersion < 6 then
+    Pointer(NtQueryObject):= GetProcAddress(GetModuleHandleW(ntdll), 'NtQueryObject')
+  else begin
+    Pointer(GetFinalPathNameByHandleW):= GetProcAddress(GetModuleHandleW(kernel32), 'GetFinalPathNameByHandleW');
+  end;
+end;
+
+initialization
+  Initialize;
 
 end.
 
