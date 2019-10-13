@@ -897,7 +897,7 @@ begin
     UpdateStatistics(FStatistics);
 
     // Check if moving to the same file.
-    if mbSameFile(TargetName, aFile.FullPath) then
+    if mbFileSame(TargetName, aFile.FullPath) then
     begin
       if (FMode = fsohmCopy) and FAutoRenameItSelf then
         TargetName := GetNextCopyName(TargetName, aFile.IsDirectory or aFile.IsLinkToDirectory)

@@ -121,7 +121,6 @@ function mbFileCreate(const FileName: String): System.THandle; overload; inline;
 function mbFileCreate(const FileName: String; Mode: LongWord): System.THandle; overload; inline;
 function mbFileCreate(const FileName: String; Mode, Rights: LongWord): System.THandle; overload;
 function mbFileAge(const FileName: String): DCBasicTypes.TFileTime;
-function mbFileSame(const FirstName, SecondName: String): Boolean;
 // On success returns True.
 function mbFileGetTime(const FileName: String;
                        var ModificationTime: DCBasicTypes.TFileTime;
@@ -175,7 +174,7 @@ function mbRemoveDir(const Dir: String): Boolean;
 }
 function mbFileSystemEntryExists(const Path: String): Boolean;
 function mbCompareFileNames(const FileName1, FileName2: String): Boolean;
-function mbSameFile(const FileName1, FileName2: String): Boolean;
+function mbFileSame(const FileName1, FileName2: String): Boolean;
 { Other functions }
 function mbGetEnvironmentString(Index : Integer) : String;
 {en
@@ -223,7 +222,7 @@ implementation
 
 uses
 {$IF DEFINED(MSWINDOWS)}
-  Windows, JwaWinNetWk, DCDateTimeUtils, DCWindows, DCNtfsLinks,
+  Windows, DCDateTimeUtils, DCWindows, DCNtfsLinks,
 {$ENDIF}
 {$IF DEFINED(UNIX)}
   BaseUnix, Unix, dl, DCUnix,
@@ -675,48 +674,6 @@ begin
 {$PUSH}{$R-}
     Result := Info.st_mtime;
 {$POP}
-end;
-{$ENDIF}
-
-function mbFileSame(const FirstName, SecondName: String): Boolean;
-{$IFDEF MSWINDOWS}
-var
-  Handle: System.THandle;
-  lpFirstFileInfo,
-  lpSecondFileInfo: TByHandleFileInformation;
-begin
-  // Read first file info
-  Handle:= CreateFileW(PWideChar(UTF16LongName(FirstName)), FILE_READ_ATTRIBUTES,
-                       FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
-                       nil, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
-  if Handle = INVALID_HANDLE_VALUE then Exit(False);
-  Result:= GetFileInformationByHandle(Handle, lpFirstFileInfo);
-  CloseHandle(Handle);
-  if not Result then Exit;
-  // Read second file info
-  Handle:= CreateFileW(PWideChar(UTF16LongName(SecondName)), FILE_READ_ATTRIBUTES,
-                       FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
-                       nil, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
-  if Handle = INVALID_HANDLE_VALUE then Exit(False);
-  Result:= GetFileInformationByHandle(Handle, lpSecondFileInfo);
-  CloseHandle(Handle);
-  if not Result then Exit;
-  // Compare file info
-  Result:= CompareByte(lpFirstFileInfo, lpSecondFileInfo,
-                       SizeOf(TByHandleFileInformation)) = 0;
-end;
-{$ELSE}
-var
-  FirstStat,
-  SecondStat: BaseUnix.Stat;
-begin
-  // Read first file info
-  if fpStat(UTF8ToSys(FirstName), FirstStat) < 0 then Exit(False);
-  // Read second file info
-  if fpStat(UTF8ToSys(SecondName), SecondStat) < 0 then Exit(False);
-  // Compare file info
-  Result:= (FirstStat.st_dev = SecondStat.st_dev) and
-           (FirstStat.st_ino = SecondStat.st_ino);
 end;
 {$ENDIF}
 
@@ -1245,9 +1202,10 @@ begin
 end;
 {$ENDIF}
 
-function mbSameFile(const FileName1, FileName2: String): Boolean;
+function mbFileSame(const FileName1, FileName2: String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 var
+  Device1, Device2: TStringArray;
   FileHandle1, FileHandle2: System.THandle;
   FileInfo1, FileInfo2: BY_HANDLE_FILE_INFORMATION;
 begin
@@ -1275,6 +1233,13 @@ begin
           Result := (FileInfo1.dwVolumeSerialNumber = FileInfo2.dwVolumeSerialNumber) and
                     (FileInfo1.nFileIndexHigh       = FileInfo2.nFileIndexHigh) and
                     (FileInfo1.nFileIndexLow        = FileInfo2.nFileIndexLow);
+          // Check that both files on the same physical drive (bug 0001774)
+          if Result then
+          begin
+            Device1:= AnsiString(GetFinalPathNameByHandle(FileHandle1)).Split([PathDelim]);
+            Device2:= AnsiString(GetFinalPathNameByHandle(FileHandle2)).Split([PathDelim]);
+            Result:= (Length(Device1) > 2) and (Length(Device2) > 2) and (Device1[2] = Device2[2]);
+          end;
         end;
         CloseHandle(FileHandle2);
       end;
