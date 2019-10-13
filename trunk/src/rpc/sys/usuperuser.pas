@@ -176,7 +176,7 @@ end;
 
 initialization
 {$IF DEFINED(UNIX)}
-  AdministratorPrivileges:= (fpGetUID = 0);
+  AdministratorPrivileges:= {$IFDEF DARWIN}True{$ELSE}(fpGetUID = 0){$ENDIF};
 {$ELSE}
   AdministratorPrivileges:= (IsUserAdmin <> dupError);
 {$ENDIF}
