@@ -60,6 +60,7 @@ end;
 procedure TfrmHardLink.btnOKClick(Sender: TObject);
 var
   sSrc, sDst, Message: String;
+  AElevate: TDuplicates = dupIgnore;
 begin
   sSrc:=edtExistingFile.Text;
   sDst:=edtLinkToCreate.Text;
@@ -69,23 +70,26 @@ begin
   sSrc := GetAbsoluteFileName(FCurrentPath, sSrc);
   sDst := GetAbsoluteFileName(FCurrentPath, sDst);
 
-  ElevateAction:= dupIgnore;
-
-  if CreateHardLinkUAC(sSrc, sDst) then
-    begin
-      // write log
-      if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
-        logWrite(Format(rsMsgLogSuccess+rsMsgLogLink,[sSrc+' -> '+sDst]), lmtSuccess);
-    end
-  else
-    begin
-      Message:= mbSysErrorMessage;
-      // write log
-      if (log_cp_mv_ln in gLogOptions) and (log_errors in gLogOptions) then
-        logWrite(Format(rsMsgLogError+rsMsgLogLink,[sSrc+' -> '+sDst]), lmtError);
-      // Standart error modal dialog
-      MsgError(rsHardErrCreate + LineEnding + LineEnding + Message);
-    end;
+  PushPop(AElevate);
+  try
+    if CreateHardLinkUAC(sSrc, sDst) then
+      begin
+        // write log
+        if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
+          logWrite(Format(rsMsgLogSuccess+rsMsgLogLink,[sSrc+' -> '+sDst]), lmtSuccess);
+      end
+    else
+      begin
+        Message:= mbSysErrorMessage;
+        // write log
+        if (log_cp_mv_ln in gLogOptions) and (log_errors in gLogOptions) then
+          logWrite(Format(rsMsgLogError+rsMsgLogLink,[sSrc+' -> '+sDst]), lmtError);
+        // Standart error modal dialog
+        MsgError(rsHardErrCreate + LineEnding + LineEnding + Message);
+      end;
+  finally
+    PushPop(AElevate);
+  end;
 end;
 
 procedure TfrmHardLink.FormShow(Sender: TObject);

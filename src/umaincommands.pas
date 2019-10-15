@@ -390,7 +390,7 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
      fMainCommandsDlg, uConnectionManager, fOptionsFavoriteTabs, fTreeViewMenu,
-     uArchiveFileSource, fOptionsHotKeys, fBenchmark
+     uArchiveFileSource, fOptionsHotKeys, fBenchmark, uAdministrator
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ELSE}
@@ -3529,6 +3529,7 @@ var
   sCmd: string = '';
   sParams: string = '';
   sStartPath: string = '';
+  AElevate: TDuplicates = dupIgnore;
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_EditNew', Params);
 
@@ -3554,23 +3555,28 @@ begin
     if ExtractFilePath(sNewFile) = '' then
       sNewFile:= ActiveFrame.CurrentPath + sNewFile;
 
-    Attrs := mbFileGetAttr(sNewFile);
-    if Attrs = faInvalidAttributes then
-    begin
-      hFile := mbFileCreate(sNewFile);
-      if hFile = feInvalidHandle then
+    PushPop(AElevate);
+    try
+      Attrs := FileGetAttrUAC(sNewFile);
+      if Attrs = faInvalidAttributes then
       begin
-        MessageDlg(rsMsgErrECreate, mbSysErrorMessage(GetLastOSError), mtWarning, [mbOK], 0);
+        hFile := FileCreateUAC(sNewFile, fmShareDenyWrite);
+        if hFile = feInvalidHandle then
+        begin
+          MessageDlg(rsMsgErrECreate, mbSysErrorMessage(GetLastOSError), mtWarning, [mbOK], 0);
+          Exit;
+        end;
+        FileClose(hFile);
+        ActiveFrame.FileSource.Reload(ExtractFilePath(sNewFile));
+      end
+      else if FPS_ISDIR(Attrs) then
+      begin
+        MessageDlg(rsMsgErrECreate, Format(rsMsgErrCreateFileDirectoryExists,
+          [ExtractFileName(sNewFile)]), mtWarning, [mbOK], 0);
         Exit;
       end;
-      FileClose(hFile);
-      ActiveFrame.FileSource.Reload(ExtractFilePath(sNewFile));
-    end
-    else if FPS_ISDIR(Attrs) then
-    begin
-      MessageDlg(rsMsgErrECreate, Format(rsMsgErrCreateFileDirectoryExists,
-        [ExtractFileName(sNewFile)]), mtWarning, [mbOK], 0);
-      Exit;
+    finally
+      PushPop(AElevate);
     end;
 
     aFile := TFileSystemFileSource.CreateFileFromFile(sNewFile);
