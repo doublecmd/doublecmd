@@ -56,7 +56,7 @@ var
 begin
   if (Widget <> nil) and (GTK_IS_ENTRY(Widget)) then
   begin
-    Info := GetWidgetInfo(Widget, False);
+    Info := GetWidgetInfo(Widget);
     Include(Info^.Flags, wwiInvalidEvent);
   end;
 end;
@@ -67,7 +67,7 @@ var
 begin
   if (Widget <> nil) and (GTK_IS_ENTRY(Widget)) then
   begin
-    Info := GetWidgetInfo(Widget, False);
+    Info := GetWidgetInfo(Widget);
     Include(Info^.Flags, wwiInvalidEvent);
   end;
 end;
@@ -114,7 +114,7 @@ begin
       if (GStart = GEnd) and
         (UTF8Length(EntryText) >= PGtkEntry(Widget)^.text_length) then
       begin
-        Info := GetWidgetInfo(Widget, False);
+        Info := GetWidgetInfo(Widget);
         {do not update position if backspace or delete pressed}
         if wwiInvalidEvent in Info^.Flags then
         begin
