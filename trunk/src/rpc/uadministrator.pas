@@ -7,6 +7,8 @@ interface
 uses
   Classes, SysUtils, DCBasicTypes, DCClassesUtf8;
 
+procedure PushPop(var Elevate: TDuplicates);
+
 function FileExistsUAC(const FileName: String): Boolean;
 function FileGetAttrUAC(const FileName: String): TFileAttrs;
 function FileSetAttrUAC(const FileName: String; Attr: TFileAttrs): Boolean;
@@ -75,6 +77,15 @@ resourcestring
   rsElevationRequiredSymLink = 'to create this symbolic link:';
   rsElevationRequiredGetAttributes = 'to get attributes of this object:';
   rsElevationRequiredSetAttributes = 'to set attributes of this object:';
+
+procedure PushPop(var Elevate: TDuplicates);
+var
+  AValue: TDuplicates;
+begin
+  AValue:= ElevateAction;
+  ElevateAction:= Elevate;
+  Elevate:= AValue;
+end;
 
 function RequestElevation(const Message, FileName: String): Boolean;
 var
@@ -418,16 +429,11 @@ begin
   end;
   fsFileStream:= TFileStreamUAC.Create(FileName, AMode);
   try
-    if (AMode <> fmCreate) then
-    begin
-      fsFileStream.Position:= 0;
-      fsFileStream.Size:= 0;
-    end;
     SaveToStream(fsFileStream);
+    if (AMode <> fmCreate) then fsFileStream.Size:= fsFileStream.Position;
   finally
     fsFileStream.Free;
   end;
 end;
 
 end.
-
