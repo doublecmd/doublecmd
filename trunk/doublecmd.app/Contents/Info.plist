@@ -55,6 +55,8 @@
   </array>
   <key>NSHighResolutionCapable</key>
   <true/>
+  <key>NSRequiresAquaSystemAppearance</key>
+  <false/>
   <key>NSSupportsAutomaticGraphicsSwitching</key>
   <true/>
 </dict>
