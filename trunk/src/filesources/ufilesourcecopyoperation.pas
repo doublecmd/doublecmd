@@ -16,6 +16,7 @@ uses
 type
 
   // Statistics are the same for CopyIn and CopyOut operations.
+  PFileSourceCopyOperationStatistics = ^TFileSourceCopyOperationStatistics;
   TFileSourceCopyOperationStatistics = record
     CurrentFileFrom: String;
     CurrentFileTo: String;

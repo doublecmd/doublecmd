@@ -6,10 +6,11 @@ interface
 
 uses
   Classes, SysUtils, LCLProc, DCOSUtils, uLog, uGlobs,
-  WfxPlugin,
+  WfxPlugin, uWfxModule,
   uFile,
   uFileSource,
   uFileSourceOperation,
+  uFileSourceTreeBuilder,
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFileSourceCopyOperation,
@@ -22,10 +23,23 @@ type
 
   TUpdateStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
 
+  { TWfxTreeBuilder }
+
+  TWfxTreeBuilder = class(TFileSourceTreeBuilder)
+  private
+    FWfxModule: TWfxModule;
+  protected
+    procedure AddLinkTarget(aFile: TFile; CurrentNode: TFileTreeNode); override;
+    procedure AddFilesInDirectory(srcPath: String; CurrentNode: TFileTreeNode); override;
+  public
+    property WfxModule: TWfxModule read FWfxModule write FWfxModule;
+  end;
+
   { TWfxPluginOperationHelper }
 
   TWfxPluginOperationHelper = class
   private
+    FRootDir: TFile;
     FWfxPluginFileSource: IWfxPluginFileSource;
     FOperationThread: TThread;
     FMode: TWfxPluginOperationHelperMode;
@@ -36,6 +50,7 @@ type
     FRenamingFiles,
     FRenamingRootDir,
     FInternal: Boolean;
+    FStatistics: PFileSourceCopyOperationStatistics;
     FCopyAttributesOptions: TCopyAttributesOptions;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
 
@@ -53,8 +68,11 @@ type
     procedure ShowError(sMessage: String);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
-    function ProcessDirectory(aFile: TFile; AbsoluteTargetFileName: String): LongInt;
-    function ProcessFile(aFile: TFile; AbsoluteTargetFileName: String; var Statistics: TFileSourceCopyOperationStatistics): LongInt;
+    function ProcessNode(aFileTreeNode: TFileTreeNode; CurrentTargetPath: String): Integer;
+
+    function ProcessDirectory(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Integer;
+    function ProcessLink(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Integer;
+    function ProcessFile(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Integer;
 
     procedure QuestionActionHandler(Action: TFileSourceOperationUIAction);
     function FileExists(aFile: TFile;
@@ -62,6 +80,8 @@ type
                         AllowResume: Boolean): TFileSourceOperationOptionFileExists;
 
     procedure CopyProperties(SourceFile: TFile; const TargetFileName: String);
+
+    procedure CountStatistics(aNode: TFileTreeNode);
 
   public
     constructor Create(FileSource: IFileSource;
@@ -79,7 +99,7 @@ type
 
     procedure Initialize;
 
-    procedure ProcessFiles(aFiles: TFiles; var Statistics: TFileSourceCopyOperationStatistics);
+    procedure ProcessTree(aFileTree: TFileTree; var Statistics: TFileSourceCopyOperationStatistics);
 
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property CopyAttributesOptions: TCopyAttributesOptions read FCopyAttributesOptions write FCopyAttributesOptions;
@@ -94,8 +114,8 @@ type
 implementation
 
 uses
-  uFileProcs, StrUtils, DCStrUtils, uLng, uWfxModule, uFileSystemUtil, uFileProperty,
-  DCDateTimeUtils, DCBasicTypes;
+  uFileProcs, StrUtils, DCStrUtils, uLng, uFileSystemUtil, uFileProperty,
+  DCDateTimeUtils, DCBasicTypes, DCFileAttributes;
 
 function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: String): Boolean;
 var
@@ -124,6 +144,50 @@ end;
 function DateTimeToWfxFileTime(DateTime: TDateTime): TWfxFileTime;
 begin
   Result:= TWfxFileTime(DateTimeToWinFileTime(DateTime));
+end;
+
+{ TWfxTreeBuilder }
+
+procedure TWfxTreeBuilder.AddLinkTarget(aFile: TFile; CurrentNode: TFileTreeNode);
+begin
+  // Add as normal file/directory
+  if aFile.AttributesProperty is TNtfsFileAttributesProperty then
+    aFile.Attributes:= aFile.Attributes and (not FILE_ATTRIBUTE_REPARSE_POINT)
+  else
+    aFile.Attributes:= aFile.Attributes and (not S_IFLNK);
+
+  if not aFile.IsLinkToDirectory then
+    AddFile(aFile, CurrentNode)
+  else begin
+    if aFile.AttributesProperty is TNtfsFileAttributesProperty then
+      aFile.Attributes:= aFile.Attributes or FILE_ATTRIBUTE_DIRECTORY
+    else begin
+      aFile.Attributes:= aFile.Attributes or S_IFDIR;
+    end;
+    AddDirectory(aFile, CurrentNode);
+  end;
+end;
+
+procedure TWfxTreeBuilder.AddFilesInDirectory(srcPath: String;
+  CurrentNode: TFileTreeNode);
+var
+  FindData: TWfxFindData;
+  Handle: THandle;
+  aFile: TFile;
+begin
+  with FWfxModule do
+  begin
+    Handle := WfxFindFirst(srcPath, FindData);
+    if Handle = wfxInvalidHandle then Exit;
+
+    repeat
+      if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;
+      aFile:= TWfxPluginFileSource.CreateFile(srcPath, FindData);
+      AddItem(aFile, CurrentNode);
+    until not WfxFindNext(Handle, FindData);
+
+    FsFindClose(Handle);
+  end;
 end;
 
 { TWfxPluginOperationHelper }
@@ -163,42 +227,133 @@ begin
   end;
 end;
 
-function TWfxPluginOperationHelper.ProcessDirectory(aFile: TFile;
-  AbsoluteTargetFileName: String): LongInt;
+function TWfxPluginOperationHelper.ProcessNode(aFileTreeNode: TFileTreeNode;
+  CurrentTargetPath: String): Integer;
+var
+  aFile: TFile;
+  TargetName: String;
+  ProcessedOk: Integer;
+  CurrentFileIndex: Integer;
+  CurrentSubNode: TFileTreeNode;
 begin
-  Result:= WFX_ERROR;
-  case FMode of
-  wpohmCopy,
-  wpohmCopyIn,
-  wpohmMove:
+  Result := FS_FILE_OK;
+
+  for CurrentFileIndex := 0 to aFileTreeNode.SubNodesCount - 1 do
+  begin
+    CurrentSubNode := aFileTreeNode.SubNodes[CurrentFileIndex];
+    aFile := CurrentSubNode.TheFile;
+
+    if FRenamingRootDir and (aFile = FRootDir) then
+      TargetName := CurrentTargetPath + FRenameMask
+    else if FRenamingFiles then
+      TargetName := CurrentTargetPath + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask)
+    else
+      TargetName := CurrentTargetPath + aFile.Name;
+
+    with FStatistics^ do
     begin
-      Result:= FWfxPluginFileSource.WfxModule.WfxMkDir('', AbsoluteTargetFileName);
+      CurrentFileFrom := aFile.FullPath;
+      CurrentFileTo := TargetName;
+      CurrentFileTotalBytes := aFile.Size;
+      CurrentFileDoneBytes := 0;
     end;
-  wpohmCopyOut:
-    begin
-      if mbForceDirectory(AbsoluteTargetFileName) then
-        Result:= WFX_SUCCESS;
-    end;
+
+    UpdateStatistics(FStatistics^);
+
+    if aFile.IsLink then
+      ProcessedOk := ProcessLink(CurrentSubNode, TargetName)
+    else if aFile.IsDirectory then
+      ProcessedOk := ProcessDirectory(CurrentSubNode, TargetName)
+    else
+      ProcessedOk := ProcessFile(CurrentSubNode, TargetName);
+
+    if ProcessedOk <> FS_FILE_OK then
+      Result := ProcessedOk;
+
+    if ProcessedOk = FS_FILE_USERABORT then AbortOperation();
+
+    if ProcessedOk = FS_FILE_OK then CopyProperties(aFile, TargetName);
+
+    if ProcessedOk = FS_FILE_OK then
+      begin
+        LogMessage(Format(rsMsgLogSuccess+FLogCaption, [aFile.FullPath + ' -> ' + TargetName]),
+                   [log_vfs_op], lmtSuccess);
+      end
+    else
+      begin
+        ShowError(Format(rsMsgLogError + FLogCaption,
+                         [aFile.FullPath + ' -> ' + TargetName +
+                          ' - ' + GetErrorMsg(ProcessedOk)]));
+        LogMessage(Format(rsMsgLogError+FLogCaption, [aFile.FullPath + ' -> ' + TargetName]),
+                   [log_vfs_op], lmtError);
+      end;
+
+    CheckOperationState;
   end;
 end;
 
-function TWfxPluginOperationHelper.ProcessFile(aFile: TFile;
-  AbsoluteTargetFileName: String; var Statistics: TFileSourceCopyOperationStatistics): LongInt;
+function TWfxPluginOperationHelper.ProcessDirectory(aNode: TFileTreeNode;
+  AbsoluteTargetFileName: String): Integer;
+begin
+  // Create target directory
+  if (FMode <> wpohmCopyOut) then
+    Result:= FWfxPluginFileSource.WfxModule.WfxMkDir('', AbsoluteTargetFileName)
+  else begin
+    if mbForceDirectory(AbsoluteTargetFileName) then
+      Result:= FS_FILE_OK
+    else
+      Result:= WFX_ERROR;
+  end;
+  if Result = FS_FILE_OK then
+  begin
+    // Copy/Move all files inside.
+    Result := ProcessNode(aNode, IncludeTrailingPathDelimiter(AbsoluteTargetFileName));
+  end
+  else
+  begin
+    // Error - all files inside not copied/moved.
+    ShowError(rsMsgLogError + Format(rsMsgErrForceDir, [AbsoluteTargetFileName]));
+    CountStatistics(aNode);
+  end;
+  if (Result = FS_FILE_OK) and (FMode = wpohmMove) then
+    FWfxPluginFileSource.WfxModule.WfxRemoveDir(aNode.TheFile.FullPath);
+end;
+
+function TWfxPluginOperationHelper.ProcessLink(aNode: TFileTreeNode;
+  AbsoluteTargetFileName: String): Integer;
+var
+  aSubNode: TFileTreeNode;
+begin
+  if (FMode = wpohmMove) then
+    Result := ProcessFile(aNode, AbsoluteTargetFileName)
+  else if aNode.SubNodesCount > 0 then
+  begin
+    aSubNode := aNode.SubNodes[0];
+    if aSubNode.TheFile.AttributesProperty.IsDirectory then
+      Result := ProcessDirectory(aSubNode, AbsoluteTargetFileName)
+    else
+      Result := ProcessFile(aSubNode, AbsoluteTargetFileName);
+  end;
+end;
+
+function TWfxPluginOperationHelper.ProcessFile(aNode: TFileTreeNode;
+  AbsoluteTargetFileName: String): Integer;
 var
   iFlags: Integer = 0;
   RemoteInfo: TRemoteInfo;
   iTemp: TInt64Rec;
   bCopyMoveIn: Boolean;
+  aFile: TFile;
   OldDoneBytes: Int64; // for if there was an error
 begin
   // If there will be an error the DoneBytes value
   // will be inconsistent, so remember it here.
-  OldDoneBytes := Statistics.DoneBytes;
+  OldDoneBytes := FStatistics^.DoneBytes;
+
+  aFile:= aNode.TheFile;
 
   with FWfxPluginFileSource do
   begin
-  { FCurrentFileSize:= aFile.Size;
-  }
       with RemoteInfo do
       begin
         iTemp.Value := aFile.Size;
@@ -234,11 +389,11 @@ begin
       end;
    end;
 
-  with Statistics do
+  with FStatistics^ do
   begin
     if Result = FS_FILE_OK then DoneFiles := DoneFiles + 1;
     DoneBytes := OldDoneBytes + aFile.Size;
-    UpdateStatistics(Statistics);
+    UpdateStatistics(FStatistics^);
   end;
 end;
 
@@ -343,6 +498,47 @@ begin
   end;
 end;
 
+procedure TWfxPluginOperationHelper.CountStatistics(aNode: TFileTreeNode);
+
+  procedure CountNodeStatistics(aNode: TFileTreeNode);
+  var
+    aFileAttrs: TFileAttributesProperty;
+    i: Integer;
+  begin
+    aFileAttrs := aNode.TheFile.AttributesProperty;
+
+    with FStatistics^ do
+    begin
+      if aFileAttrs.IsDirectory then
+      begin
+        // No statistics for directory.
+        // Go through subdirectories.
+        for i := 0 to aNode.SubNodesCount - 1 do
+          CountNodeStatistics(aNode.SubNodes[i]);
+      end
+      else if aFileAttrs.IsLink then
+      begin
+        // Count only not-followed links.
+        if aNode.SubNodesCount = 0 then
+          DoneFiles := DoneFiles + 1
+        else
+          // Count target of link.
+          CountNodeStatistics(aNode.SubNodes[0]);
+      end
+      else
+      begin
+        // Count files.
+        DoneFiles := DoneFiles + 1;
+        DoneBytes := DoneBytes + aNode.TheFile.Size;
+      end;
+    end;
+  end;
+
+begin
+  CountNodeStatistics(aNode);
+  UpdateStatistics(FStatistics^);
+end;
+
 constructor TWfxPluginOperationHelper.Create(FileSource: IFileSource;
                                              AskQuestionFunction: TAskQuestionFunction;
                                              AbortOperationFunction: TAbortOperationFunction;
@@ -394,79 +590,30 @@ begin
   SplitFileMask(FRenameMask, FRenameNameMask, FRenameExtMask);
 end;
 
-procedure TWfxPluginOperationHelper.ProcessFiles(aFiles: TFiles; var Statistics: TFileSourceCopyOperationStatistics);
+procedure TWfxPluginOperationHelper.ProcessTree(aFileTree: TFileTree;
+  var Statistics: TFileSourceCopyOperationStatistics);
 var
-  I: Integer;
-  iResult: LongInt;
-  sTargetFile : String;
   aFile: TFile;
 begin
   FRenamingFiles := (FRenameMask <> '*.*') and (FRenameMask <> '');
 
   // If there is a single root dir and rename mask doesn't have wildcards
   // treat is as a rename of the root dir.
-  if (aFiles.Count = 1) and FRenamingFiles then
+  if (aFileTree.SubNodesCount = 1) and FRenamingFiles then
   begin
-    aFile := aFiles[0];
+    aFile := aFileTree.SubNodes[0].TheFile;
     if (aFile.IsDirectory or aFile.IsLinkToDirectory) and
        not ContainsWildcards(FRenameMask) then
     begin
       FRenamingFiles := False;
       FRenamingRootDir := True;
+      FRootDir := aFile;
     end;
   end;
 
-  for I:= 0 to aFiles.Count - 1 do
-    with FWfxPluginFileSource do
-    begin
-      aFile:= aFiles.Items[I];
+  FStatistics:= @Statistics;
 
-      // Filenames must be relative to the current directory.
-      sTargetFile := FRootTargetPath + ExtractDirLevel(aFiles.Path, aFile.Path);
-
-      if FRenamingRootDir then
-        sTargetFile := sTargetFile + FRenameMask
-      else
-        sTargetFile := sTargetFile + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask);
-
-      //DCDebug('Source name == ' + aFile.FullPath);
-      //DCDebug('Target name == ' + sTargetFile);
-
-      with Statistics do
-      begin
-        CurrentFileFrom := aFile.Path + aFile.Name;
-        CurrentFileTo := sTargetFile;
-        CurrentFileTotalBytes := (aFile.Properties[fpSize] as TFileSizeProperty).Value;
-        CurrentFileDoneBytes := 0;
-      end;
-
-      UpdateStatistics(Statistics);
-
-      if not aFile.IsDirectory then
-        iResult := ProcessFile(aFile, sTargetFile, Statistics)
-      else
-        iResult := ProcessDirectory(aFile, sTargetFile);
-
-      if iResult = FS_FILE_USERABORT then AbortOperation();
-
-      if iResult = FS_FILE_OK then CopyProperties(aFile, sTargetFile);
-
-      if iResult = FS_FILE_OK then
-        begin
-          LogMessage(Format(rsMsgLogSuccess+FLogCaption, [aFile.FullPath + ' -> ' + sTargetFile]),
-                     [log_vfs_op], lmtSuccess);
-        end
-      else
-        begin
-          ShowError(Format(rsMsgLogError + FLogCaption,
-                           [aFile.FullPath + ' -> ' + sTargetFile +
-                            ' - ' + GetErrorMsg(iResult)]));
-          LogMessage(Format(rsMsgLogError+FLogCaption, [aFile.FullPath + ' -> ' + sTargetFile]),
-                     [log_vfs_op], lmtError);
-        end;
-
-      CheckOperationState;
-    end;
+  ProcessNode(aFileTree, FRootTargetPath);
 end;
 
 end.
