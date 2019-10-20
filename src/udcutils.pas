@@ -580,7 +580,17 @@ end;
 
 function TrimQuotes(const Str: String): String;
 begin
-  Result:= TrimSet(Str, ['"', '''']);
+  Result:= Str;
+  if (Length(Str) > 0) then
+  begin
+    if (Str[1] in ['"', '''']) then
+    begin
+      if (Length(Str) = 1) then
+        Result:= EmptyStr
+      else if (Str[1] = Str[Length(Str)]) then
+        Result:= Copy(Str, 2, Length(Str) - 2);
+    end;
+  end;
 end;
 
 function QuoteStr(const Str: String): String;
