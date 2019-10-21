@@ -21,8 +21,8 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="3"/>
-      <RevisionNr Value="2"/>
-      <StringTable FileDescription="FTP WFX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2017 Alexander Koblov"/>
+      <RevisionNr Value="3"/>
+      <StringTable FileDescription="FTP WFX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2019 Alexander Koblov"/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
