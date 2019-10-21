@@ -369,7 +369,7 @@ begin
             Exit;
           end;
         end;
-        FtpSend.Password := Connection.Password;
+        FtpSend.Password := FtpSend.ClientToServer(Connection.Password);
         SetProxy(FtpSend, Connection.Proxy);
         // try to connect
         if FtpLogin(Connection, FtpSend) then

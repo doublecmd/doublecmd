@@ -106,8 +106,9 @@ type
     procedure DoStatus(Response: Boolean; const Value: string); override;
     procedure OnSocketStatus(Sender: TObject; Reason: THookSocketReason; const Value: String);
   public
-    function ClientToServer(const Value: UnicodeString): AnsiString;
     function ServerToClient(const Value: AnsiString): UnicodeString;
+    function ClientToServer(const Value: AnsiString): AnsiString; overload;
+    function ClientToServer(const Value: UnicodeString): AnsiString; overload;
   public
     function FsFindFirstW(const Path: String; var FindData: TWin32FindDataW): Pointer; virtual;
     function FsFindNextW(Handle: Pointer; var FindData: TWin32FindDataW): BOOL; virtual;
@@ -556,6 +557,11 @@ procedure TFTPSendEx.OnSocketStatus(Sender: TObject; Reason: THookSocketReason; 
 begin
   if (Reason in [HR_Error]) and (Length(Value) > 0) then
     LogProc(PluginNumber, msgtype_importanterror, PWideChar(ServerToClient(Value)));
+end;
+
+function TFTPSendEx.ClientToServer(const Value: AnsiString): AnsiString;
+begin
+  Result:= ConvertFromUtf8(Value);
 end;
 
 function TFTPSendEx.ClientToServer(const Value: UnicodeString): AnsiString;
