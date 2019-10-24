@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Dialog for editing file comments.
 
-   Copyright (C) 2008-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fDescrEdit;
@@ -47,7 +46,7 @@ type
     procedure actExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure memDescrKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure memDescrKeyDown(Sender: TObject; var Key: Word; {%H-}Shift: TShiftState);
   private
     FDescr: TDescription;
     FCommands: TFormCommands;
@@ -56,7 +55,7 @@ type
   public
     constructor Create(TheOwner: TComponent); override;
   published
-    procedure cm_SaveDescription(const Params: array of string);
+    procedure cm_SaveDescription(const {%H-}Params: array of string);
   end; 
 
 function ShowDescrEditDlg(const sFileName: String; FileView: TFileView): Boolean;
@@ -116,6 +115,9 @@ var
   HMForm: THMForm;
   Hotkey: THotkey;
 begin
+  // Initialize property storage
+  InitPropStorage(Self);
+
   HMForm := HotMan.Register(Self, HotkeysCategory);
   Hotkey := HMForm.Hotkeys.FindByCommand('cm_SaveDescription');
 
