@@ -11,7 +11,8 @@ object frmDescrEdit: TfrmDescrEdit
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '1.6.0.4'
+  SessionProperties = 'Height;WindowState;Width'
+  LCLVersion = '2.0.4.0'
   object lblEditCommentFor: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
