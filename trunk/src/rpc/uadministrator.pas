@@ -5,7 +5,7 @@ unit uAdministrator;
 interface
 
 uses
-  Classes, SysUtils, DCBasicTypes, DCClassesUtf8;
+  Classes, SysUtils, DCBasicTypes, DCClassesUtf8, DCOSUtils;
 
 procedure PushPop(var Elevate: TDuplicates);
 
@@ -17,6 +17,8 @@ function FileSetTimeUAC(const FileName: String;
                         CreationTime    : DCBasicTypes.TFileTime = 0;
                         LastAccessTime  : DCBasicTypes.TFileTime = 0): LongBool;
 function FileSetReadOnlyUAC(const FileName: String; ReadOnly: Boolean): Boolean;
+function FileCopyAttrUAC(const sSrc, sDst: String;
+                         Options: TCopyAttributesOptions): TCopyAttributesOptions;
 
 function FileOpenUAC(const FileName: String; Mode: LongWord): System.THandle;
 function FileCreateUAC(const FileName: String; Mode: LongWord): System.THandle;
@@ -64,7 +66,7 @@ threadvar
 implementation
 
 uses
-  RtlConsts, DCStrUtils, DCOSUtils, LCLType, uShowMsg, uElevation, uSuperUser,
+  RtlConsts, DCStrUtils, LCLType, uShowMsg, uElevation, uSuperUser,
   fElevation;
 
 resourcestring
@@ -182,6 +184,29 @@ begin
       Result:= TWorkerProxy.Instance.FileSetReadOnly(FileName, ReadOnly)
     else
       SetLastOSError(LastError);
+  end;
+end;
+
+function FileCopyAttrUAC(const sSrc, sDst: String;
+  Options: TCopyAttributesOptions): TCopyAttributesOptions;
+var
+  Option: TCopyAttributesOption;
+  Errors: TCopyAttributesResult;
+begin
+  Result:= mbFileCopyAttr(sSrc, sDst, Options, @Errors);
+  if (Result <> []) then
+  begin
+    for Option in Result do
+    begin
+      if ElevationRequired(Errors[Option]) then
+      begin
+        if RequestElevation(rsElevationRequiredSetAttributes, sDst) then
+          Result:= TWorkerProxy.Instance.FileCopyAttr(sSrc, sDst, Result)
+        else
+          SetLastOSError(Errors[Option]);
+        Break;
+      end;
+    end;
   end;
 end;
 

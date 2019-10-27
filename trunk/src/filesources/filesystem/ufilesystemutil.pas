@@ -155,7 +155,7 @@ implementation
 
 uses
   uDebug, uOSUtils, DCStrUtils, FileUtil, uFindEx, DCClassesUtf8, uFileProcs, uLng,
-  DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty,
+  DCBasicTypes, uFileSource, uFileSystemFileSource, uFileProperty, uAdministrator,
   StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash;
 
 const
@@ -440,7 +440,7 @@ function TFileSystemOperationHelper.CopyFile(
            TargetFileName: String;
            Mode: TFileSystemOperationHelperCopyMode): Boolean;
 var
-  SourceFileStream, TargetFileStream: TFileStreamEx;
+  SourceFileStream, TargetFileStream: TFileStreamUAC;
   iTotalDiskSize, iFreeDiskSize: Int64;
   bRetryRead, bRetryWrite: Boolean;
   BytesRead, BytesToRead, BytesWrittenTry, BytesWritten: Int64;
@@ -459,7 +459,7 @@ var
       bRetry := False;
       SourceFileStream.Free; // In case stream was created but 'while' loop run again
       try
-        SourceFileStream := TFileStreamEx.Create(SourceFile.FullPath, fmOpenRead or fmShareDenyNone);
+        SourceFileStream := TFileStreamUAC.Create(SourceFile.FullPath, fmOpenRead or fmShareDenyNone);
       except
         on EFOpenError do
           begin
@@ -523,20 +523,20 @@ var
         case Mode of
         fsohcmAppend:
           begin
-            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmOpenReadWrite or Flags);
+            TargetFileStream := TFileStreamUAC.Create(TargetFileName, fmOpenReadWrite or Flags);
             TargetFileStream.Seek(0, soFromEnd); // seek to end
             TotalBytesToRead := SourceFileStream.Size;
           end;
         fsohcmResume:
           begin
-            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmOpenReadWrite or Flags);
+            TargetFileStream := TFileStreamUAC.Create(TargetFileName, fmOpenReadWrite or Flags);
             NewPos := TargetFileStream.Seek(0, soFromEnd);
             SourceFileStream.Seek(NewPos, soFromBeginning);
             TotalBytesToRead := SourceFileStream.Size - NewPos;
           end
         else
           begin
-            TargetFileStream := TFileStreamEx.Create(TargetFileName, fmCreate or Flags);
+            TargetFileStream := TFileStreamUAC.Create(TargetFileName, fmCreate or Flags);
             TotalBytesToRead := SourceFileStream.Size;
             if FReserveSpace then
             begin
@@ -752,7 +752,7 @@ begin
            (AskQuestion('', rsMsgDeletePartiallyCopied,
                         [fsourYes, fsourNo], fsourYes, fsourNo) = fsourYes) then
         begin
-          mbDeleteFile(TargetFileName);
+          DeleteFileUAC(TargetFileName);
         end;
       end;
       if Result and FVerify then begin
@@ -778,14 +778,14 @@ begin
     ACopyTime := (FMode = fsohmMove) and (caoCopyTime in ACopyAttributesOptions);
     if ACopyTime then ACopyAttributesOptions -= [caoCopyTime];
     if ACopyAttributesOptions <> [] then begin
-      CopyAttrResult := mbFileCopyAttr(SourceFile.FullPath, TargetFileName, ACopyAttributesOptions);
+      CopyAttrResult := FileCopyAttrUAC(SourceFile.FullPath, TargetFileName, ACopyAttributesOptions);
     end;
     if ACopyTime then
     try
       // Copy time from properties because move operation change time of original folder
-      if not mbFileSetTime(TargetFileName, DateTimeToFileTime(SourceFile.ModificationTime),
-                   {$IF DEFINED(MSWINDOWS)}DateTimeToFileTime(SourceFile.CreationTime){$ELSE}0{$ENDIF},
-                                           DateTimeToFileTime(SourceFile.LastAccessTime)) then
+      if not FileSetTimeUAC(TargetFileName, DateTimeToFileTime(SourceFile.ModificationTime),
+                    {$IF DEFINED(MSWINDOWS)}DateTimeToFileTime(SourceFile.CreationTime){$ELSE}0{$ENDIF},
+                                            DateTimeToFileTime(SourceFile.LastAccessTime)) then
         CopyAttrResult += [caoCopyTime];
     except
       on E: EDateOutOfRange do CopyAttrResult += [caoCopyTime];
@@ -1580,7 +1580,7 @@ begin
   {$POP}
   HashInit(Context, HASH_TYPE);
   try
-    Handle:= mbFileOpen(FileName, fmOpenRead or fmShareDenyWrite or fmOpenSync or fmOpenDirect);
+    Handle:= FileOpenUAC(FileName, fmOpenRead or fmShareDenyWrite or fmOpenSync or fmOpenDirect);
 
     if Handle = feInvalidHandle then
     begin
