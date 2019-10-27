@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-08-26 01:25+0300\n"
+"PO-Revision-Date: 2019-10-22 01:25+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2185,7 +2185,7 @@ msgstr "Редактировать ко&мментарий..."
 
 #: tfrmmain.acteditnew.caption
 msgid "Edit new file"
-msgstr "Редактировать новый"
+msgstr "Создать новый текстовый файл или открыть существующий"
 
 #: tfrmmain.acteditpath.caption
 msgid "Edit path field above file list"
@@ -7943,7 +7943,7 @@ msgstr "С помощью меню и внутренней команды"
 
 #: tfrmoptionstreeviewmenu.ckbfavoritetabsfromdoubleclick.caption
 msgid "With double-click on a tab (if configured for it)"
-msgstr "Двойной щелчок по вкладке"
+msgstr "Двойной щелчок по вкладке (если включено)"
 
 #: tfrmoptionstreeviewmenu.ckbshortcutselectandclose.caption
 msgid "When using the keyboard shortcut, it will exit the window returning the current choice"
@@ -7955,15 +7955,15 @@ msgstr "Щелчок мыши по выбранному в дереве и вы�
 
 #: tfrmoptionstreeviewmenu.ckbuseforcommandlinehistory.caption
 msgid "Use it for Command Line History"
-msgstr "Использовать историю командной строки"
+msgstr "История командной строки"
 
 #: tfrmoptionstreeviewmenu.ckbusefordirhistory.caption
 msgid "Use it for the Dir History"
-msgstr "Использовать историю каталогов"
+msgstr "История каталогов"
 
 #: tfrmoptionstreeviewmenu.ckbuseforviewhistory.caption
 msgid "Use it for the View History (Visited paths for active view)"
-msgstr "Использовать историю просмотра (посещённые каталоги)"
+msgstr "История просмотра (посещённые каталоги)"
 
 #: tfrmoptionstreeviewmenu.gbbehavior.caption
 msgid "Behavior regarding selection:"
@@ -7983,15 +7983,15 @@ msgstr "*ПРИМЕЧАНИЕ: Состояние таких опций, как 
 
 #: tfrmoptionstreeviewmenu.lbluseindirectoryhotlist.caption
 msgid "With Directory Hotlist:"
-msgstr "С избранными каталогами:"
+msgstr "Избранные каталоги:"
 
 #: tfrmoptionstreeviewmenu.lblusewithfavoritetabs.caption
 msgid "With Favorite Tabs:"
-msgstr "С избранными вкладками:"
+msgstr "Избранные вкладки:"
 
 #: tfrmoptionstreeviewmenu.lblusewithhistory.caption
 msgid "With History:"
-msgstr "С историей:"
+msgstr "История:"
 
 #: tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption
 msgctxt "tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption"
@@ -12308,7 +12308,7 @@ msgstr "Перетаскивание"
 
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
-msgstr "Кнопка списка дисков"
+msgstr "Kнопка списка дисков"
 
 #: ulng.rsoptionseditorfavoritetabs
 msgid "Favorite Tabs"
