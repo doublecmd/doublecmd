@@ -5,7 +5,7 @@ unit uElevation;
 interface
 
 uses
-  Classes, SysUtils, DCBasicTypes,
+  Classes, SysUtils, DCBasicTypes, DCOSUtils,
   uClientServer, uService, uWorker;
 
 type
@@ -42,6 +42,8 @@ type
                             CreationTime    : DCBasicTypes.TFileTime;
                             LastAccessTime  : DCBasicTypes.TFileTime): LongBool;
     function FileSetReadOnly(const FileName: String; ReadOnly: Boolean): LongBool; inline;
+    function FileCopyAttr(const sSrc, sDst: String;
+                          Options: TCopyAttributesOptions): TCopyAttributesOptions;
     function FileOpen(const FileName: String; Mode: Integer): THandle; inline;
     function FileCreate(const FileName: String; Mode: Integer): THandle; inline;
     function DeleteFile(const FileName: String): LongBool; inline;
@@ -71,7 +73,7 @@ var
 implementation
 
 uses
-  SyncObjs, LazUtf8, DCOSUtils, uSuperUser, uDebug;
+  SyncObjs, LazUtf8, uSuperUser, uDebug;
 
 const
   MasterAddress = 'doublecmd-master-';
@@ -383,6 +385,40 @@ end;
 function TWorkerProxy.FileSetReadOnly(const FileName: String; ReadOnly: Boolean): LongBool;
 begin
   Result:= ProcessObject(RPC_FileSetReadOnly, FileName, UInt32(ReadOnly));
+end;
+
+function TWorkerProxy.FileCopyAttr(const sSrc, sDst: String;
+  Options: TCopyAttributesOptions): TCopyAttributesOptions;
+var
+  LastError: Integer;
+  Stream: TMemoryStream;
+begin
+  Result:= Options;
+  try
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(RPC_FileCopyAttr);
+      Stream.Seek(SizeOf(UInt32), soFromCurrent);
+      // Write arguments
+      Stream.WriteAnsiString(sSrc);
+      Stream.WriteAnsiString(sDst);
+      Stream.WriteDWord(UInt32(Options));
+      // Write data size
+      Stream.Seek(SizeOf(UInt32), soFromBeginning);
+      Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+      // Receive command result
+      FClient.ReadBuffer(Result, SizeOf(Result));
+      FClient.ReadBuffer(LastError, SizeOf(LastError));
+      SetLastOSError(LastError);
+    finally
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
+  end;
 end;
 
 function TWorkerProxy.FileOpen(const FileName: String; Mode: Integer): THandle;

@@ -49,6 +49,8 @@ type
                            caoCopyPermissions,
                            caoRemoveReadOnlyAttr);
   TCopyAttributesOptions = set of TCopyAttributesOption;
+  TCopyAttributesResult = array[TCopyAttributesOption] of Integer;
+  PCopyAttributesResult = ^TCopyAttributesResult;
 
 const
   faInvalidAttributes: TFileAttrs = TFileAttrs(-1);
@@ -147,7 +149,9 @@ function mbFileSetAttr(const FileName: String; Attr: TFileAttrs): Boolean;
    For example for Options=[caoCopyTime, caoCopyOwnership] setting ownership
    doesn't succeed then the function returns [caoCopyOwnership].
 }
-function mbFileCopyAttr(const sSrc, sDst: String; Options: TCopyAttributesOptions): TCopyAttributesOptions;
+function mbFileCopyAttr(const sSrc, sDst: String;
+                       Options: TCopyAttributesOptions;
+                       Errors: PCopyAttributesResult = nil): TCopyAttributesOptions;
 // Returns True on success.
 function mbFileSetReadOnly(const FileName: String; ReadOnly: Boolean): Boolean;
 function mbDeleteFile(const FileName: String): Boolean;
@@ -355,7 +359,9 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCopyAttr(const sSrc, sDst: String; Options: TCopyAttributesOptions): TCopyAttributesOptions;
+function mbFileCopyAttr(const sSrc, sDst: String;
+  Options: TCopyAttributesOptions; Errors: PCopyAttributesResult
+  ): TCopyAttributesOptions;
 {$IFDEF MSWINDOWS}
 var
   Attr : TFileAttrs;
@@ -371,17 +377,25 @@ begin
       if (caoRemoveReadOnlyAttr in Options) and ((Attr and faReadOnly) <> 0) then
         Attr := (Attr and not faReadOnly);
       if not mbFileSetAttr(sDst, Attr) then
+      begin
         Include(Result, caoCopyAttributes);
+        if Assigned(Errors) then Errors^[caoCopyAttributes]:= GetLastOSError;
+      end;
     end
-    else
+    else begin
       Include(Result, caoCopyAttributes);
+      if Assigned(Errors) then Errors^[caoCopyAttributes]:= GetLastOSError;
+    end;
   end;
 
   if caoCopyTime in Options then
   begin
     if not (mbFileGetTime(sSrc, ModificationTime, CreationTime, LastAccessTime) and
             mbFileSetTime(sDst, ModificationTime, CreationTime, LastAccessTime)) then
+    begin
       Include(Result, caoCopyTime);
+      if Assigned(Errors) then Errors^[caoCopyTime]:= GetLastOSError;
+    end;
   end;
 
   if caoCopyPermissions in Options then
@@ -389,17 +403,27 @@ begin
     if not CopyNtfsPermissions(sSrc, sDst) then
     begin
       Include(Result, caoCopyPermissions);
+      if Assigned(Errors) then Errors^[caoCopyPermissions]:= GetLastOSError;
     end;
   end;
 end;
 {$ELSE}  // *nix
 var
+  Option: TCopyAttributesOption;
   StatInfo : BaseUnix.Stat;
   utb : BaseUnix.TUTimBuf;
   mode : TMode;
 begin
-  if fpLStat(UTF8ToSys(sSrc), StatInfo) >= 0 then
+  if fpLStat(UTF8ToSys(sSrc), StatInfo) < 0 then
   begin
+    Result := Options;
+    if Assigned(Errors) then
+    begin
+      for Option in Result do
+        Errors^[Option]:= GetLastOSError;
+    end;
+  end
+  else begin
     Result := [];
     if FPS_ISLNK(StatInfo.st_mode) then
     begin
@@ -409,6 +433,7 @@ begin
         if fpLChown(sDst, StatInfo.st_uid, StatInfo.st_gid) = -1 then
         begin
           Include(Result, caoCopyOwnership);
+          if Assigned(Errors) then Errors^[caoCopyOwnership]:= GetLastOSError;
         end;
       end;
     end
@@ -419,7 +444,10 @@ begin
         utb.actime  := time_t(StatInfo.st_atime);  // last access time
         utb.modtime := time_t(StatInfo.st_mtime);  // last modification time
         if fputime(UTF8ToSys(sDst), @utb) <> 0 then
+        begin
           Include(Result, caoCopyTime);
+          if Assigned(Errors) then Errors^[caoCopyTime]:= GetLastOSError;
+        end;
       end;
 
       if caoCopyOwnership in Options then
@@ -427,6 +455,7 @@ begin
         if fpChown(PChar(UTF8ToSys(sDst)), StatInfo.st_uid, StatInfo.st_gid) = -1 then
         begin
           Include(Result, caoCopyOwnership);
+          if Assigned(Errors) then Errors^[caoCopyOwnership]:= GetLastOSError;
         end;
       end;
 
@@ -438,12 +467,11 @@ begin
         if fpChmod(UTF8ToSys(sDst), mode) = -1 then
         begin
           Include(Result, caoCopyAttributes);
+          if Assigned(Errors) then Errors^[caoCopyAttributes]:= GetLastOSError;
         end;
       end;
     end;
-  end
-  else
-    Result := Options;
+  end;
 end;
 {$ENDIF}
 

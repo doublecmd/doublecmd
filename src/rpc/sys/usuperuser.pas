@@ -45,7 +45,7 @@ function ElevationRequired(LastError: Integer = 0): Boolean;
 begin
   if AdministratorPrivileges then Exit(False);
   if LastError = 0 then LastError:= GetLastError;
-  Result:= (LastError = ERROR_ACCESS_DENIED) or (LastError = ERROR_PRIVILEGE_NOT_HELD) or (LastError = ERROR_INVALID_OWNER);
+  Result:= (LastError = ERROR_ACCESS_DENIED) or (LastError = ERROR_PRIVILEGE_NOT_HELD) or (LastError = ERROR_INVALID_OWNER) or (LastError = ERROR_NOT_ALL_ASSIGNED);
 end;
 {$ELSE}
 begin

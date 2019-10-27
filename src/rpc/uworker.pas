@@ -31,6 +31,7 @@ const
   RPC_FileSetAttr = 11;
   RPC_FileSetTime = 12;
   RPC_FileSetReadOnly = 14;
+  RPC_FileCopyAttr = 15;
 
   RPC_CreateHardLink = 8;
   RPC_CreateSymbolicLink = 7;
@@ -158,6 +159,17 @@ begin
       Attr:= ARequest.ReadDWord;
       DCDebug('FileSetReadOnly ', FileName);
       Result:= mbFileSetReadOnly(FileName, Boolean(Attr));
+      LastError:= GetLastOSError;
+      ATransport.WriteBuffer(Result, SizeOf(Result));
+      ATransport.WriteBuffer(LastError, SizeOf(LastError));
+    end;
+  RPC_FileCopyAttr:
+    begin
+      FileName:= ARequest.ReadAnsiString;
+      NewName:= ARequest.ReadAnsiString;
+      Attr:= ARequest.ReadDWord;
+      DCDebug('FileCopyAttr ', NewName);
+      Result:= LongBool(mbFileCopyAttr(FileName, NewName, TCopyAttributesOptions(Attr)));
       LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));
