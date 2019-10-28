@@ -8,6 +8,8 @@ object frmDescrEdit: TfrmDescrEdit
   Caption = 'File/folder comment'
   ClientHeight = 300
   ClientWidth = 400
+  Constraints.MinHeight = 300
+  Constraints.MinWidth = 400
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
@@ -30,7 +32,7 @@ object frmDescrEdit: TfrmDescrEdit
     AnchorSideLeft.Control = memDescr
     AnchorSideTop.Side = asrCenter
     AnchorSideBottom.Control = cbEncoding
-    AnchorSideBottom.Side = asrBottom
+    AnchorSideBottom.Side = asrCenter
     Left = 12
     Height = 15
     Top = 252
@@ -59,6 +61,7 @@ object frmDescrEdit: TfrmDescrEdit
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = btnCancel
     Left = 12
     Height = 184
     Top = 56
@@ -89,6 +92,7 @@ object frmDescrEdit: TfrmDescrEdit
   end
   object btnCancel: TBitBtn
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = memDescr
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
