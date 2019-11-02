@@ -13,6 +13,8 @@ uses
 
 type
 
+  { TWfxPluginCalcStatisticsOperation }
+
   TWfxPluginCalcStatisticsOperation = class(TFileSourceCalcStatisticsOperation)
 
   private
@@ -30,6 +32,7 @@ type
 
     procedure Initialize; override;
     procedure MainExecute; override;
+    procedure Finalize; override;
   end;
 
 implementation
@@ -54,6 +57,11 @@ procedure TWfxPluginCalcStatisticsOperation.Initialize;
 begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
+
+  with FWfxPluginFileSource do
+  begin
+    WfxModule.WfxStatusInfo(Files.Path, FS_STATUS_START, FS_STATUS_OP_CALCSIZE);
+  end;
 end;
 
 procedure TWfxPluginCalcStatisticsOperation.MainExecute;
@@ -63,6 +71,14 @@ begin
   for CurrentFileIndex := 0 to Files.Count - 1 do
   begin
     ProcessFile(Files[CurrentFileIndex]);
+  end;
+end;
+
+procedure TWfxPluginCalcStatisticsOperation.Finalize;
+begin
+  with FWfxPluginFileSource do
+  begin
+    WfxModule.WfxStatusInfo(Files.Path, FS_STATUS_END, FS_STATUS_OP_CALCSIZE);
   end;
 end;
 
