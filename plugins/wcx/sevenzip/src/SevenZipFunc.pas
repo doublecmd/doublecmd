@@ -417,7 +417,10 @@ begin
         for J:= 0 to Archive.ItemCount - 1 do
         begin
           AItem:= Archive.Items[J];
-          if not AItem.Directory then DeleteFileUtf8(AItem.FileName);
+          if AItem.OperationSuccess = osOK then
+          begin
+            if not AItem.Directory then DeleteFileUtf8(AItem.FileName);
+          end;
         end;
         // Second remove directories
         for J:= Archive.ItemCount - 1 downto 0 do
