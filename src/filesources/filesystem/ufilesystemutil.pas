@@ -405,8 +405,8 @@ begin
   SplitFileMask(FRenameMask, FRenameNameMask, FRenameExtMask);
 
   // Create destination path if it doesn't exist.
-  if not mbDirectoryExists(FRootTargetPath) then
-    if not mbForceDirectory(FRootTargetPath) then
+  if not DirectoryExistsUAC(FRootTargetPath) then
+    if not ForceDirectoriesUAC(FRootTargetPath) then
       Exit; // do error
 end;
 
@@ -995,7 +995,7 @@ begin
            (not FRenamingFiles) and
            ((FCorrectSymlinks = False) or (NodeData.SubnodesHaveLinks = False)) and
            (NodeData.SubnodesHaveExclusions = False) and
-           mbRenameFile(aNode.TheFile.FullPath, AbsoluteTargetFileName) then
+           RenameFileUAC(aNode.TheFile.FullPath, AbsoluteTargetFileName) then
         begin
           // Success.
           CountStatistics(aNode);
@@ -1005,7 +1005,7 @@ begin
         else
         begin
           // Create target directory.
-          if mbCreateDir(AbsoluteTargetFileName) then
+          if CreateDirectoryUAC(AbsoluteTargetFileName) then
           begin
             // Copy/Move all files inside.
             Result := ProcessNode(aNode, IncludeTrailingPathDelimiter(AbsoluteTargetFileName));
@@ -1035,8 +1035,8 @@ begin
   if bRemoveDirectory and Result then
   begin
     if FileIsReadOnly(aNode.TheFile.Attributes) then
-      mbFileSetReadOnly(aNode.TheFile.FullPath, False);
-    mbRemoveDir(aNode.TheFile.FullPath);
+      FileSetReadOnlyUAC(aNode.TheFile.FullPath, False);
+    RemoveDirectoryUAC(aNode.TheFile.FullPath);
   end;
 end;
 
@@ -1072,7 +1072,7 @@ begin
     fsoterDeleted, fsoterNotExists:
       begin
         if (FMode <> fsohmMove) or
-           (not mbRenameFile(aFile.FullPath, AbsoluteTargetFileName)) then
+           (not RenameFileUAC(aFile.FullPath, AbsoluteTargetFileName)) then
         begin
           LinkTarget := ReadSymLink(aFile.FullPath);     // use sLinkTo ?
           if LinkTarget <> '' then
@@ -1088,7 +1088,7 @@ begin
                 LinkTarget := CorrectedLink;
             end;
 
-            if CreateSymlink(LinkTarget, AbsoluteTargetFileName) then
+            if CreateSymbolicLinkUAC(LinkTarget, AbsoluteTargetFileName) then
             begin
               CopyProperties(aFile, AbsoluteTargetFileName);
             end
@@ -1193,7 +1193,7 @@ var
         Exit(fsoterSkip);
       fsoodeDelete:
         begin
-          mbDeleteFile(AbsoluteTargetFileName);
+          DeleteFileUAC(AbsoluteTargetFileName);
           Exit(fsoterDeleted);
         end;
       fsoodeCopyInto:
@@ -1213,10 +1213,10 @@ var
       fsoofeOverwrite:
         begin
           if FileIsReadOnly(Attrs) then
-            mbFileSetReadOnly(AbsoluteTargetFileName, False);
+            FileSetReadOnlyUAC(AbsoluteTargetFileName, False);
           if FPS_ISLNK(Attrs) or (FMode = fsohmMove) then
           begin
-            mbDeleteFile(AbsoluteTargetFileName);
+            DeleteFileUAC(AbsoluteTargetFileName);
             Exit(fsoterDeleted);
           end;
           Exit(fsoterNotExists);
