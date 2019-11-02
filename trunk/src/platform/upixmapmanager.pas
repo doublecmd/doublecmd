@@ -1143,6 +1143,7 @@ var
   AIcon: TIcon;
   ABitmap: TBitmap;
   AFileName: String;
+  AResult: Pointer absolute Result;
 begin
   AFileName:= ChangeFileExt(AIconName, '.ico');
   if not mbFileExists(AFileName) then Exit(ADefaultIcon);
@@ -1152,7 +1153,7 @@ begin
     Result:= FPixmapsFileNames.Find(AFileName);
 
     if Result >= 0 then
-      Result:= PtrInt(FPixmapsFileNames.List[Result]^.Data)
+      AResult:= FPixmapsFileNames.List[Result]^.Data
     else begin
       AIcon:= TIcon.Create;
       try
@@ -1162,7 +1163,7 @@ begin
         try
           BitmapAssign(ABitmap, AIcon);
           Result := FPixmapList.Add(ABitmap);
-          FPixmapsFileNames.Add(AFileName, Pointer(Result));
+          FPixmapsFileNames.Add(AFileName, AResult);
         except
           FreeAndNil(ABitmap);
         end;
