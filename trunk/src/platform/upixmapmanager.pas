@@ -1155,6 +1155,12 @@ begin
     if Result >= 0 then
       AResult:= FPixmapsFileNames.List[Result]^.Data
     else begin
+{$IF DEFINED(LCLGTK2)}
+      AResult := gdk_pixbuf_new_from_file_at_size(PChar(AFileName), gIconsSize, gIconsSize, nil);
+      if (AResult = nil) then Exit(ADefaultIcon);
+      Result := FPixmapList.Add(AResult);
+      FPixmapsFileNames.Add(AFileName, AResult);
+{$ELSE}
       AIcon:= TIcon.Create;
       try
         AIcon.LoadFromFile(AFileName);
@@ -1171,6 +1177,7 @@ begin
         Result:= ADefaultIcon;
       end;
       AIcon.Free;
+{$ENDIF}
     end;
   finally
     FPixmapsLock.Release;
