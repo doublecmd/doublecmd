@@ -4262,9 +4262,6 @@ begin
   end;
 end;
 
-type
-  TCustomShellTreeViewCrack = class(TCustomShellTreeView);
-
 procedure TfrmMain.UpdateShellTreeView;
 begin
   actTreeView.Checked := gSeparateTree;
@@ -4283,7 +4280,7 @@ begin
       ReadOnly := True;
       RightClickSelect := True;
       FileSortType := fstFoldersFirst;
-      TCustomShellTreeViewCrack(ShellTreeView).PopulateWithBaseFiles;
+      PopulateWithBaseFiles;
 
       Images := TImageList.Create(Self);
       Images.Width := gIconsSize;
@@ -4372,6 +4369,12 @@ begin
   end;
   dskLeft.AddToolItemExecutor(TKASDriveItem, @LeftDriveBarExecuteDrive);
   dskRight.AddToolItemExecutor(TKASDriveItem, @RightDriveBarExecuteDrive);
+
+  if gSeparateTree and Assigned(ShellTreeView) then
+  begin
+    TShellTreeView(ShellTreeView).PopulateWithBaseFiles;
+    UpdateTreeViewPath;
+  end;
 end;
 
 procedure TfrmMain.AddVirtualDriveButton(dskPanel: TKASToolBar);
