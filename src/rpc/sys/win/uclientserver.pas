@@ -72,7 +72,7 @@ type
 implementation
 
 uses 
-  JwaWinBase, Windows, uNamedPipes, uDebug;
+  JwaWinNT, JwaAclApi, JwaAccCtrl, JwaWinBase, Windows, uNamedPipes, uDebug;
 
 { TPipeTransport }
 
@@ -248,20 +248,38 @@ end;
 
 procedure TServerListnerThread.Execute;
 var
+  SID: TBytes;
   dwWait: DWORD;
   hPipe: THandle;
+  ACL: PACL = nil;
   bPending: Boolean;
   AName: UnicodeString;
   Overlapped: TOverlapped;
-  SA: SECURITY_ATTRIBUTES;
-  SD: SECURITY_DESCRIPTOR;
+  SA: TSecurityAttributes;
+  SD: TSecurityDescriptor;
   Events: array[0..1] of THandle;
+  ExplicitAccess: TExplicitAccess;
 begin
   AName:= UTF8Decode(FOwner.Name);
 
+  if not GetCurrentUserSID(SID) then Halt;
+
+  ZeroMemory(@ExplicitAccess, SizeOf(ExplicitAccess));
+  with ExplicitAccess do
+  begin
+    grfAccessPermissions:= GENERIC_ALL;
+    grfAccessMode:= DWORD(SET_ACCESS);
+    grfInheritance:= NO_INHERITANCE;
+    Trustee.TrusteeForm:= DWORD(TRUSTEE_IS_SID);
+    Trustee.TrusteeType:= DWORD(TRUSTEE_IS_USER);
+    Trustee.ptstrName:= PAnsiChar(@SID[0]);
+  end;
+
+  if SetEntriesInAcl(1, @ExplicitAccess, nil, JwaWinNT.PACL(ACL)) <> ERROR_SUCCESS then
+    Halt;
   if not InitializeSecurityDescriptor (@SD, SECURITY_DESCRIPTOR_REVISION) then
     Halt;
-  if not SetSecurityDescriptorDacl(@SD, True, nil, False) then
+  if not SetSecurityDescriptorDacl(@SD, True, ACL, False) then
     Halt;
 
   ZeroMemory(@Overlapped, SizeOf(TOverlapped));
@@ -344,6 +362,7 @@ begin
 
   CloseHandle(hPipe);
   CloseHandle(Events[0]);
+  LocalFree(HLOCAL(ACL));
 end;
 
 end.
