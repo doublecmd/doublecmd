@@ -52,6 +52,7 @@ begin
         Exit(True);
     end;
   end;
+  Result:= False;
 end;
 
 function VerifyParent(hPipe: HANDLE): Boolean;

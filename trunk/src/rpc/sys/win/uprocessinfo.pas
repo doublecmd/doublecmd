@@ -43,7 +43,7 @@ end;
 function GetProcessFileName(hProcess: HANDLE): UnicodeString;
 begin
   SetLength(Result, maxSmallint + 1);
-  SetLength(Result, GetModuleFileNameExW(hProcess, 0, PWideChar(Result), maxSmallint));
+  SetLength(Result, GetProcessImageFileNameW(hProcess, PWideChar(Result), maxSmallint));
 end;
 
 function GetProcessFileNameEx(ProcessId: DWORD): UnicodeString;
