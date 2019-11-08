@@ -119,6 +119,7 @@ type
 
   protected
     procedure DoChange; override;
+    function GetPageClass: TCustomPageClass; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
@@ -392,7 +393,6 @@ end;
 constructor TFileViewNotebook.Create(ParentControl: TWinControl;
                                      NotebookSide: TFilePanelSelect);
 begin
-  PageClass := TFileViewPage;
   inherited Create(ParentControl);
   ControlStyle := ControlStyle + [csNoFocus];
 
@@ -744,6 +744,11 @@ procedure TFileViewNotebook.DoChange;
 begin
   inherited DoChange;
   ActivePage.DoActivate;
+end;
+
+function TFileViewNotebook.GetPageClass: TCustomPageClass;
+begin
+  Result:= TFileViewPage;
 end;
 
 end.
