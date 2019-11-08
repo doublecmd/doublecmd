@@ -116,6 +116,10 @@ begin
 
   if gProcessComments then
     FDescription.Clear;
+
+{$IF DEFINED(MSWINDOWS)}
+  if (Elevate = dupIgnore) then Elevate:= dupError;
+{$ENDIF}
 end;
 
 procedure TFileSystemDeleteOperation.MainExecute;
@@ -202,10 +206,6 @@ begin
          Exit;
     end;
   end;
-
-{$IF DEFINED(MSWINDOWS)}
-  ElevateAction:= dupError;
-{$ENDIF}
 
   repeat
     bRetry := False;
@@ -337,7 +337,7 @@ begin
         end;
 
 {$IF DEFINED(MSWINDOWS)}
-        if ElevationRequired(LastError) then
+        if (ElevateAction <> dupAccept) and ElevationRequired(LastError) then
         begin
           SetLength(PossibleResponses, Length(ResponsesError) + 1);
           Move(ResponsesError[0], PossibleResponses[0], SizeOf(ResponsesError));
