@@ -96,7 +96,7 @@ begin
     if Result then
     begin
       SetLength(SID, GetLengthSid(UserToken.User.Sid));
-      CopySid(ReturnLength, PSID(@SID[0]), UserToken.User.Sid);
+      CopySid(Length(SID), PSID(@SID[0]), UserToken.User.Sid);
     end;
   end;
 end;
