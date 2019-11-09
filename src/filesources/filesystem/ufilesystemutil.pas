@@ -834,7 +834,7 @@ var
   RetryDelete: Boolean;
 begin
   if (Mode in [fsohcmAppend, fsohcmResume]) or
-     (not mbRenameFile(SourceFile.FullPath, TargetFileName)) then
+     (not RenameFileUAC(SourceFile.FullPath, TargetFileName)) then
   begin
     if FVerify then FStatistics.TotalBytes += SourceFile.Size;
     if CopyFile(SourceFile, TargetFileName, Mode) then
@@ -842,8 +842,8 @@ begin
       repeat
         RetryDelete := True;
         if FileIsReadOnly(SourceFile.Attributes) then
-          mbFileSetReadOnly(SourceFile.FullPath, False);
-        Result := mbDeleteFile(SourceFile.FullPath);
+          FileSetReadOnlyUAC(SourceFile.FullPath, False);
+        Result := DeleteFileUAC(SourceFile.FullPath);
         if (not Result) and (FDeleteFileOption = fsourInvalid) then
         begin
           Message := Format(rsMsgNotDelete, [WrapTextSimple(SourceFile.FullPath, 100)]) + LineEnding + LineEnding + mbSysErrorMessage;
@@ -1268,7 +1268,7 @@ begin
       if FPS_ISLNK(Attrs) then
       begin
         // Check if target of the link exists.
-        LinkTargetAttrs := mbFileGetAttrNoLinks(AbsoluteTargetFileName);
+        LinkTargetAttrs := FileGetAttrUAC(AbsoluteTargetFileName, True);
         if (LinkTargetAttrs <> faInvalidAttributes) then
         begin
           if FPS_ISDIR(LinkTargetAttrs) then
