@@ -194,7 +194,25 @@ function mbSysErrorMessage(ErrorCode: Integer): String; overload;
 function mbGetModuleName(Address: Pointer = nil): String;
 function mbLoadLibrary(const Name: String): TLibHandle;
 function SafeGetProcAddress(Lib: TLibHandle; const ProcName: AnsiString): Pointer;
-
+{en
+   Reads the concrete file's name that the link points to.
+   If the link points to a link then it's resolved recursively
+   until a valid file name that is not a link is found.
+   @param(PathToLink Name of symbolic link (absolute path))
+   @returns(The absolute filename the symbolic link name is pointing to,
+            or an empty string when the link is invalid or
+            the file it points to does not exist.)
+}
+function mbReadAllLinks(const PathToLink : String) : String;
+{en
+   If PathToLink points to a link then it returns file that the link points to (recursively).
+   If PathToLink does not point to a link then PathToLink value is returned.
+}
+function mbCheckReadLinks(const PathToLink : String) : String;
+{en
+   Same as mbFileGetAttr, but dereferences any encountered links.
+}
+function mbFileGetAttrNoLinks(const FileName: String): TFileAttrs;
 {en
    Create a hard link to a file
    @param(Path Name of file)
@@ -1422,6 +1440,92 @@ begin
   Result:= GetProcedureAddress(Lib, ProcName);
   if (Result = nil) then raise Exception.Create(ProcName);
 end;
+
+function mbReadAllLinks(const PathToLink: String) : String;
+var
+  Attrs: TFileAttrs;
+  LinkTargets: TStringList;  // A list of encountered filenames (for detecting cycles)
+
+  function mbReadAllLinksRec(const PathToLink: String): String;
+  begin
+    Result := ReadSymLink(PathToLink);
+    if Result <> '' then
+    begin
+      if GetPathType(Result) <> ptAbsolute then
+        Result := GetAbsoluteFileName(ExtractFilePath(PathToLink), Result);
+
+      if LinkTargets.IndexOf(Result) >= 0 then
+      begin
+        // Link already encountered - links form a cycle.
+        Result := '';
+{$IFDEF UNIX}
+        fpseterrno(ESysELOOP);
+{$ENDIF}
+        Exit;
+      end;
+
+      Attrs := mbFileGetAttr(Result);
+      if (Attrs <> faInvalidAttributes) then
+      begin
+        if FPS_ISLNK(Attrs) then
+        begin
+          // Points to a link - read recursively.
+          LinkTargets.Add(Result);
+          Result := mbReadAllLinksRec(Result);
+        end;
+        // else points to a file/dir
+      end
+      else
+      begin
+        Result := '';  // Target of link doesn't exist
+{$IFDEF UNIX}
+        fpseterrno(ESysENOENT);
+{$ENDIF}
+      end;
+    end;
+  end;
+
+begin
+  LinkTargets := TStringList.Create;
+  try
+    Result := mbReadAllLinksRec(PathToLink);
+  finally
+    FreeAndNil(LinkTargets);
+  end;
+end;
+
+function mbCheckReadLinks(const PathToLink : String): String;
+var
+  Attrs: TFileAttrs;
+begin
+  Attrs := mbFileGetAttr(PathToLink);
+  if (Attrs <> faInvalidAttributes) and FPS_ISLNK(Attrs) then
+    Result := mbReadAllLinks(PathToLink)
+  else
+    Result := PathToLink;
+end;
+
+function mbFileGetAttrNoLinks(const FileName: String): TFileAttrs;
+{$IFDEF UNIX}
+var
+  Info: BaseUnix.Stat;
+begin
+  if fpStat(UTF8ToSys(FileName), Info) >= 0 then
+    Result := Info.st_mode
+  else
+    Result := faInvalidAttributes;
+end;
+{$ELSE}
+var
+  LinkTarget: String;
+begin
+  LinkTarget := mbReadAllLinks(FileName);
+  if LinkTarget <> '' then
+    Result := mbFileGetAttr(LinkTarget)
+  else
+    Result := faInvalidAttributes;
+end;
+{$ENDIF}
 
 function CreateHardLink(const Path, LinkName: String) : Boolean;
 {$IFDEF MSWINDOWS}
