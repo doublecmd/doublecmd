@@ -35,7 +35,7 @@ type
   public
     function Terminate: Boolean;
     function FileExists(const FileName: String): LongBool; inline;
-    function FileGetAttr(const FileName: String): TFileAttrs; inline;
+    function FileGetAttr(const FileName: String; FollowLink: LongBool): TFileAttrs; inline;
     function FileSetAttr(const FileName: String; Attr: TFileAttrs): LongBool; inline;
     function FileSetTime(const FileName: String;
                             ModificationTime: DCBasicTypes.TFileTime;
@@ -335,9 +335,9 @@ begin
   Result:= ProcessObject(RPC_FileExists, FileName);
 end;
 
-function TWorkerProxy.FileGetAttr(const FileName: String): TFileAttrs;
+function TWorkerProxy.FileGetAttr(const FileName: String; FollowLink: LongBool): TFileAttrs;
 begin
-  Result:= TFileAttrs(ProcessObject(RPC_FileGetAttr, FileName));
+  Result:= TFileAttrs(ProcessObject(RPC_FileGetAttr, FileName, UInt32(FollowLink)));
 end;
 
 function TWorkerProxy.FileSetAttr(const FileName: String; Attr: TFileAttrs): LongBool;
