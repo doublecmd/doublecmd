@@ -10,7 +10,7 @@ uses
 procedure PushPop(var Elevate: TDuplicates);
 
 function FileExistsUAC(const FileName: String): Boolean;
-function FileGetAttrUAC(const FileName: String): TFileAttrs;
+function FileGetAttrUAC(const FileName: String; FollowLink: Boolean = False): TFileAttrs;
 function FileSetAttrUAC(const FileName: String; Attr: TFileAttrs): Boolean;
 function FileSetTimeUAC(const FileName: String;
                         ModificationTime: DCBasicTypes.TFileTime;
@@ -124,16 +124,20 @@ begin
   end;
 end;
 
-function FileGetAttrUAC(const FileName: String): TFileAttrs;
+function FileGetAttrUAC(const FileName: String; FollowLink: Boolean): TFileAttrs;
 var
   LastError: Integer;
 begin
-  Result:= mbFileGetAttr(FileName);
+  if not FollowLink then
+    Result:= mbFileGetAttr(FileName)
+  else begin
+    Result:= mbFileGetAttrNoLinks(FileName);
+  end;
   if (Result = faInvalidAttributes) and ElevationRequired then
   begin
     LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredGetAttributes, FileName) then
-      Result:= TWorkerProxy.Instance.FileGetAttr(FileName)
+      Result:= TWorkerProxy.Instance.FileGetAttr(FileName, FollowLink)
     else
       SetLastOSError(LastError);
   end;

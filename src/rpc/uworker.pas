@@ -125,8 +125,13 @@ begin
   RPC_FileGetAttr:
     begin
       FileName:= ARequest.ReadAnsiString;
+      Result:= LongBool(ARequest.ReadDWord);
       DCDebug('FileGetAttr ', FileName);
-      Result:= LongBool(mbFileGetAttr(FileName));
+      if not Result then
+        Result:= LongBool(mbFileGetAttr(FileName))
+      else begin
+        Result:= LongBool(mbFileGetAttrNoLinks(FileName));
+      end;
       LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));
