@@ -273,7 +273,11 @@ procedure FillAndCount(Files: TFiles; out NewFiles: TFiles;
         if (sr.Name='.') or (sr.Name='..') then Continue;
         aFile := TFileSystemFileSource.CreateFile(srcPath, @sr);
 
-        if aFile.IsDirectory and (not aFile.IsLinkToDirectory) then
+        if aFile.IsLink then
+        begin
+          NewFiles.Add(aFile.Clone);
+        end
+        else if aFile.IsDirectory then
         begin
           aFolders.AddObject(srcPath + sr.Name + DirectorySeparator, aFile);
         end
@@ -307,7 +311,11 @@ begin
   for I := 0 to Files.Count - 1 do
   begin
     aFile := Files[I];
-    if aFile.IsDirectory and (not aFile.IsLinkToDirectory) then
+    if aFile.IsLink then
+    begin
+      NewFiles.Add(aFile.Clone);
+    end
+    else if aFile.IsDirectory then
     begin
       aFolderList.AddObject(aFile.Path + aFile.Name + DirectorySeparator, aFile.Clone);
     end
