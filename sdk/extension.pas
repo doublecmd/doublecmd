@@ -42,6 +42,7 @@ const
   DM_SETITEMDATA          = DM_FIRST+35;
   DM_LISTSET              = DM_FIRST+36;
   DM_SETPROGRESSVALUE     = DM_FIRST+37;
+  DM_SETPROGRESSSTYLE     = DM_FIRST+38;
 
   // events messages
   DN_FIRST                = $1000;
