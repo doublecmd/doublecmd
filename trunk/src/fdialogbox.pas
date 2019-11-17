@@ -48,8 +48,10 @@ type
     DialogMemo: TMemo;
     DialogImage: TImage;
     DialogTabSheet: TTabSheet;
+    DialogScrollBox: TScrollBox;
     DialogRadioGroup: TRadioGroup;
     DialogPageControl: TPageControl;
+    DialogProgressBar: TProgressBar;
     DialogDividerBevel: TDividerBevel;
     // Dialog events
     procedure DialogBoxShow(Sender: TObject);
@@ -530,6 +532,13 @@ begin
       Result:= PtrInt(Control.Visible);
       if wParam <> -1 then
         Control.Visible:= Boolean(wParam);
+    end;
+  DM_SETPROGRESSVALUE:
+    begin
+      if (Control is TProgressBar) then
+      begin
+        TProgressBar(Control).Position:= wParam;
+      end;
     end;
   end;
 end;
