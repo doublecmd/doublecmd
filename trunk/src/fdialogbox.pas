@@ -540,6 +540,13 @@ begin
         TProgressBar(Control).Position:= wParam;
       end;
     end;
+  DM_SETPROGRESSSTYLE:
+    begin
+      if (Control is TProgressBar) then
+      begin
+        TProgressBar(Control).Style:= TProgressBarStyle(wParam);
+      end;
+    end;
   end;
 end;
 
