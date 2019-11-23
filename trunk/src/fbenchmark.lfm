@@ -25,10 +25,12 @@ object frmBenchmark: TfrmBenchmark
         Width = 159
       end    
       item
+        Alignment = taRightJustify
         Title.Caption = 'Time (ms)'
         Width = 159
       end    
       item
+        Alignment = taRightJustify
         Title.Caption = 'Speed (MB/s)'
         Width = 161
       end>
