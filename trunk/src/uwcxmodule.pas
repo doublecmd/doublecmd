@@ -480,7 +480,7 @@ begin
       with StartupInfo do
       begin
         StructSize:= SizeOf(TExtensionStartupInfo);
-        PluginDir:= ExtractFilePath(sName);
+        PluginDir:= ExtractFilePath(mbExpandFileName(sName));
         PluginConfDir:= gpCfgDir;
         InputBox:= @fDialogBox.InputBox;
         MessageBox:= @fDialogBox.MessageBox;
