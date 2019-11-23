@@ -1050,6 +1050,8 @@ begin
     AFileView:= ActiveFrame;
     NFileView:= NotActiveFrame;
 
+    if Assigned(QuickViewPanel) then QuickViewClose;
+
     AFree:= ActiveNotebook.ActivePage.LockState <> tlsDirsInNewTab;
     if AFree then ActiveNotebook.ActivePage.RemoveComponent(AFileView);
 
