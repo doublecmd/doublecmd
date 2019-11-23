@@ -45,12 +45,13 @@ uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, DCStringHashListUtf8,
   uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils
   {$IF DEFINED(UNIX)}
+  , DCFileAttributes
     {$IF DEFINED(DARWIN)}
       {$IF (FPC_FULLVERSION >= 30000)}
       , uDCTiffImage
       {$ENDIF}
     {$ELSE}
-    , contnrs, DCFileAttributes, uDCReadSVG, uGio
+    , contnrs, uDCReadSVG, uGio
       {$IFDEF LCLGTK2}
       , gtk2
       {$ELSE}
