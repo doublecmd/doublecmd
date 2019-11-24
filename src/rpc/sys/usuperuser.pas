@@ -5,6 +5,7 @@ unit uSuperUser;
 interface
 
 procedure WaitProcess(Process: UIntPtr);
+function AdministratorPrivileges: Boolean; inline;
 function TerminateProcess(Process: UIntPtr): Boolean;
 function ElevationRequired(LastError: Integer = 0): Boolean;
 function ExecCmdAdmin(const Exe: String; Args: array of String; sStartPath: String = ''): UIntPtr;
@@ -24,7 +25,7 @@ uses
   ;
 
 var
-  AdministratorPrivileges: Boolean;
+  FAdministratorPrivileges: Boolean;
 
 procedure WaitProcess(Process: UIntPtr);
 {$IF DEFINED(MSWINDOWS)}
@@ -43,17 +44,22 @@ end;
 function ElevationRequired(LastError: Integer = 0): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 begin
-  if AdministratorPrivileges then Exit(False);
+  if FAdministratorPrivileges then Exit(False);
   if LastError = 0 then LastError:= GetLastError;
   Result:= (LastError = ERROR_ACCESS_DENIED) or (LastError = ERROR_PRIVILEGE_NOT_HELD) or (LastError = ERROR_INVALID_OWNER) or (LastError = ERROR_NOT_ALL_ASSIGNED);
 end;
 {$ELSE}
 begin
-  if AdministratorPrivileges then Exit(False);
+  if FAdministratorPrivileges then Exit(False);
   if LastError = 0 then LastError:= GetLastOSError;
   Result:= (LastError = ESysEPERM) or (LastError = ESysEACCES);
 end;
 {$ENDIF}
+
+function AdministratorPrivileges: Boolean;
+begin
+  Result:= FAdministratorPrivileges;
+end;
 
 function TerminateProcess(Process: UIntPtr): Boolean;
 {$IF DEFINED(MSWINDOWS)}
@@ -176,9 +182,9 @@ end;
 
 initialization
 {$IF DEFINED(UNIX)}
-  AdministratorPrivileges:= {$IFDEF DARWIN}True{$ELSE}(fpGetUID = 0){$ENDIF};
+  FAdministratorPrivileges:= {$IFDEF DARWIN}True{$ELSE}(fpGetUID = 0){$ENDIF};
 {$ELSE}
-  AdministratorPrivileges:= (IsUserAdmin <> dupError);
+  FAdministratorPrivileges:= (IsUserAdmin <> dupError);
 {$ENDIF}
 
 end.
