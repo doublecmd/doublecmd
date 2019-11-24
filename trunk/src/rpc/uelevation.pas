@@ -524,9 +524,12 @@ begin
       Halt;
     end;
   end;
-  InitCriticalSection(Mutex);
-  StartMasterServer;
-  CreateWorkerProxy;
+  if not AdministratorPrivileges then
+  begin
+    InitCriticalSection(Mutex);
+    StartMasterServer;
+    CreateWorkerProxy;
+  end;
 end;
 
 procedure Finalize;
