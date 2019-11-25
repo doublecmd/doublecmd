@@ -94,14 +94,14 @@ var
   Symbol: Byte = 0;
 begin
   // Clear pipe
-  while fpRead(FEventPipe[0], Symbol, 1) <> -1 do;
+  while FileRead(FEventPipe[0], Symbol, 1) <> -1 do;
 end;
 
 procedure TPollThread.Refresh;
 var
   Symbol: Byte = 0;
 begin
-  fpWrite(FEventPipe[1], Symbol, 1);
+  FileWrite(FEventPipe[1], Symbol, 1);
 end;
 
 procedure TPollThread.Execute;
@@ -111,7 +111,9 @@ var
 begin
   while not Terminated do
   begin
-    ret:= fpPoll(@FDesc[0], FCount, -1);
+    repeat
+      ret:= fpPoll(@FDesc[0], FCount, -1);
+    until (ret <> -1) or (fpGetErrNo <> ESysEINTR);
     if (ret = -1) then
     begin
       Print(SysErrorMessage(fpGetErrNo));
