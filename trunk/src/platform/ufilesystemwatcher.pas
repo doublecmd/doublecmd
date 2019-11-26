@@ -592,8 +592,8 @@ var
   bytes_to_parse, p, i: Integer;
   buf: PChar = nil;
   ev: pinotify_event;
-  fds: TFDSet;
-  nfds: cint;
+  fds: array[0..1] of tpollfd;
+  ret: cint;
 begin
   if (FNotifyHandle = feInvalidHandle) or
      (FEventPipe[0] = -1) or
@@ -603,40 +603,41 @@ begin
   try
     buf := GetMem(buffer_size);
 
-    // get maximum file descriptor
-    nfds := FEventPipe[0] + 1;
-    if FNotifyHandle >= nfds then
-      nfds := FNotifyHandle + 1;
+    // set file descriptors
+    fds[0].fd:= FEventPipe[0];
+    fds[0].events:= POLLIN;
+
+    fds[1].fd:= FNotifyHandle;
+    fds[1].events:= POLLIN;
 
     while not Terminated do
     begin
-      // clear and set file descriptors
-      fpFD_ZERO(fds);
-      fpFD_SET(FEventPipe[0], fds);
-      fpFD_SET(FNotifyHandle, fds);
-
       // wait for events
-      if fpSelect(nfds, @fds, nil, nil, nil) = -1 then
+      repeat
+        ret:= fpPoll(@fds[0], Length(fds), -1);
+      until (ret <> -1) or (fpGetErrNo <> ESysEINTR);
+
+      if ret = -1 then
       begin
-        ShowError('select() failed');
+        ShowError('fpPoll() failed');
         Exit;
       end; { if }
 
-      if fpFD_ISSET(FEventPipe[0], fds) = 1 then
+      if (fds[0].revents and POLLIN <> 0) then
       begin
         // clear pipe
-        while FpRead(FEventPipe[0], buf, 1) <> -1 do;
+        while FileRead(FEventPipe[0], buf^, 1) <> -1 do;
       end; { if }
 
-      if fpFD_ISSET(FNotifyHandle, fds) = 0 then // inotify handle didn't change, so user triggered
-        continue;
+      if (fds[1].revents and POLLIN = 0) then // inotify handle didn't change, so user triggered
+        Continue;
 
       // Read events.
-      bytes_to_parse := fpread(FNotifyHandle, buf, buffer_size);
+      bytes_to_parse := FileRead(FNotifyHandle, buf^, buffer_size);
       if bytes_to_parse = -1 then
       begin
         ShowError('read(): failed');
-        continue;
+        Continue;
       end; { if }
 
       // parse events and print them
@@ -700,7 +701,7 @@ begin
             // call event handler
             Synchronize(@DoWatcherEvent);
 
-            break;
+            Break;
           end; { if }
         end; { for }
 
@@ -1162,7 +1163,7 @@ begin
   if Self.FNotifyHandle <> feInvalidHandle then
   begin
     buf := #0;
-    FpWrite(FEventPipe[1], buf, 1);
+    FileWrite(FEventPipe[1], buf, 1);
   end; { if }
 end;
 {$ELSEIF DEFINED(BSD)}
