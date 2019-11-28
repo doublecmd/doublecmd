@@ -713,10 +713,10 @@ var
 begin
   SingleByte:= SingleByteEncoding(cmbEncoding.Text);
 
-  cbTextRegExp.Enabled := cbFindText.Checked and SingleByte;
+  cbTextRegExp.Enabled := cbFindText.Checked and SingleByte and (not chkHex.Checked);
   if not cbTextRegExp.Enabled then cbTextRegExp.Checked := False;
 
-  cbCaseSens.Enabled:= cbFindText.Checked and (SingleByte or (not cbReplaceText.Checked));
+  cbCaseSens.Enabled:= cbFindText.Checked and (not cbReplaceText.Checked) and (not chkHex.Checked);
   if cbFindText.Checked and (not cbCaseSens.Enabled) then cbCaseSens.Checked := True;
 end;
 
@@ -1018,15 +1018,20 @@ procedure TfrmFindDlg.chkHexChange(Sender: TObject);
 begin
   if chkHex.Checked then
   begin
-    cbCaseSens.Checked:= True;
     cmbEncoding.ItemIndex:= 0;
-    cbTextRegExp.Checked:= False;
+    if cbCaseSens.Enabled then
+    begin
+      cbCaseSens.Tag := Integer(cbCaseSens.Checked);
+    end;
     cbReplaceText.Checked:= False;
+  end
+  else if not cbCaseSens.Enabled then
+  begin
+    cbCaseSens.Checked := Boolean(cbCaseSens.Tag);
   end;
-  cbCaseSens.Enabled:= not chkHex.Checked;
   cmbEncoding.Enabled:= not chkHex.Checked;
-  cbTextRegExp.Enabled:= not chkHex.Checked;
   cbReplaceText.Enabled:= not chkHex.Checked;
+  cmbEncodingSelect(cmbEncoding);
 end;
 
 { TfrmFindDlg.btnSelDirClick }
