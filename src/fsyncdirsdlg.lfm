@@ -1,11 +1,12 @@
 object frmSyncDirsDlg: TfrmSyncDirsDlg
   Left = 562
-  Height = 438
+  Height = 548
   Top = 162
-  Width = 691
+  Width = 864
   Caption = 'Synchronize directories'
-  ClientHeight = 438
-  ClientWidth = 691
+  ClientHeight = 548
+  ClientWidth = 864
+  DesignTimePPI = 120
   KeyPreview = True
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
@@ -15,17 +16,18 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
   Position = poScreenCenter
   SessionProperties = 'Height;Left;Top;Width;WindowState'
   ShowInTaskBar = stAlways
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.6.0'
   object edPath1: TEdit
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = btnSelDir1
-    Left = 3
-    Height = 26
-    Top = 3
-    Width = 249
+    Left = 4
+    Height = 28
+    Top = 4
+    Width = 301
     Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Around = 3
+    BorderSpacing.Around = 4
+    ParentFont = False
     TabOrder = 1
   end
   object edPath2: TEdit
@@ -33,29 +35,31 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = btnSelDir2
-    Left = 407
-    Height = 26
-    Top = 3
-    Width = 246
+    Left = 510
+    Height = 28
+    Top = 4
+    Width = 296
     Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 3
-    BorderSpacing.Around = 3
+    BorderSpacing.Left = 4
+    BorderSpacing.Around = 4
+    ParentFont = False
     TabOrder = 4
   end
   object cbExtFilter: TComboBox
     AnchorSideLeft.Control = Owner
     AnchorSideLeft.Side = asrCenter
     AnchorSideTop.Control = Owner
-    Left = 290
-    Height = 26
-    Top = 3
-    Width = 111
-    BorderSpacing.Top = 3
-    ItemHeight = 18
+    Left = 363
+    Height = 28
+    Top = 4
+    Width = 139
+    BorderSpacing.Top = 4
+    ItemHeight = 20
     ItemIndex = 0
     Items.Strings = (
       '*'
     )
+    ParentFont = False
     TabOrder = 3
     Text = '*'
   end
@@ -63,16 +67,17 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideTop.Control = edPath1
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = cbExtFilter
-    Left = 255
-    Height = 28
-    Top = 2
-    Width = 29
+    Left = 309
+    Height = 30
+    Top = 3
+    Width = 46
     Anchors = [akTop, akRight]
     AutoSize = True
-    BorderSpacing.Right = 3
-    BorderSpacing.Around = 3
+    BorderSpacing.Right = 4
+    BorderSpacing.Around = 4
     Caption = '>>'
     OnClick = btnSelDir1Click
+    ParentFont = False
     TabOrder = 2
   end
   object btnSelDir2: TButton
@@ -81,16 +86,17 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 656
-    Height = 28
-    Top = 2
-    Width = 29
+    Left = 810
+    Height = 30
+    Top = 3
+    Width = 46
     Anchors = [akTop, akRight]
     AutoSize = True
-    BorderSpacing.Right = 3
-    BorderSpacing.Around = 3
+    BorderSpacing.Right = 4
+    BorderSpacing.Around = 4
     Caption = '>>'
     OnClick = btnSelDir1Click
+    ParentFont = False
     TabOrder = 5
   end
   object TopPanel: TPanel
@@ -101,50 +107,54 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 98
-    Top = 33
-    Width = 691
+    Top = 37
+    Width = 864
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     ClientHeight = 98
-    ClientWidth = 691
+    ClientWidth = 864
+    ParentFont = False
     TabOrder = 0
     object LeftPanel1: TPanel
       AnchorSideLeft.Control = TopPanel
       AnchorSideTop.Control = TopPanel
       Left = 1
-      Height = 79
+      Height = 86
       Top = 1
-      Width = 111
+      Width = 119
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 79
-      ClientWidth = 111
+      ClientHeight = 86
+      ClientWidth = 119
+      ParentFont = False
       TabOrder = 0
       object btnCompare: TButton
         AnchorSideLeft.Control = LeftPanel1
         AnchorSideTop.Control = LeftPanel1
-        Left = 3
-        Height = 28
-        Top = 3
-        Width = 70
+        Left = 4
+        Height = 30
+        Top = 4
+        Width = 87
         AutoSize = True
-        BorderSpacing.Around = 3
+        BorderSpacing.Around = 4
         Caption = 'Compare'
         Default = True
         OnClick = btnCompareClick
+        ParentFont = False
         TabOrder = 0
       end
       object chkOnlySelected: TCheckBox
         AnchorSideLeft.Control = LeftPanel1
         AnchorSideTop.Control = btnCompare
         AnchorSideTop.Side = asrBottom
-        Left = 3
+        Left = 4
         Height = 24
-        Top = 34
-        Width = 105
-        BorderSpacing.Around = 3
+        Top = 38
+        Width = 111
+        BorderSpacing.Around = 4
         Caption = 'only selected'
         Enabled = False
+        ParentFont = False
         TabOrder = 1
       end
       object Label1: TLabel
@@ -152,28 +162,30 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         AnchorSideLeft.Side = asrCenter
         AnchorSideTop.Control = chkOnlySelected
         AnchorSideTop.Side = asrBottom
-        Left = 3
-        Height = 18
-        Top = 61
-        Width = 105
+        Left = 2
+        Height = 20
+        Top = 66
+        Width = 115
         Caption = '(in main window)'
         Enabled = False
         ParentColor = False
+        ParentFont = False
       end
     end
     object LeftPanel2: TPanel
       AnchorSideLeft.Control = LeftPanel1
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = TopPanel
-      Left = 117
+      Left = 126
       Height = 96
       Top = 1
-      Width = 97
+      Width = 101
       AutoSize = True
-      BorderSpacing.Left = 5
+      BorderSpacing.Left = 6
       BevelOuter = bvNone
       ClientHeight = 96
-      ClientWidth = 97
+      ClientWidth = 101
+      ParentFont = False
       TabOrder = 1
       object chkAsymmetric: TCheckBox
         AnchorSideLeft.Control = LeftPanel2
@@ -181,9 +193,10 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Left = 0
         Height = 24
         Top = 0
-        Width = 97
+        Width = 100
         Caption = 'asymmetric'
         Enabled = False
+        ParentFont = False
         TabOrder = 0
       end
       object chkSubDirs: TCheckBox
@@ -193,8 +206,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Left = 0
         Height = 24
         Top = 24
-        Width = 72
+        Width = 73
         Caption = 'Subdirs'
+        ParentFont = False
         TabOrder = 1
       end
       object chkByContent: TCheckBox
@@ -204,8 +218,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Left = 0
         Height = 24
         Top = 48
-        Width = 90
+        Width = 94
         Caption = 'by content'
+        ParentFont = False
         TabOrder = 2
       end
       object chkIgnoreDate: TCheckBox
@@ -215,8 +230,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Left = 0
         Height = 24
         Top = 72
-        Width = 96
+        Width = 101
         Caption = 'ignore date'
+        ParentFont = False
         TabOrder = 3
       end
     end
@@ -224,125 +240,133 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       AnchorSideLeft.Control = LeftPanel2
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = TopPanel
-      Left = 219
+      Left = 233
       Height = 81
       Top = 1
-      Width = 204
+      Width = 251
       AutoSize = True
-      BorderSpacing.Left = 5
+      BorderSpacing.Left = 6
       Caption = 'Show:'
-      ClientHeight = 54
-      ClientWidth = 198
+      ClientHeight = 56
+      ClientWidth = 247
+      ParentFont = False
       TabOrder = 2
       object sbCopyRight: TSpeedButton
         AnchorSideLeft.Control = GroupBox1
         AnchorSideTop.Control = GroupBox1
-        Left = 6
-        Height = 24
-        Top = 6
-        Width = 24
+        Left = 8
+        Height = 30
+        Top = 8
+        Width = 30
         AllowAllUp = True
-        BorderSpacing.Left = 6
-        BorderSpacing.Top = 6
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 8
         Caption = '>'
         Down = True
         GroupIndex = 1
         OnClick = FilterSpeedButtonClick
+        ParentFont = False
       end
       object sbEqual: TSpeedButton
         AnchorSideLeft.Control = sbCopyRight
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = sbCopyRight
-        Left = 32
-        Height = 24
-        Top = 6
-        Width = 24
+        Left = 40
+        Height = 30
+        Top = 8
+        Width = 30
         AllowAllUp = True
         BorderSpacing.Left = 2
         Caption = '='
         Down = True
         GroupIndex = 2
         OnClick = FilterSpeedButtonClick
+        ParentFont = False
       end
       object sbNotEqual: TSpeedButton
         AnchorSideLeft.Control = sbEqual
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = sbCopyRight
-        Left = 58
-        Height = 24
-        Top = 6
-        Width = 24
+        Left = 72
+        Height = 30
+        Top = 8
+        Width = 30
         AllowAllUp = True
         BorderSpacing.Left = 2
         Caption = '!='
         Down = True
         GroupIndex = 3
         OnClick = FilterSpeedButtonClick
+        ParentFont = False
       end
       object sbCopyLeft: TSpeedButton
         AnchorSideLeft.Control = sbNotEqual
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = sbCopyRight
-        Left = 84
-        Height = 24
-        Top = 6
-        Width = 24
+        Left = 104
+        Height = 30
+        Top = 8
+        Width = 30
         AllowAllUp = True
         BorderSpacing.Left = 2
         Caption = '<'
         Down = True
         GroupIndex = 4
         OnClick = FilterSpeedButtonClick
+        ParentFont = False
       end
       object sbDuplicates: TSpeedButton
         AnchorSideLeft.Control = sbCopyLeft
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = GroupBox1
-        Left = 112
-        Height = 18
+        Left = 139
+        Height = 22
         Top = 0
-        Width = 80
+        Width = 100
         AllowAllUp = True
-        BorderSpacing.Left = 4
-        BorderSpacing.Right = 6
+        BorderSpacing.Left = 5
+        BorderSpacing.Right = 8
         Caption = 'duplicates'
         Down = True
         GroupIndex = 5
         OnClick = FilterSpeedButtonClick
+        ParentFont = False
       end
       object sbSingles: TSpeedButton
         AnchorSideLeft.Control = sbCopyLeft
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = sbDuplicates
         AnchorSideTop.Side = asrBottom
-        Left = 112
-        Height = 18
-        Top = 21
-        Width = 80
+        Left = 139
+        Height = 22
+        Top = 26
+        Width = 100
         AllowAllUp = True
-        BorderSpacing.Left = 4
-        BorderSpacing.Top = 3
-        BorderSpacing.Bottom = 6
+        BorderSpacing.Left = 5
+        BorderSpacing.Top = 4
+        BorderSpacing.Bottom = 8
         Caption = 'singles'
         Down = True
         GroupIndex = 6
         OnClick = FilterSpeedButtonClick
+        ParentFont = False
       end
     end
     object btnSynchronize: TButton
       AnchorSideTop.Control = TopPanel
       AnchorSideRight.Control = TopPanel
       AnchorSideRight.Side = asrBottom
-      Left = 596
-      Height = 28
-      Top = 7
-      Width = 88
+      Left = 750
+      Height = 30
+      Top = 9
+      Width = 105
       Anchors = [akTop, akRight]
       AutoSize = True
-      BorderSpacing.Around = 6
+      BorderSpacing.Around = 8
       Caption = 'Synchronize'
       Enabled = False
       OnClick = btnSynchronizeClick
+      ParentFont = False
       TabOrder = 3
     end
     object btnClose: TButton
@@ -351,28 +375,30 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnSynchronize
       AnchorSideRight.Side = asrBottom
-      Left = 596
-      Height = 28
-      Top = 41
-      Width = 88
+      Left = 750
+      Height = 30
+      Top = 47
+      Width = 105
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       Cancel = True
       Caption = 'Close'
       OnClick = btnCloseClick
+      ParentFont = False
       TabOrder = 4
     end
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 23
-    Top = 415
-    Width = 691
+    Height = 29
+    Top = 519
+    Width = 864
     Panels = <    
       item
         Text = 'Please press "Compare" to start'
-        Width = 50
+        Width = 62
       end>
+    ParentFont = False
     SimplePanel = False
   end
   object HeaderDG: TDrawGrid
@@ -382,51 +408,66 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 0
-    Height = 20
-    Top = 131
-    Width = 691
+    Height = 25
+    Top = 135
+    Width = 864
     Anchors = [akTop, akLeft, akRight]
     AutoFillColumns = True
     BorderStyle = bsNone
     ColCount = 7
     Columns = <    
       item
+        MinSize = 12
+        MaxSize = 250
         SizePriority = 0
         Title.Caption = 'Name'
-        Width = 250
+        Width = 312
       end    
       item
+        MinSize = 12
+        MaxSize = 250
+        SizePriority = 0
+        Title.Caption = 'Size'
+        Width = 188
+      end    
+      item
+        MinSize = 12
+        MaxSize = 250
+        SizePriority = 0
+        Title.Caption = 'Date'
+        Width = 212
+      end    
+      item
+        MinSize = 12
+        MaxSize = 250
+        SizePriority = 0
+        Title.Caption = '<=>'
+        Width = 38
+      end    
+      item
+        MinSize = 12
+        MaxSize = 250
+        SizePriority = 0
+        Title.Caption = 'Date'
+        Width = 212
+      end    
+      item
+        MinSize = 12
+        MaxSize = 250
         SizePriority = 0
         Title.Caption = 'Size'
         Width = 150
       end    
       item
-        SizePriority = 0
-        Title.Caption = 'Date'
-        Width = 170
-      end    
-      item
-        SizePriority = 0
-        Title.Caption = '<=>'
-        Width = 30
-      end    
-      item
-        SizePriority = 0
-        Title.Caption = 'Date'
-        Width = 170
-      end    
-      item
-        SizePriority = 0
-        Title.Caption = 'Size'
-        Width = 120
-      end    
-      item
+        MinSize = 12
+        MaxSize = 250
         Title.Caption = 'Name'
         Width = 0
       end>
     ExtendedSelect = False
     FixedCols = 0
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll, goHeaderPushedLook]
+    ParentFont = False
     RowCount = 1
     ScrollBars = ssNone
     TabOrder = 7
@@ -434,12 +475,12 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     OnHeaderClick = HeaderDGHeaderClick
     OnHeaderSizing = HeaderDGHeaderSizing
     ColWidths = (
-      250
+      312
+      188
+      212
+      38
+      212
       150
-      170
-      30
-      170
-      120
       0
     )
   end
@@ -451,9 +492,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = StatusBar1
     Left = 0
-    Height = 264
-    Top = 151
-    Width = 691
+    Height = 359
+    Top = 160
+    Width = 864
     Anchors = [akTop, akLeft, akRight, akBottom]
     AutoFillColumns = True
     ColCount = 0
@@ -462,6 +503,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     FixedRows = 0
     MouseWheelOption = mwGrid
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goSmoothScroll, goHeaderPushedLook, goDontScrollPartCell, goRowHighlight]
+    ParentFont = False
     PopupMenu = pmGridMenu
     RangeSelectMode = rsmMulti
     RowCount = 0
@@ -478,65 +520,128 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideTop.Control = Owner
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Side = asrBottom
-    Left = 225
-    Height = 81
-    Top = 179
-    Width = 240
+    Left = 276
+    Height = 170
+    Top = 189
+    Width = 312
     AutoSize = True
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 8
     ChildSizing.VerticalSpacing = 8
-    ClientHeight = 81
-    ClientWidth = 240
-    Constraints.MinWidth = 240
+    ClientHeight = 170
+    ClientWidth = 312
+    Constraints.MinWidth = 300
+    ParentFont = False
     TabOrder = 9
     Visible = False
-    object lblProgress: TLabel
+    object pnlCopyProgress: TPanel
       AnchorSideLeft.Control = pnlProgress
       AnchorSideTop.Control = pnlProgress
-      AnchorSideRight.Control = pnlProgress
-      AnchorSideRight.Side = asrBottom
       Left = 9
-      Height = 1
+      Height = 53
       Top = 9
-      Width = 222
-      Alignment = taCenter
-      Anchors = [akTop, akLeft, akRight]
-      ParentColor = False
-    end
-    object ProgressBar: TProgressBar
-      AnchorSideLeft.Control = pnlProgress
-      AnchorSideTop.Control = lblProgress
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = pnlProgress
-      AnchorSideRight.Side = asrBottom
-      Left = 9
-      Height = 22
-      Top = 18
-      Width = 222
-      Style = pbstMarquee
+      Width = 294
+      AutoSize = True
+      BevelOuter = bvNone
+      ChildSizing.LeftRightSpacing = 8
+      ChildSizing.TopBottomSpacing = 8
+      ChildSizing.VerticalSpacing = 8
+      ClientHeight = 53
+      ClientWidth = 294
       TabOrder = 0
+      object lblProgress: TLabel
+        AnchorSideLeft.Control = pnlCopyProgress
+        AnchorSideTop.Control = pnlCopyProgress
+        AnchorSideRight.Control = pnlCopyProgress
+        AnchorSideRight.Side = asrBottom
+        Left = 8
+        Height = 1
+        Top = 8
+        Width = 278
+        Alignment = taCenter
+        Anchors = [akTop, akLeft, akRight]
+        ParentColor = False
+        ParentFont = False
+      end
+      object ProgressBar: TProgressBar
+        AnchorSideLeft.Control = pnlCopyProgress
+        AnchorSideTop.Control = lblProgress
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = pnlCopyProgress
+        AnchorSideRight.Side = asrBottom
+        Left = 8
+        Height = 28
+        Top = 17
+        Width = 278
+        ParentFont = False
+        TabOrder = 0
+      end
+    end
+    object pnlDeleteProgress: TPanel
+      AnchorSideLeft.Control = pnlCopyProgress
+      AnchorSideTop.Control = pnlCopyProgress
+      AnchorSideTop.Side = asrBottom
+      Left = 9
+      Height = 53
+      Top = 70
+      Width = 294
+      AutoSize = True
+      BevelOuter = bvNone
+      ChildSizing.LeftRightSpacing = 8
+      ChildSizing.TopBottomSpacing = 8
+      ChildSizing.VerticalSpacing = 8
+      ClientHeight = 53
+      ClientWidth = 294
+      TabOrder = 1
+      object lblProgressDelete: TLabel
+        AnchorSideLeft.Control = pnlDeleteProgress
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = pnlDeleteProgress
+        AnchorSideRight.Side = asrBottom
+        Left = 8
+        Height = 1
+        Top = 8
+        Width = 278
+        Alignment = taCenter
+        Anchors = [akTop, akLeft, akRight]
+        ParentColor = False
+        ParentFont = False
+      end
+      object ProgressBarDelete: TProgressBar
+        AnchorSideLeft.Control = pnlDeleteProgress
+        AnchorSideTop.Control = lblProgressDelete
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = pnlDeleteProgress
+        AnchorSideRight.Side = asrBottom
+        Left = 8
+        Height = 28
+        Top = 17
+        Width = 278
+        ParentFont = False
+        TabOrder = 0
+      end
     end
     object btnAbort: TBitBtn
-      AnchorSideLeft.Control = ProgressBar
+      AnchorSideLeft.Control = pnlProgress
       AnchorSideLeft.Side = asrCenter
-      AnchorSideTop.Control = ProgressBar
+      AnchorSideTop.Control = pnlDeleteProgress
       AnchorSideTop.Side = asrBottom
-      Left = 71
-      Height = 26
-      Top = 46
-      Width = 98
+      Left = 114
+      Height = 30
+      Top = 131
+      Width = 84
       AutoSize = True
       DefaultCaption = True
       Kind = bkAbort
       ModalResult = 3
       OnClick = btnAbortClick
-      TabOrder = 1
+      ParentFont = False
+      TabOrder = 2
     end
   end
   object ImageList1: TImageList
-    left = 56
-    top = 152
+    left = 70
+    top = 190
     Bitmap = {
       4C69090000001000000010000000C3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3
       C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3C3FFC3C3
@@ -831,8 +936,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
   end
   object pmGridMenu: TPopupMenu
     OnPopup = pmGridMenuPopup
-    left = 121
-    top = 217
+    left = 151
+    top = 271
     object miSelectCopyDefault: TMenuItem
       Action = actSelectCopyDefault
     end
@@ -892,8 +997,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     end
   end
   object ActionList: TActionList
-    left = 376
-    top = 208
+    left = 660
+    top = 240
     object actSelectCopyLeftToRight: TAction
       Caption = 'Select for copying -> (left to right)'
       OnExecute = actExecute
@@ -938,5 +1043,12 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       Caption = 'Delete on both sides'
       OnExecute = actExecute
     end
+  end
+  object Timer: TTimer
+    Enabled = False
+    Interval = 200
+    OnTimer = TimerTimer
+    left = 154
+    top = 371
   end
 end
