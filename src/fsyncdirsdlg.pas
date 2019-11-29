@@ -31,7 +31,7 @@ uses
   StdCtrls, ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, LazUTF8Classes,
   uFileView, uFileSource, uFileSourceCopyOperation, uFile, uFileSourceOperation,
   uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager, uClassesEx,
-  uFileSourceDeleteOperation;
+  uFileSourceDeleteOperation, KASProgressBar;
 
 const
   HotkeysCategory = 'Synchronize Directories';
@@ -107,8 +107,8 @@ type
     pnlCopyProgress: TPanel;
     pnlDeleteProgress: TPanel;
     pmGridMenu: TPopupMenu;
-    ProgressBar: TProgressBar;
-    ProgressBarDelete: TProgressBar;
+    ProgressBar: TKASProgressBar;
+    ProgressBarDelete: TKASProgressBar;
     sbCopyRight: TSpeedButton;
     sbEqual: TSpeedButton;
     sbNotEqual: TSpeedButton;
@@ -187,6 +187,8 @@ type
     procedure DeleteFiles(ALeft, ARight: Boolean);
     function DeleteFiles(FileSource: IFileSource; var Files: TFiles): Boolean;
     procedure UpdateList(ALeft, ARight: TFiles; ARemoveLeft, ARemoveRight: Boolean);
+    procedure SetProgressBytes(AProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
+    procedure SetProgressFiles(AProgressBar: TKASProgressBar; CurrentFiles: Int64; TotalFiles: Int64);
   private
     property SortIndex: Integer read FSortIndex write SetSortIndex;
     property Commands: TFormCommands read FCommands implements IFormCommands;
@@ -553,7 +555,7 @@ var
         Result := FOperation.Result = fsorFinished;
         FileExistsOption := TFileSourceCopyOperation(FOperation).FileExistsOption;
         FCopyStatistics.DoneBytes+= TFileSourceCopyOperation(FOperation).RetrieveStatistics.TotalBytes;
-        ProgressBar.Position:= FCopyStatistics.DoneBytes * 100 div FCopyStatistics.TotalBytes;
+        SetProgressBytes(ProgressBar, FCopyStatistics.DoneBytes, FCopyStatistics.TotalBytes);
       finally
         FreeAndNil(FOperation);
       end;
@@ -993,14 +995,14 @@ begin
     if (FOperation is TFileSourceCopyOperation) then
     begin
       CopyStatistics:= TFileSourceCopyOperation(FOperation).RetrieveStatistics;
-      ProgressBar.Position:= (FCopyStatistics.DoneBytes +
-                              CopyStatistics.DoneBytes) * 100 div FCopyStatistics.TotalBytes;
+      SetProgressBytes(ProgressBar, FCopyStatistics.DoneBytes +
+                       CopyStatistics.DoneBytes, FCopyStatistics.TotalBytes);
     end
     else if (FOperation is TFileSourceDeleteOperation) then
     begin
       DeleteStatistics:= TFileSourceDeleteOperation(FOperation).RetrieveStatistics;
-      ProgressBarDelete.Position:= (FDeleteStatistics.DoneFiles +
-                               DeleteStatistics.DoneFiles) * 100 div FDeleteStatistics.TotalFiles;
+      SetProgressFiles(ProgressBarDelete, FDeleteStatistics.DoneFiles +
+                       DeleteStatistics.DoneFiles, FDeleteStatistics.TotalFiles);
     end;
   end;
 end;
@@ -1695,7 +1697,7 @@ begin
     FOperation.Execute;
     Result := FOperation.Result = fsorFinished;
     FDeleteStatistics.DoneFiles+= TFileSourceDeleteOperation(FOperation).RetrieveStatistics.TotalFiles;
-    ProgressBarDelete.Position:= FDeleteStatistics.DoneFiles * 100 div FDeleteStatistics.TotalFiles;
+    SetProgressFiles(ProgressBarDelete, FDeleteStatistics.DoneFiles, FDeleteStatistics.TotalFiles);
   finally
     FreeAndNil(FOperation);
   end;
@@ -1776,6 +1778,24 @@ begin
     end;
   end;
   if ARemove then MainDrawGrid.EndUpdate;
+end;
+
+procedure TfrmSyncDirsDlg.SetProgressBytes(AProgressBar: TKASProgressBar;
+  CurrentBytes: Int64; TotalBytes: Int64);
+begin
+  AProgressBar.SetProgress(CurrentBytes, TotalBytes,
+                           cnvFormatFileSize(CurrentBytes, uoscOperation) + '/' +
+                           cnvFormatFileSize(TotalBytes, uoscOperation)
+                           );
+end;
+
+procedure TfrmSyncDirsDlg.SetProgressFiles(AProgressBar: TKASProgressBar;
+  CurrentFiles: Int64; TotalFiles: Int64);
+begin
+  AProgressBar.SetProgress(CurrentFiles, TotalFiles,
+                           cnvFormatFileSize(CurrentFiles, uoscNoUnit) + '/' +
+                           cnvFormatFileSize(TotalFiles, uoscNoUnit)
+                           );
 end;
 
 constructor TfrmSyncDirsDlg.Create(AOwner: TComponent; FileView1,

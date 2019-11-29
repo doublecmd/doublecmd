@@ -563,7 +563,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         ParentColor = False
         ParentFont = False
       end
-      object ProgressBar: TProgressBar
+      object ProgressBar: TKASProgressBar
         AnchorSideLeft.Control = pnlCopyProgress
         AnchorSideTop.Control = lblProgress
         AnchorSideTop.Side = asrBottom
@@ -574,6 +574,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Top = 17
         Width = 278
         ParentFont = False
+        BarShowText = True
         TabOrder = 0
       end
     end
@@ -607,7 +608,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         ParentColor = False
         ParentFont = False
       end
-      object ProgressBarDelete: TProgressBar
+      object ProgressBarDelete: TKASProgressBar
         AnchorSideLeft.Control = pnlDeleteProgress
         AnchorSideTop.Control = lblProgressDelete
         AnchorSideTop.Side = asrBottom
@@ -618,6 +619,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Top = 17
         Width = 278
         ParentFont = False
+        BarShowText = True
         TabOrder = 0
       end
     end
