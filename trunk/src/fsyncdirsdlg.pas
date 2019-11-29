@@ -30,7 +30,8 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ExtCtrls, Buttons, ComCtrls, Grids, Menus, ActnList, LazUTF8Classes,
   uFileView, uFileSource, uFileSourceCopyOperation, uFile, uFileSourceOperation,
-  uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager, uClassesEx;
+  uFileSourceOperationMessageBoxesUI, uFormCommands, uHotkeyManager, uClassesEx,
+  uFileSourceDeleteOperation;
 
 const
   HotkeysCategory = 'Synchronize Directories';
@@ -76,6 +77,7 @@ type
     cbExtFilter: TComboBox;
     HeaderDG: TDrawGrid;
     lblProgress: TLabel;
+    lblProgressDelete: TLabel;
     MainDrawGrid: TDrawGrid;
     edPath1: TEdit;
     edPath2: TEdit;
@@ -102,8 +104,11 @@ type
     MenuItemViewRight: TMenuItem;
     MenuItemViewLeft: TMenuItem;
     pnlProgress: TPanel;
+    pnlCopyProgress: TPanel;
+    pnlDeleteProgress: TPanel;
     pmGridMenu: TPopupMenu;
     ProgressBar: TProgressBar;
+    ProgressBarDelete: TProgressBar;
     sbCopyRight: TSpeedButton;
     sbEqual: TSpeedButton;
     sbNotEqual: TSpeedButton;
@@ -111,6 +116,7 @@ type
     sbDuplicates: TSpeedButton;
     sbSingles: TSpeedButton;
     StatusBar1: TStatusBar;
+    Timer: TTimer;
     TopPanel: TPanel;
     procedure actExecute(Sender: TObject);
     procedure btnAbortClick(Sender: TObject);
@@ -138,6 +144,7 @@ type
     procedure FilterSpeedButtonClick(Sender: TObject);
     procedure MenuItemViewClick(Sender: TObject);
     procedure pmGridMenuPopup(Sender: TObject);
+    procedure TimerTimer(Sender: TObject);
   private
     FCommands: TFormCommands;
     FIniPropStorage: TIniPropStorageEx;
@@ -160,6 +167,8 @@ type
     CheckContentThread: TObject;
     Ftotal, Fequal, Fnoneq, FuniqueL, FuniqueR: Integer;
     FOperation: TFileSourceOperation;
+    FCopyStatistics: TFileSourceCopyOperationStatistics;
+    FDeleteStatistics: TFileSourceDeleteOperationStatistics;
     FFileSourceOperationMessageBoxesUI: TFileSourceOperationMessageBoxesUI;
     procedure ClearFoundItems;
     procedure Compare;
@@ -543,6 +552,8 @@ var
         FOperation.Execute;
         Result := FOperation.Result = fsorFinished;
         FileExistsOption := TFileSourceCopyOperation(FOperation).FileExistsOption;
+        FCopyStatistics.DoneBytes+= TFileSourceCopyOperation(FOperation).RetrieveStatistics.TotalBytes;
+        ProgressBar.Position:= FCopyStatistics.DoneBytes * 100 div FCopyStatistics.TotalBytes;
       finally
         FreeAndNil(FOperation);
       end;
@@ -594,6 +605,11 @@ begin
         end;
       end;
     end;
+  FCopyStatistics.DoneBytes:= 0;
+  FDeleteStatistics.DoneFiles:= 0;
+  FCopyStatistics.TotalBytes:= CopyLeftSize + CopyRightSize;
+  FDeleteStatistics.TotalFiles:= DeleteLeftCount + DeleteRightCount;
+
   with TfrmSyncDirsPerformDlg.Create(Self) do
   try
     edLeftPath.Text := FCmpFileSourceL.CurrentAddress + FCmpFilePathL;
@@ -634,6 +650,8 @@ begin
       CopyRight := chkLeftToRight.Checked;
       DeleteLeft := chkDeleteLeft.Checked;
       DeleteRight := chkDeleteRight.Checked;
+      pnlCopyProgress.Visible:= CopyLeft or CopyRight;
+      pnlDeleteProgress.Visible:= DeleteLeft or DeleteRight;
       i := 0;
       while i < FVisibleItems.Count do
       begin
@@ -761,7 +779,8 @@ begin
     FIniPropStorage.StoredValues.Add.DisplayName:= Format(GRID_COLUMN_FMT, [Index]);
   end;
 
-  lblProgress.Caption    := rsOperWorking;
+  lblProgress.Caption    := rsOperCopying;
+  lblProgressDelete.Caption   := rsOperDeleting;
   { settings }
   chkSubDirs.Checked     := gSyncDirsSubdirs;
   chkAsymmetric.Checked  := gSyncDirsAsymmetric;
@@ -784,6 +803,7 @@ end;
 procedure TfrmSyncDirsDlg.FormResize(Sender: TObject);
 begin
   ProgressBar.Width:= ClientWidth div 3;
+  ProgressBarDelete.Width:= ProgressBar.Width;
 end;
 
 procedure TfrmSyncDirsDlg.MainDrawGridDblClick(Sender: TObject);
@@ -961,6 +981,28 @@ procedure TfrmSyncDirsDlg.pmGridMenuPopup(Sender: TObject);
 begin
   miSelectDeleteLeft.Visible := not chkAsymmetric.Checked;
   miSelectDeleteBoth.Visible := not chkAsymmetric.Checked;
+end;
+
+procedure TfrmSyncDirsDlg.TimerTimer(Sender: TObject);
+var
+  CopyStatistics: TFileSourceCopyOperationStatistics;
+  DeleteStatistics: TFileSourceDeleteOperationStatistics;
+begin
+  if Assigned(FOperation) then
+  begin
+    if (FOperation is TFileSourceCopyOperation) then
+    begin
+      CopyStatistics:= TFileSourceCopyOperation(FOperation).RetrieveStatistics;
+      ProgressBar.Position:= (FCopyStatistics.DoneBytes +
+                              CopyStatistics.DoneBytes) * 100 div FCopyStatistics.TotalBytes;
+    end
+    else if (FOperation is TFileSourceDeleteOperation) then
+    begin
+      DeleteStatistics:= TFileSourceDeleteOperation(FOperation).RetrieveStatistics;
+      ProgressBarDelete.Position:= (FDeleteStatistics.DoneFiles +
+                               DeleteStatistics.DoneFiles) * 100 div FDeleteStatistics.TotalFiles;
+    end;
+  end;
 end;
 
 procedure TfrmSyncDirsDlg.SetSortIndex(AValue: Integer);
@@ -1491,6 +1533,7 @@ begin
   cbExtFilter.Enabled:= AEnabled;
   MainDrawGrid.Enabled:= AEnabled;
   pnlProgress.Visible:= not AEnabled;
+  Timer.Enabled:= not AEnabled;
 end;
 
 procedure TfrmSyncDirsDlg.SetSyncRecState(AState: TSyncRecState);
@@ -1606,15 +1649,26 @@ begin
 
     if (ALeft = False) and (ARight = False) then Exit;
 
+    FDeleteStatistics.DoneFiles:= 0;
+    FDeleteStatistics.TotalFiles:= 0;
+
     if ALeft then
+    begin
+      FDeleteStatistics.TotalFiles+= ALeftList.Count;
       Message:= Format(rsVarLeftPanel + ': ' + rsMsgDelFlDr, [ALeftList.Count]) + LineEnding;
+    end;
 
     if ARight then
+    begin
+      FDeleteStatistics.TotalFiles+= ARightList.Count;
       Message+= Format(rsVarRightPanel + ': ' + rsMsgDelFlDr, [ARightList.Count]) + LineEnding;
+    end;
 
     if MessageDlg(Message, mtWarning, [mbYes, mbNo], 0, mbYes) = mrYes then
     begin
       EnableControls(False);
+      pnlCopyProgress.Visible:= False;
+      pnlDeleteProgress.Visible:= True;
       if ALeft then DeleteFiles(FCmpFileSourceL, ALeftList);
       if ARight then DeleteFiles(FCmpFileSourceR, ARightList);
       UpdateList(nil, nil, ALeft, ARight);
@@ -1640,6 +1694,8 @@ begin
   try
     FOperation.Execute;
     Result := FOperation.Result = fsorFinished;
+    FDeleteStatistics.DoneFiles+= TFileSourceDeleteOperation(FOperation).RetrieveStatistics.TotalFiles;
+    ProgressBarDelete.Position:= FDeleteStatistics.DoneFiles * 100 div FDeleteStatistics.TotalFiles;
   finally
     FreeAndNil(FOperation);
   end;
