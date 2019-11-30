@@ -271,7 +271,7 @@ var
   AddedIndex: Integer;
 begin
   LinkedFilePath := mbReadAllLinks(aFile.FullPath);
-  if LinkedFilePath <> '' then
+  if (LinkedFilePath <> '') and (LinkedFilePath <> PathDelim) then
   begin
     try
       LinkedFile := TFileSystemFileSource.CreateFileFromFile(LinkedFilePath);
