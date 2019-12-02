@@ -239,6 +239,15 @@ begin
           if TextEncoding = 'UTF-8BOM' then TextEncoding:= 'UTF-8';
           if TextEncoding = 'UCS-2LE' then TextEncoding:= 'UTF-16LE';
           if TextEncoding = 'UCS-2BE' then TextEncoding:= 'UTF-16BE';
+          // duplicates
+          Node := AConfig.FindNode(ANode, 'Duplicates', True);
+          Duplicates:=  AConfig.GetAttr(Node, 'Enabled', False);
+          if Duplicates then
+          begin
+            DuplicateName:= AConfig.GetValue(Node, 'Name', False);
+            DuplicateSize:= AConfig.GetValue(Node, 'Size', False);
+            DuplicateContent:= AConfig.GetValue(Node, 'Content', False);
+          end;
           // plugins
           SearchPlugin:= AConfig.GetValue(ANode, 'SearchPlugin', '');
           Node := AConfig.FindNode(ANode, 'ContentPlugins', True);
@@ -331,6 +340,15 @@ begin
       AConfig.AddValue(SubNode, 'NotContainingText', NotContainingText);
       AConfig.AddValue(SubNode, 'TextRegExp', TextRegExp);
       AConfig.AddValue(SubNode, 'TextEncoding', TextEncoding);
+      // duplicates
+      Node := AConfig.AddNode(SubNode, 'Duplicates');
+      AConfig.SetAttr(Node, 'Enabled', Duplicates);
+      if Duplicates then
+      begin
+        AConfig.AddValue(Node, 'Name', DuplicateName);
+        AConfig.AddValue(Node, 'Size', DuplicateSize);
+        AConfig.AddValue(Node, 'Content', DuplicateContent);
+      end;
       // plugins
       AConfig.AddValue(SubNode, 'SearchPlugin', SearchPlugin);
       Node := AConfig.FindNode(SubNode, 'ContentPlugins', True);

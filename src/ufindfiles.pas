@@ -84,6 +84,11 @@ type
     NotContainingText: Boolean;
     TextRegExp: Boolean;
     TextEncoding: String;
+    { Duplicates }
+    Duplicates: Boolean;
+    DuplicateName: Boolean;
+    DuplicateSize: Boolean;
+    DuplicateContent: Boolean;
     { Plugins }
     SearchPlugin: String;
     ContentPlugin: Boolean;
