@@ -28,9 +28,16 @@ unit uFindThread;
 interface
 
 uses
-  Classes, SysUtils, uFindFiles, uFindEx, uFindByrMr, uMasks, uRegExprA, uRegExprW;
+  Classes, SysUtils, DCStringHashListUtf8, uFindFiles, uFindEx, uFindByrMr,
+  uMasks, uRegExprA, uRegExprW;
 
 type
+
+  TDuplicate = class
+    Name: String;
+    Index: IntPtr;
+    Count: Integer;
+  end;
 
   { TFindThread }
 
@@ -59,12 +66,17 @@ type
     FTimeSearchEnd:TTime;
     FTimeOfScan:TTime;
 
+    FFoundIndex: IntPtr;
+    FDuplicateIndex: Integer;
+    FDuplicates: TStringHashListUtf8;
+
     function GetTimeOfScan:TTime;
     procedure FindInArchive(const FileName: String);
     function CheckFileName(const FileName: String) : Boolean;
     function CheckDirectoryName(const DirectoryName: String) : Boolean;
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function CheckDirectory(const CurrentDir, FolderName : String) : Boolean;
+    function CheckDuplicate(const Folder : String; const sr : TSearchRecEx): Boolean;
     function FindInFile(const sFileName: String;sData: String; bCase, bRegExp: Boolean): Boolean;
     procedure FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase, bRegExp: Boolean);
 
@@ -75,6 +87,7 @@ type
     destructor Destroy; override;
     procedure AddFile;
     procedure AddArchiveFile;
+    procedure AddDuplicateFile;
     procedure DoFile(const sNewDir: String; const sr : TSearchRecEx);
     procedure WalkAdr(const sNewDir: String);
     function IsAborting: Boolean;
@@ -90,7 +103,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, LConvEncoding, DCStrUtils,
+  LCLProc, LazUtf8, StrUtils, LConvEncoding, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
   uLog, uWCXmodule, WcxPlugin, Math, uDCUtils, uConvEncoding, DCDateTimeUtils;
 
@@ -119,6 +132,8 @@ begin
   FLinkTargets := TStringList.Create;
   FSearchTemplate := AFindOptions;
   FSelectedFiles := SelectedFiles;
+
+  FDuplicates:= TStringHashListUtf8.Create(True);
 
   with FSearchTemplate do
   begin
@@ -186,6 +201,8 @@ begin
 end;
 
 destructor TFindThread.Destroy;
+var
+  Index: Integer;
 begin
 //  FItems.Add('End');
   FreeAndNil(FRegExpr);
@@ -195,6 +212,9 @@ begin
   FreeAndNil(FFilesMasksRegExp);
   FreeAndNil(FExcludeFilesRegExp);
   FreeAndNil(FExcludeDirectories);
+  for Index:= 0 to FDuplicates.Count - 1 do
+    TObject(FDuplicates.List[Index]^.Data).Free;
+  FreeAndNil(FDuplicates);
   inherited Destroy;
 end;
 
@@ -253,7 +273,21 @@ end;
 
 procedure TFindThread.AddArchiveFile;
 begin
-  FItems.AddObject(FFoundFile, Self);
+  FItems.AddObject(FFoundFile, TObject(High(IntPtr)));
+end;
+
+procedure TFindThread.AddDuplicateFile;
+var
+  AData: TDuplicate;
+begin
+  AData:= TDuplicate(FDuplicates.List[FFoundIndex]^.Data);
+  if AData.Count = 1 then
+  begin
+    Inc(FFilesFound);
+    FItems.AddObject(AData.Name, TObject(AData.Index));
+  end;
+  Inc(FFilesFound);
+  FItems.AddObject(FFoundFile, TObject(AData.Index));
 end;
 
 function TFindThread.CheckDirectory(const CurrentDir, FolderName : String): Boolean;
@@ -581,6 +615,105 @@ begin
   end;
 end;
 
+function TFindThread.CheckDuplicate(const Folder: String; const sr: TSearchRecEx): Boolean;
+var
+  AKey: String;
+  Index: IntPtr;
+  AData: TDuplicate;
+  AValue: String = '';
+  AStart, AFinish: Integer;
+
+  function CompareFiles(fn1, fn2: String; len: Int64): Boolean;
+  const
+    BUFLEN = 1024 * 32;
+  var
+    i, j: Int64;
+    fs1, fs2: TFileStreamEx;
+    buf1, buf2: array [1..BUFLEN] of Byte;
+  begin
+    try
+      fs1 := TFileStreamEx.Create(fn1, fmOpenRead or fmShareDenyWrite);
+      try
+        fs2 := TFileStreamEx.Create(fn2, fmOpenRead or fmShareDenyWrite);
+        try
+          i := 0;
+          repeat
+            if len - i <= BUFLEN then
+              j := len - i
+            else begin
+              j := BUFLEN;
+            end;
+            fs1.ReadBuffer(buf1, j);
+            fs2.ReadBuffer(buf2, j);
+            i := i + j;
+            Result := CompareMem(@buf1, @buf2, j);
+          until Terminated or not Result or (i >= len);
+        finally
+          fs2.Free;
+        end;
+      finally
+        fs1.Free;
+      end;
+    except
+      Result:= False;
+    end;
+  end;
+
+begin
+  if FSearchTemplate.DuplicateName then
+  begin
+    if FileNameCaseSensitive then
+      AValue:= sr.Name
+    else
+      AValue:= UTF8LowerCase(sr.Name);
+  end;
+
+  if FSearchTemplate.DuplicateSize then
+    AValue+= IntToStr(sr.Size);
+
+  Index:= FDuplicates.Find(AValue);
+  Result:= (Index >= 0);
+  if Result then
+  begin
+    FDuplicates.FindBoundaries(Index, AStart, AFinish);
+
+    for Index:= AStart to AFinish do
+    begin
+      AKey:= FDuplicates.List[Index]^.Key;
+
+      if (Length(AKey) = Length(AValue)) and (CompareByte(AKey[1], AValue[1], Length(AKey)) = 0) then
+      begin
+        AData:= TDuplicate(FDuplicates.List[Index]^.Data);
+
+        if FSearchTemplate.DuplicateContent then
+          Result:= CompareFiles(AData.Name, Folder + PathDelim + sr.Name, sr.Size)
+        else begin
+          Result:= True;
+        end;
+
+        if Result then
+        begin
+          Inc(AData.Count);
+          FFoundIndex:= Index;
+          // First match
+          if (AData.Count = 1) then
+          begin
+            Inc(FDuplicateIndex);
+            AData.Index:= FDuplicateIndex;
+          end;
+          Exit;
+        end;
+      end;
+    end;
+  end;
+  if not Result then
+  begin
+    AData:= TDuplicate.Create;
+    AData.Name:= Folder + PathDelim + sr.Name;
+    Index:= FDuplicates.Add(AValue, AData);
+  end;
+end;
+
 function TFindThread.CheckDirectoryName(const DirectoryName: String): Boolean;
 begin
   with FFileChecks do
@@ -648,9 +781,19 @@ begin
 
   if CheckFile(sNewDir, sr) then
   begin
-    FFoundFile := IncludeTrailingBackslash(sNewDir) + sr.Name;
-    Synchronize(@AddFile);
-    Inc(FFilesFound);
+    if FSearchTemplate.Duplicates then
+    begin
+      if CheckDuplicate(sNewDir, sr) then
+      begin
+        FFoundFile := IncludeTrailingBackslash(sNewDir) + sr.Name;
+        Synchronize(@AddDuplicateFile);
+      end;
+    end
+    else begin
+      FFoundFile := IncludeTrailingBackslash(sNewDir) + sr.Name;
+      Synchronize(@AddFile);
+      Inc(FFilesFound);
+    end;
   end;
 
   Inc(FFilesScanned);

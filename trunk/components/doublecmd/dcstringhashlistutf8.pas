@@ -64,6 +64,7 @@ type
     function Find(const S: String; Data: Pointer): Integer;
     function Remove(const S: String): Integer;
     function Remove(const S: String; Data: Pointer): Integer;
+    procedure FindBoundaries(StartFrom: Integer; out First, Last: Integer);
     property CaseSensitive: Boolean read fCaseSensitive write SetCaseSensitive;
     property Count: Integer read FCount;
     property Data[const S: String]: Pointer read GetData write SetData; default;
@@ -346,6 +347,12 @@ begin
     Dispose(fList[Result]);
     Delete(Result);
   end;
+end;
+
+procedure TStringHashListUtf8.FindBoundaries(StartFrom: Integer; out First,
+  Last: Integer);
+begin
+  FindHashBoundaries(FList[StartFrom]^.HashValue, StartFrom, First, Last);
 end;
 
 procedure TStringHashListUtf8.SetCaseSensitive(const Value: Boolean);
