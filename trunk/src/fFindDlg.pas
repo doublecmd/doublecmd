@@ -103,6 +103,7 @@ type
     cbOpenedTabs: TCheckBox;
     chkDuplicateContent: TCheckBox;
     chkDuplicateSize: TCheckBox;
+    chkDuplicateHash: TCheckBox;
     chkDuplicateName: TCheckBox;
     chkDuplicates: TCheckBox;
     chkHex: TCheckBox;
@@ -218,6 +219,7 @@ type
     procedure cbTextRegExpChange(Sender: TObject);
     procedure cbSelectedFilesChange(Sender: TObject);
     procedure chkDuplicateContentChange(Sender: TObject);
+    procedure chkDuplicateHashChange(Sender: TObject);
     procedure chkDuplicateNameChange(Sender: TObject);
     procedure chkDuplicatesChange(Sender: TObject);
     procedure chkDuplicateSizeChange(Sender: TObject);
@@ -1028,7 +1030,21 @@ end;
 
 procedure TfrmFindDlg.chkDuplicateContentChange(Sender: TObject);
 begin
-  if chkDuplicateContent.Checked then chkDuplicateSize.Checked:= True;
+  if chkDuplicateContent.Checked then
+  begin
+    chkDuplicateSize.Checked:= True;
+    chkDuplicateHash.Checked:= False;
+  end;
+  chkDuplicateNameChange(chkDuplicateName);
+end;
+
+procedure TfrmFindDlg.chkDuplicateHashChange(Sender: TObject);
+begin
+  if chkDuplicateHash.Checked then
+  begin
+    chkDuplicateSize.Checked:= True;
+    chkDuplicateContent.Checked:= False;
+  end;
   chkDuplicateNameChange(chkDuplicateName);
 end;
 
@@ -1050,7 +1066,11 @@ end;
 
 procedure TfrmFindDlg.chkDuplicateSizeChange(Sender: TObject);
 begin
-  if not chkDuplicateSize.Checked then chkDuplicateContent.Checked:= False;
+  if not chkDuplicateSize.Checked then
+  begin
+    chkDuplicateHash.Checked:= False;
+    chkDuplicateContent.Checked:= False;
+  end;
   chkDuplicateNameChange(chkDuplicateName);
 end;
 
@@ -1168,6 +1188,7 @@ begin
     Duplicates:= chkDuplicates.Checked;
     DuplicateName:= chkDuplicateName.Checked;
     DuplicateSize:= chkDuplicateSize.Checked;
+    DuplicateHash:= chkDuplicateHash.Checked;
     DuplicateContent:= chkDuplicateContent.Checked;
     { Plugins }
     SearchPlugin := cmbPlugin.Text;
@@ -2156,6 +2177,7 @@ begin
     chkDuplicates.Checked := Duplicates;
     chkDuplicateName.Checked := DuplicateName;
     chkDuplicateSize.Checked := DuplicateSize;
+    chkDuplicateHash.Checked := DuplicateHash;
     chkDuplicateContent.Checked := DuplicateContent;
     // plugins
     cmbPlugin.Text := SearchPlugin;

@@ -246,6 +246,7 @@ begin
           begin
             DuplicateName:= AConfig.GetValue(Node, 'Name', False);
             DuplicateSize:= AConfig.GetValue(Node, 'Size', False);
+            DuplicateHash:= AConfig.GetValue(Node, 'Hash', False);
             DuplicateContent:= AConfig.GetValue(Node, 'Content', False);
           end;
           // plugins
@@ -347,6 +348,7 @@ begin
       begin
         AConfig.AddValue(Node, 'Name', DuplicateName);
         AConfig.AddValue(Node, 'Size', DuplicateSize);
+        AConfig.AddValue(Node, 'Hash', DuplicateHash);
         AConfig.AddValue(Node, 'Content', DuplicateContent);
       end;
       // plugins

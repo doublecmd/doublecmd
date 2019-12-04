@@ -88,6 +88,7 @@ type
     Duplicates: Boolean;
     DuplicateName: Boolean;
     DuplicateSize: Boolean;
+    DuplicateHash: Boolean;
     DuplicateContent: Boolean;
     { Plugins }
     SearchPlugin: String;
