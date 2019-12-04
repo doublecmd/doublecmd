@@ -392,7 +392,7 @@ uses
   uSearchResultFileSource, uFile, uFileProperty, uColumnsFileView,
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
   DCOSUtils, RegExpr, uDebug, uShowMsg, uConvEncoding, uColumns,
-  uFileFunctions;
+  uFileFunctions, uFileSorting;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of integer = (0, 1, 2, 3, 4, 5, 6);
@@ -1753,6 +1753,7 @@ var
   DCFunc: String;
   AProperty: TFileVariantProperty;
   ANewSet: TPanelColumnsClass;
+  NewSorting: TFileSortings;
 begin
   StopSearch;
 
@@ -1801,6 +1802,14 @@ begin
     TColumnsFileView(NewPage.FileView).ActiveColmSlave:= ANewSet;
 
     TColumnsFileView(NewPage.FileView).UpdateColumnsView;
+
+    SetLength(NewSorting, 1);
+    SetLength(NewSorting[0].SortFunctions, 2);
+    NewSorting[0].SortFunctions[0] := fsfVariant;
+    NewSorting[0].SortFunctions[1] := fsfName;
+    NewSorting[0].SortDirection := sdAscending;
+
+    NewPage.FileView.Sorting:= NewSorting;
   end;
 
   NewPage.FileView.AddFileSource(SearchResultFS, SearchResultFS.GetRootDir);
