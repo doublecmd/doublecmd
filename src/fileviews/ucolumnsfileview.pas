@@ -778,12 +778,12 @@ procedure TColumnsFileView.SetColumnSet(const AName: String);
 begin
   if ColSet.Items.IndexOf(AName) >= 0 then
   begin
+    ActiveColm:= AName;
     if Assigned(ActiveColmSlave) then
     begin
       isSlave:= False;
       FreeAndNil(ActiveColmSlave);
     end;
-    ActiveColm:= AName;
     UpdateColumnsView;
     RedrawFiles;
   end;
