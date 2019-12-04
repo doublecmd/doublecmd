@@ -66,6 +66,7 @@ type
     actStart: TAction;
     actList: TActionList;
     Bevel2: TBevel;
+    Bevel3: TBevel;
     btnAddAttribute: TButton;
     btnAttrsHelp: TButton;
     btnClose: TButton;
@@ -100,6 +101,10 @@ type
     cbTextRegExp: TCheckBox;
     cbFindInArchive: TCheckBox;
     cbOpenedTabs: TCheckBox;
+    chkDuplicateContent: TCheckBox;
+    chkDuplicateSize: TCheckBox;
+    chkDuplicateName: TCheckBox;
+    chkDuplicates: TCheckBox;
     chkHex: TCheckBox;
     cmbExcludeDirectories: TComboBoxWithDelItems;
     cmbNotOlderThanUnit: TComboBox;
@@ -133,6 +138,7 @@ type
     miShowInEditor: TMenuItem;
     miShowAllFound: TMenuItem;
     miRemoveFromLlist: TMenuItem;
+    pnlDuplicates: TPanel;
     pnlDirectoriesDepth: TPanel;
     pnlLoadSaveBottomButtons: TPanel;
     pnlLoadSaveBottom: TPanel;
@@ -211,6 +217,10 @@ type
     procedure cbRegExpChange(Sender: TObject);
     procedure cbTextRegExpChange(Sender: TObject);
     procedure cbSelectedFilesChange(Sender: TObject);
+    procedure chkDuplicateContentChange(Sender: TObject);
+    procedure chkDuplicateNameChange(Sender: TObject);
+    procedure chkDuplicatesChange(Sender: TObject);
+    procedure chkDuplicateSizeChange(Sender: TObject);
     procedure chkHexChange(Sender: TObject);
     procedure cmbEncodingSelect(Sender: TObject);
     procedure cbFindTextChange(Sender: TObject);
@@ -301,6 +311,7 @@ type
     procedure OnAddAttribute(Sender: TObject);
     function InvalidRegExpr(AChecked: boolean; const ARegExpr: string): boolean;
     procedure SetWindowCaption(AWindowCaptionStyle: byte);
+    function ObjectType(Index: Integer): TCheckBoxState;
     function GetFileMask: String;
   public
     FoundedStringCopy: TStringList;
@@ -376,9 +387,10 @@ implementation
 uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
   uLng, uGlobs, uShowForm, uDCUtils, uFileSource, uFileSourceUtil,
-  uSearchResultFileSource, uFile,
+  uSearchResultFileSource, uFile, uFileProperty, uColumnsFileView,
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
-  DCOSUtils, RegExpr, uDebug, uShowMsg, uConvEncoding;
+  DCOSUtils, RegExpr, uDebug, uShowMsg, uConvEncoding, uColumns,
+  uFileFunctions;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of integer = (0, 1, 2, 3, 4, 5, 6);
@@ -1014,6 +1026,34 @@ begin
   cmbFindPathStart.Enabled := not cbSelectedFiles.Checked;
 end;
 
+procedure TfrmFindDlg.chkDuplicateContentChange(Sender: TObject);
+begin
+  if chkDuplicateContent.Checked then chkDuplicateSize.Checked:= True;
+  chkDuplicateNameChange(chkDuplicateName);
+end;
+
+procedure TfrmFindDlg.chkDuplicateNameChange(Sender: TObject);
+begin
+  if not (chkDuplicateName.Checked or chkDuplicateSize.Checked) then
+    chkDuplicates.Checked:= False;
+end;
+
+procedure TfrmFindDlg.chkDuplicatesChange(Sender: TObject);
+begin
+  pnlDuplicates.Enabled:= chkDuplicates.Checked;
+  if chkDuplicates.Checked then
+  begin
+    if not (chkDuplicateName.Checked or chkDuplicateSize.Checked) then
+      chkDuplicateName.Checked:= True;
+  end;
+end;
+
+procedure TfrmFindDlg.chkDuplicateSizeChange(Sender: TObject);
+begin
+  if not chkDuplicateSize.Checked then chkDuplicateContent.Checked:= False;
+  chkDuplicateNameChange(chkDuplicateName);
+end;
+
 procedure TfrmFindDlg.chkHexChange(Sender: TObject);
 begin
   if chkHex.Checked then
@@ -1124,6 +1164,11 @@ begin
     NotContainingText := cbNotContainingText.Checked;
     TextRegExp := cbTextRegExp.Checked;
     TextEncoding := cmbEncoding.Text;
+    { Duplicates }
+    Duplicates:= chkDuplicates.Checked;
+    DuplicateName:= chkDuplicateName.Checked;
+    DuplicateSize:= chkDuplicateSize.Checked;
+    DuplicateContent:= chkDuplicateContent.Checked;
     { Plugins }
     SearchPlugin := cmbPlugin.Text;
     frmContentPlugins.Save(FindOptions);
@@ -1608,7 +1653,7 @@ begin
   if pgcSearch.ActivePage = tsResults then
     if lsFoundedFiles.ItemIndex <> -1 then
     begin
-      if (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] <> nil) then
+      if (ObjectType(lsFoundedFiles.ItemIndex) = cbChecked) then
         msgError(rsMsgErrNotSupported)
       else
         ShowViewerByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
@@ -1621,7 +1666,7 @@ begin
   if pgcSearch.ActivePage = tsResults then
     if lsFoundedFiles.ItemIndex <> -1 then
     begin
-      if (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] <> nil) then
+      if (ObjectType(lsFoundedFiles.ItemIndex) = cbChecked) then
         msgError(rsMsgErrNotSupported)
       else
         ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
@@ -1640,7 +1685,7 @@ begin
     try
       StopSearch;
       TargetFile := lsFoundedFiles.Items[lsFoundedFiles.ItemIndex];
-      if (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] <> nil) then
+      if (ObjectType(lsFoundedFiles.ItemIndex) = cbChecked) then
       begin
         ArchiveFile := ExtractWord(1, TargetFile, [ReversePathDelim]);
         TargetFile := PathDelim + ExtractWord(2, TargetFile, [ReversePathDelim]);
@@ -1674,6 +1719,8 @@ end;
 
 { TfrmFindDlg.cm_FeedToListbox }
 procedure TfrmFindDlg.cm_FeedToListbox(const Params: array of string);
+const
+  PluginDuplicate = 'Plugin().Duplicate{}';
 var
   I: integer;
   sFileName: string;
@@ -1682,6 +1729,9 @@ var
   aFile: TFile;
   Notebook: TFileViewNotebook;
   NewPage: TFileViewPage;
+  DCFunc: String;
+  AProperty: TFileVariantProperty;
+  ANewSet: TPanelColumnsClass;
 begin
   StopSearch;
 
@@ -1691,6 +1741,12 @@ begin
     sFileName := lsFoundedFiles.Items[I];
     try
       aFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
+      if FLastSearchTemplate.SearchRecord.Duplicates then
+      begin
+        AProperty:= TFileVariantProperty.Create(PluginDuplicate);
+        AProperty.Value:= IntPtr(lsFoundedFiles.Items.Objects[I]);
+        aFile.Properties[fpVariant]:= AProperty;
+      end;
       FileList.AddSubNode(aFile);
     except
       on EFileNotFound do ;
@@ -1705,6 +1761,27 @@ begin
   // Add new tab for search results.
   Notebook := frmMain.ActiveNotebook;
   NewPage := Notebook.NewPage(Notebook.ActiveView);
+
+  if FLastSearchTemplate.SearchRecord.Duplicates then
+  begin
+    if not (NewPage.FileView is TColumnsFileView) then
+    begin
+      frmMain.Commands.cm_ColumnsView([]);
+    end;
+
+    ANewSet:= TPanelColumnsClass.Create;
+    DCFunc := '[' + sFuncTypeDC + '().%s{}]';
+    I:= Notebook.ActiveView.ClientWidth;
+    ANewSet.Add(rsFuncName, Format(DCFunc, [TFileFunctionStrings[fsfName]]), I * 40 div 100, taLeftJustify);
+    ANewSet.Add(rsFuncGroup, '[' + PluginDuplicate + ']', I * 20 div 100, taCenter);
+    ANewSet.Add(rsFuncPath, Format(DCFunc, [TFileFunctionStrings[fsfPath]]), I * 40 div 100, taLeftJustify);
+
+    TColumnsFileView(NewPage.FileView).isSlave:= True;
+    TColumnsFileView(NewPage.FileView).ActiveColmSlave:= ANewSet;
+
+    TColumnsFileView(NewPage.FileView).UpdateColumnsView;
+  end;
+
   NewPage.FileView.AddFileSource(SearchResultFS, SearchResultFS.GetRootDir);
   NewPage.FileView.FlatView := True;
   NewPage.MakeActive;
@@ -1880,6 +1957,20 @@ begin
   end;
 
   Caption := sBuildingCaptionName;
+end;
+
+function TfrmFindDlg.ObjectType(Index: Integer): TCheckBoxState;
+var
+  ATemp: TObject;
+  AValue: PtrInt absolute ATemp;
+begin
+  ATemp:= lsFoundedFiles.Items.Objects[Index];
+  if (ATemp) = nil then
+    Result:= cbUnchecked
+  else if (AValue = High(PtrInt)) then
+    Result:= cbChecked
+  else
+    Result:= cbGrayed;
 end;
 
 function TfrmFindDlg.GetFileMask: String;
@@ -2061,6 +2152,11 @@ begin
     cbNotContainingText.Checked := NotContainingText;
     cbTextRegExp.Checked := TextRegExp;
     cmbEncoding.Text := TextEncoding;
+    // duplicates
+    chkDuplicates.Checked := Duplicates;
+    chkDuplicateName.Checked := DuplicateName;
+    chkDuplicateSize.Checked := DuplicateSize;
+    chkDuplicateContent.Checked := DuplicateContent;
     // plugins
     cmbPlugin.Text := SearchPlugin;
     frmContentPlugins.Load(Template);
@@ -2410,8 +2506,8 @@ procedure TfrmFindDlg.PopupMenuFindPopup(Sender: TObject);
 begin
   if (lsFoundedFiles.ItemIndex <> -1) then
   begin
-    miShowInViewer.Enabled:= (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] = nil);
-    miShowInEditor.Enabled:= (lsFoundedFiles.Items.Objects[lsFoundedFiles.ItemIndex] = nil);
+    miShowInViewer.Enabled:= (ObjectType(lsFoundedFiles.ItemIndex) <> cbChecked);
+    miShowInEditor.Enabled:= (ObjectType(lsFoundedFiles.ItemIndex) <> cbChecked);
   end;
 end;
 
