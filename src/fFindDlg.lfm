@@ -931,7 +931,7 @@ object frmFindDlg: TfrmFindDlg
           BevelOuter = bvNone
           ChildSizing.HorizontalSpacing = 8
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
-          ChildSizing.ControlsPerLine = 3
+          ChildSizing.ControlsPerLine = 4
           ClientHeight = 19
           ClientWidth = 259
           Enabled = False
@@ -954,6 +954,15 @@ object frmFindDlg: TfrmFindDlg
             OnChange = chkDuplicateSizeChange
             TabOrder = 1
           end
+          object chkDuplicateHash: TCheckBox
+            Left = 89
+            Height = 19
+            Top = 0
+            Width = 70
+            Caption = 'same hash'
+            OnChange = chkDuplicateHashChange
+            TabOrder = 2
+          end
           object chkDuplicateContent: TCheckBox
             Left = 167
             Height = 19
@@ -961,7 +970,7 @@ object frmFindDlg: TfrmFindDlg
             Width = 92
             Caption = 'same content'
             OnChange = chkDuplicateContentChange
-            TabOrder = 2
+            TabOrder = 3
           end
         end
         object Bevel3: TBevel

@@ -66,6 +66,7 @@ type
     FTimeSearchEnd:TTime;
     FTimeOfScan:TTime;
 
+    FBuffer: TBytes;
     FFoundIndex: IntPtr;
     FDuplicateIndex: Integer;
     FDuplicates: TStringHashListUtf8;
@@ -104,7 +105,7 @@ implementation
 
 uses
   LCLProc, LazUtf8, StrUtils, LConvEncoding, DCStrUtils,
-  uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils,
+  uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils, uHash,
   uLog, uWCXmodule, WcxPlugin, Math, uDCUtils, uConvEncoding, DCDateTimeUtils;
 
 function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
@@ -194,6 +195,9 @@ begin
     end;
     FExcludeDirectories := TMaskList.Create(ExcludeDirectories);
   end;
+
+  if FSearchTemplate.Duplicates and FSearchTemplate.DuplicateHash then
+    SetLength(FBuffer, gHashBlockSize);
 
   FTimeSearchStart:=0;
   FTimeSearchEnd:=0;
@@ -618,10 +622,39 @@ end;
 function TFindThread.CheckDuplicate(const Folder: String; const sr: TSearchRecEx): Boolean;
 var
   AKey: String;
+  AHash: String;
   Index: IntPtr;
   AData: TDuplicate;
+  AFileName: String;
   AValue: String = '';
   AStart, AFinish: Integer;
+
+  function FileHash(Size: Int64): Boolean;
+  var
+    Handle: THandle;
+    BytesRead: Integer;
+    BytesToRead: Integer;
+    Context: THashContext;
+  begin
+    Handle:= mbFileOpen(AFileName, fmOpenRead or fmShareDenyWrite);
+    Result:= (Handle <> feInvalidHandle);
+    if Result then
+    begin
+      HashInit(Context, HASH_BLAKE2S);
+      BytesToRead:= Length(FBuffer);
+      while (Size > 0) and (not Terminated) do
+      begin
+        if (Size < BytesToRead) then BytesToRead:= Size;
+        BytesRead := FileRead(Handle, FBuffer[0], BytesToRead);
+        if (BytesRead < 0) then Break;
+        HashUpdate(Context, FBuffer[0], BytesRead);
+        Dec(Size, BytesRead);
+      end;
+      FileClose(Handle);
+      Result:= (Size = 0);
+      HashFinal(Context, AHash);
+    end;
+  end;
 
   function CompareFiles(fn1, fn2: String; len: Int64): Boolean;
   const
@@ -660,6 +693,11 @@ var
   end;
 
 begin
+  AFileName:= Folder + PathDelim + sr.Name;
+
+  if (FPS_ISDIR(sr.Attr) or FileIsLinkToDirectory(AFileName, sr.Attr)) then
+    Exit(False);
+
   if FSearchTemplate.DuplicateName then
   begin
     if FileNameCaseSensitive then
@@ -670,6 +708,14 @@ begin
 
   if FSearchTemplate.DuplicateSize then
     AValue+= IntToStr(sr.Size);
+
+  if FSearchTemplate.DuplicateHash then
+  begin
+    if FileHash(sr.Size) then
+      AValue+= AHash
+    else
+      Exit(False);
+  end;
 
   Index:= FDuplicates.Find(AValue);
   Result:= (Index >= 0);
@@ -686,7 +732,7 @@ begin
         AData:= TDuplicate(FDuplicates.List[Index]^.Data);
 
         if FSearchTemplate.DuplicateContent then
-          Result:= CompareFiles(AData.Name, Folder + PathDelim + sr.Name, sr.Size)
+          Result:= CompareFiles(AData.Name, AFileName, sr.Size)
         else begin
           Result:= True;
         end;
@@ -709,8 +755,8 @@ begin
   if not Result then
   begin
     AData:= TDuplicate.Create;
-    AData.Name:= Folder + PathDelim + sr.Name;
-    Index:= FDuplicates.Add(AValue, AData);
+    AData.Name:= AFileName;
+    FDuplicates.Add(AValue, AData);
   end;
 end;
 
