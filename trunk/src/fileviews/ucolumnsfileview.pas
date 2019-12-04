@@ -778,6 +778,11 @@ procedure TColumnsFileView.SetColumnSet(const AName: String);
 begin
   if ColSet.Items.IndexOf(AName) >= 0 then
   begin
+    if Assigned(ActiveColmSlave) then
+    begin
+      isSlave:= False;
+      FreeAndNil(ActiveColmSlave);
+    end;
     ActiveColm:= AName;
     UpdateColumnsView;
     RedrawFiles;
@@ -794,6 +799,11 @@ begin
   else
     begin
       ActiveColm:=ColSet.Items[(Sender as TMenuItem).Tag];
+      if Assigned(ActiveColmSlave) then
+      begin
+        isSlave:= False;
+        FreeAndNil(ActiveColmSlave);
+      end;
       UpdateColumnsView;
       RedrawFiles;
     end;
