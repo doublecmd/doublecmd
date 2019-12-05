@@ -39,6 +39,7 @@
 {"hash":39455530,"name":"tfrmfinddlg.chkduplicates.caption","sourcebytes":[70,105,110,100,32,100,117,38,112,108,105,99,97,116,101,32,102,105,108,101,115,58],"value":"Find du&plicate files:"},
 {"hash":58146741,"name":"tfrmfinddlg.chkduplicatename.caption","sourcebytes":[115,97,109,101,32,110,97,109,101],"value":"same name"},
 {"hash":58194565,"name":"tfrmfinddlg.chkduplicatesize.caption","sourcebytes":[115,97,109,101,32,115,105,122,101],"value":"same size"},
+{"hash":58102040,"name":"tfrmfinddlg.chkduplicatehash.caption","sourcebytes":[115,97,109,101,32,104,97,115,104],"value":"same hash"},
 {"hash":266181940,"name":"tfrmfinddlg.chkduplicatecontent.caption","sourcebytes":[115,97,109,101,32,99,111,110,116,101,110,116],"value":"same content"},
 {"hash":121364483,"name":"tfrmfinddlg.tsplugins.caption","sourcebytes":[80,108,117,103,105,110,115],"value":"Plugins"},
 {"hash":125449178,"name":"tfrmfinddlg.cbuseplugin.caption","sourcebytes":[38,85,115,101,32,115,101,97,114,99,104,32,112,108,117,103,105,110,58],"value":"&Use search plugin:"},
