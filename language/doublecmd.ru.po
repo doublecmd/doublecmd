@@ -300,7 +300,7 @@ msgstr "Объём данных теста: %d Мб"
 
 #: tfrmbenchmark.stgresult.columns[0].title.caption
 msgid "Hash"
-msgstr "Хэш-функция"
+msgstr "Хеш-функция"
 
 #: tfrmbenchmark.stgresult.columns[1].title.caption
 msgid "Time (ms)"
@@ -1617,7 +1617,7 @@ msgstr "по содержимому"
 
 #: tfrmfinddlg.chkduplicatehash.caption
 msgid "same hash"
-msgstr "по хэшу"
+msgstr "по хешу"
 
 #: tfrmfinddlg.chkduplicatename.caption
 msgid "same name"
@@ -5832,7 +5832,7 @@ msgstr "Ра&змер буфера для файловых операций (К�
 
 #: tfrmoptionsfileoperations.lblhashbuffersize.caption
 msgid "Buffer size for &hash calculation (in KB):"
-msgstr "Размер буфера для вычисления &хэша (Кб):"
+msgstr "Размер буфера для вычисления &хеша (Кб):"
 
 #: tfrmoptionsfileoperations.lblprogresskind.caption
 msgid "Show operations progress &initially in"
