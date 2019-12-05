@@ -1581,6 +1581,26 @@ msgstr "Tijd tot:"
 msgid "&Use search plugin:"
 msgstr "&Gebruik invoegsel voor zoeken:"
 
+#: tfrmfinddlg.chkduplicatecontent.caption
+msgid "same content"
+msgstr ""
+
+#: tfrmfinddlg.chkduplicatehash.caption
+msgid "same hash"
+msgstr ""
+
+#: tfrmfinddlg.chkduplicatename.caption
+msgid "same name"
+msgstr ""
+
+#: tfrmfinddlg.chkduplicates.caption
+msgid "Find du&plicate files:"
+msgstr ""
+
+#: tfrmfinddlg.chkduplicatesize.caption
+msgid "same size"
+msgstr ""
+
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
 msgid "Hexadeci&mal"
@@ -7555,9 +7575,10 @@ msgid "Apply current settings to all configured filenames and paths"
 msgstr ""
 
 #: tfrmoptionstoolbarextra.ckbtoolbarcommand.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarcommand.caption"
 msgid "Commands"
-msgstr ""
+msgstr "Opdrachten"
 
 #: tfrmoptionstoolbarextra.ckbtoolbaricons.caption
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbaricons.caption"
@@ -7565,28 +7586,32 @@ msgid "Icons"
 msgstr "Pictogrammen"
 
 #: tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.ckbtoolbarstartpath.caption"
 msgid "Starting paths"
-msgstr ""
+msgstr "Beginpaden"
 
 #: tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.gbtoolbaroptionsextra.caption"
 msgid "Paths"
-msgstr ""
+msgstr "Paden"
 
 #: tfrmoptionstoolbarextra.lblapplysettingsfor.caption
 msgid "Do this for files and paths for:"
 msgstr ""
 
 #: tfrmoptionstoolbarextra.lbpathtoberelativeto.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.lbpathtoberelativeto.caption"
 msgid "Path to be relative to:"
-msgstr ""
+msgstr "Pad moet relatief zijn tot:"
 
 #: tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption
+#, fuzzy
 msgctxt "tfrmoptionstoolbarextra.lbtoolbarfilenamestyle.caption"
 msgid "Way to set paths when adding elements for icons, commands and starting paths:"
-msgstr ""
+msgstr "Manier om paden in te stellen bij het toevoegen van elementen voor pictogrammen, opdrachten en beginpaden:"
 
 #: tfrmoptionstoolbase.btnrelativetoolpath.hint
 msgctxt "TFRMOPTIONSTOOLBASE.BTNRELATIVETOOLPATH.HINT"
@@ -11747,9 +11772,10 @@ msgid "Change Archiver Listing Encoding"
 msgstr ""
 
 #: ulng.rsoptarchiverconfirmdelete
+#, fuzzy
 msgctxt "ulng.rsoptarchiverconfirmdelete"
 msgid "Are you sure you want to delete: \"%s\"?"
-msgstr ""
+msgstr "Weet u zeker dat u '%s' wilt verwijderen?"
 
 #: ulng.rsoptarchiverdefaultexportfilename
 msgid "Exported Archiver Configuration"

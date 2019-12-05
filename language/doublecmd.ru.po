@@ -1611,6 +1611,26 @@ msgstr "В&ремя до:"
 msgid "&Use search plugin:"
 msgstr "&Использовать поисковый плагин:"
 
+#: tfrmfinddlg.chkduplicatecontent.caption
+msgid "same content"
+msgstr "по содержимому"
+
+#: tfrmfinddlg.chkduplicatehash.caption
+msgid "same hash"
+msgstr "по хэшу"
+
+#: tfrmfinddlg.chkduplicatename.caption
+msgid "same name"
+msgstr "по имени"
+
+#: tfrmfinddlg.chkduplicates.caption
+msgid "Find du&plicate files:"
+msgstr "Поиск дубликатов:"
+
+#: tfrmfinddlg.chkduplicatesize.caption
+msgid "same size"
+msgstr "по размеру"
+
 #: tfrmfinddlg.chkhex.caption
 msgctxt "tfrmfinddlg.chkhex.caption"
 msgid "Hexadeci&mal"
