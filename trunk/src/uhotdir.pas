@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Load/Save/WorkingWith HotDir
 
-   Copyright (C) 2014-2018  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2019  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -157,8 +157,8 @@ uses
   crc, Graphics, Forms, lazutf8,
 
   //DC
-  DCFileAttributes, uDebug, uDCUtils, fMain, uFile,  uLng, DCOSUtils, uGlobs,
-  uSpecialDir
+  DCFileAttributes, uDebug, uDCUtils, fMain, uFile,  uLng, DCOSUtils, DCStrUtils,
+  uGlobs, uSpecialDir
 {$IFDEF MSWINDOWS}
   ,uTotalCommander
 {$ENDIF}
@@ -662,8 +662,8 @@ begin
                   LocalHotDir.HotDirPathSort := AConfig.GetAttr(Anode, 'PathSort', 0);
                   LocalHotDir.HotDirTarget := AConfig.GetAttr(ANode, 'Target', '');
                   LocalHotDir.HotDirTargetSort := AConfig.GetAttr(Anode, 'TargetSort', 0);
-                  if LocalHotDir.HotDirPath<>'' then LocalHotDir.HotDirPath:=ExcludeTrailingPathDelimiter(LocalHotDir.HotDirPath);
-                  if LocalHotDir.HotDirTarget<>'' then LocalHotDir.HotDirTarget:=ExcludeTrailingPathDelimiter(LocalHotDir.HotDirTarget);
+                  if LocalHotDir.HotDirPath<>'' then LocalHotDir.HotDirPath:=ExcludeBackPathDelimiter(LocalHotDir.HotDirPath);
+                  if LocalHotDir.HotDirTarget<>'' then LocalHotDir.HotDirTarget:=ExcludeBackPathDelimiter(LocalHotDir.HotDirTarget);
                   LocalHotDir.Dispatcher := hd_CHANGEPATH;
                 end
                 else
@@ -1114,11 +1114,11 @@ begin
 
               if UTF8Pos('cm_', UTF8LowerCase(sPath)) = 0 then //Make sure it's not a command
               begin
-                if sPath <> '' then sPath := ExcludeTrailingPathDelimiter(sPath); //Not an obligation but DC convention seems to like a backslash at the end
+                if sPath <> '' then sPath := ExcludeBackPathDelimiter(sPath); //Not an obligation but DC convention seems to like a backslash at the end
 
                 sTarget := ReplaceTCEnvVars(ConvertTCStringToString(ConfigFile.ReadString(CONFIGFILE_SECTIONNAME, CONFIGFILE_TARGETPREFIX + IntToStr(Index), '')));
                 if UTF8Length(sTarget) > 3 then if UTF8Pos('cd ', UTF8LowerCase(sTarget)) = 1 then sTarget := UTF8Copy(sTarget, 4, UTF8Length(sTarget) - 3);
-                if sTarget <> '' then sTarget := ExcludeTrailingPathDelimiter(sTarget); //Not an obligation but DC convention seems to like a backslash at the end
+                if sTarget <> '' then sTarget := ExcludeBackPathDelimiter(sTarget); //Not an obligation but DC convention seems to like a backslash at the end
 
                 LocalHotDir.Dispatcher := hd_CHANGEPATH;
                 LocalHotDir.HotDirPath := sPath;
