@@ -531,6 +531,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     ClientHeight = 170
     ClientWidth = 312
     Constraints.MinWidth = 300
+    ParentBackground = False
+    ParentColor = False
     ParentFont = False
     TabOrder = 9
     Visible = False
