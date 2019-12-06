@@ -45,7 +45,12 @@ begin
     TThread.Synchronize(nil, @ShowModalSync);
 
     if (ModalResult <> mrOK) then
-      Result:= mmrCancel
+    begin
+      if chkElevateAll.Checked then
+        Result:= mmrSkipAll
+      else
+        Result:= mmrSkip
+    end
     else begin
       if chkElevateAll.Checked then
         Result:= mmrAll

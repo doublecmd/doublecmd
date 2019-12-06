@@ -101,7 +101,11 @@ begin
   Text += Message + LineEnding + FileName;
   case ShowElevation(mbSysErrorMessage, Text) of
     mmrOK: Result:= True;
-    mmrCancel: Result:= False;
+    mmrSkip: Result:= False;
+    mmrSkipAll: begin
+      Result:= False;
+      ElevateAction:= dupError;
+    end;
     mmrAll: begin
       Result:= True;
       ElevateAction:= dupAccept;
