@@ -1305,6 +1305,7 @@ object frmFindDlg: TfrmFindDlg
             BevelOuter = bvNone
             ClientHeight = 33
             ClientWidth = 740
+            Enabled = False
             TabOrder = 2
             object pnlResultsBottomButtons: TPanel
               Left = 426
@@ -1541,18 +1542,22 @@ object frmFindDlg: TfrmFindDlg
     end
     object actView: TAction
       Caption = '&View'
+      Enabled = False
       OnExecute = actExecute
     end
     object actEdit: TAction
       Caption = '&Edit'
+      Enabled = False
       OnExecute = actExecute
     end
     object actGoToFile: TAction
       Caption = '&Go to file'
+      Enabled = False
       OnExecute = actExecute
     end
     object actFeedToListbox: TAction
       Caption = 'Feed to &listbox'
+      Enabled = False
       OnExecute = actExecute
     end
     object actPageStandard: TAction

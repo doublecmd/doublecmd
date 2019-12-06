@@ -4,7 +4,7 @@
    Find dialog, with searching in thread
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ const
 
 type
   { TfrmFindDlg }
-  TfrmFindDlg = class(TForm, IFormCommands)
+  TfrmFindDlg = class(TForm, IFormCommands, IFPObserver)
     actIntelliFocus: TAction;
     actCancel: TAction;
     actClose: TAction;
@@ -300,6 +300,7 @@ type
     procedure AfterSearchStopped;  //update button states after stop search(ThreadTerminate call this method)
     procedure AfterSearchFocus;     //set correct focus after search stopped
 
+    procedure FPOObservedChanged(ASender: TObject; Operation: TFPObservedOperation; Data: Pointer);
     procedure FillFindOptions(out FindOptions: TSearchTemplateRec; SetStartPath: boolean);
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
                                         out SRec: TDsxSearchRecord);
@@ -325,6 +326,7 @@ type
     procedure ClearFilter(bClearSearchLocation: boolean = True);
     procedure ClearResults;
     procedure ThreadTerminate(Sender: TObject);
+    procedure EnableControls(AEnabled: Boolean);
     procedure FocusOnResults(Sender: TObject); // if press VK_LEFT or VK_RIGHT when on any button on left panel  - focus on results and remember button in FRButtonPanelSender
   published
     procedure cm_IntelliFocus(const {%H-}Params: array of string);
@@ -886,6 +888,7 @@ begin
   lsFoundedFiles.Tag := 0;
   lsFoundedFiles.ScrollWidth := 0;
   FoundedStringCopy.Clear;
+  EnableControls(False);
 end;
 
 { TfrmFindDlg.btnSearchLoadClick }
@@ -977,9 +980,9 @@ procedure TfrmFindDlg.cbFindInArchiveChange(Sender: TObject);
 begin
   EnableControl(cbReplaceText, cbFindText.Checked and not cbFindInArchive.Checked);
   if cbReplaceText.Checked then cbReplaceText.Checked := cbReplaceText.Enabled;
-  actView.Enabled := not cbFindInArchive.Checked;
-  actEdit.Enabled := not cbFindInArchive.Checked;
-  actFeedToListbox.Enabled := not cbFindInArchive.Checked;
+  actView.Enabled := pnlResultsBottom.Enabled and (not cbFindInArchive.Checked);
+  actEdit.Enabled := pnlResultsBottom.Enabled and (not cbFindInArchive.Checked);
+  actFeedToListbox.Enabled := pnlResultsBottom.Enabled and (not cbFindInArchive.Checked);
   cbReplaceTextChange(cbReplaceText);
 end;
 
@@ -1295,6 +1298,7 @@ begin
     FSearchWithWDXPluginInProgress := False;
     gSearchWithWDXPluginInProgress := False;
   end;
+  FoundedStringCopy.FPODetachObserver(Self);
 end;
 
 { TfrmFindDlg.AfterSearchFocus }
@@ -1327,6 +1331,16 @@ begin
           btnStart.SetFocus;
       end;
     end;
+  end;
+end;
+
+procedure TfrmFindDlg.FPOObservedChanged(ASender: TObject;
+  Operation: TFPObservedOperation; Data: Pointer);
+begin
+  if Operation = ooChange then
+  begin
+    FoundedStringCopy.FPODetachObserver(Self);
+    EnableControls(FoundedStringCopy.Count > 0);
   end;
 end;
 
@@ -1416,6 +1430,15 @@ begin
   SetWindowCaption(wcs_EndSearch);
   AfterSearchStopped;
   AfterSearchFocus;
+end;
+
+procedure TfrmFindDlg.EnableControls(AEnabled: Boolean);
+begin
+  actView.Enabled:= AEnabled;
+  actEdit.Enabled:= AEnabled;
+  actGoToFile.Enabled:= AEnabled;
+  actFeedToListbox.Enabled:= AEnabled;
+  pnlResultsBottom.Enabled:= AEnabled;
 end;
 
 { TfrmFindDlg.FocusOnResults }
@@ -1545,6 +1568,8 @@ begin
     TmpTemplate := SearchTemplate;
     TmpTemplate.StartPath := ''; // Don't remember starting path.
     FLastSearchTemplate.SearchRecord := TmpTemplate;
+
+    FoundedStringCopy.FPOAttachObserver(Self);
 
     try
       if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex <> -1) then
