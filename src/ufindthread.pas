@@ -640,7 +640,7 @@ var
     Result:= (Handle <> feInvalidHandle);
     if Result then
     begin
-      HashInit(Context, HASH_BLAKE2S);
+      HashInit(Context, HASH_BEST);
       BytesToRead:= Length(FBuffer);
       while (Size > 0) and (not Terminated) do
       begin
