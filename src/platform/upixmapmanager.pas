@@ -783,13 +783,15 @@ begin
     if (mbFileAge(gpCfgDir + pixmaps_cache) = mTime) and
        (mbFileAccess(gpCfgDir + pixmaps_cache, fmOpenRead)) and
        (mbFileSize(gpCfgDir + pixmaps_cache) > SizeOf(DWord) * 2) then
-    begin
-      cache := TFileStreamEx.Create(gpCfgDir + pixmaps_cache, fmOpenRead);
+    try
+      cache := TFileStreamEx.Create(gpCfgDir + pixmaps_cache, fmOpenRead or fmShareDenyWrite);
       if (cache.ReadDWord <> NtoBE(cache_signature)) or
          (cache.ReadDWord <> cache_version) then
       begin
         FreeAndNil(cache);
       end;
+    except
+      cache:= nil;
     end;
 
     if Assigned(cache) then
@@ -874,7 +876,7 @@ begin
 
         // save to cache
         try
-          cache := TFileStreamEx.Create(gpCfgDir + pixmaps_cache, fmCreate);
+          cache := TFileStreamEx.Create(gpCfgDir + pixmaps_cache, fmCreate or fmShareDenyWrite);
           try
             cache.WriteDWord(NtoBE(cache_signature));
             cache.WriteDWord(cache_version);
@@ -904,12 +906,9 @@ begin
       end;
 
   finally
-    if Assigned(globs) then
-      FreeAndNil(globs);
-    if Assigned(generic_icons) then
-      FreeAndNil(generic_icons);
-    if Assigned(cache) then
-      FreeAndNil(cache);
+    FreeAndNil(globs);
+    FreeAndNil(generic_icons);
+    FreeAndNil(cache);
   end;
 end;
 
