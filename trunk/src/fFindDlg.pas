@@ -220,7 +220,6 @@ type
     procedure cbSelectedFilesChange(Sender: TObject);
     procedure chkDuplicateContentChange(Sender: TObject);
     procedure chkDuplicateHashChange(Sender: TObject);
-    procedure chkDuplicateNameChange(Sender: TObject);
     procedure chkDuplicatesChange(Sender: TObject);
     procedure chkDuplicateSizeChange(Sender: TObject);
     procedure chkHexChange(Sender: TObject);
@@ -874,6 +873,9 @@ begin
   cmbEncoding.ItemIndex := 0;
   cmbEncodingSelect(nil);
 
+  // duplicates
+  chkDuplicates.Checked:= False;
+
   // plugins
   cmbPlugin.Text := '';
 
@@ -1037,7 +1039,6 @@ begin
     chkDuplicateSize.Checked:= True;
     chkDuplicateHash.Checked:= False;
   end;
-  chkDuplicateNameChange(chkDuplicateName);
 end;
 
 procedure TfrmFindDlg.chkDuplicateHashChange(Sender: TObject);
@@ -1047,13 +1048,6 @@ begin
     chkDuplicateSize.Checked:= True;
     chkDuplicateContent.Checked:= False;
   end;
-  chkDuplicateNameChange(chkDuplicateName);
-end;
-
-procedure TfrmFindDlg.chkDuplicateNameChange(Sender: TObject);
-begin
-  if not (chkDuplicateName.Checked or chkDuplicateSize.Checked) then
-    chkDuplicates.Checked:= False;
 end;
 
 procedure TfrmFindDlg.chkDuplicatesChange(Sender: TObject);
@@ -1073,7 +1067,6 @@ begin
     chkDuplicateHash.Checked:= False;
     chkDuplicateContent.Checked:= False;
   end;
-  chkDuplicateNameChange(chkDuplicateName);
 end;
 
 procedure TfrmFindDlg.chkHexChange(Sender: TObject);
@@ -1530,6 +1523,9 @@ begin
     cbSelectedFiles.Checked := False;
     Exit;
   end;
+
+  if not (chkDuplicateName.Checked or chkDuplicateSize.Checked) then
+    chkDuplicates.Checked:= False;
 
   // Show search results page
   pgcSearch.ActivePage := tsResults;

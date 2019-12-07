@@ -942,7 +942,6 @@ object frmFindDlg: TfrmFindDlg
             Top = 0
             Width = 81
             Caption = 'same name'
-            OnChange = chkDuplicateNameChange
             TabOrder = 0
           end
           object chkDuplicateSize: TCheckBox
