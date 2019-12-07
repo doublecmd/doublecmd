@@ -45,7 +45,7 @@ const
 
 type
   { TfrmFindDlg }
-  TfrmFindDlg = class(TForm, IFormCommands, IFPObserver)
+  TfrmFindDlg = class(TForm, IFormCommands)
     actIntelliFocus: TAction;
     actCancel: TAction;
     actClose: TAction;
@@ -300,10 +300,10 @@ type
     procedure AfterSearchStopped;  //update button states after stop search(ThreadTerminate call this method)
     procedure AfterSearchFocus;     //set correct focus after search stopped
 
-    procedure FPOObservedChanged(ASender: TObject; Operation: TFPObservedOperation; Data: Pointer);
     procedure FillFindOptions(out FindOptions: TSearchTemplateRec; SetStartPath: boolean);
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
                                         out SRec: TDsxSearchRecord);
+    procedure FoundedStringCopyAdded(Sender: TObject);
     procedure FoundedStringCopyChanged(Sender: TObject);
     procedure LoadTemplate(const Template: TSearchTemplateRec);
     procedure LoadSelectedTemplate;
@@ -639,7 +639,6 @@ begin
   DsxPlugins := TDSXModuleList.Create;
   DsxPlugins.Assign(gDSXPlugins);
   FoundedStringCopy := TStringListTemp.Create;
-  FoundedStringCopy.OnChange := @FoundedStringCopyChanged;
   FFreeOnClose := False;
   FAtLeastOneSearchWasDone := False;
   FSearchWithDSXPluginInProgress := False;
@@ -1298,7 +1297,6 @@ begin
     FSearchWithWDXPluginInProgress := False;
     gSearchWithWDXPluginInProgress := False;
   end;
-  FoundedStringCopy.FPODetachObserver(Self);
 end;
 
 { TfrmFindDlg.AfterSearchFocus }
@@ -1334,13 +1332,13 @@ begin
   end;
 end;
 
-procedure TfrmFindDlg.FPOObservedChanged(ASender: TObject;
-  Operation: TFPObservedOperation; Data: Pointer);
+procedure TfrmFindDlg.FoundedStringCopyAdded(Sender: TObject);
 begin
-  if Operation = ooChange then
+  if FoundedStringCopy.Count > 0 then
   begin
-    FoundedStringCopy.FPODetachObserver(Self);
-    EnableControls(FoundedStringCopy.Count > 0);
+    EnableControls(True);
+    FoundedStringCopyChanged(Sender);
+    FoundedStringCopy.OnChange:= @FoundedStringCopyChanged;
   end;
 end;
 
@@ -1569,7 +1567,7 @@ begin
     TmpTemplate.StartPath := ''; // Don't remember starting path.
     FLastSearchTemplate.SearchRecord := TmpTemplate;
 
-    FoundedStringCopy.FPOAttachObserver(Self);
+    FoundedStringCopy.OnChange:= @FoundedStringCopyAdded;
 
     try
       if (cbUsePlugin.Checked) and (cmbPlugin.ItemIndex <> -1) then
