@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains UTF-8 versions of Find(First, Next, Close) functions
 
-    Copyright (C) 2006-2018 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -44,13 +44,12 @@ const
 
 type
 {$IFDEF UNIX}
-  TUnixFindData = record
+  TUnixFindHandle = record
     DirPtr: PDir;      //en> directory pointer for reading directory
     FindPath: String;  //en> file name path
     Mask: TMask;       //en> object that will check mask
-    StatRec: Stat;     //en> Unix stat record
   end;
-  PUnixFindData = ^TUnixFindData;
+  PUnixFindHandle = ^TUnixFindHandle;
 {$ENDIF}
 
   PSearchRecEx = ^TSearchRecEx;
@@ -60,14 +59,13 @@ type
     Attr : TFileAttrs;
     Name : String;
     Flags : UInt32;
-{$ifdef unix}
-    FindHandle : Pointer;
-{$else unix}
+{$IF DEFINED(MSWINDOWS)}
     FindHandle : THandle;
-{$endif unix}
-{$if defined(Win32) or defined(WinCE) or defined(Win64)}
     FindData : Windows.TWin32FindDataW;
-{$endif}
+{$ELSE}
+    FindHandle : Pointer;
+    FindData : BaseUnix.Stat;
+{$ENDIF}
   end;
 
 function FindFirstEx(const Path: String; Flags: UInt32; out SearchRec: TSearchRecEx): Integer;
@@ -110,15 +108,15 @@ begin
 end;
 {$ELSE}
 var
-  UnixFindData: PUnixFindData absolute SearchRec.FindHandle;
+  UnixFindHandle: PUnixFindHandle absolute SearchRec.FindHandle;
 begin
   Result:= -1;
-  if UnixFindData = nil then Exit;
-  if (UnixFindData^.Mask = nil) or UnixFindData^.Mask.Matches(SearchRec.Name) then
+  if UnixFindHandle = nil then Exit;
+  if (UnixFindHandle^.Mask = nil) or UnixFindHandle^.Mask.Matches(SearchRec.Name) then
   begin
-    if fpLStat(UTF8ToSys(UnixFindData^.FindPath + SearchRec.Name), @UnixFindData^.StatRec) >= 0 then
+    if fpLStat(UTF8ToSys(UnixFindHandle^.FindPath + SearchRec.Name), @SearchRec.FindData) >= 0 then
     begin
-      with UnixFindData^.StatRec do
+      with SearchRec.FindData do
       begin
         SearchRec.Size:= Int64(st_size);
         SearchRec.Time:= DCBasicTypes.TFileTime(st_mtime);
@@ -151,15 +149,15 @@ begin
 end;
 {$ELSE}
 var
-  UnixFindData: PUnixFindData;
+  UnixFindHandle: PUnixFindHandle;
 begin
-  New(UnixFindData);
+  New(UnixFindHandle);
 
   SearchRec.Flags:= Flags;
-  SearchRec.FindHandle:= UnixFindData;
-  FillChar(UnixFindData^, SizeOf(TUnixFindData), 0);
+  SearchRec.FindHandle:= UnixFindHandle;
+  FillChar(UnixFindHandle^, SizeOf(TUnixFindHandle), 0);
 
-  with UnixFindData^ do
+  with UnixFindHandle^ do
   begin
     FindPath:= ExtractFileDir(Path);
     if FindPath = '' then begin
@@ -204,12 +202,12 @@ end;
 {$ELSE}
 var
   PtrDirEnt: pDirent;
-  UnixFindData: PUnixFindData absolute SearchRec.FindHandle;
+  UnixFindHandle: PUnixFindHandle absolute SearchRec.FindHandle;
 begin
   Result:= -1;
-  if UnixFindData = nil then Exit;
-  if UnixFindData^.DirPtr = nil then Exit;
-  PtrDirEnt:= fpReadDir(UnixFindData^.DirPtr^);
+  if UnixFindHandle = nil then Exit;
+  if UnixFindHandle^.DirPtr = nil then Exit;
+  PtrDirEnt:= fpReadDir(UnixFindHandle^.DirPtr^);
   while PtrDirEnt <> nil do
   begin
     SearchRec.Name:= CeSysToUtf8(PtrDirEnt^.d_name);
@@ -217,7 +215,7 @@ begin
     if Result = 0 then // if found then exit
       Exit
     else // else read next
-      PtrDirEnt:= fpReadDir(UnixFindData^.DirPtr^);
+      PtrDirEnt:= fpReadDir(UnixFindHandle^.DirPtr^);
   end;
 end;
 {$ENDIF}
@@ -230,14 +228,14 @@ begin
 end;
 {$ELSE}
 var
-  UnixFindData: PUnixFindData absolute SearchRec.FindHandle;
+  UnixFindHandle: PUnixFindHandle absolute SearchRec.FindHandle;
 begin
-  if UnixFindData = nil then Exit;
-  if UnixFindData^.DirPtr <> nil then
-    fpCloseDir(UnixFindData^.DirPtr^);
-  if Assigned(UnixFindData^.Mask) then
-    UnixFindData^.Mask.Free;
-  Dispose(UnixFindData);
+  if UnixFindHandle = nil then Exit;
+  if UnixFindHandle^.DirPtr <> nil then
+    fpCloseDir(UnixFindHandle^.DirPtr^);
+  if Assigned(UnixFindHandle^.Mask) then
+    UnixFindHandle^.Mask.Free;
+  Dispose(UnixFindHandle);
   SearchRec.FindHandle:= nil;
 end;
 {$ENDIF}

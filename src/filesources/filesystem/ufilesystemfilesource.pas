@@ -332,7 +332,7 @@ begin
 
   FillFromStat(Result,
                APath + pSearchRecord^.Name,
-               @(PUnixFindData(pSearchRecord^.FindHandle)^.StatRec));
+               @pSearchRecord^.FindData);
 
 {$ELSE}
 
