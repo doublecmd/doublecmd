@@ -72,6 +72,7 @@ uses
 
 procedure HashInit(out Context: THashContext; Algorithm: THashAlgorithm);
 begin
+{$PUSH}{$WARNINGS OFF}
   if (Algorithm = HASH_BEST) then
   begin
     if SizeOf(UIntPtr) = Sizeof(UInt64) then
@@ -79,6 +80,7 @@ begin
     else
       Algorithm:= HASH_BLAKE2S;
   end;
+{$POP}
   case Algorithm of
     HASH_BLAKE2S:    Context:= TDCP_blake2s.Create(nil);
     HASH_BLAKE2SP:   Context:= TDCP_blake2sp.Create(nil);
