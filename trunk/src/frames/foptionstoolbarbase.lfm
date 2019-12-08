@@ -949,6 +949,45 @@ inherited frmOptionsToolbarBase: TfrmOptionsToolbarBase
         Visible = False
         OnClick = btnInternalParametersHelperClick
       end
+      object lblStyle: TLabel
+        AnchorSideTop.Side = asrBottom
+        Left = 12
+        Height = 20
+        Top = 328
+        Width = 76
+        BorderSpacing.Left = 12
+        BorderSpacing.Top = 12
+        Caption = 'Style:'
+        ParentColor = False
+      end
+      object rbSeparator: TRadioButton
+        AnchorSideLeft.Control = lblStyle
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = lblStyle
+        AnchorSideTop.Side = asrCenter
+        Left = 100
+        Height = 24
+        Top = 326
+        Width = 89
+        BorderSpacing.Left = 12
+        Caption = 'Separator'
+        Checked = True
+        TabOrder = 13
+        TabStop = True
+      end
+      object rbSpace: TRadioButton
+        AnchorSideLeft.Control = rbSeparator
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = rbSeparator
+        AnchorSideTop.Side = asrCenter
+        Left = 201
+        Height = 24
+        Top = 326
+        Width = 64
+        BorderSpacing.Left = 12
+        Caption = 'Space'
+        TabOrder = 14
+      end
     end
   end
   object pnToolbars: TPanel[3]
