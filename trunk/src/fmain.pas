@@ -2844,9 +2844,13 @@ var
     AToolbar.AddButton(CommandItem);
   end;
 
-  procedure AddSeparator;
+  procedure AddSeparator(Style: Boolean = False);
+  var
+    SeparatorItem: TKASSeparatorItem;
   begin
-    AToolbar.AddButton(TKASSeparatorItem.Create);
+    SeparatorItem:= TKASSeparatorItem.Create;
+    SeparatorItem.Style:= Style;
+    AToolbar.AddButton(SeparatorItem);
   end;
 
 var
@@ -2895,7 +2899,7 @@ begin
       AddCommand('cm_Edit');
       AddCommand('cm_Copy');
       AddCommand('cm_Rename');
-      AddSeparator;
+      AddSeparator(True);
       AddCommand('cm_PackFiles');
       AddCommand('cm_MakeDir');
       SaveToolBar(MiddleToolBar);
