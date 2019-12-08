@@ -1087,7 +1087,8 @@ procedure TKASToolDivider.CalculatePreferredSize(var PreferredWidth,
   PreferredHeight: integer; WithThemeSpace: Boolean);
 begin
   if Assigned(Parent) and (Parent is TKASToolBar) and
-     not TKASToolBar(Parent).FShowDividerAsButton then
+     (not TKASSeparatorItem(FToolItem).Style) and
+     (not TKASToolBar(Parent).FShowDividerAsButton) then
   begin
     if ToolBar.IsVertical then
     begin
@@ -1111,6 +1112,8 @@ begin
   if Assigned(Parent) and (Parent is TKASToolBar) and
      not TKASToolBar(Parent).FShowDividerAsButton then
   begin
+    if TKASSeparatorItem(FToolItem).Style then Exit;
+
     DividerRect:= ClientRect;
 
     if ToolBar.IsVertical then

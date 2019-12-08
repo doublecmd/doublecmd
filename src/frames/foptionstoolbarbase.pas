@@ -57,6 +57,7 @@ type
     cbShowCaptions: TCheckBox;
     edtExternalParameters: TEdit;
     edtExternalCommand: TEdit;
+    lblStyle: TLabel;
     lblHelpOnInternalCommand: TLabel;
     lblHotkeyValue: TLabel;
     edtStartPath: TEdit;
@@ -112,6 +113,8 @@ type
     pnlEditToolbar: TPanel;
     pnlToolbarButtons: TPanel;
     pmInsertButtonMenu: TPopupMenu;
+    rbSeparator: TRadioButton;
+    rbSpace: TRadioButton;
     ReplaceDialog: TReplaceDialog;
     rgToolItemType: TRadioGroup;
     btnOpenIcon: TSpeedButton;
@@ -411,7 +414,13 @@ begin
     begin
       ToolItem := FCurrentButton.ToolItem;
       if ToolItem is TKASSeparatorItem then
+      begin
         ButtonTypeIndex := 0;
+        if TKASSeparatorItem(ToolItem).Style then
+          rbSpace.Checked := True
+        else
+          rbSeparator.Checked := True;
+      end;
       if ToolItem is TKASNormalItem then
       begin
         EnableNormal := True;
@@ -515,6 +524,10 @@ begin
   btnCloneButton.Visible := Assigned(FCurrentButton);
   btnDeleteButton.Visible := Assigned(FCurrentButton);
   rgToolItemType.Visible := Assigned(FCurrentButton);
+
+  lblStyle.Visible := not (EnableNormal or EnableCommand or EnableProgram);
+  rbSeparator.Visible := lblStyle.Visible;
+  rbSpace.Visible := lblStyle.Visible;
 end;
 
 procedure TfrmOptionsToolbarBase.LoadToolbar(ToolBar: TKASToolBar; Config: TXmlConfig; RootNode: TXmlNode; ConfigurationLoadType: TTypeOfConfigurationLoad);
@@ -625,6 +638,10 @@ begin
   if Assigned(FCurrentButton) then
   begin
     ToolItem := FCurrentButton.ToolItem;
+    if ToolItem is TKASSeparatorItem then
+    begin
+      TKASSeparatorItem(ToolItem).Style:= rbSpace.Checked;
+    end;
     if ToolItem is TKASNormalItem then
     begin
       NormalItem := TKASNormalItem(ToolItem);
@@ -1421,7 +1438,10 @@ const
     sInnerParam: string;
   begin
     if ToolItem is TKASSeparatorItem then
+    begin
       Result := crc32(Result, @CONSTFORTOOLITEM[1], 1);
+      Result := crc32(Result, @TKASSeparatorItem(ToolItem).Style, SizeOf(TKASSeparatorItem(ToolItem).Style));
+    end;
     if ToolItem is TKASCommandItem then
     begin
       Result := crc32(Result, @CONSTFORTOOLITEM[2], 1);
