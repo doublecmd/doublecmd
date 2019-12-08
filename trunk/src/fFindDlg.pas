@@ -781,6 +781,8 @@ begin
   gbFindData.Visible := False;
   tsResults.TabVisible := False;
   actPageResults.Enabled := False;
+  chkDuplicates.Visible:= False;
+  pnlDuplicates.Visible:= False;
   if mmMainMenu <> nil then FreeAndNil(mmMainMenu);
 end;
 
