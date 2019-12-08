@@ -4781,7 +4781,7 @@ begin
     end;
 
     sMaybeMenuItem := GetUserChoiceFromTreeViewMenuLoadedFromPopupMenu(frmMain.pmFavoriteTabs, tvmcFavoriteTabs, p.X, p.Y, iWantedWidth, iWantedHeight);
-    if sMaybeMenuItem <> nil then sMaybeMenuItem.OnClick(sMaybeMenuItem);
+    if sMaybeMenuItem <> nil then sMaybeMenuItem.Click;
   end
   else
   begin
