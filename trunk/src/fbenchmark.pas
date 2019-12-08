@@ -78,7 +78,6 @@ procedure TBenchmarkOperation.MainExecute;
 var
   ASize: Int64;
   AHash: String;
-  ACount: Integer;
   ARandom: isaac_ctx;
   ABufferSize: Integer;
   Context: THashContext;
@@ -94,7 +93,7 @@ begin
   FStatistics.TotalFiles := (Length(HashName) - 1);
   FStatistics.TotalBytes:= ASize * FStatistics.TotalFiles;
 
-  for Index := Low(THashAlgorithm) to High(THashAlgorithm) do
+  for Index := Low(THashAlgorithm) to Pred(High(THashAlgorithm)) do
   begin
     if Index = HASH_SFV then Continue;
 
