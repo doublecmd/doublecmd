@@ -376,6 +376,8 @@ end;
 procedure TKASSeparatorItem.Assign(OtherItem: TKASToolItem);
 begin
   inherited Assign(OtherItem);
+  if OtherItem is TKASSeparatorItem then
+    Style := TKASSeparatorItem(OtherItem).Style;
 end;
 
 function TKASSeparatorItem.Clone: TKASToolItem;
