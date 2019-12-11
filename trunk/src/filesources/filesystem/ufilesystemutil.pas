@@ -159,7 +159,7 @@ uses
   StrUtils, DCDateTimeUtils, uShowMsg, Forms, LazUTF8, uHash;
 
 const
-  HASH_TYPE = HASH_BLAKE2S;
+  HASH_TYPE = HASH_BEST;
 
 function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String; overload;
 begin
