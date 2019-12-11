@@ -280,8 +280,9 @@ var
 begin
   for Index:= Low(WatchPaths) to High(WatchPaths) do
   begin
+    if (Pos('\\', WatchPaths[Index]) = 1) then Exit(False);
     DrivePath:= UnicodeString(Copy(WatchPaths[Index], 1, 3));
-    if GetDriveTypeW(PWideChar(DrivePath)) = DRIVE_REMOTE then Exit(False)
+    if GetDriveTypeW(PWideChar(DrivePath)) = DRIVE_REMOTE then Exit(False);
   end;
   Result:= True;
 end;
