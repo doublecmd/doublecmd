@@ -111,10 +111,9 @@ type
     class function CreateByArchiveName(anArchiveFileSource: IFileSource;
                                        anArchiveFileName: String): IMultiArchiveFileSource;
     {en
-       Returns @true if there is an addon registered for the archive type
-       (only extension is checked).
+       Returns @true if there is an addon registered for the archive name.
     }
-    class function CheckAddonByExt(anArchiveType: String): Boolean;
+    class function CheckAddonByName(const anArchiveFileName: String): Boolean;
 
     property Password: String read GetPassword;
     property ArchiveFileList: TObjectList read GetArcFileList;
@@ -177,7 +176,7 @@ begin
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
 
-    if MatchesMaskList(anArchiveType, aMultiArcItem.FExtension, ',') and (aMultiArcItem.FEnabled) then
+    if (aMultiArcItem.FEnabled) and MatchesMaskList(anArchiveType, aMultiArcItem.FExtension, ',') then
     begin
       Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
                                                anArchiveFileName,
@@ -192,12 +191,30 @@ end;
 class function TMultiArchiveFileSource.CreateByArchiveName(
     anArchiveFileSource: IFileSource;
     anArchiveFileName: String): IMultiArchiveFileSource;
+var
+  I: Integer;
+  aMultiArcItem: TMultiArcItem;
 begin
-  Result:= CreateByArchiveType(anArchiveFileSource, anArchiveFileName,
-                               ExtractOnlyFileExt(anArchiveFileName));
+  Result := nil;
+
+  // Check if there is a registered addon for the archive file name.
+  for I := 0 to gMultiArcList.Count - 1 do
+  begin
+    aMultiArcItem:= gMultiArcList.Items[I];
+
+    if (aMultiArcItem.FEnabled) and aMultiArcItem.Matches(anArchiveFileName) then
+    begin
+      Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
+                                               anArchiveFileName,
+                                               aMultiArcItem);
+
+      DCDebug('Found registered addon "' + aMultiArcItem.FDescription + '" for archive ' + anArchiveFileName);
+      Break;
+    end;
+  end;
 end;
 
-class function TMultiArchiveFileSource.CheckAddonByExt(anArchiveType: String): Boolean;
+class function TMultiArchiveFileSource.CheckAddonByName(const anArchiveFileName: String): Boolean;
 var
   I: Integer;
   aMultiArcItem: TMultiArcItem;
@@ -205,7 +222,7 @@ begin
   for I := 0 to gMultiArcList.Count - 1 do
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
-    if MatchesMaskList(anArchiveType, aMultiArcItem.FExtension, ',') and (aMultiArcItem.FEnabled) then
+    if (aMultiArcItem.FEnabled) and aMultiArcItem.Matches(anArchiveFileName) then
       Exit(True);
   end;
   Result := False;

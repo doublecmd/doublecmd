@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementation of multi archiver support
 
-   Copyright (C) 2010-2018  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2019  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ unit uMultiArc;
 interface
 
 uses
-  Classes, SysUtils, DCBasicTypes;
+  Classes, SysUtils, DCBasicTypes, uMasks;
 
 const
   MaxSignSize = 1024;
@@ -100,6 +100,8 @@ type
 
   TMultiArcItem = class
   private
+    FExt: String;
+    FMaskList: TMaskList;
     FSeekAfterSignPos: Boolean;
     FSignature,
     FSignaturePosition: AnsiString;
@@ -107,13 +109,13 @@ type
     FSignatureList: TSignatureList;
     FSignaturePositionList: TSignaturePositionList;
     function GetSignatureSeekRange: AnsiString;
+    procedure SetExtension(const AValue: String);
     procedure SetSignature(const AValue: AnsiString);
     procedure SetSignaturePosition(const AValue: AnsiString);
     procedure SetSignatureSeekRange(const AValue: AnsiString);
   public
     FArchiver,
     FDescription,
-    FExtension,
     FStart,
     FEnd: String;
     FFormat: TStringList;
@@ -133,8 +135,10 @@ type
     FDebug: Boolean;
     constructor Create;
     destructor Destroy; override;
+    function Matches(const AFileName: String): Boolean;
     function CanYouHandleThisFile(const FileName: String): Boolean;
     function Clone: TMultiArcItem;
+    property FExtension: String read FExt write SetExtension;
     property FID: AnsiString read FSignature write SetSignature;
     property FIDPos: AnsiString read FSignaturePosition write SetSignaturePosition;
     property FIDSeekRange: AnsiString read GetSignatureSeekRange write SetSignatureSeekRange;
@@ -169,7 +173,8 @@ type
 implementation
 
 uses
-  crc, LCLProc, StrUtils, Math, FileUtil, DCClassesUtf8, uDCUtils, DCOSUtils;
+  crc, LCLProc, StrUtils, Math, FileUtil, DCClassesUtf8, uDCUtils, DCOSUtils,
+  DCStrUtils;
 
 { TMultiArcList }
 
@@ -433,6 +438,26 @@ begin
     Result:= IntToStr(FSignatureSeekRange);
 end;
 
+procedure TMultiArcItem.SetExtension(const AValue: String);
+var
+  AMask: String;
+  Index: Integer;
+  AMaskList: TStringArray;
+begin
+  if FExt <> AValue then
+  begin
+    FExt:= AValue;
+    AMask:= EmptyStr;
+    FreeAndNil(FMaskList);
+    AMaskList:= SplitString(AValue, ',');
+    for Index:= Low(AMaskList) to High(AMaskList) do
+    begin
+      AddStrWithSep(AMask, AllFilesMask + ExtensionSeparator + AMaskList[Index], ',');
+    end;
+    FMaskList:= TMaskList.Create(AMask, ',');
+  end;
+end;
+
 procedure TMultiArcItem.SetSignature(const AValue: AnsiString);
 var
   I: Integer;
@@ -504,10 +529,19 @@ end;
 
 destructor TMultiArcItem.Destroy;
 begin
-  FreeThenNil(FSignatureList);
-  FreeThenNil(FSignaturePositionList);
-  FreeThenNil(FFormat);
+  FreeAndNil(FMaskList);
+  FreeAndNil(FSignatureList);
+  FreeAndNil(FSignaturePositionList);
+  FreeAndNil(FFormat);
   inherited Destroy;
+end;
+
+function TMultiArcItem.Matches(const AFileName: String): Boolean;
+begin
+  if (FMaskList = nil) then
+    Result:= False
+  else
+    Result:= FMaskList.Matches(AFileName);
 end;
 
 function TMultiArcItem.CanYouHandleThisFile(const FileName: String): Boolean;

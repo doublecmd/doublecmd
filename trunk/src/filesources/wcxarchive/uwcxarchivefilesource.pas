@@ -114,10 +114,9 @@ type
                                        anArchiveFileName: String;
                                        bIncludeHidden: Boolean = False): IWcxArchiveFileSource;
     {en
-       Returns @true if there is a plugin registered for the archive type
-       (only extension is checked).
+       Returns @true if there is a plugin registered for the archive name.
     }
-    class function CheckPluginByExt(anArchiveType: String): Boolean;
+    class function CheckPluginByName(const anArchiveFileName: String): Boolean;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; override;
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation); override;
@@ -145,7 +144,7 @@ implementation
 
 uses
   LazUTF8, uDebug, DCStrUtils, uDCUtils, uGlobs, DCOSUtils, uShowMsg,
-  DCDateTimeUtils, uLng, uLog,
+  DCDateTimeUtils, uLng, uLog, uMasks,
   DCConvertEncoding,
   DCFileAttributes,
   FileUtil, uCryptProc,
@@ -294,7 +293,7 @@ begin
             end
           else if ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) = PK_CAPS_HIDE) then
             begin
-              bFound:= SameText(ExtractOnlyFileExt(anArchiveFileName), gWCXPlugins.Ext[I]);
+              bFound:= MatchesMask(anArchiveFileName, AllFilesMask + ExtensionSeparator + gWCXPlugins.Ext[I]);
               if bFound then Break;
             end;
         end;
@@ -324,7 +323,7 @@ begin
   // Check if there is a registered plugin for the extension of the archive file name.
   for i := 0 to gWCXPlugins.Count - 1 do
   begin
-    if SameText(anArchiveType, gWCXPlugins.Ext[i]) and (gWCXPlugins.Enabled[i]) and
+    if (gWCXPlugins.Enabled[i]) and SameText(anArchiveType, gWCXPlugins.Ext[i]) and
        ((bIncludeHidden) or ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) <> PK_CAPS_HIDE)) then
     begin
       ModuleFileName := gWCXPlugins.FileName[I];
@@ -343,19 +342,42 @@ end;
 class function TWcxArchiveFileSource.CreateByArchiveName(
   anArchiveFileSource: IFileSource; anArchiveFileName: String;
   bIncludeHidden: Boolean): IWcxArchiveFileSource;
-begin
-  Result:= CreateByArchiveType(anArchiveFileSource, anArchiveFileName,
-                               ExtractOnlyFileExt(anArchiveFileName),
-                               bIncludeHidden);
-end;
-
-class function TWcxArchiveFileSource.CheckPluginByExt(anArchiveType: String): Boolean;
 var
   i: Integer;
+  aMask: String;
+  ModuleFileName: String;
+begin
+  Result := nil;
+
+  // Check if there is a registered plugin for the archive file name.
+  for i := 0 to gWCXPlugins.Count - 1 do
+  begin
+    aMask:= AllFilesMask + ExtensionSeparator + gWCXPlugins.Ext[i];
+    if (gWCXPlugins.Enabled[i]) and MatchesMask(anArchiveFileName, aMask) and
+       ((bIncludeHidden) or ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) <> PK_CAPS_HIDE)) then
+    begin
+      ModuleFileName := gWCXPlugins.FileName[I];
+
+      Result := TWcxArchiveFileSource.Create(anArchiveFileSource,
+                                             anArchiveFileName,
+                                             ModuleFileName,
+                                             gWCXPlugins.Flags[I]);
+
+      DCDebug('Found registered plugin ' + ModuleFileName + ' for archive ' + anArchiveFileName);
+      break;
+    end;
+  end;
+end;
+
+class function TWcxArchiveFileSource.CheckPluginByName(const anArchiveFileName: String): Boolean;
+var
+  i: Integer;
+  aMask: String;
 begin
   for i := 0 to gWCXPlugins.Count - 1 do
   begin
-    if SameText(anArchiveType, gWCXPlugins.Ext[i]) and (gWCXPlugins.Enabled[i]) then
+    aMask:= AllFilesMask + ExtensionSeparator + gWCXPlugins.Ext[i];
+    if (gWCXPlugins.Enabled[i]) and MatchesMask(anArchiveFileName, aMask) then
       Exit(True);
   end;
   Result := False;
