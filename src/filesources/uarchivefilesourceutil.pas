@@ -50,17 +50,14 @@ begin
   if not (fspDirectAccess in SourceFileSource.Properties) then
     Exit(nil);
 
-  if (ArchiveType = EmptyStr) and (ArchiveSign = False) then
-  begin
-    ArchiveType := ExtractOnlyFileExt(ArchiveFileName);
-  end;
-
   // Check if there is a registered WCX plugin for possible archive.
   Result := FileSourceManager.Find(TWcxArchiveFileSource, ArchiveFileName) as IArchiveFileSource;
   if not Assigned(Result) then
   begin
     if ArchiveSign then
       Result := TWcxArchiveFileSource.CreateByArchiveSign(SourceFileSource, ArchiveFileName)
+    else if (ArchiveType = EmptyStr) then
+      Result := TWcxArchiveFileSource.CreateByArchiveName(SourceFileSource, ArchiveFileName)
     else
       Result := TWcxArchiveFileSource.CreateByArchiveType(SourceFileSource, ArchiveFileName, ArchiveType, IncludeHidden);
   end;
@@ -72,6 +69,8 @@ begin
     begin
       if ArchiveSign then
         Result := TMultiArchiveFileSource.CreateByArchiveSign(SourceFileSource, ArchiveFileName)
+      else if (ArchiveType = EmptyStr) then
+        Result := TMultiArchiveFileSource.CreateByArchiveName(SourceFileSource, ArchiveFileName)
       else
         Result := TMultiArchiveFileSource.CreateByArchiveType(SourceFileSource, ArchiveFileName, ArchiveType);
     end;
@@ -119,16 +118,11 @@ begin
   if (not Assigned(Result)) and
      (fsoCopyOut in SourceFileSource.GetOperationsTypes) then
   begin
-    if (ArchiveType = EmptyStr) and (ArchiveSign = False) then
-    begin
-      ArchiveType := ArchiveFile.Extension;
-    end;
-
     // If checking by extension we don't have to unpack files yet.
     // First check if there is a registered plugin for the archive extension.
     if (not ArchiveSign) and
-       (not (TWcxArchiveFileSource.CheckPluginByExt(ArchiveType) or
-             TMultiArchiveFileSource.CheckAddonByExt(ArchiveType))) then
+       (not (TWcxArchiveFileSource.CheckPluginByName(ArchiveFile.Name) or
+             TMultiArchiveFileSource.CheckAddonByName(ArchiveFile.Name))) then
     begin
       // No registered handlers for the archive extension.
       Exit;
@@ -248,12 +242,9 @@ begin
 end;
 
 function FileIsArchive(const FileName: String): Boolean;
-var
-  ArchiveType: String;
 begin
-  ArchiveType:= ExtractOnlyFileExt(FileName);
-  Result:= TWcxArchiveFileSource.CheckPluginByExt(ArchiveType) or
-           TMultiArchiveFileSource.CheckAddonByExt(ArchiveType);
+  Result:= TWcxArchiveFileSource.CheckPluginByName(FileName) or
+           TMultiArchiveFileSource.CheckAddonByName(FileName);
 end;
 
 procedure FillAndCount(Files: TFiles; out NewFiles: TFiles;
