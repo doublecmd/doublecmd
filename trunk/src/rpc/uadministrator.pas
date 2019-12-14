@@ -38,18 +38,9 @@ type
 
   { TFileStreamUAC class }
 
-  TFileStreamUAC = class(THandleStream)
-  private
-    FHandle: THandle;
-    FFileName: String;
-  protected
-    procedure SetSize64(const NewSize: Int64); override;
+  TFileStreamUAC = class(TFileStreamEx)
   public
-    constructor Create(const AFileName: String; Mode: LongWord);
-    destructor Destroy; override;
-    function Flush: Boolean;
-    function Read(var Buffer; Count: LongInt): LongInt; override;
-    property FileName: String read FFileName;
+    constructor Create(const AFileName: String; Mode: LongWord); override;
   end;
 
   { TStringListUAC }
@@ -391,49 +382,27 @@ end;
 
 { TFileStreamUAC }
 
-procedure TFileStreamUAC.SetSize64(const NewSize: Int64);
-begin
-  FileAllocate(FHandle, NewSize);
-end;
-
 constructor TFileStreamUAC.Create(const AFileName: String; Mode: LongWord);
+var
+  AHandle: System.THandle;
 begin
   if (Mode and fmCreate) <> 0 then
     begin
-      FHandle:= FileCreateUAC(AFileName, Mode);
-      if FHandle = feInvalidHandle then
+      AHandle:= FileCreateUAC(AFileName, Mode);
+      if AHandle = feInvalidHandle then
         raise EFCreateError.CreateFmt(SFCreateError, [AFileName])
       else
-        inherited Create(FHandle);
+        inherited Create(AHandle);
     end
   else
     begin
-      FHandle:= FileOpenUAC(AFileName, Mode);
-      if FHandle = feInvalidHandle then
+      AHandle:= FileOpenUAC(AFileName, Mode);
+      if AHandle = feInvalidHandle then
         raise EFOpenError.CreateFmt(SFOpenError, [AFilename])
       else
-        inherited Create(FHandle);
+        inherited Create(AHandle);
     end;
   FFileName:= AFileName;
-end;
-
-destructor TFileStreamUAC.Destroy;
-begin
-  inherited Destroy;
-  // Close handle after destroying the base object, because it may use Handle in Destroy.
-  if FHandle <> feInvalidHandle then FileClose(FHandle);
-end;
-
-function TFileStreamUAC.Flush: Boolean;
-begin
-  Result:= FileFlush(FHandle);
-end;
-
-function TFileStreamUAC.Read(var Buffer; Count: LongInt): LongInt;
-begin
-  Result:= FileRead(FHandle, Buffer, Count);
-  if Result = -1 then
-    raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
 end;
 
 { TStringListUAC }
