@@ -71,6 +71,7 @@ type
     FSourceFileSource: IFileSource;
     FCustomParams: String;
     procedure SwitchOptions(ArcTypeChange: Boolean);
+    procedure ChangeArchiveExt(const FileExt: String);
     procedure AddArchiveType(const FileExt, ArcType: String);
   public
     { public declarations }
@@ -192,6 +193,7 @@ begin
     with PackDialog do
       begin
         FArchiveType:= 'none';
+        FArchiveExt:= ExtensionSeparator + FArchiveType;
         FSourceFileSource:= SourceFileSource;
         if bNewArchive then  // create new archive
           begin
@@ -397,6 +399,7 @@ end;
 procedure TfrmPackDlg.cbCreateSFXClick(Sender: TObject);
 var
   State: Boolean;
+  ANewExt: String;
 begin
   if cbCreateSFX.Tag = 0 then
   begin
@@ -404,10 +407,11 @@ begin
     // Save check box state
     State:= cbCreateSFX.Checked;
     if State then
-      FArchiveExt:= GetSfxExt
-    else
-      FArchiveExt:= ExtensionSeparator + FArchiveType;
-    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, FArchiveExt);
+      ANewExt:= GetSfxExt
+    else begin
+      ANewExt:= ExtensionSeparator + FArchiveType;
+    end;
+    ChangeArchiveExt(ANewExt);
     // Switch archiver options
     SwitchOptions(False);
     // Restore check box state
@@ -421,8 +425,6 @@ begin
   if cbOtherPlugins.Checked then
     begin
       FArchiveType:= cbPackerList.Text;
-      FArchiveExt:= ExtensionSeparator + FArchiveType;
-      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, FArchiveExt);
       rgPacker.ItemIndex := -1;
     end
   else
@@ -433,6 +435,7 @@ begin
   FCustomParams:= EmptyStr;
   cbPackerList.Enabled := cbOtherPlugins.Checked;
   SwitchOptions(True);
+  ChangeArchiveExt(FArchiveType);
 end;
 
 procedure TfrmPackDlg.cbPutInTarFirstChange(Sender: TObject);
@@ -457,14 +460,13 @@ end;
 procedure TfrmPackDlg.arbChange(Sender: TObject);
 begin
   if rgPacker.ItemIndex >= 0 then
-    begin
-      FArchiveType:= rgPacker.Items[rgPacker.ItemIndex];
-      FArchiveExt:= ExtensionSeparator + FArchiveType;
-      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, FArchiveExt);
-      cbOtherPlugins.Checked := False;
-    end;
+  begin
+    FArchiveType:= rgPacker.Items[rgPacker.ItemIndex];
+    cbOtherPlugins.Checked := False;
+  end;
   FCustomParams:= EmptyStr;
   SwitchOptions(True);
+  ChangeArchiveExt(FArchiveType);
 end;
 
 procedure TfrmPackDlg.SwitchOptions(ArcTypeChange: Boolean); // Ugly but working
@@ -499,8 +501,9 @@ begin
       end
       else
         begin
+          sCmd:= LowerCase(FArchiveType);
           cbPutInTarFirst.Checked:= False;
-          EnableControl(cbPutInTarFirst, True);
+          EnableControl(cbPutInTarFirst, not ((sCmd = 'tar') or StrBegins(sCmd, 'tar.')));
           cbCreateSeparateArchives.Checked:= False;
         end;
       // Options that supported by plugins
@@ -545,8 +548,9 @@ begin
             end;
         end
         else begin
+          sCmd:= LowerCase(FArchiveType);
           cbPutInTarFirst.Checked:= False;
-          EnableControl(cbPutInTarFirst, True);
+          EnableControl(cbPutInTarFirst, not ((sCmd = 'tar') or StrBegins(sCmd, 'tar.')));
           cbCreateSeparateArchives.Checked:= False;
         end;
 
@@ -556,6 +560,19 @@ begin
         Exit;
       end;
     end;
+end;
+
+procedure TfrmPackDlg.ChangeArchiveExt(const FileExt: String);
+var
+  AOldExt: String;
+begin
+  AOldExt:= FTarExt + FArchiveExt;
+  if StrBegins(FileExt, ExtensionSeparator) then
+    FArchiveExt:= FTarExt + FileExt
+  else begin
+    FArchiveExt:= FTarExt + ExtensionSeparator + FileExt;
+  end;
+  edtPackCmd.Text:= StringReplace(edtPackCmd.Text, AOldExt, FArchiveExt, [rfIgnoreCase]);
 end;
 
 procedure TfrmPackDlg.AddArchiveType(const FileExt, ArcType: String);
