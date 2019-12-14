@@ -155,19 +155,18 @@ end;
 
 procedure TStringListEx.SaveToFile(const FileName: String);
 var
-  fsFileStream: TFileStreamEx = nil;
+  AMode: LongWord;
+  fsFileStream: TFileStreamEx;
 begin
+  if not mbFileExists(FileName) then
+    AMode:= fmCreate
+  else begin
+    AMode:= fmOpenWrite or fmShareDenyWrite;
+  end;
+  fsFileStream:= TFileStreamEx.Create(FileName, AMode);
   try
-    if mbFileExists(FileName) then
-      begin
-        fsFileStream:= TFileStreamEx.Create(FileName, fmOpenWrite or fmShareDenyWrite);
-        fsFileStream.Position:= 0;
-        fsFileStream.Size:= 0;
-      end
-    else
-      fsFileStream:= TFileStreamEx.Create(FileName, fmCreate);
-
     SaveToStream(fsFileStream);
+    if (AMode <> fmCreate) then fsFileStream.Size:= fsFileStream.Position;
   finally
     fsFileStream.Free;
   end;
