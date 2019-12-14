@@ -89,6 +89,7 @@ function fpMkTime(tm: PTimeStruct): TTime;
 function fpLocalTime(timer: PTime; tp: PTimeStruct): PTimeStruct;
 
 {$IF DEFINED(LINUX)}
+function fpFDataSync(fd: cint): cint;
 function fpFAllocate(fd: cint; mode: cint; offset, len: coff_t): cint;
 {$ENDIF}
 
@@ -116,6 +117,7 @@ function mktime(tp: PTimeStruct): TTime; cdecl; external clib;
 function localtime_r(timer: PTime; tp: PTimeStruct): PTimeStruct; cdecl; external clib;
 function lchown(path : PChar; owner : TUid; group : TGid): cInt; cdecl; external clib;
 {$IF DEFINED(LINUX)}
+function fdatasync(fd: cint): cint; cdecl; external clib;
 function fallocate(fd: cint; mode: cint; offset, len: coff_t): cint; cdecl; external clib;
 {$ENDIF}
 
@@ -196,6 +198,12 @@ begin
 end;
 
 {$IF DEFINED(LINUX)}
+function fpFDataSync(fd: cint): cint;
+begin
+  Result := fdatasync(fd);
+  if Result = -1 then fpseterrno(fpgetCerrno);
+end;
+
 function fpFAllocate(fd: cint; mode: cint; offset, len: coff_t): cint;
 begin
   Result := fallocate(fd, mode, offset, len);
