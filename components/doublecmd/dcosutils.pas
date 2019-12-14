@@ -160,6 +160,7 @@ function mbRenameFile(const OldName: String; NewName: String): Boolean;
 function mbFileSize(const FileName: String): Int64;
 function FileGetSize(Handle: System.THandle): Int64;
 function FileFlush(Handle: System.THandle): Boolean;
+function FileFlushData(Handle: System.THandle): Boolean;
 function FileAllocate(Handle: System.THandle; Size: Int64): Boolean;
 { Directory handling functions}
 function mbGetCurrentDir: String;
@@ -1101,6 +1102,17 @@ end;
 begin
   Result:= (fpfsync(Handle) = 0);
 end;  
+{$ENDIF}
+
+function FileFlushData(Handle: System.THandle): Boolean; inline;
+{$IF DEFINED(LINUX)}
+begin
+  Result:= (fpFDataSync(Handle) = 0);
+end;
+{$ELSE}
+begin
+  Result:= FileFlush(Handle);
+end;
 {$ENDIF}
 
 function FileAllocate(Handle: System.THandle; Size: Int64): Boolean;
