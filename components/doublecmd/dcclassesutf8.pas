@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This module contains classes with UTF8 file names support.
 
-   Copyright (C) 2008-2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,13 +34,11 @@ type
   { TFileStreamEx class }
 
   TFileStreamEx = class(THandleStream)
-  private
-    FHandle: THandle;
-    FFileName: String;
   protected
+    FFileName: String;
     procedure SetSize64(const NewSize: Int64); override;
   public
-    constructor Create(const AFileName: String; Mode: LongWord);
+    constructor Create(const AFileName: String; Mode: LongWord); virtual; overload;
     destructor Destroy; override;
     function Flush: Boolean;
     function Read(var Buffer; Count: LongInt): LongInt; override;
@@ -78,26 +76,28 @@ uses
 
 procedure TFileStreamEx.SetSize64(const NewSize: Int64);
 begin
-  FileAllocate(FHandle, NewSize);
+  FileAllocate(Handle, NewSize);
 end;
 
 constructor TFileStreamEx.Create(const AFileName: String; Mode: LongWord);
+var
+  AHandle: System.THandle;
 begin
   if (Mode and fmCreate) <> 0 then
     begin
-      FHandle:= mbFileCreate(AFileName, Mode);
-      if FHandle = feInvalidHandle then
+      AHandle:= mbFileCreate(AFileName, Mode);
+      if AHandle = feInvalidHandle then
         raise EFCreateError.CreateFmt(SFCreateError, [AFileName])
       else
-        inherited Create(FHandle);
+        inherited Create(AHandle);
     end
   else
     begin 
-      FHandle:= mbFileOpen(AFileName, Mode);
-      if FHandle = feInvalidHandle then
+      AHandle:= mbFileOpen(AFileName, Mode);
+      if AHandle = feInvalidHandle then
         raise EFOpenError.CreateFmt(SFOpenError, [AFilename])
       else
-        inherited Create(FHandle);
+        inherited Create(AHandle);
     end;
   FFileName:= AFileName;
 end;
@@ -106,17 +106,17 @@ destructor TFileStreamEx.Destroy;
 begin
   inherited Destroy;
   // Close handle after destroying the base object, because it may use Handle in Destroy.
-  if FHandle <> feInvalidHandle then FileClose(FHandle);
+  if Handle <> feInvalidHandle then FileClose(Handle);
 end;
 
 function TFileStreamEx.Flush: Boolean;
 begin
-  Result:= FileFlush(FHandle);
+  Result:= FileFlush(Handle);
 end;
 
 function TFileStreamEx.Read(var Buffer; Count: LongInt): LongInt;
 begin
-  Result:= FileRead(FHandle, Buffer, Count);
+  Result:= FileRead(Handle, Buffer, Count);
   if Result = -1 then
     raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
 end;
