@@ -274,6 +274,7 @@ type
   private
     {  The following private members are used for Stuffing FTarItem struct }
     procedure ParseTarHeaders; { Error in header if }
+    procedure ParsePaxHeaders; { Error in header if }
     procedure DetectHeaderFormat; { Helper to stuff HeaderFormat }
     procedure GetFileNameFromHeaders; { Helper to pull name from Headers }
     procedure GetLinkNameFromHeaders; { Helper to pull name from Headers }
@@ -1004,6 +1005,107 @@ begin
   { FTarItem.Dirty; Stuffed upon creaction }
 end;
 
+procedure TAbTarItem.ParsePaxHeaders;
+var
+  I, J : Integer;
+  ALength: Integer;
+  RawLength: Int64;
+  RawExtra: Integer;
+  S, P, O: PAnsiChar;
+  NumMHeaders: Integer;
+  PHeader: PAbTarHeaderRec;
+  AName, AValue: AnsiString;
+  RawValue, TempStr: AnsiString;
+begin
+  RawValue := EmptyStr;
+
+  for I := 0 to FTarHeaderList.Count - 1 do
+  begin
+    PHeader := FTarHeaderList.Items[I];
+    if PHeader.LinkFlag = AB_TAR_LF_XHDR then
+    begin
+      RawLength := OctalToInt(PHeader.Size, SizeOf(PHeader.Size));
+      // Number of headers
+      NumMHeaders := RawLength div AB_TAR_RECORDSIZE;
+      // Chars in the last header
+      RawExtra := RawLength mod AB_TAR_RECORDSIZE;
+      // Copy data from headers
+      for J := 1 to NumMHeaders do
+      begin
+        PHeader := FTarHeaderList.Items[I + J];
+        SetString(TempStr, PAnsiChar(PHeader), AB_TAR_RECORDSIZE);
+        RawValue := RawValue + TempStr;
+      end;
+      // Copy data from the last header
+      if RawExtra <> 0 then
+      begin
+        PHeader := FTarHeaderList.Items[I + NumMHeaders + 1];
+        SetString(TempStr, PAnsiChar(PHeader), RawExtra);
+        RawValue := RawValue + TempStr;
+      end;
+      Break;
+    end;
+  end;
+
+  // Parse pax headers
+  if (Length(RawValue) > 0) then
+  begin
+    O := nil;
+    ALength:= 0;
+    S:= Pointer(RawValue);
+    P:= S;
+    while (P^ <> #0) do
+    begin
+      case P^ of
+        #10:
+          begin
+            Inc(P);
+            S := P;
+            O := nil;
+            ALength:= 0;
+          end;
+        #32:
+          begin
+            P^:= #0;
+            Inc(P);
+            O:= P;
+            ALength:= StrToIntDef(S, 0);
+          end;
+        '=':
+          begin
+            // Something wrong, exit
+            if (ALength = 0) or (O = nil) then
+              Exit;
+
+            SetString(AName, O, P - O);
+            ALength:= ALength - (P - S) - 1;
+
+            if (AName = 'path') then
+            begin
+              SetString(AValue, P + 1, ALength - 1);
+              FTarItem.Name := CeRawToUtf8(AValue);
+            end
+            else if (AName = 'linkpath') then
+            begin
+              SetString(AValue, P + 1, ALength - 1);
+              FTarItem.LinkName := CeRawToUtf8(AValue);
+            end
+            else if (AName = 'size') then
+            begin
+              SetString(AValue, P + 1, ALength - 1);
+              FTarItem.Size := StrToInt64Def(AValue, FTarItem.Size);
+            end;
+
+            Inc(P, ALength);
+          end;
+        else begin
+          Inc(P);
+        end;
+      end;
+    end;
+  end;
+end;
+
 procedure TAbTarItem.LoadTarHeaderFromStream(AStream: TStream);
 var
   NumMHeaders : Integer;
@@ -1085,6 +1187,7 @@ begin
   if FTarItem.ItemType <> UNKNOWN_ITEM then
   begin
     ParseTarHeaders; { Update FTarItem values }
+    ParsePaxHeaders; { Update FTarItem values }
     FFileName := FTarItem.Name; {FTarHeader.Name;}
 //  FDiskFileName := FileName;
 //  AbUnfixName(FDiskFileName);
