@@ -6567,7 +6567,10 @@ begin
     // kpidCharacts: ;
     // kpidVa: ;
     // kpidId: ;
-    // kpidShortName: ;
+    kpidShortName:
+      begin
+        Value.vt := VT_EMPTY;
+      end;
     // kpidCreatorApp: ;
     // kpidSectorSize: ;
     kpidPosixAttrib:
@@ -6582,6 +6585,11 @@ begin
     // kpidLocalName: ;
     // kpidProvider: ;
     // kpidUserDefined: ;
+    kpidIsAltStream:
+      begin
+        Value.vt := VT_BOOL;
+        Value.bool := False;
+      end;
   else
     Value.vt := VT_EMPTY;
     Result := S_FALSE;

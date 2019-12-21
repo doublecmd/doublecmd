@@ -251,6 +251,8 @@ const
   kpidPosixAttrib = 53;
   kpidLink = 54;
 
+  kpidIsAltStream = 63;
+
   kpidTotalSize = $1100;
   kpidFreeSpace = $1101;
   kpidClusterSize = $1102;
