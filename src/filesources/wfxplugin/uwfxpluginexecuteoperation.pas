@@ -63,7 +63,11 @@ var
   RemoteName: String;
   iResult: LongInt;
 begin
-    RemoteName:= AbsolutePath;
+    if Pos('quote ', Verb) = 1 then
+      RemoteName:= CurrentPath
+    else begin
+      RemoteName:= AbsolutePath;
+    end;
     iResult:= FWfxPluginFileSource.WfxModule.WfxExecuteFile(Application.MainForm.Tag, RemoteName, Verb);
     case iResult of
     FS_EXEC_OK:
