@@ -75,7 +75,7 @@ type
     FContext: PZSTD_CCtx;
     FBufferOut: ZSTD_outBuffer;
   public
-    constructor Create(OutStream: TStream; ALevel: Integer; InSize: Int64 = ZSTD_CONTENTSIZE_UNKNOWN);
+    constructor Create(OutStream: TStream; ALevel: Integer; InSize: UInt64 = ZSTD_CONTENTSIZE_UNKNOWN);
     destructor Destroy; override;
     function Write(const Buffer; Count: Longint): Longint; override;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
@@ -274,7 +274,7 @@ end;
 { TZstdCompressionStream }
 
 constructor TZstdCompressionStream.Create(OutStream: TStream; ALevel: Integer;
-  InSize: Int64);
+  InSize: UInt64);
 begin
   Initialize;
 
