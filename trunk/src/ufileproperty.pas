@@ -218,6 +218,8 @@ type
 
     class function GetID: TFilePropertyType; override;
 
+    function IsNativeAttributes: Boolean;
+
     // Is the file a directory.
     function IsDirectory: Boolean; virtual;
 
@@ -742,6 +744,17 @@ constructor TFileAttributesProperty.Create(Attr: TFileAttrs);
 begin
   inherited Create;
   FAttributes := Attr;
+end;
+
+function TFileAttributesProperty.IsNativeAttributes: Boolean;
+begin
+{$IF DEFINED(WINDOWS)}
+  Result :=  Self is TNtfsFileAttributesProperty;
+{$ELSEIF DEFINED(UNIX)}
+  Result := Self is TUnixFileAttributesProperty;
+{$ELSE}
+  Result := False;
+{$ENDIF}
 end;
 
 class function TFileAttributesProperty.CreateOSAttributes: TFileAttributesProperty;

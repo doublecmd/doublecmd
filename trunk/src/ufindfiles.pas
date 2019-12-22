@@ -522,7 +522,12 @@ begin
         Result:= CheckFileSize(FileChecks, AFile.Size);
 
     if Result and (fpAttributes in AFile.SupportedProperties) then
-      Result:= CheckFileAttributes(FileChecks, AFile.Attributes);
+    begin
+      if AFile.AttributesProperty.IsNativeAttributes then
+        Result:= CheckFileAttributes(FileChecks, AFile.Attributes)
+      else if (Length(FileChecks.Attributes) > 0) then
+        Result:= False;
+    end;
 
     if Result and ContentPlugin then
     begin
