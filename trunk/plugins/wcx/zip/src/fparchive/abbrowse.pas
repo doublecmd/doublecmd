@@ -229,6 +229,7 @@ uses
   AbBzip2Typ,
   AbLzmaTyp,
   AbXzTyp,
+  AbZstdTyp,
   DCOSUtils,
   DCClassesUtf8;
 
@@ -548,7 +549,9 @@ begin
     else if (Ext = '.LZMA') then
       Result := atLzma
     else if (Ext = '.TLZ') then
-      Result := atLzmaTar;
+      Result := atLzmaTar
+    else if (Ext = '.ZST') then
+      Result := atZstd;
   end;
   {$IF NOT DEFINED(ExtractCabSupport)}
   if Result = atCab then
@@ -588,6 +591,9 @@ begin
             atLzma, atLzmaTar: begin
               Result := VerifyLzma(FS);
             end;
+            atZstd, atZStdTar: begin
+              Result := VerifyZstd(FS);
+            end;
           end;
         end;
         if Result = atUnknown then
@@ -618,6 +624,12 @@ begin
   if Result = atUnknown then
     Result := VerifyCab(aStream);
   {$ENDIF}
+  if Result = atUnknown then
+    Result := VerifyXz(aStream);
+  if Result = atUnknown then
+    Result := VerifyLzma(aStream);
+  if Result = atUnknown then
+    Result := VerifyZstd(aStream);
 end;
 { -------------------------------------------------------------------------- }
 
