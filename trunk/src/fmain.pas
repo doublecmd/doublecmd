@@ -5473,19 +5473,54 @@ begin
     begin
       aFile:= ActiveFrame.CloneActiveFile;
       if Assigned(aFile) then
-        try
-          sCmd:= 'quote' + #32 + sCmd;
-          aFile.FullPath:= ActiveFrame.CurrentPath;
-          Operation:= ActiveFrame.FileSource.CreateExecuteOperation(
-                                           aFile,
-                                           ActiveFrame.CurrentPath,
-                                           sCmd) as TFileSourceExecuteOperation;
-          if Assigned(Operation) then
-            Operation.Execute;
-        finally
-          FreeThenNil(aFile);
-          FreeThenNil(Operation);
+      try
+        sCmd:= 'quote' + #32 + sCmd;
+        aFile.FullPath:= ActiveFrame.CurrentPath;
+        Operation:= ActiveFrame.FileSource.CreateExecuteOperation(
+                                         aFile,
+                                         ActiveFrame.CurrentPath,
+                                         sCmd) as TFileSourceExecuteOperation;
+        if Assigned(Operation) then
+        begin
+          Operation.Execute;
+          case Operation.ExecuteOperationResult of
+            fseorSuccess:
+              begin
+                ActiveFrame.Reload(True);
+              end;
+            fseorError:
+              begin
+                // Show error message
+                if Length(Operation.ResultString) = 0 then
+                  msgError(rsMsgErrEOpen)
+                else
+                  msgError(Operation.ResultString);
+              end;
+            fseorSymLink:
+              begin
+                // Change directory to new path (returned in Operation.ResultString)
+                with ActiveFrame do
+                begin
+                  // If path is URI
+                  if Pos('://', Operation.ResultString) > 0 then
+                    ChooseFileSource(ActiveFrame, Operation.ResultString)
+                  else if not mbSetCurrentDir(ExcludeTrailingPathDelimiter(Operation.ResultString)) then
+                  begin
+                    // Simply change path
+                    CurrentPath:= Operation.ResultString;
+                  end
+                  else begin
+                    // Get a new filesystem file source
+                    AddFileSource(TFileSystemFileSource.GetFileSource, Operation.ResultString);
+                  end;
+                end;
+              end;
+          end;
         end;
+      finally
+        FreeAndNil(aFile);
+        FreeAndNil(Operation);
+      end;
     end;
 end;
 
