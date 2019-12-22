@@ -887,13 +887,13 @@ begin
     inherited CloneTo(FileView);
 
     if FileView is TColumnsFileView then
-    with FileView as TColumnsFileView do
+    with TColumnsFileView(FileView) do
     begin
       FColumnsSortDirections := Self.FColumnsSortDirections;
 
       ActiveColm := Self.ActiveColm;
-      ActiveColmSlave := nil;    // set to nil because only used in preview?
-      isSlave := Self.isSlave;
+      ActiveColmSlave := nil;
+      isSlave := False;
     end;
   end;
 end;
