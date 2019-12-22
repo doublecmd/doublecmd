@@ -174,7 +174,7 @@ implementation
 
 uses
   SysUtils, AbUtils, AbTarTyp, AbGzTyp, AbBzip2Typ, AbExcept, AbZipPrc,
-  AbXzTyp, AbLzmaTyp, DCOSUtils;
+  AbXzTyp, AbLzmaTyp, AbZstdTyp, DCOSUtils;
 
 { -------------------------------------------------------------------------- }
 constructor TAbCustomZipper.Create( AOwner : TComponent );
@@ -458,6 +458,13 @@ begin
           inherited InitArchive;
         end;
 
+        atZstd, atZstdTar : begin
+          FArchive := TAbZstdArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
+          TAbZstdArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+          TAbZstdArchive(FArchive).IsZstdTar := (ArcType = atZstdTar);
+          inherited InitArchive;
+        end;
+
         else
           raise EAbUnhandledType.Create;
       end {case};
@@ -518,6 +525,13 @@ begin
           FArchive := TAbLzmaArchive.Create(FileName, fmCreate or fmShareDenyWrite);
           TAbLzmaArchive(FArchive).TarAutoHandle := FTarAutoHandle;
           TAbLzmaArchive(FArchive).IsLzmaTar := (ArcType = atLzmaTar);
+          inherited InitArchive;
+        end;
+
+        atZstd, atZstdTar : begin
+          FArchive := TAbZstdArchive.Create(FileName, fmCreate or fmShareDenyWrite);
+          TAbZstdArchive(FArchive).TarAutoHandle := FTarAutoHandle;
+          TAbZstdArchive(FArchive).IsZstdTar := (ArcType = atZstdTar);
           inherited InitArchive;
         end;
 
