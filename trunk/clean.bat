@@ -26,6 +26,7 @@
 @del /Q /S plugins\wcx\lzma\lib\*.*
 @del /Q /S plugins\wcx\rpm\lib\*.*
 @del /Q /S plugins\wcx\sevenzip\lib\*.*
+@del /Q /S plugins\wcx\torrent\lib\*.*
 @del /Q /S plugins\wcx\unbz2\lib\*.*
 @del /Q /S plugins\wcx\unrar\lib\*.*
 @del /Q /S plugins\wcx\zip\lib\*.*
@@ -34,6 +35,7 @@
 @del /Q /S plugins\wdx\rpm_wdx\lib\*.*
 @del /Q /S plugins\wdx\svn_wdx\lib\*.*
 @del /Q /S plugins\wdx\xpi_wdx\lib\*.*
+@del /Q /S plugins\wdx\audioinfo\lib\*.*
 
 @del /Q /S plugins\wfx\ftp\lib\*.*
 @del /Q /S plugins\wfx\gvfs\lib\*.*
