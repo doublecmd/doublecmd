@@ -108,7 +108,7 @@ function VerifyZstd(Strm : TStream) : TAbArchiveType;
 implementation
 
 uses
-  StrUtils, SysUtils,
+  SysUtils,
   AbZstd, AbExcept, AbVMStrm, AbBitBkt, DCOSUtils, DCClassesUtf8;
 
 { ****************** Helper functions Not from Classes Above ***************** }
@@ -275,9 +275,9 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZstdArchive.LoadArchive;
 var
-  Item: TAbZstdItem;
-  Abort: Boolean;
   ItemName: string;
+  Item: TAbZstdItem;
+  Abort: Boolean = False;
 begin
   if FZstdStream.Size = 0 then
     Exit;
@@ -292,6 +292,7 @@ begin
     SwapToZstd;
     Item := TAbZstdItem.Create;
     Item.Action := aaNone;
+    Item.UncompressedSize := ZSTD_FileSize(FZstdStream);
     { Filename isn't stored, so constuct one based on the archive name }
     ItemName := ExtractFileName(ArchiveName);
     if ItemName = '' then
@@ -327,7 +328,7 @@ begin
       FZstdStream := TFileStreamEx.Create(TempFileName, fmCreate or fmShareDenyWrite);
     end;
     FTarStream.Position := 0;
-    CompStream := TZSTDCompressionStream.Create(FZstdStream, 5);
+    CompStream := TZSTDCompressionStream.Create(FZstdStream, 5, FTarStream.Size);
     try
       CompStream.CopyFrom(FTarStream, 0);
     finally
@@ -358,7 +359,12 @@ begin
         aaDelete: ; {doing nothing omits file from new stream}
         aaAdd, aaFreshen, aaReplace, aaStreamAdd: begin
           FZstdStream.Size := 0;
-          CompStream := TZSTDCompressionStream.Create(FZstdStream, 5);
+          if CurItem.Action = aaStreamAdd then
+            CurItem.UncompressedSize := InStream.Size
+          else begin
+            CurItem.UncompressedSize := mbFileSize(CurItem.DiskFileName);
+          end;
+          CompStream := TZSTDCompressionStream.Create(FZstdStream, 5, CurItem.UncompressedSize);
           try
             if CurItem.Action = aaStreamAdd then
               CompStream.CopyFrom(InStream, 0){ Copy/compress entire Instream to FZstdStream }
