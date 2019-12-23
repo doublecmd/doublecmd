@@ -41,6 +41,7 @@ uses
   Classes, SysUtils, CTypes;
 
 const
+  ZSTD_FRAMEHEADERSIZE_MAX = 18;
   ZSTD_CONTENTSIZE_UNKNOWN = UInt64(-1);
   ZSTD_CONTENTSIZE_ERROR   = UInt64(-2);
 
@@ -97,6 +98,8 @@ type
     function Read(var Buffer; Count: Longint): Longint; override;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
   end;
+
+function ZSTD_FileSize(const InStream: TStream): UInt64;
 
 implementation
 
@@ -193,6 +196,24 @@ begin
   Result:= code;
   if (ZSTD_isError(code) <> 0) then
     raise EZstdError.Create(ZSTD_getErrorName(code))
+end;
+
+function ZSTD_FileSize(const InStream: TStream): UInt64;
+var
+  APosition: Int64;
+  ABuffer: array[1..ZSTD_FRAMEHEADERSIZE_MAX] of Byte;
+begin
+  Initialize;
+
+  APosition:= InStream.Position;
+  InStream.Seek(0, soBeginning);
+  InStream.Read(ABuffer[1], ZSTD_FRAMEHEADERSIZE_MAX);
+  InStream.Seek(APosition, soBeginning);
+
+  Result:= ZSTD_getFrameContentSize(@ABuffer[1], ZSTD_FRAMEHEADERSIZE_MAX);
+
+  if (Result = ZSTD_CONTENTSIZE_UNKNOWN) or (Result = ZSTD_CONTENTSIZE_ERROR) then
+    Result:= 0;
 end;
 
 { TZstdDecompressionStream }

@@ -10,8 +10,8 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="1"/>
-      <StringTable FileDescription="ZIP WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2017 Alexander Koblov"/>
+      <MinorVersionNr Value="2"/>
+      <StringTable FileDescription="ZIP WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2019 Alexander Koblov"/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
