@@ -811,8 +811,10 @@ begin
           end;
         end;//of mouse selection handler
       end;
-    else
-      SetActiveFile(FileIndex);
+      else begin
+        SetActiveFile(FileIndex);
+        Exit;
+      end;
     end;
 
     { Dragging }
