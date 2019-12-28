@@ -43,7 +43,7 @@ uses
   ufavoritetabs, Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls, LResources,
   KASToolBar, KASComboBox, uCmdBox, uFilePanelSelect, uBriefFileView,
-  uFileView, uFileSource, uFileViewNotebook, uFile, LCLVersion,
+  uFileView, uFileSource, uFileViewNotebook, uFile, LCLVersion, KASToolPanel,
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, DCClassesUtf8,
   DCXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
   uOperationsPanel, KASToolItems, uKASToolItemsExtended, uCmdLineParams, uOSForms
@@ -277,9 +277,9 @@ type
     miNetworkConnect: TMenuItem;
     mnuNetwork: TMenuItem;
     pnlDskLeft: TPanel;
-    pnlDiskLeftInner: TPanel;
+    pnlDiskLeftInner: TKASToolPanel;
     pnlDskRight: TPanel;
-    pnlDiskRightInner: TPanel;
+    pnlDiskRightInner: TKASToolPanel;
     Timer: TTimer;
     PanelAllProgress: TPanel;
     pbxRightDrive: TPaintBox;
@@ -400,7 +400,7 @@ type
     tbEdit: TMenuItem;
     mnuMain: TMainMenu;
     pnlNotebooks: TPanel;
-    pnlDisk: TPanel;
+    pnlDisk: TKASToolPanel;
     mnuHelp: TMenuItem;
     mnuHelpAbout: TMenuItem;
     mnuShow: TMenuItem;
@@ -1271,14 +1271,14 @@ end;
 
 procedure TfrmMain.dskLeftResize(Sender: TObject);
 begin
-  pnlDskLeft.ClientHeight := dskLeft.Height + pnlDskLeft.BevelWidth * 2;
-  pnlDiskLeftInner.ClientHeight := dskLeft.Height + pnlDiskLeftInner.BevelWidth * 2;
+  pnlDskLeft.ClientHeight := dskLeft.Height + 2;
+  pnlDiskLeftInner.ClientHeight := dskLeft.Height + 2;
 end;
 
 procedure TfrmMain.dskRightResize(Sender: TObject);
 begin
-  pnlDskRight.ClientHeight := dskRight.Height + pnlDskRight.BevelWidth * 2;
-  pnlDiskRightInner.ClientHeight := dskRight.Height + pnlDiskRightInner.BevelWidth * 2;
+  pnlDskRight.ClientHeight := dskRight.Height + 2;
+  pnlDiskRightInner.ClientHeight := dskRight.Height + 2;
 end;
 
 procedure TfrmMain.dskRightToolButtonClick(Sender: TObject);
