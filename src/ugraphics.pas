@@ -29,19 +29,11 @@ interface
 uses
   Classes, SysUtils, Graphics, Controls, IntfGraphics;
 
-type
-
-  { TImageListHelper }
-
-  TImageListHelper = class helper for TImageList
-  public
-    procedure LoadThemeIcon(Index: Integer; const AIconName: String);
-  end;
-
 procedure BitmapAssign(Bitmap: TBitmap; Image: TRasterImage);
 procedure BitmapAssign(Bitmap: TBitmap; Image: TLazIntfImage);
 procedure BitmapAlpha(var ABitmap: TBitmap; APercent: Single);
 procedure BitmapCenter(var Bitmap: TBitmap; Width, Height: Integer);
+procedure LoadThemeIcon(ImageList: TImageList; Index: Integer; const AIconName: String);
 
 implementation
 
@@ -148,18 +140,16 @@ begin
   end;
 end;
 
-{ TImageListHelper }
-
-procedure TImageListHelper.LoadThemeIcon(Index: Integer; const AIconName: String);
+procedure LoadThemeIcon(ImageList: TImageList; Index: Integer; const AIconName: String);
 var
   ABitmap: TBitmap;
 begin
-  ABitmap:= PixMapManager.GetThemeIcon(AIconName, Self.Width);
+  ABitmap:= PixMapManager.GetThemeIcon(AIconName, ImageList.Width);
   if (ABitmap = nil) then ABitmap:= TBitmap.Create;
-  if (Index < Count) then
-    Self.Replace(Index, ABitmap , nil)
+  if (Index < ImageList.Count) then
+    ImageList.Replace(Index, ABitmap , nil)
   else begin
-    Self.Insert(Index, ABitmap , nil)
+    ImageList.Insert(Index, ABitmap , nil)
   end;
   ABitmap.Free;
 end;
