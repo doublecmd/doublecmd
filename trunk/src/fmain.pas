@@ -3951,7 +3951,7 @@ end;
 procedure TfrmMain.pnlLeftResize(Sender: TObject);
 begin
   if gDriveBar1 and gDriveBar2 and not gHorizontalFilePanels then
-    pnlDskLeft.Width := pnlNotebooks.Width - pnlRight.Width;
+    pnlDskLeft.Width := pnlLeft.Width;
 
   // Put splitter after left panel.
   if not gHorizontalFilePanels then
@@ -4043,6 +4043,10 @@ begin
       pnlDskRight.Width := pnlRight.Width + 1
     else
       pnlDskRight.Width := pnlNotebooks.Width - 2;
+  end
+  else if gHorizontalFilePanels and not gDriveBar2 then
+  begin
+    pnlDskRight.Width := pnlNotebooks.Width - 2;
   end;
 end;
 
@@ -4972,6 +4976,8 @@ begin
       dskLeft.Parent := pnlDskLeft;
       dskRight.Parent := pnlDskRight;
     end;
+
+    pnlRightResize(pnlRight);
 
     dskLeft.GlyphSize:= gDiskIconsSize;
     dskRight.GlyphSize:= gDiskIconsSize;
