@@ -4990,8 +4990,8 @@ begin
 
     if gHorizontalFilePanels and gDriveBar1 and gDriveBar2 then
     begin
-      pnlDiskLeftInner.Top := 0;
-      pnlDiskRightInner.Top := 0;
+      pnlLeftTools.Top := pnlDiskLeftInner.Height + 1;
+      pnlRightTools.Top :=pnlDiskRightInner.Height + 1;
     end;
 
     // Create disk panels after assigning parent.
