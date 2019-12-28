@@ -176,6 +176,7 @@ object frmMain: TfrmMain
           Top = 0
           Width = 511
           Align = alTop
+          AutoSize = True
           EdgeBorders = [ebTop, ebBottom]
           Visible = False
         end
@@ -327,6 +328,7 @@ object frmMain: TfrmMain
           Top = 0
           Width = 123
           Align = alTop
+          AutoSize = True
           EdgeBorders = [ebTop, ebBottom]
           Visible = False
         end

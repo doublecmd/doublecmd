@@ -1271,14 +1271,12 @@ end;
 
 procedure TfrmMain.dskLeftResize(Sender: TObject);
 begin
-  pnlDskLeft.ClientHeight := dskLeft.Height + 2;
-  pnlDiskLeftInner.ClientHeight := dskLeft.Height + 2;
+  pnlDskLeft.ClientHeight := dskLeft.Height;
 end;
 
 procedure TfrmMain.dskRightResize(Sender: TObject);
 begin
-  pnlDskRight.ClientHeight := dskRight.Height + 2;
-  pnlDiskRightInner.ClientHeight := dskRight.Height + 2;
+  pnlDskRight.ClientHeight := dskRight.Height;
 end;
 
 procedure TfrmMain.dskRightToolButtonClick(Sender: TObject);
@@ -4989,6 +4987,12 @@ begin
     pnlDskLeft.Visible := not gHorizontalFilePanels and gDriveBar1 and gDriveBar2;
     pnlDskRight.Visible := gDriveBar1 and (not gHorizontalFilePanels or not gDriveBar2);
     pnlDisk.Visible := pnlDskLeft.Visible or pnlDskRight.Visible;
+
+    if gHorizontalFilePanels and gDriveBar1 and gDriveBar2 then
+    begin
+      pnlDiskLeftInner.Top := 0;
+      pnlDiskRightInner.Top := 0;
+    end;
 
     // Create disk panels after assigning parent.
     UpdateDiskCount; // Update list of showed drives
