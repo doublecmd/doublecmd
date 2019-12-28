@@ -101,4 +101,17 @@ object frmFindView: TfrmFindView
     OnChange = chkHexChange
     TabOrder = 2
   end
+  object cbRegExp: TCheckBox
+    AnchorSideLeft.Control = chkHex
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = chkHex
+    AnchorSideTop.Side = asrCenter
+    Left = 8
+    Height = 19
+    Top = 90
+    Width = 144
+    BorderSpacing.Left = 8
+    Caption = '&Regular expressions'
+    TabOrder = 3
+  end
 end

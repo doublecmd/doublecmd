@@ -30,6 +30,7 @@ type
     btnClose: TBitBtn;
     cbCaseSens: TCheckBox;
     chkHex: TCheckBox;
+    cbRegExp: TCheckBox;
     procedure chkHexChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnFindClick(Sender: TObject);
