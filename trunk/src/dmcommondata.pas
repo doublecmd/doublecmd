@@ -49,24 +49,24 @@ begin
   ilEditorImages.Width:= AdjustIconSize(ilEditorImages.Width, 96);
   ilEditorImages.Height:= AdjustIconSize(ilEditorImages.Height, 96);
 {$endif}
-  ilEditorImages.LoadThemeIcon(0, 'document-new');
-  ilEditorImages.LoadThemeIcon(1, 'document-open');
-  ilEditorImages.LoadThemeIcon(2, 'document-save');
-  ilEditorImages.LoadThemeIcon(3, 'document-save-as');
-  ilEditorImages.LoadThemeIcon(4, 'document-properties');
-  ilEditorImages.LoadThemeIcon(5, 'edit-cut');
-  ilEditorImages.LoadThemeIcon(6, 'edit-copy');
-  ilEditorImages.LoadThemeIcon(7, 'edit-paste');
-  ilEditorImages.LoadThemeIcon(8, 'edit-undo');
-  ilEditorImages.LoadThemeIcon(9, 'edit-redo');
-  ilEditorImages.LoadThemeIcon(10, 'edit-find');
-  ilEditorImages.LoadThemeIcon(11, 'edit-find-replace');
-  ilEditorImages.LoadThemeIcon(12, 'application-exit');
-  ilEditorImages.LoadThemeIcon(13, 'help-about');
-  ilEditorImages.LoadThemeIcon(14, 'edit-delete');
-  ilEditorImages.LoadThemeIcon(15, 'edit-select-all');
-  ilEditorImages.LoadThemeIcon(16, 'go-jump');
-  ilEditorImages.LoadThemeIcon(17, 'view-refresh');
+  LoadThemeIcon(ilEditorImages, 0, 'document-new');
+  LoadThemeIcon(ilEditorImages, 1, 'document-open');
+  LoadThemeIcon(ilEditorImages, 2, 'document-save');
+  LoadThemeIcon(ilEditorImages, 3, 'document-save-as');
+  LoadThemeIcon(ilEditorImages, 4, 'document-properties');
+  LoadThemeIcon(ilEditorImages, 5, 'edit-cut');
+  LoadThemeIcon(ilEditorImages, 6, 'edit-copy');
+  LoadThemeIcon(ilEditorImages, 7, 'edit-paste');
+  LoadThemeIcon(ilEditorImages, 8, 'edit-undo');
+  LoadThemeIcon(ilEditorImages, 9, 'edit-redo');
+  LoadThemeIcon(ilEditorImages, 10, 'edit-find');
+  LoadThemeIcon(ilEditorImages, 11, 'edit-find-replace');
+  LoadThemeIcon(ilEditorImages, 12, 'application-exit');
+  LoadThemeIcon(ilEditorImages, 13, 'help-about');
+  LoadThemeIcon(ilEditorImages, 14, 'edit-delete');
+  LoadThemeIcon(ilEditorImages, 15, 'edit-select-all');
+  LoadThemeIcon(ilEditorImages, 16, 'go-jump');
+  LoadThemeIcon(ilEditorImages, 17, 'view-refresh');
 end;
 
 end.
