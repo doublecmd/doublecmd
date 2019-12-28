@@ -7468,6 +7468,10 @@ msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "開始パス(&h)"
 
+#: tfrmoptionstoolbarbase.lblstyle.caption
+msgid "Style:"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr "ツールのヒント(&T)："
@@ -7789,6 +7793,14 @@ msgstr "最後の要素として"
 msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "現在の選択の直前に"
+
+#: tfrmoptionstoolbarbase.rbseparator.caption
+msgid "Separator"
+msgstr ""
+
+#: tfrmoptionstoolbarbase.rbspace.caption
+msgid "Space"
+msgstr ""
 
 #: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"

@@ -7601,6 +7601,10 @@ msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "시작 경로(&H):"
 
+#: tfrmoptionstoolbarbase.lblstyle.caption
+msgid "Style:"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr "풍선도움말(&T):"
@@ -7922,6 +7926,14 @@ msgstr "마지막 요소로서"
 msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "현재 선택 바로 이전"
+
+#: tfrmoptionstoolbarbase.rbseparator.caption
+msgid "Separator"
+msgstr ""
+
+#: tfrmoptionstoolbarbase.rbspace.caption
+msgid "Space"
+msgstr ""
 
 #: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"

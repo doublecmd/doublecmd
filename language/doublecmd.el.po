@@ -7464,6 +7464,10 @@ msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "Διαδρομή Εκκίνησης:"
 
+#: tfrmoptionstoolbarbase.lblstyle.caption
+msgid "Style:"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr "Υπόδειξη:"
@@ -7785,6 +7789,14 @@ msgstr "ως τελευταίο στοιχείο"
 msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "αμέσως πριν την τρέχουσα επιλογή"
+
+#: tfrmoptionstoolbarbase.rbseparator.caption
+msgid "Separator"
+msgstr ""
+
+#: tfrmoptionstoolbarbase.rbspace.caption
+msgid "Space"
+msgstr ""
 
 #: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"

@@ -7270,6 +7270,10 @@ msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "Výchozí cest&a:"
 
+#: tfrmoptionstoolbarbase.lblstyle.caption
+msgid "Style:"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr "ToolTip:"
@@ -7591,6 +7595,14 @@ msgstr "na konec"
 msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "před aktuálně vybraný"
+
+#: tfrmoptionstoolbarbase.rbseparator.caption
+msgid "Separator"
+msgstr ""
+
+#: tfrmoptionstoolbarbase.rbspace.caption
+msgid "Space"
+msgstr ""
 
 #: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"

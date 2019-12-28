@@ -7255,6 +7255,10 @@ msgctxt "tfrmoptionstoolbarbase.LBLSTARTPATH.CAPTION"
 msgid "Start pat&h:"
 msgstr "Ścieżk&a początkowa:"
 
+#: tfrmoptionstoolbarbase.lblstyle.caption
+msgid "Style:"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr "E&tykietka podpowiedzi:"
@@ -7576,6 +7580,14 @@ msgstr "jako ostatni element"
 msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
 msgstr "przed bieżącym zaznaczeniem"
+
+#: tfrmoptionstoolbarbase.rbseparator.caption
+msgid "Separator"
+msgstr ""
+
+#: tfrmoptionstoolbarbase.rbspace.caption
+msgid "Space"
+msgstr ""
 
 #: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"

@@ -7225,6 +7225,10 @@ msgctxt "tfrmoptionstoolbarbase.LBLSTARTPATH.CAPTION"
 msgid "Start pat&h:"
 msgstr ""
 
+#: tfrmoptionstoolbarbase.lblstyle.caption
+msgid "Style:"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr ""
@@ -7545,6 +7549,14 @@ msgstr ""
 #: tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption
 msgctxt "tfrmoptionstoolbarbase.MISUBTOOLBARPRIORCURRENT.CAPTION"
 msgid "just prior current selection"
+msgstr ""
+
+#: tfrmoptionstoolbarbase.rbseparator.caption
+msgid "Separator"
+msgstr ""
+
+#: tfrmoptionstoolbarbase.rbspace.caption
+msgid "Space"
 msgstr ""
 
 #: tfrmoptionstoolbarbase.rgtoolitemtype.caption

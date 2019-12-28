@@ -7828,6 +7828,10 @@ msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "Početna &putanja:"
 
+#: tfrmoptionstoolbarbase.lblstyle.caption
+msgid "Style:"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr "&Napomena:"
@@ -8151,6 +8155,14 @@ msgstr "kao zadnji element"
 msgctxt "tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "samo prethodni trenutni odabir"
+
+#: tfrmoptionstoolbarbase.rbseparator.caption
+msgid "Separator"
+msgstr ""
+
+#: tfrmoptionstoolbarbase.rbspace.caption
+msgid "Space"
+msgstr ""
 
 #: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"

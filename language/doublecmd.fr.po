@@ -7471,6 +7471,10 @@ msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "&Chemin de démarrage :"
 
+#: tfrmoptionstoolbarbase.lblstyle.caption
+msgid "Style:"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.lbltooltip.caption
 msgctxt "tfrmoptionstoolbarbase.lbltooltip.caption"
 msgid "&Tooltip:"
@@ -7793,6 +7797,14 @@ msgstr "comme dernier élément"
 msgctxt "tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "immédiatement avant la sélection courante"
+
+#: tfrmoptionstoolbarbase.rbseparator.caption
+msgid "Separator"
+msgstr ""
+
+#: tfrmoptionstoolbarbase.rbspace.caption
+msgid "Space"
+msgstr ""
 
 #: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"

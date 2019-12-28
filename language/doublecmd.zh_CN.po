@@ -7259,6 +7259,10 @@ msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "开始路径(&S)"
 
+#: tfrmoptionstoolbarbase.lblstyle.caption
+msgid "Style:"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.lbltooltip.caption
 msgid "&Tooltip:"
 msgstr "工具提示(&T)："
@@ -7580,6 +7584,14 @@ msgstr "作为最后一个元素"
 msgctxt "tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "在当前选择之前"
+
+#: tfrmoptionstoolbarbase.rbseparator.caption
+msgid "Separator"
+msgstr ""
+
+#: tfrmoptionstoolbarbase.rbspace.caption
+msgid "Space"
+msgstr ""
 
 #: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"

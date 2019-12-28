@@ -7620,6 +7620,10 @@ msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "&Пусков път:"
 
+#: tfrmoptionstoolbarbase.lblstyle.caption
+msgid "Style:"
+msgstr ""
+
 #: tfrmoptionstoolbarbase.lbltooltip.caption
 msgctxt "tfrmoptionstoolbarbase.lbltooltip.caption"
 msgid "&Tooltip:"
@@ -7946,6 +7950,14 @@ msgstr "като последен предмет"
 msgctxt "tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "точно преди избрания предмет"
+
+#: tfrmoptionstoolbarbase.rbseparator.caption
+msgid "Separator"
+msgstr ""
+
+#: tfrmoptionstoolbarbase.rbspace.caption
+msgid "Space"
+msgstr ""
 
 #: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"

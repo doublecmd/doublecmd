@@ -7455,6 +7455,10 @@ msgctxt "tfrmoptionstoolbarbase.lblstartpath.caption"
 msgid "Start pat&h:"
 msgstr "П&уть запуска:"
 
+#: tfrmoptionstoolbarbase.lblstyle.caption
+msgid "Style:"
+msgstr "Стиль:"
+
 #: tfrmoptionstoolbarbase.lbltooltip.caption
 msgctxt "tfrmoptionstoolbarbase.lbltooltip.caption"
 msgid "&Tooltip:"
@@ -7777,6 +7781,14 @@ msgstr "как последний элемент"
 msgctxt "tfrmoptionstoolbarbase.misubtoolbarpriorcurrent.caption"
 msgid "just prior current selection"
 msgstr "сразу перед выбранным"
+
+#: tfrmoptionstoolbarbase.rbseparator.caption
+msgid "Separator"
+msgstr "Разделитель"
+
+#: tfrmoptionstoolbarbase.rbspace.caption
+msgid "Space"
+msgstr "Пробел"
 
 #: tfrmoptionstoolbarbase.rgtoolitemtype.caption
 msgid "Button type"
