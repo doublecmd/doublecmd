@@ -249,6 +249,7 @@ type
 
     fExpression : PRegExprChar; // source of compiled r.e.
     fInputString : PRegExprChar; // input string
+    fInputLength : UIntPtr;      // input string length
 
     fLastError : integer; // see Error, LastError
 
@@ -388,6 +389,7 @@ type
      function TableInvertCaseFunction(const Ch: REChar): REChar;
    public
      constructor Create(const AEncoding: String); overload;
+     procedure ChangeEncoding(const AEncoding: String);
 {$ENDIF}
 
     class function VersionMajor : integer; //###0.944
@@ -464,6 +466,9 @@ type
     // find match for InputString starting from AOffset position
     // (AOffset=1 - first char of InputString)
     function ExecPos (AOffset: PtrInt {$IFDEF DefParam}= 1{$ENDIF}) : boolean;
+
+    // set pointer to input string and input string length
+    procedure SetInputString(AInputString : PRegExprChar; ALength : UIntPtr); overload;
 
     // returns current input string (from last Exec call or last assign
     // to this property).
@@ -1177,12 +1182,17 @@ begin
   if Result = Ch then Result:= Chr(FLowerCase[Ord(Ch)]);
 end;
 
+procedure TRegExpr.ChangeEncoding(const AEncoding: String);
+begin
+ FLowerCase:= InitRecodeTable(AEncoding, True);
+ FUpperCase:= InitRecodeTable(AEncoding, False);
+end;
+
 constructor TRegExpr.Create(const AEncoding: String);
 begin
   Create;
+  ChangeEncoding(AEncoding);
   FInvertCase:= TableInvertCaseFunction;
-  FLowerCase:= InitRecodeTable(AEncoding, True);
-  FUpperCase:= InitRecodeTable(AEncoding, False);
 end;
 {$ENDIF}
 
@@ -1198,7 +1208,7 @@ destructor TRegExpr.Destroy;
     FreeMem (fExpression);
     fExpression:=nil;
   end;
-  if fInputString <> nil then
+  if (fInputLength = 0) and (fInputString <> nil) then
   begin
     FreeMem (fInputString);
     fInputString:=nil;
@@ -3485,6 +3495,13 @@ function TRegExpr.ExecPos (AOffset: PtrInt {$IFDEF DefParam}= 1{$ENDIF}) : boole
  end; { of function TRegExpr.ExecPos
 --------------------------------------------------------------}
 
+procedure TRegExpr.SetInputString(AInputString : PRegExprChar; ALength : UIntPtr);
+begin
+  fInputLength := ALength;
+  fInputString := AInputString;
+end; { of procedure TRegExpr.SetInputString
+--------------------------------------------------------------}
+
 function TRegExpr.ExecPrim (AOffset: PtrInt) : boolean;
  procedure ClearMatchs;
   // Clears matchs array
@@ -3529,7 +3546,11 @@ function TRegExpr.ExecPrim (AOffset: PtrInt) : boolean;
     EXIT;
    end;
 
-  InputLen := length (fInputString);
+  if (fInputLength > 0) then
+    InputLen := fInputLength
+  else begin
+    InputLen := length (fInputString);
+  end;
 
   //Check that the start position is not negative
   if AOffset < 1 then begin
@@ -3658,6 +3679,11 @@ procedure TRegExpr.SetInputString (const AInputString : RegExprString);
   Len : PtrInt;
   i : PtrInt;
  begin
+  if (fInputLength > 0) then
+  begin
+    fInputLength := 0;
+    fInputString := nil;
+  end;
   // clear Match* - before next Exec* call it's undefined
   for i := 0 to NSUBEXP - 1 do begin
     startp [i] := nil;
