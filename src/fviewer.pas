@@ -60,7 +60,7 @@ uses
   LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
   Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
   uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd,
-  uExifReader, KASStatusBar, uShowForm;
+  uExifReader, KASStatusBar, uShowForm, uRegExprA, uRegExprW;
 
 type
 
@@ -334,6 +334,9 @@ type
 {$ENDIF}
     FThread: TThread;
 
+    FRegExpA: TRegExpr;
+    FRegExpW: TRegExprW;
+
     //---------------------
     WlxPlugins: TWLXModuleList;
     FWlxModule: TWlxModule;
@@ -600,6 +603,8 @@ begin
   ActivePlugin := -1;
   FThumbnailManager:= nil;
   FExif:= TExifReader.Create;
+  FRegExpA:= TRegExpr.Create;
+  FRegExpW:= TRegExprW.Create;
   if not bQuickView then Menu:= MainMenu;
   FCommands := TFormCommands.Create(Self, actionList);
 
@@ -620,6 +625,8 @@ end;
 destructor TfrmViewer.Destroy;
 begin
   FExif.Free;
+  FreeAndNil(FRegExpA);
+  FreeAndNil(FRegExpW);
   FreeAndNil(FileList);
   FreeAndNil(FThumbnailManager);
   inherited Destroy;
@@ -2282,6 +2289,10 @@ begin
           Exit;
       end;
       FFindDialog.chkHex.Visible:= not bPlugin;
+      FFindDialog.cbRegExp.Visible:= (not bPlugin) and
+                                     (ViewerControl.FileSize < High(IntPtr)) and
+                                     ((ViewerControl.Encoding = veUtf16le) or (not (ViewerControl.Encoding in ViewerEncodingMultiByte)));
+      if not FFindDialog.cbRegExp.Visible then FFindDialog.cbRegExp.Checked:= False;
       // Load search history
       FFindDialog.cbDataToFind.Items.Assign(glsSearchHistory);
       sSearchTextU:= ViewerControl.Selection;
@@ -2306,48 +2317,83 @@ begin
         sSearchTextU:= glsSearchHistory[0];
     end;
 
-  if bPlugin then
+    if FFindDialog.cbRegExp.Checked then
     begin
-      iSearchParameter:= 0;
-      if bSearchBackwards then iSearchParameter:= lcs_backwards;
-      if FFindDialog.cbCaseSens.Checked then iSearchParameter:= iSearchParameter or lcs_matchcase;
-      FWlxModule.CallListSearchText(sSearchTextU, iSearchParameter);
-    end
-  else if ViewerControl.IsFileOpen then
-    begin
-      T:= GetTickCount64;
-      if not FFindDialog.chkHex.Checked then
-        sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU)
-      else try
-        sSearchTextA:= HexToBin(sSearchTextU);
-      except
-        on E: EConvertError do
-        begin
-          msgError(E.Message);
-          Exit;
-        end;
-      end;
+      if ViewerControl.Encoding <> veUtf16le then
+        FRegExpA.SetInputString(uRegExprA.PRegExprChar(ViewerControl.GetDataAdr), ViewerControl.FileSize)
+      else
+        FRegExpW.SetInputString(uRegExprW.PRegExprChar(ViewerControl.GetDataAdr), ViewerControl.FileSize div SizeOf(WideChar));
+    end;
 
-      // Choose search start position.
-      if FLastSearchPos <> ViewerControl.CaretPos then
-        FLastSearchPos := ViewerControl.CaretPos
-      else if not bSearchBackwards then
+  if bPlugin then
+  begin
+    iSearchParameter:= 0;
+    if bSearchBackwards then iSearchParameter:= lcs_backwards;
+    if FFindDialog.cbCaseSens.Checked then iSearchParameter:= iSearchParameter or lcs_matchcase;
+    FWlxModule.CallListSearchText(sSearchTextU, iSearchParameter);
+  end
+  else if ViewerControl.IsFileOpen then
+  begin
+    T:= GetTickCount64;
+    if not FFindDialog.chkHex.Checked then
+      sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU)
+    else try
+      sSearchTextA:= HexToBin(sSearchTextU);
+    except
+      on E: EConvertError do
       begin
-        iSearchParameter:= Length(sSearchTextA);
-        if bNewSearch then
-          FLastSearchPos := 0
-        else if FLastSearchPos < ViewerControl.FileSize - iSearchParameter then
-          FLastSearchPos := FLastSearchPos + iSearchParameter;
+        msgError(E.Message);
+        Exit;
+      end;
+    end;
+
+    // Choose search start position.
+    if FLastSearchPos <> ViewerControl.CaretPos then
+      FLastSearchPos := ViewerControl.CaretPos
+    else if FFindDialog.cbRegExp.Checked then
+    begin
+      if bNewSearch then FLastSearchPos := 0
+    end
+    else if not bSearchBackwards then
+    begin
+      iSearchParameter:= Length(sSearchTextA);
+      if bNewSearch then
+        FLastSearchPos := 0
+      else if FLastSearchPos < ViewerControl.FileSize - iSearchParameter then
+        FLastSearchPos := FLastSearchPos + iSearchParameter;
+    end
+    else begin
+      iSearchParameter:= IfThen(ViewerControl.Encoding in ViewerEncodingDoubleByte, 2, 1);
+      if bNewSearch then
+        FLastSearchPos := ViewerControl.FileSize - 1
+      else if FLastSearchPos >= iSearchParameter then
+        FLastSearchPos := FLastSearchPos - iSearchParameter;
+    end;
+    bNewSearch := False;
+
+    if FFindDialog.cbRegExp.Checked then
+    begin
+      if ViewerControl.Encoding <> veUtf16le then
+      begin
+        FRegExpA.Expression:= sSearchTextA;
+        bTextFound:= FRegExpA.Exec(FLastSearchPos + 2);
+        if bTextFound then
+        begin
+          iSearchParameter:= FRegExpA.MatchLen[0];
+          FLastSearchPos:= FRegExpA.MatchPos[0] - 1;
+        end;
       end
       else begin
-        iSearchParameter:= IfThen(ViewerControl.Encoding in ViewerEncodingDoubleByte, 2, 1);
-        if bNewSearch then
-          FLastSearchPos := ViewerControl.FileSize - 1
-        else if FLastSearchPos >= iSearchParameter then
-          FLastSearchPos := FLastSearchPos - iSearchParameter;
+        FRegExpW.Expression:= UTF8Decode(sSearchTextU);
+        bTextFound:= FRegExpW.Exec((FLastSearchPos + 1) div SizeOf(WideChar) + 1);
+        if bTextFound then
+        begin
+          iSearchParameter:= FRegExpW.MatchLen[0] * SizeOf(WideChar);
+          FLastSearchPos:= FRegExpW.MatchPos[0] * SizeOf(WideChar) - 1;
+        end;
       end;
-      bNewSearch := False;
-
+    end
+    else begin
       // Using standard search algorithm if hex or case sensitive and multibyte
       if FFindDialog.chkHex.Checked or (FFindDialog.cbCaseSens.Checked and (ViewerControl.Encoding in ViewerEncodingMultiByte)) then
       begin
@@ -2391,25 +2437,27 @@ begin
         bTextFound := (PAdr <> PtrInt(-1));
         if bTextFound then FLastSearchPos := PAdr + FLastSearchPos;
       end;
+      iSearchParameter:= Length(sSearchTextA);
+    end;
 
-      if bTextFound then
-        begin
-          DCDebug('Search time: ' + IntToStr(GetTickCount64 - T));
-          // Text found, show it in ViewerControl if not visible
-          ViewerControl.MakeVisible(FLastSearchPos);
-          // Select found text.
-          ViewerControl.CaretPos := FLastSearchPos;
-          ViewerControl.SelectText(FLastSearchPos, FLastSearchPos + Length(sSearchTextA));
-        end
-      else
-        begin
-          msgOK(Format(rsViewNotFound, ['"' + sSearchTextU + '"']));
-          if (ViewerControl.Selection <> sSearchTextU) then begin
-            ViewerControl.SelectText(0, 0);
-          end;
-          bNewSearch := True;
-          FLastSearchPos := ViewerControl.CaretPos;
+    if bTextFound then
+      begin
+        DCDebug('Search time: ' + IntToStr(GetTickCount64 - T));
+        // Text found, show it in ViewerControl if not visible
+        ViewerControl.MakeVisible(FLastSearchPos);
+        // Select found text.
+        ViewerControl.CaretPos := FLastSearchPos;
+        ViewerControl.SelectText(FLastSearchPos, FLastSearchPos + iSearchParameter);
+      end
+    else
+      begin
+        msgOK(Format(rsViewNotFound, ['"' + sSearchTextU + '"']));
+        if (ViewerControl.Selection <> sSearchTextU) then begin
+          ViewerControl.SelectText(0, 0);
         end;
+        bNewSearch := True;
+        FLastSearchPos := ViewerControl.CaretPos;
+      end;
     end;
 end;
 
@@ -2480,6 +2528,7 @@ begin
       vcmBook: miLookBook.Checked := True;
     end;
 
+    FRegExpA.ChangeEncoding(ViewerControl.EncodingName);
     Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
     Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
   end
@@ -2810,6 +2859,7 @@ begin
     if Assigned(MenuItem) then
     begin
       MenuItem.Checked := True;
+      FRegExpA.ChangeEncoding(Params[0]);
       ViewerControl.EncodingName := Params[0];
       Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
     end;
