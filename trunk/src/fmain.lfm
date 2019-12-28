@@ -104,7 +104,6 @@ object frmMain: TfrmMain
           Flat = True
           ShowCaptions = True
           TabOrder = 0
-          OnResize = dskLeftResize
           OnToolButtonClick = dskLeftToolButtonClick
           OnToolButtonMouseUp = dskToolButtonMouseUp
           OnToolButtonDragDrop = dskLeftRightToolButtonDragDrop
@@ -137,7 +136,6 @@ object frmMain: TfrmMain
           Flat = True
           ShowCaptions = True
           TabOrder = 0
-          OnResize = dskRightResize
           OnToolButtonClick = dskRightToolButtonClick
           OnToolButtonMouseUp = dskToolButtonMouseUp
           OnToolButtonDragDrop = dskLeftRightToolButtonDragDrop

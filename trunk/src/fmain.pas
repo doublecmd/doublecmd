@@ -566,8 +566,6 @@ type
     procedure btnDriveMouseUp(Sender: TObject; Button: TMouseButton; {%H-}Shift: TShiftState; X, Y: Integer);
     procedure ConsoleSplitterCanResize(Sender: TObject; var NewSize: Integer;
       var {%H-}Accept: Boolean);
-    procedure dskLeftResize(Sender: TObject);
-    procedure dskRightResize(Sender: TObject);
     procedure dskLeftRightToolButtonDragDrop(Sender, {%H-}Source: TObject; {%H-}X, {%H-}Y: Integer);
     procedure dskToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure lblAllProgressPctClick(Sender: TObject);
@@ -1267,16 +1265,6 @@ begin
       end;
     end;
   end;
-end;
-
-procedure TfrmMain.dskLeftResize(Sender: TObject);
-begin
-  pnlDskLeft.ClientHeight := dskLeft.Height;
-end;
-
-procedure TfrmMain.dskRightResize(Sender: TObject);
-begin
-  pnlDskRight.ClientHeight := dskRight.Height;
 end;
 
 procedure TfrmMain.dskRightToolButtonClick(Sender: TObject);
@@ -3949,7 +3937,10 @@ end;
 procedure TfrmMain.pnlLeftResize(Sender: TObject);
 begin
   if gDriveBar1 and gDriveBar2 and not gHorizontalFilePanels then
-    pnlDskLeft.Width := pnlLeft.Width;
+  begin
+    pnlDskLeft.Constraints.MinWidth:= pnlLeft.Width;
+    pnlDskLeft.Constraints.MaxWidth:= pnlLeft.Width;
+  end;
 
   // Put splitter after left panel.
   if not gHorizontalFilePanels then
@@ -4034,17 +4025,24 @@ begin
 end;
 
 procedure TfrmMain.pnlRightResize(Sender: TObject);
+var
+  AWidth: Integer;
 begin
   if gDriveBar1 and not gHorizontalFilePanels then
   begin
     if gDriveBar2 then
-      pnlDskRight.Width := pnlRight.Width + 1
-    else
-      pnlDskRight.Width := pnlNotebooks.Width - 2;
+      AWidth := pnlRight.Width + 1
+    else begin
+      AWidth := pnlNotebooks.Width - 2;
+    end;
+    pnlDskRight.Constraints.MinWidth := AWidth;
+    pnlDskRight.Constraints.MaxWidth := AWidth;
   end
   else if gHorizontalFilePanels and not gDriveBar2 then
   begin
-    pnlDskRight.Width := pnlNotebooks.Width - 2;
+    AWidth := pnlNotebooks.Width - 2;
+    pnlDskRight.Constraints.MinWidth := AWidth;
+    pnlDskRight.Constraints.MaxWidth := AWidth;
   end;
 end;
 
@@ -4991,7 +4989,7 @@ begin
     if gHorizontalFilePanels and gDriveBar1 and gDriveBar2 then
     begin
       pnlLeftTools.Top := pnlDiskLeftInner.Height + 1;
-      pnlRightTools.Top :=pnlDiskRightInner.Height + 1;
+      pnlRightTools.Top := pnlDiskRightInner.Height + 1;
     end;
 
     // Create disk panels after assigning parent.
