@@ -417,6 +417,7 @@ begin
     if FPS_ISDIR(Header.FileAttr) then
     begin
       CurrentFileName := ExtractDirLevel(CurrentArchiveDir, Header.FileName);
+      CurrentFileName := ReplaceInvalidChars(CurrentFileName);
 
       // Save this directory and a pointer to its entry.
       DirsAttributes.Add(CurrentFileName, Header);
@@ -440,6 +441,7 @@ begin
         Inc(FStatistics.TotalFiles, 1);
 
         CurrentFileName := ExtractDirLevel(CurrentArchiveDir, ExtractFilePathEx(Header.FileName));
+        CurrentFileName := ReplaceInvalidChars(CurrentFileName);
 
         // If CurrentFileName is empty now then it was a file in current archive
         // directory, therefore we don't have to create any paths for it.
