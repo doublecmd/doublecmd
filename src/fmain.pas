@@ -3337,7 +3337,7 @@ begin
        ((not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory)) or
         (TargetPath = ''))
     then
-      sDestination := TargetPath + SourceFiles[0].Name
+      sDestination := TargetPath + ReplaceInvalidChars(SourceFiles[0].Name)
     else
       sDestination := TargetPath + '*.*';
 

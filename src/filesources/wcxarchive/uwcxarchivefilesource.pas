@@ -477,7 +477,7 @@ begin
     end;
 
     // Set name after assigning Attributes property, because it is used to get extension.
-    Name := ExtractFileName(WcxHeader.FileName);
+    Name := ExtractFileNameEx(WcxHeader.FileName);
   end;
 end;
 

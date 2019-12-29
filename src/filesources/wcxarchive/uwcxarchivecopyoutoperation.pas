@@ -14,6 +14,7 @@ uses
   uFileSourceOperationOptions,
   uFileSourceOperationOptionsUI,
   uFile,
+  uMasks,
   uWcxModule,
   uWcxArchiveFileSource;
 
@@ -38,7 +39,7 @@ type
 
       @param(Files
              List of files/directories to extract (relative to archive root).)
-      @param(FileMask
+      @param(MaskList
              Only directories containing files matching this mask will be created.)
       @param(sDestPath
              Destination path where the files will be extracted.)
@@ -47,7 +48,7 @@ type
       @param(CreatedPaths
              This list will be filled with absolute paths to directories
              that were created, together with their attributes.)}
-    procedure CreateDirsAndCountFiles(const theFiles: TFiles; FileMask: String;
+    procedure CreateDirsAndCountFiles(const theFiles: TFiles; MaskList: TMaskList;
                                       sDestPath: String; CurrentArchiveDir: String;
                                       var CreatedPaths: TStringHashListUtf8);
 
@@ -94,7 +95,7 @@ type
 implementation
 
 uses
-  Forms, LazUTF8, uMasks, FileUtil, contnrs, DCOSUtils, DCStrUtils, uDCUtils,
+  Forms, LazUTF8, FileUtil, contnrs, DCOSUtils, DCStrUtils, uDCUtils,
   fWcxArchiveCopyOperationOptions, uFileSystemUtil,
   uFileProcs, uLng, DCDateTimeUtils, DCBasicTypes, uShowMsg, DCConvertEncoding;
 
@@ -232,6 +233,7 @@ var
   iResult: Integer;
   Files: TFiles = nil;
   WcxModule: TWcxModule;
+  MaskList: TMaskList;
 begin
   WcxModule := FWcxArchiveFileSource.WcxModule;
 
@@ -244,8 +246,14 @@ begin
     RaiseAbortOperation;
   end;
 
-  FileMask := ExtractFileName(TargetPath);
+  FileMask := ExtractFileNameEx(TargetPath);
   if FileMask = '' then FileMask := '*';  // extract all selected files/folders
+
+  if (FileMask = '*.*') or (FileMask = '*') then
+    MaskList:= nil
+  else begin
+    MaskList:= TMaskList.Create(FileMask);
+  end;
 
   // Convert file list so that filenames are relative to archive root.
   Files := SourceFiles.Clone;
@@ -255,7 +263,7 @@ begin
 
   try
     // Count total files size and create needed directories.
-    CreateDirsAndCountFiles(Files, FileMask,
+    CreateDirsAndCountFiles(Files, MaskList,
                             TargetPath, Files.Path,
                             CreatedPaths);
 
@@ -270,22 +278,22 @@ begin
 
       if  (not FPS_ISDIR(Header.FileAttr))           // Omit directories (we handle them ourselves).
       and MatchesFileList(Files, Header.FileName)    // Check if it's included in the filelist
-      and ((FileMask = '*.*') or (FileMask = '*')    // And name matches file mask
-          or MatchesMaskList(ExtractFileName(Header.FileName), FileMask))
+      and ((MaskList = nil) or MaskList.Matches(ExtractFileNameEx(Header.FileName))) // And name matches file mask
       then
       begin
         if FExtractWithoutPath then
-          TargetFileName := TargetPath + ExtractFileName(Header.FileName)
+          TargetFileName := ExtractFileNameEx(Header.FileName)
         else
-          TargetFileName := TargetPath + ExtractDirLevel(Files.Path, Header.FileName);
+          TargetFileName := ExtractDirLevel(Files.Path, Header.FileName);
 
         if FRenamingFiles then
         begin
-          TargetFileName := ExtractFilePath(TargetFileName) +
-                            ApplyRenameMask(ExtractFileName(TargetFileName),
+          TargetFileName := ExtractFilePathEx(TargetFileName) +
+                            ApplyRenameMask(ExtractFileNameEx(TargetFileName),
                                             FRenameNameMask, FRenameExtMask);
-
         end;
+
+        TargetFileName := TargetPath + ReplaceInvalidChars(TargetFileName);
 
         with FStatistics do
         begin
@@ -352,6 +360,7 @@ begin
     iResult := WcxModule.CloseArchive(ArcHandle);
     // Free memory
     FreeAndNil(Files);
+    FreeAndNil(MaskList);
     FreeAndNil(CreatedPaths);
   end;
 end;
@@ -372,7 +381,7 @@ begin
 end;
 
 procedure TWcxArchiveCopyOutOperation.CreateDirsAndCountFiles(
-              const theFiles: TFiles; FileMask: String;
+              const theFiles: TFiles; MaskList: TMaskList;
               sDestPath: String; CurrentArchiveDir: String;
               var CreatedPaths: TStringHashListUtf8);
 var
@@ -416,7 +425,7 @@ begin
 
       // If extracting all files and directories, add this directory
       // to PathsToCreate so that empty directories are also created.
-      if (FileMask = '*.*') or (FileMask = '*') then
+      if (MaskList = nil) then
       begin
         // Paths in PathsToCreate list must end with path delimiter.
         CurrentFileName := IncludeTrailingPathDelimiter(CurrentFileName);
@@ -427,13 +436,12 @@ begin
     end
     else
     begin
-      if ((FileMask = '*.*') or (FileMask = '*') or
-          MatchesMaskList(ExtractFileName(Header.FileName), FileMask)) then
+      if ((MaskList = nil) or MaskList.Matches(ExtractFileNameEx(Header.FileName))) then
       begin
         Inc(FStatistics.TotalBytes, Header.UnpSize);
         Inc(FStatistics.TotalFiles, 1);
 
-        CurrentFileName := ExtractDirLevel(CurrentArchiveDir, ExtractFilePath(Header.FileName));
+        CurrentFileName := ExtractDirLevel(CurrentArchiveDir, ExtractFilePathEx(Header.FileName));
 
         // If CurrentFileName is empty now then it was a file in current archive
         // directory, therefore we don't have to create any paths for it.
@@ -525,13 +533,7 @@ begin
         // Restore attributes
         mbFileSetAttr(TargetDir, Header.FileAttr);
 
-{$IF DEFINED(MSWINDOWS)}
-        DosToWinTime(TDosFileTime(Header.FileTime), Time);
-{$ELSE}
-  {$PUSH}{$R-}
-        Time := Header.FileTime;
-  {$POP}
-{$ENDIF}
+        Time := WcxFileTimeToFileTime(Header.FileTime);
 
         // Set creation, modification time
         mbFileSetTime(TargetDir, Time, Time, Time);
@@ -657,12 +659,12 @@ begin
             end;
           fsourRenameSource:
             begin
-              Message:= ExtractFileName(AbsoluteTargetFileName);
+              Message:= ExtractFileNameEx(AbsoluteTargetFileName);
               Answer:= ShowInputQuery(Thread, Application.Title, rsEditNewFileName, Message);
               if Answer then
               begin
                 Result:= fsoofeOverwrite;
-                AbsoluteTargetFileName:= ExtractFilePath(AbsoluteTargetFileName) + Message;
+                AbsoluteTargetFileName:= ExtractFilePathEx(AbsoluteTargetFileName) + Message;
               end;
             end;
           fsourNone,
