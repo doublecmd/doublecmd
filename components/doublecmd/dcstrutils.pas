@@ -93,6 +93,8 @@ function GetAbsoluteFileName(const sPath, sRelativeFileName : String) : String;
             ptAbsolute if a path is absolute)                 (/root/MyDir)
 }
 function GetPathType(const sPath : String): TPathType;
+function ExtractFilePathEx(const FileName: String): String;
+function ExtractFileNameEx(const FileName: String): String;
 {en
    Get file name without path and extension
    @param(FileName File name)
@@ -107,6 +109,7 @@ function ExtractOnlyFileExt(const FileName: string): string;
    Remove file extension with the '.' from file name.
 }
 function RemoveFileExt(const FileName: String): String;
+function ReplaceInvalidChars(const FileName: String): String;
 function RemoveInvalidCharsFromFileName(const FileName: String): String;
 function ContainsWildcards(const Path: String): Boolean;
 {en
@@ -517,6 +520,29 @@ begin
     Result := ptNone;
 end;
 
+function ExtractFilePathEx(const FileName: String): String;
+var
+  i : longint;
+begin
+  i := Length(FileName);
+  while (i > 0) and not CharInSet(FileName[i],AllowDirectorySeparators) do
+    Dec(i);
+  If I>0 then
+    Result := Copy(FileName, 1, i)
+  else
+    Result:='';
+end;
+
+function ExtractFileNameEx(const FileName: String): String;
+var
+  i : longint;
+begin
+  I := Length(FileName);
+  while (I > 0) and not CharInSet(FileName[I],AllowDirectorySeparators) do
+    Dec(I);
+  Result := Copy(FileName, I + 1, MaxInt);
+end;
+
 function ExtractOnlyFileName(const FileName: string): string;
 var
   SOF : Boolean;
@@ -581,13 +607,33 @@ begin
   Result := ContainsOneOf(Path, '*?');
 end;
 
+function ReplaceInvalidChars(const FileName: String): String;
+const
+{$IFDEF MSWINDOWS}
+  ForbiddenChars : set of char = ['<','>',':','"','/','|','?','*'];
+{$ELSE}
+  ForbiddenChars : set of char = [#0];
+{$ENDIF}
+var
+  I : LongInt;
+begin
+  Result:= EmptyStr;
+  for I:= 1 to Length(FileName) do
+  begin
+    if not (FileName[I] in ForbiddenChars) then
+      Result:= Result + FileName[I]
+    else
+      Result+= '%' + HexStr(Ord(FileName[I]), 2);
+  end;
+end;
+
 { RemoveInvalidCharsFromFileName }
 function RemoveInvalidCharsFromFileName(const FileName: String): String;
 const
 {$IFDEF MSWINDOWS}
   ForbiddenChars : set of char = ['<','>',':','"','/','\','|','?','*'];
 {$ELSE}
-ForbiddenChars : set of char = ['/'];
+  ForbiddenChars : set of char = ['/'];
 {$ENDIF}
 var
   I : LongInt;
