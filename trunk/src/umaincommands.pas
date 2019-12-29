@@ -1170,8 +1170,10 @@ begin
       NewPage := OpenTab(aFile.FullPath)
     else if FileIsArchive(aFile.FullPath) then
       NewPage := OpenArchive(aFile)
-    else
+    else begin
       NewPage := OpenTab(aFile.Path);
+      NewPage.FileView.SetActiveFile(aFile.Name);
+    end;
   finally
     FreeAndNil(aFile);
   end;
