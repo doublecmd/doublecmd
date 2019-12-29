@@ -1,4 +1,4 @@
-unit uArchiveCopyInOperation;
+unit uArchiveCopyOperation;
 
 {$mode objfpc}{$H+}
 
@@ -26,6 +26,15 @@ type
     procedure DoReloadFileSources; override;
   public
     property CreateNew: Boolean read FCreateNew write FCreateNew;
+  end;
+
+  { TArchiveCopyOutOperation }
+
+  TArchiveCopyOutOperation = class(TFileSourceCopyOutOperation)
+  protected
+    FExtractMask: String;
+  public
+    property ExtractMask: String read FExtractMask write FExtractMask;
   end;
 
 implementation

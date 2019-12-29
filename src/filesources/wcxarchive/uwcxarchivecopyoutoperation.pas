@@ -8,6 +8,7 @@ interface
 uses
   Classes, LazFileUtils,SysUtils, DCStringHashListUtf8, WcxPlugin, uLog, uGlobs,
   uFileSourceCopyOperation,
+  uArchiveCopyOperation,
   uFileSource,
   uFileSourceOperation,
   uFileSourceOperationUI,
@@ -22,7 +23,7 @@ type
 
   { TWcxArchiveCopyOutOperation }
 
-  TWcxArchiveCopyOutOperation = class(TFileSourceCopyOutOperation)
+  TWcxArchiveCopyOutOperation = class(TArchiveCopyOutOperation)
 
   private
     FWcxArchiveFileSource: IWcxArchiveFileSource;
@@ -227,7 +228,6 @@ var
   ArcHandle: TArcHandle;
   Header: TWCXHeader;
   TargetFileName: String;
-  FileMask: String;
   CreatedPaths: TStringHashListUtf8;
   OpenResult: Longint;
   iResult: Integer;
@@ -246,13 +246,11 @@ begin
     RaiseAbortOperation;
   end;
 
-  FileMask := ExtractFileNameEx(TargetPath);
-  if FileMask = '' then FileMask := '*';  // extract all selected files/folders
-
-  if (FileMask = '*.*') or (FileMask = '*') then
+  // Extract all selected files/folders
+  if (FExtractMask = '') or (FExtractMask = '*.*') or (FExtractMask = '*') then
     MaskList:= nil
   else begin
-    MaskList:= TMaskList.Create(FileMask);
+    MaskList:= TMaskList.Create(FExtractMask);
   end;
 
   // Convert file list so that filenames are relative to archive root.
