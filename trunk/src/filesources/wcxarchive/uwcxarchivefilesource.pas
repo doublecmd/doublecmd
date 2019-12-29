@@ -657,6 +657,7 @@ var
   AllDirsList, ExistsDirList : TStringHashListUtf8;
   I : Integer;
   NameLength: Integer;
+  ArchiveTime: LongInt;
 begin
   Result:= False;
 
@@ -685,66 +686,63 @@ begin
 
   try
     while (WcxModule.ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
+    begin
+      // Some plugins end directories with path delimiter.
+      // And not set directory attribute. So delete path
+      // delimiter if present and add directory attribute.
+      NameLength := Length(Header.FileName);
+      if (NameLength > 0) and (Header.FileName[NameLength] = PathDelim) then
       begin
-        // Some plugins end directories with path delimiter.
-        // And not set directory attribute. So delete path
-        // delimiter if present and add directory attribute.
-        NameLength := Length(Header.FileName);
-        if (NameLength > 0) and (Header.FileName[NameLength] = PathDelim) then
-        begin
-          Delete(Header.FileName, NameLength, 1);
-          Header.FileAttr := Header.FileAttr or GENERIC_ATTRIBUTE_FOLDER;
-        end;
+        Delete(Header.FileName, NameLength, 1);
+        Header.FileAttr := Header.FileAttr or GENERIC_ATTRIBUTE_FOLDER;
+      end;
 
-        //**********************************************************************
+      //**********************************************************************
 
-        // Workaround for plugins that don't give a list of
-        // folders or the list does not include all of the folders.
-        if FPS_ISDIR(Header.FileAttr) then
-        begin
-          // Collect directories that the plugin supplies.
-          if (ExistsDirList.Find(Header.FileName) < 0) then
-            ExistsDirList.Add(Header.FileName);
-        end;
-
-        // Collect all directories.
-        CollectDirs(PAnsiChar(Header.FileName), AllDirsList);
-
-        //**********************************************************************
-
-        FArcFileList.Add(Header);
-
-        // get next file
-        FOpenResult := WcxModule.WcxProcessFile(ArcHandle, PK_SKIP, EmptyStr, EmptyStr);
-
-        // Check for errors
-        if FOpenResult <> E_SUCCESS then Exit;
-      end; // while
-
-      (* if plugin does not give a list of folders *)
-      for I := 0 to AllDirsList.Count - 1 do
+      // Workaround for plugins that don't give a list of
+      // folders or the list does not include all of the folders.
+      if FPS_ISDIR(Header.FileAttr) then
       begin
-        // Add only those directories that were not supplied by the plugin.
-        if ExistsDirList.Find(AllDirsList.List[I]^.Key) < 0 then
-        begin
-          Header := TWCXHeader.Create;
-          try
-            Header.FileName := AllDirsList.List[I]^.Key;
-            Header.ArcName  := ArchiveFileName;
-            Header.FileAttr := GENERIC_ATTRIBUTE_FOLDER;
-{$IFDEF MSWINDOWS}
-            WinToDosTime(mbFileAge(ArchiveFileName), Header.FileTime);
-{$ELSE}
-{$PUSH}{$R-}
-            Header.FileTime := LongInt(mbFileAge(ArchiveFileName));
-{$POP}
-{$ENDIF}
-            FArcFileList.Add(Header);
-          except
-            FreeAndNil(Header);
-          end;
+        // Collect directories that the plugin supplies.
+        if (ExistsDirList.Find(Header.FileName) < 0) then
+          ExistsDirList.Add(Header.FileName);
+      end;
+
+      // Collect all directories.
+      CollectDirs(PAnsiChar(Header.FileName), AllDirsList);
+
+      //**********************************************************************
+
+      FArcFileList.Add(Header);
+
+      // get next file
+      FOpenResult := WcxModule.WcxProcessFile(ArcHandle, PK_SKIP, EmptyStr, EmptyStr);
+
+      // Check for errors
+      if FOpenResult <> E_SUCCESS then Exit;
+    end; // while
+
+    ArchiveTime:= FileTimeToWcxFileTime(mbFileAge(ArchiveFileName));
+
+    (* if plugin does not give a list of folders *)
+    for I := 0 to AllDirsList.Count - 1 do
+    begin
+      // Add only those directories that were not supplied by the plugin.
+      if ExistsDirList.Find(AllDirsList.List[I]^.Key) < 0 then
+      begin
+        Header := TWCXHeader.Create;
+        try
+          Header.FileName := AllDirsList.List[I]^.Key;
+          Header.ArcName  := ArchiveFileName;
+          Header.FileAttr := GENERIC_ATTRIBUTE_FOLDER;
+          Header.FileTime := ArchiveTime;
+
+          FArcFileList.Add(Header);
+        except
+          FreeAndNil(Header);
         end;
       end;
+    end;
 
     Result:= True;
   finally
