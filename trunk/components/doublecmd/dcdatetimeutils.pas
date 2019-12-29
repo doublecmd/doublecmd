@@ -94,6 +94,7 @@ function UnixFileTimeToDosTime(UnixTime: TUnixFileTime): TDosFileTime;
 function UnixFileTimeToWinTime(UnixTime: TUnixFileTime): TWinFileTime;
 function WinFileTimeToUnixTime(WinTime: TWinFileTime) : TUnixFileTime;
 
+function WcxFileTimeToFileTime(WcxTime: LongInt): DCBasicTypes.TFileTime; inline;
 function WcxFileTimeToDateTime(WcxTime: LongInt): TDateTime;
 function UnixFileTimeToWcxTime(UnixTime: TUnixFileTime): LongInt;
 
@@ -500,6 +501,15 @@ begin
     Result:= 0
   else
     Result:= TUnixFileTime((WinTime - UnixWinEpoch) div 10000000);
+end;
+
+function WcxFileTimeToFileTime(WcxTime: LongInt): DCBasicTypes.TFileTime;
+begin
+{$IF DEFINED(MSWINDOWS)}
+  DosToWinTime(TDosFileTime(WcxTime), Result);
+{$ELSE}
+  Result := TFileTime(WcxTime);
+{$ENDIF}
 end;
 
 function WcxFileTimeToDateTime(WcxTime: LongInt): TDateTime;
