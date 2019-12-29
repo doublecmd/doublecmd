@@ -627,8 +627,6 @@ begin
   if Result = atUnknown then
     Result := VerifyXz(aStream);
   if Result = atUnknown then
-    Result := VerifyLzma(aStream);
-  if Result = atUnknown then
     Result := VerifyZstd(aStream);
 end;
 { -------------------------------------------------------------------------- }

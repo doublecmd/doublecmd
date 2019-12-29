@@ -509,7 +509,7 @@ Index: AbBrowse.pas
      end;
    end;
  end;
-@@ -583,18 +611,25 @@
+@@ -583,18 +611,23 @@
  begin
    { VerifyZip returns true for self-extracting zips too, so test those first }
    Result := VerifySelfExtracting(aStream);
@@ -531,8 +531,6 @@ Index: AbBrowse.pas
    {$ENDIF}
 +  if Result = atUnknown then
 +    Result := VerifyXz(aStream);
-+  if Result = atUnknown then
-+    Result := VerifyLzma(aStream);
 +  if Result = atUnknown then
 +    Result := VerifyZstd(aStream);
  end;
