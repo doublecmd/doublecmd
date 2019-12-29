@@ -54,7 +54,7 @@ type
     FArcType: String;
     procedure SwitchOptions;
     procedure ExtractArchive(ArchiveFileSource: IArchiveFileSource; TargetFileSource: IFileSource;
-                             const TargetPath: String; QueueId: TOperationsManagerQueueIdentifier);
+                             const TargetPath, TargetMask: String; QueueId: TOperationsManagerQueueIdentifier);
   public
     { public declarations }
   end;
@@ -79,6 +79,7 @@ uses
   uWcxArchiveFileSource,
   uWcxArchiveCopyOutOperation,
   uFileSourceOperationOptions,
+  uArchiveCopyOperation,
   uMasks;
 
 function GetTargetPath(FileSource: IArchiveFileSource; const TargetPath: String): String;
@@ -147,6 +148,7 @@ begin
 
               if Assigned(Operation) then
               begin
+                TArchiveCopyOutOperation(Operation).ExtractMask := cbFileMask.Text;
                 // Start operation.
                 OperationsManager.AddOperation(Operation, QueueIdentifier, False);
               end
@@ -174,7 +176,7 @@ begin
                 ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i], EmptyStr, False, True);
 
                 // Extract current item
-                ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath, QueueId);
+                ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath, cbFileMask.Text, QueueId);
               except
                 on E: Exception do
                 begin
@@ -240,7 +242,7 @@ begin
 end;
 
 procedure TfrmExtractDlg.ExtractArchive(ArchiveFileSource: IArchiveFileSource;
-  TargetFileSource: IFileSource; const TargetPath: String;
+  TargetFileSource: IFileSource; const TargetPath, TargetMask: String;
   QueueId: TOperationsManagerQueueIdentifier);
 var
   FilesToExtract: TFiles;
@@ -275,6 +277,7 @@ begin
             begin
               with Operation as TMultiArchiveCopyOutOperation do
               begin
+                ExtractMask := TargetMask;
                 Password := edtPassword.Text;
                 ExtractWithoutPath:= not cbExtractPath.Checked;
               end;
@@ -283,6 +286,7 @@ begin
             begin
               with Operation as TWcxArchiveCopyOutOperation do
               begin
+                ExtractMask := TargetMask;
                 if cbOverwrite.Checked then
                   FileExistsOption := fsoofeOverwrite;
                 ExtractWithoutPath:= not cbExtractPath.Checked;

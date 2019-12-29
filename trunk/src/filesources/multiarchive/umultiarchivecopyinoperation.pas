@@ -10,7 +10,7 @@ uses
   uFileSourceCopyOperation,
   uFileSource,
   uFile,
-  uArchiveCopyInOperation,
+  uArchiveCopyOperation,
   uMultiArchiveFileSource;
 
 type

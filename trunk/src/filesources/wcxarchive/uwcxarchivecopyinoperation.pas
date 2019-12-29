@@ -13,8 +13,8 @@ uses
   uFile,
   uWcxModule,
   uWcxArchiveFileSource,
+  uArchiveCopyOperation,
   uFileSourceOperationUI,
-  uArchiveCopyInOperation,
   uFileSourceOperationOptions,
   uFileSourceOperationOptionsUI;
 

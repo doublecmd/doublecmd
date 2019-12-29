@@ -13,13 +13,14 @@ uses
   uFileSourceOperationOptionsUI,
   uFileSource,
   uFile,
+  uArchiveCopyOperation,
   uMultiArchiveFileSource;
 
 type
 
   { TMultiArchiveCopyOutOperation }
 
-  TMultiArchiveCopyOutOperation = class(TFileSourceCopyOutOperation)
+  TMultiArchiveCopyOutOperation = class(TArchiveCopyOutOperation)
 
   private
     FMultiArchiveFileSource: IMultiArchiveFileSource;
@@ -68,7 +69,6 @@ type
   protected
     FExProcess: TExProcess;
     FTempFile: String;
-    FFileMask: String;
     FErrorLevel: LongInt;
     procedure OnReadLn(str: string);
     procedure OnQueryString(str: string);
@@ -146,11 +146,10 @@ begin
 
   AddStateChangedListener([fsosStarting, fsosPausing, fsosStopping], @FileSourceOperationStateChangedNotify);
 
-  FFileMask := ExtractFileName(TargetPath);
-  if FFileMask = '' then FFileMask := '*';  // extract all selected files/folders
+  if FExtractMask = '' then FExtractMask := '*';  // extract all selected files/folders
 
   with FMultiArchiveFileSource do
-  FillAndCount(FFileMask, SourceFiles,
+  FillAndCount(FExtractMask, SourceFiles,
                True,
                FFullFilesTreeToExtract,
                FStatistics.TotalFiles,
@@ -205,7 +204,7 @@ begin
               Continue;
 
             // Get target directory
-            sTempDir:= ExtractFileDir(TargetFileName);
+            sTempDir:= ExtractFileDirEx(TargetFileName);
 
             UpdateProgress(aFile.FullPath, TargetFileName, 0);
 

@@ -93,6 +93,7 @@ function GetAbsoluteFileName(const sPath, sRelativeFileName : String) : String;
             ptAbsolute if a path is absolute)                 (/root/MyDir)
 }
 function GetPathType(const sPath : String): TPathType;
+function ExtractFileDirEx(const FileName: String): String;
 function ExtractFilePathEx(const FileName: String): String;
 function ExtractFileNameEx(const FileName: String): String;
 {en
@@ -518,6 +519,19 @@ begin
   end
   else
     Result := ptNone;
+end;
+
+function ExtractFileDirEx(const FileName: String): String;
+var
+  i : longint;
+begin
+  I := Length(FileName);
+  while (I > 0) and not CharInSet(FileName[I],AllowDirectorySeparators) do
+    Dec(I);
+  if (I > 1) and CharInSet(FileName[I],AllowDirectorySeparators) and
+     not CharInSet(FileName[I - 1],AllowDirectorySeparators) then
+    Dec(I);
+  Result := Copy(FileName, 1, I);
 end;
 
 function ExtractFilePathEx(const FileName: String): String;
