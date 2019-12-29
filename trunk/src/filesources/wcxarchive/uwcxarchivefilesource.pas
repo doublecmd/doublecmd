@@ -263,12 +263,13 @@ class function TWcxArchiveFileSource.CreateByArchiveSign(
 var
   I: Integer;
   ModuleFileName: String;
-  WcxPlugin: TWcxModule;
   bFound: Boolean = False;
   lOpenResult: LongInt;
   anArchiveHandle: TArcHandle = 0;
+  WcxPlugin, WcxPrevious: TWcxModule;
 begin
   Result := nil;
+  WcxPrevious := nil;
 
   // Check if there is a registered plugin for the archive file by content.
   for I := 0 to gWCXPlugins.Count - 1 do
@@ -278,25 +279,29 @@ begin
       ModuleFileName := gWCXPlugins.FileName[I];
       WcxPlugin := gWCXPlugins.LoadModule(ModuleFileName);
       if Assigned(WcxPlugin) then
+      begin
+        if ((gWCXPlugins.Flags[I] and PK_CAPS_BY_CONTENT) = PK_CAPS_BY_CONTENT) then
         begin
-          if ((gWCXPlugins.Flags[I] and PK_CAPS_BY_CONTENT) = PK_CAPS_BY_CONTENT) then
+          if (WcxPlugin <> WcxPrevious) then
+          begin
+            WcxPrevious:= WcxPlugin;
+            if WcxPlugin.WcxCanYouHandleThisFile(anArchiveFileName) then
             begin
-              if WcxPlugin.WcxCanYouHandleThisFile(anArchiveFileName) then
+              anArchiveHandle:= WcxPlugin.OpenArchiveHandle(anArchiveFileName, PK_OM_LIST, lOpenResult);
+              if (anArchiveHandle <> 0) and (lOpenResult = E_SUCCESS) then
               begin
-                anArchiveHandle:= WcxPlugin.OpenArchiveHandle(anArchiveFileName, PK_OM_LIST, lOpenResult);
-                if (anArchiveHandle <> 0) and (lOpenResult = E_SUCCESS) then
-                begin
-                  bFound:= True;
-                  Break;
-                end;
+                bFound:= True;
+                Break;
               end;
-            end
-          else if ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) = PK_CAPS_HIDE) then
-            begin
-              bFound:= MatchesMask(anArchiveFileName, AllFilesMask + ExtensionSeparator + gWCXPlugins.Ext[I]);
-              if bFound then Break;
             end;
+          end;
+        end
+        else if ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) = PK_CAPS_HIDE) then
+        begin
+          bFound:= MatchesMask(anArchiveFileName, AllFilesMask + ExtensionSeparator + gWCXPlugins.Ext[I]);
+          if bFound then Break;
         end;
+      end;
     end;
   end;
   if bFound then
