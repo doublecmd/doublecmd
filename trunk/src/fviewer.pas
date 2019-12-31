@@ -60,7 +60,7 @@ uses
   LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
   Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
   uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd,
-  uExifReader, KASStatusBar, uShowForm, uRegExprA, uRegExprW;
+  uExifReader, KASStatusBar, uShowForm, uRegExprA, uRegExprW, uRegExprU;
 
 type
 
@@ -322,6 +322,7 @@ type
     FFindDialog:TfrmFindView;
     FWaitData: TWaitData;
     FLastSearchPos: PtrInt;
+    FLastMatchLength: IntPtr;
     tmp_all: TCustomBitmap;
     FModSizeDialog: TfrmModView;
     FThumbnailManager: TThumbnailManager;
@@ -336,6 +337,7 @@ type
 
     FRegExpA: TRegExpr;
     FRegExpW: TRegExprW;
+    FRegExpU: TRegExprU;
 
     //---------------------
     WlxPlugins: TWLXModuleList;
@@ -605,6 +607,7 @@ begin
   FExif:= TExifReader.Create;
   FRegExpA:= TRegExpr.Create;
   FRegExpW:= TRegExprW.Create;
+  FRegExpU:= TRegExprU.Create;
   if not bQuickView then Menu:= MainMenu;
   FCommands := TFormCommands.Create(Self, actionList);
 
@@ -627,6 +630,7 @@ begin
   FExif.Free;
   FreeAndNil(FRegExpA);
   FreeAndNil(FRegExpW);
+  FreeAndNil(FRegExpU);
   FreeAndNil(FileList);
   FreeAndNil(FThumbnailManager);
   inherited Destroy;
@@ -2291,7 +2295,11 @@ begin
       FFindDialog.chkHex.Visible:= not bPlugin;
       FFindDialog.cbRegExp.Visible:= (not bPlugin) and
                                      (ViewerControl.FileSize < High(IntPtr)) and
-                                     ((ViewerControl.Encoding = veUtf16le) or (not (ViewerControl.Encoding in ViewerEncodingMultiByte)));
+                                     (
+                                       (ViewerControl.Encoding = veUtf16le) or
+                                       (not (ViewerControl.Encoding in ViewerEncodingMultiByte)) or
+                                       (TRegExprU.Available and (ViewerControl.Encoding in [veUtf8, veUtf8bom]))
+                                     );
       if not FFindDialog.cbRegExp.Visible then FFindDialog.cbRegExp.Checked:= False;
       // Load search history
       FFindDialog.cbDataToFind.Items.Assign(glsSearchHistory);
@@ -2319,7 +2327,9 @@ begin
 
     if FFindDialog.cbRegExp.Checked then
     begin
-      if ViewerControl.Encoding <> veUtf16le then
+      if (ViewerControl.Encoding in [veUtf8, veUtf8bom]) then
+        FRegExpU.SetInputString(ViewerControl.GetDataAdr, ViewerControl.FileSize)
+      else if ViewerControl.Encoding <> veUtf16le then
         FRegExpA.SetInputString(uRegExprA.PRegExprChar(ViewerControl.GetDataAdr), ViewerControl.FileSize)
       else
         FRegExpW.SetInputString(uRegExprW.PRegExprChar(ViewerControl.GetDataAdr), ViewerControl.FileSize div SizeOf(WideChar));
@@ -2352,7 +2362,7 @@ begin
       FLastSearchPos := ViewerControl.CaretPos
     else if FFindDialog.cbRegExp.Checked then
     begin
-      if bNewSearch then FLastSearchPos := 0
+      if bNewSearch then FLastSearchPos := 0;
     end
     else if not bSearchBackwards then
     begin
@@ -2373,13 +2383,23 @@ begin
 
     if FFindDialog.cbRegExp.Checked then
     begin
-      if ViewerControl.Encoding <> veUtf16le then
+      if ViewerControl.Encoding in [veUtf8, veUtf8bom] then
+      begin
+        FRegExpU.Expression:= sSearchTextA;
+        bTextFound:= FRegExpU.Exec(FLastSearchPos + FLastMatchLength);
+        if bTextFound then
+        begin
+          FLastMatchLength:= FRegExpU.MatchLen[0];
+          FLastSearchPos:= FRegExpU.MatchPos[0];
+        end;
+      end
+      else if ViewerControl.Encoding <> veUtf16le then
       begin
         FRegExpA.Expression:= sSearchTextA;
         bTextFound:= FRegExpA.Exec(FLastSearchPos + 2);
         if bTextFound then
         begin
-          iSearchParameter:= FRegExpA.MatchLen[0];
+          FLastMatchLength:= FRegExpA.MatchLen[0];
           FLastSearchPos:= FRegExpA.MatchPos[0] - 1;
         end;
       end
@@ -2388,7 +2408,7 @@ begin
         bTextFound:= FRegExpW.Exec((FLastSearchPos + 1) div SizeOf(WideChar) + 1);
         if bTextFound then
         begin
-          iSearchParameter:= FRegExpW.MatchLen[0] * SizeOf(WideChar);
+          FLastMatchLength:= FRegExpW.MatchLen[0] * SizeOf(WideChar);
           FLastSearchPos:= FRegExpW.MatchPos[0] * SizeOf(WideChar) - 1;
         end;
       end;
@@ -2437,7 +2457,7 @@ begin
         bTextFound := (PAdr <> PtrInt(-1));
         if bTextFound then FLastSearchPos := PAdr + FLastSearchPos;
       end;
-      iSearchParameter:= Length(sSearchTextA);
+      FLastMatchLength:= Length(sSearchTextA);
     end;
 
     if bTextFound then
@@ -2447,7 +2467,7 @@ begin
         ViewerControl.MakeVisible(FLastSearchPos);
         // Select found text.
         ViewerControl.CaretPos := FLastSearchPos;
-        ViewerControl.SelectText(FLastSearchPos, FLastSearchPos + iSearchParameter);
+        ViewerControl.SelectText(FLastSearchPos, FLastSearchPos + FLastMatchLength);
       end
     else
       begin
