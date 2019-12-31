@@ -817,9 +817,30 @@ end;
 {$ENDIF}
 
 function CompareStrings(const s1, s2: String; Natural: Boolean; Special: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt; inline;
+{$IF DEFINED(MSWINDOWS)}
+var
+  CompareOptions: TCompareOptions;
+{$ENDIF}
 begin
   if Natural or Special then
+  begin
+{$IF DEFINED(MSWINDOWS)}
+    if (CaseSensitivity <> cstCharValue) and
+       ((Win32MajorVersion > 6) or ((Win32MajorVersion = 6) and (Win32MinorVersion >= 1))) then
+    begin
+      CompareOptions := [];
+      if CaseSensitivity = cstNotSensitive then
+        Include(CompareOptions, coIgnoreCase);
+      if Natural then
+        Include(CompareOptions, coDigitAsNumbers);
+      if Special then
+        Include(CompareOptions, coStringSort);
+      Result := widestringmanager.CompareWideStringProc(UTF8Decode(s1), UTF8Decode(s2), CompareOptions);
+    end
+    else
+{$ENDIF}
     Result := StrChunkCmp(s1, s2, Natural, Special, CaseSensitivity)
+  end
   else
     begin
       case CaseSensitivity of
