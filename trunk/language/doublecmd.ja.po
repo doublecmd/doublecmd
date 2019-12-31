@@ -12655,7 +12655,9 @@ msgid "sort by name and show first;sort like files and show first;sort like file
 msgstr "名前でソートして常に最初に表示;ファイルと同一視してソートし最初に表示;ファイルと区別せずソート"
 
 #: ulng.rsoptsortmethod
-msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+#, fuzzy
+#| msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
 msgstr "アクセントを考慮の上アルファベット順;自然なソート;アルファベット・数字の順"
 
 #: ulng.rsopttabsposition

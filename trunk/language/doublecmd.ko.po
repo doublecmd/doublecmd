@@ -12823,7 +12823,9 @@ msgid "sort by name and show first;sort like files and show first;sort like file
 msgstr "이름 정렬하고 먼저 보여주기; 파일 정렬하고 먼저 보여주기; 파일로 정렬"
 
 #: ulng.rsoptsortmethod
-msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+#, fuzzy
+#| msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
 msgstr "알파벳순, 액센트 고려하기;자연 정렬; 알파벳 숫자순 정렬"
 
 #: ulng.rsopttabsposition

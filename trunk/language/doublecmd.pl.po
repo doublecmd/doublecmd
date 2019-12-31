@@ -12334,7 +12334,9 @@ msgid "sort by name and show first;sort like files and show first;sort like file
 msgstr "sortuj według nazwy i pokaż pierwsze;sortuj jak pliki i pokaż pierwsze;sortuj jak pliki"
 
 #: ulng.rsoptsortmethod
-msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+#, fuzzy
+#| msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgid "Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort"
 msgstr "Alfabetycznie, uwzględniając akcenty;Sortowanie naturalne: alfabetyczne i liczbowe"
 
 #: ulng.rsopttabsposition
