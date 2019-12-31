@@ -210,7 +210,7 @@ begin
           if (TOptionsEditorView(Node2.Data).EditorClass.ClassName='TfrmOptionsLanguage') or (TOptionsEditorView(Node1.Data).EditorClass.ClassName='TfrmOptionsFilesViewsComplement') then
             result:=1
           else
-            result:=CompareStrings(Node1.Text,Node2.Text, gSortNatural, gSortCaseSensitivity)
+            result:=CompareStrings(Node1.Text, Node2.Text, gSortNatural, gSortSpecial, gSortCaseSensitivity)
       end;
   end;
 end;

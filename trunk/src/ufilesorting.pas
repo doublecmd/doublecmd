@@ -453,12 +453,12 @@ begin
   else if (gSortFolderMode <> sfmSortNameShowFirst) then
     Result := 0
   else
-    Result := CompareStrings(item1.Name, item2.Name, gSortNatural, gSortCaseSensitivity);
+    Result := CompareStrings(item1.Name, item2.Name, gSortNatural, gSortSpecial, gSortCaseSensitivity);
 end;
 
 function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
 begin
-  Result := CompareStrings(item1.Name, item2.Name, gSortNatural, gSortCaseSensitivity);
+  Result := CompareStrings(item1.Name, item2.Name, gSortNatural, gSortSpecial, gSortCaseSensitivity);
 
   if bSortNegative then
     Result := -Result;
@@ -475,7 +475,7 @@ begin
   end
   else
   begin
-    Result := CompareStrings(item1.NameNoExt, item2.NameNoExt, gSortNatural, gSortCaseSensitivity);
+    Result := CompareStrings(item1.NameNoExt, item2.NameNoExt, gSortNatural, gSortSpecial, gSortCaseSensitivity);
 
     if bSortNegative then
       Result := -Result;
@@ -484,7 +484,7 @@ end;
 
 function ICompareByExt(item1, item2: TFile; bSortNegative: Boolean):Integer;
 begin
-  Result := CompareStrings(item1.Extension, item2.Extension, gSortNatural, gSortCaseSensitivity);
+  Result := CompareStrings(item1.Extension, item2.Extension, gSortNatural, gSortSpecial, gSortCaseSensitivity);
 
   if bSortNegative then
     Result := -Result;
@@ -552,7 +552,7 @@ end;
 function ICompareByVariant(Value1, Value2: Variant; bSortNegative: Boolean):Integer;
 begin
   if VarIsType(Value1, varString) then
-    Result := CompareStrings(Value1, Value2, gSortNatural, gSortCaseSensitivity)
+    Result := CompareStrings(Value1, Value2, gSortNatural, gSortSpecial, gSortCaseSensitivity)
   else if Value1 = Value2 then
     Exit(0)
   else

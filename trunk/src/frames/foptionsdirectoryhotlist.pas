@@ -1790,7 +1790,7 @@ end;
 
 function CompareStringsFromTStringList(List: TStringList; Index1, Index2: integer): integer;
 begin
-  Result := CompareStrings(List.Strings[Index1], List.Strings[Index2], gSortNatural, gSortCaseSensitivity);
+  Result := CompareStrings(List.Strings[Index1], List.Strings[Index2], gSortNatural, gSortSpecial, gSortCaseSensitivity);
 end;
 
 { TfrmOptionsDirectoryHotlist.TryToGetCloserHotDir }
@@ -1884,7 +1884,7 @@ begin
 
       if Result <> nil then
       begin
-        if CompareStrings(localDirToFindAPlaceFor, UTF8LowerCase(IncludeTrailingPathDelimiter(mbExpandFileName(tHotDir(Result.Data).HotDirPath))), gSortNatural, gSortCaseSensitivity) = -1 then TypeOfAddition := ACTION_INSERTHOTDIR;
+        if CompareStrings(localDirToFindAPlaceFor, UTF8LowerCase(IncludeTrailingPathDelimiter(mbExpandFileName(tHotDir(Result.Data).HotDirPath))), gSortNatural, gSortSpecial, gSortCaseSensitivity) = -1 then TypeOfAddition := ACTION_INSERTHOTDIR;
       end;
     finally
       MagickSortedList.Free;
@@ -2117,7 +2117,7 @@ function TfrmOptionsDirectoryHotlist.MySortViaGroup(Node1, Node2: TTreeNode): in
 begin
   if (THotdir(Node1.Data).GroupNumber = THotDir(Node2.Data).GroupNumber) and (THotdir(Node1.Data).GroupNumber <> 0) then
   begin
-    Result := CompareStrings(THotdir(Node1.Data).HotDirName, THotDir(Node2.Data).HotDirName, gSortNatural, gSortCaseSensitivity);
+    Result := CompareStrings(THotdir(Node1.Data).HotDirName, THotDir(Node2.Data).HotDirName, gSortNatural, gSortSpecial, gSortCaseSensitivity);
   end
   else
   begin

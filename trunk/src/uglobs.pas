@@ -306,6 +306,7 @@ var
   gRunTermParams: String;
   gSortCaseSensitivity: TCaseSensitivity;
   gSortNatural: Boolean;
+  gSortSpecial: Boolean;
   gSortFolderMode: TSortFolderMode;
   gNewFilesPosition: TNewFilesPosition;
   gUpdatedFilesPosition: TUpdatedFilesPosition;
@@ -1469,6 +1470,7 @@ begin
   gLynxLike := True;
   gSortCaseSensitivity := cstNotSensitive;
   gSortNatural := False;
+  gSortSpecial := False;
   gSortFolderMode := sfmSortNameShowFirst;
   gNewFilesPosition := nfpSortedPosition;
   gUpdatedFilesPosition := ufpNoChange;
@@ -2569,6 +2571,7 @@ begin
       begin
         gSortCaseSensitivity := TCaseSensitivity(GetValue(SubNode, 'CaseSensitivity', Integer(gSortCaseSensitivity)));
         gSortNatural := GetValue(SubNode, 'NaturalSorting', gSortNatural);
+        gSortSpecial := GetValue(SubNode, 'SpecialSorting', gSortSpecial);
         gSortFolderMode:= TSortFolderMode(GetValue(SubNode, 'SortFolderMode', Integer(gSortFolderMode)));
         gNewFilesPosition := TNewFilesPosition(GetValue(SubNode, 'NewFilesPosition', Integer(gNewFilesPosition)));
         gUpdatedFilesPosition := TUpdatedFilesPosition(GetValue(SubNode, 'UpdatedFilesPosition', Integer(gUpdatedFilesPosition)));
@@ -3210,6 +3213,7 @@ begin
     SubNode := FindNode(Node, 'Sorting', True);
     SetValue(SubNode, 'CaseSensitivity', Integer(gSortCaseSensitivity));
     SetValue(SubNode, 'NaturalSorting', gSortNatural);
+    SetValue(SubNode, 'SpecialSorting', gSortSpecial);
     SetValue(SubNode, 'SortFolderMode', Integer(gSortFolderMode));
     SetValue(SubNode, 'NewFilesPosition', Integer(gNewFilesPosition));
     SetValue(SubNode, 'UpdatedFilesPosition', Integer(gUpdatedFilesPosition));

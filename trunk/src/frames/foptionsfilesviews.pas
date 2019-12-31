@@ -156,7 +156,9 @@ begin
   if not gSortNatural then
     cbSortMethod.ItemIndex := 0
   else
-    cbSortMethod.ItemIndex := 1;
+    cbSortMethod.ItemIndex := 2;
+  if gSortSpecial then
+    cbSortMethod.ItemIndex := cbSortMethod.ItemIndex + 1;
   case gSortFolderMode of
     sfmSortNameShowFirst: cbSortFolderMode.ItemIndex := 0;
     sfmSortLikeFileShowFirst: cbSortFolderMode.ItemIndex := 1;
@@ -201,7 +203,8 @@ begin
     1: gSortCaseSensitivity := cstLocale;
     2: gSortCaseSensitivity := cstCharValue;
   end;
-  gSortNatural := (cbSortMethod.ItemIndex = 1);
+  gSortNatural := (cbSortMethod.ItemIndex in [2,3]);
+  gSortSpecial := (cbSortMethod.ItemIndex in [1,3]);
   case cbSortFolderMode.ItemIndex of
     0: gSortFolderMode := sfmSortNameShowFirst;
     1: gSortFolderMode := sfmSortLikeFileShowFirst;

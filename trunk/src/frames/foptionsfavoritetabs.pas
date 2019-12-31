@@ -260,7 +260,7 @@ end;
 
 function CompareStringsFromTStringList(List: TStringList; Index1, Index2: integer): integer;
 begin
-  Result := CompareStrings(List.Strings[Index1], List.Strings[Index2], gSortNatural, gSortCaseSensitivity);
+  Result := CompareStrings(List.Strings[Index1], List.Strings[Index2], gSortNatural, gSortSpecial, gSortCaseSensitivity);
 end;
 
 { TfrmOptionsFavoriteTabs.btnRenameClick }
@@ -323,7 +323,7 @@ function TfrmOptionsFavoriteTabs.MySortViaGroup(Node1, Node2: TTreeNode): intege
 begin
   if (TFavoriteTabs(Node1.Data).GroupNumber = TFavoriteTabs(Node2.Data).GroupNumber) and (TFavoriteTabs(Node1.Data).GroupNumber <> 0) then
   begin
-    Result := CompareStrings(TFavoriteTabs(Node1.Data).FavoriteTabsName, TFavoriteTabs(Node2.Data).FavoriteTabsName, gSortNatural, gSortCaseSensitivity);
+    Result := CompareStrings(TFavoriteTabs(Node1.Data).FavoriteTabsName, TFavoriteTabs(Node2.Data).FavoriteTabsName, gSortNatural, gSortSpecial, gSortCaseSensitivity);
   end
   else
   begin

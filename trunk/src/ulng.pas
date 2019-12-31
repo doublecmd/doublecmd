@@ -806,7 +806,7 @@ resourcestring
   rsOptPluginSortOnlyWhenByExtension = 'Sorting WCX plugins is only possible when showing plugins by extension!';
   rsPluginFilenameStyleList = 'With complete absolute path;Path relative to %COMMANDER_PATH%;Relative to the following';  
   //-------------------------------
-  rsOptSortMethod = 'Alphabetical, considering accents;Natural sorting: alphabetical and numbers';
+  rsOptSortMethod = 'Alphabetical, considering accents;Alphabetical with special characters sort;Natural sorting: alphabetical and numbers;Natural with special characters sort';
   rsOptSortCaseSens = 'not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)';
   rsOptSortFolderMode = 'sort by name and show first;sort like files and show first;sort like files';
   rsOptNewFilesPosition = 'at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list';
