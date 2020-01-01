@@ -166,9 +166,9 @@ begin
   if (Idx < FVectorLength) then
   begin
     if pcre_new then
-      Result := UIntPtr(FVector[Idx * 2])
+      Result := UIntPtr(FVector[Idx * 2]) + 1
     else
-      Result := UIntPtr(FOvector[Idx * 2]);
+      Result := UIntPtr(FOvector[Idx * 2]) + 1;
   end
   else
     Result:= 0;
@@ -200,6 +200,7 @@ end;
 
 function TRegExprU.Exec(AOffset: UIntPtr): Boolean;
 begin
+  Dec(AOffset);
   if pcre_new then
   begin
     FVectorLength:= pcre2_match(FCode, FInput, FInputLength,
