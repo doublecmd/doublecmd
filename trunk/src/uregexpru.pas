@@ -65,7 +65,7 @@ type
 implementation
 
 uses
-  DynLibs;
+  DynLibs, DCOSUtils, uDebug;
 
 // PCRE 2
 const
@@ -235,39 +235,52 @@ begin
   if (hLib <> NilHandle) then
   begin
     pcre_new:= True;
-    @pcre2_config:= GetProcAddress(hLib, 'pcre2_config_8');
-    if (pcre2_config(PCRE2_CONFIG_UNICODE, @Where) = 0) and (Where <> 0) then
-    begin
-      @pcre2_compile:= GetProcAddress(hLib, 'pcre2_compile_8');
-      @pcre2_code_free:= GetProcAddress(hLib, 'pcre2_code_free_8');
-      @pcre2_get_error_message:= GetProcAddress(hLib, 'pcre2_get_error_message_8');
-      @pcre2_match:= GetProcAddress(hLib, 'pcre2_match_8');
-      @pcre2_get_ovector_pointer:= GetProcAddress(hLib, 'pcre2_get_ovector_pointer_8');
-      @pcre2_match_data_create_from_pattern:= GetProcAddress(hLib, 'pcre2_match_data_create_from_pattern_8');
-      @pcre2_match_data_free:= GetProcAddress(hLib, 'pcre2_match_data_free_8');
-    end
-    else begin
-      FreeLibrary(hLib);
-      hLib:= NilHandle;
+    try
+      @pcre2_config:= SafeGetProcAddress(hLib, 'pcre2_config_8');
+      if (pcre2_config(PCRE2_CONFIG_UNICODE, @Where) <> 0) or (Where = 0) then
+        raise Exception.Create('pcre2_config(PCRE2_CONFIG_UNICODE)');
+      @pcre2_compile:= SafeGetProcAddress(hLib, 'pcre2_compile_8');
+      @pcre2_code_free:= SafeGetProcAddress(hLib, 'pcre2_code_free_8');
+      @pcre2_get_error_message:= SafeGetProcAddress(hLib, 'pcre2_get_error_message_8');
+      @pcre2_match:= SafeGetProcAddress(hLib, 'pcre2_match_8');
+      @pcre2_get_ovector_pointer:= SafeGetProcAddress(hLib, 'pcre2_get_ovector_pointer_8');
+      @pcre2_match_data_create_from_pattern:= SafeGetProcAddress(hLib, 'pcre2_match_data_create_from_pattern_8');
+      @pcre2_match_data_free:= SafeGetProcAddress(hLib, 'pcre2_match_data_free_8');
+    except
+      on E: Exception do
+      begin
+        FreeLibrary(hLib);
+        hLib:= NilHandle;
+        DCDebug(E.Message);
+      end;
     end;
   end
   else begin
     hLib:= LoadLibrary(libpcre);
+{$IF DEFINED(LINUX)}
+    // Debian use another library name
+    if (hLib = NilHandle) then
+      hLib:= LoadLibrary('libpcre.so.3');
+{$ENDIF}
     if (hLib <> NilHandle) then
     begin
       pcre_new:= False;
-      @pcre_config:= GetProcAddress(hLib, 'pcre_config');
-      if (pcre_config(PCRE_CONFIG_UTF8, @Where) = 0) and (Where <> 0) then
-      begin
-        @pcre_compile:= GetProcAddress(hLib, 'pcre_compile');
-        @pcre_exec:= GetProcAddress(hLib, 'pcre_exec');
-        @pcre_free:= GetProcAddress(hLib, 'pcre_free');
-        @pcre_study:= GetProcAddress(hLib, 'pcre_study');
-        @pcre_free_study:= GetProcAddress(hLib, 'pcre_free_study');
-      end
-      else begin
-        FreeLibrary(hLib);
-        hLib:= NilHandle;
+      try
+        @pcre_config:= SafeGetProcAddress(hLib, 'pcre_config');
+        if (pcre_config(PCRE_CONFIG_UTF8, @Where) <> 0) or (Where = 0) then
+          raise Exception.Create('pcre_config(PCRE_CONFIG_UTF8)');
+        @pcre_compile:= SafeGetProcAddress(hLib, 'pcre_compile');
+        @pcre_exec:= SafeGetProcAddress(hLib, 'pcre_exec');
+        @pcre_free:= PPointer(SafeGetProcAddress(hLib, 'pcre_free'))^;
+        @pcre_study:= SafeGetProcAddress(hLib, 'pcre_study');
+        @pcre_free_study:= SafeGetProcAddress(hLib, 'pcre_free_study');
+      except
+        on E: Exception do
+        begin
+          FreeLibrary(hLib);
+          hLib:= NilHandle;
+          DCDebug(E.Message);
+        end;
       end;
     end;
   end;
