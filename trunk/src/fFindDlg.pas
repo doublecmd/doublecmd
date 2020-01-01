@@ -730,8 +730,8 @@ begin
   cbTextRegExp.Enabled := cbFindText.Checked and SingleByte and (not chkHex.Checked);
   if not cbTextRegExp.Enabled then cbTextRegExp.Checked := False;
 
-  cbCaseSens.Enabled:= cbFindText.Checked and (not cbReplaceText.Checked) and (not chkHex.Checked);
-  if cbFindText.Checked and (not cbCaseSens.Enabled) then cbCaseSens.Checked := True;
+  cbCaseSens.Enabled:= cbFindText.Checked and (not cbReplaceText.Checked) and (not chkHex.Checked) and (not cbTextRegExp.Checked);
+  if cbFindText.Checked and (not cbCaseSens.Enabled) then cbCaseSens.Checked := not cbTextRegExp.Checked;
 end;
 
 { TfrmFindDlg.Create }
@@ -1016,16 +1016,14 @@ begin
   begin
     if cbCaseSens.Enabled then
     begin
-      cbCaseSens.Tag := integer(cbCaseSens.Checked);
-      cbCaseSens.Checked := False;
-      cbCaseSens.Enabled := False;
+      cbCaseSens.Tag := Integer(cbCaseSens.Checked);
     end;
   end
   else if not cbCaseSens.Enabled then
   begin
-    cbCaseSens.Checked := boolean(cbCaseSens.Tag);
-    cbCaseSens.Enabled := True;
+    cbCaseSens.Checked := Boolean(cbCaseSens.Tag);
   end;
+  cmbEncodingSelect(cmbEncoding);
 end;
 
 { TfrmFindDlg.cbSelectedFilesChange }
