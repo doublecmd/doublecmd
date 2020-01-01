@@ -60,7 +60,7 @@ uses
   LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
   Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
   uFileSource, fModView, Types, uThumbnails, uFormCommands, uOSForms,Clipbrd,
-  uExifReader, KASStatusBar, uShowForm, uRegExprA, uRegExprW, uRegExprU;
+  uExifReader, KASStatusBar, uShowForm, uRegExpr, uRegExprU;
 
 type
 
@@ -335,9 +335,7 @@ type
 {$ENDIF}
     FThread: TThread;
 
-    FRegExpA: TRegExpr;
-    FRegExpW: TRegExprW;
-    FRegExpU: TRegExprU;
+    FRegExp: TRegExprEx;
 
     //---------------------
     WlxPlugins: TWLXModuleList;
@@ -605,9 +603,7 @@ begin
   ActivePlugin := -1;
   FThumbnailManager:= nil;
   FExif:= TExifReader.Create;
-  FRegExpA:= TRegExpr.Create;
-  FRegExpW:= TRegExprW.Create;
-  FRegExpU:= TRegExprU.Create;
+  FRegExp:= TRegExprEx.Create;
   if not bQuickView then Menu:= MainMenu;
   FCommands := TFormCommands.Create(Self, actionList);
 
@@ -628,9 +624,7 @@ end;
 destructor TfrmViewer.Destroy;
 begin
   FExif.Free;
-  FreeAndNil(FRegExpA);
-  FreeAndNil(FRegExpW);
-  FreeAndNil(FRegExpU);
+  FreeAndNil(FRegExp);
   FreeAndNil(FileList);
   FreeAndNil(FThumbnailManager);
   inherited Destroy;
@@ -2327,12 +2321,7 @@ begin
 
     if FFindDialog.cbRegExp.Checked then
     begin
-      if (ViewerControl.Encoding in [veUtf8, veUtf8bom]) then
-        FRegExpU.SetInputString(ViewerControl.GetDataAdr, ViewerControl.FileSize)
-      else if ViewerControl.Encoding <> veUtf16le then
-        FRegExpA.SetInputString(uRegExprA.PRegExprChar(ViewerControl.GetDataAdr), ViewerControl.FileSize)
-      else
-        FRegExpW.SetInputString(uRegExprW.PRegExprChar(ViewerControl.GetDataAdr), ViewerControl.FileSize div SizeOf(WideChar));
+      FRegExp.SetInputString(ViewerControl.GetDataAdr, ViewerControl.FileSize)
     end;
 
   if bPlugin then
@@ -2345,15 +2334,25 @@ begin
   else if ViewerControl.IsFileOpen then
   begin
     T:= GetTickCount64;
-    if not FFindDialog.chkHex.Checked then
-      sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU)
-    else try
-      sSearchTextA:= HexToBin(sSearchTextU);
-    except
-      on E: EConvertError do
-      begin
-        msgError(E.Message);
-        Exit;
+
+    if bSearchBackwards and FFindDialog.cbRegExp.Checked then
+    begin
+      msgError(rsMsgErrNotSupported);
+      Exit;
+    end;
+
+    if not FFindDialog.cbRegExp.Checked then
+    begin
+      if not FFindDialog.chkHex.Checked then
+        sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU)
+      else try
+        sSearchTextA:= HexToBin(sSearchTextU);
+      except
+        on E: EConvertError do
+        begin
+          msgError(E.Message);
+          Exit;
+        end;
       end;
     end;
 
@@ -2383,34 +2382,12 @@ begin
 
     if FFindDialog.cbRegExp.Checked then
     begin
-      if ViewerControl.Encoding in [veUtf8, veUtf8bom] then
+      FRegExp.Expression:= sSearchTextU;
+      bTextFound:= FRegExp.Exec(FLastSearchPos + FLastMatchLength + 1);
+      if bTextFound then
       begin
-        FRegExpU.Expression:= sSearchTextA;
-        bTextFound:= FRegExpU.Exec(FLastSearchPos + FLastMatchLength);
-        if bTextFound then
-        begin
-          FLastMatchLength:= FRegExpU.MatchLen[0];
-          FLastSearchPos:= FRegExpU.MatchPos[0];
-        end;
-      end
-      else if ViewerControl.Encoding <> veUtf16le then
-      begin
-        FRegExpA.Expression:= sSearchTextA;
-        bTextFound:= FRegExpA.Exec(FLastSearchPos + 2);
-        if bTextFound then
-        begin
-          FLastMatchLength:= FRegExpA.MatchLen[0];
-          FLastSearchPos:= FRegExpA.MatchPos[0] - 1;
-        end;
-      end
-      else begin
-        FRegExpW.Expression:= UTF8Decode(sSearchTextU);
-        bTextFound:= FRegExpW.Exec((FLastSearchPos + 1) div SizeOf(WideChar) + 1);
-        if bTextFound then
-        begin
-          FLastMatchLength:= FRegExpW.MatchLen[0] * SizeOf(WideChar);
-          FLastSearchPos:= FRegExpW.MatchPos[0] * SizeOf(WideChar) - 1;
-        end;
+        FLastMatchLength:= FRegExp.MatchLen[0];
+        FLastSearchPos:= FRegExp.MatchPos[0] - 1;
       end;
     end
     else begin
@@ -2548,7 +2525,7 @@ begin
       vcmBook: miLookBook.Checked := True;
     end;
 
-    FRegExpA.ChangeEncoding(ViewerControl.EncodingName);
+    FRegExp.ChangeEncoding(ViewerControl.EncodingName);
     Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
     Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
   end
@@ -2879,7 +2856,7 @@ begin
     if Assigned(MenuItem) then
     begin
       MenuItem.Checked := True;
-      FRegExpA.ChangeEncoding(Params[0]);
+      FRegExp.ChangeEncoding(Params[0]);
       ViewerControl.EncodingName := Params[0];
       Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
     end;
