@@ -199,6 +199,7 @@ type
     procedure FormRestoreProperties(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     BinaryDiffList: TFPList;
     BinaryDiffIndex: Integer;
@@ -278,9 +279,8 @@ begin
     edtFileNameLeft.Text:= FileNameLeft;
     edtFileNameRight.Text:= FileNameRight;
     FShowIdentical:= actAutoCompare.Checked;
-    actBinaryCompare.Checked:= not (FileIsText(FileNameLeft) and FileIsText(FileNameRight));
-    if actBinaryCompare.Checked then
-      actBinaryCompareExecute(actBinaryCompare)
+    if not (FileIsText(FileNameLeft) and FileIsText(FileNameRight)) then
+      actBinaryCompare.Execute
     else begin
       OpenFileLeft(FileNameLeft);
       OpenFileRight(FileNameRight);
@@ -519,7 +519,7 @@ begin
       OpenFileRight(edtFileNameRight.Text);
     end;
 
-  if actAutoCompare.Checked then actStartCompare.Execute;
+  if Visible and actAutoCompare.Checked then actStartCompare.Execute;
 end;
 
 procedure TfrmDiffer.actCancelCompareExecute(Sender: TObject);
@@ -725,6 +725,12 @@ end;
 procedure TfrmDiffer.FormResize(Sender: TObject);
 begin
   pnlLeft.Width:= (ClientWidth div 2) - (Splitter.Width div 2);
+end;
+
+procedure TfrmDiffer.FormShow(Sender: TObject);
+begin
+  if actBinaryCompare.Checked and actAutoCompare.Checked then
+    actStartCompare.Execute;
 end;
 
 procedure TfrmDiffer.BinaryCompareFinish;
