@@ -2662,6 +2662,8 @@ begin
     Include(Options, tsoMatchCase);
   if cbTextRegExp.Checked then
     Include(Options, tsoRegExpr);
+  if chkHex.Checked then
+    Include(Options, tsoHex);
 end;
 
 procedure TfrmFindDlg.CancelCloseAndFreeMem;

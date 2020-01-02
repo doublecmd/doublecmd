@@ -2285,6 +2285,8 @@ begin
       FFindDialog.cbCaseSens.Checked:= True;
     if (tsoRegExpr in Options) then
       FFindDialog.cbRegExp.Checked:= True;
+    if (tsoHex in Options) then
+      FFindDialog.chkHex.Checked:= True;
   end;
 
   if (bQuickSearch and gFirstTextSearch) or (not bQuickSearch) or (bPlugin and FFindDialog.chkHex.Checked) then

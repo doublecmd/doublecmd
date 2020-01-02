@@ -105,6 +105,8 @@ begin
     Include(Options, tsoMatchCase);
   if cbRegExp.Checked then
     Include(Options, tsoRegExpr);
+  if chkHex.Checked then
+    Include(Options, tsoHex);
 end;
 
 end.
