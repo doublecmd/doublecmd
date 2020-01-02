@@ -450,7 +450,7 @@ uses
   FileUtil, IntfGraphics, Math, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding,
   DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
   uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
-  fPrintSetup;
+  fPrintSetup, uFindFiles;
 
 const
   HotkeysCategory = 'Viewer';
@@ -2272,6 +2272,7 @@ var
   sSearchTextA: AnsiString;
   iSearchParameter: Integer;
   RecodeTable: TRecodeTable;
+  Options: TTextSearchOptions;
 begin
   // in first use create dialog
   if not Assigned(FFindDialog) then
@@ -2286,6 +2287,16 @@ begin
         if FWlxModule.CallListSearchDialog(0) = LISTPLUGIN_OK then
           Exit;
       end;
+
+      if glsSearchHistory.Count > 0 then
+      begin
+        Options:= TTextSearchOptions(UInt32(UIntPtr(glsSearchHistory.Objects[0])));
+        if (tsoMatchCase in Options) then
+          FFindDialog.cbCaseSens.Checked:= True;
+        if (tsoRegExpr in Options) then
+          FFindDialog.cbRegExp.Checked:= True;
+      end;
+
       FFindDialog.chkHex.Visible:= not bPlugin;
       FFindDialog.cbRegExp.Visible:= (not bPlugin) and
                                      (ViewerControl.FileSize < High(IntPtr)) and

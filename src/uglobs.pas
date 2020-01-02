@@ -825,8 +825,9 @@ var
   Root: TXmlNode;
   History: TXmlConfig;
 
-  procedure LoadHistory(const NodeName: String; HistoryList: TStrings);
+  procedure LoadHistory(const NodeName: String; HistoryList: TStrings; LoadObj: Boolean = False);
   var
+    Idx: Integer;
     Node: TXmlNode;
   begin
     Node := History.FindNode(Root, NodeName);
@@ -838,7 +839,10 @@ var
       begin
         if Node.CompareName('Item') = 0 then
         begin
-          HistoryList.Add(History.GetContent(Node));
+          Idx:= HistoryList.Add(History.GetContent(Node));
+          if LoadObj then begin
+            HistoryList.Objects[Idx]:= TObject(UIntPtr(History.GetAttr(Node, 'Tag', 0)));
+          end;
           if HistoryList.Count >= cMaxStringItems then Break;
         end;
         Node := Node.NextSibling;
@@ -856,7 +860,7 @@ begin
       LoadHistory('Navigation', glsDirHistory);
       LoadHistory('CommandLine', glsCmdLineHistory);
       LoadHistory('FileMask', glsMaskHistory);
-      LoadHistory('SearchText', glsSearchHistory);
+      LoadHistory('SearchText', glsSearchHistory, True);
       LoadHistory('SearchTextPath', glsSearchPathHistory);
       LoadHistory('ReplaceText', glsReplaceHistory);
       LoadHistory('ReplaceTextPath', glsReplacePathHistory);
@@ -875,7 +879,7 @@ var
   Root: TXmlNode;
   History: TXmlConfig;
 
-  procedure SaveHistory(const NodeName: String; HistoryList: TStrings);
+  procedure SaveHistory(const NodeName: String; HistoryList: TStrings; SaveObj: Boolean = False);
   var
     I: Integer;
     Node, SubNode: TXmlNode;
@@ -886,6 +890,9 @@ var
     begin
       SubNode := History.AddNode(Node, 'Item');
       History.SetContent(SubNode, HistoryList[I]);
+      if SaveObj then begin
+        History.SetAttr(SubNode, 'Tag', UInt32(UIntPtr(HistoryList.Objects[I])));
+      end;
       if I >= cMaxStringItems then Break;
     end;
   end;
@@ -899,7 +906,7 @@ begin
     if gSaveFileMaskHistory then SaveHistory('FileMask', glsMaskHistory);
     if gSaveSearchReplaceHistory then
     begin
-      SaveHistory('SearchText', glsSearchHistory);
+      SaveHistory('SearchText', glsSearchHistory, True);
       SaveHistory('SearchTextPath', glsSearchPathHistory);
       SaveHistory('ReplaceText', glsReplaceHistory);
       SaveHistory('ReplaceTextPath', glsReplacePathHistory);

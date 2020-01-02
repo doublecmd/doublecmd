@@ -37,7 +37,7 @@ type
     procedure cbDataToFindKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
   private
-    { Private declarations }
+    function GetTextSearchOptions: UIntPtr;
   public
     { Public declarations }
   end;
@@ -48,7 +48,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, LCLType, uDCUtils;
+  LCLProc, LCLType, uFindFiles, uDCUtils;
 
 procedure TfrmFindView.FormShow(Sender: TObject);
 begin
@@ -74,7 +74,7 @@ end;
 
 procedure TfrmFindView.btnFindClick(Sender: TObject);
 begin
-  InsertFirstItem(cbDataToFind.Text, cbDataToFind);
+  InsertFirstItem(cbDataToFind.Text, cbDataToFind, GetTextSearchOptions);
   ModalResult:= mrOk;
 end;
 
@@ -94,6 +94,17 @@ begin
     Key:= 0;
     ModalResult:= mrCancel;
   end;
+end;
+
+function TfrmFindView.GetTextSearchOptions: UIntPtr;
+var
+  Options: TTextSearchOptions absolute Result;
+begin
+  Result:= 0;
+  if cbCaseSens.Checked then
+    Include(Options, tsoMatchCase);
+  if cbRegExp.Checked then
+    Include(Options, tsoRegExpr);
 end;
 
 end.

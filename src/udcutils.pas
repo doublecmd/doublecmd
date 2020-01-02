@@ -188,7 +188,7 @@ procedure SplitCmdLine(sCmdLine : String; var sCmd, sParams : String);
 {$ENDIF}
 function CompareStrings(const s1, s2: String; Natural: Boolean; Special: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt;
 
-procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox);
+procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox; AValue: UIntPtr = 0);
 {en
    Compares two strings taking into account the numbers or special chararcters
 }
@@ -856,7 +856,7 @@ begin
     end;
 end;
 
-procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox);
+procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox; AValue: UIntPtr);
 var
   I: Integer = 0;
 begin
@@ -877,6 +877,7 @@ begin
         // Reset selected item (and combobox text), because Move has destroyed it.
         comboBox.ItemIndex := 0;
       end;
+    Objects[0]:= TObject(AValue);
   end;
 end;
 
