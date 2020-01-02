@@ -271,6 +271,7 @@ type
     procedure ZVTimeFromChange(Sender: TObject);
     procedure ZVTimeToChange(Sender: TObject);
     procedure PopupMenuFindPopup(Sender: TObject);
+    function GetTextSearchOptions: UIntPtr;
     procedure CancelCloseAndFreeMem;
     procedure LoadHistory;
     procedure SaveHistory;
@@ -832,7 +833,7 @@ begin
   begin
     if glsSearchHistory.Count > 0 then
       cmbFindText.Text := glsSearchHistory[0];
-  end;
+    end;
 
   cmbSearchDepth.ItemIndex := 0;
   cmbExcludeFiles.Text := '';
@@ -2064,7 +2065,7 @@ begin
   // 4. Add to search text history
   if cbFindText.Checked then
   begin
-    InsertFirstItem(cmbFindText.Text, cmbFindText);
+    InsertFirstItem(cmbFindText.Text, cmbFindText, GetTextSearchOptions);
     // Update search history, so it can be used in
     // Viewer/Editor opened from find files dialog
     gFirstTextSearch := False;
@@ -2650,6 +2651,17 @@ begin
   end;
   UpdateTemplatesList;
   SelectTemplate(FLastTemplateName);
+end;
+
+function TfrmFindDlg.GetTextSearchOptions: UIntPtr;
+var
+  Options: TTextSearchOptions absolute Result;
+begin
+  Result:= 0;
+  if cbCaseSens.Checked then
+    Include(Options, tsoMatchCase);
+  if cbTextRegExp.Checked then
+    Include(Options, tsoRegExpr);
 end;
 
 procedure TfrmFindDlg.CancelCloseAndFreeMem;

@@ -31,6 +31,8 @@ uses
   Classes, SysUtils, DCBasicTypes, uFile;
 
 type
+  TTextSearchOption = (tsoMatchCase, tsoRegExpr);
+  TTextSearchOptions = set of TTextSearchOption;
   TTextSearch = (tsAnsi, tsUtf8, tsUtf16le, tsUtf16be, tsOther);
   TTimeUnit = (tuSecond, tuMinute, tuHour, tuDay, tuWeek, tuMonth, tuYear);
   TFileSizeUnit = (suBytes, suKilo, suMega, suGiga, suTera);
