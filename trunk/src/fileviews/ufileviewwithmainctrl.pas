@@ -885,7 +885,8 @@ begin
   else
 
   // if we are about to start dragging
-  if FStartDrag then
+  if FStartDrag and ((Abs(FDragStartPoint.X - X) > DragManager.DragThreshold) or
+                     (Abs(FDragStartPoint.Y - Y) > DragManager.DragThreshold)) then
     begin
       FStartDrag := False;
 
