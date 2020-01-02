@@ -115,6 +115,7 @@ type
     procedure SetSearchRegExp(Value: boolean);
     procedure SetReplaceText(Value: string);
     procedure SetReplaceTextHistory(Value: string);
+    function GetTextSearchOptions: UIntPtr;
   public
     constructor Create(AOwner: TComponent; AReplace: Boolean); reintroduce;
     property SearchBackwards: boolean read GetSearchBackwards
@@ -144,7 +145,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Math, Graphics, uGlobs, uLng, uDCUtils;
+  Math, Graphics, uGlobs, uLng, uDCUtils, uFindFiles;
 
 function GetSimpleSearchAndReplaceString(AOwner:TComponent; OptionAllowed:TEditSearchDialogOption; var sSearchText:string; var sReplaceText:string; var OptionsToReturn:TEditSearchDialogOption; PastSearchList:TStringListEx; PastReplaceList:TStringListEx):boolean;
 var
@@ -220,7 +221,7 @@ end;
 
 procedure TfrmEditSearchReplace.btnOKClick(Sender: TObject);
 begin
-  InsertFirstItem(cbSearchText.Text, cbSearchText);
+  InsertFirstItem(cbSearchText.Text, cbSearchText, GetTextSearchOptions);
   ModalResult := mrOK
 end;
 
@@ -228,7 +229,7 @@ procedure TfrmEditSearchReplace.FormCloseQuery(Sender: TObject;
   var CanClose: boolean);
 begin
   if ModalResult = mrOK then
-    InsertFirstItem(cbReplaceText.Text, cbReplaceText);
+    InsertFirstItem(cbReplaceText.Text, cbReplaceText, GetTextSearchOptions);
 end;
 
 procedure TfrmEditSearchReplace.FormCreate(Sender: TObject);
@@ -361,6 +362,17 @@ end;
 procedure TfrmEditSearchReplace.SetReplaceTextHistory(Value: string);
 begin
   cbReplaceText.Items.Text := Value;
+end;
+
+function TfrmEditSearchReplace.GetTextSearchOptions: UIntPtr;
+var
+  Options: TTextSearchOptions absolute Result;
+begin
+  Result:= 0;
+  if cbSearchCaseSensitive.Checked then
+    Include(Options, tsoMatchCase);
+  if cbSearchRegExp.Checked then
+    Include(Options, tsoRegExpr);
 end;
 
 constructor TfrmEditSearchReplace.Create(AOwner: TComponent; AReplace: Boolean);
