@@ -3548,7 +3548,7 @@ msgstr "[MMM] Име на месеца (кратко, например „ян�
 
 #: tfrmmultirename.mimonth3.caption
 msgid "[MMMM] Month name (long, e.g., \"january\")"
-msgstr "[MMM] Име на месеца (кратко, например „януари‟)"
+msgstr "[MMMM] Име на месеца (кратко, например „януари‟)"
 
 #: tfrmmultirename.miname.caption
 msgid "[N] Name"

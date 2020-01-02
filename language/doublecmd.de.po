@@ -3467,11 +3467,11 @@ msgstr "[DDDD] Tag der Woche (lang, z. B. \"Montag\")"
 
 #: tfrmmultirename.miextensionx.caption
 msgid "[Ex] Character at position x"
-msgstr "[Ex]Bezeichnung an Position x"
+msgstr "[Ex] Bezeichnung an Position x"
 
 #: tfrmmultirename.miextensionxx.caption
 msgid "[Ex:y] Characters from position x to y"
-msgstr "[Ex:y]Bezeichnung von Positionx bis y"
+msgstr "[Ex:y] Bezeichnung von Positionx bis y"
 
 #: tfrmmultirename.mihour.caption
 msgid "[h] Hour"
@@ -3536,7 +3536,7 @@ msgstr "Plugin"
 
 #: tfrmmultirename.misecond.caption
 msgid "[s] Second"
-msgstr "[S] Sekunde"
+msgstr "[s] Sekunde"
 
 #: tfrmmultirename.misecond1.caption
 msgid "[ss] Second (2 digits)"

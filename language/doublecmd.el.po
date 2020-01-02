@@ -3480,15 +3480,15 @@ msgstr "[D] Ημερομηνία"
 
 #: tfrmmultirename.miday1.caption
 msgid "[DD] Day (2 digits)"
-msgstr "[ΗΗ] Ημέρα (2 ψηφία )"
+msgstr "[DD] Ημέρα (2 ψηφία )"
 
 #: tfrmmultirename.miday2.caption
 msgid "[DDD] Day of the week (short, e.g., \"mon\")"
-msgstr "[ΗΗΗ] Ημέρα της εβδομάδας (σύντομο, π.χ., \"δευτ\")"
+msgstr "[DDD] Ημέρα της εβδομάδας (σύντομο, π.χ., \"δευτ\")"
 
 #: tfrmmultirename.miday3.caption
 msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
-msgstr "[ΗΗΗΗ] Ημέρα της εβδομάδας (μακρύ, π.χ., \"δευτέρα\")"
+msgstr "[DDDD] Ημέρα της εβδομάδας (μακρύ, π.χ., \"δευτέρα\")"
 
 #: tfrmmultirename.miextensionx.caption
 msgid "[Ex] Character at position x"
@@ -3524,11 +3524,11 @@ msgstr "[MM] Μήνας (2 ψηφία)"
 
 #: tfrmmultirename.mimonth2.caption
 msgid "[MMM] Month name (short, e.g., \"jan\")"
-msgstr "[ΜΜΜΜ] Όνομα Μηνός (σύντομο, π.χ., \"ιαν\")"
+msgstr "[MMM] Όνομα Μηνός (σύντομο, π.χ., \"ιαν\")"
 
 #: tfrmmultirename.mimonth3.caption
 msgid "[MMMM] Month name (long, e.g., \"january\")"
-msgstr "[ΜΜΜΜ] Όνομα Μηνός (μακρύ, π.χ., \"ιανουάριος\")"
+msgstr "[MMMM] Όνομα Μηνός (μακρύ, π.χ., \"ιανουάριος\")"
 
 #: tfrmmultirename.miname.caption
 msgid "[N] Name"

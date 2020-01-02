@@ -3495,7 +3495,7 @@ msgstr "[Ex] 位置ｘの文字"
 
 #: tfrmmultirename.miextensionxx.caption
 msgid "[Ex:y] Characters from position x to y"
-msgstr "[Ex：y] 位置ｘからｙの文字"
+msgstr "[Ex:y] 位置ｘからｙの文字"
 
 #: tfrmmultirename.mihour.caption
 msgid "[h] Hour"
@@ -3539,7 +3539,7 @@ msgstr "[Nx] ファイル名の位置ｘの文字"
 
 #: tfrmmultirename.minamexx.caption
 msgid "[Nx:y] Characters from position x to y"
-msgstr "[Nx：y] ファイル名の位置ｘからｙの文字"
+msgstr "[Nx:y] ファイル名の位置ｘからｙの文字"
 
 #: tfrmmultirename.minext.caption
 msgid "Time..."

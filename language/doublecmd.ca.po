@@ -3679,10 +3679,8 @@ msgid "1"
 msgstr "1"
 
 #: tfrmmultirename.extension.caption
-#, fuzzy
-#| msgid "[E]xtension"
 msgid "[E] Extension"
-msgstr "[E]xtensió"
+msgstr "[E] Extensió"
 
 #: tfrmmultirename.gbcounter.caption
 msgid "Counter"
@@ -3748,10 +3746,8 @@ msgid "&Width"
 msgstr "Amplada"
 
 #: tfrmmultirename.micounter.caption
-#, fuzzy
-#| msgid "[C]ounter"
 msgid "[C] Counter"
-msgstr "[C]omptador"
+msgstr "[C] Comptador"
 
 #: tfrmmultirename.miday.caption
 #, fuzzy
@@ -3773,41 +3769,32 @@ msgstr ""
 
 #: tfrmmultirename.miextensionx.caption
 #, fuzzy
-#| msgid "[Ex]xtension"
 msgid "[Ex] Character at position x"
-msgstr "[Ex]xtensió"
+msgstr "[Ex] Extensió"
 
 #: tfrmmultirename.miextensionxx.caption
-#, fuzzy
-#| msgid "[Ex:x]xtension"
 msgid "[Ex:y] Characters from position x to y"
-msgstr "[Ex:x]xtensió"
+msgstr "[Ex:y] Extensió"
 
 #: tfrmmultirename.mihour.caption
-#, fuzzy
-#| msgid "[h]our"
 msgid "[h] Hour"
-msgstr "[H] Hora"
+msgstr "[h] Hora"
 
 #: tfrmmultirename.mihour1.caption
 msgid "[hh] Hour (2 digits)"
 msgstr ""
 
 #: tfrmmultirename.miminute.caption
-#, fuzzy
-#| msgid "Mi[n]ute"
 msgid "[n] Minute"
-msgstr "[Mi]nut"
+msgstr "[n] Minut"
 
 #: tfrmmultirename.miminute1.caption
 msgid "[nn] Minute (2 digits)"
 msgstr ""
 
 #: tfrmmultirename.mimonth.caption
-#, fuzzy
-#| msgid "[M]onth"
 msgid "[M] Month"
-msgstr "[Mo]->Mes"
+msgstr "[M] Mes"
 
 #: tfrmmultirename.mimonth1.caption
 msgid "[MM] Month (2 digits)"
@@ -3822,22 +3809,16 @@ msgid "[MMMM] Month name (long, e.g., \"january\")"
 msgstr "[MMMM] Nom del mes (llarg, e.g., \"january\")"
 
 #: tfrmmultirename.miname.caption
-#, fuzzy
-#| msgid "[N]ame"
 msgid "[N] Name"
-msgstr "[N]om"
+msgstr "[N] Nom"
 
 #: tfrmmultirename.minamex.caption
-#, fuzzy
-#| msgid "[Nx]ame"
 msgid "[Nx] Character at position x"
-msgstr "[Nx]om"
+msgstr ""
 
 #: tfrmmultirename.minamexx.caption
-#, fuzzy
-#| msgid "[Nx:x]ame"
 msgid "[Nx:y] Characters from position x to y"
-msgstr "[Nx:x]om"
+msgstr ""
 
 #: tfrmmultirename.minext.caption
 msgid "Time..."
@@ -3857,20 +3838,16 @@ msgid "Plugin"
 msgstr "Complement"
 
 #: tfrmmultirename.misecond.caption
-#, fuzzy
-#| msgid "[s]econd"
 msgid "[s] Second"
-msgstr "[S]egon"
+msgstr "[s] Segon"
 
 #: tfrmmultirename.misecond1.caption
 msgid "[ss] Second (2 digits)"
 msgstr ""
 
 #: tfrmmultirename.miyear.caption
-#, fuzzy
-#| msgid "[Y] Year"
 msgid "[Y] Year (2 digits)"
-msgstr "[Y]->Any"
+msgstr "[Y] Any"
 
 #: tfrmmultirename.miyear1.caption
 msgid "[YYYY] Year (4 digits)"

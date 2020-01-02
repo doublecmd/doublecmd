@@ -3434,7 +3434,7 @@ msgstr "[Ex] Znak pripone na mestu (x)"
 
 #: tfrmmultirename.miextensionxx.caption
 msgid "[Ex:y] Characters from position x to y"
-msgstr "[Ex] Znaki pripone med mestoma (x) in (y)"
+msgstr "[Ex:y] Znaki pripone med mestoma (x) in (y)"
 
 #: tfrmmultirename.mihour.caption
 msgid "[h] Hour"
@@ -12063,9 +12063,8 @@ msgid "Set shortcut to delete file"
 msgstr "Dodaj bližnjico za brisanje datotek"
 
 #: ulng.rsopthotkeysshortcutfordeletealreadyassigned
-#, fuzzy,badformat
 msgid "For this setting to work with shortcut %s, shortcut %s must be assigned to cm_Delete but it is already assigned to %s. Do you want to change it?"
-msgstr "Za povezavo te možnosti s tipkovno bližnjico %s mora biti ta določena za cm_Delete, vendar je povezana z možnostjo %s. Ali jo želite spremeniti."
+msgstr "Za povezavo te možnosti s tipkovno bližnjico %s mora biti bližnjica %s določena za cm_Delete, vendar je povezana z možnostjo %s. Ali jo želite spremeniti?"
 
 #: ulng.rsopthotkeysshortcutfordeleteissequence
 msgid "Shortcut %s for cm_Delete is a sequence shortcut for which a hotkey with reversed Shift cannot be assigned. This setting might not work."

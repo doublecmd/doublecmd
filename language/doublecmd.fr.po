@@ -3487,11 +3487,11 @@ msgstr "[C] Compteur"
 
 #: tfrmmultirename.miday.caption
 msgid "[D] Day"
-msgstr "[J] Jour"
+msgstr "[D] Jour"
 
 #: tfrmmultirename.miday1.caption
 msgid "[DD] Day (2 digits)"
-msgstr "[JJ] Jour (2 digits)"
+msgstr "[DD] Jour (2 digits)"
 
 #: tfrmmultirename.miday2.caption
 msgid "[DDD] Day of the week (short, e.g., \"mon\")"
@@ -3547,11 +3547,11 @@ msgstr "[N] Nom"
 
 #: tfrmmultirename.minamex.caption
 msgid "[Nx] Character at position x"
-msgstr "[Ex] Caractère à la position x"
+msgstr "[Nx] Caractère à la position x"
 
 #: tfrmmultirename.minamexx.caption
 msgid "[Nx:y] Characters from position x to y"
-msgstr "[Ex:y] Caractère de la position x à y"
+msgstr "[Nx:y] Caractère de la position x à y"
 
 #: tfrmmultirename.minext.caption
 msgid "Time..."
@@ -11431,9 +11431,8 @@ msgid "Problem executing command (%s)"
 msgstr "Problème d'exécution de la commande (%s)"
 
 #: ulng.rsmsgprocessid
-#, fuzzy,badformat
 msgid "PID: %d"
-msgstr "PID:% d"
+msgstr "PID: %d"
 
 #: ulng.rsmsgpromptaskingfilename
 msgid "Filename for dropped text:"
@@ -12088,10 +12087,9 @@ msgid "Export archiver configuration"
 msgstr "Exporter configuration d'outil d'archivage"
 
 #: ulng.rsoptarchiverexportdone
-#, fuzzy,badformat
 msgctxt "ulng.rsoptarchiverexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
-msgstr "Exportation de %s éléments vers le fichier \"%s\" complétée."
+msgstr "Exportation de %d éléments vers le fichier \"%s\" complétée."
 
 #: ulng.rsoptarchiverexportprompt
 msgctxt "ulng.rsoptarchiverexportprompt"
@@ -12654,10 +12652,9 @@ msgid "Export tooltip file type configuration"
 msgstr "Exporter la configuration du type de fichier info-bulle"
 
 #: ulng.rsopttooltipfiletypeexportdone
-#, fuzzy,badformat
 msgctxt "ulng.rsopttooltipfiletypeexportdone"
 msgid "Exportation of %d elements to file \"%s\" completed."
-msgstr "Exportation de %s éléments vers le fichier \"%s\" complétée."
+msgstr "Exportation de %d éléments vers le fichier \"%s\" complétée."
 
 #: ulng.rsopttooltipfiletypeexportprompt
 msgctxt "ulng.rsopttooltipfiletypeexportprompt"

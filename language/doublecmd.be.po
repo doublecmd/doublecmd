@@ -12,9 +12,9 @@ msgstr ""
 "X-Native-Language: Беларуская\n"
 
 #: fsyncdirsdlg.rscomparingpercent
-#, fuzzy,badformat
+#, fuzzy
 msgid "Comparing... %d%% (ESC to cancel)"
-msgstr "Параўнанне... ‰d%% (ESC каб скасаваць)"
+msgstr "Параўнанне... %d%% (ESC каб скасаваць)"
 
 #: fsyncdirsdlg.rsdeleteleft
 msgid "Left: Delete %d file(s)"
@@ -3429,7 +3429,7 @@ msgstr "[Ex:y] Сімвалы з пацізыі x да y"
 
 #: tfrmmultirename.mihour.caption
 msgid "[h] Hour"
-msgstr "[г] Гадзіна"
+msgstr "[h] Гадзіна"
 
 #: tfrmmultirename.mihour1.caption
 msgid "[hh] Hour (2 digits)"
