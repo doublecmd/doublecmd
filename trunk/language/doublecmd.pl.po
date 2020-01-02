@@ -3444,7 +3444,7 @@ msgstr "[nn] Minuty (2 cyfry)"
 
 #: tfrmmultirename.mimonth.caption
 msgid "[M] Month"
-msgstr "[М] Miesiąc"
+msgstr "[M] Miesiąc"
 
 #: tfrmmultirename.mimonth1.caption
 msgid "[MM] Month (2 digits)"

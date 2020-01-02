@@ -1420,7 +1420,7 @@ msgstr "&Nieuwe zoekopdracht"
 
 #: tfrmfinddlg.actnewsearchclearfilters.caption
 msgid "New search (clear filters)"
-msgstr "Nieuwe zoekopdracht (maak filters leeg)	"
+msgstr "Nieuwe zoekopdracht (maak filters leeg)"
 
 #: tfrmfinddlg.actpageadvanced.caption
 msgid "Go to page \"Advanced\""
@@ -3395,11 +3395,11 @@ msgstr "Breedte"
 
 #: tfrmmultirename.micounter.caption
 msgid "[C] Counter"
-msgstr "[T]eller"
+msgstr "[C] Teller"
 
 #: tfrmmultirename.miday.caption
 msgid "[D] Day"
-msgstr "[D]ag"
+msgstr "[D] Dag"
 
 #: tfrmmultirename.miday1.caption
 msgid "[DD] Day (2 digits)"
@@ -3423,7 +3423,7 @@ msgstr "[Ex:y] Tekens van positie x tot y"
 
 #: tfrmmultirename.mihour.caption
 msgid "[h] Hour"
-msgstr "[u] Uur"
+msgstr "[h] Uur"
 
 #: tfrmmultirename.mihour1.caption
 msgid "[hh] Hour (2 digits)"

@@ -3525,7 +3525,7 @@ msgstr "[DDD] dan u nedelji (kratko, npr. „pon“)"
 
 #: tfrmmultirename.miday3.caption
 msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
-msgstr "[DDD] dan u nedelji (potpuno, npr. „ponedeljak“)"
+msgstr "[DDDD] dan u nedelji (potpuno, npr. „ponedeljak“)"
 
 #: tfrmmultirename.miextensionx.caption
 msgid "[Ex] Character at position x"

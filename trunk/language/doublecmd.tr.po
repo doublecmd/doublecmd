@@ -3599,7 +3599,7 @@ msgstr "1"
 
 #: tfrmmultirename.extension.caption
 msgid "[E] Extension"
-msgstr "[E]Uzantı"
+msgstr "[E] Uzantı"
 
 #: tfrmmultirename.gbcounter.caption
 msgid "Counter"
@@ -3678,15 +3678,15 @@ msgstr "[DDDD] Haftanın günü (uzun, Örneğin, \"Pazartesi\")"
 
 #: tfrmmultirename.miextensionx.caption
 msgid "[Ex] Character at position x"
-msgstr "[Ex]Karakter konumu x"
+msgstr "[Ex] Karakter konumu x"
 
 #: tfrmmultirename.miextensionxx.caption
 msgid "[Ex:y] Characters from position x to y"
-msgstr "[Ex:y]Karakter konumu x ile y"
+msgstr "[Ex:y] Karakter konumu x ile y"
 
 #: tfrmmultirename.mihour.caption
 msgid "[h] Hour"
-msgstr "[h]Saat"
+msgstr "[h] Saat"
 
 #: tfrmmultirename.mihour1.caption
 msgid "[hh] Hour (2 digits)"
@@ -3724,7 +3724,7 @@ msgstr "[N] Adı"
 
 #: tfrmmultirename.minamex.caption
 msgid "[Nx] Character at position x"
-msgstr "[Nx]Karakter konumu x"
+msgstr "[Nx] Karakter konumu x"
 
 #: tfrmmultirename.minamexx.caption
 msgid "[Nx:y] Characters from position x to y"
@@ -3749,7 +3749,7 @@ msgstr "Eklenti"
 
 #: tfrmmultirename.misecond.caption
 msgid "[s] Second"
-msgstr "[S] Saniye "
+msgstr "[s] Saniye "
 
 #: tfrmmultirename.misecond1.caption
 msgid "[ss] Second (2 digits)"
@@ -11161,9 +11161,9 @@ msgid "Cannot copy file %s to %s"
 msgstr "Dosya %s kopyalanamıyor %s"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
-#, fuzzy,badformat
+#, fuzzy
 msgid "There already exists a directory named \"%s\"."
-msgstr "Orada zaten o adda bir dizin var"
+msgstr "Orada zaten o adda bir dizin var \"%s\"."
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
@@ -11765,9 +11765,9 @@ msgid "No enough free space on target drive, Retry?"
 msgstr "Hedef sürücüde yeterli boşluk yok. Yeniden Dene?"
 
 #: ulng.rsmsgnotdelete
-#, fuzzy,badformat
+#, fuzzy
 msgid "Can not delete file %s"
-msgstr "Dosya silinemiyor"
+msgstr "Dosya silinemiyor %s"
 
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
@@ -12671,10 +12671,10 @@ msgid "Shortcut in use"
 msgstr "Kısayol kullanımı"
 
 #: ulng.rsopthotkeysshortcutusedtext1
-#, fuzzy,badformat
+#, fuzzy
 #| msgid "Shortcut %s is already used for %s."
 msgid "Shortcut %s is already used."
-msgstr "Kısayol %s zaten kullanılıyor %s."
+msgstr "Kısayol %s zaten kullanılıyor."
 
 #: ulng.rsopthotkeysshortcutusedtext2
 msgid "Change it to %s?"

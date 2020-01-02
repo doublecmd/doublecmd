@@ -3806,7 +3806,7 @@ msgstr "[DDD] Deň týždňa (skrátene, t.j. \"pon\")"
 
 #: tfrmmultirename.miday3.caption
 msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
-msgstr "[DDD] Deň týždňa (celý, t.j. \"pondelok\")"
+msgstr "[DDDD] Deň týždňa (celý, t.j. \"pondelok\")"
 
 #: tfrmmultirename.miextensionx.caption
 #, fuzzy
@@ -3815,10 +3815,8 @@ msgid "[Ex] Character at position x"
 msgstr "[Ex] Znak na pozícii x"
 
 #: tfrmmultirename.miextensionxx.caption
-#, fuzzy
-#| msgid "[Ex:x]xtension"
 msgid "[Ex:y] Characters from position x to y"
-msgstr "[Ex:x] Znaky od pozície x do y"
+msgstr "[Ex:y] Znaky od pozície x do y"
 
 #: tfrmmultirename.mihour.caption
 #, fuzzy
@@ -3861,10 +3859,8 @@ msgid "[MMMM] Month name (long, e.g., \"january\")"
 msgstr "[MMMM] Meno mesiaca (celé, t.j. \"január\")"
 
 #: tfrmmultirename.miname.caption
-#, fuzzy
-#| msgid "[N]ame"
 msgid "[N] Name"
-msgstr "[N]Názov"
+msgstr "[N] Názov"
 
 #: tfrmmultirename.minamex.caption
 #, fuzzy
