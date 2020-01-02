@@ -239,7 +239,7 @@ implementation
 uses
   Clipbrd, dmCommonData, dmHigh, SynEditTypes, LCLType, LConvEncoding,
   uLng, uShowMsg, fEditSearch, uGlobs, fOptions, DCClassesUtf8, uAdministrator,
-  uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard;
+  uOSUtils, uConvEncoding, fOptionsToolsEditor, uDCUtils, uClipboard, uFindFiles;
 
 procedure ShowEditor(const sFileName: String; WaitData: TWaitData = nil);
 var
@@ -267,8 +267,9 @@ procedure TfrmEditor.FormCreate(Sender: TObject);
 var
   i:Integer;
   mi:TMenuItem;
-  EncodingsList: TStringList;
   HMEditor: THMForm;
+  EncodingsList: TStringList;
+  Options: TTextSearchOptions;
 begin
   InitPropStorage(Self);
 
@@ -316,10 +317,23 @@ begin
   EncodingsList.Free;
   // if we already search text then use last searched text
   if not gFirstTextSearch then
+  begin
+    for I:= 0 to glsSearchHistory.Count - 1 do
     begin
-      if glsSearchHistory.Count > 0 then
-        sSearchText:= glsSearchHistory[0];
+      Options:= TTextSearchOptions(UInt32(UIntPtr(glsSearchHistory.Objects[I])));
+
+      if (tsoHex in Options) then
+        Continue;
+
+      if (tsoMatchCase in Options) then
+        bSearchCaseSensitive:= True;
+      if (tsoRegExpr in Options) then
+        bSearchRegExp:= True;
+
+      sSearchText:= glsSearchHistory[I];
+      Break;
     end;
+  end;
 
   FixFormIcon(Handle);
 
