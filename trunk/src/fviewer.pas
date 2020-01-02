@@ -2278,6 +2278,15 @@ begin
   if not Assigned(FFindDialog) then
      FFindDialog:= TfrmFindView.Create(Self);
 
+  if glsSearchHistory.Count > 0 then
+  begin
+    Options:= TTextSearchOptions(UInt32(UIntPtr(glsSearchHistory.Objects[0])));
+    if (tsoMatchCase in Options) then
+      FFindDialog.cbCaseSens.Checked:= True;
+    if (tsoRegExpr in Options) then
+      FFindDialog.cbRegExp.Checked:= True;
+  end;
+
   if (bQuickSearch and gFirstTextSearch) or (not bQuickSearch) or (bPlugin and FFindDialog.chkHex.Checked) then
     begin
       if bPlugin then
@@ -2286,15 +2295,6 @@ begin
         // if plugin has specific search dialog
         if FWlxModule.CallListSearchDialog(0) = LISTPLUGIN_OK then
           Exit;
-      end;
-
-      if glsSearchHistory.Count > 0 then
-      begin
-        Options:= TTextSearchOptions(UInt32(UIntPtr(glsSearchHistory.Objects[0])));
-        if (tsoMatchCase in Options) then
-          FFindDialog.cbCaseSens.Checked:= True;
-        if (tsoRegExpr in Options) then
-          FFindDialog.cbRegExp.Checked:= True;
       end;
 
       FFindDialog.chkHex.Visible:= not bPlugin;
