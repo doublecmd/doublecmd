@@ -2995,6 +2995,7 @@ msgid "Create link..."
 msgstr "링크 생성..."
 
 #: tfrmmain.milogclear.caption
+msgctxt "tfrmmain.milogclear.caption"
 msgid "Clear"
 msgstr "지우기"
 
@@ -3364,48 +3365,201 @@ msgstr "폭"
 msgid "456456465465465"
 msgstr ""
 
-#: tfrmmultirename.btnclose.caption
-msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
+#: tfrmmultirename.actanyextmask.caption
+msgctxt "tfrmmultirename.actanyextmask.caption"
+msgid "Extension"
+msgstr "확장자"
+
+#: tfrmmultirename.actanynamemask.caption
+msgctxt "tfrmmultirename.actanynamemask.caption"
+msgid "Filename"
+msgstr "파일명"
+
+#: tfrmmultirename.actclearextmask.caption
+msgctxt "tfrmmultirename.actclearextmask.caption"
+msgid "Clear"
+msgstr "지우기"
+
+#: tfrmmultirename.actclearnamemask.caption
+msgctxt "tfrmmultirename.actclearnamemask.caption"
+msgid "Clear"
+msgstr "지우기"
+
+#: tfrmmultirename.actclose.caption
+msgctxt "tfrmmultirename.actclose.caption"
 msgid "&Close"
 msgstr "닫기(&C)"
 
-#: tfrmmultirename.btndeletepreset.caption
-msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
-msgid "&Delete"
-msgstr "삭제(&D)"
+#: tfrmmultirename.actconfig.caption
+msgid "Confi&guration"
+msgstr "환경설정"
 
-#: tfrmmultirename.btnedit.caption
-msgctxt "tfrmmultirename.btnedit.caption"
+#: tfrmmultirename.actctrextmask.caption
+msgctxt "tfrmmultirename.actctrextmask.caption"
+msgid "Counter"
+msgstr "일련 번호"
+
+#: tfrmmultirename.actctrnamemask.caption
+msgctxt "tfrmmultirename.actctrnamemask.caption"
+msgid "Counter"
+msgstr "일련 번호"
+
+#: tfrmmultirename.actdateextmask.caption
+msgctxt "tfrmmultirename.actdateextmask.caption"
+msgid "Date"
+msgstr "날짜"
+
+#: tfrmmultirename.actdatenamemask.caption
+msgctxt "tfrmmultirename.actdatenamemask.caption"
+msgid "Date"
+msgstr "날짜"
+
+#: tfrmmultirename.actdeletepreset.caption
+msgctxt "tfrmmultirename.actdeletepreset.caption"
+msgid "Delete"
+msgstr "삭제"
+
+#: tfrmmultirename.actdropdownpresetlist.caption
+msgid "Drop Down Presets List"
+msgstr ""
+
+#: tfrmmultirename.acteditnames.caption
+msgid "Edit Names..."
+msgstr ""
+
+#: tfrmmultirename.actextextmask.caption
+msgctxt "tfrmmultirename.actextextmask.caption"
+msgid "Extension"
+msgstr "확장자"
+
+#: tfrmmultirename.actextnamemask.caption
+msgctxt "tfrmmultirename.actextnamemask.caption"
+msgid "Extension"
+msgstr "확장자"
+
+#: tfrmmultirename.actinvokeeditor.caption
+msgctxt "tfrmmultirename.actinvokeeditor.caption"
 msgid "Edit&or"
 msgstr "편집(&E)"
 
-#: tfrmmultirename.btnextmenu.caption
-msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
-msgid "..."
-msgstr "..."
+#: tfrmmultirename.actinvokerelativepath.caption
+msgid "Invoke Relative Path Menu"
+msgstr ""
 
-#: tfrmmultirename.btnloadpreset.caption
-msgid "&Load"
-msgstr "불러오기(&L)"
+#: tfrmmultirename.actloadlastpreset.caption
+msgid "Load Last Preset"
+msgstr ""
 
-#: tfrmmultirename.btnnamemenu.caption
-msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
-msgid "..."
-msgstr "..."
+#: tfrmmultirename.actloadnamesfromfile.caption
+msgid "Load Names From File..."
+msgstr ""
 
-#: tfrmmultirename.btnrename.caption
-msgctxt "tfrmmultirename.btnrename.caption"
+#: tfrmmultirename.actloadpreset.caption
+msgid "Load preset by name or index"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset1.caption
+msgid "Load Preset 1"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset2.caption
+msgid "Load Preset 2"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset3.caption
+msgid "Load Preset 3"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset4.caption
+msgid "Load Preset 4"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset5.caption
+msgid "Load Preset 5"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset6.caption
+msgid "Load Preset 6"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset7.caption
+msgid "Load Preset 7"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset8.caption
+msgid "Load Preset 8"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset9.caption
+msgid "Load Preset 9"
+msgstr ""
+
+#: tfrmmultirename.actnameextmask.caption
+msgctxt "tfrmmultirename.actnameextmask.caption"
+msgid "Filename"
+msgstr "파일명"
+
+#: tfrmmultirename.actnamenamemask.caption
+msgctxt "tfrmmultirename.actnamenamemask.caption"
+msgid "Filename"
+msgstr "파일명"
+
+#: tfrmmultirename.actplgnextmask.caption
+msgctxt "tfrmmultirename.actplgnextmask.caption"
+msgid "Plugins"
+msgstr "플러그인"
+
+#: tfrmmultirename.actplgnnamemask.caption
+msgctxt "tfrmmultirename.actplgnnamemask.caption"
+msgid "Plugins"
+msgstr "플러그인"
+
+#: tfrmmultirename.actrename.caption
+msgctxt "tfrmmultirename.actrename.caption"
 msgid "&Rename"
 msgstr "파일명 변경(&R)"
 
-#: tfrmmultirename.btnrestore.caption
+#: tfrmmultirename.actrenamepreset.caption
+msgctxt "tfrmmultirename.actrenamepreset.caption"
+msgid "Rename"
+msgstr "파일명 바꾸기"
+
+#: tfrmmultirename.actresetall.caption
+msgctxt "tfrmmultirename.actresetall.caption"
 msgid "Reset &all"
 msgstr "전체 재설정(&A)"
 
-#: tfrmmultirename.btnsavepreset.caption
-msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
-msgid "&Save"
-msgstr "저장(&S)"
+#: tfrmmultirename.actsavepreset.caption
+msgctxt "tfrmmultirename.actsavepreset.caption"
+msgid "Save"
+msgstr "저장(S)"
+
+#: tfrmmultirename.actsavepresetas.caption
+msgctxt "tfrmmultirename.actsavepresetas.caption"
+msgid "Save As..."
+msgstr "새 이름 저장(A)..."
+
+#: tfrmmultirename.actshowpresetsmenu.caption
+msgid "Show Preset Menu"
+msgstr ""
+
+#: tfrmmultirename.actsortpresets.caption
+msgid "Sort"
+msgstr "정렬"
+
+#: tfrmmultirename.acttimeextmask.caption
+msgctxt "tfrmmultirename.acttimeextmask.caption"
+msgid "Time"
+msgstr "시각"
+
+#: tfrmmultirename.acttimenamemask.caption
+msgctxt "tfrmmultirename.acttimenamemask.caption"
+msgid "Time"
+msgstr "시각"
+
+#: tfrmmultirename.actviewrenamelogfile.caption
+msgid "View Rename Log File"
+msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "TFRMMULTIRENAME.CAPTION"
@@ -3413,9 +3567,15 @@ msgid "MultiRename"
 msgstr "여러개 파일명 바꾸기"
 
 #: tfrmmultirename.cblog.caption
+#, fuzzy
+#| msgid "Ena&ble"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
-msgid "Ena&ble"
+msgid "&Log result"
 msgstr "가능(&B)"
+
+#: tfrmmultirename.cblogappend.caption
+msgid "Append"
+msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
@@ -3440,21 +3600,14 @@ msgctxt "TFRMMULTIRENAME.EDPOC.TEXT"
 msgid "1"
 msgstr "1"
 
-#: tfrmmultirename.extension.caption
-msgid "[E] Extension"
-msgstr "[E] 확장자"
-
 #: tfrmmultirename.gbcounter.caption
+msgctxt "tfrmmultirename.gbcounter.caption"
 msgid "Counter"
 msgstr "일련 번호"
 
 #: tfrmmultirename.gbfindreplace.caption
 msgid "Find && Replace"
 msgstr "찾기 && 바꾸기"
-
-#: tfrmmultirename.gblog.caption
-msgid "Log Result"
-msgstr "로그 결과"
 
 #: tfrmmultirename.gbmaska.caption
 msgid "Mask"
@@ -3493,118 +3646,15 @@ msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "&Width"
 msgstr "자릿수(&W)"
 
-#: tfrmmultirename.micounter.caption
-msgid "[C] Counter"
-msgstr "[C] 일련 번호"
+#: tfrmmultirename.miactions.caption
+msgctxt "tfrmmultirename.miactions.caption"
+msgid "Actions"
+msgstr "액션"
 
-#: tfrmmultirename.miday.caption
-msgid "[D] Day"
-msgstr "[D] 일자"
-
-#: tfrmmultirename.miday1.caption
-msgid "[DD] Day (2 digits)"
-msgstr "[DD] 일자( 2 didgits)"
-
-#: tfrmmultirename.miday2.caption
-msgid "[DDD] Day of the week (short, e.g., \"mon\")"
-msgstr "[DDD] 요일(짧게,예,\"월\")"
-
-#: tfrmmultirename.miday3.caption
-msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
-msgstr "[DDDD] 요일(길게, 예, \"월요일\")"
-
-#: tfrmmultirename.miextensionx.caption
-msgid "[Ex] Character at position x"
-msgstr "[Ex] 문자 위치 x"
-
-#: tfrmmultirename.miextensionxx.caption
-msgid "[Ex:y] Characters from position x to y"
-msgstr "[Ex:y] 문자 위치 x에서 y"
-
-#: tfrmmultirename.mihour.caption
-msgid "[h] Hour"
-msgstr "[h] 시간"
-
-#: tfrmmultirename.mihour1.caption
-msgid "[hh] Hour (2 digits)"
-msgstr "[hh] 시간 ( 2자리)"
-
-#: tfrmmultirename.miminute.caption
-msgid "[n] Minute"
-msgstr "[n] 분"
-
-#: tfrmmultirename.miminute1.caption
-msgid "[nn] Minute (2 digits)"
-msgstr "[nn] 분 (2자리)"
-
-#: tfrmmultirename.mimonth.caption
-msgid "[M] Month"
-msgstr "[M] 월"
-
-#: tfrmmultirename.mimonth1.caption
-msgid "[MM] Month (2 digits)"
-msgstr "[MM] 월 (2자리)"
-
-#: tfrmmultirename.mimonth2.caption
-msgid "[MMM] Month name (short, e.g., \"jan\")"
-msgstr "[MMM] 월 (짧게, 예, \"jan\")"
-
-#: tfrmmultirename.mimonth3.caption
-msgid "[MMMM] Month name (long, e.g., \"january\")"
-msgstr "[MMMM] 월 (길게, 예, \"january\")"
-
-#: tfrmmultirename.miname.caption
-msgid "[N] Name"
-msgstr "[N] 파일명"
-
-#: tfrmmultirename.minamex.caption
-msgid "[Nx] Character at position x"
-msgstr "[Nx] 문자 위치 x"
-
-#: tfrmmultirename.minamexx.caption
-msgid "[Nx:y] Characters from position x to y"
-msgstr "[Nx:y] 문자 위치 x에서 y까지"
-
-#: tfrmmultirename.minext.caption
-msgid "Time..."
-msgstr "시각..."
-
-#: tfrmmultirename.minextextension.caption
-msgid "Extension..."
-msgstr "확장자..."
-
-#: tfrmmultirename.minextname.caption
-msgid "Name..."
-msgstr "파일명..."
-
-#: tfrmmultirename.miplugin.caption
-msgctxt "TFRMMULTIRENAME.MIPLUGIN.CAPTION"
-msgid "Plugin"
-msgstr "플러그인"
-
-#: tfrmmultirename.misecond.caption
-msgid "[s] Second"
-msgstr "[s] 초"
-
-#: tfrmmultirename.misecond1.caption
-msgid "[ss] Second (2 digits)"
-msgstr "[ss] 초 (2자리)"
-
-#: tfrmmultirename.miyear.caption
-msgid "[Y] Year (2 digits)"
-msgstr "[Y] 년 (2 자리)"
-
-#: tfrmmultirename.miyear1.caption
-msgid "[YYYY] Year (4 digits)"
-msgstr "[YYYY] 년 (4 자리)"
-
-#: tfrmmultirename.mnueditnames.caption
-msgid "Edit names..."
-msgstr ""
-
-#: tfrmmultirename.mnuloadfromfile.caption
-msgid "Load names from file..."
-msgstr ""
+#: tfrmmultirename.mieditor.caption
+msgctxt "tfrmmultirename.mieditor.caption"
+msgid "Editor"
+msgstr "편집(&E)"
 
 #: tfrmmultirename.stringgrid.columns[0].title.caption
 msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[0].TITLE.CAPTION"
@@ -7025,6 +7075,54 @@ msgstr ""
 msgid "Single click (opens folders, double click for files)"
 msgstr ""
 
+#: tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint
+#, fuzzy
+msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint"
+msgid "Some functions to select appropriate path"
+msgstr "적절한 경로를 선택하기위한 기능"
+
+#: tfrmoptionsmultirename.btnmulrenlogfilenameview.hint
+#, fuzzy
+msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenameview.hint"
+msgid "View log file content"
+msgstr "로그 파일 내용 보기"
+
+#: tfrmoptionsmultirename.ckbdailyindividualdirmultrenlog.caption
+msgid "Individual directories per day"
+msgstr ""
+
+#: tfrmoptionsmultirename.ckbfilenamewithfullpathinlog.caption
+msgid "Log filenames with full path"
+msgstr ""
+
+#: tfrmoptionsmultirename.ckbshowmenubarontop.caption
+msgid "Show menu bar on top "
+msgstr ""
+
+#: tfrmoptionsmultirename.gbsaverenaminglog.caption
+msgid "Rename log"
+msgstr ""
+
+#: tfrmoptionsmultirename.lbinvalidcharreplacement.caption
+msgid "Replace invalid filename character b&y"
+msgstr ""
+
+#: tfrmoptionsmultirename.rbrenaminglogappendsamefile.caption
+msgid "Append in the same rename log file"
+msgstr ""
+
+#: tfrmoptionsmultirename.rbrenaminglogperpreset.caption
+msgid "Per preset"
+msgstr ""
+
+#: tfrmoptionsmultirename.rgexitmodifiedpreset.caption
+msgid "Exit with modified preset"
+msgstr ""
+
+#: tfrmoptionsmultirename.rglaunchbehavior.caption
+msgid "Preset at launch"
+msgstr ""
+
 #: tfrmoptionspluginsbase.btnaddplugin.caption
 msgctxt "tfrmoptionspluginsbase.btnaddplugin.caption"
 msgid "A&dd"
@@ -8564,6 +8662,57 @@ msgstr "AND (모두 일치) (&A)"
 msgid "&OR (any match)"
 msgstr "OR (하나라도 일치) (&O)"
 
+#: tfrmselectpathrange.btppanel.cancelbutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.cancelbutton.caption"
+msgid "Cancel"
+msgstr "취소"
+
+#: tfrmselectpathrange.btppanel.closebutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.closebutton.caption"
+msgid "&Close"
+msgstr "닫기(&C)"
+
+#: tfrmselectpathrange.btppanel.helpbutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.helpbutton.caption"
+msgid "&Help"
+msgstr "도움말(&H)"
+
+#: tfrmselectpathrange.btppanel.okbutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.okbutton.caption"
+msgid "&OK"
+msgstr "확인(&O)"
+
+#: tfrmselectpathrange.edseparator.editlabel.caption
+msgid "Separat&or"
+msgstr ""
+
+#: tfrmselectpathrange.gbcountfrom.caption
+msgid "Count from"
+msgstr ""
+
+#: tfrmselectpathrange.lblresult.caption
+msgctxt "tfrmselectpathrange.lblresult.caption"
+msgid "Result:"
+msgstr ""
+
+#: tfrmselectpathrange.lblselectdirectories.caption
+msgid "&Select the directories to insert (you may select more than one)"
+msgstr ""
+
+#: tfrmselectpathrange.rbfirstfromend.caption
+msgctxt "tfrmselectpathrange.rbfirstfromend.caption"
+msgid "The en&d"
+msgstr ""
+
+#: tfrmselectpathrange.rbfirstfromstart.caption
+msgctxt "tfrmselectpathrange.rbfirstfromstart.caption"
+msgid "The sta&rt"
+msgstr ""
+
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
 msgid "Cancel"
@@ -8584,9 +8733,52 @@ msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
 msgid "&OK"
 msgstr "확인(&O)"
 
+#: tfrmselecttextrange.gbcountfirstfrom.caption
+msgid "Count first from"
+msgstr ""
+
+#: tfrmselecttextrange.gbcountlastfrom.caption
+msgid "Count last from"
+msgstr ""
+
+#: tfrmselecttextrange.gbrangedescription.caption
+msgid "Range description"
+msgstr ""
+
+#: tfrmselecttextrange.lblresult.caption
+msgctxt "tfrmselecttextrange.lblresult.caption"
+msgid "Result:"
+msgstr ""
+
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "&Select the characters to insert:"
 msgstr "문자 삽입 선택(&S)"
+
+#: tfrmselecttextrange.rbdescriptionfirstlast.caption
+msgid "[&First:Last]"
+msgstr ""
+
+#: tfrmselecttextrange.rbdescriptionfirstlength.caption
+msgid "[First,&Length]"
+msgstr ""
+
+#: tfrmselecttextrange.rbfirstfromend.caption
+msgctxt "tfrmselecttextrange.rbfirstfromend.caption"
+msgid "The en&d"
+msgstr ""
+
+#: tfrmselecttextrange.rbfirstfromstart.caption
+msgctxt "tfrmselecttextrange.rbfirstfromstart.caption"
+msgid "The sta&rt"
+msgstr ""
+
+#: tfrmselecttextrange.rblastfromend.caption
+msgid "The &end"
+msgstr ""
+
+#: tfrmselecttextrange.rblastfromstart.caption
+msgid "The s&tart"
+msgstr ""
 
 #: tfrmsetfileproperties.btncancel.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -8742,6 +8934,28 @@ msgstr ""
 #: tfrmsetfileproperties.zvlastwritedatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
+msgstr ""
+
+#: tfrmsortanything.btncancel.caption
+#, fuzzy
+msgctxt "tfrmsortanything.btncancel.caption"
+msgid "&Cancel"
+msgstr "취소(&C)"
+
+#: tfrmsortanything.btnok.caption
+msgid "&O&K"
+msgstr ""
+
+#: tfrmsortanything.btnsort.caption
+msgid "&Sort"
+msgstr ""
+
+#: tfrmsortanything.caption
+msgid "frmSortAnything"
+msgstr ""
+
+#: tfrmsortanything.lblsortanything.caption
+msgid "Drag and drop elements to sort them"
 msgstr ""
 
 #: tfrmsplitter.btnrelativeftchoice.hint
@@ -10516,6 +10730,7 @@ msgid "Creation date/time"
 msgstr "날짜/시간 생성"
 
 #: ulng.rsfuncext
+msgctxt "ulng.rsfuncext"
 msgid "Extension"
 msgstr "확장자"
 
@@ -10610,6 +10825,11 @@ msgstr "파일 찾기"
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr "주요정보"
+
+#: ulng.rshotkeycategorymultirename
+msgctxt "ulng.rshotkeycategorymultirename"
+msgid "MultiRename"
+msgstr "여러개 파일명 바꾸기"
 
 #: ulng.rshotkeycategorysyncdirs
 msgid "Synchronize Directories"
@@ -11632,6 +11852,10 @@ msgstr "%s 삭제(&D)"
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "\"%s\" 프리셋이 존재함. 덮어쓸까요?"
 
+#: ulng.rsmsgpresetconfigdelete
+msgid "Are you sure you want to delete preset \"%s\"?"
+msgstr ""
+
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
 msgstr "(%s) 명령어 실행 문제 있음"
@@ -11939,6 +12163,54 @@ msgstr ""
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
 msgstr ""
 
+#: ulng.rsmulrenclearmask
+msgid "Clear mask"
+msgstr ""
+
+#: ulng.rsmulrencounter
+msgctxt "ulng.rsmulrencounter"
+msgid "Counter"
+msgstr "일련 번호"
+
+#: ulng.rsmulrendate
+msgctxt "ulng.rsmulrendate"
+msgid "Date"
+msgstr "날짜"
+
+#: ulng.rsmulrendefaultpresetname
+msgid "Preset name"
+msgstr ""
+
+#: ulng.rsmulrendefinevariablename
+msgid "Define variable name"
+msgstr ""
+
+#: ulng.rsmulrendefinevariablevalue
+msgid "Define variable value"
+msgstr ""
+
+#: ulng.rsmulrenenternameforvar
+msgid "Enter variable name"
+msgstr ""
+
+#: ulng.rsmulrenentervalueforvar
+msgid "Enter value for variable \"%s\""
+msgstr ""
+
+#: ulng.rsmulrenexitmodifiedpresetoptions
+msgid "Ignore, just save as the [Last One];Prompt user to confirm if we save it;Save automatically"
+msgstr ""
+
+#: ulng.rsmulrenextension
+msgctxt "ulng.rsmulrenextension"
+msgid "Extension"
+msgstr "확장자"
+
+#: ulng.rsmulrenfilename
+msgctxt "ulng.rsmulrenfilename"
+msgid "Name"
+msgstr "파일명"
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "변화없음;대문자;소문자;첫번째 문자 대문자;모든 단어의 첫번째는 대문자;"
@@ -11946,6 +12218,162 @@ msgstr "변화없음;대문자;소문자;첫번째 문자 대문자;모든 단�
 #: ulng.rsmulrenlastpreset
 msgid "[The last used]"
 msgstr ""
+
+#: ulng.rsmulrenlaunchbehavioroptions
+msgid "Last masks under [Last One] preset;Last preset;New fresh masks"
+msgstr ""
+
+#: ulng.rsmulrenlogstart
+msgctxt "ulng.rsmulrenlogstart"
+msgid "MultiRename"
+msgstr "여러개 파일명 바꾸기"
+
+#: ulng.rsmulrenmaskcharatposx
+msgid "Character at position x"
+msgstr "문자 위치 x"
+
+#: ulng.rsmulrenmaskcharatposxtoy
+msgid "Characters from position x to y"
+msgstr "문자 위치 x에서 y"
+
+#: ulng.rsmulrenmaskcompletedate
+msgid "Complete date"
+msgstr ""
+
+#: ulng.rsmulrenmaskcompletetime
+msgid "Complete time"
+msgstr ""
+
+#: ulng.rsmulrenmaskcounter
+msgctxt "ulng.rsmulrenmaskcounter"
+msgid "Counter"
+msgstr "일련 번호"
+
+#: ulng.rsmulrenmaskday
+msgid "Day"
+msgstr "일자"
+
+#: ulng.rsmulrenmaskday2digits
+msgid "Day (2 digits)"
+msgstr "일자( 2 didgits)"
+
+#: ulng.rsmulrenmaskdowabrev
+msgid "Day of the week (short, e.g., \"mon\")"
+msgstr "요일(짧게,예,\"월\")"
+
+#: ulng.rsmulrenmaskdowcomplete
+msgid "Day of the week (long, e.g., \"monday\")"
+msgstr "요일(길게, 예, \"월요일\")"
+
+#: ulng.rsmulrenmaskextension
+msgctxt "ulng.rsmulrenmaskextension"
+msgid "Extension"
+msgstr "확장자"
+
+#: ulng.rsmulrenmaskfullname
+msgid "Complete filename with path and extension"
+msgstr ""
+
+#: ulng.rsmulrenmaskfullnamecharatposxtoy
+msgid "Complete filename, char from pos x to y"
+msgstr ""
+
+#: ulng.rsmulrenmaskguid
+msgid "GUID"
+msgstr ""
+
+#: ulng.rsmulrenmaskhour
+msgid "Hour"
+msgstr "시간"
+
+#: ulng.rsmulrenmaskhour2digits
+msgid "Hour (2 digits)"
+msgstr "시간 ( 2자리)"
+
+#: ulng.rsmulrenmaskmin
+msgid "Minute"
+msgstr "분"
+
+#: ulng.rsmulrenmaskmin2digits
+msgid "Minute (2 digits)"
+msgstr "분 (2자리)"
+
+#: ulng.rsmulrenmaskmonth
+msgid "Month"
+msgstr "월"
+
+#: ulng.rsmulrenmaskmonth2digits
+msgid "Month (2 digits)"
+msgstr "월 (2자리)"
+
+#: ulng.rsmulrenmaskmonthabrev
+msgid "Month name (short, e.g., \"jan\")"
+msgstr "월 (짧게, 예, \"jan\")"
+
+#: ulng.rsmulrenmaskmonthcomplete
+msgid "Month name (long, e.g., \"january\")"
+msgstr "월 (길게, 예, \"january\")"
+
+#: ulng.rsmulrenmaskname
+msgctxt "ulng.rsmulrenmaskname"
+msgid "Name"
+msgstr "파일명"
+
+#: ulng.rsmulrenmaskparent
+msgid "Parent folder(s)"
+msgstr ""
+
+#: ulng.rsmulrenmasksec
+msgid "Second"
+msgstr "초"
+
+#: ulng.rsmulrenmasksec2digits
+msgid "Second (2 digits)"
+msgstr "초 (2자리)"
+
+#: ulng.rsmulrenmaskvaronthefly
+msgid "Variable on the fly"
+msgstr ""
+
+#: ulng.rsmulrenmaskyear2digits
+msgid "Year (2 digits)"
+msgstr "년 (2 자리)"
+
+#: ulng.rsmulrenmaskyear4digits
+msgid "Year (4 digits)"
+msgstr "년 (4 자리)"
+
+#: ulng.rsmulrenplugins
+msgctxt "ulng.rsmulrenplugins"
+msgid "Plugins"
+msgstr "플러그인"
+
+#: ulng.rsmulrenpromptforsavedpresetname
+msgid "Save preset as"
+msgstr ""
+
+#: ulng.rsmulrenpromptnewnameexists
+msgid "Preset name already exists. Overwrite?"
+msgstr ""
+
+#: ulng.rsmulrenpromptnewpresetname
+msgid "Enter new preset name"
+msgstr ""
+
+#: ulng.rsmulrensavemodifiedpreset
+msgid ""
+"\"%s\" preset has been modified.\n"
+"Do you want to save it now?\n"
+msgstr ""
+
+#: ulng.rsmulrensortingpresets
+msgid "Sorting presets"
+msgstr ""
+
+#: ulng.rsmulrentime
+msgctxt "ulng.rsmulrentime"
+msgid "Time"
+msgstr "시각"
 
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
@@ -12679,6 +13107,11 @@ msgstr "기타설정"
 msgid "Mouse"
 msgstr "마우스"
 
+#: ulng.rsoptionseditormultirename
+msgctxt "ulng.rsoptionseditormultirename"
+msgid "MultiRename"
+msgstr "여러개 파일명 바꾸기"
+
 #: ulng.rsoptionseditoroptionschanged
 msgid ""
 "Options have changed in \"%s\"\n"
@@ -13078,6 +13511,7 @@ msgid "False"
 msgstr ""
 
 #: ulng.rssimplewordfilename
+msgctxt "ulng.rssimplewordfilename"
 msgid "Filename"
 msgstr "파일명"
 
@@ -13103,6 +13537,10 @@ msgstr ""
 
 #: ulng.rssimplewordtrue
 msgid "True"
+msgstr ""
+
+#: ulng.rssimplewordvariable
+msgid "Variable"
 msgstr ""
 
 #: ulng.rssimplewordworkdir

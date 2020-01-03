@@ -1,0 +1,297 @@
+inherited frmOptionsMultiRename: TfrmOptionsMultiRename
+  Height = 649
+  Width = 735
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.HorizontalSpacing = 3
+  ChildSizing.VerticalSpacing = 6
+  ClientHeight = 649
+  ClientWidth = 735
+  DesignLeft = 753
+  DesignTop = 243
+  object ckbShowMenuBarOnTop: TCheckBox[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 6
+    Height = 19
+    Top = 6
+    Width = 144
+    BorderSpacing.Top = 6
+    Caption = 'Show menu bar on top '
+    TabOrder = 0
+  end
+  object rgLaunchBehavior: TRadioGroup[1]
+    AnchorSideLeft.Control = ckbShowMenuBarOnTop
+    AnchorSideTop.Control = edInvalidCharReplacement
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 101
+    Top = 60
+    Width = 723
+    Anchors = [akTop, akLeft, akRight]
+    AutoFill = True
+    AutoSize = True
+    Caption = 'Preset at launch'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.VerticalSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 81
+    ClientWidth = 719
+    ItemIndex = 0
+    Items.Strings = (
+      'Last masks under [Last One] preset'
+      'Last preset'
+      'New fresh masks'
+    )
+    TabOrder = 2
+  end
+  object rgExitModifiedPreset: TRadioGroup[2]
+    AnchorSideLeft.Control = ckbShowMenuBarOnTop
+    AnchorSideTop.Control = rgLaunchBehavior
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 101
+    Top = 167
+    Width = 723
+    Anchors = [akTop, akLeft, akRight]
+    AutoFill = True
+    AutoSize = True
+    Caption = 'Exit with modified preset'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.VerticalSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 81
+    ClientWidth = 719
+    ItemIndex = 0
+    Items.Strings = (
+      'Ignore, just save as the [Last One]'
+      'Prompt user to confirm if we save it'
+      'Save automatically'
+    )
+    TabOrder = 3
+  end
+  object gbSaveRenamingLog: TGroupBox[3]
+    AnchorSideLeft.Control = ckbShowMenuBarOnTop
+    AnchorSideTop.Control = rgExitModifiedPreset
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 155
+    Top = 274
+    Width = 723
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    Caption = 'Rename log'
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.VerticalSpacing = 6
+    ClientHeight = 135
+    ClientWidth = 719
+    TabOrder = 4
+    object rbRenamingLogPerPreset: TRadioButton
+      AnchorSideLeft.Control = gbSaveRenamingLog
+      AnchorSideTop.Control = gbSaveRenamingLog
+      Left = 8
+      Height = 19
+      Top = 6
+      Width = 72
+      BorderSpacing.Left = 8
+      Caption = 'Per preset'
+      Checked = True
+      TabOrder = 2
+      TabStop = True
+    end
+    object rbRenamingLogAppendSameFile: TRadioButton
+      AnchorSideLeft.Control = rbRenamingLogPerPreset
+      AnchorSideTop.Control = rbRenamingLogPerPreset
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 19
+      Top = 31
+      Width = 208
+      BorderSpacing.Top = 6
+      Caption = 'Append in the same rename log file'
+      OnChange = rbRenamingLogAppendSameFileChange
+      TabOrder = 1
+    end
+    object fneMulRenLogFilename: TFileNameEdit
+      AnchorSideLeft.Control = rbRenamingLogPerPreset
+      AnchorSideTop.Control = rbRenamingLogAppendSameFile
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = btnMulRenLogFilenameRelative
+      Left = 8
+      Height = 23
+      Top = 56
+      Width = 655
+      DialogOptions = []
+      FilterIndex = 0
+      DefaultExt = 'log'
+      HideDirectories = False
+      ButtonWidth = 23
+      NumGlyphs = 1
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 4
+      MaxLength = 0
+      TabOrder = 0
+    end
+    object btnMulRenLogFilenameRelative: TSpeedButton
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = fneMulRenLogFilename
+      AnchorSideRight.Control = btnMulRenLogFilenameView
+      AnchorSideBottom.Control = fneMulRenLogFilename
+      AnchorSideBottom.Side = asrBottom
+      Left = 663
+      Height = 23
+      Hint = 'Some functions to select appropriate path'
+      Top = 56
+      Width = 24
+      Anchors = [akRight, akBottom]
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        20000000000000040000640000006400000000000000000000002C86D8702D88
+        D8A62D87D8EA2D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+        D8F72D88D8F72D87D8F72D88D8F12C86D893FFFFFF00FFFFFF00338ED9E6DCF0
+        FAF0A7DDF4FD9EDBF4FF96DAF3FF8ED8F3FF86D7F3FF7FD4F2FF79D3F2FF72D2
+        F1FF6CD0F1FF69CFF1FFC2EAF8FE338ED9F0FFFFFF00FFFFFF003594DAF7EFFA
+        FEFFA1E9F9FF91E5F8FF81E1F7FF72DEF6FF63DAF5FF54D7F4FF47D3F3FF39D0
+        F2FF2ECDF1FF26CBF0FFCAF2FBFF3594DAF7FFFFFF00FFFFFF00369ADAF8F2FA
+        FDFFB3EDFAFFA4E9F9FF95E6F8FF85E2F7FF81E1F7FF7AE0F7FF7CE0F7FF62DA
+        F5FF54D6F3FF47D3F2FFE8F9FDFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+        FEFFC8F2FCFFB9EFFBFF94DFEFFF8CE4F8FF99CED3FF91D0D8FF82E1F7FF6DDD
+        F6FF61DAF5FF57D7F4FFE7F8FDFF3594DAFFFFFFFF00FFFFFF0037A6DAFAFEFF
+        FFFFF8FDFFFFF6FDFFFFF4F4F2FFE8FAFEFFB6D7D8FFAAC7C5FF92D8E4FF7DE0
+        F7FF72DDF6FF68DBF5FFE9F9FDFF3594DAFFFFFFFF00FFFFFF0035ABDAFAE8F6
+        FBFF7EC5EAFF4AA3DFFF5E97C2FF4DA3DEFFF2F1EDFFF3EFECFFEDE5DFFFEDEB
+        E8FFF1F9FDFFF0F9FDFFFFFFFFFF3594DAFFFFFFFF00FFFFFF0036AADAF2F1FA
+        FDFF94DEF5FF93DCF4FFACBFBFFFBC9F90FF64A1CFFF3594DAFF3594DAFF3594
+        DAFF3594DAFF3594DAFF3594DAFF3594DAFFFFFFFF00FFFFFF0035AFDAF0F7FC
+        FEFF8EE4F8FF91DEF5FF9FE0F5FFC5C7C2FFDFA583FFEDC8B3FFEDCDB8FFE9BE
+        A3FFD58E64FFEEFBFEFFFAFDFFF936AFDAD4FFFFFF00FFFFFF0036B3DAF8FDFE
+        FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE7D6C9FFE0A987FFEBC7B0FFDDA1
+        7CFFBCA595FF839DA5FC7BAEBEEC6395A58E81818117FFFFFF0034B4D9D05EC2
+        E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FA3CB6DBDDD5B1968CDDAB8DF9C4AF
+        A3FFD5D5D5FFBBBBBBFFA6A6A6FFA0A0A0FF848484E482828262FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00969696029494
+        94C5CBCBCBFFD2D2D2FFC9C9C9FFD2D2D2FFC6C6C6FF858585E8FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009898
+        9855B2B2B2FFD6D6D6FF919191DA8E8E8EF5C0C0C0FF898989FDFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009B9B
+        9B54B5B5B5FFE6E6E6FF949494EF929292AF8F8F8FA68D8D8D90FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF009E9E
+        9E1B9C9C9CE4E1E1E1FFD2D2D2FF969696ABFFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF009E9E9E629D9D9DE89B9B9BF999999992FFFFFF00FFFFFF00
+      }
+      OnClick = btnMulRenLogFilenameRelativeClick
+    end
+    object btnMulRenLogFilenameView: TSpeedButton
+      AnchorSideTop.Control = fneMulRenLogFilename
+      AnchorSideRight.Control = gbSaveRenamingLog
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = fneMulRenLogFilename
+      AnchorSideBottom.Side = asrBottom
+      Left = 687
+      Height = 23
+      Hint = 'View log file content'
+      Top = 56
+      Width = 24
+      Anchors = [akRight, akBottom]
+      BorderSpacing.Right = 8
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        18000000000000030000130B0000130B00000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000C17213B6E9E3A6EA000000000000000000000000000
+        00000000000000000000000000000000000000000000000000003A83CC44C8FF
+        29B2FF316DA70000000000000000000000000000000000000000000000000000
+        000000000000000000003881CC55DBFF3AC6FF82756C6F6C6B69696C68696F73
+        6F66CFAA61B87E0BB67D0AB67D0AB67C0AB67D0AB77F0F7F580A0000002980DB
+        9F928C7D7773E9D7A3FFF5B0FFEEA8E7CA94737379F6FBFFF2F7FFF2F7FFF2F6
+        FFF2F7FFF7FFFFB77F0F000000C98506828088E9D8A5FFF8BBFFEFB2FFE7A6FF
+        E6A6E6C28984858AECECEDECECEDEAEBEEEAEBEEF5FBFFB67D0A000000C08511
+        7F8290FFF2AFFFEFB2FFE9ABFFE7B3FFEFCAFFE09C7B7B7EEAE9E8EAE9E8E6E6
+        E6E6E6E6F5FBFFB67C09000000BD8412868C9AFFEAA5FFE6A4FFE7B2FFEDC8FF
+        F7E3FFDC96858689E5E4E3E5E4E3E0E0E1E0E0E1F5FBFFB67C09000000BB8210
+        9DA3B0ECCE97FFE4A3FFEEC9FFF7E3FFF3DAECBE8096979AE1E1E0DEDDDCDBDB
+        DCDBDBDCF5FBFFB67C09000000B9800DDDE3EE9E9B9BEECA8FFFDD9AFFDA95EE
+        C2829B9895D9D7D7D9D7D7D9D7D7D8D6D8D8D6D8F6FCFFB67C0A000000B77E0B
+        F9FFFFC4C4C6A5A4A6A4A4A7A4A3A6B1AFB3D6D4D3D4D2D3D4D2D3D4D2D3D4D2
+        D3D4D2D3F6FCFFB67D0A000000B67D0AF7FDFFCFCED0CFCECECCCBCDCFCECECC
+        CBCDCCCBCDCCCBCDCFCECECCCBCDCCCBCDCCCBCDF6FCFFB67D0A000000B67D0C
+        F5FDFFF3F8FFF5F9FFF6FBFFF6FBFFF6FBFFF6FAFFF5FAFFF5F9FFF4F8FFF3F7
+        FFF3F7FFF4FDFFB67D0C000000B67F10F7E4C0DCAA4ADDAB4BDDAC4CDDAC4CDD
+        AC4CDDAC4CDDAC4CDDAC4CDDAB4BDCAB4ADCAA4AF7E4C0B67F10000000B88216
+        EFD2A0EDCF9BECCF9BECCF9BECCF9BECCF9BECCF9BECCF9BECCF9BECCF9BECCF
+        9BEDCF9BEFD2A0B88216000000825D14B88217B78114B68114B68114B68114B6
+        8114B68114B68114B68114B68114B68114B78114B88217825D14
+      }
+      OnClick = btnMulRenLogFilenameViewClick
+    end
+    object ckbDailyIndividualDirMultRenLog: TCheckBox
+      AnchorSideLeft.Control = rbRenamingLogPerPreset
+      AnchorSideTop.Control = fneMulRenLogFilename
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 19
+      Top = 85
+      Width = 172
+      BorderSpacing.Bottom = 4
+      Caption = 'Individual directories per day'
+      TabOrder = 3
+    end
+    object ckbFilenameWithFullPathInLog: TCheckBox
+      AnchorSideLeft.Control = rbRenamingLogPerPreset
+      AnchorSideTop.Control = ckbDailyIndividualDirMultRenLog
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 19
+      Top = 110
+      Width = 167
+      BorderSpacing.Top = 6
+      Caption = 'Log filenames with full path'
+      TabOrder = 4
+    end
+  end
+  object lbInvalidCharReplacement: TLabel[4]
+    AnchorSideLeft.Control = ckbShowMenuBarOnTop
+    AnchorSideTop.Control = edInvalidCharReplacement
+    AnchorSideTop.Side = asrCenter
+    Left = 6
+    Height = 15
+    Top = 35
+    Width = 196
+    Caption = 'Replace invalid filename character b&y'
+    FocusControl = edInvalidCharReplacement
+    ParentColor = False
+  end
+  object edInvalidCharReplacement: TEdit[5]
+    AnchorSideLeft.Control = lbInvalidCharReplacement
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = ckbShowMenuBarOnTop
+    AnchorSideTop.Side = asrBottom
+    Left = 205
+    Height = 23
+    Top = 31
+    Width = 112
+    TabOrder = 1
+  end
+  object pmPathToBeRelativeToHelper: TPopupMenu[6]
+    left = 452
+    top = 60
+  end
+end

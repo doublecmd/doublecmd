@@ -4,7 +4,7 @@
    -------------------------------------------------------------------------
    Implementing of Showing messages with localization
 
-   Copyright (C) 2007-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

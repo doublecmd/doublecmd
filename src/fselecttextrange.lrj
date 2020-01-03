@@ -3,5 +3,15 @@
 {"hash":11067,"name":"tfrmselecttextrange.btppanel.okbutton.caption","sourcebytes":[38,79,75],"value":"&OK"},
 {"hash":2812976,"name":"tfrmselecttextrange.btppanel.helpbutton.caption","sourcebytes":[38,72,101,108,112],"value":"&Help"},
 {"hash":44709525,"name":"tfrmselecttextrange.btppanel.closebutton.caption","sourcebytes":[38,67,108,111,115,101],"value":"&Close"},
-{"hash":77089212,"name":"tfrmselecttextrange.btppanel.cancelbutton.caption","sourcebytes":[67,97,110,99,101,108],"value":"Cancel"}
+{"hash":77089212,"name":"tfrmselecttextrange.btppanel.cancelbutton.caption","sourcebytes":[67,97,110,99,101,108],"value":"Cancel"},
+{"hash":3531742,"name":"tfrmselecttextrange.gbrangedescription.caption","sourcebytes":[82,97,110,103,101,32,100,101,115,99,114,105,112,116,105,111,110],"value":"Range description"},
+{"hash":174031725,"name":"tfrmselecttextrange.rbdescriptionfirstlast.caption","sourcebytes":[91,38,70,105,114,115,116,58,76,97,115,116,93],"value":"[&First:Last]"},
+{"hash":37673821,"name":"tfrmselecttextrange.rbdescriptionfirstlength.caption","sourcebytes":[91,70,105,114,115,116,44,38,76,101,110,103,116,104,93],"value":"[First,&Length]"},
+{"hash":147505962,"name":"tfrmselecttextrange.lblresult.caption","sourcebytes":[82,101,115,117,108,116,58],"value":"Result:"},
+{"hash":251965197,"name":"tfrmselecttextrange.gbcountfirstfrom.caption","sourcebytes":[67,111,117,110,116,32,102,105,114,115,116,32,102,114,111,109],"value":"Count first from"},
+{"hash":128947172,"name":"tfrmselecttextrange.rbfirstfromstart.caption","sourcebytes":[84,104,101,32,115,116,97,38,114,116],"value":"The sta&rt"},
+{"hash":242664804,"name":"tfrmselecttextrange.rbfirstfromend.caption","sourcebytes":[84,104,101,32,101,110,38,100],"value":"The en&d"},
+{"hash":103866813,"name":"tfrmselecttextrange.gbcountlastfrom.caption","sourcebytes":[67,111,117,110,116,32,108,97,115,116,32,102,114,111,109],"value":"Count last from"},
+{"hash":123209444,"name":"tfrmselecttextrange.rblastfromstart.caption","sourcebytes":[84,104,101,32,115,38,116,97,114,116],"value":"The s&tart"},
+{"hash":242405348,"name":"tfrmselecttextrange.rblastfromend.caption","sourcebytes":[84,104,101,32,38,101,110,100],"value":"The &end"}
 ]}

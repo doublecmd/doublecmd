@@ -1,26 +1,35 @@
 object frmSelectTextRange: TfrmSelectTextRange
-  Left = 323
-  Height = 112
-  Top = 214
-  Width = 320
+  Left = 693
+  Height = 215
+  Top = 288
+  Width = 518
+  AutoSize = True
   BorderStyle = bsDialog
-  ChildSizing.LeftRightSpacing = 10
-  ClientHeight = 112
-  ClientWidth = 320
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
+  ChildSizing.HorizontalSpacing = 3
+  ChildSizing.VerticalSpacing = 3
+  ClientHeight = 215
+  ClientWidth = 518
+  OnCreate = FormCreate
   Position = poOwnerFormCenter
-  LCLVersion = '1.0.12.0'
+  SessionProperties = 'Width;Top;Left;rbDescriptionFirstLast.Checked;rbDescriptionFirstLength.Checked;rbFirstFromEnd.Checked;rbFirstFromStart.Checked;rbLastFromEnd.Checked;rbLastFromStart.Checked'
+  LCLVersion = '2.0.6.0'
   object edtSelectText: TEdit
-    AnchorSideLeft.Control = lblSelectText
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblSelectText
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 10
-    Height = 24
-    Top = 31
-    Width = 300
+    Left = 6
+    Height = 23
+    Top = 24
+    Width = 506
+    Anchors = [akTop, akLeft, akRight]
     AutoSelect = False
-    BorderSpacing.Top = 6
     Constraints.MinWidth = 300
+    HideSelection = False
+    OnChange = SomethingChange
     OnKeyUp = edtSelectTextKeyUp
     OnMouseUp = edtSelectTextMouseUp
     TabOrder = 0
@@ -29,22 +38,26 @@ object frmSelectTextRange: TfrmSelectTextRange
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 10
+    Left = 6
     Height = 15
-    Top = 10
-    Width = 188
-    BorderSpacing.Left = 10
-    BorderSpacing.Top = 10
-    BorderSpacing.Right = 10
+    Top = 6
+    Width = 157
     Caption = '&Select the characters to insert:'
     FocusControl = edtSelectText
     ParentColor = False
   end
   object btpPanel: TButtonPanel
-    Left = 10
-    Height = 36
-    Top = 70
-    Width = 300
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblResult
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 26
+    Top = 141
+    Width = 506
+    Align = alNone
+    Anchors = [akTop, akLeft, akRight]
     OKButton.Name = 'OKButton'
     OKButton.Caption = '&OK'
     OKButton.DefaultCaption = False
@@ -59,5 +72,173 @@ object frmSelectTextRange: TfrmSelectTextRange
     CancelButton.DefaultCaption = False
     TabOrder = 1
     ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
+  end
+  object gbRangeDescription: TGroupBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edtSelectText
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 64
+    Top = 53
+    Width = 114
+    AutoSize = True
+    BorderSpacing.Top = 6
+    Caption = 'Range description'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.HorizontalSpacing = 3
+    ChildSizing.VerticalSpacing = 3
+    ClientHeight = 44
+    ClientWidth = 110
+    TabOrder = 2
+    object rbDescriptionFirstLast: TRadioButton
+      AnchorSideLeft.Control = gbRangeDescription
+      AnchorSideTop.Control = gbRangeDescription
+      Left = 6
+      Height = 19
+      Top = 0
+      Width = 74
+      AutoSize = False
+      Caption = '[&First:Last]'
+      Checked = True
+      OnChange = SomethingChange
+      TabOrder = 0
+      TabStop = True
+    end
+    object rbDescriptionFirstLength: TRadioButton
+      AnchorSideLeft.Control = gbRangeDescription
+      AnchorSideTop.Control = rbDescriptionFirstLast
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 19
+      Top = 22
+      Width = 90
+      BorderSpacing.Bottom = 3
+      Caption = '[First,&Length]'
+      OnChange = SomethingChange
+      TabOrder = 1
+    end
+  end
+  object lblResult: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbRangeDescription
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 15
+    Top = 120
+    Width = 35
+    Caption = 'Result:'
+    ParentColor = False
+  end
+  object gbCountFirstFrom: TGroupBox
+    AnchorSideLeft.Control = gbRangeDescription
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = edtSelectText
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Side = asrBottom
+    Left = 126
+    Height = 64
+    Top = 53
+    Width = 104
+    AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    Caption = 'Count first from'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.HorizontalSpacing = 3
+    ChildSizing.VerticalSpacing = 3
+    ClientHeight = 44
+    ClientWidth = 100
+    TabOrder = 3
+    object rbFirstFromStart: TRadioButton
+      AnchorSideLeft.Control = gbCountFirstFrom
+      AnchorSideTop.Control = gbCountFirstFrom
+      Left = 6
+      Height = 19
+      Top = 0
+      Width = 65
+      Caption = 'The sta&rt'
+      Checked = True
+      OnChange = SomethingChange
+      TabOrder = 0
+      TabStop = True
+    end
+    object rbFirstFromEnd: TRadioButton
+      AnchorSideLeft.Control = gbCountFirstFrom
+      AnchorSideTop.Control = rbFirstFromStart
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 19
+      Top = 22
+      Width = 62
+      BorderSpacing.Bottom = 3
+      Caption = 'The en&d'
+      OnChange = SomethingChange
+      TabOrder = 1
+    end
+  end
+  object gbCountLastFrom: TGroupBox
+    AnchorSideLeft.Control = gbCountFirstFrom
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = edtSelectText
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Side = asrBottom
+    Left = 236
+    Height = 64
+    Top = 53
+    Width = 102
+    AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    Caption = 'Count last from'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.HorizontalSpacing = 3
+    ChildSizing.VerticalSpacing = 3
+    ClientHeight = 44
+    ClientWidth = 98
+    TabOrder = 4
+    object rbLastFromStart: TRadioButton
+      AnchorSideLeft.Control = gbCountLastFrom
+      AnchorSideTop.Control = gbCountLastFrom
+      Left = 6
+      Height = 19
+      Top = 0
+      Width = 65
+      Caption = 'The s&tart'
+      Checked = True
+      OnChange = SomethingChange
+      TabOrder = 0
+      TabStop = True
+    end
+    object rbLastFromEnd: TRadioButton
+      AnchorSideLeft.Control = gbCountLastFrom
+      AnchorSideTop.Control = rbLastFromStart
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 19
+      Top = 22
+      Width = 62
+      BorderSpacing.Bottom = 3
+      Caption = 'The &end'
+      OnChange = SomethingChange
+      TabOrder = 1
+    end
+  end
+  object lblValueToReturn: TLabel
+    AnchorSideLeft.Control = lblResult
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = gbRangeDescription
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 44
+    Height = 15
+    Top = 120
+    Width = 468
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    ParentColor = False
   end
 end

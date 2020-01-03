@@ -1,0 +1,13 @@
+{"version":1,"strings":[
+{"hash":100159984,"name":"tfrmoptionsmultirename.ckbshowmenubarontop.caption","sourcebytes":[83,104,111,119,32,109,101,110,117,32,98,97,114,32,111,110,32,116,111,112,32],"value":"Show menu bar on top "},
+{"hash":15447080,"name":"tfrmoptionsmultirename.rglaunchbehavior.caption","sourcebytes":[80,114,101,115,101,116,32,97,116,32,108,97,117,110,99,104],"value":"Preset at launch"},
+{"hash":31336276,"name":"tfrmoptionsmultirename.rgexitmodifiedpreset.caption","sourcebytes":[69,120,105,116,32,119,105,116,104,32,109,111,100,105,102,105,101,100,32,112,114,101,115,101,116],"value":"Exit with modified preset"},
+{"hash":137559831,"name":"tfrmoptionsmultirename.gbsaverenaminglog.caption","sourcebytes":[82,101,110,97,109,101,32,108,111,103],"value":"Rename log"},
+{"hash":125674884,"name":"tfrmoptionsmultirename.rbrenaminglogperpreset.caption","sourcebytes":[80,101,114,32,112,114,101,115,101,116],"value":"Per preset"},
+{"hash":204365733,"name":"tfrmoptionsmultirename.rbrenaminglogappendsamefile.caption","sourcebytes":[65,112,112,101,110,100,32,105,110,32,116,104,101,32,115,97,109,101,32,114,101,110,97,109,101,32,108,111,103,32,102,105,108,101],"value":"Append in the same rename log file"},
+{"hash":15252584,"name":"tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint","sourcebytes":[83,111,109,101,32,102,117,110,99,116,105,111,110,115,32,116,111,32,115,101,108,101,99,116,32,97,112,112,114,111,112,114,105,97,116,101,32,112,97,116,104],"value":"Some functions to select appropriate path"},
+{"hash":68945492,"name":"tfrmoptionsmultirename.btnmulrenlogfilenameview.hint","sourcebytes":[86,105,101,119,32,108,111,103,32,102,105,108,101,32,99,111,110,116,101,110,116],"value":"View log file content"},
+{"hash":33348585,"name":"tfrmoptionsmultirename.ckbdailyindividualdirmultrenlog.caption","sourcebytes":[73,110,100,105,118,105,100,117,97,108,32,100,105,114,101,99,116,111,114,105,101,115,32,112,101,114,32,100,97,121],"value":"Individual directories per day"},
+{"hash":12209432,"name":"tfrmoptionsmultirename.ckbfilenamewithfullpathinlog.caption","sourcebytes":[76,111,103,32,102,105,108,101,110,97,109,101,115,32,119,105,116,104,32,102,117,108,108,32,112,97,116,104],"value":"Log filenames with full path"},
+{"hash":211525865,"name":"tfrmoptionsmultirename.lbinvalidcharreplacement.caption","sourcebytes":[82,101,112,108,97,99,101,32,105,110,118,97,108,105,100,32,102,105,108,101,110,97,109,101,32,99,104,97,114,97,99,116,101,114,32,98,38,121],"value":"Replace invalid filename character b&y"}
+]}

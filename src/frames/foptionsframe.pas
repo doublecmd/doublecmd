@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Options frame page
 
-   Copyright (C) 2006-2019  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2020  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -147,6 +147,7 @@ uses
   fOptionsTreeViewMenuColor,
   fOptionsFileOperations,
   fOptionsFileSearch,
+  fOptionsMultiRename,
   fOptionsFilePanelsColors,
   fOptionsFileTypesColors,
   fOptionsFilesViews,
@@ -395,6 +396,7 @@ begin
   ToolbarConfig.Add(TfrmOptionsToolbarExtra);
   FileOperation := Main.Add(TfrmOptionsFileOperations);
   FileOperation.Add(TfrmOptionsFileSearch);
+  FileOperation.Add(TfrmOptionsMultiRename);
   FolderTabs := Main.Add(TfrmOptionsTabs);
   FolderTabs.Add(TfrmOptionsFavoriteTabs);
   FolderTabs.Add(TfrmOptionsTabsExtra);

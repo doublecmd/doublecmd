@@ -2911,6 +2911,7 @@ msgid "Create link..."
 msgstr "Стварыць спасылку..."
 
 #: tfrmmain.milogclear.caption
+msgctxt "tfrmmain.milogclear.caption"
 msgid "Clear"
 msgstr "Ачысціць"
 
@@ -3274,56 +3275,216 @@ msgstr "Шырыня"
 msgid "456456465465465"
 msgstr "456456465465465"
 
-#: tfrmmultirename.btnclose.caption
-msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
+#: tfrmmultirename.actanyextmask.caption
+msgctxt "tfrmmultirename.actanyextmask.caption"
+msgid "Extension"
+msgstr "Пашырэнне"
+
+#: tfrmmultirename.actanynamemask.caption
+msgctxt "tfrmmultirename.actanynamemask.caption"
+msgid "Filename"
+msgstr "Назва файла"
+
+#: tfrmmultirename.actclearextmask.caption
+msgctxt "tfrmmultirename.actclearextmask.caption"
+msgid "Clear"
+msgstr "Ачысціць"
+
+#: tfrmmultirename.actclearnamemask.caption
+msgctxt "tfrmmultirename.actclearnamemask.caption"
+msgid "Clear"
+msgstr "Ачысціць"
+
+#: tfrmmultirename.actclose.caption
+msgctxt "tfrmmultirename.actclose.caption"
 msgid "&Close"
 msgstr "&Закрыць"
 
-#: tfrmmultirename.btndeletepreset.caption
-msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
-msgid "&Delete"
-msgstr "&Выдаліць"
+#: tfrmmultirename.actconfig.caption
+msgid "Confi&guration"
+msgstr "Канфігурацыя"
 
-#: tfrmmultirename.btnedit.caption
-msgctxt "TFRMMULTIRENAME.BTNEDIT.CAPTION"
+#: tfrmmultirename.actctrextmask.caption
+msgctxt "tfrmmultirename.actctrextmask.caption"
+msgid "Counter"
+msgstr "Лічыльнік"
+
+#: tfrmmultirename.actctrnamemask.caption
+msgctxt "tfrmmultirename.actctrnamemask.caption"
+msgid "Counter"
+msgstr "Лічыльнік"
+
+#: tfrmmultirename.actdateextmask.caption
+msgctxt "tfrmmultirename.actdateextmask.caption"
+msgid "Date"
+msgstr "Дата"
+
+#: tfrmmultirename.actdatenamemask.caption
+msgctxt "tfrmmultirename.actdatenamemask.caption"
+msgid "Date"
+msgstr "Дата"
+
+#: tfrmmultirename.actdeletepreset.caption
+msgctxt "tfrmmultirename.actdeletepreset.caption"
+msgid "Delete"
+msgstr "Выдаліць"
+
+#: tfrmmultirename.actdropdownpresetlist.caption
+msgid "Drop Down Presets List"
+msgstr ""
+
+#: tfrmmultirename.acteditnames.caption
+msgid "Edit Names..."
+msgstr "Рэдагаваць назвы..."
+
+#: tfrmmultirename.actextextmask.caption
+msgctxt "tfrmmultirename.actextextmask.caption"
+msgid "Extension"
+msgstr "Пашырэнне"
+
+#: tfrmmultirename.actextnamemask.caption
+msgctxt "tfrmmultirename.actextnamemask.caption"
+msgid "Extension"
+msgstr "Пашырэнне"
+
+#: tfrmmultirename.actinvokeeditor.caption
+msgctxt "tfrmmultirename.actinvokeeditor.caption"
 msgid "Edit&or"
 msgstr "&Рэдагаваць"
 
-#: tfrmmultirename.btnextmenu.caption
-msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
-msgid "..."
-msgstr "..."
+#: tfrmmultirename.actinvokerelativepath.caption
+msgid "Invoke Relative Path Menu"
+msgstr ""
 
-#: tfrmmultirename.btnloadpreset.caption
-msgid "&Load"
-msgstr "&Загрузіць"
+#: tfrmmultirename.actloadlastpreset.caption
+msgid "Load Last Preset"
+msgstr ""
 
-#: tfrmmultirename.btnnamemenu.caption
-msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
-msgid "..."
-msgstr "..."
+#: tfrmmultirename.actloadnamesfromfile.caption
+msgid "Load Names From File..."
+msgstr "Загрузіць назвы з файла..."
 
-#: tfrmmultirename.btnrename.caption
-msgctxt "tfrmmultirename.btnrename.caption"
+#: tfrmmultirename.actloadpreset.caption
+msgid "Load preset by name or index"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset1.caption
+msgid "Load Preset 1"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset2.caption
+msgid "Load Preset 2"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset3.caption
+msgid "Load Preset 3"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset4.caption
+msgid "Load Preset 4"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset5.caption
+msgid "Load Preset 5"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset6.caption
+msgid "Load Preset 6"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset7.caption
+msgid "Load Preset 7"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset8.caption
+msgid "Load Preset 8"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset9.caption
+msgid "Load Preset 9"
+msgstr ""
+
+#: tfrmmultirename.actnameextmask.caption
+msgctxt "tfrmmultirename.actnameextmask.caption"
+msgid "Filename"
+msgstr "Назва файла"
+
+#: tfrmmultirename.actnamenamemask.caption
+msgctxt "tfrmmultirename.actnamenamemask.caption"
+msgid "Filename"
+msgstr "Назва файла"
+
+#: tfrmmultirename.actplgnextmask.caption
+msgctxt "tfrmmultirename.actplgnextmask.caption"
+msgid "Plugins"
+msgstr "Убудовы"
+
+#: tfrmmultirename.actplgnnamemask.caption
+msgctxt "tfrmmultirename.actplgnnamemask.caption"
+msgid "Plugins"
+msgstr "Убудовы"
+
+#: tfrmmultirename.actrename.caption
+msgctxt "tfrmmultirename.actrename.caption"
 msgid "&Rename"
 msgstr "&Змяніць назву"
 
-#: tfrmmultirename.btnrestore.caption
+#: tfrmmultirename.actrenamepreset.caption
+msgctxt "tfrmmultirename.actrenamepreset.caption"
+msgid "Rename"
+msgstr "Змяніць назву"
+
+#: tfrmmultirename.actresetall.caption
+msgctxt "tfrmmultirename.actresetall.caption"
 msgid "Reset &all"
 msgstr "Скінуць &усё"
 
-#: tfrmmultirename.btnsavepreset.caption
-msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
-msgid "&Save"
-msgstr "&Захаваць"
+#: tfrmmultirename.actsavepreset.caption
+msgctxt "tfrmmultirename.actsavepreset.caption"
+msgid "Save"
+msgstr "Захаваць"
+
+#: tfrmmultirename.actsavepresetas.caption
+msgctxt "tfrmmultirename.actsavepresetas.caption"
+msgid "Save As..."
+msgstr "Захаваць як..."
+
+#: tfrmmultirename.actshowpresetsmenu.caption
+msgid "Show Preset Menu"
+msgstr ""
+
+#: tfrmmultirename.actsortpresets.caption
+msgid "Sort"
+msgstr "Упарадкаваць…"
+
+#: tfrmmultirename.acttimeextmask.caption
+msgctxt "tfrmmultirename.acttimeextmask.caption"
+msgid "Time"
+msgstr "Час"
+
+#: tfrmmultirename.acttimenamemask.caption
+msgctxt "tfrmmultirename.acttimenamemask.caption"
+msgid "Time"
+msgstr "Час"
+
+#: tfrmmultirename.actviewrenamelogfile.caption
+msgid "View Rename Log File"
+msgstr ""
 
 #: tfrmmultirename.caption
+msgctxt "tfrmmultirename.caption"
 msgid "MultiRename"
 msgstr "Змена назваў некалькіх файлаў"
 
 #: tfrmmultirename.cblog.caption
-msgid "Ena&ble"
+#, fuzzy
+#| msgid "Ena&ble"
+msgid "&Log result"
 msgstr "Укл&ючыць"
+
+#: tfrmmultirename.cblogappend.caption
+msgid "Append"
+msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
 msgid "Regular e&xpressions"
@@ -3347,21 +3508,14 @@ msgctxt "TFRMMULTIRENAME.EDPOC.TEXT"
 msgid "1"
 msgstr "1"
 
-#: tfrmmultirename.extension.caption
-msgid "[E] Extension"
-msgstr "[E] Пашырэнне"
-
 #: tfrmmultirename.gbcounter.caption
+msgctxt "tfrmmultirename.gbcounter.caption"
 msgid "Counter"
 msgstr "Лічыльнік"
 
 #: tfrmmultirename.gbfindreplace.caption
 msgid "Find && Replace"
 msgstr "Знайсці і &замяніць"
-
-#: tfrmmultirename.gblog.caption
-msgid "Log Result"
-msgstr "Лог вынікаў"
 
 #: tfrmmultirename.gbmaska.caption
 msgid "Mask"
@@ -3399,118 +3553,15 @@ msgstr "&Пачатковы нумар"
 msgid "&Width"
 msgstr "&Шырыня"
 
-#: tfrmmultirename.micounter.caption
-msgid "[C] Counter"
-msgstr "[C] Лічыльнік"
+#: tfrmmultirename.miactions.caption
+msgctxt "tfrmmultirename.miactions.caption"
+msgid "Actions"
+msgstr "Дзеянні"
 
-#: tfrmmultirename.miday.caption
-msgid "[D] Day"
-msgstr "[D] Дзень"
-
-#: tfrmmultirename.miday1.caption
-msgid "[DD] Day (2 digits)"
-msgstr "[DD] Дзень (2 лічбы)"
-
-#: tfrmmultirename.miday2.caption
-msgid "[DDD] Day of the week (short, e.g., \"mon\")"
-msgstr "[DDD] Дзень тыдня (скарочана,напрыклад , \"пн\")"
-
-#: tfrmmultirename.miday3.caption
-msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
-msgstr "[DDDD] Дзень тыдня (поўная назва ,напрыклад  \"панядзелак\")"
-
-#: tfrmmultirename.miextensionx.caption
-msgid "[Ex] Character at position x"
-msgstr "[Ex] Сімвал з пазіцыі x"
-
-#: tfrmmultirename.miextensionxx.caption
-msgid "[Ex:y] Characters from position x to y"
-msgstr "[Ex:y] Сімвалы з пацізыі x да y"
-
-#: tfrmmultirename.mihour.caption
-msgid "[h] Hour"
-msgstr "[h] Гадзіна"
-
-#: tfrmmultirename.mihour1.caption
-msgid "[hh] Hour (2 digits)"
-msgstr "[hh] Гадзіна (2 лічбы)"
-
-#: tfrmmultirename.miminute.caption
-msgid "[n] Minute"
-msgstr "[n] Хвіліна"
-
-#: tfrmmultirename.miminute1.caption
-msgid "[nn] Minute (2 digits)"
-msgstr "[nn] Хвіліна (2 лічбы)"
-
-#: tfrmmultirename.mimonth.caption
-msgid "[M] Month"
-msgstr "[M] Месяц"
-
-#: tfrmmultirename.mimonth1.caption
-msgid "[MM] Month (2 digits)"
-msgstr "[MM] Месяц (2 лічбы)"
-
-#: tfrmmultirename.mimonth2.caption
-msgid "[MMM] Month name (short, e.g., \"jan\")"
-msgstr "[MMM] Назва месяца (скарочаная, напрыклад \"стдз\")"
-
-#: tfrmmultirename.mimonth3.caption
-msgid "[MMMM] Month name (long, e.g., \"january\")"
-msgstr "[MMMM] Назва месяца (поўная,напрыклад, \"студзень\")"
-
-#: tfrmmultirename.miname.caption
-msgid "[N] Name"
-msgstr "[N] Назва"
-
-#: tfrmmultirename.minamex.caption
-msgid "[Nx] Character at position x"
-msgstr "[Nx] Сімвал з пазіцыі x"
-
-#: tfrmmultirename.minamexx.caption
-msgid "[Nx:y] Characters from position x to y"
-msgstr "[Nx:y] Сімвалы з пацізыі x да y"
-
-#: tfrmmultirename.minext.caption
-msgid "Time..."
-msgstr "Час..."
-
-#: tfrmmultirename.minextextension.caption
-msgid "Extension..."
-msgstr "Пашырэнне..."
-
-#: tfrmmultirename.minextname.caption
-msgid "Name..."
-msgstr "Назва..."
-
-#: tfrmmultirename.miplugin.caption
-msgctxt "tfrmmultirename.miplugin.caption"
-msgid "Plugin"
-msgstr "Убудова"
-
-#: tfrmmultirename.misecond.caption
-msgid "[s] Second"
-msgstr "[s] Секунда"
-
-#: tfrmmultirename.misecond1.caption
-msgid "[ss] Second (2 digits)"
-msgstr "[ss] Секунда (2 лічбы)"
-
-#: tfrmmultirename.miyear.caption
-msgid "[Y] Year (2 digits)"
-msgstr "[Y] Год (2 лічбы)"
-
-#: tfrmmultirename.miyear1.caption
-msgid "[YYYY] Year (4 digits)"
-msgstr "[YYYY] Год (4 лічбы)"
-
-#: tfrmmultirename.mnueditnames.caption
-msgid "Edit names..."
-msgstr "Рэдагаваць назвы..."
-
-#: tfrmmultirename.mnuloadfromfile.caption
-msgid "Load names from file..."
-msgstr "Загрузіць назвы з файла..."
+#: tfrmmultirename.mieditor.caption
+msgctxt "tfrmmultirename.mieditor.caption"
+msgid "Editor"
+msgstr "&Рэдагаваць"
 
 #: tfrmmultirename.stringgrid.columns[0].title.caption
 msgid "Old File Name"
@@ -6730,6 +6781,54 @@ msgstr ""
 msgid "Single click (opens folders, double click for files)"
 msgstr ""
 
+#: tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint
+#, fuzzy
+msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Некаторыя функцыі для выбару адпаведнага шляху"
+
+#: tfrmoptionsmultirename.btnmulrenlogfilenameview.hint
+#, fuzzy
+msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenameview.hint"
+msgid "View log file content"
+msgstr "Праглядзець змесціва лога"
+
+#: tfrmoptionsmultirename.ckbdailyindividualdirmultrenlog.caption
+msgid "Individual directories per day"
+msgstr ""
+
+#: tfrmoptionsmultirename.ckbfilenamewithfullpathinlog.caption
+msgid "Log filenames with full path"
+msgstr ""
+
+#: tfrmoptionsmultirename.ckbshowmenubarontop.caption
+msgid "Show menu bar on top "
+msgstr ""
+
+#: tfrmoptionsmultirename.gbsaverenaminglog.caption
+msgid "Rename log"
+msgstr ""
+
+#: tfrmoptionsmultirename.lbinvalidcharreplacement.caption
+msgid "Replace invalid filename character b&y"
+msgstr ""
+
+#: tfrmoptionsmultirename.rbrenaminglogappendsamefile.caption
+msgid "Append in the same rename log file"
+msgstr ""
+
+#: tfrmoptionsmultirename.rbrenaminglogperpreset.caption
+msgid "Per preset"
+msgstr ""
+
+#: tfrmoptionsmultirename.rgexitmodifiedpreset.caption
+msgid "Exit with modified preset"
+msgstr ""
+
+#: tfrmoptionsmultirename.rglaunchbehavior.caption
+msgid "Preset at launch"
+msgstr ""
+
 #: tfrmoptionspluginsbase.btnaddplugin.caption
 msgctxt "tfrmoptionspluginsbase.btnaddplugin.caption"
 msgid "A&dd"
@@ -8224,6 +8323,57 @@ msgstr "&І (усе супадзенні)"
 msgid "&OR (any match)"
 msgstr "&АЛЬБО (любое супадзенне)"
 
+#: tfrmselectpathrange.btppanel.cancelbutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.cancelbutton.caption"
+msgid "Cancel"
+msgstr "Скасаваць"
+
+#: tfrmselectpathrange.btppanel.closebutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.closebutton.caption"
+msgid "&Close"
+msgstr "&Закрыць"
+
+#: tfrmselectpathrange.btppanel.helpbutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.helpbutton.caption"
+msgid "&Help"
+msgstr "&Даведка"
+
+#: tfrmselectpathrange.btppanel.okbutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.okbutton.caption"
+msgid "&OK"
+msgstr "&Добра"
+
+#: tfrmselectpathrange.edseparator.editlabel.caption
+msgid "Separat&or"
+msgstr ""
+
+#: tfrmselectpathrange.gbcountfrom.caption
+msgid "Count from"
+msgstr ""
+
+#: tfrmselectpathrange.lblresult.caption
+msgctxt "tfrmselectpathrange.lblresult.caption"
+msgid "Result:"
+msgstr ""
+
+#: tfrmselectpathrange.lblselectdirectories.caption
+msgid "&Select the directories to insert (you may select more than one)"
+msgstr ""
+
+#: tfrmselectpathrange.rbfirstfromend.caption
+msgctxt "tfrmselectpathrange.rbfirstfromend.caption"
+msgid "The en&d"
+msgstr ""
+
+#: tfrmselectpathrange.rbfirstfromstart.caption
+msgctxt "tfrmselectpathrange.rbfirstfromstart.caption"
+msgid "The sta&rt"
+msgstr ""
+
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
 msgid "Cancel"
@@ -8244,9 +8394,52 @@ msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
 msgid "&OK"
 msgstr "&Добра"
 
+#: tfrmselecttextrange.gbcountfirstfrom.caption
+msgid "Count first from"
+msgstr ""
+
+#: tfrmselecttextrange.gbcountlastfrom.caption
+msgid "Count last from"
+msgstr ""
+
+#: tfrmselecttextrange.gbrangedescription.caption
+msgid "Range description"
+msgstr ""
+
+#: tfrmselecttextrange.lblresult.caption
+msgctxt "tfrmselecttextrange.lblresult.caption"
+msgid "Result:"
+msgstr ""
+
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "&Select the characters to insert:"
 msgstr "&Абраць сімвалы для ўстаўкі:"
+
+#: tfrmselecttextrange.rbdescriptionfirstlast.caption
+msgid "[&First:Last]"
+msgstr ""
+
+#: tfrmselecttextrange.rbdescriptionfirstlength.caption
+msgid "[First,&Length]"
+msgstr ""
+
+#: tfrmselecttextrange.rbfirstfromend.caption
+msgctxt "tfrmselecttextrange.rbfirstfromend.caption"
+msgid "The en&d"
+msgstr ""
+
+#: tfrmselecttextrange.rbfirstfromstart.caption
+msgctxt "tfrmselecttextrange.rbfirstfromstart.caption"
+msgid "The sta&rt"
+msgstr ""
+
+#: tfrmselecttextrange.rblastfromend.caption
+msgid "The &end"
+msgstr ""
+
+#: tfrmselecttextrange.rblastfromstart.caption
+msgid "The s&tart"
+msgstr ""
 
 #: tfrmsetfileproperties.btncancel.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -8397,6 +8590,28 @@ msgstr ""
 #: tfrmsetfileproperties.zvlastwritedatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
+msgstr ""
+
+#: tfrmsortanything.btncancel.caption
+#, fuzzy
+msgctxt "tfrmsortanything.btncancel.caption"
+msgid "&Cancel"
+msgstr "&Скасаваць"
+
+#: tfrmsortanything.btnok.caption
+msgid "&O&K"
+msgstr ""
+
+#: tfrmsortanything.btnsort.caption
+msgid "&Sort"
+msgstr ""
+
+#: tfrmsortanything.caption
+msgid "frmSortAnything"
+msgstr ""
+
+#: tfrmsortanything.lblsortanything.caption
+msgid "Drag and drop elements to sort them"
 msgstr ""
 
 #: tfrmsplitter.btnrelativeftchoice.hint
@@ -9049,6 +9264,7 @@ msgid "Save"
 msgstr "Захаваць"
 
 #: tfrmviewer.actsaveas.caption
+msgctxt "tfrmviewer.actsaveas.caption"
 msgid "Save As..."
 msgstr "Захаваць як..."
 
@@ -10089,6 +10305,7 @@ msgid "Creation date/time"
 msgstr "Дата/час стварэння"
 
 #: ulng.rsfuncext
+msgctxt "ulng.rsfuncext"
 msgid "Extension"
 msgstr "Пашырэнне"
 
@@ -10181,6 +10398,11 @@ msgstr "Пошук файлаў"
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr "Асноўныя"
+
+#: ulng.rshotkeycategorymultirename
+msgctxt "ulng.rshotkeycategorymultirename"
+msgid "MultiRename"
+msgstr "Змена назваў некалькіх файлаў"
 
 #: ulng.rshotkeycategorysyncdirs
 msgid "Synchronize Directories"
@@ -11200,6 +11422,10 @@ msgstr "&Выдаліць %s"
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Шаблон \"%s\" ужо існуе. Перазапісаць?"
 
+#: ulng.rsmsgpresetconfigdelete
+msgid "Are you sure you want to delete preset \"%s\"?"
+msgstr ""
+
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
 msgstr "Не атрымалася запусціць загад (%s)"
@@ -11507,6 +11733,54 @@ msgstr ""
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
 msgstr "Аўтаматычна змяняць назву на \"name (1).ext\", \"name (2).ext\" и г.д.?"
 
+#: ulng.rsmulrenclearmask
+msgid "Clear mask"
+msgstr ""
+
+#: ulng.rsmulrencounter
+msgctxt "ulng.rsmulrencounter"
+msgid "Counter"
+msgstr "Лічыльнік"
+
+#: ulng.rsmulrendate
+msgctxt "ulng.rsmulrendate"
+msgid "Date"
+msgstr "Дата"
+
+#: ulng.rsmulrendefaultpresetname
+msgid "Preset name"
+msgstr ""
+
+#: ulng.rsmulrendefinevariablename
+msgid "Define variable name"
+msgstr ""
+
+#: ulng.rsmulrendefinevariablevalue
+msgid "Define variable value"
+msgstr ""
+
+#: ulng.rsmulrenenternameforvar
+msgid "Enter variable name"
+msgstr ""
+
+#: ulng.rsmulrenentervalueforvar
+msgid "Enter value for variable \"%s\""
+msgstr ""
+
+#: ulng.rsmulrenexitmodifiedpresetoptions
+msgid "Ignore, just save as the [Last One];Prompt user to confirm if we save it;Save automatically"
+msgstr ""
+
+#: ulng.rsmulrenextension
+msgctxt "ulng.rsmulrenextension"
+msgid "Extension"
+msgstr "Пашырэнне"
+
+#: ulng.rsmulrenfilename
+msgctxt "ulng.rsmulrenfilename"
+msgid "Name"
+msgstr "Назва"
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Без змен;ВЕРХНІ РЭГІСТР;ніжні рэгістр;З вялікай;Кожнае Слова З Вялікай;"
@@ -11514,6 +11788,162 @@ msgstr "Без змен;ВЕРХНІ РЭГІСТР;ніжні рэгістр;З
 #: ulng.rsmulrenlastpreset
 msgid "[The last used]"
 msgstr ""
+
+#: ulng.rsmulrenlaunchbehavioroptions
+msgid "Last masks under [Last One] preset;Last preset;New fresh masks"
+msgstr ""
+
+#: ulng.rsmulrenlogstart
+msgctxt "ulng.rsmulrenlogstart"
+msgid "MultiRename"
+msgstr "Змена назваў некалькіх файлаў"
+
+#: ulng.rsmulrenmaskcharatposx
+msgid "Character at position x"
+msgstr "Сімвал з пазіцыі x"
+
+#: ulng.rsmulrenmaskcharatposxtoy
+msgid "Characters from position x to y"
+msgstr "Сімвалы з пацізыі x да y"
+
+#: ulng.rsmulrenmaskcompletedate
+msgid "Complete date"
+msgstr ""
+
+#: ulng.rsmulrenmaskcompletetime
+msgid "Complete time"
+msgstr ""
+
+#: ulng.rsmulrenmaskcounter
+msgctxt "ulng.rsmulrenmaskcounter"
+msgid "Counter"
+msgstr "Лічыльнік"
+
+#: ulng.rsmulrenmaskday
+msgid "Day"
+msgstr "Дзень"
+
+#: ulng.rsmulrenmaskday2digits
+msgid "Day (2 digits)"
+msgstr "Дзень (2 лічбы)"
+
+#: ulng.rsmulrenmaskdowabrev
+msgid "Day of the week (short, e.g., \"mon\")"
+msgstr "Дзень тыдня (скарочана,напрыклад , \"пн\")"
+
+#: ulng.rsmulrenmaskdowcomplete
+msgid "Day of the week (long, e.g., \"monday\")"
+msgstr "Дзень тыдня (поўная назва ,напрыклад  \"панядзелак\")"
+
+#: ulng.rsmulrenmaskextension
+msgctxt "ulng.rsmulrenmaskextension"
+msgid "Extension"
+msgstr "Пашырэнне"
+
+#: ulng.rsmulrenmaskfullname
+msgid "Complete filename with path and extension"
+msgstr ""
+
+#: ulng.rsmulrenmaskfullnamecharatposxtoy
+msgid "Complete filename, char from pos x to y"
+msgstr ""
+
+#: ulng.rsmulrenmaskguid
+msgid "GUID"
+msgstr ""
+
+#: ulng.rsmulrenmaskhour
+msgid "Hour"
+msgstr "Гадзіна"
+
+#: ulng.rsmulrenmaskhour2digits
+msgid "Hour (2 digits)"
+msgstr "Гадзіна (2 лічбы)"
+
+#: ulng.rsmulrenmaskmin
+msgid "Minute"
+msgstr "Хвіліна"
+
+#: ulng.rsmulrenmaskmin2digits
+msgid "Minute (2 digits)"
+msgstr "Хвіліна (2 лічбы)"
+
+#: ulng.rsmulrenmaskmonth
+msgid "Month"
+msgstr "Месяц"
+
+#: ulng.rsmulrenmaskmonth2digits
+msgid "Month (2 digits)"
+msgstr "Месяц (2 лічбы)"
+
+#: ulng.rsmulrenmaskmonthabrev
+msgid "Month name (short, e.g., \"jan\")"
+msgstr "Назва месяца (скарочаная, напрыклад \"стдз\")"
+
+#: ulng.rsmulrenmaskmonthcomplete
+msgid "Month name (long, e.g., \"january\")"
+msgstr "Назва месяца (поўная,напрыклад, \"студзень\")"
+
+#: ulng.rsmulrenmaskname
+msgctxt "ulng.rsmulrenmaskname"
+msgid "Name"
+msgstr "Назва"
+
+#: ulng.rsmulrenmaskparent
+msgid "Parent folder(s)"
+msgstr ""
+
+#: ulng.rsmulrenmasksec
+msgid "Second"
+msgstr "Секунда"
+
+#: ulng.rsmulrenmasksec2digits
+msgid "Second (2 digits)"
+msgstr "Секунда (2 лічбы)"
+
+#: ulng.rsmulrenmaskvaronthefly
+msgid "Variable on the fly"
+msgstr ""
+
+#: ulng.rsmulrenmaskyear2digits
+msgid "Year (2 digits)"
+msgstr "Год (2 лічбы)"
+
+#: ulng.rsmulrenmaskyear4digits
+msgid "Year (4 digits)"
+msgstr "Год (4 лічбы)"
+
+#: ulng.rsmulrenplugins
+msgctxt "ulng.rsmulrenplugins"
+msgid "Plugins"
+msgstr "Убудовы"
+
+#: ulng.rsmulrenpromptforsavedpresetname
+msgid "Save preset as"
+msgstr ""
+
+#: ulng.rsmulrenpromptnewnameexists
+msgid "Preset name already exists. Overwrite?"
+msgstr ""
+
+#: ulng.rsmulrenpromptnewpresetname
+msgid "Enter new preset name"
+msgstr ""
+
+#: ulng.rsmulrensavemodifiedpreset
+msgid ""
+"\"%s\" preset has been modified.\n"
+"Do you want to save it now?\n"
+msgstr ""
+
+#: ulng.rsmulrensortingpresets
+msgid "Sorting presets"
+msgstr ""
+
+#: ulng.rsmulrentime
+msgctxt "ulng.rsmulrentime"
+msgid "Time"
+msgstr "Час"
 
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
@@ -12223,6 +12653,11 @@ msgstr "Рознае"
 msgid "Mouse"
 msgstr "Мыш"
 
+#: ulng.rsoptionseditormultirename
+msgctxt "ulng.rsoptionseditormultirename"
+msgid "MultiRename"
+msgstr "Змена назваў некалькіх файлаў"
+
 #: ulng.rsoptionseditoroptionschanged
 msgid ""
 "Options have changed in \"%s\"\n"
@@ -12627,6 +13062,7 @@ msgid "False"
 msgstr ""
 
 #: ulng.rssimplewordfilename
+msgctxt "ulng.rssimplewordfilename"
 msgid "Filename"
 msgstr "Назва файла"
 
@@ -12652,6 +13088,10 @@ msgstr ""
 
 #: ulng.rssimplewordtrue
 msgid "True"
+msgstr ""
+
+#: ulng.rssimplewordvariable
+msgid "Variable"
 msgstr ""
 
 #: ulng.rssimplewordworkdir
