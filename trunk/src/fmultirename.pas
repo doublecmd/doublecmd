@@ -590,14 +590,14 @@ begin
     Menu := mmMainMenu
   else
     Menu := nil;
-  if gIconsInMenus then
-    actList.Images := dmComData.ilEditorImages
-  else
-    actList.Images := nil;
-  mmMainMenu.Images := actList.Images;
-  pmDynamicMasks.Images := actList.Images;
-  pmEditDirect.Images := actList.Images;
-  pmPresets.Images := actList.Images;
+
+  if not gIconsInMenus then
+  begin
+    mmMainMenu.Images := nil;
+    pmDynamicMasks.Images := nil;
+    pmEditDirect.Images := nil;
+    pmPresets.Images := nil;
+  end;
 
   HMMultiRename := HotMan.Register(Self, HotkeysCategoryMultiRename);
   HMMultiRename.RegisterActionList(actList);
@@ -2637,7 +2637,7 @@ begin
 
   if bKeepGoing and (sNameForPreset <> FLastPreset) then
     if FMultiRenamePresetList.Find(sNameForPreset) <> -1 then
-      if not msgYesNo(Format(rsMsgPresetAlreadyExists, [sNameForPreset])) then
+      if not msgYesNo(Format(rsMsgPresetAlreadyExists, [sNameForPreset]), msmbNo) then
         bKeepGoing := False;
 
   if bKeepGoing then
@@ -2710,7 +2710,7 @@ begin
 
   if sPresetName <> '' then
   begin
-    if msgYesNo(Format(rsMsgPresetConfigDelete, [sPresetName])) then
+    if msgYesNo(Format(rsMsgPresetConfigDelete, [sPresetName]), msmbNo) then
     begin
       DeletePreset(sPresetName);
       Index := cbPresets.Items.IndexOf(sPresetName);

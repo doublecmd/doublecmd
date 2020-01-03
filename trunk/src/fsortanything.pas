@@ -75,12 +75,36 @@ begin
 end;
 
 { TfrmSortAnything.btnSortClick }
+// Simply "lbSortAnything.Sorted" was working fine in Windows.
+// When tested under Ubuntu 64 with "LAZ 2.0.6/FPC 3.0.4 x86_64-linux-gtk2", it was not working correctly.
+// For example, if our list was like "D,A,C,B", it was sorted correctly.
+// But if list was like sorted in reverse, like "D,C,B,A", it did nothing.
+// If we set "D,C,A,B", or "C,D,B,A" or "D,B,C,A", it was working.
+// So it seems when it was pre-sorted reversed, it does not sort.
+// For the moment let's use a TStringList on-the-side for the job.
 procedure TfrmSortAnything.btnSortClick(Sender: TObject);
+var
+  slJustForSort: TStringList;
+  iIndex: integer;
 begin
-  lbSortAnything.Sorted := True;
-  lbSortAnything.Sorted := False; //Put it back to false so the drag'n drop is still functional after the sort.
+  slJustForSort := TStringList.Create;
+  try
+    slJustForSort.Sorted := True;
+    slJustForSort.Duplicates := dupAccept;
+    slJustForSort.CaseSensitive := False;
+    for iIndex := 0 to pred(lbSortAnything.items.Count) do slJustForSort.Add(lbSortAnything.Items.Strings[iIndex]);
+    lbSortAnything.Items.BeginUpdate;
+    try
+      lbSortAnything.Items.Clear;
+      for iIndex := 0 to pred(slJustForSort.Count) do lbSortAnything.Items.Add(slJustForSort.Strings[iIndex]);
+      lbSortAnything.ItemIndex := 0;
+    finally
+      lbSortAnything.Items.EndUpdate;
+    end;
+  finally
+    slJustForSort.Free;
+  end;
 end;
-
 { TfrmSortAnything.lbSortAnythingDragOver }
 procedure TfrmSortAnything.lbSortAnythingDragOver(Sender, Source: TObject; X, Y: integer; State: TDragState; var Accept: boolean);
 begin
