@@ -3,8 +3,8 @@
    -------------------------------------------------------------------------
    Find dialog, with searching in thread
 
+   Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,9 +17,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-}
+   along with this program. If not, see <http://www.gnu.org/licenses/>.}
 
 unit fFindDlg;
 
@@ -692,6 +690,7 @@ begin
 
   cmbNotOlderThanUnit.ItemIndex := 3; // Days
   cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
+  FontOptionsToFont(gFonts[dcfSearchResults], lsFoundedFiles.Font);
 
   InitPropStorage(Self);
 
@@ -2358,9 +2357,10 @@ end;
 procedure TfrmFindDlg.lsFoundedFilesMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: boolean);
 begin
-  if (Shift = [ssCtrl]) and (gFonts[dcfSearchResults].Size > MIN_FONT_SIZE_FILE_SEARCH_RESULTS) then
+  if (Shift = [ssCtrl]) and (gFonts[dcfSearchResults].Size > gFonts[dcfSearchResults].MinValue) then
   begin
-    lsFoundedFiles.Font.Size := lsFoundedFiles.Font.Size - 1;
+    dec(gFonts[dcfSearchResults].Size);
+    lsFoundedFiles.Font.Size := gFonts[dcfSearchResults].Size;
     Handled := True;
   end;
 end;
@@ -2369,9 +2369,10 @@ end;
 procedure TfrmFindDlg.lsFoundedFilesMouseWheelUp(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: boolean);
 begin
-  if (Shift = [ssCtrl]) and (gFonts[dcfSearchResults].Size < MAX_FONT_SIZE_FILE_SEARCH_RESULTS) then
+  if (Shift = [ssCtrl]) and (gFonts[dcfSearchResults].Size < gFonts[dcfSearchResults].MaxValue) then
   begin
-    lsFoundedFiles.Font.Size := lsFoundedFiles.Font.Size + 1;
+    inc(gFonts[dcfSearchResults].Size);
+    lsFoundedFiles.Font.Size := gFonts[dcfSearchResults].Size;
     Handled := True;
   end;
 end;

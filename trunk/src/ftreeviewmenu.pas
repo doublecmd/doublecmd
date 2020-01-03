@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Menu offered to user via a Tree View look where user might type sequence of letters
 
-   Copyright (C) 2016-2017  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2020  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  StdCtrls, ExtCtrls, Menus,
+  StdCtrls, ExtCtrls, Menus, Types,
 
   //DC
   kastoolitems, KASToolBar, uKASToolItemsExtended;
@@ -158,6 +158,8 @@ type
     procedure tvMainMenuDblClick(Sender: TObject);
     procedure tvMainMenuEnter(Sender: TObject);
     procedure tvMainMenuMouseMove(Sender: TObject; {%H-}Shift: TShiftState; X, Y: integer);
+    procedure tvMainMenuMouseWheelDown(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+    procedure tvMainMenuMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
     procedure tvMainMenuSelectionChanged(Sender: TObject);
     procedure tvMainMenuExpandOrCollapseClick(Sender: TObject; {%H-}Node: TTreeNode);
     function isAtLeastOneItemVisibleAndSelectable: boolean;
@@ -361,6 +363,7 @@ begin
   LastMousePos.x := -1;
   LastMousePos.y := -1;
   iFinalSelectedIndex := CONST_CANCEL_ACTION;
+  FontOptionsToFont(gFonts[dcfTreeViewMenu], tvMainMenu.Font);
   TreeViewMenuGenericRoutineAndVarHolder := TTreeViewMenuGenericRoutineAndVarHolder.Create;
   TreeViewMenuGenericRoutineAndVarHolder.BackgroundColor := gTVMBackgroundColor;
   TreeViewMenuGenericRoutineAndVarHolder.ShortcutColor := gTVMShortcutColor;
@@ -676,6 +679,29 @@ begin
 
   LastMousePos.x := X;
   LastMousePos.y := Y;
+end;
+
+{ TfrmTreeViewMenu.tvMainMenuMouseWheelDown }
+procedure TfrmTreeViewMenu.tvMainMenuMouseWheelDown(Sender: TObject;
+  Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+begin
+  if (Shift = [ssCtrl]) and (gFonts[dcfTreeViewMenu].Size > gFonts[dcfTreeViewMenu].MinValue) then
+  begin
+    dec(gFonts[dcfTreeViewMenu].Size);
+    tvMainMenu.Font.Size := gFonts[dcfTreeViewMenu].Size;
+    Handled := True;
+  end;
+end;
+
+{ TfrmTreeViewMenu.tvMainMenuMouseWheelUp }
+procedure TfrmTreeViewMenu.tvMainMenuMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+begin
+  if (Shift = [ssCtrl]) and (gFonts[dcfTreeViewMenu].Size < gFonts[dcfTreeViewMenu].MaxValue) then
+  begin
+    inc(gFonts[dcfTreeViewMenu].Size);
+    tvMainMenu.Font.Size := gFonts[dcfTreeViewMenu].Size;
+    Handled := True;
+  end;
 end;
 
 { TfrmTreeViewMenu.tvMainMenuSelectionChanged }

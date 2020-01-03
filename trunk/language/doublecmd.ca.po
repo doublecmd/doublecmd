@@ -6729,93 +6729,10 @@ msgctxt "tfrmoptionsfiletypescolors.lblcategoryname.caption"
 msgid "Category &name:"
 msgstr "Nom de la categoria:"
 
-#: tfrmoptionsfonts.btnpatheditfnt.caption
-msgctxt "tfrmoptionsfonts.btnpatheditfnt.caption"
-msgid "..."
-msgstr "..."
-
-#: tfrmoptionsfonts.btnsearchresultsfnt.caption
-msgctxt "tfrmoptionsfonts.btnsearchresultsfnt.caption"
-msgid "..."
-msgstr "..."
-
-#: tfrmoptionsfonts.btnselconsolefnt.caption
-#, fuzzy
-msgctxt "tfrmoptionsfonts.btnselconsolefnt.caption"
-msgid "..."
-msgstr "..."
-
-#: tfrmoptionsfonts.btnseleditfnt.caption
-msgctxt "tfrmoptionsfonts.btnseleditfnt.caption"
-msgid "..."
-msgstr "..."
-
-#: tfrmoptionsfonts.btnsellogfnt.caption
-msgctxt "tfrmoptionsfonts.btnsellogfnt.caption"
-msgid "..."
-msgstr "..."
-
-#: tfrmoptionsfonts.btnselmainfnt.caption
-msgctxt "tfrmoptionsfonts.btnselmainfnt.caption"
-msgid "..."
-msgstr "..."
-
-#: tfrmoptionsfonts.btnselviewerbookfnt.caption
-msgctxt "tfrmoptionsfonts.btnselviewerbookfnt.caption"
-msgid "..."
-msgstr "..."
-
-#: tfrmoptionsfonts.btnselviewfnt.caption
-msgctxt "tfrmoptionsfonts.btnselviewfnt.caption"
-msgid "..."
-msgstr "..."
-
-#: tfrmoptionsfonts.lblconsolefont.caption
-msgid "&Console font"
-msgstr ""
-
-#: tfrmoptionsfonts.lbleditorfont.caption
-#, fuzzy
-#| msgid "Editor font"
-msgctxt "tfrmoptionsfonts.lbleditorfont.caption"
-msgid "&Editor font"
-msgstr "Font de l'Editor"
-
-#: tfrmoptionsfonts.lbllogfont.caption
-#, fuzzy
-#| msgid "Log font"
-msgctxt "tfrmoptionsfonts.lbllogfont.caption"
-msgid "&Log font"
-msgstr "Font de Registre"
-
-#: tfrmoptionsfonts.lblmainfont.caption
-#, fuzzy
-#| msgid "Main font"
-msgctxt "tfrmoptionsfonts.lblmainfont.caption"
-msgid "Main &font"
-msgstr "Font Principal"
-
-#: tfrmoptionsfonts.lblpatheditfont.caption
-msgid "Path font"
-msgstr ""
-
-#: tfrmoptionsfonts.lblsearchresultsfont.caption
-msgid "Search results font"
-msgstr ""
-
-#: tfrmoptionsfonts.lblviewerbookfont.caption
-#, fuzzy
-#| msgid "Viewer Book Font"
-msgctxt "tfrmoptionsfonts.lblviewerbookfont.caption"
-msgid "Viewer&Book Font"
-msgstr "Font de Vista de Llibre"
-
-#: tfrmoptionsfonts.lblviewerfont.caption
-#, fuzzy
-#| msgid "Viewer font"
-msgctxt "tfrmoptionsfonts.lblviewerfont.caption"
-msgid "&Viewer font"
-msgstr "Font de Visualització"
+#: tfrmoptionsfonts.hint
+msgctxt "tfrmoptionsfonts.hint"
+msgid "Fonts"
+msgstr "Fonts"
 
 #: tfrmoptionshotkeys.actaddhotkey.caption
 #, fuzzy
@@ -8704,6 +8621,12 @@ msgstr ""
 msgid "With History:"
 msgstr ""
 
+#: tfrmoptionstreeviewmenucolor.btfont.caption
+#, fuzzy
+msgctxt "tfrmoptionstreeviewmenucolor.btfont.caption"
+msgid "..."
+msgstr "..."
+
 #: tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption
 #, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btnbackgroundcolor.caption"
@@ -8778,6 +8701,10 @@ msgstr ">>"
 
 #: tfrmoptionstreeviewmenucolor.cbkusagekeyboardshortcut.caption
 msgid "Use and display keyboard shortcut for choosing items"
+msgstr ""
+
+#: tfrmoptionstreeviewmenucolor.gbfont.caption
+msgid "Font"
 msgstr ""
 
 #: tfrmoptionstreeviewmenucolor.gblayoutandcolors.caption
@@ -11219,6 +11146,47 @@ msgstr ""
 #: ulng.rsfindwherebeg
 msgid "Begin at"
 msgstr "Inicia a"
+
+#: ulng.rsfontusageconsole
+msgid "&Console Font"
+msgstr ""
+
+#: ulng.rsfontusageeditor
+msgid "&Editor Font"
+msgstr "Font de l'Editor"
+
+#: ulng.rsfontusagefunctionbuttons
+msgid "Function Buttons Font"
+msgstr ""
+
+#: ulng.rsfontusagelog
+msgid "&Log Font"
+msgstr "Font de Registre"
+
+#: ulng.rsfontusagemain
+msgid "Main &Font"
+msgstr "Font Principal"
+
+#: ulng.rsfontusagepathedit
+msgid "Path Font"
+msgstr ""
+
+#: ulng.rsfontusagesearchresults
+msgid "Search Results Font"
+msgstr ""
+
+#: ulng.rsfontusagetreeviewmenu
+msgid "Tree View Menu Font"
+msgstr ""
+
+#: ulng.rsfontusageviewer
+msgid "&Viewer Font"
+msgstr "Font de Visualització"
+
+#: ulng.rsfontusageviewerbook
+msgctxt "ulng.rsfontusageviewerbook"
+msgid "Viewer&Book Font"
+msgstr "Font de Vista de Llibre"
 
 #: ulng.rsfreemsg
 #, fuzzy

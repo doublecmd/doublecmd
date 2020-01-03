@@ -1,11 +1,11 @@
 inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
-  Height = 402
-  Width = 577
+  Height = 478
+  Width = 600
   AutoSize = True
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 402
-  ClientWidth = 577
+  ClientHeight = 478
+  ClientWidth = 600
   Constraints.MinHeight = 400
   Constraints.MinWidth = 500
   ParentShowHint = False
@@ -21,7 +21,7 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
     Left = 6
     Height = 371
     Top = 10
-    Width = 565
+    Width = 588
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 10
@@ -29,7 +29,7 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
     ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 351
-    ClientWidth = 561
+    ClientWidth = 584
     TabOrder = 0
     object cbkUsageKeyboardShortcut: TCheckBox
       AnchorSideLeft.Control = gbLayoutAndColors
@@ -145,10 +145,10 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = lblShortcutColor
       AnchorSideRight.Side = asrBottom
-      Left = 61
+      Left = 60
       Height = 15
       Top = 89
-      Width = 95
+      Width = 96
       Anchors = [akTop, akRight]
       Caption = 'Normal text color:'
       FocusControl = cbNormalTextColor
@@ -197,10 +197,10 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = lblShortcutColor
       AnchorSideRight.Side = asrBottom
-      Left = 46
+      Left = 45
       Height = 15
       Top = 117
-      Width = 110
+      Width = 111
       Anchors = [akTop, akRight]
       Caption = 'Secondary text color:'
       FocusControl = cbSecondaryTextColor
@@ -249,10 +249,10 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = lblShortcutColor
       AnchorSideRight.Side = asrBottom
-      Left = 67
+      Left = 66
       Height = 15
       Top = 143
-      Width = 89
+      Width = 90
       Anchors = [akTop, akRight]
       Caption = 'Found text color:'
       FocusControl = cbFoundTextColor
@@ -299,10 +299,10 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = lblShortcutColor
       AnchorSideRight.Side = asrBottom
-      Left = 34
+      Left = 33
       Height = 15
       Top = 169
-      Width = 122
+      Width = 123
       Anchors = [akTop, akRight]
       Caption = 'Unselectable text color:'
       FocusControl = cbUnselectableTextColor
@@ -450,10 +450,10 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = lblShortcutColor
       AnchorSideRight.Side = asrBottom
-      Left = 21
+      Left = 20
       Height = 15
       Top = 247
-      Width = 135
+      Width = 136
       Anchors = [akTop, akRight]
       Caption = 'Normal text under cursor:'
       FocusControl = cbNormalTextUnderCursor
@@ -501,10 +501,10 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = lblShortcutColor
       AnchorSideRight.Side = asrBottom
-      Left = 6
+      Left = 5
       Height = 15
       Top = 275
-      Width = 150
+      Width = 151
       Anchors = [akTop, akRight]
       Caption = 'Secondary text under cursor:'
       FocusControl = cbSecondaryTextUnderCursor
@@ -553,10 +553,10 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = lblShortcutColor
       AnchorSideRight.Side = asrBottom
-      Left = 27
+      Left = 26
       Height = 15
       Top = 301
-      Width = 129
+      Width = 130
       Anchors = [akTop, akRight]
       Caption = 'Found text under cursor:'
       FocusControl = cbFoundTextUnderCursor
@@ -658,7 +658,7 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       Left = 404
       Height = 15
       Top = 8
-      Width = 147
+      Width = 170
       Alignment = taCenter
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Tree View Menu Preview:'
@@ -679,19 +679,82 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
       Height = 322
       Hint = 'Change color on left and you''ll see here a preview of what your Tree View Menus will look likes with this sample.'
       Top = 23
-      Width = 147
+      Width = 170
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Left = 10
       BackgroundColor = clBtnFace
       Color = clBtnFace
-      DefaultItemHeight = 18
       ReadOnly = True
       ScrollBars = ssNone
       TabOrder = 25
+      OnMouseWheelDown = TreeViewMenuSampleMouseWheelDown
+      OnMouseWheelUp = TreeViewMenuSampleMouseWheelUp
       Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
     end
   end
-  object optColorDialog: TColorDialog[1]
+  object gbFont: TGroupBox[1]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbLayoutAndColors
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 55
+    Top = 381
+    Width = 588
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    Caption = 'Font'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.HorizontalSpacing = 3
+    ClientHeight = 35
+    ClientWidth = 584
+    TabOrder = 1
+    object edFontName: TEdit
+      AnchorSideLeft.Control = gbFont
+      AnchorSideTop.Control = gbFont
+      AnchorSideRight.Control = sedFont
+      Left = 6
+      Height = 23
+      Top = 6
+      Width = 411
+      Anchors = [akTop, akLeft, akRight]
+      Enabled = False
+      ReadOnly = True
+      TabOrder = 0
+    end
+    object sedFont: TSpinEdit
+      AnchorSideTop.Control = edFontName
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = btFont
+      Left = 420
+      Height = 23
+      Top = 6
+      Width = 120
+      Anchors = [akTop, akRight]
+      OnChange = sedFontChange
+      TabOrder = 1
+      Value = 12
+    end
+    object btFont: TButton
+      AnchorSideTop.Control = edFontName
+      AnchorSideRight.Control = gbFont
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = edFontName
+      AnchorSideBottom.Side = asrBottom
+      Left = 543
+      Height = 23
+      Top = 6
+      Width = 35
+      Anchors = [akTop, akRight, akBottom]
+      AutoSize = True
+      Caption = '...'
+      OnClick = btFontClick
+      TabOrder = 2
+    end
+  end
+  object optColorDialog: TColorDialog[2]
     Color = clBlack
     CustomColors.Strings = (
       'ColorA=000000'
@@ -717,5 +780,12 @@ inherited frmOptionsTreeViewMenuColor: TfrmOptionsTreeViewMenuColor
     )
     left = 488
     top = 288
+  end
+  object dlgFnt: TFontDialog[3]
+    MinFontSize = 0
+    MaxFontSize = 0
+    Options = [fdNoStyleSel]
+    left = 416
+    top = 344
   end
 end

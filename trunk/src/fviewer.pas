@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Build-in File Viewer.
 
-   Copyright (C) 2007-2019  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2020  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2066,7 +2066,7 @@ end;
 procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-  if (Shift=[ssCtrl])and(gFonts[dcfViewer].Size>MIN_FONT_SIZE_VIEWER) then
+  if (Shift=[ssCtrl])and(gFonts[dcfViewer].Size > gFonts[dcfViewer].MinValue) then
   begin
     gFonts[dcfViewer].Size:=gFonts[dcfViewer].Size-1;
     ViewerControl.Font.Size:=gFonts[dcfViewer].Size;
@@ -2079,7 +2079,7 @@ end;
 procedure TfrmViewer.ViewerControlMouseWheelUp(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-  if (Shift=[ssCtrl])and(gFonts[dcfViewer].Size<MAX_FONT_SIZE_VIEWER) then
+  if (Shift=[ssCtrl])and(gFonts[dcfViewer].Size < gFonts[dcfViewer].MaxValue) then
   begin
     gFonts[dcfViewer].Size:=gFonts[dcfViewer].Size+1;
     ViewerControl.Font.Size:=gFonts[dcfViewer].Size;
