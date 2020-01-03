@@ -1886,7 +1886,7 @@ end;"/>
         <UnitName Value="fOptionsToolbarMiddle"/>
       </Unit259>
       <Unit260>
-        <Filename Value="frames\foptionsMultiRename.pas"/>
+        <Filename Value="frames\foptionsmultirename.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsMultiRename"/>
         <HasResources Value="True"/>
