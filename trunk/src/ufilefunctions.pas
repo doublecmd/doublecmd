@@ -3,8 +3,8 @@
    -------------------------------------------------------------------------
    Filepanel columns implementation unit
 
+   Copyright (C) 2008-2020 Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2018 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -81,7 +81,7 @@ const
   function GetFileFunctionByName(FuncS: string): TFileFunction;
   function GetFilePropertyType(FileFunction: TFileFunction): TFilePropertiesTypes; inline;
 
-  procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent; const FileSystem: String = '');
+  procedure FillContentFieldMenu(MenuOrMenuItem: TObject; OnMenuItemClick: TNotifyEvent; const FileSystem: String = '');
 
   procedure FillFileFuncList;
 
@@ -483,38 +483,42 @@ begin
   end;
 end;
 
-procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent; const FileSystem: String);
+procedure FillContentFieldMenu(MenuOrMenuItem: TObject; OnMenuItemClick: TNotifyEvent; const FileSystem: String);
 var
   I, J: Integer;
-  MI, MI2: TMenuItem;
+  MI, MI2, localMenuItem: TMenuItem;
   Module: TWDXModule;
   FileSize: TDynamicStringArray;
 begin
-  MenuItem.Clear;
+  if MenuOrMenuItem.ClassType = TPopupMenu then
+    localMenuItem := TPopupMenu(MenuOrMenuItem).Items
+  else
+    localMenuItem := TMenuItem(MenuOrMenuItem);
 
+  localMenuItem.Clear;
   // DC commands
-  MI:= TMenuItem.Create(MenuItem);
+  MI:= TMenuItem.Create(localMenuItem);
   MI.Caption:= 'DC';
-  MenuItem.Add(MI);
+  localMenuItem.Add(MI);
   for I:= 0 to FileFunctionsStr.Count - 1 do
   begin
-    MI:= TMenuItem.Create(MenuItem);
+    MI:= TMenuItem.Create(localMenuItem);
     MI.Tag:= 0;
     MI.Hint:= FileFunctionsStr.Names[I];
     MI.Caption:= FileFunctionsStr.ValueFromIndex[I] + '  (' + MI.Hint + ')';
-    MenuItem.Items[0].Add(MI);
+    localMenuItem.Items[0].Add(MI);
     // Special case for attributes
     if TFileFunctionStrings[fsfAttr] = FileFunctionsStr.Names[I] then
     begin
       // String attributes
-      MI2:= TMenuItem.Create(MenuItem);
+      MI2:= TMenuItem.Create(localMenuItem);
       MI2.Tag:= 3;
       MI2.Hint:= '';
       MI2.Caption:= rsMnuContentDefault;
       MI2.OnClick:= OnMenuItemClick;
       MI.Add(MI2);
       // Octal attributes
-      MI2:= TMenuItem.Create(MenuItem);
+      MI2:= TMenuItem.Create(localMenuItem);
       MI2.Tag:= 3;
       MI2.Hint:= ATTR_OCTAL;
       MI2.Caption:= rsMnuContentOctal;
@@ -525,7 +529,7 @@ begin
     if TFileFunctionStrings[fsfSize] = FileFunctionsStr.Names[I] then
     begin
       // Default format
-      MI2:= TMenuItem.Create(MenuItem);
+      MI2:= TMenuItem.Create(localMenuItem);
       MI2.Tag:= 3;
       MI2.Hint:= '';
       MI2.Caption:= rsMnuContentDefault;
@@ -534,7 +538,7 @@ begin
       FileSize:= SplitString(rsOptFileSizeFloat + ';' + rsLegacyOperationByteSuffixLetter + ';' + rsLegacyDisplaySizeSingleLetterKilo + ';' + rsLegacyDisplaySizeSingleLetterMega + ';' + rsLegacyDisplaySizeSingleLetterGiga + ';' + rsLegacyDisplaySizeSingleLetterTera + ';' + rsOptPersonalizedFileSizeFormat, ';');
       for J:= 0 to High(FILE_SIZE) do
       begin
-        MI2:= TMenuItem.Create(MenuItem);
+        MI2:= TMenuItem.Create(localMenuItem);
         MI2.Tag:= 3;
         MI2.Hint:= FILE_SIZE[J];
         MI2.Caption:= FileSize[J];
@@ -547,9 +551,9 @@ begin
   // Plugins
   if (FileSystem = EmptyStr) or SameText(FileSystem, FS_GENERAL) then
   begin
-    MI:= TMenuItem.Create(MenuItem);
+    MI:= TMenuItem.Create(localMenuItem);
     MI.Caption:= rsOptionsEditorPlugins;
-    MenuItem.Add(MI);
+    localMenuItem.Add(MI);
     for I:= 0 to gWdxPlugins.Count - 1 do
     begin
       Module:= gWdxPlugins.GetWdxModule(I);
@@ -563,7 +567,7 @@ begin
     if (I >= 0) then begin
       Module:= gWFXPlugins.LoadModule(gWFXPlugins.FileName[I]);
       if Assigned(Module) and TWfxModule(Module).ContentPlugin then
-        AddModule(MenuItem, OnMenuItemClick, Module);
+        AddModule(localMenuItem, OnMenuItemClick, Module);
     end;
   end;
 end;
