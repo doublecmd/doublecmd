@@ -2977,6 +2977,7 @@ msgid "Create link..."
 msgstr "Criar ligação..."
 
 #: tfrmmain.milogclear.caption
+msgctxt "tfrmmain.milogclear.caption"
 msgid "Clear"
 msgstr "Limpar"
 
@@ -3344,48 +3345,201 @@ msgstr "Largura"
 msgid "456456465465465"
 msgstr "456456465465465"
 
-#: tfrmmultirename.btnclose.caption
-msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
+#: tfrmmultirename.actanyextmask.caption
+msgctxt "tfrmmultirename.actanyextmask.caption"
+msgid "Extension"
+msgstr "Extensão"
+
+#: tfrmmultirename.actanynamemask.caption
+msgctxt "tfrmmultirename.actanynamemask.caption"
+msgid "Filename"
+msgstr "Nome de ficheiro"
+
+#: tfrmmultirename.actclearextmask.caption
+msgctxt "tfrmmultirename.actclearextmask.caption"
+msgid "Clear"
+msgstr "Limpar"
+
+#: tfrmmultirename.actclearnamemask.caption
+msgctxt "tfrmmultirename.actclearnamemask.caption"
+msgid "Clear"
+msgstr "Limpar"
+
+#: tfrmmultirename.actclose.caption
+msgctxt "tfrmmultirename.actclose.caption"
 msgid "&Close"
 msgstr "Fe&char"
 
-#: tfrmmultirename.btndeletepreset.caption
-msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
-msgid "&Delete"
-msgstr "&Eliminar"
+#: tfrmmultirename.actconfig.caption
+msgid "Confi&guration"
+msgstr "Configuração"
 
-#: tfrmmultirename.btnedit.caption
-msgctxt "tfrmmultirename.btnedit.caption"
+#: tfrmmultirename.actctrextmask.caption
+msgctxt "tfrmmultirename.actctrextmask.caption"
+msgid "Counter"
+msgstr "Contador"
+
+#: tfrmmultirename.actctrnamemask.caption
+msgctxt "tfrmmultirename.actctrnamemask.caption"
+msgid "Counter"
+msgstr "Contador"
+
+#: tfrmmultirename.actdateextmask.caption
+msgctxt "tfrmmultirename.actdateextmask.caption"
+msgid "Date"
+msgstr "Data"
+
+#: tfrmmultirename.actdatenamemask.caption
+msgctxt "tfrmmultirename.actdatenamemask.caption"
+msgid "Date"
+msgstr "Data"
+
+#: tfrmmultirename.actdeletepreset.caption
+msgctxt "tfrmmultirename.actdeletepreset.caption"
+msgid "Delete"
+msgstr "Eliminar"
+
+#: tfrmmultirename.actdropdownpresetlist.caption
+msgid "Drop Down Presets List"
+msgstr ""
+
+#: tfrmmultirename.acteditnames.caption
+msgid "Edit Names..."
+msgstr "Editar nomes..."
+
+#: tfrmmultirename.actextextmask.caption
+msgctxt "tfrmmultirename.actextextmask.caption"
+msgid "Extension"
+msgstr "Extensão"
+
+#: tfrmmultirename.actextnamemask.caption
+msgctxt "tfrmmultirename.actextnamemask.caption"
+msgid "Extension"
+msgstr "Extensão"
+
+#: tfrmmultirename.actinvokeeditor.caption
+msgctxt "tfrmmultirename.actinvokeeditor.caption"
 msgid "Edit&or"
 msgstr "&Editar"
 
-#: tfrmmultirename.btnextmenu.caption
-msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
-msgid "..."
-msgstr "..."
+#: tfrmmultirename.actinvokerelativepath.caption
+msgid "Invoke Relative Path Menu"
+msgstr ""
 
-#: tfrmmultirename.btnloadpreset.caption
-msgid "&Load"
-msgstr "Ca&rregar"
+#: tfrmmultirename.actloadlastpreset.caption
+msgid "Load Last Preset"
+msgstr ""
 
-#: tfrmmultirename.btnnamemenu.caption
-msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
-msgid "..."
-msgstr "..."
+#: tfrmmultirename.actloadnamesfromfile.caption
+msgid "Load Names From File..."
+msgstr "Carregar nomes de ficheiro..."
 
-#: tfrmmultirename.btnrename.caption
-msgctxt "tfrmmultirename.btnrename.caption"
+#: tfrmmultirename.actloadpreset.caption
+msgid "Load preset by name or index"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset1.caption
+msgid "Load Preset 1"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset2.caption
+msgid "Load Preset 2"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset3.caption
+msgid "Load Preset 3"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset4.caption
+msgid "Load Preset 4"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset5.caption
+msgid "Load Preset 5"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset6.caption
+msgid "Load Preset 6"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset7.caption
+msgid "Load Preset 7"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset8.caption
+msgid "Load Preset 8"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset9.caption
+msgid "Load Preset 9"
+msgstr ""
+
+#: tfrmmultirename.actnameextmask.caption
+msgctxt "tfrmmultirename.actnameextmask.caption"
+msgid "Filename"
+msgstr "Nome de ficheiro"
+
+#: tfrmmultirename.actnamenamemask.caption
+msgctxt "tfrmmultirename.actnamenamemask.caption"
+msgid "Filename"
+msgstr "Nome de ficheiro"
+
+#: tfrmmultirename.actplgnextmask.caption
+msgctxt "tfrmmultirename.actplgnextmask.caption"
+msgid "Plugins"
+msgstr "Extensões"
+
+#: tfrmmultirename.actplgnnamemask.caption
+msgctxt "tfrmmultirename.actplgnnamemask.caption"
+msgid "Plugins"
+msgstr "Extensões"
+
+#: tfrmmultirename.actrename.caption
+msgctxt "tfrmmultirename.actrename.caption"
 msgid "&Rename"
 msgstr "&Renomear"
 
-#: tfrmmultirename.btnrestore.caption
+#: tfrmmultirename.actrenamepreset.caption
+msgctxt "tfrmmultirename.actrenamepreset.caption"
+msgid "Rename"
+msgstr "Renomear"
+
+#: tfrmmultirename.actresetall.caption
+msgctxt "tfrmmultirename.actresetall.caption"
 msgid "Reset &all"
 msgstr "Re&por tudo"
 
-#: tfrmmultirename.btnsavepreset.caption
-msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
-msgid "&Save"
-msgstr "&Gravar"
+#: tfrmmultirename.actsavepreset.caption
+msgctxt "tfrmmultirename.actsavepreset.caption"
+msgid "Save"
+msgstr "Gravar"
+
+#: tfrmmultirename.actsavepresetas.caption
+msgctxt "tfrmmultirename.actsavepresetas.caption"
+msgid "Save As..."
+msgstr "Gravar como..."
+
+#: tfrmmultirename.actshowpresetsmenu.caption
+msgid "Show Preset Menu"
+msgstr ""
+
+#: tfrmmultirename.actsortpresets.caption
+msgid "Sort"
+msgstr "Ordenar"
+
+#: tfrmmultirename.acttimeextmask.caption
+msgctxt "tfrmmultirename.acttimeextmask.caption"
+msgid "Time"
+msgstr "Hora"
+
+#: tfrmmultirename.acttimenamemask.caption
+msgctxt "tfrmmultirename.acttimenamemask.caption"
+msgid "Time"
+msgstr "Hora"
+
+#: tfrmmultirename.actviewrenamelogfile.caption
+msgid "View Rename Log File"
+msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "TFRMMULTIRENAME.CAPTION"
@@ -3393,9 +3547,15 @@ msgid "MultiRename"
 msgstr "Multi-renomear"
 
 #: tfrmmultirename.cblog.caption
+#, fuzzy
+#| msgid "Ena&ble"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
-msgid "Ena&ble"
+msgid "&Log result"
 msgstr "Ac&tivar"
+
+#: tfrmmultirename.cblogappend.caption
+msgid "Append"
+msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
@@ -3420,21 +3580,14 @@ msgctxt "TFRMMULTIRENAME.EDPOC.TEXT"
 msgid "1"
 msgstr "1"
 
-#: tfrmmultirename.extension.caption
-msgid "[E] Extension"
-msgstr "[E] Extensão"
-
 #: tfrmmultirename.gbcounter.caption
+msgctxt "tfrmmultirename.gbcounter.caption"
 msgid "Counter"
 msgstr "Contador"
 
 #: tfrmmultirename.gbfindreplace.caption
 msgid "Find && Replace"
 msgstr "Localizar && substituir"
-
-#: tfrmmultirename.gblog.caption
-msgid "Log Result"
-msgstr "Resultado do diário"
 
 #: tfrmmultirename.gbmaska.caption
 msgid "Mask"
@@ -3473,118 +3626,15 @@ msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "&Width"
 msgstr "&Largura"
 
-#: tfrmmultirename.micounter.caption
-msgid "[C] Counter"
-msgstr "[C] Contador"
+#: tfrmmultirename.miactions.caption
+msgctxt "tfrmmultirename.miactions.caption"
+msgid "Actions"
+msgstr "Acções"
 
-#: tfrmmultirename.miday.caption
-msgid "[D] Day"
-msgstr "[D] Dia"
-
-#: tfrmmultirename.miday1.caption
-msgid "[DD] Day (2 digits)"
-msgstr "[DD] Dia (2 dígitos)"
-
-#: tfrmmultirename.miday2.caption
-msgid "[DDD] Day of the week (short, e.g., \"mon\")"
-msgstr "[DDD] Dia da semana (curto, ex. \"Seg\")"
-
-#: tfrmmultirename.miday3.caption
-msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
-msgstr "[DDDD] Dia da semana (longo, ex. \"Segunda\")"
-
-#: tfrmmultirename.miextensionx.caption
-msgid "[Ex] Character at position x"
-msgstr "[Ex] Carácter na posição x"
-
-#: tfrmmultirename.miextensionxx.caption
-msgid "[Ex:y] Characters from position x to y"
-msgstr "[Ex:y] Caracteres desde a posição x até y"
-
-#: tfrmmultirename.mihour.caption
-msgid "[h] Hour"
-msgstr "[h] Hora"
-
-#: tfrmmultirename.mihour1.caption
-msgid "[hh] Hour (2 digits)"
-msgstr "[hh] Hora (2 dígitos)"
-
-#: tfrmmultirename.miminute.caption
-msgid "[n] Minute"
-msgstr "[n] Minuto"
-
-#: tfrmmultirename.miminute1.caption
-msgid "[nn] Minute (2 digits)"
-msgstr "[nn] Minuto (2 dígitos)"
-
-#: tfrmmultirename.mimonth.caption
-msgid "[M] Month"
-msgstr "[M] Mês"
-
-#: tfrmmultirename.mimonth1.caption
-msgid "[MM] Month (2 digits)"
-msgstr "[MM] Mês (2 dígitos)"
-
-#: tfrmmultirename.mimonth2.caption
-msgid "[MMM] Month name (short, e.g., \"jan\")"
-msgstr "[MMM] Nome do mês (curto, ex. \"Jan\")"
-
-#: tfrmmultirename.mimonth3.caption
-msgid "[MMMM] Month name (long, e.g., \"january\")"
-msgstr "[MMMM] Nome do mês (longo, ex. \"Janeiro\")"
-
-#: tfrmmultirename.miname.caption
-msgid "[N] Name"
-msgstr "[N] Nome"
-
-#: tfrmmultirename.minamex.caption
-msgid "[Nx] Character at position x"
-msgstr "[Nx] Carácter na posição x"
-
-#: tfrmmultirename.minamexx.caption
-msgid "[Nx:y] Characters from position x to y"
-msgstr "[Nx:y] Caracteres desde a posição x até y"
-
-#: tfrmmultirename.minext.caption
-msgid "Time..."
-msgstr "Hora..."
-
-#: tfrmmultirename.minextextension.caption
-msgid "Extension..."
-msgstr "Extensão..."
-
-#: tfrmmultirename.minextname.caption
-msgid "Name..."
-msgstr "Nome..."
-
-#: tfrmmultirename.miplugin.caption
-msgctxt "TFRMMULTIRENAME.MIPLUGIN.CAPTION"
-msgid "Plugin"
-msgstr "Extensão"
-
-#: tfrmmultirename.misecond.caption
-msgid "[s] Second"
-msgstr "[s] Segundo"
-
-#: tfrmmultirename.misecond1.caption
-msgid "[ss] Second (2 digits)"
-msgstr "[ss] Segundo (2 dígitos)"
-
-#: tfrmmultirename.miyear.caption
-msgid "[Y] Year (2 digits)"
-msgstr "[Y] Ano (2 dígitos)"
-
-#: tfrmmultirename.miyear1.caption
-msgid "[YYYY] Year (4 digits)"
-msgstr "[YYYY] Ano (4 dígitos)"
-
-#: tfrmmultirename.mnueditnames.caption
-msgid "Edit names..."
-msgstr "Editar nomes..."
-
-#: tfrmmultirename.mnuloadfromfile.caption
-msgid "Load names from file..."
-msgstr "Carregar nomes de ficheiro..."
+#: tfrmmultirename.mieditor.caption
+msgctxt "tfrmmultirename.mieditor.caption"
+msgid "Editor"
+msgstr "&Editar"
 
 #: tfrmmultirename.stringgrid.columns[0].title.caption
 msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[0].TITLE.CAPTION"
@@ -6905,6 +6955,54 @@ msgstr ""
 msgid "Single click (opens folders, double click for files)"
 msgstr ""
 
+#: tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint
+#, fuzzy
+msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint"
+msgid "Some functions to select appropriate path"
+msgstr "Funções para seleccionar o caminho correcto"
+
+#: tfrmoptionsmultirename.btnmulrenlogfilenameview.hint
+#, fuzzy
+msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenameview.hint"
+msgid "View log file content"
+msgstr "Ver conteúdo do diário"
+
+#: tfrmoptionsmultirename.ckbdailyindividualdirmultrenlog.caption
+msgid "Individual directories per day"
+msgstr ""
+
+#: tfrmoptionsmultirename.ckbfilenamewithfullpathinlog.caption
+msgid "Log filenames with full path"
+msgstr ""
+
+#: tfrmoptionsmultirename.ckbshowmenubarontop.caption
+msgid "Show menu bar on top "
+msgstr ""
+
+#: tfrmoptionsmultirename.gbsaverenaminglog.caption
+msgid "Rename log"
+msgstr ""
+
+#: tfrmoptionsmultirename.lbinvalidcharreplacement.caption
+msgid "Replace invalid filename character b&y"
+msgstr ""
+
+#: tfrmoptionsmultirename.rbrenaminglogappendsamefile.caption
+msgid "Append in the same rename log file"
+msgstr ""
+
+#: tfrmoptionsmultirename.rbrenaminglogperpreset.caption
+msgid "Per preset"
+msgstr ""
+
+#: tfrmoptionsmultirename.rgexitmodifiedpreset.caption
+msgid "Exit with modified preset"
+msgstr ""
+
+#: tfrmoptionsmultirename.rglaunchbehavior.caption
+msgid "Preset at launch"
+msgstr ""
+
 #: tfrmoptionspluginsbase.btnaddplugin.caption
 msgctxt "tfrmoptionspluginsbase.btnaddplugin.caption"
 msgid "A&dd"
@@ -8423,6 +8521,57 @@ msgstr "&E (tudo verdadeiro)"
 msgid "&OR (any match)"
 msgstr "&OU (qualquer verdadeiro)"
 
+#: tfrmselectpathrange.btppanel.cancelbutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.cancelbutton.caption"
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: tfrmselectpathrange.btppanel.closebutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.closebutton.caption"
+msgid "&Close"
+msgstr "Fe&char"
+
+#: tfrmselectpathrange.btppanel.helpbutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.helpbutton.caption"
+msgid "&Help"
+msgstr "A&juda"
+
+#: tfrmselectpathrange.btppanel.okbutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.okbutton.caption"
+msgid "&OK"
+msgstr "&Aceitar"
+
+#: tfrmselectpathrange.edseparator.editlabel.caption
+msgid "Separat&or"
+msgstr ""
+
+#: tfrmselectpathrange.gbcountfrom.caption
+msgid "Count from"
+msgstr ""
+
+#: tfrmselectpathrange.lblresult.caption
+msgctxt "tfrmselectpathrange.lblresult.caption"
+msgid "Result:"
+msgstr ""
+
+#: tfrmselectpathrange.lblselectdirectories.caption
+msgid "&Select the directories to insert (you may select more than one)"
+msgstr ""
+
+#: tfrmselectpathrange.rbfirstfromend.caption
+msgctxt "tfrmselectpathrange.rbfirstfromend.caption"
+msgid "The en&d"
+msgstr ""
+
+#: tfrmselectpathrange.rbfirstfromstart.caption
+msgctxt "tfrmselectpathrange.rbfirstfromstart.caption"
+msgid "The sta&rt"
+msgstr ""
+
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
 msgid "Cancel"
@@ -8443,9 +8592,52 @@ msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
 msgid "&OK"
 msgstr "&Aceitar"
 
+#: tfrmselecttextrange.gbcountfirstfrom.caption
+msgid "Count first from"
+msgstr ""
+
+#: tfrmselecttextrange.gbcountlastfrom.caption
+msgid "Count last from"
+msgstr ""
+
+#: tfrmselecttextrange.gbrangedescription.caption
+msgid "Range description"
+msgstr ""
+
+#: tfrmselecttextrange.lblresult.caption
+msgctxt "tfrmselecttextrange.lblresult.caption"
+msgid "Result:"
+msgstr ""
+
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "&Select the characters to insert:"
 msgstr "&Seleccionar os caracteres a inserir:"
+
+#: tfrmselecttextrange.rbdescriptionfirstlast.caption
+msgid "[&First:Last]"
+msgstr ""
+
+#: tfrmselecttextrange.rbdescriptionfirstlength.caption
+msgid "[First,&Length]"
+msgstr ""
+
+#: tfrmselecttextrange.rbfirstfromend.caption
+msgctxt "tfrmselecttextrange.rbfirstfromend.caption"
+msgid "The en&d"
+msgstr ""
+
+#: tfrmselecttextrange.rbfirstfromstart.caption
+msgctxt "tfrmselecttextrange.rbfirstfromstart.caption"
+msgid "The sta&rt"
+msgstr ""
+
+#: tfrmselecttextrange.rblastfromend.caption
+msgid "The &end"
+msgstr ""
+
+#: tfrmselecttextrange.rblastfromstart.caption
+msgid "The s&tart"
+msgstr ""
 
 #: tfrmsetfileproperties.btncancel.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -8601,6 +8793,28 @@ msgstr ""
 #: tfrmsetfileproperties.zvlastwritedatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
+msgstr ""
+
+#: tfrmsortanything.btncancel.caption
+#, fuzzy
+msgctxt "tfrmsortanything.btncancel.caption"
+msgid "&Cancel"
+msgstr "&Cancelar"
+
+#: tfrmsortanything.btnok.caption
+msgid "&O&K"
+msgstr ""
+
+#: tfrmsortanything.btnsort.caption
+msgid "&Sort"
+msgstr ""
+
+#: tfrmsortanything.caption
+msgid "frmSortAnything"
+msgstr ""
+
+#: tfrmsortanything.lblsortanything.caption
+msgid "Drag and drop elements to sort them"
 msgstr ""
 
 #: tfrmsplitter.btnrelativeftchoice.hint
@@ -10336,6 +10550,7 @@ msgid "Creation date/time"
 msgstr "Data/hora de criação"
 
 #: ulng.rsfuncext
+msgctxt "ulng.rsfuncext"
 msgid "Extension"
 msgstr "Extensão"
 
@@ -10428,6 +10643,11 @@ msgstr "Localizar ficheiros"
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr "Principal"
+
+#: ulng.rshotkeycategorymultirename
+msgctxt "ulng.rshotkeycategorymultirename"
+msgid "MultiRename"
+msgstr "Multi-renomear"
 
 #: ulng.rshotkeycategorysyncdirs
 msgid "Synchronize Directories"
@@ -11444,6 +11664,10 @@ msgstr "&Eliminar %s"
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Predefinição \"%s\" já existe! Substituir?"
 
+#: ulng.rsmsgpresetconfigdelete
+msgid "Are you sure you want to delete preset \"%s\"?"
+msgstr ""
+
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
 msgstr "Problema ao executar o comando (%s)"
@@ -11751,6 +11975,54 @@ msgstr ""
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
 msgstr "Renomear automaticamente \"nome (1).ext\", \"nome (2).ext\" etc.?"
 
+#: ulng.rsmulrenclearmask
+msgid "Clear mask"
+msgstr ""
+
+#: ulng.rsmulrencounter
+msgctxt "ulng.rsmulrencounter"
+msgid "Counter"
+msgstr "Contador"
+
+#: ulng.rsmulrendate
+msgctxt "ulng.rsmulrendate"
+msgid "Date"
+msgstr "Data"
+
+#: ulng.rsmulrendefaultpresetname
+msgid "Preset name"
+msgstr ""
+
+#: ulng.rsmulrendefinevariablename
+msgid "Define variable name"
+msgstr ""
+
+#: ulng.rsmulrendefinevariablevalue
+msgid "Define variable value"
+msgstr ""
+
+#: ulng.rsmulrenenternameforvar
+msgid "Enter variable name"
+msgstr ""
+
+#: ulng.rsmulrenentervalueforvar
+msgid "Enter value for variable \"%s\""
+msgstr ""
+
+#: ulng.rsmulrenexitmodifiedpresetoptions
+msgid "Ignore, just save as the [Last One];Prompt user to confirm if we save it;Save automatically"
+msgstr ""
+
+#: ulng.rsmulrenextension
+msgctxt "ulng.rsmulrenextension"
+msgid "Extension"
+msgstr "Extensão"
+
+#: ulng.rsmulrenfilename
+msgctxt "ulng.rsmulrenfilename"
+msgid "Name"
+msgstr "Nome"
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Sem alteração;MAIÚSCULAS;minúsculas;Primeira maiúscula;Primeira De Todas As Palavras Maiúscula;"
@@ -11758,6 +12030,162 @@ msgstr "Sem alteração;MAIÚSCULAS;minúsculas;Primeira maiúscula;Primeira De 
 #: ulng.rsmulrenlastpreset
 msgid "[The last used]"
 msgstr ""
+
+#: ulng.rsmulrenlaunchbehavioroptions
+msgid "Last masks under [Last One] preset;Last preset;New fresh masks"
+msgstr ""
+
+#: ulng.rsmulrenlogstart
+msgctxt "ulng.rsmulrenlogstart"
+msgid "MultiRename"
+msgstr "Multi-renomear"
+
+#: ulng.rsmulrenmaskcharatposx
+msgid "Character at position x"
+msgstr "Carácter na posição x"
+
+#: ulng.rsmulrenmaskcharatposxtoy
+msgid "Characters from position x to y"
+msgstr "Caracteres desde a posição x até y"
+
+#: ulng.rsmulrenmaskcompletedate
+msgid "Complete date"
+msgstr ""
+
+#: ulng.rsmulrenmaskcompletetime
+msgid "Complete time"
+msgstr ""
+
+#: ulng.rsmulrenmaskcounter
+msgctxt "ulng.rsmulrenmaskcounter"
+msgid "Counter"
+msgstr "Contador"
+
+#: ulng.rsmulrenmaskday
+msgid "Day"
+msgstr "Dia"
+
+#: ulng.rsmulrenmaskday2digits
+msgid "Day (2 digits)"
+msgstr "Dia (2 dígitos)"
+
+#: ulng.rsmulrenmaskdowabrev
+msgid "Day of the week (short, e.g., \"mon\")"
+msgstr "Dia da semana (curto, ex. \"Seg\")"
+
+#: ulng.rsmulrenmaskdowcomplete
+msgid "Day of the week (long, e.g., \"monday\")"
+msgstr "Dia da semana (longo, ex. \"Segunda\")"
+
+#: ulng.rsmulrenmaskextension
+msgctxt "ulng.rsmulrenmaskextension"
+msgid "Extension"
+msgstr "Extensão"
+
+#: ulng.rsmulrenmaskfullname
+msgid "Complete filename with path and extension"
+msgstr ""
+
+#: ulng.rsmulrenmaskfullnamecharatposxtoy
+msgid "Complete filename, char from pos x to y"
+msgstr ""
+
+#: ulng.rsmulrenmaskguid
+msgid "GUID"
+msgstr ""
+
+#: ulng.rsmulrenmaskhour
+msgid "Hour"
+msgstr "Hora"
+
+#: ulng.rsmulrenmaskhour2digits
+msgid "Hour (2 digits)"
+msgstr "Hora (2 dígitos)"
+
+#: ulng.rsmulrenmaskmin
+msgid "Minute"
+msgstr "Minuto"
+
+#: ulng.rsmulrenmaskmin2digits
+msgid "Minute (2 digits)"
+msgstr "Minuto (2 dígitos)"
+
+#: ulng.rsmulrenmaskmonth
+msgid "Month"
+msgstr "Mês"
+
+#: ulng.rsmulrenmaskmonth2digits
+msgid "Month (2 digits)"
+msgstr "Mês (2 dígitos)"
+
+#: ulng.rsmulrenmaskmonthabrev
+msgid "Month name (short, e.g., \"jan\")"
+msgstr "Nome do mês (curto, ex. \"Jan\")"
+
+#: ulng.rsmulrenmaskmonthcomplete
+msgid "Month name (long, e.g., \"january\")"
+msgstr "Nome do mês (longo, ex. \"Janeiro\")"
+
+#: ulng.rsmulrenmaskname
+msgctxt "ulng.rsmulrenmaskname"
+msgid "Name"
+msgstr "Nome"
+
+#: ulng.rsmulrenmaskparent
+msgid "Parent folder(s)"
+msgstr ""
+
+#: ulng.rsmulrenmasksec
+msgid "Second"
+msgstr "Segundo"
+
+#: ulng.rsmulrenmasksec2digits
+msgid "Second (2 digits)"
+msgstr "Segundo (2 dígitos)"
+
+#: ulng.rsmulrenmaskvaronthefly
+msgid "Variable on the fly"
+msgstr ""
+
+#: ulng.rsmulrenmaskyear2digits
+msgid "Year (2 digits)"
+msgstr "Ano (2 dígitos)"
+
+#: ulng.rsmulrenmaskyear4digits
+msgid "Year (4 digits)"
+msgstr "Ano (4 dígitos)"
+
+#: ulng.rsmulrenplugins
+msgctxt "ulng.rsmulrenplugins"
+msgid "Plugins"
+msgstr "Extensões"
+
+#: ulng.rsmulrenpromptforsavedpresetname
+msgid "Save preset as"
+msgstr ""
+
+#: ulng.rsmulrenpromptnewnameexists
+msgid "Preset name already exists. Overwrite?"
+msgstr ""
+
+#: ulng.rsmulrenpromptnewpresetname
+msgid "Enter new preset name"
+msgstr ""
+
+#: ulng.rsmulrensavemodifiedpreset
+msgid ""
+"\"%s\" preset has been modified.\n"
+"Do you want to save it now?\n"
+msgstr ""
+
+#: ulng.rsmulrensortingpresets
+msgid "Sorting presets"
+msgstr ""
+
+#: ulng.rsmulrentime
+msgctxt "ulng.rsmulrentime"
+msgid "Time"
+msgstr "Hora"
 
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
@@ -12487,6 +12915,11 @@ msgstr "Vários"
 msgid "Mouse"
 msgstr "Rato"
 
+#: ulng.rsoptionseditormultirename
+msgctxt "ulng.rsoptionseditormultirename"
+msgid "MultiRename"
+msgstr "Multi-renomear"
+
 #: ulng.rsoptionseditoroptionschanged
 msgid ""
 "Options have changed in \"%s\"\n"
@@ -12893,6 +13326,7 @@ msgid "False"
 msgstr ""
 
 #: ulng.rssimplewordfilename
+msgctxt "ulng.rssimplewordfilename"
 msgid "Filename"
 msgstr "Nome de ficheiro"
 
@@ -12918,6 +13352,10 @@ msgstr ""
 
 #: ulng.rssimplewordtrue
 msgid "True"
+msgstr ""
+
+#: ulng.rssimplewordvariable
+msgid "Variable"
 msgstr ""
 
 #: ulng.rssimplewordworkdir

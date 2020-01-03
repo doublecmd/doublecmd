@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Localization core unit
 
-   Copyright (C) 2007-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -98,6 +98,7 @@ resourcestring
   rsMsgInvalidPathLong = 'Path %s contains forbidden characters.';
   rsMsgSelectOnlyCheckSumFiles = 'Please select only checksum files!';
   rsMsgPresetAlreadyExists = 'Preset "%s" already exists. Overwrite?';
+  rsMsgPresetConfigDelete = 'Are you sure you want to delete preset "%s"?';
   rsMsgVolumeSizeEnter = 'Please enter the volume size:';
   rsFilterAnyFiles = 'Any files';
   rsFilterDCToolTipFiles = 'DC Tooltip files';
@@ -633,6 +634,7 @@ resourcestring
   rsSplitErrSplitFile = 'Unable to split the file!';
   rsSplitMsgManyParts = 'The number of parts is more than 100! Continue?';
   rsSplitPreDefinedSizes = 'Automatic;1457664B - 3.5" High Density 1.44M;1213952B - 5.25" High Density 1.2M;730112B - 3.5" Double Density 720K;362496B - 5.25" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R';
+
   // MultiRename dialog
   rsMulRenLastPreset = '[The last used]';
   rsMulRenWarningDuplicate = 'Warning, duplicate names!';
@@ -640,6 +642,57 @@ resourcestring
   rsMulRenWrongLinesNumber = 'File contains wrong number of lines: %d, should be %d!';
   rsMulRenFileNameStyleList = 'No change;UPPERCASE;lowercase;First char uppercase;' +
                               'First Char Of Every Word Uppercase;';
+  rsMulRenLaunchBehaviorOptions = 'Last masks under [Last One] preset;Last preset;New fresh masks';
+  rsMulRenSaveModifiedPreset = '"%s" preset has been modified.'+#$0A+'Do you want to save it now?';
+  rsMulRenSortingPresets = 'Sorting presets';
+  rsMulRenDefineVariableName = 'Define variable name';
+  rsMulRenDefineVariableValue = 'Define variable value';
+  rsMulRenEnterNameForVar = 'Enter variable name';
+  rsMulRenEnterValueForVar = 'Enter value for variable "%s"';
+  rsMulRenExitModifiedPresetOptions = 'Ignore, just save as the [Last One];Prompt user to confirm if we save it;Save automatically';
+  rsMulRenDefaultPresetName = 'Preset name';
+  rsMulRenPromptForSavedPresetName = 'Save preset as';
+  rsMulRenPromptNewPresetName = 'Enter new preset name';
+  rsMulRenPromptNewNameExists = 'Preset name already exists. Overwrite?';
+  rsMulRenLogStart = 'MultiRename';
+
+  rsMulRenMaskName = 'Name';
+  rsMulRenMaskCharAtPosX = 'Character at position x';
+  rsMulRenMaskCharAtPosXtoY = 'Characters from position x to y';
+  rsMulRenMaskFullName = 'Complete filename with path and extension';
+  rsMulRenMaskFullNameCharAtPosXtoY = 'Complete filename, char from pos x to y';
+  rsMulRenMaskParent = 'Parent folder(s)';
+  rsMulRenMaskExtension = 'Extension';
+  rsMulRenMaskCounter = 'Counter';
+  rsMulRenMaskGUID = 'GUID';
+  rsMulRenMaskVarOnTheFly = 'Variable on the fly';
+  rsMulRenMaskYear2Digits = 'Year (2 digits)';
+  rsMulRenMaskYear4Digits = 'Year (4 digits)';
+  rsMulRenMaskMonth = 'Month';
+  rsMulRenMaskMonth2Digits = 'Month (2 digits)';
+  rsMulRenMaskMonthAbrev = 'Month name (short, e.g., "jan")';
+  rsMulRenMaskMonthComplete = 'Month name (long, e.g., "january")';
+  rsMulRenMaskDay = 'Day';
+  rsMulRenMaskDay2Digits = 'Day (2 digits)';
+  rsMulRenMaskDOWAbrev = 'Day of the week (short, e.g., "mon")';
+  rsMulRenMaskDOWComplete = 'Day of the week (long, e.g., "monday")';
+  rsMulRenMaskCompleteDate = 'Complete date';
+  rsMulRenMaskHour = 'Hour';
+  rsMulRenMaskHour2Digits = 'Hour (2 digits)';
+  rsMulRenMaskMin = 'Minute';
+  rsMulRenMaskMin2Digits = 'Minute (2 digits)';
+  rsMulRenMaskSec = 'Second';
+  rsMulRenMaskSec2Digits = 'Second (2 digits)';
+  rsMulRenMaskCompleteTime = 'Complete time';
+
+  rsMulRenFilename = 'Name';
+  rsMulRenExtension = 'Extension';
+  rsMulRenCounter = 'Counter';
+  rsMulRenDate = 'Date';
+  rsMulRenTime = 'Time';
+  rsMulRenPlugins = 'Plugins';
+  rsMulRenClearMask = 'Clear mask';
+
   // CheckSumCalcVerify dialog
   rsCheckSumVerifyTitle = 'Verify checksum';
   rsCheckSumVerifyText = 'Enter checksum and select algorithm:';
@@ -712,6 +765,7 @@ resourcestring
   rsOptionsEditorFavoriteTabs = 'Favorite Tabs';
   rsOptionsEditorOptionsChanged = 'Options have changed in "%s"'+#$0A+#$0A+'Do you want to save modifications?';
   rsOptionsEditorFileSearch = 'File search';
+  rsOptionsEditorMultiRename = 'MultiRename';
   //-------------------------------
   rsOptConfigSortOrder = 'Classic, legacy order;Alphabetic order (but language still first)';
   rsOptConfigTreeState = 'Full expand;Full collapse';
@@ -763,6 +817,7 @@ resourcestring
   rsHotkeyCategoryCopyMoveDialog = 'Copy/Move Dialog';
   rsHotkeyCategorySyncDirs = 'Synchronize Directories';
   rsHotkeyCategoryEditCommentDialog = 'Edit Comment Dialog';
+  rsHotkeyCategoryMultiRename = 'MultiRename';
   rsHotkeySortOrder = 'By command name;By shortcut key (grouped);By shortcut key (one per row)';
   rsHotKeyNoSCEnter='No shortcut with "ENTER"';
   rsHotKeyFileSaveModified = '"%s" setup has been modified.'+#$0A+'Do you want to save it now?';
@@ -791,6 +846,7 @@ resourcestring
   rsSimpleWordError = 'Error';
   rsSimpleWordSuccessExcla = 'Success!';
   rsSimpleWordFailedExcla = 'Failed!';
+  rsSimpleWordVariable = 'Variable';
 
   // Plugins
   rsOptPluginsActive = 'Active';

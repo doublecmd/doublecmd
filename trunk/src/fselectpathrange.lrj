@@ -1,0 +1,12 @@
+{"version":1,"strings":[
+{"hash":136763673,"name":"tfrmselectpathrange.lblselectdirectories.caption","sourcebytes":[38,83,101,108,101,99,116,32,116,104,101,32,100,105,114,101,99,116,111,114,105,101,115,32,116,111,32,105,110,115,101,114,116,32,40,121,111,117,32,109,97,121,32,115,101,108,101,99,116,32,109,111,114,101,32,116,104,97,110,32,111,110,101,41],"value":"&Select the directories to insert (you may select more than one)"},
+{"hash":11067,"name":"tfrmselectpathrange.btppanel.okbutton.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":2812976,"name":"tfrmselectpathrange.btppanel.helpbutton.caption","sourcebytes":[38,72,101,108,112],"value":"&Help"},
+{"hash":44709525,"name":"tfrmselectpathrange.btppanel.closebutton.caption","sourcebytes":[38,67,108,111,115,101],"value":"&Close"},
+{"hash":77089212,"name":"tfrmselectpathrange.btppanel.cancelbutton.caption","sourcebytes":[67,97,110,99,101,108],"value":"Cancel"},
+{"hash":147505962,"name":"tfrmselectpathrange.lblresult.caption","sourcebytes":[82,101,115,117,108,116,58],"value":"Result:"},
+{"hash":90341277,"name":"tfrmselectpathrange.gbcountfrom.caption","sourcebytes":[67,111,117,110,116,32,102,114,111,109],"value":"Count from"},
+{"hash":128947172,"name":"tfrmselectpathrange.rbfirstfromstart.caption","sourcebytes":[84,104,101,32,115,116,97,38,114,116],"value":"The sta&rt"},
+{"hash":242664804,"name":"tfrmselectpathrange.rbfirstfromend.caption","sourcebytes":[84,104,101,32,101,110,38,100],"value":"The en&d"},
+{"hash":143520002,"name":"tfrmselectpathrange.edseparator.editlabel.caption","sourcebytes":[83,101,112,97,114,97,116,38,111,114],"value":"Separat&or"}
+]}

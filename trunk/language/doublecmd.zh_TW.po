@@ -3137,6 +3137,7 @@ msgid "Create link..."
 msgstr "建立連結..."
 
 #: tfrmmain.milogclear.caption
+msgctxt "tfrmmain.milogclear.caption"
 msgid "Clear"
 msgstr "清除"
 
@@ -3527,50 +3528,201 @@ msgstr "寬度"
 msgid "456456465465465"
 msgstr ""
 
-#: tfrmmultirename.btnclose.caption
-msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
+#: tfrmmultirename.actanyextmask.caption
+msgctxt "tfrmmultirename.actanyextmask.caption"
+msgid "Extension"
+msgstr "副檔名"
+
+#: tfrmmultirename.actanynamemask.caption
+msgctxt "tfrmmultirename.actanynamemask.caption"
+msgid "Filename"
+msgstr ""
+
+#: tfrmmultirename.actclearextmask.caption
+msgctxt "tfrmmultirename.actclearextmask.caption"
+msgid "Clear"
+msgstr "清除"
+
+#: tfrmmultirename.actclearnamemask.caption
+msgctxt "tfrmmultirename.actclearnamemask.caption"
+msgid "Clear"
+msgstr "清除"
+
+#: tfrmmultirename.actclose.caption
+msgctxt "tfrmmultirename.actclose.caption"
 msgid "&Close"
 msgstr "關閉 (&C)"
 
-#: tfrmmultirename.btndeletepreset.caption
-msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
-msgid "&Delete"
-msgstr "刪除 (&D)"
+#: tfrmmultirename.actconfig.caption
+msgid "Confi&guration"
+msgstr "設定檔"
 
-#: tfrmmultirename.btnedit.caption
-msgctxt "tfrmmultirename.btnedit.caption"
+#: tfrmmultirename.actctrextmask.caption
+msgctxt "tfrmmultirename.actctrextmask.caption"
+msgid "Counter"
+msgstr "計數器"
+
+#: tfrmmultirename.actctrnamemask.caption
+msgctxt "tfrmmultirename.actctrnamemask.caption"
+msgid "Counter"
+msgstr "計數器"
+
+#: tfrmmultirename.actdateextmask.caption
+msgctxt "tfrmmultirename.actdateextmask.caption"
+msgid "Date"
+msgstr "日期"
+
+#: tfrmmultirename.actdatenamemask.caption
+msgctxt "tfrmmultirename.actdatenamemask.caption"
+msgid "Date"
+msgstr "日期"
+
+#: tfrmmultirename.actdeletepreset.caption
+msgctxt "tfrmmultirename.actdeletepreset.caption"
+msgid "Delete"
+msgstr "刪除"
+
+#: tfrmmultirename.actdropdownpresetlist.caption
+msgid "Drop Down Presets List"
+msgstr ""
+
+#: tfrmmultirename.acteditnames.caption
+msgid "Edit Names..."
+msgstr ""
+
+#: tfrmmultirename.actextextmask.caption
+msgctxt "tfrmmultirename.actextextmask.caption"
+msgid "Extension"
+msgstr "副檔名"
+
+#: tfrmmultirename.actextnamemask.caption
+msgctxt "tfrmmultirename.actextnamemask.caption"
+msgid "Extension"
+msgstr "副檔名"
+
+#: tfrmmultirename.actinvokeeditor.caption
+msgctxt "tfrmmultirename.actinvokeeditor.caption"
 msgid "Edit&or"
 msgstr "編輯 (&E)"
 
-#: tfrmmultirename.btnextmenu.caption
-msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
-msgid "..."
-msgstr "..."
+#: tfrmmultirename.actinvokerelativepath.caption
+msgid "Invoke Relative Path Menu"
+msgstr ""
 
-#: tfrmmultirename.btnloadpreset.caption
-msgid "&Load"
-msgstr "載入 (&L)"
+#: tfrmmultirename.actloadlastpreset.caption
+msgid "Load Last Preset"
+msgstr ""
 
-#: tfrmmultirename.btnnamemenu.caption
-msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
-msgid "..."
-msgstr "..."
+#: tfrmmultirename.actloadnamesfromfile.caption
+msgid "Load Names From File..."
+msgstr ""
 
-#: tfrmmultirename.btnrename.caption
-msgctxt "tfrmmultirename.btnrename.caption"
+#: tfrmmultirename.actloadpreset.caption
+msgid "Load preset by name or index"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset1.caption
+msgid "Load Preset 1"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset2.caption
+msgid "Load Preset 2"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset3.caption
+msgid "Load Preset 3"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset4.caption
+msgid "Load Preset 4"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset5.caption
+msgid "Load Preset 5"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset6.caption
+msgid "Load Preset 6"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset7.caption
+msgid "Load Preset 7"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset8.caption
+msgid "Load Preset 8"
+msgstr ""
+
+#: tfrmmultirename.actloadpreset9.caption
+msgid "Load Preset 9"
+msgstr ""
+
+#: tfrmmultirename.actnameextmask.caption
+msgctxt "tfrmmultirename.actnameextmask.caption"
+msgid "Filename"
+msgstr ""
+
+#: tfrmmultirename.actnamenamemask.caption
+msgctxt "tfrmmultirename.actnamenamemask.caption"
+msgid "Filename"
+msgstr ""
+
+#: tfrmmultirename.actplgnextmask.caption
+msgctxt "tfrmmultirename.actplgnextmask.caption"
+msgid "Plugins"
+msgstr "插件"
+
+#: tfrmmultirename.actplgnnamemask.caption
+msgctxt "tfrmmultirename.actplgnnamemask.caption"
+msgid "Plugins"
+msgstr "插件"
+
+#: tfrmmultirename.actrename.caption
+msgctxt "tfrmmultirename.actrename.caption"
 msgid "&Rename"
 msgstr "重新命名 (&R)"
 
-#: tfrmmultirename.btnrestore.caption
-#, fuzzy
-#| msgid "Reset all"
+#: tfrmmultirename.actrenamepreset.caption
+msgctxt "tfrmmultirename.actrenamepreset.caption"
+msgid "Rename"
+msgstr "重新命名"
+
+#: tfrmmultirename.actresetall.caption
+msgctxt "tfrmmultirename.actresetall.caption"
 msgid "Reset &all"
 msgstr "全部重置 (&A)"
 
-#: tfrmmultirename.btnsavepreset.caption
-msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
-msgid "&Save"
-msgstr "儲存 (&S)"
+#: tfrmmultirename.actsavepreset.caption
+msgctxt "tfrmmultirename.actsavepreset.caption"
+msgid "Save"
+msgstr "儲存 (S)"
+
+#: tfrmmultirename.actsavepresetas.caption
+msgctxt "tfrmmultirename.actsavepresetas.caption"
+msgid "Save As..."
+msgstr "另存新檔 (A)..."
+
+#: tfrmmultirename.actshowpresetsmenu.caption
+msgid "Show Preset Menu"
+msgstr ""
+
+#: tfrmmultirename.actsortpresets.caption
+msgid "Sort"
+msgstr ""
+
+#: tfrmmultirename.acttimeextmask.caption
+msgctxt "tfrmmultirename.acttimeextmask.caption"
+msgid "Time"
+msgstr "時間"
+
+#: tfrmmultirename.acttimenamemask.caption
+msgctxt "tfrmmultirename.acttimenamemask.caption"
+msgid "Time"
+msgstr "時間"
+
+#: tfrmmultirename.actviewrenamelogfile.caption
+msgid "View Rename Log File"
+msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "tfrmmultirename.caption"
@@ -3581,8 +3733,12 @@ msgstr "多重命名工具"
 #, fuzzy
 #| msgid "Enable"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
-msgid "Ena&ble"
+msgid "&Log result"
 msgstr "啟用 (&B)"
+
+#: tfrmmultirename.cblogappend.caption
+msgid "Append"
+msgstr ""
 
 #: tfrmmultirename.cbregexp.caption
 #, fuzzy
@@ -3609,21 +3765,14 @@ msgctxt "TFRMMULTIRENAME.EDPOC.TEXT"
 msgid "1"
 msgstr "1"
 
-#: tfrmmultirename.extension.caption
-msgid "[E] Extension"
-msgstr "[E] 副檔名"
-
 #: tfrmmultirename.gbcounter.caption
+msgctxt "tfrmmultirename.gbcounter.caption"
 msgid "Counter"
 msgstr "計數器"
 
 #: tfrmmultirename.gbfindreplace.caption
 msgid "Find && Replace"
 msgstr "尋找 && 取代"
-
-#: tfrmmultirename.gblog.caption
-msgid "Log Result"
-msgstr "記錄結果"
 
 #: tfrmmultirename.gbmaska.caption
 msgid "Mask"
@@ -3668,119 +3817,15 @@ msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "&Width"
 msgstr "寬度 (&W)"
 
-#: tfrmmultirename.micounter.caption
-msgid "[C] Counter"
-msgstr "[C] 計數器"
+#: tfrmmultirename.miactions.caption
+msgctxt "tfrmmultirename.miactions.caption"
+msgid "Actions"
+msgstr "動作"
 
-#: tfrmmultirename.miday.caption
-msgid "[D] Day"
-msgstr "[D] 日"
-
-#: tfrmmultirename.miday1.caption
-msgid "[DD] Day (2 digits)"
-msgstr "[DD] 日 (2位數)"
-
-#: tfrmmultirename.miday2.caption
-msgid "[DDD] Day of the week (short, e.g., \"mon\")"
-msgstr "[DDD] 每週日數 (縮寫, 例: \"mon\")"
-
-#: tfrmmultirename.miday3.caption
-msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
-msgstr "[DDDD] 每週日數 (整字, 例: \"monday\")"
-
-#: tfrmmultirename.miextensionx.caption
-msgid "[Ex] Character at position x"
-msgstr "[Ex] 位置 x 的字元"
-
-#: tfrmmultirename.miextensionxx.caption
-msgid "[Ex:y] Characters from position x to y"
-msgstr "[Ex:y] 從 x 到 y 位置的字元"
-
-#: tfrmmultirename.mihour.caption
-msgid "[h] Hour"
-msgstr "[h] 小時"
-
-#: tfrmmultirename.mihour1.caption
-msgid "[hh] Hour (2 digits)"
-msgstr "[hh] 小時 (2位數)"
-
-#: tfrmmultirename.miminute.caption
-msgid "[n] Minute"
-msgstr "[n] 分"
-
-#: tfrmmultirename.miminute1.caption
-msgid "[nn] Minute (2 digits)"
-msgstr "[nn] 分 (2位數)"
-
-#: tfrmmultirename.mimonth.caption
-msgid "[M] Month"
-msgstr "[M] 月"
-
-#: tfrmmultirename.mimonth1.caption
-msgid "[MM] Month (2 digits)"
-msgstr "[MM] 月 (2位數)"
-
-#: tfrmmultirename.mimonth2.caption
-msgid "[MMM] Month name (short, e.g., \"jan\")"
-msgstr "[MMM] 月份名稱 (縮寫, 例: \"jan\")"
-
-#: tfrmmultirename.mimonth3.caption
-msgid "[MMMM] Month name (long, e.g., \"january\")"
-msgstr "[MMMM] 月份名稱 (整字, 例: \"january\")"
-
-#: tfrmmultirename.miname.caption
-msgid "[N] Name"
-msgstr "[N] 名稱"
-
-#: tfrmmultirename.minamex.caption
-msgid "[Nx] Character at position x"
-msgstr "[Nx] x 位置的字元"
-
-#: tfrmmultirename.minamexx.caption
-msgid "[Nx:y] Characters from position x to y"
-msgstr "[Nx:y] 從 x 到 y 位置的字元"
-
-#: tfrmmultirename.minext.caption
-msgid "Time..."
-msgstr "時間..."
-
-#: tfrmmultirename.minextextension.caption
-msgid "Extension..."
-msgstr "副檔名..."
-
-#: tfrmmultirename.minextname.caption
-msgid "Name..."
-msgstr "名稱..."
-
-#: tfrmmultirename.miplugin.caption
-#, fuzzy
-msgctxt "TFRMMULTIRENAME.MIPLUGIN.CAPTION"
-msgid "Plugin"
-msgstr "插件"
-
-#: tfrmmultirename.misecond.caption
-msgid "[s] Second"
-msgstr "[s] 秒"
-
-#: tfrmmultirename.misecond1.caption
-msgid "[ss] Second (2 digits)"
-msgstr "[ss] 秒 (2位數)"
-
-#: tfrmmultirename.miyear.caption
-msgid "[Y] Year (2 digits)"
-msgstr "[Y] 年 (2位數)"
-
-#: tfrmmultirename.miyear1.caption
-msgid "[YYYY] Year (4 digits)"
-msgstr "[YYYY] 年 (4位數)"
-
-#: tfrmmultirename.mnueditnames.caption
-msgid "Edit names..."
-msgstr ""
-
-#: tfrmmultirename.mnuloadfromfile.caption
-msgid "Load names from file..."
-msgstr ""
+#: tfrmmultirename.mieditor.caption
+msgctxt "tfrmmultirename.mieditor.caption"
+msgid "Editor"
+msgstr "編輯 (&E)"
 
 #: tfrmmultirename.stringgrid.columns[0].title.caption
 msgctxt "tfrmmultirename.stringgrid.columns[0].title.caption"
@@ -7446,6 +7491,52 @@ msgstr ""
 msgid "Single click (opens folders, double click for files)"
 msgstr ""
 
+#: tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint
+msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint"
+msgid "Some functions to select appropriate path"
+msgstr ""
+
+#: tfrmoptionsmultirename.btnmulrenlogfilenameview.hint
+msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenameview.hint"
+msgid "View log file content"
+msgstr ""
+
+#: tfrmoptionsmultirename.ckbdailyindividualdirmultrenlog.caption
+msgid "Individual directories per day"
+msgstr ""
+
+#: tfrmoptionsmultirename.ckbfilenamewithfullpathinlog.caption
+msgid "Log filenames with full path"
+msgstr ""
+
+#: tfrmoptionsmultirename.ckbshowmenubarontop.caption
+msgid "Show menu bar on top "
+msgstr ""
+
+#: tfrmoptionsmultirename.gbsaverenaminglog.caption
+msgid "Rename log"
+msgstr ""
+
+#: tfrmoptionsmultirename.lbinvalidcharreplacement.caption
+msgid "Replace invalid filename character b&y"
+msgstr ""
+
+#: tfrmoptionsmultirename.rbrenaminglogappendsamefile.caption
+msgid "Append in the same rename log file"
+msgstr ""
+
+#: tfrmoptionsmultirename.rbrenaminglogperpreset.caption
+msgid "Per preset"
+msgstr ""
+
+#: tfrmoptionsmultirename.rgexitmodifiedpreset.caption
+msgid "Exit with modified preset"
+msgstr ""
+
+#: tfrmoptionsmultirename.rglaunchbehavior.caption
+msgid "Preset at launch"
+msgstr ""
+
 #: tfrmoptionspluginsbase.btnaddplugin.caption
 msgctxt "tfrmoptionspluginsbase.btnaddplugin.caption"
 msgid "A&dd"
@@ -9048,6 +9139,57 @@ msgstr ""
 msgid "&OR (any match)"
 msgstr ""
 
+#: tfrmselectpathrange.btppanel.cancelbutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.cancelbutton.caption"
+msgid "Cancel"
+msgstr "取消"
+
+#: tfrmselectpathrange.btppanel.closebutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.closebutton.caption"
+msgid "&Close"
+msgstr "關閉 (&C)"
+
+#: tfrmselectpathrange.btppanel.helpbutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.helpbutton.caption"
+msgid "&Help"
+msgstr "說明 (&H)"
+
+#: tfrmselectpathrange.btppanel.okbutton.caption
+#, fuzzy
+msgctxt "tfrmselectpathrange.btppanel.okbutton.caption"
+msgid "&OK"
+msgstr "確定 (&O)"
+
+#: tfrmselectpathrange.edseparator.editlabel.caption
+msgid "Separat&or"
+msgstr ""
+
+#: tfrmselectpathrange.gbcountfrom.caption
+msgid "Count from"
+msgstr ""
+
+#: tfrmselectpathrange.lblresult.caption
+msgctxt "tfrmselectpathrange.lblresult.caption"
+msgid "Result:"
+msgstr ""
+
+#: tfrmselectpathrange.lblselectdirectories.caption
+msgid "&Select the directories to insert (you may select more than one)"
+msgstr ""
+
+#: tfrmselectpathrange.rbfirstfromend.caption
+msgctxt "tfrmselectpathrange.rbfirstfromend.caption"
+msgid "The en&d"
+msgstr ""
+
+#: tfrmselectpathrange.rbfirstfromstart.caption
+msgctxt "tfrmselectpathrange.rbfirstfromstart.caption"
+msgid "The sta&rt"
+msgstr ""
+
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
 msgid "Cancel"
@@ -9068,11 +9210,54 @@ msgctxt "tfrmselecttextrange.btppanel.okbutton.caption"
 msgid "&OK"
 msgstr "確定 (&O)"
 
+#: tfrmselecttextrange.gbcountfirstfrom.caption
+msgid "Count first from"
+msgstr ""
+
+#: tfrmselecttextrange.gbcountlastfrom.caption
+msgid "Count last from"
+msgstr ""
+
+#: tfrmselecttextrange.gbrangedescription.caption
+msgid "Range description"
+msgstr ""
+
+#: tfrmselecttextrange.lblresult.caption
+msgctxt "tfrmselecttextrange.lblresult.caption"
+msgid "Result:"
+msgstr ""
+
 #: tfrmselecttextrange.lblselecttext.caption
 #, fuzzy
 #| msgid "Select the characters to insert:"
 msgid "&Select the characters to insert:"
 msgstr "選擇要插入的字元: (&S)"
+
+#: tfrmselecttextrange.rbdescriptionfirstlast.caption
+msgid "[&First:Last]"
+msgstr ""
+
+#: tfrmselecttextrange.rbdescriptionfirstlength.caption
+msgid "[First,&Length]"
+msgstr ""
+
+#: tfrmselecttextrange.rbfirstfromend.caption
+msgctxt "tfrmselecttextrange.rbfirstfromend.caption"
+msgid "The en&d"
+msgstr ""
+
+#: tfrmselecttextrange.rbfirstfromstart.caption
+msgctxt "tfrmselecttextrange.rbfirstfromstart.caption"
+msgid "The sta&rt"
+msgstr ""
+
+#: tfrmselecttextrange.rblastfromend.caption
+msgid "The &end"
+msgstr ""
+
+#: tfrmselecttextrange.rblastfromstart.caption
+msgid "The s&tart"
+msgstr ""
 
 #: tfrmsetfileproperties.btncancel.caption
 #, fuzzy
@@ -9236,6 +9421,28 @@ msgstr ""
 #: tfrmsetfileproperties.zvlastwritedatetime.textfornulldate
 msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
+msgstr ""
+
+#: tfrmsortanything.btncancel.caption
+#, fuzzy
+msgctxt "tfrmsortanything.btncancel.caption"
+msgid "&Cancel"
+msgstr "取消 (&C)"
+
+#: tfrmsortanything.btnok.caption
+msgid "&O&K"
+msgstr ""
+
+#: tfrmsortanything.btnsort.caption
+msgid "&Sort"
+msgstr ""
+
+#: tfrmsortanything.caption
+msgid "frmSortAnything"
+msgstr ""
+
+#: tfrmsortanything.lblsortanything.caption
+msgid "Drag and drop elements to sort them"
 msgstr ""
 
 #: tfrmsplitter.btnrelativeftchoice.hint
@@ -11057,6 +11264,7 @@ msgid "Creation date/time"
 msgstr "建立日期/時間"
 
 #: ulng.rsfuncext
+msgctxt "ulng.rsfuncext"
 msgid "Extension"
 msgstr "副檔名"
 
@@ -11148,6 +11356,11 @@ msgstr "尋找檔案"
 #: ulng.rshotkeycategorymain
 msgid "Main"
 msgstr "主視窗"
+
+#: ulng.rshotkeycategorymultirename
+msgctxt "ulng.rshotkeycategorymultirename"
+msgid "MultiRename"
+msgstr "多重命名工具"
 
 #: ulng.rshotkeycategorysyncdirs
 msgid "Synchronize Directories"
@@ -12151,6 +12364,10 @@ msgstr "移除【%s】(&D)"
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "預先配置檔【%s】已存在。是否要覆蓋?"
 
+#: ulng.rsmsgpresetconfigdelete
+msgid "Are you sure you want to delete preset \"%s\"?"
+msgstr ""
+
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
 msgstr ""
@@ -12451,6 +12668,54 @@ msgstr ""
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
 msgstr ""
 
+#: ulng.rsmulrenclearmask
+msgid "Clear mask"
+msgstr ""
+
+#: ulng.rsmulrencounter
+msgctxt "ulng.rsmulrencounter"
+msgid "Counter"
+msgstr "計數器"
+
+#: ulng.rsmulrendate
+msgctxt "ulng.rsmulrendate"
+msgid "Date"
+msgstr "日期"
+
+#: ulng.rsmulrendefaultpresetname
+msgid "Preset name"
+msgstr ""
+
+#: ulng.rsmulrendefinevariablename
+msgid "Define variable name"
+msgstr ""
+
+#: ulng.rsmulrendefinevariablevalue
+msgid "Define variable value"
+msgstr ""
+
+#: ulng.rsmulrenenternameforvar
+msgid "Enter variable name"
+msgstr ""
+
+#: ulng.rsmulrenentervalueforvar
+msgid "Enter value for variable \"%s\""
+msgstr ""
+
+#: ulng.rsmulrenexitmodifiedpresetoptions
+msgid "Ignore, just save as the [Last One];Prompt user to confirm if we save it;Save automatically"
+msgstr ""
+
+#: ulng.rsmulrenextension
+msgctxt "ulng.rsmulrenextension"
+msgid "Extension"
+msgstr "副檔名"
+
+#: ulng.rsmulrenfilename
+msgctxt "ulng.rsmulrenfilename"
+msgid "Name"
+msgstr "名稱"
+
 #: ulng.rsmulrenfilenamestylelist
 #, fuzzy
 #| msgid "No change;UPPERCASE;lowercase;First Char Big;"
@@ -12460,6 +12725,162 @@ msgstr "不變更;大寫;小寫;首字大寫;每個單字首字大寫;"
 #: ulng.rsmulrenlastpreset
 msgid "[The last used]"
 msgstr ""
+
+#: ulng.rsmulrenlaunchbehavioroptions
+msgid "Last masks under [Last One] preset;Last preset;New fresh masks"
+msgstr ""
+
+#: ulng.rsmulrenlogstart
+msgctxt "ulng.rsmulrenlogstart"
+msgid "MultiRename"
+msgstr "多重命名工具"
+
+#: ulng.rsmulrenmaskcharatposx
+msgid "Character at position x"
+msgstr "位置 x 的字元"
+
+#: ulng.rsmulrenmaskcharatposxtoy
+msgid "Characters from position x to y"
+msgstr "從 x 到 y 位置的字元"
+
+#: ulng.rsmulrenmaskcompletedate
+msgid "Complete date"
+msgstr ""
+
+#: ulng.rsmulrenmaskcompletetime
+msgid "Complete time"
+msgstr ""
+
+#: ulng.rsmulrenmaskcounter
+msgctxt "ulng.rsmulrenmaskcounter"
+msgid "Counter"
+msgstr "計數器"
+
+#: ulng.rsmulrenmaskday
+msgid "Day"
+msgstr "日"
+
+#: ulng.rsmulrenmaskday2digits
+msgid "Day (2 digits)"
+msgstr "日 (2位數)"
+
+#: ulng.rsmulrenmaskdowabrev
+msgid "Day of the week (short, e.g., \"mon\")"
+msgstr "每週日數 (縮寫, 例: \"mon\")"
+
+#: ulng.rsmulrenmaskdowcomplete
+msgid "Day of the week (long, e.g., \"monday\")"
+msgstr "每週日數 (整字, 例: \"monday\")"
+
+#: ulng.rsmulrenmaskextension
+msgctxt "ulng.rsmulrenmaskextension"
+msgid "Extension"
+msgstr "副檔名"
+
+#: ulng.rsmulrenmaskfullname
+msgid "Complete filename with path and extension"
+msgstr ""
+
+#: ulng.rsmulrenmaskfullnamecharatposxtoy
+msgid "Complete filename, char from pos x to y"
+msgstr ""
+
+#: ulng.rsmulrenmaskguid
+msgid "GUID"
+msgstr ""
+
+#: ulng.rsmulrenmaskhour
+msgid "Hour"
+msgstr "小時"
+
+#: ulng.rsmulrenmaskhour2digits
+msgid "Hour (2 digits)"
+msgstr "小時 (2位數)"
+
+#: ulng.rsmulrenmaskmin
+msgid "Minute"
+msgstr "分"
+
+#: ulng.rsmulrenmaskmin2digits
+msgid "Minute (2 digits)"
+msgstr "分 (2位數)"
+
+#: ulng.rsmulrenmaskmonth
+msgid "Month"
+msgstr "月"
+
+#: ulng.rsmulrenmaskmonth2digits
+msgid "Month (2 digits)"
+msgstr "月 (2位數)"
+
+#: ulng.rsmulrenmaskmonthabrev
+msgid "Month name (short, e.g., \"jan\")"
+msgstr "月份名稱 (縮寫, 例: \"jan\")"
+
+#: ulng.rsmulrenmaskmonthcomplete
+msgid "Month name (long, e.g., \"january\")"
+msgstr "月份名稱 (整字, 例: \"january\")"
+
+#: ulng.rsmulrenmaskname
+msgctxt "ulng.rsmulrenmaskname"
+msgid "Name"
+msgstr "名稱"
+
+#: ulng.rsmulrenmaskparent
+msgid "Parent folder(s)"
+msgstr ""
+
+#: ulng.rsmulrenmasksec
+msgid "Second"
+msgstr "秒"
+
+#: ulng.rsmulrenmasksec2digits
+msgid "Second (2 digits)"
+msgstr "秒 (2位數)"
+
+#: ulng.rsmulrenmaskvaronthefly
+msgid "Variable on the fly"
+msgstr ""
+
+#: ulng.rsmulrenmaskyear2digits
+msgid "Year (2 digits)"
+msgstr "年 (2位數)"
+
+#: ulng.rsmulrenmaskyear4digits
+msgid "Year (4 digits)"
+msgstr "年 (4位數)"
+
+#: ulng.rsmulrenplugins
+msgctxt "ulng.rsmulrenplugins"
+msgid "Plugins"
+msgstr "插件"
+
+#: ulng.rsmulrenpromptforsavedpresetname
+msgid "Save preset as"
+msgstr ""
+
+#: ulng.rsmulrenpromptnewnameexists
+msgid "Preset name already exists. Overwrite?"
+msgstr ""
+
+#: ulng.rsmulrenpromptnewpresetname
+msgid "Enter new preset name"
+msgstr ""
+
+#: ulng.rsmulrensavemodifiedpreset
+msgid ""
+"\"%s\" preset has been modified.\n"
+"Do you want to save it now?\n"
+msgstr ""
+
+#: ulng.rsmulrensortingpresets
+msgid "Sorting presets"
+msgstr ""
+
+#: ulng.rsmulrentime
+msgctxt "ulng.rsmulrentime"
+msgid "Time"
+msgstr "時間"
 
 #: ulng.rsmulrenwarningduplicate
 msgid "Warning, duplicate names!"
@@ -13202,6 +13623,11 @@ msgstr "雜項"
 msgid "Mouse"
 msgstr "滑鼠"
 
+#: ulng.rsoptionseditormultirename
+msgctxt "ulng.rsoptionseditormultirename"
+msgid "MultiRename"
+msgstr "多重命名工具"
+
 #: ulng.rsoptionseditoroptionschanged
 msgid ""
 "Options have changed in \"%s\"\n"
@@ -13604,6 +14030,7 @@ msgid "False"
 msgstr ""
 
 #: ulng.rssimplewordfilename
+msgctxt "ulng.rssimplewordfilename"
 msgid "Filename"
 msgstr ""
 
@@ -13629,6 +14056,10 @@ msgstr ""
 
 #: ulng.rssimplewordtrue
 msgid "True"
+msgstr ""
+
+#: ulng.rssimplewordvariable
+msgid "Variable"
 msgstr ""
 
 #: ulng.rssimplewordworkdir

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Globals variables and some consts
 
-   Copyright (C) 2008-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -91,6 +91,12 @@ type
   { Operations with confirmation }
   TFileOperationsConfirmation = (focCopy, focMove, focDelete, focDeleteToTrash, focVerifyChecksum);
   TFileOperationsConfirmations = set of TFileOperationsConfirmation;
+
+  { MultiRename }
+  TMulRenLaunchBehavior = (mrlbLastMaskUnderLastOne, mrlbLastPreset, mrlbFreshNew);
+  TMulRenExitModifiedPreset = (mrempIgnoreSaveLast, mrempPromptUser, mrempSaveAutomatically);
+  TMulRenSaveRenamingLog = (mrsrlPerPreset, mrsrlAppendSameLog);
+
   { Internal Associations}
   //What the use wish for the context menu
   // uwcmComplete : DEFAULT, or user specifically wish the "Windows' one + the actions".
@@ -163,8 +169,17 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 49;
+  hkVersion = 50;
+  // 50 - To load shortcut keys for the "MultiRename" which is now driven with "cm_Actions".
+  // 49 - In "Viewer" context, added the "F6" for "cm_ShowCaret".
+  // 48 - In "Viewer" context, added the "CTRL+P" for the "cm_Print".
   // 47 - In "Copy/Move Dialog" context, add the shortcuts "F5" and "F6" for "cm_ToggleSelectionInName".
+  // 46 - In "Main" context, add shortcut "Shift+Tab" for "cm_FocusTreeView".
+  // 45 - Automatically add default shortcuts to internal editor (shortcuts had not converted correctly without hkVersion update)
+  // 44 - Attempt to repair shortcut keys for "cm_ShowCmdLineHistory" in "Main" context.
+  // 43 - To load shortcut keys for the "Synchronize Directories" which is driven with "cm_Actions".
+  // 42 - In "Find Files" context, added the "CTRL+TAB" and "CTRL+SHIFT+TAB" shortcut keys for the "cm_PageNext" and "cm_PagePrev" commands.
+  // 41 - Keyboard shortcuts to change encoding in Viewer (A, S, Z and X).
   // 40 - In "Main" context, added the "Ctrl+Shift+F7" for "cm_AddNewSearch".
   //      In "Find Files" context, changed "cm_Start" that was "Enter" for "F9".
   //      In "Find Files" context, added "Alt+F7" as a valid alternative for "cm_PageStandard".
@@ -484,6 +499,17 @@ var
   gAutoExtractOpenMask: String;
   gFileOperationsProgressKind: TFileOperationsProgressKind;
   gFileOperationsConfirmations: TFileOperationsConfirmations;
+
+  { MultiRename}
+  gMulRenShowMenuBarOnTop : boolean;
+  gMulRenInvalidCharReplacement : string;
+  gMulRenLaunchBehavior : TMulRenLaunchBehavior;
+  gMulRenExitModifiedPreset : TMulRenExitModifiedPreset;
+  gMulRenSaveRenamingLog : TMulRenSaveRenamingLog;
+  gMulRenLogFilename : string;
+  gMultRenDailyIndividualDirLog: boolean;
+  gMulRenFilenameWithFullPathInLog:boolean;
+  gMulRenPathRangeSeparator: string;
 
   { Folder tabs page }
   gDirTabOptions : TTabsOptions;
@@ -1253,6 +1279,52 @@ begin
       AddIfNotExists(VK_TAB, [ssModifier, ssShift], 'cm_PagePrev');
     end;
 
+  HMForm := HotMan.Forms.FindOrCreate(HotkeysCategoryMultiRename);
+  with HMForm.Hotkeys do
+    begin
+      AddIfNotExists(['Ctrl+R'],[],'cm_ResetAll');
+      AddIfNotExists(['Ctrl+I'],[],'cm_InvokeEditor');
+      AddIfNotExists(['F3'],[],'cm_LoadNamesFromFile');
+      AddIfNotExists(['F4'],[],'cm_EditNames');
+      AddIfNotExists(['F10'],[],'cm_Config');
+      AddIfNotExists(['F9'],[],'cm_Rename');
+      AddIfNotExists(['Esc'],[],'cm_Close');
+
+      AddIfNotExists(['Shift+F2'],[],'cm_ShowPresetsMenu');
+      AddIfNotExists(['F2'],[],'cm_DropDownPresetList');
+      AddIfNotExists(['Alt+0'],[],'cm_LoadLastPreset');
+      AddIfNotExists(['Alt+1'],[],'cm_LoadPreset1');
+      AddIfNotExists(['Alt+2'],[],'cm_LoadPreset2');
+      AddIfNotExists(['Alt+3'],[],'cm_LoadPreset3');
+      AddIfNotExists(['Alt+4'],[],'cm_LoadPreset4');
+      AddIfNotExists(['Alt+5'],[],'cm_LoadPreset5');
+      AddIfNotExists(['Alt+6'],[],'cm_LoadPreset6');
+      AddIfNotExists(['Alt+7'],[],'cm_LoadPreset7');
+      AddIfNotExists(['Alt+8'],[],'cm_LoadPreset8');
+      AddIfNotExists(['Alt+9'],[],'cm_LoadPreset9');
+      AddIfNotExists(['Ctrl+S'],[],'cm_SavePreset');
+      AddIfNotExists(['F12'],[],'cm_SavePresetAs');
+      AddIfNotExists(['Shift+F6'],[],'cm_RenamePreset');
+      AddIfNotExists(['Ctrl+D'],[],'cm_DeletePreset');
+      AddIfNotExists(['Ctrl+Shift+S'],[],'cm_SortPresets');
+
+      AddIfNotExists(['Ctrl+F2'],[],'cm_AnyNameMask');
+      AddIfNotExists(['Ctrl+F3'],[],'cm_NameNameMask');
+      AddIfNotExists(['Ctrl+F4'],[],'cm_ExtNameMask');
+      AddIfNotExists(['Ctrl+F7'],[],'cm_CtrNameMask');
+      AddIfNotExists(['Ctrl+F5'],[],'cm_DateNameMask');
+      AddIfNotExists(['Ctrl+F6'],[],'cm_TimeNameMask');
+      AddIfNotExists(['Ctrl+F1'],[],'cm_PlgnNameMask');
+
+      AddIfNotExists(['Ctrl+Shift+F2'],[],'cm_AnyExtMask');
+      AddIfNotExists(['Ctrl+Shift+F3'],[],'cm_NameExtMask');
+      AddIfNotExists(['Ctrl+Shift+F4'],[],'cm_ExtExtMask');
+      AddIfNotExists(['Ctrl+Shift+F7'],[],'cm_CtrExtMask');
+      AddIfNotExists(['Ctrl+Shift+F5'],[],'cm_DateExtMask');
+      AddIfNotExists(['Ctrl+Shift+F6'],[],'cm_TimeExtMask');
+      AddIfNotExists(['Ctrl+Shift+F1'],[],'cm_PlgnExtMask');
+    end;
+
   if not mbFileExists(gpCfgDir + gNameSCFile) then
     gNameSCFile := 'shortcuts.scf';
   HotMan.Save(gpCfgDir + gNameSCFile);
@@ -1691,6 +1763,17 @@ begin
   gAutoExtractOpenMask := EmptyStr;
   gFileOperationsProgressKind := fopkSeparateWindow;
   gFileOperationsConfirmations := [focCopy, focMove, focDelete, focDeleteToTrash];
+
+  { MultiRename }
+  gMulRenShowMenuBarOnTop := True;
+  gMulRenInvalidCharReplacement := '.';
+  gMulRenLaunchBehavior := mrlbLastMaskUnderLastOne;
+  gMulRenExitModifiedPreset := mrempIgnoreSaveLast;
+  gMulRenSaveRenamingLog := mrsrlPerPreset;
+  gMulRenLogFilename := EnvVarConfigPath + PathDelim + 'multirename.log';
+  gMultRenDailyIndividualDirLog := True;
+  gMulRenFilenameWithFullPathInLog:= False;
+  gMulRenPathRangeSeparator := ' - ';
 
   // Operations options
   gOperationOptionSymLinks := fsooslNone;
@@ -2673,6 +2756,21 @@ begin
       begin
         gExtractOverwrite := GetValue(SubNode, 'Overwrite', gExtractOverwrite);
       end;
+
+      // MultiRename
+      SubNode := Node.FindNode('MultiRename');
+      if Assigned(SubNode) then
+      begin
+        gMulRenShowMenuBarOnTop := GetValue(SubNode, 'MulRenShowMenuBarOnTop', gMulRenShowMenuBarOnTop);
+        gMulRenInvalidCharReplacement := GetValue(SubNode, 'MulRenInvalidCharReplacement', gMulRenInvalidCharReplacement);
+        gMulRenLaunchBehavior := TMulRenLaunchBehavior(GetValue(SubNode, 'MulRenLaunchBehavor', Integer(gMulRenLaunchBehavior)));
+        gMulRenExitModifiedPreset := TMulRenExitModifiedPreset(GetValue(SubNode, 'MulRenExitModifiedPreset', Integer(gMulRenExitModifiedPreset)));
+        gMulRenSaveRenamingLog := TMulRenSaveRenamingLog(GetValue(SubNode, 'MulRenSaveRenamingLog', Integer(gMulRenSaveRenamingLog)));
+        gMulRenLogFilename := GetValue(SubNode, 'MulRenLogFilename', gMulRenLogFilename);
+        gMultRenDailyIndividualDirLog := GetValue(SubNode, 'MultRenDailyIndividualDirLog', gMultRenDailyIndividualDirLog);
+        gMulRenFilenameWithFullPathInLog := GetValue(SubNode, 'MulRenFilenameWithFullPathInLog', gMulRenFilenameWithFullPathInLog);
+        gMulRenPathRangeSeparator := GetValue(SubNode, 'MulRenPathRangeSeparator', gMulRenPathRangeSeparator);
+      end;
     end;
 
     { Tabs page }
@@ -3293,6 +3391,18 @@ begin
     begin
       SetValue(SubNode, 'Overwrite', gExtractOverwrite);
     end;
+
+    // MultiRename
+    SubNode := FindNode(Node, 'MultiRename', True);
+    SetValue(SubNode, 'MulRenShowMenuBarOnTop', gMulRenShowMenuBarOnTop);
+    SetValue(SubNode, 'MulRenInvalidCharReplacement', gMulRenInvalidCharReplacement);
+    SetValue(SubNode, 'MulRenLaunchBehavor', Integer(gMulRenLaunchBehavior));
+    SetValue(SubNode, 'MulRenExitModifiedPreset', Integer(gMulRenExitModifiedPreset));
+    SetValue(SubNode, 'MulRenSaveRenamingLog', Integer(gMulRenSaveRenamingLog));
+    SetValue(SubNode, 'MulRenLogFilename', gMulRenLogFilename);
+    SetValue(SubNode, 'MultRenDailyIndividualDirLog', gMultRenDailyIndividualDirLog);
+    SetValue(SubNode, 'MulRenFilenameWithFullPathInLog', gMulRenFilenameWithFullPathInLog);
+    SetValue(SubNode, 'MulRenPathRangeSeparator', gMulRenPathRangeSeparator);
 
     { Tabs page }
     Node := FindNode(Root, 'Tabs', True);

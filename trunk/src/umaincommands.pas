@@ -4,7 +4,7 @@
    This unit contains DC actions of the main form
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2008-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2008-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -3490,6 +3490,8 @@ end;
 procedure TMainCommands.cm_MultiRename(const Params: array of string);
 var
   aFiles: TFiles;
+  sValue, Param: string;
+  sPresetToLoad: string = '';
 begin
   with frmMain do
   begin
@@ -3503,7 +3505,13 @@ begin
     if Assigned(aFiles) then
       try
         if aFiles.Count > 0 then
-          ShowMultiRenameForm(ActiveFrame.FileSource, aFiles)
+        begin
+          for Param in Params do
+            if GetParamValue(Param, 'preset', sValue) then
+              sPresetToLoad := sValue;
+
+          ShowMultiRenameForm(ActiveFrame.FileSource, aFiles, sPresetToLoad)
+        end
         else
           msgWarning(rsMsgNoFilesSelected);
       finally

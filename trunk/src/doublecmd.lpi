@@ -289,7 +289,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="260">
+    <Units Count="263">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1885,6 +1885,30 @@ end;"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsToolbarMiddle"/>
       </Unit259>
+      <Unit260>
+        <Filename Value="frames\foptionsMultiRename.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsMultiRename"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsMultiRename"/>
+      </Unit260>
+      <Unit261>
+        <Filename Value="fsortanything.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSortAnything"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fSortAnything"/>
+      </Unit261>
+      <Unit262>
+        <Filename Value="fselectpathrange.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSelectPathRange"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fSelectPathRange"/>
+      </Unit262>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
