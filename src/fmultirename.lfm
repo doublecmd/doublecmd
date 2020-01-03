@@ -697,6 +697,7 @@ object frmMultiRename: TfrmMultiRename
     end
   end
   object pmEditDirect: TPopupMenu
+    Images = dmComData.ilEditorImages
     left = 504
     top = 160
     object mnuLoadFromFile: TMenuItem

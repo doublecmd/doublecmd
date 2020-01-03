@@ -160,7 +160,7 @@ inherited frmOptionsMultiRename: TfrmOptionsMultiRename
       Hint = 'Some functions to select appropriate path'
       Top = 56
       Width = 24
-      Anchors = [akRight, akBottom]
+      Anchors = [akTop, akRight, akBottom]
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         20000000000000040000640000006400000000000000000000002C86D8702D88
@@ -210,7 +210,7 @@ inherited frmOptionsMultiRename: TfrmOptionsMultiRename
       Hint = 'View log file content'
       Top = 56
       Width = 24
-      Anchors = [akRight, akBottom]
+      Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Right = 8
       Glyph.Data = {
         36030000424D3603000000000000360000002800000010000000100000000100
