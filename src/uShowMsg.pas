@@ -6,19 +6,18 @@
 
    Copyright (C) 2007-2018 Alexander Koblov (alexx2000@mail.ru)
 
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
+   This library is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
 
    This library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+   You should have received a copy of the GNU General Public License
+   along with this library. If not, see <http://www.gnu.org/licenses/>.
 }
 
 {
@@ -95,10 +94,10 @@ type
     function ShowInputQuery(const ACaption, APrompt: String; MaskInput: Boolean; var Value: String) : Boolean;
   end;
 
-function msgYesNo(const sMsg: String): Boolean; overload;
+function msgYesNo(const sMsg: String; ButDefault: TMyMsgButton = msmbYes): Boolean; overload;
 function msgYesNo(Thread: TThread; const sMsg: String): Boolean; overload;
 
-function msgYesNoCancel(const sMsg: String): TMyMsgResult; overload;
+function msgYesNoCancel(const sMsg: String; ButDefault: TMyMsgButton = msmbYes):TMyMsgResult; overload;
 function msgYesNoCancel(Thread: TThread; const sMsg: String): TMyMsgResult; overload;
 
 procedure msgOK(const sMsg: String); overload;
@@ -440,9 +439,9 @@ begin
                        msmbAppend, msmbOverwrite, msmbOverwriteAll],msmbOK, msmbNO);
 end;
 
-function msgYesNo(const sMsg: String):Boolean;
+function msgYesNo(const sMsg: String; ButDefault: TMyMsgButton = msmbYes):Boolean;
 begin
-  Result:= MsgBox(nil, sMsg,[msmbYes, msmbNo], msmbYes, msmbNo )= mmrYes;
+  Result:= MsgBox(nil, sMsg,[msmbYes, msmbNo], ButDefault, msmbNo )= mmrYes;
 end;
 
 function msgYesNo(Thread: TThread; const sMsg: String): Boolean;
@@ -450,9 +449,9 @@ begin
   Result:= MsgBox(Thread, sMsg,[msmbYes, msmbNo], msmbYes, msmbNo )= mmrYes;
 end;
 
-function msgYesNoCancel(const sMsg: String):TMyMsgResult;
+function msgYesNoCancel(const sMsg: String; ButDefault: TMyMsgButton = msmbYes):TMyMsgResult;
 begin
-  Result:= MsgBox(sMsg,[msmbYes, msmbNo, msmbCancel], msmbYes, msmbCancel);
+  Result:= MsgBox(sMsg,[msmbYes, msmbNo, msmbCancel], ButDefault, msmbCancel);
 end;
 
 function msgYesNoCancel(Thread: TThread; const sMsg: String): TMyMsgResult;
