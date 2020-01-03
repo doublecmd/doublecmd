@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Build-in Editor using SynEdit and his Highlighters
 
-   Copyright (C) 2006-2019  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2020  Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -366,7 +366,7 @@ procedure TfrmEditor.EditorMouseWheelDown(Sender: TObject; Shift: TShiftState;
 var
    t:integer;
 begin
-  if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size>MIN_FONT_SIZE_EDITOR) then
+  if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size > gFonts[dcfEditor].MinValue) then
   begin
     t:=Editor.TopLine;
     gFonts[dcfEditor].Size:=gFonts[dcfEditor].Size-1;
@@ -383,7 +383,7 @@ procedure TfrmEditor.EditorMouseWheelUp(Sender: TObject; Shift: TShiftState;
 var
    t:integer;
 begin
-  if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size<MAX_FONT_SIZE_EDITOR) then
+  if (Shift=[ssCtrl])and(gFonts[dcfEditor].Size < gFonts[dcfEditor].MaxValue) then
   begin
     t:=Editor.TopLine;
     gFonts[dcfEditor].Size:=gFonts[dcfEditor].Size+1;

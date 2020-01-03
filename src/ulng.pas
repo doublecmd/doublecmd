@@ -146,6 +146,18 @@ resourcestring
   rsOptArchiverUseUTF8 = 'Use UTF8 encoding';
   rsOptArchiveConfigureSaveToChange = 'To change current editing archive configuration, either APPLY or DELETE current editing one';
 
+  // Font
+  rsFontUsageMain = 'Main &Font';
+  rsFontUsageEditor = '&Editor Font';
+  rsFontUsageViewer = '&Viewer Font';
+  rsFontUsageViewerBook = 'Viewer&Book Font';
+  rsFontUsageLog = '&Log Font';
+  rsFontUsageConsole = '&Console Font';
+  rsFontUsagePathEdit = 'Path Font';
+  rsFontUsageFunctionButtons = 'Function Buttons Font';
+  rsFontUsageSearchResults = 'Search Results Font';
+  rsFontUsageTreeViewMenu = 'Tree View Menu Font';
+
   // Tooltip section
   rsOptTooltipConfigureSaveToChange = 'To change file type tooltip configuration, either APPLY or DELETE current editing one';
   rsOptToolTipsFileTypeName = 'Tooltip file type name';

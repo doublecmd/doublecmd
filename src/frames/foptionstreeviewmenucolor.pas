@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Configuration of Tree View Menu Color and Layout.
 
-   Copyright (C) 2016 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2016-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsTreeViewMenuColor;
@@ -29,13 +28,19 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus,
-  Dialogs, ComCtrls, ColorBox,
+  Dialogs, ComCtrls, ColorBox, Spin,
 
   //DC
-  fOptionsFrame, fTreeViewMenu;
+  uGlobs, fOptionsFrame, fTreeViewMenu, Types;
+
 type
   { TfrmOptionsTreeViewMenuColor }
   TfrmOptionsTreeViewMenuColor = class(TOptionsEditor)
+    btFont: TButton;
+    dlgFnt: TFontDialog;
+    edFontName: TEdit;
+    sedFont: TSpinEdit;
+    gbFont: TGroupBox;
     gbLayoutAndColors: TGroupBox;
     cbkUsageKeyboardShortcut: TCheckBox;
     lblBackgroundColor: TLabel;
@@ -76,8 +81,15 @@ type
     btnUnselectableUnderCursor: TButton;
     lblPreview: TLabel;
     TreeViewMenuSample: TTreeView;
-    optColorDialog: TColorDialog;  procedure btnChooseColorClick(Sender: TObject);
+    optColorDialog: TColorDialog;
+    procedure btFontClick(Sender: TObject);
+    procedure btnChooseColorClick(Sender: TObject);
     procedure RefreshColorOfOurSampleClick(Sender: TObject);
+    procedure sedFontChange(Sender: TObject);
+    procedure TreeViewMenuSampleMouseWheelDown(Sender: TObject;
+      Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+    procedure TreeViewMenuSampleMouseWheelUp(Sender: TObject;
+      Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
   protected
     procedure Init; override;
     procedure Load; override;
@@ -85,7 +97,9 @@ type
   private
     { Private declarations }
     TreeViewMenuGenericRoutineAndVarHolder: TTreeViewMenuGenericRoutineAndVarHolder;
+    TempoFont: TDCFontOptions;
     ColorBoxPointer: array[1..12] of TColorBox;
+    procedure ApplyTempoFontToVisual;
   public
     { Public declarations }
     class function GetIconIndex: integer; override;
@@ -102,7 +116,7 @@ uses
   Graphics, LCLType, LCLProc, LCLIntf,
 
   //DC
-  uGlobs, uLng, uDCUtils, fmain, DCOSUtils;
+  uLng, uDCUtils, fmain, DCOSUtils;
 
 { TfrmOptionsTreeViewMenuColor.Init }
 procedure TfrmOptionsTreeViewMenuColor.Init;
@@ -200,6 +214,8 @@ begin
   SetColorInColorBox(cbSecondaryTextUnderCursor, gTVMSecondaryTextUnderCursor);
   SetColorInColorBox(cbFoundTextUnderCursor, gTVMFoundTextUnderCursor);
   SetColorInColorBox(cbUnselectableUnderCursor, gTVMUnselectableUnderCursor);
+  TempoFont := gFonts[dcfTreeViewMenu];
+  ApplyTempoFontToVisual;
 end;
 
 { TfrmOptionsTreeViewMenuColor.Save }
@@ -219,6 +235,7 @@ begin
   gTVMSecondaryTextUnderCursor := cbSecondaryTextUnderCursor.Selected;
   gTVMFoundTextUnderCursor := cbFoundTextUnderCursor.Selected;
   gTVMUnselectableUnderCursor := cbUnselectableUnderCursor.Selected;
+  gFonts[dcfTreeViewMenu] := TempoFont;
 end;
 
 { TfrmOptionsTreeViewMenuColor.GetIconIndex }
@@ -273,6 +290,61 @@ begin
   end;
 end;
 
+{ TfrmOptionsTreeViewMenuColor.ApplyTempoFontToVisual }
+procedure TfrmOptionsTreeViewMenuColor.ApplyTempoFontToVisual;
+begin
+  FontOptionsToFont(TempoFont, edFontName.Font);
+  FontOptionsToFont(TempoFont, TreeViewMenuSample.Font);
+  FontOptionsToFont(TempoFont, sedFont.Font);
+  FontOptionsToFont(TempoFont, btFont.Font);
+  edFontName.Text := TempoFont.Name;
+  if sedFont.Value <> TempoFont.Size then
+    sedFont.Value := TempoFont.Size;
+end;
+
+{ TfrmOptionsTreeViewMenuColor.sedFontChange }
+procedure TfrmOptionsTreeViewMenuColor.sedFontChange(Sender: TObject);
+begin
+  if TempoFont.Size <> TSpinEdit(Sender).Value then
+  begin
+    TempoFont.Size := TSpinEdit(Sender).Value;
+    ApplyTempoFontToVisual;
+  end;
+end;
+
+{ TfrmOptionsTreeViewMenuColor.btFontClick }
+procedure TfrmOptionsTreeViewMenuColor.btFontClick(Sender: TObject);
+begin
+  FontOptionsToFont(TempoFont, dlgFnt.Font);
+  if dlgFnt.Execute then
+  begin
+    FontToFontOptions(dlgFnt.Font, TempoFont);
+    ApplyTempoFontToVisual;
+  end;
+end;
+
+{ TfrmOptionsTreeViewMenuColor.TreeViewMenuSampleMouseWheelDown }
+procedure TfrmOptionsTreeViewMenuColor.TreeViewMenuSampleMouseWheelDown(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+begin
+  if (Shift = [ssCtrl]) and (TempoFont.Size > TempoFont.MinValue) then
+  begin
+    dec(TempoFont.Size);
+    ApplyTempoFontToVisual;
+    Handled := True;
+  end;
+
+end;
+
+{ TfrmOptionsTreeViewMenuColor.TreeViewMenuSampleMouseWheelUp }
+procedure TfrmOptionsTreeViewMenuColor.TreeViewMenuSampleMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+begin
+  if (Shift = [ssCtrl]) and (TempoFont.Size < TempoFont.MaxValue) then
+  begin
+    inc(TempoFont.Size);
+    ApplyTempoFontToVisual;
+    Handled := True;
+  end;
+end;
 
 
 end.

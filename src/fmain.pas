@@ -2,7 +2,7 @@
    Double Commander
    -------------------------------------------------------------------------
    Licence  : GNU GPL v 2.0
-   Copyright (C) 2006-2019 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2020 Alexander Koblov (Alexx2000@mail.ru)
 
    Main Dialog window
 
@@ -1130,7 +1130,7 @@ end;
 procedure TfrmMain.btnF3MouseWheelDown(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  if (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size > MIN_FONT_SIZE_FUNCTION_BUTTONS) then
+  if (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size > gFonts[dcfFunctionButtons].MinValue) then
   begin
     Dec(gFonts[dcfFunctionButtons].Size);
     UpdateGUIFunctionKeys;
@@ -1140,7 +1140,7 @@ end;
 procedure TfrmMain.btnF3MouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  if (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size < MAX_FONT_SIZE_FUNCTION_BUTTONS) then
+  if (ssCtrl in Shift) and (gFonts[dcfFunctionButtons].Size < gFonts[dcfFunctionButtons].MaxValue) then
   begin
     Inc(gFonts[dcfFunctionButtons].Size);
     UpdateGUIFunctionKeys;
@@ -4761,9 +4761,9 @@ begin
         cmdConsole.CaretType:= cartSubBar;
         cmdConsole.OnInput:= @OnCmdBoxInput;
         ShowScrollBar(cmdConsole.Handle, SB_Horz, False);
-        FontOptionsToFont(gFonts[dcfConsole], cmdConsole.Font);
         cmdConsole.Hint:= Format(fmtCommandPath, [GetComputerNetName]);
       end;
+      FontOptionsToFont(gFonts[dcfConsole], cmdConsole.Font); //We set the font here because if we're coming back from configuration the font in options, we'll later pass here to affect that font if ever displayed.
       if gCmdLine then
       begin
         cmdConsole.Tag := 0;
@@ -5920,7 +5920,7 @@ begin
     if pnlKeys.Controls[I] is TSpeedButton then
     begin
       AButton:= TSpeedButton(pnlKeys.Controls[I]);
-      AButton.Font.Size := gFonts[dcfFunctionButtons].Size;
+      FontOptionsToFont(gFonts[dcfFunctionButtons], AButton.Font);
       H:= Max(H, AButton.Canvas.TextHeight(AButton.Caption));
     end;
   end;

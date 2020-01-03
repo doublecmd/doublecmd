@@ -172,7 +172,7 @@ end;
 procedure TFileViewHeader.PathLabelMouseWheelUp(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint;var Handled:Boolean);
 begin
-  if (ssCtrl in Shift) and (gFonts[dcfPathEdit].Size < MAX_FONT_SIZE_PATHEDIT) then
+  if (ssCtrl in Shift) and (gFonts[dcfPathEdit].Size < gFonts[dcfPathEdit].MaxValue) then
   begin
     gFonts[dcfPathEdit].Size:= gFonts[dcfPathEdit].Size + 1;
     frmMain.ForEachView(@EachViewUpdateHeader, nil);
@@ -182,7 +182,7 @@ end;
 procedure TFileViewHeader.PathLabelMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint;var Handled:Boolean);
 begin
-  if (ssCtrl in Shift) and (gFonts[dcfPathEdit].Size > MIN_FONT_SIZE_PATHEDIT) then
+  if (ssCtrl in Shift) and (gFonts[dcfPathEdit].Size > gFonts[dcfPathEdit].MinValue) then
   begin
      gFonts[dcfPathEdit].Size:= gFonts[dcfPathEdit].Size - 1;
      frmMain.ForEachView(@EachViewUpdateHeader, nil);

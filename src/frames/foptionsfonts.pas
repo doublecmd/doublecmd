@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Fonts options page
 
-   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,8 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fOptionsFonts;
@@ -27,83 +26,35 @@ unit fOptionsFonts;
 interface
 
 uses
-  Classes, SysUtils,
-  StdCtrls, Spin, Dialogs, Graphics, fOptionsFrame, uGlobs;
+  //Lazarus, Free-Pascal, etc.
+  Classes, StdCtrls, Spin, Dialogs,
 
+  //DC
+  fOptionsFrame, uGlobs;
 type
+  { TVisualFontElements }
+  TVisualFontElements = record
+    FontEdit: TEdit;
+    FontSpindEdit: TSpinEdit;
+  end;
 
   { TfrmOptionsFonts }
-
   TfrmOptionsFonts = class(TOptionsEditor)
-    btnSelEditFnt: TButton;
-    btnSelLogFnt: TButton;
-    btnSelConsoleFnt: TButton;
-    btnSelMainFnt: TButton;
-    btnSelViewerBookFnt: TButton;
-    btnSelViewFnt: TButton;
-    btnPathEditFnt: TButton;
-    btnSearchResultsFnt: TButton;
     dlgFnt: TFontDialog;
-    edtSearchResultsFont: TEdit;
-    edtPathEditFont: TEdit;
-    edtEditorFont: TEdit;
-    edtEditorFontSize: TSpinEdit;
-    edtLogFont: TEdit;
-    edtConsoleFont: TEdit;
-    edtLogFontSize: TSpinEdit;
-    edtConsoleFontSize: TSpinEdit;
-    edtMainFont: TEdit;
-    edtMainFontSize: TSpinEdit;
-    edtViewerBookFont: TEdit;
-    edtViewerBookFontSize: TSpinEdit;
-    edtViewerFont: TEdit;
-    edtViewerFontSize: TSpinEdit;
-    lblSearchResultsFont: TLabel;
-    lblPathEditFont: TLabel;
-    lblEditorFont: TLabel;
-    lblLogFont: TLabel;
-    lblConsoleFont: TLabel;
-    lblMainFont: TLabel;
-    lblViewerBookFont: TLabel;
-    lblViewerFont: TLabel;
-    edtPathEditFontSize: TSpinEdit;
-    edtSearchresultsFontSize: TSpinEdit;
-    procedure btnPathEditFntClick(Sender: TObject);
-    procedure btnSelConsoleFntClick(Sender: TObject);
-    procedure btnSelEditFntClick(Sender: TObject);
-    procedure btnSelMainFntClick(Sender: TObject);
-    procedure btnSelViewFntClick(Sender: TObject);
-    procedure btnSelLogFntClick(Sender: TObject);
-    procedure btnSelViewerBookFntClick(Sender: TObject);
-    procedure edtConsoleFontExit(Sender: TObject);
-    procedure edtConsoleFontSizeChange(Sender: TObject);
-    procedure edtEditorFontExit(Sender: TObject);
-    procedure edtEditorFontSizeChange(Sender: TObject);
-    procedure edtLogFontExit(Sender: TObject);
-    procedure edtMainFontExit(Sender: TObject);
-    procedure edtMainFontSizeChange(Sender: TObject);
-    procedure edtPathEditFontSizeChange(Sender: TObject);
-    procedure edtViewerBookFontExit(Sender: TObject);
-    procedure edtViewerFontExit(Sender: TObject);
-    procedure edtViewerFontSizeChange(Sender: TObject);
-    procedure edtLogFontSizeChange(Sender: TObject);
-    procedure edtViewerBookFontSizeChange(Sender: TObject);
+    procedure edtFontExit(Sender: TObject);
+    procedure edtMouseWheelDown(Sender: TObject; Shift: TShiftState; {%H-}MousePos: TPoint; var {%H-}Handled: boolean);
+    procedure edtMouseWheelUp(Sender: TObject; Shift: TShiftState; {%H-}MousePos: TPoint; var {%H-}Handled: boolean);
+    procedure edtFontSizeChange(Sender: TObject);
+    procedure btnSelFontClick(Sender: TObject);
   private
-    procedure LoadFont(aDCFont:TDCFont);
-    procedure SaveFont(aDCFont:TDCFont);
-    //
-    function GetFont(aDCFont:TDCFont):TFont;
-    procedure SetFont(aDCFont:TDCFont;aFont:TFont);
-    procedure SetFontSize(aDCFont:TDCFont;aFontSize:Integer);
-    procedure SetFontName(aDCFont:TDCFont;aFontName:String);
-    //
-    procedure RunDialogFont(aDCFont:TDCFont);
+    LocalVisualFontElements: array[0..pred(Length(TDCFontsOptions))] of TVisualFontElements;
   protected
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
-    class function GetIconIndex: Integer; override;
-    class function GetTitle: String; override;
+    class function GetIconIndex: integer; override;
+    class function GetTitle: string; override;
   end;
 
 implementation
@@ -111,248 +62,182 @@ implementation
 {$R *.lfm}
 
 uses
+  //Lazarus, Free-Pascal, etc.
+  Controls,
+
+  //DC
   uLng;
 
 { TfrmOptionsFonts }
 
-procedure TfrmOptionsFonts.btnSelMainFntClick(Sender: TObject);
-begin
-  RunDialogFont(dcfMain);
-end;
-
-procedure TfrmOptionsFonts.btnSelEditFntClick(Sender: TObject);
-begin
-  RunDialogFont(dcfEditor);
-end;
-
-procedure TfrmOptionsFonts.btnSelConsoleFntClick(Sender: TObject);
-begin
-  RunDialogFont(dcfConsole);
-end;
-
-procedure TfrmOptionsFonts.btnPathEditFntClick(Sender: TObject);
-begin
-  RunDialogFont(dcfPathEdit);
-end;
-
-procedure TfrmOptionsFonts.btnSelViewFntClick(Sender: TObject);
-begin
-  RunDialogFont(dcfViewer);
-end;
-
-procedure TfrmOptionsFonts.btnSelViewerBookFntClick(Sender: TObject);
-begin
-  RunDialogFont(dcfViewerBook);
-end;
-
-procedure TfrmOptionsFonts.edtConsoleFontExit(Sender: TObject);
-begin
-  SetFontName(dcfConsole, TEdit(Sender).Text);
-end;
-
-procedure TfrmOptionsFonts.edtConsoleFontSizeChange(Sender: TObject);
-begin
-  SetFontSize(dcfConsole, TSpinEdit(Sender).Value);
-end;
-
-procedure TfrmOptionsFonts.btnSelLogFntClick(Sender: TObject);
-begin
-  RunDialogFont(dcfLog);
-end;
-
-procedure TfrmOptionsFonts.edtMainFontExit(Sender: TObject);
-begin
-  SetFontName(dcfMain, TEdit(Sender).Text);
-end;
-
-procedure TfrmOptionsFonts.edtEditorFontExit(Sender: TObject);
-begin
-  SetFontName(dcfEditor, TEdit(Sender).Text);
-end;
-
-procedure TfrmOptionsFonts.edtViewerFontExit(Sender: TObject);
-begin
-  SetFontName(dcfViewer, TEdit(Sender).Text);
-end;
-
-procedure TfrmOptionsFonts.edtViewerBookFontExit(Sender: TObject);
-begin
-  SetFontName(dcfViewerBook, TEdit(Sender).Text);
-end;
-
-procedure TfrmOptionsFonts.edtLogFontExit(Sender: TObject);
-begin
-  SetFontName(dcfLog, TEdit(Sender).Text);
-end;
-
-procedure TfrmOptionsFonts.edtMainFontSizeChange(Sender: TObject);
-begin
-  SetFontSize(dcfMain, TSpinEdit(Sender).Value);
-end;
-
-procedure TfrmOptionsFonts.edtPathEditFontSizeChange(Sender: TObject);
-begin
-  SetFontSize(dcfPathEdit, TSpinEdit(Sender).Value);
-end;
-
-procedure TfrmOptionsFonts.edtEditorFontSizeChange(Sender: TObject);
-begin
-  SetFontSize(dcfEditor, TSpinEdit(Sender).Value);
-end;
-
-procedure TfrmOptionsFonts.edtViewerFontSizeChange(Sender: TObject);
-begin
-  SetFontSize(dcfViewer, TSpinEdit(Sender).Value);
-end;
-
-procedure TfrmOptionsFonts.edtViewerBookFontSizeChange(Sender: TObject);
-begin
-  SetFontSize(dcfViewerBook, TSpinEdit(Sender).Value);
-end;
-
-procedure TfrmOptionsFonts.edtLogFontSizeChange(Sender: TObject);
-begin
-  SetFontSize(dcfLog, TSpinEdit(Sender).Value);
-end;
-
-class function TfrmOptionsFonts.GetIconIndex: Integer;
+{ TfrmOptionsFonts.GetIconIndex }
+class function TfrmOptionsFonts.GetIconIndex: integer;
 begin
   Result := 3;
 end;
 
-class function TfrmOptionsFonts.GetTitle: String;
+{ TfrmOptionsFonts.GetTitle }
+class function TfrmOptionsFonts.GetTitle: string;
 begin
   Result := rsOptionsEditorFonts;
 end;
 
-procedure TfrmOptionsFonts.Load;
+{ TfrmOptionsMultiRename.Init }
+// We draw manually the whole thing from the gFont array instead of having designed the form at the conception time.
+// This way, we're sure to don't forget a font, for one, and second, if we ever add a font, no modification will be required here, in the configuration section.
+// ...or maybe just if the font has to be monospace.
+procedure TfrmOptionsFonts.Init;
+var
+  ALabelFont: TLabel;
+  AEditFont: TEdit;
+  APreviousEditFont: TEdit = nil;
+  ASpinEditFontSize: TSpinEdit;
+  AButtonFont: TButton;
+  iFontIndex: integer;
 begin
-  LoadFont(dcfMain);
-  LoadFont(dcfEditor);
-  LoadFont(dcfViewer);
-  LoadFont(dcfLog);
-  LoadFont(dcfViewerBook);
-  LoadFont(dcfConsole);
-  LoadFont(dcfPathEdit);
-  LoadFont(dcfSearchResults);
+  for iFontIndex := 0 to pred(Length(TDCFontsOptions)) do
+  begin
+    ALabelFont := TLabel.Create(Self);
+    ALabelFont.Parent := Self;
+    ALabelFont.Caption := gFonts[TDCFont(iFontIndex)].Usage;
+
+    AEditFont := TEdit.Create(Self);
+    LocalVisualFontElements[iFontIndex].FontEdit := AEditFont;
+    AEditFont.Parent := Self;
+    AEditFont.Tag := iFontIndex;
+    AEditFont.OnExit := @edtFontExit;
+    AEditFont.OnMouseWheelDown := @edtMouseWheelDown;
+    AEditFont.OnMouseWheelUp := @edtMouseWheelUp;
+    AEditFont.Anchors := [akTop, akLeft, akRight];
+    ALabelFont.FocusControl := AEditFont;
+
+    ASpinEditFontSize := TSpinEdit.Create(Self);
+    LocalVisualFontElements[iFontIndex].FontSpindEdit := ASpinEditFontSize;
+    ASpinEditFontSize.Tag := iFontIndex;
+    ASpinEditFontSize.Parent := Self;
+    ASpinEditFontSize.OnChange := @edtFontSizeChange;
+    ASpinEditFontSize.MinValue := gFonts[TDCFont(iFontIndex)].MinValue;
+    ASpinEditFontSize.MaxValue := gFonts[TDCFont(iFontIndex)].MaxValue;
+    ASpinEditFontSize.Width := 55;
+    ASpinEditFontSize.Anchors := [akTop, akRight];
+
+    AButtonFont := TButton.Create(Self);
+    AButtonFont.Tag := iFontIndex;
+    AButtonFont.Parent := Self;;
+    AButtonFont.AutoSize := True;
+    AButtonFont.Caption := '...';
+    AButtonFont.OnClick := @btnSelFontClick;
+    AButtonFont.Anchors := [akTop, akRight];
+
+    ALabelFont.AnchorSideLeft.Control := Self;
+    if APreviousEditFont <> nil then
+    begin
+      ALabelFont.AnchorSideTop.Control := APreviousEditFont;
+      ALabelFont.AnchorSideTop.Side := asrBottom;
+      ALabelFont.BorderSpacing.Top := 6;
+    end
+    else
+    begin
+      ALabelFont.AnchorSideTop.Control := Self;
+    end;
+
+    AEditFont.AnchorSideLeft.Control := ALabelFont;
+    AEditFont.AnchorSideTop.Control := ALabelFont;
+    AEditFont.AnchorSideTop.Side := asrBottom;
+    AEditFont.AnchorSideRight.Control := ASpinEditFontSize;
+
+    ASpinEditFontSize.AnchorSideTop.Control := AEditFont;
+    ASpinEditFontSize.AnchorSideTop.Side := asrCenter;
+    ASpinEditFontSize.AnchorSideRight.Control := AButtonFont;
+
+    AButtonFont.AnchorSideTop.Control := AEditFont;
+    AButtonFont.AnchorSideTop.Side := asrCenter;
+    AButtonFont.AnchorSideRight.Control := Self;
+    AButtonFont.AnchorSideRight.Side := asrBottom;
+    AButtonFont.AnchorSideBottom.Side := asrBottom;
+
+    APreviousEditFont := AEditFont;
+  end;
 end;
 
+{ TfrmOptionsFonts.Load }
+// The idea here is to take the general font style and apply them to TEdit in the page.
+// User plays with that to set the properties he wants.
+// Then at the end we recuperate the font from the TEdit's and store properties user set back to the general fonts.
+procedure TfrmOptionsFonts.Load;
+var
+  iFontIndex: integer;
+begin
+  for iFontIndex := 0 to pred(Length(TDCFontsOptions)) do
+  begin
+    LocalVisualFontElements[iFontIndex].FontEdit.Text := gFonts[TDCFont(iFontIndex)].Name;
+    FontOptionsToFont(gFonts[TDCFont(iFontIndex)], LocalVisualFontElements[iFontIndex].FontEdit.Font);
+    LocalVisualFontElements[iFontIndex].FontSpindEdit.Value := gFonts[TDCFont(iFontIndex)].Size;
+  end;
+end;
+
+{ TfrmOptionsFonts.Save }
 function TfrmOptionsFonts.Save: TOptionsEditorSaveFlags;
+var
+  iFontIndex: integer;
 begin
   Result := [];
-  SaveFont(dcfMain);
-  SaveFont(dcfEditor);
-  SaveFont(dcfViewer);
-  SaveFont(dcfLog);
-  SaveFont(dcfViewerBook);
-  SaveFont(dcfConsole);
-  SaveFont(dcfPathEdit);
-  SaveFont(dcfSearchResults);
+  for iFontIndex := 0 to pred(Length(TDCFontsOptions)) do
+    FontToFontOptions(LocalVisualFontElements[iFontIndex].FontEdit.Font, gFonts[TDCFont(iFontIndex)]);
 end;
 
-procedure TfrmOptionsFonts.LoadFont(aDCFont: TDCFont);
- var xFont:TFont;
+{ TfrmOptionsFonts.edtFontExit }
+procedure TfrmOptionsFonts.edtFontExit(Sender: TObject);
 begin
-  xFont:=TFont.Create;
-  try
-    FontOptionsToFont(gFonts[aDCFont], xFont);
-    SetFont(aDCFont, xFont);
-  finally
-    FreeAndNil(xFont);
+  TEdit(Sender).Font.Name := TEdit(Sender).Text;
+end;
+
+{ TfrmOptionsFonts.edtMouseWheelDown }
+procedure TfrmOptionsFonts.edtMouseWheelDown(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: boolean);
+begin
+  if (ssCtrl in Shift) and (LocalVisualFontElements[TEdit(Sender).Tag].FontSpindEdit.Value > gFonts[TDCFont(TEdit(Sender).Tag)].MinValue) then
+  begin
+    TEdit(Sender).Font.Size := TEdit(Sender).Font.Size - 1;
+    LocalVisualFontElements[TEdit(Sender).Tag].FontSpindEdit.Value := TEdit(Sender).Font.Size;
   end;
 end;
 
-procedure TfrmOptionsFonts.SaveFont(aDCFont: TDCFont);
+{ TfrmOptionsFonts.edtMouseWheelUp }
+procedure TfrmOptionsFonts.edtMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: boolean);
 begin
-  FontToFontOptions(GetFont(aDCFont), gFonts[aDCFont]);
-end;
-
-procedure TfrmOptionsFonts.SetFont(aDCFont: TDCFont; aFont: TFont);
-begin
-  case aDCFont of
-    dcfMain: begin
-      edtMainFont.Font := aFont;
-      edtMainFont.Text := aFont.Name;
-      edtMainFontSize.Value := aFont.Size;
-    end;
-    dcfEditor: begin
-      edtEditorFont.Font := aFont;
-      edtEditorFont.Text := aFont.Name;
-      edtEditorFontSize.Value := aFont.Size;
-    end;
-    dcfViewer: begin
-      edtViewerFont.Font := aFont;
-      edtViewerFont.Text := aFont.Name;
-      edtViewerFontSize.Value := aFont.Size;
-    end;
-    dcfLog: begin
-      edtLogFont.Font := aFont;
-      edtLogFont.Text := aFont.Name;
-      edtLogFontSize.Value := aFont.Size;
-    end;
-    dcfViewerBook: begin
-      edtViewerBookFont.Font := aFont;
-      edtViewerBookFont.Text := aFont.Name;
-      edtViewerBookFontSize.Value := aFont.Size;
-    end;
-    dcfConsole: begin
-      edtConsoleFont.Font := aFont;
-      edtConsoleFont.Text := aFont.Name;
-      edtConsoleFontSize.Value := aFont.Size;
-    end;
-
-    dcfSearchResults: begin
-      edtSearchResultsFont.Font := aFont;
-      edtSearchResultsFont.Text := aFont.Name;
-      edtSearchResultsFontSize.Value := aFont.Size;
-    end;
-    dcfPathEdit: begin
-      edtPathEditFont.Font := aFont;
-      edtPathEditFont.Text := aFont.Name;
-      edtPathEditFontSize.Value := aFont.Size;
-    end;
-
+  if (ssCtrl in Shift) and (LocalVisualFontElements[TEdit(Sender).Tag].FontSpindEdit.Value < gFonts[TDCFont(TEdit(Sender).Tag)].MaxValue) then
+  begin
+    TEdit(Sender).Font.Size := TEdit(Sender).Font.Size + 1;
+    LocalVisualFontElements[TEdit(Sender).Tag].FontSpindEdit.Value := TEdit(Sender).Font.Size;
   end;
 end;
 
-procedure TfrmOptionsFonts.SetFontSize(aDCFont: TDCFont; aFontSize: Integer);
+{ TfrmOptionsFonts.edtFontSizeChange }
+procedure TfrmOptionsFonts.edtFontSizeChange(Sender: TObject);
 begin
-  GetFont(aDCFont).Size:=aFontSize;
+  if (LocalVisualFontElements[TSpinEdit(Sender).Tag].FontEdit.Font.Size <> TSpinEdit(Sender).Value) then
+    LocalVisualFontElements[TSpinEdit(Sender).Tag].FontEdit.Font.Size := TSpinEdit(Sender).Value;
 end;
 
-procedure TfrmOptionsFonts.SetFontName(aDCFont: TDCFont; aFontName: String);
-begin
-  GetFont(aDCFont).Name:=aFontName;
-end;
-
-function TfrmOptionsFonts.GetFont(aDCFont: TDCFont): TFont;
-begin
-  case aDCFont of
-    dcfMain      : Result := edtMainFont.Font;
-    dcfEditor    : Result := edtEditorFont.Font;
-    dcfViewer    : Result := edtViewerFont.Font;
-    dcfLog       : Result := edtLogFont.Font;
-    dcfViewerBook: Result := edtViewerBookFont.Font;
-    dcfConsole   : Result := edtConsoleFont.Font;
-    dcfSearchResults: Result := edtSearchResultsFont.Font;
-    dcfPathEdit     : Result := edtPathEditFont.Font;
-
-    else Result  := nil; // TODO: show error for programmer
-  end;
-end;
-
-procedure TfrmOptionsFonts.RunDialogFont(aDCFont: TDCFont);
+{ TfrmOptionsFonts.btnSelFontClick }
+procedure TfrmOptionsFonts.btnSelFontClick(Sender: TObject);
 const
-  cMonoFonts = [dcfViewer, dcfEditor, dcfLog, dcfConsole];
+  cMonoFonts = [dcfEditor, dcfViewer, dcfLog, dcfConsole];
 begin
-  dlgFnt.Font := GetFont(aDCFont);
-  if (aDCFont in cMonoFonts) then begin
-    dlgFnt.Options:= dlgFnt.Options + [fdFixedPitchOnly];
+  begin
+    dlgFnt.Font := LocalVisualFontElements[TButton(Sender).Tag].FontEdit.Font;
+    if (TDCFont(TButton(Sender).Tag) in cMonoFonts) then
+      dlgFnt.Options := dlgFnt.Options + [fdFixedPitchOnly, fdNoStyleSel]
+    else
+      dlgFnt.Options := dlgFnt.Options - [fdFixedPitchOnly, fdNoStyleSel];
+    if dlgFnt.Execute then
+    begin
+      LocalVisualFontElements[TButton(Sender).Tag].FontEdit.Font := dlgFnt.Font;
+      LocalVisualFontElements[TButton(Sender).Tag].FontEdit.Text := dlgFnt.Font.Name;
+      LocalVisualFontElements[TButton(Sender).Tag].FontSpindEdit.Value := dlgFnt.Font.Size;
+    end;
   end;
-  if dlgFnt.Execute then SetFont(aDCFont, dlgFnt.Font);
-  dlgFnt.Options:= dlgFnt.Options - [fdFixedPitchOnly];
 end;
-
 
 end.
 

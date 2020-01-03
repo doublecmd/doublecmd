@@ -120,12 +120,15 @@ type
   TPluginType = (ptDSX, ptWCX, ptWDX, ptWFX, ptWLX); //*Important: Keep that order to to fit with procedures LoadXmlConfig/SaveXmlConfig when we save/restore widths of "TfrmTweakPlugin".
   TWcxCfgViewMode = (wcvmByPlugin, wcvmByExtension);
 
-  TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog, dcfViewerBook, dcfConsole, dcfSearchResults, dcfPathEdit, dcfFunctionButtons, dcfOptionsTree, dcfOptionsMain);
+  TDCFont = (dcfMain, dcfEditor, dcfViewer, dcfViewerBook, dcfLog, dcfConsole, dcfPathEdit, dcfSearchResults, dcfFunctionButtons, dcfTreeViewMenu);
   TDCFontOptions = record
-    Name: String;
+    Usage: string;
+    Name: string;
     Size: Integer;
     Style: TFontStyles;
     Quality: TFontQuality;
+    MinValue: integer;
+    MaxValue: integer;
   end;
   TDCFontsOptions = array[TDCFont] of TDCFontOptions;
 
@@ -199,7 +202,9 @@ const
   // 8   - changed Behaviours/BriefViewFileExtAligned to FilesViews/BriefView/FileExtAligned
   // 9   - few new options regarding tabs
   // 10  - changed Icons/CustomDriveIcons to Icons/CustomIcons
-  ConfigVersion = 10;
+  // 11  - During the last 2-3 years the default font for search result was set in file, not loaded and different visually than was was stored.
+  //       Loading a config prior of version 11 should ignore that setting and keep default.
+  ConfigVersion = 11;
 
   // Configuration related filenames
   sMULTIARC_FILENAME = 'multiarc.ini';
@@ -213,33 +218,6 @@ const
   DropTextHtml_Index=1;
   DropTextUnicode_Index=2;
   DropTextSimpleText_Index=3;
-
-  { Global font sizes limitations }
-
-  MAX_FONT_SIZE_MAIN=50;
-  MIN_FONT_SIZE_MAIN=6;
-
-  MAX_FONT_SIZE_EDITOR=70;
-  MIN_FONT_SIZE_EDITOR=6;
-
-  MAX_FONT_SIZE_VIEWER=70;
-  MIN_FONT_SIZE_VIEWER=6;
-
-  MAX_FONT_SIZE_FILE_SEARCH_RESULTS=70;
-  MIN_FONT_SIZE_FILE_SEARCH_RESULTS=6;
-
-  MAX_FONT_SIZE_PATHEDIT=40;
-  MIN_FONT_SIZE_PATHEDIT=8;
-
-  MAX_FONT_SIZE_FUNCTION_BUTTONS=20;
-  MIN_FONT_SIZE_FUNCTION_BUTTONS=8;
-
-  MAX_FONT_SIZE_OPTIONS_TREE=14;
-  MIN_FONT_SIZE_OPTIONS_TREE=10;
-
-  MAX_FONT_SIZE_OPTIONS_MAIN=12;
-  MIN_FONT_SIZE_OPTIONS_MAIN=8;
-
 
 var
   { For localization }
@@ -421,8 +399,6 @@ var
   gColorExt:TColorExt;
   gFileInfoToolTip: TFileInfoToolTip;
   gFileInfoToolTipValue: array[0..ord(ttthtNeverHide)] of integer = (-1, 1000, 2000, 3000, 5000, 10000, 30000, 60000, integer.MaxValue);
-
-
 
   { Fonts page }
   gFonts: TDCFontsOptions;
@@ -702,7 +678,7 @@ procedure LoadDefaultHotkeyBindings;
 
 function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
 
-procedure FontToFontOptions(Font: TFont; out Options: TDCFontOptions);
+procedure FontToFontOptions(Font: TFont; var Options: TDCFontOptions);
 procedure FontOptionsToFont(Options: TDCFontOptions; Font: TFont);
 
 
@@ -1349,7 +1325,7 @@ begin
   end;
 end;
 
-procedure FontToFontOptions(Font: TFont; out Options: TDCFontOptions);
+procedure FontToFontOptions(Font: TFont; var Options: TDCFontOptions);
 begin
   with Options do
   begin
@@ -1608,55 +1584,71 @@ begin
   gFonts[dcfMain].Size := 10;
   gFonts[dcfMain].Style := [fsBold];
   gFonts[dcfMain].Quality := fqDefault;
+  gFonts[dcfMain].MinValue := 6;
+  gFonts[dcfMain].MaxValue := 200;
 
   gFonts[dcfEditor].Name := MonoSpaceFont;
   gFonts[dcfEditor].Size := 14;
   gFonts[dcfEditor].Style := [];
   gFonts[dcfEditor].Quality := fqDefault;
+  gFonts[dcfEditor].MinValue := 6;
+  gFonts[dcfEditor].MaxValue := 200;
 
   gFonts[dcfViewer].Name := MonoSpaceFont;
   gFonts[dcfViewer].Size := 14;
   gFonts[dcfViewer].Style := [];
   gFonts[dcfViewer].Quality := fqDefault;
-
-  gFonts[dcfSearchResults].Name := 'default';
-  gFonts[dcfSearchResults].Size := 14;
-  gFonts[dcfSearchResults].Style := [];
-  gFonts[dcfSearchResults].Quality := fqDefault;
-
-  gFonts[dcfPathEdit].Name := 'default';
-  gFonts[dcfPathEdit].Size := 8;
-  gFonts[dcfPathEdit].Style := [];
-  gFonts[dcfPathEdit].Quality := fqDefault;
-
-  gFonts[dcfFunctionButtons].Name := 'default';
-  gFonts[dcfFunctionButtons].Size := 8;
-  gFonts[dcfFunctionButtons].Style := [];
-  gFonts[dcfFunctionButtons].Quality := fqDefault;
-
-  gFonts[dcfOptionsTree].Name := 'default';
-  gFonts[dcfOptionsTree].Size := 10;
-  gFonts[dcfOptionsTree].Style := [];
-  gFonts[dcfOptionsTree].Quality := fqDefault;
-                             gFonts[dcfOptionsMain].Name := 'default';
-  gFonts[dcfOptionsMain].Size := 10;
-  gFonts[dcfOptionsMain].Style := [];
-  gFonts[dcfOptionsMain].Quality := fqDefault;
-
-  gFonts[dcfLog].Name := MonoSpaceFont;
-  gFonts[dcfLog].Size := 12;
-  gFonts[dcfLog].Style := [];
-  gFonts[dcfLog].Quality := fqDefault;
+  gFonts[dcfViewer].MinValue := 6;
+  gFonts[dcfViewer].MaxValue := 200;
 
   gFonts[dcfViewerBook].Name := 'default';
   gFonts[dcfViewerBook].Size := 16;
   gFonts[dcfViewerBook].Style := [fsBold];
   gFonts[dcfViewerBook].Quality := fqDefault;
+  gFonts[dcfViewerBook].MinValue := 6;
+  gFonts[dcfViewerBook].MaxValue := 200;
+
+  gFonts[dcfLog].Name := MonoSpaceFont;
+  gFonts[dcfLog].Size := 12;
+  gFonts[dcfLog].Style := [];
+  gFonts[dcfLog].Quality := fqDefault;
+  gFonts[dcfLog].MinValue := 6;
+  gFonts[dcfLog].MaxValue := 200;
 
   gFonts[dcfConsole].Name := MonoSpaceFont;
   gFonts[dcfConsole].Size := 12;
   gFonts[dcfConsole].Style := [];
   gFonts[dcfConsole].Quality := fqDefault;
+  gFonts[dcfConsole].MinValue := 6;
+  gFonts[dcfConsole].MaxValue := 200;
+
+  gFonts[dcfPathEdit].Name := 'default';
+  gFonts[dcfPathEdit].Size := 8;
+  gFonts[dcfPathEdit].Style := [];
+  gFonts[dcfPathEdit].Quality := fqDefault;
+  gFonts[dcfPathEdit].MinValue := 6;
+  gFonts[dcfPathEdit].MaxValue := 200;
+
+  gFonts[dcfFunctionButtons].Name := 'default';
+  gFonts[dcfFunctionButtons].Size := 8;
+  gFonts[dcfFunctionButtons].Style := [];
+  gFonts[dcfFunctionButtons].Quality := fqDefault;
+  gFonts[dcfFunctionButtons].MinValue := 6;
+  gFonts[dcfFunctionButtons].MaxValue := 200;
+
+  gFonts[dcfSearchResults].Name := 'default';
+  gFonts[dcfSearchResults].Size := 9;
+  gFonts[dcfSearchResults].Style := [];
+  gFonts[dcfSearchResults].Quality := fqDefault;
+  gFonts[dcfSearchResults].MinValue := 6;
+  gFonts[dcfSearchResults].MaxValue := 200;
+
+  gFonts[dcfTreeViewMenu].Name := 'default';
+  gFonts[dcfTreeViewMenu].Size := 10;
+  gFonts[dcfTreeViewMenu].Style := [];
+  gFonts[dcfTreeViewMenu].Quality := fqDefault;
+  gFonts[dcfTreeViewMenu].MinValue := 6;
+  gFonts[dcfTreeViewMenu].MaxValue := 200;
 
   { Colors page }
   gUseCursorBorder := False;
@@ -2401,6 +2393,18 @@ begin
     gSizeDisplayUnits[fsfPersonalizedGiga] := rsDefaultPersonalizedAbbrevGiga;
     gSizeDisplayUnits[fsfPersonalizedTera] := rsDefaultPersonalizedAbbrevTera;
 
+    { Since language has been loaded, we may now load our font usage name}
+    gFonts[dcfMain].Usage := rsFontUsageMain;
+    gFonts[dcfEditor].Usage := rsFontUsageEditor;
+    gFonts[dcfViewer].Usage := rsFontUsageViewer;
+    gFonts[dcfViewerBook].Usage := rsFontUsageViewerBook;
+    gFonts[dcfLog].Usage := rsFontUsageLog;
+    gFonts[dcfConsole].Usage := rsFontUsageConsole;
+    gFonts[dcfPathEdit].Usage := rsFontUsagePathEdit;
+    gFonts[dcfFunctionButtons].Usage := rsFontUsageFunctionButtons;
+    gFonts[dcfSearchResults].Usage := rsFontUsageSearchResults;
+    gFonts[dcfTreeViewMenu].Usage := rsFontUsageTreeViewMenu;
+
     { Behaviours page }
     Node := Root.FindNode('Behaviours');
     if Assigned(Node) then
@@ -2534,16 +2538,13 @@ begin
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Main'), gFonts[dcfMain]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Editor'), gFonts[dcfEditor]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Viewer'), gFonts[dcfViewer]);
-    GetDCFont(gConfig.FindNode(Root, 'Fonts/OptionsTree'), gFonts[dcfOptionsTree]);
-    GetDCFont(gConfig.FindNode(Root, 'Fonts/OptionsMain'), gFonts[dcfOptionsMain]);
-
-    GetDCFont(gConfig.FindNode(Root, 'Fonts/SearchResults'), gFonts[dcfSearchResults]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/ViewerBook'), gFonts[dcfViewerBook]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/Log'), gFonts[dcfLog]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/Console'), gFonts[dcfConsole]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/PathEdit'), gFonts[dcfPathEdit]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/FunctionButtons'), gFonts[dcfFunctionButtons]);
-
-    GetDCFont(gConfig.FindNode(Root, 'Fonts/Log'), gFonts[dcfLog]);
-    GetDCFont(gConfig.FindNode(Root, 'Fonts/ViewerBook'), gFonts[dcfViewerBook]);
-    GetDCFont(gConfig.FindNode(Root, 'Fonts/Console'), gFonts[dcfConsole]);
+    if LoadedConfigVersion >= 11 then GetDCFont(gConfig.FindNode(Root, 'Fonts/SearchResults'), gFonts[dcfSearchResults]); //Let's ignore possible previous setting for this and keep our default.
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/TreeViewMenu'), gFonts[dcfTreeViewMenu]);
 
     { Colors page }
     Node := Root.FindNode('Colors');
@@ -3220,14 +3221,13 @@ begin
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Main', True), gFonts[dcfMain]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Editor', True), gFonts[dcfEditor]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Viewer', True), gFonts[dcfViewer]);
-    SetDCFont(gConfig.FindNode(Root, 'Fonts/OptionsTree', True), gFonts[dcfOptionsTree]);
-    SetDCFont(gConfig.FindNode(Root, 'Fonts/OptionsMain', True), gFonts[dcfOptionsMain]);
-    SetDCFont(gConfig.FindNode(Root, 'Fonts/SearchResults',True), gFonts[dcfSearchResults]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/ViewerBook', True), gFonts[dcfViewerBook]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/Log', True), gFonts[dcfLog]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/Console', True), gFonts[dcfConsole]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/PathEdit',True), gFonts[dcfPathEdit]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/FunctionButtons',True), gFonts[dcfFunctionButtons]);
-    SetDCFont(gConfig.FindNode(Root, 'Fonts/Log', True), gFonts[dcfLog]);
-    SetDCFont(gConfig.FindNode(Root, 'Fonts/ViewerBook', True), gFonts[dcfViewerBook]);
-    SetDCFont(gConfig.FindNode(Root, 'Fonts/Console', True), gFonts[dcfConsole]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/SearchResults',True), gFonts[dcfSearchResults]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/TreeViewMenu', True), gFonts[dcfTreeViewMenu]);
 
     { Colors page }
     Node := FindNode(Root, 'Colors', True);
