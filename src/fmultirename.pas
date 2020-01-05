@@ -2301,7 +2301,7 @@ end;
 procedure TfrmMultiRename.cm_EditNewNames(const {%H-}Params: array of string);
 var
   sFileName: string;
-  iIndexFile:integer;
+  iIndexFile: integer;
   AFileList: TStringListEx;
 begin
   AFileList := TStringListEx.Create;
@@ -2666,7 +2666,7 @@ begin
     else
       sNameForPreset := FLastPreset;
     bKeepGoing := InputQuery(Caption, rsMulRenPromptForSavedPresetName, sNameForPreset);
-    bKeepGoing := (sNameForPreset <> '');
+    if bKeepGoing then bKeepGoing := (sNameForPreset <> '');
   end;
 
   if bKeepGoing and (sNameForPreset <> FLastPreset) then
