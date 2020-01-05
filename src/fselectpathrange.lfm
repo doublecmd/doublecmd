@@ -22,9 +22,10 @@ object frmSelectPathRange: TfrmSelectPathRange
     Top = 6
     Width = 326
     Caption = '&Select the directories to insert (you may select more than one)'
+    FocusControl = lbDirectories
     ParentColor = False
   end
-  object btpPanel: TButtonPanel
+  object ButtonPanel: TButtonPanel
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
@@ -40,13 +41,11 @@ object frmSelectPathRange: TfrmSelectPathRange
     OKButton.Caption = '&OK'
     OKButton.DefaultCaption = False
     HelpButton.Name = 'HelpButton'
-    HelpButton.Caption = '&Help'
-    HelpButton.DefaultCaption = False
+    HelpButton.DefaultCaption = True
     CloseButton.Name = 'CloseButton'
-    CloseButton.Caption = '&Close'
-    CloseButton.DefaultCaption = False
+    CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
-    CancelButton.Caption = 'Cancel'
+    CancelButton.Caption = '&Cancel'
     CancelButton.DefaultCaption = False
     TabOrder = 2
     ShowButtons = [pbOK, pbCancel]
@@ -57,7 +56,7 @@ object frmSelectPathRange: TfrmSelectPathRange
     AnchorSideTop.Control = lbDirectories
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = btpPanel
+    AnchorSideBottom.Control = ButtonPanel
     Left = 6
     Height = 15
     Top = 254
@@ -71,7 +70,7 @@ object frmSelectPathRange: TfrmSelectPathRange
     AnchorSideLeft.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = btpPanel
+    AnchorSideBottom.Control = ButtonPanel
     Left = 44
     Height = 15
     Top = 254
@@ -172,7 +171,7 @@ object frmSelectPathRange: TfrmSelectPathRange
       Constraints.MinWidth = 100
       EditLabel.Height = 15
       EditLabel.Width = 100
-      EditLabel.Caption = 'Separat&or'
+      EditLabel.Caption = 'Sep&arator'
       EditLabel.ParentColor = False
       TabOrder = 1
       OnChange = SomethingChange

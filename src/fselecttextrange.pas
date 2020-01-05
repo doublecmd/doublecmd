@@ -37,7 +37,7 @@ type
   { TfrmSelectTextRange }
 
   TfrmSelectTextRange = class(TModalForm)
-    btpPanel: TButtonPanel;
+    ButtonPanel: TButtonPanel;
     edtSelectText: TEdit;
     gbRangeDescription: TGroupBox;
     gbCountFirstFrom: TGroupBox;

@@ -1,7 +1,7 @@
 {"version":1,"strings":[
 {"hash":145497015,"name":"tfrmsortanything.caption","sourcebytes":[102,114,109,83,111,114,116,65,110,121,116,104,105,110,103],"value":"frmSortAnything"},
 {"hash":195101837,"name":"tfrmsortanything.lblsortanything.caption","sourcebytes":[68,114,97,103,32,97,110,100,32,100,114,111,112,32,101,108,101,109,101,110,116,115,32,116,111,32,115,111,114,116,32,116,104,101,109],"value":"Drag and drop elements to sort them"},
-{"hash":176555,"name":"tfrmsortanything.btnok.caption","sourcebytes":[38,79,38,75],"value":"&O&K"},
-{"hash":177752476,"name":"tfrmsortanything.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"},
+{"hash":11067,"name":"tfrmsortanything.buttonpanel.okbutton.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":177752476,"name":"tfrmsortanything.buttonpanel.cancelbutton.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"},
 {"hash":2860692,"name":"tfrmsortanything.btnsort.caption","sourcebytes":[38,83,111,114,116],"value":"&Sort"}
 ]}

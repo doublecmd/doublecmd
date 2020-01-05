@@ -4,19 +4,27 @@ object frmSortAnything: TfrmSortAnything
   Top = 241
   Width = 397
   Caption = 'frmSortAnything'
-  ChildSizing.LeftRightSpacing = 4
-  ChildSizing.TopBottomSpacing = 4
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
+  ChildSizing.HorizontalSpacing = 3
+  ChildSizing.VerticalSpacing = 3
   ClientHeight = 375
   ClientWidth = 397
   OnCreate = FormCreate
   SessionProperties = 'Height;Width;Left;Top'
   LCLVersion = '2.0.6.0'
   object lbSortAnything: TListBox
-    Left = 4
-    Height = 318
-    Top = 19
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblSortAnything
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = ButtonPanel
+    Left = 6
+    Height = 313
+    Top = 24
     Width = 389
-    Align = alClient
+    Anchors = [akTop, akLeft, akBottom]
     DragMode = dmAutomatic
     ItemHeight = 0
     MultiSelect = True
@@ -28,74 +36,51 @@ object frmSortAnything: TfrmSortAnything
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
-    Left = 4
+    Left = 6
     Height = 15
-    Top = 4
-    Width = 389
+    Top = 6
+    Width = 385
     Align = alTop
     Caption = 'Drag and drop elements to sort them'
     ParentColor = False
   end
-  object pnlButtons: TPanel
+  object ButtonPanel: TButtonPanel
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
-    Left = 4
-    Height = 34
-    Top = 337
-    Width = 389
-    Align = alBottom
-    AutoSize = True
-    BevelOuter = bvNone
-    ChildSizing.LeftRightSpacing = 4
-    ChildSizing.TopBottomSpacing = 4
-    ClientHeight = 34
-    ClientWidth = 389
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 26
+    Top = 343
+    Width = 385
+    Align = alNone
+    Anchors = [akLeft, akRight, akBottom]
+    OKButton.Name = 'OKButton'
+    OKButton.Caption = '&OK'
+    OKButton.DefaultCaption = False
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.Caption = '&Cancel'
+    CancelButton.DefaultCaption = False
     TabOrder = 1
-    object btnOk: TBitBtn
-      AnchorSideRight.Control = pnlButtons
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = pnlButtons
-      AnchorSideBottom.Side = asrBottom
-      Left = 285
-      Height = 26
-      Top = 4
-      Width = 100
-      Anchors = [akRight, akBottom]
-      Caption = '&O&K'
-      Default = True
-      Kind = bkOK
-      ModalResult = 1
-      TabOrder = 2
-    end
-    object btnCancel: TBitBtn
-      AnchorSideRight.Control = btnOk
-      AnchorSideBottom.Control = pnlButtons
-      AnchorSideBottom.Side = asrBottom
-      Left = 185
-      Height = 26
-      Top = 4
-      Width = 100
-      Anchors = [akRight, akBottom]
-      Cancel = True
-      Caption = '&Cancel'
-      Kind = bkCancel
-      ModalResult = 2
-      TabOrder = 1
-    end
+    ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
     object btnSort: TBitBtn
-      AnchorSideLeft.Control = pnlButtons
-      AnchorSideTop.Control = btnOk
-      AnchorSideBottom.Control = btnOk
+      AnchorSideLeft.Control = ButtonPanel
       AnchorSideBottom.Side = asrBottom
-      Left = 4
+      Left = 0
       Height = 25
-      Top = 4
+      Top = 0
       Width = 47
+      Anchors = [akTop, akLeft, akBottom]
       AutoSize = True
       Caption = '&Sort'
       OnClick = btnSortClick
-      TabOrder = 0
+      TabOrder = 4
     end
   end
 end

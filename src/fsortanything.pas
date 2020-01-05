@@ -28,24 +28,22 @@ interface
 uses
   //Lazarus, Free-Pascal, etc.
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  Buttons,
+  Buttons, ButtonPanel,
 
   //DC
-  uClassesEx;
+  uOSForms, uClassesEx;
 
 type
   { TfrmSortAnything }
-  TfrmSortAnything = class(TForm)
+  TfrmSortAnything = class(TModalForm)
+    ButtonPanel: TButtonPanel;
+    btnSort: TBitBtn;
     lblSortAnything: TLabel;
     lbSortAnything: TListBox;
-    pnlButtons: TPanel;
-    btnSort: TBitBtn;
-    btnCancel: TBitBtn;
-    btnOk: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnSortClick(Sender: TObject);
-    procedure lbSortAnythingDragDrop(Sender, Source: TObject; X, Y: integer);
-    procedure lbSortAnythingDragOver(Sender, Source: TObject; X, Y: integer; State: TDragState; var Accept: boolean);
+    procedure lbSortAnythingDragDrop(Sender, {%H-}Source: TObject; X, Y: integer);
+    procedure lbSortAnythingDragOver(Sender, {%H-}Source: TObject; {%H-}X, {%H-}Y: integer; {%H-}State: TDragState; var Accept: boolean);
   private
     IniPropStorage: TIniPropStorageEx;
   end;
@@ -53,7 +51,7 @@ type
 var
   frmSortAnything: TfrmSortAnything;
 
-function HaveUserSortThisList(const sWindowTitle: string; const slListToSort: TStringList): integer;
+function HaveUserSortThisList(TheOwner: TCustomForm; const ACaption: string; const slListToSort: TStringList): integer;
 
 implementation
 
@@ -193,21 +191,20 @@ begin
 end;
 
 { HaveUserSortThisList }
-function HaveUserSortThisList(const sWindowTitle: string; const slListToSort: TStringList): integer;
-var
-  LocalfrmSortAnything: TfrmSortAnything;
+function HaveUserSortThisList(TheOwner: TCustomForm; const ACaption: string; const slListToSort: TStringList): integer;
 begin
   Result := mrCancel;
-  LocalfrmSortAnything := TfrmSortAnything.Create(Application.MainForm);
-  try
-    LocalfrmSortAnything.Caption := sWindowTitle;
-    LocalfrmSortAnything.Icon := Application.MainForm.Icon;
-    LocalfrmSortAnything.lbSortAnything.Items.Assign(slListToSort);
-    Result := LocalfrmSortAnything.ShowModal;
-    if Result = mrOk then
-      slListToSort.Assign(LocalfrmSortAnything.lbSortAnything.Items);
-  finally
-    LocalfrmSortAnything.Free;
+  with TfrmSortAnything.Create(TheOwner) do
+  begin
+    try
+      Caption := ACaption;
+      lbSortAnything.Items.Assign(slListToSort);
+      Result := ShowModal;
+      if Result = mrOk then
+        slListToSort.Assign(lbSortAnything.Items);
+    finally
+      Free;
+    end;
   end;
 end;
 

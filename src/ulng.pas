@@ -703,7 +703,6 @@ resourcestring
   rsMulRenDate = 'Date';
   rsMulRenTime = 'Time';
   rsMulRenPlugins = 'Plugins';
-  rsMulRenClearMask = 'Clear mask';
 
   // CheckSumCalcVerify dialog
   rsCheckSumVerifyTitle = 'Verify checksum';
