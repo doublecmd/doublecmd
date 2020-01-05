@@ -46,7 +46,7 @@ type
     edSeparator: TLabeledEdit;
     lblResult: TLabel;
     lblValueToReturn: TLabel;
-    btpPanel: TButtonPanel;
+    ButtonPanel: TButtonPanel;
     procedure FormCreate(Sender: TObject);
     procedure edtSelectTextKeyUp(Sender: TObject; var {%H-}Key: word; {%H-}Shift: TShiftState);
     procedure edtSelectTextMouseUp(Sender: TObject; {%H-}Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: integer);

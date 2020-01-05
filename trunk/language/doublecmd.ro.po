@@ -3405,6 +3405,10 @@ msgstr ""
 msgid "Edit Names..."
 msgstr ""
 
+#: tfrmmultirename.acteditnewnames.caption
+msgid "Edit Current New Names..."
+msgstr ""
+
 #: tfrmmultirename.actextextmask.caption
 msgctxt "tfrmmultirename.actextextmask.caption"
 msgid "Extension"
@@ -3429,11 +3433,11 @@ msgid "Load Last Preset"
 msgstr ""
 
 #: tfrmmultirename.actloadnamesfromfile.caption
-msgid "Load Names From File..."
+msgid "Load Names from File..."
 msgstr ""
 
 #: tfrmmultirename.actloadpreset.caption
-msgid "Load preset by name or index"
+msgid "Load Preset by Name or Index"
 msgstr ""
 
 #: tfrmmultirename.actloadpreset1.caption
@@ -3504,8 +3508,8 @@ msgstr "Redenumește"
 
 #: tfrmmultirename.actresetall.caption
 msgctxt "tfrmmultirename.actresetall.caption"
-msgid "Reset &all"
-msgstr "Resetează to&ate"
+msgid "Reset &All"
+msgstr "Resetează toate"
 
 #: tfrmmultirename.actsavepreset.caption
 msgctxt "tfrmmultirename.actsavepreset.caption"
@@ -8449,32 +8453,18 @@ msgstr ""
 msgid "&OR (any match)"
 msgstr ""
 
-#: tfrmselectpathrange.btppanel.cancelbutton.caption
-#, fuzzy
-msgctxt "tfrmselectpathrange.btppanel.cancelbutton.caption"
-msgid "Cancel"
-msgstr "Renunță"
+#: tfrmselectpathrange.buttonpanel.cancelbutton.caption
+msgctxt "tfrmselectpathrange.buttonpanel.cancelbutton.caption"
+msgid "&Cancel"
+msgstr "Revocare"
 
-#: tfrmselectpathrange.btppanel.closebutton.caption
-#, fuzzy
-msgctxt "tfrmselectpathrange.btppanel.closebutton.caption"
-msgid "&Close"
-msgstr "În&chide"
-
-#: tfrmselectpathrange.btppanel.helpbutton.caption
-#, fuzzy
-msgctxt "tfrmselectpathrange.btppanel.helpbutton.caption"
-msgid "&Help"
-msgstr "Ajutor (&h)"
-
-#: tfrmselectpathrange.btppanel.okbutton.caption
-#, fuzzy
-msgctxt "tfrmselectpathrange.btppanel.okbutton.caption"
+#: tfrmselectpathrange.buttonpanel.okbutton.caption
+msgctxt "tfrmselectpathrange.buttonpanel.okbutton.caption"
 msgid "&OK"
-msgstr "&OK"
+msgstr "OK"
 
 #: tfrmselectpathrange.edseparator.editlabel.caption
-msgid "Separat&or"
+msgid "Sep&arator"
 msgstr ""
 
 #: tfrmselectpathrange.gbcountfrom.caption
@@ -8500,25 +8490,15 @@ msgctxt "tfrmselectpathrange.rbfirstfromstart.caption"
 msgid "The sta&rt"
 msgstr ""
 
-#: tfrmselecttextrange.btppanel.cancelbutton.caption
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
-msgid "Cancel"
-msgstr "Renunţă"
+#: tfrmselecttextrange.buttonpanel.cancelbutton.caption
+msgctxt "tfrmselecttextrange.buttonpanel.cancelbutton.caption"
+msgid "&Cancel"
+msgstr "Revocare"
 
-#: tfrmselecttextrange.btppanel.closebutton.caption
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CLOSEBUTTON.CAPTION"
-msgid "&Close"
-msgstr "În&chide"
-
-#: tfrmselecttextrange.btppanel.helpbutton.caption
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
-msgid "&Help"
-msgstr "Ajutor (&h)"
-
-#: tfrmselecttextrange.btppanel.okbutton.caption
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
+#: tfrmselecttextrange.buttonpanel.okbutton.caption
+msgctxt "tfrmselecttextrange.buttonpanel.okbutton.caption"
 msgid "&OK"
-msgstr "&OK"
+msgstr "OK"
 
 #: tfrmselecttextrange.gbcountfirstfrom.caption
 msgid "Count first from"
@@ -8723,19 +8703,19 @@ msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
 msgstr ""
 
-#: tfrmsortanything.btncancel.caption
-#, fuzzy
-msgctxt "tfrmsortanything.btncancel.caption"
-msgid "&Cancel"
-msgstr "Revo&care"
-
-#: tfrmsortanything.btnok.caption
-msgid "&O&K"
-msgstr ""
-
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
-msgstr ""
+msgstr "Sortează"
+
+#: tfrmsortanything.buttonpanel.cancelbutton.caption
+msgctxt "tfrmsortanything.buttonpanel.cancelbutton.caption"
+msgid "&Cancel"
+msgstr "Revocare"
+
+#: tfrmsortanything.buttonpanel.okbutton.caption
+msgctxt "tfrmsortanything.buttonpanel.okbutton.caption"
+msgid "&OK"
+msgstr "OK"
 
 #: tfrmsortanything.caption
 msgid "frmSortAnything"
@@ -11905,10 +11885,6 @@ msgstr ""
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
-msgstr ""
-
-#: ulng.rsmulrenclearmask
-msgid "Clear mask"
 msgstr ""
 
 #: ulng.rsmulrencounter

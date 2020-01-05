@@ -3329,6 +3329,10 @@ msgstr ""
 msgid "Edit Names..."
 msgstr ""
 
+#: tfrmmultirename.acteditnewnames.caption
+msgid "Edit Current New Names..."
+msgstr ""
+
 #: tfrmmultirename.actextextmask.caption
 msgctxt "tfrmmultirename.actextextmask.caption"
 msgid "Extension"
@@ -3353,11 +3357,11 @@ msgid "Load Last Preset"
 msgstr ""
 
 #: tfrmmultirename.actloadnamesfromfile.caption
-msgid "Load Names From File..."
+msgid "Load Names from File..."
 msgstr ""
 
 #: tfrmmultirename.actloadpreset.caption
-msgid "Load preset by name or index"
+msgid "Load Preset by Name or Index"
 msgstr ""
 
 #: tfrmmultirename.actloadpreset1.caption
@@ -3428,7 +3432,7 @@ msgstr ""
 
 #: tfrmmultirename.actresetall.caption
 msgctxt "tfrmmultirename.actresetall.caption"
-msgid "Reset &all"
+msgid "Reset &All"
 msgstr ""
 
 #: tfrmmultirename.actsavepreset.caption
@@ -8207,28 +8211,18 @@ msgstr ""
 msgid "&OR (any match)"
 msgstr ""
 
-#: tfrmselectpathrange.btppanel.cancelbutton.caption
-msgctxt "tfrmselectpathrange.btppanel.cancelbutton.caption"
-msgid "Cancel"
+#: tfrmselectpathrange.buttonpanel.cancelbutton.caption
+msgctxt "tfrmselectpathrange.buttonpanel.cancelbutton.caption"
+msgid "&Cancel"
 msgstr ""
 
-#: tfrmselectpathrange.btppanel.closebutton.caption
-msgctxt "tfrmselectpathrange.btppanel.closebutton.caption"
-msgid "&Close"
-msgstr ""
-
-#: tfrmselectpathrange.btppanel.helpbutton.caption
-msgctxt "tfrmselectpathrange.btppanel.helpbutton.caption"
-msgid "&Help"
-msgstr ""
-
-#: tfrmselectpathrange.btppanel.okbutton.caption
-msgctxt "tfrmselectpathrange.btppanel.okbutton.caption"
+#: tfrmselectpathrange.buttonpanel.okbutton.caption
+msgctxt "tfrmselectpathrange.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr ""
 
 #: tfrmselectpathrange.edseparator.editlabel.caption
-msgid "Separat&or"
+msgid "Sep&arator"
 msgstr ""
 
 #: tfrmselectpathrange.gbcountfrom.caption
@@ -8254,23 +8248,13 @@ msgctxt "tfrmselectpathrange.rbfirstfromstart.caption"
 msgid "The sta&rt"
 msgstr ""
 
-#: tfrmselecttextrange.btppanel.cancelbutton.caption
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
-msgid "Cancel"
+#: tfrmselecttextrange.buttonpanel.cancelbutton.caption
+msgctxt "tfrmselecttextrange.buttonpanel.cancelbutton.caption"
+msgid "&Cancel"
 msgstr ""
 
-#: tfrmselecttextrange.btppanel.closebutton.caption
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CLOSEBUTTON.CAPTION"
-msgid "&Close"
-msgstr ""
-
-#: tfrmselecttextrange.btppanel.helpbutton.caption
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
-msgid "&Help"
-msgstr ""
-
-#: tfrmselecttextrange.btppanel.okbutton.caption
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
+#: tfrmselecttextrange.buttonpanel.okbutton.caption
+msgctxt "tfrmselecttextrange.buttonpanel.okbutton.caption"
 msgid "&OK"
 msgstr ""
 
@@ -8472,17 +8456,18 @@ msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
 msgstr ""
 
-#: tfrmsortanything.btncancel.caption
-msgctxt "tfrmsortanything.btncancel.caption"
+#: tfrmsortanything.btnsort.caption
+msgid "&Sort"
+msgstr ""
+
+#: tfrmsortanything.buttonpanel.cancelbutton.caption
+msgctxt "tfrmsortanything.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
 msgstr ""
 
-#: tfrmsortanything.btnok.caption
-msgid "&O&K"
-msgstr ""
-
-#: tfrmsortanything.btnsort.caption
-msgid "&Sort"
+#: tfrmsortanything.buttonpanel.okbutton.caption
+msgctxt "tfrmsortanything.buttonpanel.okbutton.caption"
+msgid "&OK"
 msgstr ""
 
 #: tfrmsortanything.caption
@@ -11590,10 +11575,6 @@ msgstr ""
 
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
-msgstr ""
-
-#: ulng.rsmulrenclearmask
-msgid "Clear mask"
 msgstr ""
 
 #: ulng.rsmulrencounter

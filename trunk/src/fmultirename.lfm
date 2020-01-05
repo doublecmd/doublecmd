@@ -706,6 +706,9 @@ object frmMultiRename: TfrmMultiRename
     object mnuEditNames: TMenuItem
       Action = actEditNames
     end
+    object mnuEditNewNames: TMenuItem
+      Action = actEditNewNames
+    end
   end
   object mmMainMenu: TMainMenu
     Images = dmComData.ilEditorImages
@@ -723,6 +726,9 @@ object frmMultiRename: TfrmMultiRename
         end
         object miEditNames: TMenuItem
           Action = actEditNames
+        end
+        object miEditNewNames: TMenuItem
+          Action = actEditNewNames
         end
       end
       object miSeparator1: TMenuItem
@@ -797,7 +803,7 @@ object frmMultiRename: TfrmMultiRename
     end
     object actResetAll: TAction
       Category = 'Generic'
-      Caption = 'Reset &all'
+      Caption = 'Reset &All'
       ImageIndex = 17
       OnExecute = actExecute
     end
@@ -875,7 +881,7 @@ object frmMultiRename: TfrmMultiRename
     end
     object actLoadNamesFromFile: TAction
       Category = 'Generic'
-      Caption = 'Load Names From File...'
+      Caption = 'Load Names from File...'
       OnExecute = actExecute
     end
     object actEditNames: TAction
@@ -883,22 +889,9 @@ object frmMultiRename: TfrmMultiRename
       Caption = 'Edit Names...'
       OnExecute = actExecute
     end
-    object actConfig: TAction
+    object actEditNewNames: TAction
       Category = 'Generic'
-      Caption = 'Confi&guration'
-      ImageIndex = 18
-      OnExecute = actExecute
-    end
-    object actRename: TAction
-      Category = 'Generic'
-      Caption = '&Rename'
-      ImageIndex = 28
-      OnExecute = actExecute
-    end
-    object actClose: TAction
-      Category = 'Generic'
-      Caption = '&Close'
-      ImageIndex = 12
+      Caption = 'Edit Current New Names...'
       OnExecute = actExecute
     end
     object actShowPresetsMenu: TAction
@@ -920,7 +913,7 @@ object frmMultiRename: TfrmMultiRename
     end
     object actLoadPreset: TAction
       Category = 'Presets'
-      Caption = 'Load preset by name or index'
+      Caption = 'Load Preset by Name or Index'
       OnExecute = actExecute
     end
     object actLoadPreset1: TAction
@@ -993,6 +986,24 @@ object frmMultiRename: TfrmMultiRename
     object actSortPresets: TAction
       Category = 'Presets'
       Caption = 'Sort'
+      OnExecute = actExecute
+    end
+    object actConfig: TAction
+      Category = 'Generic'
+      Caption = 'Confi&guration'
+      ImageIndex = 18
+      OnExecute = actExecute
+    end
+    object actRename: TAction
+      Category = 'Generic'
+      Caption = '&Rename'
+      ImageIndex = 28
+      OnExecute = actExecute
+    end
+    object actClose: TAction
+      Category = 'Generic'
+      Caption = '&Close'
+      ImageIndex = 12
       OnExecute = actExecute
     end
   end

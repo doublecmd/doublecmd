@@ -3331,6 +3331,10 @@ msgstr ""
 msgid "Edit Names..."
 msgstr "Bewerk namen..."
 
+#: tfrmmultirename.acteditnewnames.caption
+msgid "Edit Current New Names..."
+msgstr ""
+
 #: tfrmmultirename.actextextmask.caption
 msgctxt "tfrmmultirename.actextextmask.caption"
 msgid "Extension"
@@ -3355,11 +3359,11 @@ msgid "Load Last Preset"
 msgstr ""
 
 #: tfrmmultirename.actloadnamesfromfile.caption
-msgid "Load Names From File..."
+msgid "Load Names from File..."
 msgstr "Laad namen vanuit bestand..."
 
 #: tfrmmultirename.actloadpreset.caption
-msgid "Load preset by name or index"
+msgid "Load Preset by Name or Index"
 msgstr ""
 
 #: tfrmmultirename.actloadpreset1.caption
@@ -3430,7 +3434,7 @@ msgstr "Hernoemen"
 
 #: tfrmmultirename.actresetall.caption
 msgctxt "tfrmmultirename.actresetall.caption"
-msgid "Reset &all"
+msgid "Reset &All"
 msgstr "Zet alles terug op standaardwaarden"
 
 #: tfrmmultirename.actsavepreset.caption
@@ -8236,32 +8240,18 @@ msgstr "&EN (alle overeenkomsten)"
 msgid "&OR (any match)"
 msgstr "&OF (elke overeenkomst)"
 
-#: tfrmselectpathrange.btppanel.cancelbutton.caption
-#, fuzzy
-msgctxt "tfrmselectpathrange.btppanel.cancelbutton.caption"
-msgid "Cancel"
+#: tfrmselectpathrange.buttonpanel.cancelbutton.caption
+msgctxt "tfrmselectpathrange.buttonpanel.cancelbutton.caption"
+msgid "&Cancel"
 msgstr "Annuleren"
 
-#: tfrmselectpathrange.btppanel.closebutton.caption
-#, fuzzy
-msgctxt "tfrmselectpathrange.btppanel.closebutton.caption"
-msgid "&Close"
-msgstr "Sluiten"
-
-#: tfrmselectpathrange.btppanel.helpbutton.caption
-#, fuzzy
-msgctxt "tfrmselectpathrange.btppanel.helpbutton.caption"
-msgid "&Help"
-msgstr "&Hulp"
-
-#: tfrmselectpathrange.btppanel.okbutton.caption
-#, fuzzy
-msgctxt "tfrmselectpathrange.btppanel.okbutton.caption"
+#: tfrmselectpathrange.buttonpanel.okbutton.caption
+msgctxt "tfrmselectpathrange.buttonpanel.okbutton.caption"
 msgid "&OK"
-msgstr "&OK"
+msgstr "OK"
 
 #: tfrmselectpathrange.edseparator.editlabel.caption
-msgid "Separat&or"
+msgid "Sep&arator"
 msgstr ""
 
 #: tfrmselectpathrange.gbcountfrom.caption
@@ -8287,25 +8277,15 @@ msgctxt "tfrmselectpathrange.rbfirstfromstart.caption"
 msgid "The sta&rt"
 msgstr ""
 
-#: tfrmselecttextrange.btppanel.cancelbutton.caption
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
-msgid "Cancel"
+#: tfrmselecttextrange.buttonpanel.cancelbutton.caption
+msgctxt "tfrmselecttextrange.buttonpanel.cancelbutton.caption"
+msgid "&Cancel"
 msgstr "Annuleren"
 
-#: tfrmselecttextrange.btppanel.closebutton.caption
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CLOSEBUTTON.CAPTION"
-msgid "&Close"
-msgstr "Sluiten"
-
-#: tfrmselecttextrange.btppanel.helpbutton.caption
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
-msgid "&Help"
-msgstr "&Hulp"
-
-#: tfrmselecttextrange.btppanel.okbutton.caption
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
+#: tfrmselecttextrange.buttonpanel.okbutton.caption
+msgctxt "tfrmselecttextrange.buttonpanel.okbutton.caption"
 msgid "&OK"
-msgstr "&OK"
+msgstr "OK"
 
 #: tfrmselecttextrange.gbcountfirstfrom.caption
 msgid "Count first from"
@@ -8505,19 +8485,19 @@ msgctxt "tfrmsetfileproperties.zvlastwritedatetime.textfornulldate"
 msgid " "
 msgstr ""
 
-#: tfrmsortanything.btncancel.caption
-#, fuzzy
-msgctxt "tfrmsortanything.btncancel.caption"
-msgid "&Cancel"
-msgstr "&Annuleren"
-
-#: tfrmsortanything.btnok.caption
-msgid "&O&K"
-msgstr ""
-
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
-msgstr ""
+msgstr "Rangschikken"
+
+#: tfrmsortanything.buttonpanel.cancelbutton.caption
+msgctxt "tfrmsortanything.buttonpanel.cancelbutton.caption"
+msgid "&Cancel"
+msgstr "Annuleren"
+
+#: tfrmsortanything.buttonpanel.okbutton.caption
+msgctxt "tfrmsortanything.buttonpanel.okbutton.caption"
+msgid "&OK"
+msgstr "OK"
 
 #: tfrmsortanything.caption
 msgid "frmSortAnything"
@@ -11660,10 +11640,6 @@ msgstr ""
 #: ulng.rsmulrenautorename
 msgid "Do auto-rename to \"name (1).ext\", \"name (2).ext\" etc.?"
 msgstr "Automatisch hernoemen naar 'naam (1).ext', 'naam (2).ext' enz.?"
-
-#: ulng.rsmulrenclearmask
-msgid "Clear mask"
-msgstr ""
 
 #: ulng.rsmulrencounter
 msgctxt "ulng.rsmulrencounter"

@@ -46,7 +46,7 @@ object frmSelectTextRange: TfrmSelectTextRange
     FocusControl = edtSelectText
     ParentColor = False
   end
-  object btpPanel: TButtonPanel
+  object ButtonPanel: TButtonPanel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblResult
     AnchorSideTop.Side = asrBottom
@@ -62,13 +62,11 @@ object frmSelectTextRange: TfrmSelectTextRange
     OKButton.Caption = '&OK'
     OKButton.DefaultCaption = False
     HelpButton.Name = 'HelpButton'
-    HelpButton.Caption = '&Help'
-    HelpButton.DefaultCaption = False
+    HelpButton.DefaultCaption = True
     CloseButton.Name = 'CloseButton'
-    CloseButton.Caption = '&Close'
-    CloseButton.DefaultCaption = False
+    CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
-    CancelButton.Caption = 'Cancel'
+    CancelButton.Caption = '&Cancel'
     CancelButton.DefaultCaption = False
     TabOrder = 1
     ShowButtons = [pbOK, pbCancel]
@@ -99,7 +97,6 @@ object frmSelectTextRange: TfrmSelectTextRange
       Height = 19
       Top = 0
       Width = 74
-      AutoSize = False
       Caption = '[&First:Last]'
       Checked = True
       OnChange = SomethingChange

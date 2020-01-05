@@ -172,7 +172,8 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion = 50;
+  hkVersion = 51;
+  // 51 - In "MultiRename" context, added the "Shift+F4" shortcut for the "cm_EditNewNames".
   // 50 - To load shortcut keys for the "MultiRename" which is now driven with "cm_Actions".
   // 49 - In "Viewer" context, added the "F6" for "cm_ShowCaret".
   // 48 - In "Viewer" context, added the "CTRL+P" for the "cm_Print".
@@ -1262,6 +1263,7 @@ begin
       AddIfNotExists(['Ctrl+I'],[],'cm_InvokeEditor');
       AddIfNotExists(['F3'],[],'cm_LoadNamesFromFile');
       AddIfNotExists(['F4'],[],'cm_EditNames');
+      AddIfNotExists(['Shift+F4'],[],'cm_EditNewNames');
       AddIfNotExists(['F10'],[],'cm_Config');
       AddIfNotExists(['F9'],[],'cm_Rename');
       AddIfNotExists(['Esc'],[],'cm_Close');

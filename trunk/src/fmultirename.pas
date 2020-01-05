@@ -108,7 +108,7 @@ type
 
   { tRenameMaskToUse }
   //Used as a parameter type to indicate the kind of field the mask is related to.
-  tRenameMaskToUse = (rmtuFilename, rmtuExtension, rmtuCounter, rmtuDate, rmtuTime, rmtuPlugins, rmtuClear);
+  tRenameMaskToUse = (rmtuFilename, rmtuExtension, rmtuCounter, rmtuDate, rmtuTime, rmtuPlugins);
 
   { tSourceOfInformation }
   tSourceOfInformation = (soiFilename, soiExtension, soiCounter, soiGUID, soiVariable, soiDate, soiTime, soiPlugins, soiFullName, soiPath);
@@ -166,6 +166,7 @@ type
     miEditor: TMenuItem;
     miLoadNamesFromFile: TMenuItem;
     miEditNames: TMenuItem;
+    miEditNewNames: TMenuItem;
     miSeparator1: TMenuItem;
     miConfiguration: TMenuItem;
     miSeparator2: TMenuItem;
@@ -177,12 +178,14 @@ type
     pmEditDirect: TPopupMenu;
     mnuLoadFromFile: TMenuItem;
     mnuEditNames: TMenuItem;
+    mnuEditNewNames: TMenuItem;
     pmPathToBeRelativeToHelper: TPopupMenu;
     actList: TActionList;
     actResetAll: TAction;
     actInvokeEditor: TAction;
     actLoadNamesFromFile: TAction;
     actEditNames: TAction;
+    actEditNewNames: TAction;
     actConfig: TAction;
     actRename: TAction;
     actClose: TAction;
@@ -319,6 +322,7 @@ type
     procedure cm_InvokeEditor(const {%H-}Params: array of string);
     procedure cm_LoadNamesFromFile(const {%H-}Params: array of string);
     procedure cm_EditNames(const {%H-}Params: array of string);
+    procedure cm_EditNewNames(const {%H-}Params: array of string);
     procedure cm_Config(const {%H-}Params: array of string);
     procedure cm_Rename(const {%H-}Params: array of string);
     procedure cm_Close(const {%H-}Params: array of string);
@@ -1255,11 +1259,14 @@ begin
   btnRelativeRenameLogFile.Action := actInvokeRelativePath;
   btnRelativeRenameLogFile.Caption := '';
   btnRelativeRenameLogFile.Width := fneRenameLogFileFilename.ButtonWidth;
+  btnRelativeRenameLogFile.Hint := actInvokeRelativePath.Caption;
   btnViewRenameLogFile.Action := actViewRenameLogFile;
   btnViewRenameLogFile.Caption := '';
   btnViewRenameLogFile.Width := fneRenameLogFileFilename.ButtonWidth;
+  btnViewRenameLogFile.Hint := actViewRenameLogFile.Caption;
   btnPresets.Action := actShowPresetsMenu;
   btnPresets.Caption := '';
+  btnPresets.Hint := actShowPresetsMenu.Caption;
   btnPresets.Width := fneRenameLogFileFilename.ButtonWidth;;;
 
   miPresets := TMenuItem.Create(mmMainMenu);
@@ -1490,7 +1497,6 @@ begin
     rmtuDate: Result := rsMulRenDate;
     rmtuTime: Result := rsMulRenTime;
     rmtuPlugins: Result := rsMulRenPlugins;
-    rmtuClear: Result := rsMulRenClearMask;
   end;
 end;
 
@@ -1505,7 +1511,6 @@ begin
     rmtuDate: Result := 23;
     rmtuTime: Result := 24;
     rmtuPlugins: Result := 25;
-    rmtuClear: Result := 26;
   end;
 end;
 
@@ -2292,6 +2297,35 @@ begin
   AFileList.Free;
 end;
 
+{ TfrmMultiRename.cm_EditNewNames }
+procedure TfrmMultiRename.cm_EditNewNames(const {%H-}Params: array of string);
+var
+  sFileName: string;
+  iIndexFile:integer;
+  AFileList: TStringListEx;
+begin
+  AFileList := TStringListEx.Create;
+  try
+    for iIndexFile := 0 to pred(FFiles.Count) do
+      AFileList.Add(FreshText(iIndexFile));
+    sFileName := GetTempName(GetTempFolderDeletableAtTheEnd) + '.txt';
+    try
+      AFileList.SaveToFile(sFileName);
+      try
+        if ShowMultiRenameWaitForm(sFileName, Self) then
+          LoadNamesFromFile(sFileName);
+      finally
+        mbDeleteFile(sFileName);
+      end;
+    except
+      on E: Exception do
+        msgError(E.Message);
+    end;
+  finally
+    AFileList.Free;
+  end;
+end;
+
 { TfrmMultiRename.cm_Config }
 procedure TfrmMultiRename.cm_Config(const {%H-}Params: array of string);
 begin
@@ -2738,7 +2772,7 @@ begin
         for iSeeker := 1 to pred(FMultiRenamePresetList.Count) do
           slLocalPresets.Add(FMultiRenamePresetList.MultiRenamePreset[iSeeker].PresetName);
 
-        if HaveUserSortThisList(rsMulRenSortingPresets, slLocalPresets) = mrOk then
+        if HaveUserSortThisList(Self, rsMulRenSortingPresets, slLocalPresets) = mrOk then
         begin
           for iSeeker := 0 to pred(slLocalPresets.Count) do
           begin
