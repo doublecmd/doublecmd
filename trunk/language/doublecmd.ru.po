@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-10-22 01:25+0300\n"
+"PO-Revision-Date: 2020-01-05 20:25+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2789,7 +2789,7 @@ msgstr "Перейти к предыдущей записи истории"
 
 #: tfrmmain.actviewlogfile.caption
 msgid "View log file"
-msgstr "Просмотреть содержимое файла протокола"
+msgstr "Просмотреть файл протокола"
 
 #: tfrmmain.actviewsearches.caption
 msgid "View current search instances"
@@ -3384,7 +3384,7 @@ msgstr "Удалить"
 
 #: tfrmmultirename.actdropdownpresetlist.caption
 msgid "Drop Down Presets List"
-msgstr ""
+msgstr "Раскрыть список шаблонов"
 
 #: tfrmmultirename.acteditnames.caption
 msgid "Edit Names..."
@@ -3392,7 +3392,7 @@ msgstr "Редактировать имена..."
 
 #: tfrmmultirename.acteditnewnames.caption
 msgid "Edit Current New Names..."
-msgstr ""
+msgstr "Редактировать текущие новые имена..."
 
 #: tfrmmultirename.actextextmask.caption
 msgctxt "tfrmmultirename.actextextmask.caption"
@@ -3411,11 +3411,11 @@ msgstr "Пр&авка"
 
 #: tfrmmultirename.actinvokerelativepath.caption
 msgid "Invoke Relative Path Menu"
-msgstr ""
+msgstr "Вызвать меню относительного пути"
 
 #: tfrmmultirename.actloadlastpreset.caption
 msgid "Load Last Preset"
-msgstr ""
+msgstr "Загрузить последний шаблон"
 
 #: tfrmmultirename.actloadnamesfromfile.caption
 msgid "Load Names from File..."
@@ -3423,43 +3423,43 @@ msgstr "Загрузить имена из файла..."
 
 #: tfrmmultirename.actloadpreset.caption
 msgid "Load Preset by Name or Index"
-msgstr ""
+msgstr "Загрузить шаблон по имени или индексу"
 
 #: tfrmmultirename.actloadpreset1.caption
 msgid "Load Preset 1"
-msgstr ""
+msgstr "Загрузить шаблон 1"
 
 #: tfrmmultirename.actloadpreset2.caption
 msgid "Load Preset 2"
-msgstr ""
+msgstr "Загрузить шаблон 2"
 
 #: tfrmmultirename.actloadpreset3.caption
 msgid "Load Preset 3"
-msgstr ""
+msgstr "Загрузить шаблон 3"
 
 #: tfrmmultirename.actloadpreset4.caption
 msgid "Load Preset 4"
-msgstr ""
+msgstr "Загрузить шаблон 4"
 
 #: tfrmmultirename.actloadpreset5.caption
 msgid "Load Preset 5"
-msgstr ""
+msgstr "Загрузить шаблон 5"
 
 #: tfrmmultirename.actloadpreset6.caption
 msgid "Load Preset 6"
-msgstr ""
+msgstr "Загрузить шаблон 6"
 
 #: tfrmmultirename.actloadpreset7.caption
 msgid "Load Preset 7"
-msgstr ""
+msgstr "Загрузить шаблон 7"
 
 #: tfrmmultirename.actloadpreset8.caption
 msgid "Load Preset 8"
-msgstr ""
+msgstr "Загрузить шаблон 8"
 
 #: tfrmmultirename.actloadpreset9.caption
 msgid "Load Preset 9"
-msgstr ""
+msgstr "Загрузить шаблон 9"
 
 #: tfrmmultirename.actnameextmask.caption
 msgctxt "tfrmmultirename.actnameextmask.caption"
@@ -3494,7 +3494,7 @@ msgstr "Переименовать"
 #: tfrmmultirename.actresetall.caption
 msgctxt "tfrmmultirename.actresetall.caption"
 msgid "Reset &All"
-msgstr "Восстановить всё"
+msgstr "&Восстановить всё"
 
 #: tfrmmultirename.actsavepreset.caption
 msgctxt "tfrmmultirename.actsavepreset.caption"
@@ -3508,7 +3508,7 @@ msgstr "Сохранить как..."
 
 #: tfrmmultirename.actshowpresetsmenu.caption
 msgid "Show Preset Menu"
-msgstr ""
+msgstr "Показать меню шаблонов"
 
 #: tfrmmultirename.actsortpresets.caption
 msgid "Sort"
@@ -3526,7 +3526,7 @@ msgstr "Время"
 
 #: tfrmmultirename.actviewrenamelogfile.caption
 msgid "View Rename Log File"
-msgstr ""
+msgstr "Просмотреть файл протокола переименования"
 
 #: tfrmmultirename.caption
 msgctxt "tfrmmultirename.caption"
@@ -3534,15 +3534,13 @@ msgid "MultiRename"
 msgstr "Групповое переименование"
 
 #: tfrmmultirename.cblog.caption
-#, fuzzy
-#| msgid "Ena&ble"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "&Log result"
-msgstr "Вкл&ючить"
+msgstr "Протоко&л"
 
 #: tfrmmultirename.cblogappend.caption
 msgid "Append"
-msgstr ""
+msgstr "Добавить"
 
 #: tfrmmultirename.cbregexp.caption
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
@@ -6885,52 +6883,50 @@ msgid "Single click (opens folders, double click for files)"
 msgstr "Одним щелчком открывать папки и двойным файлы"
 
 #: tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint
-#, fuzzy
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenamerelative.hint"
 msgid "Some functions to select appropriate path"
 msgstr "Некоторые функции для выбора подходящего пути"
 
 #: tfrmoptionsmultirename.btnmulrenlogfilenameview.hint
-#, fuzzy
 msgctxt "tfrmoptionsmultirename.btnmulrenlogfilenameview.hint"
 msgid "View log file content"
 msgstr "Просмотреть содержимое файла протокола"
 
 #: tfrmoptionsmultirename.ckbdailyindividualdirmultrenlog.caption
 msgid "Individual directories per day"
-msgstr ""
+msgstr "Отдельные каталоги на каждый день"
 
 #: tfrmoptionsmultirename.ckbfilenamewithfullpathinlog.caption
 msgid "Log filenames with full path"
-msgstr ""
+msgstr "Записывать имена файлов с полным путём"
 
 #: tfrmoptionsmultirename.ckbshowmenubarontop.caption
 msgid "Show menu bar on top "
-msgstr ""
+msgstr "Показать меню окна"
 
 #: tfrmoptionsmultirename.gbsaverenaminglog.caption
 msgid "Rename log"
-msgstr ""
+msgstr "Протокол переименования"
 
 #: tfrmoptionsmultirename.lbinvalidcharreplacement.caption
 msgid "Replace invalid filename character b&y"
-msgstr ""
+msgstr "Заменять &недопустимые в имени файла символом"
 
 #: tfrmoptionsmultirename.rbrenaminglogappendsamefile.caption
 msgid "Append in the same rename log file"
-msgstr ""
+msgstr "Добавить в тот же файл протокола переименования"
 
 #: tfrmoptionsmultirename.rbrenaminglogperpreset.caption
 msgid "Per preset"
-msgstr ""
+msgstr "На каждый шаблон"
 
 #: tfrmoptionsmultirename.rgexitmodifiedpreset.caption
 msgid "Exit with modified preset"
-msgstr ""
+msgstr "Выход с изменённым шаблоном"
 
 #: tfrmoptionsmultirename.rglaunchbehavior.caption
 msgid "Preset at launch"
-msgstr ""
+msgstr "Шаблон при запуске"
 
 #: tfrmoptionspluginsbase.btnaddplugin.caption
 msgctxt "tfrmoptionspluginsbase.btnaddplugin.caption"
@@ -8056,7 +8052,6 @@ msgid "With History:"
 msgstr "История:"
 
 #: tfrmoptionstreeviewmenucolor.btfont.caption
-#, fuzzy
 msgctxt "tfrmoptionstreeviewmenucolor.btfont.caption"
 msgid "..."
 msgstr "..."
@@ -8127,7 +8122,7 @@ msgstr "Использовать и показывать сочетания кл
 
 #: tfrmoptionstreeviewmenucolor.gbfont.caption
 msgid "Font"
-msgstr ""
+msgstr "Шрифт"
 
 #: tfrmoptionstreeviewmenucolor.gblayoutandcolors.caption
 msgid "Layout and colors options:"
@@ -8459,70 +8454,70 @@ msgstr "ИЛИ (любое правило)"
 #: tfrmselectpathrange.buttonpanel.cancelbutton.caption
 msgctxt "tfrmselectpathrange.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
-msgstr "Отмена"
+msgstr "О&тмена"
 
 #: tfrmselectpathrange.buttonpanel.okbutton.caption
 msgctxt "tfrmselectpathrange.buttonpanel.okbutton.caption"
 msgid "&OK"
-msgstr "ОК"
+msgstr "&ОК"
 
 #: tfrmselectpathrange.edseparator.editlabel.caption
 msgid "Sep&arator"
-msgstr "Разделитель"
+msgstr "&Разделитель"
 
 #: tfrmselectpathrange.gbcountfrom.caption
 msgid "Count from"
-msgstr ""
+msgstr "Считать от"
 
 #: tfrmselectpathrange.lblresult.caption
 msgctxt "tfrmselectpathrange.lblresult.caption"
 msgid "Result:"
-msgstr ""
+msgstr "Результат:"
 
 #: tfrmselectpathrange.lblselectdirectories.caption
 msgid "&Select the directories to insert (you may select more than one)"
-msgstr ""
+msgstr "&Выберите каталоги для вставки (можно более одного)"
 
 #: tfrmselectpathrange.rbfirstfromend.caption
 msgctxt "tfrmselectpathrange.rbfirstfromend.caption"
 msgid "The en&d"
-msgstr ""
+msgstr "&конца"
 
 #: tfrmselectpathrange.rbfirstfromstart.caption
 msgctxt "tfrmselectpathrange.rbfirstfromstart.caption"
 msgid "The sta&rt"
-msgstr ""
+msgstr "&начала"
 
 #: tfrmselecttextrange.buttonpanel.cancelbutton.caption
 msgctxt "tfrmselecttextrange.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
-msgstr "Отмена"
+msgstr "О&тмена"
 
 #: tfrmselecttextrange.buttonpanel.okbutton.caption
 msgctxt "tfrmselecttextrange.buttonpanel.okbutton.caption"
 msgid "&OK"
-msgstr "ОК"
+msgstr "&ОК"
 
 #: tfrmselecttextrange.gbcountfirstfrom.caption
 msgid "Count first from"
-msgstr ""
+msgstr "Первый с"
 
 #: tfrmselecttextrange.gbcountlastfrom.caption
 msgid "Count last from"
-msgstr ""
+msgstr "Последний с"
 
 #: tfrmselecttextrange.gbrangedescription.caption
 msgid "Range description"
-msgstr ""
+msgstr "Диапазон"
 
 #: tfrmselecttextrange.lblresult.caption
 msgctxt "tfrmselecttextrange.lblresult.caption"
 msgid "Result:"
-msgstr ""
+msgstr "Результат:"
 
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "&Select the characters to insert:"
-msgstr "Си&мволы для вставки"
+msgstr "&Выделите символы для вставки:"
 
 #: tfrmselecttextrange.rbdescriptionfirstlast.caption
 msgid "[&First:Last]"
@@ -8535,20 +8530,20 @@ msgstr "[Первый,&Длина]"
 #: tfrmselecttextrange.rbfirstfromend.caption
 msgctxt "tfrmselecttextrange.rbfirstfromend.caption"
 msgid "The en&d"
-msgstr ""
+msgstr "&конца"
 
 #: tfrmselecttextrange.rbfirstfromstart.caption
 msgctxt "tfrmselecttextrange.rbfirstfromstart.caption"
 msgid "The sta&rt"
-msgstr ""
+msgstr "&начала"
 
 #: tfrmselecttextrange.rblastfromend.caption
 msgid "The &end"
-msgstr ""
+msgstr "кон&ца"
 
 #: tfrmselecttextrange.rblastfromstart.caption
 msgid "The s&tart"
-msgstr ""
+msgstr "начал&а"
 
 #: tfrmsetfileproperties.btncancel.caption
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -8708,17 +8703,17 @@ msgstr " "
 
 #: tfrmsortanything.btnsort.caption
 msgid "&Sort"
-msgstr "Сортировать"
+msgstr "&Сортировать"
 
 #: tfrmsortanything.buttonpanel.cancelbutton.caption
 msgctxt "tfrmsortanything.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
-msgstr "Отмена"
+msgstr "О&тмена"
 
 #: tfrmsortanything.buttonpanel.okbutton.caption
 msgctxt "tfrmsortanything.buttonpanel.okbutton.caption"
 msgid "&OK"
-msgstr "ОК"
+msgstr "&ОК"
 
 #: tfrmsortanything.caption
 msgid "frmSortAnything"
@@ -8726,7 +8721,7 @@ msgstr ""
 
 #: tfrmsortanything.lblsortanything.caption
 msgid "Drag and drop elements to sort them"
-msgstr ""
+msgstr "Можно сортировать перетаскиванием"
 
 #: tfrmsplitter.btnrelativeftchoice.hint
 msgctxt "tfrmsplitter.btnrelativeftchoice.hint"
@@ -10410,7 +10405,7 @@ msgstr "&Редактор"
 
 #: ulng.rsfontusagefunctionbuttons
 msgid "Function Buttons Font"
-msgstr ""
+msgstr "Функциональные клавиши"
 
 #: ulng.rsfontusagelog
 msgid "&Log Font"
@@ -10426,11 +10421,11 @@ msgstr "Текущий &путь"
 
 #: ulng.rsfontusagesearchresults
 msgid "Search Results Font"
-msgstr ""
+msgstr "Результаты поиска"
 
 #: ulng.rsfontusagetreeviewmenu
 msgid "Tree View Menu Font"
-msgstr ""
+msgstr "Древовидное меню"
 
 #: ulng.rsfontusageviewer
 msgid "&Viewer Font"
@@ -11590,7 +11585,7 @@ msgstr "Шаблон \"%s\" существует. Перезаписать?"
 
 #: ulng.rsmsgpresetconfigdelete
 msgid "Are you sure you want to delete preset \"%s\"?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить шаблон \"%s\"?"
 
 #: ulng.rsmsgproblemexecutingcommand
 msgid "Problem executing command (%s)"
@@ -11913,27 +11908,27 @@ msgstr "Дата"
 
 #: ulng.rsmulrendefaultpresetname
 msgid "Preset name"
-msgstr ""
+msgstr "Название шаблона"
 
 #: ulng.rsmulrendefinevariablename
 msgid "Define variable name"
-msgstr ""
+msgstr "Имя переменной"
 
 #: ulng.rsmulrendefinevariablevalue
 msgid "Define variable value"
-msgstr ""
+msgstr "Значение переменной"
 
 #: ulng.rsmulrenenternameforvar
 msgid "Enter variable name"
-msgstr ""
+msgstr "Введите имя переменной"
 
 #: ulng.rsmulrenentervalueforvar
 msgid "Enter value for variable \"%s\""
-msgstr ""
+msgstr "Введите значение переменной \"%s\""
 
 #: ulng.rsmulrenexitmodifiedpresetoptions
 msgid "Ignore, just save as the [Last One];Prompt user to confirm if we save it;Save automatically"
-msgstr ""
+msgstr "Игнорировать, просто сохранить как [последний];Запросить подтверждение сохранения;Сохранить автоматически"
 
 #: ulng.rsmulrenextension
 msgctxt "ulng.rsmulrenextension"
@@ -11955,7 +11950,7 @@ msgstr "[Последние использованные]"
 
 #: ulng.rsmulrenlaunchbehavioroptions
 msgid "Last masks under [Last One] preset;Last preset;New fresh masks"
-msgstr ""
+msgstr "Последние значения;Последний шаблон;Значения по умолчанию"
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
@@ -11972,11 +11967,11 @@ msgstr "Символы с позиции x по y"
 
 #: ulng.rsmulrenmaskcompletedate
 msgid "Complete date"
-msgstr ""
+msgstr "Дата полностью"
 
 #: ulng.rsmulrenmaskcompletetime
 msgid "Complete time"
-msgstr ""
+msgstr "Время полностью"
 
 #: ulng.rsmulrenmaskcounter
 msgctxt "ulng.rsmulrenmaskcounter"
@@ -12006,15 +12001,15 @@ msgstr "Расширение"
 
 #: ulng.rsmulrenmaskfullname
 msgid "Complete filename with path and extension"
-msgstr ""
+msgstr "Полное имя файла с путём и расширением"
 
 #: ulng.rsmulrenmaskfullnamecharatposxtoy
 msgid "Complete filename, char from pos x to y"
-msgstr ""
+msgstr "Полное имя файла, символы с позиции x по y"
 
 #: ulng.rsmulrenmaskguid
 msgid "GUID"
-msgstr ""
+msgstr "GUID"
 
 #: ulng.rsmulrenmaskhour
 msgid "Hour"
@@ -12055,7 +12050,7 @@ msgstr "Имя"
 
 #: ulng.rsmulrenmaskparent
 msgid "Parent folder(s)"
-msgstr ""
+msgstr "Родительская папка(и)"
 
 #: ulng.rsmulrenmasksec
 msgid "Second"
@@ -12067,7 +12062,7 @@ msgstr "Секунда (2 цифры)"
 
 #: ulng.rsmulrenmaskvaronthefly
 msgid "Variable on the fly"
-msgstr ""
+msgstr "Переменная на лету"
 
 #: ulng.rsmulrenmaskyear2digits
 msgid "Year (2 digits)"
@@ -12084,25 +12079,27 @@ msgstr "Плагины"
 
 #: ulng.rsmulrenpromptforsavedpresetname
 msgid "Save preset as"
-msgstr ""
+msgstr "Сохранить шаблон как"
 
 #: ulng.rsmulrenpromptnewnameexists
 msgid "Preset name already exists. Overwrite?"
-msgstr ""
+msgstr "Шаблон с таким именем уже существует. Переписать?"
 
 #: ulng.rsmulrenpromptnewpresetname
 msgid "Enter new preset name"
-msgstr ""
+msgstr "Введите новое имя шаблона"
 
 #: ulng.rsmulrensavemodifiedpreset
 msgid ""
 "\"%s\" preset has been modified.\n"
 "Do you want to save it now?\n"
 msgstr ""
+"Шаблон \"%s\" был изменён.\n"
+"Хотите сохранить его сейчас?\n"
 
 #: ulng.rsmulrensortingpresets
 msgid "Sorting presets"
-msgstr ""
+msgstr "Сортировка шаблонов"
 
 #: ulng.rsmulrentime
 msgctxt "ulng.rsmulrentime"
@@ -13271,7 +13268,7 @@ msgstr "Да"
 
 #: ulng.rssimplewordvariable
 msgid "Variable"
-msgstr ""
+msgstr "Переменная"
 
 #: ulng.rssimplewordworkdir
 msgid "WorkDir"
