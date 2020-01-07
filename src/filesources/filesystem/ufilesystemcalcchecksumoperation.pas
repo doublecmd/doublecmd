@@ -516,7 +516,7 @@ begin
   BytesToRead := FBufferSize;
 
   repeat
-    hFile:= mbFileOpen(aFile.FullPath, fmOpenRead or fmShareDenyNone);
+    hFile:= mbFileOpen(aFile.FullPath, fmOpenRead or fmShareDenyWrite);
     Result:= hFile <> feInvalidHandle;
     if not Result then
     begin
@@ -537,7 +537,7 @@ begin
   HashInit(Context, Algorithm);
 
   try
-    TotalBytesToRead := mbFileSize(aFile.FullPath);
+    TotalBytesToRead := FileGetSize(hFile);
 
     while TotalBytesToRead > 0 do
     begin
