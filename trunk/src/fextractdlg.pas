@@ -174,6 +174,10 @@ begin
               try
                 // Check if there is a ArchiveFileSource for possible archive.
                 ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i], EmptyStr, False, True);
+                // Try to determine archive type by content
+                if (ArchiveFileSource = nil) then begin
+                  ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i], EmptyStr, True, True);
+                end;
 
                 // Extract current item
                 ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath, cbFileMask.Text, QueueId);
