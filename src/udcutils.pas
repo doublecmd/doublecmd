@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Several useful functions
    
-   Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)
 
    contributors:
    
@@ -835,7 +835,7 @@ begin
         Include(CompareOptions, coDigitAsNumbers);
       if Special then
         Include(CompareOptions, coStringSort);
-      Result := widestringmanager.CompareWideStringProc(UTF8Decode(s1), UTF8Decode(s2), CompareOptions);
+      Result := widestringmanager.CompareUnicodeStringProc(UTF8Decode(s1), UTF8Decode(s2), CompareOptions);
     end
     else
 {$ENDIF}
@@ -845,9 +845,9 @@ begin
     begin
       case CaseSensitivity of
         cstNotSensitive:
-          Result := WideCompareText(UTF8Decode(s1), UTF8Decode(s2));
+          Result := UnicodeCompareText(UTF8Decode(s1), UTF8Decode(s2));
         cstLocale:
-          Result := WideCompareStr(UTF8Decode(s1), UTF8Decode(s2));
+          Result := UnicodeCompareStr(UTF8Decode(s1), UTF8Decode(s2));
         cstCharValue:
           Result := SysUtils.CompareStr(S1, S2);
         else
@@ -881,7 +881,7 @@ begin
   end;
 end;
 
-function WideStrComp(const Str1, Str2 : WideString): PtrInt;
+function UnicodeStrComp(const Str1, Str2 : UnicodeString): PtrInt;
  var
   counter: SizeInt = 0;
   pstr1, pstr2: PWideChar;
@@ -1001,9 +1001,9 @@ begin
           PrepareChunk(Chunk1);
           PrepareChunk(Chunk2);
           case CaseSensitivity of
-            cstNotSensitive: Result := WideCompareText(UTF8Decode(Chunk1.Str), UTF8Decode(Chunk2.Str));
-            cstLocale:       Result := WideCompareStr(UTF8Decode(Chunk1.Str), UTF8Decode(Chunk2.Str));
-            cstCharValue:    Result := WideStrComp(UTF8Decode(Chunk1.Str), UTF8Decode(Chunk2.Str));
+            cstNotSensitive: Result := UnicodeCompareText(UTF8Decode(Chunk1.Str), UTF8Decode(Chunk2.Str));
+            cstLocale:       Result := UnicodeCompareStr(UTF8Decode(Chunk1.Str), UTF8Decode(Chunk2.Str));
+            cstCharValue:    Result := UnicodeStrComp(UTF8Decode(Chunk1.Str), UTF8Decode(Chunk2.Str));
             else
               raise Exception.Create('Invalid CaseSensitivity parameter');
           end;
@@ -1030,7 +1030,7 @@ begin
             Exit;
         end;
       cNone:
-        Exit(WideStrComp(UTF8Decode(str1), UTF8Decode(str2)));
+        Exit(UnicodeStrComp(UTF8Decode(str1), UTF8Decode(str2)));
     end;
 
     NextChunkInit(Chunk1);
