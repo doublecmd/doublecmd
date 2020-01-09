@@ -1631,10 +1631,12 @@ var
   sVariableName: string;
 begin
   sVariableName := rsSimpleWordVariable;
-  InputQuery(rsMulRenDefineVariableName, rsMulRenEnterNameForVar, sVariableName);
-  if sVariableName = '' then
-    sVariableName := rsSimpleWordVariable;
-  InsertMask('[V:' + sVariableName + ']', tTargetForMask(TMenuItem(Sender).Tag and iTARGETMASK));
+  if InputQuery(rsMulRenDefineVariableName, rsMulRenEnterNameForVar, sVariableName) then
+  begin
+    if sVariableName = '' then
+      sVariableName := rsSimpleWordVariable;
+    InsertMask('[V:' + sVariableName + ']', tTargetForMask(TMenuItem(Sender).Tag and iTARGETMASK));
+  end;
 end;
 
 { TfrmMultiRename.MenuItemStraightMaskClick }
@@ -1851,13 +1853,21 @@ begin
       sVariableValue := FslVariableSuggestionValue.Strings[iVariableSuggestionIndex]
     else
       sVariableValue := sVariableName;
-    InputQuery(rsMulRenDefineVariableValue, Format(rsMulRenEnterValueForVar, [sVariableName]), sVariableValue);
-    FslVariableNames.Add(sVariableName);
-    iVariableIndex := FslVariableValues.Add(sVariableValue);
-    if iVariableSuggestionIndex = -1 then
+
+    if InputQuery(rsMulRenDefineVariableValue, Format(rsMulRenEnterValueForVar, [sVariableName]), sVariableValue) then
     begin
-      FslVariableSuggestionName.Add(sVariableName);
-      FslVariableSuggestionValue.Add(sVariableValue);
+      FslVariableNames.Add(sVariableName);
+      iVariableIndex := FslVariableValues.Add(sVariableValue);
+      if iVariableSuggestionIndex = -1 then
+      begin
+        FslVariableSuggestionName.Add(sVariableName);
+        FslVariableSuggestionValue.Add(sVariableValue);
+      end;
+    end
+    else
+    begin
+      FActuallyRenamingFile := False;
+      exit;
     end;
   end;
   Result := FslVariableValues.Strings[iVariableIndex];
@@ -2374,6 +2384,10 @@ begin
       begin
         AFile := TFile.Create(EmptyStr);
         AFile.Name := FreshText(I);
+
+        //In "FreshText", if there was a "Variable on the fly / [V:Hint]" and the user aborted it, the "FActuallyRenamingFile" will be cleared and so we abort the actual renaming process.
+        if not FActuallyRenamingFile then
+          Exit;
 
         // Checking duplicates
         NewName := FFiles[I].Path + AFile.Name;
