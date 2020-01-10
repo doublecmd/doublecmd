@@ -233,7 +233,9 @@ type
 
 {$IFDEF timeFileView}
 var
-  filelistLoaderTime: TDateTime;
+  filelistTime,
+  filelistPrevTime,
+  filelistLoaderTime: QWord;
 {$ENDIF}
 
 implementation
@@ -245,6 +247,16 @@ uses
   uGlobs, uPixMapManager, uFileSourceProperty,
   uFileSourceCalcStatisticsOperation,
   uFileSourceOperationOptions;
+
+{$IFDEF timeFileView}
+procedure filelistPrintTime(const AMessage: String); inline;
+begin
+  filelistTime:= GetTickCount64;
+  DCDebug(AMessage + IntToStr(filelistTime - filelistLoaderTime) +
+          ', offset ' + IntToStr(filelistTime - filelistPrevTime));
+  filelistPrevTime:= filelistTime;
+end;
+{$ENDIF}
 
 { TFVWorkerFileList }
 
@@ -454,7 +466,7 @@ begin
     end;
 
     {$IFDEF timeFileView}
-    DCDebug('Loaded files         : ' + IntToStr(DateTimeToTimeStamp(Now - filelistLoaderTime).Time));
+    filelistPrintTime('Loaded files        : ');
     {$ENDIF}
 
     if Aborted then
@@ -525,14 +537,14 @@ begin
       FileSourceFiles.OwnsObjects := False;
 
     {$IFDEF timeFileView}
-    DCDebug('Made sorted disp.lst: ' + IntToStr(DateTimeToTimeStamp(Now - filelistLoaderTime).Time));
+    filelistPrintTime('Made sorted disp.lst: ');
     {$ENDIF}
 
     FFilteredDisplayFiles := TDisplayFiles.Create(False);
     MakeDisplayFileList(FAllDisplayFiles, FFilteredDisplayFiles, FFileFilter, FFilterOptions);
 
     {$IFDEF timeFileView}
-    DCDebug('Made filtered list  : ' + IntToStr(DateTimeToTimeStamp(Now - filelistLoaderTime).Time));
+    filelistPrintTime('Made filtered list  : ');
     {$ENDIF}
 
     if Aborted then
@@ -542,12 +554,12 @@ begin
     TThread.Synchronize(Thread, @DoSetFilelist);
 
     {$IFDEF timeFileView}
-    DCDebug('Grid files updated  : ' + IntToStr(DateTimeToTimeStamp(Now - filelistLoaderTime).Time));
+    filelistPrintTime('Grid files updated  : ');
     {$ENDIF}
 
   finally
     {$IFDEF timeFileView}
-    DCDebug('Finished            : ' + IntToStr(DateTimeToTimeStamp(Now - filelistLoaderTime).Time));
+    filelistPrintTime('Finished            : ');
     {$ENDIF}
 
     FreeAndNil(FFilteredDisplayFiles);

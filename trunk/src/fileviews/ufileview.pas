@@ -2030,7 +2030,9 @@ begin
     Exit;
 
   {$IFDEF timeFileView}
-  filelistLoaderTime := Now;
+  filelistTime := GetTickCount64;
+  filelistPrevTime := filelistTime;
+  filelistLoaderTime := filelistTime;
   DCDebug('--------- Start ---------');
   {$ENDIF}
 
