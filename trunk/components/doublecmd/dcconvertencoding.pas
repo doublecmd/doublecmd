@@ -50,6 +50,9 @@ var
 
 function CeRawToUtf8(const Source: String): RawByteString;
 
+function CeUtf8ToUtf16(const Source: String): UnicodeString;
+function CeUtf16ToUtf8(const Source: UnicodeString): RawByteString;
+
 {$IF DEFINED(MSWINDOWS)}
 function CeTryEncode(const aValue: UnicodeString; aCodePage: Cardinal;
                      aAllowBestFit: Boolean; out aResult: AnsiString): Boolean;
@@ -141,6 +144,62 @@ begin
   until False;
   Result:= CeSysToUtf8(Source);
 end;
+
+function CeUtf8ToUtf16(const Source: String): UnicodeString;
+{$IF DEFINED(MSWINDOWS)}
+var
+  L: SizeUInt;
+begin
+  L:= Length(Source);
+  if L = 0 then Exit('');
+  SetLength(Result, L + 1);
+  // wide chars of UTF-16 <= bytes of UTF-8 string
+  SetLength(Result, MultiByteToWideChar(CP_UTF8, 0, PAnsiChar(Source), L, PWideChar(Result), L + 1));
+end;
+{$ELSE}
+var
+  L: SizeUInt;
+begin
+  L:= Length(Source);
+  if L = 0 then Exit('');
+  SetLength(Result, L + 1);
+  L:= Utf8ToUnicode(PUnicodeChar(Result), L + 1, PAnsiChar(Source), L);
+  if L > 0 then
+    SetLength(Result, L - 1)
+  else begin
+    SetLength(Result, 0);
+  end;
+end;
+{$ENDIF}
+
+function CeUtf16ToUtf8(const Source: UnicodeString): RawByteString;
+{$IF DEFINED(MSWINDOWS)}
+var
+  L: SizeUInt;
+begin
+  L:= Length(Source);
+  if (L = 0) then Exit('');
+  SetLength(Result, L * 3);
+  // bytes of UTF-8 <= 3 * wide chars of UTF-16 string
+  // e.g. %11100000 10100000 10000000 (UTF-8) is $0800 (UTF-16)
+  SetLength(Result, WideCharToMultiByte(CP_UTF8, 0,
+    PWideChar(Source), L, PAnsiChar(Result), Length(Result), nil, nil));
+end;
+{$ELSE}
+var
+  L: SizeUInt;
+begin
+  L:= Length(Source);
+  if (L = 0) then Exit('');
+  SetLength(Result, L * 3);
+  L:= UnicodeToUtf8(PAnsiChar(Result), Length(Result) + 1, PUnicodeChar(Source), L);
+  if L > 0 then
+    SetLength(Result, L - 1)
+  else begin
+    SetLength(Result, 0);
+  end;
+end;
+{$ENDIF}
 
 function Dummy(const Source: String): RawByteString;
 begin
