@@ -229,7 +229,7 @@ implementation
 
 uses
   uLng, LCLProc, LCLType, uMasks, FileUtil, StrUtils, uOSUtils, uGlobs, uGlobsPaths,
-  DCStrUtils, DCOSUtils, LazUTF8;
+  DCStrUtils, DCOSUtils, DCConvertEncoding, LazUTF8;
 
 var
   dtLastDateSubstitutionCheck:TDateTime=0;
@@ -835,7 +835,7 @@ begin
         Include(CompareOptions, coDigitAsNumbers);
       if Special then
         Include(CompareOptions, coStringSort);
-      Result := widestringmanager.CompareUnicodeStringProc(UTF8Decode(s1), UTF8Decode(s2), CompareOptions);
+      Result := widestringmanager.CompareUnicodeStringProc(CeUtf8ToUtf16(s1), CeUtf8ToUtf16(s2), CompareOptions);
     end
     else
 {$ENDIF}
@@ -845,9 +845,9 @@ begin
     begin
       case CaseSensitivity of
         cstNotSensitive:
-          Result := UnicodeCompareText(UTF8Decode(s1), UTF8Decode(s2));
+          Result := UnicodeCompareText(CeUtf8ToUtf16(s1), CeUtf8ToUtf16(s2));
         cstLocale:
-          Result := UnicodeCompareStr(UTF8Decode(s1), UTF8Decode(s2));
+          Result := UnicodeCompareStr(CeUtf8ToUtf16(s1), CeUtf8ToUtf16(s2));
         cstCharValue:
           Result := SysUtils.CompareStr(S1, S2);
         else
@@ -1001,9 +1001,9 @@ begin
           PrepareChunk(Chunk1);
           PrepareChunk(Chunk2);
           case CaseSensitivity of
-            cstNotSensitive: Result := UnicodeCompareText(UTF8Decode(Chunk1.Str), UTF8Decode(Chunk2.Str));
-            cstLocale:       Result := UnicodeCompareStr(UTF8Decode(Chunk1.Str), UTF8Decode(Chunk2.Str));
-            cstCharValue:    Result := UnicodeStrComp(UTF8Decode(Chunk1.Str), UTF8Decode(Chunk2.Str));
+            cstNotSensitive: Result := UnicodeCompareText(CeUtf8ToUtf16(Chunk1.Str), CeUtf8ToUtf16(Chunk2.Str));
+            cstLocale:       Result := UnicodeCompareStr(CeUtf8ToUtf16(Chunk1.Str), CeUtf8ToUtf16(Chunk2.Str));
+            cstCharValue:    Result := UnicodeStrComp(CeUtf8ToUtf16(Chunk1.Str), CeUtf8ToUtf16(Chunk2.Str));
             else
               raise Exception.Create('Invalid CaseSensitivity parameter');
           end;
@@ -1030,7 +1030,7 @@ begin
             Exit;
         end;
       cNone:
-        Exit(UnicodeStrComp(UTF8Decode(str1), UTF8Decode(str2)));
+        Exit(UnicodeStrComp(CeUtf8ToUtf16(str1), CeUtf8ToUtf16(str2)));
     end;
 
     NextChunkInit(Chunk1);
