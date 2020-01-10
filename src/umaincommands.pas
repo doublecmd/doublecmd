@@ -4315,13 +4315,29 @@ end;
 procedure TMainCommands.cm_CompareDirectories(const Params: array of string);
 var
   I: LongWord;
+  Param: String;
+  BoolValue: Boolean;
   NtfsShift: Boolean;
   SourceFile: TDisplayFile;
   TargetFile: TDisplayFile;
+  AFiles, AFolders: Boolean;
   SourceList: TStringHashListUtf8;
   SourceFiles: TDisplayFiles = nil;
   TargetFiles: TDisplayFiles = nil;
 begin
+  AFiles := True;
+  AFolders := False;
+  for Param in Params do
+  begin
+    if GetParamBoolValue(Param, 'files', BoolValue) then
+      AFiles := BoolValue
+    else if GetParamBoolValue(Param, 'directories', BoolValue) then
+    begin
+      AFolders := BoolValue
+    end;
+  end;
+  if (AFiles = False) and (AFolders = False) then AFiles := True;
+
   SourceList:= TStringHashListUtf8.Create(FileNameCaseSensitive);
   with frmMain do
   try
@@ -4332,7 +4348,12 @@ begin
     begin
       SourceFile:= SourceFiles[I];
       if SourceFile.FSFile.IsDirectory or SourceFile.FSFile.IsLinkToDirectory then
-        Continue;
+      begin
+        if not AFolders then Continue;
+      end
+      else begin
+        if not AFiles then Continue;
+      end;
       ActiveFrame.MarkFile(SourceFile, True);
       SourceList.Add(SourceFile.FSFile.Name, SourceFile);
     end;
@@ -4340,7 +4361,12 @@ begin
     begin
       TargetFile:= TargetFiles[I];
       if TargetFile.FSFile.IsDirectory or TargetFile.FSFile.IsLinkToDirectory then
-        Continue;
+      begin
+        if not AFolders then Continue;
+      end
+      else begin
+        if not AFiles then Continue;
+      end;
       SourceFile:= TDisplayFile(SourceList.Data[TargetFile.FSFile.Name]);
       if (SourceFile = nil) then
         NotActiveFrame.MarkFile(TargetFile, True)
