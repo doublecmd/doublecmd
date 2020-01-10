@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -46,6 +46,7 @@ type
     UserName: AnsiString;
     Password: AnsiString;
     MasterPassword: Boolean;
+    CachedPassword: AnsiString;
     Proxy: String;
     PassiveMode: Boolean;
     OnlySCP: Boolean;
@@ -243,6 +244,15 @@ begin
   end;
 end;
 
+procedure ZeroPassword(var APassword: String);
+begin
+  if (Length(APassword) > 0) then
+  begin
+    FillChar(APassword[1], Length(APassword), 0);
+    SetLength(APassword, 0);
+  end;
+end;
+
 function CryptFunc(Mode: LongInt; ConnectionName: String; var Password: String): LongInt;
 var
   APassword: UnicodeString;
@@ -293,6 +303,7 @@ end;
 function FtpConnect(const ConnectionName: AnsiString; out FtpSend: TFTPSendEx): Boolean;
 var
   I: Integer;
+  APassword: String;
   Connection: TConnection;
 begin
   Result:= False;
@@ -359,40 +370,41 @@ begin
         if Connection.MasterPassword then
         begin
           if CryptFunc(FS_CRYPT_LOAD_PASSWORD, Connection.ConnectionName, Connection.Password) <> FS_FILE_OK then
-            Connection.Password:= EmptyStr;
+            ZeroPassword(Connection.Password);
         end;
-        if Connection.Password = EmptyStr then // if no saved password then ask it
+        // if no saved password then ask it
+        if Length(Connection.Password) > 0 then
+          APassword:= Connection.Password
+        else if Length(Connection.CachedPassword) > 0 then
+          APassword:= Connection.CachedPassword
+        else if not ShowPasswordDialog(APassword) then
         begin
-          if not ShowPasswordDialog(Connection.Password) then
-          begin
-            FreeAndNil(FtpSend);
-            Exit;
-          end;
+          FreeAndNil(FtpSend);
+          Exit;
         end;
-        FtpSend.Password := FtpSend.ClientToServer(Connection.Password);
+        FtpSend.Password := FtpSend.ClientToServer(APassword);
         SetProxy(FtpSend, Connection.Proxy);
         // try to connect
-        if FtpLogin(Connection, FtpSend) then
+        if not FtpLogin(Connection, FtpSend) then
+        begin
+          RequestProc(PluginNumber, RT_MsgOK, nil, 'Can not connect to the server!', nil, MAX_PATH);
+          FreeAndNil(FtpSend);
+        end
+        else begin
+          Connection.CachedPassword:= APassword;
+          LogProc(PluginNumber, MSGTYPE_CONNECT, PWideChar('CONNECT ' + PathDelim + UTF8Decode(ConnectionName)));
+          ActiveConnectionList.AddObject(ConnectionName, FtpSend);
+          if Connection.OpenSSH and (ConnectionName <> cQuickConnection) then
           begin
-            LogProc(PluginNumber, MSGTYPE_CONNECT, PWideChar('CONNECT ' + PathDelim + UTF8Decode(ConnectionName)));
-            ActiveConnectionList.AddObject(ConnectionName, FtpSend);
-            if Connection.OpenSSH and (ConnectionName <> cQuickConnection) then
+            // Save connection server fingerprint
+            if Connection.Fingerprint <> TScpSend(FtpSend).Fingerprint then
             begin
-              // Save connection server fingerprint
-              if Connection.Fingerprint <> TScpSend(FtpSend).Fingerprint then
-              begin
-                Connection.Fingerprint:= TScpSend(FtpSend).Fingerprint;
-                WriteConnectionList;
-              end;
+              Connection.Fingerprint:= TScpSend(FtpSend).Fingerprint;
+              WriteConnectionList;
             end;
-            Result:= True;
-          end
-        else
-          begin
-            RequestProc(PluginNumber, RT_MsgOK, nil, 'Can not connect to the server!', nil, MAX_PATH);
-            FreeAndNil(FtpSend);
-            Exit;
           end;
+          Result:= True;
+        end;
       end;
     end;
 end;
@@ -421,7 +433,6 @@ end;
 
 function AddConnection: Integer;
 var
-  Temp: AnsiString;
   Connection: TConnection;
 begin
   Result := -1;
@@ -907,6 +918,7 @@ end;
 
 function FsDisconnectW(DisconnectRoot: PWideChar): BOOL; dcpcall;
 var
+  Index: Integer;
   asTemp: AnsiString;
   wsTemp: UnicodeString;
   FtpSend: TFTPSendEx;
@@ -916,6 +928,12 @@ begin
   if GetConnectionByPath(wsTemp, FtpSend, asTemp) then
   begin
     Result := FtpSend.Logout;
+
+    Index:= ConnectionList.IndexOf(ExtractConnectionName(UTF16ToUTF8(wsTemp)));
+    if Index >= 0 then begin
+      ZeroPassword(TConnection(ConnectionList.Objects[Index]).CachedPassword);
+    end;
+
     LogProc(PluginNumber, MSGTYPE_DISCONNECT, PWideChar('DISCONNECT ' + DisconnectRoot));
     ActiveConnectionList.Delete(ActiveConnectionList.IndexOfObject(FtpSend));
     FreeAndNil(FtpSend);
