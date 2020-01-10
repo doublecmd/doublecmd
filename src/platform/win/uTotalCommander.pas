@@ -228,7 +228,7 @@ const
     (TCCommand: 'cm_VersionInfo';               TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Version information
     (TCCommand: 'cm_ExecuteDOS';                TCIcon: -1; DCCommand: 'cm_RunTerm';                DCParameters: ''          ), //Open command prompt window
     (TCCommand: 'cm_CompareDirs';               TCIcon: 35; DCCommand: 'cm_CompareDirectories';     DCParameters: ''          ), //Compare dirs
-    (TCCommand: 'cm_CompareDirsWithSubdirs';    TCIcon: 35; DCCommand: 'cm_CompareDirectories';     DCParameters: ''          ), //Also mark subdirs not present in other dir
+    (TCCommand: 'cm_CompareDirsWithSubdirs';    TCIcon: 35; DCCommand: 'cm_CompareDirectories';     DCParameters: 'directories=on'), //Also mark subdirs not present in other dir
     (TCCommand: 'cm_ContextMenu';               TCIcon: -1; DCCommand: 'cm_ContextMenu';            DCParameters: ''          ), //Show context menu
     (TCCommand: 'cm_ContextMenuInternal';       TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show context menu for internal associations
     (TCCommand: 'cm_ContextMenuInternalCursor'; TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Internal context menu for file under cursor
