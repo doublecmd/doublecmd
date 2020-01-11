@@ -1127,6 +1127,16 @@ begin
         DividerRect.Top := (DividerRect.Top + DividerRect.Bottom) div 2 - 3;
         DividerRect.Bottom := DividerRect.Top + 5;
       end;
+
+      if not ThemeServices.ThemesEnabled then
+      begin
+        InflateRect(DividerRect, -2, 0);
+        Canvas.Pen.Color := clBtnShadow;
+        Canvas.Line(DividerRect.Left, DividerRect.Top + 1, DividerRect.Right, DividerRect.Top + 1);
+        Canvas.Pen.Color := clBtnHighlight;
+        Canvas.Line(DividerRect.Left, DividerRect.Top + 2, DividerRect.Right, DividerRect.Top + 2);
+        Exit;
+      end;
     end
     else begin
       Details:= ThemeServices.GetElementDetails(ttbSeparatorNormal);
