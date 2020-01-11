@@ -1156,14 +1156,16 @@ begin
   for i := 0 to Hotkeys.Count - 1 do
   begin
     Result := Hotkeys.Items[i];
+    if (Result.Command = cHotKeyCommand) then
+    begin
+      AToolBar := not GetParamValue(Result.Params, 'ToolBarID', ToolBarID);
+      if not AToolBar then AToolBar := (ToolBarID = Self.ClassName);
 
-    AToolBar := not GetParamValue(Result.Params, 'ToolBarID', ToolBarID);
-    if not AToolBar then AToolBar := (ToolBarID = Self.ClassName);
-
-    if (AToolBar) and (Result.Command = cHotKeyCommand) and
-       (GetParamValue(Result.Params, 'ToolItemID', ToolItemID)) and
-       (ToolItemID = NormalItem.ID) then
-       Exit;
+      if (AToolBar) and
+         (GetParamValue(Result.Params, 'ToolItemID', ToolItemID)) and
+         (ToolItemID = NormalItem.ID) then
+         Exit;
+    end;
   end;
   Result := nil;
 end;
