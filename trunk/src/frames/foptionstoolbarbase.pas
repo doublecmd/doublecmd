@@ -994,6 +994,7 @@ begin
       TemplateHotkey := THotkey.Create;
       try
         TemplateHotkey.Command := cHotKeyCommand;
+        SetValue(TemplateHotkey.Params, 'ToolBarID', Self.ClassName);
         SetValue(TemplateHotkey.Params, 'ToolItemID', NormalItem.ID);
 
         HMForm := HotMan.Forms.Find('Main');
@@ -1149,12 +1150,17 @@ end;
 class function TfrmOptionsToolbarBase.FindHotkey(NormalItem: TKASNormalItem; Hotkeys: THotkeys): THotkey;
 var
   i: Integer;
-  ToolItemID: String;
+  AToolBar: Boolean;
+  ToolItemID, ToolBarID: String;
 begin
   for i := 0 to Hotkeys.Count - 1 do
   begin
     Result := Hotkeys.Items[i];
-    if (Result.Command = cHotKeyCommand) and
+
+    AToolBar := not GetParamValue(Result.Params, 'ToolBarID', ToolBarID);
+    if not AToolBar then AToolBar := (ToolBarID = Self.ClassName);
+
+    if (AToolBar) and (Result.Command = cHotKeyCommand) and
        (GetParamValue(Result.Params, 'ToolItemID', ToolItemID)) and
        (ToolItemID = NormalItem.ID) then
        Exit;
