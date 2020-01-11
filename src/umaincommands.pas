@@ -1071,10 +1071,19 @@ end;
 
 procedure TMainCommands.cm_ExecuteToolbarItem(const Params: array of string);
 var
-  ToolItemID: String;
+  ToolItemID, ToolBarID: String;
 begin
   if GetParamValue(Params, 'ToolItemID', ToolItemID) then
-    frmMain.MainToolBar.ClickItem(ToolItemID);
+  begin
+    if not GetParamValue(Params, 'ToolBarID', ToolBarID) then
+      frmMain.MainToolBar.ClickItem(ToolItemID)
+    else begin
+      if (ToolBarID = 'TfrmOptionsToolbar') then
+        frmMain.MainToolBar.ClickItem(ToolItemID)
+      else if (ToolBarID = 'TfrmOptionsToolbarMiddle') then
+        frmMain.MiddleToolBar.ClickItem(ToolItemID);
+    end;
+  end;
 end;
 
 procedure TMainCommands.cm_FlatView(const Params: array of string);
