@@ -31,6 +31,7 @@ type
     procedure InitializeWnd; override;
     function MouseOnGrid(X, Y: LongInt): Boolean;
     procedure DoOnResize; override;
+    procedure DragCanceled; override;
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
@@ -173,6 +174,11 @@ begin
   CalculateColRowCount;
   CalculateColumnWidth;
   inherited DoOnResize;
+end;
+
+procedure TFileViewGrid.DragCanceled;
+begin
+  fGridState:= gsNormal;
 end;
 
 procedure TFileViewGrid.KeyDown(var Key: Word; Shift: TShiftState);

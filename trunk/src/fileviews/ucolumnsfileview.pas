@@ -42,6 +42,7 @@ type
     procedure SetGridVertLine(const AValue: Boolean);
 
   protected
+    procedure DragCanceled; override;
     procedure DoMouseMoveScroll(X, Y: Integer);
     {$IF lcl_fullversion < 1080003}
     function SelectCell(aCol, aRow: Integer): Boolean; override;
@@ -2114,6 +2115,11 @@ function TDrawGridEx.IsRowVisible(aRow: Integer): Boolean;
 begin
   with GCache.FullVisibleGrid do
     Result:= (Top<=aRow)and(aRow<=Bottom);
+end;
+
+procedure TDrawGridEx.DragCanceled;
+begin
+  fGridState:= gsNormal;
 end;
 
 procedure TDrawGridEx.DoMouseMoveScroll(X, Y: Integer);
