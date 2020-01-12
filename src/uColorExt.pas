@@ -47,12 +47,9 @@ type
     procedure SetModeStr(const AValue: String);
   public
     sName: String;
-
     cColor: TColor;
 
-    constructor Create;
     destructor Destroy; override;
-
     procedure Assign(ASource: TMaskItem);
     property sExt: String read FExt write SetExt;
     property sModeStr: String read FModeStr write SetModeStr;
@@ -73,8 +70,6 @@ type
     procedure Clear;
     procedure Add(AItem: TMaskItem);
 
-    function GetColorByExt(const sExt: String): TColor;
-    function GetColorByAttr(const sModeStr: String): TColor;
     function GetColorBy(const AFile: TFile): TColor;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -126,11 +121,6 @@ begin
     if (Length(FModeStr) > 0) then
       FAttrList:= TMaskList.Create(FModeStr);
   end;
-end;
-
-constructor TMaskItem.Create;
-begin
-  FMaskList:= TMaskList.Create(FExt);
 end;
 
 destructor TMaskItem.Destroy;
@@ -186,36 +176,6 @@ begin
   FMaskItems.Add(AItem);
 end;
 
-function TColorExt.GetColorByExt(const sExt: String): TColor;
-var
-  I: Integer;
-begin
-  Result:= clDefault;
-  for I:=0 to FMaskItems.Count-1 do
-  begin
-    if MatchesMaskList(sExt, TMaskItem(FMaskItems[I]).sExt,';') then
-    begin
-      Result:= TMaskItem(FMaskItems[I]).cColor;
-      Exit;
-    end;
-  end;
-end;
-
-function TColorExt.GetColorByAttr(const sModeStr: String): TColor;
-var
-  I: Integer;
-begin
-  Result:= clDefault;
-  for I:=0 to FMaskItems.Count-1 do
-  begin
-    if MatchesMaskList(sModeStr,TMAskItem(FMaskItems[I]).sModeStr,';') then
-    begin
-      Result:=TMAskItem(FMaskItems[I]).cColor;
-      Exit;
-    end;
-  end;
-end;
-
 function TColorExt.GetColorBy(const AFile: TFile): TColor;
 var
   Attr: String;
@@ -262,10 +222,9 @@ end;
 
 procedure TColorExt.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
-  sExtMask,
-  sAttr,
-  sName: String;
   iColor: Integer;
+  MaskItem: TMaskItem;
+  sAttr, sName, sExtMask: String;
 begin
   Clear;
 
@@ -282,11 +241,12 @@ begin
            AConfig.TryGetValue(ANode, 'Color', iColor) and
            AConfig.TryGetValue(ANode, 'Attributes', sAttr) then
         begin
-          FMaskItems.Add(TMaskItem.Create);
-          TMaskItem(FMaskItems.Last).sName    := sName;
-          TMaskItem(FMaskItems.Last).cColor   := iColor;
-          TMaskItem(FMaskItems.Last).sExt     := sExtMask;
-          TMaskItem(FMaskItems.Last).sModeStr := sAttr;
+          MaskItem := TMaskItem.Create;
+          MaskItem.sName    := sName;
+          MaskItem.cColor   := iColor;
+          MaskItem.sExt     := sExtMask;
+          MaskItem.sModeStr := sAttr;
+          FMaskItems.Add(MaskItem);
         end
         else
         begin
@@ -302,6 +262,7 @@ procedure TColorExt.Save(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   I : Integer;
   SubNode: TXmlNode;
+  MaskItem: TMaskItem;
 begin
   if not Assigned(FMaskItems) then
     Exit;
@@ -310,13 +271,14 @@ begin
   AConfig.ClearNode(ANode);
 
   for I:=0 to FMaskItems.Count - 1 do
-    begin
-      SubNode := AConfig.AddNode(ANode, 'Filter');
-      AConfig.AddValue(SubNode, 'Name', TMaskItem(FMaskItems[I]).sName);
-      AConfig.AddValue(SubNode, 'FileMasks', TMaskItem(FMaskItems[I]).sExt);
-      AConfig.AddValue(SubNode, 'Color', TMaskItem(FMaskItems[I]).cColor);
-      AConfig.AddValue(SubNode, 'Attributes', TMaskItem(FMaskItems[I]).sModeStr);
-    end;
+  begin
+    MaskItem := TMaskItem(FMaskItems[I]);
+    SubNode := AConfig.AddNode(ANode, 'Filter');
+    AConfig.AddValue(SubNode, 'Name', MaskItem.sName);
+    AConfig.AddValue(SubNode, 'FileMasks', MaskItem.sExt);
+    AConfig.AddValue(SubNode, 'Color', MaskItem.cColor);
+    AConfig.AddValue(SubNode, 'Attributes', MaskItem.sModeStr);
+  end;
 end;
 
 end.
