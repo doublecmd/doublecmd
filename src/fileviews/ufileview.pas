@@ -1760,6 +1760,7 @@ end;
 procedure TFileView.MarkGroup(const sMask: String; bSelect: Boolean; pbCaseSensitive:PBoolean = nil; pbIgnoreAccents: PBoolean = nil; pbWindowsInterpretation: PBoolean = nil; pMarkFileChecks: TPFindFileChecks = nil);
 var
   I: Integer;
+  MaskList: TMaskList;
   SearchTemplate: TSearchTemplate = nil;
   bSelected: Boolean = False;
   bCaseSensitive, bIgnoreAccents, bWindowsInterpretation: boolean;
@@ -1788,18 +1789,20 @@ begin
       if pbWindowsInterpretation <> nil then bWindowsInterpretation := pbWindowsInterpretation^ else bWindowsInterpretation := gMarkMaskFilterWindows;
       if pMarkFileChecks<> nil then LocalMarkFileChecks:=pMarkFileChecks^ else LocalMarkFileChecks.Attributes:=nil;
 
+      MaskList := TMaskList.Create(sMask, ';,', bCaseSensitive, bIgnoreAccents, bWindowsInterpretation);
       for I := 0 to FFiles.Count - 1 do
       begin
         if FFiles[I].FSFile.Name = '..' then Continue;
         if CheckFileAttributes(LocalMarkFileChecks, FFiles[I].FSFile.Attributes) then
         begin
-          if MatchesMaskList(FFiles[I].FSFile.Name, sMask, ';, ', bCaseSensitive, bIgnoreAccents, bWindowsInterpretation) then
+          if MaskList.Matches(FFiles[I].FSFile.Name) then
           begin
             FFiles[I].Selected := bSelect;
             bSelected := True;
           end;
         end;
       end;
+      MaskList.Free;
     end;
 
     if bSelected then
