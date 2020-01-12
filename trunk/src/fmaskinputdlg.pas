@@ -55,15 +55,15 @@ type
     procedure btnAddAttributeClick(Sender: TObject);
     procedure btnAttrsHelpClick(Sender: TObject);
   private
-    { private declarations }
+    procedure LoadTemplates(bLocal: Boolean);
     procedure OnAddAttribute(Sender: TObject);
   public
     { public declarations }
   end;
 
-function ShowMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string): boolean;
+function ShowMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string; bLocal: Boolean = True): boolean;
 function ShowExtendedMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string; AMaskInputDlgStyle: TMaskInputDlgStyle; var bCaseSensitive: boolean;
-  var bIgnoreAccents: boolean; var sAttribute:string): boolean;
+  var bIgnoreAccents: boolean; var sAttribute:string; bLocal: Boolean = True): boolean;
 
 implementation
 
@@ -73,18 +73,22 @@ uses
   HelpIntfs, fAttributesEdit, fFindDlg, uGlobs, uSearchTemplate;
 
 { ShowMaskInputDlg }
-function ShowMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string): boolean;
+function ShowMaskInputDlg(const sCaption, sPrompt: string;
+  slValueList: TStringList; var sValue: string; bLocal: Boolean): boolean;
 var
   dummybCaseSensitive: boolean = False;
   dummybIgnoreAccents: boolean = False;
   dummysAttribute: string = '';
 begin
-  Result := ShowExtendedMaskInputDlg(sCaption, sPrompt, slValueList, sValue, midsLegacy, dummybCaseSensitive, dummybIgnoreAccents, dummysAttribute);
+  Result := ShowExtendedMaskInputDlg(sCaption, sPrompt, slValueList, sValue, midsLegacy, dummybCaseSensitive, dummybIgnoreAccents, dummysAttribute, bLocal);
 end;
 
 { ShowExtendedMaskInputDlg }
-function ShowExtendedMaskInputDlg(const sCaption, sPrompt: string; slValueList: TStringList; var sValue: string; AMaskInputDlgStyle: TMaskInputDlgStyle; var bCaseSensitive: boolean;
-  var bIgnoreAccents: boolean; var sAttribute:string): boolean;
+function ShowExtendedMaskInputDlg(const sCaption, sPrompt: string;
+  slValueList: TStringList; var sValue: string;
+  AMaskInputDlgStyle: TMaskInputDlgStyle; var bCaseSensitive: boolean;
+  var bIgnoreAccents: boolean; var sAttribute: string; bLocal: Boolean
+  ): boolean;
 var
   Index, iCurrentPos: integer;
 begin
@@ -92,6 +96,7 @@ begin
   with TfrmMaskInputDlg.Create(Application) do
     try
       Caption := sCaption;
+      LoadTemplates(bLocal);
       lblPrompt.Caption := sPrompt;
       cmbMask.Items.Assign(slValueList);
       cmbMask.Text := sValue;
@@ -165,12 +170,8 @@ begin
 end;
 
 procedure TfrmMaskInputDlg.FormCreate(Sender: TObject);
-var
-  I: integer;
 begin
   InitPropStorage(Self);
-  for I := 0 to gSearchTemplateList.Count - 1 do
-    lbxSearchTemplate.Items.Add(gSearchTemplateList.Templates[I].TemplateName);
 end;
 
 procedure TfrmMaskInputDlg.btnDefineTemplateClick(Sender: TObject);
@@ -203,6 +204,20 @@ end;
 procedure TfrmMaskInputDlg.btnAttrsHelpClick(Sender: TObject);
 begin
   ShowHelpOrErrorForKeyword('', edtAttrib.HelpKeyword);
+end;
+
+procedure TfrmMaskInputDlg.LoadTemplates(bLocal: Boolean);
+var
+  I: Integer;
+  ATemplate: TSearchTemplate;
+begin
+  for I := 0 to gSearchTemplateList.Count - 1 do
+  begin
+    ATemplate:= gSearchTemplateList.Templates[I];
+    // Show templates with content plugins only for local file system
+    if bLocal or (not ATemplate.SearchRecord.ContentPlugin) then
+      lbxSearchTemplate.Items.Add(ATemplate.TemplateName);
+  end;
 end;
 
 procedure TfrmMaskInputDlg.OnAddAttribute(Sender: TObject);
