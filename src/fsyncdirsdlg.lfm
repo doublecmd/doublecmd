@@ -1,11 +1,11 @@
 object frmSyncDirsDlg: TfrmSyncDirsDlg
   Left = 562
-  Height = 548
+  Height = 556
   Top = 162
-  Width = 864
+  Width = 954
   Caption = 'Synchronize directories'
-  ClientHeight = 548
-  ClientWidth = 864
+  ClientHeight = 556
+  ClientWidth = 954
   DesignTimePPI = 120
   KeyPreview = True
   OnClose = FormClose
@@ -17,102 +17,139 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
   SessionProperties = 'Height;Left;Top;Width;WindowState'
   ShowInTaskBar = stAlways
   LCLVersion = '2.0.6.0'
-  object edPath1: TEdit
+  object edPath1: TDirectoryEdit
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
-    AnchorSideRight.Control = btnSelDir1
+    AnchorSideRight.Control = pnlFilter
     Left = 4
     Height = 28
     Top = 4
-    Width = 301
+    Width = 383
+    OnAcceptDirectory = edPath1AcceptDirectory
+    ShowHidden = False
+    ButtonWidth = 23
+    NumGlyphs = 1
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Around = 4
+    MaxLength = 0
     ParentFont = False
     TabOrder = 1
   end
-  object edPath2: TEdit
-    AnchorSideLeft.Control = cbExtFilter
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = Owner
-    AnchorSideRight.Control = btnSelDir2
-    Left = 510
-    Height = 28
-    Top = 4
-    Width = 296
-    Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 4
-    BorderSpacing.Around = 4
-    ParentFont = False
-    TabOrder = 4
-  end
-  object cbExtFilter: TComboBox
+  object pnlFilter: TPanel
     AnchorSideLeft.Control = Owner
     AnchorSideLeft.Side = asrCenter
     AnchorSideTop.Control = Owner
-    Left = 363
-    Height = 28
-    Top = 4
-    Width = 139
-    BorderSpacing.Top = 4
-    ItemHeight = 20
-    ItemIndex = 0
-    Items.Strings = (
-      '*'
-    )
-    ParentFont = False
-    TabOrder = 3
-    Text = '*'
-  end
-  object btnSelDir1: TButton
-    AnchorSideTop.Control = edPath1
-    AnchorSideTop.Side = asrCenter
-    AnchorSideRight.Control = cbExtFilter
-    Left = 309
-    Height = 30
-    Top = 3
-    Width = 46
-    Anchors = [akTop, akRight]
+    AnchorSideRight.Control = edPath2
+    Left = 391
+    Height = 32
+    Top = 0
+    Width = 172
     AutoSize = True
-    BorderSpacing.Right = 4
-    BorderSpacing.Around = 4
-    Caption = '>>'
-    OnClick = btnSelDir1Click
-    ParentFont = False
+    BevelOuter = bvNone
+    ClientHeight = 32
+    ClientWidth = 172
     TabOrder = 2
+    object cbExtFilter: TComboBox
+      Left = 0
+      Height = 28
+      Top = 4
+      Width = 139
+      BorderSpacing.Top = 4
+      ItemHeight = 20
+      ItemIndex = 0
+      Items.Strings = (
+        '*'
+      )
+      ParentFont = False
+      TabOrder = 0
+      Text = '*'
+    end
+    object btnSearchTemplate: TSpeedButton
+      AnchorSideLeft.Control = cbExtFilter
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbExtFilter
+      AnchorSideBottom.Control = cbExtFilter
+      AnchorSideBottom.Side = asrBottom
+      Left = 143
+      Height = 28
+      Hint = 'Template...'
+      Top = 4
+      Width = 29
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Left = 4
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000330000
+        0033000000330000000000000000000000000000000000000000000000000000
+        00000000000000000000000000000000000000000000000000214F6B83FF4966
+        85FF5191D9FF0000003300000000000000000000000000000000000000000000
+        00000000000000000000000000000000000000000021B07836B75485ABFF7EA7
+        B8FF8FD5FFFF356A9CFF00000033000000000000000000000000000000000000
+        000000000000000000000000000000000022A7753BB9D49849FF3CB4FFFFA3F1
+        FFFF9CE0FEFF109BFFFF306BA2FF000000330000000A00000000000000000000
+        0000000000000000000000000000A7763BBDE9C590FFDFAA5CFFC87F2EFF287B
+        D2FF3FC7FFFF20ACFFFF83B1D8FF807873FF413F3D5B00000000000000000000
+        0000000000000000000000000000B57F3DFFFFF1D0FFDAA85BFFC28236FF0000
+        00002C7DCFFFB3DEF2FF938881FFC2C0BAFF797B71FF00000033000000000000
+        0000000000000000000000000021B37C3AFFFFFFFAFFD6A559FFBA803BFF0000
+        0020000000008E8780FFDAD7D3FF8A8C84FFA27F9BFF9969CCFF000000000000
+        00000000000000000021AA7A3EB6DEAF68FFF3CB8AFFEEC684FFD8AA65FFAC79
+        3AB50000002100000000858884FFE3B3E3FFCB96C7FFAE7DCEFF000000000000
+        000000000021A9783CB9EDC385FFF9D292FFF3CD8BFFEDC380FFE8BE7CFFDDB3
+        74FFAA783BB70000002100000000C28BDCFFBF8AD4FF00000000000000000000
+        0021A77639B9EFCA96FFF8D59CFFF6CF8DFFEEC684FFE7BB77FFE0B26BFFE1BB
+        80FFDBB57FFFA87637B70000002100000000000000000000000000000022BB8D
+        4DB9F0D3ABFFFADFB1FFF5CC88FFEEC480FFE8BC76FFE1B36CFFDBAA61FFD4A1
+        55FFE0BC89FFDCBD8FFFAA7831B8000000220000000000000000A67437BDFFED
+        CAFFFFF1D8FFFBE4BCFFFFF1D9FFFEF4E4FFF6E7CCFFF5E4CAFFF6E9D6FFEFDD
+        C1FFE3C597FFECDABDFFE4CCA6FFA77636BD0000000000000000B57E3AFFFFFA
+        E8FFF5E3C5FFE3C798FFD8B070FFD19E50FFD8A14DFFDCA553FFD19D4AFFD2A7
+        63FFD5AF74FFDDC194FFE9D2B3FFB7813DFF0000000000000000B57E3AFFFFFF
+        FFFFA16100FFB17616FFBF852BFFCB933DFFD9A24FFFDDA755FFCF9A43FFC48B
+        32FFB87E1FFFAA6C08FFF7EDE0FFB7813EFF0000000000000000B67F3DFFFFF9
+        E2FFEBC992FFF3DBB5FFF5E2C0FFF5E1C0FFF6E2BFFFF5DFBDFFEFD9B5FFECD3
+        AFFFE4C9A0FFD4AD73FFE4C9A1FFB88241FF0000000000000000B8834238D19E
+        58A9C99753E0C69351FFC69453FFC5914FFFC6975EFFC49356FFBF8B48FFBF8A
+        46FFBD8946FFBE8844E0BD873FA9BA8545380000000000000000
+      }
+      OnClick = btnSearchTemplateClick
+    end
   end
-  object btnSelDir2: TButton
-    Tag = 1
-    AnchorSideTop.Control = edPath2
-    AnchorSideTop.Side = asrCenter
+  object edPath2: TDirectoryEdit
+    AnchorSideLeft.Control = pnlFilter
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 810
-    Height = 30
-    Top = 3
-    Width = 46
-    Anchors = [akTop, akRight]
-    AutoSize = True
-    BorderSpacing.Right = 4
+    Left = 567
+    Height = 28
+    Top = 4
+    Width = 383
+    OnAcceptDirectory = edPath1AcceptDirectory
+    ShowHidden = False
+    ButtonWidth = 23
+    NumGlyphs = 1
+    Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Around = 4
-    Caption = '>>'
-    OnClick = btnSelDir1Click
+    MaxLength = 0
     ParentFont = False
-    TabOrder = 5
+    TabOrder = 3
   end
   object TopPanel: TPanel
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = btnSelDir1
+    AnchorSideTop.Control = edPath1
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 98
-    Top = 37
-    Width = 864
+    Top = 36
+    Width = 954
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     ClientHeight = 98
-    ClientWidth = 864
+    ClientWidth = 954
     ParentFont = False
     TabOrder = 0
     object LeftPanel1: TPanel
@@ -356,7 +393,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       AnchorSideTop.Control = TopPanel
       AnchorSideRight.Control = TopPanel
       AnchorSideRight.Side = asrBottom
-      Left = 750
+      Left = 840
       Height = 30
       Top = 9
       Width = 105
@@ -375,7 +412,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnSynchronize
       AnchorSideRight.Side = asrBottom
-      Left = 750
+      Left = 840
       Height = 30
       Top = 47
       Width = 105
@@ -391,8 +428,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
   object StatusBar1: TStatusBar
     Left = 0
     Height = 29
-    Top = 519
-    Width = 864
+    Top = 527
+    Width = 954
     Panels = <    
       item
         Text = 'Please press "Compare" to start'
@@ -409,8 +446,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 25
-    Top = 135
-    Width = 864
+    Top = 134
+    Width = 954
     Anchors = [akTop, akLeft, akRight]
     AutoFillColumns = True
     BorderStyle = bsNone
@@ -470,7 +507,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     ParentFont = False
     RowCount = 1
     ScrollBars = ssNone
-    TabOrder = 7
+    TabOrder = 5
     TabStop = False
     OnHeaderClick = HeaderDGHeaderClick
     OnHeaderSizing = HeaderDGHeaderSizing
@@ -492,9 +529,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = StatusBar1
     Left = 0
-    Height = 359
-    Top = 160
-    Width = 864
+    Height = 368
+    Top = 159
+    Width = 954
     Anchors = [akTop, akLeft, akRight, akBottom]
     AutoFillColumns = True
     ColCount = 0
@@ -508,7 +545,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     RangeSelectMode = rsmMulti
     RowCount = 0
     ScrollBars = ssAutoVertical
-    TabOrder = 8
+    TabOrder = 6
     OnDblClick = MainDrawGridDblClick
     OnDrawCell = MainDrawGridDrawCell
     OnKeyDown = MainDrawGridKeyDown
@@ -520,9 +557,9 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     AnchorSideTop.Control = Owner
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Side = asrBottom
-    Left = 276
+    Left = 321
     Height = 170
-    Top = 189
+    Top = 193
     Width = 312
     AutoSize = True
     ChildSizing.LeftRightSpacing = 8
@@ -534,7 +571,7 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
     ParentBackground = False
     ParentColor = False
     ParentFont = False
-    TabOrder = 9
+    TabOrder = 7
     Visible = False
     object pnlCopyProgress: TPanel
       AnchorSideLeft.Control = pnlProgress
@@ -576,8 +613,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Top = 17
         Width = 278
         ParentFont = False
-        BarShowText = True
         TabOrder = 0
+        BarShowText = True
       end
     end
     object pnlDeleteProgress: TPanel
@@ -621,8 +658,8 @@ object frmSyncDirsDlg: TfrmSyncDirsDlg
         Top = 17
         Width = 278
         ParentFont = False
-        BarShowText = True
         TabOrder = 0
+        BarShowText = True
       end
     end
     object btnAbort: TBitBtn
