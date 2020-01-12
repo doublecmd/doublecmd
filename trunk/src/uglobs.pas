@@ -2576,8 +2576,6 @@ begin
       gLogInfoColor:= GetValue(Node, 'LogWindow/Info', gLogInfoColor);
       gLogErrorColor:= GetValue(Node, 'LogWindow/Error', gLogErrorColor);
       gLogSuccessColor:= GetValue(Node, 'LogWindow/Success', gLogSuccessColor);
-
-      gColorExt.Load(gConfig, Node);
     end;
 
     { ToolTips page }
@@ -3091,6 +3089,13 @@ begin
 
   { Search template list }
   gSearchTemplateList.LoadFromXml(gConfig, Root);
+
+  { File type colors, load after search templates }
+  Node := Root.FindNode('Colors');
+  if Assigned(Node) then
+  begin
+    gColorExt.Load(gConfig, Node);
+  end;
 
   { Columns sets }
   ColSet.Load(gConfig, Root);
