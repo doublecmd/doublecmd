@@ -1,8 +1,7 @@
 {"version":1,"strings":[
 {"hash":36754147,"name":"tfrmsyncdirsdlg.caption","sourcebytes":[83,121,110,99,104,114,111,110,105,122,101,32,100,105,114,101,99,116,111,114,105,101,115],"value":"Synchronize directories"},
 {"hash":42,"name":"tfrmsyncdirsdlg.cbextfilter.text","sourcebytes":[42],"value":"*"},
-{"hash":1054,"name":"tfrmsyncdirsdlg.btnseldir1.caption","sourcebytes":[62,62],"value":">>"},
-{"hash":1054,"name":"tfrmsyncdirsdlg.btnseldir2.caption","sourcebytes":[62,62],"value":">>"},
+{"hash":47236478,"name":"tfrmsyncdirsdlg.btnsearchtemplate.hint","sourcebytes":[84,101,109,112,108,97,116,101,46,46,46],"value":"Template..."},
 {"hash":174352581,"name":"tfrmsyncdirsdlg.btncompare.caption","sourcebytes":[67,111,109,112,97,114,101],"value":"Compare"},
 {"hash":242752852,"name":"tfrmsyncdirsdlg.chkonlyselected.caption","sourcebytes":[111,110,108,121,32,115,101,108,101,99,116,101,100],"value":"only selected"},
 {"hash":181520105,"name":"tfrmsyncdirsdlg.label1.caption","sourcebytes":[40,105,110,32,109,97,105,110,32,119,105,110,100,111,119,41],"value":"(in main window)"},
