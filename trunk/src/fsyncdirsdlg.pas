@@ -457,8 +457,7 @@ var
   bTemplate: Boolean;
 begin
   sMask:= cbExtFilter.Text;
-  bTemplate:= (FFileSourceL.IsClass(TFileSystemFileSource)) and (FFileSourceR.IsClass(TFileSystemFileSource));
-  if ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsMaskHistory, sMask, bTemplate) then
+  if ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsMaskHistory, sMask) then
   begin
     bTemplate:= IsMaskSearchTemplate(sMask);
     cbExtFilter.Enabled:= not bTemplate;
