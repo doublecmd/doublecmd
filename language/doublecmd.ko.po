@@ -9054,15 +9054,11 @@ msgctxt "TFRMSYNCDIRSDLG.BTNCOMPARE.CAPTION"
 msgid "Compare"
 msgstr "비교"
 
-#: tfrmsyncdirsdlg.btnseldir1.caption
-msgctxt "TFRMSYNCDIRSDLG.BTNSELDIR1.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: tfrmsyncdirsdlg.btnseldir2.caption
-msgctxt "TFRMSYNCDIRSDLG.BTNSELDIR2.CAPTION"
-msgid ">>"
-msgstr ">>"
+#: tfrmsyncdirsdlg.btnsearchtemplate.hint
+#, fuzzy
+msgctxt "tfrmsyncdirsdlg.btnsearchtemplate.hint"
+msgid "Template..."
+msgstr "템플릿..."
 
 #: tfrmsyncdirsdlg.btnsynchronize.caption
 msgctxt "tfrmsyncdirsdlg.btnsynchronize.caption"
