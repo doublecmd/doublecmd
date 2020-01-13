@@ -181,8 +181,13 @@ begin
 
        if not Assigned(Operation) then Exit;
 
-       Operation.Execute;
-       FreeAndNil(Operation);
+       Sender.Enabled:= False;
+       try
+         Operation.Execute;
+       finally
+         FreeAndNil(Operation);
+         Sender.Enabled:= True;
+       end;
 
        FFileName:= ActiveFile.Name;
        FFileSource := TempFileSource;
