@@ -1,7 +1,7 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   MultiRename dialog window
+   Multi-Rename Tool dialog window
 
    Copyright (C) 2007-2020 Alexander Koblov (alexx2000@mail.ru)
 
@@ -50,7 +50,7 @@ uses
   uFileSource, DCClassesUtf8, uHotkeyManager;
 
 const
-  HotkeysCategoryMultiRename = 'MultiRename';
+  HotkeysCategoryMultiRename = 'MultiRename'; // <--Not displayed to user, stored in .scf (Shortcut Configuration File)
 
 type
   { TMultiRenamePreset }

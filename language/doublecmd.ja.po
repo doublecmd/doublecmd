@@ -2421,7 +2421,7 @@ msgid "Minimize window"
 msgstr "ウィンドウを最小化"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "複数リネーム・ツール(&R)"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3543,7 +3543,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "TFRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "複数リネーム"
 
 #: tfrmmultirename.cblog.caption
@@ -10607,7 +10607,7 @@ msgstr "メイン"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "複数リネーム"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -12006,7 +12006,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "複数リネーム"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -12889,7 +12889,7 @@ msgstr "マウス"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "複数リネーム"
 
 #: ulng.rsoptionseditoroptionschanged

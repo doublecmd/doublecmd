@@ -2635,9 +2635,7 @@ msgid "Minimize window"
 msgstr "Minimalizovať okno"
 
 #: tfrmmain.actmultirename.caption
-#, fuzzy
-#| msgid "Multi Rename Tool"
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "Nástroj pre hromadné premenovanie"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3833,7 +3831,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "tfrmmultirename.caption"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Hromadné premenovanie"
 
 #: tfrmmultirename.cblog.caption
@@ -11344,7 +11342,7 @@ msgstr "Hlavný"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Hromadné premenovanie"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -12719,7 +12717,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Hromadné premenovanie"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -13620,7 +13618,7 @@ msgstr "Myš"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Hromadné premenovanie"
 
 #: ulng.rsoptionseditoroptionschanged

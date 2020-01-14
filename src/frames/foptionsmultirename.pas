@@ -1,7 +1,7 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   MultiRename options page
+   Multi-Rename options page
 
    Copyright (C) 2020 Alexander Koblov (alexx2000@mail.ru)
 

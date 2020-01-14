@@ -2370,7 +2370,7 @@ msgid "Minimize window"
 msgstr "Згарнуць акно"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "Прылада шматлікай змены назваў"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3477,7 +3477,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "tfrmmultirename.caption"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Змена назваў некалькіх файлаў"
 
 #: tfrmmultirename.cblog.caption
@@ -10361,7 +10361,7 @@ msgstr "Асноўныя"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Змена назваў некалькіх файлаў"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -11751,7 +11751,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Змена назваў некалькіх файлаў"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -12612,7 +12612,7 @@ msgstr "Мыш"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Змена назваў некалькіх файлаў"
 
 #: ulng.rsoptionseditoroptionschanged

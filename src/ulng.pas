@@ -647,7 +647,7 @@ resourcestring
   rsSplitMsgManyParts = 'The number of parts is more than 100! Continue?';
   rsSplitPreDefinedSizes = 'Automatic;1457664B - 3.5" High Density 1.44M;1213952B - 5.25" High Density 1.2M;730112B - 3.5" Double Density 720K;362496B - 5.25" Double Density 360K;98078KB - ZIP 100MB;650MB - CD 650MB;700MB - CD 700MB;4482MB - DVD+R';
 
-  // MultiRename dialog
+  // Multi-Rename Tool dialog
   rsMulRenLastPreset = '[The last used]';
   rsMulRenWarningDuplicate = 'Warning, duplicate names!';
   rsMulRenAutoRename = 'Do auto-rename to "name (1).ext", "name (2).ext" etc.?';
@@ -666,7 +666,7 @@ resourcestring
   rsMulRenPromptForSavedPresetName = 'Save preset as';
   rsMulRenPromptNewPresetName = 'Enter new preset name';
   rsMulRenPromptNewNameExists = 'Preset name already exists. Overwrite?';
-  rsMulRenLogStart = 'MultiRename';
+  rsMulRenLogStart = 'Multi-Rename Tool';
 
   rsMulRenMaskName = 'Name';
   rsMulRenMaskCharAtPosX = 'Character at position x';
@@ -776,7 +776,7 @@ resourcestring
   rsOptionsEditorFavoriteTabs = 'Favorite Tabs';
   rsOptionsEditorOptionsChanged = 'Options have changed in "%s"'+#$0A+#$0A+'Do you want to save modifications?';
   rsOptionsEditorFileSearch = 'File search';
-  rsOptionsEditorMultiRename = 'MultiRename';
+  rsOptionsEditorMultiRename = 'Multi-Rename Tool';
   //-------------------------------
   rsOptConfigSortOrder = 'Classic, legacy order;Alphabetic order (but language still first)';
   rsOptConfigTreeState = 'Full expand;Full collapse';
@@ -828,7 +828,7 @@ resourcestring
   rsHotkeyCategoryCopyMoveDialog = 'Copy/Move Dialog';
   rsHotkeyCategorySyncDirs = 'Synchronize Directories';
   rsHotkeyCategoryEditCommentDialog = 'Edit Comment Dialog';
-  rsHotkeyCategoryMultiRename = 'MultiRename';
+  rsHotkeyCategoryMultiRename = 'Multi-Rename Tool';
   rsHotkeySortOrder = 'By command name;By shortcut key (grouped);By shortcut key (one per row)';
   rsHotKeyNoSCEnter='No shortcut with "ENTER"';
   rsHotKeyFileSaveModified = '"%s" setup has been modified.'+#$0A+'Do you want to save it now?';

@@ -44,7 +44,7 @@
 {"hash":220405653,"name":"tfrmmain.actvisithomepage.caption","sourcebytes":[38,86,105,115,105,116,32,68,111,117,98,108,101,32,67,111,109,109,97,110,100,101,114,32,87,101,98,115,105,116,101],"value":"&Visit Double Commander Website"},
 {"hash":44537540,"name":"tfrmmain.actabout.caption","sourcebytes":[38,65,98,111,117,116],"value":"&About"},
 {"hash":9324734,"name":"tfrmmain.actoptions.caption","sourcebytes":[38,79,112,116,105,111,110,115,46,46,46],"value":"&Options..."},
-{"hash":75582604,"name":"tfrmmain.actmultirename.caption","sourcebytes":[77,117,108,116,105,32,38,82,101,110,97,109,101,32,84,111,111,108],"value":"Multi &Rename Tool"},
+{"hash":159468684,"name":"tfrmmain.actmultirename.caption","sourcebytes":[77,117,108,116,105,45,38,82,101,110,97,109,101,32,84,111,111,108],"value":"Multi-&Rename Tool"},
 {"hash":143338174,"name":"tfrmmain.actsearch.caption","sourcebytes":[38,83,101,97,114,99,104,46,46,46],"value":"&Search..."},
 {"hash":196870062,"name":"tfrmmain.actaddnewsearch.caption","sourcebytes":[78,101,119,32,115,101,97,114,99,104,32,105,110,115,116,97,110,99,101,46,46,46],"value":"New search instance..."},
 {"hash":28039203,"name":"tfrmmain.actviewsearches.caption","sourcebytes":[86,105,101,119,32,99,117,114,114,101,110,116,32,115,101,97,114,99,104,32,105,110,115,116,97,110,99,101,115],"value":"View current search instances"},

@@ -2364,7 +2364,7 @@ msgid "Minimize window"
 msgstr "Minimaliseer venster"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "Gereedschap voor meervoudig hernoemen"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3471,7 +3471,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "tfrmmultirename.caption"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Meervoudig hernoemen"
 
 #: tfrmmultirename.cblog.caption
@@ -10310,7 +10310,7 @@ msgstr "Hoofd"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Meervoudig hernoemen"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -11695,7 +11695,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Meervoudig hernoemen"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -12557,7 +12557,7 @@ msgstr "Muis"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Meervoudig hernoemen"
 
 #: ulng.rsoptionseditoroptionschanged

@@ -2370,7 +2370,7 @@ msgid "Minimize window"
 msgstr "最小化窗口"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "批量重命名工具(&R)"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3478,7 +3478,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "tfrmmultirename.caption"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "批量重命名"
 
 #: tfrmmultirename.cblog.caption
@@ -10332,7 +10332,7 @@ msgstr "主要"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "批量重命名"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -11722,7 +11722,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "批量重命名"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -12582,7 +12582,7 @@ msgstr "鼠标"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "批量重命名"
 
 #: ulng.rsoptionseditoroptionschanged

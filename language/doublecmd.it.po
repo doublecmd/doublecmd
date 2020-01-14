@@ -2447,7 +2447,7 @@ msgid "Minimize window"
 msgstr "Minimizza finestra"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "Strumento Multi-&Rinomina"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3579,7 +3579,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "TFRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Strumento Multi-Rinomina"
 
 #: tfrmmultirename.cblog.caption
@@ -10755,7 +10755,7 @@ msgstr "Principale"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Strumento Multi-Rinomina"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -12122,7 +12122,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Strumento Multi-Rinomina"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -13018,7 +13018,7 @@ msgstr "Mouse"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Strumento Multi-Rinomina"
 
 #: ulng.rsoptionseditoroptionschanged

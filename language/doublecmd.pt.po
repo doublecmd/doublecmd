@@ -2425,7 +2425,7 @@ msgid "Minimize window"
 msgstr "Minimizar janela"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "Ferramenta Multi-renomear"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3547,7 +3547,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "TFRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Multi-renomear"
 
 #: tfrmmultirename.cblog.caption
@@ -10601,7 +10601,7 @@ msgstr "Principal"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Multi-renomear"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -11988,7 +11988,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Multi-renomear"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -12868,7 +12868,7 @@ msgstr "Rato"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Multi-renomear"
 
 #: ulng.rsoptionseditoroptionschanged

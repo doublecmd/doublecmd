@@ -2441,7 +2441,7 @@ msgid "Minimize window"
 msgstr "창 최소화"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "파일명 변경 도구(&R)"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3567,7 +3567,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "TFRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "여러개 파일명 바꾸기"
 
 #: tfrmmultirename.cblog.caption
@@ -10781,7 +10781,7 @@ msgstr "주요정보"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "여러개 파일명 바꾸기"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -12174,7 +12174,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "여러개 파일명 바꾸기"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -13058,7 +13058,7 @@ msgstr "마우스"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "여러개 파일명 바꾸기"
 
 #: ulng.rsoptionseditoroptionschanged

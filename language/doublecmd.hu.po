@@ -2427,7 +2427,7 @@ msgid "Minimize window"
 msgstr "Kis méret"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "Csoportos át&nevezés"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3551,7 +3551,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "TFRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Csoportos Átnevező"
 
 #: tfrmmultirename.cblog.caption
@@ -10661,7 +10661,7 @@ msgstr "Fő"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Csoportos Átnevező"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -12018,7 +12018,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Csoportos Átnevező"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -12900,7 +12900,7 @@ msgstr "Egér"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Csoportos Átnevező"
 
 #: ulng.rsoptionseditoroptionschanged
