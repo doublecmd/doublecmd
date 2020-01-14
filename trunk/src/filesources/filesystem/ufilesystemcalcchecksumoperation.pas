@@ -165,7 +165,7 @@ begin
 
     UpdateStatistics(FStatistics);
 
-    if not aFile.IsDirectory then
+    if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
     begin
       // If there will be an error in ProcessFile the DoneBytes value
       // will be inconsistent, so remember it here.
