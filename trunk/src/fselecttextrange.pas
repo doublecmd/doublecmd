@@ -1,7 +1,7 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   MultiRename text range selector dialog window
+   Multi-Rename text range selector dialog window
 
    Copyright (C) 2007-2020 Alexander Koblov (alexx2000@mail.ru)
 

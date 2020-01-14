@@ -2448,7 +2448,7 @@ msgid "Minimize window"
 msgstr "Umanji prozor"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "Pribor za masovno &preimenovanje"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3581,7 +3581,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "TFRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Višestruko preimenovanje"
 
 #: tfrmmultirename.cblog.caption
@@ -10811,7 +10811,7 @@ msgstr "Glavni"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Višestruko preimenovanje"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -12210,7 +12210,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Višestruko preimenovanje"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -13094,7 +13094,7 @@ msgstr "Miš"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Višestruko preimenovanje"
 
 #: ulng.rsoptionseditoroptionschanged

@@ -2459,7 +2459,7 @@ msgid "Minimize window"
 msgstr "Minimer vindue"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "Multi-omd&øbning..."
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3593,7 +3593,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "tfrmmultirename.caption"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Multi-omdøbning"
 
 #: tfrmmultirename.cblog.caption
@@ -10850,7 +10850,7 @@ msgstr "Hovedvindue"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Multi-omdøbning"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -12283,7 +12283,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Multi-omdøbning"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -13178,7 +13178,7 @@ msgstr "Mus"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Multi-omdøbning"
 
 #: ulng.rsoptionseditoroptionschanged

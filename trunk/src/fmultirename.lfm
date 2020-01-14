@@ -4,7 +4,7 @@ object frmMultiRename: TfrmMultiRename
   Top = 132
   Width = 804
   ActiveControl = edName
-  Caption = 'MultiRename'
+  Caption = 'Multi-Rename Tool'
   ClientHeight = 446
   ClientWidth = 804
   KeyPreview = True

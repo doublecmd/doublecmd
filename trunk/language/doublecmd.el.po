@@ -2422,7 +2422,7 @@ msgid "Minimize window"
 msgstr "Ελαχιστοποίηση παραθύρου"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "Εργαλείο Μετονομασίας Πολλών"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3544,7 +3544,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "TFRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Μετονομασία Πολλών"
 
 #: tfrmmultirename.cblog.caption
@@ -10593,7 +10593,7 @@ msgstr "Κυρίως"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Μετονομασία Πολλών"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -11982,7 +11982,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Μετονομασία Πολλών"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -12861,7 +12861,7 @@ msgstr "Ποντίκι"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Μετονομασία Πολλών"
 
 #: ulng.rsoptionseditoroptionschanged

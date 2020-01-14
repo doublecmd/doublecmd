@@ -1547,7 +1547,7 @@ object frmMain: TfrmMain
     object actMultiRename: TAction
       Tag = 18
       Category = 'Tools'
-      Caption = 'Multi &Rename Tool'
+      Caption = 'Multi-&Rename Tool'
       HelpType = htKeyword
       OnExecute = actExecute
     end

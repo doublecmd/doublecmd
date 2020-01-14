@@ -2568,7 +2568,7 @@ msgid "Minimize window"
 msgstr "Pencereyi simge durumuna küçült"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "Çoklu &yeniden adlandırma aracı"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3720,7 +3720,7 @@ msgstr ""
 
 #: tfrmmultirename.caption
 msgctxt "tfrmmultirename.caption"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Çoklu yeniden adlandırma"
 
 #: tfrmmultirename.cblog.caption
@@ -10974,7 +10974,7 @@ msgstr ""
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Çoklu yeniden adlandırma"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -12345,7 +12345,7 @@ msgstr ""
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Çoklu yeniden adlandırma"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -13230,7 +13230,7 @@ msgstr ""
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Çoklu yeniden adlandırma"
 
 #: ulng.rsoptionseditoroptionschanged

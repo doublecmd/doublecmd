@@ -92,7 +92,7 @@ type
   TFileOperationsConfirmation = (focCopy, focMove, focDelete, focDeleteToTrash, focVerifyChecksum);
   TFileOperationsConfirmations = set of TFileOperationsConfirmation;
 
-  { MultiRename }
+  { Multi-Rename }
   TMulRenLaunchBehavior = (mrlbLastMaskUnderLastOne, mrlbLastPreset, mrlbFreshNew);
   TMulRenExitModifiedPreset = (mrempIgnoreSaveLast, mrempPromptUser, mrempSaveAutomatically);
   TMulRenSaveRenamingLog = (mrsrlPerPreset, mrsrlAppendSameLog);
@@ -173,8 +173,8 @@ type
 const
   { Default hotkey list version number }
   hkVersion = 51;
-  // 51 - In "MultiRename" context, added the "Shift+F4" shortcut for the "cm_EditNewNames".
-  // 50 - To load shortcut keys for the "MultiRename" which is now driven with "cm_Actions".
+  // 51 - In "Multi-Rename" context, added the "Shift+F4" shortcut for the "cm_EditNewNames".
+  // 50 - To load shortcut keys for the "Multi-Rename" which is now driven with "cm_Actions".
   // 49 - In "Viewer" context, added the "F6" for "cm_ShowCaret".
   // 48 - In "Viewer" context, added the "CTRL+P" for the "cm_Print".
   // 47 - In "Copy/Move Dialog" context, add the shortcuts "F5" and "F6" for "cm_ToggleSelectionInName".
@@ -477,7 +477,7 @@ var
   gFileOperationsProgressKind: TFileOperationsProgressKind;
   gFileOperationsConfirmations: TFileOperationsConfirmations;
 
-  { MultiRename}
+  { Multi-Rename}
   gMulRenShowMenuBarOnTop : boolean;
   gMulRenInvalidCharReplacement : string;
   gMulRenLaunchBehavior : TMulRenLaunchBehavior;
@@ -1758,7 +1758,7 @@ begin
   gFileOperationsProgressKind := fopkSeparateWindow;
   gFileOperationsConfirmations := [focCopy, focMove, focDelete, focDeleteToTrash];
 
-  { MultiRename }
+  { Multi-Rename }
   gMulRenShowMenuBarOnTop := True;
   gMulRenInvalidCharReplacement := '.';
   gMulRenLaunchBehavior := mrlbLastMaskUnderLastOne;
@@ -2758,7 +2758,7 @@ begin
         gExtractOverwrite := GetValue(SubNode, 'Overwrite', gExtractOverwrite);
       end;
 
-      // MultiRename
+      // Multi-Rename
       SubNode := Node.FindNode('MultiRename');
       if Assigned(SubNode) then
       begin
@@ -3399,7 +3399,7 @@ begin
       SetValue(SubNode, 'Overwrite', gExtractOverwrite);
     end;
 
-    // MultiRename
+    // Multi-Rename
     SubNode := FindNode(Node, 'MultiRename', True);
     SetValue(SubNode, 'MulRenShowMenuBarOnTop', gMulRenShowMenuBarOnTop);
     SetValue(SubNode, 'MulRenInvalidCharReplacement', gMulRenInvalidCharReplacement);

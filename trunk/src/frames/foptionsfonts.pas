@@ -82,7 +82,7 @@ begin
   Result := rsOptionsEditorFonts;
 end;
 
-{ TfrmOptionsMultiRename.Init }
+{ TfrmOptionsFonts.Init }
 // We draw manually the whole thing from the gFont array instead of having designed the form at the conception time.
 // This way, we're sure to don't forget a font, for one, and second, if we ever add a font, no modification will be required here, in the configuration section.
 // ...or maybe just if the font has to be monospace.

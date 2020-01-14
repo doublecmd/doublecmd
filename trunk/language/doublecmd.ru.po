@@ -2411,7 +2411,7 @@ msgid "Minimize window"
 msgstr "Свернуть"
 
 #: tfrmmain.actmultirename.caption
-msgid "Multi &Rename Tool"
+msgid "Multi-&Rename Tool"
 msgstr "Групповое &переименование"
 
 #: tfrmmain.actnetworkconnect.caption
@@ -3530,7 +3530,7 @@ msgstr "Просмотреть файл протокола переименов�
 
 #: tfrmmultirename.caption
 msgctxt "tfrmmultirename.caption"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Групповое переименование"
 
 #: tfrmmultirename.cblog.caption
@@ -10558,7 +10558,7 @@ msgstr "Основные"
 
 #: ulng.rshotkeycategorymultirename
 msgctxt "ulng.rshotkeycategorymultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Групповое переименование"
 
 #: ulng.rshotkeycategorysyncdirs
@@ -11949,7 +11949,7 @@ msgstr "Последние значения;Последний шаблон;Зн
 
 #: ulng.rsmulrenlogstart
 msgctxt "ulng.rsmulrenlogstart"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Групповое переименование"
 
 #: ulng.rsmulrenmaskcharatposx
@@ -12826,7 +12826,7 @@ msgstr "Мышь"
 
 #: ulng.rsoptionseditormultirename
 msgctxt "ulng.rsoptionseditormultirename"
-msgid "MultiRename"
+msgid "Multi-Rename Tool"
 msgstr "Групповое переименование"
 
 #: ulng.rsoptionseditoroptionschanged
