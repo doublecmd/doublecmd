@@ -935,6 +935,16 @@ var
       (ACaption: ''; ACommand: 'cm_RunTerm'),
       (ACaption: ''; ACommand: 'cm_Exit'));
 
+type
+
+  { TShellTreeView }
+
+  TShellTreeView = class(ShellCtrls.TShellTreeView)
+  protected
+    function CanExpand(Node: TTreeNode): Boolean; override;
+    function ShellTreeViewSort(Node1, Node2: TTreeNode): Integer;
+  end;
+
 function HistoryIndexesToTag(aFileSourceIndex, aPathIndex: Integer): Longint;
 begin
   Result := (aFileSourceIndex << 16) or aPathIndex;
@@ -945,6 +955,21 @@ begin
   aFileSourceIndex := aTag >> 16;
   aPathIndex := aTag and ((1<<16) - 1);
 end;
+
+{ TShellTreeView }
+
+function TShellTreeView.CanExpand(Node: TTreeNode): Boolean;
+begin
+  Result:= inherited CanExpand(Node);
+  if Result then Node.CustomSort(@ShellTreeViewSort);
+end;
+
+function TShellTreeView.ShellTreeViewSort(Node1, Node2: TTreeNode): Integer;
+begin
+  Result:= CompareStrings(Node1.Text, Node2.Text, gSortNatural, gSortSpecial, gSortCaseSensitivity);
+end;
+
+{ TfrmMain }
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 
@@ -4283,8 +4308,9 @@ begin
     begin
       ReadOnly := True;
       RightClickSelect := True;
-      FileSortType := fstFoldersFirst;
+      FileSortType := fstNone;
       PopulateWithBaseFiles;
+      CustomSort(@ShellTreeViewSort);
 
       Images := TImageList.Create(Self);
       Images.Width := gIconsSize;
