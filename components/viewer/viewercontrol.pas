@@ -436,6 +436,8 @@ type
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     function DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean; override;
     function DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
+    function DoMouseWheelLeft(Shift: TShiftState; MousePos: TPoint): Boolean; override;
+    function DoMouseWheelRight(Shift: TShiftState; MousePos: TPoint): Boolean; override;
 {$if lcl_fullversion >= 1070000}
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy; const AXProportion, AYProportion: Double); override;
 {$endif}
@@ -796,7 +798,7 @@ var
   aPosition: PtrInt;
 begin
   if not IsFileOpen then
-    Exit;
+    Exit(False);
   aPosition := FPosition;
   Result := ScrollPosition(aPosition, iLines);
   if aPosition <> FPosition then
@@ -808,7 +810,7 @@ var
   newPos: Integer;
 begin
   if not IsFileOpen then
-    Exit;
+    Exit(False);
   newPos := FHPosition + iSymbols;
   if newPos < 0 then
     newPos := 0
@@ -816,6 +818,7 @@ begin
     newPos := FHLowEnd - FTextWidth;
   if newPos <> FHPosition then
     SetHPosition(newPos);
+  Result:= True;
 end;
 
 function TViewerControl.GetText(const StartPos, Len: PtrInt; const Xoffset: Integer): string;
@@ -2569,6 +2572,20 @@ begin
   Result := inherited;
   if not Result then
     Result := Scroll(-Mouse.WheelScrollLines);
+end;
+
+function TViewerControl.DoMouseWheelLeft(Shift: TShiftState; MousePos: TPoint): Boolean;
+begin
+  Result:= inherited DoMouseWheelLeft(Shift, MousePos);
+  if not Result then
+    Result := HScroll(-Mouse.WheelScrollLines);
+end;
+
+function TViewerControl.DoMouseWheelRight(Shift: TShiftState; MousePos: TPoint): Boolean;
+begin
+  Result:= inherited DoMouseWheelRight(Shift, MousePos);
+  if not Result then
+    Result := HScroll(Mouse.WheelScrollLines);
 end;
 
 {$if lcl_fullversion >= 1070000}
