@@ -315,19 +315,62 @@ begin
   end;
 end;
 
+function CheckVersion: Boolean;
+var
+  pyFunc: PPyObject;
+  RabbitGTK3: Boolean;
+  pyModule: PPyObject;
+  pyVersion: PPyObject;
+  AVersion: TStringArray;
+  Major, Minor, Micro: Integer;
+begin
+  Result:= False;
+  pyModule:= PythonLoadModule('rabbitvcs');
+  if Assigned(pyModule) then
+  begin
+    pyFunc:= PyObject_GetAttrString(pyModule, 'package_version');
+    if (Assigned(pyFunc) and (PyCallable_Check(pyFunc) <> 0)) then
+    begin
+      pyVersion:= PyObject_CallObject(pyFunc, nil);
+      if Assigned(pyVersion) then
+      begin
+        AVersion:= PyStringToString(pyVersion).Split(['.']);
+        if (Length(AVersion) > 2) then
+        begin
+          Major:= StrToIntDef(AVersion[0], 0);
+          Minor:= StrToIntDef(AVersion[1], 0);
+          Micro:= StrToIntDef(AVersion[2], 0);
+          // RabbitVCS migrated to GTK3 from version 0.17.1
+          RabbitGTK3:= (Major > 0) or (Minor > 17) or ((Minor = 17) and (Micro > 0));
+{$IF DEFINED(LCLQT5)}
+          // Qt5 can work with RabbitVCS GTK2 when no GTK3 platform theme plugin
+          if not RabbitGTK3 then Result:= (g_type_from_name('GtkWidget') = 0);
+{$ELSEIF DEFINED(LCLGTK2)}
+          Result:= not RabbitGTK3;
+{$ELSEIF DEFINED(LCLGTK3)}
+          Result:= RabbitGTK3;
+{$ELSE}
+          Result:= True
+{$ENDIF}
+        end;
+        Py_DECREF(pyVersion);
+      end;
+      Py_DECREF(pyFunc);
+    end;
+  end;
+end;
+
 procedure Initialize;
 var
   PythonPath: String;
 begin
-{$IF DEFINED(LCLQT5)}
-  if g_type_from_name('GtkWidget') <> 0 then Exit;
-{$ENDIF}
   dbus_error_init(@error);
   conn := dbus_bus_get(DBUS_BUS_SESSION, @error);
   if CheckError('Cannot acquire connection to DBUS session bus', @error) then
     Exit;
   if HasPython then
   begin
+    if not CheckVersion then Exit;
     PythonPath:= gpExePath + 'scripts';
     RabbitVCS:= CheckService(PythonPath + PathDelim + MODULE_NAME + '.py');
     if RabbitVCS then begin
