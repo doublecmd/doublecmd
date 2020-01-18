@@ -69,7 +69,11 @@ implementation
 
 uses
   dbus, fpjson, jsonparser, unix,
-  uGlobs, uGlobsPaths, uMyUnix, uPython;
+  uGlobs, uGlobsPaths, uMyUnix, uPython
+{$IF DEFINED(LCLQT5)}
+  , uGObject2
+{$ENDIF}
+  ;
 
 const
   MODULE_NAME = 'rabbit-vcs';
@@ -315,6 +319,9 @@ procedure Initialize;
 var
   PythonPath: String;
 begin
+{$IF DEFINED(LCLQT5)}
+  if g_type_from_name('GtkWidget') <> 0 then Exit;
+{$ENDIF}
   dbus_error_init(@error);
   conn := dbus_bus_get(DBUS_BUS_SESSION, @error);
   if CheckError('Cannot acquire connection to DBUS session bus', @error) then
@@ -336,9 +343,7 @@ begin
 end;
 
 initialization
-{$IF NOT DEFINED(LCLQT5)}
   RegisterInitialization(@Initialize);
-{$ENDIF}
 
 finalization
   Finalize;
