@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Some useful functions for Unix icon theme implementation
 
-    Copyright (C) 2009-2017  Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2020  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -149,6 +149,27 @@ begin
   end;
 end;
 
+function GetLxqtIconTheme: String;
+const
+  lxqtConfig = '/.config/lxqt/lxqt.conf';
+var
+  iniCfg: TIniFileEx;
+begin
+  Result:= EmptyStr;
+
+  if mbFileExists(GetHomeDir + lxqtConfig) then
+  try
+    iniCfg:= TIniFileEx.Create(GetHomeDir + lxqtConfig);
+    try
+      Result:= iniCfg.ReadString('General', 'icon_theme', EmptyStr);
+    finally
+      iniCfg.Free;
+    end;
+  except
+    // Skip
+  end;
+end;
+
 function GetMateIconTheme: String; inline;
 begin
   Result:= GioGetIconTheme('org.mate.interface');
@@ -173,6 +194,8 @@ begin
       Result:= GetXfceIconTheme;
     DE_LXDE:
       Result:= GetLxdeIconTheme;
+    DE_LXQT:
+      Result:= GetLxqtIconTheme;
     DE_MATE:
       Result:= GetMateIconTheme;
     DE_CINNAMON:
