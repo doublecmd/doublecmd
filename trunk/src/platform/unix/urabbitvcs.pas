@@ -68,7 +68,7 @@ var
 implementation
 
 uses
-  dbus, fpjson, jsonparser, unix,
+  dbus, fpjson, jsonparser, jsonscanner, unix,
   uGlobs, uGlobsPaths, uMyUnix, uPython
 {$IF DEFINED(LCLQT5)}
   , uGObject2
@@ -113,12 +113,12 @@ begin
 
   Result:= service_exists <> 0;
   if Result then
-    Print('Service found running.')
+    Print('Service found running')
   else
     begin
       Result:= fpSystemStatus(PythonExe + ' ' + PythonScript) = 0;
       if Result then
-        Print('Service successfully started.');
+        Print('Service successfully started');
     end;
 end;
 
@@ -201,7 +201,7 @@ begin
       begin
         dbus_message_iter_get_basic(@argsIter, @StringPtr);
 
-        with TJSONParser.Create(StrPas(StringPtr)) do
+        with TJSONParser.Create(StrPas(StringPtr), [joUTF8]) do
         try
           JAnswer:= Parse as TJSONObject;
           try
@@ -248,7 +248,7 @@ end;
 procedure FillRabbitMenu(Menu: TPopupMenu; Paths: TStringList);
 var
   Handler: TMethod;
-  pyMethod, pyValue, pyArgs: PPyObject;
+  pyMethod, pyValue: PPyObject;
 
   procedure SetBitmap(Item: TMenuItem; const IconName: String);
   var
@@ -317,6 +317,7 @@ end;
 
 function CheckVersion: Boolean;
 var
+  ATemp: AnsiString;
   pyFunc: PPyObject;
   RabbitGTK3: Boolean;
   pyModule: PPyObject;
@@ -334,7 +335,9 @@ begin
       pyVersion:= PyObject_CallObject(pyFunc, nil);
       if Assigned(pyVersion) then
       begin
-        AVersion:= PyStringToString(pyVersion).Split(['.']);
+        ATemp:= PyStringToString(pyVersion);
+        AVersion:= ATemp.Split(['.']);
+        Print('Version ' + ATemp);
         if (Length(AVersion) > 2) then
         begin
           Major:= StrToIntDef(AVersion[0], 0);
@@ -376,6 +379,7 @@ begin
     if RabbitVCS then begin
       PythonAddModulePath(PythonPath);
       PythonModule:= PythonLoadModule(MODULE_NAME);
+      RabbitVCS:= Assigned(PythonModule);
     end;
   end;
 end;
