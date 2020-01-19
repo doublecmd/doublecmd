@@ -46,7 +46,7 @@ type
   TOnLoadButtonGlyph = function (ToolItem: TKASToolItem; iIconSize: Integer; clBackColor: TColor): TBitmap of object;
   TOnToolItemExecute = procedure (ToolItem: TKASToolItem) of object;
   TOnConfigLoadItem = function (Config: TXmlConfig; Node: TXmlNode): TKASToolItem of object;
-  TOnToolItemShortcutsHint = function (ToolItem: TKASNormalItem): String of object;
+  TOnToolItemShortcutsHint = function (Sender: TObject; ToolItem: TKASNormalItem): String of object;
   TTypeOfConfigurationLoad = (tocl_FlushCurrentToolbarContent, tocl_AddToCurrentToolbarContent);
   
   TKASToolBar = class;
@@ -512,7 +512,7 @@ function TKASToolBar.GetToolItemShortcutsHint(Item: TKASToolItem): String;
 begin
   Result := '';
   if Assigned(FOnToolItemShortcutsHint) and (Item is TKASNormalItem) then
-    Result := FOnToolItemShortcutsHint(TKASNormalItem(Item));
+    Result := FOnToolItemShortcutsHint(Self, TKASNormalItem(Item));
 end;
 
 function TKASToolBar.GetButton(Index: Integer): TKASToolButton;

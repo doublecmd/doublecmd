@@ -553,7 +553,7 @@ type
     procedure btnF8MouseDown(Sender: TObject; Button: TMouseButton;
       {%H-}Shift: TShiftState; X, Y: Integer);
     procedure FormKeyUp( Sender: TObject; var {%H-}Key: Word; Shift: TShiftState) ;
-    function MainToolBarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
+    function MainToolBarToolItemShortcutsHint(Sender: TObject; ToolItem: TKASNormalItem): String;
     procedure mnuAllOperStartClick(Sender: TObject);
     procedure mnuAllOperStopClick(Sender: TObject);
     procedure mnuAllOperPauseClick(Sender: TObject);
@@ -1501,9 +1501,13 @@ begin
     MainToolBarMouseUp(Sender, Button, Shift, X, Y);
 end;
 
-function TfrmMain.MainToolBarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
+function TfrmMain.MainToolBarToolItemShortcutsHint(Sender: TObject;
+  ToolItem: TKASNormalItem): String;
 begin
-  Result := ShortcutsToText(TfrmOptionsToolbar.GetShortcuts(ToolItem));
+  if Sender = MainToolBar then
+    Result := ShortcutsToText(TfrmOptionsToolbar.GetShortcuts(ToolItem))
+  else
+    Result := ShortcutsToText(TfrmOptionsToolbarMiddle.GetShortcuts(ToolItem));
 end;
 
 procedure TfrmMain.miLogMenuClick(Sender: TObject);

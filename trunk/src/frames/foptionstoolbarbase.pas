@@ -221,7 +221,7 @@ type
     procedure ToolbarToolButtonMouseUp(Sender: TObject; {%H-}Button: TMouseButton;
       {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);
     procedure btnOpenIconClick(Sender: TObject);
-    function ToolbarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
+    function ToolbarToolItemShortcutsHint(Sender: TObject; ToolItem: TKASNormalItem): String;
     procedure rgToolItemTypeSelectionChanged(Sender: TObject);
     procedure trbBarSizeChange(Sender: TObject);
     procedure trbIconSizeChange(Sender: TObject);
@@ -1394,7 +1394,8 @@ begin
   FToolDragButtonNumber := -1;
 end;
 
-function TfrmOptionsToolbarBase.ToolbarToolItemShortcutsHint(ToolItem: TKASNormalItem): String;
+function TfrmOptionsToolbarBase.ToolbarToolItemShortcutsHint(Sender: TObject;
+  ToolItem: TKASNormalItem): String;
 begin
   Result := ShortcutsToText(GetShortcuts(ToolItem));
 end;
