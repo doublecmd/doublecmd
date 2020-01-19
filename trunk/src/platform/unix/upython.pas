@@ -83,6 +83,7 @@ function  PyStringToString(S: PPyObject): String;
 
 procedure PythonAddModulePath(const Path: String);
 function  PythonLoadModule(const ModuleName: String): PPyObject;
+function  PythonRunFunction(Module: PPyObject; const FunctionName: String): PPyObject; overload;
 function  PythonRunFunction(Module: PPyObject; const FunctionName, FunctionArg: String): PPyObject; overload;
 function  PythonRunFunction(Module: PPyObject; const FunctionName: String; FileList: TStrings): PPyObject; overload;
 
@@ -168,7 +169,11 @@ begin
     pyFunc:= PyObject_GetAttrString(Module, PAnsiChar(FunctionName));
     if (Assigned(pyFunc) and (PyCallable_Check(pyFunc) <> 0)) then
     begin
-      pyArgs:= PyObjectsToPyTuple([FunctionArg]);
+      if (FunctionArg = nil) then
+        pyArgs:= nil
+      else begin
+        pyArgs:= PyObjectsToPyTuple([FunctionArg]);
+      end;
       Result:= PyObject_CallObject(pyFunc, pyArgs);
       Py_XDECREF(pyArgs);
       if (Result = nil) then begin
@@ -177,6 +182,11 @@ begin
       Py_DECREF(pyFunc);
     end;
   end;
+end;
+
+function PythonRunFunction(Module: PPyObject; const FunctionName: String): PPyObject;
+begin
+  Result:= PythonCallFunction(Module, FunctionName, nil);
 end;
 
 function PythonRunFunction(Module: PPyObject; const FunctionName, FunctionArg: String): PPyObject;
