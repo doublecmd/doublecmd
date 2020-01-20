@@ -316,7 +316,7 @@ begin
   SetLength(Result, length(s) * 2);
   Dest:=PAnsiChar(Result);
   while Src + 1 <= Limit do begin
-    len := UTF16CharLen(Src^);
+    len := UTF16CharLen(swap(Src^));
     if len = 1 then
       u := BEtoN(Src^)
     else
