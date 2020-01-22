@@ -508,7 +508,7 @@ end;
 function TMultiArchiveFileSource.ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
 var
   I : Integer;
-  SystemTime: TSystemTime;
+  ArchiveTime: TSystemTime;
   ArchiveItem: TArchiveItem;
 begin
   if not mbFileAccess(ArchiveFileName, fmOpenRead) then
@@ -528,17 +528,19 @@ begin
   { Get File List }
   FArcFileList.Clear;
 
+  // Get archive file time
+  DateTimeToSystemTime(FileTimeToDateTime(mbFileAge(ArchiveFileName)), ArchiveTime);
+
   if mafFileNameList in FMultiArcItem.FFlags then
   begin
     ArchiveItem:= TArchiveItem.Create;
     ArchiveItem.FileName := ExtractOnlyFileName(ArchiveFileName);
-    DateTimeToSystemTime(FileTimeToDateTime(mbFileAge(ArchiveFileName)), SystemTime);
-    ArchiveItem.Year:= SystemTime.Year;
-    ArchiveItem.Month:= SystemTime.Month;
-    ArchiveItem.Day:= SystemTime.Day;
-    ArchiveItem.Hour:= SystemTime.Hour;
-    ArchiveItem.Minute:= SystemTime.Minute;
-    ArchiveItem.Second:= SystemTime.Second;
+    ArchiveItem.Year:= ArchiveTime.Year;
+    ArchiveItem.Month:= ArchiveTime.Month;
+    ArchiveItem.Day:= ArchiveTime.Day;
+    ArchiveItem.Hour:= ArchiveTime.Hour;
+    ArchiveItem.Minute:= ArchiveTime.Minute;
+    ArchiveItem.Second:= ArchiveTime.Second;
     ArchiveItem.Attributes := mbFileGetAttr(ArchiveFileName);
     FArcFileList.Add(ArchiveItem);
     Exit(True);
@@ -564,6 +566,12 @@ begin
         ArchiveItem:= TArchiveItem.Create;
         try
           ArchiveItem.FileName := FAllDirsList.List[I]^.Key;
+          ArchiveItem.Year:= ArchiveTime.Year;
+          ArchiveItem.Month:= ArchiveTime.Month;
+          ArchiveItem.Day:= ArchiveTime.Day;
+          ArchiveItem.Hour:= ArchiveTime.Hour;
+          ArchiveItem.Minute:= ArchiveTime.Minute;
+          ArchiveItem.Second:= ArchiveTime.Second;
           ArchiveItem.Attributes := FDirectoryAttribute;
           FArcFileList.Add(ArchiveItem);
         except
