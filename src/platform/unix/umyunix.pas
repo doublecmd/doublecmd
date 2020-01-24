@@ -190,6 +190,7 @@ function FileIsUnixExecutable(const Filename: String): Boolean;
    @returns(Mount point of file system)
 }
 function FindMountPointPath(const FileName: String): String;
+function FindExecutableInSystemPath(var FileName: String): Boolean;
 function ExecutableInSystemPath(const FileName: String): Boolean;
 function GetDefaultAppCmd(const FileName: String): String;
 function GetFileMimeType(const FileName: String): String;
@@ -419,20 +420,32 @@ begin
   end;
 end;
 
-function ExecutableInSystemPath(const FileName: String): Boolean;
+function FindExecutableInSystemPath(var FileName: String): Boolean;
 var
   I: Integer;
-  Path: String;
+  Path, FullName: String;
   Value: TDynamicStringArray;
 begin
   Path:= GetEnvironmentVariable('PATH');
   Value:= SplitString(Path, PathSeparator);
   for I:= Low(Value) to High(Value) do
   begin
-    if fpAccess(IncludeTrailingPathDelimiter(Value[I]) + FileName, X_OK) = 0 then
+    FullName:= IncludeTrailingPathDelimiter(Value[I]) + FileName;
+    if fpAccess(FullName, X_OK) = 0 then
+    begin
+      FileName:= FullName;
       Exit(True);
+    end;
   end;
   Result:= False;
+end;
+
+function ExecutableInSystemPath(const FileName: String): Boolean;
+var
+  FullName: String;
+begin
+  FullName:= FileName;
+  Result:= FindExecutableInSystemPath(FullName);
 end;
 
 function GetDefaultAppCmd(const FileName: String): String;

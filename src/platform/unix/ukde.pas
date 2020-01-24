@@ -49,8 +49,15 @@ end;
 
 function FileTrash(const FileName: String): Boolean;
 begin
-  Result:= fpSystemStatus(KdeOpen + ' --noninteractive move ' +
-                          QuoteStr(FileName) + ' trash:/') = 0;
+  try
+    Result:= ExecuteProcess(KdeOpen, ['--noninteractive', 'move', FileName, 'trash:/']) = 0;
+  except
+    on E: Exception do
+    begin
+      Result:= False;
+      WriteLn('FileTrash: ', E.Message);
+    end;
+  end;
 end;
 
 procedure Initialize;
@@ -59,7 +66,7 @@ begin
   begin
     KdeVersion:= GetEnvironmentVariable('KDE_SESSION_VERSION');
     if KdeVersion = '5' then KdeOpen:= 'kioclient5';
-    HasKdeOpen:= ExecutableInSystemPath(KdeOpen);
+    HasKdeOpen:= FindExecutableInSystemPath(KdeOpen);
     if HasKdeOpen then FileTrashUtf8:= @FileTrash;
   end;
 end;
