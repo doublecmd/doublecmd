@@ -140,7 +140,7 @@ uses
     , MacOSAll, fMain, uQuickLook, uMyDarwin, uShowMsg, uLng
     {$ENDIF}
     {$IF NOT DEFINED(DARWIN)}
-    , fOpenWith, uKde
+    , fOpenWith
     {$ENDIF}
     {$IF DEFINED(LCLQT) and not DEFINED(DARWIN)}
     , qt4, qtwidgets
@@ -838,9 +838,7 @@ end;
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 procedure ShowOpenWithDialog(TheOwner: TComponent; const FileList: TStringList);
 begin
-  if not (UseKde and uKde.ShowOpenWithDialog(FileList)) then begin
-    fOpenWith.ShowOpenWithDlg(TheOwner, FileList);
-  end;
+  fOpenWith.ShowOpenWithDlg(TheOwner, FileList);
 end;
 {$ENDIF}
 
