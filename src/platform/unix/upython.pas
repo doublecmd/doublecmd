@@ -67,6 +67,8 @@ var
   // stringobject.h
   PyString_AsString: function(ob: PPyObject): PAnsiChar; cdecl;
   PyString_FromString: function(s: PAnsiChar): PPyObject; cdecl;
+  // sysmodule.h
+  PySys_SetArgvEx: procedure(argc: cint; argv: PPAnsiChar; updatepath: cint); cdecl;
   // listobject.h
   PyList_New: function(size: csize_t): PPyObject; cdecl;
   PyList_Size: function (ob: PPyObject): csize_t; cdecl;
@@ -236,6 +238,7 @@ begin
     @PyObject_CallFunctionObjArgs:= SafeGetProcAddress(libpython, 'PyObject_CallFunctionObjArgs');
     @PyString_AsString:= SafeGetProcAddress(libpython, 'PyString_AsString');
     @PyString_FromString:= SafeGetProcAddress(libpython, 'PyString_FromString');
+    @PySys_SetArgvEx:= SafeGetProcAddress(libpython, 'PySys_SetArgvEx');
     @PyList_New:= SafeGetProcAddress(libpython, 'PyList_New');
     @PyList_Size:= SafeGetProcAddress(libpython, 'PyList_Size');
     @PyList_GetItem:= SafeGetProcAddress(libpython, 'PyList_GetItem');
@@ -244,6 +247,7 @@ begin
     @PyTuple_SetItem:= SafeGetProcAddress(libpython, 'PyTuple_SetItem');
     // Initialize the Python interpreter
     Py_Initialize();
+    PySys_SetArgvEx(0, nil, 0);
   except
     HasPython:= False;
   end;
