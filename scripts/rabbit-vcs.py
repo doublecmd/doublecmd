@@ -5,7 +5,7 @@
 # Copyright (C) 2009 Jason Heeris <jason.heeris@gmail.com>
 # Copyright (C) 2009 Bruce van der Kooij <brucevdkooij@gmail.com>
 # Copyright (C) 2009 Adam Plumb <adamplumb@gmail.com>
-# Copyright (C) 2014 Alexander Koblov <alexx2000@mail.ru>
+# Copyright (C) 2014-2020 Alexander Koblov <alexx2000@mail.ru>
 #
 # RabbitVCS is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,15 +25,17 @@ import os, os.path
 import sys
 
 try:
-  from rabbitvcs.util.contextmenuitems import *
+  import rabbitvcs.services.checkerservice
+  from rabbitvcs.util.contextmenuitems import MenuItem, MenuSeparator
   from rabbitvcs.util.contextmenu import MenuBuilder, MainContextMenu, MainContextMenuCallbacks
-except:
+except Exception as e:
+  print("RabbitVCS: {}".format(e))
   exit(1)
 
 class DCSender:
   """Double Commander sender class"""
   def rescan_after_process_exit(self, proc, paths):
-    print "rescan_after_process_exit"
+    print("rescan_after_process_exit")
     return
 
 class DCMenuItem:
@@ -88,17 +90,10 @@ class DCMainContextMenu(MainContextMenu):
     return DCContextMenu(self.structure, self.conditions, self.callbacks).menu
 
 def GetContextMenu(paths):
-  upaths = []
-  for path in paths:
-    upaths.append(unicode(path))
-
   sender = DCSender()
-  base_dir = os.path.dirname(upaths[0])
-  return DCMainContextMenu(sender, base_dir, upaths, None)
+  base_dir = os.path.dirname(paths[0])
+  return DCMainContextMenu(sender, base_dir, paths, None)
 
-if __name__ == "__main__":
-  try:
-    from rabbitvcs.services.checkerservice import StatusCheckerStub
-    status_checker = StatusCheckerStub()
-  except:
-    exit(1)
+def StartService():
+  rabbitvcs.services.checkerservice.start()
+

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Simple interface to the Python language
 
-   Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2014-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -90,7 +90,6 @@ function  PythonRunFunction(Module: PPyObject; const FunctionName, FunctionArg: 
 function  PythonRunFunction(Module: PPyObject; const FunctionName: String; FileList: TStrings): PPyObject; overload;
 
 var
-  PythonExe: String;
   HasPython: Boolean = False;
 
 implementation
@@ -207,21 +206,11 @@ begin
   Result:= PythonCallFunction(Module, FunctionName, pyArgs);
 end;
 
-function FindPythonExecutable: String;
-begin
-  if ExecutableInSystemPath('python2') then
-    Result:= 'python2'
-  else begin
-    Result:= 'python';
-  end;
-end;
-
 var
   libpython: TLibHandle;
 
 procedure Initialize;
 begin
-  PythonExe:= FindPythonExecutable;
   libpython:= TLibHandle(dlopen('libpython2.7.so.1.0', RTLD_NOW or RTLD_GLOBAL));
   HasPython:= libpython <> NilHandle;
   if HasPython then

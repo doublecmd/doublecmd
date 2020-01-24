@@ -101,7 +101,7 @@ begin
     Result := False;
 end;
 
-function CheckService(const PythonScript: String): Boolean;
+function CheckRabbit: Boolean;
 var
   service_exists: dbus_bool_t;
 begin
@@ -109,17 +109,25 @@ begin
   // Check if RabbitVCS service is running
   service_exists := dbus_bus_name_has_owner(conn, RabbitVCSAddress, @error);
   if CheckError('Cannot query RabbitVCS on DBUS', @error) then
-    Exit(False);
+    Result:= False
+  else
+    Result:= (service_exists <> 0);
+end;
 
-  Result:= service_exists <> 0;
+function CheckService: Boolean;
+var
+  pyValue: PPyObject;
+begin
+  Result:= CheckRabbit;
   if Result then
     Print('Service found running')
-  else
-    begin
-      Result:= fpSystemStatus(PythonExe + ' ' + PythonScript) = 0;
-      if Result then
-        Print('Service successfully started');
-    end;
+  else begin
+    // Try to start RabbitVCS service
+    pyValue:= PythonRunFunction(PythonModule, 'StartService');
+    Py_XDECREF(pyValue);
+    Result:= CheckRabbit;
+    if Result then Print('Service successfully started');
+  end;
 end;
 
 function CheckStatus(Path: String; Recurse: Boolean32;
@@ -358,8 +366,6 @@ begin
 end;
 
 procedure Initialize;
-var
-  PythonPath: String;
 begin
   dbus_error_init(@error);
   conn := dbus_bus_get(DBUS_BUS_SESSION, @error);
@@ -368,13 +374,9 @@ begin
   if HasPython then
   begin
     if not CheckVersion then Exit;
-    PythonPath:= gpExePath + 'scripts';
-    RabbitVCS:= CheckService(PythonPath + PathDelim + MODULE_NAME + '.py');
-    if RabbitVCS then begin
-      PythonAddModulePath(PythonPath);
-      PythonModule:= PythonLoadModule(MODULE_NAME);
-      RabbitVCS:= Assigned(PythonModule);
-    end;
+    PythonAddModulePath(gpExePath + 'scripts');
+    PythonModule:= PythonLoadModule(MODULE_NAME);
+    RabbitVCS:= Assigned(PythonModule) and CheckService;
   end;
 end;
 
