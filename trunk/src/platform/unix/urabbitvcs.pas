@@ -351,11 +351,15 @@ end;
 function CheckVersion: Boolean;
 var
   ATemp: AnsiString;
-  RabbitGTK3: Boolean;
+  RabbitGtk3: Boolean;
   pyModule: PPyObject;
   pyVersion: PPyObject;
   AVersion: TStringArray;
   Major, Minor, Micro: Integer;
+{$IF DEFINED(LCLQT5)}
+  GtkWidget: TGType;
+  GtkClass, Gtk3: Pointer;
+{$ENDIF}
 begin
   Result:= False;
   pyModule:= PythonLoadModule('rabbitvcs');
@@ -373,11 +377,19 @@ begin
         Minor:= StrToIntDef(AVersion[1], 0);
         Micro:= StrToIntDef(AVersion[2], 0);
         // RabbitVCS migrated to GTK3 from version 0.17.1
-        RabbitGTK3:= (Major > 0) or (Minor > 17) or ((Minor = 17) and (Micro > 0));
+        RabbitGtk3:= (Major > 0) or (Minor > 17) or ((Minor = 17) and (Micro > 0));
 {$IF DEFINED(LCLQT5)}
-        Result:= RabbitGTK3;
-        // Qt5 can work with RabbitVCS GTK2 when no GTK3 platform theme plugin
-        if not Result then Result:= (g_type_from_name('GtkWidget') = 0);
+        // Check GTK platform theme plugin
+        GtkWidget:= g_type_from_name('GtkWidget');
+        Result:= (GtkWidget = 0);
+        if not Result then
+        begin
+          GtkClass:= g_type_class_ref(GtkWidget);
+          // Property 'expand' since GTK 3.0
+          Gtk3:= g_object_class_find_property(GtkClass, 'expand');
+          // RabbitVCS GTK version should be same as Qt5 platform theme plugin GTK version
+          Result:= (RabbitGtk3 = Assigned(Gtk3));
+        end;
 {$ELSEIF DEFINED(LCLGTK2)}
         Result:= not RabbitGTK3;
 {$ELSEIF DEFINED(LCLGTK3)}
