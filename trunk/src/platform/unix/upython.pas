@@ -68,7 +68,7 @@ var
   PyString_AsString: function(ob: PPyObject): PAnsiChar; cdecl;
   PyString_FromString: function(s: PAnsiChar): PPyObject; cdecl;
   // sysmodule.h
-  PySys_SetArgvEx: procedure(argc: cint; argv: PPAnsiChar; updatepath: cint); cdecl;
+  PySys_SetArgvEx: procedure(argc: cint; argv: PPointer; updatepath: cint); cdecl;
   // listobject.h
   PyList_New: function(size: csize_t): PPyObject; cdecl;
   PyList_Size: function (ob: PPyObject): csize_t; cdecl;
@@ -82,6 +82,8 @@ procedure Py_DECREF(op: PPyObject);
 procedure Py_XDECREF(op: PPyObject);
 function  PyStringToString(S: PPyObject): String;
 
+function PythonInitialize(const Version: String): Boolean;
+procedure PythonFinalize;
 
 procedure PythonAddModulePath(const Path: String);
 function  PythonLoadModule(const ModuleName: String): PPyObject;
@@ -209,9 +211,18 @@ end;
 var
   libpython: TLibHandle;
 
-procedure Initialize;
+function LoadPython(const Name: String): TLibHandle;
+var
+  Handle: Pointer absolute Result;
 begin
-  libpython:= TLibHandle(dlopen('libpython2.7.so.1.0', RTLD_NOW or RTLD_GLOBAL));
+  Handle:= dlopen(PAnsiChar(Name), RTLD_NOW or RTLD_GLOBAL);
+end;
+
+function PythonInitialize(const Version: String): Boolean;
+var
+  PythonLibrary: String ='libpython%s.so.1.0';
+begin
+  libpython:= LoadPython(Format(PythonLibrary, [Version]));
   HasPython:= libpython <> NilHandle;
   if HasPython then
   try
@@ -225,8 +236,15 @@ begin
     @PyObject_CallObject:= SafeGetProcAddress(libpython, 'PyObject_CallObject');
     @PyObject_CallMethodObjArgs:= SafeGetProcAddress(libpython, 'PyObject_CallMethodObjArgs');
     @PyObject_CallFunctionObjArgs:= SafeGetProcAddress(libpython, 'PyObject_CallFunctionObjArgs');
-    @PyString_AsString:= SafeGetProcAddress(libpython, 'PyString_AsString');
-    @PyString_FromString:= SafeGetProcAddress(libpython, 'PyString_FromString');
+    if (Version[1] < '3') then
+    begin
+      @PyString_AsString:= SafeGetProcAddress(libpython, 'PyString_AsString');
+      @PyString_FromString:= SafeGetProcAddress(libpython, 'PyString_FromString');
+    end
+    else begin
+      @PyString_AsString:= SafeGetProcAddress(libpython, 'PyUnicode_AsUTF8');
+      @PyString_FromString:= SafeGetProcAddress(libpython, 'PyUnicode_FromString');
+    end;
     @PySys_SetArgvEx:= SafeGetProcAddress(libpython, 'PySys_SetArgvEx');
     @PyList_New:= SafeGetProcAddress(libpython, 'PyList_New');
     @PyList_Size:= SafeGetProcAddress(libpython, 'PyList_Size');
@@ -239,20 +257,20 @@ begin
     PySys_SetArgvEx(0, nil, 0);
   except
     HasPython:= False;
+    FreeLibrary(libpython);
+  end;
+  Result:= HasPython;
+end;
+
+procedure PythonFinalize;
+begin
+  if HasPython then
+  begin
+    Py_Finalize();
+    HasPython:= False;
+    FreeLibrary(libpython);
   end;
 end;
-
-procedure Finalize;
-begin
-  if HasPython then Py_Finalize();
-  if libpython <> NilHandle then FreeLibrary(libpython);
-end;
-
-initialization
-  Initialize;
-
-finalization
-  Finalize;
 
 end.
 
