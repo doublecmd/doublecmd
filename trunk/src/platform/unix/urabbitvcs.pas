@@ -140,6 +140,7 @@ var
   message: PDBusMessage;
   argsIter: DBusMessageIter;
   pending: PDBusPendingCall;
+  arrayIter: DBusMessageIter;
 begin
   if not RabbitVCS then Exit;
 
@@ -158,7 +159,11 @@ begin
     // Append arguments
     StringPtr:= PAnsiChar(Path);
     dbus_message_iter_init_append(message, @argsIter);
-    Return:= (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_STRING, @StringPtr) <> 0);
+
+    Return:= (dbus_message_iter_open_container(@argsIter, DBUS_TYPE_ARRAY, DBUS_TYPE_BYTE_AS_STRING, @arrayIter) <> 0);
+    Return:= Return and (dbus_message_iter_append_fixed_array(@arrayIter, DBUS_TYPE_BYTE, @StringPtr, Length(Path)) <> 0);
+    Return:= Return and (dbus_message_iter_close_container(@argsIter, @arrayIter) <> 0);
+
     Return:= Return and (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_BOOLEAN, @Recurse) <> 0);
     Return:= Return and (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_BOOLEAN, @Invalidate) <> 0);
     Return:= Return and (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_BOOLEAN, @Summary) <> 0);
