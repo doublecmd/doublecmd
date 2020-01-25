@@ -68,7 +68,7 @@ var
 implementation
 
 uses
-  dbus, fpjson, jsonparser, jsonscanner, unix,
+  dbus, fpjson, jsonparser, jsonscanner, unix, baseunix,
   uGlobs, uGlobsPaths, uMyUnix, uPython
 {$IF DEFINED(LCLQT5)}
   , uGObject2
@@ -323,6 +323,31 @@ begin
   end;
 end;
 
+function CheckPackage: Boolean;
+const
+  PythonVersion: array[0..2] of String = ('2.7', '3.8', '3.9');
+var
+  Index: Integer;
+  Debian: Boolean;
+  PackageFormat: String = '/usr/lib/python%s/';
+begin
+  Debian:= fpAccess('/etc/debian_version', F_OK) = 0;
+  if Debian then
+    PackageFormat+= 'dist-packages/rabbitvcs'
+  else begin
+    PackageFormat+= 'site-packages/rabbitvcs';
+  end;
+  for Index:= 0 to High(PythonVersion) do
+  begin
+    if (fpAccess(Format(PackageFormat, [PythonVersion[Index]]), F_OK) = 0) then
+    begin
+      Result:= PythonInitialize(PythonVersion[Index]);
+      Exit;
+    end;
+  end;
+  Result:= False;
+end;
+
 function CheckVersion: Boolean;
 var
   ATemp: AnsiString;
@@ -371,7 +396,7 @@ begin
   conn := dbus_bus_get(DBUS_BUS_SESSION, @error);
   if CheckError('Cannot acquire connection to DBUS session bus', @error) then
     Exit;
-  if HasPython then
+  if CheckPackage then
   begin
     if not CheckVersion then Exit;
     PythonAddModulePath(gpExePath + 'scripts');
@@ -382,6 +407,7 @@ end;
 
 procedure Finalize;
 begin
+  PythonFinalize;
   if Assigned(conn) then dbus_connection_unref(conn);
 end;
 
