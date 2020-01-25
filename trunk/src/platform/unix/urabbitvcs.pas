@@ -80,6 +80,7 @@ const
 
 var
   error: DBusError;
+  RabbitGtk3: Boolean;
   conn: PDBusConnection = nil;
   PythonModule: PPyObject = nil;
   ShellContextMenu: PPyObject = nil;
@@ -160,9 +161,13 @@ begin
     StringPtr:= PAnsiChar(Path);
     dbus_message_iter_init_append(message, @argsIter);
 
-    Return:= (dbus_message_iter_open_container(@argsIter, DBUS_TYPE_ARRAY, DBUS_TYPE_BYTE_AS_STRING, @arrayIter) <> 0);
-    Return:= Return and (dbus_message_iter_append_fixed_array(@arrayIter, DBUS_TYPE_BYTE, @StringPtr, Length(Path)) <> 0);
-    Return:= Return and (dbus_message_iter_close_container(@argsIter, @arrayIter) <> 0);
+    if not RabbitGtk3 then
+      Return:= (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_STRING, @StringPtr) <> 0)
+    else begin
+      Return:= (dbus_message_iter_open_container(@argsIter, DBUS_TYPE_ARRAY, DBUS_TYPE_BYTE_AS_STRING, @arrayIter) <> 0);
+      Return:= Return and (dbus_message_iter_append_fixed_array(@arrayIter, DBUS_TYPE_BYTE, @StringPtr, Length(Path)) <> 0);
+      Return:= Return and (dbus_message_iter_close_container(@argsIter, @arrayIter) <> 0);
+    end;
 
     Return:= Return and (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_BOOLEAN, @Recurse) <> 0);
     Return:= Return and (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_BOOLEAN, @Invalidate) <> 0);
@@ -356,7 +361,6 @@ end;
 function CheckVersion: Boolean;
 var
   ATemp: AnsiString;
-  RabbitGtk3: Boolean;
   pyModule: PPyObject;
   pyVersion: PPyObject;
   AVersion: TStringArray;
