@@ -110,6 +110,8 @@ type
     procedure cm_QuickFilter(const Params: array of string);
     procedure cm_GoToFirstEntry(const {%H-}Params: array of string);
     procedure cm_GoToLastEntry(const {%H-}Params: array of string);
+    procedure cm_GoToNextEntry(const {%H-}Params: array of string);
+    procedure cm_GoToPrevEntry(const {%H-}Params: array of string);
     procedure cm_GoToFirstFile(const Params: array of string);
     procedure cm_GoToLastFile(const Params: array of string);
   end;
@@ -181,6 +183,28 @@ begin
   begin
     SetFocus;
     SetActiveFile(FFiles.Count - 1);
+  end;
+end;
+
+procedure TOrderedFileView.cm_GoToNextEntry(const Params: array of string);
+var
+  Index: PtrInt;
+begin
+  Index:= GetActiveFileIndex + 1;
+  if IsFileIndexInRange(Index) then
+  begin
+    SetActiveFile(Index);
+  end;
+end;
+
+procedure TOrderedFileView.cm_GoToPrevEntry(const Params: array of string);
+var
+  Index: PtrInt;
+begin
+  Index:= GetActiveFileIndex - 1;
+  if IsFileIndexInRange(Index) then
+  begin
+    SetActiveFile(Index);
   end;
 end;
 
