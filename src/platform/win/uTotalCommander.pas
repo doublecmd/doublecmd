@@ -392,7 +392,7 @@ const
     (TCCommand: 'cm_Switch83Names';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Turn 8.3 names lowercase on/off
     (TCCommand: 'cm_SwitchDirSort';             TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Turn directory sorting by name on/off
     (TCCommand: 'cm_DirBranch';                 TCIcon: 50; DCCommand: 'cm_FlatView';               DCParameters: ''          ), //Show all files in current dir and all subdirs
-    (TCCommand: 'cm_DirBranchSel';              TCIcon: 50; DCCommand: '';                          DCParameters: ''          ), //Show selected files, and all in selected subdirs
+    (TCCommand: 'cm_DirBranchSel';              TCIcon: 50; DCCommand: 'cm_FlatViewSel';            DCParameters: ''          ), //Show selected files, and all in selected subdirs
     (TCCommand: 'cm_50Percent';                 TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Window separator at 50%
     (TCCommand: 'cm_100Percent';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Window separator at 100%
     (TCCommand: 'cm_VisDirTabs';                TCIcon: -1; DCCommand: '';                          DCParameters: ''          ), //Show/hide folder tabs

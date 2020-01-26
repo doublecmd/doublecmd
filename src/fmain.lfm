@@ -2232,6 +2232,12 @@ object frmMain: TfrmMain
       Caption = '&Flat view'
       OnExecute = actExecute
     end
+    object actFlatViewSel: TAction
+      Tag = 1
+      Category = 'Active Panel'
+      Caption = '&Flat view, only selected'
+      OnExecute = actExecute
+    end
     object actQuickView: TAction
       Tag = 1
       Category = 'Active Panel'

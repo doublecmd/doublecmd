@@ -157,6 +157,7 @@
 {"hash":59888115,"name":"tfrmmain.actthumbnailsview.caption","sourcebytes":[84,104,117,109,98,110,97,105,108,115],"value":"Thumbnails"},
 {"hash":258790103,"name":"tfrmmain.actthumbnailsview.hint","sourcebytes":[84,104,117,109,98,110,97,105,108,115,32,86,105,101,119],"value":"Thumbnails View"},
 {"hash":140862183,"name":"tfrmmain.actflatview.caption","sourcebytes":[38,70,108,97,116,32,118,105,101,119],"value":"&Flat view"},
+{"hash":5637460,"name":"tfrmmain.actflatviewsel.caption","sourcebytes":[38,70,108,97,116,32,118,105,101,119,44,32,111,110,108,121,32,115,101,108,101,99,116,101,100],"value":"&Flat view, only selected"},
 {"hash":11026572,"name":"tfrmmain.actquickview.caption","sourcebytes":[38,81,117,105,99,107,32,86,105,101,119,32,80,97,110,101,108],"value":"&Quick View Panel"},
 {"hash":21242613,"name":"tfrmmain.actsortbyname.caption","sourcebytes":[83,111,114,116,32,98,121,32,38,78,97,109,101],"value":"Sort by &Name"},
 {"hash":112305870,"name":"tfrmmain.actsortbyext.caption","sourcebytes":[83,111,114,116,32,98,121,32,38,69,120,116,101,110,115,105,111,110],"value":"Sort by &Extension"},
