@@ -2295,6 +2295,10 @@ msgstr "&Opdel fil..."
 msgid "&Flat view"
 msgstr "&Flad visning"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Fokus på kommandolinjen"

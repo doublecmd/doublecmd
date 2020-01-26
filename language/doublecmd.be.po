@@ -2209,6 +2209,10 @@ msgstr "Падзя&ліць файл..."
 msgid "&Flat view"
 msgstr "&Плоскі інтэрфейс"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Перайсці да загаднага радка"

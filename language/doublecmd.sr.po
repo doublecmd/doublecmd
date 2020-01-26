@@ -2287,6 +2287,10 @@ msgstr "Подели& датотеку..."
 msgid "&Flat view"
 msgstr "&Раван приказ"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Жижа на наредбену линију"

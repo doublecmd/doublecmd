@@ -2279,6 +2279,10 @@ msgstr "파일 쪼개기(&I)..."
 msgid "&Flat view"
 msgstr "일괄보기(하위폴더 포함)(&F)"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "명령 라인 포커스"

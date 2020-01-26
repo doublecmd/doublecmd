@@ -2404,6 +2404,10 @@ msgstr "&Dosyayı Parçala"
 msgid "&Flat view"
 msgstr ""
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Komut satırında odakla"

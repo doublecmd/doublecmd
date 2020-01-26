@@ -2203,6 +2203,10 @@ msgstr "Splits bestand..."
 msgid "&Flat view"
 msgstr "&Platte weergave"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Stel scherp op opdrachtregel"

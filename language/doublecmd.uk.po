@@ -2255,6 +2255,10 @@ msgstr "Ро&зрізати файл..."
 msgid "&Flat view"
 msgstr "Плоский вигл&яд"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Перейти в командний рядок"

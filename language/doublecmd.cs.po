@@ -2212,6 +2212,10 @@ msgstr "Rozděl&it soubor..."
 msgid "&Flat view"
 msgstr "Pří&mé zobrazení"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Zaměřit příkazový řádek"

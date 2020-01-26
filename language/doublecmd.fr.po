@@ -2271,6 +2271,10 @@ msgstr "&Découper un fichier..."
 msgid "&Flat view"
 msgstr "Vue à plat"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Mettre la contrôle actif sur la ligne de commande"

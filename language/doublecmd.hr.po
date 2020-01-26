@@ -2338,6 +2338,10 @@ msgctxt "tfrmmain.actflatview.caption"
 msgid "&Flat view"
 msgstr "&Ravan prikaz"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgctxt "tfrmmain.actfocuscmdline.caption"
 msgid "Focus command line"
