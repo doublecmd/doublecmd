@@ -171,6 +171,7 @@ type
    procedure cm_CopyFileDetailsToClip(const {%H-}Params: array of string);
    procedure cm_Exchange(const {%H-}Params: array of string);
    procedure cm_FlatView(const {%H-}Params: array of string);
+   procedure cm_FlatViewSel(const {%H-}Params: array of string);
    procedure cm_LeftFlatView(const {%H-}Params: array of string);
    procedure cm_RightFlatView(const {%H-}Params: array of string);
    procedure cm_OpenArchive(const {%H-}Params: array of string);
@@ -371,7 +372,7 @@ type
 implementation
 
 uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
-     fOptionsPluginsWDX, fOptionsPluginsWFX, fOptionsPluginsWLX,
+     fOptionsPluginsWDX, fOptionsPluginsWFX, fOptionsPluginsWLX, uFlatViewFileSource,
      uFindFiles, Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, DCStringHashListUtf8,
      dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, DCDateTimeUtils, KASToolBar, KASToolItems,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
@@ -1113,6 +1114,70 @@ begin
     end;
     ActiveFrame.Reload;
   end;
+end;
+
+procedure TMainCommands.cm_FlatViewSel(const Params: array of string);
+var
+  AFileList: TFileTree;
+  AFileSource: IFileSource;
+
+  procedure ScanDir(const Dir: String);
+  var
+    I: Integer;
+    AFile: TFile;
+    AFiles: TFiles;
+  begin
+    AFiles := AFileSource.GetFiles(Dir);
+    try
+      for I := 0 to AFiles.Count - 1 do
+      begin
+        AFile := AFiles[I];
+        if not AFile.IsDirectory then
+          AFileList.AddSubNode(AFile.Clone)
+        else if AFile.IsNameValid then
+          ScanDir(AFile.FullPath);
+      end;
+    finally
+      AFiles.Free;
+    end;
+  end;
+
+var
+  J: Integer;
+  AFile: TFile;
+  AFiles: TFiles;
+  AFileView: TFileView;
+  AFlatView: ISearchResultFileSource;
+begin
+  AFileView:= frmMain.ActiveFrame;
+  AFileSource:= AFileView.FileSource;
+  if AFileView.FlatView then
+  begin
+    AFileView.FlatView := False;
+    if AFileSource.IsInterface(ISearchResultFileSource) then
+      AFileView.ChangePathToParent(True)
+    else
+      AFileView.Reload;
+    Exit;
+  end;
+  AFileList := TFileTree.Create;
+  AFiles := AFileView.CloneSelectedFiles;
+  for J := 0 to AFiles.Count - 1 do
+  begin
+    AFile := AFiles[J];
+    if not AFile.IsDirectory then
+      AFileList.AddSubNode(AFile.Clone)
+    else if AFile.IsNameValid then
+      ScanDir(AFile.FullPath);
+  end;
+  AFiles.Free;
+
+  // Create search result file source.
+  AFlatView := TFlatViewFileSource.Create;
+  AFlatView.AddList(AFileList, AFileSource);
+
+  AFileView.AddFileSource(AFlatView, AFileView.CurrentPath);
+  AFileView.FlatView := True;
 end;
 
 procedure TMainCommands.cm_LeftFlatView(const Params: array of string);

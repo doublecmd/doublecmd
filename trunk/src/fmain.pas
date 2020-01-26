@@ -97,6 +97,7 @@ type
     actChangeDirToHome: TAction;
     actCopyFileDetailsToClip: TAction;
     actFlatView: TAction;
+    actFlatViewSel: TAction;
     actConfigDirHotList: TAction;
     actCopyPathOfFilesToClip: TAction;
     actCopyPathNoSepOfFilesToClip: TAction;
