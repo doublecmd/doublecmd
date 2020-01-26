@@ -87,6 +87,8 @@ type
     actHorizontalFilePanels: TAction;
     actGoToFirstEntry: TAction;
     actGoToLastEntry: TAction;
+    actGoToNextEntry: TAction;
+    actGoToPrevEntry: TAction;
     actGoToFirstFile: TAction;
     actGoToLastFile: TAction;
     actCompareDirectories: TAction;

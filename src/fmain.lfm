@@ -2383,6 +2383,18 @@ object frmMain: TfrmMain
       Caption = 'Place cursor on last folder or file'
       OnExecute = actExecute
     end
+    object actGoToNextEntry: TAction
+      Tag = 14
+      Category = 'Navigation'
+      Caption = 'Place cursor on next folder or file'
+      OnExecute = actExecute
+    end
+    object actGoToPrevEntry: TAction
+      Tag = 14
+      Category = 'Navigation'
+      Caption = 'Place cursor on previous folder or file'
+      OnExecute = actExecute
+    end
     object actGoToFirstFile: TAction
       Tag = 14
       Category = 'Navigation'
