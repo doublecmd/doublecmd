@@ -2240,6 +2240,10 @@ msgstr "&Teile Datei..."
 msgid "&Flat view"
 msgstr "\"&Flache\" Ansicht"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Fokus auf die Befehlsze&ile"

@@ -2286,6 +2286,10 @@ msgstr "Podeli& datoteku..."
 msgid "&Flat view"
 msgstr "&Ravan prikaz"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Žiža na naredbenu liniju"

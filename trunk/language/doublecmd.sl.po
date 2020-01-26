@@ -2218,6 +2218,10 @@ msgstr "Raz&deli datoteko ..."
 msgid "&Flat view"
 msgstr "&Ploski pogled"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Postavi ukazno vrstico v žarišče"

@@ -2265,6 +2265,10 @@ msgstr "Fájl szele&telése"
 msgid "&Flat view"
 msgstr "&Lapos nézet"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Parancssorra fókuszálás"

@@ -2280,6 +2280,10 @@ msgstr "Раз&дробяване на файл"
 msgid "&Flat view"
 msgstr "&Плосък изглед"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Сочене на реда за управление"

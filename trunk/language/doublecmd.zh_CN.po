@@ -2209,6 +2209,10 @@ msgstr "分割文件(&I)..."
 msgid "&Flat view"
 msgstr "平面视图(&F)"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "聚集到命令行"

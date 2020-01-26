@@ -2249,6 +2249,10 @@ msgstr "&Разрезать файл..."
 msgid "&Flat view"
 msgstr "Показать все фа&йлы без подкаталогов"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr "Показать все фа&йлы без подкаталогов (только в выделенном)"
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Перейти к командной строке"

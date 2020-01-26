@@ -2297,6 +2297,10 @@ msgstr "D&ividir Arquivo..."
 msgid "&Flat view"
 msgstr "Visão &Plana"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Foco na linha de comandos."

@@ -2208,6 +2208,10 @@ msgstr "Po&dziel plik..."
 msgid "&Flat view"
 msgstr "Widok płaski (bez podkatalogów)"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Przejdź do lini poleceń"

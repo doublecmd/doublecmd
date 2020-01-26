@@ -2259,6 +2259,10 @@ msgstr "ファイルの分割(&i)…"
 msgid "&Flat view"
 msgstr "フラットビュー(&F)"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "コマンドラインにフォーカス"
