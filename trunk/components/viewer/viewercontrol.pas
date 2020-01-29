@@ -2216,6 +2216,8 @@ begin
 end;
 
 procedure TViewerControl.KeyDown(var Key: word; Shift: TShiftState);
+var
+  CharLenInBytes: Integer;
 begin
   if Shift = [] then
   begin
@@ -2276,7 +2278,8 @@ begin
       VK_END:
         begin
           Key := 0;
-          CaretPos := FHighLimit - 1;
+          GetPrevCharAsAscii(FHighLimit, CharLenInBytes);
+          CaretPos := (FHighLimit - CharLenInBytes);
           MakeVisible(FCaretPos);
         end;
       else
