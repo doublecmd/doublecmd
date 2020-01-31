@@ -569,9 +569,13 @@ end;
 {$ENDIF}
 
 initialization
-  {$IF DEFINED(FPC_HAS_CPSTRING)}
+{$IF DEFINED(FPC_HAS_CPSTRING)}
+  {$IF DEFINED(MSWINDOWS)}
+  FileSystemCodePage:= Windows.GetACP;
+  {$ELSE}
   FileSystemCodePage:= WideStringManager.GetStandardCodePageProc(scpFileSystemSingleByte);
   {$ENDIF}
+{$ENDIF}
   Initialize;
 
 end.
