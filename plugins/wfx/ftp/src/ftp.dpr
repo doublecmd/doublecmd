@@ -8,7 +8,7 @@ uses
 {$IFDEF UNIX}
   cthreads,
 {$ENDIF}
-  FPCAdds, Classes, FtpFunc, FtpUtils, FtpConfDlg
+  DCConvertEncoding, FPCAdds, Classes, FtpFunc, FtpUtils, FtpConfDlg
   , ssl_openssl
 {$IF DEFINED(UNIX)}
   , ssl_openssl_ver
