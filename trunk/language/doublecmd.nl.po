@@ -2243,6 +2243,14 @@ msgstr "Plaats muispijl op laatste map of bestand"
 msgid "Place cursor on last file in list"
 msgstr "Plaats aanwijzer op laatste bestand in lijst"
 
+#: tfrmmain.actgotonextentry.caption
+msgid "Place cursor on next folder or file"
+msgstr ""
+
+#: tfrmmain.actgotopreventry.caption
+msgid "Place cursor on previous folder or file"
+msgstr ""
+
 #: tfrmmain.acthardlink.caption
 msgid "Create &Hard Link..."
 msgstr "Maak harde koppeling..."

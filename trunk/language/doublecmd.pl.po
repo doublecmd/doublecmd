@@ -2248,6 +2248,14 @@ msgstr ""
 msgid "Place cursor on last file in list"
 msgstr "Umieść kursor na ostatnim pliku listy"
 
+#: tfrmmain.actgotonextentry.caption
+msgid "Place cursor on next folder or file"
+msgstr ""
+
+#: tfrmmain.actgotopreventry.caption
+msgid "Place cursor on previous folder or file"
+msgstr ""
+
 #: tfrmmain.acthardlink.caption
 msgid "Create &Hard Link..."
 msgstr "Utwórz &twardy link..."

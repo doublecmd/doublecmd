@@ -2252,6 +2252,14 @@ msgstr "Kurzor umístit na poslední položku"
 msgid "Place cursor on last file in list"
 msgstr "Umístit kurzor na poslední soubor v seznamu"
 
+#: tfrmmain.actgotonextentry.caption
+msgid "Place cursor on next folder or file"
+msgstr ""
+
+#: tfrmmain.actgotopreventry.caption
+msgid "Place cursor on previous folder or file"
+msgstr ""
+
 #: tfrmmain.acthardlink.caption
 msgid "Create &Hard Link..."
 msgstr "Vytvořit &hardlink..."

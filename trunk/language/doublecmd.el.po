@@ -2300,6 +2300,14 @@ msgstr ""
 msgid "Place cursor on last file in list"
 msgstr "Τοποθέτηση του κέρσορα στο τελευταίο αρχείο της λίστας"
 
+#: tfrmmain.actgotonextentry.caption
+msgid "Place cursor on next folder or file"
+msgstr ""
+
+#: tfrmmain.actgotopreventry.caption
+msgid "Place cursor on previous folder or file"
+msgstr ""
+
 #: tfrmmain.acthardlink.caption
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create &Hard Link..."

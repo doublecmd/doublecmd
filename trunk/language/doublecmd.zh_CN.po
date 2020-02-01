@@ -2249,6 +2249,14 @@ msgstr ""
 msgid "Place cursor on last file in list"
 msgstr "将光标置于列表中的最后一个文件"
 
+#: tfrmmain.actgotonextentry.caption
+msgid "Place cursor on next folder or file"
+msgstr ""
+
+#: tfrmmain.actgotopreventry.caption
+msgid "Place cursor on previous folder or file"
+msgstr ""
+
 #: tfrmmain.acthardlink.caption
 msgid "Create &Hard Link..."
 msgstr "创建硬链接(&H)"
