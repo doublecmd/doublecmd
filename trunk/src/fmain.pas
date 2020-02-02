@@ -3156,7 +3156,7 @@ begin
   if bUseTreeViewMenu then
   begin
     if not bUsePanel then
-      iWantedHeight := ((frmMain.ActiveFrame.ClientToScreen(Classes.Point(0, 0)).y + frmMain.ActiveFrame.Height) - p.y)
+      iWantedHeight := 0
     else
     begin
       iWantedWidth := frmMain.ActiveFrame.Width;
