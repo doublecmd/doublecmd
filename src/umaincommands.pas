@@ -3174,19 +3174,19 @@ begin
   if bUseTreeViewMenu then
   begin
     if not bUsePanel then
-      iWantedHeight := ((frmMain.ActiveFrame.ClientToScreen(Classes.Point(0, 0)).y + frmMain.ActiveFrame.Height) - p.y)
-  else
-  begin
+      iWantedHeight := 0
+    else
+    begin
       iWantedWidth := frmMain.ActiveFrame.Width;
       iWantedHeight := frmMain.ActiveFrame.Height;
-  end;
+    end;
 
     sMaybeMenuItem := GetUserChoiceFromTreeViewMenuLoadedFromPopupMenu(frmMain.pmHotList, tvmcHotDirectory, p.X, p.Y, iWantedWidth, iWantedHeight);
     if sMaybeMenuItem <> nil then sMaybeMenuItem.OnClick(sMaybeMenuItem);
   end
   else
   begin
-  frmMain.pmHotList.Popup(p.X,p.Y);
+    frmMain.pmHotList.Popup(p.X,p.Y);
   end;
 end;
 
@@ -3714,7 +3714,7 @@ begin
   if bUseTreeViewMenu then
   begin
     if not bUsePanel then
-      iWantedHeight := ((frmMain.ActiveFrame.ClientToScreen(Classes.Point(0, 0)).y + frmMain.ActiveFrame.Height) - p.y)
+      iWantedHeight := 0
     else
     begin
       iWantedWidth := frmMain.ActiveFrame.Width;
@@ -3784,15 +3784,14 @@ begin
         if sUserChoice<>'' then
         begin
           edtCommand.ItemIndex:=edtCommand.Items.IndexOf(sUserChoice);
-      edtCommand.SetFocus;
+          edtCommand.SetFocus;
         end;
-
       end
       else
       begin
         edtCommand.SetFocus;
-      if edtCommand.Items.Count>0 then
-        edtCommand.DroppedDown:=True;
+        if edtCommand.Items.Count>0 then
+          edtCommand.DroppedDown:=True;
       end;
     end;
 
@@ -4895,7 +4894,7 @@ begin
   if bUseTreeViewMenu then
   begin
     if not bUsePanel then
-      iWantedHeight := ((frmMain.ActiveFrame.ClientToScreen(Classes.Point(0, 0)).y + frmMain.ActiveFrame.Height) - p.y)
+      iWantedHeight := 0
     else
     begin
       iWantedWidth := frmMain.ActiveFrame.Width;

@@ -2254,6 +2254,10 @@ msgstr "Διαμερισμός Αρχείου..."
 msgid "&Flat view"
 msgstr "Επίπεδη Προβολή"
 
+#: tfrmmain.actflatviewsel.caption
+msgid "&Flat view, only selected"
+msgstr ""
+
 #: tfrmmain.actfocuscmdline.caption
 msgid "Focus command line"
 msgstr "Συγκέντρωση της γραμμής εντολών"
@@ -13689,3 +13693,4 @@ msgstr "Αριθμός αντικατάστασης: %d"
 #: ulng.rszeroreplacement
 msgid "No replacement took place."
 msgstr "Δεν πραγματοποιήθηκε καμία αντικατάσταση."
+
