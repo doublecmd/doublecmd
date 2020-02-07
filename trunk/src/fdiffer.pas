@@ -286,6 +286,7 @@ begin
       OpenFileRight(FileNameRight);
       if actAutoCompare.Checked then actStartCompare.Execute;
     end;
+    FShowIdentical:= FShowIdentical and actStartCompare.Enabled;
     if actBinaryCompare.Checked or (FShowIdentical = False) then
     begin
       if Modal then
@@ -762,7 +763,7 @@ var
 begin
   Message:= rsDiffFilesIdentical + LineEnding + LineEnding;
   Message+= edtFileNameLeft.Text + LineEnding + edtFileNameRight.Text;
-  if MessageDlg(rsToolDiffer, Message, mtWarning, [mbClose, mbCancel], 0, mbClose) = mrClose then
+  if MessageDlg(rsToolDiffer, Message, mtWarning, [mbIgnore, mbCancel], 0, mbIgnore) = mrCancel then
     Close
   else begin
     FShowIdentical:= False;
