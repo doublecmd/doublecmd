@@ -559,8 +559,10 @@ begin
           begin
             if DriveLetter in ['a', 'b'] then
               DriveType := dtFloppy
-            else
+            else begin
               DriveType := dtFlash;
+              IsMounted := mbDriveReady(DrivePath);
+            end;
             IsMediaEjectable := True;
             IsMediaRemovable := True;
           end;
