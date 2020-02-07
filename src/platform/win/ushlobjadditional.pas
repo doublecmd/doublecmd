@@ -22,6 +22,7 @@ interface
 uses
    Windows,
    ShlObj,
+   ShellApi,
    ActiveX;
 
 const
@@ -82,6 +83,8 @@ function SHGetOverlayIconIndex(const sFilePath, sFileName: String): Integer;
 function SHGetInfoTip(const sFilePath, sFileName: String): String;
 function SHFileIsLinkToFolder(const FileName: String; out LinkTarget: String): Boolean;
 
+function SHGetFolderLocation(hwnd: HWND; csidl: Longint; hToken: HANDLE; dwFlags: DWORD; var ppidl: LPITEMIDLIST): HRESULT; stdcall; external shell32 name 'SHGetFolderLocation';
+
 function PathIsUNCA(pszPath: LPCSTR): WINBOOL; stdcall; external 'shlwapi' name 'PathIsUNCA';
 function PathIsUNCW(pwszPath: LPCWSTR): WINBOOL; stdcall; external 'shlwapi' name 'PathIsUNCW';
 
@@ -94,7 +97,7 @@ procedure OleCheckUTF8(Result: HResult);
 implementation
 
 uses
-  SysUtils, ShellApi, JwaShlGuid, ComObj, LazUTF8, DCOSUtils;
+  SysUtils, JwaShlGuid, ComObj, LazUTF8, DCOSUtils;
 
 function SHGetImageListFallback(iImageList: Integer; const riid: TGUID; var ImageList: HIMAGELIST): HRESULT; stdcall;
 var
