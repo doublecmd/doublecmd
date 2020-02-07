@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Enumerating and monitoring drives in the system.
 
-   Copyright (C) 2006-2018  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2020  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2010  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -17,8 +17,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit uDriveWatcher;
@@ -61,7 +60,8 @@ uses
    {$ENDIF}
   {$ENDIF}
   {$IFDEF MSWINDOWS}
-  uMyWindows, Windows, JwaDbt, LazUTF8, JwaWinNetWk, DCOSUtils, uDebug
+  uMyWindows, Windows, JwaDbt, LazUTF8, JwaWinNetWk, ShlObj, DCOSUtils, uDebug,
+  uShlObjAdditional
   {$ENDIF}
   ;
 
@@ -149,9 +149,14 @@ begin
 end;
 
 {$IFDEF MSWINDOWS}
+const
+  WM_USER_MEDIACHANGED = WM_USER + 200;
+
 function MyWndProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 var
   ADrive: TDrive;
+  AName: array[0..MAX_PATH] of WideChar;
+  rgpidl: PLPITEMIDLIST absolute wParam;
   lpdb: PDEV_BROADCAST_HDR absolute lParam;
   lpdbv: PDEV_BROADCAST_VOLUME absolute lpdb;
 
@@ -169,6 +174,7 @@ var
 begin
   case uiMsg of
     WM_DEVICECHANGE:
+    begin
       case wParam of
         DBT_DEVICEARRIVAL:
         begin
@@ -193,15 +199,51 @@ begin
           if (lParam = 0) then DoDriveChanged(nil);
         end;
       end;
+    end;
+    WM_USER_MEDIACHANGED:
+    begin
+      case lParam of
+        SHCNE_MEDIAINSERTED:
+        begin
+          if not SHGetPathFromIDListW(rgpidl^, AName) then
+            DoDriveAdded(nil)
+          else begin
+            ADrive.Path:= UTF8Encode(UnicodeString(AName));
+            DoDriveAdded(@ADrive);
+          end;
+        end;
+        SHCNE_MEDIAREMOVED:
+        begin
+          if not SHGetPathFromIDListW(rgpidl^, AName) then
+            DoDriveRemoved(nil)
+          else begin
+            ADrive.Path:= UTF8Encode(UnicodeString(AName));
+            DoDriveRemoved(@ADrive);
+          end;
+        end;
+      end;
+    end;
   end; // case
   Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
 end;
 
 procedure SetMyWndProc(Handle : HWND);
+const
+  SHCNRF_InterruptLevel     = $0001;
+  SHCNRF_ShellLevel         = $0002;
+  SHCNRF_RecursiveInterrupt = $1000;
+var
+  AEntries: TSHChangeNotifyEntry;
 begin
   {$PUSH}{$HINTS OFF}
   OldWProc := WNDPROC(SetWindowLongPtr(Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
   {$POP}
+  if Succeeded(SHGetFolderLocation(Handle, CSIDL_DRIVES, 0, 0, AEntries.pidl)) then
+  begin
+    AEntries.fRecursive:= False;
+    SHChangeNotifyRegister(Handle, SHCNRF_InterruptLevel or SHCNRF_ShellLevel or SHCNRF_RecursiveInterrupt,
+                           SHCNE_MEDIAINSERTED or SHCNE_MEDIAREMOVED, WM_USER_MEDIACHANGED, 1, @AEntries);
+  end;
 end;
 {$ENDIF}
 
