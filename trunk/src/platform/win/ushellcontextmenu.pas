@@ -119,7 +119,7 @@ var
   DesktopFolder: IShellFolder;
 begin
   OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
-  OleCheckUTF8(SHGetSpecialFolderLocation(Handle, CSIDL_BITBUCKET, PathPIDL));
+  OleCheckUTF8(SHGetFolderLocation(Handle, CSIDL_BITBUCKET, 0, 0, PathPIDL));
   DesktopFolder.GetUIObjectOf(Handle, 1, PathPIDL, IID_IContextMenu, nil, Result);
 end;
 
