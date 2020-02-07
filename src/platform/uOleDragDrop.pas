@@ -198,7 +198,7 @@ uses
 
   //DC
   uOSUtils, fOptionsDragDrop, uShowMsg, UGlobs, DCStrUtils, DCOSUtils,
-  uClipboard, uLng, uDebug;
+  uClipboard, uLng, uDebug, uShlObjAdditional;
 
 var
   // Supported formats by the source.
@@ -493,7 +493,7 @@ begin
   if SHGetDesktopFolder(ShellDesktop) = S_OK then
   begin
     // Get Desktop PIDL, which will be the root PIDL for the files' PIDLs.
-    if SHGetSpecialFolderLocation(0, CSIDL_DESKTOP, pidl) = S_OK then
+    if SHGetFolderLocation(0, CSIDL_DESKTOP, 0, 0, pidl) = S_OK then
     begin
       pidlSize := GetPidlSize(pidl);
 
