@@ -1853,7 +1853,7 @@ begin
          // Directory has special icon only if it has "read only" or "system" attributes
          // and contains desktop.ini file
          (not (DirectAccess and (IsSysFile or FileIsReadOnly(Attributes)) and mbFileExists(FullPath + '\desktop.ini'))) or
-         (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 16) then
+         (ScreenInfo.ColorDepth < 16) then
       {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
       if (IconsMode = sim_all_and_exe) and (DirectAccess) then
       begin
@@ -2107,8 +2107,8 @@ begin
   end;
   Result := nil;
 {$IFDEF MSWINDOWS}
-  if GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 15 then Exit;
-  if (not (cimDrive in gCustomIcons)) and (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
+  if ScreenInfo.ColorDepth < 15 then Exit;
+  if (not (cimDrive in gCustomIcons)) and (ScreenInfo.ColorDepth > 16) then
     begin
       SFI.hIcon := 0;
       Result := Graphics.TBitMap.Create;
@@ -2155,7 +2155,7 @@ var
   ABitmap: Graphics.TBitmap;
 begin
 {$IFDEF MSWINDOWS}
-  if GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 15 then Exit(nil);
+  if ScreenInfo.ColorDepth < 15 then Exit(nil);
 {$ENDIF}
   case IconSize of
   16: // Standart 16x16 icon size
