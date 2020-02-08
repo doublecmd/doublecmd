@@ -30,6 +30,7 @@ begin
   FFiles := TFiles.Create(aPath);
   FFileSource := aFileSource as ISearchResultFileSource;
   inherited Create(aFileSource, aPath);
+  FNeedsConnection := False;
 end;
 
 procedure TSearchResultListOperation.MainExecute;
