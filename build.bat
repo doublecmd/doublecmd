@@ -17,6 +17,9 @@ if not "%OS_TARGET%" == "" (
 if not "%CPU_TARGET%" == "" (
   set DC_ARCH=%DC_ARCH% --cpu=%CPU_TARGET%
 )
+if not "%LCL_PLATFORM%" == "" (
+  set DC_ARCH=%DC_ARCH% --ws=%LCL_PLATFORM%
+)
 
 if "%1"=="components" ( call :components
 ) else (
