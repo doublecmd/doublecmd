@@ -703,7 +703,7 @@ uses
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager
    {$IF DEFINED(MSWINDOWS)}
-    , ShlObj, win32proc
+    , ShlObj
    {$ENDIF}
    ;
 

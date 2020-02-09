@@ -1118,7 +1118,7 @@ begin
   LoadTabs;
 
   // Must be after LoadTabs
-  TDriveWatcher.Initialize(Handle);
+  TDriveWatcher.Initialize(GetWindowHandle(Self));
   TDriveWatcher.AddObserver(@OnDriveWatcherEvent);
 
 {$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
