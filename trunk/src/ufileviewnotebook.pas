@@ -74,7 +74,7 @@ type
 
   protected
     procedure PaintWindow(DC: HDC); override;
-{$IF DEFINED(MSWINDOWS)}
+{$IF DEFINED(LCLWIN32)}
     procedure RealSetText(const AValue: TCaption); override;
 {$ENDIF}
     procedure WMEraseBkgnd(var Message: TLMEraseBkgnd); message LM_ERASEBKGND;
@@ -128,7 +128,7 @@ type
   public
     constructor Create(ParentControl: TWinControl;
                        NotebookSide: TFilePanelSelect); reintroduce;
-{$IFDEF MSWINDOWS}
+{$IFDEF LCLWIN32}
     {en
        Removes the rectangle of the pages contents from erasing background to reduce flickering.
        This is not needed on non-Windows because EraseBackground is not used there.
@@ -178,9 +178,11 @@ uses
   uArchiveFileSource
   {$IF DEFINED(LCLGTK2)}
   , Glib2, Gtk2
+  {$ELSEIF DEFINED(LCLWIN32)}
+  , Win32Proc
   {$ENDIF}
   {$IF DEFINED(MSWINDOWS)}
-  , Win32Proc, Windows, Messages
+  , Windows, Messages
   {$ENDIF}
   ;
 
@@ -208,7 +210,7 @@ begin
   inherited Create(TheOwner);
 end;
 
-{$IF DEFINED(MSWINDOWS)}
+{$IF DEFINED(LCLWIN32)}
 procedure TFileViewPage.RealSetText(const AValue: TCaption);
 begin
   inherited RealSetText(AValue);
@@ -662,7 +664,7 @@ begin
   end;
 end;
 
-{$IFDEF MSWINDOWS}
+{$IFDEF LCLWIN32}
 procedure TFileViewNotebook.EraseBackground(DC: HDC);
 var
   ARect: TRect;

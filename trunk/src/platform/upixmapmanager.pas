@@ -1688,6 +1688,7 @@ var
 {$IFDEF MSWINDOWS}
   hicn: HICON;
   cx, cy: Integer;
+  Icon: TIcon;
 {$ENDIF}
 {$IFDEF LCLGTK2}
   pbPicture : PGdkPixbuf;
@@ -1735,6 +1736,7 @@ begin
       else
         TrySetSize(gIconsSize, gIconsSize);
 
+      {$IF DEFINED(LCLWIN32)}
       if (cx = Width) and (cy = Height) then
         ImageList_Draw(FSysImgList, iIndex - SystemIconIndexStart, Canvas.Handle, X, Y, ILD_TRANSPARENT)
       else
@@ -1749,6 +1751,17 @@ begin
           DestroyIcon(hicn);
         end;
       end;
+      {$ELSEIF DEFINED(LCLQT5)}
+      hicn:= ImageList_GetIcon(FSysImgList, iIndex - SystemIconIndexStart, ILD_NORMAL);
+      try
+        Icon:= CreateIconFromHandle(hicn);
+        aRect := Classes.Bounds(X, Y, Width, Height);
+        Canvas.StretchDraw(aRect, Icon);
+      finally
+        FreeAndNil(Icon);
+        DestroyIcon(hicn);
+      end
+      {$ENDIF}
     except
       Result:= False;
     end;
@@ -1811,6 +1824,7 @@ var
   FileInfo: TSHFileInfoW;
   dwFileAttributes: DWORD;
   uFlags: UINT;
+  ABitmap: Graphics.TBitmap;
 {$ENDIF}
 begin
   Result := -1;
@@ -2030,6 +2044,12 @@ begin
         (Ext <> 'lnk') and
         (Ext <> 'url') then
       begin
+{$IF DEFINED(LCLQT5)}
+        ABitmap := GetBitmap(Result);
+        if (ABitmap.Width <> gIconsSize) or (ABitmap.Height <> gIconsSize) then
+          ABitmap:= StretchBitmap(ABitmap, gIconsSize, clWhite, True);
+        Result := FPixmapList.Add(ABitmap);
+{$ENDIF}
         FPixmapsLock.Acquire;
         try
           FExtList.Add(Ext, Pointer(Result));

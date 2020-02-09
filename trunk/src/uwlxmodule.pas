@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, dynlibs, uDetectStr, uWlxPrototypes, WlxPlugin,
   DCClassesUtf8, uDCUtils, LCLProc, LCLType, DCXmlConfig
-  {$IFDEF LCLWIN32}
+  {$IFDEF MSWINDOWS}
   , Windows, LCLIntf, Controls
   {$ENDIF}
   {$IFDEF LCLGTK}
@@ -209,7 +209,10 @@ end;
 
 procedure WlxPrepareContainer(var {%H-}ParentWin: HWND);
 begin
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+{$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+  ParentWin := HWND(QWidget_winId(TQtWidget(ParentWin).GetContainerWidget));
+  ParentWin := Windows.GetAncestor(ParentWin, GA_ROOT);
+{$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   ParentWin := HWND(GetFixedWidget(Pointer(ParentWin)));
 {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   ParentWin := HWND(TQtWidget(ParentWin).GetContainerWidget);
@@ -334,6 +337,12 @@ begin
   end;
 {$ENDIF}
 
+{$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+  if FPluginWindow <> 0 then begin
+    SetWindowLongPtr(FPluginWindow, GWL_HWNDPARENT, ParentWin);
+  end;
+{$ENDIF}
+
   Result := FPluginWindow;
 end;
 
@@ -359,7 +368,7 @@ begin
 {$ENDIF}
     if Assigned(ListCloseWindow) then
       ListCloseWindow(FPluginWindow)
-{$IF DEFINED(LCLWIN32)}
+{$IF DEFINED(MSWINDOWS)}
     else DestroyWindow(FPluginWindow)
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
     else gtk_widget_destroy(PGtkWidget(FPluginWindow));
@@ -427,7 +436,7 @@ end;
 
 procedure TWlxModule.SetFocus;
 begin
-  {$IF DEFINED(LCLWIN32)}
+  {$IF DEFINED(MSWINDOWS)}
   Windows.SetFocus(FPluginWindow);
   {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   QWidget_setFocus(QWidgetH(FPluginWindow));
@@ -441,7 +450,10 @@ begin
   //ToDo: Implement for other widgetsets
   with aRect do
   begin
-    {$IF DEFINED(LCLWIN32)}
+    {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+    OffsetRect(aRect, 0, GetSystemMetrics(SM_CYMENU));
+    MoveWindow(FPluginWindow, Left, Top, Right - Left, Bottom - Top, True);
+    {$ELSEIF DEFINED(LCLWIN32)}
     MoveWindow(FPluginWindow, Left, Top, Right - Left, Bottom - Top, True);
     {$ELSEIF DEFINED(LCLQT) or DEFINED(LCLQT5)}
     QWidget_move(QWidgetH(FPluginWindow), Left, Top);
