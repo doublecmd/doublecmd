@@ -6,6 +6,9 @@ program doublecmd;
 uses
   {$IFDEF MSWINDOWS}
   uElevation,
+  {$IFDEF LCLQT5}
+  uDarkStyle,
+  {$ENDIF}
   {$ENDIF}
   {$IFDEF DARWIN}
   uAppleMagnifiedModeFix,
@@ -132,6 +135,10 @@ begin
   // Initializing keyboard module on GTK needs GTKProc.InitKeyboardTables
   // which is called by Application.Initialize.
   uKeyboard.InitializeKeyboard;
+
+{$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+  ApplyDarkStyle;
+{$ENDIF}
 
   // Use only current directory separator
   AllowDirectorySeparators:= [DirectorySeparator];
