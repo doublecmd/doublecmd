@@ -133,7 +133,7 @@ uses
   , uListGetPreviewBitmap, uThumbnailProvider, uDCReadSVG, uFileSourceUtil
   , Dialogs, Clipbrd, uShowMsg, uDebug, JwaDbt
     {$IFDEF LCLQT5}
-    , qt5, qtwidgets
+    , qt5, qtwidgets, uDarkStyle
     {$ENDIF}
   {$ENDIF}
   {$IFDEF UNIX}
@@ -401,7 +401,6 @@ begin
 end;
 
 {$IF DEFINED(LCLWIN32)}
-
 procedure ActivateHandler(Self, Sender: TObject);
 var
   I: Integer = 0;
@@ -417,7 +416,15 @@ begin
       CustomFormsZOrdered[I].BringToFront;
   end;
 end;
-
+{$ELSEIF DEFINED(LCLQT5)}
+procedure ScreenFormEvent(Self, Sender: TObject; Form: TCustomForm);
+var
+  Handle: HWND;
+begin
+  Handle:= GetWindowHandle(Form);
+  AllowDarkModeForWindow(Handle, True);
+  RefreshTitleBarThemeColor(Handle);
+end;
 {$ENDIF}
 
 procedure MenuHandler(Self, Sender: TObject);
@@ -565,6 +572,10 @@ begin
   // Disable application button on taskbar
   with Widgetset do
   SetWindowLong(AppHandle, GWL_EXSTYLE, GetWindowLong(AppHandle, GWL_EXSTYLE) or WS_EX_TOOLWINDOW);
+{$ELSEIF DEFINED(LCLQT5)}
+  Handler.Data:= MainForm;
+  Handler.Code:= @ScreenFormEvent;
+  Screen.AddHandlerFormVisibleChanged(TScreenFormEvent(Handler), True);
 {$ENDIF}
   // Register network file source
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
