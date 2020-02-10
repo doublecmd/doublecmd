@@ -1111,7 +1111,7 @@ end;
 procedure TfrmSyncDirsDlg.InitVisibleItems;
 var
   i, j: Integer;
-  filter: record
+  AFilter: record
     copyLeft, copyRight, eq, neq: Boolean;
     dup, single: Boolean;
   end;
@@ -1125,7 +1125,7 @@ begin
     FVisibleItems.CaseSensitive := FileNameCaseSensitive;
   end;
   { init filter }
-  with filter do
+  with AFilter do
   begin
     copyLeft := sbCopyLeft.Down;
     copyRight := sbCopyRight.Down;
@@ -1143,15 +1143,15 @@ begin
       begin
         { check filter }
         r := TFileSyncRec(Objects[j]);
-        if ((Assigned(r.FFileL) <> Assigned(r.FFileR)) and filter.single or
-           (Assigned(r.FFileL) = Assigned(r.FFileR)) and filter.dup)
+        if ((Assigned(r.FFileL) <> Assigned(r.FFileR)) and AFilter.single or
+           (Assigned(r.FFileL) = Assigned(r.FFileR)) and AFilter.dup)
            and
-           ((r.FState = srsCopyLeft) and filter.copyLeft or
-            (r.FState = srsCopyRight) and filter.copyRight or
-            (r.FState = srsDeleteLeft) and filter.copyRight or
-            (r.FState = srsDeleteRight) and filter.copyLeft or
-            (r.FState = srsEqual) and filter.eq or
-            (r.FState = srsNotEq) and filter.neq or
+           ((r.FState = srsCopyLeft) and AFilter.copyLeft or
+            (r.FState = srsCopyRight) and AFilter.copyRight or
+            (r.FState = srsDeleteLeft) and AFilter.copyRight or
+            (r.FState = srsDeleteRight) and AFilter.copyLeft or
+            (r.FState = srsEqual) and AFilter.eq or
+            (r.FState = srsNotEq) and AFilter.neq or
             (r.FState = srsUnknown))
         then
           FVisibleItems.AddObject(Strings[j], Objects[j]);

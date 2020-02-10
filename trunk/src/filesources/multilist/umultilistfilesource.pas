@@ -58,6 +58,7 @@ type
     }
     FFileSource: IFileSource;
 
+  protected
     function GetFileList: TFileTree;
     function GetFileSource: IFileSource;
 

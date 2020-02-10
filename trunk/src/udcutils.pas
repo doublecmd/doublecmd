@@ -229,7 +229,11 @@ implementation
 
 uses
   uLng, LCLProc, LCLType, uMasks, FileUtil, StrUtils, uOSUtils, uGlobs, uGlobsPaths,
-  DCStrUtils, DCOSUtils, DCConvertEncoding, LazUTF8;
+  DCStrUtils, DCOSUtils, DCConvertEncoding, LazUTF8
+{$IF DEFINED(MSWINDOWS)}
+  , Windows
+{$ENDIF}
+  ;
 
 var
   dtLastDateSubstitutionCheck:TDateTime=0;
@@ -819,7 +823,8 @@ end;
 function CompareStrings(const s1, s2: String; Natural: Boolean; Special: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt; inline;
 {$IF DEFINED(MSWINDOWS)}
 var
-  CompareOptions: TCompareOptions;
+  dwCmpFlags: DWORD;
+  U1, U2: UnicodeString;
 {$ENDIF}
 begin
   if Natural or Special then
@@ -828,14 +833,24 @@ begin
     if (CaseSensitivity <> cstCharValue) and
        ((Win32MajorVersion > 6) or ((Win32MajorVersion = 6) and (Win32MinorVersion >= 1))) then
     begin
-      CompareOptions := [];
-      if CaseSensitivity = cstNotSensitive then
-        Include(CompareOptions, coIgnoreCase);
-      if Natural then
-        Include(CompareOptions, coDigitAsNumbers);
-      if Special then
-        Include(CompareOptions, coStringSort);
-      Result := widestringmanager.CompareUnicodeStringProc(CeUtf8ToUtf16(s1), CeUtf8ToUtf16(s2), CompareOptions);
+      dwCmpFlags := 0;
+      U1 := CeUtf8ToUtf16(s1);
+      U2 := CeUtf8ToUtf16(s2);
+      if CaseSensitivity = cstNotSensitive then begin
+        dwCmpFlags := dwCmpFlags or NORM_IGNORECASE;
+      end;
+      if Natural then begin
+        dwCmpFlags := dwCmpFlags or SORT_DIGITSASNUMBERS;
+      end;
+      if Special then begin
+        dwCmpFlags := dwCmpFlags or SORT_STRINGSORT;
+      end;
+      Result := CompareStringW(LOCALE_USER_DEFAULT, dwCmpFlags, PWideChar(U1), Length(U1), PWideChar(U2), Length(U2));
+      if Result <> 0 then
+        Result := Result - 2
+      else begin
+        Result := StrChunkCmp(s1, s2, Natural, Special, CaseSensitivity);
+      end;
     end
     else
 {$ENDIF}
@@ -1252,9 +1267,9 @@ procedure DCPlaceCursorNearControlIfNecessary(AControl: TControl);
 var
   ptControlCenter: TPoint;
 begin
-  ptControlCenter := AControl.ClientToScreen(Point(AControl.Width div 2, AControl.Height div 2));
+  ptControlCenter := AControl.ClientToScreen(Classes.Point(AControl.Width div 2, AControl.Height div 2));
   if (abs(Mouse.CursorPos.x - ptControlCenter.x) > (AControl.Width div 2)) or  (abs(Mouse.CursorPos.y - ptControlCenter.y) > (AControl.Height div 2)) then
-    Mouse.CursorPos := Point((ptControlCenter.x + (AControl.width div 2)) - 10, ptControlCenter.y);
+    Mouse.CursorPos := Classes.Point((ptControlCenter.x + (AControl.width div 2)) - 10, ptControlCenter.y);
 end;
 
 end.
