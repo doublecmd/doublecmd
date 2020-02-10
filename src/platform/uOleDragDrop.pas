@@ -141,7 +141,8 @@ type
     function QueryGetData(const formatetc: TFormatEtc): HResult; stdcall;
     function GetCanonicalFormatEtc(const formatetc: TFormatEtc;
       out formatetcOut: TFormatEtc): HResult; stdcall;
-    function SetData(const formatetc: TFormatEtc; const medium: TStgMedium;
+    function SetData(const formatetc: TFormatEtc;
+      {$IF FPC_FULLVERSION < 30200}const{$ELSE}var{$ENDIF} medium: TStgMedium;
       fRelease: BOOL): HResult; stdcall;
     function EnumFormatEtc(dwDirection: LongWord;
       out enumFormatEtc: IEnumFormatEtc): HResult; stdcall;
@@ -1421,7 +1422,8 @@ end;
 
 { THDropDataObject.SetData }
 function THDropDataObject.SetData(const formatetc: TFormatEtc;
-  const medium: TStgMedium; fRelease: BOOL): HResult;
+  {$IF FPC_FULLVERSION < 30200}const{$ELSE}var{$ENDIF} medium: TStgMedium;
+  fRelease: BOOL): HResult;
 begin
   Result := E_NOTIMPL;
 end;

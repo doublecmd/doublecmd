@@ -118,7 +118,11 @@ resourcestring
 const
   PriorityConstants: array [TProcessPriority] of Cardinal =
     (HIGH_PRIORITY_CLASS, IDLE_PRIORITY_CLASS,
-    NORMAL_PRIORITY_CLASS, REALTIME_PRIORITY_CLASS);
+    NORMAL_PRIORITY_CLASS, REALTIME_PRIORITY_CLASS
+{$IF FPC_FULLVERSION >= 30200}
+    , BELOW_NORMAL_PRIORITY_CLASS,ABOVE_NORMAL_PRIORITY_CLASS
+{$ENDIF}
+    );
 
 function GetStartupFlags(P: TProcess): Cardinal;
 begin
