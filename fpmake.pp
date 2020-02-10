@@ -43,6 +43,11 @@ const
     'plugins/dsx/DSXLocate/src/DSXLocate.lpi'
   );
 
+  DarwinPlugins: array[1..1] of String =
+  (
+    'plugins/wcx/cpio/src/cpio.lpi'
+  );
+
   WindowsPlugins: array[1..1] of String =
   (
     'plugins/wcx/sevenzip/src/SevenZipWcx.lpi'
@@ -203,6 +208,12 @@ begin
   begin
     for I:= Low(UnixPlugins) to High(UnixPlugins) do
       BuildEngine.ExecuteCommand(FLazBuild, SetDirSeparators(UnixPlugins[I]) + FLazBuildParams);
+  end;
+
+  if Defaults.OS = Darwin then
+  begin
+    for I:= Low(DarwinPlugins) to High(DarwinPlugins) do
+      BuildEngine.ExecuteCommand(FLazBuild, SetDirSeparators(DarwinPlugins[I]) + FLazBuildParams);
   end;
 
   if Defaults.OS in AllWindowsOSes then
