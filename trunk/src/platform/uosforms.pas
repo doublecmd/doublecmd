@@ -573,9 +573,12 @@ begin
   with Widgetset do
   SetWindowLong(AppHandle, GWL_EXSTYLE, GetWindowLong(AppHandle, GWL_EXSTYLE) or WS_EX_TOOLWINDOW);
 {$ELSEIF DEFINED(LCLQT5)}
-  Handler.Data:= MainForm;
-  Handler.Code:= @ScreenFormEvent;
-  Screen.AddHandlerFormVisibleChanged(TScreenFormEvent(Handler), True);
+  if g_darkModeEnabled then
+  begin
+    Handler.Data:= MainForm;
+    Handler.Code:= @ScreenFormEvent;
+    Screen.AddHandlerFormVisibleChanged(TScreenFormEvent(Handler), True);
+  end;
 {$ENDIF}
   // Register network file source
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
