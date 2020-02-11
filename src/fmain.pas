@@ -4058,12 +4058,16 @@ begin
     FResizingFilePanels := True;
     if not gHorizontalFilePanels then
     begin
+      pnlLeft.BorderSpacing.Bottom:= 0;
       Delta:= IfThen(MiddleToolBar.Visible, MiddleToolBar.Width);
-      pnlLeft.Width := Round(Double(pnlNotebooks.Width - MainSplitter.Width - Delta) * FMainSplitterPos / 100.0);
+      pnlLeft.BorderSpacing.Right:= 4 - (pnlNotebooks.Width - Delta) mod 2;
+      pnlLeft.Width := Round(Double(pnlNotebooks.Width - pnlLeft.BorderSpacing.Right - Delta) * FMainSplitterPos / 100.0);
     end
     else begin
+      pnlLeft.BorderSpacing.Right:= 0;
       Delta:= IfThen(MiddleToolBar.Visible, MiddleToolBar.Height);
-      pnlLeft.Height := Round(Double(pnlNotebooks.Height - MainSplitter.Height - Delta) * FMainSplitterPos / 100.0);
+      pnlLeft.BorderSpacing.Bottom:= 4 - (pnlNotebooks.Height - Delta) mod 2;
+      pnlLeft.Height := Round(Double(pnlNotebooks.Height - pnlLeft.BorderSpacing.Bottom - Delta) * FMainSplitterPos / 100.0);
     end;
     FResizingFilePanels := False;
   end;
