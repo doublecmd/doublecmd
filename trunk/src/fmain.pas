@@ -1972,9 +1972,10 @@ end;
 procedure TfrmMain.MainSplitterMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 var
-  APoint: TPoint;
   Rect: TRect;
   sHint: String;
+  Delta: Integer;
+  APoint: TPoint;
   Moved: Boolean = False;
 begin
   if MainSplitterLeftMouseBtnDown then
@@ -2005,9 +2006,14 @@ begin
 
       // calculate percent
       if not gHorizontalFilePanels then
-        FMainSplitterPos:= MainSplitter.Left * 100 / (pnlNotebooks.Width-MainSplitter.Width - MiddleToolBar.Width)
-      else
-        FMainSplitterPos:= MainSplitter.Top * 100 / (pnlNotebooks.Height-MainSplitter.Height - MiddleToolBar.Height);
+      begin
+        Delta:= IfThen(MiddleToolBar.Visible, MiddleToolBar.Width);
+        FMainSplitterPos:= MainSplitter.Left * 100 / (pnlNotebooks.Width-MainSplitter.Width - Delta);
+      end
+      else begin
+        Delta:= IfThen(MiddleToolBar.Visible, MiddleToolBar.Height);
+        FMainSplitterPos:= MainSplitter.Top * 100 / (pnlNotebooks.Height-MainSplitter.Height - Delta);
+      end;
 
       // generate hint text
       sHint:= FloatToStrF(FMainSplitterPos, ffFixed, 15, 1) + '%';
@@ -4044,14 +4050,21 @@ begin
 end;
 
 procedure TfrmMain.pnlNotebooksResize(Sender: TObject);
+var
+  Delta: Integer;
 begin
   if not FResizingFilePanels then
   begin
     FResizingFilePanels := True;
     if not gHorizontalFilePanels then
-      pnlLeft.Width := Round(Double(pnlNotebooks.Width - MainSplitter.Width - MiddleToolBar.Width) * FMainSplitterPos / 100.0)
-    else
-      pnlLeft.Height := Round(Double(pnlNotebooks.Height - MainSplitter.Height - MiddleToolBar.Height) * FMainSplitterPos / 100.0);
+    begin
+      Delta:= IfThen(MiddleToolBar.Visible, MiddleToolBar.Width);
+      pnlLeft.Width := Round(Double(pnlNotebooks.Width - MainSplitter.Width - Delta) * FMainSplitterPos / 100.0);
+    end
+    else begin
+      Delta:= IfThen(MiddleToolBar.Visible, MiddleToolBar.Height);
+      pnlLeft.Height := Round(Double(pnlNotebooks.Height - MainSplitter.Height - Delta) * FMainSplitterPos / 100.0);
+    end;
     FResizingFilePanels := False;
   end;
 end;
