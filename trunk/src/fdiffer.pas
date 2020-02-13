@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Internal diff and merge tool
 
-   Copyright (C) 2010-2017 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2010-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -29,7 +29,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
   ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls,
   uPariterControls, uDiffOND, uFormCommands, uHotkeyManager, uOSForms,
-  uBinaryDiffViewer, uShowForm, KASStatusBar;
+  uBinaryDiffViewer, uShowForm, KASStatusBar, Graphics;
 
 type
 
@@ -225,6 +225,7 @@ type
     procedure Clear(bLeft, bRight: Boolean);
     procedure BuildHashList(bLeft, bRight: Boolean);
     procedure ChooseEncoding(SynDiffEdit: TSynDiffEdit);
+    procedure SetColors(cAdded, cDeleted, cModified: TColor);
     procedure ChooseEncoding(MenuItem: TMenuItem; Encoding: String);
     procedure FillEncodingMenu(TheOwner: TMenuItem; MenuHandler: TNotifyEvent; GroupIndex: LongInt);
     procedure LoadFromFile(SynDiffEdit: TSynDiffEdit; const FileName: String);
@@ -279,6 +280,7 @@ begin
     edtFileNameLeft.Text:= FileNameLeft;
     edtFileNameRight.Text:= FileNameRight;
     FShowIdentical:= actAutoCompare.Checked;
+    SetColors(gDifferAddedColor, gDifferDeletedColor, gDifferModifiedColor);
     if not (FileIsText(FileNameLeft) and FileIsText(FileNameRight)) then
       actBinaryCompare.Execute
     else begin
@@ -1050,6 +1052,22 @@ begin
   end;
 
   actStartCompare.Enabled := (Length(HashListLeft) > 0) and (Length(HashListRight) > 0);
+end;
+
+procedure TfrmDiffer.SetColors(cAdded, cDeleted, cModified: TColor);
+begin
+  with SynDiffEditLeft do
+  begin
+    Colors.Added:= cAdded;
+    Colors.Deleted:= cDeleted;
+    Colors.Modified:= cModified;
+  end;
+  with SynDiffEditRight do
+  begin
+    Colors.Added:= cAdded;
+    Colors.Deleted:= cDeleted;
+    Colors.Modified:= cModified;
+  end;
 end;
 
 procedure TfrmDiffer.ChooseEncoding(SynDiffEdit: TSynDiffEdit);

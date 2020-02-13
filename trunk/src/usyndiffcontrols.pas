@@ -72,16 +72,11 @@ type
   { TSynDiffGutterChanges }
 
   TSynDiffGutterChanges = class(TSynGutterPartBase)
-  private
-    FColors: TDiffColors;
   protected
     function  PreferedWidth: Integer; override;
   public
     constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
     procedure Paint(Canvas: TCanvas; AClip: TRect; FirstLine, LastLine: Integer); override;
-  published
-    property Colors: TDiffColors read FColors write FColors;
   end;
 
   { TSynDiffEdit }
@@ -317,16 +312,7 @@ end;
 constructor TSynDiffGutterChanges.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-
-  FColors:= TDiffColors.Create;
   MarkupInfo.Background := clNone;
-end;
-
-destructor TSynDiffGutterChanges.Destroy;
-begin
-  if Assigned(FColors) then
-    FreeAndNil(FColors);
-  inherited Destroy;
 end;
 
 procedure TSynDiffGutterChanges.Paint(Canvas: TCanvas; AClip: TRect; FirstLine,
@@ -366,11 +352,11 @@ begin
         ckNone:
             Continue;
         ckAdd:
-            Canvas.Pen.Color := FColors.Added;
+            Canvas.Pen.Color := SynDiffEdit.FColors.Added;
         ckDelete:
-            Canvas.Pen.Color := FColors.Deleted;
+            Canvas.Pen.Color := SynDiffEdit.FColors.Deleted;
         ckModify:
-            Canvas.Pen.Color := FColors.Modified;
+            Canvas.Pen.Color := SynDiffEdit.FColors.Modified;
       end;
       Canvas.Line(rcLine.Left, rcLine.Top + 1, rcLine.Left, rcLine.Bottom - 1);
     end;
