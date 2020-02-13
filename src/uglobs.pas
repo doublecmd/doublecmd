@@ -605,6 +605,11 @@ var
   gEditorSynEditTabWidth,
   gEditorSynEditRightEdge: Integer;
 
+  { Differ }
+  gDifferAddedColor: TColor;
+  gDifferDeletedColor: TColor;
+  gDifferModifiedColor: TColor;
+
   {SyncDirs}
   gSyncDirsSubdirs,
   gSyncDirsByContent,
@@ -698,7 +703,7 @@ var
 implementation
 
 uses
-   LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8, uExifWdx,
+   LCLProc, LCLType, Dialogs, Laz2_XMLRead, LazUTF8, uExifWdx, uSynDiffControls,
    uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uFindFiles,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
    uDefaultPlugins, Lua, uKeyboard, DCOSUtils, DCStrUtils, uPixMapManager
@@ -1922,6 +1927,11 @@ begin
   gEditorSynEditTabWidth := 8;
   gEditorSynEditRightEdge := 80;
 
+  { Differ }
+  gDifferAddedColor := clPaleGreen;
+  gDifferDeletedColor := clPaleRed;
+  gDifferModifiedColor := clPaleBlue;
+
   {SyncDirs}
   gSyncDirsSubdirs := False;
   gSyncDirsByContent := False;
@@ -2975,6 +2985,19 @@ begin
       gEditorSynEditRightEdge := GetValue(Node, 'SynEditRightEdge', gEditorSynEditRightEdge);
     end;
 
+    { Differ }
+    Node := Root.FindNode('Differ');
+    if Assigned(Node) then
+    begin
+      SubNode := FindNode(Node, 'Colors');
+      if Assigned(SubNode) then
+      begin
+        gDifferAddedColor := GetValue(SubNode, 'Added', gDifferAddedColor);
+        gDifferDeletedColor := GetValue(SubNode, 'Deleted', gDifferDeletedColor);
+        gDifferModifiedColor := GetValue(SubNode, 'Modified', gDifferModifiedColor);
+      end;
+    end;
+
     { SyncDirs }
     Node := Root.FindNode('SyncDirs');
     if Assigned(Node) then
@@ -3540,6 +3563,13 @@ begin
     SetValue(Node, 'SynEditOptions', Integer(gEditorSynEditOptions));
     SetValue(Node, 'SynEditTabWidth', gEditorSynEditTabWidth);
     SetValue(Node, 'SynEditRightEdge', gEditorSynEditRightEdge);
+
+    { Differ }
+    Node := FindNode(Root, 'Differ',True);
+    SubNode := FindNode(Node, 'Colors', True);
+    SetValue(SubNode, 'Added', gDifferAddedColor);
+    SetValue(SubNode, 'Deleted', gDifferDeletedColor);
+    SetValue(SubNode, 'Modified', gDifferModifiedColor);
 
     { SyncDirs }
     Node := FindNode(Root, 'SyncDirs', True);
