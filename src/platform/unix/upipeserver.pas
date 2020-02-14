@@ -50,6 +50,7 @@ Type
     FFileName: String;
     FStream: TFileStream;
   private
+    procedure OwnerReadMessage;
     procedure Handler(Sender: TObject);
   Public
     Constructor Create(AOWner : TSimpleIPCServer); override;
@@ -74,9 +75,14 @@ end;
 
 { TPipeServerComm }
 
+procedure TPipeServerComm.OwnerReadMessage;
+begin
+  Owner.ReadMessage;
+end;
+
 procedure TPipeServerComm.Handler(Sender: TObject);
 begin
-  TThread.Synchronize(nil, @Owner.ReadMessage);
+  TThread.Synchronize(nil, @OwnerReadMessage);
 end;
 
 constructor TPipeServerComm.Create(AOWner: TSimpleIPCServer);
