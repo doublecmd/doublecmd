@@ -5,7 +5,7 @@ unit uUniqueInstance;
 interface
 
 uses
-  Classes, SysUtils, SimpleIPC, uCmdLineParams, RegExpr;
+  Classes, SysUtils, SimpleIPC, uCmdLineParams;
 
 type
 
@@ -72,7 +72,7 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   ipc, baseunix, uPipeServer,
   {$ENDIF}
-  Forms, StrUtils, FileUtil, uGlobs, uDebug;
+  Forms, StrUtils, FileUtil, uRegExprA, uGlobs, uDebug;
 
 {$IF DEFINED(DARWIN)}
 const

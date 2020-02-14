@@ -285,8 +285,8 @@ type
        This is used if a file source has any internal cache or file list.
        Overwrite DoReload in descendant classes.
     }
-    procedure Reload(const PathsToReload: TPathsArray); virtual;
-    procedure Reload(const PathToReload: String);
+    procedure Reload(const PathsToReload: TPathsArray); virtual; overload;
+    procedure Reload(const PathToReload: String); overload;
 
     procedure AddReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
     procedure RemoveReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
