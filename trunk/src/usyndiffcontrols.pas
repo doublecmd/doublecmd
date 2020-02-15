@@ -99,6 +99,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
   public
+    procedure Renumber;
     procedure StartCompare;
     procedure FinishCompare;
     function DiffBegin(ALine: Integer): Integer;
@@ -121,6 +122,7 @@ type
     procedure SetKind(AIndex: Integer; AValue: TChangeKind);
     procedure SetNumber(AIndex: Integer; AValue: PtrInt);
   public
+    procedure Renumber;
     procedure RemoveFake;
     procedure Append(const S: String; AKind: TChangeKind);
     procedure InsertFake(AIndex: Integer; AKind: TChangeKind);
@@ -300,6 +302,12 @@ begin
   if Assigned(FColors) then
     FreeAndNil(FColors);
   inherited Destroy;
+end;
+
+procedure TSynDiffEdit.Renumber;
+begin
+  Lines.Renumber;
+  Repaint;
 end;
 
 { TSynDiffGutterChanges }
@@ -598,6 +606,21 @@ begin
   begin
     if ((PtrInt(Objects[I]) shr KindShift) = FakeLine) and (Self[I] = EmptyStr) then
       Delete(I);
+  end;
+end;
+
+procedure TStringsHelper.Renumber;
+var
+  I, N: Integer;
+begin
+  N:= 1;
+  for I:= 0 to Count - 1 do
+  begin
+    if ((PtrInt(Objects[I]) shr KindShift) <> FakeLine) then
+    begin
+      Number[I] := N;
+      Inc(N);
+    end;
   end;
 end;
 

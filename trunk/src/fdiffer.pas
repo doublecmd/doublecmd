@@ -829,8 +829,34 @@ begin
   I := SynDiffEditLeft.CaretY - 1;
   iStart:= SynDiffEditLeft.DiffBegin(I);
   iFinish:= SynDiffEditLeft.DiffEnd(I);
-  for I:= iStart to iFinish do
-    SynDiffEditRight.Lines[I]:= SynDiffEditLeft.Lines[I];
+  if SynDiffEditLeft.Lines.Kind[iStart] <> ckAdd then
+  begin
+    for I:= iStart to iFinish do
+    begin
+      SynDiffEditRight.Lines[I]:= SynDiffEditLeft.Lines[I];
+      if SynDiffEditLeft.Lines.Kind[I] = ckDelete then
+      begin
+        SynDiffEditLeft.Lines.Kind[I]:= ckNone;
+        SynDiffEditRight.Lines.SetKindAndNumber(I, ckNone, 0);
+      end;
+    end;
+  end
+  else begin
+    for I:= iStart to iFinish do
+    begin
+      if SynDiffEditLeft.Lines[iStart] <> EmptyStr then
+      begin
+        SynDiffEditRight.Lines[iStart]:= SynDiffEditLeft.Lines[iStart];
+        Inc(iStart);
+      end
+      else begin
+        SynDiffEditLeft.Lines.Delete(iStart);
+        SynDiffEditRight.Lines.Delete(iStart);
+      end;
+    end;
+  end;
+  SynDiffEditLeft.Renumber;
+  SynDiffEditRight.Renumber;
 end;
 
 procedure TfrmDiffer.cm_CopyRightToLeft(const Params: array of string);
@@ -841,8 +867,34 @@ begin
   I := SynDiffEditRight.CaretY - 1;
   iStart:= SynDiffEditRight.DiffBegin(I);
   iFinish:= SynDiffEditRight.DiffEnd(I);
-  for I:= iStart to iFinish do
-    SynDiffEditLeft.Lines[I]:= SynDiffEditRight.Lines[I];
+  if SynDiffEditLeft.Lines.Kind[iStart] <> ckDelete then
+  begin
+    for I:= iStart to iFinish do
+    begin
+      SynDiffEditLeft.Lines[I]:= SynDiffEditRight.Lines[I];
+      if SynDiffEditRight.Lines.Kind[I] = ckAdd then
+      begin
+        SynDiffEditRight.Lines.Kind[I]:= ckNone;
+        SynDiffEditLeft.Lines.SetKindAndNumber(I, ckNone, 0);
+      end;
+    end;
+  end
+  else begin
+    for I:= iStart to iFinish do
+    begin
+      if SynDiffEditLeft.Lines[iStart] <> EmptyStr then
+      begin
+        SynDiffEditRight.Lines[iStart]:= SynDiffEditLeft.Lines[iStart];
+        Inc(iStart);
+      end
+      else begin
+        SynDiffEditLeft.Lines.Delete(iStart);
+        SynDiffEditRight.Lines.Delete(iStart);
+      end;
+    end;
+  end;
+  SynDiffEditLeft.Renumber;
+  SynDiffEditRight.Renumber;
 end;
 
 procedure TfrmDiffer.cm_Exit(const Params: array of string);
