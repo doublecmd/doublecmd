@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-01-05 20:25+0300\n"
+"PO-Revision-Date: 2020-02-01 03:11+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2291,11 +2291,11 @@ msgstr "Поместить курсор на последний файл в сп
 
 #: tfrmmain.actgotonextentry.caption
 msgid "Place cursor on next folder or file"
-msgstr ""
+msgstr "Поместить курсор на следующую папку или файл"
 
 #: tfrmmain.actgotopreventry.caption
 msgid "Place cursor on previous folder or file"
-msgstr ""
+msgstr "Поместить курсор на следующую папку или файл"
 
 #: tfrmmain.acthardlink.caption
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
@@ -5876,7 +5876,7 @@ msgstr "Показ&ывать панель выбора вкладок в диа
 #: tfrmoptionsfileoperations.cbskipfileoperror.caption
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "S&kip file operations errors and write them to log window"
-msgstr "Пропускать о&шибки при файловых операциях и выводить их в окно протокола"
+msgstr "Выводить сообщения об о&шибках файловых операций только в окно протокола"
 
 #: tfrmoptionsfileoperations.cbverifychecksumconfirmation.caption
 msgid "Verify checksum operation"
