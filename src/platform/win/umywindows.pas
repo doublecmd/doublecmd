@@ -103,6 +103,10 @@ function mbGetRemoteFileName(const sLocalName: String): String;
 }
 function mbGetShortPathName(const sLongPath: String; var sShortPath: AnsiString): Boolean;
 {en
+   Retrieves Network Error
+}
+function mbWinNetErrorMessage(dwError: DWORD): String;
+{en
    Retrieves owner of the file (user and group).
    Both user and group contain computer name.
    @param(sPath Absolute path to the file. May be UNC path.)
@@ -653,6 +657,24 @@ begin
   begin
     sShortPath:= AnsiString(wsShortPath);
     Result:= True;
+  end;
+end;
+
+function mbWinNetErrorMessage(dwError: DWORD): String;
+var
+  dwWNetResult: DWORD;
+  lpNameBuf: array [0..MAX_PATH] of WideChar;
+  lpErrorBuf: array[0..maxSmallint] of WideChar;
+begin
+  if dwError <> ERROR_EXTENDED_ERROR then
+    Result:= SysErrorMessage(dwError)
+  else begin
+    dwWNetResult:= WNetGetLastErrorW(dwError, lpErrorBuf, maxSmallint, lpNameBuf, MAX_PATH);
+    if (dwWNetResult <> NO_ERROR) then
+      Result:= SysErrorMessage(dwWNetResult)
+    else begin
+      Result:= UTF16ToUTF8(UnicodeString(lpErrorBuf));
+    end;
   end;
 end;
 

@@ -16,11 +16,11 @@ type
   IWinNetFileSource = interface(IVirtualFileSource)
     ['{55329161-3CFC-4F15-B66D-6649B42E9357}']
 
-    function GetProviderName: WideString;
+    function GetProviderName: UnicodeString;
 
     function IsNetworkPath(const Path: String): Boolean;
 
-    property ProviderName: WideString read GetProviderName;
+    property ProviderName: UnicodeString read GetProviderName;
   end;
 
   { TWinNetFileSource }
@@ -28,7 +28,7 @@ type
   TWinNetFileSource = class(TFileSystemFileSource, IWinNetFileSource)
   private
     FProviderName: array[0..MAX_PATH-1] of WideChar;
-    function GetProviderName: WideString;
+    function GetProviderName: UnicodeString;
 
   protected
     function IsNetworkPath(const Path: String): Boolean;
@@ -81,7 +81,7 @@ type
 implementation
 
 uses
-  LazUTF8, uWinNetListOperation, uWinNetExecuteOperation,
+  LazUTF8, uWinNetListOperation, uWinNetExecuteOperation, uMyWindows,
   Windows, JwaWinNetWk, uVfsModule, uShowMsg, DCOSUtils, DCStrUtils;
 
 function TWinNetFileSource.GetParentDir(sPath: String): String;
@@ -110,7 +110,7 @@ begin
     dwBufferSize:= SizeOf(lpBuffer);
     dwResult := WNetGetResourceParentW(nFile, @lpBuffer, dwBufferSize);
     if dwResult <> NO_ERROR then
-      msgError(mbSysErrorMessage(GetLastError))
+      msgError(mbWinNetErrorMessage(GetLastError))
     else
       begin
         FilePath:= UnicodeString(ParentPath.lpRemoteName);
@@ -149,9 +149,9 @@ begin
   Result := inherited GetProperties + [fspVirtual] - [fspNoneParent];
 end;
 
-function TWinNetFileSource.GetProviderName: WideString;
+function TWinNetFileSource.GetProviderName: UnicodeString;
 begin
-  Result:= WideString(FProviderName);
+  Result:= UnicodeString(FProviderName);
 end;
 
 function TWinNetFileSource.IsNetworkPath(const Path: String): Boolean;
@@ -174,7 +174,7 @@ begin
   inherited Create;
   dwBufferSize:= MAX_PATH;
   if WNetGetProviderNameW(WNNC_NET_LANMAN, @FProviderName, dwBufferSize) <> NO_ERROR then
-    RaiseLastOSError;
+    raise EOSError.Create(mbWinNetErrorMessage(GetLastError));
 end;
 
 class function TWinNetFileSource.IsSupportedPath(const Path: String): Boolean;
