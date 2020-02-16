@@ -169,7 +169,7 @@ implementation
 
 uses
   ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, JwaNative, JwaVista, LazUTF8,
-  ActiveX, ShlObj, ComObj, DCWindows, uShlObjAdditional;
+  SysConst, ActiveX, ShlObj, ComObj, DCWindows, uShlObjAdditional;
 
 var
   Wow64DisableWow64FsRedirection: function(OldValue: PPointer): BOOL; stdcall;
@@ -676,6 +676,7 @@ begin
       Result:= UTF16ToUTF8(UnicodeString(lpErrorBuf));
     end;
   end;
+  if (Length(Result) = 0) then Result:= Format(SUnknownErrorCode, [dwError]);
 end;
 
 function GetFileOwner(const sPath: String; out sUser, sGroup: String): Boolean;
