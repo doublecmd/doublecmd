@@ -30,7 +30,7 @@ implementation
 
 uses
   LazUTF8, uFile, Windows, JwaWinNetWk, JwaLmCons, JwaLmShare, JwaLmApiBuf,
-  StrUtils, DCStrUtils, uShowMsg, DCOSUtils, uOSUtils, uNetworkThread;
+  StrUtils, DCStrUtils, uShowMsg, DCOSUtils, uOSUtils, uNetworkThread, uMyWindows;
 
 function TWinNetListOperation.Connect: Boolean;
 var
@@ -54,7 +54,7 @@ begin
   if dwResult <> NO_ERROR then
   begin
     if dwResult = ERROR_CANCELLED then RaiseAbortOperation;
-    msgError(Thread, mbSysErrorMessage(dwResult));
+    msgError(Thread, mbWinNetErrorMessage(dwResult));
     Exit(False);
   end;
   Result:= True;
@@ -115,7 +115,7 @@ begin
     if (hEnum <> INVALID_HANDLE_VALUE) then
       dwResult := WNetCloseEnum(hEnum);
     if (dwResult <> NO_ERROR) and (dwResult <> ERROR_NO_MORE_ITEMS) then
-      msgError(Thread, mbSysErrorMessage(dwResult));
+      msgError(Thread, mbWinNetErrorMessage(dwResult));
     if Assigned(lpBuffer) then
       FreeMem(lpBuffer);
   end;
