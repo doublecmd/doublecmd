@@ -132,7 +132,7 @@ begin
   else
     begin
       if gDirBrackets and (AFile.IsDirectory or AFile.IsLinkToDirectory) then
-        S:= '..]'
+        S:= '..' + gFolderPostfix
       else begin
         S:= '..';
       end;

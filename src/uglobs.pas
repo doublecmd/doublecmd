@@ -307,6 +307,8 @@ var
   gLynxLike:Boolean;
   gFirstTextSearch: Boolean;
   gExtraLineSpan: Integer;
+  gFolderPrefix,
+  gFolderPostfix: String;
 
   { Mouse }
   gMouseSelectionEnabled: Boolean;
@@ -1572,6 +1574,8 @@ begin
 
   { File views page }
   gExtraLineSpan := 2;
+  gFolderPrefix := '[';
+  gFolderPostfix := ']';
   { Brief view page }
   gBriefViewFixedCount := 2;
   gBriefViewFixedWidth := 100;
@@ -2696,6 +2700,8 @@ begin
         end;
       end;
       gExtraLineSpan := GetValue(Node, 'ExtraLineSpan', gExtraLineSpan);
+      gFolderPrefix := GetValue(Node, 'FolderPrefix', gFolderPrefix);
+      gFolderPostfix := GetValue(Node, 'FolderPostfix', gFolderPostfix);
     end;
 
     { Keys page }
@@ -3362,6 +3368,8 @@ begin
     SetValue(SubNode, 'FixedCount', gBriefViewFixedCount);
     SetValue(SubNode, 'AutoSize', Integer(gBriefViewMode));
     SetValue(Node, 'ExtraLineSpan', gExtraLineSpan);
+    SetValue(Node, 'FolderPrefix', gFolderPrefix);
+    SetValue(Node, 'FolderPostfix', gFolderPostfix);
 
     { Keys page }
     Node := FindNode(Root, 'Keyboard', True);
