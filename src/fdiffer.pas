@@ -882,9 +882,9 @@ begin
   else begin
     for I:= iStart to iFinish do
     begin
-      if SynDiffEditLeft.Lines[iStart] <> EmptyStr then
+      if SynDiffEditRight.Lines[iStart] <> EmptyStr then
       begin
-        SynDiffEditRight.Lines[iStart]:= SynDiffEditLeft.Lines[iStart];
+        SynDiffEditLeft.Lines[iStart]:= SynDiffEditRight.Lines[iStart];
         Inc(iStart);
       end
       else begin
