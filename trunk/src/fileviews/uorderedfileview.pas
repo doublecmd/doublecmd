@@ -879,10 +879,10 @@ begin
     end;
     if (FLastActiveFileIndex > -1) then
     begin
-      if IsInPath(CurrentPath, LastActiveFile, False, False) then
+      if FlatView or IsInPath(CurrentPath, LastActiveFile, False, False) then
       begin
         if (PathIsAbsolute and mbCompareFileNames(LastActiveFile, aFilePath)) or
-           (mbCompareFileNames(LastActiveFile, CurrentPath + aFilePath)) then
+           (FlatView) or (mbCompareFileNames(LastActiveFile, CurrentPath + aFilePath)) then
         begin
           if FLastActiveFileIndex < FFiles.Count then
             SetUpdate(FLastActiveFileIndex)
