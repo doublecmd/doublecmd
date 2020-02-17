@@ -1092,29 +1092,44 @@ end;
 procedure TMainCommands.cm_FlatView(const Params: array of string);
 var
   AFile: TFile;
+  AFileView: TFileView;
+  AValue, Param: String;
 begin
   with frmMain do
-  if not (fspListFlatView in ActiveFrame.FileSource.GetProperties) then
   begin
-    msgWarning(rsMsgErrNotSupported);
-  end
-  else
-  begin
-    ActiveFrame.FlatView:= not ActiveFrame.FlatView;
-    if not ActiveFrame.FlatView then
+    AFileView:= ActiveFrame;
+
+    for Param in Params do
     begin
-      AFile:= ActiveFrame.CloneActiveFile;
-      if Assigned(AFile) and AFile.IsNameValid then
+      if GetParamValue(Param, 'side', AValue) then
       begin
-        if not mbCompareFileNames(ActiveFrame.CurrentPath, AFile.Path) then
-        begin
-          ActiveFrame.CurrentPath:= AFile.Path;
-          ActiveFrame.SetActiveFile(AFile.Name);
-        end;
-      end;
-      AFile.Free;
+        if AValue = 'left' then AFileView:= FrameLeft
+        else if AValue = 'right' then AFileView:= FrameRight
+        else if AValue = 'inactive' then AFileView:= NotActiveFrame;
+      end
     end;
-    ActiveFrame.Reload;
+
+    if not (fspListFlatView in AFileView.FileSource.GetProperties) then
+    begin
+      msgWarning(rsMsgErrNotSupported);
+    end
+    else begin
+      AFileView.FlatView:= not AFileView.FlatView;
+      if not AFileView.FlatView then
+      begin
+        AFile:= AFileView.CloneActiveFile;
+        if Assigned(AFile) and AFile.IsNameValid then
+        begin
+          if not mbCompareFileNames(AFileView.CurrentPath, AFile.Path) then
+          begin
+            AFileView.CurrentPath:= AFile.Path;
+            AFileView.SetActiveFile(AFile.Name);
+          end;
+        end;
+        AFile.Free;
+      end;
+      AFileView.Reload;
+    end;
   end;
 end;
 
@@ -1184,28 +1199,12 @@ end;
 
 procedure TMainCommands.cm_LeftFlatView(const Params: array of string);
 begin
-  if not (fspListFlatView in frmMain.FrameLeft.FileSource.GetProperties) then
-  begin
-    msgWarning(rsMsgErrNotSupported);
-  end
-  else
-  begin
-    frmMain.FrameLeft.FlatView:= not frmMain.FrameLeft.FlatView;
-    frmMain.FrameLeft.Reload;
-  end;
+  cm_FlatView(['side=left']);
 end;
 
 procedure TMainCommands.cm_RightFlatView(const Params: array of string);
 begin
-  if not (fspListFlatView in frmMain.FrameRight.FileSource.GetProperties) then
-  begin
-    msgWarning(rsMsgErrNotSupported);
-  end
-  else
-  begin
-    frmMain.FrameRight.FlatView:= not frmMain.FrameRight.FlatView;
-    frmMain.FrameRight.Reload;
-  end;
+  cm_FlatView(['side=right']);
 end;
 
 procedure TMainCommands.cm_OpenDirInNewTab(const Params: array of string);
