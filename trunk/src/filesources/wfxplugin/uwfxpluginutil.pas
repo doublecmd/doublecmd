@@ -244,11 +244,17 @@ begin
     aFile := CurrentSubNode.TheFile;
 
     if FRenamingRootDir and (aFile = FRootDir) then
-      TargetName := CurrentTargetPath + FRenameMask
+      TargetName := FRenameMask
     else if FRenamingFiles then
-      TargetName := CurrentTargetPath + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask)
+      TargetName := ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask)
     else
-      TargetName := CurrentTargetPath + aFile.Name;
+      TargetName := aFile.Name;
+
+    if FMode <> wpohmCopyOut then
+      TargetName := CurrentTargetPath + TargetName
+    else begin
+      TargetName := CurrentTargetPath + ReplaceInvalidChars(TargetName);
+    end;
 
     with FStatistics^ do
     begin
