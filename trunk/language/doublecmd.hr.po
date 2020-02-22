@@ -34,13 +34,17 @@ msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique r
 msgstr "Pronađeno je datoteka: %d (istovjetnih: %d, različitih: %d, jedinstvenih lijevo: %d, jedinstvenih desno: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
+#, fuzzy,badformat
+#| msgid "Left to Right: Copy %d files, total size: %d bytes"
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
-msgid "Left to Right: Copy %d files, total size: %d bytes"
+msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr "Sa ljeva na desno: Kopiraj %d datoteka, ukupne veličine %d bajta"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
+#, fuzzy,badformat
+#| msgid "Right to Left: Copy %d files, total size: %d bytes"
 msgctxt "TFCOLUMNSSETCONF.BTNALLBACK.CAPTION"
-msgid "Right to Left: Copy %d files, total size: %d bytes"
+msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "Sa desna na lijevo: Kopiraj %d datoteka, ukupne veličine %d bajta"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint

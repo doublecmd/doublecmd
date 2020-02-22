@@ -33,11 +33,15 @@ msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique r
 msgstr "Пронађено је датотека: %d (истоветних: %d, различитих: %d, јединствених лево: %d, јединствених десно: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
-msgid "Left to Right: Copy %d files, total size: %d bytes"
+#, fuzzy,badformat
+#| msgid "Left to Right: Copy %d files, total size: %d bytes"
+msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr "Са лева на десно: Умножи %d датотека, укупне величине %d бајта"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-msgid "Right to Left: Copy %d files, total size: %d bytes"
+#, fuzzy,badformat
+#| msgid "Right to Left: Copy %d files, total size: %d bytes"
+msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "Са десна на лево: Умножи %d датотека, укупне величине %d бајта"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint

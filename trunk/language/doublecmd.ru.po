@@ -28,12 +28,12 @@ msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique r
 msgstr "Найдено файлов: %d  (Одинаковых: %d, Различных: %d, Уникальных слева: %d, Уникальных справа: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
-msgid "Left to Right: Copy %d files, total size: %d bytes"
-msgstr "Слева направо: Копируется файлов: %d, общий размер: %d байт"
+msgid "Left to Right: Copy %d files, total size: %s (%s)"
+msgstr "Слева направо: Копируется файлов: %d, общий размер: %s (%s)"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-msgid "Right to Left: Copy %d files, total size: %d bytes"
-msgstr "Справа налево: Копируется файлов: %d, общий размер: %d байт"
+msgid "Right to Left: Copy %d files, total size: %s (%s)"
+msgstr "Справа налево: Копируется файлов: %d, общий размер: %s (%s)"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
 msgid "Choose template..."

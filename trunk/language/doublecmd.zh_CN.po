@@ -28,11 +28,15 @@ msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique r
 msgstr "找到文件：%d（相同：%d，不同：%d，仅左侧有：%d，仅右侧有：%d）"
 
 #: fsyncdirsdlg.rslefttorightcopy
-msgid "Left to Right: Copy %d files, total size: %d bytes"
+#, fuzzy,badformat
+#| msgid "Left to Right: Copy %d files, total size: %d bytes"
+msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr "左侧到右侧：复制 %d 个文件，合计大小：%d 字节"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-msgid "Right to Left: Copy %d files, total size: %d bytes"
+#, fuzzy,badformat
+#| msgid "Right to Left: Copy %d files, total size: %d bytes"
+msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "右侧到左侧：复制 %d 个文件，合计大小：%d 字节"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
