@@ -218,8 +218,8 @@ type
 
 resourcestring
   rsComparingPercent = 'Comparing... %d%% (ESC to cancel)';
-  rsLeftToRightCopy = 'Left to Right: Copy %d files, total size: %d bytes';
-  rsRightToLeftCopy = 'Right to Left: Copy %d files, total size: %d bytes';
+  rsLeftToRightCopy = 'Left to Right: Copy %d files, total size: %s (%s)';
+  rsRightToLeftCopy = 'Right to Left: Copy %d files, total size: %s (%s)';
   rsDeleteLeft = 'Left: Delete %d file(s)';
   rsDeleteRight = 'Right: Delete %d file(s)';
   rsFilesFound = 'Files found: %d  (Identical: %d, Different: %d, '
@@ -233,7 +233,8 @@ uses
   fMain, uDebug, fDiffer, fSyncDirsPerformDlg, uGlobs, LCLType, LazUTF8, LazFileUtils,
   DCClassesUtf8, uFileSystemFileSource, uFileSourceOperationOptions, DCDateTimeUtils,
   uDCUtils, uFileSourceUtil, uFileSourceOperationTypes, uShowForm, uAdministrator,
-  uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate;
+  uOSUtils, uLng, uMasks, Math, uClipboard, IntegerList, fMaskInputDlg, uSearchTemplate,
+  StrUtils, uTypes;
 
 {$R *.lfm}
 
@@ -620,9 +621,9 @@ begin
     chkDeleteLeft.Caption := Format(rsDeleteLeft, [DeleteLeftCount]);
     chkDeleteRight.Caption := Format(rsDeleteRight, [DeleteRightCount]);
     chkLeftToRight.Caption :=
-      Format(rsLeftToRightCopy, [CopyRightCount, CopyRightSize]);
+      Format(rsLeftToRightCopy, [CopyRightCount, cnvFormatFileSize(CopyRightSize, fsfFloat, gFileSizeDigits), Numb2USA(IntToStr(CopyRightSize))]);
     chkRightToLeft.Caption :=
-      Format(rsRightToLeftCopy, [CopyLeftCount, CopyLeftSize]);
+      Format(rsRightToLeftCopy, [CopyLeftCount, cnvFormatFileSize(CopyLeftSize, fsfFloat, gFileSizeDigits), Numb2USA(IntToStr(CopyLeftSize))]);
     if ShowModal = mrOk then
     begin
       EnableControls(False);
