@@ -29,11 +29,15 @@ msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique r
 msgstr "Archivos encontrados: %d (Idénticos: %d, Diferentes: %d, Únicos izquierda: %d, Únicos derecha: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
-msgid "Left to Right: Copy %d files, total size: %d bytes"
+#, fuzzy,badformat
+#| msgid "Left to Right: Copy %d files, total size: %d bytes"
+msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr "Izquierda a Derecha: Copiar %d archivos, tamaño total: %d bytes"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-msgid "Right to Left: Copy %d files, total size: %d bytes"
+#, fuzzy,badformat
+#| msgid "Right to Left: Copy %d files, total size: %d bytes"
+msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "Derecha a Izquierda: Copiar %d archivos, tamaño total: %d bytes"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint

@@ -32,11 +32,15 @@ msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique r
 msgstr "Nalezených souborů: %d (Stejných: %d, Rozdílných: %d, Vlevo navíc: %d, Vpravo navíc: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
-msgid "Left to Right: Copy %d files, total size: %d bytes"
+#, fuzzy,badformat
+#| msgid "Left to Right: Copy %d files, total size: %d bytes"
+msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr "Zleva doprava: Kopírovat %d soubor(ů), velikost: %d bajtů"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-msgid "Right to Left: Copy %d files, total size: %d bytes"
+#, fuzzy,badformat
+#| msgid "Right to Left: Copy %d files, total size: %d bytes"
+msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "Zprava doleva: Kopírovat %d soubor(ů), velikost: %d bajtů"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint

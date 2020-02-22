@@ -36,11 +36,15 @@ msgid "Files found: %d  (Identical: %d, Different: %d, Unique left: %d, Unique r
 msgstr "Ευρεθέντα αρχεία: %d  (Όμοια: %d, Διαφορετικά: %d, Μοναδικά αριστερά: %d, Μοναδικά δεξιά: %d)"
 
 #: fsyncdirsdlg.rslefttorightcopy
-msgid "Left to Right: Copy %d files, total size: %d bytes"
+#, fuzzy,badformat
+#| msgid "Left to Right: Copy %d files, total size: %d bytes"
+msgid "Left to Right: Copy %d files, total size: %s (%s)"
 msgstr "Αριστερά προς Δεξιά: Αντιγραφή %d αρχεία, συνολικό μέγεθος: %d bytes"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
-msgid "Right to Left: Copy %d files, total size: %d bytes"
+#, fuzzy,badformat
+#| msgid "Right to Left: Copy %d files, total size: %d bytes"
+msgid "Right to Left: Copy %d files, total size: %s (%s)"
 msgstr "Δεξιά προς Αριστερά: Αντιγραφή %d αρχεία, συνολικό μέγεθος: %d bytes"
 
 #: tfilesystemcopymoveoperationoptionsui.btnsearchtemplate.hint
