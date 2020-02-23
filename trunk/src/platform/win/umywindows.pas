@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific WINDOWS functions.
 
-    Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@ unit uMyWindows;
 interface
 
 uses
-  Graphics, Classes, SysUtils, JwaWinBase, Windows;
+  Graphics, Classes, SysUtils, JwaWinType, JwaWinBase, JwaNative, Windows;
 
 const
   // STORAGE_BUS_TYPE
@@ -107,6 +107,17 @@ function mbGetShortPathName(const sLongPath: String; var sShortPath: AnsiString)
 }
 function mbWinNetErrorMessage(dwError: DWORD): String;
 {en
+   The QueryDirectoryFile routine returns various kinds of information
+   about files in the directory specified by a given file handle.
+}
+function QueryDirectoryFile(Handle: THandle;
+                            FileInfo: PVOID;
+                            FileInfoLength: ULONG;
+                            FileInfoClass: TFileInformationClass;
+                            ReturnSingleEntry: Boolean;
+                            const FileName: UnicodeString;
+                            RestartScan: Boolean): Boolean;
+{en
    Retrieves owner of the file (user and group).
    Both user and group contain computer name.
    @param(sPath Absolute path to the file. May be UNC path.)
@@ -168,7 +179,7 @@ procedure FixCommandLineToUTF8;
 implementation
 
 uses
-  ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, JwaNative, JwaVista, LazUTF8,
+  JwaNtStatus, ShellAPI, MMSystem, JwaWinNetWk, JwaWinUser, JwaVista, LazUTF8,
   SysConst, ActiveX, ShlObj, ComObj, DCWindows, uShlObjAdditional;
 
 var
@@ -677,6 +688,34 @@ begin
     end;
   end;
   if (Length(Result) = 0) then Result:= Format(SUnknownErrorCode, [dwError]);
+end;
+
+function  NtQueryDirectoryFile(FileHandle: HANDLE; Event: HANDLE; ApcRoutine: PIO_APC_ROUTINE;
+                               ApcContext: PVOID; IoStatusBlock: PIO_STATUS_BLOCK; FileInformation: PVOID;
+                               FileInformationLength: ULONG; FileInformationClass: ULONG; ReturnSingleEntry: BOOLEAN;
+                               FileName: PUNICODE_STRING; RestartScan: BOOLEAN): NTSTATUS; stdcall; external ntdll;
+
+function QueryDirectoryFile(Handle: THandle; FileInfo: PVOID;
+  FileInfoLength: ULONG; FileInfoClass: TFileInformationClass;
+  ReturnSingleEntry: Boolean; const FileName: UnicodeString;
+  RestartScan: Boolean): Boolean;
+var
+  Status: NTSTATUS;
+  PFileName: PUnicodeString;
+  AFileName: TUnicodeString;
+  IoStatusBlock: TIoStatusBlock;
+begin
+  if Length(FileName) = 0 then
+    PFileName:= nil
+  else begin
+    PFileName:= @AFileName;
+    AFileName.Buffer:= PWideChar(FileName);
+    AFileName.Length:= Length(FileName) * SizeOf(WideChar);
+    AFileName.MaximumLength:= AFileName.Length;
+  end;
+  Status:= NtQueryDirectoryFile(Handle, 0, nil, nil, @IoStatusBlock, FileInfo, FileInfoLength, ULONG(FileInfoClass), ReturnSingleEntry, PFileName, RestartScan);
+  if (Status <> STATUS_SUCCESS) then SetLastError(RtlNtStatusToDosError(Status));
+  Result:= (Status = STATUS_SUCCESS) and (IoStatusBlock.Information > 0);
 end;
 
 function GetFileOwner(const sPath: String; out sUser, sGroup: String): Boolean;
