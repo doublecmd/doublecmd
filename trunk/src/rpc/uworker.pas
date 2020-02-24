@@ -33,6 +33,10 @@ const
   RPC_FileSetReadOnly = 14;
   RPC_FileCopyAttr = 15;
 
+  RPC_FindFirst = 16;
+  RPC_FindNext = 17;
+  RPC_FindClose = 18;
+
   RPC_CreateHardLink = 8;
   RPC_CreateSymbolicLink = 7;
 
@@ -56,7 +60,7 @@ var
 implementation
 
 uses
-  DCBasicTypes, DCOSUtils, uDebug;
+  DCBasicTypes, DCOSUtils, uFindEx, uDebug;
 
 { TMasterService }
 
@@ -91,17 +95,33 @@ end;
 
 procedure TWorkerService.ProcessRequest(ATransport: TBaseTransport; ACommand: Int32;
   ARequest: TStream);
+const
+  FIND_MAX = 512;
 var
   Mode: Integer;
+  Index: Integer;
   Handle: THandle;
   NewName: String;
   FileName: String;
   Result: LongBool;
   Attr: TFileAttrs;
   LastError: Integer;
+  Data: TMemoryStream;
+  SearchRec: PSearchRecEx;
   CreationTime: TFileTime;
   LastAccessTime: TFileTime;
   ModificationTime: TFileTime;
+
+  procedure WriteSearchRec(Data: TMemoryStream; SearchRec: PSearchRecEx);
+  begin
+    Data.WriteBuffer(SearchRec^.PlatformTime, SizeOf(SearchRec^.PlatformTime));
+    Data.WriteBuffer(SearchRec^.LastAccessTime, SizeOf(SearchRec^.LastAccessTime));
+    Data.WriteBuffer(SearchRec^.Time, SizeOf(TFileTime));
+    Data.WriteBuffer(SearchRec^.Size, SizeOf(Int64));
+    Data.WriteBuffer(SearchRec^.Attr, SizeOf(TFileAttrs));
+    Data.WriteAnsiString(SearchRec^.Name);
+  end;
+
 begin
   case ACommand of
   RPC_DeleteFile:
@@ -205,6 +225,58 @@ begin
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));
     end;
+  RPC_FindFirst:
+  begin
+    Index:= 0;
+    FileName:= ARequest.ReadAnsiString;
+    Mode:= ARequest.ReadDWord;
+    New(SearchRec);
+    LastError:= FindFirstEx(FileName, Mode, SearchRec^);
+    if LastError = 0 then
+    begin
+      Data:= TMemoryStream.Create;
+      Data.WriteBuffer(SearchRec, SizeOf(SearchRec));
+      repeat
+        Inc(Index);
+        WriteSearchRec(Data, SearchRec);
+      until not ((Index < FIND_MAX) and (FindNextEx(SearchRec^) = 0));
+      Index:= Data.Size;
+    end;
+    ATransport.WriteBuffer(LastError, SizeOf(LastError));
+    ATransport.WriteBuffer(Index, SizeOf(Index));
+    if Index > 0 then begin
+      ATransport.WriteBuffer(Data.Memory^, Index);
+      Data.Free;
+    end;
+  end;
+  RPC_FindNext:
+  begin
+    Index:= 0;
+    ARequest.ReadBuffer(SearchRec, SizeOf(SearchRec));
+    LastError:= FindNextEx(SearchRec^);
+    if LastError = 0 then
+    begin
+      Data:= TMemoryStream.Create;
+      Data.WriteBuffer(SearchRec, SizeOf(SearchRec));
+      repeat
+        Inc(Index);
+        WriteSearchRec(Data, SearchRec);
+      until not ((Index < FIND_MAX) and (FindNextEx(SearchRec^) = 0));
+      Index:= Data.Size;
+    end;
+    ATransport.WriteBuffer(LastError, SizeOf(LastError));
+    ATransport.WriteBuffer(Index, SizeOf(Index));
+    if Index > 0 then begin
+      ATransport.WriteBuffer(Data.Memory^, Index);
+      Data.Free;
+    end;
+  end;
+  RPC_FindClose:
+  begin
+    ARequest.ReadBuffer(SearchRec, SizeOf(SearchRec));
+    FindCloseEx(SearchRec^);
+    Dispose(SearchRec);
+  end;
   RPC_CreateHardLink:
     begin
       FileName:= ARequest.ReadAnsiString;
