@@ -354,7 +354,7 @@ begin
   Result:= FindFirstEx(Path, Flags, SearchRec);
   if (Result <> 0) and ElevationRequired(Result) then
   begin
-    if RequestElevation(rsElevationRequiredSymLink, Path) then
+    if RequestElevation(rsElevationRequiredOpen, Path) then
     begin
       SearchRec.Flags:= SearchRec.Flags or fffElevated;
       Result:= TWorkerProxy.Instance.FindFirst(Path, Flags, SearchRec)

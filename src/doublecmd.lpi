@@ -289,7 +289,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="263">
+    <Units Count="264">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1181,6 +1181,7 @@ end;"/>
       <Unit137>
         <Filename Value="filesources\filesystem\ufilesystemcalcchecksumoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemCalcChecksumOperation"/>
       </Unit137>
       <Unit138>
         <Filename Value="filesources\filesystem\ufilesystemcalcstatisticsoperation.pas"/>
@@ -1231,6 +1232,7 @@ end;"/>
       <Unit148>
         <Filename Value="filesources\filesystem\ufilesystemsplitoperation.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemSplitOperation"/>
       </Unit148>
       <Unit149>
         <Filename Value="filesources\filesystem\ufilesystemutil.pas"/>
@@ -1431,6 +1433,7 @@ end;"/>
       <Unit189>
         <Filename Value="filesources\wfxplugin\uwfxpluginutil.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWfxPluginUtil"/>
       </Unit189>
       <Unit190>
         <Filename Value="filesources\winnet\uwinnetexecuteoperation.pas"/>
@@ -1439,6 +1442,7 @@ end;"/>
       <Unit191>
         <Filename Value="filesources\winnet\uwinnetfilesource.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uWinNetFileSource"/>
       </Unit191>
       <Unit192>
         <Filename Value="filesources\winnet\uwinnetlistoperation.pas"/>
@@ -1909,6 +1913,11 @@ end;"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fSelectPathRange"/>
       </Unit262>
+      <Unit263>
+        <Filename Value="rpc\uadministrator.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uAdministrator"/>
+      </Unit263>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
