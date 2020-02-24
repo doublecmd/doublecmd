@@ -639,7 +639,6 @@ var
   gFileAssocPathModifierElements: tFileAssocPathModifierElements;
 
   { TreeViewMenu }
-  gslAccents, gslAccentsStripped: TStringList;
   gUseTreeViewMenuWithDirectoryHotlistFromMenuCommand: boolean;
   gUseTreeViewMenuWithDirectoryHotlistFromDoubleClick: boolean;
   gUseTreeViewMenuWithFavoriteTabsFromMenuCommand: boolean;
