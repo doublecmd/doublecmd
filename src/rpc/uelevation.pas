@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, DCBasicTypes, DCOSUtils,
-  uClientServer, uService, uWorker;
+  uClientServer, uService, uWorker, uFindEx;
 
 type
 
@@ -28,6 +28,7 @@ type
   TWorkerProxy = class
   private
     FClient: TBaseTransport;
+    procedure ReadSearchRec(Data: TMemoryStream; var SearchRec: TSearchRecEx);
     function ProcessObject(ACommand: UInt32; const ObjectName: String): LongBool;
     function ProcessObject(ACommand: UInt32; const OldName, NewName: String): LongBool;
     function ProcessObject(ACommand: UInt32; const ObjectName: String; Attr: UInt32): LongBool;
@@ -48,6 +49,9 @@ type
     function FileCreate(const FileName: String; Mode: Integer): THandle; inline;
     function DeleteFile(const FileName: String): LongBool; inline;
     function RenameFile(const OldName, NewName: String): LongBool; inline;
+    function FindFirst(const Path: String; Flags: UInt32; out SearchRec: TSearchRecEx): Integer;
+    function FindNext(var SearchRec: TSearchRecEx): Integer;
+    procedure FindClose(var SearchRec: TSearchRecEx);
     function CreateHardLink(const Path, LinkName: String): LongBool; inline;
     function CreateSymbolicLink(const Path, LinkName: String): LongBool; inline;
     function CreateDirectory(const Directory: String): LongBool; inline;
@@ -177,6 +181,17 @@ begin
 end;
 
 { TWorkerProxy }
+
+procedure TWorkerProxy.ReadSearchRec(Data: TMemoryStream;
+  var SearchRec: TSearchRecEx);
+begin
+  Data.ReadBuffer((@SearchRec.PlatformTime)^, SizeOf(SearchRec.PlatformTime));
+  Data.ReadBuffer((@SearchRec.LastAccessTime)^, SizeOf(SearchRec.LastAccessTime));
+  Data.ReadBuffer(SearchRec.Time, SizeOf(TFileTime));
+  Data.ReadBuffer(SearchRec.Size, SizeOf(Int64));
+  Data.ReadBuffer(SearchRec.Attr, SizeOf(TFileAttrs));
+  SearchRec.Name:= Data.ReadAnsiString;
+end;
 
 function TWorkerProxy.ProcessObject(ACommand: UInt32; const ObjectName: String): LongBool;
 var
@@ -439,6 +454,113 @@ end;
 function TWorkerProxy.RenameFile(const OldName, NewName: String): LongBool;
 begin
   Result:= ProcessObject(RPC_RenameFile, OldName, NewName);
+end;
+
+function TWorkerProxy.FindFirst(const Path: String; Flags: UInt32; out
+  SearchRec: TSearchRecEx): Integer;
+var
+  ASize: UInt32 = 0;
+  Stream: TMemoryStream;
+  Data: TMemoryStream absolute SearchRec.FindHandle;
+begin
+  Result:= -1;
+  try
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(RPC_FindFirst);
+      Stream.Seek(SizeOf(UInt32), soFromCurrent);
+      // Write arguments
+      Stream.WriteAnsiString(Path);
+      Stream.WriteDWord(Flags);
+      // Write data size
+      Stream.Seek(SizeOf(UInt32), soFromBeginning);
+      Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+      // Receive command result
+      FClient.ReadBuffer(Result, SizeOf(Result));
+      FClient.ReadBuffer(ASize, SizeOf(ASize));
+      if ASize > 0 then
+      begin
+        Data:= TMemoryStream.Create;
+        Data.Size:= ASize;
+        FClient.ReadBuffer(Data.Memory^, ASize);
+        Data.Seek(SizeOf(Pointer), soBeginning);
+        ReadSearchRec(Data, SearchRec);
+      end;
+    finally
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
+  end;
+end;
+
+function TWorkerProxy.FindNext(var SearchRec: TSearchRecEx): Integer;
+var
+  ASize: UInt32 = 0;
+  Stream: TMemoryStream;
+  Data: TMemoryStream absolute SearchRec.FindHandle;
+begin
+  Result:= -1;
+  try
+    if Data.Position < Data.Size then
+    begin
+      Result:= 0;
+      ReadSearchRec(Data, SearchRec);
+    end
+    else begin
+      Stream:= TMemoryStream.Create;
+      try
+        // Write header
+        Stream.WriteDWord(RPC_FindNext);
+        Stream.WriteDWord(SizeOf(Pointer));
+        // Write arguments
+        Stream.WriteBuffer(Data.Memory^, SizeOf(Pointer));
+        // Send command
+        FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+        // Receive command result
+        FClient.ReadBuffer(Result, SizeOf(Result));
+        FClient.ReadBuffer(ASize, SizeOf(ASize));
+        if ASize > 0 then
+        begin
+          Data.Size:= ASize;
+          FClient.ReadBuffer(Data.Memory^, ASize);
+          Data.Seek(SizeOf(Pointer), soBeginning);
+          ReadSearchRec(Data, SearchRec);
+        end;
+      finally
+        Stream.Free;
+      end;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
+  end;
+end;
+
+procedure TWorkerProxy.FindClose(var SearchRec: TSearchRecEx);
+var
+  Stream: TMemoryStream;
+  Data: TMemoryStream absolute SearchRec.FindHandle;
+begin
+  try
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(RPC_FindClose);
+      Stream.WriteDWord(SizeOf(Pointer));
+      // Write arguments
+      Stream.WriteBuffer(Data.Memory^, SizeOf(Pointer));
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+    finally
+      Data.Free;
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
+  end;
 end;
 
 function TWorkerProxy.CreateHardLink(const Path, LinkName: String): LongBool;
