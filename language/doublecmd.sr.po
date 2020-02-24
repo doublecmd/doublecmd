@@ -10008,6 +10008,50 @@ msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Када датотека постоји"
 
+#: uaccentsutils.rsstraccents
+msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
+msgstr ""
+
+#: uaccentsutils.rsstraccentsstripped
+msgid "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
+msgstr ""
+
+#: uadministrator.rselevationrequired
+msgid "You need to provide administrator permission"
+msgstr ""
+
+#: uadministrator.rselevationrequiredcreate
+msgid "to create this object:"
+msgstr ""
+
+#: uadministrator.rselevationrequireddelete
+msgid "to delete this object:"
+msgstr ""
+
+#: uadministrator.rselevationrequiredgetattributes
+msgid "to get attributes of this object:"
+msgstr ""
+
+#: uadministrator.rselevationrequiredhardlink
+msgid "to create this hard link:"
+msgstr ""
+
+#: uadministrator.rselevationrequiredopen
+msgid "to open this object:"
+msgstr ""
+
+#: uadministrator.rselevationrequiredrename
+msgid "to rename this object:"
+msgstr ""
+
+#: uadministrator.rselevationrequiredsetattributes
+msgid "to set attributes of this object:"
+msgstr ""
+
+#: uadministrator.rselevationrequiredsymlink
+msgid "to create this symbolic link:"
+msgstr ""
+
 #: uexifreader.rsdatetimeoriginal
 msgid "Date taken"
 msgstr ""
@@ -13600,14 +13644,6 @@ msgstr ""
 #: ulng.rssplitseldir
 msgid "Select directory:"
 msgstr "Изаберите фасциклу:"
-
-#: uaccentsutils.rsstraccents
-msgid "á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ"
-msgstr ""
-
-#: uaccentsutils.rsstraccentsstripped
-msgid "a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE"
-msgstr ""
 
 #: ulng.rsstrpreviewjustpreview
 msgid "Just preview"
