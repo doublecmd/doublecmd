@@ -34,6 +34,13 @@ procedure FreeMemoryFromOurAccentLookupTableList;
 function NormalizeAccentedChar(sInput: string): string;
 function PosOfSubstrWithVersatileOptions(sSubString, sWholeString: string; bCaseSensitive, bIgnoreAccent: boolean; var ActualCharFittedInInput: integer): integer;
 
+var
+  gslAccents, gslAccentsStripped: TStringList;
+
+resourcestring
+  rsStrAccents = 'á;â;à;å;ã;ä;ç;é;ê;è;ë;í;î;ì;ï;ñ;ó;ô;ò;ø;õ;ö;ú;û;ù;ü;ÿ;Á;Â;À;Å;Ã;Ä;Ç;É;Ê;È;Ë;Í;Í;Ì;Ï;Ñ;Ó;Ô;Ø;Õ;Ö;ß;Ú;Û;Ù;Ü;Ÿ;¿;¡;œ;æ;Æ;Œ';
+  rsStrAccentsStripped = 'a;a;a;a;a;a;c;e;e;e;e;i;i;i;i;n;o;o;o;o;o;o;u;u;u;u;y;A;A;A;A;A;A;C;E;E;E;E;I;I;I;I;N;O;O;O;O;O;B;U;U;U;U;Y;?;!;oe;ae;AE;OE';
+
 implementation
 
 uses
@@ -41,7 +48,7 @@ uses
   LazUTF8,
 
   //DC
-  uGlobs, uLng, DCStrUtils;
+  DCStrUtils;
 
 { LoadInMemoryOurAccentLookupTableList }
 procedure LoadInMemoryOurAccentLookupTableList;

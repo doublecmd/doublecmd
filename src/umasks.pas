@@ -93,7 +93,7 @@ uses
   LazUTF8,
 
   //DC
-  uAccentsUtils, uGlobs;
+  uAccentsUtils;
 
 
 { MatchesMask }
