@@ -1165,21 +1165,21 @@ end;
 
 procedure TfrmDiffer.LoadFromFile(SynDiffEdit: TSynDiffEdit; const FileName: String);
 var
-  fsFileStream: TFileStreamEx = nil;
+  AText: String;
+  fsFileStream: TFileStreamEx;
 begin
   try
     fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
     try
-      SynDiffEdit.BeginUpdate;
-      SynDiffEdit.Lines.LoadFromStream(fsFileStream);
+      SetLength(AText, fsFileStream.Size);
+      fsFileStream.Read(Pointer(AText)^, Length(AText));
       if Length(SynDiffEdit.Encoding) = 0 then
       begin
-        SynDiffEdit.Encoding:= DetectEncoding(SynDiffEdit.Lines.Text);
+        SynDiffEdit.Encoding:= DetectEncoding(AText);
         ChooseEncoding(SynDiffEdit);
       end;
-      SynDiffEdit.Lines.Text:= ConvertEncoding(SynDiffEdit.Lines.Text, SynDiffEdit.Encoding, EncodingUTF8);
+      SynDiffEdit.Lines.Text:= ConvertEncoding(AText, SynDiffEdit.Encoding, EncodingUTF8);
     finally
-      SynDiffEdit.EndUpdate;
       FreeAndNil(fsFileStream);
     end;
   except
@@ -1190,38 +1190,37 @@ begin
   end;
 end;
 
-procedure TfrmDiffer.SaveToFile(SynDiffEdit: TSynDiffEdit;
-  const FileName: String);
+procedure TfrmDiffer.SaveToFile(SynDiffEdit: TSynDiffEdit; const FileName: String);
 var
-  slStringList: TStringListEx;
+  AText: String;
+  AMode: LongWord;
 begin
-  slStringList:= TStringListEx.Create;
-  try
-    slStringList.Assign(SynDiffEdit.Lines);
+  with TStringListEx.Create do
+  begin
+    Assign(SynDiffEdit.Lines);
     // remove fake lines
-    slStringList.RemoveFake;
+    RemoveFake;
     // restore encoding
-    slStringList.Text:= ConvertEncoding(slStringList.Text, EncodingUTF8, SynDiffEdit.Encoding);
-    try
-      // save to file
-      slStringList.SaveToFile(FileName);
-      SynDiffEdit.Modified:= False; // needed for the undo stack
-    except
-      on EFCreateError do
-      begin
-        msgError(rsMsgErrECreate + ': ' + FileName);
-      end;
-      on EFOpenError do
-      begin
-        msgError(rsMsgErrEOpen + ': ' + FileName);
-      end;
-      on EWriteError do
-      begin
-        msgError(rsMsgErrEWrite + ': ' + FileName);
-      end;
+    AText:= ConvertEncoding(Text, EncodingUTF8, SynDiffEdit.Encoding);
+  end;
+  // save to file
+  try
+    if not mbFileExists(FileName) then
+      AMode:= fmCreate
+    else begin
+      AMode:= fmOpenWrite or fmShareDenyWrite;
     end;
-  finally
-    slStringList.Free;
+    with TFileStreamEx.Create(FileName, AMode) do
+    try
+      WriteBuffer(Pointer(AText)^, Length(AText));
+      if (AMode <> fmCreate) then Size:= Position;
+    finally
+      Free;
+    end;
+    SynDiffEdit.Modified:= False; // needed for the undo stack
+  except
+    on E: Exception do
+      msgError(rsMsgErrSaveFile + ' ' + FileName + LineEnding + E.Message);
   end;
 end;
 
