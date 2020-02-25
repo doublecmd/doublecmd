@@ -1178,7 +1178,12 @@ begin
         SynDiffEdit.Encoding:= DetectEncoding(AText);
         ChooseEncoding(SynDiffEdit);
       end;
-      SynDiffEdit.Lines.Text:= ConvertEncoding(AText, SynDiffEdit.Encoding, EncodingUTF8);
+      with SynDiffEdit do
+      begin
+        if (Encoding = EncodingUTF16LE) or (Encoding = EncodingUTF16BE) then
+          AText:= Copy(AText, 3, MaxInt); // Skip BOM
+      end;
+      SynDiffEdit.Lines.Text:= ConvertEncoding(AText, SynDiffEdit.Encoding, EncodingUTF8)
     finally
       FreeAndNil(fsFileStream);
     end;
@@ -1195,13 +1200,19 @@ var
   AText: String;
   AMode: LongWord;
 begin
+  AText := EmptyStr;
+  if (SynDiffEdit.Encoding = EncodingUTF16LE) then
+    AText := UTF16LEBOM
+  else if (SynDiffEdit.Encoding = EncodingUTF16BE) then begin
+    AText := UTF16BEBOM
+  end;
   with TStringListEx.Create do
   begin
     Assign(SynDiffEdit.Lines);
     // remove fake lines
     RemoveFake;
     // restore encoding
-    AText:= ConvertEncoding(Text, EncodingUTF8, SynDiffEdit.Encoding);
+    AText+= ConvertEncoding(Text, EncodingUTF8, SynDiffEdit.Encoding);
   end;
   // save to file
   try
