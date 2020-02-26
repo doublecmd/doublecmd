@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Some functions for working with trash
 
-    Copyright (C) 2009-2019 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2009-2020 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,11 +43,11 @@ var
 implementation
 
 uses
-  DCOSUtils,
+  DCOSUtils, DCStrUtils,
   {$IF DEFINED(MSWINDOWS)}
   Windows, ShellApi, uMyWindows
   {$ELSEIF DEFINED(UNIX)}
-  BaseUnix, uMyUnix, DCStrUtils, uOSUtils, FileUtil
+  BaseUnix, uMyUnix, uOSUtils, FileUtil
     {$IFDEF DARWIN}
     , MacOSAll, DynLibs, CocoaAll, uMyDarwin
     {$ELSE}
@@ -76,15 +76,21 @@ var
   FileOp: TSHFileOpStructW;
   dwFileAttributes: LongWord;
 begin
+  // Windows cannot move file with space at the end into
+  // recycle bin correctly, so we return False in this case
+  if StrEnds(FileName, ' ') then
+    Exit(False);
+
   wsFileName:= UTF8Decode(FileName);
-  // Windows before Vista don't move symlink into recycle bin
-  // correctly, so we return False in that case
+  // Windows before Vista cannot move symlink into
+  // recycle bin correctly, so we return False in this case
   if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion < 6) then
   begin
     dwFileAttributes:= GetFileAttributesW(PWideChar(wsFileName));
     if FPS_ISLNK(dwFileAttributes) and FPS_ISDIR(dwFileAttributes) then
       Exit(False);
   end;
+
   wsFileName:= wsFileName + #0;
   FillChar(FileOp, SizeOf(FileOp), 0);
   FileOp.wFunc := FO_DELETE;
