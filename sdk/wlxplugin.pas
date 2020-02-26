@@ -20,6 +20,8 @@ const
   lcp_forceshow=16;
   lcp_fitlargeronly=32;
   lcp_center=64;
+  lcp_darkmode=128;
+  lcp_darkmodenative=256;
   lcs_findfirst=1;
   lcs_matchcase=2;
   lcs_wholewords=4;
