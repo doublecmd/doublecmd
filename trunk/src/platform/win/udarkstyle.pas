@@ -105,7 +105,7 @@ var
   data: TWindowCompositionAttribData;
 begin
   dark:= (_IsDarkModeAllowedForWindow(hWnd) and
-	  _ShouldAppsUseDarkMode() and not IsHighContrast());
+         _ShouldAppsUseDarkMode() and not IsHighContrast());
 
   if (g_buildNumber < 18362) then
     SetPropW(hWnd, 'UseImmersiveDarkModeColors', THandle(dark))
@@ -183,7 +183,8 @@ function CheckBuildNumber(buildNumber: DWORD): Boolean; inline;
 begin
   Result := (buildNumber = 17763) or // 1809
             (buildNumber = 18362) or // 1903
-            (buildNumber = 18363);   // 1909
+            (buildNumber = 18363) or // 1909
+            (buildNumber = 19041);   // 2004
 end;
 
 procedure InitDarkMode();
@@ -206,19 +207,19 @@ begin
         @_AllowDarkModeForWindow := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(133));
 
         if (g_buildNumber < 18362) then
-	  @_AllowDarkModeForApp := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135))
+          @_AllowDarkModeForApp := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135))
         else
-	  @_SetPreferredAppMode := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135));
+          @_SetPreferredAppMode := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(135));
 
         @_IsDarkModeAllowedForWindow := GetProcAddress(hUxtheme, MAKEINTRESOURCEA(137));
 
         @_SetWindowCompositionAttribute := GetProcAddress(GetModuleHandleW(user32), 'SetWindowCompositionAttribute');
 
-        if  Assigned(_RefreshImmersiveColorPolicyState) and
-	    Assigned(_ShouldAppsUseDarkMode) and
-	    Assigned(_AllowDarkModeForWindow) and
-	    (Assigned(_AllowDarkModeForApp) or Assigned(_SetPreferredAppMode)) and
-	    Assigned(_IsDarkModeAllowedForWindow) then
+        if Assigned(_RefreshImmersiveColorPolicyState) and
+           Assigned(_ShouldAppsUseDarkMode) and
+           Assigned(_AllowDarkModeForWindow) and
+           (Assigned(_AllowDarkModeForApp) or Assigned(_SetPreferredAppMode)) and
+           Assigned(_IsDarkModeAllowedForWindow) then
         begin
           g_darkModeSupported := true;
           AllowDarkModeForApp(true);
