@@ -9821,7 +9821,7 @@ msgstr "для установки атрибутов этого объекта:"
 
 #: uadministrator.rselevationrequiredsymlink
 msgid "to create this symbolic link:"
-msgstr "для создания этой символической ссылки:"
+msgstr "для создания этой символьной ссылки:"
 
 #: uexifreader.rsdatetimeoriginal
 msgid "Date taken"
