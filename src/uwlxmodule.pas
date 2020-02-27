@@ -4,7 +4,7 @@
    WLX-API implementation (TC WLX-API v2.0).
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Copyright (C) 2009-2019 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2009-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,6 +44,9 @@ uses
   {$ENDIF}
   {$IFDEF LCLQT5}
   , qt5, qtwidgets
+  {$ENDIF}
+  {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+  , uDarkStyle
   {$ENDIF}
   ;
 
@@ -318,6 +321,11 @@ function TWlxModule.CallListLoad(ParentWin: HWND; FileToLoad: String; ShowFlags:
 begin
   WlxPrepareContainer(ParentWin);
 
+{$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+  if g_darkModeEnabled then
+    ShowFlags:= ShowFlags or lcp_darkmode or lcp_darkmodenative;
+{$ENDIF}
+
   if Assigned(ListLoadW) then
     FPluginWindow := ListLoadW(ParentWin, PWideChar(UTF8Decode(FileToLoad)), ShowFlags)
   else if Assigned(ListLoad) then
@@ -349,6 +357,11 @@ end;
 function TWlxModule.CallListLoadNext(ParentWin: HWND; FileToLoad: String; ShowFlags: Integer): Integer;
 begin
   WlxPrepareContainer(ParentWin);
+
+{$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+  if g_darkModeEnabled then
+    ShowFlags:= ShowFlags or lcp_darkmode or lcp_darkmodenative;
+{$ENDIF}
 
   if Assigned(ListLoadNextW) then
     Result := ListLoadNextW(ParentWin, FPluginWindow, PWideChar(UTF8Decode(FileToLoad)), ShowFlags)
