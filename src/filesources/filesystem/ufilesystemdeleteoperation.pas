@@ -286,7 +286,10 @@ begin
     begin // success
       // process comments if need
       if gProcessComments then
+      begin
         FDescription.DeleteDescription(FileName);
+        if mbCompareFileNames(aFile.Name, DESCRIPT_ION) then FDescription.Reset;
+      end;
 
       if aFile.IsDirectory then
       begin
