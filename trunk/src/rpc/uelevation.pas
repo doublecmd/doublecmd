@@ -37,6 +37,7 @@ type
     function Terminate: Boolean;
     function FileExists(const FileName: String): LongBool; inline;
     function FileGetAttr(const FileName: String; FollowLink: LongBool): TFileAttrs; inline;
+    function FileGetAttr(const FileName: String; out Attr: TFileAttributeData): LongBool;
     function FileSetAttr(const FileName: String; Attr: TFileAttrs): LongBool; inline;
     function FileSetTime(const FileName: String;
                             ModificationTime: DCBasicTypes.TFileTime;
@@ -353,6 +354,40 @@ end;
 function TWorkerProxy.FileGetAttr(const FileName: String; FollowLink: LongBool): TFileAttrs;
 begin
   Result:= TFileAttrs(ProcessObject(RPC_FileGetAttr, FileName, UInt32(FollowLink)));
+end;
+
+function TWorkerProxy.FileGetAttr(const FileName: String; out
+  Attr: TFileAttributeData): LongBool;
+var
+  LastError: Integer;
+  Stream: TMemoryStream;
+begin
+  Result:= False;
+  try
+    Stream:= TMemoryStream.Create;
+    try
+      // Write header
+      Stream.WriteDWord(RPC_FileGetAttr);
+      Stream.Seek(SizeOf(UInt32), soFromCurrent);
+      // Write arguments
+      Stream.WriteAnsiString(FileName);
+      Stream.WriteDWord(maxSmallint);
+      // Write data size
+      Stream.Seek(SizeOf(UInt32), soFromBeginning);
+      Stream.WriteDWord(Stream.Size - SizeOf(UInt32) * 2);
+      // Send command
+      FClient.WriteBuffer(Stream.Memory^, Stream.Size);
+      // Receive command result
+      FClient.ReadBuffer(Result, SizeOf(Result));
+      FClient.ReadBuffer(LastError, SizeOf(LastError));
+      FClient.ReadBuffer(Attr, SizeOf(TFileAttributeData));
+      SetLastOSError(LastError);
+    finally
+      Stream.Free;
+    end;
+  except
+    on E: Exception do DCDebug(E.Message);
+  end;
 end;
 
 function TWorkerProxy.FileSetAttr(const FileName: String; Attr: TFileAttrs): LongBool;

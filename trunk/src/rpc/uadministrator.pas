@@ -11,6 +11,7 @@ procedure PushPop(var Elevate: TDuplicates);
 
 function FileExistsUAC(const FileName: String): Boolean;
 function FileGetAttrUAC(const FileName: String; FollowLink: Boolean = False): TFileAttrs;
+function FileGetAttrUAC(const FileName: String; out Attr: TFileAttributeData): Boolean;
 function FileSetAttrUAC(const FileName: String; Attr: TFileAttrs): Boolean;
 function FileSetTimeUAC(const FileName: String;
                         ModificationTime: DCBasicTypes.TFileTime;
@@ -137,6 +138,21 @@ begin
     LastError:= GetLastOSError;
     if RequestElevation(rsElevationRequiredGetAttributes, FileName) then
       Result:= TWorkerProxy.Instance.FileGetAttr(FileName, FollowLink)
+    else
+      SetLastOSError(LastError);
+  end;
+end;
+
+function FileGetAttrUAC(const FileName: String; out Attr: TFileAttributeData): Boolean;
+var
+  LastError: Integer;
+begin
+  Result:= mbFileGetAttr(FileName, Attr);
+  if (not Result) and ElevationRequired then
+  begin
+    LastError:= GetLastOSError;
+    if RequestElevation(rsElevationRequiredGetAttributes, FileName) then
+      Result:= TWorkerProxy.Instance.FileGetAttr(FileName, Attr)
     else
       SetLastOSError(LastError);
   end;
