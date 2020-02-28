@@ -111,6 +111,7 @@ var
   CreationTime: TFileTime;
   LastAccessTime: TFileTime;
   ModificationTime: TFileTime;
+  FileAttr: TFileAttributeData;
 
   procedure WriteSearchRec(Data: TMemoryStream; SearchRec: PSearchRecEx);
   begin
@@ -145,16 +146,20 @@ begin
   RPC_FileGetAttr:
     begin
       FileName:= ARequest.ReadAnsiString;
-      Result:= LongBool(ARequest.ReadDWord);
+      Mode:= ARequest.ReadDWord;
       DCDebug('FileGetAttr ', FileName);
-      if not Result then
-        Result:= LongBool(mbFileGetAttr(FileName))
-      else begin
-        Result:= LongBool(mbFileGetAttrNoLinks(FileName));
+      case Mode of
+        Ord(LongBool(False)):
+          Result:= LongBool(mbFileGetAttr(FileName));
+        Ord(LongBool(True)):
+          Result:= LongBool(mbFileGetAttrNoLinks(FileName));
+        maxSmallint:
+          Result:= LongBool(mbFileGetAttr(FileName, FileAttr));
       end;
       LastError:= GetLastOSError;
       ATransport.WriteBuffer(Result, SizeOf(Result));
       ATransport.WriteBuffer(LastError, SizeOf(LastError));
+      if (Mode = maxSmallint) then ATransport.WriteBuffer(FileAttr, SizeOf(FileAttr));
     end;
   RPC_FileSetAttr:
     begin
