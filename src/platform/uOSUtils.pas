@@ -125,7 +125,6 @@ function GetDiskFreeSpace(const Path : String; out FreeSize, TotalSize : Int64) 
    @returns(The maximum file size for a mounted file system)
 }
 function GetDiskMaxFileSize(const Path : String) : Int64;
-function mbFileGetAttr(const FileName: String; out Attr: TSearchRecEx): Boolean; overload;
 {en
    Get the user home directory
    @returns(The user home directory)
@@ -537,35 +536,6 @@ end;
 {$ELSE}
 begin
   Result:= False;
-end;
-{$ENDIF}
-
-function mbFileGetAttr(const FileName: String; out Attr: TSearchRecEx): Boolean;
-{$IFDEF MSWINDOWS}
-var
-  FileInfo: Windows.TWin32FileAttributeData;
-begin
-  Result:= GetFileAttributesExW(PWideChar(UTF16LongName(FileName)),
-                                GetFileExInfoStandard, @FileInfo);
-  if Result then
-  begin
-    Attr.Time:= TWinFileTime(FileInfo.ftLastWriteTime);
-    Int64Rec(Attr.Size).Lo:= FileInfo.nFileSizeLow;
-    Int64Rec(Attr.Size).Hi:= FileInfo.nFileSizeHigh;
-    Attr.Attr:= FileInfo.dwFileAttributes;
-  end;
-end;
-{$ELSE}
-var
-  StatInfo: BaseUnix.Stat;
-begin
-  Result:= fpLStat(UTF8ToSys(FileName), StatInfo) >= 0;
-  if Result then
-  begin
-    Attr.Time:= StatInfo.st_mtime;
-    Attr.Size:= StatInfo.st_size;
-    Attr.Attr:= StatInfo.st_mode;
-  end;
 end;
 {$ENDIF}
 
