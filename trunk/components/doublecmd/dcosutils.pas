@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform dependent functions dealing with operating system.
 
-    Copyright (C) 2006-2019 Alexander Koblov (alexx2000@mail.ru)
+    Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,11 +22,19 @@
 unit DCOSUtils;
  
 {$mode objfpc}{$H+}
+{$modeswitch advancedrecords}
 
 interface
 
 uses
-  SysUtils, Classes, DynLibs, DCClassesUtf8, DCBasicTypes, DCConvertEncoding;
+  SysUtils, Classes, DynLibs, DCClassesUtf8, DCBasicTypes, DCConvertEncoding
+{$IFDEF UNIX}
+  , BaseUnix
+{$ENDIF}
+{$IFDEF MSWINDOWS}
+  , Windows
+{$ENDIF}
+  ;
 
 const
   fmOpenSync    = $10000;
@@ -41,6 +49,28 @@ type
     MappingHandle : System.THandle;
 {$ENDIF}
     MappedFile : Pointer;
+  end;
+
+  TFileAttributeData = packed record
+    Size: Int64;
+{$IF DEFINED(UNIX)}
+    FindData: BaseUnix.Stat;
+    property Attr: TFileAttrs read FindData.st_mode;
+    property PlatformTime: TFileTime read FindData.st_ctime;
+    property LastWriteTime: TFileTime read FindData.st_mtime;
+    property LastAccessTime: TFileTime read FindData.st_atime;
+{$ELSE}
+    case Boolean of
+      True: (
+        FindData: Windows.TWin32FileAttributeData;
+        );
+      False: (
+        Attr: TFileAttrs;
+        PlatformTime: DCBasicTypes.TFileTime;
+        LastAccessTime: DCBasicTypes.TFileTime;
+        LastWriteTime: DCBasicTypes.TFileTime;
+        );
+{$ENDIF}
   end;
 
   TCopyAttributesOption = (caoCopyAttributes,
@@ -142,6 +172,7 @@ function mbFileSetTime(const FileName: String;
 function mbFileExists(const FileName: String): Boolean;
 function mbFileAccess(const FileName: String; Mode: Word): Boolean;
 function mbFileGetAttr(const FileName: String): TFileAttrs; overload;
+function mbFileGetAttr(const FileName: String; out Attr: TFileAttributeData): Boolean; overload;
 function mbFileSetAttr(const FileName: String; Attr: TFileAttrs): Boolean;
 {en
    If any operation in Options is performed and does not succeed it is included
@@ -245,10 +276,10 @@ implementation
 
 uses
 {$IF DEFINED(MSWINDOWS)}
-  Windows, DCDateTimeUtils, DCWindows, DCNtfsLinks,
+  DCDateTimeUtils, DCWindows, DCNtfsLinks,
 {$ENDIF}
 {$IF DEFINED(UNIX)}
-  BaseUnix, Unix, dl, DCUnix,
+  Unix, dl, DCUnix,
 {$ENDIF}
   DCStrUtils, LazUTF8;
 
@@ -900,6 +931,46 @@ begin
     Result:= Info.st_mode
   else
     Result:= faInvalidAttributes;
+end;
+{$ENDIF}
+
+function mbFileGetAttr(const FileName: String; out Attr: TFileAttributeData): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  Handle: THandle;
+  fInfoLevelId: FINDEX_INFO_LEVELS;
+  FileInfo: Windows.TWin32FindDataW;
+begin
+  if CheckWin32Version(6, 1) then
+    fInfoLevelId:= FindExInfoBasic
+  else begin
+    fInfoLevelId:= FindExInfoStandard;
+  end;
+  Handle:= FindFirstFileExW(PWideChar(UTF16LongName(FileName)), fInfoLevelId,
+                            @FileInfo, FindExSearchNameMatch, nil, 0);
+  Result:= Handle <> INVALID_HANDLE_VALUE;
+  if Result then
+  begin
+    FindClose(Handle);
+    // If a reparse point tag is not a name surrogate then remove reparse point attribute
+    // Fixes bug: http://doublecmd.sourceforge.net/mantisbt/view.php?id=531
+    if (FileInfo.dwFileAttributes and FILE_ATTRIBUTE_REPARSE_POINT <> 0) then
+    begin
+      if (FileInfo.dwReserved0 and $20000000 = 0) then
+        FileInfo.dwFileAttributes-= FILE_ATTRIBUTE_REPARSE_POINT;
+    end;
+    Int64Rec(Attr.Size).Lo:= FileInfo.nFileSizeLow;
+    Int64Rec(Attr.Size).Hi:= FileInfo.nFileSizeHigh;
+    Move(FileInfo, Attr.FindData, SizeOf(TWin32FileAttributeData));
+  end;
+end;
+{$ELSE}
+begin
+  Result:= fpLStat(UTF8ToSys(FileName), Attr.FindData) >= 0;
+  if Result then
+  begin
+    Attr.Size:= Attr.FindData.st_size;
+  end;
 end;
 {$ENDIF}
 

@@ -208,7 +208,7 @@ procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolea
 var
   i: Integer;
   aFile: TFile;
-  aFindData: TSearchRecEx;
+  aFindData: TFileAttributeData;
 begin
   FilesCount:= 0;
   FilesSize:= 0;
@@ -232,7 +232,7 @@ begin
       begin
         aFile.Size:= aFindData.Size;
         aFile.Attributes:= aFindData.Attr;
-        aFile.ModificationTime:= FileTimeToDateTime(aFindData.Time);
+        aFile.ModificationTime:= FileTimeToDateTime(aFindData.LastWriteTime);
       end;
 
       NewFiles.Add(aFile.Clone);
@@ -258,13 +258,13 @@ end;
 function FileExistsMessage(const TargetName, SourceName: String;
                            SourceSize: Int64; SourceTime: TDateTime): String;
 var
-  TargetInfo: TSearchRecEx;
+  TargetInfo: TFileAttributeData;
 begin
   Result:= rsMsgFileExistsOverwrite + LineEnding + WrapTextSimple(TargetName, 100) + LineEnding;
   if mbFileGetAttr(TargetName, TargetInfo) then
   begin
     Result:= Result + Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(TargetInfo.Size)),
-                             DateTimeToStr(FileTimeToDateTime(TargetInfo.Time))]) + LineEnding;
+                             DateTimeToStr(FileTimeToDateTime(TargetInfo.LastWriteTime))]) + LineEnding;
   end;
   Result:= Result + LineEnding + rsMsgFileExistsWithFile + LineEnding + WrapTextSimple(SourceName, 100) + LineEnding +
            Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(SourceSize)), DateTimeToStr(SourceTime)]);
