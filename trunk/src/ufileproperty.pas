@@ -135,6 +135,8 @@ type
     class function GetID: TFilePropertyType; override;
   end;
 
+  { TFileDateTimeProperty }
+
   TFileDateTimeProperty = class(TFileProperty)
 
   private
@@ -143,6 +145,7 @@ type
 
   public
     constructor Create; override;
+    constructor Create(FileTime: TFileTime); virtual; overload;
     constructor Create(DateTime: TDateTime); virtual; overload;
 
     procedure CloneTo(FileProperty: TFileProperty); override;
@@ -431,7 +434,8 @@ type
 implementation
 
 uses
-  variants, uLng, DCOSUtils, DCFileAttributes, uDefaultFilePropertyFormatter, uDebug;
+  Variants, uLng, DCOSUtils, DCFileAttributes, DCDateTimeUtils,
+  uDefaultFilePropertyFormatter, uDebug;
 
 resourcestring
   rsSizeDescription = 'Size';
@@ -602,6 +606,11 @@ end;
 constructor TFileDateTimeProperty.Create;
 begin
   Self.Create(SysUtils.Now);
+end;
+
+constructor TFileDateTimeProperty.Create(FileTime: TFileTime);
+begin
+  Self.Create(FileTimeToDateTime(FileTime));
 end;
 
 constructor TFileDateTimeProperty.Create(DateTime: TDateTime);
