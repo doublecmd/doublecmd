@@ -261,7 +261,7 @@ var
   TargetInfo: TFileAttributeData;
 begin
   Result:= rsMsgFileExistsOverwrite + LineEnding + WrapTextSimple(TargetName, 100) + LineEnding;
-  if mbFileGetAttr(TargetName, TargetInfo) then
+  if FileGetAttrUAC(TargetName, TargetInfo) then
   begin
     Result:= Result + Format(rsMsgFileExistsFileInfo, [Numb2USA(IntToStr(TargetInfo.Size)),
                              DateTimeToStr(FileTimeToDateTime(TargetInfo.LastWriteTime))]) + LineEnding;
@@ -316,17 +316,17 @@ var
   sr: TSearchRecEx;
   aFile: TFile;
 begin
-  if FindFirstEx(srcPath + '*', 0, sr) = 0 then
+  if FindFirstUAC(srcPath + '*', 0, sr) = 0 then
   begin
     repeat
       if (sr.Name = '.') or (sr.Name = '..') then Continue;
 
       aFile := TFileSystemFileSource.CreateFile(srcPath, @sr);
       AddItem(aFile, CurrentNode);
-    until FindNextEx(sr) <> 0;
+    until FindNextUAC(sr) <> 0;
   end;
 
-  FindCloseEx(sr);
+  FindCloseUAC(sr);
 end;
 
 // ----------------------------------------------------------------------------

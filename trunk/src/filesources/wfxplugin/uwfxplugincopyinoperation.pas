@@ -54,7 +54,8 @@ type
 implementation
 
 uses
-  uFileSourceOperationOptions, fWfxPluginCopyMoveOperationOptions, WfxPlugin, uFileSystemUtil;
+  uFileSourceOperationOptions, fWfxPluginCopyMoveOperationOptions, WfxPlugin,
+  uFileSystemUtil, uAdministrator;
 
 // -- TWfxPluginCopyInOperation ---------------------------------------------
 
@@ -135,6 +136,7 @@ begin
 
   TreeBuilder := TFileSystemTreeBuilder.Create(@AskQuestion, @CheckOperationState);
   try
+    ElevateAction:= dupError;
     TreeBuilder.SymLinkOption:= fsooslFollow;
     TreeBuilder.BuildFromFiles(SourceFiles);
     FSourceFilesTree := TreeBuilder.ReleaseTree;
