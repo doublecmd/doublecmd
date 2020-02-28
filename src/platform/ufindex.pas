@@ -126,7 +126,13 @@ begin
     begin
       with SearchRec.FindData do
       begin
-        SearchRec.Size:= Int64(st_size);
+        // On Unix a size for directory entry on filesystem is returned in StatInfo.
+        // We don't want to use it.
+        if fpS_ISDIR(st_mode) then
+          SearchRec.Size:= 0
+        else begin
+          SearchRec.Size:= Int64(st_size);
+        end;
         SearchRec.Time:= DCBasicTypes.TFileTime(st_mtime);
         if (SearchRec.Flags and fffPortable = 0) then
           SearchRec.Attr:= DCBasicTypes.TFileAttrs(st_mode)
