@@ -150,10 +150,21 @@ function FindFirstEx(const Path: String; Flags: UInt32; out SearchRec: TSearchRe
 {$IFDEF MSWINDOWS}
 var
   wsPath: UnicodeString;
+  fInfoLevelId: FINDEX_INFO_LEVELS;
 begin
   SearchRec.Flags:= Flags;
   wsPath:= UTF16LongName(Path);
-  SearchRec.FindHandle:= FindFirstFileW(PWideChar(wsPath), SearchRec.FindData);
+  if CheckWin32Version(6, 1) then
+  begin
+    fInfoLevelId:= FindExInfoBasic;
+    Flags:= FIND_FIRST_EX_LARGE_FETCH;
+  end
+  else begin
+    Flags:= 0;
+    fInfoLevelId:= FindExInfoStandard;
+  end;
+  SearchRec.FindHandle:= FindFirstFileExW(PWideChar(wsPath), fInfoLevelId,
+                                          @SearchRec.FindData, FindExSearchNameMatch, nil, Flags);
 
   if SearchRec.FindHandle = INVALID_HANDLE_VALUE then
     Result:= GetLastError
