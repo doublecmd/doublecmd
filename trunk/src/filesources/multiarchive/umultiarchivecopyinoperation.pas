@@ -70,7 +70,7 @@ implementation
 uses
   LazUTF8, DCStrUtils, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
   uFileSystemFileSource, uFileSystemUtil, uMultiArchiveUtil, DCOSUtils, uOSUtils,
-  uTarWriter, uShowMsg;
+  uTarWriter, uShowMsg, uAdministrator;
 
 constructor TMultiArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
                                               aTargetFileSource: IFileSource;
@@ -144,6 +144,8 @@ begin
     end;
     CurrentFileTo:= FMultiArchiveFileSource.ArchiveFileName;
   end;
+
+  ElevateAction:= dupError;
 
   FillAndCount(SourceFiles, False, False,
                FFullFilesTree,

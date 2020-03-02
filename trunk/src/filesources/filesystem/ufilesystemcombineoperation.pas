@@ -51,7 +51,7 @@ uses
 
   //DC
   uOSUtils, DCOSUtils, uLng, uFileSystemUtil, uFileSystemFileSource,
-  uFileProcs, DCConvertEncoding;
+  uFileProcs, uAdministrator, DCConvertEncoding;
 
 { TFileSystemCombineOperation.Create }
 constructor TFileSystemCombineOperation.Create(aFileSource: IFileSource;
@@ -106,16 +106,16 @@ begin
     MaybeFileIndex:=1;
     repeat
       MaybeAdditionalSourceFilename:=SourceFiles[0].Path + SourceFiles[0].NameNoExt + ExtensionSeparator + Format('%.*d',[FExtensionLengthRequired, MaybeFileIndex]);
-      if (mbFileExists(MaybeAdditionalSourceFilename)) OR (MaybeFileIndex=1) then
+      if (FileExistsUAC(MaybeAdditionalSourceFilename)) OR (MaybeFileIndex=1) then
       begin
         //Let's make sure the first file is available and if not, beg for it!
-        if (mbFileExists(MaybeAdditionalSourceFilename)=FALSE) AND (MaybeFileIndex=1) then BegForPresenceOfThisFile(MaybeAdditionalSourceFilename);
+        if (FileExistsUAC(MaybeAdditionalSourceFilename)=FALSE) AND (MaybeFileIndex=1) then BegForPresenceOfThisFile(MaybeAdditionalSourceFilename);
 
         MaybeFile := TFileSystemFileSource.CreateFileFromFile(MaybeAdditionalSourceFilename);
         SourceFiles.Add(MaybeFile);
       end;
       inc(MaybeFileIndex);
-    until (not mbFileExists(MaybeAdditionalSourceFilename)) AND (MaybeFileIndex<>1);
+    until (not FileExistsUAC(MaybeAdditionalSourceFilename)) AND (MaybeFileIndex<>1);
     SourceFiles.Delete(0); //We may now delete the first one, which could have been any of the series
   end; //if RequireDynamicMode then...
 
@@ -139,7 +139,7 @@ var
   aFile, DynamicNextFile: TFile;
   CurrentFileIndex: Integer;
   iTotalDiskSize, iFreeDiskSize: Int64;
-  TargetFileStream: TFileStreamEx = nil;
+  TargetFileStream: TFileStreamUAC = nil;
   DynamicNextFilename : String;
   UserAnswer: TFileSourceOperationUIResponse;
 begin
@@ -156,7 +156,7 @@ begin
     end;
 
     // Create destination file
-    TargetFileStream := TFileStreamEx.Create(TargetFile, fmCreate);
+    TargetFileStream := TFileStreamUAC.Create(TargetFile, fmCreate);
     try
       CurrentFileIndex:=0;
       while (CurrentFileIndex<FFullFilesTreeToCombine.Count) OR
@@ -203,7 +203,7 @@ begin
           begin
             // There was some error, because not all files has been combined.
             // Delete the not completed target file.
-            mbDeleteFile(TargetFile);
+            DeleteFileUAC(TargetFile);
 
             // In "RequireDynamicMode", to give little feedback to user, let's him know he won't have his file
             if RequireDynamicMode then
@@ -244,7 +244,7 @@ end;
 function TFileSystemCombineOperation.Combine(aSourceFile: TFile;
                                              aTargetFileStream: TFileStreamEx): Boolean;
 var
-  SourceFileStream: TFileStreamEx;
+  SourceFileStream: TFileStreamUAC;
   iTotalDiskSize, iFreeDiskSize: Int64;
   bRetryRead, bRetryWrite: Boolean;
   BytesRead, BytesToRead, BytesWrittenTry, BytesWritten: Int64;
@@ -256,7 +256,7 @@ begin
   SourceFileStream := nil; // for safety exception handling
   try
     try
-      SourceFileStream := TFileStreamEx.Create(aSourceFile.FullPath, fmOpenRead or fmShareDenyNone);
+      SourceFileStream := TFileStreamUAC.Create(aSourceFile.FullPath, fmOpenRead or fmShareDenyNone);
 
       TotalBytesToRead := SourceFileStream.Size;
 
@@ -410,7 +410,7 @@ function TFileSystemCombineOperation.TryToGetInfoFromTheCRC32VerificationFile: B
 var
   PosOfEqualSign: integer;
   MaybeSummaryFilename: String;
-  SummaryLines: TStringList;
+  SummaryLines: TStringListUAC;
   LineToParse: string;
   UserAnswer: TFileSourceOperationUIResponse;
   i: integer;
@@ -426,14 +426,14 @@ begin
 
   //If CRC32 verification file is not found, try to ask user to make it available for us or maybe continue without it if it is what user want
   UserAnswer:=fsourOk;
-  while (not mbFileExists(MaybeSummaryFilename)) AND (UserAnswer=fsourOk) do
+  while (not FileExistsUAC(MaybeSummaryFilename)) AND (UserAnswer=fsourOk) do
   begin
     UserAnswer:=AskQuestion(Format(msgTryToLocateCRCFile,[MaybeSummaryFilename]), '' , [fsourOk,fsourCancel], fsourOk, fsourCancel);
   end;
 
-  if mbFileExists(MaybeSummaryFilename) then
+  if FileExistsUAC(MaybeSummaryFilename) then
   begin
-    SummaryLines := TStringListEx.Create;
+    SummaryLines := TStringListUAC.Create;
     try
       SummaryLines.LoadFromFile(MaybeSummaryFilename);
       for i := 0 to SummaryLines.Count - 1 do
@@ -476,7 +476,7 @@ end;
 { TFileSystemCombineOperation.BegForPresenceOfThisFile }
 procedure TFileSystemCombineOperation.BegForPresenceOfThisFile(aFilename: String);
 begin
-  while not mbFileExists(aFilename) do
+  while not FileExistsUAC(aFilename) do
   begin
     case AskQuestion(Format(rsMsgFileNotFound+#$0A+rsMsgProvideThisFile,[aFilename]), '',
                      [fsourRetry, fsourAbort],

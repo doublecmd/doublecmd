@@ -93,7 +93,7 @@ type
 implementation
 
 uses
-  uDebug, uLng, DCClassesUtf8, uFileSystemUtil, uRandom, DCOSUtils;
+  uDebug, uLng, DCClassesUtf8, uFileSystemUtil, uRandom, uAdministrator, DCOSUtils;
 
 constructor TFileSystemWipeOperation.Create(aTargetFileSource: IFileSource;
                                             var theFilesToWipe: TFiles);
@@ -214,7 +214,7 @@ begin
   repeat
     bRetry := False;
     NewName:= GetTempName(ExtractFilePath(FileName)) + '.tmp';
-    Result := mbRenameFile(FileName, NewName);
+    Result := RenameFileUAC(FileName, NewName);
     if not Result then
       bRetry := HandleError(Format(rsMsgErrRename, [FileName, NewName]));
   until not bRetry;
@@ -230,7 +230,7 @@ begin
   begin
     repeat
       bRetry := False;
-      Result:= mbRemoveDir(sTempFileName);
+      Result:= RemoveDirectoryUAC(sTempFileName);
       if not Result then
         bRetry := HandleError(Format(rsMsgCannotDeleteDirectory, [sTempFileName]));
     until not bRetry;
@@ -246,7 +246,7 @@ begin
   if Result then
   repeat
     bRetry := False;
-    Result := mbDeleteFile(sTempFileName);
+    Result := DeleteFileUAC(sTempFileName);
     if not Result then begin
       bRetry := HandleError(Format(rsMsgNotDelete, [sTempFileName]) + LineEnding + mbSysErrorMessage);
     end;
@@ -259,7 +259,7 @@ var
   bRetry: Boolean;
   sTempFileName: String;
   TotalBytesToWrite: Int64;
-  TargetFileStream: TFileStreamEx;
+  TargetFileStream: TFileStreamUAC;
   BytesToWrite, BytesWrittenTry, BytesWritten: Int64;
 begin
   // Check file access
@@ -279,7 +279,7 @@ begin
   repeat
     bRetry := False;
     try
-      TargetFileStream := TFilestreamEx.Create(sTempFileName, fmOpenReadWrite or fmShareExclusive);
+      TargetFileStream := TFilestreamUAC.Create(sTempFileName, fmOpenReadWrite or fmShareExclusive);
     except
       on E: Exception do
       begin
@@ -374,7 +374,7 @@ begin
   if Result then
   repeat
     bRetry := False;
-    Result := mbDeleteFile(sTempFileName);
+    Result := DeleteFileUAC(sTempFileName);
     if not Result then begin
       bRetry := HandleError(Format(rsMsgNotDelete, [sTempFileName]) + LineEnding + mbSysErrorMessage);
     end;
@@ -414,7 +414,7 @@ begin
   end;
 
   if FileIsReadOnly(aFile.Attributes) then
-    mbFileSetReadOnly(FileName, False);
+    FileSetReadOnlyUAC(FileName, False);
 
   if aFile.IsDirectory then // directory
     WipeResult := WipeDir(FileName)
