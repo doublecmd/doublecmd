@@ -597,9 +597,10 @@ begin
 
       UpdateState(fsosStarting);
 
+      ElevateAction:= FElevate;
+
       Initialize;
       FOperationInitialized := True;
-      ElevateAction:= FElevate;
 
       UpdateStartTime(SysUtils.Now);
       UpdateState(fsosRunning);
