@@ -91,7 +91,7 @@ implementation
 uses
   Clipbrd
 {$IFDEF MSWINDOWS}
-  , Windows, ActiveX, uOleDragDrop, fMain, uShellContextMenu
+  , Windows, ActiveX, uOleDragDrop, fMain, uShellContextMenu, uOSForms
 {$ELSE IFDEF UNIX}
   , LCLIntf
 {$ENDIF}
@@ -390,7 +390,7 @@ begin
 
 {$IFDEF MSWINDOWS}
 
-  if OpenClipboard(frmMain.Handle) = False then Exit;
+  if OpenClipboard(GetWindowHandle(frmMain)) = False then Exit;
 
   // Empty clipboard, freeing handles to data inside it.
   // Assign ownership of clipboard to self (frmMain.Handle).
