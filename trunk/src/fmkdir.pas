@@ -52,7 +52,7 @@ const
 var
   Index: Integer;
 begin
-  with TfrmMkDir .Create(TheOwner) do
+  with TfrmMkDir.Create(TheOwner) do
   try
     ActiveControl := cbMkDir;
     cbMkDir.Items.Assign(glsCreateDirectoriesHistory);
@@ -68,7 +68,7 @@ begin
       sPath := TrimRight(cbMkDir.Text);
       sPath := StringReplace(sPath, ' ' + PathDelim, PathDelim, [rfReplaceAll]);
       glsCreateDirectoriesHistory.CaseSensitive := FileNameCaseSensitive;
-      Index := glsCreateDirectoriesHistory.IndexOf(cbMkDir.Text);
+      Index := glsCreateDirectoriesHistory.IndexOf(sPath);
 
       if (Index = -1) then
         glsCreateDirectoriesHistory.Insert(0, sPath)
