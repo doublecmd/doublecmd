@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Useful functions dealing with strings.
    
-   Copyright (C) 2006-2019  Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2006-2020  Alexander Koblov (alexx2000@mail.ru)
    Copyright (C) 2012       Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
@@ -242,6 +242,10 @@ function ApplyRenameMask(aFileName: String; NameMask: String; ExtMask: String): 
    @returns(Count of character)
 }
 function NumCountChars(const Char: Char; const S: String): Integer;
+{en
+   Trim the leading and ending spaces
+}
+function TrimPath(const Path: String): String;
 {en
    Remove last line ending in text
    @param(sText Text)
@@ -953,6 +957,20 @@ begin
       if S[I] = Char then Inc(Result);
 end;
 
+function TrimPath(const Path: String): String;
+var
+  Index: Integer;
+  S: TStringArray;
+begin
+  S:= Trim(Path).Split([PathDelim]);
+
+  Result:= Trim(S[0]);
+  for Index := Low(S) + 1 to High(S) do
+  begin
+    Result+= PathDelim + Trim(S[Index]);
+  end;
+end;
+
 function TrimRightLineEnding(const sText: String; TextLineBreakStyle: TTextLineBreakStyle): String;
 const
   TextLineBreakArray: array[TTextLineBreakStyle] of Integer = (1, 2, 1);
@@ -1156,7 +1174,7 @@ var
 begin
   Len:= Length(S);
   SetLength(Result, 0);
-  for Finish:= 1 to Len - 1 do
+  for Finish:= 1 to Len do
   begin
     if S[Finish] = Delimiter then
     begin

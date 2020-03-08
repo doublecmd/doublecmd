@@ -3657,6 +3657,7 @@ begin
       Attrs := FileGetAttrUAC(sNewFile);
       if Attrs = faInvalidAttributes then
       begin
+        sNewFile := TrimPath(sNewFile);
         hFile := FileCreateUAC(sNewFile, fmShareDenyWrite);
         if hFile = feInvalidHandle then
         begin
