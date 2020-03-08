@@ -2291,7 +2291,7 @@ begin
     else
       sPath := EmptyStr;
 
-    if not frmMkDir.ShowMkDir(sPath) then Exit;   // show makedir dialog
+    if not ShowMkDir(frmMain, sPath) then Exit;   // show makedir dialog
     if (sPath = EmptyStr) then Exit;
 
     if bMakeViaCopy then

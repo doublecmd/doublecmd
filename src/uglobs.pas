@@ -340,6 +340,7 @@ var
   glsSearchPathHistory : TStringListEx;
   glsReplaceHistory : TStringListEx;
   glsReplacePathHistory : TStringListEx;
+  glsCreateDirectoriesHistory : TStringListEx;
   glsSearchDirectories: TStringList;
   glsSearchExcludeFiles: TStringList;
   glsSearchExcludeDirectories: TStringList;
@@ -873,6 +874,7 @@ begin
       LoadHistory('SearchTextPath', glsSearchPathHistory);
       LoadHistory('ReplaceText', glsReplaceHistory);
       LoadHistory('ReplaceTextPath', glsReplacePathHistory);
+      LoadHistory('CreateDirectories', glsCreateDirectoriesHistory);
       LoadHistory('SearchDirectories', glsSearchDirectories);
       LoadHistory('SearchExcludeFiles', glsSearchExcludeFiles);
       LoadHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
@@ -919,6 +921,7 @@ begin
       SaveHistory('SearchTextPath', glsSearchPathHistory);
       SaveHistory('ReplaceText', glsReplaceHistory);
       SaveHistory('ReplaceTextPath', glsReplacePathHistory);
+      SaveHistory('CreateDirectories', glsCreateDirectoriesHistory);
       SaveHistory('SearchDirectories', glsSearchDirectories);
       SaveHistory('SearchExcludeFiles', glsSearchExcludeFiles);
       SaveHistory('SearchExcludeDirectories', glsSearchExcludeDirectories);
@@ -1437,6 +1440,7 @@ begin
   glsSearchPathHistory := TStringListEx.Create;
   glsReplaceHistory := TStringListEx.Create;
   glsReplacePathHistory := TStringListEx.Create;
+  glsCreateDirectoriesHistory := TStringListEx.Create;
   glsIgnoreList := TStringListEx.Create;
   glsSearchDirectories := TStringList.Create;
   glsSearchExcludeFiles:= TStringList.Create;
@@ -1466,6 +1470,7 @@ begin
   FreeThenNil(glsSearchPathHistory);
   FreeThenNil(glsReplaceHistory);
   FreeThenNil(glsReplacePathHistory);
+  FreeAndNil(glsCreateDirectoriesHistory);
   FreeThenNil(glsIgnoreList);
   FreeThenNil(glsSearchDirectories);
   FreeThenNil(glsSearchExcludeFiles);
@@ -2045,6 +2050,7 @@ begin
   glsSearchPathHistory.Clear;
   glsReplaceHistory.Clear;
   glsReplacePathHistory.Clear;
+  glsCreateDirectoriesHistory.Clear;
   glsIgnoreList.Clear;
   gSearchTemplateList.Clear;
   gDSXPlugins.Clear;
