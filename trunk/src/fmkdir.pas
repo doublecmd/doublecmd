@@ -30,7 +30,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs;
+  DCStrUtils, uGlobs;
 
 procedure TfrmMkDir.FormKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -65,8 +65,7 @@ begin
     Result := (ShowModal = mrOK);
     if Result then
     begin
-      sPath := TrimRight(cbMkDir.Text);
-      sPath := StringReplace(sPath, ' ' + PathDelim, PathDelim, [rfReplaceAll]);
+      sPath := TrimPath(cbMkDir.Text);
       glsCreateDirectoriesHistory.CaseSensitive := FileNameCaseSensitive;
       Index := glsCreateDirectoriesHistory.IndexOf(sPath);
 
