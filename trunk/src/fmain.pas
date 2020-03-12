@@ -555,6 +555,8 @@ type
       {%H-}MousePos: TPoint; var {%H-}Handled: Boolean);
     procedure btnF8MouseDown(Sender: TObject; Button: TMouseButton;
       {%H-}Shift: TShiftState; X, Y: Integer);
+    procedure dskToolButtonMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure FormKeyUp( Sender: TObject; var {%H-}Key: Word; Shift: TShiftState) ;
     function MainToolBarToolItemShortcutsHint(Sender: TObject; ToolItem: TKASNormalItem): String;
     procedure mnuAllOperStartClick(Sender: TObject);
@@ -1184,6 +1186,41 @@ begin
   begin
     Point := (Sender as TControl).ClientToScreen(Classes.Point(X, Y));
     ShowTrashContextMenu(Self, Point.X, Point.Y, nil);
+  end;
+end;
+
+procedure TfrmMain.dskToolButtonMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  ToolItem: TKASToolItem;
+  APanel: TFilePanelSelect;
+  ANotebook: TFileViewNotebook;
+begin
+  if Button = mbMiddle then
+  begin
+    if Sender is TKASToolButton then
+    begin
+      ToolItem := TKASToolButton(Sender).ToolItem;
+      if ToolItem is TKASDriveItem then
+      begin
+        if TKASToolButton(Sender).ToolBar = dskLeft then
+        begin
+          APanel:= fpLeft;
+          ANotebook:= nbLeft;
+        end
+        else if gDriveBar2 then
+        begin
+          APanel:= fpRight;
+          ANotebook:= nbRight;
+        end
+        else begin
+          APanel:= PanelSelected;
+          ANotebook:= ActiveNotebook;
+        end;
+        Commands.DoNewTab(ANotebook);
+        SetPanelDrive(APanel, TKASDriveItem(ToolItem).Drive, True);
+      end;
+    end;
   end;
 end;
 
