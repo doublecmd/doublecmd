@@ -128,9 +128,11 @@ end;
 
 destructor TMultiListFileSource.Destroy;
 begin
+  if Assigned(FFileSource) then begin
+    FFileSource.RemoveReloadEventListener(@FileSourceReloadEvent);
+  end;
   inherited Destroy;
-  if Assigned(FFileList) then
-    FreeAndNil(FFileList);
+  FreeAndNil(FFileList);
   FFileSource := nil;
 end;
 
