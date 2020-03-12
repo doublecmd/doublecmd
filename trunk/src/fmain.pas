@@ -1200,25 +1200,30 @@ begin
   begin
     if Sender is TKASToolButton then
     begin
+      if TKASToolButton(Sender).ToolBar = dskLeft then
+      begin
+        APanel:= fpLeft;
+        ANotebook:= nbLeft;
+      end
+      else if gDriveBar2 then
+      begin
+        APanel:= fpRight;
+        ANotebook:= nbRight;
+      end
+      else begin
+        APanel:= PanelSelected;
+        ANotebook:= ActiveNotebook;
+      end;
       ToolItem := TKASToolButton(Sender).ToolItem;
       if ToolItem is TKASDriveItem then
       begin
-        if TKASToolButton(Sender).ToolBar = dskLeft then
-        begin
-          APanel:= fpLeft;
-          ANotebook:= nbLeft;
-        end
-        else if gDriveBar2 then
-        begin
-          APanel:= fpRight;
-          ANotebook:= nbRight;
-        end
-        else begin
-          APanel:= PanelSelected;
-          ANotebook:= ActiveNotebook;
-        end;
         Commands.DoNewTab(ANotebook);
         SetPanelDrive(APanel, TKASDriveItem(ToolItem).Drive, True);
+      end
+      else if TKASToolButton(Sender).OnClick = @btnVirtualDriveClick then
+      begin
+        Commands.DoNewTab(ANotebook);
+        Commands.DoOpenVirtualFileSystemList(ANotebook.ActiveView);
       end;
     end;
   end;
