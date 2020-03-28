@@ -67,6 +67,8 @@ const
   AbLanguageEncodingFlag    = $0800;
 
   Ab_Zip64SubfieldID                        : Word    = $0001;
+  Ab_NTFSSubfieldID                         : Word    = $000A;
+  Ab_InfoZipTimestampSubfieldID             : Word    = $5455;
   Ab_InfoZipUnicodePathSubfieldID           : Word    = $7075;
   Ab_XceedUnicodePathSubfieldID             : Word    = $554E;
   Ab_XceedUnicodePathSignature              : LongWord= $5843554E;
@@ -370,6 +372,7 @@ type
     FDiskNumberStart : LongWord;
     FLFHExtraField : TAbExtraField;
     FRelativeOffset : Int64;
+    FDateTime : TDateTime;
 
   protected {methods}
     function GetCompressionMethod : TAbZipCompressionMethod;
@@ -628,7 +631,9 @@ uses
   SysUtils,
   LazUTF8,
   DCOSUtils,
+  DCBasicTypes,
   DCClassesUtf8,
+  DCDateTimeUtils,
   DCConvertEncoding;
 
 function VerifyZip(Strm : TStream) : TAbArchiveType;
@@ -1432,11 +1437,19 @@ var
 begin
   // Zip stores MS-DOS date/time.
 {$IFDEF UNIX}
-  DateTime := AbDosFileDateToDateTime(LastModFileDate, LastModFileTime);
-  Result   := AbLocalDateTimeToUnixTime(DateTime);
+  if (FDateTime <> 0) then
+    DateTime := FDateTime
+  else begin
+    DateTime := AbDosFileDateToDateTime(LastModFileDate, LastModFileTime);
+  end;
+  Result := DateTimeToUnixFileTime(DateTime);
 {$ELSE}
-  LongRec(Result).Hi := LastModFileDate;
-  LongRec(Result).Lo := LastModFileTime;
+  if (FDateTime <> 0) then
+    Result := DateTimeToDosFileTime(FDateTime)
+  else begin
+    LongRec(Result).Hi := LastModFileDate;
+    LongRec(Result).Lo := LastModFileTime;
+  end;
 {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
@@ -1457,6 +1470,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.LoadFromStream( Stream : TStream );
 var
+  Tag, TagSize,
   FieldSize: Word;
   FieldStream: TStream;
   InfoZipField: PInfoZipUnicodePathRec;
@@ -1527,6 +1541,45 @@ begin
 
   LastModFileTime := FItemInfo.LastModFileTime;
   LastModFileDate := FItemInfo.LastModFileDate;
+  // NTFS Extra Field
+  if FItemInfo.ExtraField.GetStream(Ab_NTFSSubfieldID, FieldStream) then
+  try
+    FieldSize:= FieldStream.Size;
+    if (FieldSize >= 32) then
+    begin
+      // Skip Reserved
+      Dec(FieldSize, 4);
+      FieldStream.Seek(4, soBeginning);
+      while (FieldSize > 4) do
+      begin
+        Dec(FieldSize, 4);
+        Tag:= FieldStream.ReadWord;
+        TagSize:= FieldStream.ReadWord;
+        TagSize:= Min(TagSize, FieldSize);
+        if (Tag = $0001) and (TagSize >= 24) then
+        begin
+          FDateTime:= WinFileTimeToDateTime(TWinFileTime(FieldStream.ReadQWord));
+          Break;
+        end;
+        Dec(FieldSize, TagSize);
+      end;
+    end;
+  finally
+    FieldStream.Free;
+  end
+  // Extended Timestamp Extra Field
+  else if FItemInfo.ExtraField.GetStream(Ab_InfoZipTimestampSubfieldID, FieldStream) then
+  try
+    FieldSize:= FieldStream.Size;
+    if (FieldSize >= 5) then
+    begin
+      Tag:= FieldStream.ReadByte;
+      if (Tag and $01 <> 0) then
+        FDateTime:= UnixFileTimeToDateTime(TUnixFileTime(FieldStream.ReadDWord));
+    end;
+  finally
+    FieldStream.Free;
+  end;
   FDiskFileName := FileName;
   AbUnfixName( FDiskFileName );
   Action := aaNone;
