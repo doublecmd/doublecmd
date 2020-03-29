@@ -38,8 +38,16 @@ uses
 function TWfxPluginListOperation.UpdateProgress(SourceName, TargetName: PAnsiChar;
                                                 PercentDone: Integer): Integer;
 begin
+  if State = fsosStopping then  // Cancel operation
+    Exit(1);
+
   logWrite(rsMsgLoadingFileList + IntToStr(PercentDone) + '%', lmtInfo, False, False);
-  Result := 0;
+
+  if CheckOperationStateSafe then
+    Result := 0
+  else begin
+    Result := 1;
+  end;
 end;
 
 constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: String);
