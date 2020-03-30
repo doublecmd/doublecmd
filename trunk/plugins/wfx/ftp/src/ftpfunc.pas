@@ -373,7 +373,9 @@ begin
             ZeroPassword(Connection.Password);
         end;
         // if no saved password then ask it
-        if Length(Connection.Password) > 0 then
+        if Connection.OpenSSH and (Connection.PrivateKey <> '') and (Connection.PublicKey <> '') then
+          APassword:= EmptyStr
+        else if Length(Connection.Password) > 0 then
           APassword:= Connection.Password
         else if Length(Connection.CachedPassword) > 0 then
           APassword:= Connection.CachedPassword
