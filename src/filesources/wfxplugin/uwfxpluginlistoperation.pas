@@ -33,7 +33,8 @@ type
 implementation
 
 uses
-  DCFileAttributes, DCStrUtils, uFile, WfxPlugin, uWfxModule, uLog, uLng;
+  DCFileAttributes, DCStrUtils, uFile, uFileSourceOperation, WfxPlugin,
+  uWfxModule, uLog, uLng;
 
 function TWfxPluginListOperation.UpdateProgress(SourceName, TargetName: PAnsiChar;
                                                 PercentDone: Integer): Integer;
