@@ -1154,6 +1154,8 @@ begin
           Result := lua_toboolean(L, -1);
         ft_numeric_floating:
           Result := lua_tonumber(L, -1);
+        ft_datetime:
+          Result := WinFileTimeToDateTime(TWinFileTime(lua_tointeger(L, -1)));
       end;
     end;
 
@@ -1196,6 +1198,8 @@ begin
           Result := FloatToStr(lua_tonumber(L, -1));
         ft_boolean:
           Result := IfThen(lua_toboolean(L, -1), rsSimpleWordTrue, rsSimpleWordFalse);
+        ft_datetime:
+          Result := DateTimeToStr(WinFileTimeToDateTime(TWinFileTime(lua_tointeger(L, -1))));
       end;
     end;
 
