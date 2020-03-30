@@ -367,7 +367,7 @@ function EscapeNoQuotes(const Str: String): String;
 implementation
 
 uses
-  DCOSUtils;
+  DCOSUtils, StrUtils;
 
 function NormalizePathDelimiters(const Path: String): String;
 {$IFDEF UNIX}
@@ -958,16 +958,18 @@ begin
 end;
 
 function TrimPath(const Path: String): String;
+const
+  WhiteSpace = [#0..' '{$IFDEF MSWINDOWS},'.'{$ENDIF}];
 var
   Index: Integer;
   S: TStringArray;
 begin
-  S:= Trim(Path).Split([PathDelim]);
+  S:= TrimRightSet(Path, WhiteSpace).Split([PathDelim]);
 
-  Result:= Trim(S[0]);
+  Result:= TrimRightSet(S[0], WhiteSpace);
   for Index := Low(S) + 1 to High(S) do
   begin
-    Result+= PathDelim + Trim(S[Index]);
+    Result+= PathDelim + TrimRightSet(S[Index], WhiteSpace);
   end;
 end;
 
