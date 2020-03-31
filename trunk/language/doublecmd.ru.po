@@ -2295,7 +2295,7 @@ msgstr "Поместить курсор на следующую папку ил�
 
 #: tfrmmain.actgotopreventry.caption
 msgid "Place cursor on previous folder or file"
-msgstr "Поместить курсор на следующую папку или файл"
+msgstr "Поместить курсор на предыдущую папку или файл"
 
 #: tfrmmain.acthardlink.caption
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
