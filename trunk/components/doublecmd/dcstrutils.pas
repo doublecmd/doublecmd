@@ -965,11 +965,14 @@ var
   S: TStringArray;
 begin
   S:= TrimRightSet(Path, WhiteSpace).Split([PathDelim]);
-
-  Result:= TrimRightSet(S[0], WhiteSpace);
-  for Index := Low(S) + 1 to High(S) do
-  begin
-    Result+= PathDelim + TrimRightSet(S[Index], WhiteSpace);
+  if Length(S) = 0 then
+    Result:= EmptyStr
+  else begin
+    Result:= TrimRightSet(S[0], WhiteSpace);
+    for Index := Low(S) + 1 to High(S) do
+    begin
+      Result+= PathDelim + TrimRightSet(S[Index], WhiteSpace);
+    end;
   end;
 end;
 
