@@ -31,7 +31,7 @@ interface
 uses
   SysUtils, DCBasicTypes
   {$IFDEF UNIX}
-  , BaseUnix, uMasks
+  , BaseUnix, DCUnix, uMasks
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   , Windows
@@ -70,8 +70,8 @@ type
 {$ELSE}
     FindHandle : Pointer;
     FindData : BaseUnix.Stat;
-    property PlatformTime: TFileTime read FindData.st_ctime;
-    property LastAccessTime: TFileTime read FindData.st_atime;
+    property PlatformTime: TUnixTime read FindData.st_ctime;
+    property LastAccessTime: TUnixTime read FindData.st_atime;
 {$ENDIF}
   end;
 
