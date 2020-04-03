@@ -29,7 +29,7 @@ interface
 uses
   SysUtils, Classes, DynLibs, DCClassesUtf8, DCBasicTypes, DCConvertEncoding
 {$IFDEF UNIX}
-  , BaseUnix
+  , BaseUnix, DCUnix
 {$ENDIF}
 {$IFDEF MSWINDOWS}
   , Windows
@@ -55,10 +55,10 @@ type
     Size: Int64;
 {$IF DEFINED(UNIX)}
     FindData: BaseUnix.Stat;
-    property Attr: TFileAttrs read FindData.st_mode;
-    property PlatformTime: TFileTime read FindData.st_ctime;
-    property LastWriteTime: TFileTime read FindData.st_mtime;
-    property LastAccessTime: TFileTime read FindData.st_atime;
+    property Attr: TUnixMode read FindData.st_mode;
+    property PlatformTime: TUnixTime read FindData.st_ctime;
+    property LastWriteTime: TUnixTime read FindData.st_mtime;
+    property LastAccessTime: TUnixTime read FindData.st_atime;
 {$ELSE}
     case Boolean of
       True: (
@@ -279,7 +279,7 @@ uses
   DCDateTimeUtils, DCWindows, DCNtfsLinks,
 {$ENDIF}
 {$IF DEFINED(UNIX)}
-  Unix, dl, DCUnix,
+  Unix, dl,
 {$ENDIF}
   DCStrUtils, LazUTF8;
 

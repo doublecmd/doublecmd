@@ -47,6 +47,15 @@ const
 {$ENDIF}
 
 type
+{$IF DEFINED(LINUX)}
+  TUnixTime = UIntPtr;
+  TUnixMode = Cardinal;
+{$ELSE}
+  TUnixTime = TTime;
+  TUnixMode = TMode;
+{$ENDIF}
+
+type
   PTimeStruct = ^TTimeStruct;
   TTimeStruct = record
     tm_sec:    cint;      //* Seconds.      [0-60] (1 leap second)
