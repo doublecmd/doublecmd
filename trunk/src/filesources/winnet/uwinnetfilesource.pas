@@ -16,10 +16,12 @@ type
   IWinNetFileSource = interface(IVirtualFileSource)
     ['{55329161-3CFC-4F15-B66D-6649B42E9357}']
 
+    function GetSamba1: Boolean;
     function GetProviderName: UnicodeString;
 
     function IsNetworkPath(const Path: String): Boolean;
 
+    property Samba1: Boolean read GetSamba1;
     property ProviderName: UnicodeString read GetProviderName;
   end;
 
@@ -27,8 +29,10 @@ type
 
   TWinNetFileSource = class(TFileSystemFileSource, IWinNetFileSource)
   private
+    FSamba1: Boolean;
     FProviderName: array[0..MAX_PATH-1] of WideChar;
     function GetProviderName: UnicodeString;
+    function GetSamba1: Boolean;
 
   protected
     function IsNetworkPath(const Path: String): Boolean;
@@ -96,6 +100,15 @@ begin
   Result:= GetRootDir;
   if Pos('\\', sPath) = 1 then
   begin
+    if not FSamba1 then
+    begin
+      if IsNetworkPath(sPath) then
+        Result:= ExcludeFrontPathDelimiter(DCStrUtils.GetParentDir(sPath))
+      else begin
+        Result:= DCStrUtils.GetParentDir(sPath);
+      end;
+      Exit;
+    end;
     FilePath:= UTF8Decode(ExcludeTrailingPathDelimiter(sPath));
     FillByte(nFile, SizeOf(TNetResourceW), 0);
     with nFile do
@@ -154,6 +167,11 @@ begin
   Result:= UnicodeString(FProviderName);
 end;
 
+function TWinNetFileSource.GetSamba1: Boolean;
+begin
+  Result:= FSamba1;
+end;
+
 function TWinNetFileSource.IsNetworkPath(const Path: String): Boolean;
 begin
   Result:= (NumCountChars(PathDelim, ExcludeTrailingPathDelimiter(Path)) < 3);
@@ -168,13 +186,20 @@ begin
 end;
 
 constructor TWinNetFileSource.Create;
+const
+  SAMBA1 = 'SYSTEM\CurrentControlSet\Services\mrxsmb10';
 var
-  dwBufferSize: DWORD;
+  StartMethod: UnicodeString;
+  dwBufferSize: DWORD = MAX_PATH;
 begin
   inherited Create;
-  dwBufferSize:= MAX_PATH;
+
   if WNetGetProviderNameW(WNNC_NET_LANMAN, @FProviderName, dwBufferSize) <> NO_ERROR then
     raise EOSError.Create(mbWinNetErrorMessage(GetLastError));
+
+  FSamba1:= (Win32MajorVersion < 6) or
+            (RegReadKey(HKEY_LOCAL_MACHINE, SAMBA1, 'Start', StartMethod) and
+             (Length(StartMethod) > 0) and (Ord(StartMethod[1]) = 2));
 end;
 
 class function TWinNetFileSource.IsSupportedPath(const Path: String): Boolean;

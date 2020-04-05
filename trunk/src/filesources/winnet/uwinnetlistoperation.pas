@@ -19,6 +19,7 @@ type
     FWinNetFileSource: IWinNetFileSource;
   private
     procedure ShareEnum;
+    procedure ShellEnum;
     procedure WorkgroupEnum;
     function Connect: Boolean;
   public
@@ -30,7 +31,8 @@ implementation
 
 uses
   LazUTF8, uFile, Windows, JwaWinNetWk, JwaLmCons, JwaLmShare, JwaLmApiBuf,
-  StrUtils, DCStrUtils, uShowMsg, DCOSUtils, uOSUtils, uNetworkThread, uMyWindows;
+  StrUtils, DCStrUtils, uShowMsg, DCOSUtils, uOSUtils, uNetworkThread, uMyWindows,
+  ShlObj, ComObj, uShellFolder, uShlObjAdditional;
 
 function TWinNetListOperation.Connect: Boolean;
 var
@@ -180,6 +182,35 @@ begin
     msgError(Thread, mbSysErrorMessage(dwResult));
 end;
 
+procedure TWinNetListOperation.ShellEnum;
+var
+  AFile: TFile;
+  NumIDs: LongWord = 0;
+  AFolder: IShellFolder;
+  EnumIDList: IEnumIDList;
+  DesktopFolder: IShellFolder;
+  PIDL, NetworkPIDL: PItemIDList;
+begin
+  try
+    OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
+    OleCheckUTF8(SHGetFolderLocation(0, CSIDL_NETWORK, 0, 0, {%H-}NetworkPIDL));
+    OleCheckUTF8(DesktopFolder.BindToObject(NetworkPIDL, nil, IID_IShellFolder, Pointer(AFolder)));
+    OleCheckUTF8(AFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN, EnumIDList));
+
+    while EnumIDList.Next(1, PIDL, NumIDs) = S_OK do
+    begin
+      CheckOperationState;
+
+      aFile:= TWinNetFileSource.CreateFile(Path);
+      AFile.FullPath:= GetDisplayName(AFolder, PIDL, SHGDN_FORPARSING or SHGDN_FORADDRESSBAR);
+
+      FFiles.Add(AFile);
+    end;
+  except
+    on E: Exception do msgError(Thread, E.Message);
+  end;
+end;
+
 constructor TWinNetListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
   FFiles := TFiles.Create(aPath);
@@ -203,6 +234,8 @@ begin
       if (IsPathAtRoot(Path) = False) and (Pos('\\', Path) = 1) then
         ShareEnum
       // Root/Domain/Workgroup
+      else if not Samba1 then
+        ShellEnum
       else
         WorkgroupEnum;
     end;
