@@ -186,10 +186,7 @@ begin
 end;
 
 constructor TWinNetFileSource.Create;
-const
-  SAMBA1 = 'SYSTEM\CurrentControlSet\Services\mrxsmb10';
 var
-  StartMethod: UnicodeString;
   dwBufferSize: DWORD = MAX_PATH;
 begin
   inherited Create;
@@ -197,9 +194,7 @@ begin
   if WNetGetProviderNameW(WNNC_NET_LANMAN, @FProviderName, dwBufferSize) <> NO_ERROR then
     raise EOSError.Create(mbWinNetErrorMessage(GetLastError));
 
-  FSamba1:= (Win32MajorVersion < 6) or
-            (RegReadKey(HKEY_LOCAL_MACHINE, SAMBA1, 'Start', StartMethod) and
-             (Length(StartMethod) > 0) and (Ord(StartMethod[1]) = 2));
+  FSamba1:= (Win32MajorVersion < 6) or (GetServiceStatus('mrxsmb10') = SERVICE_RUNNING);
 end;
 
 class function TWinNetFileSource.IsSupportedPath(const Path: String): Boolean;
