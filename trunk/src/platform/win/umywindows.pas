@@ -107,6 +107,10 @@ function mbGetShortPathName(const sLongPath: String; var sShortPath: AnsiString)
 }
 function mbWinNetErrorMessage(dwError: DWORD): String;
 {en
+   Retrieves the current status of the specified service
+}
+function GetServiceStatus(const AName: String): DWORD;
+{en
    The QueryDirectoryFile routine returns various kinds of information
    about files in the directory specified by a given file handle.
 }
@@ -688,6 +692,29 @@ begin
     end;
   end;
   if (Length(Result) = 0) then Result:= Format(SUnknownErrorCode, [dwError]);
+end;
+
+function GetServiceStatus(const AName: String): DWORD;
+var
+  hSCManager, hService: SC_HANDLE;
+  lpServiceStatus: TServiceStatus;
+begin
+  hSCManager:= OpenSCManagerW(nil, nil, SC_MANAGER_ENUMERATE_SERVICE);
+  if (hSCManager = 0) then Exit(0);
+  try
+    hService:= OpenServiceW(hSCManager, PWideChar(UTF8Decode(AName)), SERVICE_QUERY_STATUS);
+    if (hService = 0) then Exit(0);
+
+    if not QueryServiceStatus(hService, {%H-}lpServiceStatus) then
+      Result:= 0
+    else begin
+      Result:= lpServiceStatus.dwCurrentState;
+    end;
+
+    CloseServiceHandle(hService);
+  finally
+    CloseServiceHandle(hSCManager);
+  end;
 end;
 
 function  NtQueryDirectoryFile(FileHandle: HANDLE; Event: HANDLE; ApcRoutine: PIO_APC_ROUTINE;
