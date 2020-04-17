@@ -1207,12 +1207,14 @@ begin
     AText := UTF16BEBOM
   end;
   with TStringListEx.Create do
-  begin
+  try
     Assign(SynDiffEdit.Lines);
     // remove fake lines
     RemoveFake;
     // restore encoding
     AText+= ConvertEncoding(Text, EncodingUTF8, SynDiffEdit.Encoding);
+  finally
+    Free;
   end;
   // save to file
   try
