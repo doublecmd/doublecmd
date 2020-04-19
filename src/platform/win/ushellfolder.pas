@@ -15,7 +15,7 @@ implementation
 uses
   DCConvertEncoding;
 
-function StrRetToString(PIDL: PItemIDList; StrRet: TStrRet): String;
+function StrRetToString(PIDL: PItemIDList; StrRet: TStrRet; Free: Boolean = False): String;
 var
   P: PWideChar;
   S: UnicodeString;
@@ -27,8 +27,10 @@ begin
       begin
         if (StrRet.pOleStr = nil) then
           Result := EmptyStr
-        else
+        else begin
           Result := UTF8Encode(UnicodeString(StrRet.pOleStr));
+          if Free then CoTaskMemFree(StrRet.pOleStr);
+        end;
       end;
     STRRET_OFFSET:
       begin
@@ -47,7 +49,7 @@ begin
   Result:= EmptyStr;
   StrRet:= Default(TStrRet);
   if Succeeded(AFolder.GetDisplayNameOf(PIDL, Flags, StrRet)) then
-    Result := StrRetToString(PIDL, StrRet);
+    Result := StrRetToString(PIDL, StrRet, True);
   if (Length(Result) = 0) and (Flags <> SHGDN_NORMAL) then
     Result := GetDisplayName(AFolder, PIDL, SHGDN_NORMAL);
 end;
