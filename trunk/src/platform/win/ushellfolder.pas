@@ -13,32 +13,16 @@ function GetDisplayName(AFolder: IShellFolder; PIDL: PItemIDList;
 implementation
 
 uses
-  DCConvertEncoding;
+  DCConvertEncoding, uShlObjAdditional;
 
-function StrRetToString(PIDL: PItemIDList; StrRet: TStrRet; Free: Boolean = False): String;
+function StrRetToString(PIDL: PItemIDList; StrRet: TStrRet): String;
 var
-  P: PWideChar;
-  S: UnicodeString;
+  S: array[0..MAX_PATH] of WideChar;
 begin
-  case StrRet.uType of
-    STRRET_CSTR:
-      Result := CeSysToUtf8(StrRet.cStr);
-    STRRET_WSTR:
-      begin
-        if (StrRet.pOleStr = nil) then
-          Result := EmptyStr
-        else begin
-          Result := UTF8Encode(UnicodeString(StrRet.pOleStr));
-          if Free then CoTaskMemFree(StrRet.pOleStr);
-        end;
-      end;
-    STRRET_OFFSET:
-      begin
-        P := PWideChar(@PIDL^.mkid.abID[StrRet.uOffset - SizeOf(PIDL^.mkid.cb)]);
-        SetString(S, P, PIDL^.mkid.cb - StrRet.uOffset);
-        Result:= UTF8Encode(S);
-      end;
-  end;
+  if StrRetToBufW(@StrRet, PIDL, S, MAX_PATH) <> S_OK then
+    Result:= EmptyStr
+  else
+    Result:= UTF8Encode(UnicodeString(S));
 end;
 
 function GetDisplayName(AFolder: IShellFolder; PIDL: PItemIDList;
@@ -49,7 +33,7 @@ begin
   Result:= EmptyStr;
   StrRet:= Default(TStrRet);
   if Succeeded(AFolder.GetDisplayNameOf(PIDL, Flags, StrRet)) then
-    Result := StrRetToString(PIDL, StrRet, True);
+    Result := StrRetToString(PIDL, StrRet);
   if (Length(Result) = 0) and (Flags <> SHGDN_NORMAL) then
     Result := GetDisplayName(AFolder, PIDL, SHGDN_NORMAL);
 end;
