@@ -91,6 +91,8 @@ function PathIsUNCW(pwszPath: LPCWSTR): WINBOOL; stdcall; external 'shlwapi' nam
 function PathFindNextComponentA(pszPath: LPCSTR): LPSTR; stdcall; external 'shlwapi' name 'PathFindNextComponentA';
 function PathFindNextComponentW(pwszPath: LPCWSTR): LPWSTR; stdcall; external 'shlwapi' name 'PathFindNextComponentW';
 
+function StrRetToBufW(pstr: PSTRRET; pidl: PItemIDList; pszBuf: LPWSTR; cchBuf: UINT): HRESULT; stdcall; external 'shlwapi.dll';
+
 procedure OleErrorUTF8(ErrorCode: HResult);
 procedure OleCheckUTF8(Result: HResult);
 
