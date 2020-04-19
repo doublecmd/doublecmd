@@ -29,9 +29,10 @@ interface
 uses
   Classes, SysUtils, Graphics, Controls, IntfGraphics;
 
-procedure BitmapAssign(Bitmap: TBitmap; Image: TRasterImage);
-procedure BitmapAssign(Bitmap: TBitmap; Image: TLazIntfImage);
+procedure BitmapConvert(Bitmap: TRasterImage);
+procedure BitmapAssign(Bitmap, Image: TRasterImage);
 procedure BitmapAlpha(var ABitmap: TBitmap; APercent: Single);
+procedure BitmapAssign(Bitmap: TRasterImage; Image: TLazIntfImage);
 procedure BitmapCenter(var Bitmap: TBitmap; Width, Height: Integer);
 procedure LoadThemeIcon(ImageList: TImageList; Index: Integer; const AIconName: String);
 
@@ -43,7 +44,26 @@ uses
 type
   TRawAccess = class(TRasterImage) end;
 
-procedure BitmapAssign(Bitmap: TBitmap; Image: TRasterImage);
+procedure BitmapConvert(Bitmap: TRasterImage);
+var
+  Source, Target: TLazIntfImage;
+begin
+  Source:= TLazIntfImage.Create(Bitmap.RawImage, False);
+  try
+    Target:= TLazIntfImage.Create(Bitmap.Width, Bitmap.Height, [riqfRGB, riqfAlpha]);
+    try
+      Target.CreateData;
+      Target.CopyPixels(Source);
+      BitmapAssign(Bitmap, Target);
+    finally
+      Target.Free;
+    end;
+  finally
+    Source.Free;
+  end;
+end;
+
+procedure BitmapAssign(Bitmap, Image: TRasterImage);
 var
   RawImage: PRawImage;
 begin
@@ -54,7 +74,7 @@ begin
   RawImage^.ReleaseData;
 end;
 
-procedure BitmapAssign(Bitmap: TBitmap; Image: TLazIntfImage);
+procedure BitmapAssign(Bitmap: TRasterImage; Image: TLazIntfImage);
 var
   ARawImage: TRawImage;
 begin

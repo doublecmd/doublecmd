@@ -450,7 +450,11 @@ uses
   FileUtil, IntfGraphics, Math, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding,
   DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
   uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
-  fPrintSetup, uFindFiles;
+  fPrintSetup, uFindFiles
+{$IFDEF LCLGTK2}
+  , uGraphics
+{$ENDIF}
+  ;
 
 const
   HotkeysCategory = 'Viewer';
@@ -2092,25 +2096,8 @@ end;
 function TfrmViewer.CheckGraphics(const sFileName:String):Boolean;
 var
   sExt: String;
-{$IFDEF LCLGTK2}
-  fsBitmap: TFileStreamEx = nil;
-{$ENDIF}
 begin
   sExt:= LowerCase(ExtractFileExt(sFileName));
-  {$IFDEF LCLGTK2}
-  // TImage crash on displaying monochrome bitmap on Linux/GTK2
-  // See details at http://bugs.freepascal.org/view.php?id=12362
-  if (sExt = '.bmp') then
-  try
-    fsBitmap:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
-    // Get the number of bits per pixel from bitmap header
-    fsBitmap.Seek($1C, soFromBeginning);
-    // Don't open monochrome bitmap as image
-    if (fsBitmap.ReadWord = 1) then Exit(False);
-  finally
-    fsBitmap.Free;
-  end;
-  {$ENDIF}
   Result:= Image.Picture.FindGraphicClassWithFileExt(sExt, False) <> nil;
 end;
 
@@ -2199,6 +2186,18 @@ begin
         fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
         try
           Image.Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
+{$IF DEFINED(LCLGTK2)}
+          // TImage crash on displaying monochrome bitmap on Linux/GTK2
+          // https://doublecmd.sourceforge.io/mantisbt/view.php?id=2474
+          // http://bugs.freepascal.org/view.php?id=12362
+          if Image.Picture.Graphic is TRasterImage then
+          begin
+            if TRasterImage(Image.Picture.Graphic).RawImage.Description.BitsPerPixel = 1 then
+            begin
+              BitmapConvert(TRasterImage(Image.Picture.Graphic));
+            end;
+          end;
+{$ENDIF}
           btnHightlight.Visible:= not (miFullScreen.Checked);
           btnPaint.Visible:= not (miFullScreen.Checked);
           btnResize.Visible:= not (miFullScreen.Checked);
