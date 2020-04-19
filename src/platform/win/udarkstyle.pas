@@ -162,6 +162,7 @@ begin
   QPalette_setColor(APalette, QPaletteText, QColor(255, 255, 255));
   QPalette_setColor(APalette, QPaletteDisabled, QPaletteText, QColor(127, 127, 127));
   QPalette_setColor(APalette, QPaletteDark, QColor(35, 35, 35));
+  QPalette_setColor(APalette, QPaletteLight, QColor(66, 66, 66));
   QPalette_setColor(APalette, QPaletteShadow, QColor(20, 20, 20));
   QPalette_setColor(APalette, QPaletteButton, QColor(53, 53, 53));
   QPalette_setColor(APalette, QPaletteButtonText, QColor(255, 255, 255));
