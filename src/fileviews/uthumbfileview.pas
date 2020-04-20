@@ -506,7 +506,7 @@ var
     s:= FitFileName(s, Canvas, AFile.FSFile, aRect.Width - 4);
 
     Canvas.TextOut(aRect.Left + 2, iTextTop - 1, s);
-    Canvas.Pen.Color:= InvertColor(gBackColor);
+    Canvas.Pen.Color:= InvertColor(ColorToRGB(gBackColor));
     Canvas.Pen.Width := 1;
     Canvas.Frame(aRect.Left + 1, aRect.Top + 1, aRect.Right - 1, aRect.Bottom - Canvas.TextHeight('Pp') - 1);
   end; //of DrawIconCell
