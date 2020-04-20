@@ -76,7 +76,7 @@ implementation
 uses
   graphtype, intfgraphics, Graphics, uPixMapManager, Dialogs, uLng, uMyWindows,
   uShellExecute, fMain, uDCUtils, uFormCommands, DCOSUtils, uOSUtils, uShowMsg,
-  uExts, uFileSystemFileSource, DCConvertEncoding, LazUTF8, uOSForms;
+  uExts, uFileSystemFileSource, DCConvertEncoding, LazUTF8, uOSForms, uGraphics;
 
 const
   USER_CMD_ID = $1000;
@@ -287,9 +287,6 @@ var
   sAct: String;
   iMenuPositionInsertion: integer = 0;
   Always_Expanded_Action_Count: integer = 0;
-  liiSource: TLazIntfImage = nil;
-  liiDestination: TLazIntfImage = nil;
-  ImgFormatDescription: TRawImageDescription;
   bSeparatorAlreadyInserted: boolean;
 
   function GetMeTheBitmapForThis(ImageRequiredIndex: PtrInt): TBitmap;
@@ -302,22 +299,7 @@ var
     Result.Canvas.FillRect(0, 0, gIconsSize, gIconsSize);
     PixMapManager.DrawBitmap(ImageRequiredIndex, Result.Canvas, 0, 0);
 
-    if Result.PixelFormat <> pf32bit then
-    begin
-      liiSource := Result.CreateIntfImage;
-      liiDestination := TLazIntfImage.Create(gIconsSize, gIconsSize);
-      try
-        ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(gIconsSize, gIconsSize);
-        liiDestination.DataDescription := ImgFormatDescription;
-        liiDestination.CopyPixels(liiSource);
-        Result.FreeImage;
-        Result.PixelFormat := pf32bit;
-        Result.LoadFromIntfImage(liiDestination);
-      finally
-        liiDestination.Free;
-        liiSource.Free;
-      end;
-    end;
+    if Result.PixelFormat <> pf32bit then BitmapConvert(Result);
   end;
 
   procedure LocalInsertMenuSeparator;
@@ -447,19 +429,7 @@ begin
 
             if paramExtActionList.ExtActionCommand[I].IconBitmap.PixelFormat <> pf32bit then
             begin
-              liiSource := paramExtActionList.ExtActionCommand[I].IconBitmap.CreateIntfImage;
-              liiDestination := TLazIntfImage.Create(gIconsSize, gIconsSize);
-              try
-                ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(gIconsSize, gIconsSize);
-                liiDestination.DataDescription := ImgFormatDescription;
-                liiDestination.CopyPixels(liiSource);
-                paramExtActionList.ExtActionCommand[I].IconBitmap.FreeImage;
-                paramExtActionList.ExtActionCommand[I].IconBitmap.PixelFormat := pf32bit;
-                paramExtActionList.ExtActionCommand[I].IconBitmap.LoadFromIntfImage(liiDestination);
-              finally
-                liiDestination.Free;
-                liiSource.Free;
-              end;
+              BitmapConvert(paramExtActionList.ExtActionCommand[I].IconBitmap);
             end;
           end;
 
