@@ -18,44 +18,64 @@ type
     chkElevateAll: TCheckBox;
     imgShield: TImage;
     lblText: TLabel;
-  private
-    procedure ShowModalSync;
   public
-
+    function ShowModal: Integer; override;
   end;
 
 function ShowElevation(const ATitle, AText: String): TMyMsgResult;
 
 implementation
 
+{$R *.lfm}
+
 {$IF DEFINED(MSWINDOWS)}
 uses
   Windows, uIcoFiles;
 {$ENDIF}
 
-{$R *.lfm}
+type
+  TElevationData = class
+    FResult: TMyMsgResult;
+    FTitle, FText: String;
+    procedure ShowElevation;
+  public
+    constructor Create(const ATitle, AText: String);
+  end;
 
 function ShowElevation(const ATitle, AText: String): TMyMsgResult;
 begin
+  with TElevationData.Create(ATitle, AText) do
+  try
+    TThread.Synchronize(nil, @ShowElevation);
+    Result:= FResult;
+  finally
+    Free
+  end;
+end;
+
+{ TElevationData }
+
+procedure TElevationData.ShowElevation;
+begin
   with TfrmElevation.Create(Application) do
   try
-    Caption:= ATitle;
-    lblText.Caption:= AText;
+    Caption:= FTitle;
+    lblText.Caption:= FText;
 
-    TThread.Synchronize(nil, @ShowModalSync);
+    ShowModal;
 
     if (ModalResult <> mrOK) then
     begin
       if chkElevateAll.Checked then
-        Result:= mmrSkipAll
+        FResult:= mmrSkipAll
       else
-        Result:= mmrSkip
+        FResult:= mmrSkip
     end
     else begin
       if chkElevateAll.Checked then
-        Result:= mmrAll
+        FResult:= mmrAll
       else
-        Result:= mmrOK;
+        FResult:= mmrOK;
     end;
 
   finally
@@ -63,9 +83,15 @@ begin
   end;
 end;
 
+constructor TElevationData.Create(const ATitle, AText: String);
+begin
+  FText:= AText;
+  FTitle:= ATitle;
+end;
+
 { TfrmElevation }
 
-procedure TfrmElevation.ShowModalSync;
+function TfrmElevation.ShowModal: Integer;
 {$IF DEFINED(MSWINDOWS)}
 const
   IDI_SHIELD = PAnsiChar(32518);
@@ -83,7 +109,7 @@ begin
     AIcon.Free;
   end;
 {$ENDIF}
-  ModalResult:= ShowModal;
+  Result:= inherited ShowModal;
 end;
 
 end.
