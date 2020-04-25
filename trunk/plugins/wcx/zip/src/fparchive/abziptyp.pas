@@ -1499,25 +1499,14 @@ begin
     SetString(UnicodeName, XceedField.UnicodeName, XceedField.Length);
     FFileName := Utf16ToUtf8(UnicodeName);
   end
-  else
-  begin
+  else begin
     SystemCode := HostOS;
-    {$IF DEFINED(MSWINDOWS)}
-    if (GetACP <> GetOEMCP) and (SystemCode = hosDOS) then
-      FFileName := CeOemToUtf8(FItemInfo.FileName)
-    else if (GetACP <> GetOEMCP) and CeTryDecode(FItemInfo.FileName, CP_OEMCP, UnicodeName) then
-      FFileName := Utf16ToUtf8(UnicodeName)
-    else if (SystemCode = hosNTFS) or (SystemCode = hosWinNT) then
-      FFileName := CeAnsiToUtf8(FItemInfo.FileName)
-    else
-    {$ELSEIF DEFINED(UNIX)}
     if (SystemCode = hosDOS) then
       FFileName := CeOemToUtf8(FItemInfo.FileName)
     else if (SystemCode = hosNTFS) or (SystemCode = hosWinNT) then
       FFileName := CeAnsiToUtf8(FItemInfo.FileName)
     else
-    {$ENDIF}
-      FFileName := FItemInfo.FileName;
+      FFileName := CeSysToUtf8(FItemInfo.FileName);
   end;
 
   { read ZIP64 extended header }
@@ -1684,6 +1673,7 @@ procedure TAbZipItem.SetFileName(const Value : string );
 var
   {$IFDEF MSWINDOWS}
   AnsiName : AnsiString;
+  UnicName : UnicodeString;
   {$ENDIF}
   UTF8Name : AnsiString;
   FieldSize : Word;
@@ -1695,9 +1685,10 @@ begin
   {$IFDEF MSWINDOWS}
   FItemInfo.IsUTF8 := False;
   HostOS := hosDOS;
-  if CeTryEncode(UTF8Decode(Value), CP_OEMCP, False, AnsiName) then
+  UnicName := UTF8Decode(Value);
+  if CeTryEncode(UnicName, CP_OEMCP, False, AnsiName) then
     {no-op}
-  else if (GetACP <> GetOEMCP) and CeTryEncode(UTF8Decode(Value), CP_ACP, False, AnsiName) then
+  else if (GetACP <> GetOEMCP) and CeTryEncode(UnicName, CP_ACP, False, AnsiName) then
     HostOS := hosWinNT
   else
     FItemInfo.IsUTF8 := True;
