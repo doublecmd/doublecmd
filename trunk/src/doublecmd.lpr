@@ -87,6 +87,7 @@ uses
 {$ENDIF}
 
 {$IF DEFINED(MSWINDOWS)}
+{$SETPEOPTFLAGS $140}
 {$R doublecmd.manifest.rc}
 {$ENDIF}
 
