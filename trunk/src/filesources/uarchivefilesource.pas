@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
+  DCOSUtils,
   uLocalFileSource,
   uFileSource,
   uFile,
@@ -16,6 +17,8 @@ type
   IArchiveFileSource = interface(ILocalFileSource)
     ['{13A8637C-FFDF-46B0-B5B4-E7C6851C157A}']
 
+    function Changed: Boolean;
+
     {en
        Full path to the archive on the ParentFileSource.
     }
@@ -23,7 +26,11 @@ type
 
   end;
 
+  { TArchiveFileSource }
+
   TArchiveFileSource = class(TLocalFileSource, IArchiveFileSource)
+  private
+    FAttributeData: TFileAttributeData;
 
   protected
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
@@ -43,6 +50,8 @@ type
 
     class function CreateFile(const APath: String): TFile; override;
 
+    function Changed: Boolean;
+
     property ArchiveFileName: String read GetCurrentAddress;
   end;
 
@@ -54,6 +63,7 @@ begin
   FCurrentAddress := anArchiveFileName;
   inherited Create;
   ParentFileSource := anArchiveFileSource;
+  mbFileGetAttr(anArchiveFileName, FAttributeData);
 end;
 
 class function TArchiveFileSource.CreateFile(const APath: String): TFile;
@@ -66,6 +76,18 @@ begin
     CompressedSizeProperty := TFileCompressedSizeProperty.Create;
     AttributesProperty := TFileAttributesProperty.CreateOSAttributes;
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create;
+  end;
+end;
+
+function TArchiveFileSource.Changed: Boolean;
+var
+  Attr: TFileAttributeData;
+begin
+  if not mbFileGetAttr(ArchiveFileName, Attr) then
+    Result:= False
+  else begin
+    Result:= (Attr.Size <> FAttributeData.Size) or
+             (Attr.LastWriteTime <> FAttributeData.LastWriteTime);
   end;
 end;
 

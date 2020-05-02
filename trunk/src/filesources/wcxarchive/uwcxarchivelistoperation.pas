@@ -42,6 +42,11 @@ var
 begin
   FFiles.Clear;
 
+  if FWcxArchiveFileSource.Changed then
+  begin
+    FWcxArchiveFileSource.Reload(Path);
+  end;
+
   if not FileSource.IsPathAtRoot(Path) then
   begin
     aFile := TWcxArchiveFileSource.CreateFile(Path);
@@ -50,8 +55,9 @@ begin
     FFiles.Add(AFile);
   end;
 
-  ArcFileList := FWcxArchiveFileSource.ArchiveFileList;
-  for I := 0 to ArcFileList.Count - 1 do
+  ArcFileList := FWcxArchiveFileSource.ArchiveFileList.Clone;
+  try
+    for I := 0 to ArcFileList.Count - 1 do
     begin
       CheckOperationState;
 
@@ -70,6 +76,10 @@ begin
 
       FFiles.Add(aFile);
     end;
+
+  finally
+    ArcFileList.Free;
+  end;
 end;
 
 end.

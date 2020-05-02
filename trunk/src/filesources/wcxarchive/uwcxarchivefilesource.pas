@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, contnrs, syncobjs, DCStringHashListUtf8,
   WcxPlugin, uWCXmodule, uFile, uFileSourceProperty, uFileSourceOperationTypes,
-  uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation;
+  uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation, uClassesEx;
 
 type
 
@@ -19,11 +19,11 @@ type
   IWcxArchiveFileSource = interface(IArchiveFileSource)
     ['{DB32E8A8-486B-4053-9448-4C145C1A33FA}']
 
-    function GetArcFileList: TObjectList;
+    function GetArcFileList: TThreadObjectList;
     function GetPluginCapabilities: PtrInt;
     function GetWcxModule: TWcxModule;
 
-    property ArchiveFileList: TObjectList read GetArcFileList;
+    property ArchiveFileList: TThreadObjectList read GetArcFileList;
     property PluginCapabilities: PtrInt read GetPluginCapabilities;
     property WcxModule: TWCXModule read GetWcxModule;
   end;
@@ -34,14 +34,14 @@ type
   private
     FModuleFileName: String;
     FPluginCapabilities: PtrInt;
-    FArcFileList : TObjectList;
+    FArcFileList : TThreadObjectList;
     FWcxModule: TWCXModule;
     FOpenResult: LongInt;
 
     procedure SetCryptCallback;
     function ReadArchive(anArchiveHandle: TArcHandle = 0): Boolean;
 
-    function GetArcFileList: TObjectList;
+    function GetArcFileList: TThreadObjectList;
     function GetPluginCapabilities: PtrInt;
     function GetWcxModule: TWcxModule;
 
@@ -121,7 +121,7 @@ type
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; override;
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation); override;
 
-    property ArchiveFileList: TObjectList read FArcFileList;
+    property ArchiveFileList: TThreadObjectList read FArcFileList;
     property PluginCapabilities: PtrInt read FPluginCapabilities;
     property WcxModule: TWCXModule read FWcxModule;
   end;
@@ -399,7 +399,7 @@ begin
 
   FModuleFileName := aWcxPluginFileName;
   FPluginCapabilities := aWcxPluginCapabilities;
-  FArcFileList := TObjectList.Create(True);
+  FArcFileList := TThreadObjectList.Create;
   FWcxModule := gWCXPlugins.LoadModule(FModuleFileName);
 
   if not Assigned(FWcxModule) then
@@ -426,7 +426,7 @@ begin
   inherited Create(anArchiveFileSource, anArchiveFileName);
 
   FPluginCapabilities := aWcxPluginCapabilities;
-  FArcFileList := TObjectList.Create(True);
+  FArcFileList := TThreadObjectList.Create;
   FWcxModule := aWcxPluginModule;
 
   FOperationsClasses[fsoCopyIn]  := TWcxArchiveCopyInOperation.GetOperationClass;
@@ -513,6 +513,7 @@ end;
 function TWcxArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
 var
   I: Integer;
+  AFileList: TList;
   Header: TWCXHeader;
 begin
   Result := False;
@@ -523,15 +524,20 @@ begin
 
     NewDir := IncludeTrailingPathDelimiter(NewDir);
 
-    // Search file list for a directory with name NewDir.
-    for I := 0 to FArcFileList.Count - 1 do
-    begin
-      Header := TWCXHeader(FArcFileList.Items[I]);
-      if FPS_ISDIR(Header.FileAttr) and (Length(Header.FileName) > 0) then
+    AFileList:= FArcFileList.LockList;
+    try
+      // Search file list for a directory with name NewDir.
+      for I := 0 to AFileList.Count - 1 do
       begin
-        if NewDir = IncludeTrailingPathDelimiter(GetRootDir() + Header.FileName) then
-          Exit(True);
+        Header := TWCXHeader(AFileList.Items[I]);
+        if FPS_ISDIR(Header.FileAttr) and (Length(Header.FileName) > 0) then
+        begin
+          if NewDir = IncludeTrailingPathDelimiter(GetRootDir() + Header.FileName) then
+            Exit(True);
+        end;
       end;
+    finally
+      FArcFileList.UnlockList;
     end;
   end;
 end;
@@ -548,7 +554,7 @@ begin
   FWcxModule.WcxSetCryptCallback(0, AFlags, @CryptProcA, @CryptProcW);
 end;
 
-function TWcxArchiveFileSource.GetArcFileList: TObjectList;
+function TWcxArchiveFileSource.GetArcFileList: TThreadObjectList;
 begin
   Result := FArcFileList;
 end;

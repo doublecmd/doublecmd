@@ -26,9 +26,16 @@ unit uClassesEx;
 interface
 
 uses
-  Classes, SysUtils, IniPropStorage, SynEdit;
+  Classes, SysUtils, IniPropStorage, Contnrs, SynEdit;
 
 type
+
+  { TObjectEx }
+
+  TObjectEx = class(TObject)
+  public
+    function Clone: TObjectEx; virtual; abstract;
+  end;
 
   { TBlobStream }
 
@@ -52,6 +59,23 @@ type
     procedure DoWriteString(const Section, Ident, Value: string); override;
   end;
 
+  { TThreadObjectList }
+
+  TThreadObjectList = class
+  private
+    FList: TObjectList;
+    FLock: TRTLCriticalSection;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  public
+    procedure Clear;
+    function Clone: TObjectList;
+    function Add(AObject: TObject): Integer;
+    function  LockList: TObjectList;
+    procedure UnlockList;
+  end;
+
   { TSynEditHelper }
 
   TSynEditHelper = class helper for TSynEdit
@@ -63,6 +87,69 @@ implementation
 
 uses
   LCLType, Forms, Controls, LCLVersion, SynEditKeyCmds, DCStrUtils, DCClassesUtf8;
+
+{ TThreadObjectList }
+
+constructor TThreadObjectList.Create;
+begin
+  inherited Create;
+  InitCriticalSection(FLock);
+  FList:= TObjectList.Create(True);
+end;
+
+destructor TThreadObjectList.Destroy;
+begin
+  LockList;
+  try
+    FList.Free;
+    inherited Destroy;
+  finally
+    UnlockList;
+    DoneCriticalSection(FLock);
+  end;
+end;
+
+procedure TThreadObjectList.Clear;
+begin
+  Locklist;
+  try
+    FList.Clear;
+  finally
+    UnLockList;
+  end;
+end;
+
+function TThreadObjectList.Clone: TObjectList;
+var
+  Index: Integer;
+begin
+  LockList;
+  try
+    Result:= TObjectList.Create(True);
+    for Index:= 0 to FList.Count - 1 do
+    begin
+      Result.Add(TObjectEx(FList[Index]).Clone);
+    end;
+  finally
+    UnlockList;
+  end;
+end;
+
+function TThreadObjectList.Add(AObject: TObject): Integer;
+begin
+  Result:= FList.Add(AObject);
+end;
+
+function TThreadObjectList.LockList: TObjectList;
+begin
+  Result:= FList;
+  System.EnterCriticalSection(FLock);
+end;
+
+procedure TThreadObjectList.UnlockList;
+begin
+  System.LeaveCriticalSection(FLock);
+end;
 
 { TBlobStream }
 

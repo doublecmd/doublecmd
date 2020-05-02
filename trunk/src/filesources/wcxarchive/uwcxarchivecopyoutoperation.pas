@@ -399,57 +399,60 @@ var
   TargetDir: String;
   FileList: TObjectList;
 begin
-  FileList := FWcxArchiveFileSource.ArchiveFileList;
-
   { First, collect all the paths that need to be created and their attributes. }
 
   PathsToCreate := TStringHashListUtf8.Create(True);
   DirsAttributes := TStringHashListUtf8.Create(True);
 
-  for i := 0 to FileList.Count - 1 do
-  begin
-    Header := TWCXHeader(FileList.Items[i]);
-
-    // Check if the file from the archive fits the selection given via SourceFiles.
-    if not MatchesFileList(theFiles, Header.FileName) then
-      Continue;
-
-    if FPS_ISDIR(Header.FileAttr) then
+  FileList := FWcxArchiveFileSource.ArchiveFileList.LockList;
+  try
+    for i := 0 to FileList.Count - 1 do
     begin
-      CurrentFileName := ExtractDirLevel(CurrentArchiveDir, Header.FileName);
-      CurrentFileName := ReplaceInvalidChars(CurrentFileName);
+      Header := TWCXHeader(FileList.Items[i]);
 
-      // Save this directory and a pointer to its entry.
-      DirsAttributes.Add(CurrentFileName, Header);
+      // Check if the file from the archive fits the selection given via SourceFiles.
+      if not MatchesFileList(theFiles, Header.FileName) then
+        Continue;
 
-      // If extracting all files and directories, add this directory
-      // to PathsToCreate so that empty directories are also created.
-      if (MaskList = nil) then
+      if FPS_ISDIR(Header.FileAttr) then
       begin
-        // Paths in PathsToCreate list must end with path delimiter.
-        CurrentFileName := IncludeTrailingPathDelimiter(CurrentFileName);
-
-        if PathsToCreate.Find(CurrentFileName) < 0 then
-          PathsToCreate.Add(CurrentFileName);
-      end;
-    end
-    else
-    begin
-      if ((MaskList = nil) or MaskList.Matches(ExtractFileNameEx(Header.FileName))) then
-      begin
-        Inc(FStatistics.TotalBytes, Header.UnpSize);
-        Inc(FStatistics.TotalFiles, 1);
-
-        CurrentFileName := ExtractDirLevel(CurrentArchiveDir, ExtractFilePathEx(Header.FileName));
+        CurrentFileName := ExtractDirLevel(CurrentArchiveDir, Header.FileName);
         CurrentFileName := ReplaceInvalidChars(CurrentFileName);
 
-        // If CurrentFileName is empty now then it was a file in current archive
-        // directory, therefore we don't have to create any paths for it.
-        if Length(CurrentFileName) > 0 then
+        // Save this directory and a pointer to its entry.
+        DirsAttributes.Add(CurrentFileName, Header);
+
+        // If extracting all files and directories, add this directory
+        // to PathsToCreate so that empty directories are also created.
+        if (MaskList = nil) then
+        begin
+          // Paths in PathsToCreate list must end with path delimiter.
+          CurrentFileName := IncludeTrailingPathDelimiter(CurrentFileName);
+
           if PathsToCreate.Find(CurrentFileName) < 0 then
             PathsToCreate.Add(CurrentFileName);
+        end;
+      end
+      else
+      begin
+        if ((MaskList = nil) or MaskList.Matches(ExtractFileNameEx(Header.FileName))) then
+        begin
+          Inc(FStatistics.TotalBytes, Header.UnpSize);
+          Inc(FStatistics.TotalFiles, 1);
+
+          CurrentFileName := ExtractDirLevel(CurrentArchiveDir, ExtractFilePathEx(Header.FileName));
+          CurrentFileName := ReplaceInvalidChars(CurrentFileName);
+
+          // If CurrentFileName is empty now then it was a file in current archive
+          // directory, therefore we don't have to create any paths for it.
+          if Length(CurrentFileName) > 0 then
+            if PathsToCreate.Find(CurrentFileName) < 0 then
+              PathsToCreate.Add(CurrentFileName);
+        end;
       end;
     end;
+  finally
+    FWcxArchiveFileSource.ArchiveFileList.UnlockList;
   end;
 
   if FExtractWithoutPath then Exit;

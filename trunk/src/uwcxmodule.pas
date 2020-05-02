@@ -30,7 +30,7 @@ interface
 
 uses
   LCLType, Classes, Dialogs, LazUTF8Classes, dynlibs, SysUtils,
-  uWCXprototypes, WcxPlugin, Extension, DCClassesUtf8, DCBasicTypes, DCXmlConfig;
+  uWCXprototypes, WcxPlugin, Extension, DCBasicTypes, DCXmlConfig, uClassesEx;
 
 Type
   TWCXOperation = (OP_EXTRACT, OP_PACK, OP_DELETE);
@@ -45,7 +45,7 @@ Type
   { TWCXHeaderData }
 
   { Handles THeaderData and THeaderDataEx }
-  TWCXHeader = class
+  TWCXHeader = class(TObjectEx)
   private
     function PCharLToUTF8(CharString: PChar; MaxSize: Integer): String;
 
@@ -63,6 +63,8 @@ Type
     UnpSize: Int64;
     Cmt: String;
     CmtState: Longint;
+
+    function Clone: TWCXHeader; override;
 
     constructor Create(const Data: PHeaderData); overload;
     constructor Create(const Data: PHeaderDataEx); overload;
@@ -891,6 +893,25 @@ begin
 
   SetString(TempString, CharString, NameLength);
   Result := CeSysToUtf8(TempString);
+end;
+
+function TWCXHeader.Clone: TWCXHeader;
+begin
+  Result:= TWCXHeader.Create;
+
+  Result.ArcName:= ArcName;
+  Result.FileName:= FileName;
+  Result.Flags:= Flags;
+  Result.HostOS:= HostOS;
+  Result.FileCRC:= FileCRC;
+  Result.FileTime:= FileTime;
+  Result.UnpVer:= UnpVer;
+  Result.Method:= Method;
+  Result.FileAttr:=FileAttr;
+  Result.PackSize:= PackSize;
+  Result.UnpSize:= UnpSize;
+  Result.Cmt:= Cmt;
+  Result.CmtState:= CmtState;
 end;
 
 end.
