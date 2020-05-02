@@ -100,32 +100,38 @@ end;
 procedure TWcxArchiveCalcStatisticsOperation.ProcessSubDirs(const srcPath: String);
 var
   I: Integer;
+  AFileList: TList;
   Header: TWCXHeader;
   CurrFileName: String;
   ModificationTime: TDateTime;
 begin
-  for I:= 0 to FWcxArchiveFileSource.ArchiveFileList.Count - 1 do
-  begin
-    Header := TWCXHeader(FWcxArchiveFileSource.ArchiveFileList.Items[I]);
-    CurrFileName := PathDelim + Header.FileName;
+  AFileList:= FWcxArchiveFileSource.ArchiveFileList.LockList;
+  try
+    for I:= 0 to AFileList.Count - 1 do
+    begin
+      Header := TWCXHeader(AFileList.Items[I]);
+      CurrFileName := PathDelim + Header.FileName;
 
-    if not IsInPath(srcPath, CurrFileName, True, False) then
-       Continue;
+      if not IsInPath(srcPath, CurrFileName, True, False) then
+         Continue;
 
-    if FPS_ISDIR(Header.FileAttr) then
-      Inc(FStatistics.Directories)
-    else if FPS_ISLNK(Header.FileAttr) then
-      Inc(FStatistics.Links)
-    else
-      begin
-        Inc(FStatistics.Files);
-        FStatistics.Size := FStatistics.Size + Header.UnpSize;
-        ModificationTime:= WcxFileTimeToDateTime(Header.FileTime);
-        if ModificationTime < FStatistics.OldestFile then
-          FStatistics.OldestFile := ModificationTime;
-        if ModificationTime > FStatistics.NewestFile then
-          FStatistics.NewestFile := ModificationTime;
+      if FPS_ISDIR(Header.FileAttr) then
+        Inc(FStatistics.Directories)
+      else if FPS_ISLNK(Header.FileAttr) then
+        Inc(FStatistics.Links)
+      else
+        begin
+          Inc(FStatistics.Files);
+          FStatistics.Size := FStatistics.Size + Header.UnpSize;
+          ModificationTime:= WcxFileTimeToDateTime(Header.FileTime);
+          if ModificationTime < FStatistics.OldestFile then
+            FStatistics.OldestFile := ModificationTime;
+          if ModificationTime > FStatistics.NewestFile then
+            FStatistics.NewestFile := ModificationTime;
+      end;
     end;
+  finally
+    FWcxArchiveFileSource.ArchiveFileList.UnlockList;
   end;
 end;
 

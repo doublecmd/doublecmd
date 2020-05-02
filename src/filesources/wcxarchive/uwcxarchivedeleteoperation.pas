@@ -215,21 +215,25 @@ var
   Header: TWCXHeader;
   ArcFileList: TList;
 begin
-  ArcFileList := FWcxArchiveFileSource.ArchiveFileList;
-  for i := 0 to ArcFileList.Count - 1 do
-  begin
-    Header := TWCXHeader(ArcFileList.Items[I]);
-
-    // Check if the file from the archive fits the selection given via theFiles.
-    if  (not FPS_ISDIR(Header.FileAttr))           // Omit directories
-    and MatchesFileList(theFiles, Header.FileName) // Check if it's included in the filelist
-    and ((FileMask = '*.*') or (FileMask = '*')    // And name matches file mask
-        or MatchesMaskList(ExtractFileName(Header.FileName), FileMask))
-    then
+  ArcFileList := FWcxArchiveFileSource.ArchiveFileList.LockList;
+  try
+    for i := 0 to ArcFileList.Count - 1 do
     begin
-      Inc(FStatistics.TotalBytes, Header.UnpSize);
-      Inc(FStatistics.TotalFiles, 1);
+      Header := TWCXHeader(ArcFileList.Items[I]);
+
+      // Check if the file from the archive fits the selection given via theFiles.
+      if  (not FPS_ISDIR(Header.FileAttr))           // Omit directories
+      and MatchesFileList(theFiles, Header.FileName) // Check if it's included in the filelist
+      and ((FileMask = '*.*') or (FileMask = '*')    // And name matches file mask
+          or MatchesMaskList(ExtractFileName(Header.FileName), FileMask))
+      then
+      begin
+        Inc(FStatistics.TotalBytes, Header.UnpSize);
+        Inc(FStatistics.TotalFiles, 1);
+      end;
     end;
+  finally
+    FWcxArchiveFileSource.ArchiveFileList.UnlockList;
   end;
 
   UpdateStatistics(FStatistics);
