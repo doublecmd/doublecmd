@@ -514,6 +514,7 @@ end;
 function TMultiArchiveFileSource.ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
 var
   I : Integer;
+  AFileList: TList;
   ArchiveTime: TSystemTime;
   ArchiveItem: TArchiveItem;
 begin
@@ -532,63 +533,68 @@ begin
   }
 
   { Get File List }
-  FArcFileList.Clear;
-
-  // Get archive file time
-  DateTimeToSystemTime(FileTimeToDateTime(mbFileAge(ArchiveFileName)), ArchiveTime);
-
-  if mafFileNameList in FMultiArcItem.FFlags then
-  begin
-    ArchiveItem:= TArchiveItem.Create;
-    ArchiveItem.FileName := ExtractOnlyFileName(ArchiveFileName);
-    ArchiveItem.Year:= ArchiveTime.Year;
-    ArchiveItem.Month:= ArchiveTime.Month;
-    ArchiveItem.Day:= ArchiveTime.Day;
-    ArchiveItem.Hour:= ArchiveTime.Hour;
-    ArchiveItem.Minute:= ArchiveTime.Minute;
-    ArchiveItem.Second:= ArchiveTime.Second;
-    ArchiveItem.Attributes := mbFileGetAttr(ArchiveFileName);
-    FArcFileList.Add(ArchiveItem);
-    Exit(True);
-  end;
-
-  FExistsDirList := TStringHashListUtf8.Create(True);
-  FAllDirsList := TStringHashListUtf8.Create(True);
-
+  AFileList:= FArcFileList.LockList;
   try
-    DCDebug('Get File List');
+    AFileList.Clear;
+    // Get archive file time
+    DateTimeToSystemTime(FileTimeToDateTime(mbFileAge(ArchiveFileName)), ArchiveTime);
 
-    FOutputParser.Password:= FPassword;
-    FOutputParser.Prepare;
-    FOutputParser.Execute;
-    FPassword:= FOutputParser.Password;
-
-    (* if archiver does not give a list of folders *)
-    for I := 0 to FAllDirsList.Count - 1 do
+    if mafFileNameList in FMultiArcItem.FFlags then
     begin
-      // Add only those directories that were not supplied by the plugin.
-      if FExistsDirList.Find(FAllDirsList.List[I]^.Key) < 0 then
+      ArchiveItem:= TArchiveItem.Create;
+      ArchiveItem.FileName := ExtractOnlyFileName(ArchiveFileName);
+      ArchiveItem.Year:= ArchiveTime.Year;
+      ArchiveItem.Month:= ArchiveTime.Month;
+      ArchiveItem.Day:= ArchiveTime.Day;
+      ArchiveItem.Hour:= ArchiveTime.Hour;
+      ArchiveItem.Minute:= ArchiveTime.Minute;
+      ArchiveItem.Second:= ArchiveTime.Second;
+      ArchiveItem.Attributes := mbFileGetAttr(ArchiveFileName);
+      AFileList.Add(ArchiveItem);
+      Exit(True);
+    end;
+
+    FExistsDirList := TStringHashListUtf8.Create(True);
+    FAllDirsList := TStringHashListUtf8.Create(True);
+
+    try
+      DCDebug('Get File List');
+
+      FOutputParser.Password:= FPassword;
+      FOutputParser.Prepare;
+      FOutputParser.Execute;
+      FPassword:= FOutputParser.Password;
+
+      (* if archiver does not give a list of folders *)
+      for I := 0 to FAllDirsList.Count - 1 do
       begin
-        ArchiveItem:= TArchiveItem.Create;
-        try
-          ArchiveItem.FileName := FAllDirsList.List[I]^.Key;
-          ArchiveItem.Year:= ArchiveTime.Year;
-          ArchiveItem.Month:= ArchiveTime.Month;
-          ArchiveItem.Day:= ArchiveTime.Day;
-          ArchiveItem.Hour:= ArchiveTime.Hour;
-          ArchiveItem.Minute:= ArchiveTime.Minute;
-          ArchiveItem.Second:= ArchiveTime.Second;
-          ArchiveItem.Attributes := FDirectoryAttribute;
-          FArcFileList.Add(ArchiveItem);
-        except
-          FreeAndNil(ArchiveItem);
+        // Add only those directories that were not supplied by the plugin.
+        if FExistsDirList.Find(FAllDirsList.List[I]^.Key) < 0 then
+        begin
+          ArchiveItem:= TArchiveItem.Create;
+          try
+            ArchiveItem.FileName := FAllDirsList.List[I]^.Key;
+            ArchiveItem.Year:= ArchiveTime.Year;
+            ArchiveItem.Month:= ArchiveTime.Month;
+            ArchiveItem.Day:= ArchiveTime.Day;
+            ArchiveItem.Hour:= ArchiveTime.Hour;
+            ArchiveItem.Minute:= ArchiveTime.Minute;
+            ArchiveItem.Second:= ArchiveTime.Second;
+            ArchiveItem.Attributes := FDirectoryAttribute;
+            AFileList.Add(ArchiveItem);
+          except
+            FreeAndNil(ArchiveItem);
+          end;
         end;
       end;
+
+    finally
+      FreeAndNil(FAllDirsList);
+      FreeAndNil(FExistsDirList);
     end;
 
   finally
-    FreeAndNil(FAllDirsList);
-    FreeAndNil(FExistsDirList);
+    FArcFileList.UnlockList;
   end;
 
   Result := True;
