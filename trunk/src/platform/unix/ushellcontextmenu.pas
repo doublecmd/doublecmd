@@ -63,7 +63,7 @@ type
 implementation
 
 uses
-  LCLProc, Dialogs, Graphics, uFindEx, uDCUtils,
+  LCLProc, Dialogs, Graphics, uFindEx, uDCUtils, uShowMsg,
   uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix,
   fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil
   {$IF DEFINED(DARWIN)}
@@ -249,8 +249,9 @@ end;
 (* handling user commands from template context menu *)
 procedure TShellContextMenu.TemplateContextMenuSelect(Sender: TObject);
 var
-  SelectedItem: TMenuItem;
   FileName: String;
+  SelectedItem: TMenuItem;
+  AbsoluteTargetFileName: String;
 begin
   // ShowMessage((Sender as TMenuItem).Hint);
 
@@ -259,11 +260,16 @@ begin
   if InputQuery(rsMsgNewFile, rsMsgEnterName, FileName) then
     begin
       FileName:= FileName + ExtractFileExt(SelectedItem.Hint);
-      if CopyFile(SelectedItem.Hint, frmMain.ActiveFrame.CurrentPath + FileName) then
+      AbsoluteTargetFileName:= frmMain.ActiveFrame.CurrentPath + FileName;
+      if (not mbFileExists(AbsoluteTargetFileName)) or
+         (msgYesNo(Format(rsMsgFileExistsRwrt, [FileName]))) then
+      begin
+        if CopyFile(SelectedItem.Hint, AbsoluteTargetFileName) then
         begin
           frmMain.ActiveFrame.Reload;
           frmMain.ActiveFrame.SetActiveFile(FileName);
         end;
+      end;
     end;
 end;
 
