@@ -88,6 +88,7 @@ begin
   else begin
     Result:= (Attr.Size <> FAttributeData.Size) or
              (Attr.LastWriteTime <> FAttributeData.LastWriteTime);
+    if Result then FAttributeData:= Attr;
   end;
 end;
 
