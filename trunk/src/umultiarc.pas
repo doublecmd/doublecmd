@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementation of multi archiver support
 
-   Copyright (C) 2010-2019  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2020  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ unit uMultiArc;
 interface
 
 uses
-  Classes, SysUtils, DCBasicTypes, uMasks;
+  Classes, SysUtils, DCBasicTypes, uMasks, uClassesEx;
 
 const
   MaxSignSize = 1024;
@@ -81,7 +81,7 @@ type
 
   { TArchiveItem }
 
-  TArchiveItem = class
+  TArchiveItem = class(TObjectEx)
     FileName,
     FileExt,
     FileLink:  String;
@@ -94,6 +94,7 @@ type
     Minute,
     Second: Word;
     Attributes: TFileAttrs;
+    function Clone: TArchiveItem; override;
   end;
 
   { TMultiArcItem }
@@ -175,6 +176,26 @@ implementation
 uses
   crc, LCLProc, StrUtils, Math, FileUtil, DCClassesUtf8, uDCUtils, DCOSUtils,
   DCStrUtils;
+
+{ TArchiveItem }
+
+function TArchiveItem.Clone: TArchiveItem;
+begin
+  Result:= TArchiveItem.Create;
+
+  Result.FileName:= FileName;
+  Result.FileExt:= FileExt;
+  Result.FileLink:= FileLink;
+  Result.PackSize:= PackSize;
+  Result.UnpSize:= UnpSize;
+  Result.Year:= Year;
+  Result.Month:= Month;
+  Result.Day:= Day;
+  Result.Hour:= Hour;
+  Result.Minute:= Minute;
+  Result.Second:= Second;
+  Result.Attributes:= Attributes;
+end;
 
 { TMultiArcList }
 
