@@ -100,37 +100,43 @@ end;
 procedure TMultiArchiveCalcStatisticsOperation.ProcessSubDirs(const srcPath: String);
 var
   I: Integer;
-  ArchiveItem: TArchiveItem;
+  AFileList: TList;
   CurrFileName: String;
+  ArchiveItem: TArchiveItem;
   ModificationTime: TDateTime;
 begin
-  for I:= 0 to FMultiArchiveFileSource.ArchiveFileList.Count - 1 do
-  begin
-    ArchiveItem := TArchiveItem(FMultiArchiveFileSource.ArchiveFileList.Items[I]);
-    CurrFileName := PathDelim + ArchiveItem.FileName;
+  AFileList:= FMultiArchiveFileSource.ArchiveFileList.LockList;
+  try
+    for I:= 0 to AFileList.Count - 1 do
+    begin
+      ArchiveItem := TArchiveItem(AFileList.Items[I]);
+      CurrFileName := PathDelim + ArchiveItem.FileName;
 
-    if not IsInPath(srcPath, CurrFileName, True, False) then
-       Continue;
+      if not IsInPath(srcPath, CurrFileName, True, False) then
+         Continue;
 
-    if FMultiArchiveFileSource.FileIsDirectory(ArchiveItem) then
-      Inc(FStatistics.Directories)
-    else if FMultiArchiveFileSource.FileIsLink(ArchiveItem) then
-      Inc(FStatistics.Links)
-    else
-      begin
-        Inc(FStatistics.Files);
-        FStatistics.Size := FStatistics.Size + ArchiveItem.UnpSize;
-        try
-          with ArchiveItem do
-          ModificationTime := EncodeDate(Year, Month, Day) + EncodeTime(Hour, Minute, Second, 0);
-          if ModificationTime < FStatistics.OldestFile then
-            FStatistics.OldestFile := ModificationTime;
-          if ModificationTime > FStatistics.NewestFile then
-            FStatistics.NewestFile := ModificationTime;
-        except
-          on EConvertError do;
-        end;
+      if FMultiArchiveFileSource.FileIsDirectory(ArchiveItem) then
+        Inc(FStatistics.Directories)
+      else if FMultiArchiveFileSource.FileIsLink(ArchiveItem) then
+        Inc(FStatistics.Links)
+      else
+        begin
+          Inc(FStatistics.Files);
+          FStatistics.Size := FStatistics.Size + ArchiveItem.UnpSize;
+          try
+            with ArchiveItem do
+            ModificationTime := EncodeDate(Year, Month, Day) + EncodeTime(Hour, Minute, Second, 0);
+            if ModificationTime < FStatistics.OldestFile then
+              FStatistics.OldestFile := ModificationTime;
+            if ModificationTime > FStatistics.NewestFile then
+              FStatistics.NewestFile := ModificationTime;
+          except
+            on EConvertError do;
+          end;
+      end;
     end;
+  finally
+    FMultiArchiveFileSource.ArchiveFileList.UnlockList;
   end;
 end;
 

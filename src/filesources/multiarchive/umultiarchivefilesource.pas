@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, contnrs, DCStringHashListUtf8, uOSUtils,
   uMultiArc, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation,
-  uMultiArchiveUtil, DCBasicTypes;
+  uMultiArchiveUtil, DCBasicTypes, uClassesEx;
 
 type
 
@@ -18,7 +18,7 @@ type
     ['{71BF41D3-1E40-4E84-83BB-B6D3E0DEB6FC}']
 
     function GetPassword: String;
-    function GetArcFileList: TObjectList;
+    function GetArcFileList: TThreadObjectList;
     function GetMultiArcItem: TMultiArcItem;
 
     function FileIsLink(ArchiveItem: TArchiveItem): Boolean;
@@ -30,7 +30,7 @@ type
                            out FilesCount: Int64; out FilesSize: Int64);
 
     property Password: String read GetPassword;
-    property ArchiveFileList: TObjectList read GetArcFileList;
+    property ArchiveFileList: TThreadObjectList read GetArcFileList;
     property MultiArcItem: TMultiArcItem read GetMultiArcItem;
   end;
 
@@ -40,7 +40,7 @@ type
   private
     FPassword: String;
     FOutputParser: TOutputParser;
-    FArcFileList : TObjectList;
+    FArcFileList : TThreadObjectList;
     FMultiArcItem: TMultiArcItem;
     FAllDirsList,
     FExistsDirList: TStringHashListUtf8;
@@ -56,7 +56,7 @@ type
     function FileIsLink(ArchiveItem: TArchiveItem): Boolean;
     function FileIsDirectory(ArchiveItem: TArchiveItem): Boolean;
 
-    function GetArcFileList: TObjectList;
+    function GetArcFileList: TThreadObjectList;
 
   protected
 
@@ -116,7 +116,7 @@ type
     class function CheckAddonByName(const anArchiveFileName: String): Boolean;
 
     property Password: String read GetPassword;
-    property ArchiveFileList: TObjectList read GetArcFileList;
+    property ArchiveFileList: TThreadObjectList read GetArcFileList;
     property MultiArcItem: TMultiArcItem read GetMultiArcItem;
   end;
 
@@ -237,7 +237,7 @@ begin
   inherited Create(anArchiveFileSource, anArchiveFileName);
 
   FMultiArcItem := aMultiArcItem;
-  FArcFileList := TObjectList.Create(True);
+  FArcFileList := TThreadObjectList.Create;
   FOutputParser := TOutputParser.Create(aMultiArcItem, anArchiveFileName);
   FOutputParser.OnGetArchiveItem:= @OnGetArchiveItem;
 
@@ -342,6 +342,7 @@ end;
 function TMultiArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
 var
   I: Integer;
+  AFileList: TList;
   ArchiveItem: TArchiveItem;
 begin
   Result := False;
@@ -352,20 +353,25 @@ begin
 
     NewDir := IncludeTrailingPathDelimiter(NewDir);
 
-    // Search file list for a directory with name NewDir.
-    for I := 0 to FArcFileList.Count - 1 do
-    begin
-      ArchiveItem := TArchiveItem(FArcFileList.Items[I]);
-      if FileIsDirectory(ArchiveItem) and (Length(ArchiveItem.FileName) > 0) then
+    AFileList:= FArcFileList.LockList;
+    try
+      // Search file list for a directory with name NewDir.
+      for I := 0 to AFileList.Count - 1 do
       begin
-        if NewDir = IncludeTrailingPathDelimiter(GetRootDir() + ArchiveItem.FileName) then
-          Exit(True);
+        ArchiveItem := TArchiveItem(AFileList.Items[I]);
+        if FileIsDirectory(ArchiveItem) and (Length(ArchiveItem.FileName) > 0) then
+        begin
+          if NewDir = IncludeTrailingPathDelimiter(GetRootDir() + ArchiveItem.FileName) then
+            Exit(True);
+        end;
       end;
+    finally
+      FArcFileList.UnlockList;
     end;
   end;
 end;
 
-function TMultiArchiveFileSource.GetArcFileList: TObjectList;
+function TMultiArchiveFileSource.GetArcFileList: TThreadObjectList;
 begin
   Result := FArcFileList;
 end;
@@ -609,6 +615,7 @@ procedure TMultiArchiveFileSource.FillAndCount(const FileMask: String; Files: TF
 var
   aFile: TFile;
   I, J: Integer;
+  AFileList: TList;
   sFileName: String;
   MaskList: TMaskList;
   ArchiveItem: TArchiveItem;
@@ -621,37 +628,42 @@ begin
   else begin
     MaskList:= TMaskList.Create(FileMask);
   end;
-  for I := 0 to ArchiveFileList.Count - 1 do
-  begin
-    ArchiveItem := TArchiveItem(ArchiveFileList.Items[I]);
-    sFileName:= PathDelim + ArchiveItem.FileName;
-
-    // And name matches file mask
-    if ((MaskList = nil) or MaskList.Matches(ExtractFileNameEx(ArchiveItem.FileName))) then
+  AFileList:= ArchiveFileList.LockList;
+  try
+    for I := 0 to AFileList.Count - 1 do
     begin
-      for J := 0 to Files.Count - 1 do
-      begin
-        aFile := Files[J];
+      ArchiveItem := TArchiveItem(AFileList.Items[I]);
+      sFileName:= PathDelim + ArchiveItem.FileName;
 
-        if  (aFile.FullPath = sFileName) or // Item in the list is a file, only compare names.
-            (aFile.AttributesProperty.IsDirectory and IsInPath(aFile.FullPath, sFileName, True, False)) then // Check if 'FileName' is in this directory or any of its subdirectories.
-          begin
-            if FileIsDirectory(ArchiveItem) then
-              begin
-                if CountDirs then Inc(FilesCount);
-              end
-            else
-              begin
-                Inc(FilesCount);
-                Inc(FilesSize, aFile.Size);
-              end;
-            aFile:= TMultiArchiveFileSource.CreateFile(ExtractFilePathEx(ArchiveItem.FileName), ArchiveItem, FMultiArcItem.FFormMode);
-            aFile.FullPath:= ExcludeFrontPathDelimiter(aFile.FullPath);
-            NewFiles.Add(aFile);
-          end;
-      end; // for J
-    end;
-  end; // for I
+      // And name matches file mask
+      if ((MaskList = nil) or MaskList.Matches(ExtractFileNameEx(ArchiveItem.FileName))) then
+      begin
+        for J := 0 to Files.Count - 1 do
+        begin
+          aFile := Files[J];
+
+          if  (aFile.FullPath = sFileName) or // Item in the list is a file, only compare names.
+              (aFile.AttributesProperty.IsDirectory and IsInPath(aFile.FullPath, sFileName, True, False)) then // Check if 'FileName' is in this directory or any of its subdirectories.
+            begin
+              if FileIsDirectory(ArchiveItem) then
+                begin
+                  if CountDirs then Inc(FilesCount);
+                end
+              else
+                begin
+                  Inc(FilesCount);
+                  Inc(FilesSize, aFile.Size);
+                end;
+              aFile:= TMultiArchiveFileSource.CreateFile(ExtractFilePathEx(ArchiveItem.FileName), ArchiveItem, FMultiArcItem.FFormMode);
+              aFile.FullPath:= ExcludeFrontPathDelimiter(aFile.FullPath);
+              NewFiles.Add(aFile);
+            end;
+        end; // for J
+      end;
+    end; // for I
+  finally
+    ArchiveFileList.UnlockList;
+  end;
   MaskList.Free;
 end;
 

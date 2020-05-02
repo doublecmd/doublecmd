@@ -41,6 +41,11 @@ var
 begin
   FFiles.Clear;
 
+  if FMultiArchiveFileSource.Changed then
+  begin
+    FMultiArchiveFileSource.Reload(Path);
+  end;
+
   if not FileSource.IsPathAtRoot(Path) then
   begin
     aFile := TMultiArchiveFileSource.CreateFile(Path);
@@ -49,8 +54,9 @@ begin
     FFiles.Add(AFile);
   end;
 
-  ArcFileList := FMultiArchiveFileSource.ArchiveFileList;
-  for I := 0 to ArcFileList.Count - 1 do
+  ArcFileList := FMultiArchiveFileSource.ArchiveFileList.Clone;
+  try
+    for I := 0 to ArcFileList.Count - 1 do
     begin
       CheckOperationState;
 
@@ -63,6 +69,9 @@ begin
         aFile := TMultiArchiveFileSource.CreateFile(Path, TArchiveItem(ArcFileList.Items[I]), FFormMode);
       FFiles.Add(AFile);
     end;
+  finally
+    ArcFileList.Free;
+  end;
 end;
 
 end.
