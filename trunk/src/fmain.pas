@@ -54,7 +54,7 @@ uses
   {$ELSEIF DEFINED(LCLGTK2)}
   , Glib2, Gtk2
   {$ENDIF}
-  , Types;
+  , Types, LMessages;
 
 type
 
@@ -713,6 +713,15 @@ type
     FUpdateDiskCount: Boolean;
     FModalOperationResult: Boolean;
 
+    FRestoredLeft: Integer;
+    FRestoredTop: Integer;
+    FRestoredWidth: Integer;
+    FRestoredHeight: Integer;
+    FDelayedEventCtr: Integer;
+    FDelayedWMMove, FDelayedWMSize: Boolean;
+
+    procedure DelayedEvent(Data: PtrInt);
+
     procedure CheckCommandLine(ShiftEx: TShiftState; var Key: Word);
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
     procedure SetMainSplitterPos(AValue: Double);
@@ -759,10 +768,14 @@ type
 
   protected
     procedure CreateWnd; override;
+    procedure DoFirstShow; override;
 {$if lcl_fullversion >= 1070000}
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                             const AXProportion, AYProportion: Double); override;
 {$endif}
+
+    procedure WMMove(var Message: TLMMove); message LM_MOVE;
+    procedure WMSize(var message: TLMSize); message LM_Size;
 
   public
     constructor Create(TheOwner: TComponent); override;
@@ -3860,6 +3873,43 @@ begin
   Application.MainForm.Tag:= Handle;
 end;
 
+procedure TfrmMain.DoFirstShow;
+var
+  ANode: TXmlNode;
+begin
+  inherited DoFirstShow;
+
+  // Load window state
+  ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
+
+  if gConfig.GetValue(ANode, 'Maximized', True) then
+    Self.WindowState := wsMaximized;
+end;
+
+procedure TfrmMain.WMMove(var Message: TLMMove);
+begin
+  inherited WMMove(Message);
+
+  if not (csDestroying in ComponentState) then
+  begin
+    FDelayedWMMove := True;
+    Inc(FDelayedEventCtr);
+    Application.QueueAsyncCall(@DelayedEvent, 0);
+  end;
+end;
+
+procedure TfrmMain.WMSize(var message: TLMSize);
+begin
+  inherited WMSize(Message);
+
+  if not (csDestroying in ComponentState) then
+  begin
+    FDelayedWMSize := True;
+    Inc(FDelayedEventCtr);
+    Application.QueueAsyncCall(@DelayedEvent, 0);
+  end;
+end;
+
 {$if lcl_fullversion >= 1070000}
 procedure TfrmMain.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
   const AXProportion, AYProportion: Double);
@@ -5737,25 +5787,22 @@ procedure TfrmMain.LoadWindowState;
 var
   ANode: TXmlNode;
   FPixelsPerInch: Integer;
-  ALeft, ATop, AWidth, AHeight: Integer;
 begin
-  (* Load window bounds and state *)
+  // Load window bounds
   ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
   begin
     MainSplitterPos := gConfig.GetValue(ANode, 'Splitter', 50.0);
-    ALeft := gConfig.GetValue(ANode, 'Left', 80);
-    ATop := gConfig.GetValue(ANode, 'Top', 48);
-    AWidth := gConfig.GetValue(ANode, 'Width', 800);
-    AHeight := gConfig.GetValue(ANode, 'Height', 480);
+    FRestoredLeft := gConfig.GetValue(ANode, 'Left', 80);
+    FRestoredTop := gConfig.GetValue(ANode, 'Top', 48);
+    FRestoredWidth := gConfig.GetValue(ANode, 'Width', 800);
+    FRestoredHeight := gConfig.GetValue(ANode, 'Height', 480);
     FPixelsPerInch := gConfig.GetValue(ANode, 'PixelsPerInch', DesignTimePPI);
     if Scaled and (Screen.PixelsPerInch <> FPixelsPerInch) then
     begin
-      AWidth := MulDiv(AWidth, Screen.PixelsPerInch, FPixelsPerInch);
-      AHeight := MulDiv(AHeight, Screen.PixelsPerInch, FPixelsPerInch);
+      FRestoredWidth := MulDiv(FRestoredWidth, Screen.PixelsPerInch, FPixelsPerInch);
+      FRestoredHeight := MulDiv(FRestoredHeight, Screen.PixelsPerInch, FPixelsPerInch);
     end;
-    SetBounds(ALeft, ATop, AWidth, AHeight);
-    if gConfig.GetValue(ANode, 'Maximized', True) then
-      Self.WindowState := wsMaximized;
+    SetBounds(FRestoredLeft, FRestoredTop, FRestoredWidth, FRestoredHeight);
   end;
 end;
 
@@ -5763,19 +5810,17 @@ procedure TfrmMain.SaveWindowState;
 var
   ANode: TXmlNode;
 begin
-  (* Save window bounds and state *)
+  // Save window bounds and state
   ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
-  // save window size only if it's not Maximized (for not break normal size)
-  if (WindowState <> wsMaximized) then
   begin
-    gConfig.SetValue(ANode, 'Left', Left);
-    gConfig.SetValue(ANode, 'Top', Top);
-    gConfig.SetValue(ANode, 'Width', Width);
-    gConfig.SetValue(ANode, 'Height', Height);
+    gConfig.SetValue(ANode, 'Left', FRestoredLeft);
+    gConfig.SetValue(ANode, 'Top', FRestoredTop);
+    gConfig.SetValue(ANode, 'Width', FRestoredWidth);
+    gConfig.SetValue(ANode, 'Height', FRestoredHeight);
     gConfig.SetValue(ANode, 'PixelsPerInch', Screen.PixelsPerInch);
+    gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
+    gConfig.SetValue(ANode, 'Splitter', FMainSplitterPos);
   end;
-  gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
-  gConfig.SetValue(ANode, 'Splitter', FMainSplitterPos);
 end;
 
 procedure TfrmMain.LoadToolbar(AToolBar: TKASToolBar);
@@ -6417,6 +6462,30 @@ begin
   end;
 
   UpdateSelectedDrives;
+end;
+
+procedure TfrmMain.DelayedEvent(Data: PtrInt);
+begin
+  { discard duplicate calls, accept last call only }
+  Dec(FDelayedEventCtr);
+  if FDelayedEventCtr > 0 then
+    Exit;
+  { update restored bounds }
+  if WindowState = wsNormal then
+    begin
+      if FDelayedWMMove then
+        begin
+          FRestoredLeft := Left;
+          FRestoredTop := Top;
+        end;
+      if FDelayedWMSize then
+        begin
+          FRestoredWidth := Width;
+          FRestoredHeight := Height;
+        end;
+    end;
+  FDelayedWMMove := False;
+  FDelayedWMSize := False;
 end;
 
 procedure TfrmMain.AppActivate(Sender: TObject);
