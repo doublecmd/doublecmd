@@ -1,0 +1,145 @@
+Index: Qt5Pas.pro
+===================================================================
+--- Qt5Pas.pro	(revision 63113)
++++ Qt5Pas.pro	(working copy)
+@@ -15,7 +15,7 @@
+ 
+ VERSION = 1.2.6
+ 
+-QT += gui network printsupport
++QT += gui printsupport
+ TARGET = Qt5Pas
+ TEMPLATE = lib
+ VPATH = src
+@@ -73,8 +73,8 @@
+ CONFIG -= create_prl
+ CONFIG -= link_prl
+ 
+-CONFIG -= release
+-CONFIG += debug
++CONFIG += release
++CONFIG -= debug
+ CONFIG += dll
+ CONFIG += warn_off
+   
+@@ -345,27 +345,6 @@
+            qgraphicsscene_c.h \
+            qgraphicsscene_hook.h \
+            qgraphicsview_c.h \
+-           qsslcipher_c.h \
+-           qsslkey_c.h \
+-           qsslerror_c.h \
+-           qabstractsocket_c.h \
+-           qabstractsocket_hook.h \
+-           qudpsocket_c.h \
+-           qudpsocket_hook.h \
+-           qtcpsocket_c.h \
+-           qtcpsocket_hook.h \
+-           qtcpserver_c.h \
+-           qtcpserver_hook.h \
+-           qsslconfiguration_c.h \
+-           qsslsocket_c.h \
+-           qnetworkaccessmanager_c.h \
+-           qnetworkaccessmanager_hook.h \
+-           qnetworkrequest_c.h \
+-           qnetworkreply_c.h \
+-           qnetworkreply_hook.h \
+-           qnetworkcookiejar_c.h \
+-           qnetworkproxy_c.h \
+-           qauthenticator_c.h \
+            qcoreapplication_hook_c.h \
+            qtimer_hook_c.h \
+            qsocketnotifier_hook_c.h \
+@@ -443,13 +422,7 @@
+            qprintpreviewdialog_hook_c.h \
+            qprintpreviewwidget_hook_c.h \
+            qsystemtrayicon_hook_c.h \
+-           qgraphicsscene_hook_c.h \
+-           qabstractsocket_hook_c.h \
+-           qudpsocket_hook_c.h \
+-           qtcpsocket_hook_c.h \
+-           qtcpserver_hook_c.h \
+-           qnetworkaccessmanager_hook_c.h \
+-           qnetworkreply_hook_c.h 
++           qgraphicsscene_hook_c.h
+ SOURCES +=  \
+            qobject_hook_c.cpp \
+            pascalbind.cpp \
+@@ -630,21 +603,6 @@
+            qstylefactory_c.cpp \
+            qgraphicsscene_c.cpp \
+            qgraphicsview_c.cpp \
+-           qsslcipher_c.cpp \
+-           qsslkey_c.cpp \
+-           qsslerror_c.cpp \
+-           qabstractsocket_c.cpp \
+-           qudpsocket_c.cpp \
+-           qtcpsocket_c.cpp \
+-           qtcpserver_c.cpp \
+-           qsslconfiguration_c.cpp \
+-           qsslsocket_c.cpp \
+-           qnetworkaccessmanager_c.cpp \
+-           qnetworkrequest_c.cpp \
+-           qnetworkreply_c.cpp \
+-           qnetworkcookiejar_c.cpp \
+-           qnetworkproxy_c.cpp \
+-           qauthenticator_c.cpp \
+            qcoreapplication_hook_c.cpp \
+            qtimer_hook_c.cpp \
+            qsocketnotifier_hook_c.cpp \
+@@ -722,11 +680,5 @@
+            qprintpreviewdialog_hook_c.cpp \
+            qprintpreviewwidget_hook_c.cpp \
+            qsystemtrayicon_hook_c.cpp \
+-           qgraphicsscene_hook_c.cpp \
+-           qabstractsocket_hook_c.cpp \
+-           qudpsocket_hook_c.cpp \
+-           qtcpsocket_hook_c.cpp \
+-           qtcpserver_hook_c.cpp \
+-           qnetworkaccessmanager_hook_c.cpp \
+-           qnetworkreply_hook_c.cpp
++           qgraphicsscene_hook_c.cpp
+ # end of file
+Index: src/chandles.h
+===================================================================
+--- src/chandles.h	(revision 63113)
++++ src/chandles.h	(working copy)
+@@ -13,14 +13,11 @@
+ #ifndef CHANDLES_H
+ #define CHANDLES_H
+ 
+-#if defined _LP64
+-typedef long long int PTRINT;
+-typedef unsigned long long int PTRUINT;
+-#else
+-typedef int PTRINT;
+-typedef unsigned int PTRUINT;
+-#endif
++#include <stdint.h>
+ 
++typedef intptr_t PTRINT;
++typedef uintptr_t PTRUINT;
++
+ typedef struct QAbstractButton__ { PTRINT dummy; } *QAbstractButtonH;
+ typedef struct QSizePolicy__ { PTRINT dummy; } *QSizePolicyH;
+ typedef struct QSurface__ { PTRINT dummy; } *QSurfaceH;
+Index: src/pascalbind.h
+===================================================================
+--- src/pascalbind.h	(revision 63113)
++++ src/pascalbind.h	(working copy)
+@@ -40,13 +40,8 @@
+ typedef bool (*EventFilter)(void *message, long *result);
+ typedef bool (*EventFilter2)(void *message);
+ 
+-#if defined _LP64
+-typedef long long int PTRINT;
+-typedef unsigned long long int PTRUINT;
+-#else
+-typedef int PTRINT;
+-typedef unsigned int PTRUINT;
+-#endif
++typedef intptr_t PTRINT;
++typedef uintptr_t PTRUINT;
+ 
+ 
+ typedef uint WFlags;
