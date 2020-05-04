@@ -487,6 +487,7 @@ end;
 procedure TfrmSyncDirsDlg.btnSynchronizeClick(Sender: TObject);
 var
   OperationType: TFileSourceOperationType;
+  SymLinkOption: TFileSourceOperationOptionSymLink;
   FileExistsOption: TFileSourceOperationOptionFileExists;
 
   function CopyFiles(src, dst: IFileSource; fs: TFiles; Dest: string): Boolean;
@@ -532,11 +533,13 @@ var
         Exit(False);
       end;
       FOperation.Elevate:= ElevateAction;
+      TFileSourceCopyOperation(FOperation).SymLinkOption := SymLinkOption;
       TFileSourceCopyOperation(FOperation).FileExistsOption := FileExistsOption;
       FOperation.AddUserInterface(FFileSourceOperationMessageBoxesUI);
       try
         FOperation.Execute;
         Result := FOperation.Result = fsorFinished;
+        SymLinkOption := TFileSourceCopyOperation(FOperation).SymLinkOption;
         FileExistsOption := TFileSourceCopyOperation(FOperation).FileExistsOption;
         FCopyStatistics.DoneBytes+= TFileSourceCopyOperation(FOperation).RetrieveStatistics.TotalBytes;
         SetProgressBytes(ProgressBar, FCopyStatistics.DoneBytes, FCopyStatistics.TotalBytes);

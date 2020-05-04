@@ -36,7 +36,6 @@ type
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
     FAutoRenameItSelf: Boolean;
-    FSymLinkOption: TFileSourceOperationOptionSymLink;
     FCorrectSymLinks: Boolean;
     procedure SetSearchTemplate(AValue: TSearchTemplate);
 
@@ -59,7 +58,6 @@ type
     property ReserveSpace: Boolean read FReserveSpace write FReserveSpace;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property AutoRenameItSelf: Boolean read FAutoRenameItSelf write FAutoRenameItSelf;
-    property SymLinkOption: TFileSourceOperationOptionSymLink read FSymLinkOption write FSymLinkOption;
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
     property SetPropertyError: TFileSourceOperationOptionSetPropertyError read FSetPropertyError write FSetPropertyError;
     property ExcludeEmptyTemplateDirectories: Boolean read FExcludeEmptyTemplateDirectories write FExcludeEmptyTemplateDirectories;
