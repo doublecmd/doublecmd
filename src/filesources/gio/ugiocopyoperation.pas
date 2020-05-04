@@ -26,9 +26,6 @@ type
     FSourceFilesTree: TFileTree;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
 
-  protected
-    FSymLinkOption: TFileSourceOperationOptionSymLink;
-
   public
     constructor Create(aSourceFileSource: IFileSource;
                        aTargetFileSource: IFileSource;
@@ -42,8 +39,6 @@ type
     procedure Finalize; override;
 
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
-
-    property SymLinkOption: TFileSourceOperationOptionSymLink read FSymLinkOption write FSymLinkOption;
   end;
 
   {
