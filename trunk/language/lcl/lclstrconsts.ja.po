@@ -6,38 +6,38 @@ msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
+"Last-Translator: Haruyuki Fujimaki<fujimaki_haruyuki@yahoo.co.jp>, from 1.8RC1\n"
 "Language-Team: Japanese Lazarus ML\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.5.7\n"
 "Language: ja\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 msgid "Browser \"%s\" not executable."
-msgstr "ブラウザ \"%s\" が起動できません。"
+msgstr "ブラウザ \"%s\"が起動できません。"
 
 #: lclstrconsts.hhshelpbrowsernotfound
 msgid "Browser \"%s\" not found."
-msgstr "ブラウザ \"%s\" が見つかりません。"
+msgstr "ブラウザ \"%s\"が見つかりません。"
 
 #: lclstrconsts.hhshelperrorwhileexecuting
 msgid "Error while executing \"%s\":%s%s"
-msgstr "\"%s\" を実行中のエラー：%s%s"
+msgstr "\"%s\"を実行中のエラー：%s%s"
 
 #: lclstrconsts.hhshelpnohtmlbrowserfound
 msgid "Unable to find a HTML browser."
-msgstr "HTML ブラウザーを見つけることができません。"
+msgstr "HTML ブラウザを見つけることができません。"
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
-msgstr "HTMLブラウザが見つかりません。\"%s\" 何か1つを「ツール→オプション→ヘルプ→ヘルプオプション」で設定して下さい。"
+msgstr "HTML ブラウザが見つかりません。%sツール → オプション → ヘルプ → ヘルプオプション でブラウザを設定してください。"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database \"%s\" was unable to find file \"%s\"."
-msgstr "ヘルプデータベース\"%s\"はファイル\"%\"を見つけることができませんでした。"
+msgstr "ヘルプデータベース \"%s\"は\"%s\"を見つけることができませんでした。"
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
 msgid "The macro %s in BrowserParams will be replaced by the URL."
-msgstr "BrowserParams中のマクロ\"%s\"はURLで置き換えられます。"
+msgstr "BrowserParams のマクロ %s は URL によって置き換えられます。"
 
 #: lclstrconsts.ifsalt
 msgid "Alt"
@@ -47,210 +47,30 @@ msgstr "Alt"
 msgid "Ctrl"
 msgstr "Ctrl"
 
-#: lclstrconsts.ifsvk_accept
-msgid "Accept"
-msgstr "Accept"
-
-#: lclstrconsts.ifsvk_apps
-msgid "application key"
-msgstr "アプリケーションキー"
-
-#: lclstrconsts.ifsvk_back
-msgid "Backspace"
-msgstr "Backspace"
-
-#: lclstrconsts.ifsvk_cancel
-msgctxt "lclstrconsts.ifsvk_cancel"
-msgid "Cancel"
-msgstr "Cancel"
-
-#: lclstrconsts.ifsvk_capital
-msgid "Capital"
-msgstr "Caps Lock"
-
-#: lclstrconsts.ifsvk_clear
-msgid "Clear"
-msgstr "Clear"
-
 #: lclstrconsts.ifsvk_cmd
 msgid "Cmd"
 msgstr "Cmd"
 
-#: lclstrconsts.ifsvk_control
-msgid "Control"
-msgstr "Ctrl"
-
-#: lclstrconsts.ifsvk_convert
-msgid "Convert"
-msgstr "変換"
-
-#: lclstrconsts.ifsvk_delete
-msgctxt "lclstrconsts.ifsvk_delete"
-msgid "Delete"
-msgstr "Delete"
-
-#: lclstrconsts.ifsvk_down
-msgctxt "lclstrconsts.ifsvk_down"
-msgid "Down"
-msgstr "↓"
-
-#: lclstrconsts.ifsvk_end
-msgctxt "lclstrconsts.ifsvk_end"
-msgid "End"
-msgstr "End"
-
-#: lclstrconsts.ifsvk_escape
-msgid "Escape"
-msgstr "Escape"
-
-#: lclstrconsts.ifsvk_execute
-msgid "Execute"
-msgstr "Execute"
-
-#: lclstrconsts.ifsvk_final
-msgid "Final"
-msgstr "Final"
-
-#: lclstrconsts.ifsvk_hanja
-msgid "Hanja"
-msgstr "Hanja（韓国における漢字）"
-
 #: lclstrconsts.ifsvk_help
+msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
 msgstr "Help"
-
-#: lclstrconsts.ifsvk_home
-msgctxt "lclstrconsts.ifsvk_home"
-msgid "Home"
-msgstr "Home"
-
-#: lclstrconsts.ifsvk_insert
-msgctxt "lclstrconsts.ifsvk_insert"
-msgid "Insert"
-msgstr "Insert"
-
-#: lclstrconsts.ifsvk_junja
-msgid "Junja"
-msgstr "Junja"
-
-#: lclstrconsts.ifsvk_kana
-msgid "Kana"
-msgstr "カタカナ ひらがな"
-
-#: lclstrconsts.ifsvk_lbutton
-msgid "Mouse Button Left"
-msgstr "マウスの左ボタン"
-
-#: lclstrconsts.ifsvk_left
-msgctxt "lclstrconsts.ifsvk_left"
-msgid "Left"
-msgstr "←"
-
-#: lclstrconsts.ifsvk_lwin
-msgid "left windows key"
-msgstr "左 Windows キー"
-
-#: lclstrconsts.ifsvk_mbutton
-msgid "Mouse Button Middle"
-msgstr "マウスの中ボタン"
-
-#: lclstrconsts.ifsvk_menu
-msgctxt "lclstrconsts.ifsvk_menu"
-msgid "Menu"
-msgstr "Alt"
 
 #: lclstrconsts.ifsvk_meta
 msgid "Meta"
 msgstr "Meta"
 
-#: lclstrconsts.ifsvk_modechange
-msgid "Mode Change"
-msgstr "モード変更"
-
-#: lclstrconsts.ifsvk_next
-msgctxt "lclstrconsts.ifsvk_next"
-msgid "Next"
-msgstr "Page Down"
-
-#: lclstrconsts.ifsvk_nonconvert
-msgid "Nonconvert"
-msgstr "無変換"
-
-#: lclstrconsts.ifsvk_numlock
-msgid "Numlock"
-msgstr "Num Lock"
-
-#: lclstrconsts.ifsvk_numpad
-msgid "Numpad %d"
-msgstr "テンキーの %d"
-
-#: lclstrconsts.ifsvk_pause
-msgid "Pause key"
-msgstr "Pause"
-
-#: lclstrconsts.ifsvk_print
-msgid "Print"
-msgstr "Print"
-
-#: lclstrconsts.ifsvk_prior
-msgctxt "lclstrconsts.ifsvk_prior"
-msgid "Prior"
-msgstr "Page Up"
-
-#: lclstrconsts.ifsvk_rbutton
-msgid "Mouse Button Right"
-msgstr "マウスの右ボタン"
-
-#: lclstrconsts.ifsvk_return
-msgid "Return"
-msgstr "Enter"
-
-#: lclstrconsts.ifsvk_right
-msgctxt "lclstrconsts.ifsvk_right"
-msgid "Right"
-msgstr "→"
-
-#: lclstrconsts.ifsvk_rwin
-msgid "right windows key"
-msgstr "右 Windows キー"
-
-#: lclstrconsts.ifsvk_scroll
-msgid "Scroll"
-msgstr "Scroll Lock"
-
-#: lclstrconsts.ifsvk_select
-msgid "Select"
-msgstr "Select"
-
 #: lclstrconsts.ifsvk_shift
 msgid "Shift"
 msgstr "Shift"
-
-#: lclstrconsts.ifsvk_snapshot
-msgid "Snapshot"
-msgstr "Print Screen"
-
-#: lclstrconsts.ifsvk_space
-msgid "Space key"
-msgstr "スペースキー"
 
 #: lclstrconsts.ifsvk_super
 msgid "Super"
 msgstr "Super"
 
-#: lclstrconsts.ifsvk_tab
-msgctxt "lclstrconsts.ifsvk_tab"
-msgid "Tab"
-msgstr "Tab"
-
 #: lclstrconsts.ifsvk_unknown
 msgid "Unknown"
 msgstr "不明"
-
-#: lclstrconsts.ifsvk_up
-msgctxt "lclstrconsts.ifsvk_up"
-msgid "Up"
-msgstr "↑"
 
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
@@ -267,7 +87,7 @@ msgstr "3 次元要素の明るい色"
 
 #: lclstrconsts.rsacontrolcannothaveitselfasparent
 msgid "A control can't have itself as a parent"
-msgstr "コントロールはそれ自身を親とすることはできません"
+msgstr "自身を親コントロールとすることはできません"
 
 #: lclstrconsts.rsactivebordercolorcaption
 msgid "Active Border"
@@ -287,7 +107,11 @@ msgstr "アプリケーションの作業領域色"
 
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
-msgstr "Aqua（水色）"
+msgstr "水色"
+
+#: lclstrconsts.rsascannothaveasparent
+msgid "Class %s cannot have %s as parent."
+msgstr "クラス%sは%sを親にできません"
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
@@ -303,7 +127,7 @@ msgstr "ビットマップファイル"
 
 #: lclstrconsts.rsblackcolorcaption
 msgid "Black"
-msgstr "Black（黒色）"
+msgstr "黒色"
 
 #: lclstrconsts.rsblank
 msgid "Blank"
@@ -311,7 +135,7 @@ msgstr "空欄"
 
 #: lclstrconsts.rsbluecolorcaption
 msgid "Blue"
-msgstr "Blue（青色）"
+msgstr "青色"
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
@@ -356,23 +180,23 @@ msgstr "大文字小文字を区別"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
 msgid "Control of class '%s' can't have control of class '%s' as a child"
-msgstr "クラス\"%s\"のコントロールが、クラス\"%s\"のコントロールを子とすることはできません"
+msgstr "コントロールクラス '%s' はコントロールクラス '%s' を子とすることはできません"
+
+#: lclstrconsts.rscontrolhasnoparentformorframe
+msgid "Control '%s' has no parent form or frame"
+msgstr "コントロール'%s'は親フォームもしくは親フレームを持ちません"
 
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
-msgstr "コントール\"%d\"には親となるウィンドウがありません"
+msgstr "コントロール '%s' には親ウィンドウがありません"
 
 #: lclstrconsts.rscontrolisnotaparent
 msgid "'%s' is not a parent of '%s'"
-msgstr "\"%s\"は\"%s\"の親ではありません"
+msgstr "'%s' は '%s' の親ではありません"
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
-msgstr "Cream（クリーム色）"
-
-#: lclstrconsts.rscreatinggdbcatchableerror
-msgid "Creating gdb catchable error:"
-msgstr "GDBが補足可能なエラーを生成中："
+msgstr "クリーム色"
 
 #: lclstrconsts.rscursor
 msgid "Cursor"
@@ -388,7 +212,7 @@ msgstr "デフォルト色"
 
 #: lclstrconsts.rsdefaultfileinfovalue
 msgid "permissions user group size date time"
-msgstr "権限　ユーザ　グループ　サイズ　日付　時間"
+msgstr "パーミッション ユーザ グループ サイズ 日付 時間"
 
 #: lclstrconsts.rsdeleterecord
 msgid "Delete record?"
@@ -407,9 +231,13 @@ msgstr "方向"
 msgid "&Directory"
 msgstr "ディレクトリ(&D)"
 
-#: lclstrconsts.rsdocking
-msgid "Docking"
-msgstr "ドッキング"
+#: lclstrconsts.rsdocopy
+msgid "Copy"
+msgstr "コピー"
+
+#: lclstrconsts.rsdopaste
+msgid "Paste"
+msgstr "貼り付け"
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
@@ -432,13 +260,9 @@ msgstr "エラー"
 msgid "Error creating device context for %s.%s"
 msgstr "%s.%s のデバイスコンテキスト生成中のエラー"
 
-#: lclstrconsts.rserrorinlcl
-msgid "ERROR in LCL: "
-msgstr "LCL 内エラー："
-
 #: lclstrconsts.rserroroccurredinataddressframe
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
-msgstr "フレーム %4:s %1:s　アドレス %2:s%3:s の %0:s においてエラーが発生しました"
+msgstr "フレーム %4:s %1:sアドレス %2:s%3:s の %0:s においてエラーが発生しました"
 
 #: lclstrconsts.rserrorwhilesavingbitmap
 msgid "Error while saving bitmap."
@@ -450,7 +274,7 @@ msgstr "例外"
 
 #: lclstrconsts.rsfddirectorymustexist
 msgid "Directory must exist"
-msgstr "ディレクトリが存在しなければなりません"
+msgstr "ディレクトリの所在不明"
 
 #: lclstrconsts.rsfddirectorynotexist
 msgid "The directory \"%s\" does not exist."
@@ -462,7 +286,7 @@ msgstr "ファイル\"%s\"は既に存在しています。上書きしますか
 
 #: lclstrconsts.rsfdfilemustexist
 msgid "File must exist"
-msgstr "ファイルが存在しなければなりません。"
+msgstr "ファイルの所在不明"
 
 #: lclstrconsts.rsfdfilenotexist
 msgid "The file \"%s\" does not exist."
@@ -474,7 +298,7 @@ msgstr "ファイル\"%s\"は書き込みできません。"
 
 #: lclstrconsts.rsfdfilereadonlytitle
 msgid "File is not writable"
-msgstr "ファイルは書き込み禁止です"
+msgstr "書き込み不可ファイル"
 
 #: lclstrconsts.rsfdfilesaveas
 msgid "Save file as"
@@ -482,7 +306,7 @@ msgstr "ファイルに名前を付けて保存"
 
 #: lclstrconsts.rsfdopenfile
 msgid "Open existing file"
-msgstr "既存のファイルを開く"
+msgstr "ファイルを開く"
 
 #: lclstrconsts.rsfdoverwritefile
 msgid "Overwrite file ?"
@@ -490,7 +314,7 @@ msgstr "ファイルを上書きしますか？"
 
 #: lclstrconsts.rsfdpathmustexist
 msgid "Path must exist"
-msgstr "パスが存在しなければなりません"
+msgstr "パスの所在不明"
 
 #: lclstrconsts.rsfdpathnoexist
 msgid "The path \"%s\" does not exist."
@@ -527,11 +351,11 @@ msgstr "最初へ"
 
 #: lclstrconsts.rsfixedcolstoobig
 msgid "FixedCols can't be > ColCount"
-msgstr "FixedCols の値は ColCount より大きくすることはできません"
+msgstr "FixedCols は ColCountより大きくはできません"
 
 #: lclstrconsts.rsfixedrowstoobig
 msgid "FixedRows can't be > RowCount"
-msgstr "FixedRows の値は RowCount の値より大きくすることはできません"
+msgstr "FixedRows は RowCountより大きくはできません"
 
 #: lclstrconsts.rsformcolorcaption
 msgid "Form"
@@ -539,7 +363,7 @@ msgstr "フォームの背景色"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
-msgstr "フォームのリソース\"%s\"がありません。リソースのないフォームでは、CreateNew コンストラクタを使わなくてはなりません。グローバル変数RequireDerivedFormResourceを参照して下さい。"
+msgstr "フォームリソース %s が見つかりません。リソース無しフォームにするには CreateNew コンストラクタを使用しなければなりません。グローバル変数 RequireDerivedFormResource を参照してください。"
 
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
@@ -551,15 +375,15 @@ msgstr "前方へ"
 
 #: lclstrconsts.rsfuchsiacolorcaption
 msgid "Fuchsia"
-msgstr "Fuchsia（鮮やかな赤紫色）"
+msgstr "赤紫色"
 
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
-msgstr "--gdk-debug flags：　GDK 固有のトレース／デバッグメッセージを有効にします。"
+msgstr "--gdk-debug flags     GDK 固有のトレース／デバッグメッセージを有効にします。"
 
 #: lclstrconsts.rsgdkoptionnodebug
 msgid "--gdk-no-debug flags  Turn off specific GDK trace/debug messages."
-msgstr "--gdk-no-debug flags：　GDK 固有のトレース／デバッグメッセージを無効にします。"
+msgstr "--gdk-no-debug flags  GDK 固有のトレース／デバッグメッセージを無効にします。"
 
 #: lclstrconsts.rsgif
 msgid "Graphics Interchange Format"
@@ -567,7 +391,7 @@ msgstr "GIF ファイル"
 
 #: lclstrconsts.rsgoptionfatalwarnings
 msgid "--g-fatal-warnings    Warnings and errors generated by Gtk+/GDK will halt the application."
-msgstr "--g-fatal-warnings：　Gtk+/GDK による警告またはエラーが発生した場合、アプリケーションを停止させます。"
+msgstr "--g-fatal-warnings    Gtk+/GDK による警告またはエラーが発生した場合、アプリケーションを停止させます。"
 
 #: lclstrconsts.rsgradientactivecaptioncolorcaption
 msgid "Gradient Active Caption"
@@ -583,15 +407,15 @@ msgstr "画像ファイル"
 
 #: lclstrconsts.rsgraycolorcaption
 msgid "Gray"
-msgstr "Gray（灰色）"
+msgstr "灰色"
 
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
-msgstr "淡色文字の色"
+msgstr "淡色文字"
 
 #: lclstrconsts.rsgreencolorcaption
 msgid "Green"
-msgstr "Green（みどり色）"
+msgstr "緑色"
 
 #: lclstrconsts.rsgridfiledoesnotexist
 msgid "Grid file doesn't exist"
@@ -599,19 +423,19 @@ msgstr "グリッドファイルが存在しません"
 
 #: lclstrconsts.rsgridhasnocols
 msgid "Cannot insert rows into a grid when it has no columns"
-msgstr "カラムが存在しない場合、グリッドに行を挿入できません"
+msgstr "列を持たない場合、行をグリッドに挿入できません"
 
 #: lclstrconsts.rsgridhasnorows
 msgid "Cannot insert columns into a grid when it has no rows"
-msgstr "行が存在しない場合、グリッドにカラムを挿入できません"
+msgstr "行を持たない場合、列をグリッドに挿入できません"
 
 #: lclstrconsts.rsgridindexoutofrange
 msgid "Grid index out of range."
-msgstr "グリッドインデックスが範囲外です。"
+msgstr "グリッドインデックスが範囲外です"
 
 #: lclstrconsts.rsgroupindexcannotbelessthanprevious
 msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
-msgstr "GroupIndexは、前のメニュー要素のGroupIndex より小さくなることはできません"
+msgstr "グループインデックスは前にあるメニューアイテムのグループインデックスより小さい値にすることはできません"
 
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
@@ -623,51 +447,57 @@ msgstr "履歴："
 
 #: lclstrconsts.rsgtkoptionclass
 msgid "--class classname     Following Xt conventions, the class of a program is the program name with the initial character capitalized. For example, the classname for gimp is \"Gimp\". If --class is specified, the class of the program will be set to \"classname\"."
-msgstr "--class classname：　Xtの慣例に従い、あるプログラムのクラス名はプログラム名の最初の文字を大文字にしたものです。例えば、gimpのクラス名は\"Gimp\"となります。もし、--class オプションが指定されると、プログラムのクラス名は、「classname」に設定されます。"
+msgstr "--class クラス名     Xt 規約に従い、プログラム上におけるクラスは頭文字を大文字にした名前になります。例えば、クラス名 gimp は \"Gimp\" となります。--class が指定された場合、プログラムにはそのクラス名のクラスが設定されます。"
 
 #: lclstrconsts.rsgtkoptiondebug
 msgid "--gtk-debug flags     Turn on specific Gtk+ trace/debug messages."
-msgstr "--gtk-debug flags：　Gtk+ 固有のトレース／デバッグメッセージを有効にします。"
+msgstr "--gtk-debug flags     Gtk+ 固有のトレース／デバッグメッセージを有効にします。"
 
 #: lclstrconsts.rsgtkoptiondisplay
 msgid "--display h:s:d       Connect to the specified X server, where \"h\" is the hostname, \"s\" is the server number (usually 0), and \"d\" is the display number (typically omitted). If --display is not specified, the DISPLAY environment variable is used."
-msgstr "--display h:s:d　：　指定されたXサーバに接続します。ここで、＜h＞はホスト名、＜s＞はサーバ番号（通常ゼロ)、＜d＞はディスプレイ番号（通常は省略）。もし、--displayオプションが指定されないと、DISPLAY環境変数が使用されます。"
+msgstr "--display h:s:d       指定された X サーバに接続します。\"h\" はホスト名、\"s\" はサーバ番号(通常は 0)、\"d\" はディスプレイ番号(大抵省略)です。--display が指定されない場合は、環境変数 DISPLAY が使用されます。"
 
 #: lclstrconsts.rsgtkoptionmodule
 msgid "--gtk-module module   Load the specified module at startup."
-msgstr "--gtk-module module：　指定されたモジュールを起動時にロードします。"
+msgstr "--gtk-module モジュール   起動時に指定したモジュールを読み込みます。"
 
 #: lclstrconsts.rsgtkoptionname
 msgid "--name programe       Set program name to \"progname\". If not specified, program name will be set to ParamStrUTF8(0)."
-msgstr "--name programe：　プログラム名を「programe」に設定します。もし、このオプションが指定されないと、プログラム名は、ParamStrUTF8(0)に設定されます。"
+msgstr "--name プログラム名       プログラム名を設定します。指定されなかった場合は、プログラム名には ParamStrUTF8(0) が設定されます。"
 
 #: lclstrconsts.rsgtkoptionnodebug
 msgid "--gtk-no-debug flags  Turn off specific Gtk+ trace/debug messages."
-msgstr "--gtk-no-debug flags：　Gtk+ 固有のトレース／デバッグメッセージを無効にします。"
+msgstr "--gtk-no-debug flags  Gtk+ 固有のトレース／デバッグメッセージを無効にします。"
 
 #: lclstrconsts.rsgtkoptionnotransient
 msgid "--lcl-no-transient    Do not set transient order for modal forms"
-msgstr "--lcl-no-transient：　モーダルフォームにおいて一時ウィンドウを使用しません"
+msgstr "--lcl-no-transient    モーダルフォームにおいて一時ウィンドウを使用しません"
 
 #: lclstrconsts.rsgtkoptionnoxshm
 msgid "--no-xshm             Disable use of the X Shared Memory Extension."
-msgstr "--no-xshm：　X共有メモリ拡張機能の使用を無効にする。"
+msgstr "--no-xshm             X 共有メモリ拡張の使用を無効にします。"
 
 #: lclstrconsts.rsgtkoptionsync
 msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
-msgstr "--sync：　X サーバとの接続を確立した後、「XSynchronize (display, True)」を呼び出します。これにより、X プロトコルエラーのデバッグが容易になります。なぜなら、X リクエストバッファリングは無効とされ、Xのエラーを発生させたプロトコルリクエストの直後にそのエラーが受信され、Xサーバにより処理されるからです。"
+msgstr "--sync                X サーバの接続を確立した後、「XSynchronize (display, True)」を呼び出します。これは X プロトコルエラーのデバッグを容易にできるようにします。なぜなら、X リクエストバッファリングは無効であり、X サーバで稼動しているところより生成されたエラーをエラープロトコル要求されてすぐに受け取るからです。"
+
+#: lclstrconsts.rshelp
+#, fuzzy
+msgctxt "lclstrconsts.rshelp"
+msgid "Help"
+msgstr "Help"
 
 #: lclstrconsts.rshelpalreadyregistered
 msgid "%s: Already registered"
-msgstr "\"%s\"は既に登録されています"
+msgstr "%s は既に登録されています"
 
 #: lclstrconsts.rshelpcontextnotfound
 msgid "A help database was found for this topic, but this topic was not found"
-msgstr "このトピックに関するヘルプデータベースが見つかりましたが、このトピック自体はありませんでした。"
+msgstr "このトピックスに対するヘルプデータベースは見つかりましたが、このトピックスは見つかりませんでした"
 
 #: lclstrconsts.rshelpdatabasenotfound
 msgid "There is no help database installed for this topic"
-msgstr "このトピックに関するヘルプデータベースはインストールされていません。"
+msgstr "このトピックスに対するヘルプデータベースがインストールされていません"
 
 #: lclstrconsts.rshelperror
 msgid "Help Error"
@@ -675,15 +505,15 @@ msgstr "ヘルプエラー"
 
 #: lclstrconsts.rshelphelpcontextnotfound
 msgid "Help context %s not found."
-msgstr "ヘルプコンテキスト\"%s\"が見つかりません。"
+msgstr "ヘルプコンテキスト %s が見つかりません"
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
 msgid "Help context %s not found in Database \"%s\"."
-msgstr "ヘルプコンテキスト\"%s\"はデータベース\"%s\"にありません。"
+msgstr "ヘルプコンテキスト %s をデータベース\"%s\"から見つけることができませんでした。"
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
 msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
-msgstr "ヘルプデータベース\"%s\"のヘルプページタイプ\"%s\"に対するビューアが見つかりません"
+msgstr "ヘルプデータベース\"%s\"のヘルプページタイプ %s に対するビューアが見つかりません"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
 msgid "Help Database \"%s\" not found"
@@ -691,11 +521,11 @@ msgstr "ヘルプデータベース\"%s\"が見つかりません"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
 msgid "Help for directive \"%s\" not found."
-msgstr "指令\"%s\"に対するヘルプが見つかりません。"
+msgstr "ヘルプの\"%s\"指令が見つかりません。"
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
-msgstr "指令\"%s\"に対するヘルプがデータベース\"%s\"の中に見つかりません。"
+msgstr "ヘルプの\"%s\"指令をデータベース\"%s\"から見つけることができませんでした。"
 
 #: lclstrconsts.rshelphelpkeywordnotfound
 msgid "Help keyword \"%s\" not found."
@@ -710,8 +540,9 @@ msgid "Help node \"%s\" has no Help Database"
 msgstr "ヘルプノード\"%s\"にヘルプデータベースはありません"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
+#, fuzzy,badformat
 msgid "No help found for line %d, column %d of %s."
-msgstr "%2:s の行 %0:d、列 %1:d のヘルプが見つかりませんでした。"
+msgstr "%sの行 %d、列 %d のヘルプが見つかりませんでした。"
 
 #: lclstrconsts.rshelpnohelpnodesavailable
 msgid "No help entries available for this topic"
@@ -719,11 +550,11 @@ msgstr "このトピックスで利用できるヘルプエントリがありま
 
 #: lclstrconsts.rshelpnotfound
 msgid "No help found for this topic"
-msgstr "このトピックのヘルプが見つかりません"
+msgstr "このトピックのヘルプが見つかりません。"
 
 #: lclstrconsts.rshelpnotregistered
 msgid "%s: Not registered"
-msgstr "\"%s\"は登録されていません"
+msgstr "%s は登録されていません"
 
 #: lclstrconsts.rshelpselectorerror
 msgid "Help Selector Error"
@@ -739,7 +570,7 @@ msgstr "ヘルプビューアエラー"
 
 #: lclstrconsts.rshelpviewernotfound
 msgid "No viewer was found for this type of help content"
-msgstr "このヘルプコンテンツタイプに対応するビューアが見つかりません"
+msgstr "このヘルプコンテンツタイプに対応するビューアが見つかりません。"
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
@@ -755,11 +586,11 @@ msgstr "選択項目の背景色"
 
 #: lclstrconsts.rsicns
 msgid "Mac OS X Icon"
-msgstr "Mac OS X アイコン"
+msgstr "Mac OS X アイコンファイル"
 
 #: lclstrconsts.rsicon
 msgid "Icon"
-msgstr "アイコン"
+msgstr "アイコンファイル"
 
 #: lclstrconsts.rsiconimageempty
 msgid "Icon image cannot be empty"
@@ -779,11 +610,11 @@ msgstr "アイコンイメージは同じサイズでなければなりません
 
 #: lclstrconsts.rsiconimagesizechange
 msgid "Cannot change size of icon image"
-msgstr "アイコンイメージのサイズが変更できません"
+msgstr "アイコンのサイズが変更できません"
 
 #: lclstrconsts.rsiconnocurrent
 msgid "Icon has no current image"
-msgstr "このアイコンは現在イメージを持っていません"
+msgstr "このアイコンはカレントイメージを持っていません"
 
 #: lclstrconsts.rsinactivebordercolorcaption
 msgid "Inactive Border"
@@ -801,7 +632,7 @@ msgstr "非アクティブタイトルバーの文字色"
 
 #: lclstrconsts.rsindexoutofbounds
 msgid "%s Index %d out of bounds 0 .. %d"
-msgstr "\"%s\" インデックスが %d、インデックス範囲外(0 .. %d)です"
+msgstr "%s インデックスが %d、インデックス範囲外(0 .. %d)です"
 
 #: lclstrconsts.rsindexoutofrange
 msgid "Index Out of range Cell[Col=%d Row=%d]"
@@ -842,7 +673,7 @@ msgstr "無効なストリーム形式"
 
 #: lclstrconsts.rsisalreadyassociatedwith
 msgid "%s is already associated with %s"
-msgstr "\"%s\"は既に\"%s\"と関連付けられています"
+msgstr "%s は既に %s と関連付けられています"
 
 #: lclstrconsts.rsjpeg
 msgid "Joint Picture Expert Group"
@@ -854,19 +685,35 @@ msgstr "最後へ"
 
 #: lclstrconsts.rslimecolorcaption
 msgid "Lime"
-msgstr "Lime（ライム色）"
+msgstr "黄緑色"
 
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
 msgstr "リストインデックスが範囲外です (%d)"
 
-#: lclstrconsts.rslistmustbeempty
-msgid "List must be empty"
-msgstr "ハッシュリストは空でなくてはなりません"
+#: lclstrconsts.rsmacosmenuhide
+msgid "Hide %s"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuhideothers
+msgid "Hide Others"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuquit
+msgid "Quit %s"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuservices
+msgid "Services"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenushowall
+msgid "Show All"
+msgstr ""
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
-msgstr "Maroon（栗色）"
+msgstr "栗色"
 
 #: lclstrconsts.rsmbabort
 msgid "Abort"
@@ -899,7 +746,7 @@ msgstr "いいえ(&N)"
 
 #: lclstrconsts.rsmbnotoall
 msgid "No to all"
-msgstr "全て「いいえ」"
+msgstr "すべて いいえ"
 
 #: lclstrconsts.rsmbok
 msgid "&OK"
@@ -927,11 +774,11 @@ msgstr "はい(&Y)"
 
 #: lclstrconsts.rsmbyestoall
 msgid "Yes to &All"
-msgstr "全て「はい」(&A)"
+msgstr "すべて はい(&A)"
 
 #: lclstrconsts.rsmedgraycolorcaption
 msgid "Medium Gray"
-msgstr "Medium Gray（中位の灰色）"
+msgstr "中位の灰色"
 
 #: lclstrconsts.rsmenubarcolorcaption
 msgid "Menu Bar"
@@ -956,7 +803,7 @@ msgstr "  修正済み "
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
-msgstr "Money Green（マネーグリーン；深緑色）"
+msgstr "マネーグリーン"
 
 #: lclstrconsts.rsmtauthentication
 msgid "Authentication"
@@ -985,7 +832,7 @@ msgstr "警告"
 
 #: lclstrconsts.rsnavycolorcaption
 msgid "Navy"
-msgstr "Navy（濃紺色）"
+msgstr "濃紺色"
 
 #: lclstrconsts.rsnextrecordhint
 msgctxt "lclstrconsts.rsnextrecordhint"
@@ -1006,7 +853,7 @@ msgstr "ウィジェットセットオブジェクトではありません。ユ
 
 #: lclstrconsts.rsolivecolorcaption
 msgid "Olive"
-msgstr "Olive（オリーブ色）"
+msgstr "黄緑色"
 
 #: lclstrconsts.rspickdate
 msgid "Select a date"
@@ -1036,11 +883,9 @@ msgstr "PNM ファイル"
 msgid "Post"
 msgstr "レコードの登録"
 
-#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
-msgstr ""
-"%s%s OKを押して無視するとデータが壊れる危険性があります。\n"
-"%s   キャンセルを押すとプログラムは強制終了します。"
+#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
+msgstr "%s%s無視してデータの破損のリスクを受け入れるのでしたらOKを押して下さい。%sプログラムを強制停止する場合は中止をクリックしてください。"
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
@@ -1053,99 +898,99 @@ msgstr "置換を確認"
 
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
-msgstr "プロパティ\"%s\"が存在しません"
+msgstr "プロパティ %s が存在しません"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
-msgstr "Purple（紫色）"
+msgstr "紫色"
 
 #: lclstrconsts.rsqtoptiondograb
 msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
-msgstr "-dograb (X11 のみ)：　デバッガの動作下では暗黙的に -nograb が使われるので、-dograb で上書きします。QT_DEBUG が必要です。"
+msgstr "-dograb (X11 のみ)   デバッガの動作下では暗黙的に -nograb が使われるので、-dograb で上書きします。QT_DEBUG が必要です。"
 
 #: lclstrconsts.rsqtoptiongraphicsstyle
 msgid "-graphicssystem param, sets the backend to be used for on-screen widgets and QPixmaps. Available options are native, raster and opengl. OpenGL is still unstable."
-msgstr "-graphicssystem パラメータ：　オンスクリーンウィジェットと QPixmaps で使われるバックエンドの設定をします。有効なオプションは native、raster、opengl です。OpenGL はまだ不安定版です。"
+msgstr "-graphicssystem パラメータ   オンスクリーンウィジェットと QPixmaps で使われるバックエンドの設定をします。有効なオプションは native、raster、opengl です。OpenGL はまだ不安定版です。"
 
 #: lclstrconsts.rsqtoptionnograb
 msgid "-nograb, tells Qt that it must never grab the mouse or the keyboard. Need QT_DEBUG."
-msgstr "-nograb：　マウスやキーボードに関することを捕捉しなくていいよう Qt に伝えます。QT_DEBUG が必要です。"
+msgstr "-nograb   マウスやキーボードに関することを捕捉しなくていいよう Qt に伝えます。QT_DEBUG が必要です。"
 
 #: lclstrconsts.rsqtoptionreverse
 msgid "-reverse, sets the application's layout direction to Qt::RightToLeft."
-msgstr "-reverse：　アプリケーションのレイアウト方向を Qt::RightToLeft (右横書き) に設定します。"
+msgstr "-reverse   アプリケーションのレイアウト方向を Qt::RightToLeft (右横書き) に設定します。"
 
 #: lclstrconsts.rsqtoptionsession
 msgid "-session session, restores the application from an earlier session."
-msgstr "-session セッション：　セッションは早い順にアプリケーションへ戻されます。"
+msgstr "-session セッション   セッションは早い順にアプリケーションへ戻されます。"
 
 #: lclstrconsts.rsqtoptionstyle
 msgid "-style style or -style=style, sets the application GUI style. Possible values are motif, windows, and platinum. If you compiled Qt with additional styles or have additional styles as plugins these will be available to the -style  command line option. NOTE: Not all styles are available on all platforms. If style param does not exist Qt will start an application with default common style (windows)."
-msgstr "-style スタイル または -style=スタイル：　アプリケーション GUI を設定します。設定できる値は motif、windows、platinum です。Qt で追加されたスタイルをコンパイルしたもしくはその他の追加スタイルがある場合、それらプラグインを -style コマンドラインオプションとして利用できます。注：すべてのスタイルがあらゆるプラットフォームで利用できるわけではありません。スタイルの値が存在しない場合、Qt はデフォルトの共通スタイル(windows)でアプリケーションを起動します。"
+msgstr "-style スタイル または -style=スタイル   アプリケーション GUI を設定します。設定できる値は motif、windows、platinum です。Qt で追加されたスタイルをコンパイルしたもしくはその他の追加スタイルがある場合、それらプラグインを -style コマンドラインオプションとして利用できます。注：すべてのスタイルがあらゆるプラットフォームで利用できるわけではありません。スタイルの値が存在しない場合、Qt はデフォルトの共通スタイル(windows)でアプリケーションを起動します。"
 
 #: lclstrconsts.rsqtoptionstylesheet
 msgid "-stylesheet stylesheet or -stylesheet=stylesheet, sets the application Style Sheet. The value must be a path to a file that contains the Style Sheet. Note: Relative URLs in the Style Sheet file are relative to the Style Sheet file's path."
-msgstr "-stylesheet スタイルシート または -stylesheet=スタイルシート：　アプリケーションのスタイルシートを設定します。設定する値は、そのスタイルシートを含むファイルへのパスでなければなりません。注：スタイルシートファイル中の相対URLは、スタイルシートファイルのパスに対する相対パスとなります。"
+msgstr "-stylesheet スタイルシート または -stylesheet=スタイルシート   アプリケーションのスタイルシートを設定します。設定する値は、スタイルシートを含むファイルパスである必要があります。注：スタイルシートのファイルが相対 URL にある場合は、相対パスにしてください。"
 
 #: lclstrconsts.rsqtoptionsync
 msgid "-sync (only under X11), switches to synchronous mode for debugging."
-msgstr "-sync (X11 のみ)：　デバッグを同期モードに切り替えます。"
+msgstr "-sync (X11 のみ)   デバッグを同期モードに切り替えます。"
 
 #: lclstrconsts.rsqtoptionwidgetcount
 msgid "-widgetcount, prints debug message at the end about number of widgets left undestroyed and maximum number of widgets existed at the same time."
-msgstr "-widgetcount：　破棄されずに残っているウィジェット数とその時に存在しているウィジェットの最大数を終了時にデバッグメッセージへ表示させます。"
+msgstr "-widgetcount   破棄されずに残っているウィジェット数とその時に存在しているウィジェットの最大数を終了時にデバッグメッセージへ表示させます。"
 
 #: lclstrconsts.rsqtoptionx11bgcolor
 msgid "-bg or -background color, sets the default background color and an application palette (light and dark shades are calculated)."
-msgstr "-bg または -background 色：　デフォルトの背景色とアプリケーションパレットを設定します(陰の濃淡は計算で決定されます)。"
+msgstr "-bg または -background 色   デフォルトの背景色とアプリケーションパレットを設定します(陰の濃淡は計算で決定されます)。"
 
 #: lclstrconsts.rsqtoptionx11btncolor
 msgid "-btn or -button color, sets the default button color."
-msgstr "-btn または -button 色：　デフォルトのボタンの色を設定します。"
+msgstr "-btn または -button 色   デフォルトのボタンの色を設定します。"
 
 #: lclstrconsts.rsqtoptionx11cmap
 msgid "-cmap, causes the application to install a private color map on an 8-bit display."
-msgstr "-cmap：　8 ビットディスプレイにおいてプライベートカラーマップをインストールしアプリケーションを起動します。"
+msgstr "-cmap   8 ビットディスプレイにおいてプライベートカラーマップをインストールしアプリケーションを起動します。"
 
 #: lclstrconsts.rsqtoptionx11display
 msgid "-display display, sets the X display (default is $DISPLAY)."
-msgstr "-display ディスプレイ：　X ディスプレイを設定します（デフォルトは、 $DISPLAYで決まる値です）。"
+msgstr "-display ディスプレイ   X ディスプレイを設定します(デフォルトは $DISPLAY)。"
 
 #: lclstrconsts.rsqtoptionx11fgcolor
 msgid "-fg or -foreground color, sets the default foreground color."
-msgstr "-fg または -foreground 色：　デフォルトの前景色を設定します。"
+msgstr "-fg または -foreground 色   デフォルトの前景色を設定します。"
 
 #: lclstrconsts.rsqtoptionx11font
 msgid "-fn or -font font, defines the application font. The font should be specified using an X logical font description."
-msgstr "-fn または -font フォント：　アプリケーションのフォントを定義します。フォントの指定は X 論理フォント記述子を推奨します。"
+msgstr "-fn または -font フォント   アプリケーションのフォントを定義します。フォントの指定は X 論理フォント記述子を推奨します。"
 
 #: lclstrconsts.rsqtoptionx11geometry
 msgid "-geometry geometry, sets the client geometry of the first window that is shown."
-msgstr "-geometry ジオメトリ：　表示される最初のクライアントウィンドウの幾何学的なサイズを設定します。"
+msgstr "-geometry ジオメトリ   最初に表示される幾何学的情報ウィンドウの設定をします。"
 
 #: lclstrconsts.rsqtoptionx11im
 msgid "-im, sets the input method server (equivalent to setting the XMODIFIERS environment variable)."
-msgstr "-im：　キーボード入力メソッドのサーバを設定します（環境変数 XMODIFIERS の値を設定するのと同じです）。"
+msgstr "-im   インプットメソッドサーバを設定します(環境変数 XMODIFIERS を設定することと同等のことです)。."
 
 #: lclstrconsts.rsqtoptionx11inputstyle
 msgid "-inputstyle, defines how the input is inserted into the given widget, e.g. onTheSpot makes the input appear directly in the widget, while overTheSpot makes the input appear in a box floating over the widget and is not inserted until the editing is done."
-msgstr "-inputstyle：　入力がどのようにウィジェットに挿入されるかを決めます。例：onTheSpot は、入力がウィジエットに直接現れます。一方、overTheSpot は、入力がウィジェットの上に浮かんだ箱の中に現れ、編集が完了するまで挿入はされません。"
+msgstr "-inputstyle   ウィジェットに対して挿入される入力方法を定義します。例えば、onTheSpot はウィジェットに直接入力され、overTheSpot は入力ボックスを通じて入力され決定されるまではウィジェットに入力されません。"
 
 #: lclstrconsts.rsqtoptionx11name
 msgid "-name name, sets the application name."
-msgstr "-name 名前：　アプリケーション名を設定します。"
+msgstr "-name 名前   アプリケーション名を設定します。"
 
 #: lclstrconsts.rsqtoptionx11ncols
 msgid "-ncols count, limits the number of colors allocated in the color cube on an 8-bit display, if the application is using the QApplication::ManyColor color specification. If count is 216 then a 6x6x6 color cube is used (i.e. 6 levels of red, 6 of green, and 6 of blue); for other values, a cube approximately proportional to a 2x3x1 cube is used."
-msgstr "-ncols 数：　アプリケーションで QApplication::ManyColor の色指定を使っている場合、8 ビットディスプレイにおける割り当てられるカラー数を制限します。指定した値が 216 の場合、18 ビットカラー空間(RGB が各 6 ビットの色空間)が使われます。他の値の場合、RGB が 2-3-1 に概ね比例した色空間が使われます。"
+msgstr "-ncols 数   アプリケーションで QApplication::ManyColor の色指定を使っている場合、8 ビットディスプレイにおける割り当てられるカラー数を制限します。指定した値が 216 の場合、18 ビットカラー空間(RGB が各 6 ビットの色空間)が使われます。他の値の場合、RGB が 2-3-1 に概ね比例した色空間が使われます。"
 
 #: lclstrconsts.rsqtoptionx11title
 msgid "-title title, sets the application title."
-msgstr "-title タイトル：　アプリケーションタイトルを設定します。"
+msgstr "-title タイトル   アプリケーションタイトルを設定します。"
 
 #: lclstrconsts.rsqtoptionx11visual
 msgid "-visual TrueColor, forces the application to use a TrueColor visual on an 8-bit display."
-msgstr "-visual TrueColor：　8 ビットディスプレイでトゥルーカラー表示するようアプリケーションに強制します。"
+msgstr "-visual TrueColor   8 ビットディスプレイでトゥルーカラー表示するようアプリケーションに強制します。"
 
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
@@ -1161,7 +1006,7 @@ msgstr "キャンバスのみの更新処理を行っているときは全体の
 
 #: lclstrconsts.rsredcolorcaption
 msgid "Red"
-msgstr "Red（赤色）"
+msgstr "赤色"
 
 #: lclstrconsts.rsrefreshrecordshint
 msgid "Refresh"
@@ -1178,7 +1023,7 @@ msgstr "すべて置換"
 #: lclstrconsts.rsresourcenotfound
 msgctxt "lclstrconsts.rsresourcenotfound"
 msgid "Resource %s not found"
-msgstr "リソース\"%s\"が見つかりません"
+msgstr "リソース %s が見つかりません"
 
 #: lclstrconsts.rsscrollbarcolorcaption
 msgid "ScrollBar"
@@ -1198,7 +1043,7 @@ msgstr "フォントの選択"
 
 #: lclstrconsts.rssilvercolorcaption
 msgid "Silver"
-msgstr "Silver（銀色）"
+msgstr "銀色"
 
 #: lclstrconsts.rssize
 msgid "  size "
@@ -1206,7 +1051,7 @@ msgstr "  サイズ "
 
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
-msgstr "Sky Blue（空色）"
+msgstr "空色"
 
 #: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
 msgid "A control with tabs"
@@ -1214,11 +1059,15 @@ msgstr "タブ付きコントロール"
 
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
-msgstr "Teal（暗青緑色）"
+msgstr "暗青緑色"
 
 #: lclstrconsts.rstext
 msgid "Text"
 msgstr "テキスト"
+
+#: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
+msgid "The built-in URL is read only. Change the BaseURL instead."
+msgstr ""
 
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
@@ -1232,7 +1081,7 @@ msgstr "パネル"
 #: lclstrconsts.rstsplitteraccessibilitydescription
 msgctxt "lclstrconsts.rstsplitteraccessibilitydescription"
 msgid "A grip to control how much size to give two parts of an area"
-msgstr "2つの領域サイズを変更することができるグリップ"
+msgstr "2 つの領域サイズを変更することができるグリップ"
 
 #: lclstrconsts.rsttreeviewaccessibilitydescription
 msgctxt "lclstrconsts.rsttreeviewaccessibilitydescription"
@@ -1245,11 +1094,11 @@ msgstr "デフォルトフォントを読み込むことができません"
 
 #: lclstrconsts.rsunknownerrorpleasereportthisbug
 msgid "Unknown Error, please report this bug"
-msgstr "未知のエラーです、このバグを報告してください。"
+msgstr "未知のエラーです、このバグを報告してください"
 
 #: lclstrconsts.rsunknownpictureextension
 msgid "Unknown picture extension"
-msgstr "不明な画像ファイル拡張子"
+msgstr "不明な画像拡張子"
 
 #: lclstrconsts.rsunknownpictureformat
 msgid "Unknown picture format"
@@ -1285,11 +1134,11 @@ msgstr "警告：LM_PAINT/LM_GtkPAINT メッセージリンクが %s 個削除�
 
 #: lclstrconsts.rswhitecolorcaption
 msgid "White"
-msgstr "White（白色）"
+msgstr "白色"
 
 #: lclstrconsts.rswholewordsonly
 msgid "Whole words only"
-msgstr "単語（完全一致）のみ"
+msgstr "完全一致のみ"
 
 #: lclstrconsts.rswin32error
 msgid "Error:"
@@ -1313,11 +1162,15 @@ msgstr "ウィンドウ内の文字色"
 
 #: lclstrconsts.rsyellowcolorcaption
 msgid "Yellow"
-msgstr "Yellow（黄色）"
+msgstr "黄色"
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
 msgstr "無効または不可視ウィンドウにフォーカスはできません"
+
+#: lclstrconsts.scannotsetdesigntimeppi
+msgid "Cannot set design time PPI."
+msgstr "設計時PPIをセットできません"
 
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
@@ -1341,7 +1194,7 @@ msgstr "アクション登録解除が無効です"
 
 #: lclstrconsts.sinvalidcharset
 msgid "The char set in mask \"%s\" is not valid!"
-msgstr "マスク\"%s\"にセットされた文字は有効なものではありません"
+msgstr "マスク \"%s\" のキャラクタセットが有効なものではありません！"
 
 #: lclstrconsts.sinvalidimagesize
 msgid "Invalid image size"
@@ -1361,7 +1214,7 @@ msgstr "メニューインデックスが範囲外です"
 
 #: lclstrconsts.smenuitemisnil
 msgid "MenuItem is nil"
-msgstr "メニューアイテムは空（nilです"
+msgstr "メニューアイテムは nil です"
 
 #: lclstrconsts.smenunotfound
 msgid "Sub-menu is not in menu"
@@ -1450,29 +1303,25 @@ msgctxt "lclstrconsts.smkcup"
 msgid "Up"
 msgstr "↑"
 
-#: lclstrconsts.snomdiform
-msgid "No MDI form present."
-msgstr "MDI フォームが存在しません。"
-
 #: lclstrconsts.snotimers
 msgid "No timers available"
 msgstr "利用できるタイマーがありません"
 
 #: lclstrconsts.sparentrequired
 msgid "Control \"%s\" has no parent window."
-msgstr "コントロール\"%s\"には親ウィンドウがありません。"
+msgstr "コントロール\"%s\"は親ウィンドウを持ちません。"
 
 #: lclstrconsts.sparexpected
 msgid "Wrong token type: %s expected"
-msgstr "正しくないトークンタイプ： \"%s\"ではありません"
+msgstr "正しくないトークンタイプ：%sではありません"
 
 #: lclstrconsts.sparinvalidfloat
 msgid "Invalid floating point number: %s"
-msgstr "無効な浮動小数点数値： %s"
+msgstr "無効な浮動小数点数値：%s"
 
 #: lclstrconsts.sparinvalidinteger
 msgid "Invalid integer number: %s"
-msgstr "無効な整数値： %s"
+msgstr "無効な整数値：%s"
 
 #: lclstrconsts.sparlocinfo
 msgid " (at %d,%d, stream offset %d)"
@@ -1488,11 +1337,11 @@ msgstr "文字列が終端していません"
 
 #: lclstrconsts.sparwrongtokensymbol
 msgid "Wrong token symbol: %s expected but %s found"
-msgstr "正しくないトークンシンボル： \"%s\"があるべきところに\"%s\"があります"
+msgstr "正しくないトークンシンボル：\"%s\"があるべきところに\"%s\"があります"
 
 #: lclstrconsts.sparwrongtokentype
 msgid "Wrong token type: %s expected but %s found"
-msgstr "正しくないトークンタイプ： \"%s\"があるべきところに\"%s\"があります"
+msgstr "正しくないトークンタイプ：\"%s\"があるべきところに\"%s\"があります"
 
 #: lclstrconsts.sshellctrlsbytes
 msgid "%s bytes"
@@ -1504,7 +1353,7 @@ msgid ""
 "Invalid pathname:\n"
 "\"%s\"\n"
 msgstr ""
-"無効なパス名：\n"
+"無効なパス名:\n"
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidpathrelative
@@ -1514,18 +1363,19 @@ msgid ""
 "in relation to rootpath:\n"
 "\"%s\"\n"
 msgstr ""
-"ルートパス:\n"
-"\"%1:s\"に関連した\n"
-"無効な相対パス名：\n"
-"\"%0:s\"\n"
+"無効な相対パス名:\n"
+"\"%s\"\n"
+"以下のルートパスとの相互関係:\n"
+"\"%s\"\n"
 
 #: lclstrconsts.sshellctrlsinvalidroot
+#, fuzzy
 msgctxt "lclstrconsts.sshellctrlsinvalidroot"
 msgid ""
 "Invalid pathname:\n"
 "\"%s\"\n"
 msgstr ""
-"無効なパス名：\n"
+"無効なパス名:\n"
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlskb
@@ -1545,7 +1395,7 @@ msgid ""
 "The selected item does not exist on disk:\n"
 "\"%s\"\n"
 msgstr ""
-"選択された項目はディスク上にありません:\n"
+"選択された項目は以下のディスク上に存在しません:\n"
 "\"%s\"\n"
 
 #: lclstrconsts.sshellctrlssize
@@ -1554,4 +1404,5 @@ msgstr "サイズ"
 
 #: lclstrconsts.sshellctrlstype
 msgid "Type"
-msgstr "タイプ"
+msgstr "型"
+

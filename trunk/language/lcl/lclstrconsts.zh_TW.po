@@ -13,15 +13,21 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
-msgid "Browser %s%s%s not executable."
+#, fuzzy,badformat
+#| msgid "Browser %s%s%s not executable."
+msgid "Browser \"%s\" not executable."
 msgstr "瀏覽 %s%s%s 不是可執行程式."
 
 #: lclstrconsts.hhshelpbrowsernotfound
-msgid "Browser %s%s%s not found."
+#, fuzzy,badformat
+#| msgid "Browser %s%s%s not found."
+msgid "Browser \"%s\" not found."
 msgstr "瀏覽 %s%s%s 未找到."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
-msgid "Error while executing %s%s%s:%s%s"
+#, fuzzy,badformat
+#| msgid "Error while executing %s%s%s:%s%s"
+msgid "Error while executing \"%s\":%s%s"
 msgstr "當執行 %s%s%s 時發生錯誤:%s%s "
 
 #: lclstrconsts.hhshelpnohtmlbrowserfound
@@ -33,7 +39,9 @@ msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> 
 msgstr ""
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
-msgid "The help database %s%s%s was unable to find file %s%s%s."
+#, fuzzy,badformat
+#| msgid "The help database %s%s%s was unable to find file %s%s%s."
+msgid "The help database \"%s\" was unable to find file \"%s\"."
 msgstr "幫助資料庫 %s%s%s 無法找到檔案 %s%s%s."
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
@@ -48,227 +56,35 @@ msgstr ""
 msgid "Ctrl"
 msgstr ""
 
-#: lclstrconsts.ifsvk_accept
-msgid "Accept"
-msgstr "接受"
-
-#: lclstrconsts.ifsvk_apps
-msgid "application key"
-msgstr "應用程式快捷鍵"
-
-#: lclstrconsts.ifsvk_back
-msgid "Backspace"
-msgstr "後退"
-
-#: lclstrconsts.ifsvk_cancel
-msgctxt "lclstrconsts.ifsvk_cancel"
-msgid "Cancel"
-msgstr "取消"
-
-#: lclstrconsts.ifsvk_capital
-msgid "Capital"
-msgstr "大寫"
-
-#: lclstrconsts.ifsvk_clear
-msgid "Clear"
-msgstr "清除"
-
 #: lclstrconsts.ifsvk_cmd
 msgid "Cmd"
 msgstr ""
 
-#: lclstrconsts.ifsvk_control
-msgid "Control"
-msgstr "控制"
-
-#: lclstrconsts.ifsvk_convert
-msgid "Convert"
-msgstr "轉換"
-
-#: lclstrconsts.ifsvk_delete
-msgctxt "lclstrconsts.ifsvk_delete"
-msgid "Delete"
-msgstr "刪除"
-
-#: lclstrconsts.ifsvk_down
-msgctxt "lclstrconsts.ifsvk_down"
-msgid "Down"
-msgstr "下"
-
-#: lclstrconsts.ifsvk_end
-msgctxt "lclstrconsts.ifsvk_end"
-msgid "End"
-msgstr ""
-
-#: lclstrconsts.ifsvk_escape
-msgid "Escape"
-msgstr ""
-
-#: lclstrconsts.ifsvk_execute
-msgid "Execute"
-msgstr "執行"
-
-#: lclstrconsts.ifsvk_final
-msgid "Final"
-msgstr ""
-
-#: lclstrconsts.ifsvk_hanja
-msgid "Hanja"
-msgstr ""
-
 #: lclstrconsts.ifsvk_help
+msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
 msgstr "幫助"
-
-#: lclstrconsts.ifsvk_home
-msgctxt "lclstrconsts.ifsvk_home"
-msgid "Home"
-msgstr ""
-
-#: lclstrconsts.ifsvk_insert
-msgctxt "lclstrconsts.ifsvk_insert"
-msgid "Insert"
-msgstr "插入"
-
-#: lclstrconsts.ifsvk_junja
-msgid "Junja"
-msgstr ""
-
-#: lclstrconsts.ifsvk_kana
-msgid "Kana"
-msgstr ""
-
-#: lclstrconsts.ifsvk_lbutton
-msgid "Mouse Button Left"
-msgstr "滑鼠左鍵"
-
-#: lclstrconsts.ifsvk_left
-msgctxt "lclstrconsts.ifsvk_left"
-msgid "Left"
-msgstr "左"
-
-#: lclstrconsts.ifsvk_lwin
-msgid "left windows key"
-msgstr "左 Win 鍵"
-
-#: lclstrconsts.ifsvk_mbutton
-msgid "Mouse Button Middle"
-msgstr "滑鼠中鍵"
-
-#: lclstrconsts.ifsvk_menu
-msgctxt "lclstrconsts.ifsvk_menu"
-msgid "Menu"
-msgstr "目錄"
 
 #: lclstrconsts.ifsvk_meta
 msgid "Meta"
 msgstr ""
 
-#: lclstrconsts.ifsvk_modechange
-msgid "Mode Change"
-msgstr "模式更改"
-
-#: lclstrconsts.ifsvk_next
-msgctxt "lclstrconsts.ifsvk_next"
-msgid "Next"
-msgstr "下一個"
-
-#: lclstrconsts.ifsvk_nonconvert
-msgid "Nonconvert"
-msgstr "不轉換"
-
-#: lclstrconsts.ifsvk_numlock
-msgid "Numlock"
-msgstr "數字鎖定"
-
-#: lclstrconsts.ifsvk_numpad
-msgid "Numpad %d"
-msgstr "數字鍵盤 %d"
-
-#: lclstrconsts.ifsvk_pause
-msgid "Pause key"
-msgstr "暫停鍵"
-
-#: lclstrconsts.ifsvk_print
-msgid "Print"
-msgstr "列印"
-
-#: lclstrconsts.ifsvk_prior
-msgctxt "lclstrconsts.ifsvk_prior"
-msgid "Prior"
-msgstr "優先"
-
-#: lclstrconsts.ifsvk_rbutton
-msgid "Mouse Button Right"
-msgstr "滑鼠右鍵"
-
-#: lclstrconsts.ifsvk_return
-msgid "Return"
-msgstr "返回"
-
-#: lclstrconsts.ifsvk_right
-msgctxt "lclstrconsts.ifsvk_right"
-msgid "Right"
-msgstr "右"
-
-#: lclstrconsts.ifsvk_rwin
-msgid "right windows key"
-msgstr "右 Win 鍵"
-
-#: lclstrconsts.ifsvk_scroll
-msgid "Scroll"
-msgstr "滾動"
-
-#: lclstrconsts.ifsvk_select
-msgid "Select"
-msgstr "選擇"
-
 #: lclstrconsts.ifsvk_shift
 msgid "Shift"
 msgstr ""
 
-#: lclstrconsts.ifsvk_snapshot
-msgid "Snapshot"
-msgstr "快照"
-
-#: lclstrconsts.ifsvk_space
-msgid "Space key"
-msgstr "空格鍵"
-
 #: lclstrconsts.ifsvk_super
 msgid "Super"
-msgstr ""
-
-#: lclstrconsts.ifsvk_tab
-msgctxt "lclstrconsts.ifsvk_tab"
-msgid "Tab"
 msgstr ""
 
 #: lclstrconsts.ifsvk_unknown
 msgid "Unknown"
 msgstr "未知"
 
-#: lclstrconsts.ifsvk_up
-msgctxt "lclstrconsts.ifsvk_up"
-msgid "Up"
-msgstr "上"
-
-#: lclstrconsts.liscannotexecute
-msgid "can not execute %s"
-msgstr ""
-
-#: lclstrconsts.liscefilter
-msgid "(filter)"
-msgstr ""
-
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
 msgstr "未找到資源 %s"
-
-#: lclstrconsts.lisprogramfilenotfound
-msgid "program file not found %s"
-msgstr ""
 
 #: lclstrconsts.rs3ddkshadowcolorcaption
 msgid "3D Dark Shadow"
@@ -302,6 +118,10 @@ msgstr "程式工作區"
 
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
+msgstr ""
+
+#: lclstrconsts.rsascannothaveasparent
+msgid "Class %s cannot have %s as parent."
 msgstr ""
 
 #: lclstrconsts.rsbackgroundcolorcaption
@@ -373,6 +193,10 @@ msgstr "大小寫敏感"
 msgid "Control of class '%s' can't have control of class '%s' as a child"
 msgstr ""
 
+#: lclstrconsts.rscontrolhasnoparentformorframe
+msgid "Control '%s' has no parent form or frame"
+msgstr ""
+
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
 msgstr ""
@@ -384,10 +208,6 @@ msgstr ""
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
 msgstr ""
-
-#: lclstrconsts.rscreatinggdbcatchableerror
-msgid "Creating gdb catchable error:"
-msgstr "建立 GDB 可以捕捉的錯誤"
 
 #: lclstrconsts.rscursor
 msgid "Cursor"
@@ -422,9 +242,13 @@ msgstr "方向"
 msgid "&Directory"
 msgstr "目錄 &D"
 
-#: lclstrconsts.rsdocking
-msgid "Docking"
-msgstr "停靠"
+#: lclstrconsts.rsdocopy
+msgid "Copy"
+msgstr ""
+
+#: lclstrconsts.rsdopaste
+msgid "Paste"
+msgstr ""
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
@@ -447,17 +271,9 @@ msgstr "錯誤"
 msgid "Error creating device context for %s.%s"
 msgstr ""
 
-#: lclstrconsts.rserrorinlcl
-msgid "ERROR in LCL: "
-msgstr ""
-
 #: lclstrconsts.rserroroccurredinataddressframe
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
 msgstr "在 %s %s地址 %s%s 框架 %s"
-
-#: lclstrconsts.rserrorreadingproperty
-msgid "Error reading %s%s%s: %s"
-msgstr "讀取 %s%s%s 錯誤: %s"
 
 #: lclstrconsts.rserrorwhilesavingbitmap
 msgid "Error while saving bitmap."
@@ -476,6 +292,7 @@ msgid "The directory \"%s\" does not exist."
 msgstr "目錄 \"%s\" 不存在."
 
 #: lclstrconsts.rsfdfilealreadyexists
+#, fuzzy,badformat
 msgid "The file \"%s\" already exists. Overwrite ?"
 msgstr "檔案 \"%s\" 已經存在.%s替換嗎?"
 
@@ -527,6 +344,11 @@ msgstr "(未找到檔案: \"%s\")"
 msgid "File information"
 msgstr "檔案資訊"
 
+#: lclstrconsts.rsfilter
+msgctxt "lclstrconsts.rsfilter"
+msgid "(filter)"
+msgstr ""
+
 #: lclstrconsts.rsfind
 msgid "Find"
 msgstr "尋找"
@@ -540,11 +362,15 @@ msgid "First"
 msgstr "第一個"
 
 #: lclstrconsts.rsfixedcolstoobig
-msgid "FixedCols can't be >= ColCount"
+#, fuzzy
+#| msgid "FixedCols can't be >= ColCount"
+msgid "FixedCols can't be > ColCount"
 msgstr "FixedCols 不能 >= ColCount"
 
 #: lclstrconsts.rsfixedrowstoobig
-msgid "FixedRows can't be >= RowCount"
+#, fuzzy
+#| msgid "FixedRows can't be >= RowCount"
+msgid "FixedRows can't be > RowCount"
 msgstr "FixedRows 不能 >= RowCount"
 
 #: lclstrconsts.rsformcolorcaption
@@ -607,9 +433,17 @@ msgstr "灰色文字"
 msgid "Green"
 msgstr "綠色"
 
-#: lclstrconsts.rsgridfiledoesnotexists
-msgid "Grid file doesn't exists"
-msgstr "網格檔案不存在"
+#: lclstrconsts.rsgridfiledoesnotexist
+msgid "Grid file doesn't exist"
+msgstr ""
+
+#: lclstrconsts.rsgridhasnocols
+msgid "Cannot insert rows into a grid when it has no columns"
+msgstr ""
+
+#: lclstrconsts.rsgridhasnorows
+msgid "Cannot insert columns into a grid when it has no rows"
+msgstr ""
 
 #: lclstrconsts.rsgridindexoutofrange
 msgid "Grid index out of range."
@@ -663,6 +497,12 @@ msgstr "--no-xshm             禁止使用 X 共享延伸記憶體。"
 msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
 msgstr ""
 
+#: lclstrconsts.rshelp
+#, fuzzy
+msgctxt "lclstrconsts.rshelp"
+msgid "Help"
+msgstr "幫助"
+
 #: lclstrconsts.rshelpalreadyregistered
 msgid "%s: Already registered"
 msgstr "%s: 已經註冊"
@@ -688,38 +528,51 @@ msgid "Help context %s not found."
 msgstr "未找到幫助上下文 %s."
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
-msgid "Help context %s not found in Database %s%s%s."
+#, fuzzy,badformat
+#| msgid "Help context %s not found in Database %s%s%s."
+msgid "Help context %s not found in Database \"%s\"."
 msgstr "沒有找到 %s 的幫助內容在資料庫 %s%s%s 中."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
-msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
+#, fuzzy,badformat
+#| msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
 msgstr "幫助資料庫 %s%s%s 未找到瀏覽器可以閱讀幫助頁 %s 的類型"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
-msgid "Help Database %s%s%s not found"
+#, fuzzy,badformat
+#| msgid "Help Database %s%s%s not found"
+msgid "Help Database \"%s\" not found"
 msgstr "未找到幫助資料庫 %s%s%s"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
-msgid "Help for directive %s%s%s not found."
+msgid "Help for directive \"%s\" not found."
 msgstr ""
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
-msgid "Help for directive %s%s%s not found in Database %s%s%s."
+msgid "Help for directive \"%s\" not found in Database \"%s\"."
 msgstr ""
 
 #: lclstrconsts.rshelphelpkeywordnotfound
-msgid "Help keyword %s%s%s not found."
+#, fuzzy,badformat
+#| msgid "Help keyword %s%s%s not found."
+msgid "Help keyword \"%s\" not found."
 msgstr "關鍵字 %s%s%s 未找到幫助."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
-msgid "Help keyword %s%s%s not found in Database %s%s%s."
+#, fuzzy,badformat
+#| msgid "Help keyword %s%s%s not found in Database %s%s%s."
+msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "關鍵字 %s 的幫助在資料庫 %s%s%s 中沒有找到."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
-msgid "Help node %s%s%s has no Help Database"
+#, fuzzy,badformat
+#| msgid "Help node %s%s%s has no Help Database"
+msgid "Help node \"%s\" has no Help Database"
 msgstr "幫助節點 %s%s%s 沒有幫助資料庫"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
+#, fuzzy,badformat
 msgid "No help found for line %d, column %d of %s."
 msgstr "沒有找到 %s 的行 %d, 列 %d 的 %s 的相關幫助."
 
@@ -744,7 +597,9 @@ msgid "Help Selector Error"
 msgstr "幫助選擇器錯誤"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
-msgid "There is no viewer for help type %s%s%s"
+#, fuzzy,badformat
+#| msgid "There is no viewer for help type %s%s%s"
+msgid "There is no viewer for help type \"%s\""
 msgstr "幫助類型 %s%s%s 沒有檢視器"
 
 #: lclstrconsts.rshelpviewererror
@@ -878,9 +733,25 @@ msgstr "橙"
 msgid "List index exceeds bounds (%d)"
 msgstr "list 索引超過限制 (%d)"
 
-#: lclstrconsts.rslistmustbeempty
-msgid "List must be empty"
-msgstr "列表必須為空"
+#: lclstrconsts.rsmacosmenuhide
+msgid "Hide %s"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuhideothers
+msgid "Hide Others"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuquit
+msgid "Quit %s"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuservices
+msgid "Services"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenushowall
+msgid "Show All"
+msgstr ""
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
@@ -1054,11 +925,9 @@ msgstr "便攜位圖"
 msgid "Post"
 msgstr "張貼"
 
-#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-#, fuzzy
-#| msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
-msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
-msgstr "%s%s確定忽略但資料有遺失的風險。%s取消則終止程式."
+#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
+msgstr ""
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
@@ -1238,6 +1107,10 @@ msgstr "青色"
 msgid "Text"
 msgstr "文字"
 
+#: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
+msgid "The built-in URL is read only. Change the BaseURL instead."
+msgstr ""
+
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
 msgstr ""
@@ -1333,6 +1206,10 @@ msgstr "黃色"
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
 msgstr "不能聚焦於無法聚焦或者不可見的視窗"
+
+#: lclstrconsts.scannotsetdesigntimeppi
+msgid "Cannot set design time PPI."
+msgstr ""
 
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
@@ -1465,13 +1342,13 @@ msgctxt "lclstrconsts.smkcup"
 msgid "Up"
 msgstr "上"
 
-#: lclstrconsts.snomdiform
-msgid "No MDI form present."
-msgstr "沒有 MDI 窗體出現"
-
 #: lclstrconsts.snotimers
 msgid "No timers available"
 msgstr "無有效計時器"
+
+#: lclstrconsts.sparentrequired
+msgid "Control \"%s\" has no parent window."
+msgstr ""
 
 #: lclstrconsts.sparexpected
 msgid "Wrong token type: %s expected"
@@ -1486,7 +1363,7 @@ msgid "Invalid integer number: %s"
 msgstr "無效的整數：%s"
 
 #: lclstrconsts.sparlocinfo
-#, fuzzy
+#, fuzzy,badformat
 #| msgid " (at %d,%d, stream offset %.8x)"
 msgid " (at %d,%d, stream offset %d)"
 msgstr "(在 %d,%d, 流偏移 %.8x)"
@@ -1506,4 +1383,56 @@ msgstr "錯誤的標識符：期望 %s 但是找到了 %s"
 #: lclstrconsts.sparwrongtokentype
 msgid "Wrong token type: %s expected but %s found"
 msgstr "錯誤的標識符類型：期望 %s 但是找到了 %s"
+
+#: lclstrconsts.sshellctrlsbytes
+msgid "%s bytes"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsinvalidpath
+msgctxt "lclstrconsts.sshellctrlsinvalidpath"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\"\n"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsinvalidpathrelative
+msgid ""
+"Invalid relative pathname:\n"
+"\"%s\"\n"
+"in relation to rootpath:\n"
+"\"%s\"\n"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsinvalidroot
+msgctxt "lclstrconsts.sshellctrlsinvalidroot"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\"\n"
+msgstr ""
+
+#: lclstrconsts.sshellctrlskb
+msgid "%s kB"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsmb
+msgid "%s MB"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsname
+msgid "Name"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+msgid ""
+"The selected item does not exist on disk:\n"
+"\"%s\"\n"
+msgstr ""
+
+#: lclstrconsts.sshellctrlssize
+msgid "Size"
+msgstr ""
+
+#: lclstrconsts.sshellctrlstype
+msgid "Type"
+msgstr ""
 

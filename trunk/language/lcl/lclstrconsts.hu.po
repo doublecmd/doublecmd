@@ -9,20 +9,17 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
-#| msgid "Browser %s%s%s not executable."
 msgid "Browser \"%s\" not executable."
-msgstr "A böngésző nem végrehajtható: \"%s\""
+msgstr "A böngésző nem futtatható: \"%s\""
 
 #: lclstrconsts.hhshelpbrowsernotfound
-#| msgid "Browser %s%s%s not found."
 msgid "Browser \"%s\" not found."
 msgstr "A böngésző nem található: \"%s\""
 
 #: lclstrconsts.hhshelperrorwhileexecuting
-#| msgid "Error while executing %s%s%s:%s%s"
 msgid "Error while executing \"%s\":%s%s"
 msgstr "Hiba a végrehajtás közben: \"%s\":%s%s"
 
@@ -31,15 +28,10 @@ msgid "Unable to find a HTML browser."
 msgstr "Nem található HTML böngésző."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
-msgid ""
-"No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> "
-"Help Options"
-msgstr ""
-"Nincs HTML böngésző. %s Meg kell adni egyet: Eszközök -> Beállítások -> Súgó "
-"-> Súgó beállítások"
+msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
+msgstr "Nincs HTML böngésző. %s Meg kell adni egyet: Eszközök -> Beállítások -> Súgó -> Súgó beállítások"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
-#| msgid "The help database %s%s%s was unable to find file %s%s%s."
 msgid "The help database \"%s\" was unable to find file \"%s\"."
 msgstr "A(z) \"%s\" súgóadatbázishoz hiányzik a \"%s\" fájl."
 
@@ -55,213 +47,30 @@ msgstr "Alt"
 msgid "Ctrl"
 msgstr "Ctrl"
 
-#: lclstrconsts.ifsvk_accept
-msgid "Accept"
-msgstr "Elfogadás"
-
-#: lclstrconsts.ifsvk_apps
-msgid "application key"
-msgstr "Alkalmazás billentyű"
-
-#: lclstrconsts.ifsvk_back
-msgid "Backspace"
-msgstr "Backspace"
-
-#: lclstrconsts.ifsvk_cancel
-msgctxt "lclstrconsts.ifsvk_cancel"
-msgid "Cancel"
-msgstr "Mégsem"
-
-#: lclstrconsts.ifsvk_capital
-msgid "Capital"
-msgstr "Nagy betűk"
-
-#: lclstrconsts.ifsvk_clear
-msgid "Clear"
-msgstr "Törlés"
-
 #: lclstrconsts.ifsvk_cmd
-#, fuzzy
 msgid "Cmd"
 msgstr "Cmd"
 
-#: lclstrconsts.ifsvk_control
-#, fuzzy
-msgid "Control"
-msgstr "Control"
-
-#: lclstrconsts.ifsvk_convert
-msgid "Convert"
-msgstr "Átalakítás"
-
-#: lclstrconsts.ifsvk_delete
-msgctxt "lclstrconsts.ifsvk_delete"
-msgid "Delete"
-msgstr "Delete"
-
-#: lclstrconsts.ifsvk_down
-msgctxt "lclstrconsts.ifsvk_down"
-msgid "Down"
-msgstr "Le"
-
-#: lclstrconsts.ifsvk_end
-msgctxt "lclstrconsts.ifsvk_end"
-msgid "End"
-msgstr "End"
-
-#: lclstrconsts.ifsvk_escape
-msgid "Escape"
-msgstr "Escape"
-
-#: lclstrconsts.ifsvk_execute
-msgid "Execute"
-msgstr "Végrehajtás"
-
-#: lclstrconsts.ifsvk_final
-msgid "Final"
-msgstr "Végső"
-
-#: lclstrconsts.ifsvk_hanja
-msgid "Hanja"
-msgstr "Hanja"
-
 #: lclstrconsts.ifsvk_help
+msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
 msgstr "Súgó"
-
-#: lclstrconsts.ifsvk_home
-msgctxt "lclstrconsts.ifsvk_home"
-msgid "Home"
-msgstr "Home"
-
-#: lclstrconsts.ifsvk_insert
-msgctxt "lclstrconsts.ifsvk_insert"
-msgid "Insert"
-msgstr "Insert"
-
-#: lclstrconsts.ifsvk_junja
-msgid "Junja"
-msgstr "Junja"
-
-#: lclstrconsts.ifsvk_kana
-msgid "Kana"
-msgstr "Kana"
-
-#: lclstrconsts.ifsvk_lbutton
-msgid "Mouse Button Left"
-msgstr "Bal egérgomb"
-
-#: lclstrconsts.ifsvk_left
-msgctxt "lclstrconsts.ifsvk_left"
-msgid "Left"
-msgstr "Balra"
-
-#: lclstrconsts.ifsvk_lwin
-msgid "left windows key"
-msgstr "bal windows billentyű"
-
-#: lclstrconsts.ifsvk_mbutton
-msgid "Mouse Button Middle"
-msgstr "Középső egérgomb"
-
-#: lclstrconsts.ifsvk_menu
-msgctxt "lclstrconsts.ifsvk_menu"
-msgid "Menu"
-msgstr "Menü"
 
 #: lclstrconsts.ifsvk_meta
 msgid "Meta"
 msgstr "Meta"
 
-#: lclstrconsts.ifsvk_modechange
-msgid "Mode Change"
-msgstr "Módváltás"
-
-#: lclstrconsts.ifsvk_next
-msgctxt "lclstrconsts.ifsvk_next"
-msgid "Next"
-msgstr "Következő"
-
-#: lclstrconsts.ifsvk_nonconvert
-#, fuzzy
-msgid "Nonconvert"
-msgstr "Nonconvert"
-
-#: lclstrconsts.ifsvk_numlock
-msgid "Numlock"
-msgstr "Numlock"
-
-#: lclstrconsts.ifsvk_numpad
-msgid "Numpad %d"
-msgstr "Numpad %d"
-
-#: lclstrconsts.ifsvk_pause
-msgid "Pause key"
-msgstr "Pause billentyű"
-
-#: lclstrconsts.ifsvk_print
-msgid "Print"
-msgstr "Nyomtatás"
-
-#: lclstrconsts.ifsvk_prior
-msgctxt "lclstrconsts.ifsvk_prior"
-msgid "Prior"
-msgstr "Előző"
-
-#: lclstrconsts.ifsvk_rbutton
-msgid "Mouse Button Right"
-msgstr "Jobb egérgomb"
-
-#: lclstrconsts.ifsvk_return
-msgid "Return"
-msgstr "Enter"
-
-#: lclstrconsts.ifsvk_right
-msgctxt "lclstrconsts.ifsvk_right"
-msgid "Right"
-msgstr "Jobbra"
-
-#: lclstrconsts.ifsvk_rwin
-msgid "right windows key"
-msgstr "jobb windows billentyű"
-
-#: lclstrconsts.ifsvk_scroll
-msgid "Scroll"
-msgstr "Görgetés"
-
-#: lclstrconsts.ifsvk_select
-msgid "Select"
-msgstr "Kijelölés"
-
 #: lclstrconsts.ifsvk_shift
 msgid "Shift"
 msgstr "Shift"
-
-#: lclstrconsts.ifsvk_snapshot
-msgid "Snapshot"
-msgstr "Pillanatkép"
-
-#: lclstrconsts.ifsvk_space
-msgid "Space key"
-msgstr "Szóköz"
 
 #: lclstrconsts.ifsvk_super
 msgid "Super"
 msgstr "Super"
 
-#: lclstrconsts.ifsvk_tab
-msgctxt "lclstrconsts.ifsvk_tab"
-msgid "Tab"
-msgstr "Tab"
-
 #: lclstrconsts.ifsvk_unknown
 msgid "Unknown"
 msgstr "Ismeretlen"
-
-#: lclstrconsts.ifsvk_up
-msgctxt "lclstrconsts.ifsvk_up"
-msgid "Up"
-msgstr "Fel"
 
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
@@ -299,6 +108,10 @@ msgstr "Alkalmazás munkaterülete"
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
 msgstr "Világoskék"
+
+#: lclstrconsts.rsascannothaveasparent
+msgid "Class %s cannot have %s as parent."
+msgstr "A(z) %s osztály szülője nem lehet %s."
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
@@ -369,6 +182,10 @@ msgstr "Kis-/nagybetűre érzékeny"
 msgid "Control of class '%s' can't have control of class '%s' as a child"
 msgstr "'%s' osztályú vezérlőnek nem lehet gyermeke egy '%s' osztályú vezérlő"
 
+#: lclstrconsts.rscontrolhasnoparentformorframe
+msgid "Control '%s' has no parent form or frame"
+msgstr "A(z) '%s' vezérlőnek nincs szülő kerete vagy form-ja"
+
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
 msgstr "A(z) '%s' vezérlőnek nincs szülő ablaka"
@@ -381,17 +198,13 @@ msgstr "'%s' nem szülője ennek: '%s'"
 msgid "Cream"
 msgstr "Krém"
 
-#: lclstrconsts.rscreatinggdbcatchableerror
-msgid "Creating gdb catchable error:"
-msgstr "GDB által feldolgozható hiba készítése:"
-
 #: lclstrconsts.rscursor
 msgid "Cursor"
 msgstr "Kurzor"
 
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
-msgstr "Saját ..."
+msgstr "Egyéni ..."
 
 #: lclstrconsts.rsdefaultcolorcaption
 msgid "Default"
@@ -418,9 +231,13 @@ msgstr "Irány"
 msgid "&Directory"
 msgstr "&Könyvtár"
 
-#: lclstrconsts.rsdocking
-msgid "Docking"
-msgstr "Dokkolás"
+#: lclstrconsts.rsdocopy
+msgid "Copy"
+msgstr "Másolás"
+
+#: lclstrconsts.rsdopaste
+msgid "Paste"
+msgstr "Beillesztés"
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
@@ -442,10 +259,6 @@ msgstr "Hiba"
 #: lclstrconsts.rserrorcreatingdevicecontext
 msgid "Error creating device context for %s.%s"
 msgstr "Hiba az eszköz-környezet létrhozásakor a(z) %s.%s számára"
-
-#: lclstrconsts.rserrorinlcl
-msgid "ERROR in LCL: "
-msgstr "HIBA az LCL-ben:"
 
 #: lclstrconsts.rserroroccurredinataddressframe
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
@@ -493,7 +306,7 @@ msgstr "Fájl mentése másként"
 
 #: lclstrconsts.rsfdopenfile
 msgid "Open existing file"
-msgstr "Látező fájl megnyitása"
+msgstr "Létező fájl megnyitása"
 
 #: lclstrconsts.rsfdoverwritefile
 msgid "Overwrite file ?"
@@ -505,7 +318,7 @@ msgstr "Az útvonalnak léteznie kell"
 
 #: lclstrconsts.rsfdpathnoexist
 msgid "The path \"%s\" does not exist."
-msgstr "A(z) \"%s\" útvonal nem tezik."
+msgstr "A(z) \"%s\" útvonal nem létezik."
 
 #: lclstrconsts.rsfdselectdirectory
 msgid "Select Directory"
@@ -530,7 +343,7 @@ msgstr "Keresés"
 
 #: lclstrconsts.rsfindmore
 msgid "Find more"
-msgstr "További keresés"
+msgstr "Következő keresése"
 
 #: lclstrconsts.rsfirstrecordhint
 msgid "First"
@@ -549,13 +362,8 @@ msgid "Form"
 msgstr "Form"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
-msgid ""
-"Form resource %s not found. For resourceless forms CreateNew constructor "
-"must be used. See the global variable RequireDerivedFormResource."
-msgstr ""
-"Az űrlap forrása (%s) nem található. Forrásfájl nélküli űrlapok "
-"létrehozásához a CreateNew constructor használata szükséges. Lásd a globális "
-"RequireDerivedFormResource változót."
+msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
+msgstr "Az űrlap forrása (%s) nem található. Forrásfájl nélküli űrlapok létrehozásához a CreateNew constructor használata szükséges. Lásd a globális RequireDerivedFormResource változót."
 
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
@@ -571,27 +379,19 @@ msgstr "Fukszia"
 
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
-msgstr ""
-"--gdk-debug jelzők     Bekapcsolja a megadott GDK nyomkövetési/hibakeresési "
-"üzeneteket."
+msgstr "--gdk-debug jelzők     Bekapcsolja a megadott GDK nyomkövetési/hibakeresési üzeneteket."
 
 #: lclstrconsts.rsgdkoptionnodebug
 msgid "--gdk-no-debug flags  Turn off specific GDK trace/debug messages."
-msgstr ""
-"--gdk-no-debug jelzők     Kikapcsolja a megadott GDK nyomkövetési/"
-"hibakeresési üzeneteket."
+msgstr "--gdk-no-debug jelzők     Kikapcsolja a megadott GDK nyomkövetési/hibakeresési üzeneteket."
 
 #: lclstrconsts.rsgif
 msgid "Graphics Interchange Format"
 msgstr "Graphics Interchange Format"
 
 #: lclstrconsts.rsgoptionfatalwarnings
-msgid ""
-"--g-fatal-warnings    Warnings and errors generated by Gtk+/GDK will halt "
-"the application."
-msgstr ""
-"--g-fatal-warnings    A Gtk+/GDK által generált figyelmeztetések és hibák "
-"leállítják az alkalmazást."
+msgid "--g-fatal-warnings    Warnings and errors generated by Gtk+/GDK will halt the application."
+msgstr "--g-fatal-warnings    A Gtk+/GDK által generált figyelmeztetések és hibák leállítják az alkalmazást."
 
 #: lclstrconsts.rsgradientactivecaptioncolorcaption
 msgid "Gradient Active Caption"
@@ -617,9 +417,17 @@ msgstr "Szürke szöveg"
 msgid "Green"
 msgstr "Zöld"
 
-#: lclstrconsts.rsgridfiledoesnotexists
-msgid "Grid file doesn't exists"
+#: lclstrconsts.rsgridfiledoesnotexist
+msgid "Grid file doesn't exist"
 msgstr "A táblafájl nem létezik"
+
+#: lclstrconsts.rsgridhasnocols
+msgid "Cannot insert rows into a grid when it has no columns"
+msgstr "Nem szúrhatók be sorok a rácsba ha nincsenek oszlopok"
+
+#: lclstrconsts.rsgridhasnorows
+msgid "Cannot insert columns into a grid when it has no rows"
+msgstr "Nem szúrhatók be oszlopok a rácsba ha nincsenek sorok"
 
 #: lclstrconsts.rsgridindexoutofrange
 msgid "Grid index out of range."
@@ -638,64 +446,45 @@ msgid "History:"
 msgstr "Előzmények:"
 
 #: lclstrconsts.rsgtkoptionclass
-msgid ""
-"--class classname     Following Xt conventions, the class of a program is "
-"the program name with the initial character capitalized. For example, the "
-"classname for gimp is \"Gimp\". If --class is specified, the class of the "
-"program will be set to \"classname\"."
-msgstr ""
+msgid "--class classname     Following Xt conventions, the class of a program is the program name with the initial character capitalized. For example, the classname for gimp is \"Gimp\". If --class is specified, the class of the program will be set to \"classname\"."
+msgstr "--class osztálynév    Az Xt szabályok követése, a program osztálya a program neve nagy kezdőbetűvel. Például a gimp osztályneve \"Gimp\". Ha a --class meg van adva akkor a program osztályneveként az \"osztálynév\" lesz beállítva."
 
 #: lclstrconsts.rsgtkoptiondebug
 msgid "--gtk-debug flags     Turn on specific Gtk+ trace/debug messages."
-msgstr ""
-"--gtk-debug jelzők     Bekapcsolja a megadott Gtk+ nyomkövetési/hibakeresési "
-"üzeneteket."
+msgstr "--gtk-debug jelzők     Bekapcsolja a megadott Gtk+ nyomkövetési/hibakeresési üzeneteket."
 
 #: lclstrconsts.rsgtkoptiondisplay
-msgid ""
-"--display h:s:d       Connect to the specified X server, where \"h\" is the "
-"hostname, \"s\" is the server number (usually 0), and \"d\" is the display "
-"number (typically omitted). If --display is not specified, the DISPLAY "
-"environment variable is used."
-msgstr ""
+msgid "--display h:s:d       Connect to the specified X server, where \"h\" is the hostname, \"s\" is the server number (usually 0), and \"d\" is the display number (typically omitted). If --display is not specified, the DISPLAY environment variable is used."
+msgstr "--display h:s:d       Kapcsolódás az adott X kiszolgálóhoz, ahol \"h\" az állomásnév, \"s\" a kiszolgáló száma (általában 0), és \"d\" a megjelenítő száma (általában elhagyható). Ha a --display nincs megadva akkor a DISPLAY környezeti változó értéke lesz használva."
 
 #: lclstrconsts.rsgtkoptionmodule
 msgid "--gtk-module module   Load the specified module at startup."
 msgstr "--gtk-module modul    Betölti a megadott modult induláskor."
 
 #: lclstrconsts.rsgtkoptionname
-msgid ""
-"--name programe       Set program name to \"progname\". If not specified, "
-"program name will be set to ParamStrUTF8(0)."
-msgstr ""
-"--name prognév       Beállítja a program nevét a \"prognév\" értékére. Ha "
-"nincs megadva, a program neve a ParamStrUTF8(0) értékére lesz beállítva."
+msgid "--name programe       Set program name to \"progname\". If not specified, program name will be set to ParamStrUTF8(0)."
+msgstr "--name prognév        Beállítja a program nevét a \"prognév\" értékére. Ha nincs megadva, a program neve a ParamStrUTF8(0) értékére lesz beállítva."
 
 #: lclstrconsts.rsgtkoptionnodebug
 msgid "--gtk-no-debug flags  Turn off specific Gtk+ trace/debug messages."
-msgstr ""
-"--gtk-no-debug jelzők  Kikapcsolja a megadott Gtk+ nyomkövetési/hibakeresési "
-"üzeneteket."
+msgstr "--gtk-no-debug jelzők  Kikapcsolja a megadott Gtk+ nyomkövetési/hibakeresési üzeneteket."
 
 #: lclstrconsts.rsgtkoptionnotransient
 msgid "--lcl-no-transient    Do not set transient order for modal forms"
-msgstr ""
-"--lcl-no-transient    Nem lesz beállítva ideiglenes sorrend a modal form-ok "
-"számára"
+msgstr "--lcl-no-transient    Nem lesz beállítva ideiglenes sorrend a modal form-ok számára"
 
 #: lclstrconsts.rsgtkoptionnoxshm
 msgid "--no-xshm             Disable use of the X Shared Memory Extension."
-msgstr ""
-"--no-xshm             Letiltja az X Shared Memory Extension használatát."
+msgstr "--no-xshm             Letiltja az X Shared Memory Extension használatát."
 
 #: lclstrconsts.rsgtkoptionsync
-msgid ""
-"--sync                Call XSynchronize (display, True) after the Xserver "
-"connection has been established. This makes debugging X protocol errors "
-"easier, because X request buffering will be disabled and X errors will be "
-"received immediately after the protocol request that generated the error has "
-"been processed by the X server."
-msgstr ""
+msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
+msgstr "--sync                XSynchronize (display, True) hívás a sikeres XServer csatlakozás után. Ez könnyebbé teszi a hibakeresést az X protokoll hibák esetén, mivel az X kérések pufferelése ki lesz kapcsolva és az X hibák azonnal fogadva lesznek az X kiszolgáló által feldolgozott, hibát okozó protokoll-kérések után."
+
+#: lclstrconsts.rshelp
+msgctxt "lclstrconsts.rshelp"
+msgid "Help"
+msgstr "Súgó"
 
 #: lclstrconsts.rshelpalreadyregistered
 msgid "%s: Already registered"
@@ -718,43 +507,34 @@ msgid "Help context %s not found."
 msgstr "A(z) %s súgó témakör nem található"
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
-#| msgid "Help context %s not found in Database %s%s%s."
 msgid "Help context %s not found in Database \"%s\"."
 msgstr "A(z) %s súgó témakör nem található a(z) \"%s\" adatbázisban."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
-msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
-msgstr ""
-"A(z) %s%s%s súgó adatbázis nem talált megjelenítőt a(z) %s típusú súgó "
-"oldalhoz"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+msgstr "A(z) \"%s\" súgó adatbázis nem talált megjelenítőt a(z) %s típusú súgó oldalhoz"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
-#| msgid "Help Database %s%s%s not found"
 msgid "Help Database \"%s\" not found"
 msgstr "A(z) \"%s\" súgó adatbázis nem található"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
-#| msgid "Help for directive %s%s%s not found."
 msgid "Help for directive \"%s\" not found."
 msgstr "Nem található súgó a(z) \"%s\" direktívához."
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
-#| msgid "Help for directive %s%s%s not found in Database %s%s%s."
 msgid "Help for directive \"%s\" not found in Database \"%s\"."
 msgstr "Nem található súgó a(z) \"%s\" direktívához a(z) \"%s\" adatbázisban."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
-#| msgid "Help keyword %s%s%s not found."
 msgid "Help keyword \"%s\" not found."
 msgstr "A(z) \"%s\" súgó kulcsszó nem található."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
-#| msgid "Help keyword %s%s%s not found in Database %s%s%s."
 msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "A(z) \"%s\" súgó kulcsszó nem található a(z) \"%s\" adatbázisban."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
-#| msgid "Help node %s%s%s has no Help Database"
 msgid "Help node \"%s\" has no Help Database"
 msgstr "A(z) \"%s\" elemhez nincs súgó adatbázis"
 
@@ -779,7 +559,6 @@ msgid "Help Selector Error"
 msgstr "Súgó kiválasztó hiba"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
-#| msgid "There is no viewer for help type %s%s%s"
 msgid "There is no viewer for help type \"%s\""
 msgstr "Nincs megjelenítő a(z) \"%s\" típusú súgóhoz."
 
@@ -833,7 +612,7 @@ msgstr "Az ikon képének méretét nem lehet megváltoztatni"
 
 #: lclstrconsts.rsiconnocurrent
 msgid "Icon has no current image"
-msgstr "Az ikonnak nincs jelenleg képe"
+msgstr "Az ikon képe jelenleg üres"
 
 #: lclstrconsts.rsinactivebordercolorcaption
 msgid "Inactive Border"
@@ -910,9 +689,25 @@ msgstr "Élénkzöld"
 msgid "List index exceeds bounds (%d)"
 msgstr "A lista indexe a határon kívül esik (%d)"
 
-#: lclstrconsts.rslistmustbeempty
-msgid "List must be empty"
-msgstr "A listának üresnek kell lennie"
+#: lclstrconsts.rsmacosmenuhide
+msgid "Hide %s"
+msgstr "%s elrejtése"
+
+#: lclstrconsts.rsmacosmenuhideothers
+msgid "Hide Others"
+msgstr "Többi elrejtése"
+
+#: lclstrconsts.rsmacosmenuquit
+msgid "Quit %s"
+msgstr "%s befejezése"
+
+#: lclstrconsts.rsmacosmenuservices
+msgid "Services"
+msgstr "Szolgáltatások"
+
+#: lclstrconsts.rsmacosmenushowall
+msgid "Show All"
+msgstr "Összes megjelenítése"
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
@@ -933,7 +728,7 @@ msgstr "Mégsem"
 
 #: lclstrconsts.rsmbclose
 msgid "&Close"
-msgstr "Be&zár"
+msgstr "Be&zárás"
 
 #: lclstrconsts.rsmbhelp
 msgid "&Help"
@@ -1051,12 +846,8 @@ msgid "Not a valid grid file"
 msgstr "Érvénytelen táblafájl"
 
 #: lclstrconsts.rsnowidgetset
-msgid ""
-"No widgetset object. Please check if the unit \"interfaces\" was added to "
-"the programs uses clause."
-msgstr ""
-"Nincs widgetset objektum. Ellenőrizze, hogy az \"interfaces\" unit hozzá "
-"lett-e adva a program uses részéhez."
+msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
+msgstr "Nincs widgetset objektum. Ellenőrizze, hogy az \"interfaces\" unit hozzá lett-e adva a program uses részéhez."
 
 #: lclstrconsts.rsolivecolorcaption
 msgid "Olive"
@@ -1087,17 +878,12 @@ msgid "Portable PixMap"
 msgstr "Portable PixMap"
 
 #: lclstrconsts.rspostrecordhint
-#, fuzzy
 msgid "Post"
-msgstr "Elküldés"
+msgstr "Küldés"
 
-#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid ""
-"%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the "
-"program."
-msgstr ""
-"%s%sAz OK-t választva figyelmen kívül hagyja és adatsérülést kockáztat. %sA "
-"Mégsem gombbal bezárja a programot."
+#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
+msgstr "%s%sAz OK-t választva figyelmen kívül hagyja és adatsérülést kockáztat. %sA Megszakítás gombbal bezárja a programot."
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
@@ -1117,157 +903,94 @@ msgid "Purple"
 msgstr "Lila"
 
 #: lclstrconsts.rsqtoptiondograb
-msgid ""
-"-dograb (only under X11), running under a debugger can cause an implicit -"
-"nograb, use -dograb to override. Need QT_DEBUG."
-msgstr ""
-"-dograb (csak X11 alatt), a hibakeresőben történő futtatás akaratlan \"-"
-"nograb\"-ot okozhat, a -dograb használata ezt bírálja felül. QT_DEBUG "
-"szükséges hozzá."
+msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
+msgstr "-dograb (csak X11 alatt), a hibakeresőben történő futtatás akaratlan \"-nograb\"-ot okozhat, a -dograb használata ezt bírálja felül. QT_DEBUG szükséges hozzá."
 
 #: lclstrconsts.rsqtoptiongraphicsstyle
-msgid ""
-"-graphicssystem param, sets the backend to be used for on-screen widgets and "
-"QPixmaps. Available options are native, raster and opengl. OpenGL is still "
-"unstable."
-msgstr ""
+msgid "-graphicssystem param, sets the backend to be used for on-screen widgets and QPixmaps. Available options are native, raster and opengl. OpenGL is still unstable."
+msgstr "-graphicssystem param, megadja a háttérfolyamatot a vezérlőelemek és a QPixmap-ok megjelenítéséhez. Elérhető lehetőségek: native, raster, opengl. Az OpenGL még nem stabil."
 
 #: lclstrconsts.rsqtoptionnograb
-msgid ""
-"-nograb, tells Qt that it must never grab the mouse or the keyboard. Need "
-"QT_DEBUG."
-msgstr ""
-"-nograb, utasítja a Qt rendszert, hogy ne sajátítsa ki az egeret vagy a "
-"billentyűzetet. QT_DEBUG szükséges hozzá."
+msgid "-nograb, tells Qt that it must never grab the mouse or the keyboard. Need QT_DEBUG."
+msgstr "-nograb, utasítja a Qt rendszert, hogy ne sajátítsa ki az egeret vagy a billentyűzetet. QT_DEBUG szükséges hozzá."
 
 #: lclstrconsts.rsqtoptionreverse
 msgid "-reverse, sets the application's layout direction to Qt::RightToLeft."
-msgstr ""
-"-reverse, beállítja az alkalmazás elrendezési irányát a Qt::RightToLeft "
-"értékre."
+msgstr "-reverse, beállítja az alkalmazás elrendezési irányát a Qt::RightToLeft értékre."
 
 #: lclstrconsts.rsqtoptionsession
 msgid "-session session, restores the application from an earlier session."
-msgstr ""
-"-session munkamenet, visszaállítja az alkalmazást egy korábbi munkamenetből."
+msgstr "-session munkamenet, visszaállítja az alkalmazást egy korábbi munkamenetből."
 
 #: lclstrconsts.rsqtoptionstyle
-msgid ""
-"-style style or -style=style, sets the application GUI style. Possible "
-"values are motif, windows, and platinum. If you compiled Qt with additional "
-"styles or have additional styles as plugins these will be available to the -"
-"style  command line option. NOTE: Not all styles are available on all "
-"platforms. If style param does not exist Qt will start an application with "
-"default common style (windows)."
-msgstr ""
+msgid "-style style or -style=style, sets the application GUI style. Possible values are motif, windows, and platinum. If you compiled Qt with additional styles or have additional styles as plugins these will be available to the -style  command line option. NOTE: Not all styles are available on all platforms. If style param does not exist Qt will start an application with default common style (windows)."
+msgstr "-style stílus vagy -style=stílus, megadja az alkalmazás grafikus felületének stílusát. Az elérhető értékek: motif, windows, és platinum. Ha a Qt további stílusokkal lett fordítva vagy bővítményként elérhetők további stílusok akkor azok is használhatók a -style parancssori paraméterben. MEGJEGYZÉS: Nem minden stílus érhető el minden platformon. Ha megadott stílus nem létezik akkor a Qt az alapértelmezett stílussal (windows) indítja az alkalmazást."
 
 #: lclstrconsts.rsqtoptionstylesheet
-msgid ""
-"-stylesheet stylesheet or -stylesheet=stylesheet, sets the application Style "
-"Sheet. The value must be a path to a file that contains the Style Sheet. "
-"Note: Relative URLs in the Style Sheet file are relative to the Style Sheet "
-"file's path."
-msgstr ""
+msgid "-stylesheet stylesheet or -stylesheet=stylesheet, sets the application Style Sheet. The value must be a path to a file that contains the Style Sheet. Note: Relative URLs in the Style Sheet file are relative to the Style Sheet file's path."
+msgstr "-stylesheet stíluslap vagy -stylesheet=stíluslap, megadja az alkalmazás stíluslapját. Az érték egy stíluslapot tartalmazó fájl útvonala kell legyen. Megjegyzés: A relatív URL-ek a stíluslap fájlban a stíluslap fájlútvonalához képest lesznek értelmezve."
 
 #: lclstrconsts.rsqtoptionsync
 msgid "-sync (only under X11), switches to synchronous mode for debugging."
 msgstr "-sync (csak X11 alatt), szinkronmódba kapcsol a hibakereséshez."
 
 #: lclstrconsts.rsqtoptionwidgetcount
-msgid ""
-"-widgetcount, prints debug message at the end about number of widgets left "
-"undestroyed and maximum number of widgets existed at the same time."
-msgstr ""
+msgid "-widgetcount, prints debug message at the end about number of widgets left undestroyed and maximum number of widgets existed at the same time."
+msgstr "-widgetcount, hibakeresési üzeneteket jelenít meg befejezéskor a megmaradt vezérlőelemek és az egy időben létezett legtöbb vezérlőkelem számáról."
 
 #: lclstrconsts.rsqtoptionx11bgcolor
-msgid ""
-"-bg or -background color, sets the default background color and an "
-"application palette (light and dark shades are calculated)."
-msgstr ""
-"-bg vagy -background szín, beállítja az alkalmazás alapértelmezett "
-"háttérszínét és színkészletét (a világos és sötét árnyalatok számított "
-"értékek)."
+msgid "-bg or -background color, sets the default background color and an application palette (light and dark shades are calculated)."
+msgstr "-bg vagy -background szín, beállítja az alkalmazás alapértelmezett háttérszínét és színkészletét (a világos és sötét árnyalatok számított értékek)."
 
 #: lclstrconsts.rsqtoptionx11btncolor
 msgid "-btn or -button color, sets the default button color."
 msgstr "-btn vagy -button szín, beállítja a gombok alapértelmezett színét."
 
 #: lclstrconsts.rsqtoptionx11cmap
-msgid ""
-"-cmap, causes the application to install a private color map on an 8-bit "
-"display."
-msgstr ""
-"-cmap, egyéni színösszeállítás használatára kényszeríti az alkalmazást 8-"
-"bites megjelenítőn."
+msgid "-cmap, causes the application to install a private color map on an 8-bit display."
+msgstr "-cmap, egyéni színösszeállítás használatára kényszeríti az alkalmazást 8-bites megjelenítőn."
 
 #: lclstrconsts.rsqtoptionx11display
 msgid "-display display, sets the X display (default is $DISPLAY)."
-msgstr ""
-"-display megjelenítő, beállítja az X megjelenítőt (alapértelmezett a "
-"$DISPLAY)."
+msgstr "-display megjelenítő, beállítja az X megjelenítőt (alapértelmezett a $DISPLAY)."
 
 #: lclstrconsts.rsqtoptionx11fgcolor
 msgid "-fg or -foreground color, sets the default foreground color."
 msgstr "-fg vagy -foreground szín, beállítja az alapértelmezett előtérszínt."
 
 #: lclstrconsts.rsqtoptionx11font
-msgid ""
-"-fn or -font font, defines the application font. The font should be "
-"specified using an X logical font description."
-msgstr ""
-"-fn vagy -font betűtípus, beállítja az alkalmazás betűtípusát, A betűtípust "
-"az X logikai betűtípus leírás használatával kell megadni."
+msgid "-fn or -font font, defines the application font. The font should be specified using an X logical font description."
+msgstr "-fn vagy -font betűtípus, beállítja az alkalmazás betűtípusát, A betűtípust az X logikai betűtípus leírás használatával kell megadni."
 
 #: lclstrconsts.rsqtoptionx11geometry
-msgid ""
-"-geometry geometry, sets the client geometry of the first window that is "
-"shown."
-msgstr ""
-"-geometry elhelyezés, megadja az elsőként megjelenő ablak elhelyezkedését."
+msgid "-geometry geometry, sets the client geometry of the first window that is shown."
+msgstr "-geometry elhelyezés, megadja az elsőként megjelenő ablak elhelyezkedését."
 
 #: lclstrconsts.rsqtoptionx11im
-msgid ""
-"-im, sets the input method server (equivalent to setting the XMODIFIERS "
-"environment variable)."
-msgstr ""
-"-im, beállítja a beviteli mód kiszolgálóját (ugyanúgy mint az XMODIFIERS "
-"környezeti változó beállítása)."
+msgid "-im, sets the input method server (equivalent to setting the XMODIFIERS environment variable)."
+msgstr "-im, beállítja a beviteli mód kiszolgálóját (ugyanúgy mint az XMODIFIERS környezeti változó beállítása)."
 
 #: lclstrconsts.rsqtoptionx11inputstyle
-msgid ""
-"-inputstyle, defines how the input is inserted into the given widget, e.g. "
-"onTheSpot makes the input appear directly in the widget, while overTheSpot "
-"makes the input appear in a box floating over the widget and is not inserted "
-"until the editing is done."
-msgstr ""
+msgid "-inputstyle, defines how the input is inserted into the given widget, e.g. onTheSpot makes the input appear directly in the widget, while overTheSpot makes the input appear in a box floating over the widget and is not inserted until the editing is done."
+msgstr "-inputstyle, meghatározza a bevitel beszúrásának módját az adott vezérlőelembe, pl. onTheSpot hatására a bevitel közvetlenül a vezérlőelemben jelenik meg, az overTheSpot hatására pedig a bevitel egy lebegő dobozban jelenik meg a vezérlőelem fölött és csak a szerkesztés befejezésekor lesz beszúrva."
 
 #: lclstrconsts.rsqtoptionx11name
 msgid "-name name, sets the application name."
 msgstr "-name név, beállítja az alkalmazás nevét."
 
 #: lclstrconsts.rsqtoptionx11ncols
-msgid ""
-"-ncols count, limits the number of colors allocated in the color cube on an "
-"8-bit display, if the application is using the QApplication::ManyColor color "
-"specification. If count is 216 then a 6x6x6 color cube is used (i.e. 6 "
-"levels of red, 6 of green, and 6 of blue); for other values, a cube "
-"approximately proportional to a 2x3x1 cube is used."
-msgstr ""
+msgid "-ncols count, limits the number of colors allocated in the color cube on an 8-bit display, if the application is using the QApplication::ManyColor color specification. If count is 216 then a 6x6x6 color cube is used (i.e. 6 levels of red, 6 of green, and 6 of blue); for other values, a cube approximately proportional to a 2x3x1 cube is used."
+msgstr "-ncols szám, korlátozza a színek számát a színkockában 8-bites megjelenítőn, ha az alkalmazás használja a QApplication::ManyColor színleírást. Ha a szám 216 akkor egy 6x6x6-os színkocka lesz használva (6 piros, 6 zöld és 6 kék szinttel); más értékek esetén egy körülbelül 2x3x1 arányú kocka lesz."
 
 #: lclstrconsts.rsqtoptionx11title
 msgid "-title title, sets the application title."
 msgstr "-title cím, beállítja az alkalmazás címét."
 
 #: lclstrconsts.rsqtoptionx11visual
-msgid ""
-"-visual TrueColor, forces the application to use a TrueColor visual on an 8-"
-"bit display."
-msgstr ""
-"-visual TrueColor, az alkalmazást TrueColor megjelenítés használatára "
-"kényszeríti 8-bites megjelenítőn."
+msgid "-visual TrueColor, forces the application to use a TrueColor visual on an 8-bit display."
+msgstr "-visual TrueColor, az alkalmazást TrueColor megjelenítés használatára kényszeríti 8-bites megjelenítőn."
 
 #: lclstrconsts.rsrasterimageendupdate
-#, fuzzy
 msgid "Endupdate while no update in progress"
 msgstr "Endupdate esemény miközben nincs frissítés folyamatban"
 
@@ -1276,10 +999,8 @@ msgid "Cannot save image while update in progress"
 msgstr "A kép mentése nem lehetséges frissítés közben"
 
 #: lclstrconsts.rsrasterimageupdateall
-#, fuzzy
 msgid "Cannot begin update all when canvas only update in progress"
-msgstr ""
-"Nem kezdhető el az összes frissítése amikor helyi frissítés van folyamatban"
+msgstr "Nem frissíthető az összes amíg egy rajzvászon frissítése folyik"
 
 #: lclstrconsts.rsredcolorcaption
 msgid "Red"
@@ -1295,7 +1016,7 @@ msgstr "Csere"
 
 #: lclstrconsts.rsreplaceall
 msgid "Replace all"
-msgstr "Mindet cseréli"
+msgstr "Összes cseréje"
 
 #: lclstrconsts.rsresourcenotfound
 msgctxt "lclstrconsts.rsresourcenotfound"
@@ -1342,6 +1063,10 @@ msgstr "Kékeszöld"
 msgid "Text"
 msgstr "Szöveg"
 
+#: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
+msgid "The built-in URL is read only. Change the BaseURL instead."
+msgstr "A beépített URL csak olvasható. Változtassa meg inkább a BaseURL értékét."
+
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
 msgstr "Tagged Image File Format"
@@ -1354,8 +1079,7 @@ msgstr "Panel"
 #: lclstrconsts.rstsplitteraccessibilitydescription
 msgctxt "lclstrconsts.rstsplitteraccessibilitydescription"
 msgid "A grip to control how much size to give two parts of an area"
-msgstr ""
-"Egy fogantyú, amivel egy terület két részre osztásának arányát lehet állítani"
+msgstr "Egy fogantyú, amivel egy terület két részre osztásának arányát lehet állítani"
 
 #: lclstrconsts.rsttreeviewaccessibilitydescription
 msgctxt "lclstrconsts.rsttreeviewaccessibilitydescription"
@@ -1388,15 +1112,11 @@ msgstr "Nem támogatott vágólap-formátum: %s"
 
 #: lclstrconsts.rswarningunreleaseddcsdump
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
-msgstr ""
-" FIGYELMEZTETÉS: %d nem felszabadított DC van, részletes memóriakép "
-"következik:"
+msgstr " FIGYELMEZTETÉS: %d nem felszabadított DC van, részletes memóriakép következik:"
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
-msgstr ""
-" FIGYELMEZTETÉS: %d nem felszabadított GDIObject van, részletes memóriakép "
-"következik:"
+msgstr " FIGYELMEZTETÉS: %d nem felszabadított GDIObject van, részletes memóriakép következik:"
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
@@ -1407,11 +1127,8 @@ msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
 msgstr " FIGYELMEZTETÉS: %d TimerInfo struktúra maradt, fel lesznek szabadítva"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
-msgid ""
-" WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
-msgstr ""
-" FIGYELMEZTETÉS: %s el nem távolított LM_PAINT/LM_GtkPAINT üzenet hivatkozás "
-"maradt."
+msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
+msgstr " FIGYELMEZTETÉS: %s el nem távolított LM_PAINT/LM_GtkPAINT üzenet hivatkozás maradt."
 
 #: lclstrconsts.rswhitecolorcaption
 msgid "White"
@@ -1449,27 +1166,27 @@ msgstr "Sárga"
 msgid "Cannot focus a disabled or invisible window"
 msgstr "Nem lehet letiltott vagy láthatatlan ablakot előtérbe hozni"
 
+#: lclstrconsts.scannotsetdesigntimeppi
+msgid "Cannot set design time PPI."
+msgstr "A PPI értéke nem változtatható meg tervezés közben."
+
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
-msgstr "Többszörös menük"
+msgstr "Ismétlődő menük"
 
 #: lclstrconsts.sinvalidactioncreation
-#, fuzzy
 msgid "Invalid action creation"
 msgstr "Érvénytelen művelet létrehozás"
 
 #: lclstrconsts.sinvalidactionenumeration
-#, fuzzy
 msgid "Invalid action enumeration"
 msgstr "Érvénytelen művelet felsorolás"
 
 #: lclstrconsts.sinvalidactionregistration
-#, fuzzy
 msgid "Invalid action registration"
 msgstr "Érvénytelen művelet regisztrálás"
 
 #: lclstrconsts.sinvalidactionunregistration
-#, fuzzy
 msgid "Invalid action unregistration"
 msgstr "Érvénytelen művelet kiregisztrálás"
 
@@ -1584,17 +1301,17 @@ msgctxt "lclstrconsts.smkcup"
 msgid "Up"
 msgstr "Fel"
 
-#: lclstrconsts.snomdiform
-msgid "No MDI form present."
-msgstr "Nincs MDI form."
-
 #: lclstrconsts.snotimers
 msgid "No timers available"
 msgstr "Nincsenek elérhető időzítők"
 
+#: lclstrconsts.sparentrequired
+msgid "Control \"%s\" has no parent window."
+msgstr "A(z) '%s' vezérlőnek nincs szülő ablaka."
+
 #: lclstrconsts.sparexpected
 msgid "Wrong token type: %s expected"
-msgstr "Rossz token típus: %s az elvárt"
+msgstr "Rossz vezérjel típus: %s az elvárt"
 
 #: lclstrconsts.sparinvalidfloat
 msgid "Invalid floating point number: %s"
@@ -1618,8 +1335,71 @@ msgstr "Lezáratlan karakterlánc"
 
 #: lclstrconsts.sparwrongtokensymbol
 msgid "Wrong token symbol: %s expected but %s found"
-msgstr "Rossz token szimbólum: %s az elvárt, de %s található"
+msgstr "Rossz vezérjel szimbólum: %s az elvárt, de %s található"
 
 #: lclstrconsts.sparwrongtokentype
 msgid "Wrong token type: %s expected but %s found"
-msgstr "Rossz token típus: %s az elvárt, de %s található"
+msgstr "Rossz vezérjel típus: %s az elvárt, de %s található"
+
+#: lclstrconsts.sshellctrlsbytes
+msgid "%s bytes"
+msgstr "%s bájt"
+
+#: lclstrconsts.sshellctrlsinvalidpath
+msgctxt "lclstrconsts.sshellctrlsinvalidpath"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\"\n"
+msgstr ""
+"Érvénytelen útvonal:\n"
+"\"%s\"\n"
+
+#: lclstrconsts.sshellctrlsinvalidpathrelative
+msgid ""
+"Invalid relative pathname:\n"
+"\"%s\"\n"
+"in relation to rootpath:\n"
+"\"%s\"\n"
+msgstr ""
+"Érvénytelen relatív útvonal:\n"
+"\"%s\"\n"
+"az alapkönyvtárhoz viszonyítva:\n"
+"\"%s\"\n"
+
+#: lclstrconsts.sshellctrlsinvalidroot
+msgctxt "lclstrconsts.sshellctrlsinvalidroot"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\"\n"
+msgstr ""
+"Érvénytelen útvonal:\n"
+"\"%s\"\n"
+
+#: lclstrconsts.sshellctrlskb
+msgid "%s kB"
+msgstr "%s kB"
+
+#: lclstrconsts.sshellctrlsmb
+msgid "%s MB"
+msgstr "%s MB"
+
+#: lclstrconsts.sshellctrlsname
+msgid "Name"
+msgstr "Név"
+
+#: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+msgid ""
+"The selected item does not exist on disk:\n"
+"\"%s\"\n"
+msgstr ""
+"A kiválasztott elem nem létezik a lemezen:\n"
+"\"%s\"\n"
+
+#: lclstrconsts.sshellctrlssize
+msgid "Size"
+msgstr "Méret"
+
+#: lclstrconsts.sshellctrlstype
+msgid "Type"
+msgstr "Típus"
+

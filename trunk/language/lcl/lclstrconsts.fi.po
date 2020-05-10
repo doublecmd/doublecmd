@@ -3,34 +3,39 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Juha Manninen <juha.manninen@phnet.fi>\n"
+"Language-Team: \n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
-msgid "Browser %s%s%s not executable."
-msgstr ""
+msgid "Browser \"%s\" not executable."
+msgstr "Selain \"%s\" ei ole suoritettava ohjelma."
 
 #: lclstrconsts.hhshelpbrowsernotfound
-msgid "Browser %s%s%s not found."
-msgstr ""
+msgid "Browser \"%s\" not found."
+msgstr "Selainta \"%s\" ei löydy."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
-msgid "Error while executing %s%s%s:%s%s"
-msgstr ""
+msgid "Error while executing \"%s\":%s%s"
+msgstr "Virhe suoritettaessa \"%s\":%s%s"
 
 #: lclstrconsts.hhshelpnohtmlbrowserfound
 msgid "Unable to find a HTML browser."
-msgstr ""
+msgstr "HTML selainta ei löydy."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
-msgstr ""
+msgstr "HTML selainta ei löydy.%sMäärittele se kohdassa Työkalut -> Asetukset -> Ohje -> Ohjeen asetukset"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
-msgid "The help database %s%s%s was unable to find file %s%s%s."
-msgstr ""
+msgid "The help database \"%s\" was unable to find file \"%s\"."
+msgstr "Avustetietokannasta \"%s\" ei löydy tiedostoa \"%s\"."
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
 msgid "The macro %s in BrowserParams will be replaced by the URL."
-msgstr ""
+msgstr "Makro %s BrowserParams:issa korvataan URL:lla."
 
 #: lclstrconsts.ifsalt
 msgid "Alt"
@@ -40,247 +45,55 @@ msgstr ""
 msgid "Ctrl"
 msgstr ""
 
-#: lclstrconsts.ifsvk_accept
-msgid "Accept"
-msgstr "Hyväksy"
-
-#: lclstrconsts.ifsvk_apps
-msgid "application key"
-msgstr ""
-
-#: lclstrconsts.ifsvk_back
-msgid "Backspace"
-msgstr ""
-
-#: lclstrconsts.ifsvk_cancel
-msgctxt "lclstrconsts.ifsvk_cancel"
-msgid "Cancel"
-msgstr ""
-
-#: lclstrconsts.ifsvk_capital
-msgid "Capital"
-msgstr ""
-
-#: lclstrconsts.ifsvk_clear
-msgid "Clear"
-msgstr ""
-
 #: lclstrconsts.ifsvk_cmd
 msgid "Cmd"
 msgstr ""
 
-#: lclstrconsts.ifsvk_control
-msgid "Control"
-msgstr ""
-
-#: lclstrconsts.ifsvk_convert
-msgid "Convert"
-msgstr ""
-
-#: lclstrconsts.ifsvk_delete
-msgctxt "lclstrconsts.ifsvk_delete"
-msgid "Delete"
-msgstr ""
-
-#: lclstrconsts.ifsvk_down
-msgctxt "lclstrconsts.ifsvk_down"
-msgid "Down"
-msgstr ""
-
-#: lclstrconsts.ifsvk_end
-msgctxt "lclstrconsts.ifsvk_end"
-msgid "End"
-msgstr ""
-
-#: lclstrconsts.ifsvk_escape
-msgid "Escape"
-msgstr ""
-
-#: lclstrconsts.ifsvk_execute
-msgid "Execute"
-msgstr ""
-
-#: lclstrconsts.ifsvk_final
-msgid "Final"
-msgstr ""
-
-#: lclstrconsts.ifsvk_hanja
-msgid "Hanja"
-msgstr ""
-
 #: lclstrconsts.ifsvk_help
+msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
-msgstr ""
-
-#: lclstrconsts.ifsvk_home
-msgctxt "lclstrconsts.ifsvk_home"
-msgid "Home"
-msgstr ""
-
-#: lclstrconsts.ifsvk_insert
-msgctxt "lclstrconsts.ifsvk_insert"
-msgid "Insert"
-msgstr ""
-
-#: lclstrconsts.ifsvk_junja
-msgid "Junja"
-msgstr ""
-
-#: lclstrconsts.ifsvk_kana
-msgid "Kana"
-msgstr ""
-
-#: lclstrconsts.ifsvk_lbutton
-msgid "Mouse Button Left"
-msgstr ""
-
-#: lclstrconsts.ifsvk_left
-msgctxt "lclstrconsts.ifsvk_left"
-msgid "Left"
-msgstr ""
-
-#: lclstrconsts.ifsvk_lwin
-msgid "left windows key"
-msgstr ""
-
-#: lclstrconsts.ifsvk_mbutton
-msgid "Mouse Button Middle"
-msgstr ""
-
-#: lclstrconsts.ifsvk_menu
-msgctxt "lclstrconsts.ifsvk_menu"
-msgid "Menu"
-msgstr ""
+msgstr "Apu"
 
 #: lclstrconsts.ifsvk_meta
 msgid "Meta"
-msgstr ""
-
-#: lclstrconsts.ifsvk_modechange
-msgid "Mode Change"
-msgstr ""
-
-#: lclstrconsts.ifsvk_next
-msgctxt "lclstrconsts.ifsvk_next"
-msgid "Next"
-msgstr ""
-
-#: lclstrconsts.ifsvk_nonconvert
-msgid "Nonconvert"
-msgstr ""
-
-#: lclstrconsts.ifsvk_numlock
-msgid "Numlock"
-msgstr ""
-
-#: lclstrconsts.ifsvk_numpad
-msgid "Numpad %d"
-msgstr ""
-
-#: lclstrconsts.ifsvk_pause
-msgid "Pause key"
-msgstr ""
-
-#: lclstrconsts.ifsvk_print
-msgid "Print"
-msgstr ""
-
-#: lclstrconsts.ifsvk_prior
-msgctxt "lclstrconsts.ifsvk_prior"
-msgid "Prior"
-msgstr ""
-
-#: lclstrconsts.ifsvk_rbutton
-msgid "Mouse Button Right"
-msgstr ""
-
-#: lclstrconsts.ifsvk_return
-msgid "Return"
-msgstr ""
-
-#: lclstrconsts.ifsvk_right
-msgctxt "lclstrconsts.ifsvk_right"
-msgid "Right"
-msgstr ""
-
-#: lclstrconsts.ifsvk_rwin
-msgid "right windows key"
-msgstr ""
-
-#: lclstrconsts.ifsvk_scroll
-msgid "Scroll"
-msgstr ""
-
-#: lclstrconsts.ifsvk_select
-msgid "Select"
 msgstr ""
 
 #: lclstrconsts.ifsvk_shift
 msgid "Shift"
 msgstr ""
 
-#: lclstrconsts.ifsvk_snapshot
-msgid "Snapshot"
-msgstr ""
-
-#: lclstrconsts.ifsvk_space
-msgid "Space key"
-msgstr ""
-
 #: lclstrconsts.ifsvk_super
 msgid "Super"
 msgstr ""
 
-#: lclstrconsts.ifsvk_tab
-msgctxt "lclstrconsts.ifsvk_tab"
-msgid "Tab"
-msgstr ""
-
 #: lclstrconsts.ifsvk_unknown
 msgid "Unknown"
-msgstr ""
-
-#: lclstrconsts.ifsvk_up
-msgctxt "lclstrconsts.ifsvk_up"
-msgid "Up"
-msgstr ""
-
-#: lclstrconsts.liscannotexecute
-msgid "can not execute %s"
-msgstr ""
-
-#: lclstrconsts.liscefilter
-msgid "(filter)"
-msgstr ""
+msgstr "Tuntematon"
 
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
-msgstr ""
-
-#: lclstrconsts.lisprogramfilenotfound
-msgid "program file not found %s"
-msgstr ""
+msgstr "Resurssia %s ei löydy"
 
 #: lclstrconsts.rs3ddkshadowcolorcaption
 msgid "3D Dark Shadow"
-msgstr ""
+msgstr "3D tumma varjo"
 
 #: lclstrconsts.rs3dlightcolorcaption
 msgid "3D Light"
-msgstr ""
+msgstr "3D valoisa"
 
 #: lclstrconsts.rsacontrolcannothaveitselfasparent
 msgid "A control can't have itself as a parent"
-msgstr ""
+msgstr "Kontrolli ei voi olla itsensä emo"
 
 #: lclstrconsts.rsactivebordercolorcaption
 msgid "Active Border"
-msgstr ""
+msgstr "Aktiivinen reuna"
 
 #: lclstrconsts.rsactivecaptioncolorcaption
 msgid "Active Caption"
-msgstr ""
+msgstr "Aktiivinen otsikko"
 
 #: lclstrconsts.rsallfiles
 msgid "All files (%s)|%s|%s"
@@ -288,15 +101,19 @@ msgstr "Kaikki tiedostot (%s)|%s|%s"
 
 #: lclstrconsts.rsappworkspacecolorcaption
 msgid "Application Workspace"
-msgstr ""
+msgstr "Sovelluksen työtila"
 
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
 msgstr ""
 
+#: lclstrconsts.rsascannothaveasparent
+msgid "Class %s cannot have %s as parent."
+msgstr "Luokalla %s ei voi olla %s kantaluokkana."
+
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
-msgstr ""
+msgstr "Työpöytä"
 
 #: lclstrconsts.rsbackward
 msgid "Backward"
@@ -304,35 +121,35 @@ msgstr "Taaksepäin"
 
 #: lclstrconsts.rsbitmaps
 msgid "Bitmaps"
-msgstr ""
+msgstr "Bittikartat"
 
 #: lclstrconsts.rsblackcolorcaption
 msgid "Black"
-msgstr ""
+msgstr "Musta"
 
 #: lclstrconsts.rsblank
 msgid "Blank"
-msgstr ""
+msgstr "Tyhjä"
 
 #: lclstrconsts.rsbluecolorcaption
 msgid "Blue"
-msgstr ""
+msgstr "Sininen"
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
-msgstr ""
+msgstr "Napin pinta"
 
 #: lclstrconsts.rsbtnhighlightcolorcaption
 msgid "Button Highlight"
-msgstr ""
+msgstr "Napin korostus"
 
 #: lclstrconsts.rsbtnshadowcolorcaption
 msgid "Button Shadow"
-msgstr ""
+msgstr "Napin varjostus"
 
 #: lclstrconsts.rsbtntextcolorcaption
 msgid "Button Text"
-msgstr ""
+msgstr "Napin teksti"
 
 #: lclstrconsts.rscalculator
 msgid "Calculator"
@@ -341,19 +158,19 @@ msgstr "Laskin"
 #: lclstrconsts.rscancelrecordhint
 msgctxt "lclstrconsts.rscancelrecordhint"
 msgid "Cancel"
-msgstr ""
+msgstr "Peruuta"
 
 #: lclstrconsts.rscannotfocus
 msgid "Can not focus"
-msgstr ""
+msgstr "Ei voi fokusoida"
 
 #: lclstrconsts.rscanvasdoesnotallowdrawing
 msgid "Canvas does not allow drawing"
-msgstr ""
+msgstr "Canvas ei salli piirtämistä"
 
 #: lclstrconsts.rscaptiontextcolorcaption
 msgid "Caption Text"
-msgstr ""
+msgstr "Otsikkoteksti"
 
 #: lclstrconsts.rscasesensitive
 msgid "Case sensitive"
@@ -361,35 +178,35 @@ msgstr "Sama kirjainkoko"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
 msgid "Control of class '%s' can't have control of class '%s' as a child"
-msgstr ""
+msgstr "Luokan '%s' kontrollin lapsi ei voi olla luokan '%s' kontrolli"
+
+#: lclstrconsts.rscontrolhasnoparentformorframe
+msgid "Control '%s' has no parent form or frame"
+msgstr "Kontrolli '%s':lla ei ole emolomaketta tai -kehystä."
 
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
-msgstr ""
+msgstr "Kontrolli '%s':lla ei ole emoikkunaa"
 
 #: lclstrconsts.rscontrolisnotaparent
 msgid "'%s' is not a parent of '%s'"
-msgstr ""
+msgstr "'%s' ei ole '%s':n emo"
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
-msgstr ""
-
-#: lclstrconsts.rscreatinggdbcatchableerror
-msgid "Creating gdb catchable error:"
-msgstr ""
+msgstr "Kerma"
 
 #: lclstrconsts.rscursor
 msgid "Cursor"
-msgstr ""
+msgstr "Kursori"
 
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
-msgstr ""
+msgstr "Mukautetut ..."
 
 #: lclstrconsts.rsdefaultcolorcaption
 msgid "Default"
-msgstr ""
+msgstr "Oletus"
 
 #: lclstrconsts.rsdefaultfileinfovalue
 msgid "permissions user group size date time"
@@ -397,12 +214,12 @@ msgstr "oikeudet käyttäjä ryhmä koko päivä aika"
 
 #: lclstrconsts.rsdeleterecord
 msgid "Delete record?"
-msgstr ""
+msgstr "Poista tietue?"
 
 #: lclstrconsts.rsdeleterecordhint
 msgctxt "lclstrconsts.rsdeleterecordhint"
 msgid "Delete"
-msgstr ""
+msgstr "Poista"
 
 #: lclstrconsts.rsdirection
 msgid "Direction"
@@ -410,68 +227,64 @@ msgstr "Suunta"
 
 #: lclstrconsts.rsdirectory
 msgid "&Directory"
-msgstr ""
+msgstr "&Hakemisto"
 
-#: lclstrconsts.rsdocking
-msgid "Docking"
-msgstr ""
+#: lclstrconsts.rsdocopy
+msgid "Copy"
+msgstr "Kopioi"
+
+#: lclstrconsts.rsdopaste
+msgid "Paste"
+msgstr "Liitä"
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
-msgstr ""
+msgstr "Samanlaisen kuvakemuodot."
 
 #: lclstrconsts.rseditrecordhint
 msgid "Edit"
-msgstr ""
+msgstr "Muokkaa"
 
 #: lclstrconsts.rsentirescope
 msgid "Search entire file"
-msgstr ""
+msgstr "Etsi koko tiedostosta"
 
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
 msgid "Error"
-msgstr ""
+msgstr "Virhe"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
 msgid "Error creating device context for %s.%s"
-msgstr ""
-
-#: lclstrconsts.rserrorinlcl
-msgid "ERROR in LCL: "
-msgstr ""
+msgstr "Virhe luotaessa laiteympäristöä: %s.%s"
 
 #: lclstrconsts.rserroroccurredinataddressframe
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
-msgstr ""
-
-#: lclstrconsts.rserrorreadingproperty
-msgid "Error reading %s%s%s: %s"
-msgstr ""
+msgstr "Virhe tapahtui %s:ssa %sosoitteessa %s%s kehyksessä %s"
 
 #: lclstrconsts.rserrorwhilesavingbitmap
 msgid "Error while saving bitmap."
-msgstr ""
+msgstr "Virhe talletettaessa bittikarttaa."
 
 #: lclstrconsts.rsexception
 msgid "Exception"
-msgstr ""
+msgstr "Poikkeus"
 
 #: lclstrconsts.rsfddirectorymustexist
 msgid "Directory must exist"
-msgstr ""
+msgstr "Hakemiston pitää olla olemassa"
 
 #: lclstrconsts.rsfddirectorynotexist
 msgid "The directory \"%s\" does not exist."
-msgstr ""
+msgstr "Hakemistoa \"%s\" ei ole olemassa."
 
 #: lclstrconsts.rsfdfilealreadyexists
 msgid "The file \"%s\" already exists. Overwrite ?"
-msgstr ""
+msgstr "Tiedosto \"%s\" on jo olemassa. Kirjoitetaanko yli?"
 
 #: lclstrconsts.rsfdfilemustexist
 msgid "File must exist"
-msgstr "Tiedosto täytyy olla olemassa"
+msgstr "Tiedoston pitää olla olemassa"
 
 #: lclstrconsts.rsfdfilenotexist
 msgid "The file \"%s\" does not exist."
@@ -479,15 +292,15 @@ msgstr "Tiedostoa \"%s\" ei ole olemassa."
 
 #: lclstrconsts.rsfdfilereadonly
 msgid "The file \"%s\" is not writable."
-msgstr ""
+msgstr "Tiedostoon \"%s\" ei voi kirjoittaa."
 
 #: lclstrconsts.rsfdfilereadonlytitle
 msgid "File is not writable"
-msgstr ""
+msgstr "Tiedostoon ei voi kirjoittaa"
 
 #: lclstrconsts.rsfdfilesaveas
 msgid "Save file as"
-msgstr "Tallenna nimellä"
+msgstr "Tallenna tiedosto nimellä"
 
 #: lclstrconsts.rsfdopenfile
 msgid "Open existing file"
@@ -495,19 +308,19 @@ msgstr "Avaa tiedosto"
 
 #: lclstrconsts.rsfdoverwritefile
 msgid "Overwrite file ?"
-msgstr "Tallennetaanko vanhan päälle ?"
+msgstr "Tallennetaanko tiedoston päälle ?"
 
 #: lclstrconsts.rsfdpathmustexist
 msgid "Path must exist"
-msgstr ""
+msgstr "Polun pitää olla olemassa"
 
 #: lclstrconsts.rsfdpathnoexist
 msgid "The path \"%s\" does not exist."
-msgstr ""
+msgstr "Polkua \"%s\" ei ole olemassa."
 
 #: lclstrconsts.rsfdselectdirectory
 msgid "Select Directory"
-msgstr "Valitse kansio"
+msgstr "Valitse hakemisto"
 
 #: lclstrconsts.rsfileinfofilenotfound
 msgid "(file not found: \"%s\")"
@@ -517,37 +330,42 @@ msgstr "(tiedostoa ei löytynyt: \"%s\")"
 msgid "File information"
 msgstr "Tiedoston tietoja"
 
+#: lclstrconsts.rsfilter
+msgctxt "lclstrconsts.rsfilter"
+msgid "(filter)"
+msgstr "(suodatin)"
+
 #: lclstrconsts.rsfind
 msgid "Find"
 msgstr "Etsi"
 
 #: lclstrconsts.rsfindmore
 msgid "Find more"
-msgstr ""
+msgstr "Etsi lisää"
 
 #: lclstrconsts.rsfirstrecordhint
 msgid "First"
-msgstr ""
+msgstr "Ensimmäinen"
 
 #: lclstrconsts.rsfixedcolstoobig
-msgid "FixedCols can't be >= ColCount"
-msgstr "FixedCols ei voi olla suurempi kuin kaikkien sarakkeiden määrä (ColCount)"
+msgid "FixedCols can't be > ColCount"
+msgstr "FixedCols ei voi olla > ColCount"
 
 #: lclstrconsts.rsfixedrowstoobig
-msgid "FixedRows can't be >= RowCount"
-msgstr "FixedRows ei voi olla suurempi kuin kaikkien rivien määrä (RowCount)"
+msgid "FixedRows can't be > RowCount"
+msgstr "FixedRows ei voi olla > RowCount"
 
 #: lclstrconsts.rsformcolorcaption
 msgid "Form"
-msgstr ""
+msgstr "Lomake"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
-msgstr ""
+msgstr "Lomakkeen resurssia %s ei löydy. Tällaisen lomakkeen kanssa pitää käyttää CreateNew constructoria. Katso globaali muuttuja RequireDerivedFormResource."
 
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
-msgstr ""
+msgstr "Lomakkeen talletusvuossa \"%s\" virhe: %s"
 
 #: lclstrconsts.rsforward
 msgid "Forward"
@@ -559,11 +377,11 @@ msgstr ""
 
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
-msgstr ""
+msgstr "--gdk-debug liput     Näytä tietyt GDK trace/debug viestit."
 
 #: lclstrconsts.rsgdkoptionnodebug
 msgid "--gdk-no-debug flags  Turn off specific GDK trace/debug messages."
-msgstr ""
+msgstr "--gdk-no-debug liput     Älä näytä tiettyjä GDK trace/debug viestejä."
 
 #: lclstrconsts.rsgif
 msgid "Graphics Interchange Format"
@@ -571,43 +389,51 @@ msgstr ""
 
 #: lclstrconsts.rsgoptionfatalwarnings
 msgid "--g-fatal-warnings    Warnings and errors generated by Gtk+/GDK will halt the application."
-msgstr ""
+msgstr "--g-fatal-warnings    Gtk+/GDK:n tuottamat varoitukset ja virheet pysäyttävät sovelluksen."
 
 #: lclstrconsts.rsgradientactivecaptioncolorcaption
 msgid "Gradient Active Caption"
-msgstr ""
+msgstr "Gradientti aktiivinen otsikko"
 
 #: lclstrconsts.rsgradientinactivecaptioncolorcaption
 msgid "Gradient Inactive Caption"
-msgstr ""
+msgstr "Gradientti ei-aktiivinen otsikko"
 
 #: lclstrconsts.rsgraphic
 msgid "Graphic"
-msgstr ""
+msgstr "Grafiikka"
 
 #: lclstrconsts.rsgraycolorcaption
 msgid "Gray"
-msgstr ""
+msgstr "Harmaa"
 
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
-msgstr ""
+msgstr "Harmaa teksti"
 
 #: lclstrconsts.rsgreencolorcaption
 msgid "Green"
-msgstr ""
+msgstr "Vihreä"
 
-#: lclstrconsts.rsgridfiledoesnotexists
-msgid "Grid file doesn't exists"
-msgstr ""
+#: lclstrconsts.rsgridfiledoesnotexist
+msgid "Grid file doesn't exist"
+msgstr "Taulukon tiedostoa ei ole"
+
+#: lclstrconsts.rsgridhasnocols
+msgid "Cannot insert rows into a grid when it has no columns"
+msgstr "Taulukon rivin lisäys ei onnistu, koska siinä ei ole sarakkeita"
+
+#: lclstrconsts.rsgridhasnorows
+msgid "Cannot insert columns into a grid when it has no rows"
+msgstr "Taulukon sarakkeen lisäys ei onnistu, koska siinä ei ole rivejä"
 
 #: lclstrconsts.rsgridindexoutofrange
 msgid "Grid index out of range."
-msgstr ""
+msgstr "Taulukon osoitin sallitun alueen ulkopuolella."
 
 #: lclstrconsts.rsgroupindexcannotbelessthanprevious
 msgid "GroupIndex cannot be less than a previous menu item's GroupIndex"
-msgstr ""
+msgstr "GroupIndex ei voi olla pienempi kuin edellisen valikon GroupIndex"
 
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
@@ -619,226 +445,231 @@ msgstr "Historia:"
 
 #: lclstrconsts.rsgtkoptionclass
 msgid "--class classname     Following Xt conventions, the class of a program is the program name with the initial character capitalized. For example, the classname for gimp is \"Gimp\". If --class is specified, the class of the program will be set to \"classname\"."
-msgstr ""
+msgstr "--class classname     Xt tavan mukaan ohjelman luokka on ohjelman nimi ensimmäinen kirjain suurena. Esimerkiksi gimp luokan nimi on \"Gimp\". Jos --class on määritelty, ohjelman luokka saa arvon \"classname\"."
 
 #: lclstrconsts.rsgtkoptiondebug
 msgid "--gtk-debug flags     Turn on specific Gtk+ trace/debug messages."
-msgstr ""
+msgstr "--gtk-debug flags     Salli tietyt Gtk+ jäljitys/debuggaus viestit."
 
 #: lclstrconsts.rsgtkoptiondisplay
 msgid "--display h:s:d       Connect to the specified X server, where \"h\" is the hostname, \"s\" is the server number (usually 0), and \"d\" is the display number (typically omitted). If --display is not specified, the DISPLAY environment variable is used."
-msgstr ""
+msgstr "--display h:s:d       Kytkeydy tiettyyn X palvelimeen, missä \"h\" on host-nimi, \"s\" on palvelimen numero (yleensä 0), ja \"d\" on näytön numero (yleensä ei määritelty). Jos --display ei ole määritelty, käytetään DISPLAY ympäristömuuttujaa."
 
 #: lclstrconsts.rsgtkoptionmodule
 msgid "--gtk-module module   Load the specified module at startup."
-msgstr ""
+msgstr "--gtk-module module   Lataa määritelty moduuli käynnistyksessä."
 
 #: lclstrconsts.rsgtkoptionname
 msgid "--name programe       Set program name to \"progname\". If not specified, program name will be set to ParamStrUTF8(0)."
-msgstr ""
+msgstr "--name programe       Aseta ohjelman nimeksi \"progname\". Jos ei määritelty, ohjelman nimeksi tulee ParamStrUTF8(0)."
 
 #: lclstrconsts.rsgtkoptionnodebug
 msgid "--gtk-no-debug flags  Turn off specific Gtk+ trace/debug messages."
-msgstr ""
+msgstr "--gtk-no-debug flags  Estä tietyt Gtk+ jäljitys/debuggaus viestit."
 
 #: lclstrconsts.rsgtkoptionnotransient
 msgid "--lcl-no-transient    Do not set transient order for modal forms"
-msgstr ""
+msgstr "--lcl-no-transient    Älä aseta tilapäistä järjestystä modaaleille lomakkeille"
 
 #: lclstrconsts.rsgtkoptionnoxshm
 msgid "--no-xshm             Disable use of the X Shared Memory Extension."
-msgstr ""
+msgstr "--no-xshm             Ota pois käytöstä X Jeatun Muistin Laajennus."
 
 #: lclstrconsts.rsgtkoptionsync
 msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
-msgstr ""
+msgstr "--sync                Kutsu XSynchronize (näyttö, True) kun Xserver yhteys on muodostettu. Näin X protokollan virheiden debuggaus helpottuu, koska X kutsuja ei puskuroida ja X virheet saadaan välittömästi kun X palvelin on käsitellyt virheen aiheuttaneen protokollakutsun."
+
+#: lclstrconsts.rshelp
+msgctxt "lclstrconsts.rshelp"
+msgid "Help"
+msgstr "Apu"
 
 #: lclstrconsts.rshelpalreadyregistered
 msgid "%s: Already registered"
-msgstr ""
+msgstr "%s: Jo rekisteröity"
 
 #: lclstrconsts.rshelpcontextnotfound
 msgid "A help database was found for this topic, but this topic was not found"
-msgstr ""
+msgstr "Ohjetietokanta tälle aiheelle löytyi, mutta aihetta ei"
 
 #: lclstrconsts.rshelpdatabasenotfound
 msgid "There is no help database installed for this topic"
-msgstr ""
+msgstr "Ohjetietokantaa tälle aiheelle ei ole asennettu"
 
 #: lclstrconsts.rshelperror
 msgid "Help Error"
-msgstr ""
+msgstr "Ohjeen virhe"
 
 #: lclstrconsts.rshelphelpcontextnotfound
 msgid "Help context %s not found."
-msgstr ""
+msgstr "Ohjeen viittausta %s ei löydy."
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
-msgid "Help context %s not found in Database %s%s%s."
-msgstr ""
+msgid "Help context %s not found in Database \"%s\"."
+msgstr "Ohjeen viittausta %s ei löydy tietokannasta \"%s\"."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
-msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
-msgstr ""
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+msgstr "Ohjetietokanta \"%s\" ei löytänyt katseluohjelmaa %s tyyppiselle ohjesivulle"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
-msgid "Help Database %s%s%s not found"
-msgstr ""
+msgid "Help Database \"%s\" not found"
+msgstr "Ohjetietokantaa \"%s\" ei löydy"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
-msgid "Help for directive %s%s%s not found."
-msgstr ""
+msgid "Help for directive \"%s\" not found."
+msgstr "Ohjetta aiheelle \"%s\" ei löydy."
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
-msgid "Help for directive %s%s%s not found in Database %s%s%s."
-msgstr ""
+msgid "Help for directive \"%s\" not found in Database \"%s\"."
+msgstr "Ohjetta aiheelle \"%s\" ei löydy tietokannasta \"%s\"."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
-msgid "Help keyword %s%s%s not found."
-msgstr ""
+msgid "Help keyword \"%s\" not found."
+msgstr "Ohjeen avainsanaa \"%s\" ei löydy."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
-msgid "Help keyword %s%s%s not found in Database %s%s%s."
-msgstr ""
+msgid "Help keyword \"%s\" not found in Database \"%s\"."
+msgstr "Ohjeen avainsanaa \"%s\" ei löydy tietokannasta \"%s\"."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
-msgid "Help node %s%s%s has no Help Database"
-msgstr ""
+msgid "Help node \"%s\" has no Help Database"
+msgstr "Ohjeen solmulla \"%s\" ei ole tietokantaa"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
 msgid "No help found for line %d, column %d of %s."
-msgstr ""
+msgstr "Riville %d, sarakkeelle %d %s:ssa ei löydy ohjetta."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
 msgid "No help entries available for this topic"
-msgstr ""
+msgstr "Tälle aiheelle ei ole ohjeita"
 
 #: lclstrconsts.rshelpnotfound
 msgid "No help found for this topic"
-msgstr ""
+msgstr "Tälle aiheelle ei löydy ohjetta"
 
 #: lclstrconsts.rshelpnotregistered
 msgid "%s: Not registered"
-msgstr ""
+msgstr "%s: Ei rekisteröity"
 
 #: lclstrconsts.rshelpselectorerror
 msgid "Help Selector Error"
-msgstr ""
+msgstr "Ohjeen valitsijan virhe"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
-msgid "There is no viewer for help type %s%s%s"
-msgstr ""
+msgid "There is no viewer for help type \"%s\""
+msgstr "Ohjeen tyypille \"%s\" ei ole katseluohjelmaa"
 
 #: lclstrconsts.rshelpviewererror
 msgid "Help Viewer Error"
-msgstr ""
+msgstr "Ohjeen katseluohjelman virhe"
 
 #: lclstrconsts.rshelpviewernotfound
 msgid "No viewer was found for this type of help content"
-msgstr ""
+msgstr "Ei löytänyt katseluohjelmaa tämän tyyppiselle ohjeen sisällölle"
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
-msgstr ""
+msgstr "Korosta"
 
 #: lclstrconsts.rshighlighttextcolorcaption
 msgid "Highlight Text"
-msgstr ""
+msgstr "Korosta teksti"
 
 #: lclstrconsts.rshotlightcolorcaption
 msgid "Hot Light"
-msgstr ""
+msgstr "Kuuma kevyt"
 
 #: lclstrconsts.rsicns
 msgid "Mac OS X Icon"
-msgstr ""
+msgstr "Mac OS X kuvake"
 
 #: lclstrconsts.rsicon
 msgid "Icon"
-msgstr ""
+msgstr "Kuvake"
 
 #: lclstrconsts.rsiconimageempty
 msgid "Icon image cannot be empty"
-msgstr ""
+msgstr "Kuvakkeen kuva ei saa olla tyhjä"
 
 #: lclstrconsts.rsiconimageformat
 msgid "Icon image must have the same format"
-msgstr ""
+msgstr "Kuvakkeen kuvalla pitää olla sama formaatti"
 
 #: lclstrconsts.rsiconimageformatchange
 msgid "Cannot change format of icon image"
-msgstr ""
+msgstr "Kuvakkeen formaatin muuttaminen ei onnistu"
 
 #: lclstrconsts.rsiconimagesize
 msgid "Icon image must have the same size"
-msgstr ""
+msgstr "Kuvakkeen kuvalla pitää olla sama koko"
 
 #: lclstrconsts.rsiconimagesizechange
 msgid "Cannot change size of icon image"
-msgstr ""
+msgstr "Kuvakkeen koon muuttaminen ei onnistu"
 
 #: lclstrconsts.rsiconnocurrent
 msgid "Icon has no current image"
-msgstr ""
+msgstr "Kuvakkeella ei nyt ole kuvaa"
 
 #: lclstrconsts.rsinactivebordercolorcaption
 msgid "Inactive Border"
-msgstr ""
+msgstr "Passiivine reuna"
 
 #: lclstrconsts.rsinactivecaptioncolorcaption
 msgctxt "lclstrconsts.rsinactivecaptioncolorcaption"
 msgid "Inactive Caption"
-msgstr ""
+msgstr "Passiivine otsikko"
 
 #: lclstrconsts.rsinactivecaptiontext
 msgctxt "lclstrconsts.rsinactivecaptiontext"
 msgid "Inactive Caption"
-msgstr ""
+msgstr "Passiivine otsikko"
 
 #: lclstrconsts.rsindexoutofbounds
 msgid "%s Index %d out of bounds 0 .. %d"
-msgstr ""
+msgstr "%s osoitin %d ulkona rajoista 0 .. %d"
 
 #: lclstrconsts.rsindexoutofrange
 msgid "Index Out of range Cell[Col=%d Row=%d]"
-msgstr "Ideksi osoittaa taulukon ulkopuolella olevaa solua [saraketta(col)=%d ja riviä(row)=%d]"
+msgstr "Osoitin ulkona rajoista Solu[sarake=%d Rivi=%d]"
 
 #: lclstrconsts.rsinfobkcolorcaption
 msgid "Info Background"
-msgstr ""
+msgstr "Tieto tausta"
 
 #: lclstrconsts.rsinfotextcolorcaption
 msgid "Info Text"
-msgstr ""
+msgstr "Tieto teksti"
 
 #: lclstrconsts.rsinsertrecordhint
 msgctxt "lclstrconsts.rsinsertrecordhint"
 msgid "Insert"
-msgstr ""
+msgstr "Lisää"
 
 #: lclstrconsts.rsinvaliddate
 msgid "Invalid Date : %s"
-msgstr "Laiton päivämäärä: %s"
+msgstr "Kelvoton päivämäärä: %s"
 
 #: lclstrconsts.rsinvaliddaterangehint
 msgid "Invalid Date: %s. Must be between %s and %s"
-msgstr ""
+msgstr "Kelvoton päivämäärä: %s. Pitää olla välillä %s and %s"
 
 #: lclstrconsts.rsinvalidformobjectstream
 msgid "invalid Form object stream"
-msgstr ""
+msgstr "Kelvoton lomakkeen objektin vuo"
 
 #: lclstrconsts.rsinvalidpropertyvalue
 msgid "Invalid property value"
-msgstr ""
+msgstr "Kelvoton ominaisuuden arvo"
 
 #: lclstrconsts.rsinvalidstreamformat
 msgid "Invalid stream format"
-msgstr ""
+msgstr "Kelvoton vuon muoto"
 
 #: lclstrconsts.rsisalreadyassociatedwith
 msgid "%s is already associated with %s"
-msgstr ""
+msgstr "%s on jo yhdistetty %s:hen"
 
 #: lclstrconsts.rsjpeg
 msgid "Joint Picture Expert Group"
@@ -846,18 +677,34 @@ msgstr ""
 
 #: lclstrconsts.rslastrecordhint
 msgid "Last"
-msgstr ""
+msgstr "Viimeinen"
 
 #: lclstrconsts.rslimecolorcaption
 msgid "Lime"
-msgstr ""
+msgstr "Limetti"
 
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
+msgstr "Luettelon osoitin ylittää rajat (%d)"
+
+#: lclstrconsts.rsmacosmenuhide
+msgid "Hide %s"
 msgstr ""
 
-#: lclstrconsts.rslistmustbeempty
-msgid "List must be empty"
+#: lclstrconsts.rsmacosmenuhideothers
+msgid "Hide Others"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuquit
+msgid "Quit %s"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuservices
+msgid "Services"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenushowall
+msgid "Show All"
 msgstr ""
 
 #: lclstrconsts.rsmarooncolorcaption
@@ -903,7 +750,7 @@ msgstr "&OK"
 
 #: lclstrconsts.rsmbopen
 msgid "&Open"
-msgstr ""
+msgstr "&Avaa"
 
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
@@ -911,11 +758,11 @@ msgstr "Uudelleen"
 
 #: lclstrconsts.rsmbsave
 msgid "&Save"
-msgstr ""
+msgstr "&Tallenna"
 
 #: lclstrconsts.rsmbunlock
 msgid "&Unlock"
-msgstr ""
+msgstr "&Pura Lukitus"
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
@@ -927,24 +774,24 @@ msgstr "Kyllä, kaikki"
 
 #: lclstrconsts.rsmedgraycolorcaption
 msgid "Medium Gray"
-msgstr ""
+msgstr "Puoliharmaa"
 
 #: lclstrconsts.rsmenubarcolorcaption
 msgid "Menu Bar"
-msgstr ""
+msgstr "Valikkopalkki"
 
 #: lclstrconsts.rsmenucolorcaption
 msgctxt "lclstrconsts.rsmenucolorcaption"
 msgid "Menu"
-msgstr ""
+msgstr "Valikko"
 
 #: lclstrconsts.rsmenuhighlightcolorcaption
 msgid "Menu Highlight"
-msgstr ""
+msgstr "Valikon korostus"
 
 #: lclstrconsts.rsmenutextcolorcaption
 msgid "Menu Text"
-msgstr ""
+msgstr "Valikon teksti"
 
 #: lclstrconsts.rsmodified
 msgid "  modified "
@@ -952,11 +799,11 @@ msgstr "  muokattu "
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
-msgstr ""
+msgstr "Rahan vihreä"
 
 #: lclstrconsts.rsmtauthentication
 msgid "Authentication"
-msgstr ""
+msgstr "Todennus"
 
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"
@@ -964,7 +811,7 @@ msgstr "Vahvistus"
 
 #: lclstrconsts.rsmtcustom
 msgid "Custom"
-msgstr ""
+msgstr "Mukautettu"
 
 #: lclstrconsts.rsmterror
 msgctxt "lclstrconsts.rsmterror"
@@ -981,28 +828,28 @@ msgstr "Varoitus"
 
 #: lclstrconsts.rsnavycolorcaption
 msgid "Navy"
-msgstr ""
+msgstr "Laivaston sininen"
 
 #: lclstrconsts.rsnextrecordhint
 msgctxt "lclstrconsts.rsnextrecordhint"
 msgid "Next"
-msgstr ""
+msgstr "Seuraava"
 
 #: lclstrconsts.rsnonecolorcaption
 msgid "None"
-msgstr ""
+msgstr "Ei mitään"
 
 #: lclstrconsts.rsnotavalidgridfile
 msgid "Not a valid grid file"
-msgstr ""
+msgstr "Kelvoton taulukkotiedosto"
 
 #: lclstrconsts.rsnowidgetset
 msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
-msgstr ""
+msgstr "Ei widgetset objektia. Tarkista onko käännösyksikkö \"interfaces\" lisätty ohjelman uses-lauseeseen."
 
 #: lclstrconsts.rsolivecolorcaption
 msgid "Olive"
-msgstr ""
+msgstr "Oliivi"
 
 #: lclstrconsts.rspickdate
 msgid "Select a date"
@@ -1014,154 +861,152 @@ msgstr ""
 
 #: lclstrconsts.rsportablebitmap
 msgid "Portable BitMap"
-msgstr ""
+msgstr "Siirrettävä bittikartta"
 
 #: lclstrconsts.rsportablegraymap
 msgid "Portable GrayMap"
-msgstr ""
+msgstr "Siirrettävä harmaakartta"
 
 #: lclstrconsts.rsportablenetworkgraphic
 msgid "Portable Network Graphic"
-msgstr ""
+msgstr "Siirrettävä verkkografiikka"
 
 #: lclstrconsts.rsportablepixmap
 msgid "Portable PixMap"
-msgstr ""
+msgstr "Siirrettävä PixMap"
 
 #: lclstrconsts.rspostrecordhint
 msgid "Post"
 msgstr ""
 
-#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-#, fuzzy
-#| msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
-msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
-msgstr "%s%sPaina 'Ok'-näppäintä jos haluat ohittaa varoituksen ja ottaa riskin tietojen (datan) sekoamisesta.%sPaina 'Peru'-näppäintä poistuaksesi ohjelmasta."
+#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
+msgstr ""
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
 msgid "Prior"
-msgstr ""
+msgstr "Edellinen"
 
 #: lclstrconsts.rspromptonreplace
 msgid "Prompt on replace"
-msgstr ""
+msgstr "Kysy korvattaessa"
 
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
-msgstr ""
+msgstr "Ominaisuutta %s ei ole"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
-msgstr ""
+msgstr "Purppura"
 
 #: lclstrconsts.rsqtoptiondograb
 msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
-msgstr ""
+msgstr "-dograb (vain X11:ssa), ajettaessa debuggerin alla voi lisätä itsestään -nograb, käytä -dograb kumotaksesi sen. Tarvitsee QT_DEBUG."
 
 #: lclstrconsts.rsqtoptiongraphicsstyle
 msgid "-graphicssystem param, sets the backend to be used for on-screen widgets and QPixmaps. Available options are native, raster and opengl. OpenGL is still unstable."
-msgstr ""
+msgstr "-graphicssystem parametri, asettaa backendin ruudulla olevien kontrollien ja QPixmaps:n käyttöön. Sallittuja asetuksia ovat natiivi, rasteri and opengl. OpenGL ei ole vielä vakaa."
 
 #: lclstrconsts.rsqtoptionnograb
 msgid "-nograb, tells Qt that it must never grab the mouse or the keyboard. Need QT_DEBUG."
-msgstr ""
+msgstr "-nograb, kertoo Qt:le ettei se saa koskaan ottaa hiirtä tai näppäimistöä haltuunsa. Tarvitsee QT_DEBUG."
 
 #: lclstrconsts.rsqtoptionreverse
 msgid "-reverse, sets the application's layout direction to Qt::RightToLeft."
-msgstr ""
+msgstr "-reverse, asettaa ohjelman asetelman suunnaksi Qt::RightToLeft."
 
 #: lclstrconsts.rsqtoptionsession
 msgid "-session session, restores the application from an earlier session."
-msgstr ""
+msgstr "-session sessio, palauttaa ohjelman aiemmasta sessiosta."
 
 #: lclstrconsts.rsqtoptionstyle
 msgid "-style style or -style=style, sets the application GUI style. Possible values are motif, windows, and platinum. If you compiled Qt with additional styles or have additional styles as plugins these will be available to the -style  command line option. NOTE: Not all styles are available on all platforms. If style param does not exist Qt will start an application with default common style (windows)."
-msgstr ""
+msgstr "-style tyyli tai -style=tyyli, asettaa ohjelman käyttöliittymän tyylin. Mahdollisia arvoja ovat motif, windows, ja platinum. Jos QT käännettiin lisätyylien kanssa tai sillä tyyli-plugineja, ne ovat käytettävissä -style komentorivioption kanssa. Huom. Kaikki tyylit eivät ole tajolla kaikilla alustoilla. Jos tyyli-parametria ei ole QT käynnistää ohjelman yleisellä oletustyylillä (windows)."
 
 #: lclstrconsts.rsqtoptionstylesheet
 msgid "-stylesheet stylesheet or -stylesheet=stylesheet, sets the application Style Sheet. The value must be a path to a file that contains the Style Sheet. Note: Relative URLs in the Style Sheet file are relative to the Style Sheet file's path."
-msgstr ""
+msgstr "-stylesheet tyylisivu tai -stylesheet=tyylisivu, asettaa ohjelman tyylisivun. Arvon pitää olla polku tiedostoon, missä tyylisivu on. Huom. Suhteelliset URL:t tyylisivussa ovat suhteessa tiedoston polkuun."
 
 #: lclstrconsts.rsqtoptionsync
 msgid "-sync (only under X11), switches to synchronous mode for debugging."
-msgstr ""
+msgstr "-sync (vain X11), kytkee päällä synkronisen virheenjäljitystilan."
 
 #: lclstrconsts.rsqtoptionwidgetcount
 msgid "-widgetcount, prints debug message at the end about number of widgets left undestroyed and maximum number of widgets existed at the same time."
-msgstr ""
+msgstr "-widgetcount, tulostaa lopuksi debug-viestin tuhoamattomien kontrollien määrästä ja suurimmasta kontrollien määrästä sillä hetkellä."
 
 #: lclstrconsts.rsqtoptionx11bgcolor
 msgid "-bg or -background color, sets the default background color and an application palette (light and dark shades are calculated)."
-msgstr ""
+msgstr "-bg tai -background väri, asettaa taustan oletusvärin ja ohjelman paletin (vaaleat ja tummat sävyt lasketaan)."
 
 #: lclstrconsts.rsqtoptionx11btncolor
 msgid "-btn or -button color, sets the default button color."
-msgstr ""
+msgstr "-btn tai -button väri, asettaa nappien oletusvärin."
 
 #: lclstrconsts.rsqtoptionx11cmap
 msgid "-cmap, causes the application to install a private color map on an 8-bit display."
-msgstr ""
+msgstr "-cmap, saa ohjelman asentamaan paikallisen värikartan 8-bittiselle näytölle."
 
 #: lclstrconsts.rsqtoptionx11display
 msgid "-display display, sets the X display (default is $DISPLAY)."
-msgstr ""
+msgstr "-display näyttö, asettaa X näytön (oletus on $DISPLAY)."
 
 #: lclstrconsts.rsqtoptionx11fgcolor
 msgid "-fg or -foreground color, sets the default foreground color."
-msgstr ""
+msgstr "-fg or -foreground väri, asettaa oletusvärin."
 
 #: lclstrconsts.rsqtoptionx11font
 msgid "-fn or -font font, defines the application font. The font should be specified using an X logical font description."
-msgstr ""
+msgstr "-fn tai -font kirjasin, määrittelee ohjelman kirjasimen. Kirjasin pitäisi antaa X:n loogisena kirjasin-määrityksenä."
 
 #: lclstrconsts.rsqtoptionx11geometry
 msgid "-geometry geometry, sets the client geometry of the first window that is shown."
-msgstr ""
+msgstr "-geometry geometria, asettaa asiakkaan geometrian ensimmäiselle näkyvälle ikkunalle."
 
 #: lclstrconsts.rsqtoptionx11im
 msgid "-im, sets the input method server (equivalent to setting the XMODIFIERS environment variable)."
-msgstr ""
+msgstr "-im, asettaa syöttömetodin palvelimen (sama kuin XMODIFIERS ympäristömuuttujan asettaminen)."
 
 #: lclstrconsts.rsqtoptionx11inputstyle
 msgid "-inputstyle, defines how the input is inserted into the given widget, e.g. onTheSpot makes the input appear directly in the widget, while overTheSpot makes the input appear in a box floating over the widget and is not inserted until the editing is done."
-msgstr ""
+msgstr "-inputstyle, määrittelee miten syöte tulee tietylle kontrollille, esim. onTheSpot saa syötteen näkymään suoraan kontrollissa, kun taas overTheSpot saa syötteen näkymään kontrollin päällä leijuvassa laatikossa ja kontrolli saa sen vasta kun muokkaus loppuu."
 
 #: lclstrconsts.rsqtoptionx11name
 msgid "-name name, sets the application name."
-msgstr ""
+msgstr "-name nimi, asettaa ohjelman nimen."
 
 #: lclstrconsts.rsqtoptionx11ncols
 msgid "-ncols count, limits the number of colors allocated in the color cube on an 8-bit display, if the application is using the QApplication::ManyColor color specification. If count is 216 then a 6x6x6 color cube is used (i.e. 6 levels of red, 6 of green, and 6 of blue); for other values, a cube approximately proportional to a 2x3x1 cube is used."
-msgstr ""
+msgstr "-ncols määrä, rajoittaa värien määrää värikuutiossa 8-bittisessä näytössä, jos ohjelma käyttää QApplication::ManyColor värimääritystä. Jos määrä on 216, käytetään 6x6x6 värikuutiota (siis 6 punaisen, 6 vihreän ja 6 sinisen sävyä); muille arvoille käytetään kuutiota sunnilleen 2x3x1 suhteella."
 
 #: lclstrconsts.rsqtoptionx11title
 msgid "-title title, sets the application title."
-msgstr ""
+msgstr "-title otsikko, asettaa ohjelman otsikon."
 
 #: lclstrconsts.rsqtoptionx11visual
 msgid "-visual TrueColor, forces the application to use a TrueColor visual on an 8-bit display."
-msgstr ""
+msgstr "-visual TrueColor, pakottaa ohjelman käyttämään TrueColor näkymää 8-bittisessä näytössä."
 
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
-msgstr ""
+msgstr "Endupdate vaikka päivitys ei ollut käynnissä"
 
 #: lclstrconsts.rsrasterimagesaveinupdate
 msgid "Cannot save image while update in progress"
-msgstr ""
+msgstr "Kuvan tallennus ei onnistu kun päivitys on käynnissä"
 
 #: lclstrconsts.rsrasterimageupdateall
 msgid "Cannot begin update all when canvas only update in progress"
-msgstr ""
+msgstr "Ei voi aloittaa kaikkien päivitystä kun canvas päivitys on käynnissä"
 
 #: lclstrconsts.rsredcolorcaption
 msgid "Red"
-msgstr ""
+msgstr "Punainen"
 
 #: lclstrconsts.rsrefreshrecordshint
 msgid "Refresh"
-msgstr ""
+msgstr "Virkistä"
 
 #: lclstrconsts.rsreplace
 msgid "Replace"
@@ -1174,15 +1019,15 @@ msgstr "Korvaa kaikki"
 #: lclstrconsts.rsresourcenotfound
 msgctxt "lclstrconsts.rsresourcenotfound"
 msgid "Resource %s not found"
-msgstr ""
+msgstr "Resurssia %s ei löydy"
 
 #: lclstrconsts.rsscrollbarcolorcaption
 msgid "ScrollBar"
-msgstr ""
+msgstr "Vierintäpalkki"
 
 #: lclstrconsts.rsscrollbaroutofrange
 msgid "ScrollBar property out of range"
-msgstr ""
+msgstr "Vierintäpalkin ominaisuus sallitun alueen ulkopuolella"
 
 #: lclstrconsts.rsselectcolortitle
 msgid "Select color"
@@ -1194,7 +1039,7 @@ msgstr "Valitse fontti"
 
 #: lclstrconsts.rssilvercolorcaption
 msgid "Silver"
-msgstr ""
+msgstr "Hopea"
 
 #: lclstrconsts.rssize
 msgid "  size "
@@ -1202,83 +1047,90 @@ msgstr "  koko "
 
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
-msgstr ""
+msgstr "Taivaan sininen"
 
 #: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
 msgid "A control with tabs"
-msgstr ""
+msgstr "Kontrolli välilehtien kanssa"
 
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
-msgstr ""
+msgstr "Sinivihreä"
 
 #: lclstrconsts.rstext
 msgid "Text"
 msgstr "Teksti"
+
+#: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
+msgid "The built-in URL is read only. Change the BaseURL instead."
+msgstr "Sisäistä URL:a voi vain lukea. Muuta sen sijaan BaseURL."
 
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
 msgstr ""
 
 #: lclstrconsts.rstpanelaccessibilitydescription
+msgctxt "lclstrconsts.rstpanelaccessibilitydescription"
 msgid "Panel"
-msgstr ""
+msgstr "Paneeli"
 
 #: lclstrconsts.rstsplitteraccessibilitydescription
+msgctxt "lclstrconsts.rstsplitteraccessibilitydescription"
 msgid "A grip to control how much size to give two parts of an area"
-msgstr ""
+msgstr "Kahva millä säädetään alueen kahden osan koko"
 
 #: lclstrconsts.rsttreeviewaccessibilitydescription
+msgctxt "lclstrconsts.rsttreeviewaccessibilitydescription"
 msgid "A tree of items"
-msgstr ""
+msgstr "Puumuoto"
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
-msgstr ""
+msgstr "Oletuskirjasimen lataus ei onnistu"
 
 #: lclstrconsts.rsunknownerrorpleasereportthisbug
 msgid "Unknown Error, please report this bug"
-msgstr ""
+msgstr "Tuntematon virhe, raportoi se"
 
 #: lclstrconsts.rsunknownpictureextension
 msgid "Unknown picture extension"
-msgstr ""
+msgstr "Tuntematon kuvan pääte"
 
 #: lclstrconsts.rsunknownpictureformat
 msgid "Unknown picture format"
-msgstr ""
+msgstr "Tuntematon kuvan formaatti"
 
 #: lclstrconsts.rsunsupportedbitmapformat
 msgid "Unsupported bitmap format."
-msgstr ""
+msgstr "Bittikartan formaattia ei tueta."
 
 #: lclstrconsts.rsunsupportedclipboardformat
 msgid "Unsupported clipboard format: %s"
-msgstr ""
+msgstr "Leikepöydän formaattia %s ei tueta."
 
 #: lclstrconsts.rswarningunreleaseddcsdump
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
-msgstr ""
+msgstr "VAROITUS: On %d julkaisematonta DC:ta, tarkempi tuloste seuraa:"
 
 #: lclstrconsts.rswarningunreleasedgdiobjectsdump
 msgid " WARNING: There are %d unreleased GDIObjects, a detailed dump follows:"
-msgstr ""
+msgstr "VAROITUS: On %d julkaisematonta GDIObjects:ia, tarkempi tuloste seuraa:"
 
 #: lclstrconsts.rswarningunreleasedmessagesinqueue
 msgid " WARNING: There are %d messages left in the queue! I'll free them"
-msgstr ""
+msgstr "VAROITUS: Jonoon on jäänyt %d viestiä! Ne vapautetaan"
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
-msgstr ""
+msgstr "VAROITUS: On jäänyt %d TimerInfo tietuetta! Ne vapautetaan"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
-msgstr ""
+msgstr "VAROITUS: On jäänyt %s LM_PAINT/LM_GtkPAINT viestiä poistamatta."
 
 #: lclstrconsts.rswhitecolorcaption
 msgid "White"
-msgstr ""
+msgstr "Valkoinen"
 
 #: lclstrconsts.rswholewordsonly
 msgid "Whole words only"
@@ -1294,71 +1146,75 @@ msgstr "Varoitus:"
 
 #: lclstrconsts.rswindowcolorcaption
 msgid "Window"
-msgstr ""
+msgstr "Ikkuna"
 
 #: lclstrconsts.rswindowframecolorcaption
 msgid "Window Frame"
-msgstr ""
+msgstr "Ikkunan kehys"
 
 #: lclstrconsts.rswindowtextcolorcaption
 msgid "Window Text"
-msgstr ""
+msgstr "Ikkunan teksti"
 
 #: lclstrconsts.rsyellowcolorcaption
 msgid "Yellow"
-msgstr ""
+msgstr "Keltainen"
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
-msgstr ""
+msgstr "Ei voi fokusoida estettyä tai näkymätöntä ikkunaa"
+
+#: lclstrconsts.scannotsetdesigntimeppi
+msgid "Cannot set design time PPI."
+msgstr "Suunnitteluaikaisen PPI:n muuttaminen ei onnistu."
 
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
-msgstr ""
+msgstr "Samanlaiset valikot"
 
 #: lclstrconsts.sinvalidactioncreation
 msgid "Invalid action creation"
-msgstr ""
+msgstr "Kelvoton toiminnon luonti"
 
 #: lclstrconsts.sinvalidactionenumeration
 msgid "Invalid action enumeration"
-msgstr ""
+msgstr "Kelvoton toiminnon luettelointi"
 
 #: lclstrconsts.sinvalidactionregistration
 msgid "Invalid action registration"
-msgstr ""
+msgstr "Kelvoton toiminnon rekisteröinti"
 
 #: lclstrconsts.sinvalidactionunregistration
 msgid "Invalid action unregistration"
-msgstr ""
+msgstr "Kelvoton toiminnon rekisteröinnin purku"
 
 #: lclstrconsts.sinvalidcharset
 msgid "The char set in mask \"%s\" is not valid!"
-msgstr ""
+msgstr "Maskin \"%s\" merkkijoukko on kelvoton!"
 
 #: lclstrconsts.sinvalidimagesize
 msgid "Invalid image size"
-msgstr ""
+msgstr "Kelvoton kuvan koko"
 
 #: lclstrconsts.sinvalidindex
 msgid "Invalid ImageList Index"
-msgstr ""
+msgstr "Kelvoton ImageList osoitin"
 
 #: lclstrconsts.smaskeditnomatch
 msgid "The current text does not match the specified mask."
-msgstr ""
+msgstr "Nykyinen teksti ei täsmää annetun maskin kanssa."
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
-msgstr ""
+msgstr "Valikon osoitin sallitun alueen ulkopuolella"
 
 #: lclstrconsts.smenuitemisnil
 msgid "MenuItem is nil"
-msgstr ""
+msgstr "MenuItem on nil"
 
 #: lclstrconsts.smenunotfound
 msgid "Sub-menu is not in menu"
-msgstr ""
+msgstr "Alivalikko ei ole valikossa"
 
 #: lclstrconsts.smkcalt
 msgid "Alt+"
@@ -1379,12 +1235,12 @@ msgstr ""
 #: lclstrconsts.smkcdown
 msgctxt "lclstrconsts.smkcdown"
 msgid "Down"
-msgstr ""
+msgstr "Alas"
 
 #: lclstrconsts.smkcend
 msgctxt "lclstrconsts.smkcend"
 msgid "End"
-msgstr ""
+msgstr "Loppuun"
 
 #: lclstrconsts.smkcenter
 msgid "Enter"
@@ -1397,7 +1253,7 @@ msgstr ""
 #: lclstrconsts.smkchome
 msgctxt "lclstrconsts.smkchome"
 msgid "Home"
-msgstr ""
+msgstr "Koti"
 
 #: lclstrconsts.smkcins
 msgid "Ins"
@@ -1406,7 +1262,7 @@ msgstr ""
 #: lclstrconsts.smkcleft
 msgctxt "lclstrconsts.smkcleft"
 msgid "Left"
-msgstr ""
+msgstr "Vasen"
 
 #: lclstrconsts.smkcmeta
 msgid "Meta+"
@@ -1423,7 +1279,7 @@ msgstr ""
 #: lclstrconsts.smkcright
 msgctxt "lclstrconsts.smkcright"
 msgid "Right"
-msgstr ""
+msgstr "Oikea"
 
 #: lclstrconsts.smkcshift
 msgid "Shift+"
@@ -1431,7 +1287,7 @@ msgstr ""
 
 #: lclstrconsts.smkcspace
 msgid "Space"
-msgstr ""
+msgstr "Välilyönti"
 
 #: lclstrconsts.smkctab
 msgctxt "lclstrconsts.smkctab"
@@ -1441,45 +1297,107 @@ msgstr ""
 #: lclstrconsts.smkcup
 msgctxt "lclstrconsts.smkcup"
 msgid "Up"
-msgstr ""
-
-#: lclstrconsts.snomdiform
-msgid "No MDI form present."
-msgstr ""
+msgstr "Ylös"
 
 #: lclstrconsts.snotimers
 msgid "No timers available"
-msgstr ""
+msgstr "Ei ajastimia saatavilla"
+
+#: lclstrconsts.sparentrequired
+msgid "Control \"%s\" has no parent window."
+msgstr "Kontrollilla \"%s\" ei ole emo-ikkunaa."
 
 #: lclstrconsts.sparexpected
 msgid "Wrong token type: %s expected"
-msgstr ""
+msgstr "Väärä token tyyppi: odotettiin %s"
 
 #: lclstrconsts.sparinvalidfloat
 msgid "Invalid floating point number: %s"
-msgstr ""
+msgstr "Kelvoton liukuluku: %s"
 
 #: lclstrconsts.sparinvalidinteger
 msgid "Invalid integer number: %s"
-msgstr ""
+msgstr "Kelvoton kokonaisluku: %s"
 
 #: lclstrconsts.sparlocinfo
 msgid " (at %d,%d, stream offset %d)"
-msgstr ""
+msgstr " (kohdassa %d,%d, vuon siirros %d)"
 
 #: lclstrconsts.sparunterminatedbinvalue
 msgid "Unterminated byte value"
-msgstr ""
+msgstr "Päättämätön tavun arvo"
 
 #: lclstrconsts.sparunterminatedstring
 msgid "Unterminated string"
-msgstr ""
+msgstr "Päättämätön teksti"
 
 #: lclstrconsts.sparwrongtokensymbol
 msgid "Wrong token symbol: %s expected but %s found"
-msgstr ""
+msgstr "Väärä token symboli: odotettiin %s mutta saatiin %s"
 
 #: lclstrconsts.sparwrongtokentype
 msgid "Wrong token type: %s expected but %s found"
+msgstr "Väärä token tyyppi: odotettiin %s mutta saatiin %s"
+
+#: lclstrconsts.sshellctrlsbytes
+msgid "%s bytes"
+msgstr "%s tavua"
+
+#: lclstrconsts.sshellctrlsinvalidpath
+msgctxt "lclstrconsts.sshellctrlsinvalidpath"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\"\n"
 msgstr ""
+"Kelvoton polku:\n"
+"\"%s\"\n"
+
+#: lclstrconsts.sshellctrlsinvalidpathrelative
+msgid ""
+"Invalid relative pathname:\n"
+"\"%s\"\n"
+"in relation to rootpath:\n"
+"\"%s\"\n"
+msgstr ""
+"Kelvoton suhteellinen polku:\n"
+"\"%s\"\n"
+"suhteessa juuripolkuun:\n"
+"\"%s\"\n"
+
+#: lclstrconsts.sshellctrlsinvalidroot
+msgctxt "lclstrconsts.sshellctrlsinvalidroot"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\"\n"
+msgstr ""
+"Kelvoton polku:\n"
+"\"%s\"\n"
+
+#: lclstrconsts.sshellctrlskb
+msgid "%s kB"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsmb
+msgid "%s MB"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsname
+msgid "Name"
+msgstr "Nimi"
+
+#: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+msgid ""
+"The selected item does not exist on disk:\n"
+"\"%s\"\n"
+msgstr ""
+"Valittua kohtaa ei ole levyllä:\n"
+"\"%s\"\n"
+
+#: lclstrconsts.sshellctrlssize
+msgid "Size"
+msgstr "Koko"
+
+#: lclstrconsts.sshellctrlstype
+msgid "Type"
+msgstr "Tyyppi"
 

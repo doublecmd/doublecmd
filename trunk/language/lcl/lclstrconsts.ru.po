@@ -5,11 +5,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-07-19 23:11+0400\n"
+"PO-Revision-Date: 2018-08-28 01:50+0300\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Language: ru\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.7.7\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 msgid "Browser \"%s\" not executable."
@@ -21,11 +21,11 @@ msgstr "Браузер \"%s\" не найден."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
 msgid "Error while executing \"%s\":%s%s"
-msgstr "Ошибка при выполнении \"%s\":%s%s"
+msgstr "Ошибка при исполнении \"%s\":%s%s"
 
 #: lclstrconsts.hhshelpnohtmlbrowserfound
 msgid "Unable to find a HTML browser."
-msgstr "Не удалось найти браузер HTML."
+msgstr "Невозможно найти браузер HTML."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
@@ -47,210 +47,30 @@ msgstr "Alt"
 msgid "Ctrl"
 msgstr "Ctrl"
 
-#: lclstrconsts.ifsvk_accept
-msgid "Accept"
-msgstr "Accept"
-
-#: lclstrconsts.ifsvk_apps
-msgid "application key"
-msgstr "клавиша Application"
-
-#: lclstrconsts.ifsvk_back
-msgid "Backspace"
-msgstr "Backspace"
-
-#: lclstrconsts.ifsvk_cancel
-msgctxt "lclstrconsts.ifsvk_cancel"
-msgid "Cancel"
-msgstr "Cancel"
-
-#: lclstrconsts.ifsvk_capital
-msgid "Capital"
-msgstr "CapsLock"
-
-#: lclstrconsts.ifsvk_clear
-msgid "Clear"
-msgstr "Clear"
-
 #: lclstrconsts.ifsvk_cmd
 msgid "Cmd"
 msgstr "Cmd"
 
-#: lclstrconsts.ifsvk_control
-msgid "Control"
-msgstr "Control"
-
-#: lclstrconsts.ifsvk_convert
-msgid "Convert"
-msgstr "Convert"
-
-#: lclstrconsts.ifsvk_delete
-msgctxt "lclstrconsts.ifsvk_delete"
-msgid "Delete"
-msgstr "Delete"
-
-#: lclstrconsts.ifsvk_down
-msgctxt "lclstrconsts.ifsvk_down"
-msgid "Down"
-msgstr "Стрелка вниз"
-
-#: lclstrconsts.ifsvk_end
-msgctxt "lclstrconsts.ifsvk_end"
-msgid "End"
-msgstr "End"
-
-#: lclstrconsts.ifsvk_escape
-msgid "Escape"
-msgstr "Escape"
-
-#: lclstrconsts.ifsvk_execute
-msgid "Execute"
-msgstr "Execute"
-
-#: lclstrconsts.ifsvk_final
-msgid "Final"
-msgstr "Final"
-
-#: lclstrconsts.ifsvk_hanja
-msgid "Hanja"
-msgstr "Hanja"
-
 #: lclstrconsts.ifsvk_help
+msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
 msgstr "Справка"
-
-#: lclstrconsts.ifsvk_home
-msgctxt "lclstrconsts.ifsvk_home"
-msgid "Home"
-msgstr "Home"
-
-#: lclstrconsts.ifsvk_insert
-msgctxt "lclstrconsts.ifsvk_insert"
-msgid "Insert"
-msgstr "Insert"
-
-#: lclstrconsts.ifsvk_junja
-msgid "Junja"
-msgstr "Junja"
-
-#: lclstrconsts.ifsvk_kana
-msgid "Kana"
-msgstr "Kana"
-
-#: lclstrconsts.ifsvk_lbutton
-msgid "Mouse Button Left"
-msgstr "Левая клавиша мыши"
-
-#: lclstrconsts.ifsvk_left
-msgctxt "lclstrconsts.ifsvk_left"
-msgid "Left"
-msgstr "Стрелка влево"
-
-#: lclstrconsts.ifsvk_lwin
-msgid "left windows key"
-msgstr "Левая клавиша Windows"
-
-#: lclstrconsts.ifsvk_mbutton
-msgid "Mouse Button Middle"
-msgstr "Средняя клавиша мыши"
-
-#: lclstrconsts.ifsvk_menu
-msgctxt "lclstrconsts.ifsvk_menu"
-msgid "Menu"
-msgstr "Menu"
 
 #: lclstrconsts.ifsvk_meta
 msgid "Meta"
 msgstr "Meta"
 
-#: lclstrconsts.ifsvk_modechange
-msgid "Mode Change"
-msgstr "Изменение режима"
-
-#: lclstrconsts.ifsvk_next
-msgctxt "lclstrconsts.ifsvk_next"
-msgid "Next"
-msgstr "Next"
-
-#: lclstrconsts.ifsvk_nonconvert
-msgid "Nonconvert"
-msgstr "Nonconvert"
-
-#: lclstrconsts.ifsvk_numlock
-msgid "Numlock"
-msgstr "NumLock"
-
-#: lclstrconsts.ifsvk_numpad
-msgid "Numpad %d"
-msgstr "%d цифровой клавиатуры"
-
-#: lclstrconsts.ifsvk_pause
-msgid "Pause key"
-msgstr "Клавиша Pause"
-
-#: lclstrconsts.ifsvk_print
-msgid "Print"
-msgstr "Print"
-
-#: lclstrconsts.ifsvk_prior
-msgctxt "lclstrconsts.ifsvk_prior"
-msgid "Prior"
-msgstr "Page Up"
-
-#: lclstrconsts.ifsvk_rbutton
-msgid "Mouse Button Right"
-msgstr "Правая клавиша мыши"
-
-#: lclstrconsts.ifsvk_return
-msgid "Return"
-msgstr "Ввод"
-
-#: lclstrconsts.ifsvk_right
-msgctxt "lclstrconsts.ifsvk_right"
-msgid "Right"
-msgstr "Стрелка вправо"
-
-#: lclstrconsts.ifsvk_rwin
-msgid "right windows key"
-msgstr "Правая клавиша Windows"
-
-#: lclstrconsts.ifsvk_scroll
-msgid "Scroll"
-msgstr "ScrollLock"
-
-#: lclstrconsts.ifsvk_select
-msgid "Select"
-msgstr "Select"
-
 #: lclstrconsts.ifsvk_shift
 msgid "Shift"
 msgstr "Shift"
-
-#: lclstrconsts.ifsvk_snapshot
-msgid "Snapshot"
-msgstr "Snapshot"
-
-#: lclstrconsts.ifsvk_space
-msgid "Space key"
-msgstr "Пробел"
 
 #: lclstrconsts.ifsvk_super
 msgid "Super"
 msgstr "Super"
 
-#: lclstrconsts.ifsvk_tab
-msgctxt "lclstrconsts.ifsvk_tab"
-msgid "Tab"
-msgstr "Tab"
-
 #: lclstrconsts.ifsvk_unknown
 msgid "Unknown"
 msgstr "Неизвестная"
-
-#: lclstrconsts.ifsvk_up
-msgctxt "lclstrconsts.ifsvk_up"
-msgid "Up"
-msgstr "Стрелка вверх"
 
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
@@ -288,6 +108,10 @@ msgstr "Рабочая область приложения"
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
 msgstr "Морской волны"
+
+#: lclstrconsts.rsascannothaveasparent
+msgid "Class %s cannot have %s as parent."
+msgstr "Класс %s не может иметь %s в качестве родителя."
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
@@ -356,7 +180,11 @@ msgstr "С учётом регистра"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
 msgid "Control of class '%s' can't have control of class '%s' as a child"
-msgstr "У элемента управления класса '%s' не может быть дочернего элемента управления класса '%s'"
+msgstr "Элемент управления класса '%s' не может иметь дочерний элемент управления класса '%s'"
+
+#: lclstrconsts.rscontrolhasnoparentformorframe
+msgid "Control '%s' has no parent form or frame"
+msgstr "Элемент управления '%s' не имеет родительской формы или фрейма"
 
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
@@ -369,10 +197,6 @@ msgstr "'%s' не является родителем '%s'"
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
 msgstr "Кремовый"
-
-#: lclstrconsts.rscreatinggdbcatchableerror
-msgid "Creating gdb catchable error:"
-msgstr "Создание ошибки, захватываемой GDB:"
 
 #: lclstrconsts.rscursor
 msgid "Cursor"
@@ -407,10 +231,6 @@ msgstr "Направление"
 msgid "&Directory"
 msgstr "&Каталог"
 
-#: lclstrconsts.rsdocking
-msgid "Docking"
-msgstr "Стыковка"
-
 #: lclstrconsts.rsdocopy
 msgid "Copy"
 msgstr "Копировать"
@@ -439,10 +259,6 @@ msgstr "Ошибка"
 #: lclstrconsts.rserrorcreatingdevicecontext
 msgid "Error creating device context for %s.%s"
 msgstr "Ошибка создания контекста устройства для %s.%s"
-
-#: lclstrconsts.rserrorinlcl
-msgid "ERROR in LCL: "
-msgstr "ОШИБКА в LCL:"
 
 #: lclstrconsts.rserroroccurredinataddressframe
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
@@ -571,7 +387,7 @@ msgstr "--gdk-no-debug flags  Выключить указанные отладо
 
 #: lclstrconsts.rsgif
 msgid "Graphics Interchange Format"
-msgstr "Graphics Interchange Format"
+msgstr "Формат Graphics Interchange Format"
 
 #: lclstrconsts.rsgoptionfatalwarnings
 msgid "--g-fatal-warnings    Warnings and errors generated by Gtk+/GDK will halt the application."
@@ -639,7 +455,7 @@ msgstr "--gtk-debug flags     Включить указанные отладоч
 
 #: lclstrconsts.rsgtkoptiondisplay
 msgid "--display h:s:d       Connect to the specified X server, where \"h\" is the hostname, \"s\" is the server number (usually 0), and \"d\" is the display number (typically omitted). If --display is not specified, the DISPLAY environment variable is used."
-msgstr "--display h:s:d       Связаться с указанным X-сервером, где \"h\" - имя хост-машины, \"s\" - номер сервера (обычно 0), и \"d\" - номер дисплея (обычно опускается). Если не задан --display, используется переменная окружения DISPLAY."
+msgstr "--display h:s:d       Связаться с указанным сервером X, где \"h\" - имя хост-машины, \"s\" - номер сервера (обычно 0), и \"d\" - номер дисплея (обычно опускается). Если не задан --display, используется переменная окружения DISPLAY."
 
 #: lclstrconsts.rsgtkoptionmodule
 msgid "--gtk-module module   Load the specified module at startup."
@@ -659,11 +475,16 @@ msgstr "--lcl-no-transient    Не устанавливать временный
 
 #: lclstrconsts.rsgtkoptionnoxshm
 msgid "--no-xshm             Disable use of the X Shared Memory Extension."
-msgstr "--no-xshm             Запретить использовать разделяемую память (X Shared Memory Extension)."
+msgstr "--no-xshm             Запрет использования расширений X по разделяемой памяти."
 
 #: lclstrconsts.rsgtkoptionsync
 msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
 msgstr "--sync                Вызвать XSynchronize (display, True) после установления соединения с сервером X. Это облегчает отладку ошибок протокола X, так как запросы буферизации X будут отключены, и ошибки X будут получаться сразу после обработки сервером X запроса протокола, который вызвал ошибку."
+
+#: lclstrconsts.rshelp
+msgctxt "lclstrconsts.rshelp"
+msgid "Help"
+msgstr "Справка"
 
 #: lclstrconsts.rshelpalreadyregistered
 msgid "%s: Already registered"
@@ -671,7 +492,7 @@ msgstr "%s: уже зарегистрирован"
 
 #: lclstrconsts.rshelpcontextnotfound
 msgid "A help database was found for this topic, but this topic was not found"
-msgstr "Заголовок найден в базе данных справки, но страница справки не найдена"
+msgstr "База данных справки была найдена для данной темы, но не содержит её"
 
 #: lclstrconsts.rshelpdatabasenotfound
 msgid "There is no help database installed for this topic"
@@ -751,15 +572,15 @@ msgstr "Программа просмотра справки для данног
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
-msgstr "Выделение"
+msgstr "Выделенное"
 
 #: lclstrconsts.rshighlighttextcolorcaption
 msgid "Highlight Text"
-msgstr "Выделенный текст"
+msgstr "Текст выделенного"
 
 #: lclstrconsts.rshotlightcolorcaption
 msgid "Hot Light"
-msgstr "Тёплый свет"
+msgstr "Выделение"
 
 #: lclstrconsts.rsicns
 msgid "Mac OS X Icon"
@@ -868,9 +689,27 @@ msgstr "Зелёный"
 msgid "List index exceeds bounds (%d)"
 msgstr "Индекс списка вне диапазона (%d)"
 
-#: lclstrconsts.rslistmustbeempty
-msgid "List must be empty"
-msgstr "Список должен быть пуст"
+#: lclstrconsts.rsmacosmenuhide
+#, object-pascal-format
+msgid "Hide %s"
+msgstr "Скрыть %s"
+
+#: lclstrconsts.rsmacosmenuhideothers
+msgid "Hide Others"
+msgstr "Скрыть остальные"
+
+#: lclstrconsts.rsmacosmenuquit
+#, object-pascal-format
+msgid "Quit %s"
+msgstr "Завершить %s"
+
+#: lclstrconsts.rsmacosmenuservices
+msgid "Services"
+msgstr "Службы"
+
+#: lclstrconsts.rsmacosmenushowall
+msgid "Show All"
+msgstr "Показать все"
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
@@ -1044,9 +883,9 @@ msgstr "Portable PixMap"
 msgid "Post"
 msgstr "Отправить"
 
-#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
-msgstr "%s%sНажмите 'OK' чтобы игнорировать и подвергнуться риску повреждения данных.%sНажмите 'Отмена' для закрытия программы."
+#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
+msgstr "%s%sНажмите 'OK', чтобы игнорировать и подвергнуться риску повреждения данных.%sНажмите 'Прервать' для закрытия программы."
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
@@ -1226,9 +1065,13 @@ msgstr "Бирюзовый"
 msgid "Text"
 msgstr "Текст"
 
+#: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
+msgid "The built-in URL is read only. Change the BaseURL instead."
+msgstr "Встроенный URL доступен только для чтения. Вместо него следует изменять BaseURL."
+
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
-msgstr "Tagged Image File Format"
+msgstr "Формат Tagged Image File"
 
 #: lclstrconsts.rstpanelaccessibilitydescription
 msgctxt "lclstrconsts.rstpanelaccessibilitydescription"
@@ -1323,7 +1166,11 @@ msgstr "Жёлтый"
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
-msgstr "Невозможно перевести фокус в отключенное или невидимое окно"
+msgstr "Невозможно перевести фокус в отключённое или невидимое окно"
+
+#: lclstrconsts.scannotsetdesigntimeppi
+msgid "Cannot set design time PPI."
+msgstr "Невозможно установить PPI времени разработки."
 
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
@@ -1379,7 +1226,7 @@ msgstr "Alt+"
 
 #: lclstrconsts.smkcbksp
 msgid "BkSp"
-msgstr "BkSp"
+msgstr "Забой"
 
 #: lclstrconsts.smkcctrl
 msgid "Ctrl+"
@@ -1401,7 +1248,7 @@ msgstr "End"
 
 #: lclstrconsts.smkcenter
 msgid "Enter"
-msgstr "Enter"
+msgstr "Ввод"
 
 #: lclstrconsts.smkcesc
 msgid "Esc"
@@ -1449,16 +1296,12 @@ msgstr "Пробел"
 #: lclstrconsts.smkctab
 msgctxt "lclstrconsts.smkctab"
 msgid "Tab"
-msgstr "Tab"
+msgstr "Таб"
 
 #: lclstrconsts.smkcup
 msgctxt "lclstrconsts.smkcup"
 msgid "Up"
 msgstr "Вверх"
-
-#: lclstrconsts.snomdiform
-msgid "No MDI form present."
-msgstr "Отсутствует форма MDI."
 
 #: lclstrconsts.snotimers
 msgid "No timers available"

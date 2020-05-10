@@ -1,20 +1,30 @@
+# Olexandr Pylypchuk <pilipchukap@rambler.ru>, 2016, 2017.
+# admin <lxlalexlxl@ukr.net>, 2017, 2018.
 msgid ""
 msgstr ""
+"Project-Id-Version: lazaruside\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2018-09-09 21:55+0200\n"
+"Last-Translator: Olexandr Pylypchuk <lxlalexlxl@ukr.net>\n"
+"Language-Team: Ukrainian <kde-i18n-doc@kde.org>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
-msgid "Browser %s%s%s not executable."
-msgstr "Браузер %s%s%s не є виконуваним."
+msgid "Browser \"%s\" not executable."
+msgstr "Оглядач \"%s\" не є виконуваним."
 
 #: lclstrconsts.hhshelpbrowsernotfound
-msgid "Browser %s%s%s not found."
-msgstr "Браузер %s%s%s не знайдено."
+msgid "Browser \"%s\" not found."
+msgstr "Оглядач \"%s\" не знайдено."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
-msgid "Error while executing %s%s%s:%s%s"
-msgstr "Помилка при виконанні %s%s%s:%s%s"
+msgid "Error while executing \"%s\":%s%s"
+msgstr "Помилка при виконанні \"%s\":%s%s"
 
 #: lclstrconsts.hhshelpnohtmlbrowserfound
 msgid "Unable to find a HTML browser."
@@ -22,11 +32,11 @@ msgstr "Не вдається знайти браузер HTML."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
-msgstr ""
+msgstr "Оглядач HTML не знайдено.%sЗадайте його в меню Засоби -> Параметри -> Довідка -> Параметри довідки"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
-msgid "The help database %s%s%s was unable to find file %s%s%s."
-msgstr "База даних довідки %s%s%s не змогла знайти файл %s%s%s."
+msgid "The help database \"%s\" was unable to find file \"%s\"."
+msgstr "У базі даних довідки \"%s\" не вдалось знайти файл \"%s\"."
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
 msgid "The macro %s in BrowserParams will be replaced by the URL."
@@ -40,227 +50,35 @@ msgstr "Alt"
 msgid "Ctrl"
 msgstr "Ctrl"
 
-#: lclstrconsts.ifsvk_accept
-msgid "Accept"
-msgstr "Прийняти"
-
-#: lclstrconsts.ifsvk_apps
-msgid "application key"
-msgstr "кнопка програми"
-
-#: lclstrconsts.ifsvk_back
-msgid "Backspace"
-msgstr "Backspace"
-
-#: lclstrconsts.ifsvk_cancel
-msgctxt "lclstrconsts.ifsvk_cancel"
-msgid "Cancel"
-msgstr "Скасувати"
-
-#: lclstrconsts.ifsvk_capital
-msgid "Capital"
-msgstr "Великі літери"
-
-#: lclstrconsts.ifsvk_clear
-msgid "Clear"
-msgstr "Очистити"
-
 #: lclstrconsts.ifsvk_cmd
 msgid "Cmd"
-msgstr ""
-
-#: lclstrconsts.ifsvk_control
-msgid "Control"
-msgstr "Керування"
-
-#: lclstrconsts.ifsvk_convert
-msgid "Convert"
-msgstr "Перетворити"
-
-#: lclstrconsts.ifsvk_delete
-msgctxt "lclstrconsts.ifsvk_delete"
-msgid "Delete"
-msgstr "Видалити"
-
-#: lclstrconsts.ifsvk_down
-msgctxt "lclstrconsts.ifsvk_down"
-msgid "Down"
-msgstr "Вниз"
-
-#: lclstrconsts.ifsvk_end
-msgctxt "lclstrconsts.ifsvk_end"
-msgid "End"
-msgstr "Кінець"
-
-#: lclstrconsts.ifsvk_escape
-msgid "Escape"
-msgstr "Вихід"
-
-#: lclstrconsts.ifsvk_execute
-msgid "Execute"
-msgstr "Виконати"
-
-#: lclstrconsts.ifsvk_final
-msgid "Final"
-msgstr "Кінцевий"
-
-#: lclstrconsts.ifsvk_hanja
-msgid "Hanja"
-msgstr "Китайська"
+msgstr "Cmd"
 
 #: lclstrconsts.ifsvk_help
+msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
 msgstr "Допомога"
 
-#: lclstrconsts.ifsvk_home
-msgctxt "lclstrconsts.ifsvk_home"
-msgid "Home"
-msgstr "Дім"
-
-#: lclstrconsts.ifsvk_insert
-msgctxt "lclstrconsts.ifsvk_insert"
-msgid "Insert"
-msgstr "Вставити"
-
-#: lclstrconsts.ifsvk_junja
-msgid "Junja"
-msgstr "Кенійська"
-
-#: lclstrconsts.ifsvk_kana
-msgid "Kana"
-msgstr "Японська"
-
-#: lclstrconsts.ifsvk_lbutton
-msgid "Mouse Button Left"
-msgstr "Ліва клавіша миші"
-
-#: lclstrconsts.ifsvk_left
-msgctxt "lclstrconsts.ifsvk_left"
-msgid "Left"
-msgstr "Вліво"
-
-#: lclstrconsts.ifsvk_lwin
-msgid "left windows key"
-msgstr "ліва клавіша Win"
-
-#: lclstrconsts.ifsvk_mbutton
-msgid "Mouse Button Middle"
-msgstr "Середня клавіша миші"
-
-#: lclstrconsts.ifsvk_menu
-msgctxt "lclstrconsts.ifsvk_menu"
-msgid "Menu"
-msgstr "Меню"
-
 #: lclstrconsts.ifsvk_meta
 msgid "Meta"
-msgstr ""
-
-#: lclstrconsts.ifsvk_modechange
-msgid "Mode Change"
-msgstr "Зміна режиму"
-
-#: lclstrconsts.ifsvk_next
-msgctxt "lclstrconsts.ifsvk_next"
-msgid "Next"
-msgstr "Наступний"
-
-#: lclstrconsts.ifsvk_nonconvert
-msgid "Nonconvert"
-msgstr "Неконвертоване"
-
-#: lclstrconsts.ifsvk_numlock
-msgid "Numlock"
-msgstr "Numlock"
-
-#: lclstrconsts.ifsvk_numpad
-msgid "Numpad %d"
-msgstr "Numpad %d"
-
-#: lclstrconsts.ifsvk_pause
-msgid "Pause key"
-msgstr "Клавіша Pause"
-
-#: lclstrconsts.ifsvk_print
-msgid "Print"
-msgstr "Друкувати"
-
-#: lclstrconsts.ifsvk_prior
-msgctxt "lclstrconsts.ifsvk_prior"
-msgid "Prior"
-msgstr "Попередній"
-
-#: lclstrconsts.ifsvk_rbutton
-msgid "Mouse Button Right"
-msgstr "Права клавіша миші"
-
-#: lclstrconsts.ifsvk_return
-msgid "Return"
-msgstr "Enter"
-
-#: lclstrconsts.ifsvk_right
-msgctxt "lclstrconsts.ifsvk_right"
-msgid "Right"
-msgstr "Вправо"
-
-#: lclstrconsts.ifsvk_rwin
-msgid "right windows key"
-msgstr "права клавіша Win"
-
-#: lclstrconsts.ifsvk_scroll
-msgid "Scroll"
-msgstr "Scroll"
-
-#: lclstrconsts.ifsvk_select
-msgid "Select"
-msgstr "Вибрати"
+msgstr "Мета"
 
 #: lclstrconsts.ifsvk_shift
 msgid "Shift"
 msgstr "Shift"
 
-#: lclstrconsts.ifsvk_snapshot
-msgid "Snapshot"
-msgstr "Скріншот"
-
-#: lclstrconsts.ifsvk_space
-msgid "Space key"
-msgstr "Пробіл"
-
 #: lclstrconsts.ifsvk_super
 msgid "Super"
-msgstr ""
-
-#: lclstrconsts.ifsvk_tab
-msgctxt "lclstrconsts.ifsvk_tab"
-msgid "Tab"
-msgstr "Tab"
+msgstr "Super"
 
 #: lclstrconsts.ifsvk_unknown
 msgid "Unknown"
 msgstr "Невідомий"
 
-#: lclstrconsts.ifsvk_up
-msgctxt "lclstrconsts.ifsvk_up"
-msgid "Up"
-msgstr "Вверх"
-
-#: lclstrconsts.liscannotexecute
-msgid "can not execute %s"
-msgstr "неможливо виконати %s"
-
-#: lclstrconsts.liscefilter
-msgid "(filter)"
-msgstr ""
-
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
 msgstr "Ресурс %s не знайдено"
-
-#: lclstrconsts.lisprogramfilenotfound
-msgid "program file not found %s"
-msgstr "програмний файл %s не знайдено"
 
 #: lclstrconsts.rs3ddkshadowcolorcaption
 msgid "3D Dark Shadow"
@@ -271,14 +89,12 @@ msgid "3D Light"
 msgstr "Об'ємне світло"
 
 #: lclstrconsts.rsacontrolcannothaveitselfasparent
-#, fuzzy
-#| msgid "A control can't have itself as parent"
 msgid "A control can't have itself as a parent"
 msgstr "Елемент управління не може бути сам собі предком"
 
 #: lclstrconsts.rsactivebordercolorcaption
 msgid "Active Border"
-msgstr "Активні границі"
+msgstr "Активні межі"
 
 #: lclstrconsts.rsactivecaptioncolorcaption
 msgid "Active Caption"
@@ -295,6 +111,10 @@ msgstr "Робоча область програми"
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
 msgstr "Колір морської хвилі"
+
+#: lclstrconsts.rsascannothaveasparent
+msgid "Class %s cannot have %s as parent."
+msgstr "Клас %s не може мати предком %s."
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
@@ -363,7 +183,11 @@ msgstr "Врахування регістру"
 
 #: lclstrconsts.rscontrolclasscantcontainchildclass
 msgid "Control of class '%s' can't have control of class '%s' as a child"
-msgstr "Елемент управління класу '%s' не може мати наслідником елемент класу '%s'"
+msgstr "Елемент управління класу '%s' не може мати нащадком елемент класу '%s'"
+
+#: lclstrconsts.rscontrolhasnoparentformorframe
+msgid "Control '%s' has no parent form or frame"
+msgstr "Елемент керування '%s' не має предком форми або фрейма"
 
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
@@ -371,15 +195,11 @@ msgstr "Елемент управління '%s' не має батьківсь�
 
 #: lclstrconsts.rscontrolisnotaparent
 msgid "'%s' is not a parent of '%s'"
-msgstr ""
+msgstr "'%s' не є предком '%s'"
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
 msgstr "Кремовий"
-
-#: lclstrconsts.rscreatinggdbcatchableerror
-msgid "Creating gdb catchable error:"
-msgstr "Створення помилки кешування gdb:"
 
 #: lclstrconsts.rscursor
 msgid "Cursor"
@@ -414,9 +234,13 @@ msgstr "Напрямок"
 msgid "&Directory"
 msgstr "&Каталог"
 
-#: lclstrconsts.rsdocking
-msgid "Docking"
-msgstr "Стикування"
+#: lclstrconsts.rsdocopy
+msgid "Copy"
+msgstr "Копіювати"
+
+#: lclstrconsts.rsdopaste
+msgid "Paste"
+msgstr "Вставити"
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
@@ -439,17 +263,9 @@ msgstr "Помилка"
 msgid "Error creating device context for %s.%s"
 msgstr "Помилка створення контексту пристроїв для %s.%s"
 
-#: lclstrconsts.rserrorinlcl
-msgid "ERROR in LCL: "
-msgstr "ПОМИЛКА в LCL:"
-
 #: lclstrconsts.rserroroccurredinataddressframe
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
-msgstr "Сталась помилка в %s за %s адресою %s%s Кадр %s"
-
-#: lclstrconsts.rserrorreadingproperty
-msgid "Error reading %s%s%s: %s"
-msgstr "Помилка читання %s%s%s: %s"
+msgstr "Сталась помилка в %s за %s адресою %s%s Вікно %s"
 
 #: lclstrconsts.rserrorwhilesavingbitmap
 msgid "Error while saving bitmap."
@@ -493,7 +309,7 @@ msgstr "Зберегти файл як"
 
 #: lclstrconsts.rsfdopenfile
 msgid "Open existing file"
-msgstr "Відкрити існуючий файл"
+msgstr "Відкрити наявний файл"
 
 #: lclstrconsts.rsfdoverwritefile
 msgid "Overwrite file ?"
@@ -513,11 +329,16 @@ msgstr "Виберіть каталог"
 
 #: lclstrconsts.rsfileinfofilenotfound
 msgid "(file not found: \"%s\")"
-msgstr "(файл не знайдений: \"%s\")"
+msgstr "(файл не знайдено: \"%s\")"
 
 #: lclstrconsts.rsfileinformation
 msgid "File information"
 msgstr "Інформація про файл"
+
+#: lclstrconsts.rsfilter
+msgctxt "lclstrconsts.rsfilter"
+msgid "(filter)"
+msgstr "(фільтр)"
 
 #: lclstrconsts.rsfind
 msgid "Find"
@@ -532,12 +353,12 @@ msgid "First"
 msgstr "Перший"
 
 #: lclstrconsts.rsfixedcolstoobig
-msgid "FixedCols can't be >= ColCount"
-msgstr "FixedCols не може бути >= ColCount"
+msgid "FixedCols can't be > ColCount"
+msgstr "FixedCols не може бути > ColCount"
 
 #: lclstrconsts.rsfixedrowstoobig
-msgid "FixedRows can't be >= RowCount"
-msgstr "FixedRows не може бути >= RowCount"
+msgid "FixedRows can't be > RowCount"
+msgstr "FixedRows не може бути > RowCount"
 
 #: lclstrconsts.rsformcolorcaption
 msgid "Form"
@@ -545,7 +366,7 @@ msgstr "Форма"
 
 #: lclstrconsts.rsformresourcesnotfoundforresourcelessformscreatenew
 msgid "Form resource %s not found. For resourceless forms CreateNew constructor must be used. See the global variable RequireDerivedFormResource."
-msgstr ""
+msgstr "Ресурс форми %s не знайдено. Для форм без ресурсів повинен бути використаний конструктор CreateNew. Дивіться глобальну змінну RequireDerivedFormResource."
 
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
@@ -561,11 +382,11 @@ msgstr "Фуксія"
 
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
-msgstr "--gdk-debug flags     Ввімкнути вказані налагоджувальні повідомлення GDK."
+msgstr "--gdk-debug flags     Ввімкнути вказані зневаджувальні повідомлення GDK."
 
 #: lclstrconsts.rsgdkoptionnodebug
 msgid "--gdk-no-debug flags  Turn off specific GDK trace/debug messages."
-msgstr "--gdk-no-debug flags Вимкнути вказані налагоджувальні повідомлення GDK."
+msgstr "--gdk-no-debug flags Вимкнути вказані зневаджувальні повідомлення GDK."
 
 #: lclstrconsts.rsgif
 msgid "Graphics Interchange Format"
@@ -599,9 +420,17 @@ msgstr "Сірий текст"
 msgid "Green"
 msgstr "Пастельно-зелений"
 
-#: lclstrconsts.rsgridfiledoesnotexists
-msgid "Grid file doesn't exists"
-msgstr "Файла сітки не існує"
+#: lclstrconsts.rsgridfiledoesnotexist
+msgid "Grid file doesn't exist"
+msgstr "Файл сітки не існує"
+
+#: lclstrconsts.rsgridhasnocols
+msgid "Cannot insert rows into a grid when it has no columns"
+msgstr "Неможливо вставити в сітку рядки, якщо вона не має стовпчиків"
+
+#: lclstrconsts.rsgridhasnorows
+msgid "Cannot insert columns into a grid when it has no rows"
+msgstr "Неможливо вставити в сітку стовпчики, якщо вона не має рядків"
 
 #: lclstrconsts.rsgridindexoutofrange
 msgid "Grid index out of range."
@@ -621,11 +450,11 @@ msgstr "Історія:"
 
 #: lclstrconsts.rsgtkoptionclass
 msgid "--class classname     Following Xt conventions, the class of a program is the program name with the initial character capitalized. For example, the classname for gimp is \"Gimp\". If --class is specified, the class of the program will be set to \"classname\"."
-msgstr "--class classname     Відповідно до домовленостей Xt, класом програмим є її назва з великої літери. Напр., назвою класу для gimp є  \"Gimp\". Якщо вказано --class, клас програми буде встановлено в \"classname\"."
+msgstr "--class classname     Відповідно до домовленостей Xt, класом програми є її назва з великої літери. Наприклад, назвою класу для gimp є \"Gimp\". Якщо вказано --class, клас програми буде встановлено в \"classname\"."
 
 #: lclstrconsts.rsgtkoptiondebug
 msgid "--gtk-debug flags     Turn on specific Gtk+ trace/debug messages."
-msgstr "--gtk-debug flags     Ввімкнути вказані налагоджувальні повідомлення Gtk+."
+msgstr "--gtk-debug flags     Ввімкнути вказані зневаджувальні повідомлення Gtk+."
 
 #: lclstrconsts.rsgtkoptiondisplay
 msgid "--display h:s:d       Connect to the specified X server, where \"h\" is the hostname, \"s\" is the server number (usually 0), and \"d\" is the display number (typically omitted). If --display is not specified, the DISPLAY environment variable is used."
@@ -641,7 +470,7 @@ msgstr "--name ім'япрог       Встановити ім'я програм
 
 #: lclstrconsts.rsgtkoptionnodebug
 msgid "--gtk-no-debug flags  Turn off specific Gtk+ trace/debug messages."
-msgstr "--gtk-no-debug flags  Вимкнути вказані налагоджувальні повідомлення Gtk+."
+msgstr "--gtk-no-debug flags  Вимкнути вказані зневаджувальні повідомлення Gtk+."
 
 #: lclstrconsts.rsgtkoptionnotransient
 msgid "--lcl-no-transient    Do not set transient order for modal forms"
@@ -652,26 +481,25 @@ msgid "--no-xshm             Disable use of the X Shared Memory Extension."
 msgstr "--no-xshm             Заборонити використання спільних розширень Х-пам'яті."
 
 #: lclstrconsts.rsgtkoptionsync
-#, fuzzy
-#| msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediatey after the protocol request that generated the error has been processed by the X server."
 msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
-msgstr "--sync                Виклик XSynchronize (display, True) після встановлення з'єднання з X-сервером. Це полегшує налагодження помилок протоколу X через те, що запити буферування X будуть вимкнені і помилки X будуть одержані одразу після запиту протоколу, який викликав цю помилку, яка була оброблена X-сервером."
+msgstr "--sync                Виклик XSynchronize (display, True) після встановлення з'єднання з X-сервером. Це полегшує зневадження помилок протоколу X через те, що буферування запитів X буде вимкнено і помилки X будуть одержані одразу після обробки X-сервером запиту протоколу, який викликав цю помилку."
+
+#: lclstrconsts.rshelp
+msgctxt "lclstrconsts.rshelp"
+msgid "Help"
+msgstr "Довідка"
 
 #: lclstrconsts.rshelpalreadyregistered
 msgid "%s: Already registered"
 msgstr "%s: Вже зареєстрований"
 
 #: lclstrconsts.rshelpcontextnotfound
-#, fuzzy
-#| msgid "Help Context not found"
 msgid "A help database was found for this topic, but this topic was not found"
-msgstr "Контекст довідки не знайдено"
+msgstr "Для цієї теми була знайдена доідкова база даних, але тема не знайдена"
 
 #: lclstrconsts.rshelpdatabasenotfound
-#, fuzzy
-#| msgid "Help Database not found"
 msgid "There is no help database installed for this topic"
-msgstr "База даних довідки не знайдена"
+msgstr "Для цієї теми не встановлена довідкова база даних"
 
 #: lclstrconsts.rshelperror
 msgid "Help Error"
@@ -682,52 +510,48 @@ msgid "Help context %s not found."
 msgstr "Контекст довідки %s не знайдено"
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
-msgid "Help context %s not found in Database %s%s%s."
-msgstr "Контекст довідки %s не знайдено в базі %s%s%s."
+msgid "Help context %s not found in Database \"%s\"."
+msgstr "Контекст довідки %s не знайдено в базі \"%s\"."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
-msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
-msgstr "База даних довідки %s%s%s не знайшла програму перегляду для сторінки довідки типу %s"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
+msgstr "База даних довідки \"%s\" не знайшла програму перегляду для сторінки довідки типу %s"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
-msgid "Help Database %s%s%s not found"
-msgstr "Базу даних довідки %s%s%s не знайдено"
+msgid "Help Database \"%s\" not found"
+msgstr "Базу даних довідки \"%s\" не знайдено"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
-msgid "Help for directive %s%s%s not found."
-msgstr ""
+msgid "Help for directive \"%s\" not found."
+msgstr "Довідку щодо директиви \"%s\" не знайдено."
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
-msgid "Help for directive %s%s%s not found in Database %s%s%s."
-msgstr ""
+msgid "Help for directive \"%s\" not found in Database \"%s\"."
+msgstr "Довідку щодо директиви \"%s\" не знайдено в базі \"%s\"."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
-msgid "Help keyword %s%s%s not found."
-msgstr "Ключове слово довідки %s%s%s не знайдено."
+msgid "Help keyword \"%s\" not found."
+msgstr "Ключове слово довідки \"%s\" не знайдено."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
-msgid "Help keyword %s%s%s not found in Database %s%s%s."
-msgstr "Ключове слово довідки %s%s%s не знайдено в базі даних %s%s%s."
+msgid "Help keyword \"%s\" not found in Database \"%s\"."
+msgstr "Ключове слово довідки \"%s\" не знайдено в базі даних \"%s\"."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
-msgid "Help node %s%s%s has no Help Database"
-msgstr "Вузол довідки %s%s%s не має відповідної бази даних"
+msgid "Help node \"%s\" has no Help Database"
+msgstr "Вузол довідки \"%s\" не має відповідної бази даних"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
 msgid "No help found for line %d, column %d of %s."
 msgstr "Не знайдено довідки для рядка %d, колонки %d з %s."
 
 #: lclstrconsts.rshelpnohelpnodesavailable
-#, fuzzy
-#| msgid "No help nodes available"
 msgid "No help entries available for this topic"
-msgstr "Відсутні доступні вузли довідки"
+msgstr "Відсутні записи довідки на цю тему"
 
 #: lclstrconsts.rshelpnotfound
-#, fuzzy
-#| msgid "Help not found"
 msgid "No help found for this topic"
-msgstr "Довідку не знайдено"
+msgstr "Для цієї теми не знайдено довідки"
 
 #: lclstrconsts.rshelpnotregistered
 msgid "%s: Not registered"
@@ -738,18 +562,16 @@ msgid "Help Selector Error"
 msgstr "Помилка відбірника довідки"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
-msgid "There is no viewer for help type %s%s%s"
-msgstr "Відсутня програма для перегляду такого типу довідки %s%s%s"
+msgid "There is no viewer for help type \"%s\""
+msgstr "Відсутня програма для перегляду типу довідки типу \"%s\""
 
 #: lclstrconsts.rshelpviewererror
 msgid "Help Viewer Error"
 msgstr "Помилка переглядача довідки"
 
 #: lclstrconsts.rshelpviewernotfound
-#, fuzzy
-#| msgid "Help Viewer not found"
 msgid "No viewer was found for this type of help content"
-msgstr "Не знайдено переглядач довідки"
+msgstr "Для цього типу довідки не знайдено переглядача"
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
@@ -764,10 +586,8 @@ msgid "Hot Light"
 msgstr "Гаряче світло"
 
 #: lclstrconsts.rsicns
-#, fuzzy
-#| msgid "OSX Icon Resource"
 msgid "Mac OS X Icon"
-msgstr "Ресурс значків OSX"
+msgstr "Значок Mac OS X"
 
 #: lclstrconsts.rsicon
 msgid "Icon"
@@ -834,15 +654,15 @@ msgstr "Вставка"
 
 #: lclstrconsts.rsinvaliddate
 msgid "Invalid Date : %s"
-msgstr "Неправильна Дата : %s"
+msgstr "Неправильна дата : %s"
 
 #: lclstrconsts.rsinvaliddaterangehint
 msgid "Invalid Date: %s. Must be between %s and %s"
-msgstr "Неправильна Дата: %s. Має бути між %s та %s"
+msgstr "Неправильна дата: %s. Має бути між %s та %s"
 
 #: lclstrconsts.rsinvalidformobjectstream
 msgid "invalid Form object stream"
-msgstr "неправильний потік об'єкту Форми"
+msgstr "неправильний потік об'єкта Форми"
 
 #: lclstrconsts.rsinvalidpropertyvalue
 msgid "Invalid property value"
@@ -872,9 +692,25 @@ msgstr "Зелений"
 msgid "List index exceeds bounds (%d)"
 msgstr "Індекс списку поза діапазоном (%d)"
 
-#: lclstrconsts.rslistmustbeempty
-msgid "List must be empty"
-msgstr "Список має бути порожнім"
+#: lclstrconsts.rsmacosmenuhide
+msgid "Hide %s"
+msgstr "Приховати %s"
+
+#: lclstrconsts.rsmacosmenuhideothers
+msgid "Hide Others"
+msgstr "Приховати решту"
+
+#: lclstrconsts.rsmacosmenuquit
+msgid "Quit %s"
+msgstr "Вийти з %s"
+
+#: lclstrconsts.rsmacosmenuservices
+msgid "Services"
+msgstr "Служби"
+
+#: lclstrconsts.rsmacosmenushowall
+msgid "Show All"
+msgstr "Показати все"
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
@@ -964,11 +800,11 @@ msgstr "Текст меню"
 
 #: lclstrconsts.rsmodified
 msgid "  modified "
-msgstr "  змінений"
+msgstr "  змінений "
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
-msgstr "Сиваво-зелений"
+msgstr "Сиво-зелений"
 
 #: lclstrconsts.rsmtauthentication
 msgid "Authentication"
@@ -1048,9 +884,9 @@ msgstr "Кольорове зображення (PPM)"
 msgid "Post"
 msgstr "Відправити"
 
-#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
-msgstr "%s%sНатисніть 'OK' щоб проігнорувати і ризикнути втратити дані.%sНатисніть 'Скасувати' для закриття програми."
+#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
+msgstr "%s%sНатисніть Гаразд, щоб знехтувати з ризиком втрати даних.%sНатисніть Припинити, щоб знищити програму."
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
@@ -1059,7 +895,7 @@ msgstr "Попередній"
 
 #: lclstrconsts.rspromptonreplace
 msgid "Prompt on replace"
-msgstr ""
+msgstr "Запитувати при заміні"
 
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
@@ -1071,7 +907,7 @@ msgstr "Пурпуровий"
 
 #: lclstrconsts.rsqtoptiondograb
 msgid "-dograb (only under X11), running under a debugger can cause an implicit -nograb, use -dograb to override. Need QT_DEBUG."
-msgstr "-dograb (лише під X11), запуск під налаголжувачем може спричинити неявний -nograb, використайте -dograb щоб перевизначити. Потрібен QT_DEBUG."
+msgstr "-dograb (лише під X11), запуск під зневаджувачем може спричинити неявний -nograb, використайте -dograb щоб перевизначити. Потрібен QT_DEBUG."
 
 #: lclstrconsts.rsqtoptiongraphicsstyle
 msgid "-graphicssystem param, sets the backend to be used for on-screen widgets and QPixmaps. Available options are native, raster and opengl. OpenGL is still unstable."
@@ -1091,19 +927,19 @@ msgstr "-session session, відновлює програму з поперед�
 
 #: lclstrconsts.rsqtoptionstyle
 msgid "-style style or -style=style, sets the application GUI style. Possible values are motif, windows, and platinum. If you compiled Qt with additional styles or have additional styles as plugins these will be available to the -style  command line option. NOTE: Not all styles are available on all platforms. If style param does not exist Qt will start an application with default common style (windows)."
-msgstr "-style style або -style=style, задає стиль GUI програми. Можливі значення: motif, windows, та platinum. Якщо ви зібрали Qt з додатковими стилями ябо маєте додаткові стилі як плагіни вони будуть доступні для опцій командного рядка -style. ПРИМІТКА: Не всі стилі доступні на всіх платформах. Якщо параметр style не існує Qt запустить програму з типовим стилем (windows)."
+msgstr "-style style або -style=style, задає стиль ГІК програми. Можливі значення: motif, windows, та platinum. Якщо ви зібрали Qt з додатковими стилями або маєте додаткові стилі як плагіни, вони будуть доступні для опцій командного рядка -style. ПРИМІТКА: Не всі стилі доступні на всіх платформах. Якщо параметр style не існує Qt запустить програму з типовим стилем (windows)."
 
 #: lclstrconsts.rsqtoptionstylesheet
 msgid "-stylesheet stylesheet or -stylesheet=stylesheet, sets the application Style Sheet. The value must be a path to a file that contains the Style Sheet. Note: Relative URLs in the Style Sheet file are relative to the Style Sheet file's path."
-msgstr "-stylesheet stylesheet або -stylesheet=stylesheet, задає програмі Список Стилів. Значення повинне бути шляхом до файлу що містить Список Стилів. Note: Відносні URLs в файлі Списку Стилів сприймаються відносно шляху до файлу Списку Стилів."
+msgstr "-stylesheet stylesheet або -stylesheet=stylesheet, задає програмі список стилів. Значення повинне бути шляхом до файлу що містить список стилів. Note: Відносні URL у файлі списку стилів сприймаються відносно шляху до файлу списку стилів."
 
 #: lclstrconsts.rsqtoptionsync
 msgid "-sync (only under X11), switches to synchronous mode for debugging."
-msgstr "-sync (лише під X11), перемикає в снхронний режим налагодження."
+msgstr "-sync (лише під X11), перемикає в синхронний режим зневадження."
 
 #: lclstrconsts.rsqtoptionwidgetcount
 msgid "-widgetcount, prints debug message at the end about number of widgets left undestroyed and maximum number of widgets existed at the same time."
-msgstr "-widgetcount, друкує налагоджувальне повідомлення в кінці про кількість незнищених віджетів та максимальну кількість віджетів, що існували в той же час."
+msgstr "-widgetcount, друкує в кінці зневаджувальне повідомлення про кількість не знищених віджетів та максимальну кількість віджетів, що існували в той же час."
 
 #: lclstrconsts.rsqtoptionx11bgcolor
 msgid "-bg or -background color, sets the default background color and an application palette (light and dark shades are calculated)."
@@ -1220,7 +1056,7 @@ msgstr "Небесно-синій"
 
 #: lclstrconsts.rstcustomtabcontrolaccessibilitydescription
 msgid "A control with tabs"
-msgstr ""
+msgstr "Управління з вкладками"
 
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
@@ -1230,21 +1066,28 @@ msgstr "Синьо-зелений"
 msgid "Text"
 msgstr "Текст"
 
+#: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
+msgid "The built-in URL is read only. Change the BaseURL instead."
+msgstr "Вбудований URL доступний лише для читання. Змініть натомість BaseURL."
+
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
 msgstr "Тегований формат файлу зображення"
 
 #: lclstrconsts.rstpanelaccessibilitydescription
+msgctxt "lclstrconsts.rstpanelaccessibilitydescription"
 msgid "Panel"
-msgstr ""
+msgstr "Панель"
 
 #: lclstrconsts.rstsplitteraccessibilitydescription
+msgctxt "lclstrconsts.rstsplitteraccessibilitydescription"
 msgid "A grip to control how much size to give two parts of an area"
-msgstr ""
+msgstr "Ручка для контролю розмірів двох частин області"
 
 #: lclstrconsts.rsttreeviewaccessibilitydescription
+msgctxt "lclstrconsts.rsttreeviewaccessibilitydescription"
 msgid "A tree of items"
-msgstr ""
+msgstr "Дерево елементів"
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
@@ -1264,11 +1107,11 @@ msgstr "Невідомий формат зображення"
 
 #: lclstrconsts.rsunsupportedbitmapformat
 msgid "Unsupported bitmap format."
-msgstr "Непідтримуваний тип растрового малюнку."
+msgstr "Непідтримуваний тип растрового малюнка."
 
 #: lclstrconsts.rsunsupportedclipboardformat
 msgid "Unsupported clipboard format: %s"
-msgstr "Непідтримуваний формат буферу обміну: %s"
+msgstr "Непідтримуваний формат буфера обміну: %s"
 
 #: lclstrconsts.rswarningunreleaseddcsdump
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
@@ -1284,7 +1127,7 @@ msgstr " УВАГА: В черзі залишилось %d повідомлен�
 
 #: lclstrconsts.rswarningunreleasedtimerinfos
 msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
-msgstr " УВАГА: Залишилось %d структур TimerInfo, я їх звільняю"
+msgstr " УВАГА: Залишилось %d структур TimerInfo, я їх видаляю"
 
 #: lclstrconsts.rswarningunremovedpaintmessages
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
@@ -1326,6 +1169,10 @@ msgstr "Жовтий"
 msgid "Cannot focus a disabled or invisible window"
 msgstr "Не можна дати фокус вимкненому або невидимому вікну"
 
+#: lclstrconsts.scannotsetdesigntimeppi
+msgid "Cannot set design time PPI."
+msgstr "Неможливо встановити ПНД часу розробки."
+
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
 msgstr "Дублювати меню"
@@ -1344,23 +1191,23 @@ msgstr "Неправильна реєстрація дії"
 
 #: lclstrconsts.sinvalidactionunregistration
 msgid "Invalid action unregistration"
-msgstr "Скасування реєстрації невірної дії"
+msgstr "Скасування реєстрації хибної дії"
 
 #: lclstrconsts.sinvalidcharset
 msgid "The char set in mask \"%s\" is not valid!"
-msgstr "Невірний набір символів по масці \"%s\"!"
+msgstr "Хибний набір символів у масці \"%s\"!"
 
 #: lclstrconsts.sinvalidimagesize
 msgid "Invalid image size"
-msgstr "Невірний розмір зображення"
+msgstr "Хибний розмір зображення"
 
 #: lclstrconsts.sinvalidindex
 msgid "Invalid ImageList Index"
-msgstr "Невірний індекс ImageList"
+msgstr "Хибний індекс ImageList"
 
 #: lclstrconsts.smaskeditnomatch
 msgid "The current text does not match the specified mask."
-msgstr ""
+msgstr "Поточний текст не відповідає заданій масці."
 
 #: lclstrconsts.smenuindexerror
 msgid "Menu index out of range"
@@ -1457,31 +1304,29 @@ msgctxt "lclstrconsts.smkcup"
 msgid "Up"
 msgstr "Вгору"
 
-#: lclstrconsts.snomdiform
-msgid "No MDI form present."
-msgstr "Немає MDI форми."
-
 #: lclstrconsts.snotimers
 msgid "No timers available"
 msgstr "Немає доступних таймерів"
 
+#: lclstrconsts.sparentrequired
+msgid "Control \"%s\" has no parent window."
+msgstr "Елемент керування \"%s\" не має батьківського вікна."
+
 #: lclstrconsts.sparexpected
 msgid "Wrong token type: %s expected"
-msgstr "Невірний тип маркера: очікується %s"
+msgstr "Хибний тип маркера: очікується %s"
 
 #: lclstrconsts.sparinvalidfloat
 msgid "Invalid floating point number: %s"
-msgstr "Невірне число з плаваючою крапкою: %s"
+msgstr "Хибне число з рухомою комою: %s"
 
 #: lclstrconsts.sparinvalidinteger
 msgid "Invalid integer number: %s"
-msgstr "Невірне ціле число: %s"
+msgstr "Хибне ціле число: %s"
 
 #: lclstrconsts.sparlocinfo
-#, fuzzy
-#| msgid " (at %d,%d, stream offset %.8x)"
 msgid " (at %d,%d, stream offset %d)"
-msgstr " (на %d,%d, зміщення потоку %.8x)"
+msgstr " (на %d,%d, зміщення потоку %d)"
 
 #: lclstrconsts.sparunterminatedbinvalue
 msgid "Unterminated byte value"
@@ -1493,9 +1338,71 @@ msgstr "Незавершений рядок"
 
 #: lclstrconsts.sparwrongtokensymbol
 msgid "Wrong token symbol: %s expected but %s found"
-msgstr "Невірний символ маркера: очікувався %s, але знайдений %s"
+msgstr "Хибний символ маркера: очікувався %s, але знайдено %s"
 
 #: lclstrconsts.sparwrongtokentype
 msgid "Wrong token type: %s expected but %s found"
-msgstr "Невірний тип маркера: очікувався %s, але знайдений %s"
+msgstr "Хибний тип маркера: очікувався %s, але знайдено %s"
+
+#: lclstrconsts.sshellctrlsbytes
+msgid "%s bytes"
+msgstr "%s байтів"
+
+#: lclstrconsts.sshellctrlsinvalidpath
+msgctxt "lclstrconsts.sshellctrlsinvalidpath"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\"\n"
+msgstr ""
+"Хибний шлях:\n"
+"\"%s\"\n"
+
+#: lclstrconsts.sshellctrlsinvalidpathrelative
+msgid ""
+"Invalid relative pathname:\n"
+"\"%s\"\n"
+"in relation to rootpath:\n"
+"\"%s\"\n"
+msgstr ""
+"Хибний відносний шлях:\n"
+"\"%s\"\n"
+"відносно кореневого шляху:\n"
+"\"%s\"\n"
+
+#: lclstrconsts.sshellctrlsinvalidroot
+msgctxt "lclstrconsts.sshellctrlsinvalidroot"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\"\n"
+msgstr ""
+"Хибний шлях:\n"
+"\"%s\"\n"
+
+#: lclstrconsts.sshellctrlskb
+msgid "%s kB"
+msgstr "%s кБ"
+
+#: lclstrconsts.sshellctrlsmb
+msgid "%s MB"
+msgstr "%s МБ"
+
+#: lclstrconsts.sshellctrlsname
+msgid "Name"
+msgstr "Назва"
+
+#: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+msgid ""
+"The selected item does not exist on disk:\n"
+"\"%s\"\n"
+msgstr ""
+"Вибраний елемент відсутній на диску:\n"
+"\"%s\"\n"
+
+#: lclstrconsts.sshellctrlssize
+msgid "Size"
+msgstr "Розмір"
+
+#: lclstrconsts.sshellctrlstype
+msgid "Type"
+msgstr "Тип"
 
