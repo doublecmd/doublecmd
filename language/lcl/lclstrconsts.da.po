@@ -1,19 +1,25 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
-msgid "Browser %s%s%s not executable."
+#, fuzzy,badformat
+#| msgid "Browser %s%s%s not executable."
+msgid "Browser \"%s\" not executable."
 msgstr "Browser %s%s%s kan ikke åbnes."
 
 #: lclstrconsts.hhshelpbrowsernotfound
-msgid "Browser %s%s%s not found."
+#, fuzzy,badformat
+#| msgid "Browser %s%s%s not found."
+msgid "Browser \"%s\" not found."
 msgstr "Browser %s%s%s kan ikke findes."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
-msgid "Error while executing %s%s%s:%s%s"
+#, fuzzy,badformat
+#| msgid "Error while executing %s%s%s:%s%s"
+msgid "Error while executing \"%s\":%s%s"
 msgstr "Fejl under udførsel %s%s%s:%s%s"
 
 #: lclstrconsts.hhshelpnohtmlbrowserfound
@@ -21,11 +27,14 @@ msgid "Unable to find a HTML browser."
 msgstr "Kan ikke finde en HTML-browser."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineone
+#, fuzzy,badformat
 msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> Help Options"
 msgstr "Ingen HTML-browser fundet. Definer venligst en under Værktøjer -> Indstillinger -> Hjælp -> Hjælp - indstillinger"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
-msgid "The help database %s%s%s was unable to find file %s%s%s."
+#, fuzzy,badformat
+#| msgid "The help database %s%s%s was unable to find file %s%s%s."
+msgid "The help database \"%s\" was unable to find file \"%s\"."
 msgstr "Hjælpedatabasen %s%s%s kunne ikke finde filen %s%s%s."
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
@@ -40,227 +49,35 @@ msgstr ""
 msgid "Ctrl"
 msgstr ""
 
-#: lclstrconsts.ifsvk_accept
-msgid "Accept"
-msgstr "OK"
-
-#: lclstrconsts.ifsvk_apps
-msgid "application key"
-msgstr "programtast"
-
-#: lclstrconsts.ifsvk_back
-msgid "Backspace"
-msgstr ""
-
-#: lclstrconsts.ifsvk_cancel
-msgctxt "lclstrconsts.ifsvk_cancel"
-msgid "Cancel"
-msgstr "Annuller"
-
-#: lclstrconsts.ifsvk_capital
-msgid "Capital"
-msgstr "Store"
-
-#: lclstrconsts.ifsvk_clear
-msgid "Clear"
-msgstr "Ryd"
-
 #: lclstrconsts.ifsvk_cmd
 msgid "Cmd"
 msgstr "Cmd"
 
-#: lclstrconsts.ifsvk_control
-msgid "Control"
-msgstr "Kontrol"
-
-#: lclstrconsts.ifsvk_convert
-msgid "Convert"
-msgstr "Konveter"
-
-#: lclstrconsts.ifsvk_delete
-msgctxt "lclstrconsts.ifsvk_delete"
-msgid "Delete"
-msgstr "Slet"
-
-#: lclstrconsts.ifsvk_down
-msgctxt "lclstrconsts.ifsvk_down"
-msgid "Down"
-msgstr "Ned"
-
-#: lclstrconsts.ifsvk_end
-msgctxt "lclstrconsts.ifsvk_end"
-msgid "End"
-msgstr ""
-
-#: lclstrconsts.ifsvk_escape
-msgid "Escape"
-msgstr ""
-
-#: lclstrconsts.ifsvk_execute
-msgid "Execute"
-msgstr "Udfør"
-
-#: lclstrconsts.ifsvk_final
-msgid "Final"
-msgstr "Endelig"
-
-#: lclstrconsts.ifsvk_hanja
-msgid "Hanja"
-msgstr ""
-
 #: lclstrconsts.ifsvk_help
+msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
 msgstr "Hjælp"
-
-#: lclstrconsts.ifsvk_home
-msgctxt "lclstrconsts.ifsvk_home"
-msgid "Home"
-msgstr ""
-
-#: lclstrconsts.ifsvk_insert
-msgctxt "lclstrconsts.ifsvk_insert"
-msgid "Insert"
-msgstr "Indsæt"
-
-#: lclstrconsts.ifsvk_junja
-msgid "Junja"
-msgstr ""
-
-#: lclstrconsts.ifsvk_kana
-msgid "Kana"
-msgstr ""
-
-#: lclstrconsts.ifsvk_lbutton
-msgid "Mouse Button Left"
-msgstr "Ventre musetast"
-
-#: lclstrconsts.ifsvk_left
-msgctxt "lclstrconsts.ifsvk_left"
-msgid "Left"
-msgstr "Venstre"
-
-#: lclstrconsts.ifsvk_lwin
-msgid "left windows key"
-msgstr "venstre windowstast"
-
-#: lclstrconsts.ifsvk_mbutton
-msgid "Mouse Button Middle"
-msgstr "Miderste musetast"
-
-#: lclstrconsts.ifsvk_menu
-msgctxt "lclstrconsts.ifsvk_menu"
-msgid "Menu"
-msgstr "Menu"
 
 #: lclstrconsts.ifsvk_meta
 msgid "Meta"
 msgstr "Meta"
 
-#: lclstrconsts.ifsvk_modechange
-msgid "Mode Change"
-msgstr "Tilstandsændring"
-
-#: lclstrconsts.ifsvk_next
-msgctxt "lclstrconsts.ifsvk_next"
-msgid "Next"
-msgstr "Næste"
-
-#: lclstrconsts.ifsvk_nonconvert
-msgid "Nonconvert"
-msgstr "Ikke-konverteret"
-
-#: lclstrconsts.ifsvk_numlock
-msgid "Numlock"
-msgstr ""
-
-#: lclstrconsts.ifsvk_numpad
-msgid "Numpad %d"
-msgstr "Numerisk tastatur %d"
-
-#: lclstrconsts.ifsvk_pause
-msgid "Pause key"
-msgstr "Pause-tast"
-
-#: lclstrconsts.ifsvk_print
-msgid "Print"
-msgstr ""
-
-#: lclstrconsts.ifsvk_prior
-msgctxt "lclstrconsts.ifsvk_prior"
-msgid "Prior"
-msgstr "Tilbage"
-
-#: lclstrconsts.ifsvk_rbutton
-msgid "Mouse Button Right"
-msgstr "Højre musetast"
-
-#: lclstrconsts.ifsvk_return
-msgid "Return"
-msgstr ""
-
-#: lclstrconsts.ifsvk_right
-msgctxt "lclstrconsts.ifsvk_right"
-msgid "Right"
-msgstr "Højre"
-
-#: lclstrconsts.ifsvk_rwin
-msgid "right windows key"
-msgstr "højre windowstast"
-
-#: lclstrconsts.ifsvk_scroll
-msgid "Scroll"
-msgstr "Rul"
-
-#: lclstrconsts.ifsvk_select
-msgid "Select"
-msgstr "Markér"
-
 #: lclstrconsts.ifsvk_shift
 msgid "Shift"
 msgstr ""
 
-#: lclstrconsts.ifsvk_snapshot
-msgid "Snapshot"
-msgstr ""
-
-#: lclstrconsts.ifsvk_space
-msgid "Space key"
-msgstr "Mellemrumtast"
-
 #: lclstrconsts.ifsvk_super
 msgid "Super"
-msgstr ""
-
-#: lclstrconsts.ifsvk_tab
-msgctxt "lclstrconsts.ifsvk_tab"
-msgid "Tab"
 msgstr ""
 
 #: lclstrconsts.ifsvk_unknown
 msgid "Unknown"
 msgstr "Ukendt"
 
-#: lclstrconsts.ifsvk_up
-msgctxt "lclstrconsts.ifsvk_up"
-msgid "Up"
-msgstr "Op"
-
-#: lclstrconsts.liscannotexecute
-msgid "can not execute %s"
-msgstr "kan ikke udføre %s"
-
-#: lclstrconsts.liscefilter
-msgid "(filter)"
-msgstr ""
-
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
 msgstr "Ressource %s ikke fundet"
-
-#: lclstrconsts.lisprogramfilenotfound
-msgid "program file not found %s"
-msgstr "programfil ikke fundet %s"
 
 #: lclstrconsts.rs3ddkshadowcolorcaption
 msgid "3D Dark Shadow"
@@ -293,6 +110,10 @@ msgstr "Arbejdsområde"
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
 msgstr "Akvamarin"
+
+#: lclstrconsts.rsascannothaveasparent
+msgid "Class %s cannot have %s as parent."
+msgstr ""
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
@@ -363,6 +184,10 @@ msgstr "Forskel på store og små bogstaver"
 msgid "Control of class '%s' can't have control of class '%s' as a child"
 msgstr "Kontrol over class '%s' kan ikke have kontrol over class '%s', da den er underordnet"
 
+#: lclstrconsts.rscontrolhasnoparentformorframe
+msgid "Control '%s' has no parent form or frame"
+msgstr ""
+
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
 msgstr "Kontrol '%s' har ikke et overordnet vindue"
@@ -374,10 +199,6 @@ msgstr "'%s' er ikke overordnet for '%s'"
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
 msgstr "Creme-farvet"
-
-#: lclstrconsts.rscreatinggdbcatchableerror
-msgid "Creating gdb catchable error:"
-msgstr "Opretter en GDB-fangbar fejl:"
 
 #: lclstrconsts.rscursor
 msgid "Cursor"
@@ -412,8 +233,12 @@ msgstr "Retning"
 msgid "&Directory"
 msgstr "&Mappe"
 
-#: lclstrconsts.rsdocking
-msgid "Docking"
+#: lclstrconsts.rsdocopy
+msgid "Copy"
+msgstr ""
+
+#: lclstrconsts.rsdopaste
+msgid "Paste"
 msgstr ""
 
 #: lclstrconsts.rsduplicateiconformat
@@ -437,17 +262,9 @@ msgstr "Fejl"
 msgid "Error creating device context for %s.%s"
 msgstr "Kunne ikke oprette kontekst for enhed %s.%s"
 
-#: lclstrconsts.rserrorinlcl
-msgid "ERROR in LCL: "
-msgstr "FEJL i LCL"
-
 #: lclstrconsts.rserroroccurredinataddressframe
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
 msgstr "Fejl i %s på %sAdresse %s%s Frame %s"
-
-#: lclstrconsts.rserrorreadingproperty
-msgid "Error reading %s%s%s: %s"
-msgstr "Kunne ikke læse %s%s%s: %s"
 
 #: lclstrconsts.rserrorwhilesavingbitmap
 msgid "Error while saving bitmap."
@@ -517,6 +334,11 @@ msgstr "(fil ikke fundet: \"%s\")"
 msgid "File information"
 msgstr "Filinformation"
 
+#: lclstrconsts.rsfilter
+msgctxt "lclstrconsts.rsfilter"
+msgid "(filter)"
+msgstr ""
+
 #: lclstrconsts.rsfind
 msgid "Find"
 msgstr "Søg"
@@ -530,11 +352,15 @@ msgid "First"
 msgstr "Første"
 
 #: lclstrconsts.rsfixedcolstoobig
-msgid "FixedCols can't be >= ColCount"
+#, fuzzy
+#| msgid "FixedCols can't be >= ColCount"
+msgid "FixedCols can't be > ColCount"
 msgstr "FixedCols kan ikke være >=ColCount"
 
 #: lclstrconsts.rsfixedrowstoobig
-msgid "FixedRows can't be >= RowCount"
+#, fuzzy
+#| msgid "FixedRows can't be >= RowCount"
+msgid "FixedRows can't be > RowCount"
 msgstr "FixedRows kan ikke være >=RowCount"
 
 #: lclstrconsts.rsformcolorcaption
@@ -597,9 +423,17 @@ msgstr "Grå tekst"
 msgid "Green"
 msgstr "Grøn"
 
-#: lclstrconsts.rsgridfiledoesnotexists
-msgid "Grid file doesn't exists"
-msgstr "Mønsterfil findes ikke"
+#: lclstrconsts.rsgridfiledoesnotexist
+msgid "Grid file doesn't exist"
+msgstr ""
+
+#: lclstrconsts.rsgridhasnocols
+msgid "Cannot insert rows into a grid when it has no columns"
+msgstr ""
+
+#: lclstrconsts.rsgridhasnorows
+msgid "Cannot insert columns into a grid when it has no rows"
+msgstr ""
 
 #: lclstrconsts.rsgridindexoutofrange
 msgid "Grid index out of range."
@@ -627,7 +461,7 @@ msgstr "--gtk-debug flags     Tænd for særlig Gtk+ trace/debug meddelelser."
 
 #: lclstrconsts.rsgtkoptiondisplay
 msgid "--display h:s:d       Connect to the specified X server, where \"h\" is the hostname, \"s\" is the server number (usually 0), and \"d\" is the display number (typically omitted). If --display is not specified, the DISPLAY environment variable is used."
-msgstr "--display h:s:d       Forbind til den valgte X server, hvor \"h\" er værtsnavnet, \"s\" er serveres nummer (normalt 0), og \"d" er displayets nummer (typisk udeladt). Hvis --display ikke er specificeret, bliver DISPLAY miljøvariablen anvendt."
+msgstr "--display h:s:d       Forbind til den valgte X server, hvor \"h\" er værtsnavnet, \"s\" er serveres nummer (normalt 0), og \"d\" er displayets nummer (typisk udeladt). Hvis --display ikke er specificeret, bliver DISPLAY miljøvariablen anvendt."
 
 #: lclstrconsts.rsgtkoptionmodule
 msgid "--gtk-module module   Load the specified module at startup."
@@ -653,6 +487,12 @@ msgstr "--no-xshm             Deaktiver brugen af X Delt Memory-udvidelse."
 msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
 msgstr "--sync                Kald XSynchronize (display, True) efter Xserver-forbindelsen er etableret. Det gør det nemmere at fejlfinde X protokolfejl, fordi X forespørgsels-buffering bliver deaktiveret og X fejl bliver modtaget umiddelbart efter protokolanmodningen, som genererede fejlen, er blevet behandlet af X serveren."
 
+#: lclstrconsts.rshelp
+#, fuzzy
+msgctxt "lclstrconsts.rshelp"
+msgid "Help"
+msgstr "Hjælp"
+
 #: lclstrconsts.rshelpalreadyregistered
 msgid "%s: Already registered"
 msgstr "%s: Allerede registreret"
@@ -674,35 +514,51 @@ msgid "Help context %s not found."
 msgstr "Hjælpekontekst %s ikke fundet."
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
-msgid "Help context %s not found in Database %s%s%s."
+#, fuzzy,badformat
+#| msgid "Help context %s not found in Database %s%s%s."
+msgid "Help context %s not found in Database \"%s\"."
 msgstr "Hjælpekontekst %s ikke fundet i Database %s%s%s."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
-msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
+#, fuzzy,badformat
+#| msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
 msgstr "Hjælpedatabase %s%s%s fandt ikke en fremviser til en hjælpeside af typen %s"
 
 #: lclstrconsts.rshelphelpdatabasenotfound
-msgid "Help Database %s%s%s not found"
+#, fuzzy,badformat
+#| msgid "Help Database %s%s%s not found"
+msgid "Help Database \"%s\" not found"
 msgstr "Hjælpedatabase %s%s%s ikke fundet"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
-msgid "Help for directive %s%s%s not found."
+#, fuzzy,badformat
+#| msgid "Help for directive %s%s%s not found."
+msgid "Help for directive \"%s\" not found."
 msgstr "Hjælp til direktivet %s%s%s blev ikke fundet."
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
-msgid "Help for directive %s%s%s not found in Database %s%s%s."
+#, fuzzy,badformat
+#| msgid "Help for directive %s%s%s not found in Database %s%s%s."
+msgid "Help for directive \"%s\" not found in Database \"%s\"."
 msgstr "Hjælp til direktivet %s%s%s blev ikke fundet i database %s%s%s."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
-msgid "Help keyword %s%s%s not found."
+#, fuzzy,badformat
+#| msgid "Help keyword %s%s%s not found."
+msgid "Help keyword \"%s\" not found."
 msgstr "Søgeord %s%s%s ikke fundet."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
-msgid "Help keyword %s%s%s not found in Database %s%s%s."
+#, fuzzy,badformat
+#| msgid "Help keyword %s%s%s not found in Database %s%s%s."
+msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "Søgeord %s%s%s ikke fundet i Database %s%s%s."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
-msgid "Help node %s%s%s has no Help Database"
+#, fuzzy,badformat
+#| msgid "Help node %s%s%s has no Help Database"
+msgid "Help node \"%s\" has no Help Database"
 msgstr "Hjælpeknude %s%s%s har ingen hjælpedatabase tillknyttet"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
@@ -726,7 +582,9 @@ msgid "Help Selector Error"
 msgstr "Hjælpeudvælgerfejl"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
-msgid "There is no viewer for help type %s%s%s"
+#, fuzzy,badformat
+#| msgid "There is no viewer for help type %s%s%s"
+msgid "There is no viewer for help type \"%s\""
 msgstr "Der er ingen fremviser for hjælpetype %s%s%s"
 
 #: lclstrconsts.rshelpviewererror
@@ -856,9 +714,25 @@ msgstr "Limegrøn"
 msgid "List index exceeds bounds (%d)"
 msgstr "Listeindekset overskrider grænser (%d)"
 
-#: lclstrconsts.rslistmustbeempty
-msgid "List must be empty"
-msgstr "Listen skal være tom"
+#: lclstrconsts.rsmacosmenuhide
+msgid "Hide %s"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuhideothers
+msgid "Hide Others"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuquit
+msgid "Quit %s"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuservices
+msgid "Services"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenushowall
+msgid "Show All"
+msgstr ""
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
@@ -934,9 +808,10 @@ msgid "Menu Bar"
 msgstr "Menubar"
 
 #: lclstrconsts.rsmenucolorcaption
+#, fuzzy
 msgctxt "lclstrconsts.rsmenucolorcaption"
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: lclstrconsts.rsmenuhighlightcolorcaption
 msgid "Menu Highlight"
@@ -1032,9 +907,9 @@ msgstr ""
 msgid "Post"
 msgstr ""
 
-#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
-msgstr "%s%sTryk OK for at ignorere og risikere ødelagt data.%sTryk Annuller for at afslutte programmet."
+#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
+msgstr ""
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
@@ -1123,8 +998,7 @@ msgstr "-im, indstiller input-metoden på serveren (svarer til indstilling af XM
 
 #: lclstrconsts.rsqtoptionx11inputstyle
 msgid "-inputstyle, defines how the input is inserted into the given widget, e.g. onTheSpot makes the input appear directly in the widget, while overTheSpot makes the input appear in a box floating over the widget and is not inserted until the editing is done."
-msgstr "-inputstyle, definerer, hvordan input indsættes i den givne widget, fx onTheSpot
-viser input direkte i widget, mens overTheSpot viser input i en boks flydende over widget og indsættes ikke før redigeringen er færdig."
+msgstr "-inputstyle, definerer, hvordan input indsættes i den givne widget, fx onTheSpo"
 
 #: lclstrconsts.rsqtoptionx11name
 msgid "-name name, sets the application name."
@@ -1214,6 +1088,10 @@ msgstr "Blågrøn"
 #: lclstrconsts.rstext
 msgid "Text"
 msgstr "Tekst"
+
+#: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
+msgid "The built-in URL is read only. Change the BaseURL instead."
+msgstr ""
 
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
@@ -1313,6 +1191,10 @@ msgstr "Gul"
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
 msgstr "Kan ikke fokusere på et deaktiveret eller usynligt vindue"
+
+#: lclstrconsts.scannotsetdesigntimeppi
+msgid "Cannot set design time PPI."
+msgstr ""
 
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
@@ -1445,13 +1327,13 @@ msgctxt "lclstrconsts.smkcup"
 msgid "Up"
 msgstr "Op"
 
-#: lclstrconsts.snomdiform
-msgid "No MDI form present."
-msgstr "Ingen MDI-formular til stede"
-
 #: lclstrconsts.snotimers
 msgid "No timers available"
 msgstr "Ingen timer til rådighed"
+
+#: lclstrconsts.sparentrequired
+msgid "Control \"%s\" has no parent window."
+msgstr ""
 
 #: lclstrconsts.sparexpected
 msgid "Wrong token type: %s expected"
@@ -1466,7 +1348,9 @@ msgid "Invalid integer number: %s"
 msgstr "Ugyldigt heltal: %s"
 
 #: lclstrconsts.sparlocinfo
-msgid " (at %d,%d, stream offset %.8x)"
+#, fuzzy,badformat
+#| msgid " (at %d,%d, stream offset %.8x)"
+msgid " (at %d,%d, stream offset %d)"
 msgstr " (ved %d,%d, stream offset %.8x)"
 
 #: lclstrconsts.sparunterminatedbinvalue
@@ -1484,3 +1368,56 @@ msgstr "Forkert symbol: %s var forventet, men %s blev fundet"
 #: lclstrconsts.sparwrongtokentype
 msgid "Wrong token type: %s expected but %s found"
 msgstr "Forkert symboltype: %s var forventet, men %s blev fundet"
+
+#: lclstrconsts.sshellctrlsbytes
+msgid "%s bytes"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsinvalidpath
+msgctxt "lclstrconsts.sshellctrlsinvalidpath"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\"\n"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsinvalidpathrelative
+msgid ""
+"Invalid relative pathname:\n"
+"\"%s\"\n"
+"in relation to rootpath:\n"
+"\"%s\"\n"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsinvalidroot
+msgctxt "lclstrconsts.sshellctrlsinvalidroot"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\"\n"
+msgstr ""
+
+#: lclstrconsts.sshellctrlskb
+msgid "%s kB"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsmb
+msgid "%s MB"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsname
+msgid "Name"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+msgid ""
+"The selected item does not exist on disk:\n"
+"\"%s\"\n"
+msgstr ""
+
+#: lclstrconsts.sshellctrlssize
+msgid "Size"
+msgstr ""
+
+#: lclstrconsts.sshellctrlstype
+msgid "Type"
+msgstr ""
+

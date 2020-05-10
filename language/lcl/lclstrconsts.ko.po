@@ -5,15 +5,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
-msgid "Browser %s%s%s not executable."
+#, fuzzy,badformat
+#| msgid "Browser %s%s%s not executable."
+msgid "Browser \"%s\" not executable."
 msgstr "브라우저 %s%s%s 실행 불가"
 
 #: lclstrconsts.hhshelpbrowsernotfound
-msgid "Browser %s%s%s not found."
+#, fuzzy,badformat
+#| msgid "Browser %s%s%s not found."
+msgid "Browser \"%s\" not found."
 msgstr "브라우저 %s%s%s 찾지 못함"
 
 #: lclstrconsts.hhshelperrorwhileexecuting
-msgid "Error while executing %s%s%s:%s%s"
+#, fuzzy,badformat
+#| msgid "Error while executing %s%s%s:%s%s"
+msgid "Error while executing \"%s\":%s%s"
 msgstr "%s%s%s:%s%s 실행중 오류"
 
 #: lclstrconsts.hhshelpnohtmlbrowserfound
@@ -25,7 +31,9 @@ msgid "No HTML Browser found.%sPlease define one in Tools -> Options -> Help -> 
 msgstr "HTML 브라우저 찾을 수 없음. %s 도구->옵션->도움말->도움말 옵션에서 브라우저를 지정해주세요."
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
-msgid "The help database %s%s%s was unable to find file %s%s%s."
+#, fuzzy,badformat
+#| msgid "The help database %s%s%s was unable to find file %s%s%s."
+msgid "The help database \"%s\" was unable to find file \"%s\"."
 msgstr "도움말 데이타베이스 %s%s%s가 %s%s%s를 찾지 못함."
 
 #: lclstrconsts.hhshelpthemacrosinbrowserparamswillbereplacedbytheurl
@@ -40,227 +48,35 @@ msgstr "Alt"
 msgid "Ctrl"
 msgstr "Ctrl"
 
-#: lclstrconsts.ifsvk_accept
-msgid "Accept"
-msgstr "수용"
-
-#: lclstrconsts.ifsvk_apps
-msgid "application key"
-msgstr "어플리케이션 키"
-
-#: lclstrconsts.ifsvk_back
-msgid "Backspace"
-msgstr "Backspace"
-
-#: lclstrconsts.ifsvk_cancel
-msgctxt "lclstrconsts.ifsvk_cancel"
-msgid "Cancel"
-msgstr "취소"
-
-#: lclstrconsts.ifsvk_capital
-msgid "Capital"
-msgstr "대문자"
-
-#: lclstrconsts.ifsvk_clear
-msgid "Clear"
-msgstr "지우기"
-
 #: lclstrconsts.ifsvk_cmd
 msgid "Cmd"
 msgstr "Cmd"
 
-#: lclstrconsts.ifsvk_control
-msgid "Control"
-msgstr "컨트롤"
-
-#: lclstrconsts.ifsvk_convert
-msgid "Convert"
-msgstr "변환"
-
-#: lclstrconsts.ifsvk_delete
-msgctxt "lclstrconsts.ifsvk_delete"
-msgid "Delete"
-msgstr "삭제"
-
-#: lclstrconsts.ifsvk_down
-msgctxt "lclstrconsts.ifsvk_down"
-msgid "Down"
-msgstr "Down"
-
-#: lclstrconsts.ifsvk_end
-msgctxt "lclstrconsts.ifsvk_end"
-msgid "End"
-msgstr "End"
-
-#: lclstrconsts.ifsvk_escape
-msgid "Escape"
-msgstr "Escape"
-
-#: lclstrconsts.ifsvk_execute
-msgid "Execute"
-msgstr "실행"
-
-#: lclstrconsts.ifsvk_final
-msgid "Final"
-msgstr "마지막"
-
-#: lclstrconsts.ifsvk_hanja
-msgid "Hanja"
-msgstr "한자"
-
 #: lclstrconsts.ifsvk_help
+msgctxt "lclstrconsts.ifsvk_help"
 msgid "Help"
 msgstr "도움말"
-
-#: lclstrconsts.ifsvk_home
-msgctxt "lclstrconsts.ifsvk_home"
-msgid "Home"
-msgstr "Home"
-
-#: lclstrconsts.ifsvk_insert
-msgctxt "lclstrconsts.ifsvk_insert"
-msgid "Insert"
-msgstr "Insert"
-
-#: lclstrconsts.ifsvk_junja
-msgid "Junja"
-msgstr "한자"
-
-#: lclstrconsts.ifsvk_kana
-msgid "Kana"
-msgstr "카나"
-
-#: lclstrconsts.ifsvk_lbutton
-msgid "Mouse Button Left"
-msgstr "마우스 왼쪽버튼"
-
-#: lclstrconsts.ifsvk_left
-msgctxt "lclstrconsts.ifsvk_left"
-msgid "Left"
-msgstr "Left"
-
-#: lclstrconsts.ifsvk_lwin
-msgid "left windows key"
-msgstr "왼쪽 윈도키"
-
-#: lclstrconsts.ifsvk_mbutton
-msgid "Mouse Button Middle"
-msgstr "마우스 중간 버튼"
-
-#: lclstrconsts.ifsvk_menu
-msgctxt "lclstrconsts.ifsvk_menu"
-msgid "Menu"
-msgstr "메뉴"
 
 #: lclstrconsts.ifsvk_meta
 msgid "Meta"
 msgstr "메타정보"
 
-#: lclstrconsts.ifsvk_modechange
-msgid "Mode Change"
-msgstr "모드 변경"
-
-#: lclstrconsts.ifsvk_next
-msgctxt "lclstrconsts.ifsvk_next"
-msgid "Next"
-msgstr "다음"
-
-#: lclstrconsts.ifsvk_nonconvert
-msgid "Nonconvert"
-msgstr "변환없음"
-
-#: lclstrconsts.ifsvk_numlock
-msgid "Numlock"
-msgstr "Numlock"
-
-#: lclstrconsts.ifsvk_numpad
-msgid "Numpad %d"
-msgstr "NUmpad %d"
-
-#: lclstrconsts.ifsvk_pause
-msgid "Pause key"
-msgstr "Pause 키"
-
-#: lclstrconsts.ifsvk_print
-msgid "Print"
-msgstr "Print"
-
-#: lclstrconsts.ifsvk_prior
-msgctxt "lclstrconsts.ifsvk_prior"
-msgid "Prior"
-msgstr "Page up"
-
-#: lclstrconsts.ifsvk_rbutton
-msgid "Mouse Button Right"
-msgstr "마우스 오른쪽 버튼"
-
-#: lclstrconsts.ifsvk_return
-msgid "Return"
-msgstr "Return"
-
-#: lclstrconsts.ifsvk_right
-msgctxt "lclstrconsts.ifsvk_right"
-msgid "Right"
-msgstr "Right"
-
-#: lclstrconsts.ifsvk_rwin
-msgid "right windows key"
-msgstr "오른쪽 윈도키"
-
-#: lclstrconsts.ifsvk_scroll
-msgid "Scroll"
-msgstr "Scroll"
-
-#: lclstrconsts.ifsvk_select
-msgid "Select"
-msgstr "선택"
-
 #: lclstrconsts.ifsvk_shift
 msgid "Shift"
 msgstr "Shift"
-
-#: lclstrconsts.ifsvk_snapshot
-msgid "Snapshot"
-msgstr "Print Screen"
-
-#: lclstrconsts.ifsvk_space
-msgid "Space key"
-msgstr "스페이스키"
 
 #: lclstrconsts.ifsvk_super
 msgid "Super"
 msgstr "Super"
 
-#: lclstrconsts.ifsvk_tab
-msgctxt "lclstrconsts.ifsvk_tab"
-msgid "Tab"
-msgstr "Tab"
-
 #: lclstrconsts.ifsvk_unknown
 msgid "Unknown"
 msgstr "알수없음"
-
-#: lclstrconsts.ifsvk_up
-msgctxt "lclstrconsts.ifsvk_up"
-msgid "Up"
-msgstr "Up"
-
-#: lclstrconsts.liscannotexecute
-msgid "can not execute %s"
-msgstr "%s 실행할 수 없음"
-
-#: lclstrconsts.liscefilter
-msgid "(filter)"
-msgstr "(필터)"
 
 #: lclstrconsts.lislclresourcesnotfound
 msgctxt "lclstrconsts.lislclresourcesnotfound"
 msgid "Resource %s not found"
 msgstr "%s 리소스를 찾을 수 없음"
-
-#: lclstrconsts.lisprogramfilenotfound
-msgid "program file not found %s"
-msgstr "%s 프로그램 파일 찾을 수 없음"
 
 #: lclstrconsts.rs3ddkshadowcolorcaption
 msgid "3D Dark Shadow"
@@ -293,6 +109,10 @@ msgstr "어플리케이션 작업공간"
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
 msgstr "아쿠아색"
+
+#: lclstrconsts.rsascannothaveasparent
+msgid "Class %s cannot have %s as parent."
+msgstr ""
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
@@ -363,6 +183,10 @@ msgstr "대소문자 구분"
 msgid "Control of class '%s' can't have control of class '%s' as a child"
 msgstr "'%s'클래스 컨트롤은 '%s'를 상속으로 가질 수 없음"
 
+#: lclstrconsts.rscontrolhasnoparentformorframe
+msgid "Control '%s' has no parent form or frame"
+msgstr ""
+
 #: lclstrconsts.rscontrolhasnoparentwindow
 msgid "Control '%s' has no parent window"
 msgstr " '%s' 컨트롤 부모 윈도우를 가지고 있지 않음"
@@ -374,10 +198,6 @@ msgstr "'%s'는 '%s'의 부모가 아님"
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
 msgstr "크림색"
-
-#: lclstrconsts.rscreatinggdbcatchableerror
-msgid "Creating gdb catchable error:"
-msgstr "캐치할 수 있는 gdb 오류 생성:"
 
 #: lclstrconsts.rscursor
 msgid "Cursor"
@@ -412,9 +232,13 @@ msgstr "방향"
 msgid "&Directory"
 msgstr "&폴더(디렉토리)"
 
-#: lclstrconsts.rsdocking
-msgid "Docking"
-msgstr "도킹"
+#: lclstrconsts.rsdocopy
+msgid "Copy"
+msgstr ""
+
+#: lclstrconsts.rsdopaste
+msgid "Paste"
+msgstr ""
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
@@ -437,17 +261,10 @@ msgstr "오류"
 msgid "Error creating device context for %s.%s"
 msgstr "%s를 위한 디바이스 컨텍스트 생성 오류. %s"
 
-#: lclstrconsts.rserrorinlcl
-msgid "ERROR in LCL: "
-msgstr "LCL 오류"
-
 #: lclstrconsts.rserroroccurredinataddressframe
+#, fuzzy,badformat
 msgid "Error occurred in %s at %sAddress %s%s Frame %s"
 msgstr "%s 어드레스 %s%s 프레임 %s 오류 발생"
-
-#: lclstrconsts.rserrorreadingproperty
-msgid "Error reading %s%s%s: %s"
-msgstr "%s%s%s 읽기 오류: %s"
 
 #: lclstrconsts.rserrorwhilesavingbitmap
 msgid "Error while saving bitmap."
@@ -517,6 +334,12 @@ msgstr "(파일 찾지 못함: \"%s\")"
 msgid "File information"
 msgstr "파일 정보"
 
+#: lclstrconsts.rsfilter
+#, fuzzy
+msgctxt "lclstrconsts.rsfilter"
+msgid "(filter)"
+msgstr "(필터)"
+
 #: lclstrconsts.rsfind
 msgid "Find"
 msgstr "찾기"
@@ -530,11 +353,15 @@ msgid "First"
 msgstr "첫번째"
 
 #: lclstrconsts.rsfixedcolstoobig
-msgid "FixedCols can't be >= ColCount"
+#, fuzzy
+#| msgid "FixedCols can't be >= ColCount"
+msgid "FixedCols can't be > ColCount"
 msgstr "FixedCols >= ColCount (크거나 같을 수 없음)"
 
 #: lclstrconsts.rsfixedrowstoobig
-msgid "FixedRows can't be >= RowCount"
+#, fuzzy
+#| msgid "FixedRows can't be >= RowCount"
+msgid "FixedRows can't be > RowCount"
 msgstr "FixedRows >= RowCount(크거나 같을 수 없음)"
 
 #: lclstrconsts.rsformcolorcaption
@@ -597,9 +424,17 @@ msgstr "회색 텍스트"
 msgid "Green"
 msgstr "녹색"
 
-#: lclstrconsts.rsgridfiledoesnotexists
-msgid "Grid file doesn't exists"
-msgstr "격자 파일 존재 안함"
+#: lclstrconsts.rsgridfiledoesnotexist
+msgid "Grid file doesn't exist"
+msgstr ""
+
+#: lclstrconsts.rsgridhasnocols
+msgid "Cannot insert rows into a grid when it has no columns"
+msgstr ""
+
+#: lclstrconsts.rsgridhasnorows
+msgid "Cannot insert columns into a grid when it has no rows"
+msgstr ""
 
 #: lclstrconsts.rsgridindexoutofrange
 msgid "Grid index out of range."
@@ -653,6 +488,12 @@ msgstr "--no-xshm               X 공유 메모리 확장 사용 불가"
 msgid "--sync                Call XSynchronize (display, True) after the Xserver connection has been established. This makes debugging X protocol errors easier, because X request buffering will be disabled and X errors will be received immediately after the protocol request that generated the error has been processed by the X server."
 msgstr "--sync                X서버 접속 후 XSynchronize (display, True) 호출. 이것은 debugging X protocol 오류를 쉽게 만드는데 X request 버퍼링이 불가하게 되고 프로토콜 요청이 X server의 진행에 따라 오류를 생성한 후 X errors가 즉각적으로 수신되기 때문입니다. "
 
+#: lclstrconsts.rshelp
+#, fuzzy
+msgctxt "lclstrconsts.rshelp"
+msgid "Help"
+msgstr "도움말"
+
 #: lclstrconsts.rshelpalreadyregistered
 msgid "%s: Already registered"
 msgstr "%s: 이미 등록됨"
@@ -674,38 +515,55 @@ msgid "Help context %s not found."
 msgstr "%s 도움말 찾지 못함"
 
 #: lclstrconsts.rshelphelpcontextnotfoundindatabase
-msgid "Help context %s not found in Database %s%s%s."
+#, fuzzy,badformat
+#| msgid "Help context %s not found in Database %s%s%s."
+msgid "Help context %s not found in Database \"%s\"."
 msgstr "%s 도움말 %s%s%s 데이터베이스에서 찾지 못함"
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
-msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
+#, fuzzy,badformat
+#| msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
+msgid "Help Database \"%s\" did not find a viewer for a help page of type %s"
 msgstr "도움말 데이터베이스 %s%s%s 가 %s 도움말 페이지 뷰어를 찾지 못함."
 
 #: lclstrconsts.rshelphelpdatabasenotfound
-msgid "Help Database %s%s%s not found"
+#, fuzzy,badformat
+#| msgid "Help Database %s%s%s not found"
+msgid "Help Database \"%s\" not found"
 msgstr "도움말 데이터베이스 %s%s%s 찾지 못함"
 
 #: lclstrconsts.rshelphelpfordirectivenotfound
-msgid "Help for directive %s%s%s not found."
+#, fuzzy,badformat
+#| msgid "Help for directive %s%s%s not found."
+msgid "Help for directive \"%s\" not found."
 msgstr "%s%s%s 명령에 대한 도움말 찾지 못함."
 
 #: lclstrconsts.rshelphelpfordirectivenotfoundindatabase
-msgid "Help for directive %s%s%s not found in Database %s%s%s."
+#, fuzzy,badformat
+#| msgid "Help for directive %s%s%s not found in Database %s%s%s."
+msgid "Help for directive \"%s\" not found in Database \"%s\"."
 msgstr "%s%s%s 명령에 대한 도움말을  %s%s%s데이터베이스에서 찾을 수 없음."
 
 #: lclstrconsts.rshelphelpkeywordnotfound
-msgid "Help keyword %s%s%s not found."
+#, fuzzy,badformat
+#| msgid "Help keyword %s%s%s not found."
+msgid "Help keyword \"%s\" not found."
 msgstr "도움말 키워드 %s%s%s 찾지 못함."
 
 #: lclstrconsts.rshelphelpkeywordnotfoundindatabase
-msgid "Help keyword %s%s%s not found in Database %s%s%s."
+#, fuzzy,badformat
+#| msgid "Help keyword %s%s%s not found in Database %s%s%s."
+msgid "Help keyword \"%s\" not found in Database \"%s\"."
 msgstr "도움말 키워드 %s%s%s %s%s%s 데이타베이스에서 찾지 못함."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
-msgid "Help node %s%s%s has no Help Database"
+#, fuzzy,badformat
+#| msgid "Help node %s%s%s has no Help Database"
+msgid "Help node \"%s\" has no Help Database"
 msgstr "도움말 노드 %s%s%s가 도움말 데이터베이스를 갖고 있지 않음"
 
 #: lclstrconsts.rshelpnohelpfoundforsource
+#, fuzzy,badformat
 msgid "No help found for line %d, column %d of %s."
 msgstr "%s의 %d줄, %d 행에서 도움말 찾지 못함."
 
@@ -726,7 +584,9 @@ msgid "Help Selector Error"
 msgstr "도움말 선택 오류"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
-msgid "There is no viewer for help type %s%s%s"
+#, fuzzy,badformat
+#| msgid "There is no viewer for help type %s%s%s"
+msgid "There is no viewer for help type \"%s\""
 msgstr "도움말 형태 %s%s%s에 대한 뷰어 없음"
 
 #: lclstrconsts.rshelpviewererror
@@ -856,9 +716,25 @@ msgstr "라임색(Lime)"
 msgid "List index exceeds bounds (%d)"
 msgstr "리스트 인덱스가 (%d) 경계를 벗어남"
 
-#: lclstrconsts.rslistmustbeempty
-msgid "List must be empty"
-msgstr "리스트를 비워야 함"
+#: lclstrconsts.rsmacosmenuhide
+msgid "Hide %s"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuhideothers
+msgid "Hide Others"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuquit
+msgid "Quit %s"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenuservices
+msgid "Services"
+msgstr ""
+
+#: lclstrconsts.rsmacosmenushowall
+msgid "Show All"
+msgstr ""
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
@@ -1032,9 +908,9 @@ msgstr "포터블 픽스맵"
 msgid "Post"
 msgstr "게시"
 
-#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
-msgstr "데이터 변조 위험과 이를 무시하려면 %s%s 예를 누르시오. 프로그램을 종료하려면 %s 취소를 누르시오."
+#: lclstrconsts.rspressoktoignoreandriskdatacorruptionpressaborttok
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Abort to kill the program."
+msgstr ""
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
@@ -1214,6 +1090,10 @@ msgstr "청록색"
 msgid "Text"
 msgstr "텍스트"
 
+#: lclstrconsts.rsthebuiltinurlisreadonlychangethebaseurlinstead
+msgid "The built-in URL is read only. Change the BaseURL instead."
+msgstr ""
+
 #: lclstrconsts.rstiff
 msgid "Tagged Image File Format"
 msgstr "태그가 있는 이미지 파일 포맷"
@@ -1274,6 +1154,7 @@ msgid " WARNING: There are %d TimerInfo structures left, I'll free them"
 msgstr " 경고: %d TimeInfo 스트럭쳐(Structure)가 있습니다. 그것들을 풀어주겠습니다."
 
 #: lclstrconsts.rswarningunremovedpaintmessages
+#, fuzzy,badformat
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr " 경고: %d 제거되지 않은 LM_PAINT/LM_GtkPAINT 메시지 링크가 남아 있습니다. "
 
@@ -1312,6 +1193,10 @@ msgstr "노랑"
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
 msgstr "사용가능하지 않거나 보이지 않는 윈도우 포커스 할 수 없음"
+
+#: lclstrconsts.scannotsetdesigntimeppi
+msgid "Cannot set design time PPI."
+msgstr ""
 
 #: lclstrconsts.sduplicatemenus
 msgid "Duplicate menus"
@@ -1444,13 +1329,13 @@ msgctxt "lclstrconsts.smkcup"
 msgid "Up"
 msgstr "Up"
 
-#: lclstrconsts.snomdiform
-msgid "No MDI form present."
-msgstr "MDI형태 존재하지 않음"
-
 #: lclstrconsts.snotimers
 msgid "No timers available"
 msgstr "타이머 사용할 수 없음"
+
+#: lclstrconsts.sparentrequired
+msgid "Control \"%s\" has no parent window."
+msgstr ""
 
 #: lclstrconsts.sparexpected
 msgid "Wrong token type: %s expected"
@@ -1483,4 +1368,56 @@ msgstr "잘못된 토큰 심벌: %s를 기대했으나 %s 발견됨"
 #: lclstrconsts.sparwrongtokentype
 msgid "Wrong token type: %s expected but %s found"
 msgstr "잘못된 토큰 유형: %s를 기대했으나 %s가 발견됨"
+
+#: lclstrconsts.sshellctrlsbytes
+msgid "%s bytes"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsinvalidpath
+msgctxt "lclstrconsts.sshellctrlsinvalidpath"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\"\n"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsinvalidpathrelative
+msgid ""
+"Invalid relative pathname:\n"
+"\"%s\"\n"
+"in relation to rootpath:\n"
+"\"%s\"\n"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsinvalidroot
+msgctxt "lclstrconsts.sshellctrlsinvalidroot"
+msgid ""
+"Invalid pathname:\n"
+"\"%s\"\n"
+msgstr ""
+
+#: lclstrconsts.sshellctrlskb
+msgid "%s kB"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsmb
+msgid "%s MB"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsname
+msgid "Name"
+msgstr ""
+
+#: lclstrconsts.sshellctrlsselecteditemdoesnotexists
+msgid ""
+"The selected item does not exist on disk:\n"
+"\"%s\"\n"
+msgstr ""
+
+#: lclstrconsts.sshellctrlssize
+msgid "Size"
+msgstr ""
+
+#: lclstrconsts.sshellctrlstype
+msgid "Type"
+msgstr ""
 
