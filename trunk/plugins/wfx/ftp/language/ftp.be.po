@@ -30,6 +30,10 @@ msgctxt "tdialogbox.caption"
 msgid "FTP"
 msgstr "FTP"
 
+#: tdialogbox.chkcopyscp.caption
+msgid "Copy using SCP protocol (faster)"
+msgstr ""
+
 #: tdialogbox.chkautotls.caption
 msgid "TLS"
 msgstr "TLS"

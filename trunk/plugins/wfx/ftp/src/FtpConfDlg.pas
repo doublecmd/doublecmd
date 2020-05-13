@@ -74,7 +74,10 @@ begin
     SendDlgMsg(pDlg, 'gbSSH', DM_ENABLE, PtrInt(gConnection.OpenSSH), 0);
     SendDlgMsg(pDlg, 'gbFTP', DM_ENABLE, PtrInt(not gConnection.OpenSSH), 0);
     if not gConnection.OpenSSH then
-      SendDlgMsg(pDlg, 'chkOnlySCP', DM_SETCHECK, 0, 0)
+    begin
+      SendDlgMsg(pDlg, 'chkCopySCP', DM_SETCHECK, 0, 0);
+      SendDlgMsg(pDlg, 'chkOnlySCP', DM_SETCHECK, 0, 0);
+    end
     else begin
       SendDlgMsg(pDlg, 'chkShowHidden', DM_SETCHECK, 0, 0);
       SendDlgMsg(pDlg, 'chkPassiveMode', DM_SETCHECK, 0, 0);
@@ -279,6 +282,8 @@ begin
           SendDlgMsg(pDlg, 'chkAutoTLS', DM_SETCHECK, Data, 0);
           Data:= PtrInt(gConnection.OpenSSH);
           SendDlgMsg(pDlg, 'chkOpenSSH', DM_SETCHECK, Data, 0);
+          Data:= PtrInt(gConnection.CopySCP);
+          SendDlgMsg(pDlg, 'chkCopySCP', DM_SETCHECK, Data, 0);
           Data:= PtrInt(gConnection.OnlySCP);
           SendDlgMsg(pDlg, 'chkOnlySCP', DM_SETCHECK, Data, 0);
           Data:= PtrInt(gConnection.ShowHiddenItems);
@@ -430,6 +435,8 @@ begin
             gConnection.PassiveMode:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkAutoTLS', DM_GETCHECK, 0, 0);
             gConnection.AutoTLS:= Boolean(Data);
+            Data:= SendDlgMsg(pDlg, 'chkCopySCP', DM_GETCHECK, 0, 0);
+            gConnection.CopySCP:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkOnlySCP', DM_GETCHECK, 0, 0);
             gConnection.OnlySCP:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'chkShowHidden', DM_GETCHECK, 0, 0);

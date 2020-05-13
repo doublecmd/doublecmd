@@ -429,15 +429,27 @@ object DialogBox: TDialogBox
         ClientHeight = 139
         ClientWidth = 394
         TabOrder = 1
-        object chkOnlySCP: TCheckBox
+        object chkCopySCP: TCheckBox
           AnchorSideLeft.Control = gbSSH
           AnchorSideTop.Control = gbSSH
           Left = 6
           Height = 19
           Top = 6
-          Width = 194
-          Caption = 'Use SSH+SCP protocol (no SFTP)'
+          Width = 238
+          Caption = 'Copy using SCP protocol (faster)'
           TabOrder = 0
+        end
+        object chkOnlySCP: TCheckBox
+          AnchorSideLeft.Control = gbSSH
+          AnchorSideTop.Control = chkCopySCP
+          AnchorSideTop.Side = asrBottom
+          Left = 6
+          Height = 19
+          Top = 30
+          Width = 241
+          Caption = 'Use SSH+SCP protocol (no SFTP)'
+          ParentFont = False
+          TabOrder = 1
         end
         object DividerBevel: TDividerBevel
           AnchorSideTop.Control = chkOnlySCP
@@ -482,7 +494,7 @@ object DialogBox: TDialogBox
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 4
           MaxLength = 0
-          TabOrder = 1
+          TabOrder = 2
         end
         object lblPrivateKey: TLabel
           AnchorSideLeft.Control = gbSSH
@@ -513,7 +525,7 @@ object DialogBox: TDialogBox
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 4
           MaxLength = 0
-          TabOrder = 2
+          TabOrder = 3
         end
       end
     end
