@@ -49,6 +49,7 @@ type
     CachedPassword: AnsiString;
     Proxy: String;
     PassiveMode: Boolean;
+    CopySCP: Boolean;
     OnlySCP: Boolean;
     AutoTLS: Boolean;
     FullSSL: Boolean;
@@ -175,6 +176,7 @@ begin
     Connection.FullSSL:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'FullSSL', False);
     Connection.OpenSSH:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'OpenSSH', False);
     Connection.OnlySCP:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'OnlySCP', False);
+    Connection.CopySCP:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'CopySCP', False);
     Connection.UseAllocate:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'UseAllocate', False);
     Connection.PublicKey := IniFile.ReadString('FTP', 'Connection' + sIndex + 'PublicKey', EmptyStr);
     Connection.PrivateKey := IniFile.ReadString('FTP', 'Connection' + sIndex + 'PrivateKey', EmptyStr);
@@ -218,6 +220,7 @@ begin
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'FullSSL', Connection.FullSSL);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'OpenSSH', Connection.OpenSSH);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'OnlySCP', Connection.OnlySCP);
+    IniFile.WriteBool('FTP', 'Connection' + sIndex + 'CopySCP', Connection.CopySCP);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'UseAllocate', Connection.UseAllocate);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'PublicKey', Connection.PublicKey);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'PrivateKey', Connection.PrivateKey);
@@ -344,7 +347,8 @@ begin
           if Connection.OnlySCP then
             FtpSend := TScpSend.Create(Connection.Encoding)
           else begin
-            FtpSend := TSftpSend.Create(Connection.Encoding)
+            FtpSend := TSftpSend.Create(Connection.Encoding);
+            TSftpSend(FtpSend).CopySCP := Connection.CopySCP;
           end;
           FtpSend.PublicKey:= Connection.PublicKey;
           FtpSend.PrivateKey:= Connection.PrivateKey;
@@ -1124,6 +1128,7 @@ begin
   AutoTLS:= Connection.AutoTLS;
   FullSSL:= Connection.FullSSL;
   OpenSSH:= Connection.OpenSSH;
+  CopySCP:= Connection.CopySCP;
   OnlySCP:= Connection.OnlySCP;
   UserName:= Connection.UserName;
   Password:= Connection.Password;

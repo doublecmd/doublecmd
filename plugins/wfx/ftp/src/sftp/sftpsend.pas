@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wfx plugin for working with File Transfer Protocol
 
-   Copyright (C) 2013-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2013-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -38,6 +38,7 @@ type
   private
     function FileClose(Handle: Pointer): Boolean;
   protected
+    FCopySCP: Boolean;
     FSFTPSession: PLIBSSH2_SFTP;
   protected
     function Connect: Boolean; override;
@@ -60,6 +61,8 @@ type
     function FsFindNextW(Handle: Pointer; var FindData: TWin32FindDataW): BOOL; override;
     function FsFindClose(Handle: Pointer): Integer; override;
     function FsSetTime(const FileName: String; LastAccessTime, LastWriteTime: PFileTime): BOOL; override;
+  public
+    property CopySCP: Boolean read FCopySCP write FCopySCP;
   end;
 
 implementation
@@ -207,6 +210,11 @@ var
   TargetHandle: PLIBSSH2_SFTP_HANDLE = nil;
   Flags: cint = LIBSSH2_FXF_CREAT or LIBSSH2_FXF_WRITE;
 begin
+  if FCopySCP then begin
+    Result:= inherited StoreFile(FileName, Restore);
+    Exit;
+  end;
+
   SendStream := TFileStreamEx.Create(FDirectFileName, fmOpenRead or fmShareDenyWrite);
 
   TargetName:= PWideChar(ServerToClient(FileName));
@@ -289,6 +297,11 @@ var
   TotalBytesToRead: Int64 = 0;
   SourceHandle: PLIBSSH2_SFTP_HANDLE;
 begin
+  if FCopySCP then begin
+    Result:= inherited RetrieveFile(FileName, FileSize, Restore);
+    Exit;
+  end;
+
   if Restore and mbFileExists(FDirectFileName) then
     RetrStream := TFileStreamEx.Create(FDirectFileName, fmOpenWrite or fmShareExclusive)
   else begin
