@@ -43,7 +43,7 @@ const
 
 type
   { TfrmFindDlg }
-  TfrmFindDlg = class(TForm, IFormCommands)
+  TfrmFindDlg = class(TAloneForm, IFormCommands)
     actIntelliFocus: TAction;
     actCancel: TAction;
     actClose: TAction;
