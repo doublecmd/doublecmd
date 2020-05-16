@@ -38,8 +38,8 @@ type
   protected
     procedure DoClose(var CloseAction: TCloseAction); override;
   {$ELSEIF DEFINED(LCLWIN32)}
-  public
-    constructor Create(TheOwner: TComponent); override;
+  protected
+    procedure CreateWnd; override;
   {$ENDIF}
   end;
 
@@ -206,9 +206,9 @@ end;
 
 {$ELSEIF DEFINED(LCLWIN32)}
 
-constructor TAloneForm.Create(TheOwner: TComponent);
+procedure TAloneForm.CreateWnd;
 begin
-  inherited Create(TheOwner);
+  inherited CreateWnd;
   if ShowInTaskBar = stAlways then
     // Set window owner to zero, so it will be really standalone window
     SetWindowLong(Handle, GWL_HWNDPARENT, 0);
