@@ -37,9 +37,6 @@ type
   {$IF DEFINED(DARWIN) AND DEFINED(LCLQT)}
   protected
     procedure DoClose(var CloseAction: TCloseAction); override;
-  {$ELSEIF DEFINED(LCLWIN32)}
-  protected
-    procedure CreateWnd; override;
   {$ENDIF}
   end;
 
@@ -202,16 +199,6 @@ begin
       FCurrent:= Form;
     end;
   end;
-end;
-
-{$ELSEIF DEFINED(LCLWIN32)}
-
-procedure TAloneForm.CreateWnd;
-begin
-  inherited CreateWnd;
-  if ShowInTaskBar = stAlways then
-    // Set window owner to zero, so it will be really standalone window
-    SetWindowLong(Handle, GWL_HWNDPARENT, 0);
 end;
 
 {$ENDIF}
