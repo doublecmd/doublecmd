@@ -37,7 +37,7 @@ uses
 
 function TWinNetListOperation.Linux: Boolean;
 begin
-  Result:= CheckWin32Version(10) and StrBegins('\\wsl$\', Path);
+  Result:= CheckWin32Version(10) and StrBegins(Path, '\\wsl$\');
 end;
 
 function TWinNetListOperation.Connect: Boolean;
