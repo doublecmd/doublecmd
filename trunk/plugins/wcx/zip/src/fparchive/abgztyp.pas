@@ -293,7 +293,7 @@ uses
   Windows,
   {$ENDIF}
   SysUtils,
-  AbBitBkt, AbDfBase, AbDfDec, AbDfEnc, AbExcept, AbResString,
+  AbBitBkt, AbDfBase, AbDfDec, AbZlibPrc, AbExcept, AbResString,
   AbVMStrm, DCOSUtils, DCClassesUtf8, DCConvertEncoding;
 
 const
