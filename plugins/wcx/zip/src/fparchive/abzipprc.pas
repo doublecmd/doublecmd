@@ -45,11 +45,6 @@ uses
   procedure AbZipFromStream(Sender : TAbZipArchive; Item : TAbZipItem;
     OutStream, InStream : TStream);
 
-  procedure DeflateStream( UncompressedStream, CompressedStream : TStream );
-    {-Deflates everything in UncompressedStream to CompressedStream
-      no encryption is tried, no check on CRC is done, uses the whole
-      compressedstream - no Progress events - no Frills! }
-
 implementation
 
 uses
@@ -66,8 +61,7 @@ uses
   AbDfCryS,
   AbVMStrm,
   AbDfBase,
-  AbDfEnc,
-  AbSpanSt,
+  AbZlibPrc,
   AbXzPrc,
   DCClassesUtf8;
 
@@ -318,15 +312,6 @@ begin
   finally {UncompressedStream}
     UncompressedStream.Free;
   end; {UncompressedStream}
-end;
-{ -------------------------------------------------------------------------- }
-procedure DeflateStream( UncompressedStream, CompressedStream : TStream );
-  {-Deflates everything in CompressedStream to UncompressedStream
-    no encryption is tried, no check on CRC is done, uses the whole
-    Uncompressedstream - no Progress events - no Frills!
-  }
-begin
-  Deflate(UncompressedStream, CompressedStream, nil);
 end;
 { -------------------------------------------------------------------------- }
 
