@@ -2230,7 +2230,11 @@ begin
         end;
         AdjustImageSize;
       except
-        Exit(False);
+        on E: Exception do
+        begin
+          DCDebug(E.Message);
+          Exit(False);
+        end;
       end;
     end
   else
@@ -2253,7 +2257,11 @@ begin
         btnNextGifFrame.Visible:= True;
         btnPrevGifFrame.Visible:= True;
       except
-        Exit(False);
+        on E: Exception do
+        begin
+          DCDebug(E.Message);
+          Exit(False);
+        end;
       end;
     end;
   ImgEdit:= False;
