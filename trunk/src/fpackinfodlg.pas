@@ -3,22 +3,20 @@
    -------------------------------------------------------------------------
    Packed file information window
 
-   Copyright (C) 2008-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2020 Alexander Koblov (alexx2000@mail.ru)
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License as
+   published by the Free Software Foundation; either version 2 of the
+   License, or (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   This program is distributed in the hope that it will be useful, but
+   WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
 
 unit fPackInfoDlg;
@@ -29,7 +27,7 @@ interface
 
 uses
   SysUtils, Classes, Forms, StdCtrls, ExtCtrls, Controls,
-  uFile, uArchiveFileSource, uFileSourceExecuteOperation;
+  uFile, KASCDEdit, uArchiveFileSource, uFileSourceExecuteOperation;
 
 type
 
@@ -50,15 +48,15 @@ type
     lblPackedSize: TLabel;
     lblPacker: TLabel;
     lblTime: TLabel;
-    lblPackedAttr: TLabel;
-    lblPackedCompression: TLabel;
-    lblPackedDate: TLabel;
+    lblPackedAttr: TKASCDEdit;
+    lblPackedCompression: TKASCDEdit;
+    lblPackedDate: TKASCDEdit;
     edtPackedFile: TEdit;
-    lblPackedMethod: TLabel;
-    lblPackedOrgSize: TLabel;
-    lblPackedPackedSize: TLabel;
-    lblPackedPacker: TLabel;
-    lblPackedTime: TLabel;
+    lblPackedMethod: TKASCDEdit;
+    lblPackedOrgSize: TKASCDEdit;
+    lblPackedPackedSize: TKASCDEdit;
+    lblPackedPacker: TKASCDEdit;
+    lblPackedTime: TKASCDEdit;
     pnlInfoProperties: TPanel;
     pnlInfoFile: TPanel;
     pnlInfo: TPanel;
@@ -177,4 +175,4 @@ begin
 end;
 
 end.
-
+
