@@ -648,7 +648,7 @@ begin
       begin
         FLastError:= libssh2_session_last_errno(FSession);
         if (FLastError <> LIBSSH2_ERROR_EAGAIN) then Exit(False);
-        if (FileSize > 0) then DoProgress((FileSize - TotalBytesToRead) * 100 div FileSize);
+        if (FileSize > 0) then DoProgress(TotalBytesToRead * 100 div FileSize);
         FSock.CanRead(10);
       end;
     until not ((SourceHandle = nil) and (FLastError = LIBSSH2_ERROR_EAGAIN));
@@ -680,11 +680,11 @@ begin
       end;
       Result:= True;
     finally
-      RetrStream.Free;
       FreeMem(FBuffer);
       Result:= CloseChannel(SourceHandle) and Result;
     end;
   finally
+    RetrStream.Free;
     libssh2_session_set_blocking(FSession, 1);
   end;
 end;
