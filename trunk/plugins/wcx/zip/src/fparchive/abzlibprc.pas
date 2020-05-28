@@ -68,14 +68,17 @@ end;
 
 constructor TDeflateStream.Create(ALevel: Integer;
   ADest: TStream);
+const
+  BUF_SIZE = 16384;
 var
   AError: Integer;
 begin
   FHash := -1;
-  TCustomZlibStream(Self).Create(ADest);
+  TOwnerStream(Self).Create(ADest);
 
+  Fbuffer:= GetMem(BUF_SIZE);
   Fstream.next_out:= Fbuffer;
-  Fstream.avail_out:= MemSize(Fbuffer);
+  Fstream.avail_out:= BUF_SIZE;
 
   AError:= deflateInit2(Fstream, ALevel, Z_DEFLATED, -MAX_WBITS, DEF_MEM_LEVEL, 0);
 
