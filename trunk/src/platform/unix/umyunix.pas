@@ -250,7 +250,7 @@ uses
   , uMimeActions, uMimeType, uGVolume
 {$ENDIF}
 {$IFDEF LINUX}
-  , uUDisks
+  , uUDisks, uUDisks2
 {$ENDIF}
   ;
 
@@ -276,18 +276,12 @@ end;
 
 var
   HavePMount: Boolean = False;
-  HaveUDisksCtl: Boolean = False;
 
 procedure CheckPMount;
 begin
   // Check pumount first because Puppy Linux has another tool named pmount
   HavePMount := (fpSystemStatus('pumount --version > /dev/null 2>&1') = 0) and
                 (fpSystemStatus('pmount --version > /dev/null 2>&1') = 0);
-end;
-
-procedure CheckUDisksCtl;
-begin
-  HaveUDisksCtl := (fpSystemStatus('udisksctl help > /dev/null 2>&1') = 0);
 end;
 
 {$ENDIF LINUX}
@@ -574,18 +568,13 @@ begin
 {$ENDIF}
       Result := Mount(Drive^.Path, 300);
 {$IF DEFINED(LINUX)}
-    if not Result and HaveUDisksCtl then
+    if not Result and HasUDisks2 then
     begin
-      Result:= RunCommand('udisksctl', ['mount', '-b', Drive^.DeviceId], MountPath);
+      Result:= uUDisks2.Mount(Drive^.DeviceId, MountPath);
       if Result then
       begin
-        Write(MountPath);
-        Index:= Pos(' at ', MountPath);
-        if Index > 0  then
-        begin
-          Inc(Index, 4);
-          Drive^.Path:= Copy(MountPath, Index, Length(MountPath) - Index - 1);
-        end;
+        Drive^.Path:= MountPath;
+        WriteLn(Drive^.DeviceId, ' -> ', MountPath);
       end
     end;
     if not Result and uUDisks.Initialize then
@@ -626,8 +615,8 @@ begin
 {$ENDIF}
 {$IF DEFINED(LINUX)}
     Result := False;
-    if HaveUDisksCtl then
-      Result := fpSystemStatus('udisksctl unmount -b ' + Drive^.DeviceId) = 0;
+    if HasUDisks2 then
+      Result := uUDisks2.Unmount(Drive^.DeviceId);
     if not Result and uUDisks.Initialize then
     begin
       Result := uUDisks.Unmount(DeviceFileToUDisksObjectPath(Drive^.DeviceId), nil);
@@ -733,7 +722,6 @@ initialization
   DesktopEnv := GetDesktopEnvironment;
   {$IFDEF LINUX}
     CheckPMount;
-    CheckUDisksCtl;
   {$ENDIF}
 {$ENDIF}
 
