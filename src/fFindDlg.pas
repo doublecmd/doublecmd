@@ -32,7 +32,7 @@ uses
   fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles,
   uSearchTemplate, fSearchPlugin, uFileView, types, DCStrUtils,
   ActnList, uOSForms, uShellContextMenu, uExceptions, uFileSystemFileSource,
-  uFormCommands, uHotkeyManager, LCLVersion;
+  uFormCommands, uHotkeyManager, LCLVersion, uWcxModule;
 
 {$IF DEFINED(LCLGTK2) or DEFINED(LCLQT) or DEFINED(LCLQT5)}
   {$DEFINE FIX_DEFAULT}
@@ -290,6 +290,7 @@ type
     FSearchWithWDXPluginInProgress: boolean;
     FFreeOnClose: boolean;
     FAtLeastOneSearchWasDone: boolean;
+    FWcxModule: TWcxModule;
 
     property Commands: TFormCommands read FCommands implements IFormCommands;
 
@@ -1347,7 +1348,13 @@ begin
   actPagePlugins.Enabled:= not AEnabled;
   cbFollowSymLinks.Enabled:= not AEnabled;
 
-  if AEnabled then AFileSource:= (aFileView.FileSource as IWcxArchiveFileSource);
+  if not AEnabled then
+    FWcxModule:= nil
+  else begin
+    AFileSource:= (aFileView.FileSource as IWcxArchiveFileSource);
+    FWcxModule:= AFileSource.WcxModule;
+  end;
+
   cbFindText.Enabled:= (AEnabled = False) or (AFileSource.PluginCapabilities and PK_CAPS_SEARCHTEXT <> 0);
 
   if AEnabled then
@@ -1642,8 +1649,8 @@ begin
         FFindThread := TFindThread.Create(SearchTemplate, PassedSelectedFiles);
         with FFindThread do
         begin
+          Archive := FWcxModule;
           Items := FoundedStringCopy;
-          Archive:= not cbFindInArchive.Enabled;
           OnTerminate := @ThreadTerminate; // will update the buttons after search is finished
         end;
 
