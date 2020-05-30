@@ -500,6 +500,8 @@ var
   begin
     with FSearchTemplate do
     begin
+      Result:= True;
+
       if IsFindText then
       begin
         // Skip directories
@@ -566,8 +568,11 @@ begin
 
     if ArcHandle <> 0 then
     try
-      TargetPath:= GetTempName(GetTempFolder);
-      if not mbCreateDir(TargetPath) then Exit;
+      if Operation = PK_EXTRACT then
+      begin
+        TargetPath:= GetTempName(GetTempFolder);
+        if not mbCreateDir(TargetPath) then Exit;
+      end;
 
       WcxModule.WcxSetChangeVolProc(ArcHandle);
       WcxModule.WcxSetProcessDataProc(ArcHandle, @ProcessDataProcAG, @ProcessDataProcWG);
@@ -598,7 +603,7 @@ begin
         end;
         FreeAndNil(Header);
       end;
-      mbRemoveDir(TargetPath);
+      if Operation = PK_EXTRACT then mbRemoveDir(TargetPath);
     finally
       WcxModule.CloseArchive(ArcHandle);
     end;
