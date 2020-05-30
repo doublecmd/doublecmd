@@ -298,6 +298,7 @@ type
     procedure AfterSearchStopped;  //update button states after stop search(ThreadTerminate call this method)
     procedure AfterSearchFocus;     //set correct focus after search stopped
 
+    procedure FindInArchive(AFileView: TFileView);
     procedure FillFindOptions(out FindOptions: TSearchTemplateRec; SetStartPath: boolean);
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
                                         out SRec: TDsxSearchRecord);
@@ -392,7 +393,7 @@ uses
   uSearchResultFileSource, uFile, uFileProperty, uColumnsFileView,
   uFileViewNotebook, uKeyboard, uOSUtils, uArchiveFileSourceUtil,
   DCOSUtils, RegExpr, uDebug, uShowMsg, uConvEncoding, uColumns,
-  uFileFunctions, uFileSorting;
+  uFileFunctions, uFileSorting, uWcxArchiveFileSource, WcxPlugin;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of integer = (0, 1, 2, 3, 4, 5, 6);
@@ -522,6 +523,8 @@ begin
         finally
           FreeAndNil(ASelectedFiles);
         end;
+
+      FindInArchive(FileView);
 
       if Length(TemplateName) > 0 then
       begin
@@ -1325,6 +1328,41 @@ begin
   end;
 end;
 
+procedure TfrmFindDlg.FindInArchive(AFileView: TFileView);
+var
+  AEnabled: Boolean;
+  AFileSource: IWcxArchiveFileSource;
+begin
+  AEnabled:= aFileView.FileSource.IsClass(TWcxArchiveFileSource);
+
+  cbOpenedTabs.Visible:= not AEnabled;
+  cbSelectedFiles.Visible:= not AEnabled;
+  cbFindInArchive.Enabled:= not AEnabled;
+  cbReplaceText.Enabled:= not AEnabled;
+  cmbFindPathStart.Enabled:= not AEnabled;
+  btnChooseFolder.Enabled:= not AEnabled;
+  chkDuplicates.Enabled:= not AEnabled;
+  cmbSearchDepth.Enabled:=  not AEnabled;
+  tsPlugins.TabVisible:= not AEnabled;
+  actPagePlugins.Enabled:= not AEnabled;
+  cbFollowSymLinks.Enabled:= not AEnabled;
+
+  if AEnabled then AFileSource:= (aFileView.FileSource as IWcxArchiveFileSource);
+  cbFindText.Enabled:= (AEnabled = False) or (AFileSource.PluginCapabilities and PK_CAPS_SEARCHTEXT <> 0);
+
+  if AEnabled then
+  begin
+    cmbSearchDepth.ItemIndex:= 0;
+    cbFindInArchive.Checked:= True;
+    cbReplaceText.Checked:= False;
+    chkDuplicates.Checked:= False;
+    cbOpenedTabs.Checked:= False;
+    cbSelectedFiles.Checked:= False;
+    cbFollowSymLinks.Checked:= False;
+    cmbFindPathStart.Text:= aFileView.CurrentAddress;
+  end;
+end;
+
 procedure TfrmFindDlg.FoundedStringCopyAdded(Sender: TObject);
 begin
   if FoundedStringCopy.Count > 0 then
@@ -1491,15 +1529,18 @@ begin
   Self.Repaint;
   Application.ProcessMessages;
 
-  if (cmbFindPathStart.Text = '') then begin
-    cmbFindPathStart.Text:= mbGetCurrentDir;
-  end;
-  for sPath in SplitPath(cmbFindPathStart.Text) do
+  if cbFindInArchive.Enabled then
   begin
-    if not mbDirectoryExists(sPath) then
+    if (cmbFindPathStart.Text = '') then begin
+      cmbFindPathStart.Text:= mbGetCurrentDir;
+    end;
+    for sPath in SplitPath(cmbFindPathStart.Text) do
     begin
-      ShowMessage(Format(rsFindDirNoEx, [sPath]));
-      Exit;
+      if not mbDirectoryExists(sPath) then
+      begin
+        ShowMessage(Format(rsFindDirNoEx, [sPath]));
+        Exit;
+      end;
     end;
   end;
 
@@ -1602,6 +1643,7 @@ begin
         with FFindThread do
         begin
           Items := FoundedStringCopy;
+          Archive:= not cbFindInArchive.Enabled;
           OnTerminate := @ThreadTerminate; // will update the buttons after search is finished
         end;
 
@@ -2124,8 +2166,12 @@ begin
     begin
       if StartPath <> '' then
         lblSearchContents.Caption := '"' + FilesMasks + '" -> "' + StartPath + '"'
-      else
+      else begin
         lblSearchContents.Caption := '"' + FilesMasks + '"';
+      end;
+      pnlLoadSaveBottom.Enabled:= cbFindInArchive.Enabled or
+                                  ((Duplicates = False) and (ContentPlugin = False) and
+                                   (SearchPlugin = EmptyStr) and (IsReplaceText = False));
     end;
   end;
 end;
@@ -2149,19 +2195,24 @@ procedure TfrmFindDlg.LoadTemplate(const Template: TSearchTemplateRec);
 begin
   with Template do
   begin
-    if StartPath <> '' then
-      cmbFindPathStart.Text := StartPath;
+    if cbFindInArchive.Enabled then
+    begin
+      if StartPath <> '' then
+        cmbFindPathStart.Text := StartPath;
+      cbFollowSymLinks.Checked := FollowSymLinks;
+      cbFindInArchive.Checked := FindInArchives;
+      if (SearchDepth + 1 >= 0) and (SearchDepth + 1 < cmbSearchDepth.Items.Count) then
+        cmbSearchDepth.ItemIndex := SearchDepth + 1
+      else
+        cmbSearchDepth.ItemIndex := 0;
+    end;
     cmbExcludeDirectories.Text := ExcludeDirectories;
     cmbFindFileMask.Text := FilesMasks;
     cmbExcludeFiles.Text := ExcludeFiles;
-    if (SearchDepth + 1 >= 0) and (SearchDepth + 1 < cmbSearchDepth.Items.Count) then
-      cmbSearchDepth.ItemIndex := SearchDepth + 1
-    else
-      cmbSearchDepth.ItemIndex := 0;
+
     cbRegExp.Checked := RegExp;
     cbPartialNameSearch.Checked := IsPartialNameSearch;
-    cbFollowSymLinks.Checked := FollowSymLinks;
-    cbFindInArchive.Checked := FindInArchives;
+
     // attributes
     edtAttrib.Text := AttributesPattern;
     // file date/time
@@ -2194,22 +2245,29 @@ begin
     // find/replace text
     cbFindText.Checked := IsFindText;
     cmbFindText.Text := FindText;
-    cbReplaceText.Checked := IsReplaceText;
-    cmbReplaceText.Text := ReplaceText;
+    if cbFindInArchive.Enabled then
+    begin
+      cbReplaceText.Checked := IsReplaceText;
+      cmbReplaceText.Text := ReplaceText;
+    end;
     chkHex.Checked := HexValue;
     cbCaseSens.Checked := CaseSensitive;
     cbNotContainingText.Checked := NotContainingText;
     cbTextRegExp.Checked := TextRegExp;
     cmbEncoding.Text := TextEncoding;
-    // duplicates
-    chkDuplicates.Checked := Duplicates;
-    chkDuplicateName.Checked := DuplicateName;
-    chkDuplicateSize.Checked := DuplicateSize;
-    chkDuplicateHash.Checked := DuplicateHash;
-    chkDuplicateContent.Checked := DuplicateContent;
-    // plugins
-    cmbPlugin.Text := SearchPlugin;
-    frmContentPlugins.Load(Template);
+
+    if cbFindInArchive.Enabled then
+    begin
+      // duplicates
+      chkDuplicates.Checked := Duplicates;
+      chkDuplicateName.Checked := DuplicateName;
+      chkDuplicateSize.Checked := DuplicateSize;
+      chkDuplicateHash.Checked := DuplicateHash;
+      chkDuplicateContent.Checked := DuplicateContent;
+      // plugins
+      cmbPlugin.Text := SearchPlugin;
+      frmContentPlugins.Load(Template);
+    end;
 
     //Let's switch to the most pertinent tab after having load the template.
     //If we would just load and no switching, user has not a real feedback visually he loaded something.

@@ -393,7 +393,7 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      DCOSUtils, DCStrUtils, DCBasicTypes, uFileSourceCopyOperation, fSyncDirsDlg,
      uHotDir, DCXmlConfig, dmCommonData, fOptionsFrame, foptionsDirectoryHotlist,
      fMainCommandsDlg, uConnectionManager, fOptionsFavoriteTabs, fTreeViewMenu,
-     uArchiveFileSource, fOptionsHotKeys, fBenchmark, uAdministrator
+     uArchiveFileSource, fOptionsHotKeys, fBenchmark, uAdministrator, uWcxArchiveFileSource
      {$IFDEF COLUMNSFILEVIEW_VTV}
      , uColumnsFileViewVtv
      {$ELSE}
@@ -3253,8 +3253,11 @@ procedure TMainCommands.cm_Search(const Params: array of string);
 var
   TemplateName: String;
 begin
-  if not frmMain.ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+  if not (frmMain.ActiveFrame.FileSource.IsClass(TFileSystemFileSource) or
+    frmMain.ActiveFrame.FileSource.IsClass(TWcxArchiveFileSource)) then
+  begin
     msgError(rsMsgErrNotSupported)
+  end
   else begin
     if Length(Params) > 0 then
       TemplateName:= Params[0]

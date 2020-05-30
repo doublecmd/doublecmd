@@ -61,6 +61,7 @@ type
     FFilesMasksRegExp: TRegExprW;
     FExcludeFilesRegExp: TRegExprW;
     FRegExpr: TRegExpr;
+    FArchive: Boolean;
 
     FTimeSearchStart:TTime;
     FTimeSearchEnd:TTime;
@@ -97,6 +98,7 @@ type
     property FilesFound: Integer read FFilesFound;
     property CurrentDir: String read FCurrentDir;
     property TimeOfScan:TTime read GetTimeOfScan;
+    property Archive: Boolean write FArchive;
 
     property Items:TStrings write FItems;
   end;
@@ -235,7 +237,11 @@ begin
   try
     Assert(Assigned(FItems), 'Assert: FItems is empty');
     FCurrentDepth:= -1;
-    if not Assigned(FSelectedFiles) or (FSelectedFiles.Count = 0) then
+    if FArchive then
+    begin
+      FindInArchive(FSearchTemplate.StartPath);
+    end
+    else if not Assigned(FSelectedFiles) or (FSelectedFiles.Count = 0) then
     begin
       // Normal search (all directories).
       for sPath in SplitPath(FSearchTemplate.StartPath) do
