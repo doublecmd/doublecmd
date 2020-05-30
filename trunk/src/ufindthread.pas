@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, DCStringHashListUtf8, uFindFiles, uFindEx, uFindByrMr,
-  uMasks, uRegExprA, uRegExprW;
+  uMasks, uRegExprA, uRegExprW, uWcxModule;
 
 type
 
@@ -61,7 +61,7 @@ type
     FFilesMasksRegExp: TRegExprW;
     FExcludeFilesRegExp: TRegExprW;
     FRegExpr: TRegExpr;
-    FArchive: Boolean;
+    FArchive: TWcxModule;
 
     FTimeSearchStart:TTime;
     FTimeSearchEnd:TTime;
@@ -98,7 +98,7 @@ type
     property FilesFound: Integer read FFilesFound;
     property CurrentDir: String read FCurrentDir;
     property TimeOfScan:TTime read GetTimeOfScan;
-    property Archive: Boolean write FArchive;
+    property Archive: TWcxModule write FArchive;
 
     property Items:TStrings write FItems;
   end;
@@ -108,7 +108,7 @@ implementation
 uses
   LCLProc, LazUtf8, StrUtils, LConvEncoding, DCStrUtils,
   uLng, DCClassesUtf8, uFindMmap, uGlobs, uShowMsg, DCOSUtils, uOSUtils, uHash,
-  uLog, uWCXmodule, WcxPlugin, Math, uDCUtils, uConvEncoding, DCDateTimeUtils;
+  uLog, WcxPlugin, Math, uDCUtils, uConvEncoding, DCDateTimeUtils;
 
 function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
@@ -237,7 +237,7 @@ begin
   try
     Assert(Assigned(FItems), 'Assert: FItems is empty');
     FCurrentDepth:= -1;
-    if FArchive then
+    if Assigned(FArchive) then
     begin
       FindInArchive(FSearchTemplate.StartPath);
     end
@@ -539,16 +539,20 @@ var
   TargetFileName: String;
   WcxModule: TWcxModule = nil;
 begin
-  TargetPath:= ExtractOnlyFileExt(FileName);
+  if Assigned(FArchive) then
+    WcxModule:= FArchive
+  else begin
+    TargetPath:= ExtractOnlyFileExt(FileName);
 
-  for Index := 0 to gWCXPlugins.Count - 1 do
-  begin
-    if SameText(TargetPath, gWCXPlugins.Ext[Index]) and (gWCXPlugins.Enabled[Index]) then
+    for Index := 0 to gWCXPlugins.Count - 1 do
     begin
-      if FSearchTemplate.IsFindText and (gWCXPlugins.Flags[Index] and PK_CAPS_SEARCHTEXT = 0) then
-        Continue;
-      WcxModule:= gWCXPlugins.LoadModule(GetCmdDirFromEnvVar(gWCXPlugins.FileName[Index]));
-      Break;
+      if SameText(TargetPath, gWCXPlugins.Ext[Index]) and (gWCXPlugins.Enabled[Index]) then
+      begin
+        if FSearchTemplate.IsFindText and (gWCXPlugins.Flags[Index] and PK_CAPS_SEARCHTEXT = 0) then
+          Continue;
+        WcxModule:= gWCXPlugins.LoadModule(GetCmdDirFromEnvVar(gWCXPlugins.FileName[Index]));
+        Break;
+      end;
     end;
   end;
 
