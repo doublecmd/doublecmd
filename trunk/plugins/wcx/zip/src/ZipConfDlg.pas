@@ -143,7 +143,7 @@ var
 begin
   gIni:= TIniFileEx.Create(gStartupInfo.PluginConfDir + IniFileName);
   try
-    gCompressionMethodToUse:= TAbZipSupportedMethod(gIni.ReadInteger('Configuration', 'CompressionMethodToUse', Integer(AbDefCompressionMethodToUse)));
+    gCompressionMethodToUse:= TAbZipSupportedMethod(gIni.ReadInteger('Configuration', 'CompressionMethodToUse', Integer(smDeflated)));
     gDeflationOption:= TAbZipDeflationOption(gIni.ReadInteger('Configuration', 'DeflationOption', Integer(AbDefDeflationOption)));
     gTarAutoHandle:= gIni.ReadBool('Configuration', 'TarAutoHandle', True);
   finally
