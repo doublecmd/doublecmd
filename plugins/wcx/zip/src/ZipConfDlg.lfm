@@ -22,7 +22,7 @@ object DialogBox: TDialogBox
     Align = alClient
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    Caption = 'Zip plugin supports PKZIP-compatible, TAR, GZip and BZip2 data compression and archiving.'#13#10#13#10'Copyright (C) 2006-2014 Alexander Koblov (alexx2000@mail.ru)'
+    Caption = 'Zip plugin supports PKZIP-compatible, TAR, GZip and BZip2 data compression and archiving.'#13#10#13#10'Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)'
     ParentColor = False
     WordWrap = True
   end
@@ -47,7 +47,7 @@ object DialogBox: TDialogBox
       Height = 13
       Top = 6
       Width = 137
-      Caption = 'Compression method to use:'
+      Caption = 'Compression method:'
       ParentColor = False
     end
     object lblDeflationOption: TLabel
@@ -59,7 +59,7 @@ object DialogBox: TDialogBox
       Top = 37
       Width = 80
       BorderSpacing.Top = 18
-      Caption = 'Deflation option:'
+      Caption = 'Compression level:'
       ParentColor = False
     end
     object cbCompressionMethodToUse: TComboBox
@@ -79,14 +79,13 @@ object DialogBox: TDialogBox
       ItemHeight = 13
       ItemIndex = 2
       Items.Strings = (
-        'smStored'
-        'smDeflated'
-        'smBestMethod'
+        'Store'
+        'Deflate'
+        'Optimal (2x slower)'
       )
       OnChange = ComboBoxChange
       Style = csDropDownList
       TabOrder = 0
-      Text = 'smBestMethod'
     end
     object cbDeflationOption: TComboBox
       AnchorSideLeft.Control = cbCompressionMethodToUse
@@ -102,15 +101,14 @@ object DialogBox: TDialogBox
       ItemHeight = 13
       ItemIndex = 0
       Items.Strings = (
-        'doNormal'
-        'doMaximum'
-        'doFast'
-        'doSuperFast'
+        'Normal'
+        'Maximum'
+        'Fast'
+        'Fastest'
       )
       OnChange = ComboBoxChange
       Style = csDropDownList
       TabOrder = 1
-      Text = 'doNormal'
     end
     object btnOK: TButton
       AnchorSideTop.Control = btnCancel
