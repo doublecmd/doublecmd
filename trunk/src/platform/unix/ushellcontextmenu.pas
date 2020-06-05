@@ -52,6 +52,8 @@ type
     procedure DriveEjectSelect(Sender: TObject);
     procedure OpenWithOtherSelect(Sender: TObject);
     procedure OpenWithMenuItemSelect(Sender: TObject);
+  private
+    procedure LeaveDrive;
     function FillOpenWithSubMenu: Boolean;
     procedure CreateActionSubMenu(MenuWhereToAdd:TComponent; aFile:TFile; bIncludeViewEdit:boolean);
   public
@@ -63,7 +65,7 @@ type
 implementation
 
 uses
-  LCLProc, Dialogs, Graphics, uFindEx, uDCUtils, uShowMsg,
+  LCLProc, Dialogs, Graphics, uFindEx, uDCUtils, uShowMsg, uFileSystemFileSource,
   uOSUtils, uFileProcs, uShellExecute, uLng, uPixMapManager, uMyUnix,
   fMain, fFileProperties, DCOSUtils, DCStrUtils, uExts, uArchiveFileSourceUtil
   {$IF DEFINED(DARWIN)}
@@ -200,6 +202,24 @@ begin
 {$ENDIF}
 end;
 
+procedure TShellContextMenu.LeaveDrive;
+begin
+  if frmMain.ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+  begin
+    if IsInPath(FDrive.Path, frmMain.ActiveFrame.CurrentPath, True, True) then
+    begin
+      frmMain.ActiveFrame.CurrentPath:= PathDelim;
+    end;
+  end;
+  if frmMain.NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+  begin
+    if IsInPath(FDrive.Path, frmMain.NotActiveFrame.CurrentPath, True, True) then
+    begin
+      frmMain.NotActiveFrame.CurrentPath:= PathDelim;
+    end;
+  end
+end;
+
 procedure TShellContextMenu.PackHereSelect(Sender: TObject);
 begin
   frmMain.Commands.cm_PackFiles(['PackHere']);
@@ -280,11 +300,13 @@ end;
 
 procedure TShellContextMenu.DriveUnmountSelect(Sender: TObject);
 begin
+  LeaveDrive;
   UnmountDrive(@FDrive);
 end;
 
 procedure TShellContextMenu.DriveEjectSelect(Sender: TObject);
 begin
+  LeaveDrive;
   EjectDrive(@FDrive);
 end;
 
