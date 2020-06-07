@@ -809,6 +809,7 @@ var
   S: Integer = 1;
 begin
   L:= Length(Path);
+  SetLength(Result, 0);
   for F:= 1 to L - cDelta do
   begin
     if (Path[F] = ';') and (Path[F + cDelta] = cDelimiter) then
