@@ -147,6 +147,9 @@ uses
   {$IFDEF UnzipXzSupport}
   AbXz,
   {$ENDIF}
+  {$IFDEF UnzipZstdSupport}
+  AbZstd,
+  {$ENDIF}
   AbBitBkt,
   AbConst,
   AbDfBase,
@@ -973,6 +976,20 @@ begin
 end;
 {$ENDIF}
 { -------------------------------------------------------------------------- }
+{$IFDEF UnzipZstdSupport}
+procedure DoExtractZstd(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
+var
+  ZstdStream: TStream;
+begin
+  ZstdStream := TZstdDecompressionStream.Create(InStream);
+  try
+    OutStream.CopyFrom(ZstdStream, Item.UncompressedSize);
+  finally
+    ZstdStream.Free;
+  end;
+end;
+{$ENDIF}
+{ -------------------------------------------------------------------------- }
 function ExtractPrep(ZipArchive: TAbZipArchive; Item: TAbZipItem): TStream;
 var
   LFH         : TAbZipLocalFileHeader;
@@ -1112,6 +1129,11 @@ begin
       {$IFDEF UnzipXzSupport}
       cmXz: begin
         DoExtractXz(aZipArchive, aItem, aInStream, OutStream);
+      end;
+      {$ENDIF}
+      {$IFDEF UnzipZstdSupport}
+      cmZstd: begin
+        DoExtractZstd(aZipArchive, aItem, aInStream, OutStream);
       end;
       {$ENDIF}
       cmShrunk..cmImploded: begin
