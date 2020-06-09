@@ -662,8 +662,8 @@ begin
                   LocalHotDir.HotDirPathSort := AConfig.GetAttr(Anode, 'PathSort', 0);
                   LocalHotDir.HotDirTarget := AConfig.GetAttr(ANode, 'Target', '');
                   LocalHotDir.HotDirTargetSort := AConfig.GetAttr(Anode, 'TargetSort', 0);
-                  if LocalHotDir.HotDirPath<>'' then LocalHotDir.HotDirPath:=ExcludeBackPathDelimiter(LocalHotDir.HotDirPath);
-                  if LocalHotDir.HotDirTarget<>'' then LocalHotDir.HotDirTarget:=ExcludeBackPathDelimiter(LocalHotDir.HotDirTarget);
+                  if Pos('://', LocalHotDir.HotDirPath) = 0 then LocalHotDir.HotDirPath:=ExcludeBackPathDelimiter(LocalHotDir.HotDirPath);
+                  if Pos('://', LocalHotDir.HotDirTarget) = 0 then LocalHotDir.HotDirTarget:=ExcludeBackPathDelimiter(LocalHotDir.HotDirTarget);
                   LocalHotDir.Dispatcher := hd_CHANGEPATH;
                 end
                 else
