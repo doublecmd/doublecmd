@@ -1,0 +1,34 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: tdialogbox.caption
+msgid "Zip plugin configuration"
+msgstr ""
+
+#: tdialogbox.lblAbout.caption
+msgid "Zip plugin supports PKZIP-compatible, TAR, GZip and BZip2 data compression and archiving.\n\n'Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)"
+msgstr ""
+
+#: tdialogbox.gbCompression.caption
+msgid "Compression"
+msgstr ""
+
+#: tdialogbox.gbCompression.lblCompressionMethodToUse.caption
+msgid "Compression method:"
+msgstr ""
+
+#: tdialogbox.gbCompression.lblDeflationOption.caption
+msgid "Compression level:"
+msgstr ""
+
+#: tdialogbox.chkTarAutoHandle.caption
+msgid "Open *.tar.xyz archives at one step (slowly with big archives)"
+msgstr ""
+
+#: tdialogbox.btnCancel.caption
+msgid "Cancel"
+msgstr ""
+
+#: tdialogbox.btnOK.caption
+msgid "OK"
+msgstr ""
