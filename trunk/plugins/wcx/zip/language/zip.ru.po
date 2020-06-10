@@ -1,0 +1,34 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: tdialogbox.caption
+msgid "Zip plugin configuration"
+msgstr "Настройки Zip-плагина"
+
+#: tdialogbox.lblAbout.caption
+msgid "Zip plugin supports PKZIP-compatible, TAR, GZip and BZip2 data compression and archiving.\n\n'Copyright (C) 2006-2020 Alexander Koblov (alexx2000@mail.ru)"
+msgstr "Плагин Zip поддерживает PKZIP-совместимое, TAR, GZip или BZip2 сжатие и архивирование данных.\n\nCopyright (C) 2006-2020 Александр Коблов (alexx2000@mail.ru)"
+
+#: tdialogbox.gbCompression.caption
+msgid "Compression"
+msgstr "Cжатие"
+
+#: tdialogbox.gbCompression.lblCompressionMethodToUse.caption
+msgid "Compression method:"
+msgstr "Метод сжатия:"
+
+#: tdialogbox.gbCompression.lblDeflationOption.caption
+msgid "Compression level:"
+msgstr "Уровень сжатия:"
+
+#: tdialogbox.chkTarAutoHandle.caption
+msgid "Open *.tar.xyz archives at one step (slowly with big archives)"
+msgstr "Открывать архивы *.tar.xyz за один шаг (медленно с большими архивами)"
+
+#: tdialogbox.btnCancel.caption
+msgid "Cancel"
+msgstr "Отмена"
+
+#: tdialogbox.btnOK.caption
+msgid "OK"
+msgstr "OK"
