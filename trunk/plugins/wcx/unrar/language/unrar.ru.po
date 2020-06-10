@@ -1,0 +1,42 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: tdialogbox.caption
+msgid "Options"
+msgstr "Настройки"
+
+#: tdialogbox.lblpath.caption
+msgid "Path to Win&RAR executable"
+msgstr "Путь к исполняемому файлу Win&RAR"
+
+#: tdialogbox.gboptions.caption
+msgid "Archiving options"
+msgstr "Параметры архивации"
+
+#: tdialogbox.gboptions.chkrecovery.caption
+msgid "Add r&ecovery record"
+msgstr "Добавить запись &восстановления"
+
+#: tdialogbox.gboptions.chkencrypt.caption
+msgid "Encrypt file &names"
+msgstr "&Шифровать имена файлов"
+
+#: tdialogbox.gboptions.chksolid.caption
+msgid "Create &solid archive"
+msgstr "Создать &непрерывный архив"
+
+#: tdialogbox.lblmethod.caption
+msgid "&Compression method"
+msgstr "&Метод сжатия"
+
+#: tdialogbox.brncancel.caption
+msgid "Cancel"
+msgstr "Отмена"
+
+#: tdialogbox.btnsave.caption
+msgid "OK"
+msgstr "OK"
+
+#: tdialogbox.lblargs.caption
+msgid "Additional parameters"
+msgstr "Дополнительные параметры"
