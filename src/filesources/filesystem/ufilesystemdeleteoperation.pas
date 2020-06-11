@@ -118,7 +118,7 @@ begin
     FDescription.Clear;
 
 {$IF DEFINED(MSWINDOWS)}
-  if (Elevate = dupIgnore) then Elevate:= dupError;
+  if (ElevateAction = dupIgnore) then ElevateAction:= dupError;
 {$ENDIF}
 end;
 
