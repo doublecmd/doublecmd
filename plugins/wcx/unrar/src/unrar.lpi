@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -13,8 +13,8 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="1"/>
-      <StringTable FileDescription="UnRAR WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2012  Koblov Alexander" ProductVersion=""/>
+      <MinorVersionNr Value="2"/>
+      <StringTable FileDescription="UnRAR WCX plugin for Double Commander" LegalCopyright="Copyright (C) 2006-2020 Alexander Koblov"/>
     </VersionInfo>
     <BuildModes Count="2">
       <Item1 Name="Release" Default="True"/>
@@ -23,7 +23,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="..\lib\unrar.wcx" ApplyConventions="False"/>
+            <Filename Value="..\unrar.wcx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>
@@ -79,9 +79,6 @@ end;"/>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
-      <IgnoreBinaries Value="False"/>
-      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
-      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
     </PublishOptions>
     <RunParams>
       <local>
@@ -106,7 +103,7 @@ end;"/>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\lib\unrar.wcx" ApplyConventions="False"/>
+      <Filename Value="..\unrar.wcx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>
