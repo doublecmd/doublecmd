@@ -25,6 +25,7 @@ find plugins -iname '*.res'  -delete
 find plugins -iname '*.a'  -delete
 rm -f src/doublecmd.res doublecmd
 rm -f tools/extractdwrflnfo
+rm -f plugins/wcx/unrar/lib/rarconfdlg.lfm
 rm -f plugins/wcx/zip/lib/ZipConfDlg.lfm
 rm -f plugins/wcx/zip/lib/abresstring.rs?
 rm -f plugins/wfx/ftp/lib/FtpConfDlg.lfm
