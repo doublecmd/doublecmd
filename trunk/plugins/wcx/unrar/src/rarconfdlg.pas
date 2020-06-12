@@ -17,7 +17,11 @@ var
   Recovery: Boolean;
   Encrypt: Boolean;
   Solid: Boolean;
+{$IF DEFINED(MSWINDOWS)}
   WinRar: String = '%ProgramFiles%\WinRAR\WinRAR.exe';
+{$ELSE}
+  WinRar: String = '/usr/bin/rar';
+{$ENDIF}
 
 implementation
 
