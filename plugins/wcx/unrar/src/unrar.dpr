@@ -1,11 +1,7 @@
 library unrar;
 
 uses
-  FPCAdds, SysUtils, DynLibs, UnRARFunc
-  {$IF DEFINED(MSWINDOWS)}
-  , RarFunc
-  {$ENDIF}
-  ;
+  FPCAdds, SysUtils, DynLibs, UnRARFunc, RarFunc;
 
 exports
   { Mandatory }
@@ -23,12 +19,10 @@ exports
   SetProcessDataProcW,
   { Optional }
   GetPackerCaps,
-{$IF DEFINED(MSWINDOWS)}
   PackFilesW,
   DeleteFilesW,
   ConfigurePacker,
   PackSetDefaultParams,
-{$ENDIF}
   { Extension API }
   ExtensionInitialize;
 
