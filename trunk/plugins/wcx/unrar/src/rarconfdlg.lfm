@@ -135,6 +135,7 @@ object DialogBox: TDialogBox
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 10
     Caption = 'Cancel'
+    Cancel = True
     ModalResult = 2
     OnClick = ButtonClick
     TabOrder = 4
