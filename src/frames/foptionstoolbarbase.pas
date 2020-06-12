@@ -253,6 +253,7 @@ type
     procedure PressButtonDown(Button: TKASToolButton);
     procedure UpdateIcon(Icon: String);
     procedure DisplayAppropriateControls(EnableNormal, EnableCommand, EnableProgram: boolean);
+    class function GetNode: String; virtual;
   protected
     procedure Init; override;
   public
@@ -528,6 +529,11 @@ begin
   lblStyle.Visible := not (EnableNormal or EnableCommand or EnableProgram);
   rbSeparator.Visible := lblStyle.Visible;
   rbSpace.Visible := lblStyle.Visible;
+end;
+
+class function TfrmOptionsToolbarBase.GetNode: String;
+begin
+  Result:= 'Toolbars/MainToolbar';
 end;
 
 procedure TfrmOptionsToolbarBase.LoadToolbar(ToolBar: TKASToolBar; Config: TXmlConfig; RootNode: TXmlNode; ConfigurationLoadType: TTypeOfConfigurationLoad);
@@ -1531,7 +1537,7 @@ begin
     // 2. Create our XML structure to hold all our tree of sub menu and commands.
     AToolbarConfig := TXmlConfig.Create;
     try
-      ToolBarNode := AToolbarConfig.FindNode(AToolbarConfig.RootNode, 'Toolbars/MainToolbar', True);
+      ToolBarNode := AToolbarConfig.FindNode(AToolbarConfig.RootNode, GetNode, True);
       AToolbarConfig.ClearNode(ToolBarNode);
       RowNode := AToolbarConfig.AddNode(ToolBarNode, 'Row');
 
@@ -1571,7 +1577,7 @@ begin
 
       // 3. Now, we import our structure and at once, bang! we'll have added our bar and sub ones.
       ATopToolBar := GetTopToolbar;
-      ToolBarNode := AToolbarConfig.FindNode(AToolbarConfig.RootNode, 'Toolbars/MainToolbar', False);
+      ToolBarNode := AToolbarConfig.FindNode(AToolbarConfig.RootNode, GetNode, False);
       if ToolBarNode <> nil then
       begin
         LoadToolbar(ATopToolBar, AToolbarConfig, ToolBarNode, tocl_AddToCurrentToolbarContent);
@@ -1673,7 +1679,7 @@ begin
         begin
           ToolbarConfig := TXmlConfig.Create(SaveDialog.Filename);
           try
-            ToolBarNode := ToolbarConfig.FindNode(ToolbarConfig.RootNode, 'Toolbars/MainToolbar', True);
+            ToolBarNode := ToolbarConfig.FindNode(ToolbarConfig.RootNode, GetNode, True);
             ToolbarConfig.ClearNode(ToolBarNode);
             ToolBar.SaveConfiguration(ToolbarConfig, ToolBarNode);
             InnerResult := ToolbarConfig.Save;
@@ -1836,7 +1842,7 @@ begin
         try
           ConvertTCToolbarToDCXmlConfig(OpenDialog.FileName, ToolbarConfig);
 
-          ToolBarNode := ToolbarConfig.FindNode(ToolbarConfig.RootNode, 'Toolbars/MainToolbar', False);
+          ToolBarNode := ToolbarConfig.FindNode(ToolbarConfig.RootNode, GetNode, False);
           if ToolBarNode <> nil then
           begin
             FCurrentButton := nil;
@@ -1858,7 +1864,7 @@ begin
       begin
         ToolbarConfig := TXmlConfig.Create(OpenDialog.FileName, True);
         try
-          ToolBarNode := ToolbarConfig.FindNode(ToolbarConfig.RootNode, 'Toolbars/MainToolbar', False);
+          ToolBarNode := ToolbarConfig.FindNode(ToolbarConfig.RootNode, GetNode, False);
           if ToolBarNode <> nil then
           begin
             FCurrentButton := nil;

@@ -75,7 +75,7 @@ begin
   CloseToolbarsBelowCurrentButton;
 
   ToolBar := GetTopToolbar;
-  ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', False);
+  ToolBarNode := gConfig.FindNode(gConfig.RootNode, GetNode, False);
   LoadToolbar(ToolBar, gConfig, ToolBarNode, tocl_FlushCurrentToolbarContent);
   if ToolBar.ButtonCount > 0 then
     PressButtonDown(ToolBar.Buttons[0]);
@@ -100,7 +100,7 @@ begin
   ToolBar := GetTopToolbar;
   if Assigned(ToolBar) then
   begin
-    ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MainToolbar', True);
+    ToolBarNode := gConfig.FindNode(gConfig.RootNode, GetNode, True);
     gConfig.ClearNode(ToolBarNode);
     Toolbar.SaveConfiguration(gConfig, ToolBarNode);
   end;

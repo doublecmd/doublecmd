@@ -17,6 +17,7 @@ type
 
   protected
     procedure Load; override;
+    class function GetNode: String; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
     constructor Create(TheOwner: TComponent); override;
@@ -50,13 +51,18 @@ begin
   CloseToolbarsBelowCurrentButton;
 
   ToolBar := GetTopToolbar;
-  ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MiddleToolbar', False);
+  ToolBarNode := gConfig.FindNode(gConfig.RootNode, GetNode, False);
   LoadToolbar(ToolBar, gConfig, ToolBarNode, tocl_FlushCurrentToolbarContent);
   if ToolBar.ButtonCount > 0 then
     PressButtonDown(ToolBar.Buttons[0]);
   gSpecialDirList.PopulateMenuWithSpecialDir(pmPathHelper,mp_PATHHELPER,nil);
 
   FUpdateHotKey := False;
+end;
+
+class function TfrmOptionsToolbarMiddle.GetNode: String;
+begin
+  Result:= 'Toolbars/MiddleToolbar';
 end;
 
 function TfrmOptionsToolbarMiddle.Save: TOptionsEditorSaveFlags;
@@ -75,7 +81,7 @@ begin
   ToolBar := GetTopToolbar;
   if Assigned(ToolBar) then
   begin
-    ToolBarNode := gConfig.FindNode(gConfig.RootNode, 'Toolbars/MiddleToolbar', True);
+    ToolBarNode := gConfig.FindNode(gConfig.RootNode, GetNode, True);
     gConfig.ClearNode(ToolBarNode);
     Toolbar.SaveConfiguration(gConfig, ToolBarNode);
   end;
