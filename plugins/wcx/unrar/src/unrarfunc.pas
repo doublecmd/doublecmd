@@ -200,6 +200,7 @@ procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 
 var
   gStartupInfo: TExtensionStartupInfo;
+  ProcessDataProcW : TProcessDataProcW = nil;
 
 implementation
 
@@ -222,7 +223,6 @@ var
   ChangeVolProc : TChangeVolProc = nil;
   ChangeVolProcW : TChangeVolProcW = nil;
   ProcessDataProc : TProcessDataProc = nil;
-  ProcessDataProcW : TProcessDataProcW = nil;
 
   // These variables store currently processed file name.
   // They cannot be dynamic strings, because if they are created from the
