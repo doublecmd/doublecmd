@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Wcx plugin for packing RAR archives
 
-   Copyright (C) 2015 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2015-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -68,8 +68,9 @@ end;
 
 function ExecuteRar(Process: TProcessUtf8; FileList : UnicodeString): Integer;
 var
- FileName: String;
- TempFile: THandle;
+  TempFile: THandle;
+  S, FileName: String;
+  Percent: Integer = 0;
 begin
   FileName:= GetTempFileName;
   TempFile:= FileCreate(FileName);
@@ -81,6 +82,38 @@ begin
     Process.Parameters.Add('@' + SysToUTF8(FileName));
 
     Process.Execute;
+
+    if poUsePipes in Process.Options then
+    begin
+      S:= EmptyStr;
+      SetLength(FileName, MAX_PATH);
+      while Process.Running do
+      begin
+        if Process.Output.NumBytesAvailable > 0 then
+        begin
+          SetLength(FileName, Process.Output.Read(FileName[1], Length(FileName)));
+          S+= FileName;
+          Result:= Pos('%', S);
+          if Result > 0 then
+          begin
+            TempFile:= Result - 1;
+            while S[TempFile] in ['0'..'9'] do
+              Dec(TempFile);
+            if (Result - TempFile) > 1 then
+            begin
+              TryStrToInt(Copy(S, TempFile, Result - TempFile), Percent);
+            end;
+            S:= EmptyStr;
+          end;
+          if ProcessDataProcW(nil, -(Percent + 1000)) = 0 then
+          begin
+            Process.Terminate(255);
+            Exit(E_EABORTED);
+          end;
+        end;
+      end;
+    end;
+
     Process.WaitOnExit;
 
     Result:= RarToWcx(Process.ExitStatus);
@@ -157,6 +190,11 @@ begin
   Process := TProcessUtf8.Create(nil);
   try
     Process.Executable:= mbExpandEnvironmentStrings(WinRar);
+
+    if FileIsConsoleExe(Process.Executable) then begin
+      Process.Options:= [poUsePipes, poNoConsole, poNewProcessGroup];
+    end;
+
     if (Flags and PK_PACK_MOVE_FILES <> 0) then
       Process.Parameters.Add('m')
     else begin
