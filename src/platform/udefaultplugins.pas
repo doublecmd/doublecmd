@@ -276,16 +276,13 @@ begin
     gWCXPlugins.Flags[I]:= 4;
 
   I:= gWCXPlugins.IndexOfName('rar');
-  {$IF DEFINED(MSWINDOWS)}
   if I < 0 then
     gWCXPlugins.Add('rar', 607, Folder + 'unrar' + PathDelim + 'unrar.wcx')
+  {$IF DEFINED(MSWINDOWS)}
   else
     gWCXPlugins.Flags[I]:= 607;
   {$ELSE}
-  if I < 0 then
-    gWCXPlugins.Add('rar', 68, Folder + 'unrar' + PathDelim + 'unrar.wcx')
-  else
-    gWCXPlugins.Flags[I]:= 68;
+  ;
   {$ENDIF}
 
   // Wdx plugins
