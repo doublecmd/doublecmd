@@ -89,8 +89,9 @@ begin
       SetLength(FileName, MAX_PATH);
       while Process.Running do
       begin
-        if Process.Output.NumBytesAvailable > 0 then
-        begin
+        if Process.Output.NumBytesAvailable = 0 then
+          Sleep(100)
+        else begin
           SetLength(FileName, Process.Output.Read(FileName[1], Length(FileName)));
           S+= FileName;
           Result:= Pos('%', S);
@@ -105,11 +106,11 @@ begin
             end;
             S:= EmptyStr;
           end;
-          if ProcessDataProcW(nil, -(Percent + 1000)) = 0 then
-          begin
-            Process.Terminate(255);
-            Exit(E_EABORTED);
-          end;
+        end;
+        if ProcessDataProcW(nil, -(Percent + 1000)) = 0 then
+        begin
+          Process.Terminate(255);
+          Exit(E_EABORTED);
         end;
       end;
     end;
