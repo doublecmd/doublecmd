@@ -128,24 +128,33 @@ procedure DoDriveAdded(const ADrive: PDrive);
 var
   i: Integer;
 begin
-  for i := 0 to FObservers.Count - 1 do
-    FObservers[i](dweDriveAdded, ADrive);
+  if Assigned(FObservers) then
+  begin
+    for i := 0 to FObservers.Count - 1 do
+      FObservers[i](dweDriveAdded, ADrive);
+  end;
 end;
 
 procedure DoDriveRemoved(const ADrive: PDrive);
 var
   i: Integer;
 begin
-  for i := 0 to FObservers.Count - 1 do
-    FObservers[i](dweDriveRemoved, ADrive);
+  if Assigned(FObservers) then
+  begin
+    for i := 0 to FObservers.Count - 1 do
+      FObservers[i](dweDriveRemoved, ADrive);
+  end;
 end;
 
 procedure DoDriveChanged(const ADrive: PDrive);
 var
   i: Integer;
 begin
-  for i := 0 to FObservers.Count - 1 do
-    FObservers[i](dweDriveChanged, ADrive);
+  if Assigned(FObservers) then
+  begin
+    for i := 0 to FObservers.Count - 1 do
+      FObservers[i](dweDriveChanged, ADrive);
+  end;
 end;
 
 {$IFDEF MSWINDOWS}
