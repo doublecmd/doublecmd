@@ -105,6 +105,12 @@ function FPS_ISLNK(iAttr: TFileAttrs) : Boolean;
 }
 function FileIsExeLib(const sFileName : String) : Boolean;
 {en
+   Is file console executable
+   @param(sFileName File name)
+   @returns(@true if file is console executable, @false otherwise)
+}
+function FileIsConsoleExe(const FileName: String): Boolean;
+{en
    Copies a file attributes (attributes, date/time, owner & group, permissions).
    @param(sSrc String expression that specifies the name of the file to be copied)
    @param(sDst String expression that specifies the target file name)
@@ -397,6 +403,38 @@ begin
     Result := False;
   end;
 end;
+
+function FileIsConsoleExe(const FileName: String): Boolean;
+{$IF DEFINED(UNIX)}
+begin
+  Result:= True;
+end;
+{$ELSE}
+var
+  fsFileStream: TFileStreamEx;
+begin
+  Result:= False;
+  try
+    fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
+    try
+      if fsFileStream.ReadWord = IMAGE_DOS_SIGNATURE then
+      begin
+        fsFileStream.Seek(60, soBeginning);
+        fsFileStream.Seek(fsFileStream.ReadDWord, soBeginning);
+        if fsFileStream.ReadDWord = IMAGE_NT_SIGNATURE then
+        begin
+          fsFileStream.Seek(88, soCurrent);
+          Result:= (fsFileStream.ReadWord = IMAGE_SUBSYSTEM_WINDOWS_CUI);
+        end;
+      end;
+    finally
+      fsFileStream.Free;
+    end;
+  except
+    Result:= False;
+  end;
+end;
+{$ENDIF}
 
 function FileIsReadOnly(iAttr: TFileAttrs): Boolean;
 {$IFDEF MSWINDOWS}
