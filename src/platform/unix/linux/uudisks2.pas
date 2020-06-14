@@ -41,7 +41,7 @@ var
 implementation
 
 uses
-  Classes, DynLibs, DCOSUtils, uGio2, uGObject2, uGlib2;
+  DynLibs, DCOSUtils, uGio2, uGObject2, uGlib2;
 
 type
   PUDisksBlock = Pointer;
