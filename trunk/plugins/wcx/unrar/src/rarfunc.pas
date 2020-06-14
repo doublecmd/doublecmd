@@ -101,7 +101,7 @@ begin
               Dec(TempFile);
             if (Result - TempFile) > 1 then
             begin
-              TryStrToInt(Copy(S, TempFile, Result - TempFile), Percent);
+              Percent:= StrToIntDef(Copy(S, TempFile + 1, Result - TempFile - 1), Percent);
             end;
             S:= EmptyStr;
           end;
