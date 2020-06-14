@@ -634,7 +634,7 @@ begin
   FileName:= Path + ExtractFileNameOnly(FileName) + Language + '.po';
   if mbFileExists(FileName) then FTranslator:= TTranslator.Create(FileName);
 
-  inherited Create(nil);
+  inherited Create(Screen.ActiveForm);
 end;
 
 destructor TDialogBox.Destroy;
