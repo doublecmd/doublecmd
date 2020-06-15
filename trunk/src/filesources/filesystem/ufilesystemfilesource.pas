@@ -39,6 +39,8 @@ type
     function GetCurrentWorkingDirectory: String; override;
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
+    procedure DoReload(const PathsToReload: TPathsArray); override;
+
   public
     constructor Create; override;
     destructor Destroy; override;
@@ -754,6 +756,11 @@ begin
     Result := False
   else
     Result := mbSetCurrentDir(NewDir);
+end;
+
+procedure TFileSystemFileSource.DoReload(const PathsToReload: TPathsArray);
+begin
+  FDescr.Reset;
 end;
 
 function TFileSystemFileSource.IsPathAtRoot(Path: String): Boolean;
