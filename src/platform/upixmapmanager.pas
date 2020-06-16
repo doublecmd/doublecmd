@@ -1956,7 +1956,7 @@ begin
       {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
       if IconsMode = sim_all_and_exe then
         begin
-          if DirectAccess and (Ext = 'desktop') then
+          if DirectAccess and ((Ext = 'desktop') or (Ext = 'directory')) then
             begin
               if LoadIcon then
                 Result := GetIconByDesktopFile(Path + Name, FiDefaultIconID)
