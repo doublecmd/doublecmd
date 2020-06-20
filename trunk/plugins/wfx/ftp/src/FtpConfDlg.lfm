@@ -329,7 +329,7 @@ object DialogBox: TDialogBox
           'CP936'
           'CP949'
           'CP950'
-          'KOI-8'
+          'KOI8-R'
           'ISO-8859-1'
           'ISO-8859-2'
           'ISO-8859-15'
