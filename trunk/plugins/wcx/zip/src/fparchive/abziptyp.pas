@@ -1484,7 +1484,7 @@ begin
   FItemInfo.LoadFromStream( Stream );
 
   { decode filename (ANSI/OEM/UTF-8) }
-  if FItemInfo.IsUTF8 then
+  if FItemInfo.IsUTF8 and (FindInvalidUTF8Character(PAnsiChar(FItemInfo.FileName), Length(FItemInfo.FileName)) < 0) then
     FFileName := FItemInfo.FileName
   else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
      (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
