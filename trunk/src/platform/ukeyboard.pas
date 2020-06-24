@@ -709,15 +709,10 @@ begin
 
 {$IF DEFINED(X11) and (DEFINED(LCLQT) or DEFINED(LCLQT5))}
   // Overwrite behaviour for some keys in QT.
-  KeySym := 0;
   case Key of
     QtKey_Bar:         KeySym := XK_bar;                 // VK_F13
     QtKey_Underscore:  KeySym := XK_underscore;          // VK_SLEEP
-
-    // '+' (XK_plus) and 'numpad +' (XK_KP_Add) are both reported as VK_ADD (QtKey_Plus)
-    VK_ADD:            KeySym := XK_KP_Add;
-    // '*' (XK_multiply) and 'numpad *' (XK_KP_Multiply) are both reported as VK_MULTIPLY (QtKey_Asterisk)
-    VK_MULTIPLY:       KeySym := XK_KP_Multiply;
+    else               KeySym := 0;
   end;
 
   if KeySym <> 0 then
