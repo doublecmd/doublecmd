@@ -712,6 +712,7 @@ begin
   case Key of
     QtKey_Bar:         KeySym := XK_bar;                 // VK_F13
     QtKey_Underscore:  KeySym := XK_underscore;          // VK_SLEEP
+    QtKey_QuoteLeft:   KeySym := XK_quoteleft;
     else               KeySym := 0;
   end;
 
