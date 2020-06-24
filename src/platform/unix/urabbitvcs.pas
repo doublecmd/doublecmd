@@ -70,7 +70,7 @@ implementation
 uses
   dbus, fpjson, jsonparser, jsonscanner, unix, baseunix,
   uGlobs, uGlobsPaths, uMyUnix, uPython
-{$IF DEFINED(LCLQT5)}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   , uGObject2
 {$ENDIF}
   ;
@@ -365,7 +365,7 @@ var
   pyVersion: PPyObject;
   AVersion: TStringArray;
   Major, Minor, Micro: Integer;
-{$IF DEFINED(LCLQT5)}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
   GtkWidget: TGType;
   GtkClass, Gtk3: Pointer;
 {$ENDIF}
@@ -387,7 +387,7 @@ begin
         Micro:= StrToIntDef(AVersion[2], 0);
         // RabbitVCS migrated to GTK3 from version 0.17.1
         RabbitGtk3:= (Major > 0) or (Minor > 17) or ((Minor = 17) and (Micro > 0));
-{$IF DEFINED(LCLQT5)}
+{$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
         // Check GTK platform theme plugin
         GtkWidget:= g_type_from_name('GtkWidget');
         Result:= (GtkWidget = 0);
@@ -396,7 +396,7 @@ begin
           GtkClass:= g_type_class_ref(GtkWidget);
           // Property 'expand' since GTK 3.0
           Gtk3:= g_object_class_find_property(GtkClass, 'expand');
-          // RabbitVCS GTK version should be same as Qt5 platform theme plugin GTK version
+          // RabbitVCS GTK version should be same as Qt platform theme plugin GTK version
           Result:= (RabbitGtk3 = Assigned(Gtk3));
         end;
 {$ELSEIF DEFINED(LCLGTK2)}
