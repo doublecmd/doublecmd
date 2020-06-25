@@ -4,7 +4,7 @@ Forwarded: not-needed
 Last-Update: 2015-02-15
 --- a/src/fmain.pas
 +++ b/src/fmain.pas
-@@ -913,13 +913,7 @@
+@@ -964,13 +964,7 @@
      if Length(UniqueInstance.ServernameByUser) > 0 then
        ServernameString := ' [' + UniqueInstance.ServernameByUser + ']';
  

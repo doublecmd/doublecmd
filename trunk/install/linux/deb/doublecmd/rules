@@ -18,8 +18,8 @@ override_dh_install:
 	./install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-common
 	./clean.sh
 
-	# Build Qt4 version
-	./build.sh beta qt
+	# Build Qt5 version
+	./build.sh beta qt5
 	./install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-qt-temp
 	./clean.sh
 
@@ -29,7 +29,7 @@ override_dh_install:
 	mv $(CURDIR)/debian/doublecmd-common/usr/lib/doublecmd/plugins/wlx $(CURDIR)/debian/doublecmd-gtk/usr/lib/doublecmd/plugins/
 	mv $(CURDIR)/debian/doublecmd-common/usr/lib/doublecmd/doublecmd.zdli $(CURDIR)/debian/doublecmd-gtk/usr/lib/doublecmd/
 
-	# Separate Qt4-specific files
+	# Separate Qt5-specific files
 	mkdir -p $(CURDIR)/debian/doublecmd-qt/usr/lib/doublecmd/plugins
 	mv $(CURDIR)/debian/doublecmd-qt-temp/usr/lib/doublecmd/doublecmd $(CURDIR)/debian/doublecmd-qt/usr/lib/doublecmd/
 	mv $(CURDIR)/debian/doublecmd-qt-temp/usr/lib/doublecmd/plugins/wlx $(CURDIR)/debian/doublecmd-qt/usr/lib/doublecmd/plugins/
@@ -43,6 +43,15 @@ override_dh_install:
 	# Clean up common files
 	rm -rf $(CURDIR)/debian/doublecmd-common/usr/share/doublecmd/doc
 	find $(CURDIR)/debian/doublecmd-common/usr/share/ -type f | xargs chmod a-x ;
+
+	# Install icons for AppStream
+	rm -rf $(CURDIR)/debian/doublecmd-common/usr/share/pixmaps/
+	rm -f $(CURDIR)/debian/doublecmd-common/usr/share/icons/hicolor/scalable/apps/doublecmd.svg
+	cp $(CURDIR)/debian/doublecmd-common/usr/share/doublecmd/pixmaps/mainicon/alt/dcfinal.svg $(CURDIR)/debian/doublecmd-common/usr/share/icons/hicolor/scalable/apps/doublecmd.svg
+	mkdir -p $(CURDIR)/debian/doublecmd-common/usr/share/icons/hicolor/128x128/apps
+	cp $(CURDIR)/debian/doublecmd-common/usr/share/doublecmd/pixmaps/mainicon/alt/128px-dcfinal.png $(CURDIR)/debian/doublecmd-common/usr/share/icons/hicolor/128x128/apps/doublecmd.png
+	mkdir -p $(CURDIR)/debian/doublecmd-common/usr/share/icons/hicolor/256x256/apps
+	cp $(CURDIR)/debian/doublecmd-common/usr/share/doublecmd/pixmaps/mainicon/alt/256px-dcfinal.png $(CURDIR)/debian/doublecmd-common/usr/share/icons/hicolor/256x256/apps/doublecmd.png
 
 	dh_install
 

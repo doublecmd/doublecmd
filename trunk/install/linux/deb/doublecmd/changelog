@@ -1,3 +1,219 @@
+doublecmd (0.9.8-1) unstable; urgency=medium
+
+  * New upstream release
+  * Refresh debian/patches
+  * Bump Standards-Version to 4.5.0, no changes
+
+ -- Graham Inggs <ginggs@debian.org>  Sun, 09 Feb 2020 09:45:52 +0000
+
+doublecmd (0.9.7-1) unstable; urgency=medium
+
+  * New upstream release
+  * Update debian/copyright
+  * Bump Standards-Version to 4.4.1, no changes
+
+ -- Graham Inggs <ginggs@debian.org>  Sun, 12 Jan 2020 08:24:36 +0000
+
+doublecmd (0.9.6-1) unstable; urgency=medium
+
+  * New upstream release
+  * Enable dh_dwz now that #933541 is fixed
+
+ -- Graham Inggs <ginggs@debian.org>  Thu, 05 Sep 2019 16:58:32 +0000
+
+doublecmd (0.9.5-1) unstable; urgency=medium
+
+  * New upstream release
+  * Bump Standards-Version to 4.4.0, no changes
+
+ -- Graham Inggs <ginggs@debian.org>  Wed, 10 Jul 2019 11:05:40 +0000
+
+doublecmd (0.9.3-2) unstable; urgency=medium
+
+  * Switch to debhelper 12 and disable dh_dwz
+  * Set Rules-Requires-Root: no
+  * Upload to unstable
+
+ -- Graham Inggs <ginggs@debian.org>  Thu, 04 Jul 2019 23:03:40 +0000
+
+doublecmd (0.9.3-1) experimental; urgency=medium
+
+  * New upstream release
+    - Fix insecure use of /tmp (Closes: #926223)
+  * Refresh patches
+  * Add ${shlibs:Depends} to dependencies of doublecmd-plugins
+  * Drop unused Lintian overrides
+
+ -- Graham Inggs <ginggs@debian.org>  Mon, 20 May 2019 12:03:30 +0000
+
+doublecmd (0.9.2-1) experimental; urgency=medium
+
+  * New upstream release
+  * Drop libunrar5.patch, no longer needed
+
+ -- Graham Inggs <ginggs@debian.org>  Tue, 02 Apr 2019 09:22:22 +0000
+
+doublecmd (0.9.1-1) unstable; urgency=medium
+
+  * New upstream release
+  * Update debian/copyright
+  * Suggest libunrar5 instead of libunrar0 since #720051 is fixed
+  * Suggest libffmpegthumbnailer4v5 instead of libffmpegthumbnailer4
+  * Drop obsolete Breaks/Replaces on doublecmd-*-dbg packages
+
+ -- Graham Inggs <ginggs@debian.org>  Sun, 24 Feb 2019 07:03:41 +0000
+
+doublecmd (0.9.0-1) unstable; urgency=medium
+
+  * New upstream release
+  * Drop skip-qt5workaround-on-arm.patch, refresh remaining
+  * Install icons for AppStream
+  * Bump Standards-Version to 4.3.0, no changes
+
+ -- Graham Inggs <ginggs@debian.org>  Wed, 13 Feb 2019 14:12:07 +0000
+
+doublecmd (0.8.4-2) unstable; urgency=medium
+
+  * Skip Qt5 workaround on ARM where it causes link failure
+
+ -- Graham Inggs <ginggs@debian.org>  Sat, 29 Sep 2018 11:00:04 +0000
+
+doublecmd (0.8.4-1) unstable; urgency=medium
+
+  * New upstream release
+  * Refresh disable-splash.patch
+  * Bump Standards-Version to 4.2.1, no changes
+  * Update upstream homepage
+
+ -- Graham Inggs <ginggs@debian.org>  Tue, 25 Sep 2018 18:09:37 +0000
+
+doublecmd (0.8.3-1) unstable; urgency=medium
+
+  * New upstream release
+  * Drop lazarus1.8.2.patch included upstream
+  * Bump Standards-Version to 4.1.4, no changes
+
+ -- Graham Inggs <ginggs@debian.org>  Thu, 07 Jun 2018 15:29:46 +0000
+
+doublecmd (0.8.2-1) unstable; urgency=medium
+
+  * New upstream release
+  * Update Vcs-* URIs for move to salsa.debian.org
+  * Fix build with Lazarus 1.8.2
+  * Update Lintian overrides
+
+ -- Graham Inggs <ginggs@debian.org>  Wed, 07 Mar 2018 14:04:25 +0000
+
+doublecmd (0.8.1-2) unstable; urgency=medium
+
+  * Minimize build dependencies instead of depending on all of fpc
+  * Update debian/copyright
+  * Turn debhelper up to 11
+  * Let debhelper strip the binaries now that #35733 is fixed
+  * Bump Standards-Version to 4.1.3, no changes
+
+ -- Graham Inggs <ginggs@debian.org>  Thu, 04 Jan 2018 16:12:36 +0000
+
+doublecmd (0.8.1-1) unstable; urgency=medium
+
+  * New upstream release
+  * Drop fix-use-of-i386-assembly.patch included upstream
+
+ -- Graham Inggs <ginggs@debian.org>  Mon, 25 Dec 2017 09:48:33 +0000
+
+doublecmd (0.8.0-2) unstable; urgency=medium
+
+  * Fix FTBFS on non-i386 32-bit architectures
+
+ -- Graham Inggs <ginggs@debian.org>  Sat, 16 Dec 2017 20:13:06 +0000
+
+doublecmd (0.8.0-1) unstable; urgency=medium
+
+  * New upstream release
+  * Drop patches no longer needed
+  * Update debian/copyright for moved files
+  * Mark doublecmd-common Multi-Arch: foreign
+  * Bump Standards-Version to 4.1.2, no changes
+
+ -- Graham Inggs <ginggs@debian.org>  Sat, 16 Dec 2017 12:40:20 +0000
+
+doublecmd (0.8.0~svn7787-1) unstable; urgency=medium
+
+  * New upstream snapshot
+  * Fix various spelling and grammar errors reported by Lintian
+  * Update Lintian overrides
+  * Update debian/copyright
+  * Bump Standards-Version to 4.1.0, no changes
+
+ -- Graham Inggs <ginggs@debian.org>  Wed, 20 Sep 2017 14:43:04 +0000
+
+doublecmd (0.8.0~svn7711-1) unstable; urgency=medium
+
+  * New upstream snapshot
+    - fix build with Lazarus 1.7 (Closes: #868288)
+    - add support for Qt5
+  * Refresh patches
+  * Switch from Qt4 to Qt5
+  * Stop generating text changelog from upstream HTML changelog
+  * Bump Standards-Version to 4.0.0, no further changes
+  * Work around problem extracting debug info on the buildds
+
+ -- Graham Inggs <ginggs@debian.org>  Wed, 26 Jul 2017 17:54:32 +0200
+
+doublecmd (0.7.8-1) experimental; urgency=medium
+
+  * New upstream release.
+  * Update debian/copyright.
+  * Switch to debhelper 10.
+
+ -- Graham Inggs <ginggs@debian.org>  Sat, 11 Mar 2017 11:09:06 +0200
+
+doublecmd (0.7.7-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Refresh patches.
+  * Update debian/copyright.
+  * Update Lintian overrides for doublecmd-plugins.
+
+ -- Graham Inggs <ginggs@debian.org>  Wed, 28 Dec 2016 09:13:27 +0200
+
+doublecmd (0.7.6-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Refresh patches.
+  * Replace Suggests: mplayer2 with Suggests: mplayer. (Closes: #841190)
+
+ -- Graham Inggs <ginggs@debian.org>  Sun, 30 Oct 2016 10:23:07 +0200
+
+doublecmd (0.7.5-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Graham Inggs <ginggs@debian.org>  Fri, 23 Sep 2016 14:00:38 +0200
+
+doublecmd (0.7.4-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update Lintian overrides.
+
+ -- Graham Inggs <ginggs@debian.org>  Tue, 06 Sep 2016 12:07:12 +0200
+
+doublecmd (0.7.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Drop fix-spelling-errors.patch, included upstream.
+
+ -- Graham Inggs <ginggs@debian.org>  Tue, 19 Jul 2016 11:19:17 +0200
+
+doublecmd (0.7.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Drop debian/clean, included upstream.
+  * Update fix-spelling-errors.patch, partially included upstream.
+  * Bump Standards-Version to 3.9.8, no further changes.
+
+ -- Graham Inggs <ginggs@debian.org>  Mon, 13 Jun 2016 13:08:12 +0200
+
 doublecmd (0.7.1-2) unstable; urgency=medium
 
   * Remove doublecmd-*-dbg packages, they contained no debug symbols.
