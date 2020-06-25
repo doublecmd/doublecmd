@@ -1,3 +1,4 @@
 # From names of objects in lcl-units, not visible to the user
 doublecmd-gtk: spelling-error-in-binary usr/lib/doublecmd/doublecmd Childs Children
-doublecmd-gtk: shlib-with-non-pic-code usr/lib/doublecmd/plugins/wlx/wlxmplayer/wlxmplayer.wlx
+doublecmd-gtk: spelling-error-in-binary usr/lib/doublecmd/doublecmd occured occurred
+doublecmd-gtk: spelling-error-in-binary usr/lib/doublecmd/doublecmd aCount account

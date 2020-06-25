@@ -1,9 +1,4 @@
 # These are plugins, not shared libraries
 doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/dsx/dsxlocate/dsxlocate.dsx
-doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wcx/cpio/cpio.wcx
-doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wcx/deb/deb.wcx
-doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wcx/rpm/rpm.wcx
 doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wdx/deb_wdx/deb_wdx.wdx
 doublecmd-plugins: shared-lib-without-dependency-information usr/lib/doublecmd/plugins/wdx/rpm_wdx/rpm_wdx.wdx
-doublecmd-plugins: shlib-with-non-pic-code
-doublecmd-plugins: missing-depends-line

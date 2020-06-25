@@ -1,10 +1,10 @@
-Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: Double Commander
 Upstream-Contact: Alexander Koblov <alexx2000@mail.ru>
 Source: http://doublecmd.sourceforge.net/
 
 Files: *
-Copyright: 2006-2016 Alexander Koblov <alexx2000@mail.ru>
+Copyright: 2006-2020 Alexander Koblov <alexx2000@mail.ru>
            2008 Dmitry Kolomiets <B4rr4cuda@rambler.ru>
            2009-2013 Przemysław Nagay <cobines@gmail.com>
 License: GPL-2.0+
@@ -20,6 +20,11 @@ License: LGPL-2.0+
 Files: components/dcpcrypt/*
 Copyright: 1999-2002 David Barton <crypto@cityinthesky.co.uk>
 License: X11
+
+Files: components/dcpcrypt/Hashes/Private/*
+       components/dcpcrypt/Random/isaac.pas
+Copyright: 2002-2017 Wolfgang Ehrhardt <info@wolfgang-ehrhardt.de>
+License: Zlib
 
 Files: components/multithreadprocs/*
 Copyright: 2008 Mattias Gaertner <mattias@freepascal.org>
@@ -49,7 +54,7 @@ Copyright: 2006 Nick Yakowlew <ya_nick@users.sourceforge.net>
 License: LGPL-2.1+
 
 Files: libraries/src/libbz2/*
-       plugins/wcx/zip/fparchive/abbzip2.pas
+       plugins/wcx/zip/src/fparchive/abbzip2.pas
 Copyright: 1996-2010 Julian Seward <jseward@bzip.org>
 License: BSD-4-clause~bzip2
 
@@ -72,9 +77,9 @@ Files: plugins/wfx/ftp/src/*
        src/platform/unix/ujpegthumb.pas
        src/platform/unix/ukeyfile.pas
        src/platform/unix/upython.pas
-       src/platform/win/uNTFSLinks.pas
+       components/doublecmd/dcntfslinks.pas
        src/platform/win/uthumbnailprovider.pas
-Copyright: 2009-2016 Alexander Koblov <alexx2000@mail.ru>
+Copyright: 2009-2017 Alexander Koblov <alexx2000@mail.ru>
 License: LGPL-2.1+
 
 Files: plugins/wdx/deb_wdx/src/minigzip.pas
@@ -109,7 +114,7 @@ Copyright: 2004-2014 Matthias Thoma, Olivier Sannie (obones),
 License: MPL-1.1 or LGPL-2.1+
 
 Files: plugins/wcx/sevenzip/src/jcl/windows/sevenzip.pas
-       plugins/wcx/zip/lzma/*
+       plugins/wcx/zip/src/lzma/*
 Copyright: 1999-2008 Igor Pavlov
 License: LGPL-2.1+
 
@@ -118,13 +123,13 @@ Copyright: 2002 by Daniel Mantione
            2007-2009 Alexander Koblov <alexx2000@mail.ru>
 License: GPL-2.0+
 
-Files: plugins/wcx/zip/fparchive/*
+Files: plugins/wcx/zip/src/fparchive/*
        plugins/wcx/zip/src/ZipApp.pas
 Copyright: 1997-2002 TurboPower Software
            2007-2012 Alexander Koblov <alexx2000@mail.ru>
 License: MPL-1.1
 
-Files: plugins/wcx/zip/fparchive/abxz.pas
+Files: plugins/wcx/zip/src/fparchive/abxz.pas
 Copyright: 2014-2015 Alexander Koblov <alexx2000@mail.ru>
 License: X11
 
@@ -139,7 +144,7 @@ Copyright: 2009 Jason Heeris <jason.heeris@gmail.com>
            2014 Alexander Koblov <alexx2000@mail.ru>
 License: GPL-2.0+
 
-Files: src/platform/unix/uudev.pas
+Files: src/platform/unix/linux/uudev.pas
 Copyright: 2008 David Zeuthen <david@fubar.dk>
            2014 Alexander Koblov <alexx2000@mail.ru>
 License: GPL-2.0+
@@ -161,6 +166,10 @@ Files: src/fsyncdirsdlg.pas
 Copyright: 2013 Anton Panferov <ast.a_s@mail.ru>
            2014 Alexander Koblov <alexx2000@mail.ru>
 License: GPL-2.0+
+
+Files: src/synhighlighterlua.pas
+Copyright: 2005 Zhou Kan <textrush@tom.com>
+License: MPL-1.1 or GPL-2.0+
 
 Files: src/uhighlighterprocs.pas
 Copyright: 2000 Michael Hieke
@@ -223,7 +232,7 @@ License: other~uresample
 
 Files: debian/*
 Copyright: 2010-2013 Alexander Koblov <alexx2000@mail.ru>
-           2013-2016 Graham Inggs <ginggs@debian.org>
+           2013-2020 Graham Inggs <ginggs@debian.org>
 License: GPL-2.0+
 
 License: GPL-2.0+
@@ -370,16 +379,16 @@ License: BSD-4-clause~bzip2
  1. Redistributions of source code must retain the above copyright
     notice, this list of conditions and the following disclaimer.
  .
- 2. The origin of this software must not be misrepresented; you must 
-    not claim that you wrote the original software.  If you use this 
-    software in a product, an acknowledgment in the product 
+ 2. The origin of this software must not be misrepresented; you must
+    not claim that you wrote the original software.  If you use this
+    software in a product, an acknowledgment in the product
     documentation would be appreciated but is not required.
  .
  3. Altered source versions must be plainly marked as such, and must
     not be misrepresented as being the original software.
  .
- 4. The name of the author may not be used to endorse or promote 
-    products derived from this software without specific prior written 
+ 4. The name of the author may not be used to endorse or promote
+    products derived from this software without specific prior written
     permission.
  .
  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS

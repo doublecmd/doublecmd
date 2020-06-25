@@ -1,3 +1,3 @@
 # From names of objects in lcl-units, not visible to the user
 doublecmd-qt: spelling-error-in-binary usr/lib/doublecmd/doublecmd Childs Children
-doublecmd-qt: shlib-with-non-pic-code usr/lib/doublecmd/plugins/wlx/wlxmplayer/wlxmplayer.wlx
+doublecmd-qt: spelling-error-in-binary usr/lib/doublecmd/doublecmd aCount account
