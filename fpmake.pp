@@ -228,15 +228,15 @@ const
   OutputPath = 'units' + PathDelim;
 var
   I: Integer;
-  Info : TSearchRec;
+  AInfo : TSearchRec;
 begin
   // Clean output directories
-  if FindFirst(OutputPath + AllFilesMask, faAnyFile - faHidden, Info) = 0 then
+  if FindFirst(OutputPath + AllFilesMask, faAnyFile - faHidden, AInfo) = 0 then
   repeat
-    if ((Info.Attr and faDirectory) = faDirectory) and (Info.Name <> '.') and (Info.Name <> '..') then
-      CleanDirectory(OutputPath + Info.Name);
-  until FindNext(Info) <> 0;
-  FindClose(Info);
+    if ((AInfo.Attr and faDirectory) = faDirectory) and (AInfo.Name <> '.') and (AInfo.Name <> '..') then
+      CleanDirectory(OutputPath + AInfo.Name);
+  until FindNext(AInfo) <> 0;
+  FindClose(AInfo);
   TDCBuildEngine(BuildEngine).SysDeleteTree('tools' + PathDelim + 'lib');
   // Clean files
   for I:= Low(DeleteFiles) to High(DeleteFiles) do
