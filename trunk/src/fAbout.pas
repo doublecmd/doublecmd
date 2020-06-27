@@ -76,7 +76,7 @@ const
     'Active developers: '+ cIndention +
     'Alexander Koblov (alexx2000@mail.ru) - author, core developer' + cIndention +
     'Denis Bisson (denis.bisson@denisbisson.org) - developer' + LineEnding + LineEnding +
-    'Recent developers: ' + cIndention +
+    'Former developers: ' + cIndention +
     'Przemysław Nagay (cobines@gmail.com) - core developer' + cIndention +
     'Dmitry Kolomiets (B4rr4cuda@rambler.ru) - developer' + cIndention +
     'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander' + LineEnding + LineEnding +
