@@ -90,6 +90,8 @@ begin
     tmp_str := tmp_str + '.cpio.bz2'
   else if CompareByte(datasig, #253'7zXZ'#000, 6) = 0 then
     tmp_str := tmp_str + '.cpio.xz'
+  else if CompareByte(datasig, #$28#$B5#$2F#$FD, 4) = 0 then
+    tmp_str := tmp_str + '.cpio.zst'
   else
     tmp_str := tmp_str + '.cpio.lzma';
   Result := tmp_str;
