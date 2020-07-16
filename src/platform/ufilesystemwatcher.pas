@@ -718,6 +718,7 @@ begin
 end;
 {$ELSEIF DEFINED(BSD)}
 var
+  ret: cint;
   ke: TKEvent;
 begin
   if FNotifyHandle = feInvalidHandle then
@@ -726,12 +727,21 @@ begin
   while not Terminated do
   begin
     FillByte(ke, SizeOf(ke), 0);
-    if kevent(FNotifyHandle, nil, 0, @ke, 1, nil) = -1 then
-      break;
+
+    // Wait for events
+    repeat
+      ret:= kevent(FNotifyHandle, nil, 0, @ke, 1, nil);
+    until (ret <> -1) or (fpGetErrNo <> ESysEINTR);
+
+    if ret = -1 then
+    begin
+      ShowError('kevent() failed');
+      Break;
+    end; { if }
 
     case ke.Filter of
       EVFILT_TIMER: // user triggered
-        continue;
+        Continue;
 
       EVFILT_VNODE:
       begin
