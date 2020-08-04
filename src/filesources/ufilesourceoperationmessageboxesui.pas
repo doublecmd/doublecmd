@@ -40,7 +40,7 @@ const
   ResponseToButton: array[TFileSourceOperationUIResponse] of TMyMsgButton =
     (msmbOK, msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone, msmbAppend, msmbResume,
      msmbCopyInto, msmbCopyIntoAll, msmbOverwrite, msmbOverwriteAll, msmbOverwriteOlder,
-     msmbOverwriteSmaller, msmbOverwriteLarger, msmbAutoRenameSource, msmbRenameSource,
+     msmbOverwriteSmaller, msmbOverwriteLarger, msmbAutoRenameSource, msmbAutoRenameTarget, msmbRenameSource,
      msmbSkip, msmbSkipAll, msmbIgnore, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort,
      msmbRetryAdmin, msmbUnlock,
      // Actions:
@@ -49,7 +49,7 @@ const
   ResultToResponse: array[TMyMsgResult] of TFileSourceOperationUIResponse =
     (fsourOk, fsourNo, fsourYes, fsourCancel, fsourNone, fsourAppend, fsourResume,
      fsourCopyInto, fsourCopyIntoAll, fsourOverwrite, fsourOverwriteAll, fsourOverwriteOlder,
-     fsourOverwriteSmaller, fsourOverwriteLarger, fsourAutoRenameSource, fsourRenameSource,
+     fsourOverwriteSmaller, fsourOverwriteLarger, fsourAutoRenameSource, fsourAutoRenameTarget, fsourRenameSource,
      fsourSkip, fsourSkipAll, fsourIgnore, fsourIgnoreAll, fsourAll, fsourRetry, fsourAbort,
      fsourRetryAdmin, fsourUnlock);
 
