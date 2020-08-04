@@ -10091,6 +10091,10 @@ msgstr "&Дописать"
 msgid "A&uto-rename source files"
 msgstr "Автоматич&ески переименовывать копируемые файлы"
 
+#: ulng.rsdlgbuttonautorenametarget
+msgid "A&uto-rename target files"
+msgstr "Автоматически переименовывать имеющиеся фай&лы"
+
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
