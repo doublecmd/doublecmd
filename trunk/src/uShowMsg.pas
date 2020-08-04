@@ -46,14 +46,14 @@ type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
                 mmrAppend, mmrResume, mmrCopyInto, mmrCopyIntoAll,
                 mmrOverwrite, mmrOverwriteAll, mmrOverwriteOlder,
-                mmrOverwriteSmaller, mmrOverwriteLarger, mmrAutoRenameSource, mmrRenameSource,
+                mmrOverwriteSmaller, mmrOverwriteLarger, mmrAutoRenameSource, mmrAutoRenameTarget, mmrRenameSource,
                 mmrSkip, mmrSkipAll, mmrIgnore, mmrIgnoreAll, mmrAll, mmrRetry, mmrAbort, mmrRetryAdmin,
                 mmrUnlock);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
                 msmbAppend, msmbResume, msmbCopyInto, msmbCopyIntoAll,
                 msmbOverwrite, msmbOverwriteAll, msmbOverwriteOlder,
-                msmbOverwriteSmaller, msmbOverwriteLarger, msmbAutoRenameSource, msmbRenameSource,
+                msmbOverwriteSmaller, msmbOverwriteLarger, msmbAutoRenameSource, msmbAutoRenameTarget, msmbRenameSource,
                 msmbSkip, msmbSkipAll, msmbIgnore, msmbIgnoreAll, msmbAll, msmbRetry, msmbAbort, msmbRetryAdmin,
                 msmbUnlock,
                 // Actions, they do not close the form and therefore have no corresponding result value:
@@ -856,6 +856,7 @@ begin
   cLngButton[msmbOverwriteSmaller] := rsDlgButtonOverwriteSmaller;
   cLngButton[msmbOverwriteLarger]  := rsDlgButtonOverwriteLarger;
   cLngButton[msmbAutoRenameSource] := rsDlgButtonAutoRenameSource;
+  cLngButton[msmbAutoRenameTarget] := rsDlgButtonAutoRenameTarget;
   cLngButton[msmbRenameSource]     := rsDlgButtonRename;
   cLngButton[msmbSkip]             := rsDlgButtonSkip;
   cLngButton[msmbSkipAll]          := rsDlgButtonSkipAll;

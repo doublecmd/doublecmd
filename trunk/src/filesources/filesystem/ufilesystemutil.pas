@@ -1238,6 +1238,7 @@ var
         begin
           Exit(fsoterResume);
         end;
+      fsoofeAutoRenameTarget,
       fsoofeAutoRenameSource:
         begin
           Exit(fsoterRenamed);
@@ -1394,19 +1395,49 @@ function TFileSystemOperationHelper.FileExists(aFile: TFile;
   var AbsoluteTargetFileName: String; AllowAppend: Boolean
   ): TFileSourceOperationOptionFileExists;
 const
-  Responses: array[0..12] of TFileSourceOperationUIResponse
+  Responses: array[0..13] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourRenameSource, fsourOverwriteAll,
        fsourSkipAll, fsourResume, fsourOverwriteOlder, fsourCancel,
        fsouaCompare, fsourAppend, fsourOverwriteSmaller, fsourOverwriteLarger,
-       fsourAutoRenameSource);
-  ResponsesNoAppend: array[0..10] of TFileSourceOperationUIResponse
+       fsourAutoRenameSource, fsourAutoRenameTarget);
+  ResponsesNoAppend: array[0..11] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourRenameSource,  fsourOverwriteAll,
        fsourSkipAll, fsourOverwriteSmaller, fsourOverwriteOlder, fsourCancel,
-       fsouaCompare, fsourOverwriteLarger, fsourAutoRenameSource);
+       fsouaCompare, fsourOverwriteLarger, fsourAutoRenameSource, fsourAutoRenameTarget);
 var
   Answer: Boolean;
   Message: String;
   PossibleResponses: array of TFileSourceOperationUIResponse;
+
+  function RenameTarget: TFileSourceOperationOptionFileExists;
+  var
+    bRetry: Boolean;
+  begin
+    repeat
+      Message:= GetNextCopyName(AbsoluteTargetFileName, aFile.IsDirectory or aFile.IsLinkToDirectory);
+
+      if RenameFileUAC(AbsoluteTargetFileName, Message) then
+        Exit(fsoofeAutoRenameTarget);
+
+      bRetry:= False;
+      Message:= Format(rsMsgErrRename, [AbsoluteTargetFileName, Message]);
+      case AskQuestion(Message, '',
+                       [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort], fsourRetry, fsourSkip) of
+        fsourRetry:
+          bRetry:= True;
+        fsourSkip:
+          Result := fsoofeSkip;
+        fsourSkipAll:
+          begin
+            FFileExistsOption := fsoofeSkip;
+            Result := fsoofeSkip;
+          end;
+        fsourNone,
+        fsourAbort:
+          AbortOperation;
+      end;
+    until not bRetry;
+  end;
 
   function OverwriteOlder: TFileSourceOperationOptionFileExists;
   begin
@@ -1492,6 +1523,11 @@ begin
               FFileExistsOption:= fsoofeAutoRenameSource;
               AbsoluteTargetFileName:= GetNextCopyName(AbsoluteTargetFileName, aFile.IsDirectory or aFile.IsLinkToDirectory);
             end;
+          fsourAutoRenameTarget:
+            begin
+              FFileExistsOption := fsoofeAutoRenameTarget;
+              Result:= RenameTarget;
+            end;
           fsourRenameSource:
             begin
               Message:= ExtractFileName(AbsoluteTargetFileName);
@@ -1518,6 +1554,10 @@ begin
     fsoofeOverwriteLarger:
       begin
         Result:= OverwriteLarger;
+      end;
+    fsoofeAutoRenameTarget:
+      begin
+        Result:= RenameTarget;
       end;
     fsoofeAutoRenameSource:
       begin
