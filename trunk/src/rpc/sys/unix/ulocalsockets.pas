@@ -11,7 +11,7 @@ uses
 function VerifyChild(Handle: THandle): Boolean;
 function VerifyParent(Handle: THandle): Boolean;
 
-procedure SetSocketClientProcessId(fd: cint);
+procedure SetSocketClientProcessId({%H-}fd: cint);
 function GetSocketClientProcessId(fd: cint): pid_t;
 
 function SendHandle(sock: cint; fd: cint): Boolean;
@@ -68,7 +68,7 @@ const
 {$ELSEIF DEFINED(BSD)}
 
 const
-  SCM_CREDS = 	$03;		//* process creds (struct cmsgcred) */
+  SCM_CREDS = $03; //* process creds (struct cmsgcred) */
 
 type
   Pcmsgcred = ^cmsgcred;
@@ -86,6 +86,39 @@ type
     cred: cmsgcred;
   end;
 
+{$ENDIF}
+
+const
+{$IF DEFINED(DARWIN)}
+  ALIGN_BYTES = csize_t(SizeOf(cuint32) - 1);
+{$ELSE}
+  ALIGN_BYTES = csize_t(SizeOf(csize_t) - 1);
+{$ENDIF}
+
+function CMSG_ALIGN(len: csize_t): csize_t; inline;
+begin
+  Result:= (((len) + ALIGN_BYTES) and (not (ALIGN_BYTES)));
+end;
+
+function CMSG_SPACE(len: csize_t): csize_t; inline;
+begin
+  Result:= (CMSG_ALIGN(len) + CMSG_ALIGN(SizeOf(cmsghdr)));
+end;
+
+function CMSG_LEN(len: csize_t): csize_t; inline;
+begin
+  Result:= (CMSG_ALIGN(SizeOf(cmsghdr)) + (len));
+end;
+
+function CMSG_DATA(cmsg: Pcmsghdr): PByte; inline;
+{$IF DEFINED(BSD)}
+begin
+  Result:= PByte(cmsg) + CMSG_ALIGN(SizeOf(cmsghdr));
+end;
+{$ELSE}
+begin
+  Result:= PByte(cmsg + 1)
+end;
 {$ENDIF}
 
 function SendMessage(__fd: cInt; __message: pmsghdr; __flags: cInt): ssize_t;
@@ -195,51 +228,49 @@ begin
 end;
 {$ENDIF}
 
-type
-  fdmsg = record
-    hdr: cmsghdr;
-    fd: cint;
-  end;
-
 function SendHandle(sock: cint; fd: cint): Boolean;
 var
   buf: Byte;
   iov: iovec;
   msg: msghdr;
-  cmsga: fdmsg;
+  cmsga: Pcmsghdr;
   nbytes: ssize_t;
+  data: array[Byte] of Byte;
 begin
+  cmsga := Pcmsghdr(@data[0]);
   {*
    * The backend doesn't care what we send here, but it wants
    * exactly one character to force recvmsg() to block and wait
    * for us.
    *}
-   buf := 0;
-   iov.iov_base := @buf;
-   iov.iov_len := 1;
+  buf := 0;
+  iov.iov_base := @buf;
+  iov.iov_len := 1;
 
-   cmsga.hdr.cmsg_len := sizeof(fdmsg);
-   cmsga.hdr.cmsg_level := SOL_SOCKET;
-   cmsga.hdr.cmsg_type := SCM_RIGHTS;
-   {*
-   * cmsg.cred will get filled in with the correct information
-   * by the kernel when this message is sent.
-   *}
-   msg.msg_name := nil;
-   msg.msg_namelen := 0;
-   msg.msg_iov := @iov;
-   msg.msg_iovlen := 1;
-   msg.msg_control := @cmsga;
-   msg.msg_controllen := sizeof(cmsga);
-   msg.msg_flags := MSG_NOSIGNAL;
+  cmsga^.cmsg_len := CMSG_LEN(SizeOf(fd));
+  cmsga^.cmsg_level := SOL_SOCKET;
+  cmsga^.cmsg_type := SCM_RIGHTS;
+  {*
+  * cmsg.cred will get filled in with the correct information
+  * by the kernel when this message is sent.
+  *}
+  msg.msg_name := nil;
+  msg.msg_namelen := 0;
+  msg.msg_iov := @iov;
+  msg.msg_iovlen := 1;
+  msg.msg_control := cmsga;
+  msg.msg_controllen := CMSG_SPACE(SizeOf(fd));
+  msg.msg_flags := MSG_NOSIGNAL;
 
-   cmsga.fd:= fd;
+  Move(fd, CMSG_DATA(cmsga)^, SizeOf(fd));
 
   nbytes := SendMessage(sock, @msg, MSG_NOSIGNAL);
   if (nbytes = -1) then
     DCDebug('SendHandle: ', SysErrorMessage(fpgetCerrno));
 
   FileClose(fd);
+
+  Result:= (nbytes > 0)
 end;
 
 function RecvHandle(sock: cint): cint;
@@ -247,15 +278,18 @@ var
   buf: Byte;
   iov: iovec;
   msg: msghdr;
-  cmsga: fdmsg;
+  cmsga: Pcmsghdr;
   nbytes: ssize_t;
+  data: array[Byte] of Byte;
 begin
+  cmsga := Pcmsghdr(@data[0]);
+
   msg.msg_name := nil;
   msg.msg_namelen := 0;
   msg.msg_iov := @iov;
   msg.msg_iovlen := 1;
-  msg.msg_control := @cmsga;
-  msg.msg_controllen := sizeof(cmsga);
+  msg.msg_control := cmsga;
+  msg.msg_controllen := CMSG_SPACE(SizeOf(Result));
   msg.msg_flags := MSG_NOSIGNAL;
   {*
   * The one character which is received here is not meaningful;
@@ -269,7 +303,7 @@ begin
   if (nbytes = -1) then
     DCDebug('RecvHandle: ', SysErrorMessage(fpgetCerrno));
 
-  Result:= cmsga.fd;
+  Move(CMSG_DATA(cmsga)^, Result, SizeOf(Result));
 end;
 
 
