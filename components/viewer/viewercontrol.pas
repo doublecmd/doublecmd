@@ -1542,6 +1542,14 @@ begin
 
   FFileSize := FileGetSize(FFileHandle);
 
+  if (FFileSize < 0) then
+  begin
+    FLastError := mbSysErrorMessage;
+    FileClose(FFileHandle);
+    FFileHandle := 0;
+    Exit;
+  end;
+
 {$IFDEF LINUX}
   if (fpFStatFS(FFileHandle, @Sbfs) = 0) then
   begin
