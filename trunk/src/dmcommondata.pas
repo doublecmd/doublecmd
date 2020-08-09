@@ -34,11 +34,13 @@ type
 
   TdmComData = class(TDataModule)
     ilEditorImages: TImageList;
+    ilViewerImages: TImageList;
     ImageList: TImageList;
     OpenDialog: TOpenDialog;
     SaveDialog: TSaveDialog;
     procedure DataModuleCreate(Sender: TObject);
   private
+    procedure LoadViewerImageList;
     procedure LoadEditorImageList;
   public
     { public declarations }
@@ -60,8 +62,51 @@ procedure TdmComData.DataModuleCreate(Sender: TObject);
 begin
   if Assigned(PixMapManager) then
   begin
+    LoadViewerImageList;
     LoadEditorImageList;
   end;
+end;
+
+procedure TdmComData.LoadViewerImageList;
+begin
+  LoadThemeIcon(ilViewerImages, 0, 'view-refresh');
+  LoadThemeIcon(ilViewerImages, 1, 'go-previous');
+  LoadThemeIcon(ilViewerImages, 2, 'go-next');
+  LoadThemeIcon(ilViewerImages, 3, 'edit-copy');
+  LoadThemeIcon(ilViewerImages, 4, 'edit-cut');
+  LoadThemeIcon(ilViewerImages, 5, 'edit-delete');
+  LoadThemeIcon(ilViewerImages, 6, 'zoom-in');
+  LoadThemeIcon(ilViewerImages, 7, 'zoom-out');
+
+  LoadThemeIcon(ilViewerImages, 8, 'object-rotate-left');
+  LoadThemeIcon(ilViewerImages, 9, 'object-rotate-right');
+  LoadThemeIcon(ilViewerImages, 10, 'object-flip-horizontal');
+
+  LoadThemeIcon(ilViewerImages, 11, 'media-playback-pause');
+  LoadThemeIcon(ilViewerImages, 12, 'media-playback-start');
+  LoadThemeIcon(ilViewerImages, 13, 'media-skip-backward');
+  LoadThemeIcon(ilViewerImages, 14, 'media-skip-forward');
+
+  LoadThemeIcon(ilViewerImages, 15, 'image-crop');
+
+  LoadThemeIcon(ilViewerImages, 16, 'image-red-eye');
+
+  LoadThemeIcon(ilViewerImages, 17, 'draw-freehand');
+  LoadThemeIcon(ilViewerImages, 18, 'draw-rectangle');
+  LoadThemeIcon(ilViewerImages, 19, 'draw-ellipse');
+
+  LoadThemeIcon(ilViewerImages, 20, 'edit-undo');
+  LoadThemeIcon(ilViewerImages, 21, 'document-edit');
+
+  LoadThemeIcon(ilViewerImages, 22, 'view-fullscreen');
+
+  LoadThemeIcon(ilViewerImages, 23, 'draw-path');
+
+  LoadThemeIcon(ilViewerImages, 24, 'document-page-setup');
+
+  LoadThemeIcon(ilViewerImages, 25, 'view-restore');
+
+  LoadThemeIcon(ilViewerImages, 26, 'camera-photo');
 end;
 
 procedure TdmComData.LoadEditorImageList;
