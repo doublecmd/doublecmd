@@ -336,6 +336,7 @@ object dmHighl: TdmHighl
   end
   object SynPoSyn1: TSynPoSyn
     Tag = 1
+    DefaultFilter = 'Po Files (*.po,*.pot)|*.po;*.pot'
     Enabled = False
     CommentAttri.FrameEdges = sfeAround
     TextAttri.FrameEdges = sfeAround
