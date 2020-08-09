@@ -1196,7 +1196,7 @@ var
   Info: BaseUnix.Stat;
 begin
   if fpFStat(Handle, Info) < 0 then
-    Result := 0
+    Result := -1
   else
     Result := Info.st_size;
 end;
