@@ -133,18 +133,15 @@ type
     btnDeleteFile1: TSpeedButton;
     btnMoveFile1: TSpeedButton;
     btnNext1: TSpeedButton;
+    btnPenColor: TColorButton;
     btnPrev1: TSpeedButton;
     btnReload1: TSpeedButton;
-    cbSlideShow: TCheckBox;
-    ColorBoxPaint: TColorBox;
-    ComboBoxWidth: TComboBox;
-    ComboBoxPaint: TComboBox;
     DrawPreview: TDrawGrid;
-    gboxPaint: TGroupBox;
-    gboxView: TGroupBox;
-    gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
     memFolder: TMemo;
+    MenuItem1: TMenuItem;
+    MenuItem3: TMenuItem;
+    MenuItem4: TMenuItem;
     miShowCaret: TMenuItem;
     miPrintSetup: TMenuItem;
     miAutoReload: TMenuItem;
@@ -162,9 +159,7 @@ type
     miFullScreen: TMenuItem;
     miSave: TMenuItem;
     miSaveAs: TMenuItem;
-    gboxHightlight: TGroupBox;
     Image: TImage;
-    lblHightlight: TLabel;
     miZoomOut: TMenuItem;
     miZoomIn: TMenuItem;
     miRotate: TMenuItem;
@@ -189,31 +184,11 @@ type
     miPlugins: TMenuItem;
     miSeparator: TMenuItem;
     pmEditMenu: TPopupMenu;
+    PopupMenu1: TPopupMenu;
+    pmPenWidth: TPopupMenu;
+    pmTimeShow: TPopupMenu;
     SavePictureDialog: TSavePictureDialog;
     sboxImage: TScrollBox;
-    btnCutTuImage: TSpeedButton;
-    btnResize: TSpeedButton;
-    btnUndo: TSpeedButton;
-    btnHightlight: TSpeedButton;
-    btn270: TSpeedButton;
-    btn90: TSpeedButton;
-    btnMirror: TSpeedButton;
-    btnZoomIn: TSpeedButton;
-    btnZoomOut: TSpeedButton;
-    btnReload: TSpeedButton;
-    btnPaint: TSpeedButton;
-    btnFullScreen: TSpeedButton;
-    seTimeShow: TSpinEdit;
-    btnRedEye: TSpeedButton;
-    btnNext: TSpeedButton;
-    btnPrev: TSpeedButton;
-    btnMoveFile: TSpeedButton;
-    btnDeleteFile: TSpeedButton;
-    btnCopyFile: TSpeedButton;
-    btnGifMove: TSpeedButton;
-    btnGifToBmp: TSpeedButton;
-    btnNextGifFrame: TSpeedButton;
-    btnPrevGifFrame: TSpeedButton;
     Splitter: TSplitter;
     Status: TKASStatusBar;
     MainMenu: TMainMenu;
@@ -242,6 +217,37 @@ type
     TimerReload: TTimer;
     TimerScreenshot: TTimer;
     TimerViewer: TTimer;
+    ToolBar1: TToolBar;
+    btnReload: TToolButton;
+    btn270: TToolButton;
+    btn90: TToolButton;
+    btnMirror: TToolButton;
+    btnCutTuImage: TToolButton;
+    btnRedEye: TToolButton;
+    btnPaintSeparator: TToolButton;
+    btnUndo: TToolButton;
+    btnPenMode: TToolButton;
+    btnGifSeparator: TToolButton;
+    btnGifMove: TToolButton;
+    btnPrevGifFrame: TToolButton;
+    btnNextGifFrame: TToolButton;
+    btnGifToBmp: TToolButton;
+    btnPenWidth: TToolButton;
+    btnPrev: TToolButton;
+    btnNext: TToolButton;
+    btnCopyFile: TToolButton;
+    btnMoveFile: TToolButton;
+    btnDeleteFile: TToolButton;
+    ToolButton2: TToolButton;
+    btnSlideShow: TToolButton;
+    btnFullScreen: TToolButton;
+    btnResize: TToolButton;
+    btnPaint: TToolButton;
+    btnZoomSeparator: TToolButton;
+    btnZoomIn: TToolButton;
+    btnZoomOut: TToolButton;
+    btnHightlightSeparator: TToolButton;
+    btnHightlight: TToolButton;
     ViewerControl: TViewerControl;
     procedure actExecute(Sender: TObject);
     procedure btnCutTuImageClick(Sender: TObject);
@@ -249,9 +255,11 @@ type
     procedure btnGifMoveClick(Sender: TObject);
     procedure btnGifToBmpClick(Sender: TObject);
     procedure btnPaintHightlight(Sender: TObject);
+    procedure btnPenModeClick(Sender: TObject);
     procedure btnPrevGifFrameClick(Sender: TObject);
     procedure btnRedEyeClick(Sender: TObject);
     procedure btnResizeClick(Sender: TObject);
+    procedure btnSlideShowClick(Sender: TObject);
     procedure btnUndoClick(Sender: TObject);
     procedure DrawPreviewDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
@@ -277,6 +285,7 @@ type
       MousePos: TPoint; var Handled: Boolean);
     procedure ImageMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
+    procedure MenuItem1Click(Sender: TObject);
     procedure miLookBookClick(Sender: TObject);
     procedure pmEditMenuPopup(Sender: TObject);
     procedure pnlImageResize(Sender: TObject);
@@ -296,6 +305,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure frmViewerClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormDestroy(Sender: TObject);
+    procedure miPaintClick(Sender:TObject);
     procedure miChangeEncodingClick(Sender:TObject);
     procedure ViewerControlMouseWheelDown(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
@@ -471,6 +481,7 @@ const
   // Graphics
   sbpCurrentResolution    = 1;
   sbpFullResolution       = 2;
+  sbpImageLoadTime        = 3;
 
 type
 
@@ -756,8 +767,8 @@ begin
   iActiveFile := iIndex;
   LoadFile(FileList.Strings[iIndex]);
 
-  gboxPaint.Visible:= False;
-  gboxHightlight.Visible:= False;
+  btnPaint.Down:= False;
+  btnHightlight.Down:= False;
   Status.Panels[sbpFileNr].Text:= Format('%d/%d', [iIndex + 1, FileList.Count]);
 
   if ANewFile then begin
@@ -817,7 +828,7 @@ begin
   X:=round(X*Image.Picture.Width/Image.Width);                  // for correct paint after zoom
   Y:=round(Y*Image.Picture.Height/Image.Height);
   cas:=0;
-    if (button = mbLeft) and gboxHightlight.Visible then
+    if (button = mbLeft) and btnHightlight.Down then
        begin
          if (X>StartX) and (X<=StartX+10) then
             begin
@@ -885,12 +896,12 @@ begin
            StartY := Y;
          end;
 
-    if gboxPaint.Visible then
+    if btnPaint.Down then
       begin
         CreateTmp;
         Image.Picture.Bitmap.Canvas.MoveTo (x,y);
     end;
-  if not (gboxHightlight.Visible) and not (gboxPaint.Visible) then
+  if not (btnHightlight.Down) and not (btnPaint.Down) then
     begin
     tmpX:=x;
     tmpY:=y;
@@ -913,7 +924,7 @@ procedure TfrmViewer.ImageMouseMove(Sender: TObject; Shift: TShiftState; X,
 var
   tmp: integer;
 begin
-  if gboxHightlight.Visible then Image.Cursor:=crCross;
+  if btnHightlight.Down then Image.Cursor:=crCross;
   if miFullScreen.Checked then
     begin
       sboxImage.Cursor:=crDefault;
@@ -924,7 +935,7 @@ begin
   Y:=round(Y*Image.Picture.Height/Image.Height);
   if MDFlag then
         begin
-      if gboxHightlight.Visible then
+      if btnHightlight.Down then
         begin
             if cas=0 then
             begin
@@ -982,24 +993,26 @@ begin
                 DrawFocusRect(Rect(UndoSX+10,UndoSY+10,UndoEX-10,UndoEY-10));
                 DrawFocusRect(Rect(StartX,StartY,EndX,EndY));
                 DrawFocusRect(Rect(StartX+10,StartY+10,EndX-10,EndY-10));//Pen.Mode := pmNotXor;
-                lblHightlight.Caption := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
+
+                Status.Panels[sbpImageLoadTime].Text := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
+
                 UndoSX:=StartX;
                 UndoSY:=StartY;
                 UndoEX:=EndX;
                 UndoEY:=EndY;
               end;
           end;
-        if gboxPaint.Visible then
+        if btnPaint.Down then
         begin
           with Image.Picture.Bitmap.Canvas do
           begin
             Brush.Style:= bsClear;
-            Pen.Width := StrToInt(ComboBoxWidth.Text);
-            Pen.Color := ColorBoxPaint.Selected;
+            Pen.Width := btnPenWidth.Tag;
+            Pen.Color := btnPenColor.ButtonColor;
             Pen.Style := psSolid;
             tmp:= Pen.Width+10;
 
-            case TViewerPaintTool(ComboBoxPaint.ItemIndex) of
+            case TViewerPaintTool(btnPenMode.Tag) of
               vptPen: LineTo (x,y);
               vptRectangle, vptEllipse:
               begin
@@ -1010,7 +1023,7 @@ begin
                 else
                   CopyRect (Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp), tmp_all.canvas,Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp));//UndoTmp;
 
-                case TViewerPaintTool(ComboBoxPaint.ItemIndex) of
+                case TViewerPaintTool(btnPenMode.Tag) of
                   vptRectangle: Rectangle(Rect(StartX,StartY,X,Y));
                   vptEllipse:Ellipse(StartX,StartY,X,Y);
                 end;
@@ -1023,7 +1036,7 @@ begin
             UndoEY:=Y;
           end;
         end;
-      if not (gboxHightlight.Visible) and not (gboxPaint.Visible) then
+      if not (btnHightlight.Down) and not (btnPaint.Down) then
     begin
       sboxImage.VertScrollBar.Position:=sboxImage.VertScrollBar.Position+tmpY-y;
       sboxImage.HorzScrollBar.Position:=sboxImage.HorzScrollBar.Position+tmpX-x;
@@ -1039,7 +1052,7 @@ begin
   MDFlag:=false;
   if PanelEditImage.Visible then
     begin
-      if (button = mbLeft) and gboxHightlight.Visible then
+      if (button = mbLeft) and btnHightlight.Down then
     begin
       UndoTmp;
       CheckXY;
@@ -1050,7 +1063,7 @@ begin
         Pen.Color := clHighlight;
         DrawFocusRect(Rect(StartX,StartY,EndX,EndY));
         DrawFocusRect(Rect(StartX+10,StartY+10,EndX-10,EndY-10));
-        lblHightlight.Caption := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
+        Status.Panels[sbpImageLoadTime].Text := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
       end;
     end;
     end;
@@ -1067,6 +1080,12 @@ procedure TfrmViewer.ImageMouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
   if ssCtrl in Shift then cm_Zoom(['1.1']);
+end;
+
+procedure TfrmViewer.MenuItem1Click(Sender: TObject);
+begin
+  btnPenMode.Tag:= TMenuItem(Sender).Tag;
+  btnPenMode.ImageIndex:= TMenuItem(Sender).ImageIndex;
 end;
 
 procedure TfrmViewer.miLookBookClick(Sender: TObject);
@@ -1281,7 +1300,7 @@ var
   tmp: TCustomBitmap;
   r: TRect;
 begin
-  if gboxHightlight.Visible then UndoTmp;
+  if btnHightlight.Down then UndoTmp;
   tmp:= TBitmap.Create;
   tmp.Assign(Image.Picture.Graphic);
   r := Rect(0, 0, W, H);
@@ -1396,7 +1415,7 @@ end;
 
 procedure TfrmViewer.CopyMoveFile(AViewerAction: TViewerCopyMoveAction);
 begin
-  FModSizeDialog:= TfrmModView.Create(Application);
+  FModSizeDialog:= TfrmModView.Create(Self);
   try
     FModSizeDialog.pnlQuality.Visible:= False;
     FModSizeDialog.pnlSize.Visible:= False;
@@ -1738,7 +1757,7 @@ begin
     end;
   end;
   Inc(i_timer);
-  if (cbSlideShow.Checked) and (i_timer = 60 * seTimeShow.Value) then
+  if (btnSlideShow.Down) and (i_timer = 60 * btnSlideShow.Tag) then
   begin
     if (PanelEditImage.Visible) and (not PanelEditImage.MouseEntered) then
     begin
@@ -1770,9 +1789,9 @@ begin
   gImageStretchOnlyLarge:= miStretchOnlyLarge.Checked;
   gImageCenter:= miCenter.Checked;
   gPreviewVisible := miPreview.Checked;
-  gImagePaintMode := TViewerPaintTool(ComboBoxPaint.ItemIndex);
-  gImagePaintWidth := StrToInt(ComboBoxWidth.Text) ;
-  gImagePaintColor := ColorBoxPaint.Selected;
+  gImagePaintMode := TViewerPaintTool(btnPenMode.Tag);
+  gImagePaintWidth := btnPenWidth.Tag;
+  gImagePaintColor := btnPenColor.ButtonColor;
   case ViewerControl.Mode of
     vcmText: gViewerMode := 1;
     vcmBin : gViewerMode := 2;
@@ -1798,11 +1817,11 @@ begin
     FWlxModule.CallListSendCommand(lc_newparams , PluginShowFlags)
   else if bImage then
   begin
-    if gboxHightlight.Visible then 
+    if btnHightlight.Down then
     begin
-      gboxPaint.Visible:=false;
-      gboxHightlight.Visible:=false;
-      gboxView.Visible:=true;
+      btnPaint.Down:=false;
+      btnHightlight.Down:=false;
+      //gboxView.Visible:=true;
       UndoTmp;
     end;
     AdjustImageSize;
@@ -1811,14 +1830,16 @@ end;
 
 procedure TfrmViewer.FormCreate(Sender: TObject);
 var
+  Index: Integer;
   HMViewer: THMForm;
+  MenuItem: TMenuItem;
 begin
   if not bQuickView then InitPropStorage(Self);
   HMViewer := HotMan.Register(Self, HotkeysCategory);
   HMViewer.RegisterActionList(actionList);
 
-  ParseLineToList(rsViewPaintToolsList, ComboBoxPaint.Items);
-  SetComboWidthToLargestElement(ComboBoxPaint, 30);
+//  ParseLineToList(rsViewPaintToolsList, ComboBoxPaint.Items);
+//  SetComboWidthToLargestElement(ComboBoxPaint, 30);
 
   ViewerControl.OnGuessEncoding:= @DetectEncoding;
 
@@ -1838,9 +1859,9 @@ begin
   miStretchOnlyLarge.Checked := gImageStretchOnlyLarge;
   miCenter.Checked := gImageCenter;
   miPreview.Checked := gPreviewVisible;
-  ComboBoxPaint.ItemIndex := Integer(gImagePaintMode);
-  ComboBoxWidth.Text := IntToStr(gImagePaintWidth);
-  ColorBoxPaint.Selected := gImagePaintColor;
+  btnPenMode.Tag := Integer(gImagePaintMode);
+  btnPenWidth.Tag := gImagePaintWidth;
+  btnPenColor.ButtonColor := gImagePaintColor;
 
   Image.Stretch:= True;
   Image.AutoSize:= False;
@@ -1862,6 +1883,21 @@ begin
   FixFormIcon(Handle);
 
   GifAnim.Align:=alClient;
+
+  for Index:= 1 to 25 do
+  begin
+    MenuItem:= TMenuItem.Create(btnPenWidth);
+    MenuItem.Caption:= IntToStr(Index);
+    MenuItem.OnClick:= @miPaintClick;
+    MenuItem.Tag:= Index;
+    pmPenWidth.Items.Add(MenuItem);
+
+    MenuItem:= TMenuItem.Create(btnSlideShow);
+    MenuItem.Caption:= IntToStr(Index);
+    MenuItem.OnClick:= @miPaintClick;
+    MenuItem.Tag:= Index;
+    pmTimeShow.Items.Add(MenuItem);
+  end;
 
   HotMan.Register(pnlText ,'Text files');
   HotMan.Register(pnlImage,'Image files');
@@ -1941,7 +1977,11 @@ begin
   GifAnim.Animate:=not GifAnim.Animate;
   btnNextGifFrame.Enabled:= not GifAnim.Animate;
   btnPrevGifFrame.Enabled:= not GifAnim.Animate;
-  if GifAnim.Animate then btnGifMove.Caption:='||' else btnGifMove.Caption:='|>';
+  if GifAnim.Animate then
+    btnGifMove.ImageIndex:= 11
+  else begin
+    btnGifMove.ImageIndex:= 12
+  end;
 end;
 
 procedure TfrmViewer.btnGifToBmpClick(Sender: TObject);
@@ -1962,7 +2002,7 @@ var
   fsFileStream: TFileStreamEx = nil;
 begin
   if not ImgEdit then
-    begin
+  begin
     try
       sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
       fsFileStream:= TFileStreamEx.Create(FileList.Strings[iActiveFile], fmOpenRead or fmShareDenyNone);
@@ -1979,28 +2019,40 @@ begin
           Image.EnableAutoSizing;
         end;
     finally
-      FreeThenNil(bmp);
-      FreeThenNil(fsFileStream);
+      FreeAndNil(bmp);
+      FreeAndNil(fsFileStream);
     end;
     {miStretch.Checked:= False;
     Image.Stretch:= miStretch.Checked;
     Image.Proportional:= Image.Stretch;
     Image.Autosize:= not(miStretch.Checked);
     AdjustImageSize; }
-    end;
-  if gboxHightlight.Visible then UndoTmp;
+  end;
   if Sender = btnHightlight then
     begin
-      gboxHightlight.Visible := not (gboxHightlight.Visible);
-      gboxPaint.Visible:= False;
+      //btnHightlight.Down := not (btnHightlight.Down);
+      btnPaint.Down:= False;
+      if not btnHightlight.Down then UndoTmp;
     end
   else
     begin
-      gboxPaint.Visible:= not (gboxPaint.Visible);
-      gboxHightlight.Visible:= False;
+      if btnHightlight.Down then UndoTmp;
+     // btnPaint.Down:= not (btnPaint.Down);
+      btnHightlight.Down:= False;
     end;
+  btnCutTuImage.Enabled:= btnHightlight.Down;
+  btnRedEye.Enabled:= btnHightlight.Down;
+  btnUndo.Enabled:= btnPaint.Down;
+  btnPenMode.Enabled:= btnPaint.Down;
+  btnPenWidth.Enabled:= btnPaint.Down;
+  btnPenColor.Enabled:= btnPaint.Down;
   ImgEdit:= True;
   CreateTmp;
+end;
+
+procedure TfrmViewer.btnPenModeClick(Sender: TObject);
+begin
+  btnPenMode.Down:= not btnPenMode.Down;
 end;
 
 procedure TfrmViewer.btnPrevGifFrameClick(Sender: TObject);
@@ -2016,7 +2068,7 @@ end;
 
 procedure TfrmViewer.btnResizeClick(Sender: TObject);
 begin
-  FModSizeDialog:= TfrmModView.Create(Application);
+  FModSizeDialog:= TfrmModView.Create(Self);
   try
     FModSizeDialog.pnlQuality.Visible:=false;
     FModSizeDialog.pnlCopyMoveFile.Visible :=false;
@@ -2032,6 +2084,11 @@ begin
   finally
     FreeAndNil(FModSizeDialog);
   end;
+end;
+
+procedure TfrmViewer.btnSlideShowClick(Sender: TObject);
+begin
+  btnSlideShow.Down:= not btnSlideShow.Down;
 end;
 
 procedure TfrmViewer.btnUndoClick(Sender: TObject);
@@ -2050,6 +2107,14 @@ begin
 
   FreeAndNil(FFindDialog);
   HotMan.UnRegister(Self);
+end;
+
+procedure TfrmViewer.miPaintClick(Sender: TObject);
+var
+  MenuItem: TMenuItem absolute Sender;
+begin
+  MenuItem.Owner.Tag:= MenuItem.Tag;
+  TToolButton(MenuItem.Owner).Caption:= MenuItem.Caption;
 end;
 
 procedure TfrmViewer.ReopenAsTextIfNeeded;
@@ -2162,6 +2227,26 @@ begin
 end;
 
 function TfrmViewer.LoadGraphics(const sFileName:String): Boolean;
+
+  procedure UpdateToolbar(bImage: Boolean);
+  begin
+    btnHightlight.Enabled:= bImage and (not miFullScreen.Checked);
+    btnPaint.Enabled:= bImage and (not miFullScreen.Checked);
+    btnResize.Enabled:= bImage and (not miFullScreen.Checked);
+    miImage.Visible:= bImage;
+    btnZoomIn.Enabled:= bImage;
+    btnZoomOut.Enabled:= bImage;
+    btn270.Enabled:= bImage;
+    btn90.Enabled:= bImage;
+    btnMirror.Enabled:= bImage;
+    btnZoomSeparator.Enabled:= bImage;
+    btnGifMove.Enabled:= not bImage;
+    btnGifToBmp.Enabled:= not bImage;
+    btnGifSeparator.Enabled:= not bImage;
+    btnNextGifFrame.Enabled:= not bImage;
+    btnPrevGifFrame.Enabled:= not bImage;
+  end;
+
 var
   sExt: String;
   fsFileHandle: System.THandle;
@@ -2199,19 +2284,7 @@ begin
             end;
           end;
 {$ENDIF}
-          btnHightlight.Visible:= not (miFullScreen.Checked);
-          btnPaint.Visible:= not (miFullScreen.Checked);
-          btnResize.Visible:= not (miFullScreen.Checked);
-          miImage.Visible:= True;
-          btnZoomIn.Visible:= True;
-          btnZoomOut.Visible:= True;
-          btn270.Visible:= True;
-          btn90.Visible:= True;
-          btnMirror.Visible:= True;
-          btnGifMove.Visible:= False;
-          btnGifToBmp.Visible:= False;
-          btnNextGifFrame.Visible:= False;
-          btnPrevGifFrame.Visible:= False;
+          UpdateToolbar(True);
         finally
           FreeAndNil(fsFileStream);
         end;
@@ -2244,19 +2317,7 @@ begin
       Image.Visible:= False;
       try
         GifAnim.FileName:= sFileName;
-        btnHightlight.Visible:= False;
-        btnPaint.Visible:= False;
-        btnResize.Visible:= False;
-        miImage.Visible:= False;
-        btnZoomIn.Visible:= False;
-        btnZoomOut.Visible:= False;
-        btn270.Visible:= False;
-        btn90.Visible:= False;
-        btnMirror.Visible:= False;
-        btnGifMove.Visible:= True;
-        btnGifToBmp.Visible:= True;
-        btnNextGifFrame.Visible:= True;
-        btnPrevGifFrame.Visible:= True;
+        UpdateToolbar(False);
       except
         on E: Exception do
         begin
@@ -2685,7 +2746,7 @@ procedure TfrmViewer.cm_SaveAs(const Params: array of string);
 begin
   if bAnimation or bImage then
   begin
-    FModSizeDialog:= TfrmModView.Create(Application);
+    FModSizeDialog:= TfrmModView.Create(Self);
     try
       FModSizeDialog.pnlSize.Visible:=false;
       FModSizeDialog.pnlCopyMoveFile.Visible :=false;
@@ -2791,12 +2852,13 @@ begin
 {$ENDIF}
       WindowState:= wsFullScreen;
       Self.Menu:= nil;
-      gboxPaint.Visible:= false;
-      gboxHightlight.Visible:=false;
+      btnPaint.Down:= false;
+      btnHightlight.Down:=false;
       PanelEditImage.Visible:= False;
       miStretch.Checked:= True;
       miStretchOnlyLarge.Checked:= False;
       if miPreview.Checked then cm_Preview(['']);
+      actFullscreen.ImageIndex:= 25;
     end
   else
     begin
@@ -2810,19 +2872,20 @@ begin
       SetBounds(FWindowBounds.Left, FWindowBounds.Top, FWindowBounds.Right, FWindowBounds.Bottom);
 {$ENDIF}
       PanelEditImage.Visible:= True;
+      actFullscreen.ImageIndex:= 22;
     end;
   if ExtractOnlyFileExt(FileList.Strings[iActiveFile]) <> 'gif' then
-    begin
-      btnHightlight.Visible:=not(miFullScreen.Checked);
-      btnPaint.Visible:=not(miFullScreen.Checked);
-      btnResize.Visible:=not(miFullScreen.Checked);
-    end;
+  begin
+    btnHightlight.Enabled:= not (miFullScreen.Checked);
+    btnPaint.Enabled:= not (miFullScreen.Checked);
+    btnResize.Enabled:= not (miFullScreen.Checked);
+  end;
   sboxImage.HorzScrollBar.Visible:= not(miFullScreen.Checked);
   sboxImage.VertScrollBar.Visible:= not(miFullScreen.Checked);
   TimerViewer.Enabled:=miFullScreen.Checked;
-  btnReload.Visible:=not(miFullScreen.Checked);
+  btnReload.Enabled:=not(miFullScreen.Checked);
   Status.Visible:=not(miFullScreen.Checked);
-  gboxSlideShow.Visible:=miFullScreen.Checked;
+  btnSlideShow.Visible:=miFullScreen.Checked;
   AdjustImageSize;
   ShowOnTop;
 end;

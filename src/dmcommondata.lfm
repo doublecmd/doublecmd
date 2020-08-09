@@ -8,19 +8,19 @@ object dmComData: TdmComData
   PPI = 120
   object OpenDialog: TOpenDialog
     FilterIndex = 0
-    left = 40
-    top = 30
+    Left = 40
+    Top = 30
   end
   object SaveDialog: TSaveDialog
     FilterIndex = 0
-    left = 150
-    top = 30
+    Left = 150
+    Top = 30
   end
   object ImageList: TImageList
     Height = 22
     Width = 22
-    left = 280
-    top = 30
+    Left = 280
+    Top = 30
     Bitmap = {
       4C69020000001600000016000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
@@ -147,8 +147,8 @@ object dmComData: TdmComData
     }
   end
   object ilEditorImages: TImageList
-    left = 400
-    top = 30
+    Left = 400
+    Top = 30
     Bitmap = {
       4C692200000010000000100000009E9E9EFF818181FF818181FF818181FF8181
       81FF818181FF818181FF818181FF818181FF7C8C8CFF729F9FFF6AAEAFFF36E4
@@ -1240,5 +1240,11 @@ object dmComData: TdmComData
       0033000000330000003300000033000000330000003300000033000000300000
       0000000000000000000000000000
     }
+  end
+  object ilViewerImages: TImageList
+    Height = 24
+    Width = 24
+    Left = 280
+    Top = 120
   end
 end
