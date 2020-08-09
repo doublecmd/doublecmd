@@ -83,6 +83,7 @@ type
   TPtrIntList = specialize TFPGList<PtrInt>;
 
   TGuessEncodingEvent = function(const s: string): string;
+  TFileOpenEvent = function(const FileName: String; Mode: LongWord): System.THandle;
 
   TCustomCharsPresentation = class;
   TCharToCustomValueTransformProc = function(AChar:AnsiChar;AMaxDigitsCount:integer):AnsiString of object;
@@ -244,6 +245,7 @@ type
     FTabSpaces:          Integer; // tab width in spaces
     FMaxTextWidth:       Integer; // maximum of chars on one line unwrapped text (max 16384)
     FOnGuessEncoding:    TGuessEncodingEvent;
+    FOnFileOpen:         TFileOpenEvent;
     FCaretVisible:       Boolean;
     FShowCaret:          Boolean;
     FLastError:          String;
@@ -506,6 +508,7 @@ type
     property MaxTextWidth: Integer read FMaxTextWidth write SetMaxTextWidth;
     property TabSpaces: Integer read FTabSpaces write SetTabSpaces;
     property OnGuessEncoding: TGuessEncodingEvent Read FOnGuessEncoding Write FOnGuessEncoding;
+    property OnFileOpen: TFileOpenEvent read FOnFileOpen write FOnFileOpen;
 
   published
     property Mode: TViewerControlMode Read FViewerControlMode Write SetViewerMode default vcmWrap;
@@ -1513,67 +1516,23 @@ function TViewerControl.MapFile(const sFileName: String): Boolean;
     FFileHandle := 0;
   end;
 
-{$IFDEF MSWINDOWS}
-var
-  wFileName: UnicodeString;
-begin
-  Result := False;
-  if Assigned(FMappedFile) then
-    UnMapFile; // if needed
-
-  FLastError  := EmptyStr;
-  wFileName   := UTF16LongName(sFileName);
-  FFileHandle := CreateFileW(PWChar(wFileName), GENERIC_READ,
-      FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE, nil,
-      OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-
-  if FFileHandle = INVALID_HANDLE_VALUE then
-  begin
-    FLastError := mbSysErrorMessage;
-    FFileHandle := 0;
-    Exit;
-  end;
-
-  Int64Rec(FFileSize).Lo := GetFileSize(FFileHandle, @Int64Rec(FFileSize).Hi);
-
-  if (FFileSize < MaxMemSize) then
-  begin
-    Result := ReadFile;
-    Exit;
-  end;
-
-  FMappingHandle := CreateFileMapping(FFileHandle, nil, PAGE_READONLY, 0, 0, nil);
-
-  if FMappingHandle = 0 then
-  begin
-    FLastError := mbSysErrorMessage;
-    FMappedFile := nil;
-    UnMapFile;
-  end
-  else begin
-    FMappedFile := MapViewOfFile(FMappingHandle, FILE_MAP_READ, 0, 0, 0);
-    if (FMappedFile = nil) then
-    begin
-      FLastError := mbSysErrorMessage;
-      UnMapFile;
-    end;
-  end;
-
-  Result := Assigned(FMappedFile);
-end;
-{$ELSE}
-var
-  StatBuf: Stat;
 {$IFDEF LINUX}
+var
   Sbfs: TStatFS;
 {$ENDIF}
 begin
   Result := False;
+  FLastError := EmptyStr;
+
   if Assigned(FMappedFile) then
     UnMapFile; // if needed
 
-  FLastError  := EmptyStr;
-  FFileHandle := mbFileOpen(sFileName, fmOpenRead);
+  if Assigned(FOnFileOpen) then
+    FFileHandle := FOnFileOpen(sFileName, fmOpenRead or fmShareDenyNone)
+  else begin
+    FFileHandle := mbFileOpen(sFileName, fmOpenRead or fmShareDenyNone);
+  end;
+
   if FFileHandle = feInvalidHandle then
   begin
     FLastError := mbSysErrorMessage;
@@ -1581,15 +1540,7 @@ begin
     Exit;
   end;
 
-  if fpFStat(FFileHandle, StatBuf) <> 0 then
-  begin
-    FLastError := mbSysErrorMessage;
-    FileClose(FFileHandle);
-    FFileHandle := 0;
-    Exit;
-  end;
-
-  FFileSize := StatBuf.st_size;
+  FFileSize := FileGetSize(FFileHandle);
 
 {$IFDEF LINUX}
   if (fpFStatFS(FFileHandle, @Sbfs) = 0) then
@@ -1613,6 +1564,23 @@ begin
     Exit;
   end;
 
+{$IFDEF MSWINDOWS}
+  FMappingHandle := CreateFileMapping(FFileHandle, nil, PAGE_READONLY, 0, 0, nil);
+  if FMappingHandle = 0 then
+  begin
+    FLastError := mbSysErrorMessage;
+    FMappedFile := nil;
+    UnMapFile;
+  end
+  else begin
+    FMappedFile := MapViewOfFile(FMappingHandle, FILE_MAP_READ, 0, 0, 0);
+    if (FMappedFile = nil) then
+    begin
+      FLastError := mbSysErrorMessage;
+      UnMapFile;
+    end;
+  end;
+{$ELSE}
   FMappedFile := fpmmap(nil, FFileSize, PROT_READ, MAP_PRIVATE{SHARED}, FFileHandle, 0);
   if FMappedFile = MAP_FAILED then
   begin
@@ -1622,10 +1590,9 @@ begin
     FFileHandle := 0;
     Exit;
   end;
-
-  Result:= True;
-end;
 {$ENDIF}
+  Result := Assigned(FMappedFile);
+end;
 
 procedure TViewerControl.UnMapFile;
 begin
