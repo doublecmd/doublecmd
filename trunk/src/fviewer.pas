@@ -460,7 +460,7 @@ uses
   FileUtil, IntfGraphics, Math, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding,
   DCClassesUtf8, uFindMmap, DCStrUtils, uDCUtils, LCLIntf, uDebug, uHotkeyManager,
   uConvEncoding, DCBasicTypes, DCOSUtils, uOSUtils, uFindByrMr, uFileViewWithGrid,
-  fPrintSetup, uFindFiles
+  fPrintSetup, uFindFiles, uAdministrator
 {$IFDEF LCLGTK2}
   , uGraphics
 {$ENDIF}
@@ -1838,9 +1838,7 @@ begin
   HMViewer := HotMan.Register(Self, HotkeysCategory);
   HMViewer.RegisterActionList(actionList);
 
-//  ParseLineToList(rsViewPaintToolsList, ComboBoxPaint.Items);
-//  SetComboWidthToLargestElement(ComboBoxPaint, 30);
-
+  ViewerControl.OnFileOpen:= @FileOpenUAC;
   ViewerControl.OnGuessEncoding:= @DetectEncoding;
 
   FontOptionsToFont(gFonts[dcfViewer], ViewerControl.Font);
