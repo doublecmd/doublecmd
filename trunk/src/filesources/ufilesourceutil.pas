@@ -54,7 +54,7 @@ uses
   uArchiveFileSourceUtil,
   uFileSourceOperationMessageBoxesUI,
   uFileProperty, URIParser,
-  WcxPlugin, uWcxModule;
+  WcxPlugin, uWcxModule, uHash;
 
 procedure ChooseFile(aFileView: TFileView; aFileSource: IFileSource;
   aFile: TFile);
@@ -87,6 +87,11 @@ begin
       finally
         FreeAndNil(aFileCopy);
       end;
+    end;
+    if (fsoCalcChecksum in aFileView.FileSource.GetOperationsTypes) and FileExtIsHash(aFile.Extension) then
+    begin
+      ProcessExtCommandFork('cm_CheckSumVerify');
+      Exit;
     end;
   end;
 

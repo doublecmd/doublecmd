@@ -113,6 +113,7 @@ type
     FiArcIconID : PtrInt;
     FiSortAscID : PtrInt;
     FiSortDescID : PtrInt;
+    FiHashIconID : PtrInt;
     {$IF DEFINED(MSWINDOWS)}
     FSysImgList : THandle;
     FiSysDirIconID : PtrInt;
@@ -332,7 +333,7 @@ implementation
 uses
   GraphType, LCLIntf, LCLType, LCLProc, Forms, uGlobsPaths, WcxPlugin,
   DCStrUtils, uDCUtils, uFileSystemFileSource, uReSample, uDebug,
-  DCOSUtils, DCClassesUtf8, LazUTF8, uGraphics
+  DCOSUtils, DCClassesUtf8, LazUTF8, uGraphics, uHash
   {$IFDEF LCLGTK2}
     , uPixMapGtk, gdk2pixbuf, gdk2, glib2
   {$ENDIF}
@@ -1510,6 +1511,7 @@ begin
   FiExeIconID:= CheckAddThemePixmap('application-x-executable');
   FiSortAscID := CheckAddThemePixmap('view-sort-ascending');
   FiSortDescID := CheckAddThemePixmap('view-sort-descending');
+  FiHashIconID := CheckAddThemePixmap('text-x-hash');
   gFiOwnDCIcon := CheckAddPixmap(ParamStr(0), gIconsSize);
 
   { Load icons from "extassoc.xml" }
@@ -1568,6 +1570,11 @@ begin
     end;
   finally
     slPixmapList.Free;
+  end;
+
+  for sExt in HashFileExt do
+  begin
+    FExtList.Add(sExt, TObject(FiHashIconID));
   end;
 
   (* Set archive icons *)
