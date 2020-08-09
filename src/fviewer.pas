@@ -481,7 +481,7 @@ const
   // Graphics
   sbpCurrentResolution    = 1;
   sbpFullResolution       = 2;
-  sbpImageLoadTime        = 3;
+  sbpImageSelection       = 3;
 
 type
 
@@ -993,9 +993,7 @@ begin
                 DrawFocusRect(Rect(UndoSX+10,UndoSY+10,UndoEX-10,UndoEY-10));
                 DrawFocusRect(Rect(StartX,StartY,EndX,EndY));
                 DrawFocusRect(Rect(StartX+10,StartY+10,EndX-10,EndY-10));//Pen.Mode := pmNotXor;
-
-                Status.Panels[sbpImageLoadTime].Text := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
-
+                Status.Panels[sbpImageSelection].Text := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
                 UndoSX:=StartX;
                 UndoSY:=StartY;
                 UndoEX:=EndX;
@@ -1063,7 +1061,7 @@ begin
         Pen.Color := clHighlight;
         DrawFocusRect(Rect(StartX,StartY,EndX,EndY));
         DrawFocusRect(Rect(StartX+10,StartY+10,EndX-10,EndY-10));
-        Status.Panels[sbpImageLoadTime].Text := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
+        Status.Panels[sbpImageSelection].Text := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
       end;
     end;
     end;
