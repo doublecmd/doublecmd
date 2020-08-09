@@ -114,7 +114,7 @@ uses
   uTempFileSystemFileSource, uLng, fDiffer, uDebug, DCOSUtils, uShowMsg,
   DCStrUtils, uFileSourceProperty, uWfxPluginCopyOutOperation,
   uFileSourceOperationOptions, uOperationsManager, uFileSourceOperationTypes,
-  uMultiArchiveFileSource, fFileExecuteYourSelf, uFileProcs;
+  uMultiArchiveFileSource, fFileExecuteYourSelf, uFileProcs, uFileSystemFileSource;
 
 type
 
@@ -165,16 +165,25 @@ type
 procedure RunExtTool(const ExtTool: TExternalToolOptions; sFileName: String);
 var
   sCmd: String;
-  sParams:string='';
+  AFile: TFile = nil;
+  sParams: String = '';
 begin
   sCmd := ExtTool.Path;
   sParams := ExtTool.Parameters;
   //If there is %p already configured in the parameter, we assume user configured it the way he wants.
   //This might be in non-common case where there are parameters AFTER the filename to open.
-  //If there is not %p, let's do thing like legacy was and let's add the filename received as paramter.
-  if pos('%p',sParams)=0 then
-    sParams := ConcatenateStrWithSpace(sParams,QuoteFilenameIfNecessary(sFileName));
-  ProcessExtCommandFork(sCmd, sParams, '', nil, ExtTool.RunInTerminal, ExtTool.KeepTerminalOpen);
+  //If there is not %p, let's do thing like legacy was and let's add the filename received as parameter.
+  if Pos('%p', sParams) = 0 then
+  begin
+    sParams:= ConcatenateStrWithSpace(sParams, '%p0');
+    AFile:= TFileSystemFileSource.CreateFile(sFileName);
+  end;
+
+  try
+    ProcessExtCommandFork(sCmd, sParams, '', AFile, ExtTool.RunInTerminal, ExtTool.KeepTerminalOpen);
+  finally
+    AFile.Free;
+  end;
 end;
 
 procedure RunExtDiffer(CompareList: TStringList);
