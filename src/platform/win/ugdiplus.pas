@@ -390,68 +390,60 @@ end;
 var
   hLib: HMODULE;
 
-initialization
+procedure Initialize;
+begin
   hLib:= LoadLibrary('gdiplus.dll');
-  IsGdiPlusLoaded:= (hLib <> 0);
-  if IsGdiPlusLoaded then
-    begin
-      @GdiplusStartup:= GetProcAddress(hLib, 'GdiplusStartup');
-      @GdiplusShutdown:= GetProcAddress(hLib, 'GdiplusShutdown');
-      @GdipCreateBitmapFromHICON:= GetProcAddress(hLib, 'GdipCreateBitmapFromHICON');
-      @GdipCreateBitmapFromHBITMAP:= GetProcAddress(hLib, 'GdipCreateBitmapFromHBITMAP');
-      @GdipCreateBitmapFromScan0:= GetProcAddress(hLib, 'GdipCreateBitmapFromScan0');
-      @GdipCreateBitmapFromGraphics:= GetProcAddress(hLib, 'GdipCreateBitmapFromGraphics');
-      @GdipCreateFromHDC:= GetProcAddress(hLib, 'GdipCreateFromHDC');
-      @GdipDrawImageRectI:= GetProcAddress(hLib, 'GdipDrawImageRectI');
-      @GdipDrawImageRectRectI:= GetProcAddress(hLib, 'GdipDrawImageRectRectI');
-      @GdipLoadImageFromStream:= GetProcAddress(hLib, 'GdipLoadImageFromStream');
-      @GdipDisposeImage:= GetProcAddress(hLib, 'GdipDisposeImage');
-      @GdipDeleteGraphics:= GetProcAddress(hLib, 'GdipDeleteGraphics');
-      @GdipGraphicsClear:= GetProcAddress(hLib, 'GdipGraphicsClear');
-      @GdipSetInterpolationMode:= GetProcAddress(hLib, 'GdipSetInterpolationMode');
-      @GdipCreateImageAttributes:= GetProcAddress(hLib, 'GdipCreateImageAttributes');
-      @GdipDisposeImageAttributes:= GetProcAddress(hLib, 'GdipDisposeImageAttributes');
-      @GdipSetImageAttributesColorKeys:= GetProcAddress(hLib, 'GdipSetImageAttributesColorKeys');
-      @GdipBitmapLockBits:= GetProcAddress(hLib, 'GdipBitmapLockBits');
-      @GdipBitmapUnlockBits:= GetProcAddress(hLib, 'GdipBitmapUnlockBits');
-      @GdipGetImagePixelFormat:= GetProcAddress(hLib, 'GdipGetImagePixelFormat');
-      @GdipGetImageWidth:= GetProcAddress(hLib, 'GdipGetImageWidth');
-      @GdipGetImageHeight:= GetProcAddress(hLib, 'GdipGetImageHeight');
-      // Initialize GDI+ StartupInput structure
-      StartupInput.DebugEventCallback:= nil;
-      StartupInput.SuppressBackgroundThread:= False;
-      StartupInput.SuppressExternalCodecs:= False;
-      StartupInput.GdiplusVersion:= 1;
-      // Initialize GDI+
-      GdiplusStartup(gdiplusToken, @StartupInput, nil);
+  if (hLib <> 0) then
+  begin
+    @GdiplusStartup:= GetProcAddress(hLib, 'GdiplusStartup');
+    @GdiplusShutdown:= GetProcAddress(hLib, 'GdiplusShutdown');
+    @GdipCreateBitmapFromHICON:= GetProcAddress(hLib, 'GdipCreateBitmapFromHICON');
+    @GdipCreateBitmapFromHBITMAP:= GetProcAddress(hLib, 'GdipCreateBitmapFromHBITMAP');
+    @GdipCreateBitmapFromScan0:= GetProcAddress(hLib, 'GdipCreateBitmapFromScan0');
+    @GdipCreateBitmapFromGraphics:= GetProcAddress(hLib, 'GdipCreateBitmapFromGraphics');
+    @GdipCreateFromHDC:= GetProcAddress(hLib, 'GdipCreateFromHDC');
+    @GdipDrawImageRectI:= GetProcAddress(hLib, 'GdipDrawImageRectI');
+    @GdipDrawImageRectRectI:= GetProcAddress(hLib, 'GdipDrawImageRectRectI');
+    @GdipLoadImageFromStream:= GetProcAddress(hLib, 'GdipLoadImageFromStream');
+    @GdipDisposeImage:= GetProcAddress(hLib, 'GdipDisposeImage');
+    @GdipDeleteGraphics:= GetProcAddress(hLib, 'GdipDeleteGraphics');
+    @GdipGraphicsClear:= GetProcAddress(hLib, 'GdipGraphicsClear');
+    @GdipSetInterpolationMode:= GetProcAddress(hLib, 'GdipSetInterpolationMode');
+    @GdipCreateImageAttributes:= GetProcAddress(hLib, 'GdipCreateImageAttributes');
+    @GdipDisposeImageAttributes:= GetProcAddress(hLib, 'GdipDisposeImageAttributes');
+    @GdipSetImageAttributesColorKeys:= GetProcAddress(hLib, 'GdipSetImageAttributesColorKeys');
+    @GdipBitmapLockBits:= GetProcAddress(hLib, 'GdipBitmapLockBits');
+    @GdipBitmapUnlockBits:= GetProcAddress(hLib, 'GdipBitmapUnlockBits');
+    @GdipGetImagePixelFormat:= GetProcAddress(hLib, 'GdipGetImagePixelFormat');
+    @GdipGetImageWidth:= GetProcAddress(hLib, 'GdipGetImageWidth');
+    @GdipGetImageHeight:= GetProcAddress(hLib, 'GdipGetImageHeight');
+    // Initialize GDI+ StartupInput structure
+    StartupInput.DebugEventCallback:= nil;
+    StartupInput.SuppressBackgroundThread:= False;
+    StartupInput.SuppressExternalCodecs:= False;
+    StartupInput.GdiplusVersion:= 1;
+    // Initialize GDI+
+    IsGdiPlusLoaded:= (GdiplusStartup(gdiplusToken, @StartupInput, nil) = Ok);
   end;
+end;
+
+procedure Finalize;
+begin
+  if (hLib <> 0) then
+  begin
+    // Close GDI+
+    if IsGdiPlusLoaded then
+      GdiplusShutdown(gdiplusToken);
+    FreeLibrary(hLib);
+  end;
+end;
+
+initialization
+  Initialize;
 
 finalization
-  if IsGdiPlusLoaded then
-    begin
-      // Close GDI +
-      GdiplusShutdown(gdiplusToken);
-      GdiplusStartup:= nil;
-      GdiplusShutdown:= nil;
-      GdipCreateBitmapFromHICON:= nil;
-      GdipCreateBitmapFromHBITMAP:= nil;
-      GdipCreateBitmapFromScan0:= nil;
-      GdipCreateBitmapFromGraphics:= nil;
-      GdipCreateFromHDC:= nil;
-      GdipDrawImageRectI:= nil;
-      GdipDrawImageRectRectI:= nil;
-      GdipDisposeImage:= nil;
-      GdipDeleteGraphics:= nil;
-      GdipGraphicsClear:= nil;
-      GdipSetInterpolationMode:= nil;
-      GdipCreateImageAttributes:= nil;
-      GdipDisposeImageAttributes:= nil;
-      GdipSetImageAttributesColorKeys:= nil;
-      GdipBitmapLockBits:= nil;
-      GdipBitmapUnlockBits:= nil;
-      GdipGetImagePixelFormat:= nil;
-      FreeLibrary(hLib);
-    end;
+  Finalize;
 
 end.
+
 
