@@ -122,12 +122,12 @@ implementation
 
 uses
   ExtDlgs, LCLProc, Menus, Graphics, InterfaceBase, WSForms, LMessages, LCLIntf,
-  uConnectionManager, uTurboJPEG
+  uConnectionManager
   {$IF DEFINED(MSWINDOWS)}
   , ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
   , uWinNetFileSource, uVfsModule, uLng, uMyWindows, DCStrUtils
-  , uDCReadSVG, uFileSourceUtil
+  , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG
   , Dialogs, Clipbrd, uShowMsg, uDebug, JwaDbt
     {$IFDEF LCLQT5}
     , qt5, qtwidgets, uDarkStyle
@@ -152,7 +152,8 @@ uses
     {$IF DEFINED(LCLGTK2)}
     , gtk2
     {$ENDIF}
-  {$ENDIF};
+  {$ENDIF}
+  , uTurboJPEG;
 
 { TAloneForm }
 
