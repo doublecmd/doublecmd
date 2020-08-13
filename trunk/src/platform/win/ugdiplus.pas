@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains some GDI+ API functions
 
-    Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2020 Alexander Koblov (alexx2000@mail.ru)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -22,12 +22,13 @@
 
 unit uGdiPlus;
 
-{$mode objfpc}{$H+}
+{$mode delphi}
+{$pointermath on}
 
 interface
 
 uses
-  Windows;
+  Windows, ActiveX, FPImage, Classes;
 
 type
   GPSTATUS = (
@@ -85,13 +86,15 @@ const
 type
   GPPIXELFORMAT = (
     // ...
-    PixelFormat32bppRGB     =  ( 9 or (32 shl 8) or GdipPixelFormatGDI),
-    PixelFormat32bppARGB    =  (10 or (32 shl 8) or GdipPixelFormatAlpha or
-                                                    GdipPixelFormatGDI or
-                                                    GdipPixelFormatCanonical),
-    PixelFormat32bppPARGB   =  (11 or (32 shl 8) or GdipPixelFormatAlpha or
-                                                    GdipPixelFormatPAlpha or
-                                                    GdipPixelFormatGDI)
+    PixelFormat16bppGrayScale =  ( 4 or (16 shl 8) or GdipPixelFormatExtended),
+    PixelFormat24bppRGB       =  ( 8 or (24 shl 8) or GdipPixelFormatGDI),
+    PixelFormat32bppRGB       =  ( 9 or (32 shl 8) or GdipPixelFormatGDI),
+    PixelFormat32bppARGB      =  (10 or (32 shl 8) or GdipPixelFormatAlpha or
+                                                      GdipPixelFormatGDI or
+                                                      GdipPixelFormatCanonical),
+    PixelFormat32bppPARGB     =  (11 or (32 shl 8) or GdipPixelFormatAlpha or
+                                                      GdipPixelFormatPAlpha or
+                                                      GdipPixelFormatGDI)
     // ...
   );
 
@@ -160,72 +163,55 @@ const
   GdipImageLockModeWrite        = 2;
   GdipImageLockModeUserInputBuf = 4;
 
-type
-  // functions prototypes
-  TGdiplusStartup = function (out token: ULONG; input: PGdiplusStartupInput;
-                              output: PGdiplusStartupOutput): GPSTATUS; stdcall;
-  TGdiplusShutdown = procedure (token: ULONG); stdcall;
-  TGdipCreateBitmapFromHICON = function (hicon: HICON;
-                                         out bitmap: GPBITMAP): GPSTATUS; stdcall;
-  TGdipCreateBitmapFromHBITMAP = function (hbitmap: HBITMAP; hpalette: HPALETTE;
-                                           out bitmap: GPBITMAP): GPSTATUS; stdcall;
-  TGdipCreateBitmapFromScan0 = function (Width, Height: Integer; Stride: Integer; PixelFormat: GPPIXELFORMAT;
-                                         Scan0: LPBYTE; out bitmap: GPBITMAP): GPSTATUS; stdcall;
-  TGdipCreateBitmapFromGraphics = function (Width, Height: Integer;
-                                            graphics: GPGRAPHICS;
-                                            out bitmap: GPBITMAP): GPSTATUS; stdcall;
-  TGdipCreateFromHDC = function (hdc: HDC; out graphics: GPGRAPHICS): GPSTATUS; stdcall;
-  TGdipDrawImageRectI = function (graphics: GPGRAPHICS; image: GPIMAGE; x: Integer;
-                                  y: Integer; width: Integer; height: Integer): GPSTATUS; stdcall;
-  TGdipDrawImageRectRectI = function (graphics: GPGRAPHICS; image: GPIMAGE;
-                                      dstx, dsty, dstwidth, dstheight: Integer;
-                                      srcx, srcy, srcwidth, srcheight: Integer;
-                                      srcUnit: GpUnit; imageattr: GPIMAGEATTRIBUTES;
-                                      abortCallback: Pointer = nil;
-                                      callbackData: Pointer = nil): GPSTATUS; stdcall;
-  TGdipDisposeImage = function (image: GPIMAGE): GPSTATUS; stdcall;
-  TGdipDeleteGraphics = function (graphics: GPGRAPHICS): GPSTATUS; stdcall;
-  TGdipGraphicsClear = function (graphics: GPGRAPHICS; color: Integer): GPSTATUS; stdcall;
-  TGdipSetInterpolationMode = function (graphics: GPGRAPHICS; interpolation: Integer): GPSTATUS; stdcall;
-  TGdipCreateImageAttributes = function (out imageattr: GPIMAGEATTRIBUTES): GPSTATUS; stdcall;
-  TGdipDisposeImageAttributes = function (imageattr: GPIMAGEATTRIBUTES): GPSTATUS; stdcall;
-  TGdipSetImageAttributesColorKeys = function (imageattr: GPIMAGEATTRIBUTES; ColorAdjustType: GpColorAdjustType;
-                                               Enable: BOOL; ColorLow: LONG; ColorHigh: LONG): GPSTATUS; stdcall;
-  TGdipBitmapLockBits = function (bitmap: GPBITMAP; rect: LPRECT; flags: UINT;
-                                  PixelFormat: GPPIXELFORMAT;
-                                  lockedData: PGdiPlusBitmapData): GPSTATUS; stdcall;
-  TGdipBitmapUnlockBits = function (bitmap: GPBITMAP; lockedData: PGdiPlusBitmapData): GPSTATUS; stdcall;
-  TGdipGetImagePixelFormat = function (image: GPIMAGE; out pixelFormat: GPPIXELFORMAT): GPSTATUS; stdcall;
-
 var
   IsGdiPlusLoaded: Boolean = False;
-  GdiplusStartup: TGdiplusStartup;
-  GdiplusShutdown: TGdiplusShutdown;
-  GdipCreateBitmapFromHICON: TGdipCreateBitmapFromHICON;
-  GdipCreateBitmapFromHBITMAP: TGdipCreateBitmapFromHBITMAP;
-  GdipCreateBitmapFromScan0: TGdipCreateBitmapFromScan0;
-  GdipCreateBitmapFromGraphics: TGdipCreateBitmapFromGraphics;
-  GdipCreateFromHDC: TGdipCreateFromHDC;
-  GdipDrawImageRectI: TGdipDrawImageRectI;
-  GdipDrawImageRectRectI: TGdipDrawImageRectRectI;
-  GdipDisposeImage: TGdipDisposeImage;
-  GdipDeleteGraphics: TGdipDeleteGraphics;
-  GdipGraphicsClear: TGdipGraphicsClear;
-  GdipSetInterpolationMode: TGdipSetInterpolationMode;
-  GdipCreateImageAttributes: TGdipCreateImageAttributes;
-  GdipDisposeImageAttributes: TGdipDisposeImageAttributes;
-  GdipSetImageAttributesColorKeys: TGdipSetImageAttributesColorKeys;
-  GdipBitmapLockBits: TGdipBitmapLockBits;
-  GdipBitmapUnlockBits: TGdipBitmapUnlockBits;
-  GdipGetImagePixelFormat: TGdipGetImagePixelFormat;
 
-function GdiPlusStretchDraw(hicn: hIcon; hCanvas: HDC; X, Y, cxWidth, cyHeight: Integer): Boolean;
-function GdiPlusStretchDraw(himl: hImageList; ImageIndex: Integer; hCanvas: HDC; X, Y, cxWidth, cyHeight: Integer): Boolean;
+  GdiplusStartup: function (out token: ULONG; input: PGdiplusStartupInput;
+                            output: PGdiplusStartupOutput): GPSTATUS; stdcall;
+  GdiplusShutdown: procedure (token: ULONG); stdcall;
+  GdipCreateBitmapFromHICON: function (hicon: HICON;
+                                       out bitmap: GPBITMAP): GPSTATUS; stdcall;
+  GdipCreateBitmapFromHBITMAP: function (hbitmap: HBITMAP; hpalette: HPALETTE;
+                                         out bitmap: GPBITMAP): GPSTATUS; stdcall;
+  GdipCreateBitmapFromScan0: function (Width, Height: Integer; Stride: Integer; PixelFormat: GPPIXELFORMAT;
+                                       Scan0: LPBYTE; out bitmap: GPBITMAP): GPSTATUS; stdcall;
+  GdipCreateBitmapFromGraphics: function (Width, Height: Integer;
+                                          graphics: GPGRAPHICS;
+                                          out bitmap: GPBITMAP): GPSTATUS; stdcall;
+  GdipCreateFromHDC: function (hdc: HDC; out graphics: GPGRAPHICS): GPSTATUS; stdcall;
+  GdipDrawImageRectI: function (graphics: GPGRAPHICS; image: GPIMAGE; x: Integer;
+                                y: Integer; width: Integer; height: Integer): GPSTATUS; stdcall;
+  GdipDrawImageRectRectI: function (graphics: GPGRAPHICS; image: GPIMAGE;
+                                    dstx, dsty, dstwidth, dstheight: Integer;
+                                    srcx, srcy, srcwidth, srcheight: Integer;
+                                    srcUnit: GpUnit; imageattr: GPIMAGEATTRIBUTES;
+                                    abortCallback: Pointer = nil;
+                                    callbackData: Pointer = nil): GPSTATUS; stdcall;
+  GdipLoadImageFromStream: function (stream: IStream; out image: GPIMAGE): GPSTATUS; stdcall;
+  GdipDisposeImage: function (image: GPIMAGE): GPSTATUS; stdcall;
+  GdipDeleteGraphics: function (graphics: GPGRAPHICS): GPSTATUS; stdcall;
+  GdipGraphicsClear: function (graphics: GPGRAPHICS; color: Integer): GPSTATUS; stdcall;
+  GdipSetInterpolationMode: function (graphics: GPGRAPHICS; interpolation: Integer): GPSTATUS; stdcall;
+  GdipCreateImageAttributes: function (out imageattr: GPIMAGEATTRIBUTES): GPSTATUS; stdcall;
+  GdipDisposeImageAttributes: function (imageattr: GPIMAGEATTRIBUTES): GPSTATUS; stdcall;
+  GdipSetImageAttributesColorKeys: function (imageattr: GPIMAGEATTRIBUTES; ColorAdjustType: GpColorAdjustType;
+                                             Enable: BOOL; ColorLow: LONG; ColorHigh: LONG): GPSTATUS; stdcall;
+  GdipBitmapLockBits: function (bitmap: GPBITMAP; rect: LPRECT; flags: UINT;
+                                PixelFormat: GPPIXELFORMAT;
+                                lockedData: PGdiPlusBitmapData): GPSTATUS; stdcall;
+  GdipBitmapUnlockBits: function (bitmap: GPBITMAP; lockedData: PGdiPlusBitmapData): GPSTATUS; stdcall;
+  GdipGetImagePixelFormat: function (image: GPIMAGE; out pixelFormat: GPPIXELFORMAT): GPSTATUS; stdcall;
+  GdipGetImageWidth: function (image: GPIMAGE; out width: cardinal): GPSTATUS; stdcall;
+  GdipGetImageHeight: function (image: GPIMAGE; out height: cardinal): GPSTATUS; stdcall;
+
+function GdiPlusLoadFromStream(Str: TStream; Img: TFPCustomImage; out PixelFormat: GPPIXELFORMAT): GPSTATUS;
+function GdiPlusStretchDraw(hicn: hIcon; hCanvas: HDC; X, Y, cxWidth, cyHeight: Integer): Boolean; overload;
+function GdiPlusStretchDraw(himl: hImageList; ImageIndex: Integer; hCanvas: HDC; X, Y, cxWidth, cyHeight: Integer): Boolean; overload;
 
 implementation
 
 uses
-  CommCtrl;
+  CommCtrl, IntfGraphics, GraphType;
 
 var
   StartupInput: TGDIPlusStartupInput;
@@ -288,7 +274,50 @@ begin
   Result := False;
 end;
 
-function GdiPlusStretchDraw(hicn: hIcon; hCanvas: HDC; X, Y, cxWidth, cyHeight: Integer): Boolean;
+function GdiPlusLoadFromStream(Str: TStream; Img: TFPCustomImage; out PixelFormat: GPPIXELFORMAT): GPSTATUS;
+var
+  AImage: GpImage;
+  bmBounds: TRect;
+  AStream: IStream;
+  bmData: GdiPlusBitmapData;
+  AWidth, AHeight: Cardinal;
+begin
+  AStream:= TStreamAdapter.Create(Str);
+  try
+    Result:= GdipLoadImageFromStream(AStream, AImage);
+    if (Result = Ok) then
+    begin
+      Result:= GdipGetImageWidth(AImage, AWidth);
+      if Result = Ok then
+      begin
+        Result:= GdipGetImageHeight(AImage, AHeight);
+        if Result = Ok then
+        begin
+          Result:= GdipGetImagePixelFormat(AImage, PixelFormat);
+          if Result = Ok then
+          begin
+            TLazIntfImage(Img).DataDescription:= QueryDescription([riqfRGB], AWidth, AHeight);
+
+            Windows.SetRect(@bmBounds, 0, 0, AWidth, AHeight);
+
+            Result:= GdipBitmapLockBits(AImage, @bmBounds, GdipImageLockModeRead,
+                                        PixelFormat24bppRGB, @bmData);
+            if Result = Ok then
+            begin
+              Move(bmData.Scan0^, TLazIntfImage(Img).PixelData^, bmData.Stride * bmData.Height);
+              GdipBitmapUnlockBits(AImage, @bmData);
+            end;
+          end;
+        end;
+      end;
+      GdipDisposeImage(AImage);
+    end;
+  finally
+    AStream:= nil;
+  end;
+end;
+
+function GdiPlusStretchDraw(hicn: hIcon; hCanvas: HDC; X, Y, cxWidth, cyHeight: Integer): Boolean; overload;
 var
   pIcon: GPIMAGE;
   pCanvas: GPGRAPHICS;
@@ -345,7 +374,7 @@ begin
   end;
 end;
 
-function GdiPlusStretchDraw(himl: hImageList; ImageIndex: Integer; hCanvas: HDC; X, Y, cxWidth, cyHeight: Integer): Boolean;
+function GdiPlusStretchDraw(himl: hImageList; ImageIndex: Integer; hCanvas: HDC; X, Y, cxWidth, cyHeight: Integer): Boolean; overload;
 var
   hicn: HICON;
 begin
@@ -366,25 +395,28 @@ initialization
   IsGdiPlusLoaded:= (hLib <> 0);
   if IsGdiPlusLoaded then
     begin
-      GdiplusStartup:= TGdiplusStartup(GetProcAddress(hLib, 'GdiplusStartup'));
-      GdiplusShutdown:= TGdiplusShutdown(GetProcAddress(hLib, 'GdiplusShutdown'));
-      GdipCreateBitmapFromHICON:= TGdipCreateBitmapFromHICON(GetProcAddress(hLib, 'GdipCreateBitmapFromHICON'));
-      GdipCreateBitmapFromHBITMAP:= TGdipCreateBitmapFromHBITMAP(GetProcAddress(hLib, 'GdipCreateBitmapFromHBITMAP'));
-      GdipCreateBitmapFromScan0:= TGdipCreateBitmapFromScan0(GetProcAddress(hLib, 'GdipCreateBitmapFromScan0'));
-      GdipCreateBitmapFromGraphics:= TGdipCreateBitmapFromGraphics(GetProcAddress(hLib, 'GdipCreateBitmapFromGraphics'));
-      GdipCreateFromHDC:= TGdipCreateFromHDC(GetProcAddress(hLib, 'GdipCreateFromHDC'));
-      GdipDrawImageRectI:= TGdipDrawImageRectI(GetProcAddress(hLib, 'GdipDrawImageRectI'));
-      GdipDrawImageRectRectI:= TGdipDrawImageRectRectI(GetProcAddress(hLib, 'GdipDrawImageRectRectI'));
-      GdipDisposeImage:= TGdipDisposeImage(GetProcAddress(hLib, 'GdipDisposeImage'));
-      GdipDeleteGraphics:= TGdipDeleteGraphics(GetProcAddress(hLib, 'GdipDeleteGraphics'));
-      GdipGraphicsClear:= TGdipGraphicsClear(GetProcAddress(hLib, 'GdipGraphicsClear'));
-      GdipSetInterpolationMode:= TGdipSetInterpolationMode(GetProcAddress(hLib, 'GdipSetInterpolationMode'));
-      GdipCreateImageAttributes:= TGdipCreateImageAttributes(GetProcAddress(hLib, 'GdipCreateImageAttributes'));
-      GdipDisposeImageAttributes:= TGdipDisposeImageAttributes(GetProcAddress(hLib, 'GdipDisposeImageAttributes'));
-      GdipSetImageAttributesColorKeys:= TGdipSetImageAttributesColorKeys(GetProcAddress(hLib, 'GdipSetImageAttributesColorKeys'));
-      GdipBitmapLockBits:= TGdipBitmapLockBits(GetProcAddress(hLib, 'GdipBitmapLockBits'));
-      GdipBitmapUnlockBits:= TGdipBitmapUnlockBits(GetProcAddress(hLib, 'GdipBitmapUnlockBits'));
-      GdipGetImagePixelFormat:= TGdipGetImagePixelFormat(GetProcAddress(hLib, 'GdipGetImagePixelFormat'));
+      @GdiplusStartup:= GetProcAddress(hLib, 'GdiplusStartup');
+      @GdiplusShutdown:= GetProcAddress(hLib, 'GdiplusShutdown');
+      @GdipCreateBitmapFromHICON:= GetProcAddress(hLib, 'GdipCreateBitmapFromHICON');
+      @GdipCreateBitmapFromHBITMAP:= GetProcAddress(hLib, 'GdipCreateBitmapFromHBITMAP');
+      @GdipCreateBitmapFromScan0:= GetProcAddress(hLib, 'GdipCreateBitmapFromScan0');
+      @GdipCreateBitmapFromGraphics:= GetProcAddress(hLib, 'GdipCreateBitmapFromGraphics');
+      @GdipCreateFromHDC:= GetProcAddress(hLib, 'GdipCreateFromHDC');
+      @GdipDrawImageRectI:= GetProcAddress(hLib, 'GdipDrawImageRectI');
+      @GdipDrawImageRectRectI:= GetProcAddress(hLib, 'GdipDrawImageRectRectI');
+      @GdipLoadImageFromStream:= GetProcAddress(hLib, 'GdipLoadImageFromStream');
+      @GdipDisposeImage:= GetProcAddress(hLib, 'GdipDisposeImage');
+      @GdipDeleteGraphics:= GetProcAddress(hLib, 'GdipDeleteGraphics');
+      @GdipGraphicsClear:= GetProcAddress(hLib, 'GdipGraphicsClear');
+      @GdipSetInterpolationMode:= GetProcAddress(hLib, 'GdipSetInterpolationMode');
+      @GdipCreateImageAttributes:= GetProcAddress(hLib, 'GdipCreateImageAttributes');
+      @GdipDisposeImageAttributes:= GetProcAddress(hLib, 'GdipDisposeImageAttributes');
+      @GdipSetImageAttributesColorKeys:= GetProcAddress(hLib, 'GdipSetImageAttributesColorKeys');
+      @GdipBitmapLockBits:= GetProcAddress(hLib, 'GdipBitmapLockBits');
+      @GdipBitmapUnlockBits:= GetProcAddress(hLib, 'GdipBitmapUnlockBits');
+      @GdipGetImagePixelFormat:= GetProcAddress(hLib, 'GdipGetImagePixelFormat');
+      @GdipGetImageWidth:= GetProcAddress(hLib, 'GdipGetImageWidth');
+      @GdipGetImageHeight:= GetProcAddress(hLib, 'GdipGetImageHeight');
       // Initialize GDI+ StartupInput structure
       StartupInput.DebugEventCallback:= nil;
       StartupInput.SuppressBackgroundThread:= False;
