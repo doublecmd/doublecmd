@@ -30,7 +30,7 @@ implementation
 
 {$IF DEFINED(MSWINDOWS)}
 uses
-  Windows, uIcoFiles;
+  Windows, uBitmap;
 {$ENDIF}
 
 type
@@ -97,14 +97,14 @@ const
   IDI_SHIELD = PAnsiChar(32518);
 var
   hIcon: THandle;
-  AIcon: Graphics.TIcon;
+  AIcon: Graphics.TBitmap;
 {$ENDIF}
 begin
 {$IF DEFINED(MSWINDOWS)}
   hIcon:= LoadImage(0, IDI_SHIELD, IMAGE_ICON, 0, 0, LR_DEFAULTSIZE or LR_SHARED);
   if (hIcon <> 0) then
   begin
-    AIcon:= CreateIconFromHandle(hIcon);
+    AIcon:= BitmapCreateFromHICON(hIcon);
     imgShield.Picture.Assign(AIcon);
     AIcon.Free;
   end;

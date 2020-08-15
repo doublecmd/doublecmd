@@ -338,7 +338,7 @@ uses
     , uPixMapGtk, gdk2pixbuf, gdk2, glib2
   {$ENDIF}
   {$IFDEF MSWINDOWS}
-    , CommCtrl, ShellAPI, Windows, DCFileAttributes, uIcoFiles, uGdiPlus,
+    , CommCtrl, ShellAPI, Windows, DCFileAttributes, uBitmap, uGdiPlus,
       IntfGraphics, uShlObjAdditional
   {$ELSE}
     , StrUtils, Types, DCBasicTypes
@@ -515,7 +515,6 @@ var
   phIcon: HICON = INVALID_HANDLE_VALUE;
   phIconLarge : HICON = 0;
   phIconSmall : HICON = 0;
-  Icon : TIcon = nil;
   IconFileName: String;
 {$ENDIF}
   AFile: TFile;
@@ -551,15 +550,11 @@ begin
           end;
 
           if phIcon <> INVALID_HANDLE_VALUE then
-            try
-              Icon:= CreateIconFromHandle(phIcon);
-              bmStandartBitmap := Graphics.TBitMap.Create;
-              bmStandartBitmap.Assign(Icon);
-              bmStandartBitmap.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
-              if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlResourceFileExtracted;
-            finally
-              FreeThenNil(Icon);
-            end;
+          begin
+            bmStandartBitmap := BitmapCreateFromHICON(phIcon);
+            bmStandartBitmap.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
+            if fromWhatItWasLoaded<> nil then fromWhatItWasLoaded^ := fwbwlResourceFileExtracted;
+          end;
           DestroyIcon(phIconLarge);
           DestroyIcon(phIconSmall);
         end;
@@ -1612,7 +1607,6 @@ var
   PixmapFromList: Boolean = False;
 {$IFDEF MSWINDOWS}
   hicn: HICON;
-  Icon: TIcon = nil;
 {$ENDIF}
 begin
   FPixmapsLock.Acquire;
@@ -1643,15 +1637,12 @@ begin
       Result:= nil;
       hicn:= ImageList_GetIcon(FSysImgList, iIndex - SystemIconIndexStart, ILD_NORMAL);
       if hicn <> 0 then
-        try
-          Icon := CreateIconFromHandle(hicn);
-          Result := Graphics.TBitmap.Create;
-          Result.Assign(Icon);
-          Result.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
-        finally
-          FreeThenNil(Icon);
-          DestroyIcon(hicn);
-        end
+      try
+        Result := BitmapCreateFromHICON(hicn);
+        Result.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
+      finally
+        DestroyIcon(hicn);
+      end
     end
   else
 {$ENDIF}
@@ -1695,7 +1686,6 @@ var
 {$IFDEF MSWINDOWS}
   hicn: HICON;
   cx, cy: Integer;
-  Icon: TIcon;
 {$ENDIF}
 {$IFDEF LCLGTK2}
   pbPicture : PGdkPixbuf;
@@ -1761,12 +1751,12 @@ begin
       {$ELSEIF DEFINED(LCLQT5)}
       hicn:= ImageList_GetIcon(FSysImgList, iIndex - SystemIconIndexStart, ILD_NORMAL);
       try
-        Icon:= CreateIconFromHandle(hicn);
+        Bitmap:= BitmapCreateFromHICON(hicn);
         aRect := Classes.Bounds(X, Y, Width, Height);
-        Canvas.StretchDraw(aRect, Icon);
+        Canvas.StretchDraw(aRect, Bitmap);
       finally
-        FreeAndNil(Icon);
         DestroyIcon(hicn);
+        FreeAndNil(Bitmap);
       end
       {$ENDIF}
     except
@@ -2121,7 +2111,6 @@ function TPixMapManager.GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackC
 {$IFDEF MSWINDOWS}
 var
   SFI: TSHFileInfoW;
-  Icon: TIcon = nil;
   uFlags: UINT;
   iIconSmall,
   iIconLarge: Integer;
@@ -2153,13 +2142,11 @@ begin
       begin
         if (SFI.hIcon <> 0) then
         try
-          Icon := CreateIconFromHandle(SFI.hIcon);
-          Result.Assign(Icon);
+          Result:= BitmapCreateFromHICON(SFI.hIcon);
           Result.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
           if (IconSize <> iIconSmall) and (IconSize <> iIconLarge) then // non standart icon size
             Result := StretchBitmap(Result, IconSize, clBackColor, True);
         finally
-          FreeAndNil(Icon);
           DestroyIcon(SFI.hIcon);
         end;
       end;
