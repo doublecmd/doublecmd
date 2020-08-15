@@ -127,12 +127,10 @@ uses
   , ComObj, fMain, DCOSUtils, uOSUtils, uFileSystemFileSource
   , uTotalCommander, FileUtil, Windows, ShlObj, uShlObjAdditional
   , uWinNetFileSource, uVfsModule, uLng, uMyWindows, DCStrUtils
-  , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG
-  , Dialogs, Clipbrd, uShowMsg, uDebug, JwaDbt
+  , uDCReadSVG, uFileSourceUtil, uGdiPlusJPEG, uListGetPreviewBitmap
+  , Dialogs, Clipbrd, uShowMsg, uDebug, JwaDbt, uThumbnailProvider
     {$IFDEF LCLQT5}
     , qt5, qtwidgets, uDarkStyle
-    {$ELSE}
-    , uListGetPreviewBitmap, uThumbnailProvider
     {$ENDIF}
   {$ENDIF}
   {$IFDEF UNIX}

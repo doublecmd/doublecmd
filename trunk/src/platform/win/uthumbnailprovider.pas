@@ -32,7 +32,7 @@ uses
 implementation
 
 uses
-  SysUtils, Forms, Graphics, Windows, ActiveX, ShlObj;
+  SysUtils, Forms, Graphics, Windows, ActiveX, ShlObj, uBitmap;
 
 const
   SIIGBF_RESIZETOFIT   = $00000000;
@@ -142,8 +142,7 @@ begin
 
   if Succeeded(Status) then
   begin
-    Result:= Graphics.TBitmap.Create;
-    Result.Handle:= Bitmap;
+    Result:= BitmapCreateFromHBITMAP(Bitmap);
   end;
 end;
 

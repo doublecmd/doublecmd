@@ -32,7 +32,7 @@ uses
 implementation
 
 uses
-  Types, Graphics, DCOSUtils, uThumbnails, uWlxModule, uGlobs;
+  Types, Graphics, DCOSUtils, uThumbnails, uWlxModule, uBitmap, uGlobs;
 
 function GetThumbnail(const aFileName: String; aSize: TSize): Graphics.TBitmap;
 const
@@ -63,8 +63,7 @@ begin
         Bitmap:= Module.CallListGetPreviewBitmap(aFileName, aSize.cx, aSize.cy, Data);
         if Bitmap <> 0 then
         begin
-          Result:= Graphics.TBitmap.Create;
-          Result.Handle:= Bitmap;
+          Result:= BitmapCreateFromHBITMAP(Bitmap);
           Exit;
         end;
       end;
