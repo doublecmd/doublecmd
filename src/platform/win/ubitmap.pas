@@ -30,7 +30,11 @@ function BitmapCreateFromHBITMAP(Handle: HBITMAP): Graphics.TBitmap;
 implementation
 
 uses
-  FPImage, GraphType, LCLProc, Forms;
+  FPImage, GraphType, Forms
+{$IF DEFINED(LCLQT5)}
+  , SysUtils, LCLProc
+{$ENDIF}
+  ;
 
 {$IF DEFINED(LCLQT5)}
 
