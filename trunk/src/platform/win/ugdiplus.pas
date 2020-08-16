@@ -281,6 +281,7 @@ var
   AStream: IStream;
   bmData: GdiPlusBitmapData;
   AWidth, AHeight: Cardinal;
+  Description: TRawImageDescription;
 begin
   AStream:= TStreamAdapter.Create(Str);
   try
@@ -296,7 +297,8 @@ begin
           Result:= GdipGetImagePixelFormat(AImage, PixelFormat);
           if Result = Ok then
           begin
-            TLazIntfImage(Img).DataDescription:= QueryDescription([riqfRGB], AWidth, AHeight);
+            Description.Init_BPP24_B8G8R8_BIO_TTB(AWidth, AHeight);
+            TLazIntfImage(Img).DataDescription:= Description;
 
             Windows.SetRect(@bmBounds, 0, 0, AWidth, AHeight);
 
