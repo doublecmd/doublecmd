@@ -9498,8 +9498,20 @@ msgctxt "tfrmviewer.actzoomin.caption"
 msgid "Zoom In"
 msgstr "Mărește"
 
+#: tfrmviewer.actzoomin.hint
+#, fuzzy
+msgctxt "tfrmviewer.actzoomin.hint"
+msgid "Zoom In"
+msgstr "Mărește"
+
 #: tfrmviewer.actzoomout.caption
 msgctxt "tfrmviewer.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Micșorează"
+
+#: tfrmviewer.actzoomout.hint
+#, fuzzy
+msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Micșorează"
 
@@ -9513,32 +9525,33 @@ msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
 msgid "Full Screen"
 msgstr "Ecran complet"
 
-#: tfrmviewer.btngifmove.caption
-msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
-msgid "||"
-msgstr "||"
-
-#: tfrmviewer.btngiftobmp.caption
-msgid "S"
-msgstr "S"
+#: tfrmviewer.btngiftobmp.hint
+msgid "Export Frame"
+msgstr ""
 
 #: tfrmviewer.btnhightlight.hint
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "Evidențiază"
 
-#: tfrmviewer.btnnextgifframe.caption
-msgid "||>"
-msgstr "||>"
+#: tfrmviewer.btnnextgifframe.hint
+msgid "Next Frame"
+msgstr ""
 
 #: tfrmviewer.btnpaint.hint
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
 msgstr "Desenează"
 
-#: tfrmviewer.btnprevgifframe.caption
-msgid "<||"
-msgstr "<||"
+#: tfrmviewer.btnpenwidth.caption
+#, fuzzy
+msgctxt "tfrmviewer.btnpenwidth.caption"
+msgid "1"
+msgstr "1"
+
+#: tfrmviewer.btnprevgifframe.hint
+msgid "Previous Frame"
+msgstr ""
 
 #: tfrmviewer.btnredeye.hint
 msgid "Red Eyes"
@@ -9548,6 +9561,12 @@ msgstr "Ochi roșii"
 msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
 msgid "Resize"
 msgstr "Redimensionează"
+
+#: tfrmviewer.btnslideshow.caption
+#, fuzzy
+msgctxt "tfrmviewer.btnslideshow.caption"
+msgid "Slide Show"
+msgstr "Prezentare"
 
 #: tfrmviewer.btnundo.hint
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
@@ -9559,44 +9578,6 @@ msgctxt "TFRMVIEWER.CAPTION"
 msgid "Viewer"
 msgstr "Vizualizator"
 
-#: tfrmviewer.cbslideshow.caption
-msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
-msgid "Slide Show"
-msgstr "Prezentare"
-
-#: tfrmviewer.comboboxpaint.text
-msgid "Pen"
-msgstr "Stilou"
-
-#: tfrmviewer.comboboxwidth.text
-msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
-msgid "1"
-msgstr "1"
-
-#: tfrmviewer.gboxhightlight.caption
-msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
-msgid "Highlight"
-msgstr "Evidențiază"
-
-#: tfrmviewer.gboxpaint.caption
-msgctxt "TFRMVIEWER.GBOXPAINT.CAPTION"
-msgid "Paint"
-msgstr "Desenează"
-
-#: tfrmviewer.gboxslideshow.caption
-msgctxt "TFRMVIEWER.GBOXSLIDESHOW.CAPTION"
-msgid "Slide Show"
-msgstr "Prezentare"
-
-#: tfrmviewer.gboxview.caption
-msgctxt "TFRMVIEWER.GBOXVIEW.CAPTION"
-msgid "View"
-msgstr "Vizualizează"
-
-#: tfrmviewer.lblhightlight.caption
-msgid "0x0"
-msgstr "0x0"
-
 #: tfrmviewer.miabout.caption
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
@@ -9606,6 +9587,10 @@ msgstr "Despre"
 msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
 msgid "&Edit"
 msgstr "&Editează"
+
+#: tfrmviewer.miellipse.caption
+msgid "Ellipse"
+msgstr ""
 
 #: tfrmviewer.miencoding.caption
 msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
@@ -9620,6 +9605,16 @@ msgstr "&Fișier"
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "&Imagine"
+
+#: tfrmviewer.mipen.caption
+#, fuzzy
+msgctxt "tfrmviewer.mipen.caption"
+msgid "Pen"
+msgstr "Stilou"
+
+#: tfrmviewer.mirect.caption
+msgid "Rect"
+msgstr ""
 
 #: tfrmviewer.mirotate.caption
 msgctxt "TFRMVIEWER.MIROTATE.CAPTION"
@@ -10121,6 +10116,10 @@ msgstr "Adaugă (&p)"
 #: ulng.rsdlgbuttonautorenamesource
 msgid "A&uto-rename source files"
 msgstr "A&uto redenumește fișierele sursă"
+
+#: ulng.rsdlgbuttonautorenametarget
+msgid "A&uto-rename target files"
+msgstr ""
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"

@@ -9293,10 +9293,24 @@ msgid "Zoom"
 msgstr "Zoom"
 
 #: tfrmviewer.actzoomin.caption
+msgctxt "tfrmviewer.actzoomin.caption"
+msgid "Zoom In"
+msgstr "Acercar"
+
+#: tfrmviewer.actzoomin.hint
+#, fuzzy
+msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "Acercar"
 
 #: tfrmviewer.actzoomout.caption
+msgctxt "tfrmviewer.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Alejar"
+
+#: tfrmviewer.actzoomout.hint
+#, fuzzy
+msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Alejar"
 
@@ -9309,32 +9323,33 @@ msgctxt "tfrmviewer.btnfullscreen.hint"
 msgid "Full Screen"
 msgstr "Pantalla completa"
 
-#: tfrmviewer.btngifmove.caption
-msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
-msgid "||"
-msgstr "||"
-
-#: tfrmviewer.btngiftobmp.caption
-msgid "S"
-msgstr "S"
+#: tfrmviewer.btngiftobmp.hint
+msgid "Export Frame"
+msgstr ""
 
 #: tfrmviewer.btnhightlight.hint
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "Resaltar"
 
-#: tfrmviewer.btnnextgifframe.caption
-msgid "||>"
-msgstr "||"
+#: tfrmviewer.btnnextgifframe.hint
+msgid "Next Frame"
+msgstr ""
 
 #: tfrmviewer.btnpaint.hint
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
 msgstr "Dibujar"
 
-#: tfrmviewer.btnprevgifframe.caption
-msgid "<||"
-msgstr "||"
+#: tfrmviewer.btnpenwidth.caption
+#, fuzzy
+msgctxt "tfrmviewer.btnpenwidth.caption"
+msgid "1"
+msgstr "1"
+
+#: tfrmviewer.btnprevgifframe.hint
+msgid "Previous Frame"
+msgstr ""
 
 #: tfrmviewer.btnredeye.hint
 msgid "Red Eyes"
@@ -9343,6 +9358,12 @@ msgstr "Ojos rojos"
 #: tfrmviewer.btnresize.hint
 msgid "Resize"
 msgstr "Redimensionar"
+
+#: tfrmviewer.btnslideshow.caption
+#, fuzzy
+msgctxt "tfrmviewer.btnslideshow.caption"
+msgid "Slide Show"
+msgstr "Diapositivas"
 
 #: tfrmviewer.btnundo.hint
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
@@ -9354,44 +9375,6 @@ msgctxt "tfrmviewer.caption"
 msgid "Viewer"
 msgstr "Visor"
 
-#: tfrmviewer.cbslideshow.caption
-msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
-msgid "Slide Show"
-msgstr "Diapositivas"
-
-#: tfrmviewer.comboboxpaint.text
-msgid "Pen"
-msgstr "Lápiz"
-
-#: tfrmviewer.comboboxwidth.text
-msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
-msgid "1"
-msgstr "1"
-
-#: tfrmviewer.gboxhightlight.caption
-msgctxt "tfrmviewer.gboxhightlight.caption"
-msgid "Highlight"
-msgstr "Resaltar"
-
-#: tfrmviewer.gboxpaint.caption
-msgctxt "tfrmviewer.gboxpaint.caption"
-msgid "Paint"
-msgstr "Pintar"
-
-#: tfrmviewer.gboxslideshow.caption
-msgctxt "tfrmviewer.gboxslideshow.caption"
-msgid "Slide Show"
-msgstr "Diapositivas"
-
-#: tfrmviewer.gboxview.caption
-msgctxt "TFRMVIEWER.GBOXVIEW.CAPTION"
-msgid "View"
-msgstr "Ver"
-
-#: tfrmviewer.lblhightlight.caption
-msgid "0x0"
-msgstr "0x0"
-
 #: tfrmviewer.miabout.caption
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
@@ -9401,6 +9384,10 @@ msgstr "Acerca de..."
 msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
 msgid "&Edit"
 msgstr "&Editar"
+
+#: tfrmviewer.miellipse.caption
+msgid "Ellipse"
+msgstr ""
 
 #: tfrmviewer.miencoding.caption
 msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
@@ -9415,6 +9402,16 @@ msgstr "&Archivo"
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "&Imagen"
+
+#: tfrmviewer.mipen.caption
+#, fuzzy
+msgctxt "tfrmviewer.mipen.caption"
+msgid "Pen"
+msgstr "Lápiz"
+
+#: tfrmviewer.mirect.caption
+msgid "Rect"
+msgstr ""
 
 #: tfrmviewer.mirotate.caption
 msgid "Rotate"
@@ -9917,6 +9914,10 @@ msgstr "&Añadir"
 #: ulng.rsdlgbuttonautorenamesource
 msgid "A&uto-rename source files"
 msgstr "A&utorrenombrar archivos origen"
+
+#: ulng.rsdlgbuttonautorenametarget
+msgid "A&uto-rename target files"
+msgstr ""
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"

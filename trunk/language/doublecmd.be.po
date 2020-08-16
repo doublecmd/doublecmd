@@ -9217,10 +9217,24 @@ msgid "Zoom"
 msgstr "Маштаб"
 
 #: tfrmviewer.actzoomin.caption
+msgctxt "tfrmviewer.actzoomin.caption"
+msgid "Zoom In"
+msgstr "Наблізіць"
+
+#: tfrmviewer.actzoomin.hint
+#, fuzzy
+msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "Наблізіць"
 
 #: tfrmviewer.actzoomout.caption
+msgctxt "tfrmviewer.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Аддаліць"
+
+#: tfrmviewer.actzoomout.hint
+#, fuzzy
+msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Аддаліць"
 
@@ -9233,32 +9247,33 @@ msgctxt "tfrmviewer.btnfullscreen.hint"
 msgid "Full Screen"
 msgstr "На ўвесь экран"
 
-#: tfrmviewer.btngifmove.caption
-msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
-msgid "||"
-msgstr "||"
-
-#: tfrmviewer.btngiftobmp.caption
-msgid "S"
-msgstr "Пдз"
+#: tfrmviewer.btngiftobmp.hint
+msgid "Export Frame"
+msgstr ""
 
 #: tfrmviewer.btnhightlight.hint
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "Падсвятленне"
 
-#: tfrmviewer.btnnextgifframe.caption
-msgid "||>"
-msgstr "||>"
+#: tfrmviewer.btnnextgifframe.hint
+msgid "Next Frame"
+msgstr ""
 
 #: tfrmviewer.btnpaint.hint
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
 msgstr "Маляванне"
 
-#: tfrmviewer.btnprevgifframe.caption
-msgid "<||"
-msgstr "<||"
+#: tfrmviewer.btnpenwidth.caption
+#, fuzzy
+msgctxt "tfrmviewer.btnpenwidth.caption"
+msgid "1"
+msgstr "1"
+
+#: tfrmviewer.btnprevgifframe.hint
+msgid "Previous Frame"
+msgstr ""
 
 #: tfrmviewer.btnredeye.hint
 msgid "Red Eyes"
@@ -9267,6 +9282,12 @@ msgstr "Чырвоныя вочы"
 #: tfrmviewer.btnresize.hint
 msgid "Resize"
 msgstr "Змяніць памер"
+
+#: tfrmviewer.btnslideshow.caption
+#, fuzzy
+msgctxt "tfrmviewer.btnslideshow.caption"
+msgid "Slide Show"
+msgstr "Слайдшоў"
 
 #: tfrmviewer.btnundo.hint
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
@@ -9278,44 +9299,6 @@ msgctxt "tfrmviewer.caption"
 msgid "Viewer"
 msgstr "Праграма для прагляду"
 
-#: tfrmviewer.cbslideshow.caption
-msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
-msgid "Slide Show"
-msgstr "Слайдшоў"
-
-#: tfrmviewer.comboboxpaint.text
-msgid "Pen"
-msgstr "Аловак"
-
-#: tfrmviewer.comboboxwidth.text
-msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
-msgid "1"
-msgstr "1"
-
-#: tfrmviewer.gboxhightlight.caption
-msgctxt "tfrmviewer.gboxhightlight.caption"
-msgid "Highlight"
-msgstr "Падсвятленне"
-
-#: tfrmviewer.gboxpaint.caption
-msgctxt "tfrmviewer.gboxpaint.caption"
-msgid "Paint"
-msgstr "Маляванне"
-
-#: tfrmviewer.gboxslideshow.caption
-msgctxt "tfrmviewer.gboxslideshow.caption"
-msgid "Slide Show"
-msgstr "Слайдшоў"
-
-#: tfrmviewer.gboxview.caption
-msgctxt "TFRMVIEWER.GBOXVIEW.CAPTION"
-msgid "View"
-msgstr "Праглядзець"
-
-#: tfrmviewer.lblhightlight.caption
-msgid "0x0"
-msgstr "0x0"
-
 #: tfrmviewer.miabout.caption
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
@@ -9325,6 +9308,10 @@ msgstr "Пра праграму"
 msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
 msgid "&Edit"
 msgstr "&Рэдагаваць"
+
+#: tfrmviewer.miellipse.caption
+msgid "Ellipse"
+msgstr ""
 
 #: tfrmviewer.miencoding.caption
 msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
@@ -9339,6 +9326,16 @@ msgstr "&Файл"
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "&Выява"
+
+#: tfrmviewer.mipen.caption
+#, fuzzy
+msgctxt "tfrmviewer.mipen.caption"
+msgid "Pen"
+msgstr "Аловак"
+
+#: tfrmviewer.mirect.caption
+msgid "Rect"
+msgstr ""
 
 #: tfrmviewer.mirotate.caption
 msgid "Rotate"
@@ -9585,12 +9582,16 @@ msgid "Orientation"
 msgstr "Арыентацыя"
 
 #: ulng.msgtrytolocatecrcfile
-msgid "This file cannot be found and could help to validate final combination of files:\n"
-"%s\n\n"
+msgid ""
+"This file cannot be found and could help to validate final combination of files:\n"
+"%s\n"
+"\n"
 "Could you make it available and press \"OK\" when ready,\n"
 "or press \"CANCEL\" to continue without it?\n"
-msgstr "Файл кантрольнай сумы можа аб'яднаць файл, але яго не атрымалася знайсці:\n"
-"%s\n\n"
+msgstr ""
+"Файл кантрольнай сумы можа аб'яднаць файл, але яго не атрымалася знайсці:\n"
+"%s\n"
+"\n"
 "Вы можаце зрабіць яго даступным і націснуць \"Добра\",\n"
 "альбо націснуць \"Скасаваць\", каб працягнуць без яго.\n"
 
@@ -9821,6 +9822,10 @@ msgstr "Дапісаць у &канец"
 #: ulng.rsdlgbuttonautorenamesource
 msgid "A&uto-rename source files"
 msgstr "&Аўтаматычная змена назвы зыходных файлаў"
+
+#: ulng.rsdlgbuttonautorenametarget
+msgid "A&uto-rename target files"
+msgstr ""
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
@@ -10302,9 +10307,13 @@ msgid "none;Name, a-z;Name, z-a;Ext, a-z;Ext, z-a;Size 9-0;Size 0-9;Date 9-0;Dat
 msgstr "няма;назва, а-я;назва, я-а;тып, а-я;тып, я-а;памер 9-0;памер 0-9;дата 9-0;дата 0-9"
 
 #: ulng.rshotdirwarningabortrestorebackup
-msgid "Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n\n"
+msgid ""
+"Warning! When restoring a .hotlist backup file, this will erase existing list to replace by the imported one.\n"
+"\n"
 "Are you sure you want to proceed?\n"
-msgstr "Увага! Аднаўленне з рэзервовай копіі ачысціць спіс існых выбраных каталогаў і заменіць імпартуемым.\n\n"
+msgstr ""
+"Увага! Аднаўленне з рэзервовай копіі ачысціць спіс існых выбраных каталогаў і заменіць імпартуемым.\n"
+"\n"
 "Хочаце працягнуць?\n"
 
 #: ulng.rshotkeycategorycopymovedialog
@@ -10349,9 +10358,11 @@ msgid "Viewer"
 msgstr "Праглядальнік"
 
 #: ulng.rshotkeyfilealreadyexists
-msgid "A setup with that name already exists.\n"
+msgid ""
+"A setup with that name already exists.\n"
 "Do you want to overwrite it?\n"
-msgstr "Файл з такой назвай ужо існуе.\n"
+msgstr ""
+"Файл з такой назвай ужо існуе.\n"
 "Перазапісаць яго?\n"
 
 #: ulng.rshotkeyfileconfirmdefault
@@ -10379,9 +10390,11 @@ msgid "New name"
 msgstr "Новая назва"
 
 #: ulng.rshotkeyfilesavemodified
-msgid "\"%s\" setup has been modified.\n"
+msgid ""
+"\"%s\" setup has been modified.\n"
 "Do you want to save it now?\n"
-msgstr "Файл \"%s\" быў зменены.\n"
+msgstr ""
+"Файл \"%s\" быў зменены.\n"
 "Хочаце захаваць яго?\n"
 
 #: ulng.rshotkeynoscenter
@@ -10557,11 +10570,15 @@ msgid "Do you want to enclose between quotes?"
 msgstr "Узяць у двукоссі?"
 
 #: ulng.rsmsgbadcrc32
-msgid "Bad CRC32 for resulting file:\n"
-"\"%s\"\n\n"
+msgid ""
+"Bad CRC32 for resulting file:\n"
+"\"%s\"\n"
+"\n"
 "Do you want to keep the resulting corrupted file anyway?\n"
-msgstr "Хібны CRC32 выніковага файла:\n"
-"\"%s\"\n\n"
+msgstr ""
+"Хібны CRC32 выніковага файла:\n"
+"\"%s\"\n"
+"\n"
 "Усё адно хочаце пакінуць пашкоджаны файл?\n"
 
 #: ulng.rsmsgcannotcopymoveitself
@@ -10895,10 +10912,12 @@ msgid "Some file operations have not yet finished. Closing Double Commander may 
 msgstr "Яшчэ выконваюцца аперацыі з файламі. Калі закрыць Double Commander, даныя могуць страціцца."
 
 #: ulng.rsmsgfilepathovermaxpath
-msgid "The target name length (%d) is more than %d characters!\n"
+msgid ""
+"The target name length (%d) is more than %d characters!\n"
 "%s\n"
 "Most programs will not be able to access a file/directory with such a long name!\n"
-msgstr "Даўжыня (%d) перавышае %d сімвалаў!\n"
+msgstr ""
+"Даўжыня (%d) перавышае %d сімвалаў!\n"
 "%s\n"
 "Большасць праграм не зможа звярнуцца да файла/каталога з такой доўгай назвай!\n"
 
@@ -11089,19 +11108,26 @@ msgid "Some functions to select appropriate path relative, absolute, windows spe
 msgstr "Некаторыя функцыі выбару шляху: адносны, абсалютны, адмысловыя каталогі windows і г. д."
 
 #: ulng.rsmsghotdirtotalbackuped
-msgid "Total entries saved: %d\n\n"
+msgid ""
+"Total entries saved: %d\n"
+"\n"
 "Backup filename: %s\n"
-msgstr "Захавана агулам: %d\n\n"
-"Рэзервовая копія: %s\n\n"
+msgstr ""
+"Захавана агулам: %d\n"
+"\n"
+"Рэзервовая копія: %s\n"
+"\n"
 
 #: ulng.rsmsghotdirtotalexported
 msgid "Total entries exported: "
 msgstr "Экспартавана агулам: "
 
 #: ulng.rsmsghotdirwhattodelete
-msgid "Do you want to delete all elements inside the sub-menu [%s]?\n"
+msgid ""
+"Do you want to delete all elements inside the sub-menu [%s]?\n"
 "Answering NO will delete only menu delimiters but will keep element inside sub-menu.\n"
-msgstr "Хочаце выдаліць усе элементы ў падменю [%s]?\n"
+msgstr ""
+"Хочаце выдаліць усе элементы ў падменю [%s]?\n"
 "Калі адкажаце \"Не\", то выдаляцца толькі падзяляльнікі, элементы застануцца.\n"
 
 #: ulng.rsmsghotdirwheretosave
@@ -11113,13 +11139,19 @@ msgid "Incorrect resulting filelength for file : \"%s\""
 msgstr "Хібная выніковая даўжыня файла : \"%s\""
 
 #: ulng.rsmsginsertnextdisk
-msgid "Please insert next disk or something similar.\n\n"
+msgid ""
+"Please insert next disk or something similar.\n"
+"\n"
 "It is to allow writing this file:\n"
-"\"%s\"\n\n"
+"\"%s\"\n"
+"\n"
 "Number of bytes still to write: %d\n"
-msgstr "Калі ласка, ўстаўце наступны дыск альбо носьбіт.\n\n"
+msgstr ""
+"Калі ласка, ўстаўце наступны дыск альбо носьбіт.\n"
+"\n"
 "Гэта дазволіць запісаць файл:\n"
-"\"%s\"\n\n"
+"\"%s\"\n"
+"\n"
 "Колькасць байтаў да канца: %d\n"
 
 #: ulng.rsmsginvalidcommandline
@@ -11497,27 +11529,35 @@ msgid "Target path:"
 msgstr "Мэтавы шлях:"
 
 #: ulng.rsmsgtcconfignotfound
-msgid "Error! Cannot find the TC configuration file:\n"
+msgid ""
+"Error! Cannot find the TC configuration file:\n"
 "%s\n"
-msgstr "Памылка! Не атрымалася знайсці файл канфігурацыі ТС:\n"
+msgstr ""
+"Памылка! Не атрымалася знайсці файл канфігурацыі ТС:\n"
 " %s\n"
 
 #: ulng.rsmsgtcexecutablenotfound
-msgid "Error! Cannot find the TC configuration executable:\n"
+msgid ""
+"Error! Cannot find the TC configuration executable:\n"
 "%s\n"
-msgstr "Памылка! Не атрымалася знайсці запускальны файл ТС:\n"
+msgstr ""
+"Памылка! Не атрымалася знайсці запускальны файл ТС:\n"
 " %s\n"
 
 #: ulng.rsmsgtcisrunning
-msgid "Error! TC is still running but it should be closed for this operation.\n"
+msgid ""
+"Error! TC is still running but it should be closed for this operation.\n"
 "Close it and press OK or press CANCEL to abort.\n"
-msgstr "Памылка! ТС яшчэ запушчаны, а для выканання гэтай аперацыі яго неабходна закрыць.\n"
+msgstr ""
+"Памылка! ТС яшчэ запушчаны, а для выканання гэтай аперацыі яго неабходна закрыць.\n"
 "Закрыйце і націсніце \"Добра\" альбо націсніце \"Скасаваць\".\n"
 
 #: ulng.rsmsgtctoolbarnotfound
-msgid "Error! Cannot find the desired wanted TC toolbar output folder:\n"
+msgid ""
+"Error! Cannot find the desired wanted TC toolbar output folder:\n"
 "%s\n"
-msgstr "Памылка! Не атрымалася знайсці каталог панэлі інструментаў TC:\n"
+msgstr ""
+"Памылка! Не атрымалася знайсці каталог панэлі інструментаў TC:\n"
 "%s\n"
 
 #: ulng.rsmsgtctoolbarwheretosave
@@ -11549,9 +11589,11 @@ msgid "Enter location and filename of Toolbar to restore"
 msgstr "Увядзіце размяшчэнне і назву файла панэлі інструментаў для аднаўлення"
 
 #: ulng.rsmsgtoolbarsaved
-msgid "Saved!\n"
+msgid ""
+"Saved!\n"
 "Toolbar filename: %s\n"
-msgstr "Захавана!\n"
+msgstr ""
+"Захавана!\n"
 "Назва файла панэлі інструментаў: %s\n"
 
 #: ulng.rsmsgtoomanyfilesselected
@@ -11624,9 +11666,11 @@ msgid "with"
 msgstr "з"
 
 #: ulng.rsmsgwrongpasswordtryagain
-msgid "Wrong password!\n"
+msgid ""
+"Wrong password!\n"
 "Please try again!\n"
-msgstr "Хібны пароль!\n"
+msgstr ""
+"Хібны пароль!\n"
 "Калі ласка, паспрабуйце яшчэ!\n"
 
 #: ulng.rsmulrenautorename
@@ -11827,9 +11871,11 @@ msgid "Enter new preset name"
 msgstr "Увядзіце новую назву перадналад"
 
 #: ulng.rsmulrensavemodifiedpreset
-msgid "\"%s\" preset has been modified.\n"
+msgid ""
+"\"%s\" preset has been modified.\n"
 "Do you want to save it now?\n"
-msgstr "Перадналады \"%s\" былі змененыя.\n"
+msgstr ""
+"Перадналады \"%s\" былі змененыя.\n"
 "Хочаце захаваць яго?\n"
 
 #: ulng.rsmulrensortingpresets
@@ -12554,10 +12600,15 @@ msgid "Multi-Rename Tool"
 msgstr "Масавая змена назвы"
 
 #: ulng.rsoptionseditoroptionschanged
-msgid "Options have changed in \"%s\"\n\n"
+msgid ""
+"Options have changed in \"%s\"\n"
+"\n"
 "Do you want to save modifications?\n"
-msgstr "Параметры \"%s\" змяніліся.\n\n"
-"Захаваць змены?\n\n"
+msgstr ""
+"Параметры \"%s\" змяніліся.\n"
+"\n"
+"Захаваць змены?\n"
+"\n"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -12890,15 +12941,19 @@ msgid "<unnamed template>"
 msgstr "<шаблон без назвы>"
 
 #: ulng.rssearchwithdsxplugininprogress
-msgid "A file search using DSX plugin is already in progress.\n"
+msgid ""
+"A file search using DSX plugin is already in progress.\n"
 "We need that one to be completed before to launch a new one.\n"
-msgstr "Пошук файлаў з убудовай DSX ужо запушчаны.\n"
+msgstr ""
+"Пошук файлаў з убудовай DSX ужо запушчаны.\n"
 "Неабходна завяршыць яго перш чым пачаць новы.\n"
 
 #: ulng.rssearchwithwdxplugininprogress
-msgid "A file search using WDX plugin is already in progress.\n"
+msgid ""
+"A file search using WDX plugin is already in progress.\n"
 "We need that one to be completed before to launch a new one.\n"
-msgstr "Пошук файлаў з убудовай WDX ужо запушчаны.\n"
+msgstr ""
+"Пошук файлаў з убудовай WDX ужо запушчаны.\n"
 "Неабходна завяршыць яго перш чым пачаць новы.\n"
 
 #: ulng.rsselectdir

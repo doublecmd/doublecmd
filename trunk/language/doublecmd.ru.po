@@ -9482,8 +9482,18 @@ msgctxt "tfrmviewer.actzoomin.caption"
 msgid "Zoom In"
 msgstr "Увеличить"
 
+#: tfrmviewer.actzoomin.hint
+msgctxt "tfrmviewer.actzoomin.hint"
+msgid "Zoom In"
+msgstr "Увеличить"
+
 #: tfrmviewer.actzoomout.caption
 msgctxt "tfrmviewer.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Уменьшить"
+
+#: tfrmviewer.actzoomout.hint
+msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Уменьшить"
 
@@ -9497,32 +9507,32 @@ msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
 msgid "Full Screen"
 msgstr "Развернуть на весь экран"
 
-#: tfrmviewer.btngifmove.caption
-msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
-msgid "||"
-msgstr "||"
-
-#: tfrmviewer.btngiftobmp.caption
-msgid "S"
-msgstr ""
+#: tfrmviewer.btngiftobmp.hint
+msgid "Export Frame"
+msgstr "Экспорт кадра"
 
 #: tfrmviewer.btnhightlight.hint
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "Выделение"
 
-#: tfrmviewer.btnnextgifframe.caption
-msgid "||>"
-msgstr "||>"
+#: tfrmviewer.btnnextgifframe.hint
+msgid "Next Frame"
+msgstr "Следующий кадр"
 
 #: tfrmviewer.btnpaint.hint
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
 msgstr "Рисование"
 
-#: tfrmviewer.btnprevgifframe.caption
-msgid "<||"
-msgstr "<||"
+#: tfrmviewer.btnpenwidth.caption
+msgctxt "tfrmviewer.btnpenwidth.caption"
+msgid "1"
+msgstr "1"
+
+#: tfrmviewer.btnprevgifframe.hint
+msgid "Previous Frame"
+msgstr "Предыдущий кадр"
 
 #: tfrmviewer.btnredeye.hint
 msgid "Red Eyes"
@@ -9532,6 +9542,11 @@ msgstr "Красные глаза"
 msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
 msgid "Resize"
 msgstr "Изменить размер"
+
+#: tfrmviewer.btnslideshow.caption
+msgctxt "tfrmviewer.btnslideshow.caption"
+msgid "Slide Show"
+msgstr "Слайд шоу"
 
 #: tfrmviewer.btnundo.hint
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
@@ -9543,44 +9558,6 @@ msgctxt "tfrmviewer.caption"
 msgid "Viewer"
 msgstr "Программа просмотра"
 
-#: tfrmviewer.cbslideshow.caption
-msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
-msgid "Slide Show"
-msgstr "Слайд шоу"
-
-#: tfrmviewer.comboboxpaint.text
-msgid "Pen"
-msgstr "Карандаш"
-
-#: tfrmviewer.comboboxwidth.text
-msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
-msgid "1"
-msgstr "1"
-
-#: tfrmviewer.gboxhightlight.caption
-msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
-msgid "Highlight"
-msgstr "Выделение"
-
-#: tfrmviewer.gboxpaint.caption
-msgctxt "TFRMVIEWER.GBOXPAINT.CAPTION"
-msgid "Paint"
-msgstr "Рисование"
-
-#: tfrmviewer.gboxslideshow.caption
-msgctxt "TFRMVIEWER.GBOXSLIDESHOW.CAPTION"
-msgid "Slide Show"
-msgstr "Слайд шоу"
-
-#: tfrmviewer.gboxview.caption
-msgctxt "TFRMVIEWER.GBOXVIEW.CAPTION"
-msgid "View"
-msgstr "Просмотреть"
-
-#: tfrmviewer.lblhightlight.caption
-msgid "0x0"
-msgstr "0x0"
-
 #: tfrmviewer.miabout.caption
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
@@ -9590,6 +9567,10 @@ msgstr "О программе..."
 msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
 msgid "&Edit"
 msgstr "&Правка"
+
+#: tfrmviewer.miellipse.caption
+msgid "Ellipse"
+msgstr "Окружность"
 
 #: tfrmviewer.miencoding.caption
 msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
@@ -9604,6 +9585,15 @@ msgstr "&Файл"
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "Изоб&ражение"
+
+#: tfrmviewer.mipen.caption
+msgctxt "tfrmviewer.mipen.caption"
+msgid "Pen"
+msgstr "Карандаш"
+
+#: tfrmviewer.mirect.caption
+msgid "Rect"
+msgstr "Прямоугольник"
 
 #: tfrmviewer.mirotate.caption
 msgid "Rotate"
