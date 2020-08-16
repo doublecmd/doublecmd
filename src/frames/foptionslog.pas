@@ -90,6 +90,7 @@ end;
 procedure TfrmOptionsLog.cbLogFileChange(Sender: TObject);
 begin
   cbIncludeDateInLogFilename.Enabled := cbLogFile.Checked;
+  cbIncludeDateInLogFilenameChange(cbIncludeDateInLogFilename);
 end;
 
 procedure TfrmOptionsLog.btnViewLogFileClick(Sender: TObject);
@@ -114,7 +115,8 @@ end;
 
 procedure TfrmOptionsLog.cbIncludeDateInLogFilenameChange(Sender: TObject);
 begin
-  cbLogFileCount.Enabled:= cbIncludeDateInLogFilename.Checked;
+  cbLogFileCount.Enabled:= cbLogFile.Checked and cbIncludeDateInLogFilename.Checked;
+  seLogFileCount.Enabled:= cbLogFileCount.Enabled;
 end;
 
 procedure TfrmOptionsLog.Load;
@@ -125,7 +127,6 @@ begin
   cbLogFile.Checked := gLogFile;
   cbLogFileChange(cbLogFile);
   fneLogFileName.FileName := gLogFileName;
-  cbIncludeDateInLogFilenameChange(cbIncludeDateInLogFilename);
 
   cbLogCpMvLn.Checked := (log_cp_mv_ln in gLogOptions);
   cbLogDelete.Checked := (log_delete in gLogOptions);
