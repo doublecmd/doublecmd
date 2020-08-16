@@ -6544,6 +6544,10 @@ msgstr "Rejestruj &błędy"
 msgid "C&reate a log file:"
 msgstr "Utwó&rz plik dziennika:"
 
+#: tfrmoptionslog.cblogfilecount.caption
+msgid "Maximum log file count"
+msgstr ""
+
 #: tfrmoptionslog.cbloginfo.caption
 msgid "Log &information messages"
 msgstr "Rejestruj komunikaty &informacyjne"

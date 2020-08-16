@@ -6548,6 +6548,10 @@ msgstr "记录错误(&E)"
 msgid "C&reate a log file:"
 msgstr "创建日志文件(&R)："
 
+#: tfrmoptionslog.cblogfilecount.caption
+msgid "Maximum log file count"
+msgstr ""
+
 #: tfrmoptionslog.cbloginfo.caption
 msgid "Log &information messages"
 msgstr "记录信息消息(&I)"

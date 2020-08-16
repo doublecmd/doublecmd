@@ -7225,6 +7225,10 @@ msgctxt "tfrmoptionslog.cblogfile.caption"
 msgid "C&reate a log file:"
 msgstr "Crea un Fitxer de registre:"
 
+#: tfrmoptionslog.cblogfilecount.caption
+msgid "Maximum log file count"
+msgstr ""
+
 #: tfrmoptionslog.cbloginfo.caption
 #, fuzzy
 #| msgid "Log information messages"
