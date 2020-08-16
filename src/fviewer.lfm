@@ -523,6 +523,7 @@ object frmViewer: TfrmViewer
         end
         object btnPrevGifFrame: TToolButton
           Left = 497
+          Hint = 'Previous Frame'
           Top = 2
           ImageIndex = 13
           OnClick = btnPrevGifFrameClick
@@ -530,6 +531,7 @@ object frmViewer: TfrmViewer
         end
         object btnNextGifFrame: TToolButton
           Left = 537
+          Hint = 'Next Frame'
           Top = 2
           ImageIndex = 14
           OnClick = btnNextGifFrameClick
@@ -537,6 +539,7 @@ object frmViewer: TfrmViewer
         end
         object btnGifToBmp: TToolButton
           Left = 577
+          Hint = 'Export Frame'
           Top = 2
           ImageIndex = 26
           OnClick = btnGifToBmpClick
