@@ -271,24 +271,24 @@ object frmViewer: TfrmViewer
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '2.0.8.0'
+  LCLVersion = '2.0.10.0'
   object pnlFolder: TPanel
     Left = 223
-    Height = 543
+    Height = 596
     Top = 0
-    Width = 1517
+    Width = 999
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 543
-    ClientWidth = 1517
+    ClientHeight = 596
+    ClientWidth = 999
     ParentFont = False
     TabOrder = 0
     Visible = False
     object memFolder: TMemo
       Left = 0
-      Height = 543
+      Height = 596
       Top = 0
-      Width = 1517
+      Width = 999
       Align = alClient
       BorderStyle = bsNone
       ParentFont = False
@@ -299,8 +299,8 @@ object frmViewer: TfrmViewer
   object Status: TKASStatusBar
     Left = 0
     Height = 29
-    Top = 543
-    Width = 1740
+    Top = 596
+    Width = 1222
     Panels = <    
       item
         Width = 62
@@ -322,22 +322,22 @@ object frmViewer: TfrmViewer
   end
   object pnlText: TPanel
     Left = 223
-    Height = 543
+    Height = 596
     Top = 0
-    Width = 1517
+    Width = 999
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 543
-    ClientWidth = 1517
+    ClientHeight = 596
+    ClientWidth = 999
     ParentFont = False
     TabOrder = 2
     Visible = False
     OnMouseWheelUp = pnlTextMouseWheelUp
     object ViewerControl: TViewerControl
       Left = 0
-      Height = 543
+      Height = 596
       Top = 0
-      Width = 1517
+      Width = 999
       Mode = vcmText
       OnPositionChanged = ViewerPositionChanged
       ShowCaret = False
@@ -351,27 +351,27 @@ object frmViewer: TfrmViewer
   end
   object pnlImage: TPanel
     Left = 223
-    Height = 543
+    Height = 596
     Top = 0
-    Width = 1517
+    Width = 999
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 543
-    ClientWidth = 1517
+    ClientHeight = 596
+    ClientWidth = 999
     ParentFont = False
     TabOrder = 3
     Visible = False
     OnResize = pnlImageResize
     object sboxImage: TScrollBox
       Left = 0
-      Height = 499
+      Height = 552
       Top = 44
-      Width = 1517
+      Width = 999
       HorzScrollBar.Page = 432
       VertScrollBar.Page = 384
       Align = alClient
-      ClientHeight = 495
-      ClientWidth = 1513
+      ClientHeight = 548
+      ClientWidth = 995
       Color = clWindow
       ParentColor = False
       ParentFont = False
@@ -414,19 +414,19 @@ object frmViewer: TfrmViewer
       Left = 0
       Height = 44
       Top = 0
-      Width = 1517
+      Width = 999
       Align = alTop
       Alignment = taLeftJustify
       AutoSize = True
       ClientHeight = 44
-      ClientWidth = 1517
+      ClientWidth = 999
       ParentFont = False
       TabOrder = 1
       object ToolBar1: TToolBar
         Left = 1
         Height = 42
         Top = 1
-        Width = 1515
+        Width = 997
         AutoSize = True
         ButtonHeight = 40
         ButtonWidth = 40
@@ -476,7 +476,6 @@ object frmViewer: TfrmViewer
           Left = 241
           Height = 40
           Top = 2
-          Caption = 'btnZoomSeparator'
           Style = tbsSeparator
         end
         object btnZoomIn: TToolButton
@@ -513,7 +512,6 @@ object frmViewer: TfrmViewer
           Left = 449
           Height = 40
           Top = 2
-          Caption = 'btnGifSeparator'
           Style = tbsSeparator
         end
         object btnGifMove: TToolButton
@@ -548,11 +546,11 @@ object frmViewer: TfrmViewer
           Left = 617
           Height = 40
           Top = 2
-          Caption = 'btnHightlightSeparator'
           Style = tbsSeparator
         end
         object btnHightlight: TToolButton
           Left = 625
+          Hint = 'Highlight'
           Top = 2
           AllowAllUp = True
           Grouped = True
@@ -563,6 +561,7 @@ object frmViewer: TfrmViewer
         end
         object btnCutTuImage: TToolButton
           Left = 665
+          Hint = 'Crop'
           Top = 2
           Enabled = False
           ImageIndex = 15
@@ -571,6 +570,7 @@ object frmViewer: TfrmViewer
         end
         object btnRedEye: TToolButton
           Left = 705
+          Hint = 'Red Eyes'
           Top = 2
           Enabled = False
           ImageIndex = 16
@@ -581,11 +581,11 @@ object frmViewer: TfrmViewer
           Left = 745
           Height = 40
           Top = 2
-          Caption = 'btnPaintSeparator'
           Style = tbsSeparator
         end
         object btnUndo: TToolButton
           Left = 793
+          Hint = 'Undo'
           Top = 2
           Enabled = False
           ImageIndex = 20
@@ -596,7 +596,7 @@ object frmViewer: TfrmViewer
           Left = 833
           Top = 2
           AllowAllUp = True
-          DropdownMenu = PopupMenu1
+          DropdownMenu = pmPenTools
           Enabled = False
           Grouped = True
           ImageIndex = 17
@@ -612,17 +612,16 @@ object frmViewer: TfrmViewer
           Enabled = False
           Style = tbsButtonDrop
         end
-        object ToolButton2: TToolButton
-          Left = 1035
+        object btnSeparator: TToolButton
+          Left = 95
           Height = 40
-          Top = 2
-          Caption = 'ToolButton2'
+          Top = 42
           Style = tbsSeparator
         end
         object btnSlideShow: TToolButton
           Tag = 1
-          Left = 1123
-          Top = 2
+          Left = 183
+          Top = 42
           Caption = 'Slide Show'
           DropdownMenu = pmTimeShow
           OnClick = btnSlideShowClick
@@ -630,20 +629,23 @@ object frmViewer: TfrmViewer
           Visible = False
         end
         object btnFullScreen: TToolButton
-          Left = 1043
-          Top = 2
+          Left = 103
+          Hint = 'Full Screen'
+          Top = 42
           Action = actFullscreen
           ShowCaption = False
         end
         object btnResize: TToolButton
-          Left = 1083
-          Top = 2
+          Left = 143
+          Hint = 'Resize'
+          Top = 42
           ImageIndex = 24
           OnClick = btnResizeClick
           ShowCaption = False
         end
         object btnPaint: TToolButton
           Left = 753
+          Hint = 'Paint'
           Top = 2
           AllowAllUp = True
           Grouped = True
@@ -653,9 +655,9 @@ object frmViewer: TfrmViewer
           Style = tbsCheck
         end
         object btnPenColor: TColorButton
-          Left = 941
+          Left = 1
           Height = 40
-          Top = 2
+          Top = 42
           Width = 94
           BorderWidth = 2
           ButtonColorSize = 16
@@ -668,7 +670,7 @@ object frmViewer: TfrmViewer
   end
   object Splitter: TSplitter
     Left = 212
-    Height = 543
+    Height = 596
     Top = 0
     Width = 11
     AutoSnap = False
@@ -678,12 +680,12 @@ object frmViewer: TfrmViewer
   end
   object pnlPreview: TPanel
     Left = 0
-    Height = 543
+    Height = 596
     Top = 0
     Width = 212
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 543
+    ClientHeight = 596
     ClientWidth = 212
     ParentFont = False
     TabOrder = 5
@@ -1219,7 +1221,7 @@ object frmViewer: TfrmViewer
     end
     object DrawPreview: TDrawGrid
       Left = 0
-      Height = 505
+      Height = 558
       Top = 38
       Width = 212
       Align = alClient
@@ -1602,12 +1604,14 @@ object frmViewer: TfrmViewer
     object actZoomIn: TAction
       Category = 'Image'
       Caption = 'Zoom In'
+      Hint = 'Zoom In'
       ImageIndex = 6
       OnExecute = actExecute
     end
     object actZoomOut: TAction
       Category = 'Image'
       Caption = 'Zoom Out'
+      Hint = 'Zoom Out'
       ImageIndex = 7
       OnExecute = actExecute
     end
@@ -1731,26 +1735,26 @@ object frmViewer: TfrmViewer
     Left = 740
     Top = 100
   end
-  object PopupMenu1: TPopupMenu
+  object pmPenTools: TPopupMenu
     Images = dmComData.ilViewerImages
     Left = 1129
     Top = 311
-    object MenuItem1: TMenuItem
+    object miPen: TMenuItem
       Caption = 'Pen'
       ImageIndex = 17
-      OnClick = MenuItem1Click
+      OnClick = miPenClick
     end
-    object MenuItem3: TMenuItem
+    object miRect: TMenuItem
       Tag = 1
       Caption = 'Rect'
       ImageIndex = 18
-      OnClick = MenuItem1Click
+      OnClick = miPenClick
     end
-    object MenuItem4: TMenuItem
+    object miEllipse: TMenuItem
       Tag = 2
       Caption = 'Ellipse'
       ImageIndex = 19
-      OnClick = MenuItem1Click
+      OnClick = miPenClick
     end
   end
   object pmPenWidth: TPopupMenu
