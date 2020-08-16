@@ -1,5 +1,8 @@
 {"version":1,"strings":[
 {"hash":97504706,"name":"tfrmviewer.caption","sourcebytes":[86,105,101,119,101,114],"value":"Viewer"},
+{"hash":226526597,"name":"tfrmviewer.btnprevgifframe.hint","sourcebytes":[80,114,101,118,105,111,117,115,32,70,114,97,109,101],"value":"Previous Frame"},
+{"hash":105434309,"name":"tfrmviewer.btnnextgifframe.hint","sourcebytes":[78,101,120,116,32,70,114,97,109,101],"value":"Next Frame"},
+{"hash":42136229,"name":"tfrmviewer.btngiftobmp.hint","sourcebytes":[69,120,112,111,114,116,32,70,114,97,109,101],"value":"Export Frame"},
 {"hash":234009348,"name":"tfrmviewer.btnhightlight.hint","sourcebytes":[72,105,103,104,108,105,103,104,116],"value":"Highlight"},
 {"hash":305504,"name":"tfrmviewer.btncuttuimage.hint","sourcebytes":[67,114,111,112],"value":"Crop"},
 {"hash":191154755,"name":"tfrmviewer.btnredeye.hint","sourcebytes":[82,101,100,32,69,121,101,115],"value":"Red Eyes"},
