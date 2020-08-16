@@ -9259,10 +9259,24 @@ msgid "Zoom"
 msgstr "缩放"
 
 #: tfrmviewer.actzoomin.caption
+msgctxt "tfrmviewer.actzoomin.caption"
+msgid "Zoom In"
+msgstr "放大"
+
+#: tfrmviewer.actzoomin.hint
+#, fuzzy
+msgctxt "tfrmviewer.actzoomin.hint"
 msgid "Zoom In"
 msgstr "放大"
 
 #: tfrmviewer.actzoomout.caption
+msgctxt "tfrmviewer.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "缩小"
+
+#: tfrmviewer.actzoomout.hint
+#, fuzzy
+msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "缩小"
 
@@ -9275,13 +9289,8 @@ msgctxt "tfrmviewer.btnfullscreen.hint"
 msgid "Full Screen"
 msgstr "全屏显示"
 
-#: tfrmviewer.btngifmove.caption
-msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
-msgid "||"
-msgstr ""
-
-#: tfrmviewer.btngiftobmp.caption
-msgid "S"
+#: tfrmviewer.btngiftobmp.hint
+msgid "Export Frame"
 msgstr ""
 
 #: tfrmviewer.btnhightlight.hint
@@ -9289,8 +9298,8 @@ msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "高亮"
 
-#: tfrmviewer.btnnextgifframe.caption
-msgid "||>"
+#: tfrmviewer.btnnextgifframe.hint
+msgid "Next Frame"
 msgstr ""
 
 #: tfrmviewer.btnpaint.hint
@@ -9298,8 +9307,13 @@ msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
 msgstr "画图"
 
-#: tfrmviewer.btnprevgifframe.caption
-msgid "<||"
+#: tfrmviewer.btnpenwidth.caption
+msgctxt "tfrmviewer.btnpenwidth.caption"
+msgid "1"
+msgstr ""
+
+#: tfrmviewer.btnprevgifframe.hint
+msgid "Previous Frame"
 msgstr ""
 
 #: tfrmviewer.btnredeye.hint
@@ -9309,6 +9323,12 @@ msgstr "红眼"
 #: tfrmviewer.btnresize.hint
 msgid "Resize"
 msgstr "调整大小"
+
+#: tfrmviewer.btnslideshow.caption
+#, fuzzy
+msgctxt "tfrmviewer.btnslideshow.caption"
+msgid "Slide Show"
+msgstr "幻灯显示"
 
 #: tfrmviewer.btnundo.hint
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
@@ -9320,44 +9340,6 @@ msgctxt "tfrmviewer.caption"
 msgid "Viewer"
 msgstr "查看器"
 
-#: tfrmviewer.cbslideshow.caption
-msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
-msgid "Slide Show"
-msgstr "幻灯显示"
-
-#: tfrmviewer.comboboxpaint.text
-msgid "Pen"
-msgstr "画笔"
-
-#: tfrmviewer.comboboxwidth.text
-msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
-msgid "1"
-msgstr ""
-
-#: tfrmviewer.gboxhightlight.caption
-msgctxt "tfrmviewer.gboxhightlight.caption"
-msgid "Highlight"
-msgstr "高亮"
-
-#: tfrmviewer.gboxpaint.caption
-msgctxt "tfrmviewer.gboxpaint.caption"
-msgid "Paint"
-msgstr "画图"
-
-#: tfrmviewer.gboxslideshow.caption
-msgctxt "tfrmviewer.gboxslideshow.caption"
-msgid "Slide Show"
-msgstr "幻灯显示"
-
-#: tfrmviewer.gboxview.caption
-msgctxt "TFRMVIEWER.GBOXVIEW.CAPTION"
-msgid "View"
-msgstr "视图"
-
-#: tfrmviewer.lblhightlight.caption
-msgid "0x0"
-msgstr ""
-
 #: tfrmviewer.miabout.caption
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
@@ -9367,6 +9349,10 @@ msgstr "关于"
 msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
 msgid "&Edit"
 msgstr "编辑(&E)"
+
+#: tfrmviewer.miellipse.caption
+msgid "Ellipse"
+msgstr ""
 
 #: tfrmviewer.miencoding.caption
 msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
@@ -9381,6 +9367,16 @@ msgstr "文件(&F)"
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "图片(&I)"
+
+#: tfrmviewer.mipen.caption
+#, fuzzy
+msgctxt "tfrmviewer.mipen.caption"
+msgid "Pen"
+msgstr "画笔"
+
+#: tfrmviewer.mirect.caption
+msgid "Rect"
+msgstr ""
 
 #: tfrmviewer.mirotate.caption
 msgid "Rotate"
@@ -9873,6 +9869,10 @@ msgstr "附加(&P)"
 #: ulng.rsdlgbuttonautorenamesource
 msgid "A&uto-rename source files"
 msgstr "自动重命名源文件(&U)"
+
+#: ulng.rsdlgbuttonautorenametarget
+msgid "A&uto-rename target files"
+msgstr ""
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"

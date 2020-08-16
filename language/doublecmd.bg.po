@@ -9671,8 +9671,20 @@ msgctxt "tfrmviewer.actzoomin.caption"
 msgid "Zoom In"
 msgstr "Увеличаване"
 
+#: tfrmviewer.actzoomin.hint
+#, fuzzy
+msgctxt "tfrmviewer.actzoomin.hint"
+msgid "Zoom In"
+msgstr "Увеличаване"
+
 #: tfrmviewer.actzoomout.caption
 msgctxt "tfrmviewer.actzoomout.caption"
+msgid "Zoom Out"
+msgstr "Смаляване"
+
+#: tfrmviewer.actzoomout.hint
+#, fuzzy
+msgctxt "tfrmviewer.actzoomout.hint"
 msgid "Zoom Out"
 msgstr "Смаляване"
 
@@ -9686,13 +9698,8 @@ msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
 msgid "Full Screen"
 msgstr "Цял екран"
 
-#: tfrmviewer.btngifmove.caption
-msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
-msgid "||"
-msgstr "||"
-
-#: tfrmviewer.btngiftobmp.caption
-msgid "S"
+#: tfrmviewer.btngiftobmp.hint
+msgid "Export Frame"
 msgstr ""
 
 #: tfrmviewer.btnhightlight.hint
@@ -9700,8 +9707,8 @@ msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
 msgstr "Изтъкване"
 
-#: tfrmviewer.btnnextgifframe.caption
-msgid "||>"
+#: tfrmviewer.btnnextgifframe.hint
+msgid "Next Frame"
 msgstr ""
 
 #: tfrmviewer.btnpaint.hint
@@ -9709,8 +9716,14 @@ msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
 msgstr ""
 
-#: tfrmviewer.btnprevgifframe.caption
-msgid "<||"
+#: tfrmviewer.btnpenwidth.caption
+#, fuzzy
+msgctxt "tfrmviewer.btnpenwidth.caption"
+msgid "1"
+msgstr "1"
+
+#: tfrmviewer.btnprevgifframe.hint
+msgid "Previous Frame"
 msgstr ""
 
 #: tfrmviewer.btnredeye.hint
@@ -9722,6 +9735,11 @@ msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
 msgid "Resize"
 msgstr "Преоразмеряване"
 
+#: tfrmviewer.btnslideshow.caption
+msgctxt "tfrmviewer.btnslideshow.caption"
+msgid "Slide Show"
+msgstr ""
+
 #: tfrmviewer.btnundo.hint
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
 msgid "Undo"
@@ -9732,44 +9750,6 @@ msgctxt "tfrmviewer.caption"
 msgid "Viewer"
 msgstr "Преглед"
 
-#: tfrmviewer.cbslideshow.caption
-msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
-msgid "Slide Show"
-msgstr ""
-
-#: tfrmviewer.comboboxpaint.text
-msgid "Pen"
-msgstr ""
-
-#: tfrmviewer.comboboxwidth.text
-msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
-msgid "1"
-msgstr "1"
-
-#: tfrmviewer.gboxhightlight.caption
-msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
-msgid "Highlight"
-msgstr "Изтъкване"
-
-#: tfrmviewer.gboxpaint.caption
-msgctxt "TFRMVIEWER.GBOXPAINT.CAPTION"
-msgid "Paint"
-msgstr ""
-
-#: tfrmviewer.gboxslideshow.caption
-msgctxt "TFRMVIEWER.GBOXSLIDESHOW.CAPTION"
-msgid "Slide Show"
-msgstr ""
-
-#: tfrmviewer.gboxview.caption
-msgctxt "TFRMVIEWER.GBOXVIEW.CAPTION"
-msgid "View"
-msgstr "Преглед"
-
-#: tfrmviewer.lblhightlight.caption
-msgid "0x0"
-msgstr "0x0"
-
 #: tfrmviewer.miabout.caption
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
@@ -9779,6 +9759,10 @@ msgstr "За"
 msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
 msgid "&Edit"
 msgstr "&Обработка"
+
+#: tfrmviewer.miellipse.caption
+msgid "Ellipse"
+msgstr ""
 
 #: tfrmviewer.miencoding.caption
 msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
@@ -9793,6 +9777,15 @@ msgstr "&Файл"
 #: tfrmviewer.miimage.caption
 msgid "&Image"
 msgstr "Из&ображение"
+
+#: tfrmviewer.mipen.caption
+msgctxt "tfrmviewer.mipen.caption"
+msgid "Pen"
+msgstr ""
+
+#: tfrmviewer.mirect.caption
+msgid "Rect"
+msgstr ""
 
 #: tfrmviewer.mirotate.caption
 msgid "Rotate"
@@ -10293,6 +10286,10 @@ msgstr "&Довършване"
 #: ulng.rsdlgbuttonautorenamesource
 msgid "A&uto-rename source files"
 msgstr "Само&преименуване на целевите файлове"
+
+#: ulng.rsdlgbuttonautorenametarget
+msgid "A&uto-rename target files"
+msgstr ""
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
