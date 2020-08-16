@@ -6726,6 +6726,10 @@ msgctxt "tfrmoptionslog.cblogfile.caption"
 msgid "C&reate a log file:"
 msgstr "&Vytvoriť súbor záznamu:"
 
+#: tfrmoptionslog.cblogfilecount.caption
+msgid "Maximum log file count"
+msgstr ""
+
 #: tfrmoptionslog.cbloginfo.caption
 msgctxt "tfrmoptionslog.cbloginfo.caption"
 msgid "Log &information messages"

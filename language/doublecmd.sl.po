@@ -6572,6 +6572,10 @@ msgstr "Beleži &napake opravil"
 msgid "C&reate a log file:"
 msgstr "Ustvari &dnevniško datoteko:"
 
+#: tfrmoptionslog.cblogfilecount.caption
+msgid "Maximum log file count"
+msgstr ""
+
 #: tfrmoptionslog.cbloginfo.caption
 msgid "Log &information messages"
 msgstr "&Beleži sporočila podrobnosti"

@@ -6529,6 +6529,10 @@ msgstr "Журнал &памылак"
 msgid "C&reate a log file:"
 msgstr "Ст&варыць файл журнала:"
 
+#: tfrmoptionslog.cblogfilecount.caption
+msgid "Maximum log file count"
+msgstr ""
+
 #: tfrmoptionslog.cbloginfo.caption
 msgid "Log &information messages"
 msgstr "&Інфармацыйныя паведамленні журнала"

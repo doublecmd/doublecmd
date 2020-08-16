@@ -6557,6 +6557,10 @@ msgstr "Zaznamenávat &chyby"
 msgid "C&reate a log file:"
 msgstr "V&ytvořit soubor protokolu:"
 
+#: tfrmoptionslog.cblogfilecount.caption
+msgid "Maximum log file count"
+msgstr ""
+
 #: tfrmoptionslog.cbloginfo.caption
 msgid "Log &information messages"
 msgstr "Protokol &informačních zpráv"

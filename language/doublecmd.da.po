@@ -7195,6 +7195,10 @@ msgstr "Log f&ejl"
 msgid "C&reate a log file:"
 msgstr "Op&ret en logfil i:"
 
+#: tfrmoptionslog.cblogfilecount.caption
+msgid "Maximum log file count"
+msgstr ""
+
 # Opsætning - Indstillinger - Logfil
 #: tfrmoptionslog.cbloginfo.caption
 msgid "Log &information messages"
