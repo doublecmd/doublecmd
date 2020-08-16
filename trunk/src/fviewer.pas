@@ -139,9 +139,9 @@ type
     DrawPreview: TDrawGrid;
     GifAnim: TGifAnim;
     memFolder: TMemo;
-    MenuItem1: TMenuItem;
-    MenuItem3: TMenuItem;
-    MenuItem4: TMenuItem;
+    miPen: TMenuItem;
+    miRect: TMenuItem;
+    miEllipse: TMenuItem;
     miShowCaret: TMenuItem;
     miPrintSetup: TMenuItem;
     miAutoReload: TMenuItem;
@@ -184,7 +184,7 @@ type
     miPlugins: TMenuItem;
     miSeparator: TMenuItem;
     pmEditMenu: TPopupMenu;
-    PopupMenu1: TPopupMenu;
+    pmPenTools: TPopupMenu;
     pmPenWidth: TPopupMenu;
     pmTimeShow: TPopupMenu;
     SavePictureDialog: TSavePictureDialog;
@@ -238,7 +238,7 @@ type
     btnCopyFile: TToolButton;
     btnMoveFile: TToolButton;
     btnDeleteFile: TToolButton;
-    ToolButton2: TToolButton;
+    btnSeparator: TToolButton;
     btnSlideShow: TToolButton;
     btnFullScreen: TToolButton;
     btnResize: TToolButton;
@@ -285,7 +285,7 @@ type
       MousePos: TPoint; var Handled: Boolean);
     procedure ImageMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
-    procedure MenuItem1Click(Sender: TObject);
+    procedure miPenClick(Sender: TObject);
     procedure miLookBookClick(Sender: TObject);
     procedure pmEditMenuPopup(Sender: TObject);
     procedure pnlImageResize(Sender: TObject);
@@ -1080,7 +1080,7 @@ begin
   if ssCtrl in Shift then cm_Zoom(['1.1']);
 end;
 
-procedure TfrmViewer.MenuItem1Click(Sender: TObject);
+procedure TfrmViewer.miPenClick(Sender: TObject);
 begin
   btnPenMode.Tag:= TMenuItem(Sender).Tag;
   btnPenMode.ImageIndex:= TMenuItem(Sender).ImageIndex;
