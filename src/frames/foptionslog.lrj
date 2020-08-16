@@ -4,7 +4,7 @@
 {"hash":40358133,"name":"tfrmoptionslog.cbincludedateinlogfilename.caption","sourcebytes":[73,110,99,108,117,100,101,32,100,97,116,101,32,105,110,32,108,111,103,32,102,105,108,101,110,97,109,101],"value":"Include date in log filename"},
 {"hash":15252584,"name":"tfrmoptionslog.btnrelativelogfile.hint","sourcebytes":[83,111,109,101,32,102,117,110,99,116,105,111,110,115,32,116,111,32,115,101,108,101,99,116,32,97,112,112,114,111,112,114,105,97,116,101,32,112,97,116,104],"value":"Some functions to select appropriate path"},
 {"hash":68945492,"name":"tfrmoptionslog.btnviewlogfile.hint","sourcebytes":[86,105,101,119,32,108,111,103,32,102,105,108,101,32,99,111,110,116,101,110,116],"value":"View log file content"},
-{"hash":170095510,"name":"tfrmoptionslog.cblogfilecount.caption","sourcebytes":[75,101,101,112,32,97,32,109,97,120,105,109,117,109,32,111,102],"value":"Keep a maximum of"},
+{"hash":45247380,"name":"tfrmoptionslog.cblogfilecount.caption","sourcebytes":[77,97,120,105,109,117,109,32,108,111,103,32,102,105,108,101,32,99,111,117,110,116],"value":"Maximum log file count"},
 {"hash":220047267,"name":"tfrmoptionslog.gblogfileop.caption","sourcebytes":[76,111,103,32,111,112,101,114,97,116,105,111,110,115],"value":"Log operations"},
 {"hash":88335854,"name":"tfrmoptionslog.cblogstartshutdown.caption","sourcebytes":[83,116,97,114,116,47,115,104,117,116,100,111,119,110],"value":"Start/shutdown"},
 {"hash":459707,"name":"tfrmoptionslog.cblogcpmvln.caption","sourcebytes":[67,111,112,38,121,47,77,111,118,101,47,67,114,101,97,116,101,32,108,105,110,107,47,115,121,109,108,105,110,107],"value":"Cop&y/Move/Create link/symlink"},
