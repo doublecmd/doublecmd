@@ -1,10 +1,10 @@
 inherited frmOptionsLog: TfrmOptionsLog
-  Height = 369
-  Width = 394
+  Height = 522
+  Width = 528
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 369
-  ClientWidth = 394
+  ClientHeight = 522
+  ClientWidth = 528
   ParentShowHint = False
   ShowHint = True
   DesignLeft = 666
@@ -15,23 +15,24 @@ inherited frmOptionsLog: TfrmOptionsLog
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 74
+    Height = 125
     Top = 6
-    Width = 382
+    Width = 516
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     Caption = 'File operation log file'
     ChildSizing.LeftRightSpacing = 10
-    ClientHeight = 54
-    ClientWidth = 378
+    ChildSizing.TopBottomSpacing = 6
+    ClientHeight = 100
+    ClientWidth = 512
     TabOrder = 0
     object cbLogFile: TCheckBox
       AnchorSideTop.Control = fneLogFileName
       AnchorSideTop.Side = asrCenter
       Left = 10
-      Height = 19
-      Top = 6
-      Width = 105
+      Height = 24
+      Top = 8
+      Width = 133
       Caption = 'C&reate a log file:'
       OnChange = cbLogFileChange
       TabOrder = 0
@@ -41,10 +42,10 @@ inherited frmOptionsLog: TfrmOptionsLog
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = gbLogFile
       AnchorSideRight.Control = btnRelativeLogFile
-      Left = 119
-      Height = 23
-      Top = 4
-      Width = 201
+      Left = 147
+      Height = 28
+      Top = 6
+      Width = 307
       DialogOptions = []
       FilterIndex = 0
       HideDirectories = False
@@ -62,11 +63,12 @@ inherited frmOptionsLog: TfrmOptionsLog
       AnchorSideTop.Control = fneLogFileName
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 19
-      Top = 31
-      Width = 167
+      Height = 24
+      Top = 38
+      Width = 210
       BorderSpacing.Bottom = 4
       Caption = 'Include date in log filename'
+      OnChange = cbIncludeDateInLogFilenameChange
       TabOrder = 2
     end
     object btnRelativeLogFile: TSpeedButton
@@ -75,10 +77,10 @@ inherited frmOptionsLog: TfrmOptionsLog
       AnchorSideRight.Control = btnViewLogFile
       AnchorSideBottom.Control = fneLogFileName
       AnchorSideBottom.Side = asrBottom
-      Left = 320
-      Height = 23
+      Left = 454
+      Height = 28
       Hint = 'Some functions to select appropriate path'
-      Top = 4
+      Top = 6
       Width = 24
       Anchors = [akTop, akRight, akBottom]
       Glyph.Data = {
@@ -125,10 +127,10 @@ inherited frmOptionsLog: TfrmOptionsLog
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = fneLogFileName
       AnchorSideBottom.Side = asrBottom
-      Left = 344
-      Height = 23
+      Left = 478
+      Height = 28
       Hint = 'View log file content'
-      Top = 4
+      Top = 6
       Width = 24
       Anchors = [akTop, akRight, akBottom]
       Glyph.Data = {
@@ -161,6 +163,31 @@ inherited frmOptionsLog: TfrmOptionsLog
       }
       OnClick = btnViewLogFileClick
     end
+    object cbLogFileCount: TCheckBox
+      AnchorSideLeft.Control = cbIncludeDateInLogFilename
+      AnchorSideTop.Control = seLogFileCount
+      AnchorSideTop.Side = asrCenter
+      Left = 10
+      Height = 24
+      Top = 68
+      Width = 158
+      Caption = 'Keep a maximum of'
+      OnChange = cbLogFileCountChange
+      TabOrder = 3
+    end
+    object seLogFileCount: TSpinEditEx
+      AnchorSideLeft.Control = cbLogFileCount
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbIncludeDateInLogFilename
+      AnchorSideTop.Side = asrBottom
+      Left = 180
+      Height = 28
+      Top = 66
+      Width = 80
+      BorderSpacing.Left = 12
+      MaxLength = 0
+      TabOrder = 4
+    end
   end
   object gbLogFileOp: TGroupBox[1]
     AnchorSideLeft.Control = Owner
@@ -169,9 +196,9 @@ inherited frmOptionsLog: TfrmOptionsLog
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 172
-    Top = 84
-    Width = 382
+    Height = 212
+    Top = 135
+    Width = 516
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 4
@@ -181,26 +208,26 @@ inherited frmOptionsLog: TfrmOptionsLog
     ChildSizing.VerticalSpacing = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 152
-    ClientWidth = 378
+    ClientHeight = 187
+    ClientWidth = 512
     TabOrder = 1
     object cbLogStartShutdown: TCheckBox
       AnchorSideLeft.Control = cbLogCpMvLn
       AnchorSideTop.Control = cbLogVFS
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 19
-      Top = 109
-      Width = 102
+      Height = 24
+      Top = 134
+      Width = 125
       Caption = 'Start/shutdown'
       TabOrder = 5
     end
     object cbLogCpMvLn: TCheckBox
       AnchorSideTop.Control = gbLogFileOp
       Left = 10
-      Height = 19
+      Height = 24
       Top = 4
-      Width = 190
+      Width = 232
       Caption = 'Cop&y/Move/Create link/symlink'
       TabOrder = 0
     end
@@ -209,9 +236,9 @@ inherited frmOptionsLog: TfrmOptionsLog
       AnchorSideTop.Control = cbLogCpMvLn
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 19
-      Top = 25
-      Width = 53
+      Height = 24
+      Top = 30
+      Width = 68
       Caption = '&Delete'
       TabOrder = 1
     end
@@ -220,9 +247,9 @@ inherited frmOptionsLog: TfrmOptionsLog
       AnchorSideTop.Control = cbLogDelete
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 19
-      Top = 46
-      Width = 150
+      Height = 24
+      Top = 56
+      Width = 191
       Caption = 'Crea&te/Delete directories'
       TabOrder = 2
     end
@@ -231,9 +258,9 @@ inherited frmOptionsLog: TfrmOptionsLog
       AnchorSideTop.Control = cbLogDirOp
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 19
-      Top = 67
-      Width = 90
+      Height = 24
+      Top = 82
+      Width = 109
       Caption = '&Pack/Unpack'
       TabOrder = 3
     end
@@ -242,9 +269,9 @@ inherited frmOptionsLog: TfrmOptionsLog
       AnchorSideTop.Control = cbLogArcOp
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 19
-      Top = 88
-      Width = 120
+      Height = 24
+      Top = 108
+      Width = 148
       Caption = '&File system plugins'
       TabOrder = 4
     end
@@ -253,9 +280,9 @@ inherited frmOptionsLog: TfrmOptionsLog
       AnchorSideTop.Control = cbLogStartShutdown
       AnchorSideTop.Side = asrBottom
       Left = 10
-      Height = 19
-      Top = 130
-      Width = 195
+      Height = 24
+      Top = 160
+      Width = 244
       BorderSpacing.Bottom = 15
       Caption = 'External command line execution'
       TabOrder = 6
@@ -268,9 +295,9 @@ inherited frmOptionsLog: TfrmOptionsLog
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 89
-    Top = 260
-    Width = 382
+    Height = 109
+    Top = 351
+    Width = 516
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 4
@@ -279,36 +306,36 @@ inherited frmOptionsLog: TfrmOptionsLog
     ChildSizing.TopBottomSpacing = 4
     ChildSizing.VerticalSpacing = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ClientHeight = 69
-    ClientWidth = 378
+    ClientHeight = 84
+    ClientWidth = 512
     TabOrder = 2
     object cbLogSuccess: TCheckBox
       Left = 10
-      Height = 19
+      Height = 24
       Top = 4
-      Width = 160
+      Width = 199
       Caption = 'Log &successful operations'
       TabOrder = 0
     end
     object cbLogErrors: TCheckBox
       Left = 10
-      Height = 19
-      Top = 25
-      Width = 160
+      Height = 24
+      Top = 30
+      Width = 199
       Caption = 'Log &errors'
       TabOrder = 1
     end
     object cbLogInfo: TCheckBox
       Left = 10
-      Height = 19
-      Top = 46
-      Width = 160
+      Height = 24
+      Top = 56
+      Width = 199
       Caption = 'Log &information messages'
       TabOrder = 2
     end
   end
   object pmPathHelper: TPopupMenu[3]
-    left = 344
-    top = 56
+    Left = 440
+    Top = 64
   end
 end

@@ -500,6 +500,7 @@ var
   { Log page }
   gLogFile : Boolean;
   gLogFileWithDateInName : Boolean;
+  gLogFileCount: Integer;
   gLogFileName : String;
   gLogOptions : TLogOptions;
 
@@ -1825,6 +1826,7 @@ begin
 
   { Log page }
   gLogFile := False;
+  gLogFileCount:= 0;
   gLogFileWithDateInName := FALSE;
   gLogFileName := EnvVarConfigPath + PathDelim + 'doublecmd.log';
   gLogOptions := [log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
@@ -2817,6 +2819,7 @@ begin
     if Assigned(Node) then
     begin
       gLogFile := GetAttr(Node, 'Enabled', gLogFile);
+      gLogFileCount := GetAttr(Node, 'Count', gLogFileCount);
       gLogFileWithDateInName := GetAttr(Node, 'LogFileWithDateInName', gLogFileWithDateInName);
       gLogFileName := GetValue(Node, 'FileName', gLogFileName);
       gLogOptions := TLogOptions(GetValue(Node, 'Options', Integer(gLogOptions)));
@@ -3457,6 +3460,7 @@ begin
     { Log page }
     Node := FindNode(Root, 'Log', True);
     SetAttr(Node, 'Enabled', gLogFile);
+    SetAttr(Node, 'Count', gLogFileCount);
     SetAttr(Node, 'LogFileWithDateInName', gLogFileWithDateInName);
     SetValue(Node, 'FileName', gLogFileName);
     SetValue(Node, 'Options', Integer(gLogOptions));
