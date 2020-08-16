@@ -170,8 +170,8 @@ inherited frmOptionsLog: TfrmOptionsLog
       Left = 10
       Height = 24
       Top = 68
-      Width = 158
-      Caption = 'Keep a maximum of'
+      Width = 182
+      Caption = 'Maximum log file count'
       OnChange = cbLogFileCountChange
       TabOrder = 3
     end
@@ -180,7 +180,7 @@ inherited frmOptionsLog: TfrmOptionsLog
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = cbIncludeDateInLogFilename
       AnchorSideTop.Side = asrBottom
-      Left = 180
+      Left = 204
       Height = 28
       Top = 66
       Width = 80
