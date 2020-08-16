@@ -39,7 +39,7 @@ procedure LogWrite({%H-}Thread: TThread; const sText: String; LogMsgType: TLogMs
 implementation
 
 uses
-  SysUtils, Forms, fMain, uDebug, uGlobs, uFileProcs, DCOSUtils, uDCUtils;
+  SysUtils, Forms, FileUtil, fMain, uDebug, uGlobs, uFileProcs, DCOSUtils, uDCUtils;
 
 type
   PLogMessage = ^TLogMessage;
@@ -95,6 +95,11 @@ begin
   LogWriter.Write(sText, LogMsgType, bForce, bLogFile);
 end;
 
+function StringListSortCompare(List: TStringList; Index1, Index2: Integer): Integer;
+begin
+  Result:= CompareText(List[Index2], List[Index1]);
+end;
+
 { TLogWriter }
 
 procedure TLogWriter.WriteInMainThread(Data: PtrInt);
@@ -128,10 +133,12 @@ end;
 
 procedure TLogWriter.Write(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
 var
+  Index: Integer;
   Message: String;
   hLogFile: THandle;
   LogMessage: PLogMessage;
   ActualLogFileName: String;
+  ALogFileList: TStringList;
 begin
   if Assigned(fMain.frmMain) and (bForce or gLogWindow) then
   begin
@@ -151,8 +158,19 @@ begin
 
       if mbFileExists(ActualLogFileName) then
         hLogFile:= mbFileOpen(ActualLogFileName, fmOpenWrite)
-      else
+      else begin
         hLogFile:= mbFileCreate(ActualLogFileName);
+        if gLogFileCount > 0 then
+        begin
+          ALogFileList:= FindAllFiles(ExtractFileDir(ActualLogFileName), '*_????-??-??' + ExtractFileExt(ActualLogFileName), False);
+          ALogFileList.CustomSort(@StringListSortCompare);
+          for Index:= gLogFileCount to ALogFileList.Count - 1 do
+          begin
+            mbDeleteFile(ALogFileList[Index]);
+          end;
+          ALogFileList.Free;
+        end;
+      end;
 
       if (hLogFile = feInvalidHandle) then
         DCDebug('LogWrite: ' + mbSysErrorMessage)
