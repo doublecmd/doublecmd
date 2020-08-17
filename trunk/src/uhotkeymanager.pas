@@ -349,7 +349,7 @@ var
   begin
     Result := nil;
     Index := StartIndex;
-    while Index < Length(ShortcutsWithParams) do
+    while Index <= High(ShortcutsWithParams) do
     begin
       s := ShortcutsWithParams[Index];
       if s <> '' then
