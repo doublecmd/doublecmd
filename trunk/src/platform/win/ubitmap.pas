@@ -30,7 +30,7 @@ function BitmapCreateFromHBITMAP(Handle: HBITMAP): Graphics.TBitmap;
 implementation
 
 uses
-  FPImage, GraphType, Forms
+  FPImage, GraphType, Forms, IntfGraphics
 {$IF DEFINED(LCLQT5)}
   , SysUtils, LCLProc
 {$ENDIF}
@@ -347,6 +347,7 @@ var
   Index: Integer;
   IconInfo: TIconInfo;
   ARawImage: TRawImage;
+  AImage: TLazIntfImage;
 begin
   Result:= Graphics.TBitmap.Create;
 
@@ -358,13 +359,21 @@ begin
     // Check if the bitmap has alpha channel
     if (ARawImage.Description.BitsPerPixel = 32) and (ScreenInfo.ColorDepth = 32) then
     begin
-      for Index:= 0 to ARawImage.DataSize - 1 do
+      for Index:= 0 to (ARawImage.DataSize div 4) - 1 do
       begin
         if (PLongWord(ARawImage.Data)[Index] shr ARawImage.Description.AlphaShift) and $FF <> 0 then
         begin
           ARawImage.Description.AlphaPrec:= 8;
           Break;
         end;
+      end;
+      // Invalid alpha channel, use mask instead
+      if ARawImage.Description.AlphaPrec = 0 then
+      begin
+        ARawImage.Description.AlphaPrec:= 8;
+        AImage:= TLazIntfImage.Create(ARawImage, False);
+        AImage.AlphaFromMask(False);
+        AImage.Free;
       end;
     end;
     Result.LoadFromRawImage(ARawImage, True);
