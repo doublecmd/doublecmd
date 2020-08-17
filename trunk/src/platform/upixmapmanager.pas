@@ -44,7 +44,9 @@ interface
 uses
   Classes, SysUtils, Graphics, syncobjs, uFileSorting, DCStringHashListUtf8,
   uFile, uIconTheme, uDrive, uDisplayFile, uGlobs, uDCReadPSD, uOSUtils
-  {$IF DEFINED(UNIX)}
+  {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+  , fgl
+  {$ELSEIF DEFINED(UNIX)}
   , DCFileAttributes
     {$IF DEFINED(DARWIN)}
       {$IF (FPC_FULLVERSION >= 30000)}
@@ -136,6 +138,12 @@ type
     }
     FThemePixmapsFileNames: TStringHashListUtf8;
     FDCIconTheme: TIconTheme;
+    {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+    type
+      TPtrIntMap = specialize TFPGMap<PtrInt, PtrInt>;
+    var
+      FSystemIndexList: TPtrIntMap;
+    {$ENDIF}
 
     procedure CreateIconTheme;
     procedure DestroyIconTheme;
@@ -167,6 +175,10 @@ type
        Loads a plugin icon.
     }
     function GetPluginIcon(const AIconName: String; ADefaultIcon: PtrInt): PtrInt;
+
+  {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+    function CheckAddSystemIcon(ASystemIndex: PtrInt): PtrInt;
+  {$ENDIF}
 
   {$IF DEFINED(WINDOWS)}
     {en
@@ -1248,6 +1260,31 @@ begin
 end;
 {$ENDIF}
 
+{$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+function TPixMapManager.CheckAddSystemIcon(ASystemIndex: PtrInt): PtrInt;
+var
+  AIcon: HICON;
+  ABitmap: Graphics.TBitmap;
+begin
+  if not FSystemIndexList.TryGetData(ASystemIndex, Result) then
+  begin
+    Result:= -1;
+    AIcon:= ImageList_GetIcon(FSysImgList, ASystemIndex - SystemIconIndexStart, ILD_NORMAL);
+    if AIcon <> 0 then
+    try
+      ABitmap := BitmapCreateFromHICON(AIcon);
+      ABitmap.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
+      if (ABitmap.Width <> gIconsSize) or (ABitmap.Height <> gIconsSize) then
+        ABitmap:= StretchBitmap(ABitmap, gIconsSize, clWhite, True);
+      Result := FPixmapList.Add(ABitmap);
+      FSystemIndexList.Add(ASystemIndex, Result);
+    finally
+      DestroyIcon(AIcon);
+    end
+  end;
+end;
+{$ENDIF}
+
 {$IFDEF WINDOWS}
 function TPixMapManager.GetIconResourceIndex(const IconPath: String; out IconFile: String; out IconIndex: PtrInt): Boolean;
 var
@@ -1283,8 +1320,12 @@ begin
                     SizeOf(FileInfo),
                     SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES) = 0) then
     Result := -1
-  else
+  else begin
     Result := FileInfo.iIcon + SystemIconIndexStart;
+{$IF DEFINED(LCLQT5)}
+    Result := CheckAddSystemIcon(Result);
+{$ENDIF}
+  end;
 end;
 
 function TPixMapManager.GetSystemArchiveIcon: PtrInt;
@@ -1302,7 +1343,12 @@ begin
     begin
       psii.cbSize:= SizeOf(TSHStockIconInfo);
       if SHGetStockIconInfo(SIID_ZIPFILE, SHGFI_SYSICONINDEX, psii) = S_OK then
+      begin
         Result:= psii.iSysImageIndex + SystemIconIndexStart;
+{$IF DEFINED(LCLQT5)}
+        Result := CheckAddSystemIcon(Result);
+{$ENDIF}
+      end;
     end;
   end;
 end;
@@ -1317,8 +1363,12 @@ begin
                     SizeOf(FileInfo),
                     SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES) = 0) then
     Result := -1
-  else
+  else begin
     Result := FileInfo.iIcon + SystemIconIndexStart;
+{$IF DEFINED(LCLQT5)}
+    Result := CheckAddSystemIcon(Result);
+{$ENDIF}
+  end;
 end;
 
 {$ENDIF}
@@ -1359,6 +1409,10 @@ begin
   end;
 
   FSysImgList := SHGetSystemImageList(iIconSize);
+  {$ENDIF}
+
+  {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+  FSystemIndexList:= TPtrIntMap.Create;
   {$ENDIF}
 
   FPixmapsLock := syncobjs.TCriticalSection.Create;
@@ -1411,6 +1465,10 @@ begin
     end;
 
   FreeThenNil(FExtToMimeIconName);
+  {$ENDIF}
+
+  {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+  FSystemIndexList.Free;
   {$ENDIF}
 
   DestroyIconTheme;
@@ -1605,8 +1663,8 @@ function TPixMapManager.GetBitmap(iIndex: PtrInt): Graphics.TBitmap;
 var
   PPixmap: Pointer;
   PixmapFromList: Boolean = False;
-{$IFDEF MSWINDOWS}
-  hicn: HICON;
+{$IFDEF LCLWIN32}
+  AIcon: HICON;
 {$ENDIF}
 begin
   FPixmapsLock.Acquire;
@@ -1631,17 +1689,17 @@ begin
 {$ENDIF}
   end
   else
-{$IFDEF MSWINDOWS}
+{$IFDEF LCLWIN32}
   if iIndex >= SystemIconIndexStart then
     begin
       Result:= nil;
-      hicn:= ImageList_GetIcon(FSysImgList, iIndex - SystemIconIndexStart, ILD_NORMAL);
-      if hicn <> 0 then
+      AIcon:= ImageList_GetIcon(FSysImgList, iIndex - SystemIconIndexStart, ILD_NORMAL);
+      if AIcon <> 0 then
       try
-        Result := BitmapCreateFromHICON(hicn);
+        Result := BitmapCreateFromHICON(AIcon);
         Result.Masked := True; // Need to explicitly set Masked=True, Lazarus issue #0019747
       finally
-        DestroyIcon(hicn);
+        DestroyIcon(AIcon);
       end
     end
   else
@@ -1725,7 +1783,7 @@ begin
   {$ENDIF}
   end
   else
-  {$IFDEF MSWINDOWS}
+  {$IFDEF LCLWIN32}
   if iIndex >= SystemIconIndexStart then
     try
       if ImageList_GetIconSize(FSysImgList, @cx, @cy) then
@@ -1733,7 +1791,6 @@ begin
       else
         TrySetSize(gIconsSize, gIconsSize);
 
-      {$IF DEFINED(LCLWIN32)}
       if (cx = Width) and (cy = Height) then
         ImageList_Draw(FSysImgList, iIndex - SystemIconIndexStart, Canvas.Handle, X, Y, ILD_TRANSPARENT)
       else
@@ -1748,17 +1805,6 @@ begin
           DestroyIcon(hicn);
         end;
       end;
-      {$ELSEIF DEFINED(LCLQT5)}
-      hicn:= ImageList_GetIcon(FSysImgList, iIndex - SystemIconIndexStart, ILD_NORMAL);
-      try
-        Bitmap:= BitmapCreateFromHICON(hicn);
-        aRect := Classes.Bounds(X, Y, Width, Height);
-        Canvas.StretchDraw(aRect, Bitmap);
-      finally
-        DestroyIcon(hicn);
-        FreeAndNil(Bitmap);
-      end
-      {$ENDIF}
     except
       Result:= False;
     end;
@@ -1821,7 +1867,6 @@ var
   FileInfo: TSHFileInfoW;
   dwFileAttributes: DWORD;
   uFlags: UINT;
-  ABitmap: Graphics.TBitmap;
 {$ENDIF}
 begin
   Result := -1;
@@ -2028,6 +2073,10 @@ begin
     begin
       Result := FileInfo.iIcon + SystemIconIndexStart;
 
+{$IF DEFINED(LCLQT5)}
+      Result := CheckAddSystemIcon(Result);
+{$ENDIF}
+
       if IsDirectory then
       begin
         // In the fact the folder does not have a special icon
@@ -2041,12 +2090,6 @@ begin
         (Ext <> 'lnk') and
         (Ext <> 'url') then
       begin
-{$IF DEFINED(LCLQT5)}
-        ABitmap := GetBitmap(Result);
-        if (ABitmap.Width <> gIconsSize) or (ABitmap.Height <> gIconsSize) then
-          ABitmap:= StretchBitmap(ABitmap, gIconsSize, clWhite, True);
-        Result := FPixmapList.Add(ABitmap);
-{$ENDIF}
         FPixmapsLock.Acquire;
         try
           FExtList.Add(Ext, Pointer(Result));
