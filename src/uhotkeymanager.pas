@@ -345,19 +345,22 @@ var
 
   function GetArray: TDynamicStringArray;
   var
-    i: Integer;
+    Index: Integer;
   begin
     Result := nil;
-    for i := StartIndex to High(ShortcutsWithParams) do
+    Index := StartIndex;
+    while Index < Length(ShortcutsWithParams) do
     begin
-      s := ShortcutsWithParams[i];
+      s := ShortcutsWithParams[Index];
       if s <> '' then
         AddString(Result, s)
       else
         Break;
+      Inc(Index);
     end;
-    StartIndex := i + 1;
+    StartIndex := Index + 1;
   end;
+
   function CheckIfOldOrEmpty: Boolean;
   var
     i: Integer;
@@ -371,6 +374,7 @@ var
       end;
     Result := True;
   end;
+
 var
   Shortcuts, Params: array of String;
 begin
