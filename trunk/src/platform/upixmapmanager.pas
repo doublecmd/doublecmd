@@ -1416,6 +1416,7 @@ begin
 
   {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
   FSystemIndexList:= TPtrIntMap.Create;
+  FSystemIndexList.Sorted:= True;
   {$ENDIF}
 
   FPixmapsLock := syncobjs.TCriticalSection.Create;
