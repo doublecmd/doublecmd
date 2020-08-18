@@ -1136,6 +1136,9 @@ begin
           Result:= ADefaultIcon
         else begin
           Result:= ImageList_AddIcon(FSysImgList, phIcon) + SystemIconIndexStart;
+{$IF DEFINED(LCLQT5)}
+          Result:= CheckAddSystemIcon(Result);
+{$ENDIF}
         end;
         if (phIconLarge <> 0) then DestroyIcon(phIconLarge);
         if (phIconSmall <> 0) then DestroyIcon(phIconSmall);
@@ -2074,7 +2077,12 @@ begin
       Result := FileInfo.iIcon + SystemIconIndexStart;
 
 {$IF DEFINED(LCLQT5)}
-      Result := CheckAddSystemIcon(Result);
+      FPixmapsLock.Acquire;
+      try
+        Result := CheckAddSystemIcon(Result);
+      finally
+        FPixmapsLock.Release;
+      end;
 {$ENDIF}
 
       if IsDirectory then
