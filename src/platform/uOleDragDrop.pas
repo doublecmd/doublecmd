@@ -199,7 +199,7 @@ uses
 
   //DC
   uOSUtils, fOptionsDragDrop, uShowMsg, UGlobs, DCStrUtils, DCOSUtils,
-  uClipboard, uLng, uDebug, uShlObjAdditional;
+  uClipboard, uLng, uDebug, uShlObjAdditional, uOSForms;
 
 var
   // Supported formats by the source.
@@ -696,9 +696,8 @@ begin
   ActiveX.CoLockObjectExternal(Self, True, False);
 
   // Increases RefCount.
-  if ActiveX.RegisterDragDrop(DragDropTarget.GetControl.Handle, Self) = S_OK then
-    FHandle := DragDropTarget.GetControl.Handle
-  else
+  FHandle:= GetControlHandle(DragDropTarget.GetControl);
+  if ActiveX.RegisterDragDrop(FHandle, Self) <> S_OK then
     FHandle := 0;
 end;
 
