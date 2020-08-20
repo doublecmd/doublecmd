@@ -290,14 +290,16 @@ end;
 constructor TSynDiffEdit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  if not(csLoading in AOwner.ComponentState) then
-    begin
-      Gutter.Parts.Clear;
-      with TSynDiffGutterLineNumber.Create(Gutter.Parts) do
-      Name:= 'SynDiffGutterLineNumber';
-      with TSynDiffGutterChanges.Create(Gutter.Parts) do
-      Name:= 'SynDiffGutterChanges';
-    end;
+  if not (csLoading in AOwner.ComponentState) then
+  begin
+    Gutter.Parts.Clear;
+    with TSynDiffGutterLineNumber.Create(Gutter.Parts) do
+    Name:= 'SynDiffGutterLineNumber';
+    with TSynDiffGutterChanges.Create(Gutter.Parts) do
+    Name:= 'SynDiffGutterChanges';
+  end;
+  Color:= clWindow;
+  Font.Color:= clWindowText;
   FPaintStyle:= psBackground;
   FColors:= TDiffColors.Create;
   OnSpecialLineMarkup:= @SpecialLineMarkupEvent;
@@ -305,8 +307,7 @@ end;
 
 destructor TSynDiffEdit.Destroy;
 begin
-  if Assigned(FColors) then
-    FreeAndNil(FColors);
+  FreeAndNil(FColors);
   inherited Destroy;
 end;
 
