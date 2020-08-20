@@ -116,6 +116,7 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 procedure ShowOpenWithDialog(TheOwner: TComponent; const FileList: TStringList);
 {$ENDIF}
 
+function GetControlHandle(AWindow: TWinControl): HWND;
 function GetWindowHandle(AWindow: TWinControl): HWND;
 
 implementation
@@ -847,6 +848,17 @@ begin
   if Assigned(opdDialog) then
     FreeAndNil(opdDialog);
 end;
+
+function GetControlHandle(AWindow: TWinControl): HWND;
+{$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
+begin
+  Result:= HWND(QWidget_winId(TQtWidget(AWindow.Handle).GetContainerWidget));
+end;
+{$ELSE}
+begin
+  Result:= AWindow.Handle;
+end;
+{$ENDIF}
 
 function GetWindowHandle(AWindow: TWinControl): HWND;
 {$IF DEFINED(MSWINDOWS) and DEFINED(LCLQT5)}
