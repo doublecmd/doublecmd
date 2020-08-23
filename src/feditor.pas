@@ -691,13 +691,17 @@ begin
 end;
 
 procedure TfrmEditor.UpdateStatus;
+const
+  BreakStyle: array[TTextLineBreakStyle] of String = ('LF', 'CRLF', 'CR');
 begin
   if bChanged then
-    StatusBar.Panels[0].Text:='*'
-  else
-    StatusBar.Panels[0].Text:='';
-  StatusBar.Panels[1].Text:=Format('%d:%d',[Editor.CaretX, Editor.CaretY]);
-//  StatusBar.Panels[2].Text:=IntToStr(Length(Editor.Lines.Text));
+    StatusBar.Panels[0].Text:= '*'
+  else begin
+    StatusBar.Panels[0].Text:= '';
+  end;
+  StatusBar.Panels[1].Text:= Format('%d:%d',[Editor.CaretX, Editor.CaretY]);
+  StatusBar.Panels[2].Text:= sEncodingIn;
+  StatusBar.Panels[3].Text:= BreakStyle[Editor.Lines.TextLineBreakStyle];
 end;
 
 procedure TfrmEditor.SetEncodingIn(Sender: TObject);
@@ -706,6 +710,7 @@ begin
   sEncodingOut:= sEncodingIn;
   ChooseEncoding(miEncodingOut, sEncodingOut);
   Editor.Lines.Text:= ConvertEncoding(sOriginalText, sEncodingIn, EncodingUTF8);
+  UpdateStatus;
 end;
 
 procedure TfrmEditor.SetEncodingOut(Sender: TObject);
@@ -900,16 +905,19 @@ end;
 procedure TfrmEditor.cm_EditLineEndCr(const Params:array of string);
 begin
   Editor.Lines.TextLineBreakStyle:= tlbsCR;
+  UpdateStatus;
 end;
 
 procedure TfrmEditor.cm_EditLineEndCrLf(const Params:array of string);
 begin
   Editor.Lines.TextLineBreakStyle:= tlbsCRLF;
+  UpdateStatus;
 end;
 
 procedure TfrmEditor.cm_EditLineEndLf(const Params:array of string);
 begin
   Editor.Lines.TextLineBreakStyle:= tlbsLF;
+  UpdateStatus;
 end;
 
 procedure TfrmEditor.cm_About(const Params:array of string);
