@@ -67,10 +67,13 @@ object frmEditor: TfrmEditor
         Width = 150
       end    
       item
-        Width = 50
-      end    
+        Width = 96
+      end
       item
         Width = 50
+      end
+      item
+        Width = 128
       end>
     SimplePanel = False
   end
