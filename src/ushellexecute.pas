@@ -29,7 +29,7 @@ uses
   Classes, uFile, uFileView, fMain;
 
 const
-  DLE = #10;
+  ASCII_DLE = #16;
 
 type
   TPrepareParameterOption = (ppoNormalizePathDelims, ppoReplaceTilde);
@@ -624,7 +624,7 @@ type
               Inc(Index);
             end;
 
-            DLE:
+            ASCII_DLE:
             begin
               AddParsedText(state.functStartIndex);
               parseStartIndex := Index + 1;

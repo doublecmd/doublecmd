@@ -174,7 +174,7 @@ begin
   // If there is not %p, let's do thing like legacy was and let's add the filename received as parameter.
   if (Pos('%p', sParams) = 0) and (Pos('%f', sParams) = 0) then
   begin
-    sParams := ConcatenateStrWithSpace(sParams, '%' + DLE);
+    sParams := ConcatenateStrWithSpace(sParams, '%' + ASCII_DLE);
     sParams := ConcatenateStrWithSpace(sParams, QuoteStr(sFileName));
   end;
 
@@ -193,7 +193,7 @@ begin
     if Parameters <> EmptyStr then begin
       sParams := sParams + ' ' + Parameters;
     end;
-    sParams := ConcatenateStrWithSpace(sParams, '%' + DLE);
+    sParams := ConcatenateStrWithSpace(sParams, '%' + ASCII_DLE);
     for i := 0 to CompareList.Count - 1 do
       sParams := sParams + ' ' + QuoteStr(CompareList.Strings[i]);
     try
