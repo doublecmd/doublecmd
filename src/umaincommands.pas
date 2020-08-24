@@ -3669,6 +3669,7 @@ begin
         end;
         FileClose(hFile);
         ActiveFrame.FileSource.Reload(ExtractFilePath(sNewFile));
+        ActiveFrame.SetActiveFile(sNewFile);
       end
       else if FPS_ISDIR(Attrs) then
       begin
