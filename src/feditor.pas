@@ -728,7 +728,7 @@ end;
 procedure TfrmEditor.UpdateHighlighter(Highlighter: TSynCustomHighlighter);
 begin
   dmHighl.SetHighlighter(Editor, Highlighter);
-  StatusBar.Panels[3].Text:= Highlighter.LanguageName;
+  StatusBar.Panels[4].Text:= Highlighter.LanguageName;
 end;
 
 procedure TfrmEditor.FormCloseQuery(Sender: TObject;
