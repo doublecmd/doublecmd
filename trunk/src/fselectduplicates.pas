@@ -161,6 +161,7 @@ begin
     end;
   end;
 
+  FFileView.Sorting:= nil;
   with TDisplayFileSorter.Create(AFiles, NewSorting) do
   begin
     Sort;
