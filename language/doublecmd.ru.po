@@ -13301,6 +13301,10 @@ msgstr ""
 msgid "Select a directory"
 msgstr "Выберите каталог"
 
+#: ulng.rsselectduplicatemethod
+msgid "Newest;Oldest;Largest;Smallest;First in group;Last in group"
+msgstr "Самый новый;Самый старый;Самый большой;Самый маленький;Первый в группе;Последний в группе"
+
 #: ulng.rsselectyoufindfileswindow
 msgid "Select your window"
 msgstr "Выберите окно"
