@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Buttons, StdCtrls,
-  ExtCtrls, uFileView;
+  ExtCtrls, KASComboBox, uFileView;
 
 type
 
@@ -18,11 +18,11 @@ type
     btnOK: TBitBtn;
     btnIncludeMask: TSpeedButton;
     btnExcludeMask: TSpeedButton;
+    cmbFirstMethod: TComboBoxAutoWidth;
     cmbIncludeMask: TComboBox;
     cmbExcludeMask: TComboBox;
     chkLeaveUnselected: TCheckBox;
-    cmbFirstMethod: TComboBox;
-    cmbSecondMethod: TComboBox;
+    cmbSecondMethod: TComboBoxAutoWidth;
     lblIncludeMask: TLabel;
     lblExcludeMask: TLabel;
     lblFirstMethod: TLabel;
