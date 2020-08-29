@@ -290,7 +290,7 @@ end;"/>
         <MinVersion Minor="3" Valid="True"/>
       </Item12>
     </RequiredPackages>
-    <Units Count="264">
+    <Units Count="265">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1919,6 +1919,14 @@ end;"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uAdministrator"/>
       </Unit263>
+      <Unit264>
+        <Filename Value="fselectduplicates.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSelectDuplicates"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fSelectDuplicates"/>
+      </Unit264>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -379,7 +379,7 @@ uses fOptionsPluginsBase, fOptionsPluginsDSX, fOptionsPluginsWCX,
      dmHelpManager, typinfo, fMain, fPackDlg, fMkDir, DCDateTimeUtils, KASToolBar, KASToolItems,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
-     uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView,
+     uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uBriefFileView, fSelectDuplicates,
      uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile, uLuaPas,
      uFilePanelSelect, uFileSystemFileSource, uQuickViewPanel, Math,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
@@ -2973,6 +2973,15 @@ var
   MarkSearchTemplateRec: TSearchTemplateRec;
   MarkFileChecks: TFindFileChecks;
 begin
+   if frmMain.ActiveFrame is TColumnsFileView then
+   begin
+     if TColumnsFileView(frmMain.ActiveFrame).isSlave then
+     begin
+      ShowSelectDuplicates(frmMain, frmMain.ActiveFrame);
+      Exit;
+     end;
+   end;
+
   sWantedMask := '';
   pbWantedCaseSensitive := nil;
   pbWantedIgnoreAccents := nil;
