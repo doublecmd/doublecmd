@@ -161,12 +161,7 @@ begin
     end;
   end;
 
-  FFileView.Sorting:= nil;
-  with TDisplayFileSorter.Create(AFiles, NewSorting) do
-  begin
-    Sort;
-    Free;
-  end;
+  FFileView.Sorting:= NewSorting;
 
   // Skip '..' item
   if AFiles[0].FSFile.IsNameValid then
