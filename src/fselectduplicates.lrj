@@ -1,0 +1,14 @@
+{"version":1,"strings":[
+{"hash":165719427,"name":"tfrmselectduplicates.caption","sourcebytes":[83,101,108,101,99,116,32,100,117,112,108,105,99,97,116,101,32,102,105,108,101,115],"value":"Select duplicate files"},
+{"hash":47236478,"name":"tfrmselectduplicates.btnincludemask.hint","sourcebytes":[84,101,109,112,108,97,116,101,46,46,46],"value":"Template..."},
+{"hash":42,"name":"tfrmselectduplicates.cmbincludemask.text","sourcebytes":[42],"value":"*"},
+{"hash":245718570,"name":"tfrmselectduplicates.lblincludemask.caption","sourcebytes":[83,101,108,101,99,116,32,98,121,32,38,110,97,109,101,47,101,120,116,101,110,115,105,111,110,58],"value":"Select by &name/extension:"},
+{"hash":214104570,"name":"tfrmselectduplicates.lblexcludemask.caption","sourcebytes":[38,82,101,109,111,118,101,32,115,101,108,101,99,116,105,111,110,32,98,121,32,110,97,109,101,47,101,120,116,101,110,115,105,111,110,58],"value":"&Remove selection by name/extension:"},
+{"hash":47236478,"name":"tfrmselectduplicates.btnexcludemask.hint","sourcebytes":[84,101,109,112,108,97,116,101,46,46,46],"value":"Template..."},
+{"hash":14425130,"name":"tfrmselectduplicates.chkleaveunselected.caption","sourcebytes":[76,101,97,118,101,32,97,116,32,108,101,97,115,116,32,111,110,101,32,102,105,108,101,32,105,110,32,101,97,99,104,32,103,114,111,117,112,32,117,110,115,101,108,101,99,116,101,100,58],"value":"Leave at least one file in each group unselected:"},
+{"hash":10558,"name":"tfrmselectduplicates.lblfirstmethod.caption","sourcebytes":[38,49,46],"value":"&1."},
+{"hash":10574,"name":"tfrmselectduplicates.lblsecondmethod.caption","sourcebytes":[38,50,46],"value":"&2."},
+{"hash":11067,"name":"tfrmselectduplicates.btnok.caption","sourcebytes":[38,79,75],"value":"&OK"},
+{"hash":177752476,"name":"tfrmselectduplicates.btncancel.caption","sourcebytes":[38,67,97,110,99,101,108],"value":"&Cancel"},
+{"hash":44595001,"name":"tfrmselectduplicates.btnapply.caption","sourcebytes":[38,65,112,112,108,121],"value":"&Apply"}
+]}
