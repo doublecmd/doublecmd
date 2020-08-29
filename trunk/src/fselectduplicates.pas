@@ -46,7 +46,7 @@ implementation
 
 uses
   uFile, uFileSorting, uFileFunctions, uDisplayFile, uFileProperty, uTypes,
-  uGlobs, fMaskInputDlg, uLng, uSearchTemplate;
+  uGlobs, fMaskInputDlg, uLng, uSearchTemplate, DCStrUtils;
 
 procedure ShowSelectDuplicates(TheOwner: TCustomForm; AFileView: TFileView);
 begin
@@ -58,6 +58,12 @@ begin
     cmbSecondMethod.ItemIndex:= 2;
     cmbIncludeMask.Items.Assign(glsMaskHistory);
     cmbExcludeMask.Items.Assign(glsMaskHistory);
+
+    // Localize methods
+    ParseLineToList(rsSelectDuplicateMethod, cmbFirstMethod.Items);
+    ParseLineToList(rsSelectDuplicateMethod, cmbSecondMethod.Items);
+    cmbSecondMethod.Items.Delete(cmbSecondMethod.Items.Count - 1);
+    cmbSecondMethod.Items.Delete(cmbSecondMethod.Items.Count - 1);
 
     if ShowModal = mrOK then
     begin
