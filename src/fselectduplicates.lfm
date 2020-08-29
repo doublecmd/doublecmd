@@ -214,7 +214,7 @@ object frmSelectDuplicates: TfrmSelectDuplicates
       Layout = tlCenter
       ParentColor = False
     end
-    object cmbFirstMethod: TComboBox
+    object cmbFirstMethod: TComboBoxAutoWidth
       Left = 107
       Height = 28
       Top = 0
@@ -242,7 +242,7 @@ object frmSelectDuplicates: TfrmSelectDuplicates
       Layout = tlCenter
       ParentColor = False
     end
-    object cmbSecondMethod: TComboBox
+    object cmbSecondMethod: TComboBoxAutoWidth
       Left = 339
       Height = 28
       Top = 0
