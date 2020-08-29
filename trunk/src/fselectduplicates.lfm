@@ -180,7 +180,7 @@ object frmSelectDuplicates: TfrmSelectDuplicates
     Top = 116
     Width = 341
     BorderSpacing.Top = 12
-    Caption = 'Leave at least one file in each group unselected:'
+    Caption = '&Leave at least one file in each group unselected:'
     Checked = True
     State = cbChecked
     TabOrder = 2
