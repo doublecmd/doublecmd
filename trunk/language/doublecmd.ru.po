@@ -8467,6 +8467,60 @@ msgstr "И (все правила)"
 msgid "&OR (any match)"
 msgstr "ИЛИ (любое правило)"
 
+#: tfrmselectduplicates.btnapply.caption
+msgctxt "tfrmselectduplicates.btnapply.caption"
+msgid "&Apply"
+msgstr "&Применить"
+
+#: tfrmselectduplicates.btncancel.caption
+msgctxt "tfrmselectduplicates.btncancel.caption"
+msgid "&Cancel"
+msgstr "О&тмена"
+
+#: tfrmselectduplicates.btnexcludemask.hint
+msgctxt "tfrmselectduplicates.btnexcludemask.hint"
+msgid "Template..."
+msgstr "Шаблон..."
+
+#: tfrmselectduplicates.btnincludemask.hint
+msgctxt "tfrmselectduplicates.btnincludemask.hint"
+msgid "Template..."
+msgstr "Шаблон..."
+
+#: tfrmselectduplicates.btnok.caption
+msgctxt "tfrmselectduplicates.btnok.caption"
+msgid "&OK"
+msgstr "&ОК"
+
+#: tfrmselectduplicates.caption
+msgid "Select duplicate files"
+msgstr "Выделение дубликатов"
+
+#: tfrmselectduplicates.chkleaveunselected.caption
+msgid "&Leave at least one file in each group unselected:"
+msgstr "Оставить &невыделенным хотя бы один файл в каждой группе:"
+
+#: tfrmselectduplicates.cmbincludemask.text
+msgctxt "tfrmselectduplicates.cmbincludemask.text"
+msgid "*"
+msgstr "*"
+
+#: tfrmselectduplicates.lblexcludemask.caption
+msgid "&Remove selection by name/extension:"
+msgstr "&Снять выделение по имени/расширению:"
+
+#: tfrmselectduplicates.lblfirstmethod.caption
+msgid "&1."
+msgstr "&1."
+
+#: tfrmselectduplicates.lblincludemask.caption
+msgid "Select by &name/extension:"
+msgstr "Выделить по &имени/расширению:"
+
+#: tfrmselectduplicates.lblsecondmethod.caption
+msgid "&2."
+msgstr "&2."
+
 #: tfrmselectpathrange.buttonpanel.cancelbutton.caption
 msgctxt "tfrmselectpathrange.buttonpanel.cancelbutton.caption"
 msgid "&Cancel"
