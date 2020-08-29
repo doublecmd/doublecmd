@@ -110,7 +110,7 @@ begin
         SetLength(NewSorting, 2);
         SetLength(NewSorting[1].SortFunctions, 1);
         NewSorting[1].SortFunctions[0] := fsfModificationTime;
-        if (cmbFirstMethod.ItemIndex = 0) then
+        if (cmbFirstMethod.ItemIndex = 1) then
           // First item will be Oldest
           NewSorting[1].SortDirection := sdAscending
         else begin
@@ -123,11 +123,11 @@ begin
         SetLength(NewSorting, 2);
         SetLength(NewSorting[1].SortFunctions, 1);
         NewSorting[1].SortFunctions[0] := fsfSize;
-        if (cmbFirstMethod.ItemIndex = 2) then
-          // First item will be Largest
+        if (cmbFirstMethod.ItemIndex = 3) then
+          // First item will be Smallest
           NewSorting[1].SortDirection := sdAscending
         else begin
-          // First item will be Smallest
+          // First item will be Largest
           NewSorting[1].SortDirection := sdDescending;
         end;
       end;
@@ -161,7 +161,11 @@ begin
     end;
   end;
 
-  FFileView.Sorting:= NewSorting;
+  with TDisplayFileSorter.Create(AFiles, NewSorting) do
+  begin
+    Sort;
+    Free;
+  end;
 
   // Skip '..' item
   if AFiles[0].FSFile.IsNameValid then
