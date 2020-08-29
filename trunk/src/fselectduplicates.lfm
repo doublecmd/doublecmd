@@ -1,0 +1,326 @@
+object frmSelectDuplicates: TfrmSelectDuplicates
+  Left = 509
+  Height = 252
+  Top = 205
+  Width = 526
+  BorderStyle = bsDialog
+  Caption = 'Select duplicate files'
+  ChildSizing.LeftRightSpacing = 8
+  ClientHeight = 252
+  ClientWidth = 526
+  Constraints.MinWidth = 480
+  DesignTimePPI = 120
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.10.0'
+  object btnIncludeMask: TSpeedButton
+    AnchorSideLeft.Control = cmbIncludeMask
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = cmbIncludeMask
+    AnchorSideBottom.Control = cmbIncludeMask
+    AnchorSideBottom.Side = asrBottom
+    Left = 490
+    Height = 28
+    Hint = 'Template...'
+    Top = 24
+    Width = 29
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Left = 4
+    Glyph.Data = {
+      36040000424D3604000000000000360000002800000010000000100000000100
+      2000000000000004000064000000640000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000330000
+      0033000000330000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000000000214F6B83FF4966
+      85FF5191D9FF0000003300000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000021B07836B75485ABFF7EA7
+      B8FF8FD5FFFF356A9CFF00000033000000000000000000000000000000000000
+      000000000000000000000000000000000022A7753BB9D49849FF3CB4FFFFA3F1
+      FFFF9CE0FEFF109BFFFF306BA2FF000000330000000A00000000000000000000
+      0000000000000000000000000000A7763BBDE9C590FFDFAA5CFFC87F2EFF287B
+      D2FF3FC7FFFF20ACFFFF83B1D8FF807873FF413F3D5B00000000000000000000
+      0000000000000000000000000000B57F3DFFFFF1D0FFDAA85BFFC28236FF0000
+      00002C7DCFFFB3DEF2FF938881FFC2C0BAFF797B71FF00000033000000000000
+      0000000000000000000000000021B37C3AFFFFFFFAFFD6A559FFBA803BFF0000
+      0020000000008E8780FFDAD7D3FF8A8C84FFA27F9BFF9969CCFF000000000000
+      00000000000000000021AA7A3EB6DEAF68FFF3CB8AFFEEC684FFD8AA65FFAC79
+      3AB50000002100000000858884FFE3B3E3FFCB96C7FFAE7DCEFF000000000000
+      000000000021A9783CB9EDC385FFF9D292FFF3CD8BFFEDC380FFE8BE7CFFDDB3
+      74FFAA783BB70000002100000000C28BDCFFBF8AD4FF00000000000000000000
+      0021A77639B9EFCA96FFF8D59CFFF6CF8DFFEEC684FFE7BB77FFE0B26BFFE1BB
+      80FFDBB57FFFA87637B70000002100000000000000000000000000000022BB8D
+      4DB9F0D3ABFFFADFB1FFF5CC88FFEEC480FFE8BC76FFE1B36CFFDBAA61FFD4A1
+      55FFE0BC89FFDCBD8FFFAA7831B8000000220000000000000000A67437BDFFED
+      CAFFFFF1D8FFFBE4BCFFFFF1D9FFFEF4E4FFF6E7CCFFF5E4CAFFF6E9D6FFEFDD
+      C1FFE3C597FFECDABDFFE4CCA6FFA77636BD0000000000000000B57E3AFFFFFA
+      E8FFF5E3C5FFE3C798FFD8B070FFD19E50FFD8A14DFFDCA553FFD19D4AFFD2A7
+      63FFD5AF74FFDDC194FFE9D2B3FFB7813DFF0000000000000000B57E3AFFFFFF
+      FFFFA16100FFB17616FFBF852BFFCB933DFFD9A24FFFDDA755FFCF9A43FFC48B
+      32FFB87E1FFFAA6C08FFF7EDE0FFB7813EFF0000000000000000B67F3DFFFFF9
+      E2FFEBC992FFF3DBB5FFF5E2C0FFF5E1C0FFF6E2BFFFF5DFBDFFEFD9B5FFECD3
+      AFFFE4C9A0FFD4AD73FFE4C9A1FFB88241FF0000000000000000B8834238D19E
+      58A9C99753E0C69351FFC69453FFC5914FFFC6975EFFC49356FFBF8B48FFBF8A
+      46FFBD8946FFBE8844E0BD873FA9BA8545380000000000000000
+    }
+    OnClick = btnIncludeMaskClick
+  end
+  object cmbIncludeMask: TComboBox
+    AnchorSideLeft.Control = lblIncludeMask
+    AnchorSideTop.Control = lblIncludeMask
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 28
+    Top = 24
+    Width = 478
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 4
+    ItemHeight = 20
+    ItemIndex = 0
+    Items.Strings = (
+      '*'
+    )
+    ParentFont = False
+    TabOrder = 0
+    Text = '*'
+  end
+  object lblIncludeMask: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 8
+    Height = 20
+    Top = 0
+    Width = 173
+    Caption = 'Select by &name/extension:'
+    ParentColor = False
+  end
+  object lblExcludeMask: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cmbIncludeMask
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 20
+    Top = 52
+    Width = 250
+    Caption = '&Remove selection by name/extension:'
+    ParentColor = False
+  end
+  object cmbExcludeMask: TComboBox
+    AnchorSideLeft.Control = lblExcludeMask
+    AnchorSideTop.Control = lblExcludeMask
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 28
+    Top = 76
+    Width = 478
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 4
+    ItemHeight = 20
+    Items.Strings = (
+      '*'
+    )
+    ParentFont = False
+    TabOrder = 1
+  end
+  object btnExcludeMask: TSpeedButton
+    AnchorSideLeft.Control = cmbExcludeMask
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = cmbExcludeMask
+    AnchorSideBottom.Control = cmbExcludeMask
+    AnchorSideBottom.Side = asrBottom
+    Left = 490
+    Height = 28
+    Hint = 'Template...'
+    Top = 76
+    Width = 29
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Left = 4
+    Glyph.Data = {
+      36040000424D3604000000000000360000002800000010000000100000000100
+      2000000000000004000064000000640000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000330000
+      0033000000330000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000000000214F6B83FF4966
+      85FF5191D9FF0000003300000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000021B07836B75485ABFF7EA7
+      B8FF8FD5FFFF356A9CFF00000033000000000000000000000000000000000000
+      000000000000000000000000000000000022A7753BB9D49849FF3CB4FFFFA3F1
+      FFFF9CE0FEFF109BFFFF306BA2FF000000330000000A00000000000000000000
+      0000000000000000000000000000A7763BBDE9C590FFDFAA5CFFC87F2EFF287B
+      D2FF3FC7FFFF20ACFFFF83B1D8FF807873FF413F3D5B00000000000000000000
+      0000000000000000000000000000B57F3DFFFFF1D0FFDAA85BFFC28236FF0000
+      00002C7DCFFFB3DEF2FF938881FFC2C0BAFF797B71FF00000033000000000000
+      0000000000000000000000000021B37C3AFFFFFFFAFFD6A559FFBA803BFF0000
+      0020000000008E8780FFDAD7D3FF8A8C84FFA27F9BFF9969CCFF000000000000
+      00000000000000000021AA7A3EB6DEAF68FFF3CB8AFFEEC684FFD8AA65FFAC79
+      3AB50000002100000000858884FFE3B3E3FFCB96C7FFAE7DCEFF000000000000
+      000000000021A9783CB9EDC385FFF9D292FFF3CD8BFFEDC380FFE8BE7CFFDDB3
+      74FFAA783BB70000002100000000C28BDCFFBF8AD4FF00000000000000000000
+      0021A77639B9EFCA96FFF8D59CFFF6CF8DFFEEC684FFE7BB77FFE0B26BFFE1BB
+      80FFDBB57FFFA87637B70000002100000000000000000000000000000022BB8D
+      4DB9F0D3ABFFFADFB1FFF5CC88FFEEC480FFE8BC76FFE1B36CFFDBAA61FFD4A1
+      55FFE0BC89FFDCBD8FFFAA7831B8000000220000000000000000A67437BDFFED
+      CAFFFFF1D8FFFBE4BCFFFFF1D9FFFEF4E4FFF6E7CCFFF5E4CAFFF6E9D6FFEFDD
+      C1FFE3C597FFECDABDFFE4CCA6FFA77636BD0000000000000000B57E3AFFFFFA
+      E8FFF5E3C5FFE3C798FFD8B070FFD19E50FFD8A14DFFDCA553FFD19D4AFFD2A7
+      63FFD5AF74FFDDC194FFE9D2B3FFB7813DFF0000000000000000B57E3AFFFFFF
+      FFFFA16100FFB17616FFBF852BFFCB933DFFD9A24FFFDDA755FFCF9A43FFC48B
+      32FFB87E1FFFAA6C08FFF7EDE0FFB7813EFF0000000000000000B67F3DFFFFF9
+      E2FFEBC992FFF3DBB5FFF5E2C0FFF5E1C0FFF6E2BFFFF5DFBDFFEFD9B5FFECD3
+      AFFFE4C9A0FFD4AD73FFE4C9A1FFB88241FF0000000000000000B8834238D19E
+      58A9C99753E0C69351FFC69453FFC5914FFFC6975EFFC49356FFBF8B48FFBF8A
+      46FFBD8946FFBE8844E0BD873FA9BA8545380000000000000000
+    }
+    OnClick = btnIncludeMaskClick
+  end
+  object chkLeaveUnselected: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cmbExcludeMask
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 24
+    Top = 116
+    Width = 341
+    BorderSpacing.Top = 12
+    Caption = 'Leave at least one file in each group unselected:'
+    Checked = True
+    State = cbChecked
+    TabOrder = 2
+  end
+  object pnlMethods: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = chkLeaveUnselected
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 63
+    Top = 146
+    Width = 510
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    BevelOuter = bvNone
+    ChildSizing.EnlargeHorizontal = crsHomogenousSpaceResize
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 4
+    ClientHeight = 63
+    ClientWidth = 510
+    TabOrder = 3
+    object lblFirstMethod: TLabel
+      Left = 48
+      Height = 28
+      Top = 0
+      Width = 11
+      Caption = '&1.'
+      FocusControl = cmbFirstMethod
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object cmbFirstMethod: TComboBox
+      Left = 107
+      Height = 28
+      Top = 0
+      Width = 125
+      ItemHeight = 20
+      Items.Strings = (
+        'Newest'
+        'Oldest'
+        'Largest'
+        'Smallest'
+        'First in group'
+        'Last in group'
+      )
+      OnChange = cmbFirstMethodChange
+      Style = csDropDownList
+      TabOrder = 0
+    end
+    object lblSecondMethod: TLabel
+      Left = 280
+      Height = 28
+      Top = 0
+      Width = 11
+      Caption = '&2.'
+      FocusControl = cmbSecondMethod
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object cmbSecondMethod: TComboBox
+      Left = 339
+      Height = 28
+      Top = 0
+      Width = 125
+      ItemHeight = 20
+      Items.Strings = (
+        'Newest'
+        'Oldest'
+        'Largest'
+        'Smallest'
+      )
+      Style = csDropDownList
+      TabOrder = 1
+    end
+  end
+  object pnlButtons: TPanel
+    AnchorSideTop.Control = pnlMethods
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 34
+    Top = 209
+    Width = 510
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 34
+    ClientWidth = 510
+    FullRepaint = False
+    ParentFont = False
+    TabOrder = 4
+    object btnOK: TBitBtn
+      AnchorSideRight.Control = btnCancel
+      Left = 257
+      Height = 34
+      Top = 0
+      Width = 70
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.Right = 10
+      BorderSpacing.InnerBorder = 2
+      Caption = '&OK'
+      Default = True
+      Kind = bkOK
+      ModalResult = 1
+      ParentFont = False
+      TabOrder = 0
+    end
+    object btnCancel: TBitBtn
+      AnchorSideRight.Control = btnApply
+      Left = 337
+      Height = 34
+      Top = 0
+      Width = 94
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.Right = 10
+      BorderSpacing.InnerBorder = 2
+      Cancel = True
+      Caption = '&Cancel'
+      Kind = bkCancel
+      ModalResult = 2
+      ParentFont = False
+      TabOrder = 1
+    end
+    object btnApply: TBitBtn
+      AnchorSideRight.Control = pnlButtons
+      AnchorSideRight.Side = asrBottom
+      Left = 441
+      Height = 34
+      Top = 0
+      Width = 69
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.InnerBorder = 2
+      Caption = '&Apply'
+      OnClick = btnApplyClick
+      ParentFont = False
+      TabOrder = 2
+    end
+  end
+end
