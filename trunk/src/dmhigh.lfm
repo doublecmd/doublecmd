@@ -8,6 +8,7 @@ object dmHighl: TdmHighl
   Width = 457
   object SynPasSyn1: TSynPasSyn
     Tag = 1
+    DefaultFilter = 'Pascal Files (*.pas,*.dpr,*.dpk,*.inc,*.pp,*.lpr)|*.pas;*.dpr;*.dpk;*.inc;*.pp;*.lpr'
     Enabled = False
     AsmAttri.Foreground = clGreen
     AsmAttri.FrameEdges = sfeAround
