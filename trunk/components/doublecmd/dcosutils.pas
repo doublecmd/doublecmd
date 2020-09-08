@@ -224,6 +224,8 @@ function mbGetEnvironmentString(Index : Integer) : String;
    them with the values defined for the current user
 }
 function mbExpandEnvironmentStrings(const FileName: String): String;
+function mbGetEnvironmentVariable(const sName: String): String;
+function mbSetEnvironmentVariable(const sName, sValue: String): Boolean;
 function mbSysErrorMessage: String; overload; inline;
 function mbSysErrorMessage(ErrorCode: Integer): String; overload;
 {en
@@ -1487,6 +1489,55 @@ begin
     Result:= StringReplace(Result, '$' + EnvName, EnvValue, [rfReplaceAll, rfIgnoreCase]);
     Inc(Index);
   end;
+end;
+{$ENDIF}
+
+function mbGetEnvironmentVariable(const sName: String): String;
+{$IFDEF MSWINDOWS}
+var
+  wsName: UnicodeString;
+  smallBuf: array[0..1023] of WideChar;
+  largeBuf: PWideChar;
+  dwResult: DWORD;
+begin
+  Result := EmptyStr;
+  wsName := UTF8Decode(sName);
+  dwResult := GetEnvironmentVariableW(PWideChar(wsName), @smallBuf[0], Length(smallBuf));
+  if dwResult > Length(smallBuf) then
+  begin
+    // Buffer not large enough.
+    largeBuf := GetMem(SizeOf(WideChar) * dwResult);
+    if Assigned(largeBuf) then
+    try
+      dwResult := GetEnvironmentVariableW(PWideChar(wsName), largeBuf, dwResult);
+      if dwResult > 0 then
+        Result := UTF16ToUTF8(UnicodeString(largeBuf));
+    finally
+      FreeMem(largeBuf);
+    end;
+  end
+  else if dwResult > 0 then
+    Result := UTF16ToUTF8(UnicodeString(smallBuf));
+end;
+{$ELSE}
+begin
+  Result:= CeSysToUtf8(getenv(PAnsiChar(CeUtf8ToSys(sName))));
+end;
+{$ENDIF}
+
+function mbSetEnvironmentVariable(const sName, sValue: String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  wsName,
+  wsValue: UnicodeString;
+begin
+  wsName:= UTF8Decode(sName);
+  wsValue:= UTF8Decode(sValue);
+  Result:= SetEnvironmentVariableW(PWideChar(wsName), PWideChar(wsValue));
+end;
+{$ELSE}
+begin
+  Result:= (setenv(PAnsiChar(CeUtf8ToSys(sName)), PAnsiChar(CeUtf8ToSys(sValue)), 1) = 0);
 end;
 {$ENDIF}
 

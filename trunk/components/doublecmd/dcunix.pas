@@ -90,7 +90,22 @@ function fpLChown(path : String; owner : TUid; group : TGid): cInt;
 {en
    Set process group ID for job control
 }
-function setpgid(pid, pgid: pid_t): cint; cdecl; external clib name 'setpgid';
+function setpgid(pid, pgid: pid_t): cint; cdecl; external clib;
+{en
+   The getenv() function searches the environment list to find the
+   environment variable name, and returns a pointer to the corresponding
+   value string.
+}
+function getenv(name: PAnsiChar): PAnsiChar; cdecl; external clib;
+{en
+   Change or add an environment variable
+   @param(name Environment variable name)
+   @param(value Environment variable value)
+   @param(overwrite Overwrite environment variable if exist)
+   @returns(The function returns zero on success, or -1 if there was
+            insufficient space in the environment)
+}
+function setenv(const name, value: PAnsiChar; overwrite: cint): cint; cdecl; external clib;
 
 function FileLock(Handle: System.THandle; Mode: cInt): System.THandle;
 
