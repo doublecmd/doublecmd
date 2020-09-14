@@ -185,7 +185,8 @@ begin
   Result := (buildNumber = 17763) or // 1809
             (buildNumber = 18362) or // 1903
             (buildNumber = 18363) or // 1909
-            (buildNumber = 19041);   // 2004
+            (buildNumber = 19041) or // 2004
+            (buildNumber = 19042);   // 2009
 end;
 
 procedure InitDarkMode();
