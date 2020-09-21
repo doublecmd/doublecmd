@@ -60,7 +60,7 @@ type
 implementation
 
 uses
-  Math, Forms, LazUTF8, DCConvertEncoding,
+  Math, Forms, LazUTF8, DCConvertEncoding, LConvEncoding,
   uLng, uFileSystemUtil, uFileSystemFileSource, DCOSUtils, DCStrUtils,
   uFileProcs, uDCUtils, uShowMsg;
 
@@ -393,7 +393,9 @@ begin
       end;
     end;
 {$ENDIF}
-    if FindInvalidUTF8Character(PChar(AText), Length(AText), True) = -1 then
+    if StrBegins(AText, UTF8BOM) then
+      FCheckSumFile.Text:= Copy(AText, 4, MaxInt)
+    else if FindInvalidUTF8Character(PChar(AText), Length(AText), True) = -1 then
       FCheckSumFile.Text:= AText
     else begin
       FCheckSumFile.Text:= CeAnsiToUtf8(AText);
