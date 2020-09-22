@@ -515,7 +515,12 @@ begin
               end;
               pdir := True;
             end;
-            flr.Directory:= pcdir or (value = 'dir') or (value = 'os.unix=symlink');
+            flr.Directory:= (value = 'os.unix=symlink');
+            if flr.Directory then
+              flr.Mode := flr.Mode or S_IFLNK
+            else begin
+              flr.Directory := pcdir or (value = 'dir');
+            end;
           end
           else if (option = 'modify') then
           begin
@@ -527,7 +532,7 @@ begin
           end
           else if (option = 'unix.mode') then
           begin
-            flr.Mode:= OctToDec(value);
+            flr.Mode:= flr.Mode or OctToDec(value);
           end;
           if (y < Length(v)) and (v[y + 1] = ' ') then
           begin
@@ -618,11 +623,10 @@ begin
       FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_UNIX_MODE;
       if TFTPListEx(FtpList).Items[I].Directory then
         FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_DIRECTORY
-      else
-        begin
-          FindData.nFileSizeLow := (FtpList.Items[I].FileSize and MAXDWORD);
-          FindData.nFileSizeHigh := (FtpList.Items[I].FileSize shr $20);
-        end;
+      else begin
+        FindData.nFileSizeLow := (FtpList.Items[I].FileSize and MAXDWORD);
+        FindData.nFileSizeHigh := (FtpList.Items[I].FileSize shr $20);
+      end;
       // set Unix permissions
       FindData.dwReserved0 := TFTPListRecEx(FtpList.Items[I]).Mode;
       FindData.ftLastWriteTime := TWfxFileTime(DateTimeToWinFileTime(FtpList.Items[I].FileTime));
