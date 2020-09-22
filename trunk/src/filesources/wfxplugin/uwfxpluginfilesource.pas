@@ -596,7 +596,7 @@ begin
              ((FindData.FileAttributes and FILE_ATTRIBUTE_REPARSE_POINT) <> 0)) and
             ((FindData.Reserved0 and S_IFMT) = S_IFLNK);
         if ((FindData.FileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0) and
-           ((FindData.Reserved0 and S_IFMT) <> S_IFDIR) then
+           ((FindData.Reserved0 and S_IFMT) <> S_IFDIR) and (not LinkProperty.IsLinkToDirectory) then
           FindData.Reserved0:= FindData.Reserved0 or S_IFDIR;
         AttributesProperty := TUnixFileAttributesProperty.Create(FindData.Reserved0);
       end;
