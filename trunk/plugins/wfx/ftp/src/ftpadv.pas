@@ -455,6 +455,7 @@ end;
 function TFTPSendEx.ListMachine(Directory: String): Boolean;
 var
   v: String;
+  start: Boolean;
   s, x, y: Integer;
   flr: TFTPListRecEx;
   pdir, pcdir: Boolean;
@@ -478,15 +479,17 @@ begin
     for x:= 0 to FFTPList.Lines.Count - 1 do
     begin
       s:= 1;
+      start := False;
       flr := TFTPListRecEx.Create;
       v:= FFTPList.Lines[x];
       flr.OriginalLine:= v;
       // DoStatus(True, v);
       for y:= 1 to Length(v) do
       begin
-        if v[y] = '=' then
+        if (not start) and (v[y] = '=') then
         begin
           option:= LowerCase(Copy(v, s, y - s));
+          start := True;
           s:= y + 1;
         end
         else if v[y] = ';' then
@@ -512,7 +515,7 @@ begin
               end;
               pdir := True;
             end;
-            flr.Directory:= pcdir or (value = 'dir');
+            flr.Directory:= pcdir or (value = 'dir') or (value = 'os.unix=symlink');
           end
           else if (option = 'modify') then
           begin
@@ -534,6 +537,7 @@ begin
               flr.FileName:= SeparateLeft(Copy(v, y + 2, MaxInt), ' -> ');
             Break;
           end;
+          start := False;
           s:= y + 1;
         end;
       end;
@@ -671,6 +675,7 @@ begin
     begin
       for Index:= 0 to FFullResult.Count - 1 do
       begin
+        if not FMachine then FMachine:= Pos('MLST', FFullResult[Index]) > 0;
         if not FMachine then FMachine:= Pos('MLSD', FFullResult[Index]) > 0;
         if not FUnicode then FUnicode:= Pos('UTF8', FFullResult[Index]) > 0;
         if not FSetTime then FSetTime:= Pos('MFMT', FFullResult[Index]) > 0;
