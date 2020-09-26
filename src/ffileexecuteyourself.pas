@@ -60,7 +60,8 @@ implementation
 {$R *.lfm}
 
 uses
-  DCOSUtils, DCStrUtils, uTempFileSystemFileSource, uFileSourceOperation, uShellExecute;
+  DCOSUtils, DCStrUtils, uTempFileSystemFileSource, uFileSourceOperation,
+  uFileSourceCopyOperation, uShellExecute;
 
 procedure ShowFileEditExternal(const FileName, FromPath: string; aWaitData: TWaitData; Modal: Boolean = False);
 begin
@@ -109,6 +110,7 @@ begin
     // Create wait window
     with TfrmFileExecuteYourSelf.Create(Application, TempFileSource, aFile.Name, aFileView.CurrentAddress + aFileView.CurrentPath) do
     begin
+      FWaitData:= TEditorWaitData.Create(Operation as TFileSourceCopyOperation);
       // Show wait window
       Show;
       // Save current directory
