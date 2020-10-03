@@ -1,7 +1,7 @@
 (* ***** BEGIN LICENSE BLOCK *****
  * Simple interface to lzma library
  *
- * Copyright (C) 2014-2015 Alexander Koblov (alexx2000@mail.ru)
+ * Copyright (C) 2014-2020 Alexander Koblov (alexx2000@mail.ru)
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -94,7 +94,7 @@ type
   public
     constructor Create(ASource, ATarget: TStream); virtual;
     destructor Destroy; override;
-    function Code(Count: cuint64 = High(cuint64)): Boolean;
+    function Code(Count: cuint64 = High(cuint64)): Boolean; virtual; abstract;
   end;
 
   { TLzmaCompression }
@@ -104,6 +104,7 @@ type
     function Check(Return: cint): cint; override;
   public
     constructor Create(ASource, ATarget: TStream); override;
+    function Code(Count: cuint64 = High(cuint64)): Boolean; override;
   end;
 
   { TLzmaDecompression }
@@ -113,6 +114,7 @@ type
     function Check(Return: cint): cint; override;
   public
     constructor Create(ASource, ATarget: TStream); override;
+    function Code(Count: cuint64 = High(cuint64)): Boolean; override;
   end;
 
   ELzmaError = class(Exception);
@@ -189,42 +191,6 @@ end;
 
 { TLzmaBase }
 
-function TLzmaBase.Code(Count: cuint64): Boolean;
-var
-  State: cint;
-  Size: csize_t;
-  Action: cint = LZMA_RUN;
-begin
-  FLzmaRec.next_out := @FOutput;
-  FLzmaRec.avail_out := SizeOf(FOutput);
-  while True do
-  begin
-    if (FLzmaRec.avail_in = 0) then
-    begin
-      FLzmaRec.next_in := FInput;
-      FLzmaRec.avail_in := FSource.Read(FInput, SizeOf(FInput));
-      if FLzmaRec.avail_in = 0 then Action:= LZMA_FINISH;
-    end;
-    State:= Check(lzma_code(FLzmaRec, Action));
-    if (FLzmaRec.total_out > Count) then
-    begin
-      State:= LZMA_STREAM_END;
-      FLzmaRec.avail_out:= SizeOf(FOutput) - (Count - FTarget.Position);
-    end;
-    if (FLzmaRec.avail_out = 0) or (State = LZMA_STREAM_END) then
-    begin
-      Size:= SizeOf(FOutput) - FLzmaRec.avail_out;
-      if FTarget.Write(FOutput, Size) <> Size then
-      begin
-        RaiseLastOSError;
-      end;
-      FLzmaRec.next_out := FOutput;
-      FLzmaRec.avail_out := SizeOf(FOutput);
-    end;
-    if State = LZMA_STREAM_END then Exit(True);
-  end;
-end;
-
 constructor TLzmaBase.Create(ASource, ATarget: TStream);
 begin
   LzmaLoadLibrary;
@@ -254,11 +220,11 @@ begin
       LZMA_OPTIONS_ERROR:
         Message:= 'Specified preset is not supported';
       LZMA_UNSUPPORTED_CHECK:
-      	Message:= 'Specified integrity check is not supported';
+        Message:= 'Specified integrity check is not supported';
       LZMA_FORMAT_ERROR:
-      	Message:= 'The input is not in the .xz format';
+        Message:= 'The input is not in the .xz format';
       LZMA_DATA_ERROR:
-      	Message:= 'File size limits exceeded';
+        Message:= 'File size limits exceeded';
       else
         Message:= Format('Unknown error, possibly a bug (error code %d)', [Return]);
     end;
@@ -270,6 +236,49 @@ constructor TLzmaCompression.Create(ASource, ATarget: TStream);
 begin
   inherited Create(ASource, ATarget);
   Check(lzma_easy_encoder(FLzmaRec, 6, LZMA_CHECK_CRC64));
+end;
+
+function TLzmaCompression.Code(Count: cuint64): Boolean;
+var
+  Size: csize_t;
+  State: cint = LZMA_OK;
+  Action: cint = LZMA_RUN;
+begin
+  FLzmaRec.next_out := @FOutput;
+  FLzmaRec.avail_out := SizeOf(FOutput);
+  while (State <> LZMA_STREAM_END) do
+  begin
+    if (FLzmaRec.avail_in = 0) then
+    begin
+      FLzmaRec.next_in := FInput;
+      if (Count - FLzmaRec.total_in) >= SizeOf(FInput) then
+        Size:= SizeOf(FInput)
+      else begin
+        Action:= LZMA_FINISH;
+        Size:= (Count - FLzmaRec.total_in);
+      end;
+      if (Size > 0) then
+      begin
+        FLzmaRec.avail_in := FSource.Read(FInput, Size);
+        if FLzmaRec.avail_in = 0 then Action:= LZMA_FINISH;
+      end;
+    end;
+    State:= Check(lzma_code(FLzmaRec, Action));
+    if (FLzmaRec.avail_out = 0) or (State = LZMA_STREAM_END) then
+    begin
+      Size:= SizeOf(FOutput) - FLzmaRec.avail_out;
+      if FTarget.Write(FOutput, Size) <> Size then
+      begin
+        RaiseLastOSError;
+      end;
+      if (State <> LZMA_STREAM_END) then
+      begin
+        FLzmaRec.next_out := FOutput;
+        FLzmaRec.avail_out := SizeOf(FOutput);
+      end;
+    end;
+  end;
+  Result:= (State = LZMA_STREAM_END);
 end;
 
 { TLzmaDecompression }
@@ -287,9 +296,9 @@ begin
       LZMA_OPTIONS_ERROR:
         Message:= 'Unsupported decompressor flags';
       LZMA_FORMAT_ERROR:
-      	Message:= 'The input is not in the .xz format';
+        Message:= 'The input is not in the .xz format';
       LZMA_DATA_ERROR:
-      	Message:= 'Compressed file is corrupt';
+        Message:= 'Compressed file is corrupt';
       LZMA_BUF_ERROR:
         Message:= 'Compressed file is truncated or otherwise corrupt';
       else
@@ -307,6 +316,45 @@ var
 begin
   inherited Create(ASource, ATarget);
   Check(lzma_stream_decoder(FLzmaRec, memory_limit, flags));
+end;
+
+function TLzmaDecompression.Code(Count: cuint64): Boolean;
+var
+  Size: csize_t;
+  State: cint = LZMA_OK;
+  Action: cint = LZMA_RUN;
+begin
+  FLzmaRec.next_out := @FOutput;
+  FLzmaRec.avail_out := SizeOf(FOutput);
+  while (State <> LZMA_STREAM_END) do
+  begin
+    if (FLzmaRec.avail_in = 0) then
+    begin
+      FLzmaRec.next_in := FInput;
+      FLzmaRec.avail_in := FSource.Read(FInput, SizeOf(FInput));
+      if FLzmaRec.avail_in = 0 then Action:= LZMA_FINISH;
+    end;
+    State:= Check(lzma_code(FLzmaRec, Action));
+    if (FLzmaRec.total_out > Count) then
+    begin
+      State:= LZMA_STREAM_END;
+      FLzmaRec.avail_out:= SizeOf(FOutput) - (Count - FTarget.Position);
+    end;
+    if (FLzmaRec.avail_out = 0) or (State = LZMA_STREAM_END) then
+    begin
+      Size:= SizeOf(FOutput) - FLzmaRec.avail_out;
+      if FTarget.Write(FOutput, Size) <> Size then
+      begin
+        RaiseLastOSError;
+      end;
+      if (State <> LZMA_STREAM_END) then
+      begin
+        FLzmaRec.next_out := FOutput;
+        FLzmaRec.avail_out := SizeOf(FOutput);
+      end;
+    end;
+  end;
+  Result:= (State = LZMA_STREAM_END);
 end;
 
 end.
