@@ -268,6 +268,7 @@ var
   i:Integer;
   mi:TMenuItem;
   HMEditor: THMForm;
+  miOther: TMenuItem = nil;
   EncodingsList: TStringList;
   Options: TTextSearchOptions;
 begin
@@ -277,19 +278,30 @@ begin
 
   LoadGlobalOptions;
 
-// update menu highlighting
+  // update menu highlighting
   miHighlight.Clear;
-  for i:=0 to dmHighl.SynHighlighterList.Count - 1 do
-    begin
-      mi:=TMenuItem.Create(miHighlight);
-      mi.Caption:=TSynCustomHighlighter(dmHighl.SynHighlighterList.Objects[i]).LanguageName;
-      mi.Tag:=i;
-//      mi.Name:='miHigh'+IntToStr(i);
-      mi.Enabled:=True;
-      mi.OnClick:=@SetHighLighter;
-      miHighlight.Add(mi);
+  for i:= 0 to dmHighl.SynHighlighterList.Count - 1 do
+  begin
+    mi:= TMenuItem.Create(miHighlight);
+    mi.Caption:= TSynCustomHighlighter(dmHighl.SynHighlighterList.Objects[i]).LanguageName;
+    mi.Tag:= i;
+    mi.Enabled:= True;
+    mi.OnClick:=@SetHighLighter;
+
+    if not TSynCustomHighlighter(dmHighl.SynHighlighterList.Objects[i]).Other then
+      miHighlight.Add(mi)
+    else begin
+      if (miOther = nil) then
+      begin
+        miOther:= TMenuItem.Create(miHighlight);
+        miOther.Caption:= rsDlgButtonOther;
+      end;
+      miOther.Add(mi);
     end;
-// update menu encoding
+  end;
+  if Assigned(miOther) then
+    miHighlight.Add(miOther);
+  // update menu encoding
   miEncodingIn.Clear;
   miEncodingOut.Clear;
   EncodingsList:= TStringList.Create;

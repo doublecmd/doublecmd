@@ -74,6 +74,7 @@ type
   TSynCustomHighlighterHelper = class helper for TSynCustomHighlighter
   public
     function LanguageName: String;
+    function Other: Boolean;
   end;
 
   TSynHighlighterAttrFeature =
@@ -125,6 +126,14 @@ begin
     Result:= TSynUniSyn(Self).Info.General.Name
   else
     Result:= Self.GetLanguageName;
+end;
+
+function TSynCustomHighlighterHelper.Other: Boolean;
+begin
+  if Self is TSynUniSyn then
+    Result:= TSynUniSyn(Self).Info.General.Other
+  else
+    Result:= False;
 end;
 
 { TSynPlainTextHighlighter }

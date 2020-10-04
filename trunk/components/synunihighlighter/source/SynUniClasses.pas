@@ -60,7 +60,7 @@ type
   end;
 
   THighInfo = record
-    Name:       string;    Extensions: string;
+    Name:       string;    Extensions: string; Other: Boolean
   end;
 
   TSynInfo = class //Vitalik 2004
@@ -266,6 +266,7 @@ end;
 
 procedure TSynInfo.Clear();
 begin
+  General.Other       := False;
   General.Name        := '';
   General.Extensions  := '';
   Author.Name         := '';
@@ -303,7 +304,8 @@ begin
       for i := 0 to Int32(ChildNode1.Attributes.Length) - 1 do begin
         Key := ChildNode1.Attributes[i].NodeName; Value := ChildNode1.Attributes[i].NodeValue;
         if SameText('Name', Key)       then General.Name       := Value else
-        if SameText('Extensions', Key) then General.Extensions := Value
+        if SameText('Extensions', Key) then General.Extensions := Value else
+        if SameText('Other', Key) then General.Other := StrToBoolDef(Value, False)
       end else
     if SameText('Author', ChildNode1.NodeName) then
       for i := 0 to Int32(ChildNode1.Attributes.Length) - 1 do begin
@@ -385,6 +387,7 @@ begin
     WriteTag(Ind+2, 'General');
     WriteParam('Name',       General.Name);
     WriteParam('Extensions', General.Extensions, CloseEmptyTag);
+    WriteParam('Other',      BoolToStr(General.Other), CloseEmptyTag);
 
     WriteTag(Ind+2, 'Author');
     WriteParam('Name',      Author.Name);
