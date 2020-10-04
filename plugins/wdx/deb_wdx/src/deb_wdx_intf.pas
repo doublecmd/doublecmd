@@ -84,6 +84,7 @@ end;
 {$WRITEABLECONST ON}
 function ContentGetValue(FileName:pchar; FieldIndex,UnitIndex:integer; FieldValue:pbyte;
   maxlen,flags:integer):integer;
+
   function EnsureLength(S: string; nMaxlen: integer): string;
   begin
       Result := S;
@@ -93,6 +94,7 @@ function ContentGetValue(FileName:pchar; FieldIndex,UnitIndex:integer; FieldValu
           Result := Result + '...';
       end;
   end;
+
 const
   DescTmpFile: String = '';
 var
@@ -107,8 +109,7 @@ begin
   begin
      if FileExists(DescTmpFile) then
      begin
-        DeleteFile(DescTmpFile);
-        RemoveDir(ExtractFileDir(DescTmpFile));
+       DeleteFile(DescTmpFile);
      end;
 
      if not Deb_ExtractCtrlInfoFile(FileName, DescTmpFile) then exit;
@@ -116,7 +117,11 @@ begin
      if not FileExists(DescTmpFile) then  exit;
 
      FileInfo.Clear;
-     FileInfo.LoadFromFile(DescTmpFile);
+     try
+       FileInfo.LoadFromFile(DescTmpFile);
+     except
+       Exit;
+     end;
      CurrentPackageFile := FileName;
   end
 {$IFDEF GDEBUG}
@@ -175,53 +180,51 @@ begin
       where_start_desc := -1;
       for i:=0 to FileInfo.Count-1 do
       begin
-      	if FileInfo.Names[i]='Description' then
-      	begin
-      	    where_start_desc := i;
-      	    break;
-      	end;
+        if FileInfo.Names[i]='Description' then
+        begin
+            where_start_desc := i;
+            break;
+        end;
       end;
       
       if where_start_desc>=0 then
       begin
           for i:=where_start_desc+1 to FileInfo.Count-1 do
           begin
-      	     Value := Value + FileInfo.Strings[i];
+             Value := Value + FileInfo.Strings[i];
           end;
           StrPCopy(PChar(FieldValue), EnsureLength(Value, maxlen));
           //Result := FT_FULLTEXT;
           Result := FT_STRING;
       end;
   end
-
-	 
 end;
 
 initialization
+  CurrentPackageFile := '';
+
   FileInfo := TStringList.Create;
   FileInfo.NameValueSeparator := ':';
-  
-  CurrentPackageFile := '';
-  
+
   FieldList := TStringList.Create;
-  IDX_PACKAGE 	:= FieldList.Add('Package');
-  IDX_VERSION 	:= FieldList.Add('Version');
-  IDX_SECTION 	:= FieldList.Add('Section');
-  IDX_PRIORITY 	:= FieldList.Add('Priority');
-  IDX_ARCH	:= FieldList.Add('Architecture');
-  IDX_DEPENDS   := FieldList.Add('Depends');
+  IDX_PACKAGE := FieldList.Add('Package');
+  IDX_VERSION := FieldList.Add('Version');
+  IDX_SECTION := FieldList.Add('Section');
+  IDX_PRIORITY := FieldList.Add('Priority');
+  IDX_ARCH := FieldList.Add('Architecture');
+  IDX_DEPENDS := FieldList.Add('Depends');
   IDX_RECOMMENDS:= FieldList.Add('Recommends');
-  IDX_SUGGESTS  := FieldList.Add('Suggests');
+  IDX_SUGGESTS := FieldList.Add('Suggests');
   IDX_CONFLICTS := FieldList.Add('Conflicts');
   IDX_INSTALLED_SIZE := FieldList.Add('Installed-Size');
-  IDX_MAINTAINER    := FieldList.Add('Maintainer');
-  IDX_SOURCE    := FieldList.Add('Source');
-  IDX_SUMMARY   := FieldList.Add('Summary');
-  IDX_DESCRIPTION    := FieldList.Add('Description');
+  IDX_MAINTAINER := FieldList.Add('Maintainer');
+  IDX_SOURCE := FieldList.Add('Source');
+  IDX_SUMMARY := FieldList.Add('Summary');
+  IDX_DESCRIPTION := FieldList.Add('Description');
 
-  
 finalization
   FileInfo.Free;
   FieldList.Free;
 
 end.
+
