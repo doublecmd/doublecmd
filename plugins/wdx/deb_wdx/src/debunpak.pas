@@ -3,114 +3,107 @@ unit debunpak;
 {$mode delphi}{$H+}
 
 interface
-uses
-  SysUtils
-{$IFDEF GDEBUG}
-  , dbugintf
-{$ENDIF};
 
-//extract `control' in control.tar.gz
-function Deb_ExtractCtrlInfoFile(debfile: string; var descfile: string): boolean;
-//list out files int data.tar.gz
-function Deb_ListFileInDataMember(debfile: string; var FileList: string): integer;
+uses
+  SysUtils;
+
+// Extract 'control' from control.tar.gz
+function Deb_ExtractCtrlInfoFile(const DebFile: String; var DescFile: String): Boolean;
 
 implementation
 
 uses
-  dpkg_deb, minigzip, tarfile, {$IFDEF USE_LIBTAR}libtar{$ELSE}untar, classes{$ENDIF};
+  dpkg_deb, gzio, libtar;
 
 var
-  DebPkg: TDebianPackage; //dpkg_deb
-//  TarArch: TTarArchive; //libtar
-  TempDir: array[0..MAX_PATH] of char;
+  DebPkg: TDebianPackage;
+  TempDir: array[0..MAX_PATH] of AnsiChar;
+
+function ExtractGzip(const FileName, OutName: String): Boolean;
+var
+  AFile: gzFile;
+  Handle: THandle;
+  ALength: Integer;
+  Buffer: array[Word] of Byte;
+begin
+  AFile:= gzopen(FileName, 'r');
+  Result:= Assigned(AFile);
+  if Result then
+  begin
+    Handle:= FileCreate(OutName);
+    Result:= (Handle <> feInvalidHandle);
+    if Result then
+    begin
+      while True do
+      begin
+        ALength:= gzread(AFile, @Buffer[0], SizeOf(Buffer));
+        if ALength < 0 then
+        begin
+          Result:= False;
+          Break;
+        end;
+        if ALength = 0 then Break;
+        if (FileWrite(Handle, Buffer[0], ALength) <> ALength) then
+        begin
+          Result:= False;
+          Break;
+        end;
+      end;
+      FileClose(Handle);
+      if not Result then DeleteFile(OutName);
+    end;
+    gzclose(AFile);
+  end;
+end;
 
 //member: 1: control.tar.gz, 2: data.tar.gz
 //return: full path of extracted file (${TEMP}\debXXXX\foo.tar.gz,
 function UnpackDebFile(DebFile: string; memberidx: integer): string;
 var
-  TempFile: array[0..MAX_PATH] of char;
-  FileSource,
+  Index: Integer;
   FileDestination: String;
+  TempFile, FileExt: String;
 begin
-{$IFDEF GDEBUG}
-  SendMethodEnter('UnpackDebFile: memberidx='+IntToStr(memberidx));
-{$ENDIF}
   Result := '';
-  if (memberidx<>MEMBER_CONTROL) and (memberidx<>MEMBER_DATA) then exit; //error
-
-  repeat
-    GetTempFileName(TempDir, 'deb', random(1000), TempFile);
-    StrLCopy(TempFile, PChar(ChangeFileExt(StrPas(TempFile), '.tar.gz')), MAX_PATH);
-  until not FileExists(StrPas(TempFile));
-  
 {$IFDEF GDEBUG}
-  SendDebug('TempFile=' + TempFile);
+  WriteLn('UnpackDebFile: memberidx='+IntToStr(memberidx));
 {$ENDIF}
+  if (memberidx <> MEMBER_CONTROL) and (memberidx <> MEMBER_DATA) then Exit; //error
 
-  DebPkg := TDebianPackage.Create;
-  if DebPkg.ReadFromFile(DebFile) < 2 then  exit;
-      //a debian package must have control.tar.gz and data.tar.gz
+  try
+    // a debian package must have control.tar.* and data.tar.*
+    if DebPkg.ReadFromFile(DebFile) < 2 then Exit;
 
-  //extract 'control.tar.gz'
-  if not DebPkg.ExtractMemberToFile(memberidx, StrPas(TempFile)) then  exit;
+    // Check file type
+    FileExt:= TrimRight(DebPkg.FMemberList[memberidx].ar_name);
+    Index:= Pos(ExtensionSeparator, FileExt);
+    if Index = 0 then Exit;
+    FileExt:= Copy(FileExt, Index, MaxInt);
+    if (FileExt <> '.tar.gz') then Exit;
 
-  FileSource := StrPas(TempFile); //  X:\some\where\foo.tar.gz
-  FileDestination := StrPas(TempDir) +
-    ChangeFileExt(ExtractFileName(FileSource), ''); // ${TempDir}\foo.tar
+    TempFile:= GetTempFileName(TempDir, 'deb') + FileExt;
 
-  file_uncompress(FileSource);
+  {$IFDEF GDEBUG}
+    WriteLn('TempFile=' + TempFile);
+  {$ENDIF}
 
-  if not FileExists(FileDestination) then
-  begin
-    DeleteFile(TempFile); //foo.tar.gz
-    Exit;
+    //extract 'control.tar.gz'
+    if not DebPkg.ExtractMemberToFile(memberidx, TempFile) then Exit;
+    FileDestination := StrPas(TempDir) + ChangeFileExt(ExtractFileName(TempFile), ''); // ${TEMP}\foo.tar
+    ExtractGzip(TempFile, FileDestination);
+  except
+    // Skip
   end;
+
+  DeleteFile(TempFile);
+
+  if not FileExists(FileDestination) then Exit;
+
   Result := FileDestination;
 
-  DeleteFile(PChar(FileSource));
 {$IFDEF GDEBUG}
-  SendMethodExit('UnpackDebFile');
+  WriteLn('UnpackDebFile');
 {$ENDIF}
-end;
-
-//function Deb_ExtractDataFileList(debfile: string; var FileList: string): integer;
-function Deb_ListFileInDataMember;
-var
-   tarfilename: string;
-   fname : string;
-   fsize : integer;
-   TarFile: TTarFile;
-begin
-  tarfilename := UnpackDebFile(debfile, MEMBER_DATA);
-{$IFDEF GDEBUG}
-  SendDebug('tarfilename=' + tarfilename);
-{$ENDIF}
-  FileList:='';
-  Result := 0;
-  if not FileExists(tarfilename) then   exit;
-
-  TarFile := TTarFile.Create(tarfilename);
-  try
-        while not TarFile.Eof do
-        begin
-            fname := TarFile.GetNextFilename;
-            fsize := TarFile.GetNextSize;
-            if fsize>0 then
-            begin
-                TarFile.GetNextDate;
-                TarFile.SkipFile;
-            end;
-            if FileList='' then
-                FileList := fname
-            else
-                FileList := FileList + #13#10 + fname;
-            Inc(Result);
-        end;
-  finally
-        TarFile.Free;
-        DeleteFile(PChar(tarfilename));
-  end;
-
 end;
 
 //function ExtractDebInfoFile(debfile: string; var descfile: string): boolean;
@@ -118,71 +111,46 @@ end;
 //descfile: [out] full path of extracted control file (${TEMP}\debXXXX\control)
 //        you should remove this file (and the temp folder ${TEMP}\debXXXX after use.
 //return: succeed or not
-function Deb_ExtractCtrlInfoFile;
+function Deb_ExtractCtrlInfoFile(const DebFile: string; var DescFile: string): boolean;
 var
-  tarfilename: string;
-{$IFDEF USE_LIBTAR}
   TA: TTarArchive;
   DirRec: TTarDirRec;
-{$ELSE USE_TARFILE}
-  Untar1: TUntar;
-  strlst: TStringList;
-{$ENDIF}
+  TarFileName: String;
 begin
-  Result := false;
+  Result := False;
 {$IFDEF GDEBUG}
-  SendMethodEnter('ExtractDebInfoFile');
+  WriteLn('ExtractDebInfoFile');
 {$ENDIF}
-  tarfilename := UnpackDebFile(debfile, MEMBER_CONTROL);
+  TarFileName := UnpackDebFile(DebFile, MEMBER_CONTROL);
 
 {$IFDEF GDEBUG}
-  SendDebug('tarfilename=' + tarfilename);
+  WriteLn('tarfilename=' + tarfilename);
 {$ENDIF}
-  if not FileExists(tarfilename) then   exit;
+  if not FileExists(TarFileName) then Exit;
 
-{$IFDEF USE_LIBTAR}  //libtar seems to be bad
-    descfile := StrPas(TempDir) + 'control.txt';
-  {$IFDEF GDEBUG}
-    SendDebug('descfile=' + descfile);
-  {$ENDIF}
-    TA := TTarArchive.Create(tarfilename);
-    TA.Reset;
-    while TA.FindNext(DirRec) do
+  DescFile := StrPas(TempDir) + 'control.txt';
+{$IFDEF GDEBUG}
+  WriteLn('descfile=' + descfile);
+{$ENDIF}
+  TA := TTarArchive.Create(TarFileName);
+
+  while TA.FindNext(DirRec) do
+  begin
+{$IFDEF GDEBUG}
+    WriteLn('DirRec.Name=' + DirRec.Name);
+{$ENDIF}
+    if (DirRec.Name = './control') or (DirRec.Name = '.\control') or (DirRec.Name = 'control') then
     begin
-  {$IFDEF GDEBUG}
-      SendDebug('DirRec.Name=' + DirRec.Name);
-  {$ENDIF}
-      if (DirRec.Name = './control') or (DirRec.Name = '.\control') or (DirRec.Name = 'control') then
-      begin
-        TA.ReadFile(descfile);
-        break;
-      end;
+      TA.ReadFile(DescFile);
+      Break;
     end;
-    TA.Free;
-{$ELSE}
-    Untar1 := TUntar.Create(nil);
-    Untar1.FileSource := tarfilename;
-    //Untar1.UnpackPath := TempDir + 'deb4wii';
-    Untar1.UnpackPath := TempDir + ChangeFileExt(ExtractFileName(Untar1.FileSource), ''); // ${TempDir}\foo
-  {$IFDEF GDEBUG}
-    SendDebug('UnpackPath=' + Untar1.UnpackPath);
-  {$ENDIF}
-    strlst := TStringList.Create;
-    strlst.Add('control');
-    strlst.Add('./control');
-    strlst.Add('.\control');
-    Untar1.OverwriteMode := omReplace; //shit!
-    Untar1.UntarSelected(strlst);
-    //Untar1.Untar; //untar all
-    descfile := IncludeTrailingBackSlash(Untar1.UnpackPath) + 'control';
-    strlst.Free;
-    Untar1.Free;
-{$ENDIF}
+  end;
+  TA.Free;
 
-  DeleteFile(PChar(tarfilename)); //foo.tar
+  DeleteFile(TarFileName); //foo.tar
   Result := true;
 {$IFDEF GDEBUG}
-  SendMethodExit('ExtractDebInfoFile');
+  WriteLn('ExtractDebInfoFile');
 {$ENDIF}
 (*
    filelist := '';
@@ -196,13 +164,12 @@ begin
 end;
 
 initialization
-  DebPkg := TDebianPackage.Create;
-  TempDir:= GetTempDir;
   Randomize;
+  TempDir:= GetTempDir;
+  DebPkg := TDebianPackage.Create;
 
 finalization
   DebPkg.Free;
-//  TarArc.Free;
 
 end.
 

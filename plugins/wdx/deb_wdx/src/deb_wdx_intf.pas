@@ -34,7 +34,7 @@ function ContentGetValue(FileName:pchar;FieldIndex,UnitIndex:integer;FieldValue:
 implementation
 
 uses
-  SysUtils{$IFDEF GDEBUG}, DbugIntf{$ENDIF}, debunpak;
+  SysUtils, debunpak;
 
 var
   IDX_PACKAGE,
@@ -121,7 +121,7 @@ begin
   end
 {$IFDEF GDEBUG}
   else
-      SendDebug('Cached info reused for '+FileName);
+    WriteLn('Cached info reused for '+FileName);
 {$ENDIF};
 
 
