@@ -132,35 +132,32 @@ begin
 {$IFDEF GDEBUG}
   WriteLn('descfile=' + descfile);
 {$ENDIF}
-  TA := TTarArchive.Create(TarFileName);
-
-  while TA.FindNext(DirRec) do
-  begin
-{$IFDEF GDEBUG}
-    WriteLn('DirRec.Name=' + DirRec.Name);
-{$ENDIF}
-    if (DirRec.Name = './control') or (DirRec.Name = '.\control') or (DirRec.Name = 'control') then
-    begin
-      TA.ReadFile(DescFile);
-      Break;
+  try
+    TA := TTarArchive.Create(TarFileName);
+    try
+      while TA.FindNext(DirRec) do
+      begin
+    {$IFDEF GDEBUG}
+        WriteLn('DirRec.Name=' + DirRec.Name);
+    {$ENDIF}
+        if (DirRec.Name = './control') or (DirRec.Name = '.\control') or (DirRec.Name = 'control') then
+        begin
+          TA.ReadFile(DescFile);
+          Result:= True;
+          Break;
+        end;
+      end;
+    finally
+      TA.Free;
     end;
+  except
+    // Ignore
   end;
-  TA.Free;
 
-  DeleteFile(TarFileName); //foo.tar
-  Result := true;
+  DeleteFile(TarFileName); // foo.tar
 {$IFDEF GDEBUG}
   WriteLn('ExtractDebInfoFile');
 {$ENDIF}
-(*
-   filelist := '';
-  TA := TarArchive.Create('data.tar.gz');
-  WHILE TA.FindNext(DirRec) DO BEGIN
-      filelist := filelist + DirRec.Name + #13#10;
-  end;
-  TA.Free;
-*)
-
 end;
 
 initialization
