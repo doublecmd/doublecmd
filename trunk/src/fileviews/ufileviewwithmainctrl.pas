@@ -801,6 +801,7 @@ begin
             begin
               InvertFileSelection(AFile, False);
               DoSelectionChanged(FileIndex);
+              FMainControlMouseDown:= False;
             end
             //  If mark with left button enable
             else if (gMouseSelectionButton = 0) then
@@ -1317,7 +1318,7 @@ begin
       Exit;
 
     AFile := FFiles[FileIndex];
-    MarkFile(AFile, not FMouseSelectionLastState, False);
+    MarkFile(AFile, True, False);
     DoSelectionChanged(FileIndex);
   end;
 
