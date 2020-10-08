@@ -99,6 +99,7 @@ type
     procedure RemoveFromOpenedForms;
     procedure SetPauseGlyph;
     procedure SetPlayGlyph;
+    procedure SetLabelCaption(ALabel: TLabel; const AText: String);
     procedure UpdateOperation(OpManItem: TOperationsManagerItem);
     procedure UpdatePauseStartButton(OpManItem: TOperationsManagerItem);
     procedure SetProgressBarStyle(const AValue: TProgressBarStyle);
@@ -715,6 +716,12 @@ begin
   dmComData.ImageList.GetBitmap(0, btnPauseStart.Glyph);
 end;
 
+procedure TfrmFileOp.SetLabelCaption(ALabel: TLabel; const AText: String);
+begin
+  ALabel.Hint := AText;
+  ALabel.Caption := MinimizeFilePath(AText, ALabel.Canvas, ALabel.Width);
+end;
+
 procedure TfrmFileOp.SetProgressBytes(Operation: TFileSourceOperation;
   ProgressBar: TKASProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
 begin
@@ -893,8 +900,8 @@ begin
 
   with CopyStatistics do
   begin
-    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
-    lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
+    SetLabelCaption(lblFileNameFrom, CurrentFileFrom);
+    SetLabelCaption(lblFileNameTo, CurrentFileTo);
 
     SetProgressCount(Operation, DoneFiles, TotalFiles);
     SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
@@ -913,8 +920,8 @@ begin
 
   with MoveStatistics do
   begin
-    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
-    lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
+    SetLabelCaption(lblFileNameFrom, CurrentFileFrom);
+    SetLabelCaption(lblFileNameTo, CurrentFileTo);
 
     SetProgressCount(Operation, DoneFiles, TotalFiles);
     SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
@@ -1032,7 +1039,7 @@ begin
 
   with DeleteStatistics do
   begin
-    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+    SetLabelCaption(lblFileNameFrom, CurrentFile);
 
     SetProgressFiles(Operation, pbTotal, DoneFiles, TotalFiles);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(FilesPerSecond, uoscNoUnit));
@@ -1049,7 +1056,7 @@ begin
 
   with WipeStatistics do
   begin
-    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+    SetLabelCaption(lblFileNameFrom, CurrentFile);
 
     SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
@@ -1067,8 +1074,8 @@ begin
 
   with SplitStatistics do
   begin
-    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
-    lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
+    SetLabelCaption(lblFileNameFrom ,CurrentFileFrom);
+    SetLabelCaption(lblFileNameTo, CurrentFileTo);
 
     SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
@@ -1086,8 +1093,8 @@ begin
 
   with CombineStatistics do
   begin
-    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
-    lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
+    SetLabelCaption(lblFileNameFrom, CurrentFileFrom);
+    SetLabelCaption(lblFileNameTo, CurrentFileTo);
 
     SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
@@ -1105,7 +1112,7 @@ begin
 
   with CalcStatisticsOperationStatistics do
   begin
-    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+    SetLabelCaption(lblFileNameFrom, CurrentFile);
     SetSpeedAndTime(Operation, 0, cnvFormatFileSize(FilesPerSecond, uoscNoUnit));
   end;
 end;
@@ -1120,7 +1127,7 @@ begin
 
   with CalcChecksumStatistics do
   begin
-    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+    SetLabelCaption(lblFileNameFrom, CurrentFile);
 
     SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
@@ -1138,8 +1145,8 @@ begin
 
   with TestArchiveStatistics do
   begin
-    lblFileNameFrom.Caption := MinimizeFilePath(ArchiveFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
-    lblFileNameTo.Caption := MinimizeFilePath(CurrentFile, lblFileNameTo.Canvas, lblFileNameTo.Width);
+    SetLabelCaption(lblFileNameFrom, ArchiveFile);
+    SetLabelCaption(lblFileNameTo, CurrentFile);
 
     SetProgressBytes(Operation, pbCurrent, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(Operation, pbTotal, DoneBytes, TotalBytes);
@@ -1157,7 +1164,7 @@ begin
 
   with SetStatistics do
   begin
-    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+    SetLabelCaption(lblFileNameFrom, CurrentFile);
 
     SetProgressFiles(Operation, pbTotal, DoneFiles, TotalFiles);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(FilesPerSecond, uoscNoUnit));
