@@ -160,7 +160,6 @@ procedure TDisplayFile.CloneTo(AFile: TDisplayFile);
 begin
   if Assigned(AFile) then
   begin
-    AFile.FTag := FTag;
     AFile.FSelected := FSelected;
     AFile.FIconID := FIconID;
     AFile.FIconOverlayID := FIconOverlayID;
