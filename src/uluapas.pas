@@ -140,6 +140,36 @@ begin
   lua_pushboolean(L, mbForceDirectory(lua_tostring(L, 1)));
 end;
 
+function luaCreateHardLink(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 1;
+  lua_pushboolean(L, CreateHardLink(lua_tostring(L, 1), lua_tostring(L, 2)));
+end;
+
+function luaCreateSymbolicLink(L : Plua_State) : Integer; cdecl;
+begin
+  Result:= 1;
+  lua_pushboolean(L, CreateSymLink(lua_tostring(L, 1), lua_tostring(L, 2)));
+end;
+
+function luaReadSymbolicLink(L : Plua_State) : Integer; cdecl;
+var
+  Path: String;
+  Recursive: Boolean = False;
+begin
+  Result:= 1;
+  Path:= lua_tostring(L, 1);
+  if lua_isboolean(L, 2) then begin
+    Recursive:= lua_toboolean(L, 2)
+  end;
+  if Recursive then
+    Path:= mbReadAllLinks(Path)
+  else begin
+    Path:= ReadSymLink(Path);
+  end;
+  lua_pushstring(L, Path);
+end;
+
 function luaExtractFilePath(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 1;
@@ -252,13 +282,11 @@ begin
   ClipboardSetText(luaL_checkstring(L, 1));
 end;
 
-{$if lcl_fullversion >= 1070000}
 function luaClipbrdSetHtml(L : Plua_State) : Integer; cdecl;
 begin
   Result:= 0;
   Clipboard.SetAsHtml(luaL_checkstring(L, 1));
 end;
-{$endif}
 
 function luaMessageBox(L : Plua_State) : Integer; cdecl;
 var
@@ -407,6 +435,10 @@ begin
     luaP_register(L, 'DirectoryExists', @luaDirectoryExists);
     luaP_register(L, 'CreateDirectory', @luaCreateDirectory);
 
+    luaP_register(L, 'CreateHardLink', @luaCreateHardLink);
+    luaP_register(L, 'CreateSymbolicLink', @luaCreateSymbolicLink);
+    luaP_register(L, 'ReadSymbolicLink', @luaReadSymbolicLink);
+
     luaP_register(L, 'ExtractFileExt', @luaExtractFileExt);
     luaP_register(L, 'ExtractFileDir', @luaExtractFileDir);
     luaP_register(L, 'ExtractFilePath', @luaExtractFilePath);
@@ -429,9 +461,7 @@ begin
     luaP_register(L, 'Clear', @luaClipbrdClear);
     luaP_register(L, 'GetAsText', @luaClipbrdGetText);
     luaP_register(L, 'SetAsText', @luaClipbrdSetText);
-{$if lcl_fullversion >= 1070000}
     luaP_register(L, 'SetAsHtml', @luaClipbrdSetHtml);
-{$endif}
   lua_setglobal(L, 'Clipbrd');
 
   lua_newtable(L);
