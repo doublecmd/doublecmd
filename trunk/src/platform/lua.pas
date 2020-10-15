@@ -51,7 +51,6 @@ const
 function LoadLuaLib(FileName: String): Boolean;
 procedure UnloadLuaLib;
 function IsLuaLibLoaded: Boolean;
-function LuaCheckVersion: Boolean;
 
 (*****************************************************************************)
 (*                               luaconfig.h                                 *)
@@ -285,7 +284,6 @@ var
   lua_rawget:  procedure (L : Plua_State; idx : Integer);  cdecl;
   lua_rawgeti:  procedure (L : Plua_State; idx, n : Integer);  cdecl;
   lua_createtable:  procedure (L : Plua_State; narr, nrec : Integer);  cdecl;
-  lua_newuserdata:  function  (L : Plua_State; sz : size_t) : Pointer;  cdecl;
   lua_getmetatable:  function  (L : Plua_State; objindex : Integer) : LongBool;  cdecl;
   lua_getfenv:  procedure (L : Plua_State; idx : Integer);  cdecl;
 
@@ -301,6 +299,7 @@ var
 
 procedure lua_setglobal(L: Plua_State; const name : PAnsiChar);
 procedure lua_getglobal(L: Plua_State; const name : PAnsiChar);
+function lua_newuserdata(L : Plua_State; sz : size_t) : Pointer;
 
 (*
 ** `load' and `call' functions (load and run Lua code)
@@ -318,8 +317,9 @@ function lua_pcall(L : Plua_State; nargs, nresults, errfunc : Integer) : Integer
 *)
 var
   lua_yield:  function (L : Plua_State; nresults : Integer) : Integer;  cdecl;
-  lua_resume:  function (L : Plua_State; narg : Integer) : Integer;  cdecl;
   lua_status:  function (L : Plua_State) : Integer;  cdecl;
+
+function lua_resume(L : Plua_State; narg : Integer; nresults : PInteger) : Integer;
 
 (*
 ** garbage-collection functions and options
@@ -666,10 +666,12 @@ var
   lua_pushstring_:  procedure (L : Plua_State; const s : PChar);  cdecl;
   lua_objlen_: function (L : Plua_State; idx : Integer) : size_t;  cdecl;
   lua_setglobal_: procedure (L: Plua_State; const name: PAnsiChar); cdecl;
+  lua_newuserdata_:  function  (L : Plua_State; sz : size_t) : Pointer; cdecl;
   luaL_prepbuffsize: function (B: PluaL_Buffer; sz: size_t): PAnsiChar; cdecl;
   lua_getglobal_: function (L: Plua_State; const name: PAnsiChar): Integer; cdecl;
   lua_tonumber_:    function (L : Plua_State; idx : Integer) : lua_Number;  cdecl;
   luaL_loadfile_: function (L: Plua_State; const filename: PAnsiChar): Integer; cdecl;
+  lua_newuserdatauv: function(L: Plua_State; sz: size_t; nuvalue: Integer): Pointer; cdecl;
   lua_tonumberx: function(L: Plua_State; idx: Integer; isnum: PLongBool): lua_Number; cdecl;
   luaL_loadfilex_: function (L: Plua_State; const filename, mode: PAnsiChar): Integer; cdecl;
   lua_pcall_: function (L : Plua_State; nargs, nresults, errfunc : Integer) : Integer; cdecl;
@@ -690,6 +692,9 @@ var
   luaL_optinteger64:  function (L : Plua_State; nArg : Integer; def : Int64) : Int64;  cdecl;
   luaL_optintegerPtr: function (L : Plua_State; nArg : Integer; def : IntPtr) : IntPtr;  cdecl;
 
+  lua_resume51:  function (L : Plua_State; narg : Integer) : Integer;  cdecl;
+  lua_resume54:  function (L : Plua_State; narg : Integer; nresults : PInteger) : Integer;  cdecl;
+
 procedure UnloadLuaLib;
 begin
  if LuaLibD <> NilHandle then
@@ -704,13 +709,25 @@ begin
   Result:= (LuaLibD <> NilHandle);
 end;
 
-function LuaCheckVersion: Boolean;
+function LuaVersion: Integer;
+var
+  lua_version_ex: function(L: Plua_State): lua_Number; cdecl;
 begin
-  Result:= True;
-  if Assigned(lua_version) then begin
-    Result:= (Trunc(lua_version(nil)^) = LUA_VERSION_NUM);
+  // Lua 5.1
+  if (@lua_version = nil) then
+    Result:= LUA_VERSION_NUM
+  else begin
+    // Lua 5.2 - 5.3
+    if (@lua_newuserdatauv = nil) then
+    begin
+      Result:= Trunc(lua_version(nil)^);
+    end
+    // Lua >= 5.4
+    else begin
+      @lua_version_ex:= @lua_version;
+      Result:= Trunc(lua_version_ex(nil));
+    end;
   end;
-  Result:= Result and (luaJIT = False);
 end;
 
 function LoadLuaLib(FileName: String): Boolean;
@@ -789,7 +806,6 @@ begin
   @lua_setallocf := GetProcAddress(LuaLibD, 'lua_setallocf');
   @lua_gc := GetProcAddress(LuaLibD, 'lua_gc');
   @lua_yield := GetProcAddress(LuaLibD, 'lua_yield');
-  @lua_resume := GetProcAddress(LuaLibD, 'lua_resume');
   @lua_status := GetProcAddress(LuaLibD, 'lua_status');
   @lua_call := GetProcAddress(LuaLibD, 'lua_call');
   @lua_pcall_ := GetProcAddress(LuaLibD, 'lua_pcall');
@@ -807,7 +823,7 @@ begin
   @lua_rawget := GetProcAddress(LuaLibD, 'lua_rawget');
   @lua_rawgeti := GetProcAddress(LuaLibD, 'lua_rawgeti');
   @lua_createtable := GetProcAddress(LuaLibD, 'lua_createtable');
-  @lua_newuserdata := GetProcAddress(LuaLibD, 'lua_newuserdata');
+  @lua_newuserdata_ := GetProcAddress(LuaLibD, 'lua_newuserdata');
   @lua_getmetatable := GetProcAddress(LuaLibD, 'lua_getmetatable');
   @lua_getfenv := GetProcAddress(LuaLibD, 'lua_getfenv');
   @lua_pushnil := GetProcAddress(LuaLibD, 'lua_pushnil');
@@ -848,7 +864,7 @@ begin
   @lua_checkstack := GetProcAddress(LuaLibD, 'lua_checkstack');
   @lua_xmove := GetProcAddress(LuaLibD, 'lua_xmove');
 
-  // Lua 5.2 - 5.3 specific stuff
+  // Lua 5.2 - 5.4 specific stuff
   @lua_rawlen := GetProcAddress(LuaLibD, 'lua_rawlen');
   @lua_pcallk := GetProcAddress(LuaLibD, 'lua_pcallk');
   @lua_version := GetProcAddress(LuaLibD, 'lua_version');
@@ -857,15 +873,12 @@ begin
   @lua_getglobal_ := GetProcAddress(LuaLibD, 'lua_getglobal');
   @luaL_loadfilex_ := GetProcAddress(LuaLibD, 'luaL_loadfilex');
   @luaL_prepbuffsize := GetProcAddress(LuaLibD, 'luaL_prepbuffsize');
+  @lua_newuserdatauv := GetProcAddress(LuaLibD, 'lua_newuserdatauv');
 
   // luaJIT specific stuff
   luaJIT := GetProcAddress(LuaLibD, 'luaJIT_setmode') <> nil;
 
-  if Assigned(lua_version) then
-    LUA_VERSION_DYN:= Trunc(lua_version(nil)^)
-  else begin
-    LUA_VERSION_DYN:= LUA_VERSION_NUM;
-  end;
+  LUA_VERSION_DYN:= LuaVersion;
 
   // Determine pseudo-indices values
   if (LUA_VERSION_DYN > LUA_VERSION_NUM) then
@@ -893,6 +906,12 @@ begin
     @luaL_checkintegerPtr := GetProcAddress(LuaLibD, 'luaL_checkinteger');
     @luaL_optintegerPtr := GetProcAddress(LuaLibD, 'luaL_optinteger');
     @lua_tointegerxPtr := GetProcAddress(LuaLibD, 'lua_tointegerx');
+  end;
+
+  if (LUA_VERSION_DYN >= 504) then
+    @lua_resume54 := GetProcAddress(LuaLibD, 'lua_resume')
+  else begin
+    @lua_resume51 := GetProcAddress(LuaLibD, 'lua_resume');
   end;
 end;
 
@@ -1059,6 +1078,15 @@ begin
     lua_getfield(L, LUA_GLOBALSINDEX, name);
 end;
 
+function lua_newuserdata(L : Plua_State; sz : size_t) : Pointer;
+begin
+  if Assigned(lua_newuserdatauv) then
+    Result:= lua_newuserdatauv(L, sz, 1)
+  else begin
+    Result:= lua_newuserdata_(L, sz);
+  end;
+end;
+
 function lua_tostring(L : Plua_State; idx : Integer) : String;
 var
   N: size_t;
@@ -1092,6 +1120,16 @@ begin
     Result:= lua_pcallk(L, nargs, nresults, errfunc, nil, nil)
   else
     Result:= lua_pcall_(L, nargs, nresults, errfunc);
+end;
+
+function lua_resume(L: Plua_State; narg: Integer; nresults: PInteger): Integer;
+begin
+  if Assigned(lua_resume54) then
+    Result:= lua_resume54(L, narg, nresults)
+  else begin
+    nresults := nil;
+    Result:= lua_resume51(L, narg);
+  end;
 end;
 
 
