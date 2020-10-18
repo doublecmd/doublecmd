@@ -189,7 +189,7 @@ end;
 {$include blake3_pas.inc}
 
 {$IF DEFINED(CPUX86_64)}
-  {.$include blake3_sse2.inc}
+  {$include blake3_sse2.inc}
   {.$include blake3_sse41.inc}
   {.$include blake3_avx2.inc}
 {$ENDIF}
@@ -605,7 +605,7 @@ begin
     // stuck always hashing 2 chunks. The total number of chunks will remain
     // odd, and we'll never graduate to higher degrees of parallelism. See
     // https://github.com/BLAKE3-team/BLAKE3/issues/69.
-    while (((cuint64(subtree_len - 1)) and count_so_far) <> 0) do  //+++++++++++++++++++++++++++
+    while (((cuint64(subtree_len - 1)) and count_so_far) <> 0) do
     begin
       subtree_len := subtree_len div 2;
     end;
@@ -704,7 +704,7 @@ end;
 
 initialization
 
-{.$IF DEFINED(CPUX86_64)}
+{$IF DEFINED(CPUX86_64)}
   {
   if AVX2Support then
   begin
@@ -720,18 +720,17 @@ initialization
     blake3_compress_xof:= @blake3_compress_xof_sse41;
     blake3_hash_many:= @blake3_hash_many_sse41;
   end
-  else begin
+  else} begin
     blake3_simd_degree:= 4;
     blake3_compress_in_place:= @blake3_compress_in_place_sse2;
     blake3_compress_xof:= @blake3_compress_xof_sse2;
     blake3_hash_many:= @blake3_hash_many_sse2;
   end;
-  }
-{.$ELSE}
+{$ELSE}
   blake3_simd_degree:= 1;
   blake3_compress_in_place:= @blake3_compress_in_place_portable;
   blake3_compress_xof:= @blake3_compress_xof_portable;
   blake3_hash_many:= @blake3_hash_many_portable;
-{.$ENDIF}
+{$ENDIF}
 end.
 

@@ -29,7 +29,7 @@ unit DCPblake3;
 interface
 
 uses
-  Classes, SysUtils, CTypes, DCPcrypt2, DCPconst, DCblake3, Hash;
+  Classes, SysUtils, CTypes, DCPcrypt2, DCPconst, DCblake3;
 
 type
 
