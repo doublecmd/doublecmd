@@ -29,7 +29,7 @@ const
   MAX_SIMD_DEGREE_OR_2 = 2;
 {$endif}
 
-const BLAKE3_IV: array[0..7] of cuint32 = (
+const IV: array[0..7] of cuint32 = (
   $6A09E667, $BB67AE85, $3C6EF372,
   $A54FF53A, $510E527F, $9B05688C,
   $1F83D9AB, $5BE0CD19
@@ -210,7 +210,7 @@ var
 
   blake3_hash_many: procedure(inputs: ppcuint8; num_inputs: csize_t;
                                     blocks: csize_t; const key: pcuint32;
-                                    counter: cuint64; increment_counter: boolean32;
+                                    counter: cuint64; increment_counter: cbool;
                                     flags: cuint8; flags_start: cuint8;
                                     flags_end: cuint8; out_: pcuint8);
 
@@ -499,7 +499,7 @@ end;
 
 procedure blake3_hasher_init(self: Pblake3_hasher); inline;
 begin
-  hasher_init_base(self, BLAKE3_IV, 0);
+  hasher_init_base(self, IV, 0);
 end;
 
 procedure hasher_merge_cv_stack(self: Pblake3_hasher; total_len: cuint64); inline;
