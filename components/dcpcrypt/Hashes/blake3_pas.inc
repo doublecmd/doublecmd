@@ -62,10 +62,10 @@ begin
   state[5] := cv[5];
   state[6] := cv[6];
   state[7] := cv[7];
-  state[8] := IV[0];
-  state[9] := IV[1];
-  state[10] := IV[2];
-  state[11] := IV[3];
+  state[8] := BLAKE3_IV[0];
+  state[9] := BLAKE3_IV[1];
+  state[10] := BLAKE3_IV[2];
+  state[11] := BLAKE3_IV[3];
   state[12] := Int64Rec(counter).Lo;
   state[13] := Int64Rec(counter).Hi;
   state[14] := cuint32(block_len);
@@ -151,7 +151,7 @@ end;
 
 procedure blake3_hash_many_portable(inputs: ppcuint8; num_inputs: csize_t;
                                     blocks: csize_t; const key: pcuint32;
-                                    counter: cuint64; increment_counter: cbool;
+                                    counter: cuint64; increment_counter: boolean32;
                                     flags: cuint8; flags_start: cuint8;
                                     flags_end: cuint8; out_: pcuint8);
 begin
