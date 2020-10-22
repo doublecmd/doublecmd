@@ -280,7 +280,7 @@ begin
   CurrentHash[5]:= SwapEndian(CurrentHash[5]);
   CurrentHash[6]:= SwapEndian(CurrentHash[6]);
   CurrentHash[7]:= SwapEndian(CurrentHash[7]);
-  Move(CurrentHash,Digest,Sizeof(CurrentHash));
+  Move(CurrentHash, Digest, GetHashSize div 8);
   Burn;
 end;
 
