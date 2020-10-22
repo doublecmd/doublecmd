@@ -136,16 +136,6 @@ begin
            momor: Result:= BooleanToStr(strtoint(tmp)>strtoint(operand2.data));
         end;
      end;
-
-{ case Aoperator.op of
-   moneq: ;
-   moequ: ;
-   moles: ;
-   momor: ;
-   moor: ;
-   moand: ;
-   monot: ;
- end;}
 end;
 
 function TParserControl.TestFileResult(const aFile: TFile):boolean;
@@ -168,39 +158,42 @@ end;
 
 function TParserControl.getresult(const aFile: TFile):boolean;
 var
- i:integer;
- tmp1,tmp2,tmp3:tmathchar;
+  i: integer;
+  tmp1, tmp2, tmp3: tmathchar;
 begin
- if fmathstring='' then
-   begin
-     Result:=true;
-     exit;
-   end;
- convertinfixtopostfix;
- setlength(stack,0);
- for i:=0 to length(output)-1 do
-   begin
-    if output[i].mathtype=mtoperand then
-     begin
-      setlength(stack,length(stack)+1);
-      stack[length(stack)-1]:=output[i];
-     end
-    else if output[i].mathtype=mtoperator then
-     begin
-       tmp1:=stack[length(stack)-1];
-       tmp2:=stack[length(stack)-2];
-       setlength(stack,length(stack)-2);
-       tmp3.mathtype:=mtoperand;
-       tmp3.data:=calculate(aFile, tmp2,tmp1,output[i]);
-       setlength(stack,length(stack)+1);
-       stack[length(stack)-1]:=tmp3;
-     end;
-   end;
- result:=strToBoolean(stack[0].data);
- setlength(stack,0);
- setlength(input,0);
- setlength(output,0);
- end;
+  if fmathstring = '' then
+  begin
+    Result:= True;
+    Exit;
+  end;
+  convertinfixtopostfix;
+  SetLength(stack, 0);
+  for i:= 0 to Length(output) - 1 do
+  begin
+    if output[i].mathtype = mtoperand then
+    begin
+      setlength(stack, length(stack) + 1);
+      stack[length(stack) - 1]:= output[i];
+    end
+    else if output[i].mathtype = mtoperator then
+    begin
+      if Length(stack) > 1 then
+      begin
+        tmp1:= stack[length(stack) - 1];
+        tmp2:= stack[length(stack) - 2];
+        setlength(stack, length(stack) - 2);
+        tmp3.mathtype:= mtoperand;
+        tmp3.data:= calculate(aFile, tmp2, tmp1, output[i]);
+        setlength(stack,length(stack) + 1);
+        stack[length(stack) - 1]:= tmp3;
+      end;
+    end;
+  end;
+  Result:= (Length(stack) > 0) and strToBoolean(stack[0].data);
+  SetLength(stack, 0);
+  SetLength(input, 0);
+  SetLength(output, 0);
+end;
 
  function TParserControl.getoperator(c:String):TMathOperatortype;
  begin

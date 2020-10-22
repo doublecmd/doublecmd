@@ -782,7 +782,7 @@ begin
   else begin
     Result := StringOfChar(#0, MAX_LEN);
     ContentGetDetectString(PAnsiChar(Result), MAX_LEN);
-    Result := PAnsiChar(Result);
+    Result := Trim(PAnsiChar(Result));
   end;
 end;
 
