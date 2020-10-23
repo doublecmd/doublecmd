@@ -1,3 +1,14 @@
+{
+   BLAKE3 - cryptographic hash function.
+
+   The C code is copyright Samuel Neves and Jack O'Connor, 2019-2020.
+   The assembly code is copyright Samuel Neves, 2019-2020.
+   The Pascal translation by Alexander Koblov, 2020.
+
+   This work is released into the public domain with CC0 1.0.
+   Alternatively, it is licensed under the Apache License 2.0.
+}
+
 unit DCblake3;
 
 {$mode objfpc}{$H+}
@@ -29,10 +40,9 @@ const
   MAX_SIMD_DEGREE_OR_2 = 2;
 {$endif}
 
-const IV: array[0..7] of cuint32 = (
-  $6A09E667, $BB67AE85, $3C6EF372,
-  $A54FF53A, $510E527F, $9B05688C,
-  $1F83D9AB, $5BE0CD19
+const BLAKE3_IV: array[0..7] of cuint32 = (
+  $6A09E667, $BB67AE85, $3C6EF372, $A54FF53A,
+  $510E527F, $9B05688C, $1F83D9AB, $5BE0CD19
   );
 
 const MSG_SCHEDULE: array[0..6] of array[0..15] of cuint8 = (
@@ -46,7 +56,6 @@ const MSG_SCHEDULE: array[0..6] of array[0..15] of cuint8 = (
 );
 
 type
-
   ppcuint8 = ^pcuint8;
 
   Tblake_cv = array[0..7] of cuint32;
@@ -70,17 +79,17 @@ type
   end;
 
 procedure blake3_hasher_init(self: Pblake3_hasher);
-procedure blake3_hasher_update(self: Pblake3_hasher; const input: Pointer;
-                               input_len: csize_t);
+procedure blake3_hasher_update(self: Pblake3_hasher; const input: Pointer; input_len: csize_t);
 procedure blake3_hasher_finalize(const self: Pblake3_hasher; out_: pcuint8; out_len: csize_t);
 
 implementation
 
+{$IF DEFINED(CPUX86_64)}
 uses
   CPU;
+{$ENDIF}
 
 type
-
   blake3_flags = (
     CHUNK_START         = 1 shl 0,
     CHUNK_END           = 1 shl 1,
@@ -186,33 +195,32 @@ begin
   Result.flags := flags;
 end;
 
-{$include blake3_pas.inc}
-
 {$IF DEFINED(CPUX86_64)}
   {$include blake3_sse2.inc}
-  {.$include blake3_sse41.inc}
-  {.$include blake3_avx2.inc}
+  {$include blake3_sse41.inc}
+  {$include blake3_avx2.inc}
+{$ELSE}
+  {$include blake3_pas.inc}
 {$ENDIF}
 
 var
-
   blake3_simd_degree: csize_t; // The dynamically detected SIMD degree of the current platform
 
   blake3_compress_in_place: procedure(cv: pcuint32;
-                                       const block: pcuint8;
-                                       block_len: cuint8; counter: cuint64;
-                                       flags: cuint8);
+                                      const block: pcuint8;
+                                      block_len: cuint8; counter: cuint64;
+                                      flags: cuint8);
 
   blake3_compress_xof: procedure(const cv: pcuint32;
-                                       const block: pcuint8;
-                                       block_len: cuint8; counter: cuint64;
-                                       flags: cuint8; out_: pcuint8);
+                                 const block: pcuint8;
+                                 block_len: cuint8; counter: cuint64;
+                                 flags: cuint8; out_: pcuint8);
 
   blake3_hash_many: procedure(inputs: ppcuint8; num_inputs: csize_t;
-                                    blocks: csize_t; const key: pcuint32;
-                                    counter: cuint64; increment_counter: cbool;
-                                    flags: cuint8; flags_start: cuint8;
-                                    flags_end: cuint8; out_: pcuint8);
+                              blocks: csize_t; const key: pcuint32;
+                              counter: cuint64; increment_counter: boolean32;
+                              flags: cuint8; flags_start: cuint8;
+                              flags_end: cuint8; out_: pcuint8);
 
 procedure output_chaining_value(const self: Poutput_t; cv: pcuint8); inline;
 var
@@ -499,7 +507,7 @@ end;
 
 procedure blake3_hasher_init(self: Pblake3_hasher); inline;
 begin
-  hasher_init_base(self, IV, 0);
+  hasher_init_base(self, BLAKE3_IV, 0);
 end;
 
 procedure hasher_merge_cv_stack(self: Pblake3_hasher; total_len: cuint64); inline;
@@ -703,9 +711,7 @@ begin
 end;
 
 initialization
-
 {$IF DEFINED(CPUX86_64)}
-  {
   if AVX2Support then
   begin
     blake3_simd_degree:= 8;
@@ -720,7 +726,7 @@ initialization
     blake3_compress_xof:= @blake3_compress_xof_sse41;
     blake3_hash_many:= @blake3_hash_many_sse41;
   end
-  else} begin
+  else begin
     blake3_simd_degree:= 4;
     blake3_compress_in_place:= @blake3_compress_in_place_sse2;
     blake3_compress_xof:= @blake3_compress_xof_sse2;
