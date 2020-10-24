@@ -3,7 +3,7 @@
 
    Written in 2012 by Samuel Neves <sneves@dei.uc.pt>
 
-   Pascal tranlastion in 2014-2018 by Alexander Koblov (alexx2000@mail.ru)
+   Pascal tranlastion in 2014-2020 by Alexander Koblov (alexx2000@mail.ru)
 
    To the extent possible under law, the author(s) have dedicated all copyright
    and related and neighboring rights to this software to the public domain
@@ -135,8 +135,16 @@ implementation
 
 {$IF DEFINED(USE_MTPROCS)}
 uses
-  MTProcs;
+  MTProcs
+  {$IF DEFINED(CPUX86_64)}
+  , CPU
+  {$ENDIF}
+  ;
 {$ELSE}
+  {$IF DEFINED(CPUX86_64)}
+  uses
+    CPU;
+  {$ENDIF}
 type
   TMultiThreadProcItem = Pointer;
 {$ENDIF}
@@ -203,8 +211,13 @@ begin
   p^ := cuint8(w); inc(p);
 end;
 
+var
+  blake2s_compress: function(S: Pblake2s_state; const block: pcuint8): cint;
+  blake2b_compress: procedure(S: Pblake2b_state; const block: pcuint8);
+
 {$IF DEFINED(CPUX86_64)}
   {$include blake2_sse.inc}
+  {$include blake2_avx.inc}
 {$ELSE}
   {$include blake2_pas.inc}
 {$ENDIF}
@@ -448,7 +461,7 @@ begin
 {$IF DEFINED(USE_MTPROCS)}
   ProcThreadPool.DoParallel(@MTProcedure, 0, BLAKE2S_PARALLELISM_DEGREE - 1, S);
 {$ELSE}
-  for i := 0 to PARALLELISM_DEGREE - 1 do MTProcedure(i, S, nil);
+  for i := 0 to BLAKE2S_PARALLELISM_DEGREE - 1 do MTProcedure(i, S, nil);
 {$ENDIF}
 
   inp += inlen - inlen mod ( BLAKE2S_PARALLELISM_DEGREE * BLAKE2S_BLOCKBYTES );
@@ -762,4 +775,19 @@ begin
   Result:= blake2b_final( @S^.R, out_, S^.outlen );
 end;
 
+initialization
+{$IF DEFINED(CPUX86_64)}
+  if AVXSupport then
+  begin
+    blake2s_compress:= @blake2s_compress_avx;
+    blake2b_compress:= @blake2b_compress_avx;
+  end
+  else begin
+    blake2s_compress:= @blake2s_compress_sse;
+    blake2b_compress:= @blake2b_compress_sse;
+  end;
+{$ELSE}
+  blake2s_compress:= @blake2s_compress_pas;
+  blake2b_compress:= @blake2b_compress_pas;
+{$ENDIF}
 end.

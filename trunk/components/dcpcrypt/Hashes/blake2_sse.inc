@@ -24,7 +24,7 @@ const
     $1f83d9abfb41bd6b, $5be0cd19137e2179
   );
 
-function blake2s_compress( S: Pblake2s_state; const block: pcuint8 ): cint; assembler; nostackframe;
+function blake2s_compress_sse( S: Pblake2s_state; const block: pcuint8 ): cint; assembler; nostackframe;
 asm
 {$IF DEFINED(WINDOWS)}
   pushq	%rdi
@@ -951,7 +951,7 @@ asm
 {$ENDIF}
 end;
 
-procedure blake2b_compress( S: Pblake2b_state; const block: pcuint8 ); assembler; nostackframe;
+procedure blake2b_compress_sse( S: Pblake2b_state; const block: pcuint8 ); assembler; nostackframe;
 asm
 {$IF DEFINED(UNIX)}
   pushq	%rcx

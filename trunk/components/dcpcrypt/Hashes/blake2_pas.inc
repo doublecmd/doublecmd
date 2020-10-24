@@ -54,7 +54,7 @@ const blake2b_sigma: array[0..11] of array[0..15] of cuint8 =
   ( 14, 10,  4,  8,  9, 15, 13,  6,  1, 12,  0,  2, 11,  7,  5,  3 )
 );
 
-function blake2s_compress( S: Pblake2s_state; const block: pcuint8 ): cint;
+function blake2s_compress_pas( S: Pblake2s_state; const block: pcuint8 ): cint;
 var
   i: csize_t;
   tem, round: cint32;
@@ -206,7 +206,7 @@ begin
   Result := 0;
 end;
 
-procedure blake2b_compress( S: Pblake2b_state; const block: pcuint8 );
+procedure blake2b_compress_pas( S: Pblake2b_state; const block: pcuint8 );
 var
   tem: cint64;
   i, round: csize_t;
