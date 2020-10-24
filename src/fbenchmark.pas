@@ -49,7 +49,7 @@ type
 implementation
 
 uses
-  ISAAC, uFileSystemFileSource, uHash, uGlobs, uDCUtils;
+  ISAAC, DCOSUtils, uFileSystemFileSource, uHash, uGlobs, uDCUtils;
 
 const
   cSize = 1024 * 1024 * 256;
@@ -106,7 +106,7 @@ begin
 
     UpdateStatistics(FStatistics);
 
-    AStart:= GetTickCount64;
+    AStart:= GetTickCountEx;
     HashInit(Context, Index);
 
     while FStatistics.CurrentFileDoneBytes < ASize do
@@ -125,7 +125,7 @@ begin
     end;
 
     HashFinal(Context, AHash);
-    AFinish:= GetTickCount64 - AStart;
+    AFinish:= GetTickCountEx - AStart;
 
     Inc(FStatistics.DoneFiles);
     UpdateStatistics(FStatistics);
