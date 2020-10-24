@@ -280,6 +280,8 @@ function ReadSymLink(const LinkName : String) : String;
 }
 procedure SetLastOSError(LastError: Integer);
 
+function GetTickCountEx: UInt64;
+
 implementation
 
 uses
@@ -329,6 +331,7 @@ const
 
 var
   CurrentDirectory: String;
+  PerformanceFrequency: LARGE_INTEGER;
 {$ELSEIF DEFINED(UNIX)}
 const
 
@@ -1755,6 +1758,24 @@ end;
 begin
   fpseterrno(LastError);
 end;
+{$ENDIF}
+
+function GetTickCountEx: UInt64;
+begin
+{$IF DEFINED(MSWINDOWS)}
+  if QueryPerformanceCounter(PLARGE_INTEGER(@Result)) then
+    Result:= Result div PerformanceFrequency.QuadPart
+  else
+{$ENDIF}
+  begin
+    Result:= SysUtils.GetTickCount64;
+  end;
+end;
+
+{$IFDEF MSWINDOWS}
+initialization
+  if QueryPerformanceFrequency(@PerformanceFrequency) then
+    PerformanceFrequency.QuadPart := PerformanceFrequency.QuadPart div 1000;
 {$ENDIF}
 
 end.
