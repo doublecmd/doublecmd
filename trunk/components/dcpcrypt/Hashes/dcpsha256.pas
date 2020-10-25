@@ -79,7 +79,10 @@ implementation
 {$R-}{$Q-}
 
 {$IF DEFINED(CPUX86_64)}
+uses
+  CPU;
   {$include sha256_sse.inc}
+  {$include sha256_avx.inc}
 {$ENDIF}
 
 procedure sha256_compress_pas(CurrentHash: PLongWord; HashBuffer: PByte; BufferCount: UIntPtr); register;
@@ -205,7 +208,9 @@ end;
 procedure TDCP_sha256base.Init;
 begin
 {$IF DEFINED(CPUX86_64)}
-  if SSSE3Support then
+  if AVX2Support then
+    FCompress:= @sha256_compress_avx
+  else if SSSE3Support then
     FCompress:= @sha256_compress_sse
   else
 {$ENDIF}

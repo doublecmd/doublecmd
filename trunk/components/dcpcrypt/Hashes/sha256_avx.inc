@@ -58,8 +58,19 @@ procedure sha256_compress_avx(CurrentHash: PLongWord; HashBuffer: PByte; BufferC
 // WIN64:  RCX, RDX, R8
 asm
 {$IF DEFINED(WIN64)}
-  pushq  %rsi
-  pushq  %rdi
+  movq   %rsi, 16(%rsp)
+  movq   %rdi, 24(%rsp)
+  subq   $168, %rsp
+  vmovaps %xmm6, (%rsp)
+  vmovaps %xmm7, 16(%rsp)
+  vmovaps %xmm8, 32(%rsp)
+  vmovaps %xmm9, 48(%rsp)
+  vmovaps %xmm10, 64(%rsp)
+  vmovaps %xmm11, 80(%rsp)
+  vmovaps %xmm12, 96(%rsp)
+  vmovaps %xmm13, 112(%rsp)
+  vmovaps %xmm14, 128(%rsp)
+  vmovaps %xmm15, 144(%rsp)
   movq   %rcx, %rdi
   movq   %rdx, %rsi
   movq   %r8,  %rdx
@@ -1397,8 +1408,19 @@ asm
 
 .LB163f:
 {$IF DEFINED(WIN64)}
-  popq   %rdi
-  popq   %rsi
+  vmovaps (%rsp),%xmm6
+  vmovaps 0x10(%rsp),%xmm7
+  vmovaps 0x20(%rsp),%xmm8
+  vmovaps 0x30(%rsp),%xmm9
+  vmovaps 0x40(%rsp),%xmm10
+  vmovaps 0x50(%rsp),%xmm11
+  vmovaps 0x60(%rsp),%xmm12
+  vmovaps 0x70(%rsp),%xmm13
+  vmovaps 0x80(%rsp),%xmm14
+  vmovaps 0x90(%rsp),%xmm15
+  addq    $168, %rsp
+  movq    16(%rsp), %rsi
+  movq    24(%rsp), %rdi
 {$ENDIF}
   retq
 
