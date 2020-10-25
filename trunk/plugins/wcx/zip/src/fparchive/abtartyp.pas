@@ -475,7 +475,7 @@ begin
    Exit;
    
   { detect binary number format }
-  if (Ord( Oct[0] ) = 128) then begin
+  if ((Ord(Oct[0]) and $80) <> 0) then begin
     i := 1;
     while (i < aLen) do begin
       Result := (Result * 256) + Ord(Oct[i]);
