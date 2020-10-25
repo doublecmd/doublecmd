@@ -471,6 +471,18 @@ var
   i : integer;
 begin
   Result := 0;
+  if (aLen = 0 ) then
+   Exit;
+   
+  { detect binary number format }
+  if (Ord( Oct[0] ) = 128) then begin
+    i := 1;
+    while (i < aLen) do begin
+      Result := (Result * 256) + Ord(Oct[i]);
+      inc(i);
+    end;
+    Exit;
+  end;
 
   i := 0;
   while (i < aLen) and (Oct[i] = ' ') do
@@ -1181,7 +1193,7 @@ begin
   { PTarHeader points to FTarHeaderList.Items[FTarHeaderList.Count-1]; }
 
   { Re-wind the Stream back to the begining of this Item inc. all headers }
-  AStream.Seek(-(FTarHeaderList.Count*AB_TAR_RECORDSIZE), soFromCurrent);
+  AStream.Seek(-(FTarHeaderList.Count*AB_TAR_RECORDSIZE), soCurrent);
   { AStream.Position := FTarItem.StreamPosition; } { This should be equivalent as above }
   FTarItem.FileHeaderCount := FTarHeaderList.Count;
   if FTarItem.ItemType <> UNKNOWN_ITEM then
@@ -1851,7 +1863,7 @@ begin
     { copy stored data to output }
     AStream.CopyFrom(FStream, FCurrItemSize);
     {reset the stream to the start of the item}
-    FStream.Seek(-(FCurrItemPreHdrs*AB_TAR_RECORDSIZE+FCurrItemSize), soFromCurrent);
+    FStream.Seek(-(FCurrItemPreHdrs*AB_TAR_RECORDSIZE+FCurrItemSize), soCurrent);
   end;
   { else do nothing }
 end;
@@ -1878,7 +1890,7 @@ begin
     begin { We have a un/supported Meta-Data Header }
       { FoundItem := False } { Value remains False. }
       SkipHdrs := Ceil(OctalToInt(FTarHeader.Size, SizeOf(FTarHeader.Size))/AB_TAR_RECORDSIZE);
-      FStream.Seek(SkipHdrs*AB_TAR_RECORDSIZE, soFromCurrent);
+      FStream.Seek(SkipHdrs*AB_TAR_RECORDSIZE, soCurrent);
       { Tally new Headers: Consumed + Current }
       FCurrItemPreHdrs := FCurrItemPreHdrs + SkipHdrs + 1;
       { Read our next header, Loop, and re-parse }
@@ -1904,14 +1916,14 @@ begin
   { Rewind to the "The Beginning" of this Item }
   { Really that means to the first supported Header Type before a supported Item Type }
   if FoundItem then
-    FStream.Seek(-(FCurrItemPreHdrs*AB_TAR_RECORDSIZE), soFromCurrent);
+    FStream.Seek(-(FCurrItemPreHdrs*AB_TAR_RECORDSIZE), soCurrent);
   Result := FoundItem;
 end;
 
 { Should only be used from LoadArchive, as it is slow. }
 function TAbTarStreamHelper.FindFirstItem: Boolean;
 begin
-  FStream.Seek(0, soFromBeginning);
+  FStream.Seek(0, soBeginning);
   Result := FindItem;
 end;
 
@@ -1919,7 +1931,7 @@ end;
 function TAbTarStreamHelper.FindNextItem: Boolean;
 begin
   { Fast Forward Past the current Item }
-  FStream.Seek((FCurrItemPreHdrs*AB_TAR_RECORDSIZE + RoundToTarBlock(FCurrItemSize)), soFromCurrent);
+  FStream.Seek((FCurrItemPreHdrs*AB_TAR_RECORDSIZE + RoundToTarBlock(FCurrItemSize)), soCurrent);
   Result := FindItem;
 end;
 
