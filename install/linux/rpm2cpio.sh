@@ -32,10 +32,12 @@ comp=`dd if="$pkg" ibs=$o skip=1 count=1 2>/dev/null \
 gz="`echo . | awk '{ printf("%c%c", 0x1f, 0x8b); }'`"
 lzma="`echo . | awk '{ printf("%cLZ", 0xff); }'`"
 xz="`echo . | awk '{ printf("%c7z", 0xfd); }'`"
+zstd="`echo . | awk '{ printf("%c%c", 0x28, 0xb5); }'`"
 case "$comp" in
     BZh)      dd if="$pkg" ibs=$o skip=1 2>/dev/null | bunzip2 ;;
     "$gz"*)   dd if="$pkg" ibs=$o skip=1 2>/dev/null | gunzip ;;
     "$xz"*)   dd if="$pkg" ibs=$o skip=1 2>/dev/null | xzcat ;;
     "$lzma"*) dd if="$pkg" ibs=$o skip=1 2>/dev/null | unlzma ;;
+    "$zstd"*) dd if="$pkg" ibs=$o skip=1 2>/dev/null | unzstd ;;
     *)        echo "Unrecognized rpm file: $pkg"; exit 1 ;;
 esac
