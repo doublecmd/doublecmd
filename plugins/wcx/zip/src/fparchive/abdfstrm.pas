@@ -251,7 +251,7 @@ begin
                  FFakeCount -
                  (FBufEnd - FBuffer) +
                  (FBufPos - FBuffer) -
-                 (FBitsLeft div 8), soFromBeginning);
+                 (FBitsLeft div 8), soBeginning);
 
     {free the buffer}
     FreeMem(FBuffer);

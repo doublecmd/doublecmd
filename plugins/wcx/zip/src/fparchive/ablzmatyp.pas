@@ -122,7 +122,7 @@ begin
   Result := atUnknown;
 
   CurPos := Strm.Position;
-  Strm.Seek(0, soFromBeginning);
+  Strm.Seek(0, soBeginning);
 
   try
     if Strm.Read(Hdr, SizeOf(Hdr)) = SizeOf(Hdr) then
@@ -143,7 +143,7 @@ begin
           begin
             Result := atLzma;
             { Check for embedded TAR }
-            TarStream.Seek(0, soFromBeginning);
+            TarStream.Seek(0, soBeginning);
             if VerifyTar(TarStream) = atTar then
               Result := atLzmaTar;
           end;
@@ -409,7 +409,7 @@ var
   Header: TAbLzmaHeader;
   Decoder: TLZMADecoder;
 begin
-  FLzmaStream.Seek(0, soFromBeginning);
+  FLzmaStream.Seek(0, soBeginning);
   if FLzmaStream.Read(Header, SizeOf(Header)) = SizeOf(Header) then
   begin
     Decoder := TLZMADecoder.Create;

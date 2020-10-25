@@ -133,19 +133,19 @@ begin
   Result := atUnknown;
 
   CurPos := Strm.Position;
-  Strm.Seek(0, soFromBeginning);
+  Strm.Seek(0, soBeginning);
 
   try
     if (Strm.Read(Hdr, SizeOf(Hdr)) = SizeOf(Hdr)) and VerifyHeader(Hdr) then begin
       Result := atXz;
       { Check for embedded TAR }
-      Strm.Seek(0, soFromBeginning);
+      Strm.Seek(0, soBeginning);
       TarStream := TMemoryStream.Create;
       try
         DecompStream := TLzmaDecompression.Create(Strm, TarStream);
         try
           DecompStream.Code(AB_TAR_RECORDSIZE * 4);
-          TarStream.Seek(0, soFromBeginning);
+          TarStream.Seek(0, soBeginning);
           if VerifyTar(TarStream) = atTar then
             Result := atXzippedTar;
         finally

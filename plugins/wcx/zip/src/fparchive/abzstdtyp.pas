@@ -127,20 +127,20 @@ begin
   Result := atUnknown;
 
   CurPos := Strm.Position;
-  Strm.Seek(0, soFromBeginning);
+  Strm.Seek(0, soBeginning);
 
   try
     if (Strm.Read(Hdr, SizeOf(Hdr)) = SizeOf(Hdr)) and VerifyHeader(Hdr) then begin
       Result := atZstd;
       { Check for embedded TAR }
-      Strm.Seek(0, soFromBeginning);
+      Strm.Seek(0, soBeginning);
       DecompStream := TZSTDDecompressionStream.Create(Strm);
       try
         TarStream := TMemoryStream.Create;
         try
           DecompSize:= DecompStream.Read(Buffer, SizeOf(Buffer));
           TarStream.Write(Buffer, DecompSize);
-          TarStream.Seek(0, soFromBeginning);
+          TarStream.Seek(0, soBeginning);
           if VerifyTar(TarStream) = atTar then
             Result := atZstdTar;
         finally
