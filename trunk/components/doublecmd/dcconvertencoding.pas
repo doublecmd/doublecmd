@@ -71,6 +71,8 @@ uses
   iconvenc_dyn
     {$IF DEFINED(DARWIN)}
     , MacOSAll, CocoaAll
+    {$ELSE}
+    , UnixCP
     {$ENDIF}
   {$ELSEIF DEFINED(MSWINDOWS)}
   Windows
@@ -426,6 +428,31 @@ begin
   Result:= TryLoadLib('libiconv.dylib', Error);
   IconvLibFound:= IconvLibFound or Result;
 end;
+{$ELSEIF DEFINED(FPC_HAS_CPSTRING)}
+var
+  AManager : TUnicodeStringManager;
+
+function GetStandardCodePage(const stdcp: TStandardCodePageEnum): TSystemCodePage;
+begin
+  Result:= UnixCP.GetSystemCodepage;
+end;
+
+procedure SetStdIOCodePage(var T: Text); inline;
+begin
+  case TextRec(T).Mode of
+    fmInput: TextRec(T).CodePage:= GetStandardCodePage(scpConsoleInput);
+    fmOutput: TextRec(T).CodePage:= GetStandardCodePage(scpConsoleOutput);
+  end;
+end;
+
+procedure SetStdIOCodePages; inline;
+begin
+  SetStdIOCodePage(Input);
+  SetStdIOCodePage(Output);
+  SetStdIOCodePage(ErrOutput);
+  SetStdIOCodePage(StdOut);
+  SetStdIOCodePage(StdErr);
+end;
 {$ENDIF}
 
 function FindEncoding: Boolean;
@@ -518,6 +545,30 @@ begin
   CeAnsiToUtf8:= @Dummy;
   CeUtf8ToAnsi:= @Dummy;
 
+{$IF DEFINED(FPC_HAS_CPSTRING) and NOT DEFINED(DARWIN)}
+  {
+   If locale does not exists then nl_langinfo (called by cwstring unit)
+   returns ANSI_X3.4-1968 (CP_ASCII) as system encoding. Try to find correct
+   encoding by using environment variables LC_ALL, LC_CTYPE, LANG in this case.
+  }
+  if DefaultFileSystemCodePage = CP_ASCII then
+  begin
+    DefaultFileSystemCodePage:= UnixCP.GetSystemCodepage;
+    // Use CP_UTF8 if cannot determine system encoding
+    if DefaultFileSystemCodePage = CP_ASCII then
+      DefaultFileSystemCodePage:= CP_UTF8
+    else begin
+      GetWideStringManager(AManager);
+      AManager.GetStandardCodePageProc:= @GetStandardCodePage;
+      SetWideStringManager(AManager);
+    end;
+    SetStdIOCodePages;
+    FileSystemCodePage:= DefaultFileSystemCodePage;
+    DefaultSystemCodePage:= DefaultFileSystemCodePage;
+    DefaultRTLFileSystemCodePage:= DefaultFileSystemCodePage;
+  end;
+{$ENDIF}
+
   // Try to get system encoding and initialize Iconv library
   if not (GetSystemEncoding and InitIconv(Error)) then
     WriteLn(Error)
@@ -548,6 +599,12 @@ begin
         CeSysToUtf8:= @Sys2UTF8;
       end;
     end;
+  WriteLn('SystemLocale ', SystemLocale);
+  WriteLn('SystemLanguage ', SystemLanguage);
+  WriteLn('SystemEncoding ', SystemEncoding);
+  WriteLn('DefaultSystemCodePage ', DefaultSystemCodePage);
+  WriteLn('DefaultFileSystemCodePage ', DefaultFileSystemCodePage);
+  WriteLn('DefaultRTLFileSystemCodePage ', DefaultRTLFileSystemCodePage);
 end;
 
 {$ELSE}
