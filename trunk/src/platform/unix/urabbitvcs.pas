@@ -380,11 +380,15 @@ begin
       ATemp:= PyStringToString(pyVersion);
       AVersion:= ATemp.Split(['.']);
       Print('Version ' + ATemp);
-      if (Length(AVersion) > 2) then
+      if (Length(AVersion) > 1) then
       begin
         Major:= StrToIntDef(AVersion[0], 0);
         Minor:= StrToIntDef(AVersion[1], 0);
-        Micro:= StrToIntDef(AVersion[2], 0);
+        if (Length(AVersion) > 2) then
+          Micro:= StrToIntDef(AVersion[2], 0)
+        else begin
+          Micro:= 0;
+        end;
         // RabbitVCS migrated to GTK3 from version 0.17.1
         RabbitGtk3:= (Major > 0) or (Minor > 17) or ((Minor = 17) and (Micro > 0));
 {$IF DEFINED(LCLQT) or DEFINED(LCLQT5)}
