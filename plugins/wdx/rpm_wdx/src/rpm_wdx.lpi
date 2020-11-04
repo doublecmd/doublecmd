@@ -19,7 +19,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="..\lib\rpm_wdx.wdx" ApplyConventions="False"/>
+            <Filename Value="..\rpm_wdx.wdx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>
@@ -104,7 +104,7 @@ end;"/>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\lib\rpm_wdx.wdx" ApplyConventions="False"/>
+      <Filename Value="..\rpm_wdx.wdx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>

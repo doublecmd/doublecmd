@@ -22,7 +22,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="..\lib\unbz2.wcx" ApplyConventions="False"/>
+            <Filename Value="..\unbz2.wcx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="..\..\..\..\sdk"/>
@@ -90,7 +90,7 @@ end;"/>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\lib\unbz2.wcx" ApplyConventions="False"/>
+      <Filename Value="..\unbz2.wcx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="..\..\..\..\sdk"/>

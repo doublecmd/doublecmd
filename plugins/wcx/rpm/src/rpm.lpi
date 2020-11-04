@@ -21,7 +21,7 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="../lib/rpm.wcx" ApplyConventions="False"/>
+            <Filename Value="../rpm.wcx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="../../../../sdk"/>
@@ -94,7 +94,7 @@ end;"/>
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="../lib/rpm.wcx" ApplyConventions="False"/>
+      <Filename Value="../rpm.wcx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="../../../../sdk"/>

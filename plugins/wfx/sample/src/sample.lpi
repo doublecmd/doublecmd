@@ -37,7 +37,7 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="../lib/sample.wfx" ApplyConventions="False"/>
+      <Filename Value="../sample.wfx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);../../../../sdk"/>

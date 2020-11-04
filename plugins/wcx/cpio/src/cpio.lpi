@@ -19,7 +19,7 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="../lib/cpio.wcx" ApplyConventions="False"/>
+            <Filename Value="../cpio.wcx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);../../../../sdk"/>
@@ -92,7 +92,7 @@ end;"/>
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="../lib/cpio.wcx" ApplyConventions="False"/>
+      <Filename Value="../cpio.wcx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);../../../../sdk"/>

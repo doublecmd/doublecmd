@@ -40,7 +40,7 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="../lib/simplewlx.wlx" ApplyConventions="False"/>
+      <Filename Value="../simplewlx.wlx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="../../../../sdk"/>

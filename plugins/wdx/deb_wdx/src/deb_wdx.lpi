@@ -19,7 +19,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="..\lib\deb_wdx.wdx" ApplyConventions="False"/>
+            <Filename Value="..\deb_wdx.wdx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>
@@ -87,7 +87,7 @@ end;"/>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\lib\deb_wdx.wdx" ApplyConventions="False"/>
+      <Filename Value="..\deb_wdx.wdx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>

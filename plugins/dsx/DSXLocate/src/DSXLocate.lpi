@@ -20,7 +20,7 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="../lib/dsxlocate.dsx" ApplyConventions="False"/>
+            <Filename Value="../dsxlocate.dsx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);../../../../sdk"/>
@@ -90,7 +90,7 @@ end;"/>
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="../lib/dsxlocate.dsx" ApplyConventions="False"/>
+      <Filename Value="../dsxlocate.dsx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);../../../../sdk"/>
