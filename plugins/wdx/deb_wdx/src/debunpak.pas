@@ -5,164 +5,182 @@ unit debunpak;
 interface
 
 uses
-  SysUtils;
+  SysUtils, Classes;
 
-// Extract 'control' from control.tar.gz
+// Extract 'control' from control.tar.*
 function Deb_ExtractCtrlInfoFile(const DebFile: String; var DescFile: String): Boolean;
 
 implementation
 
 uses
-  dpkg_deb, gzio, libtar;
+  dpkg_deb, libtar, AbXz, ZStream;
 
 var
   DebPkg: TDebianPackage;
-  TempDir: array[0..MAX_PATH] of AnsiChar;
 
-function ExtractGzip(const FileName, OutName: String): Boolean;
+const
+  HEAD_CRC    = $02; { bit 1 set: header CRC present }
+  EXTRA_FIELD = $04; { bit 2 set: extra field present }
+  ORIG_NAME   = $08; { bit 3 set: original file name present }
+  COMMENT     = $10; { bit 4 set: file comment present }
+
+type
+  TGzHeader = packed record
+    ID1        : Byte;
+    ID2        : Byte;
+    Method     : Byte;
+    Flags      : Byte;
+    ModTime    : UInt32;
+    XtraFlags  : Byte;
+    OS         : Byte;
+  end;
+
+function ExtractGzip(InStream, OutStream: TStream): Boolean;
 var
-  AFile: gzFile;
-  Handle: THandle;
   ALength: Integer;
-  Buffer: array[Word] of Byte;
+  AHeader: TGzHeader;
+  ABuffer: array[Word] of Byte;
 begin
-  AFile:= gzopen(FileName, 'r');
-  Result:= Assigned(AFile);
-  if Result then
+  Result:= False;
+  InStream.ReadBuffer(AHeader, SizeOf(TGzHeader));
+  if (AHeader.ID1 = $1F) and (AHeader.ID2 = $8B) and (AHeader.Method = 8) then
   begin
-    Handle:= FileCreate(OutName);
-    Result:= (Handle <> feInvalidHandle);
-    if Result then
+    // Skip the extra field
+    if (AHeader.Flags and EXTRA_FIELD <> 0) then
     begin
+      ALength:= InStream.ReadWord;
+      while ALength > 0 do
+      begin
+        InStream.ReadByte;
+        Dec(ALength);
+      end;
+    end;
+    // Skip the original file name
+    if (AHeader.Flags and ORIG_NAME <> 0) then
+    begin
+      while (InStream.ReadByte > 0) do;
+    end;
+    // Skip the .gz file comment
+    if (AHeader.Flags and COMMENT <> 0) then
+    begin
+      while (InStream.ReadByte > 0) do;
+    end;
+    // Skip the header crc
+    if (AHeader.Flags and HEAD_CRC <> 0) then
+    begin
+      InStream.ReadWord;
+    end;
+    with TDecompressionStream.Create(InStream, True) do
+    try
       while True do
       begin
-        ALength:= gzread(AFile, @Buffer[0], SizeOf(Buffer));
-        if ALength < 0 then
-        begin
-          Result:= False;
-          Break;
-        end;
-        if ALength = 0 then Break;
-        if (FileWrite(Handle, Buffer[0], ALength) <> ALength) then
-        begin
-          Result:= False;
-          Break;
-        end;
+        ALength:= Read(ABuffer[0], SizeOf(ABuffer));
+        if (ALength = 0) then Break;
+        OutStream.Write(ABuffer[0], ALength);
       end;
-      FileClose(Handle);
-      if not Result then DeleteFile(OutName);
+      Result:= True;
+    finally
+      Free;
     end;
-    gzclose(AFile);
   end;
 end;
 
-//member: 1: control.tar.gz, 2: data.tar.gz
-//return: full path of extracted file (${TEMP}\debXXXX\foo.tar.gz,
-function UnpackDebFile(DebFile: string; memberidx: integer): string;
+function ExtractXz(InStream, OutStream: TStream): Boolean;
+begin
+  with TLzmaDecompression.Create(InStream, OutStream) do
+  try
+    Result:= Code();
+  finally
+    Free;
+  end;
+end;
+
+function UnpackDebFile(const DebFile: String; MemberIdx: Integer; OutStream: TStream): Boolean;
 var
   Index: Integer;
-  FileDestination: String;
-  TempFile, FileExt: String;
+  FileExt: String;
+  TempStream: TMemoryStream;
 begin
-  Result := '';
-{$IFDEF GDEBUG}
-  WriteLn('UnpackDebFile: memberidx='+IntToStr(memberidx));
-{$ENDIF}
-  if (memberidx <> MEMBER_CONTROL) and (memberidx <> MEMBER_DATA) then Exit; //error
-
+  Result:= False;
+  if (MemberIdx in [MEMBER_CONTROL, MEMBER_DATA]) then
   try
     // a debian package must have control.tar.* and data.tar.*
     if DebPkg.ReadFromFile(DebFile) < 2 then Exit;
 
     // Check file type
-    FileExt:= TrimRight(DebPkg.FMemberList[memberidx].ar_name);
+    FileExt:= TrimRight(DebPkg.FMemberList[MemberIdx].ar_name);
     Index:= Pos(ExtensionSeparator, FileExt);
     if Index = 0 then Exit;
     FileExt:= Copy(FileExt, Index, MaxInt);
-    if (FileExt <> '.tar.gz') then Exit;
 
-    TempFile:= GetTempFileName(TempDir, 'deb') + FileExt;
+    if (FileExt = '.tar.xz') then
+    begin
+      TempStream:= TMemoryStream.Create;
+      try
+        if DebPkg.ExtractMemberToStream(MemberIdx, TempStream) then
+        begin
+          TempStream.Position:= 0;
+          Result:= ExtractXz(TempStream, OutStream);
+        end;
+      finally
+        TempStream.Free;
+      end;
+    end;
 
-  {$IFDEF GDEBUG}
-    WriteLn('TempFile=' + TempFile);
-  {$ENDIF}
-
-    //extract 'control.tar.gz'
-    if not DebPkg.ExtractMemberToFile(memberidx, TempFile) then Exit;
-    FileDestination := StrPas(TempDir) + ChangeFileExt(ExtractFileName(TempFile), ''); // ${TEMP}\foo.tar
-    ExtractGzip(TempFile, FileDestination);
+    if (FileExt = '.tar.gz') then
+    begin
+      TempStream:= TMemoryStream.Create;
+      try
+        if DebPkg.ExtractMemberToStream(MemberIdx, TempStream) then
+        begin
+          TempStream.Position:= 0;
+          Result:= ExtractGzip(TempStream, OutStream);
+        end;
+      finally
+        TempStream.Free;
+      end;
+    end;
   except
-    // Skip
+    Result:= False;
   end;
-
-  DeleteFile(TempFile);
-
-  if not FileExists(FileDestination) then Exit;
-
-  Result := FileDestination;
-
-{$IFDEF GDEBUG}
-  WriteLn('UnpackDebFile');
-{$ENDIF}
 end;
 
-//function ExtractDebInfoFile(debfile: string; var descfile: string): boolean;
-//debfile:   full path of .deb file to extract member from
-//descfile: [out] full path of extracted control file (${TEMP}\debXXXX\control)
-//        you should remove this file (and the temp folder ${TEMP}\debXXXX after use.
-//return: succeed or not
-function Deb_ExtractCtrlInfoFile(const DebFile: string; var DescFile: string): boolean;
+function Deb_ExtractCtrlInfoFile(const DebFile: String; var DescFile: String): Boolean;
 var
   TA: TTarArchive;
   DirRec: TTarDirRec;
-  TarFileName: String;
+  OutStream: TMemoryStream;
 begin
-  Result := False;
-{$IFDEF GDEBUG}
-  WriteLn('ExtractDebInfoFile');
-{$ENDIF}
-  TarFileName := UnpackDebFile(DebFile, MEMBER_CONTROL);
+  Result:= False;
 
-{$IFDEF GDEBUG}
-  WriteLn('tarfilename=' + tarfilename);
-{$ENDIF}
-  if not FileExists(TarFileName) then Exit;
-
-  DescFile := StrPas(TempDir) + 'control.txt';
-{$IFDEF GDEBUG}
-  WriteLn('descfile=' + descfile);
-{$ENDIF}
+  OutStream:= TMemoryStream.Create;
   try
-    TA := TTarArchive.Create(TarFileName);
+    Result:= UnpackDebFile(DebFile, MEMBER_CONTROL, OutStream);
+    if Result then
     try
-      while TA.FindNext(DirRec) do
-      begin
-    {$IFDEF GDEBUG}
-        WriteLn('DirRec.Name=' + DirRec.Name);
-    {$ENDIF}
-        if (DirRec.Name = './control') or (DirRec.Name = '.\control') or (DirRec.Name = 'control') then
+      TA := TTarArchive.Create(OutStream);
+      try
+        while TA.FindNext(DirRec) do
         begin
-          TA.ReadFile(DescFile);
-          Result:= True;
-          Break;
+          if (DirRec.Name = './control') or (DirRec.Name = '.\control') or (DirRec.Name = 'control') then
+          begin
+            DescFile:= TA.ReadFile;
+            Result:= True;
+            Break;
+          end;
         end;
+      finally
+        TA.Free;
       end;
-    finally
-      TA.Free;
+    except
+      // Ignore
     end;
-  except
-    // Ignore
+  finally
+    OutStream.Free;
   end;
-
-  DeleteFile(TarFileName); // foo.tar
-{$IFDEF GDEBUG}
-  WriteLn('ExtractDebInfoFile');
-{$ENDIF}
 end;
 
 initialization
-  Randomize;
-  TempDir:= GetTempDir;
   DebPkg := TDebianPackage.Create;
 
 finalization

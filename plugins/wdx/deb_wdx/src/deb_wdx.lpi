@@ -23,7 +23,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>
-            <OtherUnitFiles Value="..\..\..\..\sdk"/>
+            <OtherUnitFiles Value="..\..\..\..\sdk;..\..\..\wcx\zip\src\fparchive"/>
             <UnitOutputDirectory Value="..\lib"/>
           </SearchPaths>
           <Conditionals Value="if (TargetCPU &lt;> 'arm') then
@@ -91,7 +91,7 @@ end;"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>
-      <OtherUnitFiles Value="..\..\..\..\sdk"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk;..\..\..\wcx\zip\src\fparchive"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <Conditionals Value="if (TargetCPU &lt;> 'arm') then
