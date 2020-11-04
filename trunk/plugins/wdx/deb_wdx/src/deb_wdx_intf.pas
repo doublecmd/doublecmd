@@ -107,21 +107,11 @@ begin
 
   if CurrentPackageFile<>FileName then
   begin
-     if FileExists(DescTmpFile) then
-     begin
-       DeleteFile(DescTmpFile);
-     end;
 
      if not Deb_ExtractCtrlInfoFile(FileName, DescTmpFile) then exit;
 
-     if not FileExists(DescTmpFile) then  exit;
+     FileInfo.Text := DescTmpFile;
 
-     FileInfo.Clear;
-     try
-       FileInfo.LoadFromFile(DescTmpFile);
-     except
-       Exit;
-     end;
      CurrentPackageFile := FileName;
   end
 {$IFDEF GDEBUG}
@@ -144,7 +134,7 @@ begin
           Field := FieldList.Strings[FieldIndex];
   
       Value := '';
-      Value := FileInfo.Values[Field];
+      Value := Trim(FileInfo.Values[Field]);
   
       if Value='' then
       begin
