@@ -22,7 +22,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="..\lib\wlxmplayer.wlx" ApplyConventions="False"/>
+            <Filename Value="..\wlxmplayer.wlx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="..\..\..\..\sdk"/>
@@ -109,7 +109,7 @@ end;"/>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\lib\wlxmplayer.wlx" ApplyConventions="False"/>
+      <Filename Value="..\wlxmplayer.wlx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="..\..\..\..\sdk"/>

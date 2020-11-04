@@ -27,7 +27,7 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="../lib/samba.wfx" ApplyConventions="False"/>
+            <Filename Value="../samba.wfx" ApplyConventions="False"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -104,7 +104,7 @@ end;"/>
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="../lib/samba.wfx" ApplyConventions="False"/>
+      <Filename Value="../samba.wfx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
