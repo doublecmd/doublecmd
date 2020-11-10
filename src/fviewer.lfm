@@ -452,7 +452,6 @@ object frmViewer: TfrmViewer
           Top = 2
           Action = actLoadNextFile
           ShowCaption = False
-          Style = tbsCheck
         end
         object btnCopyFile: TToolButton
           Left = 121
