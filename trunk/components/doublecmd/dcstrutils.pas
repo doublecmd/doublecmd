@@ -1130,7 +1130,7 @@ var
   i, j: SizeInt;
   pc : PChar;
 begin
-  pc := @StringToCheck[1];
+  pc := Pointer(StringToCheck);
   for i := 1 to Length(StringToCheck) do
   begin
     for j := 1 to Length(PossibleCharacters) do
