@@ -487,8 +487,8 @@ end;
 procedure TfrmSyncDirsDlg.btnSynchronizeClick(Sender: TObject);
 var
   OperationType: TFileSourceOperationType;
-  SymLinkOption: TFileSourceOperationOptionSymLink;
   FileExistsOption: TFileSourceOperationOptionFileExists;
+  SymLinkOption: TFileSourceOperationOptionSymLink = fsooslNone;
 
   function CopyFiles(src, dst: IFileSource; fs: TFiles; Dest: string): Boolean;
   begin
