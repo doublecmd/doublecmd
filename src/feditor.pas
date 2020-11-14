@@ -185,6 +185,8 @@ type
     Function OpenFileNewTab(const sFileName:String):Integer;
     }
     destructor Destroy; override;
+
+    procedure AfterConstruction; override;
     {en
        Opens a file.
        @returns(@true if successful)
@@ -273,10 +275,6 @@ var
   Options: TTextSearchOptions;
 begin
   InitPropStorage(Self);
-
-  tbToolBar.ImagesWidth:= gToolIconsSize;
-  tbToolBar.ButtonWidth:= gToolIconsSize + ScaleX(6, 96);
-  tbToolBar.ButtonHeight:= gToolIconsSize + ScaleY(6, 96);
 
   Menu.Images:= dmComData.ilEditorImages;
 
@@ -593,6 +591,13 @@ begin
   if Assigned(FWaitData) then FWaitData.Done;
 end;
 
+procedure TfrmEditor.AfterConstruction;
+begin
+  inherited AfterConstruction;
+  tbToolBar.ImagesWidth:= gToolIconsSize;
+  tbToolBar.SetButtonSize(gToolIconsSize + ScaleX(6, 96),
+                          gToolIconsSize + ScaleY(6, 96));
+end;
 
 procedure TfrmEditor.EditorReplaceText(Sender: TObject; const ASearch,
   AReplace: string; Line, Column: integer; var ReplaceAction: TSynReplaceAction );
