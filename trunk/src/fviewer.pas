@@ -383,6 +383,8 @@ type
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
 
+    procedure AfterConstruction; override;
+
     procedure LoadFile(iIndex: Integer);
     procedure LoadFile(const aFileName: String);
     procedure LoadNextFile(Index: Integer);
@@ -646,6 +648,14 @@ begin
   FreeAndNil(WlxPlugins);
   FWaitData.Free; // If this is temp file source, the files will be deleted.
   tmp_all.Free;
+end;
+
+procedure TfrmViewer.AfterConstruction;
+begin
+  inherited AfterConstruction;
+  ToolBar1.ImagesWidth:= gToolIconsSize;
+  ToolBar1.SetButtonSize(gToolIconsSize + ScaleX(6, 96),
+                         gToolIconsSize + ScaleY(6, 96));
 end;
 
 procedure TfrmViewer.LoadFile(const aFileName: String);
@@ -1849,10 +1859,6 @@ begin
   DCDebug('WLX: Load - OK');
 
   FFindDialog:= nil; // dialog is created in first use
-
-  ToolBar1.ImagesWidth:= gToolIconsSize;
-  ToolBar1.ButtonWidth:= gToolIconsSize + ScaleX(6, 96);
-  ToolBar1.ButtonHeight:= gToolIconsSize + ScaleY(6, 96);
 
   sboxImage.DoubleBuffered := True;
   miStretch.Checked := gImageStretch;
