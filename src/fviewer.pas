@@ -1848,8 +1848,12 @@ begin
   WlxPlugins.Assign(gWLXPlugins);
   DCDebug('WLX: Load - OK');
 
-  FFindDialog:=nil; // dialog is created in first use
-  
+  FFindDialog:= nil; // dialog is created in first use
+
+  ToolBar1.ImagesWidth:= gToolIconsSize;
+  ToolBar1.ButtonWidth:= gToolIconsSize + ScaleX(6, 96);
+  ToolBar1.ButtonHeight:= gToolIconsSize + ScaleY(6, 96);
+
   sboxImage.DoubleBuffered := True;
   miStretch.Checked := gImageStretch;
   miStretchOnlyLarge.Checked := gImageStretchOnlyLarge;

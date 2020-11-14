@@ -1242,8 +1242,6 @@ object dmComData: TdmComData
     }
   end
   object ilViewerImages: TImageList
-    Height = 24
-    Width = 24
     Left = 280
     Top = 120
   end

@@ -27,19 +27,18 @@ unit uGraphics;
 interface
 
 uses
-  Classes, SysUtils, Graphics, Controls, IntfGraphics;
+  Classes, SysUtils, Graphics, IntfGraphics;
 
 procedure BitmapConvert(Bitmap: TRasterImage);
 procedure BitmapAssign(Bitmap, Image: TRasterImage);
 procedure BitmapAlpha(var ABitmap: TBitmap; APercent: Single);
 procedure BitmapAssign(Bitmap: TRasterImage; Image: TLazIntfImage);
 procedure BitmapCenter(var Bitmap: TBitmap; Width, Height: Integer);
-procedure LoadThemeIcon(ImageList: TImageList; Index: Integer; const AIconName: String);
 
 implementation
 
 uses
-  GraphType, FPimage, uPixMapManager;
+  GraphType, FPimage;
 
 type
   TRawAccess = class(TRasterImage) end;
@@ -158,20 +157,6 @@ begin
       Source.Free;
     end;
   end;
-end;
-
-procedure LoadThemeIcon(ImageList: TImageList; Index: Integer; const AIconName: String);
-var
-  ABitmap: TBitmap;
-begin
-  ABitmap:= PixMapManager.GetThemeIcon(AIconName, ImageList.Width);
-  if (ABitmap = nil) then ABitmap:= TBitmap.Create;
-  if (Index < ImageList.Count) then
-    ImageList.Replace(Index, ABitmap , nil)
-  else begin
-    ImageList.Insert(Index, ABitmap , nil)
-  end;
-  ABitmap.Free;
 end;
 
 end.

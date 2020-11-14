@@ -40,8 +40,7 @@ type
     SaveDialog: TSaveDialog;
     procedure DataModuleCreate(Sender: TObject);
   private
-    procedure LoadViewerImageList;
-    procedure LoadEditorImageList;
+    procedure LoadImages(Images: TImageList; ANames: TStringArray);
   public
     { public declarations }
   end; 
@@ -52,9 +51,77 @@ var
 implementation
 
 uses
-  LCLVersion, uGraphics, uPixMapManager;
+  LCLVersion, Graphics, uPixMapManager;
 
 {$R *.lfm}
+
+const
+  ViewerNames: array[0..26] of String = (
+    'view-refresh',
+    'go-previous',
+    'go-next',
+    'edit-copy',
+    'edit-cut',
+    'edit-delete',
+    'zoom-in',
+    'zoom-out',
+    'object-rotate-left',
+    'object-rotate-right',
+    'object-flip-horizontal',
+    'media-playback-pause',
+    'media-playback-start',
+    'media-skip-backward',
+    'media-skip-forward',
+    'image-crop',
+    'image-red-eye',
+    'draw-freehand',
+    'draw-rectangle',
+    'draw-ellipse',
+    'edit-undo',
+    'document-edit',
+    'view-fullscreen',
+    'draw-path',
+    'document-page-setup',
+    'view-restore',
+    'camera-photo'
+  );
+
+  EditorNames: array[0..33] of String = (
+    'document-new',
+    'document-open',
+    'document-save',
+    'document-save-as',
+    'document-properties',
+    'edit-cut',
+    'edit-copy',
+    'edit-paste',
+    'edit-undo',
+    'edit-redo',
+    'edit-find',
+    'edit-find-replace',
+    'application-exit',
+    'help-about',
+    'edit-delete',
+    'edit-select-all',
+    'go-jump',
+    'view-refresh',
+    'mr-config',
+    'mr-editor',
+    'mr-filename',
+    'mr-extension',
+    'mr-counter',
+    'mr-date',
+    'mr-time',
+    'mr-plugin',
+    'view-file',
+    'mr-pathtools',
+    'mr-rename',
+    'mr-clearfield',
+    'mr-presets',
+    'mr-savepreset',
+    'mr-deletepreset',
+    'mr-droppresets'
+  );
 
 { TdmComData }
 
@@ -62,93 +129,31 @@ procedure TdmComData.DataModuleCreate(Sender: TObject);
 begin
   if Assigned(PixMapManager) then
   begin
-    LoadViewerImageList;
-    LoadEditorImageList;
+    LoadImages(ilViewerImages, ViewerNames);
+    LoadImages(ilEditorImages, EditorNames);
   end;
 end;
 
-procedure TdmComData.LoadViewerImageList;
+procedure TdmComData.LoadImages(Images: TImageList; ANames: TStringArray);
+var
+  AName: String;
+  ASize16, ASize24: Integer;
+  ABitmap16, ABitmap24: TBitmap;
 begin
-  LoadThemeIcon(ilViewerImages, 0, 'view-refresh');
-  LoadThemeIcon(ilViewerImages, 1, 'go-previous');
-  LoadThemeIcon(ilViewerImages, 2, 'go-next');
-  LoadThemeIcon(ilViewerImages, 3, 'edit-copy');
-  LoadThemeIcon(ilViewerImages, 4, 'edit-cut');
-  LoadThemeIcon(ilViewerImages, 5, 'edit-delete');
-  LoadThemeIcon(ilViewerImages, 6, 'zoom-in');
-  LoadThemeIcon(ilViewerImages, 7, 'zoom-out');
-
-  LoadThemeIcon(ilViewerImages, 8, 'object-rotate-left');
-  LoadThemeIcon(ilViewerImages, 9, 'object-rotate-right');
-  LoadThemeIcon(ilViewerImages, 10, 'object-flip-horizontal');
-
-  LoadThemeIcon(ilViewerImages, 11, 'media-playback-pause');
-  LoadThemeIcon(ilViewerImages, 12, 'media-playback-start');
-  LoadThemeIcon(ilViewerImages, 13, 'media-skip-backward');
-  LoadThemeIcon(ilViewerImages, 14, 'media-skip-forward');
-
-  LoadThemeIcon(ilViewerImages, 15, 'image-crop');
-
-  LoadThemeIcon(ilViewerImages, 16, 'image-red-eye');
-
-  LoadThemeIcon(ilViewerImages, 17, 'draw-freehand');
-  LoadThemeIcon(ilViewerImages, 18, 'draw-rectangle');
-  LoadThemeIcon(ilViewerImages, 19, 'draw-ellipse');
-
-  LoadThemeIcon(ilViewerImages, 20, 'edit-undo');
-  LoadThemeIcon(ilViewerImages, 21, 'document-edit');
-
-  LoadThemeIcon(ilViewerImages, 22, 'view-fullscreen');
-
-  LoadThemeIcon(ilViewerImages, 23, 'draw-path');
-
-  LoadThemeIcon(ilViewerImages, 24, 'document-page-setup');
-
-  LoadThemeIcon(ilViewerImages, 25, 'view-restore');
-
-  LoadThemeIcon(ilViewerImages, 26, 'camera-photo');
-end;
-
-procedure TdmComData.LoadEditorImageList;
-begin
-{$if lcl_fullversion >= 1070000}
-  ilEditorImages.Width:= AdjustIconSize(ilEditorImages.Width, 96);
-  ilEditorImages.Height:= AdjustIconSize(ilEditorImages.Height, 96);
-{$endif}
-  LoadThemeIcon(ilEditorImages, 0, 'document-new');
-  LoadThemeIcon(ilEditorImages, 1, 'document-open');
-  LoadThemeIcon(ilEditorImages, 2, 'document-save');
-  LoadThemeIcon(ilEditorImages, 3, 'document-save-as');
-  LoadThemeIcon(ilEditorImages, 4, 'document-properties');
-  LoadThemeIcon(ilEditorImages, 5, 'edit-cut');
-  LoadThemeIcon(ilEditorImages, 6, 'edit-copy');
-  LoadThemeIcon(ilEditorImages, 7, 'edit-paste');
-  LoadThemeIcon(ilEditorImages, 8, 'edit-undo');
-  LoadThemeIcon(ilEditorImages, 9, 'edit-redo');
-  LoadThemeIcon(ilEditorImages, 10, 'edit-find');
-  LoadThemeIcon(ilEditorImages, 11, 'edit-find-replace');
-  LoadThemeIcon(ilEditorImages, 12, 'application-exit');
-  LoadThemeIcon(ilEditorImages, 13, 'help-about');
-  LoadThemeIcon(ilEditorImages, 14, 'edit-delete');
-  LoadThemeIcon(ilEditorImages, 15, 'edit-select-all');
-  LoadThemeIcon(ilEditorImages, 16, 'go-jump');
-  LoadThemeIcon(ilEditorImages, 17, 'view-refresh');
-  LoadThemeIcon(ilEditorImages, 18, 'mr-config');
-  LoadThemeIcon(ilEditorImages, 19, 'mr-editor');
-  LoadThemeIcon(ilEditorImages, 20, 'mr-filename');
-  LoadThemeIcon(ilEditorImages, 21, 'mr-extension');
-  LoadThemeIcon(ilEditorImages, 22, 'mr-counter');
-  LoadThemeIcon(ilEditorImages, 23, 'mr-date');
-  LoadThemeIcon(ilEditorImages, 24, 'mr-time');
-  LoadThemeIcon(ilEditorImages, 25, 'mr-plugin');
-  LoadThemeIcon(ilEditorImages, 26, 'view-file');
-  LoadThemeIcon(ilEditorImages, 27, 'mr-pathtools');
-  LoadThemeIcon(ilEditorImages, 28, 'mr-rename');
-  LoadThemeIcon(ilEditorImages, 29, 'mr-clearfield');
-  LoadThemeIcon(ilEditorImages, 30, 'mr-presets');
-  LoadThemeIcon(ilEditorImages, 31, 'mr-savepreset');
-  LoadThemeIcon(ilEditorImages, 32, 'mr-deletepreset');
-  LoadThemeIcon(ilEditorImages, 33, 'mr-droppresets');
+  Images.Clear;
+  ASize16:= 16; // AdjustIconSize(16, 96);
+  ASize24:= 24; // AdjustIconSize(24, 96);
+  Images.RegisterResolutions([ASize16, ASize24]);
+  for AName in ANames do
+  begin
+    ABitmap16:= PixMapManager.GetThemeIcon(AName, ASize16);
+    if (ABitmap16 = nil) then ABitmap16:= TBitmap.Create;
+    ABitmap24:= PixMapManager.GetThemeIcon(AName, ASize24);
+    if (ABitmap24 = nil) then ABitmap24:= TBitmap.Create;
+    Images.AddMultipleResolutions([ABitmap16, ABitmap24]);
+    ABitmap16.Free;
+    ABitmap24.Free;
+  end;
 end;
 
 end.
