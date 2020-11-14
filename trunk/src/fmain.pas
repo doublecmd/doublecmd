@@ -769,10 +769,8 @@ type
   protected
     procedure CreateWnd; override;
     procedure DoFirstShow; override;
-{$if lcl_fullversion >= 1070000}
     procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
                             const AXProportion, AYProportion: Double); override;
-{$endif}
 
     procedure WMMove(var Message: TLMMove); message LM_MOVE;
     procedure WMSize(var message: TLMSize); message LM_Size;
@@ -3910,7 +3908,6 @@ begin
   end;
 end;
 
-{$if lcl_fullversion >= 1070000}
 procedure TfrmMain.DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
   const AXProportion, AYProportion: Double);
 begin
@@ -3926,7 +3923,6 @@ begin
     end;
   end;
 end;
-{$endif}
 
 procedure TfrmMain.FormKeyUp( Sender: TObject; var Key: Word;
   Shift: TShiftState) ;
