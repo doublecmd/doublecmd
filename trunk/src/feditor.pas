@@ -274,6 +274,10 @@ var
 begin
   InitPropStorage(Self);
 
+  tbToolBar.ImagesWidth:= gToolIconsSize;
+  tbToolBar.ButtonWidth:= gToolIconsSize + ScaleX(6, 96);
+  tbToolBar.ButtonHeight:= gToolIconsSize + ScaleY(6, 96);
+
   Menu.Images:= dmComData.ilEditorImages;
 
   LoadGlobalOptions;
