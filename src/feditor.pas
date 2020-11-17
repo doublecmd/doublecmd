@@ -161,6 +161,7 @@ type
     sSearchText, sReplaceText:String;
     sEncodingIn,
     sEncodingOut,
+    sEncodingStat,
     sOriginalText: String;
     FWaitData: TWaitData;
     FElevate: TDuplicates;
@@ -513,7 +514,7 @@ begin
       if not FileExistsUAC(AFileName) then
         Mode:= fmCreate
       else begin
-        Mode:= fmOpenWrite or fmShareDenyWrite;
+        Mode:= fmOpenReadWrite or fmShareDenyWrite;
       end;
       Writer := TFileStreamUAC.Create(aFileName, Mode);
       try
@@ -558,6 +559,23 @@ begin
           end;
         end;
         if (Mode <> fmCreate) then Writer.Size:= Writer.Position;
+
+        // Refresh original text and encoding
+        if sEncodingIn <> sEncodingOut then
+        begin
+          sEncodingIn:= sEncodingOut;
+          ChooseEncoding(miEncodingIn, sEncodingIn);
+          if (sEncodingOut <> EncodingUTF16LE) and (sEncodingOut <> EncodingUTF16BE) then
+          begin
+            Writer.Seek(0, soBeginning);
+            SetLength(sOriginalText, Writer.Size);
+          end
+          else begin
+            Writer.Seek(2, soBeginning);
+            SetLength(sOriginalText, Writer.Size - 2);
+          end;
+          Writer.Read(Pointer(sOriginalText)^, Length(sOriginalText));
+        end;
       finally
         Writer.Free;
       end;
@@ -721,7 +739,7 @@ begin
     StatusBar.Panels[0].Text:= '';
   end;
   StatusBar.Panels[1].Text:= Format('%d:%d',[Editor.CaretX, Editor.CaretY]);
-  StatusBar.Panels[2].Text:= sEncodingIn;
+  StatusBar.Panels[2].Text:= sEncodingStat;
   StatusBar.Panels[3].Text:= BreakStyle[Editor.Lines.TextLineBreakStyle];
 end;
 
@@ -1074,8 +1092,14 @@ var
 begin
   sEncoding:= NormalizeEncoding(sEncoding);
   for I:= 0 to mnuMenuItem.Count - 1 do
+  begin
     if SameText(NormalizeEncoding(mnuMenuItem.Items[I].Caption), sEncoding) then
+    begin
       mnuMenuItem.Items[I].Checked:= True;
+      if (mnuMenuItem = miEncodingIn) then
+        sEncodingStat:= mnuMenuItem.Items[I].Caption;
+    end;
+  end;
 end;
 
 initialization
