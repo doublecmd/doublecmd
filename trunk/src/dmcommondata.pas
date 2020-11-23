@@ -86,7 +86,7 @@ const
     'camera-photo'
   );
 
-  EditorNames: array[0..33] of String = (
+  EditorNames: array[0..44] of String = (
     'document-new',
     'document-open',
     'document-save',
@@ -120,7 +120,18 @@ const
     'mr-presets',
     'mr-savepreset',
     'mr-deletepreset',
-    'mr-droppresets'
+    'mr-droppresets',
+    'document-save-alt',
+    'document-save-as-alt',
+    'go-next',
+    'go-bottom',
+    'go-down',
+    'go-up',
+    'go-top',
+    'process-stop',
+    'copy-right-to-left',
+    'copy-left-to-right',
+    'choose-encoding'
   );
 
 { TdmComData }
