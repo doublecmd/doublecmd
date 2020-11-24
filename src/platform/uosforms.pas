@@ -409,6 +409,7 @@ end;
 procedure ScreenFormEvent(Self, Sender: TObject; Form: TCustomForm);
 var
   Handle: HWND;
+  AWindow: QWidgetH;
 begin
   Handle:= GetWindowHandle(Form);
   AllowDarkModeForWindow(Handle, True);
@@ -416,7 +417,9 @@ begin
 
   if (Form is THintWindow) then
   begin
-    Windows.SetWindowLong(Handle, GWL_EXSTYLE, Windows.GetWindowLong(Handle, GWL_EXSTYLE) or WS_EX_TOOLWINDOW);
+    AWindow:= QWidget_window(TQtWidget(Form.Handle).GetContainerWidget);
+    QWidget_setWindowFlags(AWindow, QtTool or QtFramelessWindowHint);
+    QWidget_setAttribute(AWindow, QtWA_ShowWithoutActivating);
   end;
 end;
 {$ENDIF}
