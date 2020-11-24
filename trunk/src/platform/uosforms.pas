@@ -413,6 +413,11 @@ begin
   Handle:= GetWindowHandle(Form);
   AllowDarkModeForWindow(Handle, True);
   RefreshTitleBarThemeColor(Handle);
+
+  if (Form is THintWindow) then
+  begin
+    Windows.SetWindowLong(Handle, GWL_EXSTYLE, Windows.GetWindowLong(Handle, GWL_EXSTYLE) or WS_EX_TOOLWINDOW);
+  end;
 end;
 {$ENDIF}
 
