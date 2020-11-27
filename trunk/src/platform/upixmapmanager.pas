@@ -316,7 +316,6 @@ type
     function GetThemeIcon(const AIconName: String; AIconSize: Integer) : Graphics.TBitmap;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
-    function GetVirtualDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetFolderIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
     {en
@@ -2170,7 +2169,7 @@ var
 begin
   if Drive^.DriveType = dtVirtual then
   begin
-    Result := GetVirtualDriveIcon(IconSize, clBackColor);
+    Result := GetBuiltInDriveIcon(Drive, IconSize, clBackColor);
     Exit;
   end;
   Result := nil;
@@ -2294,36 +2293,6 @@ var
                    IsMediaRemovable: False; IsMounted: True; AutoMount: True);
 begin
   Result := GetBuiltInDriveIcon(@Drive, IconSize, clBackColor);
-end;
-
-function TPixMapManager.GetVirtualDriveIcon(IconSize: Integer;
-  clBackColor: TColor): Graphics.TBitmap;
-var
-  DriveIconListIndex: Integer;
-begin
-  case IconSize of
-  16: // Standart 16x16 icon size
-    DriveIconListIndex := 0;
-  24:  // Standart 24x24 icon size
-    DriveIconListIndex := 1;
-  32:  // Standart 32x32 icon size
-    DriveIconListIndex := 2;
-  else  // for non standart icon size use more large icon for stretch
-    DriveIconListIndex := 2;
-  end;
-  with FDriveIconList[DriveIconListIndex] do
-  begin
-    //  if need stretch icon
-    if (IconSize <> 16) and (IconSize <> 24) and (IconSize <> 32) then
-      begin
-        Result := StretchBitmap(Bitmap[dtVirtual], IconSize, clBackColor, False);
-      end
-    else
-      begin
-        Result := Graphics.TBitmap.Create;
-        Result.Assign(Bitmap[dtVirtual]);
-      end;
-  end;
 end;
 
 function TPixMapManager.GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
