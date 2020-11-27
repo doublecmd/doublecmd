@@ -594,7 +594,6 @@ type
     procedure tbDeleteClick(Sender: TObject);
     procedure dskLeftToolButtonClick(Sender: TObject);
     procedure dskRightToolButtonClick(Sender: TObject);
-    procedure btnVirtualDriveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -729,7 +728,6 @@ type
     procedure UpdateActionIcons;
     procedure UpdateHotDirIcons;
     procedure TypeInCommandLine(Str: String);
-    procedure AddVirtualDriveButton(dskPanel: TKASToolBar);
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
     procedure HideToTray;
     procedure RestoreFromTray;
@@ -2224,22 +2222,6 @@ end;
 procedure TfrmMain.dskLeftToolButtonClick(Sender: TObject);
 begin
   PanelButtonClick(Sender as TKASToolButton, FrameLeft);
-end;
-
-procedure TfrmMain.btnVirtualDriveClick(Sender: TObject);
-var
-  TargetPanel: TFileView;
-begin
-  if gDriveBar1 and gDriveBar2 then
-  begin
-    if (Sender as TSpeedButton).Parent = dskLeft then
-      TargetPanel := FrameLeft
-    else
-      TargetPanel := FrameRight;
-  end
-  else
-    TargetPanel := ActiveFrame;
-  Commands.DoOpenVirtualFileSystemList(TargetPanel);
 end;
 
 procedure TfrmMain.MainToolBarMouseUp(Sender: TObject; Button: TMouseButton;
@@ -4485,6 +4467,15 @@ begin
 
   UpdateDriveList(DrivesList);
 
+  // Add virtual drive
+  New(Drive);
+  Drive^.DriveType:= dtVirtual;
+  Drive^.Path:= PathDelim;
+  Drive^.DisplayName:= PathDelim + PathDelim;
+  Drive^.DriveLabel:= StripHotkey(actOpenVirtualFileSystemList.Caption);
+  Drive^.FileSystem:= 'VFS';
+  DrivesList.Add(Drive);
+
   // create drives drop down menu
   FDrivesListPopup.UpdateDrivesList(DrivesList);
 
@@ -4502,30 +4493,6 @@ begin
   begin
     TShellTreeView(ShellTreeView).PopulateWithBaseFiles;
     UpdateTreeViewPath;
-  end;
-end;
-
-procedure TfrmMain.AddVirtualDriveButton(dskPanel: TKASToolBar);
-const
-  btnCaption = PathDelim + PathDelim;
-var
-  bmpBitmap: TBitmap;
-  ToolItem: TKASNormalItem;
-  Button: TKASToolButton;
-begin
-  (*virtual drive button*)
-  ToolItem := TKASNormalItem.Create;
-  ToolItem.Hint := StripHotkey(actOpenVirtualFileSystemList.Caption);
-  ToolItem.Text := btnCaption;
-  Button := dskPanel.AddButton(ToolItem);
-  bmpBitmap:= PixMapManager.GetVirtualDriveIcon(dskPanel.GlyphSize, clBtnFace);
-  try
-    Button.Glyph.Assign(bmpBitmap);
-    Button.GroupIndex := 0;
-    Button.Layout := blGlyphLeft;
-    Button.OnClick:= @btnVirtualDriveClick;
-  finally
-    bmpBitmap.Free;
   end;
 end;
 
@@ -4582,9 +4549,6 @@ begin
       {/Set Buttons Transparent}
       Button.Layout := blGlyphLeft;
     end; // for
-
-    // Add virtual drive button
-    AddVirtualDriveButton(dskPanel);
 
     // Add special buttons
     if not gDrivesListButton then
@@ -6378,9 +6342,13 @@ begin
     // Special case for virtual drive
     if Drive^.DriveType = dtVirtual then
     begin
-      ChooseFileSource(aFileView, GetNetworkPath(Drive));
-      if ActivateIfNeeded and (tb_activate_panel_on_click in gDirTabOptions) then
-        SetActiveFrame(aPanel);
+      if Drive^.FileSystem = 'VFS' then
+        Commands.DoOpenVirtualFileSystemList(aFileView)
+      else begin
+        ChooseFileSource(aFileView, GetNetworkPath(Drive));
+        if ActivateIfNeeded and (tb_activate_panel_on_click in gDirTabOptions) then
+          SetActiveFrame(aPanel);
+      end;
       Exit;
     end;
 
