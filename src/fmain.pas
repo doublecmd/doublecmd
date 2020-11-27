@@ -4470,7 +4470,7 @@ begin
   // Add virtual drive
   New(Drive);
   Drive^.DriveType:= dtVirtual;
-  Drive^.Path:= PathDelim;
+  Drive^.Path:= 'vfs:' + PathDelim;
   Drive^.DisplayName:= PathDelim + PathDelim;
   Drive^.DriveLabel:= StripHotkey(actOpenVirtualFileSystemList.Caption);
   Drive^.FileSystem:= 'VFS';

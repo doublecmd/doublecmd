@@ -43,6 +43,8 @@ type
     // Retrieve some properties of the file source.
     function GetProperties: TFileSourceProperties; override;
 
+    function GetRootDir(sPath : String): String; override;
+
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
     function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
@@ -88,6 +90,11 @@ end;
 function TVfsFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := [fspVirtual];
+end;
+
+function TVfsFileSource.GetRootDir(sPath: String): String;
+begin
+  Result:= 'vfs:' + PathDelim;
 end;
 
 function TVfsFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
