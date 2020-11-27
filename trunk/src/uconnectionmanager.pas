@@ -122,6 +122,9 @@ var
   Handler: TMethod;
   MenuItem: TMenuItem;
 begin
+  if not StrBegins(ADrive^.DeviceId, 'wfx://') then
+    Exit;
+
   // Free previous created menu
   FreeAndNil(ContextMenu);
 
