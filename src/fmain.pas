@@ -4469,6 +4469,8 @@ begin
 
   // Add virtual drive
   New(Drive);
+  FillChar(Drive^, SizeOf(TDrive), 0);
+  Drive^.IsMounted:= True;
   Drive^.DriveType:= dtVirtual;
   Drive^.Path:= 'vfs:' + PathDelim;
   Drive^.DisplayName:= PathDelim + PathDelim;
