@@ -93,7 +93,7 @@ uses
   StrUtils, WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation, uLng, uOSUtils,
   uOperationsManager, uArchiveFileSourceUtil, uMultiArchiveFileSource,
   uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation, uMasks,
-  DCStrUtils, uMultiArc;
+  DCStrUtils, uMultiArc, uWcxModule;
 
 function ShowPackDlg(TheOwner: TComponent;
                      const SourceFileSource: IFileSource;
@@ -265,10 +265,15 @@ begin
                           FreeAndNil(aFile);
                         end;
                       except
-                        on E: EFileSourceException do
+                        on E: Exception do
                         begin
-                          MessageDlg(E.Message, mtError, [mbOK], 0);
-                          Exit;
+                          if (E is EFileSourceException) or (E is EWcxModuleException) then
+                          begin
+                            if MessageDlg(E.Message, mtError, [mbIgnore, mbAbort], 0) = mrIgnore then
+                              Continue;
+                            Exit;
+                          end;
+                          raise;
                         end;
                       end;
                       // Pack current item
@@ -291,10 +296,14 @@ begin
                       FreeAndNil(aFile);
                     end;
                   except
-                    on E: EFileSourceException do
+                    on E: Exception do
                     begin
-                      MessageDlg(E.Message, mtError, [mbOK], 0);
-                      Exit;
+                      if (E is EFileSourceException) or (E is EWcxModuleException) then
+                      begin
+                        MessageDlg(E.Message, mtError, [mbOK], 0);
+                        Exit;
+                      end;
+                      raise;
                     end;
                   end;
                   // Pack files
