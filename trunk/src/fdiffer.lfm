@@ -115,6 +115,16 @@ object frmDiffer: TfrmDiffer
       Top = 2
       Style = tbsSeparator
     end
+    object btnEditUndo: TToolButton
+      Left = 310
+      Top = 2
+      Action = actEditUndo
+    end
+    object btnEditRedo: TToolButton
+      Left = 335
+      Top = 2
+      Action = actEditRedo
+    end
   end
   object pnlLeft: TPanel
     Left = 0
@@ -656,12 +666,14 @@ object frmDiffer: TfrmDiffer
     object actEditRedo: TAction
       Category = 'Edit'
       Caption = 'Redo'
+      Hint = 'Redo'
       ImageIndex = 9
       OnExecute = actEditRedoExecute
     end
     object actEditUndo: TAction
       Category = 'Edit'
       Caption = 'Undo'
+      Hint = 'Undo'
       ImageIndex = 8
       OnExecute = actEditUndoExecute
     end

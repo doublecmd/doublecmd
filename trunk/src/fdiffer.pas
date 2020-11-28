@@ -165,6 +165,8 @@ type
     btnCopyRightToLeft: TToolButton;
     btnCopyLeftToRight: TToolButton;
     Divider5: TToolButton;
+    btnEditUndo: TToolButton;
+    btnEditRedo: TToolButton;
     procedure actAboutExecute(Sender: TObject);
     procedure actBinaryCompareExecute(Sender: TObject);
     procedure actCancelCompareExecute(Sender: TObject);
@@ -488,6 +490,8 @@ begin
   btnRightEncoding.Enabled:= not actBinaryCompare.Checked;
   actCopyLeftToRight.Enabled:= not actBinaryCompare.Checked;
   actCopyRightToLeft.Enabled:= not actBinaryCompare.Checked;
+  actEditUndo.Enabled:= not actBinaryCompare.Checked;
+  actEditRedo.Enabled:= not actBinaryCompare.Checked;
   actSave.Enabled:= not actBinaryCompare.Checked;
   actSaveAs.Enabled:= not actBinaryCompare.Checked;
   actSaveLeft.Enabled:= not actBinaryCompare.Checked;
