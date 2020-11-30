@@ -526,11 +526,10 @@ var
 begin
   Helper := TAbDeflateHelper.Create;
   try
-    SeekToItemData;
     if (AStream is TAbBitBucketStream) then
       Helper.Options := Helper.Options or dfc_TestOnly;
     FItem.CRC32 := Inflate(FStream, AStream, Helper);
-    FItem.UncompressedSize := AStream.Size{Helper.NormalSize};
+    FItem.UncompressedSize := Helper.NormalSize;
   finally
     Helper.Free;
   end;
@@ -729,6 +728,8 @@ procedure TAbGzipItem.LoadGzHeaderFromStream(AStream: TStream);
 var
   LenW : Word;
 begin
+  FGzHeader.ID1 := 0;
+
   AStream.Read(FGzHeader, SizeOf(TAbGzHeader));
   if not VerifyHeader(FGzHeader) then
     Exit;
@@ -995,33 +996,39 @@ begin
 
     GZHelp := TAbGzipStreamHelper.Create(FGzStream);
     try
+      FGzStream.Seek(0, soBeginning);
+
       { read GZip Header }
       GzHelp.ReadHeader;
 
-      { extract copy data from GZip}
-      GzHelp.ExtractItemData(aStream);
+      repeat
+        { extract copy data from GZip}
+        GzHelp.ExtractItemData(aStream);
 
-      { Get validation data }
-      GzHelp.ReadTail;
+        { Get validation data }
+        GzHelp.ReadTail;
 
-      {$IFDEF STRICTGZIP}
-      { According to
-          http://www.gzip.org/zlib/rfc1952.txt
+        {$IFDEF STRICTGZIP}
+        { According to
+            http://www.gzip.org/zlib/rfc1952.txt
 
-       A compliant gzip compressor should calculate and set the CRC32 and ISIZE.
-       However, a compliant decompressor should not check these values.
+         A compliant gzip compressor should calculate and set the CRC32 and ISIZE.
+         However, a compliant decompressor should not check these values.
 
-       If you want to check the the values of the CRC32 and ISIZE in a GZIP file
-       when decompressing enable the STRICTGZIP define contained in AbDefine.inc }
+         If you want to check the the values of the CRC32 and ISIZE in a GZIP file
+         when decompressing enable the STRICTGZIP define contained in AbDefine.inc }
 
-      { validate against CRC }
-      if GzHelp.FItem.Crc32 <> GzHelp.TailCRC then
-        raise EAbGzipBadCRC.Create;
+        { validate against CRC }
+        if GzHelp.FItem.Crc32 <> GzHelp.TailCRC then
+          raise EAbGzipBadCRC.Create;
 
-      { validate against file size }
-      if GzHelp.FItem.UncompressedSize <> GZHelp.TailSize then
-        raise EAbGzipBadFileSize.Create;
-      {$ENDIF}
+        { validate against file size }
+        if GzHelp.FItem.UncompressedSize <> GZHelp.TailSize then
+          raise EAbGzipBadFileSize.Create;
+        {$ENDIF}
+        { try concatenated streams }
+        GzHelp.ReadHeader;
+      until not VerifyHeader(GZHelp.FItem.FGzHeader);
     finally
       GzHelp.Free;
     end;
@@ -1082,8 +1089,13 @@ begin
 
         if IsGzippedTar and TarAutoHandle then begin
           { extract Tar and set stream up }
-          GzHelp.SeekToItemData;
-          GzHelp.ExtractItemData(FTarStream);
+          FGzStream.Seek(0, soBeginning);
+          GzHelp.ReadHeader;
+          repeat
+            GzHelp.ExtractItemData(FTarStream);
+            GzHelp.ReadTail;
+            GzHelp.ReadHeader;
+          until not VerifyHeader(GZHelp.FItem.FGzHeader);
           SwapToTar;
           inherited LoadArchive;
         end;
@@ -1269,16 +1281,27 @@ begin
       BitBucket := TAbBitBucketStream.Create(1024);
       GZHelp := TAbGzipStreamHelper.Create(FGZStream);
 
-      GZHelp.ExtractItemData(BitBucket);
-      GZHelp.ReadTail;
+      Index := 0;
+      FGZStream.Seek(0, soBeginning);
+      GZHelp.ReadHeader;
+      repeat
+        GZHelp.ExtractItemData(BitBucket);
+        GZHelp.ReadTail;
 
-      { validate against CRC }
-      if GzHelp.FItem.Crc32 <> GZHelp.TailCRC then
-        raise EAbGzipBadCRC.Create;
+        { validate against CRC }
+        if GzHelp.FItem.Crc32 <> GZHelp.TailCRC then
+          raise EAbGzipBadCRC.Create;
 
-      { validate against file size }
-      if GzHelp.FItem.UncompressedSize <> GZHelp.TailSize then
-        raise EAbGzipBadFileSize.Create;
+        Inc(Index);
+        GzHelp.ReadHeader;
+      until not VerifyHeader(GZHelp.FItem.FGzHeader);
+
+      if (Index < 2) then
+      begin
+        { validate against file size }
+        if GzHelp.FItem.UncompressedSize <> GZHelp.TailSize then
+          raise EAbGzipBadFileSize.Create;
+      end;
 
     finally
       GZHelp.Free;
