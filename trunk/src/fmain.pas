@@ -4140,12 +4140,13 @@ begin
     else begin
       AWidth := pnlNotebooks.Width - 2;
     end;
+    if AWidth < 0 then AWidth := 0;
     pnlDskRight.Constraints.MinWidth := AWidth;
     pnlDskRight.Constraints.MaxWidth := AWidth;
   end
   else if gHorizontalFilePanels and not gDriveBar2 then
   begin
-    AWidth := pnlNotebooks.Width - 2;
+    AWidth := Max(0, pnlNotebooks.Width - 2);
     pnlDskRight.Constraints.MinWidth := AWidth;
     pnlDskRight.Constraints.MaxWidth := AWidth;
   end;
