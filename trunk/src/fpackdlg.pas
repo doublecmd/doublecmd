@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File packing window
 
-   Copyright (C) 2007-2018 Alexander Koblov (alexx2000@mail.ru)
+   Copyright (C) 2007-2020 Alexander Koblov (alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ interface
 uses
   SysUtils, Forms, Controls, Dialogs, StdCtrls, EditBtn, ExtCtrls, Buttons,
   Menus, DividerBevel, uWcxArchiveFileSource, uArchiveFileSource, uFile,
-  uFileSource, Classes, fButtonForm;
+  uFileSource, Classes, fButtonForm, uFileSourceOperation;
 
 type
 
@@ -66,120 +66,53 @@ type
     FArchiveType: String;
     FArchiveTypeCount: Integer;
     FHasFolder,
+    FNewArchive,
     FExistsArchive : Boolean;
     FSourceFileSource: IFileSource;
+    FTargetFileSource:  IArchiveFileSource;
     FCustomParams: String;
+    FTargetPathInArchive: String;
     procedure SwitchOptions(ArcTypeChange: Boolean);
     procedure ChangeArchiveExt(const NewArcExt: String);
     procedure AddArchiveType(const FileExt, ArcType: String);
+    procedure OnPackCopyOutStateChanged(Operation: TFileSourceOperation;
+                                        State: TFileSourceOperationState);
+
+    procedure PackFiles(const SourceFileSource: IFileSource; var Files: TFiles);
   public
     { public declarations }
   end;
 
   // Frees 'Files'.
-  function ShowPackDlg(TheOwner: TComponent;
+  procedure ShowPackDlg(TheOwner: TComponent;
                        const SourceFileSource: IFileSource;
                        const TargetFileSource: IArchiveFileSource;
                        var Files: TFiles;
                        TargetArchivePath: String;
                        TargetPathInArchive: String;
-                       bNewArchive : Boolean = True): Boolean;
+                       bNewArchive : Boolean = True);
 
 implementation
 
 {$R *.lfm}
 
 uses
-  StrUtils, WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation, uLng, uOSUtils,
+  StrUtils, WcxPlugin, uGlobs, uDCUtils, uLng, uOSUtils,
   uOperationsManager, uArchiveFileSourceUtil, uMultiArchiveFileSource,
   uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation, uMasks,
-  DCStrUtils, uMultiArc, uWcxModule;
+  DCStrUtils, uMultiArc, uWcxModule, uTempFileSystemFileSource,
+  uFileSourceCopyOperation, uShowForm;
 
-function ShowPackDlg(TheOwner: TComponent;
+procedure ShowPackDlg(TheOwner: TComponent;
                      const SourceFileSource: IFileSource;
                      const TargetFileSource: IArchiveFileSource;
                      var Files: TFiles;
                      TargetArchivePath: String;
                      TargetPathInArchive: String;
-                     bNewArchive : Boolean = True): Boolean;
+                     bNewArchive : Boolean = True);
 var
   I: Integer;
-  NewTargetFileSource: IArchiveFileSource = nil;
-  aFlags : PtrInt;
-  Operation: TFileSourceOperation;
   PackDialog: TfrmPackDlg;
-  aFile: TFile = nil;
-  aFiles: TFiles = nil;
-
-  procedure Pack(var FilesToPack: TFiles; QueueId: TOperationsManagerQueueIdentifier);
-  var
-    sPassword,
-    sPasswordTmp: String;
-  begin
-    with PackDialog do
-    begin
-      if Assigned(NewTargetFileSource) then
-        begin
-          // Set flags according to user selection in the pack dialog.
-          aFlags := 0;
-          if cbMoveToArchive.Checked then aFlags := aFlags or PK_PACK_MOVE_FILES;
-          if cbStoreDir.Checked then aFlags := aFlags or PK_PACK_SAVE_PATHS;
-          if cbEncrypt.Checked then aFlags := aFlags or PK_PACK_ENCRYPT;
-
-          Operation := NewTargetFileSource.CreateCopyInOperation(
-                                 SourceFileSource,
-                                 FilesToPack,
-                                 TargetPathInArchive);
-
-          if Assigned(Operation) then
-            begin
-              if NewTargetFileSource.IsInterface(IWcxArchiveFileSource) then
-                begin
-                  with Operation as TWcxArchiveCopyInOperation do
-                  begin
-                    PackingFlags:= aFlags;
-                    CreateNew:= bNewArchive;
-                    TarBefore:= cbPutInTarFirst.Checked;
-                  end;
-                end
-              else if NewTargetFileSource.IsInterface(IMultiArchiveFileSource) then
-                begin
-                  with Operation as TMultiArchiveCopyInOperation do
-                  begin
-                    if cbEncrypt.Checked then
-                      repeat
-                        if not InputQuery(Caption, rsMsgPasswordEnter, True, sPassword) then
-                          Exit;
-                        if gRepeatPassword then
-                          begin
-                            if not InputQuery(Caption, rsMsgPasswordVerify, True, sPasswordTmp) then
-                              Exit;
-                          end
-                        else
-                          sPasswordTmp:= sPassword;
-                        if sPassword <> sPasswordTmp then
-                          ShowMessage(rsMsgPasswordDiff)
-                        else
-                          Password:= sPassword;
-                      until sPassword = sPasswordTmp;
-                    if cbMultivolume.Checked then
-                      VolumeSize:= InputBox(Caption, rsMsgVolumeSizeEnter, EmptyStr);
-                    PackingFlags := aFlags;
-                    CreateNew:= bNewArchive;
-                    CustomParams:= FCustomParams;
-                    TarBefore:= cbPutInTarFirst.Checked;
-                  end;
-                end;
-
-              // Start operation.
-              OperationsManager.AddOperation(Operation, QueueId, False, True);
-            end;
-        end;
-    end;
-  end;
-
-var
-  QueueId: TOperationsManagerQueueIdentifier;
 begin
   PackDialog := TfrmPackDlg.Create(TheOwner);
 {$IF DEFINED(LCLGTK2)}
@@ -190,130 +123,55 @@ begin
 {$ENDIF}
   try
     with PackDialog do
-      begin
-        FArchiveType:= 'none';
-        FArchiveExt:= ExtensionSeparator + FArchiveType;
-        FSourceFileSource:= SourceFileSource;
-        if bNewArchive then  // create new archive
-          begin
-            if Files.Count = 1 then // if one file selected
-              begin
-                FArchiveName:= Files[0].NameNoExt;
-                FHasFolder:= Files[0].IsDirectory or Files[0].IsLinkToDirectory;
-                edtPackCmd.Text := TargetArchivePath + FArchiveName + ExtensionSeparator + FArchiveType;
-              end
-            else   // if some files selected
-              begin
-                FHasFolder:= False;
-                for I:= 0 to Files.Count - 1 do
-                begin
-                  if Files[I].IsDirectory or Files[I].IsLinkToDirectory then
-                  begin
-                    FHasFolder:= True;
-                    Break;
-                  end;
-                end;
-                FArchiveName:= MakeFileName(Files.Path, 'archive');
-                edtPackCmd.Text := TargetArchivePath + FArchiveName + ExtensionSeparator + FArchiveType;
-              end
-          end
-        else  // pack in exsists archive
-          begin
-            if Assigned(TargetFileSource) then
-              edtPackCmd.Text := TargetFileSource.ArchiveFileName;
-          end;
-
-        Result:= (ShowModal = mrOK);
-
-        if Result then
-          begin
-            if Assigned(TargetFileSource) then
+    begin
+      FArchiveType:= 'none';
+      FNewArchive:= bNewArchive;
+      FSourceFileSource:= SourceFileSource;
+      FTargetFileSource:= TargetFileSource;
+      FTargetPathInArchive:= TargetPathInArchive;
+      FArchiveExt:= ExtensionSeparator + FArchiveType;
+      if bNewArchive then  // create new archive
+        begin
+          if Files.Count = 1 then // if one file selected
             begin
-              // Already have a target file source.
-              // It must be an archive file source.
-              if not (TargetFileSource.IsClass(TArchiveFileSource)) then
-                raise Exception.Create('Invalid target file source type');
-
-              NewTargetFileSource := TargetFileSource;
+              FArchiveName:= Files[0].NameNoExt;
+              FHasFolder:= Files[0].IsDirectory or Files[0].IsLinkToDirectory;
+              edtPackCmd.Text := TargetArchivePath + FArchiveName + ExtensionSeparator + FArchiveType;
             end
-            else // Create a new target file source.
+          else   // if some files selected
             begin
-              // If create separate archives, one per selected file/dir
-              if cbCreateSeparateArchives.Checked then
+              FHasFolder:= False;
+              for I:= 0 to Files.Count - 1 do
+              begin
+                if Files[I].IsDirectory or Files[I].IsLinkToDirectory then
                 begin
-                  // If files count > 1 then put to queue
-                  if (Files.Count > 1) and (QueueIdentifier = FreeOperationsQueueId) then
-                    QueueId := OperationsManager.GetNewQueueIdentifier
-                  else begin
-                    QueueId := QueueIdentifier;
-                  end;
-                  // Pack all selected files
-                  for I:= 0 to Files.Count - 1 do
-                  begin
-                    // Fill files to pack
-                    aFiles:= TFiles.Create(Files.Path);
-                    try
-                      aFiles.Add(Files[I].Clone);
-                      FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
-                      try
-                        // Check if there is an ArchiveFileSource for possible archive.
-                        aFile := SourceFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
-                        try
-                          aFile.Name := Files[I].Name + FArchiveExt;
-                          NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
-                        finally
-                          FreeAndNil(aFile);
-                        end;
-                      except
-                        on E: Exception do
-                        begin
-                          if (E is EFileSourceException) or (E is EWcxModuleException) then
-                          begin
-                            if MessageDlg(E.Message, mtError, [mbIgnore, mbAbort], 0) = mrIgnore then
-                              Continue;
-                            Exit;
-                          end;
-                          raise;
-                        end;
-                      end;
-                      // Pack current item
-                      Pack(aFiles, QueueId);
-                    finally
-                      FreeAndNil(aFiles);
-                    end;
-                  end; // for
-                end
-              else
-                begin
-                  FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
-                  try
-                    // Check if there is an ArchiveFileSource for possible archive.
-                    aFile := SourceFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
-                    try
-                      aFile.Name := ExtractFileName(FArchiveName);
-                      NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
-                    finally
-                      FreeAndNil(aFile);
-                    end;
-                  except
-                    on E: Exception do
-                    begin
-                      if (E is EFileSourceException) or (E is EWcxModuleException) then
-                      begin
-                        MessageDlg(E.Message, mtError, [mbOK], 0);
-                        Exit;
-                      end;
-                      raise;
-                    end;
-                  end;
-                  // Pack files
-                  Pack(Files, QueueIdentifier);
+                  FHasFolder:= True;
+                  Break;
                 end;
+              end;
+              FArchiveName:= MakeFileName(Files.Path, 'archive');
+              edtPackCmd.Text := TargetArchivePath + FArchiveName + ExtensionSeparator + FArchiveType;
+            end
+        end
+      else  // pack in exsists archive
+        begin
+          if Assigned(TargetFileSource) then
+            edtPackCmd.Text := TargetFileSource.ArchiveFileName;
+        end;
+
+      if (ShowModal = mrOK) then
+      begin
+        case PrepareData(SourceFileSource, Files, @OnPackCopyOutStateChanged) of
+          pdrInCallback:
+            PackDialog:= nil;
+          pdrSynchronous:
+            begin
+              PackFiles(SourceFileSource, Files);
+              PackDialog:= nil;
             end;
-            // Save last used packer
-            gLastUsedPacker:= FArchiveType;
-          end;
+        end;
       end;
+    end;
   finally
     FreeAndNil(PackDialog);
     FreeAndNil(Files);
@@ -626,6 +484,195 @@ begin
         cbOtherPlugins.Checked := True;
       end;
     end;
+end;
+
+procedure TfrmPackDlg.OnPackCopyOutStateChanged(Operation: TFileSourceOperation;
+                                                State: TFileSourceOperationState);
+var
+  aFiles: TFiles;
+  aFileSource: ITempFileSystemFileSource;
+  aCopyOutOperation: TFileSourceCopyOperation absolute Operation;
+begin
+  if (State = fsosStopped) then
+  begin
+    if (Operation.Result = fsorAborted) then
+    begin
+      Free;
+      Exit;
+    end;
+    aFileSource := aCopyOutOperation.TargetFileSource as ITempFileSystemFileSource;
+    aFiles := aCopyOutOperation.SourceFiles.Clone;
+    ChangeFileListRoot(aFileSource.FileSystemRoot, aFiles);
+    PackFiles(aFileSource, aFiles);
+  end;
+end;
+
+procedure TfrmPackDlg.PackFiles(const SourceFileSource: IFileSource;
+  var Files: TFiles);
+var
+  I: Integer;
+  aFlags : PtrInt;
+  aFile: TFile = nil;
+  aFiles: TFiles = nil;
+  Operation: TFileSourceOperation;
+  NewTargetFileSource: IArchiveFileSource = nil;
+
+  procedure Pack(var FilesToPack: TFiles; QueueId: TOperationsManagerQueueIdentifier);
+  var
+    sPassword,
+    sPasswordTmp: String;
+  begin
+    if Assigned(NewTargetFileSource) then
+      begin
+        // Set flags according to user selection in the pack dialog.
+        aFlags := 0;
+        if cbMoveToArchive.Checked then aFlags := aFlags or PK_PACK_MOVE_FILES;
+        if cbStoreDir.Checked then aFlags := aFlags or PK_PACK_SAVE_PATHS;
+        if cbEncrypt.Checked then aFlags := aFlags or PK_PACK_ENCRYPT;
+
+        Operation := NewTargetFileSource.CreateCopyInOperation(
+                               SourceFileSource,
+                               FilesToPack,
+                               FTargetPathInArchive);
+
+        if Assigned(Operation) then
+          begin
+            if NewTargetFileSource.IsInterface(IWcxArchiveFileSource) then
+              begin
+                with Operation as TWcxArchiveCopyInOperation do
+                begin
+                  PackingFlags:= aFlags;
+                  CreateNew:= FNewArchive;
+                  TarBefore:= cbPutInTarFirst.Checked;
+                end;
+              end
+            else if NewTargetFileSource.IsInterface(IMultiArchiveFileSource) then
+              begin
+                with Operation as TMultiArchiveCopyInOperation do
+                begin
+                  if cbEncrypt.Checked then
+                    repeat
+                      if not InputQuery(Caption, rsMsgPasswordEnter, True, sPassword) then
+                        Exit;
+                      if gRepeatPassword then
+                        begin
+                          if not InputQuery(Caption, rsMsgPasswordVerify, True, sPasswordTmp) then
+                            Exit;
+                        end
+                      else
+                        sPasswordTmp:= sPassword;
+                      if sPassword <> sPasswordTmp then
+                        ShowMessage(rsMsgPasswordDiff)
+                      else
+                        Password:= sPassword;
+                    until sPassword = sPasswordTmp;
+                  if cbMultivolume.Checked then
+                    VolumeSize:= InputBox(Caption, rsMsgVolumeSizeEnter, EmptyStr);
+                  PackingFlags := aFlags;
+                  CreateNew:= FNewArchive;
+                  CustomParams:= FCustomParams;
+                  TarBefore:= cbPutInTarFirst.Checked;
+                end;
+              end;
+
+            // Start operation.
+            OperationsManager.AddOperation(Operation, QueueId, False, True);
+          end;
+      end;
+  end;
+
+var
+  QueueId: TOperationsManagerQueueIdentifier;
+begin
+  try
+    if Assigned(FTargetFileSource) then
+    begin
+      // Already have a target file source.
+      // It must be an archive file source.
+      if not (FTargetFileSource.IsClass(TArchiveFileSource)) then
+        raise Exception.Create('Invalid target file source type');
+
+      NewTargetFileSource := FTargetFileSource;
+    end
+    else // Create a new target file source.
+    begin
+      // If create separate archives, one per selected file/dir
+      if cbCreateSeparateArchives.Checked then
+        begin
+          // If files count > 1 then put to queue
+          if (Files.Count > 1) and (QueueIdentifier = FreeOperationsQueueId) then
+            QueueId := OperationsManager.GetNewQueueIdentifier
+          else begin
+            QueueId := QueueIdentifier;
+          end;
+          // Pack all selected files
+          for I:= 0 to Files.Count - 1 do
+          begin
+            // Fill files to pack
+            aFiles:= TFiles.Create(Files.Path);
+            try
+              aFiles.Add(Files[I].Clone);
+              FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
+              try
+                // Check if there is an ArchiveFileSource for possible archive.
+                aFile := SourceFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
+                try
+                  aFile.Name := Files[I].Name + FArchiveExt;
+                  NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
+                finally
+                  FreeAndNil(aFile);
+                end;
+              except
+                on E: Exception do
+                begin
+                  if (E is EFileSourceException) or (E is EWcxModuleException) then
+                  begin
+                    if MessageDlg(E.Message, mtError, [mbIgnore, mbAbort], 0) = mrIgnore then
+                      Continue;
+                    Exit;
+                  end;
+                  raise;
+                end;
+              end;
+              // Pack current item
+              Pack(aFiles, QueueId);
+            finally
+              FreeAndNil(aFiles);
+            end;
+          end; // for
+        end
+      else
+        begin
+          FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
+          try
+            // Check if there is an ArchiveFileSource for possible archive.
+            aFile := SourceFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
+            try
+              aFile.Name := ExtractFileName(FArchiveName);
+              NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
+            finally
+              FreeAndNil(aFile);
+            end;
+          except
+            on E: Exception do
+            begin
+              if (E is EFileSourceException) or (E is EWcxModuleException) then
+              begin
+                MessageDlg(E.Message, mtError, [mbOK], 0);
+                Exit;
+              end;
+              raise;
+            end;
+          end;
+          // Pack files
+          Pack(Files, QueueIdentifier);
+        end;
+    end;
+    // Save last used packer
+    gLastUsedPacker:= FArchiveType;
+  finally
+    Free;
+  end;
 end;
 
 end.
