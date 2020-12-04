@@ -14,8 +14,8 @@ type
   TAbortFunction = function: Boolean of object;
   TRecodeTable = array[0..255] of byte;
 
-function PosMemBoyerMur(pAdr: PChar; iLength: Integer; const sFindData: String;
-                        RecodeTable: TRecodeTable): Integer;
+function PosMemBoyerMur(pAdr: PChar; iLength: PtrInt; const sFindData: String;
+                        RecodeTable: TRecodeTable): PtrInt;
 {en
    Searches a file for a string using memory mapping.
 
@@ -30,7 +30,7 @@ function PosMemBoyerMur(pAdr: PChar; iLength: Integer; const sFindData: String;
      @br     1 if the string was found)
 }
 function FindMmapBM(const sFileName: String; const sFindData: String;
-                    RecodeTable: TRecodeTable; Abort: TAbortFunction):Integer;
+                    RecodeTable: TRecodeTable; Abort: TAbortFunction): PtrInt;
 
 {en
    Initializes table for recode from different encodings.
@@ -68,8 +68,8 @@ begin
    end;
 end;
 
-function PosMemBoyerMur(pAdr: PChar; iLength: Integer; const sFindData: String;
-                        RecodeTable: TRecodeTable):Integer;
+function PosMemBoyerMur(pAdr: PChar; iLength: PtrInt; const sFindData: String;
+                        RecodeTable: TRecodeTable): PtrInt;
 
   function prefixFunc(s:string):TIntArray;
   var k,i:Integer;
@@ -90,7 +90,7 @@ function PosMemBoyerMur(pAdr: PChar; iLength: Integer; const sFindData: String;
 var StopTable:array[0..255] of byte;
     prefTable,pf1,pf2:TIntArray;
     i,j,len:Integer;
-    curPos,curCharPos:Integer;
+    curPos,curCharPos:PtrInt;
     encStr,rvrsStr:string;
     curChar:byte;
 begin
@@ -148,7 +148,7 @@ begin
 end;
 
 function FindMmapBM(const sFileName, sFindData: String; RecodeTable: TRecodeTable;
-                    Abort: TAbortFunction):Integer;
+                    Abort: TAbortFunction): PtrInt;
 var
   fmr : TFileMapRec;
 begin
