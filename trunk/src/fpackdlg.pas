@@ -77,7 +77,6 @@ type
     procedure AddArchiveType(const FileExt, ArcType: String);
     procedure OnPackCopyOutStateChanged(Operation: TFileSourceOperation;
                                         State: TFileSourceOperationState);
-
     procedure PackFiles(const SourceFileSource: IFileSource; var Files: TFiles);
   public
     { public declarations }
@@ -165,10 +164,7 @@ begin
           pdrInCallback:
             PackDialog:= nil;
           pdrSynchronous:
-            begin
-              PackFiles(SourceFileSource, Files);
-              PackDialog:= nil;
-            end;
+            PackFiles(SourceFileSource, Files);
         end;
       end;
     end;
@@ -494,16 +490,16 @@ var
   aCopyOutOperation: TFileSourceCopyOperation absolute Operation;
 begin
   if (State = fsosStopped) then
-  begin
-    if (Operation.Result = fsorAborted) then
+  try
+    if (Operation.Result = fsorFinished) then
     begin
-      Free;
-      Exit;
+      aFileSource := aCopyOutOperation.TargetFileSource as ITempFileSystemFileSource;
+      aFiles := aCopyOutOperation.SourceFiles.Clone;
+      ChangeFileListRoot(aFileSource.FileSystemRoot, aFiles);
+      PackFiles(aFileSource, aFiles);
     end;
-    aFileSource := aCopyOutOperation.TargetFileSource as ITempFileSystemFileSource;
-    aFiles := aCopyOutOperation.SourceFiles.Clone;
-    ChangeFileListRoot(aFileSource.FileSystemRoot, aFiles);
-    PackFiles(aFileSource, aFiles);
+  finally
+    Free;
   end;
 end;
 
@@ -584,95 +580,91 @@ var
 var
   QueueId: TOperationsManagerQueueIdentifier;
 begin
-  try
-    if Assigned(FTargetFileSource) then
-    begin
-      // Already have a target file source.
-      // It must be an archive file source.
-      if not (FTargetFileSource.IsClass(TArchiveFileSource)) then
-        raise Exception.Create('Invalid target file source type');
+  if Assigned(FTargetFileSource) then
+  begin
+    // Already have a target file source.
+    // It must be an archive file source.
+    if not (FTargetFileSource.IsClass(TArchiveFileSource)) then
+      raise Exception.Create('Invalid target file source type');
 
-      NewTargetFileSource := FTargetFileSource;
-    end
-    else // Create a new target file source.
-    begin
-      // If create separate archives, one per selected file/dir
-      if cbCreateSeparateArchives.Checked then
-        begin
-          // If files count > 1 then put to queue
-          if (Files.Count > 1) and (QueueIdentifier = FreeOperationsQueueId) then
-            QueueId := OperationsManager.GetNewQueueIdentifier
-          else begin
-            QueueId := QueueIdentifier;
-          end;
-          // Pack all selected files
-          for I:= 0 to Files.Count - 1 do
-          begin
-            // Fill files to pack
-            aFiles:= TFiles.Create(Files.Path);
-            try
-              aFiles.Add(Files[I].Clone);
-              FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
-              try
-                // Check if there is an ArchiveFileSource for possible archive.
-                aFile := SourceFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
-                try
-                  aFile.Name := Files[I].Name + FArchiveExt;
-                  NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
-                finally
-                  FreeAndNil(aFile);
-                end;
-              except
-                on E: Exception do
-                begin
-                  if (E is EFileSourceException) or (E is EWcxModuleException) then
-                  begin
-                    if MessageDlg(E.Message, mtError, [mbIgnore, mbAbort], 0) = mrIgnore then
-                      Continue;
-                    Exit;
-                  end;
-                  raise;
-                end;
-              end;
-              // Pack current item
-              Pack(aFiles, QueueId);
-            finally
-              FreeAndNil(aFiles);
-            end;
-          end; // for
-        end
-      else
-        begin
-          FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
-          try
-            // Check if there is an ArchiveFileSource for possible archive.
-            aFile := SourceFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
-            try
-              aFile.Name := ExtractFileName(FArchiveName);
-              NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
-            finally
-              FreeAndNil(aFile);
-            end;
-          except
-            on E: Exception do
-            begin
-              if (E is EFileSourceException) or (E is EWcxModuleException) then
-              begin
-                MessageDlg(E.Message, mtError, [mbOK], 0);
-                Exit;
-              end;
-              raise;
-            end;
-          end;
-          // Pack files
-          Pack(Files, QueueIdentifier);
+    NewTargetFileSource := FTargetFileSource;
+  end
+  else // Create a new target file source.
+  begin
+    // If create separate archives, one per selected file/dir
+    if cbCreateSeparateArchives.Checked then
+      begin
+        // If files count > 1 then put to queue
+        if (Files.Count > 1) and (QueueIdentifier = FreeOperationsQueueId) then
+          QueueId := OperationsManager.GetNewQueueIdentifier
+        else begin
+          QueueId := QueueIdentifier;
         end;
-    end;
-    // Save last used packer
-    gLastUsedPacker:= FArchiveType;
-  finally
-    Free;
+        // Pack all selected files
+        for I:= 0 to Files.Count - 1 do
+        begin
+          // Fill files to pack
+          aFiles:= TFiles.Create(Files.Path);
+          try
+            aFiles.Add(Files[I].Clone);
+            FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
+            try
+              // Check if there is an ArchiveFileSource for possible archive.
+              aFile := SourceFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
+              try
+                aFile.Name := Files[I].Name + FArchiveExt;
+                NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
+              finally
+                FreeAndNil(aFile);
+              end;
+            except
+              on E: Exception do
+              begin
+                if (E is EFileSourceException) or (E is EWcxModuleException) then
+                begin
+                  if MessageDlg(E.Message, mtError, [mbIgnore, mbAbort], 0) = mrIgnore then
+                    Continue;
+                  Exit;
+                end;
+                raise;
+              end;
+            end;
+            // Pack current item
+            Pack(aFiles, QueueId);
+          finally
+            FreeAndNil(aFiles);
+          end;
+        end; // for
+      end
+    else
+      begin
+        FArchiveName:= GetAbsoluteFileName(Files.Path, edtPackCmd.Text);
+        try
+          // Check if there is an ArchiveFileSource for possible archive.
+          aFile := SourceFileSource.CreateFileObject(ExtractFilePath(FArchiveName));
+          try
+            aFile.Name := ExtractFileName(FArchiveName);
+            NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType, False, True);
+          finally
+            FreeAndNil(aFile);
+          end;
+        except
+          on E: Exception do
+          begin
+            if (E is EFileSourceException) or (E is EWcxModuleException) then
+            begin
+              MessageDlg(E.Message, mtError, [mbOK], 0);
+              Exit;
+            end;
+            raise;
+          end;
+        end;
+        // Pack files
+        Pack(Files, QueueIdentifier);
+      end;
   end;
+  // Save last used packer
+  gLastUsedPacker:= FArchiveType;
 end;
 
 end.
