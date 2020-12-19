@@ -36,14 +36,12 @@ type
 
   TPathLabel = class(TLabel)
   private
-    FActiveColor,
-    FActiveFontColor,
-    FInactiveColor,
-    FInactiveFontColor: TColor;
+    FActive: Boolean;
     FAllowHighlight: Boolean;
     FHighlightStartPos: Integer;
     FHighlightText: String;
     FMousePos: Integer;
+    FColors: array[0..3] of TColor;
     {en
        How much space to leave between the text and left border.
     }
@@ -60,6 +58,9 @@ type
        it is highlighted, so that user can click on it.
     }
     procedure Highlight;
+
+    function GetColor(const AIndex: Integer): TColor;
+    procedure SetColor(const AIndex: Integer; const AValue: TColor); overload;
 
   protected
 
@@ -84,10 +85,10 @@ type
     property LeftSpacing: Integer read FLeftSpacing write FLeftSpacing;
     property SelectedDir: String read FSelectedDir;
 
-    property ActiveColor: TColor read FActiveColor write FActiveColor;
-    property ActiveFontColor: TColor read FActiveFontColor write FActiveFontColor;
-    property InactiveColor: TColor read FInactiveColor write FInactiveColor;
-    property InactiveFontColor: TColor read FInactiveFontColor write FInactiveFontColor;
+    property ActiveColor: TColor index 0 read GetColor write SetColor;
+    property ActiveFontColor: TColor index 1 read GetColor write SetColor;
+    property InactiveColor: TColor index 2 read GetColor write SetColor;
+    property InactiveFontColor: TColor index 3 read GetColor write SetColor;
   end;
 
 implementation
@@ -101,10 +102,10 @@ constructor TPathLabel.Create(AOwner: TComponent; bAllowHighlight: Boolean);
 begin
   FLeftSpacing := 3; // set before painting
 
-  FActiveColor := clHighlight;
-  FActiveFontColor := clHighlightText;
-  FInactiveColor := clBtnFace;
-  FInactiveFontColor:= clBtnText;
+  FColors[0] := clHighlight;
+  FColors[1] := clHighlightText;
+  FColors[2] := clBtnFace;
+  FColors[3] := clBtnText;
 
   inherited Create(AOwner);
 
@@ -145,15 +146,16 @@ begin
   case Active of
     False:
       begin
-        Color      := FInactiveColor;
-        Font.Color := FInactiveFontColor;
+        Color      := InactiveColor;
+        Font.Color := InactiveFontColor;
       end;
     True:
       begin
-        Color      := FActiveColor;
-        Font.Color := FActiveFontColor;
+        Color      := ActiveColor;
+        Font.Color := ActiveFontColor;
       end;
   end;
+  FActive := Active;
 end;
 
 procedure TPathLabel.Highlight;
@@ -226,6 +228,17 @@ begin
 
     Self.Invalidate;
   end;
+end;
+
+function TPathLabel.GetColor(const AIndex: Integer): TColor;
+begin
+  Result:= FColors[AIndex];
+end;
+
+procedure TPathLabel.SetColor(const AIndex: Integer; const AValue: TColor);
+begin
+  FColors[AIndex] := AValue;
+  SetActive(FActive);
 end;
 
 procedure TPathLabel.TextChanged;
