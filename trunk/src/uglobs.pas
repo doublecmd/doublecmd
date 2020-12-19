@@ -424,6 +424,11 @@ var
   gAllowOverColor: Boolean;
   gBorderFrameWidth :integer;
 
+  gPathActiveColor,
+  gPathActiveFontColor,
+  gPathInactiveColor,
+  gPathInactiveFontColor: TColor;
+
   gInactivePanelBrightness: Integer; // 0 .. 100 (black .. full color)
   gIndUseGradient : Boolean; // use gradient on drive label
   gIndForeColor, // foreColor of use space on drive label
@@ -1684,6 +1689,11 @@ begin
   gAllowOverColor := True;
   gBorderFrameWidth:=1;
 
+  gPathActiveColor := clHighlight;
+  gPathActiveFontColor := clHighlightText;
+  gPathInactiveColor := clBtnFace;
+  gPathInactiveFontColor := clBtnText;
+
   gInactivePanelBrightness := 100; // Full brightness
   gIndUseGradient := True;
   gIndForeColor := clBlack;
@@ -2591,6 +2601,11 @@ begin
       gAllowOverColor   := GetValue(Node, 'AllowOverColor', gAllowOverColor);
       gBorderFrameWidth := GetValue(Node, 'gBorderFrameWidth', gBorderFrameWidth);
 
+      gPathActiveColor := GetValue(Node, 'PathLabel/ActiveColor', gPathActiveColor);
+      gPathActiveFontColor := GetValue(Node, 'PathLabel/ActiveFontColor', gPathActiveFontColor);
+      gPathInactiveColor := GetValue(Node, 'PathLabel/InactiveColor', gPathInactiveColor);
+      gPathInactiveFontColor := GetValue(Node, 'PathLabel/InactiveFontColor', gPathInactiveFontColor);
+
       gInactivePanelBrightness := GetValue(Node, 'InactivePanelBrightness', gInactivePanelBrightness);
       gIndUseGradient := GetValue(Node, 'FreeSpaceIndicator/UseGradient', gIndUseGradient);
       gIndForeColor := GetValue(Node, 'FreeSpaceIndicator/ForeColor', gIndForeColor);
@@ -3293,6 +3308,11 @@ begin
     SetValue(Node, 'UseInactiveSelColor', gUseInactiveSelColor);
     SetValue(Node, 'AllowOverColor', gAllowOverColor);
     SetValue(Node, 'gBorderFrameWidth', gBorderFrameWidth);
+
+    SetValue(Node, 'PathLabel/ActiveColor', gPathActiveColor);
+    SetValue(Node, 'PathLabel/ActiveFontColor', gPathActiveFontColor);
+    SetValue(Node, 'PathLabel/InactiveColor', gPathInactiveColor);
+    SetValue(Node, 'PathLabel/InactiveFontColor', gPathInactiveFontColor);
 
     SetValue(Node, 'InactivePanelBrightness', gInactivePanelBrightness);
     SetValue(Node, 'FreeSpaceIndicator/UseGradient', gIndUseGradient);

@@ -35,6 +35,7 @@ type
 
   protected
     tmViewHistoryMenu: TTimer;
+    procedure PathLabelSetColor(APathLabel: TPathLabel);
   public
     constructor Create(AOwner: TFileView; AParent: TWinControl); reintroduce;
 
@@ -249,6 +250,14 @@ begin
   TFileViewWithPanels(AFileView).Header.UpdateFont;
 end;
 
+procedure TFileViewHeader.PathLabelSetColor(APathLabel: TPathLabel);
+begin
+  APathLabel.ActiveColor:= gPathActiveColor;
+  APathLabel.ActiveFontColor:= gPathActiveFontColor;
+  APathLabel.InactiveColor:= gPathInactiveColor;
+  APathLabel.InactiveFontColor:= gPathInactiveFontColor;
+end;
+
 constructor TFileViewHeader.Create(AOwner: TFileView; AParent: TWinControl);
 begin
   inherited Create(AOwner);
@@ -267,6 +276,9 @@ begin
 
   FPathLabel := TPathLabel.Create(Self, True);
   FPathLabel.Parent := Self;
+
+  PathLabelSetColor(FPathLabel);
+  PathLabelSetColor(FAddressLabel);
 
   // Display path below address.
   // For correct alignment, first put path at the top, then address at the top.
