@@ -4,6 +4,7 @@
     Label displaying a path, highlighting directories with mouse.
 
     Copyright (C) 2010-2011  Przemysław Nagay (cobines@gmail.com)
+    Copyright (C) 2014-2020  Alexander Koblov (alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +28,7 @@ unit uPathLabel;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls;
+  Classes, SysUtils, StdCtrls, Graphics;
 
 type
 
@@ -35,6 +36,10 @@ type
 
   TPathLabel = class(TLabel)
   private
+    FActiveColor,
+    FActiveFontColor,
+    FInactiveColor,
+    FInactiveFontColor: TColor;
     FAllowHighlight: Boolean;
     FHighlightStartPos: Integer;
     FHighlightText: String;
@@ -78,18 +83,28 @@ type
     property AllowHighlight: Boolean read FAllowHighlight write FAllowHighlight;
     property LeftSpacing: Integer read FLeftSpacing write FLeftSpacing;
     property SelectedDir: String read FSelectedDir;
+
+    property ActiveColor: TColor read FActiveColor write FActiveColor;
+    property ActiveFontColor: TColor read FActiveFontColor write FActiveFontColor;
+    property InactiveColor: TColor read FInactiveColor write FInactiveColor;
+    property InactiveFontColor: TColor read FInactiveFontColor write FInactiveFontColor;
   end;
 
 implementation
 
 uses
-  Controls, Graphics, math;
+  Controls, Math;
 
 { TPathLabel }
 
 constructor TPathLabel.Create(AOwner: TComponent; bAllowHighlight: Boolean);
 begin
   FLeftSpacing := 3; // set before painting
+
+  FActiveColor := clHighlight;
+  FActiveFontColor := clHighlightText;
+  FInactiveColor := clBtnFace;
+  FInactiveFontColor:= clBtnText;
 
   inherited Create(AOwner);
 
@@ -130,13 +145,13 @@ begin
   case Active of
     False:
       begin
-        Color      := clBtnFace;
-        Font.Color := clBtnText;
+        Color      := FInactiveColor;
+        Font.Color := FInactiveFontColor;
       end;
     True:
       begin
-        Color      := clHighlight;
-        Font.Color := clHighlightText;
+        Color      := FActiveColor;
+        Font.Color := FActiveFontColor;
       end;
   end;
 end;
