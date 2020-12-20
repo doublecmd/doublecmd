@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 1.0.0 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-02-01 03:11+0300\n"
+"PO-Revision-Date: 2020-12-20 15:25+0300\n"
 "Last-Translator: Alexander Koblov <alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -2238,7 +2238,7 @@ msgstr "Объединить &файлы..."
 
 #: tfrmmain.actfileproperties.caption
 msgid "Show &File Properties"
-msgstr "С&войства..."
+msgstr "С&войства файла..."
 
 #: tfrmmain.actfilespliter.caption
 msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
