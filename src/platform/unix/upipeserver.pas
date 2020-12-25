@@ -77,6 +77,9 @@ end;
 
 procedure TPipeServerComm.OwnerReadMessage;
 begin
+{$IF FPC_FULLVERSION >= 30200}
+  ReadMessage;
+{$ENDIF}
   Owner.ReadMessage;
 end;
 
