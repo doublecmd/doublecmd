@@ -1116,6 +1116,8 @@ begin
   end;
 
   actStartCompare.Enabled := (Length(HashListLeft) > 0) and (Length(HashListRight) > 0);
+  actCopyLeftToRight.Enabled := actStartCompare.Enabled;
+  actCopyRightToLeft.Enabled := actStartCompare.Enabled;
 end;
 
 procedure TfrmDiffer.SetColors(cAdded, cDeleted, cModified: TColor);
