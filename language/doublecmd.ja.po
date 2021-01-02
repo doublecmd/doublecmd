@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.8.0 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2020-12-21 17:33+0900\n"
+"PO-Revision-Date: 2021-01-02 16:08+0900\n"
 "Last-Translator: Kazunari Sekigawa <kazunari.sekigawa@gmail.com>\n"
 "Language-Team: Language <email@address>\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "ファイルが見つかりました： 合計%d項目　 (同一：%d�
 
 #: fsyncdirsdlg.rslefttorightcopy
 msgid "Left to Right: Copy %d files, total size: %s (%s)"
-msgstr "左から右へ: %d 個のファイルをコピー,合計サイ:  %s (%s)"
+msgstr "左から右へ: %d 個のファイルをコピー,合計サイズ: %s (%s)"
 
 #: fsyncdirsdlg.rsrighttoleftcopy
 msgid "Right to Left: Copy %d files, total size: %s (%s)"
@@ -9871,11 +9871,11 @@ msgstr ""
 
 #: ulng.rsabbrevdisplaydir
 msgid "<DIR>"
-msgstr "<ディレクトリ>"
+msgstr "<DIR>"
 
 #: ulng.rsabbrevdisplaylink
 msgid "<LNK>"
-msgstr "<リンク>"
+msgstr "<LNK>"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
