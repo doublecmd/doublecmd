@@ -17,6 +17,8 @@ function GetSocketClientProcessId(fd: cint): pid_t;
 function SendHandle(sock: cint; fd: cint): Boolean;
 function RecvHandle(sock: cint): cint;
 
+function SocketDirectory: String;
+
 implementation
 
 uses
@@ -306,7 +308,6 @@ begin
   Move(CMSG_DATA(cmsga)^, Result, SizeOf(Result));
 end;
 
-
 function CheckParent(ProcessId, ParentId: pid_t): Boolean;
 begin
   DCDebug(['ProcessId: ', ProcessId]);
@@ -341,6 +342,33 @@ begin
   Result:= CheckParent(FpGetppid, ProcessId) and
            (GetProcessFileName(ProcessId) = GetProcessFileName(GetProcessId));
   DCDebug(['VerifyParent: ', Result]);
+end;
+
+function SocketDirectory: String;
+var
+  Stat: TStat;
+  UserID: TUid;
+begin
+  UserID:= fpGetUID;
+  if UserID = 0 then begin
+    UserID:= GetProcessUserId(StrToInt(ParamStr(2)));
+  end;
+  Result:= GetTempDir + ApplicationName + '-' + IntToStr(UserID);
+  // Verify directory owner
+  if not DirectoryExists(Result) then
+  begin
+    if fpMkDir(Result, &700) <> 0 then
+      RaiseLastOSError;
+  end
+  else begin
+    if fpStat(Result, Stat) <> 0 then
+      RaiseLastOSError;
+    if (Stat.st_uid <> UserID) and (fpChown(Result, UserID, Stat.st_gid) < 0) then
+      RaiseLastOSError;
+    if ((Stat.st_mode and $0FFF) <> &700) and (fpChmod(Result, &700) < 0) then
+      RaiseLastOSError;
+  end;
+  Result += PathDelim;
 end;
 
 end.

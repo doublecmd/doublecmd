@@ -85,7 +85,7 @@ uses
 procedure TUnixServer.Bind;
 begin
   inherited Bind;
-  fpChmod(FileName, &0777);
+  fpChmod(FileName, &0666);
 end;
 
 { TPipeTransport }
@@ -94,7 +94,7 @@ procedure TPipeTransport.Connect;
 begin
   if FConnection = nil then
   begin
-    FConnection:= TUnixSocket.Create('/tmp/' + FAddress);
+    FConnection:= TUnixSocket.Create(SocketDirectory + FAddress);
     SetSocketClientProcessId(FConnection.Handle);
   end;
 end;
@@ -208,7 +208,7 @@ end;
 procedure TServerListnerThread.Execute;
 begin
   try
-    FSocketObject:= TUnixServer.Create('/tmp/' + FOwner.Name);
+    FSocketObject:= TUnixServer.Create(SocketDirectory + FOwner.Name);
     try
       FSocketObject.Bind;
       FReadyEvent.SetEvent;
