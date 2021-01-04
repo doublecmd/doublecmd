@@ -8,6 +8,7 @@ interface
 uses
   Classes, SysUtils, BaseUnix;
 
+function GetProcessUserId(ProcessId: pid_t): uid_t;
 function GetParentProcessId(ProcessId: pid_t): pid_t;
 function GetProcessFileName(ProcessId: pid_t): String;
 
@@ -21,6 +22,16 @@ uses
   ;
 
 {$IF DEFINED(LINUX)}
+
+function GetProcessUserId(ProcessId: pid_t): uid_t;
+var
+  Info: TStat;
+begin
+  if fpStat(Format('/proc/%d', [ProcessId]), Info) < 0 then
+    Result:= 0
+  else
+    Result:= Info.st_uid;
+end;
 
 function GetParentProcessId(ProcessId: pid_t): pid_t;
 var
@@ -72,6 +83,18 @@ type
 
 function proc_pidinfo(pid: cint; flavor: cint; arg: cuint64; buffer: pointer; buffersize: cint): cint; cdecl; external 'proc';
 
+function GetProcessUserId(ProcessId: pid_t): uid_t;
+var
+  ret: cint;
+  info: Tproc_bsdshortinfo;
+begin
+  ret:= proc_pidinfo(ProcessId, PROC_PIDT_SHORTBSDINFO, 0, @info, SizeOf(Tproc_bsdshortinfo));
+  if (ret = SizeOf(Tproc_bsdshortinfo)) then
+    Result:= info.pbsi_ruid
+  else
+    Result:= 0;
+end;
+
 function GetParentProcessId(ProcessId: pid_t): pid_t;
 var
   ret: cint;
@@ -95,20 +118,46 @@ end;
 
 type
   Tkinfo_proc = record
-    ki_structsize: cint;
-    ki_layout:     cint;
-    ki_args:       pointer;
-    ki_paddr:      pointer;
-    ki_addr:       pointer;
-    ki_tracep:     pointer;
-    ki_textvp:     pointer;
-    ki_fd:         pointer;
-    ki_vmspace:    pointer;
-    ki_wchan:      pointer;
-    ki_pid:        pid_t;   // Process identifier
-    ki_ppid:       pid_t;   // Parent process identifier
+    ki_structsize:     cint;
+    ki_layout:         cint;
+    ki_args:           pointer;
+    ki_paddr:          pointer;
+    ki_addr:           pointer;
+    ki_tracep:         pointer;
+    ki_textvp:         pointer;
+    ki_fd:             pointer;
+    ki_vmspace:        pointer;
+    ki_wchan:          pointer;
+    ki_pid:            pid_t;    // Process identifier
+    ki_ppid:           pid_t;    // Parent process identifier
+    ki_pgid:           pid_t;
+    ki_tpgid:          pid_t;
+    ki_sid:            pid_t;
+    ki_tsid:           pid_t;
+    ki_jobc:           cshort;
+    ki_spare_short1:   cshort;
+    ki_tdev_freebsd11: cuint32;
+    ki_siglist:        sigset_t;
+    ki_sigmask:        sigset_t;
+    ki_sigignore:      sigset_t;
+    ki_sigcatch:       sigset_t;
+    ki_uid:            uid_t;    // Effective user id
+    ki_ruid:           uid_t;    // Real user id
     ki_reserved:   array[0..4095] of byte;
   end;
+
+function GetProcessUserId(ProcessId: pid_t): uid_t;
+var
+  length: csize_t;
+  info: Tkinfo_proc;
+  mib: array[0..3] of cint = (CTL_KERN, KERN_PROC, KERN_PROC_PID, 0);
+begin
+  mib[3] := ProcessId;
+  length := SizeOf(Tkinfo_proc);
+  if (FPsysctl(@mib, 4, @info, @length, nil, 0) < 0) then Exit(0);
+  if (length = 0) then Exit(0);
+  Result:= info.ki_ruid;
+end;
 
 function GetParentProcessId(ProcessId: pid_t): pid_t;
 var
