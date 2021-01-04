@@ -179,6 +179,11 @@ end;
 
 {$ELSE}
 
+function GetProcessUserId(ProcessId: pid_t): uid_t;
+begin
+  Result:= 0;
+end;
+
 function GetParentProcessId(ProcessId: pid_t): pid_t;
 begin
   Result:= -1;
