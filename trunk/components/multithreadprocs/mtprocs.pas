@@ -1,18 +1,15 @@
-{ Unit for light weight threads.
-
+{
+ **********************************************************************
   This file is part of the Free Pascal run time library.
+
+  See the file COPYING.FPC, included in this distribution,
+  for details about the license.
+ **********************************************************************
+
+  Unit for light weight threads.
 
   Copyright (C) 2008 Mattias Gaertner mattias@freepascal.org
 
-  See the file COPYING.FPC, included in this distribution,
-  for details about the copyright.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
- **********************************************************************}
-{
   Abstract:
     Light weight threads.
     This unit provides methods to easily run a procedure/method with several
@@ -23,6 +20,7 @@ unit MTProcs;
 {$mode objfpc}{$H+}
 
 {$inline on}
+{$ModeSwitch nestedprocvars}
 
 interface
 
@@ -92,6 +90,8 @@ type
                         Item: TMultiThreadProcItem) of object;
   TMTProcedure = procedure(Index: PtrInt; Data: Pointer;
                            Item: TMultiThreadProcItem);
+  TMTNestedProcedure = procedure(Index: PtrInt; Data: Pointer;
+                           Item: TMultiThreadProcItem) is nested;
 
   { TProcThreadGroup
     Each task creates a new group of threads.
@@ -122,6 +122,7 @@ type
     FTaskData: Pointer;
     FTaskFrame: Pointer;
     FTaskMethod: TMTMethod;
+    FTaskNested: TMTNestedProcedure;
     FTaskProcedure: TMTProcedure;
     FThreadCount: PtrInt;
     procedure AddToList(var First: TProcThreadGroup; ListType: TMTPGroupState); inline;
@@ -145,6 +146,7 @@ type
     property LastRunningIndex: PtrInt read FLastRunningIndex; // last started
     property TaskData: Pointer read FTaskData;
     property TaskMethod: TMTMethod read FTaskMethod;
+    property TaskNested: TMTNestedProcedure read FTaskNested;
     property TaskProcedure: TMTProcedure read FTaskProcedure;
     property TaskFrame: Pointer read FTaskFrame;
     property MaxThreads: PtrInt read FMaxThreads;
@@ -170,8 +172,8 @@ type
     procedure SetMaxThreadCount(const AValue: PtrInt);
     procedure CleanTerminatedThreads;
     procedure DoParallelIntern(const AMethod: TMTMethod;
-      const AProc: TMTProcedure; const AFrame: Pointer;
-      StartIndex, EndIndex: PtrInt;
+      const AProc: TMTProcedure; const ANested: TMTNestedProcedure;
+      const AFrame: Pointer; StartIndex, EndIndex: PtrInt;
       Data: Pointer = nil; MaxThreads: PtrInt = 0);
   public
     // for debugging only: the critical section is public:
@@ -185,6 +187,9 @@ type
       StartIndex, EndIndex: PtrInt;
       Data: Pointer = nil; MaxThreads: PtrInt = 0); inline;
     procedure DoParallel(const AProc: TMTProcedure;
+      StartIndex, EndIndex: PtrInt;
+      Data: Pointer = nil; MaxThreads: PtrInt = 0); inline;
+    procedure DoParallelNested(const ANested: TMTNestedProcedure;
       StartIndex, EndIndex: PtrInt;
       Data: Pointer = nil; MaxThreads: PtrInt = 0); inline;
 
@@ -453,14 +458,14 @@ end;
 procedure TProcThreadGroup.Run(Index: PtrInt; Data: Pointer;
   Item: TMultiThreadProcItem); inline;
 begin
-  if Assigned(FTaskFrame) then begin
+  if Assigned(FTaskFrame) then
     CallLocalProc(FTaskProcedure,FTaskFrame,Index,Data,Item)
-  end else begin
-    if Assigned(FTaskProcedure) then
-      FTaskProcedure(Index,Data,Item)
-    else
-      FTaskMethod(Index,Data,Item)
-  end;
+  else if Assigned(FTaskProcedure) then
+    FTaskProcedure(Index,Data,Item)
+  else if Assigned(FTaskNested) then
+    FTaskNested(Index,Data,Item)
+  else
+    FTaskMethod(Index,Data,Item);
 end;
 
 procedure TProcThreadGroup.IndexComplete(Index: PtrInt);
@@ -678,14 +683,21 @@ procedure TProcThreadPool.DoParallel(const AMethod: TMTMethod;
   StartIndex, EndIndex: PtrInt; Data: Pointer; MaxThreads: PtrInt);
 begin
   if not Assigned(AMethod) then exit;
-  DoParallelIntern(AMethod,nil,nil,StartIndex,EndIndex,Data,MaxThreads);
+  DoParallelIntern(AMethod,nil,nil,nil,StartIndex,EndIndex,Data,MaxThreads);
 end;
 
 procedure TProcThreadPool.DoParallel(const AProc: TMTProcedure;
   StartIndex, EndIndex: PtrInt; Data: Pointer; MaxThreads: PtrInt);
 begin
   if not Assigned(AProc) then exit;
-  DoParallelIntern(nil,AProc,nil,StartIndex,EndIndex,Data,MaxThreads);
+  DoParallelIntern(nil,AProc,nil,nil,StartIndex,EndIndex,Data,MaxThreads);
+end;
+
+procedure TProcThreadPool.DoParallelNested(const ANested: TMTNestedProcedure;
+  StartIndex, EndIndex: PtrInt; Data: Pointer; MaxThreads: PtrInt);
+begin
+  if not Assigned(ANested) then exit;
+  DoParallelIntern(nil,nil,ANested,nil,StartIndex,EndIndex,Data,MaxThreads);
 end;
 
 procedure TProcThreadPool.DoParallelLocalProc(const LocalProc: Pointer;
@@ -695,7 +707,7 @@ var
 begin
   if not Assigned(LocalProc) then exit;
   Frame:=get_caller_frame(get_frame);
-  DoParallelIntern(nil,TMTProcedure(LocalProc),Frame,StartIndex,EndIndex,
+  DoParallelIntern(nil,TMTProcedure(LocalProc),nil,Frame,StartIndex,EndIndex,
                    Data,MaxThreads);
 end;
 
@@ -711,12 +723,14 @@ begin
   BlockCount:=ProcThreadPool.MaxThreadCount;
   BlockSize:=(LoopLength div BlockCount);
   if (BlockSize<MinBlockSize) then BlockSize:=MinBlockSize;
+  if BlockSize<1 then BlockSize:=1;
   BlockCount:=((LoopLength-1) div BlockSize)+1;
 end;
 
 procedure TProcThreadPool.DoParallelIntern(const AMethod: TMTMethod;
-  const AProc: TMTProcedure; const AFrame: Pointer;
-  StartIndex, EndIndex: PtrInt; Data: Pointer; MaxThreads: PtrInt);
+  const AProc: TMTProcedure; const ANested: TMTNestedProcedure;
+  const AFrame: Pointer; StartIndex, EndIndex: PtrInt; Data: Pointer;
+  MaxThreads: PtrInt);
 var
   Group: TProcThreadGroup;
   Index: PtrInt;
@@ -736,14 +750,14 @@ begin
     try
       for Index:=StartIndex to EndIndex do begin
         Item.FIndex:=Index;
-        if Assigned(AFrame) then begin
+        if Assigned(AFrame) then
           CallLocalProc(AProc,AFrame,Index,Data,Item)
-        end else begin
-          if Assigned(AProc) then
-            AProc(Index,Data,Item)
-          else
-            AMethod(Index,Data,Item)
-        end;
+        else if Assigned(AProc) then
+          AProc(Index,Data,Item)
+        else if Assigned(AMethod) then
+          AMethod(Index,Data,Item)
+        else
+          ANested(Index,Data,Item);
       end;
     finally
       Item.Free;
@@ -757,6 +771,7 @@ begin
   Group.FTaskData:=Data;
   Group.FTaskMethod:=AMethod;
   Group.FTaskProcedure:=AProc;
+  Group.FTaskNested:=ANested;
   Group.FTaskFrame:=AFrame;
   Group.FStartIndex:=StartIndex;
   Group.FEndIndex:=EndIndex;
@@ -792,11 +807,7 @@ begin
         AThread.AddToList(FFirstActiveThread,mtptlPool);
         AThread.Item.FState:=mtptsActive;
         if NewThread then
-          {$IF defined(VER2_4_2) or defined(VER2_4_3)}
-          AThread.Resume
-          {$ELSE}
           AThread.Start
-          {$ENDIF}
         else
           RTLeventSetEvent(AThread.Item.fWaitForPool);
       end;

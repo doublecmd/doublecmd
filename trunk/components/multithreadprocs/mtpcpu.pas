@@ -1,17 +1,16 @@
-{ System depending code for light weight threads.
-
+{
+ **********************************************************************
   This file is part of the Free Pascal run time library.
+
+  See the file COPYING.FPC, included in this distribution,
+  for details about the license.
+ **********************************************************************
+
+  System depending code for light weight threads.
 
   Copyright (C) 2008 Mattias Gaertner mattias@freepascal.org
 
-  See the file COPYING.FPC, included in this distribution,
-  for details about the copyright.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
- **********************************************************************}
+}
 unit MTPCPU;
 
 {$mode objfpc}{$H+}
@@ -69,15 +68,17 @@ end;
     t = sysconf(_SC_NPROC_ONLN);
   end;
 {$ELSEIF defined(freebsd) or defined(darwin)}
+type
+  PSysCtl = {$IF FPC_FULLVERSION>=30200}pcint{$ELSE}pchar{$ENDIF};
 var
   mib: array[0..1] of cint;
-  len: cint;
+  len: csize_t;
   t: cint;
 begin
   mib[0] := CTL_HW;
   mib[1] := HW_NCPU;
   len := sizeof(t);
-  fpsysctl(pchar(@mib), 2, @t, @len, Nil, 0);
+  fpsysctl(PSysCtl(@mib), 2, @t, @len, Nil, 0);
   Result:=t;
 end;
 {$ELSEIF defined(linux)}
