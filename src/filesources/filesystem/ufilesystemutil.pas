@@ -849,33 +849,35 @@ var
   Message: String;
   RetryDelete: Boolean;
 begin
-  if (Mode in [fsohcmAppend, fsohcmResume]) or
-     (not RenameFileUAC(SourceFile.FullPath, TargetFileName)) then
+  if not (Mode in [fsohcmAppend, fsohcmResume]) then
   begin
-    if FVerify then FStatistics.TotalBytes += SourceFile.Size;
-    if CopyFile(SourceFile, TargetFileName, Mode) then
-    begin
-      repeat
-        RetryDelete := True;
-        if FileIsReadOnly(SourceFile.Attributes) then
-          FileSetReadOnlyUAC(SourceFile.FullPath, False);
-        Result := DeleteFileUAC(SourceFile.FullPath);
-        if (not Result) and (FDeleteFileOption = fsourInvalid) then
-        begin
-          Message := Format(rsMsgNotDelete, [WrapTextSimple(SourceFile.FullPath, 100)]) + LineEnding + LineEnding + mbSysErrorMessage;
-          case AskQuestion('', Message, [fsourSkip, fsourRetry, fsourAbort, fsourSkipAll], fsourSkip, fsourAbort) of
-            fsourAbort: AbortOperation;
-            fsourRetry: RetryDelete := False;
-            fsourSkipAll: FDeleteFileOption := fsourSkipAll;
-          end;
+    if RenameFileUAC(SourceFile.FullPath, TargetFileName) then
+      Exit(True);
+    if (GetLastOSError <> ERROR_NOT_SAME_DEVICE) then
+      Exit(False);
+  end;
+
+  if FVerify then FStatistics.TotalBytes += SourceFile.Size;
+  if CopyFile(SourceFile, TargetFileName, Mode) then
+  begin
+    repeat
+      RetryDelete := True;
+      if FileIsReadOnly(SourceFile.Attributes) then
+        FileSetReadOnlyUAC(SourceFile.FullPath, False);
+      Result := DeleteFileUAC(SourceFile.FullPath);
+      if (not Result) and (FDeleteFileOption = fsourInvalid) then
+      begin
+        Message := Format(rsMsgNotDelete, [WrapTextSimple(SourceFile.FullPath, 100)]) + LineEnding + LineEnding + mbSysErrorMessage;
+        case AskQuestion('', Message, [fsourSkip, fsourRetry, fsourAbort, fsourSkipAll], fsourSkip, fsourAbort) of
+          fsourAbort: AbortOperation;
+          fsourRetry: RetryDelete := False;
+          fsourSkipAll: FDeleteFileOption := fsourSkipAll;
         end;
-      until RetryDelete;
-    end
-    else
-      Result := False;
+      end;
+    until RetryDelete;
   end
   else
-    Result := True;
+    Result := False;
 end;
 
 function TFileSystemOperationHelper.ProcessNode(aFileTreeNode: TFileTreeNode;
