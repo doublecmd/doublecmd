@@ -31,6 +31,7 @@ resourcestring
   rsMsgNotDelete = 'Can not delete file %s';
   rsMsgCannotDeleteDirectory = 'Cannot delete directory %s';
   rsMsgCannotOverwriteDirectory = 'Cannot overwrite directory "%s" with non-directory "%s"';
+  rsMsgCannotCopySpecialFile = 'Cannot copy special file %s';
   rsMsgErrDirExists = 'Directory %s exists!';
   rsMsgErrRename = 'Cannot rename file %s to %s';
   rsMsgErrCannotCopyFile = 'Cannot copy file %s to %s';
